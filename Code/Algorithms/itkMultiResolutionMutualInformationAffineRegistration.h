@@ -51,8 +51,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class MultiResolutionMutualInformationAffineRegistrationTraits
+/** \class MultiResolutionMutualInformationAffineRegistrationTraits
  * \brief Trait class which defines the types for
  * MultiResolutionRegistration
  *
@@ -60,48 +59,35 @@ namespace itk
  * MultiResolutionMutualInformationAffineRegistration algorithm.
  *
  * This class illustrates the use of the multiresolution framework.
- *
  */
 template <class TReference, class TTarget>
 class ITK_EXPORT 
 MultiResolutionMutualInformationAffineRegistrationTraits
 {
 public:
-  /**
-   * Type of the reference image
-   */
+  /** Type of the reference image. */
   typedef TReference ReferenceType;
 
-  /**
-   * Type of the target image
-   */
+  /** Type of the target image. */
   typedef TTarget TargetType;
 
-  /**
-   * Type of the registration method
-   */
+  /** Type of the registration method. */
   typedef ImageToImageAffineMutualInformationGradientDescentRegistration<
     ReferenceType, TargetType> RegistrationType;
 
-  /**
-   * Type of the reference image pyramid
-   */
+  /** Type of the reference image pyramid. */
   typedef RecursiveMultiResolutionPyramidImageFilter<
     ReferenceType, ReferenceType> ReferencePyramidType;
 
-  /**
-   * Type fo the target image pyramid
-   */
+  /** Type fo the target image pyramid. */
   typedef RecursiveMultiResolutionPyramidImageFilter<
      TargetType, TargetType> TargetPyramidType;
 
-
 };
 
-
-/**
- * \class MultiResolutionMutualInformationAffineRegistration
- * \brief Affinely register two 3D volumes using a multi-resolution mutual information algorithm
+/** \class MultiResolutionMutualInformationAffineRegistration 
+ * \brief Affinely register two 3D volumes using a multi-resolution mutual
+ * information algorithm
  *
  * MultiResolutionMutualInformationAffineRegistration performs an affine
  * registration between a 3D target image and 3D reference image using a
@@ -118,22 +104,20 @@ public:
  * Refer to the documentation of MultiResolutionImagePyramid for details on
  * how to set the multi-resolution downsampling schedule.
  *
- * For each resolution level, the user must define the number of 
- * iterations and the learning rate to be used
- * in the registration. These parameters are set by
- * SetNumberOfIterations() and SetLearningRates().
- * Refer to ImageToImageAffineMutualInformationGradientDescentRegistration
- * for details on these parameters and how to set them.
+ * For each resolution level, the user must define the number of iterations
+ * and the learning rate to be used in the registration. These parameters are
+ * set by SetNumberOfIterations() and SetLearningRates().  Refer to
+ * ImageToImageAffineMutualInformationGradientDescentRegistration for details
+ * on these parameters and how to set them.
  *
  * GetInternalRegistrationMethod() returns a pointer to the internal
- * registration object.  Initial transform parameters can be set with: 
+ * registration object.  Initial transform parameters can be set with:
  *
  * GetInternalRegistrationMethod()->SetParameters( params );
  *
  * The final transform parameters can be obtained via:
  *
  * GetInternalRegistrationMethod()->GetParameters();
- *
  *
  * This class is templated over the reference image type and the
  * the target image type.
@@ -156,86 +140,54 @@ public MultiResolutionRegistration<
     TReference, TTarget> >
 {
 public:
-
-  /**
-   * Standard "Self" typedef
-   */
+  /** Standard class typedefs. */
   typedef MultiResolutionMutualInformationAffineRegistration Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef MultiResolutionRegistration<
     MultiResolutionMutualInformationAffineRegistrationTraits<
       TReference, TTarget> >  Superclass;
-
-  /**
-   * Smart pointer typedef support
-   */
    typedef SmartPointer<Self>   Pointer;
    typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
    itkNewMacro(Self);
 
-  /**
-   *  Type of the Reference
-   */
+  /**  Type of the reference. */
    typedef TReference  ReferenceType;
 
-  /**
-   *  Type of the Target
-   */
+  /**  Type of the target. */
    typedef TTarget TargetType;
 
-  /**
-   * RegistrationType typedef support
-   */
+  /** RegistrationType typedef support. */
   typedef typename Superclass::RegistrationType RegistrationType;
 
-  /**
-   * TargetImageDimension enumeration
-   */
+  /** TargetImageDimension enumeration. */
   enum{ TargetImageDimension = Superclass::TargetImageDimension };
 
-  /**
-   * Set the number of multi-resolution computation levels.
+  /** Set the number of multi-resolution computation levels.
    * This sets the levels for both the target and reference
    * pyramids.
    * If the argument is less than 1, it is clamped to the
-   * value of 1.
-   */
+   * value of 1. */
   virtual void SetNumberOfLevels(unsigned int num);
 
-  /**
-   * Set the number of iterations for each level.
-   * The number of levels must be set before calling this method.
-   */
-  itkSetVectorMacro( NumberOfIterations, unsigned int, this->GetNumberOfLevels() );
+  /** Set the number of iterations for each level.  The number of levels must
+   * be set before calling this method. */
+  itkSetVectorMacro(NumberOfIterations,unsigned int,this->GetNumberOfLevels());
 
-  /**
-   * Set the learning rate for each level.
-   * The number of levels must be set before calling this method.
-   */
+  /** Set the learning rate for each level.  The number of levels must be set
+   * before calling this method. */
   itkSetVectorMacro( LearningRates, double, this->GetNumberOfLevels() );
-
 
 protected:
   MultiResolutionMutualInformationAffineRegistration();
   ~MultiResolutionMutualInformationAffineRegistration(){};
   void PrintSelf(std::ostream&os, Indent indent) const;
 
-  /**
-   * Initialize the internal registration algorithm at the
-   * specified level. Subclasses may override this method.
-   */
+  /** Initialize the internal registration algorithm at the
+   * specified level. Subclasses may override this method. */
   virtual void OneLevelPreRegistration(unsigned int level);
 
-  /**
-   * Post registration routine. Subclasse may override this method.
-   */
+  /** Post registration routine. Subclasse may override this method. */
   virtual void OneLevelPostRegistration(unsigned int level);
 
 private:

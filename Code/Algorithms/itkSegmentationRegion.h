@@ -49,113 +49,67 @@ namespace itk
 /** \class SegmentationRegion
  * \brief Base class for SegmentationRegion object
  * 
- * itkSegmentationRegion is the base class for the SegmentationRegion objects. It provides
- * the basic function definitons that are inherent to a SegmentationRegion objects.
- * A region object is defined by the label it owns. We use integer labels
- * to represent a region. No two regions can have the same labels This 
- * object stores the region label. The user can get the area, mean region 
- * intensity and a unique label associate with the region through access
- * functions provided publicly. The unique label parameter is used at the 
- * end of a region growing class to associate a region with a new label  
- * that characterises the region after several regions have been merged. 
- * This class provides an interface method called ApplySegmentationRegion to enable
- * future extension of the region object.
+ * itkSegmentationRegion is the base class for the SegmentationRegion
+ * objects. It provides the basic function definitons that are inherent to a
+ * SegmentationRegion objects.  A region object is defined by the label it
+ * owns. We use integer labels to represent a region. No two regions can have
+ * the same labels This object stores the region label. The user can get the
+ * area, mean region intensity and a unique label associate with the region
+ * through access functions provided publicly. The unique label parameter is
+ * used at the end of a region growing class to associate a region with a new
+ * label that characterises the region after several regions have been
+ * merged.  This class provides an interface method called
+ * ApplySegmentationRegion to enable future extension of the region object.
  *
  * \ingroup RegionGrowingSegmentation 
- *
  */
-
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT SegmentationRegion : public Object
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef SegmentationRegion   Self;
-  
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef Object Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(SegmentationRegion,Object);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Type definition for the input image.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(SegmentationRegion,Object);
+
+  /** Type definition for the input image. */
   typedef typename TInputImage::Pointer   InputImageType;
 
-  /**
-   * Type definition for the input image pixel type.
-   */
+  /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType InputImagePixelType;
 
-  /**
-   * Type definition for an double vector.
-   */
+  /** Type definition for an double vector. */
   typedef vnl_matrix<double> VecDblType;
 
-  /**
-   * Define a virtual SegmentationRegion function that is meant to be
+  /** Define a virtual SegmentationRegion function that is meant to be
    * used in derived classes if some operation needs to be
-   * performed on a region object.
-   */
+   * performed on a region object. */
   virtual void ApplySegmentationRegion(){};
 
-  /**
-   * Set the region with parameter values
-   * defining the region.
-   */
+  /** Set the region with parameter values
+   * defining the region. */
   itkSetMacro(RegionLabel, unsigned int);
 
-  /**
-   * Get the label associated with the region. 
-   */
+  /** Get the label associated with the region.  */
   itkGetMacro(RegionLabel, unsigned int);
 
-  /**
-   * Set the area of the region.
-   */
+  /** Set/Get the area of the region. */
   itkSetMacro(RegionArea, unsigned int);
-
-  /**
-   * Get the area of the region.
-   */
   itkGetMacro(RegionArea, unsigned int);
 
-  /**
-   * Set the area of the region.
-   */
+  /** Set/Get the area of the region. */
   itkSetMacro(UniqueLabel, unsigned int);
-
-  /**
-   * Get the area of the region.
-   */
   itkGetMacro(UniqueLabel, unsigned int);
 
-  /**
-   * Get the mean pixel intensity in the region
-   */
+  /** Set/Get the mean pixel intensity in the region. */
   void SetMeanRegionIntensity(VecDblType averageRegionIntensity);
-
-  /**
-   * Get the mean pixel intensity in the region
-   */
   VecDblType GetMeanRegionIntensity();
 
 protected: 

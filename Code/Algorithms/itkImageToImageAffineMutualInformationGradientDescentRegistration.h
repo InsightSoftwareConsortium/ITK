@@ -59,68 +59,38 @@ template <class TReference, class TTarget>
 class ITK_EXPORT 
   ImageToImageAffineMutualInformationGradientDescentRegistrationTraits 
 {
-  
 public:
+  /**  Type of the reference. */
+  typedef TReference  ReferenceType;
 
-  /**
-   *  Type of the Reference
-   */
-   typedef TReference  ReferenceType;
+  /**  Type of the target. */
+  typedef TTarget TargetType;
 
-  /**
-   *  Type of the Target
-   */
-   typedef TTarget TargetType;
+  /** Image dimensions. */
+  enum { ImageDimension = ReferenceType::ImageDimension }; 
 
-  /**
-   * Image Dimensions
-   */
-   enum { ImageDimension = ReferenceType::ImageDimension }; 
+  /**  Type of the transformation. */
+  typedef AffineTransform< double, ImageDimension >  TransformationType;
 
+  /**  Type of the parameters. */
+  typedef typename TransformationType::ParametersType  ParametersType;
 
-  /**
-   *  Type of the Transformation
-   */
+  /** Parameters dimensions. */
+  enum { ParametersDimension = TransformationType::ParametersDimension }; 
 
-   typedef AffineTransform< double, ImageDimension >  TransformationType;
+  /**  Type of the mapper. */
+  typedef ImageMapper<ReferenceType,
+    TransformationType> MapperType;
 
-  /**
-   *  Type of the parameters
-   */
-   typedef typename TransformationType::ParametersType  ParametersType;
+  /**  Type of the metric. */
+  typedef MutualInformationImageToImageMetric<TargetType, 
+    MapperType> MetricType;
 
-
-  /**
-   * Parameters Dimensions
-   */
-   enum { ParametersDimension = TransformationType::ParametersDimension }; 
-
-
-  /**
-   *  Type of the Mapper
-   */
-   typedef ImageMapper<ReferenceType,
-                         TransformationType> MapperType;
-
-  /**
-   *  Type of the Metric
-   */
-   typedef MutualInformationImageToImageMetric<TargetType, 
-                                                 MapperType> MetricType;
-
-
-  /**
-   *  Type of the Optimizer 
-   */
-   typedef GradientDescentOptimizer<MetricType> OptimizerType;
-
-
+  /**  Type of the optimizer.  */
+  typedef GradientDescentOptimizer<MetricType> OptimizerType;
 };
 
-
-
-/**
- * \class ImageToImageAffineMutualInformationGradientDescentRegistration
+/** \class ImageToImageAffineMutualInformationGradientDescentRegistration
  * \brief Register two images using mutual information.
  *
  * ImageToImageAffineMutualInformationGradientDescentRegistration performs an
@@ -182,157 +152,95 @@ ImageToImageAffineMutualInformationGradientDescentRegistration
    <TReference, TTarget>  >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
-   typedef ImageToImageAffineMutualInformationGradientDescentRegistration  Self;
+  /** Standard class typedefs. */
+  typedef ImageToImageAffineMutualInformationGradientDescentRegistration Self;
+  typedef RegistrationMethod< 
+          ImageToImageAffineMutualInformationGradientDescentRegistrationTraits<
+          TReference,TTarget> > Superclass;
+  typedef SmartPointer<Self>   Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Standard "Superclass" typedef.
-   */
-   typedef RegistrationMethod< 
-      ImageToImageAffineMutualInformationGradientDescentRegistrationTraits<
-                                       TReference,
-                                       TTarget>  >           Superclass;
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
 
-  /**
-   * Smart pointer typedef support
-   */
-   typedef SmartPointer<Self>   Pointer;
-   typedef SmartPointer<const Self>  ConstPointer;
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ImageToImageAffineMutualInformationGradientDescentRegistration,
+               RegistrationMethod);
 
-  /**
-   *  Type of the Reference
-   */
-   typedef TReference  ReferenceType;
+  /**  Type of the reference. */
+  typedef TReference  ReferenceType;
 
-  /**
-   *  Type of the Target
-   */
-   typedef TTarget TargetType;
+  /**  Type of the target. */
+  typedef TTarget TargetType;
 
-  /**
-   * Image Dimensions
-   */
-   enum {ImageDimension = ReferenceType::ImageDimension};
+  /** Image dimensions. */
+  enum {ImageDimension = ReferenceType::ImageDimension};
 
-  /**
-   * Parmeters Dimensions
-   */
-   enum { ParametersDimension = ImageDimension * ( ImageDimension + 1 ) };
+  /** Parmeters dimensions. */
+  enum { ParametersDimension = ImageDimension * ( ImageDimension + 1 ) };
 
-  /**
-   * Parameters Type
-   */
-   typedef typename Superclass::ParametersType   ParametersType;
+  /** Parameters type. */
+  typedef typename Superclass::ParametersType   ParametersType;
 
-  /**
-   *  Type of the Transformation
-   */
-   typedef typename Superclass::TransformationType    TransformationType;
+  /**  Type of the transformation. */
+  typedef typename Superclass::TransformationType    TransformationType;
 
-  /**
-   * Point Type
-   */
+  /** Point type. */
   typedef typename TransformationType::InputPointType  PointType;
 
-  /**
-   *  Type of the Mapper
-   */
-   typedef typename Superclass::MapperType   MapperType;
+  /**  Type of the mapper. */
+  typedef typename Superclass::MapperType   MapperType;
 
-  /**
-   *  Type of the Metric
-   */
-   typedef typename Superclass::MetricType   MetricType;
+  /**  Type of the metric. */
+  typedef typename Superclass::MetricType   MetricType;
 
-  /**
-   *  Type of the Optimizer 
-   */
-   typedef typename  Superclass::OptimizerType  OptimizerType;
+  /**  Type of the optimizer.  */
+  typedef typename  Superclass::OptimizerType  OptimizerType;
 
-  /**
-   *  Pointer type for the optimizer 
-   */
-   typedef typename OptimizerType::Pointer  OptimizerPointer;
+  /**  Pointer type for the optimizer.  */
+  typedef typename OptimizerType::Pointer  OptimizerPointer;
 
-  /**
-   *  Pointer type for the Reference
-   */
-   typedef typename ReferenceType::ConstPointer ReferenceConstPointer;
+  /**  Pointer type for the reference. */
+  typedef typename ReferenceType::ConstPointer ReferenceConstPointer;
 
-  /**
-   *  Pointer type for the Target
-   */
-   typedef typename TargetType::ConstPointer TargetConstPointer;
+  /**  Pointer type for the target. */
+  typedef typename TargetType::ConstPointer TargetConstPointer;
 
-  /**
-   *  Pointer type for the Transformation
-   */
-   typedef  typename TransformationType::Pointer TransformationPointer;
+  /**  Pointer type for the transformation. */
+  typedef  typename TransformationType::Pointer TransformationPointer;
 
-  /**
-   *  Pointer type for the metric
-   */
-   typedef  typename MetricType::Pointer  MetricPointer;
+  /**  Pointer type for the metric. */
+  typedef  typename MetricType::Pointer  MetricPointer;
 
-  /**
-   *  Pointer type for the mapper
-   */
-   typedef typename MapperType::Pointer  MapperPointer;
+  /**  Pointer type for the mapper. */
+  typedef typename MapperType::Pointer  MapperPointer;
 
-  /**
-   * Run-time type information (and related methods).
-   */
-   itkTypeMacro(ImageToImageAffineMutualInformationGradientDescentRegistration,
-       RegistrationMethod);
+  /** Method that initiates the registration. */
+  void StartRegistration( void );
 
-  /**
-   * Method for creation through the object factory.
-   */
-   itkNewMacro(Self);
-
-  /**
-   * Method that initiates the registration.
-   */
-   void StartRegistration( void );
-
-
-  /**
-   * Set the transform parameters
-   */
-   void SetParameters( const ParametersType&  params )
+  /** Set the transform parameters. */
+  void SetParameters( const ParametersType&  params )
     { m_Parameters = params; }
 
-  /**
-   * Get the transform parameters
-   */
+  /** Get the transform parameters. */
   const ParametersType& GetParameters( void ) const
     { return m_Parameters; }
 
-  /**
-   * Set the learning rate. This is used in the optimization scheme.
+  /** Set the learning rate. This is used in the optimization scheme.
    * Typically, the learning rate needs to be annealed (decreased over
-   * time). Default is 1.0.
-   */
+   * time). Default is 1.0. */
   itkSetClampMacro( LearningRate, double, 0.0,
-    NumericTraits<double>::max() );
+                    NumericTraits<double>::max() );
 
-  /**
-   * Get the learning rate.
-   */
+  /** Get the learning rate. */
   itkGetMacro( LearningRate, double );
 
-  /**
-   * Set the number of iterations. This determines the number of
+  /** Set the number of iterations. This determines the number of
    * iterations performed in the steepest descent optimization.
-   * Default is 1000.
-   */
+   * Default is 1000. */
   itkSetMacro( NumberOfIterations, unsigned int );
 
-  /**
-   * Get the number of iterations.
-   */
+  /** Get the number of iterations. */
   itkGetMacro( NumberOfIterations, unsigned int );
 
 protected:
@@ -345,9 +253,7 @@ private:
   
   ParametersType             m_Parameters;
 
-  // -------------------------------
-  // Optimization related variables
-  // -------------------------------
+  /** Optimization related variables. */
   double                     m_LearningRate;
   unsigned int               m_NumberOfIterations;
 

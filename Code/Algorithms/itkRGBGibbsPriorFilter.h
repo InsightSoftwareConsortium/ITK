@@ -1,3 +1,43 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkRGBGibbsPriorFilter.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+Copyright (c) 2001 Insight Consortium
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice,
+   this list of conditions and the following disclaimer.
+
+ * Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+ * The name of the Insight Consortium, nor the names of any consortium members,
+   nor of any contributors, may be used to endorse or promote products derived
+   from this software without specific prior written permission.
+
+  * Modified source versions must be plainly marked as such, and must not be
+    misrepresented as being the original software.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS ``AS IS''
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHORS OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+=========================================================================*/
 #ifndef __itkRGBGibbsPriorFilter_h
 #define __itkRGBGibbsPriorFilter_h
 
@@ -31,165 +71,75 @@ class ITK_EXPORT RGBGibbsPriorFilter : public MRFImageFilter<TInputImage,
   TClassifiedImage>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef RGBGibbsPriorFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef MRFImageFilter<TInputImage, TClassifiedImage> Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(RGBGibbsPriorFilter,MRFImageFilter);
 
+  /** A smart pointer to the input image type. */
   typedef typename TInputImage::Pointer              InputImageType;  
 
-  /**
-   * Type definition for the input image pixel type.
-   */
+  /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType            InputPixelType;
 
-  /**
-   * Type definitions for the training image.
-   */
+  /** Type definitions for the training image. */
   typedef typename TClassifiedImage::Pointer         TrainingImageType;
 
-  /**
-   * Type definitions for the training image pixel type.
-   */
-//  typedef typename TClassifiedImage::PixelType       TrainingPixelType;
-
-  /**
-   * Type definitions for the labelled image.
-   * It is derived from the training image.
-   */
+  /** Type definitions for the labelled image.  It is derived from the
+   * training image. */
   typedef typename TClassifiedImage::Pointer         LabelledImageType;
       
-  /**
-   * Type definitions for the classified image pixel type.
-   * It has to be the same type as the training image.
-   */
-//  typedef typename TClassifiedImage::PixelType       LabelledPixelType;
-
-  /**
-   * Type definition for the classified image index type.
-   */
+  /** Type definition for the classified image index type. */
   typedef typename TClassifiedImage::IndexType       LabelledImageIndexType;
 
-  /**
-   * Type definitions for classifier to be used for the MRF lavbelling.
-   */
+  /** Type definitions for classifier to be used for the MRF labelling. */
   typedef Classifier<TInputImage,TClassifiedImage> ClassifierType;
 
-  /**
-   * Pointer to the classifier to be used for the MRF lavbelling.
-   */
-//  typename ClassifierType::Pointer m_ClassifierPtr;
-
-//  typedef typename TInputImage::PixelType   InputImagePixelType;
-//  typedef typename TClassifiedImage::PixelType  TrainingImagePixelType;
-//  typedef typename TClassifiedImage::PixelType  LabelledImagePixelType;
-
-//  typedef
-//    ImageRegionIteratorWithIndex< TInputImage > InputImageIterator;
-
-//  typedef
-//    ImageRegionIteratorWithIndex< TClassifiedImage > LabelledImageIterator;
-
-
+  /** The type of input pixel. */
   typedef typename TInputImage::PixelType    InputImageVecType;
 
-  /**
-   * Set the image required for training type classifiers
-   */
+  /** Set the image required for training type classifiers. */
   void SetTrainingImage(TrainingImageType image);
 
-  /** 
-   * Set the labelled image. 
-   */
+  /** Set/Get the labelled image.  */
   void SetLabelledImage(LabelledImageType LabelledImage);
-
-  /** 
-   * Get the labelled image. 
-   */
-
   LabelledImageType GetLabelledImage()
-  {
-    return m_LabelledImage;
-  }
+    { return m_LabelledImage; }
 
-  /**
-   * Set the pointer to the classifer being used.
-   */
+  /** Set the pointer to the classifer being used. */
   void SetClassifier( typename ClassifierType::Pointer ptrToClassifier );
 
-  /**
-   * Set the Number of class macro
-   */
+  /** Set/Get the number of classes to segment. . */
   itkSetMacro(NumberOfClasses, unsigned int);
-
-  /**
-   * Get the Number of class macro
-   */
   itkGetMacro(NumberOfClasses, unsigned int);
 
-  /**
-   * Set the number of iteration of the Iterated Conditional Mode
-   * (ICM) algorithm. A default value is set at 50 iterations.
-   */
+  /** Set/Get the number of iteration of the Iterated Conditional Mode
+   * (ICM) algorithm. A default value is set at 50 iterations. */
   itkSetMacro(MaximumNumberOfIterations, unsigned int);
-
-  /**
-   * Set the number of iteration of the Iterated Conditional Mode
-   * (ICM) algorithm.
-   */
   itkGetMacro(MaximumNumberOfIterations, unsigned int);
 
-  /**
-   * Set the error tollerance level which is used as a threshold
-   * to quit the iterations
-   */
-//  itkSetMacro(ErrorTollerance, double);
-
-  /**
-   * Get the error tollerance level which is used as a threshold
-   * to quit the iterations
-   */
-//  itkGetMacro(ErrorTollerance, double);
-
-/**
- *  Threshold of the object size
- */
+  /**  Threshold of the object size. */
   itkSetMacro(ClusterSize, unsigned int);
 
-/**
- *  The label of object region
- */  
+  /**  The label of object region. */  
   itkSetMacro(ObjectLabel, unsigned int);
 
+  /** Extract the input image dimension. */
   enum {ImageDimension = TInputImage::ImageDimension };
 
+  /** \todo Document. */
   void SetStartPoint (int x, int y, int z); 
-
   itkSetMacro(BoundaryGradient, unsigned int);
-
   void Advance();
 
+  /** Specify the type of matrix to use. */
   typedef vnl_matrix<double> MatrixType; 
 
 protected:

@@ -63,66 +63,43 @@ class ITK_EXPORT RelabelWatershedImageFilter :
     public ImageToImageFilter< TInputImage, TOutputImage > 
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef RelabelWatershedImageFilter Self;
-
-  /**
-   * Standard super class typedef support.
-   */
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Compile time image dimensionality support.
-   */
-  enum {ImageDimension = TOutputImage::ImageDimension };
-  
-  /**
-   * Run-time type information (and related methods)
-   */
-  itkTypeMacro(RelabelWatershedImageFilter, ImageToImageFilter);
-  
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Standard pipeline method.
-   */
-  void GenerateData();
-
-  /**
-   * Standard get set methods for filter parameter.
-   */
+  /** Run-time type information (and related methods) */
+  itkTypeMacro(RelabelWatershedImageFilter, ImageToImageFilter);
+  
+  /** Compile time image dimensionality support. */
+  enum {ImageDimension = TOutputImage::ImageDimension };
+  
+  /** Standard get set methods for filter parameter. */
   itkSetClampMacro(Level, float, 0.0f, 1.0f);
   itkGetMacro(Level, float);
 
-  /**
-   * Get and set input methods
-   */
+  /** Get and set input methods */
   typename WatershedSegmentBasicOutput<TInputImage, TOutputImage>::Pointer
   GetInput()
-  {
-    return static_cast<WatershedSegmentBasicOutput<TInputImage,
-      TOutputImage>*>(this->ProcessObject::GetInput(0).GetPointer());
-  }
-
+    {
+      return static_cast<WatershedSegmentBasicOutput<TInputImage,
+        TOutputImage>*>(this->ProcessObject::GetInput(0).GetPointer());
+    }
   void SetInput(WatershedSegmentBasicOutput<TInputImage, TOutputImage>* input)
-  {
+    {
     this->ProcessObject::SetNthInput(0, input);
-  }
+    }
 
 protected:
   RelabelWatershedImageFilter() {}
   virtual ~RelabelWatershedImageFilter() {}
+
+  /** Standard pipeline method. */
+  void GenerateData();
 
 private:
   RelabelWatershedImageFilter(const Self&); //purposely not implemented

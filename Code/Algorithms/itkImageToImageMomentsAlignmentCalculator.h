@@ -38,7 +38,6 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-
 #ifndef __itkImageToImageMomentsAlignmentCalculator_h
 #define __itkImageToImageMomentsAlignmentCalculator_h
 
@@ -49,99 +48,60 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/** 
- * \Compute initial parameters for an affine transformation.
+/** Compute initial parameters for an affine transformation.
  *  The two inputs are images that we want to adjust.
  *  The output is the transformation that aligns the two images
  * 
  * \ingroup Operators
  */
-
 template <class TReference, class TTarget>          
 class ITK_EXPORT ImageToImageMomentsAlignmentCalculator: public Object 
 {
 public:
-
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ImageToImageMomentsAlignmentCalculator  Self;
-
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   *  Type of the Reference
-   */
-  typedef TReference  ReferenceType;
-
-  /**
-   *  Type of the Target
-   */
-  typedef TTarget TargetType;
-
-  /**
-   *  Pointer type for the Reference 
-   */
-  typedef typename ReferenceType::ConstPointer ReferenceConstPointer;
-  
-  /**
-   *  Pointer type for the Target 
-   */
-  typedef typename TargetType::ConstPointer TargetConstPointer;
-
-  /**
-   *  Typedef for the image moments calculator
-   */
-  typedef ImageMomentsCalculator<ReferenceType>  ImageMomentsCalculatorType;
-
-  /**
-   * Standard affine transform type for this class
-   */  
-  enum {ImageDimension = ReferenceType::ImageDimension};
-
-  typedef AffineTransform<double, ImageDimension> AffineTransformType;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(Self, Object);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Set the Target
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Self, Object);
+
+  /**  Type of the reference. */
+  typedef TReference  ReferenceType;
+
+  /**  Type of the target. */
+  typedef TTarget TargetType;
+
+  /**  Pointer type for the reference.  */
+  typedef typename ReferenceType::ConstPointer ReferenceConstPointer;
+  
+  /**  Pointer type for the target.  */
+  typedef typename TargetType::ConstPointer TargetConstPointer;
+
+  /**  Typedef for the image moments calculator. */
+  typedef ImageMomentsCalculator<ReferenceType>  ImageMomentsCalculatorType;
+
+  /** Standard affine transform type for this class. */  
+  enum {ImageDimension = ReferenceType::ImageDimension};
+
+  /** The type of affine transformation. */  
+  typedef AffineTransform<double, ImageDimension> AffineTransformType;
+
+  /** Set the target. */
   void SetTarget( TargetType * );
    
-  /**
-   * Set the Reference
-   */
+  /** Set the reference. */
   void SetReference( ReferenceType * );
 
-  /**
-   * Execute 
-   */
+  /** Execute.  */
   void Execute(void);
 
-  /**
-   * Get the Tranformation
-   */
+  /** Get the tranformation. */
   itkGetMacro(OutputTransform ,AffineTransformType);
-
 
 protected:
   ImageToImageMomentsAlignmentCalculator();

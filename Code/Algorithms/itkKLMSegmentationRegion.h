@@ -112,7 +112,6 @@ namespace itk
  *  \end{center}
  *
  * \ingroup RegionGrowingSegmentation 
- * 
  */
 template <class TInputImage, class TOutputImage>
 class KLMSegmentationBorder;
@@ -120,137 +119,87 @@ class KLMSegmentationBorder;
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT KLMSegmentationRegion : public SegmentationRegion<TInputImage,TOutputImage>
 {
- private:
-  /**
-   * Type definition for an double vector.
-   */
+private:
+  /** Type definition for an double vector. */
   typedef vnl_matrix<double> VecDblType;
 
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef KLMSegmentationRegion   Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef SegmentationRegion<TInputImage,TOutputImage> Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(KLMSegmentationRegion,SegmentationRegion);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Type definition for the input image.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(KLMSegmentationRegion,SegmentationRegion);
+
+  /** Type definition for the input image. */
   typedef typename TInputImage::Pointer   InputImageType;
 
-  /**
-   * Type definition for the input image pixel type.
-   */
+  /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType InputImagePixelType;
 
-  /**
-   * Type definition for the input image pixel vector type.
-   */
+  /** Type definition for the input image pixel vector type. */
   typedef typename TInputImage::PixelType::VectorType InputImageVectorType;
 
-  /**
-   * Type definition for the image iterators to be used.
-   */
+  /** Type definition for the image iterators to be used. */
   typedef
     ImageRegionIterator< TInputImage > InputImageIterator;
 
-  /**
-   * Type definition for vector container that stores the borders
-   * associated with a current region.
-   */             
+  /** Type definition for vector container that stores the borders
+   * associated with a current region. */             
   typedef 
     std::vector< KLMSegmentationBorder<TInputImage,TOutputImage>* > 
       RegionBorderVecType;
 
-  /**
-   * Type definition for the region border vector iterators to be used.
-   */
+  /** Type definition for the region border vector iterators to be used. */
   typedef typename RegionBorderVecType::iterator RegionBorderVecIterator;
 
-  /**
-   * Set the region with parameter values
-   * defining the region.
-   */
+  /** Set the region with parameter values
+   * defining the region. */
   void SetRegion(VecDblType regionMeanIntensity, 
                  unsigned int regionArea,
                  unsigned int label);
- 
 
-  /**
-   * Set the border associated with a region.
-   */
+  /** Set the border associated with a region. */
   void SetRegionBorder(KLMSegmentationBorder<TInputImage,TOutputImage> *pNewRegionBorder);
 
-    /**
-   * Set the border associated with a region.
-   */
+    /** Set the border associated with a region. */
   void SetRegionBorder3d(KLMSegmentationBorder<TInputImage,TOutputImage> *pNewRegionBorder);
 
-  /**
-   * get the first border associated with a region.
-   */
+  /** Get the first border associated with a region. */
   KLMSegmentationBorder<TInputImage,TOutputImage> *GetFirstRegionBorder();
 
-  /**
-   * Delete a region border
-   */
+  /** Delete a region border. */
   void DeleteRegionBorder(KLMSegmentationBorder<TInputImage,
                                       TOutputImage> *pBorderCandidate);
-  /**
-   * Insert a region border
-   */
+  /** Insert a region border. */
   void InsertRegionBorder(RegionBorderVecIterator it,
                           KLMSegmentationBorder<TInputImage,
                                       TOutputImage> *pBorderCandidate);
 
-  /**
-   * Reorder the region borders given a candidate border after region 
-   * merging
-   */
+  /** Reorder the region borders given a candidate border after region 
+   * merging */
   void ReorderRegionBorders(KLMSegmentationBorder<TInputImage,
                                         TOutputImage> *pBorderCandidate);
 
-  /**
-   * Get a head pointer to the vector containter storing the borders associated
-   * with a region
-   */
+  /** Get a head pointer to the vector containter storing the borders
+   * associated with a region */
   RegionBorderVecIterator GetRegionBorderItBegin();
 
-  /**
-   * Get a tail pointer to the vector containter storing the borders associated
-   * with a region
-   */
+  /** Get a tail pointer to the vector containter storing the borders
+   * associated with a region */
   RegionBorderVecIterator GetRegionBorderItEnd();
 
-  /**
-   * Recalculate the lambda values for all the borders defining the region
-   * and resort the entire border list in decending order of the lambda values
-   */
+  /** Recalculate the lambda values for all the borders defining the region
+   * and resort the entire border list in decending order of the lambda
+   * values */
   void UpdateRegionBorderLambda();
 
-  /**
-   * Function that allows printing of the region parameters using std::cout
-   */
+  /** Function that allows printing of the region parameters using std::cout */
   void PrintRegionInfo();
 
 protected:

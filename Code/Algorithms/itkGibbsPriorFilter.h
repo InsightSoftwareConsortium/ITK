@@ -72,159 +72,92 @@ class ITK_EXPORT GibbsPriorFilter : public MRFImageFilter<TInputImage,
   TClassifiedImage>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef GibbsPriorFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef MRFImageFilter<TInputImage, TClassifiedImage> Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(GibbsPriorFilter,MRFImageFilter);
 
+  /** The input image type. */
   typedef typename TInputImage::Pointer              InputImageType;  
 
-  /**
-   * Type definition for the input image pixel type.
-   */
+  /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType            InputPixelType;
 
-  /**
-   * Type definitions for the training image.
-   */
+  /** Type definitions for the training image. */
   typedef typename TClassifiedImage::Pointer         TrainingImageType;
 
-  /**
-   * Type definitions for the training image pixel type.
-   */
+  /** Type definitions for the training image pixel type. */
   typedef typename TClassifiedImage::PixelType       TrainingPixelType;
 
-  /**
-   * Type definitions for the labelled image.
-   * It is derived from the training image.
-   */
+  /** Type definitions for the labelled image.
+   * It is derived from the training image. */
   typedef typename TClassifiedImage::Pointer         LabelledImageType;
       
-  /**
-   * Type definitions for the classified image pixel type.
-   * It has to be the same type as the training image.
-   */
+  /** Type definitions for the classified image pixel type.
+   * It has to be the same type as the training image. */
   typedef typename TClassifiedImage::PixelType       LabelledPixelType;
 
-  /**
-   * Type definition for the classified image index type.
-   */
+  /** Type definition for the classified image index type. */
   typedef typename TClassifiedImage::IndexType       LabelledImageIndexType;
 
-  /**
-   * Type definitions for classifier to be used for the MRF lavbelling.
-   */
+  /** Type definitions for classifier to be used for the MRF lavbelling. */
   typedef Classifier<TInputImage,TClassifiedImage> ClassifierType;
 
-  /**
-   * Pointer to the classifier to be used for the MRF lavbelling.
-   */
+  /** Pointer to the classifier to be used for the MRF lavbelling. */
   typename ClassifierType::Pointer m_ClassifierPtr;
-
   typedef typename TInputImage::PixelType      InputImagePixelType;
   typedef typename TClassifiedImage::PixelType TrainingImagePixelType;
   typedef typename TClassifiedImage::PixelType LabelledImagePixelType;
 
-  typedef
-    ImageRegionIteratorWithIndex< TInputImage > InputImageIterator;
-
-  typedef
-    ImageRegionIteratorWithIndex< TClassifiedImage > LabelledImageIterator;
-
-
+  /** Convenient typedefs. */
+  typedef ImageRegionIteratorWithIndex< TInputImage > InputImageIterator;
+  typedef ImageRegionIteratorWithIndex<TClassifiedImage> LabelledImageIterator;
   typedef typename TInputImage::PixelType    InputImageVectorType;
 
-  /**
-   * Set the image required for training type classifiers
-   */
+  /** Set the image required for training type classifiers */
   void SetTrainingImage(TrainingImageType image);
 
-  /** 
-   * Set the labelled image. 
-   */
+  /** Set the labelled image.  */
   void SetLabelledImage(LabelledImageType LabelledImage);
 
-  /** 
-   * Get the labelled image. 
-   */
-
+  /** Get the labelled image.  */
   LabelledImageType GetLabelledImage()
-  {
-    return m_LabelledImage;
-  }
+    { return m_LabelledImage; }
 
-  /**
-   * Set the pointer to the classifer being used.
-   */
+  /** Set the pointer to the classifer being used. */
   void SetClassifier( typename ClassifierType::Pointer ptrToClassifier );
 
-  /**
-   * Set the Number of class macro
-   */
+  /** Set/Get the number of classes. */
   itkSetMacro(NumberOfClasses, unsigned int);
-
-  /**
-   * Get the Number of class macro
-   */
   itkGetMacro(NumberOfClasses, unsigned int);
 
-  /**
-   * Set the number of iteration of the Iterated Conditional Mode
-   * (ICM) algorithm. A default value is set at 50 iterations.
-   */
+  /** Set/Get the maximum number of iterations of the Iterated Conditional
+   * Mode (ICM) algorithm. A default value is set at 50 iterations. */
   itkSetMacro(MaxNumIter, unsigned int);
-
-  /**
-   * Set the number of iteration of the Iterated Conditional Mode
-   * (ICM) algorithm.
-   */
   itkGetMacro(MaxNumIter, unsigned int);
 
-  /**
-   * Set the error tollerance level which is used as a threshold
-   * to quit the iterations
-   */
-  itkSetMacro(ErrorTollerance, double);
+  /** Set/Get the error tolerance level which is used as a threshold
+   * to quit the iterations. */
+  itkSetMacro(ErrorTolerance, double);
+  itkGetMacro(ErrorTolerance, double);
 
-  /**
-   * Get the error tollerance level which is used as a threshold
-   * to quit the iterations
-   */
-  itkGetMacro(ErrorTollerance, double);
-
-/**
- *  Threshold of the object size
- */
+  /** Threshold of the object size. */
   itkSetMacro(ClusterSize, unsigned int);
 
-/**
- *  The label of object region
- */  
+  /** The label of object region. */  
   itkSetMacro(ObjectLabel, unsigned int);
 
+  /** The image dimension. */
   enum {ImageDimension = TInputImage::ImageDimension };
 
+  /** Methods to control the algorithm. */
   void SetStartPoint (int x, int y, int z); 
   void SetBoundaryGradient(int a);
   void Advance();
@@ -247,8 +180,6 @@ protected:
   float m_GibbsPriorWt; 
   int m_StartRadius;
 
-//  Parameter definitions
-   
   int m_StartPoint[3]; 
   int m_StartModelSize; 
   int m_GibbsNeighborsThreshold; 
@@ -257,16 +188,12 @@ protected:
 
   unsigned int          m_NumberOfClasses;
   unsigned int          m_MaxNumIter;
-//  unsigned int           m_KernelSize;
   unsigned int          *m_LabelStatus;
   
-  double                m_ErrorTollerance;
+  double                m_ErrorTolerance;
   double                *m_ClassProbability; //Class liklihood
-  //double                 *m_Beta3x3x3;
-
 
   int                   m_ErrorCounter;
-//  int                    *m_Offset;
   int                   m_kWidth;
   int                   m_kHeight;
   int                   m_kDepth;
@@ -276,29 +203,21 @@ protected:
   int         m_ClusterSize;
   int         m_ObjectLabel;
 
-//  int                    *m_WidthOffset;
-//  int                    *m_HeightOffset;
-//  int                    *m_DepthOffset;
-
   unsigned short    *m_Region;
   unsigned short    *m_RegionCount;
 
-// function defintions
+  /** function defintions */
   void  GenerateInputRequestedRegion();
   void  EnlargeOutputRequestedRegion( DataObject * );
   void  GenerateOutputInformation();
-//  float GradientEnergy (InputImageVectorType x, int n); 
+
   void  GibbsTotalEnergy(int i);
   int   GreyScalarBoundary(LabelledImageIndexType Index3D); 
   float GibbsEnergy(int i, int k, int k1);
-//  int Mini(int i); 
-//  int Maxi(int i); 
   int Sim(int a, int b);
   int LabelRegion(int i, int l, int change);
   void  RegionEraser();
-//  void InitialStat(int dims[3]);
 
-//  void Execute();
 private:
   GibbsPriorFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

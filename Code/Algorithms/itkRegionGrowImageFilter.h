@@ -95,107 +95,56 @@ namespace itk
  * for every vector.
  *
  * \ingroup RegionGrowingSegmentation 
- * */
+ */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT RegionGrowImageFilter : 
   public ImageToImageFilter<TInputImage,TOutputImage>
 {
-
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef RegionGrowImageFilter   Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef Object Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(RegionGrowImageFilter,Object);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Type definition for the input image.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(RegionGrowImageFilter,Object);
+
+  /** Type definition for the input image. */
   typedef typename TInputImage::Pointer   InputImageType;
 
-  /**
-   * Type definition for the input image pixel type.
-   */
+  /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType InputImagePixelType;
 
-  /**
-   * Type definition for the output image.
-   */
+  /** Type definition for the output image. */
   typedef typename TOutputImage::Pointer   OutputImageType;
 
-  /**
-   * Type definition for the input image pixel type.
-   */
+  /** Type definition for the input image pixel type. */
   typedef typename TOutputImage::PixelType OutputImagePixelType;
 
-  /**
-   * Set the number of regions desired.
-   */
-    itkSetMacro(MaxNumRegions, unsigned int);
-
-  /**
-   * Get the number of regions desired.
-   */
+  /** Set/Get the number of regions desired. */
+  itkSetMacro(MaxNumRegions, unsigned int);
   itkGetMacro(MaxNumRegions, unsigned int);
 
-  /**
-   * Set the row grid size of the initial regions in the image.
-   */
+  /** Set/Get the row grid size of the initial regions in the image. */
   itkSetMacro(RowGridSize, unsigned int);
-
-  /**
-   * Get the row grid size of the initial regions in the image.
-   */
   itkGetMacro(RowGridSize, unsigned int);
 
-  /**
-   * Set the column grid size of the initial regions in the image.
-   */
+  /** Set/Get the column grid size of the initial regions in the image. */
   itkSetMacro(ColGridSize, unsigned int);
-
-  /**
-   * Get the column grid size of the initial regions in the image.
-   */
   itkGetMacro(ColGridSize, unsigned int);
 
-  /**
-   * Set the column grid size of the initial regions in the image.
-   */
+  /** Set/Get the column grid size of the initial regions in the image. */
   itkSetMacro(SliceGridSize, unsigned int);
-
-  /**
-   * Get the column grid size of the initial regions in the image.
-   */
   itkGetMacro(SliceGridSize, unsigned int);
 
-  /**
-   * Define a virtual RegionGrowImageFilter function.
-   */
+  /** Define a virtual RegionGrowImageFilter function. */
   virtual void ApplyRegionGrowImageFilter(){};
 
-  /**
-   * Merge two regions
-   */
+  /** Merge two regions. */
   virtual void MergeRegions(){};
 
 protected:
@@ -213,7 +162,6 @@ private:
   unsigned int    m_SliceGridSize;
 
 }; // class RegionGrowImageFilter
-
 
 } // namespace itk
 

@@ -55,8 +55,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk
 {
-/**
- * \class VoronoiDiagram2D
+/** \class VoronoiDiagram2D
  * \brief Implements the 2-Dimensional Voronoi Diagram.
  * 
  * given a set of seed points, the Voronoi Diagram partition the plane into
@@ -67,11 +66,10 @@ namespace itk
  *
  * Template parameters for VoronoiDiagram2D:
  *
- * TCoordType=
- *     The type associated with the coordniation of the seeds and the resulting vertices.
- *        
+ * TCoordType = The type associated with the coordniation of the seeds and
+ * the resulting vertices.
  *
- * \ingroup MeshObjects
+ * \ingroup MeshObjects 
  */
 template <typename TCoordType>
 class VoronoiDiagram2D:
@@ -79,75 +77,59 @@ class VoronoiDiagram2D:
                  DefaultDynamicMeshTraits<TCoordType, 2, 2, TCoordType> >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef VoronoiDiagram2D   Self;
-  
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Mesh <TCoordType, 2,
                 DefaultDynamicMeshTraits<TCoordType, 2, 2, TCoordType> >
                   Superclass;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Standard part of every itk Object.
-   */
+  /** Standard part of every itk Object. */
   itkTypeMacro(VoronoiDiagram2D, Mesh);
 
+  /** Define the mesh traits. */
   typedef DefaultDynamicMeshTraits<TCoordType, 2, 2, TCoordType> MeshTraits;
 
-  /**
-   * typedefs from itkMesh
-   */
-  typedef typename MeshTraits::PixelType                PixelType;  
+  /** Dimensions of the points and topology. */
   enum {PointDimension = MeshTraits::PointDimension};
   enum {MaxTopologicalDimension = MeshTraits::MaxTopologicalDimension};
-  typedef typename MeshTraits::CoordRepType             CoordRepType;  
-  typedef typename MeshTraits::InterpolationWeightType  InterpolationWeightType;
-  typedef typename MeshTraits::PointIdentifier          PointIdentifier;
-  typedef typename MeshTraits::CellIdentifier           CellIdentifier;
-  typedef typename MeshTraits::BoundaryIdentifier       BoundaryIdentifier;
-  typedef typename MeshTraits::CellFeatureIdentifier    CellFeatureIdentifier;
-  typedef typename MeshTraits::PointType                PointType;
-  typedef typename MeshTraits::PointsContainer          PointsContainer;
-  typedef typename MeshTraits::CellTraits                 CellTraits;
-  typedef typename MeshTraits::CellsContainer           CellsContainer;
-  typedef typename MeshTraits::PointCellLinksContainer  PointCellLinksContainer;
-  typedef typename MeshTraits::CellLinksContainer       CellLinksContainer;
-  typedef typename MeshTraits::PointDataContainer       PointDataContainer;
-  typedef typename MeshTraits::CellDataContainer        CellDataContainer;  
-  typedef typename MeshTraits::BoundariesContainer      BoundariesContainer;
-  typedef typename MeshTraits::BoundaryDataContainer    BoundaryDataContainer;
-  typedef typename MeshTraits::CellPointer    genericCellPointer;
 
+  /** Typedefs from itkMesh */
+  typedef typename MeshTraits::PixelType               PixelType;  
+  typedef typename MeshTraits::CoordRepType            CoordRepType;  
+  typedef typename MeshTraits::InterpolationWeightType InterpolationWeightType;
+  typedef typename MeshTraits::PointIdentifier         PointIdentifier;
+  typedef typename MeshTraits::CellIdentifier          CellIdentifier;
+  typedef typename MeshTraits::BoundaryIdentifier      BoundaryIdentifier;
+  typedef typename MeshTraits::CellFeatureIdentifier   CellFeatureIdentifier;
+  typedef typename MeshTraits::PointType               PointType;
+  typedef typename MeshTraits::PointsContainer         PointsContainer;
+  typedef typename MeshTraits::CellTraits              CellTraits;
+  typedef typename MeshTraits::CellsContainer          CellsContainer;
+  typedef typename MeshTraits::PointCellLinksContainer PointCellLinksContainer;
+  typedef typename MeshTraits::CellLinksContainer      CellLinksContainer;
+  typedef typename MeshTraits::PointDataContainer      PointDataContainer;
+  typedef typename MeshTraits::CellDataContainer       CellDataContainer;  
+  typedef typename MeshTraits::BoundariesContainer     BoundariesContainer;
+  typedef typename MeshTraits::BoundaryDataContainer   BoundaryDataContainer;
+  typedef typename MeshTraits::CellPointer    genericCellPointer;
   typedef PointLocator<PointIdentifier,PointDimension,
                        CoordRepType,PointsContainer>  PointLocatorType;
   typedef BoundingBox<PointIdentifier,PointDimension,
                       CoordRepType,PointsContainer>   BoundingBoxType;
-
-  typedef typename PointsContainer::Pointer        PointsContainerPointer;
-  typedef typename CellsContainer::Pointer         CellsContainerPointer;
-  typedef typename CellLinksContainer::Pointer     CellLinksContainerPointer;
-  typedef typename PointDataContainer::Pointer     PointDataContainerPointer;
-  typedef typename CellDataContainer::Pointer      CellDataContainerPointer;
-  typedef typename BoundariesContainer::Pointer    BoundariesContainerPointer;
-  typedef typename BoundaryDataContainer::Pointer  BoundaryDataContainerPointer;  
-  typedef typename PointLocatorType::Pointer       PointLocatorPointer;
-  typedef typename BoundingBoxType::Pointer        BoundingBoxPointer;
-  
+  typedef typename PointsContainer::Pointer       PointsContainerPointer;
+  typedef typename CellsContainer::Pointer        CellsContainerPointer;
+  typedef typename CellLinksContainer::Pointer    CellLinksContainerPointer;
+  typedef typename PointDataContainer::Pointer    PointDataContainerPointer;
+  typedef typename CellDataContainer::Pointer     CellDataContainerPointer;
+  typedef typename BoundariesContainer::Pointer   BoundariesContainerPointer;
+  typedef typename BoundaryDataContainer::Pointer BoundaryDataContainerPointer;  
+  typedef typename PointLocatorType::Pointer      PointLocatorPointer;
+  typedef typename BoundingBoxType::Pointer       BoundingBoxPointer;
   typedef typename
           PointsContainer::ConstIterator        PointsContainerConstIterator;
   typedef typename
@@ -168,69 +150,49 @@ public:
           BoundaryDataContainer::ConstIterator  BoundaryDataContainerIterator;
   typedef typename
      PointCellLinksContainer::const_iterator  PointCellLinksContainerIterator;
-  
   typedef CellFeatureIdentifier  CellFeatureCount;
-  
   typedef PolygonCell<PixelType,CellTraits>  Cell;
   typedef typename PolygonCell<PixelType,CellTraits>::Pointer  CellPointer;
   typedef Point<int,2> EdgeInfo;
   typedef std::deque<EdgeInfo> EdgeInfoDQ;
-
   typedef Cell BoundaryType;
   typedef CellPointer BoundaryPointer;
-  
   typedef typename Cell::MultiVisitor CellMultiVisitorType;
-
   typedef std::vector<PointType> SeedsType;
   typedef typename SeedsType::iterator SeedsIterator;
-
   typedef LineBoundary <PixelType, CellTraits> Edge;
   typedef typename Edge::Pointer EdgePointer;
-
   typedef std::list<PointType> PointList;
   typedef std::vector<int> INTvector;
   typedef typename INTvector::iterator NeighborIdIterator;
   typedef typename std::vector<PointType>::iterator VertexIterator;
 
+  /** Get the number of Voronoi seeds. */
   itkGetMacro(NumberOfSeeds,unsigned int);
   
-  /**
-   * Input the seeds information, will overwrite if seeds already
-   * exists.
-   */
+  /** Input the seeds information, will overwrite if seeds already
+   * exists. */
   void SetSeeds (int num, SeedsIterator begin);
 
-  /**
-   * the boundary that enclose the whold voronoi diagram
-   */
+  /** The boundary that enclose the whold voronoi diagram. */
   void SetBoundary(PointType vorsize);
   void SetOrigin(PointType vorsize);
 
-  /**
-   * Iterators for the neiborhood cells around the given cell;
-   */
+  /** Iterators for the neiborhood cells around the given cell. */
   NeighborIdIterator NeighborIdsBegin(int seeds);
   NeighborIdIterator NeighborIdsEnd(int seeds);
   
-  /**
-   * Iterators for all the vertices of the voronoi diagram
-   */ 
+  /** Iterators for all the vertices of the voronoi diagram. */ 
   VertexIterator VertexBegin(void);
   VertexIterator VertexEnd(void);
   
-  /**
-   * return the given indexed seed.
-   */
+  /** Return the given indexed seed. */
   PointType GetSeed(int SeedID);
 
-  /**
-   * return the required cell pointer
-   */
+  /** Return the required cell pointer. */
   CellPointer GetCellId(CellIdentifier cellId);
 
-  /**
-   * return the given vertex of the voronoi Diagram 
-   */ 
+  /** Return the given vertex of the voronoi diagram. */ 
   void GetPoint(int pId,PointType *answer);
 
   class VoronoiEdge{
@@ -244,12 +206,14 @@ public:
       ~VoronoiEdge(){};
   };
   
+  /** The iterator for Voronoi edges, */
   typedef typename std::vector<VoronoiEdge>::iterator VoronoiEdgeIterator;
-  /* the Iterator of all the edges for the Voronoi Diagram */
+
+  /** The Iterator of all the edges for the Voronoi diagram. */
   VoronoiEdgeIterator EdgeBegin(void);
   VoronoiEdgeIterator EdgeEnd(void);
 
-  /* find the two seed point that around the given edge */
+  /** Find the two seed point that around the given edge. */
   EdgeInfo GetSeedsIDAroundEdge(VoronoiEdge *task);
   /********************************************************/
 
@@ -262,7 +226,6 @@ public:
   void ClearRegion(int i){ VoronoiRegions[i]->ClearPoints();};  
   void VoronoiRegionAddPointId(int id, int x){VoronoiRegions[id]->AddPointId(x);};
   void BuildEdge(int id){ VoronoiRegions[id]->BuildEdges();};
-
 
   void LineListClear(){ f_LineList.clear();};
   void EdgeListClear(){ f_EdgeList.clear();};
@@ -283,7 +246,6 @@ public:
     return x;
   }
   int GetEdgeLineID(int id){ return f_EdgeList[id].m_LineID; };
-
 
 protected:
   VoronoiDiagram2D();

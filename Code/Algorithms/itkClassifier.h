@@ -81,145 +81,91 @@ namespace itk
  * as a vector image with a single element for every vector. The classified
  * image is treated as a single band scalar image.
  *
- *
  * \ingroup ClassificationFilters 
  */
-
 template <class TInputImage, class TClassifiedImage>
 class ITK_EXPORT Classifier : public Object
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef Classifier   Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef Object Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(Classifier,Object);
 
-  /**
-   * Type definition for the input image.
-   */
+  /** Type definition for the input image. */
   typedef typename TInputImage::Pointer   InputImageType;
 
-  /**
-   * Type definition for the input image pixel type.
-   */
+  /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType InputPixelType;
 
-  /**
-   * Type definition for the vector associated with
-   * input image pixel type.
-   */   
+  /** Type definition for the vector associated with
+   * input image pixel type. */   
   typedef typename TInputImage::PixelType InputImageVectorType;
 
-  /**
-   * Type definitions for the training image pixel type.
-   */
+  /** Type definitions for the training image pixel type. */
   typedef typename TClassifiedImage::Pointer ClassifiedImageType;   
   
-  /**
-   * Type definitions for the training image pixel type.
-   */
+  /** Type definitions for the training image pixel type. */
   typedef typename TClassifiedImage::Pointer TrainingImageType;      
         
-  /**
-   * Type definitions for the vector holding
-   * training image pixel type.
-   */
+  /** Type definitions for the vector holding
+   * training image pixel type. */
   typedef typename TClassifiedImage::PixelType 
     TrainingImagePixelType;
 
-  /**
-   * Set the input image.
-   */
+  /** Set the input image. */
   itkSetMacro(InputImage,InputImageType);
 
-  /**
-   * Get the input image.
-   */
+  /** Get the input image. */
   itkGetMacro(InputImage,InputImageType);
 
-  /**
-   * Set the classified image.
-   */
+  /** Set the classified image. */
   itkSetMacro(ClassifiedImage,ClassifiedImageType);
 
-  /**
-   * Get the classified image.
-   */
+  /** Get the classified image. */
   itkGetMacro(ClassifiedImage,ClassifiedImageType);
 
-  /**
-   * Set the number of classes.
-   */
+  /** Set the number of classes. */
   itkSetMacro(NumberOfClasses, unsigned int);
 
-  /**
-   * Get the number of classes.
-   */
+  /** Get the number of classes. */
   itkGetMacro(NumberOfClasses, unsigned int);
 
-  /**
-   * Define a virtual function to train a classifier. This is to be
+  /** Define a virtual function to train a classifier. This is to be
    * used when training data is available (i.e., with supervised
-   * classifiers).
-   */
+   * classifiers). */
   virtual void TrainClassifier(){};
 
-  /**
-   * Define a virtual function to perform clustering of input data
+  /** Define a virtual function to perform clustering of input data
    * using an unsupervised classifier (this does not require training
-   * data).
-   */
+   * data). */
   virtual void Cluster(){};
 
-  /**
-   * Define a virtual function to classify the whole image. This is the
-   * function where the specific alorithm implementation are implemented. 
-   */
+  /** Define a virtual function to classify the whole image. This is the
+   * function where the specific alorithm implementation are implemented.  */
   virtual void ClassifyImage(){};
 
-  /**
-   * Define a virtual Function that return the distance of a given 
+  /** Define a virtual Function that return the distance of a given 
    * vector data belonging to the different classes. It returns an array 
    * of numbers representing the distances between a input data and 
-   * the various possible classes.
-   */
+   * the various possible classes. */
   virtual void GetPixelDistance(InputImageVectorType &inPixelVec,
     double * results )=0;
 
-  /**
-   * Set a training image (for supervised classifier)
-   */
+  /** Set a training image (for supervised classifier). */
   virtual void SetTrainingImage( TrainingImageType image ) {};
 
-  /**
-   * Set the progress
-   */
+  /** Set the progress. */
   itkSetClampMacro( Progress, float, 0.0, 1.0 );
 
-  /**
-   * Get the progress
-   */
+  /** Get the algorithm progress. */
   itkGetMacro( Progress, float );
 
-  /**
-   * Update the progress
-   */
+  /** Update the progress. */
   void UpdateProgress( float amount );
 
 protected:

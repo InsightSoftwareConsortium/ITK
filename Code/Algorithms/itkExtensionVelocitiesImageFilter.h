@@ -66,7 +66,6 @@ namespace itk
  * Cambridge Press, Second edition, 1999.
  *
  * \ingroup LevelSetSegmentation 
- *
  */
 template <
   class TLevelSet,
@@ -78,43 +77,25 @@ class ITK_EXPORT ExtensionVelocitiesImageFilter :
 {
 public:
 
-  /**
-   * Standard "Self" typedef
-   */
+  /** Standard class typedefs. */
   typedef ExtensionVelocitiesImageFilter Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef ReinitializeLevelSetImageFilter<TLevelSet> Superclass;
-
-  /**
-   * Smart pointer typedef support
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(ExtensionVelocitiesImageFilter, ReinitializeLevelSetImageFilter);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * SetDimension enumeration.
-   * Although already defined in the superclass, needed here for gcc 2.95.2-5
-   * to compile.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ExtensionVelocitiesImageFilter, ReinitializeLevelSetImageFilter);
+
+  /** The type of level set. */
   typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
+
+  /** The dimension of the level set. */
   enum { SetDimension = LevelSetType::SetDimension};
 
-  /**
-   * AuxVarType typedef support.
-   */
+  /** AuxVarType typedef support. */
   typedef AuxVarTypeDefault<TAuxValue,VAuxDimension,SetDimension> AuxVarType;
   typedef typename AuxVarType::AuxValueType AuxValueType;
   typedef typename AuxVarType::AuxValueVectorType AuxValueVectorType;
@@ -122,16 +103,12 @@ public:
   typedef typename AuxVarType::AuxImageType AuxImageType;
   typedef typename AuxVarType::AuxImagePointer AuxImagePointer;
 
-  /**
-   * Get one of the extended velocity images.
-   */
+  /** Get one of the extended velocity images. */
   AuxImagePointer GetVelocityImage( unsigned int idx = 0) const
-  { if( idx >= VAuxDimension ) return NULL;
+    { if( idx >= VAuxDimension ) return NULL;
     return m_OutputAuxImage[idx]; }
 
-  /**
-   * Set one of the input velocity images to be extended.
-   */
+  /** Set one of the input velocity images to be extended. */
   void SetVelocityImage(AuxImageType * ptr, unsigned int idx = 0);
 
 protected:

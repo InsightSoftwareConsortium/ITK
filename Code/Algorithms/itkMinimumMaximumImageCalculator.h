@@ -43,100 +43,60 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkObject.h"
 
-
 namespace itk
 {
 
-/** 
- * This calculator computes the minimum and the maximum intensity values
- * of an image.
- * It is templated over input image type.
- * If only Maximum or Minimum value is needed, just call
- * ComputeMaximum() (ComputeMinimum()) otherwise Compute() will compute both. 
+/** This calculator computes the minimum and the maximum intensity values of
+ * an image.  It is templated over input image type.  If only Maximum or
+ * Minimum value is needed, just call ComputeMaximum() (ComputeMinimum())
+ * otherwise Compute() will compute both.
  *
  * \ingroup Operators
- *
  */
-
 template <class TInputImage>            
 class ITK_EXPORT MinimumMaximumImageCalculator : public Object 
 {
 public:
-
-  /** 
-   * Standard self typedef
-   */
+  /** Standard class typedefs. */
   typedef MinimumMaximumImageCalculator Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(Self, Object);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Type definition for the input image.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Self, Object);
+
+  /** Type definition for the input image. */
   typedef TInputImage  ImageType;
 
-  /**
-   * Pointer type for the image
-   */
+  /** Pointer type for the image. */
   typedef typename TInputImage::Pointer  ImagePointer;
   
-  /**
-   * Const Pointer type for the image
-   */
+  /** Const Pointer type for the image. */
   typedef typename TInputImage::ConstPointer ImageConstPointer;
 
-  /**
-   * Type definition for the input image pixel type.
-   */
+  /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType PixelType;
   
-  /**
-   * Set the input image
-   */
+  /** Set the input image. */
   itkSetConstObjectMacro(Image,ImageType);
 
-  /**
-   * Compute the Minimum value of Intensity of the Input Image
-   */
+  /** Compute the minimum value of intensity of the input image. */
   void ComputeMinimum(void);
 
-  /**
-   * Compute the Minimum value of Intensity of the Input Image
-   */
+  /** Compute the maximum value of intensity of the input image. */
   void ComputeMaximum(void);
 
-  /**
-   * Compute the Minimum value of Intensity of the Input Image
-   */
+  /** Compute the minimum value of intensity of the input image. */
   void Compute(void);
 
-  /**
-   * Return minimum of intensity
-   */
+  /** Return the minimum intensity value. */
   itkGetMacro(Minimum,PixelType);
   
-  /**
-   * Return maximum of intensity
-   */
+  /** Return the maximum intensity value. */
   itkGetMacro(Maximum,PixelType);
 
 protected:

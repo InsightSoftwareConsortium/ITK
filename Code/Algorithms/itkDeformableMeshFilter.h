@@ -79,38 +79,21 @@ template <class TInputMesh, class TOutputMesh>
 class DeformableMeshFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef DeformableMeshFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef MeshToMeshFilter<TInputMesh, TOutputMesh> Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(DeformableMeshFilter,MeshToMeshFilter);
 
-  /** 
-   * Some typedefs.
-   */
+  /** Some convenient typedefs. */
   typedef TInputMesh InputMeshType;
   typedef TOutputMesh OutputMeshType;
-
   typedef typename InputMeshType::PointsContainerPointer
       InputPointsContainerPointer;
   typedef typename InputMeshType::PointsContainer::Iterator
@@ -131,33 +114,29 @@ public:
       OutputPointsContainerPointer;
   typedef typename OutputMeshType::PointsContainer::Iterator
       OutputPointsContainerIterator;
-
   typedef itk::Image<unsigned short, 3>   ImageType;
   typedef itk::CovariantVector<float, 3> GradientType;
   typedef itk::Image<GradientType, 3>  GradientImageType;
-
   typedef itk::SimpleImageRegionIterator<ImageType> ImageIterator;
   typedef itk::SimpleImageRegionIterator<GradientImageType> GradientIterator;
-
   typedef typename InputMeshType::Pointer InputMeshPointer;
   typedef typename OutputMeshType::Pointer  OutputMeshPointer;
   typedef typename ImageType::Pointer   ImagePointer;
   typedef typename ImageType::IndexType   IndexType;
   typedef typename GradientImageType::Pointer   GradientPointer;
 
-  
+  /** Vector related typedefs. */
   typedef itk::Vector<float, 3>       FloatVector;
   typedef itk::Vector<int, 3>       IntVector;
 
+  /** Cell related typedefs. */
   typedef typename InputMeshType::Cell      Cell;
   typedef typename InputMeshType::CellTraits  CellTraits;
   typedef itk::TriangleCell<float, CellTraits>  TriCell;
   typedef typename InputMeshType::PointType   IPT;
   typedef typename InputMeshType::PixelType   PT;
 
-  /** 
-   * Some functions.
-   */
+  /** Some functions. */
   void ComputeForce();
   void Initialize();
   void SetStiffnessMatrix();
@@ -180,18 +159,19 @@ public:
   void ComputeShrinkForce();        // force in case we shrink the model
   void InitialFit();              // locate the model near the objects
 
+  /** Set the output image. */
   itkSetMacro(ImageOutput, ImagePointer);
   itkGetMacro(ImageOutput, ImagePointer);
 
+  /** Set the first slice. */
   itkSetMacro(FirstSlice, int);
   itkGetMacro(FirstSlice, int);
 
+  /** Set algorithm related parameters. */
   itkSetMacro(NeighborRadius, int);
   itkSetMacro(StepThreshold1, int);
   itkSetMacro(StepThreshold2, int);
-
   itkGetMacro(Resolution, int*);
-
   itkGetMacro(Normals, InputMeshPointer);
 
 protected:
@@ -205,9 +185,7 @@ private:
   DeformableMeshFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-/** 
- * These meshes are defined to hold the vectors as force, etc.
- */
+  /** These meshes are defined to hold the vectors as force, etc./
   InputMeshPointer  m_Forces; 
   InputMeshPointer  m_Normals;
   InputMeshPointer  m_Displacements;
@@ -216,9 +194,7 @@ private:
   InputMeshPointer  m_Input;
   OutputMeshPointer m_Output;
 
-  /** 
-   * Three different kinds of stiffness matrix.
-   */
+  /** Three different kinds of stiffness matrix. */
   vnl_matrix_fixed<double, 4, 4> NStiffness;
   vnl_matrix_fixed<double, 4, 4> SStiffness;
   vnl_matrix_fixed<double, 4, 4> CStiffness;

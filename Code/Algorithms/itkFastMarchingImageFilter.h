@@ -76,10 +76,10 @@ namespace itk
  * the known points and one containing the trial points. The speed function
  * can be specified as a speed image or a speed constant.
  *
- * If the speed function is constant and of value one, fast marching
- * results in a approximate distance function from the initial alive points.
- * FastMarchingImageFilter is used in the ReinitializeLevelSetImageFilter object to create
- * a signed distance function from the zero level set.
+ * If the speed function is constant and of value one, fast marching results
+ * in a approximate distance function from the initial alive points.
+ * FastMarchingImageFilter is used in the ReinitializeLevelSetImageFilter
+ * object to create a signed distance function from the zero level set.
  *
  * The algorithm can be terminated early by setting an appropriate stopping
  * value. The algorithm terminates when the current arrival time being
@@ -108,36 +108,19 @@ class ITK_EXPORT FastMarchingImageFilter :
   public ImageSource<TLevelSet>
 {
 public:
-
-  /** 
-   * Standard "Self" typdedef
-   */
+  /** Standard class typdedefs. */
   typedef FastMarchingImageFilter Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */ 
   typedef ImageSource<TLevelSet> Superclass;
-
-  /**
-   * Smart pointer typedef support
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(FastMarchingImageFilter, ImageSource);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Typedef support of level set method types
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(FastMarchingImageFilter, ImageSource);
+
+  /** Typedef support of level set method types. */
   typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
   typedef typename LevelSetType::LevelSetImageType  LevelSetImageType;
   typedef typename LevelSetType::LevelSetPointer  LevelSetPointer;
@@ -146,98 +129,69 @@ public:
   typedef typename LevelSetType::NodeContainer NodeContainer;
   typedef typename LevelSetType::NodeContainerPointer NodeContainerPointer;
 
-  /**
-   * Dimension of the level set.
-   */
+  /** Dimension of the level set. */
   enum { SetDimension = LevelSetType::SetDimension };
 
-  /**
-   * Index typedef support.
-   */
+  /** Index typedef support. */
   typedef Index<SetDimension> IndexType;
 
-  /**
-   * SpeedImage typedef support.
-   */
+  /** SpeedImage typedef support. */
   typedef TSpeedImage SpeedImageType;
 
-  /**
-   * SpeedImagePointer typedef support.
-   */
+  /** SpeedImagePointer typedef support. */
   typedef typename SpeedImageType::Pointer SpeedImagePointer;
 
-  /**
-   * Enum of Fast Marching algorithm point types. FarPoints represent far away points;
-   * TrialPoints represent points within a narrowband of the propagating front; and
-   * AlivePoints represent points which have already been processed.
-   */
+  /** Enum of Fast Marching algorithm point types. FarPoints represent far
+   * away points; TrialPoints represent points within a narrowband of the
+   * propagating front; and AlivePoints represent points which have already
+   * been processed. */
   enum LabelType { FarPoint, AlivePoint, TrialPoint };
 
-  /**
-   * LabelImage typedef support.
-   */
+  /** LabelImage typedef support. */
   typedef Image<unsigned char, SetDimension> LabelImageType;
 
-  /**
-   * LabelImagePointer typedef support.
-   */
+  /** LabelImagePointer typedef support. */
   typedef typename LabelImageType::Pointer LabelImagePointer;
 
-  /**
-   * Set the container of Alive Points representing the initial front.
-   * Alive points are represented as a VectorContainer of LevelSetNodes.
-   */
+  /** Set the container of Alive Points representing the initial front.
+   * Alive points are represented as a VectorContainer of LevelSetNodes. */
   void SetAlivePoints( NodeContainer * points )
     { 
       m_AlivePoints = points; 
       this->Modified(); 
     };
 
-  /**
-   * Get the container of Alive Points representing the initial front.
-   */
+  /** Get the container of Alive Points representing the initial front. */
   NodeContainerPointer GetAlivePoints( )
     { return m_AlivePoints; };
 
-  /**
-   * Set the container of Trial Points representing the initial front.
-   * Trial points are represented as a VectorContainer of LevelSetNodes.
-   */
+  /** Set the container of Trial Points representing the initial front.
+   * Trial points are represented as a VectorContainer of LevelSetNodes. */
   void SetTrialPoints( NodeContainer * points )
     { 
       m_TrialPoints = points;
       this->Modified();
     };
 
-  /**
-   * Get the container of Trial Points representing the initial front.
-   */
+  /** Get the container of Trial Points representing the initial front. */
   NodeContainerPointer GetTrialPoints( )
     { return m_TrialPoints; };
 
-  /**
-   * Set the input Speed Image. If the Speed Image is NULL, 
-   * the SpeedConstant value is used for the whole level set.
-   */
+  /** Set the input Speed Image. If the Speed Image is NULL, 
+   * the SpeedConstant value is used for the whole level set. */
   void SetSpeedImage( SpeedImageType * ptr );
 
-  /**
-   * Get the input Speed Image.
-   */
+  /** Get the input Speed Image. */
   SpeedImagePointer GetSpeedImage() const
     { return m_SpeedImage; };
 
-  /** 
-   * Get the point type label image.
-   */
+  /** Get the point type label image. */
   LabelImagePointer GetLabelImage() const
     { return m_LabelImage; };
 
-  /**
-   * Set the Speed Constant. If the Speed Image is NULL,
+  /** Set the Speed Constant. If the Speed Image is NULL,
    * the SpeedConstant value is used for the whole level set.
-   * By default, the SpeedConstant is set to 1.0.
-   */
+   * By default, the SpeedConstant is set to 1.0. */
   void SetSpeedConstant( double value )
     {
     m_SpeedConstant = value;
@@ -245,56 +199,40 @@ public:
     this->Modified();
     }
 
-  /**
-   * Get the Speed Constant.
-   */
+  /** Get the Speed Constant. */
   itkGetMacro( SpeedConstant, double );
 
-  /**
-   * Set the Fast Marching algorithm Stopping Value. The Fast Marching
+  /** Set the Fast Marching algorithm Stopping Value. The Fast Marching
    * algorithm is terminated when the value of the smallest trial point
-   * is greater than the stopping value.
-   */
+   * is greater than the stopping value. */
   itkSetMacro( StoppingValue, double );
 
-  /**
-   * Get the Fast Marching algorithm Stopping Value.
-   */
+  /** Get the Fast Marching algorithm Stopping Value. */
   itkGetMacro( StoppingValue, double );
 
-  /**
-   * Set the Collect Points flag. Instrument the algorithm to collect
+  /** Set the Collect Points flag. Instrument the algorithm to collect
    * a container of all nodes which it has visited. Useful for
    * creating Narrowbands for level set algorithms that supports 
-   * narrow banding.
-   */
+   * narrow banding. */
   itkSetMacro( CollectPoints, bool );
 
-  /**
-   * Get the Collect Points flag
-   */
+  /** Get the Collect Points flag. */
   itkGetMacro( CollectPoints, double );
   itkBooleanMacro( CollectPoints );
 
-  /**
-   * Get the container of Processed Points. If the CollectPoints flag
+  /** Get the container of Processed Points. If the CollectPoints flag
    * is set, the algorithm collects a container of all processed nodes.
    * This is useful for defining creating Narrowbands for level
-   * set algorithms that supports narrow banding.
-   */
+   * set algorithms that supports narrow banding. */
   NodeContainerPointer GetProcessedPoints() const
     { return m_ProcessedPoints; }
 
-  /**
-   * Set the output level set size. Defines the size of the output
-   * level set.
-   */
+  /** Set the output level set size. Defines the size of the output
+   * level set. */
   void SetOutputSize( const typename LevelSetImageType::SizeType& size )
     { m_OutputSize = size; }
 
-  /**
-   * Get the output level set size.
-   */
+  /** Get the output level set size. */
   const typename LevelSetImageType::SizeType & GetOutputSize() const
     { return m_OutputSize; }
 
@@ -315,9 +253,7 @@ protected:
 
   void GenerateData();
 
-  /**
-   * Generate the output image meta information 
-   */
+  /** Generate the output image meta information. */
   virtual void GenerateOutputInformation();
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
 
@@ -346,11 +282,9 @@ private:
 
   std::vector<NodeType>                         m_NodesUsed;
 
-  /**
-   * Trial points are stored in a min-heap. This allow efficient access
+  /** Trial points are stored in a min-heap. This allow efficient access
    * to the trial point with minimum value which is the next grid point
-   * the algorithm processes.
-   */
+   * the algorithm processes. */
   typedef std::vector<NodeType> HeapContainer;
   typedef std::greater<NodeType> NodeComparer;
   typedef std::priority_queue< NodeType, HeapContainer, NodeComparer > HeapType;

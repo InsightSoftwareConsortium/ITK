@@ -52,7 +52,6 @@ namespace itk{
 /** /class SimpleFuzzyConnectednessImageFilterBase
  * \brief Base class for FuzzyConnectednessImageFilter object.
  *
- *
  * Detail information about this algorithm can be found in:
  *  "Fuzzy Connectedness and Object Definition: Theory, Algorithms,
  *    and Applications in Image Segmentation", J. Udupa and S. Samarasekera
@@ -60,40 +59,27 @@ namespace itk{
  *
  * \ingroup FuzzyConnectednessSegmentation  
  */
-
 template <class TInputImage, class TOutputImage>
 class SimpleFuzzyConnectednessImageFilterBase:
   public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef SimpleFuzzyConnectednessImageFilterBase       Self;
-
-  /** 
-   * Smart pointer typedef support.
-   */
+  typedef ImageToImageFilter<TInputImage,TOutputImage>   Superclass;
   typedef SmartPointer <Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Standard "Superclass" typedef.
-   */
-  typedef ImageToImageFilter<TInputImage,TOutputImage>   Superclass;
-
-  /**
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(SimpleFuzzyConnectednessImageFilterBase,ImageToImageFilter);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(SimpleFuzzyConnectednessImageFilterBase,ImageToImageFilter);
+
+  /** Capture the image dimension from the input template parameters. */
   enum {ImageDimension = TInputImage::ImageDimension };
 
+  /** Convenient typedefs. */
   typedef TInputImage InputImageType;
   typedef TOutputImage OutputImageType;
   typedef Image <unsigned short, ImageDimension> UShortImage;
@@ -101,55 +87,36 @@ public:
   typedef typename TInputImage::SizeType SizeType;
   typedef typename TInputImage::PixelType PixelType;
   typedef typename UShortImage::Pointer FuzzyScene;
-
   typedef std::queue<IndexType> QueueType;
-
   typedef typename TOutputImage::RegionType RegionType;
   
-  /**
-   * Set the Weight of the first term(standard statistics) in the affinity 
-   * computation.
-   */
+  /** Set/Get the weight of the first term(standard statistics) in the
+   * affinity computation. */
   itkSetMacro(Weight, double);
-  /**
-   * Get the Weight of the first term(standard statistics) in the affinity 
-   * computation.
-   */
   itkGetMacro(Weight, double);
   
-  /**
-   * Set the Threshold value for the segmentation.
-   */
+  /** Set/Get the threshold value for the segmentation. */
   itkSetMacro(Threshold, double);
-  /**
-   * Get the Threshold value for the segmentation.
-   */
   itkGetMacro(Threshold, double);
 
-  /**
-   * Setting the beginning point, believed to be inside the object.
-   */
+  /** Setting the beginning point, believed to be inside the object. */
   void SetSeed(const IndexType & seed);
   
-  /**
-   * Update the binary result. (needed after update the threshold)
-   */
+  /** Update the binary result. (needed after update the threshold) */
   void MakeSegmentObject();
 
-  FuzzyScene GetFuzzyScene(void){ return m_FuzzyScene; };
+  /** \todo Document */
+  FuzzyScene GetFuzzyScene(void)
+    { return m_FuzzyScene; };
 
-  /**
-   * a simple combining of set threshold and makesegmentobject.
-   */
+  /** A simple combining of set threshold and make segmentobject. */
   void UpdateThreshold(const double x);
   
 protected:
   SimpleFuzzyConnectednessImageFilterBase();
   ~SimpleFuzzyConnectednessImageFilterBase();
 
-  /**
-  * Standard pipeline method.
-  */
+  /** Standard pipeline method.*/
   void GenerateData();
 
   double m_Weight;
@@ -165,11 +132,10 @@ protected:
 
   void PushNeighbors(const IndexType &center);
 
-  /*
-   * define the fuzzy affinity function between two pixels,
-   * need to be implement by the sub-classes.
-   */
-  virtual double FuzzyAffinity(const PixelType f1, const PixelType f2){return 0;};
+  /** Define the fuzzy affinity function between two pixels, need to be
+   * implement by the sub-classes. */
+  virtual double FuzzyAffinity(const PixelType f1, const PixelType f2)
+    { return 0; }
 
   double FindStrongPath(const IndexType &center);
 };

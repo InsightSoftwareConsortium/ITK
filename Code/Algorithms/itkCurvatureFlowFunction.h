@@ -46,116 +46,84 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
-/**
- * \class CurvatureFlowFunction
+/** \class CurvatureFlowFunction
  *  
- * This class encapsulate the finite difference equation which drives a curvature
- * flow denoising algorithm.
+ * This class encapsulate the finite difference equation which drives a
+ * curvature flow denoising algorithm.
  *
- * This class uses a zero flux Neumann boundary condition when computing derivatives
- * near the data boundary.
+ * This class uses a zero flux Neumann boundary condition when computing
+ * derivatives near the data boundary.
  *
  * This class operates as part of the finite difference solver hierarchy.
  *
  * \sa CurvatureFlowImageFilter
- * \sa ZeroFluxNeumannBoundaryCondition
- */ 
+ * \sa ZeroFluxNeumannBoundaryCondition 
+*/
 template <class TImage>
 class CurvatureFlowFunction :
     public FiniteDifferenceEquation<TImage>
 {
 public:
-
-  /**
-   *  Standard "Self" typedef.
-   */
+  /**  Standard class typedefs. */
   typedef CurvatureFlowFunction Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */   
   typedef FiniteDifferenceEquation<TImage> Superclass;
-
-  /** 
-   * Smart pointer support for this class.
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
-  /**
-   * Run-time type information (and related methods)
-   */
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods) */
   itkTypeMacro( CurvatureFlowFunction,
                 FiniteDifferenceFunction );
   
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-
-  /**
-   * Inherit some parameters from the superclass type
-   */
+  /** Inherit some parameters from the superclass type. */
   typedef typename Superclass::PixelType PixelType;
   typedef typename Superclass::RadiusType RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
   typedef typename Superclass::TimeStepType TimeStepType;
+
+  /** Extract superclass dimension. */
   enum { ImageDimension = Superclass::ImageDimension };  
 
-  /**
-   * Returns the time step supplied by the user.  We don't need to use the
-   * global data supplied since we are returning a fixed value.
-   */
+  /** Returns the time step supplied by the user.  We don't need to use the
+   * global data supplied since we are returning a fixed value. */
   virtual TimeStepType ComputeGlobalTimeStep(void *GlobalData) const
     { return this->GetTimeStep(); }
 
-  /**
-   * This class does not use this particular parameter
-   * so it's safe to return a null value.
-   */
+  /** This class does not use this particular parameter
+   * so it's safe to return a null value. */
   virtual void *GetGlobalDataPointer() const
     {  return 0; }
 
-  /**
-   * Does nothing.  No global data is used in this class of equations.
-   */
+  /** Does nothing.  No global data is used in this class of equations. */
   virtual void ReleaseGlobalDataPointer(void *GlobalData) const
     { /* do nothing */ }
 
-  /**
-   * Set the time step parameter
-   */
+  /** Set the time step parameter */
   void SetTimeStep( const TimeStepType & t )
     { m_TimeStep = t; }
 
-  /**
-   * Get the time step parameter
-   */
+  /** Get the time step parameter */
   const TimeStepType &GetTimeStep() const
     { return m_TimeStep; }
 
-
-  /**
-   * This method computes the solution update for each pixel that does not
-   * lie on a the data set boundary.
-   */
+  /** This method computes the solution update for each pixel that does not
+   * lie on a the data set boundary. */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
                                   void * globalData,
                                   const FloatOffsetType& offset = m_ZeroOffset
                                   ) const;
 
-  /**
-   * This method computes the solution update for each pixel that lies
-   * on the data set boundary.
-   */
+  /** This method computes the solution update for each pixel that lies
+   * on the data set boundary. */
   virtual PixelType ComputeUpdate(const BoundaryNeighborhoodType
                                   &neighborhood, void * globalData,
                                   const FloatOffsetType& offset = m_ZeroOffset
                                   ) const;
 
-  
 protected:
   CurvatureFlowFunction();
   ~CurvatureFlowFunction() {}

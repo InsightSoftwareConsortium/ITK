@@ -57,78 +57,39 @@ namespace itk
  * using some interpolation strategy.
  *
  * \ingroup ImageFunctions
- *
  */
-
-
 template <class TImage, class TTransformation>
 class ITK_EXPORT RegistrationMapperImage : 
   public RegistrationMapper< TImage, TTransformation > 
-
 {
-
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef RegistrationMapperImage<TImage,TTransformation>  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef RegistrationMapper<TImage, TTransformation>  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
+  /** Typedef of the Point used to represent coordinates */
+  typedef typename TTransformation::PointType   PointType;
 
-  /**
-   * Typedef of the Point used to represent coordinates
-   */
-   typedef typename TTransformation::PointType   PointType;
+  /** Typedef of the pixel type. */
+  typedef  typename   TImage::PixelType   PixelType;
 
+  /** Typedef of the image index. */
+  typedef  typename   TImage::IndexType   IndexType;
 
-  /**
-   * Typedef of the Pixel type
-   */
-   typedef  typename   TImage::PixelType   PixelType;
+  /** Typedef of the image region. */
+  typedef  typename   TImage::RegionType   RegionType;
 
-
-  /**
-   * Typedef of the image index
-   */
-   typedef  typename   TImage::IndexType   IndexType;
-
-
-  /**
-   * Typedef of the image region
-   */
-   typedef  typename   TImage::RegionType   RegionType;
-
-
-  /**
-   * Typedef of the image size
-   */
-   typedef  typename   TImage::SizeType   SizeType;
-
-
+  /** Typedef of the image size. */
+  typedef  typename   TImage::SizeType   SizeType;
 
 public: 
-
-  /**
-   * Evaluate the pixel at the current position
-   */
+  /** Evaluate the pixel at the current position. */
    PixelType Evaluate( void ) const; 
 
-
-  /**
-   * Test whether the point is inside the image or not
-   */
+  /** Test whether the point is inside the image or not. */
    bool IsInside( const PointType & point ) const;
-
 
 protected:
   RegistrationMapperImage();
@@ -139,10 +100,7 @@ private:
   void operator=(const Self&); //purposely not implemented
   
   mutable IndexType         m_CurrentIndex;
-
-
 };
-
 
 } // end namespace itk
 

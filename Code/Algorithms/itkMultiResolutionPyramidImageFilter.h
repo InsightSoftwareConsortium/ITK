@@ -48,8 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class MultiResolutionPyramidImageFilter
+/** \class MultiResolutionPyramidImageFilter
  * \brief Framework for creating images in a multi-resolution
  * pyramid.
  *
@@ -125,7 +124,6 @@ namespace itk
  * \sa ShrinkImageFilter
  *
  * \ingroup PyramidImageFilter Multithreaded Streamed
- *
  */
 template <
 class TInputImage, 
@@ -135,136 +133,87 @@ class ITK_EXPORT MultiResolutionPyramidImageFilter :
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /**
-   * Standard "Self" typedef
-   */
+  /** Standard class typedefs. */
   typedef MultiResolutionPyramidImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-
-  /**
-   * SmartPointer typedef support
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Run-time type information (and related methods)
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(MultiResolutionPyramidImageFilter, ImageToImageFilter);
 
-  /**
-   * ScheduleType typedef support
-   */
+  /** ScheduleType typedef support. */
   typedef vnl_matrix<unsigned int>  ScheduleType;
 
-  /**
-   * ImageDimension enumeration
-   */
+  /** ImageDimension enumeration. */
   enum{ ImageDimension = TInputImage::ImageDimension };
 
-  /**
-   * Inherit types from Superclass
-   */
+  /** Inherit types from Superclass. */
   typedef typename Superclass::InputImageType InputImageType;
   typedef typename Superclass::OutputImageType OutputImageType;
   typedef typename Superclass::InputImagePointer InputImagePointer;
   typedef typename Superclass::OutputImagePointer OutputImagePointer;
 
-  /**
-   * Set the number of multi-resolution levels. The matrix 
-   * containing the schedule will be resized accordingly.
-   * The schedule is populated with default values. 
-   * At the coarset (0) level, the shrink factors are set
-   * (nlevel - 1)^2 for all dimension. These shrink factors
-   * are halved for subsequent levels.
-   * The number of levels is clamped to a minimum value of 1.
-   * All shrink factors are also clamped to a minimum value of 1.
-   */
+  /** Set the number of multi-resolution levels. The matrix containing the
+   * schedule will be resized accordingly.  The schedule is populated with
+   * default values.  At the coarset (0) level, the shrink factors are set
+   * (nlevel - 1)^2 for all dimension. These shrink factors are halved for
+   * subsequent levels.  The number of levels is clamped to a minimum value
+   * of 1.  All shrink factors are also clamped to a minimum value of 1. */
   void SetNumberOfLevels(unsigned int num);
 
-  /**
-   * Get the number of multi-resolution levels
-   */
+  /** Get the number of multi-resolution levels. */
   itkGetMacro(NumberOfLevels, unsigned int);
 
-  /**
-   * Set a multi-resolution schedule.
-   * The input schedule must have only ImageDimension number
-   * of columns and NumberOfLevels number of rows.
-   * For each dimension, the shrink factor must be non-increasing
-   * with respect to subsequent levels. This function will clamp shrink
-   * factors to satisify this condition.
-   * All shrink factors less than one will also be clamped
-   * to the value of 1.
-   */
+  /** Set a multi-resolution schedule.  The input schedule must have only
+   * ImageDimension number of columns and NumberOfLevels number of rows.  For
+   * each dimension, the shrink factor must be non-increasing with respect to
+   * subsequent levels. This function will clamp shrink factors to satisify
+   * this condition.  All shrink factors less than one will also be clamped
+   * to the value of 1. */
   void SetSchedule( const ScheduleType& schedule );
 
-  /**
-   * Get the multi-resolution schedule
-   */
+  /** Get the multi-resolution schedule. */
   itkGetConstReferenceMacro(Schedule, ScheduleType);
 
-  /**
-   * Set the starting shrink factor for the coarset (0) resolution
-   * level. The schedule is then populated with defaults values
-   * obtained by halving the factors at the previous level.
-   * All shrink factors are clamped to a minimum value of 1.
-   */
+  /** Set the starting shrink factor for the coarset (0) resolution
+   * level. The schedule is then populated with defaults values obtained by
+   * halving the factors at the previous level.  All shrink factors are
+   * clamped to a minimum value of 1. */
   void SetStartingShrinkFactors( unsigned int factor );
   void SetStartingShrinkFactors( unsigned int* factors );
 
-  /**
-   * Get the starting shrink factors
-   */
+  /** Get the starting shrink factors */
   const unsigned int * GetStartingShrinkFactors() const;
 
-  /**
-   * Test if the schedule is downward divisible. This method returns
-   * true if at every level, the shrink factors are divisble by
-   * the shrink factors at the next level.
-   */
+  /** Test if the schedule is downward divisible. This method returns true if
+   * at every level, the shrink factors are divisble by the shrink factors at
+   * the next level. */
   static bool IsScheduleDownwardDivisible( const ScheduleType& schedule );
 
-  /**
-   * MultiResolutionPyramidImageFilter produces images which are of 
-   * different resolution and different pixel spacing than its input
-   * image.  As such, MultiResolutionPyramidImageFilter needs to provide an
-   * implementation for GenerateOutputInformation() in order to inform
-   * the pipeline execution model.  The original documentation of this
-   * method is below.
-   *
-   * \sa ProcessObject::GenerateOutputInformaton()
-   */
+  /** MultiResolutionPyramidImageFilter produces images which are of
+   * different resolution and different pixel spacing than its input image.
+   * As such, MultiResolutionPyramidImageFilter needs to provide an
+   * implementation for GenerateOutputInformation() in order to inform the
+   * pipeline execution model.  The original documentation of this method is
+   * below.  \sa ProcessObject::GenerateOutputInformaton() */
   virtual void GenerateOutputInformation();
 
-  /**
-   * Given one output whose requested region has been set, 
-   * this method sets the requtested region for the remaining
-   * output images.
-   * The original documentation of this method is below.
-   *
-   * \sa ProcessObject::GenerateOutputRequestedRegion();
-   */
+  /** Given one output whose requested region has been set, this method sets
+   * the requested region for the remaining output images.  The original
+   * documentation of this method is below.  \sa
+   * ProcessObject::GenerateOutputRequestedRegion(); */
   virtual void GenerateOutputRequestedRegion(DataObject *output);
 
-  /**
-   * MultiResolutionPyramidImageFilter requires a larger input requested
-   * region than the output requested regions to accomdate the shrinkage
-   * and smoothing operations. As such, MultiResolutionPyramidImageFilter
-   * needs to provide an implementation for GenerateInputRequestedRegion().
-   * The original documentation of this method is below.
-   *
-   * \sa ProcessObject::GenerateInputRequestedRegion()
-   */
+  /** MultiResolutionPyramidImageFilter requires a larger input requested
+   * region than the output requested regions to accomdate the shrinkage and
+   * smoothing operations. As such, MultiResolutionPyramidImageFilter needs
+   * to provide an implementation for GenerateInputRequestedRegion().  The
+   * original documentation of this method is below.  \sa
+   * ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();
 
 protected:
@@ -272,9 +221,7 @@ protected:
   ~MultiResolutionPyramidImageFilter() {};
   void PrintSelf(std::ostream&os, Indent indent) const;
 
-  /** 
-   * Generate the output data.
-   */
+  /** Generate the output data. */
   void GenerateData();
 
   double          m_MaximumError; 

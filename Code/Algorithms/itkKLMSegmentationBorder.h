@@ -56,29 +56,20 @@ namespace itk
  * to a list of borders pointed by a region. 
  *
  * \ingroup RegionGrowingSegmentation 
- * 
  */
-
 template <class TBorder> 
 class KLMDynamicBorderArray
 {
 public:
-  /**
-   * Greater than operators defined to work with both static objects
-   * or pointer to objects.
-   */
+  /** Greater than operators defined to work with both static objects
+   * or pointer to objects. */
   bool operator> (const KLMDynamicBorderArray<TBorder>& rhs) const
-  {
-    return(m_Pointer->GetLambda() > rhs.m_Pointer->GetLambda());
-  }
+    { return(m_Pointer->GetLambda() > rhs.m_Pointer->GetLambda()); }
 
   bool operator> (const KLMDynamicBorderArray<TBorder>* rhs) const
-  {
-    return(m_Pointer->GetLambda() > rhs.m_Pointer->GetLambda());
-  }
+    { return(m_Pointer->GetLambda() > rhs.m_Pointer->GetLambda()); }
 
   TBorder *m_Pointer;
-
 };
 
 /** \class KLMSegmentationBorder
@@ -97,129 +88,78 @@ public:
  * least lambda value is eliminated.
  *
  * \ingroup RegionGrowingSegmentation 
- *  
  */
-
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT KLMSegmentationBorder : public SegmentationBorder<TInputImage,TOutputImage>
 {
 private:
-  /**
-   * Type definition for an double vector.
-   */
+  /** Type definition for an double vector. */
   typedef vnl_matrix<double> VecDblType;
 
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef KLMSegmentationBorder   Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef SegmentationBorder<TInputImage,TOutputImage> Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(KLMSegmentationBorder,SegmentationBorder);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Type definition for the input image.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(KLMSegmentationBorder,SegmentationBorder);
+
+  /** Type definition for the input image. */
   typedef typename TInputImage::Pointer   InputImageType;
 
-  /**
-   * Type definition for the input image pixel type.
-   */
+  /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType InputImagePixelType;
 
-  /**
-   * Set the region 1 associated with the border
-   */
+  /** Set the region 1 associated with the border */
   void SetRegion1(KLMSegmentationRegion<TInputImage,TOutputImage> *Region1);
 
-  /**
-   * Get the region 1 associated with the border
-   */
+  /** Get the region 1 associated with the border. */
   KLMSegmentationRegion<TInputImage,TOutputImage> *GetRegion1();
 
-  /**
-   * Set the region 2 associated with the border
-   */
+  /** Set the region 2 associated with the border. */
   void SetRegion2(KLMSegmentationRegion<TInputImage,TOutputImage> *Region2);
 
-  /**
-   * Get the region 2 associated with the border
-   */
+  /** Get the region 2 associated with the border. */
   KLMSegmentationRegion<TInputImage,TOutputImage> *GetRegion2();
 
-  /**
-   * Set the lamba parameter associate with the borders
-   * in the KLM algorithm
-   */
+  /** Set the lamba parameter associate with the borders
+   * in the KLM algorithm */
   itkSetMacro(Lambda, double);
 
-  /**
-   * Get the lamba parameter associated with the borders
-   * in the KLM algorithm
-   */
+  /** Get the lamba parameter associated with the borders
+   * in the KLM algorithm */
   itkGetMacro(Lambda, double);
 
-  /**
-   * Evaluate the lambda for a given border
-   */
+  /** Evaluate the lambda for a given border. */
   void EvaluateLambda();
 
-  /**
-   * Print the data associated with each border 
-   */
+  /** Print the data associated with each border. */
   void PrintBorderInfo();
 
-  /**
-   * Constructor
-   */
-  KLMSegmentationBorder();
-
-  /**
-   * Destructor
-   */
-  ~KLMSegmentationBorder();
-
-  /**
-   * Greater than operators defined to work with both static objects
-   * or pointer to objects.
-   */
+  /** Greater than operators defined to work with both static objects
+   * or pointer to objects. */
   bool operator> (const KLMSegmentationBorder<TInputImage,TOutputImage>& rhs) const
-  {
-    return(m_Lambda > rhs.m_Lambda);
-  }
+    { return(m_Lambda > rhs.m_Lambda); }
 
   bool operator> (const KLMSegmentationBorder<TInputImage,TOutputImage>* rhs) const
-  {
-    return(m_Lambda > rhs->m_Lambda);
-  }
+    { return(m_Lambda > rhs->m_Lambda); }
 
 protected:
-  /**
-   * Print self identity
-   */      
+  /** Constructor. */
+  KLMSegmentationBorder();
+
+  /** Destructor. */
+  ~KLMSegmentationBorder();
+
+  /** Print self identity */      
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-
   double                                m_Lambda;
   KLMSegmentationRegion<TInputImage,TOutputImage> *m_Region1;
   KLMSegmentationRegion<TInputImage,TOutputImage> *m_Region2;

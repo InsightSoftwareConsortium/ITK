@@ -99,42 +99,25 @@ namespace itk
  * - Add support to detect convergence.
  *
  * \ingroup LevelSetSegmentation 
- *
  */
 template <class TLevelSet, class TEdgeImage>
 class ITK_EXPORT ShapeDetectionLevelSetFilter :
   public LevelSetImageFilter<TLevelSet>
 {
 public:
-  /**
-   * Standard "Self" typedef
-   */
+  /** Standard class typedefs. */
   typedef ShapeDetectionLevelSetFilter Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef LevelSetImageFilter<TLevelSet> Superclass;
-
-  /**
-   * Smart pointer typedef support
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(ShapeDetectionLevelSetFilter, LevelSetImageFilter);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Typedef support for level set related types.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ShapeDetectionLevelSetFilter, LevelSetImageFilter);
+
+  /** Typedef support for level set related types. */
   typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
   typedef typename LevelSetType::LevelSetImageType  LevelSetImageType;
   typedef typename LevelSetType::LevelSetPointer  LevelSetPointer;
@@ -143,61 +126,35 @@ public:
   typedef typename LevelSetType::NodeContainer NodeContainer;
   typedef typename LevelSetType::NodeContainerPointer NodeContainerPointer;
 
-  /**
-   * Typedef support for the EdgeImageType
-   */
+  /** Typedef support for the edge image type. */
   typedef TEdgeImage EdgeImageType;
 
-  /**
-   * EdgeImagePointer typedef support.
-   */
+  /** EdgeImagePointer typedef support. */
   typedef typename EdgeImageType::Pointer EdgeImagePointer;
 
-  /**
-   * Set the edge image
-   */
+  /** Set/Get the edge image. */
   void SetEdgeImage( EdgeImageType * ptr );
-
-  /**
-   * Get the edge image
-   */
   EdgeImagePointer GetEdgeImage() const
     { return m_EdgeImage; };
 
-  /**
-   * Set the length penalty strength. This parameter can be
-   * viewed as the weighting given to length of the front
-   * in an energy functional. The larger the value, the smoother
-   * the resulting front. This is the "epsilon" parameter in the
-   * Malladi et al paper.
-   *
-   * Typically, the value is application dependent (e.g. noise level,
-   * shape complexity, intensity range). Default value is 0.05
-   */
+  /** Set/Get the length penalty strength. This parameter can be viewed as
+   * the weighting given to length of the front in an energy functional. The
+   * larger the value, the smoother the resulting front. This is the
+   * "epsilon" parameter in the Malladi et al paper.  Typically, the value is
+   * application dependent (e.g. noise level, shape complexity, intensity
+   * range). Default value is 0.05 */
   itkSetClampMacro( LengthPenaltyStrength, double, 0.0,
     NumericTraits<double>::max() );
-
-  /**
-   * Get the length penalty strength
-   */
   itkGetMacro( LengthPenaltyStrength, double );
 
-  /**
-   * Set the propagation direction. If PropagateOutwards is true then
-   * the front propagated outwards in each iteration. If set to false
-   * the front is propagated inwards. By default, PropagateOutwards
-   * is set to true.
-   */
+  /** Set/Get the propagation direction. If PropagateOutwards is true then
+   * the front propagated outwards in each iteration. If set to false the
+   * front is propagated inwards. By default, PropagateOutwards is set to
+   * true. */
   itkSetMacro( PropagateOutwards, bool );
-
-  /**
-   * Get the PropagateOutward flag.
-   */
   itkGetMacro( PropagateOutwards, bool );
 
-  /**
-   * Get the output narrow band
-   */
+  /** Get the output narrow band. */
   NodeContainerPointer GetOutputNarrowBand()
     { return m_OutputNarrowBand; }
 
@@ -220,8 +177,7 @@ private:
   void operator=(const Self&); //purposely not implemented
   
   typedef typename TEdgeImage::PixelType EdgePixelType;
-  typedef 
-    ExtensionVelocitiesImageFilter<TLevelSet,EdgePixelType,1> 
+  typedef ExtensionVelocitiesImageFilter<TLevelSet,EdgePixelType,1> 
       ExtenderType;
 
   EdgeImagePointer                      m_EdgeImage;

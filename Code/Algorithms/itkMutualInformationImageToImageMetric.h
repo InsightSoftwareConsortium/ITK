@@ -117,187 +117,113 @@ namespace itk
  * It should be removed once the feature has been implemented in
  * the mapper.
  *
- *
  * \ingroup RegistrationMetrics
- *
  */
-template <
-class TTarget,
-class TMapper >
+template <class TTarget,class TMapper >
 class ITK_EXPORT MutualInformationImageToImageMetric :
-  public SimilarityRegistrationMetric< 
-    TTarget, TMapper, double,
+  public SimilarityRegistrationMetric< TTarget, TMapper, double,
     CovariantVector< double, TMapper::SpaceDimension > >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
-  typedef MutualInformationImageToImageMetric  Self;
-
-  /**
-   * Smart pointer typedef support
-   */
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   * Space dimension is the dimension of parameters space
-   */
-   enum { SpaceDimension = TMapper::SpaceDimension };
-
-  /**
-   *  Type of the match measure
-   */
+  /**  Type of the match measure. */
   typedef double  MeasureType;
 
-  /**
-   *  Type of the derivative of the match measure
-   */
+  /** Space dimension is the dimension of parameters space. */
+   enum { SpaceDimension = TMapper::SpaceDimension };
+
+  /**  Type of the derivative of the match measure. */
   typedef CovariantVector<MeasureType,SpaceDimension>  DerivativeType;
 
-  /**
-   *  Type of the Mapper
-   */
+  /**  Type of the mapper */
   typedef TMapper MapperType;
 
-  /**
-   *  Type of the Reference
-   */
-  typedef typename MapperType::DomainType  ReferenceType;
-
-  /**
-   *  Type of the Target
-   */
+  /**  Type of the target. */
   typedef TTarget TargetType;
 
-  /**
-   * Standard "Superclass" typedef.
-   */
+  /** Standard class typedefs. */
+  typedef MutualInformationImageToImageMetric  Self;
   typedef SimilarityRegistrationMetric< 
       TargetType, MapperType, 
       MeasureType, DerivativeType >  Superclass;
+  typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * TargetImageDimension enumeration
-   */
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(MutualInformationImageToImageMetric, 
+               SimilarityRegistrationMetric);
+
+  /**  Type of the reference. */
+  typedef typename MapperType::DomainType  ReferenceType;
+
+  /** TargetImageDimension enumeration. */
   enum { TargetImageDimension = TargetType::ImageDimension };
 
-  /**
-   * Type of the Transform
-   */
+  /** Type of the transform. */
   typedef typename MapperType::TransformType TransformType;
 
-  /**
-   *  Parameters type
-   */
+  /**  Parameters type. */
   typedef typename MapperType::ParametersType ParametersType;
 
-  /**
-   *  Pointer type for the Reference
-   */
+  /**  Pointer type for the reference. */
   typedef typename ReferenceType::ConstPointer ReferenceConstPointer;
 
-  /**
-   *  Pointer type for the Target
-   */
+  /**  Pointer type for the target. */
   typedef typename TargetType::ConstPointer TargetConstPointer;
 
-  /**
-   *  Pointer type for the Mapper
-   */
+  /**  Pointer type for the mapper. */
   typedef typename MapperType::Pointer MapperPointer;
 
-  /**
-   * TargetIndex typedef support
-   */
+  /** TargetIndex typedef support. */
   typedef Index<TargetImageDimension> TargetIndexType;
   typedef typename TargetIndexType::IndexValueType TargetIndexValueType;
 
-  /**
-   * TargetPoint typedef support
-   */
+  /** TargetPoint typedef support. */
   typedef typename MapperType::OutputPointType TargetPointType;
 
-  /**
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(MutualInformationImageToImageMetric, SimilarityRegistrationMetric);
-
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-
-  /**
-   * Get the Derivatives of the Match Measure
-   */
+  /** Get the derivatives of the match measure. */
   const DerivativeType& GetDerivative( const ParametersType& parameters );
 
-  /**
-   *  Get the Value
-   */
+  /**  Get the value. */
   MeasureType GetValue( const ParametersType& parameters );
 
-  /**
-   *  Get Value and Derivatives for SingleValuedOptimizers
-   */
+  /**  Get the value and derivatives for single valued optimizers. */
   void GetValueAndDerivative( const ParametersType& parameters, 
     MeasureType& Value, DerivativeType& Derivative );
 
-  /**
-   * Set the number of spatial samples. This is the number of image
+  /** Set the number of spatial samples. This is the number of image
    * samples used to calculate the joint probability distribution.
    * The number of spatial samples is clamped to be a minimum of 1.
-   * Default value is 50.
-   */
+   * Default value is 50. */
   void SetNumberOfSpatialSamples( unsigned int num );
 
-  /**
-   * Get the number of spatial samples.
-   */
+  /** Get the number of spatial samples. */
   itkGetConstMacro( NumberOfSpatialSamples, unsigned int );
 
-  /**
-   * Set the reference image intensitiy standard deviation. This
-   * defines the kernel bandwidth used in the joint probability
-   * distribution calculation. Default value is 0.1 which works
-   * well for image intensities normalized to between 0 and 1.
-   * Value is clamped to be always greater than zero.
-   */
+  /** Set/Get the reference image intensitiy standard deviation. This defines
+   * the kernel bandwidth used in the joint probability distribution
+   * calculation. Default value is 0.1 which works well for image intensities
+   * normalized to between 0 and 1.  Value is clamped to be always greater
+   * than zero. */
   itkSetClampMacro( ReferenceStandardDeviation, double, 
     NumericTraits<double>::min(), NumericTraits<double>::max() );
-
-  /**
-   * Get the reference image intensity standard deviation.
-   */
   itkGetConstMacro( ReferenceStandardDeviation, double );
 
-  /**
-   * Set the target image intensitiy standard deviation. This defines
-   * the kernel bandwidth used in the joint probability distribution
-   * calculation. Default value is 0.1 which works well for image
-   * intensities normalized to between 0 and 1. Value is clamped to be
-   * always greater than zero.
-   */
+  /** Set/Get the target image intensitiy standard deviation. This defines the
+   * kernel bandwidth used in the joint probability distribution
+   * calculation. Default value is 0.1 which works well for image intensities
+   * normalized to between 0 and 1. Value is clamped to be always greater
+   * than zero. */
   itkSetClampMacro( TargetStandardDeviation, double,
     NumericTraits<double>::min(), NumericTraits<double>::max() );
-
-  /**
-   * Get the target image intensity standard deviation.
-   */
   itkGetMacro( TargetStandardDeviation, double );
 
-  /**
-   * Set the kernel function. This is used to calculate the joint
-   * probability distribution. Default is the GaussianKernelFunction.
-   */
+  /** Set/Get the kernel function. This is used to calculate the joint
+   * probability distribution. Default is the GaussianKernelFunction. */
   void SetKernelFunction( KernelFunction * ptr )
     { m_KernelFunction = ptr; }
-
-  /**
-   * Get the kernel function.
-   */
   KernelFunction * GetKernelFunction( void )
     { return m_KernelFunction; }
 
@@ -309,16 +235,11 @@ private:
   MutualInformationImageToImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  /**
-   * A spatial sample consists of
-   *   the target domain point,
-   *   the target value and that point, and
-   *   the corresponding reference value
-   */
+  /** A spatial sample consists of the target domain point, the target value
+   *   and that point, and the corresponding reference value. */
   class SpatialSample
   {
   public:
-
     SpatialSample(){};
     ~SpatialSample(){};
 
@@ -336,31 +257,21 @@ private:
     double                           ReferenceValue;
   };
 
-  /**
-   * SpatialSampleContainer typedef support
-   */
+  /** SpatialSampleContainer typedef support. */
   typedef std::vector<SpatialSample>  SpatialSampleContainer;
 
-  /**
-   * Container to store sample set  A - used to approximate the probability
-   * density function (pdf)
-   */
+  /** Container to store sample set  A - used to approximate the probability
+   * density function (pdf). */
   SpatialSampleContainer              m_SampleA;
 
-  /**
-   * Container to store sample set  B - used to approximate the mutual
-   * information value
-   */
+  /** Container to store sample set  B - used to approximate the mutual
+   * information value. */
   SpatialSampleContainer              m_SampleB;
 
-  /**
-   * DerivativeContainer typedef support
-   */
+  /** DerivativeContainer typedef support. */
   typedef std::vector<DerivativeType> DerivativeContainer;
 
-  /**
-   * Container to store sample set A image derivatives
-   */
+  /** Container to store sample set A image derivatives. */
   DerivativeContainer                 m_SampleADerivatives;
 
   unsigned int                        m_NumberOfSpatialSamples;
@@ -369,9 +280,7 @@ private:
   typename KernelFunction::Pointer    m_KernelFunction;
   double                              m_MinProbability;
 
-  /**
-   * Uniformly select samples from the target image buffer
-   */
+  /** Uniformly select samples from the target image buffer. */
   void SampleTargetDomain( SpatialSampleContainer& samples );
 
   //-----------------------------------------------------------

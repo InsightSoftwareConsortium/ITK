@@ -75,35 +75,19 @@ class ITK_EXPORT LevelSetNeighborhoodExtractor :
   public Object
 {
 public:
-  /** 
-   * Standard "Self" typdedef
-   */
+  /** Standard class typdedefs. */
   typedef LevelSetNeighborhoodExtractor Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */ 
   typedef Object Superclass;
-
-  /**
-   * Smart pointer typedef support
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(LevelSetNeighborhoodExtractor, Object);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * LevelSetType typedef support.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(LevelSetNeighborhoodExtractor, Object);
+
+  /** LevelSetType typedef support. */
   typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
   typedef typename LevelSetType::LevelSetImageType  LevelSetImageType;
   typedef typename LevelSetType::LevelSetPointer  LevelSetPointer;
@@ -112,82 +96,54 @@ public:
   typedef typename LevelSetType::NodeContainer NodeContainer;
   typedef typename LevelSetType::NodeContainerPointer NodeContainerPointer;
 
-  /**
-   * SetDimension enumeration.
-   */
+  /** SetDimension enumeration. */
   enum { SetDimension = LevelSetType::SetDimension};
 
-  /**
-   * Index typedef support.
-   */
+  /** Index typedef support. */
   typedef Index<SetDimension> IndexType;
 
-  /**
-   * Set the input level set.
-   */
+  /** Set the input level set. */
   void SetInput( TLevelSet * ptr );
 
-  /**
-   * Get the input level set.
-   */
+  /** Get the input level set. */
   LevelSetPointer GetInput();
 
-  /**
-   * Set the value of the level set to be located. Default is 0.
-   */
+  /** Set the value of the level set to be located. Default is 0. */
   itkSetMacro( LevelSetValue, double );
 
-  /**
-   * Get the value of the level set to be located.
-   */
+  /** Get the value of the level set to be located. */
   itkGetMacro( LevelSetValue, double );
 
-  /**
-   * Set the narrow band width. Default is 12.
-   */
+  /** Set the narrow band width. Default is 12. */
   itkSetClampMacro( NarrowBandwidth, double, 0.0, 
     NumericTraits<double>::max());
 
-  /**
-   * Get the narrow band width.
-   */
+  /** Get the narrow band width. */
   itkGetMacro( NarrowBandwidth, double );
 
-  /**
-   * Set the narrowbanding flag.
-   */
+  /** Set the narrowbanding flag. */
   itkSetMacro( NarrowBanding, bool );
 
-  /**
-   * Get the narrowbanding flag.
-   */
+  /** Get the narrowbanding flag. */
   itkGetMacro( NarrowBanding, bool );
   itkBooleanMacro( NarrowBanding );
 
-  /**
-   * Set the input narrowband. A narrowband is represented as
-   * a VectorContainer of LevelSetNodes.
-   */
+  /** Set the input narrowband. A narrowband is represented as
+   * a VectorContainer of LevelSetNodes. */
   void SetInputNarrowBand( NodeContainer * ptr );
 
-  /**
-   * Get the container of inside points. The inside points are
-   * stored in a VectorContainer of LevelSetNodes.
-   */
+  /** Get the container of inside points. The inside points are
+   * stored in a VectorContainer of LevelSetNodes. */
   NodeContainerPointer GetInsidePoints()
     { return m_InsidePoints; }
 
-  /**
-   * Get the container of outside points. The outside points are
-   * stored in a VectorContainer of LevelSetNodes.
-   */
+  /** Get the container of outside points. The outside points are
+   * stored in a VectorContainer of LevelSetNodes. */
   NodeContainerPointer GetOutsidePoints()
     { return m_OutsidePoints; }
 
-  /**
-   * Locate the level set. This method evokes the level set
-   * location algorithm.
-   */
+  /** Locate the level set. This method evokes the level set
+   * location algorithm. */
   void Locate();
 
 protected:

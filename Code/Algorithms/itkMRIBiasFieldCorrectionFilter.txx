@@ -180,8 +180,6 @@ namespace itk
     m_UsingSlabIdentification = false ;
     m_UsingBiasFieldCorrection = true ;
     m_GeneratingOutput = true ;
-
-    m_VerboseMode = false ;
   }
 
   template<class TInputImage, class TOutputImage>
@@ -256,7 +254,7 @@ namespace itk
       m_EnergyFunction->SetMask(m_InputMask) ;
     
     // initialize the 1+1 optimizer
-    m_Optimizer->SetVerboseMode(m_VerboseMode) ;
+    m_Optimizer->SetDebug(this->GetDebug()) ;
     m_Optimizer->SetCostFunction(m_EnergyFunction) ;
     
     if (m_OptimizerGrowFactor > 0)
@@ -367,17 +365,15 @@ namespace itk
     BiasField::DomainSizeType biasSize ;
     while (index[m_SlicingDirection] < lastSlice)
       {
-        if (m_VerboseMode)
-          std::cout << "    -- slice : " << index[m_SlicingDirection] 
-                    << std::endl ;
+      itkDebugMacro(<< "    -- slice : " << index[m_SlicingDirection] );
 
-        this->GetBiasFieldSize(sliceRegion, biasSize) ;
-        BiasField* bias = new BiasField(biasSize.size(), 0, biasSize) ;
-        sliceRegion.SetIndex(index) ;
-        this->EstimateBiasField(bias, sliceRegion) ;
-        this->CorrectImage(bias, sliceRegion) ;
-        index[m_SlicingDirection] += 1 ;
-        delete bias ;
+      this->GetBiasFieldSize(sliceRegion, biasSize) ;
+      BiasField* bias = new BiasField(biasSize.size(), 0, biasSize) ;
+      sliceRegion.SetIndex(index) ;
+      this->EstimateBiasField(bias, sliceRegion) ;
+      this->CorrectImage(bias, sliceRegion) ;
+      index[m_SlicingDirection] += 1 ;
+      delete bias ;
       }
   }
 
@@ -401,8 +397,8 @@ namespace itk
 
     if (m_UsingSlabIdentification)
       {
-      if (m_VerboseMode)
-        std::cout << "Searching slabs..." << std::endl ;
+      itkDebugMacro(<< "Searching slabs...");
+
       // find slabs
       MRASlabIdentifier<InputImageType>::Pointer identifier = 
         MRASlabIdentifier<InputImageType>::New() ;
@@ -411,8 +407,7 @@ namespace itk
       identifier->GenerateSlabRegions() ;
       m_Slabs = identifier->GetSlabRegionVector() ;
 
-      if (m_VerboseMode)
-        std::cout << m_Slabs.size() << " slabs found." << std::endl ;
+      itkDebugMacro(<< m_Slabs.size() << " slabs found.");
       }
     else
       {
@@ -422,9 +417,8 @@ namespace itk
       }
 
     this->AdjustSlabRegions(m_Slabs, this->GetOutput()->GetRequestedRegion()) ;
-    if (m_VerboseMode)
-      std::cout << "After adjustment, ther are " << m_Slabs.size() 
-                << " slabs." << std::endl ;
+    itkDebugMacro(<< "After adjustment, ther are " << m_Slabs.size() 
+                  << " slabs.");
 
     SlabRegionVectorIteratorType iter = m_Slabs.begin();
     
@@ -433,33 +427,30 @@ namespace itk
     int count = 0 ;
     while (iter != m_Slabs.end())
       {
-      if (m_VerboseMode && m_UsingSlabIdentification)
-        std::cout << "## Slab :" << count << std::endl ;
-
+      if (this->GetDebug() && m_UsingSlabIdentification)
+        {
+        itkDebugMacro(<< "## Slab :" << count);
+        }
+      
         // correct inter-slice intensity inhomogeniety
         // using 0th degree Legendre polynomial
 
       if (m_UsingInterSliceIntensityCorrection)
         {
-        // turn off optimizer's verbose mode 
-        m_Optimizer->SetVerboseMode(false) ;
-
-        if (m_VerboseMode)
-          std::cout << "  Correcting inter-slice intensity..." 
-                    << std::endl ;
+        // turn off optimizer's debug mode 
+        m_Optimizer->DebugOff() ;
+        itkDebugMacro(<< "  Correcting inter-slice intensity..." );
         this->CorrectInterSliceIntensityInhomogeneity(*iter) ;
-        if (m_VerboseMode)
-          std::cout << "  Inter-slice intensity corrected." << std::endl ;
+        itkDebugMacro(<< "  Inter-slice intensity corrected.");
             
-            // restore optimizer's verbose mode setting
-        m_Optimizer->SetVerboseMode(m_VerboseMode) ;
+        // restore optimizer's debug mode setting
+        m_Optimizer->SetDebug(this->GetDebug()) ;
         }
 
       // correct 3D bias
       if (m_UsingBiasFieldCorrection)
         {
-        if (m_VerboseMode)
-          std::cout << "  Correcting bias..." << std::endl ;
+        itkDebugMacro(<< "  Correcting bias..." );
 
         this->GetBiasFieldSize(*iter, biasSize) ;
         BiasField* bias = 
@@ -477,8 +468,7 @@ namespace itk
         m_BiasFieldDomainSize = bias->GetDomainSize() ;
         this->CorrectImage(bias, *iter) ;
         delete bias ;
-        if (m_VerboseMode)
-          std::cout << "  Bias corrected." << std::endl ;
+        itkDebugMacro(<< "  Bias corrected." );
         }
       iter++ ;
       count++ ;
@@ -487,17 +477,15 @@ namespace itk
     OutputImagePointer output = this->GetOutput() ;
     if (m_GeneratingOutput)
       {
-        if (m_VerboseMode)
-          std::cout << "Generating the output image..." << std::endl ;
+      itkDebugMacro( << "Generating the output image...");
 
-        if (this->IsBiasFieldMultiplicative()) 
-          ExpImage(m_InternalInput, m_InternalInput) ;
+      if (this->IsBiasFieldMultiplicative()) 
+        ExpImage(m_InternalInput, m_InternalInput) ;
         
-        CopyAndConvertImage<InternalImageType, OutputImageType>
-          (m_InternalInput, output, output->GetRequestedRegion()) ;
+      CopyAndConvertImage<InternalImageType, OutputImageType>
+        (m_InternalInput, output, output->GetRequestedRegion()) ;
 
-        if (m_VerboseMode)
-          std::cout << "The output image generated." << std::endl ;
+      itkDebugMacro( << "The output image generated." );
       }
   }
 

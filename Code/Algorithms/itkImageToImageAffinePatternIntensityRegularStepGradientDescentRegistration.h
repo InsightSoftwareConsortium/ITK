@@ -61,66 +61,36 @@ namespace itk
 template <class TReference, class TTarget>
 class ITK_EXPORT ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistrationTraits 
 {
-  
 public:
+  /**  Type of the reference. */
+  typedef TReference  ReferenceType;
 
-  /**
-   *  Type of the Reference
-   */
-   typedef TReference  ReferenceType;
+  /**  Type of the target. */
+  typedef TTarget TargetType;
 
-  /**
-   *  Type of the Target
-   */
-   typedef TTarget TargetType;
+  /** Image dimensions. */
+  enum { ImageDimension = ReferenceType::ImageDimension }; 
 
+  /**  Type of the transformation. */
+  typedef AffineTransform< double, ImageDimension > TransformationType;
 
-  /**
-   * Image Dimensions
-   */
-   enum { ImageDimension = ReferenceType::ImageDimension }; 
+  /**  Type of the parameters. */
+  typedef typename TransformationType::ParametersType  ParametersType;
 
+  /** Parameters dimensions. */
+  enum { ParametersDimension = TransformationType::ParametersDimension }; 
 
-  /**
-   *  Type of the Transformation
-   */
-   typedef AffineTransform< double, ImageDimension > TransformationType;
+  /**  Type of the mapper. */
+  typedef ImageMapper<ReferenceType,TransformationType>  MapperType;
 
+  /**  Type of the metric. */
+  typedef PatternIntensityImageToImageMetric<TargetType, MapperType>   MetricType;
 
-  /**
-   *  Type of the parameters
-   */
-   typedef typename TransformationType::ParametersType  ParametersType;
-
-
-  /**
-   * Parameters Dimensions
-   */
-   enum { ParametersDimension = TransformationType::ParametersDimension }; 
-
-
-  /**
-   *  Type of the Mapper
-   */
-   typedef ImageMapper<ReferenceType,TransformationType>  MapperType;
-
-  /**
-   *  Type of the Metric
-   */
-   typedef PatternIntensityImageToImageMetric<TargetType, MapperType>   MetricType;
-
-
-  /**
-   *  Type of the Optimizer 
-   */
-   typedef RegularStepGradientDescentOptimizer<MetricType>           OptimizerType;
-
-
+  /**  Type of the optimizer.  */
+  typedef RegularStepGradientDescentOptimizer<MetricType>           OptimizerType;
 };
 
-
-/**
- * \class ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration
+/** \class ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration
  * \brief Base class for registration methods
  *
  * This Class define the generic interface for a registration method.
@@ -137,9 +107,6 @@ public:
  *
  *  \ingroup AffineImageRegistration
  */
-
-
-
 template <class TReference, class TTarget>
 class ITK_EXPORT ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration 
 : public RegistrationMethod< 
@@ -148,101 +115,49 @@ class ITK_EXPORT ImageToImageAffinePatternIntensityRegularStepGradientDescentReg
                TTarget>  >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
-   typedef ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration  Self;
+  /** Standard class typedefs. */
+  typedef ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration  Self;
+  typedef RegistrationMethod< 
+          ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistrationTraits<TReference,TTarget> >  Superclass;
+  typedef SmartPointer<Self>   Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
-
-  /**
-   * Standard "Superclass" typedef.
-   */
-   typedef RegistrationMethod< 
-            ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistrationTraits<
-                                       TReference,
-                                       TTarget>  >           Superclass;
-
-
-  /** 
-   * Smart pointer typedef support 
-   */
-   typedef SmartPointer<Self>   Pointer;
-   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   *  Type of the Reference
-   */
-   typedef TReference ReferenceType;
-
-  /**
-   *  Type of the Target
-   */
-   typedef TTarget   TargetType;
-
-
-  /**
-   *  Type of the parameters
-   */
-   typedef typename Superclass::ParametersType ParametersType;
-
-
-  /**
-   *  Type of the Transformation
-   */
-   typedef typename Superclass::TransformationType TransformationType;
-   
-   
-  /**
-   *  Type of the Mapper
-   */
-   typedef typename Superclass::MapperType    MapperType;
-
-
-  /**
-   *  Type of the Metric
-   */
-   typedef typename Superclass::MetricType   MetricType;
-
-
-
-   /**
-   *  Type of the Optimizer 
-   */
-   typedef typename Superclass::OptimizerType       OptimizerType;
-
-
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-   itkTypeMacro(ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration, RegistrationMethod);
-
-
-  /**
-   * Method for creation through the object factory.
-   */
-   itkNewMacro(Self);
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
   
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration, RegistrationMethod);
 
-  /**
-   * Method that initiates the registration.
-   */
-   void StartRegistration(void);
+  /**  Type of the reference. */
+  typedef TReference ReferenceType;
 
+  /**  Type of the target. */
+  typedef TTarget   TargetType;
 
-  /**
-   * Set Translation Scale
-   */
-   void SetTranslationScale( const double & scale )
-   { m_TranslationScale = scale; }
+  /**  Type of the parameters. */
+  typedef typename Superclass::ParametersType ParametersType;
 
+  /**  Type of the transformation. */
+  typedef typename Superclass::TransformationType TransformationType;
+   
+  /**  Type of the mapper. */
+  typedef typename Superclass::MapperType    MapperType;
 
-   /** 
-    *  Dimension of the images
-    */
-   enum { ImageDimension = ReferenceType::ImageDimension };
+  /**  Type of the metric. */
+  typedef typename Superclass::MetricType   MetricType;
 
+  /**  Type of the optimizer.  */
+  typedef typename Superclass::OptimizerType       OptimizerType;
 
+  /** Method that initiates the registration. */
+  void StartRegistration(void);
+
+  /** Set translation scale. */
+  void SetTranslationScale( const double & scale )
+    { m_TranslationScale = scale; }
+
+  /**  Dimension of the images.  */
+  enum { ImageDimension = ReferenceType::ImageDimension };
 
 protected:
   ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration();

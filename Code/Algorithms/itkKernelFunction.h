@@ -46,8 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class KernelFunction
+/** \class KernelFunction
  * \brief Kernel used for kernel function/density estimation.
  * 
  * \ingroup Functions
@@ -55,25 +54,13 @@ namespace itk
 class ITK_EXPORT KernelFunction : public FunctionBase<double,double>
 {
 public:  
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef KernelFunction Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef FunctionBase<double,double> Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Evaluate the function.
-   */
+  /** Evaluate the function. */
   virtual double Evaluate (const double& u) const = 0;
 
 protected:  
@@ -82,50 +69,29 @@ protected:
 
 };
 
-/**
- * \class GaussianKernelFunction
+/** \class GaussianKernelFunction
  * \brief Gaussian kernel used for kernel function/density estimation.
  *
  * \ingroup Functions
- *
  */
 class ITK_EXPORT GaussianKernelFunction : public KernelFunction
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef GaussianKernelFunction Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef KernelFunction Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
-  /**
-   * Evaluate the function.
-   */
+  /** Evaluate the function. */
   inline double Evaluate (const double& u) const
-  {
-    return ( exp( -0.5 * vnl_math_sqr( u ) ) * m_Factor );
-  }
+    { return ( exp( -0.5 * vnl_math_sqr( u ) ) * m_Factor ); }
 
 protected:
-
   GaussianKernelFunction()
-  { 
-    m_Factor = 1.0 / vnl_math_sqrt( 2.0 * vnl_math::pi ); 
-  };
+    { m_Factor = 1.0 / vnl_math_sqrt( 2.0 * vnl_math::pi ); }
 
   ~GaussianKernelFunction(){};
 
@@ -137,3 +103,4 @@ private:
 } // namespace itk
 
 #endif
+

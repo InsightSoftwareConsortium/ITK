@@ -70,38 +70,22 @@ namespace itk
   *
   * \ingroup LevelSetSegmentation 
   * \ingroup ImageEnhancement 
-  *
-  *
   */
 template <class TLevelSet>
 class ITK_EXPORT LevelSetImageFilter : 
   public ImageToImageFilter<TLevelSet,TLevelSet>
 {
 public:
-  /**
-   * Standard "Self" typedef
-   */
+  /** Standard class typedefs. */
   typedef LevelSetImageFilter Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef ImageToImageFilter<TLevelSet,TLevelSet> Superclass;
-
-  /**
-   * Smart pointer typedef support
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(LevelSetImageFilter, ImageToImageFilter);
 
-  /**
-   * LevelSetType typedef support.
-   */
+  /** LevelSetType typedef support. */
   typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
   typedef typename LevelSetType::LevelSetImageType  LevelSetImageType;
   typedef typename LevelSetType::LevelSetPointer  LevelSetPointer;
@@ -110,82 +94,55 @@ public:
   typedef typename LevelSetType::NodeContainer NodeContainer;
   typedef typename LevelSetType::NodeContainerPointer NodeContainerPointer;
 
-  /**
-   * SetDimension enumeration.
-   */
+  /** SetDimension enumeration. */
   enum { SetDimension = LevelSetType::SetDimension};
 
-  /**
-   * Set the evolution time step size. Default is 0.5. The timestep is
+  /** Set the evolution time step size. Default is 0.5. The timestep is
    * typically algorithm and application dependent. It should be chosen
    * to meet the CFL condition which requires that no pixels move
-   * more than one grid position at each time step.
-   */
+   * more than one grid position at each time step. */
   itkSetClampMacro( TimeStepSize, double, 0.0, 
     NumericTraits<double>::max());
 
-  /**
-   * Get the evolution time step size.
-   */
+  /** Get the evolution time step size. */
   itkGetMacro( TimeStepSize, double );
 
-  /**
-   * Set the narrowbanding flag. If NarrowBanding is turned on, only the
+  /** Set the narrowbanding flag. If NarrowBanding is turned on, only the
    * pixels in the InputNarrowBand are processed. A NarrowBand is represented
    * as a VectorContainer of LevelSetNodes. NarrowBanding is set to false
    * by default.
-   *
-   * \sa LevelSetNode
-   */
+   * \sa LevelSetNode */
   itkSetMacro( NarrowBanding, bool );
   itkBooleanMacro( NarrowBanding );
 
-  /**
-   * Get the narrowbanding flag.
-   */
+  /** Get the narrowbanding flag. */
   itkGetMacro( NarrowBanding, bool );
 
-  /**
-   * Set the narrow bandwidth. Default is 12.
-   */
+  /** Set the narrow bandwidth. Default is 12. */
   itkSetClampMacro( NarrowBandwidth, double, 0.0, 
     NumericTraits<double>::max());
 
-  /**
-   * Get the narrow bandwidth.
-   */
+  /** Get the narrow bandwidth. */
   itkGetMacro( NarrowBandwidth, double );
 
-  /**
-   * Get the number of pixels in the narrowband.
-   */
+  /** Get the number of pixels in the narrowband. */
   int GetNarrowBandSize()
     { 
     if( !m_NarrowBanding ) return 0;
     return m_InputNarrowBand->Size();
     }
 
-  /**
-   * Set the input narrowband.
-   */
+  /** Set the input narrowband. */
   void SetInputNarrowBand( NodeContainer *ptr );
 
-  /** 
-   * Get the input narrowband.
-   */
+  /** Get the input narrowband. */
   NodeContainerPointer GetInputNarrowBand( )
-    {
-    return m_InputNarrowBand;
-    }
+    { return m_InputNarrowBand; }
 
-  /**
-   * Set the number of iterations. Default is 10.
-   */
+  /** Set the number of iterations. Default is 10. */
   itkSetMacro( NumberOfIterations, unsigned int );
 
-  /**
-   * Get the number of iterations.
-   */
+  /** Get the number of iterations. */
   itkGetMacro( NumberOfIterations, unsigned int );
 
 protected:
@@ -193,65 +150,45 @@ protected:
   ~LevelSetImageFilter(){};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * Allocate the internal buffers for internal interations.
-   */
+  /** Allocate the internal buffers for internal interations. */
   virtual void AllocateBuffers(bool outputOnly = false);
 
-  /**
-   * Swap the pointers to the two internal pointers. Useful
+  /** Swap the pointers to the two internal pointers. Useful
    * when the output of one iteration is the input to the next
-   * iteration.
-   */
+   * iteration. */
   virtual void SwapBuffers();
 
-  /**
-   * Copy data from the input level set to the internal input
-   * buffer.
-   */
+  /** Copy data from the input level set to the internal input
+   * buffer. */
   virtual void CopyInputToInputBuffer();
 
-  /**
-   * Copy data from the internal output buffer to the process
-   * buffer.
-   */
+  /** Copy data from the internal output buffer to the process
+   * buffer. */
   virtual void CopyOutputBufferToOutput();
 
-  /**
-   * Get a pointer to the internal input buffer.
-   */
+  /** Get a pointer to the internal input buffer. */
   LevelSetPointer GetInputBuffer()
     { return m_InputBuffer; }
 
-  /**
-   * Get a pointer to the internal output buffer.
-   */
+  /** Get a pointer to the internal output buffer. */
   LevelSetPointer GetOutputBuffer()
     { return m_OutputBuffer; }
 
-  /**
-   * Generate the output data. Subclasses must provide this method.
-   */
+  /** Generate the output data. Subclasses must provide this method. */
   virtual void GenerateData() = 0;
 
-  /**
-   * Specify the required input region to satisfiy the output
+  /** Specify the required input region to satisfiy the output
    * request. The default is to request for the largest
    * possible region for any output. Subclasses should override
    * this method if a different input size is desired.
-   *
-   * \sa ProcessObject::GenerateInputRequestedRegion()
-   */
+   * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();
 
-  /**
-   * Specify a larger than requested output region. The default
+  /** Specify a larger than requested output region. The default
    * is to enlarge the requested region to the largest possible.
    * Subclasses should override this method if a different
    * output region is desired.
-   *
-   * \sa ProcessObject::EnlargeOutputRequestedRegion();
-   */
+   * \sa ProcessObject::EnlargeOutputRequestedRegion(); */
   virtual void EnlargeOutputRequestedRegion(DataObject * output);
 
 private:

@@ -65,77 +65,45 @@ class ITK_EXPORT HybridFilter:
 {
 
 public:
-
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef HybridFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>                Pointer;
   typedef SmartPointer<const Self>      ConstPointer;
 
-
-  /** 
-   *  Smoothing filter type
-   */
-  typedef BalloonForceFilter<TInputMesh,TOutputMesh>  BalloonForceFilterType;
-
-
-  /** 
-   *  Derivative along one dimension filter type
-   */
-  typedef GibbsPriorFilter<TInputImage,TOutputImage>  GibbsPriorFilterType;
-
-  /** 
-   *  Pointer to a balloon force filter 
-   */
-  typedef typename BalloonForceFilterType::Pointer  BalloonForceFilterPointer;
-
-
-  /** 
-   *  Pointer to a gibbs prior filter 
-   */
-  typedef typename GibbsPriorFilterType::Pointer  GibbsPriorFilterPointer;                                  
-                                  
-  typedef
-    ImageRegionIteratorWithIndex< TOutputImage > OutputImageIterator;
-  
-  /** 
-   * Image Dimension
-   */
-  enum { ImageDimension = TInputImage::ImageDimension };
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Set potential of the balloon force filter 
-   * using the output of gibbs prior filter
-   */
+  /**  Smoothing filter type. */
+  typedef BalloonForceFilter<TInputMesh,TOutputMesh>  BalloonForceFilterType;
+
+  /**  Derivative along one dimension filter type. */
+  typedef GibbsPriorFilter<TInputImage,TOutputImage>  GibbsPriorFilterType;
+
+  /**  Pointer to a balloon force filter. */
+  typedef typename BalloonForceFilterType::Pointer  BalloonForceFilterPointer;
+
+  /**  Pointer to a gibbs prior filter. */
+  typedef typename GibbsPriorFilterType::Pointer  GibbsPriorFilterPointer;                                  
+  /** Iterator type. */
+  typedef ImageRegionIteratorWithIndex< TOutputImage > OutputImageIterator;
+  
+  /** Image dimension. */
+  enum { ImageDimension = TInputImage::ImageDimension };
+
+  /** Set potential of the balloon force filter 
+   * using the output of gibbs prior filter */
   void SetPotential( void );
 
-  /**
-   * Sent object region labelled by the deformable 
-   * model to the gibbs prior model for parameter update 
-   */
+  /** Sent object region labelled by the deformable 
+   * model to the gibbs prior model for parameter update  */
   void SetObjectRegion( void );
 
-  /**
-   * Set the balloon force filter and gibbs prior filter
-   */
+  /** Set the balloon force filter and gibbs prior filter */
   void SetBalloonForceFilter(BalloonForceFilterPointer  bffilter);
   void SetGibbsPriorFilter(GibbsPriorFilterPointer  gpfilter);
 
+  /** Algorithm specific methods. */
   void Advance();
   void SetGibbsInput();
 
@@ -143,9 +111,7 @@ protected:
   HybridFilter();
   virtual ~HybridFilter() {};
   
-  /**
-   * Generate Data
-   */
+  /** Generate data. */
   virtual void GenerateData();
 
 private:

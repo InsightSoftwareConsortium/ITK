@@ -47,9 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
-/**
- *
- * \class LevelSetEquation
+/** \class LevelSetEquation
  *
  * \f$\phi_{t} = \alpha \stackrel{\rightharpoonup}{F}(\mathbf{x})\cdot\nabla\phi
  * + \beta G(\mathbf{x})\mid\nabla\phi\mid + \gamma Z(\mathbf{x})\kappa\f$
@@ -61,76 +59,55 @@ template <class TImageType>
 class LevelSetEquation : public FiniteDifferenceEquation<TImageType>
 {
 public:
-  /**
-   * Standard itk Self & Superclass typedefs
-   */
+  /** Standard class typedefs. */
   typedef LevelSetEquation Self;
   typedef FiniteDifferenceEquation<TImageType> Superclass;
+  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
-  /**
-   * Extract some parameters from the image type
-   */
-  typedef typename Superclass::ImageType ImageType;
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods) */
+  itkTypeMacro( LevelSetEquation,  FiniteDifferenceEquation );
+
+  /** The image dimension. */
   enum { ImageDimension = Superclass::ImageDimension };
+
+  /** Extract some parameters from the image type. */
+  typedef typename Superclass::ImageType ImageType;
   typedef typename Superclass::PixelType        PixelType;
   typedef double TimeStepType;
   typedef PixelType  ScalarValueType;
   typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::BoundaryNeighborhoodType
-  BoundaryNeighborhoodType;
+                   BoundaryNeighborhoodType;
   typedef typename Superclass::FloatOffsetType  FloatOffsetType;
   
-  /**
-   * The vector type that will be used in the calculations.
-   */
+  /** The vector type that will be used in the calculations. */
   typedef Vector<ScalarValueType, ImageDimension> VectorType;
 
-  /** 
-   * Smart pointer support for this class.
-   */
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-
-  /**
-   * Run-time type information (and related methods)
-   */
-  itkTypeMacro( LevelSetEquation,  FiniteDifferenceEquation );
-
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-
-  /**
-   * Advection field.  Default implementation returns a vector of zeros.
-   */
+  /** Advection field.  Default implementation returns a vector of zeros. */
   virtual VectorType AdvectionField(const NeighborhoodType &neighborhood,
                                     const FloatOffsetType &)  const
     { return m_ZeroVectorConstant; }
-
   virtual VectorType AdvectionField(const BoundaryNeighborhoodType
                                     &neighborhood, const FloatOffsetType &
                                     ) const
     { return m_ZeroVectorConstant; }
   
-  /**
-   * Propagation speed.  Default implementation returns zero.
-   */
+  /** Propagation speed.  Default implementation returns zero. */
   virtual ScalarValueType PropagationSpeed(
-                          const NeighborhoodType& neighborhood,
-                            const FloatOffsetType
-                          ) const
+    const NeighborhoodType& neighborhood,
+    const FloatOffsetType ) const
+    { return NumericTraits<ScalarValueType>::Zero; }
+  virtual ScalarValueType PropagationSpeed(
+    const BoundaryNeighborhoodType
+    &neighborhood, const FloatOffsetType &) const
     { return NumericTraits<ScalarValueType>::Zero; }
 
-  virtual ScalarValueType PropagationSpeed(const BoundaryNeighborhoodType
-                               &neighborhood, const FloatOffsetType &
-                                           ) const
-    { return NumericTraits<ScalarValueType>::Zero; }
-
-  /**
-   * Curvature speed.  Default implementation returns one.
-   */
+  /** Curvature speed.  Default implementation returns one. */
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType
                                          &neighborhood, const FloatOffsetType &
                                          ) const
@@ -141,33 +118,25 @@ public:
                                          ) const
     { return NumericTraits<ScalarValueType>::One; }
 
-  /**
-   * Alpha
-   */
+  /** Alpha. */
   void SetAdvectionWeight(const ScalarValueType a)
     { m_AdvectionWeight = a; }
   ScalarValueType GetAdvectionWeight() const
     { return m_AdvectionWeight; }
   
-  /**
-   * Beta
-   */
+  /** Beta. */
   void SetPropagationWeight(const ScalarValueType p)
     { m_PropagationWeight = p; }
   ScalarValueType GetPropagationWeight() const
     { return m_PropagationWeight; }
   
-  /**
-   * Gamma
-   */
+  /** Gamma. */
   void SetCurvatureWeight(const ScalarValueType c)
     { m_CurvatureWeight = c; }
   ScalarValueType GetCurvatureWeight() const
     { return m_CurvatureWeight; }
   
-  /**
-   *
-   */
+  /** Epsilon. */
   void SetEpsilonMagnitude(const ScalarValueType e)
     { m_EpsilonMagnitude = e; }
   ScalarValueType GetEpsilonMagnitude() const
@@ -181,50 +150,36 @@ protected:
         NumericTraits<ScalarValueType>::Zero;
     }
   ~LevelSetEquation() {}
+
   void PrintSelf(std::ostream& os, Indent indent) const
   {
     os << indent << "LevelSetEquation";
     Superclass::PrintSelf(os, indent.GetNextIndent() );
   }
-  /**
-   * Inner product function.
-   */
+
+  /** Inner product function. */
   NeighborhoodInnerProduct<ImageType> m_InnerProduct;
 
-  /**
-   * Boundary Inner product function.
-   */
+  /** Boundary Inner product function. */
   SmartNeighborhoodInnerProduct<ImageType> m_SmartInnerProduct;
 
-  /**
-   * This method's only purpose is to initialize the zero vector
-   * constant.
-   */
+  /** This method's only purpose is to initialize the zero vector
+   * constant. */
   static VectorType InitializeZeroVectorConstant();
   
-  /**
-   * Zero vector constant.
-   */
+  /** Zero vector constant. */
   static VectorType m_ZeroVectorConstant;
 
-  /**
-   * Epsilon magnitude controls the lower limit for gradient magnitude   
-   */
+  /** Epsilon magnitude controls the lower limit for gradient magnitude. */
   ScalarValueType m_EpsilonMagnitude;
   
-  /**
-   * alpha
-   */
+  /** Alpha. */
   ScalarValueType m_AdvectionWeight;
 
-  /**
-   * beta
-   */
+  /** Beta. */
   ScalarValueType m_PropagationWeight;
 
-  /**
-   * gamma
-   */
+  /** Gamma. */
   ScalarValueType m_CurvatureWeight;
 
 private:

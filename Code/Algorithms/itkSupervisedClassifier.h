@@ -82,99 +82,58 @@ namespace itk
  * image is treated as a single band scalar image.
  *
  * \ingroup SupervisedClassificationFilters 
- *
  */
-
 template <class TInputImage, class TClassifiedImage>
 class ITK_EXPORT SupervisedClassifier: 
 public Classifier<TInputImage,TClassifiedImage>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef SupervisedClassifier   Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef Classifier<TInputImage,TClassifiedImage> Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(SupervisedClassifier,Classifier);
 
-  /**
-   * Type definition for the input image.
-   */
+  /** Type definition for the input image. */
   typedef typename TInputImage::Pointer   InputImageType;
  
-  /**
-   * Type definition for the vector associated with
-   * input image pixel type.
-   */     
+  /** Type definition for the vector associated with
+   * input image pixel type. */     
   typedef typename TInputImage::PixelType InputImageVectorType;
 
-  /**
-   * Type definitions for the training image.
-   */
+  /** Type definitions for the training image. */
   typedef typename TClassifiedImage::Pointer TrainingImageType;
 
-  /**
-   * Type definitions for the training image pixel type.
-   */
+  /** Type definitions for the training image pixel type. */
   typedef typename TClassifiedImage::Pointer ClassifiedImageType;      
         
-  /**
-   * Type definitions for the vector holding
-   * training image pixel type.
-   */
-  typedef typename TClassifiedImage::PixelType 
-    TrainingImagePixelType;
+  /** Type definitions for the vector holding
+   * training image pixel type. */
+  typedef typename TClassifiedImage::PixelType TrainingImagePixelType;
 
-  /**
-   * Set the Training Image 
-   */
+  /** Set/Get the training image.  */
   void SetTrainingImage ( TrainingImageType image );
-
-  /**
-   * Get the Training Image
-   */
   TrainingImageType GetTrainingImage()
-  {
-    return m_TrainingImage;
-  }
+    { return m_TrainingImage; }
 
-  /**
-   * A virtual function that generates the 
+  /** A virtual function that generates the 
    * model based on the training input data
-   * Achieves the goal of training the classifier.
-   */
+   * Achieves the goal of training the classifier. */
   virtual void TrainClassifier() {};
 
-  /**
-   * Define a virtual Classifier function to classify the whole image.
-   */
+  /** Define a virtual Classifier function to classify the whole image. */
   virtual void ClassifyImage(){};
 
-  /**
-   * A virtual Function that returns the
+  /** A virtual Function that returns the
    * the probabilties of a given data item belonging
-   * to a certain class
-   */
+   * to a certain class. */
   virtual void GetPixelDistance( InputImageVectorType &inPixelVec,
-    double * results )=0;
+                                 double * results )=0;
   
-  /**
-  * Prints out the results using STL cout function.
-  */
+  /** Prints out the results using STL cout function. */
   virtual void PrintResults(){};
 
 protected: 
@@ -182,9 +141,7 @@ protected:
   ~SupervisedClassifier();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * Allocate memory for the classified image
-   */
+  /** Allocate memory for the classified image. */
   void Allocate();
 
 private:
@@ -192,7 +149,6 @@ private:
   void operator=(const Self&); //purposely not implemented
   
   typedef typename TInputImage::SizeType InputImageSizeType;
-        
   TrainingImageType   m_TrainingImage;
 
 }; // class SupervisedClassifier

@@ -46,9 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
-/**
- *
- * \class LevelSet2DEquation
+/** \class LevelSet2DEquation
  *
  * \f$\phi_{t} = \alpha \stackrel{\rightharpoonup}{F}(\mathbf{x})\cdot\nabla\phi
  * + \beta G(\mathbf{x})\mid\nabla\phi\mid + \gamma Z(\mathbf{x})\kappa\f$
@@ -68,76 +66,56 @@ class LevelSet2DEquation
   : public LevelSetEquation<TImageType>
 {
 public:
-  /**
-   * Standard itk Self & Superclass typedefs
-   */
+  /** Standard class typedefs. */
   typedef LevelSet2DEquation Self;
   typedef LevelSetEquation<TImageType> Superclass;
+  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
-  /**
-   * Inherit some parameters from the superclass
-   */
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods) */
+  itkTypeMacro( LevelSet2DEquation, LevelSetEquation );
+
+  /** Extract some parameters from the superclass. */
   typedef typename Superclass::ImageType ImageType;
+
+  /** Extract some parameters from the superclass. */
   enum { ImageDimension = Superclass::ImageDimension };
 
+  /** Convenient typedefs. */
   typedef typename Superclass::PixelType        PixelType;
   typedef typename Superclass::TimeStepType  TimeStepType;
   typedef typename Superclass::ScalarValueType  ScalarValueType;
   typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::BoundaryNeighborhoodType
-    BoundaryNeighborhoodType;
+                   BoundaryNeighborhoodType;
   typedef typename Superclass::VectorType VectorType;
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
 
-  /** 
-   * Smart pointer support for this class.
-   */
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-
-  /**
-   * Run-time type information (and related methods)
-   */
-  itkTypeMacro( LevelSet2DEquation, LevelSetEquation );
-
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-
-  /**
-   *
-   */
+  /** Compute the equation value. */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
                                   void *globalData,
-                 const FloatOffsetType& = m_ZeroOffset)  const ;
-
-  /**
-   *
-   */
+                                  const FloatOffsetType& = m_ZeroOffset) const;
   virtual PixelType ComputeUpdate(const BoundaryNeighborhoodType
                                   &neighborhood, void * globalData,
-                                    const FloatOffsetType& = m_ZeroOffset) const;
+                                  const FloatOffsetType& = m_ZeroOffset) const;
 
- /**
-   * Computes the time step for an update given a global data structure.
+ /** Computes the time step for an update given a global data structure.
    * The data used in the computation may take different forms depending on
    * the nature of the equations.  This global data cannot be kept in the
    * instance of the equation object itself since the equation object must
    * remain stateless for thread safety.  The global data is therefore managed
-   * for each thread by the finite difference solver filters.
-   */
+   * for each thread by the finite difference solver filters. */
   virtual TimeStepType ComputeGlobalTimeStep(void *GlobalData) const;
 
-  /**
-   * Returns a pointer to a global data structure that is passed to this
-   * object from the solver at each calculation.  The idea is that the
-   * solver holds the state of any global values needed to calculate the
-   * time step, while the equation object performs the actual calculations.
-   *
-   * The global data should also be initialized in this method.
-   */
+  /** Returns a pointer to a global data structure that is passed to this
+   * object from the solver at each calculation.  The idea is that the solver
+   * holds the state of any global values needed to calculate the time step,
+   * while the equation object performs the actual calculations.  The global
+   * data should also be initialized in this method. */
   virtual void *GetGlobalDataPointer() const
     {
       GlobalDataStruct *ans = new GlobalDataStruct();
@@ -146,29 +124,21 @@ public:
       return ans; 
     }
 
-  /**
-   * This method creates the appropriate member variable operators for the
+  /** This method creates the appropriate member variable operators for the
    * level-set calculations.  The argument to this function is a the radius
-   * necessary for performing the level-set calculations.
-   */
+   * necessary for performing the level-set calculations. */
   virtual void Initialize(const RadiusType &r);
-
   
-  /**
-   * When the finite difference solver filter has finished using a global
+  /** When the finite difference solver filter has finished using a global
    * data pointer, it passes it to this method, which frees the memory.
-   *
    * The solver cannot free the memory because it does not know the type
-   * to which the pointer points.
-   */
+   * to which the pointer points. */
   virtual void ReleaseGlobalDataPointer(void *GlobalData) const
-    {      delete (GlobalDataStruct *) GlobalData;    }
+    { delete (GlobalDataStruct *) GlobalData; }
 
 protected:
-  /**
-   * A global data type for this class of equations.  Used to store
-   * values that are needed in calculating the time step.
-   */
+  /** A global data type for this class of equations.  Used to store
+   * values that are needed in calculating the time step. */
   struct GlobalDataStruct
   {
     ScalarValueType m_MaxAdvectionChange;
@@ -178,14 +148,12 @@ protected:
   LevelSet2DEquation() {}
   ~LevelSet2DEquation() {}
   void PrintSelf(std::ostream& os, Indent indent) const
-  {
+    {
     os << indent << "LevelSet2DEquation";
     Superclass::PrintSelf(os, indent.GetNextIndent() );
-  }
+    }
 
-  /**
-   * Constants used in the time step calculation.
-   */
+  /** Constants used in the time step calculation. */
   static double m_WaveDT;
   static double m_DT;
 
@@ -193,30 +161,20 @@ private:
   LevelSet2DEquation(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  /**
-   * First order derivative operator
-   */
+  /** First order derivative operator. */
   DerivativeOperator<ScalarValueType, 2>  dx_op;
 
-  /**
-   * Second order derivative operator
-   */
+  /** Second order derivative operator. */
   DerivativeOperator<ScalarValueType, 2>  dxx_op;
 
-  /**
-   * Slices for the 2D neighborhood.
-   */
+  /** Slices for the 2D neighborhood. */
   std::slice  x_slice;
   std::slice  y_slice;
 
-  /**
-   * The offset of the center pixel in the neighborhood
-   */
+  /** The offset of the center pixel in the neighborhood. */
   ::size_t m_Center;
 
-  /**
-   * Stride length along the y-dimension
-   */
+  /** Stride length along the y-dimension. */
   ::size_t m_yStride;
 
 };

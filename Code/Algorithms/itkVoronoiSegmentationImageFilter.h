@@ -56,8 +56,9 @@ namespace itk
  * The parameters here are: 
  * 1. the estimation of the statistics of the object. (mean and std.)
  * 2. the tolerance for the classification. (around the mean ans std. estimated value).
- * The parameters can also be automatically set by given a prior, as a binary image.
  *
+ * The parameters can also be automatically set by given a prior, as a binary
+ * image.
  *
  * Detail information about this algorithm can be found in:
  *  " Semi-automated color segmentation of anatomical tissue,"
@@ -66,94 +67,62 @@ namespace itk
  *
  * \ingroup HybridSegmentation 
  */
-
 template <class TInputImage, class TOutputImage>
 class VoronoiSegmentationImageFilter:
 public VoronoiSegmentationImageFilterBase<TInputImage,TOutputImage>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef VoronoiSegmentationImageFilter       Self;
-
-  /** 
-   * Smart pointer typedef support.
-   */
+  typedef VoronoiSegmentationImageFilterBase<TInputImage,TOutputImage> 
+          Superclass;
   typedef SmartPointer <Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Standard "Superclass" typedef.
-   */
-  typedef VoronoiSegmentationImageFilterBase<TInputImage,TOutputImage>   Superclass;
-
-
-  /**
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(VoronoiSegmentationImageFilter,VoronoiSegmentationImageFilterBase);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(VoronoiSegmentationImageFilter,
+               VoronoiSegmentationImageFilterBase);
 
+  /** Convenient typedefs.
   typedef typename Superclass::BinaryObjectImage BinaryObjectImage;
   typedef typename Superclass::IndexList IndexList;
 
-  /**
-   * Set the Estimation of the mean pixel value for the object.
-   */
+  /** Set/Get the Estimation of the mean pixel value for the object. */
   itkSetMacro(Mean, double);
-
-  /**
-   * Get the Estimation of the mean pixel value for the object.
-   */
   itkGetMacro(Mean, double);
-  /**
-   * Set the Estimation of the variance of the pixel value for the object.
-   */
+
+  /** Set/Get the estimation of the variance of the pixel value for the
+   *  object. */
   itkSetMacro(Var, double);
-  /**
-   * Get the Estimation of the variance of the pixel value for the object.
-   */
   itkGetMacro(Var, double);
 
-  /**
-   * Set the Tolearance of Mean for classifying the regions
-   */
+  /** Set/Get the Tolearance of Mean for classifying the regions. */
   itkSetMacro(MeanTolerance, double);
-
-  /**
-   * Get the Tolearance of Mean for classifying the regions
-   */
   itkGetMacro(MeanTolerance, double);
 
-  /**
-   * Set the Tolearance of Variance for classifying the regions
-   */
+  /** Set the Tolearance of Variance for classifying the regions. */
   itkSetMacro(VarTolerance, double);
 
-  /**
-   * Get the Tolearance of Variance for classifying the regions
-   */
+  /** Get the Tolearance of Variance for classifying the regions. */
   itkGetMacro(VarTolerance, double);
   
-  itkGetMacro(MeanPercentError, double);
-  itkGetMacro(VarPercentError, double);
-
+  /** Set/Get the mean percent error. */
   void SetMeanPercentError(double x);
+  itkGetMacro(MeanPercentError, double);
+
+  /** Set/Get the variance percent error. */
+  itkGetMacro(VarPercentError, double);
   void SetVarPercentError(double x);
 
-  /**
-   * take a prior from other segmentation node, should be an
-   * binary object.
-   */
+  /** Take a prior from other segmentation node, should be an
+   * binary object. */
   void TakeAPrior(BinaryObjectImage* aprior);
   
-  void Reset(void); //reset the segmentation, ready for taking aprior from itself
+  /** Reset the segmentation, ready for taking aprior from itself. */
+  void Reset(void); 
   
 protected:
   VoronoiSegmentationImageFilter();

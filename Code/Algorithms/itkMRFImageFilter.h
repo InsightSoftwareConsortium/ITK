@@ -127,179 +127,98 @@ namespace itk
  *
  * \ingroup MRFFilters
  */
-
 template <class TInputImage, class TClassifiedImage>
 class ITK_EXPORT MRFImageFilter : 
   public ImageToImageFilter<TInputImage,TClassifiedImage>
-
 {
 public:       
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef MRFImageFilter   Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef ImageToImageFilter<TInputImage,TClassifiedImage> Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(MRFImageFilter,Object);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Type definition for the input image.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(MRFImageFilter,Object);
+
+  /** Type definition for the input image. */
   typedef typename TInputImage::Pointer              InputImageType;  
 
-  /**
-   * Type definition for the input image pixel type.
-   */
+  /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType            InputPixelType;
 
-  /**
-   * Type definitions for the training image.
-   */
+  /** Type definitions for the training image. */
   typedef typename TClassifiedImage::Pointer         TrainingImageType;
 
-  /**
-   * Type definitions for the training image pixel type.
-   */
+  /** Type definitions for the training image pixel type. */
   typedef typename TClassifiedImage::PixelType       TrainingPixelType;
 
-  /**
-   * Type definitions for the labelled image.
-   * It is derived from the training image.
-   */
+  /** Type definitions for the labelled image.
+   * It is derived from the training image. */
   typedef typename TClassifiedImage::Pointer         LabelledImageType;
       
-  /**
-   * Type definitions for the classified image pixel type.
-   * It has to be the same type as the training image.
-   */
+  /** Type definitions for the classified image pixel type.
+   * It has to be the same type as the training image. */
   typedef typename TClassifiedImage::PixelType       LabelledPixelType;
 
-  /**
-   * Type definition for the classified image index type.
-   */
+  /** Type definition for the classified image index type. */
   typedef typename TClassifiedImage::IndexType       LabelledImageIndexType;
 
-  /**
-   * Type definition for the classified image offset type.
-   */
+  /** Type definition for the classified image offset type. */
   typedef typename TClassifiedImage::OffsetType       LabelledImageOffsetType;
 
-  /**
-   * Type definitions for classifier to be used for the MRF lavbelling.
-   */
+  /** Type definitions for classifier to be used for the MRF lavbelling. */
   typedef Classifier<TInputImage,TClassifiedImage> ClassifierType;
-
   typedef typename TInputImage::PixelType      InputImagePixelType;
   typedef typename TClassifiedImage::PixelType TrainingImagePixelType;
   typedef typename TClassifiedImage::PixelType LabelledImagePixelType;
-
-  typedef
-    ImageRegionIteratorWithIndex< TInputImage > InputImageIterator;
-
-  typedef
-    ImageRegionIteratorWithIndex< TClassifiedImage > LabelledImageIterator;
-
-
+  typedef ImageRegionIteratorWithIndex< TInputImage > InputImageIterator;
+  typedef ImageRegionIteratorWithIndex< TClassifiedImage > 
+          LabelledImageIterator;
   typedef typename TInputImage::PixelType    InputImageVectorType;
 
-  /**
-   * Set the image required for training type classifiers
-   */
+  /** Set the image required for training type classifiers. */
   void SetTrainingImage(TrainingImageType image);
 
-  /** 
-   * Set the labelled image. 
-   */
+  /** Set the labelled image.  */
   void SetLabelledImage(LabelledImageType LabelledImage);
 
-  /** 
-   * Get the labelled image. 
-   */
+  /** Get the labelled image.  */
   LabelledImageType GetLabelledImage()
-  {
-    return m_LabelledImage;
-  }
+    { return m_LabelledImage; }
 
-  /**
-   * Set the pointer to the classifer being used.
-   */
+  /** Set the pointer to the classifer being used. */
   void SetClassifier( typename ClassifierType::Pointer ptrToClassifier );
 
-  /**
-   * Set the Number of class macro
-   */
+  /** Set/Get the number of classes. */
   itkSetMacro(NumberOfClasses, unsigned int);
-
-  /**
-   * Get the Number of class macro
-   */
   itkGetMacro(NumberOfClasses, unsigned int);
 
-  /**
-   * Set the number of iteration of the Iterated Conditional Mode
-   * (ICM) algorithm. A default value is set at 50 iterations.
-   */
+  /** Set/Get the number of iteration of the Iterated Conditional Mode
+   * (ICM) algorithm. A default value is set at 50 iterations. */
   itkSetMacro(MaximumNumberOfIterations, unsigned int);
-
-  /**
-   * Set the number of iteration of the Iterated Conditional Mode
-   * (ICM) algorithm.
-   */
   itkGetMacro(MaximumNumberOfIterations, unsigned int);
 
-  /**
-   * Set the error tollerance level which is used as a threshold
-   * to quit the iterations
-   */
+  /** Set/Get the error tollerance level which is used as a threshold
+   * to quit the iterations */
   itkSetMacro(ErrorTolerance, double);
-
-  /**
-   * Get the error tollerance level which is used as a threshold
-   * to quit the iterations
-   */
   itkGetMacro(ErrorTolerance, double);
 
-
-  /**
-   * Set the weighting parameters (Beta Matrix). A default 3 x 3 x 3 
+  /** Set/Get the weighting parameters (Beta Matrix). A default 3 x 3 x 3 
    * matrix is provided. However, the user is allowed to override it
-   * with their choice of weights for a 3 x 3 x 3 matrix.
-   */
+   * with their choice of weights for a 3 x 3 x 3 matrix. */
   virtual void SetBeta( double* );
-
-  /**
-   * Get Beta matrix
-   */
   double* GetBeta()
-  {
-    return m_Beta3x3x3;
-  }
+    { return m_Beta3x3x3; }
 
-  /**
-   * Set the weighting parameters (Beta Matrix). This is an overloaded
+  /** Set the weighting parameters (Beta Matrix). This is an overloaded
    * function allowing the users to set the Beta Matrix by providing a 
    * a 1D array of weights. Current implementation supports only a 
    * 3 x 3 x 3 kernel. The labeler needs to be extended for a different
-   * kernel size.
-   */
+   * kernel size. */
   virtual void SetBeta( double *BetaMatrix, unsigned int kernelSize );
   virtual void SetBeta( vnl_vector<double> BetaMatrix );
       
@@ -308,22 +227,16 @@ protected:
   ~MRFImageFilter();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * Allocate memory for Labelled Images
-   */
+  /** Allocate memory for labelled images. */
   void Allocate();
 
-  /**
-   * Apply MRF Classifier. In this example the images are labelled using
+  /** Apply MRF Classifier. In this example the images are labelled using
    * Iterated Conditional Mode algorithm by J. Besag, "On statistical
    * analysis of dirty pictures," J. Royal Stat. Soc. B, vol. 48,
-   * pp. 259-302, 1986.
-   */
+   * pp. 259-302, 1986. */
   virtual void ApplyMRFImageFilter();  
 
-  /**
-   * Minimization algorithm to be used.
-   */
+  /** Minimization algorithm to be used. */
   virtual void MinimizeFunctional();
 
   virtual void GenerateData();
@@ -350,9 +263,7 @@ private:
   double                 *m_ClassProbability; //Class liklihood
   double                 *m_Beta3x3x3;
 
-  /**
-   * Pointer to the classifier to be used for the MRF lavbelling.
-   */
+  /** Pointer to the classifier to be used for the MRF lavbelling. */
   typename ClassifierType::Pointer m_ClassifierPtr;
 
 

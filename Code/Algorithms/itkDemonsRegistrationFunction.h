@@ -79,200 +79,134 @@ class ITK_EXPORT DemonsRegistrationFunction :
     TTarget, TDeformationField>
 {
 public:
-
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef DemonsRegistrationFunction    Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef PDEDeformableRegistrationFunction< TReference,
     TTarget, TDeformationField >    Superclass;
-
-  /**
-   * Smart pointer support for this class.
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
-  /**
-   * Run-time type information (and related methods)
-   */
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
   itkTypeMacro( DemonsRegistrationFunction, 
     PDEDeformableRegistrationFunction );
 
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-
-  /**
-   * Reference image type.
-   */
+  /** Reference image type. */
   typedef typename Superclass::ReferenceType     ReferenceType;
   typedef typename Superclass::ReferencePointer  ReferencePointer;
 
-  /**
-   * Target image type.
-   */
+  /** Target image type. */
   typedef typename Superclass::TargetType     TargetType;
   typedef typename Superclass::TargetPointer  TargetPointer;
   typedef typename TargetType::IndexType      IndexType;
   typedef typename TargetType::SizeType       SizeType;
   
-  /**
-   * Deformation field type.
-   */
+  /** Deformation field type. */
   typedef typename Superclass::DeformationFieldType    DeformationFieldType;
   typedef typename Superclass::DeformationFieldTypePointer   
     DeformationFieldTypePointer;
 
-  /**
-   * Inherit some enums and typedefs from Superclass
-   */
+  /** Inherit some enums from the superclass. */
   enum{ ImageDimension = Superclass::ImageDimension };
+
+  /** Inherit some enums from the superclass. */
   typedef typename Superclass::PixelType     PixelType;
   typedef typename Superclass::RadiusType    RadiusType;
   typedef typename Superclass::NeighborhoodType    NeighborhoodType;
   typedef typename Superclass::BoundaryNeighborhoodType    
-    BoundaryNeighborhoodType;
+                   BoundaryNeighborhoodType;
   typedef typename Superclass::FloatOffsetType  FloatOffsetType;
   typedef typename Superclass::TimeStepType TimeStepType;
 
-
-  /**
-   * Interpolator type
-   */
+  /** Interpolator type. */
   typedef InterpolateImageFunction<ReferenceType> InterpolatorType;
   typedef typename InterpolatorType::Pointer         InterpolatorPointer;
   typedef typename InterpolatorType::PointType       PointType;
   typedef LinearInterpolateImageFunction<ReferenceType>
     DefaultInterpolatorType;
 
-  /** 
-   * Covariant vector type
-   */
+  /** Covariant vector type. */
   typedef CovariantVector<double,ImageDimension> CovariantVectorType;
 
-  /**
-   * Gradient calculator type
-   */
+  /** Gradient calculator type. */
   typedef CentralDifferenceImageFunction<TargetType> GradientCalculatorType;
   typedef typename GradientCalculatorType::Pointer   GradientCalculatorPointer;
 
-
-  /**
-   * Set the reference interpolator
-   */
+  /** Set the reference interpolator. */
   void SetReferenceInterpolator( InterpolatorType * ptr )
-    {
-    m_ReferenceInterpolator = ptr;
-    }
+    { m_ReferenceInterpolator = ptr; }
 
-  /**
-   * Get the reference interpolator
-   */
+  /** Get the reference interpolator. */
   InterpolatorPointer GetReferenceInterpolator()
     { return m_ReferenceInterpolator; }
 
-  /**
-   * This class uses a constant timestep of 1.
-   */
+  /** This class uses a constant timestep of 1. */
   virtual TimeStepType ComputeGlobalTimeStep(void *GlobalData) const
     { return m_TimeStep; }
 
-  /**
-   * Return a pointer to a global data structure that is passed to
-   * this object from the solver at each calculation. 
-   */
+  /** Return a pointer to a global data structure that is passed to
+   * this object from the solver at each calculation.  */
   virtual void *GetGlobalDataPointer() const
     {
     GlobalDataStruct *global = new GlobalDataStruct();
     return global;
     }
 
-  /**
-   * Release memory for global data structur
-   */
+  /** Release memory for global data structure. */
   virtual void ReleaseGlobalDataPointer( void *GlobalData ) const
-    {
-    delete (GlobalDataStruct *) GlobalData;
-    }
+    { delete (GlobalDataStruct *) GlobalData;  }
 
-  /**
-   * Set the object's state before each iteration.
-   */
+  /** Set the object's state before each iteration. */
   virtual void InitializeIteration();
 
-
-  /**
-   * This method is called by a finite difference solver image filter at
-   * each pixel that does not lie on a data set boundary
-   */
+  /** This method is called by a finite difference solver image filter at
+   * each pixel that does not lie on a data set boundary */
   virtual PixelType  ComputeUpdate(const NeighborhoodType &neighborhood,
-                                   void *globalData,
-                              const FloatOffsetType &offset = m_ZeroOffset) const;
+                     void *globalData,
+                     const FloatOffsetType &offset = m_ZeroOffset) const;
 
-  /**
-   * This method is called by a finite difference solver image filter at
-   * each pixel that lies on the data set boundary.
-   */
+  /** This method is called by a finite difference solver image filter at
+   * each pixel that lies on the data set boundary. */
   virtual PixelType  ComputeUpdate(const BoundaryNeighborhoodType
-                                   &neighborhood, void *globalData,
-                              const FloatOffsetType &offset = m_ZeroOffset) const;
+                     &neighborhood, void *globalData,
+                     const FloatOffsetType &offset = m_ZeroOffset) const;
 
 protected:
   DemonsRegistrationFunction();
   ~DemonsRegistrationFunction() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * Target image neighborhood iterator type
-   */
+  /** Target image neighborhood iterator type. */
   typedef ConstNeighborhoodIterator<TargetType> TargetNeighborhoodIteratorType;
 
-  /**
-   * A global data type for this class of equation. Used to store
-   * iterators for the target image.
-   */
+  /** A global data type for this class of equation. Used to store
+   * iterators for the target image. */
   struct GlobalDataStruct
    {
    TargetNeighborhoodIteratorType   m_TargetIterator;
    };
 
-
 private:
   DemonsRegistrationFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  /**
-   * Cache target image information
-   */
+  /** Cache target image information. */
   const double *                  m_TargetSpacing;
   const double *                  m_TargetOrigin;
 
-  /**
-   * Function to compute derivatives of the target image
-   */
+  /** Function to compute derivatives of the target image. */
   GradientCalculatorPointer       m_TargetGradientCalculator;
 
-  /**
-   * Function to interpolate the reference image
-   */
+  /** Function to interpolate the reference image. */
   InterpolatorPointer             m_ReferenceInterpolator;
 
-  /**
-   * The global timestep
-   */
+  /** The global timestep. */
   TimeStepType                    m_TimeStep;
 
-  /**
-   * Constant used to guard against division by zero
-   */
+  /** Constant used to guard against division by zero. */
   double                          m_EpsilonDenominator;
-   
 
 };
 

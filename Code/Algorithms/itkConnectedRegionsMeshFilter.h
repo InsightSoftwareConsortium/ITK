@@ -64,7 +64,7 @@ class ITK_EXPORT ConnectedRegionsMeshFilter :
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef ConnectedRegionsMeshFilter  Self;
 

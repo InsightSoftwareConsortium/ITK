@@ -51,8 +51,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class MultiResolutionMutualInformationRigidRegistrationTraits
+/** \class MultiResolutionMutualInformationRigidRegistrationTraits
  * \brief Trait class which defines the types for
  * MultiResolutionRegistration
  *
@@ -60,48 +59,34 @@ namespace itk
  * MultiResolutionMutualInformationRigidRegistration algorithm.
  *
  * This class illustrates the use of the multiresolution framework.
- *
  */
 template <class TReference, class TTarget>
 class ITK_EXPORT 
 MultiResolutionMutualInformationRigidRegistrationTraits
 {
 public:
-  /**
-   * Type of the reference image
-   */
+  /** Type of the reference image. */
   typedef TReference ReferenceType;
 
-  /**
-   * Type of the target image
-   */
+  /** Type of the target image. */
   typedef TTarget TargetType;
 
-  /**
-   * Type of the registration method
-   */
+  /** Type of the registration method. */
   typedef ImageToImageRigidMutualInformationGradientDescentRegistration<
     ReferenceType, TargetType> RegistrationType;
 
-  /**
-   * Type of the reference image pyramid
-   */
+  /** Type of the reference image pyramid. */
   typedef RecursiveMultiResolutionPyramidImageFilter<
     ReferenceType, ReferenceType> ReferencePyramidType;
 
-  /**
-   * Type fo the target image pyramid
-   */
+  /** Type fo the target image pyramid. */
   typedef RecursiveMultiResolutionPyramidImageFilter<
      TargetType, TargetType> TargetPyramidType;
-
-
 };
 
-
-/**
- * \class MultiResolutionMutualInformationRigidRegistration
- * \brief Rigidly register two 3D volumes using a multi-resolution mutual information algorithm
+/** \class MultiResolutionMutualInformationRigidRegistration
+ * \brief Rigidly register two 3D volumes using a multi-resolution mutual
+ * information algorithm
  *
  * MultiResolutionMutualInformationRigidRegistration performs an
  * rigid registration between a 3D target image and 3D reference image using 
@@ -134,7 +119,6 @@ public:
  *
  * GetInternalRegistrationMethod()->GetParameters();
  *
- *
  * This class is templated over the reference image type and the
  * the target image type.
  *
@@ -143,7 +127,7 @@ public:
  * \sa ImageToImageRigidMutualInformationGradientDescentRegistration
  * \sa MultiResolutionImagePyramid
  *
- * \ingroup RigidImageRegistration
+ * \ingroup RigidImageRegistration 
  */
 template <class TReference, class TTarget>
 class ITK_EXPORT
@@ -153,98 +137,60 @@ public MultiResolutionRegistration<
     TReference, TTarget> >
 {
 public:
-
-  /**
-   * Standard "Self" typedef
-   */
+  /** Standard class typedefs. */
   typedef MultiResolutionMutualInformationRigidRegistration Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef MultiResolutionRegistration<
     MultiResolutionMutualInformationRigidRegistrationTraits<
       TReference, TTarget> >  Superclass;
-
-  /**
-   * Smart pointer typedef support
-   */
    typedef SmartPointer<Self>   Pointer;
    typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
    itkNewMacro(Self);
 
-  /**
-   *  Type of the Reference
-   */
+  /**  Type of the reference. */
    typedef TReference  ReferenceType;
 
-  /**
-   *  Type of the Target
-   */
+  /**  Type of the target. */
    typedef TTarget TargetType;
 
-  /**
-   * RegistrationType typedef support
-   */
+  /** RegistrationType typedef support. */
   typedef typename Superclass::RegistrationType RegistrationType;
 
-  /**
-   * TargetImageDimension enumeration
-   */
+  /** TargetImageDimension enumeration. */
   enum{ TargetImageDimension = Superclass::TargetImageDimension };
 
-  /**
-   * Set the number of multi-resolution computation levels.
-   * This sets the levels for both the target and reference
-   * pyramids.
-   * If the argument is less than 1, it is clamped to the
-   * value of 1.
-   */
+  /** Set the number of multi-resolution computation levels.  This sets the
+   * levels for both the target and reference pyramids.  If the argument is
+   * less than 1, it is clamped to the value of 1. */
   virtual void SetNumberOfLevels(unsigned int num);
 
-  /**
-   * Set the number of iterations for each level.
-   * The number of levels must be set before calling this method.
-   */
+  /** Set the number of iterations for each level.  The number of levels must
+   * be set before calling this method. */
   itkSetVectorMacro( NumberOfIterations, unsigned int, this->GetNumberOfLevels() );
 
-  /**
-   * Get the number of iterations for each level.
-   */
+  /** Get the number of iterations for each level. */
   virtual const unsigned int * GetNumberOfIterations()
     { return &(m_NumberOfIterations[0]); }
 
-  /**
-   * Set the learning rate for each level.
-   * The number of levels must be set before calling this method.
-   */
+  /** Set the learning rate for each level.  The number of levels must be set
+   * before calling this method. */
   itkSetVectorMacro( LearningRates, double, this->GetNumberOfLevels() );
 
-  /**
-   * Get the learning rate for each level.
-   */
+  /** Get the learning rate for each level. */
   virtual const double * GetLearningRates()
     { return &(m_LearningRates[0]); }
 
 protected:
-
   MultiResolutionMutualInformationRigidRegistration();
   ~MultiResolutionMutualInformationRigidRegistration(){};
   void PrintSelf(std::ostream&os, Indent indent) const;
 
-  /**
-   * Initialize the internal registration algorithm at the
-   * specified level. Subclasses may override this method.
-   */
+  /** Initialize the internal registration algorithm at the
+   * specified level. Subclasses may override this method. */
   virtual void OneLevelPreRegistration(unsigned int level);
 
-  /**
-   * Post registration routine. Subclasse may override this method.
-   */
+  /** Post registration routine. Subclasse may override this method. */
   virtual void OneLevelPostRegistration(unsigned int level);
 
 private:

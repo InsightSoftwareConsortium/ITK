@@ -38,7 +38,6 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-
 #ifndef _itkVoronoiSegmentationImageFilterBase_h
 #define _itkVoronoiSegmentationImageFilterBase_h
 
@@ -58,45 +57,29 @@ namespace itk
  *   C. Imelinska, M. Downes, and W. Yuan  
  *  Computerized Medical Imaging and Graphics, Vor.24, pp 173-180, 2000.
  *
- *
  * \ingroup HybridSegmentation 
  */
-
 template <class TInputImage, class TOutputImage>
 class VoronoiSegmentationImageFilterBase:
 public ImageToImageFilter<TInputImage,TOutputImage>
 {
-
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef VoronoiSegmentationImageFilterBase       Self;
-
-  /** 
-   * Smart pointer typedef support.
-   */
+  typedef ImageToImageFilter<TInputImage,TOutputImage>   Superclass;
   typedef SmartPointer <Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Standard "Superclass" typedef.
-   */
-  typedef ImageToImageFilter<TInputImage,TOutputImage>   Superclass;
-
-
-  /**
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(VoronoiSegmentationImageFilterBase,ImageToImageFilter);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(VoronoiSegmentationImageFilterBase,ImageToImageFilter);
+
+  /** Get the image dimension from the template parameter. */
   enum {ImageDimension = TInputImage::ImageDimension };
   
+  /** Convenient typedefs. */
   typedef TInputImage InputImageType;
   typedef TOutputImage OutputImageType;
   typedef typename TInputImage::IndexType IndexType;
@@ -105,13 +88,11 @@ public:
   typedef typename TInputImage::PixelType PixelType;
   typedef VoronoiDiagram2D<double> VoronoiDiagram;
   typedef VoronoiDiagram2DGenerator<double> VoronoiDiagramGenerator;
-  
   typedef typename VoronoiDiagram::PointType PointType;
   typedef typename VoronoiDiagram::Cell Cell;
   typedef typename VoronoiDiagram::CellPointer CellPointer;
   typedef typename VoronoiDiagram::Pointer VoronoiPointer;
   typedef typename Cell::PointIdIterator PointIdIterator;
-
   typedef typename VoronoiDiagram::SeedsType SeedsType;
   typedef typename VoronoiDiagram::SeedsIterator SeedsIterator;
   typedef typename VoronoiDiagram::NeighborIdIterator NeighborIdIterator;
@@ -123,118 +104,90 @@ public:
   typedef typename BinaryObjectImage::Pointer  BinaryObjectImagePointer;
   typedef std::vector<IndexType> IndexList;
 
- /* for output the drawing of Voronoi Diagram */ 
+  /** For output the drawing of Voronoi Diagram. */ 
   typedef itk::Image<unsigned char,2>  VDImage; 
   typedef typename VDImage::Pointer  VDImagePointer; 
     
-  /**
-   * Set the initial Number of Seeds for VD
-   */
+  /** Set/Get the initial Number of Seeds for VD. */
   itkSetMacro(NumberOfSeeds, int);
-  /**
-   * Get the Number of Seeds for VD
-   */
   itkGetMacro(NumberOfSeeds, int);
 
-  /**
-   * Set the smallest region to be divided
-   */
+  /** Set/Get the smallest region to be divided. */
   itkSetMacro(MinRegion, int);
-
-  /**
-   * Get the smallest region to be divided
-   */
   itkGetMacro(MinRegion, int);
 
-  /**
-   * Set the number of iterations to run (0: run until no more to divide);
-   */
+  /** Set/Get the number of iterations to run (0: run until no more to
+   *  divide); */
   itkSetMacro(Steps, int);
-
-  /**
-   * Get the number of iterations to run (0: run until no more to divide);
-   */
   itkGetMacro(Steps, int);
 
- /**
-  * Get the number of Seeds before adding new seeds;
-  */
+  /** Get the number of Seeds before adding new seeds. */
   itkGetMacro(LastStepSeeds, int);
 
+  /** Huh? bad english */
   itkGetMacro(NumberOfSeedsToAdded, int); 
 
+  /** Set/Get the */
   itkSetMacro(UseBackgroundInAPrior, bool);
   itkGetMacro(UseBackgroundInAPrior, bool);
 
+  /** Enable the generation of the output boundary. */
   itkSetMacro(OutputBoundary, bool);
   itkGetMacro(OutputBoundary, bool);
 
+  /** Set/Get the mean deviation. */
   itkSetMacro(MeanDeviation, double);
   itkGetMacro(MeanDeviation, double);
 
-  /**
-   * take a prior from other segmentation node, should be an
-   * binary object.
-   */
+  /** Take a prior from other segmentation node, should be an
+   * binary object. */
   virtual void TakeAPrior(BinaryObjectImage* aprior){};
   
-  /**
-   * Perform the segmentation.
-   */
+  /** Perform the segmentation. */
   void RunSegment(void);
 
-  /**
-   * Perform the segmentation.
-   */
+  /** Perform the segmentation. */
   void RunSegmentOneStep(void);
 
-  /**
-   * Make the output binary result as boundary. 
-   */
+  /** Make the output binary result as boundary.  */
   void MakeSegmentBoundary(void);
   void MakeSegmentObject(void);
 
-
-  VoronoiPointer GetVoronoiDiagram(void){ return m_WorkingVD; }; 
+  /** Return the Voroni diagram. */
+  VoronoiPointer GetVoronoiDiagram(void)
+    { return m_WorkingVD; }
     
-  /** 
-   * Normally not used, the seeds are set randomly. 
+  /** Normally not used, the seeds are set randomly. 
    * in case that need set customized seeds: 
-   * use SetSeeds methods after InitializeSegment. 
-   */ 
-  void SetSeeds(int num, SeedsIterator begin){ 
+   * use SetSeeds methods after InitializeSegment.  */ 
+  void SetSeeds(int num, SeedsIterator begin)
+    { 
     m_NumberOfSeeds = num; 
     m_WorkingVD->SetSeeds(num,begin); 
-  }; 
+    }; 
     
-  PointType GetSeed(int SeedID){ return m_WorkingVD->GetSeed(SeedID); }; 
+  /** Get the point specified by the ID given. */
+  PointType GetSeed(int SeedID)
+    { return m_WorkingVD->GetSeed(SeedID); } 
       
+  /** \todo Document */
   void DrawDiagram(VDImagePointer result,unsigned char incolor, 
-  unsigned char outcolor,unsigned char boundcolor); 
-    
+                   unsigned char outcolor,unsigned char boundcolor); 
   void BeforeNextStep(void); 
+  virtual void Reset(void){}; 
 
-  virtual void Reset(void){}; //reset the segmentation, ready for taking aprior from itself
-
-  /**
-   * This filter does not stream and needs the entire image as input
-   * 
-   * \sa ProcessObject::GenerateInputRequestedRegion()
-   */
+  /** This filter does not stream and needs the entire image as input
+   * \sa ProcessObject::GenerateInputRequestedRegion(). */
   virtual void GenerateInputRequestedRegion();
   
-  /**
-   * This filter does not stream and needs to produce the entire output.
-   *
-   * \sa ProcessObject::EnlargeOutputRequestedRegion()
-   */
+  /** This filter does not stream and needs to produce the entire output.
+   * \sa ProcessObject::EnlargeOutputRequestedRegion() */
   virtual void EnlargeOutputRequestedRegion(DataObject *output);  
 
 protected:
   VoronoiSegmentationImageFilterBase();
   ~VoronoiSegmentationImageFilterBase();
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
-
 
   void GenerateData(void); //general pipeline function.
 

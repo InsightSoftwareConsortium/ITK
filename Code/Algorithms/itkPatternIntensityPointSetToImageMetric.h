@@ -59,142 +59,78 @@ namespace itk
  * class computes a value(s) that measures the similarity of the target
  * against the reference object once the transformation is applied to it.
  *
- *
  * \ingroup RegistrationMetrics
- *
  */
-
 template < class TTarget, class TMapper > 
 class ITK_EXPORT PatternIntensityPointSetToImageMetric : 
 public SimilarityRegistrationMetric< TTarget, TMapper, double,
-                                     CovariantVector<double, TMapper::SpaceDimension > >
-
+                    CovariantVector<double, TMapper::SpaceDimension > >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
-  typedef PatternIntensityPointSetToImageMetric  Self;
-
-  /**
-   * Space dimension is the dimension of parameters space
-   */
+  /** Space dimension is the dimension of parameters space. */
   enum { SpaceDimension = TMapper::SpaceDimension };
   enum { RangeDimension = 9};
 
-
-  /**
-   *  Type of the match measure
-   */
+  /**  Type of the match measure. */
   typedef double              MeasureType;
- 
 
-  /**
-   *  Type of the derivative of the match measure
-   */
+  /**  Type of the derivative of the match measure. */
   typedef CovariantVector<MeasureType,
                           SpaceDimension >  DerivativeType;
 
-
-  /**
-   * Standard "Superclass" typedef.
-   */
-  typedef SimilarityRegistrationMetric< 
-                       TTarget, TMapper,
+  /** Standard class typedefs. */
+  typedef PatternIntensityPointSetToImageMetric  Self;
+  typedef SimilarityRegistrationMetric<TTarget, TMapper,
                        MeasureType,DerivativeType >  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
-  /**
-   *  Type of the Mapper
-   */
-  typedef TMapper             MapperType;
-  
-  /**
-   *  Type of the Reference
-   */
-  typedef typename MapperType::DomainType     ReferenceType;
-
-
-  /**
-   *  Type of the Target
-   */
-  typedef TTarget             TargetType;
- 
-
-  /**
-   *  Pointer type for the Reference 
-   */
-  typedef typename ReferenceType::ConstPointer         ReferenceConstPointer;
-
-
-  /**
-   *  Pointer type for the Target 
-   */
-  typedef typename TargetType::ConstPointer            TargetConstPointer;
-
-
-  /**
-   *  Pointer type for the Mapper
-   */
-  typedef typename MapperType::Pointer            MapperPointer;
-
-
-  /**
-   *  Parameters type
-   */
-  typedef typename  TMapper::ParametersType       ParametersType;
-
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(PatternIntensityPointSetToImageMetric, Object);
-
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
  
-  /**
-   * Get the Derivatives of the Match Measure
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(PatternIntensityPointSetToImageMetric, Object);
+
+  /**  Type of the mapper. */
+  typedef TMapper             MapperType;
+  
+  /**  Type of the reference. */
+  typedef typename MapperType::DomainType     ReferenceType;
+
+  /**  Type of the target. */
+  typedef TTarget             TargetType;
+
+  /**  Pointer type for the reference.  */
+  typedef typename ReferenceType::ConstPointer         ReferenceConstPointer;
+
+  /**  Pointer type for the target.  */
+  typedef typename TargetType::ConstPointer            TargetConstPointer;
+
+  /**  Pointer type for the mapper. */
+  typedef typename MapperType::Pointer            MapperPointer;
+
+  /**  Parameters type. */
+  typedef typename  TMapper::ParametersType       ParametersType;
+
+  /** Get the derivatives of the match measure. */
   const DerivativeType & GetDerivative( const ParametersType & parameters );
 
-  /**
-   *  Get the Value for SingleValue Optimizers
-   */
+  /**  Get the value for single valued optimizers. */
   MeasureType    GetValue( const ParametersType & parameters );
 
-
-  /**
-   *  Get Value and Derivatives for MultipleValuedOptimizers
-   */
+  /**  Get the value and derivatives for multiple valued optimizers.. */
    void GetValueAndDerivative( const ParametersType & parameters,
-       MeasureType & Value, DerivativeType  & Derivative );
+                               MeasureType& Value, DerivativeType& Derivative);
 
-   /**
-    *  Get lambda distance
-    */
-   double GetLambda( void )
-               {  return m_Lambda;  }
- 
-   /**
-    *  Set lambda distance
-    */
-   void SetLambda(  double lambda )
-                { m_Lambda = lambda; }
+  /**  Set/Get the lambda distance.  */
+  double GetLambda( void )
+    {  return m_Lambda;  }
+  void SetLambda(  double lambda )
+    { m_Lambda = lambda; }
  
 protected:
   PatternIntensityPointSetToImageMetric();
   virtual ~PatternIntensityPointSetToImageMetric() {};
-
   
 private:
   PatternIntensityPointSetToImageMetric(const Self&); //purposely not implemented

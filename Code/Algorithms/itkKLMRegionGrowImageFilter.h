@@ -178,188 +178,118 @@ namespace itk
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT KLMRegionGrowImageFilter : public RegionGrowImageFilter<TInputImage,TOutputImage>
 {
-
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef KLMRegionGrowImageFilter   Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef RegionGrowImageFilter<TInputImage,TOutputImage> Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(KLMRegionGrowImageFilter,RegionGrowImageFilter);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Type definition for the input image.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(KLMRegionGrowImageFilter,RegionGrowImageFilter);
+
+  /** Type definition for the input image. */
   typedef typename TInputImage::Pointer   InputImageType;
 
-  /**
-   * Type definition for the input image pixel type.
-   */
+  /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType InputImagePixelType;
 
-  /**
-   * Type definition for the input image pixel vector type.
-   */
+  /** Type definition for the input image pixel vector type. */
   typedef typename TInputImage::PixelType::VectorType InputImageVectorType;
 
-  /**
-   * Type definition for the image iterators to be used.
-   */
-  typedef
-    ImageRegionIterator< TInputImage > InputImageIterator;
+  /** Type definition for the image iterators to be used. */
+  typedef ImageRegionIterator< TInputImage > InputImageIterator;
 
-  /**
-   * Type definition for the output image.
-   */
+  /** Type definition for the output image. */
   typedef typename TOutputImage::Pointer   OutputImageType;
 
-  /**
-   * Type definition for the output image pixel type.
-   */
+  /** Type definition for the output image pixel type. */
   typedef typename TOutputImage::PixelType OutputImagePixelType;
 
-  /**
-   * Type definition for the output image iterators. 
-   */
-  typedef
-    ImageRegionIterator< TOutputImage > OutputImageIterator;
+  /** Type definition for the output image iterators.  */
+  typedef ImageRegionIterator< TOutputImage > OutputImageIterator;
 
-  /**
-   * Type definition for the output image pixel vector type.
-   */
-  typedef typename TOutputImage::PixelType::VectorType 
-    OutputImageVectorType;
+  /** Type definition for the output image pixel vector type. */
+  typedef typename TOutputImage::PixelType::VectorType OutputImageVectorType;
 
-  /**
-   * Type definition for the labelled image pixel type.
-   */
+  /** The dimension of the labeled image. */
   enum { LabelImageDimension = TInputImage::ImageDimension };
+
+  /** Type definition for the labelled image pixel type. */
   typedef Image<unsigned short,LabelImageDimension> LabelImageType;
 
-  /**
-   * Type definition for the labelled image pointer 
-   */
+  /** Type definition for the labelled image pointer.  */
   typedef typename LabelImageType::Pointer LabelImagePointer;
 
-   /**
-   * Type definition for the labelled image pixel type.
-   */
+   /** Type definition for the labelled image pixel type. */
   typedef typename LabelImageType::PixelType    LabelImagePixelType;
 
-  /**
-   * Type definition for the labelled image iterators. 
-   */
-  typedef
-    ImageRegionIterator< LabelImageType >
-      LabelImageIterator;
+  /** Type definition for the labelled image iterators.  */
+  typedef ImageRegionIterator< LabelImageType >  LabelImageIterator;
 
-  /**
-   * Storage type for the mean region intensity.
-   */
+  /** Storage type for the mean region intensity. */
   typedef vnl_matrix<double> VecDblType;
 
-  /**
-   * Type definition for the smart border type.
-   */
+  /** Type definition for the smart border type. */
   typedef KLMSegmentationBorder<TInputImage,TOutputImage>    BorderType;
 
-  /**
-   * Type definition for the smart border pointers object.
-   */
+  /** Type definition for the smart border pointers object. */
   typedef KLMDynamicBorderArray<BorderType>  SegmentationBorderPtr;
 
-  /**
-   * Set the desired threshold parameter for lambda. See itkSegmentationBorder 
-   * documentation for details regarding this parameter.
-   */
+  /** Set the desired threshold parameter for lambda. See
+   * itkSegmentationBorder documentation for details regarding this
+   * parameter.  */
   itkSetMacro(MaxLambda, unsigned int);
 
-  /**
-   * Get the maximum lambda value set by the user. 
-   */
+  /** Get the maximum lambda value set by the user.  */
   itkGetMacro(MaxLambda, unsigned int);
 
-  /**
-   * This is the interface function that calls the specific algorithm
-   * implementation of region growing.
-   */
+  /** This is the interface function that calls the specific algorithm
+   * implementation of region growing. */
   void ApplyRegionGrowImageFilter();
 
-  /**
-   * Merge two regions
-   */
+  /** Merge two regions. */
   virtual void MergeRegions();
 
-  /**
-   * Generate output approximated image
-   */
+  /** Generate output approximated image. */
   void GenerateOutputImage(unsigned int imgWidth,
                            unsigned int imgHeight);
-  /**
-   * Generate output approximated image
-   */
+
+  /** Generate output approximated image. */
   void GenerateOutputImage(unsigned int imgWidth,
                            unsigned int imgHeight,
                            unsigned int imgDepth);
 
-  /**
-   * Generate labelled image
-   */
+  /** Generate labelled image. */
   LabelImagePointer GetLabelledImage();
 
-  /**
-   * Function that prints all the region information 
-   */
+  /** Function that prints all the region information.  */
   void PrintAlgorithmRegionStats();
 
-  /**
-   * Function that prints all the border information 
-   */
+  /** Function that prints all the border information.  */
   void PrintAlgorithmBorderStats();
 
-  /**
-   * Function that prints all the border information 
-   */
+  /** Function that prints all the border information.  */
   void PrintAlgorithmBorderStats(bool smartBorderPointerUseFlag);
 
-  /**
-   * Calculate the statistics representing the 2D regions. In this
+  /** Calculate the statistics representing the 2D regions. In this
    * case we compute the mean region intensity and the area of the
    * initial rectangular area. This is the function that can be
    * overriden in order to enable a different statistical 
-   * representation for region initialization.
-   */
+   * representation for region initialization. */
   virtual void CalculateInitRegionStats( int   regionRowIndex, 
                                          int   regionColIndex, 
                                          int   regionRowGridSize,
                                          int   regionColGridSize );
   
-  /**
-   * Calculate the statistics representing the 3D regions. In this
+  /** Calculate the statistics representing the 3D regions. In this
    * case we comput the mean region intensity and the volume of the
    * initial rectangular area. This is the function that can be
    * overriden in order to enable a different statistical 
-   * representation for region initialization.
-   */
+   * representation for region initialization. */
   virtual void CalculateInitRegionStats( int   regionRowIndex, 
                                          int   regionColIndex,
                                          int   regionSliceIndex,
@@ -377,33 +307,23 @@ protected:
   virtual void EnlargeOutputRequestedRegion( DataObject * );
   virtual void GenerateOutputInformation();
 
-  /**
-   * Function that calls the KLM region growing algorithm.
-   */
+  /** Function that calls the KLM region growing algorithm. */
   void ApplyKLM();
 
-  /**
-   * Initialize the RegionGrowImageFilter algorithm (2D case )
-   */
+  /** Initialize the RegionGrowImageFilter algorithm (2D case). */
   void initializeKLM(unsigned int imgWidth, 
                      unsigned int imgHeight);
 
-  /**
-   * Initialize the RegionGrowImageFilter algorithm (2D case )
-   */
+  /** Initialize the RegionGrowImageFilter algorithm (2D case) */
   void initializeKLM(unsigned int imgWidth,
                      unsigned int imgHeight,
                      unsigned int imgDepth );
 
-  /**
-   * Generate the labeled image for a 2D image 
-   */
+  /** Generate the labeled image for a 2D image. */
   LabelImagePointer localfn_generate_labeled2Dimage(
     LabelImageType *labelImagePtr );
 
-  /**
-   * Generate the labeled image for a 3D image 
-   */
+  /** Generate the labeled image for a 3D image. */
   LabelImagePointer localfn_generate_labeled3Dimage(
     LabelImageType *labelImagePtr );
 
@@ -438,29 +358,23 @@ private:
   SegmentationBorderPtr                        *m_pBordersCandidateDynPtr;
   SegmentationBorder<TInputImage,TOutputImage> *m_pBorderCandidate;
 
-  /**
-   * Function responsible for merging two regions using energy-based 
+  /** Function responsible for merging two regions using energy-based 
    * regions growing criteria until the desired number of regions has been
    * reached. When merging two regions, the smaller label is always 
    * assigned to the new region.  This is consistent with the connected 
-   * components algorithm.
-   */
+   * components algorithm. */
   void merge_regions();
 
-  /**
-   * Function to unite borders and region borders of region1 and region2
+  /** Function to unite borders and region borders of region1 and region2
    * into region1.  Called from \Ref{localfn_merge_regions}. This is
-   * basically a merge sort of the two regions.
-   */
+   * basically a merge sort of the two regions. */
   void union_borders(KLMSegmentationRegion<TInputImage,
                                  TOutputImage> *pRegion1,
                      KLMSegmentationRegion<TInputImage,
                                  TOutputImage> *pRegion2);
 
   /** Function to resolve the region labels.  Once region labels are
-   * resolved, the unique labels are sorted and
-   * recorded. 
-   */
+   * resolved, the unique labels are sorted and recorded. */
   void resolve_region_labels();
                                     
 }; // class KLMRegionGrowImageFilter

@@ -80,48 +80,29 @@ class ITK_EXPORT LevelSetVelocityNeighborhoodExtractor :
   public LevelSetNeighborhoodExtractor<TLevelSet>
 {
 public:
-  /** 
-   * Standard "Self" typdedef
-   */
+  /** Standard class typdedefs. */
   typedef LevelSetVelocityNeighborhoodExtractor Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */ 
   typedef LevelSetNeighborhoodExtractor<TLevelSet> Superclass;
-
-  /**
-   * Smart pointer typedef support
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(LevelSetVelocityNeighborhoodExtractor, LevelSetNeighborhoodExtractor);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * SetDimension enumeration.
-   * Although already defined in the superclass, needed here for gcc 2.95.2-5
-   * to compile.
-   */
-  typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(LevelSetVelocityNeighborhoodExtractor, 
+               LevelSetNeighborhoodExtractor);
+
+  /** The dimension of the level set. */
   enum { SetDimension = LevelSetType::SetDimension};
 
-  /**
-   * Index typedef support
-   */
+  /** The type of the level set. */
+  typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
+
+  /** Index typedef support */
   typedef Index<SetDimension> Index;
 
-  /**
-   * AuxVarType typedef support.
-   */
+  /** AuxVarType typedef support. */
   typedef AuxVarTypeDefault<TAuxValue,VAuxDimension,SetDimension> AuxVarType;
   typedef typename AuxVarType::AuxValueType AuxValueType;
   typedef typename AuxVarType::AuxValueVectorType AuxValueVectorType;
@@ -129,9 +110,7 @@ public:
   typedef typename AuxVarType::AuxImageType AuxImageType;
   typedef typename AuxVarType::AuxImagePointer AuxImagePointer;
 
-  /**
-   * Set the auxiliary images
-   */
+  /** Set the auxiliary images. */
   void SetAuxImage( AuxImageType * ptr, unsigned int idx = 0 )
   { 
     if( idx < VAuxDimension )
@@ -140,18 +119,15 @@ public:
       }
   }
 
-  /**
-   * Get the container of auxiliary values associated with the inside points
-   */
+  /** Get the container of auxiliary values associated with the inside
+   *  points. */
   typename AuxValueContainer::Pointer GetAuxInsideValues()
     { return m_AuxInsideValues; }
 
-  /**
-   * Get the container of auxiliary values associate with the outside points
-   */
+  /** Get the container of auxiliary values associate with the outside
+   *  points. */
   typename AuxValueContainer::Pointer GetAuxOutsideValues()
     { return m_AuxOutsideValues; }
-
 
 protected:
   LevelSetVelocityNeighborhoodExtractor();

@@ -61,109 +61,65 @@ namespace itk
  *
  * \ingroup RegistrationMetrics
  */
-
 template < class TTarget, class TMapper > 
 class ITK_EXPORT MeanSquaresPointSetToImageMetric : 
 public SimilarityRegistrationMetric< TTarget, TMapper, double,
                                      CovariantVector<double, TMapper::SpaceDimension > >
-
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef MeanSquaresPointSetToImageMetric  Self;
-
-  /**
-   * Space dimension is the dimension of parameters space
-   */
-  enum { SpaceDimension = TMapper::SpaceDimension };
-  enum { RangeDimension = 9};
-
-  /**
-   *  Type of the match measure
-   */
-  typedef double MeasureType;
-
-  /**
-   *  Type of the derivative of the match measure
-   */
-  typedef CovariantVector<MeasureType,
-                          SpaceDimension >  DerivativeType;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
-  typedef SimilarityRegistrationMetric< 
-                       TTarget, TMapper,
+  typedef SimilarityRegistrationMetric< TTarget, TMapper,
                        MeasureType,DerivativeType >  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   *  Type of the Mapper
-   */
-  typedef TMapper MapperType;
-  
-  /**
-   *  Type of the Reference
-   */
-  typedef typename MapperType::DomainType ReferenceType;
-
-  /**
-   *  Type of the Target
-   */
-  typedef TTarget TargetType;
- 
-  /**
-   *  Pointer type for the Reference 
-   */
-  typedef typename ReferenceType::ConstPointer ReferenceConstPointer;
-
-  /**
-   *  Pointer type for the Target 
-   */
-  typedef typename TargetType::ConstPointer TargetConstPointer;
-
-  /**
-   *  Pointer type for the Mapper
-   */
-  typedef typename MapperType::Pointer MapperPointer;
-
-  /**
-   *  Parameters type
-   */
-  typedef typename  TMapper::ParametersType       ParametersType;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(MeanSquaresPointSetToImageMetric, Object);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
  
-  /**
-   * Get the Derivatives of the Match Measure
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(MeanSquaresPointSetToImageMetric, Object);
+
+  /** Space dimension is the dimension of parameters space. */
+  enum { SpaceDimension = TMapper::SpaceDimension };
+  enum { RangeDimension = 9};
+
+  /**  Type of the match measure. */
+  typedef double MeasureType;
+
+  /**  Type of the derivative of the match measure. */
+  typedef CovariantVector<MeasureType,SpaceDimension >  DerivativeType;
+
+  /**  Type of the mapper. */
+  typedef TMapper MapperType;
+  
+  /**  Type of the reference. */
+  typedef typename MapperType::DomainType ReferenceType;
+
+  /**  Type of the target. */
+  typedef TTarget TargetType;
+ 
+  /**  Pointer type for the reference.  */
+  typedef typename ReferenceType::ConstPointer ReferenceConstPointer;
+
+  /**  Pointer type for the target.  */
+  typedef typename TargetType::ConstPointer TargetConstPointer;
+
+  /**  Pointer type for the mapper. */
+  typedef typename MapperType::Pointer MapperPointer;
+
+  /**  Parameters type. */
+  typedef typename  TMapper::ParametersType       ParametersType;
+
+  /** Get the derivatives of the match measure. */
   const DerivativeType & GetDerivative( const ParametersType & parameters );
 
-  /**
-   *  Get the Value for SingleValue Optimizers
-   */
+  /**  Get the Value for single valued optimizers. */
   MeasureType GetValue( const ParametersType & parameters );
 
-  /**
-   *  Get Value and Derivatives for MultipleValuedOptimizers
-   */
+  /**  Get Value and Derivatives for multiple valued optimizers. */
    void GetValueAndDerivative( const ParametersType & parameters,
-       MeasureType & Value, DerivativeType  & Derivative );
+                               MeasureType& Value, DerivativeType& Derivative);
 
 protected:
   MeanSquaresPointSetToImageMetric();
@@ -172,7 +128,6 @@ protected:
 private:  
   MeanSquaresPointSetToImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  
 
 };
 

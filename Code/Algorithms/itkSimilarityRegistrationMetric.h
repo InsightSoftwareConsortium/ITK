@@ -70,131 +70,66 @@ class ITK_EXPORT SimilarityRegistrationMetric : public Object
 
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef SimilarityRegistrationMetric  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
 
-  /**
-   *  Type of the Reference
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(SimilarityRegistrationMetric, Object);
+
+  /**  Type of the reference. */
   typedef typename TMapper::DomainType          ReferenceType;
   typedef typename ReferenceType::ConstPointer  ReferenceConstPointer;
 
-
-  /**
-   *  Type of the Target
-   */
+  /**  Type of the target. */
   typedef TTarget               TargetType;
- 
 
-  /**
-   *  Type of the Mapper
-   */
+  /**  Type of the mapper. */
   typedef TMapper               MapperType;
-  
 
-  /**
-   *  Type of the measure
-   */
+  /**  Type of the measure. */
   typedef TMeasure              MeasureType;
- 
 
-  /**
-   *  Type of the measure
-   */
+  /**  Type of the measure. */
   typedef TDerivative           DerivativeType;
 
-
-  /**
-   *  Pointer type for the Target 
-   */
+  /**  Pointer type for the target.  */
   typedef typename TargetType::ConstPointer TargetConstPointer;
 
-
-  /**
-   *  Pointer type for the Mapper
-   */
+  /**  Pointer type for the mapper. */
   typedef typename MapperType::Pointer MapperPointer;
 
+  /** Method for execute the algorithm. */
+  virtual void Compute(void);
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(SimilarityRegistrationMetric, Object);
+  /** Connect the reference.  */
+  void SetReference( const ReferenceType * );
 
+  /** Return the reference.  */
+  ReferenceConstPointer  GetReference( void );
 
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
+  /** Connect the target.  */
+  itkSetConstObjectMacro( Target, TargetType );
+
+  /** Get the target. */
+  itkGetConstObjectMacro( Target, TargetType );
+
+  /** Get the match measure value. */
+  itkGetMacro( MatchMeasure, MeasureType );
+
+  /** Get the derivatives of the match measure. */
+  itkGetMacro( MatchMeasureDerivatives, DerivativeType );
   
+  /** Connect the mapper. */
+  itkSetObjectMacro( Mapper, MapperType );
 
-  /**
-   * Method for execute the algorithm
-   */
-   virtual void Compute(void);
-  
-
-  /**
-   * Connect the Reference 
-   */
-   void SetReference( const ReferenceType * );
-
-
-  /**
-   * Return the Reference 
-   */
-   ReferenceConstPointer  GetReference( void );
-
-
-  /**
-   * Connect the Target 
-   */
-   itkSetConstObjectMacro( Target, TargetType );
-
-
-  /**
-   * Get the Target
-   */
-   itkGetConstObjectMacro( Target, TargetType );
-
-
-  /**
-   * Get the Match Measure Value
-   */
-   itkGetMacro( MatchMeasure, MeasureType );
-
-
-  /**
-   * Get the Derivatives of the Match Measure
-   */
-   itkGetMacro( MatchMeasureDerivatives, DerivativeType );
-
-  
-  /**
-   * Connect the Mapper
-   */
-   itkSetObjectMacro( Mapper, MapperType );
-
-
-   /**
-    * Get a pointer to the Mapper
-    */
-   itkGetObjectMacro( Mapper, MapperType );
-
+  /** Get a pointer to the mapper.  */
+  itkGetObjectMacro( Mapper, MapperType );
 
 protected:
   SimilarityRegistrationMetric();

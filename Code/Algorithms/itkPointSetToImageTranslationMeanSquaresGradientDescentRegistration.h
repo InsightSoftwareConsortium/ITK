@@ -55,73 +55,42 @@ namespace itk
 
 /**
  *  Traits class that defines the different types to be
- *  used by this registration method
+ *  used by this registration method.
  */
 template <class TReference, class TTarget>
 class ITK_EXPORT
 PointSetToImageTranslationMeanSquaresGradientDescentRegistrationTraits 
 {
-  
 public:
+  /**  Type of the reference. */
+  typedef TReference  ReferenceType;
 
-  /**
-   *  Type of the Reference
-   */
-   typedef TReference  ReferenceType;
+  /**  Type of the target. */
+  typedef TTarget TargetType;
 
-  /**
-   *  Type of the Target
-   */
-   typedef TTarget TargetType;
+  /** Image dimensions and parameters dimension. */
+  enum { ImageDimension = ReferenceType::ImageDimension };
 
-  /**
-   * Image Dimensions and Parameters Dimension
-   */
-   enum { ImageDimension = ReferenceType::ImageDimension };
+  /**  Type of the transformation. */
+  typedef TranslationTransform< double, ImageDimension > TransformationType;
 
+  /** Parameters dimension. */
+  enum { ParametersDimension = TransformationType::ParametersDimension };
 
-  /**
-   *  Type of the Transformation
-   */
-   typedef TranslationTransform< double, ImageDimension 
-                                                  > TransformationType;
-  /**
-   * Parameters Dimension
-   */
-   enum { ParametersDimension = TransformationType::ParametersDimension };
-
-  /**
-   *  Type of the parameters
-   */
-   typedef typename TransformationType::ParametersType   ParametersType;
-
-
+  /**  Type of the parameters. */
+  typedef typename TransformationType::ParametersType   ParametersType;
                                   
-  /**
-   *  Type of the Mapper
-   */
-   typedef ImageMapper<ReferenceType,TransformationType>  MapperType;
+  /**  Type of the mapper. */
+  typedef ImageMapper<ReferenceType,TransformationType>  MapperType;
 
-  /**
-   *  Type of the Metric
-   */
-   typedef MeanSquaresPointSetToImageMetric<
-                                              TargetType, 
-                                              MapperType>   MetricType;
+  /**  Type of the metric. */
+  typedef MeanSquaresPointSetToImageMetric<TargetType,MapperType>  MetricType;
 
-
-  /**
-   *  Type of the Optimizer 
-   */
-   typedef GradientDescentOptimizer<MetricType>           OptimizerType;
-
-
+  /**  Type of the optimizer.  */
+  typedef GradientDescentOptimizer<MetricType>           OptimizerType;
 };
 
-
-
-/**
- * \class PointSetToImageTranslationMeanSquaresGradientDescentRegistration
+/** \class PointSetToImageTranslationMeanSquaresGradientDescentRegistration
  * \brief Base class for registration methods
  *
  * This Class define the generic interface for a registration method.
@@ -135,108 +104,52 @@ public:
  * mapped under the transformation each time a value is required.
  *
  * \ingroup PointSetToImageRegistration
- *
  */
-
 template <class TReference, class TTarget>
 class ITK_EXPORT PointSetToImageTranslationMeanSquaresGradientDescentRegistration 
 : public RegistrationMethod< 
-            PointSetToImageTranslationMeanSquaresGradientDescentRegistrationTraits<
-               TReference,
-               TTarget>  >
+            PointSetToImageTranslationMeanSquaresGradientDescentRegistrationTraits<TReference,TTarget> >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
-   typedef PointSetToImageTranslationMeanSquaresGradientDescentRegistration  Self;
+  /** Standard class typedefs. */
+  typedef PointSetToImageTranslationMeanSquaresGradientDescentRegistration Self;
+  typedef PointSetToImageTranslationMeanSquaresGradientDescentRegistrationTraits<TReference,TTarget>  Superclass;
+  typedef SmartPointer<Self>   Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
 
-  /**
-   * Standard "Superclass" typedef.
-   */
-   typedef
-     PointSetToImageTranslationMeanSquaresGradientDescentRegistrationTraits<
-        TReference,
-        TTarget>  Superclass;
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(PointSetToImageTranslationMeanSquaresGradientDescentRegistration, RegistrationMethod);
 
+  /**  Type of the reference. */
+  typedef TReference  ReferenceType;
 
-  /** 
-   * Smart pointer typedef support 
-   */
-   typedef SmartPointer<Self>   Pointer;
-   typedef SmartPointer<const Self>  ConstPointer;
+  /**  Type of the target. */
+  typedef TTarget TargetType;
 
-  /**
-   *  Type of the Reference
-   */
-   typedef TReference  ReferenceType;
+  /**  Type of the parameters. */
+  typedef typename Superclass::ParametersType ParametersType;
 
-  /**
-   *  Type of the Target
-   */
-   typedef TTarget TargetType;
-
-
-  /**
-   *  Type of the parameters
-   */
-   typedef typename Superclass::ParametersType ParametersType;
-
-
-  /**
-   *  Type of the Transformation
-   */
-   typedef typename Superclass::TransformationType TransformationType;
+  /**  Type of the transformation. */
+  typedef typename Superclass::TransformationType TransformationType;
    
+  /**  Type of the mapper. */
+  typedef typename Superclass::MapperType    MapperType;
+
+  /**  Type of the metric. */
+  typedef typename Superclass::MetricType   MetricType;
+
+  /**  Type of the optimizer.  */
+  typedef typename Superclass::OptimizerType       OptimizerType;
    
-  /**
-   *  Type of the Mapper
-   */
-   typedef typename Superclass::MapperType    MapperType;
+  /** Image dimensions. */
+  enum { ImageDimension = ReferenceType::ImageDimension,
+         ParametersDimension = ImageDimension };
 
-
-  /**
-   *  Type of the Metric
-   */
-   typedef typename Superclass::MetricType   MetricType;
-
-
-
-   /**
-   *  Type of the Optimizer 
-   */
-   typedef typename Superclass::OptimizerType       OptimizerType;
-
-
-
-   
-  /**
-   * Image Dimensions
-   */
-   enum { ImageDimension = ReferenceType::ImageDimension,
-          ParametersDimension = ImageDimension };
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-   itkTypeMacro(PointSetToImageTranslationMeanSquaresGradientDescentRegistration,
-       RegistrationMethod);
-
-
-  /**
-   * Method for creation through the object factory.
-   */
-   itkNewMacro(Self);
-  
-
-  /**
-   * Method that initiates the registration.
-   */
-   void StartRegistration(void);
-
-
-
+  /** Method that initiates the registration. */
+  void StartRegistration(void);
 
 protected:
   PointSetToImageTranslationMeanSquaresGradientDescentRegistration();

@@ -56,12 +56,9 @@ namespace itk
  * This class receives two sets of N-D points and register
  * them by minimizing the sum of square distances between 
  * point pairs
- *  
  *
  * \ingroup RegistrationMetrics
- *
  */
-
 template <class TTransform, unsigned int NDimension>
 class ITK_EXPORT ProcrustesRegistrationMetric : 
       public SimilarityRegistrationMetric<
@@ -69,102 +66,53 @@ class ITK_EXPORT ProcrustesRegistrationMetric :
         RegistrationMapperProcrustes<TTransform,NDimension>,
         vnl_vector_fixed< double, NDimension >,
         vnl_matrix_fixed< double, NDimension, NDimension > > 
-
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ProcrustesRegistrationMetric  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef SimilarityRegistrationMetric<
-        VectorContainer< unsigned long, Point<double,NDimension> >,
-        RegistrationMapperProcrustes<TTransform,NDimension>,
-        vnl_vector< double >,
-        vnl_matrix< double > >             Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
+  VectorContainer< unsigned long, Point<double,NDimension> >,
+    RegistrationMapperProcrustes<TTransform,NDimension>,
+    vnl_vector< double >,vnl_matrix< double > >       Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
-  /**
-   *  Type of the Reference
-   */
-   typedef VectorContainer< unsigned long, Point<double,NDimension> > ReferenceType;
-
-
-  /**
-   *  Type of the Target
-   */
-   typedef VectorContainer< unsigned long, Point<double,NDimension> > TargetType;
- 
-
-  /**
-   *  Type of the Mapper
-   */
-  typedef RegistrationMapperProcrustes<TTransform,NDimension>       MapperType;
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
   
-  
-  /**
-   *  Type of the Transform
-   */
-  typedef TTransform                             TransformationType;
- 
-
-  /**
-   *  Type of the measure
-   */
-  typedef typename Superclass::MeasureType        MeasureType;
- 
-
-  /**
-   *  Type of the measure derivatives
-   */
-  typedef typename Superclass::DerivativeType     DerivativeType;
-
-
-  /**
-   *  Pointer type for the Reference 
-   */
-  typedef typename ReferenceType::ConstPointer         ReferenceConstPointer;
-
-
-  /**
-   *  Pointer type for the Target 
-   */
-  typedef typename TargetType::ConstPointer            TargetConstPointer;
-
-
-  /**
-   *  Pointer type for the Mapper
-   */
-  typedef typename MapperType::Pointer            MapperPointer;
-
-
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(ProcrustesRegistrationMetric, 
                SimilarityRegistrationMetric );
 
+  /**  Type of the reference. */
+  typedef VectorContainer< unsigned long, Point<double,NDimension> > ReferenceType;
 
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-  
+  /**  Type of the target. */
+  typedef VectorContainer< unsigned long, Point<double,NDimension> > TargetType;
 
-  /**
-   * Method for execute the algorithm
-   */
-   virtual void Compute(void);
+  /**  Type of the mapper. */
+  typedef RegistrationMapperProcrustes<TTransform,NDimension>       MapperType;
   
+  /**  Type of the transform. */
+  typedef TTransform                             TransformationType;
+
+  /**  Type of the measure. */
+  typedef typename Superclass::MeasureType        MeasureType;
+
+  /**  Type of the measure derivatives. */
+  typedef typename Superclass::DerivativeType     DerivativeType;
+
+  /**  Pointer type for the reference.  */
+  typedef typename ReferenceType::ConstPointer         ReferenceConstPointer;
+
+  /**  Pointer type for the target.  */
+  typedef typename TargetType::ConstPointer            TargetConstPointer;
+
+  /**  Pointer type for the mapper. */
+  typedef typename MapperType::Pointer            MapperPointer;
+
+  /** Method for execute the algorithm. */
+  virtual void Compute(void);
 
 protected:
   ProcrustesRegistrationMetric();

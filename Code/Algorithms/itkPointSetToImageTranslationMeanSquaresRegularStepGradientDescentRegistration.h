@@ -61,63 +61,34 @@ template <class TReference, class TTarget>
 class ITK_EXPORT
 PointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistrationTraits 
 {
-  
 public:
+  /**  Type of the reference. */
+  typedef TReference  ReferenceType;
 
-  /**
-   *  Type of the Reference
-   */
-   typedef TReference  ReferenceType;
+  /**  Type of the target. */
+  typedef TTarget TargetType;
 
-  /**
-   *  Type of the Target
-   */
-   typedef TTarget TargetType;
+  /** Image dimensions and parameters dimension. */
+  enum { ImageDimension = ReferenceType::ImageDimension };
 
-  /**
-   * Image Dimensions and Parameters Dimension
-   */
-   enum { ImageDimension = ReferenceType::ImageDimension };
-
-
-  /**
-   *  Type of the Transformation
-   */
-   typedef TranslationTransform< double, ImageDimension
-                                                  > TransformationType;
+  /**  Type of the transformation. */
+  typedef TranslationTransform< double, ImageDimension> TransformationType;
       
-  /**
-   * Parameters Dimension
-   */
-   enum { ParametersDimension = TransformationType::ParametersDimension };
+  /** Parameters dimension. */
+  enum { ParametersDimension = TransformationType::ParametersDimension };
 
-  /**
-   *  Type of the parameters
-   */
-   typedef typename TransformationType::ParametersType   ParametersType;
-
-
+  /**  Type of the parameters. */
+  typedef typename TransformationType::ParametersType   ParametersType;
   
-  /**
-   *  Type of the Mapper
-   */
-   typedef ImageMapper<ReferenceType,TransformationType>  MapperType;
+  /**  Type of the mapper. */
+  typedef ImageMapper<ReferenceType,TransformationType>  MapperType;
 
-  /**
-   *  Type of the Metric
-   */
-   typedef MeanSquaresPointSetToImageMetric<TargetType, MapperType>   MetricType;
+  /**  Type of the metric. */
+  typedef MeanSquaresPointSetToImageMetric<TargetType,MapperType>  MetricType;
 
-
-  /**
-   *  Type of the Optimizer 
-   */
-   typedef RegularStepGradientDescentOptimizer<MetricType>           OptimizerType;
-
-
+  /**  Type of the optimizer.  */
+  typedef RegularStepGradientDescentOptimizer<MetricType>   OptimizerType;
 };
-
-
 
 /**
  * \class PointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistration
@@ -134,107 +105,53 @@ public:
  * mapped under the transformation each time a value is required.
  *
  * \ingroup PointSetToImageRegistration
- *
  */
-
 template <class TReference, class TTarget>
 class ITK_EXPORT PointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistration 
 : public RegistrationMethod< 
-            PointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistrationTraits<
-               TReference,
-               TTarget>  >
+            PointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistrationTraits<TReference,TTarget>  >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
-   typedef PointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistration  Self;
+  /** Standard class typedefs. */
+  typedef PointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistration  Self;
+  typedef PointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistrationTraits<TReference,TTarget>  Superclass;
+  typedef SmartPointer<Self>   Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
-
-  /**
-   * Standard "Superclass" typedef.
-   */
-   typedef
-     PointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistrationTraits<
-        TReference,
-        TTarget>  Superclass;
-
-
-  /** 
-   * Smart pointer typedef support 
-   */
-   typedef SmartPointer<Self>   Pointer;
-   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   *  Type of the Reference
-   */
-   typedef TReference  ReferenceType;
-
-  /**
-   *  Type of the Target
-   */
-   typedef TTarget TargetType;
-
-
-  /**
-   *  Type of the parameters
-   */
-   typedef typename Superclass::ParametersType ParametersType;
-
-
-  /**
-   *  Type of the Transformation
-   */
-   typedef typename Superclass::TransformationType TransformationType;
-   
-   
-  /**
-   *  Type of the Mapper
-   */
-   typedef typename Superclass::MapperType    MapperType;
-
-
-  /**
-   *  Type of the Metric
-   */
-   typedef typename Superclass::MetricType   MetricType;
-
-
-
-   /**
-   *  Type of the Optimizer 
-   */
-   typedef typename Superclass::OptimizerType       OptimizerType;
-
-
-
-   
-  /**
-   * Image Dimensions
-   */
-   enum {ImageDimension = ReferenceType::ImageDimension,
-         ParametersDimension = ImageDimension };
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-   itkTypeMacro(PointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistration,
-       RegistrationMethod);
-
-
-  /**
-   * Method for creation through the object factory.
-   */
-   itkNewMacro(Self);
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
   
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(PointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistration,
+               RegistrationMethod);
 
-  /**
-   * Method that initiates the registration.
-   */
-   void StartRegistration(void);
+  /**  Type of the reference. */
+  typedef TReference  ReferenceType;
 
+  /**  Type of the target. */
+  typedef TTarget TargetType;
 
+  /**  Type of the parameters. */
+  typedef typename Superclass::ParametersType ParametersType;
+
+  /**  Type of the transformation. */
+  typedef typename Superclass::TransformationType TransformationType;
+   
+  /**  Type of the mapper. */
+  typedef typename Superclass::MapperType    MapperType;
+
+  /**  Type of the metric. */
+  typedef typename Superclass::MetricType   MetricType;
+
+  /**  Type of the optimizer.  */
+  typedef typename Superclass::OptimizerType       OptimizerType;
+
+  /** Image dimensions. */
+  enum {ImageDimension = ReferenceType::ImageDimension,
+        ParametersDimension = ImageDimension };
+
+  /** Method that initiates the registration. */
+  void StartRegistration(void);
 
 protected:
   PointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistration();

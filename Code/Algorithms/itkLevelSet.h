@@ -64,43 +64,34 @@ template<class TPixel, unsigned int VSetDimension = 2>
 class ITK_EXPORT LevelSetNode
 {
 public:
-  /**
-   * Standard Self typedef
-   */
+  /** Standard class typedefs. */
   typedef LevelSetNode Self;
 
-  /**
-   * Operator >. A LevelSetNode is sorted by its value field.
-   */
+  /** Operator >. A LevelSetNode is sorted by its value field. */
   bool operator> ( const Self& node ) const
     { return value > node.value; }
 
-  /**
-   * Operator <. A LevelSetNode is sorted by its value field.
-   */
+  /** Operator <. A LevelSetNode is sorted by its value field. */
   bool operator< ( const Self& node ) const
     { return value < node.value; }
 
-  /** 
-   * Operator =. Two nodes are equal if both their value and index fields
-   * are the same.
-   */
+  /** Operator =. Two nodes are equal if both their value and index fields
+   * are the same. */
   Self& operator= ( const Self& rhs )
-  {
-    if( this == &rhs ) return *this;
-    value = rhs.value;
-    index = rhs.index;
-    return *this;
-  }
+    {
+      if( this == &rhs ) {return *this;}
+  
+      value = rhs.value;
+      index = rhs.index;
+      return *this;
+    }
 
   TPixel                     value;
   Index<VSetDimension>       index;
   
 };
 
-
-/** 
- * \class LevelSetTypeDefault
+/**  \class LevelSetTypeDefault
  * \brief Level set type information.
  *
  * LevelSetTypeDefault is a simple class that holds type information
@@ -113,47 +104,30 @@ template<class TLevelSet>
 class ITK_EXPORT LevelSetTypeDefault
 {
 public:
-
-  /**
-   * LevelSetType typedef support.
-   */
+  /** LevelSetType typedef support. */
   typedef TLevelSet LevelSetImageType;
 
-  /**
-   * SetDimension enumeration
-   */
+  /** SetDimension enumeration. */
   enum{ SetDimension = TLevelSet::ImageDimension };
 
-  /**
-   * LevelSetPointer typedef support.
-   */
+  /** LevelSetPointer typedef support. */
   typedef typename TLevelSet::Pointer LevelSetPointer;
 
-  /**
-   * PixelType typedef support.
-   */
+  /** PixelType typedef support. */
   typedef typename TLevelSet::PixelType PixelType;
   
-  /**
-   * Node typdef support.
-   */
+  /** Node typdef support. */
   typedef LevelSetNode<PixelType, SetDimension> NodeType;
 
-  /**
-   * NodeContainer typedef support.
-   */
+  /** NodeContainer typedef support. */
   typedef VectorContainer<unsigned int,NodeType> NodeContainer;
 
-  /**
-   * NodeContainerPointer typedef support.
-   */
+  /** NodeContainerPointer typedef support. */
   typedef typename NodeContainer::Pointer NodeContainerPointer;
-
 };
 
 
-/**
- * \class AuxVarTypeDefault
+/** \class AuxVarTypeDefault
  * \brief Level set auxiliary variables type information.
  *
  * \brief AuxVarTypeDefault is a simple class that holds type information
@@ -162,7 +136,6 @@ public:
  * and the level set dimension.
  *
  * \ingroup LevelSetSegmentation 
- *
  */
 template < 
 class TPixel,
@@ -172,41 +145,26 @@ unsigned int VSetDimension = 2
 class ITK_EXPORT AuxVarTypeDefault
 {
 public:
-  /**
-   * PixelType typedef support
-   */ 
+  /** PixelType typedef support. */ 
   typedef TPixel AuxValueType;
 
-  /**
-   * Auxiliary variable dimension
-   */
+  /** Auxiliary variable dimension. */
   enum { AuxDimension = VAuxDimension };
 
-  /**
-   * Level set dimension
-   */
+  /** Level set dimension. */
   enum { SetDimension = VSetDimension };
 
-  /**
-   * AuxVector typedef support
-   */
+  /** AuxVector typedef support. */
   typedef Vector<TPixel,VAuxDimension> AuxValueVectorType;
 
-  /**
-   * AuxContainer typdef support
-   */
+  /** AuxContainer typdef support. */
   typedef VectorContainer<unsigned int,AuxValueVectorType> AuxValueContainer;
 
-  /**
-   * AuxImage typdef support.
-   */
+  /** AuxImage typdef support. */
   typedef Image<AuxValueType, VSetDimension> AuxImageType;
 
-  /**
-   * AuxImagePointer typedef support.
-   */
+  /** AuxImagePointer typedef support. */
   typedef typename AuxImageType::Pointer AuxImagePointer;
-
 };
 
 

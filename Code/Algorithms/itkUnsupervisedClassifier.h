@@ -68,70 +68,42 @@ namespace itk
  * image is treated as a single band scalar image.
  *
  * \ingroup UnSupervisedClassificationFilters 
- *
  */
-
 template <class TInputImage, class TClassifiedImage>
 class ITK_EXPORT UnsupervisedClassifier 
 : public Classifier<TInputImage,TClassifiedImage>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef UnsupervisedClassifier   Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef Classifier<TInputImage,TClassifiedImage> Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(UnsupervisedClassifier,Classifier);
 
-  /**
-   * Type definition for the input image.
-   */
+  /** Type definition for the input image. */
   typedef typename TInputImage::Pointer   InputImageType;
 
-  /**
-   * Type definitions for the classified image.
-   */
+  /** Type definitions for the classified image. */
   typedef typename TInputImage::Pointer ClassifiedImageType;
 
-  /**
-   * Type definition for the vector associated with
-   * input image pixel type.
-   */     
-  typedef typename TInputImage::PixelType::VectorType   
-    InputImageVectorType;
+  /** Type definition for the vector associated with
+   * input image pixel type. */     
+  typedef typename TInputImage::PixelType::VectorType InputImageVectorType;
 
-  /**
-   * Generate the cluster centers of the given data set
-   * .
-   */
-  virtual void Cluster(){};
+  /** Generate the cluster centers of the given data set. */
+  virtual void Cluster() {}
 
-  /**
-   * Classify input image
-   */
+  /** Classify the input image. */
   virtual void ClassifyImage() {};
 
-  /**
-   * Define a virtual Function that return the
+  /** Define a virtual Function that return the
    * the probabilties of a given data item belonging
-   * to a certain class
-   */      
+   * to a certain class. */      
   virtual void GetPixelDistance(InputImageVectorType &inPixelVec,
-    double * results )=0;
+                                double * results )=0;
 
 protected:
   UnsupervisedClassifier();

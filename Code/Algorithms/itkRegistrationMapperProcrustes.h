@@ -53,9 +53,7 @@ namespace itk
  *  used to convert between the coordinate systems
  *
  * \ingroup Functions
- *
  */
-
 template <class TTransformation, unsigned int NDimension> 
 class ITK_EXPORT RegistrationMapperProcrustes : 
     public RegistrationMapper< 
@@ -63,84 +61,39 @@ class ITK_EXPORT RegistrationMapperProcrustes :
         TTransformation >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef RegistrationMapperProcrustes  Self;
-
-
-
-  /**
-   *  Type of the Domain
-   */
-  typedef VectorContainer< unsigned long, 
-                           Point<double,NDimension> >    DomainType;
-
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef RegistrationMapper< DomainType, TTransformation > Superclass;
-
-
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
-
-  /**
-   *  Type of the Transformation
-   */
-  typedef TTransformation       TransformationType;
-  
-
-  /**
-   *  Pointer type for the Reference 
-   */
-  typedef typename DomainType::Pointer DomainPointer;
-
-
-  /**
-   *  Pointer type for the Transformation
-   */
-  typedef typename TransformationType::Pointer TransformationPointer;
-
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(RegistrationMapperProcrustes, RegistrationMapper);
-
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(RegistrationMapperProcrustes, RegistrationMapper);
 
+  /**  Type of the domain. */
+  typedef VectorContainer< unsigned long, 
+                           Point<double,NDimension> >    DomainType;
 
-  /**
-   * Connect the Domain
-   */
-   void SetDomain( DomainType * );
+  /**  Type of the transformation. */
+  typedef TTransformation       TransformationType;
 
+  /**  Pointer type for the reference.  */
+  typedef typename DomainType::Pointer DomainPointer;
 
-  /**
-   * Connect the Transformation
-   */
-   void SetTransformation( TransformationType * );
+  /**  Pointer type for the transformation. */
+  typedef typename TransformationType::Pointer TransformationPointer;
 
+  /** Connect the domain. */
+  void SetDomain( DomainType * );
 
-  /**
-   * Transform a point from one coordinate system
-   */
-   Point<double,NDimension> Transform( const Point<double,NDimension> & );
+  /** Connect the transformation. */
+  void SetTransformation( TransformationType * );
 
-
+  /** Transform a point from one coordinate system. */
+  Point<double,NDimension> Transform( const Point<double,NDimension> & );
   
 protected:
   RegistrationMapperProcrustes();
@@ -152,7 +105,6 @@ private:
   
   DomainPointer            m_Domain;
   TransformationPointer    m_Transformation;
-
   
 };
 

@@ -61,66 +61,36 @@ namespace itk
 template <class TReference, class TTarget>
 class ITK_EXPORT ImageToImageTranslationMeanSquaresGradientDescentRegistrationTraits 
 {
-  
 public:
+  /**  Type of the reference. */
+  typedef TReference  ReferenceType;
 
-  /**
-   *  Type of the Reference
-   */
-   typedef TReference  ReferenceType;
+  /**  Type of the target. */
+  typedef TTarget TargetType;
 
-  /**
-   *  Type of the Target
-   */
-   typedef TTarget TargetType;
+  /** Image dimensions. */
+  enum { ImageDimension = ReferenceType::ImageDimension }; 
 
-  /**
-   * Image Dimensions
-   */
-   enum { ImageDimension = ReferenceType::ImageDimension }; 
+  /**  Type of the transformation. */
+  typedef TranslationTransform<double,ImageDimension> TransformationType;
 
+  /** Parameters dimensions. */
+  enum { ParametersDimension = TransformationType::ParametersDimension }; 
 
-  /**
-   *  Type of the Transformation
-   */
-   typedef TranslationTransform< double, ImageDimension 
-                                            > TransformationType;
-
-
-  /**
-   * Parameters Dimensions
-   */
-   enum { ParametersDimension = TransformationType::ParametersDimension }; 
-
-
-  /**
-   *  Type of the parameters
-   */
-   typedef typename TransformationType::ParametersType  ParametersType;
-
+  /**  Type of the parameters. */
+  typedef typename TransformationType::ParametersType  ParametersType;
   
-  /**
-   *  Type of the Mapper
-   */
-   typedef ImageMapper<ReferenceType,TransformationType>  MapperType;
+  /**  Type of the mapper. */
+  typedef ImageMapper<ReferenceType,TransformationType>  MapperType;
 
-  /**
-   *  Type of the Metric
-   */
-   typedef MeanSquaresImageToImageMetric<TargetType, MapperType>   MetricType;
+  /**  Type of the metric. */
+  typedef MeanSquaresImageToImageMetric<TargetType, MapperType>   MetricType;
 
-
-  /**
-   *  Type of the Optimizer 
-   */
-   typedef GradientDescentOptimizer<MetricType>           OptimizerType;
-
-
+  /**  Type of the optimizer.  */
+  typedef GradientDescentOptimizer<MetricType>           OptimizerType;
 };
 
-
-/**
- * \class ImageToImageTranslationMeanSquaresGradientDescentRegistration
+/** \class ImageToImageTranslationMeanSquaresGradientDescentRegistration
  * \brief Base class for registration methods
  *
  * This Class define the generic interface for a registration method.
@@ -136,115 +106,58 @@ public:
  * template parameters
  *
  * \ingroup RigidImageRegistration
- *
  */
-
-
-
 template <class TReference, class TTarget>
 class ITK_EXPORT ImageToImageTranslationMeanSquaresGradientDescentRegistration 
 : public RegistrationMethod< 
-            ImageToImageTranslationMeanSquaresGradientDescentRegistrationTraits<
-               TReference,
-               TTarget>  >
+         ImageToImageTranslationMeanSquaresGradientDescentRegistrationTraits<TReference,TTarget> >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
-   typedef ImageToImageTranslationMeanSquaresGradientDescentRegistration  Self;
+  /** Standard class typedefs. */
+  typedef ImageToImageTranslationMeanSquaresGradientDescentRegistration  Self;
+  typedef RegistrationMethod< 
+          ImageToImageTranslationMeanSquaresGradientDescentRegistrationTraits<           TReference,TTarget> >    Superclass;
+  typedef SmartPointer<Self>   Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
 
-  /**
-   * Standard "Superclass" typedef.
-   */
-   typedef RegistrationMethod< 
-            ImageToImageTranslationMeanSquaresGradientDescentRegistrationTraits<
-                                       TReference,
-                                       TTarget>  >           Superclass;
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ImageToImageTranslationMeanSquaresGradientDescentRegistration,
+               RegistrationMethod);
 
+  /**  Type of the reference. */
+  typedef TReference ReferenceType;
 
-  /** 
-   * Smart pointer typedef support 
-   */
-   typedef SmartPointer<Self>   Pointer;
-   typedef SmartPointer<const Self>  ConstPointer;
+  /**  Type of the target. */
+  typedef TTarget   TargetType;
 
-  /**
-   *  Type of the Reference
-   */
-   typedef TReference ReferenceType;
+  /**  Type of the parameters. */
+  typedef typename Superclass::ParametersType ParametersType;
 
-  /**
-   *  Type of the Target
-   */
-   typedef TTarget   TargetType;
-
-
-  /**
-   *  Type of the parameters
-   */
-   typedef typename Superclass::ParametersType ParametersType;
-
-
-  /**
-   *  Type of the Transformation
-   */
-   typedef typename Superclass::TransformationType TransformationType;
+  /**  Type of the transformation. */
+  typedef typename Superclass::TransformationType TransformationType;
    
-   
-  /**
-   *  Type of the Mapper
-   */
-   typedef typename Superclass::MapperType    MapperType;
+  /**  Type of the mapper. */
+  typedef typename Superclass::MapperType    MapperType;
 
+  /**  Type of the metric. */
+  typedef typename Superclass::MetricType   MetricType;
 
-  /**
-   *  Type of the Metric
-   */
-   typedef typename Superclass::MetricType   MetricType;
+  /**  Type of the optimizer.  */
+  typedef typename Superclass::OptimizerType       OptimizerType;
 
+  /** Method that initiates the registration. */
+  void StartRegistration(void);
 
+  /** Set the translation scale. */
+  void SetTranslationScale( const double & scale )
+    { m_TranslationScale = scale; }
 
-   /**
-   *  Type of the Optimizer 
-   */
-   typedef typename Superclass::OptimizerType       OptimizerType;
-
-
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-   itkTypeMacro(ImageToImageTranslationMeanSquaresGradientDescentRegistration, RegistrationMethod);
-
-
-  /**
-   * Method for creation through the object factory.
-   */
-   itkNewMacro(Self);
-  
-
-  /**
-   * Method that initiates the registration.
-   */
-   void StartRegistration(void);
-
-
-  /**
-   * Set Translation Scale
-   */
-   void SetTranslationScale( const double & scale )
-   { m_TranslationScale = scale; }
-
-
-   /** 
-    *  Dimension of the images
-    */
-   enum { ImageDimension = ReferenceType::ImageDimension,
-          ParametersDimension = ImageDimension };
-
-
+  /**  Dimension of the images.  */
+  enum { ImageDimension = ReferenceType::ImageDimension,
+         ParametersDimension = ImageDimension };
 
 protected:
   ImageToImageTranslationMeanSquaresGradientDescentRegistration();

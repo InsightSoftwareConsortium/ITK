@@ -81,44 +81,25 @@ class ITK_EXPORT FastMarchingExtensionImageFilter :
   public FastMarchingImageFilter<TLevelSet>
 {
 public:
-
-  /** 
-   * Standard "Self" typdedef
-   */
+  /** Standard class typdedefs. */
   typedef FastMarchingExtensionImageFilter Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */ 
   typedef FastMarchingImageFilter<TLevelSet> Superclass;
-
-  /**
-   * Smart pointer typedef support
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(FastMarchingExtensionImageFilter, FastMarchingImageFilter);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * SetDimension enumeration.
-   * Although already defined in the superclass, needed here for gcc 2.95.2-5
-   * to compile.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(FastMarchingExtensionImageFilter, FastMarchingImageFilter);
+
+  /** The type of level set. */
   typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
+
+  /** The dimension of the level set. */
   enum { SetDimension = LevelSetType::SetDimension};
 
-  /**
-   * AuxVarType typedef support.
-   */
+  /** AuxVarType typedef support. */
   typedef AuxVarTypeDefault<TAuxValue,VAuxDimension,SetDimension> AuxVarType;
   typedef typename AuxVarType::AuxValueType AuxValueType;
   typedef typename AuxVarType::AuxValueVectorType AuxValueVectorType;
@@ -126,41 +107,28 @@ public:
   typedef typename AuxVarType::AuxImageType AuxImageType;
   typedef typename AuxVarType::AuxImagePointer AuxImagePointer;
 
-  /**
-   * Index typedef support.
-   */
+  /** Index typedef support. */
   typedef Index<SetDimension> IndexType;
 
-  /**
-   * Get one of the extended auxiliary variable image.
-   */
+  /** Get one of the extended auxiliary variable image. */
   AuxImagePointer GetAuxiliaryImage( unsigned int idx ) const
     { return m_AuxImage[idx]; }
 
-  /**
-   * Set the container auxiliary values at the initial alive points.
-   */
+  /** Set the container auxiliary values at the initial alive points. */
   void SetAuxiliaryAliveValues( AuxValueContainer * values )
     { m_AuxAliveValues = values; }
 
-  /**
-   * Get the container of auxiliary values at the initial alive points.
-   */
+  /** Get the container of auxiliary values at the initial alive points. */
   typename AuxValueContainer::Pointer GetAuxiliaryAliveValues()
     { return m_AuxAliveValues; }
 
-  /**
-   * Set the container of auxiliary values at the initial trial points.
-   */
+  /** Set the container of auxiliary values at the initial trial points. */
   void SetAuxiliaryTrialValues( AuxValueContainer * values )
     { m_AuxTrialValues = values; }
 
-  /**
-   * Get the container of auxiliary values at the initial trial points.
-   */
+  /** Get the container of auxiliary values at the initial trial points. */
   typename AuxValueContainer::Pointer GetAuxiliaryTrialValues()
     { return m_AuxTrialValues; }
-
 
 protected:
   FastMarchingExtensionImageFilter();

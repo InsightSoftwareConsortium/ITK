@@ -54,92 +54,49 @@ namespace itk
  * coordinate system.
  *
  * \ingroup Functions
- *
  */
-
 template <class TDomain, class TTransform> 
 class ITK_EXPORT RegistrationMapper : public Object 
-
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef RegistrationMapper  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
-  /**
-   *  Type of the Domain
-   */
+  /**  Type of the domain. */
   typedef TDomain            DomainType;
 
 
-  /**
-   *  Type of the Transform
-   */
+  /**  Type of the transform. */
   typedef TTransform       TransformType;
-  
 
-  /**
-   *  Pointer type for the Reference 
-   */
+  /**  Pointer type for the reference. */
   typedef typename DomainType::Pointer DomainPointer;
 
-
-  /**
-   *  Const Pointer type for the Reference 
-   */
+  /**  Const Pointer type for the reference.  */
   typedef typename DomainType::ConstPointer DomainConstPointer;
 
-
-  /**
-   *  Pointer type for the Transform
-   */
+  /**  Pointer type for the transform. */
   typedef typename TransformType::Pointer TransformPointer;
 
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(RegistrationMapper, Object);
-
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(RegistrationMapper, Object);
 
-  /**
-   * Connect the Domain
-   */
+  /** Connect the domain. */
   itkSetConstObjectMacro( Domain, DomainType );
 
-
-  /**
-   * Get the Domain
-   */
+  /** Get the domain. */
   itkGetConstObjectMacro( Domain, DomainType);
 
-  /**
-   * Connect the Transform
-   */
+  /** Connect the transform. */
   itkSetObjectMacro( Transform,TransformType);
 
-  /**
-   * Get the Transform
-   */
+  /** Get the transform. */
   itkGetObjectMacro( Transform,TransformType);
   
 protected:

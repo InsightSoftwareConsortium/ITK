@@ -57,8 +57,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk
 {
-/**
- * \class VoronoiDiagram2DGenerator
+/** \class VoronoiDiagram2DGenerator
  * \brief Implement the Sweep Line Algorithm for constructing the 2D Voronoi
  * Diagram.
  *
@@ -80,32 +79,18 @@ class VoronoiDiagram2DGenerator:
     public MeshSource <VoronoiDiagram2D<TCoordType> >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
   typedef VoronoiDiagram2DGenerator   Self;
-  
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef MeshSource <VoronoiDiagram2D<TCoordType> >    Superclass;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Standard part of every itk Object.
-   */
+  /** Standard part of every itk Object. */
   itkTypeMacro(VoronoiDiagram2DGenerator, MeshSource);
   
+  /** Convenient typedefs. */
   typedef VoronoiDiagram2D<TCoordType> VDMesh;
   typedef typename VDMesh::SeedsIterator SeedsIterator;
   typedef typename VDMesh::Pointer OutputType;
@@ -116,44 +101,34 @@ public:
   typedef typename VDMesh::CoordRepType CoordRepType;
   typedef typename VDMesh::VoronoiEdge VoronoiEdge;
 
-
+  /** Get the number of seed points. */
   itkGetMacro(NumberOfSeeds,unsigned int);
   
-  /**
-   * Input the seeds information, will overwrite if seeds already
-   * exists.
-   */
+  /** Input the seeds information, will overwrite if seeds already
+   * exists. */
   void SetSeeds (int num, SeedsIterator begin);
 
-  /**
-   * Add more seeds at one time.
-   */
+  /** Add more seeds at one time. */
   void AddSeeds(int num,SeedsIterator begin);
   void AddOneSeed(PointType);
 
+  /** Sort the seeds by ____. */
   void SortSeeds(void);
 
-  virtual void GenerateOutputInformation(){};
+  /** Produce the output information. */
+  virtual void GenerateOutputInformation() {}
 
-  /**
-   * Update the Voronoi Diagram after adding seed(s).
-   */
+  /** Update the Voronoi Diagram after adding seed(s). */
   void UpdateDiagram(void);
 
-  /**
-   * the boundary that enclose the whold voronoi diagram
-   */
+  /** The boundary that enclose the whold voronoi diagram. */
   void SetBoundary(PointType vorsize);
   void SetOrigin(PointType vorsize);
 
-  /**
-   * set the seeds points randomly.
-   */
+  /** Set the seeds points randomly. */
   void SetRandomSeeds(int num);
 
-  /**
-   * return the given indexed seed.
-   */
+  /** Return the given indexed seed. */
   PointType GetSeed(int SeedID);
 
 protected:
@@ -161,10 +136,7 @@ protected:
   ~VoronoiDiagram2DGenerator();
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
-
-  /**
-   * Generate Voronoi Diagram based on the current list of seeds.
-   */
+  /** Generate Voronoi Diagram based on the current list of seeds. */
   void GenerateData(void);
 
 private:
@@ -177,10 +149,8 @@ private:
   SeedsType m_Seeds;
 
   static bool comp(PointType arg1,PointType arg2);
-/**
- * small datastructures for Fortune's Method.
- * and some public variables/methods not for external access.
- */ 
+  /** Small datastructures for Fortune's Method
+   * and some public variables/methods not for external access. */ 
   class FortuneSite{
   public:
     PointType m_coord;
@@ -259,7 +229,6 @@ private:
   FortuneHalfEdge *getPQmin(void);
   void makeEndPoint(FortuneEdge *task, bool lr, FortuneSite *ends);
 };
-
 
 } // end namespace itk
 

@@ -61,68 +61,37 @@ template <class TReference, class TTarget>
 class ITK_EXPORT
 PointSetToImageTranslationNormalizedCorrelationGradientDescentRegistrationTraits 
 {
-  
 public:
+  /**  Type of the reference. */
+  typedef TReference  ReferenceType;
 
-  /**
-   *  Type of the Reference
-   */
-   typedef TReference  ReferenceType;
+  /**  Type of the target. */
+  typedef TTarget TargetType;
 
-  /**
-   *  Type of the Target
-   */
-   typedef TTarget TargetType;
+  /** Image dimensions and parameters dimension. */
+  enum { ImageDimension = ReferenceType::ImageDimension };
 
-
-  /**
-   * Image Dimensions and Parameters Dimension
-   */
-   enum { ImageDimension = ReferenceType::ImageDimension };
-
-  /**
-   *  Type of the Transformation
-   */
-   typedef TranslationTransform< double, ImageDimension
-                                                  > TransformationType;
+  /**  Type of the transformation. */
+  typedef TranslationTransform<double,ImageDimension> TransformationType;
         
-  /**
-   * Parameters Dimension
-   */
-   enum { ParametersDimension = TransformationType::ParametersDimension };
+  /** Parameters dimension. */
+  enum { ParametersDimension = TransformationType::ParametersDimension };
 
-  /**
-   *  Type of the parameters
-   */
-   typedef typename TransformationType::ParametersType   ParametersType;
+  /**  Type of the parameters. */
+  typedef typename TransformationType::ParametersType   ParametersType;
 
+  /**  Type of the mapper. */
+  typedef ImageMapper<ReferenceType,TransformationType>  MapperType;
 
+  /**  Type of the metric. */
+  typedef NormalizedCorrelationPointSetToImageMetric<TargetType,MapperType>
+  MetricType;
 
-  /**
-   *  Type of the Mapper
-   */
-   typedef ImageMapper<ReferenceType,TransformationType>  MapperType;
-
-  /**
-   *  Type of the Metric
-   */
-   typedef NormalizedCorrelationPointSetToImageMetric<
-                                              TargetType, 
-                                              MapperType>   MetricType;
-
-
-  /**
-   *  Type of the Optimizer 
-   */
-   typedef GradientDescentOptimizer<MetricType>           OptimizerType;
-
-
+  /**  Type of the optimizer.  */
+  typedef GradientDescentOptimizer<MetricType>  OptimizerType;
 };
 
-
-
-/**
- * \class PointSetToImageTranslationNormalizedCorrelationGradientDescentRegistration
+/** \class PointSetToImageTranslationNormalizedCorrelationGradientDescentRegistration
  * \brief Base class for registration methods
  *
  * This Class define the generic interface for a registration method.
@@ -136,104 +105,51 @@ public:
  * mapped under the transformation each time a value is required.
  *
  * \ingroup PointSetToImageRegistration
- *
  */
-
 template <class TReference, class TTarget>
 class ITK_EXPORT PointSetToImageTranslationNormalizedCorrelationGradientDescentRegistration 
 : public RegistrationMethod< 
-            PointSetToImageTranslationNormalizedCorrelationGradientDescentRegistrationTraits<
-               TReference,
-               TTarget>  >
+            PointSetToImageTranslationNormalizedCorrelationGradientDescentRegistrationTraits<TReference,TTarget>  >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
    typedef PointSetToImageTranslationNormalizedCorrelationGradientDescentRegistration  Self;
-
-
-  /**
-   * Standard "Superclass" typedef.
-   */
-   typedef
-     PointSetToImageTranslationNormalizedCorrelationGradientDescentRegistrationTraits<
-        TReference,
-        TTarget>  Superclass;
-
-
-  /** 
-   * Smart pointer typedef support 
-   */
+   typedef PointSetToImageTranslationNormalizedCorrelationGradientDescentRegistrationTraits<TReference,TTarget>  Superclass;
    typedef SmartPointer<Self>   Pointer;
    typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   *  Type of the Reference
-   */
+  /** Method for creation through the object factory. */
+   itkNewMacro(Self);
+  
+  /** Run-time type information (and related methods). */
+   itkTypeMacro(PointSetToImageTranslationNormalizedCorrelationGradientDescentRegistration, RegistrationMethod);
+
+  /**  Type of the reference. */
    typedef TReference  ReferenceType;
 
-  /**
-   *  Type of the Target
-   */
+  /**  Type of the target. */
    typedef TTarget TargetType;
 
-
-  /**
-   *  Type of the parameters
-   */
+  /**  Type of the parameters. */
    typedef typename Superclass::ParametersType ParametersType;
 
-
-  /**
-   *  Type of the Transformation
-   */
+  /**  Type of the transformation. */
    typedef typename Superclass::TransformationType TransformationType;
    
-   
-  /**
-   *  Type of the Mapper
-   */
+  /**  Type of the mapper. */
    typedef typename Superclass::MapperType    MapperType;
 
-
-  /**
-   *  Type of the Metric
-   */
+  /**  Type of the metric. */
    typedef typename Superclass::MetricType   MetricType;
 
-
-
-   /**
-   *  Type of the Optimizer 
-   */
+   /**  Type of the optimizer.  */
    typedef typename Superclass::OptimizerType       OptimizerType;
 
-
-
-   
-  /**
-   * Image Dimensions
-   */
+  /** Image dimensions. */
    enum { ImageDimension = ReferenceType::ImageDimension,
           ParametersDimension = ImageDimension };
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-   itkTypeMacro(PointSetToImageTranslationNormalizedCorrelationGradientDescentRegistration,
-       RegistrationMethod);
-
-
-  /**
-   * Method for creation through the object factory.
-   */
-   itkNewMacro(Self);
-  
-
-  /**
-   * Method that initiates the registration.
-   */
+  /** Method that initiates the registration. */
    void StartRegistration(void);
 
 protected:

@@ -38,7 +38,6 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-
 #ifndef _itkVoronoiSegmentationRGBImageFilter_h
 #define _itkVoronoiSegmentationRGBImageFilter_h
 
@@ -55,9 +54,11 @@ namespace itk
  * Used as a node of the segmentation toolkits.
  * The parameters here are: 
  * 1. the estimation of the statistics of the object. (mean and std.)
- * 2. the tolerance for the classification. (around the mean ans std. estimated value).
- * The parameters can also be automatically set by given a prior, as a binary image.
+ * 2. the tolerance for the classification. (around the mean ans
+ *    std. estimated value).
  *
+ * The parameters can also be automatically set by given a prior, as a binary
+ * image.
  *
  * Detail information about this algorithm can be found in:
  *  " Semi-automated color segmentation of anatomical tissue,"
@@ -69,50 +70,34 @@ namespace itk
  *
  * \ingroup HybridSegmentation 
  */
-
 template <class TInputImage, class TOutputImage>
 class VoronoiSegmentationRGBImageFilter:
 public VoronoiSegmentationImageFilterBase<TInputImage,TOutputImage>
 {
 
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef VoronoiSegmentationRGBImageFilter       Self;
-
-  /** 
-   * Smart pointer typedef support.
-   */
+  typedef VoronoiSegmentationImageFilterBase<TInputImage,TOutputImage> Superclass;
   typedef SmartPointer <Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Standard "Superclass" typedef.
-   */
-  typedef VoronoiSegmentationImageFilterBase<TInputImage,TOutputImage>   Superclass;
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(VoronoiSegmentationRGBImageFilter,
+               VoronoiSegmentationImageFilterBase);
 
-
-  /**
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(VoronoiSegmentationRGBImageFilter,VoronoiSegmentationImageFilterBase);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-
+  /** Convenient typedefs. */
   typedef typename Superclass::BinaryObjectImage BinaryObjectImage;
   typedef typename Superclass::IndexList IndexList;
-
   typedef Vector<float,6> RGBHCVPixel;
   typedef Image<RGBHCVPixel> RGBHCVImage;
 
+  /** \todo Document. */
   void SetMeanPercentError(double x[6]);
   void SetVarPercentError(double x[6]);
-
   void GetMeanPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_MeanPercentError[i];};
   void GetVarPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_VarPercentError[i];};
   void GetMean(double x[6]){for(int i=0;i<6;i++) x[i]=m_Mean[i];};
@@ -122,18 +107,14 @@ public:
   void GetMeanTolerance(double x[6]){for(int i=0;i<6;i++) x[i]=m_MeanTolerance[i];};
   void GetVarTolerance(double x[6]){for(int i=0;i<6;i++) x[i]=m_VarTolerance[i];};
 
-  /*
-   * maximum value of the RGB, needed for color space coversions.
+  /** Maximum value of the RGB, needed for color space coversions.
    * default as 8 bit per channel, if it is different, need to be
-   * set before doing anything.
-   */
+   * set before doing anything. */
   itkSetMacro(MaxValueOfRGB,double);
   itkGetMacro(MaxValueOfRGB,double);
 
-  /*
-   * set the three channels to test the mean and var respectivley
-   * 0:red, 1:green, 2:blue, 3:hue, 4:chroma, 5:value
-   */
+  /** Set the three channels to test the mean and var respectivley
+   * 0:red, 1:green, 2:blue, 3:hue, 4:chroma, 5:value. */
   void SetTestMean(unsigned int t1,unsigned int t2,unsigned int t3){
     m_TestMean[0] = t1;
     m_TestMean[1] = t2;

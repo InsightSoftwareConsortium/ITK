@@ -139,155 +139,96 @@ namespace itk
  *
  * \ingroup UnSupervisedClassificationFilters 
  */
-
 template <class TInputImage, class TClassifiedImage>
 class ITK_EXPORT KMeansUnsupervisedClassifier 
 : public UnsupervisedClassifier <TInputImage,TClassifiedImage>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef KMeansUnsupervisedClassifier   Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef UnsupervisedClassifier<TInputImage,TClassifiedImage> Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(KMeansUnsupervisedClassifier,UnsupervisedClassifier);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Type definition for the input image.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(KMeansUnsupervisedClassifier,UnsupervisedClassifier);
+
+  /** Type definition for the input image. */
   typedef typename TInputImage::Pointer   InputImageType;
 
-  /**
-   * Type definition for the vector associated with
-   * input image pixel type.
-   */     
+  /** Type definition for the vector associated with
+   * input image pixel type. */     
   typedef typename TInputImage::PixelType::VectorType    
     InputImageVectorType;
 
-  /**
-   * Type definition for the input image pixel type.
-   */
+  /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType     InputImagePixelType;
 
-  /**
-   * Type definition for a double matrix.
-   */
+  /** Type definition for a double matrix. */
   typedef vnl_matrix<double> CodebookMatDblType; 
 
-  /**
-   * Type definition for an integer vector.
-   */
+  /** Type definition for an integer vector. */
   typedef vnl_matrix<int>    CodebookMatIntType;
 
-  /**
-   * Set the cluster centers
-   */
+  /** Set the cluster centers. */
   void SetCodebook(CodebookMatDblType InCodebook);
 
-  /**
-   * Get the cluster centers
-   */
+  /** Get the cluster centers. */
   itkGetMacro(Codebook,CodebookMatDblType);
 
-  /**
-   * Get the optimized codebook or the centroids of the clusters.
-   */
+  /** Get the optimized codebook or the centroids of the clusters. */
   CodebookMatDblType GetOutCodebook()
-  {
-    return m_Codebook;
-  }
+    { return m_Codebook; }
 
-  /**
-   * Set the threshold parameter
-   */
+  /** Set the threshold parameter. */
   itkSetMacro(Threshold,double);
 
-  /**
-   * Get the threshold parameter
-   */
+  /** Get the threshold parameter. */
   itkGetMacro(Threshold,double);
 
-  /**
-   * Set the offset add parameter
-   */
+  /** Set the offset add parameter. */
   itkSetMacro(OffsetAdd,double);
 
-  /**
-   * Get the offset add parameter
-   */
+  /** Get the offset add parameter. */
   itkGetMacro(OffsetAdd,double);
 
-  /**
-   * Set the offset multiplication parameter
-   */
+  /** Set the offset multiplication parameter. */
   itkSetMacro(OffsetMultiply,double);
 
-  /**
-   * Get the offset multiplication parameter
-   */
+  /** Get the offset multiplication parameter. */
   itkGetMacro(OffsetMultiply,double);
 
-  /**
-   * Set the maximum number of attempts to split a codeword  
-   */
+  /** Set the maximum number of attempts to split a codeword. */
   itkSetMacro(MaxSplitAttempts,int);
 
-  /**
-   * Get the manimum number of attempts to split a codeword  
-   */
+  /** Get the manimum number of attempts to split a codeword. */
   itkGetMacro(MaxSplitAttempts,int);
 
-  /**
-   * Return the codebook/cluster centers
-   */
+  /** Return the codebook/cluster centers. */
   CodebookMatDblType GetKmeansResults()
-  {
-    return m_Centroid;
-  }
+    { return m_Centroid; }
 
-  /**
-   * Generate the cluster centers corresponding to the initial codebook.
+  /** Generate the cluster centers corresponding to the initial codebook.
    * If no codebook is provided, then use the number of classes to 
    * determine the number of cluster centers desired. This is the
-   * the base function to call the K-means classifier.
-   */
+   * the base function to call the K-means classifier. */
   void Cluster();
 
-  /**
-   * Given a pixel value return the probability  
+  /** Given a pixel value return the probability  
    * of the pixel belonging to different classes
    * as a distance metric. The higher the distance 
    * the lower is the probability of a the pixel 
    * belonging to that class.
    * For the unsupervised classifier this function
    * has not been implemented and returns a null 
-   * value. 
-   */
-  virtual void GetPixelDistance(
-    InputImageVectorType &inPixelVec, double * results ){}
+   * value.  */
+  virtual void GetPixelDistance(InputImageVectorType &inPixelVec, 
+                                double * results ) {}
 
-  /**
-   * Print out the results on the screen for visual feedback
-   */
+  /** Print out the results on the screen for visual feedback. */
   void PrintKmeansAlgorithmResults();
 
 protected:
@@ -295,9 +236,7 @@ protected:
   ~KMeansUnsupervisedClassifier();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * Allocate memory for the Output Model
-   */
+  /** Allocate memory for the output model. */
   void Allocate();
 
 private:
@@ -306,7 +245,7 @@ private:
   
   typedef typename TInputImage::SizeType ImageSizeType;
 
-  //Set up the vector to store the image  data
+  /** Set up the vector to store the image  data. */
   typedef typename TInputImage::PixelType::VectorType InVectorType;
 
   void Reallocate(int oldSize, int newSize);

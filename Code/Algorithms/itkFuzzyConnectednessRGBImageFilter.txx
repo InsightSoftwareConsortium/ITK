@@ -89,12 +89,12 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
   double s12 = save[1]*save[2];
   double s22 = save[2]*save[2];
 
-  double tmp1 = s00*(m_Var_inverse[0][0])
-    + s11*(m_Var_inverse[1][1])
-    + s22*(m_Var_inverse[2][2])
-    + s01*(m_Var_inverse[0][1]+m_Var_inverse[1][0])
-    + s02*(m_Var_inverse[0][2]+m_Var_inverse[2][0])
-    + s12*(m_Var_inverse[1][2]+m_Var_inverse[2][1]);
+  double tmp1 = s00*(m_VarInverse[0][0])
+    + s11*(m_VarInverse[1][1])
+    + s22*(m_VarInverse[2][2])
+    + s01*(m_VarInverse[0][1]+m_VarInverse[1][0])
+    + s02*(m_VarInverse[0][2]+m_VarInverse[2][0])
+    + s12*(m_VarInverse[1][2]+m_VarInverse[2][1]);
 
   if(m_Weight == 1)
     {
@@ -111,9 +111,9 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
       save[1]=-save[1];
     if(save[2] < 0)
       save[2]=-save[2];
-    save[0] = save[0] - m_Diff_Mean[0];
-    save[1] = save[1] - m_Diff_Mean[1];
-    save[2] = save[2] - m_Diff_Mean[2];
+    save[0] = save[0] - m_DiffMean[0];
+    save[1] = save[1] - m_DiffMean[1];
+    save[2] = save[2] - m_DiffMean[2];
 
     s00 = save[0]*save[0];
     s01 = save[0]*save[1];
@@ -122,12 +122,12 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
     s12 = save[1]*save[2];
     s22 = save[2]*save[2];
 
-    double tmp3 = s00*(m_Diff_Var_inverse[0][0])
-      + s11*(m_Diff_Var_inverse[1][1])
-      + s22*(m_Diff_Var_inverse[2][2])
-      + s01*(m_Diff_Var_inverse[0][1]+m_Diff_Var_inverse[1][0])
-      + s02*(m_Diff_Var_inverse[0][2]+m_Diff_Var_inverse[2][0])
-      + s12*(m_Diff_Var_inverse[1][2]+m_Diff_Var_inverse[2][1]);
+    double tmp3 = s00*(m_DiffVarInverse[0][0])
+      + s11*(m_DiffVarInverse[1][1])
+      + s22*(m_DiffVarInverse[2][2])
+      + s01*(m_DiffVarInverse[0][1]+m_DiffVarInverse[1][0])
+      + s02*(m_DiffVarInverse[0][2]+m_DiffVarInverse[2][0])
+      + s12*(m_DiffVarInverse[1][2]+m_DiffVarInverse[2][1]);
 
     return( (NumericTraits<unsigned short>::max())*(m_Weight*exp(-0.5*tmp1)  
                                                     +(1-m_Weight)*exp(-0.5*tmp3)) );
@@ -145,56 +145,56 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
 {
 
 /* compute the Determinate and inverse of the Variance Matrices */
-  m_Var_Det = m_Var[0][0]*m_Var[1][1]*m_Var[2][2]
+  m_VarDet = m_Var[0][0]*m_Var[1][1]*m_Var[2][2]
              +m_Var[1][0]*m_Var[2][1]*m_Var[0][2]
        +m_Var[0][1]*m_Var[1][2]*m_Var[2][0]
        -m_Var[2][0]*m_Var[1][1]*m_Var[0][2]
        -m_Var[0][1]*m_Var[1][0]*m_Var[2][2]
        -m_Var[0][0]*m_Var[1][2]*m_Var[2][1];
-  m_Var_inverse[0][0]=(m_Var[1][1]*m_Var[2][2]-m_Var[2][1]*m_Var[1][2])
-                      /m_Var_Det;  
-  m_Var_inverse[0][1]=-(m_Var[1][0]*m_Var[2][2]-m_Var[2][0]*m_Var[1][2])
-                      /m_Var_Det;  
-  m_Var_inverse[0][2]=(m_Var[1][0]*m_Var[2][1]-m_Var[2][0]*m_Var[1][1])
-                      /m_Var_Det;  
-  m_Var_inverse[1][0]=-(m_Var[0][1]*m_Var[2][2]-m_Var[2][1]*m_Var[0][2])
-                      /m_Var_Det;  
-  m_Var_inverse[1][1]=(m_Var[0][0]*m_Var[2][2]-m_Var[2][0]*m_Var[0][2])
-                      /m_Var_Det;  
-  m_Var_inverse[1][2]=-(m_Var[0][0]*m_Var[2][1]-m_Var[2][0]*m_Var[0][1])
-                      /m_Var_Det;  
-  m_Var_inverse[2][0]=(m_Var[0][1]*m_Var[1][2]-m_Var[1][1]*m_Var[0][2])
-                      /m_Var_Det;  
-  m_Var_inverse[2][1]=-(m_Var[0][0]*m_Var[1][2]-m_Var[1][0]*m_Var[0][2])
-                      /m_Var_Det;  
-  m_Var_inverse[2][2]=(m_Var[0][0]*m_Var[1][1]-m_Var[1][0]*m_Var[0][1])
-                      /m_Var_Det;  
+  m_VarInverse[0][0]=(m_Var[1][1]*m_Var[2][2]-m_Var[2][1]*m_Var[1][2])
+                      /m_VarDet;  
+  m_VarInverse[0][1]=-(m_Var[1][0]*m_Var[2][2]-m_Var[2][0]*m_Var[1][2])
+                      /m_VarDet;  
+  m_VarInverse[0][2]=(m_Var[1][0]*m_Var[2][1]-m_Var[2][0]*m_Var[1][1])
+                      /m_VarDet;  
+  m_VarInverse[1][0]=-(m_Var[0][1]*m_Var[2][2]-m_Var[2][1]*m_Var[0][2])
+                      /m_VarDet;  
+  m_VarInverse[1][1]=(m_Var[0][0]*m_Var[2][2]-m_Var[2][0]*m_Var[0][2])
+                      /m_VarDet;  
+  m_VarInverse[1][2]=-(m_Var[0][0]*m_Var[2][1]-m_Var[2][0]*m_Var[0][1])
+                      /m_VarDet;  
+  m_VarInverse[2][0]=(m_Var[0][1]*m_Var[1][2]-m_Var[1][1]*m_Var[0][2])
+                      /m_VarDet;  
+  m_VarInverse[2][1]=-(m_Var[0][0]*m_Var[1][2]-m_Var[1][0]*m_Var[0][2])
+                      /m_VarDet;  
+  m_VarInverse[2][2]=(m_Var[0][0]*m_Var[1][1]-m_Var[1][0]*m_Var[0][1])
+                      /m_VarDet;  
   if((int)(m_Weight*100+0.5) > 1){ //need to use the difference information.
 
-  m_Diff_Var_Det = m_Diff_Var[0][0]*m_Diff_Var[1][1]*m_Diff_Var[2][2]
-    +m_Diff_Var[1][0]*m_Diff_Var[2][1]*m_Diff_Var[0][2]
-    +m_Diff_Var[0][1]*m_Diff_Var[1][2]*m_Diff_Var[2][0]
-    -m_Diff_Var[2][0]*m_Diff_Var[1][1]*m_Diff_Var[0][2]
-    -m_Diff_Var[0][1]*m_Diff_Var[1][0]*m_Diff_Var[2][2]
-    -m_Diff_Var[0][0]*m_Diff_Var[1][2]*m_Diff_Var[2][1];
-  m_Diff_Var_inverse[0][0]=(m_Diff_Var[1][1]*m_Diff_Var[2][2]-m_Diff_Var[2][1]*m_Diff_Var[1][2])
-                      /m_Diff_Var_Det;  
-  m_Diff_Var_inverse[0][1]=-(m_Diff_Var[1][0]*m_Diff_Var[2][2]-m_Diff_Var[2][0]*m_Diff_Var[1][2])
-                      /m_Diff_Var_Det;  
-  m_Diff_Var_inverse[0][2]=(m_Diff_Var[1][0]*m_Diff_Var[2][1]-m_Diff_Var[2][0]*m_Diff_Var[1][1])
-                      /m_Diff_Var_Det;  
-  m_Diff_Var_inverse[1][0]=-(m_Diff_Var[0][1]*m_Diff_Var[2][2]-m_Diff_Var[2][1]*m_Diff_Var[0][2])
-                      /m_Diff_Var_Det;  
-  m_Diff_Var_inverse[1][1]=(m_Diff_Var[0][0]*m_Diff_Var[2][2]-m_Diff_Var[2][0]*m_Diff_Var[0][2])
-                      /m_Diff_Var_Det;  
-  m_Diff_Var_inverse[1][2]=-(m_Diff_Var[0][0]*m_Diff_Var[2][1]-m_Diff_Var[2][0]*m_Diff_Var[0][1])
-                      /m_Diff_Var_Det;  
-  m_Diff_Var_inverse[2][0]=(m_Diff_Var[0][1]*m_Diff_Var[1][2]-m_Diff_Var[1][1]*m_Diff_Var[0][2])
-                      /m_Diff_Var_Det;  
-  m_Diff_Var_inverse[2][1]=-(m_Diff_Var[0][0]*m_Diff_Var[1][2]-m_Diff_Var[1][0]*m_Diff_Var[0][2])
-                      /m_Diff_Var_Det;  
-  m_Diff_Var_inverse[2][2]=(m_Diff_Var[0][0]*m_Diff_Var[1][1]-m_Diff_Var[1][0]*m_Diff_Var[0][1])
-                      /m_Diff_Var_Det;  
+  m_DiffVarDet = m_DiffVar[0][0]*m_DiffVar[1][1]*m_DiffVar[2][2]
+    +m_DiffVar[1][0]*m_DiffVar[2][1]*m_DiffVar[0][2]
+    +m_DiffVar[0][1]*m_DiffVar[1][2]*m_DiffVar[2][0]
+    -m_DiffVar[2][0]*m_DiffVar[1][1]*m_DiffVar[0][2]
+    -m_DiffVar[0][1]*m_DiffVar[1][0]*m_DiffVar[2][2]
+    -m_DiffVar[0][0]*m_DiffVar[1][2]*m_DiffVar[2][1];
+  m_DiffVarInverse[0][0]=(m_DiffVar[1][1]*m_DiffVar[2][2]-m_DiffVar[2][1]*m_DiffVar[1][2])
+                      /m_DiffVarDet;  
+  m_DiffVarInverse[0][1]=-(m_DiffVar[1][0]*m_DiffVar[2][2]-m_DiffVar[2][0]*m_DiffVar[1][2])
+                      /m_DiffVarDet;  
+  m_DiffVarInverse[0][2]=(m_DiffVar[1][0]*m_DiffVar[2][1]-m_DiffVar[2][0]*m_DiffVar[1][1])
+                      /m_DiffVarDet;  
+  m_DiffVarInverse[1][0]=-(m_DiffVar[0][1]*m_DiffVar[2][2]-m_DiffVar[2][1]*m_DiffVar[0][2])
+                      /m_DiffVarDet;  
+  m_DiffVarInverse[1][1]=(m_DiffVar[0][0]*m_DiffVar[2][2]-m_DiffVar[2][0]*m_DiffVar[0][2])
+                      /m_DiffVarDet;  
+  m_DiffVarInverse[1][2]=-(m_DiffVar[0][0]*m_DiffVar[2][1]-m_DiffVar[2][0]*m_DiffVar[0][1])
+                      /m_DiffVarDet;  
+  m_DiffVarInverse[2][0]=(m_DiffVar[0][1]*m_DiffVar[1][2]-m_DiffVar[1][1]*m_DiffVar[0][2])
+                      /m_DiffVarDet;  
+  m_DiffVarInverse[2][1]=-(m_DiffVar[0][0]*m_DiffVar[1][2]-m_DiffVar[1][0]*m_DiffVar[0][2])
+                      /m_DiffVarDet;  
+  m_DiffVarInverse[2][2]=(m_DiffVar[0][0]*m_DiffVar[1][1]-m_DiffVar[1][0]*m_DiffVar[0][1])
+                      /m_DiffVarDet;  
   }
   
   Superclass::GenerateData();            

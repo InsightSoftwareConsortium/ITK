@@ -74,35 +74,19 @@ class ITK_EXPORT ReinitializeLevelSetImageFilter :
   public ImageToImageFilter<TLevelSet,TLevelSet>
 {
 public:
-  /**
-   * Standard "Self" typedef
-   */
+  /** Standard class typedefs. */
   typedef ReinitializeLevelSetImageFilter Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef ImageToImageFilter<TLevelSet,TLevelSet> Superclass;
-
-  /**
-   * Smart pointer typedef support
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(ReinitializeLevelSetImageFilter, ImageToImageFilter);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * LevelSetType typedef support.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ReinitializeLevelSetImageFilter, ImageToImageFilter);
+
+  /** LevelSetType typedef support. */
   typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
   typedef typename LevelSetType::LevelSetImageType  LevelSetImageType;
   typedef typename LevelSetType::LevelSetPointer  LevelSetPointer;
@@ -111,82 +95,46 @@ public:
   typedef typename LevelSetType::NodeContainer NodeContainer;
   typedef typename LevelSetType::NodeContainerPointer NodeContainerPointer;
 
-  /**
-   * SetDimension enumeration.
-   */
+  /** SetDimension enumeration. */
   enum { SetDimension = LevelSetType::SetDimension};
 
-  /**
-   * Set the value of the level set to be located. The default value is 0.
-   */
+  /** Set/Get the value of the level set to be located. The default value is
+   *  0. */
   itkSetMacro( LevelSetValue, double );
-
-  /**
-   * Get the value of the level set to be located.
-   */
   itkGetMacro( LevelSetValue, double );
 
-  /**
-   * Set the narrowbanding flag. By default, narrowbanding is switched
-   * off.
-   */
+  /** Set/Get the narrowbanding flag. By default, narrowbanding is switched
+   * off. */
   itkSetMacro( NarrowBanding, bool );
-
-  /**
-   * Get the narrowbanding flag
-   */
   itkGetMacro( NarrowBanding, bool );
   itkBooleanMacro( NarrowBanding );
 
-  /**
-   * Set the input narrow bandwidth. The default value is 12.
-   */
+  /** Set/Get the input narrow bandwidth. The default value is 12. */
   itkSetClampMacro( InputNarrowBandwidth, double, 0.0, 
     NumericTraits<double>::max());
-
-  /**
-   * Get the input narrow bandwidth.
-   */
   itkGetMacro( InputNarrowBandwidth, double );
 
-  /**
-   * Set the output narrow bandwidth. The default value is 12.
-   */
+  /** Set/Get the output narrow bandwidth. The default value is 12. */
   itkSetClampMacro( OutputNarrowBandwidth, double, 0.0, 
     NumericTraits<double>::max());
-
-  /**
-   * Get the output narrow bandwidth.
-   */
   itkGetMacro( OutputNarrowBandwidth, double );
 
-  /**
-   * Set the bandwidth for both the input and output narrowband,
-   * By default, both the input and output are set to 12.
-   */
+  /** Set the bandwidth for both the input and output narrowband,
+   * By default, both the input and output are set to 12. */
   void SetNarrowBandwidth( double value )
     {
       this->SetInputNarrowBandwidth(value);
       this->SetOutputNarrowBandwidth(value);
     }
 
-  /**
-   * Set the input narrowband.
-   */
+  /** Set/Get the input narrowband. */
   void SetInputNarrowBand( NodeContainer * ptr );
-
-  /**
-   * Get the input narrowband.
-   */
   NodeContainerPointer GetInputNarrowBand() const
     { return m_InputNarrowBand; }
 
-  /**
-   * Get the output narrowband.
-   */
+  /** Get the output narrowband. */
   NodeContainerPointer GetOutputNarrowBand() const
     { return m_OutputNarrowBand; }
-
 
 protected:
   ReinitializeLevelSetImageFilter();

@@ -52,21 +52,20 @@ namespace itk{
 
 /** /class FuzzyConnectednessRGBImageFilter
  * 
- * Perform the segmentation by three channel(RGB) fuzzy connectedness.
- * Used as a node of the segmentation toolkits.
- * The Basic concept here is the fuzzy affinity which is defined between
- * two neighbor pixels, it reflects the similarity and possibility of these
- * two pixels to be in the same object. 
- * A "path" between two pixels is a list of pixels that connect them, the stregth
- * of a particular path was defined as the weakest affinity between the neighbor pixels
- * that form the path.
- * The fuzzy connectedness between two pixels is defined as the strongest path stregth
- * between these two pixels.
- * The segmentation based on fuzzy connectedness assumes that the fuzzy connectedness 
- * between any two pixels is significantly higher than those belongs to different objects.
- * A fuzzy connectedness scene was first computed, which is the fuzzy connectedness value 
- * to a preset seed point believed to be inside the object of interest.
- * then a threshold was applied to obtain the binary segmented object.
+ * Perform the segmentation by three channel(RGB) fuzzy connectedness.  Used
+ * as a node of the segmentation toolkits.  The Basic concept here is the
+ * fuzzy affinity which is defined between two neighbor pixels, it reflects
+ * the similarity and possibility of these two pixels to be in the same
+ * object.  A "path" between two pixels is a list of pixels that connect
+ * them, the stregth of a particular path was defined as the weakest affinity
+ * between the neighbor pixels that form the path.  The fuzzy connectedness
+ * between two pixels is defined as the strongest path stregth between these
+ * two pixels.  The segmentation based on fuzzy connectedness assumes that
+ * the fuzzy connectedness between any two pixels is significantly higher
+ * than those belongs to different objects.  A fuzzy connectedness scene was
+ * first computed, which is the fuzzy connectedness value to a preset seed
+ * point believed to be inside the object of interest.  then a threshold was
+ * applied to obtain the binary segmented object.
  * 
  * Usage:
  *
@@ -74,10 +73,11 @@ namespace itk{
  * 2. use SetParameter, SetSeed, SetThreshold to set the parameters
  * 3. run ExcuteSegment to perform the segmenation
  * 4. threshold can be set after the segmentation, and no computation
- *     will be redo. no need to run GenerateData. But if SetThreshold was used. MakeSegmentObject()
- *    should be called to get the updated result.
+ *    will be redo. no need to run GenerateData. But if SetThreshold was used.
+ *    MakeSegmentObject() should be called to get the updated result.
  * 5. use GetOutput to obtain the resulted binary image Object.
- * 6. GetFuzzyScene gives the pointer of Image<unsigned short> for the fuzzy scene.
+ * 6. GetFuzzyScene gives the pointer of Image<unsigned short> for the 
+ *    fuzzy scene.
  *
  * Detail information about this algorithm can be found in:
  *  "Fuzzy Connectedness and Object Definition: Theory, Algorithms,
@@ -87,77 +87,65 @@ namespace itk{
  * the input image should be in the form of:
  *  itkImage<itkVector<Pixeltype,3>,2>
  *
- * \ingroup FuzzyConnectednessSegmentation  
- */
+ * \ingroup FuzzyConnectednessSegmentation */
 
 template <class TInputImage, class TOutputImage>
 class FuzzyConnectednessRGBImageFilter:
   public SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef FuzzyConnectednessRGBImageFilter       Self;
-
-  /** 
-   * Smart pointer typedef support.
-   */
+  typedef SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
+                                                 Superclass;
   typedef SmartPointer <Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Standard "Superclass" typedef.
-   */
-  typedef SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>   Superclass;
-
-  /**
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(FuzzyConnectednessRGBImageFilter,SimpleFuzzyConnectednessImageFilterBase);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(FuzzyConnectednessRGBImageFilter,
+               SimpleFuzzyConnectednessImageFilterBase);
+
+  /** The pixel type. */
   typedef typename TInputImage::PixelType PixelType;
 
-  /**
-   * Seting and geting the parameters
-   */
-  void SetMean(double imean[3]){
-    m_Mean[0]=imean[0];m_Mean[1]=imean[1];m_Mean[2]=imean[2];
-  };
-  void GetMean(double omean[3]){
+  /** Setting and geting the segmentation parameters. */
+  itkSetVectorMacro(Mean,double,3);
+  void GetMean(double omean[3])
+    {
     omean[0]=m_Mean[0];omean[1]=m_Mean[1];omean[2]=m_Mean[2];
-  };
-  void SetVar(double ivar[3][3]){
+    }
+  void SetVar(double ivar[3][3])
+    {
     m_Var[0][0]=ivar[0][0];m_Var[0][1]=ivar[0][1];m_Var[0][2]=ivar[0][2];
-  m_Var[1][0]=ivar[1][0];m_Var[1][1]=ivar[1][1];m_Var[1][2]=ivar[1][2];
-  m_Var[2][0]=ivar[2][0];m_Var[2][1]=ivar[2][2];m_Var[2][2]=ivar[2][2];
-  };
-  void GetVar(double ovar[3][3]){
+    m_Var[1][0]=ivar[1][0];m_Var[1][1]=ivar[1][1];m_Var[1][2]=ivar[1][2];
+    m_Var[2][0]=ivar[2][0];m_Var[2][1]=ivar[2][2];m_Var[2][2]=ivar[2][2];
+    }
+  void GetVar(double ovar[3][3])
+    {
     ovar[0][0]=m_Var[0][0];ovar[0][1]=m_Var[0][1];ovar[0][2]=m_Var[0][2];
     ovar[1][0]=m_Var[1][0];ovar[1][1]=m_Var[1][1];ovar[1][2]=m_Var[1][2];
     ovar[2][0]=m_Var[2][0];ovar[2][1]=m_Var[2][1];ovar[2][2]=m_Var[2][2];
-  };
-  void SetDiffMean(double idmean[3]){
-    m_Diff_Mean[0]=idmean[0];m_Diff_Mean[1]=idmean[1];m_Diff_Mean[2]=idmean[2];
-  };
-  void GetDiffMean(double odmean[3]){
-    odmean[0]=m_Diff_Mean[0];odmean[1]=m_Diff_Mean[1];odmean[2]=m_Diff_Mean[2];
-  };
-  void SetDiffVar(double idvar[3][3]){
-    m_Diff_Var[0][0]=idvar[0][0];m_Diff_Var[0][1]=idvar[0][1];m_Diff_Var[0][2]=idvar[0][2];
-    m_Diff_Var[1][0]=idvar[1][0];m_Diff_Var[1][1]=idvar[1][1];m_Diff_Var[1][2]=idvar[1][2];
-    m_Diff_Var[2][0]=idvar[2][0];m_Diff_Var[2][1]=idvar[2][1];m_Diff_Var[2][2]=idvar[2][2];
-  };
-  void GetDiffVar(double odvar[3][3]){
-    odvar[0][0]=m_Diff_Var[0][0];odvar[0][1]=m_Diff_Var[0][1];odvar[0][2]=m_Diff_Var[0][2];
-    odvar[1][0]=m_Diff_Var[1][0];odvar[1][1]=m_Diff_Var[1][1];odvar[1][2]=m_Diff_Var[1][2];
-    odvar[2][0]=m_Diff_Var[2][0];odvar[2][1]=m_Diff_Var[2][1];odvar[2][2]=m_Diff_Var[2][2];
-  };
+    }
+  itkSetVectorMacro(DiffMean,double,3);
+  void GetDiffMean(double odmean[3])
+    {
+    odmean[0]=m_DiffMean[0];odmean[1]=m_DiffMean[1];odmean[2]=m_DiffMean[2];
+    };
+  void SetDiffVar(double idvar[3][3])
+    {
+    m_DiffVar[0][0]=idvar[0][0];m_DiffVar[0][1]=idvar[0][1];m_DiffVar[0][2]=idvar[0][2];
+    m_DiffVar[1][0]=idvar[1][0];m_DiffVar[1][1]=idvar[1][1];m_DiffVar[1][2]=idvar[1][2];
+    m_DiffVar[2][0]=idvar[2][0];m_DiffVar[2][1]=idvar[2][1];m_DiffVar[2][2]=idvar[2][2];
+    }
+  void GetDiffVar(double odvar[3][3])
+    {
+    odvar[0][0]=m_DiffVar[0][0];odvar[0][1]=m_DiffVar[0][1];odvar[0][2]=m_DiffVar[0][2];
+    odvar[1][0]=m_DiffVar[1][0];odvar[1][1]=m_DiffVar[1][1];odvar[1][2]=m_DiffVar[1][2];
+    odvar[2][0]=m_DiffVar[2][0];odvar[2][1]=m_DiffVar[2][1];odvar[2][2]=m_DiffVar[2][2];
+    }
 
 protected:
   FuzzyConnectednessRGBImageFilter();
@@ -168,12 +156,12 @@ protected:
 private:
   double m_Mean[3];
   double m_Var[3][3]; //covariance matrix of the RGB channels.(estimated)
-  double m_Diff_Mean[3];
-  double m_Diff_Var[3][3];
-  double m_Var_inverse[3][3];
-  double m_Diff_Var_inverse[3][3];
-  double m_Var_Det;
-  double m_Diff_Var_Det;
+  double m_DiffMean[3];
+  double m_DiffVar[3][3];
+  double m_VarInverse[3][3];
+  double m_DiffVarInverse[3][3];
+  double m_VarDet;
+  double m_DiffVarDet;
 
   virtual double FuzzyAffinity(const PixelType f1, const PixelType f2);
 };

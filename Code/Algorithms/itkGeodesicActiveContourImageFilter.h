@@ -48,13 +48,14 @@ namespace itk
 /** \class GeodesicActiveContourImageFilter
  * \brief Edge based shape detection using geodesic active contours.
  *
- * GeodesicActiveContourImageFilter is a level set approach for boundary detection.
- * An initial contour is evolved to minimise a weighted curve length
- * functional, where the weight depends on the edge potential function.
+ * GeodesicActiveContourImageFilter is a level set approach for boundary
+ * detection.  An initial contour is evolved to minimise a weighted curve
+ * length functional, where the weight depends on the edge potential
+ * function.
  *
- * The advantage of this approach over ShapeDetectionLevelSetFilter is that the 
- * evolution equation has an addition term which acts like a doublet and 
- * attracts the contour to the shape boundaries. This improves boundary 
+ * The advantage of this approach over ShapeDetectionLevelSetFilter is that
+ * the evolution equation has an addition term which acts like a doublet and
+ * attracts the contour to the shape boundaries. This improves boundary
  * detection in cases where edge features are weak.
  *
  * This class requires three inputs: an initial level set,
@@ -110,35 +111,19 @@ class ITK_EXPORT GeodesicActiveContourImageFilter :
   public ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 {
 public:
-  /**
-   * Standard "Self" typedef
-   */
+  /** Standard class typedefs. */
   typedef GeodesicActiveContourImageFilter Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage> Superclass;
-
-  /**
-   * Smart pointer typedef support
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(GeodesicActiveContourImageFilter, ShapeDetectionLevelSetFilter);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Typedef support for level set related types.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(GeodesicActiveContourImageFilter, ShapeDetectionLevelSetFilter);
+
+  /** Typedef support for level set related types. */
   typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
   typedef typename LevelSetType::LevelSetImageType  LevelSetImageType;
   typedef typename LevelSetType::LevelSetPointer  LevelSetPointer;
@@ -147,50 +132,34 @@ public:
   typedef typename LevelSetType::NodeContainer NodeContainer;
   typedef typename LevelSetType::NodeContainerPointer NodeContainerPointer;
 
-  /**
-   * Typedef support for the EdgeImageType
-   */
+  /** Typedef support for the EdgeImageType. */
   typedef TEdgeImage EdgeImageType;
 
-  /**
-   * EdgeImagePointer typedef support.
-   */
+  /** EdgeImagePointer typedef support. */
   typedef typename EdgeImageType::Pointer EdgeImagePointer;
 
-  /**
-   * DerivImage typedef support.
-   */
+  /** DerivImage typedef support. */
   typedef TDerivImage DerivImageType;
 
-  /**
-   * DerivImagePointer typedef support.
-   */
+  /** DerivImagePointer typedef support. */
   typedef typename DerivImageType::Pointer DerivImagePointer;
 
-  /**
-   * SetDimension
-   */
+  /** Determine the image dimension. */
   enum { SetDimension = TLevelSet::ImageDimension };
 
-  /**
-   * Set the inflation strength. The parameter control the 
+  /** Set the inflation strength. The parameter control the 
    * the strength of the optional ballon force. If PropagateOutward
    * is set to false, this controls the strength of the optional
    * contraction force. Typically, the value is application dependent 
    * (e.g. noise level, shape complexity, intensity range). 
-   * Default value 0.0.
-   */
+   * Default value 0.0. */
   itkSetClampMacro( InflationStrength, double, 0.0,
     NumericTraits<double>::max() );
 
-  /**
-   * Get the inflation strength
-   */
+  /** Get the inflation strength. */
   itkGetMacro( InflationStrength, double );
 
-  /**
-   * Set the input derivative images
-   */
+  /** Set the input derivative images. */
   void SetDerivativeImage( TDerivImage *ptr, unsigned int idx=0 );
 
 protected:

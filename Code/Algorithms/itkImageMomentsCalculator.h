@@ -38,7 +38,6 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-
 #ifndef __itkImageMomentsCalculator_h
 #define __itkImageMomentsCalculator_h
 
@@ -79,181 +78,136 @@ namespace itk
  * \ingroup Operators
  *
  * \todo It's not yet clear how multi-echo images should be handled here.
- *
  */
 template < class TImage >
 class ImageMomentsCalculator
 {
 public:
+  /** Standard class typedefs. */
+  typedef ImageMomentsCalculator<TImage>   Self;
 
-    enum { ImageDimension = TImage::ImageDimension };
+  /** Extract the dimension of the image. */
+  enum { ImageDimension = TImage::ImageDimension };
 
-    /// Standard self typedef
-    typedef ImageMomentsCalculator<TImage>   Self;
+  /** Standard scalar type within this class. */
+  typedef double                       ScalarType;
 
-    /// Standard scalar type within this class.
-    typedef double                       ScalarType;
+  /** Standard vector type within this class. */
+  typedef Vector<ScalarType,ImageDimension>         VectorType;
 
-    /// Standard vector type within this class.
-    typedef Vector<ScalarType,ImageDimension>         VectorType;
+  /** Standard matrix type within this class. */
+  typedef Matrix<ScalarType,
+                 ImageDimension,ImageDimension>   MatrixType;
 
-    /// Standard matrix type within this class.
-    typedef Matrix<ScalarType,
-                   ImageDimension,ImageDimension>   MatrixType;
+  /** Standard image type within this class. */
+  typedef TImage ImageType;
 
-    /// Standard image type within this class.
-    typedef TImage ImageType;
+  /** Standard image type pointer within this class. */
+  typedef typename ImageType::Pointer ImagePointer;
 
-    /// Standard image type pointer within this class.
-    typedef typename ImageType::Pointer ImagePointer;
+  /** Standard affine transform type for this class. */
+  typedef AffineTransform<ScalarType, ImageDimension> AffineTransformType;
 
-    /// Standard affine transform type for this class
-    typedef AffineTransform<ScalarType, ImageDimension> AffineTransformType;
+  /** Standard affine transform type for this class. */
+  typedef typename AffineTransformType::Pointer AffineTransformPointer;
 
-    /// Standard affine transform type for this class
-    typedef typename AffineTransformType::Pointer AffineTransformPointer;
+  /** Compute moments of a new or modified image.
+   * This method computes the moments of the image given as a
+   * parameter and stores them in the object.  The values of these
+   * moments and related parameters can then be retrieved by using
+   * other methods of this object. */
+  void ComputeMoments( ImageType * image );
 
+  /** Return the total mass (or zeroth moment) of an image.
+   * This method returns the sum of pixel intensities (also known as
+   * the zeroth moment or the total mass) of the image whose moments
+   * were last computed by this object. */
+  ScalarType GetTotalMass();
 
-    /**
-     * Compute moments of a new or modified image.
-     *
-     * This method computes the moments of the image given as a
-     * parameter and stores them in the object.  The values of these
-     * moments and related parameters can then be retrieved by using
-     * other methods of this object.
-     *
-     */
-    void ComputeMoments( ImageType * image );
+  /** Return first moments about origin, in index coordinates.
+   * This method returns the first moments around the origin of the
+   * image whose moments were last computed by this object.  For
+   * simplicity, these moments are computed in index coordinates
+   * rather than physical coordinates. */
+  VectorType GetFirstMoments();
 
-    /**
-     * Return the total mass (or zeroth moment) of an image.
-     *
-     * This method returns the sum of pixel intensities (also known as
-     * the zeroth moment or the total mass) of the image whose moments
-     * were last computed by this object.
-     */
-    ScalarType GetTotalMass();
+  /** Return second moments about origin, in index coordinates.
+   * This method returns the second moments around the origin
+   * of the image whose moments were last computed by this object.
+   * For simplicity, these moments are computed in index coordinates
+   * rather than physical coordinates. */
+  MatrixType GetSecondMoments();
 
-    /**
-     * Return first moments about origin, in index coordinates.
-     *
-     * This method returns the first moments around the origin of the
-     * image whose moments were last computed by this object.  For
-     * simplicity, these moments are computed in index coordinates
-     * rather than physical coordinates.
-     */
-    VectorType GetFirstMoments();
+  /** Return center of gravity, in physical coordinates.
+   * This method returns the center of gravity of the image whose
+   * moments were last computed by this object.  The center of
+   * gravity is computed in physical coordinates. */
+  VectorType GetCenterOfGravity();
 
-    /**
-     * Return second moments about origin, in index coordinates.
-     *
-     * This method returns the second moments around the origin
-     * of the image whose moments were last computed by this object.
-     * For simplicity, these moments are computed in index coordinates
-     * rather than physical coordinates.
-     */
-    MatrixType GetSecondMoments();
+  /** Return second central moments, in physical coordinates.
+   * This method returns the central second moments of the image
+   * whose moments were last computed by this object.  The central
+   * moments are computed in physical coordinates. */
+  MatrixType GetCentralMoments();
 
-    /**
-     * Return center of gravity, in physical coordinates.
-     *
-     * This method returns the center of gravity of the image whose
-     * moments were last computed by this object.  The center of
-     * gravity is computed in physical coordinates.
-     */
-    VectorType GetCenterOfGravity();
+  /** Return principal moments, in physical coordinates.
+   * This method returns the principal moments of the image whose
+   * moments were last computed by this object.  The moments are
+   * returned as a vector, with the principal moments ordered from
+   * smallest to largest.  The moments are computed in physical
+   * coordinates.   */
+  VectorType GetPrincipalMoments();
 
-    /**
-     * Return second central moments, in physical coordinates.
-     *
-     * This method returns the central second moments of the image
-     * whose moments were last computed by this object.  The central
-     * moments are computed in physical coordinates.
-     */
-    MatrixType GetCentralMoments();
+  /** Return principal axes, in physical coordinates.
+   * This method returns the principal axes of the image whose
+   * moments were last computed by this object.  The moments are
+   * returned as an orthogonal matrix, each row of which corresponds
+   * to one principal moment; for example, the principal axis
+   * corresponding to the smallest principal moment is the vector
+   * m[0], where m is the value returned by this method.  The matrix
+   * of principal axes is guaranteed to be a proper rotation; that
+   * is, to have determinant +1 and to preserve parity.  (Unless you
+   * have foolishly made one or more of the spacing values negative;
+   * in that case, _you_ get to figure out the consequences.)  The
+   * moments are computed in physical coordinates. */
+  MatrixType GetPrincipalAxes();
 
-    /**
-     * Return principal moments, in physical coordinates.
-     *
-     * This method returns the principal moments of the image whose
-     * moments were last computed by this object.  The moments are
-     * returned as a vector, with the principal moments ordered from
-     * smallest to largest.  The moments are computed in physical
-     * coordinates.  
-     */
-    VectorType GetPrincipalMoments();
+  /** Get the affine transform from principal axes to physical axes
+   * This method returns an affine transform which transforms from
+   * the principal axes coordinate system to physical coordinates. */
+  AffineTransformPointer GetPrincipalAxesToPhysicalAxesTransform(void) const;
 
-    /**
-     * Return principal axes, in physical coordinates.
-     *
-     * This method returns the principal axes of the image whose
-     * moments were last computed by this object.  The moments are
-     * returned as an orthogonal matrix, each row of which corresponds
-     * to one principal moment; for example, the principal axis
-     * corresponding to the smallest principal moment is the vector
-     * m[0], where m is the value returned by this method.  The matrix
-     * of principal axes is guaranteed to be a proper rotation; that
-     * is, to have determinant +1 and to preserve parity.  (Unless you
-     * have foolishly made one or more of the spacing values negative;
-     * in that case, _you_ get to figure out the consequences.)  The
-     * moments are computed in physical coordinates.
-     *
-     */
-    MatrixType GetPrincipalAxes();
+  /** Get the affine transform from physical axes to principal axes
+   * This method returns an affine transform which transforms from
+   * the physical coordinate system to the principal axes coordinate
+   * system. */
+  AffineTransformPointer GetPhysicalAxesToPrincipalAxesTransform(void) const;
 
-    /**
-     * Get the affine transform from principal axes to physical axes
-     *
-     * This method returns an affine transform which transforms from
-     * the principal axes coordinate system to physical coordinates.
-     *
-     */
-    AffineTransformPointer GetPrincipalAxesToPhysicalAxesTransform(void) const;
+  /** Construct an ImageMomentsCalculator object.  This method constructs a
+   * new ImageMomentsCalculator object that contains no stored moments
+   * information; this information can be added later by calling the
+   * ComputeMoments method. */
+  ImageMomentsCalculator();            // Create w/o summing moments
 
-    /**
-     * Get the affine transform from physical axes to principal axes
-     *
-     * This method returns an affine transform which transforms from
-     * the physical coordinate system to the principal axes coordinate
-     * system.
-     *
-     */
-    AffineTransformPointer GetPhysicalAxesToPrincipalAxesTransform(void) const;
+  /** Compute moments of an image and save in an ImageMomentsCalculator
+   * object.  This method constructs a new ImageMomentsCalculator object and
+   * stores in it the moments of the image given as argument.  The values of
+   * these moments and related parameters can be retrieved by using * other
+   * methods of the object constructed.  */
+  ImageMomentsCalculator(ImageType * image); // Create and sum image moments
 
-    /** 
-     * Construct an ImageMomentsCalculator object.
-     *
-     * This method constructs a new ImageMomentsCalculator object that contains no
-     * stored moments information; this information can be added later
-     * by calling the ComputeMoments method.
-     */    
-    ImageMomentsCalculator();            // Create w/o summing moments
-
-    /**
-     * Compute moments of an image and save in an ImageMomentsCalculator object.
-     *
-     * This method constructs a new ImageMomentsCalculator object and stores in
-     * it the moments of the image given as argument.  The values of
-     * these moments and related parameters can be retrieved by using
-     * other methods of the object constructed.
-     */
-    ImageMomentsCalculator(              // Create and sum moments of an image
-          ImageType * image);
-
-    /**
-     * Destroy an ImageMomentsCalculator object.
-     */
-    ~ImageMomentsCalculator();
+  /** Destroy an ImageMomentsCalculator object. */
+  ~ImageMomentsCalculator();
 
 private:
-    bool m_valid;                      // Have moments been computed yet?
-    ScalarType m_m0;                   // Zeroth moment
-    VectorType m_m1;                   // First moments about origin
-    MatrixType m_m2;                   // Second moments about origin
-    VectorType m_cg;                   // Center of gravity (physical units)
-    MatrixType m_cm;                   // Second central moments (physical)
-    VectorType m_pm;                   // Principal moments (physical)
-    MatrixType m_pa;                   // Principal axes (physical)
+  bool m_valid;                      // Have moments been computed yet?
+  ScalarType m_m0;                   // Zeroth moment
+  VectorType m_m1;                   // First moments about origin
+  MatrixType m_m2;                   // Second moments about origin
+  VectorType m_cg;                   // Center of gravity (physical units)
+  MatrixType m_cm;                   // Second central moments (physical)
+  VectorType m_pm;                   // Principal moments (physical)
+  MatrixType m_pa;                   // Principal axes (physical)
 
 };  // class ImageMomentsCalculator
 

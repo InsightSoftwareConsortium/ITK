@@ -47,8 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
-/**
- * \class DemonsRegistrationFilter
+/** \class DemonsRegistrationFilter
  * \brief Deformably register two images using the demons algorithm.
  *
  * DemonsRegistrationFilter implements the demons deformable algorithm that 
@@ -81,7 +80,6 @@ namespace itk {
  * and deformation field type all have the same number of dimensions.
  * 
  * \sa DemonsRegistrationFunction
- *
  */
 template<class TReference, class TTarget, class TDeformationField>
 class ITK_EXPORT DemonsRegistrationFilter : 
@@ -89,88 +87,54 @@ class ITK_EXPORT DemonsRegistrationFilter :
     TDeformationField>
 {
 public:
-
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef DemonsRegistrationFilter    Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef PDEDeformableRegistrationFilter<
     TReference, TTarget,TDeformationField>    Superclass;
-
-  /**
-   * Smart pointer support for this class.
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
-  /**
-   * Run-time type information (and related methods)
-   */
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
   itkTypeMacro( DemonsRegistrationFilter, 
     PDEDeformableRegistrationFilter );
 
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-
-  /**
-   * Reference image type.
-   */
+  /** Reference image type. */
   typedef typename Superclass::ReferenceType   ReferenceType;
   typedef typename Superclass::ReferencePointer  ReferencePointer;
 
-  /**
-   * Target image type.
-   */
+  /** Target image type. */
   typedef typename Superclass::TargetType    TargetType;
   typedef typename Superclass::TargetPointer  TargetPointer;
   
-  /**
-   * Deformation field type.
-   */
+  /** Deformation field type. */
   typedef typename Superclass::DeformationFieldType 
     DeformationFieldType;
   typedef typename Superclass::DeformationFieldPointer  
     DeformationFieldPointer;
 
-
-  /**
-   * FiniteDifferenceEquation type
-   */
+  /** FiniteDifferenceEquation type. */
   typedef typename Superclass::FiniteDifferenceEquationType
     FiniteDifferenceEquationType;
 
-  /**
-   * DemonsRegistrationFilterFunction type
-   */
+  /** DemonsRegistrationFilterFunction type. */
   typedef DemonsRegistrationFunction<ReferenceType,TargetType,
     DeformationFieldType>  DemonsRegistrationFunctionType;
-
 
 protected:
   DemonsRegistrationFilter();
   ~DemonsRegistrationFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const
-  {
-    Superclass::PrintSelf( os, indent ); 
-  }
+    { Superclass::PrintSelf( os, indent ); }
 
-  /**
-   * Initialize the state of filter and equation before each iteration.
-   */
+  /** Initialize the state of filter and equation before each iteration. */
   virtual void InitializeIteration();
-
 
 private:
   DemonsRegistrationFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  
-     
 
 };
 

@@ -78,34 +78,18 @@ template <class TInputMesh, class TOutputMesh>
 class ITK_EXPORT BalloonForce3DFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef BalloonForce3DFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef MeshToMeshFilter<TInputMesh, TOutputMesh> Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>  Pointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(BalloonForce3DFilter,MeshToMeshFilter);
 
-  /** 
-   * Some typedefs.
-   */
+  /** Some typedefs. */
   typedef typename Superclass::OutputMeshType OutputMeshType;
   typedef TInputMesh InputMeshType;
   typedef typename InputMeshType::PointsContainerPointer
@@ -129,6 +113,7 @@ public:
   typedef typename OutputMeshType::PointsContainer::Iterator
       OutputPointsContainerIterator;
 
+  /** Typedefs for image and mesh types. */
   typedef Image<unsigned short, 3>    ImageType;
   typedef typename InputMeshType::Pointer InputMeshPointer;
   typedef typename OutputMeshType::Pointer  OutputMeshPointer;
@@ -136,18 +121,18 @@ public:
   typedef typename ImageType::IndexType   IndexType;
   typedef ImageRegionIteratorWithIndex<ImageType> ImageIterator;
 
+  /** Typedefs for vectors. */
   typedef itk::Vector<float, 3>       FloatVector;
   typedef itk::Vector<int, 3>       IntVector;
 
+  /** Typedefs related to cells. */
   typedef typename InputMeshType::Cell      Cell;
   typedef typename InputMeshType::CellTraits  CellTraits;
   typedef itk::TriangleCell<float, CellTraits>  TriCell;
   typedef typename InputMeshType::PointType   IPT;
   typedef typename InputMeshType::PixelType   PT;
 
-  /** 
-   * Some functions.
-   */
+  /** Some functions. */
   void ComputeForce();
   void Initialize();
   void SetStiffnessMatrix();
@@ -165,17 +150,14 @@ public:
   void SetDerives(TInputMesh* derive);
   void SetPotential(ImagePointer potential);
   void SetGradient(ImagePointer gradient);
-//  void SetImageOutput(ImagePointer outputimg);
   void NodeAddition(int i, int res, IPT z);
   void NodesRearrange();
   void GapSearch();
   void GradientFit();
   void ComputeNormals();
   void ACDSearch();
-//  void PotentialModify(int i, int j);
 
-//  ImagePointer GetImageOutput();
-
+  /** Set the output image. */
   itkSetMacro(ImageOutput, ImagePointer);
   itkGetMacro(ImageOutput, ImagePointer);
 
@@ -185,9 +167,7 @@ protected:
   virtual void GenerateData();
 //  void PrintSelf(std::ostream& os, Indent indent);
 
-/** 
- * These meshes are defined to hold the vectors as force, etc.
- */
+  /** These meshes are defined to hold the vectors as force, etc./
   InputMeshPointer  m_Forces; 
   InputMeshPointer  m_Normals;
   InputMeshPointer  m_Displacements;
@@ -196,9 +176,7 @@ protected:
   InputMeshPointer  m_Input;
   OutputMeshPointer m_Output;
 
-  /** 
-   * Three different kinds of stiffness matrix.
-   */
+  /** Three different kinds of stiffness matrix. */
   vnl_matrix_fixed<double, 4, 4> NStiffness;
   vnl_matrix_fixed<double, 4, 4> SStiffness;
   vnl_matrix_fixed<double, 4, 4> CStiffness;

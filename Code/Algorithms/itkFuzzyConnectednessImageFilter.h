@@ -91,72 +91,58 @@ class FuzzyConnectednessImageFilter:
   public SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef FuzzyConnectednessImageFilter       Self;
-
-  /** 
-   * Smart pointer typedef support.
-   */
+  typedef SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>   
+                                              Superclass;
   typedef SmartPointer <Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Standard "Superclass" typedef.
-   */
-  typedef SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>   Superclass;
-
-  /**
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(FuzzyConnectednessImageFilter,SimpleFuzzyConnectednessImageFilterBase);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** Run-time type information (and related methods).  */
+  itkTypeMacro(FuzzyConnectednessImageFilter,
+               SimpleFuzzyConnectednessImageFilterBase);
+
+  /** Region, size, and pixel types. */
   typedef typename Superclass::IndexType IndexType;
   typedef typename Superclass::SizeType SizeType;
   typedef typename Superclass::PixelType PixelType;
 
-  /**
-   * Set the Estimation of the mean difference between neighbor pixels for the object.
-   */
+  /** Set the Estimation of the mean difference between neighbor pixels for
+   *  the object. */
   itkSetMacro(Diff_Mean, double);
-  /**
-   * Get the Estimation of the mean difference between neighbor pixels for the object.
-   */
+
+  /** Get the Estimation of the mean difference between neighbor pixels for
+   *  the object. */
   itkGetMacro(Diff_Mean, double);
-  /**
-   * Set the Estimation of the variance of the difference between pixels for the object.
-   */
+
+  /** Set the Estimation of the variance of the difference between pixels for
+   *  the object. */
   itkSetMacro(Diff_Var, double);
-  /**
-   * Get the Estimation of the variance of the difference between pixels for the object.
-   */
+
+  /** Get the Estimation of the variance of the difference between pixels for
+   *  the object. */
   itkGetMacro(Diff_Var, double);
   
-  /**
-   * Set the Estimation of the mean difference between neighbor pixels for the object.
-   */
+  /** Set the Estimation of the mean difference between neighbor pixels for
+   *  the object. */
   itkSetMacro(Mean, double);
-  /**
-   * Get the Estimation of the mean difference between neighbor pixels for the object.
-   */
+
+  /** Get the Estimation of the mean difference between neighbor pixels for
+   *  the object. */
   itkGetMacro(Mean, double);
-  /**
-   * Set the Estimation of the variance of the difference between pixels for the object.
-   */
+
+  /** Set the Estimation of the variance of the difference between pixels for
+   *  the object. */
   itkSetMacro(Var, double);
-  /**
-   * Get the Estimation of the variance of the difference between pixels for the object.
-   */
+
+  /** Get the Estimation of the variance of the difference between pixels for
+   *  the object. */
   itkGetMacro(Var, double);
-  /**
-   * Setting the parameters for segmentation:
-   */
+
+  /** Setting the parameters for segmentation. */
   void SetParameters(const double inmean,const double invar, 
     const double indifmean,const double indifvar,const double inweight);
   

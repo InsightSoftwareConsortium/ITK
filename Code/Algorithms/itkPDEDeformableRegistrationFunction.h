@@ -46,8 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
-/**
- * \class PDEDeformableRegistrationFunction
+/** \class PDEDeformableRegistrationFunction
  *
  * This is a base class for all PDE functions which drives a
  * deformable registration algorithm. It is used by 
@@ -65,84 +64,54 @@ class ITK_EXPORT PDEDeformableRegistrationFunction :
   public FiniteDifferenceEquation<TDeformationField>
 {
 public:
-
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef PDEDeformableRegistrationFunction    Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef FiniteDifferenceEquation<TDeformationField>    Superclass;
-
-  /**
-   * Smart pointer support for this class.
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
-  /**
-   * Run-time type information (and related methods)
-   */
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods) */
   itkTypeMacro( PDEDeformableRegistrationFunction, 
     FiniteDifferenceEquation );
 
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-
-  /**
-   * Reference image type.
-   */
+  /** Reference image type. */
   typedef TReference   ReferenceType;
   typedef typename ReferenceType::ConstPointer  ReferencePointer;
 
-  /**
-   * Target image type.
-   */
+  /** Target image type. */
   typedef TTarget    TargetType;
   typedef typename TargetType::ConstPointer  TargetPointer;
   
-  /**
-   * Deformation field type.
-   */
+  /** Deformation field type. */
   typedef TDeformationField    DeformationFieldType;
   typedef typename DeformationFieldType::Pointer   
     DeformationFieldTypePointer;
 
-  /**
-   * Set the reference image 
-   */
+  /** Set the reference image.  */
   void SetReference( const ReferenceType * ptr )
     { m_Reference = ptr; }
 
-  /**
-   * Set the reference image
-   */
+  /** Set the reference image. */
   ReferencePointer GetReference()
     { return m_Reference; }
 
-  /**
-   * Set the target.
-   */
+  /** Set the target. */
   void SetTarget( const TargetType * ptr )
     { m_Target = ptr; }
 
-  /**
-   * Get the target.
-   */
+  /** Get the target. */
   TargetPointer GetTarget()
     { return m_Target; }
 
-
 protected:
   PDEDeformableRegistrationFunction()
-  {
-  m_Reference = NULL;
-  m_Target = NULL;
-  }
+    {
+      m_Reference = NULL;
+      m_Target = NULL;
+    }
 
   ~PDEDeformableRegistrationFunction() {}
 
@@ -156,14 +125,10 @@ protected:
 
   };
 
-  /**
-   * The reference (from) image
-   */
+  /** The reference (from) image. */
   ReferencePointer                m_Reference;
   
-  /**
-   * The target (to) image
-   */
+  /** The target (to) image. */
   TargetPointer                   m_Target;
 
 private:

@@ -102,179 +102,113 @@ class MultiResolutionPDEDeformableRegistration :
   public ImageToImageFilter <TDeformationField, TDeformationField>
 {
 public:
-  /**
-   * Standard "Self" typedef
-   */
+  /** Standard class typedefs */
   typedef MultiResolutionPDEDeformableRegistration Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef ImageToImageFilter<TDeformationField, TDeformationField>
     Superclass;
-
-  /**
-   * SmartPointer typedef support
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Run-time type information (and related methods)
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro( MultiResolutionPDEDeformableRegistration, 
     ImageToImageFilter );
 
-  /**
-   * Reference image type
-   */
+  /** Reference image type. */
   typedef TReference ReferenceType;
   typedef typename ReferenceType::Pointer ReferencePointer;
 
-  /**
-   * Target image type
-   */
+  /** Target image type. */
   typedef TTarget TargetType;
   typedef typename TargetType::Pointer TargetPointer;
 
-  /**
-   * Deformation field image type
-   */
+  /** Deformation field image type. */
   typedef TDeformationField DeformationFieldType;
   typedef typename DeformationFieldType::Pointer DeformationFieldPointer;
 
-  /**
-   * ImageDimension
-   */
+  /** ImageDimension. */
   enum { ImageDimension = TargetType::ImageDimension };
 
-  /**
-   * Internal float image type
-   */
+  /** Internal float image type. */
   typedef Image<float,ImageDimension> FloatImageType;
 
-  /**
-   * The internal registration type
-   */
+  /** The internal registration type. */
   typedef PDEDeformableRegistrationFilter<
     FloatImageType, FloatImageType, DeformationFieldType > RegistrationType;
   typedef typename RegistrationType::Pointer RegistrationPointer;
 
-  /**
-   * The default registration type
-   */
+  /** The default registration type. */
   typedef DemonsRegistrationFilter<
     FloatImageType, FloatImageType, DeformationFieldType > DefaultRegistrationType;
 
-  /**
-   * The reference multi-resolution image pyramid type
-   */
+  /** The reference multi-resolution image pyramid type. */
   typedef RecursiveMultiResolutionPyramidImageFilter<
     ReferenceType, FloatImageType > ReferencePyramidType;
   typedef typename ReferencePyramidType::Pointer ReferencePyramidPointer;
 
-  /**
-   * The target multi-resolution image pyramid type
-   */
+  /** The target multi-resolution image pyramid type. */
   typedef RecursiveMultiResolutionPyramidImageFilter<
     TargetType, FloatImageType > TargetPyramidType;
   typedef typename TargetPyramidType::Pointer TargetPyramidPointer;
    
-  /**
-   * The deformation field expander type
-   */
+  /** The deformation field expander type. */
   typedef VectorExpandImageFilter<
     DeformationFieldType, DeformationFieldType > FieldExpanderType;
   typedef typename FieldExpanderType::Pointer  FieldExpanderPointer;
 
-  /**
-   * Set the reference image.
-   */
+  /** Set the reference image. */
   virtual void SetReference( ReferenceType * ptr );
 
-  /**
-   * Get the reference image.
-   */
+  /** Get the reference image. */
   ReferencePointer GetReference();
 
-  /**
-   * Set the target image
-   */
+  /** Set the target image. */
   virtual void SetTarget( TargetType * ptr );
 
-  /**
-   * Get the target image.
-   */
+  /** Get the target image. */
   TargetPointer GetTarget();
 
-  /**
-   * Set initial deformation field
-   */
+  /** Set initial deformation field. */
   virtual void SetInitialDeformationField( DeformationFieldType * ptr )
     {
     itkErrorMacro( << "This feature not implemented yet"  );
     // this->SetInput( ptr ); 
     }
 
-  /**
-   * Get output deformation field
-   */
+  /** Get output deformation field. */
   DeformationFieldPointer GetDeformationField()
     { return this->GetOutput(); }
 
-  /**
-   * Set the internal registrator
-   */
+  /** Set the internal registrator. */
   itkSetObjectMacro( RegistrationFilter, RegistrationType );
 
-  /**
-   * Get the internal registrator
-   */
+  /** Get the internal registrator. */
   itkGetObjectMacro( RegistrationFilter, RegistrationType );
   
-  /**
-   * Set the reference image pyramid
-   */
+  /** Set the reference image pyramid. */
   itkSetObjectMacro( ReferencePyramid, ReferencePyramidType );
 
-  /**
-   * Get the reference image pyramid
-   */
+  /** Get the reference image pyramid. */
   itkGetObjectMacro( ReferencePyramid, ReferencePyramidType );
 
-  /**
-   * Set the target image pyramid
-   */
+  /** Set the target image pyramid. */
   itkSetObjectMacro( TargetPyramid, TargetPyramidType );
 
-  /**
-   * Get the target image pyramid
-   */
+  /** Get the target image pyramid. */
   itkGetObjectMacro( TargetPyramid, TargetPyramidType );
 
-  /**
-   * Set number of multi-resolution levels
-   */
+  /** Set number of multi-resolution levels. */
   virtual void SetNumberOfLevels( unsigned int num );
 
-  /**
-   * Get number of multi-resolution levels
-   */
+  /** Get number of multi-resolution levels. */
   itkGetMacro( NumberOfLevels, unsigned int );
 
-  /**
-   * Set number of iterations per multi-resolution levels
-   */
+  /** Set number of iterations per multi-resolution levels. */
   itkSetVectorMacro( NumberOfIterations, unsigned int, m_NumberOfLevels );
 
-  /**
-   * Get number of iterations per multi-resolution elvels
-   */
+  /** Get number of iterations per multi-resolution levels. */
   virtual const unsigned int * GetNumberOfIterations() const
     { return &(m_NumberOfIterations[0]); }
 
@@ -283,34 +217,26 @@ protected:
   ~MultiResolutionPDEDeformableRegistration() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * Generate output data by performing the registration
-   * at each resolution level.
-   */
+  /** Generate output data by performing the registration
+   * at each resolution level. */
   virtual void GenerateData();
 
-  /**
-   * The current implementation of this class does not support
+  /** The current implementation of this class does not support
    * streaming. As such it requires the largest possible region
-   * for the reference, target and input deformation field.
-   */
+   * for the reference, target and input deformation field. */
   virtual void GenerateInputRequestedRegion();
 
-  /**
-   * By default, the output deformation field has the same
+  /** By default, the output deformation field has the same
    * spacing, origin and LargestPossibleRegion as the input/initial
    * deformation field.
    *
    * If the initial deformation field is not set, the output
-   * information is copoed from the target image.
-   */
+   * information is copoed from the target image. */
   virtual void GenerateOutputInformation();
 
-  /**
-   * The current implementation of this class does not supprot
+  /** The current implementation of this class does not supprot
    * streaming. As such it produces the output for the largest
-   * possible region.
-   */
+   * possible region. */
   virtual void EnlargeOutputRequestedRegion( DataObject *ptr );
 
 private:

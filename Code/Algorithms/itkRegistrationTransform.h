@@ -46,8 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class RegistrationTransform
+/** \class RegistrationTransform
  * \brief Base class for registration methods
  *
  * This Class define the generic interface for a registration method.
@@ -63,165 +62,76 @@ namespace itk
  * template parameters
  * 
  * \ingroup Transforms 
- *
  */
-
 template <class TMetric, class TOptimizer >
 class ITK_EXPORT RegistrationTransform : public Object 
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef RegistrationTransform  Self;
-
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
-  /**
-   *  Type of the Metric
-   */
-  typedef TMetric               MetricType;
-
-
-  /**
-   *  Type of the Optimizer 
-   */
-  typedef TOptimizer            OptimizerType;
-
-
-  /**
-   *  Type of the Reference
-   */
-  typedef typename MetricType::ReferenceType  ReferenceType;
-
-
-  /**
-   *  Type of the Metric
-   */
-  typedef typename MetricType::TargetType  TargetType;
- 
-
-  /**
-   *  Type of the Mapper
-   */
-  typedef typename MetricType::MapperType  MapperType;
-
-
-  /**
-   *  Type of the Transformation
-   */
-  typedef typename MapperType::TransformationType  TransformationType;
- 
-  
-  /**
-   *  Pointer type for the Reference 
-   */
-  typedef typename ReferenceType::ConstPointer ReferenceConstPointer;
-
-  
-  /**
-   *  Pointer type for the Target 
-   */
-  typedef typename TargetType::ConstPointer TargetConstPointer;
-
-
-  /**
-   *  Pointer type for the Transformation
-   */
-  typedef typename TransformationType::Pointer TransformationPointer;
-
-
-  /**
-   *  Pointer type for the metric
-   */
-  typedef typename MetricType::Pointer        MetricPointer;
-
-
-  /**
-   *  Pointer type for the mapper
-   */
-  typedef typename MapperType::Pointer        MapperPointer;
-
-
-  /**
-   *  Pointer type for the optimizer 
-   */
-  typedef typename OptimizerType::Pointer     OptimizerPointer;
-
-
- /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(RegistrationTransform, Object);
-
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(RegistrationTransform, Object);
 
-  /**
-   * Method that initiates the registration.
-   */
-   void StartRegistration(void);
+  /**  Type of the metric. */
+  typedef TMetric               MetricType;
 
+  /**  Type of the optimizer. */
+  typedef TOptimizer            OptimizerType;
 
-  /**
-   * Set the Target
-   */
-   void SetTarget( const TargetType * );
+  /**  Type of the reference. */
+  typedef typename MetricType::ReferenceType  ReferenceType;
 
+  /**  Type of the metric. */
+  typedef typename MetricType::TargetType  TargetType;
+
+  /**  Type of the mapper. */
+  typedef typename MetricType::MapperType  MapperType;
+
+  /**  Type of the transformation. */
+  typedef typename MapperType::TransformationType  TransformationType;
+  
+  /**  Pointer type for the reference.  */
+  typedef typename ReferenceType::ConstPointer ReferenceConstPointer;
+  
+  /**  Pointer type for the target.  */
+  typedef typename TargetType::ConstPointer TargetConstPointer;
+
+  /**  Pointer type for the transformation. */
+  typedef typename TransformationType::Pointer TransformationPointer;
+
+  /**  Pointer type for the metric. */
+  typedef typename MetricType::Pointer        MetricPointer;
+
+  /**  Pointer type for the mapper. */
+  typedef typename MapperType::Pointer        MapperPointer;
+
+  /**  Pointer type for the optimizer. */
+  typedef typename OptimizerType::Pointer     OptimizerPointer;
+
+  /** Method that initiates the registration. */
+  void StartRegistration(void);
+
+  /** Set/Get the target, */
+  void SetTarget( const TargetType * );
+  itkGetConstObjectMacro( Target, TargetType );
    
-  /**
-   * Set the Reference
-   */
-   void SetReference( const  ReferenceType * );
+  /** Set/Get the reference. */
+  void SetReference( const  ReferenceType * );
+  itkGetConstObjectMacro( Reference, ReferenceType );
 
+  /** Set/Get the transformation. */
+  void SetTransformation( TransformationType * );
+  itkGetMacro( Transformation, TransformationPointer );
 
-  /**
-   * Set the Transformation
-   */
-   void SetTransformation( TransformationType * );
-
-
-  /**
-   * Get the Reference
-   */
-   itkGetConstObjectMacro( Reference, ReferenceType );
-
-   
-  /**
-   * Get the Target
-   */
-   itkGetConstObjectMacro( Target, TargetType );
-
-
-  /**
-   * Get the Transformation
-   */
-   itkGetMacro( Transformation, TransformationPointer );
-
-
-  /**
-   * Get the Optimizer
-   */
-   itkGetMacro( Optimizer, OptimizerPointer );
-
-
-
+  /** Get the optimizer. */
+  itkGetMacro( Optimizer, OptimizerPointer );
 
 protected:
   RegistrationTransform();

@@ -85,97 +85,60 @@ namespace itk
  *    If the sign of the subtraction result changes, then it assumes that a 
  *    slab ends and another slab begins.
  */
-
 template <class TInputImage>            
 class ITK_EXPORT MRASlabIdentifier : public Object 
 {
 public:
-
-  /** 
-   * Standard self typedef
-   */
+  /** Standard class typedefs. */
   typedef MRASlabIdentifier      Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(Self, Object);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Type definition for the input image.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Self, Object);
+
+  /** Type definition for the input image. */
   typedef TInputImage  ImageType;
 
-  /**
-   * Pointer type for the image
-   */
+  /** Pointer type for the image. */
   typedef typename TInputImage::Pointer  ImagePointer;
   
-  /**
-   * Const Pointer type for the image
-   */
+  /** Const Pointer type for the image. */
   typedef typename TInputImage::ConstPointer ImageConstPointer;
 
-  /**
-   * Type definition for the input image pixel type.
-   */
+  /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType ImagePixelType;
   typedef typename TInputImage::IndexType ImageIndexType;
   typedef typename TInputImage::SizeType ImageSizeType;
   typedef typename TInputImage::RegionType ImageRegionType ;
   typedef std::vector<ImageRegionType> SlabRegionVectorType ; 
 
-  /**
-   * Set the input image
-   */
+  /** Set the input image. */
   void SetImage(ImagePointer image) ;
 
-  /**
-   * Set the number of minimum intensity pixels per slice 
-   */
+  /** Set the number of minimum intensity pixels per slice. */
   void SetNumberOfMinimumsPerSlice(int no) ;
 
-  /**
-   * Get the number of minimum intensity pixels per slice 
-   */
+  /** Get the number of minimum intensity pixels per slice. */
   int GetNumberOfMinimumsPerSlice(void) 
     {return m_NumberOfMinimumsPerSlice;}
-  /**
-   * Sets the direction of slicing
-   * 0 - x axis, 1 - y axis, 2 - z axis
-   */
 
+  /** Set/Get the direction of slicing/
+   * 0 - x axis, 1 - y axis, 2 - z axis */
   void SetSlicingDirection(int dimension)
     { m_SlicingDirection = dimension ; }
-    
   int GetSlicingDirection()
     { return m_SlicingDirection ; }
 
-  /**
-   * compute the average values of miminum intensity pixels for each slice and
-   * compare the average values with overall averages.
-   */
+  /** Compute the average values of miminum intensity pixels for each slice and
+   * compare the average values with overall averages. */
   void GenerateSlabRegions(void);
 
-  /**
-   * Get slab regions 
-   */
+  /** Get slab regions. */
   SlabRegionVectorType GetSlabRegionVector(void) ;
 
 protected:
@@ -186,23 +149,17 @@ private:
   MRASlabIdentifier(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  /**
-   * target image pointer that MRASlabIdentifier will use  
-   */
+  /** Target image pointer that MRASlabIdentifier will use. */
   ImagePointer m_Image ;
 
-  /**
-   * the number of pixels per slice which will be included 
-   * for average calculation. In a sense, it's sampling size per slice  
-   */
+  /** The number of pixels per slice which will be included 
+   * for average calculation. In a sense, it's sampling size per slice. */
   int m_NumberOfMinimumsPerSlice ;
   
   int m_SlicingDirection ;
 
   SlabRegionVectorType m_Slabs ;
 };
-
-
 
 } // end namespace itk
 

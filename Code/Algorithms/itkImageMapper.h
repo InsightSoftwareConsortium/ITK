@@ -69,128 +69,74 @@ class ITK_EXPORT ImageMapper :
 
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ImageMapper<TImage,TTransformation>  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
-
   typedef RegistrationMapper< TImage, TTransformation >  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
-  /**
-   * Typedef of the Point used to represent coordinates
-   */
-   typedef typename TTransformation::InputPointType   InputPointType;
-
-  /**
-   * Typedef of the Point used to represent coordinates
-   */
-   typedef typename TTransformation::OutputPointType   OutputPointType;
-
-
-   /**
-   * Typedef of transformation parameters
-   */
-   typedef typename TTransformation::ParametersType   ParametersType;
-
-  /**
-   *  Pointer type for the Reference 
-   */
-  typedef typename Superclass::DomainPointer DomainPointer;
-
-  /**
-   *  type for the Reference 
-   */
-  typedef typename Superclass::DomainType     DomainType;
-
-  /**
-   * Typedef of the Image type
-   */
-   typedef  TImage   ImageType;
-
-  /**
-   * Typedef of the Pixel type
-   */
-   typedef  typename   TImage::PixelType   PixelType;
-
-  /**
-   * Typedef of the image index
-   */
-   typedef  typename   TImage::IndexType   IndexType;
-
-  /**
-   * Typedef of the image region
-   */
-   typedef  typename   TImage::RegionType   RegionType;
-
-  /**
-   * Typedef of the image size
-   */
-   typedef  typename   TImage::SizeType   SizeType;
-  
-  /**
-   * Type of the interpolation function
-   */
-   typedef LinearInterpolateImageFunction<ImageType>  InterpolatorType;
-
-
-  /**
-   * Type of the interpolation function
-   */
-   typedef typename  InterpolatorType::Pointer  InterpolatorPointer;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(ImageMapper, RegistrationMapper);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Set Domain
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ImageMapper, RegistrationMapper);
+
+  /** Typedef of the Point used to represent coordinates. */
+   typedef typename TTransformation::InputPointType   InputPointType;
+
+  /** Typedef of the Point used to represent coordinates. */
+   typedef typename TTransformation::OutputPointType   OutputPointType;
+
+   /** Typedef of transformation parameters. */
+   typedef typename TTransformation::ParametersType   ParametersType;
+
+  /**  Pointer type for the reference.  */
+  typedef typename Superclass::DomainPointer DomainPointer;
+
+  /**  Type for the reference.  */
+  typedef typename Superclass::DomainType     DomainType;
+
+  /** Typedef of the Image type. */
+  typedef  TImage   ImageType;
+
+  /** Typedef of the Pixel type. */
+  typedef  typename   TImage::PixelType   PixelType;
+
+  /** Typedef of the image index. */
+  typedef  typename   TImage::IndexType   IndexType;
+
+  /** Typedef of the image region. */
+  typedef  typename   TImage::RegionType   RegionType;
+
+  /** Typedef of the image size.  */
+  typedef  typename   TImage::SizeType   SizeType;
+  
+  /** Type of the interpolation function. */
+  typedef LinearInterpolateImageFunction<ImageType>  InterpolatorType;
+
+  /** Type of the interpolation function */
+  typedef typename  InterpolatorType::Pointer  InterpolatorPointer;
+
+  /** Set domain. */
   void SetDomain( const DomainType * domain );
 
-
+  /** The dimension of the space. */
   enum { SpaceDimension = TTransformation::ParametersDimension };
-  
 
 public: 
-
-  /**
-   * Evaluate the pixel value for the point previously 
+  /** Evaluate the pixel value for the point previously 
    * specified in the IsInside() method.
    * \warning This method uses the point cached by IsInside() and
    * cannot  be safely used in more than one thread at a time.
-   *
-   * \sa IsInside()
-   *
-   */
+   * \sa IsInside() */
    double Evaluate( void ) const; 
 
-   /**
-    * Test whether the specified point is inside
+   /** Test whether the specified point is inside
     * the Image Domain and caches that point for later use by the Evaluate() 
     * method. 
     * \warning This method cannot be safely used in more than one thread at
     * a time.
-    *
-    * \sa Evaluate();
-    *
-    */
+    * \sa Evaluate(); */
    bool IsInside( const InputPointType & point );
 
 protected:

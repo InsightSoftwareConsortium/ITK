@@ -46,8 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class RegistrationMethod
+/** \class RegistrationMethod
  * \brief Base class for Registration Methods
  *
  * This Class define the generic interface for a registration method.
@@ -55,144 +54,77 @@ namespace itk
  * class
  *
  * \ingroup RegistrationFilters
- * 
  */
-
 template <class TTraits>
 class ITK_EXPORT RegistrationMethod : public ProcessObject 
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
-   typedef RegistrationMethod  Self;
+  /** Standard class typedefs. */
+  typedef RegistrationMethod  Self;
+  typedef ProcessObject  Superclass;
+  typedef SmartPointer<Self>   Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
-
-  /**
-   * Standard "Superclass" typedef.
-   */
-   typedef ProcessObject  Superclass;
-
-
-  /** 
-   * Smart pointer typedef support 
-   */
-   typedef SmartPointer<Self>   Pointer;
-   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   *  Type of the Target
-   */
-   typedef typename TTraits::TargetType              TargetType;
-   typedef typename TargetType::ConstPointer              TargetConstPointer;
-
-  /**
-   *  Type of the Metric
-   */
-   typedef typename TTraits::MetricType              MetricType;
-
-  /**
-   *  Type of the Mapper
-   */
-   typedef typename TTraits::MapperType              MapperType;
-
-  /**
-   *  Type of the Transformation
-   */
-   typedef typename TTraits::TransformationType TransformationType;
-
-
-  /**
-   *  Type of the Reference
-   */
-   typedef typename TTraits::ReferenceType              ReferenceType;
-   typedef typename ReferenceType::ConstPointer         ReferenceConstPointer;
-
-
-  /**
-   *  Type of the Optimizer
-   */
-   typedef typename TTraits::OptimizerType         OptimizerType;
-
-
-  /**
-   *  Type of the Transformation parameters
-   *  This is the same type used to represent the search
-   *  space of the optimization algorithm
-   */
-   typedef typename TTraits::ParametersType         ParametersType;
-
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-   itkTypeMacro(RegistrationMethod, Object);
-
-
-  /**
-   * Method for creation through the object factory.
-   */
-   itkNewMacro(Self);
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
   
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(RegistrationMethod, Object);
 
-  /**
-   * Method that initiates the registration.
-   */
-   void StartRegistration(void);
+  /**  Type of the target. */
+  typedef typename TTraits::TargetType              TargetType;
+  typedef typename TargetType::ConstPointer              TargetConstPointer;
 
+  /**  Type of the metric. */
+  typedef typename TTraits::MetricType              MetricType;
 
-  /**
-   * Set the Target
-   */
-   void SetTarget( const TargetType * Target );
+  /**  Type of the mapper. */
+  typedef typename TTraits::MapperType              MapperType;
 
+  /**  Type of the transformation. */
+  typedef typename TTraits::TransformationType TransformationType;
 
-  /**
-   * Set the Reference
-   */
-   void SetReference( const ReferenceType * Reference );
+  /**  Type of the reference. */
+  typedef typename TTraits::ReferenceType              ReferenceType;
+  typedef typename ReferenceType::ConstPointer         ReferenceConstPointer;
 
+  /**  Type of the optimizer. */
+  typedef typename TTraits::OptimizerType         OptimizerType;
 
-  /**
-   * Set the Optimizer
-   */
-   itkSetObjectMacro( Optimizer,  OptimizerType );
+  /** Type of the Transformation parameters This is the same type used to
+   *  represent the search space of the optimization algorithm */
+  typedef typename TTraits::ParametersType         ParametersType;
 
+  /** Method that initiates the registration. */
+  void StartRegistration(void);
 
-  /**
-   * Set the Metric
-   */
-   itkSetObjectMacro( Metric, MetricType );
+  /** Set the target. */
+  void SetTarget( const TargetType * Target );
 
+  /** Set the reference. */
+  void SetReference( const ReferenceType * Reference );
 
-  /**
-   * Get the Reference
-   */
-   ReferenceConstPointer GetReference( void );
-   
+  /** Set the optimizer. */
+  itkSetObjectMacro( Optimizer,  OptimizerType );
 
-  /**
-   * Get the Target
-   */
-   TargetConstPointer     GetTarget( void );
+  /** Set the metric. */
+  itkSetObjectMacro( Metric, MetricType );
 
+  /** Get the reference. */
+  ReferenceConstPointer GetReference( void );
 
-  /**
-   * Get the Optimizer
-   */
-   itkGetObjectMacro( Optimizer, OptimizerType );
+  /** Get the target. */
+  TargetConstPointer     GetTarget( void );
 
+  /** Get the optimizer. */
+  itkGetObjectMacro( Optimizer, OptimizerType );
 
-  /**
-   * Get the Metric
-   */
-   itkGetObjectMacro( Metric, MetricType );
-
+  /** Get the metric. */
+  itkGetObjectMacro( Metric, MetricType );
 
 protected:
   RegistrationMethod();
   virtual ~RegistrationMethod();
- 
 
 private:
   RegistrationMethod(const Self&); //purposely not implemented

@@ -61,65 +61,36 @@ namespace itk
 template <class TReference, class TTarget>
 class ITK_EXPORT ImageToImageAffineNormalizedCorrelationGradientDescentRegistrationTraits 
 {
-  
 public:
+  /**  Type of the reference. */
+  typedef TReference  ReferenceType;
 
-  /**
-   *  Type of the Reference
-   */
-   typedef TReference  ReferenceType;
+  /**  Type of the target. */
+  typedef TTarget TargetType;
 
-  /**
-   *  Type of the Target
-   */
-   typedef TTarget TargetType;
+  /** Image dimensions. */
+  enum { ImageDimension = ReferenceType::ImageDimension }; 
 
-  /**
-   * Image Dimensions
-   */
-   enum { ImageDimension = ReferenceType::ImageDimension }; 
-
-
-  /**
-   *  Type of the Transformation
-   */
-   typedef AffineTransform<double, ImageDimension> TransformationType;
-
+  /**  Type of the transformation. */
+  typedef AffineTransform<double, ImageDimension> TransformationType;
     
-  /**
-   *  Type of the parameters
-   */
-   typedef typename TransformationType::ParametersType  ParametersType;
+  /**  Type of the parameters. */
+  typedef typename TransformationType::ParametersType  ParametersType;
 
-
-  /**
-   * Parameters Dimensions
-   */
-   enum { ParametersDimension = TransformationType::ParametersDimension }; 
-
+  /** Parameters dimensions. */
+  enum { ParametersDimension = TransformationType::ParametersDimension }; 
  
-  /**
-   *  Type of the Mapper
-   */
-   typedef ImageMapper<ReferenceType,TransformationType>  MapperType;
+  /**  Type of the mapper. */
+  typedef ImageMapper<ReferenceType,TransformationType>  MapperType;
 
-  /**
-   *  Type of the Metric
-   */
-   typedef NormalizedCorrelationImageToImageMetric<TargetType, MapperType>   MetricType;
+  /**  Type of the metric. */
+  typedef NormalizedCorrelationImageToImageMetric<TargetType, MapperType>   MetricType;
 
-
-  /**
-   *  Type of the Optimizer 
-   */
-   typedef GradientDescentOptimizer<MetricType>           OptimizerType;
-
-
+  /**  Type of the optimizer.  */
+  typedef GradientDescentOptimizer<MetricType>           OptimizerType;
 };
 
-
-/**
- * \class ImageToImageAffineNormalizedCorrelationGradientDescentRegistration
+/** \class ImageToImageAffineNormalizedCorrelationGradientDescentRegistration
  * \brief Base class for registration methods
  *
  * This Class define the generic interface for a registration method.
@@ -136,117 +107,61 @@ public:
  *
  *  \ingroup AffineImageRegistration
  */
-
-
-
 template <class TReference, class TTarget>
 class ITK_EXPORT ImageToImageAffineNormalizedCorrelationGradientDescentRegistration 
 : public RegistrationMethod< 
-            ImageToImageAffineNormalizedCorrelationGradientDescentRegistrationTraits<
-               TReference,
-               TTarget>  >
+      ImageToImageAffineNormalizedCorrelationGradientDescentRegistrationTraits<
+               TReference,TTarget>  >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
-   typedef ImageToImageAffineNormalizedCorrelationGradientDescentRegistration  Self;
+  /** Standard class typedefs. */
+  typedef ImageToImageAffineNormalizedCorrelationGradientDescentRegistration  Self;
+  typedef RegistrationMethod< 
+  ImageToImageAffineNormalizedCorrelationGradientDescentRegistrationTraits<
+  TReference,TTarget> >   Superclass;
+  typedef SmartPointer<Self>   Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
-
-  /**
-   * Standard "Superclass" typedef.
-   */
-   typedef RegistrationMethod< 
-            ImageToImageAffineNormalizedCorrelationGradientDescentRegistrationTraits<
-                                       TReference,
-                                       TTarget>  >           Superclass;
-
-
-  /** 
-   * Smart pointer typedef support 
-   */
-   typedef SmartPointer<Self>   Pointer;
-   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   *  Type of the Reference
-   */
-   typedef TReference ReferenceType;
-
-  /**
-   *  Type of the Target
-   */
-   typedef TTarget   TargetType;
-
-
-  /**
-   *  Type of the parameters
-   */
-   typedef typename Superclass::ParametersType ParametersType;
-
-
-  /**
-   *  Type of the Transformation
-   */
-   typedef typename Superclass::TransformationType TransformationType;
-   
-   
-  /**
-   *  Type of the Mapper
-   */
-   typedef typename Superclass::MapperType    MapperType;
-
-
-  /**
-   *  Type of the Metric
-   */
-   typedef typename Superclass::MetricType   MetricType;
-
-
-
-   /**
-   *  Type of the Optimizer 
-   */
-   typedef typename Superclass::OptimizerType       OptimizerType;
-
-
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-   itkTypeMacro(ImageToImageAffineNormalizedCorrelationGradientDescentRegistration, RegistrationMethod);
-
-
-  /**
-   * Method for creation through the object factory.
-   */
-   itkNewMacro(Self);
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
   
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ImageToImageAffineNormalizedCorrelationGradientDescentRegistration, RegistrationMethod);
 
-  /**
-   * Method that initiates the registration.
-   */
-   void StartRegistration(void);
+  /**  Type of the reference. */
+  typedef TReference ReferenceType;
 
+  /**  Type of the target. */
+  typedef TTarget   TargetType;
 
-  /**
-   * Set Translation Scale
-   */
-   void SetTranslationScale( const double & scale )
-   { m_TranslationScale = scale; }
+  /**  Type of the parameters. */
+  typedef typename Superclass::ParametersType ParametersType;
 
+  /**  Type of the transformation. */
+  typedef typename Superclass::TransformationType TransformationType;
+   
+  /**  Type of the mapper. */
+  typedef typename Superclass::MapperType    MapperType;
 
-   /** 
-    *  Dimension of the images
-    */
-   enum { ImageDimension = ReferenceType::ImageDimension };
+  /**  Type of the metric. */
+  typedef typename Superclass::MetricType   MetricType;
 
+  /**  Type of the optimizer.  */
+  typedef typename Superclass::OptimizerType       OptimizerType;
 
+  /** Method that initiates the registration. */
+  void StartRegistration(void);
+
+  /** Set translation scale. */
+  void SetTranslationScale( const double & scale )
+    { m_TranslationScale = scale; }
+
+  /**  Dimension of the images.  */
+  enum { ImageDimension = ReferenceType::ImageDimension };
 
 protected:
   ImageToImageAffineNormalizedCorrelationGradientDescentRegistration();
   virtual ~ImageToImageAffineNormalizedCorrelationGradientDescentRegistration();
- 
 
 private:
   ImageToImageAffineNormalizedCorrelationGradientDescentRegistration(const Self&); //purposely not implemented
