@@ -128,7 +128,6 @@ public:
   typedef   typename  FixedImageType::PixelType    FixedPixelType;
   typedef   Float PixelType;
   typedef   Float ComputationType;
-  typedef   Image< FixedPixelType, itkGetStaticConstMacro(ImageDimension) >       FixedImageType;
   typedef   Image< PixelType, itkGetStaticConstMacro(ImageDimension) >            ImageType;
   typedef   itk::Vector<float,itkGetStaticConstMacro(ImageDimension)>             VectorType;
   typedef   vnl_vector<Float>             FEMVectorType;
