@@ -32,6 +32,7 @@ namespace _cable_
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::UC2, image::UC2, itkInPlaceImageFilterUC2UC2);
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::US2, image::US2, itkInPlaceImageFilterUS2US2);
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::UI2, image::UI2, itkInPlaceImageFilterUI2UI2);
+    ITK_WRAP_OBJECT2(InPlaceImageFilter, image::UI2, image::F2,  itkInPlaceImageFilterUI2F2);
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::SC2, image::SC2, itkInPlaceImageFilterSC2SC2);
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::SS2, image::SS2, itkInPlaceImageFilterSS2SS2);
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::SI2, image::SI2, itkInPlaceImageFilterSI2SI2);
@@ -44,6 +45,7 @@ namespace _cable_
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::UC3, image::UC3, itkInPlaceImageFilterUC3UC3);
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::US3, image::US3, itkInPlaceImageFilterUS3US3);
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::UI3, image::UI3, itkInPlaceImageFilterUI3UI3);
+    ITK_WRAP_OBJECT2(InPlaceImageFilter, image::UI3, image::F3,  itkInPlaceImageFilterUI3F3);
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::SC3, image::SC3, itkInPlaceImageFilterSC3SC3);
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::SS3, image::SS3, itkInPlaceImageFilterSS3SS3);
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::SI3, image::SI3, itkInPlaceImageFilterSI3SI3);

@@ -45,6 +45,7 @@ namespace _cable_
     ITK_WRAP_OBJECT(DynamicLoader);
     ITK_WRAP_OBJECT(LightObject);
     ITK_WRAP_OBJECT(Object);
+    ITK_WRAP_OBJECT(ObjectFactoryBase);
     ITK_WRAP_OBJECT(LightProcessObject);
     ITK_WRAP_OBJECT(ProcessObject);
     ITK_WRAP_OBJECT(OutputWindow);
