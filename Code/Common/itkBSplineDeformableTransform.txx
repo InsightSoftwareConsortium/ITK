@@ -337,7 +337,10 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
      << m_InputParametersPointer << std::endl;
   os << indent << "ValidRegion: " << m_ValidRegion << std::endl;
   os << indent << "LastJacobianIndex: " << m_LastJacobianIndex << std::endl;
-  os << indent << "BulkTransform: " << m_BulkTransform.GetPointer() << std::endl;
+  os << indent << "BulkTransform: ";
+  os << m_BulkTransform.GetPointer() << std::endl;
+  os << indent << "WeightsFunction: ";
+  os << m_WeightsFunction.GetPointer() << std::endl;
 
   if ( m_BulkTransform )
     {

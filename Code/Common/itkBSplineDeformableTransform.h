@@ -310,6 +310,10 @@ protected:
   BSplineDeformableTransform();
   ~BSplineDeformableTransform();
 
+  /** Allow subclasses to access and manipulate the weights function. */
+  itkSetObjectMacro( WeightsFunction, WeightsFunctionType );
+  itkGetObjectMacro( WeightsFunction, WeightsFunctionType );
+
 private:
   BSplineDeformableTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
