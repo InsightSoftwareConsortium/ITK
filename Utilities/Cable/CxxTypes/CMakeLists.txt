@@ -1,0 +1,16 @@
+LIBRARY(CxxTypes)
+
+SOURCE_FILES(
+cxxArrayType
+cxxClassType
+cxxConversionSequence
+cxxCvQualifiedType
+cxxFunctionType
+cxxFundamentalType
+cxxPointerToMemberType
+cxxPointerType
+cxxReferenceType
+cxxType
+cxxTypeSystem
+cxxTypedefType
+)
