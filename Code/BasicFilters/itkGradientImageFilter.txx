@@ -41,9 +41,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkGradientImageFilter_txx
 #define _itkGradientImageFilter_txx
 
-#include "itkNeighborhoodOperatorImageFilter.h"
+#include "itkConstNeighborhoodIterator.h"
+#include "itkConstSmartNeighborhoodIterator.h"
+#include "itkNeighborhoodInnerProduct.h"
+#include "itkImageRegionIterator.h"
 #include "itkDerivativeOperator.h"
+#include "itkNeighborhoodAlgorithm.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
+#include "itkOffset.h"
+
 namespace itk
 {
 
@@ -134,8 +140,8 @@ GradientImageFilter< TInputImage, TOutputValueType >
    op.CreateDirectional();
 
   // Calculate iterator radius
-  Size<OutputImageDimension> radius;
-  for (i = 0; i < OutputImageDimension; ++i) radius[i]  = op.GetRadius()[0];
+  Size<InputImageDimension> radius;
+  for (i = 0; i < InputImageDimension; ++i) radius[i]  = op.GetRadius()[0];
 
   // Find the data-set boundary "faces"
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::
@@ -162,9 +168,9 @@ GradientImageFilter< TInputImage, TOutputValueType >
   nit = ConstNeighborhoodIterator<TInputImage>(radius, input, *fit);
   it  = ImageRegionIterator<OutputImageType>(output, *fit);
 
-  std::slice x_slice[OutputImageDimension];
+  std::slice x_slice[InputImageDimension];
   const unsigned long center = nit.Size() / 2;
-  for (i = 0; i < OutputImageDimension; ++i)
+  for (i = 0; i < InputImageDimension; ++i)
     {
       x_slice[i] = std::slice( center - nit.GetStride(i) * radius[i],
                                op.GetSize()[0], nit.GetStride(i));
@@ -180,7 +186,7 @@ GradientImageFilter< TInputImage, TOutputValueType >
       this->UpdateProgress((float)ii++ / (float)totalPixels);
       }
 
-    for (i = 0; i < OutputImageDimension; ++i)
+    for (i = 0; i < InputImageDimension; ++i)
       {
       a[i] = IP(x_slice[i], nit, op);
       }
@@ -206,7 +212,7 @@ GradientImageFilter< TInputImage, TOutputValueType >
     
     while ( ! bit.IsAtEnd() )
       {
-      for (i = 0; i < OutputImageDimension; ++i)
+      for (i = 0; i < InputImageDimension; ++i)
         {
         a[i] = SIP(x_slice[i], bit, op);
         }
