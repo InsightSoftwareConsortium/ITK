@@ -46,7 +46,7 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Typedef of the Point used to represent coordinates */
-  typedef typename TTransformation::PointType   PointType;
+  typedef typename TTransformation::InputPointType   PointType;
 
   /** Typedef of the pixel type. */
   typedef  typename   TImage::PixelType   PixelType;
