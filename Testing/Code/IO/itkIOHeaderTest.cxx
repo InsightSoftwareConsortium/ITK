@@ -48,6 +48,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkPNGImageIOFactory.h"
 #include "itkRawImageIO.txx"
 #include "itkRawImageWriter.txx"
+#include "itkStimulateImageIO.h"
+#include "itkStimulateImageIOFactory.h"
 #include "itkVOLImageIO.h"
 #include "itkVOLImageIOFactory.h"
 #include "itkVTKImageIO.h"
