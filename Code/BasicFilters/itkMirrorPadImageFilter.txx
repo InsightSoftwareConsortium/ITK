@@ -184,10 +184,10 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
   if (regionsize > 0)  // Find out home many regions we have,
     {
       result = regionsize / size;
-      if ((regionsize % size) != 0)
-	{
+//      if ((regionsize % size) != 0)
+//	{
 	  result++;
-	}
+//	}
       if (offset > 0)
 	{
 	  result = result - (offset/size);
@@ -336,7 +336,8 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
                     int numRegs, int & regCtr)
 {
   long sizeTemp;  // Holder for current size calculation.
-  int ctr;       // Generic loop counter.
+  int ctr;        // Generic loop counter.
+  long offset=0;  // Offset for times when we need to shorten both ends.
   
   // Handle the pre-region.  Within the pre-region, the first and last
   // groups may be truncated and only contain the back part of the input
@@ -350,19 +351,21 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
   sizeTemp = ((sizeTemp > 0) ? (sizeTemp % inputSize) : 0);
   outputRegionSizes[regCtr] = sizeTemp;
   inputRegionSizes[regCtr] = sizeTemp;
+  offset = inputSize - sizeTemp;
   if ((sizeTemp==0) || this->RegionIsOdd(inputIndex, outputIndex, inputSize)) 
     {
       inputRegionStart[regCtr] = inputIndex;
     }
   else
     {
-      inputRegionStart[regCtr] = inputIndex + inputSize - sizeTemp;
+      inputRegionStart[regCtr] = inputIndex + offset;
     }
   // Handle the rest of the pre-region by stepping through in blocks of
   // the size of the input image.
   for (ctr=1; ctr<numRegs; ctr++) 
     {
       regCtr++;
+      offset = 0;
       outputRegionStart[regCtr] = outputRegionStart[regCtr-1]
         + static_cast<long>(outputRegionSizes[regCtr-1]);
       inputRegionStart[regCtr] = inputIndex;
@@ -379,7 +382,7 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
       if ((inputRegionSizes[regCtr] < inputSize)
           && this->RegionIsOdd(inputIndex, outputRegionStart[regCtr], inputSize))
         {
-          inputRegionStart[regCtr] = inputIndex + inputSize - inputRegionSizes[regCtr];
+          inputRegionStart[regCtr] = inputIndex + inputSize - inputRegionSizes[regCtr] - offset;
         }
     }
 
@@ -408,7 +411,8 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
                     int numRegs, int & regCtr)
 {
   long sizeTemp;  // Holder for current size calculation.
-  int ctr;       // Generic loop counter.
+  int ctr;        // Generic loop counter.
+  int offset=0;   // Offset for when we have to shorten both ends.
 
   // Handle the post region.  The post region has a number of
   // areas of size equal to the input region, followed by one
@@ -419,17 +423,19 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
   outputRegionSizes[regCtr] = sizeTemp;
   inputRegionSizes[regCtr] = sizeTemp;
   outputRegionStart[regCtr] = outputIndex + outputSize - sizeTemp;
+  offset = inputSize - sizeTemp;
   if ((sizeTemp>0) && this->RegionIsOdd(inputIndex, outputRegionStart[regCtr], inputSize)) 
     {
-      inputRegionStart[regCtr] = inputIndex + inputSize - sizeTemp;
+      inputRegionStart[regCtr] = inputIndex + offset;
     }
   else
     {
       inputRegionStart[regCtr] = inputIndex;
     }
-  
+
   for (ctr=numRegs-1; ctr>=1; ctr--) 
     {
+      offset = 0;
       regCtr++;
       outputRegionStart[regCtr] = outputRegionStart[regCtr-1] - inputSize;
       inputRegionStart[regCtr] = inputIndex;
@@ -444,7 +450,7 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
       if (this->RegionIsOdd(inputIndex, outputRegionStart[regCtr], inputSize)
           && (outputIndex > (inputIndex+inputSize)))
         {
-          inputRegionStart[regCtr] = inputIndex;
+          inputRegionStart[regCtr] = inputIndex + offset;
         }
       else
         {
@@ -654,7 +660,7 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId)
 {
-  int dimCtr, regCtr, i;
+  int dimCtr, regCtr, i=0;
   int numRegions=1; // Actual number of regions in our decomposed space.
   int goodInput, goodOutput;
                     // Are the regions non-empty?
