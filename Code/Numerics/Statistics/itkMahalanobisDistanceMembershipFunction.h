@@ -28,7 +28,7 @@
 
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
 
 /** \class MahalanobisDistanceMembershipFunction
  * \brief MahalanobisDistanceMembershipFunction class represents MahalanobisDistance Density Function.
@@ -41,7 +41,7 @@ namespace itk{
 
 template< class TVector >
 class ITK_EXPORT MahalanobisDistanceMembershipFunction :
-      public MembershipFunctionBase< TVector >
+    public MembershipFunctionBase< TVector >
 {
 public:
   /** Standard class typedefs */
@@ -129,7 +129,7 @@ private:
   void CalculateInverseCovariance(); 
 };
 
-  } // end of namespace Statistics
+} // end of namespace Statistics
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -167,12 +167,19 @@ MahalanobisDistanceMembershipFunction< TVector >
   unsigned int i ;
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Mean: [" ;
-  for (i=0; (i + 1) < VectorDimension; i++)
+  if ( m_Mean.size() == VectorDimension )
     {
-    os << m_Mean[i] << ", ";
+    os << indent << "Mean: [" ;
+    for (i=0 ; (i + 1) < VectorDimension ; i++)
+      {
+      os << m_Mean[i] << ", ";
+      }
+    os << m_Mean[i] << "]" << std::endl;
     }
-  os << m_Mean[i] << "]" << std::endl;
+  else
+    {
+    os << indent << "Mean: not set." << std::endl ;
+    }
 
   os << indent << "Number of Samples: " << m_NumberOfSamples << std::endl;
   os << indent << "Covariance:        " << std::endl;
