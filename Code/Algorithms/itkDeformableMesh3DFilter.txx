@@ -482,6 +482,9 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   this->SetMeshStiffness();
   
   while (m_Step < m_StepThreshold) {
+    const float progress = static_cast<float>( m_Step ) / 
+                           static_cast<float>( m_StepThreshold );
+    this->UpdateProgress( progress );
     this->ComputeNormals();
     this->GradientFit();
     if ( m_PotentialOn ) this->PotentialFit();
