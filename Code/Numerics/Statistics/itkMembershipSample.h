@@ -239,7 +239,7 @@ private:
   ClassLabelHolderType            m_ClassLabelHolder ;
   unsigned int                    m_NumberOfClasses ;
   std::vector< unsigned int >     m_ClassSampleSizes ;
-  std::vector< ClassSampleType::Pointer > m_ClassSamples ;
+  std::vector< typename ClassSampleType::Pointer > m_ClassSamples ;
 } ; // end of class
 
 

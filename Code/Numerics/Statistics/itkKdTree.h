@@ -352,7 +352,7 @@ private:
   int m_BucketSize ;
   KdTreeNodeType* m_Root ;
   KdTreeNodeType* m_EmptyTerminalNode ;
-  DistanceMetricType::Pointer m_DistanceMetric ;
+  typename DistanceMetricType::Pointer m_DistanceMetric ;
   NearestNeighbors m_Neighbors ;
   MeasurementVectorType m_LowerBound ;
   MeasurementVectorType m_UpperBound ;
