@@ -55,9 +55,9 @@ void PrintResults(Solver& S, int s, char comment)
   LinearSystemWrapper::Pointer lsw = S.GetLinearSystemWrapper();
   
   std::cout << std::endl << "k" << s << "=[";
-  for (int j=0; j < lsw->GetSystemOrder(); j++) {
+  for (unsigned int j=0; j < lsw->GetSystemOrder(); j++) {
     if (IDL_OUTPUT) { std::cout << " ["; }
-    for (int k=0; k < lsw->GetSystemOrder(); k++) {
+    for (unsigned int k=0; k < lsw->GetSystemOrder(); k++) {
       if (k > 0) { std::cout << ",  "; }
       std::cout << lsw->GetMatrixValue(j,k);
     }
@@ -72,7 +72,7 @@ void PrintResults(Solver& S, int s, char comment)
   // Print F - the global load vector
   
   std::cout << std::endl << "f" << s << "=[";
-  for (int j=0; j < lsw->GetSystemOrder(); j++) {
+  for (unsigned int j=0; j < lsw->GetSystemOrder(); j++) {
     if (j > 0) { std::cout << ",  "; }
     std::cout << lsw->GetVectorValue(j);
   }
