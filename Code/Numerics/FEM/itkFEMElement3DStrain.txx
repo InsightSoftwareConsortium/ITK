@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMElement2DStress.txx
+  Module:    itkFEMElement3DStrain.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -15,10 +15,10 @@
 
 =========================================================================*/
 
-#ifndef __itkFEMElement2DStress_txx
-#define __itkFEMElement2DStress_txx
+#ifndef __itkFEMElement3DStrain_txx
+#define __itkFEMElement3DStrain_txx
 
-#include "itkFEMElement2DStress.h"
+#include "itkFEMElement3DStrain.h"
 #include "itkFEMUtility.h"
 
 namespace itk {
@@ -28,8 +28,8 @@ namespace fem {
 
 
 template<class TBaseClass>
-Element2DStress<TBaseClass>
-::Element2DStress() : Superclass(), m_mat(0) {}
+Element3DStrain<TBaseClass>
+::Element3DStrain() : Superclass(), m_mat(0) {}
 
 
 
@@ -40,27 +40,44 @@ Element2DStress<TBaseClass>
  */
 
 template<class TBaseClass>
-void
-Element2DStress<TBaseClass>
+void Element3DStrain<TBaseClass>
 ::GetStrainDisplacementMatrix(MatrixType& B, const MatrixType& shapeDgl) const
 {
   int p;
-  unsigned int Nn=this->GetNumberOfNodes();
-  B.resize(3,2*Nn);
-  
-  // Copy the shape function derivatives to the B matrix.
-  for (int i=0; i<Nn; i++) {
-    // Compute B index
-    p = i << 1;
+  unsigned int Nn=2*this->GetNumberOfNodes();
+  B.resize(6,Nn);
 
-    // Compute B elements
-    B[0][p]   = shapeDgl[0][i];
-    B[0][p+1] = 0;
-    B[1][p]   = 0;
-    B[1][p+1] = shapeDgl[1][i];
-    B[2][p]   = shapeDgl[1][i];
-    B[2][p+1] = shapeDgl[0][i];
+  // Initialize the B matrix to zero - subsequently, only the nonzero
+  // terms will be filled in
+  B.fill(0.0);
+
+  // Copy the shape function derivatives wrt global coordinates
+  // in right position in B matrix.
+
+  for (int i=0; i<Nn; i++) {  
+    p = i / 3;
+    
+    switch(i % 3) {
+      case 0:  /** Columns 1, 4, 7, ..., 22 */
+        B[0][i] = shapeDgl[0][p];
+        B[3][i] = shapeDgl[1][p];
+        B[5][i] = shapeDgl[2][p];
+        break;
+        
+        case 1:  /** Columns 2, 5, 8, ..., 23 */
+        B[1][i] = shapeDgl[1][p];
+        B[3][i] = shapeDgl[0][p];
+        B[4][i] = shapeDgl[2][p];
+        break;
+
+      case 2:  /** Columns 3, 6, 9, ..., 24 */
+        B[2][i] = shapeDgl[2][p];
+        B[4][i] = shapeDgl[1][p];
+        B[5][i] = shapeDgl[0][p];
+        break;    
+    }
   }
+
 }
 
 
@@ -68,32 +85,40 @@ Element2DStress<TBaseClass>
 
 template<class TBaseClass>
 void
-Element2DStress<TBaseClass>
+Element3DStrain<TBaseClass>
 ::GetMaterialMatrix(MatrixType& D) const
 {
-  D.resize(3,3);
+  D.resize(6,6);
+  D.fill(0.0);
 
   /* Material properties matrix */
-  Float disot = (m_mat->h * m_mat->E)/(1.0 - (m_mat->ni*m_mat->ni));
+  Float fac = (m_mat->h * m_mat->E) / ((1 + m_mat->ni) * (1 - 2 * m_mat->ni));
     
-  D[0][0] = disot;
-  D[0][1] = disot * (m_mat->ni);
-  D[0][2] = 0.0;
+  /** Set the elements in the top left quadrant */
+  for (int j=0; j < 3; j++) {
+    for (int k=0; k < 3; k++) {
+      D[j][k] = m_mat->ni;
+    }
+  }
 
-  D[1][0] = D[0][1];
-  D[1][1] = disot;
-  D[1][2] = 0.0;
+  /** Set the diagonal elements */
+  for (int k=0; k < 3; k++) {
+    D[k][k] = 1 - m_mat->ni;
+  }
+  for (int k=3; k < 6; k++) {
+    D[k][k] = (1 - (2 * m_mat->ni)) * 0.5;
+  }
 
-  D[2][0] = 0.0;
-  D[2][1] = 0.0;
-  D[2][2] = disot * (1.0 - m_mat->ni)/2.0;
+  /** Multiply by the factor */
+  D = D * fac;
 }
+
 
 
 
 template<class TBaseClass>
 void
-Element2DStress<TBaseClass>
+Element3DStrain<TBaseClass>
 ::Read( std::istream& f, void* info )
 {
   int n;
@@ -117,20 +142,21 @@ Element2DStress<TBaseClass>
   }
   catch ( FEMExceptionObjectNotFound e )
   {
-    throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"Element2DStress::Read()",e.m_baseClassName,e.m_GN);
+    throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"Element3DStrain::Read()",e.m_baseClassName,e.m_GN);
   }
 
   // Check if the material object was of correct class
   if(!m_mat)
   {
-    throw FEMExceptionWrongClass(__FILE__,__LINE__,"Element2DStress::Read()");
+    throw FEMExceptionWrongClass(__FILE__,__LINE__,"Element3DStress::Read()");
   }
+
 
 out:
 
   if( !f )
   { 
-    throw FEMExceptionIO(__FILE__,__LINE__,"Element2DStress::Read()","Error reading FEM element!");
+    throw FEMExceptionIO(__FILE__,__LINE__,"Element3DStrain::Read()","Error reading FEM element!");
   }
 
 }
@@ -142,14 +168,14 @@ out:
  */
 template<class TBaseClass>
 void
-Element2DStress<TBaseClass>
-::Write( std::ostream& f, int clid ) const
-{
-  // Element2DStress cannot be the most derived class, so
+Element3DStrain<TBaseClass>
+::Write( std::ostream& f, int clid ) const {
+
+  // Element3DStress cannot be the most derived class, so
   // if clid was not set already, we throw an exception.
   if (clid<0)
   {
-    throw FEMExceptionIO(__FILE__,__LINE__,"Element2DStress::Write()","Error writing FEM element!. Parameter clid was not set!");
+    throw FEMExceptionIO(__FILE__,__LINE__,"Element3DStress::Write()","Error writing FEM element!. Parameter clid was not set!");
   }
 
   // First call the parent's write function
@@ -164,7 +190,7 @@ Element2DStress<TBaseClass>
   // check for errors
   if (!f)
   { 
-    throw FEMExceptionIO(__FILE__,__LINE__,"Element2DStress::Write()","Error writing FEM element!");
+    throw FEMExceptionIO(__FILE__,__LINE__,"Element3DStrain::Write()","Error writing FEM element!");
   }
 
 }
@@ -182,4 +208,4 @@ static void Dummy( void );
 
 }} // end namespace itk::fem
 
-#endif // #ifndef __itkFEMElement2DStress_txx
+#endif // #ifndef __itkFEMElement3DStrain_txx

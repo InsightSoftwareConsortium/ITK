@@ -118,6 +118,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMElementC1IsoCurve2D.h
 
   itkFEMElement2DStress.h
+  itkFEMElement3DStrain.h
   itkFEMElement2DC0LinearQuadrilateral.h
   itkFEMElement2DC0LinearQuadrilateralStress.h
   itkFEMElement2DC0LinearTriangular.h
@@ -131,6 +132,7 @@ SOURCE_FILES(FEM_SRCS
 
   itkFEMElementStd.txx
   itkFEMElement2DStress.txx
+  itkFEMElement3DStrain.txx
 
   itkFEMMaterials.h
   itkFEMMaterialBase.h
