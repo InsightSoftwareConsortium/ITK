@@ -20,11 +20,14 @@ itkVOLImageIOTest.cxx
 itkVTKImageIOTest.cxx
 )
 
+SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
+
 ADD_TEST(itkIOPrintTest ${IO_TESTS} itkIOPrintTest)
 ADD_TEST(itkConvertBufferTest ${IO_TESTS} itkConvertBufferTest)
 ADD_TEST(itkAnalyzeImageIOTest ${IO_TESTS} itkAnalyzeImageIOTest)
 ADD_TEST(itkVOLImageIOTest ${IO_TESTS} itkVOLImageIOTest)
-ADD_TEST(itkVTKImageIOTest ${IO_TESTS} itkVTKImageIOTest)
+ADD_TEST(itkVTKImageIOTest ${IO_TESTS} itkVTKImageIOTest
+                           ${TEMP}/test1.vtk ${TEMP}/test2.vtk)
 ADD_TEST(itkRawImageIOTest ${IO_TESTS} itkRawImageIOTest)
 ADD_TEST(itkRawImageIOTest3 ${IO_TESTS} itkRawImageIOTest3)
 ADD_TEST(itkRawImageIOTest4 ${IO_TESTS} itkRawImageIOTest4)
