@@ -1,5 +1,7 @@
 #-----------------------------------------------------------------------------
 # "jpeglib.h" is defined here:
+INCLUDE_REGULAR_EXPRESSION("^gdcm.*$")
+
 INCLUDE_DIRECTORIES(
   ${GDCM_SOURCE_DIR}/src
   ${GDCM_BINARY_DIR}/ #for gdcmConfigure.h
