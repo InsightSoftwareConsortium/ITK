@@ -165,10 +165,13 @@ namespace itk
                      bool throw_exception = true);
       int GetFloatAt(std::ifstream &f,std::streamoff Offset,float *ip,
                      bool throw_exception = true);
+      int GetDoubleAt(std::ifstream &f,std::streamoff Offset,double *ip,
+                     bool throw_exception = true);
 
       short hdr2Short(char *hdr);
       int hdr2Int(char *hdr);
       float hdr2Float(char *hdr);
+      double hdr2Double(char *hdr);
     private:
       IPLCommonImageIO(const Self&); //purposely not implemented
       void operator=(const Self&); //purposely not implemented

@@ -76,6 +76,8 @@ namespace itk
     for(i = 0; i < m_fnlist.numImageInfoStructs; i++) 
       {
   std::ifstream f(m_fnlist.Info[i].imageFileName,std::ifstream::binary);
+
+  //std::cerr << m_fnlist.Info[i].imageFileName << std::endl; std::cerr.flush();
   if(!f.is_open())
     RAISE_EXCEPTION();
   f.seekg (m_fnlist.Info[i].SliceOffset, std::ios::beg);
@@ -297,6 +299,15 @@ namespace itk
     *ip = this->hdr2Float((char *)&tmp);
     return 0;
   }
+  int IPLCommonImageIO
+  ::GetDoubleAt(std::ifstream &f,std::streamoff Offset,double *ip,
+       bool throw_exception )
+  {
+    double tmp;
+    this->GetStringAt(f,Offset,(char *)&tmp,sizeof(double));
+    *ip = this->hdr2Double((char *)&tmp);
+    return 0;
+  }
   short IPLCommonImageIO
   ::hdr2Short (char *hdr)
   {
@@ -326,6 +337,18 @@ namespace itk
 
     return (floatValue);
   }
+
+  double IPLCommonImageIO
+  ::hdr2Double (char *hdr)
+  {
+    double doubleValue;
+
+    memcpy (&doubleValue, hdr, sizeof(double));
+    ByteSwapper<double>::SwapFromSystemToBigEndian (&doubleValue);
+
+    return (doubleValue);
+  }
+
   void IPLCommonImageIO
   ::InitializeFILENAMELIST( FILENAMELIST * const fnList )
   {
