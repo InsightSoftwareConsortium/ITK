@@ -1,5 +1,5 @@
 #-----------------------------------------------------------------------------
-# "jpeglib.h" is defined here:
+# Rebuild gdcm whenever a file starting with gdcm* is modified
 INCLUDE_REGULAR_EXPRESSION("^gdcm.*$")
 
 INCLUDE_DIRECTORIES(
@@ -58,7 +58,7 @@ TARGET_LINK_LIBRARIES(itkgdcm
 )
 IF(WIN32)
   IF(NOT BORLAND)
-    TARGET_LINK_LIBRARIES(itkgdcm Wsock32 Snmpapi)
+    TARGET_LINK_LIBRARIES(itkgdcm wsock32 snmpapi)
   ENDIF(NOT BORLAND)
 ENDIF(WIN32)
 
