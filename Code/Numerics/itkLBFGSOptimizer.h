@@ -94,6 +94,9 @@ public:
   virtual void SetDefaultStepLength( double stp );
   itkGetMacro( DefaultStepLength, double );
 
+  /** Return Current Value */
+  MeasureType GetValue();
+
 protected:
   LBFGSOptimizer();
   virtual ~LBFGSOptimizer();

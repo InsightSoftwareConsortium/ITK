@@ -69,7 +69,14 @@ AmoebaOptimizer
      << m_InitialSimplexDelta << std::endl;
   
 }
-
+  
+/** Return Current Value */
+AmoebaOptimizer::MeasureType
+AmoebaOptimizer
+::GetValue()
+{
+  return this->GetCostFunctionAdaptor()->f(this->GetCurrentPosition());
+}
 
 /**
  * Set the maximum number of iterations
@@ -142,8 +149,6 @@ void
 AmoebaOptimizer
 ::SetCostFunction( SingleValuedCostFunction * costFunction )
 {
-
-
   const unsigned int numberOfParameters = 
     costFunction->GetNumberOfParameters();
 
@@ -179,7 +184,9 @@ void
 AmoebaOptimizer
 ::StartOptimization( void )
 {
-  
+    
+  this->InvokeEvent( StartEvent() );
+
   ParametersType initialPosition = GetInitialPosition();
 
   ParametersType parameters( initialPosition );
@@ -215,8 +222,8 @@ AmoebaOptimizer
     }
 
   this->SetCurrentPosition( parameters );
-      
-
+    
+  this->InvokeEvent( EndEvent() );
 }
 
 

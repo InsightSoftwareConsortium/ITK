@@ -175,6 +175,14 @@ LBFGSOptimizer
   this->Modified();
 }
 
+/** Return Current Value */
+LBFGSOptimizer::MeasureType
+LBFGSOptimizer
+::GetValue()
+{
+  return this->GetCostFunctionAdaptor()->f(this->GetCurrentPosition());
+}
+
 /**
  * Connect a Cost Function
  */
@@ -221,6 +229,8 @@ LBFGSOptimizer
 ::StartOptimization( void )
 {
   
+  this->InvokeEvent( StartEvent() );
+
   ParametersType initialPosition = GetInitialPosition();
   ParametersType parameters( initialPosition );  
 
@@ -246,6 +256,8 @@ LBFGSOptimizer
     }
 
   this->SetCurrentPosition( parameters );       
+  
+  this->InvokeEvent( EndEvent() );
 
 }
 

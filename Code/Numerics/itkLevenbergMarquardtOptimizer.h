@@ -64,6 +64,9 @@ public:
   void SetGradientTolerance(double tol);
   void SetEpsilonFunction(double epsilon);
 
+  /** Get the current value */
+  MeasureType GetValue();
+
 protected:
   LevenbergMarquardtOptimizer();
   virtual ~LevenbergMarquardtOptimizer();

@@ -84,6 +84,15 @@ LevenbergMarquardtOptimizer
 
 }
 
+/** Return Current Value */
+LevenbergMarquardtOptimizer::MeasureType
+LevenbergMarquardtOptimizer
+::GetValue()
+{
+  MeasureType  measures;
+  this->GetCostFunctionAdaptor()->f(this->GetCurrentPosition(),measures);
+  return measures;
+}
 
 
 /**
@@ -92,8 +101,9 @@ LevenbergMarquardtOptimizer
 void
 LevenbergMarquardtOptimizer
 ::StartOptimization( void )
-{
-  
+{ 
+  this->InvokeEvent( StartEvent() );
+
   ParametersType initialPosition = GetInitialPosition();
 
   ParametersType parameters( initialPosition );
@@ -126,6 +136,8 @@ LevenbergMarquardtOptimizer
 
   this->SetCurrentPosition(parameters);
       
+  this->InvokeEvent( EndEvent() );
+  
 }
 
 /** Set the maximum number of iterations */

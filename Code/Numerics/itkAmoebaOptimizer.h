@@ -117,6 +117,9 @@ public:
   virtual void SetFunctionConvergenceTolerance( double tol );
   itkGetMacro( FunctionConvergenceTolerance, double );
 
+  /** Return Current Value */
+  MeasureType GetValue();
+
 protected:
   AmoebaOptimizer();
   virtual ~AmoebaOptimizer();

@@ -64,6 +64,8 @@ public:
   unsigned long GetNumberOfIterations(void) const;
   unsigned long GetCurrentIteration(void) const;
 
+  /** Return Current Value */
+  MeasureType GetValue();
 
 protected:
   ConjugateGradientOptimizer();

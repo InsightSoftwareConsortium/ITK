@@ -83,6 +83,13 @@ ConjugateGradientOptimizer
 
 }
 
+/** Return Current Value */
+ConjugateGradientOptimizer::MeasureType
+ConjugateGradientOptimizer
+::GetValue()
+{
+  return this->GetCostFunctionAdaptor()->f(this->GetCurrentPosition());
+}
 
 /**
  * Start the optimization
@@ -91,6 +98,7 @@ void
 ConjugateGradientOptimizer
 ::StartOptimization( void )
 {
+  this->InvokeEvent( StartEvent() );
 
   ParametersType initialPosition = GetInitialPosition();
 
@@ -118,7 +126,9 @@ ConjugateGradientOptimizer
     }
 
   this->SetCurrentPosition( parameters );
-      
+    
+  this->InvokeEvent( EndEvent() );
+    
 }
 
 
