@@ -34,6 +34,7 @@ SET(ITKCommon_SRCS
   itkOneWayEquivalencyTable.cxx
   itkOrthogonallyCorrected2DParametricPath.cxx
   itkOutputWindow.cxx  
+  itkParametricPath.cxx
   itkProcessObject.cxx  
   itkProgressReporter.cxx  
   itkQuadraticTriangleCellTopology.cxx
