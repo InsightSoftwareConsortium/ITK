@@ -98,12 +98,12 @@ int itkChainCodeToFourierSeriesPathFilterTest(int, char*[])
   
   if (passed)
     {
-    std::cout << "PathToChainCodePathFilter tests passed" << std::endl;
+    std::cout << "PathToFourierSeriesPathFilter tests passed" << std::endl;
     return EXIT_SUCCESS;
     }
   else
     {
-    std::cout << "PathToChainCodePathFilter tests failed" << std::endl;
+    std::cout << "PathToFourierSeriesPathFilter tests failed" << std::endl;
     return EXIT_FAILURE;
     }
 }
