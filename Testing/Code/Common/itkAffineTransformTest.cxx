@@ -23,7 +23,6 @@ main(
     int argc,
     char *argv[])
 {
-    int err = 0;       // Error detected in current test?
     int any = 0;       // Any errors detected in testing?
     vnl_matrix_fixed<double,2,2> matrix2;
     vnl_matrix_fixed<double,2,2> inverse2;
@@ -36,7 +35,6 @@ main(
               << std::endl;
 
     /* Create a 2D identity transformation and show its parameters */
-    err = 0;
     itk::AffineTransform<double,2> id2;
     matrix2 = id2.GetMatrix();
     vector2 = id2.GetOffset();
