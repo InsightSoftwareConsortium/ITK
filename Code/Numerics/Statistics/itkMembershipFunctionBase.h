@@ -20,7 +20,7 @@
 #include "itkFunctionBase.h"
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
 
 /** \class MembershipFunctionBase
  * \brief MembershipFunctionBase class declares common interfaces 
@@ -35,7 +35,7 @@ namespace itk{
 
 template< class TVector >
 class ITK_EXPORT MembershipFunctionBase :
-      public FunctionBase< TVector, double >
+    public FunctionBase< TVector, double >
 {
 public:
   /** Standard class typedefs */
@@ -57,7 +57,7 @@ protected:
   { Superclass::PrintSelf(os,indent) ; }
 } ; // end of class
 
-  } // end of namespace Statistics
+} // end of namespace Statistics
 } // end namespace itk
 
 #endif
