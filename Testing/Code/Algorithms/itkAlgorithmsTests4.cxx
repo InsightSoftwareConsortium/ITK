@@ -37,5 +37,6 @@ void RegisterTests()
 #if defined(USE_SCSL)
   REGISTER_TEST(itkSCSLFFTTest);
 #endif
+  REGISTER_TEST(itkMeanReciprocalSquareDifferencePointSetToImageMetricTest );
 }  
 

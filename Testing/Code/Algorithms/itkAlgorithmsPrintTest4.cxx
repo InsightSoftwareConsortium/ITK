@@ -44,6 +44,7 @@
 #include "itkDistanceToCentroidMembershipFunction.h"
 #include "itkMahalanobisDistanceMembershipFunction.h"
 #include "itkGroupSpatialObject.h"
+#include "itkMeanReciprocalSquareDifferencePointSetToImageMetric.h"
 
 int main(int , char* [])
 {
@@ -57,8 +58,6 @@ int main(int , char* [])
   
   typedef itk::Vector<float,2> VectorType;
   typedef itk::Image<VectorType, 2> VectorImageType;
-  
-  // Used for NormalizedCorrelationPointSetToImageMetric
   typedef itk::PointSet<float,2> PointSetType;
   
   // Used for GradientVectorFlowImageFilter
@@ -139,6 +138,10 @@ int main(int , char* [])
 
   std:: cout << "-------------LevelSetVelocityNeighborhoodExtractor " << LevelSetVelocityNeighborhoodExtractorObj;
 
+  itk::MeanReciprocalSquareDifferencePointSetToImageMetric<PointSetType,InputType>::Pointer MeanReciprocalSquareDifferencePointSetToImageMetricObj =
+    itk::MeanReciprocalSquareDifferencePointSetToImageMetric<PointSetType,InputType>::New();
+  std:: cout << "-------------MeanReciprocalSquareDifferencePointSetToImageMetric " << MeanReciprocalSquareDifferencePointSetToImageMetricObj;
+  
   return 0;
 
 }
