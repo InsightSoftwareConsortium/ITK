@@ -133,6 +133,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageConstIterator.txx"
 #include "itkImageConstIteratorWithIndex.txx"
 #include "itkImageContainerInterface.h"
+#include "itkImageDuplicator.txx"
 #include "itkImageFunction.txx"
 #include "itkImageIterator.txx"
 #include "itkImageIteratorWithIndex.txx"
