@@ -18,7 +18,7 @@
 #ifndef __itkSpatialObject_h 
 #define __itkSpatialObject_h 
  
-#include "itkObject.h"
+#include "itkNDimensionalSpatialObject.h"
 #include "itkBoundingBox.h"
 #include "itkPoint.h"
 #include "itkAffineTransform.h"
@@ -53,18 +53,18 @@ namespace itk
 template< unsigned int NDimensions = 3, 
           typename TTransform = AffineTransform< double, 
                                                  NDimensions
-                                               >,
-          typename TOutputType = double 
+          > ,
+          unsigned int PipelineDimension = 3 
         > 
 class SpatialObject 
-:public Object
+:public NDimensionalSpatialObject<PipelineDimension>
 { 
 
 public: 
 
   typedef double ScalarType;
 
-  typedef SpatialObject<NDimensions,TTransform,TOutputType> Self;
+  typedef SpatialObject<NDimensions,TTransform,PipelineDimension> Self;
   typedef Object Superclass; 
   
   typedef SmartPointer< Self > Pointer;
@@ -78,15 +78,12 @@ public:
   
   typedef Vector< ScalarType, NDimensions > VectorType; 
   typedef VectorType * VectorPointer;
-  
-  typedef TOutputType         OutputType;
 
-  typedef CovariantVector< OutputType, NDimensions > OutputVectorType; 
+  typedef CovariantVector< double, NDimensions > OutputVectorType; 
   typedef OutputVectorType * OutputVectorPointer;
 
   typedef TTransform            TransformType;
   typedef typename TransformType::Pointer  TransformPointer;
-  //typedef typename TransformType::ConstPointer  TransformConstPointer;
   typedef const TransformType *  TransformConstPointer;
   
   typedef std::list< const TransformType * > TransformListType;
@@ -97,20 +94,17 @@ public:
   typedef BoundingBox< unsigned long int, NDimensions, ScalarType, VectorContainerType > BoundingBoxType; 
   typedef typename BoundingBoxType::Pointer BoundingBoxPointer; 
 
+
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
  
   /** Run-time type information (and related methods). */ 
   itkTypeMacro( Self, Superclass );
 
-  /**
-  * Set the bounding box of the object. 
-  */
+  /** Set the bounding box of the object. */
   void SetBounds( BoundingBoxPointer bounds ); 
 
-  /**
-  * Get the bounding box of the object. 
-  */
+  /** Get the bounding box of the object. */
   BoundingBoxType * GetBounds( void ); 
 
   /*
@@ -124,28 +118,18 @@ public:
   */
   void SetProperty( const PropertyType * property ); 
 
-  /** 
-  * Returns the dimension of the object. 
-  */ 
-  unsigned int GetDimension( void ) const;
-
   void SetLocalToGlobalTransform( const TransformType * transform ); 
   const TransformType * GetLocalToGlobalTransform( void ); 
   
   void SetGlobalToLocalTransform( const TransformType * transform ); 
   const TransformType * GetGlobalToLocalTransform( void ); 
 
-  /*
-  * Set the resolution step to use while iterating through an object.
-  */
-  itkSetMacro( Spacing, VectorType &);
-  itkGetConstMacro( Spacing, const VectorType & ); 
 
   /** 
   * Returns a degree of membership to the object. 
   * That's useful for fuzzy objects.
   */ 
-  virtual void ValueAt( const PointType & point, OutputType & value ) = 0; //purposely not implemented
+  virtual void ValueAt( const PointType & point, double & value ) = 0; //purposely not implemented
      
   /*
   * return ture if the object provides a method to evaluate the value 
@@ -165,11 +149,6 @@ public:
   void SetParent( const Self * parent );
 
   /**
-  * Return a pointer to the parent object in the hierarchy tree
-  */ 
-  const Self * GetParent( void ) const; 
-
-  /**
   * Return true if the object has a parent object. Basically, only
   * the root object , or some isolated objects should return false.
   */
@@ -184,14 +163,12 @@ public:
   * Returns the coordinates of the point passed as argument in the object
   * local coordinate system.
   */
-  //PointType TransformPointToLocalCoordinate( PointType & p );
   void TransformPointToLocalCoordinate( PointType & p ) const;
 
   /** 
   * Returns the coordinates of the point passed as argument in the object
   * local coordinate system.
   */
-  //PointType TransformPointToGlobalCoordinate( PointType & p ); 
   void TransformPointToGlobalCoordinate( PointType & p ) const; 
 
   /**
@@ -248,12 +225,12 @@ public:
   */
   virtual void RebuildAllTransformLists( void ) const;
 
+
 protected: 
 
   BoundingBoxPointer m_Bounds; 
   PropertyPointer m_Property; 
   ConstPointer m_Parent; 
-  VectorType m_Spacing;
   TimeStamp m_BoundsMTime;
 
   TransformListPointer m_LocalToGlobalTransformList;
