@@ -42,8 +42,8 @@ RandomImageSource<TOutputImage>
     m_Origin[i] = 0.0;
     }
 
-  m_Min = NumericTraits<TOutputImage::ScalarValueType>::min();
-  m_Max = NumericTraits<TOutputImage::ScalarValueType>::max();
+  m_Min = NumericTraits<typename TOutputImage::ScalarValueType>::min();
+  m_Max = NumericTraits<typename TOutputImage::ScalarValueType>::max();
 
 }
 

@@ -97,27 +97,27 @@ public:
    * Set the minimum possible pixel value. By default, it is
    * NumericTraits<TOutputImage::ScalarValueType>::min().
    */
-  itkSetClampMacro(Min,TOutputImage::ScalarValueType,
-                   NumericTraits<TOutputImage::ScalarValueType>::min(),
-                   NumericTraits<TOutputImage::ScalarValueType>::max());
+  itkSetClampMacro(Min,typename TOutputImage::ScalarValueType,
+                   NumericTraits<typename TOutputImage::ScalarValueType>::min(),
+                   NumericTraits<typename TOutputImage::ScalarValueType>::max());
   
   /** 
    * Get the minimum possible pixel value.
    */
-  itkGetMacro(Min,TOutputImage::ScalarValueType);
+  itkGetMacro(Min,typename TOutputImage::ScalarValueType);
 
   /** 
    * Set the maximum possible pixel value. By default, it is
    * NumericTraits<TOutputImage::ScalarValueType>::max().
    */
-  itkSetClampMacro(Max,TOutputImage::ScalarValueType,
-                   NumericTraits<TOutputImage::ScalarValueType>::min(),
-                   NumericTraits<TOutputImage::ScalarValueType>::max());
+  itkSetClampMacro(Max,typename TOutputImage::ScalarValueType,
+                   NumericTraits<typename TOutputImage::ScalarValueType>::min(),
+                   NumericTraits<typename TOutputImage::ScalarValueType>::max());
   
   /** 
    * Get the maximum possible pixel value.
    */
-  itkGetMacro(Max,TOutputImage::ScalarValueType);
+  itkGetMacro(Max,typename TOutputImage::ScalarValueType);
 
 protected:
   RandomImageSource();
@@ -136,8 +136,8 @@ private:
   float         *m_Spacing; //spacing
   float         *m_Origin;  //origin
 
-  TOutputImage::ScalarValueType m_Min; //minimum possible value
-  TOutputImage::ScalarValueType m_Max; //maximum possible value
+  typename TOutputImage::ScalarValueType m_Min; //minimum possible value
+  typename TOutputImage::ScalarValueType m_Max; //maximum possible value
 };
 
 } // end namespace itk
