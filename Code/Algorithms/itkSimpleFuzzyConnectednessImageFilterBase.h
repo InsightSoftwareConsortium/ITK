@@ -137,10 +137,6 @@ protected:
   /** Standard pipeline method.*/
   void GenerateData();
 
-private:
-  SimpleFuzzyConnectednessImageFilterBase(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
   double m_Weight;
   double m_Threshold;
   IndexType m_Seed;
@@ -159,6 +155,11 @@ private:
     { return 0; }
 
   double FindStrongPath(const IndexType &center);
+
+ private:
+  SimpleFuzzyConnectednessImageFilterBase(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
 };
 
 
