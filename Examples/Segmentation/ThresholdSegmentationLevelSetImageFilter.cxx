@@ -45,15 +45,15 @@
 // \includegraphics[width=8cm]{ThresholdSegmentationLevelSetImageFilterFigure1.eps}
 // \caption[Propagation term for threshold-based level-set segmentation]{Propagation term for threshold-based level-set
 // segmentation. From
-// equation~\ref{eqn:ThresholdSegmentationLevelSetImageFilterPropagationTerm} }
+// equation~\ref{eqn:ThresholdSegmentationLevelSetImageFilterPropagationTerm}. }
 // \label{fig:ThresholdSegmentationSpeedTerm} 
 // \end{figure}
 //
 // \doxygen{ThresholdSegmentationLevelSetImageFilter} expects two inputs.  The
-// first is an initial Level Set in the form of an \doxygen{Image}. The second
+// first is an initial level set in the form of an \doxygen{Image}. The second
 // input is the feature image $g$.  For many applications, this filter requires
 // little or no preprocessing of its input.  Smoothing the input image is not
-// usually require to produce reasonable solutions, though it may still be
+// usually required to produce reasonable solutions, though it may still be
 // warranted in some cases.
 // 
 // The following example illustrates the use of the
@@ -67,9 +67,9 @@
 // \begin{figure} \center
 // \includegraphics[width=15cm]{ThresholdSegmentationLevelSetImageFilterCollaborationDiagram1.eps}
 // \caption[ThresholdSegmentationLevelSetImageFilter collaboration
-// diagram]{Collaboration diagram of the ThresholdSegmentationLevelSetImageFilter
+// diagram]{Collaboration diagram for the ThresholdSegmentationLevelSetImageFilter
 // applied to a segmentation task.}
-// \label{fig:ThresholdSegmentationLevelSetImageFilterDiagram}
+// \label{fig:ThresholdSegmentationLevelSetImageFilterDiagram1}
 // \end{figure}
 //
 // Let's start by including the appropriate header file.
@@ -384,6 +384,8 @@ int main( int argc, char *argv[] )
   //  \includegraphics[width=4cm]{ThresholdSegmentationLevelSetImageFilterWhiteMatter.eps}
   //  \includegraphics[width=4cm]{ThresholdSegmentationLevelSetImageFilterVentricle.eps}
   //  \includegraphics[width=4cm]{ThresholdSegmentationLevelSetImageFilterGrayMatter.eps}
+  //  \label{fig:ThresholdSegmentationLevelSetImageFilter}
+  //  \end{figure}
   //
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|c|c|c|}
@@ -395,8 +397,6 @@ int main( int argc, char *argv[] )
   //  \end{tabular}
   //  \caption{Segmentation results of ThresholdSegmentationLevelSetImageFilter for various seed points}.
   //  \end{center}
-  //  \label{fig:ThresholdSegmentationLevelSetImageFilter}
-  //  \end{figure}
   // 
   //  Software Guide : EndLatex 
 
