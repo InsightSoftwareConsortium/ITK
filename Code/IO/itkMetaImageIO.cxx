@@ -162,11 +162,11 @@ bool MetaImageIO::CanReadFile( const char* filename )
     inputStream >> key;
     if( strcmp( key, "False" ) == 0 )
     {
-      m_ImageByteOrder = BigEndian;
+      m_ImageByteOrder = LittleEndian;
     }
     else if ( strcmp( key, "True" ) == 0 )
     {
-      m_ImageByteOrder = LittleEndian;
+      m_ImageByteOrder = BigEndian;
     }
     else 
     {
