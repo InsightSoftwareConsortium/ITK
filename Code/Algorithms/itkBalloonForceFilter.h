@@ -95,8 +95,11 @@ public:
       OutputPointsContainerIterator;
 
   /** Image types. */
+  typedef typename InputMeshType::PointType   IPixelType;
+  typedef typename InputMeshType::PixelType   PixelType;  
+  
   typedef Image<unsigned short, 2>            ImageType;
-  typedef CovariantVector<double, 2>           GradientType;
+  typedef CovariantVector<PixelType, 2>       GradientType;
   typedef Image<GradientType, 2>              GradientImageType;
   typedef typename InputMeshType::Pointer     InputMeshPointer;
   typedef typename OutputMeshType::Pointer    OutputMeshPointer;
@@ -115,8 +118,7 @@ public:
   typedef typename InputMeshType::CellTraits  CellTraits;
   typedef CellInterface<double, CellTraits>   CellInterface;
   typedef TriangleCell< CellInterface >       TriCell;
-  typedef typename InputMeshType::PointType   IPixelType;
-  typedef typename InputMeshType::PixelType   PixelType;
+
 
   /** Some functions. */
   void ComputeForce();
@@ -149,6 +151,10 @@ public:
   itkSetMacro(DistanceForGradient, float);
   itkSetMacro(DistanceToStop, float);
   itkSetMacro(Potential, ImagePointer);
+  itkGetMacro(Locations, InputMeshPointer);
+  itkGetMacro(Displacements, InputMeshPointer);
+  itkGetMacro(Derives, InputMeshPointer);
+  itkGetMacro(Forces, InputMeshPointer);
 
 protected:
   BalloonForceFilter();

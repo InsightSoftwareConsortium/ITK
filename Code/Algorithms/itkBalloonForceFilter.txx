@@ -452,8 +452,8 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  //   m_ImageOutput->SetPixel(coord, 1);
   }
     fo = sqrt(f[0]*f[0]+f[1]*f[1]);
-    f[0] = t*400*f[0]*xs/fo; 
-    f[1] = t*400*f[1]*ys/fo;
+    f[0] = t*100*f[0]*xs/fo; 
+    f[1] = t*100*f[1]*ys/fo;
     f[2] = 0;
 
     forces.Value() = f;
@@ -789,6 +789,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 {
   typename TInputMesh::PointType s, d, ds; 
   float dist=0.0;
+  int i;
 
   InputPointsContainerPointer  myDerives = m_Derives->GetPoints();
   InputPointsContainerIterator derives = myDerives->Begin();
@@ -797,16 +798,23 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   InputPointsContainerPointer  myPoints = m_Locations->GetPoints();
   InputPointsContainerIterator points = myPoints->Begin();
 
-  while( derives != myDerives->End() ) {
+  i=0;
+  while( i < m_NumberOfNodes-2 ) {
     ds = derives.Value();
     s = points.Value();
     d = displacements.Value();
     s[0] += m_TimeStep*ds[0]; 
     s[1] += m_TimeStep*ds[1]; 
     s[2] += m_TimeStep*ds[2]; 
-    d[0] += m_TimeStep*ds[0]; 
-    d[1] += m_TimeStep*ds[1]; 
-    d[2] += m_TimeStep*ds[2]; 
+    if ( m_GradientBegin ) {
+      d[0] += m_TimeStep*ds[0]; 
+      d[1] += m_TimeStep*ds[1]; 
+      d[2] += m_TimeStep*ds[2]; 
+    } else {
+      d[0] = 0;
+      d[1] = 0;
+      d[2] = 0;
+    }
 
     /** do not update the displacements if the nodes is moving out of the image region. */
     if ( (s[0] > 0) && (s[1] > 0) && 
@@ -816,10 +824,11 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     }
 
     if ( m_GradientBegin ) {
-      dist += sqrt(ds[0]*ds[0]+ds[1]*ds[1]);
+      dist += sqrt(ds[0]*ds[0]+ds[1]*ds[1])*m_TimeStep;
       m_DistanceToBoundary = dist/((float)(m_NumberOfNodes-2));
     }
 
+    i++;
     ++derives; 
     ++points;
     ++displacements;
@@ -892,18 +901,19 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   this->Initialize();
   this->SetStiffnessMatrix();
 //  while ( m_DistanceToBoundary > m_DistanceToStop ) {
-  while (m_Step < 20) {
+  while (m_Step < 300) {
   this->ComputeNormals();
   if ( m_GradientBegin ) this->GradientFit();
   else this->ComputeForce();
   this->ComputeDt();
   this->Advance();
-  this->ACDSearch();
-  this->NodesRearrange();
-  this->ComputeOutput();
+//  this->ACDSearch();
+//  this->NodesRearrange();
   m_Step++;
   }
-}
+
+  this->ComputeOutput();
+ }
 
 /*
  * when almost all the nodes is at the estimated boundary, use
@@ -1034,59 +1044,40 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
     coord[0] = static_cast<IndexValueType>(vec_loc[0]);
     coord[1] = static_cast<IndexValueType>(vec_loc[1]);
-//    coord[2] = static_cast<IndexValueType>(vec_loc[2]);
 
     coord2[0] = static_cast<IndexValueType>( (ceil) (vec_loc[0]) );
     coord2[1] = static_cast<IndexValueType>( (ceil) (vec_loc[1]) );
-//    coord2[2] = static_cast<IndexValueType>( (ceil) (vec_loc[2]) );
 
     tmp_co_1[0] = coord2[0];
     tmp_co_1[1] = coord[1];
-//    tmp_co_1[2] = coord[2];
-
     tmp_co_2[0] = coord[0];
     tmp_co_2[1] = coord2[1];
-//    tmp_co_2[2] = coord[2];
 
-    tmp_co_3[0] = coord[0];
-    tmp_co_3[1] = coord[1];
-//    tmp_co_3[2] = coord2[2];
 
     if ( (coord[0] >= 0) && (coord[1] >= 0) && 
         (coord2[0] < m_ImageWidth) && (coord2[1] < m_ImageHeight) ) {      
       vec_for[0] = m_Gradient->GetPixel(coord)[0];
       vec_for[1] = m_Gradient->GetPixel(coord)[1];
-//      vec_for[2] = m_Gradient->GetPixel(coord)[2];
 
       tmp_vec_1[0] = m_Gradient->GetPixel(tmp_co_1)[0] - m_Gradient->GetPixel(coord)[0];
       tmp_vec_1[1] = m_Gradient->GetPixel(tmp_co_1)[1] - m_Gradient->GetPixel(coord)[1];
-//      tmp_vec_1[2] = m_Gradient->GetPixel(tmp_co_1)[2] - m_Gradient->GetPixel(coord)[2];
       tmp_vec_2[0] = m_Gradient->GetPixel(tmp_co_2)[0] - m_Gradient->GetPixel(coord)[0];
       tmp_vec_2[1] = m_Gradient->GetPixel(tmp_co_2)[1] - m_Gradient->GetPixel(coord)[1];
-//      tmp_vec_2[2] = m_Gradient->GetPixel(tmp_co_2)[2] - m_Gradient->GetPixel(coord)[2];
-      tmp_vec_3[0] = m_Gradient->GetPixel(tmp_co_3)[0] - m_Gradient->GetPixel(coord)[0];
-      tmp_vec_3[1] = m_Gradient->GetPixel(tmp_co_3)[1] - m_Gradient->GetPixel(coord)[1];
-//      tmp_vec_3[2] = m_Gradient->GetPixel(tmp_co_3)[2] - m_Gradient->GetPixel(coord)[2];
 
-      vec_for[0] = vec_for[0] + (vec_loc[0]-coord[0])*tmp_vec_1[0];
-      vec_for[1] = vec_for[1] + (vec_loc[1]-coord[1])*tmp_vec_2[1];
-//      vec_for[2] = vec_for[2] + (vec_loc[2]-coord[2])*tmp_vec_3[2];
-//      vec_for[2] = 0;
+      vec_for[0] = vec_for[0] + (vec_loc[0]-coord[0])*tmp_vec_1[0] + (vec_loc[1]-coord[1])*tmp_vec_2[0];
+      vec_for[1] = vec_for[1] + (vec_loc[1]-coord[1])*tmp_vec_2[1] + (vec_loc[0]-coord[0])*tmp_vec_1[1];
+
     } else {
       vec_for[0] = 0;
       vec_for[1] = 0;
-//      vec_for[2] = 0;
     }
+//  for test
+//  vec_for[0] = 0;
 
-    mag = vec_for[0]*vec_nor[0] + vec_for[1]*vec_nor[1]+ vec_for[2]*vec_nor[2];
-    vec_for[0] = mag*vec_nor[0]/*num_for*/;
-    vec_for[1] = mag*vec_nor[1]/*num_for*/; 
-//    vec_for[2] = mag*vec_nor[2]/*num_for*/; 
-//    vec_for[2] = 0;
+    mag = vec_for[0]*vec_nor[0] + vec_for[1]*vec_nor[1];
+    vec_for[0] = mag*vec_nor[0];
+    vec_for[1] = mag*vec_nor[1];
 
-    mag = sqrt (vec_for[0]*vec_for[0] + vec_for[1]*vec_for[1]/*+ vec_for[2]*vec_for[2]*/);
-    if (mag > 0.5) 
-      for (int i=0; i<2; i++) vec_for[i] = (0.5 * vec_for[i])/mag;
     forces.Value() = vec_for;
 
     ++forces;
@@ -1452,7 +1443,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   v3[1] += v1[1] - v2[1];
 //  v3[2] += v1[2] - v2[2];
   locations.Value() = v1;
-  displacements.Value() = v3;
+  if ( m_GradientBegin ) displacements.Value() = v3;
   ++normals;
 //  ++forces;
   ++locations;
