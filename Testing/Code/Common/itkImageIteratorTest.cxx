@@ -175,8 +175,34 @@ int main()
   while (!backReverseIt.IsAtBegin()); // stop when we reach the beginning
   
   
-  return 0;
+  // Finally, create a ReverseIterator from an Iterator and walk each appropriately so that they match
+  itk::ImageRegionReverseIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > castBackReverseIt(it);
+  it = it.Begin();
+  it.GoToBegin();
+  castBackReverseIt = castBackReverseIt.End();
+  int status = 0;
+  std::cout << "It and Reverse check: ";
+  for ( ; !it.IsAtEnd(); ++it)
+    {
+    --castBackReverseIt;
+    itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = it.GetIndex();
+    itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType rindex = castBackReverseIt.GetIndex();    
+    for (unsigned int i=0; i < index.GetIndexDimension(); i++)
+      {
+      if (index[i] != rindex[i])
+	{
+	std::cout << index[i] << " != " << rindex[i] << std::endl;
+	status = 1;
+	}
+      }  
+    }
+  if (status == 0)
+    {
+    std::cout << "Passed" << std::endl;
+    }
+  else
+    {
+    std::cout << "Failed" << std::endl;
+    }
+  return status;
 }
-
-
-
