@@ -6,7 +6,7 @@
 
 #include <metaUtils.h>
 
-#define DEBUG 0
+#define META_DEBUG 0
 
 
 class MetaObject
@@ -89,7 +89,7 @@ class MetaObject
 
       bool  Write(const char * _fileName=NULL);
 
-      bool Append(const char *_headName=NULL) {std::cout << "Not Implemented !" << std::endl; return true;}
+      virtual bool Append(const char *_headName=NULL) {std::cout << "Not Implemented !" << std::endl; return true;}
 
       ////
       //

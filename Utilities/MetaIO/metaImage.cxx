@@ -17,7 +17,7 @@ MetaImage::
 MetaImage()
 :MetaObject()
 {
-  if(DEBUG) std::cout << "MetaImage()" << std::endl;
+  if(META_DEBUG) std::cout << "MetaImage()" << std::endl;
   Clear();
 }
 
@@ -26,7 +26,7 @@ MetaImage::
 MetaImage(const char *_headerName)
 :MetaObject()
   {
-  if(DEBUG) std::cout << "MetaImage()" << std::endl;
+  if(META_DEBUG) std::cout << "MetaImage()" << std::endl;
   Clear();
   Read(_headerName);
   }
@@ -36,7 +36,7 @@ MetaImage::
 MetaImage(MetaImage *_im)
 :MetaObject()
   {
-  if(DEBUG) std::cout << "MetaImage()" << std::endl;
+  if(META_DEBUG) std::cout << "MetaImage()" << std::endl;
   Clear();
   InitializeEssential(_im->NDims(), 
                       _im->DimSize(),
@@ -57,7 +57,7 @@ MetaImage(int _nDims,
           void *_elementData)
 :MetaObject()
   {
-  if(DEBUG) std::cout << "MetaImage()" << std::endl;
+  if(META_DEBUG) std::cout << "MetaImage()" << std::endl;
   Clear();
   InitializeEssential(_nDims, 
                       _dimSize, 
@@ -75,7 +75,7 @@ MetaImage(int _x, int _y,
           int _elementNumberOfChannels, void *_elementData)
 :MetaObject()
   {
-  if(DEBUG) std::cout << "MetaImage()" << std::endl;
+  if(META_DEBUG) std::cout << "MetaImage()" << std::endl;
   int ds[2];
   ds[0] = _x;
   ds[1] = _y;
@@ -99,7 +99,7 @@ MetaImage(int _x, int _y, int _z,
           void *_elementData)
 :MetaObject()
   {
-  if(DEBUG) std::cout << "MetaImage()" << std::endl;
+  if(META_DEBUG) std::cout << "MetaImage()" << std::endl;
   int ds[3];
   ds[0] = _x;
   ds[1] = _y;
@@ -833,7 +833,7 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
 void MetaImage::
 Clear(void)
   {
-  if(DEBUG) std::cout << "MetaImage: Clear" << std::endl;
+  if(META_DEBUG) std::cout << "MetaImage: Clear" << std::endl;
 
   strcpy(m_ElementDataFileName, "");
 
@@ -868,7 +868,7 @@ InitializeEssential(int _nDims,
                     void * _elementData,
                     bool _allocElementMemory)
   {
-  if(DEBUG) std::cout << "MetaImage: Initialize" << std::endl;
+  if(META_DEBUG) std::cout << "MetaImage: Initialize" << std::endl;
 
   MetaObject::InitializeEssential(_nDims);
 
@@ -932,7 +932,7 @@ M_Destroy(void)
 void MetaImage::
 M_SetupReadFields(void)
   {
-  if(DEBUG) std::cout << "MetaImage: M_SetupReadFields" << std::endl;
+  if(META_DEBUG) std::cout << "MetaImage: M_SetupReadFields" << std::endl;
 
   MetaObject::M_SetupReadFields();
 
@@ -1093,7 +1093,7 @@ M_SetupWriteFields(void)
 bool MetaImage::
 M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity)
   {
-  if(DEBUG) std::cout << "MetaImage: M_ReadElements" << std::endl;
+  if(META_DEBUG) std::cout << "MetaImage: M_ReadElements" << std::endl;
 
   if(m_HeaderSize>(int)0)
     {
@@ -1108,11 +1108,11 @@ M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity)
   int elementSize;
   MET_SizeOfType(m_ElementType, &elementSize);
   int readSize = _dataQuantity*m_ElementNumberOfChannels*elementSize;
-  if(DEBUG)std::cout << "MetaImage: M_ReadElements: ReadSize = " << readSize << std::endl;
+  if(META_DEBUG)std::cout << "MetaImage: M_ReadElements: ReadSize = " << readSize << std::endl;
 
   if(m_HeaderSize == -1)
     {
-    if(DEBUG) std::cout << "MetaImage: M_ReadElements: Skipping header" << std::endl;
+    if(META_DEBUG) std::cout << "MetaImage: M_ReadElements: Skipping header" << std::endl;
     _fstream->seekg(-readSize, std::ios::end);
     }
 
@@ -1132,7 +1132,7 @@ M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity)
 bool MetaImage
 ::Append(const char *_headName, const char *_dataName)
   {
-  if(DEBUG) std::cout << "MetaImage: Append" << std::endl;
+  if(META_DEBUG) std::cout << "MetaImage: Append" << std::endl;
 
   if(_dataName == NULL)
     {
@@ -1214,17 +1214,17 @@ bool MetaImage
 bool MetaImage::
 M_Read(void)
   {
-  if(DEBUG) std::cout << "MetaImage: M_Read: Loading Header" << std::endl;
+  if(META_DEBUG) std::cout << "MetaImage: M_Read: Loading Header" << std::endl;
   if(!MetaObject::M_Read())
     {
     std::cout << "MetaImage: M_Read: Error parsing file" << std::endl;
     return false;
     }
 
-  if(DEBUG) std::cout << "MetaImage: M_Read: Parsing Header" << std::endl;
+  if(META_DEBUG) std::cout << "MetaImage: M_Read: Parsing Header" << std::endl;
   MET_FieldRecordType * mF;
      
-  if(DEBUG) 
+  if(META_DEBUG) 
     std::cout << "metaImage: M_Read: elementSpacing[" << 0 << "] = "
               << m_ElementSpacing[0] << std::endl;
 
@@ -1320,7 +1320,7 @@ M_Read(void)
 bool MetaImage::
 ReadStream(int ndims, std::ifstream * stream)
 {
-  if(DEBUG)  std::cout << "MetaImage: ReadStream" << std::endl;
+  if(META_DEBUG)  std::cout << "MetaImage: ReadStream" << std::endl;
 
   M_Destroy();
   Clear();
@@ -1467,7 +1467,7 @@ ReadStream(int ndims, std::ifstream * stream)
     else
     {
       strcpy(fName, m_ElementDataFileName);
-      if(DEBUG) std::cout << "MetaImage: Read: Element file = " << fName << std::endl;
+      if(META_DEBUG) std::cout << "MetaImage: Read: Element file = " << fName << std::endl;
     }
     std::ifstream* readStreamTemp = new std::ifstream;
     readStreamTemp->open(fName, std::ios::binary);

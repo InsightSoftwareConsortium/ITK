@@ -15,7 +15,9 @@ MetaBlob::
 MetaBlob()
 :MetaObject()
 {
-  if(DEBUG) std::cout << "MetaBlob()" << std::endl;
+  if(META_DEBUG) std::cout << "MetaBlob()" << std::endl;
+  m_NPoints = 0;
+  m_PointList.clear();
   Clear();
 }
 
@@ -24,7 +26,9 @@ MetaBlob::
 MetaBlob(const char *_headerName)
 :MetaObject()
 {
-  if(DEBUG)  std::cout << "MetaBlob()" << std::endl;
+  if(META_DEBUG)  std::cout << "MetaBlob()" << std::endl;
+  m_NPoints = 0;
+  m_PointList.clear();
   Clear();
   Read(_headerName);
 }
@@ -34,7 +38,9 @@ MetaBlob::
 MetaBlob(const MetaBlob *_tube)
 :MetaObject()
 {
-  if(DEBUG)  std::cout << "MetaBlob()" << std::endl;
+  if(META_DEBUG)  std::cout << "MetaBlob()" << std::endl;
+  m_NPoints = 0;
+  m_PointList.clear();
   Clear();
   CopyInfo(_tube);
 }
@@ -46,7 +52,9 @@ MetaBlob::
 MetaBlob(unsigned int dim)
 :MetaObject(dim)
 {
-  if(DEBUG) std::cout << "MetaBlob()" << std::endl;
+  if(META_DEBUG) std::cout << "MetaBlob()" << std::endl;
+  m_NPoints = 0;
+  m_PointList.clear();
   Clear();
 }
 
@@ -106,7 +114,7 @@ bool MetaBlob::
 ReadStream(int ndims, std::ifstream * stream)
 {
   
-  if(DEBUG)  std::cout << "MetaBlob: ReadStream" << std::endl;
+  if(META_DEBUG)  std::cout << "MetaBlob: ReadStream" << std::endl;
 
   M_Destroy();
   Clear();
@@ -125,7 +133,7 @@ ReadStream(int ndims, std::ifstream * stream)
 bool MetaBlob::
 Read(const char *_headerName)
 {
-  if(DEBUG) std::cout << "MetaBlob: Read" << std::endl;
+  if(META_DEBUG) std::cout << "MetaBlob: Read" << std::endl;
 
   M_Destroy();
 
@@ -138,7 +146,7 @@ Read(const char *_headerName)
     strcpy(m_FileName, _headerName);
   }
 
-  if(DEBUG) std::cout << "MetaBlob: Read: Opening stream" << std::endl;
+  if(META_DEBUG) std::cout << "MetaBlob: Read: Opening stream" << std::endl;
  
   m_ReadStream->open(m_FileName, std::ios::binary);
   
@@ -170,7 +178,7 @@ Read(const char *_headerName)
 bool MetaBlob::
 Write(const char *_headName)
 {
-  if(DEBUG) std::cout << "MetaBlob: Write" << std::endl;
+  if(META_DEBUG) std::cout << "MetaBlob: Write" << std::endl;
 
   if(_headName != NULL)
     {
@@ -198,7 +206,7 @@ Write(const char *_headName)
 bool MetaBlob
 ::Append(const char *_headName)
 {
-  if(DEBUG) std::cout << "MetaBlob: Append" << std::endl;
+  if(META_DEBUG) std::cout << "MetaBlob: Append" << std::endl;
 
   if(_headName != NULL)
   {
@@ -228,10 +236,11 @@ bool MetaBlob
 void MetaBlob::
 Clear(void)
 {
-  if(DEBUG) std::cout << "MetaBlob: Clear" << std::endl;
+  if(META_DEBUG) std::cout << "MetaBlob: Clear" << std::endl;
   MetaObject::Clear();
-  m_NPoints = 0;
+  if(META_DEBUG) std::cout << "MetaBlob: Clear: m_NPoints" << std::endl;
   m_PointList.clear();
+  m_NPoints = 0;
   strcpy(m_PointDim, "x y z red green blue alpha");
   m_ElementType = MET_FLOAT;
 }
@@ -247,7 +256,7 @@ M_Destroy(void)
 void MetaBlob::
 M_SetupReadFields(void)
 {
-  if(DEBUG) std::cout << "MetaBlob: M_SetupReadFields" << std::endl;
+  if(META_DEBUG) std::cout << "MetaBlob: M_SetupReadFields" << std::endl;
 
   MetaObject::M_SetupReadFields();
 
@@ -324,7 +333,7 @@ M_SetupWriteFields(void)
 bool MetaBlob::
 M_Read(void)
 {
-  if(DEBUG) std::cout << "MetaBlob: M_Read: Loading Header" << std::endl;
+  if(META_DEBUG) std::cout << "MetaBlob: M_Read: Loading Header" << std::endl;
 
   if(!MetaObject::M_Read())
   {
@@ -332,7 +341,7 @@ M_Read(void)
     return false;
   }
 
-  if(DEBUG) std::cout << "MetaBlob: M_Read: Parsing Header" << std::endl;
+  if(META_DEBUG) std::cout << "MetaBlob: M_Read: Parsing Header" << std::endl;
  
   MET_FieldRecordType * mF;
  
@@ -492,7 +501,7 @@ M_Write(void)
     int elementSize;
     MET_SizeOfType(m_ElementType, &elementSize);
 
-    char* data = new char[m_NDims*m_NPoints*elementSize];
+    char* data = new char[(m_NDims+4)*m_NPoints*elementSize];
     int i=0;
     int d=0;
     while(it != m_PointList.end())

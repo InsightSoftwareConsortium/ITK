@@ -23,6 +23,7 @@ int main(int argc, char **argv)
   std::cout << "Writing test file ...";
    
   Line->BinaryData(true);
+
   Line->Write("myLine.meta");
 
   std::cout << "done" << std::endl;

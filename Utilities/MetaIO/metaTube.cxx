@@ -15,7 +15,7 @@ MetaTube::
 MetaTube()
 :MetaObject()
 {
-  if(DEBUG) std::cout << "MetaTube()" << std::endl;
+  if(META_DEBUG) std::cout << "MetaTube()" << std::endl;
   Clear();
 
 }
@@ -25,7 +25,7 @@ MetaTube::
 MetaTube(const char *_headerName)
 :MetaObject()
 {
-  if(DEBUG)  std::cout << "MetaTube()" << std::endl;
+  if(META_DEBUG)  std::cout << "MetaTube()" << std::endl;
   Clear();
   Read(_headerName);
 }
@@ -35,7 +35,7 @@ MetaTube::
 MetaTube(const MetaTube *_tube)
 :MetaObject()
 {
-  if(DEBUG)  std::cout << "MetaTube()" << std::endl;
+  if(META_DEBUG)  std::cout << "MetaTube()" << std::endl;
   Clear();
   CopyInfo(_tube);
 }
@@ -47,7 +47,7 @@ MetaTube::
 MetaTube(unsigned int dim)
 :MetaObject(dim)
 {
-  if(DEBUG) std::cout << "MetaTube()" << std::endl;
+  if(META_DEBUG) std::cout << "MetaTube()" << std::endl;
   Clear();
 }
 
@@ -132,7 +132,7 @@ bool MetaTube::
 ReadStream(int ndims, std::ifstream * stream)
 {
   
-  if(DEBUG)  std::cout << "MetaTube: ReadStream" << std::endl;
+  if(META_DEBUG)  std::cout << "MetaTube: ReadStream" << std::endl;
 
   M_Destroy();
   Clear();
@@ -151,7 +151,7 @@ ReadStream(int ndims, std::ifstream * stream)
 bool MetaTube::
 Read(const char *_headerName)
 {
-  if(DEBUG) std::cout << "MetaTube: Read" << std::endl;
+  if(META_DEBUG) std::cout << "MetaTube: Read" << std::endl;
 
   M_Destroy();
 
@@ -164,7 +164,7 @@ Read(const char *_headerName)
     strcpy(m_FileName, _headerName);
   }
 
-  if(DEBUG) std::cout << "MetaTube: Read: Opening stream" << std::endl;
+  if(META_DEBUG) std::cout << "MetaTube: Read: Opening stream" << std::endl;
  
   m_ReadStream->open(m_FileName, std::ios::binary);
   
@@ -196,7 +196,7 @@ Read(const char *_headerName)
 bool MetaTube::
 Write(const char *_headName)
 {
-  if(DEBUG) std::cout << "MetaTube: Write" << std::endl;
+  if(META_DEBUG) std::cout << "MetaTube: Write" << std::endl;
 
   if(_headName != NULL)
     {
@@ -224,7 +224,7 @@ Write(const char *_headName)
 bool MetaTube
 ::Append(const char *_headName)
 {
-  if(DEBUG) std::cout << "MetaTube: Append" << std::endl;
+  if(META_DEBUG) std::cout << "MetaTube: Append" << std::endl;
 
   if(_headName != NULL)
   {
@@ -254,7 +254,7 @@ bool MetaTube
 void MetaTube::
 Clear(void)
 {
-  if(DEBUG) std::cout << "MetaTube: Clear" << std::endl;
+  if(META_DEBUG) std::cout << "MetaTube: Clear" << std::endl;
   MetaObject::Clear();
   m_ParentPoint= -1;
   m_Root = 0;
@@ -273,7 +273,7 @@ M_Destroy(void)
 void MetaTube::
 M_SetupReadFields(void)
 {
-  if(DEBUG) std::cout << "MetaTube: M_SetupReadFields" << std::endl;
+  if(META_DEBUG) std::cout << "MetaTube: M_SetupReadFields" << std::endl;
 
   MetaObject::M_SetupReadFields();
 
@@ -342,7 +342,7 @@ M_SetupWriteFields(void)
 bool MetaTube::
 M_Read(void)
 {
-  if(DEBUG) std::cout << "MetaTube: M_Read: Loading Header" << std::endl;
+  if(META_DEBUG) std::cout << "MetaTube: M_Read: Loading Header" << std::endl;
 
   if(!MetaObject::M_Read())
   {
@@ -350,7 +350,7 @@ M_Read(void)
     return false;
   }
 
-  if(DEBUG) std::cout << "MetaTube: M_Read: Parsing Header" << std::endl;
+  if(META_DEBUG) std::cout << "MetaTube: M_Read: Parsing Header" << std::endl;
  
   MET_FieldRecordType * mF;
  

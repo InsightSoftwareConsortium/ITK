@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <iostream>
 #include <ctype.h>
 #include <metaTube.h>
 #include <metaScene.h>
@@ -7,13 +8,15 @@
 int main(int argc, char **argv)
 {
 
+  std::cout << "Initializing scene ..." << std::endl;
   MetaScene myScene = MetaScene(3);
 
-  std::cout << "Creating test file ...";
+  std::cout << "Creating test file ..." << std::endl;
 
   //MetaTubeNet* tubenet = new MetaTubeNet();
   
   // add two tube to the list of tubenet
+  std::cout << "  Creating first tube ..." << std::endl;
   MetaTube* tube1 = new MetaTube(3);
   tube1->ID(0);
   TubePnt* pnt;
@@ -27,6 +30,7 @@ int main(int argc, char **argv)
     tube1->GetPoints()->push_back(pnt);
   }
   
+  std::cout << "  Creating second tube ..." << std::endl;
   MetaTube* tube2 = new MetaTube(3);
   tube2->ID(1);
   for(i=0;i<5;i++)
@@ -38,13 +42,17 @@ int main(int argc, char **argv)
   }
 
   // Add an ellipse
+  std::cout << "  Creating ellipse ..." << std::endl;
   MetaEllipse* ellipse = new MetaEllipse();
+  std::cout << "    Initializing ellipse ..." << std::endl;
   ellipse->InitializeEssential(3);
+  std::cout << "    Setting radius ..." << std::endl;
   ellipse->Radius(1,2,3);
 
   myScene.AddObject(tube1);
   myScene.AddObject(tube2);
   myScene.AddObject(ellipse);
+
   myScene.Write("test.tre");
 
   std::cout << "done" << std::endl;

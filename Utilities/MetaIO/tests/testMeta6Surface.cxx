@@ -25,6 +25,7 @@ int main(int argc, char **argv)
   
 
   std::cout << "Writing ASCII test file ...";
+
   surface->Write("mySurface.meta");
 
   std::cout << "done" << std::endl;

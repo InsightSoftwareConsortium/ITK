@@ -15,7 +15,7 @@ MetaSurface::
 MetaSurface()
 :MetaObject()
 {
-  if(DEBUG) std::cout << "MetaSurface()" << std::endl;
+  if(META_DEBUG) std::cout << "MetaSurface()" << std::endl;
   Clear();
 }
 
@@ -24,7 +24,7 @@ MetaSurface::
 MetaSurface(const char *_headerName)
 :MetaObject()
 {
-  if(DEBUG)  std::cout << "MetaSurface()" << std::endl;
+  if(META_DEBUG)  std::cout << "MetaSurface()" << std::endl;
   Clear();
   Read(_headerName);
 }
@@ -34,7 +34,7 @@ MetaSurface::
 MetaSurface(const MetaSurface *_tube)
 :MetaObject()
 {
-  if(DEBUG)  std::cout << "MetaSurface()" << std::endl;
+  if(META_DEBUG)  std::cout << "MetaSurface()" << std::endl;
   Clear();
   CopyInfo(_tube);
 }
@@ -46,7 +46,7 @@ MetaSurface::
 MetaSurface(unsigned int dim)
 :MetaObject(dim)
 {
-  if(DEBUG) std::cout << "MetaSurface()" << std::endl;
+  if(META_DEBUG) std::cout << "MetaSurface()" << std::endl;
   Clear();
 }
 
@@ -106,7 +106,7 @@ bool MetaSurface::
 ReadStream(int ndims, std::ifstream * stream)
 {
   
-  if(DEBUG)  std::cout << "MetaSurface: ReadStream" << std::endl;
+  if(META_DEBUG)  std::cout << "MetaSurface: ReadStream" << std::endl;
 
   M_Destroy();
   Clear();
@@ -125,7 +125,7 @@ ReadStream(int ndims, std::ifstream * stream)
 bool MetaSurface::
 Read(const char *_headerName)
 {
-  if(DEBUG) std::cout << "MetaSurface: Read" << std::endl;
+  if(META_DEBUG) std::cout << "MetaSurface: Read" << std::endl;
 
   M_Destroy();
 
@@ -138,7 +138,7 @@ Read(const char *_headerName)
     strcpy(m_FileName, _headerName);
   }
 
-  if(DEBUG) std::cout << "MetaSurface: Read: Opening stream" << std::endl;
+  if(META_DEBUG) std::cout << "MetaSurface: Read: Opening stream" << std::endl;
  
   m_ReadStream->open(m_FileName, std::ios::binary);
   
@@ -170,7 +170,7 @@ Read(const char *_headerName)
 bool MetaSurface::
 Write(const char *_headName)
 {
-  if(DEBUG) std::cout << "MetaSurface: Write" << std::endl;
+  if(META_DEBUG) std::cout << "MetaSurface: Write" << std::endl;
 
   if(_headName != NULL)
     {
@@ -198,7 +198,7 @@ Write(const char *_headName)
 bool MetaSurface
 ::Append(const char *_headName)
 {
-  if(DEBUG) std::cout << "MetaSurface: Append" << std::endl;
+  if(META_DEBUG) std::cout << "MetaSurface: Append" << std::endl;
 
   if(_headName != NULL)
   {
@@ -228,7 +228,7 @@ bool MetaSurface
 void MetaSurface::
 Clear(void)
 {
-  if(DEBUG) std::cout << "MetaSurface: Clear" << std::endl;
+  if(META_DEBUG) std::cout << "MetaSurface: Clear" << std::endl;
   MetaObject::Clear();
   m_NPoints = 0;
   m_PointList.clear();
@@ -247,7 +247,7 @@ M_Destroy(void)
 void MetaSurface::
 M_SetupReadFields(void)
 {
-  if(DEBUG) std::cout << "MetaSurface: M_SetupReadFields" << std::endl;
+  if(META_DEBUG) std::cout << "MetaSurface: M_SetupReadFields" << std::endl;
 
   MetaObject::M_SetupReadFields();
 
@@ -322,7 +322,7 @@ ElementType(MET_ValueEnumType _elementType)
 bool MetaSurface::
 M_Read(void)
 {
-  if(DEBUG) std::cout << "MetaSurface: M_Read: Loading Header" << std::endl;
+  if(META_DEBUG) std::cout << "MetaSurface: M_Read: Loading Header" << std::endl;
 
   if(!MetaObject::M_Read())
   {
@@ -330,7 +330,7 @@ M_Read(void)
     return false;
   }
 
-  if(DEBUG) std::cout << "MetaSurface: M_Read: Parsing Header" << std::endl;
+  if(META_DEBUG) std::cout << "MetaSurface: M_Read: Parsing Header" << std::endl;
  
   MET_FieldRecordType * mF;
  
@@ -483,7 +483,7 @@ M_Write(void)
     int elementSize;
     MET_SizeOfType(m_ElementType, &elementSize);
 
-    char* data = new char[m_NDims*2*m_NPoints*elementSize];
+    char* data = new char[(m_NDims*2+4)*m_NPoints*elementSize];
     int i=0;
     int d=0;
     while(it != m_PointList.end())

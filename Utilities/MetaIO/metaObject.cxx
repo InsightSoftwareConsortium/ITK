@@ -85,7 +85,8 @@ CopyInfo(const MetaObject * _object)
   {
   if(NDims() != _object->NDims())
     {
-    std::cout << "MetaObject: CopyInfo: Warning: NDims not same size" << std::endl;
+    std::cout << "MetaObject: CopyInfo: Warning: NDims not same size" 
+              << std::endl;
     }
 
   FileName(_object->FileName());
@@ -106,7 +107,7 @@ CopyInfo(const MetaObject * _object)
 bool MetaObject::
 Read(const char *_fileName)
   {
-  if(DEBUG)  std::cout << "MetaObject: Read" << std::endl;
+  if(META_DEBUG)  std::cout << "MetaObject: Read" << std::endl;
 
   if(_fileName != NULL)
     {
@@ -136,7 +137,7 @@ Read(const char *_fileName)
 bool MetaObject::
 ReadStream(int _nDims, std::ifstream * _stream)
 {
-  if(DEBUG) std::cout << "MetaObject: ReadStream" << std::endl;
+  if(META_DEBUG) std::cout << "MetaObject: ReadStream" << std::endl;
 
   M_Destroy();
   
@@ -456,7 +457,7 @@ bool   MetaObject::BinaryData(void) const
 void MetaObject::
 Clear(void)
   {
-  if(DEBUG)  std::cout << "MetaObject: Clear()" << std::endl;
+  if(META_DEBUG)  std::cout << "MetaObject: Clear()" << std::endl;
   strcpy(m_Comment, "");
   strcpy(m_ObjectTypeName, "");
   strcpy(m_ObjectSubTypeName, "");
@@ -472,6 +473,10 @@ Clear(void)
   m_ParentID = -1;
   m_BinaryData = false;
 
+  if(META_DEBUG) 
+    {
+    std::cout << "MetaObject: Clear: m_NDims=" << m_NDims << std::endl;
+    }
   int i;
   for(i=0; i<m_NDims; i++)
     {
@@ -482,7 +487,9 @@ Clear(void)
   std::vector<MET_FieldRecordType *>::iterator fieldIter;
   for(fieldIter=m_Fields.begin(); fieldIter!=m_Fields.end(); fieldIter++)
     {
+    if(META_DEBUG) std::cout << "field = " << (*fieldIter)->name << std::endl;
     delete * fieldIter;
+    if(META_DEBUG) std::cout << " has been deleted." << std::endl;
     }
   m_Fields.clear();
   }
@@ -490,7 +497,7 @@ Clear(void)
 bool MetaObject::
 InitializeEssential(int _nDims)
   {
-  if(DEBUG) std::cout << "MetaObject: Initialize" << std::endl;
+  if(META_DEBUG) std::cout << "MetaObject: Initialize" << std::endl;
 
   M_Destroy();
 
@@ -522,14 +529,14 @@ InitializeEssential(int _nDims)
 void MetaObject::
 M_Destroy(void)
   {
-  if(DEBUG) std::cout << "MetaObject: Destroy" << std::endl;
+  if(META_DEBUG) std::cout << "MetaObject: Destroy" << std::endl;
   }
 
 void MetaObject::
 M_SetupReadFields(void)
   {
   m_Fields.clear();
-  if(DEBUG) std::cout << "MetaObject: SetupReadFields" << std::endl;
+  if(META_DEBUG) std::cout << "MetaObject: M_SetupReadFields" << std::endl;
 
   MET_FieldRecordType * mF;
 
@@ -822,7 +829,7 @@ M_Read(void)
     for(i=0; i<mF->length; i++)
       {
       m_ElementSpacing[i] = mF->value[i];
-      if (DEBUG) 
+      if (META_DEBUG) 
         std::cout << "metaObject: M_Read: elementSpacing[" << i << "] = " 
                   << m_ElementSpacing[i] << std::endl;
       }
@@ -832,7 +839,7 @@ M_Read(void)
     for(i=0; i<mF->length; i++)
       {
       m_ElementSpacing[i] = 1;
-      if (DEBUG) 
+      if (META_DEBUG) 
         std::cout << "metaObject: M_Read: elementSpacing[" << i << "] = " 
                   << m_ElementSpacing[i] << std::endl;
       }

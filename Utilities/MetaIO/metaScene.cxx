@@ -20,7 +20,7 @@ MetaScene::
 MetaScene()
 :MetaObject()
 {
-  if(DEBUG) std::cout << "MetaScene()" << std::endl;
+  if(META_DEBUG) std::cout << "MetaScene()" << std::endl;
   Clear();
 }
 
@@ -30,7 +30,7 @@ MetaScene::
 MetaScene(const MetaScene *_scene)
 :MetaObject()
 {
-  if(DEBUG) std::cout << "MetaScene()" << std::endl;
+  if(META_DEBUG) std::cout << "MetaScene()" << std::endl;
   Clear();
   CopyInfo(_scene);
 }
@@ -40,7 +40,7 @@ MetaScene::
 MetaScene(unsigned int dim)
 :MetaObject(dim)
 {
-  if(DEBUG) std::cout << "MetaScene()" << std::endl;
+  if(META_DEBUG) std::cout << "MetaScene()" << std::endl;
   Clear();
 }
 
@@ -88,7 +88,7 @@ AddObject(MetaObject* object)
 bool MetaScene::
 Read(const char *_headerName)
 {
-  if(DEBUG) std::cout << "MetaScene: Read" << std::endl;
+  if(META_DEBUG) std::cout << "MetaScene: Read" << std::endl;
 
   M_Destroy();
 
@@ -101,7 +101,7 @@ Read(const char *_headerName)
     strcpy(m_FileName, _headerName);
   }
 
-  if(DEBUG) std::cout << "MetaScene: Read: Opening stream" << std::endl;
+  if(META_DEBUG) std::cout << "MetaScene: Read: Opening stream" << std::endl;
  
   m_ReadStream->open(m_FileName, std::ios::binary);
   
@@ -182,7 +182,7 @@ Read(const char *_headerName)
 bool MetaScene::
 Write(const char *_headName)
 {
-  if(DEBUG) std::cout << "MetaScene: Write" << std::endl;
+  if(META_DEBUG) std::cout << "MetaScene: Write" << std::endl;
 
   if(_headName != NULL)
   {
@@ -220,7 +220,7 @@ Write(const char *_headName)
 void MetaScene::
 Clear(void)
 {
-  if(DEBUG) std::cout << "MetaScene: Clear" << std::endl;
+  if(META_DEBUG) std::cout << "MetaScene: Clear" << std::endl;
   MetaObject::Clear();
 }
         
@@ -235,7 +235,7 @@ M_Destroy(void)
 void MetaScene::
 M_SetupReadFields(void)
 {
-  if(DEBUG) std::cout << "MetaScene: M_SetupReadFields" << std::endl;
+  if(META_DEBUG) std::cout << "MetaScene: M_SetupReadFields" << std::endl;
 
   MetaObject::M_SetupReadFields();
 
@@ -271,14 +271,14 @@ M_SetupWriteFields(void)
 bool MetaScene::
 M_Read(void)
 {
-  if(DEBUG) std::cout << "MetaScene: M_Read: Loading Header" << std::endl;
+  if(META_DEBUG) std::cout << "MetaScene: M_Read: Loading Header" << std::endl;
   if(!MetaObject::M_Read())
   {
     std::cout << "MetaScene: M_Read: Error parsing file" << std::endl;
     return false;
   }
 
-  if(DEBUG) std::cout << "MetaScene: M_Read: Parsing Header" << std::endl;
+  if(META_DEBUG) std::cout << "MetaScene: M_Read: Parsing Header" << std::endl;
  
   MET_FieldRecordType * mF;
 

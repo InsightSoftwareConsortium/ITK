@@ -13,7 +13,6 @@
 #include <metaTypes.h>
 #include <metaUtils.h>
 
-#define DEBUG 0
 
 char MET_SeperatorChar = '=';
 bool m_ReturnWhenFail = false;
@@ -24,7 +23,8 @@ void MET_ReturnWhenFailed(bool val)
 }
 
 MET_FieldRecordType * 
-MET_GetFieldRecord(const char * _fieldName,std::vector<MET_FieldRecordType *>& _fields)
+MET_GetFieldRecord(const char * _fieldName,
+                   std::vector<MET_FieldRecordType *>& _fields)
   {
   std::vector<MET_FieldRecordType *>::iterator fieldIter;
   for(fieldIter=_fields.begin(); fieldIter!=_fields.end(); fieldIter++)
@@ -515,8 +515,6 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> & fields,
       {
       if(!strcmp((*fieldIter)->name, s))
         {
-        if(DEBUG) std::cout << "Parsed field " << s << std::endl;
-
         if((*fieldIter)->dependsOn >= 0)
           if(!fields[(*fieldIter)->dependsOn]->defined)
             {
@@ -692,7 +690,8 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> & fields,
       {
       case MET_NONE:
         {
-          fp << (*fieldIter)->name << " " << MET_SeperatorChar << std::endl;
+        fp << (*fieldIter)->name << " " << MET_SeperatorChar << " " 
+           << std::endl;
         break;
         }
       case MET_ASCII_CHAR:

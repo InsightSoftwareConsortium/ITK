@@ -15,7 +15,7 @@ MetaEllipse::
 MetaEllipse()
 :MetaObject()
 {
-  if(DEBUG) std::cout << "MetaEllipse()" << std::endl;
+  if(META_DEBUG) std::cout << "MetaEllipse()" << std::endl;
   Clear();
 
 }
@@ -25,7 +25,7 @@ MetaEllipse::
 MetaEllipse(const char *_headerName)
 :MetaObject()
 {
-  if(DEBUG)  std::cout << "MetaEllipse()" << std::endl;
+  if(META_DEBUG)  std::cout << "MetaEllipse()" << std::endl;
   Clear();
   Read(_headerName);
 }
@@ -35,7 +35,7 @@ MetaEllipse::
 MetaEllipse(const MetaEllipse *_ellipse)
 :MetaObject()
 {
-  if(DEBUG)  std::cout << "MetaEllipse()" << std::endl;
+  if(META_DEBUG)  std::cout << "MetaEllipse()" << std::endl;
   Clear();
   CopyInfo(_ellipse);
 }
@@ -111,7 +111,7 @@ bool MetaEllipse::
 ReadStream(int ndims, std::ifstream * stream)
 {
   
-  if(DEBUG)  std::cout << "MetaEllipse: ReadStream" << std::endl;
+  if(META_DEBUG)  std::cout << "MetaEllipse: ReadStream" << std::endl;
 
   M_Destroy();
   Clear();
@@ -130,7 +130,7 @@ ReadStream(int ndims, std::ifstream * stream)
 bool MetaEllipse::
 Read(const char *_headerName)
 {
-  if(DEBUG) std::cout << "MetaEllipse: Read" << std::endl;
+  if(META_DEBUG) std::cout << "MetaEllipse: Read" << std::endl;
 
   M_Destroy();
 
@@ -143,7 +143,7 @@ Read(const char *_headerName)
     strcpy(m_FileName, _headerName);
   }
 
-  if(DEBUG) std::cout << "MetaEllipse: Read: Opening stream" << std::endl;
+  if(META_DEBUG) std::cout << "MetaEllipse: Read: Opening stream" << std::endl;
  
   m_ReadStream->open(m_FileName, std::ios::binary);
   
@@ -175,7 +175,7 @@ Read(const char *_headerName)
 bool MetaEllipse::
 Write(const char *_headName)
 {
-  if(DEBUG) std::cout << "MetaEllipse: Write" << std::endl;
+  if(META_DEBUG) std::cout << "MetaEllipse: Write" << std::endl;
 
   if(_headName != NULL)
     {
@@ -200,7 +200,7 @@ Write(const char *_headName)
 bool MetaEllipse::
 Append(const char *_headName)
 {
-  if(DEBUG) std::cout << "MetaEllipse: Append" << std::endl;
+  if(META_DEBUG) std::cout << "MetaEllipse: Append" << std::endl;
 
   if(_headName != NULL)
   {
@@ -226,7 +226,7 @@ Append(const char *_headName)
 void MetaEllipse::
 Clear(void)
 {
-  if(DEBUG) std::cout << "MetaEllipse: Clear" << std::endl;
+  if(META_DEBUG) std::cout << "MetaEllipse: Clear" << std::endl;
   MetaObject::Clear();
   memset(m_Radius, 0, 100*sizeof(float));
   
@@ -247,7 +247,7 @@ M_Destroy(void)
 void MetaEllipse::
 M_SetupReadFields(void)
 {
-  if(DEBUG) std::cout << "MetaEllipse: M_SetupReadFields" << std::endl;
+  if(META_DEBUG) std::cout << "MetaEllipse: M_SetupReadFields" << std::endl;
 
   MetaObject::M_SetupReadFields();
 
@@ -279,7 +279,7 @@ M_SetupWriteFields(void)
 bool MetaEllipse::
 M_Read(void)
 {
-  if(DEBUG) std::cout << "MetaEllipse: M_Read: Loading Header" << std::endl;
+  if(META_DEBUG) std::cout << "MetaEllipse: M_Read: Loading Header" << std::endl;
   
   if(!MetaObject::M_Read())
   {
@@ -287,7 +287,7 @@ M_Read(void)
     return false;
   }
 
-  if(DEBUG) std::cout << "MetaEllipse: M_Read: Parsing Header" << std::endl;
+  if(META_DEBUG) std::cout << "MetaEllipse: M_Read: Parsing Header" << std::endl;
  
   MET_FieldRecordType * mF;
  
