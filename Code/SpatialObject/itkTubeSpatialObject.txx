@@ -145,7 +145,7 @@ TubeSpatialObject< TDimension, PipelineDimension >
 template< unsigned int TDimension , unsigned int PipelineDimension >
 bool 
 TubeSpatialObject< TDimension, PipelineDimension >  
-::IsInside( const PointType & point )  
+::IsInside( const PointType & point ) const
 {
   itkDebugMacro( "Checking the point [" << point << "is inside the tube" );
 
@@ -158,9 +158,9 @@ TubeSpatialObject< TDimension, PipelineDimension >
 
   double minSquareDist=999999.0;
   double tempSquareDist;
-  typename PointListType::iterator it = m_Points.begin();
-  typename PointListType::iterator end = m_Points.end(); 
-  typename PointListType::iterator min;  
+  typename PointListType::const_iterator it = m_Points.begin();
+  typename PointListType::const_iterator end = m_Points.end(); 
+  typename PointListType::const_iterator min;  
   PointType transformedPoint = point;
   TransformPointToLocalCoordinate(transformedPoint);
 
