@@ -31,6 +31,7 @@ int itkBMPImageIOTest( int ac, char* av[] )
     return EXIT_FAILURE;
     }
 
+
   // ATTENTION THIS IS THE PIXEL TYPE FOR 
   // THE RESULTING IMAGE
   typedef itk::RGBPixel<unsigned char> PixelType;
@@ -40,7 +41,7 @@ int itkBMPImageIOTest( int ac, char* av[] )
                                   = itk::ImageFileReader<myImage>::New();
   
   reader->SetFileName(av[1]);
-  
+
   try
     {
     reader->Update();
@@ -60,12 +61,18 @@ int itkBMPImageIOTest( int ac, char* av[] )
   myImage::RegionType region = image->GetLargestPossibleRegion();
   std::cout << "region " << region;
 
+  // Print the IO
+  reader->GetImageIO()->Print(std::cout); 
+
   // Generate test image
   itk::ImageFileWriter<myImage>::Pointer writer;
   writer = itk::ImageFileWriter<myImage>::New();
   writer->SetInput( reader->GetOutput() );
   writer->SetFileName(av[2]);
   writer->Update();
+
+  // Print the IO
+  writer->GetImageIO()->Print(std::cout); 
 
   return EXIT_SUCCESS;
 
