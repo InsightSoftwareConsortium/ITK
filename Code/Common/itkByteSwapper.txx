@@ -221,7 +221,7 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapRangeFromSystemToLittleEndian(T *p, unsigned long num) {}
+::SwapRangeFromSystemToLittleEndian(T *, unsigned long) {}
 #endif  
 
 #ifdef CMAKE_WORDS_BIGENDIAN

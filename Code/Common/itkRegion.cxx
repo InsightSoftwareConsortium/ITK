@@ -49,7 +49,7 @@ Region
 
 void 
 Region
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream&, Indent) const
 {
 }
 

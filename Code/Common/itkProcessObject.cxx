@@ -52,7 +52,7 @@ ProcessObject
  */
 DataObject::Pointer
 ProcessObject
-::MakeOutput(unsigned int idx)
+::MakeOutput(unsigned int)
 {
   return static_cast<DataObject*>(DataObject::New().GetPointer());
 }
