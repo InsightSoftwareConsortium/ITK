@@ -21,6 +21,7 @@
 #include <metaLandmark.h>
 #include <metaMesh.h>
 #include <metaArrow.h>
+#include <metaTransform.h>
 
 //
 // MetaScene Constructors
@@ -185,6 +186,14 @@ Read(const char *_headerName)
         }
       delete subtype;
       }
+
+    else if(!strncmp(MET_ReadType(*m_ReadStream),"Transform",9))
+    {
+      MetaTransform* transform = new MetaTransform();
+      transform->SetEvent(m_Event);
+      transform->ReadStream(m_NDims,m_ReadStream);
+      m_ObjectList.push_back(transform);
+    }
 
     else if(!strncmp(MET_ReadType(*m_ReadStream),"Ellipse",7) ||
             (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "elp")))

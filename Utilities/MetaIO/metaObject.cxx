@@ -1282,7 +1282,6 @@ M_SetupWriteFields(void)
   FieldsContainerType::iterator  end = m_UserDefinedWriteFields.end();
   while( it != end )
     {
-    //std::cout << "Adding " << (*it)->name << std::endl;
     m_Fields.push_back(*it); 
     it++;
     }
