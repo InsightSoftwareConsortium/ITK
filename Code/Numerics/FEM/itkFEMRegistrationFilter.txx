@@ -570,8 +570,8 @@ void FEMRegistrationFilter<TReference,TTarget>::ApplyLoads(SolverType& mySolver,
       unsigned int whichnode=0;
      
       unsigned int maxnode;               
-      if (ImageDimension == 2) maxnode=( 3 < numnodesperelt ? 3 : numnodesperelt); 
-      if (ImageDimension == 3) maxnode=( 4 < numnodesperelt ? 4 : numnodesperelt); 
+      if (ImageDimension == 2) maxnode=( 3 < numnodesperelt ? 3 : numnodesperelt-1); 
+      if (ImageDimension == 3) maxnode=( 4 < numnodesperelt ? 4 : numnodesperelt-1); 
       for (whichnode=0; whichnode<=maxnode; whichnode++)
       {
         Node::ConstPointer tnode=( *((*node)->m_elements.begin()))->GetNode(whichnode); 
@@ -650,16 +650,14 @@ void FEMRegistrationFilter<TReference,TTarget>::ApplyLoads(SolverType& mySolver,
 template<class TReference,class TTarget>
 void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySolver)
 {
-
-  unsigned int minct=0,NumMins=2;
-  if (!m_DoMultiRes) NumMins=1;
   m_MinE=10.e9;
-  Float LastE=9.e9 , deltE=1.e9, ETol=1.e-5;
+  Float LastE=9.e9 , deltE=1.e9;
 
   unsigned int iters=0;
   //Float LastISim=9.e9, InitDeltE=0.0;
   bool Done=false;
   unsigned int DLS=m_DoLineSearchOnImageEnergy;
+  unsigned int LSF=m_LineSearchFrequency;
   while ( !Done ){
   /*
    * Assemble the master force vector (from the applied loads)
@@ -673,7 +671,7 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
   
   
    Float mint=1.0,ImageSimilarity=0.0;
-   if (DLS > 0 && iters > 0  && (iters % m_LineSearchFrequency) == 0) 
+   if (DLS > 0 && iters > 0  && (iters % LSF) == 0) 
    {
      std::cout << " line search ";
      if (DLS == 1 ) mySolver.GoldenSection(1.e-1,100);
@@ -684,12 +682,11 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
    //ImageSimilarity=0.0;//m_Load->EvaluateMetricGivenSolution(&(mySolver.el), mint);
    LastE=mySolver.EvaluateResidual(mint);
    deltE=(LastE-m_MinE);
-   mySolver.AddToDisplacements(mint);  
+   mySolver.AddToDisplacements(mint); 
    if ((LastE <= m_EnergyReductionFactor )/*|| ImageSimilarity > LastISim*/) 
    {
      Done=true;
      m_MinE=LastE;
-     minct=NumMins;
    }
    else //if ( minct < NumMins )
    {  
