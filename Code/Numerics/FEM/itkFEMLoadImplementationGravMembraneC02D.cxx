@@ -101,19 +101,20 @@ LoadGravImplementationMembraneC02D
   if ( !l0 ) throw;
   // for gravity loads
   vnl_vector<Float> pt(4,0.0), f(2,0.0);
+  Solution::ConstPointer   S=l0->GetSolution();
   // Computes point at which gravity load acts on 
   // and also gives the current displacement
   pt[0] = (element->m_node[0]->X + element->m_node[1]->X + element->m_node[2]->X + element->m_node[3]->X)/4;
   pt[1] = (element->m_node[0]->Y + element->m_node[1]->Y + element->m_node[2]->Y + element->m_node[3]->Y)/4;
-/*  pt[2] = ( Node::solution[element->GetDegreeOfFreedom(0)] + 
-            Node::solution[element->GetDegreeOfFreedom(1)] +
-            Node::solution[element->GetDegreeOfFreedom(2)] +
-            Node::solution[element->GetDegreeOfFreedom(3)] ) / 4;
-  pt[3] = ( Node::solution[element->GetDegreeOfFreedom(0)] + 
-            Node::solution[element->GetDegreeOfFreedom(1)] +
-            Node::solution[element->GetDegreeOfFreedom(2)] +
-            Node::solution[element->GetDegreeOfFreedom(3)] ) / 4;
-*/
+  pt[2] = ( S->GetSolutionValue(element->GetDegreeOfFreedom(0)) + 
+            S->GetSolutionValue(element->GetDegreeOfFreedom(2)) +
+            S->GetSolutionValue(element->GetDegreeOfFreedom(4)) +
+            S->GetSolutionValue(element->GetDegreeOfFreedom(6)) ) / 4;
+ pt[3] = ( S->GetSolutionValue(element->GetDegreeOfFreedom(1)) + 
+            S->GetSolutionValue(element->GetDegreeOfFreedom(3)) +
+            S->GetSolutionValue(element->GetDegreeOfFreedom(5)) +
+            S->GetSolutionValue(element->GetDegreeOfFreedom(7)) ) / 4;
+/* */
   f=l0->Fg(pt);    
 
   return GravityLoad(f , element);
