@@ -94,7 +94,7 @@ public:
   typedef Image< OffsetType, InputImageDimension > VectorImageType;
 
   /** Pointer Type for input image. */
-  typedef typename InputImageType::Pointer InputImagePointer;
+  typedef typename InputImageType::ConstPointer InputImagePointer;
 
   /** Pointer Type for the output image. */
   typedef typename OutputImageType::Pointer OutputImagePointer;

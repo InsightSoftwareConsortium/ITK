@@ -21,6 +21,7 @@
 #include "itkDanielssonDistanceMapImageFilter.h"
 #include "itkReflectiveImageRegionIterator.h"
 #include "itkImageRegionExclusionIteratorWithIndex.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 
 
 namespace itk
@@ -118,7 +119,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   itkDebugMacro(<< "PrepareData Start");
   OutputImagePointer voronoiMap = GetVoronoiMap();
 
-  InputImagePointer  inputImage  = dynamic_cast<TInputImage  *>(
+  InputImagePointer  inputImage  = dynamic_cast<const TInputImage  *>(
                                 (ProcessObject::GetInput(  0 )).GetPointer());
 
   voronoiMap->SetLargestPossibleRegion( 
@@ -162,7 +163,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
 
 
-  ImageRegionIteratorWithIndex< TInputImage >  it( inputImage,  region );
+  ImageRegionConstIteratorWithIndex< TInputImage >  it( inputImage,  region );
   ImageRegionIteratorWithIndex< TOutputImage > ot( voronoiMap,  region );
 
   it.GoToBegin();
@@ -331,7 +332,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
   this->PrepareData();
   
-  InputImagePointer     voronoiMap             =  GetVoronoiMap();
+  OutputImagePointer    voronoiMap             =  GetVoronoiMap();
   VectorImagePointer    distanceComponents     =  GetVectorDistanceMap();
   
   typename InputImageType::RegionType region  = voronoiMap->GetRequestedRegion();
