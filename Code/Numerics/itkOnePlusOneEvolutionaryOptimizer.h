@@ -104,6 +104,7 @@ public:
   /** Get initial search radius in parameter space. */
   itkGetConstMacro( InitialRadius, double );
 
+
   /** Set/Get the minimal size of search radius 
    * (frobenius_norm of covariance matrix). */
   itkSetMacro( Epsilon, double );   
@@ -119,7 +120,7 @@ public:
    * shrink: searhc radius shrink factor */
   void Initialize(double initialRadius, double grow = -1, double shrink = -1) ;
 
-  MeasureType GetCurrentCost()
+  MeasureType GetValue()
   { return m_CurrentCost ; }
 
   itkGetConstMacro( CurrentIteration, unsigned int) ;
