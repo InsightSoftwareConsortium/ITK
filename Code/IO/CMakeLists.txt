@@ -7,6 +7,8 @@ SET(ITKIO_SRCS
   itkBrains2MaskHeaderInfo.cxx
   itkBrains2MaskImageIO.cxx
   itkBrains2MaskImageIOFactory.cxx
+  itkBMPImageIO.cxx
+  itkBMPImageIOFactory.cxx
   itkDICOMImageIO2.cxx
   itkDICOMImageIO2Factory.cxx
   itkDicomImageIO.cxx

@@ -19,6 +19,7 @@
 #endif
 
 #include "itkImageIOFactory.h"
+#include "itkBMPImageIOFactory.h"
 #include "itkDICOMImageIO2Factory.h"
 #include "itkAnalyzeImageIOFactory.h"
 #include "itkGiplImageIOFactory.h"
@@ -105,6 +106,7 @@ ImageIOFactory::RegisterBuiltInFactories()
     ObjectFactoryBase::RegisterFactory( StimulateImageIOFactory::New());
     ObjectFactoryBase::RegisterFactory( JPEGImageIOFactory::New());
     ObjectFactoryBase::RegisterFactory( TIFFImageIOFactory::New());
+    ObjectFactoryBase::RegisterFactory( BMPImageIOFactory::New() ); 
     ObjectFactoryBase::RegisterFactory( DICOMImageIO2Factory::New() ); 
     firstTime = false;
     }
