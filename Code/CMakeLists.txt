@@ -24,7 +24,7 @@ CABLE_OPEN_NAMESPACE(itk)
                    SOURCE_FILES itkPoint)
 
   CABLE_DEFINE_SET(VectorType "Vector<$ScalarType, $Dimension>"
-                   SOURCE_FILES itkVector vnl/vnl_vector vnl/vnl_c_vector)
+                   SOURCE_FILES itkVector)
 
   CABLE_DEFINE_SET(PixelType $ScalarType)
 
