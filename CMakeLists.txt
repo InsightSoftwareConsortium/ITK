@@ -62,6 +62,7 @@ SET(VXL_NUMERICS_LIBRARIES itkvnl itkvnl_algo itknetlib)
 # Provide options to use system versions of third-party libraries.
 ITK_THIRD_PARTY_OPTION(ZLIB zlib)
 ITK_THIRD_PARTY_OPTION(PNG  png)
+ITK_THIRD_PARTY_OPTION(JPEG jpeg)
 
 MARK_AS_ADVANCED(ITK_WRAP_TCL)
 

@@ -1,6 +1,7 @@
 # Build third-party utilities.
 ITK_THIRD_PARTY_SUBDIR(ZLIB zlib)
 ITK_THIRD_PARTY_SUBDIR(PNG  png)
+ITK_THIRD_PARTY_SUBDIR(JPEG jpeg)
 
 SUBDIRS(MetaIO DICOMParser)
 SUBDIRS(vxl)

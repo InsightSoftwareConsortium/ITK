@@ -83,3 +83,4 @@ ENDIF(NOT ITK_USE_SYSTEM_STDLIB)
 # Include directories for 3rd-party utilities provided by ITK.
 ITK_THIRD_PARTY_INCLUDE(ZLIB zlib)
 ITK_THIRD_PARTY_INCLUDE(PNG  png)
+ITK_THIRD_PARTY_INCLUDE(JPEG  jpeg)
