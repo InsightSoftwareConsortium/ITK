@@ -196,6 +196,9 @@ TARGET_LINK_LIBRARIES(ITKFEM VXLNumerics
                       ITKCommon
                       ITKBasicFilters
                       ITKIO)
+IF(UNIX)
+  TARGET_LINK_LIBRARIES (ITKFEM -lm )
+ENDIF(UNIX)
 
 INSTALL_TARGETS(/lib/InsightToolkit ITKFEM)
 INSTALL_FILES(/include/InsightToolkit/Numerics/FEM "(\\.h|\\.txx)$")
