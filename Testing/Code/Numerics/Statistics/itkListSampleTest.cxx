@@ -69,7 +69,6 @@ int itkListSampleTest(int, char**)
 
   // iterator test
   SampleType::Iterator s_iter = sample->Begin() ;
-  unsigned int count = 0 ;
   unsigned int id = 0 ;
   while (s_iter != sample->End())
     {
@@ -79,7 +78,6 @@ int itkListSampleTest(int, char**)
           pass = false ;
           whereFail = "Iterator: GetMeasurementVector()" ;
         }
-      ++count ;
       ++id ;
       ++s_iter ;
     }
