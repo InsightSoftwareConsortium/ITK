@@ -195,11 +195,50 @@ struct ArgumentAs
       {
       cf = Converter::ObjectIdentity<T>::GetConversionFunction();
       }
-    // If the types are pointers and the conversion is a valid cv-qualifier
-    // adjustment, use the pointer identity conversion function.
-    else if((to->IsEitherPointerType() && from.GetType()->IsEitherPointerType())
-            && Conversions::IsValidQualificationConversion(PointerType::SafeDownCast(from.GetType()),
-                                                           PointerType::SafeDownCast(to)))
+    else
+      {
+      // We don't have a trivial conversion.  Try to lookup the
+      // conversion function.
+      cf = wrapper->GetConversionFunction(from, to);
+      // If not, we don't know how to do the conversion.
+      if(!cf)
+        {
+        throw _wrap_UnknownConversionException(from.GetName(), to->Name());
+        }
+      }
+    
+    // Perform the conversion and return the result.
+    return ConvertTo<T>::From(argument.GetValue(), cf);
+    }
+};
+
+
+/**
+ * Convert the given Argument to a pointer to T.
+ */
+template <typename T>
+struct ArgumentAsPointerTo
+{
+  static T* Get(const WrapperBase::Argument& argument,
+               const WrapperBase* wrapper)
+    {
+    // 8.3.5/3 Top level cv-qualifiers on target type never matter for
+    // conversions.  They only affect the parameter inside the function body.
+    const PointerType* to =
+      PointerType::SafeDownCast(CvType<T*>::type.GetType());
+    
+    // Get the argument's type from which we must convert.
+    CvQualifiedType from = argument.GetType();
+    
+    // A pointer to the conversion function.
+    ConversionFunction cf = NULL;
+    
+    // If the "from" type is a pointer and the conversion is a valid
+    // cv-qualifier adjustment, use the pointer identity conversion
+    // function.
+    if(from.GetType()->IsEitherPointerType()
+       && Conversions::IsValidQualificationConversion(PointerType::SafeDownCast(from.GetType()),
+                                                      PointerType::SafeDownCast(to)))
       {
       cf = Converter::PointerIdentity<T>::GetConversionFunction();
       }
@@ -216,7 +255,7 @@ struct ArgumentAs
       }
     
     // Perform the conversion and return the result.
-    return ConvertTo<T>::From(argument.GetValue(), cf);
+    return ConvertTo<T*>::From(argument.GetValue(), cf);
     }
 };
 
