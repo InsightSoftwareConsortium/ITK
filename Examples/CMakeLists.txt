@@ -5,4 +5,5 @@ SUBDIRS(
   IO
   Registration
   Segmentation
+  Statistics
 )
