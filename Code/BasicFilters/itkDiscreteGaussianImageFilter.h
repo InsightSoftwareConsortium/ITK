@@ -165,8 +165,6 @@ protected:
    */
   void GenerateData();
 
-  static void ImageRegionCopy(OutputImageType *, InputImageType *);
-
 private:
   /**
    * The variance of the gaussian blurring kernel in each dimensional direction.
