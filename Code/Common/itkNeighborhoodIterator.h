@@ -110,6 +110,12 @@ public:
   typedef typename ScalarTraits<TPixel>::ScalarValueType ScalarValueType;
 
   /**
+   * Typedef for internal (pointer) data types
+   */
+  typedef TPixel * InternalType;
+  typedef TPixel ExternalType;
+  
+  /**
    * itk::Image typedef support.
    */
   typedef Image<TPixel, VDimension> ImageType;
@@ -230,22 +236,6 @@ public:
   }
 
   /**
-   * API for the innerproduct operations on iterators.
-   */
-  virtual  ScalarValueType InnerProduct(std::valarray<TPixel> &) = 0;
-  virtual  ScalarValueType InnerProduct(
-                              std::valarray<ScalarValueType> &,
-                              VectorComponentDataAccessor<TPixel,
-                              ScalarValueType> &
-                              ) = 0;
-  virtual ScalarValueType SlicedInnerProduct(const std::slice &s,
-                                           std::valarray<TPixel> &v) = 0;
-  
-  virtual ScalarValueType SlicedInnerProduct(const std::slice &,
-                                    std::valarray<ScalarValueType> &,
-                 VectorComponentDataAccessor<TPixel, ScalarValueType> &)= 0;
-  
-  /**
    * Returns the offsets used to wrap across dimensional boundaries.
    */
   const unsigned long* GetWrapOffset() const
@@ -311,6 +301,15 @@ public:
     IndexType temp;
     memcpy(temp.m_Index, m_Loop, sizeof(long int) * VDimension);
     return temp;
+  }
+
+  /**
+   * Returns the N-dimensional starting index of the iterator's position on
+   * the image.
+   */
+  virtual IndexType GetStartIndex() const
+  {
+    return m_StartIndex;
   }
   
   /**
