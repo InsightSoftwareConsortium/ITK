@@ -1,0 +1,126 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkBinaryThinningImageFilter.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+#ifndef __itkBinaryThinningImageFilter_h
+#define __itkBinaryThinningImageFilter_h
+
+#include <itkImageToImageFilter.h>
+#include <itkImageRegionIteratorWithIndex.h>
+
+namespace itk
+{
+
+/** \class BinaryThinningImageFilter
+*
+* This class is parametrized over the type of the input image
+* and the type of the output image.
+*
+* This filter computes one pixel wide edges of the input image.
+* 
+*
+* The input is assumed to be a binary image.
+* The filter will produce a skeleton of the object:
+
+*
+* This filter is sequential thinning algorithm and known to be computational time
+* dependable of the image size.  The algorithm is the N-dimensional version
+* of the  given for two dimensions in:
+* 
+* Rafael C. Gonzales and Richard E. Woods. 
+* Digital Image Processing. 
+* Addison Wesley, 491-494, (1993).
+*
+* \sa MorphologyImageFilter
+* \sa BinaryThinningImageFilter
+* \ingroup ImageEnhancement MathematicalMorphologyImageFilters
+*/
+
+template <class TInputImage,class TOutputImage>
+class ITK_EXPORT BinaryThinningImageFilter :
+    public ImageToImageFilter<TInputImage,TOutputImage>
+{
+public:
+  /** Standard class typedefs. */
+  typedef BinaryThinningImageFilter    Self;
+  typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
+  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
+
+  /** Method for creation through the object factory */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( BinaryThinningImageFilter, ImageToImageFilter );
+
+  /** Type for input image. */
+  typedef   TInputImage       InputImageType;
+
+  /** Type for output image: Skelenton of the object.  */
+  typedef   TOutputImage      OutputImageType;
+
+  /** Type for the region of the input image. */
+  typedef typename InputImageType::RegionType   RegionType;
+
+  /** Type for the index of the input image. */
+  typedef typename RegionType::IndexType  IndexType;
+
+  /** Type for the index of the input image. */
+  typedef typename InputImageType::PixelType PixelType ;
+
+  /** Type for the size of the input image. */
+  typedef typename RegionType::SizeType   SizeType;
+
+  /** Pointer Type for input image. */
+  typedef typename InputImageType::ConstPointer InputImagePointer;
+
+  /** Pointer Type for the output image. */
+  typedef typename OutputImageType::Pointer OutputImagePointer;
+  
+  /** Neighborhood iterator type */
+  typedef NeighborhoodIterator<TInputImage> NeighborhoodIteratorType ;
+  
+  /** Get Skelenton by thinning image. */
+  OutputImageType * GetThinning(void);
+
+
+protected:
+  BinaryThinningImageFilter();
+  virtual ~BinaryThinningImageFilter() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
+  /** Compute thinning Image. */
+  void GenerateData();
+
+  /** Prepare data. */
+  void PrepareData();
+
+  /**  Compute thinning Image. */
+  void ComputeThinImage();
+
+
+private:   
+  BinaryThinningImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
+}; // end of BinaryThinningImageFilter class
+
+} //end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkBinaryThinningImageFilter.txx"
+#endif
+
+#endif
