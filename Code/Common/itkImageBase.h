@@ -157,14 +157,20 @@ public:
   
   /** Set the region object that defines the size and starting index
    * for the region of the image requested (i.e., the region of the
-   * image to be operated on by a filter).
+   * image to be operated on by a filter). Setting the RequestedRegion
+   * does not cause the object to be modified. This method is called
+   * internally by the pipeline and therefore bypasses the modified
+   * time calculation.
    * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion() */
   virtual void SetRequestedRegion(const RegionType &region);
 
   /** Set the requested region from this data object to match the requested
    * region of the data object passed in as a parameter.  This method 
    * implements the API from DataObject. The data object parameter must be
-   * castable to an ImageBase. */
+   * castable to an ImageBase. Setting the RequestedRegion does not cause
+   * the object to be modified. This method is called internally by
+   * the pipeline and therefore bypasses the modified time
+   * calculation. */
   virtual void SetRequestedRegion(DataObject *data);
 
   /** Get the region object that defines the size and starting index

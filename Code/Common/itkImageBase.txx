@@ -274,7 +274,6 @@ ImageBase<VImageDimension>
     {
     m_RequestedRegion = region;
     m_RequestedRegionInitialized = true;
-    this->Modified();
     }
 }
 
