@@ -30,3 +30,10 @@ TARGET_LINK_LIBRARIES(GeodesicActiveContourImageFilter ITKCommon ITKNumerics VXL
 
 ADD_EXECUTABLE(WatershedSegmentation1 WatershedSegmentation1.cxx )
 TARGET_LINK_LIBRARIES(WatershedSegmentation1 ITKAlgorithms ITKCommon ITKNumerics VXLNumerics ITKIO)
+
+ADD_EXECUTABLE(DeformableModel1 DeformableModel1.cxx )
+TARGET_LINK_LIBRARIES(DeformableModel1 ITKAlgorithms ITKCommon ITKNumerics VXLNumerics ITKIO)
+
+ADD_EXECUTABLE(GibbsPriorImageFilter1 GibbsPriorImageFilter1.cxx )
+TARGET_LINK_LIBRARIES(GibbsPriorImageFilter1 ITKAlgorithms ITKCommon ITKNumerics VXLNumerics ITKIO)
+
