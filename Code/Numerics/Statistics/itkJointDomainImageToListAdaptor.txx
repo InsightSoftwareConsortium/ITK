@@ -110,7 +110,7 @@ JointDomainImageToListAdaptor< TImage >
       size[i] -= (m_ImageBeginIndex[i] - beginIndex[i]) ;
       }
 
-    if ( (beginIndex[i] + size[i] - 1) > m_ImageEndIndex[i] )
+    if ( static_cast<typename ImageIndexType::IndexValueType>(beginIndex[i] + size[i] - 1) > m_ImageEndIndex[i] )
       {
       size[i] = m_ImageEndIndex[i] - beginIndex[i] + 1 ;
       }

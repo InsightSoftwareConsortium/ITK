@@ -304,7 +304,7 @@ private:
   virtual void ThreadedApplyUpdate(TimeStepType dt,
                                    const ThreadRegionType &regionToProcess,
                                    int threadId);
-  virtual void ApplyUpdate(TimeStepType dt){}
+  virtual void ApplyUpdate(TimeStepType){}
 
   /** This method populates m_NarrowBand with changes for each pixel in the
    * output using the ThreadedCalculateChange() method and a multithreading

@@ -88,7 +88,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
   str.TimeStepList      = new TimeStepType[this->GetNumberOfThreads()];
   str.ValidTimeStepList = new bool        [this->GetNumberOfThreads()];
   
-  for (unsigned int i =0; i < this->GetMultiThreader()->GetNumberOfThreads(); ++i)
+  for (int i =0; i < this->GetMultiThreader()->GetNumberOfThreads(); ++i)
     {
     str.ValidTimeStepList[i] = true;
     str.TimeStepList[i] = NumericTraits<TimeStepType>::Zero;
@@ -130,10 +130,9 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
     }
 #endif
 
-  unsigned int i;
   unsigned int threadId = ((MultiThreader::ThreadInfoStruct *)(arg))->ThreadID;
   unsigned int threadCount = ((MultiThreader::ThreadInfoStruct *)(arg))->NumberOfThreads;
-  int total;
+  unsigned int total;
       
   NarrowBandImageFilterBaseThreadStruct * str
     = (NarrowBandImageFilterBaseThreadStruct *)
@@ -158,7 +157,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 NarrowBandImageFilterBase<TInputImage, TOutputImage>
-::ThreadedIterate(void * arg, const ThreadRegionType &regionToProcess,
+::ThreadedIterate(void * arg, const ThreadRegionType &,
                       int threadId)
 {
   int threadCount;
