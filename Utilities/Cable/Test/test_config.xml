@@ -9,6 +9,12 @@
     <File name="itkVersion.h"/>
   </Headers>
 
+  <ArgumentSet name="Dimension">
+    <Argument tag="1">1</Argument>
+    <Argument tag="2">2</Argument>
+    <Argument tag="3">3</Argument>
+  </ArgumentSet>
+
   <ArgumentSet name="Integer">
     <Argument tag="I">int</Argument>
   </ArgumentSet>
@@ -24,5 +30,8 @@
              ]]>
   </CreateMethod>
 
+  <ArgumentSet name="VectorOfScalar">
+    <Argument tag="Vector"><![CDATA[vector<$BasicScalarType, $Dimension>]]></Argument>
+  </ArgumentSet>
 
 </Package>

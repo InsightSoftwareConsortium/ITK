@@ -134,6 +134,8 @@ private:
   static void CharacterDataHandler_proxy(void*,const XML_Char *, int);
   static void BeginCdataSectionHandler_proxy(void*);
   static void EndCdataSectionHandler_proxy(void*);
+  
+  void GenerateArgumentCombinations(const Argument*);
 };
 
 } // namespace configuration

@@ -533,6 +533,13 @@ void
 Parser
 ::end_ArgumentSet()
 {
+  if(this->CurrentElement())
+    {
+    // Print out the arguments defined.
+    this->CurrentArgumentSet()->Print(std::cout);
+    std::cout << "----end_ArgumentSet----" << std::endl;
+    }
+  
   // Take the ArgumentSet off the stack.
   this->PopElement();
 }
@@ -550,9 +557,6 @@ Parser
   // Create a new Argument.
   Argument::Pointer newArgument = Argument::New(tag);
   
-  // Add the argument to the current set.
-  this->CurrentArgumentSet()->Add(newArgument);
-  
   // Put new Argument on the stack so it can be filled with code.
   this->PushElement(newArgument);
 }
@@ -565,8 +569,14 @@ void
 Parser
 ::end_Argument()
 {
+  // Hold onto the finished Argument as it is popped off the stack.
+  Argument::Pointer finishedArgument = this->CurrentArgument();
+  
   // Take the Argument off the stack.
   this->PopElement();
+
+  // Add the argument to the current ArgumentSet.
+  this->GenerateArgumentCombinations(finishedArgument);
 }
 
 
@@ -755,4 +765,206 @@ Parser
 }
 
 
+class NamePortion
+{
+public:
+  virtual const String& GetPortion() const =0;
+  virtual ~NamePortion() {}
+};
+
+
+class StringNamePortion: public NamePortion
+{
+public:
+  StringNamePortion(const String& in_string): m_String(in_string) {}
+  virtual const String& GetPortion() const
+    {
+      return m_String;
+    }
+  virtual ~StringNamePortion() {}
+private:
+  String m_String;
+};
+
+class ReplaceNamePortion: public NamePortion
+{
+public:
+  ReplaceNamePortion(const String& in_string): m_String(in_string) {}
+  virtual const String& GetPortion() const
+    {
+      return m_String;
+    }
+  virtual ~ReplaceNamePortion() {}
+private:
+  const String& m_String;
+};
+
+
+/**
+ * Given an Argument, generate all the combinations of ArgumentSet
+ * substitutions possbile based on $ tokens in the Argument's code.
+ */
+void
+Parser
+::GenerateArgumentCombinations(const Argument* in_argument)
+{
+  typedef std::list<NamePortion*>  Portions;
+  typedef std::map<String, String*>  Substitutions;
+  Portions      portions;
+  Substitutions substitutions;
+
+  String in_string = in_argument->GetCode();
+  
+  String s;
+  for(String::const_iterator c=in_string.begin(); c != in_string.end(); ++c)
+    {
+    if(*c != '$')
+      {
+      s.insert(s.end(), *c);
+      }
+    else
+      {
+      if(s.length() > 0)
+        {
+        portions.push_back(new StringNamePortion(s));
+        s = "";
+        }
+      // Get argument set name token.
+      ++c;
+      while(c != in_string.end())
+        {
+        char ch = *c;
+        if(((ch >= 'a') && (ch <= 'z'))
+           || ((ch >= 'A') && (ch <= 'Z'))
+           || ((ch >= '0') && (ch <= '9'))
+           || (ch == '_'))
+          {
+          s.insert(s.end(), ch);
+          ++c;
+          }
+        else
+          {
+          break;
+          }
+        }
+      if(s.length() > 0)
+        {
+        String* sub;
+        if(substitutions.count(s) == 0)
+          {
+          sub = new String();
+          substitutions[s] = sub;
+          }
+        else
+          {
+          sub = substitutions[s];
+          }
+        portions.push_back(new ReplaceNamePortion(*sub));
+        s = "";
+        }
+      else
+        {
+        // Error: No token after $
+        }
+      if(c != in_string.end())
+        s.insert(s.end(), *c);
+      }
+    }
+  
+  if(s.length() > 0)
+    {
+    portions.push_back(new StringNamePortion(s));
+    }
+
+  // If there are no substitutions to be made, just generate this
+  // single combination.
+  if(substitutions.empty())
+    {
+    this->CurrentArgumentSet()->Add(in_argument->GetTag(),
+                                    in_argument->GetCode());
+    return;
+    }
+  
+  // We must generate all combinations of argument substitutions.
+  
+  typedef std::pair<ArgumentSet::ConstIterator,
+                    ArgumentSet::ConstIterator>  ArgumentSetIteratorPair;
+  std::list<ArgumentSetIteratorPair> argumentSets;
+  Substitutions::const_iterator substitution = substitutions.begin();
+  
+  bool done = false;
+  while(!done)
+    {
+    if(substitution == substitutions.end())
+      {
+      // We are at the end of the list of substitutions.
+      if(argumentSets.back().first != argumentSets.back().second)
+        {
+        --substitution;
+        *(substitution->second) = argumentSets.back().first->second;
+        ++substitution;
+        // Generate this combination.
+        String s;
+        for(Portions::const_iterator i = portions.begin();
+            i != portions.end(); ++i)
+          s.append((*i)->GetPortion());
+        std::cout << s.c_str() << std::endl;
+        
+        // Increment to the next argument in this set.
+        ++(argumentSets.back().first);
+        }
+      else
+        {
+        // We have finished this set of combinations.
+        // Walk back through the list until we find an unfinished set
+        // of arguments.
+        while(argumentSets.back().first == argumentSets.back().second)
+          {
+          argumentSets.pop_back();
+          --substitution;
+          if(argumentSets.empty())
+            {
+            // We have finished all combinations.
+            done = true;
+            break;
+            }
+          ++(argumentSets.back().first);
+          }
+        if(!done)
+          {
+          --substitution;
+          *(substitution->second) = argumentSets.back().first->second;
+          ++substitution;
+          }
+        }
+      }
+    else
+      {
+      // We are not at the end of the list of substitutions.
+      // Move on to the next one.
+      if(m_ArgumentSets.count(substitution->first) == 0)
+        {
+        std::cerr << "Cannot find ArgumentSet \""
+                  << substitution->first.c_str() << "\"" << std::endl;
+        return;
+        }
+      argumentSets.push_back(
+        ArgumentSetIteratorPair(m_ArgumentSets[substitution->first]->Begin(),
+                                m_ArgumentSets[substitution->first]->End()));
+      *(substitution->second) = argumentSets.back().first->second;
+      ++substitution;
+      }
+    }
+  
+  // Free the string portions that were allocated.
+  for(Portions::iterator i=portions.begin(); i != portions.end(); ++i)
+    delete *i;
+  
+  // Free the substitutions that were allocated.
+  for(Substitutions::iterator i = substitutions.begin();
+      i != substitutions.end(); ++i)
+    delete i->second;
+}
+
 } // namespace configuration
+

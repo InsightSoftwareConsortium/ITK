@@ -65,6 +65,16 @@ CodeBlock
 
 
 /**
+ * Constructor initializes CodeBlock's string to be empty.
+ */
+CodeBlock
+::CodeBlock():
+  m_Code("")
+{
+}
+
+
+/**
  * Character data in a CodeBlock are treated as lines of code.
  * Add this line to the CodeBlock.
  */
@@ -72,7 +82,7 @@ void
 CodeBlock
 ::AddCharacterData(const char* line, unsigned long len, bool)
 {
-  m_Code.push_back(String(line, len));
+  m_Code.append(line, len);
 }
 
 
@@ -83,10 +93,18 @@ void
 CodeBlock
 ::PrintCode(std::ostream& os) const
 {
-  for(CodeConstIterator c = m_Code.begin(); c != m_Code.end(); ++c)
-    {
-    os << c->c_str();
-    }
+  os << m_Code.c_str();
+}
+
+
+/**
+ * Get this CodeBlock's code as a String.
+ */
+const String&
+CodeBlock
+::GetCode() const
+{
+  return m_Code;
 }
 
 
@@ -112,6 +130,17 @@ Argument
 
 
 /**
+ * Get the tag associated with this argument.
+ */
+const String&
+Argument
+::GetTag() const
+{
+  return m_Tag;
+}
+
+
+/**
  * Create a new ArgumentSet and return a pointer to it.
  */
 ArgumentSet::Pointer
@@ -123,13 +152,13 @@ ArgumentSet
 
 
 /**
- * Add a new Argument to the set. 
+ * Add a new argument to the set. 
  */
 void
 ArgumentSet
-::Add(Argument* argument)
+::Add(const String& tag, const String& code)
 {
-  m_Arguments.push_back(argument);
+  m_Arguments[tag] = code;
 }
 
 
@@ -138,12 +167,22 @@ ArgumentSet
  */
 void
 ArgumentSet
-::Add(ArgumentSet* argumentSet)
+::Add(const ArgumentSet* argumentSet)
 {
-  for(ArgumentConstIterator a = argumentSet->Begin();
-      a != argumentSet->End(); ++a)
+  m_Arguments.insert(argumentSet->Begin(), argumentSet->End());
+}
+
+
+/**
+ * Print the argument set to the given stream.
+ */
+void
+ArgumentSet
+::Print(std::ostream& os) const
+{
+  for(ConstIterator a = this->Begin(); a != this->End(); ++a)
     {
-    m_Arguments.push_back(*a);
+    os << a->first.c_str() << ": " << a->second.c_str() << std::endl;
     }
 }
 

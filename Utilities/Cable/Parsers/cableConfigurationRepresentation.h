@@ -84,10 +84,6 @@ private:
 };
 
 
-typedef std::vector<String> CodeContainer;
-typedef CodeContainer::iterator CodeIterator;
-typedef CodeContainer::const_iterator CodeConstIterator;
-
 /**
  * Store source code text for custom functions (like create and delete).
  */
@@ -105,9 +101,10 @@ public:
   
   void AddCharacterData(const char*, unsigned long, bool);
   void PrintCode(std::ostream&) const;
+  const String& GetCode() const;
   
 protected:
-  CodeBlock() {}
+  CodeBlock();
   CodeBlock(const Self&) {}
   void operator=(const Self&) {}
   virtual ~CodeBlock() {}
@@ -116,7 +113,7 @@ private:
   /**
    * Hold the code belonging to this CodeBlock.
    */
-  CodeContainer  m_Code;
+  String m_Code;
 };
 
 
@@ -137,6 +134,8 @@ public:
   
   static Pointer New(const String&);
   
+  const String& GetTag() const;
+  
 protected:
   Argument(const String&);
   Argument(const Self&) {}
@@ -149,11 +148,6 @@ private:
    */
   String m_Tag;
 };
-
-
-typedef std::list<Argument::Pointer> ArgumentContainer;
-typedef ArgumentContainer::iterator  ArgumentIterator;
-typedef ArgumentContainer::const_iterator ArgumentConstIterator;
 
 
 /**
@@ -171,13 +165,19 @@ public:
   
   static Pointer New();
   
-  void Add(Argument*);
-  void Add(ArgumentSet*);
+  void Add(const String&, const String&);
+  void Add(const ArgumentSet*);
+  void Print(std::ostream&) const;
   
-  ArgumentIterator Begin()            { return m_Arguments.begin(); }
-  ArgumentIterator End()              { return m_Arguments.end(); }
-  ArgumentConstIterator Begin() const { return m_Arguments.begin(); }
-  ArgumentConstIterator End() const   { return m_Arguments.end(); }
+  typedef std::map<String, String> ArgumentContainer;
+  typedef ArgumentContainer::iterator  Iterator;
+  typedef ArgumentContainer::const_iterator ConstIterator;
+  
+  Iterator Begin()            { return m_Arguments.begin(); }
+  Iterator End()              { return m_Arguments.end(); }
+  ConstIterator Begin() const { return m_Arguments.begin(); }
+  ConstIterator End() const   { return m_Arguments.end(); }
+  unsigned long Size() const  { return m_Arguments.size(); }
   
 protected:
   ArgumentSet() {}
@@ -186,6 +186,11 @@ protected:
   virtual ~ArgumentSet() {}
   
 private:
+  /**
+   * Store the arguments as a mapping from the tag to the code.
+   * This is not a multi-map because we don't want two different arguments
+   * to have the same tag.
+   */
   ArgumentContainer  m_Arguments;
 };
 
