@@ -118,18 +118,17 @@ AffineTransformation<TScalarType,NDimensions>
 
   /*Init the Linear as the Identity*/
   if( m_SetLinear == false )
-  {
-    for(unsigned int i=0; i<NDimensions ; i++)
-  {
-    for(unsigned int j=0; j<NDimensions ; j++)
     {
+    for(unsigned int i=0; i<NDimensions ; i++)
+      {
+      for(unsigned int j=0; j<NDimensions ; j++)
+        {
         if(i == j) m_Linear(i,j) = 1;
-      else  m_Linear(i,j) = 0;
+        else  m_Linear(i,j) = 0;
+        }
+      }
+    m_SetLinear = true;
     }
-  }
-  m_SetLinear = true;
-  }
-
 }
 
 
@@ -146,32 +145,32 @@ AffineTransformation<TScalarType,NDimensions>
   //Matrix case
   PointType result;
   if( m_SetMatrix == true)
-  {
-    for (int i = 0; i < NDimensions; i++) 
-    { 
-    result[i] = m_Matrix[NDimensions][i];
-      for (int j = 0; j < NDimensions; j++) 
     {
+    for (int i = 0; i < NDimensions; i++) 
+      { 
+      result[i] = m_Matrix[NDimensions][i];
+      for (int j = 0; j < NDimensions; j++) 
+        {
         result[i] += m_Matrix[i][j] * initial_point[j];
+        }
       }
     }
-  }
   
   //Linear + Offset case
   else 
-  {
-    if((m_SetLinear == true) && (m_SetOffset == true))
     {
+    if((m_SetLinear == true) && (m_SetOffset == true))
+      {
       for (int i = 0; i < NDimensions; i++) 
-      { 
-      result[i] = m_Offset[i];
+        { 
+        result[i] = m_Offset[i];
         for (int j = 0; j < NDimensions; j++) 
-      { 
+          { 
           result[i] += m_Linear[i][j] * initial_point[j];
+          }
         }
-    }
-  }
-  } 
+      }
+    } 
 
   return result;
 

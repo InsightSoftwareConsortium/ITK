@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 
 #include "itkMatrix.h"
-#include "itkTransformation.h"
+#include "itkTransform.h"
 #include "itkExceptionObject.h"
 
 
@@ -120,7 +120,7 @@ namespace itk
 template <
     class TScalarType,          // Data type for scalars (float or double)
     unsigned int NDimensions >  // Number of dimensions
-class AffineTransform : public Transformation< TScalarType, NDimensions >
+class AffineTransform : public Transform< TScalarType, NDimensions >
 {
 public:
 

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkTransformation.h
+  Module:    itkTransform.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,8 +38,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkTransformation_h
-#define __itkTransformation_h
+#ifndef __itkTransform_h
+#define __itkTransform_h
 
 #include "itkObject.h"
 #include "itkPoint.h"
@@ -51,7 +51,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
   
-/** \class Transformation
+/** \class Transform
  * \brief Generic concept of transformation methods
  *
  * This Abstract Class define the generic interface for a transformation. 
@@ -60,13 +60,13 @@ namespace itk
  */
 
 template <class TScalarType,unsigned int NDimensions>
-class ITK_EXPORT  Transformation 
+class ITK_EXPORT  Transform 
 {
 public:
   /**
    * Standard "Self" typedef.
    */
-  typedef Transformation  Self;
+  typedef Transform  Self;
 
 
   /**
@@ -125,9 +125,9 @@ public:
                                                 { return vector; }
 
   
-  Transformation();
-  virtual ~Transformation() {};
-  Transformation(const Self&);
+  Transform();
+  virtual ~Transform() {};
+  Transform(const Self&);
   const Self & operator=(const Self&);
 
 };
@@ -135,7 +135,7 @@ public:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTransformation.txx"
+#include "itkTransform.txx"
 #endif
 
 #endif

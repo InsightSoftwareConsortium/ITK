@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkAffineTransformation_h
 
 #include "itkObject.h"
-#include "itkTransformation.h"
+#include "itkTransform.h"
 #include "itkPoint.h"
 #include "itkVector.h"
 #include "itkVectorContainer.h"
@@ -60,7 +60,7 @@ namespace itk
 
 template <class TScalarType,int NDimensions>
 class ITK_EXPORT  AffineTransformation : 
-public Transformation<TScalarType, NDimensions >
+public Transform<TScalarType, NDimensions >
 {
 public:
 
@@ -73,7 +73,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef Transformation< TScalarType,NDimensions > Superclass;
+  typedef Transform< TScalarType,NDimensions > Superclass;
 
 
   /** 

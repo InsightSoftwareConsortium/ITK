@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkTranslationTransform_h
 
 #include <iostream>
-#include "itkTransformation.h"
+#include "itkTransform.h"
 #include "itkExceptionObject.h"
 
 
@@ -63,7 +63,7 @@ namespace itk
 template <
     class TScalarType,          // Data type for scalars (float or double)
     unsigned int NDimensions >  // Number of dimensions
-class TranslationTransform : public Transformation< TScalarType, NDimensions >
+class TranslationTransform : public Transform< TScalarType, NDimensions >
 {
 public:
 

@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkRigid3DTransform_h
 
 #include <iostream>
-#include "itkTransformation.h"
+#include "itkTransform.h"
 #include "itkExceptionObject.h"
 #include "vnl/vnl_quaternion.h"
 
@@ -54,7 +54,7 @@ namespace itk
 
 /**
  *
- * Rigid3DTramsform of a vector space (e.g. space coordinates)
+ * Rigid3DTransform of a vector space (e.g. space coordinates)
  *
  * This transform applies a rotation and translation to the space
  *
@@ -64,7 +64,7 @@ template <
     class TScalarType=double,    // Data type for scalars (float or double)
     unsigned int NDimensions=3 > // Number of dimensions
 class ITK_EXPORT Rigid3DTransform : 
-            public Transformation< TScalarType, NDimensions >
+            public Transform< TScalarType, NDimensions >
 {
 public:
 
@@ -259,9 +259,9 @@ private:
  std::ostream &
  operator<< (std::ostream &s, Rigid3DTransform<ScalarType, NDimensions> &affine)
  {
-     s << m_Offset << std::endl;
-     s << m_Rotation << std::endl;
-     return s;
+   s << m_Offset << std::endl;
+   s << m_Rotation << std::endl;
+   return s;
  }
 
 

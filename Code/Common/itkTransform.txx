@@ -39,10 +39,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
 
-#ifndef _itkTransformation_txx
-#define _itkTransformation_txx
+#ifndef _itkTransform_txx
+#define _itkTransform_txx
 
-#include "itkTransformation.h"
+#include "itkTransform.h"
 
 namespace itk
 {
@@ -51,8 +51,8 @@ namespace itk
  * Constructor
  */
 template <class TScalarType,unsigned int NDimensions>
-Transformation<TScalarType,NDimensions>
-::Transformation()
+Transform<TScalarType,NDimensions>
+::Transform()
 {
  
 }
@@ -62,8 +62,8 @@ Transformation<TScalarType,NDimensions>
  * Constructor
  */
 template <class TScalarType,unsigned int NDimensions>
-Transformation<TScalarType,NDimensions>
-::Transformation( const Self & other )
+Transform<TScalarType,NDimensions>
+::Transform( const Self & other )
 {
 }
 
@@ -72,8 +72,8 @@ Transformation<TScalarType,NDimensions>
  * Assignment Operator
  */
 template <class TScalarType,unsigned int NDimensions>
-const Transformation<TScalarType,NDimensions> &
-Transformation<TScalarType,NDimensions>
+const Transform<TScalarType,NDimensions> &
+Transform<TScalarType,NDimensions>
 ::operator=( const Self & other )
 {
   return *this;
