@@ -125,14 +125,14 @@ public:
                             DerivativeType  & derivative ) const
   {
     
-    std::cout << std::endl << "GetDerivative( ";
+    std::cout << "GetDerivative( ";
     double a = parameters[0];
     double b = parameters[1];
     double c = parameters[2];
 
     std::cout << a << " , ";
     std::cout << b << " , ";
-    std::cout << c << ") = " << std::endl;
+    std::cout << c << ") " << std::endl;
 
     // Compute points of the function over a square region
     unsigned valueindex = 0;
@@ -223,9 +223,9 @@ int itkRunLevenbergMarquardOptimization( bool useGradient,
   typedef LMCostFunction::ParametersType ParametersType;
   ParametersType  initialValue(LMCostFunction::SpaceDimension);
 
-  initialValue[0] = 20;
-  initialValue[1] = 30;
-  initialValue[2] = 40;
+  initialValue[0] = 200;
+  initialValue[1] = 300;
+  initialValue[2] = 400;
 
   OptimizerType::ParametersType currentValue(LMCostFunction::SpaceDimension);
 
