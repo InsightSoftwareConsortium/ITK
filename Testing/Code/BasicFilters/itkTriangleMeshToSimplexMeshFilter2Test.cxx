@@ -31,7 +31,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkDefaultDynamicMeshTraits.h"
 #include "itkTimeProbe.h"
 
-int itkTriangleMeshToSimplexMeshFilter2Test(int argc, char *argv[] )
+int itkTriangleMeshToSimplexMeshFilter2Test(int , char *[] )
 { 
   
   // Declare the type of the input and output mesh
