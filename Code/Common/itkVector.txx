@@ -12,6 +12,7 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
+
 #include "itkVector.h" 
 
 
@@ -221,6 +222,20 @@ Vector<T, TVectorDimension>
   return result;
 }
 
+
+
+/**
+ * Return a vnl_vector_ref
+ */
+template<class T, unsigned int TVectorDimension>
+vnl_vector_ref< T >
+Vector<T, TVectorDimension>
+::Get_vnl_vector( void ) 
+{
+  vnl_vector_ref< T > vector_ref( TVectorDimension, ( T * )(*this) );
+  return vector_ref;
+}
+ 
 
 } // end namespace itk
 

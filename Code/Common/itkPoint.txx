@@ -155,6 +155,18 @@ Point<T, TPointDimension>
 }
 
 
+/**
+ * Return a vnl_vector_ref
+ */
+template<class T, unsigned int TPointDimension >
+vnl_vector_ref< T >
+Point<T, TPointDimension>
+::Get_vnl_vector( void ) 
+{
+  vnl_vector_ref< T > vector_ref( TPointDimension, (T *)(*this) );
+  return vector_ref;
+}
+ 
 
  
 } // end namespace itk

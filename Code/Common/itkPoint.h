@@ -16,6 +16,7 @@
 #define __itkPoint_h
 
 #include "itkVector.h"
+#include "vnl/vnl_vector_ref.h"
 
 
 namespace itk
@@ -137,7 +138,13 @@ class Point : public Array< T, TPointDimension > {
    */
   VectorType GetVectorFromOrigin( void ) const;
   
-  
+  /**
+   * Get a vnl_vector_ref referencing the same memory block
+   */
+  vnl_vector_ref<T> Get_vnl_vector( void );
+
+
+ 
 };
 
   

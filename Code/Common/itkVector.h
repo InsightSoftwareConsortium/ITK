@@ -17,6 +17,8 @@
 
 
 #include "itkArray.h"
+#include "vnl/vnl_vector_ref.h"
+
 
 namespace itk
 {
@@ -78,6 +80,12 @@ class Vector : public Array<T,TVectorDimension> {
    */
   static unsigned int GetVectorDimension() 
     { return TVectorDimension; }  
+
+  /**
+   * Get a vnl_vector_ref referencing the same memory block
+   */
+  vnl_vector_ref<T> Get_vnl_vector( void );
+
 
   /**
    * Default constructor has nothing to do.
