@@ -51,3 +51,77 @@ TARGET_LINK_LIBRARIES(AutomaticMesh ITKCommon ITKAlgorithms)
 ADD_EXECUTABLE(ImageToPointSet ImageToPointSet.cxx )
 TARGET_LINK_LIBRARIES(ImageToPointSet ITKCommon ITKAlgorithms ITKIO)
 
+SET(MESH_EXAMPLES ${CXX_TEST_PATH}/MeshExamples)
+
+ADD_EXECUTABLE(MeshExamples MeshExamples.cxx )
+TARGET_LINK_LIBRARIES(MeshExamples ITKIO ITKCommon)
+
+ADD_TEST(AutomaticMeshTest ${CXX_TEST_PATH}/MeshExamples AutomaticMeshTest)
+
+ADD_TEST(ImageToPointSetTest ${CXX_TEST_PATH}/MeshExamples
+        ImageToPointSetTest ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png)
+
+ADD_TEST(Mesh1Test ${CXX_TEST_PATH}/MeshExamples Mesh1Test)
+
+ADD_TEST(Mesh2Test ${CXX_TEST_PATH}/MeshExamples Mesh2Test)
+
+ADD_TEST(Mesh3Test ${CXX_TEST_PATH}/MeshExamples Mesh3Test)
+
+ADD_TEST(MeshCellsIterationTest ${CXX_TEST_PATH}/MeshExamples MeshCellsIterationTest)
+
+ADD_TEST(MeshCellVisitorTest ${CXX_TEST_PATH}/MeshExamples MeshCellVisitorTest)
+
+ADD_TEST(MeshCellVisitor2Test ${CXX_TEST_PATH}/MeshExamples MeshCellVisitor2Test)
+
+ADD_TEST(MeshKComplexTest ${CXX_TEST_PATH}/MeshExamples MeshKComplexTest)
+
+ADD_TEST(MeshPolyLineTest ${CXX_TEST_PATH}/MeshExamples MeshPolyLineTest)
+
+ADD_TEST(MeshTraitsTest ${CXX_TEST_PATH}/MeshExamples MeshTraitsTest)
+
+ADD_TEST(PointSet1Test ${CXX_TEST_PATH}/MeshExamples PointSet1Test)
+
+ADD_TEST(PointSet2Test ${CXX_TEST_PATH}/MeshExamples PointSet2Test)
+
+ADD_TEST(PointSet3Test ${CXX_TEST_PATH}/MeshExamples PointSet3Test)
+
+ADD_TEST(PointSetWithCovariantVectorsTest ${CXX_TEST_PATH}/MeshExamples PointSetWithCovariantVectorsTest)
+
+ADD_TEST(PointSetWithVectorsTest ${CXX_TEST_PATH}/MeshExamples PointSetWithVectorsTest)
+
+ADD_TEST(RGBPointSetTest ${CXX_TEST_PATH}/MeshExamples RGBPointSetTest)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

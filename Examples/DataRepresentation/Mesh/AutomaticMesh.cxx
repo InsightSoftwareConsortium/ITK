@@ -61,7 +61,7 @@
 // Software Guide : EndCodeSnippet
 
 int
-main()
+main(int, char *[])
 {
   //  Software Guide : BeginLatex
   //  

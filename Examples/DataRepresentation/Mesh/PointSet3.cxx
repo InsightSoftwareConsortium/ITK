@@ -33,7 +33,7 @@
 
 #include "itkPointSet.h"
 
-int main()
+int main(int, char *[])
 {
   //  Software Guide : BeginLatex
   //

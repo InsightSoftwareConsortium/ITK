@@ -28,7 +28,7 @@
 
 #include "itkPointSet.h"
 
-int main()
+int main(int, char *[])
 {
   typedef itk::PointSet< unsigned short, 3 > PointSetType;
 

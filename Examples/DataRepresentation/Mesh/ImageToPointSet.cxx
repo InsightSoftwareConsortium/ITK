@@ -31,7 +31,7 @@
 #include "itkImageRegionConstIterator.h"
 
 
-int main( int argc, char ** argv )
+int main( int argc, char * argv[] )
 {
   // Verify the number of parameters in the command line
   if( argc < 2 )

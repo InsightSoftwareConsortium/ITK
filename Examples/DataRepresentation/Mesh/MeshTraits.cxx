@@ -69,7 +69,7 @@
 #include "itkVector.h"
 #include "itkMatrix.h"
 
-int main()
+int main(int, char *[])
 {
   //  Software Guide : BeginLatex
   //  

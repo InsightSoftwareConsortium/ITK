@@ -39,7 +39,7 @@
 // Software Guide : EndCodeSnippet
 
 
-int main()
+int main(int, char *[])
 {
   typedef float                             PixelType;
   typedef itk::Mesh< PixelType, 3 >         MeshType;

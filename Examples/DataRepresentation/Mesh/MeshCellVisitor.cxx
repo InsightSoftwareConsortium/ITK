@@ -85,6 +85,8 @@
   //  Software Guide : EndLatex 
 
 
+#ifndef __CustomTriangleVisitor
+#define __CustomTriangleVisitor
   // Software Guide : BeginCodeSnippet
   class CustomTriangleVisitor
     {
@@ -99,9 +101,9 @@
         }
     };
   // Software Guide : EndCodeSnippet
+#endif
 
-
-int main()
+int main(int, char *[])
 {
   MeshType::Pointer  mesh = MeshType::New();
 
