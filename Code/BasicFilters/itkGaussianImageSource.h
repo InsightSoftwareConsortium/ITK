@@ -18,7 +18,7 @@
 #define __itkGaussianImageSource_h
 
 #include "itkImageSource.h"
-#include "itkArray.h"
+#include "itkFixedArray.h"
 
 namespace itk
 {

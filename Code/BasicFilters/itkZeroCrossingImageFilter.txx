@@ -23,7 +23,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
-#include "itkArray.h"
+#include "itkFixedArray.h"
 
 namespace itk
 {
