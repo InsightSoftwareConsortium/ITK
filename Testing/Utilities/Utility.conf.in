@@ -1,6 +1,6 @@
 # Automatically configured options for Build/Test process
 
-if {$tcl_platform(platform) == "windows"} {
+if {$tcl_platform(platform) == "windows" && [regexp cygtclsh [info nameofexecutable]] == 0} {
   source [file join Testing Utilities WindowsUtility.conf]
 }
 
@@ -13,7 +13,7 @@ proc SetConfiguration { variable { value INSIGHTINVALIDVALUE } } \
 
   # Hack for Windows where variables @foo@ are defined in WindowsUtility.conf
   # instead of being substituted by configure
-  if {$tcl_platform(platform) == "windows"} {
+  if {$tcl_platform(platform) == "windows" && [regexp cygtclsh [info nameofexecutable]] == 0} {
     global $value
     if {[info exists $value]} {
       set value [set $value]
