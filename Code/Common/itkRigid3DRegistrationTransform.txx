@@ -69,7 +69,7 @@ Rigid3DRegistrationTransform<TScalarType,TParameters>::OutputPointType
 Rigid3DRegistrationTransform<TScalarType,TParameters>
 ::Transform( const InputPointType & point ) const
 {
-  return m_Transform.Transform( point );
+  return m_Transform.TransformPoint( point );
 }
 
 
