@@ -200,6 +200,7 @@ protected:
   Rigid3DTransform();
   ~Rigid3DTransform();
 
+  Rigid3DTransform(unsigned int SpaceDimension, unsigned int ParametersDimension);
   // matrix representation of the rotation
   // Should be protected in order to be modified 
   // by derived classes that instantiate an interface
