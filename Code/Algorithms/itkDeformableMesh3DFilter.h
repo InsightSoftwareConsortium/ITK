@@ -40,14 +40,10 @@ namespace itk
  * features.
  * Inputs are:
  *  (1) A deformable triangular model (Mesh). Import using the SetInput method.
- *  (2) A potential map volume that provides the estimated bounday positions. 
- *      This map is a binary volume with object and background labelled differently
- *      (equivalent to a mask). Such potential map can be derived from 
- *      GibbsPriorFilter or any other segmentation filters.
- * Once the nodes of the model are stopped at the estimated boundary locations,
- * the gradient force is turned on, using the GradientFit method, 
- * to refine the nodes positions using the gradient information from the 
- * original data.
+ *  (2) A gradient map that make the model deform to fit to the estimated boundary.
+ *  the gradient should be based on the 2nd derive of the original image. So the
+ *  nodes on the model surface will stop at the edge features in the original
+ *  image.
  *
  * \ingroup MeshFilters
  * \ingroup MeshSegmentation */
