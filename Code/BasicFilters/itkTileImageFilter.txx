@@ -25,6 +25,7 @@
 #include "itkImageLinearConstIteratorWithIndex.h"
 #include "itkPasteImageFilter.h"
 #include "itkImportImageContainer.h"
+#include "itkNumericTraitsRGBPixel.h"
 
 namespace itk {
 
@@ -33,7 +34,7 @@ TileImageFilter<TInputImage, TOutputImage>
 ::TileImageFilter()
 {
   m_Layout.Fill(0);
-  m_DefaultPixelValue = 0;
+  //m_DefaultPixelValue = NumericTraits<OutputPixelType>::ZeroValue();
 }
 
 template<class TInputImage, class TOutputImage>
