@@ -88,7 +88,8 @@ public:
     m_Q1[2] =  0.0;
 
     VersorType versor;
-    versor.SetRotationAroundX( 10.0 * atan( 1.0 ) / 45.0 );
+    const double angle = 10.0 * atan( 1.0 ) / 45.0;
+    versor.SetRotationAroundX( angle );
 
     m_Transform->SetRotation( versor );
  
@@ -102,6 +103,9 @@ public:
     m_P = m_Transform->TransformPoint( m_P1 );
     m_Q = m_Transform->TransformPoint( m_Q1 );
 
+    std::cout << "Versor used = " << versor << std::endl;
+    std::cout << "Vector used = " << translation << std::endl;
+
     std::cout << "m_P1 = " << m_P1  << std::endl;
     std::cout << "m_Q1 = " << m_Q1  << std::endl;
     std::cout << "m_P  = " << m_P   << std::endl;
@@ -111,9 +115,6 @@ public:
 
   MeasureType GetValue( const ParametersType & parameters ) const
   { 
-    
-    std::cout << "GetValue( " << parameters << " ) = ";
-
     TransformType::ParametersType p( itkGetStaticConstMacro( SpaceDimension ));
     for(unsigned int i=0; i<6; i++)
       {
@@ -128,10 +129,7 @@ public:
     MeasureType measure = P2.SquaredEuclideanDistanceTo( m_P ) +
                           Q2.SquaredEuclideanDistanceTo( m_Q ) ;
 
-    std::cout << measure << std::endl;
-
     return measure;
-
   }
 
   void GetDerivative( const ParametersType & parameters,
@@ -195,9 +193,9 @@ public:
 
     const double deltaTranslation = deltaAngle; // just to keep the scaling
     
-    parametersPlustDeltaTX[0] += deltaTranslation;
-    parametersPlustDeltaTY[1] += deltaTranslation;
-    parametersPlustDeltaTZ[2] += deltaTranslation;
+    parametersPlustDeltaTX[3] += deltaTranslation;
+    parametersPlustDeltaTY[4] += deltaTranslation;
+    parametersPlustDeltaTZ[5] += deltaTranslation;
 
     const MeasureType transXValue = this->GetValue( parametersPlustDeltaTX );
     const MeasureType transYValue = this->GetValue( parametersPlustDeltaTY );
@@ -278,7 +276,7 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
   initialPosition[5] = 0.0;
 
   ScalesType    parametersScale( spaceDimensions );
-  const double translationScaleFactor = 10000.0;
+  const double translationScaleFactor = 50.0;
   parametersScale[0] = 1.0;
   parametersScale[1] = 1.0;
   parametersScale[2] = 1.0;
@@ -286,12 +284,15 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
   parametersScale[4] = 1.0 / translationScaleFactor;
   parametersScale[5] = 1.0 / translationScaleFactor;
 
-  itkOptimizer->MaximizeOn();
+  itkOptimizer->MaximizeOff();
   itkOptimizer->SetScales( parametersScale );
-  itkOptimizer->SetGradientMagnitudeTolerance( 1e-15 );
-  itkOptimizer->SetMaximumStepLength( 5.0 ); 
-  itkOptimizer->SetMinimumStepLength( 1e-6 );
+  itkOptimizer->SetGradientMagnitudeTolerance( 1e-35 );
+  itkOptimizer->SetMaximumStepLength( 10.0 ); 
+  itkOptimizer->SetMinimumStepLength( 1e-5 );
   itkOptimizer->SetNumberOfIterations( 50 );
+
+  std::cout << "Initial Position = " << std::endl;
+  std::cout << initialPosition << std::endl << std::endl;
 
   itkOptimizer->SetInitialPosition( initialPosition );
 
@@ -321,6 +322,7 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
     finalRightPart[i] = finalPosition[i];
     }
   finalRotation.Set( finalRightPart );
+  std::cout << std::endl;
   std::cout << "Solution versor  = (" << finalRotation << ")" << std::endl;  
 
   VersorType::VectorType finalTranslation;
@@ -354,6 +356,7 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
   trueParameters[4] = 30.0;
   trueParameters[5] = 30.0;
   
+  std::cout << std::endl;
   std::cout << "Final parameters = " << finalPosition << std::endl;
   std::cout << "True Parameters  = " << trueParameters << std::endl;
 
@@ -368,11 +371,11 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
 
   if( !pass )
     {
-    std::cout << "Test failed." << std::endl;
+    std::cout << std::endl << "Test FAILEd !" << std::endl;
     return EXIT_FAILURE;
     }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << std::endl << "Test PASSED !" << std::endl;
   return EXIT_SUCCESS;
 
 
