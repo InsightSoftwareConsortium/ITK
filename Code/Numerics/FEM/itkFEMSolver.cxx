@@ -380,58 +380,77 @@ void Solver::AssembleK()
 
   /*
    * Now we can assemble the master stiffness matrix from
-   * element stiffness matrices. We use LinearSystemWrapper
-   * object, to store the K matrix.
-   */
-
-  /*
+   * element stiffness matrices.
+   *
    * Since we're using the Lagrange multiplier method to apply the MFC,
    * each constraint adds a new global DOF.
    */
-  m_ls->SetSystemOrder(NGFN+NMFC);
-  m_ls->InitializeMatrix();
+  this->InitializeMatrixForAssembly(NGFN+NMFC);
 
   /*
    * Step over all elements
    */
   for(ElementArray::iterator e=el.begin(); e!=el.end(); e++)
   {
-    vnl_matrix<Float> Ke=(*e)->Ke();             /* Copy the element stiffness matrix for faster access. */
-    int Ne=(*e)->GetNumberOfDegreesOfFreedom();  /* ... same for element DOF */
-
-    /* step over all rows in element matrix */
-    for(int j=0; j<Ne; j++)
-    {
-      /* step over all columns in element matrix */
-      for(int k=0; k<Ne; k++) 
-      {
-        /* error checking. all GFN should be =>0 and <NGFN */
-        if ( (*e)->GetDegreeOfFreedom(j) >= NGFN ||
-             (*e)->GetDegreeOfFreedom(k) >= NGFN  )
-        {
-          throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleK()","Illegal GFN!");
-        }
-
-        /*
-         * Here we finaly update the corresponding element
-         * in the master stiffness matrix. We first check if 
-         * element in Ke is zero, to prevent zeros from being 
-         * allocated in sparse matrix.
-         */
-        if ( Ke(j,k)!=Float(0.0) )
-        {
-          m_ls->AddMatrixValue( (*e)->GetDegreeOfFreedom(j), (*e)->GetDegreeOfFreedom(k), Ke(j,k) );
-        }
-
-      }
-
-    }
-
+    // Call the function that actually moves the element matrix
+    // to the master matrix.
+    this->AssembleElementMatrix(*e);
   }
 
   // Apply the boundary conditions to the K matrix
   // FIXME: maybe this should be called from outside
   this->ApplyBC();
+
+}
+
+
+
+
+void Solver::InitializeMatrixForAssembly(unsigned int N)
+{
+  // We use LinearSystemWrapper object, to store the K matrix.
+  this->m_ls->SetSystemOrder(N);
+  this->m_ls->InitializeMatrix();
+}
+
+
+
+
+void Solver::AssembleElementMatrix(Element::Pointer e)
+{
+  // Copy the element stiffness matrix for faster access.
+  Element::MatrixType Ke=e->Ke();
+
+  // ... same for number of DOF
+  int Ne=e->GetNumberOfDegreesOfFreedom();
+
+  // step over all rows in element matrix
+  for(int j=0; j<Ne; j++)
+  {
+    // step over all columns in element matrix
+    for(int k=0; k<Ne; k++) 
+    {
+      // error checking. all GFN should be =>0 and <NGFN
+      if ( e->GetDegreeOfFreedom(j) >= NGFN ||
+           e->GetDegreeOfFreedom(k) >= NGFN  )
+      {
+        throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleElementMatrix()","Illegal GFN!");
+      }
+
+      /*
+       * Here we finaly update the corresponding element
+       * in the master stiffness matrix. We first check if 
+       * element in Ke is zero, to prevent zeros from being 
+       * allocated in sparse matrix.
+       */
+      if ( Ke[j][k]!=Float(0.0) )
+      {
+        this->m_ls->AddMatrixValue( e->GetDegreeOfFreedom(j), e->GetDegreeOfFreedom(k), Ke[j][k] );
+      }
+
+    }
+
+  }
 
 }
 

@@ -97,12 +97,28 @@ public:
   /**
    * Assemble the master stiffness matrix (also apply the MFCs to K)
    */  
-  void AssembleK();            
+  void AssembleK();
+
+  /**
+   * This function is called before assembling the matrices. You can
+   * override it in a derived class to account for special needs.
+   *
+   * \param N Size of the matrix.
+   */
+  virtual void InitializeMatrixForAssembly(unsigned int N);
+
+  /**
+   * Copy the element stiffness matrix into the correct position in the
+   * master stiffess matrix. Since more complex Solver classes may need to
+   * assemble many matrices and may also do some funky stuff to them, this
+   * function is virtual and can be overriden in a derived solver class.
+   */
+  virtual void AssembleElementMatrix(Element::Pointer e);
 
   /**
    * Apply the boundary conditions to the system.
    *
-   * \note This fucntion must be called after AssembleK().
+   * \note This function must be called after AssembleK().
    *
    * \param dim This is a parameter that can be passed to the function and is
    *            normally used with isotropic elements to specify the
@@ -164,9 +180,9 @@ public:
   Solver();
 
   /**
-   * Destructor
+   * Virtual destructor
    */
-  ~Solver() {}
+  virtual ~Solver() {}
 
   /**
    * Sets the LinearSystemWrapper object that will be used when solving
