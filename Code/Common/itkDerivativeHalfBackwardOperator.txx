@@ -16,12 +16,12 @@
 namespace itk
 {
 
-template <class TPixel, unsigned int VDimension>
-std::vector<TPixel>
-DerivativeHalfBackwardOperator<TPixel, VDimension>
+template <class TDataType, unsigned int VDimension>
+std::vector<TDataType>
+DerivativeHalfBackwardOperator<TDataType, VDimension>
 ::GenerateCoefficients()
 {
-  std::vector<TPixel> coeff(3);
+  std::vector<TDataType> coeff(3);
   coeff[0] = -1.0f;
   coeff[1] =  1.0f;
   coeff[2] =  0.0f;

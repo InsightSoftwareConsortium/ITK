@@ -55,14 +55,14 @@ namespace itk {
  * successive neighborhoods across a region of interest in an image.
  *
  */
-template< class TPixel, unsigned int VDimension >
-class NeighborhoodOperator : public Neighborhood<TPixel, VDimension>
+template< class TDataType, unsigned int VDimension >
+class NeighborhoodOperator : public Neighborhood<TDataType, VDimension>
 {
 public:
   /**
    *  Neighborhood typedef support.
    */
-  typedef Neighborhood<TPixel, VDimension> Neighborhood;
+  typedef Neighborhood<TDataType, VDimension> Neighborhood;
 
   /**
    *  Standard "Self" typedef.
@@ -134,13 +134,13 @@ protected:
    * A subclass-specific algorithm that computes the coefficients
    * of the operator.
    */
-  virtual std::vector<TPixel> GenerateCoefficients() = 0;
+  virtual std::vector<TDataType> GenerateCoefficients() = 0;
 
   /**
    * A subclass-specific algorithm that positions the coefficients
    * spatially in the operator.
    */
-  virtual void Fill(const std::vector<TPixel> &) = 0;
+  virtual void Fill(const std::vector<TDataType> &) = 0;
   
   /**
    * A pre-defined Fill function that can be called by a subclass
@@ -149,7 +149,7 @@ protected:
    * operators, or centering coefficients in an N-dimensional
    * neighborhood.
    */
-  virtual void FillCenteredDirectional(const std::vector<TPixel> &);
+  virtual void FillCenteredDirectional(const std::vector<TDataType> &);
   
 private:
   /**

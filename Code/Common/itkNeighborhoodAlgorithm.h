@@ -65,7 +65,12 @@ DoUnsynchedInnerProduct(TNeighborhoodIterator &it, TImageIterator op,
                         TNeighborhood &oper)
 {
   const TNeighborhoodIterator itEnd = it.End();
-  for (it = it.Begin(); it < itEnd; ++it, ++op) *op = it.InnerProduct(oper);
+  for (it = it.Begin(); it < itEnd; ++it, ++op)
+    {
+      //*op = it.InnerProduct(oper);
+      ScalarTraits<typename TNeighborhoodIterator::TPixelScalarValueType>
+        ::SetScalar(*op, it.InnerProduct(oper));
+    }
 }
   
 /**
@@ -79,13 +84,17 @@ DoUnsynchedInnerProduct(TNeighborhoodIterator &it, TImageIterator op,
  *
  * This function does not handle boundary conditions.
  */
-template < class TIterator, class TNeighborhood>
+template < class TNeighborhoodIterator, class TNeighborhood>
 void
-DoSynchedInnerProduct(TIterator &it, TNeighborhood &oper)
+DoSynchedInnerProduct(TNeighborhoodIterator &it, TNeighborhood &oper)
 {
-  const TIterator itEnd = it.End();
+  const TNeighborhoodIterator itEnd = it.End();
   for (it = it.Begin(); it < itEnd; ++it)
-    *( it.GetOutputBuffer() ) = it.InnerProduct(oper);
+    {
+      // *( it.GetOutputBuffer() ) = it.InnerProduct(oper);
+      ScalarTraits<typename TNeighborhoodIterator::TPixelScalarValueType>
+        ::SetScalar(*( it.GetOutputBuffer() ), it.InnerProduct(oper) );
+    }
 }
 
 /**

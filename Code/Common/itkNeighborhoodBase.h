@@ -19,6 +19,8 @@
 #include "itkMacro.h"
 #include "itkSliceIterator.h"
 #include "itkSize.h"
+#include "itkPixelTraits.h"
+#include "itkNumericTraits.h"
 #include <valarray>
 
 namespace itk {

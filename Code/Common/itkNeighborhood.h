@@ -20,7 +20,6 @@
 #include <valarray>
 #include "itkMacro.h"
 #include "itkNeighborhoodBase.h"
-#include "itkNumericTraits.h"
 
 namespace itk {
 
@@ -137,10 +136,15 @@ public:
   itkTypeMacro(Neighborhood, NeighborhoodBase);
 
   /**
+   * Support for underlying scalar value type of the pixel type.
+   */
+  typedef typename ScalarTraits<TPixel>::ScalarValueType TPixelScalarValueType;
+  
+  /**
    * Default constructor method.
    */ 
   Neighborhood() {}
-
+  
   /**
    * Assignment operator.
    */
@@ -151,13 +155,13 @@ public:
   }
 
   /**
-   * Sets all of the values in this neighborhood to a constant.
+   * Sets all of the scalar values in this neighborhood to a scalar constant.
    */
-  Self &operator=( const TPixel &v )
+  Self &operator=( const TPixelScalarValueType v )
   {
     for (Iterator it = this->Begin(); it < this->End(); ++it)
       {
-        *it = v;
+        ScalarTraits<TPixel>::SetScalar(*it, v);
       }
     return *this;
   }
@@ -179,14 +183,15 @@ public:
    * size is undefined.  For efficiency, InnerProduct does no bounds checking.
    * \sa SlicedInnerProduct
    */
-  TPixel InnerProduct(std::valarray<TPixel> &);
+  TPixelScalarValueType InnerProduct(std::valarray<TPixel> &);
 
   /**
    * Slices the neighborhood and returns the slice's inner product with
    * the valarray argument.
    * \sa InnerProduct
    */
-  TPixel SlicedInnerProduct(const std::slice &, std::valarray<TPixel> &);
+  TPixelScalarValueType SlicedInnerProduct(const std::slice &,
+                                           std::valarray<TPixel> &);
 
   /**
    * Returns the value of the center pixel in a Neighborhood.
@@ -262,28 +267,30 @@ public:
   Self Mirror(void);
   
   /**
-   * Returns the sum of all the pixel values in the Neighborhood.
+   * Returns the sum of all the scalar pixel values in the Neighborhood.
    */
-  TPixel Sum()
+  TPixelScalarValueType Sum()
   {
-    typename NumericTraits<TPixel>::AccumulateType accum
-      = NumericTraits<TPixel>::Zero;
-    for (ConstIterator it = this->Begin(); it < this->End(); ++it)
+    // typename NumericTraits<TPixel>::AccumulateType accum
+    //      = NumericTraits<TPixel>::Zero;
+    TPixelScalarValueType accum = NumericTraits<TPixelScalarValueType>::Zero;
+    
+    for (Iterator it = this->Begin(); it < this->End(); ++it)
       {
-        accum += *it;
+        accum += ScalarTraits<TPixel>::GetScalar(*it);
       }
     return accum;
   }
 
   /**
-   * Returns a Neighborhood whose pixel values are the sum of the
-   * respective pixel values of the two operands.
+   * Returns a Neighborhood  whose scalar pixel values are incremented
+   * by a single scalar constant.
    */
   template<class YPixel>
   Self operator+(const YPixel &) const;
 
   /**
-   * Returns a Neighborhood whose pixel values are all raised to
+   * Returns a Neighborhood whose scalar pixel values are all raised to
    * a power.
    */
   Self pow(const double &) const;

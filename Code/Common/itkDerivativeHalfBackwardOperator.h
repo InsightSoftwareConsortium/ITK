@@ -33,9 +33,9 @@ namespace itk {
  * inner product. 
  *
  */
-template<class TPixel, unsigned int VDimension=2>
+template<class TDataType, unsigned int VDimension=2>
 class DerivativeHalfBackwardOperator
-  : public NeighborhoodOperator<TPixel, VDimension>
+  : public NeighborhoodOperator<TDataType, VDimension>
 {
 public:
   /**
@@ -51,7 +51,7 @@ public:
   /**
    * NeighborhoodOperator typedef support.
    */
-  typedef NeighborhoodOperator<TPixel, VDimension> NeighborhoodOperator;
+  typedef NeighborhoodOperator<TDataType, VDimension> NeighborhoodOperator;
   
   /**
    *  Constructor.
@@ -62,12 +62,12 @@ protected:
   /**
    * Calculates operator coefficients.
    */
-  std::vector<TPixel> GenerateCoefficients();
+  std::vector<TDataType> GenerateCoefficients();
 
   /**
    * Arranges coefficients spatially in the memory buffer.
    */
-  void Fill(const std::vector<TPixel> &coeff)
+  void Fill(const std::vector<TDataType> &coeff)
   {
     this->FillCenteredDirectional(coeff);
   }

@@ -70,7 +70,9 @@ DoUnsynchedInnerProduct(Image<TPixel, VDimension> *ip,
   for (bi = bi.Begin(), obi = obi.Begin();
        bi < biEnd; ++bi, ++obi)
     {
-      *(obi.CenterPointer()) = bi.InnerProduct(oper);
+      // *(obi.CenterPointer()) = bi.InnerProduct(oper);
+      ScalarTraits<TPixel>::SetScalar(*(obi.CenterPointer()),
+                                      bi.InnerProduct(oper) );
     }
 
 }

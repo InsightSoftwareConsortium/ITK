@@ -174,12 +174,12 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
 }
 
 template<class TPixel, unsigned int VDimension>
-TPixel
+SmartRegionNeighborhoodIterator<TPixel, VDimension>::TPixelScalarValueType
 SmartRegionNeighborhoodIterator<TPixel, VDimension>
 ::InnerProduct(std::valarray<TPixel> &v)
 {
-
-  NumericTraits<TPixel>::AccumulateType sum = NumericTraits<TPixel>::Zero;
+  //NumericTraits<TPixel>::AccumulateType sum = NumericTraits<TPixel>::Zero;
+  TPixelScalarValueType sum = NumericTraits<TPixelScalarValueType>::Zero;
   TPixel *it;
   const TPixel *_end = &(v[v.size()]);
   Iterator this_it;
@@ -189,7 +189,9 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
       for (it = &(v[0]), this_it = this->begin();
            it < _end; ++it, ++this_it)
         {
-          sum += *it * **this_it; 
+          //sum += *it * **this_it;
+          sum += ScalarTraits<TPixel>::GetScalar(*it) *
+            ScalarTraits<TPixel>::GetScalar(**this_it);
         }
     }
   else
@@ -204,12 +206,12 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
 }
 
 template<class TPixel, unsigned int VDimension>
-TPixel
+SmartRegionNeighborhoodIterator<TPixel, VDimension>::TPixelScalarValueType
 SmartRegionNeighborhoodIterator<TPixel, VDimension>
 ::SlicedInnerProduct(const std::slice &s, std::valarray<TPixel> &v)
 {
-  NumericTraits<TPixel>::AccumulateType sum = NumericTraits<TPixel>::Zero;
-
+  //NumericTraits<TPixel>::AccumulateType sum = NumericTraits<TPixel>::Zero;
+  TPixelScalarValueType sum = NumericTraits<TPixelScalarValueType>::Zero;
   TPixel *it;
   typename Self::SliceIteratorType slice_it(this, s);
   slice_it[0];
@@ -219,7 +221,8 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
     {
       for (it = &(v[0]); it < itEnd; ++it, ++slice_it)
         {
-          sum += *it * **slice_it; 
+          sum += ScalarTraits<TPixel>::GetScalar(*it)
+            * ScalarTraits<TPixel>::GetScalar(**slice_it); 
         }
     }
   else

@@ -118,8 +118,9 @@ public:
    * \sa Neighborhood
    * \sa SlicedInnerProduct
    */
-  TPixel InnerProduct(std::valarray<TPixel> &);
-  TPixel SlicedInnerProduct(const std::slice &s, std::valarray<TPixel> &v);
+  TPixelScalarValueType InnerProduct(std::valarray<TPixel> &);
+  TPixelScalarValueType SlicedInnerProduct(const std::slice &s,
+                                           std::valarray<TPixel> &v);
 
   /**
    * Assignment operator

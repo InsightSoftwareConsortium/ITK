@@ -16,13 +16,13 @@
 namespace itk
 {
 
-template<class TPixel, unsigned int VDimension>
+template<class TDataType, unsigned int VDimension>
 void
-NeighborhoodOperator<TPixel, VDimension>
+NeighborhoodOperator<TDataType, VDimension>
 ::CreateDirectional()
 {
   unsigned long k[VDimension];
-  std::vector<TPixel> coefficients;
+  std::vector<TDataType> coefficients;
 
   coefficients = this->GenerateCoefficients();
   for (int i = 0; i<VDimension; ++i)
@@ -40,20 +40,20 @@ NeighborhoodOperator<TPixel, VDimension>
   this->Fill(coefficients);
 }
   
-template<class TPixel, unsigned int VDimension>
+template<class TDataType, unsigned int VDimension>
 void
-NeighborhoodOperator<TPixel, VDimension>
+NeighborhoodOperator<TDataType, VDimension>
 ::CreateToRadius(const unsigned long *sz)
 {
-  std::vector<TPixel> coefficients;
+  std::vector<TDataType> coefficients;
   coefficients = this->GenerateCoefficients();
   this->SetRadius(sz);
   this->Fill(coefficients);
 }
 
-template<class TPixel, unsigned int VDimension>
+template<class TDataType, unsigned int VDimension>
 void
-NeighborhoodOperator<TPixel, VDimension>
+NeighborhoodOperator<TDataType, VDimension>
 ::CreateToRadius(const unsigned long &sz)
 {
   unsigned long k[VDimension];
@@ -64,10 +64,10 @@ NeighborhoodOperator<TPixel, VDimension>
   this->CreateToRadius(k);
 }
 
-template<class TPixel, unsigned int VDimension>
+template<class TDataType, unsigned int VDimension>
 void
-NeighborhoodOperator<TPixel, VDimension>
-::FillCenteredDirectional(const std::vector<TPixel> &coeff)
+NeighborhoodOperator<TDataType, VDimension>
+::FillCenteredDirectional(const std::vector<TDataType> &coeff)
 {
   int i;
   unsigned long start;

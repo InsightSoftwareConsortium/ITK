@@ -16,18 +16,18 @@
 namespace itk
 {
 
-template <class TPixel, unsigned int VDimension>
-std::vector<TPixel>
-DerivativeOperator<TPixel, VDimension>
+template <class TDataType, unsigned int VDimension>
+std::vector<TDataType>
+DerivativeOperator<TDataType, VDimension>
 ::GenerateCoefficients()
 {
   int i;
   int j;
   int h;
-  TPixel previous;
-  TPixel next;
+  TDataType previous;
+  TDataType next;
   const int w = 2*((m_Order + 1)/2) + 1;
-  std::vector<TPixel> coeff(w);
+  std::vector<TDataType> coeff(w);
 
   h = 1;
   coeff[w/2] = 1.0;

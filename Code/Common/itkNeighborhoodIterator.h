@@ -101,7 +101,11 @@ public:
    * Standard Superclass typedef
    */
   typedef NeighborhoodBase<TPixel *, VDimension> Superclass;
-  
+
+  /**
+   * Scalar data type typedef support
+   */
+  typedef typename ScalarTraits<TPixel>::ScalarValueType TPixelScalarValueType;
   /**
    * itk::Image typedef support.
    */
@@ -292,7 +296,7 @@ public:
   }
 
   /**
-   * Returns the value referenced at the center of the NeighborhoodIterator.
+   * Returns the pixel referenced at the center of the NeighborhoodIterator.
    */
   TPixel Center() const
   {
@@ -300,7 +304,7 @@ public:
   }
 
   /**
-   * Returns the central pointer of the neighborhood.
+   * Returns the central memory pointer of the neighborhood.
    */
   TPixel *CenterPointer() const
   {
@@ -308,7 +312,7 @@ public:
   }
 
   /**
-   * "Scalar" dereference.  References the value on which the iterator is
+   * "Scalar" dereference.  References the pixel on which the iterator is
    * centered.  Allows a NeighborhoodIterator to be used in the context of a
    * regular image iterator.
    */
