@@ -143,10 +143,16 @@ public:
   /**
    * Evaluate the function at a Point position
    */
-  virtual TOutput Evaluate( const PointType & point ) const 
-                      { return 0.0; }
-
-
+  virtual TOutput Evaluate( const PointType & point ) const
+   {
+     IndexType index;
+     for( unsigned int j = 0; j < ImageDimension; j++ )
+        {
+          index[j] = vnl_math_rnd( point[j] );
+        }
+     return ( this->Evaluate( index ) );
+   }
+                   
 
 protected:
 
