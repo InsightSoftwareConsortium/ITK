@@ -36,11 +36,15 @@ CumulativeGaussianOptimizer::CumulativeGaussianOptimizer()
   m_DifferenceTolerance = 1e-10;
   m_Verbose = 0;
   m_FitError = 0;
+  m_FinalSampledArray = NULL;
+  m_CumulativeGaussianArray = NULL;
+
 }
 
 CumulativeGaussianOptimizer::~CumulativeGaussianOptimizer()
 {
-
+  delete m_FinalSampledArray;
+  delete m_CumulativeGaussianArray;
 }
 
 CumulativeGaussianOptimizer::MeasureType *
@@ -129,6 +133,9 @@ CumulativeGaussianOptimizer
     }
   // Update the mean calculation.
   m_ComputedMean = m_ComputedMean - m_OffsetForMean;
+  
+  delete extendedArray;
+  delete extendedArrayCopy;
 }
 
 void CumulativeGaussianOptimizer
@@ -286,6 +293,10 @@ CumulativeGaussianOptimizer
 
   // Calculate the least square error as a measure of goodness of fit.
   m_FitError = m_CostFunction->CalculateFitError(sampledGaussianArray);
+
+
+  delete sampledGaussianArray;
+  delete cumGaussianArrayCopy;
 }
 
 void CumulativeGaussianOptimizer::PrintArray(MeasureType * array)
@@ -341,7 +352,14 @@ CumulativeGaussianOptimizer
     << "Fit Error = " << m_FitError
     << std::endl;
 
-  os << indent << "FinalSampledArray = " << m_FinalSampledArray << std::endl;
+  if(m_FinalSampledArray)
+    {
+    os << indent << "FinalSampledArray = " << m_FinalSampledArray << std::endl;
+    }
+  else
+    {
+    os << indent << "FinalSampledArray = [not defined] " << std::endl;
+    }
 }
 
 
