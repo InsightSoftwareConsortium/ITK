@@ -44,7 +44,7 @@ namespace itk {
  *
  *  \par
  *  Set/GetTimeStep sets the time step to be used for each iteration (update).
- *  This parameter is described in detail in itkAnisotropicImageFunction.
+ *  This parameter is described in detail in itkAnisotropicDiffusionFunction.
  *
  *  \par
  *  Set/GetConductanceParameter set a common parameter used by subclasses of
@@ -169,6 +169,13 @@ protected:
         {  throw ExceptionObject(__FILE__, __LINE__);    }
       
       f->SetConductanceParameter(m_ConductanceParameter);
+      f->SetTimeStep(m_TimeStep);
+
+      if ( m_TimeStep >  1.0 / pow(2.0, static_cast<double>(ImageDimension))  )
+        {
+          f->SetTimeStep(1.0 / pow(2.0, static_cast<double>(ImageDimension))); 
+          itkWarningMacro(<< "Anisotropic diffusion has attempted to use a time step which will introduce instability into the solution.  The time step has been automatically reduced to " << f->GetTimeStep() << ", which is the maximum value for which the solution is theoretically stable.");
+        }
       
       if (m_GradientMagnitudeIsFixed == false)
         {
