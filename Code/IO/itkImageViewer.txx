@@ -346,8 +346,11 @@ ImageViewer<TInputImage>
       return;
       }
 
-  nonConstImage->SetRequestedRegionToLargestPossibleRegion();
-  nonConstImage->Update();
+  ProcessObject * source =  nonConstImage->GetSource();
+  if( source )
+    {
+    source->Update();
+    }
 
   // Notify start event observers
   this->InvokeEvent( StartEvent() );
