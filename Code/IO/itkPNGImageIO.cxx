@@ -25,20 +25,21 @@ namespace itk
 
 // simple class to call fopen on construct and
 // fclose on destruct
-struct PNGFileWrapper
+class PNGFileWrapper
 {
-  PNGFileWrapper(const char* fname, const char *openMode)
+public:
+  PNGFileWrapper(const char * const fname, const char * const openMode):m_FilePointer(NULL)
   {
     m_FilePointer = fopen(fname, openMode);
   }
-  FILE* m_FilePointer;
-  ~PNGFileWrapper()
+  virtual ~PNGFileWrapper()
   {
     if(m_FilePointer)
       {
       fclose(m_FilePointer);
       }
   }
+  FILE* m_FilePointer;
 };
 
 bool PNGImageIO::CanReadFile(const char* file) 
@@ -53,13 +54,12 @@ bool PNGImageIO::CanReadFile(const char* file)
 
   // Now check the file header
   PNGFileWrapper pngfp(file,"rb");
-  FILE* fp = pngfp.m_FilePointer;
-  if(!fp)
+  if(pngfp.m_FilePointer==NULL)
     {
     return false;
     }
   unsigned char header[8];
-  fread(header, 1, 8, fp);
+  fread(header, 1, 8, pngfp.m_FilePointer);
   bool is_png = !png_sig_cmp(header, 0, 8);
   if(!is_png)
     {

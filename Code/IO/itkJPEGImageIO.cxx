@@ -46,20 +46,21 @@ namespace itk
 
 // simple class to call fopen on construct and
 // fclose on destruct
-struct JPEGFileWrapper
+class JPEGFileWrapper
 {
-  JPEGFileWrapper(const char* fname, const char *openMode)
+  public:
+  JPEGFileWrapper(const char * const fname, const char * const openMode):m_FilePointer(NULL)
   {
     m_FilePointer = fopen(fname, openMode);
   }
-  FILE* m_FilePointer;
-  ~JPEGFileWrapper()
+  virtual ~JPEGFileWrapper()
   {
-    if(m_FilePointer)
+    if(m_FilePointer==NULL)
       {
       fclose(m_FilePointer);
       }
   }
+  FILE* m_FilePointer;
 };
 
 bool JPEGImageIO::CanReadFile(const char* file) 
@@ -109,18 +110,17 @@ bool JPEGImageIO::CanReadFile(const char* file)
 
   // Now check the file header
   JPEGFileWrapper JPEGfp(file,"rb");
-  FILE* fp = JPEGfp.m_FilePointer;
-  if(!fp)
+  if(JPEGfp.m_FilePointer==NULL)
     {
     return false;
     }
 
   // read the first two bytes
   char magic[2];
-  int n = static_cast<int>(fread(magic, sizeof(magic), 1, fp));
+  int n = static_cast<int>(fread(magic, sizeof(magic), 1, JPEGfp.m_FilePointer));
   if (n != 1) 
     {
-    return 0;
+    return false;
     }
   
   // check for the magic stuff:
@@ -128,10 +128,10 @@ bool JPEGImageIO::CanReadFile(const char* file)
   if( ( (static_cast<unsigned char>(magic[0]) != 0xFF) || 
         (static_cast<unsigned char>(magic[1]) != 0xD8) ) )
     {
-    return 0;
+    return false;
     }
   // go back to the start of the file
-  fseek(fp, 0, SEEK_SET);
+  fseek(JPEGfp.m_FilePointer, 0, SEEK_SET);
   // magic number is ok, try and read the header
   struct itk_jpeg_error_mgr jerr;
   struct jpeg_decompress_struct cinfo;
@@ -148,7 +148,7 @@ bool JPEGImageIO::CanReadFile(const char* file)
   /* Now we can initialize the JPEG decompression object. */
   jpeg_create_decompress(&cinfo);
   /* Step 2: specify data source (eg, a file) */
-  jpeg_stdio_src(&cinfo, fp);
+  jpeg_stdio_src(&cinfo, JPEGfp.m_FilePointer);
   /* Step 3: read file parameters with jpeg_read_header() */
   jpeg_read_header(&cinfo, TRUE);
   
