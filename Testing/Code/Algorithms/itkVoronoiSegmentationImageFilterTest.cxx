@@ -93,28 +93,29 @@ int main(void){
     }
   }
 
+  int k;
+  unsigned short TestImg[65536];
 
   testVorseg->SetInput(inputIMG);
   testVorseg->SetMean(520);
   testVorseg->SetVar(20);
   testVorseg->SetMeanTolerance(10);
   testVorseg->SetVarTolerance(20);
-  testVorseg->SetNumberOfSeeds(200);
+  testVorseg->SetNumberOfSeeds(400);
   testVorseg->SetSteps(5);
 
   testVorseg->GenerateData();
 
   itk::ImageRegionIteratorWithIndex <UShortImage> ot(testVorseg->GetOutput(), region);
 
-  unsigned short TestImg[65536];
-  int k=0;
+  k=0;
   while( !ot.IsAtEnd()){
     TestImg[k]=ot.Get();
     k++;
     ++ot;
   }
 
-  /* Test Ok on local machine.
+  /* Test Ok on local machine. 
   FILE *imgfile = fopen("output.raw","wb");
   fwrite(TestImg,2,65536,imgfile);
   fclose(imgfile);
@@ -130,6 +131,7 @@ int main(void){
   fwrite(TestImg,2,65536,imgfile);
   fclose(imgfile);
   */
+  std::cout<<"Test Succeed!"<<std::endl;
   return 0;
 }
 
