@@ -43,13 +43,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkConstantPadImageFilter.h"
-#include "itkShrinkImageFilter.h"
 #include "itkFileOutputWindow.h"
 
 int main()
 {
-//  itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
-//  fow->SetInstance(fow);
+  itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
+  fow->SetInstance(fow);
 
   int nextVal;
 
@@ -89,12 +88,6 @@ int main()
   constantPad = itk::ConstantPadImageFilter< ShortImage, ShortImage >::New();
   constantPad->SetInput( if2 );
   
-  unsigned int shrinkFactors[2] = {1, 1};
-  itk::ShrinkImageFilter< ShortImage, ShortImage >::Pointer shrink;
-  shrink = itk::ShrinkImageFilter< ShortImage, ShortImage >::New();
-  shrink->SetShrinkFactors(shrinkFactors);
-  shrink->SetInput(constantPad->GetOutput());
-
   unsigned int upperfactors[2] = { 0, 0};
   unsigned int lowerfactors[2] = { 0, 0};
   constantPad->SetConstant(13);
