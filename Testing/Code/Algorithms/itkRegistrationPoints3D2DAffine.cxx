@@ -10,7 +10,7 @@
 #include <vnl/vnl_matrix.h>
 #include <itkVectorContainer.h>
 #include <itkRegistrationTransform.h>
-#include <itkAffineTransform.h>
+#include <itkAffineRegistrationTransform.h>
 #include <itkSimilarityRegistrationMetric.h>
 #include <itkRegistrationMapper.h>
 #include <itkOptimizer.h>
@@ -34,7 +34,7 @@ int main()
   typedef vnl_vector< double >                   MeasureType;
   typedef vnl_matrix< double >                   DerivativeType;
                                  
-  typedef itk::AffineTransform< 3
+  typedef itk::AffineRegistrationTransform< 3
                                             >     TransfromType;
 
    typedef itk::RegistrationMapper< ReferenceType,
@@ -67,6 +67,4 @@ int main()
   return 0;
 
 }
-
-
 
