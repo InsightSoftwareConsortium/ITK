@@ -67,7 +67,8 @@ public:
   typedef InputImageSizeType SizeType;
 
   /** ImageDimension enumeration */
-  enum { ImageDimension = Superclass::ImageDimension };
+  enum { InputImageDimension = Superclass::InputImageDimension };
+  enum { OutputImageDimension = Superclass::OutputImageDimension };
 
   /** Set/Get the cropping sizes for the upper and lower boundaries. */
   itkSetMacro(UpperBoundaryCropSize, SizeType);
