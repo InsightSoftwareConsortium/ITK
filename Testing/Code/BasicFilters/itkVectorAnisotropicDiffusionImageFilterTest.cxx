@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <iostream>
 #include "itkImage.h"
-#include "itkVectorAnisotropicDiffusionImageFilter.h"
+#include "itkVectorGradientAnisotropicDiffusionImageFilter.h"
 #include "itkNullImageToImageFilterDriver.txx"
 #include "itkVector.h"
 
@@ -58,9 +58,11 @@ int main(int argc, char *argv[])
       typedef itk::Image<itk::Vector<float, 3>, 2> ImageType;
       
       // Set up filter
-      itk::VectorAnisotropicDiffusionImageFilter<ImageType, ImageType>::Pointer 
-        filter =
-        itk::VectorAnisotropicDiffusionImageFilter<ImageType, ImageType>::New();
+      itk::VectorGradientAnisotropicDiffusionImageFilter<ImageType, ImageType>
+        ::Pointer  filter =
+        itk::VectorGradientAnisotropicDiffusionImageFilter<ImageType,
+        ImageType>
+        ::New();
       filter->SetIterations(1);
       filter->SetConductanceParameter(3.0f);
       filter->SetTimeStep(0.125f);
