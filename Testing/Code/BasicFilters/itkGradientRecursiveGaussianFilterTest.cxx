@@ -79,7 +79,6 @@ int main()
   myIteratorType it( inputImage, inputImage->GetRequestedRegion() );
 
   // Initialize the content of Image A
-  std::cout << "Input Image initialization " << std::endl;
   while( !it.IsAtEnd() ) 
   {
     it.Set( 0.0 );
@@ -120,11 +119,12 @@ int main()
   // Connect the input images
   filter->SetInput( inputImage ); 
 
+  // Select the value of Sigma
+  filter->SetSigma( 2.5 ); 
+
   
   // Execute the filter
   filter->Update();
-
-  std::cout << "Filter: " << filter;
 
   // Get the Smart Pointer to the Filter Output 
   // It is important to do it AFTER the filter is Updated
@@ -138,9 +138,10 @@ int main()
   
   //  Print the content of the result image
   std::cout << " Result " << std::endl;
+  itg.GoToBegin();
   while( !itg.IsAtEnd() ) 
   {
-    std::cout << itg.Get() << std::endl;
+    std::cout << itg.Get();
     ++itg;
   }
 
