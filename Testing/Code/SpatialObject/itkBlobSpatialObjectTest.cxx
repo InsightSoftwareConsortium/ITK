@@ -40,6 +40,10 @@ int itkBlobSpatialObjectTest(int, char**)
   {
     BlobPointType::Pointer p = BlobPointType::New();
     p->SetPosition(i,i+1,i+2);
+    p->SetBlue(i);
+    p->SetGreen(i+1);
+    p->SetRed(i+2);
+    p->SetAlpha(i+3);
     list->push_back(p);
   }
 
@@ -103,6 +107,44 @@ int itkBlobSpatialObjectTest(int, char**)
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
+  }
+
+  std::cout<<"[PASSED]"<<std::endl;
+   
+  std::cout << "Color: ";
+  
+  it = blob->GetPoints()->begin();
+
+  i=0;
+  while(it != blob->GetPoints()->end())
+  {
+    for(unsigned int d=0;d<3;d++)
+    {
+      if((*it)->GetBlue()!=i)
+      {
+        std::cout<<"[FAILED]"<<std::endl;
+        return EXIT_FAILURE;
+      }
+      if((*it)->GetGreen()!=i+1)
+      {
+        std::cout<<"[FAILED]"<<std::endl;
+        return EXIT_FAILURE;
+      }
+      
+      if((*it)->GetRed()!=i+2)
+      {
+        std::cout<<"[FAILED]"<<std::endl;
+        return EXIT_FAILURE;
+      }
+      
+      if((*it)->GetAlpha()!=i+3)
+      {
+        std::cout<<"[FAILED]"<<std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+    it++;
+    i++;
   }
 
   std::cout<<"[PASSED]"<<std::endl;
