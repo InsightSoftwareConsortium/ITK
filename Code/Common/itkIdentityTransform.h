@@ -163,9 +163,9 @@ public:
    * **/
   virtual const JacobianType & GetJacobian(const InputPointType  & ) const
     { 
-    m_Jacobian = JacobianType(NDimensions,1); 
-    m_Jacobian.Fill(0.0); 
-    return m_Jacobian;
+    this->m_Jacobian = JacobianType(NDimensions,1); 
+    this->m_Jacobian.Fill(0.0); 
+    return this->m_Jacobian;
     }
 
 

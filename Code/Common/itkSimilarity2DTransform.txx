@@ -97,25 +97,25 @@ Similarity2DTransform<TScalarType>
 {
   itkDebugMacro( << "Getting parameters ");
 
-  m_Parameters[0] = m_Scale;
-  m_Parameters[1] = this->GetAngle();
+  this->m_Parameters[0] = m_Scale;
+  this->m_Parameters[1] = this->GetAngle();
  
   InputPointType center = this->GetCenter();
   for(unsigned int j=0; j < SpaceDimension; j++) 
     {
-    m_Parameters[j+2] = center[j];
+    this->m_Parameters[j+2] = center[j];
     }
 
   // Transfer the translation part
   OffsetType offset = this->GetOffset();
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
-    m_Parameters[i+4] = offset[i];
+    this->m_Parameters[i+4] = offset[i];
     }
 
-  itkDebugMacro(<<"After getting parameters " << m_Parameters );
+  itkDebugMacro(<<"After getting parameters " << this->m_Parameters );
 
-  return m_Parameters;
+  return this->m_Parameters;
 }
 
 
@@ -156,8 +156,8 @@ Similarity2DTransform<TScalarType>
   const double tx = translation[0];
   const double ty = translation[1];
 
-  m_RotationMatrix[0][0]= ca; m_RotationMatrix[0][1]=-sa;
-  m_RotationMatrix[1][0]= sa; m_RotationMatrix[1][1]= ca;
+  this->m_RotationMatrix[0][0]= ca; this->m_RotationMatrix[0][1]=-sa;
+  this->m_RotationMatrix[1][0]= sa; this->m_RotationMatrix[1][1]= ca;
 
   OffsetType offset;
 
@@ -169,8 +169,8 @@ Similarity2DTransform<TScalarType>
   const double ci = cc / m_Scale;
   const double si = ss / m_Scale;
 
-  m_InverseMatrix[0][0]= ci; m_InverseMatrix[0][1]= si;
-  m_InverseMatrix[1][0]=-si; m_InverseMatrix[1][1]= ci;
+  this->m_InverseMatrix[0][0]= ci; this->m_InverseMatrix[0][1]= si;
+  this->m_InverseMatrix[1][0]=-si; this->m_InverseMatrix[1][1]= ci;
 
   this->Modified();
 
@@ -190,7 +190,7 @@ GetJacobian( const InputPointType & p ) const
   const double ca = cos( angle );
   const double sa = sin( angle );
 
-  m_Jacobian.Fill(0.0);
+  this->m_Jacobian.Fill(0.0);
 
   const InputPointType center = this->GetCenter();  
   const double cx = center[0];
@@ -199,31 +199,31 @@ GetJacobian( const InputPointType & p ) const
   const OutputVectorType translation = this->GetTranslation();
 
   // derivatives with respect to the scale
-  m_Jacobian[0][0] =    ca * ( p[0] - cx ) - sa * ( p[1] - cy );
-  m_Jacobian[1][0] =    sa * ( p[0] - cx ) + ca * ( p[1] - cy ); 
+  this->m_Jacobian[0][0] =    ca * ( p[0] - cx ) - sa * ( p[1] - cy );
+  this->m_Jacobian[1][0] =    sa * ( p[0] - cx ) + ca * ( p[1] - cy ); 
 
   // derivatives with respect to the angle
-  m_Jacobian[0][1] = ( -sa * ( p[0] - cx ) - ca * ( p[1] - cy ) ) * m_Scale;
-  m_Jacobian[1][1] = (  ca * ( p[0] - cx ) - sa * ( p[1] - cy ) ) * m_Scale; 
+  this->m_Jacobian[0][1] = ( -sa * ( p[0] - cx ) - ca * ( p[1] - cy ) ) * m_Scale;
+  this->m_Jacobian[1][1] = (  ca * ( p[0] - cx ) - sa * ( p[1] - cy ) ) * m_Scale; 
 
   // compute derivatives with respect to the center part
   // first with respect to cx
-  m_Jacobian[0][2] = 1.0 - ca * m_Scale;
-  m_Jacobian[1][2] =     - sa * m_Scale;  
+  this->m_Jacobian[0][2] = 1.0 - ca * m_Scale;
+  this->m_Jacobian[1][2] =     - sa * m_Scale;  
   // then with respect to cy
-  m_Jacobian[0][3] =       sa * m_Scale;
-  m_Jacobian[1][3] = 1.0 - ca * m_Scale;
+  this->m_Jacobian[0][3] =       sa * m_Scale;
+  this->m_Jacobian[1][3] = 1.0 - ca * m_Scale;
 
 
   // compute derivatives with respect to the translation part
   // first with respect to tx
-  m_Jacobian[0][4] = 1.0;
-  m_Jacobian[1][4] = 0.0;
+  this->m_Jacobian[0][4] = 1.0;
+  this->m_Jacobian[1][4] = 0.0;
   // first with respect to ty
-  m_Jacobian[0][5] = 0.0;
-  m_Jacobian[1][5] = 1.0;
+  this->m_Jacobian[0][5] = 0.0;
+  this->m_Jacobian[1][5] = 1.0;
 
-  return m_Jacobian;
+  return this->m_Jacobian;
 
 }
 

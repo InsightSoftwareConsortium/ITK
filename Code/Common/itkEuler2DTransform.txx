@@ -28,7 +28,7 @@ template <class TScalarType>
 Euler2DTransform<TScalarType>
 ::Euler2DTransform()
 {
-  m_Parameters.set_size(ParametersDimension);
+  this->m_Parameters.set_size(ParametersDimension);
   m_Angle = 0.0;
 }
 
@@ -48,7 +48,7 @@ Euler2DTransform<TScalarType>
 {
   itkDebugMacro( << "Setting paramaters " << parameters );
 
-  m_Parameters = parameters;
+  this->m_Parameters = parameters;
 
   // Set angles with parameters
   m_Angle = parameters[0];
@@ -76,18 +76,18 @@ Euler2DTransform<TScalarType>
   itkDebugMacro( << "Getting parameters ");
 
   // Set angles with parameters
-  m_Parameters[0] = m_Angle;
+  this->m_Parameters[0] = m_Angle;
  
   // Transfer the translation part
   OffsetType offset = this->GetOffset();
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
-    m_Parameters[i+1] = offset[i];
+    this->m_Parameters[i+1] = offset[i];
     }
 
-  itkDebugMacro(<<"After getting parameters " << m_Parameters );
+  itkDebugMacro(<<"After getting parameters " << this->m_Parameters );
 
-  return m_Parameters;
+  return this->m_Parameters;
 }
 
 
@@ -148,10 +148,10 @@ Euler2DTransform<TScalarType>
   const double cx = cos(m_Angle);
   const double sx = sin(m_Angle);
 
-  m_RotationMatrix[0][0] =  cx; m_RotationMatrix[0][1] = -sx;
-  m_RotationMatrix[1][0] =  sx; m_RotationMatrix[1][1] =  cx;
+  this->m_RotationMatrix[0][0] =  cx; this->m_RotationMatrix[0][1] = -sx;
+  this->m_RotationMatrix[1][0] =  sx; this->m_RotationMatrix[1][1] =  cx;
 
-  m_RotationMatrixMTime.Modified();
+  this->m_RotationMatrixMTime.Modified();
 }
 
 /** Compute the Angle from the Rotation Matrix */
@@ -160,14 +160,14 @@ void
 Euler2DTransform<TScalarType>
 ::ComputeAngleFromMatrix( void )
 {
-  m_Angle = acos(m_RotationMatrix[0][0]); 
+  m_Angle = acos(this->m_RotationMatrix[0][0]); 
 
-  if(m_RotationMatrix[1][0]<0.0)
+  if(this->m_RotationMatrix[1][0]<0.0)
     {
     m_Angle = -m_Angle;
     }
 
-  if(m_RotationMatrix[1][0]-sin(m_Angle) > 0.000001)
+  if(this->m_RotationMatrix[1][0]-sin(m_Angle) > 0.000001)
     {
     std::cout << "Bad Rotation Matrix" << std::endl;
     }
@@ -183,20 +183,20 @@ GetJacobian( const InputPointType & p ) const
   const double cx = cos(m_Angle);
   const double sx = sin(m_Angle);
 
-  m_Jacobian.Fill(0.0);
+  this->m_Jacobian.Fill(0.0);
 
   // derivatives with respect to the angle
-  m_Jacobian[0][0] = -sx * p[0] - cx * p[1]; 
-  m_Jacobian[1][0] =  cx * p[0] - sx * p[1];
+  this->m_Jacobian[0][0] = -sx * p[0] - cx * p[1]; 
+  this->m_Jacobian[1][0] =  cx * p[0] - sx * p[1];
 
   // compute derivatives for the translation part
   unsigned int blockOffset = 1;  
   for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
     {
-    m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
+    this->m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
     }
 
-  return m_Jacobian;
+  return this->m_Jacobian;
 
 }
   

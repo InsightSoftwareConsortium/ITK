@@ -26,13 +26,13 @@ namespace itk
 // Constructor with default arguments
 template <class TScalarType>
 VersorRigid3DTransform<TScalarType>
-::VersorRigid3DTransform():Superclass(OutputSpaceDimension, ParametersDimension)
+::VersorRigid3DTransform():Superclass(Superclass::OutputSpaceDimension, ParametersDimension)
 {
   m_Versor.SetIdentity();
   m_Translation.Fill( 0.0 );
   m_Center.Fill( 0.0 );
   this->ComputeMatrixAndOffset();
-  m_Jacobian = JacobianType( SpaceDimension, ParametersDimension );
+  this->m_Jacobian = JacobianType( SpaceDimension, ParametersDimension );
 }
 
 
@@ -133,19 +133,19 @@ VersorRigid3DTransform<TScalarType>
 {
   itkDebugMacro( << "Getting parameters ");
 
-  m_Parameters[0] = m_Versor.GetX();
-  m_Parameters[1] = m_Versor.GetY();
-  m_Parameters[2] = m_Versor.GetZ();
+  this->m_Parameters[0] = m_Versor.GetX();
+  this->m_Parameters[1] = m_Versor.GetY();
+  this->m_Parameters[2] = m_Versor.GetZ();
 
   // Transfer the translation
   for(unsigned int j=0; j < SpaceDimension; j++) 
     {
-    m_Parameters[j+SpaceDimension] = m_Translation[j];
+    this->m_Parameters[j+SpaceDimension] = this->m_Translation[j];
     }
 
-  itkDebugMacro(<<"After getting parameters " << m_Parameters );
+  itkDebugMacro(<<"After getting parameters " << this->m_Parameters );
 
-  return m_Parameters;
+  return this->m_Parameters;
 }
 
 
@@ -224,17 +224,17 @@ VersorRigid3DTransform<TScalarType>
   const TScalarType yw = vy * vw;
   const TScalarType zw = vz * vw;
 
-  m_RotationMatrix[0][0] = 1.0 - 2.0 * ( yy + zz );
-  m_RotationMatrix[1][1] = 1.0 - 2.0 * ( xx + zz );
-  m_RotationMatrix[2][2] = 1.0 - 2.0 * ( xx + yy );
-  m_RotationMatrix[0][1] = 2.0 * ( xy - zw );
-  m_RotationMatrix[0][2] = 2.0 * ( xz + yw );
-  m_RotationMatrix[1][0] = 2.0 * ( xy + zw );
-  m_RotationMatrix[2][0] = 2.0 * ( xz - yw );
-  m_RotationMatrix[2][1] = 2.0 * ( yz + xw );
-  m_RotationMatrix[1][2] = 2.0 * ( yz - xw );
+  this->m_RotationMatrix[0][0] = 1.0 - 2.0 * ( yy + zz );
+  this->m_RotationMatrix[1][1] = 1.0 - 2.0 * ( xx + zz );
+  this->m_RotationMatrix[2][2] = 1.0 - 2.0 * ( xx + yy );
+  this->m_RotationMatrix[0][1] = 2.0 * ( xy - zw );
+  this->m_RotationMatrix[0][2] = 2.0 * ( xz + yw );
+  this->m_RotationMatrix[1][0] = 2.0 * ( xy + zw );
+  this->m_RotationMatrix[2][0] = 2.0 * ( xz - yw );
+  this->m_RotationMatrix[2][1] = 2.0 * ( yz + xw );
+  this->m_RotationMatrix[1][2] = 2.0 * ( yz - xw );
  
-  m_RotationMatrixMTime.Modified();
+  this->m_RotationMatrixMTime.Modified();
 
   OffsetType offset; 
   for(unsigned int i=0; i<3; i++)
@@ -242,7 +242,7 @@ VersorRigid3DTransform<TScalarType>
     offset[i] = m_Translation[i] + m_Center[i];  
     for(unsigned int j=0; j<3; j++)
       {
-      offset[i] -= m_RotationMatrix[i][j] * m_Center[j];
+      offset[i] -= this->m_RotationMatrix[i][j] * m_Center[j];
       }
     }
   this->SetOffset( offset );
@@ -265,7 +265,7 @@ GetJacobian( const InputPointType & p ) const
   const ValueType vz = m_Versor.GetZ();
   const ValueType vw = m_Versor.GetW();
 
-  m_Jacobian.Fill(0.0);
+  this->m_Jacobian.Fill(0.0);
 
   const double px = p[0] - m_Center[0];
   const double py = p[1] - m_Center[1];
@@ -287,25 +287,25 @@ GetJacobian( const InputPointType & p ) const
 
 
   // compute Jacobian with respect to quaternion parameters
-  m_Jacobian[0][0] = 2.0 * (                  (vyw+vxz) * py + (vzw-vxy) * pz )
+  this->m_Jacobian[0][0] = 2.0 * (                  (vyw+vxz) * py + (vzw-vxy) * pz )
                          / vw;
-  m_Jacobian[1][0] = 2.0 * ( (vyw-vxz) * px   -2*vxw    * py + (vxx-vww) * pz ) 
+  this->m_Jacobian[1][0] = 2.0 * ( (vyw-vxz) * px   -2*vxw    * py + (vxx-vww) * pz ) 
                          / vw;
-  m_Jacobian[2][0] = 2.0 * ( (vzw+vxy) * px + (vww-vxx) * py   -2*vxw    * pz ) 
-                         / vw;
-
-  m_Jacobian[0][1] = 2.0 * (  -2*vyw   * px + (vxw+vyz) * py + (vww-vyy) * pz ) 
-                         / vw;
-  m_Jacobian[1][1] = 2.0 * ( (vxw-vyz) * px                  + (vzw+vxy) * pz ) 
-                         / vw;
-  m_Jacobian[2][1] = 2.0 * ( (vyy-vww) * px + (vzw-vxy) * py   -2*vyw    * pz ) 
+  this->m_Jacobian[2][0] = 2.0 * ( (vzw+vxy) * px + (vww-vxx) * py   -2*vxw    * pz ) 
                          / vw;
 
-  m_Jacobian[0][2] = 2.0 * (  -2*vzw   * px + (vzz-vww) * py + (vxw-vyz) * pz ) 
+  this->m_Jacobian[0][1] = 2.0 * (  -2*vyw   * px + (vxw+vyz) * py + (vww-vyy) * pz ) 
                          / vw;
-  m_Jacobian[1][2] = 2.0 * ( (vww-vzz) * px   -2*vzw    * py + (vyw+vxz) * pz ) 
+  this->m_Jacobian[1][1] = 2.0 * ( (vxw-vyz) * px                  + (vzw+vxy) * pz ) 
                          / vw;
-  m_Jacobian[2][2] = 2.0 * ( (vxw+vyz) * px + (vyw-vxz) * py                  ) 
+  this->m_Jacobian[2][1] = 2.0 * ( (vyy-vww) * px + (vzw-vxy) * py   -2*vyw    * pz ) 
+                         / vw;
+
+  this->m_Jacobian[0][2] = 2.0 * (  -2*vzw   * px + (vzz-vww) * py + (vxw-vyz) * pz ) 
+                         / vw;
+  this->m_Jacobian[1][2] = 2.0 * ( (vww-vzz) * px   -2*vzw    * py + (vyw+vxz) * pz ) 
+                         / vw;
+  this->m_Jacobian[2][2] = 2.0 * ( (vxw+vyz) * px + (vyw-vxz) * py                  ) 
                          / vw;
 
   // compute derivatives for the translation part
@@ -313,10 +313,10 @@ GetJacobian( const InputPointType & p ) const
 
   for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
     {
-    m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
+    this->m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
     }
 
-  return m_Jacobian;
+  return this->m_Jacobian;
 
 }
   

@@ -28,8 +28,8 @@ template<class TScalarType>
 CenteredEuler3DTransform<TScalarType>::
 CenteredEuler3DTransform()
 {
-  m_Center.Fill( 0 );
-  m_Translation.Fill( 0 );
+  this->m_Center.Fill( 0 );
+  this->m_Translation.Fill( 0 );
 }
  
 // Destructor
@@ -47,7 +47,7 @@ void
 CenteredEuler3DTransform<TScalarType>
 ::SetCenter( const InputPointType & center )
 {
-  m_Center = center;
+  this->m_Center = center;
   this->ComputeMatrix();
 }
 
@@ -59,7 +59,7 @@ void
 CenteredEuler3DTransform<TScalarType>
 ::SetTranslation( const OutputVectorType & translation )
 {
-  m_Translation = translation;
+  this->m_Translation = translation;
   this->ComputeMatrix();
 }
 
@@ -82,9 +82,9 @@ CenteredEuler3DTransform<TScalarType>
   itkDebugMacro( << "Setting paramaters " << parameters );
 
   // Set the translations
-  m_Translation[0] = parameters[3];
-  m_Translation[1] = parameters[4];
-  m_Translation[2] = parameters[5];
+  this->m_Translation[0] = parameters[3];
+  this->m_Translation[1] = parameters[4];
+  this->m_Translation[2] = parameters[5];
 
   // Set the rotations (NB. This function will call the over-ridden
   // ComputeMatrix() function)
@@ -109,16 +109,16 @@ CenteredEuler3DTransform<TScalarType>
 {
   ParametersType parameters = Superclass::GetParameters();
 
-  m_Parameters[0] = parameters[0];
-  m_Parameters[1] = parameters[1];
-  m_Parameters[2] = parameters[2];
+  this->m_Parameters[0] = parameters[0];
+  this->m_Parameters[1] = parameters[1];
+  this->m_Parameters[2] = parameters[2];
 
   for( unsigned int i=0; i < SpaceDimension; i++ )
     {
-    m_Parameters[i+3] = m_Translation[i];
+    this->m_Parameters[i+3] = this->m_Translation[i];
     }
 
-  return m_Parameters;
+  return this->m_Parameters;
 }
 
 
@@ -131,8 +131,8 @@ PrintSelf(std::ostream &os, Indent indent) const
 
   Superclass::PrintSelf(os,indent);
   
-  os << indent << "Center of Rotation: " << m_Center        << std::endl;
-  os << indent << "Translation: "        << m_Translation   << std::endl;
+  os << indent << "Center of Rotation: " << this->m_Center        << std::endl;
+  os << indent << "Translation: "        << this->m_Translation   << std::endl;
 }
 
 // return an inverse transformation
@@ -146,8 +146,8 @@ GetInverse( Self* inverse) const
     return false;
     }
 
-  inverse->m_Center      =   m_Center;
-  inverse->m_Translation =  -m_Translation;
+  inverse->m_Center      =   this->m_Center;
+  inverse->m_Translation =  -this->m_Translation;
   inverse->ComputeMatrix();
 
   return true;  
@@ -163,8 +163,8 @@ CenteredEuler3DTransform< TScalarType >::
 SetIdentity( void ) 
 {
   this->Superclass::SetIdentity();
-  m_Center.Fill( 0.0 );
-  m_Translation.Fill( 0.0 );
+  this->m_Center.Fill( 0.0 );
+  this->m_Translation.Fill( 0.0 );
   this->ComputeMatrix();
   this->Modified();  
 }
@@ -187,13 +187,13 @@ CenteredEuler3DTransform<TScalarType>
   const double cz = cos(parameters[2]);
   const double sz = sin(parameters[2]);
 
-  const double ox = m_Center[0];
-  const double oy = m_Center[1];
-  const double oz = m_Center[2];
+  const double ox = this->m_Center[0];
+  const double oy = this->m_Center[1];
+  const double oz = this->m_Center[2];
 
-  const double tx = m_Translation[0];
-  const double ty = m_Translation[1];
-  const double tz = m_Translation[2];
+  const double tx = this->m_Translation[0];
+  const double ty = this->m_Translation[1];
+  const double tz = this->m_Translation[2];
 
   OffsetType          offset;   
 

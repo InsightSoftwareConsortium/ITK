@@ -26,7 +26,7 @@ namespace itk
 // Constructor with default arguments
 template <class TScalarType>
 ScaleSkewVersor3DTransform<TScalarType>
-::ScaleSkewVersor3DTransform():Superclass(OutputSpaceDimension, ParametersDimension)
+::ScaleSkewVersor3DTransform():Superclass(Superclass::OutputSpaceDimension, ParametersDimension)
   {
   m_Scale.Fill( 1.0 );
   m_Skew.Fill( 0.0 );
@@ -130,29 +130,29 @@ ScaleSkewVersor3DTransform<TScalarType>
   InputPointType center = Superclass::GetCenter();
   OutputVectorType translation = Superclass::GetTranslation();
 
-  m_Parameters[0] = versor.GetX();
-  m_Parameters[1] = versor.GetY();
-  m_Parameters[2] = versor.GetZ();
+  this->m_Parameters[0] = versor.GetX();
+  this->m_Parameters[1] = versor.GetY();
+  this->m_Parameters[2] = versor.GetZ();
 
   // Transfer the translation
   for(unsigned int j=0; j < SpaceDimension; j++) 
     {
-    m_Parameters[j+SpaceDimension] = translation[j];
+    this->m_Parameters[j+SpaceDimension] = translation[j];
     }
 
   for(unsigned int k=0; k < SpaceDimension; k++) 
     {
-    m_Parameters[k+2*SpaceDimension] = m_Scale[k];
+    this->m_Parameters[k+2*SpaceDimension] = m_Scale[k];
     }
 
   for(unsigned int l=0; l < 6; l++) 
     {
-    m_Parameters[l+3*SpaceDimension] = m_Skew[l];  
+    this->m_Parameters[l+3*SpaceDimension] = m_Skew[l];  
     }
 
-  itkDebugMacro(<<"After getting parameters " << m_Parameters );
+  itkDebugMacro(<<"After getting parameters " << this->m_Parameters );
 
-  return m_Parameters;
+  return this->m_Parameters;
   }
 
 template <class TScalarType>
@@ -216,17 +216,17 @@ ScaleSkewVersor3DTransform<TScalarType>
   const TScalarType yw = vy * vw;
   const TScalarType zw = vz * vw;
 
-  m_RotationMatrix[0][0] = m_Scale[0] - 2.0 * ( yy + zz );
-  m_RotationMatrix[1][1] = m_Scale[1] - 2.0 * ( xx + zz );
-  m_RotationMatrix[2][2] = m_Scale[2] - 2.0 * ( xx + yy );
-  m_RotationMatrix[0][1] = 2.0 * ( xy - zw )  + ( m_Skew[0] );
-  m_RotationMatrix[0][2] = 2.0 * ( xz + yw )  + ( m_Skew[1] );
-  m_RotationMatrix[1][0] = 2.0 * ( xy + zw )  + ( m_Skew[2] );
-  m_RotationMatrix[1][2] = 2.0 * ( yz - xw )  + ( m_Skew[3] );
-  m_RotationMatrix[2][0] = 2.0 * ( xz - yw )  + ( m_Skew[4] );
-  m_RotationMatrix[2][1] = 2.0 * ( yz + xw )  + ( m_Skew[5] );
+  this->m_RotationMatrix[0][0] = m_Scale[0] - 2.0 * ( yy + zz );
+  this->m_RotationMatrix[1][1] = m_Scale[1] - 2.0 * ( xx + zz );
+  this->m_RotationMatrix[2][2] = m_Scale[2] - 2.0 * ( xx + yy );
+  this->m_RotationMatrix[0][1] = 2.0 * ( xy - zw )  + ( m_Skew[0] );
+  this->m_RotationMatrix[0][2] = 2.0 * ( xz + yw )  + ( m_Skew[1] );
+  this->m_RotationMatrix[1][0] = 2.0 * ( xy + zw )  + ( m_Skew[2] );
+  this->m_RotationMatrix[1][2] = 2.0 * ( yz - xw )  + ( m_Skew[3] );
+  this->m_RotationMatrix[2][0] = 2.0 * ( xz - yw )  + ( m_Skew[4] );
+  this->m_RotationMatrix[2][1] = 2.0 * ( yz + xw )  + ( m_Skew[5] );
  
-  m_RotationMatrixMTime.Modified();
+  this->m_RotationMatrixMTime.Modified();
 
   InputPointType center = Superclass::GetCenter();
   OutputVectorType translation = Superclass::GetTranslation();
@@ -236,7 +236,7 @@ ScaleSkewVersor3DTransform<TScalarType>
     offset[i] = translation[i] + center[i];  
     for(unsigned int j=0; j<3; j++)
       {
-      offset[i] -= m_RotationMatrix[i][j] * center[j];
+      offset[i] -= this->m_RotationMatrix[i][j] * center[j];
       }
     }
 

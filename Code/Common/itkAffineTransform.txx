@@ -648,7 +648,7 @@ GetParameters( void ) const
     {
     for(unsigned int col=0; col<NDimensions; col++) 
       {
-      m_Parameters[par] = m_Matrix[row][col];
+      this->m_Parameters[par] = m_Matrix[row][col];
       ++par;
       }
     }
@@ -656,11 +656,11 @@ GetParameters( void ) const
   // Transfer the constant part
   for(unsigned int i=0; i<NDimensions; i++) 
     {
-    m_Parameters[par] = m_Translation[i];
+    this->m_Parameters[par] = m_Translation[i];
     ++par;
     }
 
-  return m_Parameters;
+  return this->m_Parameters;
 
 }
 
@@ -677,13 +677,13 @@ SetParameters( const ParametersType & parameters )
   // Transfer the linear part
   unsigned int par = 0;
 
-  m_Parameters = parameters;
+  this->m_Parameters = parameters;
 
   for(unsigned int row=0; row<NDimensions; row++) 
     {
     for(unsigned int col=0; col<NDimensions; col++) 
       {
-      m_Matrix[row][col] = m_Parameters[par];
+      m_Matrix[row][col] = this->m_Parameters[par];
       ++par;
       }
     }
@@ -691,7 +691,7 @@ SetParameters( const ParametersType & parameters )
   // Transfer the constant part
   for(unsigned int i=0; i<NDimensions; i++) 
     {
-    m_Translation[i] = m_Parameters[par];
+    m_Translation[i] = this->m_Parameters[par];
     ++par;
     }
   this->ComputeOffset();
@@ -713,7 +713,7 @@ GetJacobian( const InputPointType & p ) const
   // subblocks of diagonal matrices, each one of them having
   // a constant value in the diagonal.
 
-  m_Jacobian.Fill( 0.0 );
+  this->m_Jacobian.Fill( 0.0 );
 
   unsigned int blockOffset = 0;
   
@@ -721,7 +721,7 @@ GetJacobian( const InputPointType & p ) const
     {
     for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
       {
-      m_Jacobian( block , blockOffset + dim ) = p[dim];
+      this->m_Jacobian( block , blockOffset + dim ) = p[dim];
       }
 
     blockOffset += SpaceDimension;
@@ -732,10 +732,10 @@ GetJacobian( const InputPointType & p ) const
     {
 // Should a "translation scale be provided ?
 //     m_Jacobian[ dim ][ blockOffset + dim ] = m_TranslationScale;
-    m_Jacobian( dim , blockOffset + dim ) = 1.0;
+    this->m_Jacobian( dim , blockOffset + dim ) = 1.0;
     }
 
-  return m_Jacobian;
+  return this->m_Jacobian;
 
 }
 

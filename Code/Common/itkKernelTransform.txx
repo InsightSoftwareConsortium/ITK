@@ -432,13 +432,13 @@ GetJacobian( const InputPointType & ) const
 {
   
 
-  m_Jacobian.Fill( 0.0 );
+  this->m_Jacobian.Fill( 0.0 );
 
   // TODO
   // The Jacobian should be computable in terms of the matrices
   // used to Transform points...
 
-  return m_Jacobian;
+  return this->m_Jacobian;
 
 }
 
@@ -468,7 +468,7 @@ SetParameters( const ParametersType & parameters )
     {
     for(unsigned int dim=0; dim<NDimensions; dim++)
       {
-      landMark[ dim ] = m_Parameters[ pcounter ];
+      landMark[ dim ] = this->m_Parameters[ pcounter ];
       pcounter++;
       }  
     itr.Value() = landMark;
@@ -486,7 +486,7 @@ void
 KernelTransform<TScalarType, NDimensions>::
 UpdateParameters( void ) const
 {
-  m_Parameters = ParametersType( m_SourceLandmarks->GetNumberOfPoints() * NDimensions );
+  this->m_Parameters = ParametersType( m_SourceLandmarks->GetNumberOfPoints() * NDimensions );
 
   PointsIterator itr = m_SourceLandmarks->GetPoints()->Begin();
   PointsIterator end = m_SourceLandmarks->GetPoints()->End();
@@ -497,7 +497,7 @@ UpdateParameters( void ) const
     InputPointType  landmark = itr.Value();
     for(unsigned int dim=0; dim<NDimensions; dim++)
       {
-      m_Parameters[ pcounter ] = landmark[ dim ];
+      this->m_Parameters[ pcounter ] = landmark[ dim ];
       pcounter++;
       }  
     itr++;
@@ -515,7 +515,7 @@ KernelTransform<TScalarType, NDimensions>::
 GetParameters( void ) const
 {
   this->UpdateParameters();
-  return m_Parameters;
+  return this->m_Parameters;
 
 }
 

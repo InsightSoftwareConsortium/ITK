@@ -51,13 +51,13 @@ ElasticBodyReciprocalSplineKernelTransform<TScalarType, NDimensions>
     for(unsigned int j=0; j<i; j++)
       {
       const TScalarType value = xi * x[j]; 
-      m_GMatrix[i][j] = value;
-      m_GMatrix[j][i] = value;
+      this->m_GMatrix[i][j] = value;
+      this->m_GMatrix[j][i] = value;
       }
-    m_GMatrix[i][i] =  radial + xi * x[i];
+    this->m_GMatrix[i][i] =  radial + xi * x[i];
     }
   
-  return m_GMatrix;
+  return this->m_GMatrix;
 }
 
 template <class TScalarType, unsigned int NDimensions>

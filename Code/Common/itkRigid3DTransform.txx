@@ -265,11 +265,11 @@ GetJacobian( const InputPointType & ) const
 {
   
 
-  m_Jacobian.Fill( NumericTraits< ITK_TYPENAME JacobianType::ValueType >::Zero );
+  this->m_Jacobian.Fill( NumericTraits< ITK_TYPENAME JacobianType::ValueType >::Zero );
 
   // TODO
 
-  return m_Jacobian;
+  return this->m_Jacobian;
 
 }
 

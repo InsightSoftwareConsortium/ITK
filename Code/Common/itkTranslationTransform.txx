@@ -64,9 +64,9 @@ TranslationTransform<TScalarType, NDimensions>
 {
   for( unsigned int i=0; i<SpaceDimension; i++ )
     {
-    m_Parameters[i] = m_Offset[i];
+    this->m_Parameters[i] = this->m_Offset[i];
     }  
-  return m_Parameters;
+  return this->m_Parameters;
 }
 
 
@@ -211,14 +211,14 @@ TranslationTransform< TScalarType, NDimensions >::
 GetJacobian( const InputPointType & ) const
 {
 
-  m_Jacobian.Fill( 0.0 );
+  this->m_Jacobian.Fill( 0.0 );
 
   for(unsigned int i=0; i<NDimensions; i++)
     {
-    m_Jacobian(i,i) = 1.0;
+    this->m_Jacobian(i,i) = 1.0;
     }
 
-  return m_Jacobian;
+  return this->m_Jacobian;
 
 }
 

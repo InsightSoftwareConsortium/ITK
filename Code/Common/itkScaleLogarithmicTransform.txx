@@ -53,7 +53,7 @@ ScaleLogarithmicTransform<ScalarType, NDimensions>
     {
     scales[i] = exp( parameters[i] );
     }
-  m_Parameters = parameters;
+  this->m_Parameters = parameters;
   this->SetScale( scales );
 }
 
@@ -70,12 +70,12 @@ ScaleLogarithmicTransform<TScalarType,NDimensions>
   // Transfer the translation part
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
-    m_Parameters[i] = log( scales[i] );
+    this->m_Parameters[i] = log( scales[i] );
     }
 
-  itkDebugMacro(<<"After getting parameters " << m_Parameters );
+  itkDebugMacro(<<"After getting parameters " << this->m_Parameters );
 
-  return m_Parameters;
+  return this->m_Parameters;
 }
 
 
@@ -98,13 +98,13 @@ ScaleLogarithmicTransform<ScalarType, NDimensions>
 ::GetJacobian( const InputPointType & p ) const
 {
   const ScaleType & scales = this->GetScale(); 
-  m_Jacobian.Fill(0);
+  this->m_Jacobian.Fill(0);
   for(unsigned int dim=0; dim<SpaceDimension; dim++)
     {
     // the derivative with respect to Log(scale) = scale * derivative with respect to scale.  
-    m_Jacobian(dim,dim) = scales[dim] * p[dim];
+    this->m_Jacobian(dim,dim) = scales[dim] * p[dim];
     }
-  return m_Jacobian;
+  return this->m_Jacobian;
 }
 
 

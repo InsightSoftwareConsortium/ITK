@@ -28,13 +28,13 @@ ComputeG(const InputVectorType & x) const
 {
 
   const TScalarType r = x.GetNorm();
-  m_GMatrix.fill( NumericTraits< TScalarType >::Zero );
+  this->m_GMatrix.fill( NumericTraits< TScalarType >::Zero );
   const TScalarType R2logR = 
     ( r > 1e-8 )? r * r * log( r ) : NumericTraits<TScalarType>::Zero;
 
-  m_GMatrix.fill_diagonal( R2logR );
+  this->m_GMatrix.fill_diagonal( R2logR );
  
-  return m_GMatrix;
+  return this->m_GMatrix;
 }
 
 
@@ -45,9 +45,9 @@ ComputeDeformationContribution( const InputPointType  & thisPoint,
                                 OutputPointType & result     ) const
 {
 
-  unsigned long numberOfLandmarks = m_SourceLandmarks->GetNumberOfPoints();
+  unsigned long numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
 
-  PointsIterator sp  = m_SourceLandmarks->GetPoints()->Begin();
+  PointsIterator sp  = this->m_SourceLandmarks->GetPoints()->Begin();
 
   for(unsigned int lnd=0; lnd < numberOfLandmarks; lnd++ )
     {
@@ -57,7 +57,7 @@ ComputeDeformationContribution( const InputPointType  & thisPoint,
       ( r > 1e-8 )? r * r * log( r ) : NumericTraits<TScalarType>::Zero;
     for(unsigned int odim=0; odim < NDimensions; odim++ )
       {
-      result[ odim ] += R2logR * m_DMatrix(odim,lnd);
+      result[ odim ] += R2logR * this->m_DMatrix(odim,lnd);
       }
     ++sp;
     }

@@ -53,7 +53,7 @@ ScaleTransform<ScalarType, NDimensions>
     {
     m_Scale[i] = parameters[i];
     }
-  m_Parameters = parameters;
+  this->m_Parameters = parameters;
 }
 
 
@@ -68,12 +68,12 @@ ScaleTransform<TScalarType,NDimensions>
   // Transfer the translation part
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
-    m_Parameters[i] = m_Scale[i];
+    this->m_Parameters[i] = m_Scale[i];
     }
 
-  itkDebugMacro(<<"After getting parameters " << m_Parameters );
+  itkDebugMacro(<<"After getting parameters " << this->m_Parameters );
 
-  return m_Parameters;
+  return this->m_Parameters;
 }
 
 
@@ -273,12 +273,12 @@ ScaleTransform<ScalarType, NDimensions>
 ::GetJacobian( const InputPointType & p ) const
 {
   
-  m_Jacobian.Fill(0);
+  this->m_Jacobian.Fill(0);
   for(unsigned int dim=0; dim<SpaceDimension; dim++)
     {
-    m_Jacobian(dim,dim) = p[dim];
+    this->m_Jacobian(dim,dim) = p[dim];
     }
-  return m_Jacobian;
+  return this->m_Jacobian;
 }
 
 

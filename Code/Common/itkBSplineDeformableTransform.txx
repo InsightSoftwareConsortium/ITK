@@ -271,10 +271,10 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
    * Allocate memory for Jacobian and wrap into SpaceDimension number
    * of ITK images
    */
-  m_Jacobian.set_size( SpaceDimension, this->GetNumberOfParameters() );
-  m_Jacobian.Fill( NumericTraits<JacobianPixelType>::Zero );
+  this->m_Jacobian.set_size( SpaceDimension, this->GetNumberOfParameters() );
+  this->m_Jacobian.Fill( NumericTraits<JacobianPixelType>::Zero );
   m_LastJacobianIndex = m_ValidRegion.GetIndex();
-  JacobianPixelType * jacobianDataPointer = m_Jacobian.data_block();
+  JacobianPixelType * jacobianDataPointer = this->m_Jacobian.data_block();
 
   for ( unsigned int j = 0; j < SpaceDimension; j++ )
     {
@@ -573,7 +573,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   // we assume zero displacement and return the input point
   if ( !this->InsideValidRegion( index ) )
     {
-    return m_Jacobian;
+    return this->m_Jacobian;
     }
 
   // Compute interpolation weights
@@ -611,7 +611,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 
 
   // Return the results
-  return m_Jacobian;
+  return this->m_Jacobian;
 
 }
 

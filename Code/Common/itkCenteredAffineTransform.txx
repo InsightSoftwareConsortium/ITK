@@ -56,7 +56,7 @@ GetParameters( void ) const
     {
     for(unsigned int col=0; col<NDimensions; col++) 
       {
-      m_Parameters[par] = matrix[row][col];
+      this->m_Parameters[par] = matrix[row][col];
       ++par;
       }
     }
@@ -66,7 +66,7 @@ GetParameters( void ) const
   InputPointType center = this->GetCenter();
   for(unsigned int j=0; j<NDimensions; j++) 
     {
-    m_Parameters[par] = center[j];
+    this->m_Parameters[par] = center[j];
     ++par;
     }
   
@@ -74,12 +74,12 @@ GetParameters( void ) const
   OutputVectorType translation = this->GetTranslation();
   for(unsigned int k=0; k<NDimensions; k++) 
     {
-    m_Parameters[par] = translation[k];
+    this->m_Parameters[par] = translation[k];
     ++par;
     }
 
 
-  return m_Parameters;
+  return this->m_Parameters;
 
 }
 
@@ -96,7 +96,7 @@ SetParameters( const ParametersType & parameters )
   // Transfer the linear part
   unsigned int par = 0;
 
-  m_Parameters = parameters;
+  this->m_Parameters = parameters;
 
   MatrixType matrix;
 
@@ -104,7 +104,7 @@ SetParameters( const ParametersType & parameters )
     {
     for(unsigned int col=0; col<NDimensions; col++) 
       {
-      matrix[row][col] = m_Parameters[par];
+      matrix[row][col] = this->m_Parameters[par];
       ++par;
       }
     }
@@ -115,7 +115,7 @@ SetParameters( const ParametersType & parameters )
   InputPointType center;
   for(unsigned int i=0; i<NDimensions; i++) 
     {
-    center[i] = m_Parameters[par];
+    center[i] = this->m_Parameters[par];
     ++par;
     }
   this->SetCenter(center);
@@ -124,7 +124,7 @@ SetParameters( const ParametersType & parameters )
   OutputVectorType translation;
   for(unsigned int k=0; k<NDimensions; k++) 
     {
-    translation[k] = m_Parameters[par];
+    translation[k] = this->m_Parameters[par];
     ++par;
     }
   this->SetTranslation(translation);
@@ -144,7 +144,7 @@ GetJacobian( const InputPointType & p ) const
   // The block corresponding to the center parameters is
   // composed by ( Identity matrix - Rotation Matrix).
 
-  m_Jacobian.Fill( 0.0 );
+  this->m_Jacobian.Fill( 0.0 );
 
 
   unsigned int blockOffset = 0;
@@ -153,7 +153,7 @@ GetJacobian( const InputPointType & p ) const
     {
     for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
       {
-      m_Jacobian( block , blockOffset + dim ) = p[dim];
+      this->m_Jacobian( block , blockOffset + dim ) = p[dim];
       }
     blockOffset += SpaceDimension;
     }
@@ -162,10 +162,10 @@ GetJacobian( const InputPointType & p ) const
   const MatrixType & matrix = this->GetMatrix();
   for(unsigned int k=0; k < SpaceDimension; k++) 
     {
-    m_Jacobian( k, blockOffset + k ) = 1.0;
+    this->m_Jacobian( k, blockOffset + k ) = 1.0;
     for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
       {
-      m_Jacobian( k, blockOffset + dim ) -= matrix[k][dim];
+      this->m_Jacobian( k, blockOffset + dim ) -= matrix[k][dim];
       }
     }
   blockOffset += SpaceDimension;
@@ -173,10 +173,10 @@ GetJacobian( const InputPointType & p ) const
   // Block associated with the translations
   for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
     {
-    m_Jacobian( dim , blockOffset + dim ) = 1.0;
+    this->m_Jacobian( dim , blockOffset + dim ) = 1.0;
     }
 
-  return m_Jacobian;
+  return this->m_Jacobian;
 
 }
 

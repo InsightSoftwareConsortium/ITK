@@ -263,8 +263,8 @@ const typename Rigid2DTransform<TScalarType>::JacobianType &
 Rigid2DTransform< TScalarType >::
 GetJacobian( const InputPointType & ) const
 {
-  m_Jacobian.Fill( NumericTraits< ITK_TYPENAME JacobianType::ValueType >::Zero );
-  return m_Jacobian;
+  this->m_Jacobian.Fill( NumericTraits< ITK_TYPENAME JacobianType::ValueType >::Zero );
+  return this->m_Jacobian;
 }
 
 

@@ -49,7 +49,7 @@ CenteredRigid2DTransform<TScalarType>
   m_Angle         = other.m_Angle;
   m_Center        = other.m_Center;
   m_Translation   = other.m_Translation;
-  m_Parameters    = other.m_Parameter;
+  this->m_Parameters    = other.m_Parameter;
 
   // note: this virtual function will only
   // call the one defined in this class because 
@@ -98,7 +98,7 @@ CenteredRigid2DTransform<TScalarType>
 {
   itkDebugMacro( << "Setting paramaters " << parameters );
 
-  m_Parameters = parameters;
+  this->m_Parameters = parameters;
 
   // Take the angle
   m_Angle = parameters[0];
@@ -138,23 +138,23 @@ CenteredRigid2DTransform<TScalarType>
   itkDebugMacro( << "Getting parameters ");
 
   // Set angles with parameters
-  m_Parameters[0] = m_Angle;
+  this->m_Parameters[0] = m_Angle;
  
   // Transfer the center of rotation 
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
-    m_Parameters[i+1] = m_Center[i];
+    this->m_Parameters[i+1] = m_Center[i];
     }
 
   // Transfer the translation
   for(unsigned int j=0; j < SpaceDimension; j++) 
     {
-    m_Parameters[j+1+SpaceDimension] = m_Translation[j];
+    this->m_Parameters[j+1+SpaceDimension] = this->m_Translation[j];
     }
 
-  itkDebugMacro(<<"After getting parameters " << m_Parameters );
+  itkDebugMacro(<<"After getting parameters " << this->m_Parameters );
 
-  return m_Parameters;
+  return this->m_Parameters;
 }
 
 
@@ -238,10 +238,10 @@ CenteredRigid2DTransform<TScalarType>
   const double tx = m_Translation[0];
   const double ty = m_Translation[1];
 
-  m_RotationMatrix[0][0]= ca; m_RotationMatrix[0][1]=-sa;
-  m_RotationMatrix[1][0]= sa; m_RotationMatrix[1][1]= ca;
+  this->m_RotationMatrix[0][0]= ca; this->m_RotationMatrix[0][1]=-sa;
+  this->m_RotationMatrix[1][0]= sa; this->m_RotationMatrix[1][1]= ca;
 
-  m_RotationMatrixMTime.Modified();
+  this->m_RotationMatrixMTime.Modified();
 
   OffsetType offset;
 
@@ -264,33 +264,33 @@ GetJacobian( const InputPointType & p ) const
   const double ca = cos(m_Angle);
   const double sa = sin(m_Angle);
 
-  m_Jacobian.Fill(0.0);
+  this->m_Jacobian.Fill(0.0);
 
   const double cx = m_Center[0];
   const double cy = m_Center[1];
 
   // derivatives with respect to the angle
-  m_Jacobian[0][0] = -sa * ( p[0] - cx ) - ca * ( p[1] - cy );
-  m_Jacobian[1][0] =  ca * ( p[0] - cx ) - sa * ( p[1] - cy ); 
+  this->m_Jacobian[0][0] = -sa * ( p[0] - cx ) - ca * ( p[1] - cy );
+  this->m_Jacobian[1][0] =  ca * ( p[0] - cx ) - sa * ( p[1] - cy ); 
 
   // compute derivatives with respect to the center part
   // first with respect to cx
-  m_Jacobian[0][1] = 1.0 - ca;
-  m_Jacobian[1][1] =     - sa;  
+  this->m_Jacobian[0][1] = 1.0 - ca;
+  this->m_Jacobian[1][1] =     - sa;  
   // then with respect to cy
-  m_Jacobian[0][2] =       sa;
-  m_Jacobian[1][2] = 1.0 - ca;
+  this->m_Jacobian[0][2] =       sa;
+  this->m_Jacobian[1][2] = 1.0 - ca;
 
 
   // compute derivatives with respect to the translation part
   // first with respect to tx
-  m_Jacobian[0][3] = 1.0;
-  m_Jacobian[1][3] = 0.0;
+  this->m_Jacobian[0][3] = 1.0;
+  this->m_Jacobian[1][3] = 0.0;
   // first with respect to ty
-  m_Jacobian[0][4] = 0.0;
-  m_Jacobian[1][4] = 1.0;
+  this->m_Jacobian[0][4] = 0.0;
+  this->m_Jacobian[1][4] = 1.0;
 
-  return m_Jacobian;
+  return this->m_Jacobian;
 
 }
   

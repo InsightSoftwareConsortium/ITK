@@ -114,13 +114,13 @@ public:
   typedef typename VectorSetType::Pointer        VectorSetPointer;
   
   /** Get the source landmarks list, which we will denote \f$ p \f$. */
-  itkGetObjectMacro( SourceLandmarks, PointSetType );
+  itkGetObjectMacro( SourceLandmarks, PointSetType);
   
   /** Set the source landmarks list. */
   virtual void SetSourceLandmarks(PointSetType *);
   
   /** Get the target landmarks list, which we will denote  \f$ q \f$. */
-  itkGetObjectMacro( TargetLandmarks, PointSetType );
+  itkGetObjectMacro( TargetLandmarks, PointSetType);
   
   /** Set the target landmarks list. */
   virtual void SetTargetLandmarks(PointSetType *);
@@ -207,6 +207,12 @@ public:
   /** Column matrix typedef. */
   typedef vnl_matrix_fixed<TScalarType, NDimensions, 1> ColumnMatrixType;
 
+  /** The list of source landmarks, denoted 'p'. */
+  PointSetPointer m_SourceLandmarks;
+  
+  /** The list of target landmarks, denoted 'q'. */
+  PointSetPointer m_TargetLandmarks;
+  
 protected:
   /** Compute G(x)
    * This is essentially the kernel of the transform.
@@ -251,12 +257,6 @@ protected:
     \warning This method release the memory of the W Matrix  */
   void ReorganizeW(void);
 
-  /** The list of source landmarks, denoted 'p'. */
-  PointSetPointer m_SourceLandmarks;
-  
-  /** The list of target landmarks, denoted 'q'. */
-  PointSetPointer m_TargetLandmarks;
-  
   /** Stiffness parameter */
   double m_Stiffness;
 

@@ -96,15 +96,15 @@ Euler3DTransform<TScalarType>
 ::GetParameters( void ) const
 {
 
-  m_Parameters[0] = m_AngleX;
-  m_Parameters[1] = m_AngleY;
-  m_Parameters[2] = m_AngleZ;
+  this->m_Parameters[0] = m_AngleX;
+  this->m_Parameters[1] = m_AngleY;
+  this->m_Parameters[2] = m_AngleZ;
   for( unsigned int i=0; i < SpaceDimension; i++ )
     {
-    m_Parameters[i+SpaceDimension] = m_Translation[i];
+    this->m_Parameters[i+SpaceDimension] = m_Translation[i];
     }
 
-  return m_Parameters;
+  return this->m_Parameters;
 
 }
 
@@ -180,44 +180,44 @@ Euler3DTransform<TScalarType>
 {
   if(m_ComputeZYX)
     {
-    m_AngleY = -asin(m_RotationMatrix[2][0]);
+    m_AngleY = -asin(this->m_RotationMatrix[2][0]);
     double C = cos(m_AngleY);
     if(fabs(C)>0.00005)
       {
-      double x = m_RotationMatrix[2][2] / C;
-      double y = m_RotationMatrix[2][1] / C;
+      double x = this->m_RotationMatrix[2][2] / C;
+      double y = this->m_RotationMatrix[2][1] / C;
       m_AngleX = atan2(y,x);
-      x = m_RotationMatrix[0][0] / C;
-      y = m_RotationMatrix[1][0] / C;
+      x = this->m_RotationMatrix[0][0] / C;
+      y = this->m_RotationMatrix[1][0] / C;
       m_AngleZ = atan2(y,x);
       }
     else
       {
       m_AngleX = 0;
-      double x = m_RotationMatrix[1][1];
-      double y = -m_RotationMatrix[0][1];
+      double x = this->m_RotationMatrix[1][1];
+      double y = -this->m_RotationMatrix[0][1];
       m_AngleZ = atan2(y,x);
       }
     }
   else
     {
-    m_AngleX = asin(m_RotationMatrix[2][1]);
+    m_AngleX = asin(this->m_RotationMatrix[2][1]);
     double A = cos(m_AngleX);
     if(fabs(A)>0.00005)
       {
-      double x = m_RotationMatrix[2][2] / A;
-      double y = -m_RotationMatrix[2][0] / A;
+      double x = this->m_RotationMatrix[2][2] / A;
+      double y = -this->m_RotationMatrix[2][0] / A;
       m_AngleY = atan2(y,x);
 
-      x = m_RotationMatrix[1][1] / A;
-      y = -m_RotationMatrix[0][1] / A;
+      x = this->m_RotationMatrix[1][1] / A;
+      y = -this->m_RotationMatrix[0][1] / A;
       m_AngleZ = atan2(y,x);
       }
     else
       {
       m_AngleZ = 0;
-      double x = m_RotationMatrix[0][0];
-      double y = m_RotationMatrix[1][0];
+      double x = this->m_RotationMatrix[0][0];
+      double y = this->m_RotationMatrix[1][0];
       m_AngleY = atan2(y,x);
       }
     }
@@ -258,14 +258,14 @@ Euler3DTransform<TScalarType>
   /** Aply the rotation first around Y then X then Z */
   if(m_ComputeZYX)
     {
-    m_RotationMatrix = RotationZ*RotationY*RotationX;
+    this->m_RotationMatrix = RotationZ*RotationY*RotationX;
     }
   else
     {
-    m_RotationMatrix = RotationZ*RotationX*RotationY; // Like VTK transformation order
+    this->m_RotationMatrix = RotationZ*RotationX*RotationY; // Like VTK transformation order
     }
 
-  m_RotationMatrixMTime.Modified();
+  this->m_RotationMatrixMTime.Modified();
 
   OffsetType offset;
   for(unsigned int i=0; i<SpaceDimension; i++)
@@ -273,7 +273,7 @@ Euler3DTransform<TScalarType>
     offset[i] = m_Translation[i] + m_Center[i];  
     for(unsigned int j=0; j<3; j++)
       {
-      offset[i] -= m_RotationMatrix[i][j] * m_Center[j];
+      offset[i] -= this->m_RotationMatrix[i][j] * m_Center[j];
       }
     }
   this->SetOffset( offset );
@@ -295,7 +295,7 @@ GetJacobian( const InputPointType & p ) const
   const double cz = cos(m_AngleZ);
   const double sz = sin(m_AngleZ);
 
-  m_Jacobian.Fill(0.0);
+  this->m_Jacobian.Fill(0.0);
 
   const double px = p[0] - m_Center[0];
   const double py = p[1] - m_Center[1];
@@ -304,41 +304,41 @@ GetJacobian( const InputPointType & p ) const
 
   if ( m_ComputeZYX )
     {
-    m_Jacobian[0][0] = (cz*sy*cx+sz*sx)*py+(-cz*sy*sx+sz*cx)*pz;
-    m_Jacobian[1][0] = (sz*sy*cx-cz*sx)*py+(-sz*sy*sx-cz*cx)*pz;
-    m_Jacobian[2][0] = (cy*cx)*py+(-cy*sx)*pz;  
+    this->m_Jacobian[0][0] = (cz*sy*cx+sz*sx)*py+(-cz*sy*sx+sz*cx)*pz;
+    this->m_Jacobian[1][0] = (sz*sy*cx-cz*sx)*py+(-sz*sy*sx-cz*cx)*pz;
+    this->m_Jacobian[2][0] = (cy*cx)*py+(-cy*sx)*pz;  
     
-    m_Jacobian[0][1] = (-cz*sy)*px+(cz*cy*sx)*py+(cz*cy*cx)*pz;
-    m_Jacobian[1][1] = (-sz*sy)*px+(sz*cy*sx)*py+(sz*cy*cx)*pz;
-    m_Jacobian[2][1] = (-cy)*px+(-sy*sx)*py+(-sy*cx)*pz;
+    this->m_Jacobian[0][1] = (-cz*sy)*px+(cz*cy*sx)*py+(cz*cy*cx)*pz;
+    this->m_Jacobian[1][1] = (-sz*sy)*px+(sz*cy*sx)*py+(sz*cy*cx)*pz;
+    this->m_Jacobian[2][1] = (-cy)*px+(-sy*sx)*py+(-sy*cx)*pz;
     
-    m_Jacobian[0][2] = (-sz*cy)*px+(-sz*sy*sx-cz*cx)*py+(-sz*sy*cx+cz*sx)*pz;
-    m_Jacobian[1][2] = (cz*cy)*px+(cz*sy*sx-sz*cx)*py+(cz*sy*cx+sz*sx)*pz;  
-    m_Jacobian[2][2] = 0;
+    this->m_Jacobian[0][2] = (-sz*cy)*px+(-sz*sy*sx-cz*cx)*py+(-sz*sy*cx+cz*sx)*pz;
+    this->m_Jacobian[1][2] = (cz*cy)*px+(cz*sy*sx-sz*cx)*py+(cz*sy*cx+sz*sx)*pz;  
+    this->m_Jacobian[2][2] = 0;
     }
   else
     {
-    m_Jacobian[0][0] = (-sz*cx*sy)*px + (sz*sx)*py + (sz*cx*cy)*pz;
-    m_Jacobian[1][0] = (cz*cx*sy)*px + (-cz*sx)*py + (-cz*cx*cy)*pz;
-    m_Jacobian[2][0] = (sx*sy)*px + (cx)*py + (-sx*cy)*pz;  
+    this->m_Jacobian[0][0] = (-sz*cx*sy)*px + (sz*sx)*py + (sz*cx*cy)*pz;
+    this->m_Jacobian[1][0] = (cz*cx*sy)*px + (-cz*sx)*py + (-cz*cx*cy)*pz;
+    this->m_Jacobian[2][0] = (sx*sy)*px + (cx)*py + (-sx*cy)*pz;  
     
-    m_Jacobian[0][1] = (-cz*sy-sz*sx*cy)*px + (cz*cy-sz*sx*sy)*pz;
-    m_Jacobian[1][1] = (-sz*sy+cz*sx*cy)*px + (sz*cy+cz*sx*sy)*pz;
-    m_Jacobian[2][1] = (-cx*cy)*px + (-cx*sy)*pz;
+    this->m_Jacobian[0][1] = (-cz*sy-sz*sx*cy)*px + (cz*cy-sz*sx*sy)*pz;
+    this->m_Jacobian[1][1] = (-sz*sy+cz*sx*cy)*px + (sz*cy+cz*sx*sy)*pz;
+    this->m_Jacobian[2][1] = (-cx*cy)*px + (-cx*sy)*pz;
     
-    m_Jacobian[0][2] = (-sz*cy-cz*sx*sy)*px + (-cz*cx)*py + (-sz*sy+cz*sx*cy)*pz;
-    m_Jacobian[1][2] = (cz*cy-sz*sx*sy)*px + (-sz*cx)*py + (cz*sy+sz*sx*cy)*pz;
-    m_Jacobian[2][2] = 0;
+    this->m_Jacobian[0][2] = (-sz*cy-cz*sx*sy)*px + (-cz*cx)*py + (-sz*sy+cz*sx*cy)*pz;
+    this->m_Jacobian[1][2] = (cz*cy-sz*sx*sy)*px + (-sz*cx)*py + (cz*sy+sz*sx*cy)*pz;
+    this->m_Jacobian[2][2] = 0;
     }
  
   // compute derivatives for the translation part
   unsigned int blockOffset = 3;  
   for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
     {
-    m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
+    this->m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
     }
 
-  return m_Jacobian;
+  return this->m_Jacobian;
 
 }
   

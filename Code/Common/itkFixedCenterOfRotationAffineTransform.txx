@@ -231,7 +231,7 @@ SetMatrix(const MatrixType &matrix)
     m_ScaleComponent[i] = 1;
     }
   m_ScaleMatrixComponent.SetIdentity();
-  m_MatrixMTime.Modified();
+  this->m_MatrixMTime.Modified();
   this->Modified();
 }
 
@@ -266,7 +266,7 @@ GetParameters( void ) const
     {
     for(unsigned int col=0; col<NDimensions; col++) 
       {
-      m_Parameters[par] = matrix[row][col];
+      this->m_Parameters[par] = matrix[row][col];
       ++par;
       }
     }
@@ -275,11 +275,11 @@ GetParameters( void ) const
   InputPointType pt = matrix*m_CenterOfRotationComponent;
   for(unsigned int i=0; i<NDimensions; i++) 
     {
-    m_Parameters[par] = offset[i]+pt[i]-m_CenterOfRotationComponent[i];
+    this->m_Parameters[par] = offset[i]+pt[i]-m_CenterOfRotationComponent[i];
     ++par;
     }
 
-  return m_Parameters;
+  return this->m_Parameters;
 }
 
 /** Set parameters of the transformation 
@@ -293,7 +293,7 @@ SetParameters( const ParametersType & parameters )
   // Transfer the linear part
   unsigned int par = 0;
 
-  m_Parameters = parameters;
+  this->m_Parameters = parameters;
   MatrixType matrix;
   OffsetType offset;
 
@@ -301,7 +301,7 @@ SetParameters( const ParametersType & parameters )
     {
     for(unsigned int col=0; col<NDimensions; col++) 
       {
-      matrix[row][col] = m_Parameters[par];
+      matrix[row][col] = this->m_Parameters[par];
       ++par;
       }
     }
@@ -312,14 +312,14 @@ SetParameters( const ParametersType & parameters )
   InputPointType pt = matrix*m_CenterOfRotationComponent;
   for (unsigned int i=0; i<NDimensions; i++)
     {
-    offset[i] = -pt[i] + m_CenterOfRotationComponent[i] + m_Parameters[par];
+    offset[i] = -pt[i] + m_CenterOfRotationComponent[i] + this->m_Parameters[par];
     par++;
     } 
 
   Superclass::SetOffset(offset);
  
   // Recompute the inverse
-  m_MatrixMTime.Modified();
+  this->m_MatrixMTime.Modified();
   this->Modified();
 }
 

@@ -30,7 +30,7 @@ VersorTransform<TScalarType>
 {
   m_Versor.SetIdentity();
   this->ComputeMatrix();
-  m_Jacobian = JacobianType( SpaceDimension, ParametersDimension );
+  this->m_Jacobian = JacobianType( SpaceDimension, ParametersDimension );
 }
 
 // Copy Constructor
@@ -113,17 +113,17 @@ VersorTransform<TScalarType>
   const TScalarType yw = vy * vw;
   const TScalarType zw = vz * vw;
 
-  m_RotationMatrix[0][0] = 1.0 - 2.0 * ( yy + zz );
-  m_RotationMatrix[1][1] = 1.0 - 2.0 * ( xx + zz );
-  m_RotationMatrix[2][2] = 1.0 - 2.0 * ( xx + yy );
-  m_RotationMatrix[0][1] = 2.0 * ( xy - zw );
-  m_RotationMatrix[0][2] = 2.0 * ( xz + yw );
-  m_RotationMatrix[1][0] = 2.0 * ( xy + zw );
-  m_RotationMatrix[2][0] = 2.0 * ( xz - yw );
-  m_RotationMatrix[2][1] = 2.0 * ( yz + xw );
-  m_RotationMatrix[1][2] = 2.0 * ( yz - xw );
+  this->m_RotationMatrix[0][0] = 1.0 - 2.0 * ( yy + zz );
+  this->m_RotationMatrix[1][1] = 1.0 - 2.0 * ( xx + zz );
+  this->m_RotationMatrix[2][2] = 1.0 - 2.0 * ( xx + yy );
+  this->m_RotationMatrix[0][1] = 2.0 * ( xy - zw );
+  this->m_RotationMatrix[0][2] = 2.0 * ( xz + yw );
+  this->m_RotationMatrix[1][0] = 2.0 * ( xy + zw );
+  this->m_RotationMatrix[2][0] = 2.0 * ( xz - yw );
+  this->m_RotationMatrix[2][1] = 2.0 * ( yz + xw );
+  this->m_RotationMatrix[1][2] = 2.0 * ( yz - xw );
  
-  m_RotationMatrixMTime.Modified();
+  this->m_RotationMatrixMTime.Modified();
 }
 
 
@@ -141,7 +141,7 @@ GetJacobian( const InputPointType & p ) const
   const ValueType vz = m_Versor.GetZ();
   const ValueType vw = m_Versor.GetW();
 
-  m_Jacobian.Fill(0.0);
+  this->m_Jacobian.Fill(0.0);
 
   const double px = p[0];
   const double py = p[1];
@@ -163,19 +163,19 @@ GetJacobian( const InputPointType & p ) const
 
 
   // compute Jacobian with respect to quaternion parameters
-  m_Jacobian[0][0] = 2.0 * (                  (vyw+vxz) * py + (vzw-vxy) * pz ) / vw;
-  m_Jacobian[1][0] = 2.0 * ( (vyw-vxz) * px   -2*vxw    * py + (vxx-vww) * pz ) / vw;
-  m_Jacobian[2][0] = 2.0 * ( (vzw+vxy) * px + (vww-vxx) * py   -2*vxw    * pz ) / vw;
+  this->m_Jacobian[0][0] = 2.0 * (                  (vyw+vxz) * py + (vzw-vxy) * pz ) / vw;
+  this->m_Jacobian[1][0] = 2.0 * ( (vyw-vxz) * px   -2*vxw    * py + (vxx-vww) * pz ) / vw;
+  this->m_Jacobian[2][0] = 2.0 * ( (vzw+vxy) * px + (vww-vxx) * py   -2*vxw    * pz ) / vw;
 
-  m_Jacobian[0][1] = 2.0 * (  -2*vyw   * px + (vxw+vyz) * py + (vww-vyy) * pz ) / vw;
-  m_Jacobian[1][1] = 2.0 * ( (vxw-vyz) * px                  + (vzw+vxy) * pz ) / vw;
-  m_Jacobian[2][1] = 2.0 * ( (vyy-vww) * px + (vzw-vxy) * py   -2*vyw    * pz ) / vw;
+  this->m_Jacobian[0][1] = 2.0 * (  -2*vyw   * px + (vxw+vyz) * py + (vww-vyy) * pz ) / vw;
+  this->m_Jacobian[1][1] = 2.0 * ( (vxw-vyz) * px                  + (vzw+vxy) * pz ) / vw;
+  this->m_Jacobian[2][1] = 2.0 * ( (vyy-vww) * px + (vzw-vxy) * py   -2*vyw    * pz ) / vw;
 
-  m_Jacobian[0][2] = 2.0 * (  -2*vzw   * px + (vzz-vww) * py + (vxw-vyz) * pz ) / vw;
-  m_Jacobian[1][2] = 2.0 * ( (vww-vzz) * px   -2*vzw    * py + (vyw+vxz) * pz ) / vw;
-  m_Jacobian[2][2] = 2.0 * ( (vxw+vyz) * px + (vyw-vxz) * py                  ) / vw;
+  this->m_Jacobian[0][2] = 2.0 * (  -2*vzw   * px + (vzz-vww) * py + (vxw-vyz) * pz ) / vw;
+  this->m_Jacobian[1][2] = 2.0 * ( (vww-vzz) * px   -2*vzw    * py + (vyw+vxz) * pz ) / vw;
+  this->m_Jacobian[2][2] = 2.0 * ( (vxw+vyz) * px + (vyw-vxz) * py                  ) / vw;
 
-  return m_Jacobian;
+  return this->m_Jacobian;
 
 }
   
