@@ -73,7 +73,7 @@ public:
    * otherwise. in fact, SegmentationLevelSetImageFilter tries to set
    * it when SetFeatureScaling is called.
    */
-  void SetAdvectionWeight(ScalarValueType value)
+  void SetAdvectionWeight(const ScalarValueType value)
     {
       if (value == NumericTraits<ScalarValueType>::Zero)
         {
