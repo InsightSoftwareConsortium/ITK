@@ -48,12 +48,21 @@ int main(void)
   
   // Test it all
   
-  itk::RGBPixel<float> pixel = {{1.0f, 0.0f, .5f}};
-  itk::RGBPixel<char> pixelArray[2] = {{255, 255, 255}, {255, 255, 244}};
+  float val[3] = {1, 0, .5};
+  itk::RGBPixel<float> pixel(val);
+  itk::RGBPixel<char> pixelArray[2];
+  pixelArray[0] = 255, 255, 255;
+  pixelArray[1] = 255, 255, 244;
   
+  std::cout << "sizeof(pixel) = " << sizeof (pixel) << std::endl;
+  if (sizeof(pixel) != 3 * sizeof(itk::RGBPixel<float>::ComponentType))
+    {
+    std::cerr << "ERROR: sizeof(pixel) == " << sizeof(pixel) << " but is shopuld be " << 3 * sizeof(itk::RGBPixel<float>::ComponentType) << std::endl;
+    return 1;
+    }
   std::cout << "pixel.GetNumberOfComponents = " << pixel.GetNumberOfComponents() << std::endl;
   std::cout << "pixel.GetScalarValue() = " << pixel.GetScalarValue() << std::endl;
-  std::cout <<"pixel.GetNthComponent()" << std::endl;
+  std::cout << "pixel.GetNthComponent()" << std::endl;
   for (i = 0; i < pixel.GetNumberOfComponents(); i++)
     {
     std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;
@@ -68,9 +77,9 @@ int main(void)
   std::cout << "pixel.GetGreen() = " << pixel.GetGreen() << std::endl;
   std::cout << "pixel.GetBlue() = " << pixel.GetBlue() << std::endl;
   
-  std::cout << "pixel.m_Components[0] = 111; pixel.m_Components[1] = 222; pixel.m_Components[2] = 333;" << std::endl;
+  std::cout << "pixel[0] = 111; pixel[1] = 222; pixel[2] = 333;" << std::endl;
   
-  pixel.m_Components[0] = 111; pixel.m_Components[1] = 222; pixel.m_Components[2] = 333;
+  pixel[0] = 111; pixel[1] = 222; pixel = 333;
   for (i = 0; i < pixel.GetNumberOfComponents(); i++)
     {
     std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;

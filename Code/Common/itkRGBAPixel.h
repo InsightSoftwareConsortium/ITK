@@ -47,63 +47,109 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 #include <itkIndent.h>
+#include <itkArray.h>
+#include "vnl/vnl_math.h"
 
 namespace itk
 {
 
 /** \class RGBAPixel
- * \brief Represent Red, Green Blue, and Alpha components for color images
+ * \brief Represent Red, Green, Blue cand Alpha component for color images
  *
  * This class is templated over the representation used for each
  * component. 
  *
- * For efficiency sake, RGBAPixel does not define a
- * copy constructor, or an operator=. We rely on the compiler to provide
- * efficient bitwise copies.
- *
- * RGBAPixl is an "aggregate" class.  Its data is public 
- * (m_Red, m_Green, m_Blue)
- * allowing for fast and convenient instantiations/assignments.
- *
  * The following syntax for assigning an index is allowed/suggested:
  *
- *    RGBAPixl<float> pixel = {{1.0f, 0.0f, .5f, .5f}};
- *    RGBAPixl<char> pixelArray[2] = {{255, 255, 255, 150}, {255, 255, 244, 150}};
+ *    RGBAPixel<float> pixel; pixel = 1.0f, 0.0f, .5f, .8;
+ *    RGBAPixel<char> pixelArray[2];
+ *    pixelArray[0] = 255, 255, 255, 230;
+ *    pixelArray[1] = 255, 255, 244, 255;
  *
+ * Since RGBAPixel is a subclass of Array, you can access its components as:
+ * pixel[0], pixel[1], pixel[2], pixel[3]
  * \ingroup ImageObjects
  *
  */
 
 template < typename TComponent = unsigned short >
-class RGBAPixel
+class RGBAPixel: public Array<TComponent,4>
 {
 public:
   ///! Standard "Self" typedef.
   typedef RGBAPixel  Self;
+
+  ///! Standard "Super" typedef.
+  typedef Array<TComponent, 4> Super;
+
+  ///! The Array type from which this RGBAPixel is derived.
+  typedef Array<TComponent, 4> BaseArray;
+  typedef typename BaseArray::ArrayCommaListCopier  ArrayCommaListCopier;
+
   ///!  Define the component type
-  typedef   TComponent    ComponentType;
+  typedef TComponent ComponentType;
+
+  /**
+   * Default constructor has nothing to do.
+   */
+  RGBAPixel() {Fill(0);}
+  RGBAPixel (const ComponentType& r);
+
+  /*@{
+   * Pass-through constructor for the Array base class.
+   */
+  RGBAPixel(const Self& r): BaseArray(r) {}
+  RGBAPixel(const typename BaseArray::Reference& r): BaseArray(r) {}
+  RGBAPixel(const typename BaseArray::ConstReference& r): BaseArray(r) {}
+  RGBAPixel(const ComponentType  r[4]): BaseArray(r) {}  
+  //@}
+  
+  /*@{
+   * Pass-through assignment operator for the Array base class.
+   */
+  RGBAPixel& operator= (const Self& r);
+  RGBAPixel& operator= (const typename BaseArray::Reference& r);
+  RGBAPixel& operator= (const typename BaseArray::ConstReference& r);
+  RGBAPixel& operator= (const ComponentType r[4]);
+  ArrayCommaListCopier operator= (const ComponentType& r);
+  //@}
+
+  ///! Return the number of componentsxquery-rep
+  
+  static int GetNumberOfComponents(){ return 4;}
+  ///! Return the value for the Nth Component
+  ComponentType GetNthComponent(int c) const
+    { return this->operator[](c); }
+  ///! Return the value for the Nth Component
+  ComponentType GetScalarValue() const
+    {
+      return static_cast<ComponentType> (vnl_math_sqrt(
+	  static_cast<double>(this->operator[](0)) * static_cast<double>(this->operator[](0)) +
+          static_cast<double>(this->operator[](1)) * static_cast<double>(this->operator[](1)) +
+          static_cast<double>(this->operator[](2)) * static_cast<double>(this->operator[](2)))); 
+    }
+  ///! Set the Nth component to v
+  void SetNthComponent(int c, const ComponentType& v)  
+    {  this->operator[](c) = v; }
   ///! Set the Red component
-  void SetRed( ComponentType red ) { m_Red = red;}
+  void SetRed( ComponentType red ) { this->operator[](0) = red;}
   ///! Set the Green component
-  void SetGreen( ComponentType green ) {m_Green = green;}
+  void SetGreen( ComponentType green ) {this->operator[](1) = green;}
   ///! Set the Blue component
-  void SetBlue( ComponentType blue ) {m_Blue = blue;}
-  ///! Set the three components
-  void Set( ComponentType red, ComponentType green, ComponentType blue )
-    { m_Red = red; m_Green = green, m_Blue = blue;}
+  void SetBlue( ComponentType blue ) {this->operator[](2) = blue;}
+  ///! Set the Alpha component
+  void SetAlpha( ComponentType alpha ) {this->operator[](3) = alpha;}
+  ///! Set the four components
+  void Set( ComponentType red, ComponentType green, ComponentType blue, ComponentType alpha )
+    { this->operator[](0) = red; this->operator[](1) = green; this->operator[](2) = blue; this->operator[](3) = alpha;}
   ///! Get the Red component
-  const ComponentType & GetRed( void ) const { return m_Red;}
+  const ComponentType & GetRed( void ) const { return this->operator[](0);}
   ///! Get the Green component
-  const ComponentType & GetGreen( void ) const { return m_Green;}
+  const ComponentType & GetGreen( void ) const { return this->operator[](1);}
   ///! Get the Blue component
-  const ComponentType & GetBlue( void ) const { return m_Blue;}
+  const ComponentType & GetBlue( void ) const { return this->operator[](2);}
   ///! Get the Alpha component
-  const ComponentType & GetAlpha( void ) const { return m_Alpha;}
-  ///! Red, Green, Blue and Alpha components
-  ComponentType  m_Red;
-  ComponentType  m_Green;
-  ComponentType  m_Blue;
-  ComponentType  m_Alpha;
+  const ComponentType & GetAlpha( void ) const { return this->operator[](3);}
 };
 
 
@@ -113,10 +159,7 @@ ITK_EXPORT std::ostream& operator<<(std::ostream& os,
 
 template< typename TComponent  >  
 ITK_EXPORT std::istream& operator>>(std::istream& is, 
-                                    RGBAPixel<TComponent> & c); 
-
-
-
+                                          RGBAPixel<TComponent> & c); 
 
 } // end namespace itk
 

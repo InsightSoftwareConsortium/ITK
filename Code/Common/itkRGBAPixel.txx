@@ -46,6 +46,68 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
+  /*
+ * Assignment Operator
+ */
+template<class T>
+RGBAPixel<T>&
+RGBAPixel<T>
+::operator= (const Self& r)
+{
+  BaseArray::operator=(r);
+  return *this;
+}
+
+
+/*
+ * Assignment from a Base Array
+ */
+template<class T>
+RGBAPixel<T>&
+RGBAPixel<T>
+::operator= (const typename BaseArray::Reference& r)
+{
+  BaseArray::operator=(r);
+  return *this;
+}
+
+
+/*
+ * Assignment from a Const Base Array
+ */
+template<class T>
+RGBAPixel<T>&
+RGBAPixel<T>
+::operator= (const typename BaseArray::ConstReference& r)
+{
+  BaseArray::operator=(r);
+  return *this;
+}
+
+
+/*
+ * Assigment from a plain array
+ */
+template<class T>
+RGBAPixel<T>&
+RGBAPixel<T>
+::operator= (const ComponentType r[4])
+{
+  BaseArray::operator=(r);
+  return *this;
+}
+
+
+/*
+ * Assignment from a const scalar value
+ */
+template<class T>
+typename RGBAPixel<T>::ArrayCommaListCopier
+RGBAPixel<T>
+::operator= (const ComponentType& r)
+{
+  return BaseArray::operator=(r);
+}
 
 /**
  * Print content to an ostream
@@ -54,10 +116,10 @@ template<class TComponent>
 std::ostream &
 operator<<(std::ostream& os,const RGBAPixel<TComponent> & c ) 
 {
-  os <<  c.GetRed() << "  ";
-  os <<  c.GetGreen() << "  ";
-  os <<  c.GetBlue() << "  ";
-  os <<  c.GetAlpha();
+  os <<  c[0] << "  ";
+  os <<  c[1] << "  ";
+  os <<  c[2] << "  ";
+  os <<  c[3] ;
   return os;
 }
 
@@ -69,7 +131,15 @@ template<class TComponent>
 std::istream &
 operator>>(std::istream& is, RGBAPixel<TComponent> & c ) 
 {
-  is >> c.m_Red >> c.m_Green >> c.m_Blue >> c.m_Alpha;
+  TComponent red;
+  TComponent green;
+  TComponent blue;
+  TComponent alpha;
+  is >> red >> green >> blue;
+  c.SetRed( red );
+  c.SetGreen( green );
+  c.SetBlue( blue );
+  c.SetAlpha( alpha );
   return is;
 }
 

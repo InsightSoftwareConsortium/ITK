@@ -48,12 +48,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 int main()
 { 
   int k;
-  itk::RGBPixel<int> pi = {3, 1, 4};
-  itk::RGBAPixel<int> pia = {3, 1, 4, 1};
+  itk::RGBPixel<int> pi; pi = 3, 1, 4;
+  itk::RGBAPixel<int> pia; pia = 3, 1, 4, 1;
   std::cerr << "RGBPixel<int>: " <<  pi << "\n";
   std::cerr << "RGBAPixel<int>: " << pia << "\n";
 
-  itk::RGBAPixel<int> pa[] = {{1,1,1,0}, {2,2,2,2}, {3,3,3,4}};
+  itk::RGBAPixel<int> pa[3];
+  pa[0] = 1,1,1,0;
+  pa[1] = 2,2,2,2;
+  pa[2] = 3,3,3,4;
   int ipa[] = {1, 2, 3};
   itk::RGBPixel<int> p[3];
   // convert from int to RGB<int>
