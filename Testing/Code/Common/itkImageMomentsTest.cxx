@@ -39,7 +39,7 @@ main(
 
     /* Define positions of the test masses in index coordinates */
     unsigned short mass = 1;           // Test mass
-    long point[8][3] = {
+    unsigned long point[8][3] = {
 	{ 10+8, 20+12, 40+0},
 	{ 10-8, 20-12, 40-0},
 	{ 10+3, 20-8,  40+0},
