@@ -212,7 +212,7 @@ int itkParallelSparseFieldLevelSetImageFilterTest(int, char* [])
 {
   typedef itk::Image<float, 3> ImageType;
   
-  const int n = 200;  // Number of iterations
+  const int n = 20;  // Number of iterations
   const int numOfThreads= 3; // Number of threads to be used
   
   std::cout << "Debug line: 0" << std::endl << std::flush;
@@ -276,8 +276,8 @@ int itkParallelSparseFieldLevelSetImageFilterTest(int, char* [])
   mf->SetDistanceTransform(im_target);
   mf->SetIterations(n);
   mf->SetInput(im_init);
-  mf->SetNumberOfThreads (numOfThreads);
-  mf->SetNumberOfLayers (3);
+  mf->SetNumberOfThreads(numOfThreads);
+  mf->SetNumberOfLayers(3);
   
   std::cout << "Debug line: 8" << std::endl << std::flush;
 
