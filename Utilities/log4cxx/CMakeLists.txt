@@ -138,3 +138,8 @@ IF( NOT ITK_DISABLE_CXX_TESTING )
   ADD_TEST(log4cxxTest ${CXX_TEST_PATH}/log4cxxTest)
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 
+# Need nsl to resolve gethostbyname on SunOS-5.8
+# and socket also
+IF(CMAKE_SYSTEM MATCHES "SunOS.*")
+  TARGET_LINK_LIBRARIES(log4cxx socket nsl)
+ENDIF(CMAKE_SYSTEM MATCHES "SunOS.*")
