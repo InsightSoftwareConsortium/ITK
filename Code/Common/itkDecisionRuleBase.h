@@ -34,11 +34,12 @@ namespace itk
  
 class ITKCommon_EXPORT DecisionRuleBase : public Object
 {
- public:
+public:
   /** Standard class typedefs */ 
   typedef DecisionRuleBase Self ;
   typedef Object Superclass;
   typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
   
   /** Run-time type information (and related methods) */
   itkTypeMacro(DecisionRuleBase, Object);
@@ -50,12 +51,12 @@ class ITKCommon_EXPORT DecisionRuleBase : public Object
   virtual unsigned int Evaluate(std::vector< double >
                                 &discriminantScores) = 0 ;
 
- protected:
+protected:
   DecisionRuleBase();
   virtual ~DecisionRuleBase();
   void PrintSelf(std::ostream& os, Indent indent) const;
   
- private:
+private:
   
 } ; // end of class
 
