@@ -132,6 +132,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMorphologyImageFilter.txx"
 #include "itkMultiplyImageFilter.h"
 #include "itkNarrowBand.txx"
+#include "itkNarrowBandImageFilterBase.txx"
 #include "itkNaryAddImageFilter.h"
 #include "itkNaryFunctorImageFilter.txx"
 #include "itkNeighborhoodConnectedImageFilter.txx"
