@@ -81,7 +81,8 @@ public:
 
   /** A shape is defined by a set of shape parameters. */
   virtual void SetParameters( const ParametersType & ) = 0;
-  virtual const ParametersType& GetParameters(void) const = 0;
+  virtual ParametersType& GetParameters(void)
+    { return m_Parameters; }
   virtual unsigned int GetNumberOfShapeParameters(void) const = 0;
   virtual unsigned int GetNumberOfPoseParameters(void) const = 0;
   virtual unsigned int GetNumberOfParameters(void) const
@@ -103,7 +104,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const
     { 
     Superclass::PrintSelf( os, indent );
-    os << indent << "Parameters: " << m_Parameters << std::endl;
+//FIX    os << indent << "Parameters: " << m_Parameters << std::endl;
     }
 
   ParametersType  m_Parameters;

@@ -67,7 +67,7 @@ VectorMeanImageFunction<TInputImage,TCoordRep>
 
   sum.Fill( NumericTraits< PixelComponentRealType >::Zero );
   
-  if( !m_Image )
+  if( !this->GetInputImage() )
     {
     sum.Fill( NumericTraits< PixelComponentRealType >::max() );
     return sum;
@@ -84,7 +84,7 @@ VectorMeanImageFunction<TInputImage,TCoordRep>
   kernelSize.Fill( m_NeighborhoodRadius );
   
   ConstNeighborhoodIterator<InputImageType>
-    it(kernelSize, m_Image, m_Image->GetBufferedRegion());
+    it(kernelSize, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion());
 
   // Set the iterator at the desired location
   it.SetLocation(index);

@@ -82,20 +82,20 @@ public:
     IndexType nindex;
     for ( unsigned int j = 0; j < ImageDimension; j++ )
       {
-      if ( index[j] < m_StartContinuousIndex[j] ) 
+      if ( index[j] < this->GetStartContinuousIndex()[j] ) 
         { 
-        nindex[j] = m_StartIndex[j]; 
+        nindex[j] = this->GetStartIndex()[j]; 
         }
-      else if ( index[j] > m_EndContinuousIndex[j] ) 
+      else if ( index[j] > this->GetEndContinuousIndex()[j] ) 
         { 
-        nindex[j] = m_EndIndex[j];
+        nindex[j] = this->GetEndIndex()[j];
         }
       else
         {
         nindex[j] = static_cast<ValueType>( vnl_math_rnd( index[j] ) );
         }
       }
-    return static_cast<OutputType>( m_Image->GetPixel( nindex ) );
+    return static_cast<OutputType>( this->GetInputImage()->GetPixel( nindex ) );
   }
 
 
@@ -112,20 +112,20 @@ public:
     IndexType nindex;
     for ( unsigned int j = 0; j < ImageDimension; j++ )
       {
-      if ( index[j] < m_StartIndex[j] ) 
+      if ( index[j] < this->GetStartIndex()[j] ) 
         { 
-        nindex[j] = m_StartIndex[j]; 
+        nindex[j] = this->GetStartIndex()[j]; 
         }
-      else if ( index[j] > m_EndIndex[j] ) 
+      else if ( index[j] > this->GetEndIndex()[j] ) 
         { 
-        nindex[j] = m_EndIndex[j];
+        nindex[j] = this->GetEndIndex()[j];
         }
       else
         {
         nindex[j] = index[j];
         }
       }
-    return static_cast<OutputType>( m_Image->GetPixel( nindex ) );
+    return static_cast<OutputType>( this->GetInputImage()->GetPixel( nindex ) );
   }
 
 

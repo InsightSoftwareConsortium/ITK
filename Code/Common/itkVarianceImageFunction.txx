@@ -64,7 +64,7 @@ VarianceImageFunction<TInputImage,TCoordRep>
   sum = NumericTraits<RealType>::Zero;
   sumOfSquares = NumericTraits<RealType>::Zero;
   
-  if( !m_Image )
+  if( !this->GetInputImage() )
     {
     return ( NumericTraits<RealType>::max() );
     }
@@ -79,7 +79,7 @@ VarianceImageFunction<TInputImage,TCoordRep>
   kernelSize.Fill( m_NeighborhoodRadius );
   
   ConstNeighborhoodIterator<InputImageType>
-    it(kernelSize, m_Image, m_Image->GetBufferedRegion());
+    it(kernelSize, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion());
 
   // Set the iterator at the desired location
   it.SetLocation(index);

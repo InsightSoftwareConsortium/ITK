@@ -46,7 +46,7 @@ PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension,TImage>
 
   m_WeightOfPrincipalComponents.SetSize(0);
   m_TransformParameters.SetSize(0);
-  m_Parameters.SetSize(0);
+  this->GetParameters().SetSize(0);
 }
     
 
@@ -72,7 +72,7 @@ void
 PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension,TImage>
 ::SetParameters( const ParametersType & parameters )
 {
-  m_Parameters = parameters;
+  this->m_Parameters = parameters;
 
   // set the shape parameters
   unsigned int i;

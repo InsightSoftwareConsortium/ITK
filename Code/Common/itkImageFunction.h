@@ -180,6 +180,12 @@ public:
       { index[j] = static_cast<ValueType>( vnl_math_rnd( cindex[j] ) ); }
     }
   
+  itkGetConstReferenceMacro(StartIndex, IndexType);
+  itkGetConstReferenceMacro(EndIndex, IndexType);
+
+  itkGetConstReferenceMacro(StartContinuousIndex, ContinuousIndexType);
+  itkGetConstReferenceMacro(EndContinuousIndex, ContinuousIndexType);
+
 protected:
   ImageFunction();
   ~ImageFunction() {}

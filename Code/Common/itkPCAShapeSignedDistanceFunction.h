@@ -156,8 +156,6 @@ public:
 
   /** A PCAShape is defined by a set of shape and pose parameters. */
   virtual void SetParameters( const ParametersType & );
-  virtual const ParametersType& GetParameters(void) const
-    { return m_Parameters; }
   virtual unsigned int GetNumberOfShapeParameters(void) const
     { return m_NumberOfPrincipalComponents; }
   virtual unsigned int GetNumberOfPoseParameters(void) const

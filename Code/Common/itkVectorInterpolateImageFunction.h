@@ -114,7 +114,7 @@ public:
   virtual OutputType Evaluate( const PointType& point ) const
     {
     ContinuousIndexType index;
-    m_Image->TransformPhysicalPointToContinuousIndex( point, index );
+    this->GetInputImage()->TransformPhysicalPointToContinuousIndex( point, index );
     return ( this->EvaluateAtContinuousIndex( index ) );
     }
 
@@ -141,7 +141,7 @@ public:
   virtual OutputType EvaluateAtIndex( const IndexType & index ) const
     {
     OutputType output;
-    PixelType input = m_Image->GetPixel( index );
+    PixelType input = this->GetInputImage()->GetPixel( index );
     for( unsigned int k = 0; k < Dimension; k++ )
       {
       output[k] = static_cast<double>( input[k] );

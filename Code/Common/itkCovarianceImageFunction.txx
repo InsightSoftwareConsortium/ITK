@@ -69,7 +69,7 @@ CovarianceImageFunction<TInputImage,TCoordRep>
   
 
 
-  if( !m_Image )
+  if( !this->GetInputImage() )
     {
     itkExceptionMacro( << "No image connected to CovarianceImageFunction");
     covariance.fill( NumericTraits< PixelComponentRealType >::max() );
@@ -94,7 +94,7 @@ CovarianceImageFunction<TInputImage,TCoordRep>
   kernelSize.Fill( m_NeighborhoodRadius );
   
   ConstNeighborhoodIterator<InputImageType>
-    it(kernelSize, m_Image, m_Image->GetBufferedRegion());
+    it(kernelSize, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion());
 
   // Set the iterator at the desired location
   it.SetLocation(index);

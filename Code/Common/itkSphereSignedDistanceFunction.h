@@ -76,7 +76,6 @@ public:
   /** A sphere is defined by a set of shape parameters. The first parameter 
    * is the radius and the next SpaceDimension parameters represent the center. */
   virtual void SetParameters( const ParametersType & );
-  virtual const ParametersType& GetParameters(void) const;
   virtual unsigned int GetNumberOfShapeParameters(void) const
     { return 1; }
   virtual unsigned int GetNumberOfPoseParameters(void) const

@@ -69,7 +69,7 @@ ScatterMatrixImageFunction<TInputImage,TCoordRep>
   covariance = vnl_matrix< PixelComponentRealType >( VectorDimension, VectorDimension );
   covariance.fill( NumericTraits< PixelComponentRealType >::Zero );
   
-  if( !m_Image )
+  if( !this->GetInputImage() )
     {
     covariance.fill( NumericTraits< PixelComponentRealType >::max() );
     return covariance;
@@ -86,7 +86,7 @@ ScatterMatrixImageFunction<TInputImage,TCoordRep>
   kernelSize.Fill( m_NeighborhoodRadius );
   
   ConstNeighborhoodIterator<InputImageType>
-    it(kernelSize, m_Image, m_Image->GetBufferedRegion());
+    it(kernelSize, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion());
 
   // Set the iterator at the desired location
   it.SetLocation(index);

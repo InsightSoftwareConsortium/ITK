@@ -58,7 +58,7 @@ NeighborhoodBinaryThresholdImageFunction<TInputImage,TCoordRep>
 ::EvaluateAtIndex(const IndexType& index) const
 {
   
-  if( !m_Image )
+  if( !this->GetInputImage() )
     {
     return ( false );
     }
@@ -70,7 +70,7 @@ NeighborhoodBinaryThresholdImageFunction<TInputImage,TCoordRep>
 
   // Create an N-d neighborhood kernel, using a zeroflux boundary condition
   ConstNeighborhoodIterator<InputImageType>
-    it(m_Radius, m_Image, m_Image->GetBufferedRegion());
+    it(m_Radius, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion());
 
   // Set the iterator at the desired location
   it.SetLocation(index);

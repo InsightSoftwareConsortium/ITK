@@ -81,7 +81,7 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
 template <class TInputImage, class TOutput>
 void
 GaussianDerivativeImageFunction<TInputImage,TOutput>
-::SetSigma( const double variance[Self::ImageDimension2] )
+::SetSigma( const double sigma[Self::ImageDimension2] )
 {
   unsigned int i; 
   for (i=0; i<itkGetStaticConstMacro(ImageDimension2); i++)

@@ -79,7 +79,7 @@ public:
   {
    IndexType nindex;
    this->ConvertContinuousIndexToNearestIndex(index, nindex);
-   return static_cast<OutputType>( m_Image->GetPixel( nindex ) );
+   return static_cast<OutputType>( this->GetInputImage()->GetPixel( nindex ) );
   }
 
 protected:

@@ -245,7 +245,7 @@ WindowedSincInterpolateImageFunction<TInputImage,VRadius,
   // Position the neighborhood at the index of interest
   Size<ImageDimension> radius;
   radius.Fill(VRadius);
-  IteratorType nit = IteratorType( radius, m_Image, m_Image->GetBufferedRegion());
+  IteratorType nit = IteratorType( radius, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion());
   nit.SetLocation( baseIndex );
   
   // Compute the sinc function for each dimension

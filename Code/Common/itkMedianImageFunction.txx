@@ -60,7 +60,7 @@ MedianImageFunction<TInputImage,TCoordRep>
 {
   unsigned int i;
   
-  if( !m_Image )
+  if( !this->GetInputImage() )
     {
     return ( NumericTraits<OutputType>::max() );
     }
@@ -75,7 +75,7 @@ MedianImageFunction<TInputImage,TCoordRep>
   kernelSize.Fill( 1 );
   
   ConstNeighborhoodIterator<InputImageType>
-    it(kernelSize, m_Image, m_Image->GetBufferedRegion());
+    it(kernelSize, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion());
 
   // Set the iterator at the desired location
   it.SetLocation(index);

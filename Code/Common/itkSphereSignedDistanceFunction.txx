@@ -28,9 +28,9 @@ template<typename TCoordRep, unsigned int VSpaceDimension>
 SphereSignedDistanceFunction<TCoordRep, VSpaceDimension>
 ::SphereSignedDistanceFunction()
 {
-  m_Parameters.SetSize( SpaceDimension + 1 );
-  m_Parameters.Fill( 0.0 );
-  m_Parameters[0] = 1.0;
+  this->GetParameters().SetSize( SpaceDimension + 1 );
+  this->GetParameters().Fill( 0.0 );
+  this->GetParameters()[0] = 1.0;
   m_Translation.Fill( 0.0 );
   m_Radius = 1.0;
 }
@@ -42,9 +42,9 @@ void
 SphereSignedDistanceFunction<TCoordRep, VSpaceDimension>
 ::SetParameters( const ParametersType & parameters )
 {
-  if ( parameters != m_Parameters )
+  if ( parameters != this->GetParameters() )
     {
-    m_Parameters = parameters;
+    this->m_Parameters = parameters;
 
     m_Radius = parameters[0];
 
@@ -55,16 +55,6 @@ SphereSignedDistanceFunction<TCoordRep, VSpaceDimension>
 
     this->Modified();
     }
-}
-
-// Get the parameters
-template<typename TCoordRep, unsigned int VSpaceDimension>
-const typename SphereSignedDistanceFunction<TCoordRep, VSpaceDimension>
-::ParametersType &
-SphereSignedDistanceFunction<TCoordRep, VSpaceDimension>
-::GetParameters( void ) const
-{
-  return m_Parameters;
 }
 
 // Print self

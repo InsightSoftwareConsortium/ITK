@@ -59,9 +59,9 @@ CentralDifferenceImageFunction<TInputImage,TCoordRep>
   IndexType neighIndex = index;
 
   const typename InputImageType::SizeType& size =
-    m_Image->GetBufferedRegion().GetSize();
+    this->GetInputImage()->GetBufferedRegion().GetSize();
   const typename InputImageType::IndexType& start =
-    m_Image->GetBufferedRegion().GetIndex();
+    this->GetInputImage()->GetBufferedRegion().GetIndex();
 
   for ( unsigned int dim = 0; dim < TInputImage::ImageDimension; dim++ )
     {
@@ -75,12 +75,12 @@ CentralDifferenceImageFunction<TInputImage,TCoordRep>
     
     // compute derivative
     neighIndex[dim] += 1;
-    derivative[dim] = m_Image->GetPixel( neighIndex );
+    derivative[dim] = this->GetInputImage()->GetPixel( neighIndex );
 
     neighIndex[dim] -= 2;
-    derivative[dim] -= m_Image->GetPixel( neighIndex );
+    derivative[dim] -= this->GetInputImage()->GetPixel( neighIndex );
 
-    derivative[dim] *= 0.5 / m_Image->GetSpacing()[dim];
+    derivative[dim] *= 0.5 / this->GetInputImage()->GetSpacing()[dim];
     neighIndex[dim] += 1;
   }
 

@@ -115,7 +115,7 @@ public:
    * calling the method. */
   virtual bool EvaluateAtIndex( const IndexType & index ) const
     {
-    PixelType value = m_Image->GetPixel(index);
+    PixelType value = this->GetInputImage()->GetPixel(index);
     return ( m_Lower <= value && value <= m_Upper);
     }
 

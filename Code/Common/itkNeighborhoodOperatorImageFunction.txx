@@ -50,7 +50,7 @@ NeighborhoodOperatorImageFunction<TInputImage,TOutput>
 {
   NeighborhoodInnerProduct<InputImageType,TOutput,TOutput> smartInnerProduct;
   ConstNeighborhoodIterator<InputImageType> bit;
-  bit = ConstNeighborhoodIterator<InputImageType>(m_Operator.GetRadius(),m_Image,m_Image->GetRequestedRegion());
+  bit = ConstNeighborhoodIterator<InputImageType>(m_Operator.GetRadius(),this->GetInputImage(),this->GetInputImage()->GetRequestedRegion());
   bit.SetLocation(index);
   
   return smartInnerProduct(bit, m_Operator);
