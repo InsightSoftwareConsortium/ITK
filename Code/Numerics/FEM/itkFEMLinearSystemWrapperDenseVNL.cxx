@@ -21,6 +21,7 @@
 #endif
 
 #include "itkFEMLinearSystemWrapperDenseVNL.h"
+#include "itkFEMException.h"
 
 namespace itk {
 namespace fem {
@@ -34,7 +35,7 @@ void LinearSystemWrapperDenseVNL::InitializeMatrix(unsigned int matrixIndex)
   if (m_Matrices == 0)
   {
     m_Matrices = new MatrixHolder(m_NumberOfMatrices);
-    if (m_Matrices == NULL) throw;
+    if (m_Matrices == NULL) throw FEMException(__FILE__, __LINE__, "FEM error!");
   }
 
   // out with old, in with new
@@ -44,7 +45,7 @@ void LinearSystemWrapperDenseVNL::InitializeMatrix(unsigned int matrixIndex)
   }
 
   (*m_Matrices)[matrixIndex] = new MatrixRepresentation(this->GetSystemOrder(), this->GetSystemOrder() );
-  if ( (*m_Matrices)[matrixIndex] == NULL) throw;
+  if ( (*m_Matrices)[matrixIndex] == NULL) throw FEMException(__FILE__, __LINE__, "FEM error!");
 
   (*m_Matrices)[matrixIndex]->fill(0.0);
 
@@ -76,7 +77,7 @@ void LinearSystemWrapperDenseVNL::InitializeVector(unsigned int vectorIndex)
   if (m_Vectors == 0)
   {
     m_Vectors = new std::vector< vnl_vector<Float>* >(m_NumberOfVectors);
-    if (m_Vectors == NULL) throw;
+    if (m_Vectors == NULL) throw FEMException(__FILE__, __LINE__, "FEM error!");
   }
 
   // out with old, in with new
@@ -86,7 +87,7 @@ void LinearSystemWrapperDenseVNL::InitializeVector(unsigned int vectorIndex)
   }
 
   (*m_Vectors)[vectorIndex] = new vnl_vector<Float>(this->GetSystemOrder());
-  if ( (*m_Vectors)[vectorIndex] == NULL) throw;
+  if ( (*m_Vectors)[vectorIndex] == NULL) throw FEMException(__FILE__, __LINE__, "FEM error!");
   (*m_Vectors)[vectorIndex]->fill(0.0);
 
   return;
@@ -117,7 +118,7 @@ void LinearSystemWrapperDenseVNL::InitializeSolution(unsigned int solutionIndex)
   if (m_Solutions == 0)
   {
     m_Solutions = new std::vector< vnl_vector<Float>* >(m_NumberOfSolutions);
-    if (m_Solutions == NULL) throw;
+    if (m_Solutions == NULL) throw FEMException(__FILE__, __LINE__, "FEM error!");
   }
 
   // out with old, in with new
@@ -127,7 +128,7 @@ void LinearSystemWrapperDenseVNL::InitializeSolution(unsigned int solutionIndex)
   }
 
   (*m_Solutions)[solutionIndex] = new vnl_vector<Float>(this->GetSystemOrder());
-  if ( (*m_Solutions)[solutionIndex] == NULL) throw;
+  if ( (*m_Solutions)[solutionIndex] == NULL) throw FEMException(__FILE__, __LINE__, "FEM error!");
   (*m_Solutions)[solutionIndex]->fill(0.0);
 
   return;
@@ -163,7 +164,7 @@ LinearSystemWrapperDenseVNL::Float LinearSystemWrapperDenseVNL::GetSolutionValue
 void LinearSystemWrapperDenseVNL::Solve(void)
 {
 
-  if( (m_Matrices->size() == 0) || (m_Vectors->size() == 0) || (m_Solutions->size() == 0) ) throw;
+  if( (m_Matrices->size() == 0) || (m_Vectors->size() == 0) || (m_Solutions->size() == 0) ) throw FEMException(__FILE__, __LINE__, "FEM error!");
 
   /* use functions to make sure that zero based matrix, vector, & index store final system to solve */
   /*

@@ -17,6 +17,7 @@
 #include "itpack.h"
 #include "itpack_f2c.h"
 #include "itkFEMLinearSystemWrapperItpack.h"
+#include "itkFEMException.h"
 #include <vector>
 
 namespace itk {
