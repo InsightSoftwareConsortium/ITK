@@ -14,7 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
 #ifndef __itkMixtureModelComponentBase_h
 #define __itkMixtureModelComponentBase_h
 
@@ -28,15 +27,25 @@ namespace itk{
 namespace Statistics{
   
 /** \class MixtureModelComponentBase
- * \brief calculates sample mean
+ * \brief base class for distribution modules that supports analytical way 
+ * to update the distribution parameters 
  *
- * You plug in the target sample data using SetSample method. Then call
- * the GenerateData method to run the alogithm.
+ * This class expects that its subclasses (distribution components) should
+ * have analytical expressions for updating its paraters using only 
+ * the measurement vectors and their associated weights.
  *
- * The return value that the GetOutput method 
- * \f$ = \frac{1}{n}\sum^{n}_{i=1} \f$ where \f$n\f$ is the
- * number of measurement vectors in the target 
- *
+ * This class can be considered as a macro class that encapsulates the 
+ * storage for the weights, model (subclasses of MembershipFunctionBase),
+ * and model parameter estimators (implemenation of analytical expressions).
+ * 
+ * Subclasses of this class should define their own distribution specific
+ * membership function. For example, GaussianMixtureModelComponent class 
+ * defines and creates a GaussianDensityFunction object for that matter.
+ * Subclasses should also cast such membership function object to 
+ * MembershipFunctionBase object. By doing that, users can get pointers 
+ * to membership functions from different distributional model
+ *  
+ * \sa ExpectationMaximizationMixtureModelEstimator
  */
 
 template< class TSample >
@@ -58,31 +67,43 @@ public:
   typedef typename TSample::Pointer SamplePointer ;
   typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
 
+  /** typedef for the MembershipFunctionBase */
   typedef MembershipFunctionBase< MeasurementVectorType >
   MembershipFunctionType ;
-  
   typedef typename MembershipFunctionType::Pointer MembershipFunctionPointer ;
 
+  /** typedef of strorage for the weights */
   typedef Array< double > WeightArrayType ;
 
-  /** Stores the sample pointer */
+  /** stores the sample pointer */
   virtual void SetSample(SamplePointer sample) ;
   
-  /** Returns the sample pointer */
+  /** returns the sample pointer */
   SamplePointer GetSample() ;
 
+  /** returns the pointer to the membership function object.
+   * Subclasses of this class are responsible for creating the
+   * actual membership function objects and cast them to 
+   * MembershipFunctionBase objects */
   MembershipFunctionPointer GetMembershipFunction() ;
 
+  /** sets the parameters modified tag. if one or more of the membership 
+   * funtion's parameters are changed, then flag should be true */
   void AreParametersModified(bool flag) ;
 
+  /** returns the value of parameter modified tag */
   bool AreParametersModified() ;
 
+  /** sets the index-th weight with the "value" */
   void SetWeight(int index, double value) ;
   
+  /** returns the index-th weight */
   double GetWeight(int index) ;
 
+  /** returns the membership score of the "measurements" vector */
   double Evaluate(MeasurementVectorType& measurements) ;
 
+  /** returns the pointer to the weights array */
   WeightArrayType* GetWeights() ;
 
   virtual void Update() ;
@@ -92,16 +113,25 @@ protected:
   virtual ~MixtureModelComponentBase() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
+  /** allocates the weights array */
   void CreateWeightArray() ;
+  /** deallocates the weights array */
   void DeleteWeightArray() ;
+  /** stores the pointer to the membership function.
+   * subclasses use this funtion to store their membership function
+   * object after dynamic creation */ 
   void SetMembershipFunction(MembershipFunctionPointer function) ;
+
   virtual void GenerateData() ;
 
 private:
-  /** Target sample data pointer */
+  /** target sample data pointer */
   SamplePointer m_Sample ;
+  /** SmartPointer to the memberhip function - usually density function */
   MembershipFunctionPointer m_MembershipFunction ;
+  /** weights array */
   WeightArrayType* m_Weights ;
+  /** indicative flag of membership function's parameter changes */
   bool m_ParametersModified ;
 } ; // end of class
     
