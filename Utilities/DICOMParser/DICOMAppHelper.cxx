@@ -100,6 +100,26 @@ struct lt_pair_float_string
 };
 
 
+struct gt_pair_int_string
+{
+  bool operator()(const dicom_stl::pair<int, dicom_stl::string> s1, 
+                  const dicom_stl::pair<int, dicom_stl::string> s2) const
+  {
+    return s1.first > s2.first;
+  }
+};
+
+
+struct gt_pair_float_string
+{
+  bool operator()(const dicom_stl::pair<float, dicom_stl::string> s1, 
+                  const dicom_stl::pair<float, dicom_stl::string> s2) const
+  {
+    return s1.first > s2.first;
+  }
+};
+
+
 DICOMAppHelper::DICOMAppHelper()
 {
   this->BitsAllocated = 8;
@@ -1628,7 +1648,8 @@ DICOMAppHelper::GetFileName( const dicom_stl::string &instanceUID )
 
 
 void DICOMAppHelper::GetSliceNumberFilenamePairs(const dicom_stl::string &seriesUID,
-                                                 dicom_stl::vector<dicom_stl::pair<int, dicom_stl::string> >& v)
+                                                 dicom_stl::vector<dicom_stl::pair<int, dicom_stl::string> >& v,
+                                                 bool ascending)
 {
   v.clear();
 
@@ -1658,15 +1679,22 @@ void DICOMAppHelper::GetSliceNumberFilenamePairs(const dicom_stl::string &series
         v.push_back(p);
         }
        }
-  dicom_stl::sort(v.begin(), v.end(), lt_pair_int_string());
+  if (ascending)
+    {
+    dicom_stl::sort(v.begin(), v.end(), lt_pair_int_string());
+    }
+  else
+    {
+    dicom_stl::sort(v.begin(), v.end(), gt_pair_int_string());
+    }
 }
 
-void DICOMAppHelper::GetSliceNumberFilenamePairs(dicom_stl::vector<dicom_stl::pair<int, dicom_stl::string> >& v)
+void DICOMAppHelper::GetSliceNumberFilenamePairs(dicom_stl::vector<dicom_stl::pair<int, dicom_stl::string> >& v, bool ascending)
 {
   // Default to using the first series
   if (this->Implementation->SeriesUIDToInstanceUIDMap.size() > 0)
     {
-    this->GetSliceNumberFilenamePairs( (*this->Implementation->SeriesUIDToInstanceUIDMap.begin()).first, v );
+    this->GetSliceNumberFilenamePairs( (*this->Implementation->SeriesUIDToInstanceUIDMap.begin()).first, v, ascending );
     }
   else
     {
@@ -1675,7 +1703,8 @@ void DICOMAppHelper::GetSliceNumberFilenamePairs(dicom_stl::vector<dicom_stl::pa
 }
 
 void DICOMAppHelper::GetSliceLocationFilenamePairs(const dicom_stl::string &seriesUID,
-                                                   dicom_stl::vector<dicom_stl::pair<float, dicom_stl::string> >& v)
+                                                   dicom_stl::vector<dicom_stl::pair<float, dicom_stl::string> >& v,
+                                                   bool ascending)
 {
   v.clear();
 
@@ -1705,16 +1734,25 @@ void DICOMAppHelper::GetSliceLocationFilenamePairs(const dicom_stl::string &seri
         v.push_back(p);
         }
        }
-  dicom_stl::sort(v.begin(), v.end(), lt_pair_float_string());
+  if (ascending)
+    {
+    dicom_stl::sort(v.begin(), v.end(), lt_pair_float_string());
+    }
+  else
+    {
+    dicom_stl::sort(v.begin(), v.end(), gt_pair_float_string());
+    }
 }
 
-void DICOMAppHelper::GetSliceLocationFilenamePairs(dicom_stl::vector<dicom_stl::pair<float, dicom_stl::string> >& v)
+void DICOMAppHelper::GetSliceLocationFilenamePairs(dicom_stl::vector<dicom_stl::pair<float, dicom_stl::string> >& v,
+                                                   bool ascending)
 {
   // Default to using the first series
   if (this->Implementation->SeriesUIDToInstanceUIDMap.size() > 0)
     {
     this->GetSliceLocationFilenamePairs( (*this->Implementation->SeriesUIDToInstanceUIDMap.begin()).first,
-                                         v );
+                                         v,
+                                         ascending );
     }
   else
     {
@@ -1722,7 +1760,8 @@ void DICOMAppHelper::GetSliceLocationFilenamePairs(dicom_stl::vector<dicom_stl::
     }
 }
 
-void DICOMAppHelper::GetImagePositionPatientFilenamePairs(const dicom_stl::string &seriesUID, dicom_stl::vector<dicom_stl::pair<float, dicom_stl::string> >& v)
+void DICOMAppHelper::GetImagePositionPatientFilenamePairs(const dicom_stl::string &seriesUID, dicom_stl::vector<dicom_stl::pair<float, dicom_stl::string> >& v,
+                                                          bool ascending)
 {
   v.clear();
 
@@ -1773,16 +1812,23 @@ void DICOMAppHelper::GetImagePositionPatientFilenamePairs(const dicom_stl::strin
         v.push_back(p);
         }
        }
-  dicom_stl::sort(v.begin(), v.end(), lt_pair_float_string());
+  if (ascending)
+    {
+    dicom_stl::sort(v.begin(), v.end(), lt_pair_float_string());
+    }
+  else
+    {
+    dicom_stl::sort(v.begin(), v.end(), gt_pair_float_string());
+    }
 }
 
-
-void DICOMAppHelper::GetImagePositionPatientFilenamePairs(dicom_stl::vector<dicom_stl::pair<float, dicom_stl::string> >& v)
+void DICOMAppHelper::GetImagePositionPatientFilenamePairs(dicom_stl::vector<dicom_stl::pair<float, dicom_stl::string> >& v,
+                                                          bool ascending)
 {
   // Default to using the first series
   if (this->Implementation->SeriesUIDToInstanceUIDMap.size() > 0)
     {
-    this->GetImagePositionPatientFilenamePairs( (*this->Implementation->SeriesUIDToInstanceUIDMap.begin()).first, v );
+    this->GetImagePositionPatientFilenamePairs( (*this->Implementation->SeriesUIDToInstanceUIDMap.begin()).first, v, ascending );
     }
   else
     {

@@ -94,6 +94,12 @@ public:
   /** Get the directory containing the DICOM files. */
   itkGetStringMacro(Directory);
 
+  /** The sorting order can be ascending or descending. The default
+   * sort order is ascending. */
+  itkSetMacro(Ascending, bool);
+  itkGetMacro(Ascending, bool);
+  itkBooleanMacro(Ascending);
+
   /** Returns a vector containing the UIDs for each series in the
    * directory. If parameter "recursive" is true, subdirectories will
    * be scanned. */
@@ -146,6 +152,7 @@ private:
   DICOMParser m_Parser;
   DICOMAppHelper m_AppHelper;
 
+  bool m_Ascending;
   std::string m_Directory;
   std::vector<std::string>  m_FileNames;
   std::vector<std::string>  m_SeriesUIDs;

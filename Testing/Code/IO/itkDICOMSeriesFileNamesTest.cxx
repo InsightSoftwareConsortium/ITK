@@ -55,8 +55,20 @@ int itkDICOMSeriesFileNamesTest(int ac, char* av[])
       }
     
     
-    std::cout << "\tFiles sorted by slice location" << std::endl;
+    std::cout << "\tFiles sorted by slice location(Ascending)" << std::endl;
     fit->SetFileNameSortingOrderToSortBySliceLocation();
+    fit->AscendingOn();
+    names = fit->GetFileNames( *sit );
+    for (nit = names.begin();
+         nit != names.end();
+         nit++)
+      {
+      std::cout << "\t\tFile: " << (*nit).c_str() << std::endl;
+      }
+    
+    std::cout << "\tFiles sorted by slice location(Descending)" << std::endl;
+    fit->SetFileNameSortingOrderToSortBySliceLocation();
+    fit->AscendingOff();
     names = fit->GetFileNames( *sit );
     for (nit = names.begin();
          nit != names.end();
@@ -66,8 +78,19 @@ int itkDICOMSeriesFileNamesTest(int ac, char* av[])
       }
     
     
-    std::cout << "\tFiles sorted by ImagePositionPatient" << std::endl;
+    std::cout << "\tFiles sorted by ImagePositionPatient(Ascending)" << std::endl;
     fit->SetFileNameSortingOrderToSortByImagePositionPatient();
+    fit->AscendingOn();
+    names = fit->GetFileNames( *sit );
+    for (nit = names.begin();
+         nit != names.end();
+         nit++)
+      {
+      std::cout << "\t\tFile: " << (*nit).c_str() << std::endl;
+      }
+    std::cout << "\tFiles sorted by ImagePositionPatient(Descending)" << std::endl;
+    fit->SetFileNameSortingOrderToSortByImagePositionPatient();
+    fit->AscendingOff();
     names = fit->GetFileNames( *sit );
     for (nit = names.begin();
          nit != names.end();
@@ -77,6 +100,7 @@ int itkDICOMSeriesFileNamesTest(int ac, char* av[])
       }
 
     }
+
   return EXIT_SUCCESS;
 
 }

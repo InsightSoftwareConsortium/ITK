@@ -37,6 +37,7 @@ namespace itk
 
 DICOMSeriesFileNames
 ::DICOMSeriesFileNames() :
+  m_Ascending(true),
   m_Directory(""),
   m_FileNameSortingOrder( SortByImagePositionPatient )
 {
@@ -83,7 +84,8 @@ DICOMSeriesFileNames
       {
       std::vector<std::pair<int, std::string> > iSortedFileNames;
       m_AppHelper.GetSliceNumberFilenamePairs(seriesUID,
-                                              iSortedFileNames);
+                                              iSortedFileNames,
+                                              m_Ascending);
       for (std::vector<std::pair<int, std::string> >::iterator it =
              iSortedFileNames.begin(); it != iSortedFileNames.end(); ++it)
         {
@@ -96,7 +98,8 @@ DICOMSeriesFileNames
       {
       std::vector<std::pair<float, std::string> > fSortedFileNames;
       m_AppHelper.GetSliceLocationFilenamePairs(seriesUID,
-                                                fSortedFileNames);
+                                                fSortedFileNames,
+                                                m_Ascending);
       for (std::vector<std::pair<float, std::string> >::iterator it =
              fSortedFileNames.begin(); it != fSortedFileNames.end(); ++it)
         {
@@ -109,7 +112,8 @@ DICOMSeriesFileNames
       {
       std::vector<std::pair<float, std::string> > fSortedFileNames;
       m_AppHelper.GetImagePositionPatientFilenamePairs(seriesUID,
-                                                       fSortedFileNames);
+                                                       fSortedFileNames,
+                                                       m_Ascending);
       for (std::vector<std::pair<float, std::string> >::iterator it =
              fSortedFileNames.begin(); it != fSortedFileNames.end(); ++it)
         {
@@ -255,6 +259,7 @@ DICOMSeriesFileNames
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Directory: " << m_Directory << std::endl;
+  os << indent << "Ascending: " << (m_Ascending ? "On" : "Off") << std::endl;
   os << indent << "File name sorting order: ";
   switch (m_FileNameSortingOrder)
     {
