@@ -37,7 +37,7 @@ DICOMFile::DICOMFile() : inputStream()
 
 DICOMFile::~DICOMFile()
 {
-
+  this->Close();
 }
 
 bool DICOMFile::Open(const char* filename)
@@ -184,6 +184,7 @@ float DICOMFile::ReadAsciiFloat(int len)
   //
 
   delete [] val;
+  delete [] val2;
   return (ret);
 }
 
@@ -212,6 +213,7 @@ int DICOMFile::ReadAsciiInt(int len)
   //
 
   delete [] val;
+  delete [] val2;
   return (ret);
 }
 
