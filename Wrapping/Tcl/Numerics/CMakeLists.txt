@@ -1,7 +1,7 @@
 INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Wrapping/Tcl/Numerics)
 
 ADD_LIBRARY(VXLNumericsTcl)
-CABLE_WRAP_TCL(VXLNumericsTcl
+ITK_WRAP_TCL(VXLNumericsTcl
   wrap_VXLNumerics.cxx
   wrap_vnl_matrix.cxx
   wrap_vnl_vector.cxx

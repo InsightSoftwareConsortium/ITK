@@ -5,7 +5,7 @@ ADD_LIBRARY(ITKCommonTcl
   itkTclStringStream.cxx
 )
 
-CABLE_WRAP_TCL(ITKCommonTcl
+ITK_WRAP_TCL(ITKCommonTcl
   wrap_ITKCommon.cxx
   wrap_ITKUtils.cxx
   wrap_ITKBase.cxx
