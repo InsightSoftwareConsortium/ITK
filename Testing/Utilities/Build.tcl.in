@@ -186,7 +186,8 @@ for { set i 0 } { $i < $ErrorList(Counter) } { incr i } \
 {
   puts $Out "\t<$ErrorList($i,Type)>"
   puts $Out "\t\t<BuildLogLine>[XMLSafeString $ErrorList($i,Line)]</BuildLogLine>"
-  puts $Out "\t\t<Text>[XMLSafeString $ErrorList($i,Text)]</Text>"
+  puts $Out "\t\t<Text>[XMLSafeString $ErrorList($i,Text)]"
+  puts $Out "</Text>"
   if { $ErrorList($i,SourceFile) != "" } \
   {
     puts $Out "\t\t<SourceFile>[XMLSafeString $ErrorList($i,SourceFile)]</SourceFile>"
