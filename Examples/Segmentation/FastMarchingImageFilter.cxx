@@ -436,7 +436,7 @@ int main( int argc, char *argv[] )
   //  the range of influence of the image edges. This filter has been discussed
   //  in section~\ref{sec:GradientMagnitudeRecursiveGaussianImageFilter}
   //
-  //  \index{itk::GradientMagnitudeRecursiveGaussianImageFilter!SetSigma()}
+  //  \index{itk::Gradient\-Magnitude\-Recursive\-Gaussian\-Image\-Filter!SetSigma()}
   //
   //  Software Guide : EndLatex 
 
