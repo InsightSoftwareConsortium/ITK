@@ -102,6 +102,10 @@ public:
   typedef typename Superclass::FiniteDifferenceFunctionType
   FiniteDifferenceFunctionType;
 
+  /** Take timestep type from the FiniteDifferenceFunction. */
+  typedef typename FiniteDifferenceFunctionType::TimeStepType  TimeStepType;
+
+
   /** DemonsRegistrationFilterFunction type. */
   typedef SymmetricForcesDemonsRegistrationFunction<FixedImageType,MovingImageType,
                                      DeformationFieldType>  DemonsRegistrationFunctionType;
