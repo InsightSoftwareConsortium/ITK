@@ -5,7 +5,7 @@ ITKCommon
 TESTS(
 itkAffineTransformTest
 itkArrayTest
-#itkBoundaryConditionTest
+itkBoundaryConditionTest
 itkBoundingBoxTest
 itkByteSwapTest
 itkDataTypeTest
