@@ -49,7 +49,7 @@
 
 #include <memory.h>
 
-template<class T, int TVectorDimension=3>
+template<class T, unsigned int TVectorDimension=3>
 class itkVector {
  public:
   /**
@@ -65,7 +65,7 @@ class itkVector {
   /**
    * Get the dimension (size) of the vector.
    */
-  static int GetVectorDimension() { return TVectorDimension; }
+  static unsigned int GetVectorDimension() { return TVectorDimension; }
   
   /**
    * Get the vector. This provides a read only reference to the vector.
@@ -87,7 +87,7 @@ class itkVector {
   operator+(const itkVector<T, TVectorDimension> &vec)
     {
     itkVector<T, TVectorDimension> result;
-    for (int i=0; i < TVectorDimension; i++)
+    for (unsigned int i=0; i < TVectorDimension; i++)
       { result = m_Vector[i] + vec.m_Vector[i]; }
     return result;
     }
@@ -98,7 +98,7 @@ class itkVector {
   const itkVector<T, TVectorDimension> &
   operator+=(const itkVector<T, TVectorDimension> &vec)
     {
-    for (int i=0; i < TVectorDimension; i++)
+    for (unsigned int i=0; i < TVectorDimension; i++)
       { m_Vector[i] += vec.m_Vector[i]; }
     return *this;
     }
@@ -110,7 +110,7 @@ class itkVector {
   operator-(const itkVector<T, TVectorDimension> &vec)
     {
     itkVector<T, TVectorDimension> result;
-    for (int i=0; i < TVectorDimension; i++)
+    for (unsigned int i=0; i < TVectorDimension; i++)
       { result = m_Vector[i] - vec.m_Vector[i]; }
     return result;
     }
@@ -121,7 +121,7 @@ class itkVector {
   const itkVector<T, TVectorDimension> &
   operator-=(const itkVector<T, TVectorDimension> &vec)
     {
-    for (int i=0; i < TVectorDimension; i++)
+    for (unsigned int i=0; i < TVectorDimension; i++)
       { m_Vector[i] -= vec.m_Vector[i]; }
     return *this;
     }

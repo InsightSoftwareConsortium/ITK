@@ -16,20 +16,22 @@ See COPYRIGHT.txt for copyright details.
 
 #include "itkImage.h"
 
-template<class T>
-itkImage<T>::Pointer itkImage<T>::New()
+template<class T, unsigned int TImageDimension>
+itkImage<T, TImageDimension>::Pointer itkImage<T, TImageDimension>::New()
 {
-  return itkImage<T>::Pointer(new itkImage<T>);
+  return
+    itkImage<T, TImageDimension>::Pointer(new itkImage<T, TImageDimension>);
 }
 
-template<class T>
-itkImage<T>::itkImage()
+template<class T, unsigned int TImageDimension>
+itkImage<T, TImageDimension>::itkImage()
   : m_Data(0)
 {
+   this->SetDimension( TImageDimension );
 }
 
-template<class T>
-itkImage<T>::~itkImage()
+template<class T, unsigned int TImageDimension>
+itkImage<T, TImageDimension>::~itkImage()
 {
   if (m_Data != 0)
     {
@@ -38,8 +40,8 @@ itkImage<T>::~itkImage()
     }
 }
 
-template<class T>
-void itkImage<T>::Allocate()
+template<class T, unsigned int TImageDimension>
+void itkImage<T, TImageDimension>::Allocate()
 {
   unsigned long num=1;
   const int *size = this->GetSize();
@@ -59,11 +61,13 @@ void itkImage<T>::Allocate()
     }
 }
 
-template<class T>
-void itkImage<T>::SetPixel(int *index, const T& value)
+template<class T, unsigned int TImageDimension>
+void itkImage<T, TImageDimension>::SetPixel(const itkImage::Index &ind, const T& value)
 {
   unsigned long offset=0;
   unsigned long prod=1;
+
+  const unsigned long *index = ind.GetIndex();
   
   const int *size = this->GetSize();
   int dimension = this->GetDimension();
@@ -75,18 +79,16 @@ void itkImage<T>::SetPixel(int *index, const T& value)
     }
   
   (*m_Data)[offset] = value;
-  
-  std::cerr << "Vector stats: " << std::endl
-	    << "\tcapacity = " << m_Data->capacity() << std::endl
-	    << "\tsize = " << m_Data->size() << std::endl;
 }
 
-template<class T>
-const T& itkImage<T>::GetPixel(int *index)
+template<class T, unsigned int TImageDimension>
+const T& itkImage<T, TImageDimension>::GetPixel(const itkImage::Index &ind)
 {
   unsigned long offset=0;
   unsigned long prod=1;
   
+  const unsigned long *index = ind.GetIndex();
+
   const int *size = this->GetSize();
   int dimension = this->GetDimension();
   
@@ -97,5 +99,4 @@ const T& itkImage<T>::GetPixel(int *index)
     }
   
   return ( (*m_Data)[offset] );
-  
 }
