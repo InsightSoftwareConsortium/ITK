@@ -27,6 +27,7 @@ itkExpImageFilterAndAdaptorTest
 itkFilterDispatchTest
 itkFilterImageAddTest
 itkBasicFiltersHeaderTest
+itkImageAdaptorNthElementTest
 itkImageAdaptorPipeLineTest
 itkImportImageTest
 itkLog10ImageFilterAndAdaptorTest
