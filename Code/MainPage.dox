@@ -4,7 +4,7 @@
  *
  * \image html itkLogo.jpg
  *
- * \section intro Introduccion
+ * \section intro Introduction
  *
  * Welcome to the National Library of Medicine Insight Segmentation and
  * Registration Toolkit (ITK). ITK is an open-source sofware system to 
@@ -18,54 +18,58 @@
  *
  * http://public.kitware.com/Insight/Web/index.htm
  *
- * \section start Getting Started
- * \subsection hello Hello World
- * \subsection firstFilter My First itk Filter use
- * \subsection usingAlgorithms Using Algorithms
- *
  */
 
 
 /**
- * \defgroup Algorithms Algorithms
- */
 
-/**
- * \defgroup SegmentationAlgorithms Segmentation Algorithms
- */ 
+\defgroup Algorithms Algorithms
+@{  
 
-/**
- * \defgroup ImageSegmentation Image Segmentation Algorithms
- */ 
+  \defgroup SegmentationAlgorithms Segmentation Algorithms
+  @{
+    \defgroup ImageSegmentation Image Segmentation Algorithms
+    @{
+      \defgroup ImageSegmentation Image Segmentation Algorithms
+      @{
+        \defgroup IntensityImageSegmentation Intensity-Based Image Segmentation Algorithms
+        @{
+          \defgroup Classification Classification Algorithms
+          @{
+            \defgroup SupervisedClassification Supervised Classification Algorithms
+            \defgroup UnSupervisedClassification Unsupervised Classification Algorithms
+          @}
+        @}
+        \defgroup ModelImageSegmentation Model-Based Image Segmentation Algorithms
+      @}
+    @}
+    \defgroup MeshSegmentation Mesh Segmentation Algorithms
+  @}
 
-/**
- * \defgroup Classification Classification Algorithms
- */ 
+  \defgroup RegistrationAlgorithms Registration Algorithms
+  @{
+    \defgroup ImageRegistration Image Registration Methods
+    @{
+      \defgroup DeformableRegistration Deformable Registration Methods
+      \defgroup RigidRegistration Rigid Registration Methods
+    @}
+    \defgroup ModelImageRegistration Model - Image Registration Methods
+    @{
+      \defgroup PointSetToImageRegistration PointSet to Image Registration Methods
+    @}
+  @}
+@}
 
-/**
- * \defgroup SupervisedClassification Supervised Classification Algorithms
- */ 
 
-/**
- * \defgroup UnSupervisedClassification Unsupervised Classification Algorithms
- */ 
 
-/**
- * \defgroup IntensityImageSegmentation Intensity-Based Image Segmentation Algorithms
- */ 
 
-/**
- * \defgroup ModelImageSegmentation Model-Based Image Segmentation Algorithms
- */ 
 
-/**
- * \defgroup RegistrationAlgorithms Registration Algorithms
- */ 
+\defgroupd ThreadSafety
+@{
+  \defgroupd ThreadSafe
+  \defgroupd ThreadUnSafe
+  \defgroupd ThreadSafetyUnknown
+@}
 
-/**
- * \defgroup DeformableRegistration Deformable Registration Methods
- */ 
 
-/**
- * \defgroup RigidRegistration Rigid Registration Methods
- */ 
+
