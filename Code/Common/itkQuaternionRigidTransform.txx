@@ -200,7 +200,7 @@ GetJacobian( const InputPointType & p ) const
 }
  
 template<class TScalarType>
-typename QuaternionRigidTransform< TScalarType >::InverseMatrixType
+const typename QuaternionRigidTransform< TScalarType >::InverseMatrixType &
 QuaternionRigidTransform<TScalarType>::
 GetInverseMatrix() const
 {

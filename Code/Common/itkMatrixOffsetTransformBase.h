@@ -316,7 +316,7 @@ public:
   /** \deprecated Use GetInverse instead.
    *
    * Method will eventually be made a protected member function */ 
-  InverseMatrixType GetInverseMatrix( void ) const;
+  const InverseMatrixType & GetInverseMatrix( void ) const;
 
 protected:
   /** Construct an MatrixOffsetTransformBase object

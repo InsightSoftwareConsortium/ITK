@@ -248,9 +248,9 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 // Recompute the inverse matrix (internal)
 template<class TScalarType, unsigned int NInputDimensions,
                             unsigned int NOutputDimensions>
-typename MatrixOffsetTransformBase<TScalarType,
+const typename MatrixOffsetTransformBase<TScalarType,
                                NInputDimensions,
-                               NOutputDimensions>::InverseMatrixType
+                               NOutputDimensions>::InverseMatrixType &
 MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 ::GetInverseMatrix( void ) const
 {

@@ -122,7 +122,7 @@ protected:
   void Set_M_Rotation(const VnlQuaternionType & rotation)
     { m_Rotation = rotation; };
 
-  InverseMatrixType GetInverseMatrix( void ) const;
+  const InverseMatrixType & GetInverseMatrix( void ) const;
 
   void PrintSelf(std::ostream &os, Indent indent) const;
 

@@ -229,7 +229,7 @@ protected:
   mutable MatrixType    m_InverseMatrix;
 
   // Return the inverse matrix and recompute it only if necessary
-  MatrixType GetInverseMatrix() const;
+  const MatrixType & GetInverseMatrix() const;
 
   // To avoid recomputation of the inverse if not needed
   mutable TimeStamp   m_InverseMatrixMTime;

@@ -71,7 +71,7 @@ PrintSelf(std::ostream &os, Indent indent) const
 
 //
 template<class TScalarType>
-typename Rigid2DTransform< TScalarType >::MatrixType
+const typename Rigid2DTransform< TScalarType >::MatrixType &
 Rigid2DTransform<TScalarType>::
 GetInverseMatrix() const
 {
