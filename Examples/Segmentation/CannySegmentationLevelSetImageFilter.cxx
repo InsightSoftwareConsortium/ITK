@@ -300,7 +300,7 @@ int main( int argc, char *argv[] )
   //  applying the CannySegmentationLevelSetImageFilter to a prior ventricle
   //  segmentation.  Shown from left to right are the original image, the
   //  prior segmentation of the ventricle from
-  //  Figure~\ref{ThresholdSegmentationLevelSetImageFilter}, $15$ iterations of
+  //  Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilter}, $15$ iterations of
   //  the CannySegmentationLevelSetImageFilter, and the
   //  CannySegmentationLevelSetImageFilter run to convergence.}
   //  \label{fig:CannySegmentationLevelSetImageFilter}

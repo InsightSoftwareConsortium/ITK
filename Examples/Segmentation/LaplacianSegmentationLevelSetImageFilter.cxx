@@ -278,7 +278,7 @@ int main( int argc, char *argv[] )
   //  applying LaplacianSegmentationLevelSetImageFilter to a prior ventricle
   //  segmentation.  Shown from left to right are the original image, the
   //  prior segmentation of the ventricle from
-  //  Figure~\ref{ThresholdSegmentationLevelSetImageFilter}, and the refinement of the
+  //  Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilter}, and the refinement of the
   //  prior using LaplacianSegmentationLevelSetImageFilter.}
   //  \label{fig:LaplacianSegmentationLevelSetImageFilter}
   //  \end{figure}
