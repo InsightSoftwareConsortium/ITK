@@ -23,7 +23,7 @@
 #ifndef __itkNumericTraits_h
 #define __itkNumericTraits_h
 
-#if defined(_WIN32) || defined(WIN32)
+#if defined(_MSC_VER)
 #include <limits>
 #define ITK_NUMERIC_LIMITS std::numeric_limits
 #else
