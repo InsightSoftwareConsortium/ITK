@@ -15,6 +15,7 @@ LINK_LIBRARIES (
 ITKIO
 ITKBasicFilters
 ITKCommon
+ITKNumerics
 VXLNumerics
 )
 
