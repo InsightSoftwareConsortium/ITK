@@ -58,7 +58,6 @@ SET(ITKCommon_SRCS
   itkMetaDataDictionary.cxx
   itkOctreeNode.cxx
   itkExplicitInstantiations.cxx
-  vnl_matrix_fixed+double.1.1-.cxx
 )
 
 IF (WIN32)

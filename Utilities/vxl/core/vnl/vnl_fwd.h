@@ -46,6 +46,7 @@ class vnl_double_3;
 class vnl_double_4;
 class vnl_double_2x3;
 class vnl_double_3x2;
+typedef vnl_matrix_fixed<double,1,1> vnl_double_1x1;
 typedef vnl_matrix_fixed<double,1,2> vnl_double_1x2;
 typedef vnl_matrix_fixed<double,2,1> vnl_double_2x1;
 typedef vnl_matrix_fixed<double,2,2> vnl_double_2x2;
