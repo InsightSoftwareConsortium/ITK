@@ -44,7 +44,6 @@
 #include "itkFastMarchingImageFilter.h"
 #include "itkGeodesicActiveContourLevelSetFunction.h"
 #include "itkGeodesicActiveContourLevelSetImageFilter.h"
-#include "itkGibbsPriorFilter.h"
 #include "itkGradientVectorFlowImageFilter.h"
 #include "itkHistogramMatchingImageFilter.h"
 #include "itkHybridFilter.h"
@@ -211,21 +210,17 @@ int itkAlgorithmsPrintTest(int , char* [])
     itk::GeodesicActiveContourLevelSetImageFilter<InputType,OutputType>::New();
   std:: cout << "-------------GeodesicActiveContourLevelSetImageFilter " << GeodesicActiveContourLevelSetImageFilterObj;
 
-#if 0
-  itk::GibbsPriorFilter<InputType,OutputType>::Pointer GibbsPriorFilterObj =
-    itk::GibbsPriorFilter<InputType,OutputType>::New();
-  std:: cout << "-------------GibbsPriorFilter " << GibbsPriorFilterObj;
-
   typedef itk::CovariantVector<double, 3> GradientType;
-  typedef itk::Image<GradientType, 3>   GradientImageType;
-  itk::GradientVectorFlowImageFilter<InputType,GradientImageType>::Pointer GradientVectorFlowImageFilterObj =
-    itk::GradientVectorFlowImageFilter<InputType,GradientImageType>::New();
+  typedef itk::Image<GradientType, 2>   GradientImageType;
+  itk::GradientVectorFlowImageFilter<GradientImageType,GradientImageType>::Pointer GradientVectorFlowImageFilterObj =
+    itk::GradientVectorFlowImageFilter<GradientImageType,GradientImageType>::New();
   std:: cout << "-------------GradientVectorFlowImageFilter " << GradientVectorFlowImageFilterObj;
 
   itk::HistogramMatchingImageFilter<InputType,OutputType>::Pointer HistogramMatchingImageFilterObj =
     itk::HistogramMatchingImageFilter<InputType,OutputType>::New();
   std:: cout << "-------------HistogramMatchingImageFilter " << HistogramMatchingImageFilterObj;
 
+#if 0
   itk::HybridFilter<InputType,OutputType>::Pointer HybridFilterObj =
     itk::HybridFilter<InputType,OutputType>::New();
   std:: cout << "-------------HybridFilter " << HybridFilterObj;
