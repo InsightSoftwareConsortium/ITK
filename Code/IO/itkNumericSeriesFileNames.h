@@ -96,13 +96,14 @@ private:
   NumericSeriesFileNames(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
+  unsigned long m_StartIndex;
+  unsigned long m_EndIndex;
+  unsigned long m_IncrementIndex;
+
   /** A string for formatting the names of files in the series. */
   std::string m_SeriesFormat;
 
   std::vector<std::string>  m_FileNames;
-  unsigned long m_StartIndex;
-  unsigned long m_EndIndex;
-  unsigned long m_IncrementIndex;
 };
 
 } //namespace ITK
