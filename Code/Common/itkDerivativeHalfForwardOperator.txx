@@ -16,15 +16,18 @@
 namespace itk
 {
 
-template <class TDataType, unsigned int VDimension>
-std::vector<TDataType>
-DerivativeHalfForwardOperator<TDataType, VDimension>
+template <class TPixel, unsigned int VDimension>
+std::vector<TPixel>
+DerivativeHalfForwardOperator<TPixel, VDimension>
 ::GenerateCoefficients()
 {
-  std::vector<TDataType> coeff(3);
-  coeff[0] =  0.0f;
-  coeff[1] = -1.0f;
-  coeff[2] =  1.0f;
+  std::vector<TPixel> coeff(3);
+  ScalarTraits<TPixel>::SetScalar(coeff[0],
+                                  NumericTraits<TPixelScalarValueType>::Zero);
+  ScalarTraits<TPixel>::SetScalar(coeff[1], -1.0f *
+                                  NumericTraits<TPixelScalarValueType>::One);
+  ScalarTraits<TPixel>::SetScalar(coeff[2],
+                                  NumericTraits<TPixelScalarValueType>::One);
   return coeff;
 }
   
