@@ -18,6 +18,9 @@
 #define _itkImageToImageMetric_txx
 
 
+#include "itkImageToImageMetric.h"
+#include "itkNearestNeighborInterpolateImageFunction.h"
+
 
 namespace itk
 {
@@ -32,7 +35,22 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   m_FixedImage   = FixedImageType::New();
   m_MovingImage  = MovingImageType::New();
   m_Transform    = TransformType::New();
-  m_Interpolator = InterpolatorType::New();
+
+  m_Interpolator = 
+      NearestNeighborInterpolateImageFunction<
+                                     TFixedImage>::New();
+}
+
+
+/**
+ * Set the parameters that define a unique transform
+ */
+template <class TFixedImage, class TMovingImage> 
+void
+ImageToImageMetric<TFixedImage,TMovingImage>
+::SetTransformParameters( const ParametersType & parameters )
+{
+  m_Transform->SetParameters( parameters );
 }
 
 

@@ -26,73 +26,79 @@ namespace itk
 /**
  * Constructor
  */
-template < class TTarget, class TMapper > 
-MeanSquaresImageToImageMetric<TTarget,TMapper>
+template <class TFixedImage, class TMovingImage> 
+MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 ::MeanSquaresImageToImageMetric()
 {
+  m_MatchMeasure = NumericTraits<double>::Zero;
+  m_MatchMeasureDerivatives = 
+     DerivativeType(FixedImageType::ImageDimension);
+  m_MatchMeasureDerivatives.Fill( NumericTraits<double>::Zero );
 }
 
 /**
  * Get the match Measure
  */
-template < class TTarget, class TMapper > 
-MeanSquaresImageToImageMetric<TTarget,TMapper>::MeasureType
-MeanSquaresImageToImageMetric<TTarget,TMapper>
-::GetValue( const ParametersType & parameters )
+template <class TFixedImage, class TMovingImage> 
+MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>::MeasureType
+MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
+::GetValue( const TransformParametersType & parameters )
 {
 
-  TargetConstPointer target = Superclass::GetTarget();
+  FixedImagePointer fixedImage = this->GetFixedImage();
 
-  typename TTarget::RegionType  targetRegion = target->GetLargestPossibleRegion();
-  itk::Point<double, TTarget::ImageDimension> Point;  
+  if( !fixedImage ) 
+    {
+    itkExceptionMacro( << "Fixed image has not been assigned" );
+    }
 
-  double ReferenceValue;
-  double TargetValue;
+  typename FixedImageType::RegionType  fixedRegion = 
+                              fixedImage->GetLargestPossibleRegion();
 
-  typedef  itk::ImageRegionConstIteratorWithIndex<TTarget> TargetIteratorType;
+  const unsigned int dimension = FixedImageType::ImageDimension;
+  itk::Point<double, dimension> Point;  
+
+  double MovingValue;
+  double FixedValue;
+
+  typedef  itk::ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
 
 
-  TargetIteratorType ti( target, targetRegion );
+  FixedIteratorType ti( fixedImage, fixedRegion );
 
-  typename TTarget::IndexType index;
+  typename FixedImageType::IndexType index;
 
-  m_MatchMeasure = 0;
+  m_MatchMeasure = NumericTraits< MeasureType >::Zero;
 
+  m_NumberOfPixelsCounted = 0;
 
-  unsigned int  count = 0;
-
-  // cache the mapper so we do not have to make a Get() in the inner loop
-  MapperPointer mapper = this->GetMapper();
-  mapper->GetTransform()->SetParameters( parameters );
+  this->SetTransformParameters( parameters );
 
   while(!ti.IsAtEnd())
     {
+
     index = ti.GetIndex();
-    for(unsigned int i=0 ; i<TTarget::ImageDimension ; i++)
-      {
-      Point[i]=index[i];
-      }
+    
+    InputPointType inputPoint;
+    fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
+    OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
 
-    if( mapper->IsInside( Point ) )
+    InterpolatorType::PointType tempPoint;
+    tempPoint.CastFrom( transformedPoint );
+
+    if( m_Interpolator->IsInsideBuffer( tempPoint ) )
       {
-      ReferenceValue = mapper->Evaluate();
-      TargetValue = ti.Get();
-      count++;
-      const double diff = ReferenceValue - TargetValue; 
+      MovingValue  = m_Interpolator->Evaluate( tempPoint );
+      FixedValue     = ti.Get();
+      m_NumberOfPixelsCounted++;
+      const double diff = MovingValue - FixedValue; 
       m_MatchMeasure += diff * diff; 
       }
 
     ++ti;
     }
 
-  if(count == 0) 
-    {
-    itkExceptionMacro(<< "All the mapped image is outside !" );
-    return 100000;
-    } 
-
-  m_MatchMeasure = m_MatchMeasure / count;     
   return m_MatchMeasure;
 
 }
@@ -104,17 +110,18 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
 /**
  * Get the Derivative Measure
  */
-template < class TTarget, class TMapper> 
-const MeanSquaresImageToImageMetric<TTarget,TMapper>::DerivativeType &
-MeanSquaresImageToImageMetric<TTarget,TMapper>
-::GetDerivative( const ParametersType & parameters )
+template < class TFixedImage, class TMovingImage> 
+const MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>::DerivativeType &
+MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
+::GetDerivative( const TransformParametersType & parameters )
 {
 
   const double delta = 0.00011;
-  ParametersType testPoint;
+  TransformParametersType testPoint;
   testPoint = parameters;
 
-  for( unsigned int i=0; i<SpaceDimension; i++) 
+  const unsigned int dimension = FixedImageType::ImageDimension;
+  for( unsigned int i=0; i<dimension; i++) 
     {
     testPoint[i] -= delta;
     const MeasureType valuep0 = this->GetValue( testPoint );
@@ -132,10 +139,10 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
 /**
  * Get both the match Measure and theDerivative Measure 
  */
-template < class TTarget, class TMapper > 
+template <class TFixedImage, class TMovingImage> 
 void
-MeanSquaresImageToImageMetric<TTarget,TMapper>
-::GetValueAndDerivative(const ParametersType & parameters, 
+MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
+::GetValueAndDerivative(const TransformParametersType & parameters, 
                         MeasureType & Value, DerivativeType  & Derivative)
 {
   Value      = this->GetValue( parameters );

@@ -49,16 +49,19 @@ class ITK_EXPORT ImageToImageMetric : public SingleValuedCostFunction
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageToImageMetric  Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef ImageToImageMetric              Self;
+  typedef SingleValuedCostFunction        Superclass;
+  typedef SmartPointer<Self>              Pointer;
+  typedef SmartPointer<const Self>        ConstPointer;
+
+  /** Type used for representing point components  */
+  typedef double        CoordinateRepresentationType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToImageMetric, Object);
+  itkTypeMacro(ImageToImageMetric, SingleValuedCostFunction);
 
   /**  Type of the moving Image. */
   typedef TMovingImage                               MovingImageType;
@@ -70,7 +73,7 @@ public:
 
 
   /**  Type of the Transform Base class */
-  typedef Transform<double, 
+  typedef Transform<CoordinateRepresentationType, 
          ExtractImageDimension<MovingImageType>::ImageDimension,
          ExtractImageDimension<FixedImageType>::ImageDimension > TransformType;
 
@@ -85,10 +88,13 @@ public:
   typedef typename InterpolatorType::Pointer         InterpolatorPointer;
 
   /**  Type of the measure. */
-  typedef double                        MeasureType;
+  typedef Superclass::MeasureType                    MeasureType;
 
-  /**  Type of the measure. */
-  typedef std::vector<double>           DerivativeType;
+  /**  Type of the derivative. */
+  typedef Superclass::DerivativeType                 DerivativeType;
+
+  /**  Type of the parameters. */
+  typedef Superclass::ParametersType                 ParametersType;
 
   /** Connect the Fixed Image.  */
   itkSetConstObjectMacro( FixedImage, FixedImageType );
@@ -123,6 +129,8 @@ public:
   /** Get the number of pixels considered in the computation. */
   itkGetMacro( NumberOfPixelsCounted, unsigned long );
 
+  /** Set the parameters defining the Transform. */
+  void SetTransformParameters( const ParametersType & parameters );
 
 protected:
   ImageToImageMetric();
@@ -134,17 +142,16 @@ protected:
   DerivativeType              m_MatchMeasureDerivatives;
   unsigned long               m_NumberOfPixelsCounted;
 
-private:
-  ImageToImageMetric(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
   FixedImagePointer           m_FixedImage;
   MovingImagePointer          m_MovingImage;
 
   TransformPointer            m_Transform;
   InterpolatorPointer         m_Interpolator;
 
-
+private:
+  ImageToImageMetric(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
 };
 
 } // end namespace itk
