@@ -23,6 +23,7 @@
 
 #include <vector>
 #include <string>
+#include <algorithm>
 
 #include <itksys/SystemTools.hxx>
 #include <itksys/Directory.hxx>

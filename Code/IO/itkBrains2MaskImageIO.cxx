@@ -232,7 +232,7 @@ bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
     this->m_IPLHeaderInfo.ClearHeader();
     this->m_IPLHeaderInfo.ReadBrains2Header(local_InputStream);
     }
-  catch (itk::ExceptionObject & e)
+  catch (itk::ExceptionObject & itkNotUsed(e))
     {
     return false;
     }
