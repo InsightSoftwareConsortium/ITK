@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkImageIOFactory.h"
 #include "itkPNGImageIOFactory.h"
-
+#include "itkVOLImageIOFactory.h"
 
 namespace itk
 {
@@ -55,6 +55,8 @@ void ImageIOFactory::InitialaizeBuiltinTypes()
     {
     PNGImageIOFactory::Pointer pngFactory = PNGImageIOFactory::New();
     ObjectFactoryBase::RegisterFactory(pngFactory);
+    VOLImageIOFactory::Pointer volFactory = VOLImageIOFactory::New();
+    ObjectFactoryBase::RegisterFactory(volFactory);
     }
 }
   
