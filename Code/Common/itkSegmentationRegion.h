@@ -61,7 +61,11 @@ namespace itk
  * used at the end of a region growing class to associate a region with a new
  * label that characterises the region after several regions have been
  * merged.  This class provides an interface method called
- * ApplySegmentationRegion to enable future extension of the region object.
+ * ApplySegmentationRegion is defined as virtual to enable future extension 
+ * of the region object.  
+ * This object can be used where region in images needs to be defined.
+ * Chlid classes can be derived from this class for tailoring them towards 
+ * specific algorithmic needs.
  *
  * \ingroup RegionGrowingSegmentation 
  */

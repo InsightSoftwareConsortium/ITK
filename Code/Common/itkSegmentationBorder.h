@@ -58,6 +58,9 @@ namespace itk
  * object must be created within the application and then used to
  * initialize/store/use the various parameters accessible through the public
  * methods. For usage also see itkRegionGrowImageFiltering class.
+ * This object can be used where a border of a region needs to be defined.
+ * Chlid classes can be derived from this class for tailoring them towards 
+ * specific algorithmic needs.
  * 
  * \ingroup RegionGrowingSegmentation 
  */
