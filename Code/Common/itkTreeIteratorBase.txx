@@ -193,7 +193,6 @@ TreeIteratorBase<TTreeType>::GetSubTree() const
   tree->SetSubtree(true);
   tree->SetRoot(m_Position);
   return tree;
-  return NULL;
 }
 
 /** Return true of the current node has a child */
