@@ -21,6 +21,7 @@
 #include "itkObjectFactory.h"
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkImageLinearConstIteratorWithIndex.h"
+#include "itkProgressReporter.h"
 #include <new>
 
 
@@ -290,13 +291,9 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 
   const typename TInputImage::OffsetValueType * offsetTable = inputImage->GetOffsetTable();
   
-  float       progress        = 0.0f;
+  const unsigned int numberOfLinesToProcess = offsetTable[ TInputImage::ImageDimension ] / ln;
+  ProgressReporter progress(this,0, numberOfLinesToProcess, 10 );
 
-  const float progressAdvance =    
-    (float)ln
-    / (float)offsetTable[ TInputImage::ImageDimension ];
-
-  this->UpdateProgress( progress );
 
   try  // this try is intended to catch an eventual AbortException.
     {
@@ -323,14 +320,13 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
       inputIterator.NextLine();
       outputIterator.NextLine();
 
-      progress += progressAdvance;
 
-      this->UpdateProgress( progress );
-      if( this->GetAbortGenerateData() )
-        {
-        throw ProcessAborted(__FILE__,__LINE__);
-        }
+      // Although the method name is CompletedPixel(),
+      // this is being called after each line is processed
+      progress.CompletedPixel();  
+
       }
+
     }
   catch( ProcessAborted  & )
     {
