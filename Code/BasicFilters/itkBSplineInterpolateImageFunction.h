@@ -157,6 +157,8 @@ public:
 protected:
   BSplineInterpolateImageFunction();
   virtual ~BSplineInterpolateImageFunction() {};
+  BSplineInterpolateImageFunction( const Self& ); //purposely not implemented
+  void operator=( const Self& ); //purposely not implemented
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   // These are needed by the smoothing spline routine.
@@ -198,8 +200,6 @@ private:
   unsigned long             m_MaxNumberInterpolationPoints; // number of neighborhood points used for interpolation
   std::vector<IndexType>    m_PointsToIndex;  // Preallocation of interpolation neighborhood indicies
 
-  BSplineInterpolateImageFunction( const Self& ); //purposely not implemented
-  void operator=( const Self& ); //purposely not implemented
   CoefficientFilterPointer     m_CoefficientFilter;
   
 };
