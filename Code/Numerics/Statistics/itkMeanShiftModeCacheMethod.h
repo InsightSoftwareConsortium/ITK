@@ -26,8 +26,24 @@ namespace itk{
 namespace Statistics{
   
 /** \class MeanShiftModeCacheMethod
- * \brief Calculates the covariance matrix of the target sample data.
+ * \brief This class stores mappings between a query point and its
+ * resulting mode point.
  *
+ * To increase the mean shift mode search performance, this class
+ * stores mappings between a query point (starting position of search)
+ * and the result so that if there is a mapping stored for a specific
+ * query point, mode seeker can return the resulting mode point stored
+ * in this class.
+ *
+ * You can specify how many mappings stored in this class using the
+ * SetMaximumEntries method. The cache is destroyed and the rebuild
+ * starts when the hit ratio (the number of successful mapping found
+ * divided by the number of failure) is below the hit ratio threshold
+ * set by the SetHitRatioThreshold method or the number of consecutive
+ * failure exceeds the limit set by the SetMaximumConsecutiveFailures
+ * method.
+ *
+ * \sa MeanShiftModeSeekerBase
  */
 
 template< class TMeasurementVector >
