@@ -167,6 +167,19 @@ ADD_TEST(MultiResImageRegistration2Test ${REGISTRATION_EXAMPLES2}
         ${TEMP}/MultiResImageRegistration2Test.png  0
 )
 
+ADD_TEST(IterativeClosestPoint1Test ${REGISTRATION_EXAMPLES3}
+  IterativeClosestPoint1Test
+        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointFixedPoints.txt
+        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointMovingPoints.txt
+)
+
+ADD_TEST(IterativeClosestPoint2Test ${REGISTRATION_EXAMPLES3}
+  IterativeClosestPoint2Test
+        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointFixedPoints2.txt
+        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointMovingPoints2.txt
+)
+
+
 ADD_EXECUTABLE(RegistrationExamples RegistrationExamples.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
 

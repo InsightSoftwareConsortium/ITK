@@ -13,6 +13,8 @@ void RegisterTests()
   vnl_sample_reseed(8775070);
   REGISTER_TEST(ImageRegistration8Test);
   REGISTER_TEST(ImageRegistration9Test);
+  REGISTER_TEST(IterativeClosestPoint1Test);
+  REGISTER_TEST(IterativeClosestPoint2Test);
 }
 
 #undef main
@@ -26,3 +28,18 @@ void RegisterTests()
 #undef CommandIterationUpdate
 #define CommandIterationUpdate CommandIterationUpdate11
 #include "ImageRegistration9.cxx"
+
+#undef main
+#define main  IterativeClosestPoint1Test
+#undef CommandIterationUpdate
+#define CommandIterationUpdate CommandIterationUpdate12
+#include "IterativeClosestPoint1.cxx"
+
+#undef main
+#define main  IterativeClosestPoint2Test
+#undef CommandIterationUpdate
+#define CommandIterationUpdate CommandIterationUpdate13
+#include "IterativeClosestPoint2.cxx"
+
+
+
