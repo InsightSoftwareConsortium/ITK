@@ -27,15 +27,14 @@ namespace itk{
 namespace Statistics{
   
 /** \class GaussianMixtureModelComponent
- * \brief calculates sample mean
+ * \brief is a component (derived from MixtureModelComponentBase) for
+ * Gaussian class. This class is used in
+ * ExpectationMaximizationMixtureModelEstimator. 
  *
- * You plug in the target sample data using SetSample method. Then call
- * the GenerateData method to run the alogithm.
+ * On every iteration of EM estimation, this class's GenerateData
+ * method is called to compute the new distribution parameters.
  *
- * The return value that the GetOutput method 
- * \f$ = \frac{1}{n}\sum^{n}_{i=1} \f$ where \f$n\f$ is the
- * number of measurement vectors in the target 
- *
+ * \sa MixtureModelComponentBase, ExpectationMaximizationMixtureModelEstimator
  */
 
 template< class TSample >
@@ -56,21 +55,31 @@ public:
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       TSample::MeasurementVectorSize);
 
+  /** Typedefs from the superclass */
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType ;
   typedef typename Superclass::MembershipFunctionType MembershipFunctionType ;
   typedef typename Superclass::WeightArrayType WeightArrayType ;
   typedef typename Superclass::ParametersType ParametersType ;
 
-  typedef GaussianDensityFunction< MeasurementVectorType > NativeMembershipFunctionType ;
+  /** Type of the membership function. Gaussian density function */
+  typedef GaussianDensityFunction< MeasurementVectorType > 
+  NativeMembershipFunctionType ;
   
+  /** Types of the mean and the covariance calculator that will update
+   *  this component's distribution parameters */
   typedef WeightedMeanCalculator< TSample > MeanEstimatorType ;
   typedef WeightedCovarianceCalculator< TSample > CovarianceEstimatorType ;
 
+  /** Type of the mean vector */
   typedef typename MeanEstimatorType::OutputType MeanType ;
+
+  /** Type of the covariance matrix */
   typedef typename CovarianceEstimatorType::OutputType CovarianceType ;
 
+  /** Sets the input sample */
   void SetSample(TSample* sample) ;
 
+  /** Sets the component's distribution parameters. */
   void SetParameters(const ParametersType &parameters) ;
   
 protected:
@@ -78,8 +87,11 @@ protected:
   virtual ~GaussianMixtureModelComponent() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
   
+  /** Returns the sum of squared changes in parameters between
+   * iterations */
   double CalculateParametersChange() ;
 
+  /** Computes the new distribution parameters */
   void GenerateData() ;
 
 private:
