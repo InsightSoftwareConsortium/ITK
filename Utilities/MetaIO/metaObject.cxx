@@ -395,6 +395,8 @@ PrintInfo(void) const
        (*it)->type == MET_UCHAR ||
        (*it)->type == MET_SHORT ||
        (*it)->type == MET_USHORT ||
+       (*it)->type == MET_LONG ||
+       (*it)->type == MET_ULONG ||
        (*it)->type == MET_INT ||
        (*it)->type == MET_UINT ||
        (*it)->type == MET_FLOAT ||

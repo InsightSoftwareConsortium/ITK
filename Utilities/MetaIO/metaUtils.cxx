@@ -167,6 +167,8 @@ bool MET_ValueToDouble(MET_ValueEnumType _type, const void *_data, int _index,
     case MET_UINT_ARRAY:
       *_value = (double)(((const unsigned int *)_data)[_index]);
       return true;
+    case MET_LONG:
+    case MET_ULONG:
     case MET_FLOAT:
     case MET_FLOAT_ARRAY:
     case MET_FLOAT_MATRIX:
@@ -278,6 +280,8 @@ bool MET_ValueToValue(MET_ValueEnumType _fromType, const void *_fromData,
     case MET_UINT_ARRAY:
       (((unsigned int *)_toData)[_index]) = (unsigned int)tf;
       return true;
+    case MET_LONG:
+    case MET_ULONG:
     case MET_FLOAT:
     case MET_FLOAT_ARRAY:
     case MET_FLOAT_MATRIX:
@@ -600,6 +604,8 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
           case MET_USHORT:
           case MET_INT:
           case MET_UINT:
+          case MET_LONG:
+          case MET_ULONG:
           case MET_FLOAT:
           case MET_DOUBLE:
             {
@@ -758,6 +764,8 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
       case MET_UCHAR:
       case MET_SHORT:
       case MET_USHORT:
+      case MET_LONG:
+      case MET_ULONG:
       case MET_INT:
       case MET_UINT:
         {
@@ -921,6 +929,9 @@ bool MET_WriteFieldToFile(std::ostream & _fp, const char *_fieldName,
         f.value[i] = (double)(((const unsigned int *)_v)[i]);
         }
       break;
+
+    case MET_LONG:
+    case MET_ULONG:
     case MET_FLOAT:
     case MET_FLOAT_ARRAY:
       for(i=0; i<_n; i++)

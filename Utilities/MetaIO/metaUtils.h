@@ -190,6 +190,14 @@ inline MET_ValueEnumType MET_GetPixelType(const std::type_info& ptype)
   {
     return MET_SHORT;
   }
+  else if( ptype == typeid(unsigned long))
+  {
+    return MET_ULONG;
+  }
+  else if( ptype == typeid(long) )
+  {
+    return MET_LONG;
+  }
   else if( ptype == typeid(unsigned int) )
   {
     return MET_UINT;
