@@ -35,7 +35,7 @@ main(
 {
     int flag = 0;           /* Did this test program work? */
 
-    std::cerr << "Testing image interpolation methods:\n";
+    std::cout << "Testing image interpolation methods:\n";
 
     /* Define the image size and physical coordinates */
     SizeType size = {{20, 40, 80}};
@@ -71,32 +71,34 @@ main(
     InterpolatorType::Pointer interp = InterpolatorType::New();
     interp->SetInputImage(image);
 
+    // FIXME: Add trial evaluations near the border and outside the image
+
     /* Test evaluation at integer coordinates */
-    std::cerr << "Evaluate at integer coordinates: ";
+    std::cout << "Evaluate at integer coordinates: ";
     IndexType idx = {{10, 20,40}};
     double value1 = interp->Evaluate(idx);
-    std::cerr << value1 << std::endl;
+    std::cout << value1 << std::endl;
     if (value1 != 70)  {
-        std::cerr << "*** Error: correct value is 70" << std::endl;
+        std::cout << "*** Error: correct value is 70" << std::endl;
         flag = 1;
     }
 
     /* Test evaluation at non-integer coordinates */
-    std::cerr << "Evaluate at non-integer coordinates: ";
+    std::cout << "Evaluate at non-integer coordinates: ";
     double point[3] = {5.25, 12.5, 42.0};
     double value2 = interp->Evaluate(point);
-    std::cerr << value2 << std::endl;
+    std::cout << value2 << std::endl;
     if (value2 != 59.75) {
-        std::cerr << "*** Error: correct value is 59.75" << std::endl;
+        std::cout << "*** Error: correct value is 59.75" << std::endl;
         flag = 1;
     }
 
     /* Return results of test */
     if (flag != 0) {
-        std::cerr << "*** Some test failed" << std::endl;
+        std::cout << "*** Some test failed" << std::endl;
         return flag; }
     else {
-        std::cerr << "All tests successfully passed" << std::endl;
+        std::cout << "All tests successfully passed" << std::endl;
         return 0; }
 }
 
