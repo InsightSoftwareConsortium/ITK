@@ -250,26 +250,19 @@ image");
     }
   }
 
-
-
-/** PrintSelf */
-template <class TFixedImage, class TMovingImage>
-void
-HistogramImageToImageMetric<TFixedImage,TMovingImage>
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-  os << indent << "PaddingValue: " << m_PaddingValue << std::endl;
-  os << indent << "UsePaddingValue?: " << m_UsePaddingValue << std::endl;
-  os << indent << "DerivativeStepLength: " << m_DerivativeStepLength << std::endl;
-  os << indent << "DerivativeStepLengthScales: ";
-  os << m_DerivativeStepLengthScales << std::endl;
-}
-
-
-
-
-
+  template <class TFixedImage, class TMovingImage>
+  void
+  HistogramImageToImageMetric<TFixedImage,TMovingImage>
+  ::PrintSelf(std::ostream& os, Indent indent) const
+  {
+    Superclass::PrintSelf(os,indent);
+    os << indent << "PaddingValue: " << m_PaddingValue << std::endl;
+    os << indent << "UsePaddingValue?: " << m_UsePaddingValue << std::endl;
+    os << indent << "DerivativeStepLength: " << m_DerivativeStepLength
+       << std::endl;
+    os << indent << "DerivativeStepLengthScales: ";
+    os << m_DerivativeStepLengthScales << std::endl;
+  }
 } // end namespace itk
 
 #endif // itkHistogramImageToImageMetric_txx
