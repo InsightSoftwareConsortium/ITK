@@ -177,6 +177,17 @@ public:
   typedef typename TInputImage::PixelType  InputImageVectorType;
 
   /**
+   * Dimension of the each individual pixel vector
+   */
+  enum{ VectorDimension = InputImageVectorType::VectorDimension };
+
+  /**
+   * Virtual SetNumberOfClasses to initialize memory for the
+   * probability estimation routine.
+   */
+  virtual void SetNumberOfClasses( const unsigned int num );
+
+  /**
    * Train multivariate Gaussian classifier. 
    *
    * Given a set of labeled training samples, estimate the mean and 
@@ -257,16 +268,20 @@ protected:
 private:
   typedef vnl_matrix<double> MatrixType; 
   typedef vnl_vector<double> VectorType;
+  typedef vnl_matrix_fixed<double,1,VectorDimension> ColumnVectorType;
 
-  MatrixType      m_Means;
-  MatrixType      m_NumberOfSamples;
-  MatrixType      *m_Covariance;  
-  MatrixType      *m_InvCovariance;
-  int             m_ClassifiedPixelIndex;
-  unsigned int    m_VecDim;
-  double          m_Epsilon;
-  double          m_DoubleMax;
-  bool            m_validTrainingFlag;
+  MatrixType            m_Means;
+  MatrixType            m_NumberOfSamples;
+  MatrixType            *m_Covariance;  
+  MatrixType            *m_InvCovariance;
+  ColumnVectorType      m_tmpVec;
+  ColumnVectorType      m_tmpMat;
+  double                *m_pixProbability;
+  int                   m_ClassifiedPixelIndex;
+
+  double                m_Epsilon;
+  double                m_DoubleMax;
+  bool                  m_validTrainingFlag;
 
 }; // class GaussianSupervisedClassifier
 

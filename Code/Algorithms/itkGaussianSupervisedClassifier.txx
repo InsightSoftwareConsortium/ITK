@@ -50,7 +50,6 @@ GaussianSupervisedClassifier<TInputImage,TClassifiedImage>
 ::GaussianSupervisedClassifier(void)
 {
   m_ClassifiedPixelIndex = -1;
-  m_VecDim = 1;
   m_Epsilon   = 1e-100;
   m_DoubleMax = 1e+20;
   m_validTrainingFlag = false;
@@ -63,8 +62,9 @@ template<class TInputImage, class TClassifiedImage>
 GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
 ::~GaussianSupervisedClassifier(void)
 {
-  if ( m_Covariance ) delete [] m_Covariance;
+  if ( m_Covariance )    delete [] m_Covariance;
   if ( m_InvCovariance ) delete [] m_InvCovariance;
+  if ( m_pixProbability )  delete [] m_pixProbability;
 }
 
 /**
@@ -94,6 +94,17 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
   
 }// end PrintSelf
 
+// Set the memory for the probability function
+template<class TInputImage, class TClassifiedImage>
+void
+GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
+::SetNumberOfClasses( const unsigned int num)
+{
+
+  m_NumberOfClasses = num;
+  m_pixProbability = new double[m_NumberOfClasses];
+
+}
 
 // Takes a set of training images and returns the means 
 // and variance of the various classes defined in the
@@ -127,8 +138,7 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
   // Set up the matrices to hold the means and the covariance for the
   // training data
 
-  m_VecDim     = InputPixelType::GetVectorDimension();
-  m_Means.resize(m_NumberOfClasses, m_VecDim);
+  m_Means.resize(m_NumberOfClasses, VectorDimension);
   m_Means.fill(NULL);
 
   m_NumberOfSamples.resize(m_NumberOfClasses,1);
@@ -141,7 +151,7 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
 
   for(unsigned int i = 0; i < m_NumberOfClasses; i++ )
     {
-    m_Covariance[i].resize( m_VecDim, m_VecDim );
+    m_Covariance[i].resize( VectorDimension, VectorDimension );
     m_Covariance[i].fill( NULL );
     }
 
@@ -164,7 +174,7 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
       m_NumberOfSamples[classIndex][0] +=1;
       InputImageVectorType inImgVec = inIt.Get();
 
-      for(unsigned int band_x = 0; band_x < m_VecDim; band_x++)
+      for(unsigned int band_x = 0; band_x < VectorDimension; band_x++)
         {
         m_Means[classIndex][band_x] += inImgVec[band_x];
         for(unsigned int band_y = 0; band_y <= band_x; band_y++ )
@@ -181,19 +191,19 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
     {
     if( m_NumberOfSamples[classIndex][0] != 0 )
       {
-      for(unsigned int i=0; i<m_VecDim;i++)
+      for( unsigned int i = 0; i < VectorDimension; i++ )
       m_Means[classIndex][i] /= m_NumberOfSamples[classIndex][0];
       }// end if
        
     else 
       {
-      for(unsigned int i=0; i<m_VecDim;i++) 
+      for( unsigned int i = 0; i < VectorDimension ; i++ ) 
         m_Means[classIndex][i] = 0;
       }// end else
     
     if( ( m_NumberOfSamples[classIndex][0] - 1 ) != 0 )
       {
-      for( unsigned int band_x = 0; band_x < m_VecDim; band_x++ )
+      for( unsigned int band_x = 0; band_x < VectorDimension; band_x++ )
         {
         for( unsigned int band_y=0; band_y <= band_x; band_y++ )
           {
@@ -205,16 +215,16 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
         
      else
        {
-       for( unsigned int band_x = 0; band_x < m_VecDim; band_x++ )
+       for( unsigned int band_x = 0; band_x < VectorDimension; band_x++ )
          for( unsigned int band_y = 0; band_y <= band_x; band_y++ )
            m_Covariance[classIndex][band_x][band_y] = 0;
        }// end else
 
     MatrixType tempMeanSq;
-    tempMeanSq.resize( m_VecDim, m_VecDim );
+    tempMeanSq.resize( VectorDimension, VectorDimension );
     tempMeanSq.fill(NULL);
 
-    for( unsigned int band_x = 0; band_x < m_VecDim; band_x++)
+    for( unsigned int band_x = 0; band_x < VectorDimension; band_x++)
       {
       for(unsigned int band_y=0; band_y<=band_x; band_y++)
         {
@@ -233,9 +243,9 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
     // Fill the rest of the covairance matrix and make it symmetric
     if(m_NumberOfSamples[classIndex][0] > 0)
       {
-      for(unsigned int band_x = 0; band_x < (m_VecDim-1); band_x++)
+      for(unsigned int band_x = 0; band_x < (VectorDimension - 1); band_x++)
         {
-        for(unsigned int band_y=band_x+1; band_y< m_VecDim; band_y++)
+        for(unsigned int band_y=band_x+1; band_y < VectorDimension; band_y++)
           {  
           m_Covariance[classIndex][band_x][band_y] 
             = m_Covariance[classIndex][band_y][band_x];
@@ -259,8 +269,8 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
 
     // pack the cov matrix from in_model to tmp_cov_mat 
     double cov_sum = 0;
-    for(unsigned int band_x = 0; band_x < m_VecDim; band_x++) 
-      for(unsigned int band_y = 0; band_y < m_VecDim; band_y++)
+    for(unsigned int band_x = 0; band_x < VectorDimension; band_x++) 
+      for(unsigned int band_y = 0; band_y < VectorDimension; band_y++)
         cov_sum += vnl_math_abs(tmpCovMat[band_x][band_y]);
         
     // check if it is a zero covariance, if it is, we make its
@@ -268,14 +278,14 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
     // a very large number; otherwise, inverse it 
     if( cov_sum < m_Epsilon ) 
       {
-      inverseMat.resize(m_VecDim,m_VecDim);
+      inverseMat.resize( VectorDimension, VectorDimension );
       inverseMat.set_identity();
       inverseMat *= m_DoubleMax;
       }
     else 
       {
       // check if num_bands == 1, if it is, we just use 1 to divide it
-      if( m_VecDim < 2 ) 
+      if( VectorDimension < 2 ) 
         {
         inverseMat.resize(1,1);
         inverseMat[0][0] = 1.0 / tmpCovMat[0][0];
@@ -344,22 +354,19 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
 ::GetPixelClass(InputImageVectorType &inPixelVec)
 {
 
-  double * pixProbability = new double[m_NumberOfClasses];
-  GetPixelDistance( inPixelVec, pixProbability );
-  double minDist = pixProbability[0];
+  GetPixelDistance( inPixelVec, m_pixProbability );
+  double minDist = m_pixProbability[0];
   m_ClassifiedPixelIndex = 1;
 
   //Loop through the probabilities to get the best index
   for(unsigned int classIndex = 1; classIndex < m_NumberOfClasses; classIndex++ )
     {  
-    if( pixProbability[classIndex] < minDist ) 
+    if( m_pixProbability[classIndex] < minDist ) 
       {
-      minDist = pixProbability[classIndex];
+      minDist = m_pixProbability[classIndex];
       m_ClassifiedPixelIndex = classIndex;
       }
     }// end for
-
-  delete [] pixProbability;
 
   return m_ClassifiedPixelIndex;
 }// end GetPixelClass
@@ -371,24 +378,20 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
 InputImageVectorType &inPixelVec,
 double * pixDistance )
 {
+  double tmp;
   for( unsigned int classIndex = 0; classIndex < m_NumberOfClasses; classIndex++ ) 
     {
     // Compute |y - mean | 
-    MatrixType tmpVec;
-    tmpVec.resize( 1, m_VecDim );
-    for ( unsigned int i = 0; i < m_VecDim; i++ )
-      tmpVec[0][i] = inPixelVec[i] - m_Means[classIndex][i];
+    for ( unsigned int i = 0; i < VectorDimension; i++ )
+      m_tmpVec[0][i] = inPixelVec[i] - m_Means[classIndex][i];
         
     // Compute |y - mean | * inverse(cov) 
-    MatrixType tmpMat( 1, m_VecDim );
-    tmpMat= tmpVec * m_InvCovariance[classIndex];
+    m_tmpMat= m_tmpVec * m_InvCovariance[classIndex];
 
     // Compute |y - mean | * inverse(cov) * |y - mean|^T 
-    MatrixType tmpVecTranspose( m_VecDim, 1 );
-    tmpVecTranspose = tmpVec.transpose();
-    tmpMat = tmpMat * tmpVecTranspose;
+    tmp = (m_tmpMat * (m_tmpVec.transpose()))[0][0];
     
-    pixDistance[classIndex] = tmpMat[0][0];
+    pixDistance[classIndex] = tmp;
     }
 
 }// end Pixel Distance
