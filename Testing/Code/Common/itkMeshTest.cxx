@@ -340,7 +340,7 @@ int itkMeshTest(int, char**)
     if( vertexExists ) 
       {
       std::cout << "Vertex number of points = " << vertexPointer->GetNumberOfPoints() << std::endl;
-      std::cout << "Vertex namd of class    = " << vertexPointer->GetNameOfClass() << std::endl;
+      std::cout << "Vertex name of class    = " << vertexPointer->GetNameOfClass() << std::endl;
       }
     else 
       {
@@ -374,6 +374,7 @@ int itkMeshTest(int, char**)
       }
 
     CellAutoPointer vertexPointer;
+
     /**
      * Try getting one of the QuadraticTriangle's vertices.
      */
@@ -406,12 +407,53 @@ int itkMeshTest(int, char**)
     if( vertexExists ) 
       {
       std::cout << "Vertex number of points = " << vertexPointer->GetNumberOfPoints() << std::endl;
-      std::cout << "Vertex namd of class    = " << vertexPointer->GetNameOfClass() << std::endl;
+      std::cout << "Vertex name of class    = " << vertexPointer->GetNameOfClass() << std::endl;
       }
     else 
       {
       std::cout << "Vertex of the QuadraticTriangle couldn't be extracted " << std::endl;
       }
+
+    /**
+     * Try getting one of the QuadraticTriangle's edges.
+     */
+    CellAutoPointer edgePointer;
+    const bool edgeExists = mesh->GetCellBoundaryFeature(
+                  1,    // Topological dimension of boundary.
+                  2,    // CellIdentifier.
+                  0,    // CellFeatureIdentifier
+                  edgePointer ); // CellPointer to return the result
+
+    std::cout << typeid( edgePointer ).name() << std::endl;
+    std::cout << typeid( edgePointer.GetPointer() ).name() << std::endl;
+    std::cout << "GetCellBoundaryFeature() return AutoPointer owner = " << edgePointer.IsOwner() << std::endl;
+    
+    QuadraticTriangleCellType::EdgeType * edge = 0;
+    try
+      {
+      edge = dynamic_cast<QuadraticTriangleCellType::EdgeType *>(  edgePointer.GetPointer() );
+      std::cout << "Vertex from the QuadraticTriangle recovered " << std::endl;
+      std::cout << edge->GetNameOfClass() << std::endl;
+      }
+    catch(...)
+      {
+      std::cout << "CellPointer cannot be down-cast to a VertexCellType" << std::endl;
+      edge = 0;
+      }
+    if( edge )
+      {
+      std::cout << "CellPointer was safely down-casted to a VertexCellType" << std::endl;
+      }
+    if( edgeExists ) 
+      {
+      std::cout << "Edge number of points = " << edgePointer->GetNumberOfPoints() << std::endl;
+      std::cout << "Edge name of class    = " << edgePointer->GetNameOfClass() << std::endl;
+      }
+    else 
+      {
+      std::cerr << "Edge of the QuadraticTriangle couldn't be extracted " << std::endl;
+      }
+
   } // end of local scope for this part of the test.
 
 
