@@ -382,8 +382,10 @@ public:
     ContinuousIndex<TCoordRep, VImageDimension>& index)
     {
 
-    if (m_PhysicalToIndexTransform == NULL)
+    if ( !m_PhysicalToIndexTransform )
+      {
       this->RebuildTransforms();
+      }
 
 
     AffineTransformType::InputPointType inputPoint = m_PhysicalToIndexTransform->TransformPoint(point) ;
@@ -409,8 +411,10 @@ public:
   void TransformContinuousIndexToPhysicalPoint(ContinuousIndex<TCoordRep, VImageDimension>& index, 
     Point<TCoordRep, VImageDimension>& point)
     {
-    if (m_IndexToPhysicalTransform == NULL)
+    if ( !m_IndexToPhysicalTransform )
+      {
       this->RebuildTransforms();
+      }
     
     AffineTransformType::InputPointType inputPoint;
 
