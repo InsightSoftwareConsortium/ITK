@@ -131,6 +131,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMirrorPadImageFilter.txx"
 #include "itkMorphologyImageFilter.txx"
 #include "itkMultiplyImageFilter.h"
+#include "itkNarrowBand.txx"
 #include "itkNaryAddImageFilter.h"
 #include "itkNaryFunctorImageFilter.txx"
 #include "itkNeighborhoodConnectedImageFilter.txx"
