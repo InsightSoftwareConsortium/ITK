@@ -87,6 +87,8 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 ::GenerateOutputInformation()
 {
 
+  Superclass::GenerateOutputInformation();
+
   // make the output of the size specified by m_OutputSize
   LevelSetPointer output = this->GetOutput();
  
@@ -147,7 +149,6 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   // allocate memory for the output buffer
   output->SetBufferedRegion( output->GetRequestedRegion() );
   output->Allocate();
-  output->CopyInformation( this->GetInput() );
 
   // allocate memory for the PointTypeImage
   m_LabelImage->SetLargestPossibleRegion( 
