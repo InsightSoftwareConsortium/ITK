@@ -19,7 +19,6 @@
 
 #include "itkImageRandomConstIteratorWithIndex.h"
 #include "vnl/vnl_sample.h"
-#include "vcl_ctime.h"
 
 namespace itk
 {
@@ -33,7 +32,6 @@ ImageRandomConstIteratorWithIndex<TImage>
   m_NumberOfPixelsInRegion    = 0L;
   m_NumberOfSamplesRequested  = 0L;
   m_NumberOfSamplesDone       = 0L;
-  this->ReinitializeSeed(vcl_time(0));    //Reinitialize the seed 
 }
 
 /** Constructor establishes an iterator to walk a particular image and a
@@ -46,7 +44,6 @@ ImageRandomConstIteratorWithIndex<TImage>
   m_NumberOfPixelsInRegion   = region.GetNumberOfPixels();
   m_NumberOfSamplesRequested = 0L;
   m_NumberOfSamplesDone      = 0L;
-  this->ReinitializeSeed(vcl_time(0));    //Reinitialize the seed 
 }
 
 /**  Set the number of samples to extract from the region */
