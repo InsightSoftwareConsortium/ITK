@@ -33,7 +33,7 @@ int itkSurfaceSpatialObjectTest(int, char**)
   std::cout<<"=================================="<<std::endl;
   std::cout<<"Testing SurfaceSpatialObject:"<<std::endl<<std::endl;
 
-  SurfaceType::PointListPointer list  = new SurfaceType::PointListType();
+  SurfaceType::PointListType list;
 
   for( unsigned int i=0; i<10; i++)
   {
@@ -45,7 +45,7 @@ int itkSurfaceSpatialObjectTest(int, char**)
       normal[j]=j;
     }
     p->SetNormal(normal);
-    list->push_back(p);
+    list.push_back(p);
   }
 
   // Create a Surface Spatial Object
@@ -60,7 +60,7 @@ int itkSurfaceSpatialObjectTest(int, char**)
   std::cout << "Testing Consistency: " << std::endl;
   std::cout << "Number of Points: ";
 
-  if(Surface->GetPoints()->size() != 10)
+  if(Surface->GetPoints().size() != 10)
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -73,10 +73,10 @@ int itkSurfaceSpatialObjectTest(int, char**)
   // Point consistency
   std::cout << "Point consistency: ";
 
-  SurfaceType::PointListType::const_iterator it = Surface->GetPoints()->begin();
+  SurfaceType::PointListType::const_iterator it = Surface->GetPoints().begin();
 
   unsigned int i=0;
-  while(it != Surface->GetPoints()->end())
+  while(it != Surface->GetPoints().end())
   {
     for(unsigned int d=0;d<3;d++)
     {

@@ -36,7 +36,7 @@ int itkLineSpatialObjectTest(int, char**)
   std::cout<<"=================================="<<std::endl;
   std::cout<<"Testing LineSpatialObject:"<<std::endl<<std::endl;
 
-  LineType::PointListPointer list  = new LineType::PointListType();
+  LineType::PointListType list;
 
   for( unsigned int i=0; i<10; i++)
   {
@@ -52,7 +52,7 @@ int itkLineSpatialObjectTest(int, char**)
     
     p->SetNormal(normal1,0);
     p->SetNormal(normal2,1);
-    list->push_back(p);
+    list.push_back(p);
   }
 
   // Create a Line Spatial Object
@@ -66,7 +66,7 @@ int itkLineSpatialObjectTest(int, char**)
   std::cout << "Testing Consistency: " << std::endl;
   std::cout << "Number of Points: ";
 
-  if(Line->GetPoints()->size() != 10)
+  if(Line->GetPoints().size() != 10)
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -80,10 +80,10 @@ int itkLineSpatialObjectTest(int, char**)
   // Point consistency
   std::cout << "Point consistency: ";
 
-  LineType::PointListType::const_iterator it = Line->GetPoints()->begin();
+  LineType::PointListType::const_iterator it = Line->GetPoints().begin();
 
   unsigned int i=0;
-  while(it != Line->GetPoints()->end())
+  while(it != Line->GetPoints().end())
   {
     for(unsigned int d=0;d<3;d++)
     {

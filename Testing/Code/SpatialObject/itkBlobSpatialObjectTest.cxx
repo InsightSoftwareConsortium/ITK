@@ -34,7 +34,7 @@ int itkBlobSpatialObjectTest(int, char**)
   std::cout<<"=================================="<<std::endl;
   std::cout<<"Testing BlobSpatialObject:"<<std::endl<<std::endl;
 
-  BlobType::PointListPointer list  = new BlobType::PointListType();
+  BlobType::PointListType list;
 
   for( unsigned int i=0; i<10; i++)
   {
@@ -44,7 +44,7 @@ int itkBlobSpatialObjectTest(int, char**)
     p->SetGreen(i+1);
     p->SetRed(i+2);
     p->SetAlpha(i+3);
-    list->push_back(p);
+    list.push_back(p);
   }
 
   // Create a Blob Spatial Object
@@ -58,7 +58,7 @@ int itkBlobSpatialObjectTest(int, char**)
   std::cout << "Testing Consistency: " << std::endl;
   std::cout << "Number of Points: ";
 
-  if(blob->GetPoints()->size() != 10)
+  if(blob->GetPoints().size() != 10)
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -71,10 +71,10 @@ int itkBlobSpatialObjectTest(int, char**)
   // Point consistency
   std::cout << "Point consistency: ";
 
-  BlobType::PointListType::const_iterator it = blob->GetPoints()->begin();
+  BlobType::PointListType::const_iterator it = blob->GetPoints().begin();
 
   unsigned int i=0;
-  while(it != blob->GetPoints()->end())
+  while(it != blob->GetPoints().end())
   {
     for(unsigned int d=0;d<3;d++)
     {
@@ -113,10 +113,10 @@ int itkBlobSpatialObjectTest(int, char**)
    
   std::cout << "Color: ";
   
-  it = blob->GetPoints()->begin();
+  it = blob->GetPoints().begin();
 
   i=0;
-  while(it != blob->GetPoints()->end())
+  while(it != blob->GetPoints().end())
   {
     for(unsigned int d=0;d<3;d++)
     {
