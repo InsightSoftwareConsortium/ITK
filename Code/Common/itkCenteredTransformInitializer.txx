@@ -19,10 +19,20 @@
 #define __itkCenteredTransformInitializer_txx
 
 #include "itkCenteredTransformInitializer.h"
-#include "itkImageMomentsCalculator.h"
 
 namespace itk
 {
+
+
+template < class TTransform, class TFixedImage, class TMovingImage >
+CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
+::CenteredTransformInitializer() 
+{
+  m_FixedCalculator  = FixedImageCalculatorType::New();
+  m_MovingCalculator = MovingImageCalculatorType::New();
+}
+
+
 
 template < class TTransform, class TFixedImage, class TMovingImage >
 void 
@@ -63,24 +73,17 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
 
   if( m_UseMoments )
     {
-    // Here use the center of mass for each image.
-    typedef ImageMomentsCalculator< FixedImageType >   FixedImageCalculatorType;
-    typedef ImageMomentsCalculator< MovingImageType >  MovingImageCalculatorType;
+    m_FixedCalculator->SetImage(  m_FixedImage );
+    m_FixedCalculator->Compute();
 
-    typename FixedImageCalculatorType::Pointer    fixedCalculator = FixedImageCalculatorType::New();
-    typename MovingImageCalculatorType::Pointer   movingCalculator = MovingImageCalculatorType::New();
-
-    fixedCalculator->SetImage(  m_FixedImage );
-    fixedCalculator->Compute();
-
-    movingCalculator->SetImage( m_MovingImage );
-    movingCalculator->Compute();
+    m_MovingCalculator->SetImage( m_MovingImage );
+    m_MovingCalculator->Compute();
     
     typename FixedImageCalculatorType::VectorType fixedCenter =
-      fixedCalculator->GetCenterOfGravity();
+      m_FixedCalculator->GetCenterOfGravity();
 
     typename MovingImageCalculatorType::VectorType movingCenter =
-      movingCalculator->GetCenterOfGravity();
+      m_MovingCalculator->GetCenterOfGravity();
 
     for( unsigned int i=0; i<InputSpaceDimension; i++)
       {

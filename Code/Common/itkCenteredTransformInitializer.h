@@ -18,8 +18,9 @@
 #ifndef __itkCenteredTransformInitializer_h
 #define __itkCenteredTransformInitializer_h
 
-#include <itkObject.h>
-#include <itkObjectFactory.h>
+#include "itkObject.h"
+#include "itkObjectFactory.h"
+#include "itkImageMomentsCalculator.h"
 
 #include <iostream>
 
@@ -91,6 +92,12 @@ public:
   typedef   typename FixedImageType::ConstPointer   FixedImagePointer;
   typedef   typename MovingImageType::ConstPointer  MovingImagePointer;
 
+  /** Moment calculators */
+  typedef ImageMomentsCalculator< FixedImageType >   FixedImageCalculatorType;
+  typedef ImageMomentsCalculator< MovingImageType >  MovingImageCalculatorType;
+
+  typedef   typename FixedImageCalculatorType::Pointer    FixedImageCalculatorPointer;
+  typedef   typename MovingImageCalculatorType::Pointer   MovingImageCalculatorPointer;
 
 
   /** Offset type. */
@@ -120,9 +127,12 @@ public:
   void GeometryOn() { m_UseMoments = false; }
   void MomentsOn()  { m_UseMoments = true; }
 
+  /** Get() access to the moments calculators */
+  itkGetConstObjectMacro( FixedCalculator,  FixedImageCalculatorType  );
+  itkGetConstObjectMacro( MovingCalculator, MovingImageCalculatorType );
 
 protected:
-  CenteredTransformInitializer() {};
+  CenteredTransformInitializer();
   ~CenteredTransformInitializer(){};
 
   void PrintSelf(std::ostream &os, Indent indent) const;
@@ -138,6 +148,9 @@ private:
   MovingImagePointer  m_MovingImage;
 
   bool                m_UseMoments;
+
+  FixedImageCalculatorPointer    m_FixedCalculator;
+  MovingImageCalculatorPointer   m_MovingCalculator;
 
 }; //class CenteredTransformInitializer
 
