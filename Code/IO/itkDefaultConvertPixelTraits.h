@@ -97,6 +97,9 @@ ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(unsigned long)
 //
 //  Default traits for the Offset<> pixel type
 //
+//  Dimension has to be preprocessed on windows
+
+#if 0
 template<unsigned int NDimension>
 class DefaultConvertPixelTraits< Offset<NDimension> >
 {
@@ -116,7 +119,7 @@ public:
       return pixel[0];  // this operation lacks sense on the Offset                          
     }                                        
 };
-
+#endif
  
 } // end namespace itk
 
