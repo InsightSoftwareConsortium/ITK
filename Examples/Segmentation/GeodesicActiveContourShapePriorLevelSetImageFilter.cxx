@@ -969,21 +969,9 @@ int main( int argc, char *argv[] )
   // The aim here is to segment the corpus callosum from the image using a shape model
   // defined by \code{CorpusCallosumMeanShape.mha} and the first three prinicpal
   // components \code{CorpusCallosumMode0.mha}, \code{CorpusCallosumMode1.mha} and 
-  // \code{CorpusCallosumMode1.mha}. Segmentation results with and without shape
-  // guidance are shown in 
-  // Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2}.
-  //
-  // A sigma value of $1.0$ was used to compute the image gradient and the
-  // propagation and shape prior scaling are respectively set to $0.5$ and $0.02$.
-  // An initial level set was created by placing one seed point in the
-  // rostrum $(60,102)$ and 
-  // one in the splenium $(120, 85)$ of the corpus callosum with
-  // an initial radius of $6$ pixels at each seed position.
-  // The best-fit shape was initially placed with a translation of
-  // $(10,0)mm$ so that it roughly overlapped
-  // the corpus callosum in the image as shown on the right of
-  // Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput}.
-  //
+  // \code{CorpusCallosumMode1.mha}. As shown in Figure~\ref{fig:CorpusCallosumPCAModes},
+  // the first mode captures scaling, the second mode the shifting of mass between
+  // the rostrum and the splenium and the third mode, the degree of curvature.
   // 
   // \begin{figure} \center
   // \includegraphics[width=0.30\textwidth]{BrainMidSagittalSlice.eps}
@@ -997,6 +985,48 @@ int main( int argc, char *argv[] )
   // \label{fig:GeodesicActiveContourShapePriorImageFilterOutput}
   // \end{figure}
   //
+  //
+  // \begin{figure}
+  // \center
+  // \begin{tabular}{cccc}
+  // & $-3\sigma$ & mean & $+3\sigma$ \\
+  // mode 0: &
+  // \includegraphics[width=0.15\textwidth]{CorpusCallosumModeMinus0.eps} & 
+  // \includegraphics[width=0.15\textwidth]{CorpusCallosumMeanShape.eps} & 
+  // \includegraphics[width=0.15\textwidth]{CorpusCallosumModePlus0.eps} \\
+  // mode 1: &
+  // \includegraphics[width=0.15\textwidth]{CorpusCallosumModeMinus1.eps} & 
+  // \includegraphics[width=0.15\textwidth]{CorpusCallosumMeanShape.eps} & 
+  // \includegraphics[width=0.15\textwidth]{CorpusCallosumModePlus1.eps} \\
+  // mode 2: &
+  // \includegraphics[width=0.15\textwidth]{CorpusCallosumModeMinus2.eps} & 
+  // \includegraphics[width=0.15\textwidth]{CorpusCallosumMeanShape.eps} & 
+  // \includegraphics[width=0.15\textwidth]{CorpusCallosumModePlus2.eps} \\
+  // \end{tabular}
+  // \itkcaption[Corpus callosum PCA modes]{First three PCA modes of a low-resolution
+  // corpus callosum model used in the shape guided geodesic active contours
+  // example.}
+  //
+  // \label{fig:CorpusCallosumPCAModes}
+  // \end{figure}
+  //
+  //
+  // Segmentation results with and without shape
+  // guidance are shown in 
+  // Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2}.
+  //
+  // A sigma value of $1.0$ was used to compute the image gradient and the
+  // propagation and shape prior scaling are respectively set to $0.5$ and $0.02$.
+  // An initial level set was created by placing one seed point in the
+  // rostrum $(60,102)$ and 
+  // one in the splenium $(120, 85)$ of the corpus callosum with
+  // an initial radius of $6$ pixels at each seed position.
+  // The best-fit shape was initially placed with a translation of
+  // $(10,0)$mm so that it roughly overlapped
+  // the corpus callosum in the image as shown on the right of
+  // Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput}.
+  //
+  // 
   // From Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2} it can be
   // observed that without
   // shape guidance (left), segmentation using geodesic active contour leaks in the 
@@ -1012,7 +1042,7 @@ int main( int argc, char *argv[] )
   //
   // and is shown on the right of
   // Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2}. Note that a 
-  // $0.276688 radian (15.8 degree)$ rotation has been introduced to match the model to the
+  // $0.276688$ radian ($15.8$ degree) rotation has been introduced to match the model to the
   // the corpus callosum in the image. It can also be observed that the final segmentation is
   // combination of the best-fit shape with additional local deformation. The combination
   // of both global and local shape allows the segmentation to capture fine details not represented
@@ -1029,7 +1059,7 @@ int main( int argc, char *argv[] )
   //
   // \label{fig:GeodesicActiveContourShapePriorImageFilterOutput2}
   // \end{figure}
- 
+  //
   //
   //  Software Guide : EndLatex 
 
