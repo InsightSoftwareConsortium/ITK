@@ -178,9 +178,10 @@ proc check_header_file { filename } {
 
         # Search for Set and Get macros
         set set_macro_found [string match "*itkSet*Macro*(*" $data]
+        set get_static_const_macro_found [string match "*itkGetStaticConstMacro*(*" $data]
         set get_macro_found [string match "*itkGet*Macro*(*" $data]
 
-        if { $set_macro_found || $get_macro_found } {
+        if { !$get_static_const_macro_found && ( $set_macro_found || $get_macro_found  ) } {
 
           # Get the ivar from the Macro declaration
           set ivar [get_ivar $data];
