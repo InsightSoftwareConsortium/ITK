@@ -21,14 +21,41 @@ namespace itk{
 namespace Statistics{
 
 template < class TImage, class TMeasurementVector >
+ImageToListAdaptor< TImage, TMeasurementVector >
+::ImageToListAdaptor()
+{
+  m_UseBuffer = true ;
+  m_Image = 0 ;
+  m_PixelContainer = 0 ;
+}
+
+template < class TImage, class TMeasurementVector >
 void
 ImageToListAdaptor< TImage, TMeasurementVector >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Image: " << m_Image << std::endl;
-  os << indent << "PixelContainer: " << m_PixelContainer << std::endl;
+  os << indent << "Image: " ;
+  if ( m_Image != 0 )
+    {
+    os << m_Image << std::endl;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+   
+  os << indent << "PixelContainer: " ;
+  if ( m_PixelContainer != 0 )
+    {
+    os << m_PixelContainer << std::endl;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+  
   os << indent << "Use buffer: " << m_UseBuffer << std::endl;
 }
 

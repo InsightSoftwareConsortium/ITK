@@ -196,7 +196,7 @@ public:
   } ;
   
 protected:
-  ImageToListAdaptor() {}
+  ImageToListAdaptor() ;
   virtual ~ImageToListAdaptor() {}
   void PrintSelf(std::ostream& os, Indent indent) const;  
 
