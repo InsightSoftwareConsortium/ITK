@@ -168,22 +168,24 @@ Parser
 }
 
 
+
 /**
  * An unexpected element type is on top of the stack.
  */
 class ElementStackTypeException: public ParseException
 {
 public:
-  ElementStackTypeException(const char* e, TypeOfObject t):
+  ElementStackTypeException(const char* e, const char* t):
     ParseException(), m_Expected(e), m_Got(t) {}
   void Print(std::ostream& os) const
     {
       os << "Expected \"" << m_Expected.c_str()
-         << "\" on top of element stack, but got " << m_Got << std::endl;
+         << "\" as immediate enclosing element, but got \"" << m_Got << "\""
+         << std::endl;
     }
 private:
   String m_Expected;
-  TypeOfObject m_Got;
+  String m_Got;
 };
 
 
@@ -199,7 +201,8 @@ Parser
      && (t != Class_id)
      && (t != Struct_id)
      && (t != Union_id))
-    throw ElementStackTypeException("Any Context", t);
+    throw ElementStackTypeException("Any Context",
+                                    m_ElementStack.top()->GetClassName());
   
   return dynamic_cast<Context*>(m_ElementStack.top().RealPointer());
 }
@@ -214,7 +217,8 @@ Parser
 {
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != Namespace_id))
-    throw ElementStackTypeException("Namespace", t);
+    throw ElementStackTypeException("Namespace",
+                                    m_ElementStack.top()->GetClassName());
   
   return dynamic_cast<Namespace*>(m_ElementStack.top().RealPointer());
 }
@@ -231,7 +235,8 @@ Parser
   if((t != Class_id)
      && (t != Struct_id)
      && (t != Union_id))
-    throw ElementStackTypeException("Any Class", t);
+    throw ElementStackTypeException("Any Class",
+                                    m_ElementStack.top()->GetClassName());
   
   return dynamic_cast<Class*>(m_ElementStack.top().RealPointer());
 }
@@ -252,7 +257,8 @@ Parser
      && (t != MethodType_id)
      && (t != OffsetType_id)
      && (t != ArrayType_id))
-    throw ElementStackTypeException("Any Type", t);
+    throw ElementStackTypeException("Any Type",
+                                    m_ElementStack.top()->GetClassName());
   
   return dynamic_cast<Type*>(m_ElementStack.top().RealPointer());
 }
@@ -273,7 +279,8 @@ Parser
     && (t != Converter_id)
     && (t != OperatorFunction_id)
     && (t != OperatorMethod_id))
-    throw ElementStackTypeException("Any Function", t);
+    throw ElementStackTypeException("Any Function",
+                                    m_ElementStack.top()->GetClassName());
 
   return dynamic_cast<Function*>(m_ElementStack.top().RealPointer());
 }
@@ -288,7 +295,8 @@ Parser
 {
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != Argument_id))
-    throw ElementStackTypeException("Argument", t);
+    throw ElementStackTypeException("Argument",
+                                    m_ElementStack.top()->GetClassName());
 
   return dynamic_cast<Argument*>(m_ElementStack.top().RealPointer());
 }
@@ -303,7 +311,8 @@ Parser
 {
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != PointerType_id))
-    throw ElementStackTypeException("PointerType", t);
+    throw ElementStackTypeException("PointerType",
+                                    m_ElementStack.top()->GetClassName());
   
   return dynamic_cast<PointerType*>(m_ElementStack.top().RealPointer());
 }
@@ -318,7 +327,8 @@ Parser
 {
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != ReferenceType_id))
-    throw ElementStackTypeException("ReferenceType", t);
+    throw ElementStackTypeException("ReferenceType",
+                                    m_ElementStack.top()->GetClassName());
   
   return dynamic_cast<ReferenceType*>(m_ElementStack.top().RealPointer());
 }
@@ -334,7 +344,8 @@ Parser
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != FunctionType_id)
      && (t != MethodType_id))
-    throw ElementStackTypeException("Any FunctionType", t);
+    throw ElementStackTypeException("Any FunctionType",
+                                    m_ElementStack.top()->GetClassName());
   
   return dynamic_cast<FunctionType*>(m_ElementStack.top().RealPointer());
 }
@@ -349,7 +360,8 @@ Parser
 {
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if(t != MethodType_id)
-    throw ElementStackTypeException("MethodType", t);
+    throw ElementStackTypeException("MethodType",
+                                    m_ElementStack.top()->GetClassName());
   
   return dynamic_cast<MethodType*>(m_ElementStack.top().RealPointer());
 }
@@ -364,7 +376,8 @@ Parser
 {
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != OffsetType_id))
-    throw ElementStackTypeException("OffsetType", t);
+    throw ElementStackTypeException("OffsetType",
+                                    m_ElementStack.top()->GetClassName());
   
   return dynamic_cast<OffsetType*>(m_ElementStack.top().RealPointer());
 }
@@ -379,7 +392,8 @@ Parser
 {
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != ArrayType_id))
-    throw ElementStackTypeException("ArrayType", t);
+    throw ElementStackTypeException("ArrayType",
+                                    m_ElementStack.top()->GetClassName());
   
   return dynamic_cast<ArrayType*>(m_ElementStack.top().RealPointer());
 }
@@ -461,7 +475,7 @@ Parser
   String name = atts.Get("name");
   Namespace::Pointer newNamespace = Namespace::New(name);
   
-  CurrentNamespace()->AddNamespace(newNamespace);
+  this->CurrentNamespace()->AddNamespace(newNamespace);
   this->PushElement(newNamespace);
 }
 
@@ -545,7 +559,7 @@ Parser
   
   Class::Pointer newClass = Class::New(name, access);
   
-  CurrentContext()->AddClass(newClass);
+  this->CurrentContext()->AddClass(newClass);
   this->PushElement(newClass);
 }
 
@@ -579,7 +593,7 @@ Parser
   
   Struct::Pointer newStruct = Struct::New(name, access);
 
-  CurrentContext()->AddClass(newStruct);
+  this->CurrentContext()->AddClass(newStruct);
   this->PushElement(newStruct);
 }
 
@@ -613,7 +627,7 @@ Parser
 
   Union::Pointer newUnion = Union::New(name, access);
   
-  CurrentContext()->AddClass(newUnion);
+  this->CurrentContext()->AddClass(newUnion);
   this->PushElement(newUnion);
 }
 
@@ -645,7 +659,7 @@ Parser
   
   Constructor::Pointer newConstructor = Constructor::New(access);
 
-  CurrentClass()->AddMethod(newConstructor);
+  this->CurrentClass()->AddMethod(newConstructor);
   this->PushElement(newConstructor);
 }
 
@@ -677,7 +691,7 @@ Parser
   
   Destructor::Pointer newDestructor = Destructor::New(access);
   
-  CurrentClass()->AddMethod(newDestructor);
+  this->CurrentClass()->AddMethod(newDestructor);
   this->PushElement(newDestructor);
 }
 
@@ -709,7 +723,7 @@ Parser
   
   Converter::Pointer newConverter = Converter::New(access);
   
-  CurrentClass()->AddMethod(newConverter);
+  this->CurrentClass()->AddMethod(newConverter);
   this->PushElement(newConverter);
 }
 
@@ -735,7 +749,7 @@ Parser
   String name = atts.Get("name");  
   OperatorFunction::Pointer newOperatorFunction = OperatorFunction::New(name);
   
-  CurrentNamespace()->AddFunction(newOperatorFunction);
+  this->CurrentNamespace()->AddFunction(newOperatorFunction);
   this->PushElement(newOperatorFunction);
 }
 
@@ -768,7 +782,7 @@ Parser
   
   OperatorMethod::Pointer newOperatorMethod = OperatorMethod::New(name, access);
   
-  CurrentClass()->AddMethod(newOperatorMethod);
+  this->CurrentClass()->AddMethod(newOperatorMethod);
   this->PushElement(newOperatorMethod);
 }
 
@@ -802,7 +816,7 @@ Parser
   
   Method::Pointer newMethod = Method::New(name, access, is_static);
   
-  CurrentClass()->AddMethod(newMethod);
+  this->CurrentClass()->AddMethod(newMethod);
   this->PushElement(newMethod);
 }
 
@@ -828,7 +842,7 @@ Parser
   String name = atts.Get("name");  
   Function::Pointer newFunction = Function::New(name);
   
-  CurrentNamespace()->AddFunction(newFunction);
+  this->CurrentNamespace()->AddFunction(newFunction);
   this->PushElement(newFunction);
 }
 
@@ -854,16 +868,16 @@ Parser
   String name = atts.Get("name");  
   Argument::Pointer newArgument = Argument::New(name);
 
-  TypeOfObject t = CurrentElement()->GetTypeOfObject();
+  TypeOfObject t = this->CurrentElement()->GetTypeOfObject();
 
   if((t == FunctionType_id)
      || (t == MethodType_id))
     {
-    CurrentFunctionType()->AddArgument(newArgument);
+    this->CurrentFunctionType()->AddArgument(newArgument);
     }
   else
     {
-    CurrentFunction()->AddArgument(newArgument);
+    this->CurrentFunction()->AddArgument(newArgument);
     }
   this->PushElement(newArgument);
 }
@@ -889,16 +903,16 @@ Parser
 {
   Returns::Pointer newReturns = Returns::New();
   
-  TypeOfObject t = CurrentElement()->GetTypeOfObject();
+  TypeOfObject t = this->CurrentElement()->GetTypeOfObject();
 
   if((t == FunctionType_id)
      || (t == MethodType_id))
     {
-    CurrentFunctionType()->SetReturns(newReturns);
+    this->CurrentFunctionType()->SetReturns(newReturns);
     }
   else
     {
-    CurrentFunction()->SetReturns(newReturns);
+    this->CurrentFunction()->SetReturns(newReturns);
     }
   
   this->PushElement(newReturns);
@@ -942,16 +956,16 @@ void
 Parser
 ::begin_Ellipsis(const Attributes& atts)
 {
-  TypeOfObject t = CurrentElement()->GetTypeOfObject();
+  TypeOfObject t = this->CurrentElement()->GetTypeOfObject();
 
   if((t == FunctionType_id)
      || (t == MethodType_id))
     {
-    CurrentFunctionType()->SetEllipsis(true);
+    this->CurrentFunctionType()->SetEllipsis(true);
     }
   else
     {
-    CurrentFunction()->SetEllipsis(true);
+    this->CurrentFunction()->SetEllipsis(true);
     }
 }
 
@@ -1071,7 +1085,7 @@ Parser
 {
   NamedType::Pointer newNamedType = NamedType::New();
 
-  CurrentElement()->SetInternalType(newNamedType);
+  this->CurrentElement()->SetInternalType(newNamedType);
   this->PushElement(newNamedType);
 }
 
@@ -1095,7 +1109,7 @@ Parser
 {
   PointerType::Pointer newPointerType = PointerType::New();
   
-  CurrentElement()->SetInternalType(newPointerType);
+  this->CurrentElement()->SetInternalType(newPointerType);
   this->PushElement(newPointerType);
 }
 
@@ -1119,7 +1133,7 @@ Parser
 {
   ReferenceType::Pointer newReferenceType = ReferenceType::New();
   
-  CurrentElement()->SetInternalType(newReferenceType);
+  this->CurrentElement()->SetInternalType(newReferenceType);
   this->PushElement(newReferenceType);
 }
 
@@ -1143,7 +1157,7 @@ Parser
 {
   FunctionType::Pointer newFunctionType = FunctionType::New();
   
-  CurrentElement()->SetInternalType(newFunctionType);
+  this->CurrentElement()->SetInternalType(newFunctionType);
   this->PushElement(newFunctionType);
 }
 
@@ -1167,7 +1181,7 @@ Parser
 {
   MethodType::Pointer newMethodType = MethodType::New();
   
-  CurrentElement()->SetInternalType(newMethodType);
+  this->CurrentElement()->SetInternalType(newMethodType);
   this->PushElement(newMethodType);
 }
 
@@ -1191,7 +1205,7 @@ Parser
 {
   OffsetType::Pointer newOffsetType = OffsetType::New();
   
-  CurrentElement()->SetInternalType(newOffsetType);
+  this->CurrentElement()->SetInternalType(newOffsetType);
   this->PushElement(newOffsetType);
 }
 
@@ -1217,7 +1231,7 @@ Parser
   int max = atts.GetAsInteger("max");
   ArrayType::Pointer newArrayType = ArrayType::New(min, max);
   
-  CurrentElement()->SetInternalType(newArrayType);
+  this->CurrentElement()->SetInternalType(newArrayType);
   this->PushElement(newArrayType);
 }
 
@@ -1242,7 +1256,7 @@ Parser
   String name = atts.Get("name");
   QualifiedName::Pointer newQualifiedName = QualifiedName::New(name);
 
-  CurrentElement()->SetInternalQualifiedName(newQualifiedName);
+  this->CurrentElement()->SetInternalQualifiedName(newQualifiedName);
 }
 
 /**
@@ -1265,7 +1279,7 @@ Parser
   String name = atts.Get("name");
   NameQualifier::Pointer newNameQualifier = NameQualifier::New(name);
 
-  CurrentElement()->SetInternalQualifiedName(newNameQualifier);
+  this->CurrentElement()->SetInternalQualifiedName(newNameQualifier);
   this->PushElement(newNameQualifier);
 }
 
@@ -1296,7 +1310,7 @@ Parser
   
   BaseClass::Pointer newBaseClass = BaseClass::New(access);
 
-  CurrentClass()->AddBaseClass(newBaseClass);
+  this->CurrentClass()->AddBaseClass(newBaseClass);
   this->PushElement(newBaseClass);
 }
 
@@ -1320,15 +1334,15 @@ Parser
 {
   BaseType::Pointer newBaseType = BaseType::New();
 
-  TypeOfObject t = CurrentElement()->GetTypeOfObject();
+  TypeOfObject t = this->CurrentElement()->GetTypeOfObject();
   
   if(t == MethodType_id)
     {
-    CurrentMethodType()->SetBaseType(newBaseType);
+    this->CurrentMethodType()->SetBaseType(newBaseType);
     }
   else
     {
-    CurrentOffsetType()->SetBaseType(newBaseType);
+    this->CurrentOffsetType()->SetBaseType(newBaseType);
     }
   
   this->PushElement(newBaseType);
@@ -1433,7 +1447,7 @@ Parser
 
   Location::Pointer newLocation = Location::New(file, line);
   
-  CurrentElement()->SetLocation(newLocation);
+  this->CurrentElement()->SetLocation(newLocation);
 }
 
 /**
@@ -1456,7 +1470,7 @@ Parser
   CV_Qualifiers::Pointer cv = CV_Qualifiers::New(atts.GetAsInteger("const"),
 						 atts.GetAsInteger("volatile"),
 						 atts.GetAsInteger("restrict"));
-  CurrentType()->SetCV_Qualifiers(cv);
+  this->CurrentType()->SetCV_Qualifiers(cv);
 }
 
 /**

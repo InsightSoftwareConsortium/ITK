@@ -9,10 +9,13 @@
     <File name="itkVersion.h"/>
   </Headers>
 
-  <File name="itkVersion.h"/>
+  <ArgumentSet name="Integer">
+    <Argument tag="I">int</Argument>
+  </ArgumentSet>
 
   <ArgumentSet name="BasicScalarType">
     <Argument tag="F">float</Argument>
+    <ArgumentSet name="Integer"/>
   </ArgumentSet>
 
   <CreateMethod name="operator new">

@@ -227,7 +227,7 @@ public:
   void Print(std::ostream& os) const
     {
       os << "Expected \"" << m_Expected.c_str()
-         << "\" on top of element stack, but got \"" << m_Got << "\""
+         << "\" as immediate enclosing element, but got \"" << m_Got << "\""
          << std::endl;
     }
 private:
