@@ -74,7 +74,7 @@ class ITK_EXPORT BinaryMask3DMeshSource : public ImageToMeshFilter<Image<unsigne
 public:
   /** Standard "Self" typedef. */
   typedef BinaryMask3DMeshSource         Self;
-  typedef ProcessObject  Superclass;
+  typedef ImageToMeshFilter<Image<unsigned short, 3>,TOutputMesh>  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
