@@ -105,7 +105,7 @@ WeightedCenteroidKdTreeGenerator< TSample >
   right = GenerateTreeLoop(medianIndex, endIndex, lowerBound, upperBound ) ;
   lowerBound[partitionDimension] = dimensionLowerBound ;
 
-  return new KdTreeWeightedCenteroidNonterminalNode< SourceSampleType >
+  return new KdTreeWeightedCenteroidNonterminalNode< TSample >
     (partitionDimension, partitionValue,
      left, right, weightedCenteroid, endIndex - beginIndex) ;
 }

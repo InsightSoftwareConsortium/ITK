@@ -51,15 +51,13 @@ public:
   itkNewMacro(Self) ;
 
   /** typedef alias for the source data container */ 
-  typedef TSample SourceSampleType ;
-  typedef typename TSample::Pointer SourceSamplePointer ;
   typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
   typedef typename TSample::MeasurementType MeasurementType ;
   
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       TSample::MeasurementVectorSize);
 
-  typedef KdTree< SourceSampleType > KdTreeType ;
+  typedef KdTree< TSample > KdTreeType ;
   typedef KdTreeType OutputType ;
   typedef typename KdTreeType::Pointer OutputPointer ;
   typedef typename KdTreeType::KdTreeNodeType KdTreeNodeType ;
@@ -67,7 +65,7 @@ public:
   typedef Subsample< TSample > SubsampleType ;
   typedef typename SubsampleType::Pointer SubsamplePointer ;
 
-  void SetSample(SourceSamplePointer sample) ;
+  void SetSample(TSample* sample) ;
 
   void SetBucketSize(int size) ;
 
@@ -102,7 +100,7 @@ private:
   KdTreeGenerator(const Self&) ; //purposely not implemented
   void operator=(const Self&) ; //purposely not implemented
 
-  SourceSamplePointer m_SourceSample ;
+  TSample* m_SourceSample ;
   SubsamplePointer m_Subsample ;
   int m_BucketSize ;
   OutputPointer m_Tree ;

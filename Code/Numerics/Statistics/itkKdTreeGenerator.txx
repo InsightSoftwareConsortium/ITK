@@ -41,7 +41,7 @@ KdTreeGenerator< TSample >
 template< class TSample >
 void
 KdTreeGenerator< TSample >
-::SetSample(SourceSamplePointer sample)
+::SetSample(TSample* sample)
 {
   m_SourceSample = sample ;
   m_Subsample->SetSample(sample) ;
@@ -157,10 +157,10 @@ KdTreeGenerator< TSample >
   right = GenerateTreeLoop(medianIndex, endIndex, lowerBound, upperBound ) ;
   lowerBound[partitionDimension] = dimensionLowerBound ;
 
-  return new KdTreeNonterminalNode< SourceSampleType >(partitionDimension, 
-                                                       partitionValue,
-                                                       left,
-                                                       right) ;
+  return new KdTreeNonterminalNode< TSample >(partitionDimension, 
+                                              partitionValue,
+                                              left,
+                                              right) ;
 }
 
 template< class TSample >
@@ -181,8 +181,8 @@ KdTreeGenerator< TSample >
         }
       else
         {
-          KdTreeTerminalNode< SourceSampleType >* ptr = 
-            new KdTreeTerminalNode< SourceSampleType >(); 
+          KdTreeTerminalNode< TSample >* ptr = 
+            new KdTreeTerminalNode< TSample >(); 
 
           for (int j = beginIndex ; j < endIndex ; j++)
             {

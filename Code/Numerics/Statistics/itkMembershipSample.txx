@@ -30,14 +30,14 @@ MembershipSample< TSample >
 template< class TSample >
 void 
 MembershipSample< TSample >
-::SetSample(SamplePointer sample)
+::SetSample(TSample* sample)
 {
   m_Sample = sample ; 
   m_ClassLabelHolder.resize(m_Sample->Size()) ;
 }
 
 template< class TSample >
-typename MembershipSample< TSample >::SamplePointer 
+TSample*
 MembershipSample< TSample >
 ::GetSample()
 {
@@ -129,7 +129,7 @@ MembershipSample< TSample >
 
 
 template< class TSample >
-typename MembershipSample< TSample >::ClassSamplePointer
+typename MembershipSample< TSample >::ClassSampleType*
 MembershipSample< TSample >
 ::GetClassSample(const unsigned int &classLabel)
 {

@@ -76,21 +76,18 @@ public:
                       TSample::MeasurementVectorSize);
 
   /** TSample template argument related typedefs */
-  typedef TSample SampleType ;
-  typedef typename TSample::Pointer SamplePointer ;
   typedef typename TSample::MeasurementType MeasurementType ;
   typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
 
   typedef MixtureModelComponentBase< TSample > ComponentType ;
   typedef std::vector< ComponentType* > ComponentVectorType ;
   typedef MembershipFunctionBase< MeasurementVectorType > ComponentMembershipFunctionType ;
-  typedef typename ComponentMembershipFunctionType::Pointer ComponentMembershipFunctionPointer ;
 
   /** Sets the target data that will be classified by this */
-  void SetSample(SamplePointer sample) ;
+  void SetSample(TSample* sample) ;
 
   /** Returns the target data */
-  SamplePointer GetSample() ;
+  TSample* GetSample() ;
 
   typedef Array< double > ProportionVectorType ;
 
@@ -116,7 +113,7 @@ public:
   enum TERMINATION_CODE { CONVERGED = 0, NOT_CONVERGED = 1 } ;
 
   TERMINATION_CODE GetTerminationCode() ;
-  ComponentMembershipFunctionPointer GetComponentMembershipFunction(int componentIndex) ;
+  ComponentMembershipFunctionType* GetComponentMembershipFunction(int componentIndex) ;
 
 protected:
   ExpectationMaximizationMixtureModelEstimator() ;
@@ -133,7 +130,7 @@ protected:
 
 private:
   /** Target data sample pointer*/
-  SamplePointer m_Sample ;
+  TSample* m_Sample ;
 
   int m_MaxIteration ;
   int m_CurrentIteration ;

@@ -76,9 +76,6 @@ public:
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       TSample::MeasurementVectorSize);
   
-  /** Smart pointer to the actual sample data holder */
-  typedef typename TSample::Pointer SamplePointer ;
-  
   /** vector of unique class labels that will be used for mapping internal
    * continuous class label with real class labels */
   typedef std::vector< unsigned int > UniqueClassLabelsType ;
@@ -90,12 +87,11 @@ public:
   /** Typedef for each subsample that stores instance identifers of instances
    * that belong to a class */
   typedef Subsample< TSample > ClassSampleType ;
-  typedef typename ClassSampleType::Pointer ClassSamplePointer ;
   
   /** Plug in the actual sample data */
-  void SetSample(SamplePointer sample) ;
+  void SetSample(TSample* sample) ;
   
-  SamplePointer GetSample() ;
+  TSample* GetSample() ;
   
   void SetNumberOfClasses(unsigned int numberOfClasses) ;
   
@@ -111,7 +107,7 @@ public:
 
   unsigned int GetClassSampleSize(const unsigned int &classLabel) const ;
 
-  ClassSamplePointer GetClassSample(const unsigned int &classLabel) ;
+  ClassSampleType* GetClassSample(const unsigned int &classLabel) ;
   
   ClassLabelHolderType* GetClassLabels()
   { return &m_ClassLabelHolder ; }
@@ -155,7 +151,7 @@ public:
   class Iterator
   {
   public:
-    Iterator(InstanceIdentifier id, Pointer membershipSample)
+    Iterator(InstanceIdentifier id, Self* membershipSample)
       :m_Id(id), m_MembershipSample(membershipSample),
        m_Sample(membershipSample->GetSample())
     {}
@@ -224,8 +220,8 @@ public:
     // identifier for the instance
     InstanceIdentifier m_Id ;  
     // Pointer to MemebershipSample object
-    Pointer m_MembershipSample ;
-    SamplePointer m_Sample ;
+    Self* m_MembershipSample ;
+    TSample* m_Sample ;
   } ;
 
 protected:
@@ -237,13 +233,13 @@ private:
   MembershipSample(const Self&) ; //purposely not implemented
   void operator=(const Self&) ; //purposely not implemented
 
-  SamplePointer                   m_Sample ;
+  TSample*                        m_Sample ;
   unsigned int                    m_CurrentClassLabel ;
   UniqueClassLabelsType           m_UniqueClassLabels ;
   ClassLabelHolderType            m_ClassLabelHolder ;
   unsigned int                    m_NumberOfClasses ;
   std::vector< unsigned int >     m_ClassSampleSizes ;
-  std::vector< ClassSamplePointer > m_ClassSamples ;
+  std::vector< ClassSampleType::Pointer > m_ClassSamples ;
 } ; // end of class
 
 

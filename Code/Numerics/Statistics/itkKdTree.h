@@ -230,7 +230,6 @@ public:
 
   /** typedef alias for the source data container */ 
   typedef TSample SampleType ;
-  typedef typename TSample::Pointer SamplePointer ;
   typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
   typedef typename TSample::MeasurementType MeasurementType ;
   typedef typename TSample::InstanceIdentifier InstanceIdentifier ;
@@ -239,7 +238,6 @@ public:
                       TSample::MeasurementVectorSize) ;
 
   typedef EuclideanDistance< MeasurementVectorType > DistanceMetricType ;
-  typedef typename DistanceMetricType::Pointer DistanceMetricPointer ;
 
   typedef KdTreeNode< TSample > KdTreeNodeType ;
 
@@ -292,9 +290,9 @@ public:
 
   void SetBucketSize(unsigned int size) ;
 
-  void SetSample(SamplePointer sample) ;
+  void SetSample(TSample* sample) ;
 
-  SamplePointer GetSample()
+  TSample* GetSample()
   { return m_Sample ; }
 
   KdTreeNodeType* GetEmptyTerminalNode()
@@ -310,7 +308,8 @@ public:
   { return m_Sample->GetMeasurementVector(id) ; }
 
   /** Get the pointer to the distance metric. */
-  itkGetConstMacro( DistanceMetric, DistanceMetricPointer ) ;
+  DistanceMetricType* GetDistanceMetric()
+  { return m_DistanceMetric.GetPointer() ; }
 
   bool BallWithinBounds(MeasurementVectorType &query, 
                         MeasurementVectorType &lowerBound,
@@ -349,11 +348,11 @@ private:
   KdTree(const Self&) ; //purposely not implemented
   void operator=(const Self&) ; //purposely not implemented
 
-  SamplePointer m_Sample ;
+  TSample* m_Sample ;
   int m_BucketSize ;
   KdTreeNodeType* m_Root ;
   KdTreeNodeType* m_EmptyTerminalNode ;
-  DistanceMetricPointer m_DistanceMetric ;
+  DistanceMetricType::Pointer m_DistanceMetric ;
   NearestNeighbors m_Neighbors ;
   MeasurementVectorType m_LowerBound ;
   MeasurementVectorType m_UpperBound ;

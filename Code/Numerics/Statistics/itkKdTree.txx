@@ -122,7 +122,7 @@ KdTree< TSample >
 template< class TSample >
 void
 KdTree< TSample >
-::SetSample(SamplePointer sample)
+::SetSample(TSample* sample)
 {
   m_Sample = sample ;
 }
@@ -339,6 +339,7 @@ KdTree< TSample >
   // non-terminal node
   DeleteNode(node->Left()) ;
   DeleteNode(node->Right()) ;
+  delete node ;
 }
 
 template< class TSample >

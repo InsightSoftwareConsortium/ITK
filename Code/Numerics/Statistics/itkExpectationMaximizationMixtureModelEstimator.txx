@@ -81,7 +81,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 template< class TSample >
 void
 ExpectationMaximizationMixtureModelEstimator< TSample >
-::SetSample(SamplePointer sample) 
+::SetSample(TSample* sample) 
 {
   m_Sample = sample ;
 }
@@ -112,7 +112,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 }
 
 template< class TSample >
-ExpectationMaximizationMixtureModelEstimator< TSample >::ComponentMembershipFunctionPointer 
+ExpectationMaximizationMixtureModelEstimator< TSample >::ComponentMembershipFunctionType* 
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetComponentMembershipFunction(int componentIndex)
 {
