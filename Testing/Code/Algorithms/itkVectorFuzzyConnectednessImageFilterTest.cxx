@@ -103,7 +103,11 @@ int main()
 	typedef itk::Image<IntVector,3> VectorImage3D;
 	typedef itk::VectorFuzzyConnectednessImageFilter<VectorImage3D,BinaryImage3D> FuzzyImage;
 
-	itk::Size<3> size = {WIDTH, HEIGHT, LENGTH};
+	itk::Size<3> size;
+  size[0] = WIDTH;
+  size[1] = HEIGHT;
+  size[2] = LENGTH;
+
 	double spacing[3] = { 0.33,  0.33, 1.0};
 	
 	FuzzyImage::Pointer testFuzzy=FuzzyImage::New();
