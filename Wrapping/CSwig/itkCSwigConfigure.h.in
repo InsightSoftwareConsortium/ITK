@@ -1,0 +1,7 @@
+/*
+ * This file has some relevant CSwig wrapping configuration
+ * dependent variables.
+ */
+
+/* Has the user asked for the ConnectVTKITK functionality. */
+#cmakedefine ITK_CSWIG_CONNECTVTKITK
