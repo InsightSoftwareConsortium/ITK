@@ -49,27 +49,12 @@ namespace itk
 
 template <class TOutputImage>
 FileIOToImageFilter<TOutputImage>
-::FileIOToImageFilter(std::string fileName)
-{
-  m_IO = NULL;
-  m_FileName = fileName.c_str();
-  m_FilePrefix = "";
-  m_FilePattern = "";
-}
-
-template <class TOutputImage>
-FileIOToImageFilter<TOutputImage>
 ::FileIOToImageFilter()
 {
   m_IO = NULL;
   m_FileName = "";
   m_FilePrefix = "";
   m_FilePattern = "";
-}
-
-template <class TOutputImage>
-FileIOToImageFilter<TOutputImage>::~FileIOToImageFilter()
-{
 }
 
 template <class TOutputImage>

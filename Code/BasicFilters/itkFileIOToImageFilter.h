@@ -106,11 +106,6 @@ public:
   itkNewMacro(Self);
 
   /**
-   * A useful constructor
-   */
-  FileIOToImageFilter(std::string fileName);
-
-  /**
    * Run-time type information (and related methods).
    */
   itkTypeMacro(FileIOToImageFilter, ImageSource);
@@ -176,7 +171,9 @@ public:
 protected:
   void GenerateData();
   FileIOToImageFilter();
-  ~FileIOToImageFilter();
+  FileIOToImageFilter(const Self&) {}
+  void operator= (const Self&) {}
+  ~FileIOToImageFilter() {}
 
   ImageIO::Pointer m_IO;
   LightObject::Pointer m_LightObjectIO;
