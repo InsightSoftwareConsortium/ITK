@@ -296,7 +296,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
   m_Marcher->Update();
 
   inputIt.GoToBegin();
-  outputIt.GoToEnd();
+  outputIt.GoToBegin();
   tempIt.GoToBegin();
   for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
