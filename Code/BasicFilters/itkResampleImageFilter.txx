@@ -139,10 +139,10 @@ ResampleImageFilter<TInputImage,TOutputImage>
     inputPoint = m_Transform->Transform(outputPoint);
 
     // Evaluate input at right position and copy to the output
-    double dvalue = m_Interpolation->Evaluate(inputPoint);
-    PixelType value;
-    value = dvalue;
-    outIt.Set(value);
+    value = m_Interpolation->Evaluate(inputPoint);
+    PixelType pixval;
+    pixval = value;
+    outIt.Set(pixval);
     }
 
   return;
