@@ -838,7 +838,7 @@ Context
     }
   else
     {
-    std::cout << "Couldn't parse qualified name: " << name << std::endl;
+    std::err << "Couldn't parse qualified name: " << name << std::endl;
     // The name was invalid, and failed to parse.
     return NULL;
     }
@@ -865,7 +865,7 @@ Context
       return dynamic_cast<Typedef*>(result)->GetClass(this->GetGlobalNamespace());
       }
     }
-  std::cout << "Couldn't find class with qualified name:" << name.c_str() << std::endl;
+  std::cerr << "Couldn't find class with qualified name: \"" << name.c_str() << "\"" << std::endl;
   return NULL;
 }
 
