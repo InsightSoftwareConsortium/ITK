@@ -67,6 +67,16 @@ MetaDataDictionary
   return (*m_Dictionary)[key];
 }
 
+const MetaDataObjectBase *
+MetaDataDictionary
+::operator [](const std::string &key) const
+{
+  MetaDataObjectBase::Pointer entry = (*m_Dictionary)[key];
+  const  MetaDataObjectBase * constentry = entry.GetPointer();
+  return constentry;
+}
+
+
 bool
 MetaDataDictionary
 ::HasKey(const std::string &key)

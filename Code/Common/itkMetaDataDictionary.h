@@ -79,6 +79,7 @@ namespace itk
         // Here we inherit privately from std::map and provide a simple
         // API. The implementation will be in the DLL.
         MetaDataObjectBase::Pointer &operator [](const std::string &);
+        const MetaDataObjectBase   * operator [](const std::string &) const;
         bool HasKey (const std::string &);
 
 
