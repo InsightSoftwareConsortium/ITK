@@ -20,108 +20,111 @@
 #include "itkPatternIntensityImageToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
-
-
 namespace itk
 {
 
 /**
  * Constructor
  */
-template < class TTarget, class TMapper > 
-PatternIntensityImageToImageMetric<TTarget,TMapper>
+template <class TFixedImage, class TMovingImage> 
+PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
 ::PatternIntensityImageToImageMetric()
 {
-  m_Lambda = 1.0;
+  m_MatchMeasure = NumericTraits<double>::Zero;
+  m_MatchMeasureDerivatives = 
+     DerivativeType(FixedImageType::ImageDimension);
+  m_MatchMeasureDerivatives.Fill( NumericTraits<double>::Zero );
 }
 
 /**
  * Get the match Measure
  */
-template < class TTarget, class TMapper > 
-PatternIntensityImageToImageMetric<TTarget,TMapper>::MeasureType
-PatternIntensityImageToImageMetric<TTarget,TMapper>
-::GetValue( const ParametersType & parameters )
+template <class TFixedImage, class TMovingImage> 
+PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>::MeasureType
+PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
+::GetValue( const TransformParametersType & parameters )
 {
 
-  TargetConstPointer target = Superclass::GetTarget();
+  FixedImagePointer fixedImage = this->GetFixedImage();
 
-  typename TTarget::RegionType  targetRegion = target->GetLargestPossibleRegion();
-  itk::Point<double, TTarget::ImageDimension> Point;  
+  if( !fixedImage ) 
+    {
+    itkExceptionMacro( << "Fixed image has not been assigned" );
+    }
 
-  double ReferenceValue;
-  double TargetValue;
+  typename FixedImageType::RegionType  fixedRegion = 
+                              fixedImage->GetLargestPossibleRegion();
 
-  typedef  itk::ImageRegionConstIteratorWithIndex<TTarget> TargetIteratorType;
+  const unsigned int dimension = FixedImageType::ImageDimension;
+  itk::Point<double, dimension> Point;  
+
+  double MovingValue;
+  double FixedValue;
+
+  typedef  itk::ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
 
 
-  TargetIteratorType ti( target, targetRegion );
+  FixedIteratorType ti( fixedImage, fixedRegion );
 
-  typename TTarget::IndexType index;
+  typename FixedImageType::IndexType index;
 
-  m_MatchMeasure = 0;
+  m_MatchMeasure = NumericTraits< MeasureType >::Zero;
 
+  m_NumberOfPixelsCounted = 0;
 
-  unsigned int  count = 0;
-
-  // cache the mapper so we do not have to make a Get() in the inner loop
-  MapperPointer mapper = this->GetMapper();
-  mapper->GetTransform()->SetParameters( parameters );
+  this->SetTransformParameters( parameters );
 
   while(!ti.IsAtEnd())
     {
-    index = ti.GetIndex();
-    for(unsigned int i=0 ; i<TTarget::ImageDimension ; i++)
-      {
-      Point[i]=index[i];
-      }
 
-    if( mapper->IsInside( Point ) )
+    index = ti.GetIndex();
+    
+    InputPointType inputPoint;
+    fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
+
+    OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
+
+    if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
-      ReferenceValue = mapper->Evaluate();
-      TargetValue = ti.Get();
-      count++;
-      const double diff = ReferenceValue - TargetValue; 
-      m_MatchMeasure += 1.0 / ( 1.0 + diff * diff * m_Lambda ); 
-      }  
+      MovingValue  = m_Interpolator->Evaluate( transformedPoint );
+      FixedValue     = ti.Get();
+      m_NumberOfPixelsCounted++;
+      const double diff = MovingValue - FixedValue; 
+      m_MatchMeasure += 1.0f / ( 1.0f + diff * diff ); 
+      }
 
     ++ti;
     }
-
-  if(count == 0) 
-    {
-    itkExceptionMacro(<< "All the mapped image is outside !" );
-    return 100000;
-    } 
-
-  // Negative sign to produce a metric to minimize
-  m_MatchMeasure = -m_MatchMeasure;     
 
   return m_MatchMeasure;
 
 }
 
+
+
+
+
 /**
  * Get the Derivative Measure
  */
-template < class TTarget, class TMapper> 
-const PatternIntensityImageToImageMetric<TTarget,TMapper>::DerivativeType &
-PatternIntensityImageToImageMetric<TTarget,TMapper>
-::GetDerivative( const ParametersType & parameters )
+template < class TFixedImage, class TMovingImage> 
+const PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>::DerivativeType &
+PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
+::GetDerivative( const TransformParametersType & parameters )
 {
 
   const double delta = 0.00011;
-  ParametersType testPoint;
+  TransformParametersType testPoint;
   testPoint = parameters;
 
-  for( unsigned int i=0; i<SpaceDimension; i++) 
+  const unsigned int dimension = FixedImageType::ImageDimension;
+  for( unsigned int i=0; i<dimension; i++) 
     {
     testPoint[i] -= delta;
-    const MeasureType valuep0 = GetValue( testPoint );
+    const MeasureType valuep0 = this->GetValue( testPoint );
     testPoint[i] += 2*delta;
-    const MeasureType valuep1 = GetValue( testPoint );
+    const MeasureType valuep1 = this->GetValue( testPoint );
     m_MatchMeasureDerivatives[i] = (valuep1 - valuep0 ) / ( 2 * delta );
-    m_MatchMeasureDerivatives[i];
     testPoint[i] = parameters[i];
     }
 
@@ -129,26 +132,18 @@ PatternIntensityImageToImageMetric<TTarget,TMapper>
 
 }
 
+
 /**
  * Get both the match Measure and theDerivative Measure 
  */
-template < class TTarget, class TMapper > 
+template <class TFixedImage, class TMovingImage> 
 void
-PatternIntensityImageToImageMetric<TTarget,TMapper>
-::GetValueAndDerivative(const ParametersType & parameters, 
+PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
+::GetValueAndDerivative(const TransformParametersType & parameters, 
                         MeasureType & Value, DerivativeType  & Derivative)
 {
-  Value      = GetValue( parameters );
-  Derivative = GetDerivative( parameters );
-}
-
-template < class TTarget, class TMapper > 
-void
-PatternIntensityImageToImageMetric<TTarget,TMapper>
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-  os << indent << "Lambda: " << m_Lambda << std::endl;
+  Value      = this->GetValue( parameters );
+  Derivative = this->GetDerivative( parameters );
 }
 
 } // end namespace itk

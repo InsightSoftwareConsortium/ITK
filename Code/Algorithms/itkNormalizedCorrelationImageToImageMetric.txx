@@ -20,123 +20,146 @@
 #include "itkNormalizedCorrelationImageToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
-
 namespace itk
 {
 
 /**
  * Constructor
  */
-template < class TTarget, class TMapper > 
-NormalizedCorrelationImageToImageMetric<TTarget,TMapper>
+template <class TFixedImage, class TMovingImage> 
+NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 ::NormalizedCorrelationImageToImageMetric()
 {
+  m_MatchMeasure = NumericTraits<double>::Zero;
+  m_MatchMeasureDerivatives = 
+     DerivativeType(FixedImageType::ImageDimension);
+  m_MatchMeasureDerivatives.Fill( NumericTraits<double>::Zero );
 }
 
 /**
  * Get the match Measure
  */
-template < class TTarget, class TMapper > 
-NormalizedCorrelationImageToImageMetric<TTarget,TMapper>::MeasureType
-NormalizedCorrelationImageToImageMetric<TTarget,TMapper>
-::GetValue( const ParametersType & parameters )
+template <class TFixedImage, class TMovingImage> 
+NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>::MeasureType
+NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
+::GetValue( const TransformParametersType & parameters )
 {
-  TargetConstPointer target = Superclass::GetTarget();
 
-  typename TTarget::RegionType targetRegion = target->GetLargestPossibleRegion();
+  FixedImagePointer fixedImage = this->GetFixedImage();
 
-  itk::Point<double, TTarget::ImageDimension> Point;  
+  if( !fixedImage ) 
+    {
+    itkExceptionMacro( << "Fixed image has not been assigned" );
+    }
 
-  double ReferenceValue;
-  double TargetValue;
+  typename FixedImageType::RegionType  fixedRegion = 
+                              fixedImage->GetLargestPossibleRegion();
 
-  typedef  itk::ImageRegionConstIteratorWithIndex<TTarget> TargetIteratorType;
+  const unsigned int dimension = FixedImageType::ImageDimension;
+  itk::Point<double, dimension> Point;  
 
-  TargetIteratorType ti( target, targetRegion );
+  double movingValue;
+  double fixedValue;
 
-  typename TTarget::IndexType index;
+  typedef  itk::ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
 
-  m_MatchMeasure = 0;
 
-  unsigned int  count = 0;
+  FixedIteratorType ti( fixedImage, fixedRegion );
 
-  // cache the mapper so we do not have to make a Get() in the inner loop
-  MapperPointer mapper = this->GetMapper();
-  mapper->GetTransform()->SetParameters( parameters );
+  typename FixedImageType::IndexType index;
 
-  double sab = 0.0;
-  double saa = 0.0;
-  double sbb = 0.0;
+  m_MatchMeasure = NumericTraits< MeasureType >::Zero;
+
+  m_NumberOfPixelsCounted = 0;
+
+  this->SetTransformParameters( parameters );
+
+  typedef  NumericTraits< MeasureType >::AccumulateType AccumulateType;
+
+  AccumulateType sff = NumericTraits< AccumulateType >::Zero;
+  AccumulateType smm = NumericTraits< AccumulateType >::Zero;
+  AccumulateType sfm = NumericTraits< AccumulateType >::Zero;
 
   while(!ti.IsAtEnd())
     {
-    index = ti.GetIndex();
-    for(unsigned int i=0 ; i<TTarget::ImageDimension ; i++)
-      {
-      Point[i]=index[i];
-      }
 
-    if( mapper->IsInside( Point ) ) 
+    index = ti.GetIndex();
+    
+    InputPointType inputPoint;
+    fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
+
+    OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
+
+    if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
-      ReferenceValue = mapper->Evaluate();
-      TargetValue = ti.Get();
-      count++;
-      sab  += ReferenceValue  *  TargetValue;
-      saa  += ReferenceValue  *  ReferenceValue;
-      sbb  += TargetValue     *  TargetValue;
-      }  
+      movingValue  = m_Interpolator->Evaluate( transformedPoint );
+      fixedValue     = ti.Get();
+      sff += fixedValue  * fixedValue;
+      smm += movingValue * movingValue;
+      sfm += fixedValue  * movingValue;
+      m_NumberOfPixelsCounted++;
+      }
 
     ++ti;
     }
 
-  if(count == 0) 
+  if( m_NumberOfPixelsCounted )
     {
-    itkExceptionMacro(<< "All the mapped image is outside !" );
-    return 100000;
-    } 
+    m_MatchMeasure = -sfm / sqrt( sff * smm );
+    }
+  else
+    {
+    m_MatchMeasure = NumericTraits< MeasureType >::Zero;
+    }
 
-  // The sign is changed because the optimization method looks for minima
-  m_MatchMeasure = -sab / sqrt( saa * sbb );
   return m_MatchMeasure;
 
 }
 
+
+
+
+
 /**
  * Get the Derivative Measure
  */
-template < class TTarget, class TMapper> 
-const NormalizedCorrelationImageToImageMetric<TTarget,TMapper>::DerivativeType &
-NormalizedCorrelationImageToImageMetric<TTarget,TMapper>
-::GetDerivative( const ParametersType & parameters )
+template < class TFixedImage, class TMovingImage> 
+const NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>::DerivativeType &
+NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
+::GetDerivative( const TransformParametersType & parameters )
 {
-  const double delta = 0.001;
-  ParametersType testPoint;
+
+  const double delta = 0.00011;
+  TransformParametersType testPoint;
   testPoint = parameters;
 
-  for( unsigned int i=0; i<SpaceDimension; i++) 
+  const unsigned int dimension = FixedImageType::ImageDimension;
+  for( unsigned int i=0; i<dimension; i++) 
     {
     testPoint[i] -= delta;
-    const MeasureType valuep0 = GetValue( testPoint );
+    const MeasureType valuep0 = this->GetValue( testPoint );
     testPoint[i] += 2*delta;
-    const MeasureType valuep1 = GetValue( testPoint );
-    m_MatchMeasureDerivatives[i] = (valuep1 - valuep0 ) / ( 2.0 * delta );
+    const MeasureType valuep1 = this->GetValue( testPoint );
+    m_MatchMeasureDerivatives[i] = (valuep1 - valuep0 ) / ( 2 * delta );
     testPoint[i] = parameters[i];
     }
 
   return m_MatchMeasureDerivatives;
+
 }
+
 
 /**
  * Get both the match Measure and theDerivative Measure 
  */
-template < class TTarget, class TMapper > 
+template <class TFixedImage, class TMovingImage> 
 void
-NormalizedCorrelationImageToImageMetric<TTarget,TMapper>
-::GetValueAndDerivative(const ParametersType & parameters, 
+NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
+::GetValueAndDerivative(const TransformParametersType & parameters, 
                         MeasureType & Value, DerivativeType  & Derivative)
 {
-  Value      = GetValue( parameters );
-  Derivative = GetDerivative( parameters );
+  Value      = this->GetValue( parameters );
+  Derivative = this->GetDerivative( parameters );
 }
 
 } // end namespace itk

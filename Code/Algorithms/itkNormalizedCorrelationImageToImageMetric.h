@@ -17,47 +17,40 @@
 #ifndef __itkNormalizedCorrelationImageToImageMetric_h
 #define __itkNormalizedCorrelationImageToImageMetric_h
 
-#include "itkSimilarityRegistrationMetric.h"
+#include "itkImageToImageMetric.h"
 #include "itkCovariantVector.h"
 #include "itkPoint.h"
 
 
 namespace itk
 {
-  
 /** \class NormalizedCorrelationImageToImageMetric
  * \brief Computes similarity between two objects to be registered
  *
- * This Class is templated over the type of the objects to be registered and
- * over the type of transformation to be used.
+ * This Class is templated over the type of the Images to be compared and
+ * over the type of transformation and Iterpolator to be used.
  *
- * SmartPointer to this three objects are received, and using them, this
- * class computes a value(s) that measures the similarity of the target
- * against the reference object once the transformation is applied to it.
- *
+ * This metric computes the sum of squared differenced between pixels in
+ * the moving image and pixels in the fixed image. The spatial correspondance 
+ * between both images is established through a Transform. Pixel values are
+ * taken from the Moving image. Their positions are mapped to the Fixed image
+ * and result in general in non-grid position on it. Values at these non-grid
+ * position of the Fixed image are interpolated using a user-selected Interpolator.
  *
  * \ingroup RegistrationMetrics
- *
  */
-template < class TTarget, class TMapper > 
+template < class TFixedImage, class TMovingImage > 
 class ITK_EXPORT NormalizedCorrelationImageToImageMetric : 
-public SimilarityRegistrationMetric< TTarget, TMapper, double,
-               CovariantVector<double, TMapper::SpaceDimension > >
+public ImageToImageMetric< TFixedImage, TMovingImage>
 {
 public:
-  /** Space dimension is the dimension of parameters space. */
-  enum { SpaceDimension = TMapper::SpaceDimension };
-  enum { RangeDimension = 9};
 
   /** Standard class typedefs. */
-  typedef double              MeasureType;
-  typedef CovariantVector<MeasureType,SpaceDimension >  DerivativeType;
-  typedef NormalizedCorrelationImageToImageMetric  Self;
-  typedef SimilarityRegistrationMetric< 
-                       TTarget, TMapper,
-                       MeasureType,DerivativeType >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef NormalizedCorrelationImageToImageMetric    Self;
+  typedef ImageToImageMetric<TFixedImage, TMovingImage >  Superclass;
+
+  typedef SmartPointer<Self>         Pointer;
+  typedef SmartPointer<const Self>   ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -65,36 +58,32 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(NormalizedCorrelationImageToImageMetric, Object);
 
-  /**  Type of the mapper. */
-  typedef TMapper             MapperType;
-  
-  /**  Type of the reference. */
-  typedef typename MapperType::DomainType     ReferenceType;
+ 
+  /** Types transferred from the base class */
+  typedef typename Superclass::TransformType            TransformType;
+  typedef typename Superclass::TransformPointer         TransformPointer;
+  typedef typename Superclass::TransformParametersType  TransformParametersType;
+  typedef typename Superclass::TransformJacobianType    TransformJacobianType;
 
-  /**  Type of the target. */
-  typedef TTarget             TargetType;
+  typedef typename Superclass::MeasureType              MeasureType;
+  typedef typename Superclass::DerivativeType           DerivativeType;
+  typedef typename Superclass::FixedImageType           FixedImageType;
+  typedef typename Superclass::MovingImageType          MovingImageType;
+  typedef typename Superclass::FixedImagePointer        FixedImagePointer;
+  typedef typename Superclass::MovingImagePointer       MovingImagePointer;
 
-  /**  Pointer type for the reference.  */
-  typedef typename ReferenceType::ConstPointer         ReferenceConstPointer;
-
-  /**  Pointer type for the target.  */
-  typedef typename TargetType::ConstPointer            TargetConstPointer;
-
-  /**  Pointer type for the mapper. */
-  typedef typename MapperType::Pointer            MapperPointer;
-
-  /**  Parameters type. */
-  typedef typename  TMapper::ParametersType       ParametersType;
 
   /** Get the derivatives of the match measure. */
-  const DerivativeType & GetDerivative( const ParametersType & parameters );
+  const DerivativeType & GetDerivative( 
+                              const TransformParametersType & parameters );
 
   /**  Get the value for single valued optimizers. */
-  MeasureType    GetValue( const ParametersType & parameters );
+  MeasureType GetValue( const TransformParametersType & parameters );
 
-  /**  Get the value and derivatives for multiple valued optimizers. */
-   void GetValueAndDerivative( const ParametersType & parameters,
-                               MeasureType& Value, DerivativeType& Derivative);
+  /**  Get value and derivatives for multiple valued optimizers. */
+  void GetValueAndDerivative( const TransformParametersType & parameters,
+                              MeasureType& Value, DerivativeType& Derivative );
+
 protected:
   NormalizedCorrelationImageToImageMetric();
   virtual ~NormalizedCorrelationImageToImageMetric() {};
@@ -102,7 +91,7 @@ protected:
 private:
   NormalizedCorrelationImageToImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  
+
 };
 
 } // end namespace itk
