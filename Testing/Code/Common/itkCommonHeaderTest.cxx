@@ -150,6 +150,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageToImageFilter.txx"
 #include "itkImageToImageFilterDetail.h"
 #include "itkImportImageContainer.txx"
+#include "itkInPlaceImageFilter.txx"
 #include "itkIndent.h"
 #include "itkIndex.h"
 #include "itkIndexedContainerInterface.h"

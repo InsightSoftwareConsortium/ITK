@@ -93,6 +93,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageToMeshFilter.txx"
 #include "itkImageToParametricSpaceFilter.txx"
 #include "itkImportImageFilter.txx"
+#include "itkIntensityWindowingImageFilter.txx"
 #include "itkInteriorExteriorMeshFilter.txx"
 #include "itkInterpolateImageFilter.txx"
 #include "itkInterpolateImagePointsFilter.txx"
