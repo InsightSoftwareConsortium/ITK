@@ -78,6 +78,11 @@ public:
   virtual float* GetImagePosition() const =0;
 
   /**
+   * Get the image spacing
+   */
+  virtual float* GetImageSpacing() const =0;
+
+  /**
    * Default save; do whatever is appropriate for the filetype
    */
   virtual void Save(const std::string headerFile="", const std::string dataFile="") = 0;
