@@ -175,7 +175,6 @@ protected:
    * iterators for the fixed image. */
   struct GlobalDataStruct
   {
-    FixedImageNeighborhoodIteratorType   m_FixedImageIterator;
     double          m_SumOfSquaredDifference;
     unsigned long   m_NumberOfPixelsProcessed;
     double          m_SumOfSquaredChange;
