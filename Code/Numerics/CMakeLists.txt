@@ -22,6 +22,8 @@ ADD_LIBRARY(ITKNumerics
   itkSingleValuedNonLinearVnlOptimizer.cxx
   itkSingleValuedVnlCostFunctionAdaptor.cxx
   itkVersorTransformOptimizer.cxx
+  itkCumulativeGaussianOptimizer.cxx
+  itkCumulativeGaussianCostFunction.cxx
 )
 
 TARGET_LINK_LIBRARIES (ITKNumerics ITKCommon)
