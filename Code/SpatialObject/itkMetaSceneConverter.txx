@@ -136,7 +136,7 @@ MetaSceneConverter<NDimensions,PixelType>
           landmarkConverter.MetaLandmarkToLandmarkSpatialObject
         ((MetaLandmark*)*it);
       this->SetTransform(so, *it) ;
-      soScene->AddSpatialObject( (SpatialObjectType*)so.GetPointer());
+      soScene->AddSpatialObject( so );
     }
 
     if(!strncmp((*it)->ObjectTypeName(),"Tube",4))
@@ -145,7 +145,7 @@ MetaSceneConverter<NDimensions,PixelType>
       typename itk::TubeSpatialObject<NDimensions>::Pointer so =
                tubeConverter.MetaTubeToTubeSpatialObject((MetaTube*)*it);
       this->SetTransform(so, *it) ;
-      soScene->AddSpatialObject((SpatialObjectType*)so.GetPointer());
+      soScene->AddSpatialObject(so);
     }
 
     if(!strncmp((*it)->ObjectTypeName(),"Group",5) ||
@@ -155,7 +155,7 @@ MetaSceneConverter<NDimensions,PixelType>
       typename itk::GroupSpatialObject<NDimensions>::Pointer so =
                groupConverter.MetaGroupToGroupSpatialObject((MetaGroup*)*it);
       this->SetTransform(so, *it) ;
-      soScene->AddSpatialObject((SpatialObjectType*)so.GetPointer());
+      soScene->AddSpatialObject(so);
     }
 
     if(!strncmp((*it)->ObjectTypeName(),"Ellipse",5))
@@ -164,7 +164,7 @@ MetaSceneConverter<NDimensions,PixelType>
       typename itk::EllipseSpatialObject<NDimensions>::Pointer so = 
           ellipseConverter.MetaEllipseToEllipseSpatialObject((MetaEllipse*)*it);
       this->SetTransform(so, *it) ;
-      soScene->AddSpatialObject( (SpatialObjectType*)so.GetPointer());
+      soScene->AddSpatialObject( so);
     }
 
     if(!strncmp((*it)->ObjectTypeName(),"Image",5))
@@ -173,7 +173,7 @@ MetaSceneConverter<NDimensions,PixelType>
       typename itk::ImageSpatialObject<NDimensions,PixelType>::Pointer so =
           imageConverter.MetaImageToImageSpatialObject((MetaImage*)*it);
       this->SetTransform(so, *it) ;
-      soScene->AddSpatialObject((SpatialObjectType*) so.GetPointer());
+      soScene->AddSpatialObject(so);
     }
 
     if(!strncmp((*it)->ObjectTypeName(),"Blob",4))
@@ -199,7 +199,7 @@ MetaSceneConverter<NDimensions,PixelType>
       typename itk::SurfaceSpatialObject<NDimensions>::Pointer so =
           surfaceConverter.MetaSurfaceToSurfaceSpatialObject((MetaSurface*)*it);
       this->SetTransform(so, *it) ;
-      soScene->AddSpatialObject( (SpatialObjectType*)so.GetPointer());
+      soScene->AddSpatialObject( so);
     }
 
     if(!strncmp((*it)->ObjectTypeName(),"Line",4))
@@ -208,7 +208,7 @@ MetaSceneConverter<NDimensions,PixelType>
       typename itk::LineSpatialObject<NDimensions>::Pointer so =
           lineConverter.MetaLineToLineSpatialObject((MetaLine*)*it);
       this->SetTransform(so, *it) ;
-      soScene->AddSpatialObject( (SpatialObjectType*)so.GetPointer());
+      soScene->AddSpatialObject( so);
     }
 
 
