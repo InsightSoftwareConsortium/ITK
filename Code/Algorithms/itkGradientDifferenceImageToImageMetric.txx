@@ -23,8 +23,6 @@
 #include <iostream>
 #include <iomanip>
 
-using namespace std;
-
 
 
 //#define DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
@@ -223,11 +221,11 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
     }
 
 #ifdef DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-  cout << "Moved image range: ";
+  std::std::cout << "Moved image range: ";
   for (iDimension=0; iDimension<FixedImageDimension; iDimension++)
-    cout << " " << m_MinMovedGradient[iDimension] 
+    std::std::cout << " " << m_MinMovedGradient[iDimension] 
          << ":" << m_MaxMovedGradient[iDimension];
-  cout << endl;
+  std::std::cout << std::endl;
 #endif
 }
 
@@ -313,20 +311,20 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
   }
 
 #ifdef DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-  cout << "Fixed image range: ";
+  std::cout << "Fixed image range: ";
   for (iDimension=0; iDimension<FixedImageDimension; iDimension++)
-    cout << " " << m_MinFixedGradient[iDimension] << ":" << m_MaxFixedGradient[iDimension];
-  cout << endl;
+    std::cout << " " << m_MinFixedGradient[iDimension] << ":" << m_MaxFixedGradient[iDimension];
+  std::cout << std::endl;
   
-  cout << "Mean: ";
+  std::cout << "Mean: ";
   for (iDimension=0; iDimension<FixedImageDimension; iDimension++)
-    cout << " " << mean[iDimension];
-  cout << endl;
+    std::cout << " " << mean[iDimension];
+  std::cout << std::endl;
   
-  cout << "Variance: ";
+  std::cout << "Variance: ";
   for (iDimension=0; iDimension<FixedImageDimension; iDimension++)
-    cout << " " << m_Variance[iDimension];
-  cout << endl;
+    std::cout << " " << m_Variance[iDimension];
+  std::cout << std::endl;
 #endif
 }
 
@@ -397,12 +395,12 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
     
 #ifdef DEEP_DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-        cout << setw(8) << "Dim " << iDimension << ": " 
+        std::cout << setw(8) << "Dim " << iDimension << ": " 
              << setw(8) << diff << " = " 
              << setw(8) << fixedGradient << " - " 
              << setw(8) << subtractionFactor[iDimension] << "*" 
              << setw(8) << movedGradient << "; Measure = "
-             << setw(8) << measure << endl; 
+             << setw(8) << measure << std::endl; 
 #endif
 
         ++fixedIterator;
@@ -410,9 +408,9 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
       }
 
 #ifdef DEEP_DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-        cout << setw(8) << "Dim " << iDimension 
+        std::cout << setw(8) << "Dim " << iDimension 
              << ", Subtraction factor: " << setw(8) << subtractionFactor[iDimension]
-             << " Measure = " << setw(8) << measure << endl; 
+             << " Measure = " << setw(8) << measure << std::endl; 
 #endif
     }
   
@@ -435,7 +433,7 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
   unsigned int iDimension;
 
 #ifdef DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-  std::cout << "GradientDifferenceImageToImageMetric::GetValue Parameters: " << parameters << std::endl;
+  std::std::cout << "GradientDifferenceImageToImageMetric::GetValue Parameters: " << parameters << std::std::endl;
 #endif
 
   this->SetTransformParameters( parameters );
@@ -465,13 +463,13 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
   writer->SetInput( caster->GetOutput()   );
 
   try { 
-    std::cout << "Writing image: " << filename << std::endl;
+    std::std::cout << "Writing image: " << filename << std::std::endl;
     writer->Update();
   } 
   catch( itk::ExceptionObject & err ) { 
     
-    std::cerr << "ERROR: ExceptionObject caught !" << std::endl; 
-    std::cerr << err << std::endl; 
+    std::cerr << "ERROR: ExceptionObject caught !" << std::std::endl; 
+    std::cerr << err << std::std::endl; 
   } 
 
 #endif
@@ -500,14 +498,14 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
       writer->SetInput( castImage->GetOutput() );
       
       try { 
-        std::cout << "Writing image: " << filename << std::endl;
-        //m_MovedSobelFilters[iFilter]->Print(cout);
+        std::std::cout << "Writing image: " << filename << std::std::endl;
+        //m_MovedSobelFilters[iFilter]->Print(std::cout);
         writer->Update();
       } 
       catch( itk::ExceptionObject & err ) { 
         
-        std::cerr << "ERROR: ExceptionObject caught !" << std::endl; 
-        std::cerr << err << std::endl; 
+        std::cerr << "ERROR: ExceptionObject caught !" << std::std::endl; 
+        std::cerr << err << std::std::endl; 
       } 
 #endif
     }
@@ -573,7 +571,7 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
     currentMeasure = ComputeMeasure( parameters, subtractionFactor );
 
 #ifdef DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-    cout << setw(4) << nIterations << " " << currentMeasure << endl;
+    std::cout << setw(4) << nIterations << " " << currentMeasure << std::endl;
 #endif
 
     if (firstIteration)
@@ -601,12 +599,12 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
     }
 
 #ifdef DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-  cout << "No. of iterations: " << nIterations << endl;
+  std::cout << "No. of iterations: " << nIterations << std::endl;
 
-  cout << "Subtraction factor: ";
+  std::cout << "Subtraction factor: ";
   for (iDimension=0; iDimension<FixedImageDimension; iDimension++)
-    cout << " " << subtractionFactor[iDimension];
-  cout << endl;
+    std::cout << " " << subtractionFactor[iDimension];
+  std::cout << std::endl;
 #endif
 
   return maxMeasure;
