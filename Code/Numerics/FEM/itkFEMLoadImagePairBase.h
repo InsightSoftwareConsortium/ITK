@@ -48,9 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 using namespace std;
 
 #include <itkImage.h>
-#include <itkFileIOToImageFilter.h>
 #include "itkTranslationTransform.h"
-#include "itkMeanSquaresImageToImageMetric.h"
 
 #include "itkNeighborhoodIterator.h"
 #include "itkSmartNeighborhoodIterator.h"
@@ -96,17 +94,17 @@ public:
   /** Inherit some enums and typedefs from template */
   enum{ ImageDimension = TReference::ImageDimension };
 
-  typedef itk::SmartNeighborhoodIterator< typename ReferenceType> 
+  typedef itk::SmartNeighborhoodIterator<ReferenceType> 
                                      ReferenceNeighborhoodIteratorType; 
-  typedef ReferenceNeighborhoodIteratorType::IndexType  
+  typedef typename ReferenceNeighborhoodIteratorType::IndexType  
                                      ReferenceNeighborhoodIndexType;
-  typedef ReferenceNeighborhoodIteratorType::RadiusType 
+  typedef typename ReferenceNeighborhoodIteratorType::RadiusType 
                                      ReferenceRadiusType;
   typedef itk::SmartNeighborhoodIterator<TargetType> 
                                      TargetNeighborhoodIteratorType; 
-  typedef TargetNeighborhoodIteratorType::IndexType  
+  typedef typename TargetNeighborhoodIteratorType::IndexType  
                                      TargetNeighborhoodIndexType;
-  typedef TargetNeighborhoodIteratorType::RadiusType 
+  typedef typename TargetNeighborhoodIteratorType::RadiusType 
                                      TargetRadiusType;
 
   typedef   itk::Array<Float>  ParametersType;
