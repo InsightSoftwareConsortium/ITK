@@ -101,7 +101,7 @@ class ITK_EXPORT SparseImage : public Image <TNode*, VImageDimension>
   
 protected:
   SparseImage();
-  ~SparseImage();
+  ~SparseImage() {};
   
   void PrintSelf(std::ostream& os, Indent indent) const;
   

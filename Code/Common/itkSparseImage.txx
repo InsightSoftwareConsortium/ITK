@@ -33,18 +33,6 @@ SparseImage < TNode, VImageDimension >
 }
 
 template <class TNode, unsigned int VImageDimension>
-SparseImage < TNode, VImageDimension >
-::~SparseImage()
-{
-  // this might not be necessary
-  while (!m_NodeList->Empty())
-    {
-    m_NodeStore->Return(m_NodeList->Front());
-    m_NodeList->PopFront();
-    } 
-  }
-  
-template <class TNode, unsigned int VImageDimension>
 void
 SparseImage < TNode, VImageDimension >
 ::PrintSelf(std::ostream& os, Indent indent) const
