@@ -138,8 +138,9 @@ FiniteDifferenceImageFilter<TInputImage,TOutputImage>
   // pad the input requested region by the operator radius
   inputRequestedRegion.PadByRadius( radius );
 
-    std::cout << "inputRequestedRegion: " << inputRequestedRegion << std::endl;
-    std::cout << "largestPossibleRegion: " << inputPtr->GetLargestPossibleRegion() << std::endl;
+//     std::cout << "inputRequestedRegion: " << inputRequestedRegion << std::endl;
+//     std::cout << "largestPossibleRegion: " << inputPtr->GetLargestPossibleRegion() << std::endl;
+
   // crop the input requested region at the input's largest possible region
   if ( inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()) )
     {
