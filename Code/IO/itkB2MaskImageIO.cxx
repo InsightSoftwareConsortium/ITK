@@ -384,7 +384,7 @@ static const char mask_header_format[] =
     // to do -- add more header crap
     //Write the image Information before writing data
     char buf[16384];
-    sprintf(buf,mask_header_format,
+    std::sprintf(buf,mask_header_format,
             patient_id.c_str(),
             "",                 // scan_id
             "",                 // file_name
