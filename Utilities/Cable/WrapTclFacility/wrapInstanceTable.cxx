@@ -56,7 +56,7 @@ void InstanceTable::DeleteObject(const String& name)
 {
   this->CheckExists(name);
   
-  const Type* type = m_InstanceMap[name].GetCvQualifiedType().GetType();
+  const Type* type = m_InstanceMap[name].GetReferencedType().GetType();
   void* object = m_InstanceMap[name].GetObject();
 
   // Make sure we know how to delete this object.
@@ -115,7 +115,7 @@ void* InstanceTable::GetObject(const String& name)
 const CvQualifiedType& InstanceTable::GetType(const String& name)
 {
   this->CheckExists(name);
-  return m_InstanceMap[name].GetCvQualifiedType();
+  return m_InstanceMap[name].GetReferencedType();
 }
 
   
