@@ -75,7 +75,7 @@ int itkCovarianceCalculatorTest(int, char**)
       count++ ; 
       ++iter ;
     }
-  variance /= static_cast< double>(count) ;
+  variance /= static_cast< double>(count - 1) ;
 
 
   typedef itk::Statistics::CovarianceCalculator< ImageToListAdaptorType > 
