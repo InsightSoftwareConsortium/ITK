@@ -17,6 +17,10 @@
 #ifndef __itkWatershedSegmenter_h
 #define __itkWatershedSegmenter_h
 
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
 #include "itk_hash_map.h"
 #include "itkWatershedBoundary.h"
 #include "itkWatershedSegmentTable.h"
