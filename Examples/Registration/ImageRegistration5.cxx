@@ -426,7 +426,8 @@ int main( int argc, char *argv[] )
   const double finalAngleInDegrees = finalAngle * 45.0 / atan(1.0);
 
   std::cout << "Result = " << std::endl;
-  std::cout << " Angle         = " << finalAngle  << std::endl;
+  std::cout << " Angle (radians)   = " << finalAngle  << std::endl;
+  std::cout << " Angle (degrees)   = " << finalAngleInDegrees  << std::endl;
   std::cout << " Center X      = " << finalRotationCenterX  << std::endl;
   std::cout << " Center Y      = " << finalRotationCenterY  << std::endl;
   std::cout << " Translation X = " << finalTranslationX  << std::endl;
