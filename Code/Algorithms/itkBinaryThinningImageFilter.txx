@@ -23,6 +23,7 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodIterator.h"
+#include <vector>
 
 namespace itk
 {
@@ -89,15 +90,16 @@ BinaryThinningImageFilter<TInputImage,TOutputImage>
  
   // Copy the input to the output, changing all foreground pixels to
   // have value 1 in the process.
+  typedef typename OutputImageType::PixelType OutputImagePixelType;
   while( !ot.IsAtEnd() )
       {
       if ( it.Get() )
         {
-        ot.Set( NumericTraits<typename OutputImageType::PixelType>::One );
+        ot.Set( NumericTraits<OutputImagePixelType>::One );
         }
       else
         {
-        ot.Set( NumericTraits<typename OutputImageType::PixelType>::Zero );
+        ot.Set( NumericTraits<OutputImagePixelType>::Zero );
         }
       ++it;
       ++ot;
@@ -150,7 +152,7 @@ BinaryThinningImageFilter<TInputImage,TOutputImage>
   bool testD;
 
   std::vector < IndexType > pixelsToDelete;
-  std::vector < IndexType >::iterator pixelsToDeleteIt;
+  typename std::vector < IndexType >::iterator pixelsToDeleteIt;
 
   // Loop through the image several times until there is no change.
   bool noChange = false;
