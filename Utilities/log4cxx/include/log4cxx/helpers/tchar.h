@@ -27,6 +27,15 @@
 #include <streambuf> // basic_streambuf
 #include <log4cxx/helpers/strictmath.h>
 
+// cygwin does not define swprintf
+#ifdef __CYGWIN__
+  int __cdecl swprintf (wchar_t*, size_t maxlen,const wchar_t *format, ...);
+#endif
+
+#ifdef __BORLANDC__
+ typedef __int64 int64_t;
+#endif
+
 class Convert
 {
 public:
