@@ -162,7 +162,7 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
   unsigned long totalPixels = 0;
   if ( threadId == 0 )
     {
-    totalPixels = output->GetRequestedRegion().GetNumberOfPixels();
+    totalPixels = outputRegionForThread.GetNumberOfPixels();
     updateVisits = totalPixels / 10;
     if( updateVisits < 1 ) updateVisits = 1;
     }
