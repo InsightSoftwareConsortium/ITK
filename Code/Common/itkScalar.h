@@ -132,6 +132,7 @@ template <typename T>
 std::ostream& operator << (std::ostream& os, const Scalar<T>& s)
 {
   os << s.GetScalar();
+  return os;
 }
 
 } // end namespace itk
