@@ -21,6 +21,10 @@
 #include "itkSize.h"
 
 
+typedef itk::Vector<double,3>  VectorType;
+typedef itk::Matrix<double,3>  MatrixType;
+
+
 int 
 main(
     int argc,
@@ -50,18 +54,19 @@ main(
 
     /* Define the expected (true) results for comparison */
     double ttm = 6.0;                      // Total mass
-    double cgd[3] = {1.5,   1.5, 1.5 };    // Center of gravity
-    double pmd[3] = {0.125, 0.5, 2.0 };    // Principal moments
     double pad[3][3] = {                   // Principal axes
-	{ 0.0,  0.0, 1.0},
-	{ 0.6, -0.8, 0.0},
-	{ 0.8,  0.6, 0.0},
+      { 0.0,  0.0, 1.0},
+      { 0.6, -0.8, 0.0},
+      { 0.8,  0.6, 0.0},
     };
-    vnl_vector_fixed<double,3> tcg;
-    tcg.set(cgd);
-    vnl_vector_fixed<double,3> tpm;
-    tpm.set(pmd);
-    vnl_matrix_fixed<double,3,3> tpa;
+
+    VectorType tcg;
+    tcg = 1.5,   1.5, 1.5;    // Center of gravity
+
+    VectorType tpm;
+    tpm = 0.125, 0.5, 2.0;    // Principal moments
+
+    MatrixType tpa;
     tpa.set((double *)pad);
 
     /* Allocate a simple test image */
@@ -90,21 +95,18 @@ main(
     itk::ImageMomentsCalculator<unsigned short, 3>
 	moments(image);
     double ctm = moments.GetTotalMass();
-    vnl_vector_fixed<double,3>
-        ccg = moments.GetCenterOfGravity();
-    vnl_vector_fixed<double,3>
-        cpm = moments.GetPrincipalMoments();
-    vnl_matrix_fixed<double,3,3>
-        cpa = moments.GetPrincipalAxes();
+    VectorType ccg = moments.GetCenterOfGravity();
+    VectorType cpm = moments.GetPrincipalMoments();
+    MatrixType cpa = moments.GetPrincipalAxes();
 
     /* Report the various non-central moments */
     // FIXME:  Indentation is not handled correctly in matrix output
-    std::cout << "\nTotal mass = " << ctm << "\n";
-    std::cout << "True total mass = " << ttm << "\n";
+    std::cout << "\nTotal mass = " << ctm << std::endl;
+    std::cout << "True total mass = " << ttm << std::endl;
     std::cout << "\nFirst moments about index origin =\n";
-    std::cout << "   " << moments.GetFirstMoments() << "\n";
+    std::cout << "   " <<  moments.GetFirstMoments() << std::endl;
     std::cout << "\nSecond moments about index origin =\n";
-    std::cout << "   " << moments.GetSecondMoments() << "\n";
+    std::cout << "   " << moments.GetSecondMoments() << std::endl;
 
     /* Report the center of gravity and central moments */
     std::cout << "\nCenter of gravity =\n";
