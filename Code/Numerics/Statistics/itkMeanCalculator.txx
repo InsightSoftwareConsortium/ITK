@@ -18,65 +18,13 @@
 #define __itkMeanCalculator_txx
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
 
 template< class TSample >
 MeanCalculator< TSample >
 ::MeanCalculator()
 {
-}
-
-template< class TSample >
-void
-MeanCalculator< TSample >
-::SetSample(SamplePointer sample)
-{
-  m_Sample = sample ;
-} 
-
-template< class TSample >
-MeanCalculator< TSample >::SamplePointer
-MeanCalculator< TSample >
-::GetSample()
-{
-  return m_Sample ;
-} 
-
-template< class TSample >
-MeanCalculator< TSample >::OutputType
-MeanCalculator< TSample >
-::GetOutput()
-{
-  return m_Output ;
-} 
-
-template< class TSample >
-inline void
-MeanCalculator< TSample >
-::GenerateData() 
-{
-  enum { Dimension = TSample::MeasurementVectorSize } ;
-  
-  vnl_vector<double> mean(Dimension, 0.0) ;
-  
-  typename TSample::Iterator iter = m_Sample->Begin() ;
-  typename TSample::Iterator end = m_Sample->End() ;
-  double totalFrequency = 0.0 ;
-  double frequency = 0.0 ;
-  unsigned int dim = 0 ;
-  
-  while (iter != end)
-    {
-      frequency = iter.GetFrequency() ;
-      totalFrequency += frequency ;
-      for (dim = 0 ; dim < Dimension ; dim++)
-        {
-          mean[dim] += iter.GetMeasurementVector()[dim] * frequency ;
-        }
-      ++iter ;
-    }
-  
-  m_Output = mean / totalFrequency ;
+  m_Output.Fill(0.0) ;
 }
 
 template< class TSample >
@@ -86,10 +34,43 @@ MeanCalculator< TSample >
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Sample: " << m_Sample << std::endl;
   os << indent << "Output: " << m_Output << std::endl;
 }
-  } // end of namespace Statistics 
+
+template< class TSample >
+MeanCalculator< TSample >::OutputType*
+MeanCalculator< TSample >
+::GetOutput()
+{
+  return &m_Output ;
+} 
+
+template< class TSample >
+void
+MeanCalculator< TSample >
+::GenerateData() 
+{
+  typename TSample::Iterator iter = this->GetSample()->Begin() ;
+  typename TSample::Iterator end = this->GetSample()->End() ;
+  double totalFrequency = 0.0 ;
+  double frequency = 0.0 ;
+  unsigned int dim = 0 ;
+  
+  while (iter != end)
+    {
+      frequency = iter.GetFrequency() ;
+      totalFrequency += frequency ;
+      for (dim = 0 ; dim < MeasurementVectorSize ; dim++)
+        {
+          m_Output[dim] += iter.GetMeasurementVector()[dim] * frequency ;
+        }
+      ++iter ;
+    }
+  
+  m_Output /= totalFrequency ;
+}
+
+} // end of namespace Statistics 
 } // end of namespace itk
 
 #endif

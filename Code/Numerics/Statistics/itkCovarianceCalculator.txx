@@ -18,7 +18,7 @@
 #define __itkCovarianceCalculator_txx
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
 
 template< class TSample >
 CovarianceCalculator< TSample >
@@ -29,29 +29,30 @@ CovarianceCalculator< TSample >
 template< class TSample >
 void
 CovarianceCalculator< TSample >
-::SetSample(SamplePointer sample)
+::PrintSelf(std::ostream& os, Indent indent) const
 {
-  m_Sample = sample ;
-} 
+  int i ;
+  Superclass::PrintSelf(os,indent);
 
-template< class TSample >
-CovarianceCalculator< TSample >::SamplePointer
-CovarianceCalculator< TSample >
-::GetSample()
-{
-  return m_Sample ;
-} 
+  os << indent << "Output: " << m_Output << std::endl;
+  os << indent << "Mean: [" ;
+  for (i=0; i < MeasurementVectorSize - 1; i++)
+    {
+      os << m_Mean[i] << ", ";
+    }
+  os << m_Mean[i] << "]" << std::endl;
+}
 
 template< class TSample >
 void
 CovarianceCalculator< TSample >
-::SetMean(vnl_vector< double > mean)
+::SetMean(MeanType* mean)
 {
   m_Mean = mean ;
 } 
 
 template< class TSample >
-vnl_vector< double >
+CovarianceCalculator< TSample >::MeanType*
 CovarianceCalculator< TSample >
 ::GetMean()
 {
@@ -59,11 +60,11 @@ CovarianceCalculator< TSample >
 } 
 
 template< class TSample >
-CovarianceCalculator< TSample >::OutputType
+CovarianceCalculator< TSample >::OutputType*
 CovarianceCalculator< TSample >
 ::GetOutput()
 {
-  return m_Output ;
+  return &m_Output ;
 } 
 
 template< class TSample >
@@ -71,19 +72,15 @@ inline void
 CovarianceCalculator< TSample >
 ::GenerateData() 
 {
-  enum { Dimension = TSample::MeasurementVectorSize } ;
-
-  m_Output.resize(Dimension, Dimension) ;
-  m_Output.fill(0) ;
+  m_Output.Fill(0.0) ;
   double frequency = 0.0 ;
   double totalFrequency = 0.0 ;
   
   unsigned int row, col ;
   unsigned int i ;
-  typename TSample::Iterator iter = m_Sample->Begin() ;
-  typename TSample::Iterator end = m_Sample->End() ;
-  vnl_vector< double > diff ;
-  diff.resize(Dimension) ;
+  typename TSample::Iterator iter = this->GetSample()->Begin() ;
+  typename TSample::Iterator end = this->GetSample()->End() ;
+  MeanType diff ;
   typename TSample::MeasurementVectorType measurements ;
   // fills the lower triangle and the diagonal cells in the covariance matrix
   while (iter != end)
@@ -91,52 +88,36 @@ CovarianceCalculator< TSample >
       frequency = iter.GetFrequency() ;
       totalFrequency += frequency ;
       measurements = iter.GetMeasurementVector() ;
-      for (i = 0 ; i < Dimension ; i++)
+      for (i = 0 ; i < MeasurementVectorSize ; i++)
         {
-          diff[i] = measurements[i] - m_Mean[i] ;
+          diff[i] = measurements[i] - (*m_Mean)[i] ;
         }
 
-      for ( row = 0; row < Dimension ; row++)
+      for ( row = 0; row < MeasurementVectorSize ; row++)
         {
           for ( col = 0; col < row + 1 ; col++)
             {
-              m_Output(row,col) += frequency * diff[row] * diff[col] ;
+              m_Output.GetVnlMatrix()(row,col) += frequency * diff[row] * diff[col] ;
             }
         }
       ++iter ;
     }
 
   // fills the upper triangle using the lower triangle  
-  for (row = 1 ; row < Dimension ; row++)
+  for (row = 1 ; row < MeasurementVectorSize ; row++)
     {
       for (col = 0 ; col < row ; col++)
         {
-          m_Output(col, row) = m_Output(row, col) ;
+          m_Output.GetVnlMatrix()(col, row) = 
+            m_Output.GetVnlMatrix()(row, col) ;
         } 
     }
   
-  m_Output /= totalFrequency ;
+  m_Output.GetVnlMatrix() /= totalFrequency ;
 }
 
-template< class TSample >
-void
-CovarianceCalculator< TSample >
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  int i ;
-  Superclass::PrintSelf(os,indent);
 
-  os << indent << "Sample: " << m_Sample << std::endl;
-  os << indent << "Output: " << m_Output << std::endl;
-  os << indent << "Mean: [" ;
-  for (i=0; i < TSample::MeasurementVectorSize - 1; i++)
-    {
-    os << m_Mean[i] << ", ";
-    }
-  os << m_Mean[i] << "]" << std::endl;
-}
-
-  } // end of namespace Statistics 
+} // end of namespace Statistics 
 } // end of namespace itk
 
 #endif

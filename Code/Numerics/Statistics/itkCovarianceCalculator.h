@@ -18,11 +18,13 @@
 #ifndef __itkCovarianceCalculator_h
 #define __itkCovarianceCalculator_h
 
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_matrix.h>
+#include "itkSampleAlgorithmBase.h"
+
+#include "itkVector.h"
+#include "itkMatrix.h"
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
   
 /** \class CovarianceCalculator
  * \brief Calculates the covariance matrix of the target sample data.
@@ -36,7 +38,7 @@ namespace itk{
 
 template< class TSample >
 class CovarianceCalculator :
-      public Object
+      public SampleAlgorithmBase< TSample >
 {
 public:
   /** Standard class typedefs. */
@@ -48,33 +50,20 @@ public:
   itkTypeMacro(CovarianceCalculator, Object);
   itkNewMacro(Self) ;
   
-  /** Sample typedefs alias */
-  typedef TSample SampleType ;
-  typedef typename TSample::Pointer SamplePointer ;
+  enum { MeasurementVectorSize = TSample::MeasurementVectorSize } ;
 
   /** Typedef for the mean output */
-  typedef vnl_matrix< double > OutputType ;
+  typedef Vector< double, MeasurementVectorSize > MeanType ;
+  typedef Matrix< double, MeasurementVectorSize, MeasurementVectorSize > OutputType ;
 
   /** Stores the sample pointer */
-  void SetSample(SamplePointer sample) ;
+  void SetMean(MeanType* mean) ;
 
   /** Returns the sample pointer */
-  SamplePointer GetSample() ;
-
-  /** Stores the sample pointer */
-  void SetMean(vnl_vector< double > mean) ;
-
-  /** Returns the sample pointer */
-  vnl_vector< double > GetMean() ;
+  MeanType* GetMean() ;
 
   /** Returns the covariance matrix of the target sample data */ 
-  OutputType GetOutput() ;
-
-  /** dummy function that calls the GenerateData() function to generate
-   * output. It exists for future compatibility with ProcessObject 
-   * without streaming */
-  void Update()
-  { this->GenerateData() ; }
+  OutputType* GetOutput() ;
 
 protected:
   CovarianceCalculator() ;
@@ -85,9 +74,8 @@ protected:
   void GenerateData() ;
 
 private:
-  SamplePointer m_Sample ;
   OutputType m_Output ;
-  vnl_vector< double > m_Mean ;
+  MeanType* m_Mean ;
 } ; // end of class
     
   } // end of namespace Statistics 

@@ -18,10 +18,9 @@
 #ifndef __itkMeanCalculator_h
 #define __itkMeanCalculator_h
 
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_matrix.h>
+#include "itkSampleAlgorithmBase.h"
 
-#include "itkObject.h"
+#include "itkVector.h"
 
 namespace itk{ 
   namespace Statistics{
@@ -40,7 +39,7 @@ namespace itk{
 
 template< class TSample >
 class MeanCalculator :
-      public Object
+      public SampleAlgorithmBase< TSample >
 {
 public:
   /**Standard class typedefs. */
@@ -52,28 +51,17 @@ public:
   itkTypeMacro(MeanCalculator, Object);
   itkNewMacro(Self) ;
   
+  enum { MeasurementVectorSize = TSample::MeasurementVectorSize } ;
   /** Sample typedefs alias */
   typedef TSample SampleType ;
   typedef typename TSample::Pointer SamplePointer ;
 
   /** Typedef for the mean output */
-  typedef vnl_vector< double > OutputType ;
-
-  /** Stores the sample pointer */
-  void SetSample(SamplePointer sample) ;
-
-  /** Returns the sample pointer */
-  SamplePointer GetSample() ;
+  typedef Vector< double, MeasurementVectorSize > OutputType ;
 
   /** Returns the mean vector */
-  OutputType GetOutput() ;
+  OutputType* GetOutput() ;
 
-  /** dummy function that calls the GenerateData() function to generate
-   * output. It exists for future compatibility with ProcessObject 
-   * without streaming */
-  void Update()
-  { this->GenerateData() ; }
-    
 protected:
   MeanCalculator() ;
   virtual ~MeanCalculator() {}
