@@ -96,6 +96,7 @@ ConnectedThresholdImageFilter<TInputImage,TOutputImage>
     function->ThresholdBetween ( m_Lower, m_Upper );
 
   IteratorType it ( outputImage, function, m_SeedList );
+  it.GoToBegin();
 
   while( !it.IsAtEnd())
     {
