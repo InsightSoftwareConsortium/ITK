@@ -100,6 +100,12 @@ public:
    */
   typedef typename Superclass::PixelType PixelType;
 
+  /**
+   * Declaration of ImageKernelIteratorType
+   */
+  typedef typename Superclass::ImageKernelIteratorType ImageKernelIteratorType;
+
+
 
 protected:
 
