@@ -29,7 +29,6 @@ template< class TInputSample, class THistogramMeasurement >
 SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
 ::SampleToHistogramProjectionFilter()
 {
-  m_OrthoMargin = 0.5 ;
   m_ProjectionAxis = 0 ;
   m_HistogramBinOverlap = 0.0 ;
   m_MinimumFrequency = NumericTraits< FrequencyType >::NonpositiveMin() ;
@@ -236,7 +235,9 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
   typename TInputSample::Iterator s_last = this->GetInputSample()->End() ;
 
   unsigned long numberOfBins = (unsigned long) m_Histogram->Size() ;
-  double extent = m_Histogram->GetBinMax(0, numberOfBins - 1UL) ;
+  double extent = 
+    vnl_math_abs( m_Histogram->GetBinMax(0, numberOfBins - 1UL) - 
+                  m_Histogram->GetBinMin(0, 0) ) / 2.0 ;
 
   while (s_iter != s_last)
     {
@@ -254,7 +255,7 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
 
       marginalDistance = 
         sqrt(vnl_math_abs(squaredDistance - dotProduct * dotProduct)) /
-        ((*m_StandardDeviation) * extent * m_OrthoMargin) ;
+        ((*m_StandardDeviation) * extent) ;
 
       dotProduct /= (*m_StandardDeviation) ;
 
@@ -267,12 +268,12 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
                 GetBinMax(0, numberOfBins - 1UL)) )
             {
               binId = 0 ;
-              while (dotProduct < m_Histogram->GetBinMax(0, binId) &&
-                     binId < (numberOfBins - 1UL))
+              while ( (dotProduct > m_Histogram->GetBinMax(0, binId)) &&
+                     (binId < (numberOfBins - 1UL)) )
                 {
                   binId++ ;
                 }
-      
+              std::cout << "DEBUG:  bin id = " << binId << std::endl ;
               m_Histogram->IncreaseFrequency(binId, frequency) ;
 
             }
