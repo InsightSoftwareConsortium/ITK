@@ -27,7 +27,7 @@
 #include "itkFEMElements.h"
 #include "itkFEMLoadBC.h"
 
-#include "itkRawImageIO.h" 
+#include "itkRawImageIO.h"   
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
 #include "itkCastImageFilter.h"
@@ -63,14 +63,16 @@ FEMRegistrationFilter<TReference,TTarget>::FEMRegistrationFilter( )
   m_Maxiters.resize(1);
   m_Maxiters[m_CurrentLevel]=1;  
   m_dT=1;
+  m_Alpha=1.0;
   m_Temp=0.0;
-
+  m_MeshElementsPerDimensionAtEachResolution.resize(1);
   m_NumberOfIntegrationPoints.resize(1);
   m_NumberOfIntegrationPoints[m_CurrentLevel]=4;
   m_MetricWidth.resize(1);
   m_MetricWidth[m_CurrentLevel]=3;
-  m_DoLineSearchOnImageEnergy=false;
+  m_DoLineSearchOnImageEnergy=1;
   m_LineSearchFrequency=1;
+  m_LineSearchMaximumIterations=10;
 
   m_NumLevels=1;
   m_MaxLevel=1;
@@ -112,8 +114,8 @@ void FEMRegistrationFilter<TReference,TTarget>::RunRegistration()
 
     unsigned int ndofpernode=(m_Element)->GetNumberOfDegreesOfFreedomPerNode();
     unsigned int numnodesperelt=(m_Element)->GetNumberOfNodes();
-      
-    unsigned int nzelts=numnodesperelt*ndofpernode*mySolver.GetNumberOfDegreesOfFreedom();
+    unsigned int ndof=mySolver.GetNumberOfDegreesOfFreedom();
+    unsigned int nzelts=((2*numnodesperelt*ndofpernode*ndof > 25*ndof) ? 2*numnodesperelt*ndofpernode*ndof : 25*ndof);
 
     LinearSystemWrapperItpack itpackWrapper; 
     itpackWrapper.SetMaximumNonZeroValuesInMatrix(nzelts);
@@ -122,22 +124,6 @@ void FEMRegistrationFilter<TReference,TTarget>::RunRegistration()
     itpackWrapper.JacobianSemiIterative(); 
     mySolver.SetLinearSystemWrapper(&itpackWrapper); 
 
-    m_Load=FEMRegistrationFilter<TReference,TTarget>::ImageMetricLoadType::New();
-
-    m_Load->SetReferenceImage(m_RefImg);
-    m_Load->SetTargetImage(m_TarImg);
-    m_Load->SetMetric(m_Metric);
-    m_Load->InitializeMetric();
-    m_Load->SetTemp(m_Temp);
-    ImageSizeType r;
-    for (unsigned int i=0; i<ImageDimension; i++) r[i]=m_MetricWidth[m_CurrentLevel];
-    m_Load->SetMetricRadius(r);
-    m_Load->SetNumberOfIntegrationPoints(m_NumberOfIntegrationPoints[m_CurrentLevel]);
-    m_Load->GN=mySolver.load.size()+1; //NOTE SETTING GN FOR FIND LATER
-    m_Load->SetSign((Float)m_DescentDirection);
-    mySolver.load.push_back( FEMP<Load>(&*m_Load) );    
-    m_Load=dynamic_cast<FEMRegistrationFilter<TReference,TTarget>::ImageMetricLoadType*> (&*mySolver.load.Find(mySolver.load.size()));  
-  
  
     mySolver.AssembleKandM();
  
@@ -151,9 +137,6 @@ void FEMRegistrationFilter<TReference,TTarget>::RunRegistration()
     MultiResSolve();
   }
     
-
-  std::cout<<"\n E " << m_E[m_CurrentLevel] << " dt " << m_dT << " rho " << m_Rho[m_CurrentLevel] << "\n";
-  
 }
 
 
@@ -286,6 +269,13 @@ bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname
     for (jj=0; jj<this->m_NumLevels; jj++) {
       f >> fbuf;
       this->SetRho(fbuf,jj);
+    }
+
+    FEMLightObject::SkipWhiteSpace(f);
+    this->m_Gamma.resize(m_NumLevels);
+    for (jj=0; jj<this->m_NumLevels; jj++) {
+      f >> fbuf;
+      this->SetGamma(fbuf,jj);
     }
 
     FEMLightObject::SkipWhiteSpace(f);
@@ -551,11 +541,6 @@ void FEMRegistrationFilter<TReference,TTarget>::CreateMesh(double ElementsPerSid
    
     if (m) { 
       m->E=this->GetElasticity(m_CurrentLevel);  // Young modulus -- used in the membrane ///
-      //m->A=1.0;     // Crossection area ///
-      //m->h=1.0;     // Crossection area ///
-      //m->I=1.0;    // Moment of inertia ///
-      //m->nu=0.; //.0;    // poissons -- DONT CHOOSE 1.0!!///
-      //m->RhoC=1.0;
     }   
     // now scale the mesh to the current scale
     Element::VectorType coord;  
@@ -742,6 +727,7 @@ void FEMRegistrationFilter<TReference,TTarget>::ApplyLoads(SolverType& mySolver,
   m_Load->SetMetric(m_Metric);
   m_Load->InitializeMetric();
   m_Load->SetTemp(m_Temp);
+  m_Load->SetGamma(m_Gamma[m_CurrentLevel]);
   typename ImageType::SizeType r;
   for (unsigned int i=0; i < ImageDimension; i++) r[i]=m_MetricWidth[m_CurrentLevel];
   m_Load->SetMetricRadius(r);
@@ -762,7 +748,7 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
   m_MinE=10.e9;
   Float LastE=9.e9 , deltE=1.e9;
 
-  unsigned int iters=0;
+  unsigned int iters=1;
   bool Done=false;
   unsigned int DLS=m_DoLineSearchOnImageEnergy;
   unsigned int LSF=m_LineSearchFrequency;
@@ -779,33 +765,40 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
   
   
    Float mint=1.0; //,ImageSimilarity=0.0;
-   if (DLS > 0 && (iters > 0 /*|| m_CurrentLevel !=0*/) && (iters % LSF) != 0) 
+   if (DLS > 0 /*&& iters > (-1)*/ && (iters % LSF) != 0) 
    {
      std::cout << " line search ";
-     if (DLS == 1 ) LastE=mySolver.GoldenSection(1.e-1,5);
-     else  LastE=mySolver.BrentsMethod(1.e-1,5);
+     float tol = 1.0;//((0.01  < LastE) ? 0.01 : LastE/10.);
+     //if (DLS == 1 ) 
+     LastE=this->GoldenSection(mySolver,tol,250);//LastE=mySolver.GoldenSection(tol,m_LineSearchMaximumIterations);
+     //else  LastE=mySolver.GoldenSection(tol,m_LineSearchMaximumIterations);
      std::cout << " line search done " << std::endl;
-   } else  LastE=mySolver.EvaluateResidual(mint);
+   } //else  LastE=mySolver.EvaluateResidual(mint);
 
-   //ImageSimilarity=0.0;//m_Load->EvaluateMetricGivenSolution(&(mySolver.el), mint);
-   deltE=(LastE-m_MinE);
-   mySolver.AddToDisplacements(mint); 
-   if ((LastE <= m_EnergyReductionFactor  /*|| deltE == 0.0 */) || iters > m_Maxiters[m_CurrentLevel] 
+//   float ImageSimilarity=m_Load->EvaluateMetricGivenSolution(&(mySolver.el), mint);
+  
+   LastE=EvaluateResidual(mySolver,1.0);
+   deltE=(m_MinE-LastE);
+   if ((LastE <= m_EnergyReductionFactor  || deltE < 1.e-4 ) || iters > m_Maxiters[m_CurrentLevel] 
         /*|| ImageSimilarity > LastISim*/) 
    {
      Done=true;
-   } 
+   }  
+   mySolver.AddToDisplacements(mint);
    m_MinE=LastE;
-   
-   std::cout << " min E " << m_MinE << " delt E " << deltE <<  " iter " << iters << std::endl;
+
+    // uncomment to write out every deformation SLOW due to interpolating vector field everywhere.
+   if ( /*(iters % 1) == 0 ||*/ Done ) {
+     GetVectorField(mySolver);
+     WarpImage(m_RefImg);
+     WriteWarpedImage(m_ResultsFileName.c_str());
+   }//
+
+   std::cout << " min E " << m_MinE <<  " delt E " << deltE <<  " iter " << iters << std::endl;
    iters++;
-   if ( iters > m_Maxiters[m_CurrentLevel] -1) { DLS=1; LSF=m_Maxiters[m_CurrentLevel]*2;}
+  // if ( iters > m_Maxiters[m_CurrentLevel] ) { DLS=1; LSF=m_Maxiters[m_CurrentLevel]*2;}
    
-   // uncomment to write out every deformation SLOW due to interpolating vector field everywhere.
-   //GetVectorField();
-   //WarpImage(m_RefImg);
-   //WriteWarpedImage(m_ResultsFileName);
-   
+  
    m_TotalIterations++;
   } 
   
@@ -1015,7 +1008,7 @@ void FEMRegistrationFilter<TReference,TTarget>::SampleVectorFieldAtNodes(SolverT
     for (ii=0; ii < ImageDimension; ii++)
     { 
       Float Sol=SolutionAtNode[ii]/((Float)m_ImageScaling[ii]); // Scale back to current scale
-    std::cout << " the sol " << Sol << " at coord " << coord << " rind " << rindex << std::endl;
+//    std::cout << " the sol " << Sol << " at coord " << coord << " rind " << rindex << std::endl;
       mySolver.GetLinearSystemWrapper()->
         SetSolutionValue((*node)->GetDegreeOfFreedom(ii),Sol,mySolver.TotalSolutionIndex);    
       mySolver.GetLinearSystemWrapper()->
@@ -1122,7 +1115,7 @@ void FEMRegistrationFilter<TReference,TTarget>::MultiResSolve()
       unsigned int numnodesperelt=(m_Element)->GetNumberOfNodes();
       
       unsigned int ndof=SSS.GetNumberOfDegreesOfFreedom();
-      unsigned int nzelts=2*numnodesperelt*ndofpernode*ndof;
+      unsigned int nzelts=((2*numnodesperelt*ndofpernode*ndof > 25*ndof) ? 2*numnodesperelt*ndofpernode*ndof : 25*ndof);
       std::cout << " ndof " << ndof << " nzelts " <<  nzelts << std::endl;
       LinearSystemWrapperItpack itpackWrapper; 
       itpackWrapper.SetMaximumNonZeroValuesInMatrix(nzelts);
@@ -1143,6 +1136,7 @@ void FEMRegistrationFilter<TReference,TTarget>::MultiResSolve()
       m_Load->SetMetric(m_Metric);
       m_Load->InitializeMetric();
       m_Load->SetTemp(m_Temp);
+      m_Load->SetGamma(m_Gamma[m_CurrentLevel]);
       ImageSizeType r;
       for (unsigned int dd=0; dd<ImageDimension; dd++) r[dd]=m_MetricWidth[m_CurrentLevel];
       m_Load->SetMetricRadius(r);
@@ -1183,6 +1177,157 @@ void FEMRegistrationFilter<TReference,TTarget>::MultiResSolve()
   return;
   
 }
+
+template<class TReference,class TTarget>
+Element::Float FEMRegistrationFilter<TReference,TTarget>::EvaluateResidual(SolverType& mySolver,Float t)
+{
+  
+//  Float defe=mySolver.GetDeformationEnergy(t);
+  Float SimE=m_Load->EvaluateMetricGivenSolution(&(mySolver.el),t);
+
+//  std::cout << " SimE " << SimE << " Def E " << defe << std::endl;
+  return fabs((double)SimE);
+
+}
+
+template<class TReference,class TTarget>
+void FEMRegistrationFilter<TReference,TTarget>::FindBracketingTriplet(SolverType& mySolver,Float* a, Float* b, Float* c)
+{
+ // in 1-D domain, we want to find a < b < c , s.t.  f(b) < f(a) && f(b) < f(c)
+ //  see Numerical Recipes
+ 
+  Float Gold=1.618034;
+  Float Glimit=100.0;
+  Float Tiny=1.e-20;
+  
+  Float ax=0.1, bx=1.0,cx=1.1;
+  ax=0.0; bx=1.; cx=2.0;
+  Float fc=0.0;
+  Float fa=fabs(EvaluateResidual(mySolver, ax));
+  Float fb=fabs(EvaluateResidual(mySolver, bx));
+  
+  Float ulim=1.0,u=1.0,r=1.0,q=1.0,fu=1.0,dum=1.0;
+
+  if ( fb > fa ) 
+  {
+     dum=ax; ax=bx; bx=dum;
+     dum=fb; fb=fa; fa=dum;
+  }
+
+  cx=bx+Gold*(bx-ax);  // first guess for c - the 3rd pt needed to bracket the min
+  fc=fabs(EvaluateResidual(mySolver, cx));
+
+  
+  while (fb > fc  /*&& fabs(ax) < 3. && fabs(bx) < 3. && fabs(cx) < 3.*/)
+  {
+    r=(bx-ax)*(fb-fc);
+    q=(bx-cx)*(fb-fa);
+    Float denom=(2.0*mySolver.GSSign(mySolver.GSMax(fabs(q-r),Tiny),q-r));
+    u=(bx)-((bx-cx)*q-(bx-ax)*r)/denom;
+    ulim=bx + Glimit*(cx-bx);
+    if ((bx-u)*(u-cx) > 0.0)
+    {
+      fu=fabs(EvaluateResidual(mySolver, u));
+      if (fu < fc)
+      {
+        ax=bx;
+        bx=u;
+        fa=fb;
+        fb=fu;
+        *a=ax; *b=bx; *c=cx;
+    return;
+      } else if (fu > fb) {
+        cx=u;
+        fc=fu;
+    *a=ax; *b=bx; *c=cx;
+    return;
+      }
+      
+        u=cx+Gold*(cx-bx);
+        fu=fabs(EvaluateResidual(mySolver, u));
+      
+    } else if ( (cx-u)*(u-ulim) > 0.0) {
+      fu=fabs(EvaluateResidual(mySolver, u));
+      if (fu < fc)
+      {
+        bx=cx; cx=u; u=cx+Gold*(cx-bx);
+        fb=fc; fc=fu; fu=fabs(EvaluateResidual(mySolver, u));
+      }
+
+    } else if ( (u-ulim)*(ulim-cx) >= 0.0) {
+      u=ulim;
+      fu=fabs(EvaluateResidual(mySolver, u));
+    } else {
+      u=cx+Gold*(cx-bx);
+      fu=fabs(EvaluateResidual(mySolver, u));
+    }
+    
+      ax=bx; bx=cx; cx=u;
+      fa=fb; fb=fc; fc=fu;
+
+  }
+
+  if ( fabs(ax) > 1.e3  || fabs(bx) > 1.e3 || fabs(cx) > 1.e3)
+  { ax=-2.0;  bx=1.0;  cx=2.0; } // to avoid crazy numbers caused by bad bracket (u goes nuts)
+  
+  *a=ax; *b=bx; *c=cx;
+}
+
+
+template<class TReference,class TTarget>
+Element::Float FEMRegistrationFilter<TReference,TTarget>::GoldenSection(SolverType& mySolver,Float tol,unsigned int MaxIters)
+{
+  // We should now have a, b and c, as well as f(a), f(b), f(c), 
+  // where b gives the minimum energy position;
+
+  Float ax, bx, cx;
+
+
+  FindBracketingTriplet(mySolver,&ax, &bx, &cx);
+  Float xmin=1.0,fmin=1.0;
+  //if (fb!=0.0)
+  Float f1=1.0,f2=1.0,x0=1.0,x1=1.0,x2=1.0,x3=1.0;
+
+  Float R=0.6180339;
+  Float C=(1.0-R);
+
+  x0=ax;
+  x3=cx;
+  if (fabs(cx-bx) > fabs(bx-ax)){
+    x1=bx;
+    x2=bx+C*(cx-bx);
+  } else {
+    x2=bx;
+    x1=bx-C*(bx-ax);
+  }
+  f1=fabs(EvaluateResidual(mySolver, x1));
+  f2=fabs(EvaluateResidual(mySolver, x2));
+  unsigned int iters=0;
+  while (fabs(x3-x0) > tol*(fabs(x1)+fabs(x2)) && iters < MaxIters)
+  {
+    iters++;
+    if (f2 < f1){
+      x0=x1; x1=x2; x2=R*x1+C*x3;
+      f1=f2; f2=fabs(EvaluateResidual(mySolver, x2));
+    } else {
+      x3=x2; x2=x1; x1=R*x2+C*x0;
+      f2=f1; f1=fabs(EvaluateResidual(mySolver, x1));
+    }
+  }
+  if (f1<f2){
+    xmin=x1; 
+    fmin=f1;
+  } else {
+    xmin=x2;
+    fmin=f2;
+  }
+
+  mySolver.SetEnergyToMin(xmin);
+  std:: cout << " emin " << fmin <<  " at xmin " << xmin << std::endl;
+  return fabs((double)fmin); 
+}
+
+
 
 }} // end namespace itk::fem
 

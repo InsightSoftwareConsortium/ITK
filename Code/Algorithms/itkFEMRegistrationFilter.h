@@ -251,7 +251,7 @@ public:
       designated by "which". 
       E.g. to generate 10 elements per dimension in the 1st resolution, use SetMeshResolution(10,0);.
     */
-  void      SetMeshResolution(unsigned int i,unsigned int which=0){ m_MeshResolution[which]=i;}
+  void      SetMeshElementsPerDimensionAtEachResolution(unsigned int i,unsigned int which=0){ m_MeshElementsPerDimensionAtEachResolution[which]=i;}
   
   /** This determines the number of integration points to use at each resolution.  
       These integration points are used to generate the force.  The actual number 
@@ -275,6 +275,8 @@ public:
     */
   void      SetTimeStep(Float i) { m_dT=i;}
   
+  /** Set alpha for the trapezoidal rule (usually 1.0 in our experiments). */
+  void      SetAlpha(Float a) { m_Alpha=a;}
   
   /** Sets the energy below which we decide the solution has converged. 
     */
@@ -288,6 +290,9 @@ public:
   
   /** Mass matrix weight */  
   void      SetRho(Float r,unsigned int which=0) { m_Rho[which]=r;} 
+
+  /** Image similarity energy weight */  
+  void      SetGamma(Float r,unsigned int which=0) { m_Gamma[which]=r;} 
 
   /** Tries to minimize energy */  
   void      SetDescentDirectionMinimize() { m_DescentDirection=positive;}
@@ -304,6 +309,9 @@ public:
 
   /** This allows one to skip the line search every fth iteration. */ 
   void      SetLineSearchFrequency(unsigned int f) { m_LineSearchFrequency=f; } 
+
+  /** This sets the line search's max iterations. */ 
+  void      SetLineSearchMaximumIterations(unsigned int f) { m_LineSearchMaximumIterations=f; } 
   
   /** Sets the boolean for writing the displacement field to a file. */
   void      SetWriteDisplacements(bool b) {m_WriteDisplacementField=b;}
@@ -333,6 +341,16 @@ public:
   void      SetMaterial(MaterialType::Pointer m) {m_Material=m;}
 
   void      PrintVectorField();
+  
+  Float EvaluateResidual(SolverType& mySolver,Float t);
+
+  /* Finds a triplet that brackets the energy minimum.  From Numerical Recipes.*/
+  void FindBracketingTriplet(SolverType& mySolver,Float* a, Float* b, Float* c);
+  
+  /** Finds the optimum value between the last two solutions 
+    * and sets the current solution to that value.  Uses Evaluate Residual;
+    */
+  Float GoldenSection(SolverType& mySolver,Float tol=0.01,unsigned int MaxIters=25);
 
   /** de/constructor */
   FEMRegistrationFilter( ); 
@@ -362,7 +380,8 @@ private :
 
   unsigned int     m_DoLineSearchOnImageEnergy; 
   unsigned int     m_LineSearchFrequency;  
-  
+  unsigned int     m_LineSearchMaximumIterations;
+
   vnl_vector<unsigned int>     m_NumberOfIntegrationPoints;// resolution of integration
   vnl_vector<unsigned int>     m_MetricWidth;
   vnl_vector<unsigned int>     m_Maxiters; // max iterations
@@ -381,6 +400,7 @@ private :
   Float     m_dT; // time step
   vnl_vector<Float>     m_E;  // elasticity 
   vnl_vector<Float>     m_Rho;   // mass matrix weight
+  vnl_vector<Float>     m_Gamma;   // image similarity weight
   Float     m_Energy; // current value of energy
   Float     m_MinE;  // minimum recorded energy
   Float     m_Alpha; // difference parameter 
