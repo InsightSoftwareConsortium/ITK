@@ -103,6 +103,7 @@ public:
 
 /** \class NumericTraits<char>
  * \brief Define traits for type char.
+ * NOTE: char is not guarenteed to be signed. On SGI's, thge default is unsigned
  */
 template <>
 class NumericTraits<char> : public ITK_NUMERIC_LIMITS<char> {
@@ -115,13 +116,37 @@ public:
   static const char Zero;
   static const char One;
 
-  static char min() { return -128; }
-  static char max() { return 127; }
+  static char min() { return char(255) < 0 ? -128 : 0; }
+  static char max() { return char(255) < 0 ? 127 : 255; }
   static char NonpositiveMin() { return min(); }
   static bool IsPositive(char val) { return val > Zero; }
   static bool IsNonpositive(char val) { return val <= Zero; }
   static bool IsNegative(char val) { return val < Zero; }
   static bool IsNonnegative(char val) {return val >= Zero; }
+};
+
+/** \class NumericTraits<char>
+ * \brief Define traits for type char.
+ * NOTE: char is not guarenteed to be signed. On SGI's, thge default is unsigned
+ */
+template <>
+class NumericTraits<signed char> : public ITK_NUMERIC_LIMITS<signed char> {
+public:
+  typedef signed char ValueType;
+  typedef int PrintType;
+  typedef unsigned char AbsType;
+  typedef short AccumulateType;
+  typedef double RealType;
+  static const signed char Zero;
+  static const signed char One;
+
+  static signed char min() { return -128; }
+  static signed char max() { return  127; }
+  static signed char NonpositiveMin() { return min(); }
+  static bool IsPositive(signed char val) { return val > Zero; }
+  static bool IsNonpositive(signed char val) { return val <= Zero; }
+  static bool IsNegative(signed char val) { return val < Zero; }
+  static bool IsNonnegative(signed char val) {return val >= Zero; }
 };
 
 /** \class NumericTraits<unsigned char>
