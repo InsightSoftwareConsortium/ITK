@@ -44,6 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkGradientDescentOptimizer.h"
 #include "itkCommand.h"
 #include "itkEventObject.h"
+#include "itkExceptionObject.h"
 
 namespace itk
 {
@@ -100,7 +101,7 @@ GradientDescentOptimizer<TCostFunction>
       m_CostFunction->GetValueAndDerivative( 
         GetCurrentPosition(), m_Value, m_Gradient );
       }
-    catch(...)
+    catch( ExceptionObject& err )
       {
        // An exception has occurred. 
        // Terminate immediately.
@@ -108,7 +109,7 @@ GradientDescentOptimizer<TCostFunction>
        StopOptimization();
 
        // Pass exception to caller
-       throw;
+       throw err;
       }
 
 

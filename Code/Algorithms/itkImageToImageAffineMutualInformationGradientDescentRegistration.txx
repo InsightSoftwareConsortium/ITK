@@ -121,14 +121,14 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarg
     // do the optimization
     optimizer->StartOptimization();
     }
-  catch(...)
+  catch( ExceptionObject& err )
     {
       // An error has occurred in the optimization.
       // Update the parameters
       m_Parameters = optimizer->GetCurrentPosition();
 
       // Pass exception to caller
-      throw ExceptionObject(__FILE__, __LINE__);
+      throw err;
     }
 
 

@@ -197,8 +197,7 @@ int main()
       {
       // caught an exception object
       std::cout << "Caught an ExceptionObject" << std::endl;
-      std::cout << err.GetLocation() << std::endl;
-      std::cout << err.GetDescription() << std::endl;
+      std::cout << err << std::endl;
       std::cout << "Test failed." << std::endl;
       return EXIT_FAILURE;
 
@@ -261,8 +260,7 @@ int main()
   catch(itk::ExceptionObject& err)
     {
     std::cout << "Caught expected ExceptionObject" << std::endl;
-    std::cout << err.GetLocation() << std::endl;
-    std::cout << err.GetDescription() << std::endl;
+    std::cout << err << std::endl;
     pass = true;
     }
 
@@ -287,8 +285,7 @@ int main()
   catch(itk::ExceptionObject& err)
     {
     std::cout << "Caught expected ExceptionObject" << std::endl;
-    std::cout << err.GetLocation() << std::endl;
-    std::cout << err.GetDescription() << std::endl;
+    std::cout << err << std::endl;
     pass = true;
     }
 
