@@ -38,18 +38,20 @@ namespace itk
    * Acceptable values for hdr.dime.datatype
    */
 enum DataTypeKeyValues  {
-  ANALYZE_DT_UNKNOWN        =0,   /**< Deontes that the data type is unknon */
-  ANALYZE_DT_BINARY         =1,   /**< Deontes that the data type is binary */
-  ANALYZE_DT_UNSIGNED_CHAR  =2,   /**< Deontes that the data type is unsigned char */
-  ANALYZE_DT_SIGNED_SHORT   =4,   /**< Deontes that the data type is signed short */
-  ANALYZE_DT_SIGNED_INT     =8,   /**< Deontes that the data type is signed int */
-  ANALYZE_DT_FLOAT          =16,  /**< Deontes that the data type is single precision floating point */
-  ANALYZE_DT_COMPLEX        =32,  /**< Deontes that the data type is pairs of single precision floating point numbers */
-  ANALYZE_DT_DOUBLE         =64,  /**< Deontes that the data type is double precision floating point */
-  ANALYZE_DT_RGB            =128, /**< Deontes that the data type is triples of unsigned char */
-  ANALYZE_DT_ALL            =255, /**< Deontes that the data type is unknon */
-  ANALYZE_DT_UNSIGNED_SHORT =6,   /**< Deontes that the data type is unsigned short */
-  ANALYZE_DT_UNSIGNED_INT   =12   /**< Deontes that the data type is unsigned int */
+  ANALYZE_DT_UNKNOWN      =0,  /**< Deontes that the data type is unknon */
+  ANALYZE_DT_BINARY       =1,  /**< Deontes that the data type is binary */
+  ANALYZE_DT_UNSIGNED_CHAR=2,  /**< Deontes that the data type is unsigned char */
+  ANALYZE_DT_SIGNED_SHORT =4,  /**< Deontes that the data type is signed short */
+  ANALYZE_DT_SIGNED_INT   =8,  /**< Deontes that the data type is signed int */
+  ANALYZE_DT_FLOAT        =16, /**< Deontes that the data type is single precision floating point */
+  ANALYZE_DT_COMPLEX      =32, /**< Deontes that the data type is pairs of single precision floating point numbers */
+  ANALYZE_DT_DOUBLE       =64, /**< Deontes that the data type is double precision floating point */
+  ANALYZE_DT_RGB          =128,/**< Deontes that the data type is triples of unsigned char */
+  ANALYZE_DT_ALL          =255,/**< Deontes that the data type is unknon */
+  //Obsolete, using SPM, B2ANALYZE_DT_UNSIGNED_SHORT =6,  /**< Deontes that the data type is unsigned short in brains2 analyze extensions*/
+  //Obsolete, using SPM, B2ANALYZE_DT_UNSIGNED_INT   =12, /**< Deontes that the data type is unsigned int in brains2 analyze extensions*/
+  SPMANALYZE_DT_UNSIGNED_SHORT=132,/**< Deontes that the data type is unsigned short in SPM analyze extensions*/
+  SPMANALYZE_DT_UNSIGNED_INT  =136 /**< Deontes that the data type is unsigned int in SPM analyze extensions*/
 };
 
 /**
@@ -67,8 +69,10 @@ enum DataTypeIndex  {
   ANALYZE_DT_INDEX_DOUBLE        =7,
   ANALYZE_DT_INDEX_RGB           =8,
   ANALYZE_DT_INDEX_ALL           =9,
-  ANALYZE_DT_INDEX_UNSIGNED_SHORT=10,
-  ANALYZE_DT_INDEX_UNSIGNED_INT  =11
+  //Obsolete, using SPM, B2ANALYZE_DT_INDEX_UNSIGNED_SHORT=10,
+  //Obsolete, using SPM, B2ANALYZE_DT_INDEX_UNSIGNED_INT  =11,
+  SPMANALYZE_DT_INDEX_UNSIGNED_SHORT   =10,
+  SPMANALYZE_DT_INDEX_UNSIGNED_INT     =11
 };
 
 
@@ -127,8 +131,8 @@ extern const short int DataTypeSizes[12];
    * - 7-->ANALYZE_DT_DOUBLE
    * - 8-->ANALYZE_DT_RGB
    * - 9-->ANALYZE_DT_ALL
-   * - 10-->ANALYZE_DT_UNSIGNED_SHORT
-   * - 11-->ANALYZE_DT_UNSIGNED_INT
+   * - 10-->SPMANALYZE_DT_UNSIGNED_SHORT
+   * - 11-->SPMANALYZE_DT_UNSIGNED_INT
    * @see DataTypes
    * @see DataTypeSizes
    * @see DataTypeKey

@@ -60,8 +60,8 @@ const short int DataTypeKey[12]={
   ANALYZE_DT_DOUBLE,
   ANALYZE_DT_RGB,
   ANALYZE_DT_ALL,
-  ANALYZE_DT_UNSIGNED_SHORT,
-  ANALYZE_DT_UNSIGNED_INT
+  SPMANALYZE_DT_UNSIGNED_SHORT,
+  SPMANALYZE_DT_UNSIGNED_INT
 };
 
 
@@ -668,10 +668,13 @@ void  AnalyzeImageIO::DefineHeaderObjectDataType()
       eNewType=ANALYZE_DT_INDEX_SIGNED_SHORT;
       break;
     case USHORT:
-      eNewType = ANALYZE_DT_INDEX_UNSIGNED_SHORT;
+      eNewType = SPMANALYZE_DT_INDEX_UNSIGNED_SHORT;
       break;
     case INT:
       eNewType=ANALYZE_DT_INDEX_SIGNED_INT;
+      break;
+    case UINT:
+      eNewType=SPMANALYZE_DT_INDEX_UNSIGNED_INT;
       break;
     case FLOAT:
       eNewType=ANALYZE_DT_INDEX_FLOAT;
@@ -886,20 +889,24 @@ void AnalyzeImageIO::ReadImageInformation()
       m_PixelType = CHAR;
       break;
     case ANALYZE_DT_UNSIGNED_CHAR:
-      m_ComponentType = CHAR;
-      m_PixelType = CHAR;
+      m_ComponentType = UCHAR;
+      m_PixelType = UCHAR;
       break;
     case ANALYZE_DT_SIGNED_SHORT:
       m_ComponentType = SHORT;
       m_PixelType = SHORT;
       break;
-    case ANALYZE_DT_UNSIGNED_SHORT:
+    case SPMANALYZE_DT_UNSIGNED_SHORT:
       m_ComponentType = USHORT;
       m_PixelType = USHORT;
       break;
     case ANALYZE_DT_SIGNED_INT:
       m_ComponentType = INT;
       m_PixelType = INT;
+      break;
+    case SPMANALYZE_DT_UNSIGNED_INT:
+      m_ComponentType = UINT;
+      m_PixelType = UINT;
       break;
     case ANALYZE_DT_FLOAT:
       m_ComponentType = FLOAT;
@@ -936,9 +943,13 @@ void AnalyzeImageIO::ReadImageInformation()
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_InputFilterName,
                                         classname);
 
+#if __DELETE_THIS_CODE_AFTER_TESTING__
   strncpy(temp,this->m_hdr.hk.data_type,10);//Note this is necessary because the array is not necessarily null terminated.
   temp[10]='\0'; //NOTE: Need to encapsulate for string because the Borland compiler can't figure it out.
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(temp));
+#else
+  itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(this->m_hdr.hk.data_type,10));
+#endif
 
   strncpy(temp,this->m_hdr.hk.db_name,18);//Note this is necessary because the array is not necessarily null terminated.
   temp[18]='\0';
