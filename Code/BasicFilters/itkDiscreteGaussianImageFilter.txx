@@ -59,7 +59,10 @@ DiscreteGaussianImageFilter<TInputImage,TOutputImage>
         }
       else
         {
-        oper.SetVariance(m_Variance[i] / this->GetInput()->GetSpacing()[i]);
+        // convert the variance from physical units to pixels
+        double s = this->GetInput()->GetSpacing()[i];
+        s = s*s;
+        oper.SetVariance(m_Variance[i] / s);
         }
       }
     else
@@ -148,7 +151,10 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
         }
       else
         {
-        oper[i].SetVariance(m_Variance[i] / this->GetInput()->GetSpacing()[i]);
+        // convert the variance from physical units to pixels
+        double s = this->GetInput()->GetSpacing()[i];
+        s = s*s;
+        oper[i].SetVariance(m_Variance[i] / s);
         }
       }
     else
