@@ -147,7 +147,7 @@ namespace itk
   template <class T>
     inline void EncapsulateMetaData(MetaDataDictionary &Dictionary, const std::string & key, const T &invalue)
     {
-      MetaDataObject<T>::Pointer temp=MetaDataObject<T>::New();
+      typename MetaDataObject<T>::Pointer temp=MetaDataObject<T>::New();
       temp->SetMetaDataObjectValue(invalue);
       Dictionary[key]=temp;
     }
@@ -181,24 +181,47 @@ namespace itk
       {
         return false;
       }
+      //The following is necessary for getting this to work on
+      //kitware's SGI computers.  It is not necessary for
+      //for IRIX 6.5.18m with MIPSPro 7.3.1.3m.
 #if (defined(__sgi) && !defined(__GNUC__))
+      /*
+       * from page 10.4.11 pg 256 of the Stroustrup book:
+       * ========================================================================
+       * The reinterpret_cast is the crudest and potentially nastiest of the type
+       * conversion operators.  In most caes, it simply yeilds a value with the
+       * same bit pattern as it's argument wit the type required .  Thus, it can
+       * be used for the inherently implementation-depend, dangerous, and
+       * occasionally absolutely necessary activity of converting interger values
+       * to pointers, and  vice versa.
+       */
       outval =
         reinterpret_cast<MetaDataObject <T> *>(Dictionary[key].GetPointer())->GetMetaDataObjectValue();
 #else
-      outval =
-        dynamic_cast<MetaDataObject <T> *>(Dictionary[key].GetPointer())->GetMetaDataObjectValue();
-
+      {
+        if(MetaDataObject <T> * TempMetaDataObject =dynamic_cast<MetaDataObject <T> *>(Dictionary[key].GetPointer()))
+        {
+          outval = TempMetaDataObject->GetMetaDataObjectValue();
+        }
+        else
+        {
+          return false;
+        }
+      }
 #endif
       //                                 --------------- ^^^^^^^^^^^^
       //                                 SmartPointer    MetaDataObject<T>*
       return true;
     }
 
-  template <class T>
-    inline bool ExposeMetaData(MetaDataDictionary &Dictionary, const char *key, T &outval)
-    {
-      return ExposeMetaData(Dictionary, std::string(key), outval);
-    }
+  //This is only necessary to make the borland compiler happy.  It should not be necesary for most compilers.
+  //This should not chanage the behavior, it just adds an extra level of complexity to using the ExposeMetaData
+  //with const char * keys.
+template <class T>
+  inline bool ExposeMetaData(MetaDataDictionary &Dictionary, const char * const key, T &outval)
+  {
+    return ExposeMetaData(Dictionary, std::string(key), outval);
+  }
 
 } // end namespace itk
 
