@@ -24,6 +24,7 @@
 #include "itkZeroCrossingImageFilter.h"
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkNumericTraits.h"
+#include "itkRawImageWriter.h"
 
 namespace itk
 {
@@ -105,7 +106,7 @@ CannyEdgeDetectionImageFilter<TInputImage,TOutputImage>
 return;  
   // get pointers to the input and output
   InputImagePointer  inputPtr = 
-    const_cast< TInputImage * >( this->GetInput());
+    const_cast< TInputImage * >( this->GetInput().GetPointer());
   OutputImagePointer outputPtr = this->GetOutput();
   
   if ( !inputPtr || !outputPtr )
@@ -429,6 +430,9 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
   this->AllocateUpdateBuffer();
 
+ RawImageWriter<TOutputImage>::Pointer writer =
+    RawImageWriter<TOutputImage>::New();
+
   // Apply the Gaussian Filter to the input image.
   gaussianFilter->SetVariance(m_Variance);
   gaussianFilter->SetMaximumError(m_MaximumError);
@@ -447,6 +451,11 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   zeroCrossFilter->SetInput(m_UpdateBuffer);
   zeroCrossFilter->Update();
   zeroCross = zeroCrossFilter->GetOutput();
+
+  writer->SetFileName("zero.raw");
+  writer->SetInput(zeroCross);
+  
+  writer->Write();
 
   // Calculate the 2nd derivative gradient here.  This result is written to
   // the m_UpdateBuffer1 image.
@@ -582,7 +591,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
           derivPos += dx1[i] * directional[i];
         }
       
-      it.Value() = derivPos;
+      it.Value() = ((derivPos <= zero) && (gradMag > m_Threshold)) ;
       
       ++nit;
       ++nit1;
@@ -641,8 +650,8 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
               derivPos += dx1[i] * directional[i];
             }
           
-          it.Value() = derivPos;
-          
+          //it.Value() = derivPos;
+          it.Value() = ((derivPos <= zero) && (gradMag > m_Threshold)) ;
           ++bit;
           ++bit1;
           ++it;
