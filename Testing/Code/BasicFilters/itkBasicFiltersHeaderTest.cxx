@@ -117,6 +117,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkNaryFunctorImageFilter.txx"
 #include "itkNeighborhoodConnectedImageFilter.txx"
 #include "itkNeighborhoodOperatorImageFilter.txx"
+#include "itkNoiseImageFilter.txx"
 #include "itkNonThreadedShrinkImageFilter.txx"
 #include "itkNormalizeImageFilter.txx"
 #include "itkObjectMorphologyImageFilter.txx"
