@@ -113,7 +113,7 @@ int main()
     index  = iter2.GetIndex();
     value  = iter2.Get();
     pixval = value;
-    if ( (index[0] + index[1]) / 2 != pixval ) {
+    if ( static_cast<PixelType>( (index[0] + index[1]) / 2.0 ) != pixval ) {
       std::cout << "Error in resampled image: Pixel " << index
                 << " = " << value << std::endl;
       passed = false;
