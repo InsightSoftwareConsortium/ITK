@@ -27,6 +27,8 @@ WeightedCovarianceCalculator< TSample >
 ::WeightedCovarianceCalculator()
 {
   m_Output = new OutputType() ;
+  m_WeightFunction = 0 ;
+  m_Weights = 0 ;
 }
 
 template< class TSample >
@@ -55,18 +57,18 @@ WeightedCovarianceCalculator< TSample >
 template< class TSample >
 void
 WeightedCovarianceCalculator< TSample >
-::SetMean(MeanType* mean)
+::SetWeightFunction(WeightFunctionType* func)
 {
-  m_Mean = mean ;
-} 
+  m_WeightFunction = func ;
+}
 
 template< class TSample >
-WeightedCovarianceCalculator< TSample >::MeanType*
+double
 WeightedCovarianceCalculator< TSample >
-::GetMean()
+::GetWeight(MeasurementVectorType measurementVector)
 {
-  return m_Mean ;
-} 
+  return m_WeightFunction->Evaluate(measurementVector) ;
+}
 
 template< class TSample >
 void
@@ -79,30 +81,58 @@ WeightedCovarianceCalculator< TSample >
   
   unsigned int row, col ;
   unsigned int i ;
-  typename TSample::Iterator iter = this->GetSample()->Begin() ; 
-  typename TSample::Iterator end = this->GetSample()->End() ;
+  typename TSample::Iterator iter = this->GetInputSample()->Begin() ; 
+  typename TSample::Iterator end = this->GetInputSample()->End() ;
   MeanType diff ;
   typename TSample::MeasurementVectorType measurements ;
   int measurementVectorIndex = 0 ;
   // fills the lower triangle and the diagonal cells in the covariance matrix
-  while (iter != end)
+  if (m_WeightFunction != 0) 
     {
-      weight = iter.GetFrequency() * (*m_Weights)[measurementVectorIndex] ;
-      totalWeight += weight ;
-      measurements = iter.GetMeasurementVector() ;
-      for (i = 0 ; i < MeasurementVectorSize ; i++)
+      while (iter != end)
         {
-          diff[i] = measurements[i] - (*m_Mean)[i] ;
-        }
-
-      for ( row = 0; row < MeasurementVectorSize ; row++)
-        {
-          for ( col = 0; col < row + 1 ; col++)
+          measurements = iter.GetMeasurementVector() ;
+          weight = 
+            iter.GetFrequency() * m_WeightFunction->Evaluate(measurements) ;
+          totalWeight += weight ;
+          for (i = 0 ; i < MeasurementVectorSize ; i++)
             {
-              m_Output->GetVnlMatrix()(row,col) += weight * diff[row] * diff[col] ;
+              diff[i] = measurements[i] - (*m_Mean)[i] ;
             }
+          
+          for ( row = 0; row < MeasurementVectorSize ; row++)
+            {
+              for ( col = 0; col < row + 1 ; col++)
+                {
+                  m_Output->GetVnlMatrix()(row,col) += 
+                    weight * diff[row] * diff[col] ;
+                }
+            }
+          ++iter ;
         }
-      ++iter ;
+    }
+  else
+    {
+      while (iter != end)
+        {
+          weight = iter.GetFrequency() * (*m_Weights)[measurementVectorIndex] ;
+          totalWeight += weight ;
+          measurements = iter.GetMeasurementVector() ;
+          for (i = 0 ; i < MeasurementVectorSize ; i++)
+            {
+              diff[i] = measurements[i] - (*m_Mean)[i] ;
+            }
+          
+          for ( row = 0; row < MeasurementVectorSize ; row++)
+            {
+              for ( col = 0; col < row + 1 ; col++)
+                {
+                  m_Output->GetVnlMatrix()(row,col) += 
+                    weight * diff[row] * diff[col] ;
+                }
+            }
+          ++iter ;
+        }
     }
 
   // fills the upper triangle using the lower triangle  
@@ -110,7 +140,8 @@ WeightedCovarianceCalculator< TSample >
     {
       for (col = 0 ; col < row ; col++)
         {
-          m_Output->GetVnlMatrix()(col, row) = m_Output->GetVnlMatrix()(row, col) ;
+          m_Output->GetVnlMatrix()(col, row) = 
+            m_Output->GetVnlMatrix()(row, col) ;
         } 
     }
   
