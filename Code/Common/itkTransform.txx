@@ -113,7 +113,6 @@ Transform< TScalarType,NInputDimensions,NOutputDimensions,
   
   // Each transform should redefine this method.
   // the following is just a default action
-  m_Jacobian.Fill( 0.0 );
   return m_Jacobian;
 
 }
