@@ -23,9 +23,6 @@
 #include "itkGradientAnisotropicDiffusionImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkPNGImageIO.h"
-#include "itkPNGImageIOFactory.h"
-#include "itkImageRegionIterator.h"
 
 
 int itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char* av[] )
@@ -47,8 +44,8 @@ int itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char* av[] )
     ::Pointer filter
     = itk::GradientAnisotropicDiffusionImageFilter<myFloatImage, myFloatImage>
     ::New();
-  filter->SetNumberOfIterations(16);
-  filter->SetConductanceParameter(3.0f);
+  filter->SetNumberOfIterations(10);
+  filter->SetConductanceParameter(1.0f);
   filter->SetTimeStep(0.125f);
   
   filter->SetInput(input->GetOutput());
@@ -60,7 +57,6 @@ int itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char* av[] )
   
   try
     {
-    input->Update();
     caster->Update();
     }
   catch (itk::ExceptionObject& e)
