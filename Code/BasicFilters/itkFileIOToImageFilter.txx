@@ -119,7 +119,7 @@ void FileIOToImageFilter<TOutputImage>::GenerateData()
   m_OutputImage->SetLargestPossibleRegion(region);
   m_OutputImage->SetBufferedRegion(region);
   m_OutputImage->Allocate();
-  m_OutputImage->SetOrigin( m_IO->GetImagePosition() );
+  m_OutputImage->SetOrigin( m_IO->GetImageOrigin() );
   m_OutputImage->SetSpacing( m_IO->GetImageSpacing() );
 
 
