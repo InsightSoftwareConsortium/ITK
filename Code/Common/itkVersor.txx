@@ -484,7 +484,7 @@ Versor<T>
   if( sinangle2 > 1.0 )
     {
     ExceptionObject exception;
-    exception.SetDescription("Trying to initializa a Versor with" \
+    exception.SetDescription("Trying to initialize a Versor with" \
                              "a vector whose magnitude is greater than 1");
     exception.SetLocation("itk::Versor::Set( const VectorType )");
     throw exception;
