@@ -53,6 +53,8 @@ namespace itk
  * Implements a function that returns 1 for points inside or on the surface
  * of a ellipsoid and 0 for points outside the ellipsoid. The orientation of the 
  * n-dimensional ellipsoid axes are defined by n orthogonal vectors.
+ * See Examples/EllipsoidInteriorExteriorSpatialFunction/README for an example
+ * of creating an Ellipsoid in an image.
  *
  **/
 
@@ -106,6 +108,7 @@ public:
 
   /**
    * Set the orientation vectors (must be orthogonal) of the ellipsoid axes.
+   * Must be normalized!!!!!
    */
   void SetOrientations(vnl_matrix<VectorType>);
 
