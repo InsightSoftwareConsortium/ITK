@@ -19,6 +19,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"
+#include "itkConceptChecking.h"
 
 namespace itk
 {
@@ -71,6 +72,9 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(DerivativeImageFilter, ImageToImageFilter);
+
+  /** The output pixel type must be signed. */
+  itkConceptMacro(SignedOutputPixelType, (Concept::Signed<OutputPixelType>));
   
   /** Standard get/set macros for filter parameters. */
   itkSetMacro(Order, unsigned int);
