@@ -170,6 +170,55 @@ Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
 
 
 
+template<unsigned int VNumberOfDegreesOfFreedomPerNode>
+Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>::VectorType
+Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
+::GetLocalFromGlobalCoordinates( VectorType& pt ) const
+{
+
+  Float x1, x2, x3, x4, y1, y2, y3, y4, xce, yce, xb, yb, xcn, ycn,
+        A, J1, J2, x0, y0, dx, dy, be, bn, ce, cn;
+
+  VectorType lpt(2);
+
+  x1 = m_point[0]->X;   y1 = m_point[0]->Y;
+  x2 = m_point[1]->X;   y2 = m_point[1]->Y;
+  x3 = m_point[2]->X;   y3 = m_point[2]->Y;
+  x4 = m_point[3]->X;   y4 = m_point[3]->Y;
+
+  xb = x1 - x2 + x3 - x4;
+  yb = y1 - y2 + y3 - y4;
+
+  xce = x1 + x2 - x3 - x4;
+  yce = y1 + y2 - y3 - y4;
+
+  xcn = x1 - x2 - x3 + x4;
+  ycn = y1 - y2 - y3 + y4;
+
+  A  = 0.5 * (((x3 - x1) * (y4 - y2)) - ((x4 - x2) * (y3 - y1)));
+  J1 = ((x3 - x4) * (y1 - y2)) - ((x1 - x2) * (y3 - y4));
+  J2 = ((x2 - x3) * (y1 - y4)) - ((x1 - x4) * (y2 - y3));
+
+  x0 = 0.25 * (x1 + x2 + x3 + x4);
+  y0 = 0.25 * (y1 + y2 + y3 + y4);
+
+  dx = pt[0] - x0;
+  dy = pt[1] - y0;
+
+  be =  A - (dx * yb) + (dy * xb);
+  bn = -A - (dx * yb) + (dy * xb);
+  ce = (dx * yce) - (dy * xce);
+  cn = (dx * ycn) - (dy * xcn);
+
+  lpt[0] = (2 * ce) / (-sqrt((be * be) - (2 * J1 * ce)) - be);
+  lpt[1] = (2 * cn) / ( sqrt((bn * bn) + (2 * J2 * cn)) - bn);
+
+  return lpt;
+}
+
+
+
+
 /*
  * Draw the element on device context pDC.
  */

@@ -84,6 +84,8 @@ public:
 
   virtual VectorType GetNodalCoordinates( unsigned int n ) const;
 
+  virtual VectorType GetLocalFromGlobalCoordinates( VectorType& pt ) const;
+
   /**
    * Draw the element on the specified device context
    */
