@@ -98,7 +98,8 @@ public:
   /** Other definitions. */
   typedef typename InputMeshType::Cell              Cell;
   typedef typename InputMeshType::CellTraits        CellTraits;
-  typedef itk::TriangleCell<double, CellTraits>     TriCell;
+  typedef itk::CellInterface<double, CellTraits>    TCellInterface;
+  typedef itk::TriangleCell<TCellInterface>         TriCell;
   typedef typename InputMeshType::PointType         InputPointType;
   typedef typename InputMeshType::PixelType         PixelType;
 
