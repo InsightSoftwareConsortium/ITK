@@ -40,92 +40,114 @@ template <
  unsigned int NDimensions=3>    // Number of dimensions in the input space
 class ITK_EXPORT FixedCenterOfRotationAffineTransform 
 : public AffineTransform< TScalarType, NDimensions >
-  {
-  public:
-    /** Standard typedefs   */
-    typedef FixedCenterOfRotationAffineTransform  Self;
-    typedef AffineTransform< TScalarType, NDimensions >  Superclass;
-    typedef SmartPointer<Self>        Pointer;
-    typedef SmartPointer<const Self>  ConstPointer;
+{
+public:
+  /** Standard typedefs   */
+  typedef FixedCenterOfRotationAffineTransform  Self;
+  typedef AffineTransform< TScalarType, NDimensions >  Superclass;
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
     
-    /** Run-time type information (and related methods).   */
-    itkTypeMacro( FixedCenterOfRotationAffineTransform, AffineTransform );
+  /** Run-time type information (and related methods).   */
+  itkTypeMacro( FixedCenterOfRotationAffineTransform, AffineTransform );
   
-    /** New macro for creation of through a Smart Pointer   */
-    itkNewMacro( Self );
+  /** New macro for creation of through a Smart Pointer   */
+  itkNewMacro( Self );
   
-    /** Dimension of the domain space. */
-    itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
-    itkStaticConstMacro(ParametersDimension, unsigned int,
-                        NDimensions*(NDimensions+1));
+  /** Dimension of the domain space. */
+  itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
+  itkStaticConstMacro(ParametersDimension, unsigned int,
+                      NDimensions*(NDimensions+1));
   
     
-    /** Types taken from the Superclass */
-    typedef typename Superclass::ParametersType            ParametersType;
-    typedef typename Superclass::JacobianType              JacobianType;
-    typedef typename Superclass::ScalarType                ScalarType;
-    typedef typename Superclass::InputVectorType           InputVectorType;
-    typedef typename Superclass::OutputVectorType          OutputVectorType;
-    typedef typename Superclass::InputCovariantVectorType     
-                                              InputCovariantVectorType;
-    typedef typename Superclass::OutputCovariantVectorType    
-                                              OutputCovariantVectorType;
-    typedef typename Superclass::InputVnlVectorType        InputVnlVectorType;
-    typedef typename Superclass::OutputVnlVectorType       OutputVnlVectorType;
-    typedef typename Superclass::InputPointType            InputPointType;
-    typedef typename Superclass::OutputPointType           OutputPointType;
-    typedef typename Superclass::MatrixType                MatrixType;
-    typedef typename Superclass::OffsetType                OffsetType;
-  
-  
-    /** Set the transformation to an Identity
-     *
-     * This sets the matrix to identity and the Offset to null. */
-    void SetIdentity( void );
-  
-    /** Find inverse of an affine transformation
-     *
-     * This method creates and returns a new 
-     * FixedCenterOfRotationAffineTransform object
-     * which is the inverse of self.  If self is not invertible,
-     * an exception is thrown.   **/
-    FixedCenterOfRotationAffineTransform::Pointer Inverse(void) const;
-  
-    /** Print contents of an FixedCenterOfRotationAffineTransform */
-    void PrintSelf(std::ostream &s, Indent indent) const;
-  
-    /** Compute the Jacobian of the transformation
-     *
-     * This method computes the Jacobian matrix of the transformation.
-     * given point or vector, returning the transformed point or
-     * vector. The rank of the Jacobian will also indicate if the transform
-     * is invertible at this point. */
-    const JacobianType & GetJacobian(const InputPointType  &point ) const;
-  
-    /** Set and Get the center of rotation */
-    itkSetMacro( CenterOfRotation, InputPointType );
-    //void SetCenterOfRotation( const InputPointType & centerOfRotation );
-    itkGetConstReferenceMacro( CenterOfRotation, InputPointType );
-  
-    OutputPointType TransformPoint( const InputPointType & point ) const;
-  
-  protected:
-    /** Construct an FixedCenterOfRotationAffineTransform object **/
-    FixedCenterOfRotationAffineTransform();      
+  /** Types taken from the Superclass */
+  typedef typename Superclass::ParametersType            ParametersType;
+  typedef typename Superclass::JacobianType              JacobianType;
+  typedef typename Superclass::ScalarType                ScalarType;
+  typedef typename Superclass::InputVectorType           InputVectorType;
+  typedef typename Superclass::OutputVectorType          OutputVectorType;
+  typedef typename Superclass::InputCovariantVectorType     
+                                            InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType    
+                                            OutputCovariantVectorType;
+  typedef typename Superclass::InputVnlVectorType        InputVnlVectorType;
+  typedef typename Superclass::OutputVnlVectorType       OutputVnlVectorType;
+  typedef typename Superclass::InputPointType            InputPointType;
+  typedef typename Superclass::OutputPointType           OutputPointType;
+  typedef typename Superclass::MatrixType                MatrixType;
+  typedef typename Superclass::OffsetType                OffsetType;
     
-    /** Destroy an FixedCenterOfRotationAffineTransform object   **/
-    virtual ~FixedCenterOfRotationAffineTransform();
+  /** Set the transformation to an Identity
+   *
+   * This sets the matrix to identity and the Offset to null. */
+  void SetIdentity( void );
   
-    /** Recompute inverse of the transformation matrix   **/
-    void RecomputeInverse();
+  /** Print contents of an FixedCenterOfRotationAffineTransform */
+  void PrintSelf(std::ostream &s, Indent indent) const;
+
+  /** Set and Get the center of rotation */
+  void SetCenterOfRotationComponent(const InputPointType &cor);
+  itkGetConstReferenceMacro( CenterOfRotationComponent, InputPointType );
+   
+  /** Set the scale of the transform */
+  virtual void SetScaleComponent( const double scale[NDimensions] );
+  /** Get the scale of the transform*/
+  virtual const double* GetScaleComponent() const {return m_ScaleComponent;};
+
+  /** Set the matrix of the transform. The matrix should not include
+   *  scale */
+  void SetMatrixComponent(const MatrixType &matrix);
+  /** Get matrix of the transform  */
+  const MatrixType & GetMatrixComponent() const { return m_MatrixComponent; }
+
+  /** Set offset (origin) of the Transform.*/
+  void SetOffsetComponent(const OffsetType &offset);
+
+  /** Get offset of the transform*/
+  const OffsetType & GetOffsetComponent(void) const 
+                                      { return m_OffsetComponent; }
+
+  /** Set matrix of the AffineTransform
+   *  This reinitializes the different components, i.e ScaleComponent,
+   *  OffsetComponent, etc ...*/
+  void SetMatrix(const MatrixType &matrix);
+
+  /** Set offset (origin) of the Affine Transform.
+   *  This reinitializes the different components, i.e ScaleComponent,
+   *  OffsetComponent, etc ...*/
+  void SetOffset(const OffsetType &offset);
+
+  /** Set the transformation from a container of parameters.
+   * The first (NDimension x NDimension) parameters define the
+   * matrix and the last NDimension parameters the translation. */
+  void SetParameters( const ParametersType & parameters );
+
+  /** Get the Transformation Parameters. */
+  const ParametersType& GetParameters(void) const;
+
+protected:
+  /** Construct an FixedCenterOfRotationAffineTransform object */
+  FixedCenterOfRotationAffineTransform();      
+   
+  /** Destroy an FixedCenterOfRotationAffineTransform object   */
+  virtual ~FixedCenterOfRotationAffineTransform();
+    
+private:
+
+  FixedCenterOfRotationAffineTransform(const Self & other);
+  const Self & operator=( const Self & );
   
-  private:
-    FixedCenterOfRotationAffineTransform(const Self & other);
-    const Self & operator=( const Self & );
-  
-    InputPointType      m_CenterOfRotation;
-  
-  }; //class FixedCenterOfRotationAffineTransform
+  InputPointType      m_CenterOfRotationComponent;
+  double              m_ScaleComponent[NDimensions];
+  MatrixType          m_MatrixComponent;
+  MatrixType          m_ScaleMatrixComponent;
+  OffsetType          m_OffsetComponent;
+
+  void RecomputeMatrix();
+  void RecomputeOffset();
+
+
+}; //class FixedCenterOfRotationAffineTransform
   
 }  // namespace itk
 

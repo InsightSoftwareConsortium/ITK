@@ -26,19 +26,27 @@
 namespace itk
 {
 
-// Constructor with default arguments
+/** Constructor with default arguments */
 template<class TScalarType, unsigned int NDimensions>
 FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::
 FixedCenterOfRotationAffineTransform()
 :Superclass(SpaceDimension,ParametersDimension)
+{
+  m_CenterOfRotationComponent.Fill( 0 );
+  m_MatrixComponent.SetIdentity();
+  m_OffsetComponent.Fill( 0 );
+  
+  for (unsigned int i=0; i<NDimensions; i++)
   {
-  m_CenterOfRotation.Fill( 0 );
+    m_ScaleComponent[i] = 1;
   }
+  m_ScaleMatrixComponent.SetIdentity();
+}
 
 
 
 
-// Destructor
+/** Destructor */
 template<class TScalarType, unsigned int NDimensions>
 FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::
 ~FixedCenterOfRotationAffineTransform()
@@ -48,43 +56,148 @@ FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::
 
 
 
-// Print self
+/** Print self */
 template<class TScalarType, unsigned int NDimensions>
 void
 FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::
 PrintSelf(std::ostream &os, Indent indent) const
-  {
+{
   Superclass::PrintSelf(os,indent);
 
   unsigned int i;
-  
-  os << indent << "CenterOfRotation: ";
+
+  os << indent << "CenterOfRotationComponent : ";
   for (i = 0; i < NDimensions; i++) 
     {
-    os << m_CenterOfRotation[i] << " ";
+    os << m_CenterOfRotationComponent[i] << " ";
     }
   os << std::endl;
-  }
+
+  os << indent << "Matrix Component:";
+  os << m_MatrixComponent << std::endl;
+
+  os << indent << "Offset Component:";
+  os << m_OffsetComponent << std::endl;
+  
+  os << indent << "ScaleMatrix Component:";
+  os << m_ScaleMatrixComponent << std::endl;
+  
+ os << indent << "Scale Component : ";
+  for (i = 0; i < NDimensions; i++) 
+    {
+    os << m_ScaleComponent[i] << " ";
+    }
+  os << std::endl;
+}
 
 
-// Create and return an inverse transformation
+/** Set the matrix without scale the scale is added using SetScale */
 template<class TScalarType, unsigned int NDimensions>
-typename FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::Pointer
+void
+FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>       
+::SetMatrixComponent(const MatrixType &matrix)
+{ 
+  m_MatrixComponent = matrix;
+  this->RecomputeMatrix();
+  this->RecomputeOffset();
+  this->Superclass::RecomputeInverse(); 
+}
+
+/** Set the scale of the transformation */
+template<class TScalarType, unsigned int NDimensions>
+void
+FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>
+::SetScaleComponent(const double scale[NDimensions] )
+{
+  unsigned int i; 
+  for (i=0; i<NDimensions; i++)
+    {
+    if ( scale[i] != m_ScaleComponent[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < NDimensions ) 
+    { 
+    for (i=0; i<NDimensions; i++)
+      {
+      m_ScaleComponent[i] = scale[i];
+      m_ScaleMatrixComponent.GetVnlMatrix().put(i,i,m_ScaleComponent[i]);  
+      }
+    }
+
+  this->RecomputeMatrix();
+  this->Superclass::RecomputeInverse(); 
+}
+
+
+/** Set the center of rotation */
+template<class TScalarType, unsigned int NDimensions>
+void
+FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>
+::SetCenterOfRotationComponent(const InputPointType &cor)
+{
+  
+  unsigned int i; 
+  for (i=0; i<NDimensions; i++)
+    {
+    if ( cor[i] != m_CenterOfRotationComponent[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < NDimensions ) 
+    { 
+    for (i=0; i<NDimensions; i++)
+      {
+      m_CenterOfRotationComponent[i] = cor[i];
+      }
+    }
+ 
+  this->RecomputeOffset();
+  this->Superclass::RecomputeInverse(); 
+}
+
+   
+
+/** Set the offset */
+template<class TScalarType, unsigned int NDimensions>
+void
+FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>
+::SetOffsetComponent(const OffsetType &offset)
+{
+  m_OffsetComponent = offset;
+  this->RecomputeOffset();
+  this->Superclass::RecomputeInverse(); 
+}
+
+/** Recompute the affine matrix 
+ *  R(Sx+CoR)+O */
+template<class TScalarType, unsigned int NDimensions>
+void
 FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::
-Inverse( void ) const
+RecomputeMatrix(void)
+{
+  Superclass::SetMatrix(m_MatrixComponent*m_ScaleMatrixComponent);
+  this->Modified();
+}
+  
+/** Recompute the offset
+ *  R(Sx+CoR)+O */
+template<class TScalarType, unsigned int NDimensions>
+void
+FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::
+RecomputeOffset(void)
+{
+  InputPointType pt = m_MatrixComponent*m_CenterOfRotationComponent;
+  OffsetType offset;
+  for (unsigned int i=0; i<NDimensions; i++)
   {
-  Pointer result = New();
-  
-  result->SetMatrix( this->GetMatrix() );
-  result->SetOffset( this->GetOffset() );
-  result->Superclass::Inverse();
-  
-  result->m_CenterOfRotation      =   m_CenterOfRotation;
-  
-  return result;
-  }
-
-
+    offset[i] = -pt[i] + m_CenterOfRotationComponent[i] + m_OffsetComponent[i];
+  } 
+  Superclass::SetOffset(offset);
+  this->Modified();
+}
 
 // Set the parameters in order to fit an Identity transform
 template<class TScalarType, unsigned int NDimensions>
@@ -93,82 +206,127 @@ FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::
 SetIdentity( void ) 
   { 
   this->Superclass::SetIdentity();
-  m_CenterOfRotation.Fill( 0.0 );
+  m_CenterOfRotationComponent.Fill( 0 );
+  m_MatrixComponent.SetIdentity();
+  m_OffsetComponent.Fill( 0 );
+  
+  for (unsigned int i=0; i<NDimensions; i++)
+  {
+    m_ScaleComponent[i] = 1;
+  }
+  m_ScaleMatrixComponent.SetIdentity();
   this->Modified();  
   }
 
-// Compute the Jacobian in one position 
+
+
+/** Set matrix of the AffineTransform
+ *  This reinitializes the different components, i.e ScaleComponent,
+ *  OffsetComponent, etc ...*/
 template<class TScalarType, unsigned int NDimensions>
-const typename FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::JacobianType & 
+void
 FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::
-GetJacobian( const InputPointType & p ) const
+SetMatrix(const MatrixType &matrix)
+{
+  Superclass::SetMatrix(matrix); 
+  m_MatrixComponent = matrix;
+  for (unsigned int i=0; i<NDimensions; i++)
   {
-  // The Jacobian of the affine transform is composed of
-  // subblocks of diagonal matrices, each one of them having
-  // a constant value in the diagonal.
-  // The block corresponding to the center parameters is
-  // composed by ( Identity matrix - Rotation Matrix).
+    m_ScaleComponent[i] = 1;
+  }
+  m_ScaleMatrixComponent.SetIdentity();
+  Superclass::RecomputeInverse(); 
+  this->Modified();
+}
 
-  m_Jacobian.Fill( 0.0 );
 
+/** Set offset (origin) of the Affine Transform.
+ *  This reinitializes the different components, i.e ScaleComponent,
+ *  OffsetComponent, etc ...*/
+template<class TScalarType, unsigned int NDimensions>
+void
+FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::
+SetOffset(const OffsetType &offset)
+{ 
+  m_CenterOfRotationComponent.Fill(0);
+  m_OffsetComponent = offset;
+  Superclass::SetOffset(offset); 
+  this->Modified(); 
+}
 
-  unsigned int blockOffset = 0;
-  
-  for(unsigned int block=0; block < SpaceDimension; block++) 
+// Get parameters
+template<class TScalarType, unsigned int NDimensions>
+const typename FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::ParametersType &
+FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::
+GetParameters( void ) const
+{
+  // Transfer the linear part
+  unsigned int par = 0;
+
+  MatrixType matrix = this->GetMatrix();
+  OffsetType offset = this->GetOffset();
+
+  for(unsigned int row=0; row<NDimensions; row++) 
+  {
+    for(unsigned int col=0; col<NDimensions; col++) 
     {
-    for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
-      {
-       m_Jacobian( block , blockOffset + dim ) = p[dim];
-      }
-    blockOffset += SpaceDimension;
+      m_Parameters[par] = matrix[row][col];
+      ++par;
     }
-
-  // Block associated with the center parameters
-  /*
-  const MatrixType & matrix = this->GetMatrix();
-  for(unsigned int k=0; k < SpaceDimension; k++) 
-    {
-    m_Jacobian( k, blockOffset + k ) = 1.0;
-    for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
-      {
-      m_Jacobian( k, blockOffset + dim ) -= matrix[k][dim];
-      }
-    }
-  blockOffset += SpaceDimension;
-  */
-
-  // Block associated with the translations
-  for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
-    {
-    m_Jacobian( dim , blockOffset + dim ) = 1.0;
-    }
-
-  return m_Jacobian;
   }
 
-
-template<class TScalarType, unsigned int NDimensions>
-FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::
-OutputPointType
-FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::
-TransformPoint(const InputPointType & point) const
+  // Transfer the constant part without the center of rotation
+  InputPointType pt = matrix*m_CenterOfRotationComponent;
+  for(unsigned int i=0; i<NDimensions; i++) 
   {
-  const OffsetType & offset = this->GetOffset();
-  const MatrixType & matrix = this->GetMatrix();
-  unsigned int i;
-  OutputVectorType vect1;
-  for(i=0; i<NDimensions; i++)
-    {
-    vect1[i] = point[i] - m_CenterOfRotation[i];
-    }
-  OutputVectorType vect2 = matrix * vect1;
-  OutputPointType point2;
-  for(i=0; i<NDimensions; i++)
-    {
-    point2[i] = vect2[i] + m_CenterOfRotation[i] + offset[i];
-    }
-  return point2;
+    m_Parameters[par] = offset[i]+pt[i]-m_CenterOfRotationComponent[i];
+    ++par;
   }
+
+  return m_Parameters;
+}
+
+/** Set parameters of the transformation 
+ *  The center of rotation should be set before calling
+ *  SetParameters() */
+template<class TScalarType, unsigned int NDimensions>
+void
+FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::
+SetParameters( const ParametersType & parameters )
+{
+  // Transfer the linear part
+  unsigned int par = 0;
+
+  m_Parameters = parameters;
+  MatrixType matrix;
+  OffsetType offset;
+
+  for(unsigned int row=0; row<NDimensions; row++) 
+  {
+    for(unsigned int col=0; col<NDimensions; col++) 
+    {
+      matrix[row][col] = m_Parameters[par];
+      ++par;
+    }
+  }
+
+  Superclass::SetMatrix(matrix);
+
+  // Transfer the constant part
+  InputPointType pt = matrix*m_CenterOfRotationComponent;
+  for (unsigned int i=0; i<NDimensions; i++)
+  {
+    offset[i] = -pt[i] + m_CenterOfRotationComponent[i] + m_Parameters[par];
+    par++;
+  } 
+
+  Superclass::SetOffset(offset);
+ 
+  // Recompute the inverse
+  Superclass::RecomputeInverse();
+  this->Modified();
+}
+
 
 } // namespace
 
