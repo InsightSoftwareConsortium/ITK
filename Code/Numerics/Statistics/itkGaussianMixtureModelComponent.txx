@@ -149,7 +149,7 @@ GaussianMixtureModelComponent< TSample >
 
   m_MeanEstimator->Update() ;
 
-  int i, j ;
+  unsigned int i, j ;
   double temp ;
   double changes = 0.0 ;
   bool changed = false ;

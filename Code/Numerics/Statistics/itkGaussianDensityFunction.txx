@@ -33,16 +33,10 @@ void
 GaussianDensityFunction< TMeasurementVector >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  int i ;
+  unsigned int i ;
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Mean: " ;
-  for (i=0; i < VectorDimension - 1; i++)
-    {
-    os << (*m_Mean)[i] << ", ";
-    }
-  os << (*m_Mean)[i] << "" << std::endl;
-
+  os << indent << "Mean: " << (*m_Mean) << std::endl ;
   os << indent << "Covariance: " << std::endl ;
   os << indent << m_Covariance->GetVnlMatrix() ;
   os << indent << "InverseCovariance: " << std::endl ;
