@@ -14,6 +14,11 @@ nm libitktiff.a |grep " T "
 
 */
 
+#define __TIFFmalloc itk___TIFFmalloc
+#define __TIFFfree itk___TIFFfree
+#define _TIFFerrorHandler itk__TIFFerrorHandler
+#define _TIFFwarningHandler itk__TIFFwarningHandler
+#define tiffDataWidth itk_tiffDataWidth
 #define LogL10fromY itk_LogL10fromY
 #define LogL10toY itk_LogL10toY
 #define LogL16fromY itk_LogL16fromY
