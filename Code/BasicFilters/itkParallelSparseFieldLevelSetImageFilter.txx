@@ -93,25 +93,25 @@ double ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_ConstantGradientValue = 1.0;
 
 template<class TInputImage, class TOutputImage>
-typename ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
+ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_ValueOne = NumericTraits<typename ParallelSparseFieldLevelSetImageFilter<TInputImage,
                                       TOutputImage>::ValueType >::One;
 
 template<class TInputImage, class TOutputImage>
-typename ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
+ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_ValueZero = NumericTraits<typename ParallelSparseFieldLevelSetImageFilter<TInputImage,
                                              TOutputImage>::ValueType >::Zero;
 
 template<class TInputImage, class TOutputImage>
-typename ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
+ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_StatusNull = NumericTraits<typename ParallelSparseFieldLevelSetImageFilter<TInputImage,
                                         TOutputImage>::StatusType >::NonpositiveMin();
 
 template<class TInputImage, class TOutputImage>
-typename ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
+ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_StatusChanging = -1;
 
@@ -121,12 +121,12 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_StatusActiveChangingUp = -2;
 
 template<class TInputImage, class TOutputImage>
-typename ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
+ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_StatusActiveChangingDown = -3;
 
 template<class TInputImage, class TOutputImage>
-typename ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
+ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_StatusBoundaryPixel = -4;
 
