@@ -198,7 +198,7 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   filter->SetTissueClassStatistics( classMeans, classSigmas ) ;
   filter->SetOptimizerGrowthFactor( 1.01 ) ; // default value
   filter->SetOptimizerInitialRadius( 0.02 ) ; // default value
-  filter->SetVolumeCorrectionMaximumIteration( 1000 ) ; // default value = 100
+  filter->SetVolumeCorrectionMaximumIteration( 500 ) ; // default value = 100
   filter->SetUsingInterSliceIntensityCorrection( true ) ; // default value
   filter->SetInterSliceCorrectionMaximumIteration( 200 ) ; // default value = 100
   filter->SetUsingSlabIdentification( true ) ; // default value = false
