@@ -40,7 +40,7 @@ class ExceptionObject
 public:
   /**
    * Constructor and copy constructor.  Note that these functions will be
-   * called when children are instantiated..
+   * called when children are instantiated.
    */
   ExceptionObject() { };
 
@@ -79,10 +79,10 @@ public:
   }
           
   /**
-   * Print exception information.  This method can be overridden by specific
-   * exception subtypes.  The default is to print out the location where
-   * the exception was first thrown and any description provided by the
-   * ``thrower''.
+   * Print exception information.  This method can be overridden by
+   * specific exception subtypes.  The default is to print out the
+   * location where the exception was first thrown and any description
+   * provided by the ``thrower''.  
    */
   virtual void Print(std::ostream& os) const;
 
@@ -91,12 +91,18 @@ public:
    * methods are overloaded to support both std::string and const char 
    * array types. Get methods return const char arrays.
    */
-  virtual void SetLocation(const std::string& s)    { m_Location = s;    }
-  virtual void SetDescription(const std::string& s) { m_Description = s; }
-  virtual void SetLocation(const char * s)          { m_Location = s;    }
-  virtual void SetDescription (const char *s)       { m_Description = s; }
-  virtual const char *GetLocation()    const { return m_Location.c_str();    }
-  virtual const char *GetDescription() const { return m_Description.c_str(); }
+  virtual void SetLocation(const std::string& s)    
+    { m_Location = s;    }
+  virtual void SetDescription(const std::string& s) 
+    { m_Description = s; }
+  virtual void SetLocation(const char * s)          
+    { m_Location = s;    }
+  virtual void SetDescription (const char *s)       
+    { m_Description = s; }
+  virtual const char *GetLocation()    const 
+    { return m_Location.c_str();    }
+  virtual const char *GetDescription() const 
+    { return m_Description.c_str(); }
   
   /**
    * Return the name of the class.

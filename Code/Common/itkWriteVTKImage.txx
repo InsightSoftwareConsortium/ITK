@@ -15,6 +15,7 @@
 =========================================================================*/
 #include "itkWriteVTKImage.h"
 #include "itkObjectFactory.h"
+#include "itkByteSwap.h"
 #include <fstream>
 
 namespace itk
@@ -158,12 +159,8 @@ WriteVTKImage<TInputImage>
       }
     else
       { 
-#ifdef _WIN32
       fptr = new std::ofstream(this->GetFileName(), 
                                std::ios::out | std::ios::binary);
-#else
-      fptr = new std::ofstream(this->GetFileName(), std::ios::out);
-#endif
       }
     }
 
@@ -233,6 +230,13 @@ static void WriteDataArray(std::ostream *fp, TInputImage *image, int fileType)
     }
   else
     {
+    typedef typename TInputImage::ScalarValueType scalarType;
+    for ( int i=0; !inIt.IsAtEnd(); ++inIt, i++ )
+      {
+      scalarType foo = *inIt;
+      ByteSwap<scalarType>::SwapBE(&foo);
+      fp->write((char *)&foo, sizeof(scalarType));
+      }
     }
 }
 

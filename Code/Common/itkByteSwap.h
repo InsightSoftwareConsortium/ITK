@@ -30,6 +30,7 @@ namespace itk
  * files. Files can either be Big Endian (BE) or Little Endian (LE).
  */
 
+template <class T>
 class ITK_EXPORT ByteSwap : public Object
 {
 public:
@@ -59,75 +60,109 @@ public:
   itkNewMacro(Self);
   
   /**
-   * Swap 2 byte word to be LE.
+   * Generic swap method handles type T. The swapping is
+   * done in-place. Either 2-byte or 4-byte swapping
+   * can be handled. Single byte types are not swapped;
+   * others raise an exception. The method is used to
+   * swap to and from Big Endian.
    */
-  static void Swap2LE(void *p);
-
-  /**
-   * Swap four byte word to be LE.
-   */
-  static void Swap4LE(void *p);
-
-  /**
-   * Swap bunch of bytes to be LE. Num is the number of four byte words 
-   * to swap.
-   */
-  static void Swap4LERange(void *p, int num);
-
-  /**
-   * Swap four byte word to be BE.
-   */
-  static void Swap4BE(void *p);
+  static void SwapBE(T *p);
   
   /**
-   * Swap bunch of bytes to be BE. Num is the number of four byte words 
-   * to swap.
+   * Generic swap method handles type T. The swapping is
+   * done in-place. Either 2-byte or 4-byte swapping
+   * can be handled. Single byte types are not swapped;
+   * others raise an exception. The method is used to
+   * swap to and from Big Endian.
    */
-  static void Swap4BERange(void *p, int num);
+  static void SwapRangeBE(T *p, unsigned long num);
+  
+  /**
+   * Generic swap method handles type T. The data is
+   * swapped and written (in binary) to the ostream
+   * given. A total of num values of type T are written
+   * and swapped. Either 2-byte or 4-byte swapping
+   * can be handled. Single byte types are not swapped;
+   * others raise an exception. The method is used to
+   * swap to and from Big Endian.
+   */
+  static void SwapWriteRangeBE(T *p, int num, std::ostream *fp);
+  
+  /**
+   * Generic swap method handles type T. The swapping is
+   * done in-place. Either 2-byte or 4-byte swapping
+   * can be handled. Single byte types are not swapped;
+   * others raise an exception. The method is used to
+   * swap to and from Little Endian.
+   */
+  static void SwapLE(T *p);
 
   /**
-   * Swap bunch of bytes to BE. Num is the number of four byte words to swap.
-   * The results are written out to prevent having to keep the swapped
-   * copy in memory.
+   * Generic swap method handles type T. The swapping is
+   * done in-place. Either 2-byte or 4-byte swapping
+   * can be handled. Single byte types are not swapped;
+   * others raise an exception. The method is used to
+   * swap to and from Little Endian.
    */
-  static void SwapWrite4BERange(void *p, int num, std::ostream *fp);
+  static void SwapRangeLE(T *p, unsigned long num);
 
   /**
-   * Swap 2 byte word to BE.
+   * Generic swap method handles type T. The data is
+   * swapped and written (in binary) to the ostream
+   * given. A total of num values of type T are written
+   * and swapped. Either 2-byte or 4-byte swapping
+   * can be handled. Single byte types are not swapped;
+   * others raise an exception. The method is used to
+   * swap to and from Little Endian.
    */
-  static void Swap2BE(void *p);
-
-  /**
-   * Swap bunch of bytes to BE. Num is the number of two byte words to swap.
-   */
-  static void Swap2BERange(void *p, int num);
-
-  /**
-   * Swap bunch of bytes to LE. Num is the number of two byte words to swap.
-   */
-  static void Swap2LERange(void *p, int num);
-
-  /**
-   * Swap bunch of bytes to BE. Num is the number of two byte words to swap.
-   * The results are written out to prevent having to keep the swapped
-   * copy in memory.
-   */
-  static void SwapWrite2BERange(void *p, int num, std::ostream *fp);
-
-  /**
-   * Swaps the bytes of a buffer.  Uses an arbitrary word size, but
-   * assumes the word size is divisible by two.
-   */
-  static void SwapVoidRange(void *buffer, int numWords, int wordSize);
-
+  static void SwapWriteRangeLE(T *p, int num, std::ostream *fp);
+  
 protected:
   ByteSwap() {};
   ~ByteSwap() {};
   ByteSwap(const ByteSwap&) {};
   void operator=(const ByteSwap&) {};
 
+  /**
+   * Swap 2 bytes.
+   */
+  static void Swap2(void *p);
+
+  /**
+   * Swap a range of two-byte words. Num is the number of two-byte 
+   * words to swap.
+   */
+  static void Swap2Range(void *p, unsigned long num);
+
+  /**
+   * Swap and write a range of two-byte words. Num is the number of two-byte 
+   * words to swap and write.
+   */
+  static void SwapWrite2Range(void *p, unsigned long num, std::ostream *fp);
+
+  /**
+   * Swap four bytes.
+   */
+  static void Swap4(void *p);
+
+  /**
+   * Swap a range of four-byte words. Num is the number of four-byte words 
+   * to swap.
+   */
+  static void Swap4Range(void *p, unsigned long num);
+
+  /**
+   * Swap and write a range of four-byte words. Num is the number of four-byte 
+   * words to swap and write.
+   */
+  static void SwapWrite4Range(void *p, unsigned long num, std::ostream *fp);
+
 };
 
 } // end namespace itk
   
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkByteSwap.txx"
+#endif
+
 #endif

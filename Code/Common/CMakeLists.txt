@@ -2,7 +2,6 @@ LIBRARY = ITKCommon
 
 SOURCE_FILES =\
 itkCommand \
-itkByteSwap \
 itkDataObject \
 itkDirectory \
 itkDynamicLoader \
