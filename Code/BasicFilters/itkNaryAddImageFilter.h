@@ -67,6 +67,10 @@ namespace Functor {
       const AccumulatorType sum = A;
       return static_cast<TOutput>( sum + B );
       }
+    bool operator != (const Add1&) const
+      {
+      return false;
+      }
   }; 
 }
 template <class TInputImage, class TOutputImage>
