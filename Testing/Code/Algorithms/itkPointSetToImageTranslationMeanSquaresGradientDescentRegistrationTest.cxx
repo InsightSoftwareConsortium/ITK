@@ -43,7 +43,7 @@ int main()
                                        double           // interpolation weight
                                          >  DefaultPointSetTraits;
 
-  typedef itk::PointSet<unsigned char,DefaultPointSetTraits>    PointSetType;
+  typedef itk::PointSet<unsigned char,ImageDimension,DefaultPointSetTraits>    PointSetType;
 
   typedef PointSetType                                          TargetType;
 
