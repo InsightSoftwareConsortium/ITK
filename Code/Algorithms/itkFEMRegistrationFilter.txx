@@ -54,6 +54,7 @@ FEMRegistrationFilter<TReference,TTarget>::~FEMRegistrationFilter( )
 template<class TReference,class TTarget>
 FEMRegistrationFilter<TReference,TTarget>::FEMRegistrationFilter( )
 {
+  m_Load = 0;
   m_FileCount=0; 
  
   m_MinE=0;
