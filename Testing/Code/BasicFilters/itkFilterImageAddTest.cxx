@@ -1,8 +1,20 @@
-//-----------------------------------------------
-//
-//  This is a Test of itk::AddImageFilter class
-//
-//-----------------------------------------------
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkFilterImageAddTest.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
+
+  See COPYRIGHT.txt for copyright details.
+
+=========================================================================*/
+
+
 
 
 #include <itkImage.h>
