@@ -46,6 +46,8 @@ public:
   TIFF *Image;
   unsigned int Width;
   unsigned int Height;
+  unsigned int NumberOfPages;
+  unsigned int CurrentPage;
   unsigned short SamplesPerPixel;
   unsigned short Compression;
   unsigned short BitsPerSample;
@@ -53,6 +55,7 @@ public:
   unsigned short PlanarConfig;
   unsigned short Orientation;
   unsigned long int TileDepth;
+  float XResolution;
 };
 
 int TIFFReaderInternal::Open( const char *filename )
@@ -63,6 +66,7 @@ int TIFFReaderInternal::Open( const char *filename )
     {
     return 0;
     }
+  
   this->Image = TIFFOpen(filename, "r");
   if ( !this->Image)
     {
@@ -74,6 +78,7 @@ int TIFFReaderInternal::Open( const char *filename )
     this->Clean();
     return 0;
     }
+
   return 1;
 }
 
@@ -92,6 +97,9 @@ void TIFFReaderInternal::Clean()
   this->Photometrics = 0;
   this->PlanarConfig = 0;
   this->TileDepth = 0;
+  this->CurrentPage = 0;
+  this->NumberOfPages = 0;
+  this->XResolution = 0.0;
 }
 
 TIFFReaderInternal::TIFFReaderInternal()
@@ -109,6 +117,26 @@ int TIFFReaderInternal::Initialize()
       {
       return 0;
       }
+
+    if ( !TIFFGetField(this->Image,TIFFTAG_PAGENUMBER,&this->CurrentPage, &this->NumberOfPages))
+      {
+      // Check the Image Description tag to know the number of images
+      // This is used by ImageJ
+      char** description = new char*[255];
+      if (TIFFGetField(this->Image,TIFFTAG_IMAGEDESCRIPTION,description))
+        {
+        // look for the number of images
+        std::string desc = description[0];
+        int pos = desc.find("images=");
+        int pos2 = desc.find("\n");
+        if( (pos != -1) && (pos2 != -1))
+          {
+          this->NumberOfPages = atoi(desc.substr(pos+7,pos2-pos-7).c_str());
+          }
+        }
+      }
+
+
     TIFFGetFieldDefaulted(this->Image, TIFFTAG_ORIENTATION,
                           &this->Orientation);
     TIFFGetField(this->Image, TIFFTAG_SAMPLESPERPIXEL, 
@@ -151,7 +179,7 @@ bool TIFFImageIO::CanReadFile(const char* file)
     {
     itkDebugMacro(<<"No filename specified.");
     return false;
-    }
+    }   
 
   // Now check if this is a valid TIFF image
   TIFFErrorHandler save = TIFFSetErrorHandler(0);
@@ -417,22 +445,100 @@ unsigned int TIFFImageIO::GetFormat( )
 
 
 
-
-
-  
-void TIFFImageIO::ReadVolume(void*)
+/** Read a multipage tiff */  
+void TIFFImageIO::ReadVolume(void* buffer)
 {
-  
+  int width  = m_InternalImage->Width;
+  int height = m_InternalImage->Height;
+
+  unsigned char* volume = reinterpret_cast<unsigned char*>(buffer);
+
+  for(unsigned int page = 0;page<m_InternalImage->NumberOfPages;page++)
+    {
+    if ( !m_InternalImage->CanRead() )
+      {
+      uint32 *tempImage ;
+      tempImage = new uint32[ width * height ];
+
+      if ( !TIFFReadRGBAImage(m_InternalImage->Image, 
+                              width, height, 
+                              tempImage, 0 ) )
+        {
+        std::cout << "Problem reading RGB image" << std::endl;
+        if ( tempImage != buffer )
+          {
+          delete [] tempImage;
+          }
+      
+        return;
+        }
+      int xx, yy;
+      uint32* ssimage;
+      unsigned char *fimage = (unsigned char *)volume;
+
+      for ( yy = 0; yy < height; yy ++ )
+        {
+        ssimage = tempImage + (height - yy - 1) * width;
+        for ( xx = 0; xx < width; xx++ )
+          {
+          unsigned char red   = static_cast<unsigned char>(TIFFGetR(*ssimage));
+          unsigned char green = static_cast<unsigned char>(TIFFGetG(*ssimage));
+          unsigned char blue  = static_cast<unsigned char>(TIFFGetB(*ssimage));
+          unsigned char alpha = static_cast<unsigned char>(TIFFGetA(*ssimage));
+          
+          *(fimage  ) = red;
+          *(fimage+1) = green;
+          *(fimage+2) = blue;
+          *(fimage+3) = alpha;
+          fimage += 4;
+
+          ssimage ++;
+          }
+        }
+    
+      if ( tempImage != 0 && tempImage != buffer )
+        {
+        delete [] tempImage;
+        }
+      return;
+      }
+
+    unsigned int format = this->GetFormat();  
+
+
+    switch ( format )
+      {
+      case TIFFImageIO::GRAYSCALE:
+      case TIFFImageIO::RGB_: 
+      case TIFFImageIO::PALETTE_RGB:
+      case TIFFImageIO::PALETTE_GRAYSCALE:
+        this->ReadGenericImage( volume, width, height );
+        break;
+      default:
+        return;
+      }
+
+    volume += width*height*m_InternalImage->SamplesPerPixel;
+    TIFFReadDirectory(m_InternalImage->Image);
+    }
 }
 
   
 void TIFFImageIO::Read(void* buffer)
 {
+
   if ( m_InternalImage->Compression == COMPRESSION_OJPEG )
       {
       std::cout << "This reader cannot read old JPEG compression" << std::endl;
       return;
       }
+
+
+  if(m_InternalImage->NumberOfPages>0)
+    {
+    this->ReadVolume(buffer);
+    return;
+    }
 
 
   int width  = m_InternalImage->Width;
@@ -501,9 +607,6 @@ void TIFFImageIO::Read(void* buffer)
     default:
       return;
     }
-
-
-
 }
 
 
@@ -596,6 +699,15 @@ void TIFFImageIO::ReadImageInformation()
     m_ComponentType = USHORT;
     }
 
+   // if the tiff file is multi-pages
+   if(m_InternalImage->NumberOfPages>0)
+     {
+     this->SetNumberOfDimensions(3);
+     m_Dimensions[2] = m_InternalImage->NumberOfPages;
+     m_Spacing[2] = 1.0;
+     m_Origin[2] = 0.0;
+     }
+
   return;
 }
 
@@ -650,13 +762,19 @@ void TIFFImageIO::Write(const void* buffer)
 {
   ImageIORegion ioRegion = this->GetIORegion();
 
-  // Make sure the region to be written is 2D
-  if ( ioRegion.GetRegionDimension() != 2 )
+  if(ioRegion.GetRegionDimension() == 2)
     {
-    itkExceptionMacro(<<"TIFF Writer can only write 2-dimensional images");
+    this->WriteSlice(m_FileName, buffer);
     }
-  
-  this->WriteSlice(m_FileName, buffer);
+  else if(ioRegion.GetRegionDimension() == 3)
+    {
+    this->WriteVolume(m_FileName, buffer);
+    }
+  else
+    {
+    itkExceptionMacro(<<"TIFF Writer can only write 2-d or 3-d images");
+    }
+
 }
 
 
@@ -818,8 +936,7 @@ void TIFFImageIO::WriteSlice(std::string& fileName, const void* buffer)
     {
     compression = COMPRESSION_NONE;
     }
-  //compression = COMPRESSION_JPEG;
-  //compression = COMPRESSION_NONE;
+
   TIFFSetField(tif, TIFFTAG_COMPRESSION, compression); // Fix for compression
 
   uint16 photometric = (scomponents ==1) ? PHOTOMETRIC_MINISBLACK : PHOTOMETRIC_RGB;
@@ -886,6 +1003,166 @@ void TIFFImageIO::WriteSlice(std::string& fileName, const void* buffer)
   TIFFClose(tif);
 }
 
+
+void TIFFImageIO::WriteVolume(std::string& fileName, const void* buffer)
+{
+  const unsigned char *outPtr = ( (const unsigned char *) buffer);
+
+  unsigned int width, height, pages, page;
+  width =  m_Dimensions[0];
+  height = m_Dimensions[1];
+  pages = m_Dimensions[2];
+
+  int scomponents = this->GetNumberOfComponents();
+  double resolution = -1;
+  uint32 rowsperstrip = (uint32) -1;
+  int bps;
+
+    switch (this->GetComponentType())
+    {
+    case UCHAR:
+      bps = 8;
+      break;
+
+    case USHORT:
+      bps = 16;
+      break;
+
+    default:
+      itkExceptionMacro(<<"TIFF supports unsigned char and unsigned short");
+    }
+
+  int predictor;
+  
+  TIFF *tif = TIFFOpen(fileName.c_str(), "w");
+
+
+  if ( !tif )
+    {
+    std::cout << "Returning" << std::endl;
+    return;
+    }
+
+  uint32 w = width;
+  uint32 h = height;
+
+  for (page = 0; page < pages; page++)
+    {
+    TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, w);
+    TIFFSetField(tif, TIFFTAG_IMAGELENGTH, h);
+    TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
+    TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, scomponents);
+    TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, bps); // Fix for stype
+    TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+    TIFFSetField(tif, TIFFTAG_SOFTWARE, "InsightToolkit");
+
+    if ( scomponents > 3 )
+      {
+      // if number of scalar components is greater than 3, that means we assume
+      // there is alpha.
+      uint16 extra_samples = scomponents-3;
+      uint16 *sample_info = new uint16[scomponents-3];
+      sample_info[0]=EXTRASAMPLE_ASSOCALPHA;
+      int cc;
+      for ( cc = 1; cc < scomponents-3; cc ++ )
+        {
+        sample_info[cc] = EXTRASAMPLE_UNSPECIFIED;
+        }
+      TIFFSetField(tif,TIFFTAG_EXTRASAMPLES,extra_samples,
+        sample_info);
+      delete [] sample_info;
+      }
+
+    int compression;
+
+    if(m_UseCompression)
+      {
+      switch ( m_Compression )
+        {
+        case TIFFImageIO::PackBits: compression = COMPRESSION_PACKBITS; break;
+        case TIFFImageIO::JPEG:     compression = COMPRESSION_JPEG; break;
+        case TIFFImageIO::Deflate:  compression = COMPRESSION_DEFLATE; break;
+        case TIFFImageIO::LZW:      compression = COMPRESSION_LZW; break;
+        default: compression = COMPRESSION_NONE;
+        }
+      }
+    else
+      {
+      compression = COMPRESSION_NONE;
+      }
+
+    TIFFSetField(tif, TIFFTAG_COMPRESSION, compression); // Fix for compression
+
+    uint16 photometric = (scomponents ==1) ? PHOTOMETRIC_MINISBLACK : PHOTOMETRIC_RGB;
+
+    if ( compression == COMPRESSION_JPEG )
+      {
+      TIFFSetField(tif, TIFFTAG_JPEGQUALITY, 75); // Parameter
+      TIFFSetField(tif, TIFFTAG_JPEGCOLORMODE, JPEGCOLORMODE_RGB);
+      photometric = PHOTOMETRIC_YCBCR;
+      }
+    else if ( compression == COMPRESSION_LZW )
+      {
+      predictor = 2;
+      TIFFSetField(tif, TIFFTAG_PREDICTOR, predictor);
+      std::cout << "LZW compression is patented outside US so it is disabled" << std::endl;
+      }
+    else if ( compression == COMPRESSION_DEFLATE )
+      {
+      predictor = 2;
+      TIFFSetField(tif, TIFFTAG_PREDICTOR, predictor);
+      }
+
+    TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, photometric); // Fix for scomponents
+ 
+    TIFFSetField(tif,
+                 TIFFTAG_ROWSPERSTRIP,
+                 TIFFDefaultStripSize(tif, rowsperstrip));
+    if (resolution > 0)
+      {
+      TIFFSetField(tif, TIFFTAG_XRESOLUTION, resolution);
+      TIFFSetField(tif, TIFFTAG_YRESOLUTION, resolution);
+      TIFFSetField(tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
+      }
+
+    // We are writing single page of the multipage file 
+    TIFFSetField(tif, TIFFTAG_SUBFILETYPE, FILETYPE_PAGE);
+    // Set the page number
+    TIFFSetField(tif, TIFFTAG_PAGENUMBER, page, pages);
+
+    int rowLength; // in bytes
+
+    switch (this->GetComponentType())
+      {
+      case UCHAR:
+        rowLength = sizeof(unsigned char); 
+        break;
+      case USHORT:
+         rowLength = sizeof(unsigned short);
+        break;
+      default:
+        itkExceptionMacro(<<"TIFF supports unsigned char and unsigned short");
+      }
+
+    rowLength *= this->GetNumberOfComponents();
+    rowLength *= width;
+
+    int row = 0;
+    for (unsigned int idx2 = 0; idx2 < height; idx2++)
+      {
+      if ( TIFFWriteScanline(tif, const_cast<unsigned char*>(outPtr), row, 0) < 0)
+        {
+        std::cout << "TIFFImageIO: error out of disk space" << std::endl;
+        break;
+        }
+      outPtr += rowLength;
+      row ++;
+      }
+
+      TIFFWriteDirectory(tif);
+    }
+  TIFFClose(tif);
+}
 
 } // end namespace itk
 

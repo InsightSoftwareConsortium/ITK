@@ -127,6 +127,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   void WriteSlice(std::string& fileName, const void* buffer);
+  void WriteVolume(std::string& fileName, const void* buffer);
 
   void InitializeColors();
   void ReadGenericImage( void *out, 
