@@ -141,6 +141,7 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
   OutputMeshPointer output = this->GetOutput();
   InputMeshPointsContainerPointer inPts = input->GetPoints();
   InputMeshCellsContainerPointer inCells = input->GetCells();
+  InputMeshCellDataContainerPointer inCellData = input->GetCellData();
 
   itkDebugMacro(<<"Executing connectivity");
 
@@ -204,7 +205,8 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
           largestRegionId = m_RegionNumber;
           }
 
-        m_RegionSizes[m_RegionNumber++] = m_NumberOfCellsInRegion;
+        m_RegionNumber++;
+        m_RegionSizes.push_back(m_NumberOfCellsInRegion);
         m_Wave->clear();
         m_Wave2->clear();
         }
@@ -304,7 +306,9 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
        m_ExtractionMode == ClosestPointRegion ||
        m_ExtractionMode == AllRegions)
     { // extract any cell that's been visited
-    for (cell=inCells->Begin(); cell != inCells->End(); ++cell, ++cellId)
+    for (cell=inCells->Begin(), cellData=inCellData->Begin();
+         cell != inCells->End();
+         ++cell, ++cellData, ++cellId)
       {
       if ( m_Visited[cellId] >= 0 )
         {
@@ -319,7 +323,9 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
     std::vector<unsigned long>::iterator i;
     unsigned long regionId;
     bool inReg = false;
-    for (cell=inCells->Begin(); cell != inCells->End(); ++cell, ++cellId)
+    for (cell=inCells->Begin(), cellData=inCellData->Begin();
+         cell != inCells->End();
+         ++cell, ++cellData, ++cellId)
       {
       if ( m_Visited[cellId] >= 0 )
         {
@@ -344,7 +350,9 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
     }
   else //we are extracting the largest region
     {
-    for (cell=inCells->Begin(); cell != inCells->End(); ++cell, ++cellId)
+    for (cell=inCells->Begin(), cellData=inCellData->Begin();
+         cell != inCells->End();
+         ++cell, ++cellData, ++cellId)
       {
       if ( m_Visited[cellId] == static_cast<long>(largestRegionId) )
         {
