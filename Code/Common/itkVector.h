@@ -167,8 +167,19 @@ class Vector : public Array<T,TVectorDimension> {
    * Return a new vector.
    */
   Self operator/(const ValueType& val) const;
+
+
+  /**
+   * Returns the Euclidean Norm of the vector 
+   */
+  ValueType GetNorm( void ) const;
   
 
+  /**
+   * Returns vector's Squared Euclidean Norm 
+   */
+  ValueType GetSquaredNorm( void ) const;
+ 
 };
 
   

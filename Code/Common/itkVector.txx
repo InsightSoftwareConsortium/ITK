@@ -205,6 +205,37 @@ Vector<T, TVectorDimension>
 }
 
 
+/**
+ * Returns vector's Squared Euclidean Norm
+ */
+template<class T, unsigned int TVectorDimension>
+T
+Vector<T, TVectorDimension>
+::GetSquaredNorm( void ) const
+{
+  T sum = 0;  // consider a trait for null here ?
+  for( unsigned int i=0; i<TVectorDimension; i++) 
+  {
+    const T value = (*this)[i];
+    sum += value * value;
+  }
+  return sum;
+}
+
+
+
+/**
+ * Returns vector's Euclidean Norm
+ */
+template<class T, unsigned int TVectorDimension>
+T
+Vector<T, TVectorDimension>
+::GetNorm( void ) const
+{
+  return sqrt( GetSquaredNorm() ); 
+}
+
+
 
 /**
  * Returns a temporary copy of a vector
