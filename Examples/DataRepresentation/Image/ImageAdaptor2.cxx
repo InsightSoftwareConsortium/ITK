@@ -104,6 +104,10 @@ int main( int argc, char *argv[] )
 //  input image type, and then proceed to instantiate the \code{ImageAdaptor}
 //  type.
 //
+//  \index{PixelAccessor!RGB red channel}
+//  \index{itk::ImageAdaptor!RGB red channel}
+//  \index{ImageAdaptor!RGB red channel}
+//
 //  Software Guide : EndLatex 
 
 
@@ -206,9 +210,84 @@ int main( int argc, char *argv[] )
 
 //  Software Guide : BeginLatex
 //
+//  ImageAdaptors for the green and blue channels can easily be implemented by
+//  slightly modifying the pixel accessor of the red channel and then using the
+//  new pixel accessor for instantiating the type of an image adaptor. Here is
+//  the code for a green channel pixel accessor.
+//
+//  \index{PixelAccessor!RGB green channel}
+//  \index{itk::ImageAdaptor!RGB green channel}
+//  \index{ImageAdaptor!RGB green channel}
+//
+//  Software Guide : EndLatex 
+
+
+// Software Guide : BeginCodeSnippet
+    class GreenChannelPixelAccessor  
+    {
+    public:
+      typedef itk::RGBPixel<float>   InternalType;
+      typedef               float    ExternalType;
+
+      static ExternalType Get( const InternalType & input ) 
+        {
+        return static_cast<ExternalType>( input.GetGreen() );
+        }
+    };
+
+// Software Guide : EndCodeSnippet
+
+
+
+
+//  Software Guide : BeginLatex
+//
+// Here is the code for a blue channel pixel accessor.
+//
+//  \index{PixelAccessor!RGB blue channel}
+//  \index{itk::ImageAdaptor!RGB blue channel}
+//  \index{ImageAdaptor!RGB blue channel}
+//
+//  Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+    class BlueChannelPixelAccessor  
+    {
+    public:
+      typedef itk::RGBPixel<float>   InternalType;
+      typedef               float    ExternalType;
+
+      static ExternalType Get( const InternalType & input ) 
+        {
+        return static_cast<ExternalType>( input.GetBlue() );
+        }
+    };
+// Software Guide : EndCodeSnippet
+
+
+
+
+//  Software Guide : BeginLatex
+//
+// \begin{figure} \center
+// \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSlice.eps}
+// \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSliceRedComponent.eps}
+// \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSliceGreenComponent.eps}
+// \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSliceBlueComponent.eps}
+// \itkcaption[Image Adaptor to RGB Image]{Illustration on the use of
+// \doxygen{ImageAdaptor} for extracting the components of an RGB image. The
+// image at left is a subregion of the Visible Woman cryogenic data set. The
+// red, green and blue components are shown from left to right as scalar images
+// extracted with an \doxygen{ImageAdaptor}.}
+// \label{fig:ImageAdaptorToRGBImage}
+// \end{figure}
+//
+//
 //  Note that the adaptor is used as an image would have been used, not as a
 //  filter. The \doxygen{ImageAdaptor} conforms to the API of the
-//  \doxygen{Image}.
+//  \doxygen{Image}. Figure~\ref{fig:ImageAdaptorToRGBImage} shows the result
+//  of extracting the red, green and blue components from a region of the
+//  Visible Woman cryogenic data set. 
 //
 //  Software Guide : EndLatex 
 
