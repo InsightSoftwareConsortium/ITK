@@ -42,29 +42,6 @@
 // values in $P$, while outside intensities yield negative values in $P$.
 //
 // \begin{figure} \center
-// \includegraphics[width=0.8\textwidth]{ThresholdSegmentationLevelSetImageFilterFigure1.eps}
-// \itkcaption[Propagation term for threshold-based level-set segmentation]{Propagation term for threshold-based level-set
-// segmentation. From
-// equation~\ref{eqn:ThresholdSegmentationLevelSetImageFilterPropagationTerm}. }
-// \label{fig:ThresholdSegmentationSpeedTerm} 
-// \end{figure}
-//
-// \doxygen{ThresholdSegmentationLevelSetImageFilter} expects two inputs.  The
-// first is an initial level set in the form of an \doxygen{Image}. The second
-// input is the feature image $g$.  For many applications, this filter requires
-// little or no preprocessing of its input.  Smoothing the input image is not
-// usually required to produce reasonable solutions, though it may still be
-// warranted in some cases.
-// 
-// The following example illustrates the use of the
-// \doxygen{ThresholdSegmentationLevelSetImageFilter}.
-// Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilterDiagram} shows how
-// the image processing pipeline is constructed. The initial surface is
-// generated using the fast marching filter.  The output of the segmentation
-// filter is passed to a \doxygen{BinaryThresholdImageFilter} to create a
-// binary representation of the segmented object.
-//
-// \begin{figure} \center
 // \includegraphics[width=0.8\textwidth]{ThresholdSegmentationLevelSetImageFilterCollaborationDiagram1.eps}
 // \itkcaption[ThresholdSegmentationLevelSetImageFilter collaboration
 // diagram]{Collaboration diagram for the ThresholdSegmentationLevelSetImageFilter
@@ -72,7 +49,26 @@
 // \label{fig:ThresholdSegmentationLevelSetImageFilterDiagram}
 // \end{figure}
 //
-// Let's start by including the appropriate header file.
+// \itkpiccaption[Propagation term for threshold-based level-set
+// segmentation]{Propagation term for threshold-based level-set segmentation.
+// From
+// equation~\ref{eqn:ThresholdSegmentationLevelSetImageFilterPropagationTerm}.
+// \label{fig:ThresholdSegmentationSpeedTerm}}
+// \parpic(7.0cm,4.5cm)[r]{\includegraphics[width=6.5cm]{ThresholdSegmentationLevelSetImageFilterFigure1.eps}}
+//
+// The \code{ThresholdSegmentation} filter expects two inputs.  The first is an
+// initial level set in the form of an \doxygen{Image}. The second input is the
+// feature image $g$.  For many applications, this filter requires little or no
+// preprocessing of its input.  Smoothing the input image is not usually
+// required to produce reasonable solutions, though it may still be warranted
+// in some cases.
+// 
+// Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilterDiagram} shows how
+// the image processing pipeline is constructed. The initial surface is
+// generated using the fast marching filter.  The output of the segmentation
+// filter is passed to a \doxygen{BinaryThresholdImageFilter} to create a
+// binary representation of the segmented object.  Let's start by including the
+// appropriate header file.
 //
 // Software Guide : EndLatex 
 
@@ -163,10 +159,11 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   typedef  itk::ThresholdSegmentationLevelSetImageFilter< 
                               InternalImageType, 
-                              InternalImageType >    ThresholdSegmentationLevelSetImageFilterType;
+                              InternalImageType >    
+                                  ThresholdSegmentationLevelSetImageFilterType;
 
   ThresholdSegmentationLevelSetImageFilterType::Pointer thresholdSegmentation = 
-                                     ThresholdSegmentationLevelSetImageFilterType::New();
+                            ThresholdSegmentationLevelSetImageFilterType::New();
   // Software Guide : EndCodeSnippet
 
   
