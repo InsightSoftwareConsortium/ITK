@@ -131,7 +131,17 @@ MinimumMaximumImageCalculator<TInputImage>
 
 }
 
+template<class TInputImage>
+void
+MinimumMaximumImageCalculator<TInputImage>
+::PrintSelf( std::ostream& os, Indent indent ) const
+{
+  Superclass::PrintSelf(os,indent);
 
+  os << indent << "Minimum: " << m_Minimum << std::endl;
+  os << indent << "Maximum: " << m_Maximum << std::endl;
+  os << indent << "Image: " << m_Image << std::endl;
+}
 
 } // end namespace itk
 

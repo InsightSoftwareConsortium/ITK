@@ -102,6 +102,7 @@ public:
 protected:
   MinimumMaximumImageCalculator();
   virtual ~MinimumMaximumImageCalculator() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   MinimumMaximumImageCalculator(const Self&); //purposely not implemented

@@ -107,6 +107,7 @@ public:
 protected:
   SphereMeshSource();
   ~SphereMeshSource() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   void GenerateData();
 

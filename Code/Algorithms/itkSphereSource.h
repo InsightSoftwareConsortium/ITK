@@ -107,6 +107,7 @@ public:
 protected:
   SphereSource();
   ~SphereSource() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   void GenerateData();
 
