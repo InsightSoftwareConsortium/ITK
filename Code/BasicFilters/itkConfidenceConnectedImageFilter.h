@@ -48,6 +48,9 @@ namespace itk{
  * Setting the "NumberOfIterations" to zero stops the algorithm
  * after the initial segmentation from the seed point.
  *
+ * NOTE: the lower and upper threshold are restricted to lie within the
+ * valid numeric limits of the input data pixel type. Also, the limits
+ * may be adjusted to contain the seed point's intensity.
  * \ingroup RegionGrowingSegmentation
  */
 template <class TInputImage, class TOutputImage>

@@ -116,14 +116,26 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   FunctionType::Pointer function = FunctionType::New();
   function->SetInputImage ( inputImage );
 
-  InputRealType lower, upper;
+  InputRealType lower, upper, seedIntensity;
   InputRealType mean, variance;
   mean = meanFunction->EvaluateAtIndex( m_Seed );
   variance = varianceFunction->EvaluateAtIndex( m_Seed );
+  seedIntensity = static_cast<InputRealType>(inputImage->GetPixel(m_Seed));
 
   lower = mean - m_Multiplier * sqrt(variance);
   upper = mean + m_Multiplier * sqrt(variance);
   
+  // Adjust lower and upper to always contain the seed's intensity, otherwise, no pixels will be
+  // returned by the iterator and a zero variance will result
+  if (lower > seedIntensity)
+    {
+    lower = seedIntensity;
+    }
+  if (upper < seedIntensity)
+    {
+    upper = seedIntensity;
+    }
+
   if (lower < static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin()))
     {
     lower = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin());
@@ -135,7 +147,7 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   function->ThresholdBetween(static_cast<InputImagePixelType>(lower),
                              static_cast<InputImagePixelType>(upper));
 
-  itkDebugMacro(<< "Lower intensity = " << lower << ", Upper intensity = " << upper);
+    itkDebugMacro(<< "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << mean << " , sqrt(variance) = " << sqrt(variance));
   
   IteratorType it = IteratorType ( outputImage, function, m_Seed );
   while( !it.IsAtEnd())
@@ -171,22 +183,41 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
       }
     mean = sum / double(num);
     variance = (sumOfSquares - (sum*sum / double(num))) / (double(num) - 1.0);
-    
+    // if the variance is zero, there is no point in continuing
+    if (variance == 0)
+      {
+      itkDebugMacro(<< "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << mean << ", variance = " << variance << " , sqrt(variance) = " << sqrt(variance));
+      itkDebugMacro(<< "\nsum = " << sum << ", sumOfSquares = " << sumOfSquares << "\nnum = " << num);
+      break;
+      }
     lower = mean - m_Multiplier * sqrt(variance);
     upper = mean + m_Multiplier * sqrt(variance);
-  
-  if (lower < static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin()))
-    {
-    lower = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin());
-    }
-  if (upper > static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max()))
-    {
-    upper = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max());
-    }
+
+    // Adjust lower and upper to always contain the seed's intensity, otherwise, no pixels will be
+    // returned by the iterator and a zero variance will result
+    if (lower > seedIntensity)
+      {
+      lower = seedIntensity;
+      }
+    if (upper < seedIntensity)
+      {
+      upper = seedIntensity;
+      }
+
+    // Make sure the lower and upper limit are not outside the valid range of the input 
+    if (lower < static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin()))
+      {
+      lower = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin());
+      }
+    if (upper > static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max()))
+      {
+      upper = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max());
+      }
     function->ThresholdBetween(static_cast<InputImagePixelType>(lower),
                                static_cast<InputImagePixelType>(upper));
     
-    itkDebugMacro(<< "Lower intensity = " << lower << ", Upper intensity = " << upper);
+    itkDebugMacro(<< "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << mean << ", variance = " << variance << " , sqrt(variance) = " << sqrt(variance));
+    itkDebugMacro(<< "\nsum = " << sum << ", sumOfSquares = " << sumOfSquares << "\nnum = " << num);
     
     // Rerun the segmentation
     outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
