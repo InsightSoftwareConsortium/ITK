@@ -313,37 +313,32 @@ unsigned int
 TubeSpatialObject< TDimension, TTubePointType > 
 ::RemoveDuplicatePoints(unsigned int step)
 {
-  unsigned int nPoints = 0;
-  typename PointListType::iterator it, previt; 
-  it = m_Points.begin(); 
-  
-  previt = it;
-  unsigned long size = m_Points.size();
-
-  if(size<=step)
+  int length = this->GetNumberOfPoints();
+  if(length <= 1)
     {
     return 0;
     }
 
-  for(unsigned int i=0;i<step;i++)
+  int nPoints = 0;
+  for(int i=0; i < length-1; i++)
     {
-    it++;
-    }
-  
-  for(unsigned int i=0;i<size-step;i++)
-    {
-    if((*previt).GetPosition() == (*it).GetPosition())
+    if(this->GetPoint(i)->GetPosition() == this->GetPoint(i+1)->GetPosition())
       {
-      it=m_Points.erase(it);
+      this->RemovePoint(i+1);
+      i--;
+      length--;
       nPoints++;
       }
-    else
+    if(i >= 0 && i < length-2 &&
+       this->GetPoint(i)->GetPosition() == this->GetPoint(i+2)->GetPosition())
       {
-      previt++;
-      it++;
+      this->RemovePoint(i+2);
+      i--;
+      length--;
+      nPoints++;
       }
-    
     }
+
   return nPoints;
 }
 
@@ -356,7 +351,8 @@ TubeSpatialObject< TDimension, TTubePointType >
 { 
   itkDebugMacro( "Computing the tangent vectors of the tube" );
  
-  if( m_Points.size() == 0 )
+  int length = this->GetNumberOfPoints();
+  if( length == 0 )
     {
     return false; 
     }    
@@ -366,24 +362,20 @@ TubeSpatialObject< TDimension, TTubePointType >
   double l; 
   t.Fill(0.0);
  
-  if( m_Points.size() == 1 ) 
+  if( length == 1 ) 
     { 
-    ( *(m_Points.begin()) ).SetTangent(t); 
+    ((TubePointType *)(this->GetPoint(0)))->SetTangent(t); 
     return true; 
     } 
      
-  typename PointListType::iterator it1,it2,it3; 
-  it1 = m_Points.begin(); 
-  it2 = m_Points.begin();
-  it2++;
-  it3 = m_Points.begin();
-  it3++;
-  it3++; 
+  unsigned int it1 = 0;
+  unsigned int it2 = 1;
+  unsigned int it3 = 2;
    
-  while(it3 !=m_Points.end())
+  while(it3 < length)
     {
-    x1 = (*it1).GetPosition();
-    x3 = (*it3).GetPosition();
+    x1 = this->GetPoint(it1)->GetPosition();
+    x3 = this->GetPoint(it3)->GetPosition();
     l=0;
     for(unsigned int i=0; i<TDimension; i++)
       {
@@ -397,6 +389,8 @@ TubeSpatialObject< TDimension, TTubePointType >
       std::cerr << "TubeSpatialObject::ComputeTangentAndNormals() : "; 
       std::cerr << "length between two consecutive points is 0";
       std::cerr << " (use RemoveDuplicatePoints())" << std::endl;
+      std::cerr << "   p1 = " << x1 << std::endl;
+      std::cerr << "   p3 = " << x3 << std::endl;
       return false;
       }
     for(unsigned int i=0; i<TDimension; i++)
@@ -404,41 +398,37 @@ TubeSpatialObject< TDimension, TTubePointType >
       t[i] /= l;
       }
  
-    (*it2).SetTangent(t);
+    ((TubePointType*)(this->GetPoint(it2)))->SetTangent(t);
     it1++;
     it2++;
     it3++;
     }
  
-  it1 = m_Points.begin();
-  it2 = it1;
-  it2++;
-  t = (*it2).GetTangent();
-  (*it1).SetTangent(t);
-  it1 = m_Points.end();
-  it1--;
-  it2 = it1;
-  it2--;
-  t = (*it2).GetTangent();
-  (*it1).SetTangent(t);
+  it1 = 0;
+  it2 = 1;
+  t = ((TubePointType*)(this->GetPoint(it2)))->GetTangent();
+  ((TubePointType*)(this->GetPoint(it1)))->SetTangent(t);
+  it1 = length-1;
+  it2 = length-2;
+  t = ((TubePointType*)(this->GetPoint(it2)))->GetTangent();
+  ((TubePointType*)(this->GetPoint(it1)))->SetTangent(t);
  
 
   // Compute the normal
   CovariantVectorType n1;
   CovariantVectorType n2; 
     
-  it1 = m_Points.begin(); 
- 
-  while(it1 != m_Points.end())
+  it1 = 0;
+  while(it1 < length)
     {
-    t = (*it1).GetTangent(); 
+    t = ((TubePointType*)(this->GetPoint(it1)))->GetTangent(); 
  
     if (TDimension == 2)
       { 
-      t = (*it1).GetTangent(); 
+      t = ((TubePointType*)(this->GetPoint(it1)))->GetTangent(); 
       n1[0] = -t[1];
       n1[1] = t[0];
-      (*it1).SetNormal1(n1); 
+      ((TubePointType*)(this->GetPoint(it1)))->SetNormal1(n1); 
       }
     else if (TDimension == 3)
       {
@@ -457,37 +447,33 @@ TubeSpatialObject< TDimension, TTubePointType >
       n2[1] = t[2]*n1[0]-t[0]*n1[2];
       n2[2] = t[0]*n1[1]-t[1]*n1[0];
      
-      (*it1).SetNormal1(n1);
-      (*it1).SetNormal2(n2);
+      ((TubePointType*)(this->GetPoint(it1)))->SetNormal1(n1);
+      ((TubePointType*)(this->GetPoint(it1)))->SetNormal2(n2);
       }
 
- 
     it1++;
     }
  
-  it1 = m_Points.begin();
-  it2 = it1;
-  it2++;
-  n1 = (*it2).GetNormal1();
-  (*it1).SetNormal1(n1);
+  it1 = 0;
+  it2 = 1;
+  n1 = ((TubePointType*)(this->GetPoint(it2)))->GetNormal1();
+  ((TubePointType*)(this->GetPoint(it1)))->SetNormal1(n1);
    
   if (TDimension == 3)
     {
-    n2 = (*it2).GetNormal2();
-    (*it1).SetNormal2(n2);
+    n2 = ((TubePointType*)(this->GetPoint(it2)))->GetNormal2();
+    ((TubePointType*)(this->GetPoint(it1)))->SetNormal2(n2);
     }
    
-  it1 = m_Points.end();
-  it1--;
-  it2 = it1;
-  it2--;
-  n1 = (*it2).GetNormal1();
-  (*it1).SetNormal1(n1);
+  it1 = length-1;
+  it2 = length-2;
+  n1 = ((TubePointType*)(this->GetPoint(it2)))->GetNormal1();
+  ((TubePointType*)(this->GetPoint(it1)))->SetNormal1(n1);
    
   if (TDimension == 3)
     {
-    n2 = (*it2).GetNormal2();
-    (*it1).SetNormal2(n2);  
+    n2 = ((TubePointType*)(this->GetPoint(it2)))->GetNormal2();
+    ((TubePointType*)(this->GetPoint(it1)))->SetNormal2(n2);  
     }
 
   return true; 

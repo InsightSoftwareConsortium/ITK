@@ -79,10 +79,20 @@ public:
   virtual void SetPoints( PointListType & newPoints );
 
   /** Return a point in the list given the index */
-  virtual const SpatialObjectPointType* GetPoint(unsigned long id) const {return &(m_Points[id]);}
+  virtual const SpatialObjectPointType* GetPoint(unsigned long id) const 
+      {return &(m_Points[id]);}
+  
+  /** Return a point in the list given the index */
+  virtual void SetPoint(unsigned long id, const TubePointType & pnt) 
+      {m_Points[id] = pnt;}
+  
+  /** Return a point in the list given the index */
+  virtual void RemovePoint(unsigned long id)
+      { m_Points.erase(m_Points.begin()+id); }
   
   /** Return the number of points in the list */
-  virtual unsigned long GetNumberOfPoints(void) const {return m_Points.size();}
+  virtual unsigned long GetNumberOfPoints(void) const 
+      {return m_Points.size();}
 
   /** Set the type of tube end-type: 0 = flat, 1 = rounded */
   itkSetMacro(EndType,unsigned int);
