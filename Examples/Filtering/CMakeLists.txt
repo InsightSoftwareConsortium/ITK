@@ -723,6 +723,14 @@ ADD_TEST( FFTImageFilterTest ${FILTERING_EXAMPLES3}
         ${TEMP}/FFTImageFilterImaginary.png
 )
 
+ADD_TEST( RGBToGrayscaleTest ${FILTERING_EXAMPLES3}
+  --compare ${BASELINE}/RGBToGrayscale.png
+            ${TEMP}/RGBToGrayscale.png
+  RGBToGrayscaleTest
+        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanHeadSlice.png
+        ${TEMP}/RGBToGrayscale.png
+)
+
 ADD_EXECUTABLE(FilteringExamples FilteringExamples.cxx)
 TARGET_LINK_LIBRARIES(FilteringExamples ITKIO ITKBasicFilters ITKCommon)
 

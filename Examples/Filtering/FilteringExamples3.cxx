@@ -14,6 +14,7 @@ REGISTER_TEST(CannyEdgeDetectionImageFilterTest);
 REGISTER_TEST(FlipImageFilterTest);
 REGISTER_TEST(GaussianBlurImageFunctionTest);
 REGISTER_TEST(FFTImageFilterTest);
+ REGISTER_TEST(RGBToGrayscaleTest);
 }
 
 #undef main
@@ -47,3 +48,7 @@ REGISTER_TEST(FFTImageFilterTest);
 #undef main
 #define main FFTImageFilterTest
 #include "FFTImageFilter.cxx"
+
+#undef main
+#define main RGBToGrayscaleTest
+#include "RGBToGrayscale.cxx"
