@@ -15,6 +15,7 @@ SET (TRIGGER_SITE
 SET (PROJECT_URL "http://www.itk.org/")
 
 # Dart server configuration 
+SET (ROLLUP_URL "http://${DROP_SITE}/cgi-bin/insight-rollup-dashboard.sh")
 SET (CVS_WEB_URL "http://${DROP_SITE}/cgi-bin/cvsweb.cgi/Insight/")
 SET (CVS_WEB_CVSROOT "Insight")
 
