@@ -58,7 +58,10 @@ inline double vcl_exp(double x) { return ::exp(x); }
 inline float  vcl_log(float  x) { return ::log(x); }
 inline double vcl_log(double x) { return ::log(x); }
 
-# define vcl_log10 ::log10
+# undef vcl_log10
+# define vcl_log10 vcl_log10
+inline float  vcl_log10(float  x) { return ::log10(x); }
+inline double vcl_log10(double x) { return ::log10(x); }
 # define vcl_modf  ::modf
 
 # undef  vcl_pow

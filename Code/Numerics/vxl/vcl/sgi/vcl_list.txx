@@ -10,8 +10,13 @@ template void std::advance(Fwd&, Diff)
 
 
 #if VCL_USE_NATIVE_STL
+#if defined(VCL_SGI_CC_730)
+#define VCL_LIST_INSTANTIATE(T) \
+template class std::list<T >
+#else
 #define VCL_LIST_INSTANTIATE(T) \
 template class std::list<T,std::__default_alloc_template<true,0> >
+#endif
 #else
 #define VCL_LIST_INSTANTIATE(T)
 #endif
