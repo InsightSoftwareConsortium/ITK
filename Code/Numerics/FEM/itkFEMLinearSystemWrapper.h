@@ -347,6 +347,21 @@ public:
    */
   virtual void CopySolution2Vector(unsigned int solutionIndex, unsigned int vectorIndex) = 0;
 
+  /**
+   * Remove all zeros from a matrix 
+   * \param matrixIndex index of matrix to remove zeros from
+   * \param tempMatrixIndex index of matrix to use for temp storage space
+   */
+  void OptimizeMatrixStorage(unsigned int matrixIndex, unsigned int tempMatrixIndex); 
+
+  /**
+   * Reorder the Degrees of Freedom in order to reduce bandwidth of matrix
+   * \param matrixIndex index of matrix to examine
+   * \param newDOF vector of new degree of freedom ordering
+   */
+  void ReverseCuthillMckeeDOFOrdering(unsigned int matrixIndex, ColumnArray& newDOF);
+
+
   /*
    * Sets the function used to prepare the primary system matrix for numerical solving
    * \param SetupFunction pointer to function that stores the matrix to 

@@ -135,5 +135,79 @@ void LinearSystemWrapper::GetColumnsOfNonZeroMatrixElementsInRow( unsigned int r
 }
 
 
+void LinearSystemWrapper::OptimizeMatrixStorage(unsigned int matrixIndex, unsigned int tempMatrixIndex)
+{
+
+  /* put original matrix in temp space */
+  this->SwapMatrices(matrixIndex, tempMatrixIndex);
+
+  /* re-initialze storage */
+  this->InitializeMatrix(matrixIndex);
+
+  /* loop through old matrix and pull out non-zero values */
+  ColumnArray currentRow;
+  unsigned int i;
+  unsigned int j;
+  for (i=0; i<this->m_Order; i++)
+  {
+    this->GetColumnsOfNonZeroMatrixElementsInRow(i, currentRow, tempMatrixIndex);
+    for (j=0; j<currentRow.size(); j++)
+    {
+      this->SetMatrixValue(i,j,this->GetMatrixValue(i, currentRow[j], tempMatrixIndex), matrixIndex);
+    }
+  }
+      
+  /* destroy temp matrix space */
+  this->DestroyMatrix(tempMatrixIndex);
+
+}
+
+
+/* FIXME - untested...do not use yet */
+void LinearSystemWrapper::ReverseCuthillMckeeDOFOrdering(unsigned int matrixIndex, ColumnArray& newDOF)
+{
+  /* vector for new DOF's */
+  newDOF = ColumnArray(this->m_Order);
+  //newDOF.fill(-1.0);
+
+  /* vector to hold degrees of nodes */
+  ColumnArray nodeDegrees(this->m_Order);
+  ColumnArray oldDOF(this->m_Order);
+  ColumnArray currentRow;
+  unsigned int i;
+  unsigned int startingNode = 0;
+  unsigned int startingNodeDegree = this->m_Order * this->m_Order;
+  for (i=0; i<this->m_Order; i++)
+  {
+    /* examine each row */
+    this->GetColumnsOfNonZeroMatrixElementsInRow(i, currentRow, matrixIndex);
+    nodeDegrees[i] = currentRow.size();
+
+    /* find degree to start re-ordering with */
+    if (nodeDegrees[i] < startingNodeDegree)
+    {
+      startingNode = i;
+      startingNodeDegree = nodeDegrees[i];
+    }
+
+  }
+
+  /* find cuthill-mckee ordering */
+  //this->CuthillMckeeOrdering(matrixIndex, startingNode, oldDOF, newDOF);
+
+  /* reverse */
+  for (i=0; i<this->m_Order; i++)
+  {
+    oldDOF[i] = this->m_Order - newDOF[i];
+  }
+
+  /* redo cuthill-mckee to improve results */
+  //this->CuthillMckeeOrdering(matrixIndex, 0, oldDOF, newDOF);
+
+  /* reverse */
+
+
+}
+
 
 }}
