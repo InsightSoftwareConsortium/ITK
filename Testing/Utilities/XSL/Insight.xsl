@@ -10,13 +10,6 @@
   <xsl:variable name="CVSWebURL">http://public.kitware.com/cgi-bin/itkcvsweb.cgi/Insight/</xsl:variable>
   <xsl:variable name="DoxygenURL">http://public.kitware.com/Insight/Doxygen/html/</xsl:variable>
 
-  <xsl:template name="TranslateTestName">
-    <xsl:param name="TestName">BogusTest</xsl:param>
-    <xsl:param name="Prefix">./</xsl:param>
-    <xsl:param name="Postfix">.html</xsl:param>
-    <xsl:value-of select="concat ( $Prefix, translate ( $TestName, '/.', '__' ), $Postfix )"/>
-  </xsl:template>
-
   <xsl:template name="InsightFooter">
     <xsl:text disable-output-escaping="yes">
             &lt;/td>
@@ -58,8 +51,8 @@
     <xsl:text disable-output-escaping="yes">/Logo.gif" border="0">&lt;/img>&lt;/a>
             &lt;/td>
             &lt;td bgcolor="#6699cc" valign="top">
-    &lt;h2>&lt;font color="#ffffff"></xsl:text><xsl:value-of select="$Title"/><xsl:text disable-output-escaping="yes">&lt;/font>&lt;/h2>&lt;h3></xsl:text><xsl:value-of select="$DashboardDate"/><xsl:text disable-output-escaping="yes">&lt;/h3>
-            &lt;/td>
+   &lt;h2>&lt;font color="#ffffff"></xsl:text><xsl:value-of select="$Title"/><xsl:text disable-output-escaping="yes">&lt;/h2>&lt;h3></xsl:text><xsl:value-of select="$DashboardDate"/><xsl:text disable-output-escaping="yes">&lt;/font>&lt;/h3>
+           &lt;/td>
           &lt;/tr>
           &lt;tr>
             &lt;td valign="top" halign="center">
