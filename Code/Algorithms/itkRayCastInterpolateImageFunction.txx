@@ -1153,13 +1153,13 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
   m_RayIntersectionVoxelIndex[1] += dy;
   m_RayIntersectionVoxelIndex[2] += dz;
 
-  int m_TotalRayVoxelPlanes 
+  int totalRayVoxelPlanes 
     = dx + dy*m_NumberOfVoxelsInX + dz*m_NumberOfVoxelsInX*m_NumberOfVoxelsInY;
 
-  m_RayIntersectionVoxels[0] += m_TotalRayVoxelPlanes;
-  m_RayIntersectionVoxels[1] += m_TotalRayVoxelPlanes;
-  m_RayIntersectionVoxels[2] += m_TotalRayVoxelPlanes;
-  m_RayIntersectionVoxels[3] += m_TotalRayVoxelPlanes;
+  m_RayIntersectionVoxels[0] += totalRayVoxelPlanes;
+  m_RayIntersectionVoxels[1] += totalRayVoxelPlanes;
+  m_RayIntersectionVoxels[2] += totalRayVoxelPlanes;
+  m_RayIntersectionVoxels[3] += totalRayVoxelPlanes;
 }
 
 
