@@ -32,6 +32,7 @@ REGISTER_TEST(itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2 );
 REGISTER_TEST(itkGradientVectorFlowImageFilterTest );
 REGISTER_TEST(itkSimpleFuzzyConnectednessScalarImageFilterTest );
 REGISTER_TEST(itkHistogramMatchingImageFilterTest );
+REGISTER_TEST(itkHistogramImageToImageMetricTest );
 REGISTER_TEST(itkImageMomentsTest );
 REGISTER_TEST(itkImagePCAShapeModelEstimatorTest);
 REGISTER_TEST(itkImageRegistrationMethodTest     );

@@ -33,6 +33,7 @@ ADD_TEST(itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2 ${ALGORITHM
 ADD_TEST(itkGradientVectorFlowImageFilterTest ${ALGORITHMS_TESTS} itkGradientVectorFlowImageFilterTest)
 ADD_TEST(itkSimpleFuzzyConnectednessScalarImageFilterTest ${ALGORITHMS_TESTS} itkSimpleFuzzyConnectednessScalarImageFilterTest)
 ADD_TEST(itkHistogramMatchingImageFilterTest ${ALGORITHMS_TESTS} itkHistogramMatchingImageFilterTest)
+ADD_TEST(itkHistogramImageToImageMetricTest ${ALGORITHMS_TESTS} itkHistogramImageToImageMetricTest)
 ADD_TEST(itkImageMomentsTest ${ALGORITHMS_TESTS} itkImageMomentsTest)
 ADD_TEST(itkImagePCAShapeModelEstimatorTest ${ALGORITHMS_TESTS} itkImagePCAShapeModelEstimatorTest)
 ADD_TEST(itkImageRegistrationMethodTest ${ALGORITHMS_TESTS}   itkImageRegistrationMethodTest  )
@@ -130,6 +131,7 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2.cxx
 itkGradientVectorFlowImageFilterTest.cxx
 itkSimpleFuzzyConnectednessScalarImageFilterTest.cxx
 itkHistogramMatchingImageFilterTest.cxx
+itkHistogramImageToImageMetricTest.cxx
 itkImageMomentsTest.cxx
 itkSphereMeshSourceTest.cxx
 itkImagePCAShapeModelEstimatorTest.cxx
