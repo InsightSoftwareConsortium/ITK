@@ -4,6 +4,9 @@ LINK_LIBRARIES (
 VXLNumerics
 )
 
-UNIX_LIBRARIES (
--lm
-)
+IF(UNIX)
+  LINK_LIBRARIES (
+  -lm
+  )
+ENDIF(UNIX)
+

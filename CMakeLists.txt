@@ -14,10 +14,12 @@ ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl
 ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl 
 )
 
-UNIX_LIBRARIES(
-${THREAD_LIBS} 
-${DL_LIBS} 
-)
+IF(UNIX)
+  LINK_LIBRARIES(
+  ${THREAD_LIBS} 
+  ${DL_LIBS} 
+  )
+ENDIF(UNIX)
 
 LINK_DIRECTORIES(
 ${ITK_BINARY_DIR}/Code/Common 
