@@ -167,20 +167,20 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
 
   // To see the debug output for each iteration, uncomment the
   // following line. 
-  //filter->DebugOn() ;
+  // filter->DebugOn() ;
 
-  filter->SetInput( imageWithBias ) ;
+  filter->SetInput( imageWithBias.GetPointer() ) ;
   filter->IsBiasFieldMultiplicative( true ) ;
-//  filter->SetInitialBiasFieldCoefficients( coefficients ) ;
   filter->SetBiasFieldDegree( biasDegree ) ;
   filter->SetTissueClassStatistics( classMeans, classSigmas ) ;
-  filter->SetOptimizerGrowthFactor( 1.5 ) ;
+  filter->SetOptimizerGrowthFactor( 1.01 ) ;
   filter->SetOptimizerInitialRadius( 1.02 ) ;
   filter->SetVolumeCorrectionMaximumIteration( 1000 ) ;
-  filter->SetUsingInterSliceIntensityCorrection( false ) ;
+  filter->SetUsingInterSliceIntensityCorrection( true ) ;
   filter->SetInterSliceCorrectionMaximumIteration( 200 ) ;
   filter->SetUsingSlabIdentification( true ) ;
   filter->SetSlicingDirection( 2 ) ;
+  filter->SetSlabTolerance(0.0) ;
   filter->Update() ;
 
   double sumOfError = 0.0 ;
@@ -195,7 +195,7 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
     }
 
   b_iter.Begin() ;
-  ImageIteratorType bias_iter( biasImage, imageRegion ) ;
+  ImageIteratorType bias_iter( biasImage.GetPointer(), imageRegion ) ;
   while ( !b_iter.IsAtEnd() )
     {
     bias_iter.Set( b_iter.Get() + 2 ) ;
@@ -231,5 +231,6 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   std::cout << "Avg. error = " 
             << sumOfError / (imageSize[0] * imageSize[1] * imageSize[2]) 
             << std::endl ;
+
   return EXIT_SUCCESS ;
 }
