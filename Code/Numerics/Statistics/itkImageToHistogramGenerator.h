@@ -49,10 +49,12 @@ public:
   typedef typename AdaptorType::Pointer                   AdaptorPointer;
   typedef typename ImageType::PixelType                   PixelType;
   typedef typename PixelType::ValueType                   ValueType;
+  typedef typename NumericTraits< ValueType >::RealType   ValueRealType;
 
   typedef itk::Statistics::ListSampleToHistogramGenerator< 
                                                 AdaptorType, 
-                                                ValueType > GeneratorType;
+                                                ValueRealType
+                                                          > GeneratorType;
 
   typedef typename GeneratorType::Pointer                   GeneratorPointer;
 
