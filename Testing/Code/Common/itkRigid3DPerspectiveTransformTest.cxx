@@ -195,6 +195,105 @@ int main(int argc,char *argv[])
   }
 
  
+  /* Create a Rigid 3D transform with a rotation */
+  {
+    TransformType::Pointer  rigid = TransformType::New();
+    rigid->SetFocalDistance( focal );
+    rigid->SetHeight( height );
+    rigid->SetWidth(  width );
+
+    TransformType::OffsetType ioffset;
+    ioffset.Fill(0.0);
+
+    rigid->SetOffset( ioffset );
+
+    TransformType::OffsetType offset = rigid->GetOffset();
+    std::cout << "pure Translation test:  ";
+    std::cout << offset << std::endl;
+
+    typedef TransformType::VersorType  VersorType;
+    VersorType rotation;
+    VersorType::VectorType axis;
+    VersorType::ValueType  angle = 30.0f * atan( 1.0f ) / 45.0f;
+    axis[0] = 1.0f;
+    axis[1] = 1.0f;
+    axis[2] = 1.0f;
+    
+    rotation.Set( axis, angle );
+    rigid->SetRotation( rotation );
+
+    {
+      // Project an itk::Point
+      TransformType::InputPointType p;
+      p.Fill(0.0);
+      TransformType::InputPointType q;
+      q = p + ioffset;
+      TransformType::OutputPointType s;
+      const double factor = height/(q[2]+focal);
+      s[0] = q[0] * factor + width/2.0;
+      s[1] = q[1] * factor + height/2.0;
+      TransformType::OutputPointType r;
+      r = rigid->TransformPoint( p );
+      for(unsigned int i=0; i<N-1; i++)
+      {
+        if( fabs( s[i]- r[i] ) > epsilon )
+        {
+          Ok = false;
+          break;    
+        }
+      }
+      if( !Ok )
+      { 
+        std::cerr << "Error rotating point: " << p << std::endl;
+        std::cerr << "Result should be       : " << s << std::endl;
+        std::cerr << "Reported Result is     : " << r << std::endl;
+        return EXIT_FAILURE;
+      }
+      else
+      {
+        std::cout << "Ok rotating an itk::Point " << std::endl;
+      }
+    }
+
+    {
+      // Projecting  an itk::Point
+      TransformType::InputPointType p;
+      p[0] = 10;
+      p[1] = 10;
+      p[2] = 10;
+      TransformType::InputPointType q;
+      q = p + ioffset;
+      TransformType::OutputPointType s;
+      const double factor = height/(q[2]+focal);
+      s[0] = q[0] * factor + width/2.0;
+      s[1] = q[1] * factor + height/2.0;
+      TransformType::OutputPointType r;
+      r = rigid->TransformPoint( p );
+      for(unsigned int i=0; i<N-1; i++)
+      {
+        if( fabs( s[i]- r[i] ) > epsilon )
+        {
+          Ok = false;
+          break;    
+        }
+      }
+      if( !Ok )
+      { 
+        std::cerr << "Error rotating point: " << p << std::endl;
+        std::cerr << "Result should be       : " << s << std::endl;
+        std::cerr << "Reported Result is     : " << r << std::endl;
+        return EXIT_FAILURE;
+      }
+      else
+      {
+        std::cout << "Ok translating an itk::Point " << std::endl;
+      }
+    }
+
+
+  }
+
+ 
   return EXIT_SUCCESS;
 
 }
