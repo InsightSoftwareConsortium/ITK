@@ -496,7 +496,7 @@ int main( int argc, char *argv[] )
   // registration. The right most image of this Figure shows the squared
   // magnitude of pixel differences between the fixed image and the resampled
   // moving image. It can be seen on the difference image that the rotational
-  // component was solved but a centering miss-registration persists.
+  // component was solved but a centering misalignment persists.
   //
   // \begin{figure}
   // \center
@@ -633,7 +633,7 @@ int main( int argc, char *argv[] )
   //  \item Translation   = $(  12.9044    ,  15.8459     )$ millimeters
   //  \end{itemize}
   //  
-  //  These values reasonably match the miss-registration intentionally
+  //  These values reasonably match the misalignment intentionally
   //  introduced in the moving image. Since $10$ degrees is about $0.174532$
   //  radians. The horizontal translation is well resolved while the vertical
   //  translation ends up being off by a bit more than one millimeter.
