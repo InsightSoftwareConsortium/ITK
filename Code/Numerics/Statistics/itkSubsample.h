@@ -221,11 +221,12 @@ public:
 protected:
   Subsample() ;
   virtual ~Subsample() {}
-  Subsample(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
   
 private:
+  Subsample(const Self&) ; //purposely not implemented
+  void operator=(const Self&) ; //purposely not implemented
+
   SamplePointer m_Sample ;
   InstanceIdentifierHolder m_IdHolder ;
 } ; // end of class

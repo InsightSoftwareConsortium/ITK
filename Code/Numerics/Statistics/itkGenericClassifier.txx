@@ -151,6 +151,27 @@ GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
   return m_ClassSamples ;
 }
 
+template< class TSample, class TMembershipCalculator, class TDecisionRule >
+void
+GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  unsigned int i ;
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "Sample: " << m_Sample << std::endl;
+  os << indent << "DecisionRule: " << m_DecisionRule << std::endl;
+
+  os << indent << "MembershipCalculators: [" ;
+  for (i=0; i < m_MembershipCalculators.size() - 1; i++)
+    {
+    os << m_MembershipCalculators[i] << ", ";
+    }
+  os << m_MembershipCalculators[i] << "]" << std::endl;
+  
+  os << indent << "ClassSamples: " << &m_ClassSamples << std::endl;
+  //  os << indent << "Accesor: " << m_Accessor << std::endl;
+}
   } // end of namespace Statistics 
 } // end of namespace itk
 

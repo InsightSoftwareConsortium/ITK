@@ -57,7 +57,7 @@ void
 GaussianDensityFunction< TMeasurementVector >
 ::SetMean(vnl_vector< double > mean)
 {
-  m_Means = mean ;
+  m_Mean = mean ;
 }
 
 template < class TMeasurementVector >
@@ -65,7 +65,7 @@ vnl_vector< double >
 GaussianDensityFunction< TMeasurementVector >
 ::GetMean()
 {
-  return m_Means ;
+  return m_Mean ;
 }
 
 template < class TMeasurementVector >
@@ -106,7 +106,7 @@ GaussianDensityFunction< TMeasurementVector >
   vnl_matrix<double> diff(m_VectorSize,1);
   for ( int i=0; i < m_VectorSize ; i++)
     {
-      diff.put(i,0, measurement[i] - m_Means[i]);
+      diff.put(i,0, measurement[i] - m_Mean[i]);
     }
 
   vnl_matrix< double > exponentMatrix(1,1);
@@ -118,22 +118,27 @@ GaussianDensityFunction< TMeasurementVector >
   
   return temp ;
 }
+  
+template < class TMeasurementVector >
+void  
+GaussianDensityFunction< TMeasurementVector >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  unsigned int i ;
+  Superclass::PrintSelf(os,indent);
 
-// template < class TMeasurementVector >
-// double
-// GaussianDensityFunction< TMeasureymentVector >
-// ::Evaluate(double measurement)
-// {
-//   vnl_matrix<double> diff(1,1);
-//   diff.put(0,0, measurement - m_Means[0]);
-  
-//   vnl_matrix<double> exponentMatrix(1,1);
-  
-//   exponentMatrix = vnl_transpose(diff)*m_InverseCovariance*diff;
-  
-//   return m_PreFactor * exp( -0.5*exponentMatrix.get(0,0) );  
-// }
-  
+  os << indent << "Mean: [" ;
+  for (i=0; i < m_VectorSize - 1; i++)
+    {
+    os << m_Mean[i] << ", ";
+    }
+  os << m_Mean[i] << "]" << std::endl;
+
+  os << indent << "Covariance: " << m_Covariance << std::endl;
+  os << indent << "InverseCovariance" << m_InverseCovariance << std::endl;
+  os << indent << "Prefactor" << m_PreFactor << std::endl;
+  os << indent << "VectorSize" << m_VectorSize << std::endl;
+}
   } // end namespace Statistics
 } // end of namespace itk
 

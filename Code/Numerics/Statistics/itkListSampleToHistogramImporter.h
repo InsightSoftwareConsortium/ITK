@@ -38,18 +38,18 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkImportFeatureVectorListToHistogram_h
-#define __itkImportFeatureVectorListToHistogram_h
+#ifndef __itkListSampleToHistogramImporter_h
+#define __itkListSampleToHistogramImporter_h
 
 #include "itkObject.h"
-#include "itkFeatureVectorContainer.h"
+#include "itkListSample.h"
 #include "itkHistogram.h"
 
 namespace itk{
   namespace Statistics{
 
-/** \class ImportFeatureVectorListToHistogram
- *  \brief Imports data from FeatureVectorList object to Histogram object
+/** \class ListSampleToHistogramImporter
+ *  \brief Imports data from ListSample object to Histogram object
  *
  * Before beginning import process, users should prepare the Histogram object
  * by calling histogram object's Initialize(Size), SetBinMin(dimension, n), 
@@ -57,15 +57,15 @@ namespace itk{
  *
  * To do: selective importing for subset of feature vector dimensions
  */
-template< class TFeatureVectorList, class THistogram >
-class ITK_EXPORT ImportFeatureVectorListToHistogram :
+template< class TListSample, class THistogram >
+class ITK_EXPORT ListSampleToHistogramImporter :
       public Object
 {
 public:
   /**
    * Standard "Self" typedef.
    */
-  typedef ImportFeatureVectorListToHistogram Self;
+  typedef ListSampleToHistogramImporter Self;
   
   /**
    * Standard "Superclass" typedef
@@ -80,22 +80,22 @@ public:
   /**
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(ImageFeatureVectorListAdaptor, FeatureVectorList) ;
+  itkTypeMacro(ImageListSampleAdaptor, ListSample) ;
   
   /**
    * Method for creation through the object factory.
    */
   itkNewMacro(Self) ;
 
-  typedef TFeatureVectorList FeatureVectorListType ;
-  typedef typename TFeatureVectorList::Pointer FeatureVectorListPointer ;
+  typedef TListSample ListSampleType ;
+  typedef typename TListSample::Pointer ListSamplePointer ;
   typedef THistogram HistogramType ;
   typedef typename THistogram::Pointer HistogramPointer ;
 
   /**
-   * plug in the FeatureVectorList object
+   * plug in the ListSample object
    */
-  void SetFeatureVectorList(FeatureVectorListPointer list)
+  void SetListSample(ListSamplePointer list)
   {
     m_List = list ;
   }
@@ -114,10 +114,10 @@ public:
   void Run() ;
 
 protected:
-  ImportFeatureVectorListToHistogram() ;
-  virtual ~ImportFeatureVectorListToHistogram() {}
+  ListSampleToHistogramImporter() ;
+  virtual ~ListSampleToHistogramImporter() {}
 private:
-  FeatureVectorListPointer m_List ;
+  ListSamplePointer m_List ;
   HistogramPointer m_Histogram ;
 } ; // end of class
 
@@ -125,7 +125,7 @@ private:
 } // end of namespace itk 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImportFeatureVectorListToHistogram.txx"
+#include "itkListSampleToHistogramImporter.txx"
 #endif
 
 #endif

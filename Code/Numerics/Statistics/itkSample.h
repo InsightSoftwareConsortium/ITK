@@ -221,10 +221,22 @@ public:
 protected:
   Sample() {}
   virtual ~Sample() {}
-  Sample(const Self&) {}
-  void operator=(const Self&) {}
+  void PrintSelf(std::ostream& os, Indent indent) const
+  {
+    Superclass::PrintSelf(os,indent);
+
+    os << indent << "Sorted: " << m_Sorted << std::endl ;
+    os << indent << "SupportingFrequency: " << m_SupportingFrequency
+       << std::endl ;
+    os << indent << "AllowingDuplicates: " << m_AllowingDuplicates 
+       << std::endl ;
+  }
+
   
 private:
+  Sample(const Self&) ; //purposely not implemented
+  void operator=(const Self&) ; //purposely not implemented
+
   bool m_Sorted ;
   bool m_SupportingFrequency ;
   bool m_AllowingDuplicates ;

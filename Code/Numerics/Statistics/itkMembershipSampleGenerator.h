@@ -120,6 +120,7 @@ public:
 protected:
   MembershipSampleGenerator() ;
   virtual ~MembershipSampleGenerator() {}
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   InputPointer m_Input ;
@@ -133,9 +134,5 @@ private:
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMembershipSampleGenerator.txx"
 #endif
-
-
-
-
 
 #endif

@@ -100,6 +100,7 @@ public:
 protected:
   CovarianceCalculator() ;
   virtual ~CovarianceCalculator() {}
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   SamplePointer m_Sample ;

@@ -38,25 +38,25 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkImportFeatureVectorListToHistogram_txx
-#define __itkImportFeatureVectorListToHistogram_txx
+#ifndef __itkListSampleToHistogramImporter_txx
+#define __itkListSampleToHistogramImporter_txx
 
 namespace itk{
   namespace Statistics{
 
-template< class TFeatureVectorList, class THistogram >
-ImportFeatureVectorListToHistogram< TFeatureVectorList, THistogram >
-::ImportFeatureVectorListToHistogram()
+template< class TListSample, class THistogram >
+ListSampleToHistogramImporter< TListSample, THistogram >
+::ListSampleToHistogramImporter()
 {
 }
 
-template< class TFeatureVectorList, class THistogram >
+template< class TListSample, class THistogram >
 void
-ImportFeatureVectorListToHistogram< TFeatureVectorList, THistogram >
+ListSampleToHistogramImporter< TListSample, THistogram >
 ::Run()
 {
-  typename TFeatureVectorList::Iterator iter = m_List->Begin() ;
-  typename TFeatureVectorList::Iterator last = m_List->End() ;
+  typename TListSample::Iterator iter = m_List->Begin() ;
+  typename TListSample::Iterator last = m_List->End() ;
   while (iter != last)
     {
       m_Histogram->IncreaseFrequency(iter.GetFeature(), 1) ;

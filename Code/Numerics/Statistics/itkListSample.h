@@ -64,39 +64,23 @@ class ITK_EXPORT ListSample
 : public Sample<TMeasurement, VMeasurementVectorSize>
 {
 public:
- /**
-  * Standard "Self" typedef.
-  */
+  /** Standard class typedef. */
   typedef ListSample  Self;
+  typedef Sample<TMeasurement, VMeasurementVectorSize> Superclass;
 
- /**
-  * Standard Superclass typedef
-  */
-  typedef Sample<TMeasurement, VMeasurementVectorSize> 
-  Superclass;
-
- /** 
-  * Run-time type information (and related methods).
-  */
+  /** Standard macros */
   itkTypeMacro(ListSample, Sample);
 
-  /**
-   * MeasurementVector typedef from superclass
-   */
+  /** MeasurementVector typedef from superclass */
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
  
-  /**
-   * InstanceIdentifier typedef from superclass.
-   */
+  /** InstanceIdentifier typedef from superclass. */
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
   
-  /**
-   * VMeasurementVectorSize template argument alias
-   */
+  /** VMeasurementVectorSize template argument alias */
   enum { MeasurementVectorSize = VMeasurementVectorSize } ;
 
-  /**
-   * returns 'p'-th percentile.
+  /** returns 'p'-th percentile.
    *
    * If t = p * total frequency of the dimension,
    * i = integer part of t,
@@ -107,15 +91,12 @@ public:
    * If the "forceSortedDimensionDataGeneration" flag is true, 
    * the dimension of the sorted data is differ from the "dimension",
    * argument, or sorted data is not available, it generates sorted data.
-   * for the dimension
-   */
+   * for the dimension */
   double Quantile(unsigned int dimension, double p, 
                   bool forceSortedDimensionDataGeneration = false) ;
 
-  /**
-   * To save memery space, if the sorted data is no longer needed,
-   * then call release memory 
-   */
+  /** To save memery space, if the sorted data is no longer needed,
+   * then call release memory */
   void ClearSortedDimenensionData()
   {
     m_SortedDimensionData.clear();
@@ -123,18 +104,17 @@ public:
   }
 
 protected:
- 
   ListSample() ;
   virtual ~ListSample() {};
-  ListSample(const Self&) {};
-  void operator=(const Self&) {};
- 
-  /**
-   * generates sorted data for the 'dimension'
-   */
+  void PrintSelf(std::ostream& os, Indent indent) const; 
+  
+  /** generates sorted data for the 'dimension' */
   void GenerateSortedDimensionData(unsigned int dimension) ;
 
 private:
+  ListSample(const Self&) ; //purposely not implemented
+  void operator=(const Self&) ; //purposely not implemented
+
   typedef std::vector< MeasurementType > SortedDimensionData ;
   SortedDimensionData m_SortedDimensionData ;
   unsigned int m_SortedDimension ;

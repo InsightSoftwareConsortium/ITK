@@ -104,9 +104,10 @@ public:
 protected:
   GaussianDensityFunction(void) ;
   virtual ~GaussianDensityFunction(void) {}
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  vnl_vector< double >  m_Means;              // mean
+  vnl_vector< double >  m_Mean;              // mean
   vnl_matrix< double >  m_Covariance;         // covariance matrix
 
   // inverse covariance matrix which is automatically calculated 

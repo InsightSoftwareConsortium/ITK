@@ -59,9 +59,8 @@ Subsample< TSample >
 {
   Superclass::PrintSelf(os,indent);
   
-  unsigned int i;
-  os << indent << "Sample pointer = " << m_Sample << std::endl ;
-  os << indent << "Total instances = " << m_IdHolder.size() << std::endl ;
+  os << indent << "Sample: " << m_Sample << std::endl ;
+  os << indent << "InstanceIdentifierHolder : " << &m_IdHolder << std::endl ;
 }
   } // end of namespace Statistics 
 } // end of namespace itk

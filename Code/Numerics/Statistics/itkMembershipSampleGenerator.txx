@@ -107,6 +107,17 @@ MembershipSampleGenerator< TInputSample, TClassMaskSample >
     }
 }
 
+template< class TInputSample, class TClassMaskSample >
+void
+MembershipSampleGenerator< TInputSample, TClassMaskSample >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "Input: " << m_Input << std::endl;
+  os << indent << "Output: " << m_Output << std::endl;
+  os << indent << "ClassMask: " << m_ClassMask << std::endl ;
+}
   } // end namespace Statistics
 } // end namespace itk
 

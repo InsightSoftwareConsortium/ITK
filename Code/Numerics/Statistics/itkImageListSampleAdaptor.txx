@@ -72,6 +72,19 @@ ImageListSampleAdaptor< TImage, TMeasurement, VMeasurementVectorSize,
 }
 
 
+template < class TImage, class TMeasurement, 
+           unsigned int VMeasurementVectorSize , 
+           class TAccessor >
+void
+ImageListSampleAdaptor< TImage, TMeasurement, VMeasurementVectorSize,
+                               TAccessor >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "Image: " << m_Image << std::endl;
+  //  os << indent << "Accesor: " << m_Accessor << std::endl;
+}
 
   } // end of namespace Statistics 
 } // end of namespace itk

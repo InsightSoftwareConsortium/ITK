@@ -204,6 +204,41 @@ PSquareQuantile< TData >
 }
 
 
+template< class TData >
+void
+PSquareQuantile< TData >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  unsigned int i ;
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "Data: " << m_Data << std::endl;
+  os << indent << "Dimension: " << m_Dimension << std::endl;
+  os << indent << "MarkerHeights: [" ;
+  for (i=0; i < 4; i++)
+    {
+    os << q[i] << ", ";
+    }
+  os << q[i] << "]" << std::endl;
+  os << indent << "MarkerPositions: [" ;
+  for (i=0; i < 4; i++)
+    {
+    os << n[i] << ", ";
+    }
+  os << n[i] << "]" << std::endl;
+  os << indent << "DesiredMarkerPositions: [" ;
+  for (i=0; i < 4; i++)
+    {
+    os << np[i] << ", ";
+    }
+  os << np[i] << "]" << std::endl;
+  os << indent << "IncrementInDesiredMarkerPostions: [" ;
+  for (i=0; i < 4; i++)
+    {
+    os << dn[i] << ", ";
+    }
+  os << dn[i] << "]" << std::endl;
+}
   } // end of namespace Statistics
 } // end of namespace itk
 

@@ -47,12 +47,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk{ 
   namespace Statistics{
 
-template< class TFeatureElement, unsigned int VFeatureDimension,
+template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer>
-Histogram<TFeatureElement, VFeatureDimension, TFrequencyContainer>
+Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::Histogram()
 {
-  // all feature vectors are sored
+  // all measurement vectors are sored
   SetSortedFlag(true) ;
   // supports GetFrequency method
   SetSupportingFrequencyFlag(true) ;
@@ -62,10 +62,10 @@ Histogram<TFeatureElement, VFeatureDimension, TFrequencyContainer>
   m_FrequencyContainer = FrequencyContainerType::New() ;
 }
 
-template< class TFeatureElement, unsigned int VFeatureDimension,
+template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer>
 void
-Histogram<TFeatureElement, VFeatureDimension, TFrequencyContainer>
+Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::Initialize(SizeType size)
 {
   m_Size = size ;
@@ -75,7 +75,7 @@ Histogram<TFeatureElement, VFeatureDimension, TFrequencyContainer>
   InstanceIdentifier num = 1 ;
   
   m_OffsetTable[0] = num ;
-  for (unsigned int i = 0 ; i < FeatureDimension ; i++)
+  for (unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
     {
       num *= m_Size[i] ;
       m_OffsetTable[i + 1] = num ;
@@ -83,41 +83,41 @@ Histogram<TFeatureElement, VFeatureDimension, TFrequencyContainer>
 
   // adjust the sizes of min max value containers 
   int dim;
-  m_Min.resize(FeatureDimension);
-  for ( dim = 0; dim < FeatureDimension; dim++)
+  m_Min.resize(MeasurementVectorSize);
+  for ( dim = 0; dim < MeasurementVectorSize; dim++)
     {
     m_Min[dim].resize(m_Size[dim]);
     } 
 
-  m_Max.resize(FeatureDimension);
-  for ( dim = 0; dim < FeatureDimension; dim++)
+  m_Max.resize(MeasurementVectorSize);
+  for ( dim = 0; dim < MeasurementVectorSize; dim++)
     {
     m_Max[dim].resize(m_Size[dim]);
     } 
 
   // initialize the frequency container
-  m_FrequencyContainer->Initialize(m_OffsetTable[VFeatureDimension]) ;
+  m_FrequencyContainer->Initialize(m_OffsetTable[VMeasurementVectorSize]) ;
 }
 
-template< class TFeatureElement, unsigned int VFeatureDimension,
-          class TFrequencyContainer>
-Histogram<TFeatureElement, VFeatureDimension,
+template< class TMeasurement, unsigned int VMeasurementVectorSize, 
+  class TFrequencyContainer>
+Histogram<TMeasurement, VMeasurementVectorSize,
           TFrequencyContainer>::IndexType
-Histogram<TFeatureElement, VFeatureDimension, TFrequencyContainer>
-::GetIndex(const FeatureVectorType feature) 
+Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
+::GetIndex(const MeasurementVectorType measurement) 
 {
 
   int dim, nbin, numBin ;  // dimension, bin number, number of bins
   IndexType index ;
 
-  for ( dim=0; dim< FeatureDimension; dim++)
+  for ( dim=0; dim< MeasurementVectorSize; dim++)
     {
     numBin = m_Min[dim].size();
-    if ( feature[dim] < m_Min[dim][0] )
+    if ( measurement[dim] < m_Min[dim][0] )
       {
       index[dim] = 0;
       }
-    else if ( feature[dim] >= m_Max[dim][numBin-1] )
+    else if ( measurement[dim] >= m_Max[dim][numBin-1] )
       {
       index[dim] = numBin-1;
       }
@@ -125,8 +125,8 @@ Histogram<TFeatureElement, VFeatureDimension, TFrequencyContainer>
       {
       for ( nbin = 0; nbin < numBin; nbin++)
         {
-        if (  (m_Min[dim][nbin] <= feature[dim]) 
-           && (feature[dim]  < m_Max[dim][nbin]) )
+        if (  (m_Min[dim][nbin] <= measurement[dim]) 
+           && (measurement[dim]  < m_Max[dim][nbin]) )
           {
             index[dim] = nbin;
             break;  // break for(nbin ...) loop and do for (dim ... ) loop
@@ -139,17 +139,17 @@ Histogram<TFeatureElement, VFeatureDimension, TFrequencyContainer>
     
 }
 
-template< class TFeatureElement, unsigned int VFeatureDimension,
+template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer>
-Histogram<TFeatureElement, VFeatureDimension, 
+Histogram<TMeasurement, VMeasurementVectorSize, 
           TFrequencyContainer>::IndexType
-Histogram<TFeatureElement, VFeatureDimension, TFrequencyContainer>
+Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::GetIndex( InstanceIdentifier id)
 {
   InstanceIdentifier id2 = id ;
   IndexType index;
   
-  for (int i = FeatureDimension - 1 ; i > 0 ; i--)
+  for (int i = MeasurementVectorSize - 1 ; i > 0 ; i--)
     {
       index[i] = static_cast<IndexValueType>(id2 / m_OffsetTable[i]);
       id2 -= (index[i] * m_OffsetTable[i]);
@@ -159,15 +159,15 @@ Histogram<TFeatureElement, VFeatureDimension, TFrequencyContainer>
   return index;
 }
 
-template< class TFeatureElement, unsigned int VFeatureDimension,
+template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer >
-Histogram<TFeatureElement, VFeatureDimension,
+Histogram<TMeasurement, VMeasurementVectorSize,
           TFrequencyContainer>::InstanceIdentifier
-Histogram<TFeatureElement, VFeatureDimension, TFrequencyContainer>
+Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::GetInstanceIdentifier(const IndexType index)  
 {
   InstanceIdentifier id = 0 ;
-  for (int i= FeatureDimension - 1 ; i > 0 ; i-- )
+  for (int i= MeasurementVectorSize - 1 ; i > 0 ; i-- )
     {
       id += index[i] * m_OffsetTable[i];
     }
@@ -178,11 +178,11 @@ Histogram<TFeatureElement, VFeatureDimension, TFrequencyContainer>
   }
 
 
-template< class TFeatureElement, unsigned int VFeatureDimension,
+template< class TMeasurement, unsigned int VMeasurementVectorSize,
          class TFrequencyContainer >
-Histogram<TFeatureElement, VFeatureDimension, 
-          TFrequencyContainer>::FeatureElementType
-Histogram<TFeatureElement, VFeatureDimension, TFrequencyContainer>
+Histogram<TMeasurement, VMeasurementVectorSize, 
+          TFrequencyContainer>::MeasurementType
+Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::GetBinMinFromValue(unsigned int dimension, const float value ) 
 {
   // If the value is lower than any of min value in the Histogram,
@@ -209,11 +209,11 @@ Histogram<TFeatureElement, VFeatureDimension, TFrequencyContainer>
     }
 }
 
-template< class TFeatureElement, unsigned int VFeatureDimension, 
+template< class TMeasurement, unsigned int VMeasurementVectorSize, 
          class TFrequencyContainer >
-Histogram< TFeatureElement, VFeatureDimension, 
-           TFrequencyContainer >::FeatureElementType
-Histogram< TFeatureElement, VFeatureDimension, TFrequencyContainer >
+Histogram< TMeasurement, VMeasurementVectorSize, 
+           TFrequencyContainer >::MeasurementType
+Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::GetBinMaxFromValue(unsigned int dimension, const float value ) 
 {
   // If the value is lower than any of max value in the Histogram,
@@ -240,157 +240,157 @@ Histogram< TFeatureElement, VFeatureDimension, TFrequencyContainer >
     }
 }
 
-template< class TFeatureElement, unsigned int VFeatureDimension, 
+template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
-Histogram< TFeatureElement, VFeatureDimension, 
-           TFrequencyContainer >::FeatureVectorType
-Histogram< TFeatureElement, VFeatureDimension, TFrequencyContainer >
-::GetHistogramMinFromValue(const FeatureVectorType feature) 
+Histogram< TMeasurement, VMeasurementVectorSize, 
+           TFrequencyContainer >::MeasurementVectorType
+Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
+::GetHistogramMinFromValue(const MeasurementVectorType measurement) 
 {
-  FeatureVectorType pnt;
-  for ( int i=0; i < FeatureDimension; i++ )
+  MeasurementVectorType pnt;
+  for ( int i=0; i < MeasurementVectorSize; i++ )
     {
-    pnt[i] = this->GetDimensionMinByValue(i,feature[i]);
+    pnt[i] = this->GetDimensionMinByValue(i,measurement[i]);
     }
   return pnt;
 }
 
-template< class TFeatureElement, unsigned int VFeatureDimension,
+template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer >
-Histogram< TFeatureElement, VFeatureDimension,
-           TFrequencyContainer >::FeatureVectorType
-Histogram<TFeatureElement, VFeatureDimension, TFrequencyContainer>
-::GetHistogramMaxFromValue(const FeatureVectorType feature) 
+Histogram< TMeasurement, VMeasurementVectorSize,
+           TFrequencyContainer >::MeasurementVectorType
+Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
+::GetHistogramMaxFromValue(const MeasurementVectorType measurement) 
 {
-  FeatureVectorType pnt;
-  for ( int i=0; i < FeatureDimension; i++ )
+  MeasurementVectorType pnt;
+  for ( int i=0; i < MeasurementVectorSize; i++ )
     {
-    pnt[i] = this->GetDimensionMaxByValue(i,feature[i]);
+    pnt[i] = this->GetDimensionMaxByValue(i,measurement[i]);
     }
   return pnt;
 
 }
 
-template< class TFeatureElement, unsigned int VFeatureDimension,
+template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer >
-Histogram< TFeatureElement, VFeatureDimension,
-           TFrequencyContainer >::FeatureVectorType
-Histogram< TFeatureElement, VFeatureDimension, TFrequencyContainer >
+Histogram< TMeasurement, VMeasurementVectorSize,
+           TFrequencyContainer >::MeasurementVectorType
+Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::GetHistogramMinFromIndex(const IndexType index) 
 {
-  FeatureVectorType pnt;
-  for ( int i=0; i < FeatureDimension; i++ )
+  MeasurementVectorType pnt;
+  for ( int i=0; i < MeasurementVectorSize; i++ )
     {
     pnt[i] = this->GetBinMin(i, index[i]);
     }
   return pnt;
 }
 
-template< class TFeatureElement, unsigned int VFeatureDimension,
+template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer >
-Histogram< TFeatureElement, VFeatureDimension,
-           TFrequencyContainer >::FeatureVectorType
-Histogram< TFeatureElement, VFeatureDimension, TFrequencyContainer >
+Histogram< TMeasurement, VMeasurementVectorSize,
+           TFrequencyContainer >::MeasurementVectorType
+Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::GetHistogramMaxFromIndex(const IndexType index) 
 {
-  FeatureVectorType pnt;
-  for ( int i=0; i < FeatureDimension; i++ )
+  MeasurementVectorType pnt;
+  for ( int i=0; i < MeasurementVectorSize; i++ )
     {
     pnt[i] = this->GetBinMax(i, index[i]);
     }
   return pnt;
 }
 
-template< class TFeatureElement, unsigned int VFeatureDimension, 
+template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
-Histogram< TFeatureElement, VFeatureDimension, 
-           TFrequencyContainer >::FeatureVectorType
-Histogram< TFeatureElement, VFeatureDimension, TFrequencyContainer >
-::GetFeature(const IndexType index) 
+Histogram< TMeasurement, VMeasurementVectorSize, 
+           TFrequencyContainer >::MeasurementVectorType
+Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
+::GetMeasurementVector(const IndexType index) 
 {
-  FeatureVectorType f;
-  for ( int i = 0; i < FeatureDimension; i++)
+  MeasurementVectorType f;
+  for ( int i = 0; i < MeasurementVectorSize; i++)
     {
       f[i] =  (m_Min[i][index[i]] + m_Max[i][index[i]])/2;
     }
   return f;
 }
 
-template< class TFeatureElement, unsigned int VFeatureDimension, 
+template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
-Histogram< TFeatureElement, VFeatureDimension, 
-           TFrequencyContainer >::FeatureVectorType
-Histogram< TFeatureElement, VFeatureDimension, TFrequencyContainer >
-::GetFeature(const InstanceIdentifier id) 
+Histogram< TMeasurement, VMeasurementVectorSize, 
+           TFrequencyContainer >::MeasurementVectorType
+Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
+::GetMeasurementVector(const InstanceIdentifier id) 
 {
   IndexType index = GetIndex(id) ;
-  return GetFeature(index) ;
+  return GetMeasurementVector(index) ;
 }
 
-template< class TFeatureElement, unsigned int VFeatureDimension, 
+template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
 void
-Histogram< TFeatureElement, VFeatureDimension, TFrequencyContainer >
+Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::SetFrequency(const IndexType index, const FrequencyType value) 
 {
   this->SetFrequency(GetInstanceIdentifier(index), value) ;
 }
   
-template< class TFeatureElement, unsigned int VFeatureDimension, 
+template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
 void
-Histogram< TFeatureElement, VFeatureDimension, TFrequencyContainer >
-::SetFrequency(const FeatureVectorType feature, const FrequencyType value) 
+Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
+::SetFrequency(const MeasurementVectorType measurement, const FrequencyType value) 
 {
-  this->SetFrequency(GetInstanceIdentifier(GetIndex(feature)), value) ;
+  this->SetFrequency(GetInstanceIdentifier(GetIndex(measurement)), value) ;
 }
 
-template< class TFeatureElement, unsigned int VFeatureDimension, 
+template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
 void
-Histogram< TFeatureElement, VFeatureDimension, TFrequencyContainer >
+Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::IncreaseFrequency(const IndexType index, const FrequencyType value)
 {
   this->IncreaseFrequency(GetInstanceIdentifier(index), value) ;
 }
   
-template< class TFeatureElement, unsigned int VFeatureDimension, 
+template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
 void
-Histogram< TFeatureElement, VFeatureDimension, TFrequencyContainer >
-::IncreaseFrequency(const FeatureVectorType feature, const FrequencyType value) 
+Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
+::IncreaseFrequency(const MeasurementVectorType measurement, const FrequencyType value) 
 {
-  this->IncreaseFrequency(GetInstanceIdentifier(GetIndex(feature)), value) ;
+  this->IncreaseFrequency(GetInstanceIdentifier(GetIndex(measurement)), value) ;
 }
 
 
 
-template< class TFeatureElement, unsigned int VFeatureDimension, 
+template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
-Histogram< TFeatureElement, VFeatureDimension,
+Histogram< TMeasurement, VMeasurementVectorSize,
            TFrequencyContainer >::FrequencyType
-Histogram< TFeatureElement, VFeatureDimension, TFrequencyContainer >
+Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::GetFrequency(const IndexType index)  
 {
   return ( GetFrequency(GetInstanceIdentifier(index)) ) ;
 }
 
-template< class TFeatureElement, unsigned int VFeatureDimension, 
+template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer>
-Histogram< TFeatureElement, VFeatureDimension, 
-           TFrequencyContainer >::FeatureElementType
-Histogram< TFeatureElement, VFeatureDimension, TFrequencyContainer >
-::GetFeatureElement(unsigned int dimension, unsigned long n) 
+Histogram< TMeasurement, VMeasurementVectorSize, 
+           TFrequencyContainer >::MeasurementType
+Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
+::GetMeasurement(unsigned int dimension, unsigned long n) 
 {
-  return static_cast< FeatureElementType >((m_Min[dimension][n] + 
+  return static_cast< MeasurementType >((m_Min[dimension][n] + 
                                             m_Max[dimension][n]) / 2) ; 
 }
 
-template< class TFeatureElement, unsigned int VFeatureDimension, 
+template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
-Histogram< TFeatureElement, VFeatureDimension, 
+Histogram< TMeasurement, VMeasurementVectorSize, 
            TFrequencyContainer >::FrequencyType
-Histogram< TFeatureElement, VFeatureDimension, TFrequencyContainer >
+Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::GetFrequency(unsigned int dimension, unsigned long n) 
 {
   InstanceIdentifier nextOffset = m_OffsetTable[dimension + 1] ;
@@ -398,7 +398,7 @@ Histogram< TFeatureElement, VFeatureDimension, TFrequencyContainer >
   InstanceIdentifier includeLength = m_OffsetTable[dimension] ;
   InstanceIdentifier include ;
   InstanceIdentifier includeEnd ;
-  InstanceIdentifier last = m_OffsetTable[VFeatureDimension] ;
+  InstanceIdentifier last = m_OffsetTable[VMeasurementVectorSize] ;
 
   FrequencyType frequency = 0 ;
   while (current < last)
@@ -415,11 +415,11 @@ Histogram< TFeatureElement, VFeatureDimension, TFrequencyContainer >
   return frequency ;
 }
 
-template< class TFeatureElement, unsigned int VFeatureDimension, 
+template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
-Histogram< TFeatureElement, VFeatureDimension, 
+Histogram< TMeasurement, VMeasurementVectorSize, 
            TFrequencyContainer >::FrequencyType
-Histogram< TFeatureElement, VFeatureDimension, TFrequencyContainer >
+Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::GetTotalFrequency(unsigned int dimension)
 {
   FrequencyType frequency = 0 ;
@@ -433,10 +433,10 @@ Histogram< TFeatureElement, VFeatureDimension, TFrequencyContainer >
   return frequency ;
 }
 
-template< class TFeatureElement, unsigned int VFeatureDimension, 
+template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
 double
-Histogram< TFeatureElement, VFeatureDimension, TFrequencyContainer >
+Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::Quantile(unsigned int dimension, double p)
 {
   InstanceIdentifier n ;
@@ -494,6 +494,18 @@ Histogram< TFeatureElement, VFeatureDimension, TFrequencyContainer >
     }
 }
 
+template< class TMeasurement, unsigned int VMeasurementVectorSize, 
+          class TFrequencyContainer >
+void 
+Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "OffsetTable: " << *m_OffsetTable << std::endl;
+  os << indent << "FrequencyContainerPointer: " << m_FrequencyContainer
+     << std::endl;
+}
   } // end of namespace Statistics 
 } // end of namespace itk 
 

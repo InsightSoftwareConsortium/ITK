@@ -107,6 +107,17 @@ ListSample< TMeasurement, VMeasurementVectorSize >
     double(m_SortedDimensionData[i + 1]) ;
 }
 
+template< class TMeasurement, unsigned int VMeasurementVectorSize >
+void 
+ListSample< TMeasurement, VMeasurementVectorSize >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "SortedDimensionData: " << &m_SortedDimensionData 
+     << std::endl;
+  os << indent << "SortedDimension: " << m_SortedDimension << std::endl;
+}
   } // end of namespace Statistics
 } // end of namespace itk 
 

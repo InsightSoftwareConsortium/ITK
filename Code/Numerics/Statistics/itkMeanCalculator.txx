@@ -102,6 +102,16 @@ MeanCalculator< TSample >
   m_Output = mean / totalFrequency ;
 }
 
+template< class TSample >
+void
+MeanCalculator< TSample >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "Sample: " << m_Sample << std::endl;
+  os << indent << "Output: " << m_Output << std::endl;
+}
   } // end of namespace Statistics 
 } // end of namespace itk
 

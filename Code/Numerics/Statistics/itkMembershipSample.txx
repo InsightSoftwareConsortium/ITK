@@ -195,6 +195,18 @@ MembershipSample< TSample >
   return m_Sample->GetTotalFrequency(d) ;
 }
 
+template< class TSample >
+void
+MembershipSample< TSample >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "Sample: " << m_Sample << std::endl;
+  os << indent << "CurrentClassLabel: " << m_CurrentClassLabel << std::endl;
+  os << indent << "ClassLabelHolder: " << &m_ClassLabelHolder << std::endl;
+  os << indent << "ClassLabels: [0, " << m_ClassLabels.size() <<  ")" ;
+}
   } // end of namespace Statistics 
 } // end of namespace itk
 

@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkSize.h"
 #include "itkIndex.h"
-#include "itkFeatureVectorContainer.h"
+#include "itkSample.h"
 #include "itkDenseFrequencyContainer.h"
 #include "itkSparseFrequencyContainer.h"
 
@@ -53,12 +53,12 @@ namespace itk{
   namespace Statistics{
 
 /** \class Histogram 
- *  \brief This class stores feature vectors in the context of n-dimensional
+ *  \brief This class stores measurement vectors in the context of n-dimensional
  *  histogram.
  *
  * Users can set arbitrary value for each bins min max value for each 
  * dimension (variable interval). Each dimension of the histogram represents
- * each dimension of feature vectors. For example, an Image with each pixel
+ * each dimension of measurement vectors. For example, an Image with each pixel
  * having a gray level intensity value and a gradient magnitude can be imported
  * to this class. Then the resulting Histogram has two dimensions, intensity
  * and gradient magnitude.
@@ -69,7 +69,7 @@ namespace itk{
  * SetBinMin(dimension, n) and SetBinMax(dimension, n) methods.
  * 
  * The first two template arguments are same as those of 
- * FeatureVectorContainer. The last one, "TFrequencyContainter", is 
+ * Sample. The last one, "TFrequencyContainter", is 
  * the type of the internal frequency container. If you think your Histogram
  * is dense, in other words, almost every bin is used, then use default.
  * If you expect that a very little portion of bins will be used, replace it
@@ -79,281 +79,197 @@ namespace itk{
  * methods using ITK Index type in addition to the methods using 
  * "InstanceIdentifiers".
  *
- * \sa FeatureVectorContainer, DenseFrequencyContainer, 
+ * \sa Sample, DenseFrequencyContainer, 
  * SparseFrequencyContainer
  */
 
-template < class TFeatureElement = float, unsigned int VFeatureDimension = 1,
+template < class TMeasurement = float, unsigned int VMeasurementVectorSize = 1,
            class TFrequencyContainer = 
            DenseFrequencyContainer< float > > 
 class ITK_EXPORT Histogram 
-  : public FeatureVectorContainer < TFeatureElement, VFeatureDimension >
+  : public Sample < TMeasurement, VMeasurementVectorSize >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard "Self" typedef. */
   typedef Histogram  Self ;
 
-  /**
-   * Standard Superclass typedef
-   */
-  typedef FeatureVectorContainer< TFeatureElement, VFeatureDimension >
-  Superclass ;
+  /** Standard Superclass typedef */
+  typedef Sample< TMeasurement, VMeasurementVectorSize > Superclass ;
   
   /** 
-   * Smart pointer typedef support 
-   */
+   * Smart pointer typedef support  */
   typedef SmartPointer<Self> Pointer ;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(Histogram, FeatureVectorContainer) ;
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Histogram, Sample) ;
 
-  /**
-   * standard New() method support
-   */
+  /** standard New() method support */
   itkNewMacro(Self) ;
 
-  /**
-   * Dimension of a feature vector
-   */
-  enum { FeatureDimension = VFeatureDimension } ;
+  /** Dimension of a measurement vector */
+  enum { MeasurementVectorSize = VMeasurementVectorSize } ;
  
-  /**
-   * type of an element of a feature vector ;
-   */
-  typedef TFeatureElement FeatureElementType ;
+  /** type of an element of a measurement vector ; */
+  typedef TMeasurement MeasurementType ;
 
-  /**
-   * frequency container typedef
-   */
+  /** Common sample class typedefs */
+  typedef Superclass::MeasurementVectorType MeasurementVectorType ;
+  typedef Superclass::SizeType SizeType ;
+  typedef Superclass::InstanceIdentifier InstanceIdentifier ;
+
+  /** frequency container typedef */
   typedef TFrequencyContainer FrequencyContainerType ;
   typedef typename FrequencyContainerType::Pointer FrequencyContainerPointer ;
 
-  /**
-   * Frequency value type from superclass
-   */
+  /** Frequency value type from superclass */
   typedef typename FrequencyContainerType::FrequencyType FrequencyType ;
 
   /** 
-   * Index typedef support. An index is used to access pixel values.
-   */
-  typedef Index< FeatureDimension >  IndexType;
+   * Index typedef support. An index is used to access pixel values. */
+  typedef Index< MeasurementVectorSize >  IndexType;
   typedef typename IndexType::IndexValueType  IndexValueType;
 
-  /**
-   * bin min max value storage types
-   */
-  typedef std::vector< FeatureElementType > BinMinVectorType ;
-  typedef std::vector< FeatureElementType > BinMaxVectorType ;
+  /** bin min max value storage types */
+  typedef std::vector< MeasurementType > BinMinVectorType ;
+  typedef std::vector< MeasurementType > BinMaxVectorType ;
   typedef std::vector< BinMinVectorType > BinMinContainerType ;
   typedef std::vector< BinMaxVectorType > BinMaxContainerType ;
   
-  /**
-   * generates the offset table.
+  /** generates the offset table.
    * subclasses should call this method in their initialize() method
    * the overide methods have prepare the frequency container for
-   * input and output.
-   */
+   * input and output. */
   void Initialize(SizeType size) ;
 
-  /**
-   * returns the index of histogram corresponding to feature value
-   */
-  IndexType GetIndex(const FeatureVectorType feature)  ;
+  /** returns the index of histogram corresponding to measurement value */
+  IndexType GetIndex(const MeasurementVectorType measurement)  ;
 
-  /**
-   * returns the index that is uniquely labelled by an instance identifier
+  /** returns the index that is uniquely labelled by an instance identifier
    * The corresponding id is the offset of the index 
-   * This method uses ImageBase::ComputeIndex() method
-   */
+   * This method uses ImageBase::ComputeIndex() method */
   IndexType GetIndex(const InstanceIdentifier id)  ;
 
-  /**
-   * returns the instance identifier of the cell that is indexed by the 
+  /** returns the instance identifier of the cell that is indexed by the 
    * index.
    * The corresponding instance identifier is the offset of the index 
-   * This method uses ImageBase::ComputeIndex() method
-   */
+   * This method uses ImageBase::ComputeIndex() method */
   InstanceIdentifier GetInstanceIdentifier(const IndexType index)  ;
   
-  /**
-   * Method to get m_Size
-   */
+  /** Method to get m_Size */
   SizeType GetSize() { return m_Size ; }
 
-  /**
-   * return the size of each dimension of the feature vector container
-   */
+  /** return the size of each dimension of the measurement vector container */
   SizeValueType GetSize(unsigned int dimension) 
   { return m_Size[dimension] ; }
 
-  /**
-   * Method to get minimum value of n th bin of dimension d
-   */
-  FeatureElementType GetBinMin(unsigned int dimension, 
+  /** Method to get minimum value of n th bin of dimension d */
+  MeasurementType GetBinMin(unsigned int dimension, 
                                unsigned long nbin) 
   { return m_Min[dimension][nbin] ; }
   
-  /**
-   * Method to get maximum value of n th bin of dimension d
-   */
-  FeatureElementType GetBinMax(unsigned int dimension,
+  /** Method to get maximum value of n th bin of dimension d */
+  MeasurementType GetBinMax(unsigned int dimension,
                                unsigned long nbin) 
   { return m_Max[dimension][nbin] ; }
   
-  /**
-   * Method to set minimum value of n th bin of dimension d
-   */
+  /** Method to set minimum value of n th bin of dimension d */
   void SetBinMin(unsigned int dimension, unsigned long nbin, float min)
   { m_Min[dimension][nbin] = min ; }
   
-  /**
-   * Method to set maximum value of n th bin of dimension d
-   */
+  /** Method to set maximum value of n th bin of dimension d */
   void SetBinMax(unsigned int dimension, 
                  unsigned long nbin, float max)
   { m_Max[dimension][nbin] = max ; }
   
-  /**
-   * Method to get the minimum of the bin corresponding to the gray level of 
-   * dimension d.
-   */
-  FeatureElementType GetBinMinFromValue(unsigned int dimension, 
+  /** Method to get the minimum of the bin corresponding to the gray level of 
+   * dimension d. */
+  MeasurementType GetBinMinFromValue(unsigned int dimension, 
                                         const float value )  ;
   
-  /**
-   * Method to get the maximum of the bin corresponding to the gray level of 
-   * dimension d.
-   */
-  FeatureElementType GetBinMaxFromValue(unsigned int dimension, 
+  /** Method to get the maximum of the bin corresponding to the gray level of 
+   * dimension d. */
+  MeasurementType GetBinMaxFromValue(unsigned int dimension, 
                                         const float value )  ;
   
-  /**
-   * Method to get the minimum vector of a dimension 
-   */
+  /** Method to get the minimum vector of a dimension  */
   BinMinVectorType& GetDimensionMins(unsigned int dimension)
   { return m_Min[dimension] ; }
   
-  /**
-   * Method to get the maximum vector of a dimension 
-   */
+  /** Method to get the maximum vector of a dimension  */
   BinMaxVectorType& GetDimensionMaxs(unsigned int dimension)
   {  return m_Max[dimension] ; }
   
-  /**
-   * Method to get the minimum vector 
-   */
+  /** Method to get the minimum vector  */
   BinMinContainerType& GetMins() { return m_Min ; }
   
-  /**
-   * Method to get the maximum vector 
-   */
+  /** Method to get the maximum vector  */
   BinMaxContainerType& GetMaxs() { return m_Max ; }
   
-  /**
-   * Method to get mins of each dimension for a feature in the histogram
-   */
-  FeatureVectorType GetHistogramMinFromValue(const FeatureVectorType feature); 
+  /** Method to get mins of each dimension for a measurement in the histogram */
+  MeasurementVectorType GetHistogramMinFromValue(const MeasurementVectorType measurement); 
   
-  /**
-   * Method to get maxs of each dimension for a feature in the histogram
-   */
-  FeatureVectorType GetHistogramMaxFromValue(const FeatureVectorType feature); 
+  /** Method to get maxs of each dimension for a measurement in the histogram */
+  MeasurementVectorType GetHistogramMaxFromValue(const MeasurementVectorType measurement); 
   
-  /**
-   * Method to get mins in the histogram by index 
-   */
-  FeatureVectorType GetHistogramMinFromIndex(const IndexType index) ;
+  /** Method to get mins in the histogram by index  */
+  MeasurementVectorType GetHistogramMinFromIndex(const IndexType index) ;
   
-  /**
-   *  Method to get maxs in the histogram by index 
-   */
-  FeatureVectorType GetHistogramMaxFromIndex(const IndexType index) ; 
+  /**  Method to get maxs in the histogram by index  */
+  MeasurementVectorType GetHistogramMaxFromIndex(const IndexType index) ; 
   
-  /**
-   * Method to get the frequency from histogram
-   */
+  /** Method to get the frequency from histogram */
   FrequencyType GetFrequency(const InstanceIdentifier id)
   { return m_FrequencyContainer->GetFrequency(id) ; }
 
-  /**
-   * returns frequency of a bin that is indexed by index
-   */
+  /** returns frequency of a bin that is indexed by index */
   inline FrequencyType GetFrequency(const IndexType index) ;
 
-  /**
-   * Method to set the frequency of histogram
-   */
+  /** Method to set the frequency of histogram */
   void SetFrequency(const InstanceIdentifier id, const FrequencyType value) 
   { m_FrequencyContainer->SetFrequency(id, value) ; }
-  /**
-   * Method to set the frequency of histogram
-   */
+  /** Method to set the frequency of histogram */
   inline void SetFrequency(const IndexType index, 
                            const FrequencyType value) ;
   
-  /**
-   * Method to set the frequency corresponding to gray levels feature
-   */
-  inline void SetFrequency(const FeatureVectorType feature, 
+  /** Method to set the frequency corresponding to gray levels measurement */
+  inline void SetFrequency(const MeasurementVectorType measurement, 
                            const FrequencyType value) ;
 
 
-  /**
-   * Method to increase the frequency by one.  This function is convinent
-   * to create histogram.
-   */
+  /** Method to increase the frequency by one.  This function is convinent
+   * to create histogram. */
   void IncreaseFrequency(const InstanceIdentifier id,
                          const FrequencyType value) 
   { m_FrequencyContainer->IncreaseFrequency(id, value) ; }
 
-  /**
-   * Method to increase the frequency by one.  This function is convinent
-   * to create histogram.
-   */
+  /** Method to increase the frequency by one.  This function is convinent
+   * to create histogram. */
   inline void IncreaseFrequency(const IndexType index, 
                                 const FrequencyType value) ;
   
-  /**
-   * Method to increase the frequency by one.  This function is convinent
-   * to create histogram.
-   */
-  inline void IncreaseFrequency(const FeatureVectorType feature, 
+  /** Method to increase the frequency by one.  This function is convinent
+   * to create histogram. */
+  inline void IncreaseFrequency(const MeasurementVectorType measurement, 
                                 const FrequencyType value) ;
   
-  /**
-   * Method to get feature from the histogram using an instance identifier
-   */
-  FeatureVectorType GetFeature(const InstanceIdentifier id) ;
+  /** Method to get measurement from the histogram using an instance identifier */
+  MeasurementVectorType GetMeasurementVector(const InstanceIdentifier id) ;
   
-  /**
-   * Method to get feature from the histogram
-   */
-  FeatureVectorType GetFeature(const IndexType index) ;
+  /** Method to get measurement from the histogram */
+  MeasurementVectorType GetMeasurementVector(const IndexType index) ;
   
-  /**
-   * Method to get feature from the histogram
-   */
-  inline FeatureElementType GetFeatureElement(unsigned int dimension, 
-                                       unsigned long n) ;
+  /** Method to get measurement from the histogram */
+  inline MeasurementType GetMeasurement(const unsigned int dimension, 
+                                       const unsigned long n) ;
   
-  /**
-   * returns the frequency of the'dimension' dimension's 'n'th element.
-   */
-  inline FrequencyType GetFrequency(unsigned int dimension, 
-                                    unsigned long n) ;
+  /** returns the frequency of the'dimension' dimension's 'n'th element. */
+  inline FrequencyType GetFrequency(const unsigned int dimension, 
+                                    const unsigned long n) ;
 
-  /**
-   * returns the frequency of the 'dimension' dimension
-   */
-  FrequencyType GetTotalFrequency(unsigned int dimension) ;
+  /** returns the frequency of the 'dimension' dimension */
+  FrequencyType GetTotalFrequency(const unsigned int dimension) ;
 
-  /**
-   * returns 'p'th percentile value.
-   *
+  /** returns 'p'th percentile value.
    * Let assume n = the index of the bin where the p-th percentile value is,
    * min = min value of the dimension of the bin,
    * max = max value of the dimension of the bin,
@@ -364,16 +280,12 @@ public:
    * If p is less than 0.5, 
    * the percentile value =  
    * min + ((p - pp ) / pb) * interval 
-   *
    * If p is greater than or equal to 0.5
    * the percentile value = 
-   * max - ((pp - p) / pb) * interval 
-   */
+   * max - ((pp - p) / pb) * interval  */
   double Quantile(unsigned int dimension, double p) ;
 
-  /**
-   * iterator support
-   */
+  /** iterator support */
   class Iterator ;
   friend class Iterator ;
 
@@ -385,7 +297,7 @@ public:
            
   Iterator  End()        
   {
-    return Iterator(m_OffsetTable[FeatureDimension], this) ;
+    return Iterator(m_OffsetTable[MeasurementVectorSize], this) ;
   }
   
 
@@ -413,10 +325,18 @@ public:
     { 
       m_Histogram->SetFrequency(m_Id, value); 
     }
-    
-    FeatureVectorType GetFeature()
+
+    InstanceIdentifier GetInstanceIdentifier()
+    { return m_Id ; }
+
+    MeasurementVectorType GetMeasurementVector()
     { 
-      return m_Histogram->GetFeature(m_Id) ;
+      return m_Histogram->GetMeasurementVector(m_Id) ;
+    } 
+
+    MeasurementType GetMeasurement(int dim)
+    { 
+      return m_Histogram->GetMeasurementVector(m_Id)[dim] ;
     } 
 
     Iterator& operator++() 
@@ -449,6 +369,7 @@ public:
 protected:
   Histogram() ;
   virtual ~Histogram() {}
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   // The number of bins for each each dimension
   SizeType m_Size ;
@@ -462,8 +383,8 @@ protected:
 private:
   Histogram(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  
-  InstanceIdentifier  m_OffsetTable[FeatureDimension + 1] ;
+
+  InstanceIdentifier  m_OffsetTable[MeasurementVectorSize + 1] ;
   FrequencyContainerPointer m_FrequencyContainer ;
 } ; // end of class
 

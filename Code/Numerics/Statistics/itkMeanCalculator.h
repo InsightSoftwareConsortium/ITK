@@ -98,6 +98,7 @@ public:
 protected:
   MeanCalculator() ;
   virtual ~MeanCalculator() {}
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   /** Target sample data pointer */

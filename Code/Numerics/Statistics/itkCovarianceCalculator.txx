@@ -131,6 +131,24 @@ CovarianceCalculator< TSample >
   m_Output /= totalFrequency ;
 }
 
+template< class TSample >
+void
+CovarianceCalculator< TSample >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  unsigned int i ;
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "Sample: " << m_Sample << std::endl;
+  os << indent << "Output: " << m_Output << std::endl;
+  os << indent << "Mean: [" ;
+  for (i=0; i < TSample::MeasurementVectorSize - 1; i++)
+    {
+    os << m_Mean[i] << ", ";
+    }
+  os << m_Mean[i] << "]" << std::endl;
+}
+
   } // end of namespace Statistics 
 } // end of namespace itk
 

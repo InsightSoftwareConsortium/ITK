@@ -213,10 +213,12 @@ public:
 protected:
   MembershipSample() ;
   virtual ~MembershipSample() {}
-  MembershipSample(const Self&) {}
-  void operator=(const Self&) {}
+  void PrintSelf(std::ostream& os, Indent indent) const;  
   
 private:
+  MembershipSample(const Self&) ; //purposely not implemented
+  void operator=(const Self&) ; //purposely not implemented
+
   SamplePointer m_Sample ;
   unsigned int m_CurrentClassLabel ;
   ClassLabelHolder m_ClassLabelHolder ;

@@ -122,6 +122,8 @@ protected:
       (q[i + direction] - q[i]) / (n[i + direction] - n[i]) ;
   }
 
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
 private:
   DataContainerPointer m_Data ;
   long m_Dimension ;

@@ -433,10 +433,12 @@ public:
 protected:
   ImageListSampleAdaptor() {}
   virtual ~ImageListSampleAdaptor() {}
-  ImageListSampleAdaptor(const Self&) {}
-  void operator=(const Self&) {}
-  
+  void PrintSelf(std::ostream& os, Indent indent) const;  
+
 private:
+  ImageListSampleAdaptor(const Self&) ; //purposely not implemented
+  void operator=(const Self&) ; //purposely not implemented
+
   ImagePointer m_Image ;
   TAccessor m_Accessor ;
 } ;
