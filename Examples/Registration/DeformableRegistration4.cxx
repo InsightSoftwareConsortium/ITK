@@ -262,9 +262,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetGradientConvergenceTolerance( 1e-2 );
+  optimizer->SetGradientConvergenceTolerance( 0.05 );
   optimizer->SetLineSearchAccuracy( 0.9 );
-  optimizer->SetDefaultStepLength( 0.5 );
+  optimizer->SetDefaultStepLength( 1.5 );
   optimizer->TraceOn();
   optimizer->SetMaximumNumberOfFunctionEvaluations( 1000 );
   // Software Guide : EndCodeSnippet
