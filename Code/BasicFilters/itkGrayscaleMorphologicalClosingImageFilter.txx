@@ -25,7 +25,6 @@ namespace itk {
 template<class TInputImage, class TOutputImage, class TKernel>
 GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
 ::GrayscaleMorphologicalClosingImageFilter()
-  :m_Kernel()
 {
   m_MorphologicalClosingBoundaryCondition.SetConstant( NumericTraits<PixelType>::NonpositiveMin() );
   this->OverrideBoundaryCondition( &m_MorphologicalClosingBoundaryCondition );
@@ -73,8 +72,8 @@ GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
   typename GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>::Pointer
     erode = GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>::New();
 
-  dilate->SetKernel( m_Kernel );
-  erode->SetKernel( m_Kernel );
+  dilate->SetKernel( this->GetKernel() );
+  erode->SetKernel( this->GetKernel() );
   erode->ReleaseDataFlagOn();
   
   /** set up the minipipeline */
@@ -113,7 +112,6 @@ GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Kernel   = " << m_Kernel << std::endl;
 }
 
 

@@ -125,10 +125,6 @@ private:
    * for the image iterator. */
   ImageBoundaryConditionPointerType m_BoundaryCondition;
 
-
-  /** kernel or structuring element to use. */
-  KernelType m_Kernel ;
-
 } ; // end of class
 
 } // end namespace itk
