@@ -45,9 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk
 {
-/**
- * standard 
- */
+/** Constructor. */
 template <typename TInputMesh, typename TOutputMesh>
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::DeformableMesh3DFilter()
@@ -61,9 +59,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 }
 
 
-/**
- * PrintSelf
- */
+/** PrintSelf. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
@@ -73,12 +69,10 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
   os << indent << "Balloon Force Filter" << std::endl;
 
-}// end PrintSelf
+}/** End PrintSelf. */
 
-/**
- * set default value of parameters and initialize local data container such as forces,
- * displacements and displacement derivatives
- */
+/** Set default value of parameters and initialize local data container 
+ *  such as forces, displacements and displacement derivatives. */
 template <typename TInputMesh, typename TOutputMesh>
 void 
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
@@ -194,9 +188,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   }
 } 
 
-/**
- * set the stiffness matrix 
- */
+/** Set the stiffness matrix. */
 template <typename TInputMesh, typename TOutputMesh>
 void 
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
@@ -305,9 +297,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   }
 } 
 
-/**
- * compute the model start points
- */
+/** Compute the model point positions by moving of one unit at each iteration.
+ *  This method can be used before the model gets close to the boundary locations. */
 template <typename TInputMesh, typename TOutputMesh>
 void 
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
@@ -343,7 +334,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
     coord[0] = (int) x[0];
     coord[1] = (int) x[1];
-    coord[2] = (int) x[2];   //slice + m_FirstSlice;
+    coord[2] = (int) x[2];   
 
     extends[0] = x[0];
     extends[1] = x[1];
@@ -373,9 +364,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   }
 }
 
-/**
- * compute the shrink force when the model is shrink to fit to the objects.
- */
+/** Compute the shrink force when the model is deflated to fit the object. */
 template <typename TInputMesh, typename TOutputMesh>
 void 
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
@@ -430,9 +419,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     f = normals.Value();
     max = abs(f[0]);
 
-  //---------------------------------------------------------------------
-  // all the movement in z direction is now disabled for further test
-  //---------------------------------------------------------------------  
+  /** All the movements in the z direction are now disabled for further testing. */
     if ( abs(f[1]) > max ) max = abs(f[1]);
     if ( abs(f[2]) > max ) max = abs(f[2]);
     n[0] = f[0]/max;
@@ -490,9 +477,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   }
 }
 
-/**
- * compute the balloon force when the model is expand from inside of the model.
- */
+/**  Compute the balloon force when the model is expanded from inside the object. */
 template <typename TInputMesh, typename TOutputMesh>
 void 
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
@@ -535,11 +520,10 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
       xs = ys = zs = 0.0;
     }
 
-  //---------------------------------------------------------------------
-  // The following part should be added if the input potential are only 
-  // estimation of edges
-  //---------------------------------------------------------------------  
-/*
+  /** The following part should be added if the input potential only provides  
+    * an estimation of the edges. */  
+
+/**
  coord[0] = (int) (x[0]+1);
  coord[1] = (int) (x[1]+1);
  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
@@ -598,9 +582,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     f = normals.Value();
     max = abs(f[0]);
 
-  //---------------------------------------------------------------------
-  // all the movement in z direction is now disabled for further test
-  //---------------------------------------------------------------------  
+    /** All the movements in the z direction are now disabled for further testing. */
     if ( abs(f[1]) > max ) max = abs(f[1]);
     if ( abs(f[2]) > max ) max = abs(f[2]);
     n[0] = f[0]/max;
@@ -652,9 +634,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   }
 }
 
-/**
- * compute the derivatives using d'- Kd = f 
- */
+/** Compute the derivatives using d'- Kd = f. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
@@ -764,43 +744,54 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   }   
 }
 
-/**
- * When there is new nodes added, must do a reset to reallocate
- * the memory and redistribute the nodes and reconstruct the cells,
- * now the mthod is only suitable for 2D models, it will be a much
- * different case for 3D model 
- */
+/**When new nodes areadded, we must do a reset to reallocate
+ * the memory, redistribute the nodes and reconstruct the cells.
+ * This method is only suitable for 2D models. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::Reset()
 {
   InputPointType x, y, z, d;
+  InputPointType* x_pt;
+  x_pt = &x;
   unsigned long tripoints[3];
-   
-  InputPointsContainerPointer  myForces = m_Forces->GetPoints();
-  InputPointsContainerPointer  myPoints = m_Locations->GetPoints();
-  InputPointsContainerPointer  myNormals = m_Normals->GetPoints();
-  InputPointsContainerPointer  myDerives = m_Derives->GetPoints();
-  InputPointsContainerPointer  myDisplacements = m_Displacements->GetPoints();
 
+  InputPointsContainerPointer  myForces = m_Forces->GetPoints();
+  InputPointsContainerIterator forces = myForces->Begin();
+
+  InputPointsContainerPointer  myPoints = m_Locations->GetPoints();
+  InputPointsContainerIterator points = myPoints->Begin();
+
+  InputPointsContainerPointer  myNormals = m_Normals->GetPoints();
+  InputPointsContainerIterator normals = myNormals->Begin();
+
+  InputPointsContainerPointer  myDerives = m_Derives->GetPoints();
+  InputPointsContainerIterator derives = myDerives->Begin();
+
+  InputPointsContainerPointer  myDisplacements = m_Displacements->GetPoints();
+  InputPointsContainerIterator displacements = myDisplacements->Begin();
   InputPointDataContainerPointer    myForceData = m_Forces->GetPointData();
+
   myForceData->Reserve(m_NumNodes);
 
   InputCellsContainerPointer    myCells = m_Locations->GetCells();
+
   myCells->Reserve(m_NumCells);
-  
+  InputCellsContainerIterator   cells = myCells->Begin(); 
+
   InputCellDataContainerPointer    myCellData = m_Locations->GetCellData();
   myCellData->Reserve(m_NumCells);
+  InputCellDataContainerIterator   celldata = myCellData->Begin(); 
 
   InputCellsContainerPointer       myOutCells = m_Output->GetCells();
   myOutCells->Reserve(m_NumCells);
-  
+  InputCellsContainerIterator      outcells = myOutCells->Begin();   
+
   InputCellDataContainerPointer       myOutCellData = m_Output->GetCellData();
   myOutCellData->Reserve(m_NumCells);
    
   typename TriCell::Pointer           insertCell = TriCell::New(); 
-
   int p = 0, jn;
 
   for(int i=0; i < m_XResolution-1 ; i++) {
@@ -824,7 +815,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     }
   }
  
-// store cells containing the south pole nodes
+/** Store cells containing the south pole nodes. */
   for (int j=0; j<m_YResolution; j++) {
     jn = (j+1)%m_YResolution; 
     tripoints[0] = m_NumNodes-2; 
@@ -837,7 +828,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     insertCell = TriCell::New();
   }
 
-// store cells containing the north pole nodes
+/** Store cells containing the north pole nodes. */
   for (int j=0; j<m_YResolution; j++) {
     jn = (j+1)%m_YResolution; 
     tripoints[2] = (m_XResolution-1)*m_YResolution+j; 
@@ -851,9 +842,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   }
 }
 
-/**
- * update the displacements using d_{new} = d_{old} + timestep*d' 
- */
+/** Update the displacements using d_{new} = d_{old} + timestep*d'. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
@@ -872,7 +861,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
   InputPointsContainerPointer  myDerives = m_Derives->GetPoints();
   InputPointsContainerIterator derives = myDerives->Begin();
-
+  InputPointsContainerPointer  myDisplacements = m_Displacements->GetPoints();
+  InputPointsContainerIterator displacements = myDisplacements->Begin();
   InputPointsContainerPointer  myPoints = m_Locations->GetPoints();
   InputPointsContainerIterator points = myPoints->Begin();
  
@@ -880,17 +870,22 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   while( derives != myDerives->End() ) {
     ds = derives.Value();
     s = points.Value();
+    d = displacements.Value();
     s[0] += m_TimeStep*ds[0]; 
     s[1] += m_TimeStep*ds[1]; 
     s[2] += m_TimeStep*ds[2]; 
-    if ( m_ModelYDownLimit > s[1] ) m_ModelYDownLimit = static_cast<int>(s[1]);
-    if ( m_ModelYUpLimit < s[1] ) m_ModelYUpLimit = static_cast<int>(s[1]);
-    if ( m_ModelXDownLimit > s[0] ) m_ModelXDownLimit = static_cast<int>(s[0]);
-    if ( m_ModelXUpLimit < s[0] ) m_ModelXUpLimit = static_cast<int>(s[0]);
-    if ( m_ModelZDownLimit > s[2] ) m_ModelZDownLimit = static_cast<int>(s[2]);
-    if ( m_ModelZUpLimit < s[2] ) m_ModelZUpLimit = static_cast<int>(s[2]);
-//if ( i < m_NumNodes - 2 ) {
-//disable for shrink test
+    d[0] += m_TimeStep*ds[0]; 
+    d[1] += m_TimeStep*ds[1]; 
+    d[2] += m_TimeStep*ds[2]; 
+    if ( m_ModelYDownLimit > s[1] ) m_ModelYDownLimit = s[1];
+    if ( m_ModelYUpLimit < s[1] ) m_ModelYUpLimit = s[1];
+    if ( m_ModelXDownLimit > s[0] ) m_ModelXDownLimit = s[0];
+    if ( m_ModelXUpLimit < s[0] ) m_ModelXUpLimit = s[0];
+    if ( m_ModelZDownLimit > s[2] ) m_ModelZDownLimit = s[2];
+    if ( m_ModelZUpLimit < s[2] ) m_ModelZUpLimit = s[2];
+
+    /** disable for shrink test */
+
     if (s[0] < 0) {
       s[0] = 0;
     }
@@ -911,17 +906,17 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     }
 
     points.Value() = s;
-//  }
+    displacements.Value() = d;
+
     ++derives; 
     ++points;
+    ++displacements;
     ++i;
   } 
 
 }
 
-/**
- * copy the content of m_Location into output 
- */
+/** Copy the content of m_Location into the Output. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
@@ -971,9 +966,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   }
 }
 
-/**
- * copy the content of m_Location into output 
- */
+/** Generate Data */
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
@@ -995,10 +988,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   }
 }
 
-/**
- * when almost all the nodes is at the estimated boundary, use
- * gapsearch to fit the model to more complicated shapes
- */
+/** When almost all the nodes are at the estimated boundary locations,
+  * use GapSearch to fit the model to more complicated shapes. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
@@ -1007,9 +998,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
 }
 
-/**
- * add new nodes into the model 
- */
+/** Add new nodes to the model. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
@@ -1018,25 +1007,19 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   m_NewNode = 1;
 }
 
-/**
- * add a new slice into the model 
- */
+/** Add a new slice to the model.  */
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::SliceAddition(int i) 
 {
   typename TInputMesh::PointType s, s1, d1, d2;
-
   InputPointsContainerPointer   myLocations = m_Locations->GetPoints();
   InputPointsContainerIterator  locations = myLocations->Begin();
-
   InputPointDataContainerPointer    myPointData = m_Locations->GetPointData();
   InputPointDataContainerIterator   pointdata = myPointData->Begin();
-
   InputPointsContainerPointer   myDisplacements = m_Displacements->GetPoints();
   InputPointsContainerIterator  displacements = myDisplacements->Begin();
-
   InputPointsContainerPointer   myNormals = m_Normals->GetPoints();
   InputPointsContainerIterator  normals = myNormals->Begin();
   
@@ -1207,16 +1190,15 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 }
 
 
-/**
- * fit the model to the gradient information
- */
+/** Fit the model using the gradient information. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::GradientFit() 
 {
+  int i, j, k, node, slice;
+  double dis;
   IndexType coord = IndexType::ZeroIndex;
-//  float grad[3];
   InputPointType v1, v2;
 
   typename TInputMesh::PointType s, d;
@@ -1236,8 +1218,14 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   s[1] = 0;
   s[2] = 0;
 
-/////////////////////
-// new gradient fit method testing
+  i = 0;
+  j = 0;
+  k = 0;
+  dis = 0;
+  node = 0;
+  slice = 0;
+
+  /** New gradient fit method testing. */
 
   locations = myLocations->Begin();
   forces = myForces->Begin();
@@ -1257,14 +1245,11 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
     ++forces;
     ++locations;
-//  ++forcedata;
   }
 
 }
 
-/**
- * fit the model to the gradient information
- */
+/** Compute normals. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
@@ -1355,9 +1340,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
 }
 
-/**
- * fit the model to the gradient information
- */
+/** Rearrange the nodes after each iteration. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
@@ -1438,7 +1421,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
       ++forces;
     }
 
-    // for the last node in the slice
+    /** For the last node in the slice. */
     v2 = locations.Value();
     ++locations;
     v3[0] = s[0];
@@ -1479,7 +1462,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     forces.Value() = v2;
     ++forces;
 
-    // for the first node in the slice
+    /** For the first node in the slice. */
     i = j*m_YResolution;
     v2[0] = s[0];
     v2[1] = s[1];
@@ -1838,6 +1821,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   
 }
 
-} // end namespace itk
+} /** end namespace itk. */
 
 #endif
