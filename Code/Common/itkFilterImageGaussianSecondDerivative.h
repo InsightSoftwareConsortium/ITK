@@ -13,14 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * FilterImageGaussianSecondDerivative convolves an image with
- * a kernel approximating the first derivative of a gaussian.
- * 
- * This class implements the recursive filtering
- * method proposed by R.Deriche in IEEE-PAMI
- * Vol.12, No.1, January 1990, pp 78-87.
- */
 #ifndef __itkFilterImageGaussianSecondDerivative_h
 #define __itkFilterImageGaussianSecondDerivative_h
 
@@ -29,14 +21,27 @@
 namespace itk
 {
 
+/** \class FilterImageGaussianFirstDerivative
+ * \brief Convolve an image with a kernel approximating the
+ *        first derivative of a Gaussian.
+ *
+ * FilterImageGaussianSecondDerivative convolves an image with a kernel
+ * approximating the second derivative of a Gaussian.  This class implements
+ * the recursive filtering method proposed by R.Deriche in IEEE-PAMI Vol.12,
+ * No.1, January 1990, pp 78-87.  
+ */
 template <class TInputImage, class TOutputImage, class TComputation>
 class ITK_EXPORT FilterImageGaussianSecondDerivative:
   public FilterImageGaussian<TInputImage,TOutputImage,TComputation>
 {
-  /** 
-   * Smart pointer typedef support 
+  /**
+   * Standard "Self" typedef.
    */
   typedef FilterImageGaussianSecondDerivative  Self;
+
+  /** 
+   * Smart pointer typedef support.
+   */
   typedef SmartPointer<Self>                   Pointer;
 
   /**
@@ -47,10 +52,12 @@ class ITK_EXPORT FilterImageGaussianSecondDerivative:
 protected:
   FilterImageGaussianSecondDerivative();
   virtual ~FilterImageGaussianSecondDerivative() {};
+  FilterImageGaussianSecondDerivative(const Self&) {}
+  void operator=(const Self&) {}
   
   /**
    * Set up the coefficients of the filter to approximate a specific kernel.
-   * typically it can be used to approximate a gaussian or one of its
+   * typically it can be used to approximate a Gaussian or one of its
    * derivatives.
    */
   virtual void SetUp(TComputation dd);

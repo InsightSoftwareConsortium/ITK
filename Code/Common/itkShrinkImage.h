@@ -13,9 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * ShrinkImage reduces the size of an image by an integer factor.
- */
 #ifndef __itkShrinkImage_h
 #define __itkShrinkImage_h
 
@@ -24,15 +21,25 @@
 namespace itk
 {
 
+/** \class ShrinkImage
+ * \brief Reduce ths size of an image by an integer factor.
+ *
+ * ShrinkImage reduces the size of an image by an integer factor. The
+ * algorithm implemented is a simple subsample.
+ */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT ShrinkImage:
     public FilterImageToImage<TInputImage,TOutputImage>
 {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
+  typedef ShrinkImage         Self;
+
   /** 
    * Smart pointer typedef support.
    */
-  typedef ShrinkImage         Self;
   typedef SmartPointer<Self>  Pointer;
 
   /**
