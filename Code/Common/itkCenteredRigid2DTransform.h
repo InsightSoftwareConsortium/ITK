@@ -78,7 +78,9 @@ public:
 
   /** Dimension of parameters. */
   itkStaticConstMacro(SpaceDimension, unsigned int, 2);
+  itkStaticConstMacro(OutputSpaceDimension, unsigned int, 2);
   itkStaticConstMacro(ParametersDimension, unsigned int, 5);
+
 
   /** Scalar type. */
   typedef typename Superclass::ScalarType  ScalarType;
@@ -120,6 +122,10 @@ public:
    * rotation and the last two represents the offset. */
   const ParametersType & GetParameters( void ) const;
 
+  /** Return the number of parameters. Typicall invoked from optimizers.
+      in this case returns 5  */
+  virtual unsigned int GetNumberOfParameters() const 
+            { return ParametersDimension; }
 
   /** Set the rotational part of the transform. */
   void SetAngle(TScalarType angle);

@@ -31,7 +31,11 @@ CenteredRigid2DTransform<TScalarType>
   m_Angle = NumericTraits< TScalarType >::Zero;
   m_Center.Fill( 0.0 );
   m_Translation.Fill( 0.0 );
+  m_Parameters = ParametersType( ParametersDimension );
 }
+
+
+
 
 // Copy Constructor
 template <class TScalarType>
@@ -41,6 +45,7 @@ CenteredRigid2DTransform<TScalarType>
   m_Angle         = other.m_Angle;
   m_Center        = other.m_Center;
   m_Translation   = other.m_Translation;
+  m_Parameters    = other.m_Parameter;
   this->ComputeMatrixAndOffset();
 }
 
