@@ -55,7 +55,7 @@ namespace itk
  * computation levels in the pyramid. This method will
  * allocate memory for the multi-resolution schedule table.
  * This method generates defaults tables with the starting
- * shrink factor for all dimension set to  NumberOfLevel - 1)^2. 
+ * shrink factor for all dimension set to  2^(NumberOfLevel - 1). 
  * All factors are halved for all subsequent levels. 
  * For example if the number of levels was set to 4, the default table is:
  *
@@ -137,7 +137,7 @@ public:
   /** Set the number of multi-resolution levels. The matrix containing the
    * schedule will be resized accordingly.  The schedule is populated with
    * default values.  At the coarset (0) level, the shrink factors are set
-   * (nlevel - 1)^2 for all dimension. These shrink factors are halved for
+   * 2^(nlevel - 1) for all dimension. These shrink factors are halved for
    * subsequent levels.  The number of levels is clamped to a minimum value
    * of 1.  All shrink factors are also clamped to a minimum value of 1. */
   void SetNumberOfLevels(unsigned int num);
