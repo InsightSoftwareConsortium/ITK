@@ -519,13 +519,13 @@ int main( int argc, char **argv )
   // \includegraphics[width=7cm]{ImageRegistration2TraceMetric.eps}
   // \includegraphics[width=7cm]{ImageRegistration2TraceMetric2.eps}
   // \caption{Sequence of metric values during the registration process. Left,
-  // iterations form 0 to 300. Right, iterations from 100 to 200.}
+  // iterations form 0 to 200. Right, iterations from 100 to 200.}
   // \label{fig:ImageRegistration2TraceMetric}
   // \end{figure}
   //
   //  Figure \ref{fig:ImageRegistration2TraceMetric} shows the sequence of
   //  metric values computed as the optimizer searched the parameter space.
-  //  The left plot shows values when iterations are extended from $0$ to $300$
+  //  The left plot shows values when iterations are extended from $0$ to $200$
   //  while the right figure zooms into iterations $100$ to $200$. 
   //  The fluctuations in the measure value is due to the stochastic
   //  nature in which the measure is computed. At each call of 

@@ -299,7 +299,7 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  One of the easiest ways of preparing a consitent set of parameters for
+  //  One of the easiest ways of preparing a consistent set of parameters for
   //  the transform is to use the transform itself.  We can simplify the task
   //  of initialization by taking advantage of the additional convenience
   //  methods that most transforms have. In this case, we simply force the
@@ -307,7 +307,7 @@ int main( int argc, char **argv )
   //  \code{SetIdentity()} is used to that end. Once the transform is
   //  initialized we can invoke its \code{GetParameters()} method to extract
   //  the array of parameters. Finally the array is passed to the registration
-  //  method using its \code{SetInitialTransformParameters()}.
+  //  method using its \code{SetInitialTransformParameters()} method.
   //
   //  Software Guide : EndLatex 
 
@@ -323,13 +323,13 @@ int main( int argc, char **argv )
   //  
   //  The set of parameters in the AffineTransform have different dynamic
   //  ranges. Typically the parameters associated with the matrix have values
-  //  around $[-1:1]$ altought they are not restricted to this interval.
+  //  around $[-1:1]$ although they are not restricted to this interval.
   //  Parameters associated with translations, on the other hand, tend to have
   //  much higher values, typically in the order of $10.0$ to $100.0$. This
   //  difference in dynamic range affects negatively the performance of
   //  gradient descent optimizers. ITK provides a mechanism to compensate for
   //  such differences in values among the parameters when they are passed to
-  //  the optimizer. The mechanism consist in providing an array of scale
+  //  the optimizer. The mechanism consist of providing an array of scale
   //  factors to the optimizer. These factors renormalize the gradient
   //  components before they are used to compute the step of the optimizer at
   //  the current iteration. In our particular case, a common choice for the
@@ -520,7 +520,7 @@ int main( int argc, char **argv )
   //
   //  this last presentation of the  values makes easier to interpret the
   //  effect of the transform. The matrix $M$ is responsible for scaling,
-  //  rotation and shearing while $T$ is responsible for eventual translations.
+  //  rotation and shearing while $T$ is responsible for translations.
   //  It can be seen that the translation values in this case match closely the
   //  true misaligment introduced in the moving image. 
   // 
