@@ -129,6 +129,7 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
       m_Bounds[2*i  ] = point[i];
       m_Bounds[2*i+1] = point[i];
       }
+    ++ci;
     
     //use a const iterator to grab the points and compute
     //the bounding box.
