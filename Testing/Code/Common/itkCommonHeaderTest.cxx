@@ -123,6 +123,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMatrix.h"
 #include "itkMesh.h"
 #include "itkMeshRegion.h"
+#include "itkMeshSource.h"
+#include "itkMeshToMeshFilter.h"
 #include "itkMultiThreader.h"
 #include "itkMutexLock.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
