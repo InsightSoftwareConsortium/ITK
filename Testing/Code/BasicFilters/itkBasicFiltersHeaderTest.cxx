@@ -35,6 +35,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkBSplineL2ResampleImageFilterBase.txx"
 #include "itkBSplineResampleImageFilterBase.txx"
 #include "itkBSplineUpsampleImageFilter.txx"
+#include "itkBilateralImageFilter.txx"
 #include "itkBinaryDilateImageFilter.txx"
 #include "itkBinaryErodeImageFilter.txx"
 #include "itkBinaryFunctorImageFilter.txx"
