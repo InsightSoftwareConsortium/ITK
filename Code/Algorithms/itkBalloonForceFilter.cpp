@@ -115,15 +115,11 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   int i; 
   float x[3], d[3] = {0,0,0}; 
 
-//  TInputMesh::Pointer Normals(TInputMesh::New()); 
-
   TimeStep = 0.001; 
 
   for (i = 0; i < npoints; i++) Forces->SetPoint (i, d);
 
   for (i = 0; i < npoints; i++) Derives->SetPoint (i, d);
-
-//  for (i = 0; i < npoints; i++) Normals->SetPoint (i, d);
  
   for (i = 0; i < npoints; i++) Displacements->SetPoint (i, d); 
  
@@ -225,7 +221,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   CStiffness[3][3] = 1.0; 
 
   int j=0;
-  for(j=0; j<CellNum; j++) {
+  for(j=1; j<CellNum; j++) {
 	Locations->GetCellData(j, (PT*)x);
 	switch ((int)(x1)) { 
     case 1: 
@@ -261,7 +257,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   TInputMesh::PointsContainerPointer Points;
   Points = Locations->GetPoints();
 
-  const int npoints = Forces->GetNumberOfPoints()-2; 
+  const int npoints = Forces->GetNumberOfPoints(); 
   int slicediv = npoints / this->Resolution[0]; 
   float pxx, pyy, pxy, qxx, qyy, qxy, r[2], dis[2];
   double d=0.0, e, f1=0.0;
@@ -275,25 +271,25 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     Locations->GetPoint (q, (IPT*)(y));  
     p = (i == 0)?npoints-1:i-1;
     Locations->GetPoint (p, (IPT*)(z));
-	  qxx = y[1] - x[1];
-	  qyy = x[0] - y[0];
-	  qxy = sqrt(qxx*qxx+qyy*qyy);
-	  pxx = x[1] - z[1];
-	  pyy = z[0] - x[0];
-	  pxy = sqrt(pxx*pxx+pyy*pyy);
-	  qxx = qxx/qxy;
-	  qyy = qyy/qxy;
-	  pxx = pxx/pxy;
-	  pyy = pyy/pxy;
-	  n[0] = qxx + pxx;
-	  n[1] = qyy + pyy;
-	  n[2] = 0;
 
+	qxx = y[1] - x[1];
+    qyy = x[0] - y[0];
+    qxy = sqrt(qxx*qxx+qyy*qyy);
+	pxx = x[1] - z[1];
+	pyy = z[0] - x[0];
+	pxy = sqrt(pxx*pxx+pyy*pyy);	  
+	qxx = qxx/qxy;
+	qyy = qyy/qxy;
+	pxx = pxx/pxy;  
+	pyy = pyy/pxy;
+	n[0] = qxx + pxx;
+	n[1] = qyy + pyy;  
+	n[2] = 0;
 
-      f[0] = 400*n[0]; 
-      f[1] = 400*n[1];
+    f[0] = 400*n[0]; 
+    f[1] = 400*n[1];
 
-      f[2] = 0;
+    f[2] = 0;
 
     Forces->SetPoint (i, f);  
 
@@ -316,13 +312,13 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   TInputMesh::CellsContainerPointer Cells;
   Cells = Locations->GetCells();
 
-  const int ncells = Locations->GetNumberOfCells()-2;
+  const int ncells = Locations->GetNumberOfCells();
 
-  const int npoints = Forces->GetNumberOfPoints()-2;  
+  const int npoints = Forces->GetNumberOfPoints();  
   float p = 1; 
 
   float v1[3], v2[3], v3[3];
-  for (i = 0; i < ncells; i++) { 
+  for (i = 1; i < ncells; i++) { 
     Locations->GetCell(i, &testCell);
 	tp=testCell->GetPointIds();
     Displacements->GetPoint (tp[0], (IPT*)v1); 
@@ -421,8 +417,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     Displacements->SetPoint (i, d); 
     Derives->SetPoint (i, d); 
     Forces->SetPoint (i, d); 
-
-    Locations->SetPoint (i, x); 
+//    Locations->SetPoint (i, x); 
   } 
 }
 
@@ -434,7 +429,7 @@ void
 BalloonForceFilter<TInputMesh, TOutputMesh>
 ::Advance(){
   float s[3], ds[3]; 
-  const int npoints = Forces->GetNumberOfPoints()-2; 
+  const int npoints = Forces->GetNumberOfPoints(); 
   for (int i = 0; i < npoints; i++) { 
     Displacements->GetPoint (i, (IPT*)s); 
     Derives->GetPoint (i, (IPT*)ds); 
@@ -450,7 +445,7 @@ void
 BalloonForceFilter<TInputMesh, TOutputMesh>
 ::ComputeOutput(){
   float s[3], d[3]; 
-  const int npoints = Forces->GetNumberOfPoints()-2; 
+  const int npoints = Forces->GetNumberOfPoints(); 
   for (int i = 0; i < npoints; i++) { 
     Displacements->GetPoint (i, (IPT*)d); 
     Locations->GetPoint (i, (IPT*)s); 
