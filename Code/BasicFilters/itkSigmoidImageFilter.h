@@ -54,8 +54,9 @@ namespace Function {
     inline TOutput operator()( const TInput & A )
     {
       const double x = m_Alpha * static_cast<double>(A) + m_Beta;
+      const double e = 1.0 / ( 1.0 + exp( - x ) );
       const double v = 
-        (m_OutputMaximum - m_OutputMinimum ) * x + m_OutputMinimum;
+        (m_OutputMaximum - m_OutputMinimum ) * e + m_OutputMinimum;
       return static_cast<TOutput>( v );
     }
   void SetAlpha( double alpha ) {
