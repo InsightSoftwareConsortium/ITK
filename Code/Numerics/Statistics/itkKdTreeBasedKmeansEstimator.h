@@ -143,7 +143,7 @@ protected:
     void SetCenteroids(InternalParametersType& centeroids)
     {
       m_Candidates.resize(centeroids.size()) ;
-      for (int i = 0 ; i < centeroids.size() ; i++)
+      for (unsigned int i = 0 ; i < centeroids.size() ; i++)
         {
           Candidate candidate ;
           candidate.Centeroid = centeroids[i] ;
@@ -156,9 +156,9 @@ protected:
     /** gets the centeroids (k-means) */
     void GetCenteroids(InternalParametersType& centeroids)
     {
-      int i ;
+      unsigned int i ;
       centeroids.resize(this->Size()) ;
-      for (i = 0 ; i < this->Size() ; i++)
+      for (i = 0 ; i < (unsigned int)this->Size() ; i++)
         {
           centeroids[i] = m_Candidates[i].Centeroid ;
         }
@@ -168,8 +168,8 @@ protected:
      * that belongs to each centeroid and the number of measurement vectors */
     void UpdateCenteroids()
     {
-      int i, j ;
-      for (i = 0 ; i < this->Size() ; i++)
+      unsigned int i, j ;
+      for (i = 0 ; i < (unsigned int)this->Size() ; i++)
         {
           if (m_Candidates[i].Size > 0)
             {
@@ -232,7 +232,7 @@ protected:
   void GetPoint(ParameterType &point, 
                 MeasurementVectorType &measurements)
   {
-    for (int i = 0 ; i < MeasurementVectorSize ; i++)
+    for (unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
       {
         point[i] = measurements[i] ;
       }
@@ -241,7 +241,7 @@ protected:
   void PrintPoint(ParameterType &point)
   {
     std::cout << "[ " ;
-    for (int i = 0 ; i < MeasurementVectorSize ; i++)
+    for (unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
       {
         std::cout << point[i] << " " ;
       }

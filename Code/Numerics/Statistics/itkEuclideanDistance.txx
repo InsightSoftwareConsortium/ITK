@@ -28,7 +28,7 @@ EuclideanDistance< TVector >
 {
   double temp, distance = NumericTraits< double >::Zero ;
   
-  for(int i = 0 ; i < VectorLength ; i++ )
+  for(unsigned int i = 0 ; i < VectorLength ; i++ )
     {
       temp = x1[i] - x2[i] ;
       distance += temp * temp ;
