@@ -282,6 +282,9 @@ public:
     std::vector< InstanceIdentifier >& GetNeighbors()
     { return m_Identifiers ; }
 
+    InstanceIdentifier GetNeighbor(unsigned int index)
+    { return m_Identifiers[index] ; }
+
     std::vector< double >& GetDistances()
     { return m_Identifiers ; }
 
