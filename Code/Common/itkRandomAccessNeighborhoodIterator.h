@@ -17,7 +17,6 @@
 #define __itkRandomAccessNeighborhoodIterator_h
 
 #include "itkRegionNeighborhoodIterator.h"
-#include "itkVectorComponentDataAccessor.h"
 #include "itkIndex.h"
 
 namespace itk {
