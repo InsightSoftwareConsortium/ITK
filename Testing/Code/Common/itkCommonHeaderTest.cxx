@@ -42,7 +42,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkCentralDifferenceImageFunction.h"
 #include "itkColorTable.h"
 #include "itkCommand.h"
-#include "itkConceptChecking.h"
 #include "itkConditionalIterator.h"
 #include "itkConeSpatialFunction.h"
 #include "itkConicShellInteriorExteriorSpatialFunction.h"
