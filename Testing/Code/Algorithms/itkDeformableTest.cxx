@@ -264,7 +264,7 @@ int itkDeformableTest(int argc, char **argv)
   m_dfilter->SetStiffness(m_stiff);
   m_dfilter->SetGradientMagnitude(1.0);
   m_dfilter->SetTimeStep(0.01);
-  m_dfilter->SetStepThreshold(100);
+  m_dfilter->SetStepThreshold(10);
   m_dfilter->SetScale(m_scale);
   m_dfilter->SetObjectLabel(1);
   m_dfilter->SetPotentialOn(0);
