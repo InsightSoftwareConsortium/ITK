@@ -47,7 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 int main()
 { 
-  int k;
+  unsigned int k;
   itk::RGBPixel<int> pi; pi = 3, 1, 4;
   itk::RGBAPixel<int> pia; pia = 3, 1, 4, 1;
   std::cerr << "RGBPixel<int>: " <<  pi << "\n";
