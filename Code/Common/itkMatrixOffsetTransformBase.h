@@ -166,8 +166,11 @@ public:
    *
    * This method sets the matrix of an MatrixOffsetTransformBase to a
    * value specified by the user. 
+   *
    * This updates the Offset wrt to current translation
-   * and center.
+   * and center.  See the warning regarding offset-versus-translation
+   * in the documentation for SetCenter.
+   *
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
   void SetMatrix(const MatrixType &matrix)
@@ -188,7 +191,8 @@ public:
    *
    * This method sets the offset of an MatrixOffsetTransformBase to a
    * value specified by the user.
-   * This updates Translation wrt current center.
+   * This updates Translation wrt current center.  See the warning regarding
+   * offset-versus-translation in the documentation for SetCenter.
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
   void SetOffset(const OutputVectorType &offset)
@@ -206,9 +210,22 @@ public:
   /** Set center of rotation of an MatrixOffsetTransformBase
    *
    * This method sets the center of rotation of an MatrixOffsetTransformBase 
-   * to a fixed point - this point is not a "parameter" of the transform.
-   * This updates translation wrt to current offset and matrix.
-   * That is, changing the center does not change the transform.
+   * to a fixed point - for most transforms derived from this class, 
+   * this point is not a "parameter" of the transform - the exception is that
+   * "centered" (e.g., itkCenteredAffineTransform) transforms have center as
+   * a parameter during optimization.
+   *
+   * This method updates offset wrt to current translation and matrix.
+   * That is, changing the center changes the transform!
+   *
+   * WARNING: When using the Center, we strongly recommend only changing the
+   * matrix and translation to define a transform.   Changing a transform's
+   * center, changes the mapping between spaces - specifically, translation is
+   * not changed with respect to that new center, and so the offset is updated
+   * to * maintain the consistency with translation.   If a center is not used,
+   * or is set before the matrix and the offset, then it is safe to change the
+   * offset directly.
+   *
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
   void SetCenter(const InputPointType & center)
