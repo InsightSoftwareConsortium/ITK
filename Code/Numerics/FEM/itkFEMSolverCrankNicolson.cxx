@@ -319,7 +319,7 @@ Element::Float SolverCrankNicolson::BrentsMethod(Float tol,unsigned int MaxIters
 
   unsigned int iter;
   
-  Float a,b,d,etemp,fu,fv,fw,fx,p,q,r,tol1,tol2,u,v,w,x,xm;
+  Float a,b,d=0.,etemp,fu,fv,fw,fx,p,q,r,tol1,tol2,u,v,w,x,xm;
 
   Float e=0.0;  // the distance moved on the step before last;
 
