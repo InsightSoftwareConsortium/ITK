@@ -20,7 +20,7 @@
 #include "itkEllipsoidInteriorExteriorSpatialFunction.h"
 #include <math.h>
 
-namespace itk
+namespace itk 
 {
 
 template <unsigned int VDimension, typename TInput>
