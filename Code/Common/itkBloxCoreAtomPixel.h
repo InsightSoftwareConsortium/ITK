@@ -79,25 +79,15 @@ public:
   /** Perform eigenanalysis on the voted CMatrix */
   void DoVotedEigenanalysis();
 
-  /** Get the mean core atom diameter. */
-  double GetMeanCoreAtomDiameter(void)
-    { return m_MeanCoreAtomDiameter; }
-
-  /** Get eigenvalues. */
-  TEigenvalueType GetEigenvalues(void)
-    { return m_Eigenvalues; }
-
-  /** Get eigenvectors. */
-  TEigenvectorType GetEigenvectors(void)
-    { return m_Eigenvectors; }
-
-  /** Get eigenvalues after voting. */
-  TEigenvalueType GetVotedEigenvalues(void)
-    { return m_VotedEigenvalues; }
-
-  /** Get eigenvectors after voting. */
-  TEigenvectorType GetVotedEigenvectors(void)
-    { return m_VotedEigenvectors; }
+  /** Get Macros */
+  itkGetMacro(MeanCoreAtomDiameter, double);
+  itkGetMacro(MeanCoreAtomIntensity, double);
+  itkGetMacro(Eigenvalues, TEigenvalueType);
+  itkGetMacro(Eigenvectors, TEigenvectorType);
+  itkGetMacro(VotedEigenvalues, TEigenvalueType);
+  itkGetMacro(VotedEigenvectors, TEigenvectorType);
+  itkGetMacro(LocationSums, TPositionType);
+  itkGetMacro(WeightSum, double);
 
   /** Get the raw CMatrix (prior to voting) */
   MatrixType* GetRawCMatrixPointer() {return &m_RawCMatrix;}
@@ -111,9 +101,11 @@ public:
   /** Calculate location of the pixel based on core atoms voting for it*/
   void CalcWeightedCoreAtomLocation(double weight_factor, Self * votingPixel);
 
-  TPositionType GetLocationSums(){return m_LocationSums;}
+  /** Calculate mean intensity os the pixel based on its core atoms*/
+  void CalcMeanCoreAtomIntensity();
 
-  double GetWeightSum(){return m_WeightSum;}
+  /** Returns the calculated voted location*/
+  TPositionType GetVotedLocation();
 
   BloxCoreAtomPixel();
   ~BloxCoreAtomPixel();
@@ -151,8 +143,14 @@ private:
   /** Used to compute the voted location of the core atom population */
   TPositionType m_LocationSums;
 
+  /** Used to compute the voted location of the core atom population */
+  TPositionType m_VotedLocation;
+
   /** Total weights used to compute voted location */
   double m_WeightSum;
+
+  /** Total weights used to compute voted location */
+  double m_MeanCoreAtomIntensity;
 };
 
 

@@ -39,6 +39,8 @@ BloxCoreAtomPixel<NDimensions>
 
   m_WeightSum = 0;
 
+  m_MeanCoreAtomIntensity = 0.0;
+
   m_LocationSums[0] = 0;
   m_LocationSums[1] = 0;
   m_LocationSums[2] = 0;
@@ -51,6 +53,34 @@ BloxCoreAtomPixel<NDimensions>
   // The default destructor walks the pixel and deletes all bloxitems
 }
 
+
+//REMOVED: Boundary points dont know their intensities...profiles do!
+template <unsigned int NDimensions>
+void 
+BloxCoreAtomPixel<NDimensions>
+::CalcMeanCoreAtomIntensity()
+{
+
+/*
+  double temp_intensity = 0.0;
+  int num_core_atoms = 0;
+
+  itk::BloxCoreAtomPixel<NDimensions>::iterator bpiterator;
+
+  for (bpiterator = this->begin(); bpiterator != this->end(); ++bpiterator)
+    {
+    // Get the pointer of the core atom
+    TCoreAtomItemType* pCoreAtom = *bpiterator;
+
+    //get mean intensity for this core atom
+    temp_intensity = (pCoreAtom->GetBoundaryPointA()->GetValue() + pCoreAtom->GetBoundaryPointB()->GetValue())/2
+
+    m_MeanCoreAtomIntensity += temp_intensity;
+    num_core_atoms++;
+    }
+  m_MeanCoreAtomIntensity /= num_core_atoms;
+*/
+}
 
 template <unsigned int NDimensions>
 void 
@@ -195,6 +225,18 @@ BloxCoreAtomPixel<NDimensions>
 
   delete pEigenSys;
   return true;
+}
+
+template <unsigned int NDimensions>
+Point<double, NDimensions>
+BloxCoreAtomPixel<NDimensions>
+::GetVotedLocation()
+{
+  m_VotedLocation[0] = m_LocationSums[0] / m_WeightSum;
+  m_VotedLocation[1] = m_LocationSums[1] / m_WeightSum;
+  m_VotedLocation[2] = m_LocationSums[2] / m_WeightSum;
+
+  return m_VotedLocation;
 }
 
 template <unsigned int NDimensions>
