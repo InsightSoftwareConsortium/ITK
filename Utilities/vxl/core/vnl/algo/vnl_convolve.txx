@@ -60,7 +60,7 @@ vnl_vector<U> vnl_convolve_cyclic(vnl_vector<T1> const& v1, vnl_vector<T2> const
   return ret;
 }
 
-bool has_only_primefactors_2_3_5(unsigned int n)
+inline bool has_only_primefactors_2_3_5(unsigned int n)
 {
   if (n <= 1) return true;
   while (n%2 == 0) n /= 2;
