@@ -48,6 +48,7 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   //
   // Following initialization is related to
   // calculating image derivatives
+  m_ComputeGradient = false; // don't use the default gradient for now
   m_DerivativeCalculator = DerivativeFunctionType::New();
 
 }
@@ -168,11 +169,6 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValue( const ParametersType& parameters ) const
 {
 
-  if( !m_FixedImage || !m_Interpolator || !m_Transform )
-    {
-    return NumericTraits< MeasureType >::Zero;
-    }
-
   // make sure the transform has the current parameters
   m_Transform->SetParameters( parameters );
 
@@ -255,23 +251,14 @@ MeasureType& value,
 DerivativeType& derivative) const
 {
 
-
   value = NumericTraits< MeasureType >::Zero;
-  derivative = DerivativeType( this->GetNumberOfParameters() );
-  derivative.Fill( NumericTraits< MeasureType >::Zero );
-
-  // check if inputs are valid
-  if( !m_FixedImage || !m_MovingImage || !m_Interpolator || !m_Transform )
-    {
-    return;
-    }
-
-  // make sure the transform has the current parameters
-  m_Transform->SetParameters( parameters );
   unsigned int numberOfParameters = m_Transform->GetNumberOfParameters();
   DerivativeType temp( numberOfParameters );
   temp.Fill( 0 );
   derivative = temp;
+
+  // make sure the transform has the current parameters
+  m_Transform->SetParameters( parameters );
 
   // set the DerivativeCalculator
   m_DerivativeCalculator->SetInputImage( m_MovingImage );

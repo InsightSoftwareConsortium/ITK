@@ -127,9 +127,6 @@ int itkMutualInformationMetricTest(int, char**)
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
-  // connect the moving image to the interpolator
-  interpolator->SetInputImage( imgMoving );
-
 //------------------------------------------------------------
 // Set up the metric
 //------------------------------------------------------------
@@ -157,6 +154,9 @@ int itkMutualInformationMetricTest(int, char**)
 
   // set the region over which to compute metric
   metric->SetFixedImageRegion( imgFixed->GetBufferedRegion() );
+
+  // initialize the metric before use
+  metric->Initialize();
 
 //------------------------------------------------------------
 // Set up a affine transform parameters
@@ -236,6 +236,7 @@ int itkMutualInformationMetricTest(int, char**)
   metric->SetFixedImageStandardDeviation( 0.001 );
   try
     {
+    metric->Initialize();
     std::cout << "Value = " << metric->GetValue( parameters );
     std::cout << std::endl;
     }
@@ -248,13 +249,20 @@ int itkMutualInformationMetricTest(int, char**)
   // reset standard deviation
   metric->SetFixedImageStandardDeviation( 5.0 );
 
-  std::cout << "Check case when Target is NULL" << std::endl;
-  metric->SetFixedImage( NULL );
-  std::cout << "Value = " << metric->GetValue( parameters );
+  std::cout << "Try causing a exception by making fixed image NULL";
   std::cout << std::endl;
-  
-  metric->GetValueAndDerivative( parameters, measure, derivative );
-  std::cout << "Value = " << measure << std::endl;
+  metric->SetFixedImage( NULL );
+  try
+    {
+    metric->Initialize();
+    std::cout << "Value = " << metric->GetValue( parameters );
+    std::cout << std::endl;
+    }
+  catch( itk::ExceptionObject &err)
+    {
+    std::cout << "Caught the exception." << std::endl;
+    std::cout << err << std::endl;
+    }
 
 
   return EXIT_SUCCESS;

@@ -151,7 +151,7 @@ public:
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly     */
-  void Initialize(void) throw ( ExceptionObject );
+  virtual void Initialize(void) throw ( ExceptionObject );
 
   /** Set/Get the sigma value used for computing the 
       gradient image with a derivative of a Gaussian filter */
@@ -171,6 +171,7 @@ protected:
   mutable TransformPointer    m_Transform;
   InterpolatorPointer         m_Interpolator;
 
+  bool                        m_ComputeGradient;
   GradientImagePointer        m_GradientImage;
 
 private:
