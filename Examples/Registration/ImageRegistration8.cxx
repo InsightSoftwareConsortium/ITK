@@ -35,7 +35,6 @@
 #include "itkImageRegistrationMethod.h"
 #include "itkMeanSquaresImageToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"
-#include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkImage.h"
 
 
@@ -52,6 +51,24 @@
 #include "itkCenteredTransformInitializer.h"
 // Software Guide : EndCodeSnippet
 
+//  Software Guide : BeginLatex
+//  
+//  The parameter space of the \code{VersorRigid3DTransform} is not a vector
+//  space, due to the fact that addition is not a closed operation in the space
+//  of versor components. This precludes the use of standard gradient descent
+//  algorithms for optimizing the parameter space of this transform. A special
+//  optimizer should be used in this registration configuration. This optimizer
+//  uses Versor composition for updating the first three components of the
+//  parameters array, and Vector addition for updating the last three
+//  components of the parameters array.
+//
+//  \index{itk::VersorRigid3DTransformOptimizer!header}
+// 
+//  Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+#include "itkVersorRigid3DTransformOptimizer.h"
+// Software Guide : EndCodeSnippet
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -75,7 +92,7 @@ public:
 protected:
   CommandIterationUpdate() {};
 public:
-  typedef itk::RegularStepGradientDescentOptimizer     OptimizerType;
+  typedef itk::VersorRigid3DTransformOptimizer     OptimizerType;
   typedef   const OptimizerType   *    OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
@@ -133,7 +150,8 @@ int main( int argc, char *argv[] )
 
 
 
-  typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
+  typedef itk::VersorRigid3DTransformOptimizer           OptimizerType;
+
   typedef itk::MeanSquaresImageToImageMetric< 
                                     FixedImageType, 
                                     MovingImageType >    MetricType;
