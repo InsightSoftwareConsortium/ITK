@@ -95,6 +95,7 @@ set Report(FileMatched) 0
 set ErrorMatches [list \
 		  {([^ :]+):([0-9]+): ([^ \t])} \
 		  {^cc[^C]*CC: ERROR File = ([^,]+), Line = ([0-9]+)} \
+		  {^ld([^:])*:([ \t])*ERROR([^:])*:} \
 		  {([^ :]+) : (error|fatal error)} \
 		  {([^:]+)\(([^\)]+)\) : (error|fatal error)}
 		 ]
@@ -104,6 +105,7 @@ set ErrorExceptions [list "instantiated from " "candidates are:"]
 set WarningMatches [list \
 		    {([^ :]+):([0-9]+): warning:} \
 		    {^cc[^C]*CC: WARNING File = ([^,]+), Line = ([0-9]+)} \
+  		    {^ld([^:])*:([ \t])*WARNING([^:])*:} \
 		    {([^ :]+) : warning}
 		 ]
 set WarningExceptions [list ]
