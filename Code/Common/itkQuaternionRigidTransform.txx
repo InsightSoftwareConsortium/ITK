@@ -76,6 +76,77 @@ TransformPoint(const InputPointType &point) const
 }
 
 
+// Transform a vector
+template<class TScalarType>
+typename QuaternionRigidTransform<TScalarType>::OutputVectorType
+QuaternionRigidTransform<TScalarType>::
+TransformVector(const InputVectorType &vect) const 
+{
+  return  m_RotationMatrix * vect;
+}
+
+
+// Transform a vnl_vector_fixed
+template<class TScalarType>
+typename QuaternionRigidTransform<TScalarType>::OutputVnlVectorType
+QuaternionRigidTransform<TScalarType>::
+TransformVector(const InputVnlVectorType &vect) const 
+{
+  return  m_RotationMatrix * vect;
+}
+
+
+// Transform a CovariantVector
+template<class TScalarType>
+typename QuaternionRigidTransform<TScalarType>::OutputCovariantVectorType
+QuaternionRigidTransform<TScalarType>::
+TransformCovariantVector(const InputCovariantVectorType &vect) const 
+{
+  // Covariant vectors are transformed like contravariant
+  // vectors under orthogonal transformations.
+  return  m_RotationMatrix * vect;
+}
+
+
+
+// Back transform a point
+template<class TScalarType>
+typename QuaternionRigidTransform<TScalarType>::InputPointType
+QuaternionRigidTransform<TScalarType>::
+BackTransform(const OutputPointType &point) const 
+{
+  return m_InverseMatrix * (point - m_Offset);
+}
+
+// Back transform a vector
+template<class TScalarType>
+typename QuaternionRigidTransform<TScalarType>::InputVectorType
+QuaternionRigidTransform<TScalarType>::
+BackTransform(const OutputVectorType &vect ) const 
+{
+  return  m_InverseMatrix * vect;
+}
+
+// Back transform a vnl_vector
+template<class TScalarType>
+typename QuaternionRigidTransform<TScalarType>::InputVnlVectorType
+QuaternionRigidTransform<TScalarType>::
+BackTransform(const OutputVnlVectorType &vect ) const 
+{
+  return  m_InverseMatrix * vect;
+}
+
+
+// Back Transform a CovariantVector
+template<class TScalarType>
+typename QuaternionRigidTransform<TScalarType>::InputCovariantVectorType
+QuaternionRigidTransform<TScalarType>::
+BackTransform(const OutputCovariantVectorType &vect) const 
+{
+  return m_RotationMatrix * vect;
+}
+
+
 // Set Parameters
 template <class TScalarType>
 void

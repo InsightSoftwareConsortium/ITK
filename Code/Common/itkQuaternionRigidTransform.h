@@ -118,6 +118,26 @@ public:
    * given point or vector, returning the transformed point or
    * vector. */
   OutputPointType     TransformPoint(const InputPointType  &point ) const;
+  OutputVectorType    TransformVector(const InputVectorType &vector) const;
+  OutputVnlVectorType TransformVector(const InputVnlVectorType &vector) const;
+
+  OutputCovariantVectorType TransformCovariantVector(
+                                 const InputCovariantVectorType &vector) const;
+
+  /**
+   * Back transform by an rigid 3D transform
+   *
+   * This method finds the point or vector that maps to a given
+   * point or vector under the affine transformation defined by
+   * self.  If no such point exists, an exception is thrown.
+   **/
+  inline InputPointType      BackTransform(const OutputPointType  &point ) const;
+  inline InputVectorType     BackTransform(const OutputVectorType &vector) const;
+  inline InputVnlVectorType  BackTransform(const OutputVnlVectorType &vector) const;
+
+  inline InputCovariantVectorType BackTransform(
+                                     const OutputCovariantVectorType &vector) const;
+
 
   /** Set the transformation from a container of parameters.
    * This is typically used by optimizers.
