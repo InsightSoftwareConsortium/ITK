@@ -68,17 +68,17 @@ int itkPatternIntensityImageMetricTest(int, char**)
   MovingImageSourceType::Pointer movingImageSource = MovingImageSourceType::New();
   FixedImageSourceType::Pointer  fixedImageSource  = FixedImageSourceType::New();
 
+  fixedImageSource->SetSize(    fixedImageSize    );
+  fixedImageSource->SetOrigin(  fixedImageOrigin  );
+  fixedImageSource->SetSpacing( fixedImageSpacing );
+  fixedImageSource->SetNormalized( true );
+  fixedImageSource->SetScale( 1.0f );
+
   movingImageSource->SetSize(    movingImageSize    );
   movingImageSource->SetOrigin(  movingImageOrigin  );
   movingImageSource->SetSpacing( movingImageSpacing );
   movingImageSource->SetNormalized( true );
   movingImageSource->SetScale( 1.0f );
-
-  MovingImageType::SizeType size = {{100,100}};
-  MovingImageType::IndexType index = {{0,0}};
-  MovingImageType::RegionType region;
-  region.SetSize( size );
-  region.SetIndex( index );
 
 
   MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
