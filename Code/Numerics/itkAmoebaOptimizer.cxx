@@ -166,10 +166,6 @@ AmoebaOptimizer
   m_VnlOptimizer->set_x_tolerance( m_ParametersConvergenceTolerance );
   m_VnlOptimizer->set_f_tolerance( m_FunctionConvergenceTolerance );
 
-  ScalesType scales( numberOfParameters );
-  scales.Fill( 1.0f );
-  SetScales( scales );
-
   m_OptimizerInitialized = true;
 
 }
@@ -186,11 +182,14 @@ AmoebaOptimizer
   
   ParametersType initialPosition = GetInitialPosition();
 
-  InternalParametersType parameters( initialPosition.Size() );
+  ParametersType parameters( initialPosition );
 
-  CostFunctionAdaptorType::ConvertExternalToInternalParameters( 
-    initialPosition, 
-    parameters     );
+  // If the user provides the scales then we set otherwise we don't
+  // for computation speed
+  if(m_ScalesInitialized)
+    {
+    this->GetCostFunctionAdaptor()->SetScales(this->GetScales());
+    }
 
   // vnl optimizers return the solution by reference 
   // in the variable provided as initial position
@@ -200,20 +199,22 @@ AmoebaOptimizer
     }
   else
     {
-    InternalParametersType delta( m_InitialSimplexDelta.Size() );
-    CostFunctionAdaptorType::ConvertExternalToInternalParameters(
-      m_InitialSimplexDelta, delta);
-
+    InternalParametersType delta( m_InitialSimplexDelta );
     // m_VnlOptimizer->verbose = 1;
     m_VnlOptimizer->minimize( parameters, delta );
     }
   
-  ParametersType solution;
+   // we scale the parameters down if scales are defined
+  if(m_ScalesInitialized)
+    {
+    ScalesType scales = this->GetScales();
+    for(unsigned int i=0;i<parameters.size();i++)
+      {
+      parameters[i] /= scales[i]; 
+      }
+    }
 
-  CostFunctionAdaptorType::ConvertInternalToExternalParameters( 
-    parameters,
-    solution     );
-  this->SetCurrentPosition( solution );
+  this->SetCurrentPosition( parameters );
       
 
 }

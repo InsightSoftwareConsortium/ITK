@@ -182,8 +182,6 @@ void
 LBFGSOptimizer
 ::SetCostFunction( SingleValuedCostFunction * costFunction )
 {
-
-
   const unsigned int numberOfParameters = 
     costFunction->GetNumberOfParameters();
 
@@ -209,11 +207,6 @@ LBFGSOptimizer
   m_VnlOptimizer->line_search_accuracy = m_LineSearchAccuracy;
   m_VnlOptimizer->default_step_length  = m_DefaultStepLength;
 
-
-  ScalesType scales( numberOfParameters );
-  scales.Fill( 1.0f );
-  SetScales( scales );
-
   m_OptimizerInitialized = true;
 
 }
@@ -229,24 +222,30 @@ LBFGSOptimizer
 {
   
   ParametersType initialPosition = GetInitialPosition();
+  ParametersType parameters( initialPosition );  
 
-  InternalParametersType parameters( initialPosition.Size() );
-
-  CostFunctionAdaptorType::ConvertExternalToInternalParameters( 
-    GetInitialPosition(), 
-    parameters     );
-  
+  // If the user provides the scales then we set otherwise we don't
+  // for computation speed
+  if(m_ScalesInitialized)
+    {
+    this->GetCostFunctionAdaptor()->SetScales(this->GetScales());
+    }
+ 
   // vnl optimizers return the solution by reference 
   // in the variable provided as initial position
   m_VnlOptimizer->minimize( parameters );
-  
-  ParametersType solution;
 
-  CostFunctionAdaptorType::ConvertInternalToExternalParameters( 
-    parameters,
-    solution     );
-  this->SetCurrentPosition( solution );
-         
+   // we scale the parameters down if scales are defined
+  if(m_ScalesInitialized)
+    {
+    ScalesType scales = this->GetScales();
+    for(unsigned int i=0;i<parameters.size();i++)
+      {
+      parameters[i] /= scales[i]; 
+      }
+    }
+
+  this->SetCurrentPosition( parameters );       
 
 }
 

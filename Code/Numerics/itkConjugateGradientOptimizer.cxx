@@ -79,11 +79,6 @@ ConjugateGradientOptimizer
   this->SetCostFunctionAdaptor( adaptor );
 
   m_VnlOptimizer = new vnl_conjugate_gradient( *adaptor );
-
-  ScalesType scales( numberOfParameters );
-  scales.Fill( 1.0f );
-  SetScales( scales );
-
   m_OptimizerInitialized = true;
 
 }
@@ -99,22 +94,30 @@ ConjugateGradientOptimizer
 
   ParametersType initialPosition = GetInitialPosition();
 
-  InternalParametersType parameters( initialPosition.Size() );
+  ParametersType parameters(initialPosition);
 
-  CostFunctionAdaptorType::ConvertExternalToInternalParameters( 
-    GetInitialPosition(), 
-    parameters     );
+   // If the user provides the scales then we set otherwise we don't
+  // for computation speed
+  if(m_ScalesInitialized)
+    {
+    this->GetCostFunctionAdaptor()->SetScales(this->GetScales());
+    }
 
   // vnl optimizers return the solution by reference 
   // in the variable provided as initial position
   m_VnlOptimizer->minimize( parameters );
   
-  ParametersType solution;
+   // we scale the parameters down if scales are defined
+  if(m_ScalesInitialized)
+    {
+    ScalesType scales = this->GetScales();
+    for(unsigned int i=0;i<parameters.size();i++)
+      {
+      parameters[i] /= scales[i]; 
+      }
+    }
 
-  CostFunctionAdaptorType::ConvertInternalToExternalParameters( 
-    parameters,
-    solution     );
-  this->SetCurrentPosition( solution );
+  this->SetCurrentPosition( parameters );
       
 }
 
