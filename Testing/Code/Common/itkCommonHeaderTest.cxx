@@ -81,7 +81,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageAdaptor.h"
 #include "itkImageBase.h"
 #include "itkImageBoundaryCondition.h"
-#include "itkImageBufferIterator.h"
 #include "itkImageConstIteratorWithIndex.h"
 #include "itkImageContainerInterface.h"
 #include "itkImageFunction.h"
