@@ -260,7 +260,7 @@ class SimplexMesh : public Mesh<TPixelType, VDimension, TMeshTraits>
   protected:
     //  /** Constructor for use by New() method. */
     SimplexMesh();
-    ~SimplexMesh();
+    virtual ~SimplexMesh();
     void PrintSelf(std::ostream& os, Indent indent) const;
 
     /** 
