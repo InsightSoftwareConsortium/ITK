@@ -80,7 +80,7 @@ int main(void)
    * Assign the points to the tetrahedron through their identifiers.
    */
   testCell->SetCellPoints(tetraPoints);
-  
+
   /**
    * Add the test cell to the mesh.
    * mesh->SetCell(cellId, cell)
@@ -104,7 +104,31 @@ int main(void)
     1,    // CellIdentifier.
     0);   // CellFeatureIdentifier
 
+  cout << testCell->GetClassName() << endl;
 
+  /**
+   * Try getting the hexahedron's neighbor through its first edge.
+   * This should be the test tetrahedron.
+   */
+  std::list<Mesh::CellIdentifier>  neighborList;
+  mesh->GetBoundaryFeatureNeighbors(
+    1,              // Topological dimension of feature.
+    1,              // CellIdentifier
+    0,              // CellFeatureIdentifier
+    &neighborList); // Where to put result.
+
+  cout << "Neighbors:" << endl;
+  for(std::list<Mesh::CellIdentifier>::iterator cell = neighborList.begin() ;
+      cell != neighborList.end() ; ++cell)
+    {
+    cout << "Id " << *cell << ": ";
+    if(mesh->GetCell(*cell, &testCell))
+      {
+      cout << testCell->GetClassName();
+      }
+    cout << endl;
+    }
+  
   return 0;  
 }
 
