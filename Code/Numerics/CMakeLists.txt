@@ -3,7 +3,9 @@ SUBDIRS(vxl Statistics FEM)
 SOURCE_FILES(ITKNumerics_SRCS
 itkCacheableScalarFunction
 itkCompositeValleyFunction
+itkMultipleValuedVnlCostFunctionAdaptor
 itkMultivariateLegendrePolynomial
+itkSingleValuedVnlCostFunctionAdaptor
 )
 
 LINK_LIBRARIES (

@@ -24,57 +24,53 @@ namespace itk
 {
   
 /** \class LBFGSOptimizer
- * \brief Wrap of the vnl_lbfgs minimizer to be adapted for Registration
+ * \brief Wrap of the vnl_lbfgs algorithm
  *
  * \ingroup Numerics Optimizers
  */
-template <class TCostFunction>
 class ITK_EXPORT LBFGSOptimizer : 
-    public SingleValuedNonLinearVnlOptimizer<TCostFunction> 
+    public SingleValuedNonLinearVnlOptimizer
 {
 public:
-  /** Standard class typedefs. */
-  typedef LBFGSOptimizer  Self;
-  typedef   SingleValuedNonLinearOptimizer<TCostFunction> Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  /** Standard "Self" typedef. */
+  typedef LBFGSOptimizer                     Self;
+  typedef SingleValuedNonLinearVnlOptimizer   Superclass;
+  typedef SmartPointer<Self>                  Pointer;
+  typedef SmartPointer<const Self>            ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( LBFGSOptimizer, SingleValuedNonLinearOptimizer );
+  itkTypeMacro( LBFGSOptimizer, SingleValuedNonLinearVnlOptimizer );
 
-  /**  Parameters type.
-   *  It defines a position in the optimization search space. */
-  typedef typename TCostFunction::ParametersType ParametersType;
+  /** InternalParameters typedef. */
+  typedef   vnl_vector<double>     InternalParametersType;
 
-  /**  Measure type.
-   *  It defines a type used to return the cost function value. */
-  typedef typename TCostFunction::MeasureType MeasureType;
-
-  /**  Derivative type.
-   *  It defines a type used to return the cost function derivative.  */
-  typedef typename TCostFunction::DerivativeType DerivativeType;
- 
   /** Internal optimizer type. */
-  typedef   vnl_lbfgs       InternalOptimizerType;
+  typedef   vnl_lbfgs             InternalOptimizerType;
 
   /** Method for getting access to the internal optimizer. */
-  InternalOptimizerType & GetOptimizer(void);
+  vnl_lbfgs * GetOptimizer(void);
 
   /** Start optimization with an initial value. */
   void StartOptimization( void );
- 
+
+  /** Plug in a Cost Function into the optimizer  */
+  virtual void SetCostFunction( SingleValuedCostFunction * costFunction );
+
 protected:
   LBFGSOptimizer();
-  virtual ~LBFGSOptimizer() {};
+  virtual ~LBFGSOptimizer();
+
+  typedef Superclass::CostFunctionAdaptorType   CostFunctionAdaptorType;
 
 private:
   LBFGSOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  InternalOptimizerType     m_LBFGS;
+  bool                          m_OptimizerInitialized;
+  InternalOptimizerType       * m_VnlOptimizer;
 
 };
 

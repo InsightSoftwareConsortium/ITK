@@ -30,22 +30,22 @@ namespace itk
  * Advance one Step following the gradient direction
  * This method will be overrided in non-vector spaces
  */
-template <class TCostFunction>
 void
-RegularStepGradientDescentOptimizer<TCostFunction>
+RegularStepGradientDescentOptimizer
 ::StepAlongGradient( double factor, 
                      const DerivativeType & transformedGradient )
 { 
 
-  ParametersType newPosition(SpaceDimension);
-  const ParametersType & currentPosition = GetCurrentPosition();
+  const unsigned int spaceDimension =
+                        m_CostFunction->GetNumberOfParameters();
 
-  for(unsigned int j=0; j<SpaceDimension; j++)
+  ParametersType newPosition( spaceDimension );
+  ParametersType currentPosition = this->GetCurrentPosition();
+
+  for(unsigned int j=0; j<spaceDimension; j++)
   {
     newPosition[j] = currentPosition[j] + transformedGradient[j] * factor;
   }
-
-
 
   this->SetCurrentPosition( newPosition );
 

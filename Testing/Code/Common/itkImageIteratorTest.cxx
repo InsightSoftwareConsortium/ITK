@@ -32,8 +32,13 @@ void TestConstPixelAccess(const itk::Image<T, VImageDimension> &in,
   itk::Image<T, VImageDimension>::IndexType regionEndIndex3D = {{8, 15, 17}};
 
   T vec;
-  // requires type T to support comma-separated-list assignments.
-  vec = 5,4,3,2,1;
+  
+  vec[0] = 5;
+  vec[1] = 4;
+  vec[2] = 3;
+  vec[3] = 2;
+  vec[4] = 1;
+
   out[regionStartIndex3D] = vec;
   out[regionEndIndex3D] = in[regionStartIndex3D];
 }
@@ -76,8 +81,13 @@ int main()
 
   std::cout << "Setting/Getting a pixel" << std::endl;
   itk::Vector<unsigned short, 5> vec;
-  vec = 5,4,3,2,1;
   
+  vec[0] = 5;
+  vec[1] = 4;
+  vec[2] = 3;
+  vec[3] = 2;
+  vec[4] = 1;
+
   (*o3)[regionStartIndex3D] = vec;
   (*o3)[regionEndIndex3D] = (*o3)[regionStartIndex3D];
   TestConstPixelAccess(*o3, *o3);

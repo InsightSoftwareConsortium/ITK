@@ -18,6 +18,7 @@
 #include <itkLevenbergMarquardtOptimizer.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
+#include <vnl/vnl_math.h>
 #include <itkArray.h>
 #include <itkArray2D.h>
 
@@ -46,13 +47,13 @@ const double rc = 29.0;
  *   whose size is defined by XRange and YRange
  *
  */ 
-class CostFunction : public itk::LightObject
+class myCostFunction : public itk::MultipleValuedCostFunction
 {
 public:
-  typedef CostFunction Self;
-  typedef itk::LightObject  Superclass;
-  typedef itk::SmartPointer<Self> Pointer;
-  typedef itk::SmartPointer<const Self> ConstPointer;
+  typedef myCostFunction                    Self;
+  typedef itk::MultipleValuedCostFunction   Superclass;
+  typedef itk::SmartPointer<Self>           Pointer;
+  typedef itk::SmartPointer<const Self>     ConstPointer;
   itkNewMacro( Self );
 
   enum { XRange = 1,
@@ -61,12 +62,11 @@ public:
   enum { SpaceDimension =  3 };
   enum { RangeDimension =  ( 2*XRange+1 ) * ( 2*YRange+1 ) };
 
-  typedef itk::Array<double>       ParametersType;
-  typedef itk::Array<double>       MeasureType;
-  typedef itk::Array2D<double>     DerivativeType;
+  typedef Superclass::ParametersType              ParametersType;
+  typedef Superclass::DerivativeType              DerivativeType;
+  typedef Superclass::MeasureType                 MeasureType;
 
-  CostFunction():
-            m_Parameters(SpaceDimension),
+  myCostFunction():
             m_Measure(RangeDimension),
             m_Derivative(SpaceDimension,RangeDimension),
             m_TheoreticalData(SpaceDimension)  
@@ -94,20 +94,16 @@ public:
 
   }
 
-  const ParametersType  & GetParameters(void) const 
-  { 
-    return m_Parameters;
-  }
 
-  const MeasureType & GetValue( const ParametersType & parameters ) 
+  MeasureType GetValue( const ParametersType & parameters ) const
   {
 
-    m_Parameters = parameters;
+    this->SetParameters( parameters );
     
     std::cout << "GetValue( ";
-    double a = m_Parameters[0];
-    double b = m_Parameters[1];
-    double c = m_Parameters[2];
+    double a = parameters[0];
+    double b = parameters[1];
+    double c = parameters[2];
 
     std::cout << a << " , ";
     std::cout << b << " , ";
@@ -133,16 +129,16 @@ public:
     return m_Measure; 
  }
 
-  const DerivativeType &  GetDerivative( 
+  DerivativeType  GetDerivative( 
                  const ParametersType & parameters ) const
   {
  
-    m_Parameters = parameters;
+    this->SetParameters( parameters );
     
     std::cout << "GetDerivative( ";
-    double a = m_Parameters[0];
-    double b = m_Parameters[1];
-    double c = m_Parameters[2];
+    double a = parameters[0];
+    double b = parameters[1];
+    double c = parameters[2];
 
     std::cout << a << " , ";
     std::cout << b << " , ";
@@ -178,7 +174,6 @@ public:
 
 private:
 
-  mutable ParametersType    m_Parameters;
   mutable MeasureType       m_Measure;
   mutable DerivativeType    m_Derivative;
           MeasureType       m_TheoreticalData;
@@ -191,7 +186,7 @@ int main()
 {
   std::cout << "Levenberg Marquardt optimizer test \n \n"; 
   
-  typedef  itk::LevenbergMarquardtOptimizer< CostFunction >  OptimizerType;
+  typedef  itk::LevenbergMarquardtOptimizer  OptimizerType;
 
   typedef  OptimizerType::InternalOptimizerType  vnlOptimizerType;
 
@@ -202,10 +197,10 @@ int main()
 
 
   // Declaration of the CostFunction adaptor
-  CostFunction::Pointer costFunction = CostFunction::New();
+  myCostFunction::Pointer costFunction = myCostFunction::New();
 
 
-  itkOptimizer->SetCostFunction( costFunction );
+  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
 
   
   const double F_Tolerance      = 1e-15;  // Function value tolerance
@@ -215,28 +210,45 @@ int main()
   const int    Max_Iterations   =    20;  // Maximum number of iterations
 
 
-  vnlOptimizerType & vnlOptimizer = itkOptimizer->GetOptimizer();
+  vnlOptimizerType * vnlOptimizer = itkOptimizer->GetOptimizer();
 
-  vnlOptimizer.set_f_tolerance( F_Tolerance );
-  vnlOptimizer.set_g_tolerance( G_Tolerance );
-  vnlOptimizer.set_x_tolerance( X_Tolerance ); 
-  vnlOptimizer.set_epsilon_function( Epsilon_Function );
-  vnlOptimizer.set_max_function_evals( Max_Iterations );
+  vnlOptimizer->set_f_tolerance( F_Tolerance );
+  vnlOptimizer->set_g_tolerance( G_Tolerance );
+  vnlOptimizer->set_x_tolerance( X_Tolerance ); 
+  vnlOptimizer->set_epsilon_function( Epsilon_Function );
+  vnlOptimizer->set_max_function_evals( Max_Iterations );
 
   // We start not so far from the solution 
-  typedef CostFunction::ParametersType ParametersType;
-  ParametersType  initialValue(CostFunction::SpaceDimension);
+  typedef myCostFunction::ParametersType ParametersType;
+  ParametersType  initialValue(myCostFunction::SpaceDimension);
   initialValue[0] = 100;
   initialValue[1] = 200;
   initialValue[2] = 150;
 
-  itkOptimizer->SetInitialPosition( initialValue );
+  OptimizerType::ParametersType currentValue(myCostFunction::SpaceDimension);
 
-  itkOptimizer->StartOptimization();
+  currentValue = initialValue;
+
+  itkOptimizer->SetInitialPosition( currentValue );
+
+
+  try 
+    {
+    itkOptimizer->StartOptimization();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cout << "Exception thrown ! " << std::endl;
+    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << "Location    = " << e.GetLocation()    << std::endl;
+    std::cout << "Description = " << e.GetDescription() << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
   // Error codes taken from vxl/vnl/vnl_nonlinear_minimizer.h
   std::cout << "End condition   = ";
-  switch( vnlOptimizer.get_failure_code() )
+  switch( vnlOptimizer->get_failure_code() )
   {
     case vnl_nonlinear_minimizer::ERROR_FAILURE: 
                       std::cout << " Error Failure"; break;
@@ -260,11 +272,14 @@ int main()
                       std::cout << " Failed G Tolerance too small "; break;
   }
   std::cout << std::endl;
-  std::cout << "Number of iters = " << vnlOptimizer.get_num_iterations() << std::endl;
-  std::cout << "Number of evals = " << vnlOptimizer.get_num_evaluations() << std::endl;    
+  std::cout << "Number of iters = " << vnlOptimizer->get_num_iterations() << std::endl;
+  std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << std::endl;    
   std::cout << std::endl;
 
-  ParametersType finalPosition = costFunction->GetParameters();
+
+  OptimizerType::ParametersType finalPosition;
+  finalPosition = itkOptimizer->GetCurrentPosition();
+
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << "," ;
   std::cout << finalPosition[1] << "," ;
@@ -276,7 +291,7 @@ int main()
   //
   bool pass = true;
   double trueParameters[3] = { ra,rb,rc };
-  for( unsigned int j = 0; j < CostFunction::SpaceDimension; j++ )
+  for( unsigned int j = 0; j < myCostFunction::SpaceDimension; j++ )
     {
     if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
       pass = false;

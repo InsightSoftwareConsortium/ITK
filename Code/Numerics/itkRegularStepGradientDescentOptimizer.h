@@ -28,16 +28,15 @@ namespace itk
  * \ingroup Numerics  Optimizers
  *
  */
-template <class TCostFunction>
 class ITK_EXPORT RegularStepGradientDescentOptimizer : 
-        public RegularStepGradientDescentBaseOptimizer< TCostFunction >
+        public RegularStepGradientDescentBaseOptimizer
 {
 public:
   /** Standard class typedefs. */
-  typedef RegularStepGradientDescentOptimizer  Self;
-  typedef RegularStepGradientDescentBaseOptimizer<TCostFunction> Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef RegularStepGradientDescentOptimizer         Self;
+  typedef RegularStepGradientDescentBaseOptimizer     Superclass;
+  typedef SmartPointer<Self>                          Pointer;
+  typedef SmartPointer<const Self>                    ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -47,23 +46,9 @@ public:
                 RegularStepGradientDescentBaseOptimizer );
 
   /** Cost function typedefs. */
-  typedef          TCostFunction                CostFunctionType;
-  typedef typename CostFunctionType::Pointer    CostFunctionPointer;
+  typedef Superclass::CostFunctionType        CostFunctionType;
+  typedef CostFunctionType::Pointer           CostFunctionPointer;
   
-  /** Dimension of the Search Space */
-  enum { SpaceDimension = Superclass::SpaceDimension };
-
-  /**  Parameters type.
-   *  It defines a position in the optimization search space. */
-  typedef typename Superclass::ParametersType ParametersType;
-
-  /**  Measure type.
-   *  It defines a type used to return the cost function value. */
-  typedef typename Superclass::MeasureType MeasureType;
-
-  /**  Derivative type.
-   *  It defines a type used to return the cost function derivative.  */
-  typedef typename Superclass::DerivativeType DerivativeType;
 
 protected:
   RegularStepGradientDescentOptimizer() {};

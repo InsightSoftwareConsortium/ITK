@@ -25,30 +25,84 @@ namespace itk
 /**
  * Constructor
  */
-template <class TCostFunction >
-AmoebaOptimizer<TCostFunction>
-::AmoebaOptimizer():
-  m_Amoeba( m_CostFunctionAdaptor )
+AmoebaOptimizer
+::AmoebaOptimizer()
 {
+  m_OptimizerInitialized    = false;
+  m_VnlOptimizer            = 0;
 }
+
+
+/**
+ * Destructor
+ */
+AmoebaOptimizer
+::~AmoebaOptimizer()
+{
+  delete m_VnlOptimizer;
+}
+
+
+
+/**
+ * Connect a Cost Function
+ */
+void
+AmoebaOptimizer
+::SetCostFunction( SingleValuedCostFunction * costFunction )
+{
+
+
+  const unsigned int numberOfParameters = 
+                        costFunction->GetNumberOfParameters();
+
+  CostFunctionAdaptorType * adaptor = 
+              new CostFunctionAdaptorType( numberOfParameters );
+       
+  adaptor->SetCostFunction( costFunction );
+
+  if( m_OptimizerInitialized )
+    { 
+    delete m_VnlOptimizer;
+    }
+    
+  this->SetCostFunctionAdaptor( adaptor );
+
+  m_VnlOptimizer = new vnl_amoeba( *adaptor );
+
+  ScalesType scales( numberOfParameters );
+  scales.Fill( 1.0f );
+  SetScales( scales );
+
+  m_OptimizerInitialized = true;
+
+}
+
 
 
 /**
  * Start the optimization
  */
-template <class TCostFunction>
 void
-AmoebaOptimizer<TCostFunction>
+AmoebaOptimizer
 ::StartOptimization( void )
 {
-
-  InternalParametersType initialParameters( SpaceDimension );
   
-  VnlCostFunctionAdaptorType::ConvertExternalToInternalParameters( 
-                            GetInitialPosition(), 
-                            initialParameters     );
+  ParametersType initialPosition = GetInitialPosition();
 
-  m_Amoeba.minimize( initialParameters );
+  InternalParametersType parameters( initialPosition.Size() );
+
+  CostFunctionAdaptorType::ConvertExternalToInternalParameters( 
+                                            GetInitialPosition(), 
+                                            parameters     );
+
+  m_VnlOptimizer->minimize( parameters );
+
+  ParametersType solution =
+   this->GetCostFunctionAdaptor()->GetCostFunction()->GetParameters() ;
+
+  this->SetCurrentPosition( solution );
+      
 
 }
 
@@ -58,13 +112,14 @@ AmoebaOptimizer<TCostFunction>
 /**
  * Get the Optimizer
  */
-template <class TMetric>
-vnl_amoeba & 
-AmoebaOptimizer<TMetric>
+vnl_amoeba * 
+AmoebaOptimizer
 ::GetOptimizer()
 {
-  return m_Amoeba;
+  return m_VnlOptimizer;
 }
+
+
 
 
 } // end namespace itk

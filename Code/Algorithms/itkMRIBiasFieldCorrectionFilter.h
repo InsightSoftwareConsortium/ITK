@@ -25,6 +25,8 @@
 #include "itkMultivariateLegendrePolynomial.h"
 #include "Statistics/itkFastRandomUnitNormalVariateGenerator.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
+#include "itkArray.h"
+
 
 namespace itk
 {
@@ -40,9 +42,22 @@ namespace itk
  * included for energy value calculation), and the bias field (TBiasField).  
  */
 template<class TImage, class TImageMask, class TBiasField>
-class MRIBiasEnergyFunction
+class MRIBiasEnergyFunction : public SingleValuedCostFunction
 {
 public:
+  /** Standard class typedefs. */
+  typedef MRIBiasEnergyFunction        Self;
+  typedef SingleValuedCostFunction     Superclass;
+  typedef SmartPointer<Self>           Pointer;
+  typedef SmartPointer<const Self>     ConstPointer;
+  
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( SingleValuedCostFunction, CostFunction );
+
+
   /** Image related type definitions. */
   typedef TImage ImageType ;
   typedef TImageMask MaskType ;
@@ -54,17 +69,17 @@ public:
   typedef typename ImageType::RegionType ImageRegionType ;
 
   /** Bias field type definition. */
-  typedef TBiasField BiasFieldType ;
+  typedef TBiasField                        BiasFieldType;
 
   /** Parameters type for optimizier (coefficients type for bias
    * field estimate). */
-  typedef typename BiasFieldType::ParametersType ParametersType ;
+  typedef Superclass::ParametersType    ParametersType ;
 
   /** Not used, but expected by SingleValuedNonLinearOptimizer class. */
-  typedef double DerivativeType;
+  typedef Superclass::DerivativeType    DerivativeType;
 
   /** The cost value type. */
-  typedef double MeasureType ;
+  typedef Superclass::MeasureType       MeasureType;
 
   /** Not used, but expected by SingleValuedNonLinearOptimizer class. */
   enum { SpaceDimension = 3 };
@@ -72,22 +87,17 @@ public:
   /** The type of the internal energy function. */
   typedef CompositeValleyFunction InternalEnergyFunction ;
 
-  /** Constructor: */
-  MRIBiasEnergyFunction(std::vector<double> classMeans, 
-                        std::vector<double> classSigmas) ;
-  virtual ~MRIBiasEnergyFunction() ;
-
   /** Specify the input image. */
-  void SetImage(ImagePointer image) ;
+  itkSetObjectMacro( Image, ImageType );
 
   /** Specify the input mask image. */
-  void SetMask(MaskPointer mask) ;
+  itkSetObjectMacro( Mask, MaskType );
 
   /** Set the image region which will be included for energy calculation. */
-  void SetRegion(ImageRegionType region) ;
+  itkSetMacro( Region, ImageRegionType );
 
   /** Sets the BiasField object. */
-  void SetBiasField(BiasFieldType* biasField) ;
+  itkSetObjectMacro( BiasField, BiasFieldType );
 
   /** Get an energy value for the intensity difference between a pixel
    * and its corresponding bias. */
@@ -96,25 +106,47 @@ public:
 
   /** Gets the total energy value of an image or a slice using the
    * given parameters. */
-  MeasureType GetValue(ParametersType parameters, 
-                       MeasureType& ret) ;
+  MeasureType GetValue(const ParametersType & parameters );
+
+  /** Set Mean and Sigma for the normal distributions 
+   *  \warning This method MUST be called before any attemp to 
+   *   evaluate the Function because it instantiate the internal
+   *   energy function                                     */
+  void InitializeDistributions( Array<double> classMeans, 
+                                Array<double> classSigmas );
 
 private:
   /** Bias field object pointer. */
-  BiasFieldType* m_BiasField ;
+  BiasFieldType        * m_BiasField ;
 
   /** Input image smart pointer. */
-  ImagePointer m_Image ;
+  ImagePointer           m_Image ;
 
   /** Input mask image smart pointer. */
-  MaskPointer m_Mask ;
+  MaskPointer            m_Mask ;
 
   /** Region of interest. */
-  ImageRegionType m_Region ;
+  ImageRegionType        m_Region ;
 
   /** Internal energy function object pointer. */
   InternalEnergyFunction* m_InternalEnergyFunction ;
+
+protected:
+  /** Constructor: */
+  MRIBiasEnergyFunction();
+
+  /** Destructor: */
+  virtual ~MRIBiasEnergyFunction();
+
+
+private:
+
+  MRIBiasEnergyFunction(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
 } ; // end of class
+
+
 
 /** \class MRIBiasFieldCorrectionFilter
  * \brief corrects 3D MRI bias field 
@@ -205,15 +237,16 @@ public:
   typedef typename SlabRegionVectorType::iterator SlabRegionVectorIteratorType;
 
   /** Bias field object type defintion. */
-  typedef MultivariateLegendrePolynomial BiasField ;
+  typedef MultivariateLegendrePolynomial                  BiasFieldType;
 
   /** Energy function type defintion. */
-  typedef MRIBiasEnergyFunction<TInputImage, ImageMaskType, BiasField> 
-          EnergyFunction ;
+  typedef MRIBiasEnergyFunction<TInputImage, ImageMaskType, BiasFieldType> 
+                                                          EnergyFunctionType;
+  typedef EnergyFunctionType::Pointer                     EnergyFunctionPointer;
 
   /** Optimizer type definition. */
-  typedef OnePlusOneEvolutionaryOptimizer<EnergyFunction, 
-    FastRandomUnitNormalVariateGenerator> OptimizerType ;
+  typedef OnePlusOneEvolutionaryOptimizer< 
+                      FastRandomUnitNormalVariateGenerator> OptimizerType ;
 
   /** Set/Get the input mask image pointer
    * Without this mask, this filter calculates the energy value using
@@ -283,26 +316,26 @@ public:
     { return m_NoOfBiasFieldCoefficients ; }
 
   /** Get the bias field domain size. */
-  BiasField::DomainSizeType GetBiasFieldDomainSize()
+  BiasFieldType::DomainSizeType GetBiasFieldDomainSize()
     { return m_BiasFieldDomainSize ; }
 
   /** Sets the initial 3D bias field estimate coefficients that will be
    * used for correcting each slab. */
-  void SetInitialBiasFieldCoefficients(BiasField::CoefficientVector 
-                                       coefficients)
+  void SetInitialBiasFieldCoefficients(const BiasFieldType::CoefficientVector 
+                                       & coefficients)
     { m_BiasFieldCoefficients = coefficients ; }
 
   /** Get the result bias field coefficients after the bias field
    * estimation (does not apply to the inter-slice intensity
    * correction) */
-  BiasField::CoefficientVector GetEstimatedBiasFieldCoefficients() 
+  BiasFieldType::CoefficientVector GetEstimatedBiasFieldCoefficients() 
     { return m_EstimatedBiasFieldCoefficients ; }
 
   /** Set the tissue class statistics for energy function initialization
    * If the numbers of elements in the means and the sigmas are not equal
    * it will throw exception    */
-  void SetTissueClassStatistics(std::vector<double> means, 
-                                std::vector<double> sigmas) 
+  void SetTissueClassStatistics(const Array<double> & means, 
+                                const Array<double> & sigmas) 
     throw (ExceptionObject) ;
 
   /** Set/Get the maximum iteration termination condition parameter. */
@@ -318,10 +351,10 @@ public:
     { return m_OptimizerInitialRadius ; }
 
   /** Set/Get the search radius grow factor. */
-  void SetOptimizerGrowFactor(double grow) 
-    { m_OptimizerGrowFactor = grow ; }
-  double GetOptimizerGrowFactor()
-    { return m_OptimizerGrowFactor ; }
+  void SetOptimizerGrowthFactor(double grow) 
+    { m_OptimizerGrowthFactor = grow ; }
+  double GetOptimizerGrowthFactor()
+    { return m_OptimizerGrowthFactor ; }
 
   /** Set/Get the search radius shrink factor. */
   void SetOptimizerShrinkFactor(double shrink) 
@@ -339,13 +372,13 @@ public:
 
   /** Optimizes the bias field only using the image data that are in 
    * the specified region. */
-  void EstimateBiasField(BiasField* bias,
+  void EstimateBiasField(BiasFieldType* bias,
                          InputImageRegionType region) ;
 
   /** Correct the internal image using the bias field estimate 
    * created by EstimateBiasField() member function and the internal image
    * data that are in the specified region. */
-  void CorrectImage(BiasField* bias, 
+  void CorrectImage(BiasFieldType* bias, 
                     InputImageRegionType region) ;
 
   /** Internally calls EstimateBiasField() and CorrectImage() member functions
@@ -377,7 +410,7 @@ protected:
    * the dimension of the resulting domain size will be one less than that of
    * he image region */
   void GetBiasFieldSize(InputImageRegionType region,
-                        BiasField::DomainSizeType& domainSize) ;
+                        BiasFieldType::DomainSizeType& domainSize) ;
 
   /** Find overlapping regions between the slab regions and the output image's
    * requested region. And then replace the original slab regions with
@@ -392,7 +425,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   /** Energy function object pointer. */
-  EnergyFunction* m_EnergyFunction ;
+  EnergyFunctionPointer  m_EnergyFunction ;
 
   /** Optimizer object smart pointer.  */
   typename OptimizerType::Pointer m_Optimizer ;
@@ -431,15 +464,15 @@ private:
   int m_NoOfBiasFieldCoefficients ;
 
   /** Storage for the bias field domain size. */
-  BiasField::DomainSizeType m_BiasFieldDomainSize ;
+  BiasFieldType::DomainSizeType m_BiasFieldDomainSize ;
 
   /** Storage for the initial 3D bias field estimate coefficients that will be
    * used for correcting each slab. */
-  BiasField::CoefficientVector m_BiasFieldCoefficients ;
+  BiasFieldType::CoefficientVector m_BiasFieldCoefficients ;
 
   /** Storage for the resulting 3D bias field estimate coefficients 
    * after optimization. */
-  BiasField::CoefficientVector m_EstimatedBiasFieldCoefficients ;
+  BiasFieldType::CoefficientVector m_EstimatedBiasFieldCoefficients ;
 
   /** Storage for the optimizer's maximum iteration number. */
   int m_OptimizerMaximumIteration ;
@@ -448,16 +481,16 @@ private:
   double m_OptimizerInitialRadius ;
 
   /** Storage for the optimizer's search radius grow factor. */
-  double m_OptimizerGrowFactor ;
+  double m_OptimizerGrowthFactor ;
 
   /** Storage for the optimizer's search radius shrink factor. */
   double m_OptimizerShrinkFactor ;
 
   /** Storage for tissue classes' mean values. */
-  std::vector<double> m_TissueClassMeans ;
+  Array<double> m_TissueClassMeans ;
 
   /** Storage for tissue classes' variance values. */
-  std::vector<double> m_TissueClassSigmas ;
+  Array<double> m_TissueClassSigmas ;
 };
 
   

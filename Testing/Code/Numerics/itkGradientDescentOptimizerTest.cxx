@@ -16,6 +16,7 @@
 =========================================================================*/
 
 #include <itkGradientDescentOptimizer.h>
+#include <vnl/vnl_math.h>
 
 
 /** 
@@ -33,74 +34,67 @@
  *   the solution is the vector | 2 -2 |
  *
  */ 
-class CostFunction : public itk::LightObject 
+class myCostFunction : public itk::SingleValuedCostFunction 
 {
 public:
 
-  typedef CostFunction Self;
-  typedef itk::LightObject  Superclass;
-  typedef itk::SmartPointer<Self> Pointer;
-  typedef itk::SmartPointer<const Self> ConstPointer;
+  typedef myCostFunction                  Self;
+  typedef itk::SingleValuedCostFunction   Superclass;
+  typedef itk::SmartPointer<Self>         Pointer;
+  typedef itk::SmartPointer<const Self>   ConstPointer;
   itkNewMacro( Self );
+  itkTypeMacro( myCostFunction, SingleValuedCostFunction );
 
   enum { SpaceDimension=2 };
   
-  typedef itk::Array< double >    ParametersType;
-  typedef itk::Array< double >    DerivativeType;
+  typedef Superclass::ParametersType      ParametersType;
+  typedef Superclass::DerivativeType      DerivativeType;
+  typedef Superclass::MeasureType         MeasureType ;
 
-  typedef double MeasureType ;
-
-
-  CostFunction():
-        m_Parameters(SpaceDimension),
-        m_Derivative(SpaceDimension) 
+  myCostFunction()
   {
   }
 
-  const ParametersType & GetParameters(void) const 
-  { 
-    return m_Parameters;
-  }
 
-  const MeasureType & GetValue( const ParametersType & parameters ) const
+  MeasureType  GetValue( const ParametersType & parameters ) const
   { 
     
-    m_Parameters = parameters;
+    this->SetParameters( parameters );
 
-    double x = m_Parameters[0];
-    double y = m_Parameters[1];
+    double x = parameters[0];
+    double y = parameters[1];
 
     std::cout << "GetValue( " ;
     std::cout << x << " ";
     std::cout << y << ") = ";
 
-    m_Measure = 0.5*(3*x*x+4*x*y+6*y*y) - 2*x + 8*y;
+    MeasureType measure = 0.5*(3*x*x+4*x*y+6*y*y) - 2*x + 8*y;
 
-    std::cout << m_Measure << std::endl; 
+    std::cout << measure << std::endl; 
 
-    return m_Measure;
+    return measure;
 
   }
 
-  const DerivativeType & GetDerivative( 
-             const ParametersType & parameters ) const
+  DerivativeType GetDerivative( const ParametersType & parameters ) const
   {
 
-    m_Parameters = parameters;
+    this->SetParameters( parameters );
 
-    double x = m_Parameters[0];
-    double y = m_Parameters[1];
+    double x = parameters[0];
+    double y = parameters[1];
 
     std::cout << "GetDerivative( " ;
     std::cout << x << " ";
     std::cout << y << ") = ";
 
-    m_Derivative[0] = 3 * x + 2 * y -2;
-    m_Derivative[1] = 2 * x + 6 * y +8;
+    DerivativeType derivative( SpaceDimension );
+    derivative[0] = 3 * x + 2 * y -2;
+    derivative[1] = 2 * x + 6 * y +8;
 
-    std::cout << m_Derivative << std::endl;
+    std::cout << derivative << std::endl;
 
-    return m_Derivative;
+    return derivative;
   }
  
   void GetValueAndDerivative( const ParametersType & parameters,
@@ -110,11 +104,15 @@ public:
     deriv = this->GetDerivative( parameters );
   }
 
+
+  unsigned int GetNumberOfParameters(void) const
+    {
+    return SpaceDimension;
+    }
+
+
 private:
 
-  mutable ParametersType  m_Parameters;
-  mutable MeasureType     m_Measure;
-  mutable DerivativeType  m_Derivative;
 
 };
 
@@ -125,46 +123,57 @@ int main()
   std::cout << "Gradient Descent Optimizer Test ";
   std::cout << std::endl << std::endl;
 
-  typedef  itk::SingleValuedNonLinearOptimizer< 
-                                CostFunction >  OptimizerType;
+  typedef  itk::GradientDescentOptimizer  OptimizerType;
 
-  typedef OptimizerType::TransformType   TransformType;
-  typedef TransformType::ParametersType  TransformParametersType;
-
-
+  typedef OptimizerType::ScalesType        ScalesType;
     
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
 
 
-  // Declaration of the CostFunction adaptor
-  CostFunction::Pointer costFunction = CostFunction::New();
+  // Declaration of the CostFunction 
+  myCostFunction::Pointer costFunction = myCostFunction::New();
 
-/*
-  itkOptimizer->SetCostFunction( costFunction );
+
+  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
 
   
-   typedef CostFunction::ParametersType    ParametersType;
+  typedef myCostFunction::ParametersType    ParametersType;
+
+  const unsigned int spaceDimension = 
+                      costFunction->GetNumberOfParameters();
 
   // We start not so far from  | 2 -2 |
-  ParametersType  initialPosition(CostFunction::SpaceDimension);
+  ParametersType  initialPosition( spaceDimension );
+
   initialPosition[0] =  100;
   initialPosition[1] = -100;
   
-  TransformParametersType parametersScale(2);
+  ScalesType    parametersScale( spaceDimension );
   parametersScale[0] = 1.0;
   parametersScale[1] = 1.0;
 
   itkOptimizer->MinimizeOn();
-  itkOptimizer->GetTransform()->SetParameters( parametersScale );
+  itkOptimizer->SetScales( parametersScale );
   itkOptimizer->SetLearningRate( 0.1 );
   itkOptimizer->SetNumberOfIterations( 50 );
 
   itkOptimizer->SetInitialPosition( initialPosition );
-  itkOptimizer->StartOptimization();
 
-  ParametersType finalPosition(CostFunction::SpaceDimension);
-  finalPosition = costFunction->GetParameters();
+  try 
+    {
+    itkOptimizer->StartOptimization();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cout << "Exception thrown ! " << std::endl;
+    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << "Location    = " << e.GetLocation()    << std::endl;
+    std::cout << "Description = " << e.GetDescription() << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << "," ;
   std::cout << finalPosition[1] << ")" << std::endl;  
@@ -197,7 +206,7 @@ int main()
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-*/
+
 
 }
 

@@ -16,6 +16,7 @@
 =========================================================================*/
 
 #include <itkConjugateGradientOptimizer.h>
+#include <vnl/vnl_math.h>
 
 
 /** 
@@ -35,35 +36,38 @@
  *   the solution is the vector | 2 -2 |
  *
  */ 
-class CostFunction : public itk::LightObject 
+class myCostFunction : public itk::SingleValuedCostFunction 
 {
 public:
 
-  typedef CostFunction Self;
-  typedef itk::LightObject  Superclass;
-  typedef itk::SmartPointer<Self> Pointer;
-  typedef itk::SmartPointer<const Self> ConstPointer;
+  typedef myCostFunction                    Self;
+  typedef itk::SingleValuedCostFunction     Superclass;
+  typedef itk::SmartPointer<Self>           Pointer;
+  typedef itk::SmartPointer<const Self>     ConstPointer;
   itkNewMacro( Self );
+  itkTypeMacro( myCostFunction, SingleValuedCostFunction );
 
   enum { SpaceDimension=2 };
-  typedef itk::Array<double> ParametersType;
-  typedef itk::Array<double> DerivativeType;
+
+  typedef Superclass::ParametersType              ParametersType;
+  typedef Superclass::DerivativeType              DerivativeType;
+
+  typedef vnl_vector<double>                      VectorType;
+  typedef vnl_matrix<double>                      MatrixType;
+
   typedef double MeasureType ;
 
 
-  CostFunction():m_Parameters(SpaceDimension) 
+  myCostFunction()
   {
   }
 
-  const ParametersType & GetParameters(void) const 
-  { 
-    return m_Parameters;
-  }
+
 
   double GetValue( const ParametersType & position ) const
   { 
 
-    m_Parameters = position;
+    this->SetParameters( position );
 
     double x = position[0];
     double y = position[1];
@@ -82,6 +86,8 @@ public:
   DerivativeType GetDerivative( const ParametersType & position ) const
   {
 
+    this->SetParameters( position );
+
     double x = position[0];
     double y = position[1];
 
@@ -98,9 +104,13 @@ public:
     return grad;
   }
 
+  unsigned int GetNumberOfParameters(void) const
+    {
+    return SpaceDimension;
+    }
+
 private:
 
-  mutable ParametersType m_Parameters;
 
 };
 
@@ -110,8 +120,7 @@ int main()
 {
   std::cout << "Conjugate Gradient Optimizer Test \n \n";
 
-  typedef  itk::ConjugateGradientOptimizer< 
-                                CostFunction >  OptimizerType;
+  typedef  itk::ConjugateGradientOptimizer  OptimizerType;
 
   typedef  OptimizerType::InternalOptimizerType  vnlOptimizerType;
 
@@ -122,54 +131,71 @@ int main()
 
 
   // Declaration of the CostFunction adaptor
-  CostFunction::Pointer costFunction = CostFunction::New();
+  myCostFunction::Pointer costFunction = myCostFunction::New();
 
 
-  itkOptimizer->SetCostFunction( costFunction );
+  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
 
   
+  vnlOptimizerType * vnlOptimizer = itkOptimizer->GetOptimizer();
+
   const double F_Tolerance      = 1e-3;  // Function value tolerance
   const double G_Tolerance      = 1e-4;  // Gradient magnitude tolerance 
   const double X_Tolerance      = 1e-8;  // Search space tolerance
   const double Epsilon_Function = 1e-10; // Step
   const int    Max_Iterations   =   100; // Maximum number of iterations
 
+  vnlOptimizer->set_f_tolerance( F_Tolerance );
+  vnlOptimizer->set_g_tolerance( G_Tolerance );
+  vnlOptimizer->set_x_tolerance( X_Tolerance ); 
+  vnlOptimizer->set_epsilon_function( Epsilon_Function );
+  vnlOptimizer->set_max_function_evals( Max_Iterations );
 
-  vnlOptimizerType & vnlOptimizer = itkOptimizer->GetOptimizer();
-
-  vnlOptimizer.set_f_tolerance( F_Tolerance );
-  vnlOptimizer.set_g_tolerance( G_Tolerance );
-  vnlOptimizer.set_x_tolerance( X_Tolerance ); 
-  vnlOptimizer.set_epsilon_function( Epsilon_Function );
-  vnlOptimizer.set_max_function_evals( Max_Iterations );
-
-  vnlOptimizer.set_check_derivatives( 3 );
+  vnlOptimizer->set_check_derivatives( 3 );
       
-  const unsigned int SpaceDimension = 2;
-  typedef itk::Array<double> ParametersType;
-  ParametersType initialValue(SpaceDimension);
 
+  OptimizerType::ParametersType initialValue(2);       // constructor requires vector size
   // We start not so far from  | 2 -2 |
   initialValue[0] =  100;
   initialValue[1] = -100;
 
-  itkOptimizer->SetInitialPosition( initialValue );
-  itkOptimizer->StartOptimization();
 
-  std::cout << "End condition   = " << vnlOptimizer.get_failure_code()    << std::endl;
-  std::cout << "Number of iters = " << vnlOptimizer.get_num_iterations()  << std::endl;
-  std::cout << "Number of evals = " << vnlOptimizer.get_num_evaluations() << std::endl;    
+  OptimizerType::ParametersType currentValue(2);
+
+  currentValue = initialValue;
+
+  itkOptimizer->SetInitialPosition( currentValue );
+
+  try 
+    {
+    itkOptimizer->StartOptimization();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cout << "Exception thrown ! " << std::endl;
+    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << "Location    = " << e.GetLocation()    << std::endl;
+    std::cout << "Description = " << e.GetDescription() << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  std::cout << "End condition   = " << vnlOptimizer->get_failure_code()    << std::endl;
+  std::cout << "Number of iters = " << vnlOptimizer->get_num_iterations()  << std::endl;
+  std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << std::endl;    
   std::cout << std::endl;
-
-  ParametersType finalPosition(SpaceDimension);
-  finalPosition = costFunction->GetParameters();
-  std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << "," ;
-  std::cout << finalPosition[1] << ")" << std::endl;  
 
   //
   // check results to see if it is within range
   //
+
+  OptimizerType::ParametersType finalPosition;
+  finalPosition = itkOptimizer->GetCurrentPosition();
+
+  std::cout << "Solution        = (";
+  std::cout << finalPosition[0] << "," ;
+  std::cout << finalPosition[1] << ")" << std::endl;  
+
   bool pass = true;
   double trueParameters[2] = { 2, -2 };
   for( unsigned int j = 0; j < 2; j++ )

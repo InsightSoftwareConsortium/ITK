@@ -27,16 +27,14 @@ namespace itk
 /**
  * Constructor
  */
-template <class TCostFunction>
-QuaternionRigidTransformGradientDescentOptimizer<TCostFunction>
+QuaternionRigidTransformGradientDescentOptimizer
 ::QuaternionRigidTransformGradientDescentOptimizer()
 {
 }
 
 
-template <class TCostFunction>
 void
-QuaternionRigidTransformGradientDescentOptimizer<TCostFunction>
+QuaternionRigidTransformGradientDescentOptimizer
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
@@ -46,9 +44,8 @@ QuaternionRigidTransformGradientDescentOptimizer<TCostFunction>
 /**
  * Advance one Step following the gradient direction
  */
-template <class TCostFunction>
 void
-QuaternionRigidTransformGradientDescentOptimizer<TCostFunction>
+QuaternionRigidTransformGradientDescentOptimizer
 ::AdvanceOneStep( void )
 { 
 
@@ -62,10 +59,16 @@ QuaternionRigidTransformGradientDescentOptimizer<TCostFunction>
     direction = -1.0;
   }
 
-  ParametersType newPosition;
-  const ParametersType & currentPosition = GetCurrentPosition();
-  DerivativeType transformedGradient = 
-            GetTransform()->TransformCovariantVector( m_Gradient );
+
+  ScalesType scales = this->GetScales();
+
+  DerivativeType transformedGradient(SpaceDimension);
+  for( unsigned int i=0; i<SpaceDimension; i++)
+    {
+    transformedGradient[i] = m_Gradient[i] / scales[i];
+    }
+
+  ParametersType currentPosition = this->GetCurrentPosition();
 
   // compute new quaternion value
   vnl_quaternion<double> newQuaternion;
@@ -77,6 +80,7 @@ QuaternionRigidTransformGradientDescentOptimizer<TCostFunction>
 
   newQuaternion.normalize();
 
+  ParametersType newPosition(SpaceDimension);
   // update quaternion component of currentPosition
   for( unsigned int j=0; j < 4; j++ )
     {
@@ -90,9 +94,9 @@ QuaternionRigidTransformGradientDescentOptimizer<TCostFunction>
       direction * m_LearningRate * transformedGradient[j];
   }
 
-  SetCurrentPosition( newPosition );
+  this->SetCurrentPosition( newPosition );
 
-  InvokeEvent( IterationEvent() );
+  this->InvokeEvent( IterationEvent() );
 
 }
 

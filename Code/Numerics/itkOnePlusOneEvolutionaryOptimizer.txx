@@ -17,46 +17,42 @@
 #ifndef __ONEPLUSONEEVOLUTIONARYOPTIMIZER_TXX
 #define __ONEPLUSONEEVOLUTIONARYOPTIMIZER_TXX
 
-#include <vnl/vnl_math.h>
-
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
 
 namespace itk
 {
 
-template<class TCostFunction, class TNormalRandomVariateGenerator>
-OnePlusOneEvolutionaryOptimizer<TCostFunction, TNormalRandomVariateGenerator>
+template<class TNormalRandomVariateGenerator>
+OnePlusOneEvolutionaryOptimizer<TNormalRandomVariateGenerator>
 ::OnePlusOneEvolutionaryOptimizer()
 {
-  m_CostFunction = 0 ;
-  m_SpaceDimension = 0 ;
   m_Initialized = false ;
   m_Epsilon = (double) 1e-6  ; 
   m_RandomSeed = 0 ;
 }
 
-template<class TCostFunction, class TNormalRandomVariateGenerator>
-OnePlusOneEvolutionaryOptimizer<TCostFunction, TNormalRandomVariateGenerator>
+template<class TNormalRandomVariateGenerator>
+OnePlusOneEvolutionaryOptimizer<TNormalRandomVariateGenerator>
 ::~OnePlusOneEvolutionaryOptimizer() 
 {
 }
 
 
-template<class TCostFunction, class TNormalRandomVariateGenerator>
+template<class TNormalRandomVariateGenerator>
 void 
-OnePlusOneEvolutionaryOptimizer<TCostFunction, TNormalRandomVariateGenerator>
+OnePlusOneEvolutionaryOptimizer<TNormalRandomVariateGenerator>
 ::Initialize(double initialRadius, double grow, double shrink) 
 {
   m_MaximumIteration = 20 ;
   m_InitialRadius = initialRadius ;
 
   if (grow == -1)
-    m_GrowFactor = 1.05 ;
+    m_GrowthFactor = 1.05 ;
   else
-    m_GrowFactor = grow ;
+    m_GrowthFactor = grow ;
 
   if (shrink == -1)
-    m_ShrinkFactor = pow(m_GrowFactor, -0.25) ;
+    m_ShrinkFactor = pow(m_GrowthFactor, -0.25) ;
   else
     m_ShrinkFactor = shrink ;
 
@@ -65,83 +61,44 @@ OnePlusOneEvolutionaryOptimizer<TCostFunction, TNormalRandomVariateGenerator>
 }
 
 
-template<class TCostFunction, class TNormalRandomVariateGenerator>
+
+
+
+template<class TNormalRandomVariateGenerator>
 void
-OnePlusOneEvolutionaryOptimizer<TCostFunction, TNormalRandomVariateGenerator>
-::SetCostFunction(TCostFunction* energy)
-{
-  m_CostFunction = energy ;
-}
-
-
-template<class TCostFunction, class TNormalRandomVariateGenerator>
-void
-OnePlusOneEvolutionaryOptimizer<TCostFunction, TNormalRandomVariateGenerator>
-::SetMaximumIteration(int maxIter)
-{
-  m_MaximumIteration = maxIter ;
-}
-
-
-template<class TCostFunction, class TNormalRandomVariateGenerator>
-void
-OnePlusOneEvolutionaryOptimizer<TCostFunction, TNormalRandomVariateGenerator>
-::SetSpaceDimension(int dimension)
-{
-  m_SpaceDimension = dimension ;
-}
-
-template<class TCostFunction, class TNormalRandomVariateGenerator>
-void
-OnePlusOneEvolutionaryOptimizer<TCostFunction, TNormalRandomVariateGenerator>
-::SetEpsilon(double epsilon)
-{
-  m_Epsilon = epsilon ;
-}
-
-template<class TCostFunction, class TNormalRandomVariateGenerator>
-void
-OnePlusOneEvolutionaryOptimizer<TCostFunction, TNormalRandomVariateGenerator>
-::SetRandomSeed(long seed)
-{
-  m_RandomSeed = seed ;
-}
-
-template<class TCostFunction, class TNormalRandomVariateGenerator>
-void
-OnePlusOneEvolutionaryOptimizer<TCostFunction, TNormalRandomVariateGenerator>
+OnePlusOneEvolutionaryOptimizer<TNormalRandomVariateGenerator>
 ::Run()
   throw (ExceptionObject)
 {
-  if (m_CostFunction == 0 || !m_Initialized)
+  
+  if( m_CostFunction == 0 || !m_Initialized )
     {
-    throw ExceptionObject(__FILE__, __LINE__) ;
+    throw ExceptionObject(__FILE__, __LINE__);
     }
 
   // m_Random Seed was originally getpid()
 
   if (m_RandomSeed == 0)
-    m_RandomGenerator->Initialize((long) rand()) ; 
+    {
+    m_RandomGenerator->Initialize((long) rand()); 
+    }
   else
-    m_RandomGenerator->Initialize(m_RandomSeed) ; 
+    {
+    m_RandomGenerator->Initialize(m_RandomSeed); 
+    }
   
   int minIteration = 0 ;
   
   double pvalue, cvalue, adjust ;
 
-  int spaceDimension ;
+  const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
 
-  if (m_SpaceDimension == 0)
-    spaceDimension = SpaceDimension ;
-  else
-    spaceDimension = m_SpaceDimension ;
+  vnl_matrix<double> A(spaceDimension, spaceDimension, 0);
+  vnl_vector<double> parent(this->GetInitialPosition()); 
 
-  vnl_matrix<double> A(spaceDimension, spaceDimension, 0) ;
-  vnl_vector<double> parent(this->GetInitialPosition()) ; 
-
-  vnl_vector<double> f_norm(spaceDimension) ;
-  vnl_vector<double> child(spaceDimension) ;
-  vnl_vector<double> delta(spaceDimension) ;
+  vnl_vector<double> f_norm(spaceDimension);
+  vnl_vector<double> child(spaceDimension);
+  vnl_vector<double> delta(spaceDimension);
 
   for (int i = 0  ; i < spaceDimension ; i++) 
     {
@@ -149,9 +106,15 @@ OnePlusOneEvolutionaryOptimizer<TCostFunction, TNormalRandomVariateGenerator>
     }
   //m_BiasField->SetCoefficients(parent) ;
 
-  pvalue = m_CostFunction->GetValue(parent, m_Value) ;
 
-  this->SetCurrentPosition(parent) ;
+  ParametersType parentPosition( spaceDimension );
+  for( unsigned int i=0; i<spaceDimension; i++)
+    {
+    parentPosition[i] = parent[i];
+    }
+
+  pvalue = m_CostFunction->GetValue(parentPosition);
+  this->SetCurrentPosition(parentPosition) ;
 
   int iter ;
   for (iter = 0 ; iter < m_MaximumIteration ; iter++) 
@@ -163,7 +126,14 @@ OnePlusOneEvolutionaryOptimizer<TCostFunction, TNormalRandomVariateGenerator>
 
     delta  = A * f_norm ;
     child  = parent + delta ;
-    cvalue = m_CostFunction->GetValue(child, m_Value) ;
+
+    ParametersType childPosition( spaceDimension );
+    for( unsigned int i=0; i<spaceDimension; i++)
+      {
+      childPosition[i] = child[i];
+      }
+    cvalue = m_CostFunction->GetValue(childPosition);
+
     itkDebugMacro(<< iter << ": parent: " << pvalue 
     << " child: "<< cvalue );
 
@@ -174,8 +144,12 @@ OnePlusOneEvolutionaryOptimizer<TCostFunction, TNormalRandomVariateGenerator>
           
       parent.swap(child) ;                  
           
-      adjust = m_GrowFactor ; 
-      this->SetCurrentPosition(parent) ;
+      adjust = m_GrowthFactor ; 
+      for( unsigned int i=0; i<spaceDimension; i++)
+        {
+        parentPosition[i] = parent[i];
+        }
+      this->SetCurrentPosition(parentPosition) ;
           
       } 
     else 

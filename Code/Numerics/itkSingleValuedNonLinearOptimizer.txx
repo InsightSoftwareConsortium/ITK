@@ -22,8 +22,7 @@
 namespace itk
 {
 
-template <class TCostFunction>
-SingleValuedNonLinearOptimizer<TCostFunction>
+SingleValuedNonLinearOptimizer
 ::SingleValuedNonLinearOptimizer()
 {
 }

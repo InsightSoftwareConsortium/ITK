@@ -18,28 +18,26 @@
 #define __itkMultipleValuedNonLinearOptimizer_h
 
 #include "itkNonLinearOptimizer.h"
-#include "vnl/vnl_least_squares_function.h"
-#include "itkExceptionObject.h"
+#include "itkArray2D.h"
 
 namespace itk
 {
   
 /** \class MultipleValuedNonLinearOptimizer
  * \brief This class is a base for the Optimization methods that 
- * optimize a single valued function.
+ * optimize a multiple valued function.
  *
  * \ingroup Numerics Optimizers
  */
-template <class TCostFunction>
 class ITK_EXPORT MultipleValuedNonLinearOptimizer : 
-        public NonLinearOptimizer < TCostFunction >
+        public NonLinearOptimizer 
 {
 public:
   /** Standard class typedefs. */
   typedef MultipleValuedNonLinearOptimizer  Self;
-  typedef   NonLinearOptimizer<TCostFunction> Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef NonLinearOptimizer                Superclass;
+  typedef SmartPointer<Self>                Pointer;
+  typedef SmartPointer<const Self>          ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -49,18 +47,20 @@ public:
 
   /**  Parameters type.
    *  It defines a position in the optimization search space. */
-  typedef typename TCostFunction::ParametersType ParametersType;
+  typedef Superclass::ParametersType        ParametersType;
 
   /**  Measure type.
-   *  It defines a type used to return the cost function value. */
-  typedef typename TCostFunction::MeasureType   MeasureType;
+   *  It defines a type used to return the cost function value. 
+   *  Here an Array is used for Multivalued funcitions   */
+  typedef Array<double>                     MeasureType;
 
   /**  Derivative type.
-   *  It defines a type used to return the cost function derivative. */
-  typedef typename TCostFunction::DerivativeType DerivativeType;
+   *  It defines a type used to return the cost function derivative. 
+   *  Here a bidimensional Array is used for Multivalued funcitions   */
+  typedef Array2D<double>                   DerivativeType;
 
 protected:
-  MultipleValuedNonLinearOptimizer() {};
+  MultipleValuedNonLinearOptimizer();
   virtual ~MultipleValuedNonLinearOptimizer() {};
 
 private:
@@ -71,6 +71,9 @@ private:
 
 } // end namespace itk
 
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkMultipleValuedNonLinearOptimizer.txx"
+#endif
 #endif
 
 

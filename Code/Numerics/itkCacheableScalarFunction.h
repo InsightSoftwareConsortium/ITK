@@ -17,9 +17,7 @@
 #ifndef __itkCacheableScalarFunction_h
 #define __itkCacheableScalarFunction_h
 
-#include <vector>
-#include <vnl/vnl_vector.h>
-
+#include "itkArray.h"
 #include "itkExceptionObject.h"
 
 namespace itk {
@@ -65,6 +63,7 @@ public:
 
   /** Function's input and output value type. */
   typedef double MeasureType ;
+  typedef Array<MeasureType>    MeasureArrayType;
 
   /** Get the number of samples between the lower-bound and higher-bound
    * of the cache table. */
@@ -94,11 +93,11 @@ public:
   {
     if (x > m_CacheHigherBound || x < m_CacheLowerBound)
       {
-        throw ExceptionObject(__FILE__, __LINE__) ;
+      throw ExceptionObject(__FILE__,__LINE__);
       }
     // access table
     int index = (int) ((x - m_CacheLowerBound) / m_TableInc + 0.5) ;
-    return (*m_CacheTable)[index] ;
+    return m_CacheTable[index] ;
   }
 
 protected:
@@ -112,10 +111,10 @@ private:
   long m_NumberOfSamples ;
 
   /** Storage for the precalcualted function values. */
-  vnl_vector<MeasureType>* m_CacheTable ;
+  MeasureArrayType  m_CacheTable;
 
   /** The upper-bound of domain that is used for filling the cache table. */
-  double m_CacheHigherBound ;
+  double m_CacheHigherBound;
 
   /** The lower-bound of domain that is used for filling the cache table. */
   double m_CacheLowerBound ;

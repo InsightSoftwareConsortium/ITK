@@ -31,9 +31,8 @@ namespace itk
  * Advance one Step following the gradient direction
  * This method will be overrided in non-vector spaces
  */
-template <class TCostFunction>
 void
-VersorTransformOptimizer<TCostFunction>
+VersorTransformOptimizer
 ::StepAlongGradient( double factor, 
                      const DerivativeType & transformedGradient )
 { 
@@ -52,6 +51,7 @@ VersorTransformOptimizer<TCostFunction>
   VersorType currentRotation;
   currentRotation.Set( rightPart );
 
+  std::cout << "Current rotation = " << currentRotation << std::endl;
 
   // The gradient indicate the contribution of each one 
   // of the axis to the direction of highest change in
@@ -68,9 +68,13 @@ VersorTransformOptimizer<TCostFunction>
   // An additional Exponentiation produce a jump 
   // of a particular length along the versor gradient 
   // direction.
+  std::cout << "factor =  " << factor << std::endl;
+  std::cout << "axis.Norm =  " << axis.GetNorm() << std::endl;
 
   VersorType gradientRotation;
   gradientRotation.Set( axis, factor * axis.GetNorm() );
+
+  std::cout << "Gradient rotaion = " << gradientRotation << std::endl;
 
   //
   // Composing the currentRotation with the gradientRotation 
@@ -79,6 +83,8 @@ VersorTransformOptimizer<TCostFunction>
   VersorType newRotation = currentRotation * gradientRotation;
 
   ParametersType newParameters(SpaceDimension);
+
+  std::cout << "New rotaion = " << newRotation << std::endl;
 
   newParameters[0] = newRotation.GetX();
   newParameters[1] = newRotation.GetY();

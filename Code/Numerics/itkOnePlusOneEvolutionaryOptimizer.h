@@ -17,10 +17,9 @@
 #ifndef __ONEPLUSONEEVOLUTIONARYOPTIMIZER_H
 #define __ONEPLUSONEEVOLUTIONARYOPTIMIZER_H
 
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_vector.h>
 
 #include <itkSingleValuedNonLinearOptimizer.h>
+#include <itkSingleValuedCostFunction.h>
 
 namespace itk
 {
@@ -56,16 +55,16 @@ namespace itk
  * \sa FastRandomUnitNormalVariateGenerator 
  */
 
-template<class TCostFunction, class TNormalRandomVariateGenerator>
+template< class TNormalRandomVariateGenerator>
 class ITK_EXPORT OnePlusOneEvolutionaryOptimizer: 
-    public SingleValuedNonLinearOptimizer<TCostFunction>
+    public SingleValuedNonLinearOptimizer
 {
 public:
   /** Standard "Self" typedef. */
-  typedef OnePlusOneEvolutionaryOptimizer Self ;
-  typedef SingleValuedNonLinearOptimizer<TCostFunction> Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef OnePlusOneEvolutionaryOptimizer     Self ;
+  typedef SingleValuedNonLinearOptimizer      Superclass;
+  typedef SmartPointer<Self>                  Pointer;
+  typedef SmartPointer<const Self>            ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -73,64 +72,41 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(OnePlusOneEvolutionaryOptimizer, SingleValuedNonLinearOptimizer );
  
-  /** Cost measure function type. */
-  typedef TCostFunction CostFunctionType;
+  /** Type of the Cost Function   */
+  typedef  SingleValuedCostFunction         CostFunctionType;
+  typedef  CostFunctionType::Pointer        CostFunctionPointer;
 
   /** Normal random variate generator type. */
   typedef TNormalRandomVariateGenerator NormalRandomVariateGeneratorType ;
   typedef typename TNormalRandomVariateGenerator::Pointer  
                    NormalRandomVariateGeneratorPointerType ;
   
-  /** Parameter space dimension
-   *
-   * NOTE: if user specifies space dimension using SetSpaceDimension function,
-   * this optimizer will use the given value instead of this enum value. */
-  enum { SpaceDimension = TCostFunction::SpaceDimension };
-  
-  /** Parameter type. */
-  typedef typename TCostFunction::ParametersType ParametersType;
-  
-  /** Return value type of cost function. */
-  typedef typename TCostFunction::MeasureType MeasureType;
-
-  /** Inherited from superclass. Not used. */
-  typedef typename TCostFunction::DerivativeType DerivativeType;
-
-  /** Store the pointer to the cost function object. */
-  void SetCostFunction(CostFunctionType* costFunction) ;
-
-  /** Set maximum iteration limit. */
-  void SetMaximumIteration(int maxIter) ;
-
-  /** Get maximum iteration limit. */
-  int GetMaximumIteration() { return m_MaximumIteration ;} 
-
-  /** Override the SpaceDimension enum definition (parameter space dimension). */ 
-  void SetSpaceDimension(int dimension) ;
+  /** Set/Get maximum iteration limit. */
+  itkSetMacro( MaximumIteration, int );
+  itkGetConstMacro( MaximumIteration, int );
 
   /** Get the search radius grow factor in parameter space. */
-  double GetGrowFactor() { return m_GrowFactor ;} 
+  itkGetConstMacro( GrowthFactor, double );
 
   /** Get search radius shrink factor. */
-  double GetShrinkFactor() { return m_ShrinkFactor ;} 
+  itkGetConstMacro( ShrinkFactor, double );
 
   /** Get initial search radius in parameter space. */
-  double GetInitialRadius() { return m_InitialRadius ;} 
+  itkGetConstMacro( InitialRadius, double );
 
-  /** Set the minimal size of search radius 
+  /** Set/Get the minimal size of search radius 
    * (frobenius_norm of covariance matrix). */
-  void SetEpsilon(double epsilon) ;
+  itkSetMacro( Epsilon, double );   
+  itkGetConstMacro( Epsilon, double );   
   
-  /** Get the minial size of search radius. */
-  double GetEpsilon() { return m_Epsilon ;}
-
   /** set seed number for the normal random variate generator.
    * if users don't provide the seed, this optimizer will use 
    * rand() function return value as seed.  */
-  void SetRandomSeed(long seed) ;
+  itkSetMacro( RandomSeed, long );
+  itkGetConstMacro( RandomSeed, long );
 
-  /** Get the seed number for the normal random variate generator. */
-  long GetRandomSeed() { return m_RandomSeed ;} 
+  /** Set the cost function. */
+  itkSetObjectMacro( CostFunction, CostFunctionType );
 
   /** Initializes the optimizer.
    * Before running this optimizer, this function should have been called.
@@ -150,11 +126,9 @@ protected:
   virtual ~OnePlusOneEvolutionaryOptimizer() ;
 
 private:
-  /** Pointer to the cost function. */
-  CostFunctionType* m_CostFunction ;
   
-  /** Return value from cost function. */
-  MeasureType m_Value ;
+  /** Smart pointer to the cost function. */
+  CostFunctionPointer           m_CostFunction;
 
   /** Smart pointer to the normal random variate generator. */
   NormalRandomVariateGeneratorPointerType m_RandomGenerator ;
@@ -169,20 +143,20 @@ private:
   /** Initial search radius in paramter space. */
   double m_InitialRadius ;
 
-  /** Search radius grow factor in parameter space. */
-  double m_GrowFactor ;
+  /** Search radius growth factor in parameter space. */
+  double m_GrowthFactor ;
 
   /** Search radius shrink factor in parameter space, */
   double m_ShrinkFactor ;
-
-  /** Parameter space dimension. */
-  int m_SpaceDimension ;
 
   /** Seed number for the normal random variate generator. */
   long m_RandomSeed ;
 
   /** Flag tells if the optimizer was initialized using Initialize function. */
   bool m_Initialized ;
+
+  /** Internal storage for the value type / used as a cache  */
+  MeasureType       m_Value;
 
 } ; // end of class
 

@@ -18,17 +18,30 @@
 
 namespace itk {
 CompositeValleyFunction
-::CompositeValleyFunction(std::vector<double>& classMeans, 
-                                std::vector<double>& classSigmas)
+::CompositeValleyFunction( const MeasureArrayType & classMeans, 
+                           const MeasureArrayType & classSigmas )
 {
   int length = classMeans.size() ;
 
-  if (length != classSigmas.size() || length == 0)
-    throw ExceptionObject(__FILE__, __LINE__) ;
+  if (length != classSigmas.size())
+    {
+    ExceptionObject ex;
+    ex.SetLocation(__FILE__);
+    ex.SetDescription("Arrays of Means and Sigmas have not the same length");
+    throw ex;
+    }
+
+  if( length == 0 )
+    {
+    ExceptionObject ex;
+    ex.SetLocation(__FILE__);
+    ex.SetDescription("arrays of Means is empty");
+    throw ex;
+    }
   
   for (int i = 0 ; i < length ; i++) 
     {
-      this->AddNewClass(classMeans[i], classSigmas[i]) ;
+    this->AddNewClass(classMeans[i], classSigmas[i]) ;
     }
 
   this->Initialize() ;

@@ -28,8 +28,7 @@ namespace itk
 /**
  * Constructor
  */
-template <class TCostFunction>
-GradientDescentOptimizer<TCostFunction>
+GradientDescentOptimizer
 ::GradientDescentOptimizer()
 {
    m_LearningRate = 1.0;
@@ -39,9 +38,8 @@ GradientDescentOptimizer<TCostFunction>
 
 
 
-template <class TCostFunction>
 void
-GradientDescentOptimizer<TCostFunction>
+GradientDescentOptimizer
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
@@ -71,9 +69,8 @@ GradientDescentOptimizer<TCostFunction>
 /**
  * Start the optimization
  */
-template <class TCostFunction>
 void
-GradientDescentOptimizer<TCostFunction>
+GradientDescentOptimizer
 ::StartOptimization( void )
 {
 
@@ -89,9 +86,8 @@ GradientDescentOptimizer<TCostFunction>
 /**
  * Resume the optimization
  */
-template <class TCostFunction>
 void
-GradientDescentOptimizer<TCostFunction>
+GradientDescentOptimizer
 ::ResumeOptimization( void )
 {
   
@@ -143,9 +139,8 @@ GradientDescentOptimizer<TCostFunction>
 /**
  * Stop optimization
  */
-template <class TCostFunction>
 void
-GradientDescentOptimizer<TCostFunction>
+GradientDescentOptimizer
 ::StopOptimization( void )
 {
   m_Stop = true;
@@ -159,9 +154,8 @@ GradientDescentOptimizer<TCostFunction>
 /**
  * Advance one Step following the gradient direction
  */
-template <class TCostFunction>
 void
-GradientDescentOptimizer<TCostFunction>
+GradientDescentOptimizer
 ::AdvanceOneStep( void )
 { 
 
@@ -175,28 +169,30 @@ GradientDescentOptimizer<TCostFunction>
     direction = -1.0;
   }
 
-  ParametersType newPosition(SpaceDimension);
-  const ParametersType & currentPosition = GetCurrentPosition();
+  const unsigned int spaceDimension = 
+                        m_CostFunction->GetNumberOfParameters();
 
-  CovariantVector<double,SpaceDimension> gradient; 
+  const ParametersType & currentPosition = this->GetCurrentPosition();
 
-  for(unsigned int j=0; j<SpaceDimension; j++)
+  ScalesType scales = this->GetScales();
+
+  DerivativeType transformedGradient( spaceDimension ); 
+
+  for(unsigned int j = 0; j < spaceDimension; j++)
     {
-    gradient[j] = m_Gradient[j];
+    transformedGradient[j] = m_Gradient[j] / scales[j];
     }
 
-  CovariantVector<double,SpaceDimension> transformedGradient = 
-                GetTransform()->TransformCovariantVector( gradient );
-
-  for(unsigned int j=0; j<SpaceDimension; j++)
+  ParametersType newPosition( spaceDimension );
+  for(unsigned int j = 0; j < spaceDimension; j++)
     {
     newPosition[j] = currentPosition[j] + 
       direction * m_LearningRate * transformedGradient[j];
     }
 
-  SetCurrentPosition( newPosition );
+  this->SetCurrentPosition( newPosition );
 
-  InvokeEvent( IterationEvent() );
+  this->InvokeEvent( IterationEvent() );
 
 }
 

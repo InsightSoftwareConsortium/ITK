@@ -17,10 +17,9 @@
 #ifndef __itkCompositeValleyFunction_h
 #define __itkCompositeValleyFunction_h
 
-#include <vector>
-#include <vnl/vnl_vector.h>
-
+#include "itkArray.h"
 #include "itkCacheableScalarFunction.h"
+#include <vector>
 
 namespace itk {
 
@@ -95,15 +94,19 @@ private:
 class CompositeValleyFunction : public CacheableScalarFunction
 {
 public:
+
+  typedef CacheableScalarFunction Superclass;
+  
   /** Cost value type. */
-  typedef double MeasureType ;
+  typedef  Superclass::MeasureType          MeasureType;
+  typedef  Superclass::MeasureArrayType     MeasureArrayType;
 
   /** Superclass to this class. */
   typedef CacheableScalarFunction Superclass ;
 
   /** Constructor. */
-  CompositeValleyFunction(std::vector<double>& classMeans, 
-                                std::vector<double>& classSigmas) ;
+  CompositeValleyFunction( const MeasureArrayType & classMeans, 
+                           const MeasureArrayType & classSigmas );
 
   /** Destructor. */
   virtual ~CompositeValleyFunction() {}
@@ -156,7 +159,7 @@ protected:
 
 private:
   /** Storage for tissue classes' statistics. */
-  std::vector<TargetClass> m_Targets ;
+  std::vector<TargetClass> m_Targets;  
 
   /** The highest mean value + the sigma of the tissue class 
    * which has the highest mean value * 9. */

@@ -30,16 +30,15 @@ namespace itk
  * \ingroup Numerics Optimizers
  *
  */
-template <class TCostFunction>
 class ITK_EXPORT SingleValuedNonLinearOptimizer : 
-    public NonLinearOptimizer< TCostFunction >
+    public NonLinearOptimizer
 {
 public:
   /** Standard "Self" typedef. */
   typedef SingleValuedNonLinearOptimizer  Self;
-  typedef NonLinearOptimizer< TCostFunction > Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef NonLinearOptimizer              Superclass;
+  typedef SmartPointer<Self>              Pointer;
+  typedef SmartPointer<const Self>        ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -50,15 +49,15 @@ public:
 
   /**  Parameters type.
    *  It defines a position in the optimization search space. */
-  typedef typename TCostFunction::ParametersType ParametersType;
+  typedef Superclass::ParametersType ParametersType;
 
   /**  Measure type.
    *  It defines a type used to return the cost function value.  */
-  typedef typename TCostFunction::MeasureType MeasureType;
+  typedef double                    MeasureType;
 
   /**  Derivative type.
    *  It defines a type used to return the cost function derivative. */
-  typedef typename TCostFunction::DerivativeType DerivativeType;
+  typedef Array<double>             DerivativeType;
 
 protected:
   SingleValuedNonLinearOptimizer();

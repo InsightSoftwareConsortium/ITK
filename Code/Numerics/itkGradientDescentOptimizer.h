@@ -18,6 +18,7 @@
 #define __itkGradientDescentOptimizer_h
 
 #include "itkSingleValuedNonLinearOptimizer.h"
+#include "itkSingleValuedCostFunction.h"
 
 namespace itk
 {
@@ -45,16 +46,15 @@ namespace itk
  * 
  * \ingroup Numerics Optimizers
  */  
-template <class TCostFunction>
 class ITK_EXPORT GradientDescentOptimizer : 
-        public SingleValuedNonLinearOptimizer< TCostFunction >
+        public SingleValuedNonLinearOptimizer
 {
 public:
   /** Standard class typedefs. */
-  typedef GradientDescentOptimizer  Self;
-  typedef SingleValuedNonLinearOptimizer<TCostFunction> Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef GradientDescentOptimizer          Self;
+  typedef SingleValuedNonLinearOptimizer    Superclass;
+  typedef SmartPointer<Self>                Pointer;
+  typedef SmartPointer<const Self>          ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -62,24 +62,9 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( GradientDescentOptimizer, SingleValuedNonLinearOptimizer );
 
-  /** Cost Function  typedefs. */
-  typedef          TCostFunction                CostFunctionType;
-  typedef typename CostFunctionType::Pointer    CostFunctionPointer;
-  
-  /** Dimension of the Search Space */
-  enum { SpaceDimension = TCostFunction::SpaceDimension };
-
-  /**  Parameters type.
-   *  it defines a position in the optimization search space */
-  typedef typename TCostFunction::ParametersType ParametersType;
-
-  /**  Measure type.
-   *  it defines a type used to return the cost function value  */
-  typedef typename TCostFunction::MeasureType MeasureType;
-
-  /**  Derivative type.
-   *  it defines a type used to return the cost function derivative  */
-  typedef typename TCostFunction::DerivativeType DerivativeType;
+  /** Type of the Cost Function   */
+  typedef  SingleValuedCostFunction         CostFunctionType;
+  typedef  CostFunctionType::Pointer        CostFunctionPointer;
 
   /** Codes of stopping conditions */
   typedef enum {

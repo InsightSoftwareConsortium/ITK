@@ -34,18 +34,18 @@ CacheableScalarFunction
   long i ;
   MeasureType d ;
   
-  m_CacheTable = new vnl_vector<MeasureType>(m_NumberOfSamples) ;
+  m_CacheTable = MeasureArrayType(m_NumberOfSamples) ;
   
-  if (m_CacheTable) 
+  m_TableInc = static_cast<MeasureType>( 
+                              (m_CacheHigherBound - m_CacheLowerBound) / 
+                              (m_NumberOfSamples - 1)
+                                       );
+
+  d = static_cast<MeasureType>( m_CacheLowerBound );
+  for (i = 0; i < m_NumberOfSamples; i++) 
     {
-      m_TableInc = (MeasureType) ((m_CacheHigherBound - m_CacheLowerBound) / 
-                                  (m_NumberOfSamples - 1));
-      d = (MeasureType) m_CacheLowerBound;
-      for (i = 0; i < m_NumberOfSamples; i++) 
-        {
-          (*m_CacheTable)[i] = Evaluate(d);
-          d += m_TableInc;
-        }
+    m_CacheTable[i] = Evaluate(d);
+    d += m_TableInc;
     }
 
   m_CacheAvailable = true ;

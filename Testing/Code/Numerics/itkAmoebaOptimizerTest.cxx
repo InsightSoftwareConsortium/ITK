@@ -43,27 +43,29 @@
  *   the solution is the vector | 2 -2 |
  *
  */ 
-class CostFunction : public itk::Object {
+class myCostFunction : public itk::SingleValuedCostFunction 
+{
 public:
 
-  typedef CostFunction Self;
-  typedef itk::LightObject  Superclass;
-  typedef itk::SmartPointer<Self> Pointer;
-  typedef itk::SmartPointer<const Self> ConstPointer;
+  typedef myCostFunction                    Self;
+  typedef itk::SingleValuedCostFunction     Superclass;
+  typedef itk::SmartPointer<Self>           Pointer;
+  typedef itk::SmartPointer<const Self>     ConstPointer;
   itkNewMacro( Self );
+  itkTypeMacro( myCostFunction, SingleValuedCostFunction );
 
   enum { SpaceDimension=2 };
 
-  typedef vnl_vector_fixed<double,SpaceDimension> ParametersType;
-  typedef vnl_vector_fixed<double,SpaceDimension> DerivativeType;
+  typedef Superclass::ParametersType              ParametersType;
+  typedef Superclass::DerivativeType              DerivativeType;
+  typedef Superclass::MeasureType                 MeasureType;
+
   typedef vnl_vector<double>                      VectorType;
   typedef vnl_matrix<double>                      MatrixType;
 
-  typedef double MeasureType ;
 
-
-  CostFunction():m_A(SpaceDimension,SpaceDimension),m_b(SpaceDimension) {
-    
+  myCostFunction():m_A(SpaceDimension,SpaceDimension),m_b(SpaceDimension) 
+   {
     m_A[0][0] =  3;
     m_A[0][1] =  2;
     m_A[1][0] =  2;
@@ -71,39 +73,52 @@ public:
 
     m_b[0]    =  2;
     m_b[1]    = -8;
+    }
 
-  }
   double GetValue( const ParametersType & parameters ) const
-  {
-    m_Parameters = parameters;
-    std::cout << "GetValue( " << m_Parameters << " ) = ";
-    VectorType Av = m_A * m_Parameters;
-    double val = ( inner_product<double>( Av , m_Parameters ) )/2.0;
-    val -= inner_product< double >( m_b , m_Parameters );
+    {
+    this->SetParameters( parameters );
+    VectorType v( parameters.Size() );
+    for(unsigned int i=0; i<SpaceDimension; i++)
+      {
+      v[i] = parameters[i];
+      }
+    std::cout << "GetValue( " << v << " ) = ";
+    VectorType Av = m_A * v;
+    double val = ( inner_product<double>( Av , v ) )/2.0;
+    val -= inner_product< double >( m_b , v );
     std::cout << val << std::endl;
     return val;
-  }
-  const DerivativeType & GetDerivative( const ParametersType & v ) const
-  {
-    std::cout << "GetDerivative( " << v << " ) = ";
-    m_Parameters = v;
-    m_Gradient = m_A * m_Parameters  - m_b;
-    std::cout << m_Gradient << std::endl;
-    return m_Gradient;
-  }
-  
-  const ParametersType & GetParameters(void) const 
-  { 
-    return m_Parameters;
-  }
+    }
 
+  DerivativeType GetDerivative( const ParametersType & parameters ) const
+    {
+    this->SetParameters( parameters );
+    VectorType v( parameters.Size() );
+    for(unsigned int i=0; i<SpaceDimension; i++)
+      {
+      v[i] = parameters[i];
+      }
+    std::cout << "GetDerivative( " << v << " ) = ";
+    VectorType gradient = m_A * v  - m_b;
+    std::cout << gradient << std::endl;
+    
+    DerivativeType derivative(SpaceDimension);
+    for(unsigned int i=0; i<SpaceDimension; i++)
+      {
+      derivative[i] = gradient[i];
+      }
+    return derivative;
+    }
+  
+  unsigned int GetNumberOfParameters(void) const
+    {
+    return SpaceDimension;
+    }
 
 private:
   MatrixType        m_A;
   VectorType        m_b;
-
-  mutable DerivativeType    m_Gradient;
-  mutable ParametersType    m_Parameters;
 
 };
 
@@ -112,9 +127,9 @@ private:
 int main() 
 {
 
+  std::cout << "Amoeba Optimizer Test \n \n";
 
-  typedef  itk::AmoebaOptimizer< 
-                                CostFunction >  OptimizerType;
+  typedef  itk::AmoebaOptimizer  OptimizerType;
 
   typedef  OptimizerType::InternalOptimizerType  vnlOptimizerType;
 
@@ -125,13 +140,13 @@ int main()
 
 
   // Declaration of the CostFunction adaptor
-  CostFunction::Pointer costFunction = CostFunction::New();
+  myCostFunction::Pointer costFunction = myCostFunction::New();
 
 
-  itkOptimizer->SetCostFunction( costFunction );
+  itkOptimizer->SetCostFunction( costFunction.GetPointer() );
 
 
-  vnlOptimizerType & vnlOptimizer = itkOptimizer->GetOptimizer();
+  vnlOptimizerType * vnlOptimizer = itkOptimizer->GetOptimizer();
 
 
   OptimizerType::ParametersType initialValue(2);       // constructor requires vector size
@@ -144,17 +159,31 @@ int main()
   currentValue = initialValue;
 
   itkOptimizer->SetInitialPosition( currentValue );
-  itkOptimizer->StartOptimization();
-  std::cout << "Optimizer: " << itkOptimizer;
 
-  std::cout << "Number of evals = " << vnlOptimizer.get_num_evaluations() << std::endl;    
+  try 
+    {
+    itkOptimizer->StartOptimization();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cout << "Exception thrown ! " << std::endl;
+    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << "Location    = " << e.GetLocation()    << std::endl;
+    std::cout << "Description = " << e.GetDescription() << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << std::endl;    
+
+  std::cout << "Optimizer: " << itkOptimizer;
 
   //
   // check results to see if it is within range
   //
 
   OptimizerType::ParametersType finalPosition;
-  finalPosition = costFunction->GetParameters();
+  finalPosition = itkOptimizer->GetCurrentPosition();
 
   double trueParameters[2] = { 2, -2 };
   bool pass = true;

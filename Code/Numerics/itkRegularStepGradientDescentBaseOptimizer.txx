@@ -20,6 +20,7 @@
 #include "itkRegularStepGradientDescentBaseOptimizer.h"
 #include "itkCommand.h"
 #include "itkEventObject.h"
+#include "vnl/vnl_math.h"
 
 namespace itk
 {
@@ -27,8 +28,7 @@ namespace itk
 /**
  * Constructor
  */
-template <class TCostFunction>
-RegularStepGradientDescentBaseOptimizer<TCostFunction>
+RegularStepGradientDescentBaseOptimizer
 ::RegularStepGradientDescentBaseOptimizer()
 {
 
@@ -38,11 +38,8 @@ RegularStepGradientDescentBaseOptimizer<TCostFunction>
   m_NumberOfIterations = 100;
   m_CurrentIteration   =   0;
 
-  for(unsigned int i=0; i<SpaceDimension; i++)
-  {
-    m_Gradient[i] = 0;
-    m_PreviousGradient[i] = 0;
-  }
+  m_Gradient.Fill( 0.0f );
+  m_PreviousGradient.Fill( 0.0f );
   
 }
 
@@ -51,14 +48,21 @@ RegularStepGradientDescentBaseOptimizer<TCostFunction>
 /**
  * Start the optimization
  */
-template <class TCostFunction>
 void
-RegularStepGradientDescentBaseOptimizer<TCostFunction>
+RegularStepGradientDescentBaseOptimizer
 ::StartOptimization( void )
 {
 
   m_CurrentStepLength         = m_MaximumStepLength;
   m_CurrentIteration          = 0;
+
+  const unsigned int spaceDimension = 
+              m_CostFunction->GetNumberOfParameters();
+
+  m_Gradient = DerivativeType( spaceDimension );
+  m_PreviousGradient = DerivativeType( spaceDimension );
+  m_Gradient.Fill( 0.0f );
+  m_PreviousGradient.Fill( 0.0f );
 
   this->SetCurrentPosition( GetInitialPosition() );
   this->ResumeOptimization();
@@ -72,20 +76,23 @@ RegularStepGradientDescentBaseOptimizer<TCostFunction>
 /**
  * Resume the optimization
  */
-template <class TCostFunction>
 void
-RegularStepGradientDescentBaseOptimizer<TCostFunction>
+RegularStepGradientDescentBaseOptimizer
 ::ResumeOptimization( void )
 {
   
+  const unsigned int  spaceDimension =
+                m_CostFunction->GetNumberOfParameters();
+
   m_Stop = false;
 
-  InvokeEvent( StartEvent() );
+  this->InvokeEvent( StartEvent() );
 
   while( !m_Stop ) 
   {
 
-    m_Value = m_CostFunction->GetValue( GetCurrentPosition() );
+    ParametersType currentPosition = this->GetCurrentPosition();
+    m_Value = m_CostFunction->GetValue( currentPosition );
 
     if( m_Stop )
     {
@@ -93,14 +100,7 @@ RegularStepGradientDescentBaseOptimizer<TCostFunction>
     }
 
     m_PreviousGradient = m_Gradient;
-  
-    typename CostFunctionType::DerivativeType derivative =
-            m_CostFunction->GetDerivative( GetCurrentPosition() );
-
-    for( unsigned int i=0; i<CostFunctionType::SpaceDimension; i++)
-    {
-      m_Gradient[i] = derivative[i];
-    }
+    m_Gradient         = m_CostFunction->GetDerivative( currentPosition );
 
     if( m_Stop )
     {
@@ -114,7 +114,7 @@ RegularStepGradientDescentBaseOptimizer<TCostFunction>
     if( m_CurrentIteration == m_NumberOfIterations )
     {
        m_StopCondition = MaximumNumberOfIterations;
-       StopOptimization();
+       this->StopOptimization();
        break;
     }
     
@@ -130,13 +130,12 @@ RegularStepGradientDescentBaseOptimizer<TCostFunction>
 /**
  * Stop optimization
  */
-template <class TCostFunction>
 void
-RegularStepGradientDescentBaseOptimizer<TCostFunction>
+RegularStepGradientDescentBaseOptimizer
 ::StopOptimization( void )
 {
   m_Stop = true;
-  InvokeEvent( EndEvent() );
+  this->InvokeEvent( EndEvent() );
 }
 
 
@@ -145,26 +144,33 @@ RegularStepGradientDescentBaseOptimizer<TCostFunction>
 /**
  * Advance one Step following the gradient direction
  */
-template <class TCostFunction>
 void
-RegularStepGradientDescentBaseOptimizer<TCostFunction>
+RegularStepGradientDescentBaseOptimizer
 ::AdvanceOneStep( void )
 { 
 
-  DerivativeType transformedGradient =
-    GetTransform()->TransformCovariantVector( m_Gradient );
+  const unsigned int  spaceDimension =
+                m_CostFunction->GetNumberOfParameters();
 
-  DerivativeType previousTransformedGradient =
-    GetTransform()->TransformCovariantVector( m_PreviousGradient );
+  DerivativeType transformedGradient( spaceDimension );
+  DerivativeType previousTransformedGradient( spaceDimension );
+  ScalesType     scales = this->GetScales();
+
+  for(unsigned int i = 0;  i < spaceDimension; i++)
+    {
+    transformedGradient[i]  = m_Gradient[i] / scales[i];    
+    previousTransformedGradient[i] = 
+                      m_PreviousGradient[i] / scales[i];    
+    }
 
   double magnitudeSquare = 0;
-  for(unsigned int dim=0; dim<SpaceDimension; dim++)
+  for(unsigned int dim=0; dim<spaceDimension; dim++)
   {
     const double weighted = transformedGradient[dim];
     magnitudeSquare += weighted * weighted;
   }
     
-  const double gradientMagnitude = sqrt( magnitudeSquare );
+  const double gradientMagnitude = vnl_math_sqrt( magnitudeSquare );
 
   if( gradientMagnitude < m_GradientMagnitudeTolerance ) 
   {
@@ -175,7 +181,7 @@ RegularStepGradientDescentBaseOptimizer<TCostFunction>
     
   double scalarProduct = 0;
 
-  for(unsigned int i=0; i<SpaceDimension; i++)
+  for(unsigned int i=0; i<spaceDimension; i++)
   {
     const double weight1 = transformedGradient[i];
     const double weight2 = previousTransformedGradient[i];
@@ -218,9 +224,8 @@ RegularStepGradientDescentBaseOptimizer<TCostFunction>
 
 }
 
-template <class TCostFunction>
 void
-RegularStepGradientDescentBaseOptimizer<TCostFunction>
+RegularStepGradientDescentBaseOptimizer
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf(os,indent);

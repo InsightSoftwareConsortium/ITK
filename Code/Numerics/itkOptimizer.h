@@ -20,25 +20,27 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkExceptionObject.h"
-#include "itkScaleTransform.h"
+#include "itkArray.h"
 
 
 namespace itk
 {
   
 /** \class Optimizer
- * \brief Generic representation for an optimization method 
+ * \brief Generic representation for an optimization method.
+ *
+ *  This class is a base for a hierarchy of optimizers. 
+ *  It is not intended to be instantiated.
  *
  * \ingroup Numerics Optimizers
  */
-template <class TCostFunction>
 class ITK_EXPORT Optimizer : public Object 
 {
 public:
   /** Standard class typedefs. */
-  typedef Optimizer  Self;
-  typedef   Object  Superclass;
-  typedef SmartPointer<Self>   Pointer;
+  typedef Optimizer                 Self;
+  typedef Object                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Method for creation through the object factory. */
@@ -49,26 +51,15 @@ public:
 
   /**  Parameters type.
    *  It defines a position in the optimization search space. */
-  typedef typename TCostFunction::ParametersType ParametersType;
+  typedef Array<double>             ParametersType;
 
-  /** Dimension of the search space. */
-  enum { SpaceDimension = TCostFunction::SpaceDimension };
- 
-  /**  Transform type.
-   *  It defines a transform to be applied to points before 
+  /**  Scale type.
+   *  This array defines scale to be applied to parameters before 
    *  being evaluated in the cost function. This allows to 
    *  map to a more convenient space. In particular this is
    *  used to normalize parameter spaces in which some parameters
    *  have a different dynamic range.   */
-  typedef     ScaleTransform<double,SpaceDimension>      TransformType;
-
-  /**  Measure type.
-   *  It defines a type used to return the cost function value. */
-  typedef typename TCostFunction::MeasureType MeasureType;
-
-  /**  Derivative type.
-   *  It defines a type used to return the cost function derivative.  */
-  typedef typename TCostFunction::DerivativeType DerivativeType;
+  typedef Array<double>             ScalesType;
 
   /**  Set the position to initialize the optimization. */
   itkSetMacro(InitialPosition, ParametersType);
@@ -76,20 +67,17 @@ public:
   /** Get the position to initialize the optimization. */
   itkGetConstMacro(InitialPosition, ParametersType);
 
+  /** Set current parameters scaling. */
+  itkSetMacro( Scales, ScalesType );
+
+  /** Get current parameters scaling. */
+  itkGetConstMacro( Scales, ScalesType );
+
   /** Get current position of the optimization. */
   itkGetConstMacro( CurrentPosition, ParametersType );
 
-  /** Set current transform. */
-  itkSetObjectMacro( Transform, TransformType );
-
-  /** Get current transform. */
-  itkGetObjectMacro( Transform, TransformType );
-
 protected:
-  Optimizer():
-    m_InitialPosition(SpaceDimension), 
-    m_CurrentPosition(SpaceDimension)  
-    { m_Transform = TransformType::New(); };
+  Optimizer() {};
   virtual ~Optimizer() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
@@ -102,8 +90,7 @@ private:
   
   ParametersType          m_InitialPosition;
   ParametersType          m_CurrentPosition;
-
-  typename TransformType::Pointer  m_Transform; 
+  ScalesType              m_Scales;
 
 };
 

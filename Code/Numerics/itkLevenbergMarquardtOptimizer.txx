@@ -25,22 +25,60 @@ namespace itk
 /**
  * Constructor
  */
-template <class TCostFunction>
-LevenbergMarquardtOptimizer<TCostFunction>
-::LevenbergMarquardtOptimizer():
-  m_LevenbergMarquardt( m_CostFunctionAdaptor )
+LevenbergMarquardtOptimizer
+::LevenbergMarquardtOptimizer()
 {
+  m_OptimizerInitialized    = false;
+  m_VnlOptimizer            = 0;
 }
 
+
 /**
- * Get the Optimizer
+ * Destructor
  */
-template <class TCostFunction>
-LevenbergMarquardtOptimizer<TCostFunction>::InternalOptimizerType &
-LevenbergMarquardtOptimizer<TCostFunction>
-::GetOptimizer()
+LevenbergMarquardtOptimizer
+::~LevenbergMarquardtOptimizer()
 {
-  return m_LevenbergMarquardt;
+  delete m_VnlOptimizer;
+}
+
+
+
+/**
+ * Connect a Cost Function
+ */
+void
+LevenbergMarquardtOptimizer
+::SetCostFunction( MultipleValuedCostFunction * costFunction )
+{
+
+
+  const unsigned int numberOfParameters = 
+                        costFunction->GetNumberOfParameters();
+
+  const unsigned int numberOfValues = 
+                        costFunction->GetNumberOfValues();
+
+  CostFunctionAdaptorType * adaptor = 
+        new CostFunctionAdaptorType( numberOfParameters, numberOfValues );
+       
+  adaptor->SetCostFunction( costFunction );
+
+  if( m_OptimizerInitialized )
+    { 
+    delete m_VnlOptimizer;
+    }
+    
+  this->SetCostFunctionAdaptor( adaptor );
+
+  m_VnlOptimizer = new vnl_levenberg_marquardt( *adaptor );
+
+  ScalesType scales( numberOfParameters );
+  scales.Fill( 1.0f );
+  SetScales( scales );
+
+  m_OptimizerInitialized = true;
+
 }
 
 
@@ -48,25 +86,42 @@ LevenbergMarquardtOptimizer<TCostFunction>
 /**
  * Start the optimization
  */
-template <class TCostFunction>
 void
-LevenbergMarquardtOptimizer<TCostFunction>
+LevenbergMarquardtOptimizer
 ::StartOptimization( void )
 {
   
-  InternalParametersType initialParameters(SpaceDimension);
-  
-  VnlCostFunctionAdaptor::ConvertExternalToInternalParameters( 
-                                GetInitialPosition()
-                              , initialParameters );
-  
-  // vnl_levenberg_marquardt offers two methods for start minimization
-  // depending on whether the cost_function knows how to compute gradients
-  // or not
-  // m_LevenbergMarquardt.minimize_using_gradient( initialParameters );
-  m_LevenbergMarquardt.minimize( initialParameters );
-  
+  ParametersType initialPosition = GetInitialPosition();
+
+  InternalParametersType parameters( initialPosition.Size() );
+
+  CostFunctionAdaptorType::ConvertExternalToInternalParameters( 
+                                            GetInitialPosition(), 
+                                            parameters     );
+
+  m_VnlOptimizer->minimize( parameters );
+
+  ParametersType solution =
+   this->GetCostFunctionAdaptor()->GetCostFunction()->GetParameters() ;
+
+  this->SetCurrentPosition( solution );
+      
+
 }
+
+
+
+
+/**
+ * Get the Optimizer
+ */
+vnl_levenberg_marquardt * 
+LevenbergMarquardtOptimizer
+::GetOptimizer()
+{
+  return m_VnlOptimizer;
+}
+
 
 
 

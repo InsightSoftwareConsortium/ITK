@@ -46,7 +46,9 @@ int main()
   matrix.SetIdentity();
 
   VectorType v1;
-  v1 = 3,4,5;
+  v1[0] = 3;
+  v1[1] = 4;
+  v1[2] = 5;
   
   VectorType resultVector = matrix * v1;
   std::cout << resultVector[0] << ", ";

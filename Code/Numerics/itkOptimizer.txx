@@ -17,12 +17,16 @@
 #ifndef _itkOptimizer_txx
 #define _itkOptimizer_txx
 
+#include "itkOptimizer.h"
 
 namespace itk
 {
-template<class TCostFunction>
+
+
+
+
 void
-Optimizer<TCostFunction>
+Optimizer
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf(os,indent);
@@ -31,9 +35,11 @@ Optimizer<TCostFunction>
      << m_InitialPosition << std::endl;
   os << indent << "CurrentPosition: "
      << m_CurrentPosition << std::endl;
-  os << indent << "Transform: "
-     << m_Transform << std::endl;
+  os << indent << "Scales: "
+     << m_Scales << std::endl;
 }
+
+
 
 } // end namespace itk
 

@@ -18,6 +18,7 @@
 #define __itkRegularStepGradientDescentBaseOptimizer_h
 
 #include "itkSingleValuedNonLinearOptimizer.h"
+#include "itkSingleValuedCostFunction.h"
 
 namespace itk
 {
@@ -27,42 +28,27 @@ namespace itk
  *
  * \ingroup Numerics Optimizers
  */
-template <class TCostFunction>
 class ITK_EXPORT RegularStepGradientDescentBaseOptimizer : 
-        public SingleValuedNonLinearOptimizer< TCostFunction >
+        public SingleValuedNonLinearOptimizer
 {
 public:
   /** Standard "Self" typedef. */
-  typedef RegularStepGradientDescentBaseOptimizer  Self;
-  typedef SingleValuedNonLinearOptimizer<TCostFunction> Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef RegularStepGradientDescentBaseOptimizer      Self;
+  typedef SingleValuedNonLinearOptimizer               Superclass;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
   /** Run-time type information (and related methods). */
   itkTypeMacro( RegularStepGradientDescentBaseOptimizer, 
-      SingleValuedNonLinearOptimizer );
+                              SingleValuedNonLinearOptimizer );
 
-  /** Cost function typedefs. */
-  typedef          TCostFunction                CostFunctionType;
-  typedef typename CostFunctionType::Pointer    CostFunctionPointer;
+  /** Type of the Cost Function   */
+  typedef  SingleValuedCostFunction         CostFunctionType;
+  typedef  CostFunctionType::Pointer        CostFunctionPointer;
   
-  /** Dimension of the search space. */
-  enum { SpaceDimension = TCostFunction::SpaceDimension };
-
-  /**  Parameters type.
-   *  It defines a position in the optimization search space. */
-  typedef typename TCostFunction::ParametersType ParametersType;
-
-  /**  Measure type.
-   * It defines a type used to return the cost function value. */
-  typedef typename TCostFunction::MeasureType MeasureType;
-
-  /**  Derivative type.
-   * It defines a type used to return the cost function derivative. */
-  typedef typename TCostFunction::DerivativeType DerivativeType;
 
   /** Codes of stopping conditions. */
   typedef enum {
@@ -116,7 +102,6 @@ public:
   
   /** Set/Get the cost function to optimize over. */
   itkSetObjectMacro( CostFunction, CostFunctionType );
-  itkGetObjectMacro( CostFunction, CostFunctionType );
   
 protected:
   RegularStepGradientDescentBaseOptimizer();
@@ -135,7 +120,13 @@ protected:
    * \sa AdvanceOneStep */
   virtual void StepAlongGradient( 
                   double factor, 
-                  const DerivativeType & transformedGradient ) = 0;
+                  const DerivativeType & transformedGradient ) 
+    {
+    ExceptionObject ex;
+    ex.SetLocation(__FILE__);
+    ex.SetDescription("This method MUST be overloaded in derived classes");
+    throw ex;
+    }
 
 
 private:  

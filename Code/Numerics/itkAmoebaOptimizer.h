@@ -19,8 +19,6 @@
 
 #include "itkSingleValuedNonLinearVnlOptimizer.h"
 #include "vnl/algo/vnl_amoeba.h"
-#include "vnl/vnl_cost_function.h"
-#include "itkExceptionObject.h"
 
 namespace itk
 {
@@ -30,67 +28,49 @@ namespace itk
  *
  * \ingroup Numerics Optimizers
  */
-template <class TCostFunction>
 class ITK_EXPORT AmoebaOptimizer : 
-    public SingleValuedNonLinearVnlOptimizer<TCostFunction>
-
+    public SingleValuedNonLinearVnlOptimizer
 {
 public:
   /** Standard "Self" typedef. */
-  typedef AmoebaOptimizer  Self;
-  typedef SingleValuedNonLinearVnlOptimizer<TCostFunction> Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef AmoebaOptimizer                     Self;
+  typedef SingleValuedNonLinearVnlOptimizer   Superclass;
+  typedef SmartPointer<Self>                  Pointer;
+  typedef SmartPointer<const Self>            ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( AmoebaOptimizer, NonLinearOptimizer );
+  itkTypeMacro( AmoebaOptimizer, SingleValuedNonLinearVnlOptimizer );
 
   /** InternalParameters typedef. */
   typedef   vnl_vector<double>     InternalParametersType;
 
-  /** InternalMeasure typedef. */
-  typedef   vnl_vector<double>     InternalMeasureType;
-
-  /** InternalGradient typedef. */
-  typedef   vnl_matrix<double>     InternalDerivativeType;
-
-  /** ParametersType typedef.
-   *  It defines a position in the optimization search space. */
-  typedef typename TCostFunction::ParametersType    ParametersType;
-
-  /** MeasureType typedef.
-   *  It defines a type used to return the cost function value.  */
-  typedef typename TCostFunction::MeasureType         MeasureType;
-
-  /** GradientType typedef.
-   *  It defines a type used to return the cost function derivative. */
-  typedef typename TCostFunction::DerivativeType      DerivativeType;
-
   /** Internal optimizer type. */
-  typedef   vnl_amoeba     InternalOptimizerType;
-
-  /** Vnl cost function adaptor type. */
-  typedef typename Superclass::VnlCostFunctionAdaptor     
-                                   VnlCostFunctionAdaptorType;
+  typedef   vnl_amoeba             InternalOptimizerType;
 
   /** Method for getting access to the internal optimizer. */
-  vnl_amoeba & GetOptimizer(void);
+  vnl_amoeba * GetOptimizer(void);
 
   /** Start optimization with an initial value. */
   void StartOptimization( void );
 
+  /** Plug in a Cost Function into the optimizer  */
+  virtual void SetCostFunction( SingleValuedCostFunction * costFunction );
+
 protected:
   AmoebaOptimizer();
-  virtual ~AmoebaOptimizer() {};
+  virtual ~AmoebaOptimizer();
+
+  typedef Superclass::CostFunctionAdaptorType   CostFunctionAdaptorType;
 
 private:
   AmoebaOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  InternalOptimizerType             m_Amoeba;
+  bool                          m_OptimizerInitialized;
+  InternalOptimizerType       * m_VnlOptimizer;
 
 };
 

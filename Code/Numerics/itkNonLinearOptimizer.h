@@ -26,17 +26,19 @@ namespace itk
 /** \class NonLinearOptimizer
  * \brief Wrap of the vnl_nonlinear_minimizer to be adapted 
  *
+ * This class is provided to support the structure of an
+ * Optimizers Hierarchy. It is not intended to be instantiated.
+ *
  * \ingroup Numerics Optimizers
  */
-template <class TCostFunction>
-class ITK_EXPORT NonLinearOptimizer : public Optimizer<TCostFunction>
+class ITK_EXPORT NonLinearOptimizer : public Optimizer
 
 {
 public:
   /** Standard class typedefs. */
-  typedef NonLinearOptimizer  Self;
-  typedef  Optimizer<TCostFunction>   Superclass;
-  typedef SmartPointer<Self>   Pointer;
+  typedef NonLinearOptimizer        Self;
+  typedef Optimizer                 Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Method for creation through the object factory. */
@@ -45,17 +47,9 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( NonLinearOptimizer, Optimizer );
 
-  /**  Parameters type.
-   *  It defines a position in the optimization search space. */
-  typedef typename TCostFunction::ParametersType ParametersType;
-
-  /**  Measure type.
-   *  It defines a type used to return the cost function value. */
-  typedef typename TCostFunction::MeasureType MeasureType;
-
-  /**  Derivative type.
-   *  It defines a type used to return the cost function derivative. */
-  typedef typename TCostFunction::DerivativeType DerivativeType;
+  /**  Types inherited from the superclass */
+  typedef Superclass::ParametersType ParametersType;
+  typedef Superclass::ScalesType     ScalesType;
 
 protected:
   NonLinearOptimizer() {};

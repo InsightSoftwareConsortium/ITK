@@ -25,13 +25,60 @@ namespace itk
 /**
  * Constructor
  */
-template <class TCostFunction>
-SingleValuedNonLinearVnlOptimizer<TCostFunction>
+SingleValuedNonLinearVnlOptimizer
 ::SingleValuedNonLinearVnlOptimizer()
 {
+  m_CostFunctionAdaptor = 0;
+}
 
+
+/**
+ * Destructor
+ */
+SingleValuedNonLinearVnlOptimizer
+::~SingleValuedNonLinearVnlOptimizer()
+{
+  if( m_CostFunctionAdaptor )
+    {
+    delete m_CostFunctionAdaptor;
+    m_CostFunctionAdaptor = 0;
+    }
+}
+
+
+
+
+void 
+SingleValuedNonLinearVnlOptimizer
+::SetCostFunctionAdaptor( CostFunctionAdaptorType * adaptor )
+{
+
+  if( m_CostFunctionAdaptor == adaptor ) 
+    {
+    return;
+    }
+
+  if( m_CostFunctionAdaptor )
+    {
+    delete m_CostFunctionAdaptor;
+    }
+
+  m_CostFunctionAdaptor = adaptor; 
 
 }
+
+
+
+const SingleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType * 
+SingleValuedNonLinearVnlOptimizer
+::GetCostFunctionAdaptor( void ) const
+{
+  return m_CostFunctionAdaptor;
+}
+
+
+
+
 
 
 } // end namespace itk

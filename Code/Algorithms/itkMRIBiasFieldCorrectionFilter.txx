@@ -26,13 +26,17 @@ namespace itk
 
   template<class TImage, class TImageMask, class TBiasField>
   MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>
-  ::MRIBiasEnergyFunction(std::vector<double> classMeans, 
-                          std::vector<double> classSigmas)
+  ::MRIBiasEnergyFunction()
   {
-    m_Image = 0 ;
-    m_Mask = 0 ;
-    m_BiasField = 0 ;
+    m_BiasField = 0;
+  }
 
+  template<class TImage, class TImageMask, class TBiasField>
+  void 
+  MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>
+  ::InitializeDistributions( Array<double> classMeans, 
+                             Array<double> classSigmas  )
+  {
     m_InternalEnergyFunction = 
       new InternalEnergyFunction(classMeans, classSigmas) ;
   }
@@ -47,49 +51,27 @@ namespace itk
 
 
   template<class TImage, class TImageMask, class TBiasField>
-  void
-  MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>
-  ::SetImage(ImagePointer image)
-  {
-    m_Image = image ;
-  }
-
-
-  template<class TImage, class TImageMask, class TBiasField>
-  void
-  MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>
-  ::SetMask(MaskPointer mask)
-  {
-    m_Mask = mask ;
-  }
-
-  template<class TImage, class TImageMask, class TBiasField>
-  void
-  MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>
-  ::SetRegion(ImageRegionType region)
-  {
-    m_Region = region ;
-  }
-
-  template<class TImage, class TImageMask, class TBiasField>
-  void
-  MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>
-  ::SetBiasField(BiasFieldType* biasField)
-  {
-    m_BiasField = biasField ;
-  }
-
-
-  template<class TImage, class TImageMask, class TBiasField>
   MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::MeasureType
   MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>
-  ::GetValue(ParametersType parameters, MeasureType& ret) 
+  ::GetValue( const ParametersType & parameters ) 
   {
 
-    if (m_Image == 0 || m_InternalEnergyFunction == 0 || m_BiasField == 0)
-      exit(0) ;
+    if (m_Image == 0 )
+      {
+      itkExceptionMacro(<<"Image is null");
+      }
 
-    double  total = 0.0;
+    if( m_InternalEnergyFunction == 0 )
+      {
+      itkExceptionMacro(<<"EnergyFunction is null");
+      }
+
+    if( m_BiasField == 0 )
+      {
+      itkExceptionMacro(<<"BiasField is null");
+      }
+
+    MeasureType  total = 0.0;
   
     ImageRegionIterator<ImageType> iIter(m_Image, m_Region) ;
 
@@ -142,7 +124,7 @@ namespace itk
     m_BiasFieldDegree = 3 ;
     m_OptimizerInitialRadius = 1 ;
     m_OptimizerMaximumIteration = 100 ;
-    m_OptimizerGrowFactor = 0 ;
+    m_OptimizerGrowthFactor = 0 ;
     m_OptimizerShrinkFactor = 0 ;
     
     m_EnergyFunction = 0 ;
@@ -162,8 +144,6 @@ namespace itk
   MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
   ::~MRIBiasFieldCorrectionFilter()
   {
-    delete m_EnergyFunction ;
-    m_EnergyFunction = 0 ;
   }
   
   template<class TInputImage, class TOutputImage>
@@ -188,6 +168,8 @@ namespace itk
       throw ExceptionObject(__FILE__, __LINE__) ;
   }
 
+
+
   template<class TInputImage, class TOutputImage>
   void 
   MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
@@ -198,7 +180,8 @@ namespace itk
     // image data
     if (this->IsBiasFieldMultiplicative())
       { 
-        for (int i = 0 ; i < m_TissueClassMeans.size() ; i++) 
+        const unsigned int size = m_TissueClassMeans.Size();
+        for( unsigned int i = 0 ; i < size; i++ ) 
           {
             m_TissueClassSigmas[i] = log(1.0 + m_TissueClassSigmas[i] / 
                                          (m_TissueClassMeans[i] + 1.0)) ;
@@ -214,12 +197,15 @@ namespace itk
 
 
     // initialize the energy function
-    if (m_TissueClassMeans.size() < 1) 
-      throw ExceptionObject(__FILE__, __LINE__) ;
+    if (m_TissueClassMeans.Size() < 1)
+      { 
+      itkExceptionMacro(<<"Tissue Class Means is empty");
+      }
 
     if (!m_EnergyFunction)
       {
-        m_EnergyFunction = new EnergyFunction(m_TissueClassMeans, 
+        m_EnergyFunction = EnergyFunctionType::New();
+        m_EnergyFunction->InitializeDistributions(m_TissueClassMeans, 
                                               m_TissueClassSigmas) ;
       }
 
@@ -233,15 +219,15 @@ namespace itk
     m_Optimizer->SetDebug(this->GetDebug()) ;
     m_Optimizer->SetCostFunction(m_EnergyFunction) ;
     
-    if (m_OptimizerGrowFactor > 0)
+    if (m_OptimizerGrowthFactor > 0)
       {
         if (m_OptimizerShrinkFactor > 0)
           m_Optimizer->Initialize(m_OptimizerInitialRadius, 
-                                  m_OptimizerGrowFactor,
+                                  m_OptimizerGrowthFactor,
                                   m_OptimizerShrinkFactor) ;
         else
           m_Optimizer->Initialize(m_OptimizerInitialRadius,
-                                  m_OptimizerGrowFactor) ;
+                                  m_OptimizerGrowthFactor) ;
       }
     else
       {
@@ -259,29 +245,34 @@ namespace itk
   template<class TInputImage, class TOutputImage>
   void 
   MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
-  ::EstimateBiasField(BiasField* bias,
+  ::EstimateBiasField(BiasFieldType* bias,
                       InputImageRegionType region)
   {
     m_EnergyFunction->SetBiasField(bias) ;
     m_EnergyFunction->SetRegion(region) ;
-    m_Optimizer->SetSpaceDimension(bias->GetNoOfCoefficients()) ;
-    m_Optimizer->SetInitialPosition(bias->GetCoefficients()) ;
-    m_Optimizer->Run() ;
-    bias->SetCoefficients(m_Optimizer->GetCurrentPosition()) ;
+    BiasFieldType::CoefficientVector  coefficients  = bias->GetCoefficients();
+    EnergyFunctionType::ParametersType initialPosition( coefficients.size() );
+    for(unsigned int i=0; i < coefficients.size(); i++ )
+      {
+      initialPosition[i] = coefficients[i];
+      }
+    m_Optimizer->SetInitialPosition( initialPosition );
+    m_Optimizer->Run();
+    bias->SetCoefficients(m_Optimizer->GetCurrentPosition());
   }
 
 
   template<class TInputImage, class TOutputImage>
   void 
   MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
-  ::CorrectImage(BiasField* bias,
+  ::CorrectImage(BiasFieldType* bias,
                 InputImageRegionType region)
   {
     typedef InternalImagePixelType Pixel ;
 
     ImageRegionIterator<InternalImageType> iIter(m_InternalInput, region) ;
   
-    BiasField::SimpleForwardIterator bIter(bias) ;
+    BiasFieldType::SimpleForwardIterator bIter(bias) ;
 
     //    ImageRegionIterator<OutputImageType> oIter(m_I, region) ;
 
@@ -338,13 +329,13 @@ namespace itk
     InputImageSizeType size = region.GetSize() ;
     size[m_SlicingDirection] = 1 ;
     sliceRegion.SetSize(size) ;
-    BiasField::DomainSizeType biasSize ;
+    BiasFieldType::DomainSizeType biasSize ;
     while (index[m_SlicingDirection] < lastSlice)
       {
       itkDebugMacro(<< "    -- slice : " << index[m_SlicingDirection] );
 
       this->GetBiasFieldSize(sliceRegion, biasSize) ;
-      BiasField* bias = new BiasField(biasSize.size(), 0, biasSize) ;
+      BiasFieldType* bias = new BiasFieldType(biasSize.size(), 0, biasSize) ;
       sliceRegion.SetIndex(index) ;
       this->EstimateBiasField(bias, sliceRegion) ;
       this->CorrectImage(bias, sliceRegion) ;
@@ -398,7 +389,7 @@ namespace itk
 
     SlabRegionVectorIteratorType iter = m_Slabs.begin();
     
-    BiasField::DomainSizeType biasSize ;
+    BiasFieldType::DomainSizeType biasSize ;
 
     int count = 0 ;
     while (iter != m_Slabs.end())
@@ -429,8 +420,8 @@ namespace itk
         itkDebugMacro(<< "  Correcting bias..." );
 
         this->GetBiasFieldSize(*iter, biasSize) ;
-        BiasField* bias = 
-          new BiasField(biasSize.size(), m_BiasFieldDegree, biasSize) ;
+        BiasFieldType* bias = 
+          new BiasFieldType(biasSize.size(), m_BiasFieldDegree, biasSize) ;
         if (bias->GetNoOfCoefficients() 
             == m_BiasFieldCoefficients.size())
           {
@@ -469,20 +460,30 @@ namespace itk
   template<class TInputImage, class TOutputImage>
   void 
   MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
-  ::SetTissueClassStatistics(std::vector<double> means, 
-                             std::vector<double> sigmas) 
+  ::SetTissueClassStatistics( const Array<double> & means, 
+                              const Array<double> & sigmas) 
     throw (ExceptionObject)
   {
-    size_t meanSize = means.size() ;
-    size_t sigmaSize = sigmas.size() ;
+    size_t meanSize = means.Size() ;
+    size_t sigmaSize = sigmas.Size() ;
     
-    if (meanSize == 0 || sigmaSize == 0)
-      throw ExceptionObject(__FILE__, __LINE__) ;
+    if ( meanSize == 0 )
+      { 
+      itkExceptionMacro(<< "arrays of Means is empty");
+      }
+
+    if ( sigmaSize == 0 )
+      { 
+      itkExceptionMacro(<< "arrays of Sigmas is empty");
+      }
 
     if (meanSize != sigmaSize )
-      throw ExceptionObject(__FILE__, __LINE__) ;
+      { 
+      itkExceptionMacro(<< "arrays of Means and Sigmas have different lengths");
+      }
+      
 
-    m_TissueClassMeans = means ;
+    m_TissueClassMeans  = means ;
     m_TissueClassSigmas = sigmas ;
   }
 
@@ -565,7 +566,7 @@ namespace itk
   void 
   MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
   ::GetBiasFieldSize(InputImageRegionType region,
-                     BiasField::DomainSizeType& biasSize)
+                     BiasFieldType::DomainSizeType& biasSize)
   {
     InputImageSizeType size = region.GetSize() ;
     long dim = 0 ;

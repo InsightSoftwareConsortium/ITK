@@ -47,16 +47,15 @@ namespace itk
  *
  * \ingroup Numerics Optimizers
  */  
-template <class TCostFunction>
 class ITK_EXPORT VersorTransformOptimizer : 
-        public RegularStepGradientDescentBaseOptimizer< TCostFunction >
+        public RegularStepGradientDescentBaseOptimizer
 {
 public:
   /** Standard class typedefs. */
-  typedef VersorTransformOptimizer  Self;
-  typedef RegularStepGradientDescentBaseOptimizer<TCostFunction> Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef VersorTransformOptimizer                    Self;
+  typedef RegularStepGradientDescentBaseOptimizer     Superclass;
+  typedef SmartPointer<Self>                          Pointer;
+  typedef SmartPointer<const Self>                    ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -65,13 +64,8 @@ public:
   itkTypeMacro( VersorTransformOptimizer, 
                 RegularStepGradientDescentBaseOptimizer );
 
-  /** Dimension of the Search Space */
-  enum { SpaceDimension = Superclass::SpaceDimension };
-
-  /**  Parameters type.
-   *  It defines a position in the optimization search space. */
-  typedef typename Superclass::ParametersType ParametersType;
-  typedef typename Superclass::DerivativeType DerivativeType;
+  /** This class is specialized for 3D  */
+  enum { SpaceDimension = 3 };
 
   /**  Versor Type  */
   typedef Versor<double>                      VersorType;

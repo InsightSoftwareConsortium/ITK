@@ -19,30 +19,63 @@
 
 #include "itkLBFGSOptimizer.h"
 
-
 namespace itk
 {
 
 /**
  * Constructor
  */
-template <class TCostFunction>
-LBFGSOptimizer<TCostFunction>
-::LBFGSOptimizer():
-  m_LBFGS( m_CostFunctionAdaptor )
+LBFGSOptimizer
+::LBFGSOptimizer()
 {
+  m_OptimizerInitialized    = false;
+  m_VnlOptimizer            = 0;
 }
 
 
 /**
- * Get the Optimizer
+ * Destructor
  */
-template <class TCostFunction>
-vnl_lbfgs & 
-LBFGSOptimizer<TCostFunction>
-::GetOptimizer()
+LBFGSOptimizer
+::~LBFGSOptimizer()
 {
-  return m_LBFGS;
+  delete m_VnlOptimizer;
+}
+
+
+
+/**
+ * Connect a Cost Function
+ */
+void
+LBFGSOptimizer
+::SetCostFunction( SingleValuedCostFunction * costFunction )
+{
+
+
+  const unsigned int numberOfParameters = 
+                        costFunction->GetNumberOfParameters();
+
+  CostFunctionAdaptorType * adaptor = 
+              new CostFunctionAdaptorType( numberOfParameters );
+       
+  adaptor->SetCostFunction( costFunction );
+
+  if( m_OptimizerInitialized )
+    { 
+    delete m_VnlOptimizer;
+    }
+    
+  this->SetCostFunctionAdaptor( adaptor );
+
+  m_VnlOptimizer = new vnl_lbfgs( *adaptor );
+
+  ScalesType scales( numberOfParameters );
+  scales.Fill( 1.0f );
+  SetScales( scales );
+
+  m_OptimizerInitialized = true;
+
 }
 
 
@@ -50,20 +83,42 @@ LBFGSOptimizer<TCostFunction>
 /**
  * Start the optimization
  */
-template <class TCostFunction>
 void
-LBFGSOptimizer<TCostFunction>
+LBFGSOptimizer
 ::StartOptimization( void )
 {
-  InternalParametersType initialParameters( SpaceDimension );
   
-  VnlCostFunctionAdaptor::ConvertExternalToInternalParameters( 
-                            GetInitialPosition(), 
-                            initialParameters     );
+  ParametersType initialPosition = GetInitialPosition();
 
-  m_LBFGS.minimize( initialParameters );
+  InternalParametersType parameters( initialPosition.Size() );
+
+  CostFunctionAdaptorType::ConvertExternalToInternalParameters( 
+                                            GetInitialPosition(), 
+                                            parameters     );
+
+  m_VnlOptimizer->minimize( parameters );
+
+  ParametersType solution =
+   this->GetCostFunctionAdaptor()->GetCostFunction()->GetParameters() ;
+
+  this->SetCurrentPosition( solution );
+      
 
 }
+
+
+
+
+/**
+ * Get the Optimizer
+ */
+vnl_lbfgs * 
+LBFGSOptimizer
+::GetOptimizer()
+{
+  return m_VnlOptimizer;
+}
+
 
 
 

@@ -14,10 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMultipleValuedNonLinearOptimizer_txx
-#define _itkMultipleValuedNonLinearOptimizer_txx
+#ifndef _itkMultipleValuedNonLinearVnlOptimizer_txx
+#define _itkMultipleValuedNonLinearVnlOptimizer_txx
 
-#include "itkMultipleValuedNonLinearOptimizer.h"
+#include "itkMultipleValuedNonLinearVnlOptimizer.h"
 
 namespace itk
 {
@@ -25,14 +25,62 @@ namespace itk
 /**
  * Constructor
  */
-template <class TCostFunction>
-MultipleValuedNonLinearVnlOptimizer<TCostFunction>
+MultipleValuedNonLinearVnlOptimizer
 ::MultipleValuedNonLinearVnlOptimizer()
 {
+  m_CostFunctionAdaptor = 0;
 }
+
+
+/**
+ * Destructor
+ */
+MultipleValuedNonLinearVnlOptimizer
+::~MultipleValuedNonLinearVnlOptimizer()
+{
+  if( m_CostFunctionAdaptor )
+    {
+    delete m_CostFunctionAdaptor;
+    m_CostFunctionAdaptor = 0;
+    }
+}
+
+
+
+
+void 
+MultipleValuedNonLinearVnlOptimizer
+::SetCostFunctionAdaptor( CostFunctionAdaptorType * adaptor )
+{
+
+  if( m_CostFunctionAdaptor == adaptor ) 
+    {
+    return;
+    }
+
+  if( m_CostFunctionAdaptor )
+    {
+    delete m_CostFunctionAdaptor;
+    }
+
+  m_CostFunctionAdaptor = adaptor; 
+
+}
+
+
+
+const MultipleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType * 
+MultipleValuedNonLinearVnlOptimizer
+::GetCostFunctionAdaptor( void ) const
+{
+  return m_CostFunctionAdaptor;
+}
+
+
+
+
 
 
 } // end namespace itk
 
 #endif
-
