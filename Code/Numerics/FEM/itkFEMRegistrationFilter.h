@@ -94,6 +94,8 @@ namespace fem {
      of the same type as the reference image.
 
      \note This code works for only 2 or 3 dimensions.
+
+  \note  Not yet a REAL itk filter!
 */
 
 template<class TReference,class TTarget> 
