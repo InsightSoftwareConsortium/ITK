@@ -275,17 +275,20 @@ protected:
     const Self & operator=( const Self & );
 
 
-private:
-
-    // Offset of the transformation
-    OffsetType          m_Offset;   
-
     // matrix representation of the rotation
+    // Should be protected in order to be modified 
+    // by derived classes that instantiate an interface
+    // to rotation computation
     MatrixType          m_DirectMatrix;   
 
     // representation of the inverse rottion
     MatrixType          m_InverseMatrix; 
     
+private:
+
+    // Offset of the transformation
+    OffsetType          m_Offset;   
+
 }; //class Rigid3DTransform
 
 
