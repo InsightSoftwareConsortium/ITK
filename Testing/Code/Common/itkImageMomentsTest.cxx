@@ -16,6 +16,7 @@
 
 #include "itkImage.h"
 #include "itkIndex.h"
+#include "itkSize.h"
 
 #include "itkImageMoments.h"
 
@@ -29,7 +30,7 @@ main(
     double maxerr = 1.0e-7;
 
     /* Define the image size and physical coordinates */
-    unsigned long size[3] = {20, 40, 80};
+    itk::Size<3> size = {20, 40, 80};
     float origin [3] = { 0.5,   0.5,   0.5};
     float spacing[3] = { 0.1,   0.05 , 0.025};
 
@@ -62,9 +63,11 @@ main(
 
     /* Allocate a simple test image */
     itk::Image<unsigned short, 3>::Pointer
-	image = itk::Image<unsigned short,3>::New();
-    image->SetImageSize(size);
-    image->SetBufferSize(size);
+      image = itk::Image<unsigned short,3>::New();
+    itk::Image<unsigned short, 3>::Region region;
+    region.SetSize(size);
+    image->SetLargestPossibleRegion(region);
+    image->SetBufferedRegion(region);
 
     /* Set origin and spacing of physical coordinates */
     image->SetOrigin(origin);

@@ -49,7 +49,7 @@ int IterateOverRegion( itk::ImageBufferIterator<T, VImageDimension> it,
       }
 
     // set "it" to the beginning of the dim projection
-    for (i=0; i < it.GetSize()[dim]; i++)
+    for (i=0; i < it.GetRegion().GetSize()[dim]; i++)
       {
       itkGenericOutputMacro(<< "Looping over " << dim);
       
@@ -71,7 +71,7 @@ int IterateOverRegion( itk::ImageBufferIterator<T, VImageDimension> it,
   else
     {
     // final dimension... do something
-    for (j=0; j < it.GetSize()[dim]; j++)
+    for (j=0; j < it.GetRegion().GetSize()[dim]; j++)
       {
       std::cout << "IterateOverImage(): ";
       itk::ImageIterator<T, VImageDimension>::Index index=it.GetIndex();
@@ -117,7 +117,7 @@ int IterateOverRegion2( itk::ImageBufferIterator<T, VImageDimension> it,
   if (dim > 0)
     {
     // set "it" to the beginning of the dim projection
-    for (i=0; i < it.GetSize()[dim]; i++)
+    for (i=0; i < it.GetRegion().GetSize()[dim]; i++)
       {
       IterateOverRegion2(it, dim-1);
       // increment the iterator
@@ -127,7 +127,7 @@ int IterateOverRegion2( itk::ImageBufferIterator<T, VImageDimension> it,
   else
     {
     // final dimension... do something
-    for (j=0; j < it.GetSize()[dim]; j++)
+    for (j=0; j < it.GetRegion().GetSize()[dim]; j++)
       {
       std::cout << "IterateOverRegion2(): ";
       itk::ImageIterator<T, VImageDimension>::Index index=it.GetIndex();
@@ -177,11 +177,9 @@ int main()
   float origin3D[3] = { 5, 2.1, 8.1};
   float spacing3D[3] = { 1.5, 2.1, 1};
 
-  unsigned long imageSize3D[3] = { 20, 40, 60 };
-  unsigned long bufferSize3D[3] = { 8, 20, 14 };
-  unsigned long regionSize3D[3] = { 4,  6,  6 };
-
-  //  make an itk::Size class similar to itk::Index but storing unsigned longs not longs
+  itk::Image<itk::Vector<unsigned short, 5>, 3>::Size imageSize3D = { 20, 40, 60 };
+  itk::Image<itk::Vector<unsigned short, 5>, 3>::Size bufferSize3D = { 8, 20, 14 };
+  itk::Image<itk::Vector<unsigned short, 5>, 3>::Size regionSize3D = { 4,  6,  6 };
 
   itk::Image<itk::Vector<unsigned short, 5>, 3>::Index startIndex3D = {-5, 4, -1};
   itk::Image<itk::Vector<unsigned short, 5>, 3>::Index bufferStartIndex3D = {2, 3, 5};
@@ -189,11 +187,17 @@ int main()
   itk::Image<itk::Vector<unsigned short, 5>, 3>::Index regionEndIndex3D = {8, 15, 17};
 
 
-  o3->SetImageSize(imageSize3D);
-  o3->SetBufferSize(bufferSize3D);
-  o3->SetImageStartIndex(startIndex3D);
-  o3->SetBufferStartIndex(bufferStartIndex3D);
-
+  itk::Image<itk::Vector<unsigned short, 5>, 3>::Region region;
+  region.SetSize(imageSize3D);
+  region.SetIndex(startIndex3D);
+  o3->SetLargestPossibleRegion( region );
+  region.SetSize(bufferSize3D);
+  region.SetIndex(bufferStartIndex3D);
+  o3->SetBufferedRegion( region );
+  region.SetSize(regionSize3D);
+  region.SetIndex(regionStartIndex3D);
+  o3->SetRequestedRegion( region );
+  
   o3->SetOrigin(origin3D);
   o3->SetSpacing(spacing3D);
 
@@ -208,7 +212,8 @@ int main()
   (*o3)[regionEndIndex3D] = (*o3)[regionStartIndex3D];
   TestConstPixelAccess(*o3, *o3);
 
-  itk::ImageIterator<itk::Vector<unsigned short, 5>, 3> standardIt(o3, regionStartIndex3D, regionSize3D);
+  
+  itk::ImageIterator<itk::Vector<unsigned short, 5>, 3> standardIt(o3, region);
 
   itk::ImageBufferIterator<itk::Vector<unsigned short, 5>, 3> bufferIt = standardIt;
   itk::ImageBufferIterator<itk::Vector<unsigned short, 5>, 3> bufferIt2(standardIt);
@@ -222,8 +227,7 @@ int main()
   IterateOverRegion2<itk::Vector<unsigned short, 5>, 3>( standardIt );
   
   // Iterate over a region using a simple for loop
-  itk::ImageRegionIterator<itk::Vector<unsigned short, 5>, 3>
-    it(o3, regionStartIndex3D, regionSize3D);
+  itk::ImageRegionIterator<itk::Vector<unsigned short, 5>, 3> it(o3, region);
 
   for ( ; !it.IsAtEnd(); ++it)
     {
