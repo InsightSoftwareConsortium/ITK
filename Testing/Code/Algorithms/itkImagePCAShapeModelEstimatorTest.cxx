@@ -31,7 +31,6 @@
 //Data definitions 
 #define   IMGWIDTH            2
 #define   IMGHEIGHT           2
-#define   NUMBANDS            4
 #define   NDIMENSION          2
 #define   NUMTRAINIMAGES      3
 #define   NUMLARGESTPC        2
@@ -158,6 +157,7 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
   //Set the parameters of the clusterer
   //----------------------------------------------------------------------
   applyPCAShapeEstimator->SetNumberOfTrainingImages( NUMTRAINIMAGES );
+  applyPCAShapeEstimator->SetNumberOfPrincipalComponentsRequired( NUMLARGESTPC + 1 );
   applyPCAShapeEstimator->SetNumberOfPrincipalComponentsRequired( NUMLARGESTPC );
   applyPCAShapeEstimator->SetInput(0, image1);
   applyPCAShapeEstimator->SetInput(1, image2);
@@ -181,23 +181,22 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
     applyPCAShapeEstimator->GetNumberOfPrincipalComponentsRequired() << std::endl;
 
   //Print the eigen vectors
+  vnl_vector<double> eigenValues = 
+    applyPCAShapeEstimator->GetEigenValues();
+  unsigned int numEigVal =  eigenValues.size();
+  std::cout << "Number of returned eign-values: " << numEigVal << std::endl;
+
   std::cout << "The " << 
     applyPCAShapeEstimator->GetNumberOfPrincipalComponentsRequired() << 
     " largest eigen values are:" << std::endl;
 
-  vnl_vector<double> eigenValues = 
-    applyPCAShapeEstimator->GetEigenValues();
-
-
-  for(unsigned int i= 0; i< NUMLARGESTPC ; i++ )
+  for(unsigned int i= 0; i< vnl_math_min( numEigVal, (unsigned int)NUMLARGESTPC ); i++ )
     {
     std::cout << eigenValues[ i ] << std::ends; 
     }  
   std::cout << "" << std::endl;
   std::cout << "" << std::endl;
 
-  unsigned int numEigVal =  eigenValues.size();
-  std::cout << "Number of returned eign-values: " << numEigVal << std::endl;
   
   //Print the MeanImage
   OutputImageType::Pointer outImage = applyPCAShapeEstimator->GetOutput( 0 );
@@ -213,7 +212,7 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
   std::cout << "  " << std::endl;
 
   //Print the largest two eigen vectors
-  for (unsigned int j=1; j<3; j++ )
+  for (unsigned int j=1; j< NUMLARGESTPC + 1; j++ )
     {
     OutputImageType::Pointer outImage = applyPCAShapeEstimator->GetOutput( j );
     OutputImageIterator outImageIt( outImage, outImage->GetBufferedRegion() );

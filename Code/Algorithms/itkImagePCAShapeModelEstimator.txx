@@ -198,15 +198,17 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>
     ++i;
     } 
 
-  //Now fill the m_NumberOfPrincipal components
+  //Now fill the principal component outputs
   unsigned int kthLargestPrincipalComp = m_NumberOfTrainingImages;
+  unsigned int numberOfValidOutputs = 
+    vnl_math_min( numberOfOutputs, m_NumberOfTrainingImages + 1 );
+  unsigned int j;
 
-  for( unsigned int j = 1; j < numberOfOutputs; j++ )
+  for( j = 1; j < numberOfValidOutputs; j++ )
     {
 
     //Extract one column vector at a time
     m_OneEigenVector = m_EigenVectors.get_column(kthLargestPrincipalComp-1);
-
 
     typename OutputImageType::RegionType region = this->GetOutput( j )->GetRequestedRegion();
     OutputIterator outIter( this->GetOutput( j ), region );
@@ -225,11 +227,26 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>
     --kthLargestPrincipalComp;
     }
 
+  // Fill extraneous outputs with zero
+  for( ; j < numberOfOutputs; j++ )
+    {
+    typename OutputImageType::RegionType region = this->GetOutput( j )->GetRequestedRegion();
+    OutputIterator outIter( this->GetOutput( j ), region );
+
+    outIter.GoToBegin();
+    while( !outIter.IsAtEnd() )
+      {
+      outIter.Set( 0 );
+      ++outIter;
+      }
+
+    }
+
 }// end Generate data
 
 
 /**
- * Set the number of training images.
+ * Set the number of required principal components
  */
 template<class TInputImage, class TOutputImage>
 void
@@ -242,27 +259,25 @@ ImagePCAShapeModelEstimator<TInputImage,TOutputImage>
 
     this->Modified();
 
-    // Modify the required number of inputs and outputs ( 1 extra 
-    // for the mean image ) 
-    this->SetNumberOfRequiredInputs( m_NumberOfTrainingImages );
+    // Modify the required number of outputs ( 1 extra for the mean image ) 
     this->SetNumberOfRequiredOutputs( m_NumberOfPrincipalComponentsRequired + 1 );
 
     unsigned int numberOfOutputs = static_cast<unsigned int>( this->GetNumberOfOutputs() );
     unsigned int idx;
 
-    if( numberOfOutputs < m_NumberOfTrainingImages )
+    if( numberOfOutputs < m_NumberOfPrincipalComponentsRequired + 1 )
       {
       // Make and add extra outputs
-      for( idx = numberOfOutputs; idx < m_NumberOfTrainingImages; idx++ )
+      for( idx = numberOfOutputs; idx <= m_NumberOfPrincipalComponentsRequired; idx++ )
         {
         typename DataObject::Pointer output = this->MakeOutput( idx );
         this->SetNthOutput( idx, output.GetPointer() );
         }
       }
-    else if ( numberOfOutputs > m_NumberOfTrainingImages )
+    else if ( numberOfOutputs > m_NumberOfPrincipalComponentsRequired + 1 )
       {
       // Remove the extra outputs
-      for ( idx = m_NumberOfTrainingImages; idx < numberOfOutputs; idx++ )
+      for ( idx = numberOfOutputs - 1; idx >= m_NumberOfPrincipalComponentsRequired + 1; idx-- )
         {
         typename DataObject::Pointer output = this->GetOutputs()[idx];
         this->RemoveOutput( output );
@@ -270,7 +285,25 @@ ImagePCAShapeModelEstimator<TInputImage,TOutputImage>
       }
 
     }
+}
 
+/**
+ * Set the number of training images.
+ */
+template<class TInputImage, class TOutputImage>
+void
+ImagePCAShapeModelEstimator<TInputImage,TOutputImage>
+::SetNumberOfTrainingImages( unsigned int n )
+{
+  if ( m_NumberOfTrainingImages != n )
+    {
+    m_NumberOfTrainingImages = n;
+
+    this->Modified();
+
+    // Modify the required number of inputs
+    this->SetNumberOfRequiredInputs( m_NumberOfTrainingImages );
+    }
 }
 
 /**-----------------------------------------------------------------

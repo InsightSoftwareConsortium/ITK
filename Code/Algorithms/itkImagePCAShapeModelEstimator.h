@@ -47,7 +47,7 @@ namespace itk
  * and also the number of desired largest principal components needed.
  * The ITK pipeline mechanism sets up the storage for both input and output
  * images. The number of output images are the user specified number of desired
- * largest principal components plus 1 a(for the mean image).
+ * largest principal components plus 1 (for the mean image).
  *
  * The algorithm uses the VNL library to perform the eigen analysis. To speed
  * the computation of the instead of performing the eigen analysis of the 
@@ -121,22 +121,18 @@ public:
   /** Type definition for a double vector. */
   typedef vnl_vector<double> VectorOfDoubleType;
 
-  /** Set/Get the number of input training images. The filter produces the
-   same number of output images. The Set method modifies this filter's
-   NumberOfRequiredInputs and NumberOfRequiredOutputs and calls MakeOutput
-   to create the extra outputs. */
-  void SetNumberOfPrincipalComponentsRequired( unsigned int n );
+  /** Set/Get the number of required largest principal components. The filter produces
+   the required number of principal components plus one outputs. Output index 0 represents
+   the mean image and the remaining outputs the requested principal components.*/
+  virtual void SetNumberOfPrincipalComponentsRequired( unsigned int n );
   itkGetMacro( NumberOfPrincipalComponentsRequired, unsigned int );
 
-  /** Set/Get the number of training images in the input */
-  itkSetMacro(NumberOfTrainingImages, unsigned int);
+  /** Set/Get the number of training images in the input. */
+  virtual void SetNumberOfTrainingImages( unsigned int n );
   itkGetMacro(NumberOfTrainingImages, unsigned int);
 
   /** Get the eigen values */
   itkGetMacro(EigenValues, VectorOfDoubleType);  
-
-  /** Execute the function (over-ride the base clase update function)*/
-  //void Update();
 
 protected: 
   ImagePCAShapeModelEstimator();
