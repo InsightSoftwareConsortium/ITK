@@ -41,13 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkClassifier_h
 #define _itkClassifier_h
 
-#include "itkObject.h"
-#include "itkImageRegionIteratorWithIndex.h"
-#include "vnl/vnl_vector.h"
-#include "vnl/vnl_matrix.h"
-#include "vnl/vnl_math.h"
-#include "vnl/algo/vnl_matrix_inverse.h"
-//#include "vnl/vnl_numeric_limits.h"
+#include "itkLightProcessObject.h"
 
 namespace itk
 {
@@ -84,17 +78,17 @@ namespace itk
  * \ingroup ClassificationFilters 
  */
 template <class TInputImage, class TClassifiedImage>
-class ITK_EXPORT Classifier : public Object
+class ITK_EXPORT Classifier : public LightProcessObject
 {
 public:
   /** Standard class typedefs. */
   typedef Classifier   Self;
-  typedef Object Superclass;
+  typedef LightProcessObject Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Classifier,Object);
+  itkTypeMacro(Classifier,LightProcessObject);
 
   /** Type definition for the input image. */
   typedef typename TInputImage::Pointer   InputImageType;
@@ -159,15 +153,6 @@ public:
   /** Set a training image (for supervised classifier). */
   virtual void SetTrainingImage( TrainingImageType image ) {};
 
-  /** Set the progress. */
-  itkSetClampMacro( Progress, float, 0.0, 1.0 );
-
-  /** Get the algorithm progress. */
-  itkGetMacro( Progress, float );
-
-  /** Update the progress. */
-  void UpdateProgress( float amount );
-
 protected:
   Classifier();
   ~Classifier();
@@ -175,14 +160,14 @@ protected:
 
   unsigned int        m_NumberOfClasses;
 
+  void GenerateData();
+
 private:
   Classifier(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   InputImageType      m_InputImage;
   ClassifiedImageType m_ClassifiedImage;
-
-  float               m_Progress;
 
 }; // class Classifier
 

@@ -62,6 +62,14 @@ Classifier<TInputImage,TClassifiedImage>
 
 }
 
+template<class TInputImage, class TClassifiedImage>
+void
+Classifier<TInputImage,TClassifiedImage>
+::GenerateData()
+{
+  this->ClassifyImage();
+}
+
 /**
  * PrintSelf
  */
@@ -71,27 +79,11 @@ Classifier<TInputImage,TClassifiedImage>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "Classifier object" << std::endl;
   os << indent << "Pointer to the classified image: " << m_ClassifiedImage.GetPointer() << std::endl;
   os << indent << "Pointer to the input image     : " << m_InputImage.GetPointer() << std::endl;
-  os << indent << "Progress value                 : " << m_Progress << std::endl;
   os << indent << "Number of classes              : " << m_NumberOfClasses << std::endl;
 
 }// end PrintSelf
-
-
-/**
- * Update the progress. If a ProgressMethod exists execute it.
- */
-template <class TInputImage, class TClassifiedImage>
-void
-Classifier<TInputImage,TClassifiedImage>
-::UpdateProgress( float amount )
-{
-  this->SetProgress( amount );
-  this->InvokeEvent( ProgressEvent() );
-  
-}
 
 
 } // namespace itk
