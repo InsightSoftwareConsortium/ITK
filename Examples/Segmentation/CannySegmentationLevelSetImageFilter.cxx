@@ -33,7 +33,7 @@
 // \begin{equation}
 // \label{eqn:CannySegmentationLevelSetImageFilterAdvection}
 // \mbox{min} \int D^2 \Rightarrow D \nabla D
-// \end{equation},
+// \end{equation}
 //
 // where the distance transform $D$ is calculated using a
 // \doxygen{DanielssonDistanceMapImageFilter} applied to the output of the
@@ -50,8 +50,6 @@
 // are calculated.  It is generally a good idea to do some preprocessing of the
 // feature image to remove noise.
 // 
-// The following example illustrates the use of the
-// \doxygen{CannySegmentationLevelSetImageFilter}.
 // Figure~\ref{fig:CannySegmentationLevelSetImageFilterDiagram} shows how the
 // image processing pipeline is constructed.  We read two images: the image to
 // segment and the image that contains the initial implicit surface.  The goal
@@ -60,7 +58,7 @@
 // with a few iterations of an anisotropic diffusion filter.
 //
 // \begin{figure} \center
-// \includegraphics[width=\textwidth]{CannySegmentationLevelSetImageFilterCollaborationDiagram1.eps}
+// \includegraphics[width=0.9\textwidth]{CannySegmentationLevelSetImageFilterCollaborationDiagram1.eps}
 // \itkcaption[CannySegmentationLevelSetImageFilter collaboration
 // diagram]{Collaboration diagram for the CannySegmentationLevelSetImageFilter
 // applied to a segmentation task.}
@@ -164,17 +162,18 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   typedef  itk::CannySegmentationLevelSetImageFilter< 
                               InternalImageType, 
-                              InternalImageType >    CannySegmentationLevelSetImageFilterType;
+                              InternalImageType >    
+                                CannySegmentationLevelSetImageFilterType;
 
   CannySegmentationLevelSetImageFilterType::Pointer cannySegmentation = 
-                                     CannySegmentationLevelSetImageFilterType::New();
+                                CannySegmentationLevelSetImageFilterType::New();
   // Software Guide : EndCodeSnippet
 
   
   //  Software Guide : BeginLatex
   //  
   // As with the other ITK level-set segmentation filters, the terms of the
-  // \code{CannySegmentationLevelSetImageFilter} level-set equation can be
+  // \doxygen{CannySegmentationLevelSetImageFilter} level-set equation can be
   // weighted by scalars.  For this application we will modify the relative
   // weight of the advection term.  The propagation and curvature term weights
   // are set to their defaults of $0$ and $1$, respectively.
@@ -236,7 +235,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The filters are now connected in a pipeline indicated in
-  //  Figure~\ref{fig:CannyLevelSetSegmentationCollaborationDiagram}.
+  //  Figure~\ref{fig:CannySegmentationLevelSetImageFilterDiagram}.
   //
   //  Software Guide : EndLatex 
   
@@ -288,8 +287,8 @@ int main( int argc, char *argv[] )
   //  weight} of $10.0$, and an initial isosurface value of $127.5$.  One case
   //  was run for $15$ iterations and the second was run to convergence.
   //  Compare the results in the two rightmost images of
-  //  figure~\ref{CannySegmentationLevelSetImageFilter} with the ventricle
-  //  segmentation from figure~\ref{ThresholdSegmentationLevelSetImageFilter}
+  //  Figure~\ref{fig:CannySegmentationLevelSetImageFilter} with the ventricle
+  //  segmentation from Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilter}
   //  shown in the middle.  Jagged edges are straightened and the small spur at
   //  the upper right-hand side of the mask has been removed.
   //
