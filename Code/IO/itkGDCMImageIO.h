@@ -21,6 +21,7 @@
 #define __itkGDCMImageIO_h
 
 #include "itkImageIOBase.h"
+#include <fstream>
 
 namespace itk
 {
