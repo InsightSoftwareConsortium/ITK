@@ -43,6 +43,7 @@
 #include "itkBinomialBlurImageFilter.h"
 #include "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter.h"
 #include "itkBloxBoundaryPointToCoreAtomImageFilter.h"
+#include "itkBloxBoundaryProfileImageToBloxCoreAtomImageFilter.h"
 #include "itkCannyEdgeDetectionImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkChangeInformationImageFilter.h"
@@ -296,6 +297,10 @@ int itkBasicFiltersPrintTest(int , char* [])
   itk::BloxBoundaryPointToCoreAtomImageFilter<3>::Pointer BloxBoundaryPointToCoreAtomImageFilterObj =
     itk::BloxBoundaryPointToCoreAtomImageFilter<3>::New();
   std::cout << "-------------BloxBoundaryPointToCoreAtomImageFilter" << BloxBoundaryPointToCoreAtomImageFilterObj;
+
+  itk::BloxBoundaryProfileImageToBloxCoreAtomImageFilter<CharType3D, 3>::Pointer BloxBoundaryProfileImageToBloxCoreAtomImageFilterObj =
+    itk::BloxBoundaryProfileImageToBloxCoreAtomImageFilter<CharType3D, 3>::New();
+  std::cout << "-------------BloxBoundaryProfileImageToBloxCoreAtomImageFilter" << BloxBoundaryProfileImageToBloxCoreAtomImageFilterObj;
 
   itk::CannyEdgeDetectionImageFilter<InputType,OutputType>::Pointer CannyEdgeDetectionImageFilterObj =
     itk::CannyEdgeDetectionImageFilter<InputType,OutputType>::New();
