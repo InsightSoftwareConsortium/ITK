@@ -20,6 +20,7 @@
 #include "itkTransformFileWriter.h"
 #include "metaScene.h"
 #include "itkBSplineDeformableTransform.h"
+#include "itkRigid2DTransform.h"
 
 namespace itk
 {
@@ -71,14 +72,11 @@ void TransformFileWriter
        !strcmp((*it)->GetNameOfClass(),"ScaleTransform") ||
        !strcmp((*it)->GetNameOfClass(),"CenteredAffineTransform") ||
        !strcmp((*it)->GetNameOfClass(),"QuaternionRigidTransform") ||
-       !strcmp((*it)->GetNameOfClass(),"Similarity2DTransform") ||
        !strcmp((*it)->GetNameOfClass(),"CenteredEuler3DTransform") ||
        !strcmp((*it)->GetNameOfClass(),"CenteredRigid2DTransform") ||
-       !strcmp((*it)->GetNameOfClass(),"Rigid2DTransform") ||
        !strcmp((*it)->GetNameOfClass(),"Rigid3DPerspectiveTransform") ||
        !strcmp((*it)->GetNameOfClass(),"Rigid3DTransform") ||
        !strcmp((*it)->GetNameOfClass(),"Euler3DTransform") ||
-       !strcmp((*it)->GetNameOfClass(),"Euler2DTransform") ||
        !strcmp((*it)->GetNameOfClass(),"VersorRigid3DTransform") ||
        !strcmp((*it)->GetNameOfClass(),"ScaleSkewVersor3DTransform") 
       )
@@ -87,6 +85,21 @@ void TransformFileWriter
       for(unsigned int i=0;i<(*it)->GetInputSpaceDimension();i++)
         {
         cor[i] = reinterpret_cast<const itk::AffineTransform<>*>(*it)->GetCenter()[i];
+        }
+      transform->CenterOfRotation(cor);
+      delete cor;
+      }
+    else if(
+       !strcmp((*it)->GetNameOfClass(),"Similarity2DTransform") ||
+       !strcmp((*it)->GetNameOfClass(),"CenteredSimilarity2DTransform") ||
+       !strcmp((*it)->GetNameOfClass(),"Rigid2DTransform") ||
+       !strcmp((*it)->GetNameOfClass(),"Euler2DTransform")
+      )
+      {
+      double* cor = new double[(*it)->GetInputSpaceDimension()];
+      for(unsigned int i=0;i<(*it)->GetInputSpaceDimension();i++)
+        {
+        cor[i] = reinterpret_cast<const itk::Rigid2DTransform<>*>(*it)->GetCenter()[i];
         }
       transform->CenterOfRotation(cor);
       delete cor;

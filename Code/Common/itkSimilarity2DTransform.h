@@ -19,7 +19,7 @@
 #define __itkSimilarity2DTransform_h
 
 #include <iostream>
-#include "itkCenteredRigid2DTransform.h"
+#include "itkRigid2DTransform.h"
 
 namespace itk
 {
@@ -33,12 +33,12 @@ namespace itk
  */
 template < class TScalarType=double >    // Data type for scalars (float or double)
 class ITK_EXPORT Similarity2DTransform : 
-            public CenteredRigid2DTransform< TScalarType > 
+            public Rigid2DTransform< TScalarType > 
 {
 public:
   /** Standard class typedefs. */
   typedef Similarity2DTransform Self;
-  typedef CenteredRigid2DTransform< TScalarType >   Superclass;
+  typedef Rigid2DTransform< TScalarType >   Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
     
@@ -52,7 +52,7 @@ public:
   itkStaticConstMacro(SpaceDimension,           unsigned int, 2);
   itkStaticConstMacro(InputSpaceDimension,      unsigned int, 2);
   itkStaticConstMacro(OutputSpaceDimension,     unsigned int, 2);
-  itkStaticConstMacro(ParametersDimension,      unsigned int, 6);
+  itkStaticConstMacro(ParametersDimension,      unsigned int, 4);
 
   /** Scalar type. */
   typedef typename Superclass::ScalarType  ScalarType;
@@ -84,20 +84,19 @@ public:
   
   /** Set the transformation from a container of parameters
     * This is typically used by optimizers.
-    * There are 6 parameters. The first one represents the
-    * scale, the second represents the angle of rotation, the next
-    * two represent the center of the rotation
+    * There are 4 parameters. The first one represents the
+    * scale, the second represents the angle of rotation
     * and the last two represent the translation. */
   void SetParameters( const ParametersType & parameters );
 
   /** Set the Scale part of the transform. */
   void SetScale(TScalarType scale);
+  const TScalarType GetScale() const {return m_Scale;}
 
   /** Get the parameters that uniquely define the transform
    * This is typically used by optimizers.
-   * There are 6 parameters. The first one represents the
-   * scale, the second represents the angle of rotation, the next
-   * two represent the center of the rotation
+   * There are 4 parameters. The first one represents the
+   * scale, the second represents the angle of rotation,
    * and the last two represent the translation. */
   const ParametersType & GetParameters( void ) const; 
  

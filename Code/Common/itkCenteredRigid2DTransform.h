@@ -36,11 +36,6 @@ namespace itk
  * system. This assumption, however does not usually hold in applications such
  * as image registration.
  *
- * In order to initialize this transform a user should provide the following
- *
- * - Coordinates of the center of rotation in the input space
- * - Angle of rotation (in radians) 
- * - Translation to be applied after the rotation.
  *
  * With these parameters the transform applies first a translation that will
  * move the center of rotation to be the new origin. Next, a rotation is
@@ -89,7 +84,6 @@ public:
   itkStaticConstMacro(OutputSpaceDimension, unsigned int, 2);
   itkStaticConstMacro(ParametersDimension, unsigned int, 5);
 
-
   /** Scalar type. */
   typedef typename Superclass::ScalarType  ScalarType;
 
@@ -129,29 +123,12 @@ public:
    * There are 3 parameters. The first one represents the
    * rotation and the last two represents the offset. */
   const ParametersType & GetParameters( void ) const;
-
-  /** Set the rotational part of the transform. */
-  void SetAngle(TScalarType angle);
-  void SetAngleInDegrees(TScalarType angle);
-  itkGetConstReferenceMacro( Angle, TScalarType );
-  
-  /** Set and Get the center of rotation */
-  void SetCenter( const InputPointType & center );
-  itkGetConstReferenceMacro( Center, InputPointType );
-
-  /** Set and Get the Translation to be applied after rotation */
-  void SetTranslation( const OutputVectorType & translation );
-  itkGetConstReferenceMacro( Translation, OutputVectorType );
   
   /** This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the 
    * transform is invertible at this point. */
   const JacobianType & GetJacobian(const InputPointType  &point ) const;
-
-  /** Set the transformation to an Identity
-   * This sets the matrix to identity and the Offset to null. */
-  virtual void SetIdentity( void );
 
   /**
    * This method creates and returns a new CenteredRigid2DTransform object
@@ -167,18 +144,9 @@ protected:
 
   void PrintSelf(std::ostream &os, Indent indent) const;
 
-  /** Compute the components of the rotation matrix and offset in the superclass. */
-  virtual void ComputeMatrixAndOffset(void);
-
 private:
   CenteredRigid2DTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  TScalarType         m_Angle; 
-
-  InputPointType      m_Center;
-
-  OutputVectorType    m_Translation;
 
 }; //class CenteredRigid2DTransform
 

@@ -44,6 +44,9 @@ Rigid2DTransform( unsigned int spaceDimension,
   m_Offset.Fill( 0 );
   m_RotationMatrix.SetIdentity();
   m_InverseMatrix.SetIdentity();
+  m_Angle = NumericTraits< TScalarType >::Zero;
+  m_Center.Fill( 0.0 );
+  m_Translation.Fill( 0.0 );
 }
  
 
@@ -61,11 +64,12 @@ void
 Rigid2DTransform<TScalarType>::
 PrintSelf(std::ostream &os, Indent indent) const
 {
-
   Superclass::PrintSelf(os,indent);
-  
   os << indent << "Offset: " << m_Offset   << std::endl;
   os << indent << "RotationMatrix: " << m_RotationMatrix   << std::endl;
+  os << indent << "Angle       = " << m_Angle        << std::endl;
+  os << indent << "Center      = " << m_Center       << std::endl;
+  os << indent << "Translation = " << m_Translation  << std::endl;
 }
 
 
@@ -253,10 +257,84 @@ SetIdentity( void )
   m_Offset.Fill( NumericTraits< TScalarType >::Zero );
   m_RotationMatrix.SetIdentity();
   m_InverseMatrix.SetIdentity();
+
+  m_Angle = NumericTraits< TScalarType >::Zero;
+  m_Center.Fill( 0.0 );
+  m_Translation.Fill( 0.0 );
+
+}
+
+template <class TScalarType>
+void
+Rigid2DTransform<TScalarType>
+::SetCenter( const InputPointType & center )
+{
+  m_Center = center;
+  this->ComputeMatrixAndOffset();
+}
+
+template <class TScalarType>
+void
+Rigid2DTransform<TScalarType>
+::SetTranslation( const OutputVectorType & translation )
+{
+  m_Translation = translation;
+  this->ComputeMatrixAndOffset();
 }
 
 
-  
+
+// Set Rotational Part
+template <class TScalarType>
+void
+Rigid2DTransform<TScalarType>
+::SetAngle(TScalarType angle)
+{
+  m_Angle = angle;
+  this->ComputeMatrixAndOffset();
+}
+
+
+// Set Rotational Part
+template <class TScalarType>
+void
+Rigid2DTransform<TScalarType>
+::SetAngleInDegrees(TScalarType angle)
+{
+  const TScalarType angleInRadians = angle * atan(1.0) / 45.0;
+  this->SetAngle( angleInRadians );
+}
+
+// Compute the matrix
+template <class TScalarType>
+void
+Rigid2DTransform<TScalarType>
+::ComputeMatrixAndOffset( void )
+{
+  const double ca = cos(this->GetAngle());
+  const double sa = sin(this->GetAngle());
+
+  const double cx = this->GetCenter()[0];
+  const double cy = this->GetCenter()[1];
+
+  const double tx = this->GetTranslation()[0];
+  const double ty = this->GetTranslation()[1];
+
+  this->m_RotationMatrix[0][0]= ca; this->m_RotationMatrix[0][1]=-sa;
+  this->m_RotationMatrix[1][0]= sa; this->m_RotationMatrix[1][1]= ca;
+
+  this->m_RotationMatrixMTime.Modified();
+
+  OffsetType offset;
+
+  offset[0] = tx + sa * cy + ( 1.0 - ca ) * cx;
+  offset[1] = ty - sa * cx + ( 1.0 - ca ) * cy;
+
+  this->SetOffset( offset );
+
+  this->Modified();
+}
+
 // Compute the Jacobian in one position 
 template<class TScalarType >
 const typename Rigid2DTransform<TScalarType>::JacobianType & 

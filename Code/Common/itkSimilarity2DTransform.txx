@@ -66,19 +66,11 @@ Similarity2DTransform<TScalarType>
   // Set angles with parameters
   this->SetAngle( parameters[1] );
 
-  InputPointType center;
-  for(unsigned int j=0; j < SpaceDimension; j++) 
-    {
-    center[j] = parameters[j+2];
-    }
-  this->SetCenter( center );
-
-
   // Transfer the translation part
   OffsetType translation;
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
-    translation[i] = parameters[i+4];
+    translation[i] = parameters[i+2];
     }
 
   this->SetTranslation( translation );
@@ -100,17 +92,11 @@ Similarity2DTransform<TScalarType>
   this->m_Parameters[0] = m_Scale;
   this->m_Parameters[1] = this->GetAngle();
  
-  InputPointType center = this->GetCenter();
-  for(unsigned int j=0; j < SpaceDimension; j++) 
-    {
-    this->m_Parameters[j+2] = center[j];
-    }
-
   // Transfer the translation part
   OffsetType translation = this->GetTranslation();
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
-    this->m_Parameters[i+4] = translation[i];
+    this->m_Parameters[i+2] = translation[i];
     }
 
   itkDebugMacro(<<"After getting parameters " << this->m_Parameters );
@@ -129,8 +115,6 @@ Similarity2DTransform<TScalarType>
   m_Scale = scale;
   this->ComputeMatrixAndOffset();
 }
-
-
 
 
 // Compute the matrix
@@ -174,7 +158,6 @@ Similarity2DTransform<TScalarType>
 
   this->Modified();
 
-
 }
 
 
@@ -206,22 +189,13 @@ GetJacobian( const InputPointType & p ) const
   this->m_Jacobian[0][1] = ( -sa * ( p[0] - cx ) - ca * ( p[1] - cy ) ) * m_Scale;
   this->m_Jacobian[1][1] = (  ca * ( p[0] - cx ) - sa * ( p[1] - cy ) ) * m_Scale; 
 
-  // compute derivatives with respect to the center part
-  // first with respect to cx
-  this->m_Jacobian[0][2] = 1.0 - ca * m_Scale;
-  this->m_Jacobian[1][2] =     - sa * m_Scale;  
-  // then with respect to cy
-  this->m_Jacobian[0][3] =       sa * m_Scale;
-  this->m_Jacobian[1][3] = 1.0 - ca * m_Scale;
-
-
   // compute derivatives with respect to the translation part
   // first with respect to tx
-  this->m_Jacobian[0][4] = 1.0;
-  this->m_Jacobian[1][4] = 0.0;
+  this->m_Jacobian[0][2] = 1.0;
+  this->m_Jacobian[1][2] = 0.0;
   // first with respect to ty
-  this->m_Jacobian[0][5] = 0.0;
-  this->m_Jacobian[1][5] = 1.0;
+  this->m_Jacobian[0][3] = 0.0;
+  this->m_Jacobian[1][3] = 1.0;
 
   return this->m_Jacobian;
 
@@ -247,9 +221,7 @@ void
 Similarity2DTransform<TScalarType>::
 PrintSelf(std::ostream &os, Indent indent) const
 {
-
   Superclass::PrintSelf(os,indent);
-  
   os << indent << "Scale =" << m_Scale  << std::endl;
 }
 

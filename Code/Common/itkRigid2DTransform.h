@@ -29,6 +29,11 @@ namespace itk
  *
  * This transform applies a rotation and translation to the space
  *
+ * In order to initialize this transform a user should provide the following
+ *
+ * - Coordinates of the center of rotation in the input space
+ * - Angle of rotation (in radians) 
+ * - Translation to be applied after the rotation.
  * \ingroup Transforms
  */
 template < class TScalarType=double >    // Data type for scalars (float or double)
@@ -191,6 +196,19 @@ public:
   inline InputCovariantVectorType BackTransform(
                                      const OutputCovariantVectorType &vector) const;
 
+  /** Set the rotational part of the transform. */
+  void SetAngle(TScalarType angle);
+  void SetAngleInDegrees(TScalarType angle);
+  itkGetConstReferenceMacro( Angle, TScalarType );
+  
+  /** Set and Get the center of rotation */
+  void SetCenter( const InputPointType & center );
+  itkGetConstReferenceMacro( Center, InputPointType );
+
+  /** Set and Get the Translation to be applied after rotation */
+  void SetTranslation( const OutputVectorType & translation );
+  itkGetConstReferenceMacro( Translation, OutputVectorType );
+
 
   /**
    * Find inverse of an affine transformation
@@ -235,12 +253,20 @@ protected:
   mutable TimeStamp   m_InverseMatrixMTime;
   TimeStamp           m_RotationMatrixMTime;
 
+  /** Compute the components of the rotation matrix and offset in the superclass. */
+  virtual void ComputeMatrixAndOffset(void);
+
 private:
   Rigid2DTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   // Offset of the transformation
   OffsetType          m_Offset;   
+  TScalarType         m_Angle; 
+
+  InputPointType      m_Center;
+
+  OutputVectorType    m_Translation;
 
 }; //class Rigid2DTransform
 

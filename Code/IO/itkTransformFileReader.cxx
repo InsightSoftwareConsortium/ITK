@@ -32,6 +32,7 @@
 #include "itkRigid3DPerspectiveTransform.h"
 #include "itkRigid3DTransform.h"
 #include "itkSimilarity2DTransform.h"
+#include "itkCenteredSimilarity2DTransform.h"
 #include "itkVersorTransform.h"
 #include "itkVersorRigid3DTransform.h"
 #include "itkScaleSkewVersor3DTransform.h"
@@ -63,6 +64,17 @@ namespace itk
     typedef itk::name<scalartype> InternalTransformType;\
     transform = InternalTransformType::New();\
     hasTransform = true;\
+  } \
+
+#define ITK_CONVERTMETATOITKTRANSFORM_WITH_CENTER(name,scalartype,dimension)\
+if( (!strcmp(metaTransform->ObjectSubTypeName(),#name)) )\
+  { \
+  typedef itk::name<scalartype> InternalTransformType;\
+  transform = InternalTransformType::New();\
+  itk::Point<scalartype,dimension> cor;\
+  for(unsigned int i=0;i<(int)(dimension);i++){cor[i] = metaTransform->CenterOfRotation()[i];}\
+  static_cast<InternalTransformType*>(transform.GetPointer())->SetCenter(cor);\
+  hasTransform = true;\
   } \
 
 #define ITK_CONVERTMETATOITKTRANSFORM_2(name,scalartype,dimension)\
@@ -170,7 +182,8 @@ bool TransformFileReader
   ITK_CONVERTMETATOITKTRANSFORM_2(VolumeSplineKernelTransform,double,2);
 
   ITK_CONVERTMETATOITKTRANSFORM(QuaternionRigidTransform,double);
-  ITK_CONVERTMETATOITKTRANSFORM(Similarity2DTransform,double);
+  ITK_CONVERTMETATOITKTRANSFORM_WITH_CENTER(Similarity2DTransform,double,2);
+  ITK_CONVERTMETATOITKTRANSFORM_WITH_CENTER(CenteredSimilarity2DTransform,double,2);
   ITK_CONVERTMETATOITKTRANSFORM(CenteredEuler3DTransform,double);
   ITK_CONVERTMETATOITKTRANSFORM(CenteredRigid2DTransform,double);
   ITK_CONVERTMETATOITKTRANSFORM(Euler2DTransform,double);

@@ -36,6 +36,10 @@ int itkTransformIOTest(int itkNotUsed(ac), char* itkNotUsed(av)[])
   typedef itk::Similarity2DTransform<double> SimilarityTransformType;
   SimilarityTransformType::Pointer similarity = SimilarityTransformType::New();
   similarity->SetAngle(0.2);
+  SimilarityTransformType::InputPointType simi_CoR;
+  simi_CoR[0] = 1;
+  simi_CoR[1] = 2;
+  similarity->SetCenter(simi_CoR);
   
   itk::TransformFileWriter::Pointer writer;
   writer = itk::TransformFileWriter::New();
@@ -168,6 +172,14 @@ int itkTransformIOTest(int itkNotUsed(ac), char* itkNotUsed(av)[])
       }
     }
 
+  for(i = 0;i<2;i++)
+    {
+    if(similarity->GetCenter()[i] != static_cast<SimilarityTransformType*>((*it).GetPointer())->GetCenter()[i])
+      {
+      std::cout << "[FAILED] : similarity centers are different "<< similarity->GetCenter()[i]  << " v.s " << static_cast<SimilarityTransformType*>((*it).GetPointer())->GetCenter() << std::endl;
+      return EXIT_FAILURE; 
+      }
+    }
   it++;
 
   // BSpline transform
