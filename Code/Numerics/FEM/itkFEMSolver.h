@@ -108,12 +108,12 @@ public:
    *
    * \sa GetInterpolationGrid
    */
-  void InitializeInterpolationGrid(VectorType size, VectorType v1, VectorType v2);
+  void InitializeInterpolationGrid(const VectorType& size, const VectorType& v1, const VectorType& v2);
 
   /**
    * Same as InitializeInterpolationGrid(size, {0,0...}, size);
    */
-  void InitializeInterpolationGrid(VectorType size)
+  void InitializeInterpolationGrid(const VectorType& size)
   {
     InitializeInterpolationGrid(size, VectorType(size.size(),0.0), size-1.0);
   }
@@ -139,7 +139,7 @@ public:
    * \note Interpolation grid must be initializes before you can
    *       call this function.
    */
-  Element::ConstPointer GetElementAtPoint(VectorType pt) const;
+  Element::ConstPointer GetElementAtPoint(const VectorType& pt) const;
 
   /**
    * Reads the whole system (nodes, materials and elements) from input stream

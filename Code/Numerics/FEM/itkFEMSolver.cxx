@@ -738,7 +738,7 @@ void Solver::ApplyBC(int dim, unsigned int matrix)
 /*
  * Initialize the interpolation grid
  */
-void Solver::InitializeInterpolationGrid(VectorType size, VectorType v1, VectorType v2)
+void Solver::InitializeInterpolationGrid(const VectorType& size, const VectorType& v1, const VectorType& v2)
 {
   // Discard any old image object an create a new one
   m_InterpolationGrid=InterpolationGridType::New();
@@ -748,9 +748,9 @@ void Solver::InitializeInterpolationGrid(VectorType size, VectorType v1, VectorT
   // phisical point v2 is (size[0],size[1],size[2]).
   InterpolationGridType::SizeType image_size={1.0,1.0,1.0};
   for(int i=0;i<size.size();i++) image_size[i]=size[i];
-  double image_origin[MaxGridDimensions]={0.0,0.0,0.0};
+  Float image_origin[MaxGridDimensions]={0.0,0.0,0.0};
   for(int i=0;i<size.size();i++) image_origin[i]=v1[i];
-  double image_spacing[MaxGridDimensions]={1.0,1.0,1.0};
+  Float image_spacing[MaxGridDimensions]={1.0,1.0,1.0};
   for(int i=0;i<size.size();i++) image_spacing[i]=(v2[i]-v1[i])/(image_size[i]-1);
 
   // All regions are the same
@@ -786,7 +786,7 @@ void Solver::InitializeInterpolationGrid(VectorType size, VectorType v1, VectorT
     // Convert boundary box corner points into discrete image indexes.
     InterpolationGridType::IndexType vi1,vi2;
     
-    Point<double,MaxGridDimensions> vp1,vp2,pt;
+    Point<Float,MaxGridDimensions> vp1,vp2,pt;
     for(int i=0;i<MaxGridDimensions;i++)
     {
       if (i<NumberOfDimensions) vp1[i]=v1[i]; else vp1[i]=0.0;
@@ -809,8 +809,8 @@ void Solver::InitializeInterpolationGrid(VectorType size, VectorType v1, VectorT
     //
     // Update the element pointers in the points defined within the region.
     //
-    VectorType global_point(NumberOfDimensions); // Point in the image as a vector.
-    VectorType local_point(NumberOfDimensions); // Same point in local element coordinate system
+    VectorType global_point(NumberOfDimensions,0.0); // Point in the image as a vector.
+    VectorType local_point(NumberOfDimensions,0.0); // Same point in local element coordinate system
 
     // Step over all points within the region
     for(iter.GoToBegin(); !iter.IsAtEnd(); ++iter)
@@ -837,12 +837,12 @@ void Solver::InitializeInterpolationGrid(VectorType size, VectorType v1, VectorT
 
 
 Element::ConstPointer
-Solver::GetElementAtPoint(VectorType pt) const
+Solver::GetElementAtPoint(const VectorType& pt) const
 {
-  Point<double,MaxGridDimensions> pp;
+  Point<Float,MaxGridDimensions> pp;
   for(int i=0;i<MaxGridDimensions;i++)
   {
-    if (i<pt.size()) pp[i]=pt[i]; else pt[i]=0.0;
+    if (i<pt.size()) pp[i]=pt[i]; else pp[i]=0.0;
   }
 
   InterpolationGridType::IndexType index;
@@ -850,8 +850,12 @@ Solver::GetElementAtPoint(VectorType pt) const
   // Return value only if given point is within the interpolation grid
   if( m_InterpolationGrid->TransformPhysicalPointToIndex(pp,index) )
   {
+    //itk::ContinuousIndex<Float,MaxGridDimensions> ci;
+    //m_InterpolationGrid->TransformPhysicalPointToContinuousIndex(pp,ci);
+    //std::cout<<"In:"<<index<<", ci="<<ci<<", c="<<pp<<"\n";
     return m_InterpolationGrid->GetPixel(index);
-  } else
+  }
+  else
   {
     // Return 0, if outside the grid.
     return 0;
