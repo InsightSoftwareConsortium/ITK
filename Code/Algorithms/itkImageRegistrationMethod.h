@@ -48,8 +48,10 @@ namespace itk
  * The terms : Fixed image and Moving image are used in this class
  * to indicate what image is being mapped by the transform.
  *
- * This class uses the coordinate system of the Fixed image and searchs
- * for a transform that will map the Moving image on top of the Fixed image.
+ * This class uses the coordinate system of the Fixed image as a reference
+ * and searchs for a Transform that will map points from the space of the
+ * Fixed image to the space of the Moving image.
+ *
  * For doing so, a Metric will be continously applied to compare the Fixed
  * image with the Transformed Moving image. This process also requires to
  * interpolate values from the Moving image.
