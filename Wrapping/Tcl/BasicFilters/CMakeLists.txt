@@ -14,9 +14,11 @@ ITK_WRAP_TCL(ITKBasicFiltersTcl
   wrap_itkCurvatureAnisotropicDiffusionImageFilter.cxx
   wrap_itkExpImageFilter.cxx
   wrap_itkExpNegativeImageFilter.cxx
+  wrap_itkExtractImageFilter.cxx
   wrap_itkGradientAnisotropicDiffusionImageFilter.cxx
   wrap_itkGradientRecursiveGaussianImageFilter.cxx
   wrap_itkGradientMagnitudeRecursiveGaussianImageFilter.cxx
+  wrap_itkDanielssonDistanceMapImageFilter.cxx
   wrap_itkLaplacianImageFilter.cxx
   wrap_itkMinimumMaximumImageCalculator.cxx
   wrap_itkNaryAddImageFilter.cxx
