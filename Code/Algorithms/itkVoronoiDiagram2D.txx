@@ -62,7 +62,7 @@ VoronoiDiagram2D<TCoordRepType>::
 template <typename TCoordRepType>
 void
 VoronoiDiagram2D<TCoordRepType>::
-::PrintSelf(std::ostream& os, Indent indent) const
+PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Number Of Seeds: " 

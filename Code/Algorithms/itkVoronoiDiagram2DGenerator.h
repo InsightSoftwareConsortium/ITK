@@ -159,6 +159,11 @@ public:
 protected:
   VoronoiDiagram2DGenerator();
   ~VoronoiDiagram2DGenerator();
+  VoronoiDiagram2DGenerator(const Self&) {}
+  void operator=(const Self&) {}
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+
+
   /**
    * Generate Voronoi Diagram based on the current list of seeds.
    */
@@ -166,8 +171,8 @@ protected:
 
 private:
   unsigned int m_NumberOfSeeds;
-  PointType m_VoronoiBoundary;
-  OutputType m_OutputVoronoiDiagram;
+  PointType m_VorBoundary;
+  OutputType m_OutputVD;
   SeedsType m_Seeds;
 
   static bool comp(PointType arg1,PointType arg2);

@@ -66,6 +66,16 @@ VoronoiDiagram2DGenerator<TCoordRepType>::
 {
 }
 
+template <typename TCoordRepType>
+void
+VoronoiDiagram2DGenerator<TCoordRepType>::
+PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Number Of Seeds: " 
+     << m_NumberOfSeeds << std::endl;
+}
+
 /* set random seed points, specify the number of seeds as "num" */
 template <typename TCoordRepType>
 void
