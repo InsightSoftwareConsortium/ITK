@@ -57,7 +57,7 @@ if { [string match "*make" $MakeCommand] } \
 {
   set MakeArgs -k
 }
-set BuildStatus [catch { exec $MakeCommand $MakeArgs >& $BuildLogFilename } ]
+set BuildStatus [catch { eval exec $MakeCommand $MakeArgs >& $BuildLogFilename } ]
 
 set Build [open $BuildLogFilename r]
 set BuildLog [open $BuildLogTempFilename w]
