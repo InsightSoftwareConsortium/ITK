@@ -94,7 +94,6 @@ AffineRegistrationTransform<TScalarType,NDimensions,TParameters>
     {
       linear[row][col] = m_Parameters[par];
       ++par;
-      ++pit;
     }
   }
 
@@ -103,7 +102,6 @@ AffineRegistrationTransform<TScalarType,NDimensions,TParameters>
   {
     constant[i] = m_Parameters[par];
     ++par;
-    ++pit;
   }
 
   m_AffineTransform.SetMatrix( linear );
