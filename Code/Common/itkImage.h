@@ -132,8 +132,8 @@ public:
   /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;
 
-  /** Allocate the image memory. The image Dimension and Size must 
-   * already been set. */
+  /** Allocate the image memory. The size of the image must 
+   * already be set, e.g. by calling SetRegions(). */
   void Allocate();
 
   /** Convenience methods to set the LargestPossibleRegion,
@@ -158,13 +158,15 @@ public:
    * memory. */
   virtual void Initialize();
 
-  /** Fill the image buffer with a value. */
+  /** Fill the image buffer with a value.  Be sure to call Allocate()
+   * first. */
   void FillBuffer (const TPixel& value);
   
   /** \brief Set a pixel value.
    * 
-   * For efficiency, this function does not check that the
-   * image has actually been allocated yet. */
+   * Allocate() needs to have been called first -- for efficiency,
+   * this function does not check that the image has actually been
+   * allocated yet. */
   void SetPixel(const IndexType &index, const TPixel& value)
     {
     typename Superclass::OffsetValueType offset = this->ComputeOffset(index);
@@ -227,14 +229,14 @@ public:
   /** Return the Pixel Accesor object */
   const AccessorType GetPixelAccessor( void ) const
     { return AccessorType(); }
-    
+
   /** Set the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples.
    * It is stored internally as double, but may be set from
    * float. \sa GetSpacing() */
   virtual void SetSpacing( const double spacing[VImageDimension] );
   virtual void SetSpacing( const float spacing[VImageDimension] );
-  
+
   /** Set the origin of the image. The origin is the geometric
    * coordinates of the image origin.  It is stored internally
    * as double but may be set from float.
