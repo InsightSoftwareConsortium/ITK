@@ -4,7 +4,7 @@
 // Insight classes
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
-#include <cmath>
+#include "vnl/vnl_math.h"
 
 #include "itkScalarImageTextureCalculator.h"
 
@@ -90,7 +90,7 @@ int itkScalarImageTextureCalculatorTest(int, char* [] )
   int counter;
   for (counter = 0, mIt = means->Begin(); mIt != means->End(); ++mIt, counter++)
     {
-    if ( std::abs(1 - expectedMeans[counter] / mIt.Value()) > 0.0001 ) 
+    if ( vnl_math_abs(1 - expectedMeans[counter] / mIt.Value()) > 0.0001 ) 
       // strange form of float comparison because large dynamic range of the means
       // makes a fixed "subtraction epsilon" infeasable. So we take a ratio epsilon
       // instead.
@@ -103,7 +103,7 @@ int itkScalarImageTextureCalculatorTest(int, char* [] )
 
   for (counter = 0, sIt = stds->Begin(); sIt != stds->End(); ++sIt, counter ++)
     {
-    if ( std::abs(1 - expectedDeviations[counter] / sIt.Value()) > 0.0001 )
+    if ( vnl_math_abs(1 - expectedDeviations[counter] / sIt.Value()) > 0.0001 )
       {
       std::cout << "Error. Deiviation for feature " << counter << " is " << sIt.Value() <<
       ", expected " << expectedDeviations[counter] << "." << std::endl;
