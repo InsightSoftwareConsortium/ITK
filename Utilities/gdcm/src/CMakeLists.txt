@@ -51,24 +51,16 @@ SET(libgdcm_la_SOURCES
    )
 
 ADD_LIBRARY(itkgdcm ${libgdcm_la_SOURCES} )
-IF(UNIX)
-  TARGET_LINK_LIBRARIES(itkgdcm 
-    itkjpeg8 
-    itkjpeg12
-    itkjpeg16
-  )
-ELSE(UNIX)
-  TARGET_LINK_LIBRARIES(itkgdcm 
-    itkjpeg8 
-    itkjpeg12
-    itkjpeg16
-  )
+TARGET_LINK_LIBRARIES(itkgdcm 
+  itkjpeg8 
+  itkjpeg12
+  itkjpeg16
+)
+IF(WIN32)
   IF(NOT BORLAND)
-    TARGET_LINK_LIBRARIES(itkgdcm 
-     Wsock32.lib   #doesn't exist on cygwin
-    )
+    TARGET_LINK_LIBRARIES(itkgdcm Wsock32)
   ENDIF(NOT BORLAND)
-ENDIF(UNIX)
+ENDIF(WIN32)
 
 INSTALL_FILES(/include/InsightToolkit/gdcm/src "\\.h$")
 INSTALL_TARGETS(/lib/InsightToolkit itkgdcm)
