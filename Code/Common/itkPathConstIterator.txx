@@ -57,6 +57,7 @@ PathConstIterator<TImage, TPath>
   m_CurrentPathPosition = it.m_CurrentPathPosition;
   m_CurrentImageIndex   = it.m_CurrentImageIndex;
   m_VisitStartIndexAsLastIndexIfClosed=it.m_VisitStartIndexAsLastIndexIfClosed;
+  return *this;
 }
 
 
