@@ -25,6 +25,14 @@ typename ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>::PixelType
 ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
 ::GetPixel(const unsigned long n) const
 {
+  // If the region the iterator is walking (padded by the neighborhood size)
+  // never bumps up against the bounds of the buffered region, then don't
+  // bother checking any boundary conditions
+  if (!m_NeedToUseBoundaryCondition)
+    {
+    return (*(this->operator[](n)));
+    }
+
   register unsigned int i;
   OffsetType OverlapLow, OverlapHigh, temp, offset;
   bool flag;
@@ -82,7 +90,8 @@ ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
   : ConstNeighborhoodIterator<TImage>(orig)
 { 
   m_InternalBoundaryCondition = orig.m_InternalBoundaryCondition;
-
+  m_NeedToUseBoundaryCondition = orig.m_NeedToUseBoundaryCondition;
+  
   for (unsigned int i = 0; i < Dimension; ++i)
     {
     m_InBounds[i] = orig.m_InBounds[i];
@@ -100,7 +109,6 @@ ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
     }
   else 
     { m_BoundaryCondition = orig.m_BoundaryCondition; }
-  
 }
 
 template<class TImage,class TBoundaryCondition>
@@ -109,8 +117,9 @@ ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
 ::operator=(const Self& orig)
 {
   Superclass::operator=(orig);
-
-  this->m_InternalBoundaryCondition = orig.m_InternalBoundaryCondition;
+  
+  m_InternalBoundaryCondition = orig.m_InternalBoundaryCondition;
+  m_NeedToUseBoundaryCondition = orig.m_NeedToUseBoundaryCondition;
   
   m_InnerBoundsLow  = orig.m_InnerBoundsLow;
   m_InnerBoundsHigh = orig.m_InnerBoundsHigh;
@@ -131,6 +140,44 @@ ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
   return *this;
 }
   
+template<class TImage, class TBoundaryCondition>
+void ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
+::Initialize(const SizeType &radius, const ImageType *ptr,
+             const RegionType &region)
+{
+  // call the superclass' version
+  Superclass::Initialize(radius, ptr, region);
+
+  // now determine whether boundary conditions are going to be needed
+  const IndexType bStart = ptr->GetBufferedRegion().GetIndex();
+  const SizeType  bSize  = ptr->GetBufferedRegion().GetSize();
+  const IndexType rStart = region.GetIndex();
+  const SizeType  rSize  = region.GetSize();
+
+  long  overlapLow, overlapHigh;
+
+  m_NeedToUseBoundaryCondition = false;
+  for (unsigned long i = 0; i < Dimension; ++i)
+    {
+    overlapLow = static_cast<long>((rStart[i] - radius[i]) - bStart[i]);
+    overlapHigh= static_cast<long>((bStart[i] + bSize[i]) - (rStart[i] + rSize[i] + radius[i]));
+
+    if (overlapLow < 0) // out of bounds condition, define a region of 
+      {
+      m_NeedToUseBoundaryCondition = true;
+      break;
+      }
+
+    if (overlapHigh < 0)
+      {
+      m_NeedToUseBoundaryCondition = true;
+      break;
+      }
+    }
+  //  std::cout << "BoundaryConditions are " << (m_NeedToUseBoundaryCondition ? "needed" : "not needed") << std::endl;
+}
+
+
 template<class TImage, class TBoundaryCondition>
 bool
 ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
@@ -263,3 +310,4 @@ void ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
 } // end namespace itk
 
 #endif
+

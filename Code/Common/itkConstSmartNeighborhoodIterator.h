@@ -81,7 +81,8 @@ public:
     : Superclass()
     { for (unsigned int i=0; i < Dimension; i++)
        { m_InBounds[i] = false; }
-      this->ResetBoundaryCondition(); }
+    this->ResetBoundaryCondition();
+    m_NeedToUseBoundaryCondition = true;}
 
   /** Copy constructor */
   ConstSmartNeighborhoodIterator(const Self& orig);
@@ -97,6 +98,14 @@ public:
       for (unsigned int i=0; i < Dimension; i++)
          { m_InBounds[i] = false; }
       this->ResetBoundaryCondition(); }
+
+  /** Initializes the iterator to walk a particular image and a particular
+   * region of that image. This version is different from the superclass'
+   * in that it determines whether the iterator will "ever" have to
+   * use the boundary conditions (boundary conditions are skipped if
+   * the region padded by radius is within buffered region. */
+  virtual void Initialize(const SizeType &radius, const ImageType *ptr,
+                          const RegionType &region);
 
   /** Assignment operator */
   Self &operator=(const Self& orig);
@@ -162,6 +171,9 @@ protected:
   
   /** Default boundary condition. */
   TBoundaryCondition m_InternalBoundaryCondition;
+
+  /** Does the specified region need to worry about boundary conditions? **/
+  bool m_NeedToUseBoundaryCondition;
 };
 
 } // namespace itk
