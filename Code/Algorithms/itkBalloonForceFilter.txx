@@ -711,7 +711,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   unsigned long tripoints[3];
  
   if (m_NumNewNodes == 0) return;
-  else cell == 1;
+  else cell = 1;
 
   j = m_NumNodes;;
   m_NumNodes = m_NumNodes + m_NumNewNodes;
