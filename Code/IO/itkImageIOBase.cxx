@@ -187,6 +187,12 @@ bool ImageIOBase::SetPixelType(const std::type_info& ptype)
     this->SetPixelType(ImageIOBase::UCHAR);
     this->SetComponentType(ImageIOBase::UCHAR);
     }
+  else if ( ptype == typeid(RGBPixel<float>) )
+    {
+    this->SetNumberOfComponents(3);
+    this->SetPixelType(ImageIOBase::FLOAT);
+    this->SetComponentType(ImageIOBase::FLOAT);
+    }
   else if ( ptype == typeid(RGBAPixel<unsigned char>) )
     {
     this->SetNumberOfComponents(4);
