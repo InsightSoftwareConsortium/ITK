@@ -380,12 +380,10 @@ int main( int argc, char *argv[] )
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|}
   //  \hline
-  //  Structure & Seed Index & Output Image \\
-  //  \hline
-  //  White matter & $(60,116)$ & Second from left in Figure \ref{fig:ConfidenceConnectedOutput} \\ 
-  //  Ventricle    & $(81,112)$ & Third  from left in Figure \ref{fig:ConfidenceConnectedOutput} \\ 
-  //  Gray matter  & $(107,69)$ & Fourth from left in Figure \ref{fig:ConfidenceConnectedOutput} \\ 
-  //  \hline
+  //  Structure & Seed Index & Output Image \\ \hline \\ \hline
+  //  White matter & $(60,116)$ & Second from left in Figure \ref{fig:ConfidenceConnectedOutput} \\ \hline
+  //  Ventricle    & $(81,112)$ & Third  from left in Figure \ref{fig:ConfidenceConnectedOutput} \\ \hline
+  //  Gray matter  & $(107,69)$ & Fourth from left in Figure \ref{fig:ConfidenceConnectedOutput} \\ \hline
   //  \end{tabular}
   //  \end{center}
   //
