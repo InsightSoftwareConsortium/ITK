@@ -36,7 +36,7 @@ void NodeXYZ::Read(  std::istream& f, void* info )
 {
   Float d;
 
-  std::cout << "TS: Reading node" << std::endl;
+  //std::cout << "TS: Reading node" << std::endl;
 
   /**
    * first call the parent's read function
@@ -85,7 +85,7 @@ void NodeXYZ::Write( std::ostream& f, int ofid ) const
     ofid=OFID;
     }
 
-  std::cout << "TS: Writing node" << std::endl;
+  //std::cout << "TS: Writing node" << std::endl;
 
   /**
    * first call the parent's write function
