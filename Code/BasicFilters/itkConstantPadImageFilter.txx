@@ -46,8 +46,9 @@ ConstantPadImageFilter<TInputImage,TOutputImage>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Constant: ";
-  os << m_Constant << " ";
+  os << indent << "Constant: "
+     << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_Constant)
+     << std::endl;
   os << std::endl;
 }
 

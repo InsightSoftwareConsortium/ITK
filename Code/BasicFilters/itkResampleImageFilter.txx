@@ -61,8 +61,9 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
 
   int j;
   
-  os << indent << "DefaultPixelValue: " << m_DefaultPixelValue << std::endl;
-
+ os << indent << "DefaultPixelValue: "
+    << static_cast<typename NumericTraits<PixelType>::PrintType>(m_DefaultPixelValue)
+    << std::endl;
   os << indent << "Size: [";
   for( j = 0; j < ImageDimension - 1; j++ )
     {

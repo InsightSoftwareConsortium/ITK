@@ -100,7 +100,8 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Dilate value: " << m_DilateValue
+  os << indent << "Dilate value: "
+     << static_cast<NumericTraits<PixelType>::PrintType>(m_DilateValue)
      << std::endl;
 }
 

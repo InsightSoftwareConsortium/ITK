@@ -142,8 +142,12 @@ ZeroCrossingBasedEdgeDetectionImageFilter< TInputImage, TOutputImage >
     }
   os << "]" << std::endl;
 
-  os << indent << "BackgroundValue: " << m_BackgroundValue << std::endl;
-  os << indent << "ForegroundValue: " << m_ForegroundValue << std::endl;
+  os << indent << "ForegroundValue: "
+     << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_ForegroundValue)
+     << std::endl;
+  os << indent << "BackgroundValue: "
+     << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
+     << std::endl;
 }
 
 }//end of itk namespace

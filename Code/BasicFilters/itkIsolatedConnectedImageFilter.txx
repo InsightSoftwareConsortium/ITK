@@ -47,7 +47,9 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>
 {
   this->Superclass::PrintSelf(os, indent);
   os << indent << "Lower: " << m_Lower << std::endl;
-  os << indent << "ReplaceValue: " << m_ReplaceValue << std::endl;
+  os << indent << "ReplaceValue: "
+     << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
+     << std::endl;
   os << indent << "Seed1: " << m_Seed1 << std::endl;
   os << indent << "Seed2: " << m_Seed1 << std::endl;
   os << indent << "IsolatedValue: " << m_Seed1 << std::endl;

@@ -49,7 +49,9 @@ NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>
   this->Superclass::PrintSelf(os, indent);
   os << indent << "Upper: " << m_Upper << std::endl;
   os << indent << "Lower: " << m_Lower << std::endl;
-  os << indent << "ReplaceValue: " << m_ReplaceValue << std::endl;
+  os << indent << "ReplaceValue: "
+     << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
+     << std::endl;
   os << indent << "Radius: " << m_Radius << std::endl;
 }
 

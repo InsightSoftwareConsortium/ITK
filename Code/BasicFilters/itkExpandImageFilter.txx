@@ -74,6 +74,9 @@ ExpandImageFilter<TInputImage,TOutputImage>
   os << indent << "Interpolator: ";
   os << m_Interpolator.GetPointer() << std::endl;
 
+  os << indent << "EdgePaddingValue: "
+     << static_cast<NumericTraits<OutputPixelType>::PrintType>(m_EdgePaddingValue)
+     << std::endl;
   os << indent << "EdgePaddingValue: ";
   os << m_EdgePaddingValue << std::endl;
 

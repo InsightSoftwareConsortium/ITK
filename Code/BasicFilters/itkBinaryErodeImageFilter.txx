@@ -201,7 +201,8 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Erode value: " << m_ErodeValue
+  os << indent << "Erode value: "
+     << static_cast<NumericTraits<PixelType>::PrintType>(m_ErodeValue)
      << std::endl;
 }
 

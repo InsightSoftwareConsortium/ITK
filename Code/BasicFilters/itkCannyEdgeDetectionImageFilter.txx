@@ -715,10 +715,12 @@ CannyEdgeDetectionImageFilter<TInputImage,TOutputImage>
             << m_Variance << std::endl;
   os << "MaximumError: "
             << m_MaximumError << std::endl;
-  os << "Threshold: "
-            << m_Threshold << std::endl;
-  os << "OutsideValue: "
-            << m_OutsideValue << std::endl;
+  os << indent << "Threshold: "
+     << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_Threshold)
+     << std::endl;
+  os << indent << "OutsideValue: "
+     << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_OutsideValue)
+     << std::endl;
   os << "Center: "
             << m_Center << std::endl;
   os << "Stride: "

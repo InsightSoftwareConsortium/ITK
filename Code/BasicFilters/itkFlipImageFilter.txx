@@ -61,7 +61,7 @@ FlipImageFilter<TImage>
 ::GenerateOutputInformation()
 {
   // call the superclass's implementation of this method
-  this->Superclass::GenerateOutputInformation();
+  Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
   InputImagePointer inputPtr = 
@@ -109,7 +109,7 @@ FlipImageFilter<TImage>
 ::GenerateInputRequestedRegion()
 {
   // call the superclass's implementation of this method
-  this->Superclass::GenerateInputRequestedRegion();
+  Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
   InputImagePointer inputPtr = 

@@ -56,7 +56,9 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>
      << std::endl;
   os << indent << "Multiplier for confidence interval: " << m_Multiplier
      << std::endl;
-  os << indent << "ReplaceValue: " << m_ReplaceValue << std::endl;
+  os << indent << "ReplaceValue: "
+     << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
+     << std::endl;
 }
 
 template <class TInputImage, class TOutputImage>

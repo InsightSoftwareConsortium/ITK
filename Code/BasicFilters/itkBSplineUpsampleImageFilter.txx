@@ -70,7 +70,7 @@ BSplineUpsampleImageFilter<TInputImage,TOutputImage, ResamplerType>
 
   // Calculate actual output
   // TODO:  Need to verify outIt is correctly sized.
-  this->Superclass::ExpandNDImage(outIt);
+  Superclass::ExpandNDImage(outIt);
 
   
 }
@@ -85,7 +85,7 @@ BSplineUpsampleImageFilter<TInputImage,TOutputImage, ResamplerType>
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
-  this->Superclass::GenerateInputRequestedRegion();
+  Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
   InputImagePointer  inputPtr = const_cast< TInputImage * > ( this->GetInput() );
@@ -127,7 +127,7 @@ BSplineUpsampleImageFilter<TInputImage,TOutputImage, ResamplerType>
 ::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
-  this->Superclass::GenerateOutputInformation();
+  Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
   InputImagePointer inputPtr = const_cast< TInputImage * > ( this->GetInput() );
