@@ -150,14 +150,10 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 
 
 
-/**
- * Compute filter for Gaussian kernel
- */
 template <class TInputImage, class TEigenValueImage, class TEigenVectorImage>
 void
 EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
-::ThreadedGenerateData( const OutputImageRegionType &outputRegionForThread,
-                        int threadId)
+::GenerateData()
 {
 
   typename TInputImage::Pointer inputPtr1(
@@ -175,25 +171,42 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
   EigenValueImagePointer   outputPtr1 = this->GetMaxEigenValue();
   EigenValueImagePointer   outputPtr2 = this->GetMinEigenValue();
   EigenVectorImagePointer  outputPtr3 = this->GetMaxEigenVector();
-  
-  ImageRegionIteratorWithIndex<TInputImage>   inputIt1(inputPtr1, outputRegionForThread);
-  ImageRegionIteratorWithIndex<TInputImage>   inputIt2(inputPtr2, outputRegionForThread);
-  ImageRegionIteratorWithIndex<TInputImage>   inputIt3(inputPtr3, outputRegionForThread);
 
-  ImageRegionIteratorWithIndex<EigenValueImageType>   outputIt1(outputPtr1, outputRegionForThread);
-  ImageRegionIteratorWithIndex<EigenValueImageType>   outputIt2(outputPtr2, outputRegionForThread);
-  ImageRegionIteratorWithIndex<EigenVectorImageType>  outputIt3(outputPtr3, outputRegionForThread);
+  outputPtr1->SetLargestPossibleRegion( inputPtr1->GetLargestPossibleRegion() );
+  outputPtr2->SetLargestPossibleRegion( inputPtr1->GetLargestPossibleRegion() );
+  outputPtr3->SetLargestPossibleRegion( inputPtr1->GetLargestPossibleRegion() );
+      
+  outputPtr1->SetBufferedRegion( inputPtr1->GetBufferedRegion() );
+  outputPtr2->SetBufferedRegion( inputPtr1->GetBufferedRegion() );
+  outputPtr3->SetBufferedRegion( inputPtr1->GetBufferedRegion() );
+      
+  outputPtr1->SetRequestedRegion( inputPtr1->GetRequestedRegion() );
+  outputPtr2->SetRequestedRegion( inputPtr1->GetRequestedRegion() );
+  outputPtr3->SetRequestedRegion( inputPtr1->GetRequestedRegion() );
+      
+  outputPtr1->Allocate();
+  outputPtr2->Allocate();
+  outputPtr3->Allocate();
+
+  EigenValueImageRegionType  region = outputPtr1->GetRequestedRegion();
+
+  ImageRegionIteratorWithIndex<TInputImage>   inputIt1( inputPtr1, region );
+  ImageRegionIteratorWithIndex<TInputImage>   inputIt2( inputPtr2, region );
+  ImageRegionIteratorWithIndex<TInputImage>   inputIt3( inputPtr3, region );
+
+  ImageRegionIteratorWithIndex<EigenValueImageType>   outputIt1(outputPtr1, region );
+  ImageRegionIteratorWithIndex<EigenValueImageType>   outputIt2(outputPtr2, region );
+  ImageRegionIteratorWithIndex<EigenVectorImageType>  outputIt3(outputPtr3, region );
 
   EigenVectorType nullVector;
   nullVector.Fill( 0.0 );
 
   // support progress methods/callbacks
   unsigned long updateVisits = 0, i=0;
-  if ( threadId == 0 )
+  updateVisits = region.GetNumberOfPixels()/10;
+  if ( updateVisits < 1 ) 
     {
-    updateVisits = 
-      outputPtr1->GetRequestedRegion().GetNumberOfPixels()/10;
-    if ( updateVisits < 1 ) updateVisits = 1;
+    updateVisits = 1;
     }
         
   inputIt1.GoToBegin();
@@ -207,7 +220,7 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
   i = 0;
   while( !inputIt1.IsAtEnd() ) 
     {
-    if ( threadId == 0 && !(i % updateVisits ) )
+    if ( !(i % updateVisits ) )
       {
       this->UpdateProgress((float)i/(float(updateVisits)*10.0));
       }
@@ -254,8 +267,6 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 
     }
 }
-
-
 } // end namespace itk
 
 #endif

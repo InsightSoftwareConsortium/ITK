@@ -58,6 +58,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * vector associated with the maximum eigenvalue is stored in an 
  * image using vector as pixel type.
  * 
+ * \ingroup ShouldBeThreaded IntensityImageFilters
  */
 
 namespace itk {
@@ -165,12 +166,9 @@ protected:
   void operator=(const Self&) {}
   
   /**
-   * Generate Data supporting multithreading
+   * Generate Data 
    */
-  void ThreadedGenerateData( 
-                const OutputImageRegionType &outputRegionForThread,
-                int threadId);
-
+    void GenerateData( void );
 
 private:
   
