@@ -17,6 +17,7 @@
 #ifndef _itkAmoebaOptimizer_txx
 #define _itkAmoebaOptimizer_txx
 
+#include "itkAmoebaOptimizer.h"
 
 namespace itk
 {

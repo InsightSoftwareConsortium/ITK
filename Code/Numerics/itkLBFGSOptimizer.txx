@@ -17,6 +17,8 @@
 #ifndef _itkLBFGSOptimizer_txx
 #define _itkLBFGSOptimizer_txx
 
+#include "itkLBFGSOptimizer.h"
+
 
 namespace itk
 {

@@ -61,7 +61,7 @@ public:
   typedef typename TCostFunction::DerivativeType DerivativeType;
 
 protected:
-  SingleValuedNonLinearOptimizer() {};
+  SingleValuedNonLinearOptimizer();
   virtual ~SingleValuedNonLinearOptimizer() {}
 
 private: 
@@ -72,6 +72,9 @@ private:
 
 } // end namespace itk
 
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkSingleValuedNonLinearOptimizer.txx"
+#endif
 
 #endif
 
