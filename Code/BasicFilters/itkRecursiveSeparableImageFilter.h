@@ -75,13 +75,6 @@ public:
   /** Get Input Image. */
   const TInputImage * GetInputImage( void );
 
-  /** RecursiveSeparableImageFilter needs all of the input to produce an
-   * output. Therefore, RecursiveSeparableImageFilter needs to provide
-   * an implementation for GenerateInputRequestedRegion in order to inform
-   * the pipeline execution model.
-   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
-
 protected:
   RecursiveSeparableImageFilter();
   virtual ~RecursiveSeparableImageFilter() {};
@@ -89,6 +82,13 @@ protected:
 
   /** GenerateData (apply) the filter. */   
   void GenerateData(void);
+
+  /** RecursiveSeparableImageFilter needs all of the input to produce an
+   * output. Therefore, RecursiveSeparableImageFilter needs to provide
+   * an implementation for GenerateInputRequestedRegion in order to inform
+   * the pipeline execution model.
+   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
+  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
   // Override since the filter produces the entire dataset
   void EnlargeOutputRequestedRegion(DataObject *output);
@@ -99,12 +99,6 @@ protected:
    * filter. */
   virtual void SetUp(RealType spacing) = 0;
 
-  /** Apply the recursive filter along one of the dimensions of the image.
-   * This allow to filter each one of the dimensions of an image separately.
-   * Sigma is given in length units so the spacing between pixels is taken 
-   * into account. This is relevant for anisotropic images. */
-  void ApplyRecursiveFilter(unsigned int dimension);
-
   /** Compute Recursive Filter Coefficients this method prepares the values of
    * the coefficients used for filtering the image. The symmetric flag is
    * used to enforce that the filter will be symmetric or antisymmetric. For
@@ -113,11 +107,14 @@ protected:
    * along the dimension to be filtered. */
   virtual void ComputeFilterCoefficients(bool symmetric, RealType spacing) = 0;
 
-  /** Apply the Recursive Filter in an array of data.  this method is called
-   * for each line of the volume from ApplyRecursiveFilter.
-   * \sa ApplyRecursiveFilter.  */
-  void FilterDataArray(RealType *outs,
-                       const RealType *data, unsigned int ln);
+  /** Apply the Recursive Filter to an array of data.  This method is called
+   * for each line of the volume. Parameter "scratch" is a scratch
+   * area used for internal computations that is the same size as the
+   * parameters "outs" and "data". The scratch area must be allocated
+   * outside of this routine (this avoids memory allocation and
+   * deallocation in the inner loop of the overall algorithm. */
+  void FilterDataArray(RealType *outs, const RealType *data, RealType *scratch,
+                       unsigned int ln);
 
 private:  
   RecursiveSeparableImageFilter(const Self&); //purposely not implemented

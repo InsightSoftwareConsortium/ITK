@@ -72,42 +72,13 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 
 /**
  * Apply Recursive Filter 
- * two internal arrays are allocate and destroyed at each time 
- * the function is called, maybe that can be factorized somehow.
  */
 template <typename TInputImage, typename TOutputImage>
 void
 RecursiveSeparableImageFilter<TInputImage,TOutputImage>
-::FilterDataArray(RealType *outs,const RealType *data,unsigned int ln) 
+::FilterDataArray(RealType *outs,const RealType *data,
+                  RealType *scratch,unsigned int ln) 
 {
-
-
-  if( !outs || !data ) return;
-
-  RealType *s1 = 0;
-  RealType *s2 = 0;
-
-  try 
-    {
-    s1 = new RealType[ln];
-    }
-  catch( std::bad_alloc &) 
-    {
-    itkExceptionMacro("Problem allocating memory for internal computations");
-    }
-
-
-  try
-    {
-    s2 = new RealType[ln];
-    }
-  catch( std::bad_alloc &) 
-    {
-    delete [] s1; 
-    s1=0; 
-    itkExceptionMacro("Problem allocating memory for internal computations");
-    }
-  
   /**
    * Causal direction pass
    */
@@ -118,26 +89,36 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
   /**
    * Initialize borders
    */
-  s1[0] = RealType( m_N00 * outV1   + m_N11 * outV1   + m_N22 * outV1   + m_N33 * outV1    );
-  s1[1] = RealType( m_N00 * data[1] + m_N11 * outV1   + m_N22 * outV1   + m_N33 * outV1    );
-  s1[2] = RealType( m_N00 * data[2] + m_N11 * data[1] + m_N22 * outV1   + m_N33 * outV1    );
-  s1[3] = RealType( m_N00 * data[3] + m_N11 * data[2] + m_N22 * data[1] + m_N33 * outV1    );
+  scratch[0] = RealType( m_N00 * outV1   + m_N11 * outV1   + m_N22 * outV1   + m_N33 * outV1    );
+  scratch[1] = RealType( m_N00 * data[1] + m_N11 * outV1   + m_N22 * outV1   + m_N33 * outV1    );
+  scratch[2] = RealType( m_N00 * data[2] + m_N11 * data[1] + m_N22 * outV1   + m_N33 * outV1    );
+  scratch[3] = RealType( m_N00 * data[3] + m_N11 * data[2] + m_N22 * data[1] + m_N33 * outV1    );
 
   // note that the outV1 value is multiplied by the Boundary coefficients m_BNi
-  s1[0] -= RealType( m_BN1 * outV1 + m_BN2 * outV1 + m_BN3 * outV1  + m_BN4 * outV1 );
-  s1[1] -= RealType( m_D11 * s1[0] + m_BN2 * outV1 + m_BN3 * outV1  + m_BN4 * outV1 );
-  s1[2] -= RealType( m_D11 * s1[1] + m_D22 * s1[0] + m_BN3 * outV1  + m_BN4 * outV1 );
-  s1[3] -= RealType( m_D11 * s1[2] + m_D22 * s1[1] + m_D33 * s1[0]  + m_BN4 * outV1 );
+  scratch[0] -= RealType( m_BN1 * outV1 + m_BN2 * outV1 + m_BN3 * outV1  + m_BN4 * outV1 );
+  scratch[1] -= RealType( m_D11 * scratch[0] + m_BN2 * outV1 + m_BN3 * outV1  + m_BN4 * outV1 );
+  scratch[2] -= RealType( m_D11 * scratch[1] + m_D22 * scratch[0] + m_BN3 * outV1  + m_BN4 * outV1 );
+  scratch[3] -= RealType( m_D11 * scratch[2] + m_D22 * scratch[1] + m_D33 * scratch[0]  + m_BN4 * outV1 );
 
   /**
    * Recursively filter the rest
    */
   for( unsigned int i=4; i<ln; i++ ) 
     {
-    s1[i]  = RealType( m_N00 * data[i] + m_N11 * data[i-1] + m_N22 * data[i-2] + m_N33 * data[i-3] );
-    s1[i] -= RealType( m_D11 * s1[i-1] + m_D22 *   s1[i-2] + m_D33 *   s1[i-3] + m_D44 *   s1[i-4] );
+    scratch[i]  = RealType( m_N00 * data[i] + m_N11 * data[i-1] + m_N22 * data[i-2] + m_N33 * data[i-3] );
+    scratch[i] -= RealType( m_D11 * scratch[i-1] + m_D22 *   scratch[i-2] + m_D33 *   scratch[i-3] + m_D44 *   scratch[i-4] );
     }
 
+  /**
+   * Store the causal result
+   */
+  for( unsigned int i=0; i<ln; i++ ) 
+    {
+    outs[i] = RealType( m_K * scratch[i] );
+    }
+
+
+  
   /**
    * AntiCausal direction pass
    */
@@ -148,39 +129,33 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
   /**
    * Initialize borders
    */
-  s2[ln-1] = RealType( m_M11 * outV2      + m_M22 * outV2      + m_M33 * outV2      + m_M44 * outV2);
-  s2[ln-2] = RealType( m_M11 * data[ln-1] + m_M22 * outV2      + m_M33 * outV2      + m_M44 * outV2); 
-  s2[ln-3] = RealType( m_M11 * data[ln-2] + m_M22 * data[ln-1] + m_M33 * outV2      + m_M44 * outV2); 
-  s2[ln-4] = RealType( m_M11 * data[ln-3] + m_M22 * data[ln-2] + m_M33 * data[ln-1] + m_M44 * outV2);
+  scratch[ln-1] = RealType( m_M11 * outV2      + m_M22 * outV2      + m_M33 * outV2      + m_M44 * outV2);
+  scratch[ln-2] = RealType( m_M11 * data[ln-1] + m_M22 * outV2      + m_M33 * outV2      + m_M44 * outV2); 
+  scratch[ln-3] = RealType( m_M11 * data[ln-2] + m_M22 * data[ln-1] + m_M33 * outV2      + m_M44 * outV2); 
+  scratch[ln-4] = RealType( m_M11 * data[ln-3] + m_M22 * data[ln-2] + m_M33 * data[ln-1] + m_M44 * outV2);
 
   // note that the outV2value is multiplied by the Boundary coefficients m_BMi
-  s2[ln-1] -= RealType( m_BM1 * outV2    + m_BM2 * outV2    + m_BM3 * outV2    + m_BM4 * outV2);
-  s2[ln-2] -= RealType( m_D11 * s2[ln-1] + m_BM2 * outV2    + m_BM3 * outV2    + m_BM4 * outV2);
-  s2[ln-3] -= RealType( m_D11 * s2[ln-2] + m_D22 * s2[ln-1] + m_BM3 * outV2    + m_BM4 * outV2);
-  s2[ln-4] -= RealType( m_D11 * s2[ln-3] + m_D22 * s2[ln-2] + m_D33 * s2[ln-1] + m_BM4 * outV2);
+  scratch[ln-1] -= RealType( m_BM1 * outV2    + m_BM2 * outV2    + m_BM3 * outV2    + m_BM4 * outV2);
+  scratch[ln-2] -= RealType( m_D11 * scratch[ln-1] + m_BM2 * outV2    + m_BM3 * outV2    + m_BM4 * outV2);
+  scratch[ln-3] -= RealType( m_D11 * scratch[ln-2] + m_D22 * scratch[ln-1] + m_BM3 * outV2    + m_BM4 * outV2);
+  scratch[ln-4] -= RealType( m_D11 * scratch[ln-3] + m_D22 * scratch[ln-2] + m_D33 * scratch[ln-1] + m_BM4 * outV2);
 
   /**
    * Recursively filter the rest
    */
   for( unsigned int i=ln-4; i>0; i-- ) 
     {
-    s2[i-1]  = RealType( m_M11 * data[i] + m_M22 * data[i+1] + m_M33 * data[i+2] + m_M44 * data[i+3] );
-    s2[i-1] -= RealType( m_D11 *   s2[i] + m_D22 *   s2[i+1] + m_D33 *   s2[i+2] + m_D44 *   s2[i+3] );
+    scratch[i-1]  = RealType( m_M11 * data[i] + m_M22 * data[i+1] + m_M33 * data[i+2] + m_M44 * data[i+3] );
+    scratch[i-1] -= RealType( m_D11 *   scratch[i] + m_D22 *   scratch[i+1] + m_D33 *   scratch[i+2] + m_D44 *   scratch[i+3] );
     }
 
-
-
   /**
-   * Combine Causal and AntiCausal parts
+   * Roll the antiCausal part into the output
    */
   for( unsigned int i=0; i<ln; i++ ) 
     {
-    outs[i] = RealType( m_K * ( s1[i] + s2[i] ) );
+    outs[i] += RealType( m_K * scratch[i] );
     }
-
-  delete [] s1;  
-  delete [] s2;  
-  
 }
 
 //
@@ -266,6 +241,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 
   RealType *inps = 0;
   RealType *outs = 0;
+  RealType *scratch = 0;
 
   try 
     {
@@ -282,9 +258,20 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
     }
   catch( std::bad_alloc & ) 
     {
+    delete [] inps;
     itkExceptionMacro("Problem allocating memory for internal computations");
     }
-
+  
+  try 
+    {
+    scratch = new RealType[ln];
+    }
+  catch( std::bad_alloc &) 
+    {
+    delete [] inps;
+    delete [] outs;
+    itkExceptionMacro("Problem allocating memory for internal computations");
+    }
 
   inputIterator.GoToBegin();
   outputIterator.GoToBegin();
@@ -297,10 +284,8 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 
   try  // this try is intended to catch an eventual AbortException.
     {
-
     while( !inputIterator.IsAtEnd() && !outputIterator.IsAtEnd() )
       {
-      
       unsigned int i=0;
       while( !inputIterator.IsAtEndOfLine() )
         {
@@ -308,7 +293,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
         ++inputIterator;
         }
 
-      FilterDataArray( outs, inps, ln );
+      this->FilterDataArray( outs, inps, scratch, ln );
 
       unsigned int j=0; 
       while( !outputIterator.IsAtEndOfLine() )
@@ -320,13 +305,10 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
       inputIterator.NextLine();
       outputIterator.NextLine();
 
-
       // Although the method name is CompletedPixel(),
       // this is being called after each line is processed
       progress.CompletedPixel();  
-
       }
-
     }
   catch( ProcessAborted  & )
     {
@@ -337,14 +319,16 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
     // release locally allocated memory
     delete [] outs;
     delete [] inps;
+    delete [] scratch;
     // Throw the final exception.
     throw ProcessAborted(__FILE__,__LINE__);
     }
 
   delete [] outs;
   delete [] inps;
-
+  delete [] scratch;
 }
+
 
 template <typename TInputImage, typename TOutputImage>
 void
