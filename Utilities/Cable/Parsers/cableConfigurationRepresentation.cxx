@@ -37,7 +37,7 @@ Create
   fprintf(outFile,
           "#define _wrap_TypeName %s\n"
           "template <>\n"
-          "struct NewObjectOf<%s>\n"
+          "struct NewObjectOf<%s >\n"
           "{\n"
           "  static %s* Create(void)\n"
           "  {\n",
