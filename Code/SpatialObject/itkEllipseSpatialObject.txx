@@ -62,7 +62,7 @@ EllipseSpatialObject< TDimension >
     
   if(name == NULL || strstr(typeid(Self).name(), name) )
     {
-    TransformType::Pointer inverse = TransformType::New();
+    typename TransformType::Pointer inverse = TransformType::New();
     if(!GetIndexToWorldTransform()->GetInverse(inverse))
       {
       return false;

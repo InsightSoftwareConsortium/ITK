@@ -410,7 +410,7 @@ PolygonSpatialObject<TDimension>
       throw exception;
     }
 
-  TransformType::Pointer inverse = TransformType::New();
+  typename TransformType::Pointer inverse = TransformType::New();
   if(!GetIndexToWorldTransform()->GetInverse(inverse))
     {
     return false;

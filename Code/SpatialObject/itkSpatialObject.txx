@@ -414,7 +414,7 @@ SpatialObject< TDimension >
 
   if(m_TreeNode->HasParent())
     {
-    TransformType::Pointer inverse = TransformType::New();
+    typename TransformType::Pointer inverse = TransformType::New();
     if(static_cast<TreeNodeType*>(m_TreeNode->GetParent())->GetNodeToParentNodeTransform()->GetInverse(inverse))
       {
       m_ObjectToParentTransform->Compose(inverse,true);

@@ -152,7 +152,7 @@ LandmarkSpatialObject< TDimension >
     typename PointListType::const_iterator it = m_Points.begin();
     typename PointListType::const_iterator itEnd = m_Points.end();
     
-    TransformType::Pointer inverse = TransformType::New();
+    typename TransformType::Pointer inverse = TransformType::New();
     if(!GetIndexToWorldTransform()->GetInverse(inverse))
       {
       return false;

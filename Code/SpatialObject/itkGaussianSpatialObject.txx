@@ -50,7 +50,7 @@ typename GaussianSpatialObject< TDimension >::ScalarType
 GaussianSpatialObject< TDimension > 
 ::SquaredZScore( const PointType& point ) const
 {
-  TransformType::Pointer inverse = TransformType::New();
+  typename TransformType::Pointer inverse = TransformType::New();
   if(!GetIndexToWorldTransform()->GetInverse(inverse))
     {
     return false;

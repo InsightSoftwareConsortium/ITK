@@ -181,7 +181,7 @@ TubeSpatialObject< TDimension >
     typename PointListType::const_iterator end = m_Points.end(); 
     typename PointListType::const_iterator min;
   
-    TransformType::Pointer inverse = TransformType::New();
+    typename TransformType::Pointer inverse = TransformType::New();
     if(!GetIndexToWorldTransform()->GetInverse(inverse))
       {
       return false;
