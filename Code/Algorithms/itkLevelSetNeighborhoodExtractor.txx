@@ -252,6 +252,9 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 ::CalculateDistance(
 IndexType& index)
 {
+
+  m_LastPointIsInside = false;
+
   typename LevelSetImageType::PixelType centerValue;
   PixelType inputPixel;
 
@@ -266,6 +269,7 @@ IndexType& index)
     { 
     centerNode.SetValue( 0.0 );
     m_InsidePoints->InsertElement( m_InsidePoints->Size(), centerNode );
+    m_LastPointIsInside = true;
     return 0.0;
     }
 
@@ -347,10 +351,12 @@ IndexType& index)
   if( inside )
     {
     m_InsidePoints->InsertElement( m_InsidePoints->Size(), centerNode );
+    m_LastPointIsInside = true;
     }
   else
     {
     m_OutsidePoints->InsertElement( m_OutsidePoints->Size(), centerNode );
+    m_LastPointIsInside = false;
     }
 
   return distance;

@@ -99,15 +99,6 @@ Index& index)
     return distance;
     }
 
-  // is this an inside or outside point
-  double pixelValue;
-  typename Superclass::PixelType inputPixel;
-
-  inputPixel = (this->GetInputLevelSet())->GetPixel( index );
-  pixelValue = (double) inputPixel;
-  pixelValue -= this->GetLevelSetValue();
-
-  bool inside = ( pixelValue <= 0.0 );
   double centerValue[VAuxDimension];
   AuxValueType auxPixel;
   AuxValueVectorType auxVector;
@@ -119,7 +110,7 @@ Index& index)
     }
 
   // if distance is zero, insert point in inside container
-  if( distance == 0.0 )
+  if( this->GetLastPointIsInside() )
     {
     for( unsigned int k = 0; k < VAuxDimension; k++ )
       {
@@ -172,7 +163,7 @@ Index& index)
     auxVector[k] = numer[k];
     }
 
-  if( inside )
+  if( this->GetLastPointIsInside() )
     {
     m_AuxInsideValues->InsertElement( 
       m_AuxInsideValues->Size(), auxVector );

@@ -147,6 +147,9 @@ protected:
 
   void GenerateData();
 
+  bool GetLastPointIsInside() const
+          { return m_LastPointIsInside; }
+
 private:
   LevelSetNeighborhoodExtractor(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
@@ -169,6 +172,8 @@ private:
   typename LevelSetImageType::PixelType         m_LargeValue;
 
   std::vector<NodeType>                         m_NodesUsed;
+
+  bool                                          m_LastPointIsInside;
 
 };
 
