@@ -939,7 +939,7 @@ int main( int argc, char ** argv )
   //
   //  The initial set of transform parameters is passed to the registration
   //  method using the \code{SetInitialTransformParameters()} method. Note that
-  //  since our original model is alreay registered with the synthetic image,
+  //  since our original model is already registered with the synthetic image,
   //  we introduce here an artificial miss-registration in order to initialize
   //  the optimization at some point away from the optimal value.
   //
