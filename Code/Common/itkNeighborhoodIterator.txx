@@ -24,13 +24,14 @@ void NeighborhoodIterator<TPixel, VDimension>
   Iterator Nit;
   TPixel * Iit;
   unsigned long loop[VDimension];
-  const unsigned long *size = this->GetSize().m_Size;
+  const Size<VDimension> size = this->GetSize();
   const unsigned long *OffsetTable = m_Image->GetOffsetTable();
   memset(loop, 0, sizeof(long) * VDimension);
-  const unsigned long *radius = this->GetRadius().m_Size;
+  const Size<VDimension> radius = this->GetRadius();
 
   // Find first "upper-left-corner"  pixel address of neighborhood
   Iit = m_Buffer + m_Image->ComputeOffset(offset);
+
   for (i = 0; i<VDimension; ++i)
     {
       Iit -= radius[i] * OffsetTable[i];
