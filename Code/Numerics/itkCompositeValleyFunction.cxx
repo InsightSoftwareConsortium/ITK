@@ -21,7 +21,7 @@ CompositeValleyFunction
 ::CompositeValleyFunction( const MeasureArrayType & classMeans, 
                            const MeasureArrayType & classSigmas )
 {
-  int length = classMeans.size() ;
+  unsigned int length = classMeans.size() ;
 
   if (length != classSigmas.size())
     {
