@@ -113,7 +113,7 @@ private:
 
 int itkLBFGSOptimizerTest(int, char* [] ) 
 {
-  std::cout << "Conjugate Gradient Optimizer Test \n \n";
+  std::cout << "LBFGS Optimizer Test \n \n";
 
   typedef  itk::LBFGSOptimizer  OptimizerType;
 
@@ -129,25 +129,28 @@ int itkLBFGSOptimizerTest(int, char* [] )
   LBFCostFunction::Pointer costFunction = LBFCostFunction::New();
 
 
+  // Set some optimizer parameters
+  itkOptimizer->SetTrace( false );
+  itkOptimizer->SetMaximumNumberOfFunctionEvaluations( 1000 );
+  itkOptimizer->SetGradientConvergenceTolerance( 1e-3 );
+  itkOptimizer->SetLineSearchAccuracy( 0.1 );
+  itkOptimizer->SetDefaultStepLength( 5.0 );
+
   itkOptimizer->SetCostFunction( costFunction.GetPointer() );
 
-  
-  const double F_Tolerance      = 1e-3;  // Function value tolerance
   const double G_Tolerance      = 1e-4;  // Gradient magnitude tolerance 
-  const double X_Tolerance      = 1e-8;  // Search space tolerance
-  const double Epsilon_Function = 1e-10; // Step
-  const int    Max_Iterations   =   100; // Maximum number of iterations
+  const int    Max_Iterations   = 100;   // Maximum number of iterations 
+  const bool   Trace            = false; // Tracing
+  const double LineSearch_Tol   = 0.9;   // Line search tolerance
+  const double Step_Length      = 1.0;   // Default step length
 
+  // const double F_Tolerance      = 1e-3;  // Function value tolerance: not used
+  // const double X_Tolerance      = 1e-8;  // Search space tolerance: not used
+  // const double Epsilon_Function = 1e-10; // Step : not used
 
   vnlOptimizerType * vnlOptimizer = itkOptimizer->GetOptimizer();
 
-  vnlOptimizer->set_f_tolerance( F_Tolerance );
-  vnlOptimizer->set_g_tolerance( G_Tolerance );
-  vnlOptimizer->set_x_tolerance( X_Tolerance ); 
-  vnlOptimizer->set_epsilon_function( Epsilon_Function );
-  vnlOptimizer->set_max_function_evals( Max_Iterations );
-
-  vnlOptimizer->set_check_derivatives( 3 );
+  vnlOptimizer->set_check_derivatives( 0 );
       
   const unsigned int SpaceDimension = 2;
   OptimizerType::ParametersType initialValue(SpaceDimension);
@@ -161,6 +164,14 @@ int itkLBFGSOptimizerTest(int, char* [] )
   currentValue = initialValue;
 
   itkOptimizer->SetInitialPosition( currentValue );
+
+  // Set some optimizer parameters
+  itkOptimizer->SetTrace( Trace );
+  itkOptimizer->SetMaximumNumberOfFunctionEvaluations( Max_Iterations );
+  itkOptimizer->SetGradientConvergenceTolerance( G_Tolerance );
+  itkOptimizer->SetLineSearchAccuracy( LineSearch_Tol );
+  itkOptimizer->SetDefaultStepLength( Step_Length );
+  itkOptimizer->Print( std::cout );
 
   try 
     {
