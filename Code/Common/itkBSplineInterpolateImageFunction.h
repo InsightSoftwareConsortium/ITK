@@ -110,6 +110,11 @@ public:
   /** Set the input image.  This must be set by the user. */
   virtual void SetInputImage(const TImageType * inputData);
 
+protected:
+  BSplineInterpolateImageFunction();
+  virtual ~BSplineInterpolateImageFunction() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
+    
 private:
   /** Determines the poles given the Spline Order. */
   virtual void SetPoles();
@@ -143,11 +148,6 @@ private:
     * to an N-dimensional index. */
   void GeneratePointsToIndex(  );
 
-protected:
-  BSplineInterpolateImageFunction();
-  virtual ~BSplineInterpolateImageFunction() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
-    
   // These are needed by the smoothing spline routine.
 protected:
   std::vector<double>    m_Scratch;        // temp storage for processing of Coefficients
