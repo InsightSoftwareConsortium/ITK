@@ -84,6 +84,7 @@ public:
   void GetPatientDOB(char* dob);
   void GetStudyDescription(char* desc);
   void GetBodyPart(char* part);
+  void GetNumberOfSeriesInStudy(char* series);
   void GetNumberOfStudyRelatedSeries(char* series);
   void GetStudyDate(char* date);
   void GetModality(char* modality);

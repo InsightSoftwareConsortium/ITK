@@ -324,6 +324,14 @@ DICOMImageIO2
 
 void 
 DICOMImageIO2
+::GetNumberOfSeriesInStudy(char* series)
+{
+  m_AppHelper->GetNumberOfSeriesInStudy(series);
+}
+
+
+void 
+DICOMImageIO2
 ::GetNumberOfStudyRelatedSeries(char* series)
 {
   m_AppHelper->GetNumberOfStudyRelatedSeries(series);
