@@ -47,6 +47,7 @@ public:
   typedef typename TSample::MeasurementType MeasurementType;
   typedef typename TSample::InstanceIdentifier InstanceIdentifier;
   typedef typename TSample::FrequencyType FrequencyType ;
+  typedef MeasurementVectorType ValueType ;
 //    typedef typename TSample::SizeType SizeType ;
 //    typedef typename TSample::SizeValueType SizeValueType ;
 
