@@ -3,17 +3,13 @@
 #pragma warning(disable:4786)
 #endif
 
-
 #include <iostream>
 #include <fstream>
 #include <iomanip>
 #include <strstream>
 #include <string>
 
-// #include <stdio.h>
-
 #include "DICOMFile.h"
-
 
 #ifdef WIN32
 #define DICOM_PLATFORM_WORDS_LITTLE_ENDIAN
@@ -21,7 +17,9 @@
 #ifdef __CYGWIN__
 #define DICOM_PLATFORM_WORDS_LITTLE_ENDIAN
 #endif
-
+#ifdef __FreeBSD__
+#define DICOM_PLATFORM_WORDS_LITTLE_ENDIAN
+#endif
 
 
 DICOMFile::DICOMFile() : inputStream()

@@ -21,7 +21,7 @@ class DICOMFile
 {
  public:
   DICOMFile();
-  ~DICOMFile();
+  virtual ~DICOMFile();
   
   //
   // Open a file with filename.  Returns a bool
@@ -104,12 +104,14 @@ class DICOMFile
   static long ReturnAsSignedLong(unsigned char* data, bool byteswap)
   {
     unsigned char* data2 = data;
+    /*
     if (byteswap)
       {
       int data_len = 4;
       data2 = new unsigned char[data_len];
       swapShorts((ushort*)data,(ushort*)data2,4);
-      }      
+      } 
+    */
     return atol((char*) data2);
   }
   
@@ -120,12 +122,14 @@ class DICOMFile
   static ulong ReturnAsUnsignedLong(unsigned char* data, bool byteswap)
   {
     unsigned char* data2 = data;
+    /*
     if (byteswap)
       {
       int data_len = 4;
       data2 = new unsigned char[data_len];
       swapShorts((ushort*)data,(ushort*)data2,4);
-      }      
+      }
+      */
     return atol((char*) data2);
   }
   
@@ -135,12 +139,14 @@ class DICOMFile
   static ushort ReturnAsUnsignedShort(unsigned char* data, bool byteswap)
   {
     unsigned char* data2 = data;
+    /*
     if (byteswap)
       {
       int data_len = 2;
       data2 = new unsigned char[data_len];
       swapShorts((ushort*)data,(ushort*)data2,2);
       }
+      */
     return *((doublebyte*)data2);
   }
   
@@ -150,12 +156,14 @@ class DICOMFile
   static short int ReturnAsSignedShort(unsigned char* data, bool byteswap)
   {
     unsigned char* data2 = data;
+    /*
     if (byteswap)
       {
       int data_len = 2;
       data2 = new unsigned char[data_len];
       swapShorts((ushort*)data,(ushort*)data,2);
       }
+      */
     return *((short int*)data2);
   }
 
@@ -165,13 +173,14 @@ class DICOMFile
   static int ReturnAsInteger(unsigned char* data, bool byteswap)
   {
     unsigned char* data2 = data;
+    /*
     if (byteswap)
       {
       int data_len = 2;
       data2 = new unsigned char[data_len];
       swapShorts((ushort*) data, (ushort*) data2, 2);
       }
-    
+    */
     //
     // istrstream destroys the data during formatted input.
     //
