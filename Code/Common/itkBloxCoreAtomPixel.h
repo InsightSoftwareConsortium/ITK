@@ -79,15 +79,15 @@ public:
   /** Perform eigenanalysis on the voted CMatrix */
   void DoVotedEigenanalysis();
 
-  /** Get Macros */
-  itkGetMacro(MeanCoreAtomDiameter, double);
-  itkGetMacro(MeanCoreAtomIntensity, double);
-  itkGetMacro(Eigenvalues, TEigenvalueType);
-  itkGetMacro(Eigenvectors, TEigenvectorType);
-  itkGetMacro(VotedEigenvalues, TEigenvalueType);
-  itkGetMacro(VotedEigenvectors, TEigenvectorType);
-  itkGetMacro(LocationSums, TPositionType);
-  itkGetMacro(WeightSum, double);
+  /** Get statements */
+  double GetMeanCoreAtomDiameter() {return m_MeanCoreAtomDiameter;}
+  double GetMeanCoreAtomIntensity() {return m_MeanCoreAtomIntensity;}
+  TEigenvalueType GetEigenvalues() {return m_Eigenvalues;}
+  TEigenvalueType GetVotedEigenvalues() {return m_VotedEigenvalues;}
+  TEigenvectorType GetEigenvectors() {return m_Eigenvectors;}
+  TEigenvectorType GetVotedEigenvectors() {return m_VotedEigenvectors;}
+  TPositionType GetLocationSums() {return m_LocationSums;}
+  double GetWeightSum() {return m_WeightSum;}
 
   /** Get the raw CMatrix (prior to voting) */
   MatrixType* GetRawCMatrixPointer() {return &m_RawCMatrix;}
