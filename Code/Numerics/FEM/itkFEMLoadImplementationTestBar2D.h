@@ -28,6 +28,9 @@ namespace fem {
 
 
 /**
+ * \class LoadImplementationTestBar2D
+ * \brief Example implementation of templated LoadTest class.
+ *
  * This is an example of how to define the implementation of a templated
  * Load class. Since the Load class is templated, its implementation must
  * also be templated. Due to limitations of MS compiler, we define this
@@ -39,12 +42,13 @@ namespace fem {
  *
  * You must manually instantiate this class to register the load
  * implementation function with the VisitorDispatcher. The
- * instantiation is normally done like:
+ * instantiation is normally done like this:
+ *
  *     typedef LoadTest<...> MyLoadTestClass;
- *     template class LoadTestImplementationBar2D<MyLoadTestClass>;
+ *     template class LoadImplementationTestBar2D<MyLoadTestClass>;
  */
 template<class TLoadClass>
-class LoadTestImplementationBar2D
+class LoadImplementationTestBar2D
 {
 public:
   static Element::LoadVectorType impl(Bar2D::ConstPointer element, Element::LoadElementPointer load)
@@ -71,9 +75,9 @@ private:
 // Instantiating the implementation function will also instantiate the
 // corresponding Load class.
 template<class TLoadClass>
-const bool LoadTestImplementationBar2D<TLoadClass>::registered=
+const bool LoadImplementationTestBar2D<TLoadClass>::registered=
   VisitorDispatcher<Bar2D,Element::LoadElementType,Bar2D::VectorType (*)(Bar2D::ConstPointer,ElementNew::LoadElementPointer)>
-  ::RegisterVisitor((TLoadClass*)0, &LoadTestImplementationBar2D<TLoadClass>::impl);
+  ::RegisterVisitor((TLoadClass*)0, &LoadImplementationTestBar2D<TLoadClass>::impl);
 
 
 

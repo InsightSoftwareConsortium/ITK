@@ -150,7 +150,7 @@ public:
 //  enum{ InvalidDegreeOfFreedomID = 0xffffffff };
 
   /**
-   * \class ElementNew::Node
+   * \class Node
    * \brief Class that stores information required to define a node.
    *
    * A node can define a point in space and can hold an arbitrary number 
