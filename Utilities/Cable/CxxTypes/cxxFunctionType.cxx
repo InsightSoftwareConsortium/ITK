@@ -88,13 +88,20 @@ String FunctionType::GenerateName(const String& indirection,
   if(arg != m_Arguments.end())
     {    
     arguments += arg->GetName();
-    for(;arg != m_Arguments.end(); ++arg)
+    for(++arg;arg != m_Arguments.end(); ++arg)
       {
       arguments += ", "+arg->GetName();
       }
     }
   String cv = this->GetRightCvString(isConst, false);
-  return returns + "(" + indirection + ")( " + arguments + " )" + cv;
+  if(indirection.length() > 0)
+    {
+    return returns + "(" + indirection + ")( " + arguments + " )" + cv;
+    }
+  else
+    {
+    return returns + "(( " + arguments + " ))" + cv;
+    }
 }
 
   
