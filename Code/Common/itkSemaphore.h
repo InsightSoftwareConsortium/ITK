@@ -76,11 +76,13 @@ typedef int SemaphoreType;
 /** \class Semaphore
  * \brief The semaphore class is used to synchronize execution between threads.
  *
- * Semaphores hold a counter value that can be incremented and decremented by
- * calls to Up() and Down().  If Down() is called when the value of the
- * semaphore is zero, the calling thread will block until the semaphore value
- * goes above zero again. Semaphores are commonly used in cases where several
- * threads must share a limited pool of resources.
+ * Semaphore objects maintain a counter value that can be incremented and
+ * decremented by atomic calls to Up() and Down(). Semaphores are commonly used
+ * to manage the use of a limited pool of system resources among several
+ * threads. If Down() is called when the value of the semaphore is zero, the
+ * calling thread will block until the semaphore value goes above zero again.
+ * When a blocked thread is released, it decrements the Semaphore counter
+ * before continuing to execute.
  *
  * The Up() and Down() operations are standard as defined by E.W. Dijkstra.
  * The Initialize( num ) operation creates the system semaphore object with an
