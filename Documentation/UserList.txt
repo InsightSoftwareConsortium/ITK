@@ -52,3 +52,4 @@ foskey:Mark Foskey:foskey@cs.unc.edu
 darbyb:Darby Brown:darbyb@cs.utah.edu
 tolga:Tolga Tasdizen:tolga@sci.utah.edu
 vmagnotta:Vincent A. Magnotta:vincent-magnotta@uiowa.edu
+kentwilliams:Kent Williams:kent@mail.psychiatry.uiowa.edu
