@@ -463,16 +463,24 @@ extern ITK_EXPORT void OutputWindowDisplayText(const char*);
  * This creation method first tries asking the object factory to create
  * an instance, and then defaults to the standard "new" operator if the
  * factory fails.
+ *
+ * This routine assigns the raw pointer to a smart pointer and then calls
+ * UnRegister() on the rawPtr to compensate for LightObject's constructor
+ * initializing an object's reference count to 1 (needed for proper
+ * initialization of process objects and data objects cycles).
  */
 #define itkNewMacro(x) \
 static Pointer New(void) \
 { \
-  x *ret = ::itk::ObjectFactory<x>::Create(); \
-  if(ret != NULL) \
+  Pointer smartPtr; \
+  x *rawPtr = ::itk::ObjectFactory<x>::Create(); \
+  if(rawPtr == NULL) \
     { \
-    return ret; \
+    rawPtr = new x; \
     } \
-  return new x; \
+  smartPtr = rawPtr; \
+  rawPtr->UnRegister(); \
+  return smartPtr; \
 }
 
 #define itkWarningMacro(x)

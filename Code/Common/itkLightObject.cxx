@@ -308,9 +308,11 @@ LightObject
 LightObject
 ::LightObject():
   /**
-   * initial ref count = 0 because smart pointer immediately increments it
+   * Initial ref count = 1 during construction.  After the object is assigned
+   * to a smart pointer, this extra initial reference count is removed.
+   * See itkNewMacro.
    */
-  m_ReferenceCount(0),
+  m_ReferenceCount(1),
   m_SubjectImplementation(0)
 {
 }
