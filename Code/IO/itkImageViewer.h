@@ -81,6 +81,9 @@ public:
   itkGetMacro( SliceNumber, unsigned int );
   itkGetMacro( Direction, unsigned int );
     
+  /** Set the label (title) for the window */
+  virtual void  SetLabel(const char *label );
+
   /** Callback member for Key pressed in the Window */
   void KeyPressedCallback();
 

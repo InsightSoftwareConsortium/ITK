@@ -52,6 +52,7 @@ public:
    virtual void SetBufferSize( int w, int h );
    virtual void SetWindowSize( int w, int h );
    virtual void SetWindowPosition( int x, int y );
+   virtual void SetWindowTitle( const char * title );
 
    /** This method initiates the event loop 
        enabling interaction with the GUI */

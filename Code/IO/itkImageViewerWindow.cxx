@@ -182,6 +182,17 @@ ImageViewerWindow
 
 
 
+void
+ImageViewerWindow
+::SetWindowTitle( const char * title )
+{
+  glutSetWindow( m_WindowID );
+  glutSetWindowTitle(title);
+}
+ 
+
+
+
 unsigned char 
 ImageViewerWindow
 ::GetLastKeyPressed() const

@@ -290,6 +290,18 @@ ImageViewer<TInputImage>
 
 
 /**
+ * Set the label/title to be displayed on the window header 
+ */
+template <class TInputImage>
+void 
+ImageViewer<TInputImage>
+::SetLabel(const char * label)
+{
+  m_Window->SetWindowTitle( label );
+}
+
+
+/**
  * Update() is an alias for Show(), it helps 
  * to keep a similar API with filters
  */
