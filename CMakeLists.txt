@@ -26,40 +26,17 @@ $(DL_LIBS) \
 
 BEGIN MAKE VERBATIM
 
-CompleteDashboard:
-	$(MAKE) StartDashboard
-	$(MAKE) DashboardUpdate
-	$(MAKE) DashboardBuild
-	$(MAKE) DashboardTest
-	$(MAKE) DashboardCoverage
-	$(MAKE) FinishDashboard
+NightyDashboardStart:
+	$(TCLSHCOMMAND) Testing/Utilities/DashboardManager.tcl Nightly Start
 
-StartDashboard:
-	$(MAKE) -C Testing/HTML/TestingResults/Dashboard StartDashboard
+NightyDashboardBuild:
+	$(TCLSHCOMMAND) Testing/Utilities/DashboardManager.tcl Nightly Build
 
-EndDashboard:
-	$(MAKE) -C Testing/HTML/TestingResults/Dashboard EndDashboard
-	
-DashboardUpdate:
-	$(MAKE) -C Testing/HTML/TestingResults/Dashboard DashboardUpdate
+NightyDashboardTest:
+	$(TCLSHCOMMAND) Testing/Utilities/DashboardManager.tcl Nightly Test
 
-Dashboard:
-	$(MAKE) -C Testing/HTML/TestingResults/Dashboard Dashboard
-
-RemakeDashboard:
-	$(MAKE) -C Testing/HTML/TestingResults/Dashboard RemakeDashboard
-
-DashboardBuild:
-	$(TCLSH) Testing/Utilities/Build.tcl
-
-DashboardTest:
-	$(TCLSH) Testing/Utilities/Test.tcl
-
-DashboardCoverage:
-	$(TCLSH) Testing/Utilities/Coverage.tcl
-
-DashboardSubmission:
-	$(TCLSH) Testing/Utilities/Submit.tcl
+NightyDashboardCoverage:
+	$(TCLSHCOMMAND) Testing/Utilities/DashboardManager.tcl Nightly Coverage
 
 END MAKE VERBATIM
 
