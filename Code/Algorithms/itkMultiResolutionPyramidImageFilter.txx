@@ -284,7 +284,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 
   unsigned int ilevel, idim;
   unsigned int factors[ImageDimension];
-  float        variance[ImageDimension];
+  double       variance[ImageDimension];
 
   for( ilevel = 0; ilevel < m_NumberOfLevels; ilevel++ )
     {

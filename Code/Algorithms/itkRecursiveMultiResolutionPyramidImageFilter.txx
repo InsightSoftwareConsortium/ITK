@@ -73,7 +73,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   int ilevel;
   unsigned int idim;
   unsigned int factors[ImageDimension];
-  float        variance[ImageDimension];
+  double       variance[ImageDimension];
   bool         allOnes;
   OutputImagePointer   outputPtr;
   OutputImagePointer swapPtr;
