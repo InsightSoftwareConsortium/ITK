@@ -91,7 +91,6 @@ vnl_svd<T>::vnl_svd(vnl_matrix<T> const& M, double zero_out_tol):
 
     for(int j = 0; j < mm; ++j)
       {
-      vcl_cout << "wspace = " << wspace(j) << vcl_endl;
       W_(j, j) = vcl_abs(wspace(j)); // we get rid of complexness here.
       }
       
