@@ -23,8 +23,8 @@ int testMetaScene(int , char * [])
   g1->FileName("MyFilename");
   g1->ID(2);
 
-  MetaGroup g2(g1);
-  g2.PrintInfo();
+//  MetaGroup g2(g1);
+//  g2.PrintInfo();
 
   e1->ParentID(2);
   e2->ParentID(2);
