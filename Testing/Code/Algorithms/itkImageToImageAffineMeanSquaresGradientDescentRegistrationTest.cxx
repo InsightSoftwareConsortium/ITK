@@ -119,7 +119,8 @@ int main()
     d += displacement;
     const double x = d[0];
     const double y = d[1];
-    ri.Set( 200.0 * exp( - ( x*x + y*y )/(s*s) ) );
+    const double value = 200.0 * exp( - ( x*x + y*y )/(s*s) );
+    ri.Set( static_cast<ReferenceType::PixelType>(value) );
     ++ri;
   }
 

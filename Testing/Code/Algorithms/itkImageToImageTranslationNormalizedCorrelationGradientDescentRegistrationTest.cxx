@@ -117,7 +117,8 @@ int main()
 	  d += displacement;
 	  const double x = d[0];
 	  const double y = d[1];
-    ri.Set( 200.0 * exp( - ( x*x + y*y )/(s*s) ) );
+    const double value = 200.0 * exp( - ( x*x + y*y )/(s*s) );
+    ri.Set( static_cast<ReferenceType::PixelType>( value ) );
     ++ri;
   }
 
@@ -126,10 +127,11 @@ int main()
   {
     p[0] = ti.GetIndex()[0];
     p[1] = ti.GetIndex()[1];
-	d = p-center;
-	const double x = d[0];
-	const double y = d[1];
-    ti.Set( 200.0 * exp( - ( x*x + y*y )/(s*s) ) );
+    d = p-center;
+    const double x = d[0];
+    const double y = d[1];
+    const double value = 200.0 * exp( - ( x*x + y*y )/(s*s) );
+    ti.Set( static_cast<ReferenceType::PixelType>( value ) );
     ++ti;
   }
 
