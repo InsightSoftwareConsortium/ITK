@@ -139,7 +139,7 @@ void WrapperFacility::InitializeForInterpreter()
   Tcl_CreateObjCommand(m_Interpreter, "wrap::Delete",
                        &DeleteCommandFunction, 0, 0);
   
-  Tcl_PkgProvide(m_Interpreter, "Wrap", "1.0");
+  Tcl_PkgProvide(m_Interpreter, "WrapTclFacility", "1.0");
 }
 
 

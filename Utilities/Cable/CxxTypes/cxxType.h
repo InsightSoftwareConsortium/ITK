@@ -71,7 +71,6 @@ public:
    * Retrieve what kind of Type this is.
    */
   virtual RepresentationType GetRepresentationType() const = 0;
-  virtual bool IsTypedefType() const;
   
   /*@{
    * Quick type representation test.

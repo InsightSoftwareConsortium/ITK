@@ -4,14 +4,14 @@ ${CABLE_SOURCE_DIR}/Generators
 )
 
 LINK_DIRECTORIES (
-${CABLE_BINARY_DIR}/CxxTypes/Static
+${CABLE_BINARY_DIR}/CxxTypes
 ${CABLE_BINARY_DIR}/Expat
 ${CABLE_BINARY_DIR}/Parsers
 ${CABLE_BINARY_DIR}/Generators
 )
 
 LINK_LIBRARIES(
-CxxTypesStatic
+CxxTypes
 Expat
 CableParsers
 CableGenerators
@@ -20,3 +20,6 @@ CableGenerators
 ADD_EXECUTABLE(cable cable)
 ADD_DEFINITIONS(-D_cxx_STATIC)
 
+IF (NOT CABLE_NO_INSTALL)
+  INSTALL_TARGETS(/share/Cable/bin cable)
+ENDIF (NOT CABLE_NO_INSTALL)

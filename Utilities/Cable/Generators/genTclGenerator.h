@@ -86,6 +86,10 @@ private:
   void GenerateNamespace(const configuration::Namespace*);
   void GenerateClassWrapper(const source::Class*, const configuration::Class*);
   bool ReturnsVoid(const source::Function*) const;
+  void WriteConverterRegistration(const String&, const MethodEntry&) const;
+  void WriteEnumValueRegistration() const;
+  void WriteMethodRegistration(const String&, const MethodEntry&,
+                               unsigned int) const;
   void WriteWrapperClassDefinition(const source::Class*, const Methods&,
                                    const configuration::Class*) const;
   void WriteImplicitArgument(const source::Class*, const source::Method*) const;
@@ -93,7 +97,8 @@ private:
   void WriteReturnBegin(const source::Function*) const;
   void WriteReturnEnd(const source::Function*) const;
   void WriteMethodComment(const String&, const MethodEntry&) const;
-  void WriteConversionIntitialization() const;
+  void WriteConversionInititialization() const;
+  void WriteReturnEnumClasses() const;
   void FindCvTypes(const configuration::Namespace*);
   void FindCvTypes(const source::Class*);
   void FindCvTypes(const source::Method*);
@@ -112,6 +117,12 @@ private:
 
   typedef std::set<const cxx::ClassType*> ClassesThatNeedDestructor;
   ClassesThatNeedDestructor m_ClassesThatNeedDestructor;
+
+  typedef std::set<const source::Enumeration*> EnumTypesThatNeedReturn;
+  EnumTypesThatNeedReturn m_EnumTypesThatNeedReturn;
+
+  typedef std::set<const source::Enumeration*> EnumTypesThatNeedValues;
+  EnumTypesThatNeedValues m_EnumTypesThatNeedValues;
 };
 
 } // namespace gen

@@ -110,6 +110,7 @@ private:
   MethodType::Pointer     CurrentMethodType();
   OffsetType::Pointer     CurrentOffsetType();
   ArrayType::Pointer      CurrentArrayType();
+  Enumeration::Pointer    CurrentEnumeration();
   
   // Element stack utilities.
   void PushElement(InternalObject* element);
@@ -147,6 +148,7 @@ private:
   void begin_OffsetType(const Attributes&);
   void begin_ArrayType(const Attributes&);
   void begin_EnumType(const Attributes&);
+  void begin_EnumValue(const Attributes&);
   void begin_QualifiedName(const Attributes&);
   void begin_NameQualifier(const Attributes&);
   void begin_BaseClass(const Attributes&);
@@ -192,6 +194,7 @@ private:
   void end_OffsetType();
   void end_ArrayType();
   void end_EnumType();
+  void end_EnumValue();
   void end_QualifiedName();
   void end_NameQualifier();
   void end_BaseClass();

@@ -1,0 +1,11 @@
+package ifneeded WrapTclFacility 1.0 {
+  if {$tcl_platform(platform) == "unix"} {
+      set libFile "${CABLE_INSTALL_PREFIX}/share/Cable/lib/libWrapTclFacility.so"
+    } \
+  else {
+    set libFile "${CABLE_INSTALL_PREFIX}/share/Cable/lib/WrapTclFacility.dll"
+    }
+  if {[catch { load $libFile } errorMessage ]} {
+    puts $errorMessage
+    }
+  }

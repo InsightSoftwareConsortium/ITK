@@ -1,4 +1,5 @@
 INCLUDE(${CMAKE_ROOT}/Modules/FindTCL.cmake)
+INCLUDE(${CABLE_SOURCE_DIR}/CxxTypes/CMakeLists_Sources.txt)
 
 INCLUDE_DIRECTORIES(
 ${TCL_INCLUDE_PATH}
@@ -6,16 +7,16 @@ ${CABLE_SOURCE_DIR}/WrapTclFacility
 )
 
 LINK_DIRECTORIES(
-${CABLE_BINARY_DIR}/CxxTypes/Shared
 ${CABLE_BINARY_DIR}/WrapTclFacility
 )
 
 LINK_LIBRARIES(
 ${TCL_LIBRARY}
-CxxTypes
 )
 
-ADD_LIBRARY(WrapTclFacility SHARED
+ADD_DEFINITIONS(-DCxxTypes_EXPORTS)
+
+ADD_LIBRARY(WrapTclFacility SHARED CxxTypes_SRCS
 wrapArgument
 wrapCalls
 wrapConstructor
@@ -34,7 +35,12 @@ wrapWrapperBase
 wrapWrapperFacility
 )
 
-ADD_EXECUTABLE(wrapTclShell wrapTclShell)
-
-TARGET_LINK_LIBRARIES(wrapTclShell WrapTclFacility)
-
+IF (NOT CABLE_NO_INSTALL)
+  INSTALL_FILES(/share/Cable/include ^wrap.*\\.h$)
+  INSTALL_FILES(/share/Cable/include ^wrap.*\\.txx$)
+  INSTALL_TARGETS(/share/Cable/lib WrapTclFacility)
+  SET (CABLE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
+  CONFIGURE_FILE(${CABLE_SOURCE_DIR}/WrapTclFacility/pkgIndex.tcl.in
+                 ${CABLE_BINARY_DIR}/WrapTclFacility/pkgIndex.tcl)
+  INSTALL_FILES(/share/Cable/lib "" pkgIndex.tcl)
+ENDIF (NOT CABLE_NO_INSTALL)

@@ -450,6 +450,22 @@ Parser
 
 
 /**
+ * Get the current type off the top of the stack as an Enumeration.
+ */
+Enumeration::Pointer
+Parser
+::CurrentEnumeration()
+{
+  TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
+  if((t != Enumeration_id))
+    throw ElementStackTypeException("Enumeration",
+                                    m_ElementStack.top()->GetNameOfClass());
+  
+  return dynamic_cast<Enumeration*>(m_ElementStack.top().RealPointer());
+}
+
+
+/**
  * Push a new element onto the element stack.
  */
 void
@@ -1360,6 +1376,28 @@ Parser
 
 
 /**
+ * Begin handler for EnumValue element.
+ */
+void
+Parser
+::begin_EnumValue(const Attributes& atts)
+{
+  String name = atts.Get("name");
+  
+  this->CurrentEnumeration()->AddValue(name);
+}
+
+/**
+ * End handler for EnumValue element.
+ */
+void
+Parser
+::end_EnumValue()
+{
+}
+
+
+/**
  * Begin handler for QualifiedName element.
  */
 void
@@ -1696,6 +1734,7 @@ Parser
   beginHandlers["OffsetType"]       = &Parser::begin_OffsetType;
   beginHandlers["ArrayType"]        = &Parser::begin_ArrayType;
   beginHandlers["EnumType"]         = &Parser::begin_EnumType;
+  beginHandlers["EnumValue"]        = &Parser::begin_EnumValue;
   beginHandlers["QualifiedName"]    = &Parser::begin_QualifiedName;
   beginHandlers["NameQualifier"]    = &Parser::begin_NameQualifier;
   beginHandlers["BaseClass"]        = &Parser::begin_BaseClass;
@@ -1740,6 +1779,7 @@ Parser
   endHandlers["OffsetType"]       = &Parser::end_OffsetType;
   endHandlers["ArrayType"]        = &Parser::end_ArrayType;
   endHandlers["EnumType"]         = &Parser::end_EnumType;
+  endHandlers["EnumValue"]        = &Parser::end_EnumValue;
   endHandlers["QualifiedName"]    = &Parser::end_QualifiedName;
   endHandlers["NameQualifier"]    = &Parser::end_NameQualifier;
   endHandlers["BaseClass"]        = &Parser::end_BaseClass;

@@ -116,4 +116,56 @@ void ReturnPointerTo<const char>::From(const char* result,
                    const_cast<char*>(result), -1);
 }
 
+void ReturnReferenceTo<const bool>::From(const bool& result, const WrapperBase* wrapper)
+{
+  int boolValue = result;
+  Tcl_SetBooleanObj(Tcl_GetObjResult(wrapper->GetInterpreter()),
+                    boolValue);
+}
+
+void ReturnReferenceTo<const short>::From(const short& result, const WrapperBase* wrapper)
+{
+  int intValue = result;
+  Tcl_SetIntObj(Tcl_GetObjResult(wrapper->GetInterpreter()), intValue);
+}
+
+void ReturnReferenceTo<const unsigned short>::From(const unsigned short& result, const WrapperBase* wrapper)
+{
+  int intValue = result;
+  Tcl_SetIntObj(Tcl_GetObjResult(wrapper->GetInterpreter()), intValue);
+}
+
+void ReturnReferenceTo<const int>::From(const int& result, const WrapperBase* wrapper)
+{
+  Tcl_SetIntObj(Tcl_GetObjResult(wrapper->GetInterpreter()), result);
+}
+
+void ReturnReferenceTo<const unsigned int>::From(const unsigned int& result, const WrapperBase* wrapper)
+{
+  int intValue = result;
+  Tcl_SetIntObj(Tcl_GetObjResult(wrapper->GetInterpreter()), intValue);
+}
+
+void ReturnReferenceTo<const long>::From(const long& result, const WrapperBase* wrapper)
+{
+  Tcl_SetLongObj(Tcl_GetObjResult(wrapper->GetInterpreter()), result);
+}
+
+void ReturnReferenceTo<const unsigned long>::From(const unsigned long& result, const WrapperBase* wrapper)
+{
+  long longValue = result;
+  Tcl_SetLongObj(Tcl_GetObjResult(wrapper->GetInterpreter()), longValue);
+}
+
+void ReturnReferenceTo<const float>::From(const float& result, const WrapperBase* wrapper)
+{
+  double doubleValue = result;
+  Tcl_SetDoubleObj(Tcl_GetObjResult(wrapper->GetInterpreter()), doubleValue);
+}  
+
+void ReturnReferenceTo<const double>::From(const double& result, const WrapperBase* wrapper)
+{
+  Tcl_SetDoubleObj(Tcl_GetObjResult(wrapper->GetInterpreter()), result);
+}
+
 } // namespace _wrap_

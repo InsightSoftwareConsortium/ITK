@@ -623,6 +623,11 @@ public:
   
   String GetQualifiedName() const;
   
+  typedef std::set<String> Values;
+  void AddValue(const String&);
+  Values::const_iterator ValuesBegin() const;
+  Values::const_iterator ValuesEnd() const;
+  
 protected:
   Enumeration(const String& name): Named(name) {}
   Enumeration(const Self&): Named("") {}
@@ -630,6 +635,7 @@ protected:
   virtual ~Enumeration() {}
 private:
   ContextPointer m_Context;
+  Values m_Values;
 };
 
 

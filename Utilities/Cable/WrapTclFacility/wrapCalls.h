@@ -69,6 +69,14 @@ namespace
  */
 template <class T>
 struct CvType;
+
+/**
+ * Every enumeration type that is returned from a method should have a
+ * specialization of this class the following member:
+ *   static void From(const T& result, const WrapperBase* wrapper);
+ */
+template <typename T>
+struct ReturnEnum;
 } // anonymous namespace
 
 /**
@@ -218,6 +226,49 @@ struct ReturnReferenceTo
                                  CvType<T>::type.GetType());
     }
 };
+
+
+/*@{
+ * A specialization for returning a reference to a const object that
+ * can be treated as a predefined Tcl object type.
+ */
+template <>
+struct ReturnReferenceTo<const bool>
+{ static _wrap_EXPORT void From(const bool& result, const WrapperBase* wrapper); };
+
+template <>
+struct  ReturnReferenceTo<const short>
+{ static _wrap_EXPORT void From(const short& result, const WrapperBase* wrapper); };
+
+template <>
+struct  ReturnReferenceTo<const unsigned short>
+{ static _wrap_EXPORT void From(const unsigned short& result, const WrapperBase* wrapper); };
+
+template <>
+struct  ReturnReferenceTo<const int>
+{ static _wrap_EXPORT void From(const int& result, const WrapperBase* wrapper); };
+
+template <>
+struct  ReturnReferenceTo<const unsigned int>
+{ static _wrap_EXPORT void From(const unsigned int& result, const WrapperBase* wrapper); };
+
+template <>
+struct  ReturnReferenceTo<const long>
+{ static _wrap_EXPORT void From(const long& result, const WrapperBase* wrapper); };
+
+template <>
+struct ReturnReferenceTo<const unsigned long>
+{ static _wrap_EXPORT void From(const unsigned long& result, const WrapperBase* wrapper); };
+
+template <>
+struct  ReturnReferenceTo<const float>
+{ static _wrap_EXPORT void From(const float& result, const WrapperBase* wrapper); };
+
+template <>
+struct  ReturnReferenceTo<const double>
+{ static _wrap_EXPORT void From(const double& result, const WrapperBase* wrapper); };
+//@}
+
 
 
 /**

@@ -41,14 +41,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "wrapWrapperFacility.h"
 
 // Make sure wrapper initialization function has external C-style linkage.
-extern "C" { _wrap_EXPORT int Wrap_Init(Tcl_Interp*); }
+extern "C" { _wrap_EXPORT int Wraptclfacility_Init(Tcl_Interp*); }
 
 /**
  * When the WrapTclFacilitator library is loaded by a Tcl interpreter,
  * this is called to initialize it.  This just passes the call to
  * TclWrapperFacility::InitializeInterpreter.
  */
-_wrap_EXPORT int Wrap_Init(Tcl_Interp* interp)
+_wrap_EXPORT int Wraptclfacility_Init(Tcl_Interp* interp)
 {
   _wrap_::WrapperFacility::GetForInterpreter(interp);
   return TCL_OK;

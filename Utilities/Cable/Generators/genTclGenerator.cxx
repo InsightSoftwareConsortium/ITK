@@ -127,6 +127,7 @@ void TclGenerator::GenerateWrappers()
   m_Output <<
     "\n";
   m_CvTypeGenerator.GenerateDataDeclarations(m_Output);
+  this->WriteReturnEnumClasses();
   m_Output <<
     "} // anonymous namespace\n"
     "} // namespace _wrap_\n"
@@ -152,7 +153,7 @@ void TclGenerator::GenerateWrappers()
     "  WrapperFacility* wrapperFacility = WrapperFacility::GetForInterpreter(interp);\n"
     "  ConversionTable* conversionTable = wrapperFacility->GetConversionTable();\n"
     "  InstanceTable* instanceTable = wrapperFacility->GetInstanceTable();\n";
-  this->WriteConversionIntitialization();
+  this->WriteConversionInititialization();
   m_Output <<
     "}\n"
     "} // anonymous namespace\n"
@@ -288,6 +289,7 @@ TclGenerator
   
   // Make a list of the methods in this class that will be wrapped.
   Methods methods;
+  Methods converters;
   for(source::MethodsIterator methodItr = c->GetMethods().begin();
       methodItr != c->GetMethods().end(); ++methodItr)
     {
@@ -316,6 +318,12 @@ TclGenerator
             m_ClassesThatNeedDestructor.insert(cxx::ClassType::SafeDownCast(cxxType.GetType()));
             }
           }
+        }
+      
+      // If the method is a converter, add it to a separate list.
+      if(method->IsConverter())
+        {
+        converters.push_back(MethodEntry(method, method->GetArgumentCount()));
         }
       
       // If there is a public destructor available, we want to register it.
@@ -461,88 +469,13 @@ TclGenerator
 
   for(unsigned int m = 0 ; m < methods.size() ; ++m)
     {
-    if(!methods[m]->GetArguments().empty())
-      {
-      m_Output <<
-        "  {\n"
-        "  Method::ParameterTypes parameterTypes;\n";
-      unsigned int count=0;
-      for(source::ArgumentsIterator a = methods[m]->GetArguments().begin();
-          ((count++ < methods[m].GetArgumentCount())
-           && (a != methods[m]->GetArguments().end())); ++a)
-        {
-        const source::Type* t = (*a)->GetType();
-        m_Output <<
-          "  parameterTypes.push_back(CvType< " << this->GetCxxType(t).GetName() << " >::type.GetType());\n";
-        }
-      }
-
-    m_Output <<
-      "  this->AddFunction(\n";
-    
-    if(methods[m]->IsMethod())
-      {
-      String returnTypeName = "void";
-      if(methods[m]->GetReturns() && methods[m]->GetReturns()->GetType())
-        {
-        returnTypeName = this->GetCxxType(methods[m]->GetReturns()->GetType()).GetName();
-        }
-      if(methods[m]->IsStatic())
-        {
-        m_Output <<
-          "    new StaticMethod(this, &Wrapper::StaticMethod_" << m << "_" << methods[m]->GetName() << ",\n"
-          "                     \"" << methods[m]->GetName() << "\", false,\n"
-          "                     CvType< " << returnTypeName.c_str() << " >::type";
-        }
-      else
-        {
-        m_Output <<
-          "    new Method(this, &Wrapper::Method_" << m << "_" << methods[m]->GetName() << ",\n"
-          "               \"" << methods[m]->GetName() << "\", " << (methods[m]->IsConst() ? "true":"false") << ", false,\n"
-          "               CvType< " << returnTypeName.c_str() << " >::type";
-        }
-      }
-    else if(methods[m]->IsOperatorMethod())
-      {
-      String returnTypeName = "void";
-      if(methods[m]->GetReturns() && methods[m]->GetReturns()->GetType())
-        {
-        returnTypeName = this->GetCxxType(methods[m]->GetReturns()->GetType()).GetName();
-        }
-      if(methods[m]->IsStatic())
-        {
-        m_Output <<
-          "    new StaticMethod(this, &Wrapper::StaticOperator_" << m << "_" << this->GetOperatorName(methods[m]->GetName()).c_str() << ",\n"
-          "                     \"" << methods[m]->GetName() << "\", true,\n"
-          "                     CvType< " << returnTypeName.c_str() << " >::type";
-        }
-      else
-        {
-        m_Output <<
-          "    new Method(this, &Wrapper::Operator_" << m << "_" << this->GetOperatorName(methods[m]->GetName()).c_str() << ",\n"
-          "               \"" << methods[m]->GetName() << "\", " << (methods[m]->IsConst() ? "true":"false") << ", true,\n"
-          "               CvType< " << returnTypeName.c_str() << " >::type";
-        }
-      }
-    else if(methods[m]->IsConstructor())
-      {
-      m_Output <<
-        "    new Constructor(this, &Wrapper::Constructor_" << m << ",\n"
-        "                    \"" << constructorName << "\"";
-      
-      }
-    
-    if(methods[m]->GetArguments().empty())
-      {
-      m_Output << "));\n";
-      }
-    else
-      {
-      m_Output << ",\n"
-        "      parameterTypes));\n"
-        "  }\n";
-      }
+      this->WriteMethodRegistration(constructorName, methods[m], m);
     }
+  for(unsigned int m = 0 ; m < converters.size() ; ++m)
+    {
+    this->WriteConverterRegistration(cName, converters[m]);
+    }
+  this->WriteEnumValueRegistration();
   
   m_Output <<
     "}\n"
@@ -566,6 +499,148 @@ bool TclGenerator::ReturnsVoid(const source::Function* f) const
       }
     }
   return false;
+}
+
+
+void
+TclGenerator
+::WriteConverterRegistration(const String& cName,
+                             const MethodEntry& method) const
+{
+  String sourceType = cName;
+  String returnTypeName = "void";
+  if(method->GetReturns() && method->GetReturns()->GetType())
+    {
+    returnTypeName = this->GetCxxType(method->GetReturns()->GetType()).GetName();
+    }
+  if(method->IsConst())
+    {
+    sourceType = "const "+sourceType;
+    }
+  m_Output <<
+    "  m_WrapperFacility->GetConversionTable()->SetConversion(\n"
+    "    CvType< " << sourceType.c_str() << " >::type,\n"
+    "    CvType< " << returnTypeName.c_str() << " >::type.GetType(),\n"
+    "    Converter::ConversionOperator< " << sourceType.c_str() << ", \n" <<
+    "                                   " << returnTypeName.c_str() << " >::GetConversionFunction());\n";
+}
+
+
+/**
+ * Write code that generates enumeration object instances for each
+ * value of the enumeration types used by the wrappers.
+ */
+void
+TclGenerator
+::WriteEnumValueRegistration() const
+{
+  for(EnumTypesThatNeedValues::const_iterator
+        e = m_EnumTypesThatNeedValues.begin();
+      e != m_EnumTypesThatNeedValues.end(); ++e)
+    {
+    const source::Enumeration* enumeration = *e;
+    String typeName = enumeration->GetQualifiedName();
+    String prefix = enumeration->GetContext()->GetQualifiedName();
+    for(source::Enumeration::Values::const_iterator
+          v = enumeration->ValuesBegin();
+        v != enumeration->ValuesEnd(); ++v)
+      {
+      String value = prefix+"::"+*v;
+      m_Output <<
+        "  m_WrapperFacility->GetInstanceTable()->SetObject(\n" <<
+        "    \"" << value.c_str() << "\", new " << typeName.c_str() << "(" << value.c_str() << "),\n"
+        "    CvType< " << typeName.c_str() << " >::type);\n";
+      }
+    }
+}
+
+
+void
+TclGenerator
+::WriteMethodRegistration(const String& constructorName,
+                          const MethodEntry& method, unsigned int m) const
+{
+  if(!method->GetArguments().empty())
+    {
+    m_Output <<
+      "  {\n"
+      "  Method::ParameterTypes parameterTypes;\n";
+    unsigned int count=0;
+    for(source::ArgumentsIterator a = method->GetArguments().begin();
+        ((count++ < method.GetArgumentCount())
+         && (a != method->GetArguments().end())); ++a)
+      {
+      const source::Type* t = (*a)->GetType();
+      m_Output <<
+        "  parameterTypes.push_back(CvType< " << this->GetCxxType(t).GetName() << " >::type.GetType());\n";
+      }
+    }
+  
+  m_Output <<
+    "  this->AddFunction(\n";
+  
+  if(method->IsMethod())
+    {
+    String returnTypeName = "void";
+    if(method->GetReturns() && method->GetReturns()->GetType())
+      {
+      returnTypeName = this->GetCxxType(method->GetReturns()->GetType()).GetName();
+      }
+    if(method->IsStatic())
+      {
+      m_Output <<
+        "    new StaticMethod(this, &Wrapper::StaticMethod_" << m << "_" << method->GetName() << ",\n"
+        "                     \"" << method->GetName() << "\", false,\n"
+        "                     CvType< " << returnTypeName.c_str() << " >::type";
+      }
+    else
+      {
+      m_Output <<
+        "    new Method(this, &Wrapper::Method_" << m << "_" << method->GetName() << ",\n"
+        "               \"" << method->GetName() << "\", " << (method->IsConst() ? "true":"false") << ", false,\n"
+        "               CvType< " << returnTypeName.c_str() << " >::type";
+      }
+    }
+  else if(method->IsOperatorMethod())
+    {
+    String returnTypeName = "void";
+    if(method->GetReturns() && method->GetReturns()->GetType())
+      {
+      returnTypeName = this->GetCxxType(method->GetReturns()->GetType()).GetName();
+      }
+    if(method->IsStatic())
+      {
+      m_Output <<
+        "    new StaticMethod(this, &Wrapper::StaticOperator_" << m << "_" << this->GetOperatorName(method->GetName()).c_str() << ",\n"
+        "                     \"" << method->GetName() << "\", true,\n"
+        "                     CvType< " << returnTypeName.c_str() << " >::type";
+      }
+    else
+      {
+      m_Output <<
+        "    new Method(this, &Wrapper::Operator_" << m << "_" << this->GetOperatorName(method->GetName()).c_str() << ",\n"
+        "               \"" << method->GetName() << "\", " << (method->IsConst() ? "true":"false") << ", true,\n"
+        "               CvType< " << returnTypeName.c_str() << " >::type";
+      }
+    }
+  else if(method->IsConstructor())
+    {
+    m_Output <<
+      "    new Constructor(this, &Wrapper::Constructor_" << m << ",\n"
+      "                    \"" << constructorName << "\"";
+    
+    }
+  
+  if(method->GetArguments().empty())
+    {
+    m_Output << "));\n";
+    }
+  else
+    {
+    m_Output << ",\n"
+      "      parameterTypes));\n"
+      "  }\n";
+    }
 }
 
 
@@ -693,24 +768,30 @@ void TclGenerator::WriteReturnBegin(const source::Function* f) const
   if(!this->ReturnsVoid(f))
     {
     const source::Type* t = f->GetReturns()->GetType();
-    if(t->IsPointerType())
+    const cxx::CvQualifiedType cvType = this->GetCxxType(t);
+    if(cvType.IsPointerType())
       {
-      const source::PointerType* pt = dynamic_cast<const source::PointerType*>(t);
-      t = pt->GetPointedToType();
+      const cxx::CvQualifiedType targetType =
+        cxx::PointerType::SafeDownCast(cvType.GetType())->GetPointedToType();
       m_Output <<
-        "  ReturnPointerTo< " << this->GetCxxType(t).GetName() << " >::From(\n";
+        "  ReturnPointerTo< " << targetType.GetName().c_str() << " >::From(\n";
       }
-    else if(t->IsReferenceType())
+    else if(cvType.IsReferenceType())
       {
-      const source::ReferenceType* rt = dynamic_cast<const source::ReferenceType*>(t);
-      t = rt->GetReferencedType();
+      const cxx::CvQualifiedType targetType =
+        cxx::ReferenceType::SafeDownCast(cvType.GetType())->GetReferencedType();
       m_Output <<
-        "  ReturnReferenceTo< " << this->GetCxxType(t).GetName() << " >::From(\n";
+        "  ReturnReferenceTo< " << targetType.GetName().c_str() << " >::From(\n";
+      }
+    else if(cvType.IsEnumerationType())
+      {
+      m_Output <<
+        "  ReturnEnum< " << cvType.GetName().c_str() << " >::From(\n";
       }
     else
       {
       m_Output <<
-        "  Return< " << this->GetCxxType(t).GetName() << " >::From(\n";
+        "  Return< " << cvType.GetName().c_str() << " >::From(\n";
       }
     }
 }
@@ -807,7 +888,7 @@ void TclGenerator::WriteMethodComment(const String& className,
 /**
  * Write out the code to register conversion functions for the wrappers.
  */
-void TclGenerator::WriteConversionIntitialization() const
+void TclGenerator::WriteConversionInititialization() const
 {
   for(ClassesForDerivedToBase::const_iterator c = m_ClassesForDerivedToBase.begin();
       c != m_ClassesForDerivedToBase.end(); ++c)
@@ -873,8 +954,59 @@ void TclGenerator::WriteConversionIntitialization() const
     const cxx::ClassType* curClass = *c;    
     m_Output <<
       "  instanceTable->SetDeleteFunction(CvType< " << curClass->Name().c_str() <<
-      " >::type.GetType(), &OldObjectOf< " << curClass->Name().c_str() <<
-      " >::Delete);\n";
+      " >::type.GetType(), &OldObjectOf< " << curClass->Name().c_str() << " >::Delete);\n";
+    }
+  for(EnumTypesThatNeedValues::const_iterator
+        e = m_EnumTypesThatNeedValues.begin();
+      e != m_EnumTypesThatNeedValues.end(); ++e)
+    {
+    const source::Enumeration* enumeration = *e;
+    String typeName = enumeration->GetQualifiedName();
+    m_Output <<
+      "  instanceTable->SetDeleteFunction(CvType< " << typeName.c_str() <<
+      " >::type.GetType(), &OldObjectOf< " << typeName.c_str() << " >::Delete);\n";
+    }
+}
+
+
+/**
+ * For all enumeration types that are returned from a method, write the
+ * corresponding ReturnEnum<T> class specialization code.
+ */
+void TclGenerator::WriteReturnEnumClasses() const
+{
+  for(EnumTypesThatNeedReturn::const_iterator
+        e = m_EnumTypesThatNeedReturn.begin();
+      e != m_EnumTypesThatNeedReturn.end(); ++e)
+    {
+    const source::Enumeration* enumeration = *e;
+    String typeName = enumeration->GetQualifiedName();
+    String prefix = enumeration->GetContext()->GetQualifiedName();
+    m_Output <<
+      "\n"
+      "template <>\n"
+      "struct ReturnEnum< "<< typeName.c_str() << " >\n"
+      "{\n"
+      "  static void From(const " << typeName.c_str() << "& result,\n"
+      "                   const WrapperBase* wrapper)\n"
+      "    {\n"
+      "    const char* name=0;\n"
+      "    switch (result)\n"
+      "      {\n";
+    for(source::Enumeration::Values::const_iterator
+          v = enumeration->ValuesBegin();
+        v != enumeration->ValuesEnd(); ++v)
+      {
+      String value = prefix+"::"+*v;
+      m_Output <<
+        "      case " << value.c_str() << ": name = \"" << value.c_str() << "\"; break;\n";
+      }
+    m_Output <<
+      "      }\n"
+      "    Tcl_SetStringObj(Tcl_GetObjResult(wrapper->GetInterpreter()),\n"
+      "                     const_cast<char*>(name), -1);\n"
+      "    }\n"
+      "};\n";    
     }
 }
 
@@ -924,7 +1056,8 @@ void TclGenerator::FindCvTypes(const source::Class* c)
       {
       if(method->IsMethod()
          || method->IsConstructor()
-         || method->IsOperatorMethod())
+         || method->IsOperatorMethod()
+         || method->IsConverter())
         {
         this->FindCvTypes(method);
         }
@@ -939,6 +1072,17 @@ void TclGenerator::FindCvTypes(const source::Method* method)
     // Add the return type of the method.
     cxx::CvQualifiedType returnType = this->GetCxxType(method->GetReturns()->GetType());
     m_CvTypeGenerator.Add(returnType);
+    
+    if(returnType.IsEnumerationType())
+      {
+      source::Named* result = m_GlobalNamespace->LookupName(returnType.GetType()->Name());
+      if(result && (result->GetTypeOfObject() == source::Enumeration_id))
+        {
+        source::Enumeration *e = dynamic_cast<source::Enumeration*>(result);
+        m_EnumTypesThatNeedReturn.insert(e);
+        m_EnumTypesThatNeedValues.insert(e);
+        }
+      }
     
     // If the return type is a class type or reference to class type,
     // we must also add the reference types to the class's superclasses so
@@ -976,7 +1120,34 @@ void TclGenerator::FindCvTypes(const source::Method* method)
   for(source::ArgumentsIterator a = method->GetArguments().begin();
       a != method->GetArguments().end(); ++a)
     {
-    m_CvTypeGenerator.Add(this->GetCxxType((*a)->GetType()));
+    cxx::CvQualifiedType argType = this->GetCxxType((*a)->GetType());
+    m_CvTypeGenerator.Add(argType);
+
+    // If the argument type is an enumeration type or a reference to
+    // const enumeration type, we want to make sure the enumeration
+    // value objects are provided.
+    if(argType.IsEnumerationType())
+      {
+      source::Named* result = m_GlobalNamespace->LookupName(argType.GetType()->Name());
+      if(result && (result->GetTypeOfObject() == source::Enumeration_id))
+        {
+        source::Enumeration *e = dynamic_cast<source::Enumeration*>(result);
+        m_EnumTypesThatNeedValues.insert(e);
+        }
+      }
+    else if(argType.IsReferenceType())
+      {
+      argType = cxx::ReferenceType::SafeDownCast(argType.GetType())->GetReferencedType();
+      if(argType.IsEnumerationType() && argType.IsConst())
+        {
+        source::Named* result = m_GlobalNamespace->LookupName(argType.GetType()->Name());
+        if(result && (result->GetTypeOfObject() == source::Enumeration_id))
+          {
+          source::Enumeration *e = dynamic_cast<source::Enumeration*>(result);
+          m_EnumTypesThatNeedValues.insert(e);
+          }
+        }
+      }
     }
 }
 

@@ -611,6 +611,35 @@ Enumeration
 }
 
 
+/**
+ * Add an enumeration value to the set of possible values.
+ */
+void Enumeration::AddValue(const String& name)
+{
+  m_Values.insert(name);
+}
+
+
+/**
+ * Get a begin iterator to the set of possible enumeration values.
+ */
+Enumeration::Values::const_iterator
+Enumeration::ValuesBegin() const
+{
+  return m_Values.begin();
+}
+
+
+/**
+ * Get an end iterator to the set of possible enumeration values.
+ */
+Enumeration::Values::const_iterator
+Enumeration::ValuesEnd() const
+{
+  return m_Values.end();
+}
+
+
 cxx::CvQualifiedType NamedType::GetCxxType(const Namespace* gns) const
 {
   // Try looking up the name as a class type.
