@@ -102,37 +102,55 @@ public:
  * Find function for for non-const objects
  */
 template<class T>
-typename FEMPArray<T>::ClassTypePointer FEMPArray<T>::Find(int gn)
+typename FEMPArray<T>::ClassTypePointer 
+FEMPArray<T>::Find(int gn)
 {
 
-  typename Superclass::iterator i;
-
+  /** First verify bounds */
+  if( gn < 0 || gn >= (int)this->size() )
+    {
+    throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"FEMPArray::Find() const",typeid(T).name(),gn);
+    }
+      
   /**
-   * First take a guess. This only works on sorted
+   * Then take a guess. This only works on sorted
    * arrays and is much faster than searching.
    */
-  if( gn<0 ||
-      gn>=(int)size() ||
-      ( *( i=static_cast<typename Superclass::iterator>(&this->operator[](gn)) ) )->GN!=gn )
-  {
-    /** 
-     * The array is not sorted, we need to search for the correct GN.
-     */
-    for(i=begin(); i!=end() && (*i)->GN!=gn; i++);
+  typedef typename Superclass::value_type     ValueType;
+  const ValueType & value = this->operator[](gn);
 
+  if( value->GN == gn )
+    {
+    return &(*(value));
+    }
+      
+  /** 
+   * The array is not sorted, we need to search for the correct GN.
+   */
+  typedef typename Superclass::iterator Iterator;
+  Iterator it   = this->begin(); 
+  Iterator iend = this->end();
+  while( it != iend )
+    {
+    if( (*it)->GN == gn )
+      {
+      break;
+      }
+    it++;
+    }  
+
+  if( it == this->end() )
+    {
     /**
      * We din't find an object with that GN...
      */
-    if(i==end())
-    {
-      throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"FEMPArray::Find()",typeid(T).name(),gn);
+    throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"FEMPArray::Find() const",typeid(T).name(),gn);
     }
-  }
 
   /**
    * Return a pointer to the found object.
    */
-  return &(*(*i));
+  return &(*(*it));
 
 }
 
@@ -143,37 +161,54 @@ typename FEMPArray<T>::ClassTypePointer FEMPArray<T>::Find(int gn)
  * Find function for for const objects
  */
 template<class T>
-typename FEMPArray<T>::ClassTypeConstPointer FEMPArray<T>::Find(int gn) const
+typename FEMPArray<T>::ClassTypeConstPointer 
+FEMPArray<T>::Find( int gn ) const
 {
 
-  typedef typename Superclass::const_iterator ConstIterator;
+  /** First verify bounds */
+  if( gn < 0 || gn >= (int)this->size() )
+    {
+    throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"FEMPArray::Find() const",typeid(T).name(),gn);
+    }
+      
+  /**
+   * Then take a guess. This only works on sorted
+   * arrays and is much faster than searching.
+   */
   typedef typename Superclass::value_type     ValueType;
-
   const ValueType & value = this->operator[](gn);
 
-  ConstIterator it   = this->begin(); 
-
-  if( gn <   0 ||
-      gn >= (int)size() ||
-      value->GN != gn )
+  if( value->GN == gn )
     {
-    ConstIterator iend = this->end();
-    while( it != iend )
+    return &(*(value));
+    }
+      
+  /** 
+   * The array is not sorted, we need to search for the correct GN.
+   */
+  typedef typename Superclass::const_iterator ConstIterator;
+  ConstIterator it   = this->begin(); 
+  ConstIterator iend = this->end();
+  while( it != iend )
+    {
+    if( (*it)->GN == gn )
       {
-      if( (*it)->GN == gn )
-        {
-        break;
-        }
-      it++;
-      }  
-
-    if( it == this->end() )
-      {
-      throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"FEMPArray::Find() const",typeid(T).name(),gn);
+      break;
       }
+    it++;
+    }  
 
+  if( it == this->end() )
+    {
+    /**
+     * We din't find an object with that GN...
+     */
+    throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"FEMPArray::Find() const",typeid(T).name(),gn);
     }
 
+  /**
+   * Return a pointer to the found object.
+   */
   return &(*(*it));
 
 }
