@@ -246,7 +246,7 @@ bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname
   char buffer[80] = {'\0'};
   Float fbuf = 0.0;
   unsigned int ibuf = 0;
-  unsigned int jj=0;
+  unsigned int jj;
 
   std::cout << "Reading config file..." << fname << std::endl;
   f.open(fname);
@@ -646,11 +646,11 @@ void FEMRegistrationFilter<TReference,TTarget>::ApplyLoads(SolverType& mySolver,
   }*/
   
   //Pin  one corner of image  
-  unsigned int CornerCounter=0,ii=0,EdgeCounter=0;
+  unsigned int CornerCounter,ii,EdgeCounter=0;
   Node::ArrayType* nodes = &(mySolver.node);
   Element::VectorType coord;
   Node::ArrayType::iterator node=nodes->begin();
-  bool EdgeFound=false;
+  bool EdgeFound;
   bool EdgeBool[ImageDimension];
   while(   node!=nodes->end() && EdgeCounter < ImageDimension ) 
   {
@@ -665,7 +665,7 @@ void FEMRegistrationFilter<TReference,TTarget>::ApplyLoads(SolverType& mySolver,
     {
       unsigned int ndofpernode=(*((*node)->m_elements.begin()))->GetNumberOfDegreesOfFreedomPerNode();
       unsigned int numnodesperelt=(*((*node)->m_elements.begin()))->GetNumberOfNodes();
-      unsigned int whichnode=0;
+      unsigned int whichnode;
      
       unsigned int maxnode=numnodesperelt-1;
       typedef typename Node::SetOfElements NodeEltSetType;
@@ -764,7 +764,7 @@ template<class TReference,class TTarget>
 void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySolver)
 {
   m_MinE=10.e99;
-  Float LastE=9.e99 , deltE=1.e99;
+  Float LastE , deltE;
 
   unsigned int iters=0;
   bool Done=false;
@@ -1114,7 +1114,7 @@ void FEMRegistrationFilter<TReference,TTarget>::SampleVectorFieldAtNodes(SolverT
   std::cout << " upsampling vector field " << std::endl;
   // Here, we need to iterate through the nodes, get the nodal coordinates,
   // sample the VF at the node and place the values in the SolutionVector.
-  unsigned int ii=0;
+  unsigned int ii;
   Node::ArrayType* nodes = &(mySolver.node);
   Element::VectorType coord;  
   VectorType SolutionAtNode;
@@ -1338,19 +1338,19 @@ void FEMRegistrationFilter<TReference,TTarget>::FindBracketingTriplet(SolverType
   Float Glimit=100.0;
   Float Tiny=1.e-20;
   
-  Float ax=0.1, bx=1.0,cx=1.1;
-  ax=0.0; bx=1.; cx=2.0;
+  Float ax, bx, cx;
+  ax=0.0; bx=1.; cx;
   Float fc=0.0;
   Float fa=fabs(EvaluateResidual(mySolver, ax));
   Float fb=fabs(EvaluateResidual(mySolver, bx));
   
-  Float ulim=1.0,u=1.0,r=1.0,q=1.0,fu=1.0,dum=1.0;
+  Float ulim,u,r,q,fu,dum;
 
   if ( fb > fa ) 
-  {
-     dum=ax; ax=bx; bx=dum;
-     dum=fb; fb=fa; fa=dum;
-  }
+    {
+    dum=ax; ax=bx; bx=dum;
+    dum=fb; fb=fa; fa=dum;
+    }
 
   cx=bx+Gold*(bx-ax);  // first guess for c - the 3rd pt needed to bracket the min
   fc=fabs(EvaluateResidual(mySolver, cx));
@@ -1364,49 +1364,54 @@ void FEMRegistrationFilter<TReference,TTarget>::FindBracketingTriplet(SolverType
     u=(bx)-((bx-cx)*q-(bx-ax)*r)/denom;
     ulim=bx + Glimit*(cx-bx);
     if ((bx-u)*(u-cx) > 0.0)
-    {
+      {
       fu=fabs(EvaluateResidual(mySolver, u));
       if (fu < fc)
-      {
+        {
         ax=bx;
         bx=u;
-        fa=fb;
-        fb=fu;
         *a=ax; *b=bx; *c=cx;
-    return;
-      } else if (fu > fb) {
+        return;
+        }
+      else if (fu > fb)
+        {
         cx=u;
-        fc=fu;
-    *a=ax; *b=bx; *c=cx;
-    return;
-      }
+        *a=ax; *b=bx; *c=cx;
+        return;
+        }
       
         u=cx+Gold*(cx-bx);
         fu=fabs(EvaluateResidual(mySolver, u));
       
-    } else if ( (cx-u)*(u-ulim) > 0.0) {
+      }
+    else if ( (cx-u)*(u-ulim) > 0.0)
+      {
       fu=fabs(EvaluateResidual(mySolver, u));
       if (fu < fc)
-      {
+        {
         bx=cx; cx=u; u=cx+Gold*(cx-bx);
         fb=fc; fc=fu; fu=fabs(EvaluateResidual(mySolver, u));
-      }
+        }
 
-    } else if ( (u-ulim)*(ulim-cx) >= 0.0) {
+      }
+    else if ( (u-ulim)*(ulim-cx) >= 0.0)
+      {
       u=ulim;
       fu=fabs(EvaluateResidual(mySolver, u));
-    } else {
+      }
+    else
+      {
       u=cx+Gold*(cx-bx);
       fu=fabs(EvaluateResidual(mySolver, u));
-    }
+      }
     
-      ax=bx; bx=cx; cx=u;
-      fa=fb; fb=fc; fc=fu;
+    ax=bx; bx=cx; cx=u;
+    fa=fb; fb=fc; fc=fu;
 
   }
 
   if ( fabs(ax) > 1.e3  || fabs(bx) > 1.e3 || fabs(cx) > 1.e3)
-  { ax=-2.0;  bx=1.0;  cx=2.0; } // to avoid crazy numbers caused by bad bracket (u goes nuts)
+    {ax=-2.0;  bx=1.0;  cx=2.0; } // to avoid crazy numbers caused by bad bracket (u goes nuts)
   
   *a=ax; *b=bx; *c=cx;
 }
@@ -1422,9 +1427,9 @@ Element::Float FEMRegistrationFilter<TReference,TTarget>::GoldenSection(SolverTy
 
 
   FindBracketingTriplet(mySolver,&ax, &bx, &cx);
-  Float xmin=1.0,fmin=1.0;
+  Float xmin,fmin;
   //if (fb!=0.0)
-  Float f1=1.0,f2=1.0,x0=1.0,x1=1.0,x2=1.0,x3=1.0;
+  Float f1,f2,x0,x1,x2,x3;
 
   Float R=0.6180339;
   Float C=(1.0-R);
