@@ -104,7 +104,7 @@ int main(int argc, char ** argv)
   // Software Guide : BeginLatex
   //
   // This filter requires the user to specify the size of the image to be
-  // produced as output.  The methods \code(SetRegion()} is used to this end.
+  // produced as output.  The methods \code{SetRegion()} is used to this end.
   // The image size should match exactly the number of pixels available in the
   // locally allocated buffer. 
   //
@@ -216,16 +216,7 @@ int main(int argc, char ** argv)
         {
         const double dx = static_cast<double>( x ) - size[0]/2.0;
         const double d2 = dx*dx + dy*dy + dz*dz;
-
-        if( d2 < radius2 )
-          {
-          *it++ = 255;
-          }
-        else 
-          {
-          *it++ =   0;
-          }  
-
+        *it++ = ( d2 < radius2 ) ? 255 : 0;
         }
       }
     }
@@ -290,10 +281,9 @@ int main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  \textbf{Alert !}, note that we do not call \code{delete} on the buffer
-  //  since we pass \code{false} to the last argument of
-  //  \code{SetImportPointer()}. Now the buffer is owned by the
-  //  \code{ImportImageFilter}. 
+  //  Note that we do not call \code{delete} on the buffer since we pass
+  //  \code{false} to the last argument of \code{SetImportPointer()}. Now the
+  //  buffer is owned by the \code{ImportImageFilter}. 
   //
   //  Software Guide : EndLatex 
 
