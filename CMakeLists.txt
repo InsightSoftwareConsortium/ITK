@@ -7,7 +7,6 @@ IF(NOT WIN32)
   OPTION(BUILD_SHARED_LIBS "Build with shared libraries." OFF)
 ENDIF(NOT WIN32)
 
-
 SOURCE_GROUP("XML Files" "[.]xml$")
 
 # Include the include and link libraries
@@ -88,7 +87,3 @@ IF(ITK_WRAP_TCL)
   SUBDIRS(Wrapping)
   SUBDIR_DEPENDS(Wrapping Code)
 ENDIF(ITK_WRAP_TCL)
-
-IF(CMAKE_USE_PTHREADS)
-    ADD_DEFINITIONS(-D_PTHREADS)
-ENDIF(CMAKE_USE_PTHREADS)
