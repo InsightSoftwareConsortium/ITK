@@ -134,7 +134,7 @@ StreamingImageFilter<TInputImage,TOutputImage>
       }
     }
  
-  this->InvokeEvent(Command::StartEvent);
+  this->InvokeEvent( StartEvent() );
 
   /**
    * Allocate the output buffer. 
@@ -209,7 +209,7 @@ StreamingImageFilter<TInputImage,TOutputImage>
     }
 
   // Notify end event observers
-  this->InvokeEvent(Command::EndEvent);
+  this->InvokeEvent( EndEvent() );
 
   /**
    * Now we have to mark the data as up to data.

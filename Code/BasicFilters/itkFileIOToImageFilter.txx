@@ -94,7 +94,7 @@ template <class TOutputImage>
 void FileIOToImageFilter<TOutputImage>::GenerateData()
 {
 
-  this->InvokeEvent( Command::StartEvent );
+  this->InvokeEvent( StartEvent() );
 
   typename TOutputImage::Pointer m_OutputImage = this->GetOutput();
   Size dimSize;
@@ -150,7 +150,7 @@ void FileIOToImageFilter<TOutputImage>::GenerateData()
     visitCounter++;
     }
   
-  this->InvokeEvent( Command::EndEvent );
+  this->InvokeEvent( EndEvent() );
   
 }
 

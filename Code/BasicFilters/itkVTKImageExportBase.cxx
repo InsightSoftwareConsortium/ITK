@@ -178,13 +178,13 @@ void VTKImageExportBase::UpdateDataCallback()
   DataObjectPointer input = this->GetInput(0);
   
   // Notify start event observers
-  this->InvokeEvent(Command::StartEvent);
+  this->InvokeEvent( StartEvent() );
 
   // Make sure input is up to date.
   input->Update();
   
   // Notify end event observers
-  this->InvokeEvent(Command::EndEvent);
+  this->InvokeEvent( EndEvent() );
 }
 
 //----------------------------------------------------------------------------

@@ -77,13 +77,13 @@ Writer
     }
 
   // Notify start event observers
-  this->InvokeEvent(Command::StartEvent);
+  this->InvokeEvent( StartEvent() );
 
   // Actually do something
   this->WriteData();
   
   // Notify end event observers
-  this->InvokeEvent(Command::EndEvent);
+  this->InvokeEvent( EndEvent() );
 
   // Release upstream data if requested
   if ( this->GetInput(0)->ShouldIReleaseData() )
