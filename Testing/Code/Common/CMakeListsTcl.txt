@@ -24,9 +24,9 @@ CABLE_CLASS_SET(EllipsoidFunc
 CABLE_CLASS_SET(Params "itk::Point<$Float, $Dimension>")
 CABLE_CLASS_SET(Jacobian "itk::Matrix<$Float, 3, 3>")
 
-ADD_LIBRARY(ITKCommonTestTcl)
+ADD_LIBRARY(ITKCommonTestTcl1)
 
-CABLE_WRAP_TCL(ITKCommonTestTcl
+CABLE_WRAP_TCL(ITKCommonTestTcl1
   "itk::AcosImageAdaptor<$Image, $Double>"
   "itk::AffineTransform<>"
   "itk::Array<$Float, $Dimension>"
@@ -52,6 +52,11 @@ CABLE_WRAP_TCL(ITKCommonTestTcl
   "itk::CellInterfaceVisitor<$Float, $(Mesh)::CellTraits>"
   "itk::CentralDifferenceImageFunction<$Image>"
   "itk::ColorTable<$Float>"
+)
+
+ADD_LIBRARY(ITKCommonTestTcl2)
+
+CABLE_WRAP_TCL(ITKCommonTestTcl2
   "itk::Command"
   "itk::ConditionalIterator<$Image>"
   "itk::ConicShellInteriorExteriorSpatialFunction<>"
@@ -77,6 +82,11 @@ CABLE_WRAP_TCL(ITKCommonTestTcl
   "itk::EventObject"
   "itk::ExceptionObject"
   "itk::ExpImageAdaptor<$Image, $Double>"
+)
+
+ADD_LIBRARY(ITKCommonTestTcl3)
+
+CABLE_WRAP_TCL(ITKCommonTestTcl3
   "itk::FastMutexLock"
   "itk::FileOutputWindow"
   "itk::FiniteDifferenceFunction<$Image>"
@@ -102,6 +112,11 @@ CABLE_WRAP_TCL(ITKCommonTestTcl
   "itk::ImageLinearIteratorWithIndex<$Image>"
   "itk::ImageRegionConstIteratorWithIndex<$Image>"
   "itk::ImageRegionIterator<$Image>"
+)
+
+ADD_LIBRARY(ITKCommonTestTcl4)
+
+CABLE_WRAP_TCL(ITKCommonTestTcl4
   "itk::ImageRegionIteratorWithIndex<$Image>"
   "itk::ImageRegionMultidimensionalSplitter<$Dimension>"
   "itk::ImageRegionReverseIterator<$Image>"
@@ -133,74 +148,33 @@ CABLE_WRAP_TCL(ITKCommonTestTcl
   "itk::MeshToMeshFilter<$Mesh, $Mesh>"
   "itk::MultiThreader"
   "itk::MutexLock"
-  "itk::NearestNeighborInterpolateImageFunction<$Image>"
-  "itk::Neighborhood<$Float>"
-  "itk::NeighborhoodAllocator<$Float>"
-  "itk::NeighborhoodInnerProduct<$Image>"
-  "itk::NeighborhoodIterator<$Image>"
-  "itk::NeighborhoodOperator<$Float, $Dimension>"
-  "itk::NthElementImageAdaptor<$Image, $Double>"
-  "itk::NthElementPixelAccessor<$Float, $VecPix>"
-  "itk::Object"
-  "itk::ObjectFactory<$Image>"
-  "itk::ObjectFactoryBase"
-  "itk::Offset<>"
-  "itk::OutputWindow"
-  "itk::PixelAccessor<$Float, $ULong>"
-  "itk::Point<$Float>"
-  "itk::PointLocator<>"
-  "itk::PointSet<$Float>"
-  "itk::PolygonCell<$Float, $(Mesh)::CellTraits>"
-  "itk::ProcessObject"
-  "itk::QuadrilateralCell<$Float, $(Mesh)::CellTraits>"
-  "itk::QuaternionRigidTransform<>"
-  "itk::RGBAPixel<>"
-  "itk::RGBPixel<>"
-  "itk::RandomAccessNeighborhoodIterator<$Image>"
-  "itk::Region"
-  "itk::Rigid3DPerspectiveTransform<>"
-  "itk::Rigid3DTransform<>"
-  "itk::ScalarVector<$Float, $Float>"
-  "itk::ScaleTransform<>"
-  "itk::SimpleFastMutexLock"
-  "itk::SimpleImageRegionConstIterator<$Image>"
-  "itk::SimpleImageRegionIterator<$Image>"
-  "itk::SinImageAdaptor<$Image, $Double>"
-  "itk::SliceIterator<$Float, $Container>"
-  "itk::SmartNeighborhoodIterator<$Image>"
-  "itk::SmartPointer<$Image>"
-  "itk::SmartPointerForwardReference<$Image>"
-  "itk::SobelOperator<$Float>"
-  "itk::SpatialFunction<$Float>"
-  "itk::SphereSpatialFunction<>"
-  "itk::SqrtImageAdaptor<$Image, $Double>"
-  "itk::SymmetricEllipsoidInteriorExteriorSpatialFunction<$Float>"
-  "itk::TanImageAdaptor<$Image, $Double>"
-  "itk::TetrahedronCell<$Float, $(Mesh)::CellTraits>"
-  "itk::ThinPlateSplineKernelTransform<$Float>"
-  "itk::TimeStamp"
-  "itk::Transform<$Float, $Dimension, $Dimension, $Params, $Jacobian>"
-  "itk::TranslationTransform<>"
-  "itk::TriangleCell<$Float, $(Mesh)::CellTraits>"
-  "itk::UpwindDerivativeImageFunction<$Image>"
-  "itk::ValarrayImageContainer<$ULong, $Float>"
-  "itk::Vector<$Float>"
-  "itk::VectorContainer<$ULong, $Float>"
-  "itk::VectorInterpolateImageFunction<$VecImage>"
-  "itk::VectorLinearInterpolateImageFunction<$VecImage>"
-  "itk::VectorNeighborhoodInnerProduct<$VecImage>"
-  "itk::Version"
-  "itk::Versor<$Float>"
-  "itk::VersorRigid3DTransform<>"
-  "itk::VersorTransform<>"
-  "itk::VertexCell<$Float, $(Mesh)::CellTraits>"
-  "itk::WeakPointer<$Image>"
-  "itk::ZeroFluxNeumannBoundaryCondition<$Image>"
 )
 
-TARGET_LINK_LIBRARIES(ITKCommonTestTcl
+TARGET_LINK_LIBRARIES(ITKCommonTestTcl1
 ITKCommon
 VXLNumerics
 ${CABLE_TCL_LIBRARY}
 ${TCL_LIBRARY}
 )
+
+TARGET_LINK_LIBRARIES(ITKCommonTestTcl2
+ITKCommon
+VXLNumerics
+${CABLE_TCL_LIBRARY}
+${TCL_LIBRARY}
+)
+
+TARGET_LINK_LIBRARIES(ITKCommonTestTcl3
+ITKCommon
+VXLNumerics
+${CABLE_TCL_LIBRARY}
+${TCL_LIBRARY}
+)
+
+TARGET_LINK_LIBRARIES(ITKCommonTestTcl4
+ITKCommon
+VXLNumerics
+${CABLE_TCL_LIBRARY}
+${TCL_LIBRARY}
+)
+
