@@ -18,6 +18,7 @@ MetaObject(void)
   {
   m_NDims = 0;
   this->ClearFields();
+  this->ClearUserFields();
   MetaObject::Clear();
   m_ReadStream = NULL;
   m_WriteStream = NULL;
@@ -29,6 +30,7 @@ MetaObject(const char * _fileName)
   {
   m_NDims = 0;
   this->ClearFields();
+  this->ClearUserFields();
   MetaObject::Clear();
   m_ReadStream = NULL;
   m_WriteStream = NULL;
@@ -40,6 +42,7 @@ MetaObject(unsigned int dim)
   {
   m_NDims = 0;
   this->ClearFields();
+  this->ClearUserFields();
   MetaObject::Clear();
   m_ReadStream = NULL;
   m_WriteStream = NULL;
@@ -53,23 +56,14 @@ MetaObject::
   M_Destroy();
   delete m_ReadStream;
   delete m_WriteStream;
-
-  // clear the pointer in the m_Fields list
-  std::vector<MET_FieldRecordType *>::iterator it = m_Fields.begin();
-  while(it != m_Fields.end())
-  {
-    MET_FieldRecordType* field = *it;
-    it++;
-    delete field;
-  }
   
-  m_Fields.clear();
+  this->ClearFields();
   this->ClearUserFields();
 }
 
 
 //
-//
+// Clear Fields only, if the pointer is in the UserField list it is not deleted.
 void MetaObject::
 ClearFields()
 {
@@ -81,12 +75,92 @@ ClearFields()
     {
     MET_FieldRecordType* field = *it;
     it++;
-    delete field;
-    field = NULL;
+    
+    // Check if the pointer is not in one of the user's list
+    bool exists = false;
+    FieldsContainerType::iterator  it2  = m_UserDefinedWriteFields.begin();
+    FieldsContainerType::iterator  end2 = m_UserDefinedWriteFields.end();
+    while( it2 != end2 )
+    {
+      if(*it2 == field)
+        {
+        exists = true;
+        break;
+        }
+      it2++;
+    }
+
+    if(!exists)
+      {
+      FieldsContainerType::iterator  it2  = m_UserDefinedReadFields.begin();
+      FieldsContainerType::iterator  end2 = m_UserDefinedReadFields.end();
+      while( it2 != end2 )
+      {
+        if(*it2 == field)
+          {
+          exists = true;
+          break;
+          }
+        it2++;
+      }
+    }
+    
+    if(!exists)
+      {
+      delete field;
+      }
     }
   m_Fields.clear();
 }
 
+
+// Clear UserFields
+void MetaObject
+::ClearUserFields()
+{
+  // Clear write field
+  FieldsContainerType::iterator  it  = m_UserDefinedWriteFields.begin();
+  FieldsContainerType::iterator  end = m_UserDefinedWriteFields.end();
+  while( it != end )
+  {
+    MET_FieldRecordType* field = *it;
+    it++;
+    delete field;
+  }
+   
+
+  // Clear read field
+  it  = m_UserDefinedReadFields.begin();
+  end = m_UserDefinedReadFields.end();
+  while( it != end )
+  {
+    MET_FieldRecordType* field = *it;
+    
+    // check if the pointer has not been deleted yet
+    bool deleted = false;
+    FieldsContainerType::iterator  it2  = m_UserDefinedWriteFields.begin();
+    FieldsContainerType::iterator  end2 = m_UserDefinedWriteFields.end();
+    while( it2 != end2 )
+      {
+      if(*it2 == *it)
+        {
+        deleted = true;  
+        break;
+        }
+      it2++; 
+      }
+    
+    it++;
+
+    if(!deleted)
+      {
+      delete field;
+      }
+  }
+
+  m_UserDefinedWriteFields.clear();
+  m_UserDefinedReadFields.clear();
+}
  
 //
 //
@@ -808,7 +882,7 @@ Clear(void)
     m_ElementSpacing[i] = 1;
     m_AnatomicalOrientation[i] = MET_ORIENTATION_UNKNOWN;
     }
-
+/*
   std::vector<MET_FieldRecordType *>::iterator fieldIter;
   for(fieldIter=m_Fields.begin(); fieldIter!=m_Fields.end(); fieldIter++)
     {
@@ -818,7 +892,8 @@ Clear(void)
     field = NULL;
     if(META_DEBUG) std::cout << " has been deleted." << std::endl;
     }
-  m_Fields.clear();
+  m_Fields.clear();*/
+  this->ClearFields();
   }
 
 bool MetaObject::
@@ -1173,7 +1248,7 @@ M_SetupWriteFields(void)
    FieldsContainerType::iterator  end = m_UserDefinedWriteFields.end();
    while( it != end )
    {
-     std::cout << "Adding " << (*it)->name << std::endl;
+     //std::cout << "Adding " << (*it)->name << std::endl;
      m_Fields.push_back(*it); 
      it++;
    }
@@ -1427,35 +1502,6 @@ bool MetaObject
 }
 
 
-// Clear UserFields
-void MetaObject
-::ClearUserFields()
-{   
-  // Clear write field
-  FieldsContainerType::iterator  it  = m_UserDefinedWriteFields.begin();
-  FieldsContainerType::iterator  end = m_UserDefinedWriteFields.end();
-  while( it != end )
-  {
-    MET_FieldRecordType* field = *it;
-    it++;
-    delete field;
-    field = NULL;
-  }
-   
-  m_UserDefinedWriteFields.clear();
-
-  // Clear read field
-  it  = m_UserDefinedReadFields.begin();
-  end = m_UserDefinedReadFields.end();
-  while( it != end )
-  {
-    MET_FieldRecordType* field = *it;
-    it++;
-    delete field;
-    field = NULL;
-  }
-  m_UserDefinedReadFields.clear();
-}
 
 // Get the user field
 void* MetaObject
