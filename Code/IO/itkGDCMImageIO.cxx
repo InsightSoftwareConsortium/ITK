@@ -551,7 +551,7 @@ void GDCMImageIO::Write(const void* buffer)
       bitsAllocated = "16"; // Bits Allocated
       bitsStored    = "16"; // Bits Stored
       highBit       = "15"; // High Bit
-      pixelRep      = "0"; //Pixel Representation
+      pixelRep      = "1"; //Pixel Representation
       break;
 
     default:
