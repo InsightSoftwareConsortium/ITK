@@ -24,7 +24,7 @@ int itkMemoryLeakTest(int, char* [] )
   for(unsigned int i=0; i < 100; ++i)
     {
     char* leaker = new char[100];
-    leaker = 0; // Prevent unused variable warning.
+    *leaker = 0; // Prevent unused variable warning.
     }
   
   return 0;

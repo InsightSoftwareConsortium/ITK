@@ -47,7 +47,6 @@ int itkTranslationTransformTest(int ,char *[] )
 
   /* FIXME: This code exercises most of the methods but doesn't
      actually check that the results are correct. */
-  any = 0;
 
   /* Create a 2D identity transformation and show its parameters */
   typedef itk::TranslationTransform<double,2>  TransformType;

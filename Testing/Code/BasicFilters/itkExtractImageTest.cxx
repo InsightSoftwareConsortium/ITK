@@ -100,7 +100,6 @@ int itkExtractImageTest(int, char* [] )
   itk::ImageRegionIterator<ShortImage>
     iteratorIn1(extract->GetOutput(), requestedRegion);
   
-  nextVal = 0;
   passed = true; 
   size = requestedRegion.GetSize();
   index = requestedRegion.GetIndex();

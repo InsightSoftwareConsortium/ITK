@@ -28,7 +28,7 @@ int itkImageRegionTest(int, char* [] )
   typedef RegionType::IndexType          IndexType;
   typedef RegionType::SizeType           SizeType;
 
-  bool passed = true;
+  bool passed;
 
   SizeType sizeA = {{ 10, 20, 30 }};
   SizeType sizeB = {{  5, 10, 15 }};

@@ -60,7 +60,7 @@ int itkIteratorTests(int, char* [] )
   double elapsedTime;
   clock_t start, end;
   unsigned long num = 190*190*190;
-  unsigned long i = 0;
+  unsigned long i;
   bool passed = true;
   
   // memset
@@ -76,13 +76,13 @@ int itkIteratorTests(int, char* [] )
 
   // 1D array
   start = clock();
-  i = 0;
   ptr = o3->GetBufferPointer();
   for (i=0; i < num; ++i)
     {
     ++ptr;
     }
   end = clock();
+  *ptr = 0;
   elapsedTime = (end - start) / (double) CLOCKS_PER_SEC;
 
   std::cout << "Raw pointer as a 1D array" << std::endl;

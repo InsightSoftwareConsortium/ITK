@@ -184,7 +184,7 @@ int itkBloxBoundaryPointImageTest(int, char* [] )
   itk::Point<double, 3> position;
   
   // Position are we at in the list
-  int depth = 0;
+  int depth;
 
   for ( bloxIt.GoToBegin(); !bloxIt.IsAtEnd(); ++bloxIt)
     {

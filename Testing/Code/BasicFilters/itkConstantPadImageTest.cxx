@@ -58,7 +58,7 @@ int itkConstantPadImageTest(int, char* [] )
   short i=0;
   for (; !iterator.IsAtEnd(); ++iterator, ++i)
     {
-      iterator.Set( i );
+    iterator.Set( i );
     }
   
   // Create a filter
@@ -95,47 +95,51 @@ int itkConstantPadImageTest(int, char* [] )
   itk::ImageRegionIterator<ShortImage>
     iteratorIn1(constantPad->GetOutput(), requestedRegion);
   
-  nextVal = 0;
   passed = true; 
   size = requestedRegion.GetSize();
   index = requestedRegion.GetIndex();
   if ((index[0] != (0 - (long) lowerfactors[0])) 
       || (index[1] != (0 - (long) lowerfactors[1]))
       || (size[0] != (8 + lowerfactors[0] + upperfactors[0])) 
-      || (size[1] != (12 + lowerfactors[1] + upperfactors[1]))) {
-    passed = false;
-  } else {
-    
-    for (; !iteratorIn1.IsAtEnd(); ++iteratorIn1)
-      {
-  row = iteratorIn1.GetIndex()[0];
-  column = iteratorIn1.GetIndex()[1];
-  if ((row < 0) || (row>7) || (column < 0) || (column > 11)) {
-    if ( iteratorIn1.Get() != 13 )
-      {
-        passed = false;
-      }
-  } else {
-    nextVal = 8*column+row;
-    if (iteratorIn1.Get() != nextVal)
-      {
-        std::cout << "Error: (" << row << ", " << column 
-      << "), expected " << nextVal << " got " 
-      << iteratorIn1.Get() << std::endl;
-        passed = false;
-      }
-  }
-      }
-  }
-  
-  if (passed)
+      || (size[1] != (12 + lowerfactors[1] + upperfactors[1])))
     {
-      std::cout << "constantPadImageFilter case 1 passed." << std::endl;
+    passed = false;
     }
   else
     {
-      std::cout << "constantPadImageFilter case 1 failed." << std::endl;
-      return EXIT_FAILURE;
+    for (; !iteratorIn1.IsAtEnd(); ++iteratorIn1)
+      {
+      row = iteratorIn1.GetIndex()[0];
+      column = iteratorIn1.GetIndex()[1];
+      if ((row < 0) || (row>7) || (column < 0) || (column > 11))
+        {
+        if ( iteratorIn1.Get() != 13 )
+          {
+          passed = false;
+          }
+        }
+      else
+        {
+        nextVal = 8*column+row;
+        if (iteratorIn1.Get() != nextVal)
+          {
+          std::cout << "Error: (" << row << ", " << column 
+                    << "), expected " << nextVal << " got " 
+                    << iteratorIn1.Get() << std::endl;
+          passed = false;
+          }
+        }
+      }
+    }
+  
+  if (passed)
+    {
+    std::cout << "constantPadImageFilter case 1 passed." << std::endl;
+    }
+  else
+    {
+    std::cout << "constantPadImageFilter case 1 failed." << std::endl;
+    return EXIT_FAILURE;
     }
   
   
@@ -158,58 +162,63 @@ int itkConstantPadImageTest(int, char* [] )
       || (constantPad->GetPadLowerBound()[0] != lowerfactors[0])
       || (constantPad->GetPadLowerBound()[1] != lowerfactors[1]))
     {
-      passed = false;
+    passed = false;
     } 
   else 
     {
-      stream->UpdateLargestPossibleRegion();
-      requestedRegion = stream->GetOutput()->GetRequestedRegion();
+    stream->UpdateLargestPossibleRegion();
+    requestedRegion = stream->GetOutput()->GetRequestedRegion();
       
-      itk::ImageRegionIterator<ShortImage>
-  iteratorIn2(stream->GetOutput(), requestedRegion);
+    itk::ImageRegionIterator<ShortImage>
+      iteratorIn2(stream->GetOutput(), requestedRegion);
       
-      nextVal = 0;
-      passed = true; 
-      size = requestedRegion.GetSize();
-      index = requestedRegion.GetIndex();
-      if ((index[0] != (0 - (long) lowerfactors[0])) 
-    || (index[1] != (0 - (long) lowerfactors[1]))
-    || (size[0] != (8 + lowerfactors[0] + upperfactors[0])) 
-    || (size[1] != (12 + lowerfactors[1] + upperfactors[1]))) {
-  passed = false;
-      } else {
-  for (; !iteratorIn2.IsAtEnd(); ++iteratorIn2)
-    {
-      row = iteratorIn2.GetIndex()[0];
-      column = iteratorIn2.GetIndex()[1];
-      if ((row < 0) || (row>7) || (column < 0) || (column > 11)) {
-        if ( iteratorIn2.Get() != 13 )
-    {
+    passed = true; 
+    size = requestedRegion.GetSize();
+    index = requestedRegion.GetIndex();
+    if ((index[0] != (0 - (long) lowerfactors[0])) 
+        || (index[1] != (0 - (long) lowerfactors[1]))
+        || (size[0] != (8 + lowerfactors[0] + upperfactors[0])) 
+        || (size[1] != (12 + lowerfactors[1] + upperfactors[1])))
+      {
       passed = false;
-    }
-      } else {
-        nextVal = 8*column+row;
-        if (iteratorIn2.Get() != nextVal)
-    { 
-      std::cout << "Error: (" << row << ", " << column 
-          << "), expected " << nextVal << " got " 
-          << iteratorIn2.Get() << std::endl;
-      passed = false;
-    }
       }
-    }
+    else
+      {
+      for (; !iteratorIn2.IsAtEnd(); ++iteratorIn2)
+        {
+        row = iteratorIn2.GetIndex()[0];
+        column = iteratorIn2.GetIndex()[1];
+        if ((row < 0) || (row>7) || (column < 0) || (column > 11))
+          {
+          if ( iteratorIn2.Get() != 13 )
+            {
+            passed = false;
+            }
+          }
+        else
+          {
+          nextVal = 8*column+row;
+          if (iteratorIn2.Get() != nextVal)
+            { 
+            std::cout << "Error: (" << row << ", " << column 
+                      << "), expected " << nextVal << " got " 
+                      << iteratorIn2.Get() << std::endl;
+            passed = false;
+            }
+          }
+        }
       }
     }
   
   if (passed)
     {
-      std::cout << "constantPadImageFilter case 2 passed." << std::endl;
+    std::cout << "constantPadImageFilter case 2 passed." << std::endl;
     }
   else
     {
-      std::cout << "constantPadImageFilter case 2 failed." << std::endl;
-      return EXIT_FAILURE;
+    std::cout << "constantPadImageFilter case 2 failed." << std::endl;
+    return EXIT_FAILURE;
     }
-  
+
   return EXIT_SUCCESS;
 }
