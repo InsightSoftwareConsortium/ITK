@@ -12,15 +12,8 @@ xmltok/xmlrole
 xmlwf/xmlwf
 xmlwf/xmlfile
 xmlwf/codepage
-)
-
-SOURCE_FILES_REQUIRE(UNIX SOURCES_BEGIN
-xmlwf/unixfilemap
-)
-
-SOURCE_FILES_REQUIRE(WIN32 SOURCES_BEGIN
-xmlwf/win32filemap
-)
+xmlwf/filemap
+) 
 
 INCLUDE_DIRECTORIES(
 ${CABLE_SOURCE_DIR}/Expat/xmlparse
