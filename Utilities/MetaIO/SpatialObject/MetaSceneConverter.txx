@@ -47,7 +47,7 @@ MetaSceneConverter<NDimensions,PixelType>
 {
   // default behaviour of scene converter is not to save transform 
   // with each spatial object.
-  m_SaveTransform = false ;
+  m_UseTransform = false ;
 }
 
 /** Destructor */ 
@@ -62,7 +62,7 @@ void
 MetaSceneConverter<NDimensions,PixelType>
 ::SetTransform(MetaObject* obj, TransformType* transform)
 {
-  if ( m_SaveTransform )
+  if ( m_UseTransform )
     {
       unsigned int offset = 
         transform->GetNumberOfParameters() - NDimensions ;
@@ -81,6 +81,38 @@ MetaSceneConverter<NDimensions,PixelType>
         }
       obj->Orientation(m_Orientation) ;
       obj->Position(m_Position) ;
+    }
+}
+
+template <unsigned int NDimensions, class PixelType> 
+void
+MetaSceneConverter<NDimensions,PixelType>
+::SetTransform(SpatialObjectType* so, MetaObject* meta)
+{
+  if ( m_UseTransform )
+    {
+      SpatialObjectType::TransformType::Pointer transform = 
+        SpatialObjectType::TransformType::New() ;
+
+      unsigned int numberOfParams = transform->GetNumberOfParameters() ;
+
+      SpatialObjectType::TransformType::ParametersType 
+        params(numberOfParams) ;
+      unsigned int offset = 
+        numberOfParams - NDimensions ;
+      for ( unsigned int i = 0 ; i < numberOfParams ; i++ )
+        {
+          if ( i < offset )
+            {
+              params[i] = *(meta->Orientation() + i) ;
+            }
+          else
+            {
+              params[i] = *(meta->Position() + (i - offset)) ;
+            }
+        }
+
+      so->GetTransform()->SetParameters(params) ;
     }
 }
 
@@ -107,6 +139,7 @@ MetaSceneConverter<NDimensions,PixelType>
           landmarkConverter.MetaLandmarkToLandmarkSpatialObject
         ((MetaLandmark*)*it);
       so->SetReferenceCount(2);
+      this->SetTransform(so, *it) ;
       soScene->AddSpatialObject( (SpatialObjectType*)so.GetPointer());
     }
 
@@ -116,6 +149,7 @@ MetaSceneConverter<NDimensions,PixelType>
       typename itk::TubeSpatialObject<NDimensions>::Pointer so =
                tubeConverter.MetaTubeToTubeSpatialObject((MetaTube*)*it);
       so->SetReferenceCount(2);
+      this->SetTransform(so, *it) ;
       soScene->AddSpatialObject((SpatialObjectType*)so.GetPointer());
     }
 
@@ -125,6 +159,7 @@ MetaSceneConverter<NDimensions,PixelType>
       typename itk::GroupSpatialObject<NDimensions>::Pointer so =
                groupConverter.MetaGroupToGroupSpatialObject((MetaGroup*)*it);
       so->SetReferenceCount(2);
+      this->SetTransform(so, *it) ;
       soScene->AddSpatialObject((SpatialObjectType*)so.GetPointer());
     }
 
@@ -134,6 +169,7 @@ MetaSceneConverter<NDimensions,PixelType>
       typename itk::EllipseSpatialObject<NDimensions>::Pointer so = 
           ellipseConverter.MetaEllipseToEllipseSpatialObject((MetaEllipse*)*it);
       so->SetReferenceCount(2);
+      this->SetTransform(so, *it) ;
       soScene->AddSpatialObject( (SpatialObjectType*)so.GetPointer());
     }
 
@@ -143,6 +179,7 @@ MetaSceneConverter<NDimensions,PixelType>
       typename itk::ImageSpatialObject<NDimensions,PixelType>::Pointer so =
           imageConverter.MetaImageToImageSpatialObject((MetaImage*)*it);
       so->SetReferenceCount(2);
+      this->SetTransform(so, *it) ;
       soScene->AddSpatialObject((SpatialObjectType*) so.GetPointer());
     }
 
@@ -152,6 +189,7 @@ MetaSceneConverter<NDimensions,PixelType>
       typename itk::BlobSpatialObject<NDimensions>::Pointer
       so = blobConverter.MetaBlobToBlobSpatialObject((MetaBlob*)*it);
       so->SetReferenceCount(2);
+      this->SetTransform(so, *it) ;
       soScene->AddSpatialObject((SpatialObjectType*) so.GetPointer());
     }
 
@@ -161,6 +199,7 @@ MetaSceneConverter<NDimensions,PixelType>
       typename itk::SurfaceSpatialObject<NDimensions>::Pointer so =
           surfaceConverter.MetaSurfaceToSurfaceSpatialObject((MetaSurface*)*it);
       so->SetReferenceCount(2);
+      this->SetTransform(so, *it) ;
       soScene->AddSpatialObject( (SpatialObjectType*)so.GetPointer());
     }
 
@@ -170,6 +209,7 @@ MetaSceneConverter<NDimensions,PixelType>
       typename itk::LineSpatialObject<NDimensions>::Pointer so =
           lineConverter.MetaLineToLineSpatialObject((MetaLine*)*it);
       so->SetReferenceCount(2);
+      this->SetTransform(so, *it) ;
       soScene->AddSpatialObject( (SpatialObjectType*)so.GetPointer());
     }
 
@@ -229,7 +269,7 @@ MetaSceneConverter<NDimensions,PixelType>
           dynamic_cast<itk::LandmarkSpatialObject<NDimensions>*>((*it)));
       landmark->ParentID((*it)->GetParentId());
       landmark->Name((*it)->GetProperty()->GetName().c_str());
-      this->SetTransform((MetaObject*)landmark, (*it)->GetTransform()) ;
+      this->SetTransform(*it, (*it)->GetTransform()) ;
       metaScene->AddObject(landmark);
       }
   
@@ -240,7 +280,7 @@ MetaSceneConverter<NDimensions,PixelType>
           dynamic_cast<itk::GroupSpatialObject<NDimensions>*>((*it)));
       group->ParentID((*it)->GetParentId());
       group->Name((*it)->GetProperty()->GetName().c_str());
-      this->SetTransform((MetaObject*)group, (*it)->GetTransform()) ;
+      this->SetTransform(*it, (*it)->GetTransform()) ;
       metaScene->AddObject(group);
       }
   
@@ -251,6 +291,7 @@ MetaSceneConverter<NDimensions,PixelType>
           dynamic_cast<itk::TubeSpatialObject<NDimensions>*>((*it)));
       tube->ParentID((*it)->GetParentId());
       tube->Name((*it)->GetProperty()->GetName().c_str());
+      this->SetTransform(*it, (*it)->GetTransform()) ;
       metaScene->AddObject(tube);
       }
   
@@ -261,6 +302,7 @@ MetaSceneConverter<NDimensions,PixelType>
           dynamic_cast<itk::EllipseSpatialObject<NDimensions>*>((*it)));
       ellipse->ParentID((*it)->GetParentId());
       ellipse->Name((*it)->GetProperty()->GetName().c_str());
+      this->SetTransform(*it, (*it)->GetTransform()) ;
       metaScene->AddObject(ellipse);
       }
   
@@ -272,6 +314,7 @@ MetaSceneConverter<NDimensions,PixelType>
             (*it)));
       image->ParentID((*it)->GetParentId());
       image->Name((*it)->GetProperty()->GetName().c_str());
+      this->SetTransform(*it, (*it)->GetTransform()) ;
       metaScene->AddObject(image);
       }
   
@@ -284,6 +327,7 @@ MetaSceneConverter<NDimensions,PixelType>
       blob->ParentID((*it)->GetParentId());
       blob->BinaryData(true);
       blob->Name((*it)->GetProperty()->GetName().c_str());
+      this->SetTransform(*it, (*it)->GetTransform()) ;
       metaScene->AddObject(blob);
       }
   
@@ -294,6 +338,7 @@ MetaSceneConverter<NDimensions,PixelType>
           dynamic_cast<itk::SurfaceSpatialObject<NDimensions>*>((*it)));
       surface->ParentID((*it)->GetParentId());
       surface->Name((*it)->GetProperty()->GetName().c_str());
+      this->SetTransform(*it, (*it)->GetTransform()) ;
       metaScene->AddObject(surface);
       }
   
@@ -304,6 +349,7 @@ MetaSceneConverter<NDimensions,PixelType>
           dynamic_cast<itk::LineSpatialObject<NDimensions>*>((*it)));
       line->ParentID((*it)->GetParentId());
       line->Name((*it)->GetProperty()->GetName().c_str());
+      this->SetTransform(*it, (*it)->GetTransform()) ;
       metaScene->AddObject(line);
       }
 

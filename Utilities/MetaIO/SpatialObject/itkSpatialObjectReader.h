@@ -61,6 +61,12 @@ public:
   /** Get the filename */
   itkGetStringMacro(FullFileName);
 
+  void SetUseTransform(bool arg)
+  { m_MetaToSpatialConverter.SetUseTransform(arg) ; }
+
+  bool GetUseTransform()
+  { return m_MetaToSpatialConverter.GetUseTransform() ; }
+
   /** Get the output */
   ScenePointer GetScene(void) {return m_Scene;}
   GroupPointer GetGroup(void) {return m_Group;}

@@ -42,11 +42,11 @@ public:
                  unsigned int depth=MaximumDepth,
                  char * spatialObjectTypeName=NULL);
 
-  void SetSaveTransform(bool arg) 
-  { m_SaveTransform = arg ; }
+  void SetUseTransform(bool arg) 
+  { m_UseTransform = arg ; }
 
-  bool GetSaveTransform() 
-  { return m_SaveTransform ; }
+  bool GetUseTransform() 
+  { return m_UseTransform ; }
 
 private:
 
@@ -63,8 +63,9 @@ private:
   ScenePointer CreateSpatialObjectScene( MetaScene * scene );
 
   void SetTransform(MetaObject* obj, TransformType* transform) ;
+  void SetTransform(SpatialObjectType* so, MetaObject* obj) ;
 
-  bool m_SaveTransform ;
+  bool m_UseTransform ;
   float m_Orientation[100] ;
   float m_Position[10] ;
 
