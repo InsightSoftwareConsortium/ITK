@@ -120,9 +120,37 @@ RegistrationTransform<TMetric, TOptimizationMethod>
   m_Optimizer->StartOptimization();
 }
 
-
-
-
+template <class TMetric, class TOptimizationMethod>
+void
+RegistrationTransform<TMetric, TOptimizationMethod>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+  if (m_Target)
+    {
+    os << "Target: " << m_Target << std::endl;
+    }
+  if (m_Reference)
+    {
+    os << "Reference: " << m_Reference << std::endl;
+    }
+  if (m_Transformation)
+    {
+    os << "Transformation: " << m_Transformation << std::endl;
+    }
+  if (m_Mapper)
+    {
+    os << "Mapper: " << m_Mapper << std::endl;
+    }
+  if (m_Metric)
+    {
+    os << "Metric: " << m_Metric << std::endl;
+    }
+  if (m_Optimizer)
+    {
+    os << "Optimizer: " << m_Optimizer << std::endl;
+    }
+}
 
 } // end namespace itk
 

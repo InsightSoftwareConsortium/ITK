@@ -136,6 +136,7 @@ public:
 protected:
   RegistrationTransform();
   virtual ~RegistrationTransform();
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   RegistrationTransform(const Self&); //purposely not implemented
