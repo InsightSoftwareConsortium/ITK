@@ -353,7 +353,8 @@ int main( int argc, char **argv )
                               DerivativeImageType
                                        >    GeodesicActiveContourFilterType;
 
-  GeodesicActiveContourFilterType::Pointer geodesicActiveContour = GeodesicActiveContourFilterType::New();                              
+  GeodesicActiveContourFilterType::Pointer geodesicActiveContour = 
+                                     GeodesicActiveContourFilterType::New();                              
   // Software Guide : EndCodeSnippet
 
 
@@ -625,7 +626,7 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  In order to speed up the computation, we enable the option of using a
-  //  narrow band technique for computing th evolution of the contour.
+  //  narrow band technique for computing the evolution of the contour.
   //
   //  \index{itk::GeodesicActiveContourImageFilter!NarrowBandingOn()}
   //  \index{itk::LevelSetImageFilter!NarrowBandingOn()}
@@ -717,7 +718,11 @@ int main( int argc, char **argv )
   //
   //  The intermediate outputs of this pipeline are identical to those of the
   //  \doxygen{ShapDetectionImageFilter} presented in
-  //  Figure~\ref{fig:ShapDetectionImageFilterOutput}.
+  //  Figure~\ref{fig:ShapeDetectionLevelSetFilterOutput}. Segmentations of the
+  //  main brain structures are presented in Figure
+  //  ~\ref{fig:GeodesicActiveContourImageFilterOutput2}. The Results are quite
+  //  similar to those obtained with the {ShapeDetectionLevelSetFilter} in
+  //  section~\ref{sec:ShapeDetectionLevelSetFilter}.
   //
   //  An interesting trade-off exists between the number of iterations to run,
   //  the inflation strength and the contrast of the borders in the anatomical
