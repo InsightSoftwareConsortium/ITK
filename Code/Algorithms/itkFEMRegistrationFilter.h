@@ -20,36 +20,29 @@
 
 #include "itkFEMLinearSystemWrapperItpack.h"
 #include "itkFEMLinearSystemWrapperDenseVNL.h"
-
-#include "itkImage.h"
-#include "itkCastImageFilter.h"
-#include "itkRecursiveMultiResolutionPyramidImageFilter.h"
-#include "itkVector.h"
-#include "itkDiscreteGaussianImageFilter.h"
-#include "itkMeanImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
-#include "itkVectorCastImageFilter.h"
-#include "itkWarpImageFilter.h"
-#include "itkImageFileReader.h"
-#include "itkNearestNeighborInterpolateImageFunction.h"
-#include "itkBSplineInterpolateImageFunction.h"
-#include "itkLinearInterpolateImageFunction.h"
+#include "itkFEMGenerateMesh.h"
 #include "itkFEMSolverCrankNicolson.h"
 #include "itkFEMMaterialLinearElasticity.h"
 #include "itkFEMImageMetricLoad.h"
+
+#include "itkImage.h"
+#include "itkVector.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkVectorCastImageFilter.h"
+#include "itkVectorIndexSelectionCastImageFilter.h"
+#include "itkWarpImageFilter.h"
 #include "itkImageToImageMetric.h"
 #include "itkTranslationTransform.h"
+
+
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_math.h"
 #include "vnl/vnl_vector_fixed.h"
 
-#include "itkVectorIndexSelectionCastImageFilter.h"
 
 #include <iostream>
 #include <string>
-#include <fstream>
 
-#include "itkFEMGenerateMesh.h"
 
 
 namespace itk {

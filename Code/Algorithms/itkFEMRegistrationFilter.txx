@@ -22,12 +22,20 @@
 #ifdef _MSC_VER
 #pragma warning(disable: 4786)
 #endif
-
-#include "itkImageFileWriter.h" 
-#include "itkRawImageIO.h" 
+ 
 #include "itkFEMRegistrationFilter.h"
 #include "itkFEMElements.h"
 #include "itkFEMLoadBC.h"
+
+#include "itkRawImageIO.h" 
+#include "itkImageFileWriter.h"
+#include "itkImageFileReader.h"
+#include "itkCastImageFilter.h"
+#include "itkRecursiveMultiResolutionPyramidImageFilter.h"
+#include "itkDiscreteGaussianImageFilter.h"
+#include "itkNearestNeighborInterpolateImageFunction.h"
+#include "itkBSplineInterpolateImageFunction.h"
+#include "itkLinearInterpolateImageFunction.h"
 
 namespace itk {
 namespace fem {
@@ -100,7 +108,6 @@ void FEMRegistrationFilter<TReference,TTarget>::RunRegistration()
     mySolver.SetAlpha(m_Alpha); 
     
     CreateMesh((double)m_MeshElementsPerDimensionAtEachResolution[m_CurrentLevel],mySolver); 
-    mySolver.GenerateGFN(); 
     ApplyLoads(mySolver,m_ImageSize);
 
     unsigned int ndofpernode=(m_Element)->GetNumberOfDegreesOfFreedomPerNode();
@@ -539,6 +546,7 @@ void FEMRegistrationFilter<TReference,TTarget>::CreateMesh(double ElementsPerSid
     }
 
     mySolver.Read(meshstream); 
+    mySolver.GenerateGFN();
     itk::fem::MaterialLinearElasticity::Pointer m=dynamic_cast<MaterialLinearElasticity*>(mySolver.mat.Find(0));
    
     if (m) { 
@@ -568,12 +576,14 @@ void FEMRegistrationFilter<TReference,TTarget>::CreateMesh(double ElementsPerSid
   {
     m_Material->E=this->GetElasticity(m_CurrentLevel);
     Generate2DRectilinearMesh(m_Element,mySolver,MeshOriginV,MeshSizeV,ElementsPerDimension); 
+    mySolver.GenerateGFN();
   }
   else if ( ImageDimension == 3 && dynamic_cast<Element3DC0LinearHexahedron*>(m_Element) != NULL) 
   {
     m_Material->E=this->GetElasticity(m_CurrentLevel);
   
     Generate3DRectilinearMesh(m_Element,mySolver,MeshOriginV,MeshSizeV,ElementsPerDimension); 
+    mySolver.GenerateGFN();
   }
   else 
   {  
@@ -1106,7 +1116,6 @@ void FEMRegistrationFilter<TReference,TTarget>::MultiResSolve()
       SSS.SetAlpha(m_Alpha);    
 
       CreateMesh(MeshResolution,SSS); 
-      SSS.GenerateGFN();
       ApplyLoads(SSS,Isz);
 
       unsigned int ndofpernode=(m_Element)->GetNumberOfDegreesOfFreedomPerNode();
