@@ -502,8 +502,8 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
     {
     // smooth along this dimension
     opers[j].SetDirection( j );
-    // double variance = vnl_math_sqr( this->GetStandardDeviations()[j] );
-    double variance = vnl_math_sqr( 1.0 );
+    double variance = vnl_math_sqr( this->GetUpdateFieldStandardDeviations()[j] );
+    //double variance = vnl_math_sqr( 1.0 );
     opers[j].SetVariance( variance );
     opers[j].SetMaximumError( this->GetMaximumError() );
     opers[j].SetMaximumKernelWidth( this->GetMaximumKernelWidth() );
