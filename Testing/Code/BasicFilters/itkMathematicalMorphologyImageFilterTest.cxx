@@ -70,7 +70,7 @@ int itkMathematicalMorphologyImageFilterTest(int, char**)
   // Initialize the content of Image A
   while( !it.IsAtEnd() ) 
     {
-    it.Set( 0.0 );
+    it.Set( 0 );
     ++it;
     }
 
@@ -90,7 +90,7 @@ int itkMathematicalMorphologyImageFilterTest(int, char**)
   // Initialize the content the internal region
   while( !itb.IsAtEnd() ) 
   {
-    itb.Set( 100.0 );
+    itb.Set( 100 );
     ++itb;
   }
 
