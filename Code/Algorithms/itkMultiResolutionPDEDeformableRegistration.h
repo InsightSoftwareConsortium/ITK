@@ -46,7 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImageToImageFilter.h"
 #include "itkPDEDeformableRegistrationFilter.h"
 #include "itkDemonsRegistrationFilter.h"
-#include "itkMultiResolutionPyramidImageFilter.h"
+#include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 #include "itkVectorExpandImageFilter.h"
 
 #include <vector>
@@ -174,14 +174,14 @@ public:
   /**
    * The reference multi-resolution image pyramid type
    */
-  typedef MultiResolutionPyramidImageFilter<
+  typedef RecursiveMultiResolutionPyramidImageFilter<
     ReferenceType, FloatImageType > ReferencePyramidType;
   typedef typename ReferencePyramidType::Pointer ReferencePyramidPointer;
 
   /**
    * The target multi-resolution image pyramid type
    */
-  typedef MultiResolutionPyramidImageFilter<
+  typedef RecursiveMultiResolutionPyramidImageFilter<
     TargetType, FloatImageType > TargetPyramidType;
   typedef typename TargetPyramidType::Pointer TargetPyramidPointer;
    
