@@ -18,6 +18,7 @@ PURPOSE.  See the above copyright notices for more information.
 #define __itkGoodnessOfFitComponentBase_txx
 
 #include "itkGoodnessOfFitComponentBase.h"
+#include "itkNumericTraits.h"
 
 namespace itk{ 
 namespace Statistics{
@@ -211,8 +212,8 @@ GoodnessOfFitComponentBase< TInputSample >
   HistogramType::InstanceIdentifier binId  ;
   double rangeExtent ;
   MeasurementType tempMin ;
-  MeasurementType tempMax ;
-  double binMaxProbability ;
+  MeasurementType tempMax = NumericTraits< MeasurementType >::Zero ;
+  double binMaxProbability = 0.0 ;
 
   for(binId = 0 ; binId < m_HistogramNumberOfBins ; binId++)
     {
