@@ -134,7 +134,7 @@ int main()
   unsigned int numPoints = 0;
 
   ti.Begin();
-  while(!ti.IsAtEnd())
+  while(!ti.IsAtEnd() && numPoints < numberOfSamples )
   {
     if( counter < numPixelsToSkip ) 
     {
