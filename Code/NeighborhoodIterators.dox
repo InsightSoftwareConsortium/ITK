@@ -47,7 +47,8 @@
          Write the value to the output
  
   Here is how this is writen in ITK:         
-        
+
+
   \code
 
   ImageType::Pointer image = GetImageSomehow();
