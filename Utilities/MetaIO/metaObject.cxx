@@ -169,7 +169,10 @@ FileName(const char *_fileName)
   {
   if(_fileName != NULL)
     {
-    strcpy(m_FileName, _fileName);
+    if(_fileName[0] != '\0')
+      {
+      strcpy(m_FileName, _fileName);
+      }
     }
   }
 
