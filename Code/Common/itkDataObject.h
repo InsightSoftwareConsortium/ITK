@@ -157,11 +157,6 @@ public:
   virtual bool VerifyRequestedRegion() = 0;
 
   /** 
-   * Handle the process object/data object reference-counting loop. 
-   */
-//  virtual void UnRegister();
-
-  /** 
    * Get the net reference count. This is the number of
    * external references to the DatObject/SourceObject pair.
    * (An external reference is a reference via a smart pointer.)
