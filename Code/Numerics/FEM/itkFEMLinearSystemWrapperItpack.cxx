@@ -14,8 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itpack.h"
-#include "itpack_f2c.h"
 #include "itkFEMLinearSystemWrapperItpack.h"
 #include "itkFEMException.h"
 #include "itkNumericTraits.h"
@@ -25,8 +23,6 @@ namespace itk {
 namespace fem {
 
 
-typedef LinearSystemWrapperItpack::integer integer;
-typedef LinearSystemWrapperItpack::doublereal doublereal;
 
 /**
  * constructor 
@@ -35,17 +31,17 @@ LinearSystemWrapperItpack::LinearSystemWrapperItpack()
 {
 
   /* fill m_Methods with pointers to solver functions */
-  m_Methods[0] = itpack::jcg_;
-  m_Methods[1] = itpack::jsi_;
-  m_Methods[2] = itpack::sor_;
-  m_Methods[3] = itpack::ssorcg_;
-  m_Methods[4] = itpack::ssorsi_;
-  m_Methods[5] = itpack::rscg_;
-  m_Methods[6] = itpack::rssi_;
+  m_Methods[0] = jcg_;
+  m_Methods[1] = jsi_;
+  m_Methods[2] = sor_;
+  m_Methods[3] = ssorcg_;
+  m_Methods[4] = ssorsi_;
+  m_Methods[5] = rscg_;
+  m_Methods[6] = rssi_;
   m_Method = 0;                   /* set default method to jcg_ */
 
   /* Set solving parameters */
-  itpack::dfault_( &(m_IPARM[0]) , &(m_RPARM[0]) );
+  dfault_( &(m_IPARM[0]) , &(m_RPARM[0]) );
 
   // We don't want the solver routines to
   // overwrite the parameters.
@@ -900,7 +896,7 @@ LinearSystemWrapperItpack::~LinearSystemWrapperItpack(void)
 }
 
 
-FEMExceptionItpackSolver::FEMExceptionItpackSolver(const char *file, unsigned int lineNumber, std::string location, itpack::integer errorCode) :
+FEMExceptionItpackSolver::FEMExceptionItpackSolver(const char *file, unsigned int lineNumber, std::string location, integer errorCode) :
   FEMException(file,lineNumber)
 {
     std::string solverError;

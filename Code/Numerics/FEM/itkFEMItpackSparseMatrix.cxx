@@ -14,19 +14,11 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itpack.h"
-#include "itpack_f2c.h"
 #include "itkFEMItpackSparseMatrix.h"
-#include "itkFEMException.h"
 
 namespace itk {
 namespace fem {
 
-/* typecast for itpack integer type */
-typedef itpack::integer integer;
-
-/* typecast for itpack double type */
-typedef itpack::doublereal doublereal;
 
 ItpackSparseMatrix::ItpackSparseMatrix()
 {
@@ -127,7 +119,7 @@ void ItpackSparseMatrix::Initialize()
   }
 
   /* initialize sparse matrix storage via itpack routine */
-  itpack::sbini_( &m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK );
+  sbini_( &m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK );
   
   /* set info flags */
   m_MatrixInitialized = 1;
@@ -191,7 +183,7 @@ void ItpackSparseMatrix::Finalize()
   //this->PrintCompressedRow();
 
   /* finalize */
-  itpack::sbend_( &m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK );
+  sbend_( &m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK );
   
   //this->PrintCompressedRow();
   //std::cout << "sbend_ " << m_IER << std::endl;
@@ -214,7 +206,7 @@ void ItpackSparseMatrix::UnFinalize()
 
   integer IER = 0;
 
-  itpack::sbagn_(&m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK, &m_LEVEL, &m_NOUT, &IER);
+  sbagn_(&m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK, &m_LEVEL, &m_NOUT, &IER);
 
   if (IER > 0)
   {
@@ -258,7 +250,7 @@ void ItpackSparseMatrix::Set(integer i, integer j, doublereal value)
   integer IER;
   integer fortranI = i+1;
   integer fortranJ = j+1;
-  itpack::sbsij_(&m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK, &fortranI, &fortranJ, &value, &m_MODE, &m_LEVEL, &m_NOUT, &IER);
+  sbsij_(&m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK, &fortranI, &fortranJ, &value, &m_MODE, &m_LEVEL, &m_NOUT, &IER);
 
   if (IER > 700)
   {
@@ -305,7 +297,7 @@ void ItpackSparseMatrix::Add(integer i, integer j, doublereal value)
   integer IER;
   integer fortranI = i+1;
   integer fortranJ = j+1;
-  itpack::sbsij_(&m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK, &fortranI, &fortranJ, &value, &m_MODE, &m_LEVEL, &m_NOUT, &IER);
+  sbsij_(&m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK, &fortranI, &fortranJ, &value, &m_MODE, &m_LEVEL, &m_NOUT, &IER);
   
   if (IER > 700)
   {
@@ -315,7 +307,7 @@ void ItpackSparseMatrix::Add(integer i, integer j, doublereal value)
   return;
 }
 
-itpack::doublereal ItpackSparseMatrix::Get(integer i, integer j)
+doublereal ItpackSparseMatrix::Get(integer i, integer j)
 {
 
   doublereal returnValue = 0.0; /* set to default return value */
@@ -520,7 +512,7 @@ ItpackSparseMatrix::~ItpackSparseMatrix()
 }
 
 
-FEMExceptionItpackSparseMatrixSbagn::FEMExceptionItpackSparseMatrixSbagn(const char *file, unsigned int lineNumber, std::string location, itpack::integer errorCode) :
+FEMExceptionItpackSparseMatrixSbagn::FEMExceptionItpackSparseMatrixSbagn(const char *file, unsigned int lineNumber, std::string location, integer errorCode) :
   FEMException(file,lineNumber)
 {
   std::string solverError;
@@ -544,7 +536,7 @@ FEMExceptionItpackSparseMatrixSbagn::FEMExceptionItpackSparseMatrixSbagn(const c
 
 
 
-FEMExceptionItpackSparseMatrixSbsij::FEMExceptionItpackSparseMatrixSbsij(const char *file, unsigned int lineNumber, std::string location, itpack::integer errorCode) :
+FEMExceptionItpackSparseMatrixSbsij::FEMExceptionItpackSparseMatrixSbsij(const char *file, unsigned int lineNumber, std::string location, integer errorCode) :
   FEMException(file,lineNumber)
 {
     std::string solverError;

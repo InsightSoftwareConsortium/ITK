@@ -18,11 +18,10 @@
 #ifndef __itpack_h
 #define __itpack_h
 
-#include "itpack_f2c.h"
 
-namespace itk {
-namespace fem {
-namespace itpack {
+extern "C" {
+
+#include "f2c.h"
 
 
 /**
@@ -770,7 +769,6 @@ extern int wevmw_(integer *n, doublereal *v, doublereal *w);
  */
 extern int zbrent_(integer *n, doublereal *tri, doublereal *eps, integer *nsig, doublereal *aa, doublereal *bb, integer *maxfnn, integer *ier);
 
-
-}}} // end namespace itk::fem::itpack
+}
 
 #endif // #ifndef __itpack_h

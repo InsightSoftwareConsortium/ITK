@@ -18,12 +18,11 @@
 #ifndef __itkFEMLinearSystemWrapperItpack_h
 #define __itkFEMLinearSystemWrapperItpack_h
 
-#include "itpack_f2c.h"
-#include "itpack.h"
 #include "itkFEMSolution.h"
 #include "itkFEMLinearSystemWrapper.h"
 #include "itkFEMItpackSparseMatrix.h"
 #include <vector>
+#include "itpack.h"
 
 
 namespace itk {
@@ -44,12 +43,6 @@ public:
 
   /** Standard "Superclass" typedef. */
   typedef LinearSystemWrapper Superclass;
-
-  /** itpack integer typedef */
-  typedef itpack::integer integer;
-  
-  /** itpack double typedef */
-  typedef itpack::doublereal doublereal;
 
   /** matrix representatin typedef */
   typedef ItpackSparseMatrix MatrixRepresentation;
@@ -513,7 +506,7 @@ public:
    * must be provided: file, lineNumber, location and a detailed description
    * of the exception.
    */
-  FEMExceptionItpackSolver(const char *file, unsigned int lineNumber, std::string location, itpack::integer errorCode);
+  FEMExceptionItpackSolver(const char *file, unsigned int lineNumber, std::string location, integer errorCode);
  
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~FEMExceptionItpackSolver() throw() {}

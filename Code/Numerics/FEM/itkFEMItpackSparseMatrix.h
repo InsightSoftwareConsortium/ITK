@@ -18,10 +18,9 @@
 #ifndef __itkItpackSparseMatrix_h
 #define __itkItpackSparseMatrix_h
 
-#include "itpack_f2c.h"
-#include "itpack.h"
 #include "itkFEMException.h"
 #include <vector>
+#include "itpack.h"
 
 
 namespace itk {
@@ -40,12 +39,6 @@ class ItpackLinearSystemWrapper;
 class ItpackSparseMatrix
 {
 public:
-
-  /** typedef for itpack integer type */
-  typedef itpack::integer integer;
-
-  /** typedef for itpack double type */
-  typedef itpack::doublereal doublereal;
 
   /** Constructor */
   ItpackSparseMatrix();
@@ -260,7 +253,7 @@ public:
    * must be provided: file, lineNumber, location and a detailed description
    * of the exception, and the invalid index
    */
-  FEMExceptionItpackSparseMatrixSbagn(const char *file, unsigned int lineNumber, std::string location, itpack::integer errorCode);
+  FEMExceptionItpackSparseMatrixSbagn(const char *file, unsigned int lineNumber, std::string location, integer errorCode);
  
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~FEMExceptionItpackSparseMatrixSbagn() throw() {}
@@ -284,7 +277,7 @@ public:
    * must be provided: file, lineNumber, location and a detailed description
    * of the exception, and the invalid index
    */
-  FEMExceptionItpackSparseMatrixSbsij(const char *file, unsigned int lineNumber, std::string location, itpack::integer errorCode);
+  FEMExceptionItpackSparseMatrixSbsij(const char *file, unsigned int lineNumber, std::string location, integer errorCode);
  
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~FEMExceptionItpackSparseMatrixSbsij() throw() {}

@@ -176,20 +176,6 @@ SOURCE_GROUP("Linear Systems" REGULAR_EXPRESSION itkFEMLinearSystem*)
 SOURCE_GROUP("Source Files Template" REGULAR_EXPRESSION ./*.txx)
 
 
-# Include the ITPACK library within FEM
-SET(FEM_SRCS ${FEM_SRCS}
-  itpack.cxx
-)
-IF(NOT UNIX)
-IF(WIN32)
-SET(FEM_SRCS ${FEM_SRCS}
-  itpack.h
-  itpack_f2c.h
-)
-ENDIF(WIN32)
-ENDIF(NOT UNIX)
-SOURCE_GROUP("ITPACK" REGULAR_EXPRESSION itpack*)
-
 
 
 # Build the library
