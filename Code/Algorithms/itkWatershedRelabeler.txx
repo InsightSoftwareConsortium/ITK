@@ -91,7 +91,6 @@ void Relabeler<TScalarType, TImageDimension>
       it++;      
     } 
 
-  eqT->Flatten();
   SegmenterType::RelabelImage(output, output->GetRequestedRegion(), eqT);
   this->UpdateProgress(1.0);
 }
