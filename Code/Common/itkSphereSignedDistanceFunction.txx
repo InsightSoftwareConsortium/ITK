@@ -28,7 +28,7 @@ template<typename TCoordRep, unsigned int VSpaceDimension>
 SphereSignedDistanceFunction<TCoordRep, VSpaceDimension>
 ::SphereSignedDistanceFunction()
 {
-  m_Parameters = ParametersType( SpaceDimension + 1 );
+  m_Parameters.SetSize( SpaceDimension + 1 );
   m_Parameters.Fill( 0.0 );
   m_Parameters[0] = 1.0;
   m_Translation.Fill( 0.0 );
