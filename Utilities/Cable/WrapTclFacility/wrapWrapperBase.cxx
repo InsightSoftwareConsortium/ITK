@@ -566,7 +566,7 @@ int WrapperBase::CallWrappedFunction(int objc, Tcl_Obj* CONST objv[],
     }
   catch (TclException e)
     {
-    this->ReportErrorMessage(e.GetMessage());
+    this->ReportErrorMessage(e.GetExceptionMessage());
     return TCL_ERROR;
     }
   // We must catch any C++ exception to prevent it from unwinding the

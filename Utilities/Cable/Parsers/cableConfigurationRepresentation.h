@@ -73,7 +73,7 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  virtual const char* GetClassName() const { return "ConfigureObject"; }
+  virtual const char* GetNameOfClass() const { return "ConfigureObject"; }
   virtual TypeOfObject GetTypeOfObject() const;
   
   bool IsCableConfiguration() const { return (this->GetTypeOfObject() == CableConfiguration_id); }
@@ -101,7 +101,7 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  virtual const char* GetClassName() const { return "Named"; }
+  virtual const char* GetNameOfClass() const { return "Named"; }
   virtual TypeOfObject GetTypeOfObject() const { return Named_id; }
   
   const String& GetName() const { return m_Name; }
@@ -131,7 +131,7 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  virtual const char* GetClassName() const { return "CodeBlock"; }
+  virtual const char* GetNameOfClass() const { return "CodeBlock"; }
   virtual TypeOfObject GetTypeOfObject() const { return CodeBlock_id; }
   
   static Pointer New(const String&);
@@ -164,7 +164,7 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  virtual const char* GetClassName() const { return "Class"; }
+  virtual const char* GetNameOfClass() const { return "Class"; }
   virtual TypeOfObject GetTypeOfObject() const { return Class_id; }
   
   static Pointer New(const String&);
@@ -189,7 +189,7 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  virtual const char* GetClassName() const { return "Namespace"; }
+  virtual const char* GetNameOfClass() const { return "Namespace"; }
   virtual TypeOfObject GetTypeOfObject() const { return Namespace_id; }
   
   static Pointer New(const String&, Namespace*);
@@ -264,7 +264,7 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  virtual const char* GetClassName() const { return "CableConfiguration"; }
+  virtual const char* GetNameOfClass() const { return "CableConfiguration"; }
   virtual TypeOfObject GetTypeOfObject() const { return CableConfiguration_id; }
 
   static Pointer New(const String&, const String&, const String&);

@@ -150,7 +150,7 @@ public:
   /**
    * Get the name of the real object's class.
    */
-  virtual const char* GetClassName() const { return "InternalObject"; }
+  virtual const char* GetNameOfClass() const { return "InternalObject"; }
   
   /**
    * Many of the objects have an internal type that must be set.  Examples
@@ -227,7 +227,7 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
   
   virtual TypeOfObject GetTypeOfObject() const { return Location_id; }
-  virtual const char* GetClassName() const { return "Location"; }
+  virtual const char* GetNameOfClass() const { return "Location"; }
   
   static Pointer New(const String& file, unsigned int line);
 
@@ -361,7 +361,7 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
 
   virtual TypeOfObject GetTypeOfObject() const { return CvQualifiers_id; }
-  virtual const char* GetClassName() const { return "CvQualifiers"; }
+  virtual const char* GetNameOfClass() const { return "CvQualifiers"; }
   
   static Pointer New(bool is_const, bool is_volatile, bool is_restrict);
   
@@ -438,7 +438,7 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
   
   virtual TypeOfObject GetTypeOfObject() const { return Argument_id; }
-  virtual const char* GetClassName() const { return "Argument"; }
+  virtual const char* GetNameOfClass() const { return "Argument"; }
 
   static Pointer New(const String& name);
 
@@ -475,7 +475,7 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
   
   virtual TypeOfObject GetTypeOfObject() const { return Returns_id; }
-  virtual const char* GetClassName() const { return "Returns"; }
+  virtual const char* GetNameOfClass() const { return "Returns"; }
 
   static Pointer New();
 
@@ -511,7 +511,7 @@ public:
   static Pointer New(const String& name);
   
   virtual TypeOfObject GetTypeOfObject() const { return Function_id; }
-  virtual const char* GetClassName() const { return "Function"; }
+  virtual const char* GetNameOfClass() const { return "Function"; }
 
   bool IsFunction() const          { return (this->GetTypeOfObject() == Function_id); }
   bool IsMethod() const            { return (this->GetTypeOfObject() == Method_id); }
@@ -575,7 +575,7 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
 
   virtual TypeOfObject GetTypeOfObject() const { return Typedef_id; }
-  virtual const char* GetClassName() const { return "Typedef"; }
+  virtual const char* GetNameOfClass() const { return "Typedef"; }
 
   static Pointer New(const String&);
                      
@@ -612,7 +612,7 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
 
   virtual TypeOfObject GetTypeOfObject() const { return Enumeration_id; }
-  virtual const char* GetClassName() const { return "Enumeration_id"; }
+  virtual const char* GetNameOfClass() const { return "Enumeration_id"; }
 
   static Pointer New(const String&);
   const cxx::EnumerationType* GetCxxEnumerationType(const Namespace* gns) const;
@@ -699,7 +699,7 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
 
   virtual TypeOfObject GetTypeOfObject() const { return NamedType_id; }
-  virtual const char* GetClassName() const { return "NamedType"; }
+  virtual const char* GetNameOfClass() const { return "NamedType"; }
 
   static Pointer New();
                      
@@ -734,7 +734,7 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
 
   virtual TypeOfObject GetTypeOfObject() const { return PointerType_id; }
-  virtual const char* GetClassName() const { return "PointerType"; }
+  virtual const char* GetNameOfClass() const { return "PointerType"; }
 
   static Pointer New();
 
@@ -770,7 +770,7 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
 
   virtual TypeOfObject GetTypeOfObject() const { return ReferenceType_id; }
-  virtual const char* GetClassName() const { return "ReferenceType"; }
+  virtual const char* GetNameOfClass() const { return "ReferenceType"; }
 
   static Pointer New();
 
@@ -807,7 +807,7 @@ class PARSERS_EXPORT FunctionType: public Type
   typedef SmartPointer<const Self>  ConstPointer;
 
   virtual TypeOfObject GetTypeOfObject() const { return FunctionType_id; }
-  virtual const char* GetClassName() const { return "FunctionType"; }
+  virtual const char* GetNameOfClass() const { return "FunctionType"; }
 
   static Pointer New();
 
@@ -850,7 +850,7 @@ class PARSERS_EXPORT MethodType: public FunctionType
   typedef SmartPointer<const Self>  ConstPointer;
 
   virtual TypeOfObject GetTypeOfObject() const { return MethodType_id; }
-  virtual const char* GetClassName() const { return "MethodType"; }
+  virtual const char* GetNameOfClass() const { return "MethodType"; }
 
   static Pointer New();
 
@@ -885,7 +885,7 @@ class PARSERS_EXPORT OffsetType: public Type
   typedef SmartPointer<const Self>  ConstPointer;
 
   virtual TypeOfObject GetTypeOfObject() const { return OffsetType_id; }
-  virtual const char* GetClassName() const { return "OffsetType"; }
+  virtual const char* GetNameOfClass() const { return "OffsetType"; }
 
   static Pointer New();
 
@@ -926,7 +926,7 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
 
   virtual TypeOfObject GetTypeOfObject() const { return ArrayType_id; }
-  virtual const char* GetClassName() const { return "ArrayType"; }
+  virtual const char* GetNameOfClass() const { return "ArrayType"; }
 
   static Pointer New(int min, int max);
                      
@@ -964,7 +964,7 @@ public:
   static Pointer New(const String& name);
   
   virtual TypeOfObject GetTypeOfObject() const { return Namespace_id; }
-  virtual const char* GetClassName() const { return "Namespace"; }
+  virtual const char* GetNameOfClass() const { return "Namespace"; }
 
   void AddNamespace(Namespace* in_namespace)
     { in_namespace->SetContext(this); m_Declarations.insert(in_namespace); }
@@ -1001,7 +1001,7 @@ public:
                      bool is_pure_virtual);
 
   virtual TypeOfObject GetTypeOfObject() const { return Method_id; }
-  virtual const char* GetClassName() const { return "Method"; }
+  virtual const char* GetNameOfClass() const { return "Method"; }
   
   bool IsStatic() const { return m_Static; }
   bool IsConst() const { return m_Const; }
@@ -1040,7 +1040,7 @@ public:
   static Pointer New(Access access);
 
   virtual TypeOfObject GetTypeOfObject() const { return Constructor_id; }
-  virtual const char* GetClassName() const { return "Constructor"; }
+  virtual const char* GetNameOfClass() const { return "Constructor"; }
   
 protected:
   Constructor(Access access):
@@ -1064,7 +1064,7 @@ public:
   static Pointer New(Access access, bool is_virtual);
 
   virtual TypeOfObject GetTypeOfObject() const { return Destructor_id; }
-  virtual const char* GetClassName() const { return "Destructor"; }
+  virtual const char* GetNameOfClass() const { return "Destructor"; }
   
 protected:
   Destructor(Access access, bool is_virtual):
@@ -1090,7 +1090,7 @@ public:
                      bool is_pure_virtual);
 
   virtual TypeOfObject GetTypeOfObject() const { return Converter_id; }
-  virtual const char* GetClassName() const { return "Converter"; }
+  virtual const char* GetNameOfClass() const { return "Converter"; }
   
 protected:
   Converter(Access access, bool is_const, bool is_virtual, bool is_pure_virtual):
@@ -1115,7 +1115,7 @@ public:
                      bool is_const, bool is_virtual, bool is_pure_virtual);
 
   virtual TypeOfObject GetTypeOfObject() const { return OperatorMethod_id; }
-  virtual const char* GetClassName() const { return "OperatorMethod"; }
+  virtual const char* GetNameOfClass() const { return "OperatorMethod"; }
   
   virtual String GetCallName() const { return "operator"+this->GetName(); }
   
@@ -1142,7 +1142,7 @@ public:
   static Pointer New(const String&);
   
   virtual TypeOfObject GetTypeOfObject() const { return OperatorFunction_id; }
-  virtual const char* GetClassName() const { return "OperatorFunction"; }
+  virtual const char* GetNameOfClass() const { return "OperatorFunction"; }
   
   virtual String GetCallName() const { return "operator"+this->GetName(); }
   
@@ -1169,7 +1169,7 @@ public:
   static Pointer New(const String& name, Access access, bool is_abstract);
 
   virtual TypeOfObject GetTypeOfObject() const { return Class_id; }
-  virtual const char* GetClassName() const { return "Class"; }
+  virtual const char* GetNameOfClass() const { return "Class"; }
 
   void AddMethod(Method* x)
     { x->SetContext(this); m_Methods.insert(x); }
@@ -1217,7 +1217,7 @@ public:
   static Pointer New(const String& name, Access access, bool is_abstract);
   
   virtual TypeOfObject GetTypeOfObject() const { return Struct_id; }
-  virtual const char* GetClassName() const { return "Struct"; }
+  virtual const char* GetNameOfClass() const { return "Struct"; }
   
 protected:
   Struct(const String& name, Access access, bool is_abstract):
@@ -1242,7 +1242,7 @@ public:
   static Pointer New(const String& name, Access access, bool is_abstract);
   
   virtual TypeOfObject GetTypeOfObject() const { return Union_id; }
-  virtual const char* GetClassName() const { return "Union"; }
+  virtual const char* GetNameOfClass() const { return "Union"; }
   
 protected:
   Union(const String& name, Access access, bool is_abstract):
@@ -1265,7 +1265,7 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
   
   virtual TypeOfObject GetTypeOfObject() const { return QualifiedName_id; }
-  virtual const char* GetClassName() const { return "QualifiedName"; }
+  virtual const char* GetNameOfClass() const { return "QualifiedName"; }
 
   static Pointer New(const String& name);
   
@@ -1290,7 +1290,7 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
   
   virtual TypeOfObject GetTypeOfObject() const { return NameQualifier_id; }
-  virtual const char* GetClassName() const { return "NameQualifier"; }
+  virtual const char* GetNameOfClass() const { return "NameQualifier"; }
 
   static Pointer New(const String& name);
   
@@ -1393,7 +1393,7 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
 
   virtual TypeOfObject GetTypeOfObject() const { return UnimplementedTypeHolder_id; }
-  virtual const char* GetClassName() const { return "UnimplementedTypeHolder"; }
+  virtual const char* GetNameOfClass() const { return "UnimplementedTypeHolder"; }
   
   static Pointer New();
   
@@ -1423,7 +1423,7 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
 
   virtual TypeOfObject GetTypeOfObject() const { return UnimplementedNameHolder_id; }
-  virtual const char* GetClassName() const { return "UnimplementedNameHolder"; }
+  virtual const char* GetNameOfClass() const { return "UnimplementedNameHolder"; }
   
   static Pointer New();
   

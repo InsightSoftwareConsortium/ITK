@@ -346,7 +346,7 @@ Parser
 {
   if(!m_ElementStack.top()->IsCableConfiguration())
     throw ElementStackTypeException("CableConfiguration",
-                                    m_ElementStack.top()->GetClassName());
+                                    m_ElementStack.top()->GetNameOfClass());
 
   return dynamic_cast<CableConfiguration*>(m_ElementStack.top().RealPointer());
 }
@@ -361,7 +361,7 @@ Parser
 {
   if(!m_ElementStack.top()->IsCodeBlock())
     throw ElementStackTypeException("CodeBlock",
-                                    m_ElementStack.top()->GetClassName());
+                                    m_ElementStack.top()->GetNameOfClass());
 
   return dynamic_cast<CodeBlock*>(m_ElementStack.top().RealPointer());
 }
@@ -376,7 +376,7 @@ Parser
 {
   if(!m_ElementStack.top()->IsClass())
     throw ElementStackTypeException("Class",
-                                    m_ElementStack.top()->GetClassName());
+                                    m_ElementStack.top()->GetNameOfClass());
 
   return dynamic_cast<Class*>(m_ElementStack.top().RealPointer());
 }

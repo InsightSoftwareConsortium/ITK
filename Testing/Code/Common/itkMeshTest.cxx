@@ -89,6 +89,8 @@ typedef Mesh::PointType  PointType;
  * tetrahedron. (The tetra is inside of the hex.)
  */
 
+
+
 int main(void)
 {
   /**
@@ -158,7 +160,7 @@ int main(void)
     1,    // CellIdentifier.
     0);   // CellFeatureIdentifier
 
-  std::cout << testCell->GetClassName() << std::endl;
+  std::cout << testCell->GetNameOfClass() << std::endl;
   
   /**
    * Allocate an explicity boundary line.
@@ -200,7 +202,7 @@ int main(void)
     std::cout << "Id " << *cell << ": ";
     if(mesh->GetCell(*cell, &testCell))
       {
-      std::cout << testCell->GetClassName();
+      std::cout << testCell->GetNameOfClass();
       }
     std::cout << std::endl;
     }
@@ -225,7 +227,7 @@ int main(void)
     std::cout << "Id " << *cell << ": ";
     if(mesh->GetCell(*cell, &testCell))
       {
-      std::cout << testCell->GetClassName();
+      std::cout << testCell->GetNameOfClass();
       }
     std::cout << std::endl;
     }
@@ -247,7 +249,7 @@ int main(void)
     std::cout << "Id " << *cell << ": ";
     if(mesh->GetCell(*cell, &testCell))
       {
-      std::cout << testCell->GetClassName();
+      std::cout << testCell->GetNameOfClass();
       }
     std::cout << std::endl;
     }

@@ -252,7 +252,7 @@ Parser
      && (t != Struct_id)
      && (t != Union_id))
     throw ElementStackTypeException("Any Context",
-                                    m_ElementStack.top()->GetClassName());
+                                    m_ElementStack.top()->GetNameOfClass());
   
   return dynamic_cast<Context*>(m_ElementStack.top().RealPointer());
 }
@@ -268,7 +268,7 @@ Parser
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != Namespace_id))
     throw ElementStackTypeException("Namespace",
-                                    m_ElementStack.top()->GetClassName());
+                                    m_ElementStack.top()->GetNameOfClass());
   
   return dynamic_cast<Namespace*>(m_ElementStack.top().RealPointer());
 }
@@ -286,7 +286,7 @@ Parser
      && (t != Struct_id)
      && (t != Union_id))
     throw ElementStackTypeException("Any Class",
-                                    m_ElementStack.top()->GetClassName());
+                                    m_ElementStack.top()->GetNameOfClass());
   
   return dynamic_cast<Class*>(m_ElementStack.top().RealPointer());
 }
@@ -308,7 +308,7 @@ Parser
      && (t != OffsetType_id)
      && (t != ArrayType_id))
     throw ElementStackTypeException("Any Type",
-                                    m_ElementStack.top()->GetClassName());
+                                    m_ElementStack.top()->GetNameOfClass());
   
   return dynamic_cast<Type*>(m_ElementStack.top().RealPointer());
 }
@@ -330,7 +330,7 @@ Parser
     && (t != OperatorFunction_id)
     && (t != OperatorMethod_id))
     throw ElementStackTypeException("Any Function",
-                                    m_ElementStack.top()->GetClassName());
+                                    m_ElementStack.top()->GetNameOfClass());
 
   return dynamic_cast<Function*>(m_ElementStack.top().RealPointer());
 }
@@ -346,7 +346,7 @@ Parser
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != Argument_id))
     throw ElementStackTypeException("Argument",
-                                    m_ElementStack.top()->GetClassName());
+                                    m_ElementStack.top()->GetNameOfClass());
 
   return dynamic_cast<Argument*>(m_ElementStack.top().RealPointer());
 }
@@ -362,7 +362,7 @@ Parser
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != PointerType_id))
     throw ElementStackTypeException("PointerType",
-                                    m_ElementStack.top()->GetClassName());
+                                    m_ElementStack.top()->GetNameOfClass());
   
   return dynamic_cast<PointerType*>(m_ElementStack.top().RealPointer());
 }
@@ -378,7 +378,7 @@ Parser
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != ReferenceType_id))
     throw ElementStackTypeException("ReferenceType",
-                                    m_ElementStack.top()->GetClassName());
+                                    m_ElementStack.top()->GetNameOfClass());
   
   return dynamic_cast<ReferenceType*>(m_ElementStack.top().RealPointer());
 }
@@ -395,7 +395,7 @@ Parser
   if((t != FunctionType_id)
      && (t != MethodType_id))
     throw ElementStackTypeException("Any FunctionType",
-                                    m_ElementStack.top()->GetClassName());
+                                    m_ElementStack.top()->GetNameOfClass());
   
   return dynamic_cast<FunctionType*>(m_ElementStack.top().RealPointer());
 }
@@ -411,7 +411,7 @@ Parser
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if(t != MethodType_id)
     throw ElementStackTypeException("MethodType",
-                                    m_ElementStack.top()->GetClassName());
+                                    m_ElementStack.top()->GetNameOfClass());
   
   return dynamic_cast<MethodType*>(m_ElementStack.top().RealPointer());
 }
@@ -427,7 +427,7 @@ Parser
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != OffsetType_id))
     throw ElementStackTypeException("OffsetType",
-                                    m_ElementStack.top()->GetClassName());
+                                    m_ElementStack.top()->GetNameOfClass());
   
   return dynamic_cast<OffsetType*>(m_ElementStack.top().RealPointer());
 }
@@ -443,7 +443,7 @@ Parser
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != ArrayType_id))
     throw ElementStackTypeException("ArrayType",
-                                    m_ElementStack.top()->GetClassName());
+                                    m_ElementStack.top()->GetNameOfClass());
   
   return dynamic_cast<ArrayType*>(m_ElementStack.top().RealPointer());
 }

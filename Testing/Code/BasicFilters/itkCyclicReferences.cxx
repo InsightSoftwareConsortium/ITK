@@ -64,7 +64,7 @@ class DeleteEvent
 {
 public:
   void Delete(const itk::LightObject *caller, unsigned long event) 
-    {std::cout << "Deleting: " << caller->GetClassName() << std::endl;}
+    {std::cout << "Deleting: " << caller->GetNameOfClass() << std::endl;}
 };
 
 // Note about scoping: Lots of blocks are created here to force the order

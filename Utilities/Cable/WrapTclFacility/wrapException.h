@@ -49,12 +49,12 @@ namespace _wrap_
 class TclException
 {
 public:
-  TclException(const String& message): m_Message(message) {}
+  TclException(const String& message): m_ExceptionMessage(message) {}
   TclException(const String& message, const String& target):
-    m_Message(message+": "+target) {}
-  const String& GetMessage() { return m_Message; }
+    m_ExceptionMessage(message+": "+target) {}
+  const String& GetExceptionMessage() { return m_ExceptionMessage; }
 private:
-  String m_Message;
+  String m_ExceptionMessage;
 };
 
 #define _wrap_UndefinedInstanceNameException(x) \

@@ -41,11 +41,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // Note: This header is inteded for multiple inclusion!  The include
 // blockers are missing on purpose.
 
-// Any program that includes windows.h gets this macro defined.
-#if defined(GetMessage)
-#undef GetMessage
-#endif
-
 #include <set>
 #include <map>
 
@@ -223,7 +218,7 @@ Wrapper< _wrap_WRAPPED_TYPE >
     }
   catch (TclException e)
     {
-    wrapper->ReportErrorMessage(e.GetMessage());
+    wrapper->ReportErrorMessage(e.GetExceptionMessage());
     return TCL_ERROR;
     }
   // We must catch any C++ exception to prevent it from unwinding the
@@ -264,7 +259,7 @@ Wrapper< _wrap_WRAPPED_TYPE >
     }
   catch (TclException e)
     {
-    wrapper->ReportErrorMessage(e.GetMessage());
+    wrapper->ReportErrorMessage(e.GetExceptionMessage());
     return TCL_ERROR;
     }
   // We must catch any C++ exception to prevent it from unwinding the
