@@ -108,9 +108,11 @@ int main()
 
   RegistrationType::Pointer registrationMethod = RegistrationType::New();
 
+  const double translationScale = 1e4;
+
   registrationMethod->SetReference(imgReference);
   registrationMethod->SetTarget(imgTarget);
-  registrationMethod->SetTranslationScale( 1e4 );
+  registrationMethod->SetTranslationScale( translationScale );
 
   registrationMethod->GetOptimizer()->SetLearningRate(1e-6);
   registrationMethod->GetOptimizer()->SetNumberOfIterations(100);
@@ -118,11 +120,35 @@ int main()
   registrationMethod->StartRegistration();
 
 
-  std::cout << "The correct answer should be : " << std::endl;
-  std::cout << " 1.0    0.0    0.0    1.0  ";
-  std::cout << -displacement << std::endl;
-  
+  // get the results
+  RegistrationType::ParametersType solution = 
+    registrationMethod->GetOptimizer()->GetCurrentPosition();
 
+  std::cout << "Solution is: " << solution << std::endl;
+
+  //
+  // check results to see if it is within range
+  //
+  bool pass = true;
+  double trueParameters[6] = { 1, 0, 0, 1, -7, -3 };
+  for( unsigned int j = 0; j < 4; j++ )
+    {
+    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.02 )
+      pass = false;
+    }
+  for( unsigned int j = 4; j < 6; j++ )
+    {
+    if( vnl_math_abs( solution[j] * translationScale - trueParameters[j] ) > 1.0 )
+      pass = false;
+    }
+
+  if( !pass )
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 
 }
