@@ -17,6 +17,7 @@
 #ifndef __itkCurvatureFlowImageFilter_txx_
 #define __itkCurvatureFlowImageFilter_txx_
 
+#include "itkCurvatureFlowImageFilter.h"
 #include "itkExceptionObject.h"
 
 namespace itk
