@@ -146,6 +146,9 @@ public:
   void Unlock( void );
 
 protected:
+  MutexLock() {}
+  ~MutexLock() {}
+  
   SimpleMutexLock   m_SimpleMutexLock;
   void PrintSelf(std::ostream& os, Indent indent) const;
   

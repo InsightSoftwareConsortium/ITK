@@ -91,6 +91,9 @@ public:
   void Unlock( void );
 
 protected:
+  FastMutexLock() {}
+  ~FastMutexLock() {}
+  
   SimpleFastMutexLock   m_SimpleFastMutexLock;
   void PrintSelf(std::ostream& os, Indent indent) const;
   
