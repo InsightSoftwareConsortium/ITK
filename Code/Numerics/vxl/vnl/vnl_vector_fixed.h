@@ -7,7 +7,7 @@
 #include <vnl/vnl_vector_ref.h>
 #include <vnl/vnl_c_vector.h>
 
-
+#ifdef VCL_SUNPRO_CC
 template <class T, int n>
 class vnl_vector_fixed;
 
@@ -18,6 +18,8 @@ vnl_vector_fixed<T,n> element_product VCL_NULL_TMPL_ARGS (vnl_vector_fixed<T,n> 
 template <class T, int n>
 vnl_vector_fixed<T,n> element_quotient VCL_NULL_TMPL_ARGS (vnl_vector_fixed<T,n> const&,
                                                            vnl_vector_fixed<T,n> const&);
+#endif
+
 
 
 //:
