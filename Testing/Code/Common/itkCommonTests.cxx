@@ -61,6 +61,7 @@ REGISTER_TEST(itkRigid2DTransformTest );
 REGISTER_TEST(itkRigid3DTransformTest );
 REGISTER_TEST(itkRigid3DPerspectiveTransformTest );
 REGISTER_TEST(itkShapedNeighborhoodIteratorTest );
+REGISTER_TEST(itkSimilarity2DTransformTest );
 REGISTER_TEST(itkSliceIteratorTest );
 REGISTER_TEST(itkSpatialFunctionTest );
 REGISTER_TEST(itkSmartPointerTest );
