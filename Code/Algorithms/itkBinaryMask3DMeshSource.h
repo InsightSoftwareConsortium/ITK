@@ -30,17 +30,44 @@
 namespace itk
 {
 
-/** \class itkBinaryMask3DSphereMesh Source
- * \brief 
+/** \class itkBinaryMask3DMeshSource
+ * 
+ * 
+ * \par
+ * This class tries to construct a 3D mesh surface based on a binary mask.
+ * It can be used to integrate a region-based segmentation method and a deformable 
+ * model into one hybrid framework.
  *
- * Input parameters are:
- * (1) The Center of the SphereMesh
- * (2) The resolutions of the spatial sampling on the SphereMesh surface in both 
- *     verizon and horizon directions.
- * The cell surface is triangulated. 
- * The scale in the x, y, z directions can be reset.
- * Squearness1 and Squearness2 control the shape of the SphereMesh, 
- * when considered as a quadric surface. */
+ * \par
+ * To construct a mesh, we need to construct elements in a voxel and combine
+ * those elements later to form the final mesh. Before go through every voxel in the
+ * 3D volume, we first construct 2 look up tables. The index of these 2 tables are the 
+ * on-off combination of the 8 nodes that form the voxel. So both of these tables has
+ * the size of $2^8$ bytes. According to previous work, all those $2^8$ combination of the nodes can 
+ * be grouped into 16 final combinations. In the first table, we record the final 
+ * combination that can be transformed from the current combination. The entries of the 
+ * second table are made up of the transforming sequence that is necessary for the current 
+ * combination transform to one of the final combinations.
+ *
+ * \par
+ * We then go through the 3D volume voxel by voxel, using those two tables we have defined
+ * to construct elements within each voxel. We then merge all these mesh elements into 
+ * one 3D mesh.
+ * 
+ * \par PARAMETERS
+ * The objectvalue parameter is used to identify the object. In most applications,
+ * pixels in the object region are assigned to "1", so the default value of objectvalue is
+ * set to "1"
+ *
+ * \par REFERENCE
+ * C. Lorenson: Marching Cubes, "A High Resolution 3D Surface Construction Algorithm", 
+ * Computer Graphics 21, pp. 163-169, 1987. 
+ * 
+ * \par INPUT
+ * The input should be a 3D binary image. We assign the pixel type to unsigned short.
+ *
+ *
+ *  */
 template <class TOutputMesh>
 class ITK_EXPORT BinaryMask3DMeshSource : public MeshSource<TOutputMesh>
 {
@@ -79,10 +106,8 @@ public:
   typedef TriangleCell<TCellInterface> TriCell;
   typedef typename TriCell::SelfAutoPointer TriCellAutoPointer;
 
-
+  /** Input Image Type Definition. */
   typedef Image<unsigned short, 3> BinaryImageType;
-  /** Type definitions for the labelled image.
-   *  It is derived from the training image.*/
   typedef typename BinaryImageType::Pointer         BinaryImagePointer;
      
   /** Type definition for the classified image index type. */
@@ -110,21 +135,21 @@ private:
   typedef typename BinaryImageType::SizeType BinaryImageSizeType;
 
   void CreateMesh();
-  void XFlip ( unsigned char *tp );
+  void XFlip ( unsigned char *tp );  // 7 kinds of transfermation
   void YFlip ( unsigned char *tp );
   void ZFlip ( unsigned char *tp );
   void XRotation ( unsigned char *tp );
   void YRotation ( unsigned char *tp );
   void ZRotation ( unsigned char *tp );
   void inverse ( unsigned char *tp );
-  void InitializeLUT();
+  void InitializeLUT(); // initialize the look up table before the mesh construction
   void AddCells( unsigned char celltype, unsigned char celltran, int index );
   void AddNodes( int index, unsigned char *nodesid, unsigned long *globalnodesid, unsigned long **currentrowtmp, unsigned long **currentframetmp );
   void CellTransfer( unsigned char *nodesid, unsigned char celltran );
   unsigned long SearchThroughLastRow( int index, int start, int end );
   unsigned long SearchThroughLastFrame( int index, int start, int end );
 
-  unsigned char m_LUT[256][2];
+  unsigned char m_LUT[256][2]; // the two lookup tables
 
   unsigned long m_LastVoxel[14];
   unsigned long m_CurrentVoxel[14];
