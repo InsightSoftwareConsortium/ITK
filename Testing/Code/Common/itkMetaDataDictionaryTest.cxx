@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkMetaDataDictionaryTest.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -169,6 +185,8 @@ int itkMetaDataDictionaryTest(int , char * [])
   MyDictionary.Print(std::cout);
 
 
+  // Iterator are broken on VS6
+#if !(defined(_MSC_VER) && _MSC_VER < 1300)
   std::cout << "Exercise the Iterator access" << std::endl;
   try
     {
@@ -213,7 +231,7 @@ int itkMetaDataDictionaryTest(int , char * [])
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
-
+#endif
 
 
   //NOTE: Must clean up memory allocated with char * StrandedMemory=new char[2345];
