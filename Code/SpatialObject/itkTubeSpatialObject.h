@@ -19,7 +19,7 @@
 #define __itkTubeSpatialObject_h
 
 #include <list>
-#include <cmath>
+#include <math.h>
 
 #include "itkSpatialObject.h"
 #include "itkTubePoint.h"
