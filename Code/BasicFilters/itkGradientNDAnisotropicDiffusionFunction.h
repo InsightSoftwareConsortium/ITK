@@ -49,23 +49,35 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk {
 
 /** \class GradientNDAnisotropicDiffusionFunction
- *  
- * This class implements an anisotropic equation with a conductance term that
- * varies spatially according to the gradient magnitude of the image.  See
- * AnisotropicDiffusionFunction for more information on anisotropic diffusion
- * equations.
  *
- * The conductance term of the equation has the following form:
+ * This class implements an N-dimensional version of the classic Perona-Malik
+ * anisotropic diffusion equation for scalar-valued images.  See
+ * itkAnisotropicDiffusionFunction for an overview of the anisotropic diffusion 
+ * framework and equation.
+ *
+ * \par
+ * The conductance term for this implementation is chosen as a function of the
+ * gradient magnitude of the image at each point, reducing the strength of
+ * diffusion at edge pixels.
  *
  * \f[C(\mathbf{x}) = e^{-(\frac{\parallel \nabla U(\mathbf{x}) \parallel}{K})^2}\f].
  *
- * Edge features tend to be preserved in the resulting, diffused image.
+ * \par
+ * The numerical implementation of this equation is similar to that described
+ * in the Perona-Malik paper below, but uses a more robust technique
+ * for gradient magnitude estimation and has been generalized to N-dimensions.
  *
- * This class implements the general case where image dimension is arbitrary.
+ * \par References
+ * Pietro Perona and Jalhandra Malik, ``Scale-space and edge detection using
+ * anisotropic diffusion,'' IEEE Transactions on Pattern Analysis Machine
+ * Intelligence, vol. 12, pp. 629-639, 1990.
  *
  * \sa AnisotropicDiffusionFunction
- * \sa Gradient2DAnisotropicDiffusionFunction
- * \ingroup Operators
+ * \sa VectorAnisotropicDiffusionFunction
+ * \sa VectorGradientAnisotropicDiffusionFunction
+ * \sa CurvatureNDAnisotropicDiffusionFunction
+ * \ingroup Functions
+ * \ingroup ImageEnhancement
  */ 
 template <class TImage>
 class GradientNDAnisotropicDiffusionFunction :
@@ -149,8 +161,6 @@ private:
   void operator=(const Self&); //purposely not implemented
 
 };
-
-
   
 }// end namespace itk
 

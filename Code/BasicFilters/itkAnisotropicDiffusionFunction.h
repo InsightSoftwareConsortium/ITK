@@ -56,10 +56,19 @@ namespace itk {
  * itk::Images.
  *
  * \par Overview of anisotropic diffusion
- * Anisotropic diffusion methods are a tools for calculating multi-scale
- * descriptions of images. Embed an image \f$U(\mathbf{x})\f$ in a higher
- * dimensional function of derived images, \f$U(\mathbf{x}, t)\f$.  This higher
- * dimensional function represents the solution of the heat diffusion equation,
+ *
+ * Anisotropic diffusion methods are formulated to reduce noise (or unwanted
+ * detail) in images while preserving specific image features.  For many
+ * applications, there is an assumption that light-dark transitions
+ * (edges) are interesting.  Standard isotropic diffusion methods move and blur
+ * light-dark boundaries.  Anisotropic diffusion methods are formulated to
+ * specifically preserve edges.
+ *
+ * Anisotropic diffusion methods can be thought of as tools for calculating
+ * multi-scale descriptions of images. Embed an image \f$U(\mathbf{x})\f$ in a
+ * higher dimensional function of derived images, \f$U(\mathbf{x}, t)\f$.  This
+ * higher dimensional function represents the solution of the heat diffusion
+ * equation,
  *
  * \par
  * \f[\frac{d U(\mathbf{x})}{d t} = \nabla \cdot c \nabla U(\mathbf{x})\f]
@@ -110,7 +119,7 @@ namespace itk {
  * \par TimeStep
  * In the anisotropic diffusion filter hierarchy, the time step is set
  * explicitly by the user.  The time step referred to here corresponds exactly
- * to /f$ \Delta t /f$ in the finite difference update equation described in
+ * to \f$ \Delta t \f$ in the finite difference update equation described in
  * FiniteDifferenceImageFilter (see itkFiniteDifferenceImageFilter for more
  * information).  Appropriate time steps for solving this type of p.d.e. depend 
  * on the dimensionality of the image and the order of the equation.  Typical
@@ -128,7 +137,12 @@ namespace itk {
  * like the Visible Human color data, but the correct value for your
  * application is wholly dependent on the results you want from a specific data
  * set and the number or iterations you perform.
- * 
+ *
+ * \par References
+ * Pietro Perona and Jalhandra Malik, ``Scale-space and edge detection using
+ * anisotropic diffusion,'' IEEE Transactions on Pattern Analysis Machine
+ * Intelligence, vol. 12, pp. 629-639, 1990.
+ *
  * \sa VectorAnisotropicDiffusionFunction
  * \sa ScalarAnisotropicDiffusionFunction
  * \sa GradientAnisotropicDiffusionFunction

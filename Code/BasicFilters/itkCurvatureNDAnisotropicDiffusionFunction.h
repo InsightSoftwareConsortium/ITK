@@ -50,13 +50,46 @@ namespace itk {
 
 /**
  * \class CurvatureNDAnisotropicDiffusionFunction
- *  
+ *
+ * This class implements a variation on the classic, Perona-Malik anisotropic
+ * image diffusion equation as described in
+ * itkGradientNDAnisotropicDiffusionFunction.  This object is a level-set
+ * analog of that equation and will be referred to below as the \em modified
+ * \em curvature \em diffusion \em equation ( \MCDE ).  MCDE does not exhibit
+ * the edge enhancing properties of classic anisotropic diffusion, which can under 
+ * certain conditions undergo a ``negative'' diffusion,which enhances the
+ * contrast of edges.  Equations of the form of MCDE always undergo positive
+ * diffusion, with the conductance term only varying the strength of that
+ * diffusion.
+ *
+ * \par
+ * Qualitatively, MCDE compares well with other non-linear diffusion
+ * techniques.  It is less sensitive to contrast than classic Perona-Malik
+ * style diffusion, and preserves finer detailed structures in images.
+ * There is a potential speed trade-off for using this function in place of
+ * itkGradientNDAnisotropicDiffusionFunction.  Each iteration of the solution
+ * takes roughly twice as long.  Fewer iterations, however, may be required to
+ * reach an acceptable solution.
+ * 
+ * \par
+ * The MCDE equation is given as:
+ *
+ * \f[ f_t = \mid \nabla f \mid \nabla \cdot c( \mid \nabla f \mid ) \frac{
+ * \nabla f }{ \mid \nabla f \mid } \f] ,
+ *
+ * \par
+ * where the conductance modified curvature term is
+ *
+ * \f[ \nabla \cdot \frac{\nabla f}{\mid \nabla f \mid} \f] .
+ *
+ * \par References
+ *
+ *
  *  
  * \sa AnisotropicDiffusionFunction
- * \sa Curvature2DAnisotropicDiffusionFunction
- * \ingroup Operators
- * \todo DOCUMENT! References
- */ 
+ * \ingroup Functions
+ * \ingroup ImageEnhancement
+ * \todo References */
 template <class TImage>
 class CurvatureNDAnisotropicDiffusionFunction :
     public ScalarAnisotropicDiffusionFunction<TImage>
