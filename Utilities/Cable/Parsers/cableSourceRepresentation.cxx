@@ -838,7 +838,7 @@ Context
     }
   else
     {
-    std::err << "Couldn't parse qualified name: " << name << std::endl;
+    std::cerr << "Couldn't parse qualified name: " << name << std::endl;
     // The name was invalid, and failed to parse.
     return NULL;
     }
