@@ -79,9 +79,16 @@ public:
   unsigned int GetSize(void) const 
       { return static_cast<unsigned int>( this->size() ); }
 
+  /** Set the pointer to the data. Pointer is not destroyed*/
+  void SetData(TValueType* data);
+
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
-  ~Array() {};
+  ~Array();
+
+private:
+
+  bool m_Array_Own_Data;
   
 };
 

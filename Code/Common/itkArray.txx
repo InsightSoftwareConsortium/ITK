@@ -24,23 +24,43 @@ namespace itk
 
 
 
-/**
- * Default constructor 
- */
+/** Default constructor  */
 template < typename TValueType >
 Array<TValueType >
 ::Array():vnl_vector<TValueType>()
 {
+  m_Array_Own_Data = false;
 }
 
 
-/**
- * Constructor with size
- */
+/** Constructor with size */
 template < typename TValueType >
 Array<TValueType >
 ::Array(unsigned int dimension):vnl_vector<TValueType>(dimension)
 {
+  m_Array_Own_Data = false;
+}
+
+/** Destructor*/
+template < typename TValueType >
+Array<TValueType >
+::~Array()
+{
+  if(m_Array_Own_Data)
+    {
+    vnl_vector<TValueType>::data = 0;
+    }
+}
+
+
+/** Set the pointer to the data. Pointer is not destroyed*/
+template < typename TValueType >
+void 
+Array<TValueType >
+::SetData(TValueType* data)
+{
+  vnl_vector<TValueType>::data = data;
+  m_Array_Own_Data = true;
 }
 
 template < typename TValueType >
