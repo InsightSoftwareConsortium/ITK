@@ -86,9 +86,11 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
     typedef typename InputMeshType::PointsContainer::Iterator  InputPointsContainerIterator;
 
     /** Other definitions. */
-    typedef typename InputMeshType::PointType         PointType;
-    typedef typename PointType::VectorType            VectorType;
-    typedef typename InputMeshType::PixelType         PixelType;
+    typedef typename InputMeshType::PointType             PointType;
+    typedef typename PointType::VectorType                VectorType;
+    typedef CovariantVector< 
+                    typename VectorType::ValueType, 3 >   CovariantVectorType;
+    typedef typename InputMeshType::PixelType             PixelType;
 
     /** Image and Image iterator definition. */
     typedef CovariantVector<PixelType, 3>                   GradientType;

@@ -44,6 +44,8 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   m_Gamma = 0.05;
   m_Rigidity = 1;
 
+  this->ProcessObject::SetNumberOfRequiredInputs(1);
+
   OutputMeshPointer output = OutputMeshType::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
@@ -82,19 +84,21 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
 {
   this->Initialize();
 
+  m_Step = 0;
+
   while ( m_Step < m_Iterations )
     {
-
-    const float progress = static_cast<float>( m_Step ) / 
-      static_cast<float>( m_Iterations );
-    this->UpdateProgress( progress );
 
     this->ComputeGeometry();
 
     if ( m_Step % 10 == 0 && m_Step > 0 )
       {
-      std::cout << "Iteration: " << m_Step <<  std::endl;
-      UpdateReferenceMetrics();
+      const float progress = static_cast<float>( m_Step ) / 
+                             static_cast<float>( m_Iterations );
+
+      this->UpdateProgress( progress );
+
+      this->UpdateReferenceMetrics();
       }
 
     this->ComputeDisplacement();
@@ -171,8 +175,10 @@ void
 DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
 ::ComputeGeometry() 
 {
-  PointType normal, F;
-  VectorType tmp,z;
+  PointType Foot;
+  CovariantVectorType normal;
+  CovariantVectorType z;
+  VectorType tmp;
   //   unsigned long idx = 0;
 
   InputMeshPointer inputMesh = this->GetInput(0);
@@ -220,12 +226,12 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
     //compute the foot of p projection of p onto the triangle spanned by its neighbors
     double distance = -tmpNormalProd;
     tmp.Set_vnl_vector((data->pos).Get_vnl_vector() - distance * normal.Get_vnl_vector() );
-    F.Fill(0.0);
-    F += tmp;
+    Foot.Fill(0.0);
+    Foot += tmp;
 
-    data->distance = ((data->circleCenter)-F).GetNorm();
+    data->distance = ((data->circleCenter)-Foot).GetNorm();
 
-    data->eps = ComputeBarycentricCoordinates( F, data);
+    data->eps = ComputeBarycentricCoordinates( Foot, data);
     dataIt.Value() = data;
     dataIt++;
     }
@@ -245,13 +251,11 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
     {
     data = dataIt.Value();
 
-    //std::cout << "point index: " << dataIt.Index() << std::endl;
-
-    ComputeInternalForce(data);
-    ComputeExternalForce(data);      
+    this->ComputeInternalForce( data );
+    this->ComputeExternalForce( data );      
 
     displacement.Set_vnl_vector( m_Alpha * (data->internalForce).Get_vnl_vector() +
-                                 (data->externalForce).Get_vnl_vector() );
+                                           (data->externalForce).Get_vnl_vector() );
 
     data->pos += displacement;
     inputMesh->GetPoints()->InsertElement( dataIt.Index(), data->pos );
