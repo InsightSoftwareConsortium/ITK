@@ -24,7 +24,8 @@
 #endif
 #include <fstream>
 #include "itkFEMRegistrationFilter.h"
-
+#include "itkImageFileWriter.h"
+#include "itkRawImageIO.h"
 namespace itk {
 namespace fem {
 
