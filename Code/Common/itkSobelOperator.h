@@ -25,26 +25,33 @@ namespace itk {
 
 /**
  * \class SobelOperator
- * \brief A NeighborhoodOperator for doing Sobel operation
- * at a pixel
+ *
+ * \brief A NeighborhoodOperator for performing a directional Sobel
+ * edge-detection operation * at a pixel location.
  * 
- * SobelOperator's coefficients are a tightest-fitting convolution
- * kernel for calculating the laplacian value at a pixel.
  * SobelOperator is a directional NeighborhoodOperator that should be
- * applied to a Neighborhood or NeighborhoodPointer using the inner product
- * method. To create the operator, you need:
+ * applied a NeighborhoodIterator using the NeighborhoodInnerProduct
+ * method. To create the operator:
  * 
- * 1) Set the direction  2) call CreateOperator() 
- * For example, the Sobel Operator in vertical direction is
+ * 1) Set the direction by calling  \code{SetDirection}
+ * 2) call \code{CreateOperator()}
+ * 3) You may optionally scale the coefficients of this operator using the
+ * \code{ScaleCoefficients} method.  This is useful if you want to take the
+ * spacing of the image into account when computing the edge strength.  Apply
+ * the scaling only after calling to \code{CreateOperator}.
+ *
+ * The Sobel Operator in vertical direction for 2 dimensions is
  *             -1  -2  -1  
  *             0    0   0 
  *             1    2   1
- * while  the Sobel Operator in horizonal direction is
+ *
+ * The Sobel Operator in horizonal direction is for 2 dimensions is
  *             -1   0   1      
  *             -2   0   2 
  *             -1   0   1
  *
- * The Sobel Operator in the Nth dimension can be calculated accordingly.
+ * Because the Sobel operator is directional, it can be applied along any axial
+ * direction in ND.
  *
  * \sa NeighborhoodOperator
  * \sa Neighborhood
@@ -104,11 +111,10 @@ public:
    */
   virtual void PrintSelf(std::ostream &os, Indent i) const  
   { 
-    os << i << "SobelOperator { this=" << this
-       << "}" << std::endl;
+    os << i << "SobelOperator { this=" << this  << "}" << std::endl;
     Superclass::PrintSelf(os, i.GetNextIndent());
   }
-  
+
 protected:
   /**
    * Typedef support for coefficient vector type.  Necessary to
@@ -126,12 +132,6 @@ protected:
    * Arranges coefficients spatially in the memory buffer.
    */
   void Fill(const CoefficientVector &);
-//{   Superclass::FillCenteredDirectional(coeff);  }
-
-
-
- 
-private:
 
 };
 
