@@ -87,7 +87,7 @@ int itkImageRegistrationMethodTest(int, char* [] )
 
   movingImage->SetRegions( region );
   movingImage->Allocate();
-  movingImage->FillBuffer( 4.0 );
+  movingImage->FillBuffer( 4 );
   
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
