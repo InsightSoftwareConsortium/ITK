@@ -3,6 +3,7 @@
 #include <ctype.h>
 
 #include <metaObject.h>
+#include <metaUtils.h>
 
 int testMetaObject(int , char *[])
   {
@@ -85,12 +86,13 @@ int testMetaObject(int , char *[])
 
   float* matrix = static_cast<float*>(tObj.GetUserField("MyMatrix"));
   for(i=0; i<4; i++)
-  {
-    if(matrix[i] != i)
     {
+    if(matrix[i] != i)
+      {
       std::cout << "MyMatrix: FAIL" << std::endl;
-    }
-  } 
+      return 1;
+      }
+    } 
 
   delete [] matrix;
 
@@ -112,6 +114,7 @@ int testMetaObject(int , char *[])
   if(tObj.NDims() != 2)
     {
     std::cout << "NDims: FAIL" << std::endl;
+    return 1;
     }
   else
     {
@@ -122,6 +125,7 @@ int testMetaObject(int , char *[])
   if(tObj.Position(zero) != 4)
     {
     std::cout << "Position: FAIL :" << tObj.Position(zero) << std::endl;
+    return 1;
     }
   else
     {
@@ -131,12 +135,52 @@ int testMetaObject(int , char *[])
   if(tObj.ElementSpacing(zero) != 2)
     {
     std::cout << "ElementSpacing: FAIL: " << tObj.ElementSpacing(zero) << std::endl;
+    return 1;
     }
   else
     {
     std::cout << "ElementSpacing: PASS" << std::endl;
     }
 
+
+  // testing metaUtils
+
+  char* inDataChar = new char[1];
+  inDataChar[0]=1;
+  char* outDataChar = new char[1];
+  if(!MET_ValueToValue(MET_CHAR_ARRAY,inDataChar,0,MET_CHAR_ARRAY,outDataChar))
+    {
+    std::cout << "MET_ValueToValue: FAIL" << std::endl;
+    return 1;
+    }
+  else
+    {
+    std::cout << "outDataChar = " << outDataChar[0] << std::endl;
+    }
+
+  delete [] inDataChar;
+  delete [] outDataChar;
+
+  unsigned char* inDataUChar = new unsigned char[1];
+  inDataUChar[0]=1;
+  unsigned char* outDataUChar = new unsigned char[1];
+  if(!MET_ValueToValue(MET_UCHAR_ARRAY,inDataUChar,0,MET_UCHAR_ARRAY,outDataUChar))
+    {
+    std::cout << "MET_ValueToValue: FAIL" << std::endl;
+    return 1;
+    }
+  else
+    {
+    std::cout << "outDataUChar = " << outDataUChar[0] << std::endl;
+    }
+
+  delete [] inDataUChar;
+  delete [] outDataUChar;
+
+
   std::cout << "[DONE]" << std::endl;
   return 0;
   }
+
+
+
