@@ -19,7 +19,7 @@
 #endif
 
 #include "itkTranslationTransform.h"
-#include "itkIterativeClosestPointMetric.h"
+#include "itkEuclideanDistancePointMetric.h"
 #include "itkLevenbergMarquardtOptimizer.h"
 #include "itkPointSet.h"
 #include "itkPointSetToPointSetRegistrationMethod.h"
@@ -92,7 +92,7 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
 //-----------------------------------------------------------
 // Set up  the Metric
 //-----------------------------------------------------------
-  typedef itk::IterativeClosestPointMetric<  
+  typedef itk::EuclideanDistancePointMetric<  
     FixedPointSetType, 
     MovingPointSetType>   
     MetricType;
