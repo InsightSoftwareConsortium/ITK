@@ -177,10 +177,12 @@ public:
     RefRegionIteratorType Iter (m_RefImage,m_RefImage->GetLargestPossibleRegion() );
     Iter.GoToEnd();
     typename ReferenceType::IndexType Ind = Iter.GetIndex();    
-    for (int i=0; i< ImageDimension; i++) m_RefSize[i]=Ind[i]+1;
+    for (int i=0; i< ImageDimension; i++) m_RefSize[i]=Ind[i]+1; 
   };
 
- /** Define the target (fixed) image. */ 
+  void SetMetricReferenceImage(ReferenceType* R)  { m_Metric->SetMovingImage( R ) ; };
+
+  /** Define the target (fixed) image. */ 
   void SetTargetImage(TargetType* T)
   { 
      m_TarImage=T; 
@@ -190,6 +192,7 @@ public:
      typename ReferenceType::IndexType Ind = Iter.GetIndex();   
      for (int i=0; i< ImageDimension; i++) m_TarSize[i]=Ind[i]+1; 
   };
+  void SetMetricTargetImage(TargetType* R)  { m_Metric->SetFixedImage( R ) ; };
 
 
   ReferencePointer GetReferenceImage() { return m_RefImage; };
