@@ -131,6 +131,9 @@ TileImageFilter<TInputImage, TOutputImage>
       }
     }
 
+  outputPtr->SetSpacing (spacing);
+  outputPtr->SetOrigin (origin);
+
   // Create an image that has one element per tile. Each element of
   // this tile image will hold a class that defines the image number
   // for the tile, the size of the image and the destination index for
