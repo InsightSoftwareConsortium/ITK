@@ -132,7 +132,7 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
     }
     current[0]++;
   }
-  if(current[0] < static_cast<IndexType>(m_Size[0])-1)
+  if(current[0] < static_cast<typename IndexType::IndexValueType>(m_Size[0])-1)
   {
     current[0]++;  
     tmp2 = (double)(m_FuzzyScene->GetPixel(current));
@@ -165,7 +165,7 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
       }
       current[i]++;
   }
-  if(current[i] < static_cast<IndexType>(m_Size[i])-1)
+  if(current[i] < static_cast<typename IndexType::IndexValueType>(m_Size[i])-1)
   {
     current[i]++;
       tmp2 = (double)(m_FuzzyScene->GetPixel(current));
