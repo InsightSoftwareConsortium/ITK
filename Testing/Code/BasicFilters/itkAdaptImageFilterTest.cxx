@@ -35,6 +35,7 @@
 #include <itkRedPixelAccessor.h>
 #include <itkGreenPixelAccessor.h>
 #include <itkBluePixelAccessor.h>
+#include "itkFilterWatcher.h"
 
 #include <vnl/vnl_sample.h>
 
@@ -113,7 +114,7 @@ int itkAdaptImageFilterTest(int, char* [] ) {
 
   // Convert to a red image
   itk::AdaptImageFilter<myRGBImageType, myImageType, myRedAccessorType>::Pointer  adaptImageToRed = itk::AdaptImageFilter<myRGBImageType, myImageType, myRedAccessorType>::New();
-
+  FilterWatcher redWatcher(adaptImageToRed, "Red");
   adaptImageToRed->SetInput(myImage);
   adaptImageToRed->UpdateLargestPossibleRegion();
  
@@ -137,6 +138,7 @@ int itkAdaptImageFilterTest(int, char* [] ) {
 
   // Convert to a green image
   itk::AdaptImageFilter<myRGBImageType, myImageType, myGreenAccessorType>::Pointer  adaptImageToGreen = itk::AdaptImageFilter<myRGBImageType, myImageType, myGreenAccessorType>::New();
+  FilterWatcher greenWatcher(adaptImageToGreen, "Green");
 
   adaptImageToGreen->SetInput(myImage);
   adaptImageToGreen->UpdateLargestPossibleRegion();
@@ -161,6 +163,7 @@ int itkAdaptImageFilterTest(int, char* [] ) {
 
   // Convert to a blue image
   itk::AdaptImageFilter<myRGBImageType, myImageType, myBlueAccessorType>::Pointer  adaptImageToBlue = itk::AdaptImageFilter<myRGBImageType, myImageType, myBlueAccessorType>::New();
+  FilterWatcher blueWatcher(adaptImageToBlue, "Blue");
 
   adaptImageToBlue->SetInput(myImage);
   adaptImageToBlue->UpdateLargestPossibleRegion();

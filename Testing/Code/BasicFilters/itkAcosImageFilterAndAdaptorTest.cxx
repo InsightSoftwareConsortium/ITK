@@ -22,7 +22,7 @@
 #include <itkAcosImageAdaptor.h>
 #include <itkImageRegionIteratorWithIndex.h>
 #include <itkSubtractImageFilter.h>
-
+#include "itkFilterWatcher.h"
 
 int itkAcosImageFilterAndAdaptorTest(int, char* [] ) 
 {
@@ -95,9 +95,9 @@ int itkAcosImageFilterAndAdaptorTest(int, char* [] )
                                OutputImageType  >  FilterType;
             
 
-  // Create an ADD Filter                                
+  // Create an Acos Filter                                
   FilterType::Pointer filter = FilterType::New();
-
+  FilterWatcher watch(filter);
 
   // Connect the input images
   filter->SetInput( inputImage ); 

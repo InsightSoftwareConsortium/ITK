@@ -24,6 +24,8 @@
 #include "itkImage.h"
 #include "itkSize.h"
 #include "itkRandomImageSource.h"
+#include "itkFilterWatcher.h"
+
 #include "vnl/vnl_sample.h"
 
 /** Note:  This is the same test used for the itkBSplineResampleImageFunctionTest
@@ -64,6 +66,7 @@ int itkBSplineDecompositionImageFilterTest(int, char* [] )
 
   typedef itk::BSplineDecompositionImageFilter<ImageType,ImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
+  FilterWatcher watcher(filter);
 
   filter->SetSplineOrder( SplineOrder );
   filter->SetInput( source->GetOutput() );

@@ -24,6 +24,7 @@
 #include "itkBSplineDownsampleImageFilter.h"
 #include "itkBSplineUpsampleImageFilter.h"
 #include "itkImageLinearIteratorWithIndex.h"
+#include "itkFilterWatcher.h"
 
 
 #include "vnl/vnl_math.h"
@@ -200,7 +201,11 @@ int test2D_Standard_l2_filter()
   typedef itk::BSplineUpsampleImageFilter<ImageType2D,ImageType2D> UpsamplerType2D;
 
   DownsamplerType2D::Pointer downSampler = DownsamplerType2D::New();
+  FilterWatcher downWatcher(downSampler, "test2D_Standard_l2_filter");
+
   UpsamplerType2D::Pointer   upSampler =   UpsamplerType2D::New();
+  FilterWatcher upWatcher(upSampler, "test2D_Standard_l2_filter");
+
   int splineOrder = 3;
   downSampler->SetSplineOrder(splineOrder);
   upSampler->SetSplineOrder(splineOrder);
@@ -250,7 +255,11 @@ int test2D_Standard_L2_filter()
   typedef itk::BSplineUpsampleImageFilter<ImageType2D,ImageType2D,ResamplerType> UpsamplerType2D;
 
   DownsamplerType2D::Pointer downSampler = DownsamplerType2D::New();
+  FilterWatcher downWatcher(downSampler, "test2D_Standard_L2_filter");
+
   UpsamplerType2D::Pointer   upSampler =   UpsamplerType2D::New();
+  FilterWatcher upWatcher(upSampler, "test2D_Standard_L2_filter");
+
   int splineOrder = 3;
   downSampler->SetSplineOrder(splineOrder);
   upSampler->SetSplineOrder(splineOrder);
@@ -299,7 +308,9 @@ int test2D_Centered_l2_filter()
   typedef itk::BSplineUpsampleImageFilter<ImageType2D,ImageType2D,ResamplerType> UpsamplerType2D;
 
   DownsamplerType2D::Pointer downSampler = DownsamplerType2D::New();
+  FilterWatcher downWatcher(downSampler, "test2D_Centered_l2_filter");
   UpsamplerType2D::Pointer   upSampler =   UpsamplerType2D::New();
+  FilterWatcher upWatcher(upSampler, "test2D_Centered_l2_filter");
   int splineOrder = 3;
   downSampler->SetSplineOrder(splineOrder);
   upSampler->SetSplineOrder(splineOrder);
@@ -348,7 +359,9 @@ int test2D_Centered_L2_filter()
   typedef itk::BSplineUpsampleImageFilter<ImageType2D,ImageType2D,ResamplerType> UpsamplerType2D;
 
   DownsamplerType2D::Pointer downSampler = DownsamplerType2D::New();
+  FilterWatcher downWatcher(downSampler, "test2D_Centered_L2_filter");
   UpsamplerType2D::Pointer   upSampler =   UpsamplerType2D::New();
+  FilterWatcher upWatcher(upSampler, "test2D_Centered_L2_filter");
   int splineOrder = 3;
   downSampler->SetSplineOrder(splineOrder);
   upSampler->SetSplineOrder(splineOrder);
