@@ -198,6 +198,9 @@ public:
   /** Constructor. Needed to ensure the exception object can be copied. */
   MemoryAllocationError(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}  
 
+  /** Constructor. Needed to ensure the exception object can be copied. */
+  MemoryAllocationError(const std::string& file, unsigned int lineNumber, const std::string& desc, const std::string& loc) : ExceptionObject(file, lineNumber, desc, loc) {}  
+
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~MemoryAllocationError() throw() {}
 
