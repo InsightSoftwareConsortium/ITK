@@ -68,8 +68,6 @@ UnsupervisedClassifier<TInputImage,TClassifiedImage>
 {
   Superclass::PrintSelf( os, indent );
 
-  os << indent << "Unsupervised Classifier / Clusterer" << std::endl;
-
 }// end PrintSelf
 
 

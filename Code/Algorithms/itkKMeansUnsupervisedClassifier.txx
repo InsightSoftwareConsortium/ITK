@@ -38,8 +38,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef _itkKMeansUnsupervisedClassifier_txx
-#define _itkKMeansUnsupervisedClassifier_txx
+#ifndef _itkKmeansUnsupervisedClassifier_txx
+#define _itkKmeansUnsupervisedClassifier_txx
 
 #include "itkNumericTraits.h"
 
@@ -47,11 +47,11 @@ namespace itk
 {
 
 template<class TInputImage, class TClassifiedImage>
-KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
-::KMeansUnsupervisedClassifier(void)
+KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
+::KmeansUnsupervisedClassifier(void)
 {
   m_ValidInCodebook  = false; 
-  m_DoubleMax        = NumericTraits<double>::max();
+  m_DoubleMaximum    = NumericTraits<double>::max();
   m_Threshold        = 0.01;
   m_OffsetAdd        = 0.01;
   m_OffsetMultiply        = 0.01;
@@ -60,8 +60,8 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 }
 
 template<class TInputImage, class TClassifiedImage>
-KMeansUnsupervisedClassifier<TInputImage, TClassifiedImage>
-::~KMeansUnsupervisedClassifier(void)
+KmeansUnsupervisedClassifier<TInputImage, TClassifiedImage>
+::~KmeansUnsupervisedClassifier(void)
 {
 
 }
@@ -70,7 +70,7 @@ KMeansUnsupervisedClassifier<TInputImage, TClassifiedImage>
 
 template <class TInputImage, class TClassifiedImage>
 void
-KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
+KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os,indent );
@@ -87,8 +87,8 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 // for the output codebook and other scratch memory
 template<class TInputImage, class TClassifiedImage>
 void
-KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
-::SetCodebook( CodebookMatDblType inCodebook )
+KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
+::SetCodebook( CodebookMatrixOfDoubleType inCodebook )
 {
   m_Codebook        = inCodebook;
 
@@ -104,7 +104,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 
 template<class TInputImage, class TClassifiedImage>
 void
-KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
+KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 ::Allocate()
 {
   unsigned long initCodebookSize, finalCodebookSize;;
@@ -113,11 +113,11 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 
   if( m_ValidInCodebook )
     {
-    m_Ncodewords = m_Codebook.rows();
+    m_NumberOfCodewords = m_Codebook.rows();
     m_VectorDimension     = m_Codebook.cols();
     // Set the initial and final codebook size
-    initCodebookSize  = m_Ncodewords;
-    finalCodebookSize = m_Ncodewords;
+    initCodebookSize  = m_NumberOfCodewords;
+    finalCodebookSize = m_NumberOfCodewords;
 
     }// end(if valid codebook clause)
   else
@@ -130,13 +130,13 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
       throw ExceptionObject(__FILE__, __LINE__);
       }
 
-    m_Ncodewords      = this->GetNumberOfClasses();
-    m_VectorDimension          = InputImagePixelType::GetVectorDimension();
+    m_NumberOfCodewords      = this->GetNumberOfClasses();
+    m_VectorDimension        = InputImagePixelType::GetVectorDimension();
 
     // Set the initial and final codebook size
 
     initCodebookSize = (unsigned long) 1;
-    finalCodebookSize= (unsigned long)m_Ncodewords;
+    finalCodebookSize= (unsigned long)m_NumberOfCodewords;
 
     m_Codebook.resize( initCodebookSize, m_VectorDimension );
 
@@ -152,22 +152,22 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   m_Centroid.resize( finalCodebookSize, m_VectorDimension );
   m_Centroid.fill( NULL );
 
-  m_CodewordHist.resize( m_Ncodewords, 1 ); 
-  m_CodewordHist.fill( NULL );
+  m_CodewordHistogram.resize( m_NumberOfCodewords, 1 ); 
+  m_CodewordHistogram.fill( NULL );
 
-  m_CodewordDist.resize( m_Ncodewords, 1 );  
-  m_CodewordDist.fill( NULL );
+  m_CodewordDistortion.resize( m_NumberOfCodewords, 1 );  
+  m_CodewordDistortion.fill( NULL );
 
 } // end Allocate function
 
 
 template<class TInputImage, class TClassifiedImage>
 void
-KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
+KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 ::Reallocate( int oldSize, int newSize )
 {
   //Set up a temporary codebook
-  CodebookMatDblType tmpCodebook( oldSize, m_VectorDimension ); 
+  CodebookMatrixOfDoubleType tmpCodebook( oldSize, m_VectorDimension ); 
 
   //Save the contents of m_Codebook in the tmpCodebook
   tmpCodebook = m_Codebook;
@@ -198,7 +198,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 
 template<class TInputImage, class TClassifiedImage>
 void 
-KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
+KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 ::PrintKmeansAlgorithmResults()
 {
 
@@ -216,7 +216,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   itkDebugMacro(<<"Distortion measures                 ");
   itkDebugMacro(<<"+++++++++++++++++++++++++++++++++++ ");
 
-  itkDebugMacro(<<m_CodewordDist);
+  itkDebugMacro(<<m_CodewordDistortion);
 
   itkDebugMacro(<<"                                    ");
   itkDebugMacro(<<"Histogram of the vector             ");
@@ -233,18 +233,18 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 
 template<class TInputImage, class TClassifiedImage>
 void 
-KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
+KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 ::Cluster()
 {
 
   //If a codebook is provided by the user then call the 
   //Kmenas algorithm directly that is based on the 
-  //Generalized Lloyn algorithm (GLA) if a valid codebook
+  //Generalized Lloyd algorithm (GLA) if a valid codebook
   //is provided or m_NumberOfClasses is set to 0, else 
   //Linde-Buzo-Gray algorithm is used for clustering
   if(m_ValidInCodebook)
     {
-    GLA();
+    WithCodebookUseGLA();
     }
   else
     {
@@ -252,8 +252,8 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
     //since no input codebook is provided for this
     //function
     Allocate();
-    m_CurrentNcodewords = m_Codebook.rows();
-    LBG();
+    m_CurrentNumberOfCodewords = m_Codebook.rows();
+    WithoutCodebookUseLBG();
     }
 
   m_ValidInCodebook = false;
@@ -264,21 +264,21 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 
 template<class TInputImage, class TClassifiedImage>
 int 
-KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
-::GLA()
+KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
+::WithCodebookUseGLA()
 {
   // Do the Lloyd iteration.  Use the nearest neighbor condition to
   // find the cells.  Then find the centroid of each cell.
 
 // First pass requires very large distortion
 
-  double olddistortion = m_DoubleMax;
+  double olddistortion = m_DoubleMaximum;
   double distortion, tempdistortion;
   int    pass = 0; // no empty cells have been found yet 
   int    emptycells;
   int    bestcodeword;
 
-  m_CurrentNcodewords = m_Codebook.rows();
+  m_CurrentNumberOfCodewords = m_Codebook.rows();
 
   do 
     {
@@ -294,12 +294,12 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 
     // find number of empty cells
     emptycells = 0;
-    for ( unsigned int i = 0; i < m_CurrentNcodewords; i++ ) 
+    for ( unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++ ) 
       {
-      if ( m_CodewordHist[i][0] == 0 ) 
+      if ( m_CodewordHistogram[i][0] == 0 ) 
         {
         emptycells += 1;
-        m_CodewordDist[i][0] = 0.0;
+        m_CodewordDistortion[i][0] = 0.0;
         }
       }
 
@@ -309,15 +309,15 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
     if ( (distortion == 0.0) || ( (emptycells == 0) &&
                                   (olddistortion - distortion) / distortion < m_Threshold) ) 
       {
-      m_OutNEmptyCells = emptycells;
-      m_OutDist    = distortion;
+      m_OutputNumberOfEmptyCells   = emptycells;
+      m_OutputDistortion = distortion;
       return GLA_CONVERGED;
       }
 
     // no empty cells, find new centroids and reinitialize for next pass 
     if ( emptycells == 0 ) 
       {
-      for ( unsigned int i = 0; i < m_CurrentNcodewords; i++ ) 
+      for ( unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++ ) 
         for( unsigned int j = 0; j < m_VectorDimension; j++ ) 
           m_Codebook[i][j] = m_Centroid[i][j];
 
@@ -333,8 +333,8 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
       if ( pass == m_MaxSplitAttempts ) 
         {
         itkWarningMacro(<<"Unable to fill all empty cells");
-        m_OutNEmptyCells = emptycells;
-        m_OutDist = distortion;
+        m_OutputNumberOfEmptyCells = emptycells;
+        m_OutputDistortion = distortion;
         return GLA_CONVERGED;
         } 
 
@@ -345,16 +345,16 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
       // of the array.  Take care to protect zero distortion codewords
       // which have a positive m_CodewordHist.  note: there must be a
       // faster sort algorithm, but this event should be very unlikely
-      for ( unsigned int n = 0; n < m_CurrentNcodewords - emptycells; n++ ) 
+      for ( unsigned int n = 0; n < m_CurrentNumberOfCodewords - emptycells; n++ ) 
         {
         tempdistortion = 0.0;
         bestcodeword = 0;
-        for ( unsigned int i = 0; i < m_Ncodewords; i++ ) 
+        for ( unsigned int i = 0; i < m_NumberOfCodewords; i++ ) 
           {
-          if ( ( m_CodewordDist[i][0] >= tempdistortion ) &&
-               ( m_CodewordHist[i][0] > 0) ) 
+          if ( ( m_CodewordDistortion[i][0] >= tempdistortion ) &&
+               ( m_CodewordHistogram[i][0] > 0) ) 
             {
-            tempdistortion = m_CodewordDist[i][0];
+            tempdistortion = m_CodewordDistortion[i][0];
             bestcodeword = i;
             }
           }
@@ -368,12 +368,12 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
         for(unsigned int j = 0; j < m_VectorDimension; j++ )
           m_Codebook[n][j] = m_Centroid[bestcodeword][j];
 
-        m_CodewordHist[bestcodeword][0] = 0;
-        m_CodewordDist[bestcodeword][0] = 0.0;
+        m_CodewordHistogram[bestcodeword][0] = 0;
+        m_CodewordDistortion[bestcodeword][0] = 0.0;
         }
 
       // split the required number of codewords
-      splitcodewords( m_CurrentNcodewords - emptycells, 
+      splitcodewords( m_CurrentNumberOfCodewords - emptycells, 
                       emptycells, pass );
 
       olddistortion = distortion;
@@ -387,7 +387,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 
 template<class TInputImage, class TClassifiedImage>
 void 
-KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
+KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 ::nearest_neighbor_search_basic( double *distortion )
 {
   //itkDebugMacro(<<"Start nearest_neighbor_search_basic()");
@@ -399,10 +399,10 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 // unused: double *centroidVecTemp = ( double * ) new double[m_VectorDimension];
 
 // initialize codeword histogram and distortion 
-  for ( unsigned int i = 0; i < m_CurrentNcodewords; i++ ) 
+  for ( unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++ ) 
     {
-    m_CodewordHist[i][0] = 0;
-    m_CodewordDist[i][0] = 0.0;
+    m_CodewordHistogram[i][0] = 0;
+    m_CodewordDistortion[i][0] = 0.0;
     }
 
   // initialize centroid if it exists 
@@ -443,7 +443,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 //Loop through the input image vectors
 //-----------------------------------------------------------------
 
-  InVectorType   inImgVec; 
+  InputPixelVectorType   inputImagePixelVector; 
 
   for (unsigned int n = 0; n < totalNumVecsInInput; n++) {
 
@@ -451,18 +451,18 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   tempImgIt = inImgIt + n;
 
   // keep convention that ties go to lower index 
-  bestdistortion = m_DoubleMax;
+  bestdistortion = m_DoubleMaximum;
   bestcodeword = 0;    
 
-  for ( unsigned int i = 0; i < m_CurrentNcodewords; i++ ) 
+  for ( unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++ ) 
     { 
     // find the best codeword 
     tempdistortion = 0.0;
-    inImgVec = *tempImgIt;
+    inputImagePixelVector = *tempImgIt;
 
     for ( unsigned int j = 0; j < m_VectorDimension; j++ ) 
       {
-      diff = ( double ) ( inImgVec[j] - m_Codebook[i][j] ); 
+      diff = ( double ) ( inputImagePixelVector[j] - m_Codebook[i][j] ); 
       tempdistortion += diff*diff;
 
       if ( tempdistortion > bestdistortion ) break;
@@ -478,32 +478,32 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
     if ( bestdistortion == 0.0 ) break;
     }
 
-  m_CodewordHist[bestcodeword][0] += 1;
-  m_CodewordDist[bestcodeword][0] += bestdistortion;
+  m_CodewordHistogram[bestcodeword][0] += 1;
+  m_CodewordDistortion[bestcodeword][0] += bestdistortion;
   *distortion += bestdistortion;
 
-  inImgVec = *tempImgIt;
+  inputImagePixelVector = *tempImgIt;
 
   for (unsigned int j = 0; j < m_VectorDimension; j++ ) 
-    m_Centroid[bestcodeword][j] += inImgVec[j];
+    m_Centroid[bestcodeword][j] += inputImagePixelVector[j];
 
   } // all training vectors have been encoded 
 
   // compute table frequency and distortion 
-  for ( unsigned int i = 0; i < m_CurrentNcodewords; i++ ) 
+  for ( unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++ ) 
     {
-    if ( m_CodewordHist[i][0] > 0 ) {
-    m_CodewordDist[i][0] /= (double) m_CodewordHist[i][0];
+    if ( m_CodewordHistogram[i][0] > 0 ) {
+    m_CodewordDistortion[i][0] /= (double) m_CodewordHistogram[i][0];
     }
     }
 
   // compute centroid 
-  for ( unsigned int i = 0; i < m_CurrentNcodewords; i++ ) 
+  for ( unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++ ) 
     {
-    if ( m_CodewordHist[i][0] > 0 ) 
+    if ( m_CodewordHistogram[i][0] > 0 ) 
       {
       for ( unsigned int j = 0; j < m_VectorDimension; j++ ) 
-        m_Centroid[i][j] /= (double) m_CodewordHist[i][0];
+        m_Centroid[i][j] /= (double) m_CodewordHistogram[i][0];
       }
     }
 
@@ -525,7 +525,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 
 template<class TInputImage, class TClassifiedImage>
 void 
-KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
+KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 ::splitcodewords( int currentSize, int numDesired, int scale )
 {
   double *newCodebookData = ( double * ) new double[m_VectorDimension];
@@ -549,7 +549,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 
 template<class TInputImage, class TClassifiedImage>
 void 
-KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
+KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 ::perturb(double *oldCodeword, 
           int scale, 
           double *newCodeword)
@@ -597,8 +597,8 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 
 template<class TInputImage, class TClassifiedImage>
 int 
-KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
-::LBG()
+KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
+::WithoutCodebookUseLBG()
 {
   //itkDebugMacro(<<"Start local function lbg design()");
 
@@ -609,22 +609,22 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 // start with one word codebook 
 
 // set initial distortion 
-  m_OutDist = m_DoubleMax;
+  m_OutputDistortion = m_DoubleMaximum;
 
   // Apply the generalize Lloyd algorithm on all codebook sizes 
-  for ( tmp_ncodewords = 1; tmp_ncodewords < m_Ncodewords; ) 
+  for ( tmp_ncodewords = 1; tmp_ncodewords < m_NumberOfCodewords; ) 
     {
     // run the GLA for codebook of size i 
     // run gla 
-    GLA();
+    WithCodebookUseGLA();
 
     // if empty cells, do not continue 
     // if distortion is zero, no need to continue.
-    if ( m_OutNEmptyCells > 0 || m_OutDist == 0.0 ) break;
+    if ( m_OutputNumberOfEmptyCells > 0 || m_OutputDistortion == 0.0 ) break;
 
   // find the number of new codewords to be made (j-tmp_ncodewords)
     j = 2 * tmp_ncodewords;
-    if ( j > m_Ncodewords ) { j = m_Ncodewords; }
+    if ( j > m_NumberOfCodewords ) { j = m_NumberOfCodewords; }
 
     // split the codewords
 
@@ -643,16 +643,16 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 
   // if there are no errors, no empty cells and the distortion is positive,
   // create the final codebook 
-  if ( m_OutNEmptyCells == 0 && m_OutDist > 0.0 ) 
+  if ( m_OutputNumberOfEmptyCells == 0 && m_OutputDistortion > 0.0 ) 
     {
     // run gla 
-    GLA();
+    WithCodebookUseGLA();
     }
 
   // done with all iterations 
 
   const unsigned long codebookSize = m_Codebook.rows(); 
-  if ( m_Ncodewords != codebookSize ) 
+  if ( m_NumberOfCodewords != codebookSize ) 
     {
     itkDebugMacro(<<"Returning fewer codewords than requested");
     }// end if

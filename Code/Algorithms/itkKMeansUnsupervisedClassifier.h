@@ -38,8 +38,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef _itkKMeansUnsupervisedClassifier_h
-#define _itkKMeansUnsupervisedClassifier_h
+#ifndef _itkKmeansUnsupervisedClassifier_h
+#define _itkKmeansUnsupervisedClassifier_h
 
 #include "itkObject.h"
 #include "vnl/vnl_vector.h"
@@ -70,8 +70,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/** \class KMeansUnsupervisedClassifier
- * \brief Implementation KMeansUnsupervisedClassifier object
+/** \class KmeansUnsupervisedClassifier
+ * \brief Implementation KmeansUnsupervisedClassifier object
  *
  * This object performs clustering of data sets into different clusters
  * either using a user provided seed points as initial guess or generates
@@ -140,12 +140,12 @@ namespace itk
  * \ingroup UnSupervisedClassificationFilters 
  */
 template <class TInputImage, class TClassifiedImage>
-class ITK_EXPORT KMeansUnsupervisedClassifier 
+class ITK_EXPORT KmeansUnsupervisedClassifier 
 : public UnsupervisedClassifier <TInputImage,TClassifiedImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef KMeansUnsupervisedClassifier   Self;
+  typedef KmeansUnsupervisedClassifier   Self;
   typedef UnsupervisedClassifier<TInputImage,TClassifiedImage> Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -154,7 +154,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(KMeansUnsupervisedClassifier,UnsupervisedClassifier);
+  itkTypeMacro(KmeansUnsupervisedClassifier,UnsupervisedClassifier);
 
   /** Type definition for the input image. */
   typedef typename TInputImage::Pointer   InputImageType;
@@ -168,19 +168,19 @@ public:
   typedef typename TInputImage::PixelType     InputImagePixelType;
 
   /** Type definition for a double matrix. */
-  typedef vnl_matrix<double> CodebookMatDblType; 
+  typedef vnl_matrix<double> CodebookMatrixOfDoubleType; 
 
   /** Type definition for an integer vector. */
-  typedef vnl_matrix<int>    CodebookMatIntType;
+  typedef vnl_matrix<int>    CodebookMatrixOfIntegerType;
 
   /** Set the cluster centers. */
-  void SetCodebook(CodebookMatDblType InCodebook);
+  void SetCodebook(CodebookMatrixOfDoubleType InCodebook);
 
   /** Get the cluster centers. */
-  itkGetMacro(Codebook,CodebookMatDblType);
+  itkGetMacro(Codebook,CodebookMatrixOfDoubleType);
 
   /** Get the optimized codebook or the centroids of the clusters. */
-  CodebookMatDblType GetOutCodebook()
+  CodebookMatrixOfDoubleType GetOutCodebook()
     { return m_Codebook; }
 
   /** Set the threshold parameter. */
@@ -208,7 +208,7 @@ public:
   itkGetMacro(MaxSplitAttempts,int);
 
   /** Return the codebook/cluster centers. */
-  CodebookMatDblType GetKmeansResults()
+  CodebookMatrixOfDoubleType GetKmeansResults()
     { return m_Centroid; }
 
   /** Generate the cluster centers corresponding to the initial codebook.
@@ -225,34 +225,34 @@ public:
    * For the unsupervised classifier this function
    * has not been implemented and returns a null 
    * value.  */
-  virtual void GetPixelDistance(InputImageVectorType &inPixelVec, 
+  virtual void GetPixelDistance(InputImageVectorType &inPixelVector, 
                                 double * results ) {}
 
   /** Print out the results on the screen for visual feedback. */
   void PrintKmeansAlgorithmResults();
 
 protected:
-  KMeansUnsupervisedClassifier();
-  ~KMeansUnsupervisedClassifier();
+  KmeansUnsupervisedClassifier();
+  ~KmeansUnsupervisedClassifier();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Allocate memory for the output model. */
   void Allocate();
 
 private:
-  KMeansUnsupervisedClassifier(const Self&); //purposely not implemented
+  KmeansUnsupervisedClassifier(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   typedef typename TInputImage::SizeType ImageSizeType;
 
   /** Set up the vector to store the image  data. */
-  typedef typename TInputImage::PixelType::VectorType InVectorType;
+  typedef typename TInputImage::PixelType::VectorType InputPixelVectorType;
 
   void Reallocate(int oldSize, int newSize);
 
   //Local functions
-  int  GLA();
-  int  LBG();
+  int  WithCodebookUseGLA(); // GLA stands for the Generalized Lloyd Algorithm
+  int  WithoutCodebookUseLBG(); //LBG stands for the Lindo Buzo Gray Algorithm
 
   void nearest_neighbor_search_basic(double *distortion);
   
@@ -264,10 +264,10 @@ private:
                        int scale, 
                        double *newCodeword);
 
-  CodebookMatDblType  m_Codebook;
+  CodebookMatrixOfDoubleType  m_Codebook;
 
   // Buffer for K-means calcualtions
-  CodebookMatDblType  m_Centroid;
+  CodebookMatrixOfDoubleType  m_Centroid;
 
   double              m_Threshold;
   double              m_OffsetAdd;
@@ -276,24 +276,24 @@ private:
 
   unsigned long       m_NumberOfClasses;
   bool                m_ValidInCodebook;
-  double              m_DoubleMax;
-  double              m_OutDist;
-  int                 m_OutNEmptyCells;
+  double              m_DoubleMaximum;
+  double              m_OutputDistortion;
+  int                 m_OutputNumberOfEmptyCells;
 
   unsigned long       m_VectorDimension;
-  unsigned long       m_Ncodewords;
-  unsigned long       m_CurrentNcodewords;
+  unsigned long       m_NumberOfCodewords;
+  unsigned long       m_CurrentNumberOfCodewords;
   
-  CodebookMatIntType  m_CodewordHist;
-  CodebookMatDblType  m_CodewordDist;
+  CodebookMatrixOfIntegerType  m_CodewordHistogram;
+  CodebookMatrixOfDoubleType  m_CodewordDistortion;
 
-}; // class KMeansUnsupervisedClassifier
+}; // class KmeansUnsupervisedClassifier
 
 
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkKMeansUnsupervisedClassifier.txx"
+#include "itkKmeansUnsupervisedClassifier.txx"
 #endif
 
 
