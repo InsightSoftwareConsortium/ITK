@@ -35,8 +35,12 @@ namespace itk
  * \ingroup GradientFilters   
  * \ingroup Singlethreaded
  */
-template <typename TInputImage, typename TOutputImage= Image< CovariantVector< 
-                      NumericTraits<TInputImage::PixelType>::RealType,
+// NOTE that the ITK_TYPENAME macro has to be used here in lieu 
+// of "typename" because VC++ doesn't like the typename keyword 
+// on the defaults of template parameters
+template <typename TInputImage, 
+          typename TOutputImage= Image< CovariantVector< 
+                      ITK_TYPENAME NumericTraits< ITK_TYPENAME TInputImage::PixelType>::RealType,
                       ExtractImageDimension<TInputImage>::ImageDimension >,
                           ExtractImageDimension<TInputImage>::ImageDimension > >
 class ITK_EXPORT GradientRecursiveGaussianImageFilter:
