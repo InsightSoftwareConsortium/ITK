@@ -142,7 +142,14 @@ PatternIntensityImageToImageMetric<TTarget,TMapper>
   Derivative = GetDerivative( parameters );
 }
 
-
+template < class TTarget, class TMapper > 
+void
+PatternIntensityImageToImageMetric<TTarget,TMapper>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Lambda: " << m_Lambda << std::endl;
+}
 
 } // end namespace itk
 
