@@ -48,8 +48,8 @@ int itkCumulativeGaussianOptimizerTest(int, char* [] )
   CostFunctionType::Pointer costFunction = CostFunctionType::New();
 
   // Declare and initialize the data array.
-  CostFunctionType::MeasureType * cumGaussianArray = new CostFunctionType::MeasureType();
-  cumGaussianArray->resize(numberOfSamples);
+  //CostFunctionType::MeasureType * cumGaussianArray = new CostFunctionType::MeasureType();
+  //cumGaussianArray->resize(numberOfSamples);
   
   // Set the parameters.
   CostFunctionType::ParametersType parameters;
@@ -63,7 +63,7 @@ int itkCumulativeGaussianOptimizerTest(int, char* [] )
   costFunction->Initialize(numberOfSamples);
 
   // Generate data given a set of parameters.
-  cumGaussianArray = costFunction->GetValue(parameters);
+  CostFunctionType::MeasureType * cumGaussianArray = costFunction->GetValue(parameters);
 
   // Set the data array.
   costFunction->SetOriginalDataArray(cumGaussianArray);
@@ -98,8 +98,9 @@ int itkCumulativeGaussianOptimizerTest(int, char* [] )
     std::cerr << "Fitted mean = " << optimizer->GetComputedMean() << std::endl;
     std::cerr << "Fitted standard deviation = " << optimizer->GetComputedStandardDeviation() << std::endl;
     std::cerr << "Fitted upper intensity = " << optimizer->GetUpperAsymptote() << std::endl;
-    std::cerr << "Fitted lower intensity = " << optimizer->GetLowerAsymptote() << std::endl;
- 
+    std::cerr << "Fitted lower intensity = " << optimizer->GetLowerAsymptote() << std::endl; 
+    delete cumGaussianArray;
+    std::cout << "[TEST DONE]" << std::endl;
     return EXIT_SUCCESS;
     }
   else
@@ -116,5 +117,6 @@ int itkCumulativeGaussianOptimizerTest(int, char* [] )
 
     return EXIT_FAILURE;
     }
+
 }
 
