@@ -96,6 +96,7 @@ SET(REGISTRATION_EXAMPLES4 ${CXX_TEST_PATH}/RegistrationExamples4)
 SET(REGISTRATION_EXAMPLES5 ${CXX_TEST_PATH}/RegistrationExamples5)
 SET(REGISTRATION_EXAMPLES6 ${CXX_TEST_PATH}/RegistrationExamples6)
 SET(REGISTRATION_EXAMPLES7 ${CXX_TEST_PATH}/RegistrationExamples7)
+SET(REGISTRATION_EXAMPLES8 ${CXX_TEST_PATH}/RegistrationExamples8)
 
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Registration)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
@@ -181,7 +182,7 @@ ADD_TEST(ImageRegistration13Test ${REGISTRATION_EXAMPLES7}
         ${TEMP}/ImageRegistration13Test.png
 )
 
-ADD_TEST(ImageRegistration14Test ${REGISTRATION_EXAMPLES7}
+ADD_TEST(ImageRegistration14Test ${REGISTRATION_EXAMPLES8}
   --compare ${BASELINE}/ImageRegistration14Test.png
             ${TEMP}/ImageRegistration14Test.png
   ImageRegistration14Test
@@ -293,6 +294,9 @@ TARGET_LINK_LIBRARIES(RegistrationExamples6 ITKAlgorithms ITKFEM ITKStatistics I
 
 ADD_EXECUTABLE(RegistrationExamples7 RegistrationExamples7.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples7 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+
+ADD_EXECUTABLE(RegistrationExamples8 RegistrationExamples8.cxx )
+TARGET_LINK_LIBRARIES(RegistrationExamples8 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
 
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
