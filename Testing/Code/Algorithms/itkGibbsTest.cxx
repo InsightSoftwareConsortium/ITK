@@ -310,20 +310,18 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
   //Print the mrf labelled image
   ClassImageIterator labeloutIt( outClassImage, outClassImage->GetBufferedRegion() );
 
-  i = 0;
   int j0 = 0;
   int j1 = 0;
-  while ( !labeloutIt.IsAtEnd() ) {
-//  outImage[i] = labeloutIt.Get();
-  if (labeloutIt.Get() == 0) {
-    j0++;
-//    outImage[i] = 0;
-  }
-  if (labeloutIt.Get() == 1) {
+  while ( !labeloutIt.IsAtEnd() )
+    {
+    if (labeloutIt.Get() == 0)
+      {
+      j0++;
+      }
+  if (labeloutIt.Get() == 1)
+    {
     j1++;
-//    outImage[i] = 65535;
-  }
-  i++;
+    }
   ++labeloutIt;
   }
 
@@ -335,7 +333,7 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
 //  fclose(output);
   //Verify if the results were as per expectation
   
-  bool passTest = true;
+  bool passTest;
 /*  int j = 0;
   i = 0;
   labeloutIt.GoToBegin();
@@ -348,10 +346,13 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
 */
   passTest = ((j1>85) && (j1 < 115));
   if( passTest ) 
+    {
     std::cout<< "Gibbs Prior Test Passed" << std::endl;
+    }
   else 
+    {
     std::cout<< "Gibbs Prior Test failed" << std::endl;
-
+    }
 
   return 0;
 }
