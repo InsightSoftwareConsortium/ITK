@@ -471,7 +471,7 @@ void DICOMAppHelper::BitsAllocatedCallback(doublebyte,
 void DICOMAppHelper::ToggleSwapBytesCallback(doublebyte,
                                              doublebyte,
                                              DICOMParser::VRTypes,
-                                             unsigned char* val,
+                                             unsigned char* ,
                                              quadbyte len) 
 {
   // delete [] val;
