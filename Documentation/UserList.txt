@@ -55,6 +55,6 @@ vmagnotta:Vincent A. Magnotta:vincent-magnotta@uiowa.edu
 kentwilliams:Kent Williams:kent@mail.psychiatry.uiowa.edu
 raul:Raul San-Jose:rjosest@bwh.harvard.edu
 quaeler:loki der quaeler:loki@weltschmerz.org
-galeotti:John M. Galeotti:galeotti:00cE9S0vvIq.c
+galeotti:John M. Galeotti:jgaleotti@cmu.edu
 padfield:Dirk Padfield:padfield@research.ge.com
 pauly:Paul A. Yushkevich:pauly@cognitica.com
