@@ -49,7 +49,7 @@ public:
 
   /** Dimension of parameters. */
   itkStaticConstMacro(SpaceDimension, unsigned int, 3);
-  itkStaticConstMacro(ParametersDimension, unsigned int, 9);
+  itkStaticConstMacro(ParametersDimension, unsigned int, 6);
 
   /** Scalar type. */
   typedef typename Superclass::ScalarType  ScalarType;

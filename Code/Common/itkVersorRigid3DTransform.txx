@@ -83,18 +83,11 @@ VersorRigid3DTransform<TScalarType>
 
   itkDebugMacro( <<"Versor is now " << m_Versor );
   
-  
-  // Transfer the center part
-  for(unsigned int i=0; i < SpaceDimension; i++) 
-    {
-    m_Center[i] = parameters[i+SpaceDimension];
-    }
-
    
   // Transfer the translation part
   for(unsigned int j=0; j < SpaceDimension; j++) 
     {
-    m_Translation[j] = parameters[j+2*SpaceDimension];
+    m_Translation[j] = parameters[j+SpaceDimension];
     }
 
  
@@ -112,8 +105,7 @@ VersorRigid3DTransform<TScalarType>
 // Parameters are ordered as:
 //
 // p[0:2] = right part of the versor (axis times sin(t/2))
-// p[3:5} = center of rotation coordinates
-// p[6:8} = translation components
+// p[3:5} = translation components
 //
 
 template <class TScalarType>
@@ -127,16 +119,10 @@ VersorRigid3DTransform<TScalarType>
   m_Parameters[1] = m_Versor.GetY();
   m_Parameters[2] = m_Versor.GetZ();
 
-  // Transfer the center of rotation 
-  for(unsigned int i=0; i < SpaceDimension; i++) 
-    {
-    m_Parameters[i+SpaceDimension] = m_Center[i];
-    }
-
   // Transfer the translation
   for(unsigned int j=0; j < SpaceDimension; j++) 
     {
-    m_Parameters[j+2*SpaceDimension] = m_Translation[j];
+    m_Parameters[j+SpaceDimension] = m_Translation[j];
     }
 
   itkDebugMacro(<<"After getting parameters " << m_Parameters );
@@ -241,7 +227,7 @@ VersorRigid3DTransform<TScalarType>
       offset[i] -= m_RotationMatrix[i][j] * m_Center[j];
       }
     }
-
+std::cout << "ComputeMatrixAndOffset(), offset = " << offset << std::endl;
   this->SetOffset( offset );
 
 }
