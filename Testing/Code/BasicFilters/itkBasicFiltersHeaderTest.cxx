@@ -66,6 +66,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkDirectedHausdorffDistanceImageFilter.txx"
 #include "itkDiscreteGaussianImageFilter.txx"
 #include "itkDivideImageFilter.h"
+#include "itkDoubleThresholdImageFilter.txx"
 #include "itkEdgePotentialImageFilter.h"
 #include "itkEigenAnalysis2DImageFilter.txx"
 #include "itkErodeObjectMorphologyImageFilter.txx"
