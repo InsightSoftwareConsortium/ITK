@@ -22,18 +22,18 @@ namespace itk
 {
 
 template <class TScalarType, int NDimensions>
-ThinPlateSplineKernelTransform<TScalarType, NDimensions>::GMatrixType
+const ThinPlateSplineKernelTransform<TScalarType, NDimensions>::GMatrixType &
 ThinPlateSplineKernelTransform<TScalarType, NDimensions>::
 ComputeG(const InputVectorType & x) const
 {
 
-  IMatrixType CV;
-  CV.fill(0.0);
+  const TScalarType r = x.GetNorm();
+  m_GMatrix.fill( NumericTraits< TScalarType >::Zero );
   for(unsigned int i=0; i<NDimensions; i++)
     {
-    CV[i][i] = x[i] * x[i];
+    m_GMatrix[i][i] = r;
     }
-  return CV;
+  return m_GMatrix;
 }
 
 
