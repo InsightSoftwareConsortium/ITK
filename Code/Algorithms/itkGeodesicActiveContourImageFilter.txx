@@ -63,12 +63,10 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 template <class TLevelSet, class TEdgeImage, class TDerivImage>
 void
 GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
-::SetDerivativeImage(
-TDerivImage * ptr,
-unsigned int dim )
+::SetDerivativeImage( const TDerivImage * ptr )
 {
-  if ( dim >= SetDimension ) { return; }
-  this->ProcessObject::SetNthInput( dim+2, ptr );
+  this->ProcessObject::SetNthInput( 2, 
+                          const_cast<TDerivImage *>(ptr) );
 }
 
 
@@ -79,15 +77,15 @@ template <class TLevelSet, class TEdgeImage, class TDerivImage>
 typename GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 ::DerivImageType *
 GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
-::GetDerivativeImage( unsigned int dim )
+::GetDerivativeImage()
 {
-  if ( dim >= SetDimension || this->GetNumberOfInputs() < dim + 3 )
+  if ( this->GetNumberOfInputs() < 3 )
     {
     return NULL;
     }
 
   return static_cast<TDerivImage *>(
-    this->ProcessObject::GetInput( dim+2 ) );
+                        this->ProcessObject::GetInput( 2 ) );
 
 }
 
@@ -105,10 +103,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 
   // this filter requires all of the input images to
   // be in the buffer
-  for( unsigned int k = 0; k < SetDimension; k++ )
-    {
-    this->GetDerivativeImage(k)->SetRequestedRegionToLargestPossibleRegion();
-    }
+  this->GetDerivativeImage()->SetRequestedRegionToLargestPossibleRegion();
 
 }
 
@@ -127,9 +122,9 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 
   typename Superclass::EdgeImageConstPointer edgeImage = this->GetEdgeImage();
 
-  unsigned int numberOfIterations = this->GetNumberOfIterations();
-  double timeStepSize = this->GetTimeStepSize();
-  bool propagateOutwards = this->GetPropagateOutwards();
+  const unsigned int numberOfIterations = this->GetNumberOfIterations();
+  const double       timeStepSize       = this->GetTimeStepSize();
+  const bool         propagateOutwards  = this->GetPropagateOutwards();
 
   // Define a level set curvature calculator
   typedef
@@ -178,43 +173,37 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
        ImageRegionIterator<LevelSetImageType> IteratorType;
   
     IteratorType inIt = IteratorType( inputBuffer, 
-      inputBuffer->GetBufferedRegion() );
+                                      inputBuffer->GetBufferedRegion() );
+    
     IteratorType outIt = IteratorType( outputBuffer, 
-      outputBuffer->GetBufferedRegion() );
+                                       outputBuffer->GetBufferedRegion() );
 
     typedef
       ImageRegionConstIterator<EdgeImageType> 
         SpeedIteratorType;
 
-    SpeedIteratorType speedIt = SpeedIteratorType( edgeImage, 
-      edgeImage->GetBufferedRegion() );
+    SpeedIteratorType speedIt = 
+                SpeedIteratorType( edgeImage, 
+                                   edgeImage->GetBufferedRegion() );
 
-    typedef
-      ImageRegionIterator<DerivImageType> 
-        DerivIteratorType;
-    DerivIteratorType derivIt[SetDimension];
+    typedef ImageRegionIterator<DerivImageType> DerivIteratorType;
 
-    for( unsigned int j = 0; j < SetDimension; j++ )
-      {
-      derivIt[j] = DerivIteratorType( this->GetDerivativeImage(j), 
-        this->GetDerivativeImage(j)->GetBufferedRegion() );
-      }
+    DerivIteratorType derivIt = 
+      DerivIteratorType( this->GetDerivativeImage(), 
+                         this->GetDerivativeImage()->GetBufferedRegion() );
 
     IndexType index;
     double curvature;
     double magnitude;
     double updateValue;
     double speed;
-    double deriv;
     double value;
+    DerivPixelType deriv;
 
     outIt.GoToBegin();
     inIt.GoToBegin();
     speedIt.GoToBegin();
-    for( unsigned int j = 0; j < SetDimension; j++ )
-      {
-      derivIt[j].GoToBegin();
-      }
+    derivIt.GoToBegin();
 
     while( !outIt.IsAtEnd() )
       {
@@ -234,13 +223,17 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
       speed = (double) speedIt.Get();
       updateValue *= speed;
 
+      deriv = derivIt.Get();
+
       for( unsigned int j = 0; j < SetDimension; j++ )
         {
-        deriv = (double) derivIt[j].Get();
 
-        inUpwind->SetSpeed( -1.0 * deriv );
+          const double derivComponent = 
+                         static_cast<double>( deriv[j] );
 
-        updateValue += deriv * 
+        inUpwind->SetSpeed( -1.0 * derivComponent );
+
+        updateValue += derivComponent * 
           inUpwind->EvaluateNthDerivativeAtIndex( index, j );
         }
 
@@ -254,10 +247,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
       ++outIt;
       ++inIt;
       ++speedIt;
-      for( unsigned int j = 0; j < SetDimension; j++ )
-        {
-        ++(derivIt[j]);
-        }
+      ++derivIt;
 
       } // end while loop
 
@@ -285,11 +275,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
   typename Superclass::LevelSetConstPointer inputPtr = this->GetInput();
   typename Superclass::EdgeImageConstPointer edgeImage = this->GetEdgeImage();
 
-  DerivImagePointer derivImages[SetDimension];
-  for ( unsigned int j = 0; j < SetDimension; j++ )
-    {
-    derivImages[j] = this->GetDerivativeImage(j);
-    }
+  const DerivImageType * derivImage = this->GetDerivativeImage();
 
 
   // copy input to output
@@ -316,10 +302,10 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
   m_Extender->NarrowBandingOn();
   m_Extender->SetNarrowBandwidth( narrowBandwidth );
 
-  NodeContainerPointer inputNarrowBand = this->GetInputNarrowBand();
-  unsigned int numberOfIterations = this->GetNumberOfIterations();
-  double timeStepSize = this->GetTimeStepSize();
-  bool propagateOutwards = this->GetPropagateOutwards();
+  NodeContainerPointer inputNarrowBand  = this->GetInputNarrowBand();
+  const unsigned int numberOfIterations = this->GetNumberOfIterations();
+  const double       timeStepSize       = this->GetTimeStepSize();
+  const bool         propagateOutwards  = this->GetPropagateOutwards();
 
   // Define a level set curvature calculator
   typedef
@@ -378,7 +364,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
     double updateValue;
     double speed;
     double value;
-    double deriv;
+    DerivPixelType deriv;
 
     for( ; pointsIt != pointsEnd; ++pointsIt )
       {
@@ -403,14 +389,17 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 
         updateValue *= speed;
 
+        deriv = derivImage->GetPixel( node.GetIndex() );
+
         for( unsigned int j = 0; j < SetDimension; j++ )
           {
-          typedef typename TDerivImage::PixelType DerivPixelType;
-          deriv = (double) derivImages[j]->GetPixel( node.GetIndex() );
 
-          inUpwind->SetSpeed( -1.0 * deriv );
+          const double derivComponent = 
+                           static_cast<double>( deriv[j] );
+
+          inUpwind->SetSpeed( -1.0 * derivComponent );
           
-          updateValue += deriv * 
+          updateValue += derivComponent * 
             inUpwind->EvaluateNthDerivativeAtIndex( node.GetIndex(), j );
 
           }

@@ -18,6 +18,7 @@
 #include "itkGeodesicActiveContourImageFilter.h"
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
+#include "itkCovariantVector.h"
 #include "itkCommand.h"
 
 namespace
@@ -47,8 +48,12 @@ int itkGeodesicActiveContoursTest(int, char**)
    */
 
   // create a fastmarching object
-  typedef itk::Image<float,2> FloatImage;
-  typedef itk::FastMarchingImageFilter<FloatImage> FastMarcherType;
+  typedef itk::Image<float,2> FloatImageType;
+  typedef itk::FastMarchingImageFilter<FloatImageType> FastMarcherType;
+  
+  typedef itk::CovariantVector<float,2> DerivativePixelType;
+  typedef itk::Image< DerivativePixelType, 2 > DerivativeImageType;
+    
 
   FastMarcherType::Pointer marcher = FastMarcherType::New();
   
@@ -60,7 +65,7 @@ int itkGeodesicActiveContoursTest(int, char**)
 
   NodeType node;
 
-  FloatImage::IndexType index0 = {{28,35}};
+  FloatImageType::IndexType index0 = {{28,35}};
   
   node.SetValue( 0.0 );
   node.SetIndex( index0 );
@@ -69,15 +74,15 @@ int itkGeodesicActiveContoursTest(int, char**)
   marcher->SetTrialPoints( trialPoints );
 
   // specify the size of the output image
-  FloatImage::SizeType size = {{64,64}};
+  FloatImageType::SizeType size = {{64,64}};
   marcher->SetOutputSize( size );
 
   // update the marcher
   marcher->Update();
 
   // walk the marcher output
-  FloatImage::Pointer levelSet = marcher->GetOutput();
-  itk::ImageRegionIterator<FloatImage>
+  FloatImageType::Pointer levelSet = marcher->GetOutput();
+  itk::ImageRegionIterator<FloatImageType>
     iterator( levelSet, levelSet->GetBufferedRegion() );
 
   for( ; !iterator.IsAtEnd(); ++iterator )
@@ -90,13 +95,13 @@ int itkGeodesicActiveContoursTest(int, char**)
    * Create a edge potential image with values of
    * one
    */
-  FloatImage::Pointer edgeImg = FloatImage::New();
+  FloatImageType::Pointer edgeImg = FloatImageType::New();
   edgeImg->CopyInformation( levelSet );
   edgeImg->SetBufferedRegion(
     levelSet->GetBufferedRegion() );
   edgeImg->Allocate();
 
-  itk::ImageRegionIterator<FloatImage>
+  itk::ImageRegionIterator<FloatImageType>
     edgeIter( edgeImg, edgeImg->GetBufferedRegion() );
   
   for( ; !edgeIter.IsAtEnd(); ++edgeIter )
@@ -106,20 +111,23 @@ int itkGeodesicActiveContoursTest(int, char**)
 
   /* -----------------------------------------------
    * Create a edge potential derivative image with
-   * all values 0  - use for both dimensions
+   * all values 0  
    */
-  FloatImage::Pointer derivImg = FloatImage::New();
+  DerivativeImageType::Pointer derivImg = DerivativeImageType::New();
   derivImg->CopyInformation( levelSet );
   derivImg->SetBufferedRegion(
     levelSet->GetBufferedRegion() );
   derivImg->Allocate();
 
-  itk::ImageRegionIterator<FloatImage>
+  DerivativePixelType nullVector;
+  nullVector.Fill( 0.0 );
+
+  itk::ImageRegionIterator<DerivativeImageType>
     derivIter( derivImg, derivImg->GetBufferedRegion() );
 
   for( ; !derivIter.IsAtEnd(); ++derivIter )
     {
-    derivIter.Set( 0.0 );
+    derivIter.Set( nullVector );
     }
 
   /* -----------------------------------------------
@@ -127,8 +135,10 @@ int itkGeodesicActiveContoursTest(int, char**)
    * and test the full-band version of the algorithm
    */
 
-  typedef itk::GeodesicActiveContourImageFilter<FloatImage,FloatImage,FloatImage>
-    ShapeDetectorType;
+  typedef itk::GeodesicActiveContourImageFilter< 
+                                    FloatImageType,
+                                    FloatImageType,
+                                    DerivativeImageType >    ShapeDetectorType;
 
   ShapeDetectorType::Pointer detector = ShapeDetectorType::New();
 
@@ -143,8 +153,7 @@ int itkGeodesicActiveContoursTest(int, char**)
 
   detector->SetInput( levelSet );
   detector->SetEdgeImage( edgeImg );
-  detector->SetDerivativeImage( derivImg, 0 );
-  detector->SetDerivativeImage( derivImg, 1 );
+  detector->SetDerivativeImage( derivImg );
   detector->SetPropagateOutwards( true );
   detector->SetInflationStrength( 0.5 );
 
@@ -167,7 +176,7 @@ int itkGeodesicActiveContoursTest(int, char**)
   /* ---------------------------------------------------
    * test some componentes
    */
-  typedef itk::UpwindDerivativeImageFunction<FloatImage>
+  typedef itk::UpwindDerivativeImageFunction<FloatImageType>
     FunctionType;
   
   FunctionType::Pointer func = FunctionType::New();

@@ -140,10 +140,10 @@ public:
   itkGetMacro( InflationStrength, double );
 
   /** Set the input derivative images. */
-  void SetDerivativeImage( TDerivImage *ptr, unsigned int idx=0 );
+  void SetDerivativeImage( const TDerivImage *ptr );
 
   /** Get the input derivative images. */
-  DerivImageType * GetDerivativeImage( unsigned int idx );
+  DerivImageType * GetDerivativeImage();
 
 protected:
   GeodesicActiveContourImageFilter();
