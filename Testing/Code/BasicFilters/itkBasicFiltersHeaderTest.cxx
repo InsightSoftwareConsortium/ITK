@@ -91,6 +91,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImportImageFilter.txx"
 #include "itkInteriorExteriorMeshFilter.txx"
 #include "itkInterpolateImageFilter.txx"
+#include "itkInterpolateImagePointsFilter.txx"
 #include "itkIsolatedConnectedImageFilter.txx"
 #include "itkJoinImageFilter.h"
 #include "itkLaplacianImageFilter.txx"
