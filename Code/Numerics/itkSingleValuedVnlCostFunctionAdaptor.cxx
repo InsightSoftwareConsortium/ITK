@@ -211,7 +211,7 @@ unsigned long
 SingleValuedVnlCostFunctionAdaptor
 ::AddObserver(const EventObject & event, Command * command) const
 {
-  m_Reporter->AddObserver( event, command );
+  return m_Reporter->AddObserver( event, command );
 }
 
 
