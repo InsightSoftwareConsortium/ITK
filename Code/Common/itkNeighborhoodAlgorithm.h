@@ -274,6 +274,76 @@ struct ITK_EXPORT CalculateOutputWrapOffsetModifiers
   inline void operator()(long int *, TImage *, TImage *) const;
 };
   
+/**
+ *  Templated function for convolving two neighborhoods of arbitrary
+ *  dimension.  The third argument dictates the mode of the convolution,
+ *  where Mode = 0 is true convolution: the resulting neighborhood object
+ *  has radius A::Radius + B::Radius; and Mode = 1 is partial convolution:
+ *  the resulting neighborhood object has radius A::Radius.
+ *
+ *  One of a set of specialized convolution functions on Neighborhoods.
+ *  These templated functions are instantiated within the
+ *  Neighborhood::Convolve function so that convolution is automatically
+ *  specialized for the dimensionality of the neighborhood. 
+ */
+template<class TPixel, unsigned int VDimension>
+Neighborhood<TPixel, VDimension>
+ConvolveND(Neighborhood<TPixel, VDimension>&,
+         Neighborhood<TPixel, VDimension>&, int);  
+
+/**
+ *  Templated function for convolving two neighborhoods, each of three
+ *  dimensions.  The third argument dictates the mode of the convolution,
+ *  where Mode = 0 is true convolution: the resulting neighborhood object
+ *  has radius A::Radius + B::Radius; and Mode = 1 is partial convolution:
+ *  the resulting neighborhood object has radius A::Radius.
+ *
+ *  One of a set of specialized convolution functions on Neighborhoods.
+ *  These templated functions are instantiated within the
+ *  Neighborhood::Convolve function so that convolution is automatically
+ *  specialized for the dimensionality of the neighborhood. 
+ */
+template<class TPixel, unsigned int VDimension>
+Neighborhood<TPixel, VDimension>
+Convolve3D(Neighborhood<TPixel, VDimension> &,
+           Neighborhood<TPixel, VDimension> &, int);
+
+
+/**
+ *  Templated function for convolving two neighborhoods,each of two
+ *  dimensions.  The third argument dictates the mode of the convolution,
+ *  where Mode = 0 is true convolution: the resulting neighborhood object
+ *  has radius A::Radius + B::Radius; and Mode = 1 is partial convolution:
+ *  the resulting neighborhood object has radius A::Radius.
+ *
+ *  One of a set of specialized convolution functions on Neighborhoods.
+ *  These templated functions are instantiated within the
+ *  Neighborhood::Convolve function so that convolution is automatically
+ *  specialized for the dimensionality of the neighborhood. 
+ */
+template<class TPixel, unsigned int VDimension>
+Neighborhood<TPixel, VDimension>
+Convolve2D(Neighborhood<TPixel, VDimension> &,
+           Neighborhood<TPixel, VDimension> &, int);
+
+/**
+ *  Templated function for convolving two neighborhoods, each of one
+ *  dimension.  The third argument dictates the mode of the convolution,
+ *  where Mode = 0 is true convolution: the resulting neighborhood object
+ *  has radius A::Radius + B::Radius; and Mode = 1 is partial convolution:
+ *  the resulting neighborhood object has radius A::Radius.
+ *
+ *  One of a set of specialized convolution functions on Neighborhoods.
+ *  These templated functions are instantiated within the
+ *  Neighborhood::Convolve function so that convolution is automatically
+ *  specialized for the dimensionality of the neighborhood.
+ */
+template<class TPixel, unsigned int VDimension>
+Neighborhood<TPixel, VDimension>
+Convolve1D(Neighborhood<TPixel, VDimension> &,
+           Neighborhood<TPixel, VDimension> &, int);  
+
+
 } // end namespace NeighborhoodAlgorithm
   
 } // end namespace itk

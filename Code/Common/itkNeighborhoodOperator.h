@@ -80,7 +80,10 @@ public:
   /**
    * Constructor.
    */
-  NeighborhoodOperator() : m_Direction(0) {}
+  NeighborhoodOperator()
+  {
+    m_Direction = 0;
+  }
 
   /**
    * Copy constructor
