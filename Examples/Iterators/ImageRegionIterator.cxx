@@ -86,19 +86,44 @@ int main( int argc, char *argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  ImageType::RegionType region;
-  ImageType::RegionType::IndexType index;
+  ImageType::RegionType inputRegion;
+
+  ImageType::RegionType::IndexType inputStart;
   ImageType::RegionType::SizeType  size;
 
-  index[0] = ::atoi( argv[3] );
-  index[1] = ::atoi( argv[4] );
+  inputStart[0] = ::atoi( argv[3] );
+  inputStart[1] = ::atoi( argv[4] );
+
   size[0]  = ::atoi( argv[5] );
   size[1]  = ::atoi( argv[6] );
 
-  region.SetSize(size);
-  region.SetIndex(index);
+  inputRegion.SetSize( size );
+  inputRegion.SetIndex( inputStart );
 // Software Guide : EndCodeSnippet
   
+
+
+// Software Guide : BeginLatex
+// 
+// The destination region is now defined by using the same size as the input
+// region and a different start index. The starting index is the corner of the
+// newly generated image.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
+  ImageType::RegionType outputRegion;
+
+  ImageType::RegionType::IndexType outputStart;
+
+  outputStart[0] = 0;
+  outputStart[1] = 0;
+
+  outputRegion.SetSize( size );
+  outputRegion.SetIndex( outputStart );
+// Software Guide : EndCodeSnippet
+
+
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
   try
@@ -107,39 +132,55 @@ int main( int argc, char *argv[] )
     }
   catch ( itk::ExceptionObject &err)
     {
-      std::cout << "ExceptionObject caught !" << std::endl; 
-      std::cout << err << std::endl; 
+      std::cerr << "ExceptionObject caught !" << std::endl; 
+      std::cerr << err << std::endl; 
       return -1;
     }
 
   // Check that the region is contained within the input image.
-  if ( ! reader->GetOutput()->GetRequestedRegion().IsInside( region ) )
+  if ( ! reader->GetOutput()->GetRequestedRegion().IsInside( inputRegion ) )
     {
       std::cerr << "Error" << std::endl;
-      std::cerr << "The region " << region << "is not contained within the input image region "
+      std::cerr << "The region " << inputRegion << "is not contained within the input image region "
                 << reader->GetOutput()->GetRequestedRegion() << std::endl;
       return -1;
     }
 
 // Software Guide : BeginLatex
 //
-// After reading the input image and checking that the desired subregion is,
-// in fact, contained in the input, we allocate an output image.  Allocating
-// this image with the same region object we just created guarantees that the output image has
-// the same starting index and size as the extracted subregion.  Preserving
-// the starting index may be an important detail later if the cropped image
-// requires registering against the original image. The origin and spacing
-// information is passed to the new image by \code{CopyInformation()}.
+// After reading the input image and checking that the desired subregion is, in
+// fact, contained in the input, we allocate an output image.  It is fundamental
+// to correct some of the basic image information during the copying process.
+// In particular, the starting index of the output region is now filled up with
+// zero values and the coordinates of the physical origin are computed as a 
+// shift from the origin of the input image. This is quite important since it 
+// will allow later to register the extracted region against the original image.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   ImageType::Pointer outputImage = ImageType::New();
-  std::cout << region;
-  outputImage->SetRegions( region );
-  outputImage->CopyInformation( reader->GetOutput() );
+
+  outputImage->SetRegions( outputRegion );
+ 
+  const double * spacing = reader->GetOutput()->GetSpacing();
+
+  const double * inputOrigin = reader->GetOutput()->GetOrigin();
+
+  double   outputOrigin[ Dimension ];
+
+  for(unsigned int i=0; i< Dimension; i++)
+    {
+    outputOrigin[i] = inputOrigin[i] + spacing[i] * inputStart[i];
+    }
+
+  outputImage->SetSpacing( spacing );
+  outputImage->SetOrigin(  outputOrigin );
   outputImage->Allocate();
 // Software Guide : EndCodeSnippet
+
+
+
 
 // Software Guide : BeginLatex
 //
@@ -155,15 +196,19 @@ int main( int argc, char *argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  ConstIteratorType inputIt( reader->GetOutput(), region );
-  IteratorType outputIt( outputImage, region );
+  ConstIteratorType inputIt(   reader->GetOutput(), inputRegion  );
+  IteratorType      outputIt(  outputImage,         outputRegion );
 
   for ( inputIt.GoToBegin(), outputIt.GoToBegin(); !inputIt.IsAtEnd();
         ++inputIt, ++outputIt)
     {
-      outputIt.Set(inputIt.Get());
+      outputIt.Set(  inputIt.Get()  );
     }
 // Software Guide : EndCodeSnippet
+
+
+
+
 
 // Software Guide : BeginLatex
 //
@@ -178,17 +223,20 @@ int main( int argc, char *argv[] )
   
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
-  writer->SetInput(outputImage);
+  writer->SetInput( outputImage );
+
   try
     {
-      writer->Update();
+    writer->Update();
     }
   catch ( itk::ExceptionObject &err)
     {
-      std::cout << "ExceptionObject caught !" << std::endl; 
-      std::cout << err << std::endl; 
-      return -1;   
-}
+    std::cerr << "ExceptionObject caught !" << std::endl; 
+    std::cerr << err << std::endl; 
+    return -1;   
+    }
+
+
 
 // Software Guide : BeginLatex
 //
