@@ -87,8 +87,19 @@ bool InstanceTable::Exists(const String& name) const
 {
   return (m_InstanceMap.count(name) > 0);
 }
-  
-  
+
+
+/**
+ * Get the Reference holding the object with the given name.
+ */
+const Reference& InstanceTable::GetEntry(const String& name) const
+{
+  this->CheckExists(name);
+  InstanceMap::const_iterator i = m_InstanceMap.find(name);
+  return i->second;
+}
+ 
+
 /**
  * Get a pointer to the object with the given name.
  */

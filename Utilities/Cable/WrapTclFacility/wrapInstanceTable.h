@@ -39,6 +39,7 @@ public:
   void SetObject(const String& name, void* object, const CvQualifiedType&);
   void DeleteObject(const String& name);
   bool Exists(const String& name) const;
+  const Reference& GetEntry(const String& name) const;
   void* GetObject(const String& name);
   const CvQualifiedType& GetType(const String& name);
   String CreateTemporary(void* object, const CvQualifiedType&);
