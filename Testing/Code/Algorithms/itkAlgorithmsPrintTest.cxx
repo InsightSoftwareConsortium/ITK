@@ -60,11 +60,6 @@
 #include "itkMRASlabIdentifier.h"
 #include "itkMRFImageFilter.h"
 #include "itkMRIBiasFieldCorrectionFilter.h"
-#include "itkMattesMutualInformationImageToImageMetric.h"
-#include "itkMeanSquaresImageToImageMetric.h"
-#include "itkMeanSquaresPointSetToImageMetric.h"
-#include "itkMinMaxCurvatureFlowFunction.h"
-#include "itkMinMaxCurvatureFlowImageFilter.h"
 
 #include "itkDistanceToCentroidMembershipFunction.h"
 #include "itkMahalanobisDistanceMembershipFunction.h"
@@ -245,26 +240,6 @@ int itkAlgorithmsPrintTest(int , char* [])
     itk::MRIBiasFieldCorrectionFilter<InputType,InputType,VectorImageType>::New();
   std:: cout << "-------------MRIBiasFieldCorrectionFilter " << MRIBiasFieldCorrectionFilterObj;
 #endif
-  itk::MattesMutualInformationImageToImageMetric<InputType,InputType>::Pointer MattesMutualInformationImageToImageMetricObj =
-    itk::MattesMutualInformationImageToImageMetric<InputType,InputType>::New();
-  std:: cout << "-------------MattesMutualInformationImageToImageMetric " << MattesMutualInformationImageToImageMetricObj;
-
-  itk::MeanSquaresImageToImageMetric<InputType,InputType>::Pointer MeanSquaresImageToImageMetricObj =
-    itk::MeanSquaresImageToImageMetric<InputType,InputType>::New();
-  std:: cout << "-------------MeanSquaresImageToImageMetric " << MeanSquaresImageToImageMetricObj;
-#if 0
-  itk::MeanSquaresPointSetToImageMetric<InputType,OutputType>::Pointer MeanSquaresPointSetToImageMetricObj =
-    itk::MeanSquaresPointSetToImageMetric<InputType,OutputType>::New();
-  std:: cout << "-------------MeanSquaresPointSetToImageMetric " << MeanSquaresPointSetToImageMetricObj;
-#endif
-  itk::MinMaxCurvatureFlowFunction<InputType>::Pointer MinMaxCurvatureFlowFunctionObj =
-    itk::MinMaxCurvatureFlowFunction<InputType>::New();
-  std:: cout << "-------------MinMaxCurvatureFlowFunction " << MinMaxCurvatureFlowFunctionObj;
-
-  itk::MinMaxCurvatureFlowImageFilter<InputType,OutputType>::Pointer MinMaxCurvatureFlowImageFilterObj =
-    itk::MinMaxCurvatureFlowImageFilter<InputType,OutputType>::New();
-  std:: cout << "-------------MinMaxCurvatureFlowImageFilter " << MinMaxCurvatureFlowImageFilterObj;
-
   return 0;
 
 }
