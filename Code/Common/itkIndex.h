@@ -15,6 +15,8 @@
 #ifndef __itkIndex_h
 #define __itkIndex_h
 
+#include "itkMacro.h"
+
 #include <memory>
 
 #include "itkExceptionObject.h"

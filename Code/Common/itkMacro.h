@@ -26,9 +26,10 @@
 #ifndef __itkMacro_h
 #define __itkMacro_h
 
+#include "itkWin32Header.h"
+
 #include <string>
 #include <strstream>
-#include "itkWin32Header.h"
 
 #define ITK_NAMESPACE_BEGIN namespace itk {
 #define ITK_NAMESPACE_END   }

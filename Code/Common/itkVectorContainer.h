@@ -16,12 +16,12 @@
 #ifndef __itkVectorContainer_h
 #define __itkVectorContainer_h
 
-#include <utility>
-#include <vector>
-
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkSmartPointer.h"
+
+#include <utility>
+#include <vector>
 
 ITK_NAMESPACE_BEGIN
 

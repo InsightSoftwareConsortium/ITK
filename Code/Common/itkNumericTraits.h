@@ -16,6 +16,8 @@
 #ifndef __itkNumericTraits_h
 #define __itkNumericTraits_h
 
+#include "itkMacro.h"
+
 #if defined(_MSC_VER)
 #include <limits>
 #define ITK_NUMERIC_LIMITS std::numeric_limits

@@ -15,10 +15,10 @@
 #ifndef __itkRegistrator3D2D_h
 #define __itkRegistrator3D2D_h
 
+#include <itkExceptionObject.h>
 #include <vector>
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_matrix_fixed.h>
-#include <itkExceptionObject.h>
 
 ITK_NAMESPACE_BEGIN
 

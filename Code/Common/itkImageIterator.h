@@ -15,8 +15,8 @@
 #ifndef __itkImageIterator_h
 #define __itkImageIterator_h
 
-#include <memory.h>
 #include "itkIndex.h"
+#include <memory.h>
 
 ITK_NAMESPACE_BEGIN
 

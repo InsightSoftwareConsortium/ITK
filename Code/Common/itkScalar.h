@@ -15,6 +15,8 @@
 #ifndef __itkScalar_h
 #define __itkScalar_h
 
+#include "itkMacro.h"
+
 ITK_NAMESPACE_BEGIN
 
 /** \class Scalar

@@ -16,8 +16,8 @@
 #ifndef __itkSmartPointer_h
 #define __itkSmartPointer_h
 
-#include <iostream>
 #include "itkMacro.h"
+#include <iostream>
 
 ITK_NAMESPACE_BEGIN
 

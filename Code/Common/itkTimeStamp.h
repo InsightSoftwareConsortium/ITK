@@ -16,7 +16,7 @@
 #ifndef __itkTimeStamp_h
 #define __itkTimeStamp_h
 
-#include "itkWin32Header.h"
+#include "itkMacro.h"
 
 ITK_NAMESPACE_BEGIN
 

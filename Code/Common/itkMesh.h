@@ -16,9 +16,6 @@
 #ifndef __itkMesh_h
 #define __itkMesh_h
 
-#include <vector>
-#include <set>
-
 #include "itkDataObject.h"
 #include "itkObjectFactory.h"
 #include "itkSmartPointer.h"
@@ -27,6 +24,9 @@
 #include "itkMeshTypeDefault.h"
 #include "itkMapContainer.h"
 #include "itkPointLocator.h"
+
+#include <vector>
+#include <set>
 
 ITK_NAMESPACE_BEGIN
 

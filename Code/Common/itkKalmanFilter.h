@@ -16,6 +16,8 @@
 #ifndef __itkKalmanFilter_h
 #define __itkKalmanFilter_h
 
+#include "itkMacro.h"
+
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_matrix_fixed.h>
 

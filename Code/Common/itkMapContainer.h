@@ -16,11 +16,11 @@
 #ifndef __itkMapContainer_h
 #define __itkMapContainer_h
 
-#include <map>
-
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkSmartPointer.h"
+
+#include <map>
 
 ITK_NAMESPACE_BEGIN
 

@@ -17,8 +17,8 @@
 #ifndef __itkExceptionObject_h
 #define __itkExceptionObject_h
 
-#include <string>
 #include "itkObject.h"
+#include <string>
 
 ITK_NAMESPACE_BEGIN
 

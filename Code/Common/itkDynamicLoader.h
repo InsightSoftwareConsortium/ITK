@@ -16,6 +16,8 @@
 #ifndef __itkDynamicLoader_h
 #define __itkDynamicLoader_h
 
+#include "itkMacro.h"
+
 // Ugly stuff for library handles.
 // They are different on several different OS's
 #if defined(__hpux)

@@ -21,6 +21,8 @@
 #ifndef __itkPoint_h
 #define __itkPoint_h
 
+#include "itkMacro.h"
+
 ITK_NAMESPACE_BEGIN
 
 /**

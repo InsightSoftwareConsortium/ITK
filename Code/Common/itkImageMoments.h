@@ -17,6 +17,8 @@
 #ifndef __itkImageMoments_h
 #define __itkImageMoments_h
 
+#include "itkMacro.h"
+
 #include "vnl/vnl_vector_fixed.h"
 #include "vnl/vnl_matrix_fixed.h"
 #include "vnl/vnl_diag_matrix.h"

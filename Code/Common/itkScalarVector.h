@@ -15,6 +15,7 @@
 #ifndef __itkScalarVector_h
 #define __itkScalarVector_h
 
+#include "itkMacro.h"
 #include <memory.h>
 
 ITK_NAMESPACE_BEGIN

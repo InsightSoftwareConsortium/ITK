@@ -16,9 +16,9 @@
 #ifndef __itkMeshTypeDefault_h
 #define __itkMeshTypeDefault_h
 
-#include <set>
 #include "itkCellInterface.h"
 #include "itkVectorContainer.h"
+#include <set>
 
 ITK_NAMESPACE_BEGIN
 

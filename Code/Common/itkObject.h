@@ -16,13 +16,13 @@
 #ifndef __itkObject_h
 #define __itkObject_h
 
-#include <iostream>
-#include <typeinfo>
-
 #include "itkLightObject.h"
 #include "itkSmartPointer.h"
 #include "itkTimeStamp.h"
 #include "itkIndent.h"
+
+#include <iostream>
+#include <typeinfo>
 
 ITK_NAMESPACE_BEGIN
 

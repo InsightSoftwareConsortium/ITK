@@ -16,7 +16,7 @@
 #ifndef __itkIndent_h
 #define __itkIndent_h
 
-#include "itkWin32Header.h"
+#include "itkMacro.h"
 #include <iostream>
 
 ITK_NAMESPACE_BEGIN

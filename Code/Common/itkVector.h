@@ -15,6 +15,8 @@
 #ifndef __itkVector_h
 #define __itkVector_h
 
+#include "itkMacro.h"
+
 #include <memory.h>
 
 ITK_NAMESPACE_BEGIN
