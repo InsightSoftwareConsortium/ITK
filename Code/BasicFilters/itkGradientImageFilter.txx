@@ -192,6 +192,21 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
     }
 }
 
+/**
+ * Standard "PrintSelf" method
+ */
+template< class TInputImage, class TOperatorValueType, class TOutputValueType>
+void
+GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf( os, indent );
+
+  os << indent << "UseImageSpacing: " 
+     << (m_UseImageSpacing ? "On" : "Off") << std::endl;
+}
+
 } // end namespace itk
+
 
 #endif

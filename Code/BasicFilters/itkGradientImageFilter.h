@@ -112,6 +112,7 @@ protected:
       m_UseImageSpacing = true;
     }
   virtual ~GradientImageFilter() {}
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** GradientImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
