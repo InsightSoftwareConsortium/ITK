@@ -534,7 +534,7 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  As described in section \ref{sec:ResampleFilterType}, the
+  //  As described in section \ref{sec:ResampleImageFilter}, the
   //  \code{ResampleImageFilter} requires additional parameters to be
   //  specified. In particular the spacing, origin and size of the output
   //  image. The default pixel value is also set to a distinct gray level in
