@@ -141,7 +141,7 @@ public:
   /**
    * Return a descriptive string describing the factory.
    */
-  virtual const char* GetDescription() = 0;
+  virtual const char* GetDescription() const = 0;
 
   /**
    * Return a list of classes that this factory overrides.
