@@ -233,7 +233,7 @@ public:
 protected:
   SparseFieldFourthOrderLevelSetImageFilter ();
   ~SparseFieldFourthOrderLevelSetImageFilter () {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** This method computes curvature from normal vectors stored in a sparse
       image neighborhood. */
