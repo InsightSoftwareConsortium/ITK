@@ -9,7 +9,7 @@
 <body bgcolor="#ffffff">
 
 <h1>Insight testing dashboard</h1>
-
+<h3>Latest <a><xsl:attribute name="href">Update.html</xsl:attribute>Files Changed</a></h3>
 <table>
 	<tr>
 	<th>Site</th>
