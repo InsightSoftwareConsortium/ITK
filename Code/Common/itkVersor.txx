@@ -462,6 +462,41 @@ Versor<T>
 
 
 
+/**
+ * Get Matrix representation
+ */
+template<class T>
+Matrix<T,3,3>
+Versor<T>
+::GetMatrix( void ) const
+{
+  Matrix<T,3,3> matrix;
+  
+  const ValueType xx = m_X * m_X;
+  const ValueType yy = m_Y * m_Y;
+  const ValueType zz = m_Z * m_Z;
+  const ValueType xy = m_X * m_Y;
+  const ValueType xz = m_X * m_Z;
+  const ValueType xw = m_X * m_W;
+  const ValueType yz = m_Y * m_Z;
+  const ValueType yw = m_Y * m_W;
+  const ValueType zw = m_Z * m_W;
+
+  matrix[0][0] = 1.0 - 2.0 * ( yy + zz );
+  matrix[1][1] = 1.0 - 2.0 * ( xx + zz );
+  matrix[2][2] = 1.0 - 2.0 * ( xx + yy );
+  matrix[0][1] = 2.0 * ( xy - zw );
+  matrix[0][2] = 2.0 * ( xz + yw );
+  matrix[1][0] = 2.0 * ( xy + zw );
+  matrix[2][0] = 2.0 * ( xz - yw );
+  matrix[2][1] = 2.0 * ( yz + xw );
+  matrix[1][2] = 2.0 * ( yz - xw );
+    
+  return matrix;
+
+}
+ 
+
 
 } // end namespace itk
 

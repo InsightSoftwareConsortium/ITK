@@ -262,7 +262,12 @@ public:
    VnlVectorType Transform( const VnlVectorType & v ) const;
 
 
+  /**
+   * Get Matrix representation
+   */
+   Matrix<T,3,3> GetMatrix(void) const;
 
+   
 private:
 
    /** 
