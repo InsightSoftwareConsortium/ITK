@@ -298,12 +298,12 @@ vnl_vector< T >
 Vector<T, TVectorDimension>
 ::Get_vnl_vector( void ) const 
 {
-  vnl_vector< T > result(TVectorDimension);
-  for(unsigned int i=0; i<TVectorDimension; i++)
-    {
-    result[i] = (*this)[i];
-    }
-  return result;
+  // Return a vector_ref<>.  This will be automatically converted to a
+  // vnl_vector<>.  We have to use a const_cast<> which would normally
+  // be prohibited in a const method, but it is safe to do here
+  // because the cast to vnl_vector<> will ultimately copy the data.
+  return vnl_vector_ref<T>( TVectorDimension,
+                            const_cast<T*>(this->GetDataPointer()));
 }
  
 

@@ -124,6 +124,9 @@ public:
   /** Get a vnl_vector_ref referencing the same memory block */
   vnl_vector_ref<TCoordRep> Get_vnl_vector( void );
 
+  /** Get a vnl_vector with a copy of the internal memory block. */
+  vnl_vector<TCoordRep> Get_vnl_vector( void ) const;
+
   /** Set to median point between the two points
    * given as arguments
    *
