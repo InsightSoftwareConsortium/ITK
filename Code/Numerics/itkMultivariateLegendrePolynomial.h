@@ -97,6 +97,14 @@ public:
   /** Gets the degree (the degree of Legendre polynomials). */ 
   int GetDegree() { return m_Degree ; } 
 
+  /** Returns the number of coefficients of the polynomial  
+   *  This number is computed from the degree of the polynomial 
+   *  the SetCoefficients() method expects an array of this 
+   *  size, an exception is thrown otherwise
+   *  \sa SetCoefficients                                   */
+  unsigned int GetNumberOfCoefficients(void) const
+    { return m_NoOfCoefficients; }
+
   /** Gets each dimesion's size. */
   DomainSizeType GetDomainSize() { return m_DomainSize ; }
 
@@ -114,7 +122,10 @@ public:
     int Given ;
   } ;
 
-  /** Sets the Legendre polynomials' parameters. */
+  /** Sets the Legendre polynomials' parameters. 
+    * \warning The number of coefficients provided should
+    * match the number returned by GetNumberOfCoefficients()
+    * otherwise an exception is thrown.  */
   void SetCoefficients(CoefficientVector coef) 
     throw (CoefficientVectorSizeMismatch) ;
 
