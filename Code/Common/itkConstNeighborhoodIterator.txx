@@ -515,19 +515,18 @@ void ConstNeighborhoodIterator<TImage, TBoundaryCondition>
 {
   SizeType radius  = this->GetRadius();
   const OffsetValueType *offset   = m_ConstImage->GetOffsetTable();
-  const IndexType imageRRStart  = m_ConstImage->GetRequestedRegion().GetIndex();
-  SizeType imageRRSize = m_ConstImage->GetRequestedRegion().GetSize();
-  SizeType imageBufferSize = m_ConstImage->GetBufferedRegion().GetSize();
+  const IndexType imageBRStart  = m_ConstImage->GetBufferedRegion().GetIndex();
+  SizeType imageBRSize = m_ConstImage->GetBufferedRegion().GetSize();
 
   // Set the bounds and the wrapping offsets. Inner bounds are the loop
   // indicies where the iterator will begin to overlap the edge of the image
-  // requested region.
+  // buffered region.
   for (unsigned int i=0; i<Dimension; ++i)
     {
     m_Bound[i]          = m_BeginIndex[i] + static_cast<IndexValueType>(size[i]);
-    m_InnerBoundsHigh[i]= static_cast<IndexValueType>(imageRRStart[i] + ( imageRRSize[i]) - static_cast<SizeValueType>(radius[i]) );
-    m_InnerBoundsLow[i] = static_cast<IndexValueType>(imageRRStart[i] + radius[i]);
-    m_WrapOffset[i]     = (static_cast<OffsetValueType>(imageBufferSize[i]) - ( m_Bound[i]
+    m_InnerBoundsHigh[i]= static_cast<IndexValueType>(imageBRStart[i] + ( imageBRSize[i]) - static_cast<SizeValueType>(radius[i]) );
+    m_InnerBoundsLow[i] = static_cast<IndexValueType>(imageBRStart[i] + radius[i]);
+    m_WrapOffset[i]     = (static_cast<OffsetValueType>(imageBRSize[i]) - ( m_Bound[i]
                                                                                 - m_BeginIndex[i] )) * offset[i];
     }
   m_WrapOffset[Dimension-1] = 0; // last offset is zero because there are no
