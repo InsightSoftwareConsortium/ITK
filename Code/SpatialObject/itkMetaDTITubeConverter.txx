@@ -83,6 +83,8 @@ MetaDTITubeConverter<NDimensions>
     pnt.SetRadius((*it2)->m_R);
     pnt.SetFA((*it2)->m_FA);
     pnt.SetADC((*it2)->m_ADC);
+    pnt.SetGA((*it2)->m_GA);
+    pnt.SetInterpolation((*it2)->m_Interpolation);
     pnt.SetLambda1((*it2)->m_Lambda1);
     pnt.SetLambda2((*it2)->m_Lambda2);
     pnt.SetLambda3((*it2)->m_Lambda3);
