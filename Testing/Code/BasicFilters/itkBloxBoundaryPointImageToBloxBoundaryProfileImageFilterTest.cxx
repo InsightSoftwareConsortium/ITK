@@ -268,6 +268,19 @@ int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char*[])
       // Keep running sum of estimated radius to compute average radius
       averageRadius += radius;
       profileCount++;
+
+      if(profileCount == 2)
+        {
+        // Lets print some parameters of the blox boundary profile item for increased coverage
+        // only do it once to keep the test fast.
+        std::cerr << "Lower Intensity: " << (*bpiterator)->GetLowerIntensity() << std::endl
+          << "Upper Intensity: " << (*bpiterator)->GetUpperIntensity() << std::endl
+          << "Mean: " << (*bpiterator)->GetMean() << std::endl
+          << "Profile Length: " << (*bpiterator)->GetProfileLength() << std::endl
+          << "Normalized Mean: " << (*bpiterator)->GetMeanNormalized() << std::endl
+          << "Standard Deviation: " << (*bpiterator)->GetStandardDeviation() << std::endl
+          << "Normalized SD: " << (*bpiterator)->GetStandardDeviationNormalized() << std::endl;
+        }
     } // end iterate
   }
 
