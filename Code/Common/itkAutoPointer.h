@@ -184,6 +184,11 @@ public:
     return *this;
     }
   
+  /** Casting operator to boolean. This is used in conditional 
+      statments to check the content of the pointer against null */
+  operator bool () const
+    { return (m_Pointer!=NULL); }
+
   /** Function to print object pointed to.  */
   ObjectType *Print (std::ostream& os) const 
     { 
