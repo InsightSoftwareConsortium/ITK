@@ -469,7 +469,7 @@ void GDCMImageIO::Write(const void* buffer)
   // Not using real iterators, but instead the GetKeys() method 
   // since VS6 is broken and does not export properly iterators
   // GetKeys will duplicate the entire DICOM header 
-  std::vector<std::string> keys = dico.GetKeys();
+  std::vector<std::string> keys = dict.GetKeys();
   for( std::vector<std::string>::const_iterator it = keys.begin(); 
     it != keys.end(); ++it )
     {
