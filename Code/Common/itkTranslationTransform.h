@@ -71,12 +71,12 @@ public:
      *
      **/
     TranslationTransform(const VectorType &offset);
-    TranslationTransform();      
+    TranslationTransform();
 
     /**
      * Copy an TranslationTransform object
      *
-     * This method creates a new TranslationTransform object and 
+     * This method creates a new TranslationTransform object and
      * initializes it to be a copy of an existing TranslationTransform.
      **/
     TranslationTransform(const Self & other);
@@ -151,6 +151,10 @@ public:
 
     inline CovariantVectorType BackTransform(
                                        const CovariantVectorType &vector) const;
+    /**
+     * Print contents of an TranslationTransform
+     **/
+    std::ostream & PrintSelf(std::ostream &s) const;
 
     /**
      * Find inverse of an affine transformation
@@ -162,12 +166,6 @@ public:
     TranslationTransform Inverse();
 
 
-    /**
-     * Print contents of an TranslationTransform
-     **/
-    std::ostream & PrintSelf(std::ostream &s) const;
-    
-
 private:
     VectorType   m_Offset;       // Offset of the transformation
 
@@ -176,7 +174,7 @@ private:
 
 
 
-  
+
 
 }  // namespace itk
 
