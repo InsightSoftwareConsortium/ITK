@@ -110,7 +110,7 @@ inline std::ostream& operator<<(std::ostream& os, EventObject &e)
  *  Macro for creating new Events
  */
 #define itkEventMacro( classname , super ) \
- class ITKCommon_EXPORT classname : public super { \
+ class  classname : public super { \
    public: \
      typedef classname Self; \
      typedef super Superclass; \
