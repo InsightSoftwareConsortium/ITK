@@ -13,39 +13,33 @@ All rights reserved.
 See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include <iostream>
-#include "itkImage.h"
-#include "itkScalar.h"
-#include "itkRandomImageSource.h"
-#include "itkFilterImageSingleOperator.h"
-#include "itkWriteVTKImage.h"
+#include "itkDerivativeOperator.h"
+#include "itkDerivativeHalfForwardOperator.h"
+#include "itkDerivativeHalfBackwardOperator.h"
+#include "itkGaussianOperator.h"
+#include "itkSize.h"
 
 int main()
 {
-  // Create a source
-  itk::RandomImageSource< itk::Image<float,2> >::Pointer random;
-  random = itk::RandomImageSource< itk::Image<float,2> >::New();
+  itk::DerivativeOperator<float, 3> d;
+  d.SetOrder(3);
+  d.SetDirection(1);
+  d.CreateDirectional();
 
-  // Create a neighborhood
-  itk::Neighborhood< float, 2> neighborhood;
-  neighborhood.SetRadius(1);
+  itk::GaussianOperator<2> g;
+  g.SetVariance(2.3);
+  g.SetMaximumError(.01);
+  g.CreateDirectional();
 
-  // Create a filter
-  itk::FilterImageSingleOperator< float, 2>::Pointer filter;
-  filter = itk::FilterImageSingleOperator< float, 2>::New();
-  filter->SetInput( random->GetOutput() );
-  filter->SetOperator( neighborhood );
-  
-  // Create a mapper
-  itk::WriteVTKImage< itk::Image<float,2> >::Pointer writer;
-  writer = itk::WriteVTKImage< itk::Image<float,2> >::New();
-  writer->SetInput(filter->GetOutput());
-  writer->SetFileName("junkImage.vtk");
-  writer->SetFileTypeToASCII();
-  writer->Write();
+  itk::DerivativeHalfForwardOperator<float, 4> f;
+  itk::Size<4> sz;
+  sz[0] = sz[1] = sz[2] = sz[3] = 2;
+  f.SetDirection(2);
+  f.CreateToRadius(sz);
 
-  return 1;
+  itk::DerivativeHalfBackwardOperator<float, 2> b;
+  b.SetDirection(0);
+  b.CreateDirectional();
+
+  return 0;
 }
-
-
-
