@@ -59,7 +59,7 @@ public:
     typename TLoadClass::Pointer l0=dynamic_cast<TLoadClass*>(&*load);
     if ( !l0 ) throw FEMException(__FILE__, __LINE__, "FEM error");
 
-    cout<<"Load object's data:"<<l0->data<<"\n";
+    std::cout<<"Load object's data:"<<l0->data<<"\n";
   }
 private:
   static const bool registered;
