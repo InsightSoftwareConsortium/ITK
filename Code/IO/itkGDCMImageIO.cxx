@@ -27,7 +27,9 @@ namespace itk
 
 GDCMImageIO::GDCMImageIO()
 {
-//  this->SetNumberOfDimensions(2); //default
+  this->SetNumberOfDimensions(3); //needed for getting the 3 coordinates of 
+                                  // the origin, even if it is a 2D slice.
+
   m_ByteOrder = LittleEndian; //default
   m_FileType = Binary;  //default...always true
   m_RescaleSlope = 1.0;
@@ -251,21 +253,14 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     }
 
   // set values in case we don't find them
-  this->SetNumberOfDimensions(2);
-  m_Dimensions.resize(3); //very important
   m_Dimensions[0] = GdcmHeader.GetXSize();
   m_Dimensions[1] = GdcmHeader.GetYSize();
   m_Dimensions[2] = GdcmHeader.GetZSize();
 
-  m_Spacing.resize(3); //very important
   m_Spacing[0] = GdcmHeader.GetXSpacing();
   m_Spacing[1] = GdcmHeader.GetYSpacing();
-  // I have to figure out how to find the dimension (2 or 3) of the DICOM image:
   m_Spacing[2] = GdcmHeader.GetZSpacing();
-  //m_Spacing[2] = 0;
 
-  m_Origin.resize(3); //very important
-  // Since SetNumberOfDimensions only reallocate for dim == 2
   m_Origin[0] = GdcmHeader.GetXOrigin();
   m_Origin[1] = GdcmHeader.GetYOrigin();
   m_Origin[2] = GdcmHeader.GetZOrigin();
