@@ -27,6 +27,7 @@
 #include "itkFEMElementBeam2D.h"
 #include "itkFEMElementTriC02D.h"
 #include "itkFEMElementQuadC02D.h"
+#include "itkFEMElementMembraneC02D.h"
 #include "itkFEMElementC1IsoCurve2D.h"
 #include "itkFEMElementHexahedronC03D.h"
 #include "itkFEMElementTetrahedronC03D.h"
