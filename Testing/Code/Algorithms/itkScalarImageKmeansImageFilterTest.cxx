@@ -19,24 +19,17 @@
 #endif
 #include "itkImage.h"
 #include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 #include "itkScalarImageKmeansImageFilter.h"
 
 
 int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
 {
-
-  if( argc < 2 )
-    {
-    std::cerr << "Error: This test expect an scalar image as input,";
-    std::cerr << " but no image has been provided. " << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  if( argc < 4 )
+  if( argc < 5 )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0];
-    std::cerr << " inputScalarImage numberOfClasses mean1 mean2... meanN " << std::endl;
+    std::cerr << " inputScalarImage outputLabeledImage numberOfClasses mean1 mean2... meanN " << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -69,9 +62,9 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
 
   kmeansFilter->SetInput( reader->GetOutput() );
 
-  const unsigned int numberOfInitialClasses = atoi( argv[2] );
+  const unsigned int numberOfInitialClasses = atoi( argv[3] );
 
-  if( argc < numberOfInitialClasses + 3 )
+  if( argc < numberOfInitialClasses + 4 )
     {
     std::cerr << "Error: " << std::endl;
     std::cerr << numberOfInitialClasses << " classes has been specified ";
@@ -82,7 +75,7 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
 
   for(unsigned k=0; k<numberOfInitialClasses; k++)
     {
-    kmeansFilter->AddClassWithInitialMean( atof( argv[k+3] ) );
+    kmeansFilter->AddClassWithInitialMean( atof( argv[k+4] ) );
     }
 
   try
@@ -104,6 +97,28 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
     {
     std::cout << "cluster[" << i << "] ";
     std::cout << "    estimated mean : " << estimatedMeans[i] << std::endl;
+    }
+
+  typedef KMeansFilterType::OutputImageType  OutputImageType;
+
+  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+
+  WriterType::Pointer writer = WriterType::New();
+  
+  writer->SetInput( kmeansFilter->GetOutput() );
+
+  writer->SetFileName( argv[2] );
+
+
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Problem encoutered while writing image file : " << argv[2] << std::endl;
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
     }
 
 
