@@ -675,8 +675,6 @@ Testing/Utilities/Test.tcl
 Testing/Utilities/Submit.tcl
 Testing/Utilities/Coverage.tcl
 Testing/Utilities/ftp.tcl
-Testing/Utilities/CMakeTestingRules.make
-Testing/Utilities/CMakeTestingDashboardRules.make
 )
 
 

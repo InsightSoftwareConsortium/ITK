@@ -3617,8 +3617,6 @@ Testing/Utilities/Test.tcl
 Testing/Utilities/Submit.tcl
 Testing/Utilities/Coverage.tcl
 Testing/Utilities/ftp.tcl
-Testing/Utilities/CMakeTestingRules.make
-Testing/Utilities/CMakeTestingDashboardRules.make
  itkConfigure.h" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
 EOF
 cat >> $CONFIG_STATUS <<EOF
@@ -3759,8 +3757,6 @@ Testing/Utilities/Test.tcl
 Testing/Utilities/Submit.tcl
 Testing/Utilities/Coverage.tcl
 Testing/Utilities/ftp.tcl
-Testing/Utilities/CMakeTestingRules.make
-Testing/Utilities/CMakeTestingDashboardRules.make
 "}
 EOF
 cat >> $CONFIG_STATUS <<\EOF
