@@ -102,8 +102,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 
   // this filter requires all of the input image to
   // be in the buffer
-  EdgeImagePointer imgPtr = this->GetInput(1);
-  imgPtr->SetRequestedRegionToLargestPossibleRegion();
+  m_EdgeImage->SetRequestedRegionToLargestPossibleRegion();
 
 }
 
