@@ -77,7 +77,12 @@ SingleValuedNonLinearVnlOptimizer
 }
 
 
-
+SingleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType * 
+SingleValuedNonLinearVnlOptimizer
+::GetCostFunctionAdaptor( void )
+{
+  return m_CostFunctionAdaptor;
+}
 
 
 

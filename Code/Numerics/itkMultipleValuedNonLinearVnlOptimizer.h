@@ -75,6 +75,7 @@ protected:
 
   void SetCostFunctionAdaptor( CostFunctionAdaptorType * adaptor );
   const CostFunctionAdaptorType * GetCostFunctionAdaptor( void ) const;
+  CostFunctionAdaptorType * GetCostFunctionAdaptor( void );
 
 private:
   MultipleValuedNonLinearVnlOptimizer(const Self&); //purposely not implemented

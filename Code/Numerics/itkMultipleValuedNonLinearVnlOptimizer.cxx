@@ -80,7 +80,12 @@ MultipleValuedNonLinearVnlOptimizer
 }
 
 
-
+MultipleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType * 
+MultipleValuedNonLinearVnlOptimizer
+::GetCostFunctionAdaptor( void )
+{
+  return m_CostFunctionAdaptor;
+}
 
 void
 MultipleValuedNonLinearVnlOptimizer
