@@ -21,6 +21,7 @@
 #endif
 
 #include "itkFEMImageMetricLoad.h"
+#include "itkFEMElement2DC0LinearQuadrilateralStress.h"
 
 namespace itk {
 namespace fem {
@@ -49,7 +50,7 @@ class ImageMetricLoadImplementation
 {
 public:
   
-  static Element::VectorType ImplementImageMetricLoad(ElementNew::ConstPointer element, ElementNew::LoadElementPointer load)
+  static Element::VectorType ImplementImageMetricLoad(Element2DC0LinearQuadrilateralStress::ConstPointer element, ElementNew::LoadElementPointer load)
   {
     // We must dynamically cast the given load pointer to the
     // correct templated load class, which is given as
@@ -120,7 +121,7 @@ public:
 // corresponding Load class.
 template<class TLoadClass>
 const bool ImageMetricLoadImplementation<TLoadClass>::registered=
-  VisitorDispatcher<ElementNew,Element::LoadElementType,Element::VectorType>
+  VisitorDispatcher<Element2DC0LinearQuadrilateralStress,Element::LoadElementType,Element::VectorType>
   ::RegisterVisitor((TLoadClass*)0, &ImageMetricLoadImplementation<TLoadClass>::ImplementImageMetricLoad);
 
 
