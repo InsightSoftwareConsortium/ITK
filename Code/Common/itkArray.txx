@@ -188,7 +188,7 @@ Array<TValueType, VLength>
   ConstIterator i = this->Begin();
   ConstIterator j = r.Begin();
   
-  for( ; i != this->End(); ++i )
+  for( ; i != this->End(); ++i, ++j )
     {
     if ( *i != *j ) {return false;}
     }
@@ -204,7 +204,7 @@ Array<TValueType, VLength>
   ConstIterator i = this->Begin();
   ConstIterator j = r.Begin();
   
-  for( ; i != this->End(); ++i )
+  for( ; i != this->End(); ++i, ++j )
     {
     if ( *i != *j ) {return false;}
     }
@@ -220,7 +220,7 @@ Array<TValueType, VLength>
   ConstIterator i = this->Begin();
   ConstIterator j = r.Begin();
   
-  for( ; i != this->End(); ++i )
+  for( ; i != this->End(); ++i, ++j )
     {
     if ( *i != *j ) {return false;}
     }
