@@ -23,7 +23,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageRegionSimpleIterator.h"
 #include <time.h>
 
-void main()
+int main()
 {
   std::cout << "Creating an image" << std::endl;
   typedef itk::Image<itk::Scalar<unsigned short>, 3> ScalarImage;

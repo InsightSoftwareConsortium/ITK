@@ -95,7 +95,7 @@
       </xsl:choose>
       
       <pre>
-        <xsl:value-of select="Results/Measurement/Value"/>
+        <xsl:value-of select="Results/Measurement/Value" disable-output-escaping="yes"/>
       </pre>
       <xsl:call-template name="InsightFooter"/>
     </redirect:write>

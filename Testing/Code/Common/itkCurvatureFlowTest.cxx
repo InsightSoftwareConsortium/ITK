@@ -20,7 +20,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkWriteVTKImage.h"
 
 
-void main()
+int main()
 {
   /* -------------------------------------------------
    * Create a random image of size 64 x 64

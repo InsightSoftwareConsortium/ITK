@@ -20,7 +20,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkShrinkImage.h"
 #include "itkImportImage.h"
 
-void main()
+int main()
 {
   // Create a C-array to hold an image
   short *rawImage = new short[8*12];

@@ -121,16 +121,16 @@ public:
   /**
    * Define operator= for native types.
    */
-  void operator=(const typename TPixel::ScalarValueType v)
-    { 
-    }
+//   void operator=(const typename TPixel::ScalarValueType v)
+//     { 
+//     }
   
   /**
    * Define operator= for native types.
    */
-  void operator=(const double v)
-    { 
-    }  
+//   void operator=(const double v)
+//     { 
+//     }  
   
 };
 

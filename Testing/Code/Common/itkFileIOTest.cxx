@@ -5,7 +5,7 @@
 
 using namespace itk;
 
-void main ()
+int main ()
 {
 	typedef Image<unsigned short, 3> myImageType;
 	typedef WriteMetaImage<myImageType> myWriterType;

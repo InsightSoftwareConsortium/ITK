@@ -14,6 +14,7 @@
 
   =========================================================================*/
 #include "itkNeighborhoodAlgorithm.h"
+#include "itkNeighborhoodOperator.h"
 #include "itkRegionNeighborhoodIterator.h"
 #include <vnl/vnl_math.h>
 namespace itk
@@ -27,6 +28,18 @@ FilterImageSingleOperator<TPixel, VDimension>
 {
   long left;
   unsigned long right;
+<<<<<<< itkFilterImageSingleOperator.txx
+  unsigned long inputRequestedRegionSize[InputImage::ImageDimension];
+  typename InputImage::Index inputRequestedStartIndex;
+  const unsigned long *outputRegionSize = outputPtr->GetRegionSize();
+  const typename OutputImage::Index outputRegionStartIndex
+    = outputPtr->GetRegionStartIndex();
+  const unsigned long *inputBufferSize = inputPtr->GetBufferSize();
+  const typename InputImage::Index inputBufferStartIndex =
+    inputPtr->GetBufferStartIndex();
+  InputImagePointer  inputPtr = this->GetInput();
+  OutputImagePointer outputPtr= this->GetOutput();
+=======
   const typename OutputImage::Size outputRegionSize
     = this->GetOutput()->GetRequestedRegion().GetSize();
   const typename OutputImage::Index outputRegionStartIndex
@@ -35,6 +48,7 @@ FilterImageSingleOperator<TPixel, VDimension>
     = this->GetInput()->GetBufferedRegion().GetSize();
   const typename InputImage::Index inputBufferStartIndex
     = this->GetInput()->GetBufferedRegion().GetIndex();;
+>>>>>>> 1.2
 
   Size<VDimension> operatorRadius = m_Operator.GetRadius();
   

@@ -62,7 +62,7 @@ RegistrationTransformationAffine<NDimensions>::PointType
 RegistrationTransformationAffine<NDimensions>
 ::Transform(const PointType & point )
 {
-  return m_AffineTransform.TransformPoint( &point );
+  return m_AffineTransform.TransformPoint ( point );
 }
 
 

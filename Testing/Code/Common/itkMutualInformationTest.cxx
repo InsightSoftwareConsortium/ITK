@@ -20,7 +20,7 @@ See COPYRIGHT.txt for copyright details.
 
 #include "vnl/vnl_sample.h"
 
-void main()
+int main()
 {
 
   /* ---------------------------------------------------

@@ -21,7 +21,7 @@ bool different(float a, float b)
   return fabs(a-b) > 1e-6;
 }
 
-void main()
+int main()
 {
   bool passed = true;
 

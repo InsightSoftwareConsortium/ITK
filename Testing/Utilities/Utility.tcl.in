@@ -201,10 +201,12 @@ proc ExtractBuildLog { Filename } \
   
   if { $Buffer != "" } \
   {
-    set Log [open Log.txt.gz w]
-    puts -nonewline $Log [base64::decode $Buffer]
-    close $Log
-    exec gunzip Log.txt.gz
+    set uudecode [open |uudecode w]
+    puts $uudecode "begin-base64 664 Log.txt.gz" 
+    puts -nonewline $uudecode $Buffer
+    puts $uudecode "===="
+    close $uudecode
+    exec gunzip -f Log.txt.gz
   }
   close $File
 }
@@ -503,25 +505,29 @@ proc lremove { l item } \
 }
 
       
-proc Grep { match file { Exceptions {} } } \
+proc Grep { matchlist file { Exceptions {} } } \
 {
   set result ""
   foreach line [split $file "\n"] \
   {
-    if { [regexp $match $line] } \
+    set E 0
+    foreach match $matchlist \
     {
-      set E 1
-      foreach Exception $Exceptions \
+      if { [regexp $match $line] } \
       {
-	if { [regexp $Exception $line] } \
+	set E 1
+	foreach Exception $Exceptions \
 	{
-	  set E 0
+	  if { [regexp $Exception $line] } \
+	  {
+	    set E 0
+	  }
+	}
+	if { $E } \
+	{
+	  lappend result $line
 	  break
 	}
-      }
-      if { $E } \
-      {
-	lappend result $line
       }
     }
   }

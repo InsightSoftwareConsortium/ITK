@@ -23,5 +23,7 @@ itkTimeStamp \
 itkVersion \
 itkWriter
 
+# itkNew
+
 WIN32_SOURCE_FILES =\
 itkWin32OutputWindow 

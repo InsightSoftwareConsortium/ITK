@@ -73,7 +73,22 @@ set ErrorList(Buffer) ""
 set PostContextCount 5
 set BufferLength 5
 
-set Exceptions [list "has modification time" "Clock slew" "vnl/vnl_error.o" {^gmake} ]
+
+  # First match is GNU compiler
+  # Second match is IRIX compiler
+set ErrorMatches [list \
+		  {([^ :]+):([0-9]+): } \
+		  {^cc[^C]*CC: ERROR File = ([^,]+), Line = ([0-9]+)} \
+		 ]
+set ErrorExceptions [list "instantiated from "]
+
+
+set WarningMatches [list \
+		  {([^ :]+):([0-9]+): warning:} \
+		  {^cc[^C]*CC: WARNING File = ([^,]+), Line = ([0-9]+)} \
+		 ]
+set WarningExceptions [list ]
+
 set Line 1
 while { ![eof $Build] } \
 {
@@ -82,8 +97,11 @@ while { ![eof $Build] } \
   # Whate the heck should I do here?!?  Always ends up with extra lines.
   puts $BuildLog "<a name=\"$Line\">$Line:</a><pre>$LogLine</pre>"
 
-  set hasError [Match {.*[Ee][Rr][Rr][Oo][Rr].*} $LogLine $Exceptions]
-  set hasWarning [Match {.*[Ww[Aa][Rr][Nn][Ii][Nn][Gg].*} $LogLine $Exceptions]
+  #set hasError [Match {.*[Ee][Rr][Rr][Oo][Rr].*} $LogLine $Exceptions]
+
+  set hasError [Match $ErrorMatches $LogLine $ErrorExceptions]
+  
+  set hasWarning [Match $WarningMatches $LogLine $WarningExceptions]
   # set hasError [regexp -nocase ".*error.*" $LogLine]
   # set hasWarning [regexp -nocase ".*warning.*" $LogLine]
 
@@ -136,7 +154,10 @@ while { ![eof $Build] } \
   {
     set ErrorList(Buffer) [lrange $ErrorList(Buffer) 1 [expr $l - 2]]
   }
-  lappend ErrorList(Buffer) $LogLine
+  if { [string trim $LogLine] != "" } \
+  {
+    lappend ErrorList(Buffer) $LogLine
+  }
 
   # Go through all in the ErrorList to append to, and do it
   set AppendList $ErrorList(Append)
@@ -144,8 +165,11 @@ while { ![eof $Build] } \
   {
     if { $ErrorList($i,Line) != $Line } \
     {
-      lappend ErrorList($i,PostContext) $LogLine
-      incr ErrorList($i,ContextCounter) 
+      if { [string trim $LogLine] != "" } \
+      {
+	lappend ErrorList($i,PostContext) $LogLine
+	incr ErrorList($i,ContextCounter)
+      }
 
       # Remove this error for the append list
       if { $ErrorList($i,ContextCounter) > $PostContextCount } \
@@ -168,18 +192,18 @@ for { set i 0 } { $i < $ErrorList(Counter) } { incr i } \
     puts $Out "\t\t<SourceFile>[XMLSafeString $ErrorList($i,SourceFile)]</SourceFile>"
     puts $Out "\t\t<SourceLineNumber>$ErrorList($i,SourceLineNumber)</SourceLineNumber>"
   }
-  puts $Out "\t\t<PreContext>"
+  puts -nonewline $Out "\t\t<PreContext>"
   foreach l $ErrorList($i,PreContext) \
   {
     puts $Out [XMLSafeString $l]
   }
-  puts $Out "\t\t</PreContext>"
-  puts $Out "\t\t<PostContext>"
+  puts $Out "</PreContext>"
+  puts -nonewline $Out "\t\t<PostContext>"
   foreach l $ErrorList($i,PostContext) \
   {
     puts $Out [XMLSafeString $l]
   }
-  puts $Out "\t\t</PostContext>"
+  puts $Out "</PostContext>"
   puts $Out "</$ErrorList($i,Type)>"
   puts $Out "\n"
 }

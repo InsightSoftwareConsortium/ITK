@@ -19,7 +19,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkScalar.h"
 #include "itkImageRegionIterator.h"
 
-void main()
+int main()
 {
 
   /* -------------------------------------------------

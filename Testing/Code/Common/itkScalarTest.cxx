@@ -16,7 +16,7 @@ See COPYRIGHT.txt for copyright details.
 #include <iostream>
 #include "itkScalar.h"
 
-void main()
+int main()
 {
   bool passed = true;
 

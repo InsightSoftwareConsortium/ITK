@@ -19,7 +19,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkScalar.h"
 #include "itkShrinkImage.h"
 
-void main()
+int main()
 {
   // typedefs to simplify the syntax
   typedef itk::Image<itk::Scalar<short>, 2>   ShortImage;

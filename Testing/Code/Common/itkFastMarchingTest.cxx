@@ -21,7 +21,7 @@ See COPYRIGHT.txt for copyright details.
 
 #include "vnl/vnl_math.h"
 
-void main()
+int main()
 {
   // create a fastmarching object
   typedef itk::Scalar<float> PixelType;

@@ -68,11 +68,8 @@
       <b><xsl:value-of select="SourceLineNumber"/></b>
     </xsl:when>
   </xsl:choose>
-  <pre>
-    <xsl:value-of select="PreContext"/>
-    <b><xsl:value-of select="Text"/></b>
-    <xsl:value-of select="PostContext"/>
-  </pre>
+  <pre><xsl:value-of select="PreContext" disable-output-escaping="yes"/><b><xsl:value-of select="Text" disable-output-escaping="yes"/></b>
+<xsl:value-of select="PostContext" disable-output-escaping="yes"/></pre>
 </xsl:template>
 
 
