@@ -1034,7 +1034,7 @@ void hashtable_base<Value, Alloc>::copy_from(const hashtable_base<Value, Alloc>&
 
 // A few compatability fixes.  Placed here for automatic include in
 // both the hash_set and the hash_map sources.
-# if defined(xxxVCL_SUNPRO_CC) || defined (_MSC_VER)
+# if defined(VCL_SUNPRO_CC) || defined (_MSC_VER)
 namespace std 
 {
 template <class T>
