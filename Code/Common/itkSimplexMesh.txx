@@ -241,12 +241,12 @@ void
 SimplexMesh<TPixelType, VDimension, TMeshTraits>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  this->Superclass::PrintSelf(os,indent);
 
   os << indent << "LastCellId = " << m_LastCellId << std::endl;
 
-  Superclass::CellsContainerPointer cells = GetCells();
-  Superclass::CellsContainerIterator cellIt = cells->Begin();
+  CellsContainerPointer cells = GetCells();
+  CellsContainerIterator cellIt = cells->Begin();
 
   os << indent << "Cells Point Ids:" << std::endl;
   while ( cellIt != cells->End() )

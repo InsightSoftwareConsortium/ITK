@@ -117,8 +117,8 @@ class SimplexMesh : public Mesh<TPixelType, VDimension, TMeshTraits>
     typedef typename Superclass::PointsContainerPointer          PointsContainerPointer;
     typedef typename Superclass::PointsContainer::Iterator       PointsContainerIterator;
     typedef typename Superclass::PointsContainerConstIterator    PointsContainerConstIterator;
-
-
+    typedef typename Superclass::CellsContainerPointer           CellsContainerPointer;
+    typedef typename Superclass::CellsContainerIterator          CellsContainerIterator;
     /** set the map of geometrydata to the new pointer */
     itkSetMacro(GeometryData, GeometryMapPointer );
 
