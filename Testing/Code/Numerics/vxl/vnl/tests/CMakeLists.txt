@@ -16,6 +16,7 @@ test_resize
 test_complex 
 test_determinant 
 test_qr 
+test_qsvd
 test_svd 
 test_real_eigensystem 
 test_complex_eigensystem 
