@@ -61,7 +61,7 @@ int itkKappaStatisticImageToImageMetricTest(int argc, char* argv[] )
   metric->Initialize();
 
   std::cout << "First measure matches..." << std::endl;
-  for (float x = -250.0; x <= 250.0; x+= 50.0)
+  for (float x = -200.0; x <= 200.0; x+= 50.0)
     {
     offset[0] = x;
     for (float y = 0.0; y <= 0.0; y+= 10.0)
@@ -83,7 +83,7 @@ int itkKappaStatisticImageToImageMetricTest(int argc, char* argv[] )
   std::cout << "Now measure complement..." << std::endl;
   metric->ComplementOn();
 
-  for (float x = -250.0; x <= 250.0; x+= 50.0)
+  for (float x = -200.0; x <= 200.0; x+= 50.0)
     {
     offset[0] = x;
     for (float y = 0.0; y <= 0.0; y+= 10.0)

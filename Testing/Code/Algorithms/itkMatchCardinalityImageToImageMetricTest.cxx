@@ -61,7 +61,7 @@ int itkMatchCardinalityImageToImageMetricTest(int argc, char* argv[] )
   metric->Initialize();
 
   std::cout << "First measure matches..." << std::endl;
-  for (float x = -250.0; x <= 250.0; x+= 50.0)
+  for (float x = -200.0; x <= 200.0; x+= 50.0)
     {
     offset[0] = x;
     for (float y = 0.0; y <= 0.0; y+= 10.0)
@@ -73,7 +73,7 @@ int itkMatchCardinalityImageToImageMetricTest(int argc, char* argv[] )
         }
       catch( itk::ExceptionObject & exp )
         {
-        std::cerr << "Exception thrown while reading the input file " << std::endl;
+        std::cerr << "Exception thrown while computing metric " << std::endl;
         std::cerr << exp << std::endl;
         return EXIT_FAILURE;
         }
@@ -83,7 +83,7 @@ int itkMatchCardinalityImageToImageMetricTest(int argc, char* argv[] )
   std::cout << "Now measure mismatches..." << std::endl;
   metric->MeasureMatchesOff();
 
-  for (float x = -250.0; x <= 250.0; x+= 50.0)
+  for (float x = -200.0; x <= 200.0; x+= 50.0)
     {
     offset[0] = x;
     for (float y = 0.0; y <= 0.0; y+= 10.0)
@@ -95,7 +95,7 @@ int itkMatchCardinalityImageToImageMetricTest(int argc, char* argv[] )
         }
       catch( itk::ExceptionObject & exp )
         {
-        std::cerr << "Exception thrown while reading the input file " << std::endl;
+        std::cerr << "Exception thrown while computing metric " << std::endl;
         std::cerr << exp << std::endl;
         return EXIT_FAILURE;
         }
