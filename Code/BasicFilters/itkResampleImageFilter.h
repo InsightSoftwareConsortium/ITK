@@ -57,9 +57,10 @@ namespace itk
  * \brief Resample an image via a coordinate transform
  *
  * ResampleImageFilter resamples an existing image through some coordinate
- * transform, interpolating via some image function.  (In the current
- * version, the transform is always affine and the interpolation is
- * always linear, but this can be expected to change in the future.)
+ * transform, interpolating via some image function.  The class is templated
+ * over the type of the input image, the type of the output image, the
+ * type of the coordinate transformation, and the type of the interpolation
+ * method or image function.
  *
  * Since this filter produces an image which is a different size than
  * its input, it needs to override several of the methods defined
@@ -71,9 +72,14 @@ namespace itk
  * This filter is implemented as a multithreaded filter.  It provides a 
  * ThreadedGenerateData() method for its implementation.
  */
-template <class TInputImage, class TOutputImage>
+template <
+    class TInputImage,
+    class TOutputImage,
+    class TTransform=AffineTransform<double, TInputImage::ImageDimension>,
+    class TInterpolator=LinearInterpolateImageFunction<TInputImage>
+    >
 class ITK_EXPORT ResampleImageFilter:
-    public ImageToImageFilter<TInputImage,TOutputImage>
+    public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   /**
@@ -105,16 +111,14 @@ public:
    * dimensions; this is required by the current implementation of 
    * AffineTransform.
    */
-  typedef AffineTransform<double, TInputImage::ImageDimension> TransformType;
+  typedef TTransform TransformType;
   typedef AffineTransform<double, TInputImage::ImageDimension> 
       *TransformPointerType;
 
   /**
    * Interpolator typedef
-   *
-   * FIXME: Generalize to any sort of image function.
    */
-  typedef LinearInterpolateImageFunction<TInputImage>   InterpolatorType;
+  typedef TInterpolator   InterpolatorType;
   typedef typename InterpolatorType::Pointer  InterpolatorPointerType;
 
   /**
