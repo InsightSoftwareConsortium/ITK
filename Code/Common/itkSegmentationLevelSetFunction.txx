@@ -20,7 +20,23 @@
 #include "itkSegmentationLevelSetFunction.h"
 
 namespace itk {
+  
+template <class TImageType, class TFeatureImageType>
+void SegmentationLevelSetFunction<TImageType, TFeatureImageType>
+::SetSpeedImage( ImageType *s )
+{ 
+  m_SpeedImage = s;
+  m_Interpolator->SetInputImage(m_SpeedImage);
+}
 
+template <class TImageType, class TFeatureImageType>
+void SegmentationLevelSetFunction<TImageType, TFeatureImageType>
+::SetAdvectionImage( VectorImageType *s )
+{
+  m_AdvectionImage = s;
+  m_VectorInterpolator->SetInputImage(m_AdvectionImage);
+}
+  
 template <class TImageType, class TFeatureImageType>
 void SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 ::ReverseExpansionDirection()
