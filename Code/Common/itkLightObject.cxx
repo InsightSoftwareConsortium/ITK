@@ -110,7 +110,7 @@ RemoveObserver(unsigned long tag)
     if((*i)->m_Tag == tag)
       {
       delete (*i);
-      m_Observers.remove(*i);
+      m_Observers.erase(i);
       return;
       }
     }
