@@ -36,6 +36,7 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
   m_DerivativeStepLength = 0.1;
   m_DerivativeStepLengthScales.Fill(1);
   m_UpperBoundIncreaseFactor = 0.001;
+  m_PaddingValue = NumericTraits<FixedImagePixelType>::Zero;
 }
 
 template <class TFixedImage, class TMovingImage>
@@ -46,27 +47,22 @@ void HistogramImageToImageMetric<TFixedImage, TMovingImage>
 
   if (!this->m_FixedImage)
     {
-    ExceptionObject ex(__FILE__, __LINE__);
-    ex.SetDescription("Fixed image has not been set.");
-    throw ex;
+    itkExceptionMacro(<<"Fixed image has not been set.");
     }
   else if (!this->m_MovingImage)
     {
-    ExceptionObject ex(__FILE__, __LINE__);
-    ex.SetDescription("Moving image has not been set.");
-    throw ex;
+    itkExceptionMacro(<<"Moving image has not been set.");
     }
 
   // Calculate min and max image values in fixed image.
   FixedImageConstPointerType pFixedImage = this->m_FixedImage;
-  FixedImagePixelType minFixed, maxFixed;
   ImageRegionConstIterator<FixedImageType> fiIt(pFixedImage,
                                                 pFixedImage->GetBufferedRegion());
   fiIt.GoToBegin();
-  minFixed = fiIt.Value();
-  maxFixed = fiIt.Value();
+  FixedImagePixelType minFixed = fiIt.Value();
+  FixedImagePixelType maxFixed = fiIt.Value();
   ++fiIt;
-  while (!fiIt.IsAtEnd())
+  while ( !fiIt.IsAtEnd() )
     {
     FixedImagePixelType value = fiIt.Value();
       
@@ -84,14 +80,13 @@ void HistogramImageToImageMetric<TFixedImage, TMovingImage>
     
   // Calculate min and max image values in moving image.
   MovingImageConstPointerType pMovingImage = this->m_MovingImage;
-  MovingImagePixelType minMoving, maxMoving;
   ImageRegionConstIterator<MovingImageType> miIt(pMovingImage,
                                                  pMovingImage->GetBufferedRegion());
   miIt.GoToBegin();
-  minMoving = miIt.Value();
-  maxMoving = miIt.Value();
+  MovingImagePixelType minMoving = miIt.Value();
+  MovingImagePixelType maxMoving = miIt.Value();
   ++miIt;
-  while (!miIt.IsAtEnd())
+  while ( !miIt.IsAtEnd() )
     {
     MovingImagePixelType value = miIt.Value();
 
@@ -202,23 +197,26 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
   FixedImageConstPointerType fixedImage = this->m_FixedImage;
     
   if(!fixedImage)
+    {
     itkExceptionMacro(<< "Fixed image has not been assigned");
+    }
     
   typedef itk::ImageRegionConstIteratorWithIndex<FixedImageType>
     FixedIteratorType;
+
   typename FixedImageType::IndexType index;
   typename FixedImageType::RegionType fixedRegion;
 
   fixedRegion = this->GetFixedImageRegion();
-  FixedIteratorType ti(fixedImage, fixedRegion);
+  FixedIteratorType ti( fixedImage, fixedRegion );
     
   this->m_NumberOfPixelsCounted = 0;
-  this->SetTransformParameters(parameters);
+  this->SetTransformParameters( parameters );
     
-  histogram.Initialize(m_HistogramSize, m_LowerBound, m_UpperBound);
+  histogram.Initialize( m_HistogramSize, m_LowerBound, m_UpperBound );
     
   ti.GoToBegin();
-  while (!ti.IsAtEnd())
+  while ( !ti.IsAtEnd() )
     {
     index = ti.GetIndex();
       
@@ -232,7 +230,7 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
       typename Superclass::OutputPointType transformedPoint =
         this->m_Transform->TransformPoint(inputPoint);
 
-      if (this->m_Interpolator->IsInsideBuffer(transformedPoint))
+      if ( this->m_Interpolator->IsInsideBuffer(transformedPoint) )
         {
         const RealType movingValue =
           this->m_Interpolator->Evaluate(transformedPoint);
