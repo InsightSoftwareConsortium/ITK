@@ -86,15 +86,15 @@ public:
   
   /** Set/Get the first of two boundaries that are to be resolved.   */
   void SetBoundaryA(BoundaryType *bd)
-    { this->ProcessObject::SetNthInput(0, bd); }
+  { this->ProcessObject::SetNthInput(0, bd); }
   typename BoundaryType::Pointer GetBoundaryA()
-    { return static_cast<BoundaryType *>(this->GetInput(0));  }
+  { return static_cast<BoundaryType *>(this->GetInput(0));  }
   
   /** Set/Get the second of two boundaries that are to be resolved.  */
   void SetBoundaryB(BoundaryType *bd)
-    { this->ProcessObject::SetNthInput(1, bd); }
+  { this->ProcessObject::SetNthInput(1, bd); }
   typename BoundaryType::Pointer GetBoundaryB()
-    { return static_cast<BoundaryType *>(this->GetInput(1));  }
+  { return static_cast<BoundaryType *>(this->GetInput(1));  }
   
   /**  Set/Get the face of the boundary object that we are going to
        resolve. */
@@ -105,10 +105,10 @@ public:
    *  among segments that are generated from the boundary resolution
    *  algorithm.  */
   void SetEquivalencyTable(EquivalencyTableType::Pointer a)
-    { this->ProcessObject::SetNthOutput(0, a.GetPointer()); }
+  { this->ProcessObject::SetNthOutput(0, a.GetPointer()); }
   EquivalencyTableType::Pointer GetEquivalencyTable()
-    { return static_cast<EquivalencyTableType *>
-        (this->ProcessObject::GetOutput(0)); }
+  { return static_cast<EquivalencyTableType *>
+      (this->ProcessObject::GetOutput(0)); }
 
   /** Standard non-threaded pipeline method */
   void GenerateData();
@@ -117,12 +117,12 @@ public:
   virtual DataObjectPointer MakeOutput(unsigned int idx);  
 protected:
   BoundaryResolver() : m_Face(0)
-    {
-      EquivalencyTable::Pointer eq
-        = static_cast<EquivalencyTable*>(this->MakeOutput(0).GetPointer());
-      this->SetNumberOfRequiredOutputs(1);
-      this->ProcessObject::SetNthOutput(0, eq.GetPointer());
-    }
+  {
+    EquivalencyTable::Pointer eq
+      = static_cast<EquivalencyTable*>(this->MakeOutput(0).GetPointer());
+    this->SetNumberOfRequiredOutputs(1);
+    this->ProcessObject::SetNthOutput(0, eq.GetPointer());
+  }
   virtual ~BoundaryResolver() {}
   BoundaryResolver(const Self&) {}
   void operator=(const Self&) {}

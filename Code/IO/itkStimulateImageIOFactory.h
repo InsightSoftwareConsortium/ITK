@@ -49,10 +49,10 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-    {
-      StimulateImageIOFactory::Pointer stimulateFactory = StimulateImageIOFactory::New();
-      ObjectFactoryBase::RegisterFactory(stimulateFactory);
-    }
+  {
+    StimulateImageIOFactory::Pointer stimulateFactory = StimulateImageIOFactory::New();
+    ObjectFactoryBase::RegisterFactory(stimulateFactory);
+  }
   
 protected:
   StimulateImageIOFactory();

@@ -29,7 +29,7 @@ namespace itk
  *
  */
 class ITK_EXPORT RegularStepGradientDescentOptimizer : 
-        public RegularStepGradientDescentBaseOptimizer
+    public RegularStepGradientDescentBaseOptimizer
 {
 public:
   /** Standard class typedefs. */
@@ -60,8 +60,8 @@ protected:
    * to be overrided by optimization methods in non-vector spaces
    * \sa AdvanceOneStep */
   virtual void StepAlongGradient( 
-                  double factor, 
-                  const DerivativeType & transformedGradient );
+    double factor, 
+    const DerivativeType & transformedGradient );
 
 private:
   RegularStepGradientDescentOptimizer(const Self&); //purposely not implemented

@@ -41,7 +41,7 @@ namespace itk
 template <typename TInputImage, 
           typename TOutputImage= TInputImage >
 class ITK_EXPORT SmoothingRecursiveGaussianImageFilter:
-  public ImageToImageFilter<TInputImage,TOutputImage>
+    public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
@@ -70,23 +70,23 @@ public:
   typedef Image<InternalRealType, 
                 itkGetStaticConstMacro(ImageDimension) >   RealImageType;
 
-   /**  The first in the pipeline  */
+  /**  The first in the pipeline  */
   typedef RecursiveGaussianImageFilter<
-                                  InputImageType,
-                                  RealImageType
-                                  >    FirstGaussianFilterType;
+    InputImageType,
+    RealImageType
+    >    FirstGaussianFilterType;
 
   /**  Smoothing filter type */
   typedef RecursiveGaussianImageFilter<
-                                  RealImageType,
-                                  RealImageType
-                                  >    InternalGaussianFilterType;
+    RealImageType,
+    RealImageType
+    >    InternalGaussianFilterType;
 
- /**  The last in the pipeline  */
+  /**  The last in the pipeline  */
   typedef CastImageFilter<
-                                  RealImageType,
-                                  OutputImageType
-                                  >    CastingFilterType;
+    RealImageType,
+    OutputImageType
+    >    CastingFilterType;
 
 
   /**  Pointer to a gaussian filter.  */
@@ -98,7 +98,7 @@ public:
   /**  Pointer to the last filter, casting  */
   typedef typename CastingFilterType::Pointer             CastingFilterPointer;
 
- /**  Pointer to the Output Image */
+  /**  Pointer to the Output Image */
   typedef typename OutputImageType::Pointer                  OutputImagePointer;                                  
 
   /**  Command for observing progress of internal pipeline filters */

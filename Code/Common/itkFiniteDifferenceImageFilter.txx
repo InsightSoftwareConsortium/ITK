@@ -42,9 +42,9 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 
   while( ! out.IsAtEnd() )
     {
-      out.Value() =  in.Get();  // Supports input image adaptors only
-      ++in;
-      ++out;
+    out.Value() =  in.Get();  // Supports input image adaptors only
+    ++in;
+    ++out;
     }
 }
   
@@ -176,17 +176,17 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
   flag = false;
   for (int i = 0; i < size; ++i)
     {
-      if (valid[i])
-        {
-          min = timeStepList[i];
-          flag = true;
-          break;
-        }
+    if (valid[i])
+      {
+      min = timeStepList[i];
+      flag = true;
+      break;
+      }
     }
   
   if (!flag)
     {  // no values!
-      throw ExceptionObject(__FILE__, __LINE__);
+    throw ExceptionObject(__FILE__, __LINE__);
     }
 
   // find minimum value

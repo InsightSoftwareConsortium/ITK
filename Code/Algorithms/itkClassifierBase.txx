@@ -58,7 +58,7 @@ ClassifierBase<TDataContainer>
       ( m_MembershipFunctions.size() == 0 ) ||
       ( m_NumberOfClasses != m_MembershipFunctions.size() ) )
     {
-      throw ExceptionObject(__FILE__, __LINE__);
+    throw ExceptionObject(__FILE__, __LINE__);
     }
 
 }

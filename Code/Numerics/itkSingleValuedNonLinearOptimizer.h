@@ -45,7 +45,7 @@ public:
   
   /** Run-time type information (and related methods). */
   itkTypeMacro( SingleValuedNonLinearOptimizer, 
-      NonLinearOptimizer );
+                NonLinearOptimizer );
 
   /**  Parameters type.
    *  It defines a position in the optimization search space. */

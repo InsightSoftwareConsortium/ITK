@@ -32,7 +32,7 @@ namespace itk
 
 template < class TFixedImage, class TMovingSpatialObject> 
 class ITK_EXPORT ImageToSpatialObjectMetric 
-                           : public SingleValuedCostFunction
+  : public SingleValuedCostFunction
 {
 public:
   /** Standard "Self" typedef. */
@@ -60,8 +60,8 @@ public:
  
   /**  Type of the Transform Base class */
   typedef Transform<CoordinateRepresentationType, 
-    itkGetStaticConstMacro(ObjectDimension),
-    itkGetStaticConstMacro(ImageDimension) > TransformType;
+                    itkGetStaticConstMacro(ObjectDimension),
+                    itkGetStaticConstMacro(ImageDimension) > TransformType;
 
   typedef typename TransformType::Pointer            TransformPointer;
   typedef typename TransformType::InputPointType     InputPointType;
@@ -71,8 +71,8 @@ public:
 
   /**  Type of the Interpolator Base class */
   typedef LinearInterpolateImageFunction<
-                      TFixedImage,
-                      CoordinateRepresentationType > InterpolatorType;
+    TFixedImage,
+    CoordinateRepresentationType > InterpolatorType;
 
   typedef typename InterpolatorType::Pointer         InterpolatorPointer;
 
@@ -91,14 +91,14 @@ public:
 
   /** Pointer type for the MovingSpatialObject */
   typedef typename MovingSpatialObjectType::Pointer  
-                                               MovingSpatialObjectPointer;
+  MovingSpatialObjectPointer;
 
   /** Const pointer type for the FixedImage */
   typedef typename FixedImageType::ConstPointer   FixedImageConstPointer;
   
   /** Const pointer type for the MovingSpatialObject */
   typedef typename MovingSpatialObjectType::ConstPointer    
-                                           MovingSpatialObjectConstPointer;
+  MovingSpatialObjectConstPointer;
 
   /**  ParametersType typedef.
    *  It defines a position in the optimization search space. */
@@ -130,14 +130,14 @@ public:
 
   /** Get the Derivatives of the Match Measure */
   virtual void GetDerivative( const ParametersType & parameters,
-                                    DerivativeType & derivative ) const = 0;
+                              DerivativeType & derivative ) const = 0;
 
   /** Get the Value for SingleValue Optimizers */
   virtual MeasureType    GetValue( const ParametersType & parameters ) const =0;
 
   /** Get Value and Derivatives for MultipleValuedOptimizers */
   virtual void GetValueAndDerivative( const ParametersType & parameters,
-       MeasureType & Value, DerivativeType  & Derivative ) const =0;
+                                      MeasureType & Value, DerivativeType  & Derivative ) const =0;
 
   /** Initialize the metric */
   virtual void Initialize(void) {}
@@ -171,7 +171,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkImageToSpatialObjectMetric.txx"
+#include "itkImageToSpatialObjectMetric.txx"
 #endif
 
 #endif

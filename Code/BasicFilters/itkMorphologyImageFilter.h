@@ -69,7 +69,7 @@ namespace itk {
  */
 template<class TInputImage, class TOutputImage, class TKernel>
 class ITK_EXPORT MorphologyImageFilter : 
-  public ImageToImageFilter<TInputImage, TOutputImage>
+    public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   /** Standard Self typedef */
@@ -96,7 +96,7 @@ public:
 
   /** Neighborhood iterator type. */
   typedef ConstNeighborhoodIterator<TInputImage> 
-    NeighborhoodIteratorType ;
+  NeighborhoodIteratorType ;
 
   /** Kernel typedef. */
   typedef TKernel KernelType;

@@ -114,28 +114,28 @@ bool GiplImageIO::CanReadFile( const char* filename )
   std::ifstream inputStream;
   inputStream.open( filename, std::ios::in | std::ios::binary );
   if( inputStream.fail() )
-  {
+    {
     return false;
-  }
+    }
   
   inputStream.seekg(252);
   unsigned int magic_number;
   inputStream.read((char*)&magic_number,sizeof(unsigned int));
   
   if(m_ByteOrder == BigEndian)
-  {
+    {
     ByteSwapper<unsigned int>::SwapFromSystemToBigEndian(&magic_number);
-  }
+    }
   else if (m_ByteOrder == LittleEndian)
-  {
+    {
     ByteSwapper<unsigned int>::SwapFromSystemToLittleEndian(&magic_number);
-  }
+    }
 
   if((magic_number == GIPL_MAGIC_NUMBER) || (magic_number == GIPL_MAGIC_NUMBER2))
-  {
-     inputStream.close();
-     return true;
-  }
+    {
+    inputStream.close();
+    return true;
+    }
   
   inputStream.close();
   return false;
@@ -245,70 +245,70 @@ void GiplImageIO::ReadImageInformation()
 
   m_Ifstream.open(m_FileName.c_str(), std::ios::in | std::ios::binary );
   if( m_Ifstream.fail() )
-  {
+    {
     ExceptionObject exception(__FILE__, __LINE__);
     exception.SetDescription("File cannot be read");
     throw exception;
-  }
+    }
 
   unsigned short dims[4];
 
   unsigned int numberofdimension = 0;
   for(i=0;i<4;i++)
-  {
+    {
     dims[i]=0;
-  }
+    }
 
   for(i=0;i<4;i++)
-  {
+    {
     
     m_Ifstream.read((char*)&dims[i],sizeof(unsigned short));
     if(m_ByteOrder == BigEndian)
-    {
+      {
       ByteSwapper<unsigned short>::SwapFromSystemToBigEndian(&dims[i]);
-    }
+      }
     else if (m_ByteOrder == LittleEndian)
-    {
+      {
       ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&dims[i]);
-    }
+      }
 
     
     if( dims[i] > 0 )
-    {
+      {
       if (i<3)
-      {
+        {
         numberofdimension++; 
-      }
+        }
       else if( dims[i] > 1)
-      {
+        {
         numberofdimension++; 
+        }
+      }
+    else
+      {
+      break;
       }
     }
-    else
-    {
-      break;
-    }
-  }
 
   this->SetNumberOfDimensions( numberofdimension );
 
   for(i=0;i<numberofdimension;i++)
-  {
+    {
     m_Dimensions[i]=dims[i];
-  }
+    }
 
   unsigned short   image_type;
   m_Ifstream.read((char*)&image_type,sizeof(unsigned short));
 
 
   if(m_ByteOrder == BigEndian)
-  {
+    {
     ByteSwapper<unsigned short>::SwapFromSystemToBigEndian(&image_type);
-  }
+    }
 
 
   switch(image_type)
-  {
+    {
     case  GIPL_BINARY : m_ComponentType = UCHAR; m_PixelType = UCHAR;break;
     case  GIPL_CHAR :  m_ComponentType = CHAR; m_PixelType = CHAR;break;
     case  GIPL_U_CHAR :  m_ComponentType = UCHAR; m_PixelType = UCHAR;break;
@@ -318,73 +318,73 @@ void GiplImageIO::ReadImageInformation()
     case  GIPL_INT :  m_ComponentType = INT; m_PixelType = INT;break;
     case  GIPL_FLOAT :  m_ComponentType = FLOAT; m_PixelType = FLOAT;break;
     case  GIPL_DOUBLE :  m_ComponentType = DOUBLE; m_PixelType = DOUBLE;break;
-  }
+    }
 
 
   float   pixdim[4];         /*   10   16  X,Y,Z,T pixel dimensions mm */
   for(i=0;i<4;i++)
-  {
+    {
     m_Ifstream.read((char*)&pixdim[i],sizeof(float));
     if(m_ByteOrder == BigEndian)
-    {
+      {
       ByteSwapper<float>::SwapFromSystemToBigEndian(&pixdim[i]);
-    }
+      }
     else if (m_ByteOrder == LittleEndian)
-    {
+      {
       ByteSwapper<float>::SwapFromSystemToLittleEndian(&pixdim[i]);
-    }
+      }
     
     if(i<numberofdimension)
-    {
+      {
       m_Spacing[i]=pixdim[i];
-    }    
-  }
+      }    
+    }
       
   char    line1[80];         /*   26   80  Patient / Text field        */
   for(i=0;i<80;i++)
-  {
+    {
     m_Ifstream.read((char*)&line1[i],sizeof(char));
-  }
+    }
 
   
   float   matrix[20];        /*  106   80                              */ 
   for(i=0;i<20;i++)
-  {
+    {
     m_Ifstream.read((char*)&matrix[i],sizeof(float));
     
     if(m_ByteOrder == BigEndian)
-    {
+      {
       ByteSwapper<float>::SwapFromSystemToBigEndian(&matrix[i]);
-    }
+      }
     else if (m_ByteOrder == LittleEndian)
-    {
+      {
       ByteSwapper<float>::SwapFromSystemToLittleEndian(&matrix[i]);
-    } 
-  }
+      } 
+    }
 
   char    flag1;             /*  186    1  Orientation flag (below)    */
   m_Ifstream.read((char*)&flag1,sizeof(char));
   if(m_ByteOrder == BigEndian)
-  {
+    {
     ByteSwapper<char>::SwapFromSystemToBigEndian(&flag1);
-  }
+    }
   else if (m_ByteOrder == LittleEndian)
-  {
+    {
     ByteSwapper<char>::SwapFromSystemToLittleEndian(&flag1);
-  }
+    }
   
   char    flag2;             /*  187    1                              */
   m_Ifstream.read((char*)&flag2,sizeof(char));
 
   
   if(m_ByteOrder == BigEndian)
-  {
+    {
     ByteSwapper<char>::SwapFromSystemToBigEndian(&flag2); 
-  }
+    }
   else if (m_ByteOrder == LittleEndian)
-  {
+    {
     ByteSwapper<char>::SwapFromSystemToLittleEndian(&flag2); 
-  }
+    }
  
   double  min;               /*  188    8  Minimum voxel value         */
   m_Ifstream.read((char*)&min,sizeof(double));
@@ -394,46 +394,46 @@ void GiplImageIO::ReadImageInformation()
  
   double  origin[4];         /*  204   32  X,Y,Z,T offset              */
   for(i=0;i<4;i++)
-  {
+    {
     m_Ifstream.read((char*)&origin[i],sizeof(double));
-  }
+    }
 
   float   pixval_offset;     /*  236    4                              */
   m_Ifstream.read((char*)&pixval_offset,sizeof(float));
 
   if(m_ByteOrder == BigEndian)
-  {  
+    {  
     ByteSwapper<float>::SwapFromSystemToBigEndian(&pixval_offset);
-  }
+    }
   else if (m_ByteOrder == LittleEndian)
-  {   
+    {   
     ByteSwapper<float>::SwapFromSystemToLittleEndian(&pixval_offset); 
-  }
+    }
 
   float   pixval_cal;        /*  240    4                              */
   m_Ifstream.read((char*)&pixval_cal,sizeof(float));
     
   if(m_ByteOrder == BigEndian)
-  {  
+    {  
     ByteSwapper<float>::SwapFromSystemToBigEndian(&pixval_cal);
-  }
+    }
   else if (m_ByteOrder == LittleEndian)
-  {   
+    {   
     ByteSwapper<float>::SwapFromSystemToLittleEndian(&pixval_cal);
-  }
+    }
 
   float   user_def1;         /*  244    4  Inter-slice Gap             */
   m_Ifstream.read((char*)&user_def1,sizeof(float));
   
 
   if(m_ByteOrder == BigEndian)
-  {  
+    {  
     ByteSwapper<float>::SwapFromSystemToBigEndian(&user_def1);
-  }
+    }
   else if (m_ByteOrder == LittleEndian)
-  {   
+    {   
     ByteSwapper<float>::SwapFromSystemToLittleEndian(&user_def1); 
-  }
+    }
 
        
   float   user_def2;         /*  248    4  User defined field          */
@@ -441,26 +441,26 @@ void GiplImageIO::ReadImageInformation()
   
 
   if(m_ByteOrder == BigEndian)
-  {  
+    {  
     ByteSwapper<float>::SwapFromSystemToBigEndian(&user_def2);
-  }
+    }
   else if (m_ByteOrder == LittleEndian)
-  {   
+    {   
     ByteSwapper<float>::SwapFromSystemToLittleEndian(&user_def2); 
-  }
+    }
      
   unsigned int magic_number; /*  252    4 Magic Number                 */
   m_Ifstream.read((char*)&magic_number,sizeof(unsigned int));
   
 
   if(m_ByteOrder == BigEndian)
-  {  
+    {  
     ByteSwapper<unsigned int>::SwapFromSystemToBigEndian(&magic_number);
-  }
+    }
   else if (m_ByteOrder == LittleEndian)
-  {   
+    {   
     ByteSwapper<unsigned int>::SwapFromSystemToLittleEndian(&magic_number); 
-  }
+    }
   
 }
 
@@ -471,63 +471,63 @@ GiplImageIO
 {
   switch(m_PixelType)
     {
-  case CHAR:
+    case CHAR:
+    {
+    if ( m_ByteOrder == LittleEndian )
       {
-      if ( m_ByteOrder == LittleEndian )
-        {
-        ByteSwapper<char>::SwapRangeFromSystemToLittleEndian(
-                                    (char*)buffer, numberOfPixels );
-        }
-      else if ( m_ByteOrder == BigEndian )
-        {
-        ByteSwapper<char>::SwapRangeFromSystemToBigEndian(
-                                    (char *)buffer, numberOfPixels );
-        }
-      break;
+      ByteSwapper<char>::SwapRangeFromSystemToLittleEndian(
+        (char*)buffer, numberOfPixels );
       }
+    else if ( m_ByteOrder == BigEndian )
+      {
+      ByteSwapper<char>::SwapRangeFromSystemToBigEndian(
+        (char *)buffer, numberOfPixels );
+      }
+    break;
+    }
     case UCHAR:
+    {
+    if ( m_ByteOrder == LittleEndian )
       {
-      if ( m_ByteOrder == LittleEndian )
-        {
-        ByteSwapper<unsigned char>::SwapRangeFromSystemToLittleEndian(
-                                    (unsigned char*)buffer, numberOfPixels );
-        }
-      else if ( m_ByteOrder == BigEndian )
-        {
-        ByteSwapper<unsigned char>::SwapRangeFromSystemToBigEndian(
-                                    (unsigned char *)buffer, numberOfPixels );
-        }
-      break;
+      ByteSwapper<unsigned char>::SwapRangeFromSystemToLittleEndian(
+        (unsigned char*)buffer, numberOfPixels );
       }
-  case SHORT:
+    else if ( m_ByteOrder == BigEndian )
       {
-      if ( m_ByteOrder == LittleEndian )
-        {
-        ByteSwapper<short>::SwapRangeFromSystemToLittleEndian(
-                                  (short*)buffer, numberOfPixels );
-        }
-      else if ( m_ByteOrder == BigEndian )
-        {
-        ByteSwapper<short>::SwapRangeFromSystemToBigEndian(
-                                  (short *)buffer, numberOfPixels );
-        }
-      break;
+      ByteSwapper<unsigned char>::SwapRangeFromSystemToBigEndian(
+        (unsigned char *)buffer, numberOfPixels );
       }
+    break;
+    }
+    case SHORT:
+    {
+    if ( m_ByteOrder == LittleEndian )
+      {
+      ByteSwapper<short>::SwapRangeFromSystemToLittleEndian(
+        (short*)buffer, numberOfPixels );
+      }
+    else if ( m_ByteOrder == BigEndian )
+      {
+      ByteSwapper<short>::SwapRangeFromSystemToBigEndian(
+        (short *)buffer, numberOfPixels );
+      }
+    break;
+    }
     case USHORT:
+    {
+    if ( m_ByteOrder == LittleEndian )
       {
-      if ( m_ByteOrder == LittleEndian )
-        {
-        ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian(
-                                (unsigned short*)buffer, numberOfPixels );
-        }
-      else if ( m_ByteOrder == BigEndian )
-        {
-        ByteSwapper<unsigned short>::SwapRangeFromSystemToBigEndian(
-                                (unsigned short *)buffer, numberOfPixels );
-        }
-      break; 
+      ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian(
+        (unsigned short*)buffer, numberOfPixels );
       }
-   default:
+    else if ( m_ByteOrder == BigEndian )
+      {
+      ByteSwapper<unsigned short>::SwapRangeFromSystemToBigEndian(
+        (unsigned short *)buffer, numberOfPixels );
+      }
+    break; 
+    }
+    default:
       ExceptionObject exception(__FILE__, __LINE__);
       exception.SetDescription("Pixel Type Unknown");
       throw exception;
@@ -553,51 +553,51 @@ GiplImageIO
 
   m_Ofstream.open(m_FileName.c_str(), std::ios::binary | std::ios::out);
   if( m_Ofstream.fail() )
-  {
+    {
     ExceptionObject exception(__FILE__, __LINE__);
     exception.SetDescription("File cannot be write");
     throw exception;
-  }
+    }
 
  
 
   unsigned int i;
   for(i=0;i<4;i++)
-  {
+    {
     unsigned short value;
     if(i<nDims)
-    {
+      {
       value = this->GetDimensions(i);
       if(m_ByteOrder == BigEndian)
-      {
+        {
         ByteSwapper<unsigned short>::SwapFromSystemToBigEndian(&value);
-      }
+        }
       else if (m_ByteOrder == LittleEndian)
-      {
+        {
         ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&value);
-      }
+        }
       m_Ofstream.write((char*)&(value),sizeof(unsigned short));
-    }
+      }
 
     else
-    {
+      {
       value = 0;
       if(m_ByteOrder == BigEndian)
-      {
+        {
         ByteSwapper<unsigned short>::SwapFromSystemToBigEndian(&value);
-      }
+        }
       else if (m_ByteOrder == LittleEndian)
-      {
+        {
         ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&value);
-      }
+        }
       m_Ofstream.write((char*)&value,sizeof(unsigned short));;
+      }
     }
-  }
 
 
   unsigned short   image_type;
   switch(m_PixelType)
-  {
+    {
     case  CHAR : image_type = GIPL_CHAR;break;
     case  UCHAR :  image_type = GIPL_U_CHAR;break;
     case  SHORT :  image_type = GIPL_SHORT;break;
@@ -608,65 +608,65 @@ GiplImageIO
     case  DOUBLE : image_type = GIPL_DOUBLE;break;
     default:
       itkExceptionMacro ("Invalid type: " << m_PixelType );
-  }
+    }
 
   if(m_ByteOrder == BigEndian)
-  {
+    {
     ByteSwapper<unsigned short>::SwapFromSystemToBigEndian((unsigned short*)&image_type);
-  }
+    }
   if(m_ByteOrder == LittleEndian)
-  {
+    {
     ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian((unsigned short *)&image_type);
-  }
+    }
  
   m_Ofstream.write((char*)&image_type,sizeof(unsigned short));
 
   /*   10   16  X,Y,Z,T pixel dimensions mm */
   
   for(i=0;i<4;i++)
-  {
-    if(i<nDims)
     {
+    if(i<nDims)
+      {
       float value = m_Spacing[i];
       if(m_ByteOrder == BigEndian)
-      {
+        {
         ByteSwapper<float>::SwapFromSystemToBigEndian((float *)&value);
-      }
+        }
       if(m_ByteOrder == LittleEndian)
-      {
+        {
         ByteSwapper<float>::SwapFromSystemToLittleEndian((float *)&value);
-      }
+        }
       m_Ofstream.write((char*)&value,sizeof(float));
-    }
+      }
     else
-    {
+      {
       float value = 0;
       if(m_ByteOrder == BigEndian)
-      {
+        {
         ByteSwapper<float>::SwapFromSystemToBigEndian((float*)&value);
-      }
+        }
       if(m_ByteOrder == LittleEndian)
-      {
+        {
         ByteSwapper<float>::SwapFromSystemToLittleEndian((float *)&value);
-      }
+        }
       
       m_Ofstream.write((char*)&value,sizeof(float));;
-    }
+      }
 
-  }
+    }
 
   char    line1[80];         /*   26   80  Patient / Text field        */
   sprintf(line1,"No Patient Information");
   for(i=0;i<80;i++)
-  {
+    {
     m_Ofstream.write((char*)&line1[i],sizeof(char));
-  }
+    }
 
   float   matrix[20];        /*  106   80                              */
   for(i=0;i<20;i++)
-  {
+    {
     m_Ofstream.write((char*)&matrix[i],sizeof(float));
-  }
+    }
 
   char    flag1=0;             /*  186    1  Orientation flag (below)    */
   m_Ofstream.write((char*)&flag1,sizeof(char));
@@ -685,10 +685,10 @@ GiplImageIO
         
   double  origin[4];         /*  204   32  X,Y,Z,T offset              */
   for(i=0;i<4;i++)
-  {
+    {
     origin[i]=0;
     m_Ofstream.write((char*)&origin[i],sizeof(double));
-  }
+    }
 
   float   pixval_offset=0;     /*  236    4                            */
   m_Ofstream.write((char*)&pixval_offset,sizeof(float));
@@ -704,13 +704,13 @@ GiplImageIO
      
   unsigned int magic_number = GIPL_MAGIC_NUMBER; /*  252    4 Magic Number                 */
   if(m_ByteOrder == BigEndian)
-  {
+    {
     ByteSwapper<unsigned int>::SwapFromSystemToBigEndian(&magic_number);
-  }
+    }
   if(m_ByteOrder == LittleEndian)
-  {
+    {
     ByteSwapper<unsigned int>::SwapFromSystemToLittleEndian(&magic_number);
-  }
+    }
   m_Ofstream.write((char*)&magic_number,sizeof(unsigned int));
   
 
@@ -719,38 +719,38 @@ GiplImageIO
   //
   this->ComputeStrides();
   if ( m_FileType == ASCII )
-  {
+    {
     this->WriteBufferAsASCII(m_Ofstream, buffer, this->GetComponentType(),
-                           this->GetImageSizeInComponents());
-  }
+                             this->GetImageSizeInComponents());
+    }
   else //binary
-  {
+    {
     const unsigned long numberOfBytes      = this->GetImageSizeInBytes();
     const unsigned long numberOfComponents = this->GetImageSizeInComponents();
 
     // Swap bytes if necessary
     if ( m_ByteOrder == LittleEndian )
-    {
+      {
       char * tempBuffer = new char[ numberOfBytes ];
       memcpy( tempBuffer, buffer , numberOfBytes );
       SwapBytesIfNecessary(tempBuffer, numberOfComponents );
       m_Ofstream.write( tempBuffer, numberOfBytes );
       delete [] tempBuffer;
-    }
+      }
     else if ( m_ByteOrder == BigEndian )
-    {
+      {
       char * tempBuffer = new char[ numberOfBytes ];
       memcpy( tempBuffer, buffer , numberOfBytes );
       SwapBytesIfNecessary(tempBuffer, numberOfComponents );
       m_Ofstream.write( tempBuffer, numberOfBytes );
       delete [] tempBuffer;
-    }
+      }
     else
-    {
+      {
       m_Ofstream.write(static_cast<const char*>(buffer), numberOfBytes );
-    }
+      }
 
-  }
+    }
 
   m_Ofstream.close();
 }

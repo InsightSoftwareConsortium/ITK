@@ -100,7 +100,7 @@ ImageRegionMultidimensionalSplitter<VImageDimension>
       {
       splits[j] = (unsigned int) splitsPerDimension;
       pixelsPerSplit[j] = (unsigned int) ceil(regionSize[j]
-                                               / (double) splits[j]);
+                                              / (double) splits[j]);
       numPieces *= (unsigned int) splitsPerDimension;
       }
     }

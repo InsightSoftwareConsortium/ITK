@@ -32,8 +32,8 @@ template < class TScalarType,
            unsigned int NOutputDimensions >
 Transform< TScalarType,NInputDimensions,NOutputDimensions>
 ::Transform():
-        m_Parameters(1),
-        m_Jacobian(NOutputDimensions,1)
+  m_Parameters(1),
+  m_Jacobian(NOutputDimensions,1)
 {
 }
 
@@ -47,8 +47,8 @@ template < class TScalarType,
            unsigned int NOutputDimensions >
 Transform< TScalarType,NInputDimensions,NOutputDimensions>
 ::Transform(unsigned int dimension,unsigned int numberOfParameters):
-                                  m_Parameters(numberOfParameters),
-                                  m_Jacobian(dimension,numberOfParameters)
+  m_Parameters(numberOfParameters),
+  m_Jacobian(dimension,numberOfParameters)
 {
 }
 

@@ -185,10 +185,10 @@ LBFGSOptimizer
 
 
   const unsigned int numberOfParameters = 
-                        costFunction->GetNumberOfParameters();
+    costFunction->GetNumberOfParameters();
 
   CostFunctionAdaptorType * adaptor = 
-              new CostFunctionAdaptorType( numberOfParameters );
+    new CostFunctionAdaptorType( numberOfParameters );
        
   adaptor->SetCostFunction( costFunction );
 
@@ -233,8 +233,8 @@ LBFGSOptimizer
   InternalParametersType parameters( initialPosition.Size() );
 
   CostFunctionAdaptorType::ConvertExternalToInternalParameters( 
-                                            GetInitialPosition(), 
-                                            parameters     );
+    GetInitialPosition(), 
+    parameters     );
   
   // vnl optimizers return the solution by reference 
   // in the variable provided as initial position
@@ -243,8 +243,8 @@ LBFGSOptimizer
   ParametersType solution;
 
   CostFunctionAdaptorType::ConvertInternalToExternalParameters( 
-                                            parameters,
-                                            solution     );
+    parameters,
+    solution     );
   this->SetCurrentPosition( solution );
          
 

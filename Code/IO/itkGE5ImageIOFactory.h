@@ -26,45 +26,45 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-  /** \class GE5ImageIOFactory
+/** \class GE5ImageIOFactory
    * \brief Create instances of GE5ImageIO objects using an object factory.
    */
-  class ITK_EXPORT GE5ImageIOFactory : public ObjectFactoryBase
+class ITK_EXPORT GE5ImageIOFactory : public ObjectFactoryBase
+{
+public:
+  /** Standard class typedefs. */
+  typedef GE5ImageIOFactory   Self;
+  typedef ObjectFactoryBase  Superclass;
+  typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
+
+  /** Class methods used to interface with the registered factories. */
+  virtual const char* GetITKSourceVersion(void) const;
+  virtual const char* GetDescription(void) const;
+
+  /** Method for class instantiation. */
+  itkFactorylessNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(GE5ImageIOFactory, ObjectFactoryBase);
+
+  /** Register one factory of this type  */
+  static void RegisterOneFactory(void)
   {
-    public:
-      /** Standard class typedefs. */
-      typedef GE5ImageIOFactory   Self;
-      typedef ObjectFactoryBase  Superclass;
-      typedef SmartPointer<Self>  Pointer;
-      typedef SmartPointer<const Self>  ConstPointer;
+    GE5ImageIOFactory::Pointer metaFactory = GE5ImageIOFactory::New();
+    ObjectFactoryBase::RegisterFactory(metaFactory);
+  }
 
-      /** Class methods used to interface with the registered factories. */
-      virtual const char* GetITKSourceVersion(void) const;
-      virtual const char* GetDescription(void) const;
+protected:
+  GE5ImageIOFactory();
+  ~GE5ImageIOFactory();
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
-      /** Method for class instantiation. */
-      itkFactorylessNewMacro(Self);
+private:
+  GE5ImageIOFactory(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
-      /** Run-time type information (and related methods). */
-      itkTypeMacro(GE5ImageIOFactory, ObjectFactoryBase);
-
-      /** Register one factory of this type  */
-      static void RegisterOneFactory(void)
-      {
-        GE5ImageIOFactory::Pointer metaFactory = GE5ImageIOFactory::New();
-        ObjectFactoryBase::RegisterFactory(metaFactory);
-      }
-
-    protected:
-      GE5ImageIOFactory();
-      ~GE5ImageIOFactory();
-      virtual void PrintSelf(std::ostream& os, Indent indent) const;
-
-    private:
-      GE5ImageIOFactory(const Self&); //purposely not implemented
-      void operator=(const Self&); //purposely not implemented
-
-  };
+};
 
 
 } // end namespace itk

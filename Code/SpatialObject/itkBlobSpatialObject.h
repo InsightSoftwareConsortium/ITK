@@ -41,7 +41,7 @@ namespace itk
 
 template < unsigned int TDimension = 3 >
 class BlobSpatialObject 
-:public SpatialObject<  TDimension >
+  :public SpatialObject<  TDimension >
 {
 
 public:
@@ -67,7 +67,7 @@ public:
   /** Returns a reference to the list of the Blob points. */
   PointListType & GetPoints( void );
 
- /** Returns a reference to the list of the Blob points. */
+  /** Returns a reference to the list of the Blob points. */
   const PointListType & GetPoints( void ) const;
 
   /** Set the list of Blob points.*/
@@ -106,7 +106,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION 
-  #include "itkBlobSpatialObject.txx" 
+#include "itkBlobSpatialObject.txx" 
 #endif 
 
 #endif // __itkBlobSpatialObject_h

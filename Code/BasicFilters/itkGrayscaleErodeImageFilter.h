@@ -42,13 +42,13 @@ namespace itk {
  */
 template<class TInputImage, class TOutputImage, class TKernel>
 class ITK_EXPORT GrayscaleErodeImageFilter : 
-  public MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
+    public MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
   /** Standard class typedefs. */
   typedef GrayscaleErodeImageFilter Self;
   typedef MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
-    Superclass;
+  Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   

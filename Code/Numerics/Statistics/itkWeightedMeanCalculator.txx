@@ -78,36 +78,36 @@ WeightedMeanCalculator< TSample >
 
   if (m_WeightFunction != 0) 
     {
-      while (iter != end)
+    while (iter != end)
+      {
+      measurements = iter.GetMeasurementVector() ;
+      weight = 
+        iter.GetFrequency() * m_WeightFunction->Evaluate(measurements) ;
+      totalWeight += weight ;
+      for (dim = 0 ; dim < MeasurementVectorSize ; dim++)
         {
-          measurements = iter.GetMeasurementVector() ;
-          weight = 
-            iter.GetFrequency() * m_WeightFunction->Evaluate(measurements) ;
-          totalWeight += weight ;
-          for (dim = 0 ; dim < MeasurementVectorSize ; dim++)
-            {
-              m_Output[dim] += measurements[dim] * weight ;
-            }
-          ++iter ;
+        m_Output[dim] += measurements[dim] * weight ;
         }
-      m_Output /= totalWeight ;
+      ++iter ;
+      }
+    m_Output /= totalWeight ;
     }
   else
     {
-      while (iter != end)
+    while (iter != end)
+      {
+      measurements = iter.GetMeasurementVector() ;
+      weight = iter.GetFrequency() * (*m_Weights)[measurementVectorIndex] ;
+      totalWeight += weight ;
+      for (dim = 0 ; dim < MeasurementVectorSize ; dim++)
         {
-          measurements = iter.GetMeasurementVector() ;
-          weight = iter.GetFrequency() * (*m_Weights)[measurementVectorIndex] ;
-          totalWeight += weight ;
-          for (dim = 0 ; dim < MeasurementVectorSize ; dim++)
-            {
-              m_Output[dim] += measurements[dim] * weight ;
-            }
-          ++measurementVectorIndex ;
-          ++iter ;
+        m_Output[dim] += measurements[dim] * weight ;
         }
+      ++measurementVectorIndex ;
+      ++iter ;
+      }
 
-      m_Output /= totalWeight ;
+    m_Output /= totalWeight ;
     }
 }
 
@@ -128,7 +128,7 @@ WeightedMeanCalculator< TSample >
   
   std::cout << "Output: " << m_Output << std::endl ;
 }
-  } // end of namespace Statistics 
+} // end of namespace Statistics 
 } // end of namespace itk
 
 #endif

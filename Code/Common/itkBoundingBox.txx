@@ -162,7 +162,7 @@ template <typename TPointIdentifier, int VPointDimension,
 typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::PointType 
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 ::GetCenter(void)
-  {
+{
   this->ComputeBoundingBox();
 
   PointType center;
@@ -172,14 +172,14 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
     }
 
   return center;
-  }
+}
 
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
 typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::PointType 
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 ::GetMinimum(void)
-  {
+{
   this->ComputeBoundingBox();
 
   PointType minimum;
@@ -189,28 +189,28 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
     }
 
   return minimum;
-  }
+}
 
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
 void
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 ::SetMinimum(const PointType & point)
-  {
+{
   for (unsigned int i=0; i<PointDimension; i++)
     {
     m_Bounds[2*i] = point[i];
     }
 
   m_BoundsMTime.Modified();
-  }
+}
 
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
 typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::PointType 
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 ::GetMaximum(void)
-  {
+{
   this->ComputeBoundingBox();
 
   PointType maximum;
@@ -220,21 +220,21 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
     }
 
   return maximum;
-  }
+}
 
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
 void
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 ::SetMaximum(const PointType & point)
-  {
+{
   for (unsigned int i=0; i<PointDimension; i++)
     {
     m_Bounds[2*i+1] = point[i];
     }
 
   m_BoundsMTime.Modified();
-  }
+}
 
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
@@ -277,7 +277,7 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
     for (unsigned int i=0; i<PointDimension; i++)
       {
       dist2 += (m_Bounds[2*i]-m_Bounds[2*i+1]) * 
-               (m_Bounds[2*i]-m_Bounds[2*i+1]);
+        (m_Bounds[2*i]-m_Bounds[2*i+1]);
       }
     }
 

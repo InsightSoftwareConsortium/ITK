@@ -103,11 +103,11 @@ public:
   
   /** Neighborhood iterator types. */
   typedef ConstNeighborhoodIterator<TInputImage> 
-    NeighborhoodIteratorType ;
+  NeighborhoodIteratorType ;
   
   /** Kernel typedef. */
   typedef
-     Neighborhood<double, itkGetStaticConstMacro(ImageDimension)> KernelType;
+  Neighborhood<double, itkGetStaticConstMacro(ImageDimension)> KernelType;
   
   /** Kernel iterator. */
   typedef typename KernelType::Iterator KernelIteratorType ;
@@ -115,7 +115,7 @@ public:
 
   /** Gaussian image type */
   typedef
-     Image<double, itkGetStaticConstMacro(ImageDimension)> GaussianImageType;
+  Image<double, itkGetStaticConstMacro(ImageDimension)> GaussianImageType;
   
   /** Standard get/set macros for filter parameters.
    * DomainSigma is specified in the same units as the Image spacing.
@@ -131,20 +131,20 @@ public:
   /** Convenience get/set methods for setting all domain parameters to the
    * same values.  */
   void SetDomainSigma(const double v)
-    {
+  {
     double vArray[ImageDimension];
     for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
     this->SetDomainSigma(vArray);
-    }
+  }
   
   /** Convenience get/set methods for setting all domain parameters to the
    * same values.  */
   void SetDomainSigma(const float v)
-    {
+  {
     double vArray[ImageDimension];
     for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = static_cast<double>(v); }
     this->SetDomainSigma(vArray);
-    }
+  }
 
   /** Set/Get the number of samples in the approximation to the Gaussian
    * used for the range smoothing. Samples are only generated in the
@@ -156,7 +156,7 @@ protected:
   /** Constructor.  Default value for DomainSigma is 4. Default value
    * RangeSigma is 50. */
   BilateralImageFilter()
-    {
+  {
     unsigned int i;
     for (i = 0; i < ImageDimension; i++)
       {
@@ -171,7 +171,7 @@ protected:
     m_RangeMu = 4.0;   // can be bigger then DomainMu since we only
                        // index into a single table
 
-    }
+  }
   virtual ~BilateralImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 

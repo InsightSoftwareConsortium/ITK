@@ -39,7 +39,7 @@ template<class TScalarType>
 Rigid2DTransform<TScalarType>::
 Rigid2DTransform( unsigned int spaceDimension, 
                   unsigned int parametersDimension):
-Superclass(spaceDimension,parametersDimension)
+  Superclass(spaceDimension,parametersDimension)
 {
   m_Offset.Fill( 0 );
   m_RotationMatrix.SetIdentity();
@@ -80,16 +80,16 @@ SetRotationMatrix(const MatrixType & matrix )
   // The matrix must be orthogonal otherwise it is not
   // representing a valid rotaion in 2D space
   typename MatrixType::InternalMatrixType test = 
-                  matrix.GetVnlMatrix() * matrix.GetTranspose();
+    matrix.GetVnlMatrix() * matrix.GetTranspose();
 
   const double tolerance = 1e-10;
   if( !test.is_identity( tolerance ) ) 
-  {
+    {
     itk::ExceptionObject ex;
     ex.SetDescription("Attempt to set a Non-Orthogonal matrix");
     ex.SetLocation(__FILE__);
     throw ex;
-  }
+    }
 
   m_RotationMatrix = matrix;
   m_InverseMatrix = m_RotationMatrix.GetTranspose();
@@ -180,7 +180,7 @@ typename Rigid2DTransform<TScalarType>::InputPointType
 Rigid2DTransform<TScalarType>::
 BackTransform(const OutputPointType &point) const 
 {
-    return m_InverseMatrix * (point - m_Offset);
+  return m_InverseMatrix * (point - m_Offset);
 }
 
 // Back transform a vector
@@ -189,7 +189,7 @@ typename Rigid2DTransform<TScalarType>::InputVectorType
 Rigid2DTransform<TScalarType>::
 BackTransform(const OutputVectorType &vect ) const 
 {
-    return  m_InverseMatrix * vect;
+  return  m_InverseMatrix * vect;
 }
 
 // Back transform a vnl_vector
@@ -198,7 +198,7 @@ typename Rigid2DTransform<TScalarType>::InputVnlVectorType
 Rigid2DTransform<TScalarType>::
 BackTransform(const OutputVnlVectorType &vect ) const 
 {
-    return  m_InverseMatrix * vect;
+  return  m_InverseMatrix * vect;
 }
 
 

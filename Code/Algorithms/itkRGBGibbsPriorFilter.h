@@ -45,7 +45,7 @@ namespace itk
  * \ingroup MRFFilters */
 template <class TInputImage, class TClassifiedImage>
 class ITK_EXPORT RGBGibbsPriorFilter : public MRFImageFilter<TInputImage, 
-  TClassifiedImage>
+                                                             TClassifiedImage>
 {
 public:
   /** Standard "Self" typedef.*/
@@ -110,7 +110,7 @@ public:
 
   /** Get the labelled image. */
   LabelledImageType GetLabelledImage()
-    { return m_LabelledImage; }
+  { return m_LabelledImage; }
 
   /** Set the pointer to the classifer being used. */
   void SetClassifier( typename ClassifierType::Pointer ptrToClassifier );

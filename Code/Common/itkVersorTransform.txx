@@ -75,8 +75,8 @@ void
 VersorTransform<TScalarType>
 ::SetRotation( const VersorType & versor )
 {
-    m_Versor = versor;
-    this->ComputeMatrix();
+  m_Versor = versor;
+  this->ComputeMatrix();
 }
 
 
@@ -87,8 +87,8 @@ void
 VersorTransform<TScalarType>
 ::SetRotation( const AxisType & axis, AngleType  angle )
 {
-    m_Versor.Set( axis, angle );
-    this->ComputeMatrix();
+  m_Versor.Set( axis, angle );
+  this->ComputeMatrix();
 }
 
 
@@ -167,7 +167,7 @@ GetJacobian( const InputPointType & p ) const
   unsigned int blockOffset = 4;  
   for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
     {
-     m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
+    m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
     }
 
   return m_Jacobian;

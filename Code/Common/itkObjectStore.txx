@@ -65,7 +65,7 @@ ObjectStore<TObjectType>
   ObjectType *p;
   if (m_FreeList.empty() ) // must allocate more memory
     {
-      this->Reserve( m_Size + this->GetGrowthSize() );
+    this->Reserve( m_Size + this->GetGrowthSize() );
     }
   p = m_FreeList.back();
   m_FreeList.pop_back();
@@ -139,8 +139,8 @@ ObjectStore<TObjectType>
   // Empty the MemoryBlock list and deallocate all memory blocks.
   while ( ! m_Store.empty() )
     {
-      m_Store.back().Delete();
-      m_Store.pop_back();
+    m_Store.back().Delete();
+    m_Store.pop_back();
     }
   m_Size = 0;
 }

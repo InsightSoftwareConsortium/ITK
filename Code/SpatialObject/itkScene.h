@@ -36,7 +36,7 @@ namespace itk
  
 template <unsigned int SpaceDimension = 3>
 class Scene 
-: public Object
+  : public Object
 { 
  
 public: 
@@ -51,7 +51,7 @@ public:
   typedef SpatialObject<SpaceDimension> SpatialObjectType;
 
   typedef std::list< SpatialObject<SpaceDimension> * > 
-          ObjectListType; 
+  ObjectListType; 
      
   itkStaticConstMacro(MaximumDepth, unsigned int, 9999999);
 
@@ -115,7 +115,7 @@ protected:
  
 
 #ifndef ITK_MANUAL_INSTANTIATION 
-  #include "itkScene.txx" 
+#include "itkScene.txx" 
 #endif 
 
 #endif // __Scene_h 

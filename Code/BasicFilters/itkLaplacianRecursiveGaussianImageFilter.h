@@ -42,7 +42,7 @@ namespace itk
 template <typename TInputImage, 
           typename TOutputImage= TInputImage >
 class ITK_EXPORT LaplacianRecursiveGaussianImageFilter:
-  public ImageToImageFilter<TInputImage,TOutputImage>
+    public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
@@ -73,15 +73,15 @@ public:
 
   /**  Smoothing filter type */
   typedef RecursiveGaussianImageFilter<
-                                  RealImageType,
-                                  RealImageType
-                                  >    GaussianFilterType;
+    RealImageType,
+    RealImageType
+    >    GaussianFilterType;
 
   /**  Derivative filter type, it will be the first in the pipeline  */
   typedef RecursiveGaussianImageFilter<
-                                  InputImageType,
-                                  RealImageType
-                                  >    DerivativeFilterType;
+    InputImageType,
+    RealImageType
+    >    DerivativeFilterType;
 
   /**  Pointer to a gaussian filter.  */
   typedef typename GaussianFilterType::Pointer     GaussianFilterPointer;

@@ -56,7 +56,7 @@ namespace itk {
  */
 template<class TInputImage1, class TInputImage2>
 class ITK_EXPORT SimilarityIndexImageFilter : 
-  public ImageToImageFilter<TInputImage1, TInputImage1>
+    public ImageToImageFilter<TInputImage1, TInputImage1>
 {
 public:
   /** Standard Self typedef */
@@ -95,14 +95,14 @@ public:
 
   /** Set the first input. */
   void SetInput1( const InputImage1Type * image )
-    { this->SetInput( image ); }
+  { this->SetInput( image ); }
 
   /** Set the second input. */
   void SetInput2( const InputImage2Type * image );
 
   /** Get the first input. */
   const InputImage1Type * GetInput1(void)
-    { return this->GetInput(); }
+  { return this->GetInput(); }
   
   /** Get the secong input. */
   const InputImage2Type * GetInput2(void);
@@ -135,7 +135,7 @@ protected:
   // Override since the filter produces all of its output
   void EnlargeOutputRequestedRegion(DataObject *data);
 
- private:
+private:
   SimilarityIndexImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

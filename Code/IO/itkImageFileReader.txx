@@ -63,13 +63,13 @@ void
 ImageFileReader<TOutputImage, ConvertPixelTraits>
 ::SetImageIO( ImageIOBase * imageIO)
 {
-    itkDebugMacro("setting ImageIO to " << imageIO ); 
-    if (this->m_ImageIO != imageIO ) 
-      {
-      this->m_ImageIO = imageIO;
-      this->Modified(); 
-      } 
-    m_UserSpecifiedImageIO = true;
+  itkDebugMacro("setting ImageIO to " << imageIO ); 
+  if (this->m_ImageIO != imageIO ) 
+    {
+    this->m_ImageIO = imageIO;
+    this->Modified(); 
+    } 
+  m_UserSpecifiedImageIO = true;
 }
 
 
@@ -256,8 +256,8 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
     m_ImageIO->Read(loadBuffer);
     
     itkDebugMacro(<< "Buffer conversion required from: "
-                 << m_ImageIO->GetPixelType().name()
-                 << " to: " << typeid(TOutputImage::PixelType).name());
+                  << m_ImageIO->GetPixelType().name()
+                  << " to: " << typeid(TOutputImage::PixelType).name());
 
     this->DoConvertBuffer(loadBuffer, region.GetNumberOfPixels());
     delete [] loadBuffer;
@@ -299,37 +299,37 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
     {
     }
   ITK_CONVERT_BUFFER_IF_BLOCK(unsigned char)
-  ITK_CONVERT_BUFFER_IF_BLOCK(char)
-  ITK_CONVERT_BUFFER_IF_BLOCK(unsigned short)
-  ITK_CONVERT_BUFFER_IF_BLOCK( short)
-  ITK_CONVERT_BUFFER_IF_BLOCK(unsigned int)
-  ITK_CONVERT_BUFFER_IF_BLOCK( int)
-  ITK_CONVERT_BUFFER_IF_BLOCK(unsigned long)
-  ITK_CONVERT_BUFFER_IF_BLOCK( long)
-  ITK_CONVERT_BUFFER_IF_BLOCK(float)
-  ITK_CONVERT_BUFFER_IF_BLOCK( double)
-  else
-    {
-    ImageFileReaderException e(__FILE__, __LINE__);
-    OStringStream msg;
-    msg <<"Couldn't convert pixel type: "
-        << std::endl << "    " << m_ImageIO->GetPixelType().name()
-        << std::endl << "to one of: "
-        << std::endl << "    " << typeid(unsigned char).name()
-        << std::endl << "    " << typeid(char).name()
-        << std::endl << "    " << typeid(unsigned short).name()
-        << std::endl << "    " << typeid(short).name()
-        << std::endl << "    " << typeid(unsigned int).name()
-        << std::endl << "    " << typeid(int).name()
-        << std::endl << "    " << typeid(unsigned long).name()
-        << std::endl << "    " << typeid(long).name()
-        << std::endl << "    " << typeid(float).name()
-        << std::endl << "    " << typeid(double).name()
-        << std::endl;
-    e.SetDescription(msg.str().c_str());
-    throw e;
-    return;
-    }
+    ITK_CONVERT_BUFFER_IF_BLOCK(char)
+    ITK_CONVERT_BUFFER_IF_BLOCK(unsigned short)
+    ITK_CONVERT_BUFFER_IF_BLOCK( short)
+    ITK_CONVERT_BUFFER_IF_BLOCK(unsigned int)
+    ITK_CONVERT_BUFFER_IF_BLOCK( int)
+    ITK_CONVERT_BUFFER_IF_BLOCK(unsigned long)
+    ITK_CONVERT_BUFFER_IF_BLOCK( long)
+    ITK_CONVERT_BUFFER_IF_BLOCK(float)
+    ITK_CONVERT_BUFFER_IF_BLOCK( double)
+    else
+      {
+      ImageFileReaderException e(__FILE__, __LINE__);
+      OStringStream msg;
+      msg <<"Couldn't convert pixel type: "
+          << std::endl << "    " << m_ImageIO->GetPixelType().name()
+          << std::endl << "to one of: "
+          << std::endl << "    " << typeid(unsigned char).name()
+          << std::endl << "    " << typeid(char).name()
+          << std::endl << "    " << typeid(unsigned short).name()
+          << std::endl << "    " << typeid(short).name()
+          << std::endl << "    " << typeid(unsigned int).name()
+          << std::endl << "    " << typeid(int).name()
+          << std::endl << "    " << typeid(unsigned long).name()
+          << std::endl << "    " << typeid(long).name()
+          << std::endl << "    " << typeid(float).name()
+          << std::endl << "    " << typeid(double).name()
+          << std::endl;
+      e.SetDescription(msg.str().c_str());
+      throw e;
+      return;
+      }
 #undef ITK_CONVERT_BUFFER_IF_BLOCK
 }
 

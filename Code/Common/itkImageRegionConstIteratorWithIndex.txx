@@ -33,26 +33,26 @@ ImageRegionConstIteratorWithIndex<TImage>
   
   m_Remaining = false;
   for( unsigned int in=0; in<TImage::ImageDimension; in++ )
-  {
+    {
     m_PositionIndex[ in  ]++;
     if( m_PositionIndex[ in ] < m_EndIndex[ in ] )
-    {
+      {
       m_Position += m_OffsetTable[in];
       m_Remaining = true;
       break;
-    }
+      }
     else 
-    {
-    m_Position -= m_OffsetTable[ in ]
-      * ( static_cast<long>(m_Region.GetSize()[in])-1 );
-    m_PositionIndex[ in ] = m_BeginIndex[ in ]; 
+      {
+      m_Position -= m_OffsetTable[ in ]
+        * ( static_cast<long>(m_Region.GetSize()[in])-1 );
+      m_PositionIndex[ in ] = m_BeginIndex[ in ]; 
+      }
     }
-  }
 
   if( !m_Remaining ) // It will not advance here otherwise
-  {
+    {
     m_Position = m_End;
-  }
+    }
 
   return *this;
 }
@@ -69,29 +69,29 @@ ImageRegionConstIteratorWithIndex<TImage>
   
   m_Remaining = false;
   for( unsigned int in=0; in<TImage::ImageDimension; in++ )
-  {
+    {
       
-      if( m_PositionIndex[ in ] > m_BeginIndex[ in ] )
+    if( m_PositionIndex[ in ] > m_BeginIndex[ in ] )
       {
-        m_PositionIndex[ in  ]--;
-        m_Position -= m_OffsetTable[in];
-        m_Remaining = true;
-        break;
+      m_PositionIndex[ in  ]--;
+      m_Position -= m_OffsetTable[in];
+      m_Remaining = true;
+      break;
       }
-      else 
+    else 
       {
-        m_PositionIndex[ in  ]--;
-        m_Position += m_OffsetTable[ in ]
-          * ( static_cast<long>(m_Region.GetSize()[in])-1 );
-        m_PositionIndex[ in ] = m_EndIndex[ in ] - 1; 
+      m_PositionIndex[ in  ]--;
+      m_Position += m_OffsetTable[ in ]
+        * ( static_cast<long>(m_Region.GetSize()[in])-1 );
+      m_PositionIndex[ in ] = m_EndIndex[ in ] - 1; 
       }
 
-  }
+    }
 
   if( !m_Remaining ) // It will not advance here otherwise
-  {
+    {
     m_Position = m_End;
-  }
+    }
 
   return *this;
 }

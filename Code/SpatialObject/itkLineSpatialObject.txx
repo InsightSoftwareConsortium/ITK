@@ -71,10 +71,10 @@ LineSpatialObject< TDimension >
   it = points.begin();    
   end = points.end();
   while(it != end)
-  {
+    {
     m_Points.push_back(*it);
     it++;
-  }
+    }
    
   this->Modified();
 }
@@ -105,7 +105,7 @@ LineSpatialObject< TDimension >
     ret = Superclass::ComputeBoundingBox();
 
     if( m_BoundingBoxChildrenName.empty() 
-      || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
+        || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
       {
       typename PointListType::const_iterator it  = m_Points.begin();
       typename PointListType::const_iterator end = m_Points.end();

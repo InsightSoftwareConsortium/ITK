@@ -71,7 +71,7 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
     typename Superclass::InputPointType  inputPoint;
     inputPoint.CastFrom( pointItr.Value() );
     typename Superclass::OutputPointType transformedPoint = 
-                           m_Transform->TransformPoint( inputPoint );
+      m_Transform->TransformPoint( inputPoint );
 
     if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
@@ -112,7 +112,7 @@ template < class TFixedPointSet, class TMovingImage>
 void
 NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
 ::GetDerivative( const TransformParametersType & parameters,
-                       DerivativeType & derivative ) const
+                 DerivativeType & derivative ) const
 {
 
   if( !m_GradientImage )
@@ -160,7 +160,7 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
     typename Superclass::InputPointType  inputPoint;
     inputPoint.CastFrom( pointItr.Value() );
     typename Superclass::OutputPointType transformedPoint = 
-                           m_Transform->TransformPoint( inputPoint );
+      m_Transform->TransformPoint( inputPoint );
 
     if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
@@ -177,7 +177,7 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
 
       // Now compute the derivatives
       const TransformJacobianType & jacobian =
-                          m_Transform->GetJacobian( inputPoint ); 
+        m_Transform->GetJacobian( inputPoint ); 
 
       // Get the gradient by NearestNeighboorInterpolation: 
       // which is equivalent to round up the point components.
@@ -196,7 +196,7 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
         }
 
       const GradientPixelType gradient = 
-                                m_GradientImage->GetPixel( mappedIndex );
+        m_GradientImage->GetPixel( mappedIndex );
 
       for(unsigned int par=0; par<ParametersDimension; par++)
         {
@@ -289,7 +289,7 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
     typename Superclass::InputPointType  inputPoint;
     inputPoint.CastFrom( pointItr.Value() );
     typename Superclass::OutputPointType transformedPoint = 
-                           m_Transform->TransformPoint( inputPoint );
+      m_Transform->TransformPoint( inputPoint );
 
     if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
@@ -306,7 +306,7 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
 
       // Now compute the derivatives
       const TransformJacobianType & jacobian =
-                          m_Transform->GetJacobian( inputPoint ); 
+        m_Transform->GetJacobian( inputPoint ); 
 
       // Get the gradient by NearestNeighboorInterpolation: 
       // which is equivalent to round up the point components.
@@ -325,7 +325,7 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
         }
 
       const GradientPixelType gradient = 
-                                m_GradientImage->GetPixel( mappedIndex );
+        m_GradientImage->GetPixel( mappedIndex );
 
       for(unsigned int par=0; par<ParametersDimension; par++)
         {

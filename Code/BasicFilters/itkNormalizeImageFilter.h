@@ -39,7 +39,7 @@ namespace itk {
  */
 template<class TInputImage,class TOutputImage>
 class ITK_EXPORT NormalizeImageFilter : 
-  public ImageToImageFilter<TInputImage, TOutputImage>
+    public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   /** Standard Self typedef */
@@ -67,7 +67,7 @@ protected:
   // Override since the filter needs all the data for the algorithm
   void GenerateInputRequestedRegion();
 
- private:
+private:
   NormalizeImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

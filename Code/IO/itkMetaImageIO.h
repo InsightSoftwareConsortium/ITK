@@ -53,7 +53,7 @@ public:
    * true/false as to whether the ImageIO can support the dimension
    * indicated. */
   virtual bool SupportsDimension(unsigned long )
-    {return true;}
+  {return true;}
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 

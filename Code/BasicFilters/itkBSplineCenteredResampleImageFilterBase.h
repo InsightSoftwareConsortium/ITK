@@ -57,7 +57,7 @@ class ProgressReporter;
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT BSplineCenteredResampleImageFilterBase : 
-  public BSplineResampleImageFilterBase<TInputImage, TOutputImage>  
+    public BSplineResampleImageFilterBase<TInputImage, TOutputImage>  
 {
 public:
   /** Standard class typedefs. */
@@ -83,18 +83,18 @@ protected:
 
   virtual void InitializePyramidSplineFilter(int SplineOrder);
   virtual void Reduce1DImage( 
-        const std::vector<double> & In, 
-        OutputImageIterator & Iter, 
-        unsigned int traverseSize,
-        ProgressReporter &progress
-        );
+    const std::vector<double> & In, 
+    OutputImageIterator & Iter, 
+    unsigned int traverseSize,
+    ProgressReporter &progress
+    );
 
   virtual void Expand1DImage( 
-        const std::vector<double> & In, 
-        OutputImageIterator & Iter, 
-        unsigned int traverseSize,
-        ProgressReporter &progress
-        );
+    const std::vector<double> & In, 
+    OutputImageIterator & Iter, 
+    unsigned int traverseSize,
+    ProgressReporter &progress
+    );
 
 protected:
   BSplineCenteredResampleImageFilterBase();

@@ -74,13 +74,13 @@ namespace itk
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
 class ITK_EXPORT MultiResolutionPDEDeformableRegistration :
-  public ImageToImageFilter <TDeformationField, TDeformationField>
+    public ImageToImageFilter <TDeformationField, TDeformationField>
 {
 public:
   /** Standard class typedefs */
   typedef MultiResolutionPDEDeformableRegistration Self;
   typedef ImageToImageFilter<TDeformationField, TDeformationField>
-    Superclass;
+  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -89,7 +89,7 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( MultiResolutionPDEDeformableRegistration, 
-    ImageToImageFilter );
+                ImageToImageFilter );
 
   /** Fixed image type. */
   typedef TFixedImage FixedImageType;
@@ -150,14 +150,14 @@ public:
 
   /** Set initial deformation field. */
   virtual void SetInitialDeformationField( DeformationFieldType * itkNotUsed(ptr) )
-    {
+  {
     itkExceptionMacro( << "This feature not implemented yet"  );
     // this->SetInput( ptr ); 
-    }
+  }
 
   /** Get output deformation field. */
   const DeformationFieldType * GetDeformationField(void)
-    { return this->GetOutput(); }
+  { return this->GetOutput(); }
 
   /** Set the internal registrator. */
   itkSetObjectMacro( RegistrationFilter, RegistrationType );
@@ -191,7 +191,7 @@ public:
 
   /** Get number of iterations per multi-resolution levels. */
   virtual const unsigned int * GetNumberOfIterations() const
-    { return &(m_NumberOfIterations[0]); }
+  { return &(m_NumberOfIterations[0]); }
 
 protected:
   MultiResolutionPDEDeformableRegistration();

@@ -143,9 +143,9 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   for( j = 0; j < ImageDimension; j++ )
     {
-     mappedPoint[j] = double( index[j] ) * m_FixedImageSpacing[j] + 
+    mappedPoint[j] = double( index[j] ) * m_FixedImageSpacing[j] + 
       m_FixedImageOrigin[j];
-     mappedPoint[j] += it.GetCenterPixel()[j];
+    mappedPoint[j] += it.GetCenterPixel()[j];
     }
   if( m_MovingImageInterpolator->IsInsideBuffer( mappedPoint ) )
     {
@@ -162,7 +162,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     fixedGradientSquaredMagnitude;
 
   if ( vnl_math_abs(speedValue) < m_IntensityDifferenceThreshold || 
-    denominator < m_DenominatorThreshold )
+       denominator < m_DenominatorThreshold )
     {
     for( j = 0; j < ImageDimension; j++ )
       {

@@ -39,7 +39,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-  /**
+/**
    * \ingroup IOFilters
    * \author Hans J. Johnson
    * \brief Class that defines how to read Analyze file format.
@@ -90,129 +90,129 @@ namespace itk
    *      A specially formated file with a mapping between object name and image code used to associate
    *      image voxel locations with a label.  This file is run length encoded to save disk storage.
    */
-  class ITK_EXPORT AnalyzeImageIO : public ImageIOBase
-  {
-    public:
-      /** Standard class typedefs. */
-      typedef AnalyzeImageIO            Self;
-      typedef ImageIOBase  Superclass;
-      typedef SmartPointer<Self>  Pointer;
+class ITK_EXPORT AnalyzeImageIO : public ImageIOBase
+{
+public:
+  /** Standard class typedefs. */
+  typedef AnalyzeImageIO            Self;
+  typedef ImageIOBase  Superclass;
+  typedef SmartPointer<Self>  Pointer;
 
-      /** Method for creation through the object factory. */
-      itkNewMacro(Self);
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
 
-      /** Run-time type information (and related methods). */
-      itkTypeMacro(AnalyzeImageIO, Superclass);
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(AnalyzeImageIO, Superclass);
 
-      /*-------- This part of the interfaces deals with reading data. ----- */
+  /*-------- This part of the interfaces deals with reading data. ----- */
 
-      /** Determine if the file can be read with this ImageIO implementation.
+  /** Determine if the file can be read with this ImageIO implementation.
        * \author Hans J Johnson
        * \param FileNameToRead The name of the file to test for reading.
        * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
        * \return Returns true if this ImageIO can read the file specified.
        */
-      virtual bool CanReadFile(const char* FileNameToRead) ;
+  virtual bool CanReadFile(const char* FileNameToRead) ;
 
-      /** Set the spacing and dimension information for the set filename. */
-      virtual void ReadImageInformation();
+  /** Set the spacing and dimension information for the set filename. */
+  virtual void ReadImageInformation();
 
-      /** Get the type of the pixel.  */
-      virtual const std::type_info& GetPixelType() const;
+  /** Get the type of the pixel.  */
+  virtual const std::type_info& GetPixelType() const;
 
-      /** Reads the data from disk into the memory buffer provided. */
-      virtual void Read(void* buffer);
+  /** Reads the data from disk into the memory buffer provided. */
+  virtual void Read(void* buffer);
 
-      /** Compute the size (in bytes) of the components of a pixel. For
+  /** Compute the size (in bytes) of the components of a pixel. For
        * example, and RGB pixel of unsigned char would have a
        * component size of 1 byte. */
-      virtual unsigned int GetComponentSize() const;
+  virtual unsigned int GetComponentSize() const;
 
-      /*-------- This part of the interfaces deals with writing data. ----- */
+  /*-------- This part of the interfaces deals with writing data. ----- */
 
-      /** Determine if the file can be written with this ImageIO implementation.
+  /** Determine if the file can be written with this ImageIO implementation.
        * \param FileNameToWrite The name of the file to test for writing.
        * \author Hans J. Johnson
        * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
        * \return Returns true if this ImageIO can write the file specified.
        */
-      virtual bool CanWriteFile(const char * FileNameToWrite);
+  virtual bool CanWriteFile(const char * FileNameToWrite);
 
-      /** Set the spacing and dimension information for the set filename. */
-      virtual void WriteImageInformation();
+  /** Set the spacing and dimension information for the set filename. */
+  virtual void WriteImageInformation();
 
-      /** Writes the data to disk from the memory buffer provided. Make sure
+  /** Writes the data to disk from the memory buffer provided. Make sure
        * that the IORegions has been set properly. */
-      virtual void Write(const void* buffer);
+  virtual void Write(const void* buffer);
 
 
-    protected:
-      AnalyzeImageIO();
-      ~AnalyzeImageIO();
-      void PrintSelf(std::ostream& os, Indent indent) const;
-    private:
-      AnalyzeImageIO(const Self&); //purposely not implemented
-      void operator=(const Self&); //purposely not implemented
-      void SwapBytesIfNecessary(void * buffer, unsigned long numberOfPixels);
-      /**
+protected:
+  AnalyzeImageIO();
+  ~AnalyzeImageIO();
+  void PrintSelf(std::ostream& os, Indent indent) const;
+private:
+  AnalyzeImageIO(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  void SwapBytesIfNecessary(void * buffer, unsigned long numberOfPixels);
+  /**
        * \author Hans J. Johnson
        * Performs byte swapping of the Analyze Image header if necessary.
        * \param imageheader An Analyze 7.5 compliant image header.
        * \return void
        */
-      void SwapHeaderBytesIfNecessary( struct dsr * const imageheader );
+  void SwapHeaderBytesIfNecessary( struct dsr * const imageheader );
 
-      /**
+  /**
        * \author Hans J. Johnson
        * Defines the header object data type feilds according to Analyze v7.5 specifications
        * \return nothing
        */
-      void  DefineHeaderObjectDataType(void);
+  void  DefineHeaderObjectDataType(void);
 #if defined(REORIENT_IMAGES)
-      void ReorientIfNecessary(char *p);
-      struct ipl_dimensions {
-        unsigned int slicestride;
-        unsigned int rowstride;
-        unsigned int componentstride;
-        unsigned int pixelsize;
-        //
-        // xsize,ysize,zsize == size in each direction in pixesls
-        unsigned int xsize;
-        unsigned int ysize;
-        unsigned int zsize;
-      };
-      /**
+  void ReorientIfNecessary(char *p);
+  struct ipl_dimensions {
+    unsigned int slicestride;
+    unsigned int rowstride;
+    unsigned int componentstride;
+    unsigned int pixelsize;
+    //
+    // xsize,ysize,zsize == size in each direction in pixesls
+    unsigned int xsize;
+    unsigned int ysize;
+    unsigned int zsize;
+  };
+  /**
        * \author Kent Williams
        * Get values needed to re-orient image data to
        * Coronal scan order
        * \param dim - structure to fill in
        * \return nothing
        */
-      void GetAllDimensions(ipl_dimensions &dim);
-      ipl_dimensions m_old_dim,m_new_dim;
+  void GetAllDimensions(ipl_dimensions &dim);
+  ipl_dimensions m_old_dim,m_new_dim;
 #endif
-      /**
+  /**
        * \author Hans J. Johnson
        * Check the endedness of the header file.
        * \param temphdr - a reference to the header structure
        * \return The endedness of the file
        */
-      ImageIOBase::ByteOrder CheckAnalyzeEndian(const struct dsr &temphdr);
-      /**  All of the information read in from the header file */
-      struct dsr m_hdr;
-      ImageIOBase::ByteOrder m_MachineByteOrder;
-  };
-  extern const char *const ANALYZE_ScanNumber;
-  extern const char *const ANALYZE_O_MAX;
-  extern const char *const ANALYZE_O_MIN;
-  extern const char *const ANALYZE_S_MAX;
-  extern const char *const ANALYZE_S_MIN;
-  extern const char *const ANALYZE_CAL_MAX;
-  extern const char *const ANALYZE_CAL_MIN;
-  extern const char *const ANALYZE_GLMAX;
-  extern const char *const ANALYZE_GLMIN;
-  extern const char *const ANALYZE_AUX_FILE_NAME;
-  extern const char *const ANALYZE_CALIBRATIONUNITS;
+  ImageIOBase::ByteOrder CheckAnalyzeEndian(const struct dsr &temphdr);
+  /**  All of the information read in from the header file */
+  struct dsr m_hdr;
+  ImageIOBase::ByteOrder m_MachineByteOrder;
+};
+extern const char *const ANALYZE_ScanNumber;
+extern const char *const ANALYZE_O_MAX;
+extern const char *const ANALYZE_O_MIN;
+extern const char *const ANALYZE_S_MAX;
+extern const char *const ANALYZE_S_MIN;
+extern const char *const ANALYZE_CAL_MAX;
+extern const char *const ANALYZE_CAL_MIN;
+extern const char *const ANALYZE_GLMAX;
+extern const char *const ANALYZE_GLMIN;
+extern const char *const ANALYZE_AUX_FILE_NAME;
+extern const char *const ANALYZE_CALIBRATIONUNITS;
 
 } // end namespace itk
 

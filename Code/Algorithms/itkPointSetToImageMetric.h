@@ -90,20 +90,20 @@ public:
 
   /**  Type of the Interpolator Base class */
   typedef InterpolateImageFunction<
-                      MovingImageType,
-                      CoordinateRepresentationType > InterpolatorType;
+    MovingImageType,
+    CoordinateRepresentationType > InterpolatorType;
 
 
   /** Gaussian filter to compute the gradient of the Moving Image */
   typedef typename NumericTraits<MovingImagePixelType>::RealType RealType;
   typedef CovariantVector<RealType,
-          itkGetStaticConstMacro(MovingImageDimension)> GradientPixelType;
+                          itkGetStaticConstMacro(MovingImageDimension)> GradientPixelType;
   typedef Image<GradientPixelType,
-               itkGetStaticConstMacro(MovingImageDimension)> GradientImageType;
+                itkGetStaticConstMacro(MovingImageDimension)> GradientImageType;
   typedef SmartPointer<GradientImageType>     GradientImagePointer;
   typedef GradientRecursiveGaussianImageFilter< MovingImageType,
                                                 GradientImageType >
-          GradientImageFilterType;  
+  GradientImageFilterType;  
   typedef typename GradientImageFilterType::Pointer GradientImageFilterPointer;
 
 
@@ -150,7 +150,7 @@ public:
 
   /** Return the number of parameters required by the Transform */
   unsigned int GetNumberOfParameters(void) const 
-    { return m_Transform->GetNumberOfParameters(); }
+  { return m_Transform->GetNumberOfParameters(); }
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly     */

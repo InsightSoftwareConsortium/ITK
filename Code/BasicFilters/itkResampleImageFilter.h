@@ -133,14 +133,14 @@ public:
 
   /** Get the output image spacing. */
   const double * GetOutputSpacing()
-    { return m_OutputSpacing; }
+  { return m_OutputSpacing; }
 
   /** Set the output image origin. */
   virtual void SetOutputOrigin( const double values[ImageDimension] );
 
   /** Get the output image origin. */
   const double * GetOutputOrigin()
-    { return m_OutputSpacing; }
+  { return m_OutputSpacing; }
 
 
   /** ResampleImageFilter produces an image which is a different size
@@ -187,10 +187,10 @@ private:
   SizeType                m_Size;       // Size of the output image
   TransformPointerType    m_Transform;  // Coordinate transform to use
   InterpolatorPointerType m_Interpolator;
-                                        // Image function for interpolation
+  // Image function for interpolation
   PixelType               m_DefaultPixelValue; 
-                                        // default pixel value if the point 
-                                        // is outside the image
+  // default pixel value if the point 
+  // is outside the image
   double                  m_OutputSpacing[ImageDimension]; // output image spacing
   double                  m_OutputOrigin[ImageDimension];  // output image origin
 

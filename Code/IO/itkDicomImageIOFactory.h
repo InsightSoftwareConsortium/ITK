@@ -50,10 +50,10 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-    {
-      DicomImageIOFactory::Pointer DicomFactory = DicomImageIOFactory::New();
-      ObjectFactoryBase::RegisterFactory(DicomFactory);
-    }
+  {
+    DicomImageIOFactory::Pointer DicomFactory = DicomImageIOFactory::New();
+    ObjectFactoryBase::RegisterFactory(DicomFactory);
+  }
 
 protected:
   DicomImageIOFactory();

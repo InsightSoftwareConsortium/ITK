@@ -27,7 +27,7 @@ namespace itk
 template< typename TImage >
 ImageReverseIterator<TImage>
 ::ImageReverseIterator()
-    : ImageRegionReverseConstIterator<TImage>() 
+  : ImageRegionReverseConstIterator<TImage>() 
 {
 
 
@@ -38,7 +38,7 @@ ImageReverseIterator<TImage>
 template< typename TImage >
 ImageReverseIterator<TImage>
 ::ImageReverseIterator(ImageType *ptr, const RegionType& region) :
-    ImageRegionReverseConstIterator<TImage>(   ptr, region ) 
+  ImageRegionReverseConstIterator<TImage>(   ptr, region ) 
 {
 
 
@@ -49,7 +49,7 @@ ImageReverseIterator<TImage>
 template< typename TImage >
 ImageReverseIterator<TImage>
 ::ImageReverseIterator( const ImageIteratorWithIndex<TImage> &it):
-                                        ImageRegionReverseConstIterator<TImage>(it)
+  ImageRegionReverseConstIterator<TImage>(it)
 { 
 }
 
@@ -57,7 +57,7 @@ ImageReverseIterator<TImage>
 template< typename TImage >
 ImageReverseIterator<TImage>
 ::ImageReverseIterator( const ImageRegionReverseConstIterator<TImage> &it):
-                                        ImageRegionReverseConstIterator<TImage>(it)
+  ImageRegionReverseConstIterator<TImage>(it)
 { 
 }
 

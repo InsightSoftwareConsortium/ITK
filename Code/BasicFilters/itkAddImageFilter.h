@@ -54,29 +54,29 @@ namespace itk
  */
 namespace Functor {  
   
-  template< class TInput1, class TInput2, class TOutput >
-  class Add2
+template< class TInput1, class TInput2, class TOutput >
+class Add2
+{
+public:
+  typedef typename NumericTraits< TInput1 >::AccumulateType AccumulatorType;
+  Add2() {};
+  ~Add2() {};
+  inline TOutput operator()( const TInput1 & A, const TInput2 & B)
   {
-  public:
-    typedef typename NumericTraits< TInput1 >::AccumulateType AccumulatorType;
-    Add2() {};
-    ~Add2() {};
-    inline TOutput operator()( const TInput1 & A, const TInput2 & B)
-      {
-      const AccumulatorType sum = A;
-      return static_cast<TOutput>( sum + B );
-      }
-  }; 
+    const AccumulatorType sum = A;
+    return static_cast<TOutput>( sum + B );
+  }
+}; 
 
 }
 template <class TInputImage1, class TInputImage2, class TOutputImage>
 class ITK_EXPORT AddImageFilter :
     public
-    BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-    Functor::Add2< 
-              typename TInputImage1::PixelType, 
-              typename TInputImage2::PixelType,
-              typename TOutputImage::PixelType>   >
+BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
+                         Functor::Add2< 
+  typename TInputImage1::PixelType, 
+  typename TInputImage2::PixelType,
+  typename TOutputImage::PixelType>   >
 
 
 {
@@ -84,11 +84,11 @@ public:
   /** Standard class typedefs. */
   typedef AddImageFilter  Self;
   typedef BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-    Functor::Add2< 
-              typename TInputImage1::PixelType, 
-              typename TInputImage2::PixelType,
-              typename TOutputImage::PixelType>   
-                >  Superclass;
+                                   Functor::Add2< 
+    typename TInputImage1::PixelType, 
+    typename TInputImage2::PixelType,
+    typename TOutputImage::PixelType>   
+  >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

@@ -61,9 +61,9 @@ Point<T, TPointDimension>
 ::operator+=( const VectorType & vec )
 {
   for( unsigned int i=0; i<TPointDimension; i++) 
-  {
+    {
     (*this)[i] += vec[i];
-  }
+    }
   return *this;
 }
 
@@ -77,9 +77,9 @@ Point<T, TPointDimension>
 ::operator-=( const VectorType & vec )
 {
   for( unsigned int i=0; i<TPointDimension; i++) 
-  {
+    {
     (*this)[i] -= vec[i];
-  }
+    }
   return *this;
 }
 
@@ -95,9 +95,9 @@ Point<T, TPointDimension>
 {
   Self result;
   for( unsigned int i=0; i<TPointDimension; i++) 
-  {
+    {
     result[i] = (*this)[i] + vec[i];
-  }
+    }
   return result;
 }
 
@@ -113,9 +113,9 @@ Point<T, TPointDimension>
 {
   Self result;
   for( unsigned int i=0; i<TPointDimension; i++) 
-  {
+    {
     result[i] = (*this)[i] - vec[i];
-  }
+    }
   return result;
 }
 
@@ -131,9 +131,9 @@ Point<T, TPointDimension>
 {
   VectorType result;
   for( unsigned int i=0; i<TPointDimension; i++) 
-  {
+    {
     result[i] = (*this)[i] - pnt[i];
-  }
+    }
   return result;
 }
 
@@ -170,10 +170,10 @@ Point<T, TPointDimension>
 {
   ValueType sum = NumericTraits<ValueType>::Zero;
   for( unsigned int i=0; i<TPointDimension; i++) 
-  {
+    {
     const ValueType difference = (*this)[i] - pnt[i];
     sum += difference * difference;
-  }
+    }
   return sum;
 }
 
@@ -188,7 +188,7 @@ Point<T, TPointDimension>
 ::EuclideanDistanceTo( const Self & pnt )  const
 {
   const double distance = sqrt( 
-                static_cast<double>( SquaredEuclideanDistanceTo( pnt ) ) ) ;
+    static_cast<double>( SquaredEuclideanDistanceTo( pnt ) ) ) ;
   return static_cast<ValueType>( distance );
 }
  
@@ -203,9 +203,9 @@ Point<T, TPointDimension>
 ::SetToMidPoint( const Self & A, const Self & B )  
 {
   for( unsigned int i=0; i<TPointDimension; i++) 
-  {
+    {
     (*this)[i] = ( A[i] + B[i] ) /2.0;
-  }
+    }
 }
 
 
@@ -225,9 +225,9 @@ Point<T, TPointDimension>
   const double wa = alpha;
   const double wb = 1.0 - alpha;
   for( unsigned int i=0; i<TPointDimension; i++) 
-  {
+    {
     (*this)[i] =  wa * A[i] + wb * B[i];
-  }
+    }
 }
 
 
@@ -246,9 +246,9 @@ Point<T, TPointDimension>
 {
   const double weightForC = 1.0 - weightForA - weightForB;
   for( unsigned int i=0; i<TPointDimension; i++) 
-  {
+    {
     (*this)[i] =  weightForA * A[i] + weightForB * B[i] + weightForC * C[i];
-  }
+    }
 }
 
 
@@ -265,19 +265,19 @@ Point<T, TPointDimension>
   Fill( NumericTraits<T>::Zero ); // put this point to null
   double weightSum = 0.0;
   for( unsigned int j=0; j<N-1; j++) 
-  {
+    {
     const double weight = weights[j];
     weightSum += weight;
     for( unsigned int i=0; i<TPointDimension; i++) 
-    {
+      {
       (*this)[i] +=  weight * P[j][i];
+      }
     }
-  }
   const double weight = ( 1.0 - weightSum );
   for( unsigned int i=0; i<TPointDimension; i++) 
-  {
+    {
     (*this)[i] +=  weight * P[N-1][i];
-  }
+    }
 
 }
 
@@ -292,8 +292,8 @@ typename BarycentricCombination<TPointContainer,TWeightContainer>
 ::PointType 
 BarycentricCombination<TPointContainer,TWeightContainer>
 ::Evaluate( 
-const PointContainerPointer & points, 
-const WeightContainerType & weights ) 
+  const PointContainerPointer & points, 
+  const WeightContainerType & weights ) 
 {
   
   typedef typename TPointContainer::Element   PointType;
@@ -312,23 +312,23 @@ const WeightContainerType & weights )
   unsigned int j = 0;
 
   while( point != last )
-  {
+    {
     const double weight = weights[j++];
     weightSum += weight;
     for( unsigned int i=0; i<PointDimension; i++) 
-    {
+      {
       barycentre[i] +=  weight * (point->Value())[i];
-    }
+      }
     point++;
-  }
+    }
 
   // Compute directly the last one
   // to make sure that the weights sum 1
   const double weight = ( 1.0 - weightSum );
   for( unsigned int i=0; i<PointDimension; i++) 
-  {
+    {
     barycentre[i] +=  weight * (last->Value())[i];
-  }
+    }
 
   return barycentre;
 
@@ -346,9 +346,9 @@ std::ostream &
 operator<<(std::ostream& os,const Point<T,TPointDimension> & vct ) 
 {
   for( unsigned int i=0; i<TPointDimension; i++)
-  {
+    {
     os <<  vct[i] << "  ";
-  }
+    }
   return os;
 }
 
@@ -362,9 +362,9 @@ std::istream &
 operator>>(std::istream& is, Point<T,TPointDimension> & vct ) 
 {
   for( unsigned int i=0; i<TPointDimension; i++)
-  {
+    {
     is >>  vct[i];
-  }
+    }
   return is;
 }
 

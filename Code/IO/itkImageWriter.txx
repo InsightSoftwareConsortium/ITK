@@ -34,7 +34,7 @@ ImageWriter<TInputImage>
 ::SetInput(const InputImageType *input)
 {
   this->ProcessObject::SetNthInput(0, 
-              const_cast<InputImageType *>(input) );
+                                   const_cast<InputImageType *>(input) );
 }
 
 
@@ -49,7 +49,7 @@ ImageWriter<TInputImage>
     }
   
   return static_cast<TInputImage*>
-                     (this->ProcessObject::GetInput(0));
+    (this->ProcessObject::GetInput(0));
 }
 
 

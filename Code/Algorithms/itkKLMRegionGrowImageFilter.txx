@@ -78,7 +78,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   // this filter requires the all of the input image to be in
   // the buffer
   InputImagePointer inputPtr = 
-      const_cast< InputImageType * >( this->GetInput() );
+    const_cast< InputImageType * >( this->GetInput() );
   inputPtr->SetRequestedRegionToLargestPossibleRegion();
 }
 
@@ -90,7 +90,7 @@ template<class TInputImage, class TOutputImage>
 void
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::EnlargeOutputRequestedRegion(
-DataObject *output )
+  DataObject *output )
 {
   // this filter requires the all of the output image to be in
   // the buffer
@@ -296,8 +296,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
 
   m_NumRegions           = nRowSquareBlocks * 
-                           nColSquareBlocks *
-                           nSliceSquareBlocks;
+    nColSquareBlocks *
+    nSliceSquareBlocks;
 
   int rowGridSize        = this->GetRowGridSize();
   int colGridSize        = this->GetColGridSize();
@@ -854,8 +854,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
                                colGridSize);
 
       m_RegionsPointer[labelValue]->SetRegion( m_InitRegionMean,
-                                         m_InitRegionArea,
-                                         ( labelValue + 1 ) );
+                                               m_InitRegionArea,
+                                               ( labelValue + 1 ) );
                                                         
       }//end col for loop
     }//end row for loop
@@ -1130,8 +1130,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   unsigned int nSliceSquareBlocks = nSlice/( this->GetSliceGridSize() );
 
   m_NumRegions                  = nRowSquareBlocks * 
-                                  nColSquareBlocks * 
-                                  nSliceSquareBlocks;
+    nColSquareBlocks * 
+    nSliceSquareBlocks;
 
   if( m_NumRegions < this->GetMaximumNumberOfRegions() )
     {
@@ -1172,8 +1172,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
                                   sliceGridSize );
  
         m_RegionsPointer[labelValue]->SetRegion( m_InitRegionMean,
-                                           m_InitRegionArea,
-                                           ( labelValue + 1 ) );
+                                                 m_InitRegionArea,
+                                                 ( labelValue + 1 ) );
                                                         
         }//end col for loop
       }//end row for loop
@@ -1517,7 +1517,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //-------------------------------------------------------------------
   InputImageConstPointer   inputImage = this->GetInput();
   InputImageConstIterator  inputImageIt( inputImage, 
-                                    inputImage->GetBufferedRegion() );
+                                         inputImage->GetBufferedRegion() );
 
   InputImageConstIterator  inputIt    = inputImageIt.Begin();
   InputImageConstIterator  inputItEnd = inputImageIt.End();
@@ -1588,7 +1588,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //-------------------------------------------------------------------
   InputImageConstPointer   inputImage = this->GetInput();
   InputImageConstIterator  inputImageIt( inputImage, 
-                                    inputImage->GetBufferedRegion() );
+                                         inputImage->GetBufferedRegion() );
 
   InputImageConstIterator  inputIt    = inputImageIt.Begin();
   InputImageConstIterator  inputItEnd = inputImageIt.End();
@@ -1776,7 +1776,7 @@ template<class TInputImage, class TOutputImage>
 void
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::UnionBorders(KLMSegmentationRegion *pnewRegion,
-                KLMSegmentationRegion *poldRegion)
+               KLMSegmentationRegion *poldRegion)
 {
   KLMSegmentationRegion *ptmpRegion;  
 
@@ -2082,9 +2082,9 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     if( ( m_BordersDynamicPointer[k].m_Pointer->GetRegion1() == NULL ) ||
         ( m_BordersDynamicPointer[k].m_Pointer->GetRegion2() == NULL ) )
       {  
-        m_BordersDynamicPointer.erase( bordersDynamicPointerIt + k);
-        k=0;
-        m_NumberOfBorders -=  1;
+      m_BordersDynamicPointer.erase( bordersDynamicPointerIt + k);
+      k=0;
+      m_NumberOfBorders -=  1;
       }
                                                  
     }//end looping through the borders
@@ -2240,8 +2240,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   unsigned int nSliceSquareBlocks = m_ImgDepth/(this->GetSliceGridSize() );
 
   unsigned int numBlocks = nRowSquareBlocks * 
-                           nColSquareBlocks *
-                           nSliceSquareBlocks;
+    nColSquareBlocks *
+    nSliceSquareBlocks;
 
   // Scan through the region labels to establish the correspondence
   // between the final region( and label ) and the initial regions.
@@ -2304,8 +2304,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   ShortIntVectorType::iterator        uniqueLabelsVecIterator;
 
   numBlocks = nRowSquareBlocks * 
-              nColSquareBlocks *
-              nSliceSquareBlocks;
+    nColSquareBlocks *
+    nSliceSquareBlocks;
   // Scan through the region labels to identify the resolved region labels.
   // Resolve region labels to contain only unique labels
  

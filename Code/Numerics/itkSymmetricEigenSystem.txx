@@ -72,34 +72,34 @@ SymmetricEigenSystem< TMatrixElement, VNumberOfRows >
 
   for (i = 0 ; i < VNumberOfRows ; i++)
     {
-      tempVector = internalEigenSystem.get_eigenvector(i) ;
-      m_EigenValues[i] = internalEigenSystem.get_eigenvalue(i) ;
-      for (j = 0 ; j < VNumberOfRows ; j++)
-        {
-          m_EigenVectors[i][j] = tempVector[j] ;
-        }
+    tempVector = internalEigenSystem.get_eigenvector(i) ;
+    m_EigenValues[i] = internalEigenSystem.get_eigenvalue(i) ;
+    for (j = 0 ; j < VNumberOfRows ; j++)
+      {
+      m_EigenVectors[i][j] = tempVector[j] ;
+      }
     }
 
   double temp ;
   for(i = 0 ; i < (VNumberOfRows - 1) ; i++)
     {
-      for(j = i + 1 ; j < VNumberOfRows ; j++)
+    for(j = i + 1 ; j < VNumberOfRows ; j++)
+      {
+      if( (m_EigenValues[j] > m_EigenValues[i] && !m_UseAbsoluteOrder) ||
+          ( (vnl_math_abs( m_EigenValues[j] ) > vnl_math_abs( m_EigenValues[i] ) ) 
+            && m_UseAbsoluteOrder) )
         {
-          if( (m_EigenValues[j] > m_EigenValues[i] && !m_UseAbsoluteOrder) ||
-              ( (vnl_math_abs( m_EigenValues[j] ) > vnl_math_abs( m_EigenValues[i] ) ) 
-                && m_UseAbsoluteOrder) )
-            {
-              temp= m_EigenValues[i] ;
-              m_EigenValues[i] = m_EigenValues[j] ;
-              m_EigenValues[j] = temp;
-              for ( k = 0 ; k < VNumberOfRows ; k++ )
-                {
-                  temp = m_EigenVectors[i][k];
-                  m_EigenVectors[i][k] = m_EigenVectors[j][k];
-                  m_EigenVectors[j][k] = temp;
-                }
-            }
+        temp= m_EigenValues[i] ;
+        m_EigenValues[i] = m_EigenValues[j] ;
+        m_EigenValues[j] = temp;
+        for ( k = 0 ; k < VNumberOfRows ; k++ )
+          {
+          temp = m_EigenVectors[i][k];
+          m_EigenVectors[i][k] = m_EigenVectors[j][k];
+          m_EigenVectors[j][k] = temp;
+          }
         }
+      }
     }
 }
 

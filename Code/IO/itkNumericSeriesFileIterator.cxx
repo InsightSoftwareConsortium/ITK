@@ -66,45 +66,45 @@ const std::string& NumericSeriesFileIterator
 const std::string& NumericSeriesFileIterator::Begin()
 {
   if ( m_SeriesFormat == "" )
-  {
+    {
     throw NumericSeriesException(__FILE__, __LINE__,
-        "No series format defined!");
-  }
+                                 "No series format defined!");
+    }
 
   if ( m_WriteMode )
-  {
+    {
     m_CurrentIndex = m_StartIndex;
     return this->ProduceNextFileName(m_StartIndex);
-  }
+    }
   else //in read mode
-  {
+    {
     // Find the first filename in the series
     unsigned long idx;
     for (idx=m_StartIndex; idx < m_EndIndex; idx++ )
-    {
+      {
       this->ProduceNextFileName( idx );
       if ( ! itkkwsys::SystemTools::FileExists(m_CurrentFileName.c_str()) )
-      {
-        if ( m_ThrowExceptionOnMissingFile )
         {
+        if ( m_ThrowExceptionOnMissingFile )
+          {
           throw NumericSeriesException(__FILE__, __LINE__);
+          }
+        }
+      else
+        {
+        break;
         }
       }
-      else
-      {
-        break;
-      }
-    }
 
     if ( idx >= m_EndIndex )
-    {
+      {
       throw NumericSeriesException(__FILE__, __LINE__, "No files in series");
-    }
+      }
 
     m_CurrentIndex = idx;
     m_CurrentNumberOfFiles = 1;
     return m_CurrentFileName;
-  }
+    }
 }
 
 const std::string& NumericSeriesFileIterator::operator++()

@@ -26,39 +26,39 @@ namespace itk
 {
 
 MetaImageIO::MetaImageIO()
-  {
+{
   if(MET_SystemByteOrderMSB())
     m_ByteOrder = BigEndian;
   else
     m_ByteOrder = LittleEndian;
-  } 
+} 
 
 
 
 MetaImageIO::~MetaImageIO()
-  {
-  }
+{
+}
 
 
 
 void MetaImageIO::PrintSelf(std::ostream& os, Indent indent) const
-  {
+{
   Superclass::PrintSelf(os, indent);
   m_MetaImage.PrintInfo();
-  }
+}
 
 
 void MetaImageIO::SetDataFileName( const char* filename ) 
-  { 
+{ 
   m_MetaImage.ElementDataFileName( filename );
-  }
+}
 
  
 // This method will only test if the header looks like a
 // MetaImage.  Some code is redundant with ReadImageInformation
 // a StateMachine could provide a better implementation
 bool MetaImageIO::CanReadFile( const char* filename ) 
-  { 
+{ 
 
   // First check the extension
   std::string fname = filename;
@@ -95,9 +95,9 @@ bool MetaImageIO::CanReadFile( const char* filename )
   inputStream.open( filename, std::ios::in | std::ios::binary );
 
   if( inputStream.fail() )
-  {
+    {
     return false;
-  }
+    }
 
   char key[8000];
 
@@ -158,11 +158,11 @@ bool MetaImageIO::CanReadFile( const char* filename )
   inputStream.close();
   return false;
 
-  }
+}
   
 
 void MetaImageIO::ReadImageInformation()
-  { 
+{ 
   if(!m_MetaImage.Read(m_FileName.c_str()), false)
     {
     ExceptionObject exception(__FILE__, __LINE__);
@@ -247,11 +247,11 @@ void MetaImageIO::ReadImageInformation()
     this->SetSpacing(i, m_MetaImage.ElementSpacing(i));
     this->SetOrigin(i, m_MetaImage.Position(i));
     } 
-  } 
+} 
 
 
 void MetaImageIO::Read(void* buffer)
-  { 
+{ 
   if(!m_MetaImage.Read(m_FileName.c_str(), true, buffer))
     {
     ExceptionObject exception(__FILE__, __LINE__);
@@ -260,16 +260,16 @@ void MetaImageIO::Read(void* buffer)
     }
 
   m_MetaImage.ElementByteOrderFix();
-  } 
+} 
 
 MetaImage * MetaImageIO::GetMetaImagePointer(void)
-  {
+{
   return & m_MetaImage;
-  }
+}
 
 
 bool MetaImageIO::CanWriteFile( const char * name )
-  {
+{
   std::string filename = name;
   if(  filename == "" )
     {
@@ -291,14 +291,14 @@ bool MetaImageIO::CanWriteFile( const char * name )
     }
 
   return false;
-  }
+}
 
   
 void 
 MetaImageIO
 ::WriteImageInformation(void)
-  {
-  }
+{
+}
 
 
 /**
@@ -307,7 +307,7 @@ MetaImageIO
 void 
 MetaImageIO
 ::Write( const void* buffer) 
-  {
+{
   int nDims = this->GetNumberOfDimensions();
 
   bool binaryData = false;
@@ -323,35 +323,35 @@ MetaImageIO
     {
     default:
     case UNKNOWN:
-          eType = MET_OTHER;
-          break;
+      eType = MET_OTHER;
+      break;
     case CHAR:
-          eType = MET_CHAR;
-          break;
+      eType = MET_CHAR;
+      break;
     case UCHAR:
-          eType = MET_UCHAR;
-          break;
+      eType = MET_UCHAR;
+      break;
     case SHORT:
-          eType = MET_SHORT;
-          break;
+      eType = MET_SHORT;
+      break;
     case USHORT:
-          eType = MET_USHORT;
-          break;
+      eType = MET_USHORT;
+      break;
     case INT:
-          eType = MET_INT;
-          break;
+      eType = MET_INT;
+      break;
     case UINT:
-          eType = MET_UINT;
-          break;
+      eType = MET_UINT;
+      break;
     case FLOAT:
-          eType = MET_FLOAT;
-          break;
+      eType = MET_FLOAT;
+      break;
     case DOUBLE:
-          eType = MET_DOUBLE;
-          break;
+      eType = MET_DOUBLE;
+      break;
     case OFFSET:
-          eType = MET_INT_ARRAY;
-          break;      
+      eType = MET_INT_ARRAY;
+      break;      
     }
   
   int i;
@@ -374,7 +374,7 @@ MetaImageIO
     }
 
   m_MetaImage.InitializeEssential(nDims, dSize, eSpacing, eType, nChannels,
-      (void *)buffer);
+                                  (void *)buffer);
   m_MetaImage.Position(eOrigin);
   m_MetaImage.BinaryData(binaryData);
 
@@ -383,7 +383,7 @@ MetaImageIO
   delete dSize;
   delete eSpacing;
   delete eOrigin;
-  }
+}
 
 
 

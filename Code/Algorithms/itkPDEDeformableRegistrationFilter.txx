@@ -62,7 +62,7 @@ template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
 PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::SetFixedImage(
-const FixedImageType * ptr )
+  const FixedImageType * ptr )
 {
   this->ProcessObject::SetNthInput( 1, const_cast< FixedImageType * >( ptr ) );
 }
@@ -89,7 +89,7 @@ template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
 PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::SetMovingImage(
-const MovingImageType * ptr )
+  const MovingImageType * ptr )
 {
   this->ProcessObject::SetNthInput( 2, const_cast< MovingImageType * >( ptr ) );
 }
@@ -116,7 +116,7 @@ template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
 PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::SetStandardDeviations(
-double value )
+  double value )
 {
 
   unsigned int j;
@@ -251,30 +251,30 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::GenerateOutputInformation()
 {
 
- typename DataObject::Pointer output;
+  typename DataObject::Pointer output;
 
- if( this->GetInput(0) )
-  {
-  // Initial deformation field is set.
-  // Copy information from initial field.
-  this->Superclass::GenerateOutputInformation();
-
-  }
- else if( this->GetFixedImage() )
-  {
-  // Initial deforamtion field is not set. 
-  // Copy information from the fixed image.
-  for (unsigned int idx = 0; idx < 
-    this->GetNumberOfOutputs(); ++idx )
+  if( this->GetInput(0) )
     {
-    output = this->GetOutput(idx);
-    if (output)
-      {
-      output->CopyInformation(this->GetFixedImage());
-      }  
-    }
+    // Initial deformation field is set.
+    // Copy information from initial field.
+    this->Superclass::GenerateOutputInformation();
 
-  }
+    }
+  else if( this->GetFixedImage() )
+    {
+    // Initial deforamtion field is not set. 
+    // Copy information from the fixed image.
+    for (unsigned int idx = 0; idx < 
+           this->GetNumberOfOutputs(); ++idx )
+      {
+      output = this->GetOutput(idx);
+      if (output)
+        {
+        output->CopyInformation(this->GetFixedImage());
+        }  
+      }
+
+    }
 
 }
 
@@ -290,7 +290,7 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 
   // request the largest possible region for the moving image
   MovingImagePointer movingPtr = 
-      const_cast< MovingImageType * >( this->GetMovingImage() );
+    const_cast< MovingImageType * >( this->GetMovingImage() );
   if( movingPtr )
     {
     movingPtr->SetRequestedRegionToLargestPossibleRegion();
@@ -299,10 +299,10 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
   // just propagate up the output requested region for
   // the fixed image and initial deformation field.
   DeformationFieldPointer inputPtr = 
-      const_cast< DeformationFieldType * >( this->GetInput() );
+    const_cast< DeformationFieldType * >( this->GetInput() );
   DeformationFieldPointer outputPtr = this->GetOutput();
   FixedImagePointer fixedPtr = 
-        const_cast< FixedImageType *>( this->GetFixedImage() );
+    const_cast< FixedImageType *>( this->GetFixedImage() );
 
   if( inputPtr )
     {
@@ -324,9 +324,9 @@ template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
 PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::CopyDeformationField(
-DeformationFieldType * input,
-DeformationFieldType * output
-)
+  DeformationFieldType * input,
+  DeformationFieldType * output
+  )
 {
   typedef ImageRegionIterator<DeformationFieldType> Iterator;
   Iterator inIter( input, output->GetBufferedRegion() );

@@ -132,7 +132,7 @@ namespace itk
 template < typename TInputImage,
            typename TRealType = float,
            typename TOutputImage = Image< TRealType,
-                            ::itk::GetImageDimension<TInputImage>::ImageDimension >
+                                          ::itk::GetImageDimension<TInputImage>::ImageDimension >
 >
 class ITK_EXPORT VectorGradientMagnitudeImageFilter :
     public ImageToImageFilter< TInputImage, TOutputImage >
@@ -243,7 +243,7 @@ protected:
   VectorGradientMagnitudeImageFilter();
   virtual ~VectorGradientMagnitudeImageFilter() {}
 
- /** Do any necessary casting/copying of the input data.  Input pixel types
+  /** Do any necessary casting/copying of the input data.  Input pixel types
      whose value types are not real number types must be cast to real number
      types.*/
   void BeforeThreadedGenerateData ();
@@ -271,14 +271,14 @@ protected:
     accum = NumericTraits<TRealType>::Zero;
     for (i = 0; i < ImageDimension; ++i)
       {
-        sum = NumericTraits<TRealType>::Zero;
-        for (j = 0; j < VectorDimension; ++j)
-          {
-            dx =  m_DerivativeWeights[i] * m_SqrtComponentWeights[j] 
-              * 0.5 * (it.GetNext(i)[j] - it.GetPrevious(i)[j]);
-            sum += dx * dx;
-          }
-        accum += sum;
+      sum = NumericTraits<TRealType>::Zero;
+      for (j = 0; j < VectorDimension; ++j)
+        {
+        dx =  m_DerivativeWeights[i] * m_SqrtComponentWeights[j] 
+          * 0.5 * (it.GetNext(i)[j] - it.GetPrevious(i)[j]);
+        sum += dx * dx;
+        }
+      accum += sum;
       }
     return vcl_sqrt(accum);
   }
@@ -299,18 +299,18 @@ protected:
     // central differences.
     for (i = 0; i < ImageDimension; i++)
       {
-        for (j = 0; j < VectorDimension; j++)
-          {  d_phi_du[i][j] = m_DerivativeWeights[i] * m_SqrtComponentWeights[j]
-               * 0.5 * (it.GetNext(i)[j] - it.GetPrevious(i)[j]); }
+      for (j = 0; j < VectorDimension; j++)
+        {  d_phi_du[i][j] = m_DerivativeWeights[i] * m_SqrtComponentWeights[j]
+             * 0.5 * (it.GetNext(i)[j] - it.GetPrevious(i)[j]); }
       }
 
     // Calculate the symmetric metric tensor g
     for (i = 0; i < ImageDimension; i++)
       {
-        for (j = i; j < ImageDimension; j++)
-          {
-            g[j][i] = g[i][j] = dot_product(d_phi_du[i], d_phi_du[j]);
-          }
+      for (j = i; j < ImageDimension; j++)
+        {
+        g[j][i] = g[i][j] = dot_product(d_phi_du[i], d_phi_du[j]);
+        }
       }
 
     // Find the coefficients of the characteristic equation det(g - lambda I)=0
@@ -325,8 +325,8 @@ protected:
       g[1][0] * (  g[2][2]*g[0][1] - g[0][2]*g[2][1] ) +
       g[2][0] * ( g[1][1]*g[0][2] - g[0][1]*g[1][2] );
 
-      //(g[0][0]*g[1][2]*g[2][1] + g[1][1]*g[0][2]*g[2][0] + g[2][2]*g[0][1]*g[1][0])
-      //      - (g[0][0]*g[1][1]*g[2][2] + g[0][1]*g[2][0]*g[1][2] + g[0][2]*g[1][0]*g[2][1]);
+    //(g[0][0]*g[1][2]*g[2][1] + g[1][1]*g[0][2]*g[2][0] + g[2][2]*g[0][1]*g[1][0])
+    //      - (g[0][0]*g[1][1]*g[2][2] + g[0][1]*g[2][0]*g[1][2] + g[0][2]*g[1][0]*g[2][1]);
     
     // Find the eigenvalues of g
     int numberOfDistinctRoots =  this->CubicSolver(CharEqn, Lambda);
@@ -335,46 +335,46 @@ protected:
     // eigenvalues.  Other definitions may be appropriate here as well.
     if (numberOfDistinctRoots == 3) // By far the most common case
       {
-        if (Lambda[0] > Lambda[1])
-          {
-            if ( Lambda[1] > Lambda[2] )
-              {  ans = Lambda[0] - Lambda[1]; } // Most common, guaranteed?
-            else
-              {
-                if ( Lambda[0] > Lambda[2] )
-                  { ans = Lambda[0] - Lambda[2]; }
-                else
-                  { ans = Lambda[2] - Lambda[0]; }
-              }
-          }
+      if (Lambda[0] > Lambda[1])
+        {
+        if ( Lambda[1] > Lambda[2] )
+          {  ans = Lambda[0] - Lambda[1]; } // Most common, guaranteed?
         else
           {
-            if ( Lambda[0] > Lambda[2] )
-              { ans = Lambda[1] - Lambda[0]; }
-            else
-              {
-                if ( Lambda[1] > Lambda[2] )
-                  { ans = Lambda[1] - Lambda[2]; }
-                else
-                  { ans = Lambda[2] - Lambda[1]; }
-              }            
+          if ( Lambda[0] > Lambda[2] )
+            { ans = Lambda[0] - Lambda[2]; }
+          else
+            { ans = Lambda[2] - Lambda[0]; }
           }
+        }
+      else
+        {
+        if ( Lambda[0] > Lambda[2] )
+          { ans = Lambda[1] - Lambda[0]; }
+        else
+          {
+          if ( Lambda[1] > Lambda[2] )
+            { ans = Lambda[1] - Lambda[2]; }
+          else
+            { ans = Lambda[2] - Lambda[1]; }
+          }            
+        }
       }
     else if (numberOfDistinctRoots == 2)
       {
-        if ( Lambda[0] > Lambda[1] )
-          { ans = Lambda[0] - Lambda[1]; }
-        else
-          { ans = Lambda[1] - Lambda[0]; }
+      if ( Lambda[0] > Lambda[1] )
+        { ans = Lambda[0] - Lambda[1]; }
+      else
+        { ans = Lambda[1] - Lambda[0]; }
       }
     else if (numberOfDistinctRoots == 1)
       {
-        ans = 0.0;
+      ans = 0.0;
       }
     else
       {
-        itkExceptionMacro( << "Undefined condition. Cubic root solver returned "
-                           << numberOfDistinctRoots << " distinct roots." );
+      itkExceptionMacro( << "Undefined condition. Cubic root solver returned "
+                         << numberOfDistinctRoots << " distinct roots." );
       }
 
     return ans;  
@@ -393,18 +393,18 @@ protected:
     // central differences.
     for (i = 0; i < ImageDimension; i++)
       {
-        for (j = 0; j < VectorDimension; j++)
-          {  d_phi_du[i][j] = m_DerivativeWeights[i] * m_SqrtComponentWeights[j]
-               * 0.5 * (it.GetNext(i)[j] - it.GetPrevious(i)[j] ); }
+      for (j = 0; j < VectorDimension; j++)
+        {  d_phi_du[i][j] = m_DerivativeWeights[i] * m_SqrtComponentWeights[j]
+             * 0.5 * (it.GetNext(i)[j] - it.GetPrevious(i)[j] ); }
       }
     
     // Calculate the symmetric metric tensor g
     for (i = 0; i < ImageDimension; i++)
       {
-        for (j = i; j < ImageDimension; j++)
-          {
-            g[j][i] = g[i][j] = dot_product(d_phi_du[i], d_phi_du[j]);
-          }
+      for (j = i; j < ImageDimension; j++)
+        {
+        g[j][i] = g[i][j] = dot_product(d_phi_du[i], d_phi_du[j]);
+        }
       }
     
     // Find the eigenvalues of g

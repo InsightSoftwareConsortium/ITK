@@ -59,7 +59,7 @@ namespace itk
  
 template< unsigned int TDimension = 3> 
 class SpatialObject 
-:public DataObject
+  :public DataObject
 { 
 
 public: 
@@ -182,9 +182,9 @@ public:
    * and conditional iterators for defining regions of interest.
    */
   bool Evaluate( const PointType & point ) const
-    {
+  {
     return this->IsInside( point );
-    };
+  };
 
   /** Set the pointer to the parent object in the tree hierarchy
    *  used for the spatial object patter. */
@@ -270,7 +270,7 @@ public:
   /** Return the Modified time of the WorldToLocalTransform */
   unsigned long GetWorldTransformMTime( void );
 
-   /** Set the region object that defines the size and starting index
+  /** Set the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This
    * is used in determining how much memory would be needed to load an
    * entire dataset.  It is also used to determine boundary
@@ -285,7 +285,7 @@ public:
    * conditions.
    * \sa ImageRegion, GetBufferedRegion(), GetRequestedRegion() */
   virtual const RegionType& GetLargestPossibleRegion() const
-    { return m_LargestPossibleRegion;};
+  { return m_LargestPossibleRegion;};
 
   /** Set the region object that defines the size and starting index
    * of the region of the image currently loaded in memory. 
@@ -468,7 +468,7 @@ protected:
    *  spatial object. */
   ChildrenListType m_Children; 
 
- /** Calculate the offsets needed to move from one pixel to the next
+  /** Calculate the offsets needed to move from one pixel to the next
    * along a row, column, slice, volume, etc. These offsets are based
    * on the size of the BufferedRegion. This should be called after
    * the BufferedRegion is set. */
@@ -498,7 +498,7 @@ protected:
 } // end of namespace itk
  
 #ifndef ITK_MANUAL_INSTANTIATION 
-  #include "itkSpatialObject.txx" 
+#include "itkSpatialObject.txx" 
 #endif 
  
 #endif // __itkSpatialObject_h

@@ -36,7 +36,7 @@ ListSample< TMeasurementVector >
 {
   if ( id < m_InternalContainer.size() )
     {
-      return m_InternalContainer[id] ;
+    return m_InternalContainer[id] ;
     }
   throw ExceptionObject(__FILE__,__LINE__);  
 }
@@ -50,7 +50,7 @@ ListSample< TMeasurementVector >
 {
   if ( id < m_InternalContainer.size() )
     {
-      m_InternalContainer[id][dim] = value ;
+    m_InternalContainer[id][dim] = value ;
     }
 }
 
@@ -62,7 +62,7 @@ ListSample< TMeasurementVector >
 {
   if ( id < m_InternalContainer.size() )
     {
-      m_InternalContainer[id] = mv ;
+    m_InternalContainer[id] = mv ;
     }
 }
 
@@ -73,11 +73,11 @@ ListSample< TMeasurementVector >
 {
   if ( id < m_InternalContainer.size() )
     {
-      return 1.0 ;
+    return 1.0 ;
     }
   else
     {
-      return 0.0 ;
+    return 0.0 ;
     }
 }
 

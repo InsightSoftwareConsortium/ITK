@@ -28,37 +28,37 @@ bool EquivalencyTable::Add(unsigned long a, unsigned long b)
   if (a == b) return false;
   else if (a < b)
     {  // swap a, b
-      temp = a;
-      a = b;
-      b = temp;
+    temp = a;
+    a = b;
+    b = temp;
     }
   result = m_HashMap.insert( ValueType(a, b) );
   
   if (result.second == false)
     { // Stop endless loops.
-      if ( (*(result.first)).second  == b ) return false;
-      else return (this->Add((*(result.first)).second, b));
+    if ( (*(result.first)).second  == b ) return false;
+    else return (this->Add((*(result.first)).second, b));
     }
   else return true;
 }
   
-  //void EquivalencyTable::PrintHashTable()
-  //{
-  //  ConstIterator it = this->Begin();
-  //  while (it != this->End() )
-  //    {
-      //      std::cout << (*it).first << " = " << (*it).second << std::endl;
-  //      it++;
-  //    }
-  //}
+//void EquivalencyTable::PrintHashTable()
+//{
+//  ConstIterator it = this->Begin();
+//  while (it != this->End() )
+//    {
+//      std::cout << (*it).first << " = " << (*it).second << std::endl;
+//      it++;
+//    }
+//}
 
 void EquivalencyTable::Flatten()
 {
   Iterator it = this->Begin();
   while ( it != this->End() )
     {
-      (*it).second = this->RecursiveLookup((*it).first);
-      it++;
+    (*it).second = this->RecursiveLookup((*it).first);
+    it++;
     }
 }
 
@@ -68,9 +68,9 @@ unsigned long EquivalencyTable::RecursiveLookup(const unsigned a) const
   unsigned long last_ans=a;
   while ( this->IsEntry(ans) )
     {
-      ans = this->Lookup(ans);
-      if (ans == a ) return last_ans; // about to cycle again.
-      last_ans = ans;
+    ans = this->Lookup(ans);
+    if (ans == a ) return last_ans; // about to cycle again.
+    last_ans = ans;
     }
   return ans;
 
@@ -80,7 +80,7 @@ void EquivalencyTable::UpdateOutputInformation()
 {
   if (this->GetSource())
     {
-      this->GetSource()->UpdateOutputInformation();
+    this->GetSource()->UpdateOutputInformation();
     }
   else
     {
@@ -93,8 +93,8 @@ void EquivalencyTable::UpdateOutputInformation()
   // region.
   if ( ! m_RequestedRegionInitialized)
     {
-      this->SetRequestedRegionToLargestPossibleRegion();
-      m_RequestedRegionInitialized = true;
+    this->SetRequestedRegionToLargestPossibleRegion();
+    m_RequestedRegionInitialized = true;
     }
   
   m_LastRequestedRegionWasOutsideOfTheBufferedRegion = 0;

@@ -74,25 +74,25 @@ public:
 
   /** Typedefs for containers and their iterators. */
   typedef typename InputMeshType::PointsContainerPointer
-      InputPointsContainerPointer;
+  InputPointsContainerPointer;
   typedef typename InputMeshType::PointsContainer::Iterator
-      InputPointsContainerIterator;
+  InputPointsContainerIterator;
   typedef typename InputMeshType::PointDataContainerPointer
-      InputPointDataContainerPointer;
+  InputPointDataContainerPointer;
   typedef typename InputMeshType::PointDataContainer::Iterator
-      InputPointDataContainerIterator;
+  InputPointDataContainerIterator;
   typedef typename InputMeshType::CellsContainerPointer
-      InputCellsContainerPointer;
+  InputCellsContainerPointer;
   typedef typename InputMeshType::CellsContainer::Iterator
-      InputCellsContainerIterator;
+  InputCellsContainerIterator;
   typedef typename InputMeshType::CellDataContainerPointer
-      InputCellDataContainerPointer;
+  InputCellDataContainerPointer;
   typedef typename InputMeshType::CellDataContainer::Iterator
-      InputCellDataContainerIterator;
+  InputCellDataContainerIterator;
   typedef typename OutputMeshType::PointsContainerPointer
-      OutputPointsContainerPointer;
+  OutputPointsContainerPointer;
   typedef typename OutputMeshType::PointsContainer::Iterator
-      OutputPointsContainerIterator;
+  OutputPointsContainerIterator;
 
   /** Image types. */
   typedef typename InputMeshType::PointType   IPixelType;
@@ -205,7 +205,7 @@ private:
   int   m_ModelRestart;
   int   m_GradientBegin;
   Int2Vector   m_StepThreshold;   // the threshold decide when to transfer from potential fit to gradient fit
-                           // and the threshold decide when to stop the model
+  // and the threshold decide when to stop the model
   float m_DistanceToBoundary;
   float m_DistanceToStop;
   float m_DistanceForGradient;

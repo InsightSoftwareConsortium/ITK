@@ -41,7 +41,7 @@ namespace itk
  */
 template < class TFixedPointSet, class TMovingImage > 
 class ITK_EXPORT NormalizedCorrelationPointSetToImageMetric : 
-public PointSetToImageMetric< TFixedPointSet, TMovingImage>
+    public PointSetToImageMetric< TFixedPointSet, TMovingImage>
 {
 public:
 
@@ -80,7 +80,7 @@ public:
 
   /** Get the derivatives of the match measure. */
   void GetDerivative( const TransformParametersType & parameters,
-                            DerivativeType & Derivative ) const;
+                      DerivativeType & Derivative ) const;
 
   /**  Get the value for single valued optimizers. */
   MeasureType GetValue( const TransformParametersType & parameters ) const;

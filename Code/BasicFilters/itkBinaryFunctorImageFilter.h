@@ -66,10 +66,10 @@ public:
   typedef typename OutputImageType::PixelType OutputImagePixelType;
 
   /** Connect one of the operands for pixel-wise addition */
-   void SetInput1( const TInputImage1 * image1);
+  void SetInput1( const TInputImage1 * image1);
 
   /** Connect one of the operands for pixel-wise addition */
-   void SetInput2( const TInputImage2 * image2);
+  void SetInput2( const TInputImage2 * image2);
 
   /** Get the functor object.  The functor is returned by reference.
    * (Functors do not have to derive from itk::LightObject, so they do

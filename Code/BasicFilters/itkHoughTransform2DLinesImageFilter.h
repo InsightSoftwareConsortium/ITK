@@ -59,7 +59,7 @@ namespace itk
 
 template<typename TInputPixelType, typename TOutputPixelType>
 class ITK_EXPORT HoughTransform2DLinesImageFilter :
-public ImageToImageFilter< Image<TInputPixelType,2>, Image<TOutputPixelType,2> >
+    public ImageToImageFilter< Image<TInputPixelType,2>, Image<TOutputPixelType,2> >
 {
 public:
    

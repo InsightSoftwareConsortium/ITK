@@ -43,39 +43,39 @@ namespace itk
  */
 namespace Functor {  
   
-  template< class TInput, class TOutput>
-  class Asin
+template< class TInput, class TOutput>
+class Asin
+{
+public:
+  Asin() {};
+  ~Asin() {};
+  inline TOutput operator()( const TInput & A )
   {
-  public:
-    Asin() {};
-    ~Asin() {};
-    inline TOutput operator()( const TInput & A )
-    {
-      return static_cast<TOutput>(
-          asin(
-            static_cast<double>(A)
-            )
-          );
-    }
-  }; 
+    return static_cast<TOutput>(
+      asin(
+        static_cast<double>(A)
+        )
+      );
+  }
+}; 
 
 }
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT AsinImageFilter :
     public
-    UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::Asin< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   >
+UnaryFunctorImageFilter<TInputImage,TOutputImage, 
+                        Functor::Asin< 
+  typename TInputImage::PixelType, 
+  typename TOutputImage::PixelType>   >
 {
 public:
   /** Standard class typedefs. */
   typedef AsinImageFilter  Self;
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::Asin< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   
-                >  Superclass;
+                                  Functor::Asin< 
+    typename TInputImage::PixelType, 
+    typename TOutputImage::PixelType>   
+  >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

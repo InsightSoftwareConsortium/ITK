@@ -27,10 +27,10 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   bool ans = true;
   for (unsigned int i=0; i<Dimension; i++)
     {
-      if (m_Loop[i] < m_InnerBoundsLow[i] || m_Loop[i] >= m_InnerBoundsHigh[i])
-        {
-        m_InBounds[i] = ans = false;
-        }
+    if (m_Loop[i] < m_InnerBoundsLow[i] || m_Loop[i] >= m_InnerBoundsHigh[i])
+      {
+      m_InBounds[i] = ans = false;
+      }
     }
   return ans;
 }
@@ -115,8 +115,8 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   r = (unsigned long)n;
   for (long i = D-1; i >= 0 ; --i)
     {
-      ans[i] = static_cast<OffsetValueType>(r / this->GetStride(i));
-      r = r % this->GetStride(i);
+    ans[i] = static_cast<OffsetValueType>(r / this->GetStride(i));
+    r = r % this->GetStride(i);
     }
   return ans;
 }
@@ -179,7 +179,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   m_InnerBoundsLow  = orig.m_InnerBoundsLow;
   m_InnerBoundsHigh = orig.m_InnerBoundsHigh;
 
- // Check to see if the default boundary
+  // Check to see if the default boundary
   // conditions have been overridden.
   if ( orig.m_BoundaryCondition ==
        static_cast<ImageBoundaryConditionConstPointerType>(&orig.m_InternalBoundaryCondition ))
@@ -219,63 +219,63 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
 
   if (m_NeedToUseBoundaryCondition == false)
     {
-      for (ans_it = ans.Begin(), this_it = this->Begin();
-           this_it < _end; ans_it++, this_it++)
-        { *ans_it = **this_it; }
+    for (ans_it = ans.Begin(), this_it = this->Begin();
+         this_it < _end; ans_it++, this_it++)
+      { *ans_it = **this_it; }
     }
   else if (InBounds())
     {
-      for (ans_it = ans.Begin(), this_it = this->Begin();
-           this_it < _end; ans_it++, this_it++)
-        { *ans_it = **this_it; }
+    for (ans_it = ans.Begin(), this_it = this->Begin();
+         this_it < _end; ans_it++, this_it++)
+      { *ans_it = **this_it; }
     }
   else
     {
-      // Calculate overlap & initialize index
-      for (i=0; i<Dimension; i++)
-        {
-          OverlapLow[i] = m_InnerBoundsLow[i] - m_Loop[i];
-          OverlapHigh[i]=
-            static_cast<OffsetValueType>(this->GetSize(i)) - ( (m_Loop[i]+2) - m_InnerBoundsHigh[i] );
-          temp[i] = 0;
-        }
+    // Calculate overlap & initialize index
+    for (i=0; i<Dimension; i++)
+      {
+      OverlapLow[i] = m_InnerBoundsLow[i] - m_Loop[i];
+      OverlapHigh[i]=
+        static_cast<OffsetValueType>(this->GetSize(i)) - ( (m_Loop[i]+2) - m_InnerBoundsHigh[i] );
+      temp[i] = 0;
+      }
 
-      // Iterate through neighborhood
-      for (ans_it = ans.Begin(), this_it = this->Begin();
-           this_it < _end; ans_it++, this_it++)
+    // Iterate through neighborhood
+    for (ans_it = ans.Begin(), this_it = this->Begin();
+         this_it < _end; ans_it++, this_it++)
+      {
+      flag = true;
+          
+      // Is this pixel in bounds?
+      for (i=0; i<Dimension; ++i)
         {
-          flag = true;
-          
-          // Is this pixel in bounds?
-          for (i=0; i<Dimension; ++i)
+        if (m_InBounds[i]) offset[i] = 0; // this dimension in bounds
+        else  // part of this dimension spills out of bounds
+          {
+          if (temp[i] < OverlapLow[i])
             {
-              if (m_InBounds[i]) offset[i] = 0; // this dimension in bounds
-              else  // part of this dimension spills out of bounds
-                {
-                  if (temp[i] < OverlapLow[i])
-                    {
-                      flag = false;
-                      offset[i] = OverlapLow[i] - temp[i];
-                    }
-                  else if ( OverlapHigh[i] < temp[i] )
-                    {
-                      flag = false;
-                      offset[i] =  OverlapHigh[i] - temp[i];
-                    }
-                  else offset[i] = 0;
-                }
+            flag = false;
+            offset[i] = OverlapLow[i] - temp[i];
             }
-          
-          if (flag) *ans_it = **this_it;
-          else *ans_it = m_BoundaryCondition->operator()(temp, offset, this);
-          
-          for (i=0; i<Dimension; ++i)  // Update index
+          else if ( OverlapHigh[i] < temp[i] )
             {
-              temp[i]++;
-              if ( temp[i] == static_cast<OffsetValueType>(this->GetSize(i)) ) temp[i]= 0; 
-              else break;
+            flag = false;
+            offset[i] =  OverlapHigh[i] - temp[i];
             }
-        } 
+          else offset[i] = 0;
+          }
+        }
+          
+      if (flag) *ans_it = **this_it;
+      else *ans_it = m_BoundaryCondition->operator()(temp, offset, this);
+          
+      for (i=0; i<Dimension; ++i)  // Update index
+        {
+        temp[i]++;
+        if ( temp[i] == static_cast<OffsetValueType>(this->GetSize(i)) ) temp[i]= 0; 
+        else break;
+        }
+      } 
     }
   return ans;
 }
@@ -315,7 +315,7 @@ void ConstNeighborhoodIterator<TImage, TBoundaryCondition>
 
   m_End = ptr->GetBufferPointer() + ptr->ComputeOffset( m_EndIndex );
 
- // now determine whether boundary conditions are going to be needed
+  // now determine whether boundary conditions are going to be needed
   const IndexType bStart = ptr->GetBufferedRegion().GetIndex();
   const SizeType  bSize  = ptr->GetBufferedRegion().GetSize();
   const IndexType rStart = region.GetIndex();
@@ -360,7 +360,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   m_BeginIndex = orig.m_BeginIndex;
   m_WrapOffset = orig.m_WrapOffset;
 
- m_InternalBoundaryCondition = orig.m_InternalBoundaryCondition;
+  m_InternalBoundaryCondition = orig.m_InternalBoundaryCondition;
   m_NeedToUseBoundaryCondition = orig.m_NeedToUseBoundaryCondition;
   
   m_InnerBoundsLow  = orig.m_InnerBoundsLow;
@@ -368,7 +368,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   
   for (unsigned int i = 0; i < Dimension; ++i)
     {
-      m_InBounds[i] = orig.m_InBounds[i];
+    m_InBounds[i] = orig.m_InBounds[i];
     }
 
   // Check to see if the default boundary conditions
@@ -376,7 +376,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   if (orig.m_BoundaryCondition ==
       static_cast<ImageBoundaryConditionConstPointerType>( &orig.m_InternalBoundaryCondition ) )
     {
-      this->ResetBoundaryCondition();
+    this->ResetBoundaryCondition();
     }
   else m_BoundaryCondition = orig.m_BoundaryCondition;
 
@@ -395,22 +395,22 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   // Increment pointers.
   for (it = Superclass::Begin(); it < _end; ++it)
     {
-      (*it)++;
+    (*it)++;
     }
   
   // Check loop bounds, wrap & add pointer offsets if needed.
   for (i=0; i<Dimension; ++i)
     {
-      m_Loop[i]++;
-      if ( m_Loop[i] == m_Bound[i] )
+    m_Loop[i]++;
+    if ( m_Loop[i] == m_Bound[i] )
+      {
+      m_Loop[i] = m_BeginIndex[i];
+      for (it = Superclass::Begin(); it < _end; ++it)
         {
-          m_Loop[i] = m_BeginIndex[i];
-          for (it = Superclass::Begin(); it < _end; ++it)
-            {
-              (*it) += m_WrapOffset[i];
-            }
-        }        
-      else break;
+        (*it) += m_WrapOffset[i];
+        }
+      }        
+    else break;
     }
   return *this;
 }
@@ -427,25 +427,25 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   // Decrement pointers.
   for (it = Superclass::Begin(); it < _end; ++it)
     {
-      (*it)--;
+    (*it)--;
     }
   
   // Check loop bounds, wrap & add pointer offsets if needed.
   for (i=0; i<Dimension; ++i)
     {
-      if (m_Loop[i] == m_BeginIndex[i])
+    if (m_Loop[i] == m_BeginIndex[i])
+      {
+      m_Loop[i]= m_Bound[i] - 1;
+      for (it = Superclass::Begin(); it < _end; ++it)
         {
-          m_Loop[i]= m_Bound[i] - 1;
-          for (it = Superclass::Begin(); it < _end; ++it)
-            {
-              (*it) -= m_WrapOffset[i];
-            }
-        }        
-      else
-        {
-          m_Loop[i]--;
-          break;
+        (*it) -= m_WrapOffset[i];
         }
+      }        
+    else
+      {
+      m_Loop[i]--;
+      break;
+      }
     }
   return *this;
 }
@@ -501,11 +501,11 @@ void ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   // requested region.
   for (unsigned int i=0; i<Dimension; ++i)
     {
-      m_Bound[i]          = m_BeginIndex[i] + static_cast<IndexValueType>(size[i]);
-      m_InnerBoundsHigh[i]= static_cast<IndexValueType>(imageRRStart[i] + ( imageRRSize[i]) - static_cast<SizeValueType>(radius[i]) );
-      m_InnerBoundsLow[i] = static_cast<IndexValueType>(imageRRStart[i] + radius[i]);
-      m_WrapOffset[i]     = (static_cast<OffsetValueType>(imageBufferSize[i]) - ( m_Bound[i]
-                              - m_BeginIndex[i] )) * offset[i];
+    m_Bound[i]          = m_BeginIndex[i] + static_cast<IndexValueType>(size[i]);
+    m_InnerBoundsHigh[i]= static_cast<IndexValueType>(imageRRStart[i] + ( imageRRSize[i]) - static_cast<SizeValueType>(radius[i]) );
+    m_InnerBoundsLow[i] = static_cast<IndexValueType>(imageRRStart[i] + radius[i]);
+    m_WrapOffset[i]     = (static_cast<OffsetValueType>(imageBufferSize[i]) - ( m_Bound[i]
+                                                                                - m_BeginIndex[i] )) * offset[i];
     }
   m_WrapOffset[Dimension-1] = 0; // last offset is zero because there are no
                                  // higher dimensions  
@@ -533,25 +533,25 @@ void ConstNeighborhoodIterator<TImage, TBoundaryCondition>
 
   for (i = 0; i<Dimension; ++i)
     {
-      Iit -= radius[i] * OffsetTable[i];
+    Iit -= radius[i] * OffsetTable[i];
     }
 
   // Compute the rest of the pixel addresses
   for (Nit = Superclass::Begin(); Nit != _end; ++Nit)
     {
-      *Nit = Iit;
-      ++Iit;
-      for (i = 0; i <Dimension; ++i)
+    *Nit = Iit;
+    ++Iit;
+    for (i = 0; i <Dimension; ++i)
+      {
+      loop[i]++;
+      if ( loop[i] == size[i] )
         {
-          loop[i]++;
-          if ( loop[i] == size[i] )
-            {
-              if (i==Dimension-1) break;
-              Iit +=  OffsetTable[i+1] - OffsetTable[i] * static_cast<long>(size[i]);
-              loop[i]= 0;
-            }
-          else break;
+        if (i==Dimension-1) break;
+        Iit +=  OffsetTable[i+1] - OffsetTable[i] * static_cast<long>(size[i]);
+        loop[i]= 0;
         }
+      else break;
+      }
     }
 }
 
@@ -576,13 +576,13 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   // offsets. 
   for (i = 1; i< Dimension; ++i)
     {
-      accumulator += idx[i] * stride[i];
+    accumulator += idx[i] * stride[i];
     }
 
   // Increment pointers.
   for (it = this->Begin(); it < _end; ++it)
     {
-      (*it) += accumulator;
+    (*it) += accumulator;
     }
 
   // Update loop counter values
@@ -612,13 +612,13 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   // offsets. 
   for (i = 1; i< Dimension; ++i)
     {
-      accumulator += idx[i] * stride[i];
+    accumulator += idx[i] * stride[i];
     }
 
   // Increment pointers.
   for (it = this->Begin(); it < _end; ++it)
     {
-      (*it) -= accumulator;
+    (*it) -= accumulator;
     }
 
   // Update loop counter values

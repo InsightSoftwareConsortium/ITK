@@ -118,7 +118,7 @@ namespace itk
 template <class TInputImage, 
           class TMembershipFunction>
 class ITK_EXPORT ImageKmeansModelEstimator: 
-public ImageModelEstimatorBase<TInputImage, TMembershipFunction>
+    public ImageModelEstimatorBase<TInputImage, TMembershipFunction>
 {
 public:
   /** Standard class typedefs. */
@@ -142,17 +142,17 @@ public:
   /** Type definition for the vector associated with
    * input image pixel type. */     
   typedef typename TInputImage::PixelType::VectorType    
-    InputImageVectorType;
+  InputImageVectorType;
 
   /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType     InputImagePixelType;
 
   /** Type definition for the input image iterator type. */
   typedef 
-    ImageRegionIterator<TInputImage> InputImageIterator;
+  ImageRegionIterator<TInputImage> InputImageIterator;
 
   typedef 
-    ImageRegionConstIterator<TInputImage> InputImageConstIterator;     
+  ImageRegionConstIterator<TInputImage> InputImageConstIterator;     
 
   /** Type definitions for the membership function . */
   typedef typename TMembershipFunction::Pointer MembershipFunctionPointer ;
@@ -171,7 +171,7 @@ public:
 
   /** Get the optimized codebook or the centroids of the clusters. */
   CodebookMatrixOfDoubleType GetOutCodebook()
-    { return m_Codebook; }
+  { return m_Codebook; }
 
   /** Set the threshold parameter. */
   itkSetMacro(Threshold,double);
@@ -199,7 +199,7 @@ public:
 
   /** Return the codebook/cluster centers. */
   CodebookMatrixOfDoubleType GetKmeansResults(void)
-    { return m_Centroid; }
+  { return m_Centroid; }
 
 protected: 
   ImageKmeansModelEstimator();

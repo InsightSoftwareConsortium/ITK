@@ -26,7 +26,7 @@
 namespace itk
 {
   
- /** \class ImageSpatialObject
+/** \class ImageSpatialObject
  * \brief Implementation of an image as spatial object.
  *
  * This class combines functionnalities from a spatial object,
@@ -37,9 +37,9 @@ namespace itk
 
 template < unsigned int TDimension = 3,
            class PixelType = RGBPixel< char >
-         >
+>
 class ImageSpatialObject 
-: public SpatialObject< TDimension >
+  : public SpatialObject< TDimension >
 {
 
 public:
@@ -86,7 +86,7 @@ public:
   
   /** Returns true if the point is inside, false otherwise. */
   bool IsInside( const PointType & point,
-                  unsigned int depth=0, char *name=NULL) const;
+                 unsigned int depth=0, char *name=NULL) const;
  
   /** Compute the boundaries of the iamge spatial object. */
   bool ComputeBoundingBox() const;
@@ -99,7 +99,7 @@ public:
 
   /** Get the slice position */
   int GetSlicePosition(unsigned int dimension) 
-      {return m_SlicePosition[dimension];}
+  {return m_SlicePosition[dimension];}
 
 protected:
 
@@ -116,7 +116,7 @@ protected:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkImageSpatialObject.txx"
+#include "itkImageSpatialObject.txx"
 #endif
 
 #endif //__itkImageSpatialObject_h

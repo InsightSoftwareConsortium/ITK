@@ -30,33 +30,33 @@ namespace itk
 
 namespace Function {  
   
-  template< class TInput, class TOutput>
-  class Square
+template< class TInput, class TOutput>
+class Square
+{
+public:
+  typedef typename NumericTraits<TInput>::RealType RealType;
+  Square() {}
+  ~Square() {}
+  inline TOutput operator()( const TInput & A )
   {
-  public:
-    typedef typename NumericTraits<TInput>::RealType RealType;
-    Square() {}
-    ~Square() {}
-    inline TOutput operator()( const TInput & A )
-    {
-      const RealType ra = static_cast<RealType>( A );
-      return static_cast<TOutput>( ra * ra );
-    }
-  }; 
+    const RealType ra = static_cast<RealType>( A );
+    return static_cast<TOutput>( ra * ra );
+  }
+}; 
 }
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT SquareImageFilter :
     public
-    UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Function::Square< typename TInputImage::PixelType, 
-                    typename TOutputImage::PixelType>   >
+UnaryFunctorImageFilter<TInputImage,TOutputImage, 
+                        Function::Square< typename TInputImage::PixelType, 
+                                          typename TOutputImage::PixelType>   >
 {
 public:
   /** Standard class typedefs. */
   typedef SquareImageFilter  Self;
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Function::Square< typename TInputImage::PixelType, 
-                    typename TOutputImage::PixelType> >  Superclass;
+                                  Function::Square< typename TInputImage::PixelType, 
+                                                    typename TOutputImage::PixelType> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

@@ -43,7 +43,7 @@ template <class TScalarType, unsigned int NDimensions>
 void
 VolumeSplineKernelTransform<TScalarType, NDimensions>::
 ComputeDeformationContribution( const InputPointType  & thisPoint,
-                                      OutputPointType & result     ) const
+                                OutputPointType & result     ) const
 {
 
   unsigned long numberOfLandmarks = m_SourceLandmarks->GetNumberOfPoints();

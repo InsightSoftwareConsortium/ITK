@@ -131,29 +131,29 @@ public:
 
   /** Is the iterator at the beginning of the region? */
   bool IsAtBegin(void) const
-    {
-      return !m_Remaining;
-    }
+  {
+    return !m_Remaining;
+  }
 
   /** Set the begin offset.  Forward iteration starts at this offset
    * from the current region.  */
   void SetBeginOffset(const OffsetType& offset)
-    { m_BeginOffset = offset; }
+  { m_BeginOffset = offset; }
 
   /** Set the end offset.  Reverse iteration starts at this offset
    * from the current region.  */
   void SetEndOffset(const OffsetType& offset)
-    { m_EndOffset = offset; }
+  { m_EndOffset = offset; }
 
   /** Get the begin offset.  Forward iteration starts at this offset
    * from the current region.  */
   OffsetType GetBeginOffset(const OffsetType& offset)
-    { return m_BeginOffset; }
+  { return m_BeginOffset; }
 
   /** Get the end offset.  Reverse iteration starts at this offset
    * from the current region.  */
   OffsetType GetEndOffset(const OffsetType& offset)
-    { return m_EndOffset; }
+  { return m_EndOffset; }
 
   /** Fill both offsets with a single value.  */
   void FillOffsets(const OffsetValueType &value);

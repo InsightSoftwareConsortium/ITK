@@ -33,46 +33,46 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-  /**
+/**
    *  \enum DataTypeKeyValues
    * Acceptable values for hdr.dime.datatype
    */
-  enum DataTypeKeyValues  {
-    ANALYZE_DT_UNKNOWN        =0,   /**< Deontes that the data type is unknon */
-    ANALYZE_DT_BINARY         =1,   /**< Deontes that the data type is binary */
-    ANALYZE_DT_UNSIGNED_CHAR  =2,   /**< Deontes that the data type is unsigned char */
-    ANALYZE_DT_SIGNED_SHORT   =4,   /**< Deontes that the data type is signed short */
-    ANALYZE_DT_SIGNED_INT     =8,   /**< Deontes that the data type is signed int */
-    ANALYZE_DT_FLOAT          =16,  /**< Deontes that the data type is single precision floating point */
-    ANALYZE_DT_COMPLEX        =32,  /**< Deontes that the data type is pairs of single precision floating point numbers */
-    ANALYZE_DT_DOUBLE         =64,  /**< Deontes that the data type is double precision floating point */
-    ANALYZE_DT_RGB            =128, /**< Deontes that the data type is triples of unsigned char */
-    ANALYZE_DT_ALL            =255, /**< Deontes that the data type is unknon */
-    ANALYZE_DT_UNSIGNED_SHORT =6,   /**< Deontes that the data type is unsigned short */
-    ANALYZE_DT_UNSIGNED_INT   =12   /**< Deontes that the data type is unsigned int */
-  };
+enum DataTypeKeyValues  {
+  ANALYZE_DT_UNKNOWN        =0,   /**< Deontes that the data type is unknon */
+  ANALYZE_DT_BINARY         =1,   /**< Deontes that the data type is binary */
+  ANALYZE_DT_UNSIGNED_CHAR  =2,   /**< Deontes that the data type is unsigned char */
+  ANALYZE_DT_SIGNED_SHORT   =4,   /**< Deontes that the data type is signed short */
+  ANALYZE_DT_SIGNED_INT     =8,   /**< Deontes that the data type is signed int */
+  ANALYZE_DT_FLOAT          =16,  /**< Deontes that the data type is single precision floating point */
+  ANALYZE_DT_COMPLEX        =32,  /**< Deontes that the data type is pairs of single precision floating point numbers */
+  ANALYZE_DT_DOUBLE         =64,  /**< Deontes that the data type is double precision floating point */
+  ANALYZE_DT_RGB            =128, /**< Deontes that the data type is triples of unsigned char */
+  ANALYZE_DT_ALL            =255, /**< Deontes that the data type is unknon */
+  ANALYZE_DT_UNSIGNED_SHORT =6,   /**< Deontes that the data type is unsigned short */
+  ANALYZE_DT_UNSIGNED_INT   =12   /**< Deontes that the data type is unsigned int */
+};
 
-  /**
+/**
    *  \enum DataTypeIndex
    *  The index into the DataTypes array for each type.
    */
-  enum DataTypeIndex  {
-    ANALYZE_DT_INDEX_UNKNOWN       =0,
-    ANALYZE_DT_INDEX_BINARY        =1,
-    ANALYZE_DT_INDEX_UNSIGNED_CHAR =2,
-    ANALYZE_DT_INDEX_SIGNED_SHORT  =3,
-    ANALYZE_DT_INDEX_SIGNED_INT    =4,
-    ANALYZE_DT_INDEX_FLOAT         =5,
-    ANALYZE_DT_INDEX_COMPLEX       =6,
-    ANALYZE_DT_INDEX_DOUBLE        =7,
-    ANALYZE_DT_INDEX_RGB           =8,
-    ANALYZE_DT_INDEX_ALL           =9,
-    ANALYZE_DT_INDEX_UNSIGNED_SHORT=10,
-    ANALYZE_DT_INDEX_UNSIGNED_INT  =11
-  };
+enum DataTypeIndex  {
+  ANALYZE_DT_INDEX_UNKNOWN       =0,
+  ANALYZE_DT_INDEX_BINARY        =1,
+  ANALYZE_DT_INDEX_UNSIGNED_CHAR =2,
+  ANALYZE_DT_INDEX_SIGNED_SHORT  =3,
+  ANALYZE_DT_INDEX_SIGNED_INT    =4,
+  ANALYZE_DT_INDEX_FLOAT         =5,
+  ANALYZE_DT_INDEX_COMPLEX       =6,
+  ANALYZE_DT_INDEX_DOUBLE        =7,
+  ANALYZE_DT_INDEX_RGB           =8,
+  ANALYZE_DT_INDEX_ALL           =9,
+  ANALYZE_DT_INDEX_UNSIGNED_SHORT=10,
+  ANALYZE_DT_INDEX_UNSIGNED_INT  =11
+};
 
 
-  /**
+/**
    * \var DataTypes
    * An array of the Analyze v7.5 known DataTypes
    * - 0-->"UNKNOWN"
@@ -91,9 +91,9 @@ namespace itk
    * @see DataTypeSizes
    * @see DataTypeKey
    */
-  extern const char DataTypes[12][10];
+extern const char DataTypes[12][10];
 
-  /**
+/**
    * \var DataTypeSizes
    * An array with the corresponding number of bits for each image type.
    * - 0-->0
@@ -112,9 +112,9 @@ namespace itk
    * @see DataTypeSizes
    * @see DataTypeKey
    */
-  extern const short int DataTypeSizes[12];
+extern const short int DataTypeSizes[12];
 
-  /**
+/**
    * \var DataTypeKey
    * An array with Data type key sizes
    * - 0-->ANALYZE_DT_UNKNOWN
@@ -133,34 +133,34 @@ namespace itk
    * @see DataTypeSizes
    * @see DataTypeKey
    */
-  extern const short int DataTypeKey[12];
+extern const short int DataTypeKey[12];
 
-  /**
+/**
    * \struct header_key
    * - (c) Copyright, 1986-1995
    * - Biomedical Imaging Resource
    * - Mayo Foundation
    */
-  struct header_key              /*      header_key       */
-  {/*off + size*/
-    /*0 + 4  */int sizeof_hdr;         /**< Must indicate the byte size of header file, Almost always 348 bytes, but
+struct header_key              /*      header_key       */
+{/*off + size*/
+  /*0 + 4  */int sizeof_hdr;         /**< Must indicate the byte size of header file, Almost always 348 bytes, but
                                          may be larger for sites that have extended the default implementation.
                                          This feild is used by analyze to determine if the file is big endian or
                                          little endian. If the size of the *.hdr file does not equal this value,
                                          then the structure needs to be byte swapped. */
-    /*4 + 10 */char data_type[10];     /**< A convenience character string that has a 1 to 1 correspondence
+  /*4 + 10 */char data_type[10];     /**< A convenience character string that has a 1 to 1 correspondence
                                          with the short int datatype field of the image_dimension.
                                          @see DataTypes*/
-    /*14 + 18*/char db_name[18];       /**< A convenience character string that should be the same as the
+  /*14 + 18*/char db_name[18];       /**< A convenience character string that should be the same as the
                                          the file name without th e*.hdr or *.img extension. */
-    /*32 + 4 */int extents;            /**< Should be 16384, the image file is created as contiguous with a
+  /*32 + 4 */int extents;            /**< Should be 16384, the image file is created as contiguous with a
                                          minium extent size.  This field may be used to check endedness of
                                          the file */
-    /*36 + 2 */short int session_error;/**< This feild is not used for anything other than internal use in Pre 1995
+  /*36 + 2 */short int session_error;/**< This feild is not used for anything other than internal use in Pre 1995
                                          versions of Analyze.  Setting this to 0 causes no problems. */
-    /*38 + 1 */char regular;           /**< This must be 'r' to indicate that all images and volumes are the same size. */
-    /*39 + 1 */char hkey_un0;          /**< Unused field for future expansion. */
-  };/* total=40  */
+  /*38 + 1 */char regular;           /**< This must be 'r' to indicate that all images and volumes are the same size. */
+  /*39 + 1 */char hkey_un0;          /**< Unused field for future expansion. */
+};/* total=40  */
   /**
    * \struct image_dimension struct decribes the organization and
    *    size of images. These elements enable IO routines to reference
@@ -169,9 +169,9 @@ namespace itk
    * - Biomedical Imaging Resource
    * - Mayo Foundation
    */
-  struct image_dimension         /*      image_dimension  */
-  {                              /* off + size*/
-    /*0 + 16 */ short int dim[8];  /**< Array of image dimensions
+struct image_dimension         /*      image_dimension  */
+{                              /* off + size*/
+  /*0 + 16 */ short int dim[8];  /**< Array of image dimensions
                                      - dim[0]    number of dimensions; usually 4
                                      - dim[1]    image X dimension, i.e. number of voxels per row (adjacent memory locations)
                                      - dim[2]    image Y dimension, i.e. number of rows per slice
@@ -180,19 +180,19 @@ namespace itk
                                      -   . . .
                                      - dim[7]    volumes in file, i.e. number of volumes per series
                                     */
-    /*16 + 4 */ char vox_units[4]; /**< Specifies the spatial units of measure for a voxel, valid values are "mm","cm" and "in".
+  /*16 + 4 */ char vox_units[4]; /**< Specifies the spatial units of measure for a voxel, valid values are "mm","cm" and "in".
 NOTE:  if no match is found, "mm" is assumed. */
-    /*20 + 4 */ char cal_units[8]; /**< Specifies the name of the calibration unit, valid values are "mm","cm" and "in".
+  /*20 + 4 */ char cal_units[8]; /**< Specifies the name of the calibration unit, valid values are "mm","cm" and "in".
 NOTE: if no match is found, "mm" is assumed. */
-    /*24 + 2 */ short int unused1; /**<  Unused field for future expansion. */
-    /*30 + 2 */ short int datatype;/**<  A short int that defines the type of data being stored.
+  /*24 + 2 */ short int unused1; /**<  Unused field for future expansion. */
+  /*30 + 2 */ short int datatype;/**<  A short int that defines the type of data being stored.
 NOTE: THIS MUST BE FILLED IN.  This is the field that most applications
 use to determine the data storage type.
 Valid values are defined by DataTypeKeyValues.  @see DataTypeKeyValues */
-    /*32 + 2 */ short int bitpix;  /**<  Bits per pixel.  This field must agree with the datatype and
+  /*32 + 2 */ short int bitpix;  /**<  Bits per pixel.  This field must agree with the datatype and
                                      data_type fields.    @see DataTypeSizes */
-    /*34 + 2 */ short int dim_un0; /**< Unused value for future expansion. */
-    /*36 + 32*/ float pixdim[8];   /**< Parallel array to dim giving voxel dimensions
+  /*34 + 2 */ short int dim_un0; /**< Unused value for future expansion. */
+  /*36 + 32*/ float pixdim[8];   /**< Parallel array to dim giving voxel dimensions
 NOTE: pixdim[0] is ignored, and the number of dims are taken from dims[0],
 and pixdim[1..7] are the actual pixdims.
 - pixdim[0]  this field is not used
@@ -203,22 +203,22 @@ and pixdim[1..7] are the actual pixdims.
 - . . .
 - pixdim[7]
                                     */
-    /*68 + 4 */ float vox_offset;  /**< Byte offset in the .img file at which voxels start. If value is
+  /*68 + 4 */ float vox_offset;  /**< Byte offset in the .img file at which voxels start. If value is
                                      negative specifies that the absolute value is applied for every
                                      image in the file. */
-    /*72 + 4 */ float roi_scale;   /**< The "ROI Scale Factor" was really added in by the developers of SPM.
+  /*72 + 4 */ float roi_scale;   /**< The "ROI Scale Factor" was really added in by the developers of SPM.
                                      This is used as a multiplicative factor to scale all values measured
                                      in the ROI module by this multiplicative factor.  This really
                                      shouldn't be set by any other application outside of Analyze and SPM.
                                     */
-    /*76 + 4 */ float funused1;    /**< Unused, for future expansion */
-    /*80 + 4 */ float funused2;    /**< Unused, for future expansion */
-    /*84 + 4 */ float cal_max;     /**< The parameters 'cal_max' and 'cal_min' provided a mechanism for rescaling
+  /*76 + 4 */ float funused1;    /**< Unused, for future expansion */
+  /*80 + 4 */ float funused2;    /**< Unused, for future expansion */
+  /*84 + 4 */ float cal_max;     /**< The parameters 'cal_max' and 'cal_min' provided a mechanism for rescaling
                                      the voxel values into a different range of value representation. This string
                                      allowed whatever the range of value representation was to be expressed with these
                                      string characters. Never really used in a robust manner. */
-    /*88 + 4 */ float cal_min;     /**< @see image_dimension::cal_max */
-    /*92 + 4 */ int compressed;    /**< Valid values are only 0 and 1.  A 0 value indicates that the file is
+  /*88 + 4 */ float cal_min;     /**< @see image_dimension::cal_max */
+  /*92 + 4 */ int compressed;    /**< Valid values are only 0 and 1.  A 0 value indicates that the file is
                                      uncompressed.  A 1 value indicates that the *.img file has been compress
                                      with the standard Unix 'compress' utility.
                                      - filename, compressed value, description
@@ -229,8 +229,8 @@ and pixdim[1..7] are the actual pixdims.
                                      - basename.img.Z,  1, invalid setting
                                      - basename.img.gz, 1, invalid setting
                                     */
-    /*96 + 4 */ int verified;      /**< This was only used internally by Pre 1995 versions of analyze. */
-    /*100 + 4*/ int glmax;         /**< This is the global max/min for the entire volume image (or sets of volume
+  /*96 + 4 */ int verified;      /**< This was only used internally by Pre 1995 versions of analyze. */
+  /*100 + 4*/ int glmax;         /**< This is the global max/min for the entire volume image (or sets of volume
                                      images if there are multiple volumes in this file).  The cal_max/min are
                                      used only if the desired representation range of the data is different from
                                      the true range of the data.  For example, CT data may be stored in signed
@@ -240,10 +240,10 @@ and pixdim[1..7] are the actual pixdims.
                                      UNSIGNED INT and COMPLEX were really not supported under ANALYZE 7.5.,
                                      so these should be avoided in the Analyze 7.5 file format.  The max/min
                                      for FLOATs was the nearest integer to the floating point values. */
-    /*104 + 4*/ int glmin;         /**< @see image_dimension::glmax */
-  }/*total=108 */;
+  /*104 + 4*/ int glmin;         /**< @see image_dimension::glmax */
+}/*total=108 */;
 
-  /**
+/**
    * \struct data_history
    * Most of these are historical, relevant to use with the Dynamic Spatial
    * Reconstructor scanner developed at the Mayo BIR in the late 70's and through
@@ -257,13 +257,13 @@ and pixdim[1..7] are the actual pixdims.
    * - Biomedical Imaging Resource
    * - Mayo Foundation
    */
-  struct data_history   /* data_history     */
-  {/*off + size*/
-    /*0 + 80  */char descrip[80];   /**<  A place to put a short description of the data */
-    /*80 + 24 */char aux_file[24];  /**<  A place to put the name of an auxillary file to
+struct data_history   /* data_history     */
+{/*off + size*/
+  /*0 + 80  */char descrip[80];   /**<  A place to put a short description of the data */
+  /*80 + 24 */char aux_file[24];  /**<  A place to put the name of an auxillary file to
                                       use instead of the default .img file.  This
                                       is not currently used by the Analyze program. */
-    /*104 + 1 */char orient;        /**< The 'orient' field in the data_history structure specifies the primary
+  /*104 + 1 */char orient;        /**< The 'orient' field in the data_history structure specifies the primary
                                       orientation of the data as it is stored in the file on disk.  This
                                       usually corresponds to the orientation in the plane of acquisition,
                                       given that this would correspond to the order in which the data is
@@ -306,24 +306,24 @@ where:
 - Y axis runs from posterior (low Y) to anterior (high Y)
 - Z axis runs from inferior (low Z) to superior (high Z)
                                      */
-    /*105 + 10*/char originator[10];/**< The person or group that generated this image */
-    /*115 + 10*/char generated[10]; /**< The date the image was generated. */
-    /*125 + 10*/char scannum[10];   /**< An instituion independent identifier for the image */
-    /*135 + 10*/char patient_id[10];/**< An instituion independant identifier for the subject of the scan */
-    /*145 + 10*/char exp_date[10];  /**< Experiment date - these were used for DSR experiments */
-    /*155 + 10*/char exp_time[10];  /**< Experiment time - these were used for DSR experiments */
-    /*165 + 3 */char hist_un0[3];   /**< Unused padding of the structure */
-    /*168 + 4 */int views;          /**< Number of views in reconstruction - these were used for DSR experiments */
-    /*172 + 4 */int vols_added;     /**< Number of time points summed together - these were used for DSR experiments */
-    /*176 + 4 */int start_field;    /**< Video field for first view used in reconstruction - these were used for DSR experiments */
-    /*180 + 4 */int field_skip;     /**< Video field skip factor used in the reconstructed image - these were used for DSR experiments */
-    /*184 + 4 */int omax;           /**< The omax/omin and smax/smin relate to rescaling of
+  /*105 + 10*/char originator[10];/**< The person or group that generated this image */
+  /*115 + 10*/char generated[10]; /**< The date the image was generated. */
+  /*125 + 10*/char scannum[10];   /**< An instituion independent identifier for the image */
+  /*135 + 10*/char patient_id[10];/**< An instituion independant identifier for the subject of the scan */
+  /*145 + 10*/char exp_date[10];  /**< Experiment date - these were used for DSR experiments */
+  /*155 + 10*/char exp_time[10];  /**< Experiment time - these were used for DSR experiments */
+  /*165 + 3 */char hist_un0[3];   /**< Unused padding of the structure */
+  /*168 + 4 */int views;          /**< Number of views in reconstruction - these were used for DSR experiments */
+  /*172 + 4 */int vols_added;     /**< Number of time points summed together - these were used for DSR experiments */
+  /*176 + 4 */int start_field;    /**< Video field for first view used in reconstruction - these were used for DSR experiments */
+  /*180 + 4 */int field_skip;     /**< Video field skip factor used in the reconstructed image - these were used for DSR experiments */
+  /*184 + 4 */int omax;           /**< The omax/omin and smax/smin relate to rescaling of
                                       the value range via the Load process, where both the
                                       'original' omax/omin and the 'scaled' omax/omin could
                                       be set to rescale the value range of the data when it is loaded. */
-    /*188 + 4 */int omin;           /**< @see data_history::omax */
-    /*192 + 4 */int smax;           /**< @see data_history::omax */
-    /*196 + 4 */int smin;           /**< @see data_history::omax */
+  /*188 + 4 */int omin;           /**< @see data_history::omax */
+  /*192 + 4 */int smax;           /**< @see data_history::omax */
+  /*196 + 4 */int smin;           /**< @see data_history::omax */
 };/* total=200 */
 
 /**

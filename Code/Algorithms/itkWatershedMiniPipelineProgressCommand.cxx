@@ -27,9 +27,9 @@ void WatershedMiniPipelineProgressCommand
   
   if( typeid(event) == typeid ( ProgressEvent)  )
     {
-      m_Filter->UpdateProgress( (m_Count + po->GetProgress()) /
-                                  m_NumberOfFilters);
-      if (po->GetProgress() == 1.0) m_Count += 1.0;
+    m_Filter->UpdateProgress( (m_Count + po->GetProgress()) /
+                              m_NumberOfFilters);
+    if (po->GetProgress() == 1.0) m_Count += 1.0;
     }
 }
 
@@ -41,9 +41,9 @@ void WatershedMiniPipelineProgressCommand
   
   if( typeid(event) == typeid ( ProgressEvent)  )
     {
-      m_Filter->UpdateProgress( (m_Count + po->GetProgress()) /
-                                  m_NumberOfFilters);
-      if (po->GetProgress() == 1.0) m_Count += 1.0;
+    m_Filter->UpdateProgress( (m_Count + po->GetProgress()) /
+                              m_NumberOfFilters);
+    if (po->GetProgress() == 1.0) m_Count += 1.0;
     }
 }
 

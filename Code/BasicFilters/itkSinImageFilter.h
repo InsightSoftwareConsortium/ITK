@@ -30,31 +30,31 @@ namespace itk
  */
 namespace Function {  
   
-  template< class TInput, class TOutput>
-  class Sin
-  {
-  public:
-    Sin() {}
-    ~Sin() {}
-    inline TOutput operator()( const TInput & A )
-      { return (TOutput)sin((double)A); }
-  }; 
+template< class TInput, class TOutput>
+class Sin
+{
+public:
+  Sin() {}
+  ~Sin() {}
+  inline TOutput operator()( const TInput & A )
+  { return (TOutput)sin((double)A); }
+}; 
 }
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT SinImageFilter :
     public
-    UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Function::Sin< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   >
+UnaryFunctorImageFilter<TInputImage,TOutputImage, 
+                        Function::Sin< 
+  typename TInputImage::PixelType, 
+  typename TOutputImage::PixelType>   >
 {
 public:
   /** Standard class typedefs. */
   typedef SinImageFilter  Self;
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Function::Sin< typename TInputImage::PixelType, 
-                   typename TOutputImage::PixelType> >  Superclass;
+                                  Function::Sin< typename TInputImage::PixelType, 
+                                                 typename TOutputImage::PixelType> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

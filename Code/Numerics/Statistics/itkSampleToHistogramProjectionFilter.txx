@@ -56,8 +56,8 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
 {
   if ( m_Histogram != histogram )
     {
-      m_Histogram = histogram ;
-      this->Modified() ;
+    m_Histogram = histogram ;
+    this->Modified() ;
     }
 }
 
@@ -68,8 +68,8 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
 {
   if ( m_Mean != mean )
     {
-      m_Mean = mean ;
-      this->Modified() ;
+    m_Mean = mean ;
+    this->Modified() ;
     }
 }
 
@@ -88,8 +88,8 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
 {
   if ( m_StandardDeviation != value )
     {
-      m_StandardDeviation = value ;
-      this->Modified() ;
+    m_StandardDeviation = value ;
+    this->Modified() ;
     }
 }
 
@@ -108,8 +108,8 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
 { 
   if ( m_ProjectionAxis != axis )
     {
-      m_ProjectionAxis = axis ;
-      this->Modified() ;
+    m_ProjectionAxis = axis ;
+    this->Modified() ;
     }
 }
 
@@ -128,8 +128,8 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
 { 
   if ( m_HistogramBinOverlap != overlap )
     {
-      m_HistogramBinOverlap = overlap ;
-      this->Modified() ;
+    m_HistogramBinOverlap = overlap ;
+    this->Modified() ;
     }
 }
 
@@ -149,51 +149,51 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
   
   if (firstHalf)
     {
-      minWeight = (dotProduct - binMin) / ((binMax - binMin) / 2.0) ;
+    minWeight = (dotProduct - binMin) / ((binMax - binMin) / 2.0) ;
     }
   else
     {
-      minWeight = (dotProduct - binMin) / 
-        ((float(m_Histogram->GetBinMax(0, binId - 1)) - 
-          float(m_Histogram->GetBinMin(0, binId - 1))) / 2.0) ;
+    minWeight = (dotProduct - binMin) / 
+      ((float(m_Histogram->GetBinMax(0, binId - 1)) - 
+        float(m_Histogram->GetBinMin(0, binId - 1))) / 2.0) ;
     }
 
   if (minWeight > -1.0)
     {
-      if (firstHalf)
+    if (firstHalf)
+      {
+      maxWeight = (binMax - dotProduct) /
+        ((float(m_Histogram->GetBinMax(0, binId + 1)) - 
+          float(m_Histogram->GetBinMin(0, binId + 1))) / 2.0) ;
+      }
+    else
+      {
+      maxWeight = 
+        (binMax - dotProduct) / ((binMax - binMin) / 2.0) ;
+      }
+      
+    if (maxWeight > -1.0)
+      {
+      if (minWeight < 1.0)
         {
-          maxWeight = (binMax - dotProduct) /
-            ((float(m_Histogram->GetBinMax(0, binId + 1)) - 
-              float(m_Histogram->GetBinMin(0, binId + 1))) / 2.0) ;
+        minWeight = 1.0 / (1.0 + exp(-minWeight / scale)) ;
         }
       else
         {
-          maxWeight = 
-            (binMax - dotProduct) / ((binMax - binMin) / 2.0) ;
+        minWeight = 1.0 ;
         }
-      
-      if (maxWeight > -1.0)
+  
+      if (maxWeight < 1.0)
         {
-          if (minWeight < 1.0)
-            {
-              minWeight = 1.0 / (1.0 + exp(-minWeight / scale)) ;
-            }
-          else
-            {
-              minWeight = 1.0 ;
-            }
-  
-          if (maxWeight < 1.0)
-            {
-              maxWeight = 1.0 / (1.0 + exp(-maxWeight / scale)) ;
-            }
-          else
-            {
-              maxWeight = 1.0 ;
-            }
-  
-          return minWeight * maxWeight * marginalDistance ;
+        maxWeight = 1.0 / (1.0 + exp(-maxWeight / scale)) ;
         }
+      else
+        {
+        maxWeight = 1.0 ;
+        }
+  
+      return minWeight * maxWeight * marginalDistance ;
+      }
     }
 
   return m_MinimumFrequency ;
@@ -208,15 +208,15 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
   typename HistogramType::Iterator h_last = m_Histogram->End() ;
   while (h_iter != h_last)
     {
-      h_iter.SetFrequency(0.0) ;
-      ++h_iter ;
+    h_iter.SetFrequency(0.0) ;
+    ++h_iter ;
     }
 
   float scale = 1 ;
 
   if (m_HistogramBinOverlap)
     {
-      scale = log(1.0 + m_HistogramBinOverlap / 10.0 ) ;
+    scale = log(1.0 + m_HistogramBinOverlap / 10.0 ) ;
     }
 
   typename HistogramType::InstanceIdentifier binId ;
@@ -241,85 +241,85 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
 
   while (s_iter != s_last)
     {
-      tempMeasurementVector = s_iter.GetMeasurementVector() ;
-      squaredDistance = 0.0 ;
-      dotProduct = 0.0 ;
-      frequency = s_iter.GetFrequency() ;
-      for (dimension = 0 ; dimension < MeasurementVectorSize ; dimension++)
+    tempMeasurementVector = s_iter.GetMeasurementVector() ;
+    squaredDistance = 0.0 ;
+    dotProduct = 0.0 ;
+    frequency = s_iter.GetFrequency() ;
+    for (dimension = 0 ; dimension < MeasurementVectorSize ; dimension++)
+      {
+      coordinateDistance = 
+        tempMeasurementVector[dimension] - (*m_Mean)[dimension] ;
+      squaredDistance += coordinateDistance * coordinateDistance ;
+      dotProduct += coordinateDistance * (*m_ProjectionAxis)[dimension] ;
+      }
+
+    marginalDistance = 
+      sqrt(vnl_math_abs(squaredDistance - dotProduct * dotProduct)) /
+      ((*m_StandardDeviation) * extent) ;
+
+    dotProduct /= (*m_StandardDeviation) ;
+
+    if (m_HistogramBinOverlap < 0.001)
+      {
+      if ( (marginalDistance <= 1) && 
+           (dotProduct >= m_Histogram->GetBinMin(0, 0)) &&
+           (dotProduct <= 
+            m_Histogram->
+            GetBinMax(0, numberOfBins - 1UL)) )
         {
-          coordinateDistance = 
-            tempMeasurementVector[dimension] - (*m_Mean)[dimension] ;
-          squaredDistance += coordinateDistance * coordinateDistance ;
-          dotProduct += coordinateDistance * (*m_ProjectionAxis)[dimension] ;
+        binId = 0 ;
+        while ( (dotProduct > m_Histogram->GetBinMax(0, binId)) &&
+                (binId < (numberOfBins - 1UL)) )
+          {
+          binId++ ;
+          }
+        std::cout << "DEBUG:  bin id = " << binId << std::endl ;
+        m_Histogram->IncreaseFrequency(binId, frequency) ;
+
         }
-
-      marginalDistance = 
-        sqrt(vnl_math_abs(squaredDistance - dotProduct * dotProduct)) /
-        ((*m_StandardDeviation) * extent) ;
-
-      dotProduct /= (*m_StandardDeviation) ;
-
-      if (m_HistogramBinOverlap < 0.001)
+      }
+    else
+      {
+      marginalDistance = 1.0 - marginalDistance ;
+      if ( marginalDistance > -1.0 )
         {
-          if ( (marginalDistance <= 1) && 
-               (dotProduct >= m_Histogram->GetBinMin(0, 0)) &&
-               (dotProduct <= 
-                m_Histogram->
-                GetBinMax(0, numberOfBins - 1UL)) )
-            {
-              binId = 0 ;
-              while ( (dotProduct > m_Histogram->GetBinMax(0, binId)) &&
-                     (binId < (numberOfBins - 1UL)) )
-                {
-                  binId++ ;
-                }
-              std::cout << "DEBUG:  bin id = " << binId << std::endl ;
-              m_Histogram->IncreaseFrequency(binId, frequency) ;
-
-            }
-        }
-      else
-        {
-          marginalDistance = 1.0 - marginalDistance ;
-          if ( marginalDistance > -1.0 )
-            {
-              marginalDistance = 
-                1.0 / (1.0 + exp(-marginalDistance / scale)) ;
+        marginalDistance = 
+          1.0 / (1.0 + exp(-marginalDistance / scale)) ;
               
-              for (binId = 0 ; binId <= (numberOfBins / 2UL) ; 
-                   binId++)
-                {
-                  tempFrequency = 
-                    this->CalculateOverlap(binId, 
-                                           dotProduct,
-                                           scale,
-                                           marginalDistance,
-                                           true) ;
-                  if ( tempFrequency > m_MinimumFrequency )
-                    {
-                      m_Histogram->IncreaseFrequency(binId, tempFrequency * frequency) ;
-                    }
-                } // end of for
+        for (binId = 0 ; binId <= (numberOfBins / 2UL) ; 
+             binId++)
+          {
+          tempFrequency = 
+            this->CalculateOverlap(binId, 
+                                   dotProduct,
+                                   scale,
+                                   marginalDistance,
+                                   true) ;
+          if ( tempFrequency > m_MinimumFrequency )
+            {
+            m_Histogram->IncreaseFrequency(binId, tempFrequency * frequency) ;
+            }
+          } // end of for
 
-              for (binId = numberOfBins / 2UL + 1UL ; 
-                   binId < numberOfBins ;
-                   binId++)
-                {
-                  tempFrequency = 
-                    this->CalculateOverlap(binId, 
-                                           dotProduct,
-                                           scale,
-                                           marginalDistance,
-                                           false) ;
+        for (binId = numberOfBins / 2UL + 1UL ; 
+             binId < numberOfBins ;
+             binId++)
+          {
+          tempFrequency = 
+            this->CalculateOverlap(binId, 
+                                   dotProduct,
+                                   scale,
+                                   marginalDistance,
+                                   false) ;
 
-                  if ( tempFrequency > m_MinimumFrequency )
-                    {
-                      m_Histogram->IncreaseFrequency(binId, tempFrequency * frequency) ;
-                    }
-                } // end of for
-            } // end of if (marginalDistance ...
-        } // end of if (m_HistogramBinOverlap  ...
-      ++s_iter ;
+          if ( tempFrequency > m_MinimumFrequency )
+            {
+            m_Histogram->IncreaseFrequency(binId, tempFrequency * frequency) ;
+            }
+          } // end of for
+        } // end of if (marginalDistance ...
+      } // end of if (m_HistogramBinOverlap  ...
+    ++s_iter ;
     } // end of while
 }
 

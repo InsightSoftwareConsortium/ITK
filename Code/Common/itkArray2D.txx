@@ -50,7 +50,7 @@ Array2D<TValueType >
 template < typename TValueType >
 Array2D<TValueType >
 ::Array2D( const VnlMatrixType & matrix ):
-     vnl_matrix<TValueType>( matrix )
+  vnl_matrix<TValueType>( matrix )
 {
 }
 
@@ -62,7 +62,7 @@ Array2D<TValueType >
 template < typename TValueType >
 Array2D<TValueType >
 ::Array2D( const Self & array )
-     :vnl_matrix<TValueType>( array )
+  :vnl_matrix<TValueType>( array )
 {
 }
 

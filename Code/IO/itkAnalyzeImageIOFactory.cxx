@@ -22,36 +22,36 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-  void AnalyzeImageIOFactory::PrintSelf(std::ostream&, Indent) const
-  {
+void AnalyzeImageIOFactory::PrintSelf(std::ostream&, Indent) const
+{
 
-  }
+}
 
 
-  AnalyzeImageIOFactory::AnalyzeImageIOFactory()
-  {
-    this->RegisterOverride("itkImageIOBase",
-        "itkAnalyzeImageIO",
-        "Analyze Image IO",
-        1,
-        CreateObjectFunction<AnalyzeImageIO>::New());
-  }
+AnalyzeImageIOFactory::AnalyzeImageIOFactory()
+{
+  this->RegisterOverride("itkImageIOBase",
+                         "itkAnalyzeImageIO",
+                         "Analyze Image IO",
+                         1,
+                         CreateObjectFunction<AnalyzeImageIO>::New());
+}
 
-  AnalyzeImageIOFactory::~AnalyzeImageIOFactory()
-  {
-  }
+AnalyzeImageIOFactory::~AnalyzeImageIOFactory()
+{
+}
 
-  const char*
-    AnalyzeImageIOFactory::GetITKSourceVersion(void) const
-    {
-      return ITK_SOURCE_VERSION;
-    }
+const char*
+AnalyzeImageIOFactory::GetITKSourceVersion(void) const
+{
+  return ITK_SOURCE_VERSION;
+}
 
-  const char*
-    AnalyzeImageIOFactory::GetDescription() const
-    {
-      return "Analyze ImageIO Factory, allows the loading of Analyze images into insight";
-    }
+const char*
+AnalyzeImageIOFactory::GetDescription() const
+{
+  return "Analyze ImageIO Factory, allows the loading of Analyze images into insight";
+}
 
 } // end namespace itk
 

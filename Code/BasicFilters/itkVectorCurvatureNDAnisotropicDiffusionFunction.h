@@ -43,7 +43,7 @@ class ITK_EXPORT VectorCurvatureNDAnisotropicDiffusionFunction :
     public VectorAnisotropicDiffusionFunction<TImage>
 {
 public:
- /** Standard itk Self & Superclass typedefs */
+  /** Standard itk Self & Superclass typedefs */
   typedef VectorCurvatureNDAnisotropicDiffusionFunction Self;
   typedef VectorAnisotropicDiffusionFunction<TImage> Superclass;
   typedef SmartPointer<Self> Pointer;
@@ -75,20 +75,20 @@ public:
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
                                   void *globalData,
                                   const FloatOffsetType& offset = FloatOffsetType(0.0)
-                                  ) const;
+    ) const;
 
   /** This method is called prior to each iteration of the solver. */
   virtual void InitializeIteration()
-    {
-      m_K = this->GetAverageGradientMagnitudeSquared() *
-        this->GetConductanceParameter() * -1.0f;
-    }
+  {
+    m_K = this->GetAverageGradientMagnitudeSquared() *
+      this->GetConductanceParameter() * -1.0f;
+  }
   
 protected:
   VectorCurvatureNDAnisotropicDiffusionFunction();
   ~VectorCurvatureNDAnisotropicDiffusionFunction() {}
   void PrintSelf(std::ostream& os, Indent indent) const
-    {  Superclass::PrintSelf(os,indent);   }
+  {  Superclass::PrintSelf(os,indent);   }
 
 private:
   VectorCurvatureNDAnisotropicDiffusionFunction(const Self&); //purposely not implemented

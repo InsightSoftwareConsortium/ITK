@@ -66,7 +66,7 @@ ImageSource<TOutputImage>
     }
   
   return static_cast<TOutputImage*>
-                     (this->ProcessObject::GetOutput(0));
+    (this->ProcessObject::GetOutput(0));
 }
 
   
@@ -79,7 +79,7 @@ ImageSource<TOutputImage>
 ::GetOutput(unsigned int idx)
 {
   return static_cast<TOutputImage*>
-                     (this->ProcessObject::GetOutput(idx));
+    (this->ProcessObject::GetOutput(idx));
 }
 
 

@@ -43,505 +43,505 @@
 
 namespace itk 
 {
-  // Default constructor
-  IPLCommonImageIO::IPLCommonImageIO()
-  {
-    m_system_byteOrder = ByteSwapper<int>::SystemIsBigEndian() ? ImageIOBase::BigEndian :
-      ImageIOBase::LittleEndian;
-    memset(&m_fnlist,0,sizeof(m_fnlist));
-    m_ImageHeader = 0;
-  }
+// Default constructor
+IPLCommonImageIO::IPLCommonImageIO()
+{
+  m_system_byteOrder = ByteSwapper<int>::SystemIsBigEndian() ? ImageIOBase::BigEndian :
+    ImageIOBase::LittleEndian;
+  memset(&m_fnlist,0,sizeof(m_fnlist));
+  m_ImageHeader = 0;
+}
 
-  IPLCommonImageIO::~IPLCommonImageIO()
-  {
-    if(m_ImageHeader != 0)
-      delete m_ImageHeader;
-  }
+IPLCommonImageIO::~IPLCommonImageIO()
+{
+  if(m_ImageHeader != 0)
+    delete m_ImageHeader;
+}
 
-  void IPLCommonImageIO::PrintSelf(std::ostream& os, Indent indent) const
-  {
-    Superclass::PrintSelf(os, indent);
-  }
+void IPLCommonImageIO::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+}
 
-  bool IPLCommonImageIO::CanWriteFile(const char * )
-  {
-    return false;
-  }
+bool IPLCommonImageIO::CanWriteFile(const char * )
+{
+  return false;
+}
 
-  const std::type_info& IPLCommonImageIO::GetPixelType() const
-  {
-    return typeid(S16);
-  }
+const std::type_info& IPLCommonImageIO::GetPixelType() const
+{
+  return typeid(S16);
+}
 
-  unsigned int IPLCommonImageIO::GetComponentSize() const
-  {
-    return sizeof(S16);
-  }
-  void IPLCommonImageIO::Read(void* buffer)
-  {
-    int i;
-    S16 *img_buffer = (S16 *)buffer;
-    for(i = 0; i < m_fnlist.numImageInfoStructs; i++) 
-      {
-  std::ifstream f(m_fnlist.Info[i].imageFileName,std::ios::binary | std::ios::in);
+unsigned int IPLCommonImageIO::GetComponentSize() const
+{
+  return sizeof(S16);
+}
+void IPLCommonImageIO::Read(void* buffer)
+{
+  int i;
+  S16 *img_buffer = (S16 *)buffer;
+  for(i = 0; i < m_fnlist.numImageInfoStructs; i++) 
+    {
+    std::ifstream f(m_fnlist.Info[i].imageFileName,std::ios::binary | std::ios::in);
 
-  //std::cerr << m_fnlist.Info[i].imageFileName << std::endl; std::cerr.flush();
-  if(!f.is_open())
-    RAISE_EXCEPTION();
-  f.seekg (m_fnlist.Info[i].SliceOffset, std::ios::beg);
-  f.read((char *)img_buffer, m_fnlist.XDim * m_fnlist.YDim * sizeof(S16));
-  IOCHECK();
-  f.close();
-  // ByteSwapper::SwapRangeFromSystemToBigEndian is set up based on
-  // the FILE endian-ness, not as the name would lead you to believe.
-  // So, on LittleEndian systems, SwapFromSystemToBigEndian will swap.
-  // On BigEndian systems, SwapFromSystemToBigEndian will do nothing.
-  itk::ByteSwapper<S16>::SwapRangeFromSystemToBigEndian(img_buffer,m_fnlist.XDim*m_fnlist.YDim);
-  img_buffer += m_fnlist.XDim * m_fnlist.YDim;
-      }
+    //std::cerr << m_fnlist.Info[i].imageFileName << std::endl; std::cerr.flush();
+    if(!f.is_open())
+      RAISE_EXCEPTION();
+    f.seekg (m_fnlist.Info[i].SliceOffset, std::ios::beg);
+    f.read((char *)img_buffer, m_fnlist.XDim * m_fnlist.YDim * sizeof(S16));
+    IOCHECK();
+    f.close();
+    // ByteSwapper::SwapRangeFromSystemToBigEndian is set up based on
+    // the FILE endian-ness, not as the name would lead you to believe.
+    // So, on LittleEndian systems, SwapFromSystemToBigEndian will swap.
+    // On BigEndian systems, SwapFromSystemToBigEndian will do nothing.
+    itk::ByteSwapper<S16>::SwapRangeFromSystemToBigEndian(img_buffer,m_fnlist.XDim*m_fnlist.YDim);
+    img_buffer += m_fnlist.XDim * m_fnlist.YDim;
+    }
 #if 0 // Debugging
-      std::ofstream f2("test.img",std::ios::binary | std::ios::out);
-      f2.write(buffer,(m_fnlist.numImageInfoStructs *
-           m_fnlist.XDim * m_fnlist.YDim * sizeof(S16)));
-      f2.close();
+  std::ofstream f2("test.img",std::ios::binary | std::ios::out);
+  f2.write(buffer,(m_fnlist.numImageInfoStructs *
+                   m_fnlist.XDim * m_fnlist.YDim * sizeof(S16)));
+  f2.close();
 #endif
-  }
-  struct GEImageHeader *IPLCommonImageIO::ReadHeader(const char * )
-  {
-    //
-    // must be redefined in a child class
-    //
-    return 0;
-  }
+}
+struct GEImageHeader *IPLCommonImageIO::ReadHeader(const char * )
+{
+  //
+  // must be redefined in a child class
+  //
+  return 0;
+}
 
-  bool IPLCommonImageIO::CanReadFile( const char* )
-  {
-    //
-    // must be redefined in child class or you'll never read anything ;-)
-    //
-    return false;
-  }
+bool IPLCommonImageIO::CanReadFile( const char* )
+{
+  //
+  // must be redefined in child class or you'll never read anything ;-)
+  //
+  return false;
+}
 
-  void IPLCommonImageIO::ReadImageInformation()
-  {
-    std::string FileNameToRead = this->GetFileName();
-    InitializeFILENAMELIST(&m_fnlist);
-    this->m_ImageHeader = this->ReadHeader(FileNameToRead.c_str());
-    //std::cerr << "HEADER SIZE " << m_ImageHeader->offset << std::endl;
-    //
-    // if anything fails in the header read, just let
-    // exceptions propogate up.
-    AddElementToList(&m_fnlist,m_ImageHeader->filename,
-         m_ImageHeader->sliceLocation,
-         m_ImageHeader->offset,
-         m_ImageHeader->imageXsize,
-         m_ImageHeader->imageYsize,
-         m_ImageHeader->seriesNumber,
-         m_ImageHeader->echoNumber);
+void IPLCommonImageIO::ReadImageInformation()
+{
+  std::string FileNameToRead = this->GetFileName();
+  InitializeFILENAMELIST(&m_fnlist);
+  this->m_ImageHeader = this->ReadHeader(FileNameToRead.c_str());
+  //std::cerr << "HEADER SIZE " << m_ImageHeader->offset << std::endl;
+  //
+  // if anything fails in the header read, just let
+  // exceptions propogate up.
+  AddElementToList(&m_fnlist,m_ImageHeader->filename,
+                   m_ImageHeader->sliceLocation,
+                   m_ImageHeader->offset,
+                   m_ImageHeader->imageXsize,
+                   m_ImageHeader->imageYsize,
+                   m_ImageHeader->seriesNumber,
+                   m_ImageHeader->echoNumber);
     
-    // Add header info to metadictionary
+  // Add header info to metadictionary
     
-    itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
-    std::string classname(this->GetNameOfClass());
-    itk::EncapsulateMetaData<std::string>(thisDic,ITK_InputFilterName,
-                                          classname);
-    itk::EncapsulateMetaData<std::string>(thisDic,
-                                         ITK_OnDiskStorageTypeName,
-                                         std::string("SHORT"));
-    itk::EncapsulateMetaData<short int>(thisDic,ITK_OnDiskBitPerPixel,(short int)16);
+  itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
+  std::string classname(this->GetNameOfClass());
+  itk::EncapsulateMetaData<std::string>(thisDic,ITK_InputFilterName,
+                                        classname);
+  itk::EncapsulateMetaData<std::string>(thisDic,
+                                        ITK_OnDiskStorageTypeName,
+                                        std::string("SHORT"));
+  itk::EncapsulateMetaData<short int>(thisDic,ITK_OnDiskBitPerPixel,(short int)16);
     
     
-    itk::IOCommon::ValidOrientationFlags orient;
-    switch(m_ImageHeader->imagePlane)
-      {
-      case GE_AXIAL:
-        orient = IOCommon::ITK_ORIENTATION_IRP_TRANSVERSE;
-        break;
-      case GE_SAGITTAL:
-        orient = IOCommon::ITK_ORIENTATION_IRP_SAGITTAL  ;
-        break;
-      case GE_CORONAL:
-        // fall thru
-      default:
-        orient = IOCommon::ITK_ORIENTATION_IRP_CORONAL   ;
-      }
-    itk::EncapsulateMetaData<itk::IOCommon::ValidOrientationFlags>(thisDic,ITK_Orientation,orient);
-    itk::EncapsulateMetaData<std::string>(thisDic,ITK_PatientID,std::string(m_ImageHeader->patientId));
-    itk::EncapsulateMetaData<std::string>(thisDic,ITK_ExperimentDate,std::string(m_ImageHeader->date));
-
-
-    //
-    // GE images are stored in separate files per slice.
-    //char imagePath[IOCommon::ITK_MAXPATHLEN+1];
-    //TODO -- use std::string instead of C strings
-    char imageMask[IOCommon::ITK_MAXPATHLEN+1];
-    char imagePath[IOCommon::ITK_MAXPATHLEN+1];
-    std::string _imagePath =
-      itkkwsys::SystemTools::CollapseFullPath(FileNameToRead.c_str());
-
-    if(_imagePath == "")
-      RAISE_EXCEPTION();
-    strncpy(imagePath,_imagePath.c_str(),sizeof(imagePath));
-    imagePath[IOCommon::ITK_MAXPATHLEN] = '\0';
-    strncpy(imageMask,imagePath,sizeof(imageMask));
-    imageMask[IOCommon::ITK_MAXPATHLEN] = '\0';
-
-    char *lastslash = strrchr(imagePath,'/');
-    if(lastslash == NULL)
-      {
-      strcpy(imagePath,".");
-      }
-    else
-      {
-      *lastslash = '\0';
-      }
-    itk::Directory::Pointer dir = itk::Directory::New();
-    if(dir->Load(imagePath) == 0)
-      RAISE_EXCEPTION();
-    std::vector<std::string>::size_type i;
-    std::vector<std::string>::size_type numfiles;
-    
-    struct GEImageHeader *curImageHeader;
-
-    for(i = 0, numfiles = dir->GetNumberOfFiles(); i < numfiles; i++) 
-      {
-  const char *curFname =  dir->GetFile(i);
-  if(curFname == 0)
+  itk::IOCommon::ValidOrientationFlags orient;
+  switch(m_ImageHeader->imagePlane)
     {
+    case GE_AXIAL:
+      orient = IOCommon::ITK_ORIENTATION_IRP_TRANSVERSE;
       break;
+    case GE_SAGITTAL:
+      orient = IOCommon::ITK_ORIENTATION_IRP_SAGITTAL  ;
+      break;
+    case GE_CORONAL:
+      // fall thru
+    default:
+      orient = IOCommon::ITK_ORIENTATION_IRP_CORONAL   ;
     }
-  else if (FileNameToRead == curFname) //strcmp(curFname,FileNameToRead) == 0)
+  itk::EncapsulateMetaData<itk::IOCommon::ValidOrientationFlags>(thisDic,ITK_Orientation,orient);
+  itk::EncapsulateMetaData<std::string>(thisDic,ITK_PatientID,std::string(m_ImageHeader->patientId));
+  itk::EncapsulateMetaData<std::string>(thisDic,ITK_ExperimentDate,std::string(m_ImageHeader->date));
+
+
+  //
+  // GE images are stored in separate files per slice.
+  //char imagePath[IOCommon::ITK_MAXPATHLEN+1];
+  //TODO -- use std::string instead of C strings
+  char imageMask[IOCommon::ITK_MAXPATHLEN+1];
+  char imagePath[IOCommon::ITK_MAXPATHLEN+1];
+  std::string _imagePath =
+    itkkwsys::SystemTools::CollapseFullPath(FileNameToRead.c_str());
+
+  if(_imagePath == "")
+    RAISE_EXCEPTION();
+  strncpy(imagePath,_imagePath.c_str(),sizeof(imagePath));
+  imagePath[IOCommon::ITK_MAXPATHLEN] = '\0';
+  strncpy(imageMask,imagePath,sizeof(imageMask));
+  imageMask[IOCommon::ITK_MAXPATHLEN] = '\0';
+
+  char *lastslash = strrchr(imagePath,'/');
+  if(lastslash == NULL)
     {
+    strcpy(imagePath,".");
+    }
+  else
+    {
+    *lastslash = '\0';
+    }
+  itk::Directory::Pointer dir = itk::Directory::New();
+  if(dir->Load(imagePath) == 0)
+    RAISE_EXCEPTION();
+  std::vector<std::string>::size_type i;
+  std::vector<std::string>::size_type numfiles;
+    
+  struct GEImageHeader *curImageHeader;
+
+  for(i = 0, numfiles = dir->GetNumberOfFiles(); i < numfiles; i++) 
+    {
+    const char *curFname =  dir->GetFile(i);
+    if(curFname == 0)
+      {
+      break;
+      }
+    else if (FileNameToRead == curFname) //strcmp(curFname,FileNameToRead) == 0)
+      {
       continue;
-    }
-  char fullPath[IOCommon::ITK_MAXPATHLEN+1];
-  sprintf(fullPath,"%s/%s",imagePath,curFname);
-  try 
-    {
+      }
+    char fullPath[IOCommon::ITK_MAXPATHLEN+1];
+    sprintf(fullPath,"%s/%s",imagePath,curFname);
+    try 
+      {
       curImageHeader = this->ReadHeader(fullPath);
-    }
-  catch (itk::ExceptionObject e)
-    {
+      }
+    catch (itk::ExceptionObject e)
+      {
       // ReadGE4XHeader throws an exception on any error.
       // So if, for example we run into a subdirectory, it would
       // throw an exception, and we'd just want to skip it.
       continue;
-    }
-  if(curImageHeader->echoNumber == m_fnlist.Key2 &&
-     curImageHeader->seriesNumber == m_fnlist.Key1)
-    {
+      }
+    if(curImageHeader->echoNumber == m_fnlist.Key2 &&
+       curImageHeader->seriesNumber == m_fnlist.Key1)
+      {
       AddElementToList(&m_fnlist,curImageHeader->filename,
-           curImageHeader->sliceLocation,
-           curImageHeader->offset,
-           curImageHeader->imageXsize,
-           curImageHeader->imageYsize,
-           curImageHeader->seriesNumber,
-           curImageHeader->echoNumber);
+                       curImageHeader->sliceLocation,
+                       curImageHeader->offset,
+                       curImageHeader->imageXsize,
+                       curImageHeader->imageYsize,
+                       curImageHeader->seriesNumber,
+                       curImageHeader->echoNumber);
+      }
+    delete curImageHeader;
     }
-  delete curImageHeader;
-      }
-    switch(m_ImageHeader->imagePlane)
-      {
-      case AXIAL:  //Axial needs to descend
-  sortImageListDescend (&m_fnlist);
-  break;
-      case CORONAL: //Fall through and ascend
-      case SAGITTAL:
-  sortImageListAscend (&m_fnlist);
-  break;
-      default:
+  switch(m_ImageHeader->imagePlane)
+    {
+    case AXIAL:  //Axial needs to descend
+      sortImageListDescend (&m_fnlist);
       break;
-      }
-    //
-    //
-    // set the image properties
-    this->SetNumberOfDimensions(3);
-    this->SetDimensions(0,m_ImageHeader->imageXsize);
-    this->SetDimensions(1,m_ImageHeader->imageYsize);
-    this->SetDimensions(2,m_fnlist.numImageInfoStructs);
-    this->SetSpacing(0, m_ImageHeader->imageXres);
-    this->SetSpacing(1, m_ImageHeader->imageYres);
-    this->SetSpacing(2, m_ImageHeader->sliceThickness);
+    case CORONAL: //Fall through and ascend
+    case SAGITTAL:
+      sortImageListAscend (&m_fnlist);
+      break;
+    default:
+      break;
+    }
+  //
+  //
+  // set the image properties
+  this->SetNumberOfDimensions(3);
+  this->SetDimensions(0,m_ImageHeader->imageXsize);
+  this->SetDimensions(1,m_ImageHeader->imageYsize);
+  this->SetDimensions(2,m_fnlist.numImageInfoStructs);
+  this->SetSpacing(0, m_ImageHeader->imageXres);
+  this->SetSpacing(1, m_ImageHeader->imageYres);
+  this->SetSpacing(2, m_ImageHeader->sliceThickness);
     
-  }
+}
 
 
 
-  /**
+/**
    *
    */
-  void
-  IPLCommonImageIO
-  ::WriteImageInformation(void)
-  {
-    RAISE_EXCEPTION();
-  }
+void
+IPLCommonImageIO
+::WriteImageInformation(void)
+{
+  RAISE_EXCEPTION();
+}
 
 
-  /**
+/**
    *
    */
-  void
-  IPLCommonImageIO
-  ::Write( const void * )
-  {
-    RAISE_EXCEPTION();
-  }
+void
+IPLCommonImageIO
+::Write( const void * )
+{
+  RAISE_EXCEPTION();
+}
 
-  int
-  IPLCommonImageIO
-  ::GetStringAt(std::ifstream &f,
-       std::streamoff Offset,
-       char *buf,
-       size_t amount,bool throw_exception)
-  {
-    f.seekg(Offset,std::ios::beg);
-    if( f.fail() )
-      { 
-      if(throw_exception)
-        {
-          RAISE_EXCEPTION(); 
-        }
-      else
-        {
-          return -1;
-        }
-      }
-    if( !this->ReadBufferAsBinary( f, (void *)buf, amount ) )
-      { 
-      if(throw_exception)
-        {
-          RAISE_EXCEPTION(); 
-        }
-      else
-        {
-          return -1;
-        }
-      }
-    return 0;
-  }
-  int IPLCommonImageIO
-  ::GetIntAt(std::ifstream &f,std::streamoff Offset,int *ip,
-       bool )
-  {
-    int tmp;
-    this->GetStringAt(f,Offset,(char *)&tmp,sizeof(int));
-    *ip = this->hdr2Int((char *)&tmp);
-    return 0;
-  }
-  int IPLCommonImageIO
-  ::GetShortAt(std::ifstream &f,std::streamoff Offset,short *ip,
-       bool )
-  {
-    short tmp;
-    this->GetStringAt(f,Offset,(char *)&tmp,sizeof(short));
-    *ip = this->hdr2Short((char *)&tmp);
-    return 0;
-  }
-  int IPLCommonImageIO
-  ::GetFloatAt(std::ifstream &f,std::streamoff Offset,float *ip,
-       bool )
-  {
-    float tmp;
-    this->GetStringAt(f,Offset,(char *)&tmp,sizeof(float));
-    *ip = this->hdr2Float((char *)&tmp);
-    return 0;
-  }
-  int IPLCommonImageIO
-  ::GetDoubleAt(std::ifstream &f,std::streamoff Offset,double *ip,
-       bool )
-  {
-    double tmp;
-    this->GetStringAt(f,Offset,(char *)&tmp,sizeof(double));
-    *ip = this->hdr2Double((char *)&tmp);
-    return 0;
-  }
-  short IPLCommonImageIO
-  ::hdr2Short (char *hdr)
-  {
-    short shortValue;
-    memcpy (&shortValue, hdr, sizeof(short));
-    ByteSwapper<short int>::SwapFromSystemToBigEndian (&shortValue);
-    return (shortValue);
-  }
-
-  int IPLCommonImageIO
-  ::hdr2Int (char *hdr)
-  {
-    int intValue;
-
-    memcpy (&intValue, hdr, sizeof(int));
-    ByteSwapper< int>::SwapFromSystemToBigEndian (&intValue);
-    return (intValue);
-  }
-
-  float IPLCommonImageIO
-  ::hdr2Float (char *hdr)
-  {
-    float floatValue;
-
-    memcpy (&floatValue, hdr, 4);
-    ByteSwapper<float>::SwapFromSystemToBigEndian (&floatValue);
-
-    return (floatValue);
-  }
-
-  double IPLCommonImageIO
-  ::hdr2Double (char *hdr)
-  {
-    double doubleValue;
-
-    memcpy (&doubleValue, hdr, sizeof(double));
-    ByteSwapper<double>::SwapFromSystemToBigEndian (&doubleValue);
-
-    return (doubleValue);
-  }
-
-  void IPLCommonImageIO
-  ::InitializeFILENAMELIST( FILENAMELIST * const fnList )
-  {
-    memset(fnList,0,sizeof(FILENAMELIST));
-  }
-
-  int IPLCommonImageIO
-  ::AddElementToList(FILENAMELIST * const fnList,char const * const filename, const float sliceLocation, const int offset, const int XDim, const int YDim, const int Key1, const int Key2 )
-  {
-    if(fnList->numImageInfoStructs == 0)
+int
+IPLCommonImageIO
+::GetStringAt(std::ifstream &f,
+              std::streamoff Offset,
+              char *buf,
+              size_t amount,bool throw_exception)
+{
+  f.seekg(Offset,std::ios::beg);
+  if( f.fail() )
+    { 
+    if(throw_exception)
       {
-        fnList->XDim = XDim;
-        fnList->YDim = YDim;
-        fnList->Key1 = Key1;
-        fnList->Key2 = Key2;
+      RAISE_EXCEPTION(); 
       }
-    else if(XDim != fnList->XDim || YDim != fnList->YDim  )
+    else
       {
-        return 0;
+      return -1;
       }
-    else if (fnList->Key1 != Key1 ||  fnList->Key2 != Key2)
+    }
+  if( !this->ReadBufferAsBinary( f, (void *)buf, amount ) )
+    { 
+    if(throw_exception)
       {
-        return 1;  //It is OK for keys to not match,  Just don't add.
+      RAISE_EXCEPTION(); 
       }
-    fnList->Info[fnList->numImageInfoStructs].SliceLocation = sliceLocation;
-    fnList->Info[fnList->numImageInfoStructs].echoNumber = 0;
-    fnList->Info[fnList->numImageInfoStructs].SliceOffset = offset;
-    strncpy ( fnList->Info[fnList->numImageInfoStructs].imageFileName,filename, IOCommon::ITK_MAXPATHLEN+1);
-    fnList->numImageInfoStructs++;
-    assert(fnList->numImageInfoStructs< itk::IOCommon::MAX_FILENAMELIST_SIZE);
-    return 1;
-  }
-  /**
+    else
+      {
+      return -1;
+      }
+    }
+  return 0;
+}
+int IPLCommonImageIO
+::GetIntAt(std::ifstream &f,std::streamoff Offset,int *ip,
+           bool )
+{
+  int tmp;
+  this->GetStringAt(f,Offset,(char *)&tmp,sizeof(int));
+  *ip = this->hdr2Int((char *)&tmp);
+  return 0;
+}
+int IPLCommonImageIO
+::GetShortAt(std::ifstream &f,std::streamoff Offset,short *ip,
+             bool )
+{
+  short tmp;
+  this->GetStringAt(f,Offset,(char *)&tmp,sizeof(short));
+  *ip = this->hdr2Short((char *)&tmp);
+  return 0;
+}
+int IPLCommonImageIO
+::GetFloatAt(std::ifstream &f,std::streamoff Offset,float *ip,
+             bool )
+{
+  float tmp;
+  this->GetStringAt(f,Offset,(char *)&tmp,sizeof(float));
+  *ip = this->hdr2Float((char *)&tmp);
+  return 0;
+}
+int IPLCommonImageIO
+::GetDoubleAt(std::ifstream &f,std::streamoff Offset,double *ip,
+              bool )
+{
+  double tmp;
+  this->GetStringAt(f,Offset,(char *)&tmp,sizeof(double));
+  *ip = this->hdr2Double((char *)&tmp);
+  return 0;
+}
+short IPLCommonImageIO
+::hdr2Short (char *hdr)
+{
+  short shortValue;
+  memcpy (&shortValue, hdr, sizeof(short));
+  ByteSwapper<short int>::SwapFromSystemToBigEndian (&shortValue);
+  return (shortValue);
+}
+
+int IPLCommonImageIO
+::hdr2Int (char *hdr)
+{
+  int intValue;
+
+  memcpy (&intValue, hdr, sizeof(int));
+  ByteSwapper< int>::SwapFromSystemToBigEndian (&intValue);
+  return (intValue);
+}
+
+float IPLCommonImageIO
+::hdr2Float (char *hdr)
+{
+  float floatValue;
+
+  memcpy (&floatValue, hdr, 4);
+  ByteSwapper<float>::SwapFromSystemToBigEndian (&floatValue);
+
+  return (floatValue);
+}
+
+double IPLCommonImageIO
+::hdr2Double (char *hdr)
+{
+  double doubleValue;
+
+  memcpy (&doubleValue, hdr, sizeof(double));
+  ByteSwapper<double>::SwapFromSystemToBigEndian (&doubleValue);
+
+  return (doubleValue);
+}
+
+void IPLCommonImageIO
+::InitializeFILENAMELIST( FILENAMELIST * const fnList )
+{
+  memset(fnList,0,sizeof(FILENAMELIST));
+}
+
+int IPLCommonImageIO
+::AddElementToList(FILENAMELIST * const fnList,char const * const filename, const float sliceLocation, const int offset, const int XDim, const int YDim, const int Key1, const int Key2 )
+{
+  if(fnList->numImageInfoStructs == 0)
+    {
+    fnList->XDim = XDim;
+    fnList->YDim = YDim;
+    fnList->Key1 = Key1;
+    fnList->Key2 = Key2;
+    }
+  else if(XDim != fnList->XDim || YDim != fnList->YDim  )
+    {
+    return 0;
+    }
+  else if (fnList->Key1 != Key1 ||  fnList->Key2 != Key2)
+    {
+    return 1;  //It is OK for keys to not match,  Just don't add.
+    }
+  fnList->Info[fnList->numImageInfoStructs].SliceLocation = sliceLocation;
+  fnList->Info[fnList->numImageInfoStructs].echoNumber = 0;
+  fnList->Info[fnList->numImageInfoStructs].SliceOffset = offset;
+  strncpy ( fnList->Info[fnList->numImageInfoStructs].imageFileName,filename, IOCommon::ITK_MAXPATHLEN+1);
+  fnList->numImageInfoStructs++;
+  assert(fnList->numImageInfoStructs< itk::IOCommon::MAX_FILENAMELIST_SIZE);
+  return 1;
+}
+/**
    * \author Hans J. Johnson
    * \brief This function is the comparitor to qsort to determine if the slice is greater or less than
    * the desired value, and returns so that the qsort call will sort in ascending order
    * \return See qsort for valid return values.
    */
-  static int qsort_FILESORTINFO_ascend_compar( const void * item1, const void * item2 )
-  {
-    float sliceGap;
+static int qsort_FILESORTINFO_ascend_compar( const void * item1, const void * item2 )
+{
+  float sliceGap;
     
-    if (((IPLCommonImageIO::FILESORTINFO const * )item1)->echoNumber > ((IPLCommonImageIO::FILESORTINFO const * )item2)->echoNumber)
-      {
-  return 1;
-      }
-    else if (((IPLCommonImageIO::FILESORTINFO const * )item1)->echoNumber < ((IPLCommonImageIO::FILESORTINFO const * )item2)->echoNumber)
-      {
-  return -1;
-      }
-    else
-      {
-  sliceGap = ((IPLCommonImageIO::FILESORTINFO const * )item1)->SliceLocation - ((IPLCommonImageIO::FILESORTINFO const * )item2)->SliceLocation;
-  if (sliceGap < 0.0) 
+  if (((IPLCommonImageIO::FILESORTINFO const * )item1)->echoNumber > ((IPLCommonImageIO::FILESORTINFO const * )item2)->echoNumber)
     {
+    return 1;
+    }
+  else if (((IPLCommonImageIO::FILESORTINFO const * )item1)->echoNumber < ((IPLCommonImageIO::FILESORTINFO const * )item2)->echoNumber)
+    {
+    return -1;
+    }
+  else
+    {
+    sliceGap = ((IPLCommonImageIO::FILESORTINFO const * )item1)->SliceLocation - ((IPLCommonImageIO::FILESORTINFO const * )item2)->SliceLocation;
+    if (sliceGap < 0.0) 
+      {
       return -1;
-    }
-  else if (sliceGap > 0.0) 
-    {
-      return 1;
-    }
-  else 
-    {
-      return 0;
-    }
       }
+    else if (sliceGap > 0.0) 
+      {
+      return 1;
+      }
+    else 
+      {
+      return 0;
+      }
+    }
     
-  }
+}
 
-  /**
+/**
    * \author Hans J. Johnson
    * \brief This function is the comparitor to qsort to determine if the slice is greater or less than
    * the desired value, and returns so that the qsort call will sort in descending order
    * \return See qsort for valid return values.
    */
-  static int qsort_FILESORTINFO_descend_compar( const void * item1, const void * item2 )
-  {
-    float sliceGap;
+static int qsort_FILESORTINFO_descend_compar( const void * item1, const void * item2 )
+{
+  float sliceGap;
     
-    if (((IPLCommonImageIO::FILESORTINFO const * )item1)->echoNumber > ((IPLCommonImageIO::FILESORTINFO const * )item2)->echoNumber)
-      {
-  return 1;
-      }
-    else if (((IPLCommonImageIO::FILESORTINFO const * )item1)->echoNumber < ((IPLCommonImageIO::FILESORTINFO const * )item2)->echoNumber)
-      {
-  return -1;
-      }
-    else
-      {
-  sliceGap = ((IPLCommonImageIO::FILESORTINFO const * )item1)->SliceLocation - ((IPLCommonImageIO::FILESORTINFO const * )item2)->SliceLocation;
-  if (sliceGap < 0.0) 
+  if (((IPLCommonImageIO::FILESORTINFO const * )item1)->echoNumber > ((IPLCommonImageIO::FILESORTINFO const * )item2)->echoNumber)
     {
-      return 1;
-    }
-  else if (sliceGap > 0.0) 
-    {
-      return -1;
-    }
-  else 
-    {
-      return 0;
-    }
-      }
-  }
-  void IPLCommonImageIO
-  ::sortImageListAscend (FILENAMELIST * const fnList)
-  {
-    qsort(fnList->Info,fnList->numImageInfoStructs,sizeof(FILESORTINFO),qsort_FILESORTINFO_ascend_compar);
-    return;
-  }
-  void IPLCommonImageIO
-  ::sortImageListDescend (FILENAMELIST * const fnList)
-  {
-    qsort(fnList->Info,fnList->numImageInfoStructs,sizeof(FILESORTINFO),qsort_FILESORTINFO_descend_compar);
-    return;
-  }
-  int IPLCommonImageIO
-  ::statTimeToAscii (void *clock, char *timeString)
-  {
-    char *asciiTime;
-    unsigned int i;
-#ifdef SGI
-    timespec_t *lclock;
-#else
-
-#endif
-
-#ifdef SGI
-    lclock = (timespec_t *) clock;
-    asciiTime = ctime (&(lclock->tv_sec));
-#else
-    asciiTime = ctime ((time_t *) (clock));
-#endif
-
-    strncpy (timeString, asciiTime, 64);
-
-    for (i = 0; i < 26; i++)
-      {
-  if (timeString[i] == '\n')
-    timeString[i] = '\0';
-      }
-
     return 1;
+    }
+  else if (((IPLCommonImageIO::FILESORTINFO const * )item1)->echoNumber < ((IPLCommonImageIO::FILESORTINFO const * )item2)->echoNumber)
+    {
+    return -1;
+    }
+  else
+    {
+    sliceGap = ((IPLCommonImageIO::FILESORTINFO const * )item1)->SliceLocation - ((IPLCommonImageIO::FILESORTINFO const * )item2)->SliceLocation;
+    if (sliceGap < 0.0) 
+      {
+      return 1;
+      }
+    else if (sliceGap > 0.0) 
+      {
+      return -1;
+      }
+    else 
+      {
+      return 0;
+      }
+    }
+}
+void IPLCommonImageIO
+::sortImageListAscend (FILENAMELIST * const fnList)
+{
+  qsort(fnList->Info,fnList->numImageInfoStructs,sizeof(FILESORTINFO),qsort_FILESORTINFO_ascend_compar);
+  return;
+}
+void IPLCommonImageIO
+::sortImageListDescend (FILENAMELIST * const fnList)
+{
+  qsort(fnList->Info,fnList->numImageInfoStructs,sizeof(FILESORTINFO),qsort_FILESORTINFO_descend_compar);
+  return;
+}
+int IPLCommonImageIO
+::statTimeToAscii (void *clock, char *timeString)
+{
+  char *asciiTime;
+  unsigned int i;
+#ifdef SGI
+  timespec_t *lclock;
+#else
 
-  }
+#endif
+
+#ifdef SGI
+  lclock = (timespec_t *) clock;
+  asciiTime = ctime (&(lclock->tv_sec));
+#else
+  asciiTime = ctime ((time_t *) (clock));
+#endif
+
+  strncpy (timeString, asciiTime, 64);
+
+  for (i = 0; i < 26; i++)
+    {
+    if (timeString[i] == '\n')
+      timeString[i] = '\0';
+    }
+
+  return 1;
+
+}
 
 
 } // end namespace itk

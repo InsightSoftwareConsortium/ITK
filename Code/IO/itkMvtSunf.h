@@ -18,6 +18,6 @@ PURPOSE.  See the above copyright notices for more information.
 #define __ITKMVTSUNF_H
 namespace itk
 {
-  extern float MvtSunf(int numb);
+extern float MvtSunf(int numb);
 }
 #endif

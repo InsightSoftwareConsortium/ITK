@@ -71,10 +71,10 @@ public:
 
     /** Necessary operator for sorting the adjacency lists */
     bool operator<(edge_pair_t &o)
-      {
-        if ( this->height < o.height ) return true;
-        else return false;
-      }
+    {
+      if ( this->height < o.height ) return true;
+      else return false;
+    }
     
   };
   
@@ -91,7 +91,7 @@ public:
 
   /** Define the container type for the table */
   typedef itk::hash_map<unsigned long, segment_t, itk::hash<unsigned long> >
-    HashMapType;
+  HashMapType;
   typedef typename HashMapType::iterator Iterator;
   typedef typename HashMapType::const_iterator ConstIterator;
   typedef typename HashMapType::value_type ValueType;
@@ -109,41 +109,41 @@ public:
   /** Lookup a segment in the table.  Returns a pointer to the
    * entry.  On failure, returns a null pointer.   */
   segment_t *Lookup(const unsigned long a)
-    {
-      Iterator result = m_HashMap.find(a);
-      if ( result == m_HashMap.end() ) return 0;
-      else return &((*result).second);
-    }
+  {
+    Iterator result = m_HashMap.find(a);
+    if ( result == m_HashMap.end() ) return 0;
+    else return &((*result).second);
+  }
 
   /** Lookup a segment in the table.  Returns a const pointer
    * to the entry.  On failure, returns a null pointer.   */
   const segment_t *Lookup(const unsigned long a) const
-    {
-      ConstIterator result = m_HashMap.find(a);
-      if ( result == m_HashMap.end() ) return 0;
-      else return &((*result).second);
-    }
+  {
+    ConstIterator result = m_HashMap.find(a);
+    if ( result == m_HashMap.end() ) return 0;
+    else return &((*result).second);
+  }
 
   /** Returns TRUE if the entry key is found in the table.  FALSE if the key is
    * not found in the table.   */
   bool IsEntry(const unsigned long a) const
-    {
-      if ( m_HashMap.find(a) == m_HashMap.end() ) return false;
-      else return true;
-    }
+  {
+    if ( m_HashMap.find(a) == m_HashMap.end() ) return false;
+    else return true;
+  }
 
   /** Deletes an entry from the table.   */
   void Erase(const unsigned long a)
-    {  m_HashMap.erase(a); }
+  {  m_HashMap.erase(a); }
 
   /** Removes all the entries in the table.   */
   void Clear()
-    {      m_HashMap.clear();    }
+  {      m_HashMap.clear();    }
 
   /** Returns true if the table is empty and false if the table is not empty.
    */
   bool Empty() const
-    {      return m_HashMap.empty();    }
+  {      return m_HashMap.empty();    }
 
   /** Sorts all the entries in the edge lists from least to greatest saliency.
    */
@@ -151,7 +151,7 @@ public:
 
   /** Returns the number of entries in the table.   */
   typename HashMapType::size_type  Size() const 
-    {      return m_HashMap.size();     }
+  {      return m_HashMap.size();     }
 
   /** Merges two entries of the table.  from->to  */
   //  void Merge(const unsigned long from, const unsigned long to);
@@ -174,29 +174,29 @@ public:
 
   /** Convenience methods for debugging   */
   unsigned int GetSegmentMemorySize() const
-    {
-      return sizeof(segment_t);
-    }
+  {
+    return sizeof(segment_t);
+  }
   //  void PrintHashTable() const;
   
   /** Set/Get the maximum depth of image on which this segment table is based.
    * (Should set really be calling modified? jc 11/16/01) */
   void SetMaximumDepth(ScalarType s)
-    {
-      m_MaximumDepth = s;
-      this->Modified();
-    }
+  {
+    m_MaximumDepth = s;
+    this->Modified();
+  }
   ScalarType GetMaximumDepth() const
-    { return m_MaximumDepth; }
+  { return m_MaximumDepth; }
 
   /** Copies the contents of another segment table into this segment table.
       This is really operator= in disguise, although superclass information is
       not copied. */
   void Copy(const Self& o)
-    {
-      m_HashMap = o.m_HashMap;
-      m_MaximumDepth = o.m_MaximumDepth;
-    }
+  {
+    m_HashMap = o.m_HashMap;
+    m_MaximumDepth = o.m_MaximumDepth;
+  }
 
 protected:
   SegmentTable() {}

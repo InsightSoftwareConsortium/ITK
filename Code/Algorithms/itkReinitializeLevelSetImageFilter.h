@@ -53,7 +53,7 @@ namespace itk
  */
 template <class TLevelSet>
 class ITK_EXPORT ReinitializeLevelSetImageFilter :
-  public ImageToImageFilter<TLevelSet,TLevelSet>
+    public ImageToImageFilter<TLevelSet,TLevelSet>
 {
 public:
   /** Standard class typedefs. */
@@ -95,30 +95,30 @@ public:
 
   /** Set/Get the input narrow bandwidth. The default value is 12. */
   itkSetClampMacro( InputNarrowBandwidth, double, 0.0, 
-    NumericTraits<double>::max());
+                    NumericTraits<double>::max());
   itkGetMacro( InputNarrowBandwidth, double );
 
   /** Set/Get the output narrow bandwidth. The default value is 12. */
   itkSetClampMacro( OutputNarrowBandwidth, double, 0.0, 
-    NumericTraits<double>::max());
+                    NumericTraits<double>::max());
   itkGetMacro( OutputNarrowBandwidth, double );
 
   /** Set the bandwidth for both the input and output narrowband,
    * By default, both the input and output are set to 12. */
   void SetNarrowBandwidth( double value )
-    {
+  {
     this->SetInputNarrowBandwidth(value);
     this->SetOutputNarrowBandwidth(value);
-    }
+  }
 
   /** Set/Get the input narrowband. */
   void SetInputNarrowBand( NodeContainer * ptr );
   NodeContainerPointer GetInputNarrowBand() const
-    { return m_InputNarrowBand; }
+  { return m_InputNarrowBand; }
 
   /** Get the output narrowband. */
   NodeContainerPointer GetOutputNarrowBand() const
-    { return m_OutputNarrowBand; }
+  { return m_OutputNarrowBand; }
 
 protected:
   ReinitializeLevelSetImageFilter();
@@ -141,7 +141,7 @@ protected:
   virtual void EnlargeOutputRequestedRegion( DataObject * );
 
   void SetOutputNarrowBand( NodeContainer *ptr )
-    { m_OutputNarrowBand = ptr; }
+  { m_OutputNarrowBand = ptr; }
 
 private:
   ReinitializeLevelSetImageFilter(const Self&); //purposely not implemented

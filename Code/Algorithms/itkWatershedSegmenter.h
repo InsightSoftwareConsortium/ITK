@@ -129,34 +129,34 @@ public:
  
   /** Get/Set the input image.   */
   InputImageType * GetInputImage(void)
-    { return static_cast<InputImageType *>
-        (this->ProcessObject::GetInput(0));    }
+  { return static_cast<InputImageType *>
+      (this->ProcessObject::GetInput(0));    }
   void SetInputImage(InputImageType *img)
-    {  this->ProcessObject::SetNthInput(0, img); }
+  {  this->ProcessObject::SetNthInput(0, img); }
 
   /** Get/Set the labeled output image.  The output image is always of
     unsigned long integers. */
   OutputImageType * GetOutputImage(void)
-    { return static_cast<OutputImageType *>
-        (this->ProcessObject::GetOutput(0)); }
+  { return static_cast<OutputImageType *>
+      (this->ProcessObject::GetOutput(0)); }
   void SetOutputImage(OutputImageType *img)
-    { this->ProcessObject::SetNthOutput(0, img);    }
+  { this->ProcessObject::SetNthOutput(0, img);    }
   
   /** Get/Set the segment table.  The segment table is a table of segmentation
    * information identifying each region produced by the labeling algorithm. */ 
   SegmentTableType * GetSegmentTable(void)
-    { return static_cast<SegmentTableType *>
-        (this->ProcessObject::GetOutput(1)); }
+  { return static_cast<SegmentTableType *>
+      (this->ProcessObject::GetOutput(1)); }
   void SetSegmentTable(SegmentTableType *s)
-    { this->ProcessObject::SetNthOutput(1, s); }
+  { this->ProcessObject::SetNthOutput(1, s); }
   
   /** Returns the boundary information data necessary only for data streaming
     applications.  */
   BoundaryType * GetBoundary(void)
-    { return static_cast<BoundaryType *>
-        (this->ProcessObject::GetOutput(2)); }
+  { return static_cast<BoundaryType *>
+      (this->ProcessObject::GetOutput(2)); }
   void SetBoundary(BoundaryType *b)
-    { this->ProcessObject::SetNthOutput(2,b); }
+  { this->ProcessObject::SetNthOutput(2,b); }
   
   /** Standard non-threaded pipeline execution method. */
   void GenerateData();
@@ -174,7 +174,7 @@ public:
     this->Modified();
   }
   ImageRegionType GetLargestPossibleRegion() const
-    {      return m_LargestPossibleRegion; }
+  {      return m_LargestPossibleRegion; }
 
   /** Helper function.  Other classes may have occasion to use this. Relabels
       an image according to a table of equivalencies. */
@@ -238,7 +238,7 @@ protected:
 
   /** Table for storing flat region information.  */
   typedef itk::hash_map<unsigned long, flat_region_t, itk::hash<unsigned long> >
-    flat_region_table_t;
+  flat_region_table_t;
 
   struct connectivity_t
   {
@@ -260,10 +260,10 @@ protected:
   Segmenter();
   Segmenter(const Self&) {}
   virtual ~Segmenter()
-    {
-      if (m_Connectivity.index != 0)     delete[] m_Connectivity.index;
-      if (m_Connectivity.direction !=0 ) delete[] m_Connectivity.direction;
-    }
+  {
+    if (m_Connectivity.index != 0)     delete[] m_Connectivity.index;
+    if (m_Connectivity.direction !=0 ) delete[] m_Connectivity.direction;
+  }
   void PrintSelf(std::ostream& os, Indent indent) const;
   void operator=(const Self&) {}
   

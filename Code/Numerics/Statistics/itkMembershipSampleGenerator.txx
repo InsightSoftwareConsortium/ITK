@@ -18,7 +18,7 @@
 #define __itkMembershipSampleGenerator_txx
 
 namespace itk{
-  namespace Statistics{
+namespace Statistics{
 
 template< class TInputSample, class TClassMaskSample >
 MembershipSampleGenerator< TInputSample, TClassMaskSample >
@@ -95,9 +95,9 @@ MembershipSampleGenerator< TInputSample, TClassMaskSample >
   typename TClassMaskSample::Iterator iter = m_ClassMask->Begin() ;
   while (iter != m_ClassMask->End())
     {
-      classLabel = iter.GetMeasurementVector()[0] ;
-      m_Output->AddInstance(classLabel, iter.GetInstanceIdentifier()) ;
-      ++iter ;
+    classLabel = iter.GetMeasurementVector()[0] ;
+    m_Output->AddInstance(classLabel, iter.GetInstanceIdentifier()) ;
+    ++iter ;
     }
 }
 
@@ -112,7 +112,7 @@ MembershipSampleGenerator< TInputSample, TClassMaskSample >
   os << indent << "Output: " << m_Output << std::endl;
   os << indent << "ClassMask: " << m_ClassMask << std::endl ;
 }
-  } // end namespace Statistics
+} // end namespace Statistics
 } // end namespace itk
 
 #endif

@@ -50,7 +50,7 @@ template <class TInputImage, class TOutputImage>
 void
 MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 ::SetNumberOfLevels(
-unsigned int num )
+  unsigned int num )
 {
   if( m_NumberOfLevels == num )
     { 
@@ -112,7 +112,7 @@ template <class TInputImage, class TOutputImage>
 void
 MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 ::SetStartingShrinkFactors(
-unsigned int factor )
+  unsigned int factor )
 {
 
   unsigned int array[ImageDimension];
@@ -133,7 +133,7 @@ template <class TInputImage, class TOutputImage>
 void
 MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 ::SetStartingShrinkFactors(
-unsigned int * factors )
+  unsigned int * factors )
 {
 
   for( unsigned int dim = 0; dim < ImageDimension; ++dim )
@@ -181,11 +181,11 @@ template <class TInputImage, class TOutputImage>
 void
 MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 ::SetSchedule(
-const ScheduleType& schedule )
+  const ScheduleType& schedule )
 {
 
   if( schedule.rows() != m_NumberOfLevels ||
-    schedule.columns() != ImageDimension )
+      schedule.columns() != ImageDimension )
     {
     itkDebugMacro(<< "Schedule has wrong dimensions" );
     return;
@@ -290,7 +290,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
     {
 
     this->UpdateProgress( static_cast<float>( ilevel ) /
-      static_cast<float>( m_NumberOfLevels ) );
+                          static_cast<float>( m_NumberOfLevels ) );
 
     // Allocate memory for each output
     OutputImagePointer outputPtr = this->GetOutput( ilevel );
@@ -302,7 +302,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
       {
       factors[idim] = m_Schedule[ilevel][idim];
       variance[idim] = vnl_math_sqr( 0.5 * 
-        static_cast<float>( factors[idim] ) );
+                                     static_cast<float>( factors[idim] ) );
       }
 
     // use mini-pipeline to compute output
@@ -505,14 +505,14 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 
         }
 
-        outputRegion.SetIndex( outputIndex );
-        outputRegion.SetSize( outputSize );
+      outputRegion.SetIndex( outputIndex );
+      outputRegion.SetSize( outputSize );
 
-        // make sure the region is within the largest possible region
-        outputRegion.Crop( this->GetOutput( ilevel )->
-          GetLargestPossibleRegion() );
-        // set the requested region
-        this->GetOutput( ilevel )->SetRequestedRegion( outputRegion );
+      // make sure the region is within the largest possible region
+      outputRegion.Crop( this->GetOutput( ilevel )->
+                         GetLargestPossibleRegion() );
+      // set the requested region
+      this->GetOutput( ilevel )->SetRequestedRegion( outputRegion );
       }
 
     }
@@ -534,7 +534,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   
   // get pointers to the input and output
   InputImagePointer  inputPtr = 
-        const_cast< InputImageType * >( this->GetInput() );
+    const_cast< InputImageType * >( this->GetInput() );
   if ( !inputPtr )
     {
     itkExceptionMacro( << "Input has not been set." );
@@ -575,7 +575,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
     {
     oper->SetDirection(idim);
     oper->SetVariance( vnl_math_sqr( 0.5 * static_cast<float>(
-      m_Schedule[refLevel][idim] ) ) );
+                                       m_Schedule[refLevel][idim] ) ) );
     oper->SetMaximumError( m_MaximumError );
     oper->CreateDirectional();
     radius[idim] = oper->GetRadius()[idim];

@@ -55,16 +55,16 @@ GaussianDensityFunction< TMeasurementVector >
 
   if ( !m_IsCovarianceZero )
     {
-      // allocate the memory for m_InverseCovariance matrix   
-      m_InverseCovariance.GetVnlMatrix() = 
-        vnl_matrix_inverse< double >(m_Covariance->GetVnlMatrix());
+    // allocate the memory for m_InverseCovariance matrix   
+    m_InverseCovariance.GetVnlMatrix() = 
+      vnl_matrix_inverse< double >(m_Covariance->GetVnlMatrix());
       
-      // the determinant of the covaraince matrix
-      double det = vnl_determinant(m_Covariance->GetVnlMatrix());
+    // the determinant of the covaraince matrix
+    double det = vnl_determinant(m_Covariance->GetVnlMatrix());
       
-      // calculate coefficient C of multivariate gaussian
-      m_PreFactor = 1.0 / (sqrt(det) * 
-                           pow(sqrt(2.0 * vnl_math::pi), double(VectorDimension))) ;
+    // calculate coefficient C of multivariate gaussian
+    m_PreFactor = 1.0 / (sqrt(det) * 
+                         pow(sqrt(2.0 * vnl_math::pi), double(VectorDimension))) ;
     }
 }
 
@@ -89,44 +89,44 @@ GaussianDensityFunction< TMeasurementVector >
 
   if ( !m_IsCovarianceZero )
     {
-      // Compute |y - mean | 
-      for ( unsigned int i = 0 ; i < VectorDimension ; i++)
-        {
-          tempVector[i] = measurement[i] - (*m_Mean)[i] ;
-        }
+    // Compute |y - mean | 
+    for ( unsigned int i = 0 ; i < VectorDimension ; i++)
+      {
+      tempVector[i] = measurement[i] - (*m_Mean)[i] ;
+      }
       
       
-      // Compute |y - mean | * inverse(cov) 
-      for (unsigned int i = 0 ; i < VectorDimension ; i++)
-        {
-          temp = 0 ;
-          for (unsigned int j = 0 ; j < VectorDimension ; j++)
-            {
-              temp += tempVector[j] * m_InverseCovariance.GetVnlMatrix().get(j, i) ;
-            }
-          tempVector2[i] = temp ;
-        }
-
-
-      // Compute |y - mean | * inverse(cov) * |y - mean|^T 
+    // Compute |y - mean | * inverse(cov) 
+    for (unsigned int i = 0 ; i < VectorDimension ; i++)
+      {
       temp = 0 ;
-      for (unsigned int i = 0 ; i < VectorDimension ; i++)
+      for (unsigned int j = 0 ; j < VectorDimension ; j++)
         {
-          temp += tempVector2[i] * tempVector[i] ;
+        temp += tempVector[j] * m_InverseCovariance.GetVnlMatrix().get(j, i) ;
         }
+      tempVector2[i] = temp ;
+      }
+
+
+    // Compute |y - mean | * inverse(cov) * |y - mean|^T 
+    temp = 0 ;
+    for (unsigned int i = 0 ; i < VectorDimension ; i++)
+      {
+      temp += tempVector2[i] * tempVector[i] ;
+      }
       
-      return  m_PreFactor * exp( -0.5 * temp ) ;
+    return  m_PreFactor * exp( -0.5 * temp ) ;
     }
   else
     {
-      for ( unsigned int i = 0 ; i < VectorDimension ; i++)
+    for ( unsigned int i = 0 ; i < VectorDimension ; i++)
+      {
+      if ( (*m_Mean)[i] != (double) measurement[i] )
         {
-          if ( (*m_Mean)[i] != (double) measurement[i] )
-            {
-              return 0 ;
-            }
+        return 0 ;
         }
-      return NumericTraits< double >::max() ;
+      }
+    return NumericTraits< double >::max() ;
     }
 }
   

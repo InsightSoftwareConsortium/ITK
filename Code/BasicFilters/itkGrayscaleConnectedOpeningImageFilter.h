@@ -42,13 +42,13 @@ namespace itk {
  */
 template<class TInputImage, class TOutputImage>
 class ITK_EXPORT GrayscaleConnectedOpeningImageFilter : 
-  public ImageToImageFilter<TInputImage, TOutputImage>
+    public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   /** Standard class typedefs. */
   typedef GrayscaleConnectedOpeningImageFilter Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage>
-    Superclass;
+  Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

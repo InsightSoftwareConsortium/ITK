@@ -98,7 +98,7 @@ class ITK_EXPORT GeodesicActiveContourLevelSetImageFilter
   : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, Image<TOutputPixelType, ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 {
 public:
-   /** Standard class typedefs */
+  /** Standard class typedefs */
   typedef GeodesicActiveContourLevelSetImageFilter Self;
   typedef  SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, Image<TOutputPixelType, ::itk::GetImageDimension<TInputImage>::ImageDimension> > Superclass;
   typedef SmartPointer<Self>  Pointer;
@@ -113,7 +113,7 @@ public:
   typedef GeodesicActiveContourLevelSetFunction<OutputImageType,
                                                 FeatureImageType> GeodesicActiveContourFunctionType;
   typedef typename GeodesicActiveContourFunctionType::Pointer
-    GeodesicActiveContourFunctionPointer;
+  GeodesicActiveContourFunctionPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(GeodesicActiveContourLevelSetImageFilter, SegmentationLevelSetImageFilter);
@@ -123,10 +123,10 @@ public:
      
   /** Set the value of sigma used to compute derivatives */
   void SetDerivativeSigma( float value )
-   { m_GeodesicActiveContourFunction->SetDerivativeSigma( value ); 
-     this->Modified(); }
+  { m_GeodesicActiveContourFunction->SetDerivativeSigma( value ); 
+  this->Modified(); }
   float GetDerivativeSigma() const
-   { return m_GeodesicActiveContourFunction->GetDerivativeSigma(); }
+  { return m_GeodesicActiveContourFunction->GetDerivativeSigma(); }
     
 protected:
   ~GeodesicActiveContourLevelSetImageFilter() {}
@@ -135,7 +135,7 @@ protected:
   virtual void PrintSelf(std::ostream &os, Indent indent) const; 
 
   GeodesicActiveContourLevelSetImageFilter(const Self &); // purposely not implemented
-   void operator=(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 private:
   GeodesicActiveContourFunctionPointer m_GeodesicActiveContourFunction;
 };

@@ -22,7 +22,7 @@
 namespace itk
 {
 
-  /*
+/*
  * Assignment Operator
  */
 template<class T>
@@ -59,9 +59,9 @@ RGBPixel<T>
 {
   Self result;
   for( unsigned int i=0; i<3; i++) 
-  {
+    {
     result[i] = (*this)[i] + r[i];
-  }
+    }
   return result;
 }
 
@@ -78,9 +78,9 @@ RGBPixel<T>
 {
   Self result;
   for( unsigned int i=0; i<3; i++) 
-  {
+    {
     result[i] = (*this)[i] - r[i];
-  }
+    }
   return result;
 }
 
@@ -95,9 +95,9 @@ RGBPixel<T>
 ::operator+=(const Self & r) 
 {
   for( unsigned int i=0; i<3; i++) 
-  {
+    {
     (*this)[i] += r[i];
-  }
+    }
   return *this;
 }
 
@@ -113,9 +113,9 @@ RGBPixel<T>
 ::operator-=(const Self & r)
 {
   for( unsigned int i=0; i<3; i++) 
-  {
+    {
     (*this)[i] -= r[i];
-  }
+    }
   return *this;
 }
 
@@ -133,9 +133,9 @@ RGBPixel<T>
 {
   Self result;
   for( unsigned int i=0; i<3; i++) 
-  {
+    {
     result[i] = (*this)[i] * r;
-  }
+    }
   return result;
 }
 
@@ -151,9 +151,9 @@ RGBPixel<T>
 ::GetLuminance() const
 {
   const double luminance = 
-                   0.30  * this->GetRed()   +
-                   0.59  * this->GetGreen() +
-                   0.11  * this->GetBlue();
+    0.30  * this->GetRed()   +
+    0.59  * this->GetGreen() +
+    0.11  * this->GetBlue();
   return static_cast<ComponentType>( luminance );
 }
 

@@ -113,7 +113,7 @@ public:
    * to evaluate at a pixel that does not lie on a data set boundary.
    */
   typedef ConstNeighborhoodIterator<OutputImageType,
-    DefaultBoundaryConditionType> NeighborhoodType;
+                                    DefaultBoundaryConditionType> NeighborhoodType;
 
   typedef ListNode<IndexType> ListNodeType;
   typedef ObjectStore<ListNodeType> ListNodeStorageType;
@@ -142,20 +142,20 @@ public:
   /** Set/Get the Variance parameter used by the Gaussian smoothing
       filter in this algorithm */
   void SetVariance(const double v)
-    {
-      double vArray[ImageDimension];
-      for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
-      this->SetVariance(vArray);
-    }
+  {
+    double vArray[ImageDimension];
+    for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
+    this->SetVariance(vArray);
+  }
   
   /** Set/Get the MaximumError paramter used by the Gaussian smoothing filter
       in this algorithm */
   void SetMaximumError(const double v)
-    {
-      double vArray[ImageDimension];
-      for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
-      this->SetMaximumError(vArray);
-    }
+  {
+    double vArray[ImageDimension];
+    for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
+    this->SetMaximumError(vArray);
+  }
   
   /* Set the Threshold value for detected edges. */
   itkSetMacro(Threshold, OutputImagePixelType );
@@ -168,7 +168,7 @@ public:
   //itkSetMacro(LowerThreshold, OutputImagePixelType );
   //itkGetMacro(LowerThreshold, OutputImagePixelType);
 
-    /* Set the Thresholdvalue for detected edges. */
+  /* Set the Thresholdvalue for detected edges. */
   itkSetMacro(OutsideValue, OutputImagePixelType);
   itkGetMacro(OutsideValue, OutputImagePixelType);
   
@@ -215,7 +215,7 @@ private:
    *  and multithreading mechanism.   */
   void Compute2ndDerivative();
 
- /**
+  /**
    * Split the input into "num" pieces, returning region "i" as
    * "splitRegion". This method is called "num" times to return non-overlapping
    * regions. The method returns the number of pieces that the input
@@ -238,7 +238,7 @@ private:
    * output region that it passes to ThreadedCompute2ndDerivative for
    * processing.  */
   static ITK_THREAD_RETURN_TYPE
-      Compute2ndDerivativeThreaderCallback( void * arg );
+  Compute2ndDerivativeThreaderCallback( void * arg );
 
   /** This methos is used to calculate the 2nd derivative for 
    * non-boundary pixels. It is called by the ThreadedCompute2ndDerivative 
@@ -292,9 +292,9 @@ private:
   /** Function objects that are used in the inner loops of derivatiVex
       calculations. */
   DerivativeOperator<OutputImagePixelType,itkGetStaticConstMacro(ImageDimension)>
-    m_ComputeCannyEdge1stDerivativeOper;
+  m_ComputeCannyEdge1stDerivativeOper;
   DerivativeOperator<OutputImagePixelType,itkGetStaticConstMacro(ImageDimension)>
-    m_ComputeCannyEdge2ndDerivativeOper;
+  m_ComputeCannyEdge2ndDerivativeOper;
 
   std::slice  m_ComputeCannyEdgeSlice[ImageDimension];
 

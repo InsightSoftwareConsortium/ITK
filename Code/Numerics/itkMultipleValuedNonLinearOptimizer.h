@@ -30,7 +30,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  */
 class ITK_EXPORT MultipleValuedNonLinearOptimizer : 
-        public NonLinearOptimizer 
+    public NonLinearOptimizer 
 {
 public:
   /** Standard class typedefs. */

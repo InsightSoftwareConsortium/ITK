@@ -88,7 +88,7 @@ namespace itk
  */
 template <class TFixedImage,class TMovingImage >
 class ITK_EXPORT MutualInformationImageToImageMetric :
-  public ImageToImageMetric< TFixedImage, TMovingImage >
+    public ImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:
 
@@ -138,7 +138,7 @@ public:
 
   /**  Get the value and derivatives for single valued optimizers. */
   void GetValueAndDerivative( const ParametersType& parameters, 
-    MeasureType& Value, DerivativeType& Derivative ) const;
+                              MeasureType& Value, DerivativeType& Derivative ) const;
 
   /** Set the number of spatial samples. This is the number of image
    * samples used to calculate the joint probability distribution.
@@ -155,7 +155,7 @@ public:
    * normalized to a mean of 0 and standard deviation of 1.0.  
    * Value is clamped to be always greater than zero. */
   itkSetClampMacro( MovingImageStandardDeviation, double, 
-    NumericTraits<double>::NonpositiveMin(), NumericTraits<double>::max() );
+                    NumericTraits<double>::NonpositiveMin(), NumericTraits<double>::max() );
   itkGetConstMacro( MovingImageStandardDeviation, double );
 
   /** Set/Get the fixed image intensitiy standard deviation. This defines
@@ -164,7 +164,7 @@ public:
    * normalized to a mean of 0 and standard deviation of 1.0.  
    * Value is clamped to be always greater than zero. */
   itkSetClampMacro( FixedImageStandardDeviation, double,
-    NumericTraits<double>::NonpositiveMin(), NumericTraits<double>::max() );
+                    NumericTraits<double>::NonpositiveMin(), NumericTraits<double>::max() );
   itkGetMacro( FixedImageStandardDeviation, double );
 
   /** Set/Get the kernel function. This is used to calculate the joint
@@ -187,7 +187,7 @@ private:
   {
   public:
     SpatialSample():FixedImageValue(0.0),MovingImageValue(0.0)
-      { FixedImagePointValue.Fill( 0.0 ); }
+    { FixedImagePointValue.Fill( 0.0 ); }
     ~SpatialSample(){};
 
     FixedImagePointType              FixedImagePointValue;
@@ -225,9 +225,9 @@ private:
   static void ReinitializeSeed(int);
 
   typedef typename Superclass::CoordinateRepresentationType  
-    CoordinateRepresentationType;
+  CoordinateRepresentationType;
   typedef CentralDifferenceImageFunction< MovingImageType, 
-    CoordinateRepresentationType > DerivativeFunctionType;
+                                          CoordinateRepresentationType > DerivativeFunctionType;
 
   typename DerivativeFunctionType::Pointer  m_DerivativeCalculator;
 

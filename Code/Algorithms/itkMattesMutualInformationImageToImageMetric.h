@@ -109,7 +109,7 @@ namespace itk
  */
 template <class TFixedImage,class TMovingImage >
 class ITK_EXPORT MattesMutualInformationImageToImageMetric :
-  public ImageToImageMetric< TFixedImage, TMovingImage >
+    public ImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:
 
@@ -147,7 +147,7 @@ public:
 
   /** The moving image dimension. */
   itkStaticConstMacro( MovingImageDimension, unsigned int,
-      MovingImageType::ImageDimension );
+                       MovingImageType::ImageDimension );
 
   /** 
    *  Initialize the Metric by 
@@ -168,16 +168,16 @@ public:
 
   /**  Get the value and derivatives for single valued optimizers. */
   void GetValueAndDerivative( const ParametersType& parameters, 
-    MeasureType& Value, DerivativeType& Derivative ) const;
+                              MeasureType& Value, DerivativeType& Derivative ) const;
 
   /** Number of spatial samples to used to compute metric */
   itkSetClampMacro( NumberOfSpatialSamples, unsigned long,
-    1, NumericTraits<unsigned long>::max() );
+                    1, NumericTraits<unsigned long>::max() );
   itkGetMacro( NumberOfSpatialSamples, unsigned long); 
 
   /** Number of bins to used in the histogram. Typical value is 50. */
   itkSetClampMacro( NumberOfHistogramBins, unsigned long,
-    1, NumericTraits<unsigned long>::max() );
+                    1, NumericTraits<unsigned long>::max() );
   itkGetMacro( NumberOfHistogramBins, unsigned long);   
   
 protected:
@@ -195,19 +195,19 @@ private:
    * A fixed image spatial sample consists of the fixed domain point 
    * and the fixed image value at that point. */
   class FixedImageSpatialSample
-    {
-    public:
-      FixedImageSpatialSample():FixedImageValue(0.0)
-      { FixedImagePointValue.Fill(0.0); }
-      ~FixedImageSpatialSample() {};
+  {
+  public:
+    FixedImageSpatialSample():FixedImageValue(0.0)
+    { FixedImagePointValue.Fill(0.0); }
+    ~FixedImageSpatialSample() {};
 
-      FixedImagePointType            FixedImagePointValue;
-      double                        FixedImageValue;
-    };
+    FixedImagePointType            FixedImagePointValue;
+    double                        FixedImageValue;
+  };
 
   /** FixedImageSpatialSample typedef support. */
   typedef std::vector<FixedImageSpatialSample>  
-    FixedImageSpatialSampleContainer;
+  FixedImageSpatialSampleContainer;
 
   /** Container to store a set of points and fixed image values. */
   mutable FixedImageSpatialSampleContainer    m_FixedImageSamples;
@@ -257,12 +257,12 @@ private:
   /** Typedefs for BSpline kernel and derivative functions. */
   typedef BSplineKernelFunction<3> CubicBSplineFunctionType;
   typedef BSplineDerivativeKernelFunction<3> 
-    CubicBSplineDerivativeFunctionType;
+  CubicBSplineDerivativeFunctionType;
 
   /** Cubic BSpline kernel for computing Parzen histograms. */
   typename CubicBSplineFunctionType::Pointer m_CubicBSplineKernel;
   typename CubicBSplineDerivativeFunctionType::Pointer 
-    m_CubicBSplineDerivativeKernel;
+  m_CubicBSplineDerivativeKernel;
 
   /**
    * Types and variables related to image derivative calculations.
@@ -271,28 +271,28 @@ private:
    * image derivatives are computed using central differencing.
    */
   typedef CovariantVector< double,
-    itkGetStaticConstMacro(MovingImageDimension) > ImageDerivativesType;
+                           itkGetStaticConstMacro(MovingImageDimension) > ImageDerivativesType;
 
   /** Compute image derivatives at a point. */
   virtual void ComputeImageDerivatives( const MovingImagePointType& mappedPoint,
-    ImageDerivativesType& gradient ) const;
+                                        ImageDerivativesType& gradient ) const;
 
   /** Boolean to indicate if the interpolator BSpline. */
   bool m_InterpolatorIsBSpline;
 
   /** Typedefs for using BSpline interpolator. */
   typedef typename Superclass::CoordinateRepresentationType
-    CoordinateRepresentationType;
+  CoordinateRepresentationType;
   typedef
-    BSplineInterpolateImageFunction<MovingImageType,
-      CoordinateRepresentationType> BSplineInterpolatorType;
+  BSplineInterpolateImageFunction<MovingImageType,
+                                  CoordinateRepresentationType> BSplineInterpolatorType;
 
   /** Pointer to BSplineInterpolator. */
   typename BSplineInterpolatorType::Pointer m_BSplineInterpolator;
 
   /** Typedefs for using central difference calculator. */
   typedef CentralDifferenceImageFunction<MovingImageType,
-    CoordinateRepresentationType> DerivativeFunctionType;
+                                         CoordinateRepresentationType> DerivativeFunctionType;
 
   /** Pointer to central difference calculator. */
   typename DerivativeFunctionType::Pointer m_DerivativeCalculator;
@@ -300,14 +300,14 @@ private:
   /** Transform a point from FixedImage domain to MovingImage domain.
    * This function also checks if mapped point is within support region. */
   virtual void TransformPoint( const FixedImagePointType& fixedImagePoint,
-    MovingImagePointType& mappedPoint, bool& sampleWithinSupportRegion,
-    double& movingImageValue ) const;
+                               MovingImagePointType& mappedPoint, bool& sampleWithinSupportRegion,
+                               double& movingImageValue ) const;
 
   /** Compute PDF derivative contribution for each parameter. */
   virtual void ComputePDFDerivatives( const FixedImagePointType& fixedImagePoint,
-    int fixedImageParzenWindowIndex, int movingImageParzenWindowIndex,
-    const ImageDerivativesType& movingImageGradientValue,
-    double cubicBSplineDerivativeValue ) const;
+                                      int fixedImageParzenWindowIndex, int movingImageParzenWindowIndex,
+                                      const ImageDerivativesType& movingImageGradientValue,
+                                      double cubicBSplineDerivativeValue ) const;
 
   /**
    * Types and variables related to BSpline deformable transforms.
@@ -330,7 +330,7 @@ private:
 
   /** The fixed image dimension. */
   itkStaticConstMacro( FixedImageDimension, unsigned int,
-    FixedImageType::ImageDimension );
+                       FixedImageType::ImageDimension );
 
   /** 
    * Enum of the deformabtion field spline order. 
@@ -345,9 +345,9 @@ private:
     ::itk::GetImageDimension<FixedImageType>::ImageDimension,
     DeformationSplineOrder> BSplineTransformType;
   typedef typename BSplineTransformType::WeightsType 
-    BSplineTransformWeightsType;
+  BSplineTransformWeightsType;
   typedef typename BSplineTransformType::ParameterIndexArrayType 
-    BSplineTransformIndexArrayType;
+  BSplineTransformIndexArrayType;
 
   /**
    * Variables used when transform is of type BSpline deformable.

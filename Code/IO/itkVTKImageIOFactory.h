@@ -49,10 +49,10 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-    {
-      VTKImageIOFactory::Pointer vtkFactory = VTKImageIOFactory::New();
-      ObjectFactoryBase::RegisterFactory(vtkFactory);
-    }
+  {
+    VTKImageIOFactory::Pointer vtkFactory = VTKImageIOFactory::New();
+    ObjectFactoryBase::RegisterFactory(vtkFactory);
+  }
   
 protected:
   VTKImageIOFactory();

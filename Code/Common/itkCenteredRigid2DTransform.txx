@@ -64,7 +64,7 @@ template<class TScalarType>
 CenteredRigid2DTransform<TScalarType>::
 CenteredRigid2DTransform( unsigned int spaceDimension, 
                           unsigned int parametersDimension):
-Superclass(spaceDimension,parametersDimension)
+  Superclass(spaceDimension,parametersDimension)
 {
 
   m_Angle = NumericTraits< TScalarType >::Zero;
@@ -105,15 +105,15 @@ CenteredRigid2DTransform<TScalarType>
  
   // Transfer the center 
   for(unsigned int i=0; i < SpaceDimension; i++) 
-  {
+    {
     m_Center[i] = parameters[i+1];
-  }
+    }
 
   // Transfer the translation
   for(unsigned int j=0; j < SpaceDimension; j++) 
-  {
+    {
     m_Translation[j] = parameters[j+1+SpaceDimension];
-  }
+    }
 
   this->ComputeMatrixAndOffset();
 
@@ -142,15 +142,15 @@ CenteredRigid2DTransform<TScalarType>
  
   // Transfer the center of rotation 
   for(unsigned int i=0; i < SpaceDimension; i++) 
-  {
+    {
     m_Parameters[i+1] = m_Center[i];
-  }
+    }
 
   // Transfer the translation
   for(unsigned int j=0; j < SpaceDimension; j++) 
-  {
+    {
     m_Parameters[j+1+SpaceDimension] = m_Translation[j];
-  }
+    }
 
   itkDebugMacro(<<"After getting parameters " << m_Parameters );
 

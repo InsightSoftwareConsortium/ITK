@@ -219,7 +219,7 @@ public:
   /** Type definition for the labelled image pointer.  */
   typedef typename LabelImageType::Pointer LabelImagePointer;
 
-   /** Type definition for the labelled image pixel type. */
+  /** Type definition for the labelled image pixel type. */
   typedef typename LabelImageType::PixelType    LabelImagePixelType;
 
   /** Type definition for the output image index type. */

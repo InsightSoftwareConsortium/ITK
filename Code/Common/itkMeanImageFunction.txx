@@ -1,4 +1,4 @@
-  /*=========================================================================
+/*=========================================================================
 
     Program:   Insight Segmentation & Registration Toolkit
     Module:    itkMeanImageFunction.txx
@@ -14,32 +14,32 @@
        PURPOSE.  See the above copyright notices for more information.
 
   =========================================================================*/
-  #ifndef _itkMeanImageFunction_txx
-  #define _itkMeanImageFunction_txx
-  #include "itkMeanImageFunction.h"
+#ifndef _itkMeanImageFunction_txx
+#define _itkMeanImageFunction_txx
+#include "itkMeanImageFunction.h"
 
-  #include "itkNumericTraits.h"
-  #include "itkConstNeighborhoodIterator.h"
+#include "itkNumericTraits.h"
+#include "itkConstNeighborhoodIterator.h"
 
-  namespace itk
-  {
+namespace itk
+{
 
-  /**
+/**
    * Constructor
    */
-  template <class TInputImage, class TCoordRep>
-  MeanImageFunction<TInputImage,TCoordRep>
-  ::MeanImageFunction()
-  {
+template <class TInputImage, class TCoordRep>
+MeanImageFunction<TInputImage,TCoordRep>
+::MeanImageFunction()
+{
   m_NeighborhoodRadius = 1;
-  }
+}
 
 
-  /**
+/**
    *
    */
-  template <class TInputImage, class TCoordRep>
-  void
+template <class TInputImage, class TCoordRep>
+void
 MeanImageFunction<TInputImage,TCoordRep>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {

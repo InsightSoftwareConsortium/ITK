@@ -50,25 +50,25 @@ namespace itk
 
 template<typename TInputPixelType, typename TOutputPixelType>
 class ITK_EXPORT HoughTransform2DCirclesImageFilter :
-public ImageToImageFilter< Image<TInputPixelType,2>, Image<TOutputPixelType,2> >
+    public ImageToImageFilter< Image<TInputPixelType,2>, Image<TOutputPixelType,2> >
 {
 public:
    
   /** Standard "Self" typedef. */
   typedef HoughTransform2DCirclesImageFilter Self;
 
-   /** Input Image typedef */ 
+  /** Input Image typedef */ 
   typedef Image<TInputPixelType,2> InputImageType;
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
 
-   /** Output Image typedef */
+  /** Output Image typedef */
   typedef Image<TOutputPixelType,2> OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
 
 
   /** Standard "Superclass" typedef. */
   typedef ImageToImageFilter< Image<TInputPixelType,2>
-                          , Image<TOutputPixelType,2> >  Superclass;
+                              , Image<TOutputPixelType,2> >  Superclass;
 
   /** Smart pointer typedef support. */
   typedef SmartPointer<Self>        Pointer;

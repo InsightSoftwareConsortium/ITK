@@ -159,8 +159,8 @@ ImageClassifierBase<TInputImage, TClassifiedImage>
     inputImagePixel = inIt.Get();
     for (classIndex = 0 ; classIndex < numberOfClasses ; classIndex++)
       {
-        discriminantScores[classIndex] = 
-          (membershipFunctions[classIndex])->Evaluate(inputImagePixel) ;
+      discriminantScores[classIndex] = 
+        (membershipFunctions[classIndex])->Evaluate(inputImagePixel) ;
       }
 
     
@@ -220,8 +220,8 @@ ImageClassifierBase<TInputImage, TClassifiedImage>
     membershipFunctions = this->GetMembershipFunctions();
   for (unsigned int classIndex = 0 ; classIndex < numberOfClasses ; classIndex++)
     {
-      m_PixelMembershipValue[classIndex] = 
-        (membershipFunctions[classIndex])->Evaluate(inputImagePixel) ;
+    m_PixelMembershipValue[classIndex] = 
+      (membershipFunctions[classIndex])->Evaluate(inputImagePixel) ;
     }
  
   //Return the membership value of the 

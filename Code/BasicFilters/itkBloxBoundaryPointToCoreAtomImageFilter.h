@@ -41,8 +41,8 @@ namespace itk
  */
 template<unsigned int dim>
 class ITK_EXPORT BloxBoundaryPointToCoreAtomImageFilter :
-public ImageToImageFilter< BloxBoundaryPointImage<dim>,
-                           BloxCoreAtomImage<dim> >
+    public ImageToImageFilter< BloxBoundaryPointImage<dim>,
+                               BloxCoreAtomImage<dim> >
 {
 public:
   /** Standard class typedefs. */

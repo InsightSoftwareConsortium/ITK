@@ -58,18 +58,18 @@ Scene<SpaceDimension>
   it = std::find(m_Objects.begin(),m_Objects.end(),pointer);
 
   if( it != m_Objects.end() )
-  {
-    if( *it == pointer )
     {
+    if( *it == pointer )
+      {
       m_Objects.erase( it );
       this->Modified();
+      }
     }
-  }
   else
-  { 
+    { 
     //throw an exception object to let user know that he tried to remove an object
     // which is not in the list of the children.
-  }
+    }
 }
 
 
@@ -85,14 +85,14 @@ Scene<SpaceDimension>
   unsigned long latestTime = Superclass::GetMTime();
   unsigned long localTime;
   while(it!=itEnd)
-  {
+    {
     localTime = (*it)->GetMTime();
     if( localTime > latestTime )
-    {
+      {
       latestTime = localTime;
-    }
-  it++;
-  } 
+      }
+    it++;
+    } 
   return latestTime;
 }
 
@@ -116,10 +116,10 @@ Scene<SpaceDimension>
     if(depth>0)
       {
       typedef typename SpatialObject<SpaceDimension>::ChildrenListType
-            ChildListType;
+        ChildListType;
       ChildListType * childList = 
-                     (dynamic_cast<SpatialObject<SpaceDimension> *>(*it))->
-                     GetChildren(depth-1, name);
+        (dynamic_cast<SpatialObject<SpaceDimension> *>(*it))->
+        GetChildren(depth-1, name);
       typename ChildListType::const_iterator cIt = childList->begin();
       typename ChildListType::const_iterator cItEnd = childList->end();
 
@@ -172,7 +172,7 @@ Scene<SpaceDimension>
     while(it != itEnd)
       {
       cnt += (dynamic_cast<SpatialObject<SpaceDimension> * >(*it))->
-              GetNumberOfChildren( depth-1, name );
+        GetNumberOfChildren( depth-1, name );
       it++;
       }
     }
@@ -194,10 +194,10 @@ Scene<SpaceDimension>
   typename ObjectListType::const_iterator itEnd = m_Objects.end();
 
   while(it != itEnd)
-  {
+    {
     os << "[" << (*it) << "] ";
     it++;
-  }
+    }
   os << std::endl;
 
   Superclass::PrintSelf(os, indent);
@@ -227,7 +227,7 @@ Scene<SpaceDimension>
     else
       {
       cList = (dynamic_cast<SpatialObject<SpaceDimension> *>(*it))->
-             GetChildren(SpatialObjectType::MaximumDepth); 
+        GetChildren(SpatialObjectType::MaximumDepth); 
       cIt = cList->begin();
       cItEnd = cList->end();
       while(cIt != cItEnd)
@@ -254,7 +254,7 @@ template <unsigned int SpaceDimension>
 bool
 Scene<SpaceDimension>
 ::FixHierarchy(void)
-  {
+{
   typename ObjectListType::iterator it = m_Objects.begin();
   typename ObjectListType::iterator oldIt;
   typename ObjectListType::iterator itEnd = m_Objects.end();
@@ -266,8 +266,8 @@ Scene<SpaceDimension>
     if(pID >= 0)
       {
       SpatialObject<SpaceDimension> * pObj =
-          static_cast<SpatialObject<SpaceDimension> * >
-          (this->GetObjectById(pID));
+        static_cast<SpatialObject<SpaceDimension> * >
+        (this->GetObjectById(pID));
       if(pObj == NULL)
         {
         ret = false;
@@ -289,7 +289,7 @@ Scene<SpaceDimension>
     }
 
   return ret;
-  }
+}
 
 } // end of namespace itk 
 

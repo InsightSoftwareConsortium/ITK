@@ -36,19 +36,19 @@ public:
 
   /** Constructor. */
   ImageSeriesWriterException(char *file, unsigned int line, 
-                           const char* message = "Error in IO") : 
+                             const char* message = "Error in IO") : 
     ExceptionObject(file, line)
-    {
-      SetDescription(message);
-    }
+  {
+    SetDescription(message);
+  }
 
   /** Constructor. */
   ImageSeriesWriterException(const std::string &file, unsigned int line, 
-                           const char* message = "Error in IO") : 
+                             const char* message = "Error in IO") : 
     ExceptionObject(file, line)
-    {
-      SetDescription(message);
-    }
+  {
+    SetDescription(message);
+  }
 };
 
 
@@ -135,7 +135,7 @@ public:
   /** Aliased to the Write() method to be consistent with the rest of the
    * pipeline. */
   virtual void Update()
-    {this->Write();}
+  {this->Write();}
   
 protected:
   ImageSeriesWriter();

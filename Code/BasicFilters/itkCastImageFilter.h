@@ -43,35 +43,35 @@ namespace itk
  */
 namespace Functor {  
   
-  template< class TInput, class TOutput>
-  class Cast
+template< class TInput, class TOutput>
+class Cast
+{
+public:
+  Cast() {};
+  ~Cast() {};
+  inline TOutput operator()( const TInput & A )
   {
-  public:
-    Cast() {};
-    ~Cast() {};
-    inline TOutput operator()( const TInput & A )
-    {
-      return static_cast<TOutput>( A );
-    }
-  };
+    return static_cast<TOutput>( A );
+  }
+};
 }
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT CastImageFilter :
     public
-    UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::Cast< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType> >
+UnaryFunctorImageFilter<TInputImage,TOutputImage, 
+                        Functor::Cast< 
+  typename TInputImage::PixelType, 
+  typename TOutputImage::PixelType> >
 {
 public:
   /** Standard class typedefs. */
   typedef CastImageFilter  Self;
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::Cast< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   
-                >  Superclass;
+                                  Functor::Cast< 
+    typename TInputImage::PixelType, 
+    typename TOutputImage::PixelType>   
+  >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

@@ -42,10 +42,10 @@ NeighborhoodOperator<TPixel, VDimension, TAllocator>
 
   for (i = 0; i < size/2; ++i)
     {
-      swap_with = size - 1 - i;
-      temp = this->operator[](i);
-      this->operator[](i) = this->operator[](swap_with);
-      this->operator[](swap_with) = temp;
+    swap_with = size - 1 - i;
+    temp = this->operator[](i);
+    this->operator[](i) = this->operator[](swap_with);
+    this->operator[](swap_with) = temp;
     }
 }
 
@@ -61,14 +61,14 @@ NeighborhoodOperator<TPixel, VDimension, TAllocator>
   coefficients = this->GenerateCoefficients();
   for (unsigned int i = 0; i<VDimension; ++i)
     {
-      if (i == this->GetDirection())
-        {
-          k[i] = static_cast<unsigned long>( coefficients.size() ) >> 1;
-        }
-      else
-        {
-          k[i] = 0;
-        }
+    if (i == this->GetDirection())
+      {
+      k[i] = static_cast<unsigned long>( coefficients.size() ) >> 1;
+      }
+    else
+      {
+      k[i] = 0;
+      }
     }
   this->SetRadius(k);
   this->Fill(coefficients);
@@ -93,7 +93,7 @@ NeighborhoodOperator<TPixel, VDimension, TAllocator>
   SizeType k;
   for (unsigned int i = 0; i< VDimension; i++)
     {
-      k[i] = sz;
+    k[i] = sz;
     }
   this->CreateToRadius(k);
 }
@@ -116,10 +116,10 @@ NeighborhoodOperator<TPixel, VDimension, TAllocator>
   const unsigned long size   = this->GetSize(m_Direction);
   for (i = 0, start = 0; i <VDimension; ++i)
     {
-      if (i != m_Direction)
-        {
-          start += this->GetStride(i) * (this->GetSize(i) >> 1);
-        }
+    if (i != m_Direction)
+      {
+      start += this->GetStride(i) * (this->GetSize(i) >> 1);
+      }
     }
     
   // Compare the neighborhood size with the coefficient array size..
@@ -128,14 +128,14 @@ NeighborhoodOperator<TPixel, VDimension, TAllocator>
   // Create a slice iterator centered in the neighborhood.
   if (sizediff >= 0)
     {
-      temp_slice = new std::slice(start + sizediff * stride, coeff.size(),
-                                  stride);
-      it = coeff.begin();
+    temp_slice = new std::slice(start + sizediff * stride, coeff.size(),
+                                stride);
+    it = coeff.begin();
     }
   else
     {
-      temp_slice = new std::slice(start, size, stride);
-      it = coeff.begin() - sizediff;
+    temp_slice = new std::slice(start, size, stride);
+    it = coeff.begin() - sizediff;
     }
 
   Self::SliceIteratorType data(this, *temp_slice);
@@ -145,7 +145,7 @@ NeighborhoodOperator<TPixel, VDimension, TAllocator>
   // are too many.
   for (data = data.Begin(); data < data.End(); ++data, ++it)
     {
-      *data = static_cast<TPixel>(*it);
+    *data = static_cast<TPixel>(*it);
     }
 }
 

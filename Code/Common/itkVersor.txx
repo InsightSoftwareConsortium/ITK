@@ -221,7 +221,7 @@ Versor<T>
   Self ratio = *this * v.GetReciprocal();
   
   const typename itk::NumericTraits< T >::AccumulateType 
-                        square = ratio.m_W * ratio.m_W;
+    square = ratio.m_W * ratio.m_W;
   
   const double epsilon = 1e-300;
 
@@ -307,12 +307,12 @@ Versor<T>
   const ValueType tensor = this->GetTensor();
 
   if( fabs( tensor ) < 1e-20 )
-  {
+    {
     ExceptionObject except;
     except.SetDescription("Attempt to normalize a itk::Versor with zero tensor");
     except.SetLocation(__FILE__);
     throw except;
-  }
+    }
   m_X /=  tensor;
   m_Y /=  tensor;
   m_Z /=  tensor;
@@ -335,7 +335,7 @@ Versor<T>
   VectorType axis;
   
   const ValueType vectorNorm = 
-                      sqrt( m_X*m_X + m_Y*m_Y + m_Z*m_Z );
+    sqrt( m_X*m_X + m_Y*m_Y + m_Z*m_Z );
 
   axis[0] = m_X / vectorNorm;
   axis[1] = m_Y / vectorNorm;
@@ -389,7 +389,7 @@ Versor<T>
 {
 
   const ValueType vectorNorm = 
-                      sqrt( m_X*m_X + m_Y*m_Y + m_Z*m_Z );
+    sqrt( m_X*m_X + m_Y*m_Y + m_Z*m_Z );
 
   const ValueType angle = 2.0 * atan2( vectorNorm, m_W );
   
@@ -482,13 +482,13 @@ Versor<T>
 
   const ValueType sinangle2 =  axis.GetNorm();
   if( sinangle2 > 1.0 )
-   {
-   ExceptionObject exception;
-   exception.SetDescription("Trying to initializa a Versor with" \
-                    "a vector whose magnitude is greater than 1");
-   exception.SetLocation("itk::Versor::Set( const VectorType )");
-   throw exception;
-   }
+    {
+    ExceptionObject exception;
+    exception.SetDescription("Trying to initializa a Versor with" \
+                             "a vector whose magnitude is greater than 1");
+    exception.SetLocation("itk::Versor::Set( const VectorType )");
+    throw exception;
+    }
   
   const ValueType cosangle2 =  sqrt( 1.0 - sinangle2 * sinangle2 );
   

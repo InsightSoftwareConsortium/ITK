@@ -115,7 +115,7 @@ protected:
    * for each line of the volume from ApplyRecursiveFilter.
    * \sa ApplyRecursiveFilter.  */
   void FilterDataArray(RealType *outs,
-                 const RealType *data, unsigned int ln);
+                       const RealType *data, unsigned int ln);
 
 private:  
   RecursiveSeparableImageFilter(const Self&); //purposely not implemented

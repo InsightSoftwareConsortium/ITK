@@ -22,36 +22,36 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-  void GEAdwImageIOFactory::PrintSelf(std::ostream&, Indent) const
-  {
+void GEAdwImageIOFactory::PrintSelf(std::ostream&, Indent) const
+{
 
-  }
+}
 
 
-  GEAdwImageIOFactory::GEAdwImageIOFactory()
-  {
-    this->RegisterOverride("itkImageIOBase",
-        "itkGEAdwImageIO",
-        "GEAdw Image IO",
-        1,
-        CreateObjectFunction<GEAdwImageIO>::New());
-  }
+GEAdwImageIOFactory::GEAdwImageIOFactory()
+{
+  this->RegisterOverride("itkImageIOBase",
+                         "itkGEAdwImageIO",
+                         "GEAdw Image IO",
+                         1,
+                         CreateObjectFunction<GEAdwImageIO>::New());
+}
 
-  GEAdwImageIOFactory::~GEAdwImageIOFactory()
-  {
-  }
+GEAdwImageIOFactory::~GEAdwImageIOFactory()
+{
+}
 
-  const char*
-    GEAdwImageIOFactory::GetITKSourceVersion(void) const
-    {
-      return ITK_SOURCE_VERSION;
-    }
+const char*
+GEAdwImageIOFactory::GetITKSourceVersion(void) const
+{
+  return ITK_SOURCE_VERSION;
+}
 
-  const char*
-    GEAdwImageIOFactory::GetDescription() const
-    {
-      return "GEAdw ImageIO Factory, allows the loading of GEAdw images into insight";
-    }
+const char*
+GEAdwImageIOFactory::GetDescription() const
+{
+  return "GEAdw ImageIO Factory, allows the loading of GEAdw images into insight";
+}
 
 } // end namespace itk
 

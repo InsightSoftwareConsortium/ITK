@@ -106,10 +106,10 @@ public:
   
 protected:
   ZeroCrossingImageFilter()
-    {
-      m_ForegroundValue = NumericTraits<OutputImagePixelType>::One;
-      m_BackgroundValue = NumericTraits<OutputImagePixelType>::Zero;
-    }
+  {
+    m_ForegroundValue = NumericTraits<OutputImagePixelType>::One;
+    m_BackgroundValue = NumericTraits<OutputImagePixelType>::Zero;
+  }
   ~ZeroCrossingImageFilter(){}
   void PrintSelf(std::ostream& os, Indent indent) const;
   

@@ -55,11 +55,11 @@ AmoebaOptimizer
 {
   Superclass::PrintSelf( os, indent );
   os << indent << "MaximumNumberOfIterations: " 
-    << m_MaximumNumberOfIterations << std::endl;
+     << m_MaximumNumberOfIterations << std::endl;
   os << indent << "ParametersConvergenceTolerance: "
-    << m_ParametersConvergenceTolerance << std::endl;
+     << m_ParametersConvergenceTolerance << std::endl;
   os << indent << "FunctionConvergenceTolerance: "
-    << m_FunctionConvergenceTolerance << std::endl;
+     << m_FunctionConvergenceTolerance << std::endl;
 }
 
 
@@ -137,10 +137,10 @@ AmoebaOptimizer
 
 
   const unsigned int numberOfParameters = 
-                        costFunction->GetNumberOfParameters();
+    costFunction->GetNumberOfParameters();
 
   CostFunctionAdaptorType * adaptor = 
-              new CostFunctionAdaptorType( numberOfParameters );
+    new CostFunctionAdaptorType( numberOfParameters );
        
   adaptor->SetCostFunction( costFunction );
 
@@ -181,8 +181,8 @@ AmoebaOptimizer
   InternalParametersType parameters( initialPosition.Size() );
 
   CostFunctionAdaptorType::ConvertExternalToInternalParameters( 
-                                            GetInitialPosition(), 
-                                            parameters     );
+    GetInitialPosition(), 
+    parameters     );
 
   // vnl optimizers return the solution by reference 
   // in the variable provided as initial position
@@ -191,8 +191,8 @@ AmoebaOptimizer
   ParametersType solution;
 
   CostFunctionAdaptorType::ConvertInternalToExternalParameters( 
-                                            parameters,
-                                            solution     );
+    parameters,
+    solution     );
   this->SetCurrentPosition( solution );
       
 

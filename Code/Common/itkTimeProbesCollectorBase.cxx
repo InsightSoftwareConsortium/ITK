@@ -87,7 +87,7 @@ TimeProbesCollectorBase
   std::cout << std::endl;
   
   while( probe != end )
-  {
+    {
     std::cout.width(20);
     std::cout <<  probe->first.c_str() << "  ";
     std::cout.width(10);
@@ -98,7 +98,7 @@ TimeProbesCollectorBase
     std::cout <<  probe->second.GetMeanTime();
     std::cout << std::endl;
     probe++;
-  }
+    }
 
 }
     

@@ -49,7 +49,7 @@ For option 2, users need to assign the member variable std::list<IndexType> m_Se
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT HardConnectedComponentImageFilter : 
-           public ImageToImageFilter< TInputImage, TOutputImage > 
+    public ImageToImageFilter< TInputImage, TOutputImage > 
 {
 public:
   /**
@@ -108,11 +108,11 @@ protected:
    */
   void GenerateData();
   void PrintSelf(std::ostream& os, Indent indent) const
-    { Superclass::PrintSelf(os,indent); }
+  { Superclass::PrintSelf(os,indent); }
 
   
 private:
-    ListType    m_Seeds;
+  ListType    m_Seeds;
 };
   
 } // end namespace itk

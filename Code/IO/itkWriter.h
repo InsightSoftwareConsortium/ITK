@@ -62,11 +62,11 @@ public:
                  
   /** Specify the output file type as ASCII (the default). */
   void SetFileTypeToASCII() 
-    {this->SetFileType(Writer::ASCII);}
+  {this->SetFileType(Writer::ASCII);}
 
   /** Specify the output file type to binary. */
   void SetFileTypeToBinary() 
-    {this->SetFileType(Writer::Binary);}
+  {this->SetFileType(Writer::Binary);}
 
   /** A special version of the Update() method for writers.
    * It invokes start and end methods and handles releasing data. */
@@ -74,7 +74,7 @@ public:
 
   /** Aliased to Write() method. */
   virtual void Update()
-    {this->Write();}
+  {this->Write();}
   
 protected:
   Writer();
@@ -88,7 +88,7 @@ protected:
   virtual void WriteData() = 0;
 
   void GenerateData() 
-    {this->WriteData();}
+  {this->WriteData();}
   
 private:
   std::string        m_FileName;

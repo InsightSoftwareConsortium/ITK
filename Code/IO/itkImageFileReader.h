@@ -38,17 +38,17 @@ public:
   ImageFileReaderException(char *file, unsigned int line, 
                            const char* message = "Error in IO") : 
     ExceptionObject(file, line)
-    {
-      SetDescription(message);
-    }
+  {
+    SetDescription(message);
+  }
 
   /** Constructor. */
   ImageFileReaderException(const std::string &file, unsigned int line, 
                            const char* message = "Error in IO") : 
     ExceptionObject(file, line)
-    {
-      SetDescription(message);
-    }
+  {
+    SetDescription(message);
+  }
 };
 
 
@@ -83,8 +83,8 @@ public:
  *
  */
 template <class TOutputImage,
-  class ConvertPixelTraits = 
-DefaultConvertPixelTraits< ITK_TYPENAME TOutputImage::PixelType> >
+          class ConvertPixelTraits = 
+          DefaultConvertPixelTraits< ITK_TYPENAME TOutputImage::PixelType> >
 class ITK_EXPORT ImageFileReader : public ImageSource<TOutputImage>
 {
 public:

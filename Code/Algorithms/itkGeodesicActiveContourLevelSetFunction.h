@@ -96,15 +96,15 @@ public:
 
   /** The curvature speed is same as the propagation speed. */
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType & neighborhood,
-                                           const FloatOffsetType & offset ) const
-    { return PropagationSpeed( neighborhood, offset ); }
+                                         const FloatOffsetType & offset ) const
+  { return PropagationSpeed( neighborhood, offset ); }
 
   /** Set/Get the sigma for the Gaussian kernel used to compute the gradient
    * of the feature image needed for the advection term of the equation. */
   void SetDerivativeSigma( const double v )
-    { m_DerivativeSigma = v; }
+  { m_DerivativeSigma = v; }
   double GetDerivativeSigma()
-    { return m_DerivativeSigma; };
+  { return m_DerivativeSigma; };
 
   virtual void Initialize(const RadiusType &r)
   {

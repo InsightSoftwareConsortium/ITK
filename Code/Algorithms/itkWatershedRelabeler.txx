@@ -65,9 +65,9 @@ void Relabeler<TScalarType, TImageDimension>
   it_b = it_b.Begin();
   while (! it_a.IsAtEnd() )
     {
-      it_b.Set(it_a.Get());
-      ++it_a;
-      ++it_b;
+    it_b.Set(it_a.Get());
+    ++it_a;
+    ++it_b;
     }
 
   this->UpdateProgress(0.1);
@@ -76,8 +76,8 @@ void Relabeler<TScalarType, TImageDimension>
   //
   if (tree->Empty() == true )
     {
-      // itkWarningMacro("Empty input.  No relabeling was done.");
-      return;
+    // itkWarningMacro("Empty input.  No relabeling was done.");
+    return;
     }
   ScalarType max = tree->Back().saliency;
   ScalarType mergeLimit = m_FloodLevel * max;
@@ -87,8 +87,8 @@ void Relabeler<TScalarType, TImageDimension>
   it = tree->Begin();
   while ( it != tree->End() && (*it).saliency <= mergeLimit )
     {
-      eqT->Add((*it).from, (*it).to);
-      it++;      
+    eqT->Add((*it).from, (*it).to);
+    it++;      
     } 
 
   SegmenterType::RelabelImage(output, output->GetRequestedRegion(), eqT);
@@ -201,15 +201,15 @@ void Relabeler<TScalarType, TImageDimension>
 
   if (imgData)
     {
-      std::vector<ProcessObject::DataObjectPointer>::size_type idx;
-      for (idx = 0; idx < this->GetOutputs().size(); ++idx)
+    std::vector<ProcessObject::DataObjectPointer>::size_type idx;
+    for (idx = 0; idx < this->GetOutputs().size(); ++idx)
+      {
+      if (this->GetOutputs()[idx] && this->GetOutputs()[idx] != output)
         {
-          if (this->GetOutputs()[idx] && this->GetOutputs()[idx] != output)
-            {
-              op = dynamic_cast<ImageBase<ImageDimension> *>(this->GetOutputs()[idx].GetPointer());
-              if (op) this->GetOutputs()[idx]->SetRequestedRegion(output);
-            }
+        op = dynamic_cast<ImageBase<ImageDimension> *>(this->GetOutputs()[idx].GetPointer());
+        if (op) this->GetOutputs()[idx]->SetRequestedRegion(output);
         }
+      }
     }
 }
 

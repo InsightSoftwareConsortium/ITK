@@ -36,7 +36,7 @@ public:
            unsigned long tag) :m_Command(c),
                                m_Event(event),
                                m_Tag(tag)
-    { }
+  { }
   virtual ~Observer() 
   { delete m_Event; }
   Command::Pointer m_Command;
@@ -76,7 +76,7 @@ SubjectImplementation::
 unsigned long 
 SubjectImplementation::
 AddObserver(const EventObject & event,
-      Command* cmd)
+            Command* cmd)
 {
   Observer* ptr = new Observer(cmd, event.MakeObject(), m_Count);
   m_Observers.push_back(ptr);
@@ -105,7 +105,7 @@ RemoveObserver(unsigned long tag)
 void 
 SubjectImplementation::
 InvokeEvent( const EventObject & event,
-      Object* self)
+             Object* self)
 {
   for(std::list<Observer* >::iterator i = m_Observers.begin();
       i != m_Observers.end(); ++i)
@@ -121,7 +121,7 @@ InvokeEvent( const EventObject & event,
 void 
 SubjectImplementation::
 InvokeEvent( const EventObject & event,
-      const Object* self)
+             const Object* self)
 {
   for(std::list<Observer* >::iterator i = m_Observers.begin();
       i != m_Observers.end(); ++i)
@@ -480,9 +480,9 @@ Object
 ::GetMetaDataDictionary(void)
 {
   if(m_MetaDataDictionary==NULL)
-  {
+    {
     m_MetaDataDictionary=new MetaDataDictionary;
-  }
+    }
   return *m_MetaDataDictionary;
 }
 
@@ -491,9 +491,9 @@ Object
 ::GetMetaDataDictionary(void) const
 {
   if(m_MetaDataDictionary==NULL)
-  {
+    {
     m_MetaDataDictionary=new MetaDataDictionary;
-  }
+    }
   return *m_MetaDataDictionary;
 }
 
@@ -502,9 +502,9 @@ Object
 ::SetMetaDataDictionary(const MetaDataDictionary & rhs)
 {
   if(m_MetaDataDictionary==NULL)
-  {
+    {
     m_MetaDataDictionary=new MetaDataDictionary;
-  }
+    }
   *m_MetaDataDictionary=rhs;
 }
 

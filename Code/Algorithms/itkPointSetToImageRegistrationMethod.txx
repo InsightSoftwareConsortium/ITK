@@ -114,7 +114,7 @@ PointSetToImageRegistrationMethod<TFixedPointSet,TMovingImage>
 
   // Validate initial transform parameters
   if ( m_InitialTransformParameters.Size() != 
-    m_Transform->GetNumberOfParameters() )
+       m_Transform->GetNumberOfParameters() )
     {
     itkExceptionMacro(<<"Size mismatch between initial parameter and transform"); 
     }
@@ -155,12 +155,12 @@ PointSetToImageRegistrationMethod<TFixedPointSet,TMovingImage>
     }
   catch( ExceptionObject& err )
     {
-      // An error has occurred in the optimization.
-      // Update the parameters
-      m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
+    // An error has occurred in the optimization.
+    // Update the parameters
+    m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
 
-      // Pass exception to caller
-      throw err;
+    // Pass exception to caller
+    throw err;
     }
 
 

@@ -82,7 +82,7 @@ public:
    * Subclasses of this class should override this member function
    * to provide their own functional operation . */
   virtual MeasureType Evaluate(MeasureType x) 
-    { return x ; }
+  { return x ; }
 
   /** Gets the interval of each cell between the upper and lower bound */
   double GetInterval() 

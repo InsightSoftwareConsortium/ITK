@@ -106,13 +106,13 @@ public:
   /** Type of the Fixed image multiresolution pyramid. */
   typedef MultiResolutionPyramidImageFilter< FixedImageType,
                                              FixedImageType >
-                                                   FixedImagePyramidType;
+  FixedImagePyramidType;
   typedef typename FixedImagePyramidType::Pointer  FixedImagePyramidPointer;
 
   /** Type of the moving image multiresolution pyramid. */
   typedef MultiResolutionPyramidImageFilter< MovingImageType,
                                              MovingImageType >
-                                                   MovingImagePyramidType;
+  MovingImagePyramidType;
   typedef typename MovingImagePyramidType::Pointer MovingImagePyramidPointer;
 
   /** Type of the Transformation parameters This is the same type used to
@@ -163,7 +163,7 @@ public:
 
   /** Set/Get the number of multi-resolution levels. */
   itkSetClampMacro( NumberOfLevels, unsigned long, 1,
-    NumericTraits<unsigned long>::max() );
+                    NumericTraits<unsigned long>::max() );
   itkGetMacro( NumberOfLevels, unsigned long );
 
   /** Get the current resolution level being processed. */

@@ -27,7 +27,7 @@ namespace itk
 template< typename TImage >
 ImageRegionIterator<TImage>
 ::ImageRegionIterator()
-    : ImageRegionConstIterator<TImage>() 
+  : ImageRegionConstIterator<TImage>() 
 {
 
 
@@ -38,7 +38,7 @@ ImageRegionIterator<TImage>
 template< typename TImage >
 ImageRegionIterator<TImage>
 ::ImageRegionIterator(ImageType *ptr, const RegionType& region) :
-    ImageRegionConstIterator<TImage>(   ptr, region ) 
+  ImageRegionConstIterator<TImage>(   ptr, region ) 
 {
 
 
@@ -49,7 +49,7 @@ ImageRegionIterator<TImage>
 template< typename TImage >
 ImageRegionIterator<TImage>
 ::ImageRegionIterator( const ImageIteratorWithIndex<TImage> &it):
-                                        ImageRegionConstIterator<TImage>(it)
+  ImageRegionConstIterator<TImage>(it)
 { 
 }
 
@@ -57,7 +57,7 @@ ImageRegionIterator<TImage>
 template< typename TImage >
 ImageRegionIterator<TImage>
 ::ImageRegionIterator( const ImageRegionConstIterator<TImage> &it):
-                                        ImageRegionConstIterator<TImage>(it)
+  ImageRegionConstIterator<TImage>(it)
 { 
 }
 

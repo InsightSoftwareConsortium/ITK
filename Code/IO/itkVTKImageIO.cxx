@@ -260,7 +260,7 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
         }
       }
 
-     else if ( text.find("COLOR_SCALARS") < text.length() || 
+    else if ( text.find("COLOR_SCALARS") < text.length() || 
               text.find("color_scalars") < text.length() )
       {
       readScalars = true;
@@ -359,7 +359,7 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
 
       }//found scalars
     
-      }
+    }
 }
 
 void VTKImageIO::Read(void* buffer)
@@ -391,7 +391,7 @@ void VTKImageIO::Read(void* buffer)
         ByteSwapper<double>::SwapRangeFromSystemToBigEndian((double *)buffer, this->GetImageSizeInComponents() );
         break;
       }
-   }
+    }
 }
 
 void VTKImageIO::ReadImageInformation()
@@ -464,35 +464,35 @@ void VTKImageIO::Write(const void* buffer)
   if ( m_FileType == ASCII )
     {
     this->WriteBufferAsASCII(file, buffer, this->GetComponentType(),
-                            this->GetImageSizeInComponents());
+                             this->GetImageSizeInComponents());
     }
   else //binary
-  {
+    {
     int size = this->GetPixelSize();
     const unsigned long int numbytes=this->GetImageSizeInBytes();
     char * tempmemory=new char[numbytes];
     memcpy(tempmemory,buffer,numbytes);
     switch( size )
-    {
+      {
       case 2:
-        {
-          ByteSwapper<short>::SwapRangeFromSystemToBigEndian(reinterpret_cast<short *>(tempmemory), this->GetImageSizeInComponents() );
-        }
-        break;
+      {
+      ByteSwapper<short>::SwapRangeFromSystemToBigEndian(reinterpret_cast<short *>(tempmemory), this->GetImageSizeInComponents() );
+      }
+      break;
       case 4:
-        {
-          ByteSwapper<float>::SwapRangeFromSystemToBigEndian(reinterpret_cast<float *>(tempmemory), this->GetImageSizeInComponents() );
-        }
-        break;
+      {
+      ByteSwapper<float>::SwapRangeFromSystemToBigEndian(reinterpret_cast<float *>(tempmemory), this->GetImageSizeInComponents() );
+      }
+      break;
       case 6:
-        {
-          ByteSwapper<double>::SwapRangeFromSystemToBigEndian(reinterpret_cast<double *>(tempmemory), this->GetImageSizeInComponents() );
-        }
-        break;
-    }
+      {
+      ByteSwapper<double>::SwapRangeFromSystemToBigEndian(reinterpret_cast<double *>(tempmemory), this->GetImageSizeInComponents() );
+      }
+      break;
+      }
     file.write(static_cast<const char*>(tempmemory), this->GetImageSizeInBytes());
     delete [] tempmemory;
-  }
+    }
 }
 
 void VTKImageIO::PrintSelf(std::ostream& os, Indent indent) const

@@ -41,7 +41,7 @@ namespace itk
  */
 template <typename TInputImage, typename TOutputImage=TInputImage>
 class ITK_EXPORT RecursiveGaussianImageFilter :
-   public RecursiveSeparableImageFilter<TInputImage,TOutputImage> 
+    public RecursiveSeparableImageFilter<TInputImage,TOutputImage> 
 {
 public:
   /** Standard class typedefs. */
@@ -96,8 +96,8 @@ public:
       \li FirstOrder is equivalet to convolving with the first derivative of a Gaussian
       \li SecondOrder is equivalet to convolving with the second derivative of a Gaussian
     */
-   itkSetMacro( Order, OrderEnumType );
-   itkGetMacro( Order, OrderEnumType );
+  itkSetMacro( Order, OrderEnumType );
+  itkGetMacro( Order, OrderEnumType );
   
    
 protected:
@@ -110,7 +110,7 @@ protected:
    * derivatives. */
   virtual void SetUp(void);
 
-   /** Compute Recursive Filter Coefficients this method prepares the values of
+  /** Compute Recursive Filter Coefficients this method prepares the values of
    * the coefficients used for filtering the image. The symmetric flag is
    * used to enforce that the filter will be symmetric or antisymmetric. For
    * example, the Gaussian kernel is symmetric, while its first derivative is

@@ -24,16 +24,16 @@ namespace itk
 template<class TInputImage, class TClassifiedImage>
 MRFImageFilter<TInputImage,TClassifiedImage>
 ::MRFImageFilter(void):
-      m_NumberOfClasses(0),
-      m_MaximumNumberOfIterations(50),
-      m_ErrorCounter(0),
-      m_NeighborhoodSize(27),
-      m_TotalNumberOfValidPixelsInOutputImage(1),
-      m_TotalNumberOfPixelsInInputImage(1),
-      m_ErrorTolerance(0.2),
-      m_SmoothingFactor(1),
-      m_ClassProbability(0),
-      m_ClassifierPtr(0)
+  m_NumberOfClasses(0),
+  m_MaximumNumberOfIterations(50),
+  m_ErrorCounter(0),
+  m_NeighborhoodSize(27),
+  m_TotalNumberOfValidPixelsInOutputImage(1),
+  m_TotalNumberOfPixelsInInputImage(1),
+  m_ErrorTolerance(0.2),
+  m_SmoothingFactor(1),
+  m_ClassProbability(0),
+  m_ClassifierPtr(0)
 {
 
   if( (int)InputImageDimension != (int)ClassifiedImageDimension )
@@ -78,7 +78,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
   os << indent <<" Neighborhood weight : [";
   const unsigned int neighborhoodWeightSize = 
-           static_cast<unsigned int>( m_MRFNeighborhoodWeight.size() );
+    static_cast<unsigned int>( m_MRFNeighborhoodWeight.size() );
   for (i=0; i+1 < neighborhoodWeightSize; i++)
     {
     os << m_MRFNeighborhoodWeight[i] << ", ";
@@ -102,7 +102,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   // this filter requires the all of the input images 
   // to be at the size of the output requested region
   InputImagePointer inputPtr = 
-      const_cast< InputImageType * >( this->GetInput() );
+    const_cast< InputImageType * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
   inputPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
 
@@ -124,7 +124,7 @@ template <class TInputImage, class TClassifiedImage>
 void
 MRFImageFilter<TInputImage, TClassifiedImage>
 ::EnlargeOutputRequestedRegion(
-DataObject *output )
+  DataObject *output )
 {
 
   // this filter requires the all of the output image to be in
@@ -248,7 +248,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
     {
     radius[i] = radiusArray[i];
     }
- //Set up the neighbor hood 
+  //Set up the neighbor hood 
   this->SetNeighborhoodRadius( radius ); 
 
 }// end SetNeighborhoodRadius
@@ -414,7 +414,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
     }
 
   int maxNumPixelError = (int) ( vnl_math_rnd (m_ErrorTolerance * 
-    m_TotalNumberOfValidPixelsInOutputImage) );
+                                               m_TotalNumberOfValidPixelsInOutputImage) );
 
   unsigned int numIter = 0;
   do
@@ -560,8 +560,8 @@ template<class TInputImage, class TClassifiedImage>
 void
 MRFImageFilter<TInputImage, TClassifiedImage>
 ::DoNeighborhoodOperation( const InputImageNeighborhoodIterator &imageIter,
-    LabelledImageNeighborhoodIterator &labelledIter,
-    LabelStatusImageNeighborhoodIterator &labelStatusIter )
+                           LabelledImageNeighborhoodIterator &labelledIter,
+                           LabelStatusImageNeighborhoodIterator &labelStatusIter )
 {
 
   //Read the pixel of interest and get its corresponding membership value
@@ -579,7 +579,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   LabelledImagePixelType labelledPixel; 
   int index;
   
- //Begin neighborhood processing. Calculate the prior for each label
+  //Begin neighborhood processing. Calculate the prior for each label
   for( int i = 0; i < m_NeighborhoodSize; ++i )
     {
 
@@ -593,7 +593,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   for( unsigned int index = 0; index < m_NumberOfClasses; index++ )
     {
     m_MahalanobisDistance[index] = m_NeighborInfluence[index] - 
-                                       pixelMembershipValue[index] ;
+      pixelMembershipValue[index] ;
     }
 
   //Determine the maximum possible distance

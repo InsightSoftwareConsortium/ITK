@@ -40,7 +40,7 @@ itk::MetaDataObject<MetaDataObjectType>
 template<class MetaDataObjectType>
 itk::MetaDataObject<MetaDataObjectType>
 ::MetaDataObject(const MetaDataObjectType InitializerValue)
-:m_MetaDataObjectValue(InitializerValue)
+  :m_MetaDataObjectValue(InitializerValue)
 {
   //Nothing to be done here
 }
@@ -48,7 +48,7 @@ itk::MetaDataObject<MetaDataObjectType>
 template<class MetaDataObjectType>
 itk::MetaDataObject<MetaDataObjectType>
 ::MetaDataObject(const MetaDataObject<MetaDataObjectType> &TemplateObject)
-:m_MetaDataObjectValue(TemplateObject.m_MetaDataObjectValue)
+  :m_MetaDataObjectValue(TemplateObject.m_MetaDataObjectValue)
 {
   //Nothing to be done here
 }

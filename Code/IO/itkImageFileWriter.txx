@@ -51,7 +51,7 @@ ImageFileWriter<TInputImage>
 {
   // ProcessObject is not const_correct so this cast is required here.
   this->ProcessObject::SetNthInput(0, 
-      const_cast<TInputImage *>(input ) );
+                                   const_cast<TInputImage *>(input ) );
 }
 
 
@@ -67,7 +67,7 @@ ImageFileWriter<TInputImage>
     }
   
   return static_cast<TInputImage*>
-                     (this->ProcessObject::GetInput(0));
+    (this->ProcessObject::GetInput(0));
 }
   
 //---------------------------------------------------------
@@ -77,7 +77,7 @@ ImageFileWriter<TInputImage>
 ::GetInput(unsigned int idx)
 {
   return static_cast<TInputImage*>
-                     (this->ProcessObject::GetInput(idx));
+    (this->ProcessObject::GetInput(idx));
 }
 
 //---------------------------------------------------------

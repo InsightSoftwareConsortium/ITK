@@ -30,17 +30,17 @@ void SegmentTable<TScalarType>
   typename edge_list_t::iterator e;
   for (it = this->Begin(); it != this->End(); ++it)
     {
-      for (e = (*it).second.edge_list.begin();
-           e != (*it).second.edge_list.end();
-           e++)
-        {
-          if ( ( e->height - (*it).second.min ) > maximum_saliency )
-            {  // dump the rest of the list, assumes list is sorted
-              e++;
-              (*it).second.edge_list.erase(e, (*it).second.edge_list.end() );
-              break;  // through with this segment
-            }
+    for (e = (*it).second.edge_list.begin();
+         e != (*it).second.edge_list.end();
+         e++)
+      {
+      if ( ( e->height - (*it).second.min ) > maximum_saliency )
+        {  // dump the rest of the list, assumes list is sorted
+        e++;
+        (*it).second.edge_list.erase(e, (*it).second.edge_list.end() );
+        break;  // through with this segment
         }
+      }
     }
 }
   
@@ -51,7 +51,7 @@ void SegmentTable<TScalarType>
   Iterator it;
   for (it = this->Begin(); it != this->End(); ++it)
     {
-      (*it).second.edge_list.sort();
+    (*it).second.edge_list.sort();
     }
 }
   
@@ -101,7 +101,7 @@ SegmentTable<TScalarType>
 {
   if (this->GetSource())
     {
-      this->GetSource()->UpdateOutputInformation();
+    this->GetSource()->UpdateOutputInformation();
     }
   else
     {
@@ -114,8 +114,8 @@ SegmentTable<TScalarType>
   // region.
   if ( ! m_RequestedRegionInitialized)
     {
-      this->SetRequestedRegionToLargestPossibleRegion();
-      m_RequestedRegionInitialized = true;
+    this->SetRequestedRegionToLargestPossibleRegion();
+    m_RequestedRegionInitialized = true;
     }
   
   m_LastRequestedRegionWasOutsideOfTheBufferedRegion = 0;

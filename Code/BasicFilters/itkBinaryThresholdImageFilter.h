@@ -42,56 +42,56 @@ namespace itk
  */
 namespace Functor {  
   
-  template< class TInput, class TOutput>
-  class BinaryThreshold
+template< class TInput, class TOutput>
+class BinaryThreshold
+{
+public:
+  BinaryThreshold() {};
+  ~BinaryThreshold() {};
+
+  void SetLowerThreshold( const TInput & thresh )
+  { m_LowerThreshold = thresh; }
+  void SetUpperThreshold( const TInput & thresh )
+  { m_UpperThreshold = thresh; }
+  void SetInsideValue( const TOutput & value )
+  { m_InsideValue = value; }
+  void SetOutsideValue( const TOutput & value )
+  { m_OutsideValue = value; }
+
+  inline TOutput operator()( const TInput & A )
   {
-  public:
-    BinaryThreshold() {};
-    ~BinaryThreshold() {};
+    if ( m_LowerThreshold <= A && A <= m_UpperThreshold )
+      {
+      return m_InsideValue;
+      }
+    return m_OutsideValue;
+  }
 
-    void SetLowerThreshold( const TInput & thresh )
-      { m_LowerThreshold = thresh; }
-    void SetUpperThreshold( const TInput & thresh )
-      { m_UpperThreshold = thresh; }
-    void SetInsideValue( const TOutput & value )
-      { m_InsideValue = value; }
-    void SetOutsideValue( const TOutput & value )
-      { m_OutsideValue = value; }
+private:
+  TInput      m_LowerThreshold;
+  TInput      m_UpperThreshold;
+  TOutput     m_InsideValue;
+  TOutput     m_OutsideValue;
 
-    inline TOutput operator()( const TInput & A )
-    {
-      if ( m_LowerThreshold <= A && A <= m_UpperThreshold )
-        {
-        return m_InsideValue;
-        }
-      return m_OutsideValue;
-    }
-
-  private:
-    TInput      m_LowerThreshold;
-    TInput      m_UpperThreshold;
-    TOutput     m_InsideValue;
-    TOutput     m_OutsideValue;
-
-  };
+};
 }
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT BinaryThresholdImageFilter :
     public
-    UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::BinaryThreshold< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType> >
+UnaryFunctorImageFilter<TInputImage,TOutputImage, 
+                        Functor::BinaryThreshold< 
+  typename TInputImage::PixelType, 
+  typename TOutputImage::PixelType> >
 {
 public:
   /** Standard class typedefs. */
   typedef BinaryThresholdImageFilter  Self;
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::BinaryThreshold< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   
-                >  Superclass;
+                                  Functor::BinaryThreshold< 
+    typename TInputImage::PixelType, 
+    typename TOutputImage::PixelType>   
+  >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

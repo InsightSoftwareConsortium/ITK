@@ -81,8 +81,8 @@ TimeProbe
 ::GetMeanTime(void) const
 {
   const double seconds =  
-        static_cast<double>(m_TotalTicks) /
-        static_cast<double>(CLOCKS_PER_SEC);
+    static_cast<double>(m_TotalTicks) /
+    static_cast<double>(CLOCKS_PER_SEC);
 
   double meanTime = 0.0f;
 

@@ -109,29 +109,29 @@ SimpleFuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
 
 /* Compute the inverse of the Varianceiance Matrices. */
   m_VarianceDet = m_Variance[0][0]*m_Variance[1][1]*m_Variance[2][2]
-             +m_Variance[1][0]*m_Variance[2][1]*m_Variance[0][2]
-       +m_Variance[0][1]*m_Variance[1][2]*m_Variance[2][0]
-       -m_Variance[2][0]*m_Variance[1][1]*m_Variance[0][2]
-       -m_Variance[0][1]*m_Variance[1][0]*m_Variance[2][2]
-       -m_Variance[0][0]*m_Variance[1][2]*m_Variance[2][1];
+    +m_Variance[1][0]*m_Variance[2][1]*m_Variance[0][2]
+    +m_Variance[0][1]*m_Variance[1][2]*m_Variance[2][0]
+    -m_Variance[2][0]*m_Variance[1][1]*m_Variance[0][2]
+    -m_Variance[0][1]*m_Variance[1][0]*m_Variance[2][2]
+    -m_Variance[0][0]*m_Variance[1][2]*m_Variance[2][1];
   m_VarianceInverse[0][0]=(m_Variance[1][1]*m_Variance[2][2]-m_Variance[2][1]*m_Variance[1][2])
-                      /m_VarianceDet;  
+    /m_VarianceDet;  
   m_VarianceInverse[0][1]=-(m_Variance[1][0]*m_Variance[2][2]-m_Variance[2][0]*m_Variance[1][2])
-                      /m_VarianceDet;  
+    /m_VarianceDet;  
   m_VarianceInverse[0][2]=(m_Variance[1][0]*m_Variance[2][1]-m_Variance[2][0]*m_Variance[1][1])
-                      /m_VarianceDet;  
+    /m_VarianceDet;  
   m_VarianceInverse[1][0]=-(m_Variance[0][1]*m_Variance[2][2]-m_Variance[2][1]*m_Variance[0][2])
-                      /m_VarianceDet;  
+    /m_VarianceDet;  
   m_VarianceInverse[1][1]=(m_Variance[0][0]*m_Variance[2][2]-m_Variance[2][0]*m_Variance[0][2])
-                      /m_VarianceDet;  
+    /m_VarianceDet;  
   m_VarianceInverse[1][2]=-(m_Variance[0][0]*m_Variance[2][1]-m_Variance[2][0]*m_Variance[0][1])
-                      /m_VarianceDet;  
+    /m_VarianceDet;  
   m_VarianceInverse[2][0]=(m_Variance[0][1]*m_Variance[1][2]-m_Variance[1][1]*m_Variance[0][2])
-                      /m_VarianceDet;  
+    /m_VarianceDet;  
   m_VarianceInverse[2][1]=-(m_Variance[0][0]*m_Variance[1][2]-m_Variance[1][0]*m_Variance[0][2])
-                      /m_VarianceDet;  
+    /m_VarianceDet;  
   m_VarianceInverse[2][2]=(m_Variance[0][0]*m_Variance[1][1]-m_Variance[1][0]*m_Variance[0][1])
-                      /m_VarianceDet;  
+    /m_VarianceDet;  
   if((int)(m_Weight*100+0.5) > 1){ //need to use the difference information.
 
   m_Diff_VarianceDet = m_Diff_Variance[0][0]*m_Diff_Variance[1][1]*m_Diff_Variance[2][2]
@@ -141,23 +141,23 @@ SimpleFuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
     -m_Diff_Variance[0][1]*m_Diff_Variance[1][0]*m_Diff_Variance[2][2]
     -m_Diff_Variance[0][0]*m_Diff_Variance[1][2]*m_Diff_Variance[2][1];
   m_Diff_VarianceInverse[0][0]=(m_Diff_Variance[1][1]*m_Diff_Variance[2][2]-m_Diff_Variance[2][1]*m_Diff_Variance[1][2])
-                      /m_Diff_VarianceDet;  
+    /m_Diff_VarianceDet;  
   m_Diff_VarianceInverse[0][1]=-(m_Diff_Variance[1][0]*m_Diff_Variance[2][2]-m_Diff_Variance[2][0]*m_Diff_Variance[1][2])
-                      /m_Diff_VarianceDet;  
+    /m_Diff_VarianceDet;  
   m_Diff_VarianceInverse[0][2]=(m_Diff_Variance[1][0]*m_Diff_Variance[2][1]-m_Diff_Variance[2][0]*m_Diff_Variance[1][1])
-                      /m_Diff_VarianceDet;  
+    /m_Diff_VarianceDet;  
   m_Diff_VarianceInverse[1][0]=-(m_Diff_Variance[0][1]*m_Diff_Variance[2][2]-m_Diff_Variance[2][1]*m_Diff_Variance[0][2])
-                      /m_Diff_VarianceDet;  
+    /m_Diff_VarianceDet;  
   m_Diff_VarianceInverse[1][1]=(m_Diff_Variance[0][0]*m_Diff_Variance[2][2]-m_Diff_Variance[2][0]*m_Diff_Variance[0][2])
-                      /m_Diff_VarianceDet;  
+    /m_Diff_VarianceDet;  
   m_Diff_VarianceInverse[1][2]=-(m_Diff_Variance[0][0]*m_Diff_Variance[2][1]-m_Diff_Variance[2][0]*m_Diff_Variance[0][1])
-                      /m_Diff_VarianceDet;  
+    /m_Diff_VarianceDet;  
   m_Diff_VarianceInverse[2][0]=(m_Diff_Variance[0][1]*m_Diff_Variance[1][2]-m_Diff_Variance[1][1]*m_Diff_Variance[0][2])
-                      /m_Diff_VarianceDet;  
+    /m_Diff_VarianceDet;  
   m_Diff_VarianceInverse[2][1]=-(m_Diff_Variance[0][0]*m_Diff_Variance[1][2]-m_Diff_Variance[1][0]*m_Diff_Variance[0][2])
-                      /m_Diff_VarianceDet;  
+    /m_Diff_VarianceDet;  
   m_Diff_VarianceInverse[2][2]=(m_Diff_Variance[0][0]*m_Diff_Variance[1][1]-m_Diff_Variance[1][0]*m_Diff_Variance[0][1])
-                      /m_Diff_VarianceDet;  
+    /m_Diff_VarianceDet;  
   }
   
   Superclass::GenerateData();            

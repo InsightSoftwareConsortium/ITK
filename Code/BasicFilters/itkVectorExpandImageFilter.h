@@ -74,11 +74,11 @@ namespace itk
  * \ingroup GeometricTransform
  */
 template <
-class TInputImage, 
-class TOutputImage 
->
+  class TInputImage, 
+  class TOutputImage 
+  >
 class ITK_EXPORT VectorExpandImageFilter:
-  public ImageToImageFilter<TInputImage,TOutputImage>
+    public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
@@ -118,10 +118,10 @@ public:
   /** Typedef support for the interpolation function */
   typedef double CoordRepType;
   typedef VectorInterpolateImageFunction<InputImageType,CoordRepType> 
-    InterpolatorType;
+  InterpolatorType;
   typedef typename InterpolatorType::Pointer InterpolatorPointer;
   typedef VectorLinearInterpolateImageFunction<InputImageType,CoordRepType> 
-    DefaultInterpolatorType;
+  DefaultInterpolatorType;
 
   /** Set the interpolator function. */
   itkSetObjectMacro( Interpolator, InterpolatorType );
@@ -136,14 +136,14 @@ public:
 
   /** Get the expand factors. */
   const unsigned int * GetExpandFactors() const
-    { return m_ExpandFactors; }
+  { return m_ExpandFactors; }
 
   /** Set the edge padding value. The default is a vector of zero. */
   virtual void SetEdgePaddingValue( const OutputPixelType& value );
 
   /** Get the edge padding value. */
   virtual const OutputPixelType& GetEdgePaddingValue()
-    { return m_EdgePaddingValue; }
+  { return m_EdgePaddingValue; }
 
   /** VectorExpandImageFilter produces an image which is a different
    * resolution and with a different pixel spacing than its input image.  As

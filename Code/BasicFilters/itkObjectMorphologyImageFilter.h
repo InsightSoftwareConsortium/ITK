@@ -70,7 +70,7 @@ namespace itk {
  */
 template<class TInputImage, class TOutputImage, class TKernel>
 class ITK_EXPORT ObjectMorphologyImageFilter : 
-  public ImageToImageFilter<TInputImage, TOutputImage>
+    public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   /** Standard Self typedef */
@@ -97,10 +97,10 @@ public:
 
   /** Neighborhood iterator type. */
   typedef ConstNeighborhoodIterator<TInputImage> 
-    InputNeighborhoodIteratorType ;
+  InputNeighborhoodIteratorType ;
 
   typedef NeighborhoodIterator<TOutputImage> 
-    OutputNeighborhoodIteratorType ;
+  OutputNeighborhoodIteratorType ;
 
   /** Kernel typedef. */
   typedef TKernel KernelType;
@@ -143,7 +143,7 @@ protected:
   /** Evaluate image neighborhood with kernel to find the new value 
    * for the center pixel value. */
   virtual void Evaluate(OutputNeighborhoodIteratorType &nit,
-                             const KernelType &kernel)=0;
+                        const KernelType &kernel)=0;
 
   /** Evaluate a pixel (assumed to have a value of ObjectValue) to 
    * determine if one of its neighboring pixels (8-neigh in 2d, etc) is a 

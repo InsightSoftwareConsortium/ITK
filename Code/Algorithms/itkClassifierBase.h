@@ -107,11 +107,11 @@ public:
   
   /** Typedefs for membership funciton */
   typedef Statistics::MembershipFunctionBase< MeasurementVectorType > 
-    MembershipFunctionType;
+  MembershipFunctionType;
   typedef typename MembershipFunctionType::Pointer MembershipFunctionPointer ;
 
   typedef std::vector< MembershipFunctionPointer > 
-    MembershipFunctionPointerVector;
+  MembershipFunctionPointerVector;
 
   /** Type alias for decision rule */
   typedef DecisionRuleBase DecisionRuleType;
@@ -120,27 +120,27 @@ public:
    * Stores the decision rule that makes the real decision using 
    * informations from MembershipFunctions and other prior knowledge */
   void SetDecisionRule( typename DecisionRuleType::Pointer ptrToDecisionRule )
-    {
+  {
     m_DecisionRulePointer = ptrToDecisionRule;
-    }
+  }
 
   /** Set the pointer to the classifer being used. */
   DecisionRuleType * GetDecisionRule(void)
-    {
+  {
     return m_DecisionRulePointer;
-    }
+  }
   
   /** Method to get mean */
   const MembershipFunctionPointerVector GetMembershipFunctions() const
-    {
+  {
     return m_MembershipFunctions;
-    }
+  }
 
   /** Method to get mean */
   unsigned int GetNumberOfMembershipFunctions() 
-    {
+  {
     return static_cast<unsigned int>( m_MembershipFunctions.size() );
-    }
+  }
 
   /** Stores a MembershipCalculator of a class in its internal vector */
   unsigned int AddMembershipFunction(MembershipFunctionType * function);

@@ -97,9 +97,9 @@ GoodnessOfFitComponentBase< TInputSample >
 {
   if ( m_InputSample != sample )
     {
-      m_InputSample = sample ;
-      m_Resampler->SetInputSample(m_InputSample) ;
-      this->Modified() ;
+    m_InputSample = sample ;
+    m_Resampler->SetInputSample(m_InputSample) ;
+    this->Modified() ;
     }
 }
 
@@ -118,8 +118,8 @@ GoodnessOfFitComponentBase< TInputSample >
 {
   if ( m_Parameters != parameters )
     {
-      m_Parameters = parameters ;
-      this->Modified() ;
+    m_Parameters = parameters ;
+    this->Modified() ;
     }
 }
 
@@ -130,8 +130,8 @@ GoodnessOfFitComponentBase< TInputSample >
 {
   if ( m_UseExpectedHistogram != flag )
     {
-      m_UseExpectedHistogram = flag ;
-      this->Modified() ;
+    m_UseExpectedHistogram = flag ;
+    this->Modified() ;
     }
 }
 
@@ -142,9 +142,9 @@ GoodnessOfFitComponentBase< TInputSample >
 {
   if ( m_HistogramNumberOfBins != (unsigned int)numberOfBins )
     {
-      m_HistogramNumberOfBins = numberOfBins ;
-      m_HistogramSizeChanged = true ;
-      this->Modified() ;
+    m_HistogramNumberOfBins = numberOfBins ;
+    m_HistogramSizeChanged = true ;
+    this->Modified() ;
     }
 }
 
@@ -155,9 +155,9 @@ GoodnessOfFitComponentBase< TInputSample >
 {
   if ( m_HistogramBinOverlap != histogramBinOverlap )
     {
-      m_HistogramBinOverlap = histogramBinOverlap ;
-      m_Projector->SetHistogramBinOverlap(histogramBinOverlap) ;
-      this->Modified() ;
+    m_HistogramBinOverlap = histogramBinOverlap ;
+    m_Projector->SetHistogramBinOverlap(histogramBinOverlap) ;
+    this->Modified() ;
     }
 }
 
@@ -168,8 +168,8 @@ GoodnessOfFitComponentBase< TInputSample >
 {
   if ( m_HistogramExtent != histogramExtent )
     {
-      m_HistogramExtent = histogramExtent ;
-      this->Modified() ;
+    m_HistogramExtent = histogramExtent ;
+    this->Modified() ;
     }
 }
 
@@ -180,8 +180,8 @@ GoodnessOfFitComponentBase< TInputSample >
 {
   if ( m_HistogramUseEquiProbableBins != flag )
     {
-      m_HistogramUseEquiProbableBins = flag ;
-      this->Modified() ;
+    m_HistogramUseEquiProbableBins = flag ;
+    this->Modified() ;
     }
 }
 
@@ -192,7 +192,7 @@ GoodnessOfFitComponentBase< TInputSample >
 {
   if (m_HistogramNumberOfBins < 1)
     {
-      return ;
+    return ;
     }
 
   HistogramType::SizeType size ;
@@ -217,28 +217,28 @@ GoodnessOfFitComponentBase< TInputSample >
 
   for(binId = 0 ; binId < m_HistogramNumberOfBins ; binId++)
     {
-      tempMin = m_ObservedHistogram->GetBinMin(0, binId) ;
+    tempMin = m_ObservedHistogram->GetBinMin(0, binId) ;
    
-      for (rangeExtent = 0.00001; rangeExtent < 2.0 ; rangeExtent += 0.00001)
-        {
-          tempMax = tempMin + rangeExtent ;
-          binMaxProbability = 
-            this->GetCumulativeProbability(tempMax) ;
+    for (rangeExtent = 0.00001; rangeExtent < 2.0 ; rangeExtent += 0.00001)
+      {
+      tempMax = tempMin + rangeExtent ;
+      binMaxProbability = 
+        this->GetCumulativeProbability(tempMax) ;
 
-          if ( (binMaxProbability - binMinProbability) > step )
-            {
-              break ;
-            }
-        }
-
-      m_ObservedHistogram->SetBinMax(0, binId, tempMax) ;
-  
-      binMinProbability = binMaxProbability ;
-  
-      if ( binId < (m_HistogramNumberOfBins - 1) )
+      if ( (binMaxProbability - binMinProbability) > step )
         {
-          m_ObservedHistogram->SetBinMin(0, binId + 1, tempMax) ;
+        break ;
         }
+      }
+
+    m_ObservedHistogram->SetBinMax(0, binId, tempMax) ;
+  
+    binMinProbability = binMaxProbability ;
+  
+    if ( binId < (m_HistogramNumberOfBins - 1) )
+      {
+      m_ObservedHistogram->SetBinMin(0, binId + 1, tempMax) ;
+      }
     }
   
   m_ObservedHistogram->
@@ -252,7 +252,7 @@ GoodnessOfFitComponentBase< TInputSample >
 {
   if (m_HistogramNumberOfBins < 1)
     {
-      return ;
+    return ;
     }
 
   HistogramType::SizeType size ;
@@ -282,11 +282,11 @@ GoodnessOfFitComponentBase< TInputHistogram >
 
   if ( m_HistogramUseEquiProbableBins )
     {
-      this->CreateEquiProbableBins() ;
+    this->CreateEquiProbableBins() ;
     }
   else
     {
-      this->CreateEquiRangeBins() ;
+    this->CreateEquiRangeBins() ;
     }
 
 
@@ -295,10 +295,10 @@ GoodnessOfFitComponentBase< TInputHistogram >
   //  std::cout << "DEBUG: create expected histograms" << std::endl ;
   if ( m_UseExpectedHistogram )
     {
-      m_ExpectedHistogram = HistogramType::New() ;
-      HistogramType::SizeType size ;
-      size[0] = m_HistogramNumberOfBins ;
-      m_ExpectedHistogram->Initialize(size) ;
+    m_ExpectedHistogram = HistogramType::New() ;
+    HistogramType::SizeType size ;
+    size[0] = m_HistogramNumberOfBins ;
+    m_ExpectedHistogram->Initialize(size) ;
     }
   
   m_HistogramSizeChanged = false ;
@@ -355,15 +355,15 @@ GoodnessOfFitComponentBase< TInputHistogram >
   float frequency;
   while (e_iter != e_last)
     {
-      frequency = 
-        this->GetCumulativeProbability(m_ObservedHistogram->GetBinMax(0, i)) - 
-        this->GetCumulativeProbability(m_ObservedHistogram->GetBinMin(0, i)) ;
-      frequency = (frequency / m_TotalObservedScale) * 
-        totalObservedFrequency ;
+    frequency = 
+      this->GetCumulativeProbability(m_ObservedHistogram->GetBinMax(0, i)) - 
+      this->GetCumulativeProbability(m_ObservedHistogram->GetBinMin(0, i)) ;
+    frequency = (frequency / m_TotalObservedScale) * 
+      totalObservedFrequency ;
     
-      e_iter.SetFrequency(frequency) ;
-      ++e_iter ;
-      ++i ;
+    e_iter.SetFrequency(frequency) ;
+    ++e_iter ;
+    ++i ;
     }
 }
 

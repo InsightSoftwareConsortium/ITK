@@ -76,12 +76,12 @@ namespace itk
  * \ingroup GeometricTransforms MultiThreaded
  */
 template <
-class TInputImage,
-class TOutputImage,
-class TDeformationField
->
+  class TInputImage,
+  class TOutputImage,
+  class TDeformationField
+  >
 class ITK_EXPORT WarpImageFilter :
-  public ImageToImageFilter<TInputImage, TOutputImage>
+    public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   /** Standard class typedefs. */
@@ -123,7 +123,7 @@ public:
   typedef InterpolateImageFunction<InputImageType,CoordRepType>   InterpolatorType;
   typedef typename InterpolatorType::Pointer   InterpolatorPointer;
   typedef LinearInterpolateImageFunction<InputImageType,CoordRepType>
-    DefaultInterpolatorType;
+  DefaultInterpolatorType;
 
   /** Point type */
   typedef Point<CoordRepType,itkGetStaticConstMacro(ImageDimension)> PointType;
@@ -145,14 +145,14 @@ public:
 
   /** Get the output image spacing. */
   const double * GetOutputSpacing()
-    { return m_OutputSpacing; }
+  { return m_OutputSpacing; }
 
   /** Set the output image origin. */
   virtual void SetOutputOrigin( const double values[ImageDimension] );
 
   /** Get the output image origin. */
   const double * GetOutputOrigin()
-    { return m_OutputSpacing; }
+  { return m_OutputSpacing; }
 
   /** Set the edge padding value */
   itkSetMacro( EdgePaddingValue, PixelType );

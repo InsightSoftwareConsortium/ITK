@@ -73,13 +73,13 @@ SpatialObject< TDimension >
   typename ChildrenListType::iterator itEnd = m_Children.end();
 
   while(it!=itEnd)
-  {
-    if((*it))
     {
+    if((*it))
+      {
       (*it)->Delete();
-    }
+      }
     it++;
-  }
+    }
   m_Children.clear();
 }
 
@@ -89,7 +89,7 @@ void
 SpatialObject< TDimension >
 ::DerivativeAt( const PointType & point, short unsigned int order,
                 OutputVectorType & value, unsigned int depth, char * name )
-  {
+{
   if( !IsEvaluableAt(point, depth, name) )
     {
     itk::ExceptionObject e("SpatialObject.txx");
@@ -137,7 +137,7 @@ SpatialObject< TDimension >
       (*it) = ((*it_v2)-(*it_v1))/2;
       }
     }
-  }
+}
 
 /** Return if a point is inside the object or its children */
 template< unsigned int TDimension >
@@ -201,21 +201,21 @@ SpatialObject< TDimension >
     typename ChildrenListType::const_iterator itEnd = m_Children.end();
   
     while(it!=itEnd)
-    {
-      if( (*it)->IsEvaluableAt(point, depth-1, name) )
       {
-       (*it)->ValueAt(point,value, depth-1, name); 
+      if( (*it)->IsEvaluableAt(point, depth-1, name) )
+        {
+        (*it)->ValueAt(point,value, depth-1, name); 
         evaluable = true;
         break;
-      }
+        }
       it++;
       } 
     }
 
   if(evaluable)
-  {
+    {
     return true;
-  }
+    }
   return false;
 }
 
@@ -280,15 +280,15 @@ SpatialObject< TDimension >
   it = std::find(m_Children.begin(),m_Children.end(),pointer);
 
   if( it == m_Children.end() )
-  {
+    {
     pointer->SetParent( this );
     m_Children.push_back( pointer );
-  }
+    }
   else
-  { 
+    { 
     //throw an exception object to let user know that he tried to add an object
     // which is already in the list of the children.
-  }
+    }
 
   this->Modified();
 }
@@ -304,25 +304,25 @@ SpatialObject< TDimension >
   it = std::find(m_Children.begin(),m_Children.end(),pointer);
 
   if( it != m_Children.end() )
-  {
-    if( *it == pointer )
     {
+    if( *it == pointer )
+      {
       (*it)->SetParent(NULL);
       m_Children.erase( it );
       found =true;
-    }
+      }
     this->Modified();
-  }
+    }
   else
-  { 
+    { 
     //throw an exception object to let user know that he tried to remove an object
     // which is not in the list of the children.
-  }
+    }
 
   if(found)
-  {
+    {
     (pointer)->UnRegister();
-  }
+    }
 
 }
 
@@ -355,23 +355,23 @@ SpatialObject< TDimension >
   if(m_Parent)
     {
     m_ObjectToWorldTransform->Compose(dynamic_cast<const SpatialObject<TDimension>*>
-                               (m_Parent)->GetObjectToWorldTransform(),false);
+                                      (m_Parent)->GetObjectToWorldTransform(),false);
     }
 
   m_IndexToWorldTransform->Compose(this->GetObjectToWorldTransform(),false);
 
   m_WorldToIndexTransform->SetMatrix(
-                              m_IndexToWorldTransform->Inverse()->GetMatrix());
+    m_IndexToWorldTransform->Inverse()->GetMatrix());
   m_WorldToIndexTransform->SetOffset(
-                              m_IndexToWorldTransform->Inverse()->GetOffset());
+    m_IndexToWorldTransform->Inverse()->GetOffset());
   
   // Propagate the changes to the children
   typename ChildrenListType::iterator it = m_Children.begin();
   while(it!=m_Children.end())
-  {
+    {
     (*it)->ComputeObjectToWorldTransform();
     it++;
-  }
+    }
 }
 
 /** Get the local transformation */
@@ -435,7 +435,7 @@ SpatialObject< TDimension >
   if(m_Parent)
     {
     m_ObjectToParentTransform->Compose(dynamic_cast<const SpatialObject<TDimension>*>
-                         (m_Parent)->GetObjectToWorldTransform()->Inverse(),true);
+                                       (m_Parent)->GetObjectToWorldTransform()->Inverse(),true);
     }
 
 
@@ -444,9 +444,9 @@ SpatialObject< TDimension >
   m_IndexToWorldTransform->Compose(m_ObjectToWorldTransform,false);
 
   m_WorldToIndexTransform->SetMatrix(
-                              m_IndexToWorldTransform->Inverse()->GetMatrix());
+    m_IndexToWorldTransform->Inverse()->GetMatrix());
   m_WorldToIndexTransform->SetOffset(
-                              m_IndexToWorldTransform->Inverse()->GetOffset());
+    m_IndexToWorldTransform->Inverse()->GetOffset());
 
 }
 
@@ -515,9 +515,9 @@ SpatialObject< TDimension >
   unsigned long latestTime = Object::GetMTime();
 
   if( latestTime < m_BoundsMTime )
-  {
+    {
     latestTime = m_BoundsMTime;
-  }
+    }
 
   typename ChildrenListType::const_iterator it = m_Children.begin();
   typename ChildrenListType::const_iterator itEnd = m_Children.end();
@@ -525,15 +525,15 @@ SpatialObject< TDimension >
   unsigned long localTime;
 
   while(it!=itEnd)
-  {
+    {
     localTime = (*it)->GetMTime();
 
     if( localTime > latestTime )
-    {
-    latestTime = localTime;
-    }
+      {
+      latestTime = localTime;
+      }
     it++;
-  } 
+    } 
   return latestTime;  
 }
 
@@ -559,7 +559,7 @@ template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
 ::ComputeBoundingBox() const
-  {
+{
   itkDebugMacro( "Computing Bounding Box" );
 
   if( this->GetMTime() > m_BoundsMTime )
@@ -614,7 +614,7 @@ SpatialObject< TDimension >
       return true;
       }
     }
-  }
+}
   
 /** Get the children list.
  * User is responsible for freeing the list, but not the elements of
@@ -628,9 +628,9 @@ SpatialObject< TDimension >
   ChildrenListType * children = new ChildrenListType;
 
   typename ChildrenListType::const_iterator childrenListIt = 
-           m_Children.begin();
+    m_Children.begin();
   typename ChildrenListType::const_iterator childrenListEnd = 
-           m_Children.end();
+    m_Children.end();
 
   while( childrenListIt != childrenListEnd )
     {
@@ -660,11 +660,11 @@ SpatialObject< TDimension >
   typename ChildrenListType::const_iterator itEnd = m_Children.end();
   
   while(it != itEnd)
-  {
+    {
     (*it)->Register(); // increase the reference count
     (*it)->SetParent( this );  
     it++;
-  }
+    }
 }
 
 /** Get the number of children */
@@ -746,13 +746,13 @@ SpatialObject< TDimension >
 ::HasParent( void ) const
 {
   if( m_Parent )
-  {
+    {
     return true;
-  }
+    }
   else
-  {
+    {
     return false;
-  }
+    }
 }
 
 /** Set the largest possible region */
@@ -762,10 +762,10 @@ SpatialObject< TDimension >
 ::SetLargestPossibleRegion(const RegionType &region)
 {
   if (m_LargestPossibleRegion != region)
-  {
+    {
     m_LargestPossibleRegion = region;
     this->Modified();
-  }
+    }
 }
 
 /** Update the Output information */
@@ -775,25 +775,25 @@ SpatialObject< TDimension >
 ::UpdateOutputInformation()
 {
   if (this->GetSource())
-  {
+    {
     this->GetSource()->UpdateOutputInformation();
-  }
+    }
   // If we don't have a source, then let's make our Image
   // span our buffer
   else
-  {
+    {
     m_LargestPossibleRegion = m_BufferedRegion;
-  }
+    }
   
   // Now we should know what our largest possible region is. If our 
   // requested region was not set yet, (or has been set to something 
   // invalid - with no data in it ) then set it to the largest possible
   // region.
   if ( ! m_RequestedRegionInitialized)
-  {
+    {
     this->SetRequestedRegionToLargestPossibleRegion();
     m_RequestedRegionInitialized = true;
-  }
+    }
   
   m_LastRequestedRegionWasOutsideOfTheBufferedRegion = 0;
 }
@@ -829,8 +829,8 @@ SpatialObject< TDimension >
     {
     // pointer could not be cast back down
     itkExceptionMacro( << "itk::SpatialObject::CopyInformation() cannot cast "
-                   << typeid(data).name() << " to "
-                   << typeid(SpatialObject*).name() );
+                       << typeid(data).name() << " to "
+                       << typeid(SpatialObject*).name() );
     }
 }
 
@@ -848,14 +848,14 @@ SpatialObject< TDimension >
   const SizeType& bufferedRegionSize = m_BufferedRegion.GetSize();
   
   for (i=0; i< m_Dimension; i++)
-  {
+    {
     if ( (requestedRegionIndex[i] < bufferedRegionIndex[i]) ||
          ((requestedRegionIndex[i] + static_cast<long>(requestedRegionSize[i]))
           > (bufferedRegionIndex[i] + static_cast<long>(bufferedRegionSize[i]))) )
-    {
+      {
       return true;
+      }
     }
-  }
   return false;
 }
 
@@ -866,11 +866,11 @@ SpatialObject< TDimension >
 ::SetBufferedRegion(const RegionType &region)
 {
   if (m_BufferedRegion != region)
-  {
+    {
     m_BufferedRegion = region;
     this->ComputeOffsetTable();
     this->Modified();
-  }
+    }
 }
 
 
@@ -894,14 +894,14 @@ SpatialObject< TDimension >
     = m_LargestPossibleRegion.GetSize();
   
   for (i=0; i< m_Dimension; i++)
-  {
+    {
     if ( (requestedRegionIndex[i] < largestPossibleRegionIndex[i]) ||
          ((requestedRegionIndex[i] + static_cast<long>(requestedRegionSize[i]))
           > (largestPossibleRegionIndex[i]+static_cast<long>(largestPossibleRegionSize[i]))))
-    {
+      {
       retval = false;
+      }
     }
-  }
 
   return retval;
 }
@@ -912,11 +912,11 @@ SpatialObject< TDimension >
 ::SetRequestedRegion(const RegionType &region)
 {
   if (m_RequestedRegion != region)
-  {
+    {
     m_RequestedRegion = region;
     m_RequestedRegionInitialized = true;
     this->Modified();
-  }
+    }
 }
 
 
@@ -930,15 +930,15 @@ SpatialObject< TDimension >
   imgData = dynamic_cast<SpatialObject*>(data);
 
   if (imgData)
-  {
+    {
     m_RequestedRegion = imgData->GetRequestedRegion();
     m_RequestedRegionInitialized = true;
-  }
+    }
   else
-  {
+    {
     // pointer could not be cast back down
     itkExceptionMacro( << "itk::ImageBase::SetRequestedRegion(DataObject*) cannot cast " << typeid(data).name() << " to " << typeid(SpatialObject*).name() );
-  }
+    }
 }
 
 
@@ -952,10 +952,10 @@ SpatialObject< TDimension >
   
   m_OffsetTable[0] = num;
   for (unsigned int i=0; i < m_Dimension; i++)
-  {
+    {
     num *= bufferSize[i];
     m_OffsetTable[i+1] = num;
-  }
+    }
 }
 
 

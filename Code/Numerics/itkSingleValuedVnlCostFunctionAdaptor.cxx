@@ -25,7 +25,7 @@ namespace itk
 /**  Constructor.  */
 SingleValuedVnlCostFunctionAdaptor 
 ::SingleValuedVnlCostFunctionAdaptor(unsigned int spaceDimension):
-                             vnl_cost_function(spaceDimension) 
+  vnl_cost_function(spaceDimension) 
 { 
 }    
 
@@ -56,7 +56,7 @@ SingleValuedVnlCostFunctionAdaptor
 void 
 SingleValuedVnlCostFunctionAdaptor
 ::gradf(  const InternalParametersType   & inparameters,
-                InternalDerivativeType   & gradient       ) 
+          InternalDerivativeType   & gradient       ) 
 {
   if( !m_CostFunction )
     {
@@ -77,8 +77,8 @@ SingleValuedVnlCostFunctionAdaptor
 void 
 SingleValuedVnlCostFunctionAdaptor
 ::compute( const InternalParametersType   & x,
-                 InternalMeasureType      * f, 
-                 InternalDerivativeType   * g   )
+           InternalMeasureType      * f, 
+           InternalDerivativeType   * g   )
 {
   // delegate the computation to the CostFunction
   ParametersType parameters( x.size() );
@@ -99,7 +99,7 @@ SingleValuedVnlCostFunctionAdaptor
 void 
 SingleValuedVnlCostFunctionAdaptor
 ::ConvertInternalToExternalParameters( const InternalParametersType & input,
-                                             ParametersType         & output )
+                                       ParametersType         & output )
 {
   const unsigned int size = input.size();
   output = ParametersType(size);
@@ -116,7 +116,7 @@ SingleValuedVnlCostFunctionAdaptor
 void 
 SingleValuedVnlCostFunctionAdaptor
 ::ConvertExternalToInternalParameters( const  ParametersType         & input,
-                                              InternalParametersType & output )
+                                       InternalParametersType & output )
 {
   const unsigned int size = input.size();
   for( unsigned int i=0; i<size; i++ ) 
@@ -130,7 +130,7 @@ SingleValuedVnlCostFunctionAdaptor
 void 
 SingleValuedVnlCostFunctionAdaptor
 ::ConvertExternalToInternalGradient( const DerivativeType         & input,
-                                           InternalDerivativeType & output )
+                                     InternalDerivativeType & output )
 {
   const unsigned int size = input.size();
   output = InternalDerivativeType(size);

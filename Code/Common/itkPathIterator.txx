@@ -26,7 +26,7 @@ namespace itk
 template<class TImage, class TPath>
 PathIterator<TImage, TPath>
 ::PathIterator(ImageType *imagePtr, const PathType  *pathPtr):
-    PathConstIterator<TImage,TPath>(imagePtr, pathPtr)
+  PathConstIterator<TImage,TPath>(imagePtr, pathPtr)
 {
 }
 

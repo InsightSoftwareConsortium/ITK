@@ -84,7 +84,7 @@ class ITK_EXPORT ThresholdSegmentationLevelSetImageFilter
   : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, Image<TOutputPixelType, ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 {
 public:
-   /** Standard class typedefs */
+  /** Standard class typedefs */
   typedef ThresholdSegmentationLevelSetImageFilter Self;
   typedef  SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, Image<TOutputPixelType, ::itk::GetImageDimension<TInputImage>::ImageDimension> > Superclass;
   typedef SmartPointer<Self>  Pointer;
@@ -109,8 +109,8 @@ public:
   /** Get/Set the threshold values that will be used to calculate the speed function. */
   void SetUpperThreshold(ValueType v)
   {
-      this->m_ThresholdFunction->SetUpperThreshold(v);
-      this->Modified();
+    this->m_ThresholdFunction->SetUpperThreshold(v);
+    this->Modified();
   }
   void SetLowerThreshold(ValueType v)
   {
@@ -133,7 +133,7 @@ protected:
   virtual void PrintSelf(std::ostream &os, Indent indent) const; 
 
   ThresholdSegmentationLevelSetImageFilter(const Self &); // purposely not impl.
-   void operator=(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 private:
   ThresholdFunctionPointer m_ThresholdFunction;
 };

@@ -32,7 +32,7 @@ namespace itk
 
 template < unsigned int TDimension = 3 >
 class EllipseSpatialObject 
-: public SpatialObject< TDimension >
+  : public SpatialObject< TDimension >
 {
 
 public:
@@ -80,7 +80,7 @@ public:
                          unsigned int depth=0,
                          char * name=NULL) const;
 
- /** provide a method to get the boundaries of 
+  /** provide a method to get the boundaries of 
   *  a specific object. Basically, this function need to be called
   *  every time one of the object component is changed. */ 
   virtual bool ComputeBoundingBox() const;
@@ -100,7 +100,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkEllipseSpatialObject.txx"
+#include "itkEllipseSpatialObject.txx"
 #endif
 
 #endif // __itkEllipseSpatialObject_h

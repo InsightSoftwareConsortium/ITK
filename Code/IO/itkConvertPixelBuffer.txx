@@ -23,9 +23,9 @@
 namespace itk
 {
 template < typename InputPixelType,
-  typename OutputPixelType,
-  class OutputConvertTraits
->
+           typename OutputPixelType,
+           class OutputConvertTraits
+           >
 void
 ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 ::Convert(InputPixelType* inputData, 
@@ -99,13 +99,13 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
   
   
 template < typename InputPixelType,
-  typename OutputPixelType,
-  class OutputConvertTraits
->
+           typename OutputPixelType,
+           class OutputConvertTraits
+           >
 void
 ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 ::ConvertGrayToGray(InputPixelType* inputData, 
-                                OutputPixelType* outputData , int size)
+                    OutputPixelType* outputData , int size)
 {
   InputPixelType* endInput = inputData + size;
   while(inputData != endInput)
@@ -120,9 +120,9 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 
 
 template < typename InputPixelType,
-  typename OutputPixelType,
-  class OutputConvertTraits
->
+           typename OutputPixelType,
+           class OutputConvertTraits
+           >
 void
 ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 ::ConvertRGBToGray(InputPixelType* inputData, 
@@ -146,9 +146,9 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 
 
 template < typename InputPixelType,
-  typename OutputPixelType,
-  class OutputConvertTraits
->
+           typename OutputPixelType,
+           class OutputConvertTraits
+           >
 void
 ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 ::ConvertRGBAToGray(InputPixelType* inputData, 
@@ -165,7 +165,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
         0.2125 * static_cast<double>(*inputData) +
         0.7154 * static_cast<double>(*(inputData+1)) +
         0.0721 * static_cast<double>(*(inputData+2))
-      ) * static_cast<double>(*(inputData+3));
+        ) * static_cast<double>(*(inputData+3));
     inputData += 4;
     OutputComponentType val = static_cast<OutputComponentType>( tempval );
     OutputConvertTraits::SetNthComponent(0, *outputData++, val);
@@ -176,9 +176,9 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 
 
 template < typename InputPixelType,
-  typename OutputPixelType,
-  class OutputConvertTraits
->
+           typename OutputPixelType,
+           class OutputConvertTraits
+           >
 void
 ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 ::ConvertMultiComponentToGray(InputPixelType* inputData, 
@@ -209,11 +209,11 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
     while(inputData != endInput)
       {
       double tempval = 
-      (
-        0.2125 * static_cast<double>(*inputData) +
-        0.7154 * static_cast<double>(*(inputData+1)) +
-        0.0721 * static_cast<double>(*(inputData+2)) 
-      ) * static_cast<double>(*(inputData+3));
+        (
+          0.2125 * static_cast<double>(*inputData) +
+          0.7154 * static_cast<double>(*(inputData+1)) +
+          0.0721 * static_cast<double>(*(inputData+2)) 
+          ) * static_cast<double>(*(inputData+3));
       inputData += 4;
       OutputComponentType val = static_cast<OutputComponentType>( tempval );
       OutputConvertTraits::SetNthComponent(0, *outputData++, val);
@@ -224,13 +224,13 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 
   
 template < typename InputPixelType,
-  typename OutputPixelType,
-  class OutputConvertTraits
->
+           typename OutputPixelType,
+           class OutputConvertTraits
+           >
 void
 ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 ::ConvertGrayToRGB(InputPixelType* inputData, 
-                 OutputPixelType* outputData , int size)
+                   OutputPixelType* outputData , int size)
 {
   InputPixelType* endInput = inputData + size;
   while(inputData != endInput)
@@ -254,9 +254,9 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 
 
 template < typename InputPixelType,
-  typename OutputPixelType,
-  class OutputConvertTraits
->
+           typename OutputPixelType,
+           class OutputConvertTraits
+           >
 void
 ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 ::ConvertRGBToRGB(InputPixelType* inputData, 
@@ -283,9 +283,9 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 }
 
 template < typename InputPixelType,
-  typename OutputPixelType,
-  class OutputConvertTraits
->
+           typename OutputPixelType,
+           class OutputConvertTraits
+           >
 void
 ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 ::ConvertRGBAToRGB(InputPixelType* inputData, 
@@ -315,9 +315,9 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 }
 
 template < typename InputPixelType,
-  typename OutputPixelType,
-  class OutputConvertTraits
->
+           typename OutputPixelType,
+           class OutputConvertTraits
+           >
 void
 ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 ::ConvertMultiComponentToRGB(InputPixelType* inputData, 
@@ -372,13 +372,13 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 
 
 template < typename InputPixelType,
-  typename OutputPixelType,
-  class OutputConvertTraits
->
+           typename OutputPixelType,
+           class OutputConvertTraits
+           >
 void
 ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 ::ConvertGrayToRGBA(InputPixelType* inputData, 
-                                OutputPixelType* outputData , int size)
+                    OutputPixelType* outputData , int size)
   
 {
   InputPixelType* endInput = inputData + size;
@@ -406,9 +406,9 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 }
 
 template < typename InputPixelType,
-  typename OutputPixelType,
-  class OutputConvertTraits
->
+           typename OutputPixelType,
+           class OutputConvertTraits
+           >
 void
 ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 ::ConvertRGBToRGBA(InputPixelType* inputData, 
@@ -440,13 +440,13 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 
 
 template < typename InputPixelType,
-  typename OutputPixelType,
-  class OutputConvertTraits
->
+           typename OutputPixelType,
+           class OutputConvertTraits
+           >
 void
 ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 ::ConvertRGBAToRGBA(InputPixelType* inputData, 
-                  OutputPixelType* outputData , int size)
+                    OutputPixelType* outputData , int size)
 {
   InputPixelType* endInput = inputData + size*4;
   while(inputData != endInput)
@@ -473,9 +473,9 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 }
 
 template < typename InputPixelType,
-  typename OutputPixelType,
-  class OutputConvertTraits
->
+           typename OutputPixelType,
+           class OutputConvertTraits
+           >
 void
 ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 ::ConvertMultiComponentToRGBA(InputPixelType* inputData, 

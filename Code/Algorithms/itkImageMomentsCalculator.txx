@@ -28,7 +28,7 @@ namespace itk
 
 class ITK_EXPORT InvalidImageMomentsError : public ExceptionObject
 {
- public:
+public:
   /*
    * Constructor. Needed to ensure the exception object can be copied.
    */
@@ -96,31 +96,31 @@ ComputeMoments( const ImageType * image )
     m_M0 += value;
 
     for(unsigned int i=0; i<ImageDimension; i++)
-    {
+      {
       m_M1[i] += static_cast<double>( indexPosition[i] ) * value; 
       for(unsigned int j=0; j<ImageDimension; j++)
-      {
+        {
         double weight = value * static_cast<double>( indexPosition[i] ) * 
           static_cast<double>( indexPosition[j] );
         m_M2[i][j] += weight;
+        }
       }
-    }
 
     image->TransformIndexToPhysicalPoint(indexPosition, physicalPosition);  
     
     for(unsigned int i=0; i<ImageDimension; i++)
-    {
+      {
       m_Cg[i] += physicalPosition[i] * value; 
       for(unsigned int j=0; j<ImageDimension; j++)
-      {
+        {
         double weight = value * physicalPosition[i] * physicalPosition[j];
         m_Cm[i][j] += weight;
+        }
+
       }
 
-    }
-
     ++it;
-  }
+    }
 
   // Throw an error if the total mass is zero
   if ( m_M0 == 0.0 )
@@ -128,33 +128,33 @@ ComputeMoments( const ImageType * image )
 
   // Normalize using the total mass
   for(unsigned int i=0; i<ImageDimension; i++)
-  {
+    {
     m_Cg[i] /= m_M0;
     m_M1[i] /= m_M0;
     for(unsigned int j=0; j<ImageDimension; j++)
-    {
+      {
       m_M2[i][j] /= m_M0;
       m_Cm[i][j] /= m_M0;
+      }
     }
-  }
 
   // Center the second order moments
   for(unsigned int i=0; i<ImageDimension; i++)
-  {
-    for(unsigned int j=0; j<ImageDimension; j++)
     {
+    for(unsigned int j=0; j<ImageDimension; j++)
+      {
       m_M2[i][j] -= m_M1[i] * m_M1[j];
       m_Cm[i][j] -= m_Cg[i] * m_Cg[j];
+      }
     }
-  }
 
   // Compute principal moments and axes
   vnl_symmetric_eigensystem<double> eigen( m_Cm.GetVnlMatrix() );
   vnl_diag_matrix<double> pm = eigen.D;
   for(unsigned int i=0; i<ImageDimension; i++)
-  {
+    {
     m_Pm[i] = pm(i,i) * m_M0;
-  }
+    }
   m_Pa = eigen.V.transpose();
 
   // Add a final reflection if needed for a proper rotation,
@@ -164,14 +164,14 @@ ComputeMoments( const ImageType * image )
   vcl_complex<double> det( 1.0, 0.0 );
 
   for(unsigned int i=0; i<ImageDimension; i++)
-  {
+    {
     det *= eigenval( i, i );
-  }
+    }
 
   for(unsigned int i=0; i<ImageDimension; i++)
-  {
+    {
     m_Pa[ ImageDimension-1 ][i] *= std::real( det );
-  }
+    }
   
   /* Remember that the moments are valid */
   m_Valid = 1;
@@ -267,23 +267,23 @@ typename ImageMomentsCalculator<TImage>::AffineTransformPointer
 ImageMomentsCalculator<TImage>::
 GetPrincipalAxesToPhysicalAxesTransform(void) const
 {
-    typename AffineTransformType::MatrixType matrix;
-    typename AffineTransformType::OffsetType offset;
-    for (unsigned int i = 0; i < ImageDimension; i++) 
+  typename AffineTransformType::MatrixType matrix;
+  typename AffineTransformType::OffsetType offset;
+  for (unsigned int i = 0; i < ImageDimension; i++) 
     {
-      offset[i]  = m_Cg [i];
-      for (unsigned int j = 0; j < ImageDimension; j++)
+    offset[i]  = m_Cg [i];
+    for (unsigned int j = 0; j < ImageDimension; j++)
       {
-        matrix[j][i] = m_Pa[i][j];    // Note the transposition
+      matrix[j][i] = m_Pa[i][j];    // Note the transposition
       }
     }
 
-    AffineTransformPointer result = AffineTransformType::New();
+  AffineTransformPointer result = AffineTransformType::New();
     
-    result->SetMatrix(matrix);
-    result->SetOffset(offset);
+  result->SetMatrix(matrix);
+  result->SetOffset(offset);
 
-    return result;
+  return result;
 }
 
 
@@ -295,22 +295,22 @@ typename ImageMomentsCalculator<TImage>::AffineTransformPointer
 ImageMomentsCalculator<TImage>::
 GetPhysicalAxesToPrincipalAxesTransform(void) const
 {
-    typename AffineTransformType::MatrixType matrix;
-    typename AffineTransformType::OffsetType offset;
-    for (unsigned int i = 0; i < ImageDimension; i++) 
+  typename AffineTransformType::MatrixType matrix;
+  typename AffineTransformType::OffsetType offset;
+  for (unsigned int i = 0; i < ImageDimension; i++) 
     {
-      offset[i]    = m_Cg [i];
-      for (unsigned int j = 0; j < ImageDimension; j++)
+    offset[i]    = m_Cg [i];
+    for (unsigned int j = 0; j < ImageDimension; j++)
       {
-        matrix[j][i] = m_Pa[i][j];    // Note the transposition
+      matrix[j][i] = m_Pa[i][j];    // Note the transposition
       }
     }
 
-    AffineTransformPointer result = AffineTransformType::New();
-    result->SetMatrix(matrix);
-    result->SetOffset(offset);
+  AffineTransformPointer result = AffineTransformType::New();
+  result->SetMatrix(matrix);
+  result->SetOffset(offset);
 
-    return result->Inverse();
+  return result->Inverse();
 }
 
 } // end namespace itk

@@ -30,11 +30,11 @@ LineSpatialObjectPoint< TPointDimension >
   m_ID = 0;
   m_NumDimensions = TPointDimension;
   for(unsigned int i=0;i<TPointDimension-1;i++)
-  {
+    {
     VectorType normal;
     normal.Fill(0);
     m_NormalArray[i]=normal;
-  }  
+    }  
 }
 
 /** Destructor */
@@ -62,9 +62,9 @@ LineSpatialObjectPoint< TPointDimension >
   Superclass::PrintSelf(os,indent);
   os << indent << "LineSpatialObjectPoint(" << this << ")" << std::endl; 
   for(unsigned int i=0;i<TPointDimension-1;i++)
-  {
+    {
     os << indent <<   m_NormalArray[i] << std::endl;
-  }  
+    }  
 }
 
 /** Set the specified normal */

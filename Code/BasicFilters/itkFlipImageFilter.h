@@ -46,7 +46,7 @@ namespace itk
  */
 template <class TImage>
 class ITK_EXPORT FlipImageFilter :
-  public ImageToImageFilter<TImage,TImage>
+    public ImageToImageFilter<TImage,TImage>
 {
 
 public:

@@ -53,13 +53,13 @@ namespace itk
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT VoronoiSegmentationImageFilter:
-public VoronoiSegmentationImageFilterBase<TInputImage,TOutputImage>
+    public VoronoiSegmentationImageFilterBase<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
   typedef VoronoiSegmentationImageFilter       Self;
   typedef VoronoiSegmentationImageFilterBase<TInputImage,TOutputImage> 
-          Superclass;
+  Superclass;
   typedef SmartPointer <Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

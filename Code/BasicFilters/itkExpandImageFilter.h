@@ -69,11 +69,11 @@ namespace itk
  * \ingroup GeometricTransform
  */
 template <
-class TInputImage, 
-class TOutputImage 
->
+  class TInputImage, 
+  class TOutputImage 
+  >
 class ITK_EXPORT ExpandImageFilter:
-  public ImageToImageFilter<TInputImage,TOutputImage>
+    public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
@@ -105,10 +105,10 @@ public:
   /** Typedef support for the interpolation function. */
   typedef double CoordRepType;
   typedef InterpolateImageFunction<InputImageType,CoordRepType> 
-    InterpolatorType;
+  InterpolatorType;
   typedef typename InterpolatorType::Pointer InterpolatorPointer;
   typedef LinearInterpolateImageFunction<InputImageType,CoordRepType> 
-    DefaultInterpolatorType;
+  DefaultInterpolatorType;
 
   /** Set the interpolator function. */
   itkSetObjectMacro( Interpolator, InterpolatorType );
@@ -123,7 +123,7 @@ public:
 
   /** Get the expand factors. */
   virtual const unsigned int * GetExpandFactors() const
-    { return m_ExpandFactors; }
+  { return m_ExpandFactors; }
 
   /** Set the edge padding value. The default is zero. */
   itkSetMacro( EdgePaddingValue, OutputPixelType );

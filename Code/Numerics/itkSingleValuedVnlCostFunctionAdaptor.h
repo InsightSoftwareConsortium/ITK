@@ -34,7 +34,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  */
 class SingleValuedVnlCostFunctionAdaptor : 
-          public vnl_cost_function
+    public vnl_cost_function
 {
 public:
 
@@ -59,38 +59,38 @@ public:
 
   /** Set the CostFunction deriving from SingleValuedCostFunction */
   void SetCostFunction( SingleValuedCostFunction * costFunction )
-          { m_CostFunction = costFunction; }
+  { m_CostFunction = costFunction; }
     
   /** Get the CostFunction deriving from SingleValuedCostFunction */
   const SingleValuedCostFunction * GetCostFunction( void ) const
-          { return m_CostFunction; }
+  { return m_CostFunction; }
     
   /**  Delegate computation of the value to the CostFunction. */
   virtual InternalMeasureType f( const InternalParametersType & inparameters );
     
   /**  Delegate computation of the gradient to the costFunction.  */
   virtual void gradf(const InternalParametersType   & inparameters,
-                           InternalDerivativeType   & gradient );
+                     InternalDerivativeType   & gradient );
     
   /**  Delegate computation of value and gradient to the costFunction.     */
   virtual void compute(const InternalParametersType   & x,
-                             InternalMeasureType      * f, 
-                             InternalDerivativeType   * g   );
+                       InternalMeasureType      * f, 
+                       InternalDerivativeType   * g   );
 
   /**  Convert internal Parameters into external type.  */
   static void ConvertInternalToExternalParameters( 
-                            const InternalParametersType & input,
-                                  ParametersType         & output );
+    const InternalParametersType & input,
+    ParametersType         & output );
 
   /**  Convert external Parameters into internal type  */
   static void ConvertExternalToInternalParameters(
-                            const  ParametersType         & input,
-                                   InternalParametersType & output );
+    const  ParametersType         & input,
+    InternalParametersType & output );
     
   /**  Convert external derviative measures into internal type   */
   void ConvertExternalToInternalGradient(
-                            const DerivativeType         & input,
-                                  InternalDerivativeType & output );
+    const DerivativeType         & input,
+    InternalDerivativeType & output );
 
 private:
 

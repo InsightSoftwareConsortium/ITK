@@ -442,7 +442,7 @@ ProcessObject
     for (idx = 0; idx < m_Inputs.size(); ++idx)
       {
       os << indent << "Input " << static_cast<int>( idx );
-    os << ": (" << m_Inputs[idx].GetPointer() << ")\n";
+      os << ": (" << m_Inputs[idx].GetPointer() << ")\n";
       }
     }
   else
@@ -455,7 +455,7 @@ ProcessObject
     for (idx = 0; idx < m_Outputs.size(); ++idx)
       {
       os << indent << "Output " << static_cast<int>( idx );
-    os << ": (" << m_Outputs[idx].GetPointer() << ")\n";
+      os << ": (" << m_Outputs[idx].GetPointer() << ")\n";
       }
     }
   else
@@ -829,8 +829,8 @@ ProcessObject
   if (m_Inputs.size() < m_NumberOfRequiredInputs)
     {
     itkExceptionMacro(<< "At least " << m_NumberOfRequiredInputs 
-                  << " inputs are required but only " << static_cast<int>( m_Inputs.size() )
-                  << " are specified");
+                      << " inputs are required but only " << static_cast<int>( m_Inputs.size() )
+                      << " are specified");
     }
   else
     {
@@ -840,7 +840,7 @@ ProcessObject
       }
     catch( ProcessAborted & excp )
       {
-        excp = excp;
+      excp = excp;
       this->InvokeEvent( AbortEvent() );
       this->ResetPipeline();
       throw ProcessAborted(__FILE__,__LINE__);

@@ -161,8 +161,8 @@ protected:
   {
     if (this->GetElapsedIterations() >= m_MaximumIterations)
       {
-        itkWarningMacro("This filter has passed the maximum number of iterations allowed and will be halted.  This means that the solution did not converge to the MaximumRMSError you specified.  Try setting m_MaximumRMSError to a higher value, or set m_MaxmimumIterations to a higher value.");
-        return true;
+      itkWarningMacro("This filter has passed the maximum number of iterations allowed and will be halted.  This means that the solution did not converge to the MaximumRMSError you specified.  Try setting m_MaximumRMSError to a higher value, or set m_MaxmimumIterations to a higher value.");
+      return true;
       }
     else if ( this->GetElapsedIterations() == 0)
       { return false; }

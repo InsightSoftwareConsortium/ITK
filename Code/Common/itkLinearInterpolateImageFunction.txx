@@ -63,7 +63,7 @@ typename LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::OutputType
 LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::EvaluateAtContinuousIndex(
-const ContinuousIndexType& index) const
+  const ContinuousIndexType& index) const
 {
   unsigned int dim;  // index over dimension
 

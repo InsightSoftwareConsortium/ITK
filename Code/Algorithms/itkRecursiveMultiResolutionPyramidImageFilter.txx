@@ -88,7 +88,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
     {
 
     this->UpdateProgress( 1.0 - static_cast<float>( 1 + ilevel ) /
-      static_cast<float>( m_NumberOfLevels ) );
+                          static_cast<float>( m_NumberOfLevels ) );
 
     // Allocate memory for each output
     outputPtr = this->GetOutput( ilevel );
@@ -112,7 +112,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
           m_Schedule[ilevel+1][idim];
         }
       variance[idim] = vnl_math_sqr( 0.5 * 
-        static_cast<float>( factors[idim] ) );
+                                     static_cast<float>( factors[idim] ) );
       if( factors[idim] != 1 ) 
         { 
         allOnes = false; 
@@ -248,7 +248,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 
   // compute requested regions for lower levels
   for( ilevel = refLevel + 1; ilevel < static_cast<int>(m_NumberOfLevels); 
-    ilevel++ )
+       ilevel++ )
     {
 
     requestedRegion = this->GetOutput( ilevel - 1 )->GetRequestedRegion();
@@ -268,11 +268,11 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
         {
         oper->SetDirection( idim );
         oper->SetVariance( vnl_math_sqr( 0.5 * 
-          static_cast<float>( factors[idim] ) ) );
+                                         static_cast<float>( factors[idim] ) ) );
         oper->CreateDirectional();
         radius[idim] = oper->GetRadius()[idim];
         }
-       else
+      else
         {
         radius[idim] = 0;
         }
@@ -282,7 +282,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
     requestedRegion.SetIndex( requestedIndex );
     requestedRegion.PadByRadius( radius );
     requestedRegion.Crop( this->GetOutput(ilevel)->
-      GetLargestPossibleRegion() );
+                          GetLargestPossibleRegion() );
 
     this->GetOutput(ilevel)->SetRequestedRegion( requestedRegion );
 
@@ -306,11 +306,11 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
         {
         oper->SetDirection( idim );
         oper->SetVariance( vnl_math_sqr( 0.5 * 
-          static_cast<float>( factors[idim] ) ) );
+                                         static_cast<float>( factors[idim] ) ) );
         oper->CreateDirectional();
         radius[idim] = oper->GetRadius()[idim];
         }
-       else
+      else
         {
         radius[idim] = 0;
         }
@@ -321,22 +321,22 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
       
       // take into account shrink component
       requestedSize[idim] = static_cast<SizeValueType>( floor(
-        static_cast<double>(requestedSize[idim]) / 
-        static_cast<double>(factors[idim]) ) );
+                                                          static_cast<double>(requestedSize[idim]) / 
+                                                          static_cast<double>(factors[idim]) ) );
       if( requestedSize[idim] < 1 )
         {
         requestedSize[idim] = 1;
         }
       requestedIndex[idim] = static_cast<IndexValueType>( ceil(
-        static_cast<double>(requestedIndex[idim]) /
-        static_cast<double>(factors[idim]) ) );
+                                                            static_cast<double>(requestedIndex[idim]) /
+                                                            static_cast<double>(factors[idim]) ) );
 
       }
 
     requestedRegion.SetSize( requestedSize );
     requestedRegion.SetIndex( requestedIndex );
     requestedRegion.Crop( this->GetOutput(ilevel)->
-      GetLargestPossibleRegion() );
+                          GetLargestPossibleRegion() );
 
     this->GetOutput(ilevel)->SetRequestedRegion( requestedRegion );
 
@@ -362,7 +362,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   
   // get pointers to the input and output
   InputImagePointer  inputPtr = 
-      const_cast< InputImageType *>( this->GetInput() );
+    const_cast< InputImageType *>( this->GetInput() );
   if ( !inputPtr )
     {
     itkExceptionMacro( << "Input has not been set." );
@@ -403,7 +403,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
     {
     oper->SetDirection(idim);
     oper->SetVariance( vnl_math_sqr( 0.5 * static_cast<float>(
-      m_Schedule[refLevel][idim] ) ) );
+                                       m_Schedule[refLevel][idim] ) ) );
     oper->SetMaximumError( m_MaximumError );
     oper->CreateDirectional();
     radius[idim] = oper->GetRadius()[idim];

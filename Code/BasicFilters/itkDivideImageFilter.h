@@ -36,30 +36,30 @@ namespace itk
 
 namespace Function {  
   
-  template< class TInput1, class TInput2, class TOutput>
-  class Div
+template< class TInput1, class TInput2, class TOutput>
+class Div
+{
+public:
+  Div() {};
+  ~Div() {};
+  inline TOutput operator()( const TInput1 & A, const TInput2 & B)
   {
-  public:
-    Div() {};
-    ~Div() {};
-    inline TOutput operator()( const TInput1 & A, const TInput2 & B)
-    {
-      if(B != (TInput2) 0)
-        return (TOutput)(A / B);
-      else
-        return NumericTraits<TOutput>::max();
-    }
-  }; 
+    if(B != (TInput2) 0)
+      return (TOutput)(A / B);
+    else
+      return NumericTraits<TOutput>::max();
+  }
+}; 
 }
 
 template <class TInputImage1, class TInputImage2, class TOutputImage>
 class ITK_EXPORT DivideImageFilter :
     public
-    BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-    Function::Div< 
-              typename TInputImage1::PixelType, 
-              typename TInputImage2::PixelType,
-              typename TOutputImage::PixelType>   >
+BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
+                         Function::Div< 
+  typename TInputImage1::PixelType, 
+  typename TInputImage2::PixelType,
+  typename TOutputImage::PixelType>   >
 {
 public:
   /**
@@ -71,11 +71,11 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-              Function::Div< 
-              typename TInputImage1::PixelType, 
-              typename TInputImage2::PixelType,
-              typename TOutputImage::PixelType>   
-                > Superclass;
+                                   Function::Div< 
+    typename TInputImage1::PixelType, 
+    typename TInputImage2::PixelType,
+    typename TOutputImage::PixelType>   
+  > Superclass;
 
   /** 
    * Smart pointer typedef support 

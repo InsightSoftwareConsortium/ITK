@@ -118,7 +118,7 @@ template < class TFixedImage, class TMovingImage>
 void
 PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
 ::GetDerivative( const TransformParametersType & parameters, 
-                       DerivativeType & derivative           ) const
+                 DerivativeType & derivative           ) const
 {
 
   const double delta = 0.00011;

@@ -68,9 +68,9 @@ namespace itk
  */
 
 template <class TInputImage, 
-  class TOutputImage, 
-  class TCoordType = float, 
-  class InterpolatorType = BSplineInterpolateImageFunction<TInputImage, TCoordType> > 
+          class TOutputImage, 
+          class TCoordType = float, 
+          class InterpolatorType = BSplineInterpolateImageFunction<TInputImage, TCoordType> > 
 class ITK_EXPORT InterpolateImagePointsFilter : 
     public ImageToImageFilter<TInputImage, TOutputImage>
 {
@@ -134,7 +134,7 @@ public:
 
   /** Returns a pointer to the  interpolator. */
   InterpolatorPointer GetInterpolator()
-    {  return m_Interpolator;  }
+  {  return m_Interpolator;  }
    
   /** Overloaded to ensure that output is sized the same as the coordinate inputs
     * and not the size of the input image. */
@@ -151,7 +151,7 @@ protected:
   /** TODO:  This needs to be modified for a threaded implementation.
     */
   void ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
+                             int threadId );
   void BeforeThreadedGenerateData();
 
   InterpolateImagePointsFilter();

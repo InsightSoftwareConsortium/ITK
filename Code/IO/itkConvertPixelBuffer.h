@@ -34,7 +34,7 @@ template <
   typename InputPixelType,
   typename OutputPixelType,
   class OutputConvertTraits
->
+  >
 class ConvertPixelBuffer
 {
 public:
@@ -52,7 +52,7 @@ protected:
   static void ConvertRGBToGray(InputPixelType* inputData, 
                                OutputPixelType* outputData , int size);
   static void ConvertRGBAToGray(InputPixelType* inputData, 
-                               OutputPixelType* outputData , int size);
+                                OutputPixelType* outputData , int size);
   static void ConvertMultiComponentToGray(InputPixelType* inputData, 
                                           int inputNumberOfComponents,
                                           OutputPixelType* outputData , 
@@ -62,7 +62,7 @@ protected:
   static void ConvertGrayToRGB(InputPixelType* inputData, 
                                OutputPixelType* outputData , int size);
   static void ConvertRGBToRGB(InputPixelType* inputData, 
-                               OutputPixelType* outputData , int size);
+                              OutputPixelType* outputData , int size);
   static void ConvertRGBAToRGB(InputPixelType* inputData, 
                                OutputPixelType* outputData , int size);
   static void ConvertMultiComponentToRGB(InputPixelType* inputData, 

@@ -36,46 +36,46 @@ namespace itk
   
 namespace Function {  
   
-  template< class TInput >
-  class ComposeRGB
+template< class TInput >
+class ComposeRGB
+{
+public:
+  typedef RGBPixel<TInput> OutputType;
+  ComposeRGB() {}
+  ~ComposeRGB() {}
+  inline OutputType operator()(  const TInput & R, 
+                                 const TInput & G,
+                                 const TInput & B)
   {
-  public:
-    typedef RGBPixel<TInput> OutputType;
-    ComposeRGB() {}
-    ~ComposeRGB() {}
-    inline OutputType operator()(  const TInput & R, 
-                                   const TInput & G,
-                                   const TInput & B)
-      {
-        OutputType rgbPixel;
-        rgbPixel.Set( R, G, B);
-        return rgbPixel;
-      }
-    bool operator != (const ComposeRGB&) const
-      {
-      return false;
-      }
-  }; 
+    OutputType rgbPixel;
+    rgbPixel.Set( R, G, B);
+    return rgbPixel;
+  }
+  bool operator != (const ComposeRGB&) const
+  {
+    return false;
+  }
+}; 
 }
 
 template <typename TInputImage, 
           typename TOutputImage= 
-                     Image< RGBPixel< ITK_TYPENAME TInputImage::PixelType >,
-                            ::itk::GetImageDimension<TInputImage>::ImageDimension > >
+          Image< RGBPixel< ITK_TYPENAME TInputImage::PixelType >,
+                 ::itk::GetImageDimension<TInputImage>::ImageDimension > >
 class ITK_EXPORT ComposeRGBImageFilter :
     public
-    TernaryFunctorImageFilter<TInputImage,TInputImage,
-                      TInputImage,TOutputImage, 
-            Function::ComposeRGB< ITK_TYPENAME TInputImage::PixelType >   >
+TernaryFunctorImageFilter<TInputImage,TInputImage,
+                          TInputImage,TOutputImage, 
+                          Function::ComposeRGB< ITK_TYPENAME TInputImage::PixelType >   >
 {
 public:
   /** Standard class typedefs. */
   typedef ComposeRGBImageFilter  Self;
   typedef TernaryFunctorImageFilter<TInputImage,TInputImage,
-                      TInputImage,TOutputImage, 
-                      Function::ComposeRGB< 
-                      ITK_TYPENAME TInputImage::PixelType > 
-                        >  Superclass;
+                                    TInputImage,TOutputImage, 
+                                    Function::ComposeRGB< 
+    ITK_TYPENAME TInputImage::PixelType > 
+  >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

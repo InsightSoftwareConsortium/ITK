@@ -86,7 +86,7 @@ public:
   /** Get the origin of the output image. */
   itkGetVectorMacro(Origin,const double,NDimensions);
 
-    /** Gets and sets for gaussian parameters */
+  /** Gets and sets for gaussian parameters */
   itkSetMacro(Scale, double);
   itkGetMacro(Scale, double);
   itkSetMacro(Normalized, bool);

@@ -51,8 +51,8 @@ template <class TInputImage, class TCoordRep>
 double
 CentralDifferenceImageFunction<TInputImage,TCoordRep>
 ::EvaluateAtIndex(
-const IndexType& index,
-unsigned int dim ) const
+  const IndexType& index,
+  unsigned int dim ) const
 {
   
   double derivative = 0.0;
@@ -78,7 +78,7 @@ unsigned int dim ) const
   if( index[dim] < static_cast<long>(start[dim]) + 1 ||
       index[dim] > (start[dim] + static_cast<long>(size[dim]) - 2 ) )
     {
-      return ( derivative );
+    return ( derivative );
     }
   
   // compute derivative

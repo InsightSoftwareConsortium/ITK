@@ -64,14 +64,14 @@ KdTreeGenerator< TSample >
 {
   if ( m_SourceSample == 0 )
     {
-      return ;
+    return ;
     }
   
   if ( m_Tree.IsNull() )
     {
-      m_Tree = KdTreeType::New() ;
-      m_Tree->SetSample(m_SourceSample) ;
-      m_Tree->SetBucketSize(m_BucketSize) ;
+    m_Tree = KdTreeType::New() ;
+    m_Tree->SetSample(m_SourceSample) ;
+    m_Tree->SetBucketSize(m_BucketSize) ;
     }
 
   MeasurementVectorType lowerBound ;
@@ -79,8 +79,8 @@ KdTreeGenerator< TSample >
 
   for(unsigned int d = 0 ; d < MeasurementVectorSize ; d++)
     {
-      lowerBound[d] = NumericTraits< MeasurementType >::NonpositiveMin() ;
-      upperBound[d] = NumericTraits< MeasurementType >::max() ;
+    lowerBound[d] = NumericTraits< MeasurementType >::NonpositiveMin() ;
+    upperBound[d] = NumericTraits< MeasurementType >::max() ;
     }
 
   KdTreeNodeType* root = 
@@ -118,12 +118,12 @@ KdTreeGenerator< TSample >
   maxSpread = NumericTraits< MeasurementType >::NonpositiveMin() ;
   for (i = 0 ; i < MeasurementVectorSize ; i++)
     {
-      spread = m_TempUpperBound[i] - m_TempLowerBound[i] ;
-      if (spread >= maxSpread)
-        {
-          maxSpread = spread ;
-          partitionDimension = i ;
-        }
+    spread = m_TempUpperBound[i] - m_TempLowerBound[i] ;
+    if (spread >= maxSpread)
+      {
+      maxSpread = spread ;
+      partitionDimension = i ;
+      }
     }
 
   // find median and partition this node using the quick select algorithm
@@ -165,31 +165,31 @@ KdTreeGenerator< TSample >
   if (endIndex - beginIndex <= m_BucketSize) 
     {
 
-      // numberOfInstances small, make a terminal node
-      if (endIndex == beginIndex)
+    // numberOfInstances small, make a terminal node
+    if (endIndex == beginIndex)
+      {
+      // return the pointer to empty terminal node
+      return m_Tree->GetEmptyTerminalNode() ;
+      }
+    else
+      {
+      KdTreeTerminalNode< TSample >* ptr = 
+        new KdTreeTerminalNode< TSample >(); 
+
+      for (int j = beginIndex ; j < endIndex ; j++)
         {
-          // return the pointer to empty terminal node
-          return m_Tree->GetEmptyTerminalNode() ;
+
+        ptr->AddInstanceIdentifier(m_Subsample->GetInstanceIdentifier(j)) ;
         }
-      else
-        {
-          KdTreeTerminalNode< TSample >* ptr = 
-            new KdTreeTerminalNode< TSample >(); 
 
-          for (int j = beginIndex ; j < endIndex ; j++)
-            {
-
-              ptr->AddInstanceIdentifier(m_Subsample->GetInstanceIdentifier(j)) ;
-            }
-
-          // return a terminal node
-          return ptr ; 
-        }
+      // return a terminal node
+      return ptr ; 
+      }
     }
   else 
     {
-      return this->GenerateNonterminalNode(beginIndex, endIndex, 
-                                           lowerBound, upperBound, level + 1) ;
+    return this->GenerateNonterminalNode(beginIndex, endIndex, 
+                                         lowerBound, upperBound, level + 1) ;
     }
 }
 

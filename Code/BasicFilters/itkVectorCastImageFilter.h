@@ -39,37 +39,37 @@ namespace itk
  */
 namespace Functor {  
   
-  template< class TInput, class TOutput>
-  class VectorCast
+template< class TInput, class TOutput>
+class VectorCast
+{
+public:
+  VectorCast() {}
+  ~VectorCast() {}
+  inline TOutput operator()( const TInput & A ) const
   {
-  public:
-    VectorCast() {}
-    ~VectorCast() {}
-    inline TOutput operator()( const TInput & A ) const
-      {
-      typedef typename TOutput::ValueType OutputValueType;
+    typedef typename TOutput::ValueType OutputValueType;
 
-      TOutput value;
-      for( unsigned int k = 0; k < TOutput::Dimension; k++ )
-        { value[k] = static_cast<OutputValueType>( A[k] ); }
-      return value;
-    }
-  }; 
+    TOutput value;
+    for( unsigned int k = 0; k < TOutput::Dimension; k++ )
+      { value[k] = static_cast<OutputValueType>( A[k] ); }
+    return value;
+  }
+}; 
 }
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT VectorCastImageFilter :
     public
-    UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::VectorCast< typename TInputImage::PixelType, 
-                         typename TOutputImage::PixelType>   >
+UnaryFunctorImageFilter<TInputImage,TOutputImage, 
+                        Functor::VectorCast< typename TInputImage::PixelType, 
+                                             typename TOutputImage::PixelType>   >
 {
 public:
   /** Standard class typedefs. */
   typedef VectorCastImageFilter  Self;
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::VectorCast< typename TInputImage::PixelType, 
-                         typename TOutputImage::PixelType> >  Superclass;
+                                  Functor::VectorCast< typename TInputImage::PixelType, 
+                                                       typename TOutputImage::PixelType> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

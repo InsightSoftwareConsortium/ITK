@@ -181,8 +181,8 @@ ImageBase<VImageDimension>
     {
     // pointer could not be cast back down
     itkExceptionMacro( << "itk::ImageBase::CopyInformation() cannot cast "
-                   << typeid(data).name() << " to "
-                   << typeid(ImageBase*).name() );
+                       << typeid(data).name() << " to "
+                       << typeid(ImageBase*).name() );
     }
 }
 

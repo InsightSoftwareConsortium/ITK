@@ -83,10 +83,10 @@ TubeSpatialObject< TDimension >
   it = points.begin();    
   end = points.end();
   while(it != end)
-  {
+    {
     m_Points.push_back(*it);
     it++;
-  }
+    }
       
   this->Modified();
 }
@@ -127,7 +127,7 @@ TubeSpatialObject< TDimension >
     ret = Superclass::ComputeBoundingBox();
 
     if( m_BoundingBoxChildrenName.empty() 
-       || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
+        || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
       {
       typename PointListType::const_iterator it  = m_Points.begin();
       typename PointListType::const_iterator end = m_Points.end();
@@ -154,7 +154,7 @@ TubeSpatialObject< TDimension >
       }
 
     m_BoundsMTime = this->GetMTime();
-  }
+    }
 
   return ret;
 } 
@@ -190,7 +190,7 @@ TubeSpatialObject< TDimension >
       while(it!= end)
         {  
         tempSquareDist=transformedPoint.SquaredEuclideanDistanceTo(
-                                         (*it).GetPosition());
+          (*it).GetPosition());
         if(tempSquareDist <= minSquareDist)
           {
           minSquareDist = tempSquareDist;
@@ -220,9 +220,9 @@ TubeSpatialObject< TDimension >
   itkDebugMacro( "Computing the tangent vectors of the tube" );
  
   if( m_Points.size() == 0 )
-  {
+    {
     return false; 
-  }    
+    }    
   
   PointType x1, x3; 
   VectorType t;
@@ -230,10 +230,10 @@ TubeSpatialObject< TDimension >
   t.Fill(0.0);
  
   if( m_Points.size() == 1 ) 
-  { 
+    { 
     ( *(m_Points.begin()) ).SetTangent(t); 
     return true; 
-  } 
+    } 
      
   typename PointListType::iterator it1,it2,it3; 
   it1 = m_Points.begin(); 
@@ -244,27 +244,27 @@ TubeSpatialObject< TDimension >
   it3++; 
    
   while(it3 !=m_Points.end())
-  {
+    {
     x1 = (*it1).GetPosition();
     x3 = (*it3).GetPosition();
     l=0;
     for(int i=0; i<TDimension; i++)
-    {
+      {
       t[i] = (x3[i] - x1[i])/2.0;
       l = l + t[i]*t[i];
-    }
+      }
     
     l = sqrt(l); 
     for(int i=0; i<TDimension; i++)
-    {
+      {
       t[i] /= l;
-    }
+      }
  
     (*it2).SetTangent(t);
     it1++;
     it2++;
     it3++;
-  }
+    }
  
   it1 = m_Points.begin();
   it2 = it1;
@@ -286,33 +286,33 @@ TubeSpatialObject< TDimension >
   it1 = m_Points.begin(); 
  
   while(it1 != m_Points.end())
-  {
+    {
     t = (*it1).GetTangent(); 
  
     if (TDimension == 2)
-    { 
+      { 
       t = (*it1).GetTangent(); 
       n1[0] = -t[1];
       n1[1] = t[0];
       (*it1).SetNormal1(n1); 
-    }
+      }
     else if (TDimension == 3)
-    {
+      {
       n1[0] = -t[1];
-     n1[1] = t[0];
-     n1[2] = 0;
+      n1[1] = t[0];
+      n1[2] = 0;
  
-     n2[0] = t[2]*t[0]; 
-     n2[1] = -t[2]*t[1];
-     n2[2] = t[0]*t[0] - t[1]*t[1];
+      n2[0] = t[2]*t[0]; 
+      n2[1] = -t[2]*t[1];
+      n2[2] = t[0]*t[0] - t[1]*t[1];
  
       (*it1).SetNormal1(n1);
       (*it1).SetNormal2(n2);
-    }
+      }
 
  
     it1++;
-  }
+    }
  
   it1 = m_Points.begin();
   it2 = it1;
@@ -321,10 +321,10 @@ TubeSpatialObject< TDimension >
   (*it1).SetNormal1(n1);
    
   if (TDimension == 3)
-  {
+    {
     n2 = (*it2).GetNormal2();
     (*it1).SetNormal2(n2);
-  }
+    }
    
   it1 = m_Points.end();
   it1--;
@@ -334,10 +334,10 @@ TubeSpatialObject< TDimension >
   (*it1).SetNormal1(n1);
    
   if (TDimension == 3)
-  {
+    {
     n2 = (*it2).GetNormal2();
     (*it1).SetNormal2(n2);  
-  }
+    }
 
 
   return true; 

@@ -53,8 +53,8 @@ void Segmenter<TInputImage>::GenerateData()
   this->UpdateProgress(0.0);
   if (m_DoBoundaryAnalysis == false)
     {
-      this->GetSegmentTable()->Clear();
-      this->SetCurrentLabel(1);
+    this->GetSegmentTable()->Clear();
+    this->SetCurrentLabel(1);
     }
   
   flat_region_table_t flatRegions;
@@ -94,49 +94,49 @@ void Segmenter<TInputImage>::GenerateData()
   typename ImageRegionType::SizeType   tsz = thresholdImageRegion.GetSize();
   for (i = 0; i < ImageDimension; ++i)
     {
-      ImageRegionType reg;
-      typename ImageRegionType::IndexType idx = regionToProcess.GetIndex();
-      typename ImageRegionType::SizeType  sz  = regionToProcess.GetSize();
+    ImageRegionType reg;
+    typename ImageRegionType::IndexType idx = regionToProcess.GetIndex();
+    typename ImageRegionType::SizeType  sz  = regionToProcess.GetSize();
 
-      // Set LOW face
-      idx[i] = regionToProcess.GetIndex()[i];
-      sz[i]  = 1;
-      reg.SetSize(sz);
-      reg.SetIndex(idx);
+    // Set LOW face
+    idx[i] = regionToProcess.GetIndex()[i];
+    sz[i]  = 1;
+    reg.SetSize(sz);
+    reg.SetIndex(idx);
 
-      if (reg.GetIndex()[i] == largestPossibleRegion.GetIndex()[i])
-        {
-          // This is facing a true data set boundary
-          tsz[i] += 1; // we need to pad our threshold image on this face
-          tidx[i] -=1;
-          boundary->SetValid(false, i, 0);
-        }
-      else
-        {
-          // This is an overlap with another data chunk in the data set
-          // Mark this boundary face as valid.
-          boundary->SetValid(true, i, 0);
-        }
+    if (reg.GetIndex()[i] == largestPossibleRegion.GetIndex()[i])
+      {
+      // This is facing a true data set boundary
+      tsz[i] += 1; // we need to pad our threshold image on this face
+      tidx[i] -=1;
+      boundary->SetValid(false, i, 0);
+      }
+    else
+      {
+      // This is an overlap with another data chunk in the data set
+      // Mark this boundary face as valid.
+      boundary->SetValid(true, i, 0);
+      }
 
-      // Set HIGH face
-      idx[i]
-        = (regionToProcess.GetIndex()[i]+regionToProcess.GetSize()[i]) - 1;
-      reg.SetSize(sz);
-      reg.SetIndex(idx);
-      if ( (reg.GetIndex()[i] + reg.GetSize()[i])
-           == (largestPossibleRegion.GetIndex()[i]
-               + largestPossibleRegion.GetSize()[i]) )
-        {
-          // This is facing a true data set boundary
-          tsz[i] +=1; // we need to pad our threshold image on this face
-          boundary->SetValid(false, i, 1);
-        }
-      else
-        {
-          // This is an overlap with another data chunk in the data set
-          // Mark this face as valid in the boundary.
-          boundary->SetValid(true, i, 1);
-        }
+    // Set HIGH face
+    idx[i]
+      = (regionToProcess.GetIndex()[i]+regionToProcess.GetSize()[i]) - 1;
+    reg.SetSize(sz);
+    reg.SetIndex(idx);
+    if ( (reg.GetIndex()[i] + reg.GetSize()[i])
+         == (largestPossibleRegion.GetIndex()[i]
+             + largestPossibleRegion.GetSize()[i]) )
+      {
+      // This is facing a true data set boundary
+      tsz[i] +=1; // we need to pad our threshold image on this face
+      boundary->SetValid(false, i, 1);
+      }
+    else
+      {
+      // This is an overlap with another data chunk in the data set
+      // Mark this face as valid in the boundary.
+      boundary->SetValid(true, i, 1);
+      }
     }
   thresholdImageRegion.SetSize(tsz);
   thresholdImageRegion.SetIndex(tidx);
@@ -154,7 +154,7 @@ void Segmenter<TInputImage>::GenerateData()
   // Now threshold the appropriate data into the threshold image.
   Self::MinMax(input, regionToProcess, m_Minimum, m_Maximum);
   Self::Threshold(thresholdImage, input, regionToProcess,
-                       regionToProcess, (m_Threshold * (m_Maximum - m_Minimum)) + m_Minimum);
+                  regionToProcess, (m_Threshold * (m_Maximum - m_Minimum)) + m_Minimum);
 
   //
   // Redefine the regionToProcess in terms of the threshold image.  The region
@@ -165,8 +165,8 @@ void Segmenter<TInputImage>::GenerateData()
   typename ImageRegionType::IndexType iridx;
   for (i = 0; i < ImageDimension; ++i)
     {
-      irsz[i]  = thresholdImageRegion.GetSize()[i] - 2;
-      iridx[i] = thresholdImageRegion.GetIndex()[i] + 1;
+    irsz[i]  = thresholdImageRegion.GetSize()[i] - 2;
+    iridx[i] = thresholdImageRegion.GetIndex()[i] + 1;
     }
   regionToProcess.SetIndex(iridx);
   regionToProcess.SetSize(irsz);
@@ -205,22 +205,22 @@ void Segmenter<TInputImage>::GenerateData()
   for (b_idx.first = 0; b_idx.first < ImageDimension; ++b_idx.first)
     for (b_idx.second = 0; b_idx.second < 2; ++b_idx.second)
       {
-        if (boundary->GetValid(b_idx) == false) continue;
-        idx_b = thresholdImage->GetRequestedRegion().GetIndex();
-        sz_b  = thresholdImage->GetRequestedRegion().GetSize();
+      if (boundary->GetValid(b_idx) == false) continue;
+      idx_b = thresholdImage->GetRequestedRegion().GetIndex();
+      sz_b  = thresholdImage->GetRequestedRegion().GetSize();
 
-        if (b_idx.second == 1) // HIGH face must adjust start index
-          idx_b[b_idx.first] += sz_b[b_idx.first] - 1;
+      if (b_idx.second == 1) // HIGH face must adjust start index
+        idx_b[b_idx.first] += sz_b[b_idx.first] - 1;
 
-        sz_b[b_idx.first] = 1;
+      sz_b[b_idx.first] = 1;
 
-        reg_b.SetIndex(idx_b);
-        reg_b.SetSize(sz_b);
+      reg_b.SetIndex(idx_b);
+      reg_b.SetSize(sz_b);
         
-        boundary->GetFace(b_idx)->SetLargestPossibleRegion(reg_b);
-        boundary->GetFace(b_idx)->SetRequestedRegion(reg_b);
-        boundary->GetFace(b_idx)->SetBufferedRegion(reg_b);
-        boundary->GetFace(b_idx)->Allocate();        
+      boundary->GetFace(b_idx)->SetLargestPossibleRegion(reg_b);
+      boundary->GetFace(b_idx)->SetRequestedRegion(reg_b);
+      boundary->GetFace(b_idx)->SetBufferedRegion(reg_b);
+      boundary->GetFace(b_idx)->Allocate();        
       }
   
   this->UpdateProgress(0.1);
@@ -233,9 +233,9 @@ void Segmenter<TInputImage>::GenerateData()
   //
   if (m_DoBoundaryAnalysis == true)
     {
-      this->InitializeBoundary();
-      this->AnalyzeBoundaryFlow(thresholdImage, flatRegions, m_Maximum +
-                                NumericTraits<InputPixelType>::One);
+    this->InitializeBoundary();
+    this->AnalyzeBoundaryFlow(thresholdImage, flatRegions, m_Maximum +
+                              NumericTraits<InputPixelType>::One);
     }
 
   this->UpdateProgress(0.2);
@@ -248,8 +248,8 @@ void Segmenter<TInputImage>::GenerateData()
   // needed now.
   // 
   this->BuildRetainingWall( thresholdImage,
-                              thresholdImage->GetBufferedRegion(),
-                              m_Maximum + NumericTraits<InputPixelType>::One );
+                            thresholdImage->GetBufferedRegion(),
+                            m_Maximum + NumericTraits<InputPixelType>::One );
 
   //
   // Label all the local minima pixels in the image.  This function also
@@ -304,50 +304,50 @@ void Segmenter<TInputImage>
   for (idx.first = 0; idx.first < ImageDimension; (idx.first)++)
     for (idx.second = 0; idx.second < 2; (idx.second)++)
       {
-        if (boundary->GetValid(idx) == false) continue;
+      if (boundary->GetValid(idx) == false) continue;
         
-        face  = boundary->GetFace(idx);
-        flats = boundary->GetFlatHash(idx);
-        region = face->GetRequestedRegion();
+      face  = boundary->GetFace(idx);
+      flats = boundary->GetFlatHash(idx);
+      region = face->GetRequestedRegion();
         
-        // Grab all the labels of the boundary pixels.
-        faceIt = ImageRegionIterator<ITK_TYPENAME BoundaryType::face_t> (face,
-                                                                     region);
-        labelIt = ImageRegionIterator<OutputImageType> (output, region);
-        faceIt = faceIt.Begin();
-        labelIt = labelIt.Begin();
-        while (! faceIt.IsAtEnd() )
+      // Grab all the labels of the boundary pixels.
+      faceIt = ImageRegionIterator<ITK_TYPENAME BoundaryType::face_t> (face,
+                                                                       region);
+      labelIt = ImageRegionIterator<OutputImageType> (output, region);
+      faceIt = faceIt.Begin();
+      labelIt = labelIt.Begin();
+      while (! faceIt.IsAtEnd() )
+        {
+        faceIt.Value().label = labelIt.Get();
+            
+        // Is this a flat region that flows out?
+        flrt_it = flatRegions.find(labelIt.Get());
+        if ( faceIt.Get().flow != NULL_FLOW
+             && flrt_it != flatRegions.end() ) 
           {
-            faceIt.Value().label = labelIt.Get();
-            
-            // Is this a flat region that flows out?
-            flrt_it = flatRegions.find(labelIt.Get());
-            if ( faceIt.Get().flow != NULL_FLOW
-                && flrt_it != flatRegions.end() ) 
-                 {
-                   // Have we already entered this
-                   // flat region into the boundary?
-                   flats_it = flats->find(labelIt.Get());
-                   if (flats_it == flats->end())  // NO
-                     {
-                       flr.bounds_min = (*flrt_it).second.bounds_min;
-                       flr.min_label  = *((*flrt_it).second.min_label_ptr);
-                       flr.value      = (*flrt_it).second.value;
-                       flr.offset_list.push_back(
-                              face->ComputeOffset(faceIt.GetIndex()));
-                       flats->insert(
-                                     BoundaryFlatHashValueType(labelIt.Get(), flr));
-                       flr.offset_list.clear();
-                     }
-                   else // YES
-                     {
-        (*flats_it).second.offset_list.push_back(face->ComputeOffset(faceIt.GetIndex()));
-                     }
-                 }
-            
-            ++faceIt;
-            ++labelIt;
+          // Have we already entered this
+          // flat region into the boundary?
+          flats_it = flats->find(labelIt.Get());
+          if (flats_it == flats->end())  // NO
+            {
+            flr.bounds_min = (*flrt_it).second.bounds_min;
+            flr.min_label  = *((*flrt_it).second.min_label_ptr);
+            flr.value      = (*flrt_it).second.value;
+            flr.offset_list.push_back(
+              face->ComputeOffset(faceIt.GetIndex()));
+            flats->insert(
+              BoundaryFlatHashValueType(labelIt.Get(), flr));
+            flr.offset_list.clear();
+            }
+          else // YES
+            {
+            (*flats_it).second.offset_list.push_back(face->ComputeOffset(faceIt.GetIndex()));
+            }
           }
+            
+        ++faceIt;
+        ++labelIt;
+        }
       }
 }
   
@@ -366,13 +366,13 @@ void Segmenter<TInputImage>
   for (idx.first = 0; idx.first < ImageDimension; ++(idx.first))
     for (idx.second = 0; idx.second < 2; ++(idx.second))
       {
-        if (this->GetBoundary()->GetValid(idx) == false) continue;
-        this->GetBoundary()->GetFlatHash(idx)->clear();
-        face = this->GetBoundary()->GetFace(idx);
-        faceIt = ImageRegionIterator<ITK_TYPENAME BoundaryType::face_t>
-          (face, face->GetBufferedRegion());
-        for (faceIt = faceIt.Begin(); ! faceIt.IsAtEnd(); ++faceIt)
-          faceIt.Set(fps);
+      if (this->GetBoundary()->GetValid(idx) == false) continue;
+      this->GetBoundary()->GetFlatHash(idx)->clear();
+      face = this->GetBoundary()->GetFace(idx);
+      faceIt = ImageRegionIterator<ITK_TYPENAME BoundaryType::face_t>
+        (face, face->GetBufferedRegion());
+      for (faceIt = faceIt.Begin(); ! faceIt.IsAtEnd(); ++faceIt)
+        faceIt.Set(fps);
       }
   
 }
@@ -412,137 +412,137 @@ void Segmenter<TInputImage>
   // Process each boundary region.
   for (idx.first = 0; idx.first < ImageDimension; ++(idx.first))
     {
-      for (idx.second = 0; idx.second < 2; ++(idx.second))
+    for (idx.second = 0; idx.second < 2; ++(idx.second))
+      {
+      // Skip irrelevant boundaries
+      if (boundary->GetValid(idx) == false) continue;
+          
+      typename BoundaryType::face_t::Pointer face = boundary->GetFace(idx);
+      region = face->GetRequestedRegion();
+
+      searchIt
+        = ConstNeighborhoodIterator<InputImageType> (rad, thresholdImage, region);
+      labelIt = NeighborhoodIterator<OutputImageType> (rad, output, region);
+      faceIt  = ImageRegionIterator<ITK_TYPENAME BoundaryType::face_t> (face, region);
+          
+      nCenter = searchIt.Size() / 2;
+      searchIt.GoToBegin();
+      labelIt.GoToBegin();
+          
+      if ((idx).second == 0) // Low face
+        cPos = m_Connectivity.index[(idx).first];
+      else                   // High face
+        cPos = m_Connectivity.index[(ImageDimension - 1)
+                                    + (ImageDimension - (idx).first)];
+
+      while ( ! searchIt.IsAtEnd() )
         {
-          // Skip irrelevant boundaries
-          if (boundary->GetValid(idx) == false) continue;
-          
-          typename BoundaryType::face_t::Pointer face = boundary->GetFace(idx);
-          region = face->GetRequestedRegion();
+        // Is this a flat connection?
+        if ( searchIt.GetPixel(nCenter) == searchIt.GetPixel(cPos) )
+          {
+          // Fill in the boundary flow information.
+          // Labels will be collected later.
+          fps.flow   = static_cast<short>(cPos);
+          faceIt.Set(fps);
 
-          searchIt
-            = ConstNeighborhoodIterator<InputImageType> (rad, thresholdImage, region);
-          labelIt = NeighborhoodIterator<OutputImageType> (rad, output, region);
-          faceIt  = ImageRegionIterator<ITK_TYPENAME BoundaryType::face_t> (face, region);
-          
-          nCenter = searchIt.Size() / 2;
-          searchIt.GoToBegin();
-          labelIt.GoToBegin();
-          
-          if ((idx).second == 0) // Low face
-            cPos = m_Connectivity.index[(idx).first];
-          else                   // High face
-            cPos = m_Connectivity.index[(ImageDimension - 1)
-                                       + (ImageDimension - (idx).first)];
-
-          while ( ! searchIt.IsAtEnd() )
+          // Are we touching flat regions
+          // that have already been labeled?
+          bool _labeled    = false;
+          bool _connected  = false;
+          for ( i=0; i <m_Connectivity.size; i++)
             {
-              // Is this a flat connection?
-              if ( searchIt.GetPixel(nCenter) == searchIt.GetPixel(cPos) )
+            nPos = m_Connectivity.index[i];
+            if (   searchIt.GetPixel(nCenter) == searchIt.GetPixel(nPos)
+                   && labelIt.GetPixel(nPos)  != Self::NULL_LABEL
+                   && labelIt.GetPixel(nPos)  != labelIt.GetPixel(nCenter)
+              )
+              {
+              _connected = true;
+              if (_labeled == false)
                 {
-                  // Fill in the boundary flow information.
-                  // Labels will be collected later.
-                  fps.flow   = static_cast<short>(cPos);
-                  faceIt.Set(fps);
-
-                  // Are we touching flat regions
-                  // that have already been labeled?
-                  bool _labeled    = false;
-                  bool _connected  = false;
-                  for ( i=0; i <m_Connectivity.size; i++)
-                    {
-                      nPos = m_Connectivity.index[i];
-                      if (   searchIt.GetPixel(nCenter) == searchIt.GetPixel(nPos)
-                             && labelIt.GetPixel(nPos)  != Self::NULL_LABEL
-                             && labelIt.GetPixel(nPos)  != labelIt.GetPixel(nCenter)
-                             )
-                        {
-                          _connected = true;
-                          if (_labeled == false)
-                            {
-                              labelIt.SetPixel(nCenter,
-                                               labelIt.GetPixel(nPos));
-                              _labeled = true;
-                            }
-                          else
-                            {
-                              eqTable->Add(labelIt.GetPixel(nCenter), labelIt.GetPixel(nPos));
-                            }
-                        }
-                    }
-                  if (_connected == false ) // Add a new flat region.
-                    {
-                      labelIt.SetPixel(nCenter, m_CurrentLabel);
-                      
-                      // Add a flat region to the (global) flat region table
-                      tempFlatRegion.bounds_min    = max;
-                      tempFlatRegion.min_label_ptr = output->GetBufferPointer() +
-                        output->ComputeOffset(labelIt.GetIndex());
-                      tempFlatRegion.value         = searchIt.GetPixel(nCenter);
-                      tempFlatRegion.is_on_boundary= true;
-                      flatRegions[m_CurrentLabel]  = tempFlatRegion;
-                      
-                      m_CurrentLabel++;
-                    }
+                labelIt.SetPixel(nCenter,
+                                 labelIt.GetPixel(nPos));
+                _labeled = true;
                 }
-              else  // Is cPos the path of steepest descent?
+              else
                 {
-                  if ( searchIt.GetPixel(cPos) < searchIt.GetPixel(nCenter) )
-                    {
-                      isSteepest = true;
-                      for (i = 0; i < m_Connectivity.size; i++)
-                        {          
-                          nPos = m_Connectivity.index[i];
-                          if (searchIt.GetPixel(nPos) < searchIt.GetPixel(cPos))
-                            {
-                              isSteepest = false;
-                              break;
-                            }
-                        }
-                    }
-                  else isSteepest = false;
-                  
-                  if (isSteepest == true)
-                    {
-                      // Label this pixel. It will be safely treated as a local
-                      // minimum by the rest of the segmentation algorithm.
-                      labelIt.SetPixel(nCenter, m_CurrentLabel);
-
-                      // Add the connectivity information
-                      // to the boundary data structure.
-                      fps.flow  = static_cast<short>(cPos);
-                      faceIt.Set(fps);
-
-                      // Since we've labeled this pixel, we need to check to
-                      // make sure this is not also a flat region.  If it is,
-                      // then it must be entered into the flat region table
-                      // or we could have problems later on.
-                      for (i = 0; i < m_Connectivity.size; i++)
-                        {
-                          nPos = m_Connectivity.index[i];
-                          if ( searchIt.GetPixel(nPos) ==
-                               searchIt.GetPixel(nCenter) )
-                            {
-                              tempFlatRegion.bounds_min = max;
-                              tempFlatRegion.min_label_ptr =
-                                output->GetBufferPointer() +
-                                output->ComputeOffset(labelIt.GetIndex());
-                              tempFlatRegion.value =
-                                searchIt.GetPixel(nCenter);
-                              tempFlatRegion.is_on_boundary = false;
-                              flatRegions[m_CurrentLabel] = tempFlatRegion;
-                              break;
-                            }
-                        }
-                      m_CurrentLabel++;
-                    }
+                eqTable->Add(labelIt.GetPixel(nCenter), labelIt.GetPixel(nPos));
                 }
-              
-              ++searchIt;
-              ++labelIt;
-              ++faceIt;
+              }
             }
+          if (_connected == false ) // Add a new flat region.
+            {
+            labelIt.SetPixel(nCenter, m_CurrentLabel);
+                      
+            // Add a flat region to the (global) flat region table
+            tempFlatRegion.bounds_min    = max;
+            tempFlatRegion.min_label_ptr = output->GetBufferPointer() +
+              output->ComputeOffset(labelIt.GetIndex());
+            tempFlatRegion.value         = searchIt.GetPixel(nCenter);
+            tempFlatRegion.is_on_boundary= true;
+            flatRegions[m_CurrentLabel]  = tempFlatRegion;
+                      
+            m_CurrentLabel++;
+            }
+          }
+        else  // Is cPos the path of steepest descent?
+          {
+          if ( searchIt.GetPixel(cPos) < searchIt.GetPixel(nCenter) )
+            {
+            isSteepest = true;
+            for (i = 0; i < m_Connectivity.size; i++)
+              {          
+              nPos = m_Connectivity.index[i];
+              if (searchIt.GetPixel(nPos) < searchIt.GetPixel(cPos))
+                {
+                isSteepest = false;
+                break;
+                }
+              }
+            }
+          else isSteepest = false;
+                  
+          if (isSteepest == true)
+            {
+            // Label this pixel. It will be safely treated as a local
+            // minimum by the rest of the segmentation algorithm.
+            labelIt.SetPixel(nCenter, m_CurrentLabel);
+
+            // Add the connectivity information
+            // to the boundary data structure.
+            fps.flow  = static_cast<short>(cPos);
+            faceIt.Set(fps);
+
+            // Since we've labeled this pixel, we need to check to
+            // make sure this is not also a flat region.  If it is,
+            // then it must be entered into the flat region table
+            // or we could have problems later on.
+            for (i = 0; i < m_Connectivity.size; i++)
+              {
+              nPos = m_Connectivity.index[i];
+              if ( searchIt.GetPixel(nPos) ==
+                   searchIt.GetPixel(nCenter) )
+                {
+                tempFlatRegion.bounds_min = max;
+                tempFlatRegion.min_label_ptr =
+                  output->GetBufferPointer() +
+                  output->ComputeOffset(labelIt.GetIndex());
+                tempFlatRegion.value =
+                  searchIt.GetPixel(nCenter);
+                tempFlatRegion.is_on_boundary = false;
+                flatRegions[m_CurrentLabel] = tempFlatRegion;
+                break;
+                }
+              }
+            m_CurrentLabel++;
+            }
+          }
+              
+        ++searchIt;
+        ++labelIt;
+        ++faceIt;
         }
+      }
     }
 
   eqTable->Flatten();
@@ -550,16 +550,16 @@ void Segmenter<TInputImage>
   // Now relabel any equivalent regions in the boundaries.
   for (idx.first = 0; idx.first < ImageDimension; ++(idx.first))
     {
-      for (idx.second = 0; idx.second < 2; ++(idx.second))
-        {
-          // Skip irrelevant boundaries
-          if (boundary->GetValid(idx) == false) continue;
+    for (idx.second = 0; idx.second < 2; ++(idx.second))
+      {
+      // Skip irrelevant boundaries
+      if (boundary->GetValid(idx) == false) continue;
           
-          typename BoundaryType::face_t::Pointer face = boundary->GetFace(idx);
-          region = face->GetRequestedRegion();
+      typename BoundaryType::face_t::Pointer face = boundary->GetFace(idx);
+      region = face->GetRequestedRegion();
 
-          Self::RelabelImage(output, region, eqTable);
-        }
+      Self::RelabelImage(output, region, eqTable);
+      }
     }
 
   // Merge the flat regions in the table
@@ -587,7 +587,7 @@ void Segmenter<TInputImage>
   typename ConstNeighborhoodIterator<InputImageType>::RadiusType rad;
   for (i = 0; i < ImageDimension; ++i) rad[i] = 1;
   ConstNeighborhoodIterator<InputImageType> it(rad, this->GetInputImage(),
-                                  this->GetInputImage()->GetRequestedRegion());
+                                               this->GetInputImage()->GetRequestedRegion());
   nSize   = it.Size();
   nCenter = nSize >> 1;
   
@@ -646,68 +646,68 @@ void Segmenter<TInputImage>
   for (searchIt.GoToBegin(), labelIt.GoToBegin();
        ! searchIt.IsAtEnd(); ++searchIt, ++labelIt)
     {
-      foundSinglePixelMinimum = true;
-      foundFlatRegion = false;
+    foundSinglePixelMinimum = true;
+    foundFlatRegion = false;
 
-      // If this pixel has been labeled already,
-      // skip directly to the next iteration.
-      if ( labelIt.GetPixel(nCenter) != Self::NULL_LABEL )  continue;
+    // If this pixel has been labeled already,
+    // skip directly to the next iteration.
+    if ( labelIt.GetPixel(nCenter) != Self::NULL_LABEL )  continue;
       
-      // Compare current pixel value with its neighbors.
-      currentValue = searchIt.GetPixel(nCenter);
+    // Compare current pixel value with its neighbors.
+    currentValue = searchIt.GetPixel(nCenter);
 
-      for (i = 0; i < m_Connectivity.size; ++i)
+    for (i = 0; i < m_Connectivity.size; ++i)
+      {
+      nPos = m_Connectivity.index[i];
+      if ( currentValue == searchIt.GetPixel(nPos) )
         {
-          nPos = m_Connectivity.index[i];
-          if ( currentValue == searchIt.GetPixel(nPos) )
-            {
-              foundFlatRegion  = true;
-              break;
-            }
-          else if ( currentValue > searchIt.GetPixel(nPos) )
-            {
-              foundSinglePixelMinimum = false;
-            }
+        foundFlatRegion  = true;
+        break;
         }
-
-      if (foundFlatRegion)
+      else if ( currentValue > searchIt.GetPixel(nPos) )
         {
-          if ( labelIt.GetPixel(nPos) != Self::NULL_LABEL )// If the flat region is already
-            {                                              // labeled, label this to match.
-              labelIt.SetPixel(nCenter, labelIt.GetPixel(nPos));
-            }
-          else // Add a new flat region to the table.
-            {  // Initialize its contents.
-              labelIt.SetPixel(nCenter,  m_CurrentLabel);
-              nPos = m_Connectivity.index[0];
+        foundSinglePixelMinimum = false;
+        }
+      }
 
-              tempFlatRegion.bounds_min        = maxValue;
-              tempFlatRegion.min_label_ptr     = labelIt[nPos];
-              tempFlatRegion.value             = currentValue;
-              flatRegions[m_CurrentLabel]      = tempFlatRegion;
-              m_CurrentLabel = m_CurrentLabel + 1;
-            }
+    if (foundFlatRegion)
+      {
+      if ( labelIt.GetPixel(nPos) != Self::NULL_LABEL )// If the flat region is already
+        {                                              // labeled, label this to match.
+        labelIt.SetPixel(nCenter, labelIt.GetPixel(nPos));
+        }
+      else // Add a new flat region to the table.
+        {  // Initialize its contents.
+        labelIt.SetPixel(nCenter,  m_CurrentLabel);
+        nPos = m_Connectivity.index[0];
+
+        tempFlatRegion.bounds_min        = maxValue;
+        tempFlatRegion.min_label_ptr     = labelIt[nPos];
+        tempFlatRegion.value             = currentValue;
+        flatRegions[m_CurrentLabel]      = tempFlatRegion;
+        m_CurrentLabel = m_CurrentLabel + 1;
+        }
           
-          // While we're at it, check to see if we have just linked two flat
-          // regions with the same height value.  Save that info for later.
-          for ( i++; i <m_Connectivity.size; ++i)
-            {
-              nPos = m_Connectivity.index[i];
-              if (   searchIt.GetPixel(nCenter) == searchIt.GetPixel(nPos)
-                     && labelIt.GetPixel(nPos)!=Self::NULL_LABEL
-                     && labelIt.GetPixel(nPos)!=labelIt.GetPixel(nCenter)
-                     )
-                {
-                  equivalentLabels->Add(labelIt.GetPixel(nCenter),
-                                        labelIt.GetPixel(nPos));
-                }
-            }    
-        }
-      else if (foundSinglePixelMinimum)
+      // While we're at it, check to see if we have just linked two flat
+      // regions with the same height value.  Save that info for later.
+      for ( i++; i <m_Connectivity.size; ++i)
         {
-          labelIt.SetPixel(nCenter,  m_CurrentLabel);
-          m_CurrentLabel = m_CurrentLabel + 1;
-        } 
+        nPos = m_Connectivity.index[i];
+        if (   searchIt.GetPixel(nCenter) == searchIt.GetPixel(nPos)
+               && labelIt.GetPixel(nPos)!=Self::NULL_LABEL
+               && labelIt.GetPixel(nPos)!=labelIt.GetPixel(nCenter)
+          )
+          {
+          equivalentLabels->Add(labelIt.GetPixel(nCenter),
+                                labelIt.GetPixel(nPos));
+          }
+        }    
+      }
+    else if (foundSinglePixelMinimum)
+      {
+      labelIt.SetPixel(nCenter,  m_CurrentLabel);
+      m_CurrentLabel = m_CurrentLabel + 1;
+      } 
     }
 
   // Merge the flat regions that we identified as connected components.
@@ -722,37 +722,37 @@ void Segmenter<TInputImage>
   for (searchIt.GoToBegin(), labelIt.GoToBegin();
        ! searchIt.IsAtEnd(); ++searchIt, ++labelIt)
     {
-      flatPtr = flatRegions.find( labelIt.GetPixel(nCenter) ); 
-      if (  flatPtr != flatRegions.end() ) // If we are in a flat region
-        { // Search the connectivity neighborhood
-          // for lesser boundary pixels.
-          for (i = 0; i < m_Connectivity.size; ++i)
-            {
-              nPos = m_Connectivity.index[i];
+    flatPtr = flatRegions.find( labelIt.GetPixel(nCenter) ); 
+    if (  flatPtr != flatRegions.end() ) // If we are in a flat region
+      { // Search the connectivity neighborhood
+      // for lesser boundary pixels.
+      for (i = 0; i < m_Connectivity.size; ++i)
+        {
+        nPos = m_Connectivity.index[i];
 
-              if  ( labelIt.GetPixel(nPos) != labelIt.GetPixel(nCenter) &&
-                    searchIt.GetPixel(nPos) < (*flatPtr).second.bounds_min )
-                { // If this is a boundary pixel && has a lesser value than
-                  // the currently recorded value...
-                  (*flatPtr).second.bounds_min = searchIt.GetPixel(nPos);
-                  (*flatPtr).second.min_label_ptr = labelIt[nPos];
-                }
-              if ( searchIt.GetPixel(nCenter) == searchIt.GetPixel(nPos) )
-                {
-                  if ( labelIt.GetPixel(nPos) != NULL_LABEL )
-                    {
-                      // Pick up any equivalencies we missed before.
-                      equivalentLabels->Add(labelIt.GetPixel(nCenter),
-                                            labelIt.GetPixel(nPos));
-                    }
-                  // If the following is encountered, it means that there is a
-                  // logic flaw in the first pass of this algorithm where flat
-                  // regions are initially detected and linked.
-                  else itkDebugMacro("An unexpected but non-fatal error has occurred.");
-                }
-              
+        if  ( labelIt.GetPixel(nPos) != labelIt.GetPixel(nCenter) &&
+              searchIt.GetPixel(nPos) < (*flatPtr).second.bounds_min )
+          { // If this is a boundary pixel && has a lesser value than
+          // the currently recorded value...
+          (*flatPtr).second.bounds_min = searchIt.GetPixel(nPos);
+          (*flatPtr).second.min_label_ptr = labelIt[nPos];
+          }
+        if ( searchIt.GetPixel(nCenter) == searchIt.GetPixel(nPos) )
+          {
+          if ( labelIt.GetPixel(nPos) != NULL_LABEL )
+            {
+            // Pick up any equivalencies we missed before.
+            equivalentLabels->Add(labelIt.GetPixel(nCenter),
+                                  labelIt.GetPixel(nPos));
             }
+          // If the following is encountered, it means that there is a
+          // logic flaw in the first pass of this algorithm where flat
+          // regions are initially detected and linked.
+          else itkDebugMacro("An unexpected but non-fatal error has occurred.");
+          }
+              
         }
+      }
     }
 
   // Merge the flat regions that we identified as connected components.
@@ -764,7 +764,7 @@ void Segmenter<TInputImage>
 template <class TInputImage>
 void Segmenter<TInputImage>
 ::GradientDescent(InputImageTypePointer img,
-                     ImageRegionType region)
+                  ImageRegionType region)
 {
   typename OutputImageType::Pointer output = this->GetOutputImage();
 
@@ -781,8 +781,8 @@ void Segmenter<TInputImage>
   typename NeighborhoodIterator<OutputImageType>::RadiusType zeroRad;
   for (i = 0; i < ImageDimension; ++i)
     {
-      rad[i] = 1;
-      zeroRad[i] = 0;
+    rad[i] = 1;
+    zeroRad[i] = 0;
     }
   ConstNeighborhoodIterator<InputImageType>
     valueIt(rad, img, region);
@@ -796,36 +796,36 @@ void Segmenter<TInputImage>
   //
   for (it = it.Begin(); ! it.IsAtEnd(); ++it)
     {
-      if ( it.Get() == NULL_LABEL )
-        {
-          valueIt.SetLocation(it.GetIndex());
-          labelIt.SetLocation(it.GetIndex());
-          newLabel = NULL_LABEL;               // Follow the path of steep-
-          while( newLabel == NULL_LABEL )      // est descent until a label
-            {                                  // is found.
-              updateStack.push(labelIt.GetCenterPointer());
-              minVal = valueIt.GetPixel(m_Connectivity.index[0]);
-              moveIndex = m_Connectivity.direction[0];
-              for (unsigned int i = 1; i < m_Connectivity.size; ++i)
-                {
-                  nPos = m_Connectivity.index[i];
-                  if ( valueIt.GetPixel(nPos) < minVal) 
-                    {
-                      minVal = valueIt.GetPixel(nPos);
-                      moveIndex = m_Connectivity.direction[i];
-                    }
-                }
-              valueIt += moveIndex;
-              labelIt += moveIndex;
-              newLabel = labelIt.GetPixel(0);
-            }
-        
-          while( ! updateStack.empty() ) // Update all the pixels we've traversed
+    if ( it.Get() == NULL_LABEL )
+      {
+      valueIt.SetLocation(it.GetIndex());
+      labelIt.SetLocation(it.GetIndex());
+      newLabel = NULL_LABEL;               // Follow the path of steep-
+      while( newLabel == NULL_LABEL )      // est descent until a label
+        {                                  // is found.
+        updateStack.push(labelIt.GetCenterPointer());
+        minVal = valueIt.GetPixel(m_Connectivity.index[0]);
+        moveIndex = m_Connectivity.direction[0];
+        for (unsigned int i = 1; i < m_Connectivity.size; ++i)
+          {
+          nPos = m_Connectivity.index[i];
+          if ( valueIt.GetPixel(nPos) < minVal) 
             {
-              *(updateStack.top()) = newLabel;
-              updateStack.pop();
+            minVal = valueIt.GetPixel(nPos);
+            moveIndex = m_Connectivity.direction[i];
             }
+          }
+        valueIt += moveIndex;
+        labelIt += moveIndex;
+        newLabel = labelIt.GetPixel(0);
         }
+        
+      while( ! updateStack.empty() ) // Update all the pixels we've traversed
+        {
+        *(updateStack.top()) = newLabel;
+        updateStack.pop();
+        }
+      }
     }
   
 }
@@ -846,11 +846,11 @@ void Segmenter<TInputImage>
   for (typename flat_region_table_t::const_iterator region = flatRegionTable.begin();
        region != flatRegionTable.end(); ++region)
     {
-      if ( ((*region).second.bounds_min < (*region).second.value)
-           && (! (*region).second.is_on_boundary) )
-        {
-          equivalentLabels->Add((*region).first, *((*region).second.min_label_ptr));
-        }
+    if ( ((*region).second.bounds_min < (*region).second.value)
+         && (! (*region).second.is_on_boundary) )
+      {
+      equivalentLabels->Add((*region).first, *((*region).second.min_label_ptr));
+      }
     }
   
   equivalentLabels->Flatten();
@@ -890,56 +890,56 @@ void Segmenter<TInputImage>
   for (searchIt.GoToBegin(), labelIt.GoToBegin(); ! searchIt.IsAtEnd();
        ++searchIt, ++labelIt)
     {
-      segment_label = labelIt.GetPixel(hoodCenter);
+    segment_label = labelIt.GetPixel(hoodCenter);
  
-      // Find the segment corresponding to this label
-      // and update its minimum value if necessary.
-      segment_ptr = segments->Lookup(segment_label);
-      edge_table_entry_ptr = edgeHash.find(segment_label);
-      if (segment_ptr == 0) // This segment not yet identified.
-        {                   // So add it to the table.
-          temp_segment.min = searchIt.GetPixel(hoodCenter);
-          segments->Add(segment_label, temp_segment);
-          edgeHash.insert(
-               edge_table_hash_t::value_type(segment_label,
-                                               tempEdgeTable) );
+    // Find the segment corresponding to this label
+    // and update its minimum value if necessary.
+    segment_ptr = segments->Lookup(segment_label);
+    edge_table_entry_ptr = edgeHash.find(segment_label);
+    if (segment_ptr == 0) // This segment not yet identified.
+      {                   // So add it to the table.
+      temp_segment.min = searchIt.GetPixel(hoodCenter);
+      segments->Add(segment_label, temp_segment);
+      edgeHash.insert(
+        edge_table_hash_t::value_type(segment_label,
+                                      tempEdgeTable) );
           
-          edge_table_entry_ptr = edgeHash.find(segment_label);
-        }
-      else if (searchIt.GetPixel(hoodCenter) < segment_ptr->min)
-        {
-          segment_ptr->min = searchIt.GetPixel(hoodCenter);
-        }
+      edge_table_entry_ptr = edgeHash.find(segment_label);
+      }
+    else if (searchIt.GetPixel(hoodCenter) < segment_ptr->min)
+      {
+      segment_ptr->min = searchIt.GetPixel(hoodCenter);
+      }
 
-      // Look up each neighboring segment in this segment's edge table.
-      // If an edge exists, compare (and reset) the minimum edge value.
-      // Note that edges are located *between* two adjacent pixels and
-      // the value is taken to be the maximum of the two adjacent pixel
-      // values.
-      for (i = 0; i < m_Connectivity.size; ++i)
+    // Look up each neighboring segment in this segment's edge table.
+    // If an edge exists, compare (and reset) the minimum edge value.
+    // Note that edges are located *between* two adjacent pixels and
+    // the value is taken to be the maximum of the two adjacent pixel
+    // values.
+    for (i = 0; i < m_Connectivity.size; ++i)
+      {
+      nPos = m_Connectivity.index[i];
+      if (labelIt.GetPixel(nPos) != segment_label
+          && labelIt.GetPixel(nPos) != NULL_LABEL)
         {
-          nPos = m_Connectivity.index[i];
-          if (labelIt.GetPixel(nPos) != segment_label
-              && labelIt.GetPixel(nPos) != NULL_LABEL)
-            {
-              if (searchIt.GetPixel(nPos) < searchIt.GetPixel(hoodCenter))
-                lowest_edge = searchIt.GetPixel(hoodCenter); // We want the
-              else lowest_edge = searchIt.GetPixel(nPos);    // max of the
-                                                             // adjacent pixels
+        if (searchIt.GetPixel(nPos) < searchIt.GetPixel(hoodCenter))
+          lowest_edge = searchIt.GetPixel(hoodCenter); // We want the
+        else lowest_edge = searchIt.GetPixel(nPos);    // max of the
+        // adjacent pixels
               
-              edge_ptr = (*edge_table_entry_ptr).second.find(labelIt.GetPixel(nPos));
-              if ( edge_ptr == (*edge_table_entry_ptr).second.end() )
-                {     // This edge has not been identified yet.
-                  (*edge_table_entry_ptr).second.insert(
-                          std::pair<unsigned long, InputPixelType>(
-                            labelIt.GetPixel(nPos), lowest_edge) ); 
-                }
-              else if (lowest_edge < (*edge_ptr).second)
-                {
-                  (*edge_ptr).second = lowest_edge;
-                }
-            }
+        edge_ptr = (*edge_table_entry_ptr).second.find(labelIt.GetPixel(nPos));
+        if ( edge_ptr == (*edge_table_entry_ptr).second.end() )
+          {     // This edge has not been identified yet.
+          (*edge_table_entry_ptr).second.insert(
+            std::pair<unsigned long, InputPixelType>(
+              labelIt.GetPixel(nPos), lowest_edge) ); 
+          }
+        else if (lowest_edge < (*edge_ptr).second)
+          {
+          (*edge_ptr).second = lowest_edge;
+          }
         }
+      }
 
     }
 
@@ -953,28 +953,28 @@ void Segmenter<TInputImage>
        edge_table_entry_ptr != edgeHash.end();
        edge_table_entry_ptr++)
     {
-      // Lookup the corresponding segment entry
-      segment_ptr = segments->Lookup((*edge_table_entry_ptr).first);
-      if ( segment_ptr == 0 )
-        {
-        itkGenericExceptionMacro ( << "UpdateSegmentTable:: An unexpected and fatal error has occurred.");
-        }
+    // Lookup the corresponding segment entry
+    segment_ptr = segments->Lookup((*edge_table_entry_ptr).first);
+    if ( segment_ptr == 0 )
+      {
+      itkGenericExceptionMacro ( << "UpdateSegmentTable:: An unexpected and fatal error has occurred.");
+      }
 
-      // Copy into the segment list
-      listsz = static_cast<unsigned long>( (*edge_table_entry_ptr).second.size() );
-      segment_ptr->edge_list.resize(listsz);
-      edge_ptr = (*edge_table_entry_ptr).second.begin();
-      list_ptr = segment_ptr->edge_list.begin();
-      while ( edge_ptr != (*edge_table_entry_ptr).second.end() )
-        {
-          list_ptr->label = (*edge_ptr).first;
-          list_ptr->height= (*edge_ptr).second;
-          edge_ptr++;
-          list_ptr++;
-        }
+    // Copy into the segment list
+    listsz = static_cast<unsigned long>( (*edge_table_entry_ptr).second.size() );
+    segment_ptr->edge_list.resize(listsz);
+    edge_ptr = (*edge_table_entry_ptr).second.begin();
+    list_ptr = segment_ptr->edge_list.begin();
+    while ( edge_ptr != (*edge_table_entry_ptr).second.end() )
+      {
+      list_ptr->label = (*edge_ptr).first;
+      list_ptr->height= (*edge_ptr).second;
+      edge_ptr++;
+      list_ptr++;
+      }
 
-      // Clean up memory as we go
-      (*edge_table_entry_ptr).second.clear();
+    // Clean up memory as we go
+    (*edge_table_entry_ptr).second.clear();
     }
 }
 
@@ -992,15 +992,15 @@ void Segmenter<TInputImage>
   // Loop through the dimensions and populate the LOW and HIGH faces regions.
   for (i = 0; i < ImageDimension; ++i)
     {
-      idx = region.GetIndex();       // LOW face
-      sz  = region.GetSize();
-      sz[i] = 1;
-      reg.SetIndex(idx);
-      reg.SetSize(sz);
-      Segmenter::SetImageValues(img, reg, value);
-      idx[i] = region.GetSize()[i] + region.GetIndex()[i] - 1;  // HIGH face
-      reg.SetIndex(idx);
-      Segmenter::SetImageValues(img, reg, value);
+    idx = region.GetIndex();       // LOW face
+    sz  = region.GetSize();
+    sz[i] = 1;
+    reg.SetIndex(idx);
+    reg.SetSize(sz);
+    Segmenter::SetImageValues(img, reg, value);
+    idx[i] = region.GetSize()[i] + region.GetIndex()[i] - 1;  // HIGH face
+    reg.SetIndex(idx);
+    Segmenter::SetImageValues(img, reg, value);
     }
 }
 
@@ -1019,8 +1019,8 @@ void Segmenter<TInputImage>
   it = it.Begin();
   while (! it.IsAtEnd() )
     {
-      it.Set(value);
-      ++it;
+    it.Set(value);
+    ++it;
     }
 }
 
@@ -1034,8 +1034,8 @@ void Segmenter<TInputImage>
   it = it.Begin();
   while (! it.IsAtEnd() )
     {
-      it.Set(value);
-      ++it;
+    it.Set(value);
+    ++it;
     }
 }
 
@@ -1050,9 +1050,9 @@ void Segmenter<TInputImage>
   max = it.Value();
   while (! it.IsAtEnd())
     {
-      if (it.Get() > max) max = it.Get();
-      if (it.Get() < min) min = it.Get();
-      ++it;
+    if (it.Get() > max) max = it.Get();
+    if (it.Get() < min) min = it.Get();
+    ++it;
     }
 }
 
@@ -1072,19 +1072,19 @@ void Segmenter<TInputImage>
   for (EquivalencyTable::ConstIterator it = eqTable->Begin();
        it != eqTable->End(); ++it)
     {
-      if ( ((a = regions.find((*it).first)) == regions.end())
-           || ((b = regions.find((*it).second)) == regions.end()) )
-        {
-        itkGenericExceptionMacro ( << "MergeFlatRegions:: An unexpected and fatal error has occurred.");
-        }
+    if ( ((a = regions.find((*it).first)) == regions.end())
+         || ((b = regions.find((*it).second)) == regions.end()) )
+      {
+      itkGenericExceptionMacro ( << "MergeFlatRegions:: An unexpected and fatal error has occurred.");
+      }
       
-      if ((*a).second.bounds_min < (*b).second.bounds_min)
-        {
-          (*b).second.bounds_min = (*a).second.bounds_min;
-          (*b).second.min_label_ptr = (*a).second.min_label_ptr;
-        }
+    if ((*a).second.bounds_min < (*b).second.bounds_min)
+      {
+      (*b).second.bounds_min = (*a).second.bounds_min;
+      (*b).second.min_label_ptr = (*a).second.min_label_ptr;
+      }
 
-      regions.erase(a);
+    regions.erase(a);
     }
 }
 
@@ -1102,9 +1102,9 @@ void Segmenter<TInputImage>
   it = it.Begin();
   while ( !it.IsAtEnd() )
     {
-      temp = eqTable->Lookup(it.Get());
-      if (temp != it.Get())  { it.Set(temp);}
-      ++it; 
+    temp = eqTable->Lookup(it.Get());
+    if (temp != it.Get())  { it.Set(temp);}
+    ++it; 
     }
 }
 
@@ -1126,10 +1126,10 @@ Threshold(InputImageTypePointer destination,
   // no checking!!
   while ( ! dIt.IsAtEnd() )
     {
-      if ( sIt.Get() < threshold ) dIt.Set(threshold);
-      else dIt.Set(sIt.Get());
-      ++dIt;
-      ++sIt;
+    if ( sIt.Get() < threshold ) dIt.Set(threshold);
+    else dIt.Set(sIt.Get());
+    ++dIt;
+    ++sIt;
     }
 }
 
@@ -1232,7 +1232,7 @@ Segmenter<TInputImage>::UpdateOutputInformation()
 
   if ( !inputPtr || !outputPtr )
     {
-      return;
+    return;
     }
   // we need to compute the output spacing, the output image size, and the
   // output image start index
@@ -1246,17 +1246,17 @@ Segmenter<TInputImage>::UpdateOutputInformation()
   
   for (i = 0; i < OutputImageType::ImageDimension; i++)
     {
-      //      outputSize[i] = inputSize[i] - 1;
-      //      if( outputSize[i] < 1 )
-      //        {
-      //          outputSize[i] = 1;
-      //        }
+    //      outputSize[i] = inputSize[i] - 1;
+    //      if( outputSize[i] < 1 )
+    //        {
+    //          outputSize[i] = 1;
+    //        }
       
-      //      outputStartIndex[i] = inputStartIndex[i] + 1;
+    //      outputStartIndex[i] = inputStartIndex[i] + 1;
 
-      /// FOR NOW WE JUST PROPAGATE THE SIZES THROUGH UNCHANGED
-      outputSize[i] = inputSize[i];
-      outputStartIndex[i]  = inputStartIndex[i];
+    /// FOR NOW WE JUST PROPAGATE THE SIZES THROUGH UNCHANGED
+    outputSize[i] = inputSize[i];
+    outputStartIndex[i]  = inputStartIndex[i];
     }
 
   typename OutputImageType::RegionType outputLargestPossibleRegion;
@@ -1373,17 +1373,17 @@ void Segmenter<TInputImage>::GenerateOutputRequestedRegion(DataObject *output)
 
   if (imgData)
     {
-      std::vector<ProcessObject::DataObjectPointer>::size_type idx;
-      for (idx = 0; idx < this->GetOutputs().size(); ++idx)
+    std::vector<ProcessObject::DataObjectPointer>::size_type idx;
+    for (idx = 0; idx < this->GetOutputs().size(); ++idx)
+      {
+      if (this->GetOutputs()[idx] && this->GetOutputs()[idx] != output)
         {
-          if (this->GetOutputs()[idx] && this->GetOutputs()[idx] != output)
-            {
-              op = dynamic_cast<ImageBase<ImageDimension>
-                *>(this->GetOutputs()[idx].GetPointer());
+        op = dynamic_cast<ImageBase<ImageDimension>
+          *>(this->GetOutputs()[idx].GetPointer());
 
-              if (op) this->GetOutputs()[idx]->SetRequestedRegion(output);
-            }
+        if (op) this->GetOutputs()[idx]->SetRequestedRegion(output);
         }
+      }
     }
 } 
 

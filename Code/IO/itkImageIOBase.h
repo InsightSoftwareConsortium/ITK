@@ -89,19 +89,19 @@ public:
    * SetDimensions() is used prior to writing the data. */
   virtual void SetDimensions(unsigned int i, unsigned int dim);
   virtual unsigned int GetDimensions(unsigned int i) const
-    { return m_Dimensions[i]; }
+  { return m_Dimensions[i]; }
 
   /** Set/Get the image origin on a axis-by-axis basis. The SetOrigin() method 
    * is required when writing the image. */
   virtual void SetOrigin(unsigned int i, double origin);
   virtual double GetOrigin(unsigned int i) const
-    { return m_Origin[i]; }
+  { return m_Origin[i]; }
 
   /** Set/Get the image spacing on an axis-by-axis basis. The
    * SetSpacing() method is required when writing the image. */
   virtual void SetSpacing(unsigned int i, double spacing);
   virtual double GetSpacing(unsigned int i) const
-    { return m_Spacing[i]; }
+  { return m_Spacing[i]; }
 
   /** Specify the region of the image data to either read or
    * write. The IORegion specifies the part of the image to read or
@@ -152,9 +152,9 @@ public:
   itkSetMacro(FileType,FileType);
   itkGetConstMacro(FileType,FileType);
   void SetFileTypeToASCII()
-    { this->SetFileType(ASCII); }
+  { this->SetFileType(ASCII); }
   void SetFileTypeToBinary()
-    { this->SetFileType(Binary); }
+  { this->SetFileType(Binary); }
 
   /** These methods indicate the byte ordering of the file you are
    * trying to read in. These methods will then either swap or not
@@ -170,9 +170,9 @@ public:
   itkSetMacro(ByteOrder,ByteOrder);
   itkGetConstMacro(ByteOrder,ByteOrder);
   void SetByteOrderToBigEndian()
-    { this->SetByteOrder(BigEndian); }
+  { this->SetByteOrder(BigEndian); }
   void SetByteOrderToLittleEndian()
-    { this->SetByteOrder(LittleEndian); }
+  { this->SetByteOrder(LittleEndian); }
   
   /** Convenient method for accessing the number of bytes to get to 
    * the next pixel. Returns m_Strides[1]; */
@@ -188,7 +188,7 @@ public:
    * of components in the image. */
   unsigned int GetImageSizeInComponents() const;
 
- /*-------- This part of the interfaces deals with reading data ----- */
+  /*-------- This part of the interfaces deals with reading data ----- */
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
@@ -239,7 +239,7 @@ public:
    * true/false as to whether the ImageIO can support the dimension
    * indicated. */
   virtual bool SupportsDimension(unsigned long dim)
-    {return (dim == 2);}
+  {return (dim == 2);}
 
 protected:
   ImageIOBase();

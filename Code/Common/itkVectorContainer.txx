@@ -134,7 +134,7 @@ VectorContainer< TElementIdentifier , TElement >
 ::IndexExists(ElementIdentifier id) const
 {
   return (NumericTraits<ElementIdentifier>::IsNonnegative(id)
-    && (id < this->VectorType::size()));
+          && (id < this->VectorType::size()));
 }
 
 

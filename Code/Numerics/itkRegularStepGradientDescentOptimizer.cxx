@@ -39,15 +39,15 @@ RegularStepGradientDescentOptimizer
   itkDebugMacro(<<"factor = " << factor << "  transformedGradient= " << transformedGradient );
 
   const unsigned int spaceDimension =
-                        m_CostFunction->GetNumberOfParameters();
+    m_CostFunction->GetNumberOfParameters();
 
   ParametersType newPosition( spaceDimension );
   ParametersType currentPosition = this->GetCurrentPosition();
 
   for(unsigned int j=0; j<spaceDimension; j++)
-  {
+    {
     newPosition[j] = currentPosition[j] + transformedGradient[j] * factor;
-  }
+    }
 
   itkDebugMacro(<<"new position = " << newPosition );
 

@@ -26,7 +26,7 @@ namespace itk
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
-  class TSpeedImage>
+          class TSpeedImage>
 FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 ::FastMarchingExtensionImageFilter()
 {
@@ -49,7 +49,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
-  class TSpeedImage>
+          class TSpeedImage>
 void
 FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
@@ -66,19 +66,19 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
-  class TSpeedImage>
+          class TSpeedImage>
 typename FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 ::AuxImageType *
 FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 ::GetAuxiliaryImage( unsigned int idx )
 {
 
- if ( idx >= AuxDimension || this->GetNumberOfOutputs() < idx + 2 )
-   {
-   return NULL;
-   }
+  if ( idx >= AuxDimension || this->GetNumberOfOutputs() < idx + 2 )
+    {
+    return NULL;
+    }
 
- return static_cast<AuxImageType *>( this->ProcessObject::GetOutput(idx + 1) );
+  return static_cast<AuxImageType *>( this->ProcessObject::GetOutput(idx + 1) );
 
 }
 
@@ -87,7 +87,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
-  class TSpeedImage>
+          class TSpeedImage>
 void
 FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 ::GenerateOutputInformation()
@@ -113,11 +113,11 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
-  class TSpeedImage>
+          class TSpeedImage>
 void
 FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 ::EnlargeOutputRequestedRegion(
-DataObject *output )
+  DataObject *output )
 {
 
   for ( unsigned int j = 0; j < this->GetNumberOfOutputs(); j++ )
@@ -141,9 +141,9 @@ DataObject *output )
           {
           // Pointer could not be cast to AuxImageType *
           itkWarningMacro(<< "itk::FastMarchingExtensionImageFilter" <<
-                    "::EnlargeOutputRequestedRegion cannot cast "
-                    << typeid(output).name() << " to "
-                    << typeid(AuxImageType*).name() );    
+                          "::EnlargeOutputRequestedRegion cannot cast "
+                          << typeid(output).name() << " to "
+                          << typeid(AuxImageType*).name() );    
 
           }
         }
@@ -160,7 +160,7 @@ DataObject *output )
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
-  class TSpeedImage>
+          class TSpeedImage>
 void
 FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 ::Initialize( LevelSetImageType * output )
@@ -187,7 +187,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
     }  
 
   if ( m_AuxAliveValues &&
-      m_AuxAliveValues->Size() != (this->GetAlivePoints())->Size() )
+       m_AuxAliveValues->Size() != (this->GetAlivePoints())->Size() )
     {
     itkExceptionMacro(<<"in Initialize(): AuxAliveValues is the wrong size" );
     }
@@ -198,7 +198,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
     } 
 
   if ( m_AuxTrialValues &&
-      m_AuxTrialValues->Size() != (this->GetTrialPoints())->Size() )
+       m_AuxTrialValues->Size() != (this->GetTrialPoints())->Size() )
     {
     itkExceptionMacro(<<"in Initialize(): AuxTrialValues is the wrong size" );
     } 
@@ -278,27 +278,27 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension, 
-  class TSpeedImage>
+          class TSpeedImage>
 double
 FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 ::UpdateValue(
-const IndexType& index,
-const SpeedImageType * speed,
-LevelSetImageType * output )
+  const IndexType& index,
+  const SpeedImageType * speed,
+  LevelSetImageType * output )
 {
 
- // A extension value at node is choosen such that 
- // grad(F) dot_product grad(Phi) = 0
- // where F is the extended speed function and Phi is 
- // the level set function.
- //
- // The extension value can approximated as a weighted
- // sum of the values from nodes used in the calculation
- // of the distance by the superclass.
- //
- // For more detail see Chapter 11 of
- // "Level Set Methods and Fast Marching Methods", J.A. Sethian,
- // Cambridge Press, Second edition, 1999.
+  // A extension value at node is choosen such that 
+  // grad(F) dot_product grad(Phi) = 0
+  // where F is the extended speed function and Phi is 
+  // the level set function.
+  //
+  // The extension value can approximated as a weighted
+  // sum of the values from nodes used in the calculation
+  // of the distance by the superclass.
+  //
+  // For more detail see Chapter 11 of
+  // "Level Set Methods and Fast Marching Methods", J.A. Sethian,
+  // Cambridge Press, Second edition, 1999.
 
   double solution = this->Superclass::UpdateValue( index, speed, output );
 

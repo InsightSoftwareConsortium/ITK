@@ -86,7 +86,7 @@ public:
   /** Return the current filename in the sequence. If the empty string "" 
    * is returned, then there are no current file in the sequence. */
   virtual const std::string& operator*() const
-    {return m_CurrentFileName;}
+  {return m_CurrentFileName;}
 
 protected:
   FileIteratorBase();

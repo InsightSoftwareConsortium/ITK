@@ -56,9 +56,9 @@ Euler2DTransform<TScalarType>
   // Transfer the translation part
   OffsetType offset;
   for(unsigned int i=0; i < SpaceDimension; i++) 
-  {
+    {
     offset[i] = parameters[i+1];
-  }
+    }
 
   this->SetOffset( offset );
 
@@ -81,9 +81,9 @@ Euler2DTransform<TScalarType>
   // Transfer the translation part
   OffsetType offset = this->GetOffset();
   for(unsigned int i=0; i < SpaceDimension; i++) 
-  {
+    {
     m_Parameters[i+1] = offset[i];
-  }
+    }
 
   itkDebugMacro(<<"After getting parameters " << m_Parameters );
 

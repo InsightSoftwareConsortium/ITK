@@ -69,7 +69,7 @@ namespace itk
 template <class TInputImage, 
           class TClassifiedImage>
 class ITK_EXPORT ImageClassifierBase: 
-public ClassifierBase<TInputImage>
+    public ClassifierBase<TInputImage>
 {
 public:
   /** Standard class typedefs. */
@@ -101,10 +101,10 @@ public:
   typedef typename Superclass::MembershipFunctionType MembershipFunctionType;
 
   typedef typename Superclass::MembershipFunctionPointer 
-    MembershipFunctionPointer;
+  MembershipFunctionPointer;
 
   typedef typename Superclass::MembershipFunctionPointerVector
-    MembershipFunctionPointerVector;
+  MembershipFunctionPointerVector;
 
   /** Type alias for decision rule */
   typedef typename Superclass::DecisionRuleType DecisionRuleType;
@@ -131,13 +131,13 @@ public:
 
   /** Type definition for the input image/training iterator */
   typedef
-    ImageRegionConstIterator< TInputImage >    InputImageConstIterator;
+  ImageRegionConstIterator< TInputImage >    InputImageConstIterator;
   typedef
-    ImageRegionIterator< TClassifiedImage >    ClassifiedImageIterator;   
+  ImageRegionIterator< TClassifiedImage >    ClassifiedImageIterator;   
 
   /** Method to get the membership of a given pixel to the different classes */
   const std::vector<double> & 
-    GetPixelMembershipValue(const InputImagePixelType  inputImagePixel );
+  GetPixelMembershipValue(const InputImagePixelType  inputImagePixel );
 
 
 protected: 

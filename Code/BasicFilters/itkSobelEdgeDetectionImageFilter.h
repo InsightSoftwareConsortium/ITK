@@ -45,7 +45,7 @@ namespace itk
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT SobelEdgeDetectionImageFilter : 
-           public ImageToImageFilter< TInputImage, TOutputImage > 
+    public ImageToImageFilter< TInputImage, TOutputImage > 
 {
 public:
   /**
@@ -114,7 +114,7 @@ protected:
    */
   void GenerateData();
   void PrintSelf(std::ostream& os, Indent indent) const
-    { Superclass::PrintSelf(os,indent); }
+  { Superclass::PrintSelf(os,indent); }
 
   
 private:

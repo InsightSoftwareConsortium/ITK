@@ -51,13 +51,13 @@ namespace itk {
  */
 template<class TInputImage, class TOutputImage>
 class ITK_EXPORT HMaximaImageFilter : 
-  public ImageToImageFilter<TInputImage, TOutputImage>
+    public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   /** Standard class typedefs. */
   typedef HMaximaImageFilter Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage>
-    Superclass;
+  Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

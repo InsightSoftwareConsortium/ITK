@@ -30,7 +30,7 @@ ComputeG(const InputVectorType & x) const
   const TScalarType r = x.GetNorm();
   m_GMatrix.fill( NumericTraits< TScalarType >::Zero );
   const TScalarType R2logR = 
-      ( r > 1e-8 )? r * r * log( r ) : NumericTraits<TScalarType>::Zero;
+    ( r > 1e-8 )? r * r * log( r ) : NumericTraits<TScalarType>::Zero;
 
   m_GMatrix.fill_diagonal( R2logR );
  
@@ -42,7 +42,7 @@ template <class TScalarType, unsigned int NDimensions>
 void
 ThinPlateR2LogRSplineKernelTransform<TScalarType, NDimensions>::
 ComputeDeformationContribution( const InputPointType  & thisPoint,
-                                      OutputPointType & result     ) const
+                                OutputPointType & result     ) const
 {
 
   unsigned long numberOfLandmarks = m_SourceLandmarks->GetNumberOfPoints();

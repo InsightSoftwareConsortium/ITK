@@ -57,7 +57,7 @@ namespace itk
  */
 template <class TImageType>
 class ITK_EXPORT PlaheImageFilter :
-  public ImageToImageFilter< TImageType, TImageType >
+    public ImageToImageFilter< TImageType, TImageType >
 {
 public:
   /** Standard class typedefs.*/ 
@@ -106,12 +106,12 @@ public:
 
 protected:
   PlaheImageFilter()
-    {
+  {
     m_Alpha = .3;
     m_Beta = .3;
     m_Radius.Fill( 5 );
     m_UseLookupTable = false;
-    }
+  }
   virtual ~PlaheImageFilter(){}
   void PrintSelf(std::ostream& os, Indent indent) const;
 

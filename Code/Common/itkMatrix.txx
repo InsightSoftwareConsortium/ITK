@@ -39,14 +39,14 @@ Matrix<T, NRows, NColumns>
 {
   Vector<T,NRows> result;
   for( unsigned int r=0; r<NRows; r++) 
-  {
+    {
     T sum = NumericTraits<T>::Zero;   
     for( unsigned int c=0; c<NColumns; c++ ) 
-    {
-       sum += m_Matrix(r,c) * vect[c];
-    }
+      {
+      sum += m_Matrix(r,c) * vect[c];
+      }
     result[r] = sum;
-  }
+    }
   return result;
 }
 
@@ -63,14 +63,14 @@ Matrix<T, NRows, NColumns>
 {
   Point<T,NRows> result;
   for( unsigned int r=0; r<NRows; r++) 
-  {
+    {
     T sum = NumericTraits<T>::Zero;   
     for( unsigned int c=0; c<NColumns; c++ ) 
-    {
-       sum += m_Matrix(r,c) * pnt[c];
-    }
+      {
+      sum += m_Matrix(r,c) * pnt[c];
+      }
     result[r] = sum;
-  }
+    }
   return result;
 }
 
@@ -87,14 +87,14 @@ Matrix<T, NRows, NColumns>
 {
   CovariantVector<T,NRows> result;
   for( unsigned int r=0; r<NRows; r++) 
-  {
+    {
     T sum = NumericTraits<T>::Zero;   
     for( unsigned int c=0; c<NColumns; c++ ) 
-    {
-       sum += m_Matrix(r,c) * covect[c];
-    }
+      {
+      sum += m_Matrix(r,c) * covect[c];
+      }
     result[r] = sum;
-  }
+    }
   return result;
 }
 

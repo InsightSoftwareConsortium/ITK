@@ -98,17 +98,17 @@ protected:
    * and size (where the current region and maximum region for each dimension
    * is encoded in regIndices and regLimit), choose the next input region. */ 
   int GenerateNextInputRegion(long *regIndices, long *regLimit, 
-            std::vector<long> indices[], 
-            std::vector<long> sizes[], 
-            InputImageRegionType& outputRegion);
+                              std::vector<long> indices[], 
+                              std::vector<long> sizes[], 
+                              InputImageRegionType& outputRegion);
 
   /** Given an n dimensional list of output region breakpoints in indices
    * and size (where the current region and maximum region for each dimension
    * is encoded in regIndices and regLimit), choose the next output region. */ 
   int GenerateNextOutputRegion(long *regIndices, long *regLimit, 
-             std::vector<long> indices[], 
-             std::vector<long> sizes[], 
-             OutputImageRegionType& outputRegion);
+                               std::vector<long> indices[], 
+                               std::vector<long> sizes[], 
+                               OutputImageRegionType& outputRegion);
 
   /** Given the start and end indices of a region, determine how many
    * instances of size fit within the region.  The variable offset provides

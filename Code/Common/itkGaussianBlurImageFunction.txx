@@ -31,10 +31,10 @@ GaussianBlurImageFunction<TInputImage,TOutput>
   mean[0]=0.0f;
   for(unsigned int i=0;i<itkGetStaticConstMacro(ImageDimension);i++)
     {
-      m_Sigma[i] = 1.0f;
-      m_MaximumError[i] = 0.001f;
-      m_MaximumKernelWidth = 32;
-      m_Extent[i] = 1.0f;
+    m_Sigma[i] = 1.0f;
+    m_MaximumError[i] = 0.001f;
+    m_MaximumKernelWidth = 32;
+    m_Extent[i] = 1.0f;
     }
   m_UseImageSpacing = true;
 
@@ -65,11 +65,11 @@ GaussianBlurImageFunction<TInputImage,TOutput>
   this->Superclass::PrintSelf(os,indent);
  
   for(unsigned int i=0;i<itkGetStaticConstMacro(ImageDimension);i++)
-  {
+    {
     os << indent << "Sigma["<< i << "] : " <<  m_Sigma[i] << std::endl;
     os << indent << "MaximumError["<< i << "] : " << m_MaximumError[i] << std::endl;
     os << indent << "Extent["<< i << "] : " << m_Extent[i] << std::endl;
-  }
+    }
   os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
   os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
 
@@ -190,18 +190,18 @@ GaussianBlurImageFunction<TInputImage,TOutput>
 
     if( (m_UseImageSpacing == true) && (this->GetInputImage()) )
       {
-        if (this->GetInputImage()->GetSpacing()[direction] == 0.0)
-          {
-          itkExceptionMacro(<< "Pixel spacing cannot be zero");
-          }
-        else
-          {
-          gaussianOperator.SetVariance(m_Sigma[direction]*m_Sigma[direction]  / this->GetInputImage()->GetSpacing()[direction]);
-          }
+      if (this->GetInputImage()->GetSpacing()[direction] == 0.0)
+        {
+        itkExceptionMacro(<< "Pixel spacing cannot be zero");
+        }
+      else
+        {
+        gaussianOperator.SetVariance(m_Sigma[direction]*m_Sigma[direction]  / this->GetInputImage()->GetSpacing()[direction]);
+        }
       }
     else
       {
-        gaussianOperator.SetVariance(m_Sigma[direction]*m_Sigma[direction]);
+      gaussianOperator.SetVariance(m_Sigma[direction]*m_Sigma[direction]);
       }
 
     gaussianOperator.CreateDirectional();
@@ -238,7 +238,7 @@ template <class TInputImage,class TOutput>
 void
 GaussianBlurImageFunction<TInputImage,TOutput>
 ::RecomputeContinuousGaussianKernel(
-             const double offset[itkGetStaticConstMacro(ImageDimension)]) const
+  const double offset[itkGetStaticConstMacro(ImageDimension)]) const
 {
   for(unsigned int direction=0;direction<itkGetStaticConstMacro(ImageDimension);direction++)
     {
@@ -259,7 +259,7 @@ GaussianBlurImageFunction<TInputImage,TOutput>
     unsigned int i=0;
     float sum = 0;
     while(it != gaussianNeighborhood.End() )
-    {
+      {
       pt[0]= gaussianNeighborhood.GetOffset(i)[direction]-offset[direction];
       if( (m_UseImageSpacing == true) && (this->GetInputImage()) )
         {
@@ -277,16 +277,16 @@ GaussianBlurImageFunction<TInputImage,TOutput>
       sum += (*it);
       i++;
       it++;
-    }
+      }
 
     // Make the filter DC-Constant
     it = gaussianNeighborhood.Begin();
     while(it != gaussianNeighborhood.End() )
-    {    
+      {    
       (*it) /= sum;
       //std::cout << *it << std::endl;
       it++;
-    }
+      }
     //std::cout << std::endl;
     //std::cout << std::endl;
     m_ContinuousOperatorArray[direction] = gaussianNeighborhood;
@@ -304,10 +304,10 @@ GaussianBlurImageFunction<TInputImage,TOutput>
 
   double offset[itkGetStaticConstMacro(ImageDimension)];
   for(unsigned int i=0; i<itkGetStaticConstMacro(ImageDimension);i++)
-  {
+    {
     index[i] = (unsigned long)point[i];
     offset[i] = point[i]-index[i];
-  }
+    }
 
   this->RecomputeContinuousGaussianKernel(offset);
 

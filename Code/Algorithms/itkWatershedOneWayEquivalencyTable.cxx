@@ -33,23 +33,23 @@ bool OneWayEquivalencyTable::Add(unsigned long a, unsigned long b)
   return result.second;
 }
   
-  //void OneWayEquivalencyTable::PrintHashTable()
-  //{
-  //  ConstIterator it = this->Begin();
-  //  while (it != this->End() )
-  //    {
-  //      std::cout << (*it).first << " = " << (*it).second << std::endl;
-  //      it++;
-  //    }
-  //}
+//void OneWayEquivalencyTable::PrintHashTable()
+//{
+//  ConstIterator it = this->Begin();
+//  while (it != this->End() )
+//    {
+//      std::cout << (*it).first << " = " << (*it).second << std::endl;
+//      it++;
+//    }
+//}
 
 void OneWayEquivalencyTable::Flatten()
 {
   Iterator it = this->Begin();
   while ( it != this->End() )
     {
-      (*it).second = this->RecursiveLookup((*it).first);
-      it++;
+    (*it).second = this->RecursiveLookup((*it).first);
+    it++;
     }
 }
 
@@ -74,7 +74,7 @@ void OneWayEquivalencyTable::UpdateOutputInformation()
 {
   if (this->GetSource())
     {
-      this->GetSource()->UpdateOutputInformation();
+    this->GetSource()->UpdateOutputInformation();
     }
   else
     {
@@ -87,8 +87,8 @@ void OneWayEquivalencyTable::UpdateOutputInformation()
   // region.
   if ( ! m_RequestedRegionInitialized)
     {
-      this->SetRequestedRegionToLargestPossibleRegion();
-      m_RequestedRegionInitialized = true;
+    this->SetRequestedRegionToLargestPossibleRegion();
+    m_RequestedRegionInitialized = true;
     }
   
   m_LastRequestedRegionWasOutsideOfTheBufferedRegion = 0;

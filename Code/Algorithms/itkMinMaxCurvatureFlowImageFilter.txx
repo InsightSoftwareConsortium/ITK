@@ -38,7 +38,7 @@ MinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>
   cffp = MinMaxCurvatureFlowFunctionType::New();
 
   this->SetDifferenceFunction( static_cast<FiniteDifferenceFunctionType *>( 
-    cffp.GetPointer() ) );
+                                 cffp.GetPointer() ) );
 
 }
 

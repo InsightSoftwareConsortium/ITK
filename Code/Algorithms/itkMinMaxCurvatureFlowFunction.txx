@@ -99,7 +99,7 @@ MinMaxCurvatureFlowFunction<TImage>
       {
       length += static_cast<RadiusValueType>( 
         vnl_math_sqr( static_cast<signed long>(counter[j]) - 
-        static_cast<signed long>(m_StencilRadius) ) ); 
+                      static_cast<signed long>(m_StencilRadius) ) ); 
       }
     if ( length <= sqrRadius )
       {
@@ -125,7 +125,7 @@ MinMaxCurvatureFlowFunction<TImage>
   for ( opIter = m_StencilOperator.Begin(); opIter < opEnd; ++opIter )
     {
     *opIter = static_cast<PixelType>( (double) *opIter /
-      (double) numPixelsInSphere );
+                                      (double) numPixelsInSphere );
     }
 
 }
@@ -159,7 +159,7 @@ MinMaxCurvatureFlowFunction<TImage>
     {
     stride = it.GetStride( (unsigned long) j );
     gradient[j] = 0.5 * ( it.GetPixel( center + stride ) -
-      it.GetPixel( center - stride ) );
+                          it.GetPixel( center - stride ) );
     gradMagnitude += vnl_math_sqr( gradient[j] );
     }
 
@@ -263,18 +263,18 @@ MinMaxCurvatureFlowFunction<TImage>
   center = it.Size()/2;
 
   gradient[0] = 0.5 * ( it.GetPixel( center + 1 ) -
-    it.GetPixel( center - 1) );
+                        it.GetPixel( center - 1) );
   gradMagnitude = vnl_math_sqr( gradient[0] );
 
   stride = it.GetStride( 1 );
   gradient[1] = 0.5 * ( it.GetPixel( center + stride ) -
-    it.GetPixel( center - stride ) );
+                        it.GetPixel( center - stride ) );
   gradMagnitude += vnl_math_sqr( gradient[1] );
 
   if ( gradMagnitude == 0.0 ) { return threshold; }
 
   gradMagnitude = vcl_sqrt( gradMagnitude ) /
-   static_cast<PixelType>( m_StencilRadius );
+    static_cast<PixelType>( m_StencilRadius );
 
   for ( j = 0; j < imageDimension; j++ )
     {
@@ -328,21 +328,21 @@ MinMaxCurvatureFlowFunction<TImage>
   strideZ = it.GetStride( 2 );
 
   gradient[0] = 0.5 * ( it.GetPixel( center + 1 ) -
-    it.GetPixel( center - 1) );
+                        it.GetPixel( center - 1) );
   gradMagnitude = vnl_math_sqr( gradient[0] );
 
   gradient[1] = 0.5 * ( it.GetPixel( center + strideY ) -
-    it.GetPixel( center - strideY ) );
+                        it.GetPixel( center - strideY ) );
   gradMagnitude += vnl_math_sqr( gradient[1] );
 
   gradient[2] = 0.5 * ( it.GetPixel( center + strideZ ) -
-    it.GetPixel( center - strideZ ) );
+                        it.GetPixel( center - strideZ ) );
   gradMagnitude += vnl_math_sqr( gradient[2] );
 
   if ( gradMagnitude == 0.0 ) { return threshold; }
 
   gradMagnitude = vcl_sqrt( gradMagnitude ) /
-   static_cast<PixelType>( m_StencilRadius );
+    static_cast<PixelType>( m_StencilRadius );
 
   for ( j = 0; j < imageDimension; j++ )
     {
@@ -377,7 +377,7 @@ MinMaxCurvatureFlowFunction<TImage>
   position[2] = vnl_math_rnd( m_StencilRadius - rSinTheta );
 
   threshold += it.GetPixel( position[0] + 
-    strideY * position[1] + strideZ * position[2] );
+                            strideY * position[1] + strideZ * position[2] );
 
   // Point 2: angle = 90;
   position[0] = vnl_math_rnd( m_StencilRadius - rSinPhi );
@@ -385,7 +385,7 @@ MinMaxCurvatureFlowFunction<TImage>
   position[2] = m_StencilRadius;
 
   threshold += it.GetPixel( position[0] + 
-    strideY * position[1] + strideZ * position[2] );
+                            strideY * position[1] + strideZ * position[2] );
 
   // Point 3: angle = 180;
   position[0] = vnl_math_rnd( m_StencilRadius - rCosThetaCosPhi );
@@ -393,7 +393,7 @@ MinMaxCurvatureFlowFunction<TImage>
   position[2] = vnl_math_rnd( m_StencilRadius + rSinTheta );
 
   threshold += it.GetPixel( position[0] + 
-    strideY * position[1] + strideZ * position[2] );
+                            strideY * position[1] + strideZ * position[2] );
 
   // Point 4: angle = 270;
   position[0] = vnl_math_rnd( m_StencilRadius + rSinPhi );
@@ -401,7 +401,7 @@ MinMaxCurvatureFlowFunction<TImage>
   position[2] = m_StencilRadius;
 
   threshold += it.GetPixel( position[0] + 
-    strideY * position[1] + strideZ * position[2] );
+                            strideY * position[1] + strideZ * position[2] );
   
   threshold *= 0.25;
   return threshold;

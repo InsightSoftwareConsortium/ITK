@@ -69,21 +69,21 @@ void BoundaryResolver<TPixelType, TDimension>
   // non-flat regions.
   //
   ImageRegionIterator<FaceType> itA(boundaryA->GetFace(idxA),
-                               boundaryA->GetFace(idxA)->GetRequestedRegion());
+                                    boundaryA->GetFace(idxA)->GetRequestedRegion());
 
   ImageRegionIterator<FaceType> itB(boundaryB->GetFace(idxB),
-                               boundaryB->GetFace(idxB)->GetRequestedRegion());
+                                    boundaryB->GetFace(idxB)->GetRequestedRegion());
 
   for (itA = itA.Begin(), itB = itB.Begin(); !itA.IsAtEnd(); ++itA, ++itB )
     {
-      if ( itA.Get().flow != SegmenterType::NULL_FLOW )
-        {
-          equivTable->Add(itA.Get().label, itB.Get().label);
-        }
-      if ( itB.Get().flow != SegmenterType::NULL_FLOW )
-        {
-          equivTable->Add(itA.Get().label, itB.Get().label);
-        }
+    if ( itA.Get().flow != SegmenterType::NULL_FLOW )
+      {
+      equivTable->Add(itA.Get().label, itB.Get().label);
+      }
+    if ( itB.Get().flow != SegmenterType::NULL_FLOW )
+      {
+      equivTable->Add(itA.Get().label, itB.Get().label);
+      }
     }
 
   equivTable->Flatten();

@@ -657,15 +657,15 @@ findLeftHE(PointType *p)
   if( (he==(&m_ELleftend)) || ((he!=(&m_ELrightend)) && right_of(he,p)) )
     {
     do {
-      he = he->m_Right;
-      } while ( (he!=(&m_ELrightend)) && (right_of(he,p)) );
+    he = he->m_Right;
+    } while ( (he!=(&m_ELrightend)) && (right_of(he,p)) );
     he = he->m_Left;
     }
   else 
     {
     do {
-      he = he->m_Left;
-      } while ( (he!=(&m_ELleftend)) && (!right_of(he,p)) );
+    he = he->m_Left;
+    } while ( (he!=(&m_ELleftend)) && (!right_of(he,p)) );
     }
 
   if( (bucket>0) && (bucket<static_cast<int>(m_ELhashsize)-1) )

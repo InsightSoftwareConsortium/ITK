@@ -37,7 +37,7 @@ template<class TScalarType, unsigned int NDimensions>
 TranslationTransform<TScalarType, NDimensions>::
 ~TranslationTransform()
 {
- return;
+  return;
 }
 
 
@@ -164,7 +164,7 @@ typename TranslationTransform<TScalarType, NDimensions>::InputVectorType
 TranslationTransform<TScalarType, NDimensions>::
 BackTransform(const OutputVectorType &vect ) const 
 {
-    return  vect;
+  return  vect;
 }
 
 
@@ -176,7 +176,7 @@ typename TranslationTransform<TScalarType, NDimensions>::InputVnlVectorType
 TranslationTransform<TScalarType, NDimensions>::
 BackTransform(const OutputVnlVectorType &vect ) const 
 {
-    return  vect;
+  return  vect;
 }
 
 

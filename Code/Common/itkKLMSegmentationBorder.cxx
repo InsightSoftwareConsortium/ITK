@@ -112,7 +112,7 @@ KLMSegmentationBorder
   int region2Area = preg2->GetRegionArea();
  
   double scaleArea = (( double )( region1Area * region2Area ) /
-    ( double )( region1Area + region2Area ) );
+                      ( double )( region1Area + region2Area ) );
 
   VecDblType LambdaMat = 
     (scaleArea / this->GetBorderLength() ) * region1_2MeanDiff;

@@ -28,7 +28,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  */
 class ITK_EXPORT RegularStepGradientDescentBaseOptimizer : 
-        public SingleValuedNonLinearOptimizer
+    public SingleValuedNonLinearOptimizer
 {
 public:
   /** Standard "Self" typedef. */
@@ -42,7 +42,7 @@ public:
   
   /** Run-time type information (and related methods). */
   itkTypeMacro( RegularStepGradientDescentBaseOptimizer, 
-                              SingleValuedNonLinearOptimizer );
+                SingleValuedNonLinearOptimizer );
   
 
   /** Codes of stopping conditions. */
@@ -59,13 +59,13 @@ public:
   itkGetMacro( Maximize, bool );
   itkBooleanMacro( Maximize );
   bool GetMinimize( ) const
-    { return !m_Maximize; }
+  { return !m_Maximize; }
   void SetMinimize(bool v)
-    { this->SetMaximize(!v); }
+  { this->SetMaximize(!v); }
   void    MinimizeOn(void) 
-    { SetMaximize( false ); }
+  { SetMaximize( false ); }
   void    MinimizeOff(void) 
-    { SetMaximize( true ); }
+  { SetMaximize( true ); }
 
   /** Start optimization. */
   void    StartOptimization( void );
@@ -109,14 +109,14 @@ protected:
    * to be overrided by optimization methods in non-vector spaces
    * \sa AdvanceOneStep */
   virtual void StepAlongGradient( 
-                  double,
-                  const DerivativeType&)
-    {
+    double,
+    const DerivativeType&)
+  {
     ExceptionObject ex;
     ex.SetLocation(__FILE__);
     ex.SetDescription("This method MUST be overloaded in derived classes");
     throw ex;
-    }
+  }
 
 
 private:  

@@ -31,7 +31,7 @@ namespace itk {
 template <class TNodeType>
 class ConstSparseFieldLayerIterator
 {
- public:
+public:
   const TNodeType& operator*() const
   { return *m_Pointer; }
 
@@ -144,7 +144,7 @@ public:
  */
 template <class TNodeType>
 class ITK_EXPORT SparseFieldLayer
-    : public Object
+  : public Object
 {
 public:
   /** Standard typedefs. */
@@ -156,7 +156,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-   /** Run-time type information (and related methods). */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(SparseFieldLayer, Object);
 
   /** Type of node stored in the linked list. */

@@ -385,7 +385,7 @@ template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::SetBoundary(int dimension, BoundaryIdentifier boundaryId, 
-                             BoundaryAutoPointer & boundaryPointer )
+              BoundaryAutoPointer & boundaryPointer )
 {
   /**
    * Make sure a boundaries container exists.
@@ -400,7 +400,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
    */
   // Transfer ownership of the boundary cell
   m_BoundariesContainers[dimension]
-      ->InsertElement(boundaryId, boundaryPointer.ReleaseOwnership() );
+    ->InsertElement(boundaryId, boundaryPointer.ReleaseOwnership() );
 }
 
 
@@ -433,7 +433,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
    */
   CellType* boundaryptr; 
   const bool found = m_BoundariesContainers[dimension]
-                        ->GetElementIfIndexExists(boundaryId, &boundaryptr);
+    ->GetElementIfIndexExists(boundaryId, &boundaryptr);
   if( found ) 
     {
     boundaryPointer.TakeNoOwnership( boundaryptr );
@@ -667,7 +667,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
  * Restore the Mesh to its initial state.  Useful for data pipeline updates
  * without memory re-allocation.
  */
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+  template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::Initialize(void)
@@ -768,7 +768,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
    * Sanity check on mesh status.
    */
   if( !m_PointsContainer || !m_CellsContainer ||
-     (!m_CellsContainer->IndexExists(cellId)))
+      (!m_CellsContainer->IndexExists(cellId)))
     {
     /**
      * TODO: Throw EXCEPTION here?
@@ -781,7 +781,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
    */
   BoundaryAutoPointer boundary;
   if(this->GetAssignedCellBoundaryIfOneExists(
-    dimension, cellId, featureId, boundary))
+       dimension, cellId, featureId, boundary))
     {
     /**
      * Explicitly assigned boundary found.  Loop through its UsingCells,
@@ -835,8 +835,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>
    * First, ask the cell to construct the boundary feature so we can look
    * at its points.
    */
-   m_CellsContainer->GetElement(cellId)
-          ->GetBoundaryFeature(dimension, featureId, boundary);
+  m_CellsContainer->GetElement(cellId)
+    ->GetBoundaryFeature(dimension, featureId, boundary);
   
 
   /**
@@ -1117,47 +1117,47 @@ Mesh<TPixelType, VDimension, TMeshTraits>
     switch( m_CellsAllocationMethod )
       {
       case CellsAllocationMethodUndefined:
-        {
-        // The user forgot to tell the mesh about how he allocated 
-        // the cells. No responsible guess can be made here. Call for help.
-        itkGenericExceptionMacro(<<"Cells Allocation Method was not specified. See SetCellsAllocationMethod()");
-        break;
-        }
+      {
+      // The user forgot to tell the mesh about how he allocated 
+      // the cells. No responsible guess can be made here. Call for help.
+      itkGenericExceptionMacro(<<"Cells Allocation Method was not specified. See SetCellsAllocationMethod()");
+      break;
+      }
       case CellsAllocatedAsStaticArray:
-        {
-        // The cells will be naturally destroyed when
-        // the original array goes out of scope.
-        itkDebugMacro("CellsAllocatedAsStaticArray ");
-        break;
-        }
+      {
+      // The cells will be naturally destroyed when
+      // the original array goes out of scope.
+      itkDebugMacro("CellsAllocatedAsStaticArray ");
+      break;
+      }
       case CellsAllocatedAsADynamicArray:
-        {
-        // the pointer to the first Cell is assumed to be the 
-        // base pointer of the array
-        CellsContainerIterator first = m_CellsContainer->Begin();
-        CellType * baseOfCellsArray = first->Value();
-        delete [] baseOfCellsArray;
-        m_CellsContainer->Initialize();
-        itkDebugMacro("CellsAllocatedAsADynamicArray");
-        break;
-        }
+      {
+      // the pointer to the first Cell is assumed to be the 
+      // base pointer of the array
+      CellsContainerIterator first = m_CellsContainer->Begin();
+      CellType * baseOfCellsArray = first->Value();
+      delete [] baseOfCellsArray;
+      m_CellsContainer->Initialize();
+      itkDebugMacro("CellsAllocatedAsADynamicArray");
+      break;
+      }
       case CellsAllocatedDynamicallyCellByCell:
+      {
+      // It is assumed that every cell was allocated independently.
+      // A Cell iterator is created for going through the cells 
+      // deleting one by one.
+      CellsContainerIterator cell  = m_CellsContainer->Begin();
+      CellsContainerIterator end   = m_CellsContainer->End();
+      while( cell != end )
         {
-        // It is assumed that every cell was allocated independently.
-        // A Cell iterator is created for going through the cells 
-        // deleting one by one.
-        CellsContainerIterator cell  = m_CellsContainer->Begin();
-        CellsContainerIterator end   = m_CellsContainer->End();
-        while( cell != end )
-          {
-          const CellType * cellToBeDeleted = cell->Value();
-          delete cellToBeDeleted;
-          ++cell; 
-          }
-        m_CellsContainer->Initialize();
-        itkDebugMacro("CellsAllocatedDynamicallyCellByCell");
-        break;
+        const CellType * cellToBeDeleted = cell->Value();
+        delete cellToBeDeleted;
+        ++cell; 
         }
+      m_CellsContainer->Initialize();
+      itkDebugMacro("CellsAllocatedDynamicallyCellByCell");
+      break;
+      }
       }
     }
 }
@@ -1174,7 +1174,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 {
   itkDebugMacro("Mesh  ReleaseBoundariesMemory method ");
   const unsigned int numberOfBoundaryDimension = 
-             static_cast<unsigned int>( m_BoundariesContainers.size() );
+    static_cast<unsigned int>( m_BoundariesContainers.size() );
 
   if( numberOfBoundaryDimension == 0 )
     {
@@ -1231,7 +1231,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 
 
   BoundariesContainerPointer boundariesContainer 
-                                  = m_BoundariesContainers[ dimension ];
+    = m_BoundariesContainers[ dimension ];
 
 
   // If reference count is 2, then the vector (m_BoundariesContainers) has
@@ -1241,51 +1241,51 @@ Mesh<TPixelType, VDimension, TMeshTraits>
     switch( m_BoundariesAllocationMethod )
       {
       case BoundariesAllocationMethodUndefined:
-        {
-        // The user forgot to tell the mesh about how he allocated 
-        // the cells. No responsible guess can be made here. Call for help.
-        itkGenericExceptionMacro(<<"Boundaries Allocation Method was not specified. See SetBoundariesAllocationMethod()");
-        break;
-        }
+      {
+      // The user forgot to tell the mesh about how he allocated 
+      // the cells. No responsible guess can be made here. Call for help.
+      itkGenericExceptionMacro(<<"Boundaries Allocation Method was not specified. See SetBoundariesAllocationMethod()");
+      break;
+      }
       case BoundariesAllocatedAsStaticArray:
-        {
-        // The cells will be naturally destroyed when
-        // the original array goes out of scope.
-        itkDebugMacro("Boundaries allocated as static array.");
-        break;
-        }
+      {
+      // The cells will be naturally destroyed when
+      // the original array goes out of scope.
+      itkDebugMacro("Boundaries allocated as static array.");
+      break;
+      }
       case BoundariesAllocatedAsADynamicArray:
-        {
-        // the pointer to the first Cell is assumed to be the 
-        // base pointer of the array
-        itkDebugMacro("Boundaries allocated as dynamic array.");
-        BoundariesContainerIterator first = boundariesContainer->Begin();
-        CellType * baseOfBoundariesArray = first->Value();
-        delete [] baseOfBoundariesArray;
-        boundariesContainer->Initialize();
-        break;
-        }
+      {
+      // the pointer to the first Cell is assumed to be the 
+      // base pointer of the array
+      itkDebugMacro("Boundaries allocated as dynamic array.");
+      BoundariesContainerIterator first = boundariesContainer->Begin();
+      CellType * baseOfBoundariesArray = first->Value();
+      delete [] baseOfBoundariesArray;
+      boundariesContainer->Initialize();
+      break;
+      }
       case BoundariesAllocatedDynamicallyCellByCell:
+      {
+      // It is assumed that every cell was allocated independently.
+      // A Cell iterator is created for going through the cells 
+      // deleting one by one.
+      itkDebugMacro("Boundaries allocated dynamically cell by cell.");
+      BoundariesContainerIterator cell  = boundariesContainer->Begin();
+      BoundariesContainerIterator end   = boundariesContainer->End();
+      while( cell != end )
         {
-        // It is assumed that every cell was allocated independently.
-        // A Cell iterator is created for going through the cells 
-        // deleting one by one.
-        itkDebugMacro("Boundaries allocated dynamically cell by cell.");
-        BoundariesContainerIterator cell  = boundariesContainer->Begin();
-        BoundariesContainerIterator end   = boundariesContainer->End();
-        while( cell != end )
-          {
-          const CellType * cellToBeDeleted = cell->Value();
-          delete cellToBeDeleted;
-          ++cell; 
-          }
-        boundariesContainer->Initialize();
-        break;
+        const CellType * cellToBeDeleted = cell->Value();
+        delete cellToBeDeleted;
+        ++cell; 
         }
+      boundariesContainer->Initialize();
+      break;
+      }
       default:
-        {
-        itkDebugMacro("Cannot determine allocation type");
-        }
+      {
+      itkDebugMacro("Cannot determine allocation type");
+      }
       }
     }
   else
@@ -1355,8 +1355,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>
     {
     // pointer could not be cast back down
     itkExceptionMacro(<< "itk::Mesh::CopyInformation() cannot cast "
-                  << typeid(data).name() << " to "
-                  << typeid(Mesh*).name() );
+                      << typeid(data).name() << " to "
+                      << typeid(Mesh*).name() );
     }
 }
 
@@ -1379,8 +1379,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>
     {
     // pointer could not be cast back down
     itkExceptionMacro(<< "itk::Mesh::SetRequestedRegion(DataObject*) cannot cast "
-                  << typeid(data).name() << " to "
-                  << typeid(Mesh*).name() );
+                      << typeid(data).name() << " to "
+                      << typeid(Mesh*).name() );
     }
 }
 
@@ -1411,8 +1411,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   if ( m_RequestedNumberOfRegions > m_MaximumNumberOfRegions )
     {
     itkExceptionMacro( << "Cannot break object into " 
-                   << m_RequestedNumberOfRegions << ". The limit is " 
-                   << m_MaximumNumberOfRegions );
+                       << m_RequestedNumberOfRegions << ". The limit is " 
+                       << m_MaximumNumberOfRegions );
     retval = false;
     }
 
@@ -1420,8 +1420,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>
        m_RequestedRegion < 0 )
     {
     itkExceptionMacro( << "Invalid update region " << m_RequestedRegion
-                   << ". Must be between 0 and " 
-                   << m_RequestedNumberOfRegions - 1);
+                       << ". Must be between 0 and " 
+                       << m_RequestedNumberOfRegions - 1);
     retval = false;
     }
 

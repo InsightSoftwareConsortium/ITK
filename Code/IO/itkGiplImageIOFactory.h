@@ -46,10 +46,10 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-    {
-      GiplImageIOFactory::Pointer GiplFactory = GiplImageIOFactory::New();
-      ObjectFactoryBase::RegisterFactory(GiplFactory);
-    }
+  {
+    GiplImageIOFactory::Pointer GiplFactory = GiplImageIOFactory::New();
+    ObjectFactoryBase::RegisterFactory(GiplFactory);
+  }
 
 protected:
   GiplImageIOFactory();

@@ -133,7 +133,7 @@ template <class TInputImage,
           class TFeatureImage,
           class TOutputPixelType = float,
           class TOutputImage = Image<TOutputPixelType,
-                 ::itk::GetImageDimension<TInputImage>::ImageDimension> >
+                                     ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 class ITK_EXPORT SegmentationLevelSetImageFilter
   : public SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 {
@@ -156,7 +156,7 @@ public:
 
   /** The generic level set function type */
   typedef SegmentationLevelSetFunction<OutputImageType, FeatureImageType>
-      SegmentationFunctionType;
+  SegmentationFunctionType;
 
   /** The type used for the advection field */
   typedef typename SegmentationFunctionType::VectorImageType VectorImageType;
@@ -276,10 +276,10 @@ protected:
   /** Scalar parameter for curvature.*/
   ValueType m_CurvatureScaling;
 
-    /** Scalar parameter for curvature.*/
+  /** Scalar parameter for curvature.*/
   ValueType m_PropagationScaling;
 
-    /** Scalar parameter for curvature.*/
+  /** Scalar parameter for curvature.*/
   ValueType m_AdvectionScaling;
   
 private:

@@ -55,9 +55,9 @@ template <
   class TLevelSet,
   class TAuxValue,
   unsigned int VAuxDimension = 1
->
+  >
 class ITK_EXPORT LevelSetVelocityNeighborhoodExtractor :
-  public LevelSetNeighborhoodExtractor<TLevelSet>
+    public LevelSetNeighborhoodExtractor<TLevelSet>
 {
 public:
   /** Standard class typdedefs. */
@@ -94,17 +94,17 @@ public:
 
   /** Set the auxiliary images. */
   void SetAuxImage( const AuxImageType * ptr, unsigned int idx = 0 )
-    { 
+  { 
     if ( idx < VAuxDimension && m_AuxImage[idx] != ptr )
       {
       m_AuxImage[idx] = ptr;
       }
     this->Modified();
-    }
+  }
 
   /** Get the auxiliary images. */
   AuxImageConstPointer GetAuxImage( unsigned int idx = 0 )
-    {
+  {
     if ( idx >= VAuxDimension ) 
       { 
       return NULL; 
@@ -113,7 +113,7 @@ public:
       { 
       return m_AuxImage[idx]; 
       }
-    }
+  }
 
   /** Get the container of auxiliary values associated with the inside
    *  points. */

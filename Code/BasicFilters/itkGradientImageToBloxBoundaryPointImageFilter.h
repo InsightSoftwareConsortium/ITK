@@ -34,7 +34,7 @@ namespace itk
  */
 template<typename TInputImage>
 class ITK_EXPORT GradientImageToBloxBoundaryPointImageFilter :
-public ImageToImageFilter<TInputImage, BloxBoundaryPointImage< ::itk::GetImageDimension<TInputImage>::ImageDimension> >
+    public ImageToImageFilter<TInputImage, BloxBoundaryPointImage< ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 {
 public:
   /** Number of dimensions */
@@ -43,7 +43,7 @@ public:
   /** Standard class typedefs. */
   typedef GradientImageToBloxBoundaryPointImageFilter Self;
   typedef ImageToImageFilter<TInputImage,
-    BloxBoundaryPointImage<itkGetStaticConstMacro(NDimensions)> > Superclass;
+                             BloxBoundaryPointImage<itkGetStaticConstMacro(NDimensions)> > Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

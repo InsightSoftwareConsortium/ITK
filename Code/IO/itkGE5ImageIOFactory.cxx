@@ -22,36 +22,36 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-  void GE5ImageIOFactory::PrintSelf(std::ostream&, Indent) const
-  {
+void GE5ImageIOFactory::PrintSelf(std::ostream&, Indent) const
+{
 
-  }
+}
 
 
-  GE5ImageIOFactory::GE5ImageIOFactory()
-  {
-    this->RegisterOverride("itkImageIOBase",
-        "itkGE5ImageIO",
-        "GE5 Image IO",
-        1,
-        CreateObjectFunction<GE5ImageIO>::New());
-  }
+GE5ImageIOFactory::GE5ImageIOFactory()
+{
+  this->RegisterOverride("itkImageIOBase",
+                         "itkGE5ImageIO",
+                         "GE5 Image IO",
+                         1,
+                         CreateObjectFunction<GE5ImageIO>::New());
+}
 
-  GE5ImageIOFactory::~GE5ImageIOFactory()
-  {
-  }
+GE5ImageIOFactory::~GE5ImageIOFactory()
+{
+}
 
-  const char*
-    GE5ImageIOFactory::GetITKSourceVersion(void) const
-    {
-      return ITK_SOURCE_VERSION;
-    }
+const char*
+GE5ImageIOFactory::GetITKSourceVersion(void) const
+{
+  return ITK_SOURCE_VERSION;
+}
 
-  const char*
-    GE5ImageIOFactory::GetDescription() const
-    {
-      return "GE5 ImageIO Factory, allows the loading of GE5 images into insight";
-    }
+const char*
+GE5ImageIOFactory::GetDescription() const
+{
+  return "GE5 ImageIO Factory, allows the loading of GE5 images into insight";
+}
 
 } // end namespace itk
 

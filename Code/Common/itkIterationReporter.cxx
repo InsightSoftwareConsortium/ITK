@@ -22,7 +22,7 @@ namespace itk
 
 //----------------------------------------------------------------------------
 IterationReporter::IterationReporter(ProcessObject* filter, int threadId,
-                                   unsigned long stepsPerUpdate):
+                                     unsigned long stepsPerUpdate):
   m_Filter(filter),
   m_ThreadId(threadId),
   m_StepsPerUpdate( stepsPerUpdate )

@@ -87,7 +87,7 @@ void
 Gene
 ::SetName( const NameType & name )
 {
-   m_Name = name;
+  m_Name = name;
 }
  
 
@@ -99,7 +99,7 @@ void
 Gene
 ::SetName( const char * name )
 {
-   m_Name = name;
+  m_Name = name;
 }
 
 
@@ -113,7 +113,7 @@ const char *
 Gene
 ::GetName() const
 {
-   return m_Name.c_str();
+  return m_Name.c_str();
 }
  
 
@@ -129,7 +129,7 @@ void
 Gene
 ::AddProteinDomain( const DomainType & domain, AffinityType affinity )
 {
-   m_ProteinDomains[ domain ] = affinity;
+  m_ProteinDomains[ domain ] = affinity;
 }
  
 
@@ -142,10 +142,10 @@ void
 Gene
 ::AddGeneControlDomain( const DomainType & domain, bool type )
 {
-   ControlDomainType controlDomain;
-   controlDomain.domain = domain;
-   controlDomain.type   = type;
-   m_ControlDomains.push_back( controlDomain );
+  ControlDomainType controlDomain;
+  controlDomain.domain = domain;
+  controlDomain.type   = type;
+  m_ControlDomains.push_back( controlDomain );
 }
  
 

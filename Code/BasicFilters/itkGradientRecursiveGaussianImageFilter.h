@@ -43,11 +43,11 @@ namespace itk
 // on the defaults of template parameters
 template <typename TInputImage, 
           typename TOutputImage= Image< CovariantVector< 
-                      ITK_TYPENAME NumericTraits< ITK_TYPENAME TInputImage::PixelType>::RealType,
-                      ::itk::GetImageDimension<TInputImage>::ImageDimension >,
-                          ::itk::GetImageDimension<TInputImage>::ImageDimension > >
+  ITK_TYPENAME NumericTraits< ITK_TYPENAME TInputImage::PixelType>::RealType,
+  ::itk::GetImageDimension<TInputImage>::ImageDimension >,
+                                        ::itk::GetImageDimension<TInputImage>::ImageDimension > >
 class ITK_EXPORT GradientRecursiveGaussianImageFilter:
-  public ImageToImageFilter<TInputImage,TOutputImage>
+    public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
@@ -88,15 +88,15 @@ public:
 
   /**  Smoothing filter type */
   typedef RecursiveGaussianImageFilter<
-                                  RealImageType,
-                                  RealImageType
-                                  >    GaussianFilterType;
+    RealImageType,
+    RealImageType
+    >    GaussianFilterType;
 
- /**  Derivative filter type, it will be the first in the pipeline  */
+  /**  Derivative filter type, it will be the first in the pipeline  */
   typedef RecursiveGaussianImageFilter<
-                                  InputImageType,
-                                  RealImageType
-                                  >    DerivativeFilterType;
+    InputImageType,
+    RealImageType
+    >    DerivativeFilterType;
 
 
   /**  Pointer to a gaussian filter.  */
@@ -105,7 +105,7 @@ public:
   /**  Pointer to a derivative filter.  */
   typedef typename DerivativeFilterType::Pointer  DerivativeFilterPointer;
 
- /**  Pointer to the Output Image */
+  /**  Pointer to the Output Image */
   typedef typename TOutputImage::Pointer          OutputImagePointer;                                  
 
 

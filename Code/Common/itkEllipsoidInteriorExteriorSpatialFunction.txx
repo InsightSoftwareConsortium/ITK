@@ -60,9 +60,9 @@ EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>
   // and determine whether position is inside ellipsoid. The length of axis0,
   // m_Axis[0] is orientated in the direction of m_Orientations[0].
   for(unsigned int i = 0; i < VDimension; i++)
-  {
+    {
     pointVector[i] = position[i] - m_Center[i];
-  }
+    }
 
   for(unsigned int i = 0; i < VDimension; i++)
     {  
@@ -123,7 +123,7 @@ void EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>
   os << indent << "Origin of Ellipsoid: " << m_Center << std::endl;
   if (m_Orientations)
     {
-      os << indent << "Orientations: " << std::endl;
+    os << indent << "Orientations: " << std::endl;
     for (i = 0; i < VDimension; i++)
       {
       for (j = 0; j < VDimension; j++)

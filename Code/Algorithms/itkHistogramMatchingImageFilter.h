@@ -97,9 +97,9 @@ public:
 
   /** Set/Get the source image. */
   void SetSourceImage( const InputImageType * source )
-    { this->SetInput( source ); }
+  { this->SetInput( source ); }
   const InputImageType * GetSourceImage(void)
-    { return this->GetInput(); }
+  { return this->GetInput(); }
 
   /** Set/Get the reference image. */
   void SetReferenceImage( const InputImageType * reference );
@@ -136,12 +136,12 @@ protected:
 
   /** Compute min, max and mean of an image. */
   void ComputeMinMaxMean( const InputImageType * image,
-    double& minValue, double& maxValue, double& meanValue ); 
+                          double& minValue, double& maxValue, double& meanValue ); 
 
   /** Construct a histogram from an image. */
   void ConstructHistogram( const InputImageType * image,
-    HistogramType * histogram, double minValue,
-    double maxValue );
+                           HistogramType * histogram, double minValue,
+                           double maxValue );
 
 private:
   HistogramMatchingImageFilter(const Self&); //purposely not implemented

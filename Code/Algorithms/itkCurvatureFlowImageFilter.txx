@@ -38,7 +38,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
   cffp = CurvatureFlowFunctionType::New();
 
   this->SetDifferenceFunction( static_cast<FiniteDifferenceFunctionType *>( 
-    cffp.GetPointer() ) );
+                                 cffp.GetPointer() ) );
 
 }
 
@@ -133,7 +133,7 @@ template <class TInputImage, class TOutputImage>
 void
 CurvatureFlowImageFilter<TInputImage, TOutputImage>
 ::EnlargeOutputRequestedRegion(
-DataObject * ptr )
+  DataObject * ptr )
 {
 
   // convert DataObject pointer to OutputImageType pointer 

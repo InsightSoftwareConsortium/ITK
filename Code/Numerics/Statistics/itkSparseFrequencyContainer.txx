@@ -20,7 +20,7 @@
 #include "itkSparseFrequencyContainer.h"
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
 
 template< class TFrequencyValue >
 SparseFrequencyContainer< TFrequencyValue >
@@ -55,7 +55,7 @@ SparseFrequencyContainer< TFrequencyValue >
     m_FrequencyContainer.find(id) ;
   if ( iter != m_FrequencyContainer.end() )
     {
-      return iter->second ;
+    return iter->second ;
     }
   else
     return 0;
@@ -79,7 +79,7 @@ SparseFrequencyContainer< TFrequencyValue >
   Superclass::PrintSelf(os,indent);
 }
 
-  } // end of namespace Statistics
+} // end of namespace Statistics
 } // end of namespace itk 
 
 #endif

@@ -42,19 +42,19 @@ Boundary<TScalarType, TDimension>
   // Initialize all the members of the lists, etc.
   for (i = 0; i < Dimension; ++i)
     {
-      p = face_t::New();
-      i_pair.first = p;
-      c_pair.first = flat_hash_t();
-      v_pair.first = false;
+    p = face_t::New();
+    i_pair.first = p;
+    c_pair.first = flat_hash_t();
+    v_pair.first = false;
 
-      p = face_t::New();
-      i_pair.second = p;
-      c_pair.second = flat_hash_t();
-      v_pair.second = false;
+    p = face_t::New();
+    i_pair.second = p;
+    c_pair.second = flat_hash_t();
+    v_pair.second = false;
 
-      m_Faces.push_back(i_pair);
-      m_FlatHashes.push_back(c_pair);
-      m_Valid.push_back(v_pair);
+    m_Faces.push_back(i_pair);
+    m_FlatHashes.push_back(c_pair);
+    m_Valid.push_back(v_pair);
     }
 }
   
@@ -65,7 +65,7 @@ Boundary<TScalarType, TDimension>
 {
   if (this->GetSource())
     {
-      this->GetSource()->UpdateOutputInformation();
+    this->GetSource()->UpdateOutputInformation();
     }
   else
     {
@@ -78,8 +78,8 @@ Boundary<TScalarType, TDimension>
   // region.
   if ( ! m_RequestedRegionInitialized)
     {
-      this->SetRequestedRegionToLargestPossibleRegion();
-      m_RequestedRegionInitialized = true;
+    this->SetRequestedRegionToLargestPossibleRegion();
+    m_RequestedRegionInitialized = true;
     }
   
   m_LastRequestedRegionWasOutsideOfTheBufferedRegion = 0;

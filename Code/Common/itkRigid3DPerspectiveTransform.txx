@@ -78,9 +78,9 @@ Rigid3DPerspectiveTransform<TScalarType>
   // Transfer the translation part
   OffsetType offset;
   for(unsigned int i=0; i < SpaceDimension; i++) 
-  { 
+    { 
     offset[i] = parameters[i+4];
-  }
+    }
 
   this->SetOffset( offset );
 
@@ -131,7 +131,7 @@ template<class TScalarType>
 typename Rigid3DPerspectiveTransform<TScalarType>::OutputPointType
 Rigid3DPerspectiveTransform<TScalarType>::
 TransformPoint(const InputPointType &point) const 
-  {
+{
   unsigned int i;
   InputPointType centered;
   for(i=0;i<3;i++)
@@ -145,7 +145,7 @@ TransformPoint(const InputPointType &point) const
   for(i=0;i<3;i++)
     { 
     rigided[i] = rotated[i] + m_Offset[i] + m_CenterOfRotation[i] 
-                         + m_FixedOffset[i];
+      + m_FixedOffset[i];
     }
 
   OutputPointType result;
@@ -156,7 +156,7 @@ TransformPoint(const InputPointType &point) const
   result[1] = rigided[1] * factor;
 
   return result;
-  }
+}
 
 
 

@@ -105,7 +105,7 @@ class ITK_EXPORT ShapeDetectionLevelSetImageFilter
   : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, Image<TOutputPixelType, ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 {
 public:
-   /** Standard class typedefs */
+  /** Standard class typedefs */
   typedef ShapeDetectionLevelSetImageFilter Self;
   typedef  SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, Image<TOutputPixelType, ::itk::GetImageDimension<TInputImage>::ImageDimension> > Superclass;
   typedef SmartPointer<Self>  Pointer;
@@ -118,7 +118,7 @@ public:
   
   /** Type of the segmentation function */
   typedef ShapeDetectionLevelSetFunction<OutputImageType,
-                                                FeatureImageType> ShapeDetectionFunctionType;
+                                         FeatureImageType> ShapeDetectionFunctionType;
   typedef typename ShapeDetectionFunctionType::Pointer ShapeDetectionFunctionPointer;
   
   /** Run-time type information (and related methods). */
@@ -134,7 +134,7 @@ protected:
   virtual void PrintSelf(std::ostream &os, Indent indent) const; 
 
   ShapeDetectionLevelSetImageFilter(const Self &); // purposely not implemented
-   void operator=(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 private:
   ShapeDetectionFunctionPointer m_ShapeDetectionFunction;
 };

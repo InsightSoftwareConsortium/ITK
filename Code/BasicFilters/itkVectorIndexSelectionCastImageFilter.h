@@ -38,57 +38,57 @@ namespace itk
 
 namespace Functor {  
   
-  template< class TInput, class TOutput>
-    class VectorIndexSelectionCast
-    {
-    public:
-      VectorIndexSelectionCast() {}
-      ~VectorIndexSelectionCast() {}
+template< class TInput, class TOutput>
+class VectorIndexSelectionCast
+{
+public:
+  VectorIndexSelectionCast() {}
+  ~VectorIndexSelectionCast() {}
 
-      unsigned int GetIndex() const { return m_Index; }
-      void SetIndex(unsigned int i) { m_Index = i; }
+  unsigned int GetIndex() const { return m_Index; }
+  void SetIndex(unsigned int i) { m_Index = i; }
 
-      inline TOutput operator()( const TInput & A )
-      {
-        return static_cast<TOutput>( A[m_Index] );
-      }
+  inline TOutput operator()( const TInput & A )
+  {
+    return static_cast<TOutput>( A[m_Index] );
+  }
       
-    private:
-      unsigned int m_Index;   
-    }; 
+private:
+  unsigned int m_Index;   
+}; 
 }
  
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT VectorIndexSelectionCastImageFilter :
-  public
-  UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-  Functor::VectorIndexSelectionCast< typename TInputImage::PixelType, 
-                         typename TOutputImage::PixelType>   >
-  {
-  public:
-    /** Standard class typedefs. */
-    typedef VectorIndexSelectionCastImageFilter Self;
-    typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-      Functor::VectorIndexSelectionCast< typename TInputImage::PixelType, 
-      typename TOutputImage::PixelType> > Superclass;
-    typedef SmartPointer<Self> Pointer;
-    typedef SmartPointer<const Self> ConstPointer;
+    public
+UnaryFunctorImageFilter<TInputImage,TOutputImage, 
+                        Functor::VectorIndexSelectionCast< typename TInputImage::PixelType, 
+                                                           typename TOutputImage::PixelType>   >
+{
+public:
+  /** Standard class typedefs. */
+  typedef VectorIndexSelectionCastImageFilter Self;
+  typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
+                                  Functor::VectorIndexSelectionCast< typename TInputImage::PixelType, 
+                                                                     typename TOutputImage::PixelType> > Superclass;
+  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
     
-    /** Method for creation through the object factory. */
-    itkNewMacro(Self);
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
 
-    /** Get/Set methods for the index */
-    void SetIndex(unsigned int i) { this->GetFunctor().SetIndex(i); }
-    unsigned int GetIndex(void) const { return this->GetFunctor().GetIndex(); }
+  /** Get/Set methods for the index */
+  void SetIndex(unsigned int i) { this->GetFunctor().SetIndex(i); }
+  unsigned int GetIndex(void) const { return this->GetFunctor().GetIndex(); }
 
-  protected:
-    VectorIndexSelectionCastImageFilter() {}
-    virtual ~VectorIndexSelectionCastImageFilter() {}
+protected:
+  VectorIndexSelectionCastImageFilter() {}
+  virtual ~VectorIndexSelectionCastImageFilter() {}
     
-  private:
-    VectorIndexSelectionCastImageFilter(const Self&); //purposely not implemented
-    void operator=(const Self&); //purposely not implemented
-  };
+private:
+  VectorIndexSelectionCastImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+};
  
 } // end namespace itk
 

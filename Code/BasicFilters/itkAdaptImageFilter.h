@@ -24,7 +24,7 @@ namespace itk
 
 namespace Functor {  
   
-  /** \class AccessorFunctor
+/** \class AccessorFunctor
    * \brief Convert an accessor to a functor so that it can be used in a 
    * UnaryFunctorImageFilter.
    *
@@ -33,47 +33,47 @@ namespace Functor {
    * BinaryFunctorImageFilter, TernaryFunctorImageFilter, or
    * NaryFunctionImageFilter.
    */
-  template <class TInput, class TAccessor>
-  class AccessorFunctor
-  {
-  public:
-    /** Standard class typedefs. */
-    typedef AccessorFunctor Self;
-    typedef TAccessor AccessorType;
+template <class TInput, class TAccessor>
+class AccessorFunctor
+{
+public:
+  /** Standard class typedefs. */
+  typedef AccessorFunctor Self;
+  typedef TAccessor AccessorType;
 
-    /** Constructor and destructor. */
-    AccessorFunctor(): m_Accessor() {}
-    ~AccessorFunctor() {}
+  /** Constructor and destructor. */
+  AccessorFunctor(): m_Accessor() {}
+  ~AccessorFunctor() {}
 
-    /** operator().  This is the "call" method of the functor. */
-    typedef typename TAccessor::ExternalType OutputType;
-    inline OutputType operator()( const TInput & A )
-      { return m_Accessor.Get( A ); }
+  /** operator().  This is the "call" method of the functor. */
+  typedef typename TAccessor::ExternalType OutputType;
+  inline OutputType operator()( const TInput & A )
+  { return m_Accessor.Get( A ); }
 
-    /** Get the accessor. The accessor is returned by reference. */
-    AccessorType& GetAccessor() 
-      { return m_Accessor; }
+  /** Get the accessor. The accessor is returned by reference. */
+  AccessorType& GetAccessor() 
+  { return m_Accessor; }
 
-    /** Assignment operator */
-    AccessorFunctor & operator=( const AccessorFunctor & functor )
-     { m_Accessor = functor.m_Accessor; 
-       return *this;}
+  /** Assignment operator */
+  AccessorFunctor & operator=( const AccessorFunctor & functor )
+  { m_Accessor = functor.m_Accessor; 
+  return *this;}
 
-    /** Set the accessor object. This replaces the current accessor with
+  /** Set the accessor object. This replaces the current accessor with
      * a copy of the specified accessor.  This allows the user to
      * specify an accessor that has ivars set differently that the default
      * accessor.
      */
-    void SetAccessor(AccessorType& accessor) 
-      { m_Accessor = accessor; };
+  void SetAccessor(AccessorType& accessor) 
+  { m_Accessor = accessor; };
 
-    /** operator!=.  Needed to determine if two accessors are the same. */
-    bool operator!=( const Self& functor ) const
-      { return (m_Accessor != functor.m_Accessor); }
+  /** operator!=.  Needed to determine if two accessors are the same. */
+  bool operator!=( const Self& functor ) const
+  { return (m_Accessor != functor.m_Accessor); }
     
-  private:
-    AccessorType m_Accessor;
-  }; 
+private:
+  AccessorType m_Accessor;
+}; 
 }
 
 /** \class AdaptImageFilter
@@ -112,8 +112,8 @@ public:
   typedef UnaryFunctorImageFilter< TInputImage,
                                    TOutputImage,
                                    Functor::AccessorFunctor<
-                                      ITK_TYPENAME TInputImage::PixelType, 
-                                      TAccessor> >  Superclass;
+    ITK_TYPENAME TInputImage::PixelType, 
+    TAccessor> >  Superclass;
 
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;

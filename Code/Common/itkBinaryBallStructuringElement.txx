@@ -51,7 +51,7 @@ BinaryBallStructuringElement<TPixel, VDimension, TAllocator>
   // Set the background to be zero
   //
   itk::ImageRegionIterator<ImageType> it =
-     itk::ImageRegionIterator<ImageType>(sourceImage, region);
+    itk::ImageRegionIterator<ImageType>(sourceImage, region);
 
   for(it.GoToBegin(); !it.IsAtEnd(); ++it)
     {
@@ -98,13 +98,13 @@ BinaryBallStructuringElement<TPixel, VDimension, TAllocator>
     }
   itk::FloodFilledSpatialFunctionConditionalIterator<ImageType, EllipsoidType> 
     sfi = itk::FloodFilledSpatialFunctionConditionalIterator<ImageType,
-     EllipsoidType>(sourceImage, spatialFunction, seed);
+    EllipsoidType>(sourceImage, spatialFunction, seed);
   sfi.SetCenterInclusionStrategy();
   
   // Iterate through the entire image and set interior pixels to 1
   for(; !sfi.IsAtEnd(); ++sfi)
     {
-     sfi.Set(NumericTraits<TPixel>::One);
+    sfi.Set(NumericTraits<TPixel>::One);
     }
 
   

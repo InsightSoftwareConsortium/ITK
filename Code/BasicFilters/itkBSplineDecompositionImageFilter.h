@@ -64,7 +64,7 @@ namespace itk
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT BSplineDecompositionImageFilter : 
-  public ImageToImageFilter<TInputImage,TOutputImage>
+    public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */

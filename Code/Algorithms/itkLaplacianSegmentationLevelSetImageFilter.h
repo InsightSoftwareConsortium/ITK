@@ -102,7 +102,7 @@ class ITK_EXPORT LaplacianSegmentationLevelSetImageFilter
   : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, Image<TOutputPixelType, ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 {
 public:
-   /** Standard class typedefs */
+  /** Standard class typedefs */
   typedef LaplacianSegmentationLevelSetImageFilter Self;
   typedef  SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, Image<TOutputPixelType, ::itk::GetImageDimension<TInputImage>::ImageDimension> > Superclass;
   typedef SmartPointer<Self>  Pointer;

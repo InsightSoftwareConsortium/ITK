@@ -82,10 +82,10 @@ BlobSpatialObject< TDimension >
   it = points.begin();    
   end = points.end();
   while(it != end)
-  {
+    {
     m_Points.push_back(*it);
     it++;
-  }
+    }
   
   this->Modified();
 } 
@@ -169,7 +169,7 @@ BlobSpatialObject< TDimension >
       while(it != itEnd)
         {
         typename PointType::VectorType difference = 
-                                transformedPoint - it->GetPosition();
+          transformedPoint - it->GetPosition();
         if(difference[0] <= 0.5 || difference[1] <= 0.5 || difference[2] <= 0.5)
           {
           return true;
@@ -189,8 +189,8 @@ bool
 BlobSpatialObject< TDimension > 
 ::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
 {
-   itkDebugMacro( "Checking if the blob is evaluable at " << point );
-   return IsInside(point, depth, name);
+  itkDebugMacro( "Checking if the blob is evaluable at " << point );
+  return IsInside(point, depth, name);
 }
 
 
@@ -218,8 +218,8 @@ BlobSpatialObject< TDimension >
       {
       value = 0;
       return false;
+      }
     }
-  }
 }
 
 } // end namespace itk 

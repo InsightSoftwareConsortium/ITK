@@ -77,7 +77,7 @@ template <class TInputImage,
           class TMembershipFunction,
           class TTrainingImage>
 class ITK_EXPORT ImageGaussianModelEstimator: 
-public ImageModelEstimatorBase<TInputImage, TMembershipFunction>
+    public ImageModelEstimatorBase<TInputImage, TMembershipFunction>
 {
 public:
   /** Standard class typedefs. */
@@ -109,9 +109,9 @@ public:
 
   /** Type definitions for the iterators for the input and training images. */
   typedef
-    ImageRegionIterator< TInputImage >  InputImageIterator;
+  ImageRegionIterator< TInputImage >  InputImageIterator;
   typedef
-    ImageRegionIterator< TTrainingImage > TrainingImageIterator;
+  ImageRegionIterator< TTrainingImage > TrainingImageIterator;
 
   /** Type definitions for the membership function . */
   typedef typename TMembershipFunction::Pointer MembershipFunctionPointer ;

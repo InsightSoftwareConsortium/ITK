@@ -37,12 +37,12 @@ class CleanUpObjectFactory
 {
 public:
   inline void Use() 
-    {
-    }
+  {
+  }
   ~CleanUpObjectFactory()
-    {
-      itk::ObjectFactoryBase::UnRegisterAllFactories();
-    }  
+  {
+    itk::ObjectFactoryBase::UnRegisterAllFactories();
+  }  
 };
 static CleanUpObjectFactory CleanUpObjectFactoryGlobal;
 }
@@ -58,10 +58,10 @@ namespace itk
  * to provide a default implementation as it should.
  */
 bool operator==(const ObjectFactoryBase::OverrideInformation& rhs, 
-    const ObjectFactoryBase::OverrideInformation& lhs)
+                const ObjectFactoryBase::OverrideInformation& lhs)
 {
   return (rhs.m_Description == lhs.m_Description
-    && rhs.m_OverrideWithName == lhs.m_OverrideWithName);
+          && rhs.m_OverrideWithName == lhs.m_OverrideWithName);
 }
 
 /**
@@ -69,10 +69,10 @@ bool operator==(const ObjectFactoryBase::OverrideInformation& rhs,
  * to provide a default implementation as it should.
  */
 bool operator<(const ObjectFactoryBase::OverrideInformation& rhs, 
-    const ObjectFactoryBase::OverrideInformation& lhs)
+               const ObjectFactoryBase::OverrideInformation& lhs)
 {
   return (rhs.m_Description < lhs.m_Description
-    && rhs.m_OverrideWithName < lhs.m_OverrideWithName);
+          && rhs.m_OverrideWithName < lhs.m_OverrideWithName);
 }
 
 
@@ -85,7 +85,7 @@ bool operator<(const ObjectFactoryBase::OverrideInformation& rhs,
  * classes including <map> and getting long symbol warnings.
  */
 typedef std::multimap<std::string, ObjectFactoryBase::OverrideInformation> 
-              StringOverMapType;
+StringOverMapType;
 
 /** \class OverRideMap
  * \brief Internal implementation class for ObjectFactorBase.
@@ -99,7 +99,7 @@ public:
  * Initialize static list of factories.
  */
 std::list<ObjectFactoryBase*>* 
-  ObjectFactoryBase::m_RegisteredFactories = 0;
+ObjectFactoryBase::m_RegisteredFactories = 0;
 
 
 /**
@@ -116,8 +116,8 @@ ObjectFactoryBase
     }
   
   for ( std::list<ObjectFactoryBase*>::iterator 
-      i = m_RegisteredFactories->begin();
-      i != m_RegisteredFactories->end(); ++i )
+          i = m_RegisteredFactories->begin();
+        i != m_RegisteredFactories->end(); ++i )
     {
     LightObject::Pointer newobject = (*i)->CreateObject(itkclassname);
     if(newobject)
@@ -243,7 +243,7 @@ ObjectFactoryBase
       {
       EndSeparatorPosition++;
       }
-  }
+    }
 }
 
 
@@ -305,7 +305,7 @@ void
 ObjectFactoryBase
 ::LoadLibrariesInPath(const char* path)
 {
-Directory::Pointer dir = Directory::New();
+  Directory::Pointer dir = Directory::New();
   if ( !dir->Load(path) )
     {
     return;
@@ -404,12 +404,12 @@ ObjectFactoryBase
     factory->m_LibraryPath = nonDynamicName;
     }
   if ( strcmp(factory->GetITKSourceVersion(), 
-            Version::GetITKSourceVersion()) != 0 )
+              Version::GetITKSourceVersion()) != 0 )
     {
     itkGenericOutputMacro(<< "Possible incompatible factory load:" 
-    << "\nRunning itk version :\n" << Version::GetITKSourceVersion() 
-    << "\nLoaded Factory version:\n" << factory->GetITKSourceVersion()
-    << "\nLoading factory:\n" << factory->m_LibraryPath << "\n");
+                          << "\nRunning itk version :\n" << Version::GetITKSourceVersion() 
+                          << "\nLoaded Factory version:\n" << factory->GetITKSourceVersion()
+                          << "\nLoading factory:\n" << factory->m_LibraryPath << "\n");
     }
   ObjectFactoryBase::Initialize();
   ObjectFactoryBase::m_RegisteredFactories->push_back(factory);
@@ -442,7 +442,7 @@ ObjectFactoryBase
     os << indent << "Enable flag: " << (*i).second.m_EnabledFlag
        << std::endl;
     os << std::endl;
-  }
+    }
 }
 
 
@@ -454,8 +454,8 @@ ObjectFactoryBase
 ::UnRegisterFactory(ObjectFactoryBase* factory)
 { 
   for ( std::list<ObjectFactoryBase*>::iterator i = 
-        m_RegisteredFactories->begin();
-      i != m_RegisteredFactories->end(); ++i )
+          m_RegisteredFactories->begin();
+        i != m_RegisteredFactories->end(); ++i )
     {
     if ( factory == *i )
       {
@@ -601,7 +601,7 @@ ObjectFactoryBase
 {
   std::list<std::string> ret;
   for ( OverRideMap::iterator i = m_OverrideMap->begin();
-      i != m_OverrideMap->end(); ++i )
+        i != m_OverrideMap->end(); ++i )
     {
     ret.push_back((*i).first);
     }
@@ -618,7 +618,7 @@ ObjectFactoryBase
 {
   std::list<std::string> ret;
   for ( OverRideMap::iterator i = m_OverrideMap->begin();
-      i != m_OverrideMap->end(); ++i )
+        i != m_OverrideMap->end(); ++i )
     {
     ret.push_back((*i).second.m_OverrideWithName);
     }
@@ -635,7 +635,7 @@ ObjectFactoryBase
 { 
   std::list<std::string> ret;
   for ( OverRideMap::iterator i = m_OverrideMap->begin();
-      i != m_OverrideMap->end(); ++i )
+        i != m_OverrideMap->end(); ++i )
     {
     ret.push_back((*i).second.m_Description);
     }
@@ -652,7 +652,7 @@ ObjectFactoryBase
 {
   std::list<bool> ret;
   for( OverRideMap::iterator i = m_OverrideMap->begin();
-      i != m_OverrideMap->end(); ++i)
+       i != m_OverrideMap->end(); ++i)
     {
     ret.push_back((*i).second.m_EnabledFlag);
     }

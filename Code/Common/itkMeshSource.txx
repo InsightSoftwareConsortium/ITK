@@ -66,7 +66,7 @@ MeshSource<TOutputMesh>
     }
   
   return static_cast<TOutputMesh*>
-                     (this->ProcessObject::GetOutput(0));
+    (this->ProcessObject::GetOutput(0));
 }
 
   
@@ -79,7 +79,7 @@ MeshSource<TOutputMesh>
 ::GetOutput(unsigned int idx)
 {
   return static_cast<TOutputMesh*>
-                     (this->ProcessObject::GetOutput(idx));
+    (this->ProcessObject::GetOutput(idx));
 }
 
 

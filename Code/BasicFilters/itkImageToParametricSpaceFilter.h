@@ -66,7 +66,7 @@ public:
   typedef typename InputImageType::RegionType       InputImageRegionType; 
   typedef typename InputImageType::PixelType        InputImagePixelType; 
   typedef ImageRegionConstIteratorWithIndex<InputImageType> 
-                                                    InputImageIterator;
+  InputImageIterator;
 
   /** Some typedefs associated with the output mesh. */
   typedef TOutputMesh OutputMeshType;

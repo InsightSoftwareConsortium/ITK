@@ -45,33 +45,33 @@ namespace itk
  */
 namespace Functor {  
   
-  template< class TInput, class TOutput>
-  class Acos
+template< class TInput, class TOutput>
+class Acos
+{
+public:
+  Acos() {};
+  ~Acos() {};
+  inline TOutput operator()( const TInput & A )
   {
-  public:
-    Acos() {};
-    ~Acos() {};
-    inline TOutput operator()( const TInput & A )
-    {
-      return static_cast<TOutput>( acos( static_cast<double>(A) ) );
-    }
-  }; 
+    return static_cast<TOutput>( acos( static_cast<double>(A) ) );
+  }
+}; 
 }
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT AcosImageFilter :
     public
-    UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::Acos< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   >
+UnaryFunctorImageFilter<TInputImage,TOutputImage, 
+                        Functor::Acos< 
+  typename TInputImage::PixelType, 
+  typename TOutputImage::PixelType>   >
 {
 public:
   /** Standard class typedefs. */
   typedef AcosImageFilter  Self;
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::Acos< typename TInputImage::PixelType, 
-                   typename TOutputImage::PixelType> >  Superclass;
+                                  Functor::Acos< typename TInputImage::PixelType, 
+                                                 typename TOutputImage::PixelType> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

@@ -22,20 +22,20 @@ namespace itk
 namespace watershed
 {
 
-  //template <class TScalarType>
-  //void  SegmentTree<TScalarType>
-  //::PrintDeque()
-  //{
-  //  std::cout << "Deque has " << this->Size() << " entries. " << std::endl;
-  //  Iterator it = this->Begin();
-  //  while ( it != this->End() )
-  //    {
-  //      std::cout << (*it).from << " -> "
-  //                << (*it).to << " " << (*it).saliency
-  //                << std::endl;
-  //      ++it;
-  //    }
-  //}
+//template <class TScalarType>
+//void  SegmentTree<TScalarType>
+//::PrintDeque()
+//{
+//  std::cout << "Deque has " << this->Size() << " entries. " << std::endl;
+//  Iterator it = this->Begin();
+//  while ( it != this->End() )
+//    {
+//      std::cout << (*it).from << " -> "
+//                << (*it).to << " " << (*it).saliency
+//                << std::endl;
+//      ++it;
+//    }
+//}
 
 template <class TScalarType>
 void
@@ -44,7 +44,7 @@ SegmentTree<TScalarType>
 {
   if (this->GetSource())
     {
-      this->GetSource()->UpdateOutputInformation();
+    this->GetSource()->UpdateOutputInformation();
     }
   else
     {
@@ -57,8 +57,8 @@ SegmentTree<TScalarType>
   // region.
   if ( ! m_RequestedRegionInitialized)
     {
-      this->SetRequestedRegionToLargestPossibleRegion();
-      m_RequestedRegionInitialized = true;
+    this->SetRequestedRegionToLargestPossibleRegion();
+    m_RequestedRegionInitialized = true;
     }
   
   m_LastRequestedRegionWasOutsideOfTheBufferedRegion = 0;

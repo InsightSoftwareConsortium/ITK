@@ -78,7 +78,7 @@ public:
   
   /** Set/Get the number of histogram bins. */
   itkSetClampMacro( NumberOfHistogramBins, unsigned long, 1, 
-    NumericTraits<unsigned long>::max() );
+                    NumericTraits<unsigned long>::max() );
   itkGetMacro( NumberOfHistogramBins, unsigned long );
 
 protected:
@@ -90,9 +90,9 @@ private:
   OtsuThresholdImageCalculator(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-   PixelType            m_Threshold;
-   unsigned long        m_NumberOfHistogramBins;
-   ImageConstPointer    m_Image;
+  PixelType            m_Threshold;
+  unsigned long        m_NumberOfHistogramBins;
+  ImageConstPointer    m_Image;
 
 };
 

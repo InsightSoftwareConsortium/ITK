@@ -40,7 +40,7 @@ template<class TScalarType>
 VersorRigid3DTransform<TScalarType>::
 VersorRigid3DTransform( unsigned int spaceDimension, 
                         unsigned int parametersDimension):
-Superclass(spaceDimension,parametersDimension)
+  Superclass(spaceDimension,parametersDimension)
 {
   // note: this virtual function will only
   // call the one defined in this class because 
@@ -129,15 +129,15 @@ VersorRigid3DTransform<TScalarType>
 
   // Transfer the center of rotation 
   for(unsigned int i=0; i < SpaceDimension; i++) 
-  {
+    {
     m_Parameters[i+SpaceDimension] = m_Center[i];
-  }
+    }
 
   // Transfer the translation
   for(unsigned int j=0; j < SpaceDimension; j++) 
-  {
+    {
     m_Parameters[j+2*SpaceDimension] = m_Translation[j];
-  }
+    }
 
   itkDebugMacro(<<"After getting parameters " << m_Parameters );
 
@@ -153,8 +153,8 @@ void
 VersorRigid3DTransform<TScalarType>
 ::SetRotation( const VersorType & versor )
 {
-    m_Versor = versor;
-    this->ComputeMatrixAndOffset();
+  m_Versor = versor;
+  this->ComputeMatrixAndOffset();
 }
 
 
@@ -165,8 +165,8 @@ void
 VersorRigid3DTransform<TScalarType>
 ::SetRotation( const AxisType & axis, AngleType  angle )
 {
-    m_Versor.Set( axis, angle );
-    this->ComputeMatrixAndOffset();
+  m_Versor.Set( axis, angle );
+  this->ComputeMatrixAndOffset();
 }
 
 
@@ -289,7 +289,7 @@ GetJacobian( const InputPointType & p ) const
     for(unsigned int j=0; j < SpaceDimension; j++ ) 
       {
       m_Jacobian[dim][j+blockOffset] = 
-                    -m_RotationMatrix[dim][j];
+        -m_RotationMatrix[dim][j];
       }
     m_Jacobian[dim][dim+blockOffset] += 1.0;
     }

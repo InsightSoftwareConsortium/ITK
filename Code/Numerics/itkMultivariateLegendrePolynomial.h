@@ -150,45 +150,45 @@ public:
   {
     if (m_Dimension == 2)
       {
-        if (index[1] != m_PrevY)
-          {
-            // normalized y [-1, 1]
-            double norm_y =  (*m_NormFactor)[1] *
-              static_cast<double>( index[1] - 1 );
-            CalculateXCoef(norm_y, m_CoefficientArray) ;
-            m_PrevY = index[1] ;
-          }
+      if (index[1] != m_PrevY)
+        {
+        // normalized y [-1, 1]
+        double norm_y =  (*m_NormFactor)[1] *
+          static_cast<double>( index[1] - 1 );
+        CalculateXCoef(norm_y, m_CoefficientArray) ;
+        m_PrevY = index[1] ;
+        }
         
-        // normalized x [-1, 1]
-        double norm_x =  (*m_NormFactor)[0] *
-          static_cast<double>( index[0] - 1 );
+      // normalized x [-1, 1]
+      double norm_x =  (*m_NormFactor)[0] *
+        static_cast<double>( index[0] - 1 );
         
-        return LegendreSum(norm_x, m_Degree, m_CachedXCoef) ;
+      return LegendreSum(norm_x, m_Degree, m_CachedXCoef) ;
       }
     else if (m_Dimension == 3)
       {
-        if (m_PrevZ != index[2])
-          {
-            // normalized z [-1, 1]  
-            double norm_z =  (*m_NormFactor)[2] *
-              static_cast<double>( index[2] - 1 );
-            CalculateYCoef(norm_z, m_CoefficientArray) ;
-            m_PrevZ = index[2] ;
-          }
+      if (m_PrevZ != index[2])
+        {
+        // normalized z [-1, 1]  
+        double norm_z =  (*m_NormFactor)[2] *
+          static_cast<double>( index[2] - 1 );
+        CalculateYCoef(norm_z, m_CoefficientArray) ;
+        m_PrevZ = index[2] ;
+        }
         
-        if (m_PrevY != index[1])
-          {
-            // normalized y [-1, 1]
-            double norm_y =  (*m_NormFactor)[1] *
-              static_cast<double>( index[1] - 1 ); 
-            CalculateXCoef(norm_y, m_CachedYCoef) ;
-            m_PrevY = index[1] ;
-          }
+      if (m_PrevY != index[1])
+        {
+        // normalized y [-1, 1]
+        double norm_y =  (*m_NormFactor)[1] *
+          static_cast<double>( index[1] - 1 ); 
+        CalculateXCoef(norm_y, m_CachedYCoef) ;
+        m_PrevY = index[1] ;
+        }
         
-        // normalized x [-1, 1]
-        double norm_x =  (*m_NormFactor)[0] *
-          static_cast<double>( index[0] - 1 ); 
-        return LegendreSum(norm_x, m_Degree, m_CachedXCoef) ;
+      // normalized x [-1, 1]
+      double norm_x =  (*m_NormFactor)[0] *
+        static_cast<double>( index[0] - 1 ); 
+      return LegendreSum(norm_x, m_Degree, m_CachedXCoef) ;
       }
     return 0 ;
   }
@@ -225,23 +225,23 @@ public:
     {
       for (unsigned int dim = 0 ; dim < m_Dimension ; dim++)
         {
-          if (m_Index[dim] < static_cast<int>(m_DomainSize[dim] - 1))
+        if (m_Index[dim] < static_cast<int>(m_DomainSize[dim] - 1))
+          {
+          m_Index[dim] += 1 ;
+          return *this ;
+          }
+        else
+          {
+          if (dim == m_Dimension - 1 )
             {
-              m_Index[dim] += 1 ;
-              return *this ;
+            m_IsAtEnd = true ;
+            break ;
             }
           else
             {
-              if (dim == m_Dimension - 1 )
-                {
-                  m_IsAtEnd = true ;
-                  break ;
-                }
-              else
-                {
-                  m_Index[dim] = 0 ;
-                }
+            m_Index[dim] = 0 ;
             }
+          }
         }
       return *this ;
     }

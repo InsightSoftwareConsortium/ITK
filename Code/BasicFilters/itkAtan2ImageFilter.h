@@ -38,41 +38,41 @@ namespace itk
  */
 namespace Functor {  
   
-  template< class TInput1, class TInput2, class TOutput>
-  class Atan2
+template< class TInput1, class TInput2, class TOutput>
+class Atan2
+{
+public:
+  Atan2() {};
+  ~Atan2() {};
+  inline TOutput operator()( const TInput1 & A, const TInput2 & B)
   {
-  public:
-    Atan2() {};
-    ~Atan2() {};
-    inline TOutput operator()( const TInput1 & A, const TInput2 & B)
-    {
-      return static_cast<TOutput>( 
-          atan2(
-            static_cast<double>(A),
-            static_cast<double>(B)  )
-          );
-    }
-  }; 
+    return static_cast<TOutput>( 
+      atan2(
+        static_cast<double>(A),
+        static_cast<double>(B)  )
+      );
+  }
+}; 
 }
 
 template <class TInputImage1, class TInputImage2, class TOutputImage>
 class ITK_EXPORT Atan2ImageFilter :
     public
-    BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-    Functor::Atan2< 
-              typename TInputImage1::PixelType, 
-              typename TInputImage2::PixelType,
-              typename TOutputImage::PixelType>   >
+BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
+                         Functor::Atan2< 
+  typename TInputImage1::PixelType, 
+  typename TInputImage2::PixelType,
+  typename TOutputImage::PixelType>   >
 {
 public:
   /** Standard class typedefs. */
   typedef Atan2ImageFilter  Self;
   typedef BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-    Functor::Atan2< 
-              typename TInputImage1::PixelType, 
-              typename TInputImage2::PixelType,
-              typename TOutputImage::PixelType>   
-                >  Superclass;
+                                   Functor::Atan2< 
+    typename TInputImage1::PixelType, 
+    typename TInputImage2::PixelType,
+    typename TOutputImage::PixelType>   
+  >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

@@ -55,37 +55,37 @@ namespace itk
 
 namespace Functor {  
   
-  template< class TInput, class TOutput >
-  class Add1
+template< class TInput, class TOutput >
+class Add1
+{
+public:
+  typedef typename NumericTraits< TInput >::AccumulateType AccumulatorType;
+  Add1() {}
+  ~Add1() {}
+  inline TOutput operator()( const TOutput & A, const TInput & B)
   {
-  public:
-    typedef typename NumericTraits< TInput >::AccumulateType AccumulatorType;
-    Add1() {}
-    ~Add1() {}
-    inline TOutput operator()( const TOutput & A, const TInput & B)
-      {
-      const AccumulatorType sum = A;
-      return static_cast<TOutput>( sum + B );
-      }
-    bool operator != (const Add1&) const
-      {
-      return false;
-      }
-  }; 
+    const AccumulatorType sum = A;
+    return static_cast<TOutput>( sum + B );
+  }
+  bool operator != (const Add1&) const
+  {
+    return false;
+  }
+}; 
 }
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT NaryAddImageFilter :
     public
-    NaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::Add1<  typename TInputImage::PixelType, 
-                    typename TOutputImage::PixelType>   >
+NaryFunctorImageFilter<TInputImage,TOutputImage, 
+                       Functor::Add1<  typename TInputImage::PixelType, 
+                                       typename TOutputImage::PixelType>   >
 {
 public:
   /** Standard class typedefs. */
   typedef NaryAddImageFilter  Self;
   typedef NaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::Add1< typename TInputImage::PixelType, 
-                   typename TOutputImage::PixelType> >  Superclass;
+                                 Functor::Add1< typename TInputImage::PixelType, 
+                                                typename TOutputImage::PixelType> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

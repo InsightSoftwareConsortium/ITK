@@ -40,7 +40,7 @@ class ITK_EXPORT ScalarAnisotropicDiffusionFunction :
     public AnisotropicDiffusionFunction<TImage>
 {
 public:
- /** Standard class typedefs. */
+  /** Standard class typedefs. */
   typedef ScalarAnisotropicDiffusionFunction Self;
   typedef AnisotropicDiffusionFunction<TImage> Superclass;
   typedef SmartPointer<Self> Pointer;
@@ -59,7 +59,7 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ScalarAnisotropicDiffusionFunction,
-                AnisotropicDiffusionFunction);
+               AnisotropicDiffusionFunction);
   
   virtual void CalculateAverageGradientMagnitudeSquared(TImage *);
 
@@ -67,7 +67,7 @@ protected:
   ScalarAnisotropicDiffusionFunction() {}
   ~ScalarAnisotropicDiffusionFunction() {}
   void PrintSelf(std::ostream& os, Indent indent) const
-    { Superclass::PrintSelf(os,indent); }
+  { Superclass::PrintSelf(os,indent); }
 private:
   ScalarAnisotropicDiffusionFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

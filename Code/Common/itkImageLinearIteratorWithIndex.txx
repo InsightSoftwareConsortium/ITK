@@ -27,7 +27,7 @@ namespace itk
 template< typename TImage >
 ImageLinearIteratorWithIndex<TImage>
 ::ImageLinearIteratorWithIndex()
-    : ImageLinearConstIteratorWithIndex<TImage>() 
+  : ImageLinearConstIteratorWithIndex<TImage>() 
 {
 
 
@@ -38,7 +38,7 @@ ImageLinearIteratorWithIndex<TImage>
 template< typename TImage >
 ImageLinearIteratorWithIndex<TImage>
 ::ImageLinearIteratorWithIndex(ImageType *ptr, const RegionType& region) :
-    ImageLinearConstIteratorWithIndex<TImage>(   ptr, region ) 
+  ImageLinearConstIteratorWithIndex<TImage>(   ptr, region ) 
 {
 
 
@@ -49,7 +49,7 @@ ImageLinearIteratorWithIndex<TImage>
 template< typename TImage >
 ImageLinearIteratorWithIndex<TImage>
 ::ImageLinearIteratorWithIndex( const ImageIteratorWithIndex<TImage> &it):
-                                        ImageLinearConstIteratorWithIndex<TImage>(it)
+  ImageLinearConstIteratorWithIndex<TImage>(it)
 { 
 }
 
@@ -57,7 +57,7 @@ ImageLinearIteratorWithIndex<TImage>
 template< typename TImage >
 ImageLinearIteratorWithIndex<TImage>
 ::ImageLinearIteratorWithIndex( const ImageLinearConstIteratorWithIndex<TImage> &it):
-                                        ImageLinearConstIteratorWithIndex<TImage>(it)
+  ImageLinearConstIteratorWithIndex<TImage>(it)
 { 
 }
 

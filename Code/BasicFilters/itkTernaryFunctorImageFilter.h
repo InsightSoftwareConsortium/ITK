@@ -70,7 +70,7 @@ public:
   typedef typename OutputImageType::PixelType OutputImagePixelType;
 
   /** Connect one of the operands for pixel-wise addition. */
-   void SetInput1( const TInputImage1 *image1);
+  void SetInput1( const TInputImage1 *image1);
 
   /** Connect one of the operands for pixel-wise addition. */
   void SetInput2( const TInputImage2 *image2);
@@ -91,13 +91,13 @@ public:
    * (or the compiler's default implementation of operator!=() being
    * appropriate). */
   void SetFunctor(const FunctorType& functor)
-    {
+  {
     if ( m_Functor != functor )
       {
       m_Functor = functor;
       this->Modified();
       }
-    }
+  }
 
 protected:
   TernaryFunctorImageFilter();

@@ -28,8 +28,8 @@ namespace itk
 template <class TScalarType, unsigned int NDimensions>
 KernelTransform<TScalarType, NDimensions>::
 KernelTransform():Superclass(
-                      NDimensions,
-                      NDimensions ) 
+  NDimensions,
+  NDimensions ) 
 // the second NDimensions is associated is provided as
 // a tentative number for initializing the Jacobian.
 // The matrix can be resized at run time so this number
@@ -97,7 +97,7 @@ template <class TScalarType, unsigned int NDimensions>
 void
 KernelTransform<TScalarType, NDimensions>::
 ComputeDeformationContribution( const InputPointType  & thisPoint,
-                                      OutputPointType & result     ) const
+                                OutputPointType & result     ) const
 {
 
   unsigned long numberOfLandmarks = m_SourceLandmarks->GetNumberOfPoints();
@@ -137,12 +137,12 @@ void KernelTransform<TScalarType, NDimensions>
   typename VectorSetType::Iterator vt = m_Displacements->Begin();
 
   while( sp != end )
-  {
+    {
     vt->Value() = tp->Value() - sp->Value();
     vt++;
     sp++;
     tp++;
-  }
+    }
 }
 
 /**
@@ -214,7 +214,7 @@ ComputeK(void)
   // store the values in bot the upper and lower triangle
   unsigned int i = 0;
   while( p1 != end )
-  {
+    {
     PointsIterator p2 = p1; // start at the diagonal element
     unsigned int j = i;
 
@@ -226,7 +226,7 @@ ComputeK(void)
     
     // Compute the upper (and copy into lower) triangular part of K
     while( p2 != end ) 
-    {
+      {
       const InputVectorType s = p1.Value() - p2.Value();
       G = ComputeG(s);
       // write value in upper and lower triangle of matrix
@@ -234,10 +234,10 @@ ComputeK(void)
       m_KMatrix.update(G, j*NDimensions, i*NDimensions);  
       p2++;
       j++;
-    }
+      }
     p1++;
     i++;
-  }
+    }
 }
 
 
@@ -259,7 +259,7 @@ ComputeP()
                     NDimensions*(NDimensions+1) );
   m_PMatrix.fill( 0.0 );
   for (unsigned int i = 0; i < numberOfLandmarks; i++)
-  {
+    {
     m_SourceLandmarks->GetPoint(i, &p);
     for (unsigned int j = 0; j < NDimensions; j++)
       {
@@ -267,7 +267,7 @@ ComputeP()
       m_PMatrix.update(temp, i*NDimensions, j*NDimensions);
       }
     m_PMatrix.update(I, i*NDimensions, NDimensions*NDimensions);
-  }
+    }
 }
 
 
@@ -289,18 +289,18 @@ ComputeY(void)
   m_YMatrix.fill( 0.0 );
     
   for (unsigned int i = 0; i < numberOfLandmarks; i++)
-  {
-    for (unsigned int j = 0; j < NDimensions; j++)
     {
+    for (unsigned int j = 0; j < NDimensions; j++)
+      {
       m_YMatrix.put(i*NDimensions+j, 0, displacement.Value()[j]);
-    }
+      }
     displacement++;
-  }
+    }
 
   for (unsigned int i = 0; i < NDimensions*(NDimensions+1); i++) 
-  {
+    {
     m_YMatrix.put(numberOfLandmarks*NDimensions+i, 0, 0);
-  }
+    }
 }
 
 

@@ -41,7 +41,7 @@ ImageRandomConstIteratorWithIndex<TImage>
 template<class TImage>
 ImageRandomConstIteratorWithIndex<TImage>
 ::ImageRandomConstIteratorWithIndex(const ImageType *ptr, const RegionType& region)
-    : ImageConstIteratorWithIndex<TImage>( ptr, region )
+  : ImageConstIteratorWithIndex<TImage>( ptr, region )
 {
   m_NumberOfPixelsInRegion   = region.GetNumberOfPixels();
   m_NumberOfSamplesRequested = 0L;
@@ -91,8 +91,8 @@ ImageRandomConstIteratorWithIndex<TImage>
 {
   const unsigned long randomPosition =
     static_cast<unsigned long > (
-                 vnl_sample_uniform(0.0f, 
-                    static_cast<double>(m_NumberOfPixelsInRegion)-0.5) );
+      vnl_sample_uniform(0.0f, 
+                         static_cast<double>(m_NumberOfPixelsInRegion)-0.5) );
   
   unsigned long position = randomPosition;
   unsigned long residual;

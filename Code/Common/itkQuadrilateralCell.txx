@@ -92,41 +92,41 @@ QuadrilateralCell< TCellInterface >
   switch (dimension)
     {
     case 0: 
+    {
+    VertexAutoPointer vertexPointer;
+    if( this->GetVertex(featureId,vertexPointer) )
       {
-      VertexAutoPointer vertexPointer;
-      if( this->GetVertex(featureId,vertexPointer) )
-        {
-        TransferAutoPointer(cellPointer,vertexPointer);
-        return true;
-        }
-      else
-        {
-        cellPointer.Reset();
-        return false;
-        }
-      break;
+      TransferAutoPointer(cellPointer,vertexPointer);
+      return true;
       }
-    case 1: 
-      {
-      EdgeAutoPointer edgePointer;
-      if( this->GetEdge(featureId,edgePointer) )
-        {
-        TransferAutoPointer(cellPointer,edgePointer);
-        return true;
-        }
-      else
-        {
-        cellPointer.Reset();
-        return false;
-        }
-      break;
-      }
-
-    default: 
+    else
       {
       cellPointer.Reset();
       return false;
       }
+    break;
+    }
+    case 1: 
+    {
+    EdgeAutoPointer edgePointer;
+    if( this->GetEdge(featureId,edgePointer) )
+      {
+      TransferAutoPointer(cellPointer,edgePointer);
+      return true;
+      }
+    else
+      {
+      cellPointer.Reset();
+      return false;
+      }
+    break;
+    }
+
+    default: 
+    {
+    cellPointer.Reset();
+    return false;
+    }
     }
   return false;
 }

@@ -40,7 +40,7 @@ namespace itk
  */
 template<class TSpatialFunction, class TInputImage, class TOutputImage>
 class ITK_EXPORT SpatialFunctionImageEvaluatorFilter :
-   public ImageToImageFilter<TInputImage, TOutputImage>
+    public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   /** Standard class typedefs. */
@@ -82,7 +82,7 @@ public:
 
   /** Set the internal spatial function. */
   void SetFunction( FunctionType* PixelFunction )
-    {m_PixelFunction = PixelFunction;};
+  {m_PixelFunction = PixelFunction;};
 
 protected:
   SpatialFunctionImageEvaluatorFilter();

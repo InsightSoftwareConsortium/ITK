@@ -67,7 +67,7 @@ LaplacianOperator <TPixel, VDimension, TAllocator>
   // Copy the coefficients into the neighborhood
   for (data = data.Begin(); data < data.End(); ++data, ++it)
     {
-      *data = *it;
+    *data = *it;
     }
 
 }

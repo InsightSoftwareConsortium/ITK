@@ -78,7 +78,7 @@ public:
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
   virtual bool CanWriteFile(const char*)
-    { return false; }
+  { return false; }
 
   /** Writes the spacing and dimentions of the image.
    * Assumes SetFileName has been called with a valid file name. */
@@ -87,7 +87,7 @@ public:
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
   virtual void Write(const void*)
-    { return; }
+  { return; }
 
   /** Methods that provide information about the data file. This
    * information is only valid after the file is read successfully. */
@@ -296,7 +296,7 @@ private:
   unsigned long   m_Maxradius;
   double          m_Anglescale;
   double          m_Skinoffset;
-  };
+};
 
 
 } // namespace itk

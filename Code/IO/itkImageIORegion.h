@@ -52,20 +52,20 @@ public:
 
   /** Dimension of the image available at run time. */
   unsigned int GetImageDimension() const
-    { return m_ImageDimension; }
+  { return m_ImageDimension; }
 
   /** Dimension of the region to be written. This differs from the
    * the image dimension and is calculated at run-time by examining
    * the size of the image in each coordinate direction. */
   unsigned int GetRegionDimension() const
-    { 
-      unsigned long dim=0;
-      for (unsigned long i=0; i<m_ImageDimension; i++)
-        {
-        if ( m_Size[i] > 1 ) dim++;
-        }
-      return dim;
-    }
+  { 
+    unsigned long dim=0;
+    for (unsigned long i=0; i<m_ImageDimension; i++)
+      {
+      if ( m_Size[i] > 1 ) dim++;
+      }
+    return dim;
+  }
 
   /** Index typedef support. An index is used to access pixel values. */
   typedef std::vector<long>  IndexType;
@@ -75,29 +75,29 @@ public:
   
   /** Return the region type. Images are described with structured regions. */
   virtual Superclass::RegionType GetRegionType() const
-    {return Superclass::ITK_STRUCTURED_REGION;}
+  {return Superclass::ITK_STRUCTURED_REGION;}
 
   /** Constructor. ImageIORegion is a lightweight object that is not reference
    * counted, so the constructor is public. */
   ImageIORegion(unsigned int dimension)
-    {
-      m_ImageDimension = dimension;
-      m_Index.resize(m_ImageDimension);
-      m_Size.resize(m_ImageDimension);
-      std::fill(m_Index.begin(), m_Index.end(), 0);
-      std::fill(m_Size.begin(), m_Size.end(), 0);
-    }
+  {
+    m_ImageDimension = dimension;
+    m_Index.resize(m_ImageDimension);
+    m_Size.resize(m_ImageDimension);
+    std::fill(m_Index.begin(), m_Index.end(), 0);
+    std::fill(m_Size.begin(), m_Size.end(), 0);
+  }
   
   /** Constructor. ImageIORegion is a lightweight object that is not reference
    * counted, so the constructor is public.  Default dimension is 2. */
   ImageIORegion()
-    {
-      m_ImageDimension = 2;
-      m_Index.resize(2);
-      m_Size.resize(2);
-      std::fill(m_Index.begin(), m_Index.end(), 0);
-      std::fill(m_Size.begin(), m_Size.end(), 0);
-    }
+  {
+    m_ImageDimension = 2;
+    m_Index.resize(2);
+    m_Size.resize(2);
+    std::fill(m_Index.begin(), m_Index.end(), 0);
+    std::fill(m_Size.begin(), m_Size.end(), 0);
+  }
   
   /** Destructor. ImageIORegion is a lightweight object that is not reference
    * counted, so the destructor is public. */
@@ -106,89 +106,89 @@ public:
   /** Copy constructor. ImageIORegion is a lightweight object that is not
    * reference counted, so the copy constructor is public. */
   ImageIORegion(const Self& region): Region()
-    { 
-      m_Index =region.m_Index; 
-      m_Size = region.m_Size; 
-      m_ImageDimension = region.m_ImageDimension;
-    }
+  { 
+    m_Index =region.m_Index; 
+    m_Size = region.m_Size; 
+    m_ImageDimension = region.m_ImageDimension;
+  }
   
   /** operator=. ImageIORegion is a lightweight object that is not reference
    * counted, so operator= is public. */
   void operator=(const Self& region) 
-    { 
-      m_Index = region.m_Index;  
-      m_Size = region.m_Size;
-      m_ImageDimension = region.m_ImageDimension;
-    };
+  { 
+    m_Index = region.m_Index;  
+    m_Size = region.m_Size;
+    m_ImageDimension = region.m_ImageDimension;
+  };
 
   /** Set the index defining the corner of the region. */
   void SetIndex(const IndexType &index) 
-    { m_Index = index; };
+  { m_Index = index; };
 
   /** Get index defining the corner of the region. */
   const IndexType& GetIndex() const
-    { return m_Index; };
+  { return m_Index; };
   
   /** Set the size of the region. This plus the index determines the
    * rectangular shape, or extent, of the region. */
   void SetSize(const SizeType &size)
-    { m_Size = size; };
+  { m_Size = size; };
 
   /** Get the size of the region. */
   const SizeType& GetSize() const
-    { return m_Size;}
+  { return m_Size;}
 
   /** Convenience methods to get the size of the image in a particular
    * coordinate direction i. Do not try to access image sizes beyond the
    * the ImageDimension. */
   long GetSize(unsigned long i) const
-    { return m_Size[i]; }
+  { return m_Size[i]; }
   long GetIndex(unsigned long i) const
-    { return m_Index[i]; }
+  { return m_Index[i]; }
   void SetSize(const unsigned long i, long size)
-    {m_Size[i] = size;}
+  {m_Size[i] = size;}
   void SetIndex(const unsigned long i, long idx)
-    {m_Index[i] = idx;}
+  {m_Index[i] = idx;}
 
   /** Compare two regions. */
   bool
   operator==(const Self &region) const
-    {
-      bool same = 1;
-      same = (m_Index == region.m_Index);
-      same = same && (m_Size == region.m_Size);
-      same = same && (m_ImageDimension == region.m_ImageDimension);
-      return same;
-    }
+  {
+    bool same = 1;
+    same = (m_Index == region.m_Index);
+    same = same && (m_Size == region.m_Size);
+    same = same && (m_ImageDimension == region.m_ImageDimension);
+    return same;
+  }
 
   /** Compare two regions. */
   bool
   operator!=(const Self &region) const
-    {
-      bool same = 1;
-      same = (m_Index == region.m_Index);
-      same = same && (m_Size == region.m_Size);
-      same = same && (m_ImageDimension == region.m_ImageDimension);
-      return !same;
-    }
+  {
+    bool same = 1;
+    same = (m_Index == region.m_Index);
+    same = same && (m_Size == region.m_Size);
+    same = same && (m_ImageDimension == region.m_ImageDimension);
+    return !same;
+  }
   
   /** Test if an index is inside */
   bool
   IsInside(const IndexType &index) const
-    {
-      for(unsigned int i=0; i<m_ImageDimension; i++)
+  {
+    for(unsigned int i=0; i<m_ImageDimension; i++)
+      {
+      if( index[i] < m_Index[i] ) 
         {
-        if( index[i] < m_Index[i] ) 
-          {
-          return false;
-          }
-        if( index[i] >= m_Index[i] + m_Size[i] ) 
-          {
-          return false;
-          }
+        return false;
         }
-      return true;
-    }
+      if( index[i] >= m_Index[i] + m_Size[i] ) 
+        {
+        return false;
+        }
+      }
+    return true;
+  }
  
   /** Get the number of pixels contained in this region. This just
    * multiplies the size components. */

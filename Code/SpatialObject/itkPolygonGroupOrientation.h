@@ -21,12 +21,12 @@
  * \brief enumerates the possible spatial orientations
  */
 namespace itk {
-  typedef enum {
-    Axial = 0,
-    Coronal = 1,
-    Sagittal = 2,
-    UserPlane = 3,
-    Unknown = 4
-  } PolygonGroupOrientation;
+typedef enum {
+  Axial = 0,
+  Coronal = 1,
+  Sagittal = 2,
+  UserPlane = 3,
+  Unknown = 4
+} PolygonGroupOrientation;
 }
 #endif

@@ -123,8 +123,8 @@ KLMSegmentationRegion
       }//end else
     }//end else
 
-    //Indicate that the region border has been modified
-    this->Modified();
+  //Indicate that the region border has been modified
+  this->Modified();
 
 }//end SetRegionBorder
 
@@ -405,7 +405,7 @@ KLMSegmentationRegion
     region2label = (*tempVectorIt)->GetRegion2()->GetRegionLabel(); 
 
     itkDebugMacro(<< "Border Ptr :" << (*tempVectorIt) << "( " << 
-      region1label << " - " << region2label << " )" );
+                  region1label << " - " << region2label << " )" );
     tempVectorIt++;
     }// end while
 

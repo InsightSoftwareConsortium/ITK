@@ -34,19 +34,19 @@ QuaternionRigidTransformGradientDescentOptimizer
 
   double direction;
   if( m_Maximize ) 
-  {
+    {
     direction = 1.0;
-  }
+    }
   else 
-  {
+    {
     direction = -1.0;
-  }
+    }
 
 
   ScalesType scales = this->GetScales();
 
   const unsigned int spaceDimension = 
-                        m_CostFunction->GetNumberOfParameters();
+    m_CostFunction->GetNumberOfParameters();
 
   DerivativeType transformedGradient( spaceDimension);
   for ( unsigned int i=0; i< spaceDimension; i++)
@@ -75,10 +75,10 @@ QuaternionRigidTransformGradientDescentOptimizer
   
   // update the translation component
   for (unsigned int j=4; j< spaceDimension; j++)
-  {
+    {
     newPosition[j] = currentPosition[j] + 
       direction * m_LearningRate * transformedGradient[j];
-  }
+    }
 
   this->SetCurrentPosition( newPosition );
 

@@ -27,7 +27,7 @@ namespace itk
 template< typename TImage >
 ImageRandomIteratorWithIndex<TImage>
 ::ImageRandomIteratorWithIndex()
-    : ImageRandomConstIteratorWithIndex<TImage>() 
+  : ImageRandomConstIteratorWithIndex<TImage>() 
 {
 
 
@@ -38,7 +38,7 @@ ImageRandomIteratorWithIndex<TImage>
 template< typename TImage >
 ImageRandomIteratorWithIndex<TImage>
 ::ImageRandomIteratorWithIndex(ImageType *ptr, const RegionType& region) :
-    ImageRandomConstIteratorWithIndex<TImage>(   ptr, region ) 
+  ImageRandomConstIteratorWithIndex<TImage>(   ptr, region ) 
 {
 
 
@@ -49,7 +49,7 @@ ImageRandomIteratorWithIndex<TImage>
 template< typename TImage >
 ImageRandomIteratorWithIndex<TImage>
 ::ImageRandomIteratorWithIndex( const ImageIteratorWithIndex<TImage> &it):
-                                        ImageRandomConstIteratorWithIndex<TImage>(it)
+  ImageRandomConstIteratorWithIndex<TImage>(it)
 { 
 }
 
@@ -57,7 +57,7 @@ ImageRandomIteratorWithIndex<TImage>
 template< typename TImage >
 ImageRandomIteratorWithIndex<TImage>
 ::ImageRandomIteratorWithIndex( const ImageRandomConstIteratorWithIndex<TImage> &it):
-                                        ImageRandomConstIteratorWithIndex<TImage>(it)
+  ImageRandomConstIteratorWithIndex<TImage>(it)
 { 
 }
 

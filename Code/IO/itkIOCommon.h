@@ -28,7 +28,7 @@ PURPOSE.  See the above copyright notices for more information.
 namespace itk
 {
 
-  /** \class IOCommon
+/** \class IOCommon
    * \brief Centralized funtionality for IO classes.
    *
    * This class provides encapsulated functionality to support the IO classes.
@@ -36,10 +36,10 @@ namespace itk
    * \ingroup IOFilters
    *
    */
-  class ITK_EXPORT IOCommon 
-    {
-    public:
-      /**
+class ITK_EXPORT IOCommon 
+{
+public:
+  /**
        * \enum ValidOrientationFlags
        * Valid Orientation values for objects
        * - Key  Description           Origin   dims[1]  dims[2]  dims[3]
@@ -54,68 +54,68 @@ namespace itk
        * - [(I)nferior|(S)uperior] [(L}eft|(R)ight] [(A)nterior|(P)osterior]
        * \note Key's 0-5 correspond to the Analyze v7.5 orientations, and should not be changed.
        */
-      typedef enum {
-        ITK_ORIENTATION_IRP_TRANSVERSE=0,        /**< Denotes a transverse data orientation Right-->Left, */
-        ITK_ORIENTATION_IRP_CORONAL   =1,        /**< Denotes a coronal data orientation */
-        ITK_ORIENTATION_IRP_SAGITTAL  =2,        /**< Denotes a sagittal data orientation */
-        ITK_ORIENTATION_IRA_TRANSVERSE_FLIPPED=3,/**<  */
-        ITK_ORIENTATION_SRP_CORONAL_FLIPPED=4,   /**<  */
-        ITK_ORIENTATION_ILP_SAGITTAL_FLIPPED=5   /**<  */
-      } ValidOrientationFlags;
-      typedef enum
-        {
-          ITK_MAXPATHLEN =2048, /**< Maximum length of a filename */
-          MAX_FILENAMELIST_SIZE = 512
-        } SysConstants;
-      typedef enum
-        {
-          ITK_UCHAR,         // aka uint8_t
-          ITK_CHAR,         
-          ITK_USHORT,        // aka uint16_t
-          ITK_SHORT,        
-          ITK_UINT,          // aka uint32_t
-          ITK_INT,          
-          ITK_ULONG,         // aka uint64_t
-          ITK_LONG,         
-          ITK_FLOAT,        
-          ITK_DOUBLE        
-        } AtomicPixelType;   // enumerated constants for the different data types
+  typedef enum {
+    ITK_ORIENTATION_IRP_TRANSVERSE=0,        /**< Denotes a transverse data orientation Right-->Left, */
+    ITK_ORIENTATION_IRP_CORONAL   =1,        /**< Denotes a coronal data orientation */
+    ITK_ORIENTATION_IRP_SAGITTAL  =2,        /**< Denotes a sagittal data orientation */
+    ITK_ORIENTATION_IRA_TRANSVERSE_FLIPPED=3,/**<  */
+    ITK_ORIENTATION_SRP_CORONAL_FLIPPED=4,   /**<  */
+    ITK_ORIENTATION_ILP_SAGITTAL_FLIPPED=5   /**<  */
+  } ValidOrientationFlags;
+  typedef enum
+  {
+    ITK_MAXPATHLEN =2048, /**< Maximum length of a filename */
+    MAX_FILENAMELIST_SIZE = 512
+  } SysConstants;
+  typedef enum
+  {
+    ITK_UCHAR,         // aka uint8_t
+    ITK_CHAR,         
+    ITK_USHORT,        // aka uint16_t
+    ITK_SHORT,        
+    ITK_UINT,          // aka uint32_t
+    ITK_INT,          
+    ITK_ULONG,         // aka uint64_t
+    ITK_LONG,         
+    ITK_FLOAT,        
+    ITK_DOUBLE        
+  } AtomicPixelType;   // enumerated constants for the different data types
 
-      /** Convert the enumerated type to a string representation. */
-      static std::string AtomicPixelTypeToString(const AtomicPixelType pixelType);
+  /** Convert the enumerated type to a string representation. */
+  static std::string AtomicPixelTypeToString(const AtomicPixelType pixelType);
 
-      /** Calculate the size, in bytes, that the atomic pixel type occupies. */
-      static unsigned int ComputeSizeOfAtomicPixelType(const AtomicPixelType pixelType);
+  /** Calculate the size, in bytes, that the atomic pixel type occupies. */
+  static unsigned int ComputeSizeOfAtomicPixelType(const AtomicPixelType pixelType);
 
-      /** Given a full filename, extracts just the pathname. */
-      static char* ExtractFilePath (const char* fileName);
+  /** Given a full filename, extracts just the pathname. */
+  static char* ExtractFilePath (const char* fileName);
 
-      /** Given a full filename, extracts just the file extension. */
-      static char* ExtractFileExtension (const char* fileName);
+  /** Given a full filename, extracts just the file extension. */
+  static char* ExtractFileExtension (const char* fileName);
 
-      /** Given a full filename, extracts just the filename. */
-      static char* ExtractFileName (const char* fileName);
+  /** Given a full filename, extracts just the filename. */
+  static char* ExtractFileName (const char* fileName);
 
-      /** Given a filename determine whether it exists and 
+  /** Given a filename determine whether it exists and 
        * return true if it does. */
-      static bool FileExists(const char* filename);
+  static bool FileExists(const char* filename);
 
 };
   
 
- extern const char *const ITK_OnDiskStorageTypeName ;
- extern const char *const ITK_ImageFileBaseName ;
- extern const char *const ITK_VoxelUnits;
- extern const char *const ITK_OnDiskBitPerPixel;
- extern const char *const SPM_ROI_SCALE;
- extern const char *const ITK_FileNotes;
- extern const char *const ITK_Orientation;
- extern const char *const ITK_FileOriginator;
- extern const char *const ITK_OriginationDate;
- extern const char *const ITK_PatientID;
- extern const char *const ITK_ExperimentDate;
- extern const char *const ITK_ExperimentTime;
- extern const char *const ITK_InputFilterName;
+extern const char *const ITK_OnDiskStorageTypeName ;
+extern const char *const ITK_ImageFileBaseName ;
+extern const char *const ITK_VoxelUnits;
+extern const char *const ITK_OnDiskBitPerPixel;
+extern const char *const SPM_ROI_SCALE;
+extern const char *const ITK_FileNotes;
+extern const char *const ITK_Orientation;
+extern const char *const ITK_FileOriginator;
+extern const char *const ITK_OriginationDate;
+extern const char *const ITK_PatientID;
+extern const char *const ITK_ExperimentDate;
+extern const char *const ITK_ExperimentTime;
+extern const char *const ITK_InputFilterName;
 } // end namespace itk
 
 #endif // __itkIOCommon_h

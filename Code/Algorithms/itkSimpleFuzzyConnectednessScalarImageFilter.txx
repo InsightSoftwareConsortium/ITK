@@ -32,7 +32,7 @@ SimpleFuzzyConnectednessScalarImageFilter<TInputImage,TOutputImage>
   m_Diff_Mean = 0.0;
   m_Variance = 0.0;
   m_Diff_Variance = 0.0;
-;
+  ;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -55,17 +55,17 @@ SimpleFuzzyConnectednessScalarImageFilter<TInputImage,TOutputImage>
   m_Diff_Variance = indifvar;
 
   if(inweight < 0)
-  {
+    {
     m_Weight = 0;
-  }
+    }
   else if(inweight > 1)
-  {
-  m_Weight = 1;
-  }
+    {
+    m_Weight = 1;
+    }
   else 
-  {
-  m_Weight = inweight;
-  }
+    {
+    m_Weight = inweight;
+    }
 }
 
 template <class TInputImage, class TOutputImage>
@@ -75,15 +75,15 @@ SimpleFuzzyConnectednessScalarImageFilter<TInputImage,TOutputImage>
 {
   double tmp1 = 0.5 * (f1 + f2) - m_Mean;
   if(m_Weight == 1)
-  {
+    {
     return( (NumericTraits<unsigned short>::max())* 
-     (exp(-0.5 * tmp1 * tmp1 / m_Variance)));
-  }
+            (exp(-0.5 * tmp1 * tmp1 / m_Variance)));
+    }
   else{
-    double tmp2 = fabs(static_cast<double>(f1) - static_cast<double>(f2)) - m_Diff_Mean;
+  double tmp2 = fabs(static_cast<double>(f1) - static_cast<double>(f2)) - m_Diff_Mean;
   return( (NumericTraits<unsigned short>::max()) *
-    (m_Weight * exp(-0.5 * tmp1 * tmp1 / m_Variance) + 
-     (1 - m_Weight) * exp(-0.5 * tmp2 * tmp2 / m_Diff_Variance)));
+          (m_Weight * exp(-0.5 * tmp1 * tmp1 / m_Variance) + 
+           (1 - m_Weight) * exp(-0.5 * tmp2 * tmp2 / m_Diff_Variance)));
   }
 }
 

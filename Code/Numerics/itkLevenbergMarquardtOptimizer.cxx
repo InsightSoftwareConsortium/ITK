@@ -54,13 +54,13 @@ LevenbergMarquardtOptimizer
 
 
   const unsigned int numberOfParameters = 
-                        costFunction->GetNumberOfParameters();
+    costFunction->GetNumberOfParameters();
 
   const unsigned int numberOfValues = 
-                        costFunction->GetNumberOfValues();
+    costFunction->GetNumberOfValues();
 
   CostFunctionAdaptorType * adaptor = 
-        new CostFunctionAdaptorType( numberOfParameters, numberOfValues );
+    new CostFunctionAdaptorType( numberOfParameters, numberOfValues );
        
   adaptor->SetCostFunction( costFunction );
 
@@ -96,8 +96,8 @@ LevenbergMarquardtOptimizer
   InternalParametersType parameters( initialPosition.Size() );
 
   CostFunctionAdaptorType::ConvertExternalToInternalParameters( 
-                                            GetInitialPosition(), 
-                                            parameters     );
+    GetInitialPosition(), 
+    parameters     );
 
   if( this->GetCostFunctionAdaptor()->GetUseGradient() )
     {

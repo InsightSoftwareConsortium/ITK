@@ -72,25 +72,25 @@ void CannySegmentationLevelSetFunction<TImageType, TFeatureImageType>
 
   // Copy output to Advection Image
   ImageRegionIterator<VectorImageType> it(this->GetAdvectionImage(),
-                         this->GetAdvectionImage()->GetRequestedRegion());
+                                          this->GetAdvectionImage()->GetRequestedRegion());
   ImageRegionConstIterator<CovariantVectorImageType> it_a(multiply->GetOutput(),
-                            this->GetAdvectionImage()->GetRequestedRegion());
+                                                          this->GetAdvectionImage()->GetRequestedRegion());
   
   for (; ! it.IsAtEnd(); ++it, ++it_a)
     {
-      it.Set(it_a.Get());
+    it.Set(it_a.Get());
     }
 
   // Copy the distance transform into the speed image.  This causes the level
   // set to grow in zero gradient directions (i.e. expand along an isosurface).
   ImageRegionIterator<ImageType> it_d(this->GetSpeedImage(),
-                         this->GetSpeedImage()->GetRequestedRegion());
+                                      this->GetSpeedImage()->GetRequestedRegion());
   ImageRegionConstIterator<ImageType> it_da(distance->GetOutput(),
-                            this->GetSpeedImage()->GetRequestedRegion());
+                                            this->GetSpeedImage()->GetRequestedRegion());
   
   for (; ! it_d.IsAtEnd(); ++it_d, ++it_da)
     {
-      it_d.Set(it_da.Get());
+    it_d.Set(it_da.Get());
     }
 
 }

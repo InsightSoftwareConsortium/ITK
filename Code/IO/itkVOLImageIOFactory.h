@@ -46,10 +46,10 @@ public:
   
   /** Register one factory of this type.  */
   static void RegisterOneFactory(void)
-    {
-      VOLImageIOFactory::Pointer volFactory = VOLImageIOFactory::New();
-      ObjectFactoryBase::RegisterFactory(volFactory);
-    }
+  {
+    VOLImageIOFactory::Pointer volFactory = VOLImageIOFactory::New();
+    ObjectFactoryBase::RegisterFactory(volFactory);
+  }
 
 protected:
   VOLImageIOFactory();

@@ -43,11 +43,11 @@ template <class TImageType, class TFeatureImageType>
 void SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 ::AllocateAdvectionImage()
 {
- m_AdvectionImage->SetRequestedRegion(m_FeatureImage->GetRequestedRegion());
- m_AdvectionImage->SetBufferedRegion(m_FeatureImage->GetBufferedRegion());
- m_AdvectionImage->SetLargestPossibleRegion(m_FeatureImage->GetLargestPossibleRegion());
- m_AdvectionImage->Allocate();
- m_VectorInterpolator->SetInputImage(m_AdvectionImage);
+  m_AdvectionImage->SetRequestedRegion(m_FeatureImage->GetRequestedRegion());
+  m_AdvectionImage->SetBufferedRegion(m_FeatureImage->GetBufferedRegion());
+  m_AdvectionImage->SetLargestPossibleRegion(m_FeatureImage->GetLargestPossibleRegion());
+  m_AdvectionImage->Allocate();
+  m_VectorInterpolator->SetInputImage(m_AdvectionImage);
 }
 
 template <class TImageType, class TFeatureImageType>
@@ -60,12 +60,12 @@ SegmentationLevelSetFunction<TImageType, TFeatureImageType>
   ContinuousIndexType cdx;
   for (unsigned i = 0; i < ImageDimension; ++i)
     {
-      cdx[i] = static_cast<double>(idx[i]) - offset[i];
+    cdx[i] = static_cast<double>(idx[i]) - offset[i];
     }
   if ( m_Interpolator->IsInsideBuffer(cdx) )
     {
-      return (static_cast<ScalarValueType>(
-                                           m_Interpolator->EvaluateAtContinuousIndex(cdx)));
+    return (static_cast<ScalarValueType>(
+              m_Interpolator->EvaluateAtContinuousIndex(cdx)));
     }
   else return ( static_cast<ScalarValueType>(m_SpeedImage->GetPixel(idx)) );
 }
@@ -80,11 +80,11 @@ SegmentationLevelSetFunction<TImageType, TFeatureImageType>
   ContinuousIndexType cdx;
   for (unsigned i = 0; i < ImageDimension; ++i)
     {
-      cdx[i] = static_cast<double>(idx[i]) - offset[i];
+    cdx[i] = static_cast<double>(idx[i]) - offset[i];
     }
   if ( m_VectorInterpolator->IsInsideBuffer(cdx) )
     {
-      return ( m_VectorCast(m_VectorInterpolator->EvaluateAtContinuousIndex(cdx)));
+    return ( m_VectorCast(m_VectorInterpolator->EvaluateAtContinuousIndex(cdx)));
     }
   else return ( m_AdvectionImage->GetPixel(idx) );  
 }

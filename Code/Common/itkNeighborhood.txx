@@ -27,16 +27,16 @@ Neighborhood<TPixel, VDimension, TContainer>
 
   for (unsigned int dim = 0; dim < VDimension; ++dim)
     {
-      stride = 0;
-      accum = 1;
+    stride = 0;
+    accum = 1;
 
-      for (unsigned int i=0; i<VDimension; ++i)
-        {
-          if (i == dim) stride = accum;
-          accum *= m_Size[i];
-        }
+    for (unsigned int i=0; i<VDimension; ++i)
+      {
+      if (i == dim) stride = accum;
+      accum *= m_Size[i];
+      }
 
-      m_StrideTable[dim] = stride;
+    m_StrideTable[dim] = stride;
     }
 }
 
@@ -50,21 +50,21 @@ void Neighborhood<TPixel, VDimension, TContainer>
   unsigned int i, j;
   for (j = 0; j < VDimension; j++)
     {
-      o[j] = -(static_cast<long>(this->GetRadius(j)));
+    o[j] = -(static_cast<long>(this->GetRadius(j)));
     }
 
   for (i = 0; i < this->Size(); ++i)
     {
-      m_OffsetTable.push_back(o);
-      for (j= 0; j< VDimension; j++)
+    m_OffsetTable.push_back(o);
+    for (j= 0; j< VDimension; j++)
+      {
+      o[j] = o[j] + 1;
+      if (o[j] > static_cast<long>(this->GetRadius(j)))
         {
-          o[j] = o[j] + 1;
-          if (o[j] > static_cast<long>(this->GetRadius(j)))
-            {
-              o[j] = -(static_cast<long>(this->GetRadius(j)));
-            }
-          else break;
+        o[j] = -(static_cast<long>(this->GetRadius(j)));
         }
+      else break;
+      }
     }
 }  
  
@@ -76,7 +76,7 @@ Neighborhood<TPixel, VDimension, TContainer>
   SizeType k;
   for (unsigned int i = 0; i< VDimension; i++)
     {
-      k[i] = s;
+    k[i] = s;
     }
   this->SetRadius(k);
 }
@@ -92,7 +92,7 @@ Neighborhood<TPixel, VDimension, TContainer>
   unsigned int cumul=1;
   for (unsigned int i = 0; i<VDimension; i++)
     {
-      cumul*=m_Size[i];
+    cumul*=m_Size[i];
     }
 
   this->Allocate(cumul);
@@ -117,12 +117,12 @@ Neighborhood<TPixel, VDimension, TContainer> &
 Neighborhood<TPixel, VDimension, TContainer>
 ::operator=(const Self &other)
 {
-    m_Radius     = other.m_Radius;
-    m_Size       = other.m_Size;
-    m_DataBuffer = other.m_DataBuffer;
-    ::memcpy(m_StrideTable, other.m_StrideTable, sizeof(unsigned int) * VDimension);
-    m_OffsetTable = other.m_OffsetTable;
-    return *this;
+  m_Radius     = other.m_Radius;
+  m_Size       = other.m_Size;
+  m_DataBuffer = other.m_DataBuffer;
+  ::memcpy(m_StrideTable, other.m_StrideTable, sizeof(unsigned int) * VDimension);
+  m_OffsetTable = other.m_OffsetTable;
+  return *this;
 }
 
 

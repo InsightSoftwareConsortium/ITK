@@ -69,15 +69,15 @@ IsClosed()
   while(it != itend) 
     {
     PolygonSpatialObject<TDimension> *curstrand =
-        dynamic_cast<PolygonSpatialObject<TDimension> *>((*it));
-      if(curstrand != 0)
+      dynamic_cast<PolygonSpatialObject<TDimension> *>((*it));
+    if(curstrand != 0)
+      {
+      if (!curstrand->IsClosed())
         {
-        if (!curstrand->IsClosed())
-          {
-          return false;
-          }
+        return false;
         }
-      it++;
+      }
+    it++;
     }
   return true;
 }

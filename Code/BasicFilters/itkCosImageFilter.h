@@ -43,33 +43,33 @@ namespace itk
  */
 namespace Functor {  
   
-  template< class TInput, class TOutput>
-  class Cos
+template< class TInput, class TOutput>
+class Cos
+{
+public:
+  Cos() {};
+  ~Cos() {};
+  inline TOutput operator()( const TInput & A )
   {
-  public:
-    Cos() {};
-    ~Cos() {};
-    inline TOutput operator()( const TInput & A )
-    {
-      return static_cast<TOutput>(cos( static_cast<double>(A)) );
-    }
-  }; 
+    return static_cast<TOutput>(cos( static_cast<double>(A)) );
+  }
+}; 
 
 }
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT CosImageFilter :
     public
-    UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::Cos< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   >
+UnaryFunctorImageFilter<TInputImage,TOutputImage, 
+                        Functor::Cos< 
+  typename TInputImage::PixelType, 
+  typename TOutputImage::PixelType>   >
 {
 public:
   /** Standard class typedefs. */
   typedef CosImageFilter  Self;
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::Cos< typename TInputImage::PixelType, 
-                  typename TOutputImage::PixelType> >  Superclass;
+                                  Functor::Cos< typename TInputImage::PixelType, 
+                                                typename TOutputImage::PixelType> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

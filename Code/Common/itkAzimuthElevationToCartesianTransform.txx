@@ -94,9 +94,9 @@ TransformAzElToCartesian(const InputPointType &point) const
 {
   OutputPointType result;
   ScalarType Azimuth = ((2*vnl_math::pi) / 360) * (point[0]*m_AzimuthAngularSeparation 
-    - ((m_MaxAzimuth-1)/2.0) );
+                                                   - ((m_MaxAzimuth-1)/2.0) );
   ScalarType Elevation   = ((2*vnl_math::pi) / 360) * (point[1]*m_ElevationAngularSeparation 
-    - ((m_MaxElevation-1)/2.0) );
+                                                       - ((m_MaxElevation-1)/2.0) );
   ScalarType r = (m_FirstSampleDistance + point[2]) * m_RadiusSampleSize;
 
   ScalarType cosOfAzimuth = cos(Azimuth);
@@ -173,11 +173,11 @@ template<class TScalarType, unsigned int NDimensions>
 void
 AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::
 SetAzimuthElevationToCartesianParameters(const double sampleSize, 
-                  const double firstSampleDistance,
-                  const long maxAzimuth, 
-                  const long maxElevation,
-                  const double azimuthAngleSeparation,
-                  const double elevationAngleSeparation)
+                                         const double firstSampleDistance,
+                                         const long maxAzimuth, 
+                                         const long maxElevation,
+                                         const double azimuthAngleSeparation,
+                                         const double elevationAngleSeparation)
 {
   m_MaxAzimuth = static_cast<long>(static_cast<double>(maxAzimuth) * azimuthAngleSeparation);
   m_MaxElevation = static_cast<long>(static_cast<double>(maxElevation) * elevationAngleSeparation);
@@ -191,9 +191,9 @@ template<class TScalarType, unsigned int NDimensions>
 void
 AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::
 SetAzimuthElevationToCartesianParameters(const double sampleSize, 
-                  const double firstSampleDistance,
-                  const long maxAzimuth, 
-                  const long maxElevation )
+                                         const double firstSampleDistance,
+                                         const long maxAzimuth, 
+                                         const long maxElevation )
 {
   SetAzimuthElevationToCartesianParameters(sampleSize, firstSampleDistance, maxAzimuth, maxElevation, 1.0, 1.0);
 }

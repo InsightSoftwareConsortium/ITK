@@ -79,7 +79,7 @@ protected:
   /** Generate Requested Data */
   virtual void GenerateData( void );
 
- /** Transform to apply to all the mesh points. */
+  /** Transform to apply to all the mesh points. */
   typename TransformType::Pointer   m_Transform;
 
 private:

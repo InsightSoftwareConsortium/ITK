@@ -37,7 +37,7 @@ ImageSliceConstIteratorWithIndex<TImage>
   // Move to beginning of line
   m_PositionIndex[ m_Direction_A ] = m_BeginIndex[ m_Direction_A ];   
   m_Position -= m_PixelJump *
-       ( m_EndIndex[ m_Direction_A ] - m_BeginIndex[ m_Direction_A ] ); 
+    ( m_EndIndex[ m_Direction_A ] - m_BeginIndex[ m_Direction_A ] ); 
 }
 
 
@@ -58,7 +58,7 @@ ImageSliceConstIteratorWithIndex<TImage>
   // Move to end of line
   m_PositionIndex[ m_Direction_A ] = m_EndIndex[ m_Direction_A ]-1;   
   m_Position += m_PixelJump *
-       ( m_EndIndex[ m_Direction_A ] - m_BeginIndex[ m_Direction_A ] ); 
+    ( m_EndIndex[ m_Direction_A ] - m_BeginIndex[ m_Direction_A ] ); 
 }
 
 
@@ -78,32 +78,32 @@ ImageSliceConstIteratorWithIndex<TImage>
   // Move to beginning of Slice
   m_PositionIndex[m_Direction_B] = m_BeginIndex[m_Direction_B];   
   m_Position -= m_LineJump *
-       ( m_EndIndex[ m_Direction_B ] - m_BeginIndex[ m_Direction_B ] ); 
+    ( m_EndIndex[ m_Direction_B ] - m_BeginIndex[ m_Direction_B ] ); 
   
 
   for( unsigned int n=0; n<TImage::ImageDimension; n++ )
-  {
+    {
 
     m_Remaining = false;
     
     if( n == m_Direction_B || n == m_Direction_A ) 
-    {
+      {
       continue;
-    }
+      }
     
     m_PositionIndex[ n  ]++;
     if( m_PositionIndex[n] < m_EndIndex[n] )
-    {
+      {
       m_Position += m_OffsetTable[ n ];
       m_Remaining = true;
       break;
-    }
+      }
     else 
-    {
+      {
       m_Position -= m_OffsetTable[ n+1 ] - m_OffsetTable[ n ];
       m_PositionIndex[ n ] = m_BeginIndex[ n ]; 
+      }
     }
-  }
 }
 
 
@@ -121,32 +121,32 @@ ImageSliceConstIteratorWithIndex<TImage>
   // Move to end of Slice
   m_PositionIndex[m_Direction_B] = m_EndIndex[m_Direction_B] - 1;   
   m_Position += m_LineJump *
-       ( m_EndIndex[ m_Direction_B ] - m_BeginIndex[ m_Direction_B ] ); 
+    ( m_EndIndex[ m_Direction_B ] - m_BeginIndex[ m_Direction_B ] ); 
   
 
   for( unsigned int n=0; n<TImage::ImageDimension; n++ )
-  {
+    {
 
     m_Remaining = false;
     
     if( n == m_Direction_B || n == m_Direction_A ) 
-    {
+      {
       continue;
-    }
+      }
     
     m_PositionIndex[ n  ]--;
     if( m_PositionIndex[n] >= m_BeginIndex[n] )
-    {
+      {
       m_Position -= m_OffsetTable[ n ];
       m_Remaining = true;
       break;
-    }
+      }
     else 
-    {
+      {
       m_Position += m_OffsetTable[ n+1 ] - m_OffsetTable[ n ];
       m_PositionIndex[ n ] = m_EndIndex[ n ] - 1; 
+      }
     }
-  }
 }
 
 

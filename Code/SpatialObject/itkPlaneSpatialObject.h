@@ -32,7 +32,7 @@ namespace itk
 
 template < unsigned int TDimension = 3  >
 class PlaneSpatialObject 
-: public SpatialObject< TDimension >
+  : public SpatialObject< TDimension >
 {
 
 public:
@@ -69,7 +69,7 @@ public:
   virtual bool IsInside( const PointType & point,
                          unsigned int depth=0, char * name=NULL) const;
 
- /** provide a method to get the boundaries of 
+  /** provide a method to get the boundaries of 
   *  a specific object. Basically, this function need to be called
   *  every time one of the object component is changed. */ 
   virtual bool ComputeBoundingBox() const;
@@ -95,7 +95,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkPlaneSpatialObject.txx"
+#include "itkPlaneSpatialObject.txx"
 #endif
 
 #endif // __itkPlaneSpatialObject_h

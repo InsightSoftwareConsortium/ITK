@@ -96,9 +96,9 @@ protected:
    * is encoded in regIndices and regLimit), choose the next output region.
    */ 
   int GenerateNextRegion(long *regIndices, long *regLimit, 
-       OutputImageIndexType *indices, 
-       OutputImageSizeType *sizes, 
-       OutputImageRegionType& outputRegion);
+                         OutputImageIndexType *indices, 
+                         OutputImageSizeType *sizes, 
+                         OutputImageRegionType& outputRegion);
   
 private:
   ConstantPadImageFilter(const Self&); //purposely not implemented

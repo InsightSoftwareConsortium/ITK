@@ -78,11 +78,11 @@ public:
   /**  Type of the Moving image. */
   typedef TMovingSpatialObject       MovingSpatialObjectType;
   typedef typename MovingSpatialObjectType::ConstPointer
-                                          MovingSpatialObjectConstPointer;
+  MovingSpatialObjectConstPointer;
 
   /**  Type of the metric. */
   typedef ImageToSpatialObjectMetric< FixedImageType,
-                        MovingSpatialObjectType >     MetricType;
+                                      MovingSpatialObjectType >     MetricType;
   typedef typename MetricType::Pointer             MetricPointer;
 
   /**  Type of the Transform . */
@@ -166,7 +166,7 @@ private:
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkImageToSpatialObjectRegistrationMethod.txx"
+#include "itkImageToSpatialObjectRegistrationMethod.txx"
 #endif
 
 #endif

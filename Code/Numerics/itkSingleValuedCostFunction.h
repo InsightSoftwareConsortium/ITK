@@ -33,7 +33,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  */
 class ITK_EXPORT SingleValuedCostFunction : 
-          public CostFunction 
+    public CostFunction 
 {
 public:
   /** Standard class typedefs. */
@@ -64,17 +64,17 @@ public:
   /** This method returns the derivative of the cost function corresponding
     * to the specified parameters.   */ 
   virtual void GetDerivative( const ParametersType & parameters,
-                                    DerivativeType & derivative ) const = 0;
+                              DerivativeType & derivative ) const = 0;
 
   /** This method returns the value and derivative of the cost function corresponding
     * to the specified parameters    */ 
   virtual void GetValueAndDerivative( const ParametersType & parameters,
-                                            MeasureType & value,
-                                            DerivativeType & derivative ) const 
-    {
-     value = this->GetValue( parameters );
-     this->GetDerivative( parameters, derivative );
-    };
+                                      MeasureType & value,
+                                      DerivativeType & derivative ) const 
+  {
+    value = this->GetValue( parameters );
+    this->GetDerivative( parameters, derivative );
+  };
   
 protected:
   SingleValuedCostFunction() {};

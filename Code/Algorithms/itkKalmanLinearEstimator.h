@@ -71,14 +71,14 @@ public:
    * The covariance matrix is not changed.
    * \sa Estimator \sa Variance \sa ClearVariance */
   void ClearEstimation(void) 
-    { VectorType v(T(0)); m_Estimator = v; }
+  { VectorType v(T(0)); m_Estimator = v; }
 
   /** This method resets the covariance matrix. It is set to an identity matrix
    * \sa Estimator \sa Variance \sa ClearEstimation */
   void ClearVariance(void)
-    {
+  {
     m_Variance.set_identity();
-    }
+  }
 
   /** This method sets the covariance matrix to a diagonal matrix with
    * equal values. It is useful when the variance of all the parameters
@@ -87,10 +87,10 @@ public:
    * \sa Variance
    * \sa ClearEstimation */
   void SetVariance(const ValueType & var = 1.0) 
-    {
+  {
     m_Variance.set_identity();
     m_Variance *= var;
-    }
+  }
 
   /** This method sets the covariance matrix to known matrix. It is intended to
    * initialize the estimator with a priori information about the statistical
@@ -98,17 +98,17 @@ public:
    * operation of a previously used estimator using it last known state.
    * \sa Estimator \sa Variance \sa ClearEstimation */
   void SetVariance(const MatrixType & m)
-    { m_Variance = m; }
+  { m_Variance = m; }
   
   /** This method returns the vector of estimated parameters
    * \sa Estimator */ 
   const VectorType & GetEstimator(void) const
-                          { return m_Estimator; }
+  { return m_Estimator; }
 
   /** This method returns the covariance matrix of the estimated parameters
    * \sa Variance */
   const MatrixType & GetVariance(void) const
-                          { return m_Variance; }
+  { return m_Variance; }
 
 private:  
   /** This methods performs the update of the parameter's covariance matrix.

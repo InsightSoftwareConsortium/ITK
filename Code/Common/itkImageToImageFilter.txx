@@ -56,7 +56,7 @@ ImageToImageFilter<TInputImage,TOutputImage>
 {
   // Process object is not const-correct so the const_cast is required here
   this->ProcessObject::SetNthInput(0, 
-          const_cast< InputImageType * >( input ) );
+                                   const_cast< InputImageType * >( input ) );
 }
 
 
@@ -69,12 +69,12 @@ ImageToImageFilter<TInputImage,TOutputImage>
 ::SetInput( unsigned int index, const TInputImage * image ) 
 {
   if( index+1 > this->GetNumberOfInputs() )
-  {
+    {
     this->SetNumberOfRequiredInputs( index + 1 );
-  }
+    }
   // Process object is not const-correct so the const_cast is required here
   this->ProcessObject::SetNthInput(index, 
-          const_cast< TInputImage *>( image ) );
+                                   const_cast< TInputImage *>( image ) );
 }
 
 
@@ -93,7 +93,7 @@ ImageToImageFilter<TInputImage,TOutputImage>
     }
   
   return static_cast<const TInputImage * >
-                     (this->ProcessObject::GetInput(0) );
+    (this->ProcessObject::GetInput(0) );
 }
   
 /**
@@ -105,7 +105,7 @@ ImageToImageFilter<TInputImage,TOutputImage>
 ::GetInput(unsigned int idx)
 {
   return static_cast< const TInputImage * >
-                     (this->ProcessObject::GetInput(idx));
+    (this->ProcessObject::GetInput(idx));
 }
 
 

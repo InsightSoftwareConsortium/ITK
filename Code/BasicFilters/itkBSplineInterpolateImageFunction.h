@@ -66,11 +66,11 @@ namespace itk
  * \ingroup ImageFunctions
  */
 template <
-class TImageType, 
-class TCoordRep = float,
-class TCoefficientType = double >
+  class TImageType, 
+  class TCoordRep = float,
+  class TCoefficientType = double >
 class ITK_EXPORT BSplineInterpolateImageFunction : 
-  public InterpolateImageFunction<TImageType,TCoordRep> 
+    public InterpolateImageFunction<TImageType,TCoordRep> 
 {
 public:
   /** Standard class typedefs. */
@@ -111,14 +111,14 @@ public:
   typedef TCoefficientType CoefficientDataType;
   typedef itk::Image<CoefficientDataType, 
                      itkGetStaticConstMacro(ImageDimension)
-                                                    > CoefficientImageType;
+    > CoefficientImageType;
 
   /** Define filter for calculating the BSpline coefficients */
   typedef itk::BSplineDecompositionImageFilter<TImageType, CoefficientImageType> 
-    CoefficientFilter;
+  CoefficientFilter;
   typedef typename CoefficientFilter::Pointer CoefficientFilterPointer;
 
-   /** Evaluate the function at a ContinuousIndex position.
+  /** Evaluate the function at a ContinuousIndex position.
    *
    * Returns the B-Spline interpolated image intensity at a 
    * specified point position. No bounds checking is done.
@@ -127,19 +127,19 @@ public:
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
   virtual OutputType EvaluateAtContinuousIndex( 
-      const ContinuousIndexType & index ) const; 
+    const ContinuousIndexType & index ) const; 
 
   /** Derivative typedef support */
   typedef CovariantVector<OutputType,
                           itkGetStaticConstMacro(ImageDimension)
-                                                  > CovariantVectorType;
+    > CovariantVectorType;
 
   CovariantVectorType EvaluateDerivative( const PointType & point ) const
-    {    
+  {    
     ContinuousIndexType index;
     m_Image->TransformPhysicalPointToContinuousIndex( point, index );
     return ( this->EvaluateDerivativeAtContinuousIndex( index ) );
-    } 
+  } 
 
   CovariantVectorType EvaluateDerivativeAtContinuousIndex( 
     const ContinuousIndexType & x ) const;
@@ -159,7 +159,7 @@ protected:
   virtual ~BSplineInterpolateImageFunction() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-    // These are needed by the smoothing spline routine.
+  // These are needed by the smoothing spline routine.
   std::vector<CoefficientDataType>    m_Scratch;        // temp storage for processing of Coefficients
   typename TImageType::SizeType       m_DataLength;  // Image size
   unsigned int                        m_SplineOrder; // User specified spline order (3rd or cubic is the default)
@@ -169,15 +169,15 @@ protected:
 private:
   /** Determines the weights for interpolation of the value x */
   void SetInterpolationWeights( const ContinuousIndexType & x, 
-    const vnl_matrix<long> & EvaluateIndex, 
-    vnl_matrix<double> & weights, 
-    unsigned int splineOrder ) const;
+                                const vnl_matrix<long> & EvaluateIndex, 
+                                vnl_matrix<double> & weights, 
+                                unsigned int splineOrder ) const;
 
   /** Determines the weights for the derivative portion of the value x */
   void SetDerivativeWeights( const ContinuousIndexType & x, 
-    const vnl_matrix<long> & EvaluateIndex, 
-    vnl_matrix<double> & weights, 
-    unsigned int splineOrder ) const;
+                             const vnl_matrix<long> & EvaluateIndex, 
+                             vnl_matrix<double> & weights, 
+                             unsigned int splineOrder ) const;
 
   /** Precomputation for converting the 1D index of the interpolation neighborhood 
     * to an N-dimensional index. */
@@ -185,13 +185,13 @@ private:
 
   /** Determines the indicies to use give the splines region of support */
   void DetermineRegionOfSupport( vnl_matrix<long> & evaluateIndex, 
-    const ContinuousIndexType & x, 
-    unsigned int splineOrder ) const;
+                                 const ContinuousIndexType & x, 
+                                 unsigned int splineOrder ) const;
 
   /** Set the indicies in evaluateIndex at the boundaries based on mirror 
     * boundary conditions. */
   void ApplyMirrorBoundaryConditions(vnl_matrix<long> & evaluateIndex, 
-    unsigned int splineOrder) const;
+                                     unsigned int splineOrder) const;
 
 
   Iterator                  m_CIterator;    // Iterator for traversing spline coefficients.

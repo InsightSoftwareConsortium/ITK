@@ -78,7 +78,7 @@ template < class TFixedImage, class TMovingImage  >
 void
 MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::SetNumberOfSpatialSamples( 
-unsigned int num )
+  unsigned int num )
 {
   if ( num == m_NumberOfSpatialSamples ) return;
 
@@ -103,7 +103,7 @@ template < class TFixedImage, class TMovingImage  >
 void
 MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::SampleFixedImageDomain(
-SpatialSampleContainer& samples ) const
+  SpatialSampleContainer& samples ) const
 {
 
   typedef ImageRandomConstIteratorWithIndex<FixedImageType> RandomIterator;
@@ -128,7 +128,7 @@ SpatialSampleContainer& samples ) const
 
     // get moving image value
     m_FixedImage->TransformIndexToPhysicalPoint( index, 
-      (*iter).FixedImagePointValue );
+                                                 (*iter).FixedImagePointValue );
 
     MovingImagePointType mappedPoint = 
       m_Transform->TransformPoint( (*iter).FixedImagePointValue );
@@ -245,9 +245,9 @@ template < class TFixedImage, class TMovingImage  >
 void
 MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValueAndDerivative(
-const ParametersType& parameters,
-MeasureType& value,
-DerivativeType& derivative) const
+  const ParametersType& parameters,
+  MeasureType& value,
+  DerivativeType& derivative) const
 {
 
   value = NumericTraits< MeasureType >::Zero;
@@ -288,7 +288,7 @@ DerivativeType& derivative) const
   DerivativeType tempDeriv( numberOfParameters );
 
   for( aiter = m_SampleA.begin(), aditer = sampleADerivatives.begin();
-    aiter != aend; ++aiter, ++aditer )
+       aiter != aend; ++aiter, ++aditer )
     {
     /*** FIXME: is there a way to avoid the extra copying step? *****/
     this->CalculateDerivatives( (*aiter).FixedImagePointValue, tempDeriv );
@@ -335,7 +335,7 @@ DerivativeType& derivative) const
     double totalWeight = 0.0;
 
     for( aiter = m_SampleA.begin(), aditer = sampleADerivatives.begin();
-      aiter != aend; ++aiter, ++aditer )
+         aiter != aend; ++aiter, ++aditer )
       {
       double valueFixed;
       double valueMoving;
@@ -417,8 +417,8 @@ template < class TFixedImage, class TMovingImage  >
 void
 MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::CalculateDerivatives(
-const FixedImagePointType& point,
-DerivativeType& derivatives ) const
+  const FixedImagePointType& point,
+  DerivativeType& derivatives ) const
 {
 
   MovingImagePointType mappedPoint = m_Transform->TransformPoint( point );

@@ -73,7 +73,7 @@ namespace itk
  * \ingroup CannotBeStreamed 
  */
 
-  //= ITK_TYPENAME BSplineResampleImageFilterBase<TInputImage, TOutputImage> 
+//= ITK_TYPENAME BSplineResampleImageFilterBase<TInputImage, TOutputImage> 
 template <class TInputImage, class TOutputImage, class ResamplerType = BSplineResampleImageFilterBase<TInputImage, TOutputImage> >
 class ITK_EXPORT BSplineUpsampleImageFilter : 
     public ResamplerType 

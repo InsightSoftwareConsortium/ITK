@@ -96,30 +96,30 @@ public:
   /** Typedefs to avoid internal compiler error bug on Microsoft VC++ */
   typedef typename SegmentTableType::Pointer SegmentTableTypePointer;
   typedef typename OneWayEquivalencyTableType::Pointer
-    OneWayEquivalencyTableTypePointer;
+  OneWayEquivalencyTableTypePointer;
   typedef typename SegmentTreeType::Pointer SegmentTreeTypePointer;
   
 
   /** Get/Set the input table of segments to process */
   SegmentTableType * GetInputSegmentTable()
-    { return static_cast<SegmentTableType *>
-        (this->ProcessObject::GetInput(0)); }
+  { return static_cast<SegmentTableType *>
+      (this->ProcessObject::GetInput(0)); }
   EquivalencyTableType * GetInputEquivalencyTable()
-    { return static_cast<EquivalencyTableType *>
-        (this->ProcessObject::GetInput(1)); }
+  { return static_cast<EquivalencyTableType *>
+      (this->ProcessObject::GetInput(1)); }
 
   /** Get/Set input table of equivalencies to pre-merge before
    * running the tree generator algorithm.  Only useful for
    * streaming applications */
   void SetInputEquivalencyTable(EquivalencyTableType *eq)
-    { this->ProcessObject::SetNthInput(1, eq); }
+  { this->ProcessObject::SetNthInput(1, eq); }
   void SetInputSegmentTable(SegmentTableType *st)
-    { this->ProcessObject::SetNthInput(0, st); }
+  { this->ProcessObject::SetNthInput(0, st); }
 
   /** Get/Set the output data */
   SegmentTreeType * GetOutputSegmentTree()
-    { return static_cast<SegmentTreeType *>
-        (this->ProcessObject::GetOutput(0)); }
+  { return static_cast<SegmentTreeType *>
+      (this->ProcessObject::GetOutput(0)); }
 
   /** Standard non-threaded itk pipeline method */
   void GenerateData();
@@ -167,7 +167,7 @@ public:
                                  const unsigned long,
                                  ScalarType);
 
- /** Standard itk::ProcessObject subclass method. */
+  /** Standard itk::ProcessObject subclass method. */
   virtual DataObjectPointer MakeOutput(unsigned int idx);
   
 protected:

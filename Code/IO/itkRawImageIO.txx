@@ -24,7 +24,7 @@ namespace itk
 
 template <class TPixel, unsigned int VImageDimension>
 RawImageIO<TPixel,VImageDimension>::RawImageIO() 
-: ImageIOBase()
+  : ImageIOBase()
 {
   this->SetNumberOfComponents(1);
   this->SetNumberOfDimensions(VImageDimension);
@@ -82,7 +82,7 @@ unsigned long RawImageIO<TPixel,VImageDimension>::GetHeaderSize()
     file.seekg(0,std::ios::end);
     
     m_HeaderSize = (unsigned long)((unsigned long)file.tellg() - 
-                   (unsigned long)m_Strides[m_FileDimensionality + 1]);
+                                   (unsigned long)m_Strides[m_FileDimensionality + 1]);
     }
 
   return m_HeaderSize;
@@ -177,7 +177,7 @@ void RawImageIO<TPixel,VImageDimension>
     }
 
   const unsigned long numberOfBytesToBeRead = 
-          static_cast< unsigned long>( this->GetImageSizeInBytes() );
+    static_cast< unsigned long>( this->GetImageSizeInBytes() );
 
   itkDebugMacro(<< "Reading " << numberOfBytesToBeRead << " bytes");
   
@@ -203,12 +203,12 @@ void RawImageIO<TPixel,VImageDimension>
   if ( m_ByteOrder == LittleEndian )
     {
     ByteSwapperType::SwapRangeFromSystemToLittleEndian(
-                    (ComponentType *)buffer, this->GetImageSizeInComponents() );
+      (ComponentType *)buffer, this->GetImageSizeInComponents() );
     }
   else if ( m_ByteOrder == BigEndian )
     {
     ByteSwapperType::SwapRangeFromSystemToBigEndian(
-                    (ComponentType *)buffer, this->GetImageSizeInComponents() );
+      (ComponentType *)buffer, this->GetImageSizeInComponents() );
     }
 }
 
@@ -257,7 +257,7 @@ void RawImageIO<TPixel,VImageDimension>
       char * tempBuffer = new char[ numberOfBytes ];
       memcpy( tempBuffer, buffer , numberOfBytes );
       ByteSwapperType::SwapRangeFromSystemToLittleEndian(
-                      (ComponentType *)tempBuffer, numberOfComponents );
+        (ComponentType *)tempBuffer, numberOfComponents );
       file.write( tempBuffer, numberOfBytes );
       delete [] tempBuffer;
       }
@@ -266,7 +266,7 @@ void RawImageIO<TPixel,VImageDimension>
       char * tempBuffer = new char[ numberOfBytes ];
       memcpy( tempBuffer, buffer , numberOfBytes );
       ByteSwapperType::SwapRangeFromSystemToBigEndian(
-                      (ComponentType *)tempBuffer, numberOfComponents );
+        (ComponentType *)tempBuffer, numberOfComponents );
       file.write( tempBuffer, numberOfBytes );
       delete [] tempBuffer;
       }

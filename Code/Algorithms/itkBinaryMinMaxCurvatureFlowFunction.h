@@ -67,16 +67,16 @@ public:
 
   /** Set/Get the threshold value. */
   void SetThreshold( const double thresh )
-    { m_Threshold = thresh; }
+  { m_Threshold = thresh; }
   const double & GetThreshold() const
-    { return m_Threshold; }
+  { return m_Threshold; }
 
   /** This method computes the solution update for each pixel that does not
    * lie on a the data set boundary. */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
                                   void * globalData,
                                   const FloatOffsetType& offset = FloatOffsetType(0.0)
-                                  ) const;
+    ) const;
 
 protected:
   BinaryMinMaxCurvatureFlowFunction();

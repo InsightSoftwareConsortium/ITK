@@ -79,13 +79,13 @@ public:
    * (or the compiler's default implementation of operator!=() being
    * appropriate). */
   void SetFunctor(FunctorType& functor)
-    {
+  {
     if ( m_Functor != functor )
       {
       m_Functor = functor;
       this->Modified();
       }
-    }
+  }
   
 protected:
   NaryFunctorImageFilter();

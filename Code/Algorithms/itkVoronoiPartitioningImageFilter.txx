@@ -92,8 +92,8 @@ VoronoiPartitioningImageFilter<TInputImage,TOutputImage>
     seeds = m_WorkingVD->GetSeedsIDAroundEdge(&*eit);
     // if either seed is not homogeneous
     if( ( !m_Label[seeds[0]] || !m_Label[seeds[1]])
-         && (m_NumberOfPixels[seeds[0]]>m_MinRegion)
-         && (m_NumberOfPixels[seeds[1]]>m_MinRegion) )
+        && (m_NumberOfPixels[seeds[0]]>m_MinRegion)
+        && (m_NumberOfPixels[seeds[1]]>m_MinRegion) )
       {
       adds[0] = (eit->m_Left[0] + eit->m_Right[0])*0.5;
       adds[1] = (eit->m_Left[1] + eit->m_Right[1])*0.5;

@@ -41,8 +41,8 @@ namespace itk
  */
 template < class TTarget, class TMapper > 
 class ITK_EXPORT MeanSquaresPointSetToImageMetric : 
-public SimilarityRegistrationMetric< TTarget, TMapper, double,
-                                     CovariantVector<double, TMapper::SpaceDimension > >
+    public SimilarityRegistrationMetric< TTarget, TMapper, double,
+                                         CovariantVector<double, TMapper::SpaceDimension > >
 {
 public:
   /** Space dimension is the dimension of parameters space. */
@@ -55,7 +55,7 @@ public:
   typedef double MeasureType;
   typedef CovariantVector<MeasureType,itkGetStaticConstMacro(SpaceDimension) >  DerivativeType;
   typedef SimilarityRegistrationMetric< TTarget, TMapper,
-                       MeasureType,DerivativeType >  Superclass;
+                                        MeasureType,DerivativeType >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -93,8 +93,8 @@ public:
   MeasureType GetValue( const ParametersType & parameters );
 
   /**  Get Value and Derivatives for multiple valued optimizers. */
-   void GetValueAndDerivative( const ParametersType & parameters,
-                               MeasureType& Value, DerivativeType& Derivative);
+  void GetValueAndDerivative( const ParametersType & parameters,
+                              MeasureType& Value, DerivativeType& Derivative);
 
 protected:
   MeanSquaresPointSetToImageMetric();

@@ -35,35 +35,35 @@ namespace itk
  */
 namespace Functor {  
   
-  template< class TInput, class TOutput>
-  class EdgePotential
+template< class TInput, class TOutput>
+class EdgePotential
+{
+public:
+  EdgePotential() {};
+  ~EdgePotential() {};
+  inline TOutput operator()( const TInput & A )
   {
-  public:
-    EdgePotential() {};
-    ~EdgePotential() {};
-    inline TOutput operator()( const TInput & A )
-    {
-      return static_cast<TOutput>( exp( -1.0 * A.GetNorm() ) );
-    }
-  };
+    return static_cast<TOutput>( exp( -1.0 * A.GetNorm() ) );
+  }
+};
 }
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT EdgePotentialImageFilter :
     public
-    UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::EdgePotential< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType> >
+UnaryFunctorImageFilter<TInputImage,TOutputImage, 
+                        Functor::EdgePotential< 
+  typename TInputImage::PixelType, 
+  typename TOutputImage::PixelType> >
 {
 public:
   /** Standard class typedefs. */
   typedef EdgePotentialImageFilter  Self;
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::EdgePotential< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   
-                >  Superclass;
+                                  Functor::EdgePotential< 
+    typename TInputImage::PixelType, 
+    typename TOutputImage::PixelType>   
+  >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

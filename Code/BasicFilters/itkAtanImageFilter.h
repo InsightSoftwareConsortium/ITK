@@ -45,35 +45,35 @@ namespace itk
  */
 namespace Functor {  
   
-  template< class TInput, class TOutput>
-  class Atan
+template< class TInput, class TOutput>
+class Atan
+{
+public:
+  Atan() {};
+  ~Atan() {};
+  inline TOutput operator()( const TInput & A )
   {
-  public:
-    Atan() {};
-    ~Atan() {};
-    inline TOutput operator()( const TInput & A )
-    {
-      return static_cast<TOutput>( atan( static_cast<double>(A) ) );
-    }
-  }; 
+    return static_cast<TOutput>( atan( static_cast<double>(A) ) );
+  }
+}; 
 
 }
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT AtanImageFilter :
     public
-    UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::Atan< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   >
+UnaryFunctorImageFilter<TInputImage,TOutputImage, 
+                        Functor::Atan< 
+  typename TInputImage::PixelType, 
+  typename TOutputImage::PixelType>   >
 {
 public:
   /** Standard class typedefs. */
   typedef AtanImageFilter  Self;
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::Atan< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   
-                >  Superclass;
+                                  Functor::Atan< 
+    typename TInputImage::PixelType, 
+    typename TOutputImage::PixelType>   
+  >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

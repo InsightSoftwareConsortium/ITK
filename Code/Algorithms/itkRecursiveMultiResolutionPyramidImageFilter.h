@@ -51,17 +51,17 @@ namespace itk
  * \ingroup PyramidImageFilter Multithreaded Streamed 
  */
 template <
-class TInputImage, 
-class TOutputImage
->
+  class TInputImage, 
+  class TOutputImage
+  >
 class ITK_EXPORT RecursiveMultiResolutionPyramidImageFilter : 
-  public MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
+    public MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
   typedef RecursiveMultiResolutionPyramidImageFilter  Self;
   typedef MultiResolutionPyramidImageFilter<TInputImage,TOutputImage>  
-    Superclass;
+  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -70,7 +70,7 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(RecursiveMultiResolutionPyramidImageFilter, 
-    MultiResolutionPyramidImageFilter);
+               MultiResolutionPyramidImageFilter);
 
   /** ImageDimension enumeration. */
   itkStaticConstMacro(ImageDimension, unsigned int,

@@ -63,7 +63,7 @@ typename VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::OutputType
 VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::EvaluateAtContinuousIndex(
-const ContinuousIndexType& index) const
+  const ContinuousIndexType& index) const
 {
   unsigned int dim;  // index over dimension
 

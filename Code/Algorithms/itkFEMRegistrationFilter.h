@@ -147,7 +147,7 @@ public:
   /** Call this to register two images. */
   void      RunRegistration(); 
   
- /** Call this to write out images - a counter is attached to the 
+  /** Call this to write out images - a counter is attached to the 
   *  file name so we can output a numbered sequence tracking the deformation.
   */
   void      WriteWarpedImage(const char* fn);
@@ -372,7 +372,7 @@ public:
 
 protected :
 
-void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private :
 
@@ -437,13 +437,13 @@ private :
   // define the warper
   typename WarperType::Pointer m_Warper; 
 
- // declare a new image to hold the warped  reference
+  // declare a new image to hold the warped  reference
   typename ImageType::Pointer      m_WarpedImage;
   typename FloatImageType::Pointer      m_FloatImage;
   typename ImageType::RegionType   m_Wregion; 
   typename ImageType::IndexType    m_Windex;
  
- // declare images for target and reference
+  // declare images for target and reference
   typename ImageType::Pointer      m_RefImg;
   typename ImageType::Pointer      m_TarImg;
   typename ImageType::RegionType   m_Rregion;

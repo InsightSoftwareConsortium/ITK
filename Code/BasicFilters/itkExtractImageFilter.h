@@ -89,8 +89,8 @@ public:
                       TOutputImage::ImageDimension);
 
   typedef 
-    ImageToImageFilterDetail::ExtractImageFilterRegionCopier<itkGetStaticConstMacro(InputImageDimension), 
-                                                             itkGetStaticConstMacro(OutputImageDimension)> ExtractImageFilterRegionCopierType;
+  ImageToImageFilterDetail::ExtractImageFilterRegionCopier<itkGetStaticConstMacro(InputImageDimension), 
+                                                           itkGetStaticConstMacro(OutputImageDimension)> ExtractImageFilterRegionCopierType;
 
   /** Set/Get the output image region. 
    *  If any of the ExtractionRegion.Size = 0 for any particular dimension dim,
@@ -126,7 +126,7 @@ protected:
    *
    * \sa ImageToImageFilter::CallCopyRegion() */
   virtual void CallCopyOutputRegionToInputRegion(InputImageRegionType &destRegion,
-                              const OutputImageRegionType &srcRegion);
+                                                 const OutputImageRegionType &srcRegion);
 
   /** ExtractImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()

@@ -19,7 +19,7 @@
 #include "itkConstSmartNeighborhoodIterator.h"
 
 namespace itk {
-  /*
+/*
 template<class TImage, class TBoundaryCondition>
 typename ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>::PixelType
 ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
@@ -148,9 +148,9 @@ ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
 //::Initialize(const SizeType &radius, const ImageType *ptr,
 //             const RegionType &region)
 //{
-  // call the superclass' version
+// call the superclass' version
 //  Superclass::Initialize(radius, ptr, region);
-  /*
+/*
   // now determine whether boundary conditions are going to be needed
   const IndexType bStart = ptr->GetBufferedRegion().GetIndex();
   const SizeType  bSize  = ptr->GetBufferedRegion().GetSize();

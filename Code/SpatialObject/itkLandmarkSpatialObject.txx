@@ -82,10 +82,10 @@ LandmarkSpatialObject< TDimension >
   it = points.begin();    
   end = points.end();
   while(it != end)
-  {
+    {
     m_Points.push_back(*it);
     it++;
-  }
+    }
   
   this->Modified();
 } 
@@ -187,8 +187,8 @@ bool
 LandmarkSpatialObject< TDimension > 
 ::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
 {
-   itkDebugMacro( "Checking if the blob is evaluable at " << point );
-   return IsInside(point, depth, name);
+  itkDebugMacro( "Checking if the blob is evaluable at " << point );
+  return IsInside(point, depth, name);
 }
 
 

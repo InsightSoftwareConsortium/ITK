@@ -103,7 +103,7 @@ public:
   /** Get an energy value for the intensity difference between a pixel
    * and its corresponding bias. */
   double GetEnergy0(double diff) 
-    { return (*m_InternalEnergyFunction)(diff); } 
+  { return (*m_InternalEnergyFunction)(diff); } 
 
   /** Gets the total energy value of an image or a slice using the
    * given parameters. */
@@ -196,7 +196,7 @@ private:
  */
 template <class TInputImage, class TOutputImage, class TMaskImage>
 class ITK_EXPORT MRIBiasFieldCorrectionFilter :
-  public ImageToImageFilter< TInputImage, TOutputImage > 
+    public ImageToImageFilter< TInputImage, TOutputImage > 
 {
 public:
   /** Standard class typedefs. */
@@ -243,7 +243,7 @@ public:
   /** Regions of the MRI slab identifier return. */
   typedef MRASlabIdentifier<InputImageType>  MRASlabIdentifierType;
   typedef typename MRASlabIdentifierType::SlabRegionVectorType 
-                                              SlabRegionVectorType;
+  SlabRegionVectorType;
   typedef typename SlabRegionVectorType::iterator SlabRegionVectorIteratorType;
 
   /** Bias field object type defintion. */
@@ -251,7 +251,7 @@ public:
 
   /** Energy function type defintion. */
   typedef MRIBiasEnergyFunction<InternalImageType, ImageMaskType, BiasFieldType> 
-                                                          EnergyFunctionType;
+  EnergyFunctionType;
   typedef typename EnergyFunctionType::Pointer            EnergyFunctionPointer;
 
   /** Normal variate Generator Type */
@@ -277,11 +277,11 @@ public:
    * multiplicative and internally uses log intensity values for
    * every calculation.  */
   void IsBiasFieldMultiplicative(bool flag) 
-    { m_BiasMultiplicative = flag ; }
+  { m_BiasMultiplicative = flag ; }
 
   /** If the bias field is multiplicative, it returns true. */
   bool IsBiasFieldMultiplicative() 
-    { return m_BiasMultiplicative ; }
+  { return m_BiasMultiplicative ; }
 
   /** Sets the intensity correction flag. if the flag is true, inter-slice
    * intensity correction will be applied before bias field
@@ -293,7 +293,7 @@ public:
    * slab which is identified by the slab identifier. default - false
    * NOTE: if users want to slab identification, all the input image data
    * should be buffered. */
-   itkSetMacro( UsingSlabIdentification, bool );
+  itkSetMacro( UsingSlabIdentification, bool );
 
   /** Set the bias correction flag. If the flag is true, bias field
    * correction runs.  This flag sounds odd. But if users want to use only
@@ -324,7 +324,7 @@ public:
    * used for correcting each slab. */
   void SetInitialBiasFieldCoefficients
   (const BiasFieldType::CoefficientArrayType &coefficients)
-    { m_BiasFieldCoefficients = coefficients ; }
+  { m_BiasFieldCoefficients = coefficients ; }
 
   /** Get the result bias field coefficients after the bias field
    * estimation (does not apply to the inter-slice intensity
@@ -346,9 +346,9 @@ public:
 
   /** Set/Get the initial search radius. */
   void SetOptimizerInitialRadius(double initRadius) 
-    { m_OptimizerInitialRadius = initRadius ; }
+  { m_OptimizerInitialRadius = initRadius ; }
   double GetOptimizerInitialRadius()
-    { return m_OptimizerInitialRadius ; }
+  { return m_OptimizerInitialRadius ; }
 
   /** Set/Get the search radius grow factor. */
   itkSetMacro( OptimizerGrowthFactor, double );
@@ -395,7 +395,7 @@ protected:
    * to all pixels. If the source pixel has negative value, it sets 
    * the value of the corresponding pixel in the targe image as zero.  */
   void Log1PImage(InternalImagePointer source, 
-                InternalImagePointer target) ;
+                  InternalImagePointer target) ;
 
   /** Converts image data from source to target applying exp(pixel) - 1
    * to all pixels.  */
@@ -503,7 +503,7 @@ private:
  *  copies image data from source to target. */
 template<class TSource, class TTarget>
 void CopyAndConvertImage(const TSource * sourceInp,
-                               TTarget * targetInp,
+                         TTarget * targetInp,
                          typename TTarget::RegionType requestedRegion)
 {
   typedef ImageRegionConstIterator<TSource> SourceIterator ;
@@ -524,9 +524,9 @@ void CopyAndConvertImage(const TSource * sourceInp,
   t_iter.GoToBegin() ;
   while (!s_iter.IsAtEnd())
     {
-      t_iter.Set(static_cast<TargetPixelType>( s_iter.Get() ) ) ;
-      ++s_iter ;
-      ++t_iter ;
+    t_iter.Set(static_cast<TargetPixelType>( s_iter.Get() ) ) ;
+    ++s_iter ;
+    ++t_iter ;
     }
 }
 

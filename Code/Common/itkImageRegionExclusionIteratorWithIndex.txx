@@ -27,7 +27,7 @@ namespace itk
 template< typename TImage >
 ImageRegionExclusionIteratorWithIndex<TImage>
 ::ImageRegionExclusionIteratorWithIndex()
-    : ImageRegionExclusionConstIteratorWithIndex<TImage>() 
+  : ImageRegionExclusionConstIteratorWithIndex<TImage>() 
 {
 
 
@@ -38,7 +38,7 @@ ImageRegionExclusionIteratorWithIndex<TImage>
 template< typename TImage >
 ImageRegionExclusionIteratorWithIndex<TImage>
 ::ImageRegionExclusionIteratorWithIndex(ImageType *ptr, const RegionType& region) :
-    ImageRegionExclusionConstIteratorWithIndex<TImage>(   ptr, region ) 
+  ImageRegionExclusionConstIteratorWithIndex<TImage>(   ptr, region ) 
 {
 
 
@@ -49,7 +49,7 @@ ImageRegionExclusionIteratorWithIndex<TImage>
 template< typename TImage >
 ImageRegionExclusionIteratorWithIndex<TImage>
 ::ImageRegionExclusionIteratorWithIndex( const ImageIteratorWithIndex<TImage> &it):
-                                        ImageRegionExclusionConstIteratorWithIndex<TImage>(it)
+  ImageRegionExclusionConstIteratorWithIndex<TImage>(it)
 { 
 }
 
@@ -57,7 +57,7 @@ ImageRegionExclusionIteratorWithIndex<TImage>
 template< typename TImage >
 ImageRegionExclusionIteratorWithIndex<TImage>
 ::ImageRegionExclusionIteratorWithIndex( const ImageRegionExclusionConstIteratorWithIndex<TImage> &it):
-                                        ImageRegionExclusionConstIteratorWithIndex<TImage>(it)
+  ImageRegionExclusionConstIteratorWithIndex<TImage>(it)
 { 
 }
 

@@ -181,8 +181,8 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
   int tenth = numCells/10 + 1;
   int cellId=0;
   if ( m_ExtractionMode != PointSeededRegions && 
-  m_ExtractionMode != CellSeededRegions &&
-  m_ExtractionMode != ClosestPointRegion ) 
+       m_ExtractionMode != CellSeededRegions &&
+       m_ExtractionMode != ClosestPointRegion ) 
     { //visit all cells marking with region number
     for (CellsContainerConstIterator cell=inCells->Begin(); 
          cell != inCells->End(); ++cell, ++cellId)
@@ -300,9 +300,9 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
   CellDataContainerConstIterator cellData;
 
   if ( m_ExtractionMode == PointSeededRegions ||
-  m_ExtractionMode == CellSeededRegions ||
-  m_ExtractionMode == ClosestPointRegion ||
-  m_ExtractionMode == AllRegions)
+       m_ExtractionMode == CellSeededRegions ||
+       m_ExtractionMode == ClosestPointRegion ||
+       m_ExtractionMode == AllRegions)
     { // extract any cell that's been visited
     for (cell=inCells->Begin(); cell != inCells->End(); ++cell, ++cellId)
       {

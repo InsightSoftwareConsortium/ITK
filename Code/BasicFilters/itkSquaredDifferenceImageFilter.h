@@ -47,41 +47,41 @@ namespace itk
  */
 namespace Functor {  
   
-  template< class TInput1, class TInput2, class TOutput>
-  class SquaredDifference2
+template< class TInput1, class TInput2, class TOutput>
+class SquaredDifference2
+{
+public:
+  SquaredDifference2() {};
+  ~SquaredDifference2() {};
+  inline TOutput operator()( const TInput1 & A, 
+                             const TInput2 & B)
   {
-  public:
-    SquaredDifference2() {};
-    ~SquaredDifference2() {};
-    inline TOutput operator()( const TInput1 & A, 
-                               const TInput2 & B)
-    {
-      const double dA = static_cast<double>( A );
-      const double dB = static_cast<double>( B );
-      const double diff = dA - dB;
-      return static_cast<TOutput>( diff * diff );
-    }
-  }; 
+    const double dA = static_cast<double>( A );
+    const double dB = static_cast<double>( B );
+    const double diff = dA - dB;
+    return static_cast<TOutput>( diff * diff );
+  }
+}; 
 }
 
 template <class TInputImage1, class TInputImage2, class TOutputImage>
 class ITK_EXPORT SquaredDifferenceImageFilter :
     public
-    BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-            Functor::SquaredDifference2< 
-                      typename TInputImage1::PixelType, 
-                      typename TInputImage2::PixelType,
-                      typename TOutputImage::PixelType>   >
+BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
+                         Functor::SquaredDifference2< 
+  typename TInputImage1::PixelType, 
+  typename TInputImage2::PixelType,
+  typename TOutputImage::PixelType>   >
 {
 public:
   /** Standard class typedefs. */
   typedef SquaredDifferenceImageFilter  Self;
   typedef BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-                      Functor::SquaredDifference2< 
-                      typename TInputImage1::PixelType, 
-                      typename TInputImage2::PixelType,
-                      typename TOutputImage::PixelType>   
-                        >  Superclass;
+                                   Functor::SquaredDifference2< 
+    typename TInputImage1::PixelType, 
+    typename TInputImage2::PixelType,
+    typename TOutputImage::PixelType>   
+  >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

@@ -44,9 +44,9 @@ public:
   /** Set/Get the filter whose UpdateProgress will be set by this
    * command object */
   void SetFilter( ProcessObject *p)
-    { m_Filter = p; }
+  { m_Filter = p; }
   const ProcessObject *GetFilter()
-    { return m_Filter; }
+  { return m_Filter; }
 
   /** Set/Get the base count for stepping through filter progress values */
   itkSetMacro(Count, double);
@@ -59,7 +59,7 @@ public:
   
 protected:
   WatershedMiniPipelineProgressCommand() : m_Count(0.0), m_Filter(0),
-    m_NumberOfFilters(1) {}
+                                           m_NumberOfFilters(1) {}
   virtual ~WatershedMiniPipelineProgressCommand() {}
   
 private:

@@ -57,7 +57,7 @@ namespace itk
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT VoronoiSegmentationImageFilterBase:
-public ImageToImageFilter<TInputImage,TOutputImage>
+    public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
@@ -160,20 +160,20 @@ public:
 
   /** Return the Voroni Diagram structure. */
   VoronoiPointer GetVoronoiDiagram(void)
-    { return m_WorkingVD; }
+  { return m_WorkingVD; }
     
   /** Seeds positions are randomly set. 
    * If you need to set seeds position then use the SetSeeds method
    * after the InitializeSegment method .  */ 
   void SetSeeds(int num, SeedsIterator begin)
-    { 
+  { 
     m_NumberOfSeeds = num; 
     m_WorkingVD->SetSeeds(num,begin); 
-    }; 
+  }; 
     
   /** Get the point specified by the ID given. */
   PointType GetSeed(int SeedID)
-    { return m_WorkingVD->GetSeed(SeedID); } 
+  { return m_WorkingVD->GetSeed(SeedID); } 
       
   /** Draw the Voronoi Diagram structure. */
   void DrawDiagram(VDImagePointer result,unsigned char incolor, 

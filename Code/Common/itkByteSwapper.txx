@@ -50,17 +50,17 @@ public:
 // The following are the public methods --------------------------------
 //
 
-  // Machine definitions
+// Machine definitions
 #ifdef CMAKE_WORDS_BIGENDIAN
-  template <class T>
-  bool ByteSwapper<T>::SystemIsBigEndian() { return true; }
-  template <class T>
-  bool ByteSwapper<T>::SystemIsLittleEndian() { return false; }
+template <class T>
+bool ByteSwapper<T>::SystemIsBigEndian() { return true; }
+template <class T>
+bool ByteSwapper<T>::SystemIsLittleEndian() { return false; }
 #else
-  template <class T>
-  bool ByteSwapper<T>::SystemIsBigEndian() { return false; }
-  template <class T>
-  bool ByteSwapper<T>::SystemIsLittleEndian() { return true; }
+template <class T>
+bool ByteSwapper<T>::SystemIsBigEndian() { return false; }
+template <class T>
+bool ByteSwapper<T>::SystemIsLittleEndian() { return true; }
 #endif  
 
   
@@ -105,9 +105,9 @@ template <class T>
 void 
 ByteSwapper<T>
 ::SwapRangeFromSystemToBigEndian(T *, unsigned long ) // unused arguments removed
- {  
- // nothing needs to be done here...
- }
+{  
+  // nothing needs to be done here...
+}
 #else
 template <class T>
 void 
@@ -486,22 +486,22 @@ ByteSwapper<T>
 
   for (i = 0; i < num; i++)
     {
-      one_byte    = pos[0];
-      pos[0] = pos[7];
-      pos[7] = one_byte;
+    one_byte    = pos[0];
+    pos[0] = pos[7];
+    pos[7] = one_byte;
 
-      one_byte    = pos[1];
-      pos[1] = pos[6];
-      pos[6] = one_byte;
+    one_byte    = pos[1];
+    pos[1] = pos[6];
+    pos[6] = one_byte;
 
-      one_byte    = pos[2];
-      pos[2] = pos[5];
-      pos[5] = one_byte;
+    one_byte    = pos[2];
+    pos[2] = pos[5];
+    pos[5] = one_byte;
 
-      one_byte    = pos[3];
-      pos[3] = pos[4];
-      pos[4] = one_byte;
-      pos = pos + 8;
+    one_byte    = pos[3];
+    pos[3] = pos[4];
+    pos[4] = one_byte;
+    pos = pos + 8;
     }
 }
 
@@ -525,35 +525,35 @@ ByteSwapper<T>
  
   while (num)
     {
-      memcpy(cpy, ptr, chunkSize * 8);
+    memcpy(cpy, ptr, chunkSize * 8);
     
-      pos = cpy;   
-      for (i = 0; i < chunkSize; i++)
-        {
-          one_byte    = pos[0];
-          pos[0] = pos[7];
-          pos[7] = one_byte;
+    pos = cpy;   
+    for (i = 0; i < chunkSize; i++)
+      {
+      one_byte    = pos[0];
+      pos[0] = pos[7];
+      pos[7] = one_byte;
 
-          one_byte    = pos[1];
-          pos[1] = pos[6];
-          pos[6] = one_byte;
+      one_byte    = pos[1];
+      pos[1] = pos[6];
+      pos[6] = one_byte;
 
-          one_byte    = pos[2];
-          pos[2] = pos[5];
-          pos[5] = one_byte;
+      one_byte    = pos[2];
+      pos[2] = pos[5];
+      pos[5] = one_byte;
 
-          one_byte    = pos[3];
-          pos[3] = pos[4];
-          pos[4] = one_byte;
-          pos = pos + 8;
-        }
-      fp->write((char *)cpy, 8*chunkSize);
-      ptr  = (char *) ptr + chunkSize*8;
-      num -= chunkSize;
-      if (num < chunkSize)
-        {
-          chunkSize = num;
-        }
+      one_byte    = pos[3];
+      pos[3] = pos[4];
+      pos[4] = one_byte;
+      pos = pos + 8;
+      }
+    fp->write((char *)cpy, 8*chunkSize);
+    ptr  = (char *) ptr + chunkSize*8;
+    num -= chunkSize;
+    if (num < chunkSize)
+      {
+      chunkSize = num;
+      }
     }
   delete [] cpy;
 }

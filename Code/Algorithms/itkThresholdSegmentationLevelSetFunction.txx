@@ -37,14 +37,14 @@ void ThresholdSegmentationLevelSetFunction<TImageType, TFeatureImageType>
 
   for ( fit = fit.Begin(), sit = sit.Begin(); ! fit.IsAtEnd(); ++sit, ++fit)
     {
-      if (static_cast<ScalarValueType>(fit.Get()) < mid)
-        {
-          sit.Set(static_cast<ScalarValueType>(fit.Get()) - lower_threshold);
-        }
-      else
-        {
-          sit.Set(upper_threshold - static_cast<ScalarValueType>(fit.Get()));
-        }
+    if (static_cast<ScalarValueType>(fit.Get()) < mid)
+      {
+      sit.Set(static_cast<ScalarValueType>(fit.Get()) - lower_threshold);
+      }
+    else
+      {
+      sit.Set(upper_threshold - static_cast<ScalarValueType>(fit.Get()));
+      }
     }
 }
 

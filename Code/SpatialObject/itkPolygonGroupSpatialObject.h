@@ -47,54 +47,54 @@ namespace itk
 
 
 template <unsigned int TDimension = 3> class 
-  PolygonGroupSpatialObject
+PolygonGroupSpatialObject
   :public GroupSpatialObject<TDimension>
-  {
-    public:
-    typedef PolygonGroupSpatialObject< TDimension >             Self;
-    typedef BlobSpatialObject< TDimension >            Superclass;
-    typedef SmartPointer < Self >                      Pointer;
-    typedef SmartPointer < const Self >                ConstPointer;
-    typedef typename Superclass::PointType             PointType;
-    typedef typename Superclass::BoundingBoxType       BoundingBoxType;
-    /** Method for creation through the object factory. */
-    itkNewMacro( Self );
+{
+public:
+  typedef PolygonGroupSpatialObject< TDimension >             Self;
+  typedef BlobSpatialObject< TDimension >            Superclass;
+  typedef SmartPointer < Self >                      Pointer;
+  typedef SmartPointer < const Self >                ConstPointer;
+  typedef typename Superclass::PointType             PointType;
+  typedef typename Superclass::BoundingBoxType       BoundingBoxType;
+  /** Method for creation through the object factory. */
+  itkNewMacro( Self );
 
-    /** Method for creation through the object factory. */
-    itkTypeMacro( Self, Superclass );
+  /** Method for creation through the object factory. */
+  itkTypeMacro( Self, Superclass );
   
-    /** Return true if the given PolygonSpatialObject is successfully
+  /** Return true if the given PolygonSpatialObject is successfully
      * added to the PolygonGroup.
      */
-    bool AddStrand(PolygonSpatialObject<TDimension> *toAdd);
+  bool AddStrand(PolygonSpatialObject<TDimension> *toAdd);
 
-    /** Return true if the given PolygonSpatialObject is successfully
+  /** Return true if the given PolygonSpatialObject is successfully
      * removed from the PolygonGroup
      */
-    bool DeleteStrand(PolygonSpatialObject<TDimension> *toDelete);
+  bool DeleteStrand(PolygonSpatialObject<TDimension> *toDelete);
 
-    /** Return true if the given PolygonSpatialObject successfully
+  /** Return true if the given PolygonSpatialObject successfully
      * replaces the Polygon given in toReplace. This will fail if
      * toReplace is not a strand in the PolygonGroupObject.
      */
-    bool ReplaceStrand(PolygonSpatialObject<TDimension> *toReplace,
-                       PolygonSpatialObject<TDimension> *replacement);
+  bool ReplaceStrand(PolygonSpatialObject<TDimension> *toReplace,
+                     PolygonSpatialObject<TDimension> *replacement);
 
-    /** Return true if all constituent Polygons are closed. */
-    bool IsClosed();
-    /** returns the number of Polygons in this PolygonGroup */
-    unsigned int NumberOfStrands();
-    /** Volume of this PolygonGroup, which is the sum of the volume of all
+  /** Return true if all constituent Polygons are closed. */
+  bool IsClosed();
+  /** returns the number of Polygons in this PolygonGroup */
+  unsigned int NumberOfStrands();
+  /** Volume of this PolygonGroup, which is the sum of the volume of all
      * its constituent Polygons
      */
-    double Volume();
-    /** Same as Volume, above.*/
-    double MeasureVolume();
-    /** Test whether a point is inside or outside the object. */ 
-    virtual bool IsInside( const PointType & point,
-                           unsigned int depth=0,
-                           char * name = NULL) const;
-  };
+  double Volume();
+  /** Same as Volume, above.*/
+  double MeasureVolume();
+  /** Test whether a point is inside or outside the object. */ 
+  virtual bool IsInside( const PointType & point,
+                         unsigned int depth=0,
+                         char * name = NULL) const;
+};
 }
 #ifndef ITK_MANUAL_INSTANTIATION 
 #include "itkPolygonGroupSpatialObject.txx" 

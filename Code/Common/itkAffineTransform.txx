@@ -42,7 +42,7 @@ template<class TScalarType, unsigned int NDimensions>
 AffineTransform<TScalarType, NDimensions>::
 AffineTransform( unsigned int outputSpaceDimension, 
                  unsigned int parametersDimension   ):
-       Superclass(outputSpaceDimension,parametersDimension)
+  Superclass(outputSpaceDimension,parametersDimension)
 {
   m_Matrix.SetIdentity();
   m_Inverse.SetIdentity();
@@ -613,20 +613,20 @@ GetParameters( void ) const
   unsigned int par = 0;
 
   for(unsigned int row=0; row<NDimensions; row++) 
-  {
-    for(unsigned int col=0; col<NDimensions; col++) 
     {
+    for(unsigned int col=0; col<NDimensions; col++) 
+      {
       m_Parameters[par] = m_Matrix[row][col];
       ++par;
+      }
     }
-  }
 
   // Transfer the constant part
   for(unsigned int i=0; i<NDimensions; i++) 
-  {
+    {
     m_Parameters[par] = m_Offset[i];
     ++par;
-  }
+    }
 
   return m_Parameters;
 
@@ -648,20 +648,20 @@ SetParameters( const ParametersType & parameters )
   m_Parameters = parameters;
 
   for(unsigned int row=0; row<NDimensions; row++) 
-  {
-    for(unsigned int col=0; col<NDimensions; col++) 
     {
+    for(unsigned int col=0; col<NDimensions; col++) 
+      {
       m_Matrix[row][col] = m_Parameters[par];
       ++par;
+      }
     }
-  }
 
   // Transfer the constant part
   for(unsigned int i=0; i<NDimensions; i++) 
-  {
+    {
     m_Offset[i] = m_Parameters[par];
     ++par;
-  }
+    }
  
   // Recompute the inverse
   this->RecomputeInverse();
@@ -685,22 +685,22 @@ GetJacobian( const InputPointType & p ) const
   unsigned int blockOffset = 0;
   
   for(unsigned int block=0; block < SpaceDimension; block++) 
-  {
-    for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
     {
-       m_Jacobian( block , blockOffset + dim ) = p[dim];
-    }
+    for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
+      {
+      m_Jacobian( block , blockOffset + dim ) = p[dim];
+      }
 
     blockOffset += SpaceDimension;
 
-  }
+    }
 
   for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
-  {
+    {
 // Should a "translation scale be provided ?
 //     m_Jacobian[ dim ][ blockOffset + dim ] = m_TranslationScale;
-     m_Jacobian( dim , blockOffset + dim ) = 1.0;
-  }
+    m_Jacobian( dim , blockOffset + dim ) = 1.0;
+    }
 
   return m_Jacobian;
 

@@ -78,7 +78,7 @@ template <class TLevelSet>
 void
 LevelSetNeighborhoodExtractor<TLevelSet>
 ::SetInputNarrowBand(
-NodeContainer * ptr )
+  NodeContainer * ptr )
 {
   if( m_InputNarrowBand != ptr )
     {
@@ -168,7 +168,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>
   typedef ImageRegionConstIterator<LevelSetImageType> InputConstIterator;
 
   InputConstIterator inIt ( m_InputLevelSet,
-                       m_InputLevelSet->GetBufferedRegion() );
+                            m_InputLevelSet->GetBufferedRegion() );
 
   IndexType inputIndex;
 
@@ -249,7 +249,7 @@ template <class TLevelSet>
 double
 LevelSetNeighborhoodExtractor<TLevelSet>
 ::CalculateDistance(
-IndexType& index)
+  IndexType& index)
 {
 
   m_LastPointIsInside = false;
@@ -302,12 +302,12 @@ IndexType& index)
       if( ( neighValue > 0 && inside ) ||
           ( neighValue < 0 && !inside ) )
         {
-         distance = centerValue / ( centerValue - neighValue );
+        distance = centerValue / ( centerValue - neighValue );
 
-         if( neighNode.GetValue() > distance )
+        if( neighNode.GetValue() > distance )
           {
-            neighNode.SetValue( distance );
-            neighNode.SetIndex( neighIndex );
+          neighNode.SetValue( distance );
+          neighNode.SetIndex( neighIndex );
           }
         }
 
@@ -319,13 +319,13 @@ IndexType& index)
     // reset neighIndex
     neighIndex[j] = index[j];
 
-  } // end dimension loop
+    } // end dimension loop
 
   // sort the neighbors according to distance
   std::sort( m_NodesUsed.begin(), m_NodesUsed.end() );
 
- // The final distance is given by the minimum distance to the plane
- // crossing formed by the zero set crossing points.
+  // The final distance is given by the minimum distance to the plane
+  // crossing formed by the zero set crossing points.
   distance = 0.0;
   for( unsigned int j = 0; j < SetDimension; j++ )
     {

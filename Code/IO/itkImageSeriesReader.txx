@@ -30,8 +30,8 @@ namespace itk
 template <class TOutputImage, class ConvertPixelTraits>
 ImageSeriesReader<TOutputImage, ConvertPixelTraits>
 ::ImageSeriesReader() :
-m_ImageIO(0), m_UserSpecifiedImageIO(false), 
-m_FileIterator(0)
+  m_ImageIO(0), m_UserSpecifiedImageIO(false), 
+  m_FileIterator(0)
 {
 }
 
@@ -224,37 +224,37 @@ ImageSeriesReader<TOutputImage, ConvertPixelTraits>
     {
     }
   ITK_CONVERT_BUFFER_IF_BLOCK(unsigned char)
-  ITK_CONVERT_BUFFER_IF_BLOCK(char)
-  ITK_CONVERT_BUFFER_IF_BLOCK(unsigned short)
-  ITK_CONVERT_BUFFER_IF_BLOCK( short)
-  ITK_CONVERT_BUFFER_IF_BLOCK(unsigned int)
-  ITK_CONVERT_BUFFER_IF_BLOCK( int)
-  ITK_CONVERT_BUFFER_IF_BLOCK(unsigned long)
-  ITK_CONVERT_BUFFER_IF_BLOCK( long)
-  ITK_CONVERT_BUFFER_IF_BLOCK(float)
-  ITK_CONVERT_BUFFER_IF_BLOCK( double)
-  else
-    {
-    ImageSeriesReaderException e(__FILE__, __LINE__);
-    OStringStream msg;
-    msg <<"Couldn't convert pixel type: "
-        << std::endl << "    " << m_ImageIO->GetPixelType().name()
-        << std::endl << "to one of: "
-        << std::endl << "    " << typeid(unsigned char).name()
-        << std::endl << "    " << typeid(char).name()
-        << std::endl << "    " << typeid(unsigned short).name()
-        << std::endl << "    " << typeid(short).name()
-        << std::endl << "    " << typeid(unsigned int).name()
-        << std::endl << "    " << typeid(int).name()
-        << std::endl << "    " << typeid(unsigned long).name()
-        << std::endl << "    " << typeid(long).name()
-        << std::endl << "    " << typeid(float).name()
-        << std::endl << "    " << typeid(double).name()
-        << std::endl;
-    e.SetDescription(msg.str().c_str());
-    throw e;
-    return;
-    }
+    ITK_CONVERT_BUFFER_IF_BLOCK(char)
+    ITK_CONVERT_BUFFER_IF_BLOCK(unsigned short)
+    ITK_CONVERT_BUFFER_IF_BLOCK( short)
+    ITK_CONVERT_BUFFER_IF_BLOCK(unsigned int)
+    ITK_CONVERT_BUFFER_IF_BLOCK( int)
+    ITK_CONVERT_BUFFER_IF_BLOCK(unsigned long)
+    ITK_CONVERT_BUFFER_IF_BLOCK( long)
+    ITK_CONVERT_BUFFER_IF_BLOCK(float)
+    ITK_CONVERT_BUFFER_IF_BLOCK( double)
+    else
+      {
+      ImageSeriesReaderException e(__FILE__, __LINE__);
+      OStringStream msg;
+      msg <<"Couldn't convert pixel type: "
+          << std::endl << "    " << m_ImageIO->GetPixelType().name()
+          << std::endl << "to one of: "
+          << std::endl << "    " << typeid(unsigned char).name()
+          << std::endl << "    " << typeid(char).name()
+          << std::endl << "    " << typeid(unsigned short).name()
+          << std::endl << "    " << typeid(short).name()
+          << std::endl << "    " << typeid(unsigned int).name()
+          << std::endl << "    " << typeid(int).name()
+          << std::endl << "    " << typeid(unsigned long).name()
+          << std::endl << "    " << typeid(long).name()
+          << std::endl << "    " << typeid(float).name()
+          << std::endl << "    " << typeid(double).name()
+          << std::endl;
+      e.SetDescription(msg.str().c_str());
+      throw e;
+      return;
+      }
 #undef ITK_CONVERT_BUFFER_IF_BLOCK
 }
 

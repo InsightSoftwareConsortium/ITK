@@ -63,9 +63,9 @@ itk::MetaDataObjectBase
   Pointer smartPtr;
   itk::MetaDataObjectBase *rawPtr = ::itk::ObjectFactory<itk::MetaDataObjectBase>::Create();
   if(rawPtr == NULL)
-  {
+    {
     rawPtr = new itk::MetaDataObjectBase;
-  }
+    }
   smartPtr = rawPtr;
   rawPtr->UnRegister();
   return smartPtr;

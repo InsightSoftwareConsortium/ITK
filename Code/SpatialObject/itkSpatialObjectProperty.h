@@ -31,58 +31,58 @@ namespace itk{
  * it's templated over the representation to use for each color component. 
  */
  
-  template< class TComponentType = float >
-  class ITK_EXPORT SpatialObjectProperty 
+template< class TComponentType = float >
+class ITK_EXPORT SpatialObjectProperty 
   : public LightObject 
-  {
-  public:
+{
+public:
 
-    typedef SpatialObjectProperty< TComponentType > Self;
-    typedef LightObject Superclass;
-    typedef RGBAPixel< TComponentType > PixelType;
-    typedef std::string StringType;
+  typedef SpatialObjectProperty< TComponentType > Self;
+  typedef LightObject Superclass;
+  typedef RGBAPixel< TComponentType > PixelType;
+  typedef std::string StringType;
 
-    typedef SmartPointer<Self> Pointer;
-    typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
-    itkNewMacro( Self );
-    itkTypeMacro( Self, Superclass );
+  itkNewMacro( Self );
+  itkTypeMacro( Self, Superclass );
 
-    const PixelType & GetColor( void ) const;
-    void SetColor(const PixelType & color );
+  const PixelType & GetColor( void ) const;
+  void SetColor(const PixelType & color );
 
-    void SetRed( TComponentType r );
-    TComponentType GetRed( void ) const;
+  void SetRed( TComponentType r );
+  TComponentType GetRed( void ) const;
 
-    void SetGreen( TComponentType g );
-    TComponentType GetGreen( void ) const;
+  void SetGreen( TComponentType g );
+  TComponentType GetGreen( void ) const;
 
-    void SetBlue( TComponentType b );
-    TComponentType GetBlue( void ) const;
+  void SetBlue( TComponentType b );
+  TComponentType GetBlue( void ) const;
 
-    void SetAlpha( TComponentType a);
-    TComponentType GetAlpha( void ) const;
+  void SetAlpha( TComponentType a);
+  TComponentType GetAlpha( void ) const;
 
-    SpatialObjectProperty();
-    virtual ~SpatialObjectProperty();
+  SpatialObjectProperty();
+  virtual ~SpatialObjectProperty();
 
-    void SetName( char * name );
-    StringType GetName( void ) const;
+  void SetName( char * name );
+  StringType GetName( void ) const;
 
-    unsigned long GetMTime(void){return m_MTime;}
+  unsigned long GetMTime(void){return m_MTime;}
 
-  protected:
+protected:
 
-    void PrintSelf(std::ostream &os, Indent indent) const;
-    void Modified(void){m_MTime++;}
+  void PrintSelf(std::ostream &os, Indent indent) const;
+  void Modified(void){m_MTime++;}
 
-  private:    
+private:    
 
-    PixelType m_Color;
-    StringType m_Name;
-    unsigned long m_MTime;
+  PixelType m_Color;
+  StringType m_Name;
+  unsigned long m_MTime;
 
-  };
+};
 
 }
 

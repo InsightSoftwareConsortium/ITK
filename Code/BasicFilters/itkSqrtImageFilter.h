@@ -30,31 +30,31 @@ namespace itk
  */
 namespace Function {  
   
-  template< class TInput, class TOutput>
-  class Sqrt
+template< class TInput, class TOutput>
+class Sqrt
+{
+public:
+  Sqrt() {}
+  ~Sqrt() {}
+  inline TOutput operator()( const TInput & A )
   {
-  public:
-    Sqrt() {}
-    ~Sqrt() {}
-    inline TOutput operator()( const TInput & A )
-    {
-      return (TOutput)sqrt((double)A);
-    }
-  }; 
+    return (TOutput)sqrt((double)A);
+  }
+}; 
 }
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT SqrtImageFilter :
     public
-    UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Function::Sqrt< typename TInputImage::PixelType, 
-                    typename TOutputImage::PixelType>   >
+UnaryFunctorImageFilter<TInputImage,TOutputImage, 
+                        Function::Sqrt< typename TInputImage::PixelType, 
+                                        typename TOutputImage::PixelType>   >
 {
 public:
   /** Standard class typedefs. */
   typedef SqrtImageFilter  Self;
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Function::Sqrt< typename TInputImage::PixelType, 
-                    typename TOutputImage::PixelType> >  Superclass;
+                                  Function::Sqrt< typename TInputImage::PixelType, 
+                                                  typename TOutputImage::PixelType> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

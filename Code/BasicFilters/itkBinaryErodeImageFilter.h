@@ -58,13 +58,13 @@ namespace itk {
  */
 template<class TInputImage, class TOutputImage, class TKernel>
 class ITK_EXPORT BinaryErodeImageFilter : 
-  public MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
+    public MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
   /** Standard class typedefs. */
   typedef BinaryErodeImageFilter Self;
   typedef MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
-    Superclass;
+  Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -114,7 +114,7 @@ protected:
    * each call to Evaluate() */
   virtual void BeforeThreadedGenerateData();
 
- private:
+private:
   BinaryErodeImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

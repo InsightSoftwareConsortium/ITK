@@ -111,7 +111,7 @@ template <class TLevelSet, class TSpeedImage>
 void
 FastMarchingImageFilter<TLevelSet,TSpeedImage>
 ::EnlargeOutputRequestedRegion(
-DataObject *output )
+  DataObject *output )
 {
   // enlarge the requested region of the output
   // to the whole data set
@@ -126,9 +126,9 @@ DataObject *output )
     {
     // Pointer could not be cast to TLevelSet *
     itkWarningMacro(<< "itk::FastMarchingImageFilter" <<
-              "::EnlargeOutputRequestedRegion cannot cast "
-              << typeid(output).name() << " to "
-              << typeid(TLevelSet*).name() );    
+                    "::EnlargeOutputRequestedRegion cannot cast "
+                    << typeid(output).name() << " to "
+                    << typeid(TLevelSet*).name() );    
     }
 
 }
@@ -177,7 +177,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
     LabelIterator;
 
   LabelIterator typeIt( m_LabelImage,
-    m_LabelImage->GetBufferedRegion() );
+                        m_LabelImage->GetBufferedRegion() );
 
   for ( typeIt.GoToBegin(); !typeIt.IsAtEnd(); ++typeIt )
     {
@@ -243,13 +243,13 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
       // check if node index is within the output level set
       bool inRange = true;
       for ( unsigned int j = 0; j < SetDimension; j++ )
-      {
-       if( node.GetIndex()[j] > (signed long) m_OutputSize[j] )
         {
-        inRange = false;
-        break;
+        if( node.GetIndex()[j] > (signed long) m_OutputSize[j] )
+          {
+          inRange = false;
+          break;
+          }
         }
-      }
       if ( !inRange ) continue;
 
       // make this a trial point
@@ -372,38 +372,38 @@ template <class TLevelSet, class TSpeedImage>
 void
 FastMarchingImageFilter<TLevelSet,TSpeedImage>
 ::UpdateNeighbors(
-const IndexType& index,
-const SpeedImageType * speedImage,
-LevelSetImageType * output )
+  const IndexType& index,
+  const SpeedImageType * speedImage,
+  LevelSetImageType * output )
 {
   IndexType neighIndex = index;
 
   for ( unsigned int j = 0; j < SetDimension; j++ )
-  {
+    {
     // update left neighbor
     if( index[j] > 0 )
-    {
+      {
       neighIndex[j] = index[j] - 1;
-    }
+      }
     if ( m_LabelImage->GetPixel( neighIndex ) != AlivePoint )
-    {
+      {
       this->UpdateValue( neighIndex, speedImage, output );
-    }
+      }
 
     // updaet right neighbor
     if ( index[j] < (signed long) m_OutputSize[j] - 1 )
-    {
+      {
       neighIndex[j] = index[j] + 1;
-    }
+      }
     if ( m_LabelImage->GetPixel( neighIndex ) != AlivePoint )
-    {
+      {
       this->UpdateValue( neighIndex, speedImage, output );
-    }
+      }
 
     //reset neighIndex
     neighIndex[j] = index[j];
       
-  }
+    }
 
 }
 
@@ -415,9 +415,9 @@ template <class TLevelSet, class TSpeedImage>
 double
 FastMarchingImageFilter<TLevelSet,TSpeedImage>
 ::UpdateValue(
-const IndexType& index,
-const SpeedImageType * speedImage,
-LevelSetImageType * output )
+  const IndexType& index,
+  const SpeedImageType * speedImage,
+  LevelSetImageType * output )
 {
 
   IndexType neighIndex = index;
@@ -426,33 +426,33 @@ LevelSetImageType * output )
   NodeType node;
 
   for ( unsigned int j = 0; j < SetDimension; j++ )
-  {
+    {
     node.SetValue( m_LargeValue );
 
     // find smallest valued neighbor in this dimension
     for( int s = -1; s < 2; s = s + 2 )
-    {
+      {
       neighIndex[j] = index[j] + s;
 
       if( neighIndex[j] > (signed long) m_OutputSize[j] - 1 || 
           neighIndex[j] < 0 )
-      {
+        {
         continue;
-      }
+        }
 
       if ( m_LabelImage->GetPixel( neighIndex ) == AlivePoint )
-      {
+        {
         outputPixel = output->GetPixel( neighIndex );
         neighValue = outputPixel ;
 
         if( node.GetValue() > neighValue )
-        {
+          {
           node.SetValue( neighValue );
           node.SetIndex( neighIndex );
+          }
         }
-      }
 
-    }
+      }
 
     // put the minimum neighbor onto the heap
     m_NodesUsed[j] = node;
@@ -460,7 +460,7 @@ LevelSetImageType * output )
     // reset neighIndex
     neighIndex[j] = index[j];
 
-  }
+    }
 
   // sort the local list
   std::sort( m_NodesUsed, m_NodesUsed + SetDimension );
@@ -472,58 +472,58 @@ LevelSetImageType * output )
   aa = 0.0;
   bb = 0.0;
   if ( speedImage )
-  {
+    {
     typedef typename SpeedImageType::PixelType SpeedPixelType;
     cc = (double) speedImage->GetPixel( index ) / m_NormalizationFactor;
     cc = -1.0 * vnl_math_sqr( 1.0 / cc );
-  }
+    }
   else 
-  {
+    {
     cc = m_InverseSpeed;
-  }
+    }
 
   double discrim;
 
   for ( unsigned int j = 0; j < SetDimension; j++ )
-  {
+    {
     node = m_NodesUsed[j];
 
     if ( solution >= node.GetValue() )
-    {
+      {
       aa += 1.0;
       bb += node.GetValue();
       cc += vnl_math_sqr( node.GetValue() );
 
       discrim = vnl_math_sqr( bb ) - aa * cc;
       if ( discrim < 0.0 )
-      {
+        {
         // Discriminant of quadratic eqn. is negative
         ExceptionObject err(__FILE__, __LINE__);
         err.SetLocation( "UpdateValue" );
         err.SetDescription( "Discriminant of quadratic equation is negative" );
         throw err;
-      }
+        }
     
       solution = ( vcl_sqrt( discrim ) + bb ) / aa;
-    }
+      }
     else
-    {
+      {
       break;
+      }
     }
-  }
 
   if ( solution < m_LargeValue )
-  {
-  // write solution to m_OutputLevelSet
-  outputPixel = static_cast<PixelType>( solution );
-  output->SetPixel( index, outputPixel );
+    {
+    // write solution to m_OutputLevelSet
+    outputPixel = static_cast<PixelType>( solution );
+    output->SetPixel( index, outputPixel );
 
     // insert point into trial heap
-  m_LabelImage->SetPixel( index, TrialPoint );
-  node.SetValue( static_cast<PixelType>( solution ) );
-  node.SetIndex( index );
-  m_TrialHeap.push( node );
-  }
+    m_LabelImage->SetPixel( index, TrialPoint );
+    node.SetValue( static_cast<PixelType>( solution ) );
+    node.SetIndex( index );
+    m_TrialHeap.push( node );
+    }
 
   return solution;
 

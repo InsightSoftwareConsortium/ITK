@@ -72,7 +72,7 @@ namespace itk
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT BSplineL2ResampleImageFilterBase : 
-  public BSplineResampleImageFilterBase<TInputImage,TOutputImage>  
+    public BSplineResampleImageFilterBase<TInputImage,TOutputImage>  
 {
 public:
   /** Standard class typedefs. */

@@ -44,7 +44,7 @@ namespace itk
  */
 template < class TFixedImage, class TMovingImage > 
 class ITK_EXPORT PatternIntensityImageToImageMetric : 
-public ImageToImageMetric< TFixedImage, TMovingImage>
+    public ImageToImageMetric< TFixedImage, TMovingImage>
 {
 public:
 
@@ -78,7 +78,7 @@ public:
 
   /** Get the derivatives of the match measure. */
   void GetDerivative( const TransformParametersType & parameters,
-                            DerivativeType  & derivative ) const;
+                      DerivativeType  & derivative ) const;
 
   /**  Get the value for single valued optimizers. */
   MeasureType GetValue( const TransformParametersType & parameters ) const;

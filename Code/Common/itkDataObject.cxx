@@ -126,10 +126,10 @@ InvalidRequestedRegionError
 InvalidRequestedRegionError&
 InvalidRequestedRegionError
 ::operator=( const InvalidRequestedRegionError& orig)
-  {
-    DataObjectError::operator= (orig);
-    return *this;
-  }
+{
+  DataObjectError::operator= (orig);
+  return *this;
+}
 
 void
 InvalidRequestedRegionError

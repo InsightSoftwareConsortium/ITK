@@ -60,7 +60,7 @@ Win32OutputWindow
     int h = HIWORD(lParam);
       
     MoveWindow(Win32OutputWindow::m_OutputWindow,
-         0, 0, w, h, true);
+               0, 0, w, h, true);
     }
     break;
     case WM_DESTROY:

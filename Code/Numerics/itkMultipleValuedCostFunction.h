@@ -34,7 +34,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  */
 class ITK_EXPORT MultipleValuedCostFunction : 
-          public CostFunction 
+    public CostFunction 
 {
 public:
   /** Standard class typedefs. */
@@ -78,7 +78,7 @@ public:
     * to the specified parameters     
     * This method MUST be overloaded by derived classes   */
   virtual void GetDerivative( const ParametersType & parameters,
-                                    DerivativeType & derivative ) const = 0;
+                              DerivativeType & derivative ) const = 0;
       
 
   

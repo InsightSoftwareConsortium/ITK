@@ -45,21 +45,21 @@ LogLikelihoodGoodnessOfFitFunction< TInputHistogram >
   typename TInputHistogram::Iterator o_iter = observedHistogram->Begin() ;
   while ( e_iter != e_last )
     {
-      p = e_iter.GetFrequency() ;
-      px = o_iter.GetFrequency() ;
+    p = e_iter.GetFrequency() ;
+    px = o_iter.GetFrequency() ;
       
-      ratio = px / p ;
+    ratio = px / p ;
 
-      if ( ratio > m_Epsilon && px > 0 )
-        {
-          sum += px * log(ratio);
-        }
-      else
-        {
-          sum += px * m_LogEpsilon ;
-        }
-      ++e_iter ;
-      ++o_iter ;
+    if ( ratio > m_Epsilon && px > 0 )
+      {
+      sum += px * log(ratio);
+      }
+    else
+      {
+      sum += px * m_LogEpsilon ;
+      }
+    ++e_iter ;
+    ++o_iter ;
     }
 
   sum *= 2.0;

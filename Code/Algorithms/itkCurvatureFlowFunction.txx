@@ -107,20 +107,20 @@ CurvatureFlowFunction<TImage>
 
     // compute first order derivatives
     firstderiv[i] = 0.5 * ( it.GetPixel(center + stride[i]) - 
-      it.GetPixel(center - stride[i]) );
+                            it.GetPixel(center - stride[i]) );
 
     // compute second order derivatives
     secderiv[i] = ( it.GetPixel(center + stride[i]) - 
-      2 * it.GetPixel(center) + it.GetPixel( center - stride[i] ) );
+                    2 * it.GetPixel(center) + it.GetPixel( center - stride[i] ) );
 
     // compute cross derivatives
     for( j = i + 1; j < ImageDimension; j++ )
       {
       crossderiv[i][j] = 0.25 * (
-           it.GetPixel( center - stride[i] - stride[j] ) 
-         - it.GetPixel( center - stride[i] + stride[j] )
-         - it.GetPixel( center + stride[i] - stride[j] ) 
-         + it.GetPixel( center + stride[i] + stride[j] ) );
+        it.GetPixel( center - stride[i] - stride[j] ) 
+        - it.GetPixel( center - stride[i] + stride[j] )
+        - it.GetPixel( center + stride[i] - stride[j] ) 
+        + it.GetPixel( center + stride[i] + stride[j] ) );
       }
 
     // accumlate the gradient magnitude squared
@@ -143,8 +143,8 @@ CurvatureFlowFunction<TImage>
     temp = 0.0;
     for( j = 0; j < ImageDimension; j++ )
       {
-        if( j == i ) continue;
-        temp += secderiv[j];
+      if( j == i ) continue;
+      temp += secderiv[j];
       }
     
     update += temp * vnl_math_sqr( firstderiv[i] );

@@ -22,45 +22,45 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-    B2HeaderBase::Pointer
-      B2HeaderFactory::CreateB2HeaderReader(const std::string & TypeID)
-      {
-          if( TypeID == B2IPLHeaderInfo().GetHeaderBeginTag() )
-          {
-              return new B2IPLHeaderInfo;
-          }
-          else if( TypeID == B2MaskHeaderInfo().GetHeaderBeginTag() )
-          {
-              return new B2MaskHeaderInfo;
-          }
+B2HeaderBase::Pointer
+B2HeaderFactory::CreateB2HeaderReader(const std::string & TypeID)
+{
+  if( TypeID == B2IPLHeaderInfo().GetHeaderBeginTag() )
+    {
+    return new B2IPLHeaderInfo;
+    }
+  else if( TypeID == B2MaskHeaderInfo().GetHeaderBeginTag() )
+    {
+    return new B2MaskHeaderInfo;
+    }
 #if 0 //_itkROIHeaderInfo_h
-          else if( TypeID == ROIHeaderInfo().GetHeaderBeginTag() )
-      {
-        return new ROIHeaderInfo;
-      }
+  else if( TypeID == ROIHeaderInfo().GetHeaderBeginTag() )
+    {
+    return new ROIHeaderInfo;
+    }
 #endif
 #if 0
-          else if( TypeID == B2TalairachParametersHeaderInfo().GetHeaderBeginTag() )
-          {
-              return new B2TalairachParametersHeaderInfo;
-          }
-         assert(0==1);
+  else if( TypeID == B2TalairachParametersHeaderInfo().GetHeaderBeginTag() )
+    {
+    return new B2TalairachParametersHeaderInfo;
+    }
+  assert(0==1);
 #endif
-          return NULL;
-      }
+  return NULL;
+}
 
-    B2HeaderBase::Pointer
-      B2HeaderFactory::CreateB2HeaderWriter(const std::string & TypeID)
-      {
-          return B2HeaderFactory::CreateB2HeaderReader(TypeID);
-      }
+B2HeaderBase::Pointer
+B2HeaderFactory::CreateB2HeaderWriter(const std::string & TypeID)
+{
+  return B2HeaderFactory::CreateB2HeaderReader(TypeID);
+}
 
-    B2HeaderFactory::B2HeaderFactory()
-    {
-        //Do nothing
-    }
-    B2HeaderFactory::~B2HeaderFactory()
-    {
-        //Do nothing
-    }
+B2HeaderFactory::B2HeaderFactory()
+{
+  //Do nothing
+}
+B2HeaderFactory::~B2HeaderFactory()
+{
+  //Do nothing
+}
 } // end namespace itk

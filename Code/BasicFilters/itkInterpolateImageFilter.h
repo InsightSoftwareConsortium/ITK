@@ -77,14 +77,14 @@ public:
   typedef InterpolateImageFunction<IntermediateImageType> InterpolatorType;
 
   /** Set/Get the first image */
-   void SetInput1( const InputImageType * image)
-    { this->SetInput( image ); }
-   const InputImageType * GetInput1()
-    { return this->GetInput(); }
+  void SetInput1( const InputImageType * image)
+  { this->SetInput( image ); }
+  const InputImageType * GetInput1()
+  { return this->GetInput(); }
 
   /** Set/Get the second image */
-   void SetInput2( const InputImageType * image);
-   const InputImageType * GetInput2();
+  void SetInput2( const InputImageType * image);
+  const InputImageType * GetInput2();
 
   /** Set/Get the distance from the first image from which to generate
    * interpolated image. The default value is 0.5 */
@@ -94,8 +94,8 @@ public:
   /** Set the interpolator function */
   itkSetObjectMacro( Interpolator, InterpolatorType ) 
 
-  /** Get a pointer to the interpolator function. */
-  itkGetObjectMacro( Interpolator, InterpolatorType );
+    /** Get a pointer to the interpolator function. */
+    itkGetObjectMacro( Interpolator, InterpolatorType );
 
   /** This method is used to set the state of the filter before 
    * multi-threading. */

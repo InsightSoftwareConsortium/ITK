@@ -94,7 +94,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
 ::SetReferenceImage( const InputImageType * reference )
 {
   this->ProcessObject::SetNthInput(1, 
-    const_cast< InputImageType * >( reference ) );
+                                   const_cast< InputImageType * >( reference ) );
 }
 
 
@@ -133,7 +133,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
     if ( this->GetInput(idx) )
       {
       InputImagePointer image = 
-           const_cast< InputImageType * >( this->GetInput(idx) );
+        const_cast< InputImageType * >( this->GetInput(idx) );
       image->SetRequestedRegionToLargestPossibleRegion();
       }
     }
@@ -159,9 +159,9 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
   HistogramPointer referenceHistogram = HistogramType::New();
 
   this->ComputeMinMaxMean( source, m_SourceMinValue, 
-    m_SourceMaxValue, m_SourceMeanValue );
+                           m_SourceMaxValue, m_SourceMeanValue );
   this->ComputeMinMaxMean( reference, m_ReferenceMinValue, 
-    m_ReferenceMaxValue, m_ReferenceMeanValue );
+                           m_ReferenceMaxValue, m_ReferenceMeanValue );
 
   if ( m_ThresholdAtMeanIntensity )
     {
@@ -175,9 +175,9 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
     }
 
   this->ConstructHistogram( source, sourceHistogram, 
-    m_SourceIntensityThreshold, m_SourceMaxValue );
+                            m_SourceIntensityThreshold, m_SourceMaxValue );
   this->ConstructHistogram( reference, referenceHistogram, 
-    m_ReferenceIntensityThreshold, m_ReferenceMaxValue );    
+                            m_ReferenceIntensityThreshold, m_ReferenceMaxValue );    
    
   // Fill in the quantile table.
   m_QuantileTable.resize( 2, m_NumberOfMatchPoints + 2 );
@@ -216,29 +216,29 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
       }
     }
 
-    denominator = m_QuantileTable[0][0] - m_SourceMinValue;
-    if ( denominator != 0 )
-      {
-      m_LowerGradient = m_QuantileTable[1][0] - m_ReferenceMinValue;
-      m_LowerGradient /= denominator;
-      }
-    else
-      {
-      m_LowerGradient = 0.0;
-      }
+  denominator = m_QuantileTable[0][0] - m_SourceMinValue;
+  if ( denominator != 0 )
+    {
+    m_LowerGradient = m_QuantileTable[1][0] - m_ReferenceMinValue;
+    m_LowerGradient /= denominator;
+    }
+  else
+    {
+    m_LowerGradient = 0.0;
+    }
 
-    denominator = m_QuantileTable[0][m_NumberOfMatchPoints+1] - 
-      m_SourceMaxValue;
-    if ( denominator != 0 )
-      { 
-      m_UpperGradient = m_QuantileTable[1][m_NumberOfMatchPoints+1] - 
-        m_ReferenceMaxValue;
-      m_UpperGradient /= denominator;
-      }
-    else
-      {
-      m_UpperGradient = 0.0;
-      }
+  denominator = m_QuantileTable[0][m_NumberOfMatchPoints+1] - 
+    m_SourceMaxValue;
+  if ( denominator != 0 )
+    { 
+    m_UpperGradient = m_QuantileTable[1][m_NumberOfMatchPoints+1] - 
+      m_ReferenceMaxValue;
+    m_UpperGradient /= denominator;
+    }
+  else
+    {
+    m_UpperGradient = 0.0;
+    }
 
 }
 
@@ -285,9 +285,9 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
     {
 
     if ( threadId == 0 && !(i % updateVisits ) )
-        {
-        this->UpdateProgress((float)i / (float)totalPixels);
-        }
+      {
+      this->UpdateProgress((float)i / (float)totalPixels);
+      }
 
     srcValue = static_cast<double>( inIter.Get() );
 

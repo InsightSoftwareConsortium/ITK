@@ -47,40 +47,40 @@ namespace itk
  */
 namespace Functor {  
   
-  template< class TInput1, class TInput2, class TOutput>
-  class Modulus2
+template< class TInput1, class TInput2, class TOutput>
+class Modulus2
+{
+public:
+  Modulus2() {};
+  ~Modulus2() {};
+  inline TOutput operator()( const TInput1 & A, 
+                             const TInput2 & B)
   {
-  public:
-    Modulus2() {};
-    ~Modulus2() {};
-    inline TOutput operator()( const TInput1 & A, 
-                               const TInput2 & B)
-    {
-      const double dA = static_cast<double>( A );
-      const double dB = static_cast<double>( B );
-      return static_cast<TOutput>( sqrt( dA*dA + dB*dB) );
-    }
-  }; 
+    const double dA = static_cast<double>( A );
+    const double dB = static_cast<double>( B );
+    return static_cast<TOutput>( sqrt( dA*dA + dB*dB) );
+  }
+}; 
 }
 
 template <class TInputImage1, class TInputImage2, class TOutputImage>
 class ITK_EXPORT BinaryMagnitudeImageFilter :
     public
-    BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-            Functor::Modulus2< 
-                      typename TInputImage1::PixelType, 
-                      typename TInputImage2::PixelType,
-                      typename TOutputImage::PixelType>   >
+BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
+                         Functor::Modulus2< 
+  typename TInputImage1::PixelType, 
+  typename TInputImage2::PixelType,
+  typename TOutputImage::PixelType>   >
 {
 public:
   /** Standard class typedefs. */
   typedef BinaryMagnitudeImageFilter  Self;
   typedef BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-                      Functor::Modulus2< 
-                      typename TInputImage1::PixelType, 
-                      typename TInputImage2::PixelType,
-                      typename TOutputImage::PixelType>   
-                        >  Superclass;
+                                   Functor::Modulus2< 
+    typename TInputImage1::PixelType, 
+    typename TInputImage2::PixelType,
+    typename TOutputImage::PixelType>   
+  >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

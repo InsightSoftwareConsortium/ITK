@@ -23,7 +23,7 @@
 namespace itk
 {
 
-  //Create the operator
+//Create the operator
 template <class TPixel, unsigned int VDimension, class TAllocator>
 void
 SobelOperator<TPixel, VDimension, TAllocator>
@@ -37,7 +37,7 @@ SobelOperator<TPixel, VDimension, TAllocator>
   
 }
 
- //This function fills the coefficients into the corresponding neighborhodd.
+//This function fills the coefficients into the corresponding neighborhodd.
 template <class TPixel, unsigned int VDimension, class TAllocator>
 void  
 SobelOperator <TPixel, VDimension, TAllocator>
@@ -57,7 +57,7 @@ SobelOperator <TPixel, VDimension, TAllocator>
   // Copy the coefficients into the neighborhood
   for (data = data.Begin(); data < data.End(); ++data, ++it)
     {
-      *data = *it;
+    *data = *it;
     }
 
 }
@@ -76,7 +76,7 @@ SobelOperator<TPixel, VDimension, TAllocator>
 
   for(i = 0; i < VDimension; i ++)
     {
-      w = w*3;
+    w = w*3;
     }
 
   std::vector<PixelType> coeff(w);
@@ -99,10 +99,10 @@ SobelOperator<TPixel, VDimension, TAllocator>
   
   for ( i = 2; i < VDimension; i++)
     {
-      if(i == direction)
-        k[i] = 1;
-      else
-        k[i] = 0;
+    if(i == direction)
+      k[i] = 1;
+    else
+      k[i] = 0;
     }
 
   this->SetRadius(k);
@@ -145,7 +145,7 @@ SobelOperator<TPixel, VDimension, TAllocator>
     }
 
  
-    return coeffP;
+  return coeffP;
     
 }
 

@@ -78,10 +78,10 @@ public:
    * (or the compiler's default implementation of operator!=() being
    * appropriate). */
   void SetFunctor(const FunctorType& functor)
-    {
-      m_Functor = functor;
-      this->Modified();
-    }
+  {
+    m_Functor = functor;
+    this->Modified();
+  }
   
 protected:
   UnaryFunctorImageFilter();

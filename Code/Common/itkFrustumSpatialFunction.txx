@@ -49,44 +49,44 @@ FrustumSpatialFunction<VImageDimension,TInput>
 ::Evaluate(const InputType& position) const
 {
     
-    typedef InputType PointType;
-    typedef typename PointType::VectorType VectorType;
+  typedef InputType PointType;
+  typedef typename PointType::VectorType VectorType;
 
-    VectorType relativePosition = position - m_Apex;
-    const double distanceToApex = relativePosition.GetNorm();
+  VectorType relativePosition = position - m_Apex;
+  const double distanceToApex = relativePosition.GetNorm();
  
-    // Check Top and Bottom planes
-    if( distanceToApex < m_TopPlane ||
-        distanceToApex > m_BottomPlane )
-      {
-      return 0;
-      }
+  // Check Top and Bottom planes
+  if( distanceToApex < m_TopPlane ||
+      distanceToApex > m_BottomPlane )
+    {
+    return 0;
+    }
 
-    const double dx = relativePosition[0];
-    const double dy = relativePosition[1];
-    const double dz = relativePosition[2];
+  const double dx = relativePosition[0];
+  const double dy = relativePosition[1];
+  const double dz = relativePosition[2];
 
-    const double distanceXZ = sqrt( dx * dx + dz * dz );
+  const double distanceXZ = sqrt( dx * dx + dz * dz );
 
-    const double deg2rad = atan( 1.0f ) / 45.0;
+  const double deg2rad = atan( 1.0f ) / 45.0;
 
-    //  Check planes along Y
-    const double angleY = atan2( dy, distanceXZ );
-    if( fabs( angleY ) > m_ApertureAngleY * deg2rad )
-      {
-      return 0;
-      }
+  //  Check planes along Y
+  const double angleY = atan2( dy, distanceXZ );
+  if( fabs( angleY ) > m_ApertureAngleY * deg2rad )
+    {
+    return 0;
+    }
 
-    //  Check planes along X
-    const double angleX = atan2( dx, dz );
+  //  Check planes along X
+  const double angleX = atan2( dx, dz );
     
-    if( cos( angleX  + ( 180.0 + m_AngleZ ) * deg2rad )  < 
-        cos( deg2rad * m_ApertureAngleX ) )
-      {
-      return 0;
-      }
+  if( cos( angleX  + ( 180.0 + m_AngleZ ) * deg2rad )  < 
+      cos( deg2rad * m_ApertureAngleX ) )
+    {
+    return 0;
+    }
 
-    return 1;
+  return 1;
   
 }
 

@@ -33,46 +33,46 @@ namespace itk
  */
 namespace Function {  
   
-  template< class TInput1, class TInput2, class TInput3, class TOutput>
-  class Modulus3
+template< class TInput1, class TInput2, class TInput3, class TOutput>
+class Modulus3
+{
+public:
+  Modulus3() {}
+  ~Modulus3() {}
+  inline TOutput operator()( const TInput1 & A, 
+                             const TInput2 & B,
+                             const TInput3 & C)
+  { return (TOutput) sqrt( (double)(A*A + B*B + C*C) ); }
+  bool operator != (const Modulus3&) const
   {
-  public:
-    Modulus3() {}
-    ~Modulus3() {}
-    inline TOutput operator()( const TInput1 & A, 
-                               const TInput2 & B,
-                               const TInput3 & C)
-      { return (TOutput) sqrt( (double)(A*A + B*B + C*C) ); }
-    bool operator != (const Modulus3&) const
-      {
-      return false;
-      }
-  }; 
+    return false;
+  }
+}; 
 }
 
 template <class TInputImage1, class TInputImage2, 
           class TInputImage3, class TOutputImage>
 class ITK_EXPORT TernaryMagnitudeImageFilter :
     public
-    TernaryFunctorImageFilter<TInputImage1,TInputImage2,
-                      TInputImage3,TOutputImage, 
-            Function::Modulus3< 
-                      typename TInputImage1::PixelType, 
-                      typename TInputImage2::PixelType,
-                      typename TInputImage3::PixelType,
-                      typename TOutputImage::PixelType>   >
+TernaryFunctorImageFilter<TInputImage1,TInputImage2,
+                          TInputImage3,TOutputImage, 
+                          Function::Modulus3< 
+  typename TInputImage1::PixelType, 
+  typename TInputImage2::PixelType,
+  typename TInputImage3::PixelType,
+  typename TOutputImage::PixelType>   >
 {
 public:
   /** Standard class typedefs. */
   typedef TernaryMagnitudeImageFilter  Self;
   typedef TernaryFunctorImageFilter<TInputImage1,TInputImage2,
-                      TInputImage3,TOutputImage, 
-                      Function::Modulus3< 
-                      typename TInputImage1::PixelType, 
-                      typename TInputImage2::PixelType,
-                      typename TInputImage3::PixelType,
-                      typename TOutputImage::PixelType>   
-                        >  Superclass;
+                                    TInputImage3,TOutputImage, 
+                                    Function::Modulus3< 
+    typename TInputImage1::PixelType, 
+    typename TInputImage2::PixelType,
+    typename TInputImage3::PixelType,
+    typename TOutputImage::PixelType>   
+  >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

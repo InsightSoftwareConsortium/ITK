@@ -44,7 +44,7 @@ GoodnessOfFitMixtureModelCostFunction< TInputSample >
   os << indent << "Function  " << m_Function << std::endl;
   for ( unsigned int i = 0 ; i < m_Components.size() ; i++)
     {
-      os << indent << "Components["<< i <<"]  "  << m_Components[i]  << std::endl;
+    os << indent << "Components["<< i <<"]  "  << m_Components[i]  << std::endl;
     }
 }
 
@@ -63,8 +63,8 @@ GoodnessOfFitMixtureModelCostFunction< TInputSample >
 {
   if ( m_Function != core )
     {
-      m_Function = core ;
-      this->Modified() ;
+    m_Function = core ;
+    this->Modified() ;
     }
 }
 
@@ -78,8 +78,8 @@ GoodnessOfFitMixtureModelCostFunction< TInputSample >
   for ( unsigned int componentIndex = 0 ; componentIndex < m_Components.size() ;
         componentIndex++ )
     {
-      component = m_Components[componentIndex] ;
-      size += component->GetNumberOfParameters() ;
+    component = m_Components[componentIndex] ;
+    size += component->GetNumberOfParameters() ;
     }
 
   return size ;
@@ -100,54 +100,54 @@ GoodnessOfFitMixtureModelCostFunction< TInputSample >
   for ( unsigned int  componentIndex = 0 ; componentIndex < m_Components.size() ;
         componentIndex++ )
     {
-      component = m_Components[componentIndex] ;
-      paramSize = component->GetNumberOfParameters() ;
-      ParametersType params(paramSize) ;
-      for ( i = 0 ; i < paramSize ; i++)
-        {
-          params[i] = parameters[index] ;
-          index++ ;
-        }
+    component = m_Components[componentIndex] ;
+    paramSize = component->GetNumberOfParameters() ;
+    ParametersType params(paramSize) ;
+    for ( i = 0 ; i < paramSize ; i++)
+      {
+      params[i] = parameters[index] ;
+      index++ ;
+      }
 
-      component->SetParameters(params) ;
-      component->
-        SetUseExpectedHistogram(m_Function->GetUseExpectedHistogram()) ;
-      if ( component->GetObservedHistogram() == 0 )
-        {
-          component->CreateHistograms() ;
-        }
+    component->SetParameters(params) ;
+    component->
+      SetUseExpectedHistogram(m_Function->GetUseExpectedHistogram()) ;
+    if ( component->GetObservedHistogram() == 0 )
+      {
+      component->CreateHistograms() ;
+      }
 
-      component->Resample() ;
+    component->Resample() ;
 
-      if ( component->GetResampledSample()->GetTotalFrequency() == 0 ) 
-        {
-          return NumericTraits< double >::max() ;
-        }
+    if ( component->GetResampledSample()->GetTotalFrequency() == 0 ) 
+      {
+      return NumericTraits< double >::max() ;
+      }
 
-      component->CalculateProjectionAxes() ;
+    component->CalculateProjectionAxes() ;
       
+    m_Function->
+      SetTotalObservedScale(component->GetTotalObservedScale()) ;
+      
+    m_Function->SetObservedHistogram(component->GetObservedHistogram()) ;
+      
+    if ( m_Function->GetUseExpectedHistogram() )
+      {
       m_Function->
-        SetTotalObservedScale(component->GetTotalObservedScale()) ;
+        SetExpectedHistogram(component->GetExpectedHistogram()) ;
+      }
       
-      m_Function->SetObservedHistogram(component->GetObservedHistogram()) ;
-      
+    for (i = 0 ; i < MeasurementVectorSize ; i++)
+      {
+      component->Project(i) ;
       if ( m_Function->GetUseExpectedHistogram() )
         {
-          m_Function->
-            SetExpectedHistogram(component->GetExpectedHistogram()) ;
+        component->UpdateExpectedHistogram() ;
         }
-      
-      for (i = 0 ; i < MeasurementVectorSize ; i++)
-        {
-          component->Project(i) ;
-          if ( m_Function->GetUseExpectedHistogram() )
-            {
-              component->UpdateExpectedHistogram() ;
-            }
           
-          m_Function->Update() ;
-          value += m_Function->GetOutput() ;
-        }
+      m_Function->Update() ;
+      value += m_Function->GetOutput() ;
+      }
     } // end of while ( iter ...
 
   return value ;

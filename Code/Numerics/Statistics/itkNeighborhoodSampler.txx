@@ -60,7 +60,7 @@ NeighborhoodSampler< TSample >
 {
   if (m_Radius == 0 || m_Center == 0 || this->GetInputSample() == 0)
     {
-      itkExceptionMacro("Member variables have not been properly set.") ;
+    itkExceptionMacro("Member variables have not been properly set.") ;
     }
 
   m_Subsample->SetSample(this->GetInputSample()) ;
@@ -78,28 +78,28 @@ NeighborhoodSampler< TSample >
   typename TSample::Iterator last = this->GetInputSample()->End() ;
   while (iter != last)
     {
-      distance = 0.0 ;
-      tempVector = iter.GetMeasurementVector() ;
-      for (j = 0 ; j < MeasurementVectorSize && distance < squaredRadius ; j++)
+    distance = 0.0 ;
+    tempVector = iter.GetMeasurementVector() ;
+    for (j = 0 ; j < MeasurementVectorSize && distance < squaredRadius ; j++)
+      {
+      coordinateDistance = (double)tempVector[j] - (*m_Center)[j] ;
+      if (vnl_math_abs(coordinateDistance) > (*m_Radius) )
         {
-          coordinateDistance = (double)tempVector[j] - (*m_Center)[j] ;
-          if (vnl_math_abs(coordinateDistance) > (*m_Radius) )
-            {
-              distance = squaredRadius ;
-            }
+        distance = squaredRadius ;
         }
+      }
       
-      for (j = 0 ; j < MeasurementVectorSize && distance < squaredRadius ; j++)
-        {
-          coordinateDistance = (double)tempVector[j] - (*m_Center)[j] ;
-          distance += coordinateDistance * coordinateDistance ;
-        }
+    for (j = 0 ; j < MeasurementVectorSize && distance < squaredRadius ; j++)
+      {
+      coordinateDistance = (double)tempVector[j] - (*m_Center)[j] ;
+      distance += coordinateDistance * coordinateDistance ;
+      }
       
-      if (distance < squaredRadius)
-        {
-          m_Subsample->AddInstance(iter.GetInstanceIdentifier()) ;
-        }
-      ++iter ;
+    if (distance < squaredRadius)
+      {
+      m_Subsample->AddInstance(iter.GetInstanceIdentifier()) ;
+      }
+    ++iter ;
     }
 }
 

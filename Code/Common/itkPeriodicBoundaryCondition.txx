@@ -41,7 +41,7 @@ PeriodicBoundaryCondition<TImage>
   // Return the value of the pixel at the closest boundary point.
   for (i = 0; i < ImageDimension; ++i)
     {
-      linear_index += (point_index[i] + boundary_offset[i]) * data->GetStride(i);
+    linear_index += (point_index[i] + boundary_offset[i]) * data->GetStride(i);
     }
   ptr = data->operator[](linear_index);
   
@@ -57,20 +57,20 @@ PeriodicBoundaryCondition<TImage>
   
   for (i = 0; i < ImageDimension; ++i)
     {
-      if (boundary_offset[i] != 0)
-        { // If the neighborhood overlaps on the low edge, then wrap from the
-          // high edge of the image.
-          if (point_index[i] < static_cast<OffsetValueType>(iterator->GetRadius(i)))
-            {
-              ptr += iterator->GetImagePointer()->GetBufferedRegion().GetSize()[i] *
-                offset_table[i] - boundary_offset[i] * offset_table[i];
-            }
-          else // wrap from the low side of the image
-            {
-              ptr -= iterator->GetImagePointer()->GetBufferedRegion().GetSize()[i] *
-                offset_table[i] + boundary_offset[i] * offset_table[i];
-            }
+    if (boundary_offset[i] != 0)
+      { // If the neighborhood overlaps on the low edge, then wrap from the
+      // high edge of the image.
+      if (point_index[i] < static_cast<OffsetValueType>(iterator->GetRadius(i)))
+        {
+        ptr += iterator->GetImagePointer()->GetBufferedRegion().GetSize()[i] *
+          offset_table[i] - boundary_offset[i] * offset_table[i];
         }
+      else // wrap from the low side of the image
+        {
+        ptr -= iterator->GetImagePointer()->GetBufferedRegion().GetSize()[i] *
+          offset_table[i] + boundary_offset[i] * offset_table[i];
+        }
+      }
     }
   
   return *ptr;

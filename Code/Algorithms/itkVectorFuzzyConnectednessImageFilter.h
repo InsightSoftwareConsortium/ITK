@@ -159,7 +159,7 @@ namespace itk{
  * \ingroup FuzzyConnectednessSegmentation */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT VectorFuzzyConnectednessImageFilter:
-  public ImageToImageFilter<TInputImage,TOutputImage>
+    public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
@@ -186,7 +186,7 @@ public:
 
   /** Double matrix type */
   typedef   Matrix<double, itkGetStaticConstMacro(VectorDimension), 
-                     itkGetStaticConstMacro(VectorDimension)> DoubleMatrixType;
+                   itkGetStaticConstMacro(VectorDimension)> DoubleMatrixType;
 
   /** Array of double matrics */
   typedef std::vector<DoubleMatrixType>            DoubleMatrixArrayType;

@@ -92,27 +92,27 @@ QuadraticEdgeCell< TCellInterface >
   switch (dimension)
     {
     case 0: 
+    {
+    VertexAutoPointer vertexPointer;
+    if( this->GetVertex(featureId,vertexPointer) )
       {
-      VertexAutoPointer vertexPointer;
-      if( this->GetVertex(featureId,vertexPointer) )
-        {
-        TransferAutoPointer(cellPointer,vertexPointer);
-        return true;
-        }
-      else
-        {
-        cellPointer.Reset();
-        return false;
-        }
-      break;
+      TransferAutoPointer(cellPointer,vertexPointer);
+      return true;
       }
-    default: 
+    else
       {
       cellPointer.Reset();
       return false;
       }
+    break;
     }
+    default: 
+    {
+    cellPointer.Reset();
     return false;
+    }
+    }
+  return false;
 }
 
 
@@ -256,8 +256,8 @@ template <typename TCellInterface>
 void 
 QuadraticEdgeCell< TCellInterface >
 ::EvaluateShapeFunctions( 
-          const ParametricCoordArrayType & parametricCoordinates,
-                ShapeFunctionsArrayType  & weights ) const
+  const ParametricCoordArrayType & parametricCoordinates,
+  ShapeFunctionsArrayType  & weights ) const
 {
 
   CoordRepType x = parametricCoordinates[0]; // one-dimensional cell

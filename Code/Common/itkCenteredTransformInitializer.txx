@@ -71,10 +71,10 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     movingCalculator.ComputeMoments( m_MovingImage );
     
     typename FixedImageCalculatorType::VectorType fixedCenter =
-                          fixedCalculator.GetCenterOfGravity();
+      fixedCalculator.GetCenterOfGravity();
 
     typename MovingImageCalculatorType::VectorType movingCenter =
-                          movingCalculator.GetCenterOfGravity();
+      movingCalculator.GetCenterOfGravity();
 
     for( unsigned int i=0; i<InputSpaceDimension; i++)
       {
@@ -90,7 +90,7 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     const double * fixedOrigin  = m_FixedImage->GetOrigin();
     
     typename FixedImageType::SizeType fixedSize = 
-              m_FixedImage->GetLargestPossibleRegion().GetSize();
+      m_FixedImage->GetLargestPossibleRegion().GetSize();
     
     typename TransformType::InputPointType centerFixed;
     
@@ -102,7 +102,7 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     const double * movingOrigin  = m_MovingImage->GetOrigin();
     
     typename MovingImageType::SizeType movingSize = 
-              m_MovingImage->GetLargestPossibleRegion().GetSize();
+      m_MovingImage->GetLargestPossibleRegion().GetSize();
     
     typename TransformType::InputPointType centerMoving;
     

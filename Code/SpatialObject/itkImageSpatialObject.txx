@@ -33,9 +33,9 @@ ImageSpatialObject< TDimension,  PixelType >
   m_Image = ImageType::New();
   m_SlicePosition = new int[TDimension];
   for(unsigned int i=0;i<TDimension;i++)
-  {
+    {
     m_SlicePosition[i]=0;
-  }
+    }
 
   ComputeBoundingBox();
 }
@@ -107,7 +107,7 @@ ImageSpatialObject< TDimension,  PixelType >
     else
       {
       value = 0;
-     return false;
+      return false;
       }
     }
   return false;
@@ -128,7 +128,7 @@ ImageSpatialObject< TDimension,  PixelType >
         || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
       {
       typename ImageType::RegionType region =
-               m_Image->GetLargestPossibleRegion();
+        m_Image->GetLargestPossibleRegion();
       itk::Size<TDimension> size = region.GetSize();
       PointType pointLow,pointHigh;
   
@@ -201,9 +201,9 @@ ImageSpatialObject< TDimension,  PixelType >
   unsigned long imageMTime = m_Image->GetMTime();
     
   if( imageMTime > latestMTime )
-  {
+    {
     latestMTime = imageMTime;
-  }
+    }
 
   return latestMTime; 
 }

@@ -680,22 +680,22 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>
     // if distortion is zero, no need to continue.
     if ( m_OutputNumberOfEmptyCells > 0 || m_OutputDistortion == 0.0 ) break;
 
-  // find the number of new codewords to be made (j-tmp_ncodewords)
+    // find the number of new codewords to be made (j-tmp_ncodewords)
     j = 2 * tmp_ncodewords;
     if ( j > m_NumberOfCodewords ) { j = m_NumberOfCodewords; }
 
     // split the codewords
 
-  // increase size of codebook 
+    // increase size of codebook 
     const unsigned long oldSize= m_Codebook.rows();
     Reallocate( oldSize, j);
 
-  // initialize the new codewords 
+    // initialize the new codewords 
     SplitCodewords( tmp_ncodewords, ( j - tmp_ncodewords ), (int) 0 );
 
     // if error, do not continue 
 
-  // increment the codebook size 
+    // increment the codebook size 
     tmp_ncodewords = j;
     }
 

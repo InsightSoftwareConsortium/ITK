@@ -66,7 +66,7 @@ public:
   /** Extract superclass dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
- /** Computes the time step for an update given a global data structure.
+  /** Computes the time step for an update given a global data structure.
    * The data used in the computation may take different forms depending on
    * the nature of the equations.  This global data cannot be kept in the
    * instance of the equation object itself since the equation object must
@@ -84,33 +84,33 @@ public:
    * while the equation object performs the actual calculations.  The global
    * data should also be initialized in this method. */
   virtual void *GetGlobalDataPointer() const
-    {  
-      GlobalDataStruct *ans = new GlobalDataStruct();
-      ans->m_MaxChange   = NumericTraits<ScalarValueType>::Zero;
-      return ans; 
-    }
+  {  
+    GlobalDataStruct *ans = new GlobalDataStruct();
+    ans->m_MaxChange   = NumericTraits<ScalarValueType>::Zero;
+    return ans; 
+  }
 
   /** When the finite difference solver filter has finished using a global
    * data pointer, it passes it to this method, which frees the memory.
    * The solver cannot free the memory because it does not know the type
    * to which the pointer points. */
   virtual void ReleaseGlobalDataPointer(void *GlobalData) const
-    { delete (GlobalDataStruct *) GlobalData; }
+  { delete (GlobalDataStruct *) GlobalData; }
 
   /** Set the time step parameter */
   void SetTimeStep( const TimeStepType & t )
-    { m_TimeStep = t; }
+  { m_TimeStep = t; }
 
   /** Get the time step parameter */
   const TimeStepType &GetTimeStep() const
-    { return m_TimeStep; }
+  { return m_TimeStep; }
 
   /** This method computes the solution update for each pixel that does not
    * lie on a the data set boundary. */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
                                   void * globalData,
                                   const FloatOffsetType& offset = FloatOffsetType(0.0)
-                                  ) const;
+    ) const;
 
 protected:
 

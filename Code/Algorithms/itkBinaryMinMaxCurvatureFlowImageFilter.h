@@ -78,7 +78,7 @@ public:
   /** Standard class typedefs. */
   typedef BinaryMinMaxCurvatureFlowImageFilter Self;
   typedef MinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>
-   Superclass;
+  Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -91,12 +91,12 @@ public:
 
   /** Inherit typedefs from Superclass. */
   typedef typename Superclass::FiniteDifferenceFunctionType
-    FiniteDifferenceFunctionType;
+  FiniteDifferenceFunctionType;
   typedef typename Superclass::OutputImageType OutputImageType;
 
   /** BinaryMinMaxCurvatureFlowFunction type. */
   typedef BinaryMinMaxCurvatureFlowFunction<OutputImageType>
-    BinaryMinMaxCurvatureFlowFunctionType;
+  BinaryMinMaxCurvatureFlowFunctionType;
 
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */

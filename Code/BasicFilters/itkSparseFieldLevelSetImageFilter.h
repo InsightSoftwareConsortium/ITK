@@ -224,10 +224,10 @@ private:
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT SparseFieldLevelSetImageFilter :
-    public FiniteDifferenceImageFilter<TInputImage, TOutputImage>
+  public FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 {
 public:
- /** Standard class typedefs */
+  /** Standard class typedefs */
   typedef SparseFieldLevelSetImageFilter  Self;
   typedef FiniteDifferenceImageFilter<TInputImage, TOutputImage> Superclass;
   typedef SmartPointer<Self>  Pointer;
@@ -269,7 +269,7 @@ public:
   /** The type of the image used to index status information.  Necessary for
    *  the internals of the algorithm. */
   typedef Image<StatusType, itkGetStaticConstMacro(ImageDimension)>
-    StatusImageType;
+  StatusImageType;
 
   /** Memory pre-allocator used to manage layer nodes in a multi-threaded
    *  environment. */
@@ -316,10 +316,10 @@ protected:
    * follows the standard finite difference scheme of scaling the change by the
    * timestep and adding to the value of the previous iteration.*/
   inline virtual ValueType CalculateUpdateValue(
-                                         const IndexType &itkNotUsed(idx),
-                                         const TimeStepType &dt,
-                                         const ValueType &value,
-                                         const ValueType &change)
+    const IndexType &itkNotUsed(idx),
+    const TimeStepType &dt,
+    const ValueType &value,
+    const ValueType &change)
   { return (value + dt * change); }
 
   /**This method packages the output(s) into a consistent format.  The default
@@ -397,7 +397,7 @@ protected:
   
   /** Connectivity information for examining neighbor pixels.   */
   SparseFieldCityBlockNeighborList<NeighborhoodIterator<OutputImageType> >
-    m_NeighborList;
+  m_NeighborList;
   
   /** The constant gradient to maintain between isosurfaces in the
       spare-field of the level-set image.  This value defaults to 1.0 */

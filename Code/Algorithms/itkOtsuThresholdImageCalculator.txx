@@ -132,29 +132,29 @@ OtsuThresholdImageCalculator<TInputImage>
 
   for ( j = 1; j < m_NumberOfHistogramBins; j++ )
     {
-      freqLeft += relativeFrequency[j];
-      meanLeft = ( meanLeftOld * freqLeftOld + 
-        (j+1) * relativeFrequency[j] ) / freqLeft;
-      meanRight = ( totalMean - meanLeft * freqLeft ) / 
-        ( 1.0 - freqLeft );
+    freqLeft += relativeFrequency[j];
+    meanLeft = ( meanLeftOld * freqLeftOld + 
+                 (j+1) * relativeFrequency[j] ) / freqLeft;
+    meanRight = ( totalMean - meanLeft * freqLeft ) / 
+      ( 1.0 - freqLeft );
 
-      double varBetween = freqLeft * ( 1.0 - freqLeft ) *
-        vnl_math_sqr( meanLeft - meanRight );
+    double varBetween = freqLeft * ( 1.0 - freqLeft ) *
+      vnl_math_sqr( meanLeft - meanRight );
    
-      if ( varBetween > maxVarBetween )
-        {
-        maxVarBetween = varBetween;
-        maxBinNumber = j;
-        }
+    if ( varBetween > maxVarBetween )
+      {
+      maxVarBetween = varBetween;
+      maxBinNumber = j;
+      }
 
-      // cache old values
-      freqLeftOld = freqLeft;
-      meanLeftOld = meanLeft; 
+    // cache old values
+    freqLeftOld = freqLeft;
+    meanLeftOld = meanLeft; 
 
     } 
 
   m_Threshold = static_cast<PixelType>( imageMin + 
-    ( maxBinNumber + 1 ) / binMultiplier );
+                                        ( maxBinNumber + 1 ) / binMultiplier );
 
 }
 

@@ -70,26 +70,26 @@ public:
   typedef typename TInputMesh::PointType InputMeshPointType;
   typedef typename TInputMesh::PointIdentifier InputMeshPointIdentifier;
   typedef typename TInputMesh::PointsContainerPointer 
-                   InputMeshPointsContainerPointer;
+  InputMeshPointsContainerPointer;
   typedef typename TInputMesh::CellsContainer InputMeshCellsContainer;
   typedef typename TInputMesh::CellsContainerPointer 
-                   InputMeshCellsContainerPointer;
+  InputMeshCellsContainerPointer;
   typedef typename TInputMesh::CellDataContainer InputMeshCellDataContainer;
   typedef typename TInputMesh::CellDataContainerPointer 
-                   InputMeshCellDataContainerPointer;
+  InputMeshCellDataContainerPointer;
   typedef typename InputMeshType::PointsContainer::ConstIterator 
-                   PointsContainerConstIterator;
+  PointsContainerConstIterator;
   typedef typename InputMeshType::CellsContainer::ConstIterator
-                   CellsContainerConstIterator;
+  CellsContainerConstIterator;
   typedef typename InputMeshType::CellDataContainer::ConstIterator
-                   CellDataContainerConstIterator;
+  CellDataContainerConstIterator;
   typedef typename TInputMesh::CellAutoPointer InputMeshCellPointer;
   typedef typename TInputMesh::CellTraits::PointIdConstIterator 
-                   InputMeshPointIdConstIterator;
+  InputMeshPointIdConstIterator;
   typedef typename TInputMesh::CellLinksContainerPointer
-                   InputMeshCellLinksContainerPointer;
+  InputMeshCellLinksContainerPointer;
   typedef typename TInputMesh::PointCellLinksContainer
-                   InputMeshCellLinksContainer;
+  InputMeshCellLinksContainer;
   typedef typename TInputMesh::CellIdentifier InputMeshCellIdentifier;
   //@}
 
@@ -118,29 +118,29 @@ public:
   itkSetMacro(ExtractionMode,int);
   itkGetMacro(ExtractionMode,int);
   void SetExtractionModeToPointSeededRegions ()
-    {this->SetExtractionMode(Self::PointSeededRegions);}
+  {this->SetExtractionMode(Self::PointSeededRegions);}
   void SetExtractionModeToCellSeededRegions ()
-    {this->SetExtractionMode(Self::CellSeededRegions);}
+  {this->SetExtractionMode(Self::CellSeededRegions);}
   void SetExtractionModeToSpecifiedRegions ()
-    {this->SetExtractionMode(Self::SpecifiedRegions);}
+  {this->SetExtractionMode(Self::SpecifiedRegions);}
   void SetExtractionModeToLargestRegion ()
-    {this->SetExtractionMode(Self::LargestRegion);}
+  {this->SetExtractionMode(Self::LargestRegion);}
   void SetExtractionModeToAllRegions ()
-    {this->SetExtractionMode(Self::AllRegions);}
+  {this->SetExtractionMode(Self::AllRegions);}
   void SetExtractionModeToClosestPointRegion ()
-    {this->SetExtractionMode(Self::ClosestPointRegion);}
+  {this->SetExtractionMode(Self::ClosestPointRegion);}
 
   /**
    * Initialize list of point ids/cell ids used to seed regions.
    */
   void InitializeSeedList()
-    {this->Modified(); m_SeedList.clear();}
+  {this->Modified(); m_SeedList.clear();}
 
   /**
    * Add a seed id (point or cell id). Note: ids are 0-offset.
    */
   void AddSeed(unsigned long id)
-    {this->Modified(); m_SeedList.push_back(id);}
+  {this->Modified(); m_SeedList.push_back(id);}
 
   /**
    * Delete a seed id (point or cell id). Note: ids are 0-offset.
@@ -151,13 +151,13 @@ public:
    * Initialize list of region ids to extract.
    */
   void InitializeSpecifiedRegionList()
-    {this->Modified(); m_RegionList.clear();}
+  {this->Modified(); m_RegionList.clear();}
 
   /**
    * Add a region id to extract. Note: ids are 0-offset.
    */
   void AddSpecifiedRegion(unsigned long id)
-    {this->Modified(); m_RegionList.push_back(id);}
+  {this->Modified(); m_RegionList.push_back(id);}
 
   /**
    * Delete a region id to extract. Note: ids are 0-offset.
@@ -169,15 +169,15 @@ public:
    * closest to a specified point.
    */
   void SetClosestPoint(InputMeshPointType& p)
-    {
-      if ( m_ClosestPoint != p )
-        {
-        m_ClosestPoint = p;
-        this->Modified();
-        }
-    }
+  {
+    if ( m_ClosestPoint != p )
+      {
+      m_ClosestPoint = p;
+      this->Modified();
+      }
+  }
   InputMeshPointType& GetClosestPoint(InputMeshPointType& p)
-    {return m_ClosestPoint;}
+  {return m_ClosestPoint;}
 
   /**
    * Obtain the number of connected regions.

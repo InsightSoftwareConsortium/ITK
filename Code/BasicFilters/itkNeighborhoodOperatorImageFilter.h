@@ -77,7 +77,7 @@ public:
   
   /** Typedef for generic boundary condition pointer. */
   typedef ImageBoundaryCondition<OutputImageType> *
-   ImageBoundaryConditionPointerType;
+  ImageBoundaryConditionPointerType;
 
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
@@ -90,10 +90,10 @@ public:
    * that the operator is stored as an internal COPY (it
    * is not part of the pipeline). */
   void SetOperator(const OutputNeighborhoodType &p)
-    {
+  {
     m_Operator = p;
     this->Modified();
-    }
+  }
 
   /** Allows a user to override the internal boundary condition. Care should be
    * be taken to ensure that the overriding boundary condition is a persistent
@@ -101,7 +101,7 @@ public:
    * can be of a different type than the default type as long as it is
    * a subclass of ImageBoundaryCondition. */
   void OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i)
-    { m_BoundsCondition = i; }
+  { m_BoundsCondition = i; }
 
   /** NeighborhoodOperatorImageFilter needs a larger input requested
    * region than the output requested region.  As such,
@@ -132,7 +132,7 @@ protected:
 
   
   void PrintSelf(std::ostream& os, Indent indent) const
-    {  Superclass::PrintSelf(os, indent); }
+  {  Superclass::PrintSelf(os, indent); }
 private:
   NeighborhoodOperatorImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

@@ -90,8 +90,8 @@ GaussianDerivativeSpatialFunction<TOutput, VImageDimension, TInput>
   VectorType gradient;
   for(unsigned int i = 0; i < VImageDimension; i++)
     {
-      m_Direction = i;
-      gradient[i]=this->Evaluate(position);
+    m_Direction = i;
+    gradient[i]=this->Evaluate(position);
     } 
 }
 

@@ -37,7 +37,7 @@ namespace itk
 
 template < unsigned int TDimension = 3 >
 class LandmarkSpatialObject 
-:public SpatialObject<  TDimension >
+  :public SpatialObject<  TDimension >
 {
 
 public:
@@ -63,7 +63,7 @@ public:
   /** Returns a reference to the list of the Landmark points. */
   PointListType & GetPoints( void );
 
- /** Returns a reference to the list of the Landmark points. */
+  /** Returns a reference to the list of the Landmark points. */
   const PointListType & GetPoints( void ) const;
 
   /** Set the list of Landmark points.*/
@@ -102,7 +102,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION 
-  #include "itkLandmarkSpatialObject.txx" 
+#include "itkLandmarkSpatialObject.txx" 
 #endif 
 
 #endif // __itkLandmarkSpatialObject_h

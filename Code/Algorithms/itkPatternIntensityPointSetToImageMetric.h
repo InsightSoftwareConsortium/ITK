@@ -39,8 +39,8 @@ namespace itk
  */
 template < class TTarget, class TMapper > 
 class ITK_EXPORT PatternIntensityPointSetToImageMetric : 
-public SimilarityRegistrationMetric< TTarget, TMapper, double,
-                    CovariantVector<double, TMapper::SpaceDimension > >
+    public SimilarityRegistrationMetric< TTarget, TMapper, double,
+                                         CovariantVector<double, TMapper::SpaceDimension > >
 {
 public:
   /** Space dimension is the dimension of parameters space. */
@@ -53,12 +53,12 @@ public:
 
   /**  Type of the derivative of the match measure. */
   typedef CovariantVector<MeasureType, itkGetStaticConstMacro(SpaceDimension) >
-          DerivativeType;
+  DerivativeType;
 
   /** Standard class typedefs. */
   typedef PatternIntensityPointSetToImageMetric  Self;
   typedef SimilarityRegistrationMetric<TTarget, TMapper,
-                       MeasureType,DerivativeType >  Superclass;
+                                       MeasureType,DerivativeType >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -96,8 +96,8 @@ public:
   MeasureType    GetValue( const ParametersType & parameters );
 
   /**  Get the value and derivatives for multiple valued optimizers.. */
-   void GetValueAndDerivative( const ParametersType & parameters,
-                               MeasureType& Value, DerivativeType& Derivative);
+  void GetValueAndDerivative( const ParametersType & parameters,
+                              MeasureType& Value, DerivativeType& Derivative);
 
   /**  Set/Get the lambda distance.  */
   itkSetMacro( Lambda, double );

@@ -65,11 +65,11 @@ public:
                  
   /** Specify the byte order as big endian. */
   void SetByteOrderToBigEndian() 
-    {this->SetByteOrder(RawImageWriter::BigEndian);}
+  {this->SetByteOrder(RawImageWriter::BigEndian);}
 
   /** Specify the byte order as little endian. */
   void SetByteOrderToLittleEndian() 
-    {this->SetByteOrder(RawImageWriter::LittleEndian);}
+  {this->SetByteOrder(RawImageWriter::LittleEndian);}
 
 protected:
   RawImageWriter();

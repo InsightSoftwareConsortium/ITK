@@ -128,14 +128,14 @@ template <class TInputImage,
           class TOutputPixelType = float>
 class ITK_EXPORT CannySegmentationLevelSetImageFilter
   : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType,
-                                      Image<TOutputPixelType, ::itk::GetImageDimension<TInputImage>::ImageDimension> >
+                                           Image<TOutputPixelType, ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 {
 public:
-   /** Standard class typedefs */
+  /** Standard class typedefs */
   typedef CannySegmentationLevelSetImageFilter Self;
   typedef  SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType,
-                   Image<TOutputPixelType, 
-            ::itk::GetImageDimension<TInputImage>::ImageDimension> >   Superclass;
+                                           Image<TOutputPixelType, 
+                                                 ::itk::GetImageDimension<TInputImage>::ImageDimension> >   Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -147,7 +147,7 @@ public:
   
   /** Type of the segmentation function */
   typedef ::itk::CannySegmentationLevelSetFunction<OutputImageType,
-                                       FeatureImageType> CannyFunctionType;
+                                                   FeatureImageType> CannyFunctionType;
 
   typedef typename CannyFunctionType::ScalarValueType ScalarValueType;
   

@@ -40,7 +40,7 @@ namespace itk
 
 template < unsigned int TDimension = 3 >
 class TubeSpatialObject 
-:public SpatialObject< TDimension >
+  :public SpatialObject< TDimension >
 {
 
 public:
@@ -121,7 +121,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION 
-  #include "itkTubeSpatialObject.txx" 
+#include "itkTubeSpatialObject.txx" 
 #endif 
 
 #endif // __itkTubeSpatialObject_h

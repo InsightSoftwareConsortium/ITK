@@ -92,7 +92,7 @@ public:
   /** Standard class typedefs. */
   typedef CurvatureFlowImageFilter Self;
   typedef DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
-   Superclass;
+  Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -112,11 +112,11 @@ public:
 
   /** FiniteDifferenceFunction type. */
   typedef typename Superclass::FiniteDifferenceFunctionType
-    FiniteDifferenceFunctionType;
+  FiniteDifferenceFunctionType;
 
   /** CurvatureFlowFunction type. */
   typedef CurvatureFlowFunction<OutputImageType>
-    CurvatureFlowFunctionType;
+  CurvatureFlowFunctionType;
 
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */
@@ -149,10 +149,10 @@ protected:
   /** Supplies the halting criteria for this class of filters.  The
    * algorithm will stop after a user-specified number of iterations. */
   virtual bool Halt()
-    {
-      if (this->GetElapsedIterations() == m_NumberOfIterations) return true;
-      else return false;
-    }
+  {
+    if (this->GetElapsedIterations() == m_NumberOfIterations) return true;
+    else return false;
+  }
 
   /** Initialize the state of filter and equation before each iteration.
    * Progress feeback is implemented as part of this method. */

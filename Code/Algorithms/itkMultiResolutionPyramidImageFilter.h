@@ -101,11 +101,11 @@ namespace itk
  * \ingroup PyramidImageFilter Multithreaded Streamed
  */
 template <
-class TInputImage, 
-class TOutputImage
->
+  class TInputImage, 
+  class TOutputImage
+  >
 class ITK_EXPORT MultiResolutionPyramidImageFilter : 
-  public ImageToImageFilter< TInputImage, TOutputImage >
+    public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */

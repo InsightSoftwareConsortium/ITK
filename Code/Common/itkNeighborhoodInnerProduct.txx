@@ -44,7 +44,7 @@ NeighborhoodInnerProduct<TImage, TOperator, TComputation>
     }
   
 
-   return sum;
+  return sum;
 } 
 
 
@@ -70,7 +70,7 @@ NeighborhoodInnerProduct<TImage, TOperator, TComputation>
     }
   
 
-   return sum;
+  return sum;
 } 
 
 

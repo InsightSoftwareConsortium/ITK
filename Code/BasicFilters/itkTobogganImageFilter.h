@@ -36,8 +36,8 @@ namespace itk {
 template<class TInputImage>
 class ITK_EXPORT TobogganImageFilter : 
     public ImageToImageFilter<
-            TInputImage,
-            Image<unsigned long, ::itk::GetImageDimension<TInputImage>::ImageDimension> >
+  TInputImage,
+  Image<unsigned long, ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 {
 public:
   /** Standard "Self" typedef.   */
@@ -90,7 +90,7 @@ public:
   void EnlargeOutputRequestedRegion ( DataObject* );
   /** Neighborhood iterator type */
   typedef ConstNeighborhoodIterator<TInputImage> 
-    NeighborhoodIteratorType ;
+  NeighborhoodIteratorType ;
 
 protected:
   TobogganImageFilter();

@@ -57,7 +57,7 @@ namespace itk
 
 template <class TInputImage,class TOutputImage>
 class ITK_EXPORT DanielssonDistanceMapImageFilter :
-                 public ImageToImageFilter<TInputImage,TOutputImage>
+    public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
@@ -122,7 +122,7 @@ public:
    * code to be used by the Voronoi partition.  If the image is binary
    * but you are not interested in the Voronoi regions of the
    * different nonzero pixels, then you need not set this.  */
-   itkSetMacro( InputIsBinary, bool );
+  itkSetMacro( InputIsBinary, bool );
 
   /** Get if the input is binary.  See SetInputIsBinary(). */
   itkGetConstReferenceMacro( InputIsBinary, bool );

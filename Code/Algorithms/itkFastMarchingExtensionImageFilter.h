@@ -56,7 +56,7 @@ template <
   class TSpeedImage = Image<float,::itk::GetImageDimension<TLevelSet>::ImageDimension>
 >
 class ITK_EXPORT FastMarchingExtensionImageFilter :
-  public FastMarchingImageFilter<TLevelSet,TSpeedImage>
+    public FastMarchingImageFilter<TLevelSet,TSpeedImage>
 {
 public:
   /** Standard class typdedefs. */
@@ -100,19 +100,19 @@ public:
 
   /** Set the container auxiliary values at the initial alive points. */
   void SetAuxiliaryAliveValues( AuxValueContainer * values )
-    { m_AuxAliveValues = values; }
+  { m_AuxAliveValues = values; }
 
   /** Get the container of auxiliary values at the initial alive points. */
   AuxValueContainer * GetAuxiliaryAliveValues(void)
-    { return m_AuxAliveValues.GetPointer(); }
+  { return m_AuxAliveValues.GetPointer(); }
 
   /** Set the container of auxiliary values at the initial trial points. */
   void SetAuxiliaryTrialValues( AuxValueContainer * values )
-    { m_AuxTrialValues = values; }
+  { m_AuxTrialValues = values; }
 
   /** Get the container of auxiliary values at the initial trial points. */
   typename AuxValueContainer::Pointer GetAuxiliaryTrialValues()
-    { return m_AuxTrialValues; }
+  { return m_AuxTrialValues; }
 
 protected:
   FastMarchingExtensionImageFilter();
@@ -121,7 +121,7 @@ protected:
 
   virtual void Initialize( LevelSetImageType * );
   virtual double UpdateValue( const IndexType & index,
-    const SpeedImageType * speed, LevelSetImageType * output);
+                              const SpeedImageType * speed, LevelSetImageType * output);
 
   /** Generate the output image meta information */
   virtual void GenerateOutputInformation();

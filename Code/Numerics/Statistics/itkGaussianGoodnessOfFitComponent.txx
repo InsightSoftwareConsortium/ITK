@@ -68,24 +68,24 @@ GaussianGoodnessOfFitComponent< TInputSample >
   unsigned int i = 0 ;
   while ( i < MeasurementVectorSize )
     {
-      if ( m_Mean[i] != parameters[i] )
-        {
-          m_Mean[i] = parameters[i] ;
-          m_Center[i] = m_Mean[i] ;
-          changed = true ;
-        }
-      i++ ;
+    if ( m_Mean[i] != parameters[i] )
+      {
+      m_Mean[i] = parameters[i] ;
+      m_Center[i] = m_Mean[i] ;
+      changed = true ;
+      }
+    i++ ;
     }
 
   if ( m_StandardDeviation != parameters[i] )
     {
-      m_StandardDeviation = parameters[i] ;
-      changed = true ;
+    m_StandardDeviation = parameters[i] ;
+    changed = true ;
     }
 
   if ( changed )
     {
-      this->Modified() ;
+    this->Modified() ;
     }
 }
 
@@ -136,10 +136,10 @@ GaussianGoodnessOfFitComponent< TInputSample >
 
   if ( this->GetResampledSample()->GetTotalFrequency() > 0 )
     {
-      m_ProbabilityDensityFunction->SetCovariance(&m_Covariance) ;
-      m_CovarianceCalculator->Update() ;
+    m_ProbabilityDensityFunction->SetCovariance(&m_Covariance) ;
+    m_CovarianceCalculator->Update() ;
       
-      m_Covariance = (*m_CovarianceCalculator->GetOutput()) ;
+    m_Covariance = (*m_CovarianceCalculator->GetOutput()) ;
     }
       
   m_ProjectionAxisCalculator->Update() ;
@@ -150,10 +150,10 @@ GaussianGoodnessOfFitComponent< TInputSample >
 
   for ( i = 0 ; i < MeasurementVectorSize ; i++ )
     {
-      for (j = 0 ; j < MeasurementVectorSize ; j++)
-        {
-          (*to)[i][j] = (*from)[i][j] ;
-        }
+    for (j = 0 ; j < MeasurementVectorSize ; j++)
+      {
+      (*to)[i][j] = (*from)[i][j] ;
+      }
     }
 
   typename ProjectionAxisCalculatorType::ArrayType* eigenValues = 
@@ -163,11 +163,11 @@ GaussianGoodnessOfFitComponent< TInputSample >
   m_LargestEigenValue = NumericTraits< double >::NonpositiveMin() ;
   for ( i = 0 ; i < MeasurementVectorSize ; i++ )
     {
-      if ( (*eigenValues)[i] > m_LargestEigenValue )
-        {
-          m_LongestAxisIndex = i ;
-          m_LargestEigenValue = (*eigenValues)[i] ;
-        }
+    if ( (*eigenValues)[i] > m_LargestEigenValue )
+      {
+      m_LongestAxisIndex = i ;
+      m_LargestEigenValue = (*eigenValues)[i] ;
+      }
     }
 
   m_Covariance *= 
@@ -196,13 +196,13 @@ GaussianGoodnessOfFitComponent< TInputSample >
   
   if ( x > mean )
     {
-      return 1 - z * (0.319381530*t - 0.356563782*tt + 1.781477937*ttt -
+    return 1 - z * (0.319381530*t - 0.356563782*tt + 1.781477937*ttt -
                     1.821255978*tttt + 1.330274429*ttttt);
     }
   else
     {
-      return z * (0.319381530*t - 0.356563782*tt + 1.781477937*ttt -
-                  1.821255978*tttt + 1.330274429*ttttt);
+    return z * (0.319381530*t - 0.356563782*tt + 1.781477937*ttt -
+                1.821255978*tttt + 1.330274429*ttttt);
     }
 }
 
@@ -223,10 +223,10 @@ GaussianGoodnessOfFitComponent< TInputSample >
   os << m_Mean ;
   for( i = 0 ; i < MeasurementVectorSize ; i++)
     {
-      for( j = 0 ; j < MeasurementVectorSize ; j++)
-        {
-          os << " " << m_Covariance.GetVnlMatrix().get(i,j) ;
-        }
+    for( j = 0 ; j < MeasurementVectorSize ; j++)
+      {
+      os << " " << m_Covariance.GetVnlMatrix().get(i,j) ;
+      }
     }
   os << std::endl ;
 }
@@ -242,18 +242,18 @@ GaussianGoodnessOfFitComponent< TInputSample >
   unsigned int index = 0 ;
   while ( index < MeasurementVectorSize )
     {
-      params[index] = m_Mean[index] ;
-      ++index ;
+    params[index] = m_Mean[index] ;
+    ++index ;
     }
 
   unsigned int i, j ;
   for( i = 0 ; i < MeasurementVectorSize ; i++)
     {
-      for( j = 0 ; j < MeasurementVectorSize ; j++)
-        {
-          params[index] = m_Covariance.GetVnlMatrix().get(i,j) ;
-          ++index ;
-        }
+    for( j = 0 ; j < MeasurementVectorSize ; j++)
+      {
+      params[index] = m_Covariance.GetVnlMatrix().get(i,j) ;
+      ++index ;
+      }
     }
 
   return params ;

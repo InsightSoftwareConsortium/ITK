@@ -113,21 +113,21 @@ WatershedImageFilter<TInputImage>
   //if (m_FirstExecution == false)
   //    {      
   //      unsigned long filtercount = 0;
-      WatershedMiniPipelineProgressCommand::Pointer c =
-        dynamic_cast<WatershedMiniPipelineProgressCommand *>(
-                      m_TreeGenerator->GetCommand(m_ObserverTag) ); 
-      c->SetCount(0.0);
-      c->SetNumberOfFilters(3);
+  WatershedMiniPipelineProgressCommand::Pointer c =
+    dynamic_cast<WatershedMiniPipelineProgressCommand *>(
+      m_TreeGenerator->GetCommand(m_ObserverTag) ); 
+  c->SetCount(0.0);
+  c->SetNumberOfFilters(3);
       
-      //      if (m_Segmenter->GetMTime() > this->GetMTime() )
-      //        { filtercount++; }
-      //      if (m_TreeGenerator->GetMTime() > this->GetMTime() )
-      //        { filtercount++; }
-      //      if (m_Relabeler->GetMTime() > this->GetMTime() )
-      //        { filtercount++; }
-      //      c->SetNumberOfFilters(filtercount);
-      //    }
-      //  else m_FirstExecution = false;
+  //      if (m_Segmenter->GetMTime() > this->GetMTime() )
+  //        { filtercount++; }
+  //      if (m_TreeGenerator->GetMTime() > this->GetMTime() )
+  //        { filtercount++; }
+  //      if (m_Relabeler->GetMTime() > this->GetMTime() )
+  //        { filtercount++; }
+  //      c->SetNumberOfFilters(filtercount);
+  //    }
+  //  else m_FirstExecution = false;
   
   // Complete any necessary set up of the mini-pipeline.  We have to be careful 
   // not to cause time stamps to be updated unneccessarily.  Specifically, we
@@ -135,14 +135,14 @@ WatershedImageFilter<TInputImage>
   // needed, since it is the bottleneck.
   if (this->GetThreshold() != m_Segmenter->GetThreshold() )
     {
-      m_Segmenter->SetThreshold( this->GetThreshold() ) ;
+    m_Segmenter->SetThreshold( this->GetThreshold() ) ;
     }
   
   if (this->GetLevel()  > m_TreeGenerator->GetFloodLevel() )
     {
-      // SegmentTreeGenerator::SetFloodLevel has logic to determine
-      // whether or not its Modified() method will be called.
-      m_TreeGenerator->SetFloodLevel( this->GetLevel() );
+    // SegmentTreeGenerator::SetFloodLevel has logic to determine
+    // whether or not its Modified() method will be called.
+    m_TreeGenerator->SetFloodLevel( this->GetLevel() );
     }
 
   m_Relabeler->SetFloodLevel( this->GetLevel() );

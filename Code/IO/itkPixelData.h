@@ -7,7 +7,7 @@
  *      Include File Name:  PixelData.h
  \author WR Edens, JL Agle, MJ Benson
  * Source
- * $Revision$  $Date: 2003-03-31 18:44:54 $
+ * $Revision$  $Date: 2003-06-22 19:49:12 $
  */
 /*@Synopsis Description of the PixelData header
  */
@@ -210,22 +210,22 @@
 #ifndef PIXELDATA_INCLUDE
 #define PIXELDATA_INCLUDE
 namespace itk { // keep this stuff from polluting ITK client program namespaces
-  /* Add other declaration type for pixel header - Dominic H. Nguyen */
-  typedef struct dcmp_t
-  {
-    int nextHtEntry;
-    int nextPixel;
-    int base;
-  }
-  dcmp_t;
+/* Add other declaration type for pixel header - Dominic H. Nguyen */
+typedef struct dcmp_t
+{
+  int nextHtEntry;
+  int nextPixel;
+  int base;
+}
+dcmp_t;
 
-  struct unpack
-  {
-    short up_left;              /* pixels to the left of the image */
-    short up_image;             /*   "    within the image         */
-  };
+struct unpack
+{
+  short up_left;              /* pixels to the left of the image */
+  short up_image;             /*   "    within the image         */
+};
 
-  typedef unsigned char PIXEL;
+typedef unsigned char PIXEL;
 
 #define     DC_NOOP                 101
 #define     DC_NO_NEED_TO_DC        DC_NOOP
@@ -237,54 +237,54 @@ namespace itk { // keep this stuff from polluting ITK client program namespaces
 #define     DC_NO_UNPACK_TABLE     -102
 #define     DC_NEED_INPUT          -201
 #define     DC_NEED_OUTPUT         -202
-  /* end - Dominic H. Nguyen */
-  typedef struct pixhdr
-  {
-    int img_magic;              /* magic number */
-    int img_hdr_length;         /* length of total header in bytes and
+/* end - Dominic H. Nguyen */
+typedef struct pixhdr
+{
+  int img_magic;              /* magic number */
+  int img_hdr_length;         /* length of total header in bytes and
                                    a byte displacement to the 'pixel data area' */
-    int img_width;              /* width (pixels) of image */
-    int img_height;             /* height (pixels) of image */
-    int img_depth;              /* depth (1, 8, 16, or 24 bits) of pixel */
-    int img_compress;           /* type of compression; see IC_* below */
-    int img_dwindow;            /* default window setting */
-    int img_dlevel;             /* default level setting */
-    int img_bgshade;            /* background shade to use for non-image */
-    int img_ovrflow;            /* overflow value */
-    int img_undflow;            /* underflow value */
-    int img_top_offset;         /* number of blank lines at image top */
-    int img_bot_offset;         /* number of blank lines at image bottom */
-    short img_version;          /* version of the header structure */
-    /* and a word to maintain 32 bit alignment */
-    unsigned short img_checksum; /* 16 bit end_around_carry sum of pixels */
-    int img_p_id;               /* a byte disp to unique image identifier */
-    int img_l_id;               /* byte length of unique image identifier */
-    int img_p_unpack;           /* a byte disp to 'unpack control' */
-    int img_l_unpack;           /* byte length of 'unpack control' */
-    int img_p_compress;         /* a byte disp to 'compression control' */
-    int img_l_compress;         /* byte length of 'compression control' */
-    int img_p_histo;            /* a byte disp to 'histogram control' */
-    int img_l_histo;            /* byte length of 'histogram control' */
-    int img_p_text;             /* a byte disp to 'text plane data' */
-    int img_l_text;             /* byte length of 'text plane data' */
-    int img_p_graphics;         /* a byte disp to 'graphics plane data' */
-    int img_l_graphics;         /* byte length of 'graphics plane data' */
-    int img_p_dbHdr;            /* a byte disp to 'data base header data' */
-    int img_l_dbHdr;            /* byte length of 'data base header data' */
-    int img_levelOffset;        /* value to add to stored Pixel Data values */
-    /* to get the correct presentation value */
-    int img_p_user;             /* byte displacement to user defined data */
-    int img_l_user;             /* byte length of user defined data */
-    int img_p_suite;            /* byte displacement to suite header data */
-    int img_l_suite;            /* byte length of suite defined data */
-    int img_p_exam;             /* byte displacement to exam header data */
-    int img_l_exam;             /* byte length of exam defined data */
-    int img_p_series;           /* byte displacement to series header data */
-    int img_l_series;           /* byte length of series defined data */
-    int img_p_image;            /* byte displacement to image header data */
-    int img_l_image;            /* byte length of image defined data */
-  }
-  PixHdr;
+  int img_width;              /* width (pixels) of image */
+  int img_height;             /* height (pixels) of image */
+  int img_depth;              /* depth (1, 8, 16, or 24 bits) of pixel */
+  int img_compress;           /* type of compression; see IC_* below */
+  int img_dwindow;            /* default window setting */
+  int img_dlevel;             /* default level setting */
+  int img_bgshade;            /* background shade to use for non-image */
+  int img_ovrflow;            /* overflow value */
+  int img_undflow;            /* underflow value */
+  int img_top_offset;         /* number of blank lines at image top */
+  int img_bot_offset;         /* number of blank lines at image bottom */
+  short img_version;          /* version of the header structure */
+  /* and a word to maintain 32 bit alignment */
+  unsigned short img_checksum; /* 16 bit end_around_carry sum of pixels */
+  int img_p_id;               /* a byte disp to unique image identifier */
+  int img_l_id;               /* byte length of unique image identifier */
+  int img_p_unpack;           /* a byte disp to 'unpack control' */
+  int img_l_unpack;           /* byte length of 'unpack control' */
+  int img_p_compress;         /* a byte disp to 'compression control' */
+  int img_l_compress;         /* byte length of 'compression control' */
+  int img_p_histo;            /* a byte disp to 'histogram control' */
+  int img_l_histo;            /* byte length of 'histogram control' */
+  int img_p_text;             /* a byte disp to 'text plane data' */
+  int img_l_text;             /* byte length of 'text plane data' */
+  int img_p_graphics;         /* a byte disp to 'graphics plane data' */
+  int img_l_graphics;         /* byte length of 'graphics plane data' */
+  int img_p_dbHdr;            /* a byte disp to 'data base header data' */
+  int img_l_dbHdr;            /* byte length of 'data base header data' */
+  int img_levelOffset;        /* value to add to stored Pixel Data values */
+  /* to get the correct presentation value */
+  int img_p_user;             /* byte displacement to user defined data */
+  int img_l_user;             /* byte length of user defined data */
+  int img_p_suite;            /* byte displacement to suite header data */
+  int img_l_suite;            /* byte length of suite defined data */
+  int img_p_exam;             /* byte displacement to exam header data */
+  int img_l_exam;             /* byte length of exam defined data */
+  int img_p_series;           /* byte displacement to series header data */
+  int img_l_series;           /* byte length of series defined data */
+  int img_p_image;            /* byte displacement to image header data */
+  int img_l_image;            /* byte length of image defined data */
+}
+PixHdr;
 
 #define IMG_MAGIC       0x494d4746      /*    this number assigned by GEMS */
 #define IMG_HDR_VERSION 3       /* this number raised by GEMS when their
@@ -296,9 +296,9 @@ namespace itk { // keep this stuff from polluting ITK client program namespaces
                                    formats could cause IP library problems.
                                    ANY CHANGE TO PixHdr OR PixUpk SHOULD CAUSE
                                    IMG_HDR_VERSION TO CHANGE!! */
-  /* GEMS compress rule to set into 'img_compress'  */
-  /*  end of header portion */
-  /* ========== 'unpack control' structures pointed to by 'img_p_unpack'
+/* GEMS compress rule to set into 'img_compress'  */
+/*  end of header portion */
+/* ========== 'unpack control' structures pointed to by 'img_p_unpack'
    *      This table does not have a version number independent of the
    *   PixHdr portion of the header since the IP library expects both
    *   of them to be of a certain format.  We have more freedom with the
@@ -332,88 +332,88 @@ namespace itk { // keep this stuff from polluting ITK client program namespaces
    *      xxxyyyyyyx      up_left = 3  up_image = 6
    *      yyyyyyyyyy      up_left = 0  up_image = 10
    */
-  typedef struct
-  {
-    short up_left;              /* pixels to the left of the image */
-    short up_image;             /* pixels within the image line */
-  }
-  PixUpk;
+typedef struct
+{
+  short up_left;              /* pixels to the left of the image */
+  short up_image;             /* pixels within the image line */
+}
+PixUpk;
 
-  /*      The data area of the file is pixel data stored sequentially
+/*      The data area of the file is pixel data stored sequentially
    *   starting in the Upper Left Hand Corner (ULHC) of the image filling
    *   the x_axis 'img_width' for each line and continuing down the y_axis
    *   for 'img_height' lines.
    */
 #endif                          /* PIXELDATA_INCLUDE */
-  /*@Start***********************************************************/
-  /* GEMSBG Include File
+/*@Start***********************************************************/
+/* GEMSBG Include File
    * Copyright (C) 1988 GE Medical Systems
    *      Include File Name:      phonebook
    \author David Carleton
    * Source
-   * $Revision$  $Date: 2003-03-31 18:44:54 $
+   * $Revision$  $Date: 2003-06-22 19:49:12 $
    */
-  /*@Synopsis     Contains defaults and strings for the Phone Book feature.
+/*@Synopsis     Contains defaults and strings for the Phone Book feature.
    */
-  /*@Description
+/*@Description
     The defaults and strings necessary for the Phone Book feature.
   */
-  /*@End*********************************************************/
-  /* only do this once in any given compilation.*/
+/*@End*********************************************************/
+/* only do this once in any given compilation.*/
 #ifndef  PB_INCL
 #define  PB_INCL
 
 #ifndef lint
-  /*
+/*
     static char pb_sccsid[] = "@(#)phonebook.h      1.6 7/11/90 16:55:37 Copyright 1988 GEMSBG";
   */
 #endif
 
-  /*============================================================================*/
-  /* Defines for Phone Book.                                                    */
-  /*============================================================================*/
-  /* Bit fields for request flags */
-  /* Request flag is a long int   */
+/*============================================================================*/
+/* Defines for Phone Book.                                                    */
+/*============================================================================*/
+/* Bit fields for request flags */
+/* Request flag is a long int   */
 #define MAGDISK         0x00000001      /* Media type in bits 0-15 */
 #define OPTDISK         0x00000002
 
 #define RPMAN           0x00010000      /* Service type in bits 16-31 */
 #define DBSER           0x00020000
 
-  /* Structure to contain a single phone book entry */
-  struct PBInfo
-  {
-    int diskType;
-    char dispID;
-    char dbserv[20];
-    char rpman[20];
-  };
+/* Structure to contain a single phone book entry */
+struct PBInfo
+{
+  int diskType;
+  char dispID;
+  char dbserv[20];
+  char rpman[20];
+};
 
-  typedef struct PBInfo BookEntry_t;
+typedef struct PBInfo BookEntry_t;
 
-  /* Set names for service processes */
-  /* Mag DB Servers */
+/* Set names for service processes */
+/* Mag DB Servers */
 #define DB0     "dbserver"
 #define DB1     "dbserver1"
 #define DB2     "dbserver2"
 #define DB3     "dbserver3"
 #define DB4     "dbserver4"
 
-  /* Optical DB Servers */
+/* Optical DB Servers */
 #define ODB0    "odbrpm0"
 #define ODB1    "odbrpm1"
 #define ODB2    "odbrpm2"
 #define ODB3    "odbrpm3"
 #define ODB4    "odbrpm4"
 
-  /* Mag RPM */
+/* Mag RPM */
 #define RPM0    "mrpm"
 #define RPM1    "mrpm1"
 #define RPM2    "mrpm2"
 #define RPM3    "mrpm3"
 #define RPM4    "mrpm4"
 
-  /* Optical Mag RPM */
+/* Optical Mag RPM */
 #define ORPM0   "odbrpm0"
 #define ORPM1   "odbrpm1"
 #define ORPM2   "odbrpm2"
@@ -421,37 +421,37 @@ namespace itk { // keep this stuff from polluting ITK client program namespaces
 #define ORPM4   "odbrpm4"
 
 #ifdef OMIT_THIS_CODE
-  static char *mag_rpm[5] = {
-    RPM0,
-    RPM1,
-    RPM2,
-    RPM3,
-    RPM4,
-  };
+static char *mag_rpm[5] = {
+  RPM0,
+  RPM1,
+  RPM2,
+  RPM3,
+  RPM4,
+};
 
-  static char *opt_rpm[5] = {
-    ORPM0,
-    ORPM1,
-    ORPM2,
-    ORPM3,
-    ORPM4,
-  };
+static char *opt_rpm[5] = {
+  ORPM0,
+  ORPM1,
+  ORPM2,
+  ORPM3,
+  ORPM4,
+};
 
-  static char *mag_dbs[5] = {
-    DB0,
-    DB1,
-    DB2,
-    DB3,
-    DB4,
-  };
+static char *mag_dbs[5] = {
+  DB0,
+  DB1,
+  DB2,
+  DB3,
+  DB4,
+};
 
-  static char *opt_dbs[5] = {
-    ODB0,
-    ODB1,
-    ODB2,
-    ODB3,
-    ODB4,
-  };
+static char *opt_dbs[5] = {
+  ODB0,
+  ODB1,
+  ODB2,
+  ODB3,
+  ODB4,
+};
 #endif
 
 #define DBSERVICE "theDBServer"
@@ -459,7 +459,7 @@ namespace itk { // keep this stuff from polluting ITK client program namespaces
 #define PBVERSION 1
 #define PBVERSIONSTR "1"
 
-  /* FIX ME -- GET THESE FROM A CONFIG FILE */
+/* FIX ME -- GET THESE FROM A CONFIG FILE */
 #define MAXMAG 1
 #define MAXOPT 2
 

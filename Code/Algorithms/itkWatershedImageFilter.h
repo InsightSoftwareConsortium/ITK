@@ -151,7 +151,7 @@ namespace itk
 template <class TInputImage>
 class ITK_EXPORT WatershedImageFilter :
     public ImageToImageFilter< TInputImage, Image<unsigned long,
-    ::itk::GetImageDimension<TInputImage>::ImageDimension> >
+                                                  ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 {
 public:
   /** Standard "Self" typedef.   */
@@ -193,13 +193,13 @@ public:
   /** Overloaded to link the input to this filter with the input of the
       mini-pipeline */
   void SetInput(const InputImageType *input)
-    {
-      // processObject is not const-correct so a const_cast is needed here
-      this->ProcessObject::SetNthInput(0, 
-                const_cast<InputImageType *>( input ) );
-      m_Segmenter->SetInputImage(
-                const_cast<InputImageType *>( input ) );
-    }
+  {
+    // processObject is not const-correct so a const_cast is needed here
+    this->ProcessObject::SetNthInput(0, 
+                                     const_cast<InputImageType *>( input ) );
+    m_Segmenter->SetInputImage(
+      const_cast<InputImageType *>( input ) );
+  }
 
   virtual void SetInput( unsigned int i, const TInputImage * image)
   {
@@ -221,16 +221,16 @@ public:
   /** Get the basic segmentation from the Segmenter member filter. */
   typename watershed::Segmenter<InputImageType>::OutputImageType *
   GetBasicSegmentation()
-    {
-      return m_Segmenter->GetOutputImage();
-    }
+  {
+    return m_Segmenter->GetOutputImage();
+  }
 
   /** Get the segmentation tree from from the TreeGenerator member filter. */
   typename watershed::SegmentTreeGenerator<ScalarType>::SegmentTreeType *
   GetSegmentTree()
-    {
-      return m_TreeGenerator->GetOutputSegmentTree();
-    }
+  {
+    return m_TreeGenerator->GetOutputSegmentTree();
+  }
    
   // Override since the filter produces all of its output
   void EnlargeOutputRequestedRegion(DataObject *data);

@@ -73,10 +73,10 @@ class TargetClass
 public:
   /** Constructor. */
   TargetClass(double mean, double sigma) 
-    { 
+  { 
     m_Mean = mean ;
     m_Sigma = sigma ;
-    }
+  }
   
   /** Set/Get the mean of the function. */
   void SetMean(double mean) { m_Mean = mean ; }  
@@ -143,7 +143,7 @@ public:
 
   /** Get an energy value for the valley. */
   inline MeasureType valley(MeasureType d) 
-    { return 1 - 1 / (1+d*d/3); }
+  { return 1 - 1 / (1+d*d/3); }
 
 protected:
   void AddNewClass(double mean, double sigma)

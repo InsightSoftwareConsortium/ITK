@@ -38,9 +38,9 @@ public:
   NumericSeriesException(const char *file, unsigned int line, 
                          const char* message = "Missing file in series") : 
     ExceptionObject(file, line)
-    {
-      SetDescription(message);
-    }
+  {
+    SetDescription(message);
+  }
 };
 
 /** \class NumericSeriesFileIterator

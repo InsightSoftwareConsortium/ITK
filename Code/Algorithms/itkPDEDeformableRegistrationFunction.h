@@ -37,7 +37,7 @@ namespace itk {
  */
 template<class TFixedImage, class TMovingImage, class TDeformationField>
 class ITK_EXPORT PDEDeformableRegistrationFunction : 
-  public FiniteDifferenceFunction<TDeformationField>
+    public FiniteDifferenceFunction<TDeformationField>
 {
 public:
   /** Standard class typedefs. */
@@ -48,7 +48,7 @@ public:
 
   /** Run-time type information (and related methods) */
   itkTypeMacro( PDEDeformableRegistrationFunction, 
-    FiniteDifferenceFunction );
+                FiniteDifferenceFunction );
 
   /** MovingImage image type. */
   typedef TMovingImage   MovingImageType;
@@ -61,30 +61,30 @@ public:
   /** Deformation field type. */
   typedef TDeformationField    DeformationFieldType;
   typedef typename DeformationFieldType::Pointer   
-    DeformationFieldTypePointer;
+  DeformationFieldTypePointer;
 
   /** Set the moving image.  */
   void SetMovingImage( const MovingImageType * ptr )
-    { m_MovingImage = ptr; }
+  { m_MovingImage = ptr; }
 
   /** Get the moving image. */
   MovingImageType * GetMovingImage(void)
-    { return m_MovingImage; }
+  { return m_MovingImage; }
 
   /** Set the fixed image. */
   void SetFixedImage( const FixedImageType * ptr )
-    { m_FixedImage = ptr; }
+  { m_FixedImage = ptr; }
 
   /** Get the fixed image. */
   FixedImageType * GetFixedImage(void)
-    { return m_FixedImage; }
+  { return m_FixedImage; }
 
 protected:
   PDEDeformableRegistrationFunction()
-    {
-      m_MovingImage = NULL;
-      m_FixedImage = NULL;
-    }
+  {
+    m_MovingImage = NULL;
+    m_FixedImage = NULL;
+  }
 
   ~PDEDeformableRegistrationFunction() {}
 

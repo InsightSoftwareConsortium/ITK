@@ -42,7 +42,7 @@ void MaximumRatioDecisionRule::SetAPriori(APrioriVectorType& values)
         {
         APrioriRatio = NumericTraits< double >::max() ;
         }
-        m_APrioriRatioMatrix.put(i, j, APrioriRatio) ;
+      m_APrioriRatioMatrix.put(i, j, APrioriRatio) ;
       }
     }
 }

@@ -26,45 +26,45 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-  /** \class SiemensVisionImageIOFactory
+/** \class SiemensVisionImageIOFactory
    * \brief Create instances of SiemensVisionImageIO objects using an object factory.
    */
-  class ITK_EXPORT SiemensVisionImageIOFactory : public ObjectFactoryBase
+class ITK_EXPORT SiemensVisionImageIOFactory : public ObjectFactoryBase
+{
+public:
+  /** Standard class typedefs. */
+  typedef SiemensVisionImageIOFactory   Self;
+  typedef ObjectFactoryBase  Superclass;
+  typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
+
+  /** Class methods used to interface with the registered factories. */
+  virtual const char* GetITKSourceVersion(void) const;
+  virtual const char* GetDescription(void) const;
+
+  /** Method for class instantiation. */
+  itkFactorylessNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(SiemensVisionImageIOFactory, ObjectFactoryBase);
+
+  /** Register one factory of this type  */
+  static void RegisterOneFactory(void)
   {
-    public:
-      /** Standard class typedefs. */
-      typedef SiemensVisionImageIOFactory   Self;
-      typedef ObjectFactoryBase  Superclass;
-      typedef SmartPointer<Self>  Pointer;
-      typedef SmartPointer<const Self>  ConstPointer;
+    SiemensVisionImageIOFactory::Pointer metaFactory = SiemensVisionImageIOFactory::New();
+    ObjectFactoryBase::RegisterFactory(metaFactory);
+  }
 
-      /** Class methods used to interface with the registered factories. */
-      virtual const char* GetITKSourceVersion(void) const;
-      virtual const char* GetDescription(void) const;
+protected:
+  SiemensVisionImageIOFactory();
+  ~SiemensVisionImageIOFactory();
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
-      /** Method for class instantiation. */
-      itkFactorylessNewMacro(Self);
+private:
+  SiemensVisionImageIOFactory(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
-      /** Run-time type information (and related methods). */
-      itkTypeMacro(SiemensVisionImageIOFactory, ObjectFactoryBase);
-
-      /** Register one factory of this type  */
-      static void RegisterOneFactory(void)
-      {
-        SiemensVisionImageIOFactory::Pointer metaFactory = SiemensVisionImageIOFactory::New();
-        ObjectFactoryBase::RegisterFactory(metaFactory);
-      }
-
-    protected:
-      SiemensVisionImageIOFactory();
-      ~SiemensVisionImageIOFactory();
-      virtual void PrintSelf(std::ostream& os, Indent indent) const;
-
-    private:
-      SiemensVisionImageIOFactory(const Self&); //purposely not implemented
-      void operator=(const Self&); //purposely not implemented
-
-  };
+};
 
 
 } // end namespace itk

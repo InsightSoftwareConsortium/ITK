@@ -83,13 +83,13 @@ public:
   
   /** Get the type of the pixel.  */
   virtual const std::type_info& GetPixelType() const
-    {return typeid(PixelType);}
+  {return typeid(PixelType);}
 
   /** Compute the size (in bytes) of the components of a pixel. For
    * example, and RGB pixel of unsigned char would have a 
    * component size of 1 byte. */
   virtual unsigned int GetComponentSize() const
-    {return sizeof(typename PixelTraits<PixelType>::ValueType);}
+  {return sizeof(typename PixelTraits<PixelType>::ValueType);}
 
   /** The different types of ImageIO's can support data of varying
    * dimensionality. For example, some file formats are strictly 2D
@@ -97,7 +97,7 @@ public:
    * true/false as to whether the ImageIO can support the dimension
    * indicated. */
   virtual bool SupportsDimension(unsigned long dim)
-    {return (dim == m_FileDimensionality);}
+  {return (dim == m_FileDimensionality);}
 
   /*-------- This part of the interface deals with reading data. ------ */
 
@@ -105,12 +105,12 @@ public:
    * file specified. Always returns false because we don't want to use
    * this reader unless absolutely sure (i.e., manual ImageIO creation). */
   virtual bool CanReadFile(const char*) 
-    {return false;}
+  {return false;}
 
   /** Binary files have no image information to read. This must be set by the
    * user of the class. */
   virtual void ReadImageInformation() 
-    {return;}
+  {return;}
 
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void* buffer);
@@ -118,11 +118,11 @@ public:
   /** Set/Get the Data mask. */
   itkGetConstMacro(ImageMask,unsigned short);
   void SetImageMask(unsigned long val) 
-    {
-      if (val == m_ImageMask) { return; }
-      m_ImageMask = ((unsigned short)(val)); 
-      this->Modified();
-    }
+  {
+    if (val == m_ImageMask) { return; }
+    m_ImageMask = ((unsigned short)(val)); 
+    this->Modified();
+  }
     
   /** Read a file's header to determine image dimensions, etc. */
   virtual void ReadHeader (const std::string = std::string()) {}
@@ -136,7 +136,7 @@ public:
 
   /** Binary files have no image information to read.  */
   virtual void WriteImageInformation(void) 
-    {return;}
+  {return;}
 
 
   /** Writes the data to disk from the memory buffer provided. */
@@ -184,14 +184,14 @@ public:
 
   /** Class methods used to interface with the registered factories. */
   const char* GetITKSourceVersion(void) const
-    {
+  {
     return ITK_SOURCE_VERSION;
-    }
+  }
 
   const char* GetDescription(void) const
-    {
+  {
     return "Raw ImageIO Factory, allows the loading of Raw images into insight";
-    }
+  }
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -201,9 +201,9 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-    {
+  {
     ObjectFactoryBase::RegisterFactory( Self::New() );
-    }
+  }
 
 
 protected:

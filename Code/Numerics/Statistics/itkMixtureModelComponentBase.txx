@@ -36,8 +36,8 @@ MixtureModelComponentBase< TSample >
 {
   if ( m_Weights != 0 )
     {
-      delete m_Weights ;
-      m_Weights = 0 ;
+    delete m_Weights ;
+    m_Weights = 0 ;
     }
 }
 
@@ -79,8 +79,8 @@ MixtureModelComponentBase< TSample >
 {
   if ( m_Parameters != parameters )
     {
-      m_Parameters = parameters ;
-      this->AreParametersModified(true) ;
+    m_Parameters = parameters ;
+    this->AreParametersModified(true) ;
     }
 }
 
@@ -115,8 +115,8 @@ MixtureModelComponentBase< TSample >
 {
   if ( m_Weights != 0 )
     {
-      delete m_Weights ;
-      m_Weights = 0 ;
+    delete m_Weights ;
+    m_Weights = 0 ;
     }
 
   m_Weights = new WeightArrayType(m_Sample->Size());

@@ -65,7 +65,7 @@ template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
 MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
 ::SetMovingImage(
-const MovingImageType * ptr )
+  const MovingImageType * ptr )
 {
   this->ProcessObject::SetNthInput( 2, const_cast< MovingImageType * >( ptr ) );
 }
@@ -92,7 +92,7 @@ template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
 MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
 ::SetFixedImage(
-const FixedImageType * ptr )
+  const FixedImageType * ptr )
 {
   this->ProcessObject::SetNthInput( 1, const_cast< FixedImageType * >( ptr ) );
 }
@@ -119,7 +119,7 @@ template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
 MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
 ::SetNumberOfLevels(
-unsigned int num )
+  unsigned int num )
 {
   if( m_NumberOfLevels != num )
     {
@@ -230,17 +230,17 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
     {
    
     movingLevel = vnl_math_min( (int) m_CurrentLevel, 
-      (int) m_MovingImagePyramid->GetNumberOfLevels() );
+                                (int) m_MovingImagePyramid->GetNumberOfLevels() );
     fixedLevel = vnl_math_min( (int) m_CurrentLevel, 
-      (int) m_FixedImagePyramid->GetNumberOfLevels() );
+                               (int) m_FixedImagePyramid->GetNumberOfLevels() );
 
     if( m_CurrentLevel == 0 )
       {
-       /*
+      /*
          * \todo What to do if there is an input deformation field?
          * Will need a VectorMultiResolutionPyramidImageFilter to downsample it.
          */
-        //DeformationFieldPointer initialField = this->GetInput();
+      //DeformationFieldPointer initialField = this->GetInput();
       m_RegistrationFilter->SetInitialDeformationField( NULL );
       }
     else
@@ -250,8 +250,8 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
       for( idim = 0; idim < ImageDimension; idim++ )
         {
         expandFactors[idim] = (unsigned int) ceil( 
-         (float) lastShrinkFactors[idim] / 
-         (float) m_FixedImagePyramid->GetSchedule()[fixedLevel][idim] );
+          (float) lastShrinkFactors[idim] / 
+          (float) m_FixedImagePyramid->GetSchedule()[fixedLevel][idim] );
         if( expandFactors[idim] < 1 )
           {
           expandFactors[idim] = 1;
@@ -331,8 +331,8 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
     } // end m_CurrentLevel loop
 
 
-   // Reset the m_CurrentLevel to zero
-   m_CurrentLevel = 0;
+  // Reset the m_CurrentLevel to zero
+  m_CurrentLevel = 0;
 }
 
 
@@ -343,30 +343,30 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
 ::GenerateOutputInformation()
 {
 
- typename DataObject::Pointer output;
+  typename DataObject::Pointer output;
 
- if( this->GetInput(0) )
-  {
-  // Initial deformation field is set.
-  // Copy information from initial field.
-  this->Superclass::GenerateOutputInformation();
-
-  }
- else if( this->GetFixedImage() )
-  {
-  // Initial deforamtion field is not set. 
-  // Copy information from the fixed image.
-  for (unsigned int idx = 0; idx < 
-    this->GetNumberOfOutputs(); ++idx )
+  if( this->GetInput(0) )
     {
-    output = this->GetOutput(idx);
-    if (output)
-      {
-      output->CopyInformation(this->GetFixedImage());
-      }  
-    }
+    // Initial deformation field is set.
+    // Copy information from initial field.
+    this->Superclass::GenerateOutputInformation();
 
-  }
+    }
+  else if( this->GetFixedImage() )
+    {
+    // Initial deforamtion field is not set. 
+    // Copy information from the fixed image.
+    for (unsigned int idx = 0; idx < 
+           this->GetNumberOfOutputs(); ++idx )
+      {
+      output = this->GetOutput(idx);
+      if (output)
+        {
+        output->CopyInformation(this->GetFixedImage());
+        }  
+      }
+
+    }
 
 }
 
@@ -391,10 +391,10 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
   // just propagate up the output requested region for
   // the fixed image and initial deformation field.
   DeformationFieldPointer inputPtr = 
-      const_cast< DeformationFieldType * >( this->GetInput() );
+    const_cast< DeformationFieldType * >( this->GetInput() );
   DeformationFieldPointer outputPtr = this->GetOutput();
   FixedImagePointer fixedPtr = 
-        const_cast< FixedImageType *>( this->GetFixedImage() );
+    const_cast< FixedImageType *>( this->GetFixedImage() );
 
   if( inputPtr )
     {
@@ -413,7 +413,7 @@ template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
 MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
 ::EnlargeOutputRequestedRegion(
-DataObject * ptr )
+  DataObject * ptr )
 {
   // call the superclass's implementation
   Superclass::EnlargeOutputRequestedRegion( ptr );

@@ -39,142 +39,142 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-  /**
+/**
    * \author Hans J. Johnson
    * \brief Class that defines how to read GE4 file format.
    * */
-  class ITK_EXPORT IPLCommonImageIO : public ImageIOBase
-    {
-    public:
-      /** Standard class typedefs. */
-      typedef IPLCommonImageIO            Self;
-      typedef ImageIOBase  Superclass;
-      typedef SmartPointer<Self>  Pointer;
-      typedef unsigned char U8;
-      typedef signed char S8;
-      typedef unsigned short U16;
-      typedef signed short S16;
-      typedef unsigned int U32;
-      typedef signed int S32;
-      typedef unsigned long U64;
-      typedef signed long S64;
-      typedef float F32;
-      typedef double F64;
+class ITK_EXPORT IPLCommonImageIO : public ImageIOBase
+{
+public:
+  /** Standard class typedefs. */
+  typedef IPLCommonImageIO            Self;
+  typedef ImageIOBase  Superclass;
+  typedef SmartPointer<Self>  Pointer;
+  typedef unsigned char U8;
+  typedef signed char S8;
+  typedef unsigned short U16;
+  typedef signed short S16;
+  typedef unsigned int U32;
+  typedef signed int S32;
+  typedef unsigned long U64;
+  typedef signed long S64;
+  typedef float F32;
+  typedef double F64;
 
-      /** Method for creation through the object factory. */
-      itkNewMacro(Self);
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
 
-      /** Run-time type information (and related methods). */
-      itkTypeMacro(IPLCommonImageIO, Superclass);
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(IPLCommonImageIO, Superclass);
 
-      /*-------- This part of the interfaces deals with reading data. ----- */
+  /*-------- This part of the interfaces deals with reading data. ----- */
 
-      /** Determine if the file can be read with this ImageIO implementation.
+  /** Determine if the file can be read with this ImageIO implementation.
        * \author Hans J Johnson
        * \param FileNameToRead The name of the file to test for reading.
        * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
        * \return Returns true if this ImageIO can read the file specified.
        */
-      virtual bool CanReadFile(const char* FileNameToRead) ;
+  virtual bool CanReadFile(const char* FileNameToRead) ;
 
-      /** Set the spacing and dimension information for the set filename. */
-      virtual void ReadImageInformation();
+  /** Set the spacing and dimension information for the set filename. */
+  virtual void ReadImageInformation();
 
-      /** Get the type of the pixel.  */
-      virtual const std::type_info& GetPixelType() const;
+  /** Get the type of the pixel.  */
+  virtual const std::type_info& GetPixelType() const;
 
-      /** Reads the data from disk into the memory buffer provided. */
-      virtual void Read(void* buffer);
+  /** Reads the data from disk into the memory buffer provided. */
+  virtual void Read(void* buffer);
 
-      /** Compute the size (in bytes) of the components of a pixel. For
+  /** Compute the size (in bytes) of the components of a pixel. For
        * example, and RGB pixel of unsigned char would have a
        * component size of 1 byte. */
-      virtual unsigned int GetComponentSize() const;
+  virtual unsigned int GetComponentSize() const;
 
-      /*-------- This part of the interfaces deals with writing data. ----- */
+  /*-------- This part of the interfaces deals with writing data. ----- */
 
-      /** Determine if the file can be written with this ImageIO implementation.
+  /** Determine if the file can be written with this ImageIO implementation.
        * \param FileNameToWrite The name of the file to test for writing.
        * \author Hans J. Johnson
        * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
        * \return Returns true if this ImageIO can write the file specified.
        */
-      virtual bool CanWriteFile(const char * FileNameToWrite);
+  virtual bool CanWriteFile(const char * FileNameToWrite);
 
-      /** Set the spacing and dimension information for the set filename. */
-      virtual void WriteImageInformation();
+  /** Set the spacing and dimension information for the set filename. */
+  virtual void WriteImageInformation();
 
-      /** Writes the data to disk from the memory buffer provided. Make sure
+  /** Writes the data to disk from the memory buffer provided. Make sure
        * that the IORegions has been set properly. */
-      virtual void Write(const void* buffer);
-      enum ENUM_PLANE_SELECTION
-        {
-          NO_PLANE = 0,
-          AXIAL = 1,
-          CORONAL = 2,
-          SAGITTAL = 3,
-          UNKNOWN_PLANE = 5
-        };
+  virtual void Write(const void* buffer);
+  enum ENUM_PLANE_SELECTION
+  {
+    NO_PLANE = 0,
+    AXIAL = 1,
+    CORONAL = 2,
+    SAGITTAL = 3,
+    UNKNOWN_PLANE = 5
+  };
 
 
-      struct FILESORTINFOSTRUCT {
-        char imageFileName[itk::IOCommon::ITK_MAXPATHLEN+1];
-        float SliceLocation;
-        int  SliceOffset;
-        int echoNumber;
-        void * data;
-      };
-      typedef struct FILESORTINFOSTRUCT FILESORTINFO;
-    protected:
-      IPLCommonImageIO();
-      ~IPLCommonImageIO();
-      void PrintSelf(std::ostream& os, Indent indent) const;
+  struct FILESORTINFOSTRUCT {
+    char imageFileName[itk::IOCommon::ITK_MAXPATHLEN+1];
+    float SliceLocation;
+    int  SliceOffset;
+    int echoNumber;
+    void * data;
+  };
+  typedef struct FILESORTINFOSTRUCT FILESORTINFO;
+protected:
+  IPLCommonImageIO();
+  ~IPLCommonImageIO();
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 
 
-      struct FILENAMELISTSTRUCT
-      {
-        FILESORTINFO Info[itk::IOCommon::MAX_FILENAMELIST_SIZE];
-        int  XDim;
-        int  YDim;
-        int Key1;  /** Key that must be matched for image to be used, i.e. seriesNumber, extensionkey*/
-        int Key2;  /** Key that must be matched for image to be used, i.e. echoNumber*/
-        int numImageInfoStructs;
-        int maxImageFileNames;
-      };
-      typedef struct FILENAMELISTSTRUCT FILENAMELIST;
-      void InitializeFILENAMELIST( FILENAMELIST * const fnList );
-      int AddElementToList(FILENAMELIST * const fnList,char const * const filename, const float sliceLocation, const int offset, const int XDim, const int YDim, const int Key1, const int Key2 );
-      void sortImageListAscend (FILENAMELIST * const fnList);
-      void sortImageListDescend (FILENAMELIST * const fnList);
-      int statTimeToAscii (void *clock, char *timeString);
-      virtual struct GEImageHeader *ReadHeader(const char *FileNameToRead);
-      //
-      // data members
-      struct GEImageHeader *m_ImageHeader;
-      ImageIOBase::ByteOrder m_system_byteOrder;
-      FILENAMELIST m_fnlist;
-      //
-      // return 0 on success, -1 on failure
-      int GetStringAt(std::ifstream &f,std::streamoff Offset,char *buf,
-                      size_t amount, bool throw_exception = true);
-      int GetIntAt(std::ifstream &f,std::streamoff Offset,int *ip,
-                   bool throw_exception = true);
-      int GetShortAt(std::ifstream &f,std::streamoff Offset,short *ip,
-                     bool throw_exception = true);
-      int GetFloatAt(std::ifstream &f,std::streamoff Offset,float *ip,
-                     bool throw_exception = true);
-      int GetDoubleAt(std::ifstream &f,std::streamoff Offset,double *ip,
-                     bool throw_exception = true);
+  struct FILENAMELISTSTRUCT
+  {
+    FILESORTINFO Info[itk::IOCommon::MAX_FILENAMELIST_SIZE];
+    int  XDim;
+    int  YDim;
+    int Key1;  /** Key that must be matched for image to be used, i.e. seriesNumber, extensionkey*/
+    int Key2;  /** Key that must be matched for image to be used, i.e. echoNumber*/
+    int numImageInfoStructs;
+    int maxImageFileNames;
+  };
+  typedef struct FILENAMELISTSTRUCT FILENAMELIST;
+  void InitializeFILENAMELIST( FILENAMELIST * const fnList );
+  int AddElementToList(FILENAMELIST * const fnList,char const * const filename, const float sliceLocation, const int offset, const int XDim, const int YDim, const int Key1, const int Key2 );
+  void sortImageListAscend (FILENAMELIST * const fnList);
+  void sortImageListDescend (FILENAMELIST * const fnList);
+  int statTimeToAscii (void *clock, char *timeString);
+  virtual struct GEImageHeader *ReadHeader(const char *FileNameToRead);
+  //
+  // data members
+  struct GEImageHeader *m_ImageHeader;
+  ImageIOBase::ByteOrder m_system_byteOrder;
+  FILENAMELIST m_fnlist;
+  //
+  // return 0 on success, -1 on failure
+  int GetStringAt(std::ifstream &f,std::streamoff Offset,char *buf,
+                  size_t amount, bool throw_exception = true);
+  int GetIntAt(std::ifstream &f,std::streamoff Offset,int *ip,
+               bool throw_exception = true);
+  int GetShortAt(std::ifstream &f,std::streamoff Offset,short *ip,
+                 bool throw_exception = true);
+  int GetFloatAt(std::ifstream &f,std::streamoff Offset,float *ip,
+                 bool throw_exception = true);
+  int GetDoubleAt(std::ifstream &f,std::streamoff Offset,double *ip,
+                  bool throw_exception = true);
 
-      short hdr2Short(char *hdr);
-      int hdr2Int(char *hdr);
-      float hdr2Float(char *hdr);
-      double hdr2Double(char *hdr);
-    private:
-      IPLCommonImageIO(const Self&); //purposely not implemented
-      void operator=(const Self&); //purposely not implemented
-    };
+  short hdr2Short(char *hdr);
+  int hdr2Int(char *hdr);
+  float hdr2Float(char *hdr);
+  double hdr2Double(char *hdr);
+private:
+  IPLCommonImageIO(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+};
 
 } // end namespace itk
 #define RAISE_EXCEPTION() \

@@ -55,7 +55,7 @@ namespace itk{
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT SimpleFuzzyConnectednessImageFilterBase:
-  public ImageToImageFilter<TInputImage,TOutputImage>
+    public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
@@ -102,7 +102,7 @@ public:
 
   /** Extract the FuzzyScene not thresholded. */
   FuzzyScene GetFuzzyScene(void)
-    { return m_FuzzyScene; };
+  { return m_FuzzyScene; };
 
   /** A simple combination of SetThreshold and MakeSegmentObject methods. */
   void UpdateThreshold(const double x);
@@ -130,11 +130,11 @@ protected:
 
   /** Define the fuzzy affinity function between two pixels. */
   virtual double FuzzyAffinity(const PixelType, const PixelType)
-    { return 0; }
+  { return 0; }
 
   double FindStrongPath(const IndexType &center);
 
- private:
+private:
   SimpleFuzzyConnectednessImageFilterBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

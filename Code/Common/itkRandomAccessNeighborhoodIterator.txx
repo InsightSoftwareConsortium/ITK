@@ -41,7 +41,7 @@ RandomAccessNeighborhoodIterator<TImage>
   
   for (this_it = Superclass::Begin(); this_it < _end; this_it++, N_it++)
     {
-      **this_it = *N_it;
+    **this_it = *N_it;
     }
 }
 

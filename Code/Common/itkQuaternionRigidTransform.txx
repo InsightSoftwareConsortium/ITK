@@ -87,18 +87,18 @@ QuaternionRigidTransform<TScalarType>
   double norm = 0;
 
   for(unsigned int j=0; j < 4; j++) 
-  {
+    {
     quaternion[j] = parameters[par];
     norm += vnl_math_sqr( quaternion[j] );
     ++par;
-  }
+    }
 
   // Transfer the constant part
   for(unsigned int i=0; i < SpaceDimension; i++) 
-  {
+    {
     offset[i] = parameters[par];
     ++par;
-  }
+    }
 
   this->SetRotation( quaternion );
   this->SetOffset( offset );
@@ -140,7 +140,7 @@ GetJacobian( const InputPointType & p ) const
   unsigned int blockOffset = 4;  
   for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
     {
-     m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
+    m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
     }
 
   return m_Jacobian;

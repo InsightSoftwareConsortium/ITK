@@ -56,8 +56,8 @@ template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension >
 void
 ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::SetInputVelocityImage(
-const AuxImageType * ptr,
-unsigned int idx )
+  const AuxImageType * ptr,
+  unsigned int idx )
 {
   if( idx >= VAuxDimension )
     {
@@ -85,7 +85,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
     }
 
   return dynamic_cast<AuxImageType *>(
-                this->ProcessObject::GetInput(idx+1) );
+    this->ProcessObject::GetInput(idx+1) );
 
 }
 
@@ -141,9 +141,9 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
           {
           // Pointer could not be cast to AuxImageType *
           itkWarningMacro(<< "itk::FastMarchingExtensionImageFilter" <<
-                    "::EnlargeOutputRequestedRegion cannot cast "
-                    << typeid(output).name() << " to "
-                    << typeid(AuxImageType*).name() );    
+                          "::EnlargeOutputRequestedRegion cannot cast "
+                          << typeid(output).name() << " to "
+                          << typeid(AuxImageType*).name() );    
 
           }
         }
@@ -204,9 +204,9 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
     ImageRegionConstIterator<LocalLevelSetImageType> ConstIteratorType;
 
   ConstIteratorType inputIt( inputPtr,
-    inputPtr->GetBufferedRegion() );
+                             inputPtr->GetBufferedRegion() );
   IteratorType outputIt( outputPtr,
-    outputPtr->GetBufferedRegion() );
+                         outputPtr->GetBufferedRegion() );
 
   IteratorType tempIt;
 
@@ -220,7 +220,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
     {
     AuxImagePointer ptr = this->GetOutputVelocityImage(k);
     auxOutputIt[k] = AuxIteratorType( ptr,
-      ptr->GetBufferedRegion() );
+                                      ptr->GetBufferedRegion() );
     }
  
   this->UpdateProgress( 0.0 );
@@ -243,14 +243,14 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
   m_Marcher->Update();
 
   tempIt = IteratorType( tempLevelSet,
-    tempLevelSet->GetBufferedRegion() );
+                         tempLevelSet->GetBufferedRegion() );
 
   for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     AuxImagePointer ptr;
     ptr = m_Marcher->GetAuxiliaryImage(k);
     auxTempIt[k] = AuxIteratorType( ptr,
-                               ptr->GetBufferedRegion() );
+                                    ptr->GetBufferedRegion() );
     }
 
   double value;
@@ -276,7 +276,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
         auxOutputIt[k].Set( auxTempIt[k].Get() );
         }
 
-     }
+      }
 
     ++inputIt;
     ++outputIt;
@@ -356,10 +356,10 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
     ImageRegionConstIterator<LocalLevelSetImageType> ConstIteratorType;
 
   ConstIteratorType inputIt( inputPtr,
-    inputPtr->GetBufferedRegion() );
+                             inputPtr->GetBufferedRegion() );
 
   IteratorType outputIt( outputPtr,
-    outputPtr->GetBufferedRegion() );
+                         outputPtr->GetBufferedRegion() );
 
   PixelType posInfinity;
   PixelType negInfinity;
@@ -403,7 +403,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
     {
     AuxImagePointer ptr = this->GetOutputVelocityImage(k);
     auxOutputIt[k] = AuxIteratorType( ptr,
-      ptr->GetBufferedRegion() );
+                                      ptr->GetBufferedRegion() );
     auxOutputIt[k].GoToBegin();
     }
   while( !auxOutputIt[0].IsAtEnd() )
@@ -488,7 +488,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
       for( unsigned int k = 0; k < VAuxDimension; k++ )
         { 
         outputAuxImage[k]->SetPixel( node.GetIndex(), 
-          tempAuxImage[k]->GetPixel( node.GetIndex() ) );
+                                     tempAuxImage[k]->GetPixel( node.GetIndex() ) );
         }
 
       }
@@ -524,7 +524,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
       for( unsigned int k = 0; k < VAuxDimension; k++ )
         { 
         outputAuxImage[k]->SetPixel( node.GetIndex(), 
-          tempAuxImage[k]->GetPixel( node.GetIndex() ) );
+                                     tempAuxImage[k]->GetPixel( node.GetIndex() ) );
         }
 
       }

@@ -34,7 +34,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  */
 class MultipleValuedVnlCostFunctionAdaptor : 
-          public vnl_least_squares_function
+    public vnl_least_squares_function
 {
 public:
 
@@ -63,44 +63,44 @@ public:
 
   /** Set the CostFunction deriving from MultipleValuedCostFunction */
   void SetCostFunction( MultipleValuedCostFunction * costFunction )
-          { m_CostFunction = costFunction; }
+  { m_CostFunction = costFunction; }
     
   /** Get the CostFunction deriving from MultipleValuedCostFunction */
   const MultipleValuedCostFunction * GetCostFunction( void ) const
-          { return m_CostFunction; }
+  { return m_CostFunction; }
     
   /**  Delegate computation of the value to the CostFunction. */
   virtual void f( const InternalParametersType & inparameters,
-                        InternalMeasureType    & measures      );
+                  InternalMeasureType    & measures      );
     
   /**  Delegate computation of the gradient to the costFunction.  */
   virtual void gradf(const InternalParametersType   & inparameters,
-                           InternalDerivativeType   & gradient );
+                     InternalDerivativeType   & gradient );
     
   /**  Delegate computation of value and gradient to the costFunction.     */
   virtual void compute(const InternalParametersType   & x,
-                             InternalMeasureType      * f, 
-                             InternalDerivativeType   * g   );
+                       InternalMeasureType      * f, 
+                       InternalDerivativeType   * g   );
 
   /**  Convert internal Parameters into external type */
   static void ConvertInternalToExternalParameters( 
-                            const InternalParametersType & input,
-                                  ParametersType         & output );
+    const InternalParametersType & input,
+    ParametersType         & output );
 
   /**  Convert external Parameters into internal type  */
   static void ConvertExternalToInternalParameters(
-                            const  ParametersType         & input,
-                                   InternalParametersType & output );
+    const  ParametersType         & input,
+    InternalParametersType & output );
     
   /**  Convert external derviative measures  into internal type */
   void ConvertExternalToInternalGradient(
-                            const DerivativeType         & input,
-                                  InternalDerivativeType & output );
+    const DerivativeType         & input,
+    InternalDerivativeType & output );
 
   /**  Convert external measures  into internal type */
   void ConvertExternalToInternalMeasures(
-                            const MeasureType         & input,
-                                  InternalMeasureType & output );
+    const MeasureType         & input,
+    InternalMeasureType & output );
 
   /**  Define if the Cost function should provide a customized 
        Gradient computation or the gradient can be computed internally

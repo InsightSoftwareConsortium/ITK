@@ -86,7 +86,7 @@ PlaneSpatialObject<TDimension >
     ret = Superclass::ComputeBoundingBox();
 
     if( m_BoundingBoxChildrenName.empty() 
-       || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
+        || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
       {
       PointType pnt;
       PointType pnt2;

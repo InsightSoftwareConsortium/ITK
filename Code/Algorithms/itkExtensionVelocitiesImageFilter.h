@@ -48,9 +48,9 @@ template <
   class TLevelSet,
   class TAuxValue = float,
   unsigned int VAuxDimension = 1
->
+  >
 class ITK_EXPORT ExtensionVelocitiesImageFilter :
-  public ReinitializeLevelSetImageFilter<TLevelSet>
+    public ReinitializeLevelSetImageFilter<TLevelSet>
 {
 public:
 
@@ -116,9 +116,9 @@ private:
    * dependent non-type templates. */
   typedef Image<float, itkGetStaticConstMacro(SetDimension) > SpeedImageType;
   typedef LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension> 
-    LocatorType;
+  LocatorType;
   typedef FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,SpeedImageType> 
-    FastMarchingImageFilterType;
+  FastMarchingImageFilterType;
 
   typename LocatorType::Pointer                    m_Locator;
   typename FastMarchingImageFilterType::Pointer    m_Marcher;

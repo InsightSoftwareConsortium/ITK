@@ -20,7 +20,7 @@
 #include "itkMahalanobisDistanceMembershipFunction.h"
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
 
 template < class TVector >
 MahalanobisDistanceMembershipFunction< TVector >
@@ -178,7 +178,7 @@ MahalanobisDistanceMembershipFunction< TVector >
   os << m_InverseCovariance << std::endl;
   os << indent << "VectorSize:        " << VectorDimension << std::endl;
 }
-  } // end namespace Statistics
+} // end namespace Statistics
 } // end of namespace itk
 
 

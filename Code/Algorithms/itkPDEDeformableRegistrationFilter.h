@@ -64,7 +64,7 @@ namespace itk {
  */
 template<class TFixedImage, class TMovingImage, class TDeformationField>
 class ITK_EXPORT PDEDeformableRegistrationFilter : 
-  public DenseFiniteDifferenceImageFilter<TDeformationField,TDeformationField>
+    public DenseFiniteDifferenceImageFilter<TDeformationField,TDeformationField>
 {
 public:
   /** Standard class typedefs. */
@@ -79,7 +79,7 @@ public:
 
   /** Run-time type information (and related methods) */
   itkTypeMacro( PDEDeformableRegistrationFilter, 
-    DenseFiniteDifferenceImageFilter );
+                DenseFiniteDifferenceImageFilter );
 
   /** FixedImage image type. */
   typedef TFixedImage   FixedImageType;
@@ -100,11 +100,11 @@ public:
 
   /** FiniteDifferenceFunction type. */
   typedef typename Superclass::FiniteDifferenceFunctionType
-    FiniteDifferenceFunctionType;
+  FiniteDifferenceFunctionType;
 
   /** PDEDeformableRegistrationFilterFunction type. */
   typedef PDEDeformableRegistrationFunction<FixedImageType,MovingImageType,
-    DeformationFieldType>  PDEDeformableRegistrationFunctionType;
+                                            DeformationFieldType>  PDEDeformableRegistrationFunctionType;
 
   /** Inherit some enums and typedefs from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -124,11 +124,11 @@ public:
 
   /** Set initial deformation field. */
   void SetInitialDeformationField( DeformationFieldType * ptr )
-    { this->SetInput( ptr ); }
+  { this->SetInput( ptr ); }
 
   /** Get output deformation field. */
   DeformationFieldType * GetDeformationField()
-    { return this->GetOutput(); }
+  { return this->GetOutput(); }
 
   /** Set the number of iterations to be performed. */
   itkSetMacro(NumberOfIterations, unsigned int);
@@ -143,7 +143,7 @@ public:
 
   /** Get the Gaussian smoothing standard deviations. */
   const double * GetStandardDeviations(void) 
-    { return (double *) m_StandardDeviations; }
+  { return (double *) m_StandardDeviations; }
 
 protected:
   PDEDeformableRegistrationFilter();
@@ -153,10 +153,10 @@ protected:
   /** Supplies the halting criteria for this class of filters.  The
    * algorithm will stop after a user-specified number of iterations. */
   virtual bool Halt()
-    {
-      if (this->GetElapsedIterations() == m_NumberOfIterations) return true;
-      else return false;
-    }
+  {
+    if (this->GetElapsedIterations() == m_NumberOfIterations) return true;
+    else return false;
+  }
 
   /** A simple method to copy the data from the input to the output.
    * If the input does not exist, a zero field is written to the output. */
@@ -174,7 +174,7 @@ protected:
   /** Utitlity to copy one buffered region of one deformation field to
    * another deformation field. For efficiency no region checking is done. */
   virtual void CopyDeformationField( DeformationFieldType * input,
-   DeformationFieldType * output );
+                                     DeformationFieldType * output );
 
   /** By default the output deformation field has the same Spacing, Origin
    * and LargestPossibleRegion as the input/initial deformation field.  If

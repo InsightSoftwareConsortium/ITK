@@ -189,7 +189,7 @@ MRASlabIdentifier<TInputImage>
     {
     os << indent << "Image: " << m_Image << std::endl;
     }
-    else
+  else
     {
     os << indent << "Image: " << "(None)" << std::endl;
     }

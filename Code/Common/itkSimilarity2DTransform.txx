@@ -68,18 +68,18 @@ Similarity2DTransform<TScalarType>
 
   InputPointType center;
   for(unsigned int j=0; j < SpaceDimension; j++) 
-  {
+    {
     center[j] = parameters[j+2];
-  }
+    }
   this->SetCenter( center );
 
 
   // Transfer the translation part
   OffsetType offset;
   for(unsigned int i=0; i < SpaceDimension; i++) 
-  {
+    {
     offset[i] = parameters[i+4];
-  }
+    }
 
   this->SetOffset( offset );
 
@@ -102,16 +102,16 @@ Similarity2DTransform<TScalarType>
  
   InputPointType center = this->GetCenter();
   for(unsigned int j=0; j < SpaceDimension; j++) 
-  {
+    {
     m_Parameters[j+2] = center[j];
-  }
+    }
 
   // Transfer the translation part
   OffsetType offset = this->GetOffset();
   for(unsigned int i=0; i < SpaceDimension; i++) 
-  {
+    {
     m_Parameters[i+4] = offset[i];
-  }
+    }
 
   itkDebugMacro(<<"After getting parameters " << m_Parameters );
 

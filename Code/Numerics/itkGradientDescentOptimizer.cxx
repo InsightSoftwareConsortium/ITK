@@ -31,14 +31,14 @@ namespace itk
 GradientDescentOptimizer
 ::GradientDescentOptimizer()
 {
-   itkDebugMacro("Constructor");
+  itkDebugMacro("Constructor");
 
-   m_LearningRate = 1.0;
-   m_NumberOfIterations = 100;
-   m_CurrentIteration = 0;
-   m_Maximize = false;
-   m_Value = 0.0;
-   m_StopCondition = MaximumNumberOfIterations;
+  m_LearningRate = 1.0;
+  m_NumberOfIterations = 100;
+  m_CurrentIteration = 0;
+  m_Maximize = false;
+  m_Value = 0.0;
+  m_StopCondition = MaximumNumberOfIterations;
 }
 
 
@@ -104,7 +104,7 @@ GradientDescentOptimizer
 
   InvokeEvent( StartEvent() );
   while( !m_Stop ) 
-  {
+    {
 
     try
       {
@@ -113,33 +113,33 @@ GradientDescentOptimizer
       }
     catch( ExceptionObject& err )
       {
-       // An exception has occurred. 
-       // Terminate immediately.
-       m_StopCondition = MetricError;
-       StopOptimization();
+      // An exception has occurred. 
+      // Terminate immediately.
+      m_StopCondition = MetricError;
+      StopOptimization();
 
-       // Pass exception to caller
-       throw err;
+      // Pass exception to caller
+      throw err;
       }
 
 
     if( m_Stop )
-    {
+      {
       break;
-    }
+      }
   
     AdvanceOneStep();
 
     m_CurrentIteration++;
 
     if( m_CurrentIteration >= m_NumberOfIterations )
-    {
-       m_StopCondition = MaximumNumberOfIterations;
-       StopOptimization();
-       break;
-    }
+      {
+      m_StopCondition = MaximumNumberOfIterations;
+      StopOptimization();
+      break;
+      }
     
-  }
+    }
     
 
 }
@@ -175,16 +175,16 @@ GradientDescentOptimizer
 
   double direction;
   if( this->m_Maximize ) 
-  {
+    {
     direction = 1.0;
-  }
+    }
   else 
-  {
+    {
     direction = -1.0;
-  }
+    }
 
   const unsigned int spaceDimension = 
-                        m_CostFunction->GetNumberOfParameters();
+    m_CostFunction->GetNumberOfParameters();
 
   const ParametersType & currentPosition = this->GetCurrentPosition();
 

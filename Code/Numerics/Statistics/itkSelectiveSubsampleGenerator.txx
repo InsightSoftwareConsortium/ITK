@@ -18,7 +18,7 @@
 #define __itkSelectiveSubsampleGenerator_txx
 
 namespace itk{
-  namespace Statistics{
+namespace Statistics{
 
 template< class TInputSample, class TClassMaskSample >
 SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
@@ -76,14 +76,14 @@ SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
   typename TClassMaskSample::Iterator iter = m_ClassMask->Begin() ;
   while (iter != m_ClassMask->End())
     {
-      if ( std::find(m_SelectedClassLabels.begin(), 
-                     m_SelectedClassLabels.end(), 
-                     iter.GetMeasurementVector()[0]) != 
-           m_SelectedClassLabels.end() )
-        {
-          m_Output->AddInstance(iter.GetInstanceIdentifier()) ;
-        }
-      ++iter ;
+    if ( std::find(m_SelectedClassLabels.begin(), 
+                   m_SelectedClassLabels.end(), 
+                   iter.GetMeasurementVector()[0]) != 
+         m_SelectedClassLabels.end() )
+      {
+      m_Output->AddInstance(iter.GetInstanceIdentifier()) ;
+      }
+    ++iter ;
     }
 }
 
@@ -100,7 +100,7 @@ SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
   //  os << indent << "Selected Class Labels: " << &m_SelectedClassLabels 
   //  << std::endl ;
 }
-  } // end namespace Statistics
+} // end namespace Statistics
 } // end namespace itk
 
 #endif

@@ -32,7 +32,7 @@ DemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
   drfp = DemonsRegistrationFunctionType::New();
 
   this->SetDifferenceFunction( static_cast<FiniteDifferenceFunctionType *>(
-    drfp.GetPointer() ) );
+                                 drfp.GetPointer() ) );
 
 }
 

@@ -123,85 +123,79 @@ void DICOMImageIO2::Read(void* buffer)
  */
 void DICOMImageIO2::ReadImageInformation()
 {
-    Parser->ClearAllDICOMTagCallbacks();
-    AppHelper->RegisterCallbacks(Parser);
+  Parser->ClearAllDICOMTagCallbacks();
+  AppHelper->RegisterCallbacks(Parser);
 
-    AppHelper->SetFileName(m_FileName.c_str());
+  AppHelper->SetFileName(m_FileName.c_str());
     
-    bool open = Parser->OpenFile(m_FileName.c_str());
-    if (!open)
-      {
-      std::cerr << "Couldn't open file: " << m_FileName << std::endl;
-      return;
-      }
+  bool open = Parser->OpenFile(m_FileName.c_str());
+  if (!open)
+    {
+    std::cerr << "Couldn't open file: " << m_FileName << std::endl;
+    return;
+    }
 
-    AppHelper->SetDICOMDataFile(Parser->GetDICOMFile());
+  AppHelper->SetDICOMDataFile(Parser->GetDICOMFile());
 
-    Parser->ReadHeader();
+  Parser->ReadHeader();
 
-    float* spacing = AppHelper->GetPixelSpacing();
-    float origin[3] = {0.0, 0.0, 0.0};
+  float* spacing = AppHelper->GetPixelSpacing();
+  float origin[3] = {0.0, 0.0, 0.0};
 
-    int* dims = AppHelper->GetDimensions();
+  int* dims = AppHelper->GetDimensions();
 
-    for (int i = 0; i < 2; i++)
-      {
-      this->SetOrigin(i, origin[i]);
-      this->SetSpacing(i, spacing[i]);
-      this->SetDimensions(i, dims[i]);
-      }
+  for (int i = 0; i < 2; i++)
+    {
+    this->SetOrigin(i, origin[i]);
+    this->SetSpacing(i, spacing[i]);
+    this->SetDimensions(i, dims[i]);
+    }
 
-    int numBits = AppHelper->GetBitsAllocated();
-    bool sign = AppHelper->RescaledImageDataIsSigned();
+  int numBits = AppHelper->GetBitsAllocated();
+  bool sign = AppHelper->RescaledImageDataIsSigned();
 
-    bool isFloat = AppHelper->RescaledImageDataIsFloat();
-    int num_comp = AppHelper->GetNumberOfComponents();
+  bool isFloat = AppHelper->RescaledImageDataIsFloat();
+  int num_comp = AppHelper->GetNumberOfComponents();
       
-    if (isFloat)  // Float
+  if (isFloat)  // Float
+    {
+    this->SetPixelType(ImageIOBase::FLOAT);
+    this->SetComponentType(ImageIOBase::FLOAT);
+    }
+  else if (num_comp == 3) //RGB
+    {
+    if (numBits == 8)
       {
-      this->SetPixelType(ImageIOBase::FLOAT);
-      this->SetComponentType(ImageIOBase::FLOAT);
+      this->SetComponentType(ImageIOBase::UCHAR);
+      this->SetPixelType(ImageIOBase::UCHAR);
       }
-    else if (num_comp == 3) //RGB
+    else
       {
-      if (numBits == 8)
+      this->SetComponentType(ImageIOBase::USHORT);
+      this->SetPixelType(ImageIOBase::USHORT);
+      }
+    }
+  else // Everything else
+    {
+    if (numBits == 8)
+      {
+      if (sign)
         {
-        this->SetComponentType(ImageIOBase::UCHAR);
+        this->SetPixelType(ImageIOBase::CHAR);
+        this->SetComponentType(ImageIOBase::CHAR);
+        }
+      else
+        {
         this->SetPixelType(ImageIOBase::UCHAR);
-        }
-      else
-        {
-        this->SetComponentType(ImageIOBase::USHORT);
-        this->SetPixelType(ImageIOBase::USHORT);
+        this->SetComponentType(ImageIOBase::UCHAR);
         }
       }
-    else // Everything else
+    else if (numBits == 16)
       {
-      if (numBits == 8)
+      if (sign)
         {
-        if (sign)
-          {
-          this->SetPixelType(ImageIOBase::CHAR);
-          this->SetComponentType(ImageIOBase::CHAR);
-          }
-        else
-          {
-          this->SetPixelType(ImageIOBase::UCHAR);
-          this->SetComponentType(ImageIOBase::UCHAR);
-          }
-        }
-      else if (numBits == 16)
-        {
-        if (sign)
-          {
-          this->SetPixelType(ImageIOBase::SHORT);
-          this->SetComponentType(ImageIOBase::SHORT);
-          }
-        else
-          {
-          this->SetPixelType(ImageIOBase::USHORT);
-          this->SetComponentType(ImageIOBase::USHORT);
-          }
+        this->SetPixelType(ImageIOBase::SHORT);
+        this->SetComponentType(ImageIOBase::SHORT);
         }
       else
         {
@@ -209,6 +203,12 @@ void DICOMImageIO2::ReadImageInformation()
         this->SetComponentType(ImageIOBase::USHORT);
         }
       }
+    else
+      {
+      this->SetPixelType(ImageIOBase::USHORT);
+      this->SetComponentType(ImageIOBase::USHORT);
+      }
+    }
 
   this->SetNumberOfComponents(num_comp);
   AppHelper->ClearSliceNumberMap();
@@ -223,15 +223,15 @@ void DICOMImageIO2::PrintSelf(std::ostream& os, Indent indent) const
   Superclass::PrintSelf(os, indent);
   os << indent << "Spacing: ( ";
   for (i=0; i < m_NumberOfDimensions; i++)
-  {
+    {
     os << m_Spacing[i] << " ";
-  }
+    }
   os << " )\n";
   os << indent << "Origin: ( ";
   for (i=0; i < m_Origin.size(); i++)
-  {
+    {
     os << m_Origin[i] << " ";
-  }
+    }
   os << " )" << std::endl; 
 }
 

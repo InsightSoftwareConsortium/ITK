@@ -74,7 +74,7 @@ public:
   /** Standard class typedefs. */
   typedef AnisotropicDiffusionImageFilter Self;
   typedef DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
-   Superclass;
+  Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
@@ -127,11 +127,11 @@ public:
       block artifacts by overriding the normal gradient magnitude calculation
       (i.e. all image chunks are scaled uniformly). */
   void SetFixedAverageGradientMagnitude(double a)
-    {
-      m_FixedAverageGradientMagnitude= a;
-      this->Modified();
-      m_GradientMagnitudeIsFixed = true;
-    }
+  {
+    m_FixedAverageGradientMagnitude= a;
+    this->Modified();
+    m_GradientMagnitudeIsFixed = true;
+  }
   itkGetMacro(FixedAverageGradientMagnitude, double);
   
 protected:

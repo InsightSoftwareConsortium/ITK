@@ -49,9 +49,9 @@ ElasticBodySplineKernelTransform<TScalarType, NDimensions>
     // G is symmetric
     for(unsigned int j=0; j<i; j++)
       {
-        const TScalarType value = xi * x[j]; 
-        m_GMatrix[i][j] = value;
-        m_GMatrix[j][i] = value;
+      const TScalarType value = xi * x[j]; 
+      m_GMatrix[i][j] = value;
+      m_GMatrix[j][i] = value;
       }
     m_GMatrix[i][i] =  radial + xi * x[i];
     }
@@ -63,10 +63,10 @@ template <class TScalarType, unsigned int NDimensions>
 void
 ElasticBodySplineKernelTransform<TScalarType, NDimensions>
 ::PrintSelf(std::ostream& os, Indent indent) const
-  {
+{
   Superclass::PrintSelf(os,indent);
   os << indent << "m_Alpha: " << m_Alpha << std::endl;
-  }
+}
 
 } // namespace itk
 #endif

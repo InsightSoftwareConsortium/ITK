@@ -51,7 +51,7 @@ ImageSeriesWriter<TInputImage>
 {
   // ProcessObject is not const_correct so this cast is required here.
   this->ProcessObject::SetNthInput(0, 
-      const_cast<TInputImage *>(input ) );
+                                   const_cast<TInputImage *>(input ) );
 }
 
 
@@ -67,7 +67,7 @@ ImageSeriesWriter<TInputImage>
     }
   
   return static_cast<TInputImage*>
-                     (this->ProcessObject::GetInput(0));
+    (this->ProcessObject::GetInput(0));
 }
   
 //---------------------------------------------------------
@@ -77,7 +77,7 @@ ImageSeriesWriter<TInputImage>
 ::GetInput(unsigned int idx)
 {
   return static_cast<TInputImage*>
-                     (this->ProcessObject::GetInput(idx));
+    (this->ProcessObject::GetInput(idx));
 }
 
 //---------------------------------------------------------
@@ -162,7 +162,7 @@ ImageSeriesWriter<TInputImage>
     // Write the whole image
     ImageIORegion ioRegion(TInputImage::ImageDimension);
     ImageRegion<TInputImage::ImageDimension> region = 
-          input->GetLargestPossibleRegion();
+      input->GetLargestPossibleRegion();
 
     for(unsigned int i=0; i<TInputImage::ImageDimension; i++)
       {
@@ -176,7 +176,7 @@ ImageSeriesWriter<TInputImage>
   //
   m_ImageIO->SetNumberOfDimensions(TInputImage::ImageDimension);
   ImageRegion<TInputImage::ImageDimension> region = 
-        input->GetLargestPossibleRegion();
+    input->GetLargestPossibleRegion();
   const double *spacing = input->GetSpacing();
   const double *origin = input->GetOrigin();
 

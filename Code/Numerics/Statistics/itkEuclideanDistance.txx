@@ -30,8 +30,8 @@ EuclideanDistance< TVector >
   
   for(unsigned int i = 0 ; i < VectorLength ; i++ )
     {
-      temp = x1[i] - x2[i] ;
-      distance += temp * temp ;
+    temp = x1[i] - x2[i] ;
+    distance += temp * temp ;
     }
   
   return sqrt(distance) ;
@@ -47,8 +47,8 @@ EuclideanDistance< TVector >
   
   for(unsigned int i = 0 ; i < VectorLength ; i++ )
     {
-      temp = m_Origin[i] - x[i] ;
-      distance += temp * temp ;
+    temp = m_Origin[i] - x[i] ;
+    distance += temp * temp ;
     }
   
   return sqrt(distance) ;

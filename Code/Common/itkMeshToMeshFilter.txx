@@ -65,7 +65,7 @@ MeshToMeshFilter<TInputMesh,TOutputMesh>
     }
   
   return static_cast<TInputMesh*>
-                     (this->ProcessObject::GetInput(0));
+    (this->ProcessObject::GetInput(0));
 }
 
   
@@ -78,7 +78,7 @@ MeshToMeshFilter<TInputMesh,TOutputMesh>
 ::GetInput(unsigned int idx)
 {
   return static_cast<TInputMesh*>
-                     (this->ProcessObject::GetInput(idx));
+    (this->ProcessObject::GetInput(idx));
 }
 
 

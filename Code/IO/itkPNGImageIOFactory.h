@@ -50,10 +50,10 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-    {
-      PNGImageIOFactory::Pointer pngFactory = PNGImageIOFactory::New();
-      ObjectFactoryBase::RegisterFactory(pngFactory);
-    }
+  {
+    PNGImageIOFactory::Pointer pngFactory = PNGImageIOFactory::New();
+    ObjectFactoryBase::RegisterFactory(pngFactory);
+  }
   
 protected:
   PNGImageIOFactory();
@@ -68,7 +68,7 @@ extern "C"
 #ifdef _WIN32  
 __declspec( dllexport ) 
 #endif
-itk::ObjectFactoryBase* itkLoad();
+  itk::ObjectFactoryBase* itkLoad();
   
   
 } // end namespace itk

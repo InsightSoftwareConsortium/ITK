@@ -42,7 +42,7 @@ template <class TScalarType, unsigned int NDimensions>
 void
 ThinPlateSplineKernelTransform<TScalarType, NDimensions>::
 ComputeDeformationContribution( const InputPointType  & thisPoint,
-                                      OutputPointType & result     ) const
+                                OutputPointType & result     ) const
 {
 
   unsigned long numberOfLandmarks = m_SourceLandmarks->GetNumberOfPoints();

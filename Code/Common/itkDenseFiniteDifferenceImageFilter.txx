@@ -96,7 +96,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   DenseFDThreadStruct str;
   str.Filter = this;
   str.TimeStep = NumericTraits<TimeStepType>::Zero;  // Not used during the
-                                                  // calculate change step.
+  // calculate change step.
   this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
   this->GetMultiThreader()->SetSingleMethod(this->CalculateChangeThreaderCallback,
                                             &str);
@@ -144,9 +144,9 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
 
   if (threadId < total)
     { 
-      str->TimeStepList[threadId]
-        = str->Filter->ThreadedCalculateChange(splitRegion, threadId);
-      str->ValidTimeStepList[threadId] = true;
+    str->TimeStepList[threadId]
+      = str->Filter->ThreadedCalculateChange(splitRegion, threadId);
+    str->ValidTimeStepList[threadId] = true;
     }
 
   return ITK_THREAD_RETURN_VALUE;  
@@ -156,7 +156,7 @@ template <class TInputImage, class TOutputImage>
 void
 DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
 ::ThreadedApplyUpdate(TimeStepType dt, const ThreadRegionType &regionToProcess,
-                           int)
+                      int)
 {
   ImageRegionIterator<UpdateBufferType> u(m_UpdateBuffer,    regionToProcess);
   ImageRegionIterator<OutputImageType>  o(this->GetOutput(), regionToProcess);
@@ -221,9 +221,9 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   nD.GoToBegin();
   while( !nD.IsAtEnd() )
     {
-      nU.Value() = df->ComputeUpdate(nD, globalData);
-      ++nD;
-      ++nU;
+    nU.Value() = df->ComputeUpdate(nD, globalData);
+    ++nD;
+    ++nU;
     }
 
   // Process each of the boundary faces.
@@ -232,17 +232,17 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   UpdateIteratorType   bU;
   for (++fIt; fIt != faceList.end(); ++fIt)
     {
-      bD = NeighborhoodIteratorType(radius, output, *fIt);
-      bU = UpdateIteratorType  (m_UpdateBuffer, *fIt);
+    bD = NeighborhoodIteratorType(radius, output, *fIt);
+    bU = UpdateIteratorType  (m_UpdateBuffer, *fIt);
      
-      bD.GoToBegin();
-      bU.GoToBegin();
-      while ( !bD.IsAtEnd() )
-        {
-          bU.Value() = df->ComputeUpdate(bD, globalData);
-          ++bD;
-          ++bU;
-        }
+    bD.GoToBegin();
+    bU.GoToBegin();
+    while ( !bD.IsAtEnd() )
+      {
+      bU.Value() = df->ComputeUpdate(bD, globalData);
+      ++bD;
+      ++bU;
+      }
     }
 
   // Ask the finite difference function to compute the time step for

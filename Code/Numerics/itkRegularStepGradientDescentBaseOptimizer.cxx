@@ -65,7 +65,7 @@ RegularStepGradientDescentBaseOptimizer
   m_CurrentIteration          = 0;
 
   const unsigned int spaceDimension = 
-              m_CostFunction->GetNumberOfParameters();
+    m_CostFunction->GetNumberOfParameters();
 
   m_Gradient = DerivativeType( spaceDimension );
   m_PreviousGradient = DerivativeType( spaceDimension );
@@ -120,12 +120,12 @@ RegularStepGradientDescentBaseOptimizer
 
     if( m_CurrentIteration == m_NumberOfIterations )
       {
-       m_StopCondition = MaximumNumberOfIterations;
-       this->StopOptimization();
-       break;
+      m_StopCondition = MaximumNumberOfIterations;
+      this->StopOptimization();
+      break;
       }
     
-  }
+    }
     
 
 }
@@ -162,7 +162,7 @@ RegularStepGradientDescentBaseOptimizer
   itkDebugMacro("AdvanceOneStep");
 
   const unsigned int  spaceDimension =
-                m_CostFunction->GetNumberOfParameters();
+    m_CostFunction->GetNumberOfParameters();
 
   DerivativeType transformedGradient( spaceDimension );
   DerivativeType previousTransformedGradient( spaceDimension );
@@ -172,7 +172,7 @@ RegularStepGradientDescentBaseOptimizer
     {
     transformedGradient[i]  = m_Gradient[i] / scales[i];    
     previousTransformedGradient[i] = 
-                      m_PreviousGradient[i] / scales[i];    
+      m_PreviousGradient[i] / scales[i];    
     }
 
   double magnitudeSquare = 0;
@@ -224,7 +224,7 @@ RegularStepGradientDescentBaseOptimizer
     }
 
   const double factor = 
-                direction * m_CurrentStepLength / gradientMagnitude;
+    direction * m_CurrentStepLength / gradientMagnitude;
 
   // This method StepAlongGradient() will 
   // be overloaded in non-vector spaces

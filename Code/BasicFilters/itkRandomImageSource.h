@@ -101,7 +101,7 @@ protected:
   
   virtual void 
   ThreadedGenerateData(const OutputImageRegionType& 
-           outputRegionForThread, int threadId );
+                       outputRegionForThread, int threadId );
   virtual void GenerateOutputInformation();
 
 private:

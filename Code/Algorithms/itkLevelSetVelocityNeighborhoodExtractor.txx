@@ -28,7 +28,7 @@ namespace itk
  *
  */
 template <class TLevelSet, class TAuxValue, 
-unsigned int VAuxDimension>
+          unsigned int VAuxDimension>
 LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension>
 ::LevelSetVelocityNeighborhoodExtractor( )
 {
@@ -45,7 +45,7 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension>
  *
  */
 template <class TLevelSet, class TAuxValue,
-  unsigned int VAuxDimension>
+          unsigned int VAuxDimension>
 void
 LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension>
 ::PrintSelf(std::ostream &os, Indent indent) const
@@ -69,7 +69,7 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension>
  *
  */
 template <class TLevelSet, class TAuxValue,
-  unsigned int VAuxDimension>
+          unsigned int VAuxDimension>
 void
 LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension>
 ::Initialize()
@@ -87,11 +87,11 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension>
  *
  */
 template <class TLevelSet, class TAuxValue,
-  unsigned int VAuxDimension>
+          unsigned int VAuxDimension>
 double
 LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension>
 ::CalculateDistance(
-Index& index)
+  Index& index)
 {
   double distance = this->Superclass::CalculateDistance( index );
   if( distance >= this->GetLargeValue() )
@@ -132,13 +132,13 @@ Index& index)
     }
 
 
- // The extend velcoity value is a weighted value of
- // the speed values at point used in the computation
- // of the distance by the superclass.
- //
- // The weights is proportional to one over the square
- // of distance along the grid line to the zero set 
- // crossing.
+  // The extend velcoity value is a weighted value of
+  // the speed values at point used in the computation
+  // of the distance by the superclass.
+  //
+  // The weights is proportional to one over the square
+  // of distance along the grid line to the zero set 
+  // crossing.
 
   for( unsigned int j = 0; j < SetDimension; j++ )
     {

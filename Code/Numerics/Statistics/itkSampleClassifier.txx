@@ -20,7 +20,7 @@
 #include "itkSampleClassifier.h"
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
 
 template< class TSample >
 SampleClassifier< TSample >
@@ -37,8 +37,8 @@ SampleClassifier< TSample >
 {
   if ( m_Sample != sample )
     {
-      m_Sample = sample ;
-      m_Output->SetSample(sample) ;
+    m_Sample = sample ;
+    m_Output->SetSample(sample) ;
     }
 }
 
@@ -82,32 +82,32 @@ SampleClassifier< TSample >
 
   if ( m_ClassLabels.size() != mfs.size() )
     {
-      while (iter != end)
+    while (iter != end)
+      {
+      measurements = iter.GetMeasurementVector() ;
+      for (i = 0 ; i < numberOfClasses ; i++)
         {
-          measurements = iter.GetMeasurementVector() ;
-          for (i = 0 ; i < numberOfClasses ; i++)
-            {
-              discriminantScores[i] = (mfs[i])->Evaluate(measurements) ;
-            }
-          classLabel = rule->Evaluate(discriminantScores) ;
-          m_Output->AddInstance(classLabel, iter.GetInstanceIdentifier()) ;
-          ++iter ;
+        discriminantScores[i] = (mfs[i])->Evaluate(measurements) ;
         }
+      classLabel = rule->Evaluate(discriminantScores) ;
+      m_Output->AddInstance(classLabel, iter.GetInstanceIdentifier()) ;
+      ++iter ;
+      }
     }
   else
     {
-      while (iter != end)
+    while (iter != end)
+      {
+      measurements = iter.GetMeasurementVector() ;
+      for (i = 0 ; i < numberOfClasses ; i++)
         {
-          measurements = iter.GetMeasurementVector() ;
-          for (i = 0 ; i < numberOfClasses ; i++)
-            {
-              discriminantScores[i] = (mfs[i])->Evaluate(measurements) ;
-            }
-          classLabel = rule->Evaluate(discriminantScores) ;
-          m_Output->AddInstance(m_ClassLabels[classLabel], 
-                                iter.GetInstanceIdentifier()) ;
-          ++iter ;
+        discriminantScores[i] = (mfs[i])->Evaluate(measurements) ;
         }
+      classLabel = rule->Evaluate(discriminantScores) ;
+      m_Output->AddInstance(m_ClassLabels[classLabel], 
+                            iter.GetInstanceIdentifier()) ;
+      ++iter ;
+      }
     }
 }
 
@@ -129,7 +129,7 @@ SampleClassifier< TSample >
   os << indent << "Sample: " << m_Sample << std::endl;
   os << indent << "Output: " << m_Output << std::endl;
 }
-  } // end of namespace Statistics 
+} // end of namespace Statistics 
 } // end of namespace itk
 
 #endif

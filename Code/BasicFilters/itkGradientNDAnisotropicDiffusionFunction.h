@@ -88,21 +88,21 @@ public:
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
                                   void *globalData,
                                   const FloatOffsetType& offset = FloatOffsetType(0.0)
-                                  ) const;
+    ) const;
 
   /** This method is called prior to each iteration of the solver. */
   virtual void InitializeIteration()
-    {
-      m_K = static_cast<PixelType>(this->GetAverageGradientMagnitudeSquared() *
-                                   this->GetConductanceParameter() * -1.0f);
-    }
+  {
+    m_K = static_cast<PixelType>(this->GetAverageGradientMagnitudeSquared() *
+                                 this->GetConductanceParameter() * -1.0f);
+  }
   
 protected:
   GradientNDAnisotropicDiffusionFunction();
   ~GradientNDAnisotropicDiffusionFunction() {}
 
   void PrintSelf(std::ostream& os, Indent indent) const
-    {      Superclass::PrintSelf(os,indent);    }
+  {      Superclass::PrintSelf(os,indent);    }
   
   /** Inner product function. */
   NeighborhoodInnerProduct<ImageType> m_InnerProduct;

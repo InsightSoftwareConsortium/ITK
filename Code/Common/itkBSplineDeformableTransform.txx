@@ -109,7 +109,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   // The number of parameters equal SpaceDimension * number of
   // of pixels in the grid region.
   return ( static_cast<unsigned int>( SpaceDimension ) *
-    static_cast<unsigned int>( m_GridRegion.GetNumberOfPixels() ) );
+           static_cast<unsigned int>( m_GridRegion.GetNumberOfPixels() ) );
 
 }
 
@@ -279,7 +279,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   /** NOTE: For efficiency, this class does not keep a copy of the parameters - 
    * it just keeps pointer to input parameters. 
    */
-   return (*m_InputParametersPointer);
+  return (*m_InputParametersPointer);
 }
 
 
@@ -308,7 +308,7 @@ template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 bool 
 BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 ::InsideValidRegion( 
-const ContinuousIndexType& index ) const
+  const ContinuousIndexType& index ) const
 {
   bool inside = true;
 
@@ -338,11 +338,11 @@ template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 void 
 BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 ::TransformPoint( 
-const InputPointType & point, 
-OutputPointType & outputPoint, 
-WeightsType & weights, 
-ParameterIndexArrayType & indices,
-bool& inside ) const
+  const InputPointType & point, 
+  OutputPointType & outputPoint, 
+  WeightsType & weights, 
+  ParameterIndexArrayType & indices,
+  bool& inside ) const
 {
 
   unsigned int j;

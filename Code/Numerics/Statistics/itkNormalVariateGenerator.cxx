@@ -70,7 +70,7 @@ void NormalVariateGenerator::Initialize(int randomSeed)
 double NormalVariateGenerator::GetVariate()
 {
   if (--gaussfaze)
-      return GScale * gausssave[gaussfaze] ;
+    return GScale * gausssave[gaussfaze] ;
   else
     return FastNorm() ;
 }
@@ -304,16 +304,16 @@ double NormalVariateGenerator::FastNorm(void)
   ts = TLEN / ts;  /* Should be close to 1.0  */
   tr = sqrt (ts);
   for (p = 0; p < TLEN; p++)    {
-    tx = vec1 [p] * tr;
-    vec1 [p] = (int) ((tx < 0.0) ? (tx - 0.5) : (tx + 0.5)) ;
+  tx = vec1 [p] * tr;
+  vec1 [p] = (int) ((tx < 0.0) ? (tx - 0.5) : (tx + 0.5)) ;
   }
 
  recalcsumsq:
   /*    Calculate actual sum of squares for correction   */
   ts = 0.0;
   for (p = 0; p < TLEN; p++)    {       
-    tx = vec1[p];
-    ts += (tx * tx);
+  tx = vec1[p];
+  ts += (tx * tx);
   }
   /*    Now ts should be Scale*Scale*TLEN or thereabouts   */
   ts = sqrt (ts / (Scale * Scale * TLEN));

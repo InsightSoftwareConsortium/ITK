@@ -57,15 +57,15 @@ GeneNetwork
 
   m_ProteinConcentration.clear();
   m_ProteinConcentration.insert( 
-                      m_ProteinConcentration.begin(),
-          geneNetwork.m_ProteinConcentration.begin(),
-          geneNetwork.m_ProteinConcentration.end()    );
+    m_ProteinConcentration.begin(),
+    geneNetwork.m_ProteinConcentration.begin(),
+    geneNetwork.m_ProteinConcentration.end()    );
 
   m_DomainConcentration.clear();
   m_DomainConcentration.insert( 
-                      m_DomainConcentration.begin(),
-          geneNetwork.m_DomainConcentration.begin(),
-          geneNetwork.m_DomainConcentration.end()    );
+    m_DomainConcentration.begin(),
+    geneNetwork.m_DomainConcentration.begin(),
+    geneNetwork.m_DomainConcentration.end()    );
 
 
 

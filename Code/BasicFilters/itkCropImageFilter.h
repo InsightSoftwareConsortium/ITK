@@ -81,10 +81,10 @@ public:
                  
 protected:
   CropImageFilter()
-    {
+  {
     m_UpperBoundaryCropSize.Fill(0);
     m_LowerBoundaryCropSize.Fill(0);
-    };
+  };
   ~CropImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 

@@ -84,13 +84,13 @@ public:
   void SetShrinkFactors( unsigned int factors[] );
   void SetShrinkFactors( unsigned int factor );
   void SetShrinkFactor( unsigned int i, unsigned int factor )
-    {
+  {
     m_ShrinkFactors[i] = factor;
-    }
+  }
   
   /** Get the shrink factors. */
   const unsigned int * GetShrinkFactors() const
-    { return m_ShrinkFactors; }
+  { return m_ShrinkFactors; }
                  
   /** ShrinkImageFilter produces an image which is a different
    * resolution and with a different pixel spacing than its input

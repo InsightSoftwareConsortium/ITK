@@ -27,41 +27,41 @@ namespace itk
 // are mapped to another constant.
 namespace Functor {  
  
- template< typename TInput, typename  TOutput>
- class IntensityWindowingTransform
- {
- public:
-   typedef typename NumericTraits< TInput >::RealType RealType;
-   IntensityWindowingTransform() {}
-   ~IntensityWindowingTransform() {}
-   void SetFactor( RealType a ) { m_Factor = a; }
-   void SetOffset( RealType b ) { m_Offset = b; }
-   void SetOutputMinimum( TOutput min ) { m_OutputMinimum = min; }
-   void SetOutputMaximum( TOutput max ) { m_OutputMaximum = max; }
-   void SetWindowMinimum( TInput  min ) { m_WindowMinimum = min; }
-   void SetWindowMaximum( TInput  max ) { m_WindowMaximum = max; }
-   inline TOutput operator()( const TInput & x )
-   {
-     if( x < m_WindowMinimum )
-       {
-       return m_OutputMinimum;
-       }
-     if( x > m_WindowMaximum )
-       {
-       return m_OutputMaximum;
-       }
-     const RealType value  = static_cast<RealType>(x) * m_Factor + m_Offset;
-     const TOutput  result = static_cast<TOutput>( value );
-     return result;
-   }
-  private:
-    RealType m_Factor;
-    RealType m_Offset;
-    TOutput  m_OutputMaximum;
-    TOutput  m_OutputMinimum;
-    TInput   m_WindowMaximum;
-    TInput   m_WindowMinimum;
- }; 
+template< typename TInput, typename  TOutput>
+class IntensityWindowingTransform
+{
+public:
+  typedef typename NumericTraits< TInput >::RealType RealType;
+  IntensityWindowingTransform() {}
+  ~IntensityWindowingTransform() {}
+  void SetFactor( RealType a ) { m_Factor = a; }
+  void SetOffset( RealType b ) { m_Offset = b; }
+  void SetOutputMinimum( TOutput min ) { m_OutputMinimum = min; }
+  void SetOutputMaximum( TOutput max ) { m_OutputMaximum = max; }
+  void SetWindowMinimum( TInput  min ) { m_WindowMinimum = min; }
+  void SetWindowMaximum( TInput  max ) { m_WindowMaximum = max; }
+  inline TOutput operator()( const TInput & x )
+  {
+    if( x < m_WindowMinimum )
+      {
+      return m_OutputMinimum;
+      }
+    if( x > m_WindowMaximum )
+      {
+      return m_OutputMaximum;
+      }
+    const RealType value  = static_cast<RealType>(x) * m_Factor + m_Offset;
+    const TOutput  result = static_cast<TOutput>( value );
+    return result;
+  }
+private:
+  RealType m_Factor;
+  RealType m_Offset;
+  TOutput  m_OutputMaximum;
+  TOutput  m_OutputMinimum;
+  TInput   m_WindowMaximum;
+  TInput   m_WindowMinimum;
+}; 
 
 }  // end namespace functor
 
@@ -89,18 +89,18 @@ namespace Functor {
 template <typename  TInputImage, typename  TOutputImage=TInputImage>
 class ITK_EXPORT IntensityWindowingImageFilter :
     public
-    UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::IntensityWindowingTransform< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   >
+UnaryFunctorImageFilter<TInputImage,TOutputImage, 
+                        Functor::IntensityWindowingTransform< 
+  typename TInputImage::PixelType, 
+  typename TOutputImage::PixelType>   >
 {
 public:
   /** Standard class typedefs. */
   typedef IntensityWindowingImageFilter  Self;
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::IntensityWindowingTransform< 
-                  typename TInputImage::PixelType, 
-                  typename TOutputImage::PixelType> >  Superclass;
+                                  Functor::IntensityWindowingTransform< 
+    typename TInputImage::PixelType, 
+    typename TOutputImage::PixelType> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

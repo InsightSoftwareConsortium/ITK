@@ -53,10 +53,10 @@ ScalarToRGBPixelFunctor<TScalar>
   RGBPixelType ans;
   if (this->m_IsBigEndian == true)
     { // swap bytes
-      TScalar tmp;
-      for (j = sizeof(TScalar) - 1, i = 0; j >=0 ; j--, i++)
-        { ((unsigned char *)(&tmp))[i] = bytes[j];    }
-      buf = tmp;
+    TScalar tmp;
+    for (j = sizeof(TScalar) - 1, i = 0; j >=0 ; j--, i++)
+      { ((unsigned char *)(&tmp))[i] = bytes[j];    }
+    buf = tmp;
     }
   
   ans[0] = static_cast<RGBComponentType>( bytes[m_Index[0]] * 3 );

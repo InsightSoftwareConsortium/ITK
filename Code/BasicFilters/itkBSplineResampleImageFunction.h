@@ -46,8 +46,8 @@ namespace itk
  */
 template <class TImageType, class TCoordRep = float>
 class ITK_EXPORT BSplineResampleImageFunction : 
-  public BSplineInterpolateImageFunction<
-    TImageType,TCoordRep,ITK_TYPENAME TImageType::PixelType > 
+    public BSplineInterpolateImageFunction<
+  TImageType,TCoordRep,ITK_TYPENAME TImageType::PixelType > 
 {
 public:
   /** Standard class typedefs. */
@@ -59,27 +59,27 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineReconstructionImageFunction, 
-    BSplineInterpolateImageFunction);
+               BSplineInterpolateImageFunction);
 
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro( Self );
 
   /** Set the input image representing the BSplineCoefficients */
   virtual void SetInputImage(const TImageType * inputData)
-    {
+  {
     // bypass my superclass
     this->InterpolateImageFunction<TImageType,TCoordRep>::SetInputImage(inputData);
     m_Coefficients = inputData;
     m_DataLength = m_Coefficients->GetBufferedRegion().GetSize();
-    }
+  }
 
 protected:
   BSplineResampleImageFunction() {};
   virtual ~BSplineResampleImageFunction() {};
   void PrintSelf(std::ostream& os, Indent indent) const
-    {
+  {
     this->Superclass::PrintSelf( os, indent );
-    }
+  }
 
 private:
   

@@ -35,33 +35,33 @@ namespace itk
  */
 namespace Function {  
   
-  template< class TInput1, class TInput2, class TOutput>
-  class Sub2
-  {
-  public:
-    Sub2() {}
-    ~Sub2() {}
-    inline TOutput operator()( const TInput1 & A, const TInput2 & B)
-      { return (TOutput)(A - B); }
-  }; 
+template< class TInput1, class TInput2, class TOutput>
+class Sub2
+{
+public:
+  Sub2() {}
+  ~Sub2() {}
+  inline TOutput operator()( const TInput1 & A, const TInput2 & B)
+  { return (TOutput)(A - B); }
+}; 
 }
 
 template <class TInputImage1, class TInputImage2, class TOutputImage>
 class ITK_EXPORT SubtractImageFilter :
     public
-    BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-    Function::Sub2< 
-              typename TInputImage1::PixelType, 
-              typename TInputImage2::PixelType,
-              typename TOutputImage::PixelType>   >
+BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
+                         Function::Sub2< 
+  typename TInputImage1::PixelType, 
+  typename TInputImage2::PixelType,
+  typename TOutputImage::PixelType>   >
 {
 public:
   /** Standard class typedefs. */
   typedef SubtractImageFilter  Self;
   typedef BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-    Function::Sub2< typename TInputImage1::PixelType, 
-                    typename TInputImage2::PixelType,
-                    typename TOutputImage::PixelType> >  Superclass;
+                                   Function::Sub2< typename TInputImage1::PixelType, 
+                                                   typename TInputImage2::PixelType,
+                                                   typename TOutputImage::PixelType> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

@@ -35,7 +35,7 @@ BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>
   // Initialize the number of weights;
   m_NumberOfWeights = 
     static_cast<unsigned long>( pow( static_cast<double>(SplineOrder + 1),
-  static_cast<double>(SpaceDimension) ) );
+                                     static_cast<double>(SpaceDimension) ) );
 
   // Initialize support region is a hypercube of length SplineOrder + 1
   m_SupportSize.Fill( SplineOrder + 1 );
@@ -78,8 +78,8 @@ template <class TCoordRep, unsigned int VSpaceDimension, unsigned int VSplineOrd
 void
 BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>
 ::PrintSelf(
-std::ostream& os, 
-Indent indent) const
+  std::ostream& os, 
+  Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
   
@@ -97,7 +97,7 @@ typename BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineO
 ::WeightsType
 BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>
 ::Evaluate(
-const ContinuousIndexType& index ) const
+  const ContinuousIndexType& index ) const
 {
 
   WeightsType weights( m_NumberOfWeights );
@@ -116,9 +116,9 @@ const ContinuousIndexType& index ) const
 template <class TCoordRep, unsigned int VSpaceDimension, unsigned int VSplineOrder>
 void BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>
 ::Evaluate(
-const ContinuousIndexType & index,
-WeightsType & weights, 
-IndexType & startIndex ) const
+  const ContinuousIndexType & index,
+  WeightsType & weights, 
+  IndexType & startIndex ) const
 {
 
   unsigned int j, k;

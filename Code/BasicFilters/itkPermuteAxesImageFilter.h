@@ -44,7 +44,7 @@ namespace itk
  */
 template <class TImage>
 class ITK_EXPORT PermuteAxesImageFilter :
-  public ImageToImageFilter<TImage,TImage>
+    public ImageToImageFilter<TImage,TImage>
 {
 
 public:

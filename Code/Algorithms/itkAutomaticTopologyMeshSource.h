@@ -214,7 +214,7 @@ public:
    * function is called. */
   IdentifierType AddLine( const IdentifierArrayType& pointIds );
   IdentifierType AddLine(
-      IdentifierType pointId0, IdentifierType pointId1 );
+    IdentifierType pointId0, IdentifierType pointId1 );
   IdentifierType AddLine( const PointType& p0, const PointType& p1 );
   IdentifierType AddLine( const CoordinateType p0[ PointDimension ],
                           const CoordinateType p1[ PointDimension ] );
@@ -231,10 +231,10 @@ public:
    * */
   IdentifierType AddTriangle(      const IdentifierArrayType& pointIds );
   IdentifierType AddTriangle(
-      IdentifierType pointId0, IdentifierType pointId1,
-      IdentifierType pointId2 );
+    IdentifierType pointId0, IdentifierType pointId1,
+    IdentifierType pointId2 );
   IdentifierType AddTriangle( const PointType& p0, const PointType& p1,
-                            const PointType& p2 );
+                              const PointType& p2 );
   IdentifierType AddTriangle( const CoordinateType p0[ PointDimension ],
                               const CoordinateType p1[ PointDimension ],
                               const CoordinateType p2[ PointDimension ] );
@@ -261,10 +261,10 @@ public:
    * */
   IdentifierType AddQuadrilateral( const IdentifierArrayType& pointIds );
   IdentifierType AddQuadrilateral(
-      IdentifierType pointId0, IdentifierType pointId1,
-      IdentifierType pointId2, IdentifierType pointId3 );
+    IdentifierType pointId0, IdentifierType pointId1,
+    IdentifierType pointId2, IdentifierType pointId3 );
   IdentifierType AddQuadrilateral( const PointType& p0, const PointType& p1,
-                                 const PointType& p2, const PointType& p3 );
+                                   const PointType& p2, const PointType& p3 );
   IdentifierType AddQuadrilateral( const CoordinateType p0[ PointDimension ],
                                    const CoordinateType p1[ PointDimension ],
                                    const CoordinateType p2[ PointDimension ],
@@ -284,10 +284,10 @@ public:
    * */
   IdentifierType AddTetrahedron(   const IdentifierArrayType& pointIds );
   IdentifierType AddTetrahedron(
-      IdentifierType pointId0, IdentifierType pointId1,
-      IdentifierType pointId2, IdentifierType pointId3 );
+    IdentifierType pointId0, IdentifierType pointId1,
+    IdentifierType pointId2, IdentifierType pointId3 );
   IdentifierType AddTetrahedron( const PointType& p0, const PointType& p1,
-                               const PointType& p2, const PointType& p3 );
+                                 const PointType& p2, const PointType& p3 );
   IdentifierType AddTetrahedron( const CoordinateType p0[ PointDimension ],
                                  const CoordinateType p1[ PointDimension ],
                                  const CoordinateType p2[ PointDimension ],
@@ -323,10 +323,10 @@ public:
    * p7)</tt>. */
   IdentifierType AddHexahedron(    const IdentifierArrayType& pointIds );
   IdentifierType AddHexahedron(
-      IdentifierType pointId0, IdentifierType pointId1,
-      IdentifierType pointId2, IdentifierType pointId3,
-      IdentifierType pointId4, IdentifierType pointId5,
-      IdentifierType pointId6, IdentifierType pointId7 );
+    IdentifierType pointId0, IdentifierType pointId1,
+    IdentifierType pointId2, IdentifierType pointId3,
+    IdentifierType pointId4, IdentifierType pointId5,
+    IdentifierType pointId6, IdentifierType pointId7 );
   IdentifierType AddHexahedron(
     const PointType& p0, const PointType& p1, const PointType& p2,
     const PointType& p3, const PointType& p4, const PointType& p5,

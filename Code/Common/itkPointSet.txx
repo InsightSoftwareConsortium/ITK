@@ -37,7 +37,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>
      << this->GetNumberOfPoints()  << std::endl;
 
   os << indent << "Requested Number Of Regions: " 
-  << m_RequestedNumberOfRegions << std::endl;
+     << m_RequestedNumberOfRegions << std::endl;
   os << indent << "Requested Region: " << m_RequestedRegion << std::endl;
   os << indent << "Maximum Number Of Regions: " 
      << m_MaximumNumberOfRegions << std::endl;
@@ -399,8 +399,8 @@ PointSet<TPixelType, VDimension, TMeshTraits>
     {
     // pointer could not be cast back down
     itkExceptionMacro(<< "itk::PointSet::CopyInformation() cannot cast "
-                  << typeid(data).name() << " to "
-                  << typeid(PointSet*).name() );
+                      << typeid(data).name() << " to "
+                      << typeid(PointSet*).name() );
     }
 }
 
@@ -483,8 +483,8 @@ PointSet<TPixelType, VDimension, TMeshTraits>
   if ( m_RequestedNumberOfRegions > m_MaximumNumberOfRegions )
     {
     itkExceptionMacro( << "Cannot break object into " <<
-    m_RequestedNumberOfRegions << ". The limit is " <<
-    m_MaximumNumberOfRegions );
+                       m_RequestedNumberOfRegions << ". The limit is " <<
+                       m_MaximumNumberOfRegions );
     retval = false;
     }
 
@@ -492,8 +492,8 @@ PointSet<TPixelType, VDimension, TMeshTraits>
        m_RequestedRegion < 0 )
     {
     itkExceptionMacro( << "Invalid update region " << m_RequestedRegion
-                   << ". Must be between 0 and " 
-                   << m_RequestedNumberOfRegions - 1);
+                       << ". Must be between 0 and " 
+                       << m_RequestedNumberOfRegions - 1);
     retval = false;
     }
 

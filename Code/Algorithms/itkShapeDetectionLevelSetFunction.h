@@ -89,8 +89,8 @@ public:
 
   /** The curvature speed is same as the propagation speed. */
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType & neighborhood,
-                                           const FloatOffsetType & offset ) const
-    { return PropagationSpeed( neighborhood, offset ); }
+                                         const FloatOffsetType & offset ) const
+  { return PropagationSpeed( neighborhood, offset ); }
 
   virtual void Initialize(const RadiusType &r)
   {

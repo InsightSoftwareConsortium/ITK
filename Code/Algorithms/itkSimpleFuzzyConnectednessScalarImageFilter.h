@@ -71,13 +71,13 @@ namespace itk{
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT SimpleFuzzyConnectednessScalarImageFilter:
-  public SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
+    public SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
   typedef SimpleFuzzyConnectednessScalarImageFilter       Self;
   typedef SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>   
-                                              Superclass;
+  Superclass;
   typedef SmartPointer <Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -127,7 +127,7 @@ public:
 
   /** Setting the parameters for segmentation. */
   void SetParameters(const double inmean,const double invar, 
-    const double indifmean,const double indifvar,const double inweight);
+                     const double indifmean,const double indifvar,const double inweight);
   
 protected:
   SimpleFuzzyConnectednessScalarImageFilter();

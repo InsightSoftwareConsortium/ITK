@@ -42,7 +42,7 @@ ImageIOFactory::CreateImageIO(const char* path, FileModeType mode)
 
   std::list<ImageIOBase::Pointer> possibleImageIO;
   std::list<LightObject::Pointer> allobjects = 
-                  ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
+    ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
   for(std::list<LightObject::Pointer>::iterator i = allobjects.begin();
       i != allobjects.end(); ++i)
     {
@@ -90,20 +90,20 @@ ImageIOFactory::RegisterBuiltInFactories()
 
   static SimpleMutexLock mutex;
   {
-    // This helper class makes sure the Mutex is unlocked 
-    // in the event an exception is thrown.
-    MutexLockHolder<SimpleMutexLock> mutexHolder( mutex );
-    if( firstTime )
-      {
-      ObjectFactoryBase::RegisterFactory( DicomImageIOFactory::New() ); 
-      ObjectFactoryBase::RegisterFactory( MetaImageIOFactory::New() ); 
-      ObjectFactoryBase::RegisterFactory( PNGImageIOFactory::New() ); 
-      ObjectFactoryBase::RegisterFactory( VTKImageIOFactory::New() ); 
-      ObjectFactoryBase::RegisterFactory( GiplImageIOFactory::New() ); 
-      ObjectFactoryBase::RegisterFactory( AnalyzeImageIOFactory::New());
-      ObjectFactoryBase::RegisterFactory( StimulateImageIOFactory::New());
-      firstTime = false;
-      }
+  // This helper class makes sure the Mutex is unlocked 
+  // in the event an exception is thrown.
+  MutexLockHolder<SimpleMutexLock> mutexHolder( mutex );
+  if( firstTime )
+    {
+    ObjectFactoryBase::RegisterFactory( DicomImageIOFactory::New() ); 
+    ObjectFactoryBase::RegisterFactory( MetaImageIOFactory::New() ); 
+    ObjectFactoryBase::RegisterFactory( PNGImageIOFactory::New() ); 
+    ObjectFactoryBase::RegisterFactory( VTKImageIOFactory::New() ); 
+    ObjectFactoryBase::RegisterFactory( GiplImageIOFactory::New() ); 
+    ObjectFactoryBase::RegisterFactory( AnalyzeImageIOFactory::New());
+    ObjectFactoryBase::RegisterFactory( StimulateImageIOFactory::New());
+    firstTime = false;
+    }
   }
 
 }

@@ -37,7 +37,7 @@ namespace itk
 
 template < unsigned int TDimension = 3 >
 class SurfaceSpatialObject 
-:public SpatialObject<  TDimension >
+  :public SpatialObject<  TDimension >
 {
 
 public:
@@ -99,7 +99,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION 
-  #include "itkSurfaceSpatialObject.txx" 
+#include "itkSurfaceSpatialObject.txx" 
 #endif 
 
 #endif // __itkSurfaceSpatialObject_h

@@ -116,9 +116,9 @@ BloxCoreAtomPixel<NDimensions>
 {
   // Returns a mean of 0 if there are no core atoms present
   if( this->empty() )
-  {
+    {
     return 0;
-  }
+    }
 
   unsigned long int numCoreAtoms = 0;
   m_MeanCoreAtomDiameter = 0;
@@ -126,7 +126,7 @@ BloxCoreAtomPixel<NDimensions>
   // The iterator for accessing linked list info
   typename itk::BloxCoreAtomPixel<NDimensions>::iterator bpiterator;
   
-    // Walk through all of the items at the pixel
+  // Walk through all of the items at the pixel
   for (bpiterator = this->begin(); bpiterator != this->end(); ++bpiterator)
     {
     // Get the pointer of the core atom
@@ -152,9 +152,9 @@ BloxCoreAtomPixel<NDimensions>
 {
   // Don't attemp Eigenanalysis on an empty blox
   if( this->empty() )
-  {
+    {
     return false;
-  }
+    }
 
   // The iterator for accessing linked list info
   typename itk::BloxCoreAtomPixel<NDimensions>::iterator bpiterator;
@@ -290,16 +290,16 @@ BloxCoreAtomPixel<NDimensions>
 
   //printf("VotedCMatrix\n");
   for(int i = 0; i < 3; i++)
-  {
+    {
     //printf("%f %f %f\n", m_VotedCMatrix(i,0), m_VotedCMatrix(i,1), m_VotedCMatrix(i,2) );
-  }
+    }
   //printf("\n");
 
   //printf("Voted eigenvectors\n");
   for(int i = 0; i < 3; i++)
-  {
+    {
     //printf("%f %f %f\n", m_VotedEigenvectors(i,0), m_VotedEigenvectors(i,1), m_VotedEigenvectors(i,2) );
-  }
+    }
   //printf("\n");
 }
 

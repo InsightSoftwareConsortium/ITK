@@ -46,7 +46,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  */  
 class ITK_EXPORT GradientDescentOptimizer : 
-        public SingleValuedNonLinearOptimizer
+    public SingleValuedNonLinearOptimizer
 {
 public:
   /** Standard class typedefs. */
@@ -73,13 +73,13 @@ public:
   itkSetMacro( Maximize, bool );
   itkBooleanMacro( Maximize );
   bool GetMinimize( ) const
-    { return !m_Maximize; }
+  { return !m_Maximize; }
   void SetMinimize(bool v)
-    { this->SetMaximize(!v); }
+  { this->SetMaximize(!v); }
   void MinimizeOn()
-    { this->MaximizeOff(); }
+  { this->MaximizeOff(); }
   void MinimizeOff()
-    { this->MaximizeOn(); }
+  { this->MaximizeOn(); }
   
   /** Advance one step following the gradient direction. */
   virtual void AdvanceOneStep( void );

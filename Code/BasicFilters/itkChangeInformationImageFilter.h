@@ -89,14 +89,14 @@ public:
   /** Copy the information from another Image.  By default,
    *  the information is copied from the input image. */
   void SetReferenceImage (TInputImage *image)
-    {
+  {
     if (image != m_ReferenceImage)
       {
       m_ReferenceImage = image;
       this->ProcessObject::SetNthInput(1, image);
       this->Modified();
       }
-    }
+  }
   itkGetObjectMacro(ReferenceImage, TInputImage);
 
   itkSetMacro(UseReferenceImage, bool);
@@ -128,20 +128,20 @@ public:
 
   /** Change the origin, spacing and region of the output image. */
   void ChangeAll()
-    {
+  {
     this->ChangeSpacingOn();
     this->ChangeOriginOn();
     this->ChangeRegionOn();
-    }
+  }
 
   /** Change neither the origin nor spacing nor region of the output image. */
 
   void ChangeNone()
-    {
+  {
     this->ChangeSpacingOff();
     this->ChangeOriginOff();
     this->ChangeRegionOff();
-    }
+  }
 
   /** Change the Spacing of the output image. If false, the output
    *  image spacing will be set to the input image spacing. If true, the
@@ -185,7 +185,7 @@ public:
   /** Copy the input buffer. */
   void GenerateData();
 
- protected:
+protected:
   ChangeInformationImageFilter();
   ~ChangeInformationImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;

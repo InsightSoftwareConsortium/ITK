@@ -114,7 +114,7 @@ template < class TFixedImage, class TMovingImage>
 void
 NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 ::GetDerivative( const TransformParametersType & parameters,
-                       DerivativeType & derivative ) const
+                 DerivativeType & derivative ) const
 {
 
   if( !m_GradientImage )
@@ -200,7 +200,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
       const RealType fixedValue     = ti.Get();
 
       const TransformJacobianType & jacobian =
-                          m_Transform->GetJacobian( inputPoint ); 
+        m_Transform->GetJacobian( inputPoint ); 
 
       // Get the gradient by NearestNeighboorInterpolation: 
       // which is equivalent to round up the point components.
@@ -219,7 +219,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
         }
 
       const GradientPixelType gradient = 
-                                m_GradientImage->GetPixel( mappedIndex );
+        m_GradientImage->GetPixel( mappedIndex );
 
       for(unsigned int par=0; par<ParametersDimension; par++)
         {
@@ -353,7 +353,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
       const RealType fixedValue     = ti.Get();
 
       const TransformJacobianType & jacobian =
-                          m_Transform->GetJacobian( inputPoint ); 
+        m_Transform->GetJacobian( inputPoint ); 
 
       // Get the gradient by NearestNeighboorInterpolation: 
       // which is equivalent to round up the point components.
@@ -372,7 +372,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
         }
 
       const GradientPixelType gradient = 
-                                m_GradientImage->GetPixel( mappedIndex );
+        m_GradientImage->GetPixel( mappedIndex );
 
       for(unsigned int par=0; par<ParametersDimension; par++)
         {

@@ -34,40 +34,40 @@ namespace itk
  */
 
 namespace Function {  
-  template< class TInput, class TOutput>
-  class ExpNegative
+template< class TInput, class TOutput>
+class ExpNegative
+{
+public:
+  ExpNegative() { m_Factor = 1.0; }
+  ~ExpNegative() {};
+  inline TOutput operator()( const TInput & A )
   {
-  public:
-    ExpNegative() { m_Factor = 1.0; }
-    ~ExpNegative() {};
-    inline TOutput operator()( const TInput & A )
-    {
-      return static_cast<TOutput>( exp( - m_Factor * static_cast<double>(A) ) );
-    }
+    return static_cast<TOutput>( exp( - m_Factor * static_cast<double>(A) ) );
+  }
   void SetFactor( double factor ) {
     m_Factor = factor;
-    }
+  }
   double GetFactor() const {
     return m_Factor;
-    }
-  private:
-    double  m_Factor;
-  }; 
+  }
+private:
+  double  m_Factor;
+}; 
 }
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT ExpNegativeImageFilter :
     public
-    UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Function::ExpNegative< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   >
+UnaryFunctorImageFilter<TInputImage,TOutputImage, 
+                        Function::ExpNegative< 
+  typename TInputImage::PixelType, 
+  typename TOutputImage::PixelType>   >
 {
 public:
   /** Standard class typedefs. */
   typedef ExpNegativeImageFilter  Self;
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Function::ExpNegative< typename TInputImage::PixelType, 
-                   typename TOutputImage::PixelType> >  Superclass;
+                                  Function::ExpNegative< typename TInputImage::PixelType, 
+                                                         typename TOutputImage::PixelType> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -75,14 +75,14 @@ public:
   itkNewMacro(Self);
   
   void SetFactor( double factor )
-    {
+  {
     if( factor == this->GetFunctor().GetFactor() ) 
       {
       return;
       }
     this->GetFunctor().SetFactor( factor );
     this->Modified();
-    }
+  }
 protected:
   ExpNegativeImageFilter() {}
   virtual ~ExpNegativeImageFilter() {}

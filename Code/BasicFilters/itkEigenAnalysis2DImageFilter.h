@@ -40,7 +40,7 @@ namespace itk {
 
 template <class TInputImage, class TEigenValueImage, class TEigenVectorImage >
 class ITK_EXPORT EigenAnalysis2DImageFilter:
-  public ImageToImageFilter<TInputImage,TEigenValueImage>
+    public ImageToImageFilter<TInputImage,TEigenValueImage>
 {
 public:
   /** Standard class typedefs. */

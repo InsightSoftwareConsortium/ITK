@@ -41,7 +41,7 @@ ImageIteratorWithIndex<TImage>
 template<class TImage>
 ImageIteratorWithIndex<TImage>
 ::ImageIteratorWithIndex(const Self& it):
-        ImageConstIteratorWithIndex<TImage>(it)
+  ImageConstIteratorWithIndex<TImage>(it)
 {
 }
 
@@ -53,7 +53,7 @@ ImageIteratorWithIndex<TImage>
 template<class TImage>
 ImageIteratorWithIndex<TImage>
 ::ImageIteratorWithIndex(TImage *ptr, const RegionType & region ):
-                                  ImageConstIteratorWithIndex<TImage>( ptr, region )
+  ImageConstIteratorWithIndex<TImage>( ptr, region )
 {
 }
  
@@ -64,7 +64,7 @@ ImageIteratorWithIndex<TImage>
 template<class TImage>
 ImageIteratorWithIndex<TImage>
 ::ImageIteratorWithIndex(const ImageConstIteratorWithIndex<TImage> & it):
-                                  ImageConstIteratorWithIndex<TImage>( it )
+  ImageConstIteratorWithIndex<TImage>( it )
 {
 }
 

@@ -93,46 +93,46 @@ template <typename TCellInterface>
 bool
 PolygonCell< TCellInterface >
 ::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId,
-                      CellAutoPointer& cellPointer )
+                     CellAutoPointer& cellPointer )
 {
   switch (dimension)
     {
     case 0: 
+    {
+    VertexAutoPointer vertexPointer;
+    if( this->GetVertex(featureId,vertexPointer) )
       {
-      VertexAutoPointer vertexPointer;
-      if( this->GetVertex(featureId,vertexPointer) )
-        {
-        TransferAutoPointer(cellPointer,vertexPointer);
-        return true;
-        }
-      else
-        {
-        cellPointer.Reset();
-        return false;
-        }
-      break;
+      TransferAutoPointer(cellPointer,vertexPointer);
+      return true;
       }
-    case 1: 
-      {
-      EdgeAutoPointer edgePointer;
-      if( this->GetEdge(featureId,edgePointer) )
-        {
-        TransferAutoPointer(cellPointer,edgePointer);
-        return true;
-        }
-      else
-        {
-        cellPointer.Reset();
-        return false;
-        }
-      break;
-      }
-
-    default: 
+    else
       {
       cellPointer.Reset();
       return false;
       }
+    break;
+    }
+    case 1: 
+    {
+    EdgeAutoPointer edgePointer;
+    if( this->GetEdge(featureId,edgePointer) )
+      {
+      TransferAutoPointer(cellPointer,edgePointer);
+      return true;
+      }
+    else
+      {
+      cellPointer.Reset();
+      return false;
+      }
+    break;
+    }
+
+    default: 
+    {
+    cellPointer.Reset();
+    return false;
+    }
     }
   return false;
 }
@@ -248,7 +248,7 @@ PolygonCell< TCellInterface >
 ::SetPointId(int localId, PointIdentifier ptId)
 {
   if(m_PointIds.size() < (unsigned int)(localId + 1)) {
-    m_PointIds.resize( localId + 1 );
+  m_PointIds.resize( localId + 1 );
   }
   m_PointIds[localId] = ptId;
 }
@@ -361,12 +361,12 @@ PolygonCell< TCellInterface >
   EdgeType * edge = new EdgeType;
   unsigned int max_pointId = this->GetNumberOfPoints() - 1;
   if( edgeId < max_pointId ){
-    edge->SetPointId(0, m_PointIds[edgeId]);
-    edge->SetPointId(1, m_PointIds[edgeId+1]);
+  edge->SetPointId(0, m_PointIds[edgeId]);
+  edge->SetPointId(1, m_PointIds[edgeId+1]);
   }
   else if( edgeId == max_pointId ) {
-    edge->SetPointId(0, m_PointIds[max_pointId] );
-    edge->SetPointId(1, m_PointIds[0] );
+  edge->SetPointId(0, m_PointIds[max_pointId] );
+  edge->SetPointId(1, m_PointIds[0] );
   }
   edgePointer.TakeOwnership( edge ); 
   return true;

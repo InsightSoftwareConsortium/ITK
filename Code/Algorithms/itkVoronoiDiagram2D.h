@@ -61,7 +61,7 @@ public:
   typedef VoronoiDiagram2D   Self;
   typedef Mesh <TCoordType, 2,
                 DefaultDynamicMeshTraits<TCoordType, 2, 2, TCoordType> >
-                  Superclass;
+  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -113,25 +113,25 @@ public:
   typedef typename PointLocatorType::Pointer      PointLocatorPointer;
   typedef typename BoundingBoxType::Pointer       BoundingBoxPointer;
   typedef typename
-          PointsContainer::ConstIterator        PointsContainerConstIterator;
+  PointsContainer::ConstIterator        PointsContainerConstIterator;
   typedef typename
-          PointsContainer::Iterator             PointsContainerIterator;
+  PointsContainer::Iterator             PointsContainerIterator;
   typedef typename
-          CellsContainer::ConstIterator         CellsContainerConstIterator;
+  CellsContainer::ConstIterator         CellsContainerConstIterator;
   typedef typename
-          CellsContainer::Iterator              CellsContainerIterator;
+  CellsContainer::Iterator              CellsContainerIterator;
   typedef typename
-          CellLinksContainer::ConstIterator     CellLinksContainerIterator;
+  CellLinksContainer::ConstIterator     CellLinksContainerIterator;
   typedef typename
-          PointDataContainer::ConstIterator     PointDataContainerIterator;
+  PointDataContainer::ConstIterator     PointDataContainerIterator;
   typedef typename
-          CellDataContainer::ConstIterator      CellDataContainerIterator;
+  CellDataContainer::ConstIterator      CellDataContainerIterator;
   typedef typename
-          BoundariesContainer::ConstIterator    BoundariesContainerIterator;
+  BoundariesContainer::ConstIterator    BoundariesContainerIterator;
   typedef typename
-          BoundaryDataContainer::ConstIterator  BoundaryDataContainerIterator;
+  BoundaryDataContainer::ConstIterator  BoundaryDataContainerIterator;
   typedef typename
-     PointCellLinksContainer::const_iterator        PointCellLinksContainerIterator;
+  PointCellLinksContainer::const_iterator        PointCellLinksContainerIterator;
   typedef CellFeatureIdentifier                     CellFeatureCount;
   typedef CellInterface<PixelType,CellTraits>       CellInterfaceType;
   typedef PolygonCell<CellInterfaceType>            CellType;
@@ -179,14 +179,14 @@ public:
   void GetPoint(int pId,PointType *answer);
 
   class VoronoiEdge{
-    public:
-      PointType m_Left;
-      PointType m_Right;
-      int m_LeftID;
-      int m_RightID;
-      int m_LineID;
-      VoronoiEdge(){};
-      ~VoronoiEdge(){};
+  public:
+    PointType m_Left;
+    PointType m_Right;
+    int m_LeftID;
+    int m_RightID;
+    int m_LineID;
+    VoronoiEdge(){};
+    ~VoronoiEdge(){};
   };
   
   /** The iterator for Voronoi edges, */
@@ -204,8 +204,8 @@ public:
   void InsertCells();
 
   void AddCellNeighbor(EdgeInfo x){ 
-     m_CellNeighborsID[x[0]].push_back(x[1]);
-     m_CellNeighborsID[x[1]].push_back(x[0]);};
+    m_CellNeighborsID[x[0]].push_back(x[1]);
+    m_CellNeighborsID[x[1]].push_back(x[0]);};
   void ClearRegion(int i){ m_VoronoiRegions[i]->ClearPoints();};  
   void VoronoiRegionAddPointId(int id, int x){m_VoronoiRegions[id]->AddPointId(x);};
   void BuildEdge(int id){ m_VoronoiRegions[id]->BuildEdges();};

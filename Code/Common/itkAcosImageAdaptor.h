@@ -39,7 +39,7 @@ class ITK_EXPORT AcosPixelAccessor
 {
 public:
 
- /** External typedef. It defines the external aspect
+  /** External typedef. It defines the external aspect
    * that this class will exhibit. */
   typedef TExternalType ExternalType;
 
@@ -48,10 +48,10 @@ public:
   typedef TInternalType InternalType;
 
   static inline void Set(TInternalType & output, const TExternalType & input) 
-    {output = (TInternalType)acos((double)input);}
+  {output = (TInternalType)acos((double)input);}
 
   static inline TExternalType Get( const TInternalType & input ) 
-    {return (TExternalType)acos((double)input);}
+  {return (TExternalType)acos((double)input);}
 
 };
 
@@ -67,16 +67,16 @@ public:
 */
 template <class TImage, class TOutputPixelType>
 class ITK_EXPORT AcosImageAdaptor : public
-      ImageAdaptor<TImage,Accessor::AcosPixelAccessor<
-                                      typename TImage::PixelType,
-                                      TOutputPixelType> >
+ImageAdaptor<TImage,Accessor::AcosPixelAccessor<
+  typename TImage::PixelType,
+  TOutputPixelType> >
 {
 public:
   /** Standard class typedefs. */
   typedef AcosImageAdaptor  Self;
   typedef ImageAdaptor<TImage,Accessor::AcosPixelAccessor<
-                                       typename TImage::PixelType,
-                                       TOutputPixelType> >  Superclass;
+    typename TImage::PixelType,
+    TOutputPixelType> >  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   

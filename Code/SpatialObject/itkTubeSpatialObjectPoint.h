@@ -35,7 +35,7 @@ namespace itk
 */ 
 template < unsigned int TPointDimension = 3 >
 class TubeSpatialObjectPoint 
-: public SpatialObjectPoint<TPointDimension>
+  : public SpatialObjectPoint<TPointDimension>
 {
 
 public:
@@ -171,7 +171,7 @@ protected:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkTubeSpatialObjectPoint.txx"
+#include "itkTubeSpatialObjectPoint.txx"
 #endif
 
 #endif // __itkTubeSpatialObjectPoint_h

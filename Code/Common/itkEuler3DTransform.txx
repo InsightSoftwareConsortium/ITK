@@ -56,9 +56,9 @@ Euler3DTransform<TScalarType>
   // Transfer the translation part
   OffsetType offset;
   for(unsigned int i=0; i < SpaceDimension; i++) 
-  {
+    {
     offset[i] = parameters[i+3];
-  }
+    }
 
   this->SetOffset( offset );
 
@@ -133,13 +133,13 @@ Euler3DTransform<TScalarType>
 
   /** Aply the rotation first around Y then X then Z */
   if(m_ComputeZYX)
-  {
+    {
     m_RotationMatrix = RotationZ*RotationY*RotationX;
-  }
+    }
   else
-  {
+    {
     m_RotationMatrix = RotationZ*RotationX*RotationY; // Like VTK transformation order
-  }
+    }
 
   m_InverseMatrix = m_RotationMatrix.GetTranspose();
 
@@ -177,9 +177,9 @@ GetJacobian( const InputPointType & p ) const
   // compute derivatives for the translation part
   unsigned int blockOffset = 3;  
   for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
-  {
+    {
     m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
-  }
+    }
 
   return m_Jacobian;
 

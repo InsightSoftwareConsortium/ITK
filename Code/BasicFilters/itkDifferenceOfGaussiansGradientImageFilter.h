@@ -33,9 +33,9 @@ namespace itk
  */
 template<typename TInputImage, typename TDataType>
 class ITK_EXPORT DifferenceOfGaussiansGradientImageFilter :
-public ImageToImageFilter<TInputImage,
-  Image< CovariantVector<TDataType, ::itk::GetImageDimension<TInputImage>::ImageDimension>, 
-         ::itk::GetImageDimension<TInputImage>::ImageDimension> >
+    public ImageToImageFilter<TInputImage,
+                              Image< CovariantVector<TDataType, ::itk::GetImageDimension<TInputImage>::ImageDimension>, 
+                                     ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 {
 public:
   /** Number of dimensions. */
@@ -47,7 +47,7 @@ public:
   /** Output image typedef. The output image is always an n-dimensional
    * image of n-dimensional vectors of doubles. */
   typedef Image<CovariantVector<TDataType, itkGetStaticConstMacro(NDimensions)>, itkGetStaticConstMacro(NDimensions)>
-    TOutputImage;
+  TOutputImage;
 
   /** Standard class typedefs. */
   typedef ImageToImageFilter<TInputImage, TOutputImage>  Superclass;

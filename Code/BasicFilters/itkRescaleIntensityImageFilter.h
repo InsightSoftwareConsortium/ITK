@@ -26,31 +26,31 @@ namespace itk
 // to input values.
 namespace Functor {  
  
- template< typename TInput, typename  TOutput>
- class IntensityLinearTransform
- {
- public:
-   typedef typename NumericTraits< TInput >::RealType RealType;
-   IntensityLinearTransform() {}
-   ~IntensityLinearTransform() {}
-   void SetFactor( RealType a ) { m_Factor = a; }
-   void SetOffset( RealType b ) { m_Offset = b; }
-   void SetMinimum( TOutput min ) { m_Minimum = min; }
-   void SetMaximum( TOutput max ) { m_Maximum = max; }
-   inline TOutput operator()( const TInput & x )
-   {
-     RealType value  = static_cast<RealType>(x) * m_Factor + m_Offset;
-     TOutput  result = static_cast<TOutput>( value );
-     result = ( result > m_Maximum ) ? m_Maximum : result;
-     result = ( result < m_Minimum ) ? m_Minimum : result;
-     return result;
-   }
-  private:
-    RealType m_Factor;
-    RealType m_Offset;
-    TOutput  m_Maximum;
-    TOutput  m_Minimum;
- }; 
+template< typename TInput, typename  TOutput>
+class IntensityLinearTransform
+{
+public:
+  typedef typename NumericTraits< TInput >::RealType RealType;
+  IntensityLinearTransform() {}
+  ~IntensityLinearTransform() {}
+  void SetFactor( RealType a ) { m_Factor = a; }
+  void SetOffset( RealType b ) { m_Offset = b; }
+  void SetMinimum( TOutput min ) { m_Minimum = min; }
+  void SetMaximum( TOutput max ) { m_Maximum = max; }
+  inline TOutput operator()( const TInput & x )
+  {
+    RealType value  = static_cast<RealType>(x) * m_Factor + m_Offset;
+    TOutput  result = static_cast<TOutput>( value );
+    result = ( result > m_Maximum ) ? m_Maximum : result;
+    result = ( result < m_Minimum ) ? m_Minimum : result;
+    return result;
+  }
+private:
+  RealType m_Factor;
+  RealType m_Offset;
+  TOutput  m_Maximum;
+  TOutput  m_Minimum;
+}; 
 
 }  // end namespace functor
 
@@ -73,18 +73,18 @@ namespace Functor {
 template <typename  TInputImage, typename  TOutputImage=TInputImage>
 class ITK_EXPORT RescaleIntensityImageFilter :
     public
-    UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::IntensityLinearTransform< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   >
+UnaryFunctorImageFilter<TInputImage,TOutputImage, 
+                        Functor::IntensityLinearTransform< 
+  typename TInputImage::PixelType, 
+  typename TOutputImage::PixelType>   >
 {
 public:
   /** Standard class typedefs. */
   typedef RescaleIntensityImageFilter  Self;
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::IntensityLinearTransform< 
-                  typename TInputImage::PixelType, 
-                  typename TOutputImage::PixelType> >  Superclass;
+                                  Functor::IntensityLinearTransform< 
+    typename TInputImage::PixelType, 
+    typename TOutputImage::PixelType> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

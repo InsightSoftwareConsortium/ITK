@@ -46,10 +46,10 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-    {
-      B2MaskImageIOFactory::Pointer metaFactory = B2MaskImageIOFactory::New();
-      ObjectFactoryBase::RegisterFactory(metaFactory);
-    }
+  {
+    B2MaskImageIOFactory::Pointer metaFactory = B2MaskImageIOFactory::New();
+    ObjectFactoryBase::RegisterFactory(metaFactory);
+  }
 
 protected:
   B2MaskImageIOFactory();

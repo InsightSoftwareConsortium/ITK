@@ -94,7 +94,7 @@ Image<TPixel, VImageDimension>
 ::FillBuffer (const TPixel& value)
 {
   const unsigned long numberOfPixels =
-          this->GetBufferedRegion().GetNumberOfPixels();
+    this->GetBufferedRegion().GetNumberOfPixels();
 
   for(unsigned int i=0; i<numberOfPixels; i++) 
     {
@@ -237,8 +237,8 @@ Image<TPixel, VImageDimension>
     {
     // pointer could not be cast back down
     itkExceptionMacro(<< "itk::Image::CopyInformation() cannot cast "
-              << typeid(data).name() << " to "
-              << typeid(ImageBase<VImageDimension>*).name() );
+                      << typeid(data).name() << " to "
+                      << typeid(ImageBase<VImageDimension>*).name() );
     }
 }
 

@@ -25,17 +25,17 @@ namespace itk
 struct VOLFileWrapper
 {
   VOLFileWrapper(const char* fname)
-    {
+  {
     m_FilePointer = fopen(fname, "rb");
-    }
+  }
   FILE* m_FilePointer;
   ~VOLFileWrapper()
-    {
+  {
     if(m_FilePointer)
-    {
-  fclose(m_FilePointer);
+      {
+      fclose(m_FilePointer);
+      }
   }
-}
 };
 
 VOLImageIO::VOLImageIO()
@@ -92,7 +92,7 @@ void VOLImageIO::Read(void* buffer)
   if(!fp)
     {
     itkExceptionMacro("Error VOLImageIO could not open file: " 
-    << this->GetFileName());
+                      << this->GetFileName());
     return;
     }
 
@@ -102,8 +102,8 @@ void VOLImageIO::Read(void* buffer)
   for (unsigned int timeCounter = 0; timeCounter < m_Dimensions[3]; timeCounter++)
     {
     ReadData(fp, (char *)imgset, 
-    sizeof(unsigned char) * 256*512*4*4, 
-    m_GrayImageOffset + timeCounter*256*512*4*4);
+             sizeof(unsigned char) * 256*512*4*4, 
+             m_GrayImageOffset + timeCounter*256*512*4*4);
     for(unsigned int i=0; i < m_Dimensions[2]; i++)
       {
       for(int j=0; j < 16; j++)
@@ -115,8 +115,8 @@ void VOLImageIO::Read(void* buffer)
             for(int n=0; n < 4; n++)
               {
               tempImage[timeCounter * m_Strides[4] + i * m_Strides[3] 
-              + (j*4+m) * m_Strides[2] + (k*4+n)] 
-              = imgset[(16*k+j)*512*4*4 + i*4*4 + n*4 + m];
+                        + (j*4+m) * m_Strides[2] + (k*4+n)] 
+                = imgset[(16*k+j)*512*4*4 + i*4*4 + n*4 + m];
               }
             }
           }
@@ -258,7 +258,7 @@ void VOLImageIO::ReadImageInformation()
   if(!fp)
     {
     itkExceptionMacro("Error VOLImageIO could not open file: " 
-                  << this->GetFileName());
+                      << this->GetFileName());
     return;
     }
 
@@ -270,7 +270,7 @@ void VOLImageIO::ReadImageInformation()
   else
     {
     itkExceptionMacro("Cannot read version " << m_File_rev << " in file " 
-                  << this->GetFileName() << " -- will try to read as V2.3");
+                      << this->GetFileName() << " -- will try to read as V2.3");
     ReadVersion2_3(fp);
     }
 
@@ -593,11 +593,11 @@ void VOLImageIO::ReadData(FILE * fp, void * buffer, size_t size, long pos)
   unsigned char * puch = (unsigned char *)buffer;
   unsigned char c;
   for (unsigned u = 0; u < size/2; u++)
-  {
+    {
     c = puch[u];
     puch[u] = puch[size-1-u];
     puch[size-1-u] = c;
-  }
+    }
 #endif
 
 } 

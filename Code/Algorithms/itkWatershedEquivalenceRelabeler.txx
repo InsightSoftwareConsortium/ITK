@@ -45,9 +45,9 @@ void EquivalenceRelabeler<TScalarType, TImageDimension>
   it_b = it_b.Begin();
   while (! it_a.IsAtEnd() )
     {
-      it_b.Set(it_a.Get());
-      ++it_a;
-      ++it_b;
+    it_b.Set(it_a.Get());
+    ++it_a;
+    ++it_b;
     }
 
   eqT->Flatten();
@@ -160,15 +160,15 @@ void EquivalenceRelabeler<TScalarType, TImageDimension>
 
   if (imgData)
     {
-      std::vector<ProcessObject::DataObjectPointer>::size_type idx;
-      for (idx = 0; idx < this->GetOutputs().size(); ++idx)
+    std::vector<ProcessObject::DataObjectPointer>::size_type idx;
+    for (idx = 0; idx < this->GetOutputs().size(); ++idx)
+      {
+      if (this->GetOutputs()[idx] && this->GetOutputs()[idx] != output)
         {
-          if (this->GetOutputs()[idx] && this->GetOutputs()[idx] != output)
-            {
-              op = dynamic_cast<ImageBase<ImageDimension> *>(this->GetOutputs()[idx].GetPointer());
-              if (op) this->GetOutputs()[idx]->SetRequestedRegion(output);
-            }
+        op = dynamic_cast<ImageBase<ImageDimension> *>(this->GetOutputs()[idx].GetPointer());
+        if (op) this->GetOutputs()[idx]->SetRequestedRegion(output);
         }
+      }
     }
 }
 

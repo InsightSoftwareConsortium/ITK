@@ -37,7 +37,7 @@ namespace itk{
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT IsolatedConnectedImageFilter:
-  public ImageToImageFilter<TInputImage,TOutputImage>
+    public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */

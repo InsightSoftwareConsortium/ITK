@@ -36,32 +36,32 @@ namespace itk
  */
 
 namespace Function {  
-  template< class TInput, class TOutput>
-  class Exp
+template< class TInput, class TOutput>
+class Exp
+{
+public:
+  Exp() {};
+  ~Exp() {};
+  inline TOutput operator()( const TInput & A )
   {
-  public:
-    Exp() {};
-    ~Exp() {};
-    inline TOutput operator()( const TInput & A )
-    {
-      return (TOutput)exp((double)A);
-    }
-  }; 
+    return (TOutput)exp((double)A);
+  }
+}; 
 }
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT ExpImageFilter :
     public
-    UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Function::Exp< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   >
+UnaryFunctorImageFilter<TInputImage,TOutputImage, 
+                        Function::Exp< 
+  typename TInputImage::PixelType, 
+  typename TOutputImage::PixelType>   >
 {
 public:
   /** Standard class typedefs. */
   typedef ExpImageFilter  Self;
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Function::Exp< typename TInputImage::PixelType, 
-                   typename TOutputImage::PixelType> >  Superclass;
+                                  Function::Exp< typename TInputImage::PixelType, 
+                                                 typename TOutputImage::PixelType> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

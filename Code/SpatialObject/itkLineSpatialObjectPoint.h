@@ -35,7 +35,7 @@ namespace itk
 */ 
 template < unsigned int TPointDimension = 3 >
 class LineSpatialObjectPoint 
-: public SpatialObjectPoint<TPointDimension>
+  : public SpatialObjectPoint<TPointDimension>
 {
 
 public:
@@ -72,7 +72,7 @@ protected:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkLineSpatialObjectPoint.txx"
+#include "itkLineSpatialObjectPoint.txx"
 #endif
 
 #endif // __itkLineSpatialObjectPoint_h

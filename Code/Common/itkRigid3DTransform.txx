@@ -39,7 +39,7 @@ template<class TScalarType>
 Rigid3DTransform<TScalarType>::
 Rigid3DTransform(unsigned int spaceDimension, 
                  unsigned int parametersDimension):
-       Superclass(spaceDimension,parametersDimension)
+  Superclass(spaceDimension,parametersDimension)
 {
   m_Offset.Fill( 0 );
   m_RotationMatrix.SetIdentity();
@@ -79,7 +79,7 @@ SetRotationMatrix(const MatrixType & matrix )
   // The matrix must be orthogonal otherwise it is not
   // representing a valid rotaion in 3D space
   typename MatrixType::InternalMatrixType test = 
-                  matrix.GetVnlMatrix() * matrix.GetTranspose();
+    matrix.GetVnlMatrix() * matrix.GetTranspose();
 
   const double tolerance = 1e-10;
   if( !test.is_identity( tolerance ) ) 
@@ -178,7 +178,7 @@ typename Rigid3DTransform<TScalarType>::InputPointType
 Rigid3DTransform<TScalarType>::
 BackTransform(const OutputPointType &point) const 
 {
-    return m_InverseMatrix * (point - m_Offset);
+  return m_InverseMatrix * (point - m_Offset);
 }
 
 // Back transform a vector
@@ -187,7 +187,7 @@ typename Rigid3DTransform<TScalarType>::InputVectorType
 Rigid3DTransform<TScalarType>::
 BackTransform(const OutputVectorType &vect ) const 
 {
-    return  m_InverseMatrix * vect;
+  return  m_InverseMatrix * vect;
 }
 
 // Back transform a vnl_vector
@@ -196,7 +196,7 @@ typename Rigid3DTransform<TScalarType>::InputVnlVectorType
 Rigid3DTransform<TScalarType>::
 BackTransform(const OutputVnlVectorType &vect ) const 
 {
-    return  m_InverseMatrix * vect;
+  return  m_InverseMatrix * vect;
 }
 
 

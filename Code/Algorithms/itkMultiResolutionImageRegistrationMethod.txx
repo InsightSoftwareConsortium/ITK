@@ -137,7 +137,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
   m_InitialTransformParametersOfNextLevel = m_InitialTransformParameters;
 
   if ( m_InitialTransformParametersOfNextLevel.Size() != 
-    m_Transform->GetNumberOfParameters() )
+       m_Transform->GetNumberOfParameters() )
     {
     itkExceptionMacro(<<"Size mismatch between initial parameter and transform"); 
     }
@@ -196,14 +196,14 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
       const float scaleFactor = static_cast<float>( schedule[ level ][ dim ] );
 
       size[ dim ] = static_cast<typename SizeType::SizeValueType>(
-         floor( static_cast<float>( inputSize[ dim ] ) / scaleFactor ) );
+        floor( static_cast<float>( inputSize[ dim ] ) / scaleFactor ) );
       if( size[ dim ] < 1 )
         {
         size[ dim ] = 1;
         }
       
       start[ dim ] = static_cast<typename IndexType::IndexValueType>(
-          ceil(  static_cast<float>( inputStart[ dim ] ) / scaleFactor ) ); 
+        ceil(  static_cast<float>( inputStart[ dim ] ) / scaleFactor ) ); 
       }
     m_FixedImageRegionPyramid[ level ].SetSize( size );
     m_FixedImageRegionPyramid[ level ].SetIndex( start );
@@ -229,7 +229,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
   this->PreparePyramids();
 
   for ( m_CurrentLevel = 0; m_CurrentLevel < m_NumberOfLevels;
-    m_CurrentLevel++ )
+        m_CurrentLevel++ )
     {
 
     // Invoke an iteration event.

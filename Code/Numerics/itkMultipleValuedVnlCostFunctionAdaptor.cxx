@@ -25,8 +25,8 @@ namespace itk
 /**  Constructor.  */
 MultipleValuedVnlCostFunctionAdaptor 
 ::MultipleValuedVnlCostFunctionAdaptor(
-        unsigned int spaceDimension, unsigned int numberOfValues ):
-               vnl_least_squares_function(spaceDimension,numberOfValues) 
+  unsigned int spaceDimension, unsigned int numberOfValues ):
+  vnl_least_squares_function(spaceDimension,numberOfValues) 
 { 
 }    
 
@@ -37,7 +37,7 @@ MultipleValuedVnlCostFunctionAdaptor
 void
 MultipleValuedVnlCostFunctionAdaptor
 ::f( const InternalParametersType & inparameters, 
-           InternalMeasureType    & measures        )
+     InternalMeasureType    & measures        )
 {
   if( !m_CostFunction )
     {
@@ -51,7 +51,7 @@ MultipleValuedVnlCostFunctionAdaptor
   ConvertInternalToExternalParameters( inparameters, parameters );
 
   InternalMeasureType values = 
-                        m_CostFunction->GetValue( parameters );
+    m_CostFunction->GetValue( parameters );
 
   measures = values;
 
@@ -63,7 +63,7 @@ MultipleValuedVnlCostFunctionAdaptor
 void 
 MultipleValuedVnlCostFunctionAdaptor
 ::gradf(  const InternalParametersType   & inparameters,
-                InternalDerivativeType   & gradient       ) 
+          InternalDerivativeType   & gradient       ) 
 {
   if( !m_CostFunction )
     {
@@ -87,15 +87,15 @@ MultipleValuedVnlCostFunctionAdaptor
 void 
 MultipleValuedVnlCostFunctionAdaptor
 ::compute( const InternalParametersType   & x,
-                 InternalMeasureType      * f, 
-                 InternalDerivativeType   * g   )
+           InternalMeasureType      * f, 
+           InternalDerivativeType   * g   )
 {
   // delegate the computation to the CostFunction
   ParametersType parameters( x.size() );
   ConvertInternalToExternalParameters( x, parameters );
 
   *f = static_cast<InternalMeasureType>(
-                      m_CostFunction->GetValue( parameters ) );
+    m_CostFunction->GetValue( parameters ) );
 
   DerivativeType externalGradient;
   m_CostFunction->GetDerivative( parameters, externalGradient );
@@ -109,7 +109,7 @@ MultipleValuedVnlCostFunctionAdaptor
 void 
 MultipleValuedVnlCostFunctionAdaptor
 ::ConvertInternalToExternalParameters( const InternalParametersType & input,
-                                             ParametersType         & output )
+                                       ParametersType         & output )
 {
   const unsigned int size = input.size();
   for( unsigned int i=0; i<size; i++ )
@@ -125,7 +125,7 @@ MultipleValuedVnlCostFunctionAdaptor
 void 
 MultipleValuedVnlCostFunctionAdaptor
 ::ConvertExternalToInternalParameters( const  ParametersType         & input,
-                                              InternalParametersType & output )
+                                       InternalParametersType & output )
 {
   const unsigned int size = input.size();
   for( unsigned int i=0; i<size; i++ ) 
@@ -139,7 +139,7 @@ MultipleValuedVnlCostFunctionAdaptor
 void 
 MultipleValuedVnlCostFunctionAdaptor
 ::ConvertExternalToInternalGradient( const DerivativeType         & input,
-                                           InternalDerivativeType & output )
+                                     InternalDerivativeType & output )
 {
   const unsigned int rows = input.rows();
   const unsigned int cols = input.cols();
@@ -158,7 +158,7 @@ MultipleValuedVnlCostFunctionAdaptor
 void 
 MultipleValuedVnlCostFunctionAdaptor
 ::ConvertExternalToInternalMeasures( const  MeasureType         & input,
-                                            InternalMeasureType & output )
+                                     InternalMeasureType & output )
 {
   const unsigned int size = input.size();
   for( unsigned int i=0; i<size; i++ ) 

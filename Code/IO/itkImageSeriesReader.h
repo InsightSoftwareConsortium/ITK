@@ -36,19 +36,19 @@ public:
 
   /** Constructor. */
   ImageSeriesReaderException(char *file, unsigned int line, 
-                           const char* message = "Error in IO") : 
+                             const char* message = "Error in IO") : 
     ExceptionObject(file, line)
-    {
-      SetDescription(message);
-    }
+  {
+    SetDescription(message);
+  }
 
   /** Constructor. */
   ImageSeriesReaderException(const std::string &file, unsigned int line, 
-                           const char* message = "Error in IO") : 
+                             const char* message = "Error in IO") : 
     ExceptionObject(file, line)
-    {
-      SetDescription(message);
-    }
+  {
+    SetDescription(message);
+  }
 };
 
 
@@ -85,8 +85,8 @@ public:
  *
  */
 template <class TOutputImage,
-  class ConvertPixelTraits = 
-DefaultConvertPixelTraits< ITK_TYPENAME TOutputImage::PixelType> >
+          class ConvertPixelTraits = 
+          DefaultConvertPixelTraits< ITK_TYPENAME TOutputImage::PixelType> >
 class ITK_EXPORT ImageSeriesReader : public ImageSource<TOutputImage>
 {
 public:

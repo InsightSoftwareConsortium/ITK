@@ -62,10 +62,10 @@ void CompositeValleyFunction
 
   for (i = 0 ; i < noOfClasses ; i++) 
     {
-      if (m_Targets[i].GetMean() > m_Targets[high].GetMean()) 
-        high = i;
-      if (m_Targets[i].GetMean() < m_Targets[low].GetMean()) 
-        low =i;
+    if (m_Targets[i].GetMean() > m_Targets[high].GetMean()) 
+      high = i;
+    if (m_Targets[i].GetMean() < m_Targets[low].GetMean()) 
+      low =i;
     }
   
   m_LowerBound = m_Targets[low].GetMean() - 

@@ -29,30 +29,30 @@ namespace itk
  */
 namespace Function {  
   
-  template< class TInput, class TOutput>
-  class Log10
-  {
-  public:
-    Log10() {}
-    ~Log10() {}
-    inline TOutput operator()( const TInput & A )
-      { return (TOutput)log10((double)A); }
-  }; 
+template< class TInput, class TOutput>
+class Log10
+{
+public:
+  Log10() {}
+  ~Log10() {}
+  inline TOutput operator()( const TInput & A )
+  { return (TOutput)log10((double)A); }
+}; 
 }
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT Log10ImageFilter :
     public
-    UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Function::Log10< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   >
+UnaryFunctorImageFilter<TInputImage,TOutputImage, 
+                        Function::Log10< 
+  typename TInputImage::PixelType, 
+  typename TOutputImage::PixelType>   >
 {
 public:
   /** Standard class typedefs. */
   typedef Log10ImageFilter  Self;
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Function::Log10< typename TInputImage::PixelType, 
-                     typename TOutputImage::PixelType> >  Superclass;
+                                  Function::Log10< typename TInputImage::PixelType, 
+                                                   typename TOutputImage::PixelType> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

@@ -40,7 +40,7 @@ namespace itk {
  */
 template<class TInputImage>
 class ITK_EXPORT StatisticsImageFilter : 
-  public ImageToImageFilter<TInputImage, TInputImage>
+    public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
   /** Standard Self typedef */
@@ -90,14 +90,14 @@ public:
 
 protected:
   StatisticsImageFilter(): m_ThreadSum(1), m_SumOfSquares(1), m_Count(1), m_ThreadMin(1), m_ThreadMax(1)
-    {
-      m_Minimum = NumericTraits<RealType>::max();
-      m_Maximum = NumericTraits<RealType>::NonpositiveMin();
-      m_Mean = NumericTraits<RealType>::max();
-      m_Sigma = NumericTraits<RealType>::max();
-      m_Variance = NumericTraits<RealType>::max();
-      m_Sum = NumericTraits<RealType>::Zero;
-    };
+  {
+    m_Minimum = NumericTraits<RealType>::max();
+    m_Maximum = NumericTraits<RealType>::NonpositiveMin();
+    m_Mean = NumericTraits<RealType>::max();
+    m_Sigma = NumericTraits<RealType>::max();
+    m_Variance = NumericTraits<RealType>::max();
+    m_Sum = NumericTraits<RealType>::Zero;
+  };
   
   ~StatisticsImageFilter(){};
   void PrintSelf(std::ostream& os, Indent indent) const;
@@ -122,7 +122,7 @@ protected:
   // Override since the filter produces all of its output
   void EnlargeOutputRequestedRegion(DataObject *data);
 
- private:
+private:
   StatisticsImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

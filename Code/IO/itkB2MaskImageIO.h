@@ -115,9 +115,9 @@ private:
   B2MaskImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   itk::OctreeNodeBranch *  readOctree (
-        std::ifstream & octreestream,
-        const ImageIOBase::ByteOrder machineByteOrder,
-        const ImageIOBase::ByteOrder fileByteOrder);
+    std::ifstream & octreestream,
+    const ImageIOBase::ByteOrder machineByteOrder,
+    const ImageIOBase::ByteOrder fileByteOrder);
   ImageIOBase::ByteOrder m_MachineByteOrder;
 
   itk::B2IPLHeaderInfo m_IPLHeaderInfo;

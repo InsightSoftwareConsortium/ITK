@@ -53,40 +53,40 @@ ImageToSpatialObjectRegistrationMethod<TFixedImage,TMovingSpatialObject>
 {
      
   if( !m_FixedImage )
-  {
+    {
     std::cout << "FixedImage is not present" << std::endl;
     itkExceptionMacro(<<"FixedImage is not present");
-  }
+    }
 
   if( !m_MovingSpatialObject )
-  {
+    {
     std::cout << "MovingSpatialObject is not present" << std::endl;
     itkExceptionMacro(<<"MovingSpatialObject is not present");
-  }
+    }
 
   if ( !m_Metric )
-  {
+    {
     std::cout << "Metric is not present" << std::endl;
     itkExceptionMacro(<<"Metric is not present" );
-  }
+    }
 
   if ( !m_Optimizer )
-  {
+    {
     std::cout << "Optimizer is not present" << std::endl;
     itkExceptionMacro(<<"Optimizer is not present" );
-  }
+    }
 
   if( !m_Transform )
-  {
+    {
     std::cout << "Transform is not present" << std::endl;
     itkExceptionMacro(<<"Transform is not present");
-  }
+    }
 
   if( !m_Interpolator )
-  {
+    {
     std::cout << "Interpolator is not present" << std::endl;
     itkExceptionMacro(<<"Interpolator is not present");
-  }
+    }
 
 
   // Setup the metric
@@ -101,18 +101,18 @@ ImageToSpatialObjectRegistrationMethod<TFixedImage,TMovingSpatialObject>
 
   // Validate initial transform parameters
   if ( m_InitialTransformParameters.Size() != m_Transform->GetNumberOfParameters() )
-  {
+    {
     std::cout << " WARNING : Size mismatch between initial parameter and transform" << std::endl;
     std::cout << "Resizing m_InitialTransformParameters to  " << m_Transform->GetNumberOfParameters() << std::endl;
     m_InitialTransformParameters.resize(m_Transform->GetNumberOfParameters());
     m_InitialTransformParameters.Fill( 0.0f );
-  }
+    }
 
   if ( m_LastTransformParameters.Size() != m_Transform->GetNumberOfParameters() )
-  {
+    {
     m_LastTransformParameters.resize(m_Transform->GetNumberOfParameters());
     m_LastTransformParameters.Fill( 0.0f );
-  }
+    }
 
   m_Optimizer->SetInitialPosition( m_InitialTransformParameters );
 
@@ -126,29 +126,29 @@ ImageToSpatialObjectRegistrationMethod<TFixedImage,TMovingSpatialObject>
 ::StartRegistration( void )
 { 
   try
-  {
+    {
     // initialize the interconnects between components
     this->Initialize();
-  }
+    }
   catch( ExceptionObject& err )
-  {
+    {
     // pass exception to caller
     throw err;
-  }
+    }
 
   try
-  {
+    {
     // do the optimization
     m_Optimizer->StartOptimization();
-  }
+    }
   catch( ExceptionObject& err )
-  {
+    {
     // An error has occurred in the optimization.
     // Update the parameters
     m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
     // Pass exception to caller
     throw err;
-  }
+    }
 
   // get the results
   m_LastTransformParameters = m_Optimizer->GetCurrentPosition();

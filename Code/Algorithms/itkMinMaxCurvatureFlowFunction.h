@@ -1,4 +1,4 @@
- /*=========================================================================
+/*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkMinMaxCurvatureFlowFunction.h
@@ -72,14 +72,14 @@ public:
   /** Set/Get the stencil radius. */
   void SetStencilRadius( const RadiusValueType radius );
   const RadiusValueType &GetRadiusValueType() const
-    { return m_StencilRadius; }
+  { return m_StencilRadius; }
 
   /** This method computes the solution update for each pixel that does not
    * lie on a the data set boundary. */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
                                   void * globalData,
                                   const FloatOffsetType& offset = FloatOffsetType(0.0)
-                                  ) const;
+    ) const;
 
 protected:
   MinMaxCurvatureFlowFunction();
@@ -107,11 +107,11 @@ private:
   /** This method computes the threshold by averaging the intensity
    *  in direction perpendicular to the image gradient. */
   virtual PixelType ComputeThreshold( const Dispatch<2> &,
-    const NeighborhoodType & neighborhood ) const;
+                                      const NeighborhoodType & neighborhood ) const;
   virtual PixelType ComputeThreshold( const Dispatch<3> &,
-    const NeighborhoodType & neighborhood ) const;
+                                      const NeighborhoodType & neighborhood ) const;
   virtual PixelType ComputeThreshold( const DispatchBase &,
-    const NeighborhoodType & neighborhood ) const;
+                                      const NeighborhoodType & neighborhood ) const;
 };
 
 }// end namespace itk

@@ -130,15 +130,15 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 
   for (unsigned int i = 0 ; i < m_ComponentVector.size() ; i++)
     {
-      if ( (m_ComponentVector[i])->AreParametersModified() )
-        {
-          componentModified = true ;
-        }
+    if ( (m_ComponentVector[i])->AreParametersModified() )
+      {
+      componentModified = true ;
+      }
     }
 
   if (!componentModified)
     {
-      return false ;
+    return false ;
     }
 
   double temp ;
@@ -161,41 +161,41 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   long measurementVectorIndex = 0 ;
   while (iter != last)
     {
-      mvector = iter.GetMeasurementVector() ;
-      frequency = iter.GetFrequency() ;
-      densitySum = 0.0 ;
-      if ( frequency > zeroFrequency )
+    mvector = iter.GetMeasurementVector() ;
+    frequency = iter.GetFrequency() ;
+    densitySum = 0.0 ;
+    if ( frequency > zeroFrequency )
+      {
+      for (componentIndex = 0 ; componentIndex < numberOfComponents ; 
+           componentIndex++)
         {
-          for (componentIndex = 0 ; componentIndex < numberOfComponents ; 
-               componentIndex++)
-            {
-              density = m_Proportions[componentIndex] *
-                m_ComponentVector[componentIndex]->Evaluate(mvector) ;
-              tempWeights[componentIndex] = density ;
-              densitySum += density ;
-            }
+        density = m_Proportions[componentIndex] *
+          m_ComponentVector[componentIndex]->Evaluate(mvector) ;
+        tempWeights[componentIndex] = density ;
+        densitySum += density ;
+        }
           
-          for (componentIndex = 0 ; componentIndex < numberOfComponents ; 
-               componentIndex++)
-            {
-              temp = tempWeights[componentIndex] ;
-              temp /= densitySum ;
-              m_ComponentVector[componentIndex]->SetWeight(measurementVectorIndex,
-                                                           temp) ; 
-            }
-        }
-      else
+      for (componentIndex = 0 ; componentIndex < numberOfComponents ; 
+           componentIndex++)
         {
-          for (componentIndex = 0 ; componentIndex < numberOfComponents ; 
-               componentIndex++)
-            {
-              m_ComponentVector[componentIndex]->SetWeight(measurementVectorIndex,
-                                                           minDouble) ; 
-            }
+        temp = tempWeights[componentIndex] ;
+        temp /= densitySum ;
+        m_ComponentVector[componentIndex]->SetWeight(measurementVectorIndex,
+                                                     temp) ; 
         }
+      }
+    else
+      {
+      for (componentIndex = 0 ; componentIndex < numberOfComponents ; 
+           componentIndex++)
+        {
+        m_ComponentVector[componentIndex]->SetWeight(measurementVectorIndex,
+                                                     minDouble) ; 
+        }
+      }
 
-      ++iter ;
-      ++measurementVectorIndex ;
+    ++iter ;
+    ++measurementVectorIndex ;
     }
   
   return true ;
@@ -214,17 +214,17 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   for (componentIndex = 0 ; componentIndex < m_ComponentVector.size() ;
        componentIndex++)
     {
-      logProportion = log(m_Proportions[componentIndex]) ; 
-      for (measurementVectorIndex = 0 ; measurementVectorIndex < size ;
-           measurementVectorIndex++)
-        {
-          temp = m_ComponentVector[componentIndex]->
-            GetWeight(measurementVectorIndex) ;
-          sum += 
-            temp * ( logProportion + 
-                     log( m_ComponentVector[componentIndex]->
-                          GetWeight(measurementVectorIndex) ) ) ;
-        }
+    logProportion = log(m_Proportions[componentIndex]) ; 
+    for (measurementVectorIndex = 0 ; measurementVectorIndex < size ;
+         measurementVectorIndex++)
+      {
+      temp = m_ComponentVector[componentIndex]->
+        GetWeight(measurementVectorIndex) ;
+      sum += 
+        temp * ( logProportion + 
+                 log( m_ComponentVector[componentIndex]->
+                      GetWeight(measurementVectorIndex) ) ) ;
+      }
     }
   return sum ;
 }
@@ -241,12 +241,12 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   for (componentIndex = 0 ; componentIndex < m_ComponentVector.size() ;
        componentIndex++)
     {
-      component = m_ComponentVector[componentIndex] ;
-      component->Update() ;
-      if (component->AreParametersModified())
-        {
-          updated = true ;
-        }
+    component = m_ComponentVector[componentIndex] ;
+    component->Update() ;
+    if (component->AreParametersModified())
+      {
+      updated = true ;
+      }
     }
 
   return updated ;
@@ -266,21 +266,21 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 
   for (i = 0 ; i < numberOfComponents ; i++)
     {
-      tempSum = 0.0 ;
-      for (j = 0 ; j < sampleSize ; j++)
-        {
-          tempSum += 
-            (m_ComponentVector[i]->GetWeight(j) * 
-             m_Sample->GetFrequency(j)) ;
-        }
+    tempSum = 0.0 ;
+    for (j = 0 ; j < sampleSize ; j++)
+      {
+      tempSum += 
+        (m_ComponentVector[i]->GetWeight(j) * 
+         m_Sample->GetFrequency(j)) ;
+      }
 
-      tempSum /= totalFrequency ;
+    tempSum /= totalFrequency ;
 
-      if (tempSum != m_Proportions[i])
-        {
-          m_Proportions[i] = tempSum ; 
-          updated = true ;
-        }
+    if (tempSum != m_Proportions[i])
+      {
+      m_Proportions[i] = tempSum ; 
+      updated = true ;
+      }
     }
 
   return updated ;
@@ -297,18 +297,18 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   m_CurrentIteration = 0 ;
   while (iteration < m_MaxIteration)
     {
-      m_CurrentIteration = iteration ;
-      if (this->CalculateDensities())
-        {
-          this->UpdateComponentParameters() ;
-          this->UpdateProportions() ;
-        }
-      else
-        {
-          m_TerminationCode = CONVERGED ;
-          break ;
-        }
-      ++iteration ;
+    m_CurrentIteration = iteration ;
+    if (this->CalculateDensities())
+      {
+      this->UpdateComponentParameters() ;
+      this->UpdateProportions() ;
+      }
+    else
+      {
+      m_TerminationCode = CONVERGED ;
+      break ;
+      }
+    ++iteration ;
     }
   
   m_TerminationCode = NOT_CONVERGED ;

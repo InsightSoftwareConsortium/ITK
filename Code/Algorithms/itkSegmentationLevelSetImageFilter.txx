@@ -83,11 +83,11 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TO
   // Set the propagation speed and/or  advection field scaling.
   if ( m_SegmentationFunction->GetPropagationWeight() != 0 )
     {
-      m_SegmentationFunction->SetPropagationWeight(m_PropagationScaling);
+    m_SegmentationFunction->SetPropagationWeight(m_PropagationScaling);
     }
   if ( m_SegmentationFunction->GetAdvectionWeight() != 0 )
     {
-      m_SegmentationFunction->SetAdvectionWeight(m_AdvectionScaling);
+    m_SegmentationFunction->SetAdvectionWeight(m_AdvectionScaling);
     }
 
   // Set the propagation speed scaling
@@ -100,8 +100,8 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TO
        || (m_UseNegativeFeatures == false &&
            this->GetSegmentationFunction()->GetPropagationWeight() > 0) )
     {
-      this->GetSegmentationFunction()->SetPropagationWeight(
-              -1.0 * this->GetSegmentationFunction()->GetPropagationWeight() );
+    this->GetSegmentationFunction()->SetPropagationWeight(
+      -1.0 * this->GetSegmentationFunction()->GetPropagationWeight() );
     }
 
   if ( (m_UseNegativeFeatures == true &&
@@ -109,21 +109,21 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TO
        || (m_UseNegativeFeatures == false &&
            this->GetSegmentationFunction()->GetAdvectionWeight() > 0) )
     {
-      this->GetSegmentationFunction()->SetAdvectionWeight(
-              -1.0 * this->GetSegmentationFunction()->GetAdvectionWeight() );
+    this->GetSegmentationFunction()->SetAdvectionWeight(
+      -1.0 * this->GetSegmentationFunction()->GetAdvectionWeight() );
     }
 
   // Allocate the images from which speeds will be sampled.
 
   if (this->GetSegmentationFunction()->GetPropagationWeight() != 0)
     {
-      m_SegmentationFunction->AllocateSpeedImage();
-      m_SegmentationFunction->CalculateSpeedImage();
+    m_SegmentationFunction->AllocateSpeedImage();
+    m_SegmentationFunction->CalculateSpeedImage();
     }
   if (this->GetSegmentationFunction()->GetAdvectionWeight() != 0)
     {
-      m_SegmentationFunction->AllocateAdvectionImage();
-      m_SegmentationFunction->CalculateAdvectionImage();
+    m_SegmentationFunction->AllocateAdvectionImage();
+    m_SegmentationFunction->CalculateAdvectionImage();
     }
 
   // Start the solver

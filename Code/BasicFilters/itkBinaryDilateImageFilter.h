@@ -67,13 +67,13 @@ namespace itk {
  */
 template<class TInputImage, class TOutputImage, class TKernel>
 class ITK_EXPORT BinaryDilateImageFilter : 
-  public MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
+    public MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
   /** Standard class typedefs. */
   typedef BinaryDilateImageFilter Self;
   typedef MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
-    Superclass;
+  Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -88,7 +88,7 @@ public:
 
   /** Neighborhood iterator type */
   typedef ConstNeighborhoodIterator<TInputImage> 
-    NeighborhoodIteratorType ;
+  NeighborhoodIteratorType ;
 
   /** Kernel typedef */
   typedef TKernel KernelType;

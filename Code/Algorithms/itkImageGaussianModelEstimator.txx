@@ -94,9 +94,9 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
 
   // Check if the training and input image dimensions are same
   if( (int)(TInputImage::ImageDimension) != (int)(TTrainingImage::ImageDimension) )
-  {
+    {
     throw ExceptionObject(__FILE__, __LINE__);
-  }
+    }
 
   InputImageSizeType 
     inputImageSize = inputImage->GetBufferedRegion().GetSize();
@@ -229,8 +229,8 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
           m_Covariance[classIndex][band_x][band_y] += inImgVec[band_x] * inImgVec[band_y];
           }
         }
-    }
-  }// end for 
+      }
+    }// end for 
 
   //Loop through the classes to calculate the means and
   for( unsigned int classIndex = 0; classIndex < numberOfModels; classIndex++ )
@@ -238,7 +238,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
     if( m_NumberOfSamples[classIndex][0] != 0 )
       {
       for( unsigned int i = 0; i < VectorDimension; i++ )
-      m_Means[classIndex][i] /= m_NumberOfSamples[classIndex][0];
+        m_Means[classIndex][i] /= m_NumberOfSamples[classIndex][0];
       }// end if
        
     else 
@@ -259,12 +259,12 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
         }// end for band_x loop
       }// end if
         
-     else
-       {
-       for( unsigned int band_x = 0; band_x < VectorDimension; band_x++ )
-         for( unsigned int band_y = 0; band_y <= band_x; band_y++ )
-           m_Covariance[classIndex][band_x][band_y] = 0;
-       }// end else
+    else
+      {
+      for( unsigned int band_x = 0; band_x < VectorDimension; band_x++ )
+        for( unsigned int band_y = 0; band_y <= band_x; band_y++ )
+          m_Covariance[classIndex][band_x][band_y] = 0;
+      }// end else
 
     MatrixType tempMeanSq;
     tempMeanSq.resize( VectorDimension, VectorDimension );

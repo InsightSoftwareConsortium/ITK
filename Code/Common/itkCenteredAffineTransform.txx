@@ -126,28 +126,28 @@ GetParameters( void ) const
   const MatrixType & matrix = this->GetMatrix();
 
   for(unsigned int row=0; row<NDimensions; row++) 
-  {
-    for(unsigned int col=0; col<NDimensions; col++) 
     {
+    for(unsigned int col=0; col<NDimensions; col++) 
+      {
       m_Parameters[par] = matrix[row][col];
       ++par;
+      }
     }
-  }
 
  
   // Transfer the rotation center 
   for(unsigned int j=0; j<NDimensions; j++) 
-  {
+    {
     m_Parameters[par] = m_Center[j];
     ++par;
-  }
+    }
   
   // Transfer the translation
   for(unsigned int k=0; k<NDimensions; k++) 
-  {
+    {
     m_Parameters[par] = m_Translation[k];
     ++par;
-  }
+    }
 
 
   return m_Parameters;
@@ -172,29 +172,29 @@ SetParameters( const ParametersType & parameters )
   MatrixType matrix;
 
   for(unsigned int row=0; row<NDimensions; row++) 
-  {
-    for(unsigned int col=0; col<NDimensions; col++) 
     {
+    for(unsigned int col=0; col<NDimensions; col++) 
+      {
       matrix[row][col] = m_Parameters[par];
       ++par;
+      }
     }
-  }
 
   this->SetMatrix( matrix );
 
   // Transfer the rotation center 
   for(unsigned int i=0; i<NDimensions; i++) 
-  {
+    {
     m_Center[i] = m_Parameters[par];
     ++par;
-  }
+    }
   
   // Transfer the translation
   for(unsigned int k=0; k<NDimensions; k++) 
-  {
+    {
     m_Translation[k] = m_Parameters[par];
     ++par;
-  }
+    }
 
   this->ComputeOffset();
 
@@ -223,7 +223,7 @@ GetJacobian( const InputPointType & p ) const
     {
     for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
       {
-       m_Jacobian( block , blockOffset + dim ) = p[dim];
+      m_Jacobian( block , blockOffset + dim ) = p[dim];
       }
     blockOffset += SpaceDimension;
     }

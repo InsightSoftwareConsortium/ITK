@@ -46,13 +46,13 @@ namespace itk {
  */
 template<class TInputImage, class TOutputImage, class TKernel>
 class ITK_EXPORT GrayscaleFunctionErodeImageFilter : 
-  public MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
+    public MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
   /** Standard class typedefs. */
   typedef GrayscaleFunctionErodeImageFilter Self;
   typedef MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
-    Superclass;
+  Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -90,7 +90,7 @@ protected:
                      const KernelIteratorType kernelBegin,
                      const KernelIteratorType kernelEnd);
 
- private:
+private:
   GrayscaleFunctionErodeImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

@@ -54,7 +54,7 @@ template <class TLevelSet>
 void
 ReinitializeLevelSetImageFilter<TLevelSet>
 ::SetInputNarrowBand(
-NodeContainer * ptr )
+  NodeContainer * ptr )
 {
   if( m_InputNarrowBand != ptr )
     {
@@ -107,7 +107,7 @@ template <class TLevelSet>
 void
 ReinitializeLevelSetImageFilter<TLevelSet>
 ::EnlargeOutputRequestedRegion(
-DataObject *output )
+  DataObject *output )
 {
 
   // this filter requires the all of the output image to be in
@@ -122,9 +122,9 @@ DataObject *output )
     {
     // pointer could not be cast to TLevelSet *
     itkWarningMacro(<< "itk::ReinitializeLevelSetImageFilter" <<
-              "::EnlargeOutputRequestedRegion cannot cast "
-              << typeid(output).name() << " to "
-              << typeid(TLevelSet*).name() );
+                    "::EnlargeOutputRequestedRegion cannot cast "
+                    << typeid(output).name() << " to "
+                    << typeid(TLevelSet*).name() );
 
     }
 
@@ -195,9 +195,9 @@ ReinitializeLevelSetImageFilter<TLevelSet>
     ImageRegionConstIterator<LevelSetImageType> ConstIteratorType;
 
   ConstIteratorType inputIt( inputPtr,
-    inputPtr->GetBufferedRegion() );
+                             inputPtr->GetBufferedRegion() );
   IteratorType outputIt( outputPtr,
-    outputPtr->GetBufferedRegion() );
+                         outputPtr->GetBufferedRegion() );
 
   IteratorType tempIt;
 
@@ -215,7 +215,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>
   m_Marcher->Update();
 
   tempIt = IteratorType( tempLevelSet,
-    tempLevelSet->GetBufferedRegion() );
+                         tempLevelSet->GetBufferedRegion() );
 
   double value;
 
@@ -278,10 +278,10 @@ ReinitializeLevelSetImageFilter<TLevelSet>
     ImageRegionConstIterator<LevelSetImageType> ConstIteratorType;
 
   ConstIteratorType inputIt( inputPtr,
-    inputPtr->GetBufferedRegion() );
+                             inputPtr->GetBufferedRegion() );
 
   IteratorType outputIt( outputPtr,
-    outputPtr->GetBufferedRegion() );
+                         outputPtr->GetBufferedRegion() );
 
   PixelType posInfinity;
   PixelType negInfinity;
@@ -366,7 +366,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 
       }
 
-  } // end for loop
+    } // end for loop
 
   this->UpdateProgress( 0.66 );
 

@@ -48,7 +48,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  */  
 class ITK_EXPORT QuaternionRigidTransformGradientDescentOptimizer : 
-        public GradientDescentOptimizer
+    public GradientDescentOptimizer
 {
 public:
   /** Standard class typedefs. */
@@ -60,9 +60,9 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
- /** Run-time type information (and related methods). */
+  /** Run-time type information (and related methods). */
   itkTypeMacro( QuaternionRigidTransformGradientDescentOptimizer, 
-      GradientDescentOptimizer );
+                GradientDescentOptimizer );
 
   /**  Parameters type.
    *  It defines a position in the optimization search space. */

@@ -111,32 +111,32 @@ public:
   /** Convenience get/set methods for setting all dimensional parameters to the
    * same values.  */
   void SetVariance(const double v)
-    {
+  {
     double vArray[ImageDimension];
     for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
     this->SetVariance(vArray);
-    }
+  }
   void SetMaximumError(const double v)
-    {
+  {
     double vArray[ImageDimension];
     for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
     this->SetMaximumError(vArray);
-    }
+  }
 
   /** Convenience get/set methods for setting all dimensional parameters to the
    * same values.  */
   void SetVariance(const float v)
-    {
+  {
     double vArray[ImageDimension];
     for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = static_cast<double>(v); }
     this->SetVariance(vArray);
-    }
+  }
   void SetMaximumError(const float v)
-    {
+  {
     double vArray[ImageDimension];
     for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = static_cast<double>(v); }
     this->SetMaximumError(vArray);
-    }
+  }
   
   /** Use the image spacing information in calculations. Use this option if you
    *  want to specify Gaussian variance in real world units.  Default is
@@ -164,7 +164,7 @@ public:
 
 protected:
   DiscreteGaussianImageFilter()
-    {
+  {
     unsigned int i;
     for (i = 0; i < ImageDimension; i++)
       {
@@ -174,7 +174,7 @@ protected:
       }
     m_UseImageSpacing = true;
     m_FilterDimensionality = ImageDimension;
-    }
+  }
   virtual ~DiscreteGaussianImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 

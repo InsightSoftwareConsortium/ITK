@@ -84,7 +84,7 @@ protected:
   /** Generate requested data. */
   virtual void GenerateData( void );
 
- /** Transform applied to all the mesh points. */
+  /** Transform applied to all the mesh points. */
   typename SpatialFunctionType::Pointer   m_SpatialFunction;
 
 private:

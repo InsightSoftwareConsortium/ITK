@@ -70,9 +70,9 @@ Vector<T, TVectorDimension>
 ::operator*=( const ValueType & value )
 {
   for( unsigned int i=0; i<TVectorDimension; i++) 
-  {
+    {
     (*this)[i] *= value;
-  }
+    }
   return *this;
 }
 
@@ -86,9 +86,9 @@ Vector<T, TVectorDimension>
 ::operator/=( const ValueType & value )
 {
   for( unsigned int i=0; i<TVectorDimension; i++) 
-  {
+    {
     (*this)[i] /= value;
-  }
+    }
   return *this;
 }
 
@@ -102,9 +102,9 @@ Vector<T, TVectorDimension>
 ::operator+=( const Self & vec )
 {
   for( unsigned int i=0; i<TVectorDimension; i++) 
-  {
+    {
     (*this)[i] += vec[i];
-  }
+    }
   return *this;
 }
 
@@ -118,9 +118,9 @@ Vector<T, TVectorDimension>
 ::operator-=( const Self & vec )
 {
   for( unsigned int i=0; i<TVectorDimension; i++) 
-  {
+    {
     (*this)[i] -= vec[i];
-  }
+    }
   return *this;
 }
 
@@ -135,9 +135,9 @@ Vector<T, TVectorDimension>
 {
   Self result;
   for( unsigned int i=0; i<TVectorDimension; i++) 
-  {
+    {
     result[i] = -(*this)[i];
-  }
+    }
   return result;
 }
 
@@ -153,9 +153,9 @@ Vector<T, TVectorDimension>
 {
   Self result;
   for( unsigned int i=0; i<TVectorDimension; i++) 
-  {
+    {
     result[i] = (*this)[i] + vec[i];
-  }
+    }
   return result;
 }
 
@@ -171,9 +171,9 @@ Vector<T, TVectorDimension>
 {
   Self result;
   for( unsigned int i=0; i<TVectorDimension; i++) 
-  {
+    {
     result[i] = (*this)[i] - vec[i];
-  }
+    }
   return result;
 }
 
@@ -189,9 +189,9 @@ Vector<T, TVectorDimension>
 {
   Self result;
   for( unsigned int i=0; i<TVectorDimension; i++) 
-  {
+    {
     result[i] = (*this)[i] * value;
-  }
+    }
   return result;
 }
 
@@ -206,10 +206,10 @@ Vector<T, TVectorDimension>
 {
   typename NumericTraits<T>::AccumulateType sum = NumericTraits<T>::Zero;
   for( unsigned int i=0; i<TVectorDimension; i++) 
-  {
+    {
     const ValueType value = (*this)[i];
     sum += value * value;
-  }
+    }
   return sum;
 }
 
@@ -237,9 +237,9 @@ Vector<T, TVectorDimension>
 {
   T norm = GetNorm();
   for( unsigned int i=0; i<TVectorDimension; i++) 
-  {
+    {
     (*this)[i] /= norm;
-  }
+    }
 }
 
 
@@ -255,9 +255,9 @@ Vector<T, TVectorDimension>
 {
   Self result;
   for( unsigned int i=0; i<TVectorDimension; i++) 
-  {
+    {
     result[i] = (*this)[i] / value;
-  }
+    }
   return result;
 }
 
@@ -272,9 +272,9 @@ Vector<T, TVectorDimension>
 ::Set_vnl_vector( const vnl_vector<T> & v)
 {
   for(unsigned int i=0;i<v.size();i++) 
-  {
+    {
     (*this)[i] = v(i);
-  } 
+    } 
 }
  
 
@@ -301,9 +301,9 @@ Vector<T, TVectorDimension>
 {
   vnl_vector< T > result(TVectorDimension);
   for(unsigned int i=0; i<TVectorDimension; i++)
-  {
+    {
     result[i] = (*this)[i];
-  }
+    }
   return result;
 }
  
@@ -316,9 +316,9 @@ std::ostream &
 operator<<(std::ostream& os,const Vector<T,TVectorDimension> & vct ) 
 {
   for( unsigned int i=0; i<TVectorDimension; i++)
-  {
+    {
     os <<  vct[i] << "  ";
-  }
+    }
   return os;
 }
 
@@ -331,9 +331,9 @@ std::istream &
 operator>>(std::istream& is, Vector<T,TVectorDimension> & vct ) 
 {
   for( unsigned int i=0; i<TVectorDimension; i++)
-  {
+    {
     is >>  vct[i];
-  }
+    }
   return is;
 }
 
@@ -348,9 +348,9 @@ Vector<T, TVectorDimension>
 {
   typename NumericTraits<T>::AccumulateType value = NumericTraits<T>::Zero;
   for( unsigned int i=0; i<TVectorDimension; i++) 
-  {
+    {
     value += (*this)[i] * other[i];
-  }
+    }
   return value;
 }
 

@@ -40,8 +40,8 @@ template <class TInputImage, class TOutput, class TCoordRep>
 void
 ImageFunction<TInputImage, TOutput, TCoordRep>
 ::PrintSelf(
-std::ostream& os, 
-Indent indent) const
+  std::ostream& os, 
+  Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
   os << indent << "InputImage: " << m_Image.GetPointer() << std::endl;
@@ -56,7 +56,7 @@ template <class TInputImage, class TOutput, class TCoordRep>
 void
 ImageFunction<TInputImage, TOutput, TCoordRep>
 ::SetInputImage(
-const InputImageType * ptr )
+  const InputImageType * ptr )
 {
   // set the input image
   m_Image = ptr;

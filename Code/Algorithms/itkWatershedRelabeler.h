@@ -88,34 +88,34 @@ public:
   
   /** Set/Get the input image */
   void SetInputImage(ImageType *img)
-    {
-      this->ProcessObject::SetNthInput(0, img);
-    }
+  {
+    this->ProcessObject::SetNthInput(0, img);
+  }
   ImageType * GetInputImage(void)
-    {
-      return static_cast<ImageType *>
-        (this->ProcessObject::GetInput(0) );
-    }
+  {
+    return static_cast<ImageType *>
+      (this->ProcessObject::GetInput(0) );
+  }
 
   /** Set/Get the output image */
   void SetOutputImage(ImageType * img)
-    {
-      this->ProcessObject::SetNthOutput(0,img);
-    }
+  {
+    this->ProcessObject::SetNthOutput(0,img);
+  }
   ImageType * GetOutputImage(void)
-    { return static_cast<ImageType *>
-        (this->ProcessObject::GetOutput(0) ); }
+  { return static_cast<ImageType *>
+      (this->ProcessObject::GetOutput(0) ); }
 
   /** Set/Get the input tree that defines segment merges */
   void SetInputSegmentTree(SegmentTreeType *et)
-    {
-      this->ProcessObject::SetNthInput(1, et);
-    }
+  {
+    this->ProcessObject::SetNthInput(1, et);
+  }
   SegmentTreeType * GetInputSegmentTree(void)
-    {
-      return static_cast<SegmentTreeType *>
-        (this->ProcessObject::GetInput(1));
-    }
+  {
+    return static_cast<SegmentTreeType *>
+      (this->ProcessObject::GetInput(1));
+  }
 
   /** Standard non-threaded pipeline method */
   void GenerateData();

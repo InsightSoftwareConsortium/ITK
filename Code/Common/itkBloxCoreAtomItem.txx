@@ -48,7 +48,7 @@ BloxCoreAtomItem<VImageDimension>
   // Calculate the center of the core atom  
   m_CenterPosition = P1 + (P2 - P1) / 2;
 
- // Calculate the diameter of the core atom
+  // Calculate the diameter of the core atom
   m_Diameter = (P1-P2).GetNorm();
   
 }

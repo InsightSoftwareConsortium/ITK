@@ -37,7 +37,7 @@ namespace itk
 
 template < unsigned int TDimension = 3 >
 class GroupSpatialObject 
-:public SpatialObject< TDimension >
+  :public SpatialObject< TDimension >
 {
 
 public:
@@ -66,7 +66,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION 
-  #include "itkGroupSpatialObject.txx" 
+#include "itkGroupSpatialObject.txx" 
 #endif 
 
 #endif // __itkGroupSpatialObject_h

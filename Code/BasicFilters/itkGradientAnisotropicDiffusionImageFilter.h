@@ -52,7 +52,7 @@ public:
   /** Standard class typedefs. */
   typedef GradientAnisotropicDiffusionImageFilter Self;
   typedef AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
-    Superclass;
+  Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
@@ -71,11 +71,11 @@ public:
   
 protected:
   GradientAnisotropicDiffusionImageFilter()
-    {
+  {
     typename GradientNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer p
       = GradientNDAnisotropicDiffusionFunction<UpdateBufferType>::New();
     this->SetDifferenceFunction(p);
-    }
+  }
   ~GradientAnisotropicDiffusionImageFilter() {}
 
 private:  

@@ -167,52 +167,52 @@ public:
       the time-step is supplied by the user and remains fixed for all
       updates. */
   void SetTimeStep(const TimeStepType &t)
-    { m_TimeStep = t; }
+  { m_TimeStep = t; }
   const TimeStepType &GetTimeStep() const
-    { return m_TimeStep; }
+  { return m_TimeStep; }
 
   /** Set/Get the conductance parameter.  The conductance parameter*/
   void SetConductanceParameter(const double &c)
-    { m_ConductanceParameter = c * c ; }
+  { m_ConductanceParameter = c * c ; }
   const double &GetConductanceParameter() const
-    { return m_ConductanceParameter; }
+  { return m_ConductanceParameter; }
 
   /** Set/Get the average gradient magnitude squared. */
   const double &GetAverageGradientMagnitudeSquared() const
-    { return m_AverageGradientMagnitudeSquared;  }
+  { return m_AverageGradientMagnitudeSquared;  }
   void SetAverageGradientMagnitudeSquared(const double &c)
-    { m_AverageGradientMagnitudeSquared = c; }
+  { m_AverageGradientMagnitudeSquared = c; }
 
   /** Returns the time step supplied by the user.  We don't need to use the
    * global data supplied since we are returning a fixed value.  */
   virtual TimeStepType ComputeGlobalTimeStep(void *itkNotUsed(GlobalData)) const
-    { return this->GetTimeStep(); }
+  { return this->GetTimeStep(); }
 
   /** The anisotropic diffusion classes don't use this particular parameter
    * so it's safe to return a null value. */
   virtual void *GetGlobalDataPointer() const
-    {  return 0; }
+  {  return 0; }
 
   /** Does nothing.  No global data is used in this class of equations.   */
   virtual void ReleaseGlobalDataPointer(void *itkNotUsed(GlobalData)) const
-    { /* do nothing */ }
+  { /* do nothing */ }
   
 protected:
   AnisotropicDiffusionFunction()
-    {
-      m_AverageGradientMagnitudeSquared = 0.0;
-      m_ConductanceParameter     = 1.0;     // default value
-      m_TimeStep                 = 0.125f;  // default value
-    }
+  {
+    m_AverageGradientMagnitudeSquared = 0.0;
+    m_ConductanceParameter     = 1.0;     // default value
+    m_TimeStep                 = 0.125f;  // default value
+  }
   ~AnisotropicDiffusionFunction() {}
 
   void PrintSelf(std::ostream& os, Indent indent) const
-    {
-      Superclass::PrintSelf(os,indent);
-      os << indent << "TimeStep: " << m_TimeStep << std::endl;
-      os << indent << "ConductanceParameter: " << m_ConductanceParameter <<
-        std::endl;
-    }
+  {
+    Superclass::PrintSelf(os,indent);
+    os << indent << "TimeStep: " << m_TimeStep << std::endl;
+    os << indent << "ConductanceParameter: " << m_ConductanceParameter <<
+      std::endl;
+  }
 
 private:
   AnisotropicDiffusionFunction(const Self&); //purposely not implemented

@@ -81,7 +81,7 @@ ImageRegion<VImageDimension>
 
   for (unsigned int i=0; i < VImageDimension; ++i)
     {
-      radiusVector[i] = radius;
+    radiusVector[i] = radius;
     }
 
   this->PadByRadius(radiusVector);

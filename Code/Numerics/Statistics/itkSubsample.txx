@@ -20,7 +20,7 @@
 #include "itkObject.h"
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
 
 template< class TSample >
 Subsample< TSample >
@@ -65,7 +65,7 @@ Subsample< TSample >
   os << indent << "Sample: " << m_Sample << std::endl ;
   os << indent << "InstanceIdentifierHolder : " << &m_IdHolder << std::endl ;
 }
-  } // end of namespace Statistics 
+} // end of namespace Statistics 
 } // end of namespace itk
 
 #endif

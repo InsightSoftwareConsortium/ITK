@@ -50,7 +50,7 @@ namespace itk
  * \ingroup ImageFeatureExtraction */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT LaplacianImageFilter : 
-           public ImageToImageFilter< TInputImage, TOutputImage > 
+    public ImageToImageFilter< TInputImage, TOutputImage > 
 {
 public:
   /** Standard "Self" & Superclass typedef.   */
@@ -90,7 +90,7 @@ public:
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()  */
   virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
- /** Use the image spacing information in calculations. Use this option if you
+  /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOn. */
   void SetUseImageSpacingOn()
   { this->SetUseImageSpacing(true); }

@@ -38,7 +38,7 @@ template<class ScalarType, unsigned int NDimensions>
 ScaleTransform<ScalarType, NDimensions>::
 ~ScaleTransform()
 {
- return;
+  return;
 }
 
 
@@ -66,9 +66,9 @@ ScaleTransform<TScalarType,NDimensions>
 
   // Transfer the translation part
   for(unsigned int i=0; i < SpaceDimension; i++) 
-  {
+    {
     m_Parameters[i] = m_Scale[i];
-  }
+    }
 
   itkDebugMacro(<<"After getting parameters " << m_Parameters );
 
@@ -96,9 +96,9 @@ ScaleTransform<ScalarType, NDimensions>::
 Compose(const Self * other, bool )
 {
   for( unsigned int i=0; i<SpaceDimension; i++ )
-  {
+    {
     m_Scale[i] *= other->m_Scale[i];
-  }
+    }
   return;
 }
 
@@ -110,9 +110,9 @@ ScaleTransform<ScalarType, NDimensions>::
 Scale(const ScaleType & scale, bool )
 {
   for( unsigned int i=0; i<SpaceDimension; i++ )
-  {
+    {
     m_Scale[i] *= scale[i];
-  }
+    }
   return;
 }
 
@@ -126,9 +126,9 @@ TransformPoint(const InputPointType &point) const
 {
   OutputPointType result;
   for( unsigned int i=0; i<SpaceDimension; i++ )
-  {
+    {
     result[i] = point[i] * m_Scale[i];
-  }
+    }
   return result;
 }
 
@@ -141,9 +141,9 @@ TransformVector(const InputVectorType &vect) const
 {
   OutputVectorType result;
   for( unsigned int i=0; i<SpaceDimension; i++ )
-  {
+    {
     result[i] = vect[i] * m_Scale[i];
-  }
+    }
   return result;
 }
 
@@ -156,9 +156,9 @@ TransformVector(const InputVnlVectorType &vect) const
 {
   OutputVnlVectorType result;
   for( unsigned int i=0; i<SpaceDimension; i++ )
-  {
+    {
     result[i] = vect[i] * m_Scale[i];
-  }
+    }
   return result;
 }
 
@@ -172,9 +172,9 @@ TransformCovariantVector(const InputCovariantVectorType &vect) const
   // Covariant Vectors are scaled by the inverse
   OutputCovariantVectorType result;
   for( unsigned int i=0; i<SpaceDimension; i++ )
-  {
+    {
     result[i] = vect[i] / m_Scale[i];
-  }
+    }
   return result;
 }
 
@@ -187,9 +187,9 @@ ScaleTransform<ScalarType, NDimensions>::
 BackTransform(const OutputPointType &point) const {
   InputPointType result;
   for( unsigned int i=0; i<SpaceDimension; i++ )
-  {
+    {
     result[i] = point[i] / m_Scale[i];
-  }
+    }
   return result;
 }
 
@@ -204,9 +204,9 @@ BackTransform(const OutputVectorType &vect ) const
 {
   InputVectorType result;
   for( unsigned int i=0; i<SpaceDimension; i++ )
-  {
+    {
     result[i] = vect[i] / m_Scale[i];
-  }
+    }
   return result;
 }
 
@@ -221,9 +221,9 @@ BackTransform(const OutputVnlVectorType &vect ) const
 {
   InputVnlVectorType result;
   for( unsigned int i=0; i<SpaceDimension; i++ )
-  {
+    {
     result[i] = vect[i] / m_Scale[i];
-  }
+    }
   return result;
 }
 
@@ -237,9 +237,9 @@ BackTransform(const OutputCovariantVectorType &vect) const
   // Covariant Vectors are scaled by the inverse
   InputCovariantVectorType result;
   for( unsigned int i=0; i<SpaceDimension; i++ )
-  {
+    {
     result[i] = vect[i] * m_Scale[i];
-  }
+    }
   return result;
 }
 
@@ -253,9 +253,9 @@ Inverse(void) const
 {
   Pointer result = New();
   for( unsigned int i=0; i<SpaceDimension; i++ )
-  {
+    {
     result->m_Scale[i] = 1.0 / m_Scale[i];
-  }
+    }
   return result;
 }
 

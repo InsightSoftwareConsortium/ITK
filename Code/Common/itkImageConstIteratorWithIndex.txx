@@ -54,7 +54,7 @@ ImageConstIteratorWithIndex<TImage>
   m_Region            = it.m_Region;
 
   memcpy(m_OffsetTable, it.m_OffsetTable, 
-          (ImageDimension+1)*sizeof(unsigned long));
+         (ImageDimension+1)*sizeof(unsigned long));
   
   m_Position    = it.m_Position;
   m_Begin       = it.m_Begin;
@@ -72,7 +72,7 @@ ImageConstIteratorWithIndex<TImage>
 template<class TImage>
 ImageConstIteratorWithIndex<TImage>
 ::ImageConstIteratorWithIndex( const TImage *ptr,
-                         const RegionType & region )
+                               const RegionType & region )
 {
   m_Image = ptr;
 
@@ -83,7 +83,7 @@ ImageConstIteratorWithIndex<TImage>
   m_Region            = region;
 
   memcpy(m_OffsetTable, m_Image->GetOffsetTable(), 
-        (ImageDimension+1)*sizeof(unsigned long));
+         (ImageDimension+1)*sizeof(unsigned long));
 
   // Compute the start position
   long offs =  m_Image->ComputeOffset( m_BeginIndex );
@@ -95,13 +95,13 @@ ImageConstIteratorWithIndex<TImage>
   IndexType pastEnd;
   for (unsigned int i=0; i < ImageDimension; ++i)
     {
-      unsigned long size = region.GetSize()[i];
-      if( size > 0 )
+    unsigned long size = region.GetSize()[i];
+    if( size > 0 )
       {
-        m_Remaining = true;
+      m_Remaining = true;
       }
-      m_EndIndex[i] = m_BeginIndex[i] + static_cast<long>(size);
-      pastEnd[i]    = m_BeginIndex[i] + static_cast<long>(size)-1;
+    m_EndIndex[i] = m_BeginIndex[i] + static_cast<long>(size);
+    pastEnd[i]    = m_BeginIndex[i] + static_cast<long>(size)-1;
     }
   m_End = buffer + m_Image->ComputeOffset( pastEnd );
 
@@ -128,7 +128,7 @@ ImageConstIteratorWithIndex<TImage>
   m_Region            = it.m_Region;
 
   memcpy(m_OffsetTable, it.m_OffsetTable, 
-        (ImageDimension+1)*sizeof(unsigned long));
+         (ImageDimension+1)*sizeof(unsigned long));
   
   m_Position    = it.m_Position;
   m_Begin       = it.m_Begin;
@@ -171,14 +171,14 @@ ImageConstIteratorWithIndex<TImage>
  
   m_Remaining = false;
   for (unsigned int i=0; i < ImageDimension; ++i)
-  {
+    {
     unsigned long size = m_Region.GetSize()[i];
     if( size > 0 )
-    {
+      {
       m_Remaining = true;
-    }
+      }
 
-  }
+    }
 
 
 }
@@ -209,15 +209,15 @@ ImageConstIteratorWithIndex<TImage>
 
   m_Remaining = false;
   for (unsigned int i=0; i < ImageDimension; ++i)
-  {
+    {
     m_PositionIndex[i]  = m_EndIndex[i]-1;
     unsigned long size = m_Region.GetSize()[i];
     if( size > 0 )
-    {
+      {
       m_Remaining = true;
-    }
+      }
 
-  }
+    }
 
   // Set the position at the end
   const InternalPixelType * buffer   = m_Image->GetBufferPointer();

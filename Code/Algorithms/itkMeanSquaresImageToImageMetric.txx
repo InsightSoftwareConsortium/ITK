@@ -110,7 +110,7 @@ template < class TFixedImage, class TMovingImage>
 void
 MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 ::GetDerivative( const TransformParametersType & parameters,
-                       DerivativeType & derivative  ) const
+                 DerivativeType & derivative  ) const
 {
 
   itkDebugMacro("GetDerivative( " << parameters << " ) ");
@@ -131,10 +131,10 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
 
   typedef  itk::ImageRegionConstIteratorWithIndex<
-                                          FixedImageType> FixedIteratorType;
+    FixedImageType> FixedIteratorType;
 
   typedef  itk::ImageRegionConstIteratorWithIndex<
-                  ITK_TYPENAME Superclass::GradientImageType> GradientIteratorType;
+    ITK_TYPENAME Superclass::GradientImageType> GradientIteratorType;
 
 
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
@@ -166,7 +166,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
       const RealType movingValue  = m_Interpolator->Evaluate( transformedPoint );
 
       const TransformJacobianType & jacobian =
-                          m_Transform->GetJacobian( inputPoint ); 
+        m_Transform->GetJacobian( inputPoint ); 
 
       
       const RealType fixedValue     = ti.Value();
@@ -190,7 +190,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
         }
 
       const GradientPixelType gradient = 
-                                m_GradientImage->GetPixel( mappedIndex );
+        m_GradientImage->GetPixel( mappedIndex );
 
       for(unsigned int par=0; par<ParametersDimension; par++)
         {
@@ -248,10 +248,10 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
   const unsigned int ImageDimension = FixedImageType::ImageDimension;
 
   typedef  itk::ImageRegionConstIteratorWithIndex<
-                                          FixedImageType> FixedIteratorType;
+    FixedImageType> FixedIteratorType;
 
   typedef  itk::ImageRegionConstIteratorWithIndex<
-                  ITK_TYPENAME Superclass::GradientImageType> GradientIteratorType;
+    ITK_TYPENAME Superclass::GradientImageType> GradientIteratorType;
 
 
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
@@ -285,7 +285,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
       const RealType movingValue  = m_Interpolator->Evaluate( transformedPoint );
 
       const TransformJacobianType & jacobian =
-                          m_Transform->GetJacobian( inputPoint ); 
+        m_Transform->GetJacobian( inputPoint ); 
 
       
       const RealType fixedValue     = ti.Value();
@@ -312,7 +312,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
         }
 
       const GradientPixelType gradient = 
-                                  m_GradientImage->GetPixel( mappedIndex );
+        m_GradientImage->GetPixel( mappedIndex );
 
       for(unsigned int par=0; par<ParametersDimension; par++)
         {

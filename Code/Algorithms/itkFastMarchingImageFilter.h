@@ -84,7 +84,7 @@ template <
   class TLevelSet, 
   class TSpeedImage = Image<float,::itk::GetImageDimension<TLevelSet>::ImageDimension> >
 class ITK_EXPORT FastMarchingImageFilter :
-  public ImageToImageFilter<TSpeedImage,TLevelSet>
+    public ImageToImageFilter<TSpeedImage,TLevelSet>
 {
 public:
   /** Standard class typdedefs. */
@@ -137,40 +137,40 @@ public:
   /** Set the container of Alive Points representing the initial front.
    * Alive points are represented as a VectorContainer of LevelSetNodes. */
   void SetAlivePoints( NodeContainer * points )
-    { 
+  { 
     m_AlivePoints = points; 
     this->Modified(); 
-    };
+  };
 
   /** Get the container of Alive Points representing the initial front. */
   NodeContainerPointer GetAlivePoints( )
-    { return m_AlivePoints; };
+  { return m_AlivePoints; };
 
   /** Set the container of Trial Points representing the initial front.
    * Trial points are represented as a VectorContainer of LevelSetNodes. */
   void SetTrialPoints( NodeContainer * points )
-    { 
+  { 
     m_TrialPoints = points;
     this->Modified();
-    };
+  };
 
   /** Get the container of Trial Points representing the initial front. */
   NodeContainerPointer GetTrialPoints( )
-    { return m_TrialPoints; };
+  { return m_TrialPoints; };
 
   /** Get the point type label image. */
   LabelImagePointer GetLabelImage() const
-    { return m_LabelImage; };
+  { return m_LabelImage; };
 
   /** Set the Speed Constant. If the Speed Image is NULL,
    * the SpeedConstant value is used for the whole level set.
    * By default, the SpeedConstant is set to 1.0. */
   void SetSpeedConstant( double value )
-    {
+  {
     m_SpeedConstant = value;
     m_InverseSpeed = -1.0 * vnl_math_sqr( 1.0 / m_SpeedConstant );
     this->Modified();
-    }
+  }
 
   /** Get the Speed Constant. */
   itkGetConstMacro( SpeedConstant, double );
@@ -205,16 +205,16 @@ public:
    * This is useful for defining creating Narrowbands for level
    * set algorithms that supports narrow banding. */
   NodeContainerPointer GetProcessedPoints() const
-    { return m_ProcessedPoints; }
+  { return m_ProcessedPoints; }
 
   /** Set the output level set size. Defines the size of the output
    * level set. */
   void SetOutputSize( const typename LevelSetImageType::SizeType& size )
-    { m_OutputSize = size; }
+  { m_OutputSize = size; }
 
   /** Get the output level set size. */
   const typename LevelSetImageType::SizeType & GetOutputSize() const
-    { return m_OutputSize; }
+  { return m_OutputSize; }
 
 protected:
   FastMarchingImageFilter();
@@ -223,13 +223,13 @@ protected:
 
   virtual void Initialize( LevelSetImageType * );
   virtual void UpdateNeighbors( const IndexType& index, 
-    const SpeedImageType *, LevelSetImageType * );
+                                const SpeedImageType *, LevelSetImageType * );
   virtual double UpdateValue( const IndexType& index, 
-    const SpeedImageType *, LevelSetImageType * );
+                              const SpeedImageType *, LevelSetImageType * );
 
 
   const NodeType& GetNodeUsedInCalculation(unsigned int idx) const
-    { return m_NodesUsed[idx]; }
+  { return m_NodesUsed[idx]; }
 
   void GenerateData();
 

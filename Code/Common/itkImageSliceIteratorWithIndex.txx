@@ -27,7 +27,7 @@ namespace itk
 template< typename TImage >
 ImageSliceIteratorWithIndex<TImage>
 ::ImageSliceIteratorWithIndex()
-    : ImageSliceConstIteratorWithIndex<TImage>() 
+  : ImageSliceConstIteratorWithIndex<TImage>() 
 {
 
 
@@ -38,7 +38,7 @@ ImageSliceIteratorWithIndex<TImage>
 template< typename TImage >
 ImageSliceIteratorWithIndex<TImage>
 ::ImageSliceIteratorWithIndex(ImageType *ptr, const RegionType& region) :
-    ImageSliceConstIteratorWithIndex<TImage>(   ptr, region ) 
+  ImageSliceConstIteratorWithIndex<TImage>(   ptr, region ) 
 {
 
 
@@ -49,7 +49,7 @@ ImageSliceIteratorWithIndex<TImage>
 template< typename TImage >
 ImageSliceIteratorWithIndex<TImage>
 ::ImageSliceIteratorWithIndex( const ImageIteratorWithIndex<TImage> &it):
-                                        ImageSliceConstIteratorWithIndex<TImage>(it)
+  ImageSliceConstIteratorWithIndex<TImage>(it)
 { 
 }
 
@@ -57,7 +57,7 @@ ImageSliceIteratorWithIndex<TImage>
 template< typename TImage >
 ImageSliceIteratorWithIndex<TImage>
 ::ImageSliceIteratorWithIndex( const ImageSliceConstIteratorWithIndex<TImage> &it):
-                                        ImageSliceConstIteratorWithIndex<TImage>(it)
+  ImageSliceConstIteratorWithIndex<TImage>(it)
 { 
 }
 

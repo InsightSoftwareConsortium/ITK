@@ -113,31 +113,31 @@ public:
   
   /** Set the variance parameter needed by the embedded gaussian filter  */ 
   void SetVariance(const double v)
-    {
-      double vArray[ImageDimension];
-      for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
-      this->SetVariance(vArray);
-    }
+  {
+    double vArray[ImageDimension];
+    for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
+    this->SetVariance(vArray);
+  }
   
   /** Set the MaximumError parameter needed by the embedded gaussian filter */
   void SetMaximumError(const double v)
-    {
-      double vArray[ImageDimension];
-      for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
-      this->SetMaximumError(vArray);
-    }
+  {
+    double vArray[ImageDimension];
+    for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
+    this->SetMaximumError(vArray);
+  }
   
   //  virtual void GenerateInputRequestedRegion()
   //  throw(InvalidRequestedRegionError);
   
 protected:
   ZeroCrossingBasedEdgeDetectionImageFilter()
-    {
-      this->SetVariance(1.0f);
-      this->SetMaximumError(0.01f);
-      m_BackgroundValue = NumericTraits<OutputImagePixelType>::Zero;
-      m_ForegroundValue = NumericTraits<OutputImagePixelType>::One;
-    }
+  {
+    this->SetVariance(1.0f);
+    this->SetMaximumError(0.01f);
+    m_BackgroundValue = NumericTraits<OutputImagePixelType>::Zero;
+    m_ForegroundValue = NumericTraits<OutputImagePixelType>::One;
+  }
   ~ZeroCrossingBasedEdgeDetectionImageFilter(){}
   ZeroCrossingBasedEdgeDetectionImageFilter(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;

@@ -27,7 +27,7 @@ namespace itk
 {
 
 static const char blanks[ITK_NUMBER_OF_BLANKS+1] =
-    "                                        ";
+"                                        ";
 
 /**
  * Instance creation.

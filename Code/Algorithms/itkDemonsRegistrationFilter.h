@@ -59,8 +59,8 @@ namespace itk {
  */
 template<class TFixedImage, class TMovingImage, class TDeformationField>
 class ITK_EXPORT DemonsRegistrationFilter : 
-  public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
-    TDeformationField>
+    public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
+                                            TDeformationField>
 {
 public:
   /** Standard class typedefs. */
@@ -75,7 +75,7 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( DemonsRegistrationFilter, 
-    PDEDeformableRegistrationFilter );
+                PDEDeformableRegistrationFilter );
 
   /** FixedImage image type. */
   typedef typename Superclass::FixedImageType   FixedImageType;
@@ -87,23 +87,23 @@ public:
   
   /** Deformation field type. */
   typedef typename Superclass::DeformationFieldType 
-    DeformationFieldType;
+  DeformationFieldType;
   typedef typename Superclass::DeformationFieldPointer  
-    DeformationFieldPointer;
+  DeformationFieldPointer;
 
   /** FiniteDifferenceFunction type. */
   typedef typename Superclass::FiniteDifferenceFunctionType
-    FiniteDifferenceFunctionType;
+  FiniteDifferenceFunctionType;
 
   /** DemonsRegistrationFilterFunction type. */
   typedef DemonsRegistrationFunction<FixedImageType,MovingImageType,
-    DeformationFieldType>  DemonsRegistrationFunctionType;
+                                     DeformationFieldType>  DemonsRegistrationFunctionType;
 
 protected:
   DemonsRegistrationFilter();
   ~DemonsRegistrationFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const
-    { Superclass::PrintSelf( os, indent ); }
+  { Superclass::PrintSelf( os, indent ); }
 
   /** Initialize the state of filter and equation before each iteration. */
   virtual void InitializeIteration();

@@ -58,7 +58,7 @@ public:
 
   /** Define the container type for the table. */
   typedef itk::hash_map<unsigned long, unsigned long,
-    itk::hash<unsigned long> > HashTableType;
+                        itk::hash<unsigned long> > HashTableType;
   typedef HashTableType::iterator Iterator;
   typedef HashTableType::const_iterator ConstIterator;
   typedef HashTableType::value_type ValueType;
@@ -80,11 +80,11 @@ public:
    * the method returns its the value of the argument.  Does not recursively
    * descent through equivalencies.   */
   unsigned long Lookup(const unsigned long a) const
-    {
-      ConstIterator result = m_HashMap.find(a);
-      if ( result == m_HashMap.end() ) return a;
-      else return (*result).second;
-    }
+  {
+    ConstIterator result = m_HashMap.find(a);
+    if ( result == m_HashMap.end() ) return a;
+    else return (*result).second;
+  }
 
   /** Lookup an equivalency in the table by recursing through all successive
    * equivalencies.  For example, if the follow entries exist in the table {8=7,
@@ -94,26 +94,26 @@ public:
   /** Returns TRUE if the label is found in the table and FALSE is the label is
    * not found in the table.   */
   bool IsEntry(const unsigned long a) const
-    {
-      if ( m_HashMap.find(a) == m_HashMap.end() ) return false;
-      else return true;
-    }
+  {
+    if ( m_HashMap.find(a) == m_HashMap.end() ) return false;
+    else return true;
+  }
 
   /** Erases the entry with key a.  */
   void Erase(const unsigned long a)
-    {  m_HashMap.erase(a); }
+  {  m_HashMap.erase(a); }
 
   /** Erases all the entries in the table.   */
   void Clear()
-    {      m_HashMap.clear();    }
+  {      m_HashMap.clear();    }
 
   /** Returns TRUE if the table is empty, FALSE if it is not empty.   */
   bool Empty() const
-    {      return m_HashMap.empty();    }
+  {      return m_HashMap.empty();    }
 
   /** Returns the number of entries in the table.   */
   HashTableType::size_type Size() const
-    {    return m_HashMap.size(); }
+  {    return m_HashMap.size(); }
 
   /** Returns an iterator pointing to the first element of the (unordered)
       table.   */

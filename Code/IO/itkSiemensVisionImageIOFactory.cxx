@@ -22,36 +22,36 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-  void SiemensVisionImageIOFactory::PrintSelf(std::ostream&, Indent) const
-  {
+void SiemensVisionImageIOFactory::PrintSelf(std::ostream&, Indent) const
+{
 
-  }
+}
 
 
-  SiemensVisionImageIOFactory::SiemensVisionImageIOFactory()
-  {
-    this->RegisterOverride("itkImageIOBase",
-        "itkSiemensVisionImageIO",
-        "SiemensVision Image IO",
-        1,
-        CreateObjectFunction<SiemensVisionImageIO>::New());
-  }
+SiemensVisionImageIOFactory::SiemensVisionImageIOFactory()
+{
+  this->RegisterOverride("itkImageIOBase",
+                         "itkSiemensVisionImageIO",
+                         "SiemensVision Image IO",
+                         1,
+                         CreateObjectFunction<SiemensVisionImageIO>::New());
+}
 
-  SiemensVisionImageIOFactory::~SiemensVisionImageIOFactory()
-  {
-  }
+SiemensVisionImageIOFactory::~SiemensVisionImageIOFactory()
+{
+}
 
-  const char*
-    SiemensVisionImageIOFactory::GetITKSourceVersion(void) const
-    {
-      return ITK_SOURCE_VERSION;
-    }
+const char*
+SiemensVisionImageIOFactory::GetITKSourceVersion(void) const
+{
+  return ITK_SOURCE_VERSION;
+}
 
-  const char*
-    SiemensVisionImageIOFactory::GetDescription() const
-    {
-      return "SiemensVision ImageIO Factory, allows the loading of SiemensVision images into insight";
-    }
+const char*
+SiemensVisionImageIOFactory::GetDescription() const
+{
+  return "SiemensVision ImageIO Factory, allows the loading of SiemensVision images into insight";
+}
 
 } // end namespace itk
 

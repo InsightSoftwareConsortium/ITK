@@ -76,13 +76,13 @@ namespace itk{
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT SimpleFuzzyConnectednessRGBImageFilter:
-  public SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
+    public SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
   typedef SimpleFuzzyConnectednessRGBImageFilter       Self;
   typedef SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
-                                                 Superclass;
+  Superclass;
   typedef SmartPointer <Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -99,38 +99,38 @@ public:
   /** Setting and getting the segmentation parameters. */
   itkSetVectorMacro(Mean,double,3);
   void GetMean(double omean[3])
-    {
+  {
     omean[0]=m_Mean[0];omean[1]=m_Mean[1];omean[2]=m_Mean[2];
-    }
+  }
   void SetVariance(double ivar[3][3])
-    {
+  {
     m_Variance[0][0]=ivar[0][0];m_Variance[0][1]=ivar[0][1];m_Variance[0][2]=ivar[0][2];
     m_Variance[1][0]=ivar[1][0];m_Variance[1][1]=ivar[1][1];m_Variance[1][2]=ivar[1][2];
     m_Variance[2][0]=ivar[2][0];m_Variance[2][1]=ivar[2][2];m_Variance[2][2]=ivar[2][2];
-    }
+  }
   void GetVariance(double ovar[3][3])
-    {
+  {
     ovar[0][0]=m_Variance[0][0];ovar[0][1]=m_Variance[0][1];ovar[0][2]=m_Variance[0][2];
     ovar[1][0]=m_Variance[1][0];ovar[1][1]=m_Variance[1][1];ovar[1][2]=m_Variance[1][2];
     ovar[2][0]=m_Variance[2][0];ovar[2][1]=m_Variance[2][1];ovar[2][2]=m_Variance[2][2];
-    }
+  }
   itkSetVectorMacro(Diff_Mean,double,3);
   void GetDiff_Mean(double odmean[3])
-    {
+  {
     odmean[0]=m_Diff_Mean[0];odmean[1]=m_Diff_Mean[1];odmean[2]=m_Diff_Mean[2];
-    };
+  };
   void SetDiff_Variance(double idvar[3][3])
-    {
+  {
     m_Diff_Variance[0][0]=idvar[0][0];m_Diff_Variance[0][1]=idvar[0][1];m_Diff_Variance[0][2]=idvar[0][2];
     m_Diff_Variance[1][0]=idvar[1][0];m_Diff_Variance[1][1]=idvar[1][1];m_Diff_Variance[1][2]=idvar[1][2];
     m_Diff_Variance[2][0]=idvar[2][0];m_Diff_Variance[2][1]=idvar[2][1];m_Diff_Variance[2][2]=idvar[2][2];
-    }
+  }
   void GetDiff_Variance(double odvar[3][3])
-    {
+  {
     odvar[0][0]=m_Diff_Variance[0][0];odvar[0][1]=m_Diff_Variance[0][1];odvar[0][2]=m_Diff_Variance[0][2];
     odvar[1][0]=m_Diff_Variance[1][0];odvar[1][1]=m_Diff_Variance[1][1];odvar[1][2]=m_Diff_Variance[1][2];
     odvar[2][0]=m_Diff_Variance[2][0];odvar[2][1]=m_Diff_Variance[2][1];odvar[2][2]=m_Diff_Variance[2][2];
-    }
+  }
 
 protected:
   SimpleFuzzyConnectednessRGBImageFilter();

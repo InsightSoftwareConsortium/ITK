@@ -20,7 +20,7 @@
 #include "itkDistanceToCentroidMembershipFunction.h"
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
 
 template < class TVector >
 DistanceToCentroidMembershipFunction< TVector >
@@ -84,7 +84,7 @@ DistanceToCentroidMembershipFunction< TVector >
   os << indent << "Number of Samples: " << m_NumberOfSamples << std::endl;
   os << indent << "VectorSize:        " << VectorDimension << std::endl;
 }
-  } // end namespace Statistics
+} // end namespace Statistics
 } // end of namespace itk
 
 

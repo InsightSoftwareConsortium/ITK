@@ -57,13 +57,13 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>
 ::AntiAliasBinaryImageFilter()
 {
   m_CurvatureFunction = CurvatureFunctionType::New();
-    this->SetDifferenceFunction(m_CurvatureFunction);
+  this->SetDifferenceFunction(m_CurvatureFunction);
 
   if (ImageDimension == 2) this->SetNumberOfLayers(2);
   else if (ImageDimension == 3) this->SetNumberOfLayers(3);
   else
     {
-      this->SetNumberOfLayers(3);
+    this->SetNumberOfLayers(3);
     }
     
   m_MaximumRMSError = 0.07;
@@ -81,7 +81,7 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>
   this->InterpolateSurfaceLocationOff(); // no need for interpolation here
   if (ImageDimension > 3 && this->GetNumberOfLayers() < 4)
     {
-      itkWarningMacro("Only 3 layers are being used in the solver.  You should consider using at least as many layers as dimensions of your input.  This value can be set by calling SetNumberOfLayers(n) on this filter.");
+    itkWarningMacro("Only 3 layers are being used in the solver.  You should consider using at least as many layers as dimensions of your input.  This value can be set by calling SetNumberOfLayers(n) on this filter.");
     }
   
   // Find the minimum and maximum of the input image and use these values to

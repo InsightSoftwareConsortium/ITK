@@ -21,7 +21,7 @@
 #include "itkNumericTraits.h"
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
 
 template< class TFrequencyValue >
 DenseFrequencyContainer< TFrequencyValue >
@@ -75,7 +75,7 @@ DenseFrequencyContainer< TFrequencyValue >
   Superclass::PrintSelf(os,indent);
 }
 
-  } // end of namespace Statistics
+} // end of namespace Statistics
 } // end of namespace itk 
 
 #endif

@@ -43,8 +43,8 @@ VectorNeighborhoodInnerProduct<TImage>
   const unsigned int stride = static_cast<unsigned int>( s.stride() );
   for ( unsigned int i = start; o_it < op_end; i+=stride, ++o_it )
     {
-      for (j = 0; j< VectorDimension; ++j)
-        {  sum[j] += *o_it * (it.GetPixel(i))[j]; }
+    for (j = 0; j< VectorDimension; ++j)
+      {  sum[j] += *o_it * (it.GetPixel(i))[j]; }
     }
   
   return sum;
@@ -73,8 +73,8 @@ VectorNeighborhoodInnerProduct<TImage>
   const unsigned int stride = static_cast<unsigned int>( s.stride() );
   for ( unsigned int i = start; o_it < op_end; i+=stride, ++o_it )
     {
-      for (j = 0; j< VectorDimension; ++j)
-        {  sum[j] += *o_it * it[i][j]; }
+    for (j = 0; j< VectorDimension; ++j)
+      {  sum[j] += *o_it * it[i][j]; }
     }
   
   return sum;

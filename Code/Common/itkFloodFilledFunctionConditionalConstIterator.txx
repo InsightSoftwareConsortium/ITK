@@ -78,8 +78,8 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
 
   // Build a temporary image of chars for use in the flood algorithm
   {
-    SmartPointer<  TImage > image = const_cast< TImage * >( m_Image.GetPointer() );
-    image->SetRequestedRegionToLargestPossibleRegion();
+  SmartPointer<  TImage > image = const_cast< TImage * >( m_Image.GetPointer() );
+  image->SetRequestedRegionToLargestPossibleRegion();
   }
   SizeType imageSize = m_Image->GetLargestPossibleRegion().GetSize();
   tempPtr = TTempImage::New();
@@ -112,7 +112,7 @@ void
 FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
 ::FindSeedPixel()
 {
- // Create an iterator that will walk the input image
+  // Create an iterator that will walk the input image
   typedef typename itk::ImageRegionConstIterator<TImage> IRIType;
   IRIType it = IRIType(m_Image, m_Image->GetLargestPossibleRegion() );
   
@@ -138,7 +138,7 @@ void
 FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
 ::FindSeedPixels()
 {
- // Create an iterator that will walk the input image
+  // Create an iterator that will walk the input image
   typedef typename itk::ImageRegionConstIterator<TImage> IRIType;
   IRIType it = IRIType(m_Image, m_Image->GetLargestPossibleRegion() );
   

@@ -42,13 +42,13 @@ namespace itk {
  */
 template<class TInputImage, class TOutputImage, class TKernel>
 class ITK_EXPORT ErodeObjectMorphologyImageFilter : 
-  public ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
+    public ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
   /** Standard class typedefs. */
   typedef ErodeObjectMorphologyImageFilter Self;
   typedef ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
-    Superclass;
+  Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -68,7 +68,7 @@ public:
   typedef typename KernelType::ConstIterator KernelIteratorType ;
  
   typedef NeighborhoodIterator<TOutputImage>
-          OutputNeighborhoodIteratorType ;
+  OutputNeighborhoodIteratorType ;
 
   /** Set the value to be assigned to eroded pixels */
   itkSetMacro(BackgroundValue, PixelType);

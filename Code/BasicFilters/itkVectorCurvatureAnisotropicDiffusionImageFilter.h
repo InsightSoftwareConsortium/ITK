@@ -65,7 +65,7 @@ public:
   /** Standard itk typedefs */
   typedef VectorCurvatureAnisotropicDiffusionImageFilter Self;
   typedef AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
-   Superclass;
+  Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
@@ -85,31 +85,31 @@ public:
   
 protected:
   VectorCurvatureAnisotropicDiffusionImageFilter()
-    {
+  {
     typename VectorCurvatureNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer q
-        = VectorCurvatureNDAnisotropicDiffusionFunction<UpdateBufferType>::New();
-      this->SetDifferenceFunction(q);
-    }
+      = VectorCurvatureNDAnisotropicDiffusionFunction<UpdateBufferType>::New();
+    this->SetDifferenceFunction(q);
+  }
   ~VectorCurvatureAnisotropicDiffusionImageFilter() {}
 
- virtual void InitializeIteration()
+  virtual void InitializeIteration()
   {
     Superclass::InitializeIteration();
     if (this->GetTimeStep() >  0.5 / pow(2.0, static_cast<double>(ImageDimension))  )
       {
-        AnisotropicDiffusionFunction<UpdateBufferType> *f = 
-          dynamic_cast<AnisotropicDiffusionFunction<UpdateBufferType> *>
-          (this->GetDifferenceFunction().GetPointer());
-        if (! f)
-          {  throw ExceptionObject(__FILE__, __LINE__);    }
+      AnisotropicDiffusionFunction<UpdateBufferType> *f = 
+        dynamic_cast<AnisotropicDiffusionFunction<UpdateBufferType> *>
+        (this->GetDifferenceFunction().GetPointer());
+      if (! f)
+        {  throw ExceptionObject(__FILE__, __LINE__);    }
         
-        f->SetTimeStep(0.5 / pow(2.0, static_cast<double>(ImageDimension))); 
-        itkWarningMacro(<< "Anisotropic diffusion has attempted to use a time step which may introduce instability into the solution.  The time step has been automatically reduced to " << f->GetTimeStep() );
+      f->SetTimeStep(0.5 / pow(2.0, static_cast<double>(ImageDimension))); 
+      itkWarningMacro(<< "Anisotropic diffusion has attempted to use a time step which may introduce instability into the solution.  The time step has been automatically reduced to " << f->GetTimeStep() );
       }
   }
   
   void PrintSelf(std::ostream& os, Indent indent) const
-    { Superclass::PrintSelf(os,indent);  }
+  { Superclass::PrintSelf(os,indent);  }
 private:
   VectorCurvatureAnisotropicDiffusionImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

@@ -38,34 +38,34 @@ DerivativeOperator<TPixel, VDimension, TAllocator>
   CoefficientVector coeff(w);
 
   coeff[w/2] = 1.0;
-   for (i = 0; i < m_Order/2; i++)
+  for (i = 0; i < m_Order/2; i++)
+    {
+    previous = coeff[1] - 2 * coeff[0];
+    for (j = 1; j < w - 1; j++)
       {
-        previous = coeff[1] - 2 * coeff[0];
-        for (j = 1; j < w - 1; j++)
-          {
-            next =coeff[j - 1]  + coeff[j + 1] - 2*coeff[j];
-            coeff[j-1] = previous;
-            previous = next;
-          }
-        next = coeff[j - 1] - 2*coeff[j];
-        coeff[j-1] = previous;
-        coeff[j] = next;      
+      next =coeff[j - 1]  + coeff[j + 1] - 2*coeff[j];
+      coeff[j-1] = previous;
+      previous = next;
       }
-    for (i = 0; i < m_Order%2; i++)    
+    next = coeff[j - 1] - 2*coeff[j];
+    coeff[j-1] = previous;
+    coeff[j] = next;      
+    }
+  for (i = 0; i < m_Order%2; i++)    
+    {
+    previous =  0.5 * coeff[1];
+    for (j = 1; j < w - 1; j++)
       {
-        previous =  0.5 * coeff[1];
-        for (j = 1; j < w - 1; j++)
-          {
-            next = -0.5*coeff[j - 1] + 0.5*coeff[j + 1];
-            coeff[j-1] = previous;
-            previous = next;
-          }
-        next = -0.5 * coeff[j - 1];
-        coeff[j-1] = previous;
-        coeff[j] = next;      
+      next = -0.5*coeff[j - 1] + 0.5*coeff[j + 1];
+      coeff[j-1] = previous;
+      previous = next;
       }
+    next = -0.5 * coeff[j - 1];
+    coeff[j-1] = previous;
+    coeff[j] = next;      
+    }
 
-    return coeff;
+  return coeff;
 }
 
 } // namespace itk

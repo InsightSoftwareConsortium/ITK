@@ -42,7 +42,7 @@ ElasticBodyReciprocalSplineKernelTransform<TScalarType, NDimensions>
 {
   const TScalarType r       = x.GetNorm();
   const TScalarType factor  = 
-         ( r > 1e-8 ) ? ( -1.0 / r ): NumericTraits<TScalarType>::Zero;
+    ( r > 1e-8 ) ? ( -1.0 / r ): NumericTraits<TScalarType>::Zero;
   const TScalarType radial  = m_Alpha * r;
   for(unsigned int i=0; i<NDimensions; i++)
     {
@@ -50,9 +50,9 @@ ElasticBodyReciprocalSplineKernelTransform<TScalarType, NDimensions>
     // G is symmetric
     for(unsigned int j=0; j<i; j++)
       {
-        const TScalarType value = xi * x[j]; 
-        m_GMatrix[i][j] = value;
-        m_GMatrix[j][i] = value;
+      const TScalarType value = xi * x[j]; 
+      m_GMatrix[i][j] = value;
+      m_GMatrix[j][i] = value;
       }
     m_GMatrix[i][i] =  radial + xi * x[i];
     }
@@ -64,10 +64,10 @@ template <class TScalarType, unsigned int NDimensions>
 void
 ElasticBodyReciprocalSplineKernelTransform<TScalarType, NDimensions>
 ::PrintSelf(std::ostream& os, Indent indent) const
-  {
+{
   Superclass::PrintSelf(os,indent);
   os << indent << "m_Alpha: " << m_Alpha << std::endl;
-  }
+}
 
 } // namespace itk
 #endif

@@ -84,7 +84,7 @@ public:
   typedef typename TMembershipFunction::Pointer MembershipFunctionPointer ;
 
   typedef std::vector< MembershipFunctionPointer > 
-    MembershipFunctionPointerVector;
+  MembershipFunctionPointerVector;
 
   /** Type definitions for the training image. */
   typedef          TInputImage          InputImageType;
@@ -101,28 +101,28 @@ public:
 
   /** Set the classified image. */
   void SetMembershipFunctions(MembershipFunctionPointerVector 
-    membershipFunctions)
-    {
+                              membershipFunctions)
+  {
     m_MembershipFunctions = membershipFunctions;
-    }
+  }
   
   /** Method to get mean */
   const MembershipFunctionPointerVector GetMembershipFunctions() const
-    {
+  {
     return m_MembershipFunctions;
-    }
+  }
 
   /** Method to number of membership functions */
   unsigned int GetNumberOfMembershipFunctions() 
-    {
+  {
     return static_cast<unsigned int>( m_MembershipFunctions.size() );
-    }
+  }
 
   /** Method to reset the membership fucntion mean */
   void DeleteAllMembershipFunctions() 
-    {
+  {
     m_MembershipFunctions.resize(0);
-    }
+  }
 
   /** Stores a MembershipCalculator of a class in its internal vector */
   unsigned int AddMembershipFunction(MembershipFunctionPointer function);

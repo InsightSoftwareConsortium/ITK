@@ -87,7 +87,7 @@ public:
 
   /** Set the image output of this process object.  */
   void SetInverseOutput(OutputImageType *output)
-    { this->SetNthOutput(1, output); };
+  { this->SetNthOutput(1, output); };
 
 protected:
   TwoOutputExampleImageFilter();

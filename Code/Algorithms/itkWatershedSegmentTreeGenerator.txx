@@ -28,7 +28,7 @@ namespace watershed
 template <class TScalarType>
 SegmentTreeGenerator<TScalarType>
 ::SegmentTreeGenerator() : m_Merge(false), m_FloodLevel(0.0),
-  m_ConsumeInput(false), m_HighestCalculatedFloodLevel(0.0)
+                           m_ConsumeInput(false), m_HighestCalculatedFloodLevel(0.0)
 {
   typename SegmentTreeType::Pointer st
     = static_cast<SegmentTreeType*>(this->MakeOutput(0).GetPointer());
@@ -59,8 +59,8 @@ void SegmentTreeGenerator<TScalarType>
   // the flood level does not require re-execution of the filter.
   if ( m_HighestCalculatedFloodLevel < m_FloodLevel )
     {
-      this->SetHighestCalculatedFloodLevel( m_FloodLevel );
-      this->Modified(); // redundant
+    this->SetHighestCalculatedFloodLevel( m_FloodLevel );
+    this->Modified(); // redundant
     }
 }
   
@@ -77,19 +77,19 @@ void SegmentTreeGenerator<TScalarType>
   typename SegmentTableType::Pointer seg = SegmentTableType::New();
   if (m_ConsumeInput == true) // do not copy input
     {
-      input->Modified();
-      input->SortEdgeLists();
-      if (m_Merge == true)   {      this->MergeEquivalencies();    }
-      this->CompileMergeList(input, mergeList);
-      this->ExtractMergeHierarchy(input, mergeList);
+    input->Modified();
+    input->SortEdgeLists();
+    if (m_Merge == true)   {      this->MergeEquivalencies();    }
+    this->CompileMergeList(input, mergeList);
+    this->ExtractMergeHierarchy(input, mergeList);
     }
   else
     {
-      seg->Copy(*input); // copy the input
-      seg->SortEdgeLists();
-      if (m_Merge == true)   {      this->MergeEquivalencies();    }
-      this->CompileMergeList(seg, mergeList);
-      this->ExtractMergeHierarchy(seg, mergeList);
+    seg->Copy(*input); // copy the input
+    seg->SortEdgeLists();
+    if (m_Merge == true)   {      this->MergeEquivalencies();    }
+    this->CompileMergeList(seg, mergeList);
+    this->ExtractMergeHierarchy(seg, mergeList);
     }
   this->UpdateProgress(1.0);
 }
@@ -111,17 +111,17 @@ void SegmentTreeGenerator<TScalarType>
 
   for (it = eqTable->Begin(); it != eqTable->End(); ++it)
     {
-      MergeSegments(segTable, m_MergedSegmentsTable,
-            (*it).first, (*it).second);  // Merge first INTO second.
-                                         // deletes first
-      if ( (counter % 10000) == 0 )
-        {
-          segTable->PruneEdgeLists(threshold);
-          m_MergedSegmentsTable->Flatten();
-          counter = 0;
-        }
+    MergeSegments(segTable, m_MergedSegmentsTable,
+                  (*it).first, (*it).second);  // Merge first INTO second.
+    // deletes first
+    if ( (counter % 10000) == 0 )
+      {
+      segTable->PruneEdgeLists(threshold);
+      m_MergedSegmentsTable->Flatten();
+      counter = 0;
+      }
 
-      counter++;
+    counter++;
     }
 }
 
@@ -147,29 +147,29 @@ void SegmentTreeGenerator<TScalarType>
   for (segment_ptr = segments->Begin(); segment_ptr != segments->End();
        ++segment_ptr)
     {
-      labelFROM = (*segment_ptr).first;
+    labelFROM = (*segment_ptr).first;
       
-      // Must take into account any equivalencies that have already been
-      // recorded.
+    // Must take into account any equivalencies that have already been
+    // recorded.
+    labelTO
+      = m_MergedSegmentsTable->RecursiveLookup((*segment_ptr).second.edge_list.front().label);
+    while (labelTO == labelFROM) // Pop off any bogus merges with ourself
+      {                          // that may have been left in this list.
+      (*segment_ptr).second.edge_list.pop_front();
       labelTO
         = m_MergedSegmentsTable->RecursiveLookup((*segment_ptr).second.edge_list.front().label);
-      while (labelTO == labelFROM) // Pop off any bogus merges with ourself
-        {                          // that may have been left in this list.
-          (*segment_ptr).second.edge_list.pop_front();
-          labelTO
-            = m_MergedSegmentsTable->RecursiveLookup((*segment_ptr).second.edge_list.front().label);
-        }
+      }
 
-      // Add this merge to our list if its saliency is below
-      // the threshold.
-      tempMerge.from     = labelFROM;
-      tempMerge.to       = labelTO;
-      tempMerge.saliency = (*segment_ptr).second.edge_list.front().height
-        - (*segment_ptr).second.min;
-      if (tempMerge.saliency < threshold)
-        {
-          mergeList->PushBack(tempMerge);
-        }
+    // Add this merge to our list if its saliency is below
+    // the threshold.
+    tempMerge.from     = labelFROM;
+    tempMerge.to       = labelTO;
+    tempMerge.saliency = (*segment_ptr).second.edge_list.front().height
+      - (*segment_ptr).second.min;
+    if (tempMerge.saliency < threshold)
+      {
+      mergeList->PushBack(tempMerge);
+      }
     }
   
   // Heapsort the list
@@ -203,76 +203,76 @@ void SegmentTreeGenerator<TScalarType>
 
   while( (! heap->Empty()) && (topMerge.saliency <= threshold) )
     {
-      counter++;             // Every so often we should eliminate
-      if ((counter == 10000)) // all the recursion in our records
-        {                    // of which segments have merged.
-          counter = 0;
-          segments->PruneEdgeLists(threshold); // also we want to
-          // keep the edge list size under control
-        }
-      if ((counter % 10000) == 0)
-        {
-          m_MergedSegmentsTable->Flatten();
-        }
+    counter++;             // Every so often we should eliminate
+    if ((counter == 10000)) // all the recursion in our records
+      {                    // of which segments have merged.
+      counter = 0;
+      segments->PruneEdgeLists(threshold); // also we want to
+      // keep the edge list size under control
+      }
+    if ((counter % 10000) == 0)
+      {
+      m_MergedSegmentsTable->Flatten();
+      }
 
-      if ((counter % 1000) == 0)
-        {
-          this->UpdateProgress(1.0 - ((static_cast<double>(heap->Size())) /
-                                      initHeapSize));
-        }
+    if ((counter % 1000) == 0)
+      {
+      this->UpdateProgress(1.0 - ((static_cast<double>(heap->Size())) /
+                                  initHeapSize));
+      }
       
-      std::pop_heap(heap->Begin(), heap->End(), comp);
-      heap->PopBack();  // Popping the heap moves the top element to the end
-                        // of the container structure, so we delete that here.
+    std::pop_heap(heap->Begin(), heap->End(), comp);
+    heap->PopBack();  // Popping the heap moves the top element to the end
+    // of the container structure, so we delete that here.
 
-      // Recursively find the segments we are about to merge
-      // (the labels identified here may have merged already)
-      fromSegLabel = m_MergedSegmentsTable->RecursiveLookup(topMerge.from);
-      toSegLabel   = m_MergedSegmentsTable->RecursiveLookup(topMerge.to);
+    // Recursively find the segments we are about to merge
+    // (the labels identified here may have merged already)
+    fromSegLabel = m_MergedSegmentsTable->RecursiveLookup(topMerge.from);
+    toSegLabel   = m_MergedSegmentsTable->RecursiveLookup(topMerge.to);
 
-      // If the two segments do not resolve to the same segment and the
-      // "TO" segment has never been merged, then then merge them.
-      // Otherwise, ignore this particular entry.
-      if ( fromSegLabel == topMerge.from && fromSegLabel != toSegLabel )
+    // If the two segments do not resolve to the same segment and the
+    // "TO" segment has never been merged, then then merge them.
+    // Otherwise, ignore this particular entry.
+    if ( fromSegLabel == topMerge.from && fromSegLabel != toSegLabel )
+      {
+      toSeg   = segments->Lookup( toSegLabel );
+
+      topMerge.from = fromSegLabel;
+      topMerge.to   = toSegLabel;
+      list->PushBack(topMerge);  // Record this merge for posterity
+
+      // Merge the segments
+      Self::MergeSegments(segments, m_MergedSegmentsTable,
+                          fromSegLabel, toSegLabel);
+
+      // Now check for new possible merges in A.
+      // All we have to do is look at the front of the
+      // ordered list.
+
+      // Recursively look up the label to which we might
+      // be merging to.
+      if (! toSeg->edge_list.empty() )
         {
-          toSeg   = segments->Lookup( toSegLabel );
-
-          topMerge.from = fromSegLabel;
-          topMerge.to   = toSegLabel;
-          list->PushBack(topMerge);  // Record this merge for posterity
-
-          // Merge the segments
-          Self::MergeSegments(segments, m_MergedSegmentsTable,
-                              fromSegLabel, toSegLabel);
-
-          // Now check for new possible merges in A.
-          // All we have to do is look at the front of the
-          // ordered list.
-
-          // Recursively look up the label to which we might
-          // be merging to.
-          if (! toSeg->edge_list.empty() )
-            {
-              tempMerge.from = toSegLabel;  // The new, composite segment
-              tempMerge.to   = m_MergedSegmentsTable->RecursiveLookup(
-                                        toSeg->edge_list.front().label );
-              while (tempMerge.to == tempMerge.from)
-                { // We don't want to merge to ourself.
-                  toSeg->edge_list.pop_front();
-                  tempMerge.to = m_MergedSegmentsTable->RecursiveLookup(
-                                        toSeg->edge_list.front().label );
-                }
-              tempMerge.saliency =
-                (toSeg->edge_list.front().height) - toSeg->min;
+        tempMerge.from = toSegLabel;  // The new, composite segment
+        tempMerge.to   = m_MergedSegmentsTable->RecursiveLookup(
+          toSeg->edge_list.front().label );
+        while (tempMerge.to == tempMerge.from)
+          { // We don't want to merge to ourself.
+          toSeg->edge_list.pop_front();
+          tempMerge.to = m_MergedSegmentsTable->RecursiveLookup(
+            toSeg->edge_list.front().label );
+          }
+        tempMerge.saliency =
+          (toSeg->edge_list.front().height) - toSeg->min;
               
-              heap->PushBack(tempMerge);
-              std::push_heap(heap->Begin(), heap->End(), comp);
-            }
+        heap->PushBack(tempMerge);
+        std::push_heap(heap->Begin(), heap->End(), comp);
         }
-      if( ! heap->Empty() )
-        {
-          topMerge = heap->Front();
-        }
+      }
+    if( ! heap->Empty() )
+      {
+      topMerge = heap->Front();
+      }
     }
 }
 
@@ -319,84 +319,84 @@ void SegmentTreeGenerator<TScalarType>
   while ( edgeTOi != to_seg->edge_list.end() &&
           edgeFROMi != from_seg->edge_list.end() )
     {
-      // Recursively resolve the labels we are seeing
-      labelTO   = eqT->RecursiveLookup(edgeTOi->label);
-      labelFROM = eqT->RecursiveLookup(edgeFROMi->label);
+    // Recursively resolve the labels we are seeing
+    labelTO   = eqT->RecursiveLookup(edgeTOi->label);
+    labelFROM = eqT->RecursiveLookup(edgeFROMi->label);
 
-      // Ignore any labels already in this list and
-      // any pointers back to ourself.
-      // This step is necessary to keep the edge lists from
-      // growing exponentially in size as segments merge.
-      if ( seen_table.find(labelTO) != seen_table.end() ||
-           labelTO == FROM )
-        {
-          edgeTEMPi = edgeTOi;
-          edgeTEMPi++;
-          to_seg->edge_list.erase(edgeTOi);
-          edgeTOi = edgeTEMPi;
-          continue;
-        }
-      if ( seen_table.find(labelFROM) != seen_table.end() ||
-           labelFROM == TO)
-        {
-          edgeFROMi++;
-          continue;
-        }
+    // Ignore any labels already in this list and
+    // any pointers back to ourself.
+    // This step is necessary to keep the edge lists from
+    // growing exponentially in size as segments merge.
+    if ( seen_table.find(labelTO) != seen_table.end() ||
+         labelTO == FROM )
+      {
+      edgeTEMPi = edgeTOi;
+      edgeTEMPi++;
+      to_seg->edge_list.erase(edgeTOi);
+      edgeTOi = edgeTEMPi;
+      continue;
+      }
+    if ( seen_table.find(labelFROM) != seen_table.end() ||
+         labelFROM == TO)
+      {
+      edgeFROMi++;
+      continue;
+      }
 
-      // Fix any changed labels since we have the chance
-      if ( labelTO   != edgeTOi->label  ) edgeTOi->label = labelTO;
-      if ( labelFROM != edgeFROMi->label) edgeFROMi->label = labelFROM;
+    // Fix any changed labels since we have the chance
+    if ( labelTO   != edgeTOi->label  ) edgeTOi->label = labelTO;
+    if ( labelFROM != edgeFROMi->label) edgeFROMi->label = labelFROM;
 
-      // Which edge is next in the list?
-      if ( edgeFROMi->height < edgeTOi->height )
-        {
-          to_seg->edge_list.insert(edgeTOi, *edgeFROMi);
-          seen_table.insert(std::pair<unsigned long, bool>(labelFROM, true));
-          edgeFROMi++;
-        }
-      else
-        {
-          seen_table.insert(std::pair<unsigned long, bool>(labelTO, true));
-          edgeTOi++;
-        }
+    // Which edge is next in the list?
+    if ( edgeFROMi->height < edgeTOi->height )
+      {
+      to_seg->edge_list.insert(edgeTOi, *edgeFROMi);
+      seen_table.insert(std::pair<unsigned long, bool>(labelFROM, true));
+      edgeFROMi++;
+      }
+    else
+      {
+      seen_table.insert(std::pair<unsigned long, bool>(labelTO, true));
+      edgeTOi++;
+      }
     }
   
   // Process tail of the FROM list.
   while ( edgeFROMi != from_seg->edge_list.end() )
     {
-      labelFROM = eqT->RecursiveLookup(edgeFROMi->label);
-      if ( seen_table.find(labelFROM) != seen_table.end() ||
-           labelFROM == TO)
-        {
-          edgeFROMi++;
-        }
-      else
-        {
-          if ( labelFROM != edgeFROMi->label) edgeFROMi->label = labelFROM;
-          to_seg->edge_list.push_back(*edgeFROMi);
-          seen_table.insert(std::pair<unsigned long, bool>(labelFROM, true));
-          edgeFROMi++;
-        }
+    labelFROM = eqT->RecursiveLookup(edgeFROMi->label);
+    if ( seen_table.find(labelFROM) != seen_table.end() ||
+         labelFROM == TO)
+      {
+      edgeFROMi++;
+      }
+    else
+      {
+      if ( labelFROM != edgeFROMi->label) edgeFROMi->label = labelFROM;
+      to_seg->edge_list.push_back(*edgeFROMi);
+      seen_table.insert(std::pair<unsigned long, bool>(labelFROM, true));
+      edgeFROMi++;
+      }
     }
 
   // Process tail of the TO list.
   while ( edgeTOi != to_seg->edge_list.end() )
     {
-      labelTO   = eqT->RecursiveLookup(edgeTOi->label);
-      if ( seen_table.find(labelTO) != seen_table.end() ||
-           labelTO == FROM)
-        {
-          edgeTEMPi = edgeTOi;
-          edgeTEMPi++;
-          to_seg->edge_list.erase(edgeTOi);
-          edgeTOi = edgeTEMPi;
-        }
-      else
-        {
-          if ( labelTO   != edgeTOi->label  ) edgeTOi->label = labelTO;
-          seen_table.insert(std::pair<unsigned long, bool>(labelTO, true));
-          edgeTOi++;
-        }
+    labelTO   = eqT->RecursiveLookup(edgeTOi->label);
+    if ( seen_table.find(labelTO) != seen_table.end() ||
+         labelTO == FROM)
+      {
+      edgeTEMPi = edgeTOi;
+      edgeTEMPi++;
+      to_seg->edge_list.erase(edgeTOi);
+      edgeTOi = edgeTEMPi;
+      }
+    else
+      {
+      if ( labelTO   != edgeTOi->label  ) edgeTOi->label = labelTO;
+      seen_table.insert(std::pair<unsigned long, bool>(labelTO, true));
+      edgeTOi++;
+      }
     }
 
   // Now destroy the segment that was merged.
@@ -448,84 +448,84 @@ void SegmentTreeGenerator<TScalarType>
   while ( edgeTOi != to_seg->edge_list.end() &&
           edgeFROMi != from_seg->edge_list.end() )
     {
-      // Recursively resolve the labels we are seeing
-      labelTO   = eqT->RecursiveLookup(edgeTOi->label);
-      labelFROM = eqT->RecursiveLookup(edgeFROMi->label);
+    // Recursively resolve the labels we are seeing
+    labelTO   = eqT->RecursiveLookup(edgeTOi->label);
+    labelFROM = eqT->RecursiveLookup(edgeFROMi->label);
 
-      // Ignore any labels already in this list and
-      // any pointers back to ourself.
-      // This step is necessary to keep the edge lists from
-      // growing exponentially in size as segments merge.
-      if ( seen_table.find(labelTO) != seen_table.end() ||
-           labelTO == FROM )
-        {
-          edgeTEMPi = edgeTOi;
-          edgeTEMPi++;
-          to_seg->edge_list.erase(edgeTOi);
-          edgeTOi = edgeTEMPi;
-          continue;
-        }
-      if ( seen_table.find(labelFROM) != seen_table.end() ||
-           labelFROM == TO)
-        {
-          edgeFROMi++;
-          continue;
-        }
+    // Ignore any labels already in this list and
+    // any pointers back to ourself.
+    // This step is necessary to keep the edge lists from
+    // growing exponentially in size as segments merge.
+    if ( seen_table.find(labelTO) != seen_table.end() ||
+         labelTO == FROM )
+      {
+      edgeTEMPi = edgeTOi;
+      edgeTEMPi++;
+      to_seg->edge_list.erase(edgeTOi);
+      edgeTOi = edgeTEMPi;
+      continue;
+      }
+    if ( seen_table.find(labelFROM) != seen_table.end() ||
+         labelFROM == TO)
+      {
+      edgeFROMi++;
+      continue;
+      }
 
-      // Fix any changed labels since we have the chance
-      if ( labelTO   != edgeTOi->label  ) edgeTOi->label = labelTO;
-      if ( labelFROM != edgeFROMi->label) edgeFROMi->label = labelFROM;
+    // Fix any changed labels since we have the chance
+    if ( labelTO   != edgeTOi->label  ) edgeTOi->label = labelTO;
+    if ( labelFROM != edgeFROMi->label) edgeFROMi->label = labelFROM;
 
-      // Which edge is next in the list?
-      if ( edgeFROMi->height < edgeTOi->height )
-        {
-          to_seg->edge_list.insert(edgeTOi, *edgeFROMi);
-          seen_table.insert(std::pair<unsigned long, bool>(labelFROM, true));
-          edgeFROMi++;
-        }
-      else
-        {
-          seen_table.insert(std::pair<unsigned long, bool>(labelTO, true));
-          edgeTOi++;
-        }
+    // Which edge is next in the list?
+    if ( edgeFROMi->height < edgeTOi->height )
+      {
+      to_seg->edge_list.insert(edgeTOi, *edgeFROMi);
+      seen_table.insert(std::pair<unsigned long, bool>(labelFROM, true));
+      edgeFROMi++;
+      }
+    else
+      {
+      seen_table.insert(std::pair<unsigned long, bool>(labelTO, true));
+      edgeTOi++;
+      }
     }
   
   // Process tail of the FROM list.
   while ( edgeFROMi != from_seg->edge_list.end() )
     {
-      labelFROM = eqT->RecursiveLookup(edgeFROMi->label);
-      if ( seen_table.find(labelFROM) != seen_table.end() ||
-           labelFROM == TO)
-        {
-          edgeFROMi++;
-        }
-      else
-        {
-          if ( labelFROM != edgeFROMi->label) edgeFROMi->label = labelFROM;
-          to_seg->edge_list.push_back(*edgeFROMi);
-          seen_table.insert(std::pair<unsigned long, bool>(labelFROM, true));
-          edgeFROMi++;
-        }
+    labelFROM = eqT->RecursiveLookup(edgeFROMi->label);
+    if ( seen_table.find(labelFROM) != seen_table.end() ||
+         labelFROM == TO)
+      {
+      edgeFROMi++;
+      }
+    else
+      {
+      if ( labelFROM != edgeFROMi->label) edgeFROMi->label = labelFROM;
+      to_seg->edge_list.push_back(*edgeFROMi);
+      seen_table.insert(std::pair<unsigned long, bool>(labelFROM, true));
+      edgeFROMi++;
+      }
     }
 
   // Process tail of the TO list.
   while ( edgeTOi != to_seg->edge_list.end() )
     {
-      labelTO   = eqT->RecursiveLookup(edgeTOi->label);
-      if ( seen_table.find(labelTO) != seen_table.end() ||
-           labelTO == FROM)
-        {
-          edgeTEMPi = edgeTOi;
-          edgeTEMPi++;
-          to_seg->edge_list.erase(edgeTOi);
-          edgeTOi = edgeTEMPi;
-        }
-      else
-        {
-          if ( labelTO   != edgeTOi->label  ) edgeTOi->label = labelTO;
-          seen_table.insert(std::pair<unsigned long, bool>(labelTO, true));
-          edgeTOi++;
-        }
+    labelTO   = eqT->RecursiveLookup(edgeTOi->label);
+    if ( seen_table.find(labelTO) != seen_table.end() ||
+         labelTO == FROM)
+      {
+      edgeTEMPi = edgeTOi;
+      edgeTEMPi++;
+      to_seg->edge_list.erase(edgeTOi);
+      edgeTOi = edgeTEMPi;
+      }
+    else
+      {
+      if ( labelTO   != edgeTOi->label  ) edgeTOi->label = labelTO;
+      seen_table.insert(std::pair<unsigned long, bool>(labelTO, true));
+      edgeTOi++;
+      }
     }
 
   // Now destroy the segment that was merged.
@@ -547,7 +547,7 @@ void SegmentTreeGenerator<TScalarType>
 {
   Superclass::GenerateInputRequestedRegion();
 
-   // get pointers to the input and output
+  // get pointers to the input and output
   //  typename SegmentTableType::Pointer  inputPtr  = this->GetInputSegmentTable();
   //  typename SegmentTreeType::Pointer outputPtr = this->GetOutputSegmentTree();
   

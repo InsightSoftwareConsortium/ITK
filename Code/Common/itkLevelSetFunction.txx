@@ -144,9 +144,9 @@ LevelSetFunction< TImageType >
   for( i = 0 ; i < ImageDimension; i++)
     {
     const unsigned int positionA = 
-       static_cast<unsigned int>( m_Center + m_xStride[i]);    
+      static_cast<unsigned int>( m_Center + m_xStride[i]);    
     const unsigned int positionB = 
-       static_cast<unsigned int>( m_Center - m_xStride[i]);    
+      static_cast<unsigned int>( m_Center - m_xStride[i]);    
     dx[i] = 0.5 * (it.GetPixel( positionA ) - 
                    it.GetPixel( positionB )    );
       
@@ -161,43 +161,43 @@ LevelSetFunction< TImageType >
   for (i = 0; i < ImageDimension; i++)
     {
     const unsigned int positionAI = 
-       static_cast<unsigned int>( m_Center + m_xStride[i]);    
+      static_cast<unsigned int>( m_Center + m_xStride[i]);    
     const unsigned int positionBI = 
-       static_cast<unsigned int>( m_Center - m_xStride[i]);    
-      dxx[i] = it.GetPixel( positionAI )
-             + it.GetPixel( positionBI ) - 2.0 * temp_value;
+      static_cast<unsigned int>( m_Center - m_xStride[i]);    
+    dxx[i] = it.GetPixel( positionAI )
+      + it.GetPixel( positionBI ) - 2.0 * temp_value;
       
-      for(unsigned int j = i+1; j < ImageDimension; j++)
-        {
-        const unsigned int positionA = static_cast<unsigned int>( 
-                                m_Center - m_xStride[i] - m_xStride[j] );    
-        const unsigned int positionB = static_cast<unsigned int>( 
-                                m_Center - m_xStride[i] + m_xStride[j] );    
-        const unsigned int positionC = static_cast<unsigned int>( 
-                                m_Center + m_xStride[i] - m_xStride[j] );    
-        const unsigned int positionD = static_cast<unsigned int>( 
-                                m_Center + m_xStride[i] + m_xStride[j] );    
-        dxy[k] = 0.25 *( it.GetPixel( positionA )
+    for(unsigned int j = i+1; j < ImageDimension; j++)
+      {
+      const unsigned int positionA = static_cast<unsigned int>( 
+        m_Center - m_xStride[i] - m_xStride[j] );    
+      const unsigned int positionB = static_cast<unsigned int>( 
+        m_Center - m_xStride[i] + m_xStride[j] );    
+      const unsigned int positionC = static_cast<unsigned int>( 
+        m_Center + m_xStride[i] - m_xStride[j] );    
+      const unsigned int positionD = static_cast<unsigned int>( 
+        m_Center + m_xStride[i] + m_xStride[j] );    
+      dxy[k] = 0.25 *( it.GetPixel( positionA )
                        - it.GetPixel( positionB )
                        - it.GetPixel( positionC )
                        + it.GetPixel( positionD )  );
          
-        curve -= 2.0 * dx[i] * dx[j] * dxy[k]; 
-        k++;
-        }
+      curve -= 2.0 * dx[i] * dx[j] * dxy[k]; 
+      k++;
+      }
     }
 
   gradMag = MIN_NORM;
   for (i = 0; i < ImageDimension; i++)
     {
       
-      for(unsigned int j = 0; j < ImageDimension; j++)
-        {
+    for(unsigned int j = 0; j < ImageDimension; j++)
+      {
           
-          if(j != i)
-            curve += dxx[j] * dx[i] * dx[i];
-        }
-      gradMag += dx[i] * dx[i];
+      if(j != i)
+        curve += dxx[j] * dx[i] * dx[i];
+      }
+    gradMag += dx[i] * dx[i];
     }
 
   curve /= gradMag * vcl_sqrt(gradMag);
@@ -214,71 +214,71 @@ LevelSetFunction< TImageType >
   if (m_AdvectionWeight != ZERO)
     {
 
-      advection_field = this->AdvectionField(it, offset);
-      advection_term = ZERO;
+    advection_field = this->AdvectionField(it, offset);
+    advection_term = ZERO;
 
-      for(i = 0; i < ImageDimension; i++)
-        {
+    for(i = 0; i < ImageDimension; i++)
+      {
 
-          x_energy[i] = m_AdvectionWeight * advection_field[i];
+      x_energy[i] = m_AdvectionWeight * advection_field[i];
           
-          if (x_energy[i] > ZERO) advection_term += advection_field[i] * dx_backward[i];
-          else                 advection_term += advection_field[i] * dx_forward[i];
+      if (x_energy[i] > ZERO) advection_term += advection_field[i] * dx_backward[i];
+      else                 advection_term += advection_field[i] * dx_forward[i];
 
-        }
+      }
 
-      advection_term *= m_AdvectionWeight;
+    advection_term *= m_AdvectionWeight;
 
           
-      // Collect energy change from the advection term.  This will be used
-      // in calculating the maximum time step that can be taken this iteration.
+    // Collect energy change from the advection term.  This will be used
+    // in calculating the maximum time step that can be taken this iteration.
 
-      PixelType totalEnergy = ZERO;
+    PixelType totalEnergy = ZERO;
       
-      for(unsigned int i = 0; i < ImageDimension; i++)
-        totalEnergy += vnl_math_abs(x_energy[i]);
+    for(unsigned int i = 0; i < ImageDimension; i++)
+      totalEnergy += vnl_math_abs(x_energy[i]);
       
-      globalData->m_MaxAdvectionChange
-        = vnl_math_max(globalData->m_MaxAdvectionChange, totalEnergy); 
+    globalData->m_MaxAdvectionChange
+      = vnl_math_max(globalData->m_MaxAdvectionChange, totalEnergy); 
     }
   else advection_term = ZERO;
 
   if (m_PropagationWeight != ZERO)
     {
-      // Get the propagation speed
-      propagation_term = m_PropagationWeight * this->PropagationSpeed(it, offset);
+    // Get the propagation speed
+    propagation_term = m_PropagationWeight * this->PropagationSpeed(it, offset);
       
-      //
-      // Construct upwind gradient values for use in the propagation speed term:
-      //  $\beta G(\mathbf{x})\mid\nabla\phi\mid$
-      //
-      // The following scheme for ``upwinding'' in the normal direction is taken
-      // from Sethian, Ch. 6 as referenced above.
-      //
-      propagation_gradient = ZERO;
+    //
+    // Construct upwind gradient values for use in the propagation speed term:
+    //  $\beta G(\mathbf{x})\mid\nabla\phi\mid$
+    //
+    // The following scheme for ``upwinding'' in the normal direction is taken
+    // from Sethian, Ch. 6 as referenced above.
+    //
+    propagation_gradient = ZERO;
 
-      if ( propagation_term > ZERO )
-        {
-          for(i = 0; i< ImageDimension; i++)
-            propagation_gradient += vnl_math_sqr( vnl_math_max(dx_backward[i], ZERO) )
-              + vnl_math_sqr( vnl_math_min(dx_forward[i],  ZERO) );
+    if ( propagation_term > ZERO )
+      {
+      for(i = 0; i< ImageDimension; i++)
+        propagation_gradient += vnl_math_sqr( vnl_math_max(dx_backward[i], ZERO) )
+          + vnl_math_sqr( vnl_math_min(dx_forward[i],  ZERO) );
 
-        }
-      else
-        {
-          for(i = 0; i< ImageDimension; i++)
-            propagation_gradient += vnl_math_sqr( vnl_math_min(dx_backward[i], ZERO) )
-              + vnl_math_sqr( vnl_math_max(dx_forward[i],  ZERO) );
+      }
+    else
+      {
+      for(i = 0; i< ImageDimension; i++)
+        propagation_gradient += vnl_math_sqr( vnl_math_min(dx_backward[i], ZERO) )
+          + vnl_math_sqr( vnl_math_max(dx_forward[i],  ZERO) );
 
-        }
+      }
       
-      // Collect energy change from propagation term.  This will be used in
-      // calculating the maximum time step that can be taken for this iteration.
-      globalData->m_MaxPropagationChange =
-        vnl_math_max(globalData->m_MaxPropagationChange,
-                                         vnl_math_abs(propagation_term));
+    // Collect energy change from propagation term.  This will be used in
+    // calculating the maximum time step that can be taken for this iteration.
+    globalData->m_MaxPropagationChange =
+      vnl_math_max(globalData->m_MaxPropagationChange,
+                   vnl_math_abs(propagation_term));
       
-      propagation_term *= vcl_sqrt( propagation_gradient );
+    propagation_term *= vcl_sqrt( propagation_gradient );
     }
   else propagation_term = ZERO;
 
@@ -302,7 +302,7 @@ LevelSetFunction< TImageType >
 
   // Return the combination of all the terms.
   return ( PixelType ) ( curvature_term - propagation_term 
-    - advection_term - laplacian_term );
+                         - advection_term - laplacian_term );
 } 
 
 // Print self

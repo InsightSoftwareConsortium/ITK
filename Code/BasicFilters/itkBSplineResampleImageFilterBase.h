@@ -72,7 +72,7 @@ namespace itk
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT BSplineResampleImageFilterBase : 
-  public ImageToImageFilter<TInputImage,TOutputImage>  
+    public ImageToImageFilter<TInputImage,TOutputImage>  
 {
 
 public:
@@ -138,19 +138,19 @@ protected:
 
   /** The basic operator for reducing a line of data by a factor of 2 */
   virtual void Reduce1DImage( 
-        const std::vector<double> & In, 
-        OutputImageIterator & Iter, 
-        unsigned int traverseSize,
-        ProgressReporter &progress
-        );
+    const std::vector<double> & In, 
+    OutputImageIterator & Iter, 
+    unsigned int traverseSize,
+    ProgressReporter &progress
+    );
 
   /** The basic operator for expanding a line of data by a factor of 2 */
   virtual void Expand1DImage( 
-        const std::vector<double> & In, 
-        OutputImageIterator & Iter, 
-        unsigned int traverseSize,
-        ProgressReporter &progress
-        );
+    const std::vector<double> & In, 
+    OutputImageIterator & Iter, 
+    unsigned int traverseSize,
+    ProgressReporter &progress
+    );
 
   BSplineResampleImageFilterBase();
   virtual ~BSplineResampleImageFilterBase() {};

@@ -68,10 +68,10 @@ public:
 
 protected:
   MinimumMaximumImageFilter()
-    {
+  {
     m_Minimum = NumericTraits<InputPixelType>::NonpositiveMin();
     m_Maximum = NumericTraits<InputPixelType>::max();
-    }
+  }
   virtual ~MinimumMaximumImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 

@@ -54,9 +54,9 @@ CovariantVector<T, NVectorDimension>
 ::operator*=( const ValueType & value )
 {
   for( unsigned int i=0; i<NVectorDimension; i++) 
-  {
+    {
     (*this)[i] *= value;
-  }
+    }
   return *this;
 }
 
@@ -70,9 +70,9 @@ CovariantVector<T, NVectorDimension>
 ::operator/=( const ValueType & value )
 {
   for( unsigned int i=0; i<NVectorDimension; i++) 
-  {
+    {
     (*this)[i] /= value;
-  }
+    }
   return *this;
 }
 
@@ -86,9 +86,9 @@ CovariantVector<T, NVectorDimension>
 ::operator+=( const Self & vec )
 {
   for( unsigned int i=0; i<NVectorDimension; i++) 
-  {
+    {
     (*this)[i] += vec[i];
-  }
+    }
   return *this;
 }
 
@@ -102,9 +102,9 @@ CovariantVector<T, NVectorDimension>
 ::operator-=( const Self & vec )
 {
   for( unsigned int i=0; i<NVectorDimension; i++) 
-  {
+    {
     (*this)[i] -= vec[i];
-  }
+    }
   return *this;
 }
 
@@ -119,9 +119,9 @@ CovariantVector<T, NVectorDimension>
 {
   Self result;
   for( unsigned int i=0; i<NVectorDimension; i++) 
-  {
+    {
     result[i] = -(*this)[i];
-  }
+    }
   return result;
 }
 
@@ -137,9 +137,9 @@ CovariantVector<T, NVectorDimension>
 {
   Self result;
   for( unsigned int i=0; i<NVectorDimension; i++) 
-  {
+    {
     result[i] = (*this)[i] + vec[i];
-  }
+    }
   return result;
 }
 
@@ -155,9 +155,9 @@ CovariantVector<T, NVectorDimension>
 {
   Self result;
   for( unsigned int i=0; i<NVectorDimension; i++) 
-  {
+    {
     result[i] = (*this)[i] - vec[i];
-  }
+    }
   return result;
 }
 
@@ -173,9 +173,9 @@ CovariantVector<T, NVectorDimension>
 {
   Self result;
   for( unsigned int i=0; i<NVectorDimension; i++) 
-  {
+    {
     result[i] = (*this)[i] * value;
-  }
+    }
   return result;
 }
 
@@ -190,9 +190,9 @@ CovariantVector<T, NVectorDimension>
 {
   typename NumericTraits<T>::AccumulateType value = NumericTraits<T>::Zero;
   for( unsigned int i=0; i<NVectorDimension; i++) 
-  {
+    {
     value += (*this)[i] * other[i];
-  }
+    }
   return static_cast< ValueType >( value );
 }
 
@@ -207,9 +207,9 @@ CovariantVector<T, NVectorDimension>
 {
   typename NumericTraits<T>::AccumulateType value = NumericTraits<T>::Zero;
   for( unsigned int i=0; i<NVectorDimension; i++) 
-  {
+    {
     value += (*this)[i] * other[i];
-  }
+    }
   return value;
 }
 
@@ -225,10 +225,10 @@ CovariantVector<T, NVectorDimension>
 {
   typename NumericTraits<T>::AccumulateType sum = NumericTraits<T>::Zero;
   for( unsigned int i=0; i<NVectorDimension; i++) 
-  {
+    {
     const T value = (*this)[i];
     sum += value * value;
-  }
+    }
   return sum;
 }
 
@@ -257,9 +257,9 @@ CovariantVector<T, NVectorDimension>
 {
   Self result;
   for( unsigned int i=0; i<NVectorDimension; i++) 
-  {
+    {
     result[i] = (*this)[i] / value;
-  }
+    }
   return result;
 }
 
@@ -273,9 +273,9 @@ CovariantVector<T, NVectorDimension >
 ::Set_vnl_vector( const vnl_vector<T> & v)
 {
   for(unsigned int i=0;i<v.size();i++) 
-  {
+    {
     (*this)[i] = v(i);
-  } 
+    } 
 }
  
 
@@ -302,9 +302,9 @@ CovariantVector<T, NVectorDimension>
 {
   vnl_vector< T > result(NVectorDimension);
   for(unsigned int i=0; i<NVectorDimension; i++)
-  {
+    {
     result[i] = (*this)[i];
-  }
+    }
   return result;
 }
  

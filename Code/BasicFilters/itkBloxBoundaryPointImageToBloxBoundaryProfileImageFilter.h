@@ -53,7 +53,7 @@ namespace itk
  */
 template< typename TSourceImage >
 class ITK_EXPORT BloxBoundaryPointImageToBloxBoundaryProfileImageFilter :
-public ImageToImageFilter<TSourceImage,BloxBoundaryProfileImage< ::itk::GetImageDimension<TSourceImage>::ImageDimension> >
+    public ImageToImageFilter<TSourceImage,BloxBoundaryProfileImage< ::itk::GetImageDimension<TSourceImage>::ImageDimension> >
 {
 public:
   /** Number of dimensions */

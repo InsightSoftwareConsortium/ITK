@@ -20,7 +20,7 @@
 #include "itkSampleClassifierWithMask.h"
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
 
 template< class TSample, class TMaskSample >
 SampleClassifierWithMask< TSample, TMaskSample >
@@ -36,7 +36,7 @@ SampleClassifierWithMask< TSample, TMaskSample >
 {
   if ( m_Mask != mask )
     {
-      m_Mask = mask ;
+    m_Mask = mask ;
     }
 }
 
@@ -68,62 +68,62 @@ SampleClassifierWithMask< TSample, TMaskSample >
   
   if ( this->GetMask()->Size() != this->GetSample()->Size() )
     {
-      throw ExceptionObject
-        (__FILE__, __LINE__, 
-         "The sizes of the mask sample and the input sample do not match.") ;
+    throw ExceptionObject
+      (__FILE__, __LINE__, 
+       "The sizes of the mask sample and the input sample do not match.") ;
     }
 
   if ( classLabels.size() != mfs.size() )
     {
-      while (iter != end)
+    while (iter != end)
+      {
+      measurements = iter.GetMeasurementVector() ;
+      if ( std::find(m_SelectedClassLabels.begin(), 
+                     m_SelectedClassLabels.end(), 
+                     m_iter.GetMeasurementVector()[0]) != 
+           m_SelectedClassLabels.end() )
         {
-          measurements = iter.GetMeasurementVector() ;
-          if ( std::find(m_SelectedClassLabels.begin(), 
-                         m_SelectedClassLabels.end(), 
-                         m_iter.GetMeasurementVector()[0]) != 
-               m_SelectedClassLabels.end() )
-            {
-              for (i = 0 ; i < numberOfClasses ; i++)
-                {
-                  discriminantScores[i] = (mfs[i])->Evaluate(measurements) ;
-                }
-              classLabel = rule->Evaluate(discriminantScores) ;
-            }
-          else
-            {
-              classLabel = m_OtherClassLabel ;
-            }
-          output->AddInstance(classLabel, iter.GetInstanceIdentifier()) ;
-          ++iter ;
-          ++m_iter ;
+        for (i = 0 ; i < numberOfClasses ; i++)
+          {
+          discriminantScores[i] = (mfs[i])->Evaluate(measurements) ;
+          }
+        classLabel = rule->Evaluate(discriminantScores) ;
         }
+      else
+        {
+        classLabel = m_OtherClassLabel ;
+        }
+      output->AddInstance(classLabel, iter.GetInstanceIdentifier()) ;
+      ++iter ;
+      ++m_iter ;
+      }
     }
   else
     {
-      while (iter != end)
+    while (iter != end)
+      {
+      measurements = iter.GetMeasurementVector() ;
+      if ( std::find(m_SelectedClassLabels.begin(), 
+                     m_SelectedClassLabels.end(), 
+                     m_iter.GetMeasurementVector()[0]) != 
+           m_SelectedClassLabels.end() )
         {
-          measurements = iter.GetMeasurementVector() ;
-          if ( std::find(m_SelectedClassLabels.begin(), 
-                         m_SelectedClassLabels.end(), 
-                         m_iter.GetMeasurementVector()[0]) != 
-               m_SelectedClassLabels.end() )
-            {
-              for (i = 0 ; i < numberOfClasses ; i++)
-                {
-                  discriminantScores[i] = (mfs[i])->Evaluate(measurements) ;
-                }
-              classLabel = rule->Evaluate(discriminantScores) ;
-              output->AddInstance(classLabels[classLabel], 
-                                  iter.GetInstanceIdentifier()) ;
-            }
-          else
-            {
-              output->AddInstance(m_OtherClassLabel, 
-                                  iter.GetInstanceIdentifier()) ;
-            }
-          ++iter ;
-          ++m_iter ;
+        for (i = 0 ; i < numberOfClasses ; i++)
+          {
+          discriminantScores[i] = (mfs[i])->Evaluate(measurements) ;
+          }
+        classLabel = rule->Evaluate(discriminantScores) ;
+        output->AddInstance(classLabels[classLabel], 
+                            iter.GetInstanceIdentifier()) ;
         }
+      else
+        {
+        output->AddInstance(m_OtherClassLabel, 
+                            iter.GetInstanceIdentifier()) ;
+        }
+      ++iter ;
+      ++m_iter ;
+      }
     }
 }
 
@@ -136,7 +136,7 @@ SampleClassifierWithMask< TSample, TMaskSample >
 
   os << indent << "Mask: " << m_Mask << std::endl;
 }
-  } // end of namespace Statistics 
+} // end of namespace Statistics 
 } // end of namespace itk
 
 #endif

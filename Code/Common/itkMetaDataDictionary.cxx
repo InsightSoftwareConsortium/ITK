@@ -23,10 +23,10 @@ itk::MetaDataDictionary
   for(itk::MetaDataDictionary::const_iterator it=this->begin();
       it != this->end();
       it++)
-  {
+    {
     os << it->first <<  "  " ;
     it->second->Print(os);
-  }
+    }
 }
 
 itk::MetaDataDictionary

@@ -54,7 +54,7 @@ namespace itk
  */
 template <class TLevelSet>
 class ITK_EXPORT LevelSetNeighborhoodExtractor :
-  public LightProcessObject
+    public LightProcessObject
 {
 public:
   /** Standard class typdedefs. */
@@ -100,7 +100,7 @@ public:
 
   /** Set the narrow band width. Default is 12. */
   itkSetClampMacro( NarrowBandwidth, double, 0.0, 
-    NumericTraits<double>::max());
+                    NumericTraits<double>::max());
 
   /** Get the narrow band width. */
   itkGetMacro( NarrowBandwidth, double );
@@ -120,12 +120,12 @@ public:
   /** Get the container of inside points. The inside points are
    * stored in a VectorContainer of LevelSetNodes. */
   NodeContainerPointer GetInsidePoints()
-    { return m_InsidePoints; }
+  { return m_InsidePoints; }
 
   /** Get the container of outside points. The outside points are
    * stored in a VectorContainer of LevelSetNodes. */
   NodeContainerPointer GetOutsidePoints(void)
-    { return m_OutsidePoints; }
+  { return m_OutsidePoints; }
 
   /** Locate the level set. This method evokes the level set
    * location algorithm. */
@@ -137,10 +137,10 @@ protected:
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
   typename LevelSetImageType::PixelType GetLargeValue() const
-    { return m_LargeValue; }
+  { return m_LargeValue; }
 
   const NodeType& GetNodeUsedInCalculation(unsigned int idx) const
-    { return m_NodesUsed[idx]; }
+  { return m_NodesUsed[idx]; }
 
   virtual void Initialize();
   virtual double CalculateDistance( IndexType& index );
@@ -148,7 +148,7 @@ protected:
   void GenerateData();
 
   bool GetLastPointIsInside() const
-          { return m_LastPointIsInside; }
+  { return m_LastPointIsInside; }
 
 private:
   LevelSetNeighborhoodExtractor(const Self&); //purposely not implemented

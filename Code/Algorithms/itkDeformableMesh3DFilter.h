@@ -71,29 +71,29 @@ public:
   typedef TInputMesh InputMeshType;
   typedef TOutputMesh OutputMeshType;
   typedef typename InputMeshType::PointsContainerPointer
-      InputPointsContainerPointer;
+  InputPointsContainerPointer;
   typedef typename InputMeshType::PointsContainer::Iterator
-      InputPointsContainerIterator;
+  InputPointsContainerIterator;
   typedef typename InputMeshType::PointDataContainerPointer
-      InputPointDataContainerPointer;
+  InputPointDataContainerPointer;
   typedef typename InputMeshType::PointDataContainer::Iterator
-      InputPointDataContainerIterator;
+  InputPointDataContainerIterator;
   typedef typename InputMeshType::CellsContainerPointer
-      InputCellsContainerPointer;
+  InputCellsContainerPointer;
   typedef typename InputMeshType::CellsContainer::Iterator
-      InputCellsContainerIterator;
+  InputCellsContainerIterator;
   typedef typename InputMeshType::CellDataContainerPointer
-      InputCellDataContainerPointer;
+  InputCellDataContainerPointer;
   typedef typename InputMeshType::CellDataContainer::Iterator
-      InputCellDataContainerIterator;
+  InputCellDataContainerIterator;
   typedef typename OutputMeshType::PointsContainerPointer
-      OutputPointsContainerPointer;
+  OutputPointsContainerPointer;
   typedef typename OutputMeshType::CellsContainer
-      OutputCellsContainer;
+  OutputCellsContainer;
   typedef typename OutputMeshType::CellsContainerPointer
-      OutputCellsContainerPointer;
+  OutputCellsContainerPointer;
   typedef typename OutputMeshType::PointsContainer::Iterator
-      OutputPointsContainerIterator;
+  OutputPointsContainerIterator;
 
   /** Other definitions. */
   typedef typename InputMeshType::CellType          CellType;

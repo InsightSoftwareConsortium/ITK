@@ -57,21 +57,21 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   IndexType current=center;
     
   for(unsigned int i = 0; i < ImageDimension; i++)
-  {
-  if(current[i] < static_cast<typename IndexType::IndexValueType>(m_Size[i])-1)
-  {
-      current[i]++;
-    m_Queue.push(current);
-    current[i]--;
-    }
-  
-  if(current[i]>0)
     {
-    current[i]--;
-    m_Queue.push(current);
+    if(current[i] < static_cast<typename IndexType::IndexValueType>(m_Size[i])-1)
+      {
       current[i]++;
+      m_Queue.push(current);
+      current[i]--;
+      }
+  
+    if(current[i]>0)
+      {
+      current[i]--;
+      m_Queue.push(current);
+      current[i]++;
+      }
     }
-  }
 }
 
 template <class TInputImage, class TOutputImage>
@@ -87,65 +87,65 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   PixelType centerpixel = m_InputImage->GetPixel(current);
 
   if(current[0] > 0)
-  {
+    {
     current[0]--;
     tmp = (double)(m_FuzzyScene->GetPixel(current));
     tmp1 = FuzzyAffinity(m_InputImage->GetPixel(current),centerpixel);
     if(tmp > tmp1)
-  {
+      {
       tmp=tmp1;
-    }
+      }
     current[0]++;
-  }
+    }
   if(current[0] < static_cast<typename IndexType::IndexValueType>(m_Size[0])-1)
-  {
+    {
     current[0]++;  
     tmp2 = (double)(m_FuzzyScene->GetPixel(current));
     tmp1 = FuzzyAffinity(m_InputImage->GetPixel(current), centerpixel);
     if(tmp2 > tmp1)
-  {
+      {
       tmp2 = tmp1;
-    }
+      }
     if(tmp < tmp2){
-      tmp = tmp2;
+    tmp = tmp2;
     }
     current[0]--;
-  }
+    }
 
   
   for(unsigned int i = 1;i < ImageDimension; i++)
-  {
+    {
     if(current[i] > 0)
-  {
+      {
       current[i]--;
       tmp2 = (double)(m_FuzzyScene->GetPixel(current));
       tmp1 = FuzzyAffinity(m_InputImage->GetPixel(current), centerpixel);
       if(tmp2 > tmp1)
-    {
+        {
         tmp2 = tmp1;
-      }
+        }
       if(tmp < tmp2)
-    {
+        {
         tmp = tmp2;
-      }
+        }
       current[i]++;
-  }
-  if(current[i] < static_cast<typename IndexType::IndexValueType>(m_Size[i])-1)
-  {
-    current[i]++;
+      }
+    if(current[i] < static_cast<typename IndexType::IndexValueType>(m_Size[i])-1)
+      {
+      current[i]++;
       tmp2 = (double)(m_FuzzyScene->GetPixel(current));
       tmp1 = FuzzyAffinity(m_InputImage->GetPixel(current), centerpixel);
       if(tmp2 > tmp1)
-    {
+        {
         tmp2 = tmp1;
-      }
+        }
       if(tmp < tmp2)
-    {
+        {
         tmp = tmp2;
-      }
+        }
       current[i]--;
-  }
-  }
+      }
+    }
 
   return(tmp);
 }

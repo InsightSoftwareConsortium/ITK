@@ -23,7 +23,7 @@ extern "C"
 #ifdef _WIN32
 __declspec( dllexport ) 
 #endif  
-itk::ObjectFactoryBase* itkLoad()
+  itk::ObjectFactoryBase* itkLoad()
 {
   return itk::PNGImageIOFactory::FactoryNew();
 }

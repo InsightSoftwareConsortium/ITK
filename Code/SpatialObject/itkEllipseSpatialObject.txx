@@ -47,9 +47,9 @@ EllipseSpatialObject< TDimension >
 ::SetRadius(double radius)
 {
   for(unsigned int i=0;i<NumberOfDimension;i++)
-  {
+    {
     m_Radius[i]=radius;
-  }
+    }
 }
 
 /** Test if the given point is inside the ellipse */
@@ -77,7 +77,7 @@ EllipseSpatialObject< TDimension >
       }
     }
 
-   return Superclass::IsInside(point, depth, name);
+  return Superclass::IsInside(point, depth, name);
 } 
 
 /** Compute the bounds of the ellipse */
@@ -92,8 +92,8 @@ EllipseSpatialObject< TDimension >
     { 
     bool ret = Superclass::ComputeBoundingBox();
 
-     if( m_BoundingBoxChildrenName.empty() 
-       || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
+    if( m_BoundingBoxChildrenName.empty() 
+        || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
       {
       PointType pnt;
       PointType pnt2;

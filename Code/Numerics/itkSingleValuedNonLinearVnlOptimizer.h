@@ -33,7 +33,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  */
 class ITK_EXPORT SingleValuedNonLinearVnlOptimizer : 
-          public SingleValuedNonLinearOptimizer
+    public SingleValuedNonLinearOptimizer
 {
 public:
   /** Standard class typedefs. */

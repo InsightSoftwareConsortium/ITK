@@ -19,7 +19,7 @@
 #include "itkSmartNeighborhoodIterator.h"
 
 namespace itk {
-  /*
+/*
 template<class TImage, class TBoundaryCondition>
 void
 SmartNeighborhoodIterator<TImage, TBoundaryCondition>
