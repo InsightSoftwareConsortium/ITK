@@ -75,6 +75,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
   m_OutputImage->SetSpacing(m_InputImage->GetSpacing());
   
   m_OutputImage->Allocate();
+  m_OutputImage->FillBuffer(0);
 
   typedef GaussianDerivativeImageFunction<InputImageType> DoGFunctionType;
   typename DoGFunctionType::Pointer DoGFunction = DoGFunctionType::New();
@@ -91,6 +92,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
   m_RadiusImage->SetSpacing(m_InputImage->GetSpacing());
   
   m_RadiusImage->Allocate();
+  m_RadiusImage->FillBuffer(0);
 
   ImageRegionConstIteratorWithIndex< InputImageType >  image_it( m_InputImage,  m_InputImage->GetRequestedRegion() );
   image_it.Begin();
