@@ -20,10 +20,14 @@
 #include "cxxUtils.h"
 
 #if defined(_WIN32) || defined(WIN32) /* Win32 version */
-#  ifdef PARSERS_DLL
-#    define PARSERS_EXPORT __declspec(dllexport)
+#  ifdef BUILD_SHARED_LIBRARIES
+#    ifdef PARSERS_LIBRARY
+#      define PARSERS_EXPORT __declspec(dllexport)
+#    else
+#      define PARSERS_EXPORT __declspec(dllimport)
+#    endif
 #  else
-#    define PARSERS_EXPORT __declspec(dllimport)
+#    define PARSERS_EXPORT
 #  endif
 #else /* UNIX version */
 #  define PARSERS_EXPORT

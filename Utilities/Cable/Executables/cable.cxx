@@ -22,7 +22,6 @@
 #include <iostream>
 #include <fstream>
 
-typedef std::string             String;
 typedef configuration::CableConfiguration  CableConfiguration;
 typedef source::Namespace       Namespace;
 

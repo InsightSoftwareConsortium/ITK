@@ -21,8 +21,6 @@
 namespace gen
 {
 
-typedef std::string String;
-
 /**
  * Class to simplify indentation printing.
  */

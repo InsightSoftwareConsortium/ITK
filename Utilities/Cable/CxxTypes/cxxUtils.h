@@ -42,10 +42,14 @@
  */
 #if defined(_WIN32) || defined(WIN32) /* Win32 version */
 
-#  ifdef _cxx_DLL
-#    define _cxx_EXPORT __declspec(dllexport)
+#  ifdef BUILD_SHARED_LIBRARIES
+#    ifdef _cxx_LIBRARY
+#      define _cxx_EXPORT __declspec(dllexport)
+#    else
+#      define _cxx_EXPORT __declspec(dllimport)
+#    endif
 #  else
-#    define _cxx_EXPORT __declspec(dllimport)
+#    define _cxx_EXPORT
 #  endif
 
 #  define _cxxUtils_DllAllocator_include
