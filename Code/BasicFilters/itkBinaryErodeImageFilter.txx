@@ -119,7 +119,7 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
       }
     else
       {
-      if (kernel_it.GetCenterPixel() > 0)
+      if (kernel.GetCenterValue() > 0)
         {
         // case #3, center pixel is "on"
         return min;
