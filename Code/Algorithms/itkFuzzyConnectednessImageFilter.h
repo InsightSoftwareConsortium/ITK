@@ -182,8 +182,8 @@ protected:
   ~FuzzyConnectednessImageFilter();
 
 private:
-  double m_Mean;
-  double m_Var;
+  double m_Mean; 
+  double m_Var; //estimation of the Variance.
   double m_Diff_Mean;
   double m_Diff_Var;
   double m_Weight;

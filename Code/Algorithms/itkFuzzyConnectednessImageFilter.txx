@@ -18,10 +18,9 @@
 
 #include "vnl/vnl_math.h"
 #include "itkSimpleImageRegionIterator.h"
+#include "itkNumericTraits.h"
 
 namespace itk{
-
-const int MAXUSHORT = 65535;
 
 /**
  *
@@ -30,6 +29,7 @@ template <class TInputImage, class TOutputImage>
 FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 ::FuzzyConnectednessImageFilter()
 {
+
 }
 
 /**
@@ -117,15 +117,17 @@ double
 FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 ::FuzzyAffinity(const double f1,const double f2)
 {
-  double tmp1 = (0.5 * (f1 + f2) - m_Mean) / m_Var;
+  double tmp1 = 0.5 * (f1 + f2) - m_Mean;
   if(m_Weight == 1)
   {
-    return(MAXUSHORT * (exp(-0.5 * tmp1 * tmp1)));
+    return( (NumericTraits<unsigned short>::max())* 
+	   (exp(-0.5 * tmp1 * tmp1 / m_Var)));
   }
   else{
-    double tmp2 = (fabs(f1 - f2) - m_Diff_Mean) / m_Diff_Var;
-	return(MAXUSHORT *
-	  (m_Weight * exp(-0.5 * tmp1 * tmp1) + (1 - m_Weight) * exp(-0.5 * tmp2 * tmp2)));
+    double tmp2 = fabs(f1 - f2) - m_Diff_Mean;
+	return( (NumericTraits<unsigned short>::max()) *
+	  (m_Weight * exp(-0.5 * tmp1 * tmp1 / m_Var) + 
+	   (1 - m_Weight) * exp(-0.5 * tmp2 * tmp2 / m_Diff_Var)));
 	}
 }
 
@@ -223,7 +225,7 @@ FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   RegionType regionOUT = this->m_SegmentObject->GetRequestedRegion();
   UShortImage::RegionType regionIN = this->m_FuzzyScene->GetRequestedRegion();
   
-  double activeThreshold = MAXUSHORT * m_Threshold;
+  double activeThreshold = (NumericTraits<unsigned short>::max())*m_Threshold;
 
 
   SimpleImageRegionIterator <UShortImage> it(this->m_FuzzyScene, regionIN);
@@ -286,7 +288,7 @@ FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   m_SegmentObject->Allocate();  
 
   PushNeighbors(m_Seed);
-  m_FuzzyScene->SetPixel(m_Seed,MAXUSHORT);
+  m_FuzzyScene->SetPixel(m_Seed,NumericTraits<unsigned short>::max());
 
   while(! m_Queue.empty())
   {
