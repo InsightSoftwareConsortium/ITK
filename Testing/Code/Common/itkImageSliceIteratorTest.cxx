@@ -89,7 +89,6 @@ int main()
   it.SetSecondDirection( 1 ); // 0=x, 1=y, 2=z
 
   ImageType::IndexType index;
-  ImageType::PixelType value;
   
   while( !it.IsAtEnd() )
   {
