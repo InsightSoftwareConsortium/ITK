@@ -60,7 +60,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 
 
 /*
- * PrintSelf
+ * Initialize
  */
 template <class TFixedImage, class TMovingImage> 
 void
@@ -157,6 +157,8 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   os << indent << "Transform:    " << m_Transform.GetPointer()    << std::endl;
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
   os << indent << "FixedImageRegion: " << m_FixedImageRegion << std::endl;
+  os << indent << "Moving Image Mask: " << m_MovingImageMask.GetPointer() << std::endl;
+  os << indent << "Fixed Image Mask: " << m_FixedImageMask.GetPointer() << std::endl;
   os << indent << "Number of Pixels Counted: " << m_NumberOfPixelsCounted << std::endl;
 
 }

@@ -23,6 +23,7 @@
 #include "itkSingleValuedCostFunction.h"
 #include "itkExceptionObject.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
+#include "itkSpatialObject.h"
 
 namespace itk
 {
@@ -110,6 +111,20 @@ public:
 
   typedef typename InterpolatorType::Pointer         InterpolatorPointer;
 
+
+
+  /**  Type for the mask of the fixed image. Only pixels that are "inside"
+       this mask will be considered for the computation of the metric */
+  typedef SpatialObject< FixedImageDimension >       FixedImageMaskType;
+  typedef typename  FixedImageMaskType::Pointer      FixedImageMaskPointer;
+
+  /**  Type for the mask of the moving image. Only pixels that are "inside"
+       this mask will be considered for the computation of the metric */
+  typedef SpatialObject< MovingImageDimension >      MovingImageMaskType;
+  typedef typename  MovingImageMaskType::Pointer     MovingImageMaskPointer;
+
+
+
   /**  Type of the measure. */
   typedef Superclass::MeasureType                    MeasureType;
 
@@ -151,6 +166,15 @@ public:
 
   /** Get the region over which the metric will be computed */
   itkGetConstMacro( FixedImageRegion, FixedImageRegionType );
+ 
+  /** Set/Get the moving image mask. */
+  itkSetObjectMacro( MovingImageMask, MovingImageMaskType );
+  itkGetObjectMacro( MovingImageMask, MovingImageMaskType );
+
+  /** Set/Get the fixed image mask. */
+  itkSetObjectMacro( FixedImageMask, FixedImageMaskType );
+  itkGetObjectMacro( FixedImageMask, FixedImageMaskType );
+
 
   /** Set the parameters defining the Transform. */
   void SetTransformParameters( const ParametersType & parameters ) const;
@@ -178,6 +202,9 @@ protected:
 
   bool                        m_ComputeGradient;
   GradientImagePointer        m_GradientImage;
+
+  mutable FixedImageMaskPointer   m_FixedImageMask;
+  mutable MovingImageMaskPointer  m_MovingImageMask;
 
 private:
   ImageToImageMetric(const Self&); //purposely not implemented

@@ -72,7 +72,19 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
     typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
+    if( m_FixedImageMask && !m_FixedImageMask->IsInside( inputPoint ) )
+      {
+      ++ti;
+      continue;
+      }
+
     typename Superclass::OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
+
+    if( m_MovingImageMask && !m_MovingImageMask->IsInside( transformedPoint ) )
+      {
+      ++ti;
+      continue;
+      }
 
     if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
@@ -159,7 +171,19 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
     typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
+    if( m_FixedImageMask && !m_FixedImageMask->IsInside( inputPoint ) )
+      {
+      ++ti;
+      continue;
+      }
+
     typename Superclass::OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
+
+    if( m_MovingImageMask && !m_MovingImageMask->IsInside( transformedPoint ) )
+      {
+      ++ti;
+      continue;
+      }
 
     if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
@@ -278,7 +302,19 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
     typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
+    if( m_FixedImageMask && !m_FixedImageMask->IsInside( inputPoint ) )
+      {
+      ++ti;
+      continue;
+      }
+
     typename Superclass::OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
+
+    if( m_MovingImageMask && !m_MovingImageMask->IsInside( transformedPoint ) )
+      {
+      ++ti;
+      continue;
+      }
 
     if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
