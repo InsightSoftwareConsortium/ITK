@@ -167,7 +167,11 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     
     // Perform any other necessary pre-iteration initialization. 
     this->Initialize();
-    this->SetStateToInitialized();
+    this->SetElapsedIterations(0);
+    
+    //NOTE: Cannot set state to initialized yet since more initialization is
+    //done in the Iterate method.
+    
     }
   
   // Evolve the surface
@@ -1133,21 +1137,6 @@ ITK_THREAD_RETURN_TYPE
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::IterateThreaderCallback(void * arg)
 {
-#ifdef ITK_USE_SPROC
-  // Every thread should 'usadd' itself to the arena as the very first thing so
-  // as to detect errors (if any) early.
-  if (MultiThreader::GetThreadArena() != 0)
-    {
-    int code= usadd (MultiThreader::GetThreadArena());
-    if (code != 0)
-      {
-      OStringStream message;
-      message << "Thread failed to join SGI arena: error";
-      throw ::itk::ExceptionObject(__FILE__, __LINE__, message.str().c_str());
-      }
-    }
-#endif
-  
   // Controls how often we check for balance of the load among the threads and perform
   // load balancing (if needed) by redistributing the load.
   const unsigned int LOAD_BALANCE_ITERATION_FREQUENCY = 30;
@@ -1158,59 +1147,82 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   ParallelSparseFieldLevelSetThreadStruct * str
     = (ParallelSparseFieldLevelSetThreadStruct *)
     (((MultiThreader::ThreadInfoStruct *)(arg))->UserData);
+
+
+#ifdef ITK_USE_SPROC
+  // Every thread should 'usadd' itself to the arena as the very first thing so
+  // as to detect errors (if any) early.
+  if (str->Filter->GetState() == UNINITIALIZED)
+    {
+    if (MultiThreader::GetThreadArena() != 0)
+      {
+      int code= usadd (MultiThreader::GetThreadArena());
+      if (code != 0)
+        {
+        OStringStream message;
+        message << "Thread failed to join SGI arena: error";
+        throw ::itk::ExceptionObject(__FILE__, __LINE__, message.str().c_str());
+        }
+      }
+    }
+#endif
   
   // allocate thread data: every thread allocates its own data
   // We do NOT assume here that malloc is thread safe: hence make threads
   // allocate data serially
-  if (ThreadId == 0)
+  if (str->Filter->GetState() == UNINITIALIZED)
     {
-    str->Filter->ComputeInitialThreadBoundaries ();
-    
-    // Create the temporary status image
-    str->Filter->m_StatusImageTemp = StatusImageType::New();
-    str->Filter->m_StatusImageTemp->SetRegions(str->Filter->m_OutputImage->GetRequestedRegion()); 
-    str->Filter->m_StatusImageTemp->Allocate();
-    
-    // Create the temporary output image
-    str->Filter->m_OutputImageTemp = OutputImageType::New();
-    str->Filter->m_OutputImageTemp->SetRegions(str->Filter->m_OutputImage->GetRequestedRegion());
-    str->Filter->m_OutputImageTemp->Allocate();
-    }
-  str->Filter->WaitForAll();
-  
-  // Data allocation performed serially.
-  for (i= 0; i < str->Filter->m_NumOfThreads; i++)
-    {
-    if (ThreadId == i)
+    if (ThreadId == 0)
       {
-      str->Filter->ThreadedAllocateData   (ThreadId);
+      str->Filter->ComputeInitialThreadBoundaries ();
+      
+      // Create the temporary status image
+      str->Filter->m_StatusImageTemp = StatusImageType::New();
+      str->Filter->m_StatusImageTemp->SetRegions(str->Filter->m_OutputImage->GetRequestedRegion()); 
+      str->Filter->m_StatusImageTemp->Allocate();
+      
+      // Create the temporary output image
+      str->Filter->m_OutputImageTemp = OutputImageType::New();
+      str->Filter->m_OutputImageTemp->SetRegions(str->Filter->m_OutputImage->GetRequestedRegion());
+      str->Filter->m_OutputImageTemp->Allocate();
       }
     str->Filter->WaitForAll();
-    }
   
-  // Data initialization performed in parallel.
-  // Make use of the SGI default first-touch memory placement policy
-  str->Filter->GetThreadRegionSplitByBoundary(ThreadId,
-                                              str->Filter->m_Data[ThreadId].ThreadRegion);
-  str->Filter->ThreadedInitializeData(ThreadId,
-                                      str->Filter->m_Data[ThreadId].ThreadRegion);
-  str->Filter->WaitForAll();
+    // Data allocation performed serially.
+    for (i= 0; i < str->Filter->m_NumOfThreads; i++)
+      {
+      if (ThreadId == i)
+        {
+        str->Filter->ThreadedAllocateData   (ThreadId);
+        }
+      str->Filter->WaitForAll();
+      }
   
-  if (ThreadId == 0)
-    {
-    str->Filter->m_StatusImage = 0;
-    str->Filter->m_StatusImage = str->Filter->m_StatusImageTemp;
-    str->Filter->m_StatusImageTemp = 0;
+    // Data initialization performed in parallel.
+    // Make use of the SGI default first-touch memory placement policy
+    str->Filter->GetThreadRegionSplitByBoundary(ThreadId,
+                                                str->Filter->m_Data[ThreadId].ThreadRegion);
+    str->Filter->ThreadedInitializeData(ThreadId,
+                                        str->Filter->m_Data[ThreadId].ThreadRegion);
+    str->Filter->WaitForAll();
     
-    str->Filter->m_OutputImage = 0;
-    str->Filter->m_OutputImage = str->Filter->m_OutputImageTemp;
-    str->Filter->m_OutputImageTemp = 0;
-    //
-    str->Filter->GraftOutput(str->Filter->m_OutputImage);
+    if (ThreadId == 0)
+      {
+      str->Filter->m_StatusImage = 0;
+      str->Filter->m_StatusImage = str->Filter->m_StatusImageTemp;
+      str->Filter->m_StatusImageTemp = 0;
+      
+      str->Filter->m_OutputImage = 0;
+      str->Filter->m_OutputImage = str->Filter->m_OutputImageTemp;
+      str->Filter->m_OutputImageTemp = 0;
+      //
+      str->Filter->GraftOutput(str->Filter->m_OutputImage);
+      }
+    str->Filter->WaitForAll();
+    str->Filter->SetStateToInitialized();
     }
-  str->Filter->WaitForAll();
   
-  unsigned int iter = 0;
+  unsigned int iter = str->Filter->GetElapsedIterations();
   while (! (str->Filter->Halt()) )
     {
     // Threaded Calculate Change
@@ -1339,7 +1351,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   
   // post-process output
   str->Filter->GetThreadRegionSplitUniformly(ThreadId,
-                        str->Filter->m_Data[ThreadId].ThreadRegion);
+                                             str->Filter->m_Data[ThreadId].ThreadRegion);
   str->Filter->ThreadedPostProcessOutput(
                         str->Filter->m_Data[ThreadId].ThreadRegion);
   
