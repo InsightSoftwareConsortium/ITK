@@ -52,7 +52,7 @@ public:
   typedef NthElementImageAdaptor< TOutputImage,
                                   typename TInputImage::PixelType >  
                                                 OutputImageAdaptorType;
-  typedef OutputImageAdaptorType::Pointer       OutputImageAdaptorPointer;
+  typedef typename OutputImageAdaptorType::Pointer OutputImageAdaptorPointer;
 
   /**  Smoothing filter type */
   typedef RecursiveGaussianImageFilter<
