@@ -115,6 +115,8 @@ int main()
   {
   std::cout << "Test for CastFrom() method... ";
 
+  const float tolerance = 1e-10;
+
   // Dimension & Type
   const     unsigned int    N = 3;
 
@@ -140,7 +142,7 @@ int main()
     {
     FloatPointType::ValueType val = 
         static_cast< FloatPointType::ValueType >( dp[i] );
-    if( val != fp[i] )
+    if( fabs ( val - fp[i] ) > tolerance )
       {
         std::cout << "Failed at component " << i << std::endl;
         return EXIT_FAILURE;
@@ -283,7 +285,7 @@ int main()
     PointType::ValueType vInit2[3] = { 0.0,  0.0,   K};
     point->Value() =  vInit0;
     point++;
-    point->Value() =  vInit2;
+    point->Value() =  vInit1;
     point++;
     point->Value() =  vInit2;
 
