@@ -73,7 +73,7 @@ template< unsigned int VDimension>
 class Stapler : public StaplerBase
 {
 public:
-  typedef itk::Image< float, VDimension > OutputImageType;
+  typedef itk::Image< double, VDimension > OutputImageType;
   typedef itk::Image< unsigned short, VDimension > InputImageType;
   typedef itk::STAPLEImageFilter<InputImageType, OutputImageType> StapleFilterType;
 
