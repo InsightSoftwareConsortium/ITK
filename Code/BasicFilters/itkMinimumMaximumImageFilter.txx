@@ -23,6 +23,8 @@
 #include "itkNumericTraits.h"
 #include "itkStatisticsImageFilter.h"
 
+#include "itkProgressAccumulator.h"
+
 namespace itk
 {
 
@@ -32,13 +34,22 @@ void
 MinimumMaximumImageFilter<TInputImage>
 ::GenerateData(void)
 {
+  // Create a process accumulator for tracking the progress of this minipipeline
+  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  progress->SetMiniPipelineFilter(this);
+
   typename StatisticsImageFilter<TInputImage>::Pointer stats = StatisticsImageFilter<TInputImage>::New();
+
+  // Register the filter with the with progress accumulator using
+  // equal weight proportion
+  progress->RegisterInternalFilter(stats,1.0f);
+
   stats->SetInput (this->GetInput());
   stats->GraftOutput (this->GetOutput());
   stats->Update();
 
-  m_Minimum = stats->GetMinimum();
-  m_Maximum = stats->GetMaximum();
+  m_Minimum = static_cast<InputPixelType>(stats->GetMinimum());
+  m_Maximum = static_cast<InputPixelType>(stats->GetMaximum());
 
   this->GraftOutput(stats->GetOutput());
 }
