@@ -177,6 +177,10 @@ SOURCE=..\..\..\Code\Common\itkImageIterator.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\Code\Common\itkImageScalarIterator.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\Code\Common\itkImageSource.h
 # End Source File
 # Begin Source File
