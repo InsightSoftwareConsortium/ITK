@@ -14,7 +14,7 @@ See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 #include <iostream>
-#include "itkImage.h"
+#include "itkPhysicalImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkScalar.h"
 #include "itkShrinkImageFilter.h"
@@ -22,7 +22,7 @@ See COPYRIGHT.txt for copyright details.
 int main()
 {
   // typedefs to simplify the syntax
-  typedef itk::Image<itk::Scalar<short>, 2>   ShortImage;
+  typedef itk::PhysicalImage<itk::Scalar<short>, 2>   ShortImage;
 
   // Test the creation of an image with native type
   ShortImage::Pointer if2 = ShortImage::New();
