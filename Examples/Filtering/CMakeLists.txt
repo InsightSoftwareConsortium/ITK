@@ -238,6 +238,124 @@ ADD_TEST( MedianImageFilterTest ${FILTERING_EXAMPLES}
         ${TEMP}/MedianImageFilter.png
         1
 )
+
+ADD_TEST( ResampleImageFilterTest1 ${FILTERING_EXAMPLES}
+  --compare ${BASELINE}/ResampleImageFilterTest1.png
+            ${TEMP}/ResampleImageFilterTest1.png
+  ResampleImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ResampleImageFilterTest1.png
+        0
+)
+
+ADD_TEST( ResampleImageFilterTest2 ${FILTERING_EXAMPLES}
+  --compare ${BASELINE}/ResampleImageFilterTest2.png
+            ${TEMP}/ResampleImageFilterTest2.png
+  ResampleImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ResampleImageFilterTest2.png
+        1
+)
+
+ADD_TEST( ResampleImageFilterTest3 ${FILTERING_EXAMPLES}
+  --compare ${BASELINE}/ResampleImageFilterTest3.png
+            ${TEMP}/ResampleImageFilterTest3.png
+  ResampleImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ResampleImageFilterTest3.png
+        2
+)
+
+ADD_TEST( ResampleImageFilterTest4 ${FILTERING_EXAMPLES}
+  --compare ${BASELINE}/ResampleImageFilterTest4.png
+            ${TEMP}/ResampleImageFilterTest4.png
+  ResampleImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ResampleImageFilterTest4.png
+        3
+)
+
+ADD_TEST( ResampleImageFilter2Test1 ${FILTERING_EXAMPLES}
+  --compare ${BASELINE}/ResampleImageFilter2Test1.png
+            ${TEMP}/ResampleImageFilter2Test1.png
+  ResampleImageFilter2Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ResampleImageFilter2Test1.png
+        0
+)
+
+ADD_TEST( ResampleImageFilter2Test2 ${FILTERING_EXAMPLES}
+  --compare ${BASELINE}/ResampleImageFilter2Test2.png
+            ${TEMP}/ResampleImageFilter2Test2.png
+  ResampleImageFilter2Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ResampleImageFilter2Test2.png
+        1
+)
+
+ADD_TEST( ResampleImageFilter2Test3 ${FILTERING_EXAMPLES}
+  --compare ${BASELINE}/ResampleImageFilter2Test3.png
+            ${TEMP}/ResampleImageFilter2Test3.png
+  ResampleImageFilter2Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ResampleImageFilter2Test3.png
+        2
+)
+
+ADD_TEST( ResampleImageFilter2Test4 ${FILTERING_EXAMPLES}
+  --compare ${BASELINE}/ResampleImageFilter2Test4.png
+            ${TEMP}/ResampleImageFilter2Test4.png
+  ResampleImageFilter2Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ResampleImageFilter2Test4.png
+        3
+)
+
+ADD_TEST( ResampleImageFilter2Test5 ${FILTERING_EXAMPLES}
+  --compare ${BASELINE}/ResampleImageFilter2Test5.png
+            ${TEMP}/ResampleImageFilter2Test5.png
+  ResampleImageFilter2Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ResampleImageFilter2Test5.png
+        3
+)
+
+ADD_TEST( ResampleImageFilter3Test1 ${FILTERING_EXAMPLES}
+  --compare ${BASELINE}/ResampleImageFilter3Test1.png
+            ${TEMP}/ResampleImageFilter3Test1.png
+  ResampleImageFilter3Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ResampleImageFilter3Test1.png
+        0
+)
+
+ADD_TEST( ResampleImageFilter3Test2 ${FILTERING_EXAMPLES}
+  --compare ${BASELINE}/ResampleImageFilter3Test2.png
+            ${TEMP}/ResampleImageFilter3Test2.png
+  ResampleImageFilter3Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ResampleImageFilter3Test2.png
+        1
+)
+
+ADD_TEST( ResampleImageFilter4Test ${FILTERING_EXAMPLES}
+  --compare ${BASELINE}/ResampleImageFilter4Test.png
+            ${TEMP}/ResampleImageFilter4Test.png
+  ResampleImageFilter4Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ResampleImageFilter4Test.png
+        20
+)
+
+ADD_TEST( ResampleImageFilter5Test ${FILTERING_EXAMPLES}
+  --compare ${BASELINE}/ResampleImageFilter5Test.png
+            ${TEMP}/ResampleImageFilter5Test.png
+  ResampleImageFilter5Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ResampleImageFilter5Test.png
+        10 1.2
+)
+
 ADD_TEST( SigmoidImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${BASELINE}/SigmoidImageFilter.png
             ${TEMP}/SigmoidImageFilter.png
