@@ -111,7 +111,10 @@ public:
    * Set Optimizer
    */
   void SetOptimizer( OptimizerType * optimizer )
-                          { m_Optimizer = optimizer; }
+    { 
+    m_Optimizer = optimizer;
+    m_Optimizer->AddObserver( itk::IterationEvent(), this );
+    }
 
 
 
