@@ -25,7 +25,7 @@ ADD_DEFINITIONS(${ITK_DEFINITIONS})
 # Make sure the compiler settings match those used to build ITK.
 IF(NOT ITK_NO_ENFORCE_CXX_COMPILER)
   IF(ITK_CXX_COMPILER_MISMATCH)
-    MESSAGE(SEND_ERROR
+    MESSAGE(SEND_WARNING
             "The selected ITK was built with "
             "\"${ITK_CXX_COMPILER}\""
             ", but the current compiler is \"${CMAKE_CXX_COMPILER}\".  "
@@ -33,7 +33,7 @@ IF(NOT ITK_NO_ENFORCE_CXX_COMPILER)
   ENDIF(ITK_CXX_COMPILER_MISMATCH)
   IF(NOT ITK_NO_ENFORCE_CXX_FLAGS)
     IF(ITK_CXX_FLAGS_MISMATCH)
-      MESSAGE(SEND_ERROR
+      MESSAGE(SEND_WARNING
               "The selected ITK was built with C++ compiler flags "
               "\"${ITK_CXX_FLAGS}\""
               ", but the current flags are \"${CMAKE_CXX_FLAGS}\".  "
