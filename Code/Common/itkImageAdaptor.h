@@ -231,7 +231,6 @@ public:
   /** Set the origin of the image. */
   virtual void SetOrigin( const double values[TImage::ImageDimension] );
   virtual void SetOrigin( const float values[TImage::ImageDimension] );
-  virtual void SetOrigin( const OriginOffsetType & origin );
   
   /** Set Internal Image */
   virtual void SetImage( TImage * );

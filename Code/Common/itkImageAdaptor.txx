@@ -217,17 +217,6 @@ ImageAdaptor<TImage , TAccessor>
 template <class TImage, class TAccessor >
 void 
 ImageAdaptor<TImage , TAccessor>
-::SetOrigin(const OriginOffsetType & origin )
-{
-  // delegation to internal image
-  m_Image->SetOrigin( origin );
-}
-
-
-//----------------------------------------------------------------------------
-template <class TImage, class TAccessor >
-void 
-ImageAdaptor<TImage , TAccessor>
 ::SetOrigin(const double origin[TImage::ImageDimension] )
 {
   // delegation to internal image
