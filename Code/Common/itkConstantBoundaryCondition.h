@@ -68,17 +68,18 @@ public:
   typedef typename Superclass::PixelType PixelType;
   typedef typename Superclass::PixelPointerType PixelPointerType;
   enum { ImageDimension = Superclass::ImageDimension };
-
+  typedef typename ScalarTraits<PixelType>::ValueType PixelScalarValueType;
+  
   /**
    * Default constructor.
    */
   ConstantBoundaryCondition()
-  {  m_Constant = NumericTraits<
-       typename ScalarTraits<PixelType>::ValueType>::Zero; }
+    : m_Constant(NumericTraits<PixelScalarValueType>::Zero)
+  { }
 
   /**
-   * Computes and returns a neighborhood of appropriate values from
-   * neighborhood iterator data..
+   * Computes and returns appropriate out-of-bounds values from
+   * neighborhood iterator data.
    */
   virtual PixelType operator()(const int *point_index,
                                const int *boundary_offset,
