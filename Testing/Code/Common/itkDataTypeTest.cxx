@@ -16,7 +16,7 @@ int main()
   s.SetScalar( 5.1 );
   std::cout << "Scalar value = " << s.GetScalar() << std::endl;
 
-  v.SetVector( vec );
+  v.GetVector().copy_in( vec );
   std::cout << "Vector value = ";
   for (int i=0; i < v.GetVectorDimension(); i++)
     {
