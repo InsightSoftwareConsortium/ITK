@@ -50,6 +50,11 @@ template<class T>
 class Scalar {
 public:
   /**
+   * Standard "Self" typedef.
+   */
+  typedef Scalar Self;
+  
+  /**
    * ValueType can be used to declare a variable that is the same type
    * as the data held in an Scalar.
    */

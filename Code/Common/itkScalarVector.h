@@ -12,7 +12,18 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
-/**
+#ifndef __itkScalarVector_h
+#define __itkScalarVector_h
+
+#include <memory.h>
+
+namespace itk
+{
+
+/** \class ScalarVector
+ * \brief A templated class holding bot scalar and vector values and
+ *         responding to the GetScalar() and GetVector() methods.
+ * 
  * ScalarVector is a templated class that holds a scalar value plus an
  * array of values (a vector).  ScalarVector can be used as the data type
  * held at each pixel in an Image or at each vertex of an Mesh. There
@@ -38,17 +49,14 @@
  * \sa Vector 
  */
 
-#ifndef __itkScalarVector_h
-#define __itkScalarVector_h
-
-#include <memory.h>
-
-namespace itk
-{
-
 template<class TScalar, class TVector, unsigned int TVectorDimension=3>
 class ScalarVector {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
+  typedef ScalarVector  Self;
+  
   /**
    * ValueType can be used to declare a variable that is the same type
    * as the data held in the scalar portion of the ScalarVector.  

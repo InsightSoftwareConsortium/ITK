@@ -12,7 +12,18 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
-/**
+#ifndef __itkVector_h
+#define __itkVector_h
+
+#include <memory.h>
+
+namespace itk
+{
+
+/** \class Vector
+ * \brief A templated class holding a n vector values and responding to
+ *        the GetVector() method.
+ * 
  * Vector is a templated class that holds a single vector (i.e., an array
  * of values).  Vector can be used as the data type held at each pixel in
  * an Image or at each vertex of an Mesh. The template parameter T can
@@ -37,17 +48,12 @@
  * \sa ScalarVector 
  */
 
-#ifndef __itkVector_h
-#define __itkVector_h
-
-#include <memory.h>
-
-namespace itk
-{
-
 template<class T, unsigned int TVectorDimension=3>
 class Vector {
  public:
+  /**
+   * Standard "Self" typedef.
+   */
   typedef Vector  Self;
   
   /**
