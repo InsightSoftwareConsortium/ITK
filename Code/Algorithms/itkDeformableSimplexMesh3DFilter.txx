@@ -569,6 +569,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   int e2 = 0;
   int length;
   double magnitude = 0;
+  double mag = 0;
   GradientIndexType c;
   int dx = b[0] - a[0];
   int dy = b[1] - a[1];
