@@ -28,6 +28,7 @@
 
 #include "itkFEMSolver.h"
 #include "itkFEMSolverHyperbolic.h"
+#include "itkFEMSolverCrankNicolson.h"
 
 #include "itkFEMObjectFactory.h"
 #include "itkFEMUtility.h"
