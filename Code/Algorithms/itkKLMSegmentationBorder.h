@@ -48,7 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/** \class DynamicBorderArrayKLM
+/** \class KLMDynamicBorderArray
  * \brief  Object maintaining a reference to a list of border associated 
  * with a region.
  *
@@ -58,19 +58,19 @@ namespace itk
  */
 
 template <class TBorder> 
-class DynamicBorderArrayKLM
+class KLMDynamicBorderArray
 {
 public:
   /**
    * Greater than operators defined to work with both static objects
    * or pointer to objects.
    */
-  bool operator> (const DynamicBorderArrayKLM<TBorder>& rhs) const
+  bool operator> (const KLMDynamicBorderArray<TBorder>& rhs) const
   {
     return(m_Pointer->GetLambda() > rhs.m_Pointer->GetLambda());
   }
 
-  bool operator> (const DynamicBorderArrayKLM<TBorder>* rhs) const
+  bool operator> (const KLMDynamicBorderArray<TBorder>* rhs) const
   {
     return(m_Pointer->GetLambda() > rhs.m_Pointer->GetLambda());
   }

@@ -280,7 +280,7 @@ public:
   /**
    * Type definition for the smart border pointers object.
    */
-  typedef DynamicBorderArrayKLM<BorderType>  SegmentationBorderPtr;
+  typedef KLMDynamicBorderArray<BorderType>  SegmentationBorderPtr;
 
   /**
    * Set the desired threshold parameter for lambda. See itkSegmentationBorder 

@@ -687,7 +687,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
   std::sort(m_pBordersDynPtrs.begin(), 
            (m_pBordersDynPtrs.end()), 
-           std::greater < DynamicBorderArrayKLM<BorderType> >());
+           std::greater < KLMDynamicBorderArray<BorderType> >());
    
   m_pBordersCandidateDynPtr = &(m_pBordersDynPtrs[ m_nBorders - 1 ]);
   m_RegionLambda = m_pBordersCandidateDynPtr->m_Pointer->GetLambda();
@@ -867,7 +867,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   // Resort the border list based on the lambda values
   std::sort( &*(m_pBordersDynPtrs.begin()), 
              &(m_pBordersDynPtrs[m_nBorders]), 
-             std::greater < DynamicBorderArrayKLM<BorderType> >() );
+             std::greater < KLMDynamicBorderArray<BorderType> >() );
 
   // Sorted border counter
   // For DEBUG purposes
