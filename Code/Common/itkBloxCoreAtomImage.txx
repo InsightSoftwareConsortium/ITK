@@ -76,6 +76,9 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
 {
   std::cout << "BloxCoreAtomImage::FindCoreAtoms() called\n";
 
+  // Reset the average center position
+  avgCenter.fill(0.0);
+
   // Make sure we're getting everything
   m_BoundaryPointImage->SetRequestedRegionToLargestPossibleRegion();
 
@@ -98,6 +101,12 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
  
   std::cout << "Finished looking for core atoms\n";
   std::cout << "I found " << m_NumCoreAtoms << " core atoms\n";
+
+  avgCenter /= m_NumCoreAtoms;
+  std::cout << "Average core atom center position is";
+  for (int i = 0; i < NDimensions; i++)
+    std::cout << " " << avgCenter[i];
+  std::cout << "\n";
 }
 
 template<class TBoundaryPointImage, class TImageTraits>
@@ -211,6 +220,8 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
           pCoreAtom->SetBoundaryPointB(pBPTwo);
           pCoreAtom->SetCenterPosition(coreAtomCenter);
 
+          avgCenter += coreAtomCenter;
+
           // Figure out the data space coordinates of the center
           IndexType coreAtomPos;
           this->ConvertPhysicalToDataCoords(coreAtomCenter, coreAtomPos);
@@ -228,7 +239,6 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
     {
     //std::cout << "Index not in image\n";
     }
-
 }
 
 template<class TBoundaryPointImage, class TImageTraits>

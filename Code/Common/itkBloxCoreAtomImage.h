@@ -155,7 +155,7 @@ public:
   /*
    * Set the boundary point image from which we derive core atoms
    */
-  void SetBoundaryPointImage(typename TBoundaryPointImage::Pointer pSource){
+  void SetBoundaryPointImage(TBoundaryPointImage::Pointer pSource){
     m_BoundaryPointImage = pSource;
     m_BPImageOrigin = m_BoundaryPointImage->GetOrigin();
     m_BPImageSpacing = m_BoundaryPointImage->GetSpacing(); };
@@ -198,7 +198,7 @@ private:
   /**
    * Pointer to the image that holds boundary points
    */
-  typename TBoundaryPointImage::Pointer m_BoundaryPointImage;
+  TBoundaryPointImage::Pointer m_BoundaryPointImage;
 
   /**
    * The origin of the boundary point image
@@ -226,6 +226,11 @@ private:
    * Keep track of how many core atoms we found (for debugging)
    */
   unsigned long int m_NumCoreAtoms;
+
+  /**
+  *Vector to hold the average center position for debugging
+  */
+  vnl_vector_fixed<double, 3> avgCenter;
 
 };
 

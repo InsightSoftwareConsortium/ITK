@@ -81,16 +81,34 @@ public:
     m_BoundaryPointA = pointA; }
 
   /**
+   * Get the position of the first boundary point in physical space
+   * */
+  TBPItemType* GetBoundaryPointA(){
+    return m_BoundaryPointA; }
+
+  /**
    * Set the position of the second boundary point in physical space
    * */
   void SetBoundaryPointB(TBPItemType* pointB){
     m_BoundaryPointB = pointB; }
 
   /**
+   * Get the position of the first boundary point in physical space
+   * */
+  TBPItemType* GetBoundaryPointB(){
+    return m_BoundaryPointB; }
+
+  /**
    * Set the position of the center of the core atom in physical space
    * */
   void SetCenterPosition(TPositionType pos){
     m_CenterPosition = pos; }
+
+  /**
+   * Get the position of the center of the core atom in physical space
+   * */
+  TPositionType GetCenterPosition(){
+    return m_CenterPosition; }
 
   /**
    * Calculate the position of the center of the core atome in physical
