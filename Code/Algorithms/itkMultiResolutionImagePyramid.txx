@@ -66,6 +66,7 @@ MultiResolutionImagePyramid<TInputImage, TOutputImage>
 {
   this->SetNumberOfLevels( 2 );
   m_CurrentLevel = 0;
+  m_MaximumError = 0.1;
 }
 
 
@@ -158,7 +159,10 @@ unsigned int * factors )
   for( unsigned int dim = 0; dim < ImageDimension; ++dim )
     {
     m_Schedule[0][dim] = factors[dim];
-    if( m_Schedule[0][dim] == 1 ) m_Schedule[0][dim] = 1;
+    if( m_Schedule[0][dim] == 0 ) 
+      {
+      m_Schedule[0][dim] = 1;
+      }
     }
 
   for( unsigned int level = 1; level < m_NumberOfLevels; ++level )
@@ -166,12 +170,53 @@ unsigned int * factors )
     for( unsigned int dim = 0; dim < ImageDimension; ++dim )
       {
       m_Schedule[level][dim] = m_Schedule[level-1][dim] / 2;
-      if( m_Schedule[level][dim] == 0 ) m_Schedule[level][dim] = 1;
+      if( m_Schedule[level][dim] == 0 ) 
+        {
+        m_Schedule[level][dim] = 1;
+        }
       }
     }
 
   this->Modified();
 
+}
+
+
+/**
+ * Set the multi-resolution schedule
+ */
+template <class TInputImage, class TOutputImage>
+void
+MultiResolutionImagePyramid<TInputImage, TOutputImage>
+::SetSchedule(
+const ScheduleType& schedule )
+{
+
+  if( schedule.rows() != m_NumberOfLevels ||
+    schedule.columns() != ImageDimension )
+    {
+    itkDebugMacro(<< "Schedule has wrong dimensions" );
+    return;
+    }
+
+  if( schedule == m_Schedule )
+    {
+    return;
+    }
+
+  this->Modified();
+  unsigned int level, dim;
+  for( level = 0; level < m_NumberOfLevels; level++ )
+    {
+    for( dim = 0; dim < ImageDimension; dim++ )
+      {
+      m_Schedule[level][dim] = schedule[level][dim];
+      if( m_Schedule[level][dim] == 0 )
+        {
+        m_Schedule[level][dim] = 1;
+        }
+      }
+    }
 }
 
 
@@ -206,6 +251,12 @@ MultiResolutionImagePyramid<TInputImage, TOutputImage>
   Vector<unsigned int,ImageDimension> tempFactors;
   double variance;
 
+  typedef typename TOutputImage::RegionType RegionType;
+  RegionType reqRegion = inputPtr->GetRequestedRegion();
+  typename TOutputImage::SizeType reqSize = reqRegion.GetSize();
+  typename TOutputImage::IndexType reqIndex = reqRegion.GetIndex(); 
+  RegionType outputRegion = outputPtr->GetRequestedRegion();
+
   OutputImagePointer tempImagePtr;  // Pointer to the temporary solution  
   bool firstFilter = true;
  
@@ -213,6 +264,12 @@ MultiResolutionImagePyramid<TInputImage, TOutputImage>
     {
 
     this->UpdateProgress( (float)j / (float)ImageDimension );
+
+    // keep track of what we really need to be updated
+    reqSize[j] = outputRegion.GetSize()[j];
+    reqIndex[j] = outputRegion.GetIndex()[j];
+    reqRegion.SetSize( reqSize );
+    reqRegion.SetIndex( reqIndex );
 
     if( shrinkFactors[j] == 1 )
       {
@@ -226,7 +283,7 @@ MultiResolutionImagePyramid<TInputImage, TOutputImage>
     OperatorType *oper = new OperatorType;
     oper->SetDirection( j );
     oper->SetVariance( variance );
-    oper->SetMaximumError( 0.1 ); // need not be too accurate
+    oper->SetMaximumError( m_MaximumError ); // need not be too accurate
     oper->CreateDirectional();
 
     typename SmootherType::Pointer smoother = SmootherType::New();
@@ -261,7 +318,13 @@ MultiResolutionImagePyramid<TInputImage, TOutputImage>
       }
 
     shrinker->SetInput( smoother->GetOutput() );
-    shrinker->Update();
+
+    // make sure we only update what we really need
+    shrinker->UpdateOutputInformation();
+    shrinker->GetOutput()->SetRequestedRegion( reqRegion );
+    shrinker->GetOutput()->PropagateRequestedRegion();
+    shrinker->GetOutput()->UpdateOutputData();
+
 
     tempImagePtr = shrinker->GetOutput();
     tempImagePtr->DisconnectPipeline();
@@ -410,9 +473,67 @@ void
 MultiResolutionImagePyramid<TInputImage, TOutputImage>
 ::GenerateInputRequestedRegion()
 {
-  // this filter requires all of the input image to be in
-  // the buffer
-  this->GetInput()->SetRequestedRegionToLargestPossibleRegion();
+  // call the superclass' implementation of this method
+  Superclass::GenerateInputRequestedRegion();
+  
+  // get pointers to the input and output
+  InputImagePointer  inputPtr = this->GetInput();
+  OutputImagePointer outputPtr = this->GetOutput();
+  
+  if ( !inputPtr || !outputPtr )
+    {
+    return;
+    }
+  
+  // we need to compute the input requested region
+  Vector<unsigned int,ImageDimension> shrinkFactors;
+  shrinkFactors = m_Schedule[m_CurrentLevel];
+
+  int i;
+  const typename TOutputImage::SizeType& outputRequestedRegionSize
+    = outputPtr->GetRequestedRegion().GetSize();
+  const typename TOutputImage::IndexType& outputRequestedRegionStartIndex
+    = outputPtr->GetRequestedRegion().GetIndex();
+  
+  typename TInputImage::SizeType  inputRequestedRegionSize;
+  typename TInputImage::IndexType inputRequestedRegionStartIndex;
+  
+  // compute requirements for the shrinkage part
+  for (i = 0; i < TInputImage::ImageDimension; i++)
+    {
+    inputRequestedRegionSize[i]
+      = outputRequestedRegionSize[i] * shrinkFactors[i];
+    inputRequestedRegionStartIndex[i]
+      = outputRequestedRegionStartIndex[i] * (long)shrinkFactors[i];
+    }
+
+  typename TInputImage::RegionType inputRequestedRegion;
+  inputRequestedRegion.SetSize( inputRequestedRegionSize );
+  inputRequestedRegion.SetIndex( inputRequestedRegionStartIndex );
+
+  // compute requirements for the smoothing part
+  typedef typename TOutputImage::PixelType OutputPixelType;
+  typedef GaussianOperator<OutputPixelType,ImageDimension> OperatorType;
+
+  unsigned long radius[ImageDimension];
+  for( i = 0; i < TInputImage::ImageDimension; i++ )
+    {
+    OperatorType *oper = new OperatorType;
+    oper->SetDirection(i);
+    oper->SetVariance( vnl_math_sqr( 0.5 * (double) shrinkFactors[i] ) );
+    oper->SetMaximumError( m_MaximumError );
+    oper->CreateDirectional();
+    radius[i] = oper->GetRadius()[i];
+    delete oper;
+    }
+
+  inputRequestedRegion.PadByRadius( radius );
+
+  // make sure the requested region is within the largest possible
+  inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() );
+  
+  // set the input requested region
+  inputPtr->SetRequestedRegion( inputRequestedRegion );
 
 }
 
