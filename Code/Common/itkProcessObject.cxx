@@ -35,6 +35,9 @@ ProcessObject
   m_AbortGenerateData = false;
   m_Progress = 0.0;
   m_Updating = false;
+  
+  m_Threader = MultiThreader::New();
+  m_NumberOfThreads = m_Threader->GetNumberOfThreads();
 }
 
 
@@ -44,6 +47,8 @@ ProcessObject
 ProcessObject
 ::~ProcessObject()
 {
+  m_Threader->Delete();
+  m_Threader = 0;
 }
 
 typedef DataObject *DataObjectPointer;
@@ -390,6 +395,8 @@ ProcessObject
 
   os << indent << "AbortGenerateData: " << (m_AbortGenerateData ? "On\n" : "Off\n");
   os << indent << "Progress: " << m_Progress << "\n";
+
+  os << indent << "Multithreader: " << m_Threader << std::endl;
 }
 
 

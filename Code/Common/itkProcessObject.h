@@ -18,6 +18,7 @@
 
 #include "itkObject.h"
 #include "itkDataObject.h"
+#include "itkMultiThreader.h"
 #include "itkObjectFactory.h"
 #include <vector>
 
@@ -246,7 +247,7 @@ public:
    * requested region (to avoid introducing artificial boundary conditions).
    */
   virtual void GenerateInputRequestedRegion();
-
+  
   /** 
    * Turn on/off flag to control whether this object's data is released
    * after being used by a source. 
@@ -266,6 +267,18 @@ public:
    */
   virtual int InRegisterLoop(Object *) const {return 0;}
 
+  /**
+   * Get/Set the number of threads to create when executing.
+   */
+  itkSetClampMacro( NumberOfThreads, int, 1, ITK_MAX_THREADS );
+  itkGetMacro( NumberOfThreads, int );
+
+  /**
+   * Return the multithreader used by this class.
+   */
+  MultiThreader::Pointer GetMultiThreader()
+    {return m_Threader;}
+  
 protected:
   ProcessObject();
   ~ProcessObject();
@@ -292,9 +305,9 @@ protected:
   itkGetMacro(NumberOfRequiredOutputs,unsigned int);
 
   /**
-   * GenerateData the algorithm
+   * This method causes the filter to generate its output.
    */
-  virtual void GenerateData() {};
+  virtual void GenerateData() {}
 
   /**
    * Called to allocate the input array.  Copies old inputs.
@@ -350,6 +363,13 @@ private:
    */
   bool  m_AbortGenerateData;
   float m_Progress;
+
+  /**
+   * Support processing data in multiple threads. Used by subclasses
+   * (e.g., ImageSource).
+   */
+  MultiThreader::Pointer m_Threader;
+  int m_NumberOfThreads;
 
 };
 
