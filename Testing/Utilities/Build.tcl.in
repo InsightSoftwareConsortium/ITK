@@ -237,6 +237,6 @@ file delete $BuildLogCompressedFilename
 file delete $BuildLogFilename
 
 # Clean up any da files from previous coverage
-FileMap [list .] [list *.da] "file delete -force -- "
+# FileMap [list .] [list *.da] "file delete -force -- "
 exit
 
