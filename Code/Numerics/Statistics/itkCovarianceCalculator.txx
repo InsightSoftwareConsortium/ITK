@@ -78,8 +78,8 @@ CovarianceCalculator< TSample >
   
   unsigned int row, col ;
   unsigned int i ;
-  typename TSample::Iterator iter = this->GetSample()->Begin() ;
-  typename TSample::Iterator end = this->GetSample()->End() ;
+  typename TSample::Iterator iter = this->GetInputSample()->Begin() ;
+  typename TSample::Iterator end = this->GetInputSample()->End() ;
   MeanType diff ;
   typename TSample::MeasurementVectorType measurements ;
   // fills the lower triangle and the diagonal cells in the covariance matrix

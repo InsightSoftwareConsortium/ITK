@@ -50,8 +50,8 @@ void
 MeanCalculator< TSample >
 ::GenerateData() 
 {
-  typename TSample::Iterator iter = this->GetSample()->Begin() ;
-  typename TSample::Iterator end = this->GetSample()->End() ;
+  typename TSample::Iterator iter = this->GetInputSample()->Begin() ;
+  typename TSample::Iterator end = this->GetInputSample()->End() ;
   double totalFrequency = 0.0 ;
   double frequency = 0.0 ;
   unsigned int dim = 0 ;
