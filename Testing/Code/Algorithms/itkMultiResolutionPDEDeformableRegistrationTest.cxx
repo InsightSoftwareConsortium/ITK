@@ -235,7 +235,7 @@ int main()
   CommandType::Pointer command = CommandType::New();
   command->SetCallbackFunction(&progressWatch,
                                &ShowProgressObject::ShowProgress);
-  registrator->AddObserver(itk::Command::ProgressEvent, command);
+  registrator->AddObserver(itk::ProgressEvent(), command);
 
   ShowProgressObject innerWatch(registrator->GetRegistrationFilter() );
   innerWatch.m_Prefix = "    ";
@@ -243,7 +243,7 @@ int main()
   innerCommand->SetCallbackFunction(&innerWatch,
                                &ShowProgressObject::ShowProgress);
   registrator->GetRegistrationFilter()->
-    AddObserver(itk::Command::ProgressEvent, innerCommand);
+    AddObserver(itk::ProgressEvent(), innerCommand);
 
   registrator->Update();
 

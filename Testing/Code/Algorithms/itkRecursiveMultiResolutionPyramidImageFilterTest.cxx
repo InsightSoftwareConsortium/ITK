@@ -253,7 +253,7 @@ int main()
   command = itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch,
                                &ShowProgressObject::ShowProgress);
-  pyramid->AddObserver(itk::Command::ProgressEvent, command);
+  pyramid->AddObserver(itk::ProgressEvent(), command);
 
   pyramid->Print( std::cout );
 

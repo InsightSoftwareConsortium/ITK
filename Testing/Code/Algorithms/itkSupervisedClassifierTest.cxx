@@ -284,7 +284,7 @@ int main()
   command = itk::SimpleMemberCommand<ProgressType>::New();
   command->SetCallbackFunction(&progressWatch,
                                &ProgressType::ShowProgress);
-  applyClassifier->AddObserver(itk::Command::ProgressEvent, command);
+  applyClassifier->AddObserver(itk::ProgressEvent(), command);
 
 
   // Set the Classifier parameters
