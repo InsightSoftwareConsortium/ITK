@@ -89,7 +89,9 @@ MetaImageIO::GetOrigin() const
  
 bool MetaImageIO::CanReadFile(const char* file) 
 { 
-  return this->ReadHeader(file);
+  const bool acceptableHeader = this->ReadHeader(file);
+  m_Ifstream.close();
+  return acceptableHeader;
 }
   
 
@@ -344,8 +346,12 @@ bool MetaImageIO::ReadHeader(const char* fname)
 
   }
 
+  
   return false;
+
 }
+
+
 
 void MetaImageIO::ReadImageInformation()
 {
