@@ -54,7 +54,17 @@ int main( int argc, char* argv[] )
   it->SetInputDirectory( argv[1] );
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileNames( it->GetInputFileNames() );
+
+  const ReaderType::FileNamesContainer & filenames = it->GetInputFileNames();
+  unsigned int numberOfFilenames =  filenames.size();
+  std::cout << numberOfFilenames << std::endl; 
+  for(unsigned int fni = 0; fni<numberOfFilenames; fni++)
+    {
+    std::cout << "filename # " << fni << " = ";
+    std::cout << filenames[fni] << std::endl;
+    }
+  
+  reader->SetFileNames( filenames );
   reader->SetImageIO( gdcmIO );
 
   try
