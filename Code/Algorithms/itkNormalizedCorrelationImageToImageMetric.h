@@ -60,10 +60,12 @@ public:
 
  
   /** Types transferred from the base class */
+  typedef typename Superclass::RealType                 RealType;
   typedef typename Superclass::TransformType            TransformType;
   typedef typename Superclass::TransformPointer         TransformPointer;
   typedef typename Superclass::TransformParametersType  TransformParametersType;
   typedef typename Superclass::TransformJacobianType    TransformJacobianType;
+  typedef typename Superclass::GradientPixelType        GradientPixelType;
 
   typedef typename Superclass::MeasureType              MeasureType;
   typedef typename Superclass::DerivativeType           DerivativeType;
