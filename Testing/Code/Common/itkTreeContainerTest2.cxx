@@ -49,8 +49,8 @@ public:
         counter++;
     }
 
-    TestData(const int value) {
-        this->value = value;
+    TestData(const int valueIn) {
+        this->value = valueIn;
         counter++;
     };
 
