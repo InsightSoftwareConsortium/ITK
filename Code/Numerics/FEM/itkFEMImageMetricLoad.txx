@@ -176,7 +176,17 @@ ImageMetricLoad<TReference , TTarget>::EvaluateMetricGivenSolution( Element::Arr
         InVec[ii]=Gpt[ii];
         InVec[ii+ImageDimension]=Sol[ii];
       }
+      
+      try
+      {
       energy+=w*fabs(GetMetric(InVec));
+      }
+      catch( itk::ExceptionObject & e )
+      { 
+      e=e;
+      //std::cerr << e << std::endl;
+      }
+      
     }  
   }
    
@@ -287,9 +297,17 @@ ImageMetricLoad<TReference , TTarget>::GetMetric
 //--------------------------------------------------------
 // Get metric values
 
-  MetricBaseType::MeasureType     measure;
-
+  MetricBaseType::MeasureType     measure=0.0;
+  try
+  { 
   measure=m_Metric->GetValue( parameters);
+  }
+  catch( itk::ExceptionObject & e )
+  {
+  e=e;
+  //std::cerr << e << std::endl;
+  }
+      
  
   return (Float) measure;
 }
