@@ -125,11 +125,11 @@ KdTree< TSample >
 
 
 template< class TSample >
-void
+typename KdTree< TSample >::InstanceIdentifierVectorType 
 KdTree< TSample >
 ::Search(MeasurementVectorType &query, unsigned int k)
 {
-  m_Neighbors.resize(k) ;
+  m_NearestNeighbors.resize(k) ;
 
   MeasurementVectorType lowerBound ;
   MeasurementVectorType upperBound ;
@@ -142,13 +142,143 @@ KdTree< TSample >
 
   m_NumberOfVisits = 0 ;
   m_StopSearch = false ;
-  SearchLoop(m_Root, query, lowerBound, upperBound) ;
+
+  this->NearestNeighborSearchLoop(m_Root, query, lowerBound, upperBound) ;
+
+  m_Neighbors = m_NearestNeighbors.GetNeighbors() ;
+  return m_Neighbors ;
 }
 
 template< class TSample >
 inline int
 KdTree< TSample >
-::SearchLoop(KdTreeNodeType* node, MeasurementVectorType &query, 
+::NearestNeighborSearchLoop(KdTreeNodeType* node, 
+                            MeasurementVectorType &query, 
+                            MeasurementVectorType &lowerBound,
+                            MeasurementVectorType &upperBound)
+{
+  unsigned int i ;
+  InstanceIdentifier tempId ;
+  double tempDistance ;
+
+  if ( node->IsTerminal() )
+    {
+    // terminal node
+    if (node == m_EmptyTerminalNode)
+      {
+      // empty node
+      return 0 ;
+      }
+
+    for (i = 0 ; i < node->Size() ; i++)
+      {
+      tempId = node->GetInstanceIdentifier(i) ;
+      tempDistance = 
+        m_DistanceMetric->
+        Evaluate(query, m_Sample->GetMeasurementVector(tempId)) ;
+      m_NumberOfVisits++ ;
+      if (tempDistance < m_NearestNeighbors.GetLargestDistance() )
+        {
+          m_NearestNeighbors.ReplaceFarthestNeighbor(tempId, tempDistance) ;
+        }
+      }
+
+    if ( BallWithinBounds(query, lowerBound, upperBound, 
+                          m_NearestNeighbors.GetLargestDistance()) )
+      {
+      return 1 ;
+      }
+
+    return 0;
+    }
+
+
+  unsigned int partitionDimension ; 
+  MeasurementType partitionValue ;
+  MeasurementType tempValue ;
+  node->GetParameters(partitionDimension, partitionValue) ;
+
+  if (query[partitionDimension] <= partitionValue)
+    {
+    // search the closer child node
+    tempValue = upperBound[partitionDimension] ;
+    upperBound[partitionDimension] = partitionValue ;
+    if (NearestNeighborSearchLoop(node->Left(), query, lowerBound, upperBound))
+      {
+      return 1 ;
+      }
+    upperBound[partitionDimension] = tempValue ;
+
+    // search the other node, if necessary
+    tempValue = lowerBound[partitionDimension] ;
+    lowerBound[partitionDimension] = partitionValue ;
+    if ( BoundsOverlapBall(query, lowerBound, upperBound, 
+                           m_NearestNeighbors.GetLargestDistance()) )
+      {
+      NearestNeighborSearchLoop(node->Right(), query, lowerBound, upperBound) ;
+      }
+    lowerBound[partitionDimension] = tempValue ;
+    }
+  else
+    {
+    // search the closer child node
+    tempValue = lowerBound[partitionDimension] ;
+    lowerBound[partitionDimension] = partitionValue ;
+    if (SearchLoop(node->Right(), query, lowerBound, upperBound))
+      {
+      return 1 ;
+      }
+    lowerBound[partitionDimension] = tempValue ;
+
+    // search the other node, if necessary
+    tempValue = upperBound[partitionDimension] ;
+    upperBound[partitionDimension] = partitionValue ;
+    if ( BoundsOverlapBall(query, lowerBound, upperBound, 
+                           m_NearestNeighbors.GetLargestDistance()) )
+      {
+      NearestNeighborSearchLoop(node->Left(), query, lowerBound, upperBound) ;
+      }
+    upperBound[partitionDimension] = tempValue ;
+    }
+
+  // stop or continue search
+  if ( BallWithinBounds(query, lowerBound, upperBound, 
+                        m_NearestNeighbors.GetLargestDistance()) )
+    {
+    return 1 ;
+    }  
+
+  return 0 ;
+}
+
+template< class TSample >
+typename KdTree< TSample >::InstanceIdentifierVectorType 
+KdTree< TSample >
+::Search(MeasurementVectorType &query, double radius)
+{
+  MeasurementVectorType lowerBound ;
+  MeasurementVectorType upperBound ;
+
+  for (unsigned int d = 0 ; d < MeasurementVectorSize ; d++)
+    {
+    lowerBound[d] = NumericTraits< MeasurementType >::NonpositiveMin() ;
+    upperBound[d] = NumericTraits< MeasurementType >::max() ;
+    }
+
+  m_NumberOfVisits = 0 ;
+  m_StopSearch = false ;
+
+  m_Neighbors.clear() ;
+  m_SearchRadius = radius ;
+  this->SearchLoop(m_Root, query, lowerBound, upperBound) ;
+  return m_Neighbors ;
+}
+
+template< class TSample >
+inline int
+KdTree< TSample >
+::SearchLoop(KdTreeNodeType* node, 
+             MeasurementVectorType &query, 
              MeasurementVectorType &lowerBound,
              MeasurementVectorType &upperBound)
 {
@@ -172,13 +302,14 @@ KdTree< TSample >
         m_DistanceMetric->
         Evaluate(query, m_Sample->GetMeasurementVector(tempId)) ;
       m_NumberOfVisits++ ;
-      if (tempDistance < m_Neighbors.GetLargestDistance() )
+      if (tempDistance < m_SearchRadius )
         {
-        m_Neighbors.ReplaceFarthestNeighbor(tempId, tempDistance) ;
+          m_Neighbors.push_back(tempId) ;
         }
       }
 
-    if(BallWithinBounds(query, lowerBound, upperBound))
+    if ( BallWithinBounds(query, lowerBound, upperBound, 
+                          m_SearchRadius) )
       {
       return 1 ;
       }
@@ -206,7 +337,8 @@ KdTree< TSample >
     // search the other node, if necessary
     tempValue = lowerBound[partitionDimension] ;
     lowerBound[partitionDimension] = partitionValue ;
-    if (BoundsOverlapBall(query, lowerBound, upperBound))
+    if ( BoundsOverlapBall(query, lowerBound, upperBound, 
+                           m_SearchRadius) )
       {
       SearchLoop(node->Right(), query, lowerBound, upperBound) ;
       }
@@ -226,16 +358,17 @@ KdTree< TSample >
     // search the other node, if necessary
     tempValue = upperBound[partitionDimension] ;
     upperBound[partitionDimension] = partitionValue ;
-    if (BoundsOverlapBall(query, lowerBound, upperBound))
+    if ( BoundsOverlapBall(query, lowerBound, upperBound, 
+                           m_SearchRadius) )
       {
-      std::cout << "Left child overlaps." << std::endl ;
       SearchLoop(node->Left(), query, lowerBound, upperBound) ;
       }
     upperBound[partitionDimension] = tempValue ;
     }
 
   // stop or continue search
-  if (BallWithinBounds(query, lowerBound, upperBound))
+  if ( BallWithinBounds(query, lowerBound, upperBound, 
+                        m_SearchRadius) )
     {
     return 1 ;
     }  
@@ -243,23 +376,23 @@ KdTree< TSample >
   return 0 ;
 }
 
-
 template< class TSample >
 inline bool
 KdTree< TSample >
 ::BallWithinBounds(MeasurementVectorType &query, 
                    MeasurementVectorType &lowerBound,
-                   MeasurementVectorType &upperBound)
+                   MeasurementVectorType &upperBound,
+                   double radius)
 {
   unsigned int dimension ;
   for (dimension = 0 ; dimension < MeasurementVectorSize ; dimension++)
     {
     if ((m_DistanceMetric->Evaluate(query[dimension] ,
                                     lowerBound[dimension]) <= 
-         m_Neighbors.GetLargestDistance()) ||
+         radius) ||
         (m_DistanceMetric->Evaluate(query[dimension] ,
                                     upperBound[dimension]) <= 
-         m_Neighbors.GetLargestDistance()))
+         radius))
       {
       return false ;
       }
@@ -272,13 +405,13 @@ inline bool
 KdTree< TSample >
 ::BoundsOverlapBall(MeasurementVectorType &query, 
                     MeasurementVectorType &lowerBound,
-                    MeasurementVectorType &upperBound)
+                    MeasurementVectorType &upperBound,
+                    double radius)
 {
   double sum = NumericTraits< double >::Zero ;
   double temp ;
   unsigned int dimension ;
-  double squaredSearchRadius = m_Neighbors.GetLargestDistance() ;
-  squaredSearchRadius *= squaredSearchRadius ;
+  double squaredSearchRadius = radius * radius ;
   for (dimension = 0  ; dimension < MeasurementVectorSize ; dimension++)
     {
 

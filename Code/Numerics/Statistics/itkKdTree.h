@@ -354,6 +354,8 @@ public:
    * vector identified by the first element and the query point. */
   typedef std::pair< InstanceIdentifier, double > NeighborType ;
 
+  typedef std::vector< InstanceIdentifier > InstanceIdentifierVectorType ;
+
   /** \class NearestNeighbors
    * \brief data structure for storing k-nearest neighbor search result
    * (k number of Neighbors)
@@ -406,7 +408,7 @@ public:
     }
 
     /** Returns the vector of k-neighbors' instance identifiers */
-    std::vector< InstanceIdentifier >& GetNeighbors()
+    InstanceIdentifierVectorType GetNeighbors()
     { return m_Identifiers ; }
 
     /** Returns the instance identifier of the index-th neighbor among
@@ -423,7 +425,7 @@ public:
     unsigned int m_FarthestNeighborIndex ;
     
     /** Storage for the instance identifiers of k-neighbors */
-    std::vector< InstanceIdentifier > m_Identifiers ;
+    InstanceIdentifierVectorType m_Identifiers ;
 
     /** Storage for the distance values of k-neighbors from the query
      * point */
@@ -468,11 +470,12 @@ public:
   { return m_DistanceMetric.GetPointer() ; }
 
   /** Searches the k-nearest neighbors */
-  void Search(MeasurementVectorType &query, unsigned int k) ;
+  InstanceIdentifierVectorType Search(MeasurementVectorType &query, 
+                                      unsigned int k) ;
 
-  /** Returns the k-nearest neighbors as the result of search */
-  NearestNeighbors& GetSearchResult()
-  { return m_Neighbors ; } 
+  /** Searches the neighbors fallen into a hypersphere */
+  InstanceIdentifierVectorType Search(MeasurementVectorType &query,
+                                      double radius) ;
 
   /** Returns the number of measurement vectors that have been visited
    * to find the k-nearest neighbors. */
@@ -486,14 +489,16 @@ public:
    * neighbor touch the surface of the bounding box.*/
   bool BallWithinBounds(MeasurementVectorType &query, 
                         MeasurementVectorType &lowerBound,
-                        MeasurementVectorType &upperBound) ;
+                        MeasurementVectorType &upperBound,
+                        double radius) ;
 
   /** Returns true if the ball defined by the distance between the query
    * point and the farthest neighbor overlaps with the bounding box
    * defined by the lower and the upper bounds.*/
   bool BoundsOverlapBall(MeasurementVectorType &query, 
                          MeasurementVectorType &lowerBound,
-                         MeasurementVectorType &upperBound) ;
+                         MeasurementVectorType &upperBound,
+                         double radius) ;
 
   /** Deletes the node recursively */
   void DeleteNode(KdTreeNodeType *node) ;
@@ -511,11 +516,16 @@ protected:
 
   void PrintSelf(std::ostream& os, Indent indent) const ;
 
-  /** k-nearest neighbors search loop */ 
+  /** search loop */ 
+  int NearestNeighborSearchLoop(KdTreeNodeType* node,
+                                MeasurementVectorType &query,
+                                MeasurementVectorType &lowerBound,
+                                MeasurementVectorType &upperBound) ;
+
+  /** search loop */ 
   int SearchLoop(KdTreeNodeType* node, MeasurementVectorType &query,
                  MeasurementVectorType &lowerBound,
                  MeasurementVectorType &upperBound) ;
-
 private:
   KdTree(const Self&) ; //purposely not implemented
   void operator=(const Self&) ; //purposely not implemented
@@ -535,8 +545,14 @@ private:
   /** Distance metric smart pointer */
   typename DistanceMetricType::Pointer m_DistanceMetric ;
 
+  bool m_IsNearestNeighborSearch ;
+ 
+  double m_SearchRadius ;
+
+  InstanceIdentifierVectorType m_Neighbors ;
+
   /** k-nearest neighbors */
-  NearestNeighbors m_Neighbors ;
+  NearestNeighbors m_NearestNeighbors ;
 
   /** Temporary lower bound in the SearchLoop. */
   MeasurementVectorType m_LowerBound ;
