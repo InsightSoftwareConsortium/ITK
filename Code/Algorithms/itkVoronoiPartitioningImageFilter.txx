@@ -182,16 +182,14 @@ VoronoiPartitioningImageFilter <TInputImage,TOutputImage>
     addpp=addpp+getp*getp;
     }
 
-  double savemean,savevar;
+  double savevar;
   if(num > 1)
     {
-    savemean = addp/static_cast<double>(num);
     savevar = sqrt((addpp - (addp*addp)/static_cast<double>(num) )
                    /(static_cast<double>(num)-1.0));
     }
   else
     {
-    savemean = 0;
     savevar = -1;
     }
 
