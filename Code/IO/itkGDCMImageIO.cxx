@@ -25,8 +25,11 @@
 #include "gdcm/src/gdcmBinEntry.h" //internal of gdcm
 #include "gdcm/src/gdcmFile.h"
 #include "gdcm/src/gdcmHeader.h"
+#include "gdcm/src/gdcmUtil.h"
+
 #include <fstream>
 #include <math.h>   //for fabs on SGI
+#include <itksys/ios/sstream>
 
 namespace itk
 {
@@ -573,7 +576,7 @@ void GDCMImageIO::Write(const void* buffer)
       bitsStored    = "8"; // Bits Stored
       highBit       = "7"; // High Bit
       // 8bits DICOM cannot be signed
-      pixelRep      = "0"; //Pixel Representation
+      pixelRep      = "1"; //Pixel Representation
       break;
 
     case UCHAR:
@@ -606,6 +609,21 @@ void GDCMImageIO::Write(const void* buffer)
   myGdcmHeader->ReplaceOrCreateByNumber( bitsStored, 0x0028, 0x0101 ); //Bits Stored
   myGdcmHeader->ReplaceOrCreateByNumber( highBit, 0x0028, 0x0102 ); //High Bit
   myGdcmHeader->ReplaceOrCreateByNumber( pixelRep, 0x0028, 0x0103 ); //Pixel Representation
+
+  static int imageNumber = 0;
+  std::string itkradical = "1.2.826.0.1.3680043.2.1125";
+  std::string uid = gdcm::Util::CreateUniqueUID( itkradical );
+  itksys_ios::ostringstream s;
+  s << uid << "." << imageNumber++;
+
+  std::string SOPInstanceUID = s.str();
+  //std::cerr << "Replacing:" << value << " by " << uid << std::endl;
+  std::cerr << "Replacing:" << SOPInstanceUID << std::endl;
+  myGdcmHeader->ReplaceOrCreateByNumber( SOPInstanceUID, 0x0008, 0x0018); //[SOP Instance UID]
+  myGdcmHeader->ReplaceOrCreateByNumber( SOPInstanceUID, 0x0002, 0x0003); //[Media Stored SOP Instance UID]
+  myGdcmHeader->ReplaceOrCreateByNumber( uid + ".1", 0x0020, 0x000d); //[Study Instance UID]
+  myGdcmHeader->ReplaceOrCreateByNumber( uid + ".2", 0x0020, 0x000e); //[Series Instance UID]
+  myGdcmHeader->ReplaceOrCreateByNumber( uid + ".3", 0x0020, 0x0052); //[Frame of Reference UID] 
 
   //copy data from buffer to DICOM buffer
   uint8_t* imageData = new uint8_t[numberOfBytes];
