@@ -54,8 +54,6 @@ namespace itk
 template<class T, unsigned int TVectorDimension=3>
 class Vector : public Array<T,TVectorDimension>
 {
-  ITK_CLASS_REQUIRES(T, AdditiveOperatorsConcept);
-  ITK_CLASS_REQUIRES(T, MultiplicativeOperatorsConcept);
 public:
   /**
    * Standard "Self" typedef.

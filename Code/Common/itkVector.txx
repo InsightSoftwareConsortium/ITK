@@ -216,7 +216,6 @@ typename Vector<T, TVectorDimension>::ValueType
 Vector<T, TVectorDimension>
 ::GetSquaredNorm( void ) const
 {
-  ITK_FUNCTION_REQUIRES2(int, ValueType, ConvertibleConcept);
   ValueType sum = 0;  // consider a trait for null here ?
   for( unsigned int i=0; i<TVectorDimension; i++) 
   {
@@ -236,8 +235,6 @@ typename Vector<T, TVectorDimension>::ValueType
 Vector<T, TVectorDimension>
 ::GetNorm( void ) const
 {
-  ITK_FUNCTION_REQUIRES2(ValueType, double, ConvertibleConcept);
-  ITK_FUNCTION_REQUIRES2(double, ValueType, ConvertibleConcept);
   return ValueType(sqrt( double(this->GetSquaredNorm()) )); 
 }
 

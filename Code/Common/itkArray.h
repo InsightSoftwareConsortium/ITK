@@ -17,7 +17,6 @@
 #define __itkArray_h
 
 #include "itkMacro.h"
-#include "itkConceptChecking.h"
 
 namespace itk
 {
@@ -51,7 +50,6 @@ public:
 template <typename TValueType, unsigned long VLength>
 class Array
 {
-  ITK_CLASS_REQUIRES(TValueType, AssignmentOperatorConcept);
 public:
   /**
    * A class which behaves as a reference to this Array type.
