@@ -126,6 +126,14 @@ public:
    */
   void GenerateData();
 
+  /**
+   * This filter needs to request a larger input than its requested output.
+   * If this filter runs "Repetitions" iterations, then it needs an input
+   * that is 2*Repetitions larger than the output. In other words, this
+   * filter needs a border of "Repetitions" pixels.
+   */
+  void GenerateInputRequestedRegion();
+
 protected:
 
   BinomialBlurImageFilter();

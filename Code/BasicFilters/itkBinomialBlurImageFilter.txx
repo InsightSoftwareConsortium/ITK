@@ -4,10 +4,10 @@
 #include <iostream>
 #include "vnl/vnl_vector_fixed.h"
 #include "itkSize.h"
-#include "itkPixelTraits.h"
 #include "itkImageRegion.h"
-#include "itkReflectiveImageRegionIterator.h"
 #include "itkBinomialBlurImageFilter.h"
+#include "itkImageRegionIterator.h"
+#include "itkImageRegionReverseIterator.h"
 
 namespace itk
 {
@@ -22,6 +22,57 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   m_Repetitions = 1;
 }
 
+/**
+ *
+ */
+template< class TInputImage, class TOutputImage >
+void
+BinomialBlurImageFilter< TInputImage, TOutputImage >
+::GenerateInputRequestedRegion()
+{
+  InputImagePointer inputPtr = this->GetInput(0);
+  OutputImagePointer outputPtr = this->GetOutput(0);
+
+  typename TOutputImage::RegionType outputRegion;
+  typename TInputImage::RegionType inputRegion;
+  typename TInputImage::RegionType::SizeType inputSize;
+  typename TInputImage::RegionType::IndexType inputIndex;
+  
+  outputRegion = outputPtr->GetRequestedRegion();
+
+  // This filter needs a m_Repetitions pixel border about the output
+  // (clamped of course at the true boundaries of the input image)
+  inputRegion = outputRegion;
+
+  inputSize = inputRegion.GetSize();
+  inputIndex = inputRegion.GetIndex();
+
+  inputLargestPossibleRegionIndex
+    = inputPtr->GetLargestPossibleRegion().GetIndex();
+  inputLargestPossibleRegionSize
+    = inputPtr->GetLargestPossibleRegion().GetSize();
+
+  for (unsigned int i=0; i < inputPtr->GetImageDimension(); ++i)
+    {
+    inputIndex[i] -= m_Repetitions;
+    if (inputIndex[i] < inputLargestPossibleRegionIndex[i])
+      {
+      inputIndex[i] < inputLargestPossibleRegionIndex[i];
+      }
+
+    inputSize[i] += m_Repetitions;
+    if (inputSize[i] < inputLargestPossibleRegionSize[i])
+      {
+      inputSize[i] < inputLargestPossibleRegionSize[i];
+      }
+    }
+
+  inputRegion.SetIndex( inputIndex );
+  inputRegion.SetSize( inputSize );
+  
+  inputPtr->SetRequestedRegion( inputRegion );
+}
+
 
 template< class TInputImage, class TOutputImage >
 void
@@ -34,67 +85,44 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   InputImagePointer  inputPtr = this->GetInput(0);
   OutputImagePointer outputPtr = this->GetOutput(0);
 
-  // Make sure we're getting everything
-  inputPtr->SetRequestedRegionToLargestPossibleRegion();
-
-  // How big is the input image?
-  typename TInputImage::SizeType size = inputPtr->GetLargestPossibleRegion().GetSize();
-
-  // Create a region object native to the output image type
-  OutputImageRegionType outputRegion;
-
-  // Resize the output region
-  outputRegion.SetSize( size );
-
-  // Set the largest legal region size (i.e. the size of the whole image)
-  // to what we just defined
-  outputPtr->SetLargestPossibleRegion( outputRegion );
-  outputPtr->SetBufferedRegion( outputRegion );
-  outputPtr->SetRequestedRegion( outputRegion );
+  // Allocate the output
+  outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
 
   // Create a temporary image used while processing the image
   // Processing with doubles eliminates possible rounding artifacts which may
   // accumulate over repeated integer division
   typedef Image<double, NDimensions> TTempImage;
-  TTempImage::Pointer tempPtr
-    = TTempImage::New();
+  TTempImage::Pointer tempPtr = TTempImage::New();
+
   TTempImage::RegionType tempRegion;
-  tempRegion.SetSize( size );
+  tempRegion = inputPtr->GetRequestedRegion();
+  
   tempPtr->SetLargestPossibleRegion( tempRegion );
   tempPtr->SetBufferedRegion( tempRegion );
   tempPtr->SetRequestedRegion( tempRegion );
   tempPtr->Allocate();
 
-  // How many pixels are in the image
-  unsigned long int numPixels = 0;
-  numPixels = size[0];
-
-  for (int i = 1; i < NDimensions; i++)
-    numPixels = numPixels * size[i];
-
-  TTempImage::IndexType* reverseIteratorArray = new TTempImage::IndexType[numPixels];
-
-  // Copy the input image to the temporary image and build
-  // the reverseIteratorArray
-  typedef ImageRegionIterator<TTempImage> tempIterator;
-
-  tempIterator tempIt = tempIterator(tempPtr,
-                                     tempPtr->GetRequestedRegion());
+  // How big is the input image?
+  typename TInputImage::SizeType size=inputPtr->GetRequestedRegion().GetSize();
+  typename TInputImage::IndexType startIndex=inputPtr->GetRequestedRegion().GetIndex();
   
-  int counter  = 0;
+  // Iterator Typedefs for this routine
+  typedef ImageRegionIterator<TTempImage> TempIterator;
+  typedef ImageRegionReverseIterator<TTempImage> TempReverseIterator;
+  typedef ImageRegionIterator<TInputImage> InputIterator;
+  typedef ImageRegionIterator<TOutputImage> OutputIterator;
 
-  for ( tempIt.Begin(); !tempIt.IsAtEnd(); ++tempIt)
+  
+  // Copy the input image to the temporary image
+  TempIterator tempIt = TempIterator(tempPtr,
+                                     tempPtr->GetRequestedRegion());
+  InputIterator inputIt = InputIterator(inputPtr, inputPtr->GetRequestedRegion());
+  
+  for ( inputIt.Begin(), tempIt.Begin(); !tempIt.IsAtEnd();++tempIt, ++inputIt)
     {
-    counter++;
-
-    typename TTempImage::IndexType index;
-    index = tempIt.GetIndex();
-    reverseIteratorArray[numPixels - counter] = index;
-    tempIt.Set( (double) inputPtr->GetPixel(index).GetScalar() );
+    tempIt.Set( (double) inputIt.Get() );
     }
-
-  std::cout << "There are "<< numPixels << " pixels in the image\n";
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
@@ -117,19 +145,17 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
     // blur each dimension
     for (unsigned int dim = 0; dim < NDimensions; dim ++)
       {
-      typedef ImageRegionIterator<TTempImage> tempIterator;
-
-      tempIterator tempIt = tempIterator(tempPtr,
+      TempIterator tempIt = TempIterator(tempPtr,
                                          tempPtr->GetRequestedRegion());
 
-      tempIt.Begin();
+      tempIt.GoToBegin();
   
       while( !tempIt.IsAtEnd() )
         {
         // determine the index of the output pixel
         index = tempIt.GetIndex();
 
-        if (index[dim] < (size[dim] - 1))
+        if (index[dim] < (startIndex[dim] + size[dim] - 1))
           {
           // Figure out the location of the "neighbor" pixel
           for (int i = 0; i < NDimensions; i++)
@@ -146,7 +172,7 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
           pixelB = tempPtr->GetPixel(indexShift);
 
           pixelA += pixelB;
-          pixelA = pixelA / 2;
+          pixelA = pixelA / 2.0;
 
           tempPtr->SetPixel(index, pixelA);
 
@@ -159,12 +185,17 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
       std::cout << "End processing forward dimension " << dim << "\n";
 
       //----------------------Reverse pass----------------------
-      for (unsigned long int arrayPos = 0; arrayPos < numPixels; arrayPos ++)
+      TempReverseIterator tempReverseIt
+        = TempReverseIterator(tempPtr, tempPtr->GetRequestedRegion());
+      
+      tempReverseIt.GoToBegin();
+      
+      while ( !tempReverseIt.IsAtEnd() )
         {
         // determine the index of the output pixel
-        index = reverseIteratorArray[arrayPos];
+        index = tempReverseIt.GetIndex();
 
-        if (index[dim] > 0)
+        if (index[dim] > startIndex[dim])
           {    
           // Figure out the location of the "neighbor" pixel
           for (int i = 0; i < NDimensions; i++)
@@ -193,6 +224,8 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
           tempPtr->SetPixel(index, pixelA);
 
           }
+
+        ++tempReverseIt;
     
         } // end walk the image backwards
       
@@ -202,18 +235,19 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
 
     } // end number of repetitions loop
 
-  // Now, copy the temporary image to the output image
+  // Now, copy the temporary image to the output image. Note that the temp
+  // buffer iterator walks a region defined by the output
   typedef ImageRegionIterator<TOutputImage> OutputIterator;
 
   OutputIterator outIt = OutputIterator(outputPtr,
                                         outputPtr->GetRequestedRegion());
-
-  for ( outIt.Begin(); !outIt.IsAtEnd(); ++outIt)
+  TempIterator tempIt2 = TempIterator(tempPtr,
+                                     outputPtr->GetRequestedRegion());
+  
+  for ( outIt.GoToBegin(), tempIt2.GoToBegin(); !outIt.IsAtEnd();
+        ++outIt, ++tempIt2)
     {
-    typename TOutputImage::IndexType index;
-    index = outIt.GetIndex();
-
-    outputPtr->GetPixel(index).SetScalar(tempPtr->GetPixel(index));
+    outIt.Set( tempIt2.Get() );
     }
 
   std::cout << "Binomial filter executed " << num_reps << " times\n";
