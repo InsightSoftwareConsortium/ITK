@@ -156,7 +156,15 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
                              static_cast<InputImagePixelType>(upper));
 
     itkDebugMacro(<< "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << mean << " , sqrt(variance) = " << sqrt(variance));
-  
+
+
+  // Segment the image, the iterator walks the output image (so Set()
+  // writes into the output image), starting at the seed point.  As
+  // the iterator walks, if the corresponding pixel in the input image
+  // (accessed via the "function" assigned to the iterator) is within
+  // the [lower, upper] bounds prescribed, the pixel is added to the
+  // output segmentation and its neighbors become candidates for the
+  // iterator to walk.
   IteratorType it = IteratorType ( outputImage, function, m_Seed );
   while( !it.IsAtEnd())
     {
@@ -167,9 +175,11 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   for (loop = 0; loop < m_NumberOfIterations; ++loop)
     {
     // Now that we have an initial segmentation, let's recalculate the
-    // statistics Since we have already labelled the output, we walk the
-    // output for candidate pixels and calculate the statistics from
-    // the input image
+    // statistics.  Since we have already labelled the output, we visit
+    // pixels in the input image that have been set in the output image.
+    // Essentially, we flip the iterator around, so we walk the input
+    // image (so Get() will get pixel values from the input) and constrain
+    // iterator such it only visits pixels that were set in the output.
     typename SecondFunctionType::Pointer secondFunction = SecondFunctionType::New();
     secondFunction->SetInputImage ( outputImage );
     secondFunction->ThresholdBetween( m_ReplaceValue, m_ReplaceValue );
@@ -227,7 +237,13 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     itkDebugMacro(<< "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << mean << ", variance = " << variance << " , sqrt(variance) = " << sqrt(variance));
     itkDebugMacro(<< "\nsum = " << sum << ", sumOfSquares = " << sumOfSquares << "\nnum = " << num);
     
-    // Rerun the segmentation
+    // Rerun the segmentation, the iterator walks the output image,
+    // starting at the seed point.  As the iterator walks, if the
+    // corresponding pixel in the input image (accessed via the
+    // "function" assigned to the iterator) is within the [lower,
+    // upper] bounds prescribed, the pixel is added to the output
+    // segmentation and its neighbors become candidates for the
+    // iterator to walk.
     outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
     IteratorType thirdIt = IteratorType ( outputImage, function, m_Seed );
     while( !thirdIt.IsAtEnd())
