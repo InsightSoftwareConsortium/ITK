@@ -18,7 +18,6 @@
 #include <iostream>
 
 #include "itkMatrix.h"
-#include "itkArray.h"
 #include "itkVector.h"
 #include "itkPoint.h"
 #include "itkCovariantVector.h"
