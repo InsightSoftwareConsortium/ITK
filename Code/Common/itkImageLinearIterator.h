@@ -78,6 +78,14 @@ public:
   typedef itk::Index<VImageDimension> Index;
 
   /**
+   * Region typedef support. While this was already typdef'ed in the superclass
+   * it needs to be redone here for this subclass to compile properly with gcc.
+   * Note that we have to rescope Region back to itk::ImageRegion so that is
+   * it not confused with ImageIterator::Index.
+   */
+  typedef itk::ImageRegion<VImageDimension> Region;
+  
+  /**
    * Image typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Index back to itk::Index to that is it not
