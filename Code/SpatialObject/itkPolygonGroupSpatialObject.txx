@@ -48,7 +48,7 @@ ReplaceStrand(PolygonSpatialObject<TDimension> *toReplace,PolygonSpatialObject<T
   typename TreeNodeChildrenListType::iterator itend = children.end();
   while(it != itend)
     {
-    if((*it) == toReplace)
+    if(static_cast<void *>((*it)) == static_cast<void *>(toReplace))
       {
       typename TreeNodeChildrenListType::iterator after = it;
       after++;
