@@ -21,7 +21,7 @@ template<class TOutputImage>
 itkImageSource<TOutputImage>::Pointer itkImageSource<TOutputImage>
 ::New()
 {
-  return itkImageSource::Pointer(new itkImageSource<TOut,TOutDim>);
+  return itkImageSource::Pointer(new itkImageSource<TOutputImage>);
 }
 
 //----------------------------------------------------------------------------

@@ -1,0 +1,98 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkWriter.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
+
+  See COPYRIGHT.txt for copyright details.
+
+=========================================================================*/
+/**
+ * itkWriter is the base class for all Insight data writers. You can specify
+ * binary or ASCII output types, as well as the output file name.
+ */
+#ifndef __itkWriter_h
+#define __itkWriter_h
+
+#include "itkProcessObject.h"
+
+#define ITK_ASCII 0
+#define ITK_BINARY 1
+
+class ITK_EXPORT itkWriter : public itkProcessObject
+{
+public:
+  /** 
+   * Smart pointer typedef support.
+   */
+  typedef itkSmartPointer<itkWriter> Pointer;
+
+  /** 
+   * Create the source with one input initially 
+   */
+  static Pointer New();
+
+  /** 
+   * Specify the name of the output file.
+   */
+  void SetFileName(const char *string) 
+    {itkSetStringMacro(m_FileName,string);}
+  
+  /** 
+   * Get the name of the output file.
+   */
+  const char *GetFileName() 
+    {itkGetStringMacro(m_FileName);}
+  
+  /** 
+   * Specify the output file type as either ASCII or binary.
+   */
+  void SetFileType(int type) 
+    {itkSetClampMacro(m_FileType,type,VTK_ASCII,VTK_BINARY);}
+  
+  /** 
+   * Get the file type.
+   */
+  int GetFileType() {itkGetMacro(m_FileType);}
+  
+  /** 
+   * Specify the output file type as ASCII (the default).
+   */
+  void SetFileTypeToASCII() {this->SetFileType(ITK_ASCII);}
+
+  /** 
+   * Specify the output file type to binary.
+   */
+  void SetFileTypeToBinary() {this->SetFileType(ITK_BINARY);}
+
+protected:
+  itkWriter();
+  ~itkWriter();
+  itkWriter(const itkWriter&) {};
+  void operator=(const itkWriter&) {};
+  void PrintSelf(std::ostream& os, itkIndent indent);
+
+  // All writers must respond to WriteData().
+  virtual void WriteData() = 0;
+
+  void Execute() {this->WriteData();}
+  
+  
+private:
+  char *m_FileName;
+  int   m_FileType;
+  
+};
+
+#endif
+
+
+
+
+
