@@ -1359,10 +1359,7 @@ M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity)
     {
     unsigned char* compr = new unsigned char[(unsigned int)(m_CompressedDataSize)];
     _fstream->read((char *)compr, (int)m_CompressedDataSize);
-
-    std::cout << "m_CompressedDataSize = " << m_CompressedDataSize << std::endl;
-    std::cout << "readSize =  " << readSize << std::endl;
- 
+    
     z_stream d_stream;
  
     d_stream.zalloc = (alloc_func)0;
@@ -1383,7 +1380,6 @@ M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity)
         break;
         }
       }
-    std::cout << "Done" << d_stream.total_out <<  std::endl;
     inflateEnd(&d_stream);
     }
   else // if not compressed
