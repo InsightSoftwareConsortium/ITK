@@ -40,14 +40,36 @@ int main()
   itk::ImageRegion<3> Region3D;
   itk::ImageRegion<4> RegionND;
   
-  itk::Size<2>  size2D = { 123, 241 };
-  itk::Size<3>  size3D = { 100, 100, 10 };
-  itk::Size<4>  sizeND = { 10, 10, 4, 2 };
+  itk::Size<2>  size2D;
+   size2D[0] = 123;
+   size2D[1] = 241;
   
-  itk::Index<2> orig2D = { 0, 0 };
-  itk::Index<3> orig3D = { 0, 0, 0 };
-  itk::Index<4> origND = { 0, 0, 0, 0 };
+  itk::Size<3>  size3D;
+   size3D[0] = 100;
+   size3D[1] = 100;
+   size3D[2] = 10;
+
+  itk::Size<4>  sizeND;
+   sizeND[0] = 10;
+   sizeND[1] = 10;
+   sizeND[2] = 4;
+   sizeND[2] = 2;
   
+  itk::Index<2> orig2D;
+   orig2D[0] = 0;
+   orig2D[1] = 0;
+
+  itk::Index<3> orig3D;
+   orig3D[0] = 0;
+   orig3D[1] = 0;
+   orig3D[2] = 0;
+
+  itk::Index<4> origND;
+   origND[0] = 0;
+   origND[1] = 0;
+   origND[2] = 0;
+   origND[3] = 0;
+   
   Region2D.SetSize(size2D);
   Region3D.SetSize(size3D);
   RegionND.SetSize(sizeND);
@@ -91,9 +113,20 @@ int main()
 
   // Set up some neighborhood iterators
   println("Setting up some neighborhood iterators");
-  itk::Size<2> sz2 = { 2,3 };
-  itk::Size<3> sz3 = { 2,3,1};
-  itk::Size<4> szN = { 1,3,1,1};
+  itk::Size<2> sz2;
+   sz2[0] = 2;
+   sz2[1] = 1;
+  
+  itk::Size<3> sz3;
+   sz3[0] = 2;
+   sz3[1] = 3;
+   sz3[2] = 1;
+  
+  itk::Size<4> szN;
+   szN[0] = 1;
+   szN[1] = 3;
+   szN[2] = 1;
+   szN[3] = 1;
 
   itk::RegionNeighborhoodIterator<float, 2,itk::NeighborhoodAllocator<float *>,
     vnl_vector<float> > rni2D(sz2, image2D, image2D->GetRequestedRegion());

@@ -24,7 +24,7 @@ inline void println(const char *s)
 
 int main()
 {
-  int i;
+  unsigned int i;
 
   println("TESTING WITH VNL_VECTOR ALLOCATOR");
   itk::Neighborhood<float, 2, vnl_vector<float> > b;
