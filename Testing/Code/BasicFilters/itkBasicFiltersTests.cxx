@@ -144,6 +144,7 @@ void RegisterTests()
   REGISTER_TEST(itkSinImageFilterAndAdaptorTest );
   REGISTER_TEST(itkSobelEdgeDetectionImageFilterTest );
   REGISTER_TEST(itkSmoothingRecursiveGaussianImageFilterTest );
+  REGISTER_TEST(itkSparseFieldFourthOrderLevelSetImageFilterTest );
   REGISTER_TEST(itkSparseFieldLayerTest);
   REGISTER_TEST(itkSpatialObjectToImageFilterTest );
   REGISTER_TEST(itkSpatialObjectToImageStatisticsCalculatorTest );
