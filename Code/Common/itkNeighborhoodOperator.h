@@ -126,7 +126,7 @@ public:
    * Copy constructor
    */
   NeighborhoodOperator(const Self &orig)
-    : Neighborhood<TPixel, VDimension>(orig) 
+    : Neighborhood<TPixel, VDimension, TAllocator>(orig) 
   {   m_Direction = orig.m_Direction;   }
   
  /**
