@@ -548,7 +548,7 @@ BMPImageIO
     {
     bytesPerRow = ( ( bytesPerRow / 4 ) + 1 ) * 4;
     }
-  long paddedBytes = bytesPerRow - (m_Dimensions[0]*3);
+  unsigned long paddedBytes = bytesPerRow - (m_Dimensions[0]*3);
 
   long temp = (long)( bytesPerRow * m_Dimensions[1]) + 54L;
 

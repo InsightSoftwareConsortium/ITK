@@ -109,11 +109,9 @@ int itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char* [] )
   region2 = resample->GetOutput()->GetRequestedRegion();
   itk::ImageRegionIteratorWithIndex<ImageType>
       iter2(resample->GetOutput(), region2);
-  PixelType pixval;
   for (; !iter2.IsAtEnd(); ++iter2) {
     index  = iter2.GetIndex();
     value  = iter2.Get();
-    pixval = value;
     // display one slice of the volume
     if ( index[0] == int(cubeSize[0]-1)/2 ) {
       std::cout << std::setw(14) << value;
@@ -159,7 +157,6 @@ int itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char* [] )
   for (; !iter3.IsAtEnd(); ++iter3) {
     index  = iter3.GetIndex();
     value  = iter3.Get();
-    pixval = value;
     // display one slice of the volume
     if ( index[0] == int(size[0]-1)/2 ) {
       std::cout << std::setw(14) << value;
