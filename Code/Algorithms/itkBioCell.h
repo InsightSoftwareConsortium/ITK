@@ -40,12 +40,10 @@ template<unsigned int NSpaceDimension=3>
 class Cell : public CellBase 
 {
 public:
-  enum { PointDimension = NSpaceDimension };
-
-  typedef   itk::Vector<double,PointDimension>  VectorType;
-  typedef   itk::Point<double,PointDimension>   PointType;
-
   typedef   CellBase                     Superclass;
+
+  typedef   itk::Vector<double,NSpaceDimension>  VectorType;
+  typedef   itk::Point<double,NSpaceDimension>   PointType;
 
 public:
   Cell(); // Users should create cell with the CreateEgg() method
@@ -66,6 +64,8 @@ public:
                               { return "Primitive Cell"; }
   static  Cell * CreateEgg(void);
 
+  static  unsigned int GetDimension() 
+                              { return NSpaceDimension; }
 
 protected:
   virtual Cell * CreateNew(void);

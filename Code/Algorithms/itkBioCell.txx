@@ -222,7 +222,7 @@ Cell<NSpaceDimension>
   if( m_ChemoAttractantLevel > ChemoAttractantLowThreshold &&
       m_ChemoAttractantLevel < ChemoAttractantHighThreshold   )
     {
-    double factor = 1.0 / pow( m_Radius, Cell::PointDimension );
+    double factor = 1.0 / pow( m_Radius, NSpaceDimension );
     m_Force    += force;
     m_Pressure += force.GetNorm() * factor;
     }
