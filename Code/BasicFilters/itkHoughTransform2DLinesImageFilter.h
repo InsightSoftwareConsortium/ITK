@@ -159,6 +159,22 @@ protected:
 
   void PrintSelf(std::ostream& os, Indent indent) const;
 
+  /** HoughTransform2DLinesImageFilter needs the entire input. Therefore
+   * it must provide an implementation GenerateInputRequestedRegion().
+   * \sa ProcessObject::GenerateInputRequestedRegion(). */
+  void GenerateInputRequestedRegion();
+
+  /** HoughTransform2DLinesImageFilter's output is the accumulator
+   * array.  The size of the output is a function of the size of the
+   * input and the AngleAxisSize. Since this output is a different
+   * size than the input, it must provide an implementation of
+   * GenerateOutputInformation.
+   * \sa ProcessObject::GenerateOutputRequestedRegion() */
+  void GenerateOutputInformation();
+
+  /** HoughTransform2DLinesImageFilter must produce the entire output */
+  void EnlargeOutputRequestedRegion(DataObject *output);
+  
 private:
 
   float m_AngleResolution;

@@ -54,8 +54,32 @@ void
 HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
 ::SetRadius(double radius)
 {
-  m_MinimumRadius = radius;
-  m_MaximumRadius = radius;
+  this->SetMinimumRadius(radius);
+  this->SetMaximimRadius(radius);
+}
+
+template<typename TInputPixelType, typename TOutputPixelType>
+void 
+HoughTransform2DCirclesImageFilter<TInputPixelType,TOutputPixelType>
+::EnlargeOutputRequestedRegion(DataObject *output)
+{
+  Superclass::EnlargeOutputRequestedRegion(output);
+  output->SetRequestedRegionToLargestPossibleRegion();
+}
+
+
+template<typename TInputPixelType, typename TOutputPixelType>
+void 
+HoughTransform2DCirclesImageFilter<TInputPixelType,TOutputPixelType>
+::GenerateInputRequestedRegion()
+{
+  Superclass::GenerateInputRequestedRegion();
+  if ( this->GetInput() )
+    {
+    InputImagePointer image = 
+      const_cast< InputImageType * >( this->GetInput() );
+    image->SetRequestedRegionToLargestPossibleRegion();
+    }
 }
 
 template<typename TInputPixelType, typename TOutputPixelType>
@@ -65,44 +89,27 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
 {
 
   // Get the input and output pointers
-  InputImageConstPointer  m_InputImage = this->GetInput(0);
-  OutputImagePointer m_OutputImage = this->GetOutput(0);
+  InputImageConstPointer  inputImage = this->GetInput(0);
+  OutputImagePointer outputImage = this->GetOutput(0);
 
   // Allocate the output
-  typename InputImageType::RegionType region;
-  Size<2> size;
-  size[0]= m_InputImage->GetLargestPossibleRegion().GetSize()[0];
-  size[1]= m_InputImage->GetLargestPossibleRegion().GetSize()[1];
-  region.SetSize(size);
-  region.SetIndex(m_InputImage->GetLargestPossibleRegion().GetIndex());
-  m_OutputImage->SetLargestPossibleRegion( region );
-  m_OutputImage->SetBufferedRegion( region );
-  m_OutputImage->SetRequestedRegion( region );
-  
-  m_OutputImage->SetOrigin(m_InputImage->GetOrigin());
-  m_OutputImage->SetSpacing(m_InputImage->GetSpacing());
-  
-  m_OutputImage->Allocate();
-  m_OutputImage->FillBuffer(0);
+  this->AllocateOutputs();
+  outputImage->FillBuffer(0);
 
   typedef GaussianDerivativeImageFunction<InputImageType> DoGFunctionType;
   typename DoGFunctionType::Pointer DoGFunction = DoGFunctionType::New();
-  DoGFunction->SetInputImage(m_InputImage);
+  DoGFunction->SetInputImage(inputImage);
   DoGFunction->SetSigma(m_SigmaGradient);
 
   m_RadiusImage = OutputImageType::New();
 
-  m_RadiusImage->SetLargestPossibleRegion( region );
-  m_RadiusImage->SetBufferedRegion( region );
-  m_RadiusImage->SetRequestedRegion( region );
-  
-  m_RadiusImage->SetOrigin(m_InputImage->GetOrigin());
-  m_RadiusImage->SetSpacing(m_InputImage->GetSpacing());
-  
+  m_RadiusImage->SetRegions( outputImage->GetLargestPossibleRegion() );
+  m_RadiusImage->SetOrigin(inputImage->GetOrigin());
+  m_RadiusImage->SetSpacing(inputImage->GetSpacing());
   m_RadiusImage->Allocate();
   m_RadiusImage->FillBuffer(0);
 
-  ImageRegionConstIteratorWithIndex< InputImageType >  image_it( m_InputImage,  m_InputImage->GetRequestedRegion() );
+  ImageRegionConstIteratorWithIndex< InputImageType >  image_it( inputImage,  inputImage->GetRequestedRegion() );
   image_it.Begin();
 
   Index<2> index;
@@ -127,41 +134,30 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
         
         for(double angle = -m_SweepAngle;angle<=m_SweepAngle;angle+=0.05)
           {
-        double i = m_MinimumRadius;
-        double distance;
-
-        do{
-
-
-          
-        index[0] = (long int)(point[0]-i*(Vx*cos(angle)+Vy*sin(angle)));
-        index[1] = (long int)(point[1]-i*(Vx*sin(angle)+Vy*cos(angle)));
-
-        distance = sqrt( (index[1]-point[1])*(index[1]-point[1])
-                         +(index[0]-point[0])*(index[0]-point[0])
-          );
+          double i = m_MinimumRadius;
+          double distance;
+        
+          do
+            {
+            index[0] = (long int)(point[0]-i*(Vx*cos(angle)+Vy*sin(angle)));
+            index[1] = (long int)(point[1]-i*(Vx*sin(angle)+Vy*cos(angle)));
+            
+            distance = sqrt( (index[1]-point[1])*(index[1]-point[1])
+                             +(index[0]-point[0])*(index[0]-point[0]) );
 
 
-        if((index[1]>0) &&(index[1]<static_cast<long
-                           int>(size[1]))  && (index[0]>0)
-           &&(index[0]<static_cast<long int>(size[0])))
-          {
-          m_OutputImage->SetPixel(index, m_OutputImage->GetPixel(index)+1);
-          m_RadiusImage->SetPixel(index, (m_RadiusImage->GetPixel(index)+distance)/2);       
+            if(outputImage->GetRequestedRegion().IsInside( index ))
+              {
+              outputImage->SetPixel(index, outputImage->GetPixel(index)+1);
+              m_RadiusImage->SetPixel(index, (m_RadiusImage->GetPixel(index)+distance)/2);       
+              }
+            
+            i=i+1;
+            
+            } while( outputImage->GetRequestedRegion().IsInside( index ) 
+                     && (distance < m_MaximumRadius) );
           }
-          
-        i=i+1;
-
-        } while( (index[0]>0) &&
-                 (index[0]<static_cast<typename Index<2>::IndexValueType>(size[0])) &&
-                 (index[1]>0) &&
-                 (index[1]<static_cast<typename Index<2>::IndexValueType>(size[1])) 
-                 && (distance < m_MaximumRadius)
-         );
         }
-       
-        }
-
       }
     ++image_it;
     }
@@ -186,11 +182,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
   typedef Image<float,2> InternalImageType;
   
   OutputImagePointer  outputImage = OutputImageType::New();
-
-  typename OutputImageType::RegionType region;
-  region.SetSize(this->GetOutput(0)->GetLargestPossibleRegion().GetSize());
-  region.SetIndex(this->GetOutput(0)->GetLargestPossibleRegion().GetIndex());
-  outputImage->SetRegions( region );
+  outputImage->SetRegions( this->GetOutput(0)->GetLargestPossibleRegion() );
   outputImage->SetOrigin(this->GetOutput(0)->GetOrigin());
   outputImage->SetSpacing(this->GetOutput(0)->GetSpacing());
   outputImage->Allocate();
@@ -218,13 +210,13 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
   variance[1] = m_Variance;
   gaussianFilter->SetVariance(variance);
   gaussianFilter->Update();
-  typename InternalImageType::Pointer m_PostProcessImage = gaussianFilter->GetOutput();
+  typename InternalImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
 
   typedef MinimumMaximumImageCalculator<InternalImageType> MinMaxCalculatorType;
   typename MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
-  ImageRegionIterator<InternalImageType> it_input(m_PostProcessImage,m_PostProcessImage->GetLargestPossibleRegion());
+  ImageRegionIterator<InternalImageType> it_input(postProcessImage,postProcessImage->GetLargestPossibleRegion());
 
-  Index<2> m_index;
+  Index<2> index;
 
   unsigned int circles=0;
   bool found;
@@ -232,7 +224,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
   // Find maxima
   do
     {
-    minMaxCalculator->SetImage(m_PostProcessImage);
+    minMaxCalculator->SetImage(postProcessImage);
     minMaxCalculator->ComputeMaximum();
     InternalImageType::PixelType  max = minMaxCalculator->GetMaximum();
     
@@ -259,20 +251,15 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
           {     
           for(double lenght = 0; lenght < m_DiscRadiusRatio*Circle->GetRadius()[0];lenght += 1)
             {
-            m_index[0] = (long int)(it_input.GetIndex()[0] + lenght * cos(angle));
-            m_index[1] = (long int)(it_input.GetIndex()[1] + lenght * sin(angle));
-            if( ((m_index[0]<(long)m_PostProcessImage->GetLargestPossibleRegion().GetSize()[0]) 
-                 && (m_index[0]>=0)
-                 && (m_index[1]<(long)m_PostProcessImage->GetLargestPossibleRegion().GetSize()[1]) 
-                 && (m_index[1]>=0)
-                  )
-              )
+            index[0] = (long int)(it_input.GetIndex()[0] + lenght * cos(angle));
+            index[1] = (long int)(it_input.GetIndex()[1] + lenght * sin(angle));
+            if(postProcessImage->GetLargestPossibleRegion().IsInside( index ))
               {
-              m_PostProcessImage->SetPixel(m_index,0);
+              postProcessImage->SetPixel(index,0);
               }
             } 
           }
-        minMaxCalculator->SetImage(m_PostProcessImage);
+        minMaxCalculator->SetImage(postProcessImage);
         minMaxCalculator->ComputeMaximum();
         max = minMaxCalculator->GetMaximum();
       

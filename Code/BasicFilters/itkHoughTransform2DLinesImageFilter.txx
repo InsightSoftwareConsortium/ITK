@@ -47,6 +47,61 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
   m_SimplifyAccumulator = NULL;
 }
 
+template<typename TInputPixelType, typename TOutputPixelType>
+void 
+HoughTransform2DLinesImageFilter<TInputPixelType,TOutputPixelType>
+::EnlargeOutputRequestedRegion(DataObject *output)
+{
+  // call the superclass' implementation of this method
+  Superclass::EnlargeOutputRequestedRegion(output);
+
+  output->SetRequestedRegionToLargestPossibleRegion();
+}
+
+
+template<typename TInputPixelType, typename TOutputPixelType>
+void 
+HoughTransform2DLinesImageFilter<TInputPixelType,TOutputPixelType>
+::GenerateOutputInformation()
+{
+  // call the superclass' implementation of this method
+  Superclass::GenerateOutputInformation();
+
+  // get pointers to the input and output
+  InputImageConstPointer  input  = this->GetInput();
+  OutputImagePointer      output = this->GetOutput();
+
+  if ( !input || !output )
+    {
+    return;
+    }
+
+  // Compute the size of the output image
+  typename InputImageType::RegionType region;
+  Size<2> size;
+  size[0]= (long unsigned int)(sqrt(m_AngleAxisSize*m_AngleAxisSize+input->GetLargestPossibleRegion().GetSize()[0]*input->GetLargestPossibleRegion().GetSize()[0]));
+  size[1]= (long unsigned int)m_AngleAxisSize;
+  region.SetSize(size);
+  region.SetIndex(input->GetLargestPossibleRegion().GetIndex());
+
+  output->SetLargestPossibleRegion( region );
+}
+
+
+template<typename TInputPixelType, typename TOutputPixelType>
+void 
+HoughTransform2DLinesImageFilter<TInputPixelType,TOutputPixelType>
+::GenerateInputRequestedRegion()
+{
+  Superclass::GenerateInputRequestedRegion();
+  if ( this->GetInput() )
+    {
+    InputImagePointer image = 
+      const_cast< InputImageType * >( this->GetInput() );
+    image->SetRequestedRegionToLargestPossibleRegion();
+    }
+}
+
 
 /** Generate the accumulator image */
 template<typename TInputPixelType, typename TOutputPixelType>
@@ -57,30 +112,17 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
   itkDebugMacro(<<"HoughTransform2DLinesImageFilter called");
  
   // Get the input and output pointers
-  InputImageConstPointer  m_InputImage  = this->GetInput(0);
-  OutputImagePointer m_OutputImage = this->GetOutput(0);
+  InputImageConstPointer  inputImage  = this->GetInput(0);
+  OutputImagePointer outputImage = this->GetOutput(0);
 
   // Allocate the output
-  typename InputImageType::RegionType region;
-  Size<2> size;
-  size[0]= (long unsigned int)(sqrt(m_AngleAxisSize*m_AngleAxisSize+m_InputImage->GetLargestPossibleRegion().GetSize()[0]*m_InputImage->GetLargestPossibleRegion().GetSize()[0]));
-  size[1]= (long unsigned int)m_AngleAxisSize;
-  region.SetSize(size);
-  region.SetIndex(m_InputImage->GetLargestPossibleRegion().GetIndex());
-  m_OutputImage->SetLargestPossibleRegion( region );
-  m_OutputImage->SetBufferedRegion( region );
-  m_OutputImage->SetRequestedRegion( region );
-  
-  m_OutputImage->SetOrigin(m_InputImage->GetOrigin());
-  m_OutputImage->SetSpacing(m_InputImage->GetSpacing());
-  
-  m_OutputImage->Allocate();
-  m_OutputImage->FillBuffer(0);
+  this->AllocateOutputs();
+  outputImage->FillBuffer(0);
 
-  ImageRegionConstIteratorWithIndex< InputImageType >  image_it( m_InputImage,  m_InputImage->GetRequestedRegion() );
+  ImageRegionConstIteratorWithIndex< InputImageType >  image_it( inputImage,  inputImage->GetRequestedRegion() );
   image_it.Begin();
 
-  Index<2> m_Index;
+  Index<2> index;
 
   while( !image_it.IsAtEnd() )
     {
@@ -88,12 +130,12 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
       { 
       for(double angle=-PI;angle<PI;angle+=PI/m_AngleResolution)
         {  
-        m_Index[0]=(long unsigned int)(image_it.GetIndex()[0]*cos(angle)+image_it.GetIndex()[1]*sin(angle)); // m_R
-        m_Index[1]= (long unsigned int)((m_AngleAxisSize/2)+m_AngleAxisSize*angle/(2*PI)); // m_Theta
+        index[0]=(long unsigned int)(image_it.GetIndex()[0]*cos(angle)+image_it.GetIndex()[1]*sin(angle)); // m_R
+        index[1]= (long unsigned int)((m_AngleAxisSize/2)+m_AngleAxisSize*angle/(2*PI)); // m_Theta
   
-        if ( (m_Index[0]>0) && (m_Index[0]<=(long)size[0]))
+        if ( outputImage->GetBufferedRegion().IsInside(index) )
           {
-          m_OutputImage->SetPixel(m_Index, m_OutputImage->GetPixel(m_Index)+1);  
+          outputImage->SetPixel(index, outputImage->GetPixel(index)+1);  
           }
         } 
       }
@@ -113,36 +155,29 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
 ::Simplify(void)
 {
   // Get the input and output pointers
-  InputImageConstPointer  m_InputImage = this->GetInput(0);
-  OutputImagePointer m_OutputImage = this->GetOutput(0);
+  InputImageConstPointer  inputImage = this->GetInput(0);
+  OutputImagePointer outputImage = this->GetOutput(0);
 
-  if(!m_InputImage || !m_OutputImage)
+  if(!inputImage || !outputImage)
     {
     itkExceptionMacro("Update() must be called before Simplify().");
     } 
 
   Size<2> size;
   /** Allocate the simplify accumulator */
-  typename InputImageType::RegionType region;
-  m_SimplifyAccumulator = OutputImageType::New();
-  size[0]= (long unsigned int)(sqrt(m_AngleAxisSize*m_AngleAxisSize+m_InputImage->GetLargestPossibleRegion().GetSize()[0]*m_InputImage->GetLargestPossibleRegion().GetSize()[0]));
-  size[1]= (long unsigned int)m_AngleAxisSize;
-  region.SetSize(size);
-  region.SetIndex(m_InputImage->GetLargestPossibleRegion().GetIndex());
-
-  m_SimplifyAccumulator->SetRegions( region );
+  m_SimplifyAccumulator->SetRegions( outputImage->GetLargestPossibleRegion() );
   
-  m_SimplifyAccumulator->SetOrigin(m_InputImage->GetOrigin());
-  m_SimplifyAccumulator->SetSpacing(m_InputImage->GetSpacing());
+  m_SimplifyAccumulator->SetOrigin(inputImage->GetOrigin());
+  m_SimplifyAccumulator->SetSpacing(inputImage->GetSpacing());
   m_SimplifyAccumulator->Allocate();
   m_SimplifyAccumulator->FillBuffer(0);
 
-  Index<2> m_Index;
-  Index<2> m_MaxIndex;
+  Index<2> index;
+  Index<2> maxIndex;
   typename OutputImageType::PixelType value;
   typename OutputImageType::PixelType valuemax;
   
-  ImageRegionConstIteratorWithIndex< InputImageType >  image_it( m_InputImage,  m_InputImage->GetRequestedRegion() );
+  ImageRegionConstIteratorWithIndex< InputImageType >  image_it( inputImage,  inputImage->GetRequestedRegion() );
   image_it.GoToBegin();
 
 
@@ -152,30 +187,30 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
       { 
       // Look for maximum along the curve and remove the curve at the same time 
       valuemax = -1;
-      m_MaxIndex[0]=0;
-      m_MaxIndex[1]=0;
+      maxIndex[0]=0;
+      maxIndex[1]=0;
       for(double angle=-PI;angle<PI;angle+=PI/m_AngleResolution)
         {  
-        m_Index[0]= (long int)(image_it.GetIndex()[0]*cos(angle)+image_it.GetIndex()[1]*sin(angle)); // m_R
-        m_Index[1]= (long int)((m_AngleAxisSize/2)+m_AngleAxisSize*angle/(2*PI)); // m_Theta
+        index[0]= (long int)(image_it.GetIndex()[0]*cos(angle)+image_it.GetIndex()[1]*sin(angle)); // m_R
+        index[1]= (long int)((m_AngleAxisSize/2)+m_AngleAxisSize*angle/(2*PI)); // m_Theta
   
-        if ( (m_Index[0]>0) && (m_Index[0]<(long)size[0]) && (m_Index[1]>0) && (m_Index[1]<(long)size[1]))
+        if ( (index[0]>0) && (index[0]<(long)size[0]) && (index[1]>0) && (index[1]<(long)size[1]))
           {
-          value = m_OutputImage->GetPixel(m_Index);
+          value = outputImage->GetPixel(index);
           if( value > valuemax)
             {
             valuemax = value;
-            m_MaxIndex = m_Index;
+            maxIndex = index;
             }
           }
         } 
-      m_SimplifyAccumulator->SetPixel(m_MaxIndex,m_SimplifyAccumulator->GetPixel(m_MaxIndex)+1);
+      m_SimplifyAccumulator->SetPixel(maxIndex,m_SimplifyAccumulator->GetPixel(maxIndex)+1);
       }
     ++image_it;
     }
   
   ImageRegionConstIteratorWithIndex< OutputImageType >  accusimple_it( m_SimplifyAccumulator,  m_SimplifyAccumulator->GetRequestedRegion() );
-  ImageRegionIteratorWithIndex< OutputImageType >       accu_it( m_OutputImage,  m_OutputImage->GetRequestedRegion() );
+  ImageRegionIteratorWithIndex< OutputImageType >       accu_it( outputImage,  outputImage->GetRequestedRegion() );
 
   
   accusimple_it.GoToBegin();
@@ -240,13 +275,13 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
   variance[1] = m_Variance;
   gaussianFilter->SetVariance(variance);
   gaussianFilter->Update();
-  InternalImageType::Pointer m_PostProcessImage = gaussianFilter->GetOutput();
+  InternalImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
 
   typedef itk::MinimumMaximumImageCalculator<InternalImageType> MinMaxCalculatorType;
   typename MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
-  itk::ImageRegionIterator<InternalImageType> it_input(m_PostProcessImage,m_PostProcessImage->GetLargestPossibleRegion());
+  itk::ImageRegionIterator<InternalImageType> it_input(postProcessImage,postProcessImage->GetLargestPossibleRegion());
 
-  itk::Index<2> m_index;
+  itk::Index<2> index;
 
   unsigned int lines=0;
   bool found;
@@ -254,7 +289,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
   // Find maxima
   do
     {
-    minMaxCalculator->SetImage(m_PostProcessImage);
+    minMaxCalculator->SetImage(postProcessImage);
     minMaxCalculator->ComputeMaximum();
     InternalImageType::PixelType  max = minMaxCalculator->GetMaximum();
 
@@ -311,20 +346,20 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
           {     
           for(double lenght = 0; lenght < m_DiscRadius;lenght += 1)
             {
-            m_index[0] = (long int)(it_input.GetIndex()[0] + lenght * cos(angle));
-            m_index[1] = (long int)(it_input.GetIndex()[1] + lenght * sin(angle));
-            if( ((m_index[0]<(long)m_PostProcessImage->GetLargestPossibleRegion().GetSize()[0]) 
-                 && (m_index[0]>=0)
-                 && (m_index[1]<(long)m_PostProcessImage->GetLargestPossibleRegion().GetSize()[1]) 
-                 && (m_index[1]>=0)
+            index[0] = (long int)(it_input.GetIndex()[0] + lenght * cos(angle));
+            index[1] = (long int)(it_input.GetIndex()[1] + lenght * sin(angle));
+            if( ((index[0]<(long)postProcessImage->GetLargestPossibleRegion().GetSize()[0]) 
+                 && (index[0]>=0)
+                 && (index[1]<(long)postProcessImage->GetLargestPossibleRegion().GetSize()[1]) 
+                 && (index[1]>=0)
                   )
               )
               {
-              m_PostProcessImage->SetPixel(m_index,0);
+              postProcessImage->SetPixel(index,0);
               }
             } 
           }
-        minMaxCalculator->SetImage(m_PostProcessImage);
+        minMaxCalculator->SetImage(postProcessImage);
         minMaxCalculator->ComputeMaximum();
         max = minMaxCalculator->GetMaximum();
       

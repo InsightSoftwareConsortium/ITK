@@ -153,6 +153,17 @@ protected:
 
   void PrintSelf(std::ostream& os, Indent indent) const;
 
+  /** HoughTransform2DCirclesImageFilter needs the entire input. Therefore
+   * it must provide an implementation GenerateInputRequestedRegion().
+   * \sa ProcessObject::GenerateInputRequestedRegion(). */
+  void GenerateInputRequestedRegion();
+
+  /** HoughTransform2DCirclesImageFilter's produces all the output.
+   * Therefore, it must provide an implementation of
+   * EnlargeOutputRequestedRegion.
+   * \sa ProcessObject::EnlargeOutputRequestedRegion() */
+  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
+  
 private:
 
   float  m_SweepAngle;
