@@ -40,7 +40,7 @@ public:
   typedef CreateObjectFunction  Self;
   typedef SmartPointer<Self>    Pointer;
   
-  // Methods from itkObject
+  // Methods from Object
   static Pointer New() { return new Self;}
   LightObject* CreateObject()
     {

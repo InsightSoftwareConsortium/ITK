@@ -53,9 +53,13 @@ public:
   typedef typename UsingCellsContainer::iterator  UsingCellsContainerIterator;
   
   /**
+   * Method for creation through the object factory.
+   */
+  itkNewMacro(Self);
+
+  /**
    * Define the interface to the boundary information.
    */
-  static Pointer New(void);
   virtual bool IsBoundary(void);
   virtual void AddUsingCell(CellIdentifier cellId);
   virtual void RemoveUsingCell(CellIdentifier cellId);
