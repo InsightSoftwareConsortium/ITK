@@ -51,7 +51,8 @@ public:
    * Support the GetScalar / SetScalar methods. These are the
    * default implemnentations if the template is not specialized.
    */
-  static NumericTraits<typename T::ScalarValueType>::ValueType& GetScalar(T& v) {return v.GetScalar();}
+  static typename NumericTraits<typename T::ScalarValueType>::ValueType&
+    GetScalar(T& v) {return v.GetScalar();}
   //static ScalarValueType& GetScalar(T& v) {return v.GetScalar();}
   static void SetScalar(T& v, ScalarValueType const&d) {v.SetScalar(d);}
 };
