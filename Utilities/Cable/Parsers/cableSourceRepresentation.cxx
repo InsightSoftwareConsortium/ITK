@@ -96,7 +96,7 @@ Argument
  */
 Returns::Pointer
 Returns
-::New(void)
+::New()
 {
   return new Returns;
 }
@@ -107,7 +107,7 @@ Returns
  */
 NamedType::Pointer
 NamedType
-::New(void)
+::New()
 {
   return new NamedType;
 }
@@ -118,7 +118,7 @@ NamedType
  */
 PointerType::Pointer
 PointerType
-::New(void)
+::New()
 {
   return new PointerType;
 }
@@ -130,7 +130,7 @@ PointerType
  */
 ReferenceType::Pointer
 ReferenceType
-::New(void)
+::New()
 {
   return new ReferenceType;
 }
@@ -141,7 +141,7 @@ ReferenceType
  */
 FunctionType::Pointer
 FunctionType
-::New(void)
+::New()
 {
   return new FunctionType;
 }
@@ -152,7 +152,7 @@ FunctionType
  */
 MethodType::Pointer
 MethodType
-::New(void)
+::New()
 {
   return new MethodType;
 }
@@ -163,7 +163,7 @@ MethodType
  */
 OffsetType::Pointer
 OffsetType
-::New(void)
+::New()
 {
   return new OffsetType;
 }
@@ -339,7 +339,7 @@ BaseClass
  */
 BaseType::Pointer
 BaseType
-::New(void)
+::New()
 {
   return new BaseType;
 }
@@ -350,7 +350,7 @@ BaseType
  */
 UnimplementedTypeHolder::Pointer
 UnimplementedTypeHolder
-::New(void)
+::New()
 {
   return new UnimplementedTypeHolder;
 }
@@ -361,7 +361,7 @@ UnimplementedTypeHolder
  */
 UnimplementedNameHolder::Pointer
 UnimplementedNameHolder
-::New(void)
+::New()
 {
   return new UnimplementedNameHolder;
 }
@@ -372,7 +372,7 @@ UnimplementedNameHolder
  */
 String
 CV_Qualifiers
-::GetString(void) const
+::GetString() const
 {
   String qualifiers = "";
   if(m_Const)
@@ -399,7 +399,7 @@ CV_Qualifiers
  */
 String
 Argument
-::GetStringWithCV(void) const
+::GetStringWithCV() const
 {
   this->AssertComplete(__FILE__, __LINE__);  
   String defaultArg = "";
@@ -424,7 +424,7 @@ Argument
  */
 String
 Argument
-::GetStringWithoutCV(void) const
+::GetStringWithoutCV() const
 {
   this->AssertComplete(__FILE__, __LINE__);  
   String defaultArg = "";
@@ -532,7 +532,7 @@ PointerType
  */
 String
 PointerType
-::GetIndirectionWithCV(void) const
+::GetIndirectionWithCV() const
 {
   return ("*"+this->GetCV());
 }
@@ -543,7 +543,7 @@ PointerType
  */
 String
 PointerType
-::GetIndirectionWithoutCV(void) const
+::GetIndirectionWithoutCV() const
 {
   return ("*");
 }
@@ -594,7 +594,7 @@ ReferenceType
  */
 String
 ReferenceType
-::GetIndirectionWithCV(void) const
+::GetIndirectionWithCV() const
 {
   return ("&"+this->GetCV());
 }
@@ -605,7 +605,7 @@ ReferenceType
  */
 String
 ReferenceType
-::GetIndirectionWithoutCV(void) const
+::GetIndirectionWithoutCV() const
 {
   return ("&");
 }
@@ -862,7 +862,7 @@ static void PrintIndent(FILE* file, unsigned long indent)
  */
 String
 Context
-::GetQualifiedName(void) const
+::GetQualifiedName() const
 {
   String name = this->GetName();
   const Context* c = this->GetContext().RealPointer();

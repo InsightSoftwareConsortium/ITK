@@ -68,8 +68,8 @@ enum TypeOfObject {
   Function_id, Method_id, Constructor_id, Destructor_id,
   Converter_id, OperatorFunction_id, OperatorMethod_id,
   
-  NamedType_id, PointerType_id, ReferenceType_id,
-  FunctionType_id, MethodType_id, OffsetType_id, ArrayType_id,
+  NamedType_id, PointerType_id, ReferenceType_id, FunctionType_id,
+  MethodType_id, OffsetType_id, ArrayType_id,
   
   Argument_id, Returns_id,
   
@@ -94,7 +94,7 @@ public:
   /**
    * Get type identifier of object.  Default to Undefined_id.
    */
-  virtual TypeOfObject GetTypeOfObject(void) const
+  virtual TypeOfObject GetTypeOfObject() const
     {
       return Undefined_id;
     }
@@ -141,7 +141,7 @@ public:
    * If an object type needs certain conditions to consider itself complete,
    * it should re-implement this to do the test before returning true.
    */
-  virtual bool CheckComplete(void) const 
+  virtual bool CheckComplete() const 
     {
       return true;
     }
@@ -178,13 +178,13 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  virtual TypeOfObject GetTypeOfObject(void) const { return Location_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return Location_id; }
   virtual const char* GetClassName() const { return "Location"; }
   
   static Pointer New(const String& file, unsigned long line);
 
-  String GetFile(void) const { return m_File; }
-  unsigned long GetLine(void) const { return m_Line; }
+  String GetFile() const { return m_File; }
+  unsigned long GetLine() const { return m_Line; }
   
   void Print(FILE*, unsigned long) const;
   
@@ -212,11 +212,11 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  const String& GetName(void) const { return m_Name; }
+  const String& GetName() const { return m_Name; }
 
   virtual void SetLocation(Location* location) { m_Location = location; }
-  Location::Pointer GetLocation(void) { return m_Location; }
-  Location::ConstPointer GetLocation(void) const { return m_Location.RealPointer(); }
+  Location::Pointer GetLocation() { return m_Location; }
+  Location::ConstPointer GetLocation() const { return m_Location.RealPointer(); }
   
 protected:
   Named(const String& name): m_Name(name) {}
@@ -282,16 +282,16 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  virtual TypeOfObject GetTypeOfObject(void) const { return CV_Qualifiers_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return CV_Qualifiers_id; }
   virtual const char* GetClassName() const { return "CV_Qualifiers"; }
   
   static Pointer New(bool is_const, bool is_volatile, bool is_restrict);
   
-  String GetString(void) const;
+  String GetString() const;
   
-  bool IsConst(void) const    { return m_Const; }
-  bool IsVolatile(void) const { return m_Volatile; }
-  bool IsRestrict(void) const { return m_Restrict; }
+  bool IsConst() const    { return m_Const; }
+  bool IsVolatile() const { return m_Volatile; }
+  bool IsRestrict() const { return m_Restrict; }
 
   void Print(FILE*, unsigned long) const;
   
@@ -319,23 +319,23 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  bool IsNamedType(void) const     { return (this->GetTypeOfObject() == NamedType_id); }
-  bool IsPointerType(void) const   { return (this->GetTypeOfObject() == PointerType_id); }
-  bool IsReferenceType(void) const { return (this->GetTypeOfObject() == ReferenceType_id); }
-  bool IsFunctionType(void) const  { return (this->GetTypeOfObject() == FunctionType_id); }
-  bool IsMethodType(void) const    { return (this->GetTypeOfObject() == MethodType_id); }
-  bool IsOffsetType(void) const    { return (this->GetTypeOfObject() == OffsetType_id); }
-  bool IsArrayType(void) const     { return (this->GetTypeOfObject() == ArrayType_id); }
-  bool IsFunctionPointer(void) const
+  bool IsNamedType() const     { return (this->GetTypeOfObject() == NamedType_id); }
+  bool IsPointerType() const   { return (this->GetTypeOfObject() == PointerType_id); }
+  bool IsReferenceType() const { return (this->GetTypeOfObject() == ReferenceType_id); }
+  bool IsFunctionType() const  { return (this->GetTypeOfObject() == FunctionType_id); }
+  bool IsMethodType() const    { return (this->GetTypeOfObject() == MethodType_id); }
+  bool IsOffsetType() const    { return (this->GetTypeOfObject() == OffsetType_id); }
+  bool IsArrayType() const     { return (this->GetTypeOfObject() == ArrayType_id); }
+  bool IsFunctionPointer() const
     {
       // if(!this->IsPointerType()) return false;      
-      // ... Type::Pointer GetPointedToType(void) { return m_PointedToType; }
+      // ... Type::Pointer GetPointedToType() { return m_PointedToType; }
       return ((this->GetTypeOfObject() == PointerType_id )
 	      && (this->GetName().find("(*)") != String::npos));
     }
   
-  String GetName(void) const { return this->GetNameWithCV(); }  
-  String GetCV(void) const { return m_CV_Qualifiers? m_CV_Qualifiers->GetString() : ""; }
+  String GetName() const { return this->GetNameWithCV(); }  
+  String GetCV() const { return m_CV_Qualifiers? m_CV_Qualifiers->GetString() : ""; }
   
   /**
    * Get the cv-qualified name of this type.
@@ -357,7 +357,7 @@ public:
    * pointer and reference types will implement this to do something useful.
    * Shouldn't be called for others, so throw an exception by default.
    */
-  virtual String GetIndirectionWithCV(void) const
+  virtual String GetIndirectionWithCV() const
     { throw NotIndirectionException; }
   
   /**
@@ -365,21 +365,21 @@ public:
    * pointer and reference types will implement this to do something useful.
    * Shouldn't be called for others, so throw an exception by default.
    */
-  virtual String GetIndirectionWithoutCV(void) const
+  virtual String GetIndirectionWithoutCV() const
     { throw NotIndirectionException; }
   
   void SetCV_Qualifiers(CV_Qualifiers* cv)
     { m_CV_Qualifiers = cv; }
 
-  CV_Qualifiers::Pointer GetCV_Qualifiers(void)
+  CV_Qualifiers::Pointer GetCV_Qualifiers()
     { return m_CV_Qualifiers; }
 
-  CV_Qualifiers::ConstPointer GetCV_Qualifiers(void) const
+  CV_Qualifiers::ConstPointer GetCV_Qualifiers() const
     { return m_CV_Qualifiers.RealPointer(); }
 
-  bool IsConst(void) const   { return (m_CV_Qualifiers && m_CV_Qualifiers->IsConst()); }
-  bool IsVolatile(void) const { return (m_CV_Qualifiers && m_CV_Qualifiers->IsVolatile()); }
-  bool IsRestrict(void) const { return (m_CV_Qualifiers && m_CV_Qualifiers->IsRestrict()); }
+  bool IsConst() const   { return (m_CV_Qualifiers && m_CV_Qualifiers->IsConst()); }
+  bool IsVolatile() const { return (m_CV_Qualifiers && m_CV_Qualifiers->IsVolatile()); }
+  bool IsRestrict() const { return (m_CV_Qualifiers && m_CV_Qualifiers->IsRestrict()); }
 
   virtual void Print(FILE*, unsigned long) const =0;
   void PrintCV_Qualifiers(FILE*, unsigned long) const;  
@@ -406,7 +406,7 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  virtual TypeOfObject GetTypeOfObject(void) const { return Argument_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return Argument_id; }
   virtual const char* GetClassName() const { return "Argument"; }
 
   static Pointer New(const String& name);
@@ -414,18 +414,18 @@ public:
   virtual void SetInternalType(Type* t) { this->SetType(t); }
 
   void SetType(Type* t)       { m_Type = t; }
-  Type::Pointer GetType(void) { return m_Type; }
-  Type::ConstPointer GetType(void) const { return m_Type.RealPointer(); }
+  Type::Pointer GetType() { return m_Type; }
+  Type::ConstPointer GetType() const { return m_Type.RealPointer(); }
 
   void SetDefault(const String& s) { m_Default = s; }
-  String GetDefault(void)          { return m_Default; }
+  String GetDefault()          { return m_Default; }
 
-  String GetStringWithCV(void) const;
-  String GetStringWithoutCV(void) const;
+  String GetStringWithCV() const;
+  String GetStringWithoutCV() const;
 
   void Print(FILE*, unsigned long) const;
   
-  virtual bool CheckComplete(void) const { return (m_Type != NULL); }
+  virtual bool CheckComplete() const { return (m_Type != NULL); }
   
 protected:
   Argument(const String& name): Named(name) {}
@@ -448,23 +448,23 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  virtual TypeOfObject GetTypeOfObject(void) const { return Returns_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return Returns_id; }
   virtual const char* GetClassName() const { return "Returns"; }
 
-  static Pointer New(void);
+  static Pointer New();
 
   virtual void SetInternalType(Type* t) { this->SetType(t); }
   
   void SetType(Type* t)       { m_Type = t; }
-  Type::Pointer GetType(void) { return m_Type; }
-  Type::ConstPointer GetType(void) const { return m_Type.RealPointer(); }
+  Type::Pointer GetType() { return m_Type; }
+  Type::ConstPointer GetType() const { return m_Type.RealPointer(); }
 
-  String GetStringWithCV(void) const;
-  String GetStringWithoutCV(void) const;
+  String GetStringWithCV() const;
+  String GetStringWithoutCV() const;
 
   void Print(FILE*, unsigned long) const;
   
-  virtual bool CheckComplete(void) const { return (m_Type != NULL); }
+  virtual bool CheckComplete() const { return (m_Type != NULL); }
   
 protected:
   Returns() {}
@@ -489,35 +489,35 @@ public:
 
   static Pointer New(const string& name);
   
-  virtual TypeOfObject GetTypeOfObject(void) const { return Function_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return Function_id; }
   virtual const char* GetClassName() const { return "Function"; }
 
-  bool IsFunction(void) const          { return (this->GetTypeOfObject() == Function_id); }
-  bool IsMethod(void) const            { return (this->GetTypeOfObject() == Method_id); }
-  bool IsConstructor(void) const       { return (this->GetTypeOfObject() == Constructor_id); }
-  bool IsDestructor(void) const        { return (this->GetTypeOfObject() == Destructor_id); }
-  bool IsConverter(void) const         { return (this->GetTypeOfObject() == Converter_id); }
-  bool IsOperatorMethod(void) const    { return (this->GetTypeOfObject() == OperatorMethod_id); }
-  bool IsOperatorFunction(void) const  { return (this->GetTypeOfObject() == OperatorFunction_id); }
+  bool IsFunction() const          { return (this->GetTypeOfObject() == Function_id); }
+  bool IsMethod() const            { return (this->GetTypeOfObject() == Method_id); }
+  bool IsConstructor() const       { return (this->GetTypeOfObject() == Constructor_id); }
+  bool IsDestructor() const        { return (this->GetTypeOfObject() == Destructor_id); }
+  bool IsConverter() const         { return (this->GetTypeOfObject() == Converter_id); }
+  bool IsOperatorMethod() const    { return (this->GetTypeOfObject() == OperatorMethod_id); }
+  bool IsOperatorFunction() const  { return (this->GetTypeOfObject() == OperatorFunction_id); }
 
   void SetReturns(Returns* t)       { m_Returns = t; }
-  Returns::Pointer GetReturns(void) { return m_Returns; }
-  Returns::ConstPointer GetReturns(void) const { return m_Returns.RealPointer(); }
+  Returns::Pointer GetReturns() { return m_Returns; }
+  Returns::ConstPointer GetReturns() const { return m_Returns.RealPointer(); }
   
   void AddArgument(Argument* a) { m_Arguments.insert(m_Arguments.end(), a); }
-  const ArgumentContainer& GetArguments(void) const { return m_Arguments; }
+  const ArgumentContainer& GetArguments() const { return m_Arguments; }
   Argument::Pointer GetArgument(unsigned long a) { return m_Arguments[a]; }
   Argument::ConstPointer GetArgument(unsigned long a) const { return m_Arguments[a].RealPointer(); }
-  unsigned long GetArgumentCount(void) const { return m_Arguments.size(); }  
+  unsigned long GetArgumentCount() const { return m_Arguments.size(); }  
   
   void SetContext(Context* context) { m_Context = context; }
-  ContextPointer GetContext(void) { return m_Context.RealPointer(); }
-  ContextConstPointer GetContext(void) const { return m_Context.RealPointer(); }
+  ContextPointer GetContext() { return m_Context.RealPointer(); }
+  ContextConstPointer GetContext() const { return m_Context.RealPointer(); }
 
   void SetEllipsis(bool e) { m_Ellipsis = e; }
-  bool GetEllipsis(void) const { return m_Ellipsis; }
+  bool GetEllipsis() const { return m_Ellipsis; }
 
-  virtual String GetCallName(void) const { return this->GetName(); }
+  virtual String GetCallName() const { return this->GetName(); }
   
   virtual void Print(FILE*, unsigned long) const;
   void PrintFunctionPrototypeInfo(FILE*, unsigned long) const;
@@ -548,24 +548,24 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  bool IsNamespace(void) const { return (this->GetTypeOfObject() == Namespace_id); }
-  bool IsClass(void) const     { return (this->GetTypeOfObject() == Class_id); }
-  bool IsStruct(void) const    { return (this->GetTypeOfObject() == Struct_id); }
-  bool IsUnion(void) const     { return (this->GetTypeOfObject() == Union_id); }
+  bool IsNamespace() const { return (this->GetTypeOfObject() == Namespace_id); }
+  bool IsClass() const     { return (this->GetTypeOfObject() == Class_id); }
+  bool IsStruct() const    { return (this->GetTypeOfObject() == Struct_id); }
+  bool IsUnion() const     { return (this->GetTypeOfObject() == Union_id); }
   
   void AddClass(Context* inClass)
     { inClass->SetContext(this); m_Classes.insert((Class*)inClass); }
-  const ClassContainer& GetClasses(void) const { return m_Classes; }
+  const ClassContainer& GetClasses() const { return m_Classes; }
 
   void SetContext(Context* context) { m_Context = context; }
-  Pointer GetContext(void) { return m_Context.RealPointer(); }
-  ConstPointer GetContext(void) const { return m_Context.RealPointer(); }
+  Pointer GetContext() { return m_Context.RealPointer(); }
+  ConstPointer GetContext() const { return m_Context.RealPointer(); }
   
   virtual void Print(FILE*, unsigned long) const =0;
 
   void PrintClasses(FILE*, unsigned long) const;
   
-  String GetQualifiedName(void) const;
+  String GetQualifiedName() const;
   
 protected:
   Context(const string& name): Named(name) {}
@@ -589,10 +589,10 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  virtual TypeOfObject GetTypeOfObject(void) const { return NamedType_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return NamedType_id; }
   virtual const char* GetClassName() const { return "NamedType"; }
 
-  static Pointer New(void);
+  static Pointer New();
                      
   virtual void SetInternalQualifiedName(QualifiedName* n) { m_QualifiedName = n; }
   
@@ -601,7 +601,7 @@ public:
   
   virtual void Print(FILE*, unsigned long) const;
   
-  virtual bool CheckComplete(void) const { return (m_QualifiedName != NULL); }
+  virtual bool CheckComplete() const { return (m_QualifiedName != NULL); }
   
 protected:
   NamedType() {}
@@ -624,26 +624,26 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  virtual TypeOfObject GetTypeOfObject(void) const { return PointerType_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return PointerType_id; }
   virtual const char* GetClassName() const { return "PointerType"; }
 
-  static Pointer New(void);
+  static Pointer New();
 
   virtual String GetNameWithCV(const Type* =NULL) const;
   virtual String GetNameWithoutCV(const Type* =NULL) const;
-  virtual String GetIndirectionWithCV(void) const;
-  virtual String GetIndirectionWithoutCV(void) const;
+  virtual String GetIndirectionWithCV() const;
+  virtual String GetIndirectionWithoutCV() const;
   
   virtual void SetInternalType(Type* t) { this->SetPointedToType(t); }
 
   void SetPointedToType(Type* t)       { m_PointedToType = t; }
-  Type::Pointer GetPointedToType(void) { return m_PointedToType; }
-  Type::ConstPointer GetPointedToType(void) const
+  Type::Pointer GetPointedToType() { return m_PointedToType; }
+  Type::ConstPointer GetPointedToType() const
     { return m_PointedToType.RealPointer(); }
   
   virtual void Print(FILE*, unsigned long) const;
 
-  virtual bool CheckComplete(void) const { return (m_PointedToType != NULL); }
+  virtual bool CheckComplete() const { return (m_PointedToType != NULL); }
 
 protected:
   PointerType() {}
@@ -666,26 +666,26 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  virtual TypeOfObject GetTypeOfObject(void) const { return ReferenceType_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return ReferenceType_id; }
   virtual const char* GetClassName() const { return "ReferenceType"; }
 
-  static Pointer New(void);
+  static Pointer New();
 
   virtual String GetNameWithCV(const Type* =NULL) const;
   virtual String GetNameWithoutCV(const Type* =NULL) const;
-  virtual String GetIndirectionWithCV(void) const;
-  virtual String GetIndirectionWithoutCV(void) const;
+  virtual String GetIndirectionWithCV() const;
+  virtual String GetIndirectionWithoutCV() const;
   
   virtual void SetInternalType(Type* t) { this->SetReferencedType(t); }
   
   void SetReferencedType(Type* t)       { m_ReferencedType = t; }
-  Type::Pointer GetReferencedType(void) { return m_ReferencedType; }
-  Type::ConstPointer GetReferencedType(void) const
+  Type::Pointer GetReferencedType() { return m_ReferencedType; }
+  Type::ConstPointer GetReferencedType() const
     { return m_ReferencedType.RealPointer(); }
   
   virtual void Print(FILE*, unsigned long) const;
 
-  virtual bool CheckComplete(void) const { return (m_ReferencedType != NULL); }
+  virtual bool CheckComplete() const { return (m_ReferencedType != NULL); }
   
 protected:
   ReferenceType() {}
@@ -709,26 +709,26 @@ class FunctionType: public Type
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  virtual TypeOfObject GetTypeOfObject(void) const { return FunctionType_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return FunctionType_id; }
   virtual const char* GetClassName() const { return "FunctionType"; }
 
-  static Pointer New(void);
+  static Pointer New();
 
   virtual String GetNameWithCV(const Type* =NULL) const;
   virtual String GetNameWithoutCV(const Type* =NULL) const;
   
   void SetReturns(Returns* r)       { m_Returns = r; }
-  Returns::Pointer GetReturns(void) { return m_Returns; }
-  Returns::ConstPointer GetReturns(void) const { return m_Returns.RealPointer(); }
+  Returns::Pointer GetReturns() { return m_Returns; }
+  Returns::ConstPointer GetReturns() const { return m_Returns.RealPointer(); }
   
   void AddArgument(Argument* a) { m_Arguments.insert(m_Arguments.end(), a); }
-  const ArgumentContainer& GetArguments(void) const { return m_Arguments; }
+  const ArgumentContainer& GetArguments() const { return m_Arguments; }
   Argument::Pointer GetArgument(unsigned long a) { return m_Arguments[a]; }
   Argument::ConstPointer GetArgument(unsigned long a) const { return m_Arguments[a].RealPointer(); }
-  unsigned long GetArgumentCount(void) const { return m_Arguments.size(); }
+  unsigned long GetArgumentCount() const { return m_Arguments.size(); }
 
   void SetEllipsis(bool e) { m_Ellipsis = e; }
-  bool GetEllipsis(void) const { return m_Ellipsis; }
+  bool GetEllipsis() const { return m_Ellipsis; }
   
   virtual void Print(FILE*, unsigned long) const;
 
@@ -756,21 +756,21 @@ class MethodType: public FunctionType
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  virtual TypeOfObject GetTypeOfObject(void) const { return MethodType_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return MethodType_id; }
   virtual const char* GetClassName() const { return "MethodType"; }
 
-  static Pointer New(void);
+  static Pointer New();
 
   virtual String GetNameWithCV(const Type* =NULL) const;
   virtual String GetNameWithoutCV(const Type* =NULL) const;
   
   void SetBaseType(BaseType* t) { m_BaseType = t; }
-  BaseTypePointer GetBaseType(void) { return m_BaseType; }
-  BaseTypeConstPointer GetBaseType(void) const { return m_BaseType.RealPointer(); }
+  BaseTypePointer GetBaseType() { return m_BaseType; }
+  BaseTypeConstPointer GetBaseType() const { return m_BaseType.RealPointer(); }
   
   virtual void Print(FILE*, unsigned long) const;
 
-  virtual bool CheckComplete(void) const { return (m_BaseType != NULL); }
+  virtual bool CheckComplete() const { return (m_BaseType != NULL); }
   
 protected:
   MethodType() {}
@@ -795,26 +795,26 @@ class OffsetType: public Type
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  virtual TypeOfObject GetTypeOfObject(void) const { return OffsetType_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return OffsetType_id; }
   virtual const char* GetClassName() const { return "OffsetType"; }
 
-  static Pointer New(void);
+  static Pointer New();
 
   virtual String GetNameWithCV(const Type* =NULL) const;
   virtual String GetNameWithoutCV(const Type* =NULL) const;
   
   void SetBaseType(BaseType* t) { m_BaseType = t; }
-  BaseTypePointer GetBaseType(void) { return m_BaseType; }
-  BaseTypeConstPointer GetBaseType(void) const { return m_BaseType.RealPointer(); }
+  BaseTypePointer GetBaseType() { return m_BaseType; }
+  BaseTypeConstPointer GetBaseType() const { return m_BaseType.RealPointer(); }
   
   virtual void SetInternalType(Type* t) { this->SetMemberType(t); }
   
   void SetMemberType(Type* t)       { m_MemberType = t; }
-  Type::Pointer GetMemberType(void) { return m_MemberType; }
+  Type::Pointer GetMemberType() { return m_MemberType; }
 
   virtual void Print(FILE*, unsigned long) const;
 
-  virtual bool CheckComplete(void) const
+  virtual bool CheckComplete() const
     { return ((m_BaseType != NULL) && (m_MemberType != NULL)); }
   
 protected:
@@ -840,7 +840,7 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  virtual TypeOfObject GetTypeOfObject(void) const { return ArrayType_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return ArrayType_id; }
   virtual const char* GetClassName() const { return "ArrayType"; }
 
   static Pointer New(int min, int max);
@@ -851,11 +851,11 @@ public:
   virtual void SetInternalType(Type* t) { this->SetElementType(t); }
 
   void SetElementType(Type* t)       { m_ElementType = t; }
-  Type::Pointer GetElementType(void) { return m_ElementType; }
+  Type::Pointer GetElementType() { return m_ElementType; }
   
   virtual void Print(FILE*, unsigned long) const;
 
-  virtual bool CheckComplete(void) const { return (m_ElementType != NULL); }
+  virtual bool CheckComplete() const { return (m_ElementType != NULL); }
   
 protected:
   ArrayType(int min, int max): m_Size(max-min+1) {}
@@ -882,16 +882,16 @@ public:
 
   static Pointer New(const String& name);
   
-  virtual TypeOfObject GetTypeOfObject(void) const { return Namespace_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return Namespace_id; }
   virtual const char* GetClassName() const { return "Namespace"; }
 
   void AddNamespace(Namespace* in_namespace)
     { in_namespace->SetContext(this); m_Namespaces.insert(in_namespace); }
-  const NamespaceContainer& GetNamespaces(void) const { return m_Namespaces; }
+  const NamespaceContainer& GetNamespaces() const { return m_Namespaces; }
 
   void AddFunction(Function* function)
     { function->SetContext(this); m_Functions.insert(function); }
-  const FunctionContainer& GetFunctions(void) const { return m_Functions; }
+  const FunctionContainer& GetFunctions() const { return m_Functions; }
   
   virtual void Print(FILE*, unsigned long) const;
   
@@ -919,11 +919,11 @@ public:
 
   static Pointer New(const String& name, Access access, bool is_static);
 
-  virtual TypeOfObject GetTypeOfObject(void) const { return Method_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return Method_id; }
   virtual const char* GetClassName() const { return "Method"; }
   
-  bool IsStatic(void) const { return m_Static; }
-  Access GetAccess(void) const  { return m_Access; }
+  bool IsStatic() const { return m_Static; }
+  Access GetAccess() const  { return m_Access; }
 
   virtual void Print(FILE*, unsigned long) const;
   
@@ -952,7 +952,7 @@ public:
 
   static Pointer New(Access access);
 
-  virtual TypeOfObject GetTypeOfObject(void) const { return Constructor_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return Constructor_id; }
   virtual const char* GetClassName() const { return "Constructor"; }
   
   virtual void Print(FILE*, unsigned long) const;
@@ -978,7 +978,7 @@ public:
 
   static Pointer New(Access access);
 
-  virtual TypeOfObject GetTypeOfObject(void) const { return Destructor_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return Destructor_id; }
   virtual const char* GetClassName() const { return "Destructor"; }
   
   virtual void Print(FILE*, unsigned long) const;
@@ -1005,7 +1005,7 @@ public:
 
   static Pointer New(Access access);
 
-  virtual TypeOfObject GetTypeOfObject(void) const { return Converter_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return Converter_id; }
   virtual const char* GetClassName() const { return "Converter"; }
   
   virtual void Print(FILE*, unsigned long) const;
@@ -1031,10 +1031,10 @@ public:
 
   static Pointer New(const String& name, Access access);
 
-  virtual TypeOfObject GetTypeOfObject(void) const { return OperatorMethod_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return OperatorMethod_id; }
   virtual const char* GetClassName() const { return "OperatorMethod"; }
   
-  virtual String GetCallName(void) const { return "operator"+this->GetName(); }
+  virtual String GetCallName() const { return "operator"+this->GetName(); }
   
   virtual void Print(FILE*, unsigned long) const;
   
@@ -1059,10 +1059,10 @@ public:
 
   static Pointer New(const String& name);
 
-  virtual TypeOfObject GetTypeOfObject(void) const { return OperatorFunction_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return OperatorFunction_id; }
   virtual const char* GetClassName() const { return "OperatorFunction"; }
   
-  virtual String GetCallName(void) const { return "operator"+this->GetName(); }
+  virtual String GetCallName() const { return "operator"+this->GetName(); }
   
   virtual void Print(FILE*, unsigned long) const;
   
@@ -1088,19 +1088,19 @@ public:
 
   static Pointer New(const String& name, Access access);
 
-  virtual TypeOfObject GetTypeOfObject(void) const { return Class_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return Class_id; }
   virtual const char* GetClassName() const { return "Class"; }
 
   void AddMethod(Method* x)
     { x->SetContext(this); m_Methods.insert(x); }
-  const MethodContainer& GetMethods(void) const { return m_Methods; }
+  const MethodContainer& GetMethods() const { return m_Methods; }
 
   void AddBaseClass(BaseClass* b) { m_BaseClasses.push_back(b); }
-  const BaseClassContainer& GetBaseClasses(void) const { return m_BaseClasses; }
+  const BaseClassContainer& GetBaseClasses() const { return m_BaseClasses; }
 
-  bool IsPublic(void) const    { return (m_Access == Public);    }
-  bool IsProtected(void) const { return (m_Access == Protected); }
-  bool IsPrivate(void) const   { return (m_Access == Private);   }
+  bool IsPublic() const    { return (m_Access == Public);    }
+  bool IsProtected() const { return (m_Access == Protected); }
+  bool IsPrivate() const   { return (m_Access == Private);   }
   
   virtual void Print(FILE*, unsigned long) const;
   void PrintMethods(FILE*, unsigned long) const;
@@ -1132,7 +1132,7 @@ public:
 
   static Pointer New(const String& name, Access access);
   
-  virtual TypeOfObject GetTypeOfObject(void) const { return Struct_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return Struct_id; }
   virtual const char* GetClassName() const { return "Struct"; }
   
   virtual void Print(FILE*, unsigned long) const;
@@ -1158,7 +1158,7 @@ public:
 
   static Pointer New(const String& name, Access access);
   
-  virtual TypeOfObject GetTypeOfObject(void) const { return Union_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return Union_id; }
   virtual const char* GetClassName() const { return "Union"; }
   
   virtual void Print(FILE*, unsigned long) const;
@@ -1182,12 +1182,12 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  virtual TypeOfObject GetTypeOfObject(void) const { return QualifiedName_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return QualifiedName_id; }
   virtual const char* GetClassName() const { return "QualifiedName"; }
 
   static Pointer New(const String& name);
   
-  virtual String Get(void) const { return this->GetName(); }
+  virtual String Get() const { return this->GetName(); }
   
 protected:
   QualifiedName(const String& name): Named(name) {}
@@ -1207,17 +1207,17 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  virtual TypeOfObject GetTypeOfObject(void) const { return NameQualifier_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return NameQualifier_id; }
   virtual const char* GetClassName() const { return "NameQualifier"; }
 
   static Pointer New(const String& name);
   
   virtual void SetInternalQualifiedName(QualifiedName* n) { m_QualifiedName = n; }
 
-  virtual String Get(void) const
+  virtual String Get() const
     { return this->GetName()+"::"+m_QualifiedName->Get(); }
   
-  virtual bool CheckComplete(void) const { return (m_QualifiedName != NULL); }
+  virtual bool CheckComplete() const { return (m_QualifiedName != NULL); }
   
 protected:
   NameQualifier(const String& name): QualifiedName(name) {}
@@ -1245,18 +1245,18 @@ public:
 
   virtual void SetInternalQualifiedName(QualifiedName* n) { m_QualifiedName = n; }
 
-  String GetQualifiedName(void) const { return m_QualifiedName->Get(); }
+  String GetQualifiedName() const { return m_QualifiedName->Get(); }
   
-  bool HaveClass(void) const { return (m_Class != NULL); }
+  bool HaveClass() const { return (m_Class != NULL); }
   
-  Class::Pointer GetClass(void) { return m_Class; }
-  Class::ConstPointer GetClass(void) const { return m_Class.RealPointer(); }
+  Class::Pointer GetClass() { return m_Class; }
+  Class::ConstPointer GetClass() const { return m_Class.RealPointer(); }
 
-  Access GetAccess(void) const { return m_Access; }
+  Access GetAccess() const { return m_Access; }
   
   void Print(FILE*, unsigned long) const;
   
-  virtual bool CheckComplete(void) const { return (m_QualifiedName != NULL); }
+  virtual bool CheckComplete() const { return (m_QualifiedName != NULL); }
   
 protected:
   BaseClass(Access access): m_Access(access) {}
@@ -1281,17 +1281,17 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  static Pointer New(void);
+  static Pointer New();
 
   virtual void SetInternalQualifiedName(QualifiedName* n) { m_QualifiedName = n; }
-  String GetQualifiedName(void) const { return m_QualifiedName->Get(); }
+  String GetQualifiedName() const { return m_QualifiedName->Get(); }
   
-  bool HaveClass(void) const { return (m_Class != NULL); }
+  bool HaveClass() const { return (m_Class != NULL); }
   
-  Class::Pointer GetClass(void) { return m_Class; }
-  Class::ConstPointer GetClass(void) const { return m_Class.RealPointer(); }
+  Class::Pointer GetClass() { return m_Class; }
+  Class::ConstPointer GetClass() const { return m_Class.RealPointer(); }
   
-  virtual bool CheckComplete(void) const { return (m_QualifiedName != NULL); }
+  virtual bool CheckComplete() const { return (m_QualifiedName != NULL); }
   
 protected:
   BaseType() {}
@@ -1316,10 +1316,10 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  virtual TypeOfObject GetTypeOfObject(void) const { return UnimplementedTypeHolder_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return UnimplementedTypeHolder_id; }
   virtual const char* GetClassName() const { return "UnimplementedTypeHolder"; }
   
-  static Pointer New(void);
+  static Pointer New();
   
   virtual void SetInternalType(Type* t) { this->SetType(t); }
   
@@ -1346,10 +1346,10 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  virtual TypeOfObject GetTypeOfObject(void) const { return UnimplementedNameHolder_id; }
+  virtual TypeOfObject GetTypeOfObject() const { return UnimplementedNameHolder_id; }
   virtual const char* GetClassName() const { return "UnimplementedNameHolder"; }
   
-  static Pointer New(void);
+  static Pointer New();
   
   virtual void SetInternalQualifiedName(QualifiedName* n)
     { this->SetQualifiedName(n); }

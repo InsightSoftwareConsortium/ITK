@@ -1247,6 +1247,32 @@ Parser
 
 
 /**
+ * Begin handler for EnumType element.
+ */
+void
+Parser
+::begin_EnumType(const Attributes&)
+{
+  // Use the UnimplementedNameHolder to catch the Location element
+  // inside the EnumType element.  
+  UnimplementedNameHolder::Pointer newUnimplementedNameHolder
+    = UnimplementedNameHolder::New();
+  
+  this->PushElement(newUnimplementedNameHolder);
+}
+
+/**
+ * End handler for EnumType element.
+ */
+void
+Parser
+::end_EnumType()
+{
+  this->PopElement();
+}
+
+
+/**
  * Begin handler for QualifiedName element.
  */
 void
@@ -1556,6 +1582,7 @@ Parser
   beginHandlers["MethodType"]       = &Parser::begin_MethodType;
   beginHandlers["OffsetType"]       = &Parser::begin_OffsetType;
   beginHandlers["ArrayType"]        = &Parser::begin_ArrayType;
+  beginHandlers["EnumType"]         = &Parser::begin_EnumType;
   beginHandlers["QualifiedName"]    = &Parser::begin_QualifiedName;
   beginHandlers["NameQualifier"]    = &Parser::begin_NameQualifier;
   beginHandlers["BaseClass"]        = &Parser::begin_BaseClass;
@@ -1597,6 +1624,7 @@ Parser
   endHandlers["MethodType"]       = &Parser::end_MethodType;
   endHandlers["OffsetType"]       = &Parser::end_OffsetType;
   endHandlers["ArrayType"]        = &Parser::end_ArrayType;
+  endHandlers["EnumType"]         = &Parser::end_EnumType;
   endHandlers["QualifiedName"]    = &Parser::end_QualifiedName;
   endHandlers["NameQualifier"]    = &Parser::end_NameQualifier;
   endHandlers["BaseClass"]        = &Parser::end_BaseClass;

@@ -105,6 +105,7 @@ private:
   void begin_MethodType(const Attributes&);
   void begin_OffsetType(const Attributes&);
   void begin_ArrayType(const Attributes&);
+  void begin_EnumType(const Attributes&);
   void begin_QualifiedName(const Attributes&);
   void begin_NameQualifier(const Attributes&);
   void begin_BaseClass(const Attributes&);
@@ -147,6 +148,7 @@ private:
   void end_MethodType();
   void end_OffsetType();
   void end_ArrayType();
+  void end_EnumType();
   void end_QualifiedName();
   void end_NameQualifier();
   void end_BaseClass();
