@@ -49,6 +49,7 @@ std::ostream& os,
 Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
+  os << indent << "Default (background) pixel level: " << m_DefaultPixelValue << std::endl;
 
 }
 
