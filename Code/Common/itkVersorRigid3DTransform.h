@@ -110,6 +110,9 @@ public:
   void SetTranslation( const OutputVectorType & translation );
   itkGetConstReferenceMacro( Translation, OutputVectorType );
   
+  /** Set the parameters to the IdentityTransform */
+  virtual void SetIdentity(void);
+
   /** This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the 

@@ -66,6 +66,20 @@ VersorRigid3DTransform<TScalarType>
   this->ComputeMatrixAndOffset();
 }
 
+
+// Set Identity
+template<class TScalarType>
+void
+VersorRigid3DTransform<TScalarType>
+::SetIdentity()
+{
+  m_Versor.SetIdentity();
+  m_Translation.Fill( 0.0 );
+  m_Center.Fill( 0.0 );
+  this->ComputeMatrixAndOffset(); 
+}
+
+
 // Set Parameters
 template <class TScalarType>
 void

@@ -417,6 +417,54 @@ int itkVersorRigid3DTransformTest(int, char* [] )
        }
   }
 
+  {
+  std::cout << " Exercise the SetIdentity() method " << std::endl; 
+  TransformType::Pointer  transform = TransformType::New();
+
+  itk::Vector<double,3> axis(1);
+
+  const double angle = (atan(1.0)/45.0)*30.0; // turn 30 degrees
+
+  transform->SetRotation( axis, angle );
+
+  TransformType::InputPointType  center;
+  center[0] = 31;
+  center[1] = 62;
+  center[2] = 93;
+  
+  transform->SetCenter( center );
+
+  transform->SetIdentity();
+
+  const unsigned int np = transform->GetNumberOfParameters();
+
+  ParametersType parameters( np ); // Number of parameters
+
+  VersorType versor;
+
+  parameters[0] = versor.GetX();   // Rotation axis * sin(t/2)
+  parameters[1] = versor.GetY();
+  parameters[2] = versor.GetZ();
+  parameters[3] = 0.0;             // Translation
+  parameters[4] = 0.0;
+  parameters[5] = 0.0;
+
+
+  ParametersType parameters2 = transform->GetParameters();
+
+  const double tolerance = 1e-8;
+
+  for(unsigned int p=0; p<np; p++)
+    {
+    if( fabs( parameters[p] - parameters2[p] ) > tolerance )
+      {
+      std::cerr << "Output parameter does not match input " << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+  std::cout << "Input/Output parameter check Passed !"  << std::endl;
+  }
+  
   std::cout << std::endl << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
 
