@@ -30,8 +30,8 @@ public:
   Reference(): m_Object(NULL), m_Type(NULL) {}
   Reference(const Reference& r):
     m_Object(r.m_Object), m_Type(r.m_Type) {}
-  Reference(void* object, const CvQualifiedType& type):
-    m_Object(object), m_Type(type) {}
+  Reference(const void* object, const CvQualifiedType& type):
+    m_Object(const_cast<void*>(object)), m_Type(type) {}
   
   /**
    * Get a pointer to the object.

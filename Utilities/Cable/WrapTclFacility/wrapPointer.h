@@ -30,8 +30,8 @@ public:
   Pointer(): m_Object(NULL), m_Type(NULL) {}
   Pointer(const Pointer& p):
     m_Object(p.m_Object), m_Type(p.m_Type) {}
-  Pointer(void* object, const CvQualifiedType& type):
-    m_Object(object), m_Type(type) {}
+  Pointer(const void* object, const CvQualifiedType& type):
+    m_Object(const_cast<void*>(object)), m_Type(type) {}
   
   /**
    * Get the pointer to the object.
