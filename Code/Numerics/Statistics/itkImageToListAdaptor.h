@@ -92,9 +92,9 @@ public:
   typedef typename TImage::PixelType PixelType ;
   typedef typename TImage::PixelContainer::ElementIdentifier
   InstanceIdentifier ;
-  typedef FixedArray< PixelTraits< PixelType >::ValueType , 
-    PixelTraits< PixelType >::Dimension > MeasurementVectorType ;
-  typedef PixelTraits< PixelType >::ValueType MeasurementType ;
+  typedef typename PixelTraits< PixelType >::ValueType MeasurementType ;
+  typedef FixedArray< MeasurementType, PixelTraits< PixelType >::Dimension > 
+  MeasurementVectorType ;
 
   VectorImageAccessor() {}
   virtual ~VectorImageAccessor() {} 
@@ -112,13 +112,13 @@ private:
 
 template < class TImage , class TDataAccessor = VectorImageAccessor< TImage > >
 class ITK_EXPORT ImageToListAdaptor :
-  public ListSample< PixelTraits< typename TImage::PixelType >::ValueType, 
-  PixelTraits< typename TImage::PixelType >::Dimension >
+  public ListSample< typename PixelTraits< typename TImage::PixelType >::ValueType, PixelTraits< typename TImage::PixelType >::Dimension >
 {
 public:
   /** Standard class typedefs */
   typedef ImageToListAdaptor Self;
-  typedef ListSample< PixelTraits< typename TImage::PixelType >::ValueType, 
+  typedef ListSample< 
+  typename PixelTraits< typename TImage::PixelType >::ValueType, 
     PixelTraits< typename TImage::PixelType >::Dimension > Superclass;
   typedef SmartPointer< Self > Pointer;
   
