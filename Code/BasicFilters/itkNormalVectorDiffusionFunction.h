@@ -23,6 +23,37 @@
 
 namespace itk {
 
+/**
+ * \class NormalVectorDiffusionFunction
+ *
+ * \brief This class defines all the necessary functionality for performing
+ * isotropic and anisotropic diffusion operations on vector neighborhoods from
+ * a sparse image.
+ *
+ * \par
+ * This class implements the actual computations for performing isotropic and
+ * anisotropic diffusion operations on a neighborhood of unit length
+ * vectors. Moreover, this processing is intrinsic to a manifold as specified
+ * by the ManifoldNormal member variables in the nodes of the sparse image.
+ *
+ * \par
+ * Since the only difference between isotropic and anisotropic diffusion is the
+ * exectution of 1 extra line of code, we have implemented both in this class
+ * and made the choice between the two depend on a parameter (see below).
+ 
+ * \par PARAMETERS
+ * The choice between is isotropic/anisotropic diffusion is made by the
+ * parameter NormalProcessType. A value of 0 corresponds to isotropic diffusion
+ * whereas a value of 1 corresponds to anisotropic diffusion. If anisotropic
+ * diffusion is chosen, the parameter ConductanceParameter should be set. This
+ * conductance parameter determines the level of feature preservation.
+ *
+ * \par IMPORTANT
+ * This class works on SparseImage neighborhoods. Before using this class
+ * please read the documentation for SparseImage. Also the documentation for 
+ * ImplicitManifoldNormalVectorField class will be helpful in understanding how
+ * to use this class as a function object.
+ */
 template <class TSparseImageType>
 class ITK_EXPORT NormalVectorDiffusionFunction 
   :public NormalVectorFunctionBase <TSparseImageType>
