@@ -25,7 +25,7 @@
 #include "itkExceptionObject.h"
 #include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"
-#include "itkFixedArray.h"
+#include "itkArray.h"
 #include "vnl/vnl_math.h"
 #include "itkProgressReporter.h"
 
@@ -55,8 +55,8 @@ void ImageSeriesReader<TOutputImage>
 {
   typename TOutputImage::Pointer output = this->GetOutput();
   typedef ImageFileReader<TOutputImage> ReaderType;
-  FixedArray<float,TOutputImage::ImageDimension> position1; position1.Fill(0.0);
-  FixedArray<float,TOutputImage::ImageDimension> position2; position2.Fill(0.0);
+  Array<float> position1(TOutputImage::ImageDimension); position1.Fill(0.0);
+  Array<float> position2(TOutputImage::ImageDimension); position2.Fill(0.0);
 
   float interSliceSpacing;
   int i;
@@ -82,8 +82,9 @@ void ImageSeriesReader<TOutputImage>
         {
         position2[i] = reader2->GetOutput()->GetOrigin()[i];
         }
+
       // Override the position if there is an ITK_ImageOrigin 
-      ExposeMetaData<FixedArray<float,TOutputImage::ImageDimension> > ( reader2->GetImageIO()->GetMetaDataDictionary(), key, position2);
+      ExposeMetaData<Array<float> > ( reader2->GetImageIO()->GetMetaDataDictionary(), key, position2);
 
       // Read the first (or last) image
       reader1->SetFileName (m_FileNames[(m_ReverseOrder ? (m_FileNames.size()-1): 0)].c_str());
@@ -99,13 +100,17 @@ void ImageSeriesReader<TOutputImage>
         position1[i] = reader1->GetOutput()->GetOrigin()[i];
         }
       // Override the position if there is an ITK_ImageOrigin 
-      ExposeMetaData<FixedArray<float,TOutputImage::ImageDimension> > ( reader1->GetImageIO()->GetMetaDataDictionary(), key, position1);
+      std::cout << "Expose: " << ExposeMetaData<Array<float> > ( reader1->GetImageIO()->GetMetaDataDictionary(), key, position1) << std::endl;
 
       // Compute the inter slice spacing by computing the distance
       // between two consective slices
-      interSliceSpacing = ::sqrt(vnl_math_sqr(position2[0] - position1[0])
-                                 + vnl_math_sqr(position2[1] - position1[1])
-                                 + vnl_math_sqr(position2[2] - position1[2]));
+      interSliceSpacing = 0.0;
+      for (i = 0; i < position1.size(); i++)
+        {
+        interSliceSpacing += vnl_math_sqr(position2[i] - position1[i]);
+        }
+      interSliceSpacing = ::sqrt(interSliceSpacing);
+
       if (interSliceSpacing == 0.0)
         {
         interSliceSpacing = 1.0;
@@ -117,18 +122,25 @@ void ImageSeriesReader<TOutputImage>
       }
     
     SizeType dimSize = reader1->GetOutput()->GetLargestPossibleRegion().GetSize();
-    dimSize[TOutputImage::ImageDimension - 1] = m_FileNames.size();
+    m_NumberOfDimensionsInImage = reader1->GetImageIO()->GetNumberOfDimensions();
+    dimSize[m_NumberOfDimensionsInImage] = m_FileNames.size();
 
     float spacing[TOutputImage::ImageDimension];
     float origin[TOutputImage::ImageDimension];
 
-    for (i = 0; i < TOutputImage::ImageDimension - 1; i++)
+    for (i = 0; i < TOutputImage::ImageDimension; i++)
       {
       spacing[i] = reader1->GetOutput()->GetSpacing()[i];
-      origin[i] = position1[i];
+      if (i < position1.size())
+        {
+        origin[i] = position1[i];
+        }
+      else
+        {
+         origin[i] = reader1->GetOutput()->GetOrigin()[i];
+        }
       }
-    spacing[TOutputImage::ImageDimension - 1] = interSliceSpacing;
-    origin[TOutputImage::ImageDimension - 1] = position1[TOutputImage::ImageDimension - 1];
+    spacing[m_NumberOfDimensionsInImage] = interSliceSpacing;
 
     output->SetSpacing( spacing );   // Set the image spacing
     output->SetOrigin( origin );     // Set the image origin
@@ -171,7 +183,7 @@ void ImageSeriesReader<TOutputImage>
 
   // Each file must have the same size.
   SizeType validSize = output->GetRequestedRegion().GetSize();
-  validSize[TOutputImage::ImageDimension - 1] = 1;
+  validSize[m_NumberOfDimensionsInImage] = 1;
 
   // Allocate the output buffer
   output->SetBufferedRegion( output->GetRequestedRegion() );

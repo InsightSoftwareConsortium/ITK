@@ -136,6 +136,10 @@ protected:
   /** A list of filenames to be processed. */
   std::vector<std::string> m_FileNames;
 
+  /** The number of independent variables in the images that comprise
+   *  the series. */
+  int m_NumberOfDimensionsInImage;
+
 private:
   ImageSeriesReader(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

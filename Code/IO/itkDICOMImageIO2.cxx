@@ -20,7 +20,7 @@
 #pragma warning(disable:4786)
 #endif
 
-#include "itkFixedArray.h"
+#include "itkArray.h"
 #include "itkDICOMImageIO2.h"
 #include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
@@ -103,14 +103,14 @@ void DICOMImageIO2::Read(void* buffer)
   // Should ReadHeader() be Read() since more than just a header is read?
   Parser->ReadHeader();
 
-  FixedArray<float,3> imagePosition;
+  Array<float> imagePosition(3);
   imagePosition[0] = AppHelper->GetImagePositionPatient()[0];
   imagePosition[1] = AppHelper->GetImagePositionPatient()[1];
   imagePosition[2] = AppHelper->GetImagePositionPatient()[2];
 
-  EncapsulateMetaData<FixedArray<float,3> >(this->GetMetaDataDictionary(),
-                                            "ITK_ImageOrigin",
-                                            imagePosition);
+  EncapsulateMetaData<Array<float> >(this->GetMetaDataDictionary(),
+                                     "ITK_ImageOrigin",
+                                     imagePosition);
   
   void* newData;
   DICOMParser::VRTypes newType;
