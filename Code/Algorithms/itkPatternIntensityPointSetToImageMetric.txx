@@ -146,6 +146,19 @@ PatternIntensityPointSetToImageMetric<TTarget,TMapper>
 }
 
 
+/*
+ * PrintSelf
+ */
+template <class TFixedImage, class TMovingImage> 
+void
+PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf( os, indent );
+  os << indent << "Lambda: " << m_Lambda << std::endl;
+}
+
+
 
 } // end namespace itk
 

@@ -105,6 +105,7 @@ public:
 protected:
   PatternIntensityPointSetToImageMetric();
   virtual ~PatternIntensityPointSetToImageMetric() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
   
 private:
   PatternIntensityPointSetToImageMetric(const Self&); //purposely not implemented
