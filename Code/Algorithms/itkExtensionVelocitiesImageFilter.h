@@ -15,8 +15,8 @@
 #ifndef _itkExtensionVelocitiesImageFilter_h
 #define _itkExtensionVelocitiesImageFilter_h
 
-#include "itkLevelSetNeighborhoodExtractorExtension.h"
-#include "itkFastMarchingImageFilterExtensionImageFilter.h"
+#include "itkLevelSetNeighborhoodExtractor.h"
+#include "itkFastMarchingExtensionImageFilter.h"
 #include "itkReinitializeLevelSetImageFilter.h"
 
 namespace itk
