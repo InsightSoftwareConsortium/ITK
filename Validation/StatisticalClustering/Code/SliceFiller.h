@@ -35,11 +35,14 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(SliceFiller, ImageToImageFilter);
 
+  typedef typename TImage::SizeType ImageSizeType ;
+  typedef typename TImage::PixelType ImagePixelType ;
+
   void SetStartingSliceNumber(int sliceNumber) ;
 
-  void SetDesiredSize(typename TImage::SizeType size) ;
+  void SetDesiredSize(ImageSizeType size) ;
 
-  void SetBackgroundPixelValue(typename TImage::PixelType value) ;
+  void SetBackgroundPixelValue(ImagePixelType value) ;
   
 protected:
   SliceFiller() ;

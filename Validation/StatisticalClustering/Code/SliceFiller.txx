@@ -31,7 +31,7 @@ SliceFiller< TImage >
   m_DesiredSize.Fill(0) ;
   m_SliceSize = 0 ;
   m_BackgroundPixelValue = 
-    itk::NumericTraits< typename TImage::PixelType >::min() ;
+    itk::NumericTraits< ImagePixelType >::min() ;
 }
 
 template< class TImage >
@@ -55,7 +55,7 @@ SliceFiller< TImage >
 template< class TImage >
 void
 SliceFiller< TImage >
-::SetDesiredSize(typename TImage::SizeType size)
+::SetDesiredSize(ImageSizeType size)
 {
   if ( m_DesiredSize != size )
     {
@@ -72,7 +72,7 @@ SliceFiller< TImage >
 template< class TImage >
 void
 SliceFiller< TImage >
-::SetBackgroundPixelValue(typename TImage::PixelType value)
+::SetBackgroundPixelValue(ImagePixelType value)
 {
   if ( m_BackgroundPixelValue != value )
     {
