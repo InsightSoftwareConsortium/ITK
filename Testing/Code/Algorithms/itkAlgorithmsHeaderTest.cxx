@@ -36,6 +36,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkDemonsRegistrationFilter.txx"
 #include "itkDemonsRegistrationFunction.txx"
 #include "itkExtensionVelocitiesImageFilter.txx"
+#include "itkFEMRegistrationFilter.txx"
 #include "itkFastMarchingExtensionImageFilter.txx"
 #include "itkFastMarchingImageFilter.txx"
 #include "itkGeodesicActiveContourImageFilter.txx"

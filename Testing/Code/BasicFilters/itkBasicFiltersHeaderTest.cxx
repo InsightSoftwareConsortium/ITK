@@ -144,6 +144,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkTernaryMagnitudeImageFilter.h"
 #include "itkTernaryMagnitudeSquaredImageFilter.h"
 #include "itkThresholdImageFilter.txx"
+#include "itkTobogganImageFilter.txx"
 #include "itkTransformMeshFilter.txx"
 #include "itkTwoOutputExampleImageFilter.txx"
 #include "itkUnaryFunctorImageFilter.txx"
