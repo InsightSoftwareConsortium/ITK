@@ -202,7 +202,18 @@ void Element::GetStiffnessMatrix(MatrixType& Ke) const
 }
 
 
+Element::Float Element::GetElementDeformationEnergy( MatrixType& LocalSolution ) const
+{
 
+  MatrixType U;
+
+  Element::MatrixType Ke;
+  this->GetStiffnessMatrix(Ke);
+
+  U=LocalSolution.transpose()*Ke*LocalSolution;
+
+  return U[0][0];
+}
 
 void Element::GetMassMatrix( MatrixType& Me ) const
 {

@@ -593,7 +593,25 @@ void Solver::UpdateDisplacements()
 }
 
 
+Solver::Float Solver::GetDeformationEnergy(unsigned int SolutionIndex)
+{
+  float U=0.0;
+  Element::MatrixType LocalSolution;
 
+  for(ElementArray::iterator e=el.begin(); e!=el.end(); e++)
+  {
+    unsigned int Ne=(*e)->GetNumberOfDegreesOfFreedom();
+    LocalSolution.resize(Ne,1);
+    // step over all DOFs of element
+    for(int j=0; j<Ne; j++)
+    {
+      LocalSolution[j][0]=m_ls->GetSolutionValue((*e)->GetDegreeOfFreedom(j),SolutionIndex);
+    }
+
+    U+=(*e)->GetElementDeformationEnergy(LocalSolution);
+  }
+  return U;
+}
 
 /**
  * Apply the boundary conditions to the system.

@@ -72,9 +72,6 @@ namespace fem {
   virtual void GetLoadVector( Element::LoadPointer l, Element::VectorType& Fe ) const \
   { VisitorDispatcher<Self,Element::LoadType, LoadImplementationFunctionPointer>::Visit(l)(this,l,Fe); }
 
-
-
-
 class Element : public FEMLightObject
 {
 FEM_ABSTRACT_CLASS(Element,FEMLightObject)
@@ -264,6 +261,17 @@ public:
    *       element may override this implementation with its own simple one.
    */
   virtual void GetStiffnessMatrix( MatrixType& Ke ) const;
+
+  /**
+   * Compute the physical energy, U, of the deformation (e.g. stress / strain ).
+   *
+   *      T
+   * U = u  Ke u
+   *         
+   * The matrix LocalSolution contains the solution to use in the energy
+   * computation.  Usually, this is the solution at the nodes.
+   */
+  virtual Float GetElementDeformationEnergy( MatrixType& LocalSolution ) const;
 
   /**
    * Compute and return element mass matrix (Me) in global coordinate system.
