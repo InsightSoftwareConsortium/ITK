@@ -301,6 +301,16 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
   unsigned int numberOfIterations = this->GetNumberOfIterations();
   double timeStepSize = this->GetTimeStepSize();
 
+  // Define a level set curvature calculator
+  typedef
+    LevelSetCurvatureFunction<LevelSetImageType> CurvatureType;
+  CurvatureType::Pointer inCurvature = CurvatureType::New();
+  
+  // Define a entropy-satisfying derivative calculator
+  typedef
+    EntropyPreservingGradientMagnitudeImageFunction<LevelSetImageType> DerivativeType;
+  DerivativeType::Pointer inEntropy = DerivativeType::New();
+
   for( unsigned int k = 0; k < numberOfIterations; k++ )
     {
 
@@ -319,16 +329,8 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
     inputNarrowBand = m_Extender->GetOutputNarrowBand();
     inputPtr = m_Extender->GetOutput();
 
-    // Define a level set curvature calculator
-    typedef
-      LevelSetCurvatureFunction<LevelSetImageType> CurvatureType;
-    CurvatureType::Pointer inCurvature = CurvatureType::New();
     inCurvature->SetInputImage( inputPtr );
 
-    // Define a entropy-satisfying derivative calculator
-    typedef
-      EntropyPreservingGradientMagnitudeImageFunction<LevelSetImageType> DerivativeType;
-    DerivativeType::Pointer inEntropy = DerivativeType::New();
     inEntropy->SetInputImage( inputPtr );
 
     typename NodeContainer::ConstIterator pointsIt;
