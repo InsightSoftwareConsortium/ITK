@@ -57,9 +57,6 @@ public:
   /** Constructor with size. Size can only be changed by assignment */
   Array(unsigned int dimension);
 
-  /** Constructor with size and a pointer to the data */
-  Array(unsigned int dimension,TValueType* data);
-
   /** Set the all the elements of the array to the specified value */
   void Fill (TValueType const& v) { fill(v); }
  
@@ -84,12 +81,8 @@ public:
 
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
-  ~Array();
+  ~Array() {};
   
-private:
-
-  bool m_Array_Own_Data;
-
 };
 
 
