@@ -1,12 +1,16 @@
 #include "configurationParser.h"
 #include "sourceParser.h"
 
+#include "genCxxGenerator.h"
+
 #include <iostream>
 #include <fstream>
 
-typedef std::string String;
-typedef source::Namespace       Namespace;
+typedef std::string             String;
 typedef configuration::Package  Package;
+typedef source::Namespace       Namespace;
+
+
 
 //extern void GenerateTcl(const Namespace* globalNamespace,
 //                        const Package*,
@@ -67,6 +71,10 @@ int main(int argc, char* argv[])
     configuration::Parser::New();
   
   configurationParser->Parse(inputFile);
+
+  gen::CxxGenerator cxxGenerator(configurationParser->GetPackage());
+  
+  cxxGenerator.Generate(std::cout);
   
 //  source::Parser::Pointer sourceParser = source::Parser::New();
   

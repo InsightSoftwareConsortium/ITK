@@ -16,7 +16,8 @@ PARSER_OBJS= sourceParser.o \
 
 GENERATOR_OBJS = $(PARSER_OBJS) \
                  generateWrappers.o \
-                 displayTree.o
+                 genCxxGenerator.o
+#                 displayTree.o
 #                 generateTcl.o \
 
 EXECUTABLES = generateWrappers
@@ -30,6 +31,7 @@ all: $(EXECUTABLES)
 -include sourceParser.d
 -include configurationParser.d
 -include displayTree.d
+-include genCxxGenerator.d
 #-include generateTcl.d
 
 %.d: %.cxx
