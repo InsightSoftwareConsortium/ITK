@@ -14,10 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
-
-
-
 #include <itkImage.h>
 #include <itkEigenAnalysis2DImageFilter.h>
 #include <itkImageRegionIteratorWithIndex.h>
