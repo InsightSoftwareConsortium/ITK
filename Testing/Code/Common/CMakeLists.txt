@@ -34,6 +34,7 @@ ADD_TEST(itkCentralDifferenceImageFunctionTest ${COMMON_TESTS} itkCentralDiffere
 ADD_TEST(itkConstNeighborhoodIteratorTest ${COMMON_TESTS} itkConstNeighborhoodIteratorTest)
 ADD_TEST(itkConstShapedNeighborhoodIteratorTest ${COMMON_TESTS} itkConstShapedNeighborhoodIteratorTest)
 ADD_TEST(itkCovariantVectorGeometryTest ${COMMON_TESTS} itkCovariantVectorGeometryTest)
+ADD_TEST(itkCovarianceImageFunctionTest ${COMMON_TESTS} itkCovarianceImageFunctionTest)
 ADD_TEST(itkDataTypeTest ${COMMON_TESTS} itkDataTypeTest)
 ADD_TEST(itkDynamicMeshTest ${COMMON_TESTS} itkDynamicMeshTest)
 ADD_TEST(itkEuler2DTransformTest ${COMMON_TESTS} itkEuler2DTransformTest)
@@ -103,6 +104,7 @@ ADD_TEST(itkThreadDefsTest ${COMMON_TESTS} itkThreadDefsTest)
 ADD_TEST(itkTranslationTransformTest ${COMMON_TESTS} itkTranslationTransformTest)
 ADD_TEST(itkVarianceImageFunctionTest ${COMMON_TESTS} itkVarianceImageFunctionTest)
 ADD_TEST(itkVectorGeometryTest ${COMMON_TESTS} itkVectorGeometryTest)
+ADD_TEST(itkVectorMeanImageFunctionTest ${COMMON_TESTS} itkVectorMeanImageFunctionTest)
 ADD_TEST(itkVersorTest ${COMMON_TESTS} itkVersorTest)
 ADD_TEST(itkVersorRigid3DTransformTest ${COMMON_TESTS} itkVersorRigid3DTransformTest)
 ADD_TEST(itkVectorTest ${COMMON_TESTS} itkVectorTest)
@@ -180,6 +182,7 @@ itkChainCodePathTest.cxx
 itkConstNeighborhoodIteratorTest.cxx
 itkConstShapedNeighborhoodIteratorTest.cxx
 itkCovariantVectorGeometryTest.cxx
+itkCovarianceImageFunctionTest.cxx
 itkDataTypeTest.cxx
 itkDynamicMeshTest.cxx
 itkEuler2DTransformTest.cxx
@@ -254,6 +257,7 @@ itkTransformTest.cxx
 itkTranslationTransformTest.cxx
 itkVectorGeometryTest.cxx
 itkVarianceImageFunctionTest.cxx
+itkVectorMeanImageFunctionTest.cxx
 itkVersorTest.cxx
 itkVersorRigid3DTransformTest.cxx
 itkVectorTest.cxx
