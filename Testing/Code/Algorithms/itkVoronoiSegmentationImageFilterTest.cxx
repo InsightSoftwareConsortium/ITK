@@ -130,7 +130,7 @@ int main(void){
   }
   fwrite(TestImg,2,65536,imgfile);
   fclose(imgfile);
-  */
+*/
   std::cout<<"Test Succeed!"<<std::endl;
   return 0;
 }
