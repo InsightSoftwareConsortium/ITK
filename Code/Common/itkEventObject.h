@@ -43,7 +43,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkEventObject_h
 
 #include "itkIndent.h"
-#include <map>
 
 
 
@@ -109,6 +108,7 @@ public:
    */
   EventObject &operator= ( const EventObject &orig )
   {
+     return *this;
   }
   
   /**
@@ -168,7 +168,6 @@ protected:
 private:
 
   typedef  EventObject * EventFactoryFunction();
-  static std::map< std::string, EventFactoryFunction >   m_EventTypes;
  
 };
 
