@@ -207,7 +207,7 @@ public:
   bool
   operator==(const Self &vec) const
     {
-    bool same=1;
+    bool same=true;
     for (unsigned int i=0; i < VIndexDimension && same; i++)
       { same = (m_Index[i] == vec.m_Index[i]); }
     return same;
@@ -219,7 +219,7 @@ public:
   bool
   operator!=(const Self &vec) const
     {
-    bool same=1;
+    bool same=true;
     for (unsigned int i=0; i < VIndexDimension && same; i++)
       { same = (m_Index[i] == vec.m_Index[i]); }
     return !same;
