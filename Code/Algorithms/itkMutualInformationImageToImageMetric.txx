@@ -108,7 +108,7 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
 ::GetValue( const ParametersType& parameters )
 {
 
-  std::cout << "GetValue( " << parameters << " ) ";
+  std::cout << "GetValue( " << parameters << " ) = ";
 
   typename TargetType::Pointer target = GetTarget();
   typename MapperType::Pointer mapper = GetMapper();
@@ -204,6 +204,8 @@ MeasureType& value,
 DerivativeType& derivative)
 {
 
+  std::cout << "GetValueAndDerivative( " << parameters << " ) = ";
+  
   // reset the derivatives all to zero
   m_MatchMeasureDerivatives.Fill(0);
   m_MatchMeasure = 0;
@@ -332,6 +334,8 @@ DerivativeType& derivative)
   m_MatchMeasure = dLogSumTarget + dLogSumRef - dLogSumJoint;
 
   m_MatchMeasureDerivatives /= nsamp;
+
+  std::cout << m_MatchMeasure << std::endl;
 
   value = m_MatchMeasure;
   derivative =  m_MatchMeasureDerivatives;
