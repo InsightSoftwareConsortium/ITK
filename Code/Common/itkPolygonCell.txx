@@ -211,6 +211,19 @@ PolygonCell< TCellInterface >
   m_PointIds.push_back(ptID);
 }
 
+/** 
+ * Remove one points from the points list
+ */
+template <typename TCellInterface>
+void
+PolygonCell< TCellInterface >
+::RemovePointId(PointIdentifier ptID)
+{
+  typename std::vector<PointIdentifier>::iterator position = 
+    std::find(m_PointIds.begin(),m_PointIds.end(),ptID);
+  m_PointIds.erase(position);
+}
+
 /**
  * clear all the point and edge informations
  */

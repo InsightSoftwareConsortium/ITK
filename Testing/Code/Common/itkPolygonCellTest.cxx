@@ -95,7 +95,8 @@ int itkPolygonCellTest(int, char* [] )
    * different types of cells.
    */
   CellAutoPointer testCell; 
-  testCell.TakeOwnership(  new PolygonCellType ); // polymorphism
+  PolygonCellType * newcell = new PolygonCellType;
+  testCell.TakeOwnership( newcell ); // polymorphism
 
   /**
    * List the points that the polygon will use from the mesh.
@@ -127,6 +128,27 @@ int itkPolygonCellTest(int, char* [] )
     std::cerr << "Make Copy failed !" << std::endl;
     return EXIT_FAILURE;
     }
+  }
+
+  /**
+   * Exercise the methods AddPointId() and RemovePointId() 
+   */
+  {
+    unsigned int np = newcell->GetNumberOfPoints();
+
+    newcell->AddPointId( 100 );
+    if( newcell->GetNumberOfPoints() != np+1 )
+      {
+      std::cerr << "AddPointId failed !" << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    newcell->RemovePointId( 100 );
+    if( newcell->GetNumberOfPoints() != np )
+      {
+      std::cerr << "RemovePointId failed !" << std::endl;
+      return EXIT_FAILURE;
+      }
   }
   
   return 0;  

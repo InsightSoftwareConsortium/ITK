@@ -86,6 +86,7 @@ public:
                            PointIdConstIterator last);
 
   void AddPointId(PointIdentifier);
+  void RemovePointId(PointIdentifier);
   void SetPointIds(int dummy, int num, PointIdConstIterator first);
   void BuildEdges(void);
   void ClearPoints(void);
