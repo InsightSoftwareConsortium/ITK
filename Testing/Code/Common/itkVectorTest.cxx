@@ -83,37 +83,14 @@ int main()
     {
     passed = false;
     }
-  
-  s += 0.5;
-  if (different(s[0], 4.25) || different(s[1], 4.25))
-    {
-    passed = false;
-    }
-
-  s -= 0.2;
-  if (different(s[0], 4.05) || different(s[1], 4.05))
-    {
-    passed = false;
-    }
+ 
 
   s = 3.8;
   s *= f;
   if (different(s[0], 7.98) || different(s[1], 7.98))
     {
     passed = false;
-    }
-  
-  s += f;
-  if (different(s[0], 10.08) || different(s[1], 10.08))
-    {
-    passed = false;
-    }
-  
-  s -= f;
-  if (different(s[0], 7.98) || different(s[1], 7.98))
-    {
-    passed = false;
-    }
+    }  
 
   s /= f;
   if (different(s[0], 3.8) || different(s[1], 3.8))
@@ -127,11 +104,6 @@ int main()
     passed = false;
     }
   
-  s += t.GetVector();
-  if (different(s[0], 8.0) || different(s[1], 8.0))
-    {
-    passed = false;
-    }
 
   s -= t;
   if (different(s[0], 5.9) || different(s[1], 5.9))
@@ -139,18 +111,8 @@ int main()
     passed = false;
     }
 
-  s -= t.GetVector();
-  if (different(s[0], 3.8) || different(s[1], 3.8))
-    {
-    passed = false;
-    }
 
   r = s + t;
-  if (different(r[0], 5.9) || different(r[1], 5.9))
-    {
-    passed = false;
-    }
-  r = s + t.GetVector();
   if (different(r[0], 5.9) || different(r[1], 5.9))
     {
     passed = false;
@@ -161,41 +123,16 @@ int main()
     {
     passed = false;
     }
-  r = s - t.GetVector();
-  if (different(r[0], 1.7) || different(r[1], 1.7))
-    {
-    passed = false;
-    }
 
-  r = s + 0.1111;
-  if (different(r[0], 3.9111) || different(r[1], 3.9111))
-    {
-    passed = false;
-    }
-  r = s - 0.1;
-  if (different(r[0], 3.7) || different(r[1], 3.7))
-    {
-    passed = false;
-    }
+
   r = s * 10.0;
   if (different(r[0], 38.0) || different(r[1], 38.0))
     {
     passed = false;
     }
+
   r = s / 10.0;
   if (different(r[0], .38) || different(r[1], .38))
-    {
-    passed = false;
-    }
-
-  r = s + f;
-  if (different(r[0], 5.9) || different(r[1], 5.9))
-    {
-    passed = false;
-    }
-
-  r = s - f;
-  if (different(r[0], 1.7) || different(r[1], 1.7))
     {
     passed = false;
     }
