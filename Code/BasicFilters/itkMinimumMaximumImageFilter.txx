@@ -21,6 +21,7 @@
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
+#include "itkStatisticsImageFilter.h"
 
 namespace itk
 {
@@ -31,69 +32,15 @@ void
 MinimumMaximumImageFilter<TInputImage>
 ::GenerateData(void)
 {
-  
-  itkDebugMacro(<< "MinimumMaximumImageFilter::GenerateData() called");
+  StatisticsImageFilter<TInputImage>::Pointer stats = StatisticsImageFilter<TInputImage>::New();
+  stats->SetInput (this->GetInput());
+  stats->GraftOutput (this->GetOutput());
+  stats->Update();
 
-  // Get the input and output pointers
-  typename Superclass::InputImageConstPointer  inputPtr  = this->GetInput(0);
-  typename Superclass::OutputImagePointer      outputPtr = this->GetOutput(0);
+  m_Minimum = stats->GetMinimum();
+  m_Maximum = stats->GetMaximum();
 
-  // Make sure we're getting everything
-  {
-  typename TInputImage::Pointer image = 
-    const_cast< TInputImage * >( inputPtr.GetPointer() ); 
-  image->SetRequestedRegionToLargestPossibleRegion();
-  }
-
-  // How big is the input image?
-  typename TInputImage::SizeType inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
-
-  // Create a region object native to the output image type
-  typename Superclass::OutputImageRegionType outputRegion;
-
-  // Resize the output region
-  outputRegion.SetSize( inputSize );
-
-  // Set the largest legal region size (i.e. the size of the whole image)
-  // to what we just defined
-  outputPtr->SetLargestPossibleRegion( outputRegion );
-  outputPtr->SetBufferedRegion( outputRegion );
-  outputPtr->SetRequestedRegion( outputRegion );
-  outputPtr->Allocate();
-
-  // Create an iterator that will walk the output region
-  typedef ImageRegionIterator<TInputImage> OutputIterator;
-
-  OutputIterator outIt = OutputIterator(outputPtr,
-                                        outputPtr->GetRequestedRegion());
-
- 
-  ImageRegionConstIteratorWithIndex< TInputImage >  it( 
-    this->GetInput(),  
-    this->GetInput()->GetRequestedRegion() );
-
-  m_Maximum = NumericTraits<InputPixelType>::NonpositiveMin() ;
-  m_Minimum = NumericTraits<InputPixelType>::max() ;
-
-  while( !it.IsAtEnd() )
-    {
-    const InputPixelType value = it.Get();
-    if (value > m_Maximum) 
-      {
-      m_Maximum = value;
-      }
-
-    if (value < m_Minimum) 
-      {
-      m_Minimum = value;
-      }
-
-    outIt.Set(value);
-    ++outIt;
-    ++it;
-    }
-
-  itkDebugMacro(<< "MinimumMaximumImageFilter::GenerateData() finished");
+  this->GraftOutput(stats->GetOutput());
 }
 
 template <class TInputImage>

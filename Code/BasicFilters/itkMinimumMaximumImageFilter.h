@@ -27,11 +27,12 @@ namespace itk
  * an image. 
  *
  * It is templated over input image type only.
- * This filter just copy the input image through this output to
- * be included within the pipeline.
+ * This filter just copies the input image through this output to
+ * be included within the pipeline. The implementation uses the
+ * StatisticsImageFilter.
  *
  * \ingroup Operators
- * \todo Use itkImageToValueFilter when available
+ * \sa StatisticsImageFilter
  */
 template <class TInputImage>
 class ITK_EXPORT MinimumMaximumImageFilter :
