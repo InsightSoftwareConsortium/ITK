@@ -49,8 +49,8 @@ public:
   typedef typename TSample::MeasurementType MeasurementType;
   typedef typename TSample::InstanceIdentifier InstanceIdentifier;
   typedef typename TSample::FrequencyType FrequencyType ;
-  typedef typename TSample::SizeType SizeType ;
-  typedef typename TSample::SizeValueType SizeValueType ;
+//    typedef typename TSample::SizeType SizeType ;
+//    typedef typename TSample::SizeValueType SizeValueType ;
 
   /** MeasurementVectorSize enum from super class */
   enum { MeasurementVectorSize = TSample::MeasurementVectorSize } ;
@@ -73,46 +73,52 @@ public:
 
   /** returns SizeType object whose each element is the number of
    * elements in each dimension */
-  SizeType GetSize()
+  int Size() const
   { 
-    SizeType size ;
-    for (unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
-      {
-        size[i] = m_IdHolder.size() ;
-      }
-    return size ;
+    return m_IdHolder.size() ;
   }
-  
-  size_t GetNumberOfInstances() ;
 
-  /** returns SizeValueType value that is the number of elements in the
-   * 'dimension' dimension. */
-  SizeValueType GetSize(unsigned int dimension) 
-  { return m_IdHolder.size() ; }
+  int Size(const unsigned int &dimension) const
+  {
+    return m_IdHolder.size() ;
+  }
+
+  int GetNumberOfInstances() const ;
 
   /** retunrs the measurement of the instance which is identified 
    * by the 'id' */
-  MeasurementVectorType GetMeasurementVector(const InstanceIdentifier id)
+  MeasurementVectorType& GetMeasurementVector(const InstanceIdentifier &id)
   { return m_Sample->GetMeasurementVector(id) ; }
-
-  /** returns the frequency of the instance which is identified by the 'id' */
-  FrequencyType GetFrequency(const InstanceIdentifier id)
-  { return m_Sample->GetFrequency(id) ; }
 
   /** returns the measurement element which is the 'n'-th element 
    * in the 'd' dimension of the measurement vector */
-  MeasurementType GetMeasurement(const unsigned int d, const unsigned long n) 
-  { return m_Sample->GetMeasurement(d, n) ; }
+  MeasurementType& GetMeasurement(const InstanceIdentifier &id, 
+                                  const unsigned int &dimension)
+  { return m_Sample->GetMeasurement(id, dimension) ; }
+
+  /** returns the frequency of the instance which is identified by the 'id' */
+  FrequencyType GetFrequency(const InstanceIdentifier &id) const
+  { return m_Sample->GetFrequency(id) ; }
   
-  /** returns the frequency of the 'n'-th element in the 'd' dimension  
-   * of the measurement vector */
-  FrequencyType GetFrequency(const unsigned int d, const unsigned long n)
-  { return m_Sample->GetFrequency(d, n) ; }
+//    /** returns the frequency of the 'n'-th element in the 'd' dimension  
+//     * of the measurement vector */
+//    FrequencyType GetFrequency(const unsigned int &d, const unsigned long &n)
+//    { return m_Sample->GetFrequency(d, n) ; }
 
   /** returns the total frequency for the 'd' dimension */
-  FrequencyType GetTotalFrequency(const unsigned int d)
-  { return m_Sample->GetTotalFrequency(d) ; }
+  FrequencyType GetTotalFrequency(const unsigned int &dimension) const
+  { return m_Sample->GetTotalFrequency(dimension) ; }
   
+  void SetActiveDimension(unsigned int &dimension) ;
+
+  void Swap(int index1, int index2) ;
+  
+  MeasurementType GetMeasurement(int index) ;
+  
+  MeasurementVectorType& GetMeasurementVector(int index) ;
+  
+  InstanceIdentifier GetInstanceIdentifier(int index) ;
+
   class Iterator;
   friend class Iterator;
   
@@ -136,16 +142,16 @@ public:
        m_Sample(classSample->GetSample())
     {}
     
-    const FrequencyType GetFrequency() 
+    FrequencyType GetFrequency() const
     { return  m_Sample->GetFrequency(*m_Iter) ; }
     
-    MeasurementVectorType GetMeasurementVector()
+    MeasurementVectorType& GetMeasurementVector() 
     { return m_Sample->GetMeasurementVector(*m_Iter) ; } 
     
-    MeasurementType GetMeasurement(int dim)
-    { return m_Sample->GetMeasurement(dim, *m_Iter) ; }
+    MeasurementType& GetMeasurement(const unsigned int &dimension) 
+    { return m_Sample->GetMeasurement(*m_Iter, dimension) ; }
     
-    InstanceIdentifier GetInstanceIdentifier()   
+    InstanceIdentifier GetInstanceIdentifier() const   
     { return *m_Iter ; }
     
     Iterator& operator++() 
@@ -168,7 +174,7 @@ public:
     }
     
   private:
-    // Iterator pointing to ImageListSampleAdaptor
+    // Iterator pointing to ImageToListAdaptor
     typename InstanceIdentifierHolder::iterator m_Iter ;  
     // Pointer to Subsample object
     Pointer m_Subsample ;
@@ -186,6 +192,7 @@ private:
 
   SamplePointer m_Sample ;
   InstanceIdentifierHolder m_IdHolder ;
+  unsigned int m_ActiveDimension ;
 } ; // end of class
 
 

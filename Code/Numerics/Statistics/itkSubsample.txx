@@ -29,11 +29,53 @@ Subsample< TSample >
 }
 
 template< class TSample >
-size_t
+int
 Subsample< TSample >
-::GetNumberOfInstances()
+::GetNumberOfInstances() const
 {
   return m_Sample->GetNumberOfInstances() ;
+}
+
+template< class TSample >
+inline void
+Subsample< TSample >
+::SetActiveDimension(unsigned int &dimension)
+{
+  m_ActiveDimension = dimension ;
+}
+
+template< class TSample >
+inline Subsample< TSample >::MeasurementType
+Subsample< TSample >
+::GetMeasurement(int index)
+{
+  return m_Sample->GetMeasurement(m_IdHolder[index], m_ActiveDimension) ;
+}
+
+template< class TSample >
+inline Subsample< TSample >::MeasurementVectorType&
+Subsample< TSample >
+::GetMeasurementVector(int index)
+{
+  return m_Sample->GetMeasurementVector(m_IdHolder[index]) ;
+}
+
+template< class TSample >
+inline Subsample< TSample >::InstanceIdentifier
+Subsample< TSample >
+::GetInstanceIdentifier(int index)
+{
+  return m_IdHolder[index] ;
+}
+
+template< class TSample >
+inline void
+Subsample< TSample >
+::Swap(int index1, int index2)
+{
+  InstanceIdentifier temp = m_IdHolder[index1] ;
+  m_IdHolder[index1] = m_IdHolder[index2] ;
+  m_IdHolder[index2] = temp ;
 }
 
 template< class TSample >
