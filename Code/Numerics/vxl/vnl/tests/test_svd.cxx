@@ -164,7 +164,7 @@ STATIC void fill_random(vnl_float_complex &x)  { x = vnl_float_complex (double_r
 STATIC void fill_random(vnl_double_complex &x) { x = vnl_double_complex(double_random(), double_random()); }
 
 template <class T>
-void test_svd_recomposition(char const *type, double maxres, T */*tag*/)
+void test_svd_recomposition(char const *type, double maxres, T * /*tag*/)
 {
   // Test inversion of 5x5 matrix of T :
   vcl_cout << "----- testing vnl_svd<" << type << "> recomposition -----" << vcl_endl;
