@@ -339,7 +339,10 @@ GetPhysicalAxesToPrincipalAxesTransform(void) const
   result->SetMatrix(matrix);
   result->SetOffset(offset);
 
-  return result->Inverse();
+  AffineTransformPointer inverse = AffineTransformType::New();
+  result->GetInverse(inverse);
+
+  return inverse;
 }
 
 } // end namespace itk
