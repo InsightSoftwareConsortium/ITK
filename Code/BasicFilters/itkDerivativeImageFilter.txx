@@ -71,7 +71,6 @@ DerivativeImageFilter< TInputImage, TOutputImage >
   filter->SetInput(this->GetInput());
   filter->SetOutput(this->GetOutput());
   filter->Update();  
-  //  filter->Delete();
 }
 
 } // end namespace itk
