@@ -141,11 +141,11 @@ public:
   Self operator/(const Self &vec) const;
 
   /** Versor operator==  Performs the comparison between two versors.
-   * this operation uses and arbitrary threshold for the comparison.  */
+   * this operation uses an arbitrary threshold for the comparison.  */
   bool operator==(const Self &vec) const;
 
   /** Versor operator!=  Performs the comparison between two versors.
-   * this operation uses and arbitrary threshold for the comparison.  */
+   * this operation uses an arbitrary threshold for the comparison.  */
   bool operator!=(const Self &vec) const;
 
   /** Returns the Scalar part. */
@@ -185,6 +185,12 @@ public:
    * will be used. The angle is expected in radians. */
   void Set( const VectorType & axis, ValueType angle );
   
+  /** Set the versor using an orthogonal matrix.
+   * Based on code from:
+   *  http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
+   */
+  void Set( const MatrixType & m );
+
   /** Set the versor using the right part.
    * the magnitude of the vector given is assumed to 
    * be equal to sin(angle/2).

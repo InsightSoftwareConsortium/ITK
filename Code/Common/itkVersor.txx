@@ -470,6 +470,61 @@ Versor<T>
 }
  
 
+/**
+ * Set using an orthogonal matrix.
+ */
+template<class T>
+void
+Versor<T>
+::Set( const MatrixType & mat )
+{
+  vnl_matrix<double> m = mat.GetVnlMatrix();
+
+  const double epsilon = 1e-30;
+
+  double trace = m(0,0) + m(1,1) + m(1,1) + 1.0;
+
+  if( trace > epsilon)
+    {
+    double s = 0.5 / sqrt(trace);
+    m_W = 0.25 / s;
+    m_X = (m(2,1) - m(1,2)) * s;
+    m_Y = (m(0,2) - m(2,0)) * s;
+    m_Z = (m(1,0) - m(0,1)) * s;
+    }
+  else
+    {
+    if( m(0,0) > m(1,1) && m(0,0) > m(2,2) )
+      {
+      double s = 2.0 * sqrt(1.0 + m(0,0) - m(1,1) - m(2,2));
+      m_X = 0.25 * s;
+      m_Y = (m(0,1) + m(1,0)) / s;
+      m_Z = (m(0,2) + m(2,0)) / s;
+      m_W = (m(1,2) - m(2,1)) / s;
+      }
+    else
+      {
+      if( m(1,1) > m(2,2) )
+        {
+        double s = 2.0 * sqrt(1.0 + m(1,1) - m(0,0) - m(2,2));
+        m_X = (m(0,1) + m(1,0)) / s;
+        m_Y = 0.25 * s;
+        m_Z = (m(1,2) + m(2,1)) / s;
+        m_W = (m(0,2) - m(2,0)) / s;
+        }
+      else
+        {
+        double s = 2.0 * sqrt(1.0 + m(2,2) - m(0,0) - m(1,1));
+        m_X = (m(0,2) + m(2,0)) / s;
+        m_Y = (m(1,2) + m(2,1)) / s;
+        m_Z = 0.25 * s;
+        m_W = (m(0,1) - m(1,0)) / s;
+        }
+      }
+    }
+  this->Normalize();
+}
+
 
 /**
  * Set right Part (in radians)
@@ -484,7 +539,7 @@ Versor<T>
   if( sinangle2 > 1.0 )
     {
     ExceptionObject exception;
-    exception.SetDescription("Trying to initialize a Versor with" \
+    exception.SetDescription("Trying to initialize a Versor with " \
                              "a vector whose magnitude is greater than 1");
     exception.SetLocation("itk::Versor::Set( const VectorType )");
     throw exception;
