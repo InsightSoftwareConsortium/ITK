@@ -149,7 +149,7 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::EvaluateMetricGivenSolution( Ele
         this->Fe(Gpos,Gsol); // FIXME
         tempe=fabs(0.0);
       }
-      catch( itk::ExceptionObject & e )
+      catch( itk::ExceptionObject & )
       { 
       // do nothing we dont care if the metric region is outside the image
       //std::cerr << e << std::endl;
