@@ -404,7 +404,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   LabelledImagePixelType outLabelledPix;
 
   //Set a variable to store the offset
-  LabelledImageOffsetType offset3D = {{ 0, 0, 0}};
+  LabelledImageOffsetType offset3D;
 
   //Set a variable to store the index
   LabelledImageIndexType index3D;
