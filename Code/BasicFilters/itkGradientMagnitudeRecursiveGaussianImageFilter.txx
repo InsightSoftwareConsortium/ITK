@@ -166,7 +166,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage >
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
-  CumulativeImageType::Pointer cumulativeImage = CumulativeImageType::New();
+  typename CumulativeImageType::Pointer cumulativeImage = CumulativeImageType::New();
   cumulativeImage->SetRegions( inputImage->GetBufferedRegion() );
   cumulativeImage->Allocate();
   cumulativeImage->FillBuffer( NumericTraits< InternalRealType >::Zero );
