@@ -1,4 +1,4 @@
-EXECUTABLES = \
+TESTS = \
 itkAffineTransformTest \
 itkIteratorTests \
 itkFilterImageAnisotropicDiffusionTest \
