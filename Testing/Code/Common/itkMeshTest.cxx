@@ -448,6 +448,13 @@ int itkMeshTest(int, char**)
       {
       std::cout << "Edge number of points = " << edgePointer->GetNumberOfPoints() << std::endl;
       std::cout << "Edge name of class    = " << edgePointer->GetNameOfClass() << std::endl;
+
+      // Evaluate The Shape functions for a particular parametric point
+      CellType::ParametricCoordArrayType parametricCoordinates(1);
+      CellType::ShapeFunctionsArrayType  weights( edgePointer->GetNumberOfPoints() );
+      parametricCoordinates[0] = 0.25;
+      edgePointer->EvaluateShapeFunctions( parametricCoordinates, weights );
+      std::cout << "Shape Function weights = " << weights << std::endl;
       }
     else 
       {
