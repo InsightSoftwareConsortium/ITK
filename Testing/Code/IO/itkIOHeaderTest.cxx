@@ -67,7 +67,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkVTKImageIO.h"
 #include "itkVTKImageIOFactory.h"
 #include "itkWriter.h"
-#include "pixeldata.h"
+#include "itkPixeldata.h"
 
 int main ( int , char*  )
 {

@@ -7,7 +7,7 @@
  *      Include File Name:  PixelData.h
  \author WR Edens, JL Agle, MJ Benson
  * Source
- * $Revision$  $Date: 2003-03-13 22:15:48 $
+ * $Revision$  $Date: 2003-03-31 18:44:54 $
  */
 /*@Synopsis Description of the PixelData header
  */
@@ -351,7 +351,7 @@ namespace itk { // keep this stuff from polluting ITK client program namespaces
    *      Include File Name:      phonebook
    \author David Carleton
    * Source
-   * $Revision$  $Date: 2003-03-13 22:15:48 $
+   * $Revision$  $Date: 2003-03-31 18:44:54 $
    */
   /*@Synopsis     Contains defaults and strings for the Phone Book feature.
    */

@@ -26,7 +26,7 @@
 #include <vector>
 #include <string>
 
-#include "pixeldata.h"
+#include "itkPixeldata.h"
 #include "itkGEImageHeader.h"
 #include "itkIOCommon.h"
 
