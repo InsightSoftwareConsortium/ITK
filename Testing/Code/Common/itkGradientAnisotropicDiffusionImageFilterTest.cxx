@@ -36,10 +36,10 @@ int main(int argc, char *argv[])
 
       // Run Test
       itk::Size<4> sz;
-      sz[0] = 25;//atoi(argv[1]);
-      sz[1] = 25;//atoi(argv[2]);
-      sz[2] = 10;//atoi(argv[3]);
-      sz[3] = 5;//atoi(argv[4]);
+      sz[0] = 25;
+      sz[1] = 25;
+      sz[2] = 10;
+      sz[3] = 5;
       itk::NullImageToImageFilterDriver< itk::Image<float, 4>,
         itk::Image<float, 4> > test1;
       test1.SetImageSize(sz);
