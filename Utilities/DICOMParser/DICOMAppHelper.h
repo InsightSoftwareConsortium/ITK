@@ -201,7 +201,7 @@ class DICOMAppHelper
 
   char* GetOutputFilename()
   {
-    int len = strlen(this->FileName);
+    int len = static_cast<int>(strlen(this->FileName));
     char* output = new char[len + 5];
     strcpy(output, this->FileName);
     strcat(output, ".raw");

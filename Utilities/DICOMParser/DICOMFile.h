@@ -187,7 +187,7 @@ class DICOMFile
   
   static float ReturnAsFloat(unsigned char* data, bool)
     {
-    return atof((const char*) data);
+    return static_cast<float> (atof((const char*) data));
     }
 
   bool GetByteSwap()

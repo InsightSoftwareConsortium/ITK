@@ -312,11 +312,11 @@ void DICOMAppHelper::ArrayCallback(doublebyte group,
         HeaderFile << val;
         break;
       case DICOMParser::VR_FL: // float
-        fval = atof((char*) val);
+        fval = static_cast<float> (atof((char*) val));
         HeaderFile << fval;
         break;
       case DICOMParser::VR_FD: // float double
-        fval = atof((char*) val);
+        fval = static_cast<float> (atof((char*) val));
         HeaderFile << dval;
         break;
       case DICOMParser::VR_UL: // unsigned long

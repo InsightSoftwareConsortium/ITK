@@ -167,7 +167,7 @@ float DICOMFile::ReadAsciiFloat(int len)
   //
   // istrstream destroys the data during formatted input.
   //
-  int len2 = strlen((char*) val);
+  int len2 = static_cast<int> (strlen((char*) val));
   char* val2 = new char[len2];
   strncpy(val2, (char*) val, len2);
 
@@ -195,7 +195,7 @@ int DICOMFile::ReadAsciiInt(int len)
   //
   // istrstream destroys the data during formatted input.
   //
-  int len2 = strlen((char*) val);
+  int len2 = static_cast<int> (strlen((char*) val));
   char* val2 = new char[len2];
   strncpy(val2, (char*) val, len2);
 
