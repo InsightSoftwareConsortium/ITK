@@ -48,7 +48,7 @@ class Element;
  */
 class Node : public FEMLightObject
 {
-FEM_CLASS_SP(Node,FEMLightObject)
+FEM_ABSTRACT_CLASS(Node,FEMLightObject)
 public:
 
   /**

@@ -39,7 +39,7 @@ namespace fem {
  */
 class Load : public FEMLightObject
 {
-FEM_CLASS_SP(Load,FEMLightObject)
+FEM_ABSTRACT_CLASS(Load,FEMLightObject)
 public:
 
   /** Array class that holds special pointers to the load objects */

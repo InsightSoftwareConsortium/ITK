@@ -46,15 +46,15 @@ class FEMLightObject
   /**
    * If we're not using smart pointers then we make the
    * the Superclass equal to FEMLightObject, just to be able
-   * to use the FEM_CLASS_SP macro.
+   * to use the FEM_ABSTRACT_CLASS macro.
    */
 #ifndef FEM_USE_SMART_POINTERS
-  FEM_CLASS_SP(FEMLightObject,FEMLightObject)
+  FEM_ABSTRACT_CLASS(FEMLightObject,FEMLightObject)
 #else
   /**
    * If we are using smart pointers, Superclass is itk::LightObject
    */
-  FEM_CLASS_SP(FEMLightObject,itk::LightObject)
+  FEM_ABSTRACT_CLASS(FEMLightObject,itk::LightObject)
 #endif
 
 public:
@@ -70,6 +70,16 @@ public:
    * function returns a pointer to a base class.
    */
   virtual Baseclass::Pointer Clone() const = 0;
+
+  /**
+   * Returns the class ID of the object. This function is used to determine
+   * the class of the object without having to use the dynamic_cast operator.
+   *
+   * \note Class must be registered with the FEMObjectFactory in order
+   *       to create the class ID. Abstract classes don't define this
+   *       function.
+   */
+  virtual int ClassID() const = 0;
 
   /**
    * Read an object data from input stream. Call this member to

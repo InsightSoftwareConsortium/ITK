@@ -94,7 +94,7 @@
 
 
 /**
- * \def FEM_CLASS_SP(thisClass,parentClass)
+ * \def FEM_ABSTRACT_CLASS(thisClass,parentClass)
  * \brief Defines typedefs for pointers to class.
  *
  * This macro should be called immediately after the { in class declaration.
@@ -112,7 +112,7 @@
  */
 #ifndef FEM_USE_SMART_POINTERS
 
-#define FEM_CLASS_SP(thisClass,parentClass)           \
+#define FEM_ABSTRACT_CLASS(thisClass,parentClass)           \
 public:                                               \
   /** Standard "Self" typedef.*/                      \
   typedef thisClass Self;                             \
@@ -126,7 +126,7 @@ private:  // everything that follows from here is private by default (like in th
 
 #else
 
-#define FEM_CLASS_SP(thisClass,parentClass)  \
+#define FEM_ABSTRACT_CLASS(thisClass,parentClass)  \
 public:                                      \
   /** Standard "Self" typedef.*/             \
   typedef thisClass Self;                    \
@@ -149,7 +149,7 @@ private:  // everything that follows from here is private by default (like in th
  * \brief Defines typedefs for pointers to class.
  *
  * This macro should be called immediately after the { in class declaration.
- * It first calls the #FEM_CLASS_SP macro. In addition it defines the Clone()
+ * It first calls the #FEM_ABSTRACT_CLASS macro. In addition it defines the Clone()
  * function, CLID member that holds the class ID for FEMObjectFactory. Also,
  * the New() static member is defined, as required, for compatibility with
  * SmartPointer classes (itkNewMacro is called).
@@ -165,18 +165,21 @@ private:  // everything that follows from here is private by default (like in th
 #ifndef FEM_USE_SMART_POINTERS
   #define FEM_CLASS(thisClass,parentClass)   \
     /*  Pointers.... */                      \
-    FEM_CLASS_SP(thisClass,parentClass)      \
+    FEM_ABSTRACT_CLASS(thisClass,parentClass)      \
   public:                                    \
     /** Create a new object from the existing one  */ \
     virtual Baseclass::Pointer Clone() const \
       { return new Self(*this); }            \
     /** Class ID for FEM object factory */   \
     static const int CLID;                   \
+    /** Virtual function to access the class ID */ \
+    virtual int ClassID() const              \
+      { return CLID; }                       \
   private:  // everything that follows from here is private by default (like in the beginning of class)
 #else
   #define FEM_CLASS(thisClass,parentClass)   \
     /*  Pointers.... */                      \
-    FEM_CLASS_SP(thisClass,parentClass)      \
+    FEM_ABSTRACT_CLASS(thisClass,parentClass)      \
   public:                                    \
     /** Create a new object from the existing one */  \
     virtual Baseclass::Pointer Clone() const \
@@ -185,6 +188,9 @@ private:  // everything that follows from here is private by default (like in th
         return o; }                          \
     /** Class ID for FEMObjectFactory */     \
     static const int CLID;                   \
+    /** Virtual function to access the class ID */ \
+    virtual int ClassID() const              \
+      { return CLID; }                       \
     /** Object creation through itk's objectfactory  */ \
     itkNewMacro(Self)                        \
   private:  // everything that follows from here is private by default (like in the beginning of class)

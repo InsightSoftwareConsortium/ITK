@@ -82,7 +82,7 @@ template<class TReference,class TTarget>
 class LoadImageMetric : public LoadImagePairBase<TReference,TTarget>
 {
 typedef LoadImagePairBase<TReference,TTarget> TemplatedParentClass;
-FEM_CLASS_SP(LoadImageMetric,TemplatedParentClass)
+FEM_ABSTRACT_CLASS(LoadImageMetric,TemplatedParentClass)
 public:
 //  typedef LoadImageMetric             Self;                   
 //  typedef LoadImagePairBase     Superclass;         

@@ -39,7 +39,7 @@ template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 class Element3DC0LinearTetrahedron : public ElementStd<4,VNumberOfDegreesOfFreedomPerNode,3>
 {
 typedef ElementStd<4,VNumberOfDegreesOfFreedomPerNode,3> TemplatedParentClass;
-FEM_CLASS_SP( Element3DC0LinearTetrahedron, TemplatedParentClass )
+FEM_ABSTRACT_CLASS( Element3DC0LinearTetrahedron, TemplatedParentClass )
 public:
 
 

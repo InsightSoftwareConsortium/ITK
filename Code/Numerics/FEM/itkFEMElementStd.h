@@ -59,7 +59,7 @@ namespace fem {
 template<unsigned int VNumberOfNodes, unsigned int VNumberOfDegreesOfFreedomPerNode, unsigned int VNumberOfSpatialDimensions, class TBaseClass=ElementNew>
 class ElementStd : public TBaseClass
 {
-FEM_CLASS_SP(ElementStd,TBaseClass)
+FEM_ABSTRACT_CLASS(ElementStd,TBaseClass)
 public:
 
 // FIXME: Add concept cheking for TBaseClass, and TPointClass

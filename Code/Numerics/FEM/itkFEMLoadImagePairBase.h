@@ -71,7 +71,7 @@ namespace fem
 template<class TReference,class TTarget> 
 class LoadImagePairBase : public LoadGrav
 {
-FEM_CLASS_SP(LoadImagePairBase,LoadGrav)
+FEM_ABSTRACT_CLASS(LoadImagePairBase,LoadGrav)
 public:
 //  typedef LoadImagePairBase                Self;                   
 //  typedef LoadGrav                Superclass;         

@@ -77,7 +77,7 @@ namespace fem {
 
 class ElementNew : public Element
 {
-FEM_CLASS_SP(ElementNew,Element)
+FEM_ABSTRACT_CLASS(ElementNew,Element)
 public:
 
   /*

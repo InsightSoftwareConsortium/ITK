@@ -38,7 +38,7 @@ namespace fem {
  */
 class LoadGrav : public LoadElement
 {
-FEM_CLASS_SP(LoadGrav,LoadElement)
+FEM_ABSTRACT_CLASS(LoadGrav,LoadElement)
 public:
 
   virtual vnl_vector<Float> Fg(vnl_vector<Float>) = 0;

@@ -50,7 +50,7 @@ namespace fem {
 template<unsigned int VNumberOfPoints,unsigned int VNumberOfDegreesOfFreedomPerNode, class TNodeClass>
 class ElementStandard : public Element
 {
-FEM_CLASS_SP(ElementStandard,Element)
+FEM_ABSTRACT_CLASS(ElementStandard,Element)
 public:
 
   /**

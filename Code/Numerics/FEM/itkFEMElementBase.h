@@ -75,7 +75,7 @@ namespace fem {
 
 class Element : public FEMLightObject
 {
-FEM_CLASS_SP(Element,FEMLightObject)
+FEM_ABSTRACT_CLASS(Element,FEMLightObject)
 public:
   /**
    * Floating point type used in all Element classes.
