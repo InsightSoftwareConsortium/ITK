@@ -41,6 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkVector_txx
 
 #include "itkVector.h" 
+#include "itkNumericTraits.h" 
 #include <vnl/vnl_math.h>
 
 // Include implementation of vnl_vector and vnl_c_vector for when
@@ -393,8 +394,6 @@ operator>>(std::istream& is, Vector<T,TVectorDimension> & vct )
 }
 
 
-
-
 /**
  *
  */
@@ -410,7 +409,6 @@ Vector<T, TVectorDimension>
   }
   return value;
 }
-
 
 
 } // end namespace itk
