@@ -234,7 +234,7 @@ public:
   typedef vnl_matrix<double> VecDblType;
 
   /** Type definition for the smart border type. */
-  typedef KLMSegmentationBorder<TInputImage,TOutputImage>    BorderType;
+  typedef KLMSegmentationBorder    BorderType;
 
   /** Type definition for the smart border pointers object. */
   typedef KLMDynamicBorderArray<BorderType>  SegmentationBorderPtr;
@@ -339,11 +339,9 @@ private:
   void operator=(const Self&); //purposely not implemented
   
   typedef typename TInputImage::SizeType InputImageSize;
-  typedef typename KLMSegmentationRegion<TInputImage,TOutputImage>::Pointer 
-    KLMSegmentationRegionPtr;
+  typedef typename KLMSegmentationRegion::Pointer  KLMSegmentationRegionPtr;
 
-  typedef typename KLMSegmentationBorder<TInputImage,TOutputImage>::Pointer
-    KLMSegmentationBorderPtr;
+  typedef typename KLMSegmentationBorder::Pointer  KLMSegmentationBorderPtr;
 
   unsigned int     m_MaxLambda;
   unsigned int     m_NumberOfBorders;
@@ -369,10 +367,8 @@ private:
   /** Function to unite borders and region borders of region1 and region2
    * into region1.  Called from \Ref{localfn_merge_regions}. This is
    * basically a merge sort of the two regions. */
-  void UnionBorders(KLMSegmentationRegion<TInputImage,
-                                 TOutputImage> *pRegion1,
-                     KLMSegmentationRegion<TInputImage,
-                                 TOutputImage> *pRegion2);
+  void UnionBorders(KLMSegmentationRegion *pRegion1,
+                    KLMSegmentationRegion *pRegion2);
 
   /** Function to resolve the region labels.  Once region labels are
    * resolved, the unique labels are sorted and recorded. */

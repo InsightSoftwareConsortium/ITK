@@ -779,7 +779,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   m_RegionsPointer.resize( m_NumRegions );
   for( unsigned int k = 0; k < m_NumRegions; k++ )
     {
-    m_RegionsPointer[k] = KLMSegmentationRegion<TInputImage,TOutputImage>::New();
+    m_RegionsPointer[k] = KLMSegmentationRegion::New();
     }
 
   //----------------------------------------------------------------------
@@ -823,7 +823,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   m_BordersPointer.resize( m_NumberOfBorders );
   for( unsigned int k = 0; k < m_NumberOfBorders; k++ )
     {
-    m_BordersPointer[k] = KLMSegmentationBorder<TInputImage,TOutputImage>::New();
+    m_BordersPointer[k] = KLMSegmentationBorder::New();
     }
 
   /* 
@@ -866,7 +866,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
   // horizontal border initialization 
 
-  KLMSegmentationBorder<TInputImage,TOutputImage>::Pointer pcurrentBorder;
+  KLMSegmentationBorder::Pointer pcurrentBorder;
 
   m_TotalBorderLength = 0;
   unsigned int borderCounter   = 0;
@@ -1084,7 +1084,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   m_RegionsPointer.resize( m_NumRegions );
   for( unsigned int k = 0; k < m_NumRegions; k++ )
     {
-    m_RegionsPointer[k] = KLMSegmentationRegion<TInputImage,TOutputImage>::New();
+    m_RegionsPointer[k] = KLMSegmentationRegion::New();
     }
 
   //----------------------------------------------------------------------
@@ -1139,7 +1139,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   m_BordersPointer.resize( m_NumberOfBorders );
   for( unsigned int k = 0; k < m_NumberOfBorders; k++ )
     {
-    m_BordersPointer[k] = KLMSegmentationBorder<TInputImage,TOutputImage>::New();
+    m_BordersPointer[k] = KLMSegmentationBorder::New();
     }
 
   /* 
@@ -1183,7 +1183,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
   // horizontal border initialization (for each slice) 
 
-  KLMSegmentationBorder<TInputImage,TOutputImage>::Pointer pcurrentBorder;
+  KLMSegmentationBorder::Pointer pcurrentBorder;
 
   m_TotalBorderLength = 0;
   unsigned int borderCounter   = 0;
@@ -1570,10 +1570,10 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::MergeRegions()
 {
   // One region associated with the candidate border
-  KLMSegmentationRegion<TInputImage,TOutputImage> *pRegion1;
+  KLMSegmentationRegion *pRegion1;
 
   // Second region associated with the candidate border
-  KLMSegmentationRegion<TInputImage,TOutputImage> *pRegion2;
+  KLMSegmentationRegion *pRegion2;
 
   // For consistency with connected components always assign smaller
   // label: this affects localfn_construct_approx_image and
@@ -1688,20 +1688,20 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 template<class TInputImage, class TOutputImage>
 void
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
-::UnionBorders(KLMSegmentationRegion<TInputImage,TOutputImage> *pnewRegion,
-                KLMSegmentationRegion<TInputImage,TOutputImage> *poldRegion)
+::UnionBorders(KLMSegmentationRegion *pnewRegion,
+                KLMSegmentationRegion *poldRegion)
 {
-  KLMSegmentationRegion<TInputImage,TOutputImage> *ptmpRegion;  
+  KLMSegmentationRegion *ptmpRegion;  
 
   typedef 
-    std::vector< KLMSegmentationBorder<TInputImage,TOutputImage>* > RegionBorderVecT;
+    std::vector< KLMSegmentationBorder* > RegionBorderVecT;
   typedef RegionBorderVecT::iterator RegionBorderVecIt;
 
   //Point the old region iterators to the appropriate region border to the 
   //head/tail of the vector containers.
 
   RegionBorderVecIt 
-    oldRegionBordersIt = poldRegion->GetRegionBorderItBegin();
+    oldRegionBordersIt    = poldRegion->GetRegionBorderItBegin();
   RegionBorderVecIt 
     endOfOldRegionBorders = poldRegion->GetRegionBorderItEnd();
 
