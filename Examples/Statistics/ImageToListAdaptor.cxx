@@ -22,6 +22,8 @@
 // \doxygen{Image} object as the data source for the adaptor.
 //
 // \index{itk::Statistics::ImageToListAdaptor|textbf}
+// \index{itk::Statistics::ScalarImageToListAdaptor|textbf}
+// \index{itk::Statistics::JointDomainImageToListAdaptor|textbf}
 //
 // In this example, we use the
 // \subdoxygen{Statistics}{ImageToListAdaptor} class that requires the
@@ -49,7 +51,13 @@
 // input \doxygen{Image} objects that has pixels of scalar type.
 // Since an element of a \subdoxygen{Statistics}{Sample} object is a
 // measurement \emph{vector}, you cannot plug-in an \doxygen{Image}
-// object of scalar pixels.
+// object of scalar pixels. However, if we want to use an image with
+// scalar pixels without the help from the
+// \doxygen{ScalarToArrayCastImageFilter}, we can use the
+// \subdoxygen{Statistics}{ScalarImageToListAdaptor} class that is
+// derived from the \subdoxygen{Statistics}{ImageToListAdaptor}. The
+// usage of the \code{ScalarImageToListAdaptor} is identical to that of
+// the \code{ImageToListAdaptor}.
 //
 // Software Guide : EndLatex 
 
@@ -124,14 +132,37 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // The final thing we have to is to plug in the image object to the adaptor.
-  // After that, we can use the common methods and iterator interfaces 
-  // shown in section \ref{sec:SampleInterface}.
+  // The final thing we have to do is to plug in the image object to
+  // the adaptor.  After that, we can use the common methods and
+  // iterator interfaces shown in section \ref{sec:SampleInterface}.
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   sample->SetImage( caster->GetOutput() ) ;
   // Software Guide : EndCodeSnippet
+
+  // Software Guide : BeginLatex
+  // If we are interested only in pixel values, the
+  // \code{ScalarImageToListAdatpor} (scalar pixels) and the
+  // \code{ImageToListAdaptor} (vector pixels) would be
+  // sufficient. However, if we want to perform some statistical
+  // analysis on spatial information (image index or pixel's physical
+  // location) and pixel values altogether, we want to have a
+  // measurement vector that consists of a pixel's value and physical
+  // position. In that case, we can use the
+  // \subdoxygen{Statistics}{JointDomainImageToListAdaptor}
+  // class. With that class, when we call the
+  // \code{GetMeasurementVector} method, the returned measurement
+  // vector is composed of the physical coordinates and pixel
+  // values. The usage is almost same as with
+  // \code{ImageToListAdaptor}. One important difference between the
+  // \code{JointDomainImageToListAdaptor} and the other two image
+  // adaptors is that the \code{JointDomainImageToListAdaptor} has the
+  // \code{SetNormalizationFactors} method. Each component of a
+  // measurement vector from the \code{JointDomainImageToListAdaptor}
+  // is divided by the corresponding component value from the supplied
+  // normalization factors.
+  // Software Guide : EndLatex
 
   return 0 ;
 }

@@ -175,13 +175,17 @@ int main()
 
   // Software Guide : BeginLatex
   // The second method is to plug-in a function that returns a weight
-  // value that is usually a function of each measurement vector. Since
-  // the \code{weightedMeanAlgorithm} and
+  // value that is usually a function of each measurement
+  // vector. Since the \code{weightedMeanAlgorithm} and
   // \code{weightedCovarianceAlgorithm} already have the input sample
   // plugged in, we need call only the \code{SetWeightFunction(weight
-  // function*)} method. For the \code{weightedCovarianceAlgorithm}, we
-  // replace the mean vector input with the output from the
-  // \code{weightedMeanAlgorithm}. 
+  // function*)} method. For the \code{weightedCovarianceAlgorithm},
+  // we replace the mean vector input with the output from the
+  // \code{weightedMeanAlgorithm}. If we do not provide the mean
+  // vector using the \code{SetMean} method or if we pass a null
+  // pointer as the mean vector as in this example, the
+  // \code{weightedCovarianceAlgorithm} will perform the one pass
+  // algorithm to generate the mean vector and the covariance matrix.
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -200,17 +204,17 @@ int main()
 
   std::cout << "Sample weighted covariance = " << std::endl ; 
   std::cout << *(weightedCovarianceAlgorithm->GetOutput()) << std::endl ;
-  // Software Guide : EndCodeSnippet
 
   weightedCovarianceAlgorithm->SetMean( 0 ) ;
   weightedCovarianceAlgorithm->SetWeightFunction( weightFunction ) ;
   weightedCovarianceAlgorithm->Update() ;
 
-  std::cout << "Without using the mean calculator:" << std::endl ;
+  std::cout << "Using the one pass algorithm:" << std::endl ;
   std::cout << "Sample weighted covariance = " << std::endl ; 
   std::cout << *(weightedCovarianceAlgorithm->GetOutput()) << std::endl ;
 
   std::cout << "Sample weighted mean = " 
             << *(weightedCovarianceAlgorithm->GetMean()) << std::endl ;
+  // Software Guide : EndCodeSnippet
   return 0 ;
 }

@@ -206,6 +206,12 @@ int main()
     }
   // Software Guide : EndCodeSnippet
 
+  // Software Guide : BeginLatex
+  // KdTree also supports searching points within a hyperspherical
+  // kernel. We specify the radius and call the \code{Search} method.
+  // Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
   double radius = 437.0 ;
 
   tree->Search( queryPoint, radius, neighbors ) ; 
@@ -232,6 +238,7 @@ int main()
               << "] : "  
               << distanceMetric->Evaluate( centroidTree->GetMeasurementVector( neighbors[i])) << std::endl ;
     }
+  // Software Guide : EndCodeSnippet
 
   return 0 ;
 }

@@ -110,10 +110,16 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // To use the covariance calculation algorithm, we have to follow a
-  // similar procedure except for the additional \code{SetMean(mean
-  // vector*)}. We must plug-in the mean vector before calling the
-  // \code{Update()} method.
+  // To use the covariance calculation algorithm, we have two options.
+  // Since we already have the mean calculated by the
+  // \code{meanAlgorithm}, we can plug-in the output from the
+  // \code{meanAlogrithm} to the \code{covarianceAlgorithm} using the
+  // \code{SetMean} method. The other option is not to set the mean at
+  // all and just call the \code{Update} method. The covariance
+  // calculation algorithm will calculate the mean and covariance
+  // together in one pass. If you have already set the mean as
+  // in this example and you want to run one pass algorithm, simply
+  // pass a null pointer as the mean vector.
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -129,16 +135,16 @@ int main()
 
   std::cout << "Sample covariance = " << std::endl ; 
   std::cout << *(covarianceAlgorithm->GetOutput()) << std::endl ;
-  // Software Guide : EndCodeSnippet
 
   covarianceAlgorithm->SetMean( 0 ) ;
   covarianceAlgorithm->Update() ;
 
-  std::cout << "Results using the updating algorithm:" << std::endl ;
+  std::cout << "Using the one pass algorithm:" << std::endl ;
   std::cout << "Mean = " << std::endl ; 
   std::cout << *(covarianceAlgorithm->GetMean()) << std::endl ;
 
   std::cout << "Covariance = " << std::endl ; 
   std::cout << *(covarianceAlgorithm->GetOutput()) << std::endl ;
+  // Software Guide : EndCodeSnippet
   return 0 ;
 }
