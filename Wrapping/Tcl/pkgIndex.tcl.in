@@ -41,6 +41,7 @@ namespace eval itk {
       package require itknumerics $version
       package require itkcommon $version
       package require itkio $version
+      package require itkbasicfilters $version
       package provide itk $version
     "
 
@@ -52,6 +53,11 @@ namespace eval itk {
     package ifneeded itkcommon $version "
       package require ITKCommonTcl $version
       package provide itkcommon $version
+    "
+
+    package ifneeded itkbasicfilters $version "
+      package require ITKBasicFiltersTcl $version
+      package provide itkbasicfilters $version
     "
 
     package ifneeded itkio $version "

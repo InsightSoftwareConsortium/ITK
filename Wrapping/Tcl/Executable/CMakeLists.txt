@@ -8,9 +8,11 @@ ADD_EXECUTABLE(itktcl itkTclAppInit.cxx)
 TARGET_LINK_LIBRARIES(itktcl
   VXLNumericsTcl
   ITKCommonTcl
+  ITKBasicFiltersTcl
   ITKIOTcl
   ITKIO
   ITKCommon
+  ITKBasicFilters
   VXLNumerics
   itkpng
   itkzlib
