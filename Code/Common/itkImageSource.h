@@ -177,6 +177,13 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 
+  /** The GenerateData method normally allocates the buffers for all of the
+   * outputs of a filter. Some filters may want to iverride this default
+   * behavior. Foer example, a filter may have multiple outptus with
+   * varying resolution. Or a filter may want to process data in place by
+   * grafting its input to its output.*/
+  virtual void AllocateOutputs();
+  
   /** If an imaging filter needs to perform processing after the buffer
    * has been allocated but before threads are spawned, the filter can
    * can provide an implementation for BeforeThreadedGenerateData(). The

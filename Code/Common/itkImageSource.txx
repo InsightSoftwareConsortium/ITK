@@ -199,7 +199,7 @@ ImageSource<TOutputImage>
 template <class TOutputImage>
 void 
 ImageSource<TOutputImage>
-::GenerateData()
+::AllocateOutputs()
 {
   OutputImagePointer outputPtr;
 
@@ -210,7 +210,18 @@ ImageSource<TOutputImage>
     outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
     outputPtr->Allocate();
     }
+}
 
+//----------------------------------------------------------------------------
+template <class TOutputImage>
+void 
+ImageSource<TOutputImage>
+::GenerateData()
+{
+  // Call a method that can be overriden by a subclass to allocate
+  // memory for the filter's outputs
+  this->AllocateOutputs();
+  
   // Call a method that can be overridden by a subclass to perform
   // some calculations prior to splitting the main computations into
   // separate threads
