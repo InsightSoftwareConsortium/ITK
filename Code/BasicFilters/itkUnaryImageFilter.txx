@@ -78,6 +78,7 @@ UnaryImageFilter<TInputImage,TOutputImage,TFunction>
     {
     updateVisits = 
       outputPtr->GetRequestedRegion().GetNumberOfPixels()/10;
+    if ( updateVisits < 1 ) updateVisits = 1;
     }
         
   TFunction function;

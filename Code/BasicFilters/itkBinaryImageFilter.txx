@@ -113,6 +113,7 @@ BinaryImageFilter<TInputImage1, TInputImage2, TOutputImage, TFunction>
     {
     updateVisits = 
       outputPtr->GetRequestedRegion().GetNumberOfPixels()/10;
+    if ( updateVisits < 1 ) updateVisits = 1;
     }
         
   TFunction function;

@@ -130,6 +130,7 @@ TernaryImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage, TFunc
     {
     updateVisits = 
       outputPtr->GetRequestedRegion().GetNumberOfPixels()/10;
+    if ( updateVisits < 1 ) updateVisits = 1;
     }
         
   TFunction function;

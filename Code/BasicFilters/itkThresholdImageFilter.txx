@@ -171,6 +171,7 @@ ThresholdImageFilter<TImage>
     {
     updateVisits = 
       outputPtr->GetRequestedRegion().GetNumberOfPixels()/10;
+    if ( updateVisits < 1 ) updateVisits = 1;
     }
         
   // walk the regions, threshold each pixel
