@@ -18,7 +18,7 @@
 
 #include "itkImageFileReader.h" 
 #include "itkImageFileWriter.h" 
-#include "itkRawImageIO.h"
+//#include "itkMetaImageIO.h"
 
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkHistogramMatchingImageFilter.h"
@@ -194,17 +194,19 @@ int main(int argc, char *argv[])
   FileSourceType::Pointer tarfilter = FileSourceType::New();
   tarfilter->SetFileName( (X->GetTargetFile()).c_str() );
 
-  RawReaderType::Pointer rawReader  = RawReaderType::New();
-  rawReader->SetFileDimensionality( ImageDimension );
+  //  itk::MetaImageIOFactory::RegisterOneFactory();
 
-  ImageType::SizeType ImageSize=X->GetImageSize();
-  for (unsigned int ii=0; ii<ImageDimension; ii++)     
-  {
-    unsigned int temp = (unsigned int) ImageSize[ii];
-    rawReader->SetDimensions( ii, temp );
-  }
-  reffilter->SetImageIO( rawReader );
-  tarfilter->SetImageIO( rawReader );
+//   RawReaderType::Pointer rawReader  = RawReaderType::New();
+//   rawReader->SetFileDimensionality( ImageDimension );
+
+//   ImageType::SizeType ImageSize=X->GetImageSize();
+//   for (unsigned int ii=0; ii<ImageDimension; ii++)     
+//   {
+//     unsigned int temp = (unsigned int) ImageSize[ii];
+//     rawReader->SetDimensions( ii, temp );
+//   }
+//   reffilter->SetImageIO( rawReader );
+//   tarfilter->SetImageIO( rawReader );
 
   try
   {
@@ -332,6 +334,17 @@ int main(int argc, char *argv[])
   }
 //  Software Guide : EndCodeSnippet
 
+
+//  Software Guide : BeginLatex
+//
+//  This is a documented sample parameter file that can be used with
+//  this deformable registration example.
+//
+//  \begin{verbatim}
+//  \input{../Data/FiniteElementRegistrationParameters1.txt}
+//  \end{verbatim}
+//
+//  Software Guide : EndLatex
 
   // Clean up and exit
   delete m;
