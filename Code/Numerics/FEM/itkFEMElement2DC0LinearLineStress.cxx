@@ -57,6 +57,32 @@ Element2DC0LinearLineStress
 
 
 
+void
+Element2DC0LinearLineStress
+::GetMassMatrix( MatrixType& Me ) const
+{
+  Me.resize(4,4);
+  Me.fill(0.0);
+
+  Float rho=1.0;
+  Float l=(m_node[1]->GetCoordinates()-m_node[0]->GetCoordinates()).magnitude();
+
+  Me[0][0]=2.0;
+  Me[1][1]=2.0;
+  Me[2][2]=2.0;
+  Me[3][3]=2.0;
+  Me[0][2]=1.0;
+  Me[1][3]=1.0;
+  Me[2][0]=1.0;
+  Me[3][1]=1.0;
+
+  Me=Me * (l*m_mat->RhoC*m_mat->A/6.0);
+
+}
+
+
+
+
 FEM_CLASS_REGISTER(Element2DC0LinearLineStress)
 
 

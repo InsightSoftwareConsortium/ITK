@@ -80,6 +80,12 @@ public:
   virtual ~LinearSystemWrapper() {};
 
   /**
+   * Clear all the data (matrices) inside the system, so that the system
+   * is ready to solve another problem from scratch.
+   */
+  virtual void Clean( void );
+
+  /**
    * Set the order of the system.  All matrices will be of size NxN and 
    * all vectors will be of size N
    * \param N order of the linear system
@@ -293,6 +299,15 @@ public:
   virtual void SwapMatrices(unsigned int matrixIndex1, unsigned int matrixIndex2) = 0;
 
   /** 
+   * Copies the content of source matrix to destination matrix. Any existing
+   * data in destination matrix is overwritten.
+   *
+   * \param matrixSource index of a matrix to copy
+   * \param matrixDestination index of matrix to copy to
+   */
+  virtual void CopyMatrix(unsigned int matrixIndex1, unsigned int matrixIndex2);
+
+  /** 
    * Swaps access indices of any 2 vectors in the linear system
    * \param vectorIndex1 index of a vector to swap
    * \param vectorIndex2 index of vector to swap with
@@ -312,7 +327,7 @@ public:
    * \param scale scalar to multiply all matrix values by
    * \param matrixIndex index of matrix to modify
    */
-  void ScaleMatrix(Float scale, unsigned int matrixIndex = 0);
+  virtual void ScaleMatrix(Float scale, unsigned int matrixIndex = 0);
 
 
   /**
@@ -338,13 +353,29 @@ public:
    */
   virtual void MultiplyMatrixMatrix(unsigned int resultMatrixIndex, unsigned int leftMatrixIndex, unsigned int rightMatrixIndex) = 0;
 
+  /** 
+   * Adds two matrices storing the result in the first matrix.
+   *
+   * \param matrixIndex1 index of a matrix to add the other matrix to
+   * \param matrixIndex2 index of matrix to add
+   */
+  virtual void AddMatrixMatrix(unsigned int matrixIndex1, unsigned int matrixIndex2);
+
+  /** 
+   * Adds two vectors storing the result in the first vector.
+   *
+   * \param vectorIndex1 index of a vector to add the other vector to
+   * \param vectorIndex2 index of vector to add
+   */
+  virtual void AddVectorVector(unsigned int vectorIndex1, unsigned int vectorIndex2);
+
   /**
    * Perform a matrix*vector operation and store the result in the linear system
    * \param matrixIndex index of matrix to multiply
    * \param vectorIndex index of vector to multiply
    * \param resultVectorIndex index of vector where result is store
    */
-  void MultiplyMatrixVector(unsigned int resultVectorIndex, unsigned int matrixIndex, unsigned int vectorIndex);
+  virtual void MultiplyMatrixVector(unsigned int resultVectorIndex, unsigned int matrixIndex, unsigned int vectorIndex);
 
   /**
    * Copy a solution vector to a vector
@@ -354,19 +385,32 @@ public:
   virtual void CopySolution2Vector(unsigned int solutionIndex, unsigned int vectorIndex) = 0;
 
   /**
+   * Copy a vector to a solution vector
+   * \param vectorIndex index of a vector to copy
+   * \param solutionIndex index of a solution to copy the solution to
+   */
+  virtual void CopyVector2Solution(unsigned int vectorIndex, unsigned int solutionIndex) = 0;
+  /**
+   * Copy a vector
+   * \param vectorSource index of a vector to copy
+   * \param vectorDestination index to copy the vector to
+   */
+  virtual void CopyVector(unsigned int vectorSource, unsigned int vectorDestination);
+
+  /**
    * Remove all zeros from a matrix 
    * \param matrixIndex index of matrix to remove zeros from
    * \param tempMatrixIndex index of matrix to use for temp storage space
    * \note an extra matrix must be allocated by the solver in order to use this method
    */
-  void OptimizeMatrixStorage(unsigned int matrixIndex, unsigned int tempMatrixIndex); 
+  virtual void OptimizeMatrixStorage(unsigned int matrixIndex, unsigned int tempMatrixIndex);
 
   /**
    * Reorder the Degrees of Freedom in order to reduce bandwidth of matrix
    * \param matrixIndex index of matrix to examine
    * \param newNumbering vector of new degree of freedom ordering
    */
-  void ReverseCuthillMckeeOrdering(ColumnArray& newNumbering, unsigned int matrixIndex = 0);
+  virtual void ReverseCuthillMckeeOrdering(ColumnArray& newNumbering, unsigned int matrixIndex = 0);
 
   /*
    * Sets the function used to prepare the primary system matrix for numerical solving

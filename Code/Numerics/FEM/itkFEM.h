@@ -28,6 +28,7 @@
 #include "itkFEMMaterials.h"
 
 #include "itkFEMSolver.h"
+#include "itkFEMSolverHyperbolic.h"
 
 #include "itkFEMObjectFactory.h"
 #include "itkFEMUtility.h"

@@ -81,7 +81,12 @@ public:
   /**
    * Writes everything (nodes, materials and elements) to output stream
    */
-  void Write( std::ostream& f );      
+  void Write( std::ostream& f );
+
+  /**
+   * Cleans all data members, and initializes the solver to initial state.
+   */
+  virtual void Clear( void );
 
 
   /**
@@ -92,12 +97,12 @@ public:
    * Assign a global freedom numbers to each DOF in a system.
    * This must be done before any other solve function can be called.
    */
-  void GenerateGFN();            
+  void GenerateGFN( void );
             
   /**
    * Assemble the master stiffness matrix (also apply the MFCs to K)
    */  
-  void AssembleK();
+  void AssembleK( void );
 
   /**
    * This function is called before assembling the matrices. You can
@@ -106,6 +111,17 @@ public:
    * \param N Size of the matrix.
    */
   virtual void InitializeMatrixForAssembly(unsigned int N);
+
+  /**
+   * This function is called after the assebly has been completed.
+   * In this class it is only used to apply the BCs. You may however
+   * use it to perform other stuff in derived solver classes.
+   */
+  virtual void FinalizeMatrixAfterAssembly( void )
+  {
+    // Apply the boundary conditions to the K matrix
+    this->ApplyBC();
+  };
 
   /**
    * Copy the element stiffness matrix into the correct position in the
@@ -120,11 +136,15 @@ public:
    *
    * \note This function must be called after AssembleK().
    *
+   * \param matrix Index of a matrix, to which the BCs should be
+   *               applied (master stiffness matrix). Normally this
+   *               is zero, but in derived classes many matrices may
+   *               be used and this index must be specified.
    * \param dim This is a parameter that can be passed to the function and is
    *            normally used with isotropic elements to specify the
    *            dimension in which the DOF is fixed.
    */
-  void ApplyBC(int dim=0);
+  void ApplyBC(int dim=0, unsigned int matrix=0);
   
   /**
    * Assemble the master force vector.
@@ -138,39 +158,28 @@ public:
   /**
    * Decompose matrix using svd, qr, whatever ...
    */
-  void DecomposeK();
+  void DecomposeK( void );
 
   /**
-   * Solve for the displacement vector u
+   * Solve for the displacement vector u. May be overriden in derived classes.
    */
-  void Solve();
+  virtual void Solve( void );
 
   /**
    * Copy solution vector u to the corresponding nodal values, which are
    * stored in node objects). This is standard post processing of the solution
    */
-  void UpdateDisplacements();
+  void UpdateDisplacements( void );
 
   Float GetSolution(unsigned int i,unsigned int which=0)
   {
     return m_ls->GetSolutionValue(i,which);
   }
 
-protected:
-
-  /**
-   * Number of global degrees of freedom in a system
-   */
-  unsigned int NGFN;
-
-  /**
-   * Number of multi freedom constraints in a system.
-   * This member is set in a AssembleK function.
-   */
-  unsigned int NMFC;
-
-  /** Pointer to LinearSystemWrapper object. */
-  LinearSystemWrapper::Pointer m_ls;
+  unsigned int GetNumberOfDegreesOfFreedom( void )
+  {
+    return NGFN;
+  }
 
 public:
   /**
@@ -206,6 +215,28 @@ public:
    * \sa SetLinearSystemWrapper
    */
   LinearSystemWrapper::Pointer GetLinearSystemWrapper() { return m_ls; }
+
+  /**
+   * Performs any initialization needed for LinearSystemWrapper
+   * object i.e. sets the maximum number of matrices and vectors.
+   */
+  virtual void Solver::InitializeLinearSystemWrapper(void);
+
+protected:
+
+  /**
+   * Number of global degrees of freedom in a system
+   */
+  unsigned int NGFN;
+
+  /**
+   * Number of multi freedom constraints in a system.
+   * This member is set in a AssembleK function.
+   */
+  unsigned int NMFC;
+
+  /** Pointer to LinearSystemWrapper object. */
+  LinearSystemWrapper::Pointer m_ls;
 
 private:
 

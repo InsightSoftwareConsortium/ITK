@@ -52,6 +52,12 @@ public:
       NodeIDType n2_,
       Material::ConstPointer p_ );
 
+  /**
+   * Mass matrix
+   */
+  // FIMXE: this implementation should be made general and moved to base class
+  virtual void GetMassMatrix( MatrixType& Me ) const;
+
 }; // class Element2DC0LinearLineStress
 
 FEM_CLASS_INIT(Element2DC0LinearLineStress)

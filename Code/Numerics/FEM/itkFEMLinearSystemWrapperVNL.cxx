@@ -249,6 +249,13 @@ void LinearSystemWrapperVNL::CopySolution2Vector(unsigned int SolutionIndex, uns
 }
 
 
+void LinearSystemWrapperVNL::CopyVector2Solution(unsigned int VectorIndex, unsigned int SolutionIndex)
+{
+  delete (*m_Solutions)[SolutionIndex];
+  (*m_Solutions)[SolutionIndex] = new vnl_vector<Float>( *((*m_Vectors)[VectorIndex]) );
+}
+
+
 void LinearSystemWrapperVNL::MultiplyMatrixMatrix(unsigned int ResultMatrixIndex, unsigned int LeftMatrixIndex, unsigned int RightMatrixIndex)
 {
   

@@ -39,15 +39,30 @@ namespace fem {
 /**
  * Default constructor for Solver class
  */
-Solver::Solver()
+Solver::Solver() : NGFN(0), NMFC(0)
 {
-  SetLinearSystemWrapper(&m_lsVNL);
+  this->SetLinearSystemWrapper(&m_lsVNL);
 }
 
 
 
 
-/**
+void Solver::Clear( void )
+{
+  this->el.clear();
+  this->node.clear();
+  this->mat.clear();
+  this->load.clear();
+
+  this->NGFN=0;
+  this->NMFC=0;
+  this->SetLinearSystemWrapper(&m_lsVNL);
+}
+
+
+
+
+/*
  * Change the LinearSystemWrapper object used to solve
  * system of equations.
  */
@@ -55,12 +70,19 @@ void Solver::SetLinearSystemWrapper(LinearSystemWrapper::Pointer ls)
 { 
   m_ls=ls; // update the pointer to LinearSystemWrapper object
 
+  this->InitializeLinearSystemWrapper();
+}
+
+
+
+
+void Solver::InitializeLinearSystemWrapper(void)
+{ 
   // set the maximum number of matrices and vectors that
   // we will need to store inside.
   m_ls->SetNumberOfMatrices(1);
   m_ls->SetNumberOfVectors(2);
   m_ls->SetNumberOfSolutions(1);
-
 }
 
 
@@ -397,9 +419,7 @@ void Solver::AssembleK()
     this->AssembleElementMatrix(*e);
   }
 
-  // Apply the boundary conditions to the K matrix
-  // FIXME: maybe this should be called from outside
-  this->ApplyBC();
+  this->FinalizeMatrixAfterAssembly();
 
 }
 
@@ -697,9 +717,10 @@ void Solver::UpdateDisplacements()
 /**
  * Apply the boundary conditions to the system.
  */
-void Solver::ApplyBC(int dim)
+void Solver::ApplyBC(int dim, unsigned int matrix)
 {
 
+  // Vector with index 1 is used to store force correctios for BCs
   m_ls->DestroyVector(1);
 
   /* Step over all Loads */
@@ -713,7 +734,6 @@ void Solver::ApplyBC(int dim)
     Load::Pointer l0=*l;
 
 
-    
     /*
      * Apply boundary conditions in form of MFC loads.
      *
@@ -736,8 +756,8 @@ void Solver::ApplyBC(int dim)
         }
 
         /* set the proper values in matster stiffnes matrix */
-        this->m_ls->SetMatrixValue(gfn, NGFN+c->Index, q->value);
-        this->m_ls->SetMatrixValue(NGFN+c->Index, gfn, q->value);  // this is a symetric matrix...
+        this->m_ls->SetMatrixValue(gfn, NGFN+c->Index, q->value, matrix);
+        this->m_ls->SetMatrixValue(NGFN+c->Index, gfn, q->value, matrix);  // this is a symetric matrix...
 
       }
 
@@ -765,7 +785,7 @@ void Solver::ApplyBC(int dim)
 
       // Get the column indices of the nonzero elements in an array.
       LinearSystemWrapper::ColumnArray cols;
-      m_ls->GetColumnsOfNonZeroMatrixElementsInRow(fdof,cols);
+      m_ls->GetColumnsOfNonZeroMatrixElementsInRow(fdof, cols, matrix);
 
       // Force vector needs updating only if DOF was not fixed to 0.0.
       if( fixedvalue!=0.0 )
@@ -780,7 +800,7 @@ void Solver::ApplyBC(int dim)
         for(LinearSystemWrapper::ColumnArray::iterator c=cols.begin(); c!=cols.end(); c++)
         {
           // Get value from the stiffness matrix
-          Float d=this->m_ls->GetMatrixValue(fdof,*c);
+          Float d=this->m_ls->GetMatrixValue(fdof, *c, matrix);
 
           // Store the appropriate value in bc correction vector (-K12*u2)
           //
@@ -794,10 +814,10 @@ void Solver::ApplyBC(int dim)
       // Clear that row and column in master matrix
       for(LinearSystemWrapper::ColumnArray::iterator c=cols.begin(); c!=cols.end(); c++)
       {
-        this->m_ls->SetMatrixValue(fdof,*c,0.0);
-        this->m_ls->SetMatrixValue(*c,fdof,0.0); // this is a symetric matrix
+        this->m_ls->SetMatrixValue(fdof,*c, 0.0, matrix);
+        this->m_ls->SetMatrixValue(*c,fdof, 0.0, matrix); // this is a symetric matrix
       }
-      this->m_ls->SetMatrixValue(fdof,fdof,1.0); // Set the diagonal element to one
+      this->m_ls->SetMatrixValue(fdof,fdof, 1.0, matrix); // Set the diagonal element to one
 
 
       // skip to next load in an array

@@ -78,6 +78,7 @@ SOURCE_FILES(FEM_SRCS
 
 
   itkFEMSolver.cxx
+  itkFEMSolverHyperbolic.cxx
   itkFEMSolverCrankNicolson.cxx
   itkFEMLinearSystemWrapper.cxx
   itkFEMLinearSystemWrapperVNL.cxx
@@ -166,6 +167,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadTest.h
 
   itkFEMSolver.h
+  itkFEMSolverHyperbolic.h
   itkFEMSolverCrankNicolson.h
 
   itkFEMSolution.h

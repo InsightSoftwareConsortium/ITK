@@ -47,6 +47,10 @@ LinearSystemWrapperItpack::LinearSystemWrapperItpack()
   /* Set solving parameters */
   itpack::dfault_( &(m_IPARM[0]) , &(m_RPARM[0]) );
 
+  // We don't want the solver routines to
+  // overwrite the parameters.
+  m_IPARM[2]=1;
+
 
   /* m_IPARM[0] = 500; */  /* number of iterations */
   m_IPARM[1] = -1;   /* no error message output */
@@ -626,10 +630,17 @@ void LinearSystemWrapperItpack::Solve(void)
     IWKSP[i] = 0;
   }
 
+
+  // Save maximum number of iteration, since it will
+  // be overwritten.
+  int max_num_iterations=m_IPARM[0];
+
   /* call to itpack solver routine */
   (*m_Methods[m_Method])( &N, (*m_Matrices)[0].GetIA(), (*m_Matrices)[0].GetJA(), (*m_Matrices)[0].GetA(), 
     (*m_Vectors)[0], (*m_Solutions)[0], &(IWKSP[0]), &NW, &(WKSP[0]), &(m_IPARM[0]), &(m_RPARM[0]), &IERR);
-  
+
+  m_IPARM[0]=max_num_iterations;
+
   /* remove exception throw on convergence failure */
   if (IERR < 100) 
   {
@@ -762,6 +773,38 @@ void LinearSystemWrapperItpack::CopySolution2Vector(unsigned solutionIndex, unsi
   for (unsigned int i=0; i<m_Order; i++)
   {
     (*m_Vectors)[vectorIndex][i] = (*m_Solutions)[solutionIndex][i];
+  }
+}
+
+
+void LinearSystemWrapperItpack::CopyVector2Solution(unsigned vectorIndex, unsigned int solutionIndex)
+{
+
+  /* error checking */
+  if (!m_Vectors)
+  {
+    throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::CopySolution2Vector", "No vectors allocated");
+  }
+  if (!m_Solutions)
+  {
+    throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::CopySolution2Vector", "No solutions allocated");
+  }
+  if (vectorIndex >= m_NumberOfVectors)
+  {
+    throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::CopySolution2Vector", "m_Vectors", vectorIndex);
+  }
+  if (solutionIndex >= m_NumberOfSolutions)
+  {
+    throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::CopySolution2Vector", "m_Solutions", solutionIndex);
+  }
+
+
+  this->InitializeSolution(solutionIndex);
+
+  /* copy values */
+  for (unsigned int i=0; i<m_Order; i++)
+  {
+    (*m_Solutions)[solutionIndex][i] = (*m_Vectors)[vectorIndex][i];
   }
 }
 

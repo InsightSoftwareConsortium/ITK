@@ -27,6 +27,32 @@
 namespace itk {
 namespace fem {
 
+
+
+
+void LinearSystemWrapper::Clean( void )
+{
+  int i;
+
+  // clear all data
+  for(i=0;i<m_NumberOfMatrices;i++)
+  {
+    this->DestroyMatrix(i);
+  }
+  for(i=0;i<m_NumberOfVectors;i++)
+  {
+    this->DestroyVector(i);
+  }
+  for(i=0;i<m_NumberOfSolutions;i++)
+  {
+    this->DestroySolution(i);
+  }
+
+  this->SetSystemOrder(0);
+
+}
+
+
 void LinearSystemWrapper::ScaleMatrix(Float scale, unsigned int matrixIndex)
 {
   /* FIX ME: error checking */
@@ -163,6 +189,77 @@ void LinearSystemWrapper::OptimizeMatrixStorage(unsigned int matrixIndex, unsign
   this->DestroyMatrix(tempMatrixIndex);
 
 }
+
+
+
+void
+LinearSystemWrapper
+::CopyMatrix(unsigned int matrixIndex1, unsigned int matrixIndex2)
+{
+  ColumnArray cols;
+  unsigned int r;
+
+  this->InitializeMatrix(matrixIndex2);
+
+  for (r=0; r<this->m_Order; r++)
+  {
+    this->GetColumnsOfNonZeroMatrixElementsInRow(r, cols, matrixIndex1);
+    for(LinearSystemWrapper::ColumnArray::iterator c=cols.begin(); c!=cols.end(); c++)
+    {
+      this->SetMatrixValue(r,*c,this->GetMatrixValue(r, *c, matrixIndex1), matrixIndex2);
+    }
+  }
+}
+
+
+
+
+void
+LinearSystemWrapper
+::AddMatrixMatrix(unsigned int matrixIndex1, unsigned int matrixIndex2)
+{
+  ColumnArray cols;
+  unsigned int r;
+
+  for (r=0; r<this->m_Order; r++)
+  {
+    this->GetColumnsOfNonZeroMatrixElementsInRow(r, cols, matrixIndex2);
+    for(LinearSystemWrapper::ColumnArray::iterator c=cols.begin(); c!=cols.end(); c++)
+    {
+      this->AddMatrixValue(r,*c,this->GetMatrixValue(r, *c, matrixIndex2), matrixIndex1);
+    }
+  }
+}
+
+
+
+
+void
+LinearSystemWrapper
+::CopyVector(unsigned int vectorSource, unsigned int vectorDestination)
+{
+  unsigned int r;
+  for (r=0; r<this->m_Order; r++)
+  {
+    this->SetVectorValue(r,this->GetVectorValue(r, vectorSource), vectorDestination);
+  }
+}
+
+
+
+
+void
+LinearSystemWrapper
+::AddVectorVector(unsigned int vectorIndex1, unsigned int vectorIndex2)
+{
+  unsigned int r;
+  for (r=0; r<this->m_Order; r++)
+  {
+    this->AddVectorValue(r,this->GetVectorValue(r, vectorIndex2), vectorIndex1);
+  }
+}
+
+
 
 
 /* FIXME - untested...do not use yet */

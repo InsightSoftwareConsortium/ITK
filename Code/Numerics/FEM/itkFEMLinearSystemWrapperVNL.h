@@ -86,6 +86,7 @@ public:
   virtual void  SwapVectors(unsigned int vectorIndex1, unsigned int vectorIndex2);
   virtual void  SwapSolutions(unsigned int solutionIndex1, unsigned int solutionIndex2);
   virtual void  CopySolution2Vector(unsigned solutionIndex, unsigned int vectorIndex);
+  virtual void  CopyVector2Solution(unsigned int vectorIndex, unsigned int solutionIndex);
   virtual void  MultiplyMatrixMatrix(unsigned int resultMatrixIndex, unsigned int leftMatrixIndex, unsigned int rightMatrixIndex);
   virtual void  MultiplyMatrixVector(unsigned int resultVectorIndex, unsigned int matrixIndex, unsigned int vectorIndex);
 
