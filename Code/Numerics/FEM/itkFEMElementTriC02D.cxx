@@ -562,7 +562,7 @@ TriC02D::EdgeLoad(Float Pn1, Float Pn2, Float Pt1, Float Pt2,
   vnl_matrix<Float> J(3,3), shapeD(3,3);
 
   /** Defines gaussian integration points */
-  Float GPoints[][3] = {{1./3.,1./3.,0}, {2./3.,2./3.,0}};
+  Float GPoints[][3] = {{2./3.,1./3.,0}, {1./3.,2./3.,0}};
 
   /** Declares auxiliary variables */
   Float x[3], pgash1, pgash2, dgash1, dgash2, pxcom, pycom;
@@ -574,8 +574,8 @@ TriC02D::EdgeLoad(Float Pn1, Float Pn2, Float Pt1, Float Pt2,
   for (int j=0; j<2; j++) {
     /** Gets Gaussian integration points */
     x[0] = GPoints[j][0];
-    x[1] = 0; //GPoints[j][1];
-    x[2] = 0; //GPoints[j][2];
+    x[1] = GPoints[j][1];
+    x[2] = GPoints[j][2];
 
     /** Computes the shape function derivatives at
       * integration point
@@ -593,8 +593,8 @@ TriC02D::EdgeLoad(Float Pn1, Float Pn2, Float Pt1, Float Pt2,
     dgash1 = (x1 * shapeD(0,0)) + (x2 * shapeD(1,0));
     dgash2 = (y1 * shapeD(0,0)) + (y2 * shapeD(1,0));
 
-    pxcom = (dgash1 * pgash2) - (dgash2 * pgash1);
-    pycom = (dgash1 * pgash1) + (dgash2 * pgash2);
+    pxcom = 0.5 * ((dgash1 * pgash2) - (dgash2 * pgash1));
+    pycom = 0.5 * ((dgash1 * pgash1) + (dgash2 * pgash2));
 
     GL[      n1 << 1] += shapeF(n1) * pxcom;
     GL[(n1 << 1) + 1] += shapeF(n1) * pycom;
