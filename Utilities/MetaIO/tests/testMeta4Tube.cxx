@@ -27,7 +27,7 @@ int main(int argc, char **argv)
     pnt = new TubePnt(3);
     pnt->m_X[0]=i;pnt->m_X[1]=i;pnt->m_X[2]=i;
     pnt->m_R=i;
-    tube1->GetPoints()->push_back(pnt);
+    tube1->GetPoints().push_back(pnt);
   }
   
   std::cout << "  Creating second tube ..." << std::endl;
@@ -38,7 +38,7 @@ int main(int argc, char **argv)
     pnt = new TubePnt(3);
     pnt->m_X[0]=i;pnt->m_X[1]=i;pnt->m_X[2]=i;
     pnt->m_R=i;
-    tube2->GetPoints()->push_back(pnt);
+    tube2->GetPoints().push_back(pnt);
   }
 
   // Add an ellipse
@@ -76,9 +76,9 @@ int main(int argc, char **argv)
     {
       typedef MetaTube::PointListType ListType;
       MetaTube* tube = dynamic_cast<MetaTube*>(*it);
-      ListType::iterator it2 = tube->GetPoints()->begin();
+      ListType::iterator it2 = tube->GetPoints().begin();
 
-      for(unsigned int j=0;j< tube->GetPoints()->size();j++)
+      for(unsigned int j=0;j< tube->GetPoints().size();j++)
       {
         std::cout << (*it2)->m_X[0] 
         << " " << (*it2)->m_X[1] << " " << (*it2)->m_X[2] << std::endl;

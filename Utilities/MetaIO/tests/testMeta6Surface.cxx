@@ -20,7 +20,7 @@ int main(int argc, char **argv)
     pnt->m_V[0]=(float)0.8;
     pnt->m_V[1]=i;
     pnt->m_V[2]=i;
-    surface->GetPoints()->push_back(pnt);
+    surface->GetPoints().push_back(pnt);
   }
   
 
@@ -35,11 +35,11 @@ int main(int argc, char **argv)
   surface->Read("mySurface.meta");
   surface->PrintInfo();
 
-  MetaSurface::PointListType* list =  surface->GetPoints();
-  MetaSurface::PointListType::const_iterator it = list->begin();
+  MetaSurface::PointListType list =  surface->GetPoints();
+  MetaSurface::PointListType::const_iterator it = list.begin();
   
   unsigned int d=0;
-  while(it != list->end())
+  while(it != list.end())
   {
     
     for(d = 0; d < 3; d++)
@@ -67,10 +67,10 @@ int main(int argc, char **argv)
   surface->Read("mySurface.meta");
   surface->PrintInfo();
   
-  MetaSurface::PointListType* list2 =  surface->GetPoints();
-  it = list2->begin();
+  MetaSurface::PointListType list2 =  surface->GetPoints();
+  it = list2.begin();
   
-  while(it != list2->end())
+  while(it != list2.end())
   {
     for(d = 0; d < 3; d++)
     {

@@ -17,7 +17,7 @@ int main(int argc, char **argv)
     pnt->m_X[0]=(float)0.2;pnt->m_X[1]=i;pnt->m_X[2]=i;
     pnt->m_V[0][0]=(float)0.3;pnt->m_V[0][1]=i;pnt->m_V[0][2]=i;
     pnt->m_V[1][0]=(float)0.4;pnt->m_V[1][1]=i+1;pnt->m_V[1][2]=i+1;
-    Line->GetPoints()->push_back(pnt);
+    Line->GetPoints().push_back(pnt);
   }
   
   std::cout << "Writing test file ...";
@@ -34,11 +34,11 @@ int main(int argc, char **argv)
 
   Line->PrintInfo();
 
-  MetaLine::PointListType* list =  Line->GetPoints();
-  MetaLine::PointListType::const_iterator it = list->begin();
+  MetaLine::PointListType list =  Line->GetPoints();
+  MetaLine::PointListType::const_iterator it = list.begin();
   
   i=0;
-  while(it != list->end())
+  while(it != list.end())
   {
     std::cout << "Point #" << i++ << ":" << std::endl;
     std::cout << "position = ";

@@ -16,7 +16,7 @@ int main(int argc, char **argv)
   {
     pnt = new BlobPnt(3);
     pnt->m_X[0]=(float)0.2;pnt->m_X[1]=i;pnt->m_X[2]=i;
-    blob.GetPoints()->push_back(pnt);
+    blob.GetPoints().push_back(pnt);
   }
   
   std::cout << "Writing test file ..." << std::endl;
@@ -31,18 +31,15 @@ int main(int argc, char **argv)
   blob.Read("myCNC.meta"); 
 
   std::cout << "  done" << std::endl;
-  
-  //MetaBlob* blob = new MetaBlob;
-  //blob.Read("liver032c.meta");
 
   blob.PrintInfo();
 
   std::cout << "Accessing pointlist..." << std::endl;
 
-  MetaBlob::PointListType* plist =  blob.GetPoints();
-  MetaBlob::PointListType::const_iterator it = plist->begin();
+  MetaBlob::PointListType plist =  blob.GetPoints();
+  MetaBlob::PointListType::const_iterator it = plist.begin();
   
-  while(it != plist->end())
+  while(it != plist.end())
   {
     for(unsigned int d = 0; d < 3; d++)
     {
