@@ -291,7 +291,7 @@ void MultiThreader::SingleMethodExecute()
 	     ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
     if ( process_id[thread_loop] == -1)
       {
-      itkErrorMacro("sproc call failed. Code: " << errno << endl);
+      itkErrorMacro("sproc call failed. Code: " << errno << std::endl);
       }
     }
   
