@@ -63,6 +63,7 @@ REGISTER_TEST(itkRigid3DPerspectiveTransformTest );
 REGISTER_TEST(itkSliceIteratorTest );
 REGISTER_TEST(itkSpatialFunctionTest );
 REGISTER_TEST(itkSmartPointerTest );
+REGISTER_TEST(itkSTLContainerAdaptorTest );
 REGISTER_TEST(itkTimeProbesTest );
 REGISTER_TEST(itkTransformTest );
 REGISTER_TEST(itkThreadDefsTest );
