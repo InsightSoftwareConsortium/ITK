@@ -24,8 +24,8 @@ const int MAXUSHORT = 65535;
  *
  */
 template <class TInputImage, class TOutputImage>
-FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
-::FuzzyConnectednessRGBImageFilter()
+FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
+::FuzzyConnectednessImageFilter()
 {
 }
 
@@ -33,8 +33,47 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
  *
  */
 template <class TInputImage, class TOutputImage>
+FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
+::~FuzzyConnectednessImageFilter()
+{
+}
+
+
+/**
+ *
+ */
+template <class TInputImage, class TOutputImage>
 void 
-FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
+FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
+::SetParameters
+(const double inmean,const double invar,const double indifmean,
+ const double indifvar, const double inweight)
+{
+  m_Mean = inmean;
+  m_Var = invar;
+  m_Diff_Mean = indifmean;
+  m_Diff_Var = indifvar;
+
+  if(inweight < 0)
+  {
+    m_Weight = 0;
+  }
+  else if(inweight > 1)
+  {
+	m_Weight = 1;
+  }
+  else 
+  {
+	m_Weight = inweight;
+  }
+}
+
+/**
+ *
+ */
+template <class TInputImage, class TOutputImage>
+void 
+FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 ::SetSeed(const IndexType &seed)
 {
   m_Seed = seed;
@@ -45,7 +84,7 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void 
-FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
+FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 ::PushNeighbors(const IndexType &center)
 {
   IndexType current=center;
@@ -72,7 +111,7 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 double 
-FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
+FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 ::FuzzyAffinity(const double f1,const double f2)
 {
   double tmp1 = (0.5 * (f1 + f2) - m_Mean) / m_Var;
@@ -92,7 +131,7 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 double 
-FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
+FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 ::FindStrongPath(const IndexType &center)
 {
   IndexType current = center;
@@ -175,7 +214,7 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void 
-FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
+FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 ::MakeSegmentObject()
 {
   RegionType regionOUT = this->m_SegmentObject->GetRequestedRegion();
@@ -205,7 +244,7 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void 
-FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
+FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 ::ExcuteSegment()
 {
   IndexType current;
@@ -262,13 +301,5 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
 }
 
 } // end namespace itk
-
-
-
-
-
-	
-
-
 
 
