@@ -96,7 +96,11 @@ protected:
 
 private:
 };
-extern "C" __declspec( dllexport ) itk::ObjectFactoryBase* itkLoad();
+extern "C"   
+#ifdef _WIN32  
+__declspec( dllexport ) 
+#endif
+itk::ObjectFactoryBase* itkLoad();
   
   
 } // end namespace itk
