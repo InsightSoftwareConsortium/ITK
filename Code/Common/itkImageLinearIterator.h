@@ -131,19 +131,28 @@ public:
    * \sa EndOfLine
    * \sa End
    */
-  inline void NextLine(void);
+  void NextLine(void);
 
   /**
    * Test if the index is at the end of line
    */
-  inline bool IsAtEndOfLine(void);
-
+  inline bool IsAtEndOfLine(void) 
+    {
+    return m_PositionIndex[m_Direction] >= m_Region.GetSize()[m_Direction];
+    }
 
   /**
    * Set the direction of movement
    */
-  inline void SetDirection(unsigned int direction) ;
-
+  inline void SetDirection(unsigned int direction)
+    {
+    if( direction >= TImage::ImageDimension )
+      {
+      throw ExceptionObject();
+      }
+    m_Direction = direction;
+    m_Jump = m_OffsetTable[ m_Direction ];
+    }
 
   /**
    * Increment (prefix) the selected dimension.

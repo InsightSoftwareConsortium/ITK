@@ -62,42 +62,6 @@ ImageLinearIterator<TImage>
   }
 }
 
-
-
-
-//----------------------------------------------------------------------
-//  Test for end of line
-//----------------------------------------------------------------------
-template<class TImage>
-bool 
-ImageLinearIterator<TImage>
-::IsAtEndOfLine(void) 
-{
-  return m_PositionIndex[m_Direction] >= m_Region.GetSize()[m_Direction];
-}
-
-
-
-//----------------------------------------------------------------------
-//  Set direction of movement
-//----------------------------------------------------------------------
-template<class TImage>
-void 
-ImageLinearIterator<TImage>
-::SetDirection(unsigned int direction) 
-{
-  if( direction >= TImage::ImageDimension )
-  {
-    throw ExceptionObject();
-  }
-  m_Direction = direction;
-  m_Jump = m_OffsetTable[ m_Direction ];
-}
- 
-
-
-
-
 //----------------------------------------------------------------------
 //  Advance along the line
 //----------------------------------------------------------------------
