@@ -64,6 +64,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkColorTable.txx"
 #include "itkCommand.h"
 #include "itkConceptChecking.h"
+#include "itkConditionVariable.h"
 #include "itkConditionalConstIterator.txx"
 #include "itkConditionalIterator.txx"
 #include "itkConicShellInteriorExteriorSpatialFunction.txx"
