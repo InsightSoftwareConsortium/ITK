@@ -19,7 +19,7 @@
 =========================================================================*/
 #undef _INSTANTIATION
 //NOTE: If this file is compiled, then this flag must not have been already defined.
-//The ITK_NOEXPLICIT_INSTANTIATION flag turns off the  instantiation in the itkImage.h so that these files are build once.
+//The ITK_EXPLICIT_INSTANTIATION flag turns off the  instantiation in the itkImage.h so that these files are build once.
 //This should not be necessary with he  tag
 #include "itkImageBase.h"
 #include "itkImage.h"
