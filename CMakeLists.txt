@@ -3,7 +3,10 @@
 PROJECT(ITK)
 INCLUDE_REGULAR_EXPRESSION("^(itk|vtk|vnl|vcl|f2c).*$")
 
-OPTION(BUILD_SHARED_LIBS "Build with shared libraries." OFF)
+IF(NOT WIN32)
+  OPTION(BUILD_SHARED_LIBS "Build with shared libraries." OFF)
+ENDIF(NOT WIN32)
+
 
 SOURCE_GROUP("XML Files" "[.]xml$")
 
