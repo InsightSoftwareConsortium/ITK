@@ -225,7 +225,7 @@ bool RawImageIO<TPixel,VImageDimension>
 
 template <class TPixel, unsigned int VImageDimension>
 void RawImageIO<TPixel,VImageDimension>
-::Write(void* buffer)
+::Write(const void* buffer)
 {
   std::ofstream file;
 
@@ -246,7 +246,33 @@ void RawImageIO<TPixel,VImageDimension>
     }
   else //binary
     {
-    file.write(static_cast<char*>(buffer), this->GetImageSizeInBytes());
+
+    const unsigned long numberOfBytes      = this->GetImageSizeInBytes();
+    const unsigned long numberOfComponents = this->GetImageSizeInComponents();
+    // Swap bytes if necessary
+    if ( m_ByteOrder == LittleEndian )
+      {
+      char * tempBuffer = new char[ numberOfBytes ];
+      memcpy( tempBuffer, buffer , numberOfBytes );
+      ByteSwapperType::SwapRangeFromSystemToLittleEndian(
+                      (ComponentType *)tempBuffer, numberOfComponents );
+      file.write( tempBuffer, numberOfBytes );
+      delete [] tempBuffer;
+      }
+    else if ( m_ByteOrder == BigEndian )
+      {
+      char * tempBuffer = new char[ numberOfBytes ];
+      memcpy( tempBuffer, buffer , numberOfBytes );
+      ByteSwapperType::SwapRangeFromSystemToBigEndian(
+                      (ComponentType *)tempBuffer, numberOfComponents );
+      file.write( tempBuffer, numberOfBytes );
+      delete [] tempBuffer;
+      }
+    else
+      {
+      file.write(static_cast<const char*>(buffer), numberOfBytes );
+      }
+
     }
 }
 
