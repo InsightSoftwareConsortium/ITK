@@ -26,6 +26,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkBSplineInterpolateImageFunction.h"
 #include "itkBackwardDifferenceOperator.h"
 #include "itkBinaryBallStructuringElement.h"
+#include "itkBinaryThresholdImageFunction.h"
 #include "itkBloxBoundaryPointImage.h"
 #include "itkBloxBoundaryPointItem.h"
 #include "itkBloxBoundaryPointPixel.h"
