@@ -121,6 +121,7 @@ ADD_TEST(itkNoiseImageFilterTest ${BASIC_FILTERS_TESTS}
 ADD_TEST(itkNonThreadedShrinkImageTest ${BASIC_FILTERS_TESTS} itkNonThreadedShrinkImageTest)
 ADD_TEST(itkNormalizeImageFilterTest ${BASIC_FILTERS_TESTS} itkNormalizeImageFilterTest)
 ADD_TEST(itkObjectMorphologyImageFilterTest ${BASIC_FILTERS_TESTS} itkObjectMorphologyImageFilterTest)
+ADD_TEST(itkOrImageFilterTest ${BASIC_FILTERS_TESTS} itkOrImageFilterTest)
 ADD_TEST(itkParallelSparseFieldLevelSetImageFilterTest ${BASIC_FILTERS_TESTS} itkParallelSparseFieldLevelSetImageFilterTest)
 ADD_TEST(itkPathToChainCodePathFilterTest ${BASIC_FILTERS_TESTS} itkPathToChainCodePathFilterTest)
 ADD_TEST(itkPathToImageFilterTest ${BASIC_FILTERS_TESTS} itkPathToImageFilterTest)
@@ -496,6 +497,7 @@ itkNeighborhoodOperatorImageFilterTest.cxx
 itkNoiseImageFilterTest.cxx
 itkNonThreadedShrinkImageTest.cxx
 itkNormalizeImageFilterTest.cxx
+itkOrImageFilterTest.cxx
 itkObjectMorphologyImageFilterTest.cxx
 itkParallelSparseFieldLevelSetImageFilterTest.cxx
 itkPasteImageFilterTest.cxx
