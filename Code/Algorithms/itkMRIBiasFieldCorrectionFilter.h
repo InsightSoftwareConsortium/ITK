@@ -576,7 +576,7 @@ protected:
   void GenerateData() ;
 
 private:
-  MRIBiasEnergyFunction(const Self&); //purposely not implemented
+  MRIBiasFieldCorrectionFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   /**
