@@ -208,23 +208,23 @@ protected:
   MatrixType          m_RotationMatrix;
   
   // Return the inverse matrix and recompute it only if necessary
-  MatrixType GetInverseMatrix() const;
+  virtual MatrixType GetInverseMatrix() const;
 
   // To avoid recomputation of the inverse if not needed
   mutable TimeStamp   m_InverseMatrixMTime;
   TimeStamp           m_RotationMatrixMTime;
 
+  // Offset of the transformation
+  OffsetType          m_Offset;  
+
+  // representation of the inverse rottion
+  mutable MatrixType          m_InverseMatrix;
+
 private:
   Rigid3DTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  // Offset of the transformation
-  OffsetType          m_Offset;   
+ 
   
-  // representation of the inverse rottion
-  mutable MatrixType          m_InverseMatrix;
-  
-
 }; //class Rigid3DTransform
 
 
