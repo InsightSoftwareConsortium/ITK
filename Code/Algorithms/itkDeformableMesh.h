@@ -44,7 +44,7 @@ public:
    * Typedefs are not inherited.
    * Get typedef from superclass.
    */
-  typedef Superclass::CellTraits CellTraits;
+  typedef typename Superclass::CellTraits CellTraits;
   
   /**
    * Method for creation through the object factory.
