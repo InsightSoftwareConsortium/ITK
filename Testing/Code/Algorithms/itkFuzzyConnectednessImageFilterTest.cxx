@@ -148,7 +148,7 @@ int main(){
 /* set the parameters */
 	testFuzzy->SetParameters(270.0,2500.0,1.0,1.0,1.0);
 	testFuzzy->SetThreshold(0.5);
-	testFuzzy->GenerateData();
+	testFuzzy->Update();
 
 /* printout the segmentation result */
 	std::cout<<"Segmentation Result"<<std::endl;

@@ -175,7 +175,7 @@ int main()
   //Set the parameters of the clusterer
   //----------------------------------------------------------------------
   applyKMeansClusterer->SetInputImage(vecImage);
-  applyKMeansClusterer->SetNumClasses(NCODEWORDS);
+  applyKMeansClusterer->SetNumberOfClasses(NCODEWORDS);
   applyKMeansClusterer->SetThreshold(0.01);
   applyKMeansClusterer->Cluster();
   //applyKMeansClusterer->PrintKmeansAlgorithmResults();

@@ -106,7 +106,7 @@ int main()
 
   denoiser->SetInput( source->GetOutput() );
   denoiser->SetTimeStep( 0.15 );
-  denoiser->SetIterations( 8 );
+  denoiser->SetNumberOfIterations( 8 );
   //denoiser->DebugOn();
 
   ShowProgressObject progressWatch(denoiser);

@@ -317,9 +317,9 @@ int main()
   MRFImageFilterType::Pointer applyMRFImageFilter = MRFImageFilterType::New();
 
   // Set the MRF labeller parameters
-  applyMRFImageFilter->SetNumClasses(NUM_CLASSES);
-  applyMRFImageFilter->SetMaxNumIter(MAX_NUM_ITER);
-  applyMRFImageFilter->SetErrorTollerance(0.00);
+  applyMRFImageFilter->SetNumberOfClasses(NUM_CLASSES);
+  applyMRFImageFilter->SetMaximumNumberOfIterations(MAX_NUM_ITER);
+  applyMRFImageFilter->SetErrorTolerance(0.00);
  
   applyMRFImageFilter->SetInput(vecImage);
   applyMRFImageFilter

@@ -263,7 +263,7 @@ int main()
 	  applyClassifier = GaussianSupervisedClassifierType::New();
 
   // Set the Classifier parameters
-  applyClassifier->SetNumClasses(NUM_CLASSES);
+  applyClassifier->SetNumberOfClasses(NUM_CLASSES);
   applyClassifier->SetInputImage(vecImage);
   applyClassifier->SetTrainingImage(classImage);  
 
