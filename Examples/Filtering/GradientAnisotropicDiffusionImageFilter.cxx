@@ -30,7 +30,7 @@
 //  \end{equation}
 //
 //  The numerical implementation of this equation is similar to that described
-//  in the Perona-Malik paper \cite[perona], but uses a more robust technique
+//  in the Perona-Malik paper \cite{Perona1990}, but uses a more robust technique
 //  for gradient magnitude estimation and has been generalized to N-dimensions.
 //
 //  \index{itk::GradientAnisotropicDiffusionImageFilter|textbf}
