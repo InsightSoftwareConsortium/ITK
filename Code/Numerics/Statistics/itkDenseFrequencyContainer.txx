@@ -18,6 +18,7 @@
 #define _itkDenseFrequencyContainer_txx
 
 #include "itkDenseFrequencyContainer.h"
+#include "itkNumericTraits.h"
 
 namespace itk{ 
   namespace Statistics{
@@ -27,6 +28,7 @@ DenseFrequencyContainer< TFrequencyValue >
 ::DenseFrequencyContainer()
 {
   m_FrequencyContainer = FrequencyContainerType::New() ;
+  m_TotalFrequency = NumericTraits< FrequencyType >::Zero ;
 } 
 
 template< class TFrequencyValue >
@@ -35,6 +37,16 @@ DenseFrequencyContainer< TFrequencyValue >
 ::Initialize(unsigned long length) 
 {   
   m_FrequencyContainer->Reserve(length) ;
+}
+
+template< class TFrequencyValue >
+void
+DenseFrequencyContainer< TFrequencyValue >
+::SetFrequency(const InstanceIdentifier id, const FrequencyType value)
+{ 
+  FrequencyType frequency = this->GetFrequency(id) ;
+  (*m_FrequencyContainer)[id] = value ; 
+  m_TotalFrequency += (value - frequency) ;
 }
 
 template< class TFrequencyValue >
@@ -50,10 +62,9 @@ void
 DenseFrequencyContainer< TFrequencyValue >
 ::IncreaseFrequency(const InstanceIdentifier id, const FrequencyType value)
 {
-  FrequencyType frequency;
-  frequency = this->GetFrequency(id);
-  frequency = frequency + value;
-  this->SetFrequency(id, frequency);
+  FrequencyType frequency = this->GetFrequency(id) ;
+  (*m_FrequencyContainer)[id] = frequency + value ; 
+  m_TotalFrequency += value ;
 }
 
 template< class TFrequencyValue >
