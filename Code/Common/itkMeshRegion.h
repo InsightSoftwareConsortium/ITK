@@ -105,14 +105,6 @@ private:
   unsigned long int    m_Region;
 
 };
-
-std::ostream & operator<<(std::ostream &os, const MeshRegion &region)
-{
-  os << "Number of regions: " << region.GetNumberOfRegions() << std::endl;
-  os << "Region number: " << region.GetRegion() << std::endl;
-
-  return os;
-}
   
 } // end namespace itk
 
