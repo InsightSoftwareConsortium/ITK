@@ -74,7 +74,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
   // Allocation of flag variable to check if a given thread touch the outer part
   // of the narrowband. If this part is touched, band should be reinitialized.
   m_TouchedForThread = new bool[this->GetNumberOfThreads()];
-  for (unsigned int i = 0; i < this->GetNumberOfThreads(); i++)
+  for (int i = 0; i < this->GetNumberOfThreads(); i++)
     {
     m_TouchedForThread[i] = false;
     } 
@@ -86,7 +86,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
 ::InitializeIteration()
 {
   //Set m_Touched flag from threads information
-  for (unsigned int i = 0; i < this->GetNumberOfThreads(); i++)
+  for (int i = 0; i < this->GetNumberOfThreads(); i++)
     {
     m_Touched = (m_Touched || m_TouchedForThread[i]);
     m_TouchedForThread[i] = false;
