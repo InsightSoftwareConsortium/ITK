@@ -107,7 +107,7 @@ int main(void)
     0);   // CellFeatureIdentifier
 
   std::cout << testCell->GetClassName() << std::endl;
-
+  
   /**
    * Allocate an explicity boundary line.
    */
@@ -129,22 +129,21 @@ int main(void)
 			      1,   // CellIdentifier
 			      0,   // CellFeatureIdentifier
 			      0);  // Boundary identifier.  
-  
   /**
    * Try getting the hexahedron's neighbor through its first edge.
    * This should be the test tetrahedron, except that we have done an
    * explicit assignment which removes this.
    */
-  std::list<Mesh::CellIdentifier>  neighborList;
+  std::set<Mesh::CellIdentifier>  neighborSet;
   mesh->GetBoundaryFeatureNeighbors(
     1,              // Topological dimension of feature.
     1,              // CellIdentifier
     0,              // CellFeatureIdentifier
-    &neighborList); // Where to put result.
+    &neighborSet); // Where to put result.
 
   std::cout << "Neighbors:" << std::endl;
-  for(std::list<Mesh::CellIdentifier>::iterator cell = neighborList.begin() ;
-      cell != neighborList.end() ; ++cell)
+  for(std::set<Mesh::CellIdentifier>::iterator cell = neighborSet.begin() ;
+      cell != neighborSet.end() ; ++cell)
     {
     std::cout << "Id " << *cell << ": ";
     if(mesh->GetCell(*cell, &testCell))
