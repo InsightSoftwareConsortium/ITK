@@ -45,6 +45,22 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
   m_InitialTransformParameters.Fill( 0.0f );
   m_LastTransformParameters.Fill( 0.0f );
 
+  m_FixedImageRegionDefined = false;
+
+}
+
+
+
+/*
+ * Set the region of the fixed image to be considered for registration
+ */
+template < typename TFixedImage, typename TMovingImage >
+void
+ImageRegistrationMethod<TFixedImage,TMovingImage>
+::SetFixedImageRegion( const FixedImageRegionType & region )
+{ 
+  m_FixedImageRegion = region;
+  m_FixedImageRegionDefined = true;
 }
 
 
@@ -92,6 +108,16 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
   m_Metric->SetFixedImage( m_FixedImage );
   m_Metric->SetTransform( m_Transform );
   m_Metric->SetInterpolator( m_Interpolator );
+
+  if( m_FixedImageRegionDefined )
+    {
+    m_Metric->SetFixedImageRegion( m_FixedImageRegion );
+    }
+  else
+    {
+    m_Metric->SetFixedImageRegion( m_FixedImage->GetBufferedRegion() );
+    }
+
   m_Metric->Initialize();
 
   // Setup the optimizer

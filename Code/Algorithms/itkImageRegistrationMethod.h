@@ -82,8 +82,9 @@ public:
 
   /**  Type of the metric. */
   typedef ImageToImageMetric< FixedImageType,
-                              MovingImageType >    MetricType;
-  typedef typename MetricType::Pointer             MetricPointer;
+                              MovingImageType >       MetricType;
+  typedef typename MetricType::Pointer                MetricPointer;
+  typedef typename MetricType::FixedImageRegionType   FixedImageRegionType;
 
   /**  Type of the Transform . */
   typedef  typename MetricType::TransformType      TransformType;
@@ -135,6 +136,15 @@ public:
    * the optimizer. */
   itkGetConstReferenceMacro( LastTransformParameters, ParametersType );
 
+  /** Set the region of the fixed image to be considered as region of
+   interest during the registration. This region will be passed to 
+   the ImageMetric in order to restrict the metric computation to 
+   consider only this region. 
+   \warning The same region can also be set directly into the metric.
+   please avoid to set the region in both places since this can lead
+   to inconsistent configurations.  */
+  void SetFixedImageRegion( const  FixedImageRegionType & region ); 
+
   /** Initialize by setting the interconnects between the components. */
   void Initialize() throw (ExceptionObject);
 
@@ -159,6 +169,9 @@ private:
   ParametersType                   m_InitialTransformParameters;
   ParametersType                   m_LastTransformParameters;
   
+  bool                             m_FixedImageRegionDefined;
+  FixedImageRegionType             m_FixedImageRegion;
+
 };
 
 
