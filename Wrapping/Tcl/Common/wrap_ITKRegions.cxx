@@ -17,8 +17,6 @@
 #include "itkRegion.h"
 #include "itkImageRegion.h"
 #include "itkMeshRegion.h"
-#include "itkSize.h"
-#include "itkIndex.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "wrap_ITKCommon.h"
@@ -28,9 +26,5 @@ ITK_WRAP_CLASS(Region);
 ITK_WRAP_CLASS(MeshRegion);
 ITK_WRAP_CLASS_TEMPLATE_1(ImageRegion2, ImageRegion<2>);
 ITK_WRAP_CLASS_TEMPLATE_1(ImageRegion3, ImageRegion<3>);
-ITK_WRAP_CLASS_TEMPLATE_1(Index2, Index<2>);
-ITK_WRAP_CLASS_TEMPLATE_1(Index3, Index<3>);
-ITK_WRAP_CLASS_TEMPLATE_1(Size2, Size<2>);
-ITK_WRAP_CLASS_TEMPLATE_1(Size3, Size<3>);
 
 #endif
