@@ -128,10 +128,17 @@ public:
    */
   itkSetMacro( TranslationScale , TScalarType );
    
+
   /**
    *  Get the Scale for translations
    */
   itkGetMacro( TranslationScale , TScalarType );
+  
+
+  /**
+   *  Get the transform
+   */
+  itkGetMacro( Transform , TransformType );
  
 
   /**
