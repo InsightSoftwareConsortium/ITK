@@ -118,10 +118,10 @@ FloodFilledSpatialFunctionConditionalIterator<TImage, TFunction>
         {
         // Next we use the binary values in the counter to form
         // an index to look at
-        for(int i = 0; i < dim; i++)
+        for(unsigned int i = 0; i < dim; i++)
           {
             counterCopy = counter;
-            tempIndex[i] = index[i] + (int)( (counterCopy >> i) & 0x0001 );
+            tempIndex[i] = index[i] + static_cast<int>( (counterCopy >> i) & 0x0001 );
           }
 
         // Now that we've built an index, we can test it
@@ -162,10 +162,10 @@ FloodFilledSpatialFunctionConditionalIterator<TImage, TFunction>
       {
       // Next we use the binary values in the counter to form
       // an index to look at
-      for(int i = 0; i < dim; i++)
+      for(unsigned int i = 0; i < dim; i++)
         {
           counterCopy = counter;
-          tempIndex[i] = index[i] + (int)( (counterCopy >> i) & 0x0001);
+          tempIndex[i] = index[i] + static_cast<int>( (counterCopy >> i) & 0x0001);
         }
 
       // Now that we've built an index, we can test it
