@@ -58,6 +58,9 @@ public:
   /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType PixelType;
   
+  /** Type definition for the input image index type. */
+  typedef typename TInputImage::IndexType IndexType;
+  
   /** Set the input image. */
   itkSetConstObjectMacro(Image,ImageType);
 
@@ -76,6 +79,12 @@ public:
   /** Return the maximum intensity value. */
   itkGetMacro(Maximum,PixelType);
 
+  /** Return the index of the minimum intensity value. */
+  itkGetConstReferenceMacro(IndexOfMinimum,IndexType);
+
+  /** Return the index of the maximum intensity value. */
+  itkGetConstReferenceMacro(IndexOfMaximum,IndexType);
+
 protected:
   MinimumMaximumImageCalculator();
   virtual ~MinimumMaximumImageCalculator() {};
@@ -85,9 +94,12 @@ private:
   MinimumMaximumImageCalculator(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-   PixelType            m_Minimum;
-   PixelType            m_Maximum;
-   ImageConstPointer    m_Image;
+  PixelType            m_Minimum;
+  PixelType            m_Maximum;
+  ImageConstPointer    m_Image;
+
+  IndexType            m_IndexOfMinimum;
+  IndexType            m_IndexOfMaximum;
 
 };
 

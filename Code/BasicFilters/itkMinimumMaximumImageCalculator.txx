@@ -54,10 +54,12 @@ MinimumMaximumImageCalculator<TInputImage>
     if (value > m_Maximum) 
     {
       m_Maximum = value;
+      m_IndexOfMaximum = it.GetIndex();
     }
     if (value < m_Minimum) 
     {
       m_Minimum = value;
+      m_IndexOfMinimum = it.GetIndex();
     }
    ++it;
   }
@@ -81,6 +83,7 @@ MinimumMaximumImageCalculator<TInputImage>
     if (value < m_Minimum) 
     {
       m_Minimum = value;
+      m_IndexOfMinimum = it.GetIndex();
     }
     ++it;
   }
@@ -104,6 +107,7 @@ MinimumMaximumImageCalculator<TInputImage>
     if (value > m_Maximum) 
     {
       m_Maximum = value;
+      m_IndexOfMaximum = it.GetIndex();
     }
     ++it;
   }
@@ -123,6 +127,8 @@ MinimumMaximumImageCalculator<TInputImage>
   os << indent << "Maximum: "
      << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Maximum)
      << std::endl;
+  os << indent << "Index of Minimum: " << m_IndexOfMinimum << std::endl;
+  os << indent << "Index of Maximum: " << m_IndexOfMaximum << std::endl;
   os << indent << "Image: " << m_Image << std::endl;
 }
 
