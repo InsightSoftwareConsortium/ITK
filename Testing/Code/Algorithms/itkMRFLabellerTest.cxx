@@ -317,10 +317,8 @@ int main()
   ClassImageIterator labeloutIt( outClassImage, outClassImage->GetBufferedRegion() );
 
   int sumtmp =0;
-  int label;
   while( !labeloutIt.IsAtEnd() )
     {
-    label = (int) labeloutIt.Get();
     sumtmp += (int)  labeloutIt.Get();
     ++labeloutIt;
     }  
