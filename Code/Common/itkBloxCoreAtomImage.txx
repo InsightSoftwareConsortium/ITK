@@ -292,7 +292,7 @@ DoCoreAtomVoting()
       }
 
     // Build the ellipsoid voting region
-    typedef EllipsoidInteriorExteriorSpatialFunction<double, NDimensions> TVoteFunctionType;
+    typedef EllipsoidInteriorExteriorSpatialFunction<NDimensions, TPositionType> TVoteFunctionType;
     TVoteFunctionType::Pointer ellipsoid = TVoteFunctionType::New();
 
     ellipsoid->SetOrientations(eigenvectors);
