@@ -28,7 +28,7 @@ namespace itk
 template <class TImage>
 void
 ExtractOrthogonalSwath2DImageFilter<TImage>
-::SetSpacing(const double spacing[ImageDimension] )
+::SetSpacing(const double spacing[ExtractOrthogonalSwath2DImageFilter::ImageDimension] )
 {
   unsigned int i; 
   for (i=0; i<ImageDimension; i++)
@@ -50,7 +50,7 @@ ExtractOrthogonalSwath2DImageFilter<TImage>
 template <class TImage>
 void
 ExtractOrthogonalSwath2DImageFilter<TImage>
-::SetSpacing(const float spacing[ImageDimension] )
+::SetSpacing(const float spacing[ExtractOrthogonalSwath2DImageFilter::ImageDimension] )
 {
   unsigned int i; 
   for (i=0; i<ImageDimension; i++)
@@ -81,7 +81,7 @@ ExtractOrthogonalSwath2DImageFilter<TImage>
 template <class TImage>
 void
 ExtractOrthogonalSwath2DImageFilter<TImage>
-::SetOrigin(const double origin[ImageDimension] )
+::SetOrigin(const double origin[ExtractOrthogonalSwath2DImageFilter::ImageDimension] )
 {
   unsigned int i; 
   for (i=0; i<ImageDimension; i++)
@@ -103,7 +103,7 @@ ExtractOrthogonalSwath2DImageFilter<TImage>
 template <class TImage>
 void
 ExtractOrthogonalSwath2DImageFilter<TImage>
-::SetOrigin(const float origin[ImageDimension] )
+::SetOrigin(const float origin[ExtractOrthogonalSwath2DImageFilter::ImageDimension] )
 {
   unsigned int i; 
   for (i=0; i<ImageDimension; i++)

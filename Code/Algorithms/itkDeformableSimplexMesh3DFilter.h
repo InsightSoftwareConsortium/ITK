@@ -115,7 +115,7 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
     typedef typename GradientIndexType::IndexValueType      GradientIndexValueType;
     typedef typename GradientImageType::SizeType            GradientImageSizeType;
     
-    typedef itk::Array<GradientIndexType>                   ArrayGradientIndexType;
+    typedef std::vector<GradientIndexType>                   ArrayGradientIndexType;
     
     /* Mesh pointer definition. */
     typedef typename InputMeshType::Pointer     InputMeshPointer;

@@ -206,7 +206,7 @@ public:
    * also do some funky stuff to them, this function is virtual and
    * can be overriden in a derived solver class.
    */
-  virtual void AssembleLandmarkContribution(const Element::Pointer e, float);
+  virtual void AssembleLandmarkContribution(Element::Pointer e, float);
 
   /**
    * Apply the boundary conditions to the system.

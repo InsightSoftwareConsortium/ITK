@@ -82,7 +82,7 @@ template <class TInputImage,class TOutputImage,class TDeformationField>
 void
 WarpVectorImageFilter<TInputImage,TOutputImage,TDeformationField>
 ::SetOutputSpacing(
-  const double spacing[ImageDimension] )
+  const double spacing[WarpVectorImageFilter::ImageDimension] )
 {
   SpacingType s(spacing);
   this->SetOutputSpacing( s );
@@ -97,7 +97,7 @@ template <class TInputImage,class TOutputImage,class TDeformationField>
 void
 WarpVectorImageFilter<TInputImage,TOutputImage,TDeformationField>
 ::SetOutputOrigin(
-  const double origin[ImageDimension] )
+  const double origin[WarpVectorImageFilter::ImageDimension] )
 {
   PointType p(origin);
   this->SetOutputOrigin(p);

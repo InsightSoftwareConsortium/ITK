@@ -28,8 +28,8 @@
 #    define ITK_CONCEPT_IMPLEMENTATION_VTABLE
 #  elif defined(__MWERKS__) && (__MWERKS__ <= 0x3002)
 #    define ITK_CONCEPT_IMPLEMENTATION_VTABLE
-#  elif defined(__SUNPRO_CC) && (__SUNPRO_CC <= 0x500)
-#    define ITK_CONCEPT_IMPLEMENTATION_CALL
+#  elif defined(__SUNPRO_CC)
+#    define ITK_CONCEPT_IMPLEMENTATION_VTABLE
 #  else
 #    define ITK_CONCEPT_IMPLEMENTATION_STANDARD
 #  endif

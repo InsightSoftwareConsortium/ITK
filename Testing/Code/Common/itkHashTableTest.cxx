@@ -132,7 +132,8 @@ int itkHashTableTest(int, char* [] )
   months.empty();
   months.bucket_count();
   months.resize(50);
-  months.insert(std::pair<const char*, int>("psychotic break", 2));
+  HashMapType::value_type p("psychotic break", 2);
+  months.insert(p);
   months.count("january");
   months.find("june");
   HashMapType::iterator map_it = months.begin();

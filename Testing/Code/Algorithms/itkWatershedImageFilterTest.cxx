@@ -25,7 +25,7 @@
 #include "itkWatershedBoundaryResolver.h"
 #include "../BasicFilters/itkFilterWatcher.h"
 
-inline void println(char *s) { std::cout << s << std::endl; }
+inline void println(const char *s) { std::cout << s << std::endl; }
 
 int itkWatershedImageFilterTest(int, char* [] )
 {

@@ -70,7 +70,7 @@ AutomaticTopologyMeshSource<TOutputMesh>
 template<class TOutputMesh>
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource<TOutputMesh>
-::AddPoint( const CoordinateType p0[ PointDimension ] )
+::AddPoint( const CoordinateType p0[ AutomaticTopologyMeshSource::PointDimension ] )
 {
   PointType newPoint;
   unsigned int i;
@@ -662,7 +662,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
 template<class TOutputMesh>
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
-::AddVertex( const CoordinateType p0[ PointDimension ] )
+::AddVertex( const CoordinateType p0[ AutomaticTopologyMeshSource::PointDimension ] )
 {
   Array<IdentifierType> pointIDs( 1 );
   pointIDs[ 0 ] = AddPoint( p0 );
@@ -672,8 +672,8 @@ AutomaticTopologyMeshSource< TOutputMesh >
 template<class TOutputMesh>
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
-::AddLine( const CoordinateType p0[ PointDimension ],
-           const CoordinateType p1[ PointDimension ] )
+::AddLine( const CoordinateType p0[ AutomaticTopologyMeshSource::PointDimension ],
+           const CoordinateType p1[ AutomaticTopologyMeshSource::PointDimension ] )
 {
   Array<IdentifierType> pointIDs( 2 );
   pointIDs[ 0 ] = AddPoint( p0 );
@@ -684,9 +684,9 @@ AutomaticTopologyMeshSource< TOutputMesh >
 template<class TOutputMesh>
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
-::AddTriangle( const CoordinateType p0[ PointDimension ],
-               const CoordinateType p1[ PointDimension ],
-               const CoordinateType p2[ PointDimension ] )
+::AddTriangle( const CoordinateType p0[ AutomaticTopologyMeshSource::PointDimension ],
+               const CoordinateType p1[ AutomaticTopologyMeshSource::PointDimension ],
+               const CoordinateType p2[ AutomaticTopologyMeshSource::PointDimension ] )
 {
   Array<IdentifierType> pointIDs( 3 );
   pointIDs[ 0 ] = AddPoint( p0 );
@@ -698,10 +698,10 @@ AutomaticTopologyMeshSource< TOutputMesh >
 template<class TOutputMesh>
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
-::AddQuadrilateral( const CoordinateType p0[ PointDimension ], 
-                    const CoordinateType p1[ PointDimension ],
-                    const CoordinateType p2[ PointDimension ],
-                    const CoordinateType p3[ PointDimension ] )
+::AddQuadrilateral( const CoordinateType p0[ AutomaticTopologyMeshSource::PointDimension ], 
+                    const CoordinateType p1[ AutomaticTopologyMeshSource::PointDimension ],
+                    const CoordinateType p2[ AutomaticTopologyMeshSource::PointDimension ],
+                    const CoordinateType p3[ AutomaticTopologyMeshSource::PointDimension ] )
 {
   Array<IdentifierType> pointIDs( 4 );
   pointIDs[ 0 ] = AddPoint( p0 );
@@ -714,10 +714,10 @@ AutomaticTopologyMeshSource< TOutputMesh >
 template<class TOutputMesh>
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
-::AddTetrahedron( const CoordinateType p0[ PointDimension ],
-                  const CoordinateType p1[ PointDimension ],
-                  const CoordinateType p2[ PointDimension ],
-                  const CoordinateType p3[ PointDimension ] )
+::AddTetrahedron( const CoordinateType p0[ AutomaticTopologyMeshSource::PointDimension ],
+                  const CoordinateType p1[ AutomaticTopologyMeshSource::PointDimension ],
+                  const CoordinateType p2[ AutomaticTopologyMeshSource::PointDimension ],
+                  const CoordinateType p3[ AutomaticTopologyMeshSource::PointDimension ] )
 {
   Array<IdentifierType> pointIDs( 4 );
   pointIDs[ 0 ] = AddPoint( p0 );
@@ -730,14 +730,14 @@ AutomaticTopologyMeshSource< TOutputMesh >
 template<class TOutputMesh>
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
-::AddHexahedron( const CoordinateType p0[ PointDimension ],
-                 const CoordinateType p1[ PointDimension ],
-                 const CoordinateType p2[ PointDimension ],
-                 const CoordinateType p3[ PointDimension ],
-                 const CoordinateType p4[ PointDimension ],
-                 const CoordinateType p5[ PointDimension ],
-                 const CoordinateType p6[ PointDimension ],
-                 const CoordinateType p7[ PointDimension ] )
+::AddHexahedron( const CoordinateType p0[ AutomaticTopologyMeshSource::PointDimension ],
+                 const CoordinateType p1[ AutomaticTopologyMeshSource::PointDimension ],
+                 const CoordinateType p2[ AutomaticTopologyMeshSource::PointDimension ],
+                 const CoordinateType p3[ AutomaticTopologyMeshSource::PointDimension ],
+                 const CoordinateType p4[ AutomaticTopologyMeshSource::PointDimension ],
+                 const CoordinateType p5[ AutomaticTopologyMeshSource::PointDimension ],
+                 const CoordinateType p6[ AutomaticTopologyMeshSource::PointDimension ],
+                 const CoordinateType p7[ AutomaticTopologyMeshSource::PointDimension ] )
 {
   Array<IdentifierType> pointIDs( 8 );
   pointIDs[ 0 ] = AddPoint( p0 );

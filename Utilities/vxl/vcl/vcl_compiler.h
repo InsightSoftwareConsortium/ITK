@@ -40,6 +40,9 @@
 # else
 #  undef VCL_SUNPRO_CC_50
 # endif
+# if (__SUNPRO_CC>=0x560)
+#  define VCL_SUNPRO_CC_56
+# endif
 # ifdef INSTANTIATE_TEMPLATES
 #  define _RWSTD_COMPILE_INSTANTIATE
 # endif

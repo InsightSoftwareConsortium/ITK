@@ -966,7 +966,7 @@ void Segmenter<TInputImage>
         if ( edge_ptr == (*edge_table_entry_ptr).second.end() )
           {     // This edge has not been identified yet.
           (*edge_table_entry_ptr).second.insert(
-            std::pair<unsigned long, InputPixelType>(
+            edge_table_t::value_type(
               labelIt.GetPixel(nPos), lowest_edge) ); 
           }
         else if (lowest_edge < (*edge_ptr).second)

@@ -21,7 +21,7 @@
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_vector_fixed.h"
 #include "vnl/vnl_matrix_fixed.h"
-
+#include "itkFixedArray.h"
 #include "itkBloxCoreAtomPixel.h"
 
 #include <list>
@@ -53,7 +53,7 @@ public:
   void SetNodePointer(ItemType* itemPointer, unsigned int index) {ItemPointer[index] = itemPointer;}
 
   /** Coordinate of node in clique in physical space. */
-  typedef vnl_vector_fixed<vnl_vector_fixed<double, VImageDimension>, VCliqueSize> CoordinateType; 
+  typedef FixedArray<vnl_vector_fixed<double, VImageDimension>, VCliqueSize> CoordinateType; 
  
   /** Center mass of node clique in physical space. */
   typedef vnl_vector_fixed<double, VCliqueSize> CenterOfMassType;

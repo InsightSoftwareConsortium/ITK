@@ -130,7 +130,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 template <class TInputSpatialObject, class TOutputImage>
 void 
 SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
-::SetSpacing(const double spacing[OutputImageDimension] )
+::SetSpacing(const double spacing[SpatialObjectToImageFilter::OutputImageDimension] )
 {
   unsigned int i; 
   for (i=0; i<OutputImageDimension; i++)
@@ -152,7 +152,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 template <class TInputSpatialObject, class TOutputImage>
 void 
 SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
-::SetSpacing(const float spacing[OutputImageDimension] )
+::SetSpacing(const float spacing[SpatialObjectToImageFilter::OutputImageDimension] )
 {
   unsigned int i; 
   for (i=0; i<OutputImageDimension; i++)
@@ -208,7 +208,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 template <class TInputSpatialObject, class TOutputImage>
 void 
 SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
-::SetOrigin(const double origin[OutputImageDimension] )
+::SetOrigin(const double origin[SpatialObjectToImageFilter::OutputImageDimension] )
 {
   unsigned int i; 
   for (i=0; i<OutputImageDimension; i++)
@@ -230,7 +230,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 template <class TInputSpatialObject, class TOutputImage>
 void 
 SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
-::SetOrigin(const float origin[OutputImageDimension] )
+::SetOrigin(const float origin[SpatialObjectToImageFilter::OutputImageDimension] )
 {
   unsigned int i; 
   for (i=0; i<OutputImageDimension; i++)

@@ -24,7 +24,7 @@
 class FilterWatcher
 {
 public:
-  FilterWatcher(itk::ProcessObject* o, char *comment="")
+  FilterWatcher(itk::ProcessObject* o, const char *comment="")
   {
     m_Start = 0; m_End = 0; m_Process = o; m_Steps = 0; m_Comment = comment;
     m_TestAbort = false;

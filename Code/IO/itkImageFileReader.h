@@ -35,7 +35,7 @@ public:
   itkTypeMacro( ImageFileReaderException, ExceptionObject );
 
   /** Constructor. */
-  ImageFileReaderException(char *file, unsigned int line, 
+  ImageFileReaderException(const char *file, unsigned int line, 
                            const char* message = "Error in IO") : 
     ExceptionObject(file, line)
   {

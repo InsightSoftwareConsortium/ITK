@@ -77,7 +77,7 @@ template <class TOutputImage>
 void 
 DeformationFieldSource<TOutputImage>
 ::SetOutputSpacing(
-  const double spacing[ImageDimension] )
+  const double spacing[DeformationFieldSource::ImageDimension] )
 {
   SpacingType s(spacing);
   this->SetOutputSpacing( s );
@@ -91,7 +91,7 @@ template <class TOutputImage>
 void 
 DeformationFieldSource<TOutputImage>
 ::SetOutputOrigin(
-  const double origin[ImageDimension] )
+  const double origin[DeformationFieldSource::ImageDimension] )
 {
   OriginPointType p(origin);
   this->SetOutputOrigin( p );

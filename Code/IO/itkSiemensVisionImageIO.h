@@ -407,8 +407,8 @@ private:
     TEXT_START_MIN_LEN= 2,
     TEXT_START_SEC= 6091,   // Scan start time - second, char
     TEXT_START_SEC_LEN= 2,
-    HDR_TOTAL_LENGTH= 6144, // Total length of Siemens Header
-  } SiemensVisionHeaderInfo ;
+    HDR_TOTAL_LENGTH= 6144 // Total length of Siemens Header
+  } SiemensVisionHeaderInfo;
   SiemensVisionImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 };

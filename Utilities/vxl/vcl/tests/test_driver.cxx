@@ -39,7 +39,7 @@ int test_cstdio_main(int, char*[]);
 int passed;
 int failed;
 
-void testname( char* testname )
+void testname( const char* testname )
 {
   vcl_cout << "   Testing vcl_" << testname << " ... ";
   vcl_cout.flush();

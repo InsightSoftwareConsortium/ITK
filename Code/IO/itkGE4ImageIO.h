@@ -146,8 +146,7 @@ private:
     STHDR_STAT=    239,     // Patient status
     STHDR_RSRV1=    240,    // GE NMR Reserved Area
     STHDR_RSRV2=    256,    // GE NMR Reserved Area
-    STHDR_CHECK=    511,    // Study Header Checksum
-
+    STHDR_CHECK=    511    // Study Header Checksum
   };
   enum Series_Header_Offsets {
     SEHDR_ID=       0,      // Series Header Identifier
@@ -195,7 +194,7 @@ private:
     SEHDR_SUPP_TECH=    224, // Suppression technique
     SEHDR_RSRV1=    225,    // GE NMR Reserved
     SEHDR_RSRV2=    256,    // GE NMR Reserved
-    SEHDR_CHECK=    511,    // Checksum for Series Header
+    SEHDR_CHECK=    511    // Checksum for Series Header
   };
   enum Image_Header_Offsets {
     IHDR_ID=        0,      // Image Header Identifier
@@ -323,7 +322,7 @@ private:
     IHDR_R2=        283,    // for prescan
     IHDR_VBW=       284,    // Variable bandwidth
     IHDR_RSRV2=     285,    // GE NMR Reserved
-    IHDR_CHECK=     511,    // Image Header Checksum
+    IHDR_CHECK=     511    // Image Header Checksum
   };
   enum DSS_Header_Offsets {
     DSSHDR_ID=      0,      // DSS Header Identifier
@@ -348,7 +347,7 @@ private:
     DSSHDR_EOF=     129,  // Points to the next block to allocate.
     DSSHDR_SDIR=    130, // Series number and sgenid referenced by max
     DSSHDR_IMAP=    223, // Image block number map for each series
-    DSSHDR_RSRV1=   471,    // GE NMR Reserved Area
+    DSSHDR_RSRV1=   471    // GE NMR Reserved Area
   };
   enum DSS_Header_Series_Offsets {
     DSSHDR_SERIES_MIMAGE=   0, // Maximum image number created to date.
@@ -371,7 +370,7 @@ private:
     DSSHDR_SERIES_DEFIM=    28, // Default image for the series.
     DSSHDR_SERIES_TIMAGE=   29, // Total image count (partial & complete
     DSSHDR_SERIES_GTYPE=    30, // Gating type if cardiac gated
-    DSSHDR_SERIES_WPENTRY=  33, // Words per series entry.
+    DSSHDR_SERIES_WPENTRY=  33 // Words per series entry.
   };
   enum DSS_Header_Image_Offsets {
     DSSHDR_IMAGE_LOCATN=    0, // Image location in I*2 mm * 10
@@ -393,7 +392,7 @@ private:
     DSSHDR_IMAGE_ANC=      23, // R normal coordinate
     DSSHDR_IMAGE_SNC=      25, // R normal coordinate
     DSSHDR_IMAGE_OBP=      27, // Oblique plane
-    DSSHDR_IMAGE_WPENTRY=   32,
+    DSSHDR_IMAGE_WPENTRY=   32
   };
   enum Block_Offsets {
     SYSCON_START =   0*256,
@@ -404,7 +403,7 @@ private:
     RDBM_START=     12*256,
     PSD_START=      16*256,
     PIXMAP_START=   26*256,
-    IDATA_START=    28*256,
+    IDATA_START=    28*256
   };
   enum Sys_Config_Offsets {
     SCON_SYSID=     6,      // System ID String

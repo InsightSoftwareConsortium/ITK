@@ -24,7 +24,7 @@ namespace itk
 {
 
 SimpleFilterWatcher
-::SimpleFilterWatcher(ProcessObject* o, char *comment)
+::SimpleFilterWatcher(ProcessObject* o, const char *comment)
 {
   // Initialize state
   m_Start = 0;

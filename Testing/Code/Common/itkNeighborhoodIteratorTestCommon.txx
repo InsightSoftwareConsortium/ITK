@@ -27,7 +27,7 @@ typedef itk::Image<itk::Index<4>, 4> TestImageType;
 typedef itk::Offset<4> OffsetType;
 
 namespace{
-inline void println(char *s) { std::cout << s << std::endl; }
+inline void println(const char *s) { std::cout << s << std::endl; }
 }
 template<class TIteratorType>
 void printnb( const TIteratorType &nb, bool full)
@@ -104,7 +104,7 @@ TestImageType::Pointer GetTestImage(int , int , int , int )
    imageND->SetRequestedRegion(RegionND);
    imageND->Allocate();
 
-  FillImage<4>(imageND);
+  FillImage<4>(imageND.GetPointer());
    
   return  imageND;
 }

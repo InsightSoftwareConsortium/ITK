@@ -87,7 +87,7 @@ GaussianBlurImageFunction<TInputImage,TOutput>
 template <class TInputImage,class TOutput>
 void
 GaussianBlurImageFunction<TInputImage,TOutput>
-::SetSigma( const double sigma[ImageDimension] )
+::SetSigma( const double sigma[GaussianBlurImageFunction::ImageDimension] )
 {
   unsigned int i; 
   for (i=0; i<itkGetStaticConstMacro(ImageDimension); i++)
@@ -136,7 +136,7 @@ GaussianBlurImageFunction<TInputImage,TOutput>
 template <class TInputImage,class TOutput>
 void
 GaussianBlurImageFunction<TInputImage,TOutput>
-::SetExtent( const double extent[ImageDimension] )
+::SetExtent( const double extent[GaussianBlurImageFunction::ImageDimension] )
 {
   unsigned int i; 
   for (i=0; i<itkGetStaticConstMacro(ImageDimension); i++)
@@ -357,7 +357,7 @@ template <class TInputImage,class TOutput>
 void
 GaussianBlurImageFunction<TInputImage,TOutput>
 ::RecomputeContinuousGaussianKernel(
-  const double offset[ImageDimension]) const
+  const double offset[GaussianBlurImageFunction::ImageDimension]) const
 {
   for(unsigned int direction=0;direction<itkGetStaticConstMacro(ImageDimension);direction++)
     {

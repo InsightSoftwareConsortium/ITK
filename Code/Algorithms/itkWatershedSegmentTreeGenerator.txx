@@ -359,12 +359,12 @@ void SegmentTreeGenerator<TScalarType>
     if ( edgeFROMi->height < edgeTOi->height )
       {
       to_seg->edge_list.insert(edgeTOi, *edgeFROMi);
-      seen_table.insert(std::pair<unsigned long, bool>(labelFROM, true));
+      seen_table.insert(itk::hash_map<unsigned long, bool, itk::hash<unsigned long> >::value_type(labelFROM, true));
       edgeFROMi++;
       }
     else
       {
-      seen_table.insert(std::pair<unsigned long, bool>(labelTO, true));
+      seen_table.insert(itk::hash_map<unsigned long, bool, itk::hash<unsigned long> >::value_type(labelTO, true));
       edgeTOi++;
       }
     }
@@ -382,7 +382,7 @@ void SegmentTreeGenerator<TScalarType>
       {
       if ( labelFROM != edgeFROMi->label) edgeFROMi->label = labelFROM;
       to_seg->edge_list.push_back(*edgeFROMi);
-      seen_table.insert(std::pair<unsigned long, bool>(labelFROM, true));
+      seen_table.insert(itk::hash_map<unsigned long, bool, itk::hash<unsigned long> >::value_type(labelFROM, true));
       edgeFROMi++;
       }
     }
@@ -402,7 +402,7 @@ void SegmentTreeGenerator<TScalarType>
     else
       {
       if ( labelTO   != edgeTOi->label  ) edgeTOi->label = labelTO;
-      seen_table.insert(std::pair<unsigned long, bool>(labelTO, true));
+      seen_table.insert(itk::hash_map<unsigned long, bool, itk::hash<unsigned long> >::value_type(labelTO, true));
       edgeTOi++;
       }
     }
@@ -488,12 +488,12 @@ void SegmentTreeGenerator<TScalarType>
     if ( edgeFROMi->height < edgeTOi->height )
       {
       to_seg->edge_list.insert(edgeTOi, *edgeFROMi);
-      seen_table.insert(std::pair<unsigned long, bool>(labelFROM, true));
+      seen_table.insert(itk::hash_map<unsigned long, bool, itk::hash<unsigned long> >::value_type(labelFROM, true));
       edgeFROMi++;
       }
     else
       {
-      seen_table.insert(std::pair<unsigned long, bool>(labelTO, true));
+      seen_table.insert(itk::hash_map<unsigned long, bool, itk::hash<unsigned long> >::value_type(labelTO, true));
       edgeTOi++;
       }
     }
@@ -511,7 +511,7 @@ void SegmentTreeGenerator<TScalarType>
       {
       if ( labelFROM != edgeFROMi->label) edgeFROMi->label = labelFROM;
       to_seg->edge_list.push_back(*edgeFROMi);
-      seen_table.insert(std::pair<unsigned long, bool>(labelFROM, true));
+      seen_table.insert(itk::hash_map<unsigned long, bool, itk::hash<unsigned long> >::value_type(labelFROM, true));
       edgeFROMi++;
       }
     }
@@ -531,7 +531,7 @@ void SegmentTreeGenerator<TScalarType>
     else
       {
       if ( labelTO   != edgeTOi->label  ) edgeTOi->label = labelTO;
-      seen_table.insert(std::pair<unsigned long, bool>(labelTO, true));
+      seen_table.insert(itk::hash_map<unsigned long, bool, itk::hash<unsigned long> >::value_type(labelTO, true));
       edgeTOi++;
       }
     }

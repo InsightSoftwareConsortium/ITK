@@ -65,7 +65,7 @@ class ITKCommon_EXPORT SimpleFilterWatcher
 public:
   /** Constructor. Takes a ProcessObject to monitor and an optional
    * comment string that is prepended to each event message. */
-  SimpleFilterWatcher(itk::ProcessObject* o, char *comment="");
+  SimpleFilterWatcher(itk::ProcessObject* o, const char *comment="");
 
   /** Copy constructor */
   SimpleFilterWatcher(const SimpleFilterWatcher& );

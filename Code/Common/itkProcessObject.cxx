@@ -119,9 +119,19 @@ ProcessObject
     {
     num = m_Inputs.size();
     }
-  return std::count_if(m_Inputs.begin(), m_Inputs.begin() + num,
-                       std::bind2nd(std::not_equal_to<DataObject*>(),
-                                    static_cast<DataObject*>(0)) );
+  // count the number of non-null inputs
+  // this used to use std::count_if, but that function object
+  // did not work correctly with SunPro CC 5.6.
+  int count = 0;
+  for(std::vector<DataObjectPointer>::const_iterator i = m_Inputs.begin();
+      i < (m_Inputs.begin() + num); ++i)
+    {
+    if(*i != 0)
+      {
+      count++;
+      }
+    }
+  return count;
 }
  
 /**

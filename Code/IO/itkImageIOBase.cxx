@@ -428,8 +428,9 @@ std::string ImageIOBase::GetPixelTypeAsString(IOPixelType t) const
 
 }
 
+namespace {
 template <class TComponent>
-static void WriteBuffer(std::ostream& os, const TComponent *buffer, unsigned int num)
+void WriteBuffer(std::ostream& os, const TComponent *buffer, unsigned int num)
 {
   const TComponent *ptr = buffer;
   for (unsigned int i=0; i < num; i++)
@@ -438,7 +439,7 @@ static void WriteBuffer(std::ostream& os, const TComponent *buffer, unsigned int
     os << *ptr++ << " ";
     }
 }
-
+}
 void ImageIOBase::WriteBufferAsASCII(std::ostream& os, const void *buffer, 
                                      IOComponentType ctype,
                                      unsigned int numComp)

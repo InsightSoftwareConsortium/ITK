@@ -296,7 +296,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 bool
 PointSet<TPixelType, VDimension, TMeshTraits>
-::FindClosestPoint(CoordRepType[PointDimension],
+::FindClosestPoint(CoordRepType[PointSet::PointDimension],
                    PointIdentifier*)
 {
   m_BoundingBox->SetPoints(this->GetPoints());

@@ -35,8 +35,8 @@ namespace itk
 template <class TInputImage, class TOutputImage>
 int MirrorPadImageFilter<TInputImage,TOutputImage>
 ::GenerateNextOutputRegion(long *regIndices, long *regLimit, 
-                           std::vector<long> indices[ImageDimension], 
-                           std::vector<long> sizes[ImageDimension],
+                           std::vector<long> indices[MirrorPadImageFilter::ImageDimension], 
+                           std::vector<long> sizes[MirrorPadImageFilter::ImageDimension],
                            OutputImageRegionType& outputRegion)
 {
   unsigned int ctr;
@@ -88,8 +88,8 @@ int MirrorPadImageFilter<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 int MirrorPadImageFilter<TInputImage,TOutputImage>
 ::GenerateNextInputRegion(long *regIndices, long *regLimit, 
-                          std::vector<long> indices[ImageDimension], 
-                          std::vector<long> sizes[ImageDimension],
+                          std::vector<long> indices[MirrorPadImageFilter::ImageDimension], 
+                          std::vector<long> sizes[MirrorPadImageFilter::ImageDimension],
                           InputImageRegionType& inputRegion)
 {
   unsigned int ctr;
@@ -175,7 +175,7 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
                                  InputImageIndexType & inputIndex, 
                                  OutputImageRegionType & outputRegion,
                                  InputImageRegionType & inputRegion,
-                                 int oddRegionArray[ImageDimension])
+                                 int oddRegionArray[MirrorPadImageFilter::ImageDimension])
 {
   unsigned int dimCtr;
   long a, b, c;  // Output region goes from a to a+b-1

@@ -48,14 +48,14 @@ public:
   IdentifierType GetSelfIdentifier(void) const;
   IdentifierType GetParentIdentifier(void) const;
  
-  typedef enum {
-                  M = 1UL,
-                  Gap1,
-                  S,
-                  Gap2,
-                  Gap0,
-                  Apop,
-                        } CellCycleState;
+  enum CellCycleState {
+    M = 1UL,
+    Gap1,
+    S,
+    Gap2,
+    Gap0,
+    Apop
+  };
 
 
 protected:

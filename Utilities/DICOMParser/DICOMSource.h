@@ -206,7 +206,7 @@ class DICOM_EXPORT DICOMSource
       | (v >> 24));
     }
 
-  char* GetPlatformEndian() {return this->PlatformEndian;}
+  const char* GetPlatformEndian() {return this->PlatformEndian;}
 
  protected:
   DICOMSource(const DICOMSource&);
@@ -220,7 +220,7 @@ class DICOM_EXPORT DICOMSource
   //
   // Platform endianness
   //
-  char* PlatformEndian;
+  const char* PlatformEndian;
 
  private:
 

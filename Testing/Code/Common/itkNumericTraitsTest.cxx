@@ -21,7 +21,7 @@
 #include "itkNumericTraits.h"
 
 
-template<class T> void CheckTraits(char *name, T)
+template<class T> void CheckTraits(const char *name, T)
 {
   std::cout << "itk::NumericTraits<" << name << ">" << std::endl;
   std::cout << "\tmin(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::min()) << std::endl;

@@ -100,8 +100,8 @@ namespace itk {
    enum { SortGlobalAscend = 0,
           SortGlobalDescend = 1,
           SortByNameAscend = 2,
-          SortByNameDescend = 3,   
-          };
+          SortByNameDescend = 3
+   };
     
     
     IPLFileNameList() 
