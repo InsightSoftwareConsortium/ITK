@@ -36,6 +36,8 @@ SET(ITK_BUILD_SHARED "@BUILD_SHARED_LIBS@")
 SET(ITK_CSWIG_TCL "@ITK_CSWIG_TCL@")
 SET(ITK_CSWIG_PYTHON "@ITK_CSWIG_PYTHON@")
 SET(ITK_CSWIG_JAVA "@ITK_CSWIG_JAVA@")
+# path to the cswig binary
+SET(ITK_CSWIG_PATH "@CSWIG@")
 
 # A list of all libraries for ITK.  Those listed here should
 # automatically pull in their dependencies.
