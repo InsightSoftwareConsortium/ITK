@@ -133,9 +133,8 @@ ClassTypes::const_iterator ClassType::ParentsEnd() const
 /**
  * Find all the superclasses through any inheritance chain.
  */
-ClassTypeSet ClassType::GetAllSuperclasses() const
+void ClassType::GetAllSuperclasses(ClassTypeSet& result) const
 {
-  ClassTypeSet result;
   for(ClassTypes::const_iterator parent = m_Parents.begin();
       parent != m_Parents.end(); ++parent)
     {
@@ -143,14 +142,8 @@ ClassTypeSet ClassType::GetAllSuperclasses() const
     result.insert(*parent);
     
     // Insert our parent's superclasses.
-    ClassTypeSet parentResult = (*parent)->GetAllSuperclasses();
-    for(ClassTypeSet::const_iterator c = parentResult.begin();
-        c != parentResult.end(); ++c)
-      {
-      result.insert(*c);
-      }
+    (*parent)->GetAllSuperclasses(result);
     }
-  return result;
 }
 
 

@@ -1,4 +1,4 @@
-ADD_LIBRARY(CableParsers
+ADD_LIBRARY(CableParsers STATIC
 cableConfigurationRepresentation
 cableConfigurationParser
 cableSourceParser

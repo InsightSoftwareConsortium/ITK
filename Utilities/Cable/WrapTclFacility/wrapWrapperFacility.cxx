@@ -180,11 +180,13 @@ int WrapperFacility::ListMethodsCommand(int objc, Tcl_Obj* CONST objv[]) const
               && (Tcl_GetReferenceFromObj(m_Interpreter, objv[1], &r) == TCL_OK))
         {
         type = r.GetReferencedType().GetType();
-        }    
+        }
       }
     }
   
-  const ClassType* classType = ClassType::SafeDownCast(type);
+  // Cast down to the ClassType.  We don't use ClassType::SafeDownCast()
+  // because we want a return of NULL for a failed cast.
+  const ClassType* classType = dynamic_cast<const ClassType*>(type);
   Tcl_ResetResult(m_Interpreter);
   if(!classType)
     {

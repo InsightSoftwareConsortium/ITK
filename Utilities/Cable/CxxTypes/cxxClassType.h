@@ -81,7 +81,7 @@ public:
   String GetName() const;
   ClassTypes::const_iterator ParentsBegin() const;
   ClassTypes::const_iterator ParentsEnd() const;
-  ClassTypeSet GetAllSuperclasses() const;
+  void GetAllSuperclasses(ClassTypeSet&) const;
   bool IsSubclassOf(const ClassType*) const;
   
   virtual String GenerateName(const String&, bool, bool) const;

@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "cxxUtils.h"
 
 #if defined(_WIN32) || defined(WIN32) /* Win32 version */
-#  ifdef BUILD_SHARED_LIBRARIES
+#  ifdef CableParsers_SHARED
 #    ifdef CableParsers_EXPORTS
 #      define PARSERS_EXPORT __declspec(dllexport)
 #    else

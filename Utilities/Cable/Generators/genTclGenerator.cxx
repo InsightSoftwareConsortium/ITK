@@ -66,7 +66,7 @@ TclGenerator::TclGenerator(
   const configuration::CableConfiguration* in_cableConfiguration,
   const source::Namespace* in_globalNamespace,
   std::ostream& output):
-  GeneratorBase(in_cableConfiguration, in_globalNamespace, output)  
+  GeneratorBase(in_cableConfiguration, in_globalNamespace, output)
 {
 }
 
@@ -735,7 +735,8 @@ void TclGenerator::WriteConversionIntitialization() const
       c != m_ClassesForDerivedToBase.end(); ++c)
     {
     const cxx::ClassType* derived = *c;
-    cxx::ClassTypeSet superclasses = derived->GetAllSuperclasses();
+    cxx::ClassTypeSet superclasses;
+    derived->GetAllSuperclasses(superclasses);
     for(cxx::ClassTypeSet::const_iterator b = superclasses.begin();
         b != superclasses.end(); ++b)
       {
@@ -809,8 +810,7 @@ void TclGenerator::FindCvTypes(const configuration::Namespace* ns)
     source::Class* c = m_GlobalNamespace->LookupClass(qualifedName);
     if(c)
       {
-      this->FindCvTypes(c);
-      }
+      this->FindCvTypes(c);      }
     }
   for(configuration::Namespace::Fields::const_iterator f =
         ns->FieldsBegin(); f != ns->FieldsEnd(); ++f)

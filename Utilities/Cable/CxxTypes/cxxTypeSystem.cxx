@@ -273,6 +273,15 @@ TypeSystem
 
 
 /**
+ * Constructor.
+ */
+TypeSystem
+::TypeSystem()
+{
+}
+
+
+/**
  * Destructor frees all existing type representations allocated by this
  * TypeSystem.
  */

@@ -71,6 +71,7 @@ public:
                                               const ClassType*);
   const ReferenceType*       GetReferenceType(const CvQualifiedType&);
   
+  TypeSystem();
   ~TypeSystem();
   
 private:

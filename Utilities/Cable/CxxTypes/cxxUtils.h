@@ -67,7 +67,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #if defined(_WIN32) || defined(WIN32) /* Win32 version */
 
-#  ifdef BUILD_SHARED_LIBRARIES
+#  ifdef _cxx_SHARED
 #    ifdef CxxTypes_EXPORTS
 #      define _cxx_EXPORT __declspec(dllexport)
 #    else
@@ -84,32 +84,36 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #    define _cxx_char_traits string_char_traits
 #  endif
 
+#  define _cxx_NEED_DLL_ALLOCATOR
+#  define _cxx_STATIC_ALLOCATOR_METHODS
 #  define _cxxUtils_DllAllocator_include
-#include "cxxDllAllocator.h"
+#  include "cxxDllAllocator.h"
 #  undef _cxxUtils_DllAllocator_include
-
-namespace _cxx_
-{
-/**
- * Define the type "String" to be just like the STL "string", but with our
- * DLL-boundary-safe allocator for the Win32 version.
- */
-typedef std::basic_string<char, std::_cxx_char_traits<char>, DllAllocator<char> >  String;
-} // namespace _cxx_
 
 #else /* UNIX version */
 
 #  define _cxx_EXPORT
 
+#endif
+
+
 namespace _cxx_
 {
+
+#ifndef _cxx_NEED_DLL_ALLOCATOR
 /**
  * Define the type "String" to be just like the STL "string".  In UNIX,
  * there are no problems with this in shared libraries.
  */
 typedef std::string  String;
-} // namespace _cxx_
-
+#else
+/**
+ * Define the type "String" to be just like the STL "string", but with our
+ * DLL-boundary-safe allocator for the Win32 version.
+ */
+typedef std::basic_string<char, std::_cxx_char_traits<char>, DllAllocator<char> >  String;
 #endif
+
+} // namespace _cxx_
 
 #endif
