@@ -20,6 +20,7 @@
 #include "itkLaplacianImageFilter.h"
 #include "itkNullImageToImageFilterDriver.txx"
 #include "itkVector.h"
+#include "itkFilterWatcher.h"
 
 inline std::ostream& operator<<(std::ostream &o, const itk::Vector<float, 3> &v)
 {
@@ -31,12 +32,14 @@ int itkLaplacianImageFilterTest(int , char * [] )
 {
   try
     {
-      typedef itk::Image<float, 2> ImageType;
+    typedef itk::Image<float, 2> ImageType;
       
       // Set up filter
       itk::LaplacianImageFilter<ImageType, ImageType>::Pointer 
         filter =
         itk::LaplacianImageFilter<ImageType, ImageType>::New();
+
+      FilterWatcher watch(filter);
 
       // Run Test
       itk::Size<2> sz;

@@ -20,6 +20,7 @@
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkNullImageToImageFilterDriver.txx"
 #include "itkVector.h"
+#include "itkFilterWatcher.h"
 
 int itkDiscreteGaussianImageFilterTest(int , char * [] )
 {
@@ -31,6 +32,8 @@ int itkDiscreteGaussianImageFilterTest(int , char * [] )
       itk::DiscreteGaussianImageFilter<ImageType, ImageType>::Pointer 
         filter =
         itk::DiscreteGaussianImageFilter<ImageType, ImageType>::New();
+      FilterWatcher watcher(filter);
+
       filter->SetVariance(1.0f);
       filter->SetMaximumError(.01f);
       
