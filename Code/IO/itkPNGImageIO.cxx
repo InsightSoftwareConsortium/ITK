@@ -456,7 +456,6 @@ void PNGImageIO::WriteSlice(std::string& fileName, const void* buffer,
 {
   const unsigned char *outPtr = ( (const unsigned char *) buffer) + offset;
 
-  std::cout << "File: " << fileName.c_str() << std::endl;
   // use this class so return will call close
   PNGFileWrapper pngfp(fileName.c_str(),"wb");
   FILE* fp = pngfp.m_FilePointer;
