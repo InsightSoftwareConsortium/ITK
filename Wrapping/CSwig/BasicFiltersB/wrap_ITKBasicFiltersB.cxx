@@ -23,13 +23,29 @@ namespace _cable_
   {
     ITK_WRAP_GROUP(itkExpImageFilter),
     ITK_WRAP_GROUP(itkExpNegativeImageFilter),
+    ITK_WRAP_GROUP(itkGradientMagnitudeRecursiveGaussianImageFilter),
+    ITK_WRAP_GROUP(itkGradientRecursiveGaussianImageFilter),
     ITK_WRAP_GROUP(itkMeanImageFilter),
     ITK_WRAP_GROUP(itkMedianImageFilter),
     ITK_WRAP_GROUP(itkNaryAddImageFilter),
+    ITK_WRAP_GROUP(itkNormalizeImageFilter),
+    ITK_WRAP_GROUP(itkPermuteAxesImageFilter),
     ITK_WRAP_GROUP(itkRandomImageSource),
+    ITK_WRAP_GROUP(itkRecursiveGaussianImageFilter),
+    ITK_WRAP_GROUP(itkRecursiveSeparableImageFilter),
+    ITK_WRAP_GROUP(itkRegionOfInterestImageFilter),
+    ITK_WRAP_GROUP(itkResampleImageFilter),
+    ITK_WRAP_GROUP(itkRescaleIntensityImageFilter),
+    ITK_WRAP_GROUP(itkShiftScaleImageFilter),
+    ITK_WRAP_GROUP(itkSigmoidImageFilter),
+    ITK_WRAP_GROUP(itkSmoothingRecursiveGaussianImageFilter),
+    ITK_WRAP_GROUP(itkStatisticsImageFilter),
     ITK_WRAP_GROUP(itkThresholdImageFilter),
     ITK_WRAP_GROUP(itkVTKImageExport),
     ITK_WRAP_GROUP(itkVTKImageImport)
   };
 }
 #endif
+
+
+

@@ -37,8 +37,6 @@ namespace _cable_
     ITK_WRAP_GROUP(itkFastMarchingImageFilter),
     ITK_WRAP_GROUP(itkFlipImageFilter),
     ITK_WRAP_GROUP(itkGradientAnisotropicDiffusionImageFilter),
-    ITK_WRAP_GROUP(itkGradientRecursiveGaussianImageFilter),
-    ITK_WRAP_GROUP(itkGradientMagnitudeRecursiveGaussianImageFilter),
     ITK_WRAP_GROUP(itkGradientMagnitudeImageFilter),
     ITK_WRAP_GROUP(itkGrayscaleDilateImageFilter),
     ITK_WRAP_GROUP(itkGrayscaleErodeImageFilter),
@@ -47,17 +45,7 @@ namespace _cable_
     ITK_WRAP_GROUP(itkLaplacianImageFilter),
     ITK_WRAP_GROUP(itkMinimumMaximumImageCalculator),
     ITK_WRAP_GROUP(itkNeighborhoodConnectedImageFilter),
-    ITK_WRAP_GROUP(itkNormalizeImageFilter),
-    ITK_WRAP_GROUP(itkPermuteAxesImageFilter),
-    ITK_WRAP_GROUP(itkRecursiveGaussianImageFilter),
-    ITK_WRAP_GROUP(itkRecursiveSeparableImageFilter),
-    ITK_WRAP_GROUP(itkResampleImageFilter),
-    ITK_WRAP_GROUP(itkRescaleIntensityImageFilter),
-    ITK_WRAP_GROUP(itkShiftScaleImageFilter),
-    ITK_WRAP_GROUP(itkSigmoidImageFilter),
-    ITK_WRAP_GROUP(itkStatisticsImageFilter),
     ITK_WRAP_GROUP(itkSobelEdgeDetectionImageFilter),
-    ITK_WRAP_GROUP(itkSmoothingRecursiveGaussianImageFilter),
     ITK_WRAP_GROUP(itkTernaryMagnitudeImageFilter)
   };
 }

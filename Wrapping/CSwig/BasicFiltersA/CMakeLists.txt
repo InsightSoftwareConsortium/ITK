@@ -15,9 +15,7 @@ SET(WRAP_SOURCES
   wrap_itkFastMarchingImageFilter
   wrap_itkFlipImageFilter
   wrap_itkGradientAnisotropicDiffusionImageFilter
-  wrap_itkGradientRecursiveGaussianImageFilter
   wrap_itkGradientMagnitudeImageFilter
-  wrap_itkGradientMagnitudeRecursiveGaussianImageFilter
   wrap_itkGrayscaleDilateImageFilter
   wrap_itkGrayscaleErodeImageFilter
   wrap_itkDanielssonDistanceMapImageFilter
@@ -26,18 +24,7 @@ SET(WRAP_SOURCES
   wrap_itkLaplacianImageFilter
   wrap_itkMinimumMaximumImageCalculator
   wrap_itkNeighborhoodConnectedImageFilter
-  wrap_itkNormalizeImageFilter
-  wrap_itkPermuteAxesImageFilter
-  wrap_itkRecursiveGaussianImageFilter
-  wrap_itkRecursiveSeparableImageFilter
-  wrap_itkRegionOfInterestImageFilter
-  wrap_itkResampleImageFilter
-  wrap_itkRescaleIntensityImageFilter
-  wrap_itkShiftScaleImageFilter
-  wrap_itkSigmoidImageFilter
-  wrap_itkStatisticsImageFilter
   wrap_itkSobelEdgeDetectionImageFilter
-  wrap_itkSmoothingRecursiveGaussianImageFilter
   wrap_itkTernaryMagnitudeImageFilter
 )
 
