@@ -1,0 +1,5 @@
+#setenv CC 'gcc'
+#setenv CXX 'c++'
+setenv CXXFLAGS '-fno-implicit-templates -fpic -g -finline-functions'
+setenv TXXFLAGS '-DINSTANTIATE_TEMPLATES -fpic -g -finline-functions'
+$IUEROOT/vcl/configure --cache-file=/dev/null

@@ -1,0 +1,4 @@
+// -*- c++ -*-
+
+#define VCL_PAIR_INSTANTIATE(T1, T2)
+#define VCL_PAIR_const_INSTANTIATE(T1, T2)

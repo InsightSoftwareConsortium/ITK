@@ -1,0 +1,3 @@
+
+"hashfun cannot be used as a function:"
+  vcl_hash<type> needs to be declared.
