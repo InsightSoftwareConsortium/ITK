@@ -17,7 +17,7 @@
 
 // Software Guide : BeginLatex
 //
-// \index{itk::LaplacianSegmentationLevelSetImageFilter}
+// \index{itk::Laplacian\-Segmentation\-Level\-Set\-Image\-Filter}
 //
 // The \doxygen{LaplacianSegmentationLevelSetImageFilter} defines a speed term
 // based on second derivative features in the image.  The speed term is
@@ -171,8 +171,8 @@ int main( int argc, char *argv[] )
   // weight of the propagation term.  The curvature term weight is set to its
   // default of $1$.  The advection term is not used in this filter.
   //
-  //  \index{itk::LaplacianSegmentationLevelSetImageFilter!SetPropagationScaling()}
-  //  \index{itk::SegmentationLevelSetImageFilter!SetPropagationScaling()}
+  //  \index{itk::Laplacian\-Segmentation\-Level\-Set\-Image\-Filter!SetPropagationScaling()}
+  //  \index{itk::Segmentation\-Level\-Set\-Image\-Filter!SetPropagationScaling()}
   //
   //  Software Guide : EndLatex 
 

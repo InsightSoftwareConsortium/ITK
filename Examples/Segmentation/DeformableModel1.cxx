@@ -377,8 +377,8 @@ int main( int argc, char *argv[] )
   //  magnitude filter. Then the value of sigma used to blur the image is
   //  selected using the method \code{SetSigma()}. 
   //
-  //  \index{itk::GradientMagnitudeRecursiveGaussianImageFilter!SetInput()}
-  //  \index{itk::GradientMagnitudeRecursiveGaussianImageFilter!SetSigma()}
+  //  \index{itk::Gradient\-Magnitude\-Recursive\-Gaussian\-Image\-Filter!SetInput()}
+  //  \index{itk::Gradient\-Magnitude\-Recursive\-Gaussian\-Image\-Filter!SetSigma()}
   //
   //  Software Guide : EndLatex 
 
