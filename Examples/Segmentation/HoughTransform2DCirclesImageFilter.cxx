@@ -104,59 +104,71 @@ int main( int argc, char *argv[] )
 
   ImageType::Pointer m_Image = reader->GetOutput();
   // Software Guide : EndCodeSnippet
+
+
+
   //  Software Guide : BeginLatex
   //  
-  //  We create the HoughTransform2DCirclesImageFilter based on the pixel type of the input image 
-  //  (the resulting image from the ThresholdImageFilter).
+  //  We create the HoughTransform2DCirclesImageFilter based on the pixel type
+  //  of the input image (the resulting image from the ThresholdImageFilter).
   //
   //  Software Guide : EndLatex 
+
   // Software Guide : BeginCodeSnippet
   std::cout << "Computing Hough Map" << std::endl;
+
   typedef itk::HoughTransform2DCirclesImageFilter<PixelType,
                                                   AccumulatorPixelType>   
                                                          HoughTransformFilterType;
+
   HoughTransformFilterType::Pointer houghFilter = HoughTransformFilterType::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
   //  
-  //  We set the input of the filter to be the resulting image of the ImageFileReader
-  //  We set also the number of circles we are looking.
-  //  Basically, the filter computes the Hough map, blur it using a certain variance and find maxima
-  //  in the Hough map. After a maximum is found, the local neighborhood, a circle, is removed from the 
-  //  Hough map. SetDiscRadiusRatio() defines the radius of this disc proportional to the radius of the disc found.
-  //  The Hough Map is computed by looking at the points above a certain threshold in the input image. Then, for each
-  //  point, a gaussian derivative function is computed to find the direction of the normal at that point. The standard
-  //  deviation of the derivative function can be adjusted by SetSigmaGradient(). The accumulator is filled by drawing
-  //  a line along the normal and the lenght of this line is defined by the minimum radius (SetMinimumRadius()) and
-  //  the maximum radius (SetMaximumRadius()).
-  //  Moreover, a sweep angle can be defined by SetSweepAngle() (default 0.0) to increase the accuracy of detection.
+  //  We set the input of the filter to be the resulting image of the
+  //  ImageFileReader We set also the number of circles we are looking.
+  //  Basically, the filter computes the Hough map, blur it using a certain
+  //  variance and find maxima in the Hough map. After a maximum is found, the
+  //  local neighborhood, a circle, is removed from the Hough map.
+  //  SetDiscRadiusRatio() defines the radius of this disc proportional to the
+  //  radius of the disc found.  The Hough Map is computed by looking at the
+  //  points above a certain threshold in the input image. Then, for each
+  //  point, a gaussian derivative function is computed to find the direction
+  //  of the normal at that point. The standard deviation of the derivative
+  //  function can be adjusted by SetSigmaGradient(). The accumulator is filled
+  //  by drawing a line along the normal and the lenght of this line is defined
+  //  by the minimum radius (SetMinimumRadius()) and the maximum radius
+  //  (SetMaximumRadius()).  Moreover, a sweep angle can be defined by
+  //  SetSweepAngle() (default 0.0) to increase the accuracy of detection.
   //
   //  The output of the filter is the accumulator.
   //
   //  Software Guide : EndLatex 
+
   // Software Guide : BeginCodeSnippet
-  houghFilter->SetInput(reader->GetOutput());
-  houghFilter->SetNumberOfCircles(atoi(argv[3]));
-  houghFilter->SetMinimumRadius(atof(argv[4]));
-  houghFilter->SetMaximumRadius(atof(argv[5]));
+  houghFilter->SetInput( reader->GetOutput() );
+
+  houghFilter->SetNumberOfCircles( atoi(argv[3]) );
+  houghFilter->SetMinimumRadius(   atof(argv[4]) );
+  houghFilter->SetMaximumRadius(   atof(argv[5]) );
 
   if( argc > 6 )
     {
-     houghFilter->SetSweepAngle(atof(argv[6]));
+     houghFilter->SetSweepAngle( atof(argv[6]) );
     }
 
   if( argc > 7 )
     {
-     houghFilter->SetSigmaGradient(atoi(argv[7]));
+     houghFilter->SetSigmaGradient( atoi(argv[7]) );
     }
   if( argc > 8 )
     {
-    houghFilter->SetVariance(atof(argv[8]));
+    houghFilter->SetVariance( atof(argv[8]) );
     }
   if( argc > 9 )
     {
-    houghFilter->SetDiscRadiusRatio(atof(argv[9]));
+    houghFilter->SetDiscRadiusRatio( atof(argv[9]) );
     }
     
   houghFilter->Update();
@@ -171,7 +183,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
   HoughTransformFilterType::CirclesListType circles;
-  circles = houghFilter->GetCircles(atoi(argv[3]));
+  circles = houghFilter->GetCircles( atoi(argv[3]) );
   std::cout << "Found " << circles.size() << " circle(s)." << std::endl;
   // Software Guide : EndCodeSnippet
 
@@ -203,11 +215,15 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
-  HoughTransformFilterType::CirclesListType::const_iterator it_circles = circles.begin();
-  while(it_circles != circles.end())
+  typedef HoughTransformFilterType::CirclesListType CirclesListType;
+
+  CirclesListType::const_iterator it_circles = circles.begin();
+
+  while( it_circles != circles.end() )
     {
     std::cout << "Center: ";
-    std::cout << (*it_circles)->GetObjectToParentTransform()->GetOffset() << std::endl;
+    std::cout << (*it_circles)->GetObjectToParentTransform()->GetOffset() 
+              << std::endl;
     std::cout << "Radius: " << (*it_circles)->GetRadius()[0] << std::endl;
   
     
@@ -218,23 +234,25 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
-    for(double angle = 0;angle <= 2*PI;angle+=PI/60)
+    for(double angle = 0;angle <= 2*PI; angle += PI/60.0 )
       {
-      m_Index[0]=(long int)((*it_circles)->GetObjectToParentTransform()->GetOffset()[0]
-                                                + (*it_circles)->GetRadius()[0]*cos(angle));
-      m_Index[1]=(long int)((*it_circles)->GetObjectToParentTransform()->GetOffset()[1] 
-                                                + (*it_circles)->GetRadius()[0]*sin(angle));
+      m_Index[0] =
+         (long int)((*it_circles)->GetObjectToParentTransform()->GetOffset()[0]
+                                     + (*it_circles)->GetRadius()[0]*cos(angle));
+      m_Index[1] =
+         (long int)((*it_circles)->GetObjectToParentTransform()->GetOffset()[1] 
+                                     + (*it_circles)->GetRadius()[0]*sin(angle));
 
-      if(m_Index[0]>=0 
-        && m_Index[0]<(long)m_OutputImage->GetLargestPossibleRegion().GetSize()[0]
-         && m_Index[1]>=0 
-         && m_Index[1]<(long)m_OutputImage->GetLargestPossibleRegion().GetSize()[1])
+      OutputImageType::RegionType region =
+                                    m_OutputImage->GetLargestPossibleRegion();
+
+      if( region.IsInside( m_Index ) )
         {
-          m_OutputImage->SetPixel(m_Index,255);
+        m_OutputImage->SetPixel( m_Index, 255 );
         }
       }
     it_circles++;
-  }
+    }
 
   
   // Software Guide : EndCodeSnippet
@@ -246,7 +264,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
   typedef  itk::ImageFileWriter< ImageType  > WriterType;
+
   WriterType::Pointer writer = WriterType::New();
+
   writer->SetFileName( argv[2] );
   writer->SetInput(m_OutputImage );
 
