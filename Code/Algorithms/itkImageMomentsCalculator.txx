@@ -20,7 +20,7 @@
 
 #include "vnl/algo/vnl_real_eigensystem.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
-#include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 
 namespace itk
 { 
@@ -55,7 +55,7 @@ ImageMomentsCalculator<TImage>::ImageMomentsCalculator(void)
 // Construct and compute moments
 template<class TImage>
 ImageMomentsCalculator<TImage>::
-ImageMomentsCalculator( ImageType * image) 
+ImageMomentsCalculator( const ImageType * image) 
 {
   ComputeMoments(image);
 }
@@ -73,7 +73,7 @@ ImageMomentsCalculator<TImage>::
 template<class TImage>
 void
 ImageMomentsCalculator<TImage>::
-ComputeMoments( ImageType * image )
+ComputeMoments( const ImageType * image )
 {
 
   TransformPointer indexToPhysical =
@@ -88,8 +88,8 @@ ComputeMoments( ImageType * image )
 
   typedef typename ImageType::IndexType IndexType;
     
-  ImageRegionIteratorWithIndex< ImageType > it( image,
-                                                image->GetRequestedRegion() ); 
+  ImageRegionConstIteratorWithIndex< ImageType > it( image,
+                                                     image->GetRequestedRegion() ); 
 
   while( !it.IsAtEnd() )
     {

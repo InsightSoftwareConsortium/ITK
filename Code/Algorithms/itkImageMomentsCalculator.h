@@ -96,7 +96,7 @@ public:
    * parameter and stores them in the object.  The values of these
    * moments and related parameters can then be retrieved by using
    * other methods of this object. */
-  void ComputeMoments( ImageType * image );
+  void ComputeMoments( const ImageType * image );
 
   /** Return the total mass (or zeroth moment) of an image.
    * This method returns the sum of pixel intensities (also known as
@@ -174,7 +174,7 @@ public:
    * stores in it the moments of the image given as argument.  The values of
    * these moments and related parameters can be retrieved by using * other
    * methods of the object constructed.  */
-  ImageMomentsCalculator(ImageType * image); // Create and sum image moments
+  ImageMomentsCalculator( const ImageType * image); // Create and sum image moments
 
   /** Destroy an ImageMomentsCalculator object. */
   ~ImageMomentsCalculator();
