@@ -44,7 +44,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImageBase.h"
 #include "itkDefaultImageTraits.h"
 #include "itkDefaultPixelAccessor.h"
-
+#include "itkAffineTransform.h"
+#include "itkPoint.h"
+#include "itkContinuousIndex.h"
 
 namespace itk
 {
@@ -167,6 +169,21 @@ public:
   typedef typename PixelContainer::Pointer PixelContainerPointer;
 
   /** 
+   * Typedef for associated AffineTransform
+   *
+   * This is used specifically as the type of the index-to-physical and
+   * physical-to-index transforms associated with the origin and spacing
+   * for the image, and more generally as any affine transformation of
+   * the image.
+   */
+  typedef AffineTransform<double, ImageDimension> AffineTransformType;
+
+  /** 
+   * Definition of the Point type used for settin the origin
+   */
+  typedef typename AffineTransformType::PointType    PointType;
+
+  /** 
    * Run-time type information (and related methods).
    */
   itkTypeMacro(Image, ImageBase);
@@ -254,6 +271,167 @@ public:
   const AccessorType & GetPixelAccessor( void ) const
     { return m_PixelAccessor; }
     
+  /** 
+   * Set the spacing (size of a pixel) of the image. The
+   * spacing is the geometric distance between image samples.
+   * It is stored internally as double, but may be set from
+   * float.
+   * \sa GetSpacing()
+   */
+  virtual void SetSpacing( const double values[ImageDimension] );
+  virtual void SetSpacing( const float values[ImageDimension] );
+
+  /** 
+   * Get the spacing (size of a pixel) of the image. The
+   * spacing is the geometric distance between image samples.
+   * The value returned is a pointer to a double array.
+   * \sa SetSpacing()
+   */
+  virtual const double* GetSpacing() const;
+  
+  /** 
+   * Set the origin of the image. The origin is the geometric
+   * coordinates of the image origin.  It is stored internally
+   * as double but may be set from float.
+   * \sa GetOrigin()
+   */
+  virtual void SetOrigin( const double values[ImageDimension] );
+  virtual void SetOrigin( const float values[ImageDimension] );
+  virtual void SetOrigin( const PointType & point );
+
+  /** 
+   * Get the origin of the image. The origin is the geometric
+   * coordinates of the index (0,0).  The value returned is
+   * a pointer to a double array.
+   * \sa SetOrigin()
+   */
+  virtual const double * GetOrigin() const;
+
+  /** 
+   * Get the index-to-physical coordinate transformation
+   *
+   * This method returns an AffineTransform which defines the
+   * transformation from index coordinates to physical coordinates
+   * determined by the origin and spacing of this image.
+   */
+  AffineTransformType GetIndexToPhysicalTransform(void) const;
+
+  /** 
+   * Get the physical-to-index coordinate transformation
+   *
+   * This method returns an AffineTransform which defines the
+   * transformation from physical coordinates to index coordinates
+   * determined by the origin and spacing of this image.
+   */
+  AffineTransformType GetPhysicalToIndexTransform(void) const;
+
+  /**
+   * Get the cotinuous index from a physical point
+   *
+   * Since this function internally use AffineTranform, even this function 
+   * is templated over coordinate value type (TCoordRep), using float or
+   * double for the coorinate value type is recommended.
+   *
+   * TO DO:
+   * In future, when MS Visual C++ supports out-of-class member templates,
+   * move function definition to itkImage.txx file.
+   * \sa AffineTransform 
+   */
+  template<class TCoordRep> 
+  void GetContinuousIndex(Point<TCoordRep, VImageDimension>& point, 
+   ContinuousIndex<TCoordRep, VImageDimension>& index)
+  {
+    typedef AffineTransform<TCoordRep, VImageDimension> TransformType ;
+    typedef TransformType::InputPointType InputPointType ;
+    typedef TransformType::OutputPointType OutputPointType ;
+    
+    TransformType::MatrixType matrix;
+    TransformType::VectorType offset;
+    for (unsigned int i = 0; i < VImageDimension; i++)
+      {
+        for (unsigned int j = 0; j < VImageDimension; j++)
+          {
+            matrix[i][j] = 0.0;
+          }
+        matrix[i][i] = m_Spacing[i];
+        offset[i]    = m_Origin [i];
+      }
+    
+    TransformType transform(matrix, offset);
+    
+    InputPointType inputPoint = transform.BackTransform(point) ;
+
+    for (unsigned int i = 0 ; i < VImageDimension ; i++)
+      index[i] = inputPoint[i] ;
+  }
+
+
+  /**
+   * Get a physical point (in the space which 
+   * the origin and spacing infomation comes from) 
+   * from a continous index (in the index space) 
+   *
+   * Since this function internally use AffineTranform, even this function 
+   * is templated over coordinate value type (TCoordRep), using float or
+   * double for the coorinate value type is recommended.
+   *
+   * TO DO:
+   * In future, when MS Visual C++ supports out-of-class member templates,
+   * move function definition to itkImage.txx file.
+   *
+   * \sa AffineTransform 
+   */
+  template<class TCoordRep> 
+  void GetPhysicalPoint(ContinuousIndex<TCoordRep, VImageDimension>& index, 
+   Point<TCoordRep, VImageDimension>& point)
+  {
+    typedef AffineTransform<TCoordRep, VImageDimension> TransformType ;
+    typedef TransformType::InputPointType InputPointType ;
+    typedef TransformType::OutputPointType OutputPointType ;
+    
+    TransformType::MatrixType matrix;
+    TransformType::VectorType offset;
+    
+    for (unsigned int i = 0; i < VImageDimension; i++)
+      {
+        for (unsigned int j = 0; j < VImageDimension; j++)
+          {
+            matrix[i][j] = 0.0;
+          }
+        matrix[i][i] = m_Spacing[i] ;
+        offset[i]    = m_Origin[i] ;
+      }
+    
+    TransformType transform(matrix, offset);
+    InputPointType inputPoint ;
+    for (unsigned int i = 0 ; i < VImageDimension ; i++)
+      inputPoint[i] = index[i] ;
+
+    OutputPointType outputPoint = transform.TransformPoint(inputPoint) ;
+    
+    //for (unsigned int i = 0 ; i < VImageDimension ; i++)
+    //point[i] = outputPoint[i] ;
+    point = outputPoint ;
+  }
+
+  /**
+   * Copy information from the specified data set.  This method is
+   * part of the pipeline execution model. By default, a ProcessObject
+   * will copy meta-data from the first input to all of its
+   * outputs. See ProcessObject::GenerateOutputInformation().  Each
+   * subclass of DataObject is responsible for being able to copy
+   * whatever meta-data it needs from from another DataObject.
+   * Image has more meta-data than its superclasses Image or
+   * ImageBase.  Thus, it must provide its own version of
+   * CopyInformation() in order to set its Spacing and Origin to match
+   * the input parameter.  This implementation of CopyInformation()
+   * casts the input parameter to an ImageBase. If successful,
+   * this method call GetSpacing() and GetOrigin() on its input
+   * (since all subclasses of ImageBase are guarenteed to respond to
+   * GetSpacing() and GetOrigin()). If "data" is another datatype, this
+   * method may not do anything.
+   */
+  virtual void CopyInformation(DataObject *data);
 
 protected:
   Image();
@@ -270,7 +448,8 @@ private:
   // Pixel accessor object, 
   // it converts the presentation of a pixel
   AccessorType          m_PixelAccessor;
-
+  double              m_Spacing[ImageDimension];
+  double              m_Origin[ImageDimension];
 };
 
   

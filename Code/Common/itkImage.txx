@@ -55,6 +55,13 @@ Image<TPixel, VImageDimension, TImageTraits>
 : m_PixelAccessor ()
 {
   m_Buffer = PixelContainer::New();
+
+  unsigned int i;
+  for (i=0; i < VImageDimension; i++)
+    {
+    m_Spacing[i] = 1.0;
+    m_Origin[i] = 0.0;
+    }
 }
 
 
@@ -82,6 +89,233 @@ Image<TPixel, VImageDimension, TImageTraits>
   m_Buffer->Reserve(num);
 }
 
+
+
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+void 
+Image<TPixel, VImageDimension, TImageTraits>
+::SetSpacing(const double spacing[VImageDimension] )
+{
+  unsigned int i; 
+  for (i=0; i<VImageDimension; i++)
+    {
+    if ( spacing[i] != m_Spacing[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < VImageDimension ) 
+    { 
+    this->Modified(); 
+    for (i=0; i<VImageDimension; i++)
+      {
+      m_Spacing[i] = spacing[i];
+      }
+    } 
+}
+
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+void 
+Image<TPixel, VImageDimension, TImageTraits>
+::SetSpacing(const float spacing[VImageDimension] )
+{
+  unsigned int i; 
+  for (i=0; i<VImageDimension; i++)
+    {
+    if ( (double)spacing[i] != m_Spacing[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < VImageDimension ) 
+    { 
+    this->Modified(); 
+    for (i=0; i<VImageDimension; i++)
+      {
+      m_Spacing[i] = spacing[i];
+      }
+    } 
+}
+
+
+
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+const double *
+Image<TPixel, VImageDimension, TImageTraits>
+::GetSpacing() const
+{
+  return m_Spacing;
+}
+
+
+
+
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+void 
+Image<TPixel, VImageDimension, TImageTraits>
+::SetOrigin(const double origin[VImageDimension] )
+{
+  unsigned int i; 
+  for (i=0; i<VImageDimension; i++)
+    {
+    if ( origin[i] != m_Origin[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < VImageDimension ) 
+    { 
+    this->Modified(); 
+    for (i=0; i<VImageDimension; i++)
+      {
+      m_Origin[i] = origin[i];
+      }
+    } 
+}
+
+
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+void 
+Image<TPixel, VImageDimension, TImageTraits>
+::SetOrigin(const float origin[VImageDimension] )
+{
+  unsigned int i; 
+  for (i=0; i<VImageDimension; i++)
+    {
+    if ( (double)origin[i] != m_Origin[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < VImageDimension ) 
+    { 
+    this->Modified(); 
+    for (i=0; i<VImageDimension; i++)
+      {
+      m_Origin[i] = origin[i];
+      }
+    } 
+}
+
+
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+void 
+Image<TPixel, VImageDimension, TImageTraits>
+::SetOrigin(const PointType & origin )
+{
+  unsigned int i; 
+  for (i=0; i<VImageDimension; i++)
+    {
+    if ( (double)origin[i] != m_Origin[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < VImageDimension ) 
+    { 
+    this->Modified(); 
+    for (i=0; i<VImageDimension; i++)
+      {
+      m_Origin[i] = origin[i];
+      }
+    } 
+}
+
+
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+const double *
+Image<TPixel, VImageDimension, TImageTraits>
+::GetOrigin() const
+{
+  return m_Origin;
+}
+
+//---------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+Image<TPixel, VImageDimension, TImageTraits>::AffineTransformType
+Image<TPixel, VImageDimension, TImageTraits>
+::GetIndexToPhysicalTransform(void) const
+{
+  typename AffineTransformType::MatrixType matrix;
+  typename AffineTransformType::VectorType offset;
+  for (unsigned int i = 0; i < VImageDimension; i++)
+    {
+    for (unsigned int j = 0; j < VImageDimension; j++)
+      {
+      matrix[i][j] = 0.0;
+      }
+    matrix[i][i] = m_Spacing[i];
+    offset[i]    = m_Origin [i];
+    }
+
+  AffineTransformType result(matrix, offset);
+  result.SetMatrix(matrix);
+  result.SetOffset(offset);
+
+  return result;
+}
+
+
+//---------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+Image<TPixel, VImageDimension, TImageTraits>::AffineTransformType
+Image<TPixel, VImageDimension, TImageTraits>
+::GetPhysicalToIndexTransform(void) const
+{
+  typename AffineTransformType::MatrixType matrix;
+  typename AffineTransformType::VectorType offset;
+
+  for (unsigned int i = 0; i < VImageDimension; i++)
+    {
+    for (unsigned int j = 0; j < VImageDimension; j++)
+      {
+      matrix[i][j] = 0.0;
+      }
+    matrix[i][i] = 1.0 / m_Spacing[i];
+    offset[i]    = -m_Origin[i] / m_Spacing[i];
+    }
+
+  AffineTransformType result(matrix, offset);
+
+  return result;
+}
+
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+void
+Image<TPixel, VImageDimension, TImageTraits>
+::CopyInformation(DataObject *data)
+{
+  // Standard call to the superclass' method
+  Superclass::CopyInformation(data);
+
+  // Attempt to cast data to an ImageBase.  All subclasses of ImageBase
+  // respond to GetSpacing(), GetOrigin()
+  ImageBase<VImageDimension> *phyData;
+  
+  phyData = dynamic_cast<ImageBase<VImageDimension>*>(data);
+
+  if (phyData)
+    {
+    // Copy the origin and spacing
+    this->SetSpacing( phyData->GetSpacing() );
+    this->SetOrigin( phyData->GetOrigin() );
+    }
+  else
+    {
+    // pointer could not be cast back down
+    std::cerr << "itk::Image::CopyInformation() cannot cast "
+              << typeid(data).name() << " to "
+              << typeid(ImageBase<VImageDimension>*).name() << std::endl;
+    }
+}
 
 
 /**
