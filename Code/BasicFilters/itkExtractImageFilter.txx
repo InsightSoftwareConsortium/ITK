@@ -63,8 +63,8 @@ void
 ExtractImageFilter<TInputImage,TOutputImage>
 ::GenerateOutputInformation()
 {
-  // call the superclass' implementation of this method
-  Superclass::GenerateOutputInformation();
+  // do not call the superclass' implementation of this method since
+  // this filter allows the input the output to be of different dimensions
  
   // get pointers to the input and output
   OutputImagePointer      outputPtr = this->GetOutput();
@@ -77,6 +77,61 @@ ExtractImageFilter<TInputImage,TOutputImage>
 
   // Set the output image size to the same value as the extraction region.
   outputPtr->SetLargestPossibleRegion( m_ExtractionRegion );
+
+  // Set the output spacing and origin
+  const ImageBase<InputImageDimension> *phyData;
+
+  phyData
+    = dynamic_cast<const ImageBase<InputImageDimension>*>(this->GetInput().GetPointer());
+
+  if (phyData)
+    {
+    // Copy what we can from the image from spacing and origin of the input
+    // This logic needs to be augmented with logic that select which
+    // dimensions to copy
+    int i;
+    const double *inputSpacing = inputPtr->GetSpacing();
+    const double *inputOrigin = inputPtr->GetOrigin();
+
+    double outputSpacing[OutputImageDimension];
+    double outputOrigin[OutputImageDimension];
+
+    if (OutputImageDimension > InputImageDimension)
+      {
+      // copy the input to the output and fill the rest of the
+      // output with zeros.
+      for (i=0; i < InputImageDimension; ++i)
+        {
+        outputSpacing[i] = inputSpacing[i];
+        outputOrigin[i] = inputOrigin[i];
+        }
+      for (; i < OutputImageDimension; ++i)
+        {
+        outputSpacing[i] = 1.0;
+        outputOrigin[i] = 0.0;
+        }
+      }
+    else
+      {
+      // copy the first part of the input spacing and origing to the output
+      for (i=0; i < OutputImageDimension; ++i)
+        {
+        outputSpacing[i] = inputSpacing[i];
+        outputOrigin[i] = inputOrigin[i];
+        }
+      }
+
+    // set the spacing and origin
+    outputPtr->SetSpacing( outputSpacing );
+    outputPtr->SetOrigin( outputOrigin );
+    }
+  else
+    {
+    // pointer could not be cast back down
+    itkExceptionMacro(<< "itk::ExtractImageFilter::GenerateOutputInformation "
+                      << "cannot cast input to "
+                      << typeid(ImageBase<InputImageDimension>*).name() );
+    }
 }
 
   /** 
