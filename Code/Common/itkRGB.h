@@ -49,50 +49,50 @@ public:
   /**
    * Constructors.
    */
-  RGB();
-  RGB(const RGB &);
-  RGB( ComponentType red, ComponentType green, ComponentType blue );
+  inline RGB();
+  inline RGB(const RGB &);
+  inline RGB( ComponentType red, ComponentType green, ComponentType blue );
   
  
   /**
    * Assignment Operator
    */
-  const RGB & operator=( const RGB & );
+  inline const RGB & operator=( const RGB & );
 
   /**
    * Set the Red component
    */
-  void SetRed( ComponentType red );
+  inline void SetRed( ComponentType red );
 
   /**
    * Set the Green component
    */
-  void SetGreen( ComponentType green );
+  inline void SetGreen( ComponentType green );
 
   /**
    * Set the Blue component
    */
-  void SetBlue( ComponentType blue );
+  inline void SetBlue( ComponentType blue );
 
   /**
    * Set the three components
    */
-  void Set( ComponentType red, ComponentType green, ComponentType blue );
+  inline void Set( ComponentType red, ComponentType green, ComponentType blue );
 
   /**
    * Get the Red component
    */
-  ComponentType GetRed( void ) const;
+  inline ComponentType GetRed( void ) const;
   
   /**
    * Get the Green component
    */
-  ComponentType GetGreen( void ) const;
+  inline ComponentType GetGreen( void ) const;
   
   /**
    * Get the Blue component
    */
-  ComponentType GetBlue( void ) const;
+  inline ComponentType GetBlue( void ) const;
 
 private:
   /**
