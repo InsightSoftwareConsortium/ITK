@@ -78,6 +78,7 @@ public:
   typedef PointType * PointPointer; 
   
   typedef Vector< ScalarType, TDimension > VectorType; 
+  typedef CovariantVector<ScalarType, TDimension > CovariantVectorType; 
   typedef VectorType * VectorPointer;
 
   typedef CovariantVector< double, TDimension > OutputVectorType; 
@@ -140,6 +141,7 @@ public:
   /** Transforms points from the object-specific "physical" space
    * to the "physical" space of its parent object.   
    */
+  void SetObjectToParentTransform( TransformType * transform ); 
   TransformType * GetObjectToParentTransform( void );
   const TransformType * GetObjectToParentTransform( void ) const;
 
