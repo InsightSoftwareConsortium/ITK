@@ -29,7 +29,8 @@ namespace itk
 /** \brief Scale transformation of a vector space (e.g. space coordinates)
  *
  * The same functionality could be obtained by using the Affine tranform,
- * but with a large difference in performace
+ * but with a large difference in performace since the affine transform will
+ * use a matrix multiplication using a diagonal matrix.
  *
  * \ingroup Transforms
  */
@@ -85,13 +86,16 @@ public:
   typedef Point<TScalarType, itkGetStaticConstMacro(SpaceDimension)> InputPointType;
   typedef Point<TScalarType, itkGetStaticConstMacro(SpaceDimension)> OutputPointType;
   
-  /** Set parameters.
-   * This method sets the parameters for the transform
-   * value specified by the user. */
+  /** Set parameters.  This method sets the parameters for the transform value
+   *  specified by the user. The parameters are organized as scale[i] =
+   *  parameter[i]. That means that in 3D the scale parameters for the coordinates
+   *  {x,y,z} are {parameter[0], parameter[1], parameter[2]} respectively */
   void SetParameters(const ParametersType & parameters);
 
-  /** Get the parameters that uniquely define the transform
-   * This is typically used by optimizers.  */
+  /** Get the parameters that uniquely define the transform This is typically
+   * used by optimizers during the process of image registration.  The parameters
+   * are organized as {scale X, scale Y, scale Z } = { parameter[0],
+   * parameter[1], parameter[2] } respectively */
   const ParametersType & GetParameters( void ) const;
 
   /** Get the Jacobian matrix. */
@@ -100,22 +104,24 @@ public:
   /** Set the factors of an Scale Transform
    * This method sets the factors of an ScaleTransform to a
    * value specified by the user. 
-   * This method cannot be done with SetMacro because itk::Array has not
-   * an operator== defined. */
+   * This method cannot be done with SetMacro because itk::Array has not an
+   * operator== defined. The array of scales correspond in order to the factors
+   * to be applied to each one of the coordinaates. For example, in 3D,
+   * scale[0] corresponds to X, scale[1] corresponds to Y and scale[2]
+   * corresponds to Z.*/
   void SetScale( const ScaleType & scale )
     { this->Modified(); m_Scale = scale; }
 
   /** Compose with another ScaleTransform. */
   void Compose(const Self * other, bool pre=false);
 
-  /** Compose affine transformation with a translation
-   * This method modifies self to include a translation of the
-   * origin.  The translation is precomposed with self if pre is
-   * true, and postcomposed otherwise. */
+  /** Compose this transform transformation with another scaling. 
+   * The pre argument is irrelevant here since scale transforms are commutative,
+   * pre and postcomposition are therefore equivalent. */
   void Scale(const ScaleType & scale, bool pre=false );
 
-  /** Transform by an affine transformation
-   * This method applies the affine transform given by self to a
+  /** Transform by a scale transformation
+   * This method applies the scale transform given by self to a
    * given point or vector, returning the transformed point or
    * vector. */
   OutputPointType     TransformPoint(const InputPointType  &point ) const;
@@ -124,9 +130,9 @@ public:
   OutputCovariantVectorType TransformCovariantVector(
                                  const InputCovariantVectorType &vector) const;
   
-  /** Back transform by an affine transformation
+  /** Back transform by a scale transformation
    * This method finds the point or vector that maps to a given
-   * point or vector under the affine transformation defined by
+   * point or vector under the scale transformation defined by
    * self.  If no such point exists, an exception is thrown. */
   inline InputPointType     BackTransform(const OutputPointType  &point ) const;
   inline InputVectorType    BackTransform(const OutputVectorType &vector) const;
@@ -134,7 +140,7 @@ public:
   inline InputCovariantVectorType BackTransform(
                                      const OutputCovariantVectorType &vector) const;
     
-  /** Find inverse of an affine transformation
+  /** Find inverse of a scale transformation
    * This method creates and returns a new ScaleTransform object
    * which is the inverse of self.  If self is not invertible,
    * an exception is thrown. */
