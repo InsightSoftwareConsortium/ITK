@@ -106,7 +106,7 @@ void
 TableLookupSampleClassifier< TSample >
 ::GenerateData()
 {
-  if (m_LookupTable == 0)
+  if ( m_LookupTable.IsNull() )
     {
       PrepareLookupTable() ;
     }
