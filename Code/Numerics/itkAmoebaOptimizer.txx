@@ -26,7 +26,7 @@ namespace itk
 template <class TCostFunction >
 AmoebaOptimizer<TCostFunction>
 ::AmoebaOptimizer():
-  m_Amoeba( m_CostFunction )
+  m_Amoeba( m_CostFunctionAdaptor )
 {
 }
 

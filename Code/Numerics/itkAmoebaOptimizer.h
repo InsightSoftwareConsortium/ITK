@@ -140,9 +140,6 @@ protected:
 
   InternalOptimizerType             m_Amoeba;
 
-  VnlCostFunctionAdaptorType        m_CostFunction;
-
-
 };
 
 } // end namespace itk
