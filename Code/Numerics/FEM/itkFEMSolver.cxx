@@ -30,6 +30,8 @@
 #include "itkFEMUtility.h"
 #include "itkFEMObjectFactory.h"
 
+#include <algorithm>
+
 namespace itk {
 namespace fem {
 
@@ -306,21 +308,133 @@ void Solver::GenerateGFN() {
     }
   }
 
+
   /*
-   * Build the table that maps from DOF displacement pointer to a global DOF number
-   * the table is stored within the nodes. This is required for faster building of the
-   * master stiffness matrix. we also build the look up table that does the oposite i.e.
-   * DOF number back to DOF displacement pointer.
+   * Assign new ID to every DOF in a system
    */
 
   // Start numbering DOFs from 1
   Element::ResetGlobalDOFCounter();
 
-  for(ElementArray::iterator e=el.begin(); e!=el.end(); e++) // step over all elements
+  Element::NodeDefinitionType ndef,nndef;
+
+  // Step over all elements
+  for(ElementArray::iterator e=el.begin(); e!=el.end(); e++)
   {
-    // Let the element worry about linking the DOFs...
-    (*e)->LinkDegreesOfFreedom();
-  }
+
+    // FIXME: Write a code that checks if two elements are compatible, when they share a node.
+
+    // Define some frequently used constants
+    const unsigned int Nnodes=(*e)->GetNumberOfNodes();
+    const unsigned int Npoints=(*e)->GetNumberOfPoints();
+    const unsigned int NDOFsperNode=(*e)->GetNumberOfDegreesOfFreedomPerNode();
+
+    // We step over all nodes in current element
+    // and try to find a matching node in neighboring element
+    for( unsigned int n=0; n<Nnodes; n++ )
+    {
+      // Get the definition of a current node
+      (*e)->GetNodeDefinition(n,ndef);
+      std::sort(ndef.begin(),ndef.end());
+
+      // Flag to exit subsequent for loops before they finish
+      bool not_done=true;
+
+      // Try to find the matching node definition in neighborhood elements
+
+      // Step over all neighboring elements
+      for( unsigned int pt=0; pt<Npoints && not_done; pt++ )
+      {
+        Element::PointIDType p=(*e)->GetPoint(pt);
+
+        Node::SetOfElements::const_iterator el_it_end=p->m_elements.end();
+        for( Node::SetOfElements::const_iterator el_it=p->m_elements.begin();
+             el_it!=el_it_end && not_done;
+             el_it++ )
+        {
+          // Skip current element
+          if((*el_it)==(&**e)) continue;
+
+          // Step over all nodes in this neigboring element
+          for( int nn=(*el_it)->GetNumberOfNodes()-1; nn>=0 && not_done; nn-- )
+          {
+            // Get the definition of a node
+            (*el_it)->GetNodeDefinition(nn,nndef);
+            std::sort(nndef.begin(),nndef.end());
+
+            if(ndef==nndef)
+            {
+              // We found a node that is shared between elements.
+              // Copy the DOFs from the neighboring element's node
+              // since they have to be the same.
+              //
+              // Note that neighboring node may contain more or less DOFs.
+              // If it has more, we simply ignore the rest, if it has less,
+              // we'll get invalid DOF id from GetDegreeOfFreedomAtNode function.
+
+              // If all DOF IDs are set from the neighboring elements,
+              // we can terminate the loop over all nodes in
+              // neighboring elements.
+              not_done=false;
+
+              for(int d=NDOFsperNode-1; d>=0; d--)
+              {
+                // Get the DOF from the node at neighboring element
+                Element::DegreeOfFreedomIDType global_dof = (*el_it)->GetDegreeOfFreedomAtNode(nn,d);
+
+                // Set the corresponding DOF in current element only if
+                // we find a valid DOF id in the neighboring element
+                if( global_dof!=Element::InvalidDegreeOfFreedomID )
+                {
+                  // Error checking
+                  if( (*e)->GetDegreeOfFreedomAtNode(n,d)!=Element::InvalidDegreeOfFreedomID && 
+                      (*e)->GetDegreeOfFreedomAtNode(n,d)!=global_dof)
+                  {
+                    // Something got screwed.
+                    // FIXME: Write a better error handler or remove it completely,
+                    //        since this should never happen.
+                    throw FEMException(__FILE__, __LINE__, "FEM error");
+                  }
+
+                  (*e)->SetDegreeOfFreedomAtNode(n,d,global_dof);
+
+                }
+                else
+                {
+                  // Whenever we find an invalid DOF ID, we are not done yet.
+                  not_done=true;
+                }
+
+              } // end for d
+
+            } // end if ndef==nndef
+
+          } // end for nn
+  
+        } // end for el_it
+
+      } // end for pt
+
+
+      // Now all DOFs in current element for node n are matched with those
+      // in the neghboring elements. However, if none of the neighboring
+      // objects defines these DOFs, we need to assign new DOF IDs here.
+      for(unsigned int d=0; d<NDOFsperNode; d++) // step over all DOFs at node n
+      {
+        if( (*e)->GetDegreeOfFreedomAtNode(n,d)==Element::InvalidDegreeOfFreedomID )
+        {
+          // Found a undefined DOF. We need obtain a unique id,
+          // which we set with the SetDegreeOfFreedom function.
+          (*e)->SetDegreeOfFreedomAtNode(n,d,Element::CreateNewGlobalDOF());
+        }
+
+      } // end for d
+
+    } // end for n
+
+
+
+  } // end for e
 
   NGFN=Element::GetGlobalDOFCounter()+1;
   if (NGFN>0) return;  // if we got 0 DOF, somebody forgot to define the system...

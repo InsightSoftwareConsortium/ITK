@@ -25,7 +25,6 @@
 #include "itkVisitorDispatcher.h"
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_vector.h"
-#include <set>
 
 namespace itk {
 namespace fem {
@@ -235,7 +234,7 @@ public:
    *
    * \sa GetNodeDefinition
    */
-  typedef std::multiset<PointIDType> NodeDefinitionType;
+  typedef std::vector<PointIDType> NodeDefinitionType;
 
 
 
@@ -383,19 +382,11 @@ public:
   {
     def.clear();
     if( n>=this->GetNumberOfPoints() ) { return; }
-    def.insert(this->GetPoint(n));
+    def.insert(def.end(),this->GetPoint(n));
   }
 
 
 
-  /**
-   * Links the DOFs in a current element with the elements
-   * in the neighborhood. The basic implementation of this
-   * function is provided here with the base class. If the
-   * derived class requires some special DOF linking, this
-   * function can be redeclared.
-   */
-  virtual void LinkDegreesOfFreedom(void);
 
   /**
    * Create a new unique DOF id.
