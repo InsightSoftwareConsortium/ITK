@@ -282,6 +282,8 @@ image");
        << std::endl;
     os << indent << "DerivativeStepLengthScales: ";
     os << m_DerivativeStepLengthScales << std::endl;
+    os << indent << "Histogram size: ";
+    os << m_HistogramSize << std::endl;
   }
 } // end namespace itk
 
