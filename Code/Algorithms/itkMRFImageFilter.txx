@@ -81,6 +81,10 @@ MRFImageFilter<TInputImage, TClassifiedImage>
     os << m_MRFNeighborhoodWeight[i] << ", ";
     }
   os << m_MRFNeighborhoodWeight[i] << "]" << std::endl;
+
+  os << indent <<" Smoothing factor for the MRF neighborhood:" << 
+    m_SmoothingFactor << std::endl;
+
 }// end PrintSelf
 
 /*
