@@ -32,6 +32,7 @@ testMetaSurface.cxx
 testMetaLandmark.cxx
 testMetaLine.cxx
 testMetaScene.cxx
+itkReadWriteSpatialObjectTest.cxx
 )
 
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
@@ -48,6 +49,8 @@ ADD_TEST(testMetaSurface ${IO_TESTS} testMetaSurface)
 ADD_TEST(testMetaLine ${IO_TESTS} testMetaLine)
 ADD_TEST(testMetaLandmark ${IO_TESTS} testMetaLandmark)
 ADD_TEST(testMetaScene ${IO_TESTS} testMetaScene)
+ADD_TEST(itkReadWriteSpatialObjectTest ${IO_TESTS} itkReadWriteSpatialObjectTest)
+
 ADD_TEST(itkVTKImageIOTest ${IO_TESTS} itkVTKImageIOTest
                            ${TEMP}/test1.vtk ${TEMP}/test2.vtk)
 ADD_TEST(itkRawImageIOTest ${IO_TESTS} itkRawImageIOTest
