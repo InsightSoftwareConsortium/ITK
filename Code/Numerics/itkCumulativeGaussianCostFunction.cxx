@@ -29,6 +29,7 @@ CumulativeGaussianCostFunction
   // Initial values for fit error and range dimension.
   m_RangeDimension = 0;
   m_OriginalDataArray = new MeasureType();
+  m_MeasurePointer = 0;
 }
 
 CumulativeGaussianCostFunction
