@@ -80,7 +80,7 @@ typename TImage::PixelType backgnd )
     {
     index = it.GetIndex();
     double distance = 0;
-    for( int j = 0; j < TImage::ImageDimension; j++ )
+    for( unsigned int j = 0; j < TImage::ImageDimension; j++ )
       {
       distance += vnl_math_sqr((double) index[j] - center[j]);
       }
