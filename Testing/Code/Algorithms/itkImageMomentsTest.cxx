@@ -134,11 +134,11 @@ main( int argc, char *argv[] )
     AffineTransformType
         pa2p = moments.GetPrincipalAxesToPhysicalAxesTransform();
     std::cout << "\nPrincipal axes to physical axes transform:\n";
-    std::cout << pa2p << std::endl;
+    std::cout << pa2p.GetMatrix() << std::endl;
     AffineTransformType
         p2pa = moments.GetPhysicalAxesToPrincipalAxesTransform();
     std::cout << "\nPhysical axes to principal axes transform:\n";
-    std::cout << p2pa << std::endl;
+    std::cout << p2pa.GetMatrix() << std::endl;
 
     /* Do some error checking on the transforms */
     double dist = pa2p.Metric(pa2p);
