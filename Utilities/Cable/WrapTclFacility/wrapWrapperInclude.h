@@ -38,6 +38,13 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
+// Note: This header is inteded for multiple inclusion!  The include
+// blockers are missing on purpose.
+
+// Any program that includes windows.h gets this macro defined.
+#if defined(GetMessage)
+#undef GetMessage
+#endif
 
 #include <set>
 #include <map>
