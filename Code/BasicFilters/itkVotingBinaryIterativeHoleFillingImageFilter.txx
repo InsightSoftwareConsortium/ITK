@@ -80,6 +80,7 @@ VotingBinaryIterativeHoleFillingImageFilter< TInputImage >
     output = filter->GetOutput();
     output->DisconnectPipeline();
     input = output;
+    this->InvokeEvent( IterationEvent() );
     }
   this->GraftOutput( output );
 }
