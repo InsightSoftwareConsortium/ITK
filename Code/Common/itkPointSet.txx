@@ -34,7 +34,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Number Of Points: " 
-     << ((m_PointsContainer.GetPointer()) ?  m_PointsContainer->Size() : 0) << std::endl;
+     << this->GetNumberOfPoints()  << std::endl;
 
   os << indent << "Requested Number Of Regions: " 
   << m_RequestedNumberOfRegions << std::endl;
@@ -261,7 +261,11 @@ unsigned long
 PointSet<TPixelType, VDimension, TMeshTraits>
 ::GetNumberOfPoints(void) const
 {  
-  return m_PointsContainer->Size();
+  if( m_PointsContainer )
+    {
+    return m_PointsContainer->Size();
+    }
+  return 0;
 }
 
 /**
