@@ -49,8 +49,8 @@ int itkEuler2DTransformTest(int argc,char **argv)
   EulerTransformType::InputPointType p = pInit;
   EulerTransformType::InputPointType q;
 
-  q[0] =  p[0] * costh + p[1] * sinth;
-  q[1] = -p[0] * sinth + p[1] * costh;
+  q[0] =  p[0] * costh - p[1] * sinth;
+  q[1] =  p[0] * sinth + p[1] * costh;
 
   EulerTransformType::OutputPointType r;
   r = eulerTransform->TransformPoint( p );
