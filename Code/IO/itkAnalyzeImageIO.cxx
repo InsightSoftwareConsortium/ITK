@@ -823,15 +823,9 @@ namespace itk
     {
       return false;
     }
-    const unsigned long numberOfBytesToBeRead = sizeof(struct dsr);
-    local_InputStream.read( (char *)&(this->m_hdr), numberOfBytesToBeRead );
-    const unsigned long numberOfBytesRead = local_InputStream.gcount();
-#ifdef __APPLE_CC__
-    // fail() is broken in the Mac. It returns true when reaches eof().
-    if ( numberOfBytesRead != numberOfBytesToBeRead )
-#else
-    if ( ( numberOfBytesRead != numberOfBytesToBeRead )  || local_InputStream.fail() )
-#endif
+    if( ! this->ReadBufferAsBinary( local_InputStream, 
+                                    (char *)&(this->m_hdr), 
+                                    sizeof(struct dsr) ) )
     {
       return false;
     }
@@ -866,15 +860,9 @@ namespace itk
       exception.SetDescription("File cannot be read");
       throw exception;
     }
-    const unsigned long numberOfBytesToBeRead = sizeof(struct dsr);
-    local_InputStream.read( (char *)(&(this->m_hdr)), numberOfBytesToBeRead );
-    const unsigned long numberOfBytesRead = local_InputStream.gcount();
-#ifdef __APPLE_CC__
-    // fail() is broken in the Mac. It returns true when reaches eof().
-    if ( numberOfBytesRead != numberOfBytesToBeRead )
-#else
-    if ( ( numberOfBytesRead != numberOfBytesToBeRead )  || local_InputStream.eof() )
-#endif
+    if( ! this->ReadBufferAsBinary( local_InputStream, 
+                                    (char *)&(this->m_hdr), 
+                                    sizeof(struct dsr) ) )
     {
       ExceptionObject exception(__FILE__, __LINE__);
       exception.SetDescription("Unexpected end of file");
