@@ -19,7 +19,6 @@
 #define __itkFEMElement2DC0LinearQuadrilateral_h
 
 #include "itkFEMElementStd.h"
-#include "itkFEMNodeXY.h"
 
 namespace itk {
 namespace fem {
