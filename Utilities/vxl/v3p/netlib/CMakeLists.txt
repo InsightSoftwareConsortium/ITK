@@ -279,7 +279,7 @@ SET( netlib_sources
   i_dnnt.c
 
   # The "Triangle" program of Jonathan Richard Shewchuk
-  triangle.h triangle.c
+#  triangle.h triangle.c
 )
 
 IF(CMAKE_COMPILER_IS_GNUCXX)
