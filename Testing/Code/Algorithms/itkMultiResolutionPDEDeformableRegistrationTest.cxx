@@ -47,7 +47,7 @@ public:
     }
   void ShowIteration()
     {
-    std::cout << "New Level" << std::endl;
+    std::cout << "Level Completed" << std::endl;
     }
   itk::ProcessObject::Pointer m_Process;
   std::string m_Prefix;
@@ -245,7 +245,7 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char* [] )
     AddObserver(itk::ProgressEvent(), innerCommand);
 
   // make registration inplace
-  //registrator->GetRegistrationFilter()->InPlaceOn();
+  registrator->GetRegistrationFilter()->InPlaceOn();
 
   registrator->Update();
 

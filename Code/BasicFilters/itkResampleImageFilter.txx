@@ -122,6 +122,18 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
 
 }
 
+/**
+ * Set up state of filter after multi-threading.
+ */
+template <class TInputImage, class TOutputImage, class TInterpolatorPrecisionType>
+void 
+ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
+::AfterThreadedGenerateData()
+{
+  // Disconnect input image from the interpolator
+  m_Interpolator->SetInputImage( NULL );
+
+}
 
 /**
  * ThreadedGenerateData

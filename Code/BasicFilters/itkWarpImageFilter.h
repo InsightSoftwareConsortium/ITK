@@ -181,6 +181,10 @@ public:
    * multi-threading. */
   virtual void BeforeThreadedGenerateData();
 
+  /** This method is used to set the state of the filter after 
+   * multi-threading. */
+  virtual void AfterThreadedGenerateData();
+
 protected:
   WarpImageFilter();
   ~WarpImageFilter() {};

@@ -188,7 +188,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
 ::GenerateData()
 {
 
-  // get a pointer to the MovingImage and test images
+  // Check for NULL images and pointers
   MovingImageConstPointer movingImage = this->GetMovingImage();
   FixedImageConstPointer  fixedImage = this->GetFixedImage();
 
@@ -207,59 +207,42 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
     itkExceptionMacro( << "Registration filter not set" );
     }
   
-  // setup the filters
+  // Create the image pyramids.
   m_MovingImagePyramid->SetInput( movingImage );
+  m_MovingImagePyramid->UpdateLargestPossibleRegion();
+
   m_FixedImagePyramid->SetInput( fixedImage );
-  m_FieldExpander->SetInput( m_RegistrationFilter->GetOutput() );
+  m_FixedImagePyramid->UpdateLargestPossibleRegion();
+ 
+  // Initializations
+  m_CurrentLevel = 0;
 
+  unsigned int movingLevel = vnl_math_min( (int) m_CurrentLevel, 
+    (int) m_MovingImagePyramid->GetNumberOfLevels() );
 
-  unsigned int movingLevel, fixedLevel;
-  unsigned int idim;
-  float lastShrinkFactors[ImageDimension];
+  unsigned int fixedLevel = vnl_math_min( (int) m_CurrentLevel, 
+    (int) m_FixedImagePyramid->GetNumberOfLevels() );
 
-  DeformationFieldPointer tempField = DeformationFieldType::New();
+  DeformationFieldPointer tempField = NULL;
+  bool lastShrinkFactorsAllOnes;
 
-  for( m_CurrentLevel = 0; m_CurrentLevel < m_NumberOfLevels; 
-       m_CurrentLevel++ )
+  while ( !this->Halt() )
     {
    
-    movingLevel = vnl_math_min( (int) m_CurrentLevel, 
-      (int) m_MovingImagePyramid->GetNumberOfLevels() );
-    fixedLevel = vnl_math_min( (int) m_CurrentLevel, 
-      (int) m_FixedImagePyramid->GetNumberOfLevels() );
-
-    /** We can release data from the previous level since they
-      * are no longer required. */
-    if ( movingLevel > 0 )
-      {
-      m_MovingImagePyramid->GetOutput( movingLevel - 1 )->ReleaseData();
-      }
-    if( fixedLevel > 0 )
-      {
-      m_FixedImagePyramid->GetOutput( fixedLevel - 1 )->ReleaseData();
-      }
-
     if( m_CurrentLevel == 0 )
       {
-       /*
-         * \todo What to do if there is an input deformation field?
-         * Will need a VectorMultiResolutionPyramidImageFilter to downsample it.
-         */
-        //DeformationFieldPointer initialField = this->GetInput();
+       // TODO: What to do if there is an input deformation field?
+       // Will need a VectorMultiResolutionPyramidImageFilter to downsample it.
       m_RegistrationFilter->SetInitialDeformationField( NULL );
       }
     else
       {
-
-      // graft a temporary image as the output of the expander
-      // this is used to break the loop between the registrator
-      // and expander
-      m_FieldExpander->GraftOutput( tempField );
-
-      // resample the field to be the same size as the fixed image
+      // Resample the field to be the same size as the fixed image
       // at the current level
+      m_FieldExpander->SetInput( tempField );
+      
       typename FloatImageType::Pointer fi = 
-        m_FixedImagePyramid->GetOutput(fixedLevel);
+        m_FixedImagePyramid->GetOutput( fixedLevel );
       m_FieldExpander->SetSize( 
         fi->GetLargestPossibleRegion().GetSize() );
       m_FieldExpander->SetOutputStartIndex(
@@ -268,15 +251,13 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
       m_FieldExpander->SetOutputSpacing( fi->GetSpacing());
 
       m_FieldExpander->UpdateLargestPossibleRegion();
-
+      m_FieldExpander->SetInput( NULL );
       tempField = m_FieldExpander->GetOutput();
       tempField->DisconnectPipeline();
+
       m_RegistrationFilter->SetInitialDeformationField( tempField );
 
       }
-
-    // Invoke an iteration event.
-    this->InvokeEvent( IterationEvent() );
 
     // setup registration filter and pyramids 
     m_RegistrationFilter->SetMovingImage( m_MovingImagePyramid->GetOutput(movingLevel) );
@@ -286,71 +267,104 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
       m_NumberOfIterations[m_CurrentLevel] );
 
     // cache shrink factors for computing the next expand factors.
-    for( idim = 0; idim < ImageDimension; idim++ )
+    lastShrinkFactorsAllOnes = true;
+    for( unsigned int idim = 0; idim < ImageDimension; idim++ )
       {
-      lastShrinkFactors[idim] = 
-        m_FixedImagePyramid->GetSchedule()[fixedLevel][idim];
+      if ( m_FixedImagePyramid->GetSchedule()[fixedLevel][idim] > 1 )
+        {
+        lastShrinkFactorsAllOnes = false;
+        break;
+        }
       }
 
-    if( m_CurrentLevel < m_NumberOfLevels - 1)
+    // compute new deformation field
+    m_RegistrationFilter->UpdateLargestPossibleRegion();
+    tempField = m_RegistrationFilter->GetOutput();
+    tempField->DisconnectPipeline();
+
+    // Increment level counter.  
+    m_CurrentLevel++;
+    movingLevel = vnl_math_min( (int) m_CurrentLevel, 
+      (int) m_MovingImagePyramid->GetNumberOfLevels() );
+    fixedLevel = vnl_math_min( (int) m_CurrentLevel, 
+      (int) m_FixedImagePyramid->GetNumberOfLevels() );
+
+    // Invoke an iteration event.
+    this->InvokeEvent( IterationEvent() );
+
+    // We can release data from pyramid which are no longer required.
+    if ( movingLevel > 0 )
       {
+      m_MovingImagePyramid->GetOutput( movingLevel - 1 )->ReleaseData();
+      }
+    if( fixedLevel > 0 )
+      {
+      m_FixedImagePyramid->GetOutput( fixedLevel - 1 )->ReleaseData();
+      }
 
-      // compute new deformation field
-      m_RegistrationFilter->UpdateLargestPossibleRegion();
+    } // while not Halt()
 
+    if( !lastShrinkFactorsAllOnes )
+      {
+      // Some of the last shrink factors are not one
+      // graft the output of the expander filter to
+      // to output of this filter
+
+      // resample the field to the same size as the fixed image
+      m_FieldExpander->SetInput( tempField );
+      m_FieldExpander->SetSize( 
+        fixedImage->GetLargestPossibleRegion().GetSize() );
+      m_FieldExpander->SetOutputStartIndex(
+        fixedImage->GetLargestPossibleRegion().GetIndex() );
+      m_FieldExpander->SetOutputOrigin( fixedImage->GetOrigin() );
+      m_FieldExpander->SetOutputSpacing( fixedImage->GetSpacing());
+
+      m_FieldExpander->UpdateLargestPossibleRegion();
+      this->GraftOutput( m_FieldExpander->GetOutput() );
       }
     else
       {
+      // all the last shrink factors are all ones
+      // graft the output of registration filter to
+      // to output of this filter
+      this->GraftOutput( tempField );
+      }
 
-      // this is the last level
-      for( idim = 0; idim < ImageDimension; idim++ )
-        {
-        if ( lastShrinkFactors[idim] > 1 ) { break; }
-        }
-      if( idim < ImageDimension )
-        {
-
-        // some of the last shrink factors are not one
-        // graft the output of the expander filter to
-        // to output of this filter
-
-        // resample the field to the same size as the fixed image
-        m_FieldExpander->SetSize( 
-          fixedImage->GetLargestPossibleRegion().GetSize() );
-        m_FieldExpander->SetOutputStartIndex(
-          fixedImage->GetLargestPossibleRegion().GetIndex() );
-        m_FieldExpander->SetOutputOrigin( fixedImage->GetOrigin() );
-        m_FieldExpander->SetOutputSpacing( fixedImage->GetSpacing());
-
-        m_FieldExpander->UpdateLargestPossibleRegion();
-        this->GraftOutput( m_FieldExpander->GetOutput() );
-
-        }
-      else
-        {
-
-        // all the last shrink factors are all ones
-        // graft the output of registration filter to
-        // to output of this filter
-        m_RegistrationFilter->UpdateLargestPossibleRegion();
-        this->GraftOutput( m_RegistrationFilter->GetOutput() );
-
-        }
-      
-      // Release memory
-      m_MovingImagePyramid->GetOutput( movingLevel )->ReleaseData();
-      m_FixedImagePyramid->GetOutput( fixedLevel )->ReleaseData();
-      m_FieldExpander->GetOutput()->ReleaseData();
-      m_RegistrationFilter->GetOutput()->ReleaseData();
-
-      } // end if m_CurrentLevel not last
-    } // end m_CurrentLevel loop
-
-   // Reset the m_CurrentLevel to zero
-   m_CurrentLevel = 0;
+    // Release memory
+    m_FieldExpander->SetInput( NULL );
+    m_FieldExpander->GetOutput()->ReleaseData();
+    m_RegistrationFilter->SetInput( NULL );
+    m_RegistrationFilter->GetOutput()->ReleaseData();
 
 }
 
+
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+bool
+MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
+::Halt()
+{
+  // Halt the registration after the user-specified number of levels
+  if (m_NumberOfLevels != 0)
+  {
+  this->UpdateProgress( static_cast<float>( m_CurrentLevel ) /
+                        static_cast<float>( m_NumberOfLevels ) );
+  }
+
+  if ( m_CurrentLevel >= m_NumberOfLevels )
+    {
+    return true;
+    }
+  else if ( m_CurrentLevel == 0)
+    {
+    return false; 
+    }
+  else
+    { 
+    return false; 
+    }
+
+}
 
 
 template <class TFixedImage, class TMovingImage, class TDeformationField>

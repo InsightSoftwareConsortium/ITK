@@ -121,6 +121,17 @@ VectorResampleImageFilter<TInputImage,TOutputImage>
   m_Interpolator->SetInputImage( this->GetInput() );
 }
 
+/**
+ * Set up state of filter after multi-threading.
+ */
+template <class TInputImage, class TOutputImage>
+void 
+VectorResampleImageFilter<TInputImage,TOutputImage>
+::AfterThreadedGenerateData()
+{
+  //Disconnect input image from interpolator
+  m_Interpolator->SetInputImage( NULL );
+}
 
 /**
  * ThreadedGenerateData

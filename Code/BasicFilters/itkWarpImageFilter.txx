@@ -155,6 +155,19 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
 
 }
 
+/**
+ * Setup state of filter after multi-threading.
+ */
+template <class TInputImage,class TOutputImage,class TDeformationField>
+void
+WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
+::AfterThreadedGenerateData()
+{
+  // Disconnect input image from interpolator
+  m_Interpolator->SetInputImage( NULL );
+
+}
+
 
 /**
  * Compute the output for the region specified by outputRegionForThread.

@@ -220,6 +220,10 @@ protected:
    * possible region. */
   virtual void EnlargeOutputRequestedRegion( DataObject *ptr );
 
+  /** This method returns true to indicate that the registration should
+   * terminate at the current resolution level. */
+  virtual bool Halt();
+
 private:
   MultiResolutionPDEDeformableRegistration(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

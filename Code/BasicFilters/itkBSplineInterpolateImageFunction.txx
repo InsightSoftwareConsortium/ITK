@@ -65,23 +65,28 @@ void
 BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
 ::SetInputImage(const TImageType * inputData)
 {
+  if ( inputData )
+    {
+    m_CoefficientFilter->SetInput(inputData);
 
-  m_CoefficientFilter->SetInput(inputData);
+    // the Coefficient Filter requires that the spline order and the input data be set.
+    // TODO:  We need to ensure that this is only run once and only after both input and
+    //        spline order have been set. Should we force an update after the 
+    //        splineOrder has been set also?
 
-  // the Coefficient Filter requires that the spline order and the input data be set.
-  // TODO:  We need to ensure that this is only run once and only after both input and
-  //        spline order have been set. Should we force an update after the 
-  //        splineOrder has been set also?
+    m_CoefficientFilter->Update();
+    m_Coefficients = m_CoefficientFilter->GetOutput();
 
-  m_CoefficientFilter->Update();
-  m_Coefficients = m_CoefficientFilter->GetOutput();
+    // Call the Superclass implementation after, in case the filter
+    // pulls in  more of the input image
+    Superclass::SetInputImage(inputData);
 
-  // Call the Superclass implementation after, in case the filter
-  // pulls in  more of the input image
-  Superclass::SetInputImage(inputData);
-
-  m_DataLength = inputData->GetBufferedRegion().GetSize();
-
+    m_DataLength = inputData->GetBufferedRegion().GetSize();
+    }
+  else
+   {
+   m_Coefficients = NULL;
+   }
 }
 
 

@@ -189,6 +189,10 @@ public:
    * multi-threading. */
   virtual void BeforeThreadedGenerateData();
 
+  /** This method is used to set the state of the filter after 
+   * multi-threading. */
+  virtual void AfterThreadedGenerateData();
+
   /** Method Compute the Modified Time based on changed to the components. */
   unsigned long GetMTime( void ) const;
 
