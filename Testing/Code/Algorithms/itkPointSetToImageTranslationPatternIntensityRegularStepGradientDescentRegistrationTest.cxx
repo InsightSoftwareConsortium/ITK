@@ -40,7 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 #include "itkImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkPointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistration.h"
+#include "itkPointSetToImageTranslationPatternIntensityRegularStepGradientDescentRegistration.h"
 
 #include "itkCommandIterationUpdate.h"
 
@@ -74,7 +74,7 @@ int main()
 
   typedef PointSetType                                          TargetType;
 
-  typedef itk::PointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistration<
+  typedef itk::PointSetToImageTranslationPatternIntensityRegularStepGradientDescentRegistration<
                                                                 ReferenceType,
                                                                 TargetType> RegistrationType;
 
