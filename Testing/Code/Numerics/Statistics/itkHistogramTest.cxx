@@ -45,11 +45,20 @@ int itkHistogramTest(int, char* [] )
   HistogramType::MeasurementVectorType measurements ;
   measurements.Fill(512.0) ;
   HistogramType::IndexType index ;
+  HistogramType::IndexType ind;
   index.Fill(32) ;
-  if (index != histogram->GetIndex(measurements))
+  if(histogram->GetIndex(measurements,ind))
+    {
+    if(index != ind)
+      {
+      pass = false ;
+      whereFail = "GetIndex(MeasurementVectorType&)";
+      }
+    }
+  else
     {
     pass = false ;
-    whereFail = "GetIndex(MeasurementVectorType&)" ;
+    whereFail = "GetIndex(MeasurementVectorType&)";
     }
   
   HistogramType::InstanceIdentifier id = 
@@ -130,8 +139,10 @@ int itkHistogramTest(int, char* [] )
     static_cast< SparseHistogramType::MeasurementType >(size[0]) ;
 
   measurements.Fill(512.0) ;
-  index.Fill(32) ;
-  if (index != sparseHistogram->GetIndex(measurements))
+  index.Fill(32);
+  sparseHistogram->GetIndex(measurements,ind);
+
+  if (index != ind)
     {
     pass = false ;
     whereFail = "Sparse Histogram: GetIndex(MeasurementVectorType&)" ;

@@ -161,8 +161,10 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
+  HistogramType::IndexType resultingIndex;
+  histogram->GetIndex(mv,resultingIndex);
   std::cout << "Index of the measurement vector " << mv 
-            << " is " << histogram->GetIndex(mv) << std::endl ;
+            << " is " << resultingIndex << std::endl ;
   // Software Guide : EndCodeSnippet
   
   // Software Guide : BeginLatex
