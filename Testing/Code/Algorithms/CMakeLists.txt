@@ -403,6 +403,11 @@ IF(ITK_CSWIG_TCL)
            ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
            ${ITK_TEST_OUTPUT_DIR}/ImageRegistration5TclTest.png )
 
+  ADD_TEST(VoronoiSegmentationPython ${ITKWISH_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Segmentation/VoronoiSegmentation.tcl
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
+           ${ITK_SOURCE_DIR}/Examples/Data/VentricleModel.png
+           ${ITK_TEST_OUTPUT_DIR}/VoronoiSegmentationPython.png  0.3 0.3 )
 
 ENDIF(ITK_CSWIG_TCL)
 
@@ -430,6 +435,12 @@ IF(ITK_CSWIG_PYTHON)
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
            ${ITK_TEST_OUTPUT_DIR}/ImageRegistration5PythonTest.png )
+  
+  ADD_TEST(VoronoiSegmentationPython ${PYTHON_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Segmentation/VoronoiSegmentation.py
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
+           ${ITK_SOURCE_DIR}/Examples/Data/VentricleModel.png
+           ${ITK_TEST_OUTPUT_DIR}/VoronoiSegmentationPython.png  0.3 0.3 )
 
 ENDIF(ITK_CSWIG_PYTHON)
 
