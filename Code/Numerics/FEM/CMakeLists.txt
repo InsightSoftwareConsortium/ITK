@@ -50,6 +50,9 @@ SOURCE_FILES(FEM_SRCS
   itkFEMSolver.cxx
   itkFEMSolverHyperbolic.cxx
   itkFEMSolverCrankNicolson.cxx
+
+  itkFEMGenerateMesh.cxx
+
   itkFEMLinearSystemWrapper.cxx
   itkFEMLinearSystemWrapperVNL.cxx
   itkFEMLinearSystemWrapperDenseVNL.cxx
@@ -123,6 +126,8 @@ SOURCE_FILES(FEM_SRCS
   itkFEMSolver.h
   itkFEMSolverHyperbolic.h
   itkFEMSolverCrankNicolson.h
+
+  itkFEMGenerateMesh.h
 
   itkFEMSolution.h
 
