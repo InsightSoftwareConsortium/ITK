@@ -58,7 +58,7 @@ set BuildNameDir [file join $SiteDir $BuildName]
 set BuildStampDir [GetLastBuildDirectory $Model]
 if { $BuildStampDir == "" } \
 {
-  puts  "\tCould not find any builds in the $BuildNameDir to do testing $Result"
+  puts  "\tCould not find any builds in the $BuildNameDir to do testing"
   exit 1
 }
 
