@@ -28,10 +28,6 @@ ADD_TEST(itkRawImageIOTest ${IO_TESTS} itkRawImageIOTest)
 ADD_TEST(itkRawImageIOTest3 ${IO_TESTS} itkRawImageIOTest3)
 ADD_TEST(itkRawImageIOTest4 ${IO_TESTS} itkRawImageIOTest4)
 
-IF(VW_RAW_DATA_PATH)
-ADD_TEST(itkRawImageIOTest2 ${IO_TESTS} itkRawImageIOTest2 ${VW_RAW_DATA_PATH}/avfCROP.1023c.raw)
-ENDIF(VW_RAW_DATA_PATH)
-
 ADD_TEST(itkIOHeaderTest ${IO_HEADER_TEST})
 ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest.cxx)
 ADD_EXECUTABLE(itkIOTests itkIOTests.cxx ${IOTest_SRCS})
