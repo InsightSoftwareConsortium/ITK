@@ -161,6 +161,10 @@ protected:
 
   PolygonCell() : m_NumberOfEdges(0), m_NumberOfPoints(0) {}
   ~PolygonCell() {}
+ private:
+  PolygonCell(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
 };
 
 /** \class PolygonBoundary
