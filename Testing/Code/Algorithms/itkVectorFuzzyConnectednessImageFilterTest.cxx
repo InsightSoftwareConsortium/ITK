@@ -193,7 +193,7 @@ int main()
 		++ot;
 	}
 
-	delete test;
+	delete [] test;
 
-	return 1;
+	return 0;
 }
