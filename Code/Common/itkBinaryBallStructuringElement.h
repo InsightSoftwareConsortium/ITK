@@ -73,11 +73,11 @@ public:
   typedef typename AllocatorType::const_iterator ConstIterator;
   
   /** Size and value typedef support. */
-  typedef Size<VDimension> SizeType;
-  typedef typename SizeType::SizeValueType SizeValueType;
+  typedef typename Superclass::SizeType SizeType;
+  typedef typename Superclass::SizeValueType SizeValueType;
   
   /** Radius typedef support. */
-  typedef Size<VDimension> RadiusType;
+  typedef typename Superclass::RadiusType RadiusType;
 
   /** External slice iterator type typedef support. */
   typedef SliceIterator<TPixel, Self> SliceIteratorType;
