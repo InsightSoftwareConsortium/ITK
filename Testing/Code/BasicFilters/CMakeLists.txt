@@ -12,6 +12,10 @@ ITKBasicFilters
 ITKCommon
 )
 
+IF(ITK_WRAP_TCL)
+  INCLUDE(${ITK_SOURCE_DIR}/Testing/Code/BasicFilters/CMakeListsTcl.txt)
+ENDIF(ITK_WRAP_TCL)
+
 IF (TCL_TCLSH)
 ADD_TEST(PrintSelf-BasicFilters ${TCL_TCLSH}
          ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
