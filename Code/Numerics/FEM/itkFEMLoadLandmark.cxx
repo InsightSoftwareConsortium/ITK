@@ -74,7 +74,7 @@ void LoadLandmark::Read( std::istream& f, void* info )
   for (Element::ArrayType::const_iterator n = elements->begin(); n!=elements->end() && !isFound; n++) {
     if ( (*n)->GetLocalFromGlobalCoordinates(pu, this->m_pt) ) { 
       isFound = true; 
-      this->el.push_back( ( *n ) );
+      this->el.push_back( ( &**n ) );
     }
   }
 
