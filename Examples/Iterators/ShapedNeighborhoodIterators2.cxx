@@ -14,6 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+// SoftwareGuide : BeginCommandLineArgs
+//  INPUTS: {BinaryImage.png}
+//  OUTPUTS: {ShapedNeighborhoodIterators1b.png}
+//  4
+// SoftwareGuide : EndCommandLineArgs
+
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"

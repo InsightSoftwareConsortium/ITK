@@ -14,6 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainT1Slice.png}
+//    OUTPUTS: {NeighborhoodIterators1a.png}
+//  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex
 //

@@ -14,6 +14,27 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainT1Slice.png}
+//    OUTPUTS: {NeighborhoodIterators4a.png}
+//    0
+//  Software Guide : EndCommandLineArgs
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainT1Slice.png}
+//    OUTPUTS: {NeighborhoodIterators4b.png}
+//    1
+//  Software Guide : EndCommandLineArgs
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainT1Slice.png}
+//    OUTPUTS: {NeighborhoodIterators4c.png}
+//    2
+//  Software Guide : EndCommandLineArgs
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainT1Slice.png}
+//    OUTPUTS: {NeighborhoodIterators4d.png}
+//    5
+//  Software Guide : EndCommandLineArgs
+
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
