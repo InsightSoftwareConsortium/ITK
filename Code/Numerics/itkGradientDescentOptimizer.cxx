@@ -67,7 +67,9 @@ GradientDescentOptimizer
   os << indent << "StopCondition: "
      << m_StopCondition;
   os << std::endl;
-
+  os << indent << "Gradient: "
+     << m_Gradient;
+  os << std::endl;
 }
 
 
