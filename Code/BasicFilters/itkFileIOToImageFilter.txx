@@ -43,6 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkObjectFactory.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkCommand.h"
 
 namespace itk
 {
@@ -92,6 +93,9 @@ void FileIOToImageFilter<TOutputImage>::Update()
 template <class TOutputImage>
 void FileIOToImageFilter<TOutputImage>::GenerateData()
 {
+
+  this->InvokeEvent( Command::StartEvent );
+
   typename TOutputImage::Pointer m_OutputImage = this->GetOutput();
   Size dimSize;
 
@@ -123,13 +127,31 @@ void FileIOToImageFilter<TOutputImage>::GenerateData()
   IteratorType it(m_OutputImage,
                   m_OutputImage->GetLargestPossibleRegion());
 
+  // support progress methods/callbacks
+  unsigned long numberOfPixels = 
+    m_OutputImage->GetLargestPossibleRegion().GetNumberOfPixels();
+  unsigned long visitPeriod  = 100;
+  unsigned long updateVisits = numberOfPixels / visitPeriod;
+  unsigned long visitCounter = 0;
+ 
+
   OutputPixelType* source = (OutputPixelType*) m_IO->GetFileData();
 
   for ( it.GoToBegin(); !it.IsAtEnd(); ++it, ++source )
     {
-    //todo: progress
+    if( visitCounter == updateVisits )
+      {
+        visitCounter = 0;
+        this->UpdateProgress( static_cast<float>( visitCounter ) /
+                              static_cast<float>( updateVisits * visitPeriod ) );
+      }
+
     it.Set(*source);
+    visitCounter++;
     }
+  
+  this->InvokeEvent( Command::EndEvent );
+  
 }
 
 
