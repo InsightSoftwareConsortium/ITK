@@ -136,18 +136,16 @@ namespace itk
         unsigned long firstNewIndex = newPointId;
         unsigned long secondNewIndex = newPointId+1;
 
-        assert (!inputMesh->GetPoints()->IndexExists(firstNewIndex));
-        assert (!inputMesh->GetPoints()->IndexExists(secondNewIndex));
-        /*      if (  )
-        {
-        std::cout << "error!" << std::endl;
-        }
+        if( !inputMesh->GetPoints()->IndexExists(firstNewIndex)  )
+          {
+          itkExceptionMacro("First index does not exist");
+          }
 
-        if ( inputMesh->GetPoints()->IndexExists(secondNewIndex) )
-        {
-        std::cout << "error!" << std::endl;
-        }
-        */
+        if( !inputMesh->GetPoints()->IndexExists(secondNewIndex)  )
+          {
+          itkExceptionMacro("Second index does not exist");
+          }
+
 
         //create first new point
         InputPointType newMidPoint, helperPoint;
