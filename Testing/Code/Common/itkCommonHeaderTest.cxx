@@ -67,7 +67,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkConceptChecking.h"
 #include "itkConditionVariable.h"
 #include "itkConditionalConstIterator.txx"
-#include "itkConditionalIterator.txx"
 #include "itkConicShellInteriorExteriorSpatialFunction.txx"
 #include "itkConstNeighborhoodIterator.txx"
 #include "itkConstShapedNeighborhoodIterator.txx"
