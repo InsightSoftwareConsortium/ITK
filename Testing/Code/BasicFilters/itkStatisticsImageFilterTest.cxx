@@ -22,6 +22,7 @@
 #include "itkStatisticsImageFilter.h"
 #include "itkRandomImageSource.h"
 #include "itkFilterWatcher.h"
+#include "vnl/vnl_math.h"
 
 int itkStatisticsImageFilterTest(int, char**)
 {
@@ -93,7 +94,7 @@ int itkStatisticsImageFilterTest(int, char**)
   double expectedSigma = sqrt((maxValue-minValue)*(maxValue-minValue)/12.0);
   double epsilon = (maxValue - minValue) * .001;
 
-  if (abs(filter->GetSigma() - expectedSigma) > epsilon)
+  if (vnl_math_abs(filter->GetSigma() - expectedSigma) > epsilon)
     {
     std::cerr << "GetSigma failed! Got " << filter->GetSigma() << " but expected " << expectedSigma << std::endl;
     }
