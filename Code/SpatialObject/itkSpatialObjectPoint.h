@@ -21,6 +21,7 @@
 #include "itkPoint.h"
 #include "itkLightObject.h"
 #include "vnl/vnl_vector_fixed.h"
+#include "itkRGBAPixel.h"
 
 namespace itk 
 {
@@ -39,13 +40,14 @@ class ITK_EXPORT SpatialObjectPoint
 
 public:
 
-  typedef SpatialObjectPoint                         Self;
+  typedef SpatialObjectPoint                Self;
   typedef LightObject                       Superclass;
   typedef SmartPointer<Self>                Pointer;
   typedef const SmartPointer< const Self >  ConstPointer;
   typedef Point< double, TPointDimension >  PointType;
   typedef vnl_vector< double >              VectorType;
   typedef VectorType *                      VectorPointer;
+  typedef RGBAPixel< float >                PixelType;
 
   itkNewMacro( SpatialObjectPoint );
 
@@ -80,6 +82,26 @@ public:
   /** Copy one SpatialObjectPoint to another */
   Self & operator=(const SpatialObjectPoint & rhs);
 
+  /** Set/Get color of the point */
+  const PixelType & GetColor( void ) const;
+  void SetColor(const PixelType & color );
+
+  /** Set/Get red color of the point */
+  void SetRed( float r );
+  float GetRed( void ) const;
+
+  /** Set/Get Green color of the point */
+  void SetGreen( float g );
+  float GetGreen( void ) const;
+
+  /** Set/Get blue color of the point */
+  void SetBlue( float b );
+  float GetBlue( void ) const;
+
+  /** Set/Get alpha value of the point */
+  void SetAlpha( float a);
+  float GetAlpha( void ) const;
+
 protected:
 
   /** Constructor. This one defines the # of dimensions in the SpatialObjectPoint */
@@ -88,16 +110,21 @@ protected:
   /** Default destructor. */
   ~SpatialObjectPoint( void );
 
+  /** PrintSelf method */
+  void PrintSelf(std::ostream &os, Indent indent) const;  
+
   /** A unique ID assigned to this SpatialObjectPoint */
   unsigned int m_ID;
 
+  /** Position of the point */
   PointType m_X;
+
+  /** Color of the point */
+  PixelType m_Color;
 
   /** # of dimensions */
   unsigned short int m_NumDimensions;
 
-  /**  Initialization of the common variables */
-  void CommonConstruction( void );
 };
 
 } // end of namespace itk

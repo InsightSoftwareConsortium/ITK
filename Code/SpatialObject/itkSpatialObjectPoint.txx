@@ -22,21 +22,16 @@
 namespace itk 
 {
 
-/** Common construction */
-template< unsigned int TPointDimension >
-void 
-SpatialObjectPoint< TPointDimension >
-::CommonConstruction() 
-{
-  m_ID = 0;
-}
-
 /** Constructor */
 template< unsigned int TPointDimension >
 SpatialObjectPoint< TPointDimension >
 ::SpatialObjectPoint( void ) 
 { 
-  CommonConstruction();
+  m_ID = 0;
+  m_Color.SetRed(1.0); // red by default
+  m_Color.SetGreen(0);
+  m_Color.SetBlue(0);
+  m_Color.SetAlpha(1);
   m_NumDimensions = TPointDimension;
 }
 
@@ -45,6 +40,96 @@ template< unsigned int TPointDimension >
 SpatialObjectPoint< TPointDimension >
 ::~SpatialObjectPoint( void ) 
 {
+}
+
+/** Return the color of the point */
+template< unsigned int TPointDimension >
+const SpatialObjectPoint< TPointDimension >::PixelType &
+SpatialObjectPoint< TPointDimension >
+::GetColor( void ) const
+{ 
+  return m_Color; 
+}
+
+/** Set the color of the point */
+template< unsigned int TPointDimension >
+void 
+SpatialObjectPoint< TPointDimension >
+::SetColor( const PixelType & color )
+{ 
+  m_Color = color; 
+}
+
+/** Set the red channel of the point */
+template< unsigned int TPointDimension >
+void
+SpatialObjectPoint< TPointDimension >
+::SetRed( float r )
+{
+  m_Color.SetRed(r);
+}
+
+/** Return the red channel of the point */
+template< unsigned int TPointDimension >
+float 
+SpatialObjectPoint< TPointDimension >
+::GetRed( void ) const
+{ 
+  return m_Color.GetRed(); 
+}
+
+/** Set the green channel of the point */
+template< unsigned int TPointDimension >
+void 
+SpatialObjectPoint< TPointDimension >
+::SetGreen( float g )
+{ 
+  m_Color.SetGreen(g); 
+}
+
+/** Return the green channel of the point */
+template< unsigned int TPointDimension >    
+float
+SpatialObjectPoint< TPointDimension >
+::GetGreen( void ) const
+{ 
+  return m_Color.GetGreen(); 
+}
+
+/** Set the blue channel of the point */
+template< unsigned int TPointDimension >
+void 
+SpatialObjectPoint< TPointDimension >
+::SetBlue( float b )
+{ 
+  m_Color.SetBlue(b); 
+}
+
+/** Return the blue channel of the point */
+template< unsigned int TPointDimension >
+float 
+SpatialObjectPoint< TPointDimension >
+::GetBlue( void ) const
+{ 
+  return m_Color.GetBlue(); 
+}
+
+/** Set the alpha value of the point */
+template< unsigned int TPointDimension >
+void 
+SpatialObjectPoint< TPointDimension >
+::SetAlpha( float a)
+{ 
+  m_Color.SetAlpha(a); 
+}
+
+/** Return the alpha value of the point */
+template< unsigned int TPointDimension >
+float 
+SpatialObjectPoint< TPointDimension >
+::GetAlpha( void ) const
+{ 
+  return m_Color.GetAlpha(); 
 }
 
 /** Get a reference to the point */
@@ -152,6 +237,20 @@ SpatialObjectPoint< TPointDimension >
   m_X = rhs.m_X;
   return * this;
 }
+
+
+/** PrintSelfMethod */
+template< unsigned int TPointDimension >
+void
+SpatialObjectPoint< TPointDimension >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  os << indent << "RGBA: "<< m_Color.GetRed() << " ";
+  os << m_Color.GetGreen() << " ";
+  os << m_Color.GetBlue() << " ";
+  os << m_Color.GetAlpha() << " ";
+}
+
 
 } // end namespace itk
 
