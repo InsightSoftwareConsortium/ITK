@@ -93,7 +93,7 @@ void itkSystemInformationPrintFile(const char* name, std::ostream& os,
     }
 }
 
-int main(int argc,char *argv[])
+int main(int,char *[])
 {
   const char* files[] =
     {
@@ -118,21 +118,8 @@ int main(int argc,char *argv[])
     std::cout << "Also writing this information to file " << ITK_SYSTEM_INFORMATION_NOTES << "\n";
   
     outf << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << std::endl;
-    switch (argc)
-      {
-      case 1:
-        outf << "<Site BuildName=\"Local\"  Name=\"localhost\">" << std::endl;
-        break;
-      case 2:
-        outf << "<Site BuildName=\"Local\"  Name=\"" << argv[1] << "\">" << std::endl;
-        break;
-      case 3:
-        outf << "<Site BuildName=\"" << argv[2] << "\"  Name=\"" << argv[1] << "\">" << std::endl;
-        break;
-      default:
-        outf << "<Site BuildName=\"Local\"  Name=\"localhost\">" << std::endl;
-        break;
-      }
+    outf << "<Site BuildName=\"" << ITKTesting_BUILD_NAME << "\"  Name=\""
+         << ITKTesting_SITE << "\">" << std::endl;
     outf << "<BuildNameNotes>" << std::endl;
     for(f = files; *f; ++f)
       {
