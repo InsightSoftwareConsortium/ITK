@@ -158,7 +158,7 @@ int main( int argc, char ** argv )
 //
 // The output is rescaled and written as in the previous examples.
 // Figure~\ref{fig:NeighborhoodExample4} shows the results of Gaussian blurring
-// the image \code{Insight/Examples/Data/BrainT1Slice.png} using increasing
+// the image \code{Examples/Data/BrainT1Slice.png} using increasing
 // kernel widths.
 //
 // \begin{figure} \centering

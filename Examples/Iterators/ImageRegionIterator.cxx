@@ -59,12 +59,12 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginLatex
 //
-// Next we define a pixel type and corresponding image type.  The image type is
-// used to define the iterators.  
+// Next we define a pixel type and corresponding image type. ITK iterator
+// classes expect the image type as their template parameter.
 //
 // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 2;
   
   typedef unsigned char PixelType;
@@ -78,10 +78,10 @@ int main( int argc, char *argv[] )
   typedef itk::ImageFileWriter< ImageType > WriterType;
 
 // Software Guide : BeginLatex
-//
-// Our cropping algorithm will create an output image whose size matches the
-// selected region of the input image.  Information necessary to define the
-// selected region, a starting index and a size, is read from the command line.
+// 
+// Information about the subregion to copy is read from the command line. The
+// subregion is defined by an \doxygen{ImageRegion} object, with a starting
+// grid index and a size (Section~\ref{sec:ImageSection}).
 //
 // Software Guide : EndLatex
 
@@ -100,7 +100,6 @@ int main( int argc, char *argv[] )
   inputRegion.SetSize( size );
   inputRegion.SetIndex( inputStart );
 // Software Guide : EndCodeSnippet
-  
 
 
 // Software Guide : BeginLatex
@@ -128,43 +127,42 @@ int main( int argc, char *argv[] )
   reader->SetFileName( argv[1] );
   try
     {
-      reader->Update();
+    reader->Update();
     }
   catch ( itk::ExceptionObject &err)
     {
-      std::cerr << "ExceptionObject caught !" << std::endl; 
-      std::cerr << err << std::endl; 
-      return -1;
+    std::cerr << "ExceptionObject caught !" << std::endl; 
+    std::cerr << err << std::endl; 
+    return -1;
     }
 
   // Check that the region is contained within the input image.
   if ( ! reader->GetOutput()->GetRequestedRegion().IsInside( inputRegion ) )
     {
-      std::cerr << "Error" << std::endl;
-      std::cerr << "The region " << inputRegion << "is not contained within the input image region "
-                << reader->GetOutput()->GetRequestedRegion() << std::endl;
-      return -1;
+    std::cerr << "Error" << std::endl;
+    std::cerr << "The region " << inputRegion << "is not contained within the input image region "
+              << reader->GetOutput()->GetRequestedRegion() << std::endl;
+    return -1;
     }
 
 // Software Guide : BeginLatex
 //
-// After reading the input image and checking that the desired subregion is, in
-// fact, contained in the input, we allocate an output image.  It is important
-// to transfer the pixel spacing information and compute the new physical
-// origin of the output image. This data is necessary in case the extracted
-// region must later be registered against the original image.
+// After reading the input image and checking that the desired subregion is,
+// in fact, contained in the input, we allocate an output image.  It is
+// fundamental to correct some of the basic image information during the
+// copying process.  In particular, the starting index of the output region
+// is now filled up with zero values and the coordinates of the physical
+// origin are computed as a shift from the origin of the input image. This is
+// quite important since it will allow later to register the extracted region
+// against the original image.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   ImageType::Pointer outputImage = ImageType::New();
-
   outputImage->SetRegions( outputRegion );
- 
   const double * spacing = reader->GetOutput()->GetSpacing();
-
   const double * inputOrigin = reader->GetOutput()->GetOrigin();
-
   double   outputOrigin[ Dimension ];
 
   for(unsigned int i=0; i< Dimension; i++)
@@ -178,18 +176,15 @@ int main( int argc, char *argv[] )
 // Software Guide : EndCodeSnippet
 
 
-
-
 // Software Guide : BeginLatex
 //
-// \index{Iterators!construction of}
-// \index{Iterators!and image regions}
-// The necessary images and region definitions are now in place.  All that is left
-// is to create the iterators and do the copying.  Note that iterators are
-// not smart pointers so their constructors can be called directly.  Also
-// notice how the input and output iterators are defined over the \emph{same
-// region}.  Though the images are different sizes, they both contain the same
-// target subregion.
+// \index{Iterators!construction of} \index{Iterators!and image regions} 
+// The necessary images and region definitions are now in place.  All that is
+// left to do is to create the iterators and perform the copy.  Note that image
+// iterators are not accessed via smart pointers so they are light-weight
+// objects that are instantiated on the stack.  Also notice how the input and
+// output iterators are defined over the \emph{same region}.  Though the
+// images are different sizes, they both contain the same target subregion.
 //
 // Software Guide : EndLatex
 
@@ -200,12 +195,9 @@ int main( int argc, char *argv[] )
   for ( inputIt.GoToBegin(), outputIt.GoToBegin(); !inputIt.IsAtEnd();
         ++inputIt, ++outputIt)
     {
-      outputIt.Set(  inputIt.Get()  );
+    outputIt.Set(  inputIt.Get()  );
     }
 // Software Guide : EndCodeSnippet
-
-
-
 
 
 // Software Guide : BeginLatex
@@ -234,12 +226,10 @@ int main( int argc, char *argv[] )
     return -1;   
     }
 
-
-
 // Software Guide : BeginLatex
 //
 // Let's run this example on the image \code{FatMRISlice.png} found
-// in \code{Insight/Examples/Data}.  The command line arguments specify the
+// in \code{Examples/Data}.  The command line arguments specify the
 // input and output file names, then the $x$, $y$ origin and the $x$, $y$ size
 // of the cropped subregion.
 //
@@ -249,7 +239,8 @@ int main( int argc, char *argv[] )
 // \end{verbatim}
 // \normalsize
 //
-// The output is the cropped subregion shown in figure~\ref{fig:ImageRegionIteratorOutput}.
+// The output is the cropped subregion shown in
+// Figure~\ref{fig:ImageRegionIteratorOutput}.
 //
 // \begin{figure}
 // \centering

@@ -31,20 +31,20 @@
 // step size, and an ending position.  Using slices, we can walk through a
 // neighborhood in a variety of ways.  For example, suppose we wanted to take
 // derivatives along the $y$-axis, but offset those derivatives by one pixel
-// along the positive $x$-axis.  For a $3x3$, 2D neighborhood iterator, we can
-// construct a slice as \code{(start = 2, stride = 3, end = 8)}, where
-// \code{start} and \code{end} are given as neighborhood array positions.  This
-// slice can be passed along with an appropriate 1D
+// along the positive $x$-axis.  For a $3\times3$, 2D neighborhood iterator,
+// we can construct a slice as \code{(start = 2, stride = 3, end = 8)}, where
+// \code{start} and \code{end} are given as neighborhood array positions.
+// This slice can be passed along with an appropriate 1D
 // \doxygen{DerviativeOperator} to the \doxygen{NeighborhoodInnerProduct}
 // function, which will then use only the pixels specified by the slice,
-// i.e. those pixels at neighborhood offsets $(1, -1)$, $(1, 0)$, $(1, 1)$ (see
-// figure~\ref{fig:NeighborhoodArray} for reference).
+// i.e. those pixels at neighborhood offsets $(1, -1)$, $(1, 0)$, $(1, 1)$
+// (see Figure~\ref{fig:NeighborhoodArray} for reference).
 //
 // The previous separable Gaussian filtering example can be rewritten using
 // slices and slice-based inner products.  In general, slice-based processing
 // is most useful when doing many different calculations on the same
 // neighborhood, so that defining multiple iterators as in
-// section~\ref{sec:NeighborhoodIterators4} becomes impractical or inefficient.
+// Section~\ref{sec:NeighborhoodIterators4} becomes impractical or inefficient.
 // Good examples of slice-based neighborhood processing are any of the ND
 // anisotropic diffusion function objects, such as
 // \doxygen{CurvatureNDAnisotropicDiffusionFunction}.
@@ -140,18 +140,14 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginCodeSnippet
   ImageType::Pointer input = reader->GetOutput();
-
-  faceList = faceCalculator(input, output->GetRequestedRegion(),
-                            radius);
+  faceList = faceCalculator(input, output->GetRequestedRegion(), radius);
    
   for (unsigned int i = 0; i < ImageType::ImageDimension; ++i)
     {
     for ( fit=faceList.begin(); fit != faceList.end(); ++fit )
       {
       it = NeighborhoodIteratorType( radius, input, *fit );
-
       out = IteratorType( output, *fit );
-      
       for (it.GoToBegin(), out.GoToBegin(); ! it.IsAtEnd(); ++it, ++out)
         {
         out.Set( innerProduct(it.GetSlice(i), it, gaussianOperator) );
@@ -182,7 +178,6 @@ int main( int argc, char ** argv )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-
   typedef unsigned char WritePixelType;
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
   typedef itk::ImageFileWriter< WriteImageType > WriterType;

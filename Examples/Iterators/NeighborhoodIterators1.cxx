@@ -17,7 +17,7 @@
 
 // Software Guide : BeginLatex
 //
-// This example uses the \doxygen{itk::NeighborhoodIterator} to implement a simple
+// This example uses the \doxygen{NeighborhoodIterator} to implement a simple
 // Sobel edge detection algorithm \cite{Gonzalez1993}.  We will read an input
 // image, create an output buffer of matching size, then iterate through both
 // images simultaneously, calculating derivatives on the input and writing the
@@ -51,18 +51,18 @@ int main( int argc, char ** argv )
 {
   if ( argc < 3 )
     {
-      std::cerr << "Missing parameters. " << std::endl;
-      std::cerr << "Usage: " << std::endl;
-      std::cerr << argv[0]
-                << " inputImageFile outputImageFile"
-                << std::endl;
-      return -1;
+    std::cerr << "Missing parameters. " << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0]
+              << " inputImageFile outputImageFile"
+              << std::endl;
+    return -1;
     }
 
 // Software Guide : BeginLatex
 //
 // Now declare the image and pixel types.  The finite difference calculations
-// in this algorithm require a floating point data type.. The file reader will
+// in this algorithm require a floating point data type. The file reader will
 // automatically cast fixed-point data to \code{float}.
 //
 // The second template parameter, which specifies the boundary condition, has
@@ -84,7 +84,7 @@ int main( int argc, char ** argv )
 // Software Guide : BeginLatex
 //
 // The following code creates and executes ITK image reader. The \code{Update}
-// call on the reader object is surrounded by the standard \code{try / catch}
+// call on the reader object is surrounded by the standard \code{try/catch}
 // blocks to handle any exceptions that may be thrown by the reader.
 //
 // Software Guide : EndLatex
@@ -94,13 +94,13 @@ int main( int argc, char ** argv )
   reader->SetFileName( argv[1] );
   try
     {
-      reader->Update();
+    reader->Update();
     }
   catch ( itk::ExceptionObject &err)
     {
-      std::cout << "ExceptionObject caught !" << std::endl; 
-      std::cout << err << std::endl; 
-      return -1;
+    std::cout << "ExceptionObject caught !" << std::endl; 
+    std::cout << err << std::endl; 
+    return -1;
     }
 // Software Guide : EndCodeSnippet
 
@@ -142,14 +142,14 @@ int main( int argc, char ** argv )
 // image biased towards maximally vertical edges.
 //
 // There are many ways to take derivatives using the neighborhood operators.
-// The example in section~\ref{sec:NeighborhoodIterators2}  illustrates traditional
+// The example in Section~\ref{sec:NeighborhoodIterators2}  illustrates traditional
 // convolution filtering with convolution kernels.  In this example, we instead
 // use the
-// neighborhood iterator \code{Set / Get} API to perform the necessary finite
+// neighborhood iterator \code{Set/Get} API to perform the necessary finite
 // difference calculations.
 //
 // There are six positions in the neighborhood used for the Sobel derivatives.
-// These size positions are recorded in \code{offset1}--\code{offset6}.
+// These size positions are recorded in \code{offset1} through \code{offset6}.
 //
 // Software Guide : EndLatex
 
@@ -165,8 +165,8 @@ int main( int argc, char ** argv )
 // Software Guide : BeginLatex
 //
 // Note that it is equivalent to supply the corresponding integer array
-// indicies.  For example, the offsets \code{(-1,-1)} and \code{(1, -1)} are
-// equivalent to the integer indicies \code{0} and \code{2}, respectively.
+// indices.  For example, the offsets \code{(-1,-1)} and \code{(1, -1)} are
+// equivalent to the integer indices \code{0} and \code{2}, respectively.
 //
 // The calculations are now done in a \code{for} loop that moves the input and
 // output iterators synchronously across their respective images.  The
@@ -188,7 +188,7 @@ int main( int argc, char ** argv )
 // Software Guide : BeginLatex
 //
 // The last step is to write the output buffer to an image file.  This is done
-// in the standard way with a \code{try / catch} block to handle any
+// in the standard way with a \code{try/catch} block to handle any
 // exceptions.  For the purpose of visualizing the output as a \code{png}
 // image, it is rescaled to intensity range $[0, 255]$ and cast to unsigned
 // char.
@@ -226,8 +226,10 @@ int main( int argc, char ** argv )
 
 
 // Software Guide : BeginLatex
-// The center image of Figure~\ref{fig:NeighborhoodExamples1} shows the output of the Sobel
-// algorithm run on the image \code{Insight/Examples/Data/BrainT1Slice.png}.
+//
+// The center image of Figure~\ref{fig:NeighborhoodExamples1} shows the
+// output of the Sobel algorithm run on the image
+// \code{Examples/Data/BrainT1Slice.png}.
 //
 // \begin{figure} \centering
 // \includegraphics[width=0.3\textwidth]{BrainT1Slice.eps}

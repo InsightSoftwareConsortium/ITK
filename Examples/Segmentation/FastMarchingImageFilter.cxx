@@ -731,7 +731,7 @@ int main( int argc, char *argv[] )
   //
   //  Let's now run this example using as input the image
   //  \code{BrainProtonDensitySlice.png} provided in the directory
-  //  \code{Insight/Examples/Data}. We can easily segment the major anatomical
+  //  \code{Examples/Data}. We can easily segment the major anatomical
   //  structures by providing seeds in the appropriate locations. The following
   //  table presents the parameters used for some structures.
   //

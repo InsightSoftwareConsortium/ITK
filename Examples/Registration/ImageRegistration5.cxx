@@ -439,7 +439,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  Let's execute this example over some of the images provided in
-  //  \code{Insight/Examples/Data}, for example:
+  //  \code{Examples/Data}, for example:
   //  
   //  \begin{itemize}
   //  \item \code{BrainProtonDensitySliceBorder20.png} 

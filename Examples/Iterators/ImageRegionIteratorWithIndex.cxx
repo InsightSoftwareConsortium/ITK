@@ -51,12 +51,12 @@ int main( int argc, char *argv[] )
   // Verify the number of parameters on the command line.
   if ( argc < 3 )
     {
-      std::cerr << "Missing parameters. " << std::endl;
-      std::cerr << "Usage: " << std::endl;
-      std::cerr << argv[0]
-                << " inputImageFile outputImageFile"
-                << std::endl;
-      return -1;
+    std::cerr << "Missing parameters. " << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0]
+              << " inputImageFile outputImageFile"
+              << std::endl;
+    return -1;
     }
 
 // Software Guide : BeginLatex
@@ -85,14 +85,14 @@ int main( int argc, char *argv[] )
   reader->SetFileName( argv[1] );
   try
     {
-      reader->Update();
-      inputImage = reader->GetOutput();
+    reader->Update();
+    inputImage = reader->GetOutput();
     }
   catch ( itk::ExceptionObject &err)
     {
-      std::cout << "ExceptionObject caught !" << std::endl; 
-      std::cout << err << std::endl; 
-      return -1;
+    std::cout << "ExceptionObject caught !" << std::endl; 
+    std::cout << err << std::endl; 
+    return -1;
     }
 
 // Software Guide : BeginLatex
@@ -124,26 +124,23 @@ int main( int argc, char *argv[] )
 
 // Software Guide: BeginLatex
 //
-// The axis-flipping algorithm works by iterating through the output image, querying
-// the iterator for its index, and copying the value from the input at an index
-// mirrored across the $x$-axis.
+// This axis flipping algorithm works by iterating through the output image,
+// querying the iterator for its index, and copying the value from the input
+// at an index mirrored across the $x$-axis.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   ImageType::IndexType requestedIndex =
                 outputImage->GetRequestedRegion().GetIndex();
-
   ImageType::SizeType requestedSize =
                 outputImage->GetRequestedRegion().GetSize();
 
   for ( outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt)
     {
-      ImageType::IndexType idx = outputIt.GetIndex();
-
-      idx[0] =  requestedIndex[0] + requestedSize[0] - 1 - idx[0];
-      
-      outputIt.Set( inputImage->GetPixel(idx) );
+    ImageType::IndexType idx = outputIt.GetIndex();
+    idx[0] =  requestedIndex[0] + requestedSize[0] - 1 - idx[0];
+    outputIt.Set( inputImage->GetPixel(idx) );
     }
 // Software Guide : EndCodeSnippet
 
@@ -152,19 +149,19 @@ int main( int argc, char *argv[] )
   writer->SetInput(outputImage);
   try
     {
-      writer->Update();
+    writer->Update();
     }
   catch ( itk::ExceptionObject &err)
     {
-      std::cout << "ExceptionObject caught !" << std::endl; 
-      std::cout << err << std::endl; 
-      return -1;   
+    std::cout << "ExceptionObject caught !" << std::endl; 
+    std::cout << err << std::endl; 
+    return -1;   
 }
 
 // Software Guide : BeginLatex
 //
 // Let's run this example on the image \code{VisibleWomanEyeSlice.png} found in
-// the \code{Insight/Examples/Data} directory.
+// the \code{Examples/Data} directory.
 // Figure~\ref{fig:ImageRegionIteratorWithIndexExample} shows how the original
 // image has been mirrored across its $x$-axis in the output.
 //

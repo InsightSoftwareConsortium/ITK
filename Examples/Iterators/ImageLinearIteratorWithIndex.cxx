@@ -101,17 +101,17 @@ int main( int argc, char *argv[] )
   // Verify the number of parameters on the command line.
   if ( argc < 3 )
     {
-      std::cerr << "Missing parameters. " << std::endl;
-      std::cerr << "Usage: " << std::endl;
-      std::cerr << argv[0]
-                << " inputImageFile outputImageFile"
-                << std::endl;
-      return -1;
+    std::cerr << "Missing parameters. " << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0]
+              << " inputImageFile outputImageFile"
+              << std::endl;
+    return -1;
     }
 
 // Software Guide : BeginLatex
 //
-// The RGB Image and pixel types are defined as in the previous example.  The 
+// The RGB image and pixel types are defined as in the previous example.  The 
 // \doxygen{ImageLinearIteratorWithIndex} class and its const version each have
 // single template parameters, the image type.
 //
@@ -135,14 +135,14 @@ int main( int argc, char *argv[] )
   reader->SetFileName( argv[1] );
   try
     {
-      reader->Update();
-      inputImage = reader->GetOutput();
+    reader->Update();
+    inputImage = reader->GetOutput();
     }
   catch ( itk::ExceptionObject &err)
     {
-      std::cout << "ExceptionObject caught a !" << std::endl; 
-      std::cout << err << std::endl; 
-      return -1;
+    std::cout << "ExceptionObject caught a !" << std::endl; 
+    std::cout << err << std::endl; 
+    return -1;
     }
 
 // Software Guide : BeginLatex
@@ -163,8 +163,8 @@ int main( int argc, char *argv[] )
 //
 // Next we create the two iterators.  The const iterator walks the input image,
 // and the non-const iterator walks the output image.  The iterators are
-// initialized over the same region.  The direction of iteration is set to $0$,
-// the $x$-dimension.
+// initialized over the same region.  The direction of iteration is set to 0,
+// the $x$ dimension.
 //
 // Software Guide : EndLatex
 
@@ -187,15 +187,15 @@ int main( int argc, char *argv[] )
   for ( inputIt.GoToBegin(),  outputIt.GoToBegin(); ! inputIt.IsAtEnd();
         outputIt.NextLine(),  inputIt.NextLine())
     {
-      inputIt.GoToBeginOfLine();
-      outputIt.GoToEndOfLine();
+    inputIt.GoToBeginOfLine();
+    outputIt.GoToEndOfLine();
+    --outputIt;
+    while ( ! inputIt.IsAtEndOfLine() )
+      {
+      outputIt.Set( inputIt.Get() );
+      ++inputIt;
       --outputIt;
-      while ( ! inputIt.IsAtEndOfLine() )
-        {
-          outputIt.Set( inputIt.Get() );
-          ++inputIt;
-          --outputIt;
-        }
+      }
     }
 // Software Guide : EndCodeSnippet
 
@@ -204,20 +204,20 @@ int main( int argc, char *argv[] )
   writer->SetInput(outputImage);
   try
     {
-      writer->Update();
+    writer->Update();
     }
   catch ( itk::ExceptionObject &err)
     {
-      std::cout << "ExceptionObject caught !" << std::endl; 
-      std::cout << err << std::endl; 
-      return -1;   
-}
+    std::cout << "ExceptionObject caught !" << std::endl; 
+    std::cout << err << std::endl; 
+    return -1;   
+    }
 
 // Software Guide : BeginLatex
 //
 // Running this example on \code{VisibleWomanEyeSlice.png} produces
 // the same output image shown in
-// figure~\ref{fig:ImageRegionIteratorWithIndexExample}.
+// Figure~\ref{fig:ImageRegionIteratorWithIndexExample}.
 //
 // \index{itk::ImageLinearIteratorWithIndex!example of using|)}
 // Software Guide : EndLatex

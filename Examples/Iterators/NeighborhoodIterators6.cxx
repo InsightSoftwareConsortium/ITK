@@ -51,10 +51,6 @@
 // 
 // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-
-// Software Guide : EndCodeSnippet
-
 int main( int argc, char ** argv )
 {
   if ( argc < 4 )

@@ -281,8 +281,8 @@ int main( int argc, char *argv[] )
   //  We can use this filter to make some subtle refinements to the ventricle
   //  segmentation from the previous example of
   //  \doxygen{ThresholdSegmentationLevelSetImageFilter}.  The application was
-  //  run using \code{Insight/Examples/Data/BrainProtonDensitySlice.png} and
-  //  \code{Insight/Examples/Data/VentricleModel.png} as inputs, a
+  //  run using \code{Examples/Data/BrainProtonDensitySlice.png} and
+  //  \code{Examples/Data/VentricleModel.png} as inputs, a
   //  \code{threshold} of $7.0$, \code{variance} of $0.1$, \code{advection
   //  weight} of $10.0$, and an initial isosurface value of $127.5$.  One case
   //  was run for $15$ iterations and the second was run to convergence.

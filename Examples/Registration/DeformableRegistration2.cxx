@@ -347,7 +347,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   //
   // Let's execute this example using rat lung data in the previous example.
-  // The associated data files can be found in \code{Insight/Examples/Data}:
+  // The associated data files can be found in \code{Examples/Data}:
   // \begin{itemize}
   // \item \code{RatLungSlice1.mha}
   // \item \code{RatLungSlice2.mha}

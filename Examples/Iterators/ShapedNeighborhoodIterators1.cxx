@@ -23,9 +23,9 @@
 // Software Guide : BeginLatex
 //
 // This example uses \doxygen{ShapedNeighborhoodIterator} to implement a binary
-// erosion algorithm.  If we think of an image $I$ as a set of pixel indicies,
+// erosion algorithm.  If we think of an image $I$ as a set of pixel indices,
 // then erosion of $I$ by a smaller set $E$, called the \emph{structuring
-// element}, is the set of all indicies at locations $x$ in $I$ such that when
+// element}, is the set of all indices at locations $x$ in $I$ such that when
 // $E$ is positioned at $x$, every element in $E$ is also contained in $I$.
 //
 // This type of algorithm is easy to implement with shaped neighborhood
@@ -92,20 +92,20 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 //
-// Refer to the examples in section~\ref{sec:itkNeighborhoodIterator} or the
+// Refer to the examples in Section~\ref{sec:itkNeighborhoodIterator} or the
 // source code of this example for a description of how to read the input image
 // and allocate a matching output image.
 //
-// The size of the structuring element is read from the command line and used to
-// define a radius for the shaped neighborhood iterator.  Using the optimized
-// method developed in the section~\ref{sec:NeighborhoodExample3} example, the
-// iterator itself is not initialized until entering the main processing loop.
+// The size of the structuring element is read from the command line and used
+// to define a radius for the shaped neighborhood iterator.  Using the
+// optimized method developed in the Section~\ref{sec:NeighborhoodExample3}
+// example, the iterator itself is not initialized until entering the main
+// processing loop.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   unsigned int element_radius = ::atoi( argv[3] );
-
   ShapedNeighborhoodIteratorType::RadiusType radius;
   radius.Fill(element_radius);
 // Software Guide : EndCodeSnippet
@@ -113,7 +113,7 @@ int main( int argc, char ** argv )
 // Software Guide : BeginLatex
 //
 // The face calculator object introduced in
-// section~\ref{sec:NeighborhoodExample3} is created and used as before.
+// Section~\ref{sec:NeighborhoodExample3} is created and used as before.
 //
 // Software Guide : EndLatex
 

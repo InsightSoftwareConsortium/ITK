@@ -615,7 +615,7 @@ int main( int argc, char *argv[] )
   //
   //  We execute this program on the image
   //  \code{BrainProtonDensitySlice.png} found under
-  //  \code{Insight/Examples/Data}.  The following parameters are
+  //  \code{Examples/Data}.  The following parameters are
   //  passed to the command line:
   // 
   //  \begin{verbatim}

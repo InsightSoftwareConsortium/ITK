@@ -67,7 +67,7 @@
 // The slice iterator moves line by line using \code{NextLine()} and
 // \code{PreviousLine()}.  The line direction is parallel to the \emph{second}
 // coordinate axis direction of the slice plane (see also
-// section~\ref{sec:itkImageLinearIteratorWithIndex}).
+// Section~\ref{sec:itkImageLinearIteratorWithIndex}).
 //
 // \index{itk::ImageSliceIteratorWithIndex!example of using|(}
 // The next code example calculates the maximum intensity projection along one
@@ -105,19 +105,19 @@ int main( int argc, char *argv[] )
   //   Verify the number of parameters on the command line.
   if ( argc < 4 )
     {
-      std::cerr << "Missing parameters. " << std::endl;
-      std::cerr << "Usage: " << std::endl;
-      std::cerr << argv[0]
-                << " inputImageFile outputImageFile projectionDirection"
-                << std::endl;
-      return -1;
+    std::cerr << "Missing parameters. " << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0]
+              << " inputImageFile outputImageFile projectionDirection"
+              << std::endl;
+    return -1;
     }
   
 // Software Guide : BeginLatex
 //
-// The pixel type is defined as unsigned short.  For this application, we need
-// two image types, a 3D image for the input, and a 2D image for the intensity
-// projection.
+// The pixel type is defined as \code{unsigned short}.  For this application,
+// we need two image types, a 3D image for the input, and a 2D image for the
+// intensity projection.
 //
 // Software Guide : EndLatex
 
@@ -146,14 +146,14 @@ int main( int argc, char *argv[] )
   reader->SetFileName( argv[1] );
   try
     {
-      reader->Update();
-      inputImage = reader->GetOutput();
+    reader->Update();
+    inputImage = reader->GetOutput();
     }
   catch ( itk::ExceptionObject &err)
     {
-      std::cout << "ExceptionObject caught !" << std::endl; 
-      std::cout << err << std::endl; 
-      return -1;
+    std::cout << "ExceptionObject caught !" << std::endl; 
+    std::cout << err << std::endl; 
+    return -1;
     }
   
 // Software Guide : BeginLatex
@@ -166,17 +166,18 @@ int main( int argc, char *argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  unsigned int projectionDirection = static_cast<unsigned int>( ::atoi( argv[3] ) );
+  unsigned int projectionDirection = 
+    static_cast<unsigned int>( ::atoi( argv[3] ) );
 
   unsigned int i, j;
   unsigned int direction[2];
   for (i = 0, j = 0; i < 3; ++i )
     {
-      if (i != projectionDirection)
-        {
-          direction[j] = i;
-          j++;
-        }
+    if (i != projectionDirection)
+      {
+      direction[j] = i;
+      j++;
+      }
     }
 // Software Guide : EndCodeSnippet
 
@@ -185,10 +186,10 @@ int main( int argc, char *argv[] )
 //
 // The \code{direction} array is now used to define the projection image size
 // based on the input image size.  The output image is created so that its
-// common dimension(s) with the input image are the same size.  For example, if
-// we project along the $x$-axis of the input, the size and origin of the $y$-axes
-// of the input and output will match.  This makes the code slightly more
-// complicated, but prevents a counter-intuitive rotation of the output.
+// common dimension(s) with the input image are the same size.  For example,
+// if we project along the $x$ axis of the input, the size and origin of the
+// $y$ axes of the input and output will match.  This makes the code slightly
+// more complicated, but prevents a counter-intuitive rotation of the output.
 //
 // Software Guide : EndLatex
 
@@ -212,11 +213,11 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginLatex
 //
-// Next we create the necessary iterators.  The const slice iterator walks the 3D input image,
-// and the non-const linear iterator walks the 2D output image. The iterators are
-// initialized to walk the same linear path through a slice.  Remember that the
-// \emph{second} direction of the slice iterator defines the direction linear
-// iteration walks within a slice.
+// Next we create the necessary iterators.  The const slice iterator walks
+// the 3D input image, and the non-const linear iterator walks the 2D output
+// image. The iterators are initialized to walk the same linear path through
+// a slice.  Remember that the \emph{second} direction of the slice iterator
+// defines the direction that linear iteration walks within a slice.
 //
 // Software Guide : EndLatex
 
@@ -246,12 +247,12 @@ int main( int argc, char *argv[] )
   outputIt.GoToBegin();
   while ( ! outputIt.IsAtEnd() )
     {
-      while ( ! outputIt.IsAtEndOfLine() )
-        {
-          outputIt.Set( itk::NumericTraits<unsigned short>::NonpositiveMin() );
-          ++outputIt;
-        }
-      outputIt.NextLine();
+    while ( ! outputIt.IsAtEndOfLine() )
+      {
+      outputIt.Set( itk::NumericTraits<unsigned short>::NonpositiveMin() );
+      ++outputIt;
+      }
+    outputIt.NextLine();
     }
 
   inputIt.GoToBegin();
@@ -259,20 +260,20 @@ int main( int argc, char *argv[] )
   
   while( !inputIt.IsAtEnd() )
     {
-      while ( !inputIt.IsAtEndOfSlice() )
+    while ( !inputIt.IsAtEndOfSlice() )
+      {
+      while ( !inputIt.IsAtEndOfLine() )
         {
-          while ( !inputIt.IsAtEndOfLine() )
-            {
-              outputIt.Set( vnl_math_max( outputIt.Get(), inputIt.Get() ));
-              ++inputIt;
-              ++outputIt;
-            }
-          outputIt.NextLine();
-          inputIt.NextLine();
-
+        outputIt.Set( vnl_math_max( outputIt.Get(), inputIt.Get() ));
+        ++inputIt;
+        ++outputIt;
         }
-      outputIt.GoToBegin();
-      inputIt.NextSlice();
+      outputIt.NextLine();
+      inputIt.NextLine();
+
+      }
+    outputIt.GoToBegin();
+    inputIt.NextSlice();
     }
   // Software Guide : EndCodeSnippet
 
@@ -281,27 +282,27 @@ int main( int argc, char *argv[] )
   writer->SetInput(outputImage);
   try
     {
-      writer->Update();
+    writer->Update();
     }
   catch ( itk::ExceptionObject &err)
     {
-      std::cout << "ExceptionObject caught !" << std::endl; 
-      std::cout << err << std::endl; 
-      return -1;   
-}
+    std::cout << "ExceptionObject caught !" << std::endl; 
+    std::cout << err << std::endl; 
+    return -1;   
+    }
 
 // Software Guide : BeginLatex
 //
 // Running this example code on the 3D image
-// Insight/Examples/Data/BrainProtonDensity3Slices.mha using the $z$-axis as
+// \code{Examples/Data/BrainProtonDensity3Slices.mha} using the $z$-axis as
 // the axis of projection gives the image shown in
-// figure~\ref{fig:ImageSliceIteratorWithIndexOutput}.
+// Figure~\ref{fig:ImageSliceIteratorWithIndexOutput}.
 //
 // \begin{figure}
 // \centering
 // \includegraphics[width=0.4\textwidth]{ImageSliceIteratorWithIndexOutput.eps}
 // \itkcaption[Maximum intensity projection using ImageSliceIteratorWithIndex]{The
-// maximum intensity projection through three slices of a volume..}
+// maximum intensity projection through three slices of a volume.}
 // \protect\label{fig:ImageSliceIteratorWithIndexOutput}
 // \end{figure}
 // 

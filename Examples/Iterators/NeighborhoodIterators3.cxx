@@ -25,7 +25,7 @@
 //
 // This example illustrates a technique for improving the efficiency of
 // neighborhood calculations by eliminating unnecessary bounds checking. As
-// described in section~\ref{sec:NeighborhoodIterators}, the neighborhood
+// described in Section~\ref{sec:NeighborhoodIterators}, the neighborhood
 // iterator will automatically enable or disable bounds checking based on the
 // iteration region over which it is initialized. By splitting our image into
 // boundary and non-boundary regions, and then processing each region using a
@@ -42,7 +42,7 @@
 // calculator also returns the single inner region where that same neighborhood
 // iterator would never touch the boundaries.
 //
-//. The face calculator object is defined in
+// The face calculator object is defined in
 // \code{itkNeighborhoodAlgorithm.h}.  We include this file in addition to
 // those from the previous two examples.
 //
@@ -191,7 +191,6 @@ int main( int argc, char ** argv )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-
   typedef unsigned char WritePixelType;
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
   typedef itk::ImageFileWriter< WriteImageType > WriterType;

@@ -30,7 +30,7 @@
 // \cite{Gonzalez1993} \cite{Castleman1993}.
 //
 // ITK has an implementation of the Sobel convolution kernel in 2D and 3D
-// called the \doxygen{itk::SobelOperator}, which is a member of a general
+// called the \doxygen{SobelOperator}, which is a member of a general
 // class of objects known as neighborhood operators.  Other neighborhood operators
 // include derivative and Gaussian convolution kernels as well as morphological
 // operators.
@@ -39,10 +39,10 @@
 // of the Sobel operator with the neighborhood iterator at each image pixel
 // index. The resulting values are written to an output image buffer as before.
 // Many image processing algorithms in ITK are implemented using the basic
-// procedure illustrated here.  \code{Itk::NeighborhoodOperatorImageFilter} is
+// procedure illustrated here. \doxygen{NeighborhoodOperatorImageFilter} is
 // a generalization of this example to ND and arbitrary convolution kernels.
 //
-//. A few additional header files are necessary for this example.  The
+// A few additional header files are necessary for this example.  The
 // \doxygen{NeighborhoodInnerProduct} object is a function object that takes the
 // inner product between a neighborhood operator and an image neighborhood.
 // 
@@ -126,7 +126,8 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginCodeSnippet
   NeighborhoodIteratorType::RadiusType radius = sobelOperator.GetRadius();
-  NeighborhoodIteratorType it( radius, reader->GetOutput(), reader->GetOutput()->GetRequestedRegion() );
+  NeighborhoodIteratorType it( radius, reader->GetOutput(), 
+                               reader->GetOutput()->GetRequestedRegion() );
   
   itk::NeighborhoodInnerProduct<ImageType> innerProduct;
 // Software Guide : EndCodeSnippet
@@ -152,7 +153,7 @@ int main( int argc, char ** argv )
 //
 // The output is rescaled and written as in the previous example.  Applying
 // this example in the $x$ and $y$-directions produces the images at the center
-// and right of figure~\ref{fig:NeighborhoodExamples1}.
+// and right of Figure~\ref{fig:NeighborhoodExamples1}.
 // 
 // Software Guide : EndLatex
 

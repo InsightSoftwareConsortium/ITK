@@ -463,7 +463,7 @@ int main( int argc, char *argv[] )
   //  \item \code{BrainProtonDensitySliceShifted13x17y.png}
   //  \end{itemize}
   //
-  //  provided in \code{Insight/Examples/Data} produces the following output.
+  //  provided in \code{Examples/Data} produces the following output.
   //
   //  \begin{verbatim}
   //    0 = 4499.45  : [2.84491, 2.81184]

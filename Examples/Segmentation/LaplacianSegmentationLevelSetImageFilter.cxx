@@ -262,8 +262,8 @@ int main( int argc, char *argv[] )
   //  We can use this filter to make some subtle refinements to the ventricle
   //  segmentation from the example of
   //  \doxygen{ThresholdSegmentationLevelSetImageFilter}.  The application was
-  //  run using \code{Insight/Examples/Data/BrainProtonDensitySlice.png} and
-  //  \code{Insight/Examples/Data/VentricleModel.png} as inputs.  We used $10$
+  //  run using \code{Examples/Data/BrainProtonDensitySlice.png} and
+  //  \code{Examples/Data/VentricleModel.png} as inputs.  We used $10$
   //  iterations of the diffusion filter with a conductance of 2.0.  The
   //  propagation scaling was set to $1.0$ and the filter was run until
   //  convergence.

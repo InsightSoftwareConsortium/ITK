@@ -266,7 +266,7 @@ int main( int argc, char *argv[] )
   //
   //  Let's now run this example using as input the image
   //  \code{BrainProtonDensitySlice.png} provided in the directory
-  //  \code{Insight/Examples/Data}. We can easily segment the major
+  //  \code{Examples/Data}. We can easily segment the major
   //  anatomical structures by providing seed pairs in the appropriate
   //  locations and defining values for the lower threshold. It is
   //  important to keep in mind in this and the previous examples that

@@ -54,11 +54,11 @@ int main( int argc, char *argv[] )
   // Verify the number of parameters on the command line.
   if ( argc < 3 )
     {
-      std::cerr << "Missing parameters. " << std::endl;
-      std::cerr << "Usage: " << std::endl;
-      std::cerr << argv[0]
-                << " inputImageFile numberOfSamples"
-                << std::endl;
+    std::cerr << "Missing parameters. " << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0]
+              << " inputImageFile numberOfSamples"
+              << std::endl;
       return -1;
     }
 
@@ -77,14 +77,14 @@ int main( int argc, char *argv[] )
   reader->SetFileName( argv[1] );
   try
     {
-      reader->Update();
-      inputImage = reader->GetOutput();
+    reader->Update();
+    inputImage = reader->GetOutput();
     }
   catch ( itk::ExceptionObject &err)
     {
-      std::cout << "ExceptionObject caught !" << std::endl; 
-      std::cout << err << std::endl; 
-      return -1;
+    std::cout << "ExceptionObject caught !" << std::endl; 
+    std::cout << err << std::endl; 
+    return -1;
     }
 
 // Software Guide : BeginLatex
@@ -114,7 +114,7 @@ int main( int argc, char *argv[] )
   float mean = 0.0f;
   for ( inputIt.GoToBegin(); ! inputIt.IsAtEnd(); ++inputIt)
     {
-      mean += static_cast<float>( inputIt.Get() );
+    mean += static_cast<float>( inputIt.Get() );
     }
   mean = mean / ::atof( argv[2] );
   
@@ -125,7 +125,7 @@ int main( int argc, char *argv[] )
 //
 // Table~\ref{fig:ImageRandomConstIteratorWithIndexExample} shows the results
 // of running this example on several of the data files from
-// \code{Insight/Examples/Data} with a range of sample sizes.
+// \code{Examples/Data} with a range of sample sizes.
 //
 // \begin{table}
 // \begin{center}
