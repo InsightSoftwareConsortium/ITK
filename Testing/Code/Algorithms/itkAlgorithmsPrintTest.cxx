@@ -36,7 +36,9 @@
 #include "itkCurvatureFlowFunction.h"
 #include "itkCurvatureFlowImageFilter.h"
 #include "itkDeformableMesh3DFilter.h"
+#if 0
 #include "itkDeformableMeshFilter.h"
+#endif
 #include "itkDemonsRegistrationFilter.h"
 #include "itkDemonsRegistrationFunction.h"
 #include "itkExtensionVelocitiesImageFilter.h"
