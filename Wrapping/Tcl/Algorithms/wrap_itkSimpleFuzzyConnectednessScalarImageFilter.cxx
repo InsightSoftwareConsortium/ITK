@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrap_ITKAlgorithms.cxx
+  Module:    wrap_itkSimpleFuzzyConnectednessScalarImageFilter.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,21 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#include "itkImage.h"
+#include "itkSimpleFuzzyConnectednessScalarImageFilter.h"
+
 #ifdef CABLE_CONFIGURATION
 #include "wrap_ITKAlgorithms.h"
-namespace _cable_
-{
-  const char* const package = ITK_WRAP_PACKAGE;
-  const char* const package_version = ITK_WRAP_PACKAGE_VERSION;
-  const char* const groups[] =
-  {
-    ITK_WRAP_GROUP(itkImageToImageMetric),
-    ITK_WRAP_GROUP(itkMeanSquaresImageToImageMetric),
-    ITK_WRAP_GROUP(itkMutualInformationImageToImageMetric),
-    ITK_WRAP_GROUP(itkNormalizedCorrelationImageToImageMetric),
-    ITK_WRAP_GROUP(itkPatternIntensityImageToImageMetric),
-    ITK_WRAP_GROUP(itkSimpleFuzzyConnectednessImageFilterBase),
-    ITK_WRAP_GROUP(itkSimpleFuzzyConnectednessScalarImageFilter)
-  };
-}
+
+ITK_WRAP_IMAGE_TO_IMAGE(SimpleFuzzyConnectednessScalarImageFilter);
+
 #endif
