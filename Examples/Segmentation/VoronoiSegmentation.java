@@ -32,10 +32,6 @@ public class VoronoiSegmentation
     filter.SetMeanPercentError( Double.parseDouble( argv[3] ) );
     filter.SetSTDPercentError(  Double.parseDouble( argv[4] ) );
 
-    System.out.println("Before");
-    filter.Update();
-    System.out.println("After");
-
     itkImageFileWriterUC2_Pointer writer = itkImageFileWriterUC2.itkImageFileWriterUC2_New();
 
     writer.SetInput( filter.GetOutput() );
