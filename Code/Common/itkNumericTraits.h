@@ -56,6 +56,21 @@ public:
 
   /** Multiplicative identity. */
   static const T One;
+
+  /** Smallest (most nonpositive) value **/
+  static T NonpositiveMin() { return min() }
+
+  /** Is a given value positive? **/
+  static bool IsPositive(T val) { return val > Zero; }
+
+  /** Is a given value nonpositive? **/
+  static bool IsNonpositive(T val) { return val <= Zero; }
+
+  /** Is a given value negative? **/
+  static bool IsNegative(T val) { return val < Zero; }
+
+  /** Is a given value nonnegative? **/
+  static bool IsNonnegative(T val) { return val >= Zero; }
 };
 
 /** \class NumericTraits<bool>
@@ -69,6 +84,12 @@ public:
   typedef unsigned char AccumulateType;
   static const bool Zero;
   static const bool One;
+
+  static T NonpositiveMin() { return false; }
+  static bool IsPositive(T val) { return val; }
+  static bool IsNonpositive(T val) { return !val; }
+  static bool IsNegative(T val) { return false; }
+  static bool IsNonnegative(T val) {return true; }
 };
 
 /** \class NumericTraits<char>
@@ -82,6 +103,12 @@ public:
   typedef short AccumulateType;
   static const char Zero;
   static const char One;
+
+  static T NonpositiveMin() { return min(); }
+  static bool IsPositive(T val) { return val > Zero; }
+  static bool IsNonpositive(T val) { return val <= Zero; }
+  static bool IsNegative(T val) { return val < Zero; }
+  static bool IsNonnegative(T val) {return val >= Zero; }
 };
 
 /** \class NumericTraits<unsigned char>
@@ -95,6 +122,12 @@ public:
   typedef unsigned short AccumulateType;
   static const unsigned char Zero;
   static const unsigned char One;
+
+  static T NonpositiveMin() { return min(); }
+  static bool IsPositive(T val) { return val != Zero; }
+  static bool IsNonpositive(T val) { return val == Zero; }
+  static bool IsNegative(T val) { return false; }
+  static bool IsNonnegative(T val) {return true; }
 };
 
 /** \class NumericTraits<short>
@@ -108,6 +141,12 @@ public:
   typedef int AccumulateType;
   static const short Zero;
   static const short One;
+
+  static T NonpositiveMin() { return min(); }
+  static bool IsPositive(T val) { return val > Zero; }
+  static bool IsNonpositive(T val) { return val <= Zero; }
+  static bool IsNegative(T val) { return val < Zero; }
+  static bool IsNonnegative(T val) {return val >= Zero; }
 };
 
 /** \class NumericTraits<unsigned short>
@@ -121,6 +160,12 @@ public:
   typedef unsigned int AccumulateType;
   static const unsigned short Zero;
   static const unsigned short One;
+
+  static T NonpositiveMin() { return min(); }
+  static bool IsPositive(T val) { return val != Zero; }
+  static bool IsNonpositive(T val) { return val == Zero; }
+  static bool IsNegative(T val) { return false; }
+  static bool IsNonnegative(T val) {return true; }
 };
 
 /** \class NumericTraits<int>
@@ -134,6 +179,12 @@ public:
   typedef long AccumulateType;
   static const int Zero;
   static const int One;
+
+  static T NonpositiveMin() { return min(); }
+  static bool IsPositive(T val) { return val > Zero; }
+  static bool IsNonpositive(T val) { return val <= Zero; }
+  static bool IsNegative(T val) { return val < Zero; }
+  static bool IsNonnegative(T val) {return val >= Zero; }
 };
 
 /** \class NumericTraits<unsigned int>
@@ -147,6 +198,12 @@ public:
   typedef unsigned int AccumulateType;
   static const unsigned int Zero;
   static const unsigned int One;
+
+  static T NonpositiveMin() { return min(); }
+  static bool IsPositive(T val) { return val != Zero; }
+  static bool IsNonpositive(T val) { return  val == Zero; }
+  static bool IsNegative(T val) { return false; }
+  static bool IsNonnegative(T val) {return true; }
 };
 
 /** \class NumericTraits<long>
@@ -160,6 +217,12 @@ public:
   typedef long AccumulateType;
   static const long Zero;
   static const long One;
+
+  static T NonpositiveMin() { return min(); }
+  static bool IsPositive(T val) { return val > Zero; }
+  static bool IsNonpositive(T val) { return val <= Zero; }
+  static bool IsNegative(T val) { return val < Zero; }
+  static bool IsNonnegative(T val) {return val >= Zero; }
 };
 
 /** \class NumericTraits<unsigned long>
@@ -173,6 +236,12 @@ public:
   typedef unsigned long AccumulateType;
   static const unsigned long Zero;
   static const unsigned long One;
+
+  static T NonpositiveMin() { return min(); }
+  static bool IsPositive(T val) { return val != Zero; }
+  static bool IsNonpositive(T val) { return val == Zero; }
+  static bool IsNegative(T val) { return false; }
+  static bool IsNonnegative(T val) {return true; }
 };
 
 /** \class NumericTraits<float>
@@ -186,6 +255,12 @@ public:
   typedef double AccumulateType;
   static const float Zero;
   static const float One;
+
+  static T NonpositiveMin() { return -max(); }
+  static bool IsPositive(T val) { return val > Zero; }
+  static bool IsNonpositive(T val) { return val <= Zero; }
+  static bool IsNegative(T val) { return val < Zero; }
+  static bool IsNonnegative(T val) {return val >= Zero; }
 };
 
 /** \class NumericTraits<double>
@@ -199,6 +274,12 @@ public:
   typedef double AccumulateType;
   static const double Zero;
   static const double One;
+
+  static T NonpositiveMin() { return -max(); }
+  static bool IsPositive(T val) { return val > Zero; }
+  static bool IsNonpositive(T val) { return val <= Zero; }
+  static bool IsNegative(T val) { return val < Zero; }
+  static bool IsNonnegative(T val) {return val >= Zero; }
 };
 
 /** \class NumericTraits<long double>
@@ -212,6 +293,12 @@ public:
   typedef long double AccumulateType;
   static const long double Zero;
   static const long double One;
+
+  static T NonpositiveMin() { return -max(); }
+  static bool IsPositive(T val) { return val > Zero; }
+  static bool IsNonpositive(T val) { return val <= Zero; }
+  static bool IsNegative(T val) { return val < Zero; }
+  static bool IsNonnegative(T val) {return val >= Zero; }
 };
 
 } // end namespace itk
