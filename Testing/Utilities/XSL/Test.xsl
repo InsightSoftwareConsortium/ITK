@@ -113,6 +113,8 @@
       <FailedCount><xsl:value-of select="count(Site/Testing/Test[@Status='failed'])"/></FailedCount>
       <NotRunCount><xsl:value-of select="count(Site/Testing/Test[@Status='notrun'])"/></NotRunCount>
       <EndDateTime><xsl:value-of select="Site/Testing/EndDateTime"/></EndDateTime>
+      <xsl:for-each select="Test">
+      </xsl:for-each>
     </Testing>
   </redirect:write>
 </xsl:template>

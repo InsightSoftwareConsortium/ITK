@@ -48,23 +48,19 @@
       </xsl:choose>
     </h3>
     
-    <h2>Nightly Builds</h2>
             
     <table border="2" width="100%">
-              
+      <tr><td colspan="9" valign="center"><h3>Nightly Builds</h3></td></tr>
       <xsl:call-template name="BuildTableHeader"/>
       <xsl:for-each select="BuildStamp">
         <xsl:if test="contains(Build/BuildStamp,'Nightly')">
           <xsl:call-template name="BuildStamp"/>
         </xsl:if>
       </xsl:for-each>
-    </table>
-    
 
     <xsl:choose>
       <xsl:when test="count(BuildStamp/Build/BuildStamp[not(contains(node(),'Nightly'))])">
-        <h2>Experimental Builds</h2>
-        <table border="2" width="100%">
+        <tr><td colspan="9" valign="center"><h3>Experimental Builds</h3></td></tr>
           <xsl:call-template name="BuildTableHeader"/>
           <xsl:for-each select="BuildStamp">
             <xsl:if test="not ( contains(Build/BuildStamp,'Nightly') )">
@@ -72,12 +68,13 @@
             </xsl:if>
           </xsl:for-each>
       
-        </table>
       </xsl:when>
       <xsl:otherwise>
-        <h3>No Experimental Builds</h3>
+        <tr><td colspan="9"><h3>No Experimental Builds</h3></td></tr>
+          <xsl:call-template name="BuildTableHeader"/>
       </xsl:otherwise>
     </xsl:choose>
+        </table>
             
               <xsl:choose>
                 <xsl:when test="count(BuildStamp/Coverage)">

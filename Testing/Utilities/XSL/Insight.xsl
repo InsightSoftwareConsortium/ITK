@@ -22,7 +22,7 @@
   <xsl:template name="InsightHeader">
     <xsl:param name="Title">Insight Dashboard</xsl:param>
     <xsl:param name="IconDir">../../Icons</xsl:param>
-    <xsl:param name="DashboardDir">../MostRecentResults-Nightly</xsl:param>
+    <xsl:param name="DashboardDir">./</xsl:param>
 
     <xsl:text disable-output-escaping="yes">
     &lt;html>
