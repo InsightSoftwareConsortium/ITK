@@ -363,22 +363,26 @@ IF(USE_GDCM)
   INCLUDE_DIRECTORIES( ${GDCM_INCLUDE_DIR})
   ADD_EXECUTABLE(itkGDCMImageIOTest itkGDCMImageIOTest.cxx)
   TARGET_LINK_LIBRARIES(itkGDCMImageIOTest ITKIO ITKCommon ${GDCM_SHARED_LIBRARY})
-  ADD_TEST(itkGDCMImageIOTest ${CXX_TEST_PATH}/itkGDCMImageIOTest
+  ADD_TEST(itkGDCMImageIOTest1 ${CXX_TEST_PATH}/itkGDCMImageIOTest
             ${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm
             ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.dcm
-            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.png)
+            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.png
+            ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest.dcm)
   ADD_TEST(itkGDCMImageIOTest2 ${CXX_TEST_PATH}/itkGDCMImageIOTest
             ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.dcm
             ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.dcm
-            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.png)
+            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.png
+            ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest2.dcm)
   ADD_TEST(itkGDCMImageIOTest3 ${CXX_TEST_PATH}/itkGDCMImageIOTest
             ${ITK_DATA_ROOT}/Input/012345.002.050
             ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.dcm
-            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.png)
+            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.png
+            ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest3.dcm)
   ADD_TEST(itkGDCMImageIOTest4 ${CXX_TEST_PATH}/itkGDCMImageIOTest
             ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.dcm
             ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.dcm
-            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.png)
+            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.png
+            ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest4.dcm)
   ADD_EXECUTABLE(itkGDCMSeriesReadImageWrite itkGDCMSeriesReadImageWrite.cxx)
   TARGET_LINK_LIBRARIES(itkGDCMSeriesReadImageWrite ITKIO ITKCommon ${GDCM_SHARED_LIBRARY})
   ADD_TEST(itkGDCMSeriesReadImageWrite ${CXX_TEST_PATH}/itkGDCMSeriesReadImageWrite

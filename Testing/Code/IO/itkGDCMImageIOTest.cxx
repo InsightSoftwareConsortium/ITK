@@ -14,23 +14,23 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
-#include <list>
-#include <fstream>
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
 #include "itkRescaleIntensityImageFilter.h"
+#include "itkMetaDataDictionary.h"
+#include "itkMetaDataObject.h"
 #include "itkGDCMImageIO.h"
+
+#include <list>
+#include <fstream>
 
 int main(int ac, char* av[])
 {
 
-  if(ac < 4)
+  if(ac < 5)
     {
-    std::cerr << "Usage: " << av[0] << " DicomImage OutputDicomImage OutputImage\n";
+    std::cerr << "Usage: " << av[0] << " DicomImage OutputDicomImage OutputImage RescalDicomImage\n";
     return EXIT_FAILURE;
     }
 
@@ -62,7 +62,6 @@ int main(int ac, char* av[])
     std::cerr << e.GetLocation() << std::endl;
     return EXIT_FAILURE;
     }
-  
 
   // Rewrite the image in DICOM format
   //
@@ -88,7 +87,6 @@ int main(int ac, char* av[])
     std::cerr << e.GetLocation() << std::endl;
     return EXIT_FAILURE;
     }
- 
 
 
 
@@ -106,7 +104,6 @@ int main(int ac, char* av[])
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );
   
-
   typedef itk::ImageFileWriter< WriteImageType >  Writer2Type;
 
   Writer2Type::Pointer writer2 = Writer2Type::New();
@@ -128,6 +125,38 @@ int main(int ac, char* av[])
     return EXIT_FAILURE;
     }
  
+  // Rewrite the image in DICOM format but using less bits per pixel
+  //
+  typedef itk::ImageFileWriter< WriteImageType >  Writer3Type;
+
+  Writer3Type::Pointer writer3 = Writer3Type::New();
+
+  writer3->SetFileName( av[4] );
+ 
+  writer3->SetInput( rescaler->GetOutput() );
+  itk::MetaDataDictionary &d = gdcmImageIO->GetMetaDataDictionary();
+
+  // Changing a 16 bits to 8bits image:
+  itk::EncapsulateMetaData<std::string>(d, "Bits Allocated", "8");
+  itk::EncapsulateMetaData<std::string>(d, "Bits Stored",    "8");
+  itk::EncapsulateMetaData<std::string>(d, "High Bit",       "7");
+  // 8bits cannot be signed
+  itk::EncapsulateMetaData<std::string>(d, "Pixel Representation", "0");
+
+  writer3->UseInputMetaDataDictionaryOff ();
+  writer3->SetImageIO( gdcmImageIO );
+
+  try
+    {
+    writer3->Update();
+    }
+  catch (itk::ExceptionObject & e)
+    {
+    std::cerr << "exception in file writer " << std::endl;
+    std::cerr << e.GetDescription() << std::endl;
+    std::cerr << e.GetLocation() << std::endl;
+    return EXIT_FAILURE;
+    }
 
   return EXIT_SUCCESS;
 

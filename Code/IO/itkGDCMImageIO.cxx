@@ -324,7 +324,7 @@ void GDCMImageIO::ReadImageInformation()
 }
 
 
-bool GDCMImageIO::CanWriteFile( const char* name )
+bool GDCMImageIO::CanWriteFile(const char* name)
 {
   std::string filename = name;
 
@@ -358,52 +358,13 @@ void GDCMImageIO::WriteImageInformation()
 void GDCMImageIO::Write(const void* buffer)
 {
   std::ofstream file;
-  if ( ! this->OpenGDCMFileForWriting(file, m_FileName.c_str()) )
+  if ( !this->OpenGDCMFileForWriting(file, m_FileName.c_str()) )
     {
     return;
     }
   file.close();
 
   const unsigned long numberOfBytes = this->GetImageSizeInBytes();
-
-  MetaDataDictionary & dico = this->GetMetaDataDictionary();
-  std::vector<std::string> keys = dico.GetKeys();
-
-  for( std::vector<std::string>::const_iterator it = keys.begin();
-      it != keys.end(); ++it )
-    {
-    std::string temp;
-    ExposeMetaData<std::string>(dico, *it, temp);
-    std::cerr << "Reading:" << temp << std::endl;
-
-    // Convert DICOM name to DICOM (group,element)
-#if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
-    gdcmDictEntry *dictEntry =
-#else
-    gdcm::DictEntry *dictEntry =
-#endif
-       m_GdcmHeader->GetPubDict()->GetDictEntryByName(*it);
-    //m_GdcmHeader->ReplaceOrCreateByNumber( temp,dictEntry->GetGroup(), dictEntry->GetElement());
-  }
-  
-  /* we should use iterator on map since it is faster and avoid duplicating data
-  // Using real iterators (instead of the GetKeys() method)
-  //const itk::MetaDataDictionary & MyConstDictionary = MyDictionary;
-  itk::MetaDataDictionary::ConstIterator itr = dico.Begin();
-  itk::MetaDataDictionary::ConstIterator end = dico.End();
-
-  while( itr != end )
-    {
-    std::string temp;
-    ExposeMetaData<std::string>(dico, itr->first, temp);
-
-    // Convert DICOM name to DICOM (group,element)
-    gdcmDictEntry *dictEntry =
-       m_GdcmHeader->GetPubDict()->GetDictEntryByName( itr->first );
-    
-    m_GdcmHeader->ReplaceOrCreateByNumber( temp,dictEntry->GetGroup(), dictEntry->GetElement());
-    ++itr;
-    } */
 
 #if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
   gdcmFile *myGdcmFile = new gdcmFile( m_GdcmHeader );
@@ -413,10 +374,35 @@ void GDCMImageIO::Write(const void* buffer)
   myGdcmFile->SetImageData((void*)buffer, numberOfBytes );
 #else
   gdcm::File *myGdcmFile = new gdcm::File( m_GdcmHeader );
-  myGdcmFile->GetImageData();  //API problem
-  m_GdcmHeader->SetEntryByNumber( (char*)buffer, 
-         m_GdcmHeader->GetGrPixel(), m_GdcmHeader->GetNumPixel());//Another API problem
-  myGdcmFile->SetImageData((uint8_t*)buffer, numberOfBytes );
+  uint8_t* imageData = myGdcmFile->GetImageData();
+
+  MetaDataDictionary & dict = this->GetMetaDataDictionary();
+  // Using real iterators (instead of the GetKeys() method)
+  itk::MetaDataDictionary::ConstIterator itr = dict.Begin();
+  itk::MetaDataDictionary::ConstIterator end = dict.End();
+
+  std::string value;
+  while( itr != end )
+    {
+    ExposeMetaData<std::string>(dict, itr->first, value);
+
+    // Convert DICOM name to DICOM (group,element)
+#if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
+    gdcmDictEntry *dictEntry =
+#else
+    gdcm::DictEntry *dictEntry =
+#endif
+       m_GdcmHeader->GetPubDict()->GetDictEntryByName(itr->first);
+     // Anything that has been change in the MetaData Dict will be pushed
+     // into the DICOM header:
+     m_GdcmHeader->ReplaceOrCreateByNumber( value, dictEntry->GetGroup(), 
+                                                   dictEntry->GetElement());
+     ++itr;
+     }
+
+  //copy data from buffer to DICOM buffer
+  memcpy(imageData,buffer,numberOfBytes); 
+  m_GdcmHeader->SetImageDataSize(numberOfBytes); //update data size
 #endif
 
   myGdcmFile->WriteDcmExplVR( m_FileName );

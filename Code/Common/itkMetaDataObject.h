@@ -218,7 +218,7 @@ namespace itk
     }
 
   //This is only necessary to make the borland compiler happy.  It should not be necesary for most compilers.
-  //This should not chanage the behavior, it just adds an extra level of complexity to using the ExposeMetaData
+  //This should not change the behavior, it just adds an extra level of complexity to using the ExposeMetaData
   //with const char * keys.
 template <class T>
   inline bool ExposeMetaData(MetaDataDictionary &Dictionary, const char * const key, T &outval)
@@ -230,7 +230,7 @@ template <class T>
 
 /**
  * \macro NATIVE_TYPE_METADATAPRINT
- * An ungly macro to facilitate creating a simple implementation of
+ * An ugly macro to facilitate creating a simple implementation of
  * the MetaDataObject<Type>::Print() function for types that
  * have operator<< defined.
  * \param TYPE_NAME the native type parameter type
@@ -251,7 +251,7 @@ void \
 
 /**
  * \macro ITK_OBJECT_TYPE_METADATAPRINT_1COMMA
- * An ungly macro to facilitate creating a simple implementation of
+ * An ugly macro to facilitate creating a simple implementation of
  * the MetaDataObject< Type >::Print() function for
  * itk::Objects that have 1 comma in their type definition
  * \param TYPE_NAME_PART1
@@ -273,7 +273,7 @@ void \
 
 /**
  * \macro ITK_IMAGE_TYPE_METADATAPRINT
- * An ungly macro to facilitate creating a simple implementation of
+ * An ugly macro to facilitate creating a simple implementation of
  * the MetaDataObject<Type>::Print() function for
  * itk::Image<STORAGE_TYPE,[1-8]>::Pointer
  * \param STORAGE_TYPE The storage type of the image type to print.
