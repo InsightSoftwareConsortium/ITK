@@ -196,6 +196,7 @@ bool TransformFileReader
   ITK_CONVERTMETATOITKTRANSFORM(ScaleSkewVersor3DTransform,double);
 
   ITK_CONVERTMETATO_ITK_BSPLINEDEFORMABLETRANSFORM(BSplineDeformableTransform,double,3,3);
+  ITK_CONVERTMETATO_ITK_BSPLINEDEFORMABLETRANSFORM(BSplineDeformableTransform,double,2,3);
 
   if(hasTransform)
     {

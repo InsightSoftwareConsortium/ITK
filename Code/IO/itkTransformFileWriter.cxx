@@ -50,6 +50,29 @@ void TransformFileWriter::AddTransform(const TransformType* transform)
 }
 
 
+#define ITK_CONVERT_ITK_BSPLINEDEFORMABLE_TOMETAIOTRANSFORM(scalartype,dimension,order)\
+  if( ((*it)->GetInputSpaceDimension() == (int)(dimension)) \
+    )\
+  {\
+  transform->TransformOrder(3);\
+  double* gridRegionSize = new double[(*it)->GetInputSpaceDimension()];\
+  double* gridOrigin = new double[(*it)->GetInputSpaceDimension()];\
+  double* gridSpacing = new double[(*it)->GetInputSpaceDimension()];\
+  for(unsigned int i = 0; i< (*it)->GetInputSpaceDimension(); i++)\
+    {\
+    gridRegionSize[i] = reinterpret_cast<const itk::BSplineDeformableTransform<scalartype,dimension,order>*>(*it)->GetGridRegion().GetSize()[i];\
+    gridOrigin[i] = reinterpret_cast<const itk::BSplineDeformableTransform<scalartype,dimension,order>*>(*it)->GetGridOrigin()[i];\
+    gridSpacing[i] = reinterpret_cast<const itk::BSplineDeformableTransform<scalartype,dimension,order>*>(*it)->GetGridSpacing()[i];\
+    }\
+  transform->GridRegionSize(gridRegionSize);\
+  transform->GridOrigin(gridOrigin);\
+  transform->GridSpacing(gridSpacing);\
+  delete[] gridRegionSize;\
+  delete[] gridOrigin;\
+  delete[] gridSpacing;\
+  }\
+
+
 /** Update the writer */
 void TransformFileWriter
 ::Update()
@@ -106,24 +129,8 @@ void TransformFileWriter
       }
     else if(!strcmp((*it)->GetNameOfClass(),"BSplineDeformableTransform"))
       {
-      transform->TransformOrder(3);
-      
-      double* gridRegionSize = new double[(*it)->GetInputSpaceDimension()];
-      double* gridOrigin = new double[(*it)->GetInputSpaceDimension()];
-      double* gridSpacing = new double[(*it)->GetInputSpaceDimension()];
-      for(unsigned int i = 0; i< (*it)->GetInputSpaceDimension(); i++)
-        {
-        gridRegionSize[i] = reinterpret_cast<const itk::BSplineDeformableTransform<>*>(*it)->GetGridRegion().GetSize()[i];
-        gridOrigin[i] = reinterpret_cast<const itk::BSplineDeformableTransform<>*>(*it)->GetGridOrigin()[i];
-        gridSpacing[i] = reinterpret_cast<const itk::BSplineDeformableTransform<>*>(*it)->GetGridSpacing()[i];
-        }
-      
-      transform->GridRegionSize(gridRegionSize);
-      transform->GridOrigin(gridOrigin);
-      transform->GridSpacing(gridSpacing);
-      delete[] gridRegionSize;
-      delete[] gridOrigin;
-      delete[] gridSpacing;
+      ITK_CONVERT_ITK_BSPLINEDEFORMABLE_TOMETAIOTRANSFORM(double,2,3)
+      ITK_CONVERT_ITK_BSPLINEDEFORMABLE_TOMETAIOTRANSFORM(double,3,3)
       }    
     
     scene.AddObject(transform);
