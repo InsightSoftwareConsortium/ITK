@@ -139,7 +139,7 @@ MetaSceneConverter<NDimensions,PixelType>
     }
 
     if(!strncmp((*it)->ObjectTypeName(),"Group",5) ||
-       !strncmp((*it)->ObjectTypeName(),"AffineTransform",5))
+       !strncmp((*it)->ObjectTypeName(),"AffineTransform",15))
     {
       MetaGroupConverter<NDimensions> groupConverter;
       typename itk::GroupSpatialObject<NDimensions>::Pointer so =
@@ -148,7 +148,7 @@ MetaSceneConverter<NDimensions,PixelType>
       soScene->AddSpatialObject(so);
     }
 
-    if(!strncmp((*it)->ObjectTypeName(),"Ellipse",5))
+    if(!strncmp((*it)->ObjectTypeName(),"Ellipse",7))
     {
       MetaEllipseConverter<NDimensions> ellipseConverter;
       typename itk::EllipseSpatialObject<NDimensions>::Pointer so = 
@@ -250,30 +250,29 @@ MetaSceneConverter<NDimensions,PixelType>
     
   while(it != itEnd)
     {    
-    if(!strncmp((*it)->GetTypeName(),"GroupSpatialObject",17) ||
+    if(!strncmp((*it)->GetTypeName(),"GroupSpatialObject",18) ||
        !strncmp((*it)->GetTypeName(),"AffineTransformSpatialObject",28))
       {
-      static MetaGroupConverter<NDimensions> converter;
+      MetaGroupConverter<NDimensions> converter;
       MetaGroup* group = converter.GroupSpatialObjectToMetaGroup(
           dynamic_cast<itk::GroupSpatialObject<NDimensions>*>((*it)));
       if((*it)->GetParent())
-      {
+        {
         group->ParentID((*it)->GetParent()->GetId());
-      }
+        }
       group->Name((*it)->GetProperty()->GetName().c_str());
       this->SetTransform(group, (*it)->GetObjectToParentTransform()) ;
       metaScene->AddObject(group);
       }
-
-    if(!strncmp((*it)->GetTypeName(),"TubeSpatialObject",16))
+    if(!strncmp((*it)->GetTypeName(),"TubeSpatialObject",17))
       {
-      static MetaTubeConverter<NDimensions> converter;
+      MetaTubeConverter<NDimensions> converter;
       MetaTube* tube = converter.TubeSpatialObjectToMetaTube(
           dynamic_cast<itk::TubeSpatialObject<NDimensions>*>((*it)));
       if((*it)->GetParent())
-      {
+        {
         tube->ParentID((*it)->GetParent()->GetId());
-      }
+        }
       tube->Name((*it)->GetProperty()->GetName().c_str());
       this->SetTransform(tube, (*it)->GetObjectToParentTransform()) ;
       metaScene->AddObject(tube);
@@ -281,44 +280,44 @@ MetaSceneConverter<NDimensions,PixelType>
   
     if(!strncmp((*it)->GetTypeName(),"EllipseSpatialObject",20))
       {
-      static MetaEllipseConverter<NDimensions> converter;
+      MetaEllipseConverter<NDimensions> converter;
       MetaEllipse* ellipse = converter.EllipseSpatialObjectToMetaEllipse(
           dynamic_cast<itk::EllipseSpatialObject<NDimensions>*>((*it)));
       
       if((*it)->GetParent())
-      {
+        {
         ellipse->ParentID((*it)->GetParent()->GetId());
-      }
+        }
       ellipse->Name((*it)->GetProperty()->GetName().c_str());
       this->SetTransform(ellipse, (*it)->GetObjectToParentTransform()) ;
       metaScene->AddObject(ellipse);
       }
-  
-    if(!strncmp((*it)->GetTypeName(),"ImageSpatialObject",20))
+    
+    if(!strncmp((*it)->GetTypeName(),"ImageSpatialObject",17))
       {
-      static MetaImageConverter<NDimensions,PixelType> converter;
+      MetaImageConverter<NDimensions,PixelType> converter;
       MetaImage* image = converter.ImageSpatialObjectToMetaImage(
           dynamic_cast<itk::ImageSpatialObject<NDimensions, PixelType>*>(
             (*it)));
       if((*it)->GetParent())
-      {
+        {
         image->ParentID((*it)->GetParent()->GetId());
-      }
+        }
       image->Name((*it)->GetProperty()->GetName().c_str());
       this->SetTransform(image, (*it)->GetObjectToParentTransform()) ;
       metaScene->AddObject(image);
       }
   
-    if(!strncmp((*it)->GetTypeName(),"BlobSpatialObject",20))
+    if(!strncmp((*it)->GetTypeName(),"BlobSpatialObject",17))
       {
-      static MetaBlobConverter<NDimensions> converter;
+      MetaBlobConverter<NDimensions> converter;
       MetaBlob* blob = converter.BlobSpatialObjectToMetaBlob(
           dynamic_cast<itk::BlobSpatialObject<NDimensions >*>(
             (*it)));
       if((*it)->GetParent())
-      {
+        {
         blob->ParentID((*it)->GetParent()->GetId());
-      }
+        }
       blob->BinaryData(true);
       blob->Name((*it)->GetProperty()->GetName().c_str());
       this->SetTransform(blob, (*it)->GetObjectToParentTransform()) ;
@@ -327,12 +326,12 @@ MetaSceneConverter<NDimensions,PixelType>
   
     if(!strncmp((*it)->GetTypeName(),"LandmarkSpatialObject",20))
       {
-      static MetaLandmarkConverter<NDimensions> converter;
+      MetaLandmarkConverter<NDimensions> converter;
       MetaLandmark* landmark = converter.LandmarkSpatialObjectToMetaLandmark(
           dynamic_cast<itk::LandmarkSpatialObject<NDimensions >*>(
             (*it)));
       if((*it)->GetParent())
-      {
+        {
         landmark->ParentID((*it)->GetParent()->GetId());
       }
       landmark->BinaryData(true);
@@ -342,27 +341,27 @@ MetaSceneConverter<NDimensions,PixelType>
   
     if(!strncmp((*it)->GetTypeName(),"SurfaceSpatialObject",20))
       {
-      static MetaSurfaceConverter<NDimensions> converter;
+      MetaSurfaceConverter<NDimensions> converter;
       MetaSurface* surface = converter.SurfaceSpatialObjectToMetaSurface(
           dynamic_cast<itk::SurfaceSpatialObject<NDimensions>*>((*it)));
       if((*it)->GetParent())
-      {
+        {
         surface->ParentID((*it)->GetParent()->GetId());
-      }
+        }
       surface->Name((*it)->GetProperty()->GetName().c_str());
       this->SetTransform(surface, (*it)->GetObjectToParentTransform()) ;
       metaScene->AddObject(surface);
       }
   
-    if(!strncmp((*it)->GetTypeName(),"LineSpatialObject",20))
+    if(!strncmp((*it)->GetTypeName(),"LineSpatialObject",17))
       {
-      static MetaLineConverter<NDimensions> converter;
+      MetaLineConverter<NDimensions> converter;
       MetaLine* line = converter.LineSpatialObjectToMetaLine(
           dynamic_cast<itk::LineSpatialObject<NDimensions>*>((*it)));
       if((*it)->GetParent())
-      {
+        {
         line->ParentID((*it)->GetParent()->GetId());
-      }
+        }
       line->Name((*it)->GetProperty()->GetName().c_str());
       this->SetTransform(line, (*it)->GetObjectToParentTransform()) ;
       metaScene->AddObject(line);
