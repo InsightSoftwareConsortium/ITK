@@ -195,11 +195,10 @@ int main( int argc, char ** argv )
 // \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6b.eps}
 // \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6c.eps}
 // \itkcaption[Finding local minima]{Paths traversed by the neighborhood
-// iterator to find the local minimum in the image from several different seed
-// points.  The minimum is at the center of the image.  The effects of noise in
-// the image are seen as small perturbations in the paths.}
-// \protect\label{fig:NeighborhoodExample6}
-// \end{figure}
+// iterator from a seed point to a local minimum. The minimum is at the center
+// of the image.  The path of the iterator is shown in white. The effect of
+// noise in the image is seen as small perturbations in each path. }
+// \protect\label{fig:NeighborhoodExample6} \end{figure}
 //
 // Software Guide : EndLatex
 
