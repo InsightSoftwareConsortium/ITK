@@ -103,6 +103,9 @@ int itkFEMGenerateMeshTest(int, char*[])
       return EXIT_FAILURE;
   }
 
+  delete e1;
+  delete m;
+  delete e2;
   cout << "Test PASSED!\n";
   return EXIT_SUCCESS;
 }
