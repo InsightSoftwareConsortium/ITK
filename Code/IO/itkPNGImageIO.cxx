@@ -318,8 +318,8 @@ void PNGImageIO::PrintSelf(std::ostream& os, Indent indent) const
   
 void PNGImageIO::ReadImageInformation()
 {
-  m_Spacing[0] = 1.0;  // Is there any spacing information
-  m_Spacing[1] = 1.0;  // in PNG ?
+  m_Spacing[0] = 1.0;  // We'll look for PNG pixel size information later,
+  m_Spacing[1] = 1.0;  // but set the defaults now
 
   m_Origin[0] = 0.0;
   m_Origin[1] = 0.0;
@@ -407,6 +407,20 @@ void PNGImageIO::ReadImageInformation()
     m_PixelType = USHORT;
     }
   this->SetNumberOfComponents(png_get_channels(png_ptr, info_ptr));
+
+
+  // see if the PNG file stored spacing information,
+  // ignore the units (for now).
+  png_uint_32 res_x, res_y;
+  int unit_type;
+  png_get_pHYs(png_ptr, info_ptr, &res_x, &res_y, &unit_type);
+  
+  if (res_x != 0 && res_y != 0)
+    {
+    m_Spacing[0] = 1.0 / static_cast<double>(res_x);
+    m_Spacing[1] = 1.0 / static_cast<double>(res_y);
+    }
+
   png_destroy_read_struct(&png_ptr, &info_ptr,
                           &end_info);
 
@@ -543,6 +557,27 @@ void PNGImageIO::WriteSlice(std::string& fileName, const void* buffer,
   {
     png_set_compression_level(png_ptr, m_CompressionLevel); // Set the image compression level.
   }
+
+  // write out the spacing information:
+  //     1) set the unit_type to unknown.  if we add units to ITK, we should
+  //          convert pixel size to meters and store units as meters (png
+  //          has two set of units: meters and unknown).
+  //     2) PNG stores an integer which is the number of pixels per unit.
+  //          we should probably scale the pixel size so there are nearly
+  //          integer number of pixels per unit.
+  png_uint_32 res_x, res_y;
+  res_x = static_cast<png_uint_32>(1.0 / m_Spacing[0]);
+  res_y = static_cast<png_uint_32>(1.0 / m_Spacing[1]);
+  if (res_x < 1)
+    {
+    res_x = 1;
+    }
+  if (res_y < 1)
+    {
+    res_y = 1;
+    }
+  png_set_pHYs(png_ptr, info_ptr, res_x, res_y, PNG_RESOLUTION_UNKNOWN);
+  
 
   png_write_info(png_ptr, info_ptr);
   // default is big endian
