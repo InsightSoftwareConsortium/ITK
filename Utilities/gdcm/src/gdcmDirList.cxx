@@ -19,39 +19,33 @@
 #include "gdcmDirList.h"
 #include "gdcmUtil.h"
 
-#include <iostream>
-#include <algorithm>
+#include <iterator>
 
-#if defined(_MSC_VER) || defined (__CYGWIN__) || defined(__BORLANDC__)
-   #include <windows.h> 
 #ifdef _MSC_VER
+   #include <windows.h> 
    #include <direct.h>
-#endif //_MSC_VER
 #else
    #include <dirent.h>   
-   #include <unistd.h>
-   #include <sys/stat.h>
    #include <sys/types.h>
+   #include <sys/stat.h>
 #endif
 
 namespace gdcm 
 {
+//-----------------------------------------------------------------------------
 // Constructor / Destructor
 /**
- * \ingroup DirList
  * \brief Constructor  
  * @param  dirName root directory name
  * @param  recursive whether we want to explore recursively or not 
  */
-DirList::DirList(std::string const & dirName, bool recursive)
+DirList::DirList(std::string const &dirName, bool recursive)
 {
-   name = dirName;
-   Util::NormalizePath(name);
-   Explore(name, recursive);
+   DirName = dirName;
+   Explore(dirName, recursive);
 }
 
 /**
- * \ingroup DirList
  * \brief  Destructor
  */
 DirList::~DirList()
@@ -59,18 +53,21 @@ DirList::~DirList()
 }
 
 //-----------------------------------------------------------------------------
-// Print
-
-//-----------------------------------------------------------------------------
 // Public
 /**
- * \ingroup DirList
- * \brief   Get the directory name
- * @return the directory name 
+ * \brief Tells us if file name corresponds to a Directory   
+ * @param  dirName file name to check
+ * @return true if the file IS a Directory
  */
-std::string const & DirList::GetDirName() const
+bool DirList::IsDirectory(std::string const &dirName)
 {
-   return name;
+#ifndef _MSC_VER
+   struct stat buf;
+   stat(dirName.c_str(), &buf);
+   return S_ISDIR(buf.st_mode);
+#else
+   return (GetFileAttributes(dirName.c_str()) & FILE_ATTRIBUTE_DIRECTORY) != 0;
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -78,30 +75,28 @@ std::string const & DirList::GetDirName() const
 
 //-----------------------------------------------------------------------------
 // Private
-
 /**
- * \ingroup DirList
  * \brief   Explore a directory with possibility of recursion
  *          return number of files read
- * @param  dirName directory to explore
+ * @param  dirpath   directory to explore
  * @param  recursive whether we want recursion or not
  */
-int DirList::Explore(std::string const & dirpath, bool recursive)
+int DirList::Explore(std::string const &dirpath, bool recursive)
 {
    int numberOfFiles = 0;
    std::string fileName;
    std::string dirName = Util::NormalizePath(dirpath);
-#if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__BORLANDC__)
-   WIN32_FIND_DATA fileData; 
-   HANDLE hFile=FindFirstFile((dirName+"*").c_str(),&fileData);
-   int found = true;
+#ifdef _MSC_VER
+   WIN32_FIND_DATA fileData;
+   HANDLE hFile = FindFirstFile((dirName+"*").c_str(), &fileData);
 
-   while( hFile != INVALID_HANDLE_VALUE && found )
+   for(BOOL b = (hFile != INVALID_HANDLE_VALUE); b;
+       b = FindNextFile(hFile, &fileData))
    {
       fileName = fileData.cFileName;
       if( fileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY )
       {
-         // Is the '.' and '..' usefull ?
+         // Need to check for . and .. to avoid infinite loop
          if( fileName != "." && fileName != ".." && recursive )
          {
             numberOfFiles += Explore(dirName+fileName,recursive);
@@ -109,12 +104,11 @@ int DirList::Explore(std::string const & dirpath, bool recursive)
       }
       else
       {
-         push_back(dirName+fileName);
+         Filenames.push_back(dirName+fileName);
          numberOfFiles++;
       }
-
-      found = FindNextFile(hFile,&fileData);
    }
+   if (hFile != INVALID_HANDLE_VALUE) FindClose(hFile);
 
 #else
   // Real POSIX implementation: scandir is a BSD extension only, and doesn't 
@@ -127,19 +121,19 @@ int DirList::Explore(std::string const & dirpath, bool recursive)
    }
 
    // According to POSIX, the dirent structure contains a field char d_name[]
-   // of  unspecified  size,  with  at most NAME_MAX characters preceding the
-   // terminating null character.  Use of other fields will harm  the  porta-
-   // bility  of  your  programs.
+   // of  unspecified  size, with at most NAME_MAX characters preceding the
+   // terminating null character. Use of other fields will harm the  porta-
+   // bility of your programs.
 
    struct stat buf;
-   dirent* d = 0;
+   dirent *d = 0;
    for (d = readdir(dir); d; d = readdir(dir))
    {
       fileName = dirName + d->d_name;
       stat(fileName.c_str(), &buf); //really discard output ?
       if( S_ISREG(buf.st_mode) )    //is it a regular file?
       {
-         push_back( fileName );
+         Filenames.push_back( fileName );
          numberOfFiles++;
       }
       else if( S_ISDIR(buf.st_mode) ) //directory?
@@ -160,6 +154,18 @@ int DirList::Explore(std::string const & dirpath, bool recursive)
 
   return numberOfFiles;
 }
-} // end namespace gdcm
 
 //-----------------------------------------------------------------------------
+// Print
+/**
+ * \brief   Print method
+ * @param os ostream to write to 
+ */
+void DirList::Print(std::ostream &os)
+{
+   std::copy(Filenames.begin(), Filenames.end(), 
+             std::ostream_iterator<std::string>(os, "\n"));
+}
+
+//-----------------------------------------------------------------------------
+} // end namespace gdcm

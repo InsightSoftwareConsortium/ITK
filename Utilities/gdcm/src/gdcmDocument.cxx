@@ -23,55 +23,17 @@
 #include "gdcmGlobal.h"
 #include "gdcmUtil.h"
 #include "gdcmDebug.h"
+#include "gdcmTS.h"
+#include "gdcmDictSet.h"
+#include "gdcmDocEntrySet.h"
+#include "gdcmSQItem.h"
 
 #include <vector>
 #include <iomanip>
-#include <itksys/ios/sstream>
-
-// For nthos:
-#if defined(_MSC_VER) || defined(__BORLANDC__) || defined(__MINGW32__)
-   #include <winsock.h>
-#endif
-
-#ifdef CMAKE_HAVE_NETINET_IN_H
-   #include <netinet/in.h>
-#endif
+#include <fstream>
 
 namespace gdcm 
 {
-static const char *TransferSyntaxStrings[] =  {
-  // Implicit VR Little Endian
-  "1.2.840.10008.1.2",
-  // Explicit VR Little Endian
-  "1.2.840.10008.1.2.1",
-  // Deflated Explicit VR Little Endian
-  "1.2.840.10008.1.2.1.99",
-  // Explicit VR Big Endian
-  "1.2.840.10008.1.2.2",
-  // JPEG Baseline (Process 1)
-  "1.2.840.10008.1.2.4.50",
-  // JPEG Extended (Process 2 & 4)
-  "1.2.840.10008.1.2.4.51",
-  // JPEG Extended (Process 3 & 5)
-  "1.2.840.10008.1.2.4.52",
-  // JPEG Spectral Selection, Non-Hierarchical (Process 6 & 8)
-  "1.2.840.10008.1.2.4.53",
-  // JPEG Full Progression, Non-Hierarchical (Process 10 & 12)
-  "1.2.840.10008.1.2.4.55",
-  // JPEG Lossless, Non-Hierarchical (Process 14)
-  "1.2.840.10008.1.2.4.57",
-  // JPEG Lossless, Hierarchical, First-Order Prediction (Process 14, [Selection Value 1])
-  "1.2.840.10008.1.2.4.70",
-  // JPEG 2000 Lossless
-  "1.2.840.10008.1.2.4.90",
-  // JPEG 2000
-  "1.2.840.10008.1.2.4.91",
-  // RLE Lossless
-  "1.2.840.10008.1.2.5",
-  // Unknown
-  "Unknown Transfer Syntax"
-};
-
 //-----------------------------------------------------------------------------
 // Refer to Document::CheckSwap()
 //const unsigned int Document::HEADER_LENGTH_TO_READ = 256;
@@ -82,56 +44,58 @@ const unsigned int Document::MAX_SIZE_PRINT_ELEMENT_VALUE = 0x7fffffff;
 
 //-----------------------------------------------------------------------------
 // Constructor / Destructor
-
+// Constructors and destructors are protected to avoid user to invoke directly
 /**
  * \brief   constructor  
- * @param   filename file to be opened for parsing
+ * @param   filename 'Document' (File or DicomDir) to be opened for parsing
  */
-Document::Document( std::string const & filename ) : ElementSet(-1)
+Document::Document( std::string const &filename ) 
+         :ElementSet(-1)
 {
    SetMaxSizeLoadEntry(MAX_SIZE_LOAD_ELEMENT_VALUE); 
    Filename = filename;
-   Filetype = Unknown;
-   Initialise();
+   Initialize();
 
+   Fp = 0;
    if ( !OpenFile() )
    {
       return;
    }
 
-   dbg.Verbose(0, "Document::Document: starting parsing of file: ",
-                  Filename.c_str());
-   Fp->seekg( 0,  std::ios::beg);
-   
-   Fp->seekg(0,  std::ios::end);
+   Group0002Parsed = false;
+
+   gdcmWarningMacro( "Starting parsing of file: " << Filename.c_str());
+
+   Fp->seekg(0, std::ios::end);
    long lgt = Fp->tellg();
            
-   Fp->seekg( 0,  std::ios::beg);
+   Fp->seekg(0, std::ios::beg);
+
    CheckSwap();
    long beg = Fp->tellg();
    lgt -= beg;
    
-   ParseDES( this, beg, lgt, false); // le Load sera fait a la volee
+   ParseDES( this, beg, lgt, false); // Loading is done during parsing
 
    Fp->seekg( 0,  std::ios::beg);
    
    // Load 'non string' values
       
-   std::string PhotometricInterpretation = GetEntryByNumber(0x0028,0x0004);   
+   std::string PhotometricInterpretation = GetEntryValue(0x0028,0x0004);   
    if( PhotometricInterpretation == "PALETTE COLOR " )
    {
       LoadEntryBinArea(0x0028,0x1200);  // gray LUT   
       /// FIXME FIXME FIXME
       /// The tags refered by the three following lines used to be CORRECTLY
       /// defined as having an US Value Representation in the public
-      /// dictionnary. BUT the semantics implied by the three following
+      /// dictionary. BUT the semantics implied by the three following
       /// lines state that the corresponding tag contents are in fact
       /// the ones of a BinEntry.
-      /// In order to fix things "Quick and Dirty" the dictionnary was
-      /// altered on PURPOUS but now contains a WRONG value.
+      /// In order to fix things "Quick and Dirty" the dictionary was
+      /// altered on PURPOSE but now contains a WRONG value.
       /// In order to fix things and restore the dictionary to its
       /// correct value, one needs to decided of the semantics by deciding
-      /// wether the following tags are either:
+      /// whether the following tags are either:
       /// - multivaluated US, and hence loaded as ValEntry, but afterwards
       ///   also used as BinEntry, which requires the proper conversion,
       /// - OW, and hence loaded as BinEntry, but afterwards also used
@@ -152,7 +116,7 @@ Document::Document( std::string const & filename ) : ElementSet(-1)
 
    CloseFile(); 
   
-   // --------------------------------------------------------------
+   // ----------------------------
    // Specific code to allow gdcm to read ACR-LibIDO formated images
    // Note: ACR-LibIDO is an extension of the ACR standard that was
    //       used at CREATIS. For the time being (say a couple years)
@@ -163,32 +127,34 @@ Document::Document( std::string const & filename ) : ElementSet(-1)
    // we switch lineNumber and columnNumber
    //
    std::string RecCode;
-   RecCode = GetEntryByNumber(0x0008, 0x0010); // recognition code
+   RecCode = GetEntryValue(0x0008, 0x0010); // recognition code (RET)
    if (RecCode == "ACRNEMA_LIBIDO_1.1" ||
        RecCode == "CANRME_AILIBOD1_1." )  // for brain-damaged softwares
                                           // with "little-endian strings"
    {
          Filetype = ACR_LIBIDO; 
-         std::string rows    = GetEntryByNumber(0x0028, 0x0010);
-         std::string columns = GetEntryByNumber(0x0028, 0x0011);
-         SetEntryByNumber(columns, 0x0028, 0x0010);
-         SetEntryByNumber(rows   , 0x0028, 0x0011);
+         std::string rows    = GetEntryValue(0x0028, 0x0010);
+         std::string columns = GetEntryValue(0x0028, 0x0011);
+         SetValEntry(columns, 0x0028, 0x0010);
+         SetValEntry(rows   , 0x0028, 0x0011);
    }
-   // ----------------- End of ACR-LibIDO kludge ------------------ 
-
-   PrintLevel = 1;  // 'Medium' print level by default
+   // --- End of ACR-LibIDO kludge --- 
 }
 
 /**
  * \brief This default constructor doesn't parse the file. You should
  *        then invoke \ref Document::SetFileName and then the parsing.
  */
-Document::Document() : ElementSet(-1)
+Document::Document() 
+         :ElementSet(-1)
 {
+   Fp = 0;
+
    SetMaxSizeLoadEntry(MAX_SIZE_LOAD_ELEMENT_VALUE);
-   Filetype = Unknown;
-   Initialise();
-   PrintLevel = 1;  // 'Medium' print level by default
+   Initialize();
+   SwapCode = 1234;
+   Filetype = ExplicitVR;
+   Group0002Parsed = false;
 }
 
 /**
@@ -198,43 +164,6 @@ Document::~Document ()
 {
    RefPubDict = NULL;
    RefShaDict = NULL;
-
-   // Recursive clean up of sequences
-   //
-   // This code is incorrect.  You cannot clear TagHT here because the
-   // superclass (ElementSet) needs to clear TagHT.  ElementSet
-   // created TagHT and should be responsible for clearing it. The
-   // call to TagHT.clear() here causes memory leaks.
-   //
-//    for (TagDocEntryHT::const_iterator it = TagHT.begin(); 
-//                                       it != TagHT.end(); ++it )
-//    { 
-//       //delete it->second; //temp remove
-//    }
-//    //TagHT.clear();
-   delete RLEInfo;
-   delete JPEGInfo;
-}
-
-//-----------------------------------------------------------------------------
-// Print
-
-/**
-  * \brief   Prints The Dict Entries of THE public Dicom Dictionary
-  * @return
-  */  
-void Document::PrintPubDict(std::ostream & os)
-{
-   RefPubDict->Print(os);
-}
-
-/**
-  * \brief   Prints The Dict Entries of THE shadow Dicom Dictionary
-  * @return
-  */
-void Document::PrintShaDict(std::ostream & os)
-{
-   RefShaDict->Print(os);
 }
 
 //-----------------------------------------------------------------------------
@@ -242,7 +171,7 @@ void Document::PrintShaDict(std::ostream & os)
 /**
  * \brief   Get the public dictionary used
  */
-Dict* Document::GetPubDict()
+Dict *Document::GetPubDict()
 {
    return RefPubDict;
 }
@@ -250,14 +179,14 @@ Dict* Document::GetPubDict()
 /**
  * \brief   Get the shadow dictionary used
  */
-Dict* Document::GetShaDict()
+Dict *Document::GetShaDict()
 {
    return RefShaDict;
 }
 
 /**
  * \brief   Set the shadow dictionary used
- * \param   dict dictionary to use in shadow
+ * @param   dict dictionary to use in shadow
  */
 bool Document::SetShaDict(Dict *dict)
 {
@@ -267,9 +196,9 @@ bool Document::SetShaDict(Dict *dict)
 
 /**
  * \brief   Set the shadow dictionary used
- * \param   dictName name of the dictionary to use in shadow
+ * @param   dictName name of the dictionary to use in shadow
  */
-bool Document::SetShaDict(DictKey const & dictName)
+bool Document::SetShaDict(DictKey const &dictName)
 {
    RefShaDict = Global::GetDicts()->GetDict(dictName);
    return !RefShaDict;
@@ -287,111 +216,17 @@ bool Document::IsReadable()
 {
    if( Filetype == Unknown)
    {
-      dbg.Verbose(0, "Document::IsReadable: wrong filetype");
+      gdcmWarningMacro( "Wrong filetype");
       return false;
    }
 
-   if( TagHT.empty() )
-   {
-      dbg.Verbose(0, "Document::IsReadable: no tags in internal"
-                     " hash table.");
+   if ( IsEmpty() )
+   { 
+      gdcmWarningMacro( "No tag in internal hash table.");
       return false;
    }
 
    return true;
-}
-
-
-/**
- * \brief   Internal function that checks whether the Transfer Syntax given
- *          as argument is the one present in the current document.
- * @param   syntaxToCheck The transfert syntax we need to check against.
- * @return  True when SyntaxToCheck corresponds to the Transfer Syntax of
- *          the current document. False either when the document contains
- *          no Transfer Syntax, or when the Tranfer Syntaxes doesn't match.
- */
-TransferSyntaxType Document::GetTransferSyntax()
-{
-   DocEntry *entry = GetDocEntryByNumber(0x0002, 0x0010);
-   if ( !entry )
-   {
-      return UnknownTS;
-   }
-
-   // The entry might be present but not loaded (parsing and loading
-   // happen at different stages): try loading and proceed with check...
-   LoadDocEntrySafe(entry);
-   if (ValEntry* valEntry = dynamic_cast< ValEntry* >(entry) )
-   {
-      std::string transfer = valEntry->GetValue();
-      // The actual transfer (as read from disk) might be padded. We
-      // first need to remove the potential padding. We can make the
-      // weak assumption that padding was not executed with digits...
-      if  ( transfer.length() == 0 )
-      {
-         // for brain damaged headers
-         return UnknownTS;
-      }
-      while ( !isdigit(transfer[transfer.length()-1]) )
-      {
-         transfer.erase(transfer.length()-1, 1);
-      }
-      for (int i = 0; TransferSyntaxStrings[i] != NULL; i++)
-      {
-         if ( TransferSyntaxStrings[i] == transfer )
-         {
-            return TransferSyntaxType(i);
-         }
-      }
-   }
-   return UnknownTS;
-}
-
-bool Document::IsJPEGLossless()
-{
-   TransferSyntaxType r = GetTransferSyntax();
-   return    r ==  JPEGFullProgressionProcess10_12
-          || r == JPEGLosslessProcess14
-          || r == JPEGLosslessProcess14_1;
-}
-                                                                                
-/**
- * \brief   Determines if the Transfer Syntax was already encountered
- *          and if it corresponds to a JPEG2000 one
- * @return  True when JPEG2000 (Lossly or LossLess) found. False in all
- *          other cases.
- */
-bool Document::IsJPEG2000()
-{
-   TransferSyntaxType r = GetTransferSyntax();
-   return r == JPEG2000Lossless || r == JPEG2000;
-}
-
-/**
- * \brief   Determines if the Transfer Syntax corresponds to any form
- *          of Jpeg encoded Pixel data.
- * @return  True when any form of JPEG found. False otherwise.
- */
-bool Document::IsJPEG()
-{
-   TransferSyntaxType r = GetTransferSyntax();
-   return r == JPEGBaselineProcess1 
-     || r == JPEGExtendedProcess2_4
-     || r == JPEGExtendedProcess3_5
-     || r == JPEGSpectralSelectionProcess6_8
-     ||      IsJPEGLossless()
-     ||      IsJPEG2000();
-}
-
-/**
- * \brief   Determines if the Transfer Syntax corresponds to encapsulated
- *          of encoded Pixel Data (as opposed to native).
- * @return  True when encapsulated. False when native.
- */
-bool Document::IsEncapsulate()
-{
-   TransferSyntaxType r = GetTransferSyntax();
-   return IsJPEG() || r == RLELossless;
 }
 
 /**
@@ -400,11 +235,28 @@ bool Document::IsEncapsulate()
  */
 bool Document::IsDicomV3()
 {
-   // Checking if Transfert Syntax exists is enough
+   // Checking if Transfer Syntax exists is enough
    // Anyway, it's to late check if the 'Preamble' was found ...
    // And ... would it be a rich idea to check ?
    // (some 'no Preamble' DICOM images exist !)
-   return GetDocEntryByNumber(0x0002, 0x0010) != NULL;
+   return GetDocEntry(0x0002, 0x0010) != NULL;
+}
+
+/**
+ * \brief   Predicate for Papyrus file
+ *          Dedicated to whomsoever it may concern
+ * @return  True when the file is a Papyrus file.
+ */
+bool Document::IsPapyrus()
+{
+   // check for Papyrus private Sequence
+   DocEntry *e = GetDocEntry(0x0041, 0x1050);
+   if ( !e )
+      return false;
+   // check if it's actually a Sequence
+   if ( !dynamic_cast<SeqEntry*>(e) )
+      return  false;
+   return true;
 }
 
 /**
@@ -418,829 +270,84 @@ FileType Document::GetFileType()
 }
 
 /**
- * \brief  Tries to open the file \ref Document::Filename and
- *         checks the preamble when existing.
- * @return The FILE pointer on success. 
+ * \brief   Accessor to the Transfer Syntax (when present) of the
+ *          current document (it internally handles reading the
+ *          value from disk when only parsing occured).
+ * @return  The encountered Transfer Syntax of the current document.
  */
-std::ifstream* Document::OpenFile()
+std::string Document::GetTransferSyntax()
 {
-   Fp = new std::ifstream(Filename.c_str(), std::ios::in | std::ios::binary);
+   DocEntry *entry = GetDocEntry(0x0002, 0x0010);
+   if ( !entry )
+   {
+      return GDCM_UNKNOWN;
+   }
 
-   if(!Fp)
+   // The entry might be present but not loaded (parsing and loading
+   // happen at different stages): try loading and proceed with check...
+   LoadDocEntrySafe(entry);
+   if (ValEntry *valEntry = dynamic_cast< ValEntry* >(entry) )
    {
-      dbg.Verbose( 0,
-                   "Document::OpenFile cannot open file: ",
-                   Filename.c_str());
-      return 0;
+      std::string transfer = valEntry->GetValue();
+      // The actual transfer (as read from disk) might be padded. We
+      // first need to remove the potential padding. We can make the
+      // weak assumption that padding was not executed with digits...
+      if  ( transfer.length() == 0 )
+      {
+         // for brain damaged headers
+         return GDCM_UNKNOWN;
+      }
+      while ( !isdigit((unsigned char)transfer[transfer.length()-1]) )
+      {
+         transfer.erase(transfer.length()-1, 1);
+      }
+      return transfer;
    }
- 
-   uint16_t zero;
-   Fp->read((char*)&zero,  (size_t)2 );
- 
-   //ACR -- or DICOM with no Preamble --
-   if( zero == 0x0008 || zero == 0x0800 || zero == 0x0002 || zero == 0x0200 )
-   {
-      return Fp;
-   }
- 
-   //DICOM
-   Fp->seekg(126L, std::ios::cur);
-   char dicm[4];
-   Fp->read(dicm,  (size_t)4);
-   if( memcmp(dicm, "DICM", 4) == 0 )
-   {
-      return Fp;
-   }
- 
-   Fp->close();
-   dbg.Verbose( 0,
-                "Document::OpenFile not DICOM/ACR (missing preamble)",
-                Filename.c_str());
- 
-   return 0;
+   return GDCM_UNKNOWN;
 }
 
 /**
- * \brief closes the file  
- * @return  TRUE if the close was successfull 
+ * \brief Accesses the info from 0002,0010 : Transfer Syntax and TS
+ * @return The full Transfer Syntax Name (as opposed to Transfer Syntax UID)
  */
-bool Document::CloseFile()
+std::string Document::GetTransferSyntaxName()
 {
-  Fp->close();
-  delete Fp;
-  Fp = 0;
+   // use the TS (TS : Transfer Syntax)
+   std::string transferSyntax = GetEntryValue(0x0002,0x0010);
 
-  return true; //FIXME how do we detect a non-close ifstream ?
+   if ( (transferSyntax.find(GDCM_NOTLOADED) < transferSyntax.length()) )
+   {
+      gdcmErrorMacro( "Transfer Syntax not loaded. " << std::endl
+               << "Better you increase MAX_SIZE_LOAD_ELEMENT_VALUE" );
+      return "Uncompressed ACR-NEMA";
+   }
+   if ( transferSyntax == GDCM_UNFOUND )
+   {
+      gdcmWarningMacro( "Unfound Transfer Syntax (0002,0010)");
+      return "Uncompressed ACR-NEMA";
+   }
+
+   // we do it only when we need it
+   const TSKey &tsName = Global::GetTS()->GetValue( transferSyntax );
+
+   // Global::GetTS() is a global static you shall never try to delete it!
+   return tsName;
 }
-
+//
+// --------------- Swap Code ------------------
 /**
- * \brief Writes in a file all the Header Entries (Dicom Elements) 
- * @param fp file pointer on an already open file
- * @param filetype Type of the File to be written 
- *          (ACR-NEMA, ExplicitVR, ImplicitVR)
- * \return Always true.
+ * \brief   Swaps the bytes so they agree with the processor order
+ * @return  The properly swaped 16 bits integer.
  */
-void Document::Write(std::ofstream* fp, FileType filetype)
+uint16_t Document::SwapShort(uint16_t a)
 {
-   /// \todo move the following lines (and a lot of others, to be written)
-   /// to a future function CheckAndCorrectHeader  
-   /// (necessary if user wants to write a DICOM V3 file
-   /// starting from an  ACR-NEMA (V2)  Header
-
-   if (filetype == ImplicitVR) 
+   if ( SwapCode == 4321 || SwapCode == 2143 )
    {
-      std::string ts = 
-         Util::DicomString( TransferSyntaxStrings[ImplicitVRLittleEndian] );
-      ReplaceOrCreateByNumber(ts, 0x0002, 0x0010);
-      
-      /// \todo Refer to standards on page 21, chapter 6.2
-      ///       "Value representation": values with a VR of UI shall be
-      ///       padded with a single trailing null
-      ///       in the following case we have to padd manually with a 0
-      
-      SetEntryLengthByNumber(18, 0x0002, 0x0010);
-   } 
-
-   if (filetype == ExplicitVR)
-   {
-      std::string ts = 
-         Util::DicomString( TransferSyntaxStrings[ExplicitVRLittleEndian] );
-      ReplaceOrCreateByNumber(ts, 0x0002, 0x0010); //LEAK
-      
-      /// \todo Refer to standards on page 21, chapter 6.2
-      ///       "Value representation": values with a VR of UI shall be
-      ///       padded with a single trailing null
-      ///       Dans le cas suivant on doit pader manuellement avec un 0
-      
-      SetEntryLengthByNumber(20, 0x0002, 0x0010);
-   }
-  
-/**
- * \todo rewrite later, if really usefull
- *       - 'Group Length' element is optional in DICOM
- *       - but un-updated odd groups lengthes can causes pb
- *         (xmedcon breaker)
- *
- * if ( (filetype == ImplicitVR) || (filetype == ExplicitVR) )
- *    UpdateGroupLength(false,filetype);
- * if ( filetype == ACR)
- *    UpdateGroupLength(true,ACR);
- */
- 
-   ElementSet::Write(fp, filetype); // This one is recursive
-
-}
-
-/**
- * \brief   Modifies the value of a given Header Entry (Dicom Element)
- *          when it exists. Create it with the given value when unexistant.
- * @param   value (string) Value to be set
- * @param   group   Group number of the Entry 
- * @param   elem  Element number of the Entry
- * @param   VR  V(alue) R(epresentation) of the Entry -if private Entry-
- * \return  pointer to the modified/created Header Entry (NULL when creation
- *          failed).
- */ 
-ValEntry* Document::ReplaceOrCreateByNumber(
-                                         std::string const & value, 
-                                         uint16_t group, 
-                                         uint16_t elem,
-                                         TagName const & vr )
-{
-   ValEntry* valEntry;
-   DocEntry* currentEntry = GetDocEntryByNumber( group, elem);
-   
-   if (!currentEntry)
-   {
-      // check if (group,element) DictEntry exists
-      // if it doesn't, create an entry in DictSet::VirtualEntry
-      // and use it
-
-   // Find out if the tag we received is in the dictionaries:
-      Dict *pubDict = Global::GetDicts()->GetDefaultPubDict();
-      DictEntry* dictEntry = pubDict->GetDictEntryByNumber(group, elem);
-      if (!dictEntry)
-      {
-         currentEntry = NewDocEntryByNumber(group, elem, vr);
-      }
-      else
-      {
-         currentEntry = NewDocEntryByNumber(group, elem);
-      }
-
-      if (!currentEntry)
-      {
-         dbg.Verbose(0, "Document::ReplaceOrCreateByNumber: call to"
-                        " NewDocEntryByNumber failed.");
-         return NULL;
-      }
-      valEntry = new ValEntry(currentEntry);
-      if ( !AddEntry(valEntry))
-      {
-         delete valEntry;
-         dbg.Verbose(0, "Document::ReplaceOrCreateByNumber: AddEntry"
-                        " failed allthough this is a creation.");
-      }
-      // This is the reason why NewDocEntryByNumber are a real
-      // bad habit !!! FIXME
-      delete currentEntry;
-   }
-   else
-   {
-      valEntry = dynamic_cast< ValEntry* >(currentEntry);
-      if ( !valEntry ) // Euuuuh? It wasn't a ValEntry
-                       // then we change it to a ValEntry ?
-                       // Shouldn't it be considered as an error ?
-      {
-         // We need to promote the DocEntry to a ValEntry:
-         valEntry = new ValEntry(currentEntry);
-         if (!RemoveEntry(currentEntry))
-         {
-            delete valEntry;
-            dbg.Verbose(0, "Document::ReplaceOrCreateByNumber: removal"
-                           " of previous DocEntry failed.");
-            return NULL;
-         }
-         if ( !AddEntry(valEntry))
-         {
-            delete valEntry;
-            dbg.Verbose(0, "Document::ReplaceOrCreateByNumber: adding"
-                           " promoted ValEntry failed.");
-            return NULL;
-         }
-      }
-   }
-
-   SetEntryByNumber(value, group, elem);
-
-   return valEntry;
-}   
-
-/*
- * \brief   Modifies the value of a given Header Entry (Dicom Element)
- *          when it exists. Create it with the given value when unexistant.
- * @param   binArea (binary) value to be set
- * @param   Group   Group number of the Entry 
- * @param   Elem  Element number of the Entry
- * \return  pointer to the modified/created Header Entry (NULL when creation
- *          failed).
- */
-BinEntry* Document::ReplaceOrCreateByNumber(
-                                         uint8_t* binArea,
-                                         int lgth, 
-                                         uint16_t group, 
-                                         uint16_t elem,
-                                         TagName const & vr )
-{
-   BinEntry* binEntry;
-   DocEntry* currentEntry = GetDocEntryByNumber( group, elem);
-   if (!currentEntry)
-   {
-
-      // check if (group,element) DictEntry exists
-      // if it doesn't, create an entry in DictSet::VirtualEntry
-      // and use it
-
-   // Find out if the tag we received is in the dictionaries:
-      Dict *pubDict = Global::GetDicts()->GetDefaultPubDict();
-      DictEntry *dictEntry = pubDict->GetDictEntryByNumber(group, elem);
-
-      if (!dictEntry)
-      {
-         currentEntry = NewDocEntryByNumber(group, elem, vr);
-      }
-      else
-      {
-         currentEntry = NewDocEntryByNumber(group, elem);
-      }
-      if (!currentEntry)
-      {
-         dbg.Verbose(0, "Document::ReplaceOrCreateByNumber: call to"
-                        " NewDocEntryByNumber failed.");
-         return NULL;
-      }
-      binEntry = new BinEntry(currentEntry);
-      if ( !AddEntry(binEntry))
-      {
-         dbg.Verbose(0, "Document::ReplaceOrCreateByNumber: AddEntry"
-                        " failed allthough this is a creation.");
-      }
-
-      delete currentEntry;
-   }
-   else
-   {
-      binEntry = dynamic_cast< BinEntry* >(currentEntry);
-      if ( !binEntry ) // Euuuuh? It wasn't a BinEntry
-                       // then we change it to a BinEntry ?
-                       // Shouldn't it be considered as an error ?
-      {
-         // We need to promote the DocEntry to a BinEntry:
-         binEntry = new BinEntry(currentEntry);
-         if (!RemoveEntry(currentEntry))
-         {
-            dbg.Verbose(0, "Document::ReplaceOrCreateByNumber: removal"
-                           " of previous DocEntry failed.");
-            return NULL;
-         }
-         if ( !AddEntry(binEntry))
-         {
-            dbg.Verbose(0, "Document::ReplaceOrCreateByNumber: adding"
-                           " promoted BinEntry failed.");
-            return NULL;
-         }
-      }
-   }
-
-   SetEntryByNumber(binArea, lgth, group, elem);
-
-   return binEntry;
-}  
-
-
-/*
- * \brief   Modifies the value of a given Header Entry (Dicom Element)
- *          when it exists. Create it when unexistant.
- * @param   Group   Group number of the Entry 
- * @param   Elem  Element number of the Entry
- * \return  pointer to the modified/created SeqEntry (NULL when creation
- *          failed).
- */
-SeqEntry* Document::ReplaceOrCreateByNumber( uint16_t group, uint16_t elem)
-{
-   SeqEntry* b = 0;
-   DocEntry* a = GetDocEntryByNumber( group, elem);
-   if (!a)
-   {
-      a = NewSeqEntryByNumber(group, elem);
-      if (!a)
-      {
-         return 0;
-      }
-
-      b = new SeqEntry(a, 1); // FIXME : 1 (Depth)
-      AddEntry(b);
-   }   
-   return b;
-} 
- 
-/**
- * \brief Set a new value if the invoked element exists
- *        Seems to be useless !!!
- * @param value new element value
- * @param group  group number of the Entry 
- * @param elem element number of the Entry
- * \return  boolean 
- */
-bool Document::ReplaceIfExistByNumber(std::string const & value, 
-                                      uint16_t group, uint16_t elem ) 
-{
-   SetEntryByNumber(value, group, elem);
-
-   return true;
-} 
-
-//-----------------------------------------------------------------------------
-// Protected
-
-/**
- * \brief   Checks if a given Dicom Element exists within the H table
- * @param   group      Group number of the searched Dicom Element 
- * @param   element  Element number of the searched Dicom Element 
- * @return true is found
- */
-bool Document::CheckIfEntryExistByNumber(uint16_t group, uint16_t element )
-{
-   const std::string &key = DictEntry::TranslateToKey(group, element );
-   return TagHT.count(key) != 0;
-}
-
-/**
- * \brief   Searches within Header Entries (Dicom Elements) parsed with 
- *          the public and private dictionaries 
- *          for the element value of a given tag.
- * \warning Don't use any longer : use GetPubEntryByName
- * @param   tagName name of the searched element.
- * @return  Corresponding element value when it exists,
- *          and the string GDCM_UNFOUND ("gdcm::Unfound") otherwise.
- */
-std::string Document::GetEntryByName(TagName const & tagName)
-{
-   DictEntry* dictEntry = RefPubDict->GetDictEntryByName(tagName); 
-   if( !dictEntry )
-   {
-      return GDCM_UNFOUND;
-   }
-
-   return GetEntryByNumber(dictEntry->GetGroup(),dictEntry->GetElement());
-}
-
-/**
- * \brief   Searches within Header Entries (Dicom Elements) parsed with 
- *          the public and private dictionaries 
- *          for the element value representation of a given tag.
- *
- *          Obtaining the VR (Value Representation) might be needed by caller
- *          to convert the string typed content to caller's native type 
- *          (think of C++ vs Python). The VR is actually of a higher level
- *          of semantics than just the native C++ type.
- * @param   tagName name of the searched element.
- * @return  Corresponding element value representation when it exists,
- *          and the string GDCM_UNFOUND ("gdcm::Unfound") otherwise.
- */
-std::string Document::GetEntryVRByName(TagName const& tagName)
-{
-   DictEntry *dictEntry = RefPubDict->GetDictEntryByName(tagName); 
-   if( dictEntry == NULL)
-   {
-      return GDCM_UNFOUND;
-   }
-
-   DocEntry* elem = GetDocEntryByNumber(dictEntry->GetGroup(),
-                                        dictEntry->GetElement());
-   return elem->GetVR();
-}
-
-/**
- * \brief   Searches within Header Entries (Dicom Elements) parsed with 
- *          the public and private dictionaries 
- *          for the element value representation of a given tag.
- * @param   group Group number of the searched tag.
- * @param   element Element number of the searched tag.
- * @return  Corresponding element value representation when it exists,
- *          and the string GDCM_UNFOUND ("gdcm::Unfound") otherwise.
- */
-std::string Document::GetEntryByNumber(uint16_t group, uint16_t element)
-{
-   TagKey key = DictEntry::TranslateToKey(group, element);
-   /// \todo use map methods, instead of multimap JPR
-   if ( !TagHT.count(key))
-   {
-      return GDCM_UNFOUND;
-   }
-
-   return ((ValEntry *)TagHT.find(key)->second)->GetValue();
-}
-
-/**
- * \brief   Searches within Header Entries (Dicom Elements) parsed with 
- *          the public and private dictionaries 
- *          for the element value representation of a given tag..
- *
- *          Obtaining the VR (Value Representation) might be needed by caller
- *          to convert the string typed content to caller's native type 
- *          (think of C++ vs Python). The VR is actually of a higher level
- *          of semantics than just the native C++ type.
- * @param   group     Group number of the searched tag.
- * @param   element Element number of the searched tag.
- * @return  Corresponding element value representation when it exists,
- *          and the string GDCM_UNFOUND ("gdcm::Unfound") otherwise.
- */
-std::string Document::GetEntryVRByNumber(uint16_t group, uint16_t element)
-{
-   DocEntry* elem = GetDocEntryByNumber(group, element);
-   if ( !elem )
-   {
-      return GDCM_UNFOUND;
-   }
-   return elem->GetVR();
-}
-
-/**
- * \brief   Searches within Header Entries (Dicom Elements) parsed with 
- *          the public and private dictionaries 
- *          for the value length of a given tag..
- * @param   group     Group number of the searched tag.
- * @param   element Element number of the searched tag.
- * @return  Corresponding element length; -2 if not found
- */
-int Document::GetEntryLengthByNumber(uint16_t group, uint16_t element)
-{
-   DocEntry* elem =  GetDocEntryByNumber(group, element);
-   if ( !elem )
-   {
-      return -2;  //magic number
-   }
-   return elem->GetLength();
-}
-/**
- * \brief   Sets the value (string) of the Header Entry (Dicom Element)
- * @param   content string value of the Dicom Element
- * @param   tagName name of the searched Dicom Element.
- * @return  true when found
- */
-bool Document::SetEntryByName(std::string const & content,
-                              TagName const & tagName)
-{
-   DictEntry *dictEntry = RefPubDict->GetDictEntryByName(tagName); 
-   if( !dictEntry )
-   {
-      return false;
-   }
-
-   return SetEntryByNumber(content,dictEntry->GetGroup(),
-                                   dictEntry->GetElement());
-}
-
-/**
- * \brief   Accesses an existing DocEntry (i.e. a Dicom Element)
- *          through it's (group, element) and modifies it's content with
- *          the given value.
- * @param   content new value (string) to substitute with
- * @param   group     group number of the Dicom Element to modify
- * @param   element element number of the Dicom Element to modify
- */
-bool Document::SetEntryByNumber(std::string const& content, 
-                                uint16_t group, uint16_t element) 
-{
-   int c;
-   int l;
-
-   ValEntry* valEntry = GetValEntryByNumber(group, element);
-   if (!valEntry )
-   {
-      dbg.Verbose(0, "Document::SetEntryByNumber: no corresponding",
-                     " ValEntry (try promotion first).");
-      return false;
-   }
-   // Non even content must be padded with a space (020H)...
-   std::string finalContent = Util::DicomString( content.c_str() );
-   assert( !(finalContent.size() % 2) );
-   valEntry->SetValue(finalContent);
-
-   // Integers have a special treatement for their length:
-
-   l = finalContent.length();
-   if ( l != 0) // To avoid to be cheated by 'zero length' integers
-   {   
-      VRKey vr = valEntry->GetVR();
-      if( vr == "US" || vr == "SS" )
-      {
-         // for multivaluated items
-         c = Util::CountSubstring(content, "\\") + 1;
-         l = c*2;
-      }
-      else if( vr == "UL" || vr == "SL" )
-      {
-         // for multivaluated items
-         c = Util::CountSubstring(content, "\\") + 1;
-         l = c*4;;
-      }
-   }
-   valEntry->SetLength(l);
-   return true;
-} 
-
-/**
- * \brief   Accesses an existing DocEntry (i.e. a Dicom Element)
- *          through it's (group, element) and modifies it's content with
- *          the given value.
- * @param   content new value (void*  -> uint8_t*) to substitute with
- * @param   lgth new value length
- * @param   group     group number of the Dicom Element to modify
- * @param   element element number of the Dicom Element to modify
- */
-bool Document::SetEntryByNumber(uint8_t*content, int lgth, 
-                                uint16_t group, uint16_t element) 
-{
-   (void)lgth;  //not used
-   TagKey key = DictEntry::TranslateToKey(group, element);
-   if ( !TagHT.count(key))
-   {
-      return false;
-   }
-
-/* Hope Binary field length is *never* wrong    
-   if(lgth%2) // Non even length are padded with a space (020H).
-   {  
-      lgth++;
-      //content = content + '\0'; // fing a trick to enlarge a binary field?
-   }
-*/      
-   BinEntry* a = (BinEntry *)TagHT[key];           
-   a->SetBinArea(content);  
-   a->SetLength(lgth);
-   a->SetValue(GDCM_BINLOADED);
-
-   return true;
-} 
-
-/**
- * \brief   Accesses an existing DocEntry (i.e. a Dicom Element)
- *          in the PubDocEntrySet of this instance
- *          through it's (group, element) and modifies it's length with
- *          the given value.
- * \warning Use with extreme caution.
- * @param l new length to substitute with
- * @param group     group number of the Entry to modify
- * @param element element number of the Entry to modify
- * @return  true on success, false otherwise.
- */
-bool Document::SetEntryLengthByNumber(uint32_t l, 
-                                      uint16_t group, uint16_t element) 
-{
-   /// \todo use map methods, instead of multimap JPR
-   TagKey key = DictEntry::TranslateToKey(group, element);
-   if ( !TagHT.count(key) )
-   {
-      return false;
-   }
-   if ( l % 2 )
-   {
-      l++; // length must be even
-   }
-   ( ((TagHT.equal_range(key)).first)->second )->SetLength(l); 
-
-   return true ;
-}
-
-/**
- * \brief   Gets (from Header) the offset  of a 'non string' element value 
- *          (LoadElementValues has already be executed)
- * @param group   group number of the Entry 
- * @param elem  element number of the Entry
- * @return File Offset of the Element Value 
- */
-size_t Document::GetEntryOffsetByNumber(uint16_t group, uint16_t elem) 
-{
-   DocEntry* entry = GetDocEntryByNumber(group, elem);
-   if (!entry) 
-   {
-      dbg.Verbose(1, "Document::GetDocEntryByNumber: no entry present.");
-      return 0;
-   }
-   return entry->GetOffset();
-}
-
-/**
- * \brief   Gets (from Header) a 'non string' element value 
- *          (LoadElementValues has already be executed)  
- * @param group   group number of the Entry 
- * @param elem  element number of the Entry
- * @return Pointer to the 'non string' area
- */
-void*  Document::GetEntryBinAreaByNumber(uint16_t group, uint16_t elem) 
-{
-   DocEntry* entry = GetDocEntryByNumber(group, elem);
-   if (!entry) 
-   {
-      dbg.Verbose(1, "Document::GetDocEntryByNumber: no entry");
-      return 0;
-   }
-   if ( BinEntry* binEntry = dynamic_cast<BinEntry*>(entry) )
-   {
-      return binEntry->GetBinArea();
-   }
-
-   return 0;
-}
-
-/**
- * \brief         Loads (from disk) the element content 
- *                when a string is not suitable
- * @param group   group number of the Entry 
- * @param elem  element number of the Entry
- */
-void* Document::LoadEntryBinArea(uint16_t group, uint16_t elem)
-{
-   DocEntry *docElement = GetDocEntryByNumber(group, elem);
-   if ( !docElement )
-   {
-      return NULL;
-   }
-   size_t o =(size_t)docElement->GetOffset();
-   Fp->seekg( o, std::ios::beg);
-   size_t l = docElement->GetLength();
-   uint8_t* a = new uint8_t[l];
-   if(!a)
-   {
-      dbg.Verbose(0, "Document::LoadEntryBinArea cannot allocate a");
-      return NULL;
-   }
-   Fp->read((char*)a, l);
-   if( Fp->fail() || Fp->eof() )//Fp->gcount() == 1
-   {
-      delete[] a;
-      return NULL;
-   }
-  /// \todo Drop any already existing void area! JPR
-   if( !SetEntryBinAreaByNumber( a, group, elem ) )
-   {
-      dbg.Verbose(0, "Document::LoadEntryBinArea setting failed.");
+      //a = ((( a << 8 ) & 0xff00 ) | (( a >> 8 ) & 0x00ff ) );
+      // Save CPU time
+      a = ( a << 8 ) | ( a >> 8 );
    }
    return a;
-}
-/**
- * \brief         Loads (from disk) the element content 
- *                when a string is not suitable
- * @param element  Entry whose binArea is going to be loaded
- */
-void* Document::LoadEntryBinArea(BinEntry* element) 
-{
-   size_t o =(size_t)element->GetOffset();
-   Fp->seekg(o, std::ios::beg);
-   size_t l = element->GetLength();
-   uint8_t* a = new uint8_t[l];
-   if( !a )
-   {
-      dbg.Verbose(0, "Document::LoadEntryBinArea cannot allocate a");
-      return NULL;
-   }
-   element->SetBinArea((uint8_t*)a);
-   /// \todo check the result 
-   Fp->read((char*)a, l);
-   if( Fp->fail() || Fp->eof()) //Fp->gcount() == 1
-   {
-      delete[] a;
-      return NULL;
-   }
-
-   return a;
-}
-
-/**
- * \brief   Sets a 'non string' value to a given Dicom Element
- * @param   area area containing the 'non string' value
- * @param   group     Group number of the searched Dicom Element 
- * @param   element Element number of the searched Dicom Element 
- * @return  
- */
-bool Document::SetEntryBinAreaByNumber(uint8_t* area,
-                                       uint16_t group, uint16_t element) 
-{
-   DocEntry* currentEntry = GetDocEntryByNumber(group, element);
-   if ( !currentEntry )
-   {
-      return false;
-   }
-   if ( BinEntry* binEntry = dynamic_cast<BinEntry*>(currentEntry) )
-   {
-      binEntry->SetBinArea( area );
-      return true;
-   }
-   return true;
-}
-
-/**
- * \brief   Update the entries with the shadow dictionary. 
- *          Only non even entries are analyzed       
- */
-void Document::UpdateShaEntries()
-{
-   //DictEntry *entry;
-   std::string vr;
-   
-   /// \todo TODO : still any use to explore recursively the whole structure?
-/*
-   for(ListTag::iterator it=listEntries.begin();
-       it!=listEntries.end();
-       ++it)
-   {
-      // Odd group => from public dictionary
-      if((*it)->GetGroup()%2==0)
-         continue;
-
-      // Peer group => search the corresponding dict entry
-      if(RefShaDict)
-         entry=RefShaDict->GetDictEntryByNumber((*it)->GetGroup(),(*it)->GetElement());
-      else
-         entry=NULL;
-
-      if((*it)->IsImplicitVR())
-         vr="Implicit";
-      else
-         vr=(*it)->GetVR();
-
-      (*it)->SetValue(GetDocEntryUnvalue(*it));  // to go on compiling
-      if(entry){
-         // Set the new entry and the new value
-         (*it)->SetDictEntry(entry);
-         CheckDocEntryVR(*it,vr);
-
-         (*it)->SetValue(GetDocEntryValue(*it));    // to go on compiling
- 
-      }
-      else
-      {
-         // Remove precedent value transformation
-         (*it)->SetDictEntry(NewVirtualDictEntry((*it)->GetGroup(),(*it)->GetElement(),vr));
-      }
-   }
-*/   
-}
-
-/**
- * \brief   Searches within the Header Entries for a Dicom Element of
- *          a given tag.
- * @param   tagName name of the searched Dicom Element.
- * @return  Corresponding Dicom Element when it exists, and NULL
- *          otherwise.
- */
-DocEntry* Document::GetDocEntryByName(TagName const & tagName)
-{
-   DictEntry *dictEntry = RefPubDict->GetDictEntryByName(tagName); 
-   if( !dictEntry )
-   {
-      return NULL;
-   }
-
-  return GetDocEntryByNumber(dictEntry->GetGroup(),dictEntry->GetElement());
-}
-
-/**
- * \brief  retrieves a Dicom Element (the first one) using (group, element)
- * \warning (group, element) IS NOT an identifier inside the Dicom Header
- *           if you think it's NOT UNIQUE, check the count number
- *           and use iterators to retrieve ALL the Dicoms Elements within
- *           a given couple (group, element)
- * @param   group Group number of the searched Dicom Element 
- * @param   element Element number of the searched Dicom Element 
- * @return  
- */
-DocEntry* Document::GetDocEntryByNumber(uint16_t group, uint16_t element) 
-{
-   TagKey key = DictEntry::TranslateToKey(group, element);
-   if ( !TagHT.count(key))
-   {
-      return NULL;
-   }
-   return TagHT.find(key)->second;
-}
-
-/**
- * \brief  Same as \ref Document::GetDocEntryByNumber except it only
- *         returns a result when the corresponding entry is of type
- *         ValEntry.
- * @return When present, the corresponding ValEntry. 
- */
-ValEntry* Document::GetValEntryByNumber(uint16_t group, uint16_t element)
-{
-   DocEntry* currentEntry = GetDocEntryByNumber(group, element);
-   if ( !currentEntry )
-   {
-      return 0;
-   }
-   if ( ValEntry* valEntry = dynamic_cast<ValEntry*>(currentEntry) )
-   {
-      return valEntry;
-   }
-   dbg.Verbose(0, "Document::GetValEntryByNumber: unfound ValEntry.");
-
-   return 0;
-}
-
-/**
- * \brief         Loads the element while preserving the current
- *                underlying file position indicator as opposed to
- *                to LoadDocEntry that modifies it.
- * @param entry   Header Entry whose value shall be loaded. 
- * @return  
- */
-void Document::LoadDocEntrySafe(DocEntry * entry)
-{
-   long PositionOnEntry = Fp->tellg();
-   LoadDocEntry(entry);
-   Fp->seekg(PositionOnEntry, std::ios::beg);
 }
 
 /**
@@ -1252,62 +359,410 @@ uint32_t Document::SwapLong(uint32_t a)
 {
    switch (SwapCode)
    {
-      case    0 :
+      case 1234 :
          break;
       case 4321 :
-         a=( ((a<<24) & 0xff000000) | ((a<<8)  & 0x00ff0000) | 
-             ((a>>8)  & 0x0000ff00) | ((a>>24) & 0x000000ff) );
-         break;
-   
+//         a=( ((a<<24) & 0xff000000) | ((a<<8)  & 0x00ff0000) | 
+//             ((a>>8)  & 0x0000ff00) | ((a>>24) & 0x000000ff) );
+// save CPU time
+         a=( ( a<<24)               | ((a<<8)  & 0x00ff0000) | 
+             ((a>>8)  & 0x0000ff00) |  (a>>24)                );
+         break;   
       case 3412 :
-         a=( ((a<<16) & 0xffff0000) | ((a>>16) & 0x0000ffff) );
-         break;
-   
+//       a=( ((a<<16) & 0xffff0000) | ((a>>16) & 0x0000ffff) );
+         a=( (a<<16)                | (a>>16)  );
+         break;  
       case 2143 :
          a=( ((a<< 8) & 0xff00ff00) | ((a>>8) & 0x00ff00ff)  );
-         break;
+      break;
       default :
-         //std::cout << "swapCode= " << SwapCode << std::endl;
-         dbg.Error(" Document::SwapLong : unset swap code");
+         gdcmErrorMacro( "Unset swap code:" << SwapCode );
          a = 0;
    }
    return a;
 } 
 
+//
+// -----------------File I/O ---------------
 /**
- * \brief   Unswaps back the bytes of 4-byte long integer accordingly to
- *          processor order.
- * @return  The properly unswaped 32 bits integer.
+ * \brief  Tries to open the file \ref Document::Filename and
+ *         checks the preamble when existing.
+ * @return The FILE pointer on success. 
  */
-uint32_t Document::UnswapLong(uint32_t a)
+std::ifstream *Document::OpenFile()
 {
-   return SwapLong(a);
-}
-
-/**
- * \brief   Swaps the bytes so they agree with the processor order
- * @return  The properly swaped 16 bits integer.
- */
-uint16_t Document::SwapShort(uint16_t a)
-{
-   if ( SwapCode == 4321 || SwapCode == 2143 )
+   HasDCMPreamble = false;
+   if (Filename.length() == 0) 
    {
-      a = ((( a << 8 ) & 0x0ff00 ) | (( a >> 8 ) & 0x00ff ) );
+      return 0;
    }
-   return a;
+
+   if(Fp)
+   {
+      gdcmWarningMacro( "File already open: " << Filename.c_str());
+      CloseFile();
+   }
+
+   Fp = new std::ifstream(Filename.c_str(), std::ios::in | std::ios::binary);
+   if( ! *Fp )
+   {
+      gdcmDebugMacro( "Cannot open file: " << Filename.c_str());
+      delete Fp;
+      Fp = 0;
+      return 0;
+   }
+ 
+   uint16_t zero = 0;
+   Fp->read((char*)&zero, (size_t)2);
+   if( Fp->eof() )
+   {
+      CloseFile();
+      return 0;
+   }
+ 
+   //ACR -- or DICOM with no Preamble; may start with a Shadow Group --
+   if( 
+       zero == 0x0001 || zero == 0x0100 || zero == 0x0002 || zero == 0x0200 ||
+       zero == 0x0003 || zero == 0x0300 || zero == 0x0004 || zero == 0x0400 ||
+       zero == 0x0005 || zero == 0x0500 || zero == 0x0006 || zero == 0x0600 ||
+       zero == 0x0007 || zero == 0x0700 || zero == 0x0008 || zero == 0x0800 )
+   {
+      std::string msg 
+         = Util::Format("ACR/DICOM with no preamble: (%04x)\n", zero);
+      gdcmWarningMacro( msg.c_str() );
+      return Fp;
+   }
+ 
+   //DICOM
+   Fp->seekg(126L, std::ios::cur);
+   char dicm[4] = {' ',' ',' ',' '};
+   Fp->read(dicm,  (size_t)4);
+   if( Fp->eof() )
+   {
+      CloseFile();
+      return 0;
+   }
+   if( memcmp(dicm, "DICM", 4) == 0 )
+   {
+      HasDCMPreamble = true;
+      return Fp;
+   }
+ 
+   CloseFile();
+   gdcmWarningMacro( "Not DICOM/ACR (missing preamble)" << Filename.c_str());
+ 
+   return 0;
 }
 
 /**
- * \brief   Unswaps the bytes so they agree with the processor order
- * @return  The properly unswaped 16 bits integer.
+ * \brief closes the file  
+ * @return  TRUE if the close was successfull 
  */
-uint16_t Document::UnswapShort(uint16_t a)
+bool Document::CloseFile()
 {
-   return SwapShort(a);
+   if( Fp )
+   {
+      Fp->close();
+      delete Fp;
+      Fp = 0;
+   }
+   return true;
+}
+
+/**
+ * \brief Writes in a file all the Header Entries (Dicom Elements) 
+ * @param fp file pointer on an already open file (actually: Output File Stream)
+ * @param filetype Type of the File to be written 
+ *          (ACR-NEMA, ExplicitVR, ImplicitVR)
+ * @return Always true.
+ */
+void Document::WriteContent(std::ofstream *fp, FileType filetype)
+{
+   // \TODO move the following lines (and a lot of others, to be written)
+   // to a future function CheckAndCorrectHeader  
+
+   // (necessary if user wants to write a DICOM V3 file
+   // starting from an ACR-NEMA (V2) Header
+
+   if ( filetype == ImplicitVR || filetype == ExplicitVR )
+   {
+      // writing Dicom File Preamble
+      char filePreamble[128];
+      memset(filePreamble, 0, 128);
+      fp->write(filePreamble, 128);
+      fp->write("DICM", 4);
+   }
+
+   /*
+    * \todo rewrite later, if really usefull
+    *       - 'Group Length' element is optional in DICOM
+    *       - but un-updated odd groups lengthes can causes pb
+    *         (xmedcon breaker)
+    *
+    * if ( (filetype == ImplicitVR) || (filetype == ExplicitVR) )
+    *    UpdateGroupLength(false,filetype);
+    * if ( filetype == ACR)
+    *    UpdateGroupLength(true,ACR);
+    */
+
+   ElementSet::WriteContent(fp, filetype); // This one is recursive
+}
+
+// -----------------------------------------
+// Content entries 
+/**
+ * \brief Loads (from disk) the element content 
+ *        when a string is not suitable
+ * @param group   group number of the Entry 
+ * @param elem  element number of the Entry
+ */
+void Document::LoadEntryBinArea(uint16_t group, uint16_t elem)
+{
+   // Search the corresponding DocEntry
+   DocEntry *docElement = GetDocEntry(group, elem);
+   if ( !docElement )
+      return;
+
+   BinEntry *binElement = dynamic_cast<BinEntry *>(docElement);
+   if( !binElement )
+      return;
+
+   LoadEntryBinArea(binElement);
+}
+
+/**
+ * \brief Loads (from disk) the element content 
+ *        when a string is not suitable
+ * @param elem  Entry whose binArea is going to be loaded
+ */
+void Document::LoadEntryBinArea(BinEntry *elem) 
+{
+   if(elem->GetBinArea())
+      return;
+
+   bool openFile = !Fp;
+   if(openFile)
+      OpenFile();
+
+   size_t o =(size_t)elem->GetOffset();
+   Fp->seekg(o, std::ios::beg);
+
+   size_t l = elem->GetLength();
+   uint8_t *a = new uint8_t[l];
+   if( !a )
+   {
+      gdcmWarningMacro( "Cannot allocate BinEntry content");
+      return;
+   }
+
+   Fp->read((char*)a, l);
+   if( Fp->fail() || Fp->eof())
+   {
+      delete[] a;
+      return;
+   }
+
+   elem->SetBinArea(a);
+
+   if(openFile)
+      CloseFile();
+}
+
+/**
+ * \brief  Loads the element while preserving the current
+ *         underlying file position indicator as opposed to
+ *        LoadDocEntry that modifies it.
+ * @param entry   DocEntry whose value will be loaded. 
+ */
+void Document::LoadDocEntrySafe(DocEntry *entry)
+{
+   if(Fp)
+   {
+      long PositionOnEntry = Fp->tellg();
+      LoadDocEntry(entry);
+      Fp->seekg(PositionOnEntry, std::ios::beg);
+   }
+}
+
+/**
+ * \brief   Compares two documents, according to \ref DicomDir rules
+ * \warning Does NOT work with ACR-NEMA files
+ * \todo    Find a trick to solve the pb (use RET fields ?)
+ * @param   document to compare with current one
+ * @return  true if 'smaller'
+ */
+bool Document::operator<(Document &document)
+{
+   // Patient Name
+   std::string s1 = GetEntryValue(0x0010,0x0010);
+   std::string s2 = document.GetEntryValue(0x0010,0x0010);
+   if(s1 < s2)
+   {
+      return true;
+   }
+   else if( s1 > s2 )
+   {
+      return false;
+   }
+   else
+   {
+      // Patient ID
+      s1 = GetEntryValue(0x0010,0x0020);
+      s2 = document.GetEntryValue(0x0010,0x0020);
+      if ( s1 < s2 )
+      {
+         return true;
+      }
+      else if ( s1 > s2 )
+      {
+         return false;
+      }
+      else
+      {
+         // Study Instance UID
+         s1 = GetEntryValue(0x0020,0x000d);
+         s2 = document.GetEntryValue(0x0020,0x000d);
+         if ( s1 < s2 )
+         {
+            return true;
+         }
+         else if( s1 > s2 )
+         {
+            return false;
+         }
+         else
+         {
+            // Serie Instance UID
+            s1 = GetEntryValue(0x0020,0x000e);
+            s2 = document.GetEntryValue(0x0020,0x000e);    
+            if ( s1 < s2 )
+            {
+               return true;
+            }
+            else if( s1 > s2 )
+            {
+               return false;
+            }
+         }
+      }
+   }
+   return false;
+}
+
+//-----------------------------------------------------------------------------
+// Protected
+/**
+ * \brief Reads a supposed to be 16 Bits integer
+ *       (swaps it depending on processor endianness) 
+ * @return read value
+ */
+uint16_t Document::ReadInt16()
+   throw( FormatError )
+{
+   uint16_t g;
+   Fp->read ((char*)&g, (size_t)2);
+   if ( Fp->fail() )
+   {
+      throw FormatError( "Document::ReadInt16()", " file error." );
+   }
+   if( Fp->eof() )
+   {
+      throw FormatError( "Document::ReadInt16()", "EOF." );
+   }
+   g = SwapShort(g); 
+   return g;
+}
+
+/**
+ * \brief  Reads a supposed to be 32 Bits integer
+ *        (swaps it depending on processor endianness)  
+ * @return read value
+ */
+uint32_t Document::ReadInt32()
+   throw( FormatError )
+{
+   uint32_t g;
+   Fp->read ((char*)&g, (size_t)4);
+   if ( Fp->fail() )
+   {
+      throw FormatError( "Document::ReadInt32()", " file error." );
+   }
+   if( Fp->eof() )
+   {
+      throw FormatError( "Document::ReadInt32()", "EOF." );
+   }
+   g = SwapLong(g);
+   return g;
+}
+
+/**
+ * \brief skips bytes inside the source file 
+ * \warning NOT end user intended method !
+ * @return 
+ */
+void Document::SkipBytes(uint32_t nBytes)
+{
+   //FIXME don't dump the returned value
+   Fp->seekg((long)nBytes, std::ios::cur);
+}
+
+/**
+ * \brief   Re-computes the length of a ACR-NEMA/Dicom group from a DcmHeader
+ * @param filetype Type of the File to be written 
+ */
+int Document::ComputeGroup0002Length( FileType filetype ) 
+{
+   uint16_t gr;
+   std::string vr;
+   
+   int groupLength = 0;
+   bool found0002 = false;   
+  
+   // for each zero-level Tag in the DCM Header
+   DocEntry *entry = GetFirstEntry();
+   while( entry )
+   {
+      gr = entry->GetGroup();
+
+      if( gr == 0x0002 )
+      {
+         found0002 = true;
+
+         if( entry->GetElement() != 0x0000 )
+         {
+            vr = entry->GetVR();
+ 
+            if( filetype == ExplicitVR )
+            {
+               if ( (vr == "OB") || (vr == "OW") || (vr == "SQ") ) 
+               {
+                  // explicit VR AND OB, OW, SQ : 4 more bytes
+                  groupLength +=  4;
+               }
+            }
+            groupLength += 2 + 2 + 4 + entry->GetLength();   
+         }
+      }
+      else if (found0002 )
+         break;
+
+      entry = GetNextEntry();
+   }
+   return groupLength; 
 }
 
 //-----------------------------------------------------------------------------
 // Private
+/**
+ * \brief Loads all the needed Dictionaries
+ * \warning NOT end user intended method !   
+ */
+void Document::Initialize() 
+{
+   RefPubDict = Global::GetDicts()->GetDefaultPubDict();
+   RefShaDict = NULL;
+   Filetype   = Unknown;
+}
 
 /**
  * \brief   Parses a DocEntrySet (Zero-level DocEntries or SQ Item DocEntries)
@@ -1316,112 +771,112 @@ uint16_t Document::UnswapShort(uint16_t a)
 void Document::ParseDES(DocEntrySet *set, long offset, 
                         long l_max, bool delim_mode)
 {
-   DocEntry *newDocEntry;
-   
+   DocEntry *newDocEntry = 0;
+   ValEntry *newValEntry;
+   BinEntry *newBinEntry;
+   SeqEntry *newSeqEntry;
+   VRKey vr;
+   bool used = false;
+
    while (true)
-   { 
-      if ( !delim_mode && ((long)Fp->tellg()-offset) >= l_max )
+   {
+      if ( !delim_mode && ((long)(Fp->tellg())-offset) >= l_max)
       {
          break;
       }
+
+      used = true;
       newDocEntry = ReadNextDocEntry( );
+
       if ( !newDocEntry )
       {
          break;
       }
 
-      VRKey vr = newDocEntry->GetVR();
-      if ( vr != "SQ" )
+      vr = newDocEntry->GetVR();
+      newValEntry = dynamic_cast<ValEntry*>(newDocEntry);
+      newBinEntry = dynamic_cast<BinEntry*>(newDocEntry);
+      newSeqEntry = dynamic_cast<SeqEntry*>(newDocEntry);
+
+      if ( newValEntry || newBinEntry )
       {
-               
-         if ( Global::GetVR()->IsVROfGdcmStringRepresentable(vr) )
+         if ( newBinEntry )
          {
-         /////////////////////// ValEntry
-            ValEntry* newValEntry =
-               new ValEntry( newDocEntry->GetDictEntry() );
-            newValEntry->Copy( newDocEntry );
-             
-            // When "set" is a Document, then we are at the top of the
-            // hierarchy and the Key is simply of the form ( group, elem )...
-            if (Document* dummy = dynamic_cast< Document* > ( set ) )
-            {
-               (void)dummy;
-               newValEntry->SetKey( newValEntry->GetKey() );
-            }
-            // ...but when "set" is a SQItem, we are inserting this new
-            // valEntry in a sequence item. Hence the key has the
-            // generalized form (refer to \ref BaseTagKey):
-            if (SQItem* parentSQItem = dynamic_cast< SQItem* > ( set ) )
-            {
-               newValEntry->SetKey(  parentSQItem->GetBaseTagKey()
-                                   + newValEntry->GetKey() );
-            }
-             
-            set->AddEntry( newValEntry );
-            LoadDocEntry( newValEntry );
-            if (newValEntry->IsItemDelimitor())
-            {
-               break;
-            }
-            if ( !delim_mode && ((long)Fp->tellg()-offset) >= l_max )
-            {
-               break;
-            }
-         }
-         else
-         {
-            if ( ! Global::GetVR()->IsVROfGdcmBinaryRepresentable(vr) )
+            if ( Filetype == ExplicitVR && 
+                 !Global::GetVR()->IsVROfBinaryRepresentable(vr) )
             { 
                 ////// Neither ValEntry NOR BinEntry: should mean UNKOWN VR
-                dbg.Verbose(0, "Document::ParseDES: neither Valentry, "
-                               "nor BinEntry. Probably unknown VR.");
+                gdcmWarningMacro( std::hex << newDocEntry->GetGroup() 
+                                  << "|" << newDocEntry->GetElement()
+                                  << " : Neither Valentry, nor BinEntry." 
+                                  "Probably unknown VR.");
             }
 
          //////////////////// BinEntry or UNKOWN VR:
-            BinEntry* newBinEntry =
-               new BinEntry( newDocEntry->GetDictEntry() );  //LEAK
-            newBinEntry->Copy( newDocEntry );
-
             // When "this" is a Document the Key is simply of the
             // form ( group, elem )...
-            if (Document* dummy = dynamic_cast< Document* > ( set ) )
+            if ( dynamic_cast< Document* > ( set ) )
             {
-               (void)dummy;
                newBinEntry->SetKey( newBinEntry->GetKey() );
             }
             // but when "this" is a SQItem, we are inserting this new
-            // valEntry in a sequence item, and the kay has the
+            // valEntry in a sequence item, and the key has the
             // generalized form (refer to \ref BaseTagKey):
-            if (SQItem* parentSQItem = dynamic_cast< SQItem* > ( set ) )
+            if (SQItem *parentSQItem = dynamic_cast< SQItem* > ( set ) )
             {
                newBinEntry->SetKey(  parentSQItem->GetBaseTagKey()
                                    + newBinEntry->GetKey() );
             }
 
-            set->AddEntry( newBinEntry );
             LoadDocEntry( newBinEntry );
+            if( !set->AddEntry( newBinEntry ) )
+            {
+              //Expect big troubles if here
+              //delete newBinEntry;
+              used=false;
+            }
+         }
+         else
+         {
+         /////////////////////// ValEntry
+            // When "set" is a Document, then we are at the top of the
+            // hierarchy and the Key is simply of the form ( group, elem )...
+            if ( dynamic_cast< Document* > ( set ) )
+            {
+               newValEntry->SetKey( newValEntry->GetKey() );
+            }
+            // ...but when "set" is a SQItem, we are inserting this new
+            // valEntry in a sequence item. Hence the key has the
+            // generalized form (refer to \ref BaseTagKey):
+            if (SQItem *parentSQItem = dynamic_cast< SQItem* > ( set ) )
+            {
+               newValEntry->SetKey(  parentSQItem->GetBaseTagKey()
+                                   + newValEntry->GetKey() );
+            }
+             
+            LoadDocEntry( newValEntry );
+            bool delimitor=newValEntry->IsItemDelimitor();
+            if( !set->AddEntry( newValEntry ) )
+            {
+              // If here expect big troubles
+              //delete newValEntry; //otherwise mem leak
+              used=false;
+            }
+
+            if (delimitor)
+            {
+               if(!used)
+                  delete newDocEntry;
+               break;
+            }
+            if ( !delim_mode && ((long)(Fp->tellg())-offset) >= l_max)
+            {
+               if(!used)
+                  delete newDocEntry;
+               break;
+            }
          }
 
-         if (    ( newDocEntry->GetGroup()   == 0x7fe0 )
-              && ( newDocEntry->GetElement() == 0x0010 ) )
-         {
-             TransferSyntaxType ts = GetTransferSyntax();
-             if ( ts == RLELossless ) 
-             {
-                long PositionOnEntry = Fp->tellg();
-                Fp->seekg( newDocEntry->GetOffset(), std::ios::beg );
-                ComputeRLEInfo();
-                Fp->seekg( PositionOnEntry, std::ios::beg );
-             }
-             else if ( IsJPEG() )
-             {
-                long PositionOnEntry = Fp->tellg();
-                Fp->seekg( newDocEntry->GetOffset(), std::ios::beg );
-                ComputeJPEGFragmentInfo();
-                Fp->seekg( PositionOnEntry, std::ios::beg );
-             }
-         }
-    
          // Just to make sure we are at the beginning of next entry.
          SkipToNextDocEntry(newDocEntry);
       }
@@ -1441,25 +896,22 @@ void Document::ParseDES(DocEntrySet *set, long offset,
             }
          }
          // no other way to create it ...
-         SeqEntry* newSeqEntry =
-            new SeqEntry( newDocEntry->GetDictEntry() );
-         newSeqEntry->Copy( newDocEntry );
          newSeqEntry->SetDelimitorMode( delim_mode );
 
          // At the top of the hierarchy, stands a Document. When "set"
          // is a Document, then we are building the first depth level.
          // Hence the SeqEntry we are building simply has a depth
          // level of one:
-         if (Document* dummy = dynamic_cast< Document* > ( set ) )
+         if (/*Document *dummy =*/ dynamic_cast< Document* > ( set ) )
          {
-            (void)dummy;
+            //(void)dummy;
             newSeqEntry->SetDepthLevel( 1 );
             newSeqEntry->SetKey( newSeqEntry->GetKey() );
          }
-         // But when "set" is allready a SQItem, we are building a nested
+         // But when "set" is already a SQItem, we are building a nested
          // sequence, and hence the depth level of the new SeqEntry
          // we are building, is one level deeper:
-         if (SQItem* parentSQItem = dynamic_cast< SQItem* > ( set ) )
+         if (SQItem *parentSQItem = dynamic_cast< SQItem* > ( set ) )
          {
             newSeqEntry->SetDepthLevel( parentSQItem->GetDepthLevel() + 1 );
             newSeqEntry->SetKey(  parentSQItem->GetBaseTagKey()
@@ -1472,13 +924,20 @@ void Document::ParseDES(DocEntrySet *set, long offset,
                      newDocEntry->GetOffset(),
                      l, delim_mode);
          }
-         set->AddEntry( newSeqEntry );
-         if ( !delim_mode && ((long)Fp->tellg()-offset) >= l_max )
+         if( !set->AddEntry( newSeqEntry ) )
          {
+            used = false;
+         }
+         if ( !delim_mode && ((long)(Fp->tellg())-offset) >= l_max)
+         {
+            if( !used )
+               delete newDocEntry;
             break;
          }
       }
-      delete newDocEntry;
+
+      if( !used )
+         delete newDocEntry;
    }
 }
 
@@ -1486,15 +945,18 @@ void Document::ParseDES(DocEntrySet *set, long offset,
  * \brief   Parses a Sequence ( SeqEntry after SeqEntry)
  * @return  parsed length for this level
  */ 
-void Document::ParseSQ( SeqEntry* seqEntry,
+void Document::ParseSQ( SeqEntry *seqEntry,
                         long offset, long l_max, bool delim_mode)
 {
    int SQItemNumber = 0;
    bool dlm_mod;
+   long offsetStartCurrentSQItem = offset;
 
    while (true)
    {
-      DocEntry* newDocEntry = ReadNextDocEntry();   
+      // the first time, we read the fff0,e000 of the first SQItem
+      DocEntry *newDocEntry = ReadNextDocEntry();
+
       if ( !newDocEntry )
       {
          // FIXME Should warn user
@@ -1504,17 +966,18 @@ void Document::ParseSQ( SeqEntry* seqEntry,
       {
          if ( newDocEntry->IsSequenceDelimitor() )
          {
-            seqEntry->SetSequenceDelimitationItem( newDocEntry );
+            seqEntry->SetDelimitationItem( newDocEntry ); 
             break;
          }
       }
-      if ( !delim_mode && ((long)Fp->tellg()-offset) >= l_max )
+      if ( !delim_mode && ((long)(Fp->tellg())-offset) >= l_max)
       {
-          break;
+         delete newDocEntry;
+         break;
       }
-
+      // create the current SQItem
       SQItem *itemSQ = new SQItem( seqEntry->GetDepthLevel() );
-      itksys_ios::ostringstream newBase;
+      std::ostringstream newBase;
       newBase << seqEntry->GetKey()
               << "/"
               << SQItemNumber
@@ -1530,12 +993,19 @@ void Document::ParseSQ( SeqEntry* seqEntry,
       {
          dlm_mod = false;
       }
-   
-      ParseDES(itemSQ, newDocEntry->GetOffset(), l, dlm_mod);
-      
-      seqEntry->AddEntry( itemSQ, SQItemNumber ); 
+
+      // Let's try :------------
+      // remove fff0,e000, created out of the SQItem
+      delete newDocEntry;
+      Fp->seekg(offsetStartCurrentSQItem, std::ios::beg);
+      // fill up the current SQItem, starting at the beginning of fff0,e000
+      ParseDES(itemSQ, offsetStartCurrentSQItem, l+8, dlm_mod);
+      offsetStartCurrentSQItem = Fp->tellg();
+      // end try -----------------
+ 
+      seqEntry->AddSQItem( itemSQ, SQItemNumber ); 
       SQItemNumber++;
-      if ( !delim_mode && ( (long)Fp->tellg() - offset ) >= l_max )
+      if ( !delim_mode && ((long)(Fp->tellg())-offset ) >= l_max )
       {
          break;
       }
@@ -1543,11 +1013,11 @@ void Document::ParseSQ( SeqEntry* seqEntry,
 }
 
 /**
- * \brief         Loads the element content if its length doesn't exceed
- *                the value specified with Document::SetMaxSizeLoadEntry()
- * @param         entry Header Entry (Dicom Element) to be dealt with
+ * \brief   Loads the element content if its length doesn't exceed
+ *          the value specified with Document::SetMaxSizeLoadEntry()
+ * @param   entry Header Entry (Dicom Element) to be dealt with
  */
-void Document::LoadDocEntry(DocEntry* entry)
+void Document::LoadDocEntry(DocEntry *entry)
 {
    uint16_t group  = entry->GetGroup();
    std::string  vr = entry->GetVR();
@@ -1576,10 +1046,10 @@ void Document::LoadDocEntry(DocEntry* entry)
    // are not loaded. Instead we leave a short notice of the offset of
    // the element content and it's length.
 
-   itksys_ios::ostringstream s;
+   std::ostringstream s;
    if (length > MaxSizeLoadEntry)
    {
-      if (BinEntry* binEntryPtr = dynamic_cast< BinEntry* >(entry) )
+      if (BinEntry *binEntryPtr = dynamic_cast< BinEntry* >(entry) )
       {  
          //s << "gdcm::NotLoaded (BinEntry)";
          s << GDCM_NOTLOADED;
@@ -1588,8 +1058,8 @@ void Document::LoadDocEntry(DocEntry* entry)
          s << " x(" << std::hex << entry->GetLength() << ")";
          binEntryPtr->SetValue(s.str());
       }
-       // Be carefull : a BinEntry IS_A ValEntry ... 
-      else if (ValEntry* valEntryPtr = dynamic_cast< ValEntry* >(entry) )
+      // Be carefull : a BinEntry IS_A ValEntry ... 
+      else if (ValEntry *valEntryPtr = dynamic_cast< ValEntry* >(entry) )
       {
         // s << "gdcm::NotLoaded. (ValEntry)";
          s << GDCM_NOTLOADED;  
@@ -1601,8 +1071,8 @@ void Document::LoadDocEntry(DocEntry* entry)
       else
       {
          // fusible
-         std::cout<< "MaxSizeLoadEntry exceeded, neither a BinEntry "
-                  << "nor a ValEntry ?! Should never print that !" << std::endl;
+         gdcmErrorMacro( "MaxSizeLoadEntry exceeded, neither a BinEntry "
+                      << "nor a ValEntry ?! Should never print that !" );
       }
 
       // to be sure we are at the end of the value ...
@@ -1612,15 +1082,14 @@ void Document::LoadDocEntry(DocEntry* entry)
    }
 
    // When we find a BinEntry not very much can be done :
-   if (BinEntry* binEntryPtr = dynamic_cast< BinEntry* >(entry) )
+   if (BinEntry *binEntryPtr = dynamic_cast< BinEntry* >(entry) )
    {
       s << GDCM_BINLOADED;
       binEntryPtr->SetValue(s.str());
       LoadEntryBinArea(binEntryPtr); // last one, not to erase length !
       return;
    }
-    
-   /// \todo Any compacter code suggested (?)
+
    if ( IsDocEntryAnInteger(entry) )
    {   
       uint32_t NewInt;
@@ -1678,10 +1147,10 @@ void Document::LoadDocEntry(DocEntry* entry)
    if( length % 2 )
    {
       newValue = Util::DicomString(str, length+1);
-      //dbg.Verbose(0, "Warning: bad length: ", length );
-      dbg.Verbose(0, "For string :",  newValue.c_str()); 
+      gdcmWarningMacro("Warning: bad length: " << length <<
+                       ",For string :" <<  newValue.c_str()); 
       // Since we change the length of string update it length
-      entry->SetReadLength(length+1);
+      //entry->SetReadLength(length+1);
    }
    else
    {
@@ -1689,12 +1158,11 @@ void Document::LoadDocEntry(DocEntry* entry)
    }
    delete[] str;
 
-   if ( ValEntry* valEntry = dynamic_cast<ValEntry* >(entry) )
+   if ( ValEntry *valEntry = dynamic_cast<ValEntry* >(entry) )
    {
-      if ( Fp->fail() || Fp->eof())//Fp->gcount() == 1
+      if ( Fp->fail() || Fp->eof())
       {
-         dbg.Verbose(1, "Document::LoadDocEntry",
-                        "unread element value");
+         gdcmWarningMacro("Unread element value");
          valEntry->SetValue(GDCM_UNREAD);
          return;
       }
@@ -1711,11 +1179,9 @@ void Document::LoadDocEntry(DocEntry* entry)
    }
    else
    {
-      dbg.Error(true, "Document::LoadDocEntry"
-                      "Should have a ValEntry, here !");
+      gdcmErrorMacro( "Should have a ValEntry, here !");
    }
 }
-
 
 /**
  * \brief  Find the value Length of the passed Header Entry
@@ -1724,7 +1190,6 @@ void Document::LoadDocEntry(DocEntry* entry)
 void Document::FindDocEntryLength( DocEntry *entry )
    throw ( FormatError )
 {
-   uint16_t element = entry->GetElement();
    std::string  vr  = entry->GetVR();
    uint16_t length16;       
    
@@ -1743,9 +1208,7 @@ void Document::FindDocEntryLength( DocEntry *entry )
             uint32_t lengthOB;
             try 
             {
-               /// \todo rename that to FindDocEntryLengthOBOrOW since
-               ///       the above test is on both OB and OW...
-               lengthOB = FindDocEntryLengthOB();
+               lengthOB = FindDocEntryLengthOBOrOW();
             }
             catch ( FormatUnexpected )
             {
@@ -1756,11 +1219,15 @@ void Document::FindDocEntryLength( DocEntry *entry )
                // the length and proceed.
                long currentPosition = Fp->tellg();
                Fp->seekg(0L,std::ios::end);
-               long lengthUntilEOF = (long)Fp->tellg() - currentPosition;
+
+               long lengthUntilEOF = (long)(Fp->tellg())-currentPosition;
                Fp->seekg(currentPosition, std::ios::beg);
+
+               entry->SetReadLength(lengthUntilEOF);
                entry->SetLength(lengthUntilEOF);
                return;
             }
+            entry->SetReadLength(lengthOB);
             entry->SetLength(lengthOB);
             return;
          }
@@ -1770,6 +1237,14 @@ void Document::FindDocEntryLength( DocEntry *entry )
 
       // Length is encoded on 2 bytes.
       length16 = ReadInt16();
+
+      // FIXME : This heuristic supposes that the first group following
+      //         group 0002 *has* and element 0000.
+      // BUT ... Element 0000 is optionnal :-(
+
+
+   // Fixed using : HandleOutOfGroup0002()
+   //              (first hereafter strategy ...)
       
       // We can tell the current file is encoded in big endian (like
       // Data/US-RGB-8-epicard) when we find the "Transfer Syntax" tag
@@ -1790,6 +1265,8 @@ void Document::FindDocEntryLength( DocEntry *entry )
       //   ones with zero as element number) has to be of 4 (0x0004). When we
       //   encounter 1024 (0x0400) chances are the encoding changed and we
       //   found a group with big endian encoding.
+      //---> Unfortunately, element 0000 is optional.
+      //---> This will not work when missing!
       // We shall use this second strategy. In order to make sure that we
       // can interpret the presence of an apparently big endian encoded
       // length of a "Group Length" without committing a big mistake, we
@@ -1798,37 +1275,39 @@ void Document::FindDocEntryLength( DocEntry *entry )
       // endian encoding". When this is the case, chances are we have got our
       // hands on a big endian encoded file: we switch the swap code to
       // big endian and proceed...
-      if ( element  == 0x0000 && length16 == 0x0400 ) 
-      {
-         TransferSyntaxType ts = GetTransferSyntax();
-         if ( ts != ExplicitVRBigEndian ) 
-         {
-            throw FormatError( "Document::FindDocEntryLength()",
-                               " not explicit VR." );
-            return;
-         }
-         length16 = 4;
-         SwitchSwapToBigEndian();
-         // Restore the unproperly loaded values i.e. the group, the element
-         // and the dictionary entry depending on them.
-         uint16_t correctGroup = SwapShort( entry->GetGroup() );
-         uint16_t correctElem  = SwapShort( entry->GetElement() );
-         DictEntry* newTag = GetDictEntryByNumber( correctGroup,
-                                                       correctElem );
-         if ( !newTag )
-         {
-            // This correct tag is not in the dictionary. Create a new one.
-            newTag = NewVirtualDictEntry(correctGroup, correctElem);
-         }
-         // FIXME this can create a memory leaks on the old entry that be
-         // left unreferenced.
-         entry->SetDictEntry( newTag );
-      }
-       
-      // Heuristic: well, some files are really ill-formed.
+
+//      if ( element  == 0x0000 && length16 == 0x0400 ) 
+//      {
+//         std::string ts = GetTransferSyntax();
+//         if ( Global::GetTS()->GetSpecialTransferSyntax(ts) 
+//                != TS::ExplicitVRBigEndian ) 
+//         {
+//            throw FormatError( "Document::FindDocEntryLength()",
+//                               " not explicit VR." );
+//           return;
+//        }
+//        length16 = 4;
+//        SwitchByteSwapCode();
+//
+//         // Restore the unproperly loaded values i.e. the group, the element
+//         // and the dictionary entry depending on them.
+//         uint16_t correctGroup = SwapShort( entry->GetGroup() );
+//         uint16_t correctElem  = SwapShort( entry->GetElement() );
+//         DictEntry *newTag = GetDictEntry( correctGroup, correctElem );
+//         if ( !newTag )
+//         {
+//            // This correct tag is not in the dictionary. Create a new one.
+//            newTag = NewVirtualDictEntry(correctGroup, correctElem);
+//         }
+//         // FIXME this can create a memory leaks on the old entry that be
+//         // left unreferenced.
+//         entry->SetDictEntry( newTag );
+//      }
+  
+      // 0xffff means that we deal with 'No Length' Sequence 
+      //        or 'No Length' SQItem
       if ( length16 == 0xffff) 
-      {
-         // 0xffff means that we deal with 'Unknown Length' Sequence  
+      {           
          length16 = 0;
       }
       FixDocEntryFoundLength( entry, (uint32_t)length16 );
@@ -1842,6 +1321,9 @@ void Document::FindDocEntryLength( DocEntry *entry )
       // on Data elements "Implicit and Explicit VR Data Elements shall
       // not coexist in a Data Set and Data Sets nested within it".]
       // Length is on 4 bytes.
+
+     // Well ... group 0002 is always coded in 'Explicit VR Litle Endian'
+     // even if Transfer Syntax is 'Implicit VR ...' 
       
       FixDocEntryFoundLength( entry, ReadInt32() );
       return;
@@ -1849,17 +1331,70 @@ void Document::FindDocEntryLength( DocEntry *entry )
 }
 
 /**
- * \brief     Find the Value Representation of the current Dicom Element.
- * @param     entry
+ * \brief  Find the Length till the next sequence delimiter
+ * \warning NOT end user intended method !
+ * @return 
  */
-void Document::FindDocEntryVR( DocEntry *entry )
+uint32_t Document::FindDocEntryLengthOBOrOW()
+   throw( FormatUnexpected )
+{
+   // See PS 3.5-2001, section A.4 p. 49 on encapsulation of encoded pixel data.
+   long positionOnEntry = Fp->tellg();
+   bool foundSequenceDelimiter = false;
+   uint32_t totalLength = 0;
+
+   while ( !foundSequenceDelimiter )
+   {
+      uint16_t group;
+      uint16_t elem;
+      try
+      {
+         group = ReadInt16();
+         elem  = ReadInt16();   
+      }
+      catch ( FormatError )
+      {
+         throw FormatError("Unexpected end of file encountered during ",
+                           "Document::FindDocEntryLengthOBOrOW()");
+      }
+      // We have to decount the group and element we just read
+      totalLength += 4;     
+      if ( group != 0xfffe || ( ( elem != 0xe0dd ) && ( elem != 0xe000 ) ) )
+      {
+         long filePosition = Fp->tellg();
+         gdcmWarningMacro( "Neither an Item tag nor a Sequence delimiter tag on :" 
+           << std::hex << group << " , " << elem 
+           << ") -before- position x(" << filePosition << ")" );
+  
+         Fp->seekg(positionOnEntry, std::ios::beg);
+         throw FormatUnexpected( "Neither an Item tag nor a Sequence delimiter tag.");
+      }
+      if ( elem == 0xe0dd )
+      {
+         foundSequenceDelimiter = true;
+      }
+      uint32_t itemLength = ReadInt32();
+      // We add 4 bytes since we just read the ItemLength with ReadInt32
+      totalLength += itemLength + 4;
+      SkipBytes(itemLength);
+      
+      if ( foundSequenceDelimiter )
+      {
+         break;
+      }
+   }
+   Fp->seekg( positionOnEntry, std::ios::beg);
+   return totalLength;
+}
+
+/**
+ * \brief     Find the Value Representation of the current Dicom Element.
+ * @return    Value Representation of the current Entry
+ */
+std::string Document::FindDocEntryVR()
 {
    if ( Filetype != ExplicitVR )
-   {
-      return;
-   }
-
-   char vr[3];
+      return GDCM_UNKNOWN;
 
    long positionOnEntry = Fp->tellg();
    // Warning: we believe this is explicit VR (Value Representation) because
@@ -1869,105 +1404,31 @@ void Document::FindDocEntryVR( DocEntry *entry )
    // within an explicit VR file. Hence we make sure the present tag
    // is in explicit VR and try to fix things if it happens not to be
    // the case.
-   
+
+   char vr[3];
    Fp->read (vr, (size_t)2);
    vr[2] = 0;
 
-   if( !CheckDocEntryVR(entry, vr) )
+   if( !CheckDocEntryVR(vr) )
    {
       Fp->seekg(positionOnEntry, std::ios::beg);
-      // When this element is known in the dictionary we shall use, e.g. for
-      // the semantics (see the usage of IsAnInteger), the VR proposed by the
-      // dictionary entry. Still we have to flag the element as implicit since
-      // we know now our assumption on expliciteness is not furfilled.
-      // avoid  .
-      if ( entry->IsVRUnknown() )
-      {
-         entry->SetVR("Implicit");
-      }
-      entry->SetImplicitVR();
+      return GDCM_UNKNOWN;
    }
+   return vr;
 }
 
 /**
  * \brief     Check the correspondance between the VR of the header entry
  *            and the taken VR. If they are different, the header entry is 
  *            updated with the new VR.
- * @param     entry Header Entry to check
  * @param     vr    Dicom Value Representation
  * @return    false if the VR is incorrect of if the VR isn't referenced
  *            otherwise, it returns true
 */
-bool Document::CheckDocEntryVR(DocEntry *entry, VRKey vr)
+bool Document::CheckDocEntryVR(VRKey vr)
 {
-   std::string msg;
-   bool realExplicit = true;
-
-   // Assume we are reading a falsely explicit VR file i.e. we reached
-   // a tag where we expect reading a VR but are in fact we read the
-   // first to bytes of the length. Then we will interogate (through find)
-   // the dicom_vr dictionary with oddities like "\004\0" which crashes
-   // both GCC and VC++ implementations of the STL map. Hence when the
-   // expected VR read happens to be non-ascii characters we consider
-   // we hit falsely explicit VR tag.
-
-   if ( !isalpha(vr[0]) && !isalpha(vr[1]) )
-   {
-      realExplicit = false;
-   }
-
-   // CLEANME searching the dicom_vr at each occurence is expensive.
-   // PostPone this test in an optional integrity check at the end
-   // of parsing or only in debug mode.
-   if ( realExplicit && !Global::GetVR()->Count(vr) )
-   {
-      realExplicit = false;
-   }
-
-   if ( !realExplicit ) 
-   {
-      // We thought this was explicit VR, but we end up with an
-      // implicit VR tag. Let's backtrack.   
-      msg = Util::Format("Falsely explicit vr file (%04x,%04x)\n", 
-                    entry->GetGroup(), entry->GetElement());
-      dbg.Verbose(1, "Document::FindVR: ", msg.c_str());
-
-      if( entry->GetGroup() % 2 && entry->GetElement() == 0x0000)
-      {
-         // Group length is UL !
-         DictEntry* newEntry = NewVirtualDictEntry(
-                                   entry->GetGroup(), entry->GetElement(),
-                                   "UL", "FIXME", "Group Length");
-         entry->SetDictEntry( newEntry );
-      }
+   if ( !Global::GetVR()->IsValidVR(vr) )
       return false;
-   }
-
-   if ( entry->IsVRUnknown() )
-   {
-      // When not a dictionary entry, we can safely overwrite the VR.
-      if( entry->GetElement() == 0x0000 )
-      {
-         // Group length is UL !
-         entry->SetVR("UL");
-      }
-      else
-      {
-         entry->SetVR(vr);
-      }
-   }
-   else if ( entry->GetVR() != vr ) 
-   {
-      // The VR present in the file and the dictionary disagree. We assume
-      // the file writer knew best and use the VR of the file. Since it would
-      // be unwise to overwrite the VR of a dictionary (since it would
-      // compromise it's next user), we need to clone the actual DictEntry
-      // and change the VR for the read one.
-      DictEntry* newEntry = NewVirtualDictEntry(
-                                entry->GetGroup(), entry->GetElement(),
-                                vr, "FIXME", entry->GetName());
-      entry->SetDictEntry(newEntry);
-   }
 
    return true; 
 }
@@ -1986,7 +1447,7 @@ std::string Document::GetDocEntryValue(DocEntry *entry)
       std::string val = ((ValEntry *)entry)->GetValue();
       std::string vr  = entry->GetVR();
       uint32_t length = entry->GetLength();
-      itksys_ios::ostringstream s;
+      std::ostringstream s;
       int nbInt;
 
       // When short integer(s) are expected, read and convert the following 
@@ -2043,7 +1504,6 @@ std::string Document::GetDocEntryValue(DocEntry *entry)
 #endif //GDCM_NO_ANSI_STRING_STREAM
       return s.str();
    }
-
    return ((ValEntry *)entry)->GetValue();
 }
 
@@ -2055,13 +1515,13 @@ std::string Document::GetDocEntryValue(DocEntry *entry)
  * @param   entry Entry to reverse transform
  * @return  Reverse transformed entry value
  */
-std::string Document::GetDocEntryUnvalue(DocEntry* entry)
+std::string Document::GetDocEntryUnvalue(DocEntry *entry)
 {
    if ( IsDocEntryAnInteger(entry) && entry->IsImplicitVR() )
    {
       std::string vr = entry->GetVR();
       std::vector<std::string> tokens;
-      itksys_ios::ostringstream s;
+      std::ostringstream s;
 
       if ( vr == "US" || vr == "SS" ) 
       {
@@ -2114,14 +1574,15 @@ void Document::SkipDocEntry(DocEntry *entry)
 }
 
 /**
- * \brief   Skips to the begining of the next Header Entry 
+ * \brief   Skips to the beginning of the next Header Entry 
  * \warning NOT end user intended method !
- * @param   entry entry to skip
+ * @param   currentDocEntry entry to skip
  */
-void Document::SkipToNextDocEntry(DocEntry *entry) 
+void Document::SkipToNextDocEntry(DocEntry *currentDocEntry) 
 {
-   Fp->seekg((long)(entry->GetOffset()),     std::ios::beg);
-   Fp->seekg( (long)(entry->GetReadLength()), std::ios::cur);
+   Fp->seekg((long)(currentDocEntry->GetOffset()),     std::ios::beg);
+   if (currentDocEntry->GetGroup() != 0xfffe)  // for fffe pb
+      Fp->seekg( (long)(currentDocEntry->GetReadLength()),std::ios::cur);
 }
 
 /**
@@ -2129,7 +1590,7 @@ void Document::SkipToNextDocEntry(DocEntry *entry)
  *          the parser went Jabberwocky) one can hope improving things by
  *          applying some heuristics.
  * @param   entry entry to check
- * @param   foundLength fist assumption about length    
+ * @param   foundLength first assumption about length    
  */
 void Document::FixDocEntryFoundLength(DocEntry *entry,
                                       uint32_t foundLength)
@@ -2140,33 +1601,28 @@ void Document::FixDocEntryFoundLength(DocEntry *entry,
       foundLength = 0;
    }
    
-   uint16_t gr = entry->GetGroup();
-   uint16_t el = entry->GetElement(); 
+   uint16_t gr   = entry->GetGroup();
+   uint16_t elem = entry->GetElement(); 
      
    if ( foundLength % 2)
    {
-      itksys_ios::ostringstream s;
-      s << "Warning : Tag with uneven length "
-        << foundLength 
-        <<  " in x(" << std::hex << gr << "," << el <<")" << std::dec;
-      dbg.Verbose(0, s.str().c_str());
+      gdcmWarningMacro( "Warning : Tag with uneven length " << foundLength 
+        <<  " in x(" << std::hex << gr << "," << elem <<")");
    }
       
    //////// Fix for some naughty General Electric images.
    // Allthough not recent many such GE corrupted images are still present
    // on Creatis hard disks. Hence this fix shall remain when such images
-   // are no longer in user (we are talking a few years, here)...
+   // are no longer in use (we are talking a few years, here)...
    // Note: XMedCom probably uses such a trick since it is able to read
    //       those pesky GE images ...
    if ( foundLength == 13)
    {
       // Only happens for this length !
-      if ( entry->GetGroup()   != 0x0008
-      || ( entry->GetElement() != 0x0070
-        && entry->GetElement() != 0x0080 ) )
+      if ( gr != 0x0008 || ( elem != 0x0070 && elem != 0x0080 ) )
       {
          foundLength = 10;
-         entry->SetReadLength(10); /// \todo a bug is to be fixed !?
+         entry->SetReadLength(10); // a bug is to be fixed !?
       }
    }
 
@@ -2174,12 +1630,10 @@ void Document::FixDocEntryFoundLength(DocEntry *entry,
    // Occurence of such images is quite low (unless one leaves close to a
    // 'Leonardo' source. Hence, one might consider commenting out the
    // following fix on efficiency reasons.
-   else if ( entry->GetGroup()   == 0x0009 
-        && ( entry->GetElement() == 0x1113
-          || entry->GetElement() == 0x1114 ) )
+   else if ( gr   == 0x0009 && ( elem == 0x1113 || elem == 0x1114 ) )
    {
       foundLength = 4;
-      entry->SetReadLength(4); /// \todo a bug is to be fixed !?
+      entry->SetReadLength(4); // a bug is to be fixed !?
    } 
  
    else if ( entry->GetVR() == "SQ" )
@@ -2190,7 +1644,7 @@ void Document::FixDocEntryFoundLength(DocEntry *entry,
    //////// We encountered a 'delimiter' element i.e. a tag of the form 
    // "fffe|xxxx" which is just a marker. Delimiters length should not be
    // taken into account.
-   else if( entry->GetGroup() == 0xfffe )
+   else if( gr == 0xfffe )
    {    
      // According to the norm, fffe|0000 shouldn't exist. BUT the Philips
      // image gdcmData/gdcm-MR-PHILIPS-16-Multi-Seq.dcm happens to
@@ -2199,9 +1653,8 @@ void Document::FixDocEntryFoundLength(DocEntry *entry,
      {
         foundLength = 0;
      }
-   } 
-           
-   entry->SetUsableLength(foundLength);
+   }            
+   entry->SetLength(foundLength);
 }
 
 /**
@@ -2212,15 +1665,15 @@ void Document::FixDocEntryFoundLength(DocEntry *entry,
  */
 bool Document::IsDocEntryAnInteger(DocEntry *entry)
 {
-   uint16_t element = entry->GetElement();
-   uint16_t group   = entry->GetGroup();
-   const std::string & vr  = entry->GetVR();
-   uint32_t length  = entry->GetLength();
+   uint16_t elem          = entry->GetElement();
+   uint16_t group         = entry->GetGroup();
+   const std::string &vr  = entry->GetVR();
+   uint32_t length        = entry->GetLength();
 
    // When we have some semantics on the element we just read, and if we
    // a priori know we are dealing with an integer, then we shall be
    // able to swap it's element value properly.
-   if ( element == 0 )  // This is the group length of the group
+   if ( elem == 0 )  // This is the group length of the group
    {  
       if ( length == 4 )
       {
@@ -2235,150 +1688,19 @@ bool Document::IsDocEntryAnInteger(DocEntry *entry)
          // test is useless (and might even look a bit paranoid), when we
          // encounter such an ill-formed image, we simply display a warning
          // message and proceed on parsing (while crossing fingers).
-         itksys_ios::ostringstream s;
          long filePosition = Fp->tellg();
-         s << "Erroneous Group Length element length  on : (" \
-           << std::hex << group << " , " << element 
+         gdcmWarningMacro( "Erroneous Group Length element length  on : (" 
+           << std::hex << group << " , " << elem
            << ") -before- position x(" << filePosition << ")"
-           << "lgt : " << length;
-         dbg.Verbose(0, "Document::IsDocEntryAnInteger", s.str().c_str() );
+           << "lgt : " << length );
       }
    }
 
    if ( vr == "UL" || vr == "US" || vr == "SL" || vr == "SS" )
    {
       return true;
-   }
-   
+   }   
    return false;
-}
-
-/**
- * \brief  Find the Length till the next sequence delimiter
- * \warning NOT end user intended method !
- * @return 
- */
-
-uint32_t Document::FindDocEntryLengthOB()
-   throw( FormatUnexpected )
-{
-   // See PS 3.5-2001, section A.4 p. 49 on encapsulation of encoded pixel data.
-   long positionOnEntry = Fp->tellg();
-   bool foundSequenceDelimiter = false;
-   uint32_t totalLength = 0;
-
-   while ( !foundSequenceDelimiter )
-   {
-      uint16_t group;
-      uint16_t elem;
-      try
-      {
-         group = ReadInt16();
-         elem  = ReadInt16();   
-      }
-      catch ( FormatError )
-      {
-         throw FormatError("Document::FindDocEntryLengthOB()",
-                           " group or element not present.");
-      }
-
-      // We have to decount the group and element we just read
-      totalLength += 4;
-     
-      if ( group != 0xfffe || ( ( elem != 0xe0dd ) && ( elem != 0xe000 ) ) )
-      {
-         dbg.Verbose(1, "Document::FindDocEntryLengthOB: neither an Item "
-                        "tag nor a Sequence delimiter tag."); 
-         Fp->seekg(positionOnEntry, std::ios::beg);
-         throw FormatUnexpected("Document::FindDocEntryLengthOB()",
-                                "Neither an Item tag nor a Sequence "
-                                "delimiter tag.");
-      }
-
-      if ( elem == 0xe0dd )
-      {
-         foundSequenceDelimiter = true;
-      }
-
-      uint32_t itemLength = ReadInt32();
-      // We add 4 bytes since we just read the ItemLength with ReadInt32
-      totalLength += itemLength + 4;
-      SkipBytes(itemLength);
-      
-      if ( foundSequenceDelimiter )
-      {
-         break;
-      }
-   }
-   Fp->seekg( positionOnEntry, std::ios::beg);
-   return totalLength;
-}
-
-/**
- * \brief Reads a supposed to be 16 Bits integer
- *       (swaps it depending on processor endianity) 
- * @return read value
- */
-uint16_t Document::ReadInt16()
-   throw( FormatError )
-{
-   uint16_t g;
-   Fp->read ((char*)&g, (size_t)2);
-   if ( Fp->fail() )
-   {
-      throw FormatError( "Document::ReadInt16()", " file error." );
-   }
-   if( Fp->eof() )
-   {
-      throw FormatError( "Document::ReadInt16()", "EOF." );
-   }
-   g = SwapShort(g); 
-   return g;
-}
-
-/**
- * \brief  Reads a supposed to be 32 Bits integer
- *         (swaps it depending on processor endianity)  
- * @return read value
- */
-uint32_t Document::ReadInt32()
-   throw( FormatError )
-{
-   uint32_t g;
-   Fp->read ((char*)&g, (size_t)4);
-   if ( Fp->fail() )
-   {
-      throw FormatError( "Document::ReadInt32()", " file error." );
-   }
-   if( Fp->eof() )
-   {
-      throw FormatError( "Document::ReadInt32()", "EOF." );
-   }
-   g = SwapLong(g);
-   return g;
-}
-
-/**
- * \brief skips bytes inside the source file 
- * \warning NOT end user intended method !
- * @return 
- */
-void Document::SkipBytes(uint32_t nBytes)
-{
-   //FIXME don't dump the returned value
-   Fp->seekg((long)nBytes, std::ios::cur);
-}
-
-/**
- * \brief Loads all the needed Dictionaries
- * \warning NOT end user intended method !   
- */
-void Document::Initialise() 
-{
-   RefPubDict = Global::GetDicts()->GetDefaultPubDict();
-   RefShaDict = NULL;
-   RLEInfo  = new RLEFramesInfo;
-   JPEGInfo = new JPEGFragmentsInfo;
 }
 
 /**
@@ -2396,8 +1718,6 @@ bool Document::CheckSwap()
    // 0x00000004. Finding the swap code in then straigthforward. Trouble
    // occurs when we can't find such group...
    
-   uint32_t  x = 4;  // x : for ntohs
-   bool net2host; // true when HostByteOrder is the same as NetworkByteOrder
    uint32_t  s32;
    uint16_t  s16;
        
@@ -2405,34 +1725,26 @@ bool Document::CheckSwap()
     
    // First, compare HostByteOrder and NetworkByteOrder in order to
    // determine if we shall need to swap bytes (i.e. the Endian type).
-   if ( x == ntohs(x) )
-   {
-      net2host = true;
-   }
-   else
-   {
-      net2host = false;
-   }
+   bool net2host = Util::IsCurrentProcessorBigEndian();
          
-   // The easiest case is the one of a DICOM header, since it possesses a
-   // file preamble where it suffice to look for the string "DICM".
+   // The easiest case is the one of a 'true' DICOM header, we just have
+   // to look for the string "DICM" inside the file preamble.
    Fp->read(deb, 256);
    
    char *entCur = deb + 128;
    if( memcmp(entCur, "DICM", (size_t)4) == 0 )
    {
-      dbg.Verbose(1, "Document::CheckSwap:", "looks like DICOM Version3");
+      gdcmWarningMacro( "Looks like DICOM Version3 (preamble + DCM)" );
       
-      // Next, determine the value representation (VR). Let's skip to the
-      // first element (0002, 0000) and check there if we find "UL" 
-      // - or "OB" if the 1st one is (0002,0001) -,
+      // Group 0002 should always be VR, and the first element 0000
+      // Let's be carefull (so many wrong headers ...)
+      // and determine the value representation (VR) : 
+      // Let's skip to the first element (0002,0000) and check there if we find
+      // "UL"  - or "OB" if the 1st one is (0002,0001) -,
       // in which case we (almost) know it is explicit VR.
       // WARNING: if it happens to be implicit VR then what we will read
       // is the length of the group. If this ascii representation of this
       // length happens to be "UL" then we shall believe it is explicit VR.
-      // FIXME: in order to fix the above warning, we could read the next
-      // element value (or a couple of elements values) in order to make
-      // sure we are not commiting a big mistake.
       // We need to skip :
       // * the 128 bytes of File Preamble (often padded with zeroes),
       // * the 4 bytes of "DICM" string,
@@ -2440,46 +1752,42 @@ bool Document::CheckSwap()
       // i.e. a total of  136 bytes.
       entCur = deb + 136;
      
-      // FIXME : FIXME:
-      // Sometimes (see : gdcmData/icone.dcm) group 0x0002 *is* Explicit VR,
-      // but elem 0002,0010 (Transfert Syntax) tells us the file is
-      // *Implicit* VR.  -and it is !- 
+      // group 0x0002 *is always* Explicit VR Sometimes ,
+      // even if elem 0002,0010 (Transfer Syntax) tells us the file is
+      // *Implicit* VR  (see former 'gdcmData/icone.dcm')
       
       if( memcmp(entCur, "UL", (size_t)2) == 0 ||
           memcmp(entCur, "OB", (size_t)2) == 0 ||
           memcmp(entCur, "UI", (size_t)2) == 0 ||
           memcmp(entCur, "CS", (size_t)2) == 0 )  // CS, to remove later
-                                                    // when Write DCM *adds*
+                                                  // when Write DCM *adds*
       // FIXME
       // Use Document::dicom_vr to test all the possibilities
       // instead of just checking for UL, OB and UI !? group 0000 
       {
          Filetype = ExplicitVR;
-         dbg.Verbose(1, "Document::CheckSwap:",
-                     "explicit Value Representation");
+         gdcmWarningMacro( "Group 0002 : Explicit Value Representation");
       } 
       else 
       {
          Filetype = ImplicitVR;
-         dbg.Verbose(1, "Document::CheckSwap:",
-                     "not an explicit Value Representation");
+         gdcmWarningMacro( "Group 0002 :Not an explicit Value Representation;"
+                        << "Looks like a bugged Header!");
       }
       
       if ( net2host )
       {
          SwapCode = 4321;
-         dbg.Verbose(1, "Document::CheckSwap:",
-                        "HostByteOrder != NetworkByteOrder");
+         gdcmWarningMacro( "HostByteOrder != NetworkByteOrder");
       }
       else 
       {
-         SwapCode = 0;
-         dbg.Verbose(1, "Document::CheckSwap:",
-                        "HostByteOrder = NetworkByteOrder");
+         SwapCode = 1234;
+         gdcmWarningMacro( "HostByteOrder = NetworkByteOrder");
       }
       
-      // Position the file position indicator at first tag (i.e.
-      // after the file preamble and the "DICM" string).
+      // Position the file position indicator at first tag 
+      // (i.e. after the file preamble and the "DICM" string).
       Fp->seekg(0, std::ios::beg);
       Fp->seekg ( 132L, std::ios::beg);
       return true;
@@ -2488,7 +1796,7 @@ bool Document::CheckSwap()
    // Alas, this is not a DicomV3 file and whatever happens there is no file
    // preamble. We can reset the file position indicator to where the data
    // is (i.e. the beginning of the file).
-   dbg.Verbose(1, "Document::CheckSwap:", "not a DICOM Version3 file");
+   gdcmWarningMacro( "Not a DICOM Version3 file");
    Fp->seekg(0, std::ios::beg);
 
    // Our next best chance would be to be considering a 'clean' ACR/NEMA file.
@@ -2501,7 +1809,7 @@ bool Document::CheckSwap()
    // representation of a 32 bits integer. Hence the following dirty
    // trick :
    s32 = *((uint32_t *)(entCur));
-      
+
    switch( s32 )
    {
       case 0x00040000 :
@@ -2517,7 +1825,7 @@ bool Document::CheckSwap()
          Filetype = ACR;
          return true;
       case 0x00000004 :
-         SwapCode = 0;
+         SwapCode = 1234;
          Filetype = ACR;
          return true;
       default :
@@ -2526,13 +1834,13 @@ bool Document::CheckSwap()
          // So, let's check if this file wouldn't happen to be 'dirty' ACR/NEMA,
          //  i.e. the 'group length' element is not present :     
          
-         //  check the supposed to be 'group number'
-         //  0x0002 or 0x0004 or 0x0008
+         //  check the supposed-to-be 'group number'
+         //  in ( 0x0001 .. 0x0008 )
          //  to determine ' SwapCode' value .
          //  Only 0 or 4321 will be possible 
          //  (no oportunity to check for the formerly well known
          //  ACR-NEMA 'Bad Big Endian' or 'Bad Little Endian' 
-         //  if unsuccessfull (i.e. neither 0x0002 nor 0x0200 etc -4, 8-) 
+         //  if unsuccessfull (i.e. neither 0x0002 nor 0x0200 etc -3, 4, ..., 8-) 
          //  the file IS NOT ACR-NEMA nor DICOM V3
          //  Find a trick to tell it the caller...
       
@@ -2540,48 +1848,49 @@ bool Document::CheckSwap()
       
          switch ( s16 )
          {
+            case 0x0001 :
             case 0x0002 :
+            case 0x0003 :
             case 0x0004 :
-            case 0x0008 :      
-               SwapCode = 0;
+            case 0x0005 :
+            case 0x0006 :
+            case 0x0007 :
+            case 0x0008 :
+               SwapCode = 1234;
                Filetype = ACR;
                return true;
+            case 0x0100 :
             case 0x0200 :
+            case 0x0300 :
             case 0x0400 :
-            case 0x0800 : 
+            case 0x0500 :
+            case 0x0600 :
+            case 0x0700 :
+            case 0x0800 :
                SwapCode = 4321;
                Filetype = ACR;
                return true;
             default :
-               dbg.Verbose(0, "Document::CheckSwap:",
-                     "ACR/NEMA unfound swap info (Really hopeless !)"); 
-               Filetype = Unknown;     
+               gdcmWarningMacro( "ACR/NEMA unfound swap info (Really hopeless !)");
+               Filetype = Unknown;
                return false;
          }
-         // Then the only info we have is the net2host one.
-         //if (! net2host )
-         //   SwapCode = 0;
-         //else
-         //  SwapCode = 4321;
-         //return;
    }
 }
 
 /**
- * \brief Restore the unproperly loaded values i.e. the group, the element
- *        and the dictionary entry depending on them. 
+ * \brief Change the Byte Swap code. 
  */
-void Document::SwitchSwapToBigEndian() 
+void Document::SwitchByteSwapCode() 
 {
-   dbg.Verbose(1, "Document::SwitchSwapToBigEndian",
-                  "Switching to BigEndian mode.");
-   if ( SwapCode == 0    ) 
+   gdcmWarningMacro( "Switching Byte Swap code from "<< SwapCode);
+   if ( SwapCode == 1234 ) 
    {
       SwapCode = 4321;
    }
    else if ( SwapCode == 4321 ) 
    {
-      SwapCode = 0;
+      SwapCode = 1234;
    }
    else if ( SwapCode == 3412 ) 
    {
@@ -2595,7 +1904,7 @@ void Document::SwitchSwapToBigEndian()
 
 /**
  * \brief  during parsing, Header Elements too long are not loaded in memory 
- * @param newSize
+ * @param newSize new size
  */
 void Document::SetMaxSizeLoadEntry(long newSize) 
 {
@@ -2611,15 +1920,13 @@ void Document::SetMaxSizeLoadEntry(long newSize)
    MaxSizeLoadEntry = newSize;
 }
 
-
 /**
  * \brief Header Elements too long will not be printed
- * \todo  See comments of \ref Document::MAX_SIZE_PRINT_ELEMENT_VALUE 
- * @param newSize
+ *   See comments of \ref Document::MAX_SIZE_PRINT_ELEMENT_VALUE 
+ * @param newSize new size
  */
 void Document::SetMaxSizePrintEntry(long newSize) 
 {
-   //DOH !! This is exactly SetMaxSizeLoadEntry FIXME FIXME
    if ( newSize < 0 )
    {
       return;
@@ -2633,44 +1940,14 @@ void Document::SetMaxSizePrintEntry(long newSize)
 }
 
 
-
-/**
- * \brief   Handle broken private tag from Philips NTSCAN
- *          where the endianess is being switch to BigEndian for no
- *          apparent reason
- * @return  no return
- */
-void Document::HandleBrokenEndian(uint16_t &group, uint16_t &elem)
-{
-   // Endian reversion. Some files contain groups of tags with reversed endianess.
-   static int reversedEndian = 0;
-   // try to fix endian switching in the middle of headers
-   if ((group == 0xfeff) && (elem == 0x00e0))
-   {
-     // start endian swap mark for group found
-     reversedEndian++;
-     SwitchSwapToBigEndian();
-     // fix the tag
-     group = 0xfffe;
-     elem = 0xe000;
-   } 
-   else if ((group == 0xfffe) && (elem == 0xe00d) && reversedEndian) 
-   {
-     // end of reversed endian group
-     reversedEndian--;
-     SwitchSwapToBigEndian();
-   }
-
-}
-
 /**
  * \brief   Read the next tag but WITHOUT loading it's value
  *          (read the 'Group Number', the 'Element Number',
- *           gets the Dict Entry
+ *          gets the Dict Entry
  *          gets the VR, gets the length, gets the offset value)
  * @return  On succes the newly created DocEntry, NULL on failure.      
  */
-DocEntry* Document::ReadNextDocEntry()
+DocEntry *Document::ReadNextDocEntry()
 {
    uint16_t group;
    uint16_t elem;
@@ -2684,13 +1961,50 @@ DocEntry* Document::ReadNextDocEntry()
    {
       // We reached the EOF (or an error occured) therefore 
       // header parsing has to be considered as finished.
-      //std::cout << e;
       return 0;
    }
 
+   // Sometimes file contains groups of tags with reversed endianess.
    HandleBrokenEndian(group, elem);
-   DocEntry *newEntry = NewDocEntryByNumber(group, elem);
-   FindDocEntryVR(newEntry);
+
+   // In 'true DICOM' files Group 0002 is always little endian
+   if ( HasDCMPreamble )
+      HandleOutOfGroup0002(group, elem);
+ 
+   std::string vr = FindDocEntryVR();
+   std::string realVR = vr;
+
+   if( vr == GDCM_UNKNOWN)
+   {
+      DictEntry *dictEntry = GetDictEntry(group,elem);
+      if( dictEntry )
+         realVR = dictEntry->GetVR();
+   }
+
+   DocEntry *newEntry;
+   if( Global::GetVR()->IsVROfSequence(realVR) )
+      newEntry = NewSeqEntry(group, elem);
+   else if( Global::GetVR()->IsVROfStringRepresentable(realVR) )
+      newEntry = NewValEntry(group, elem,vr);
+   else
+      newEntry = NewBinEntry(group, elem,vr);
+
+   if( vr == GDCM_UNKNOWN )
+   {
+      if( Filetype == ExplicitVR )
+      {
+         // We thought this was explicit VR, but we end up with an
+         // implicit VR tag. Let's backtrack.
+         if ( newEntry->GetGroup() != 0xfffe )
+         { 
+            std::string msg;
+            msg = Util::Format("Entry (%04x,%04x) should be Explicit VR\n", 
+                          newEntry->GetGroup(), newEntry->GetElement());
+            gdcmWarningMacro( msg.c_str() );
+          }
+      }
+      newEntry->SetImplicitVR();
+   }
 
    try
    {
@@ -2709,447 +2023,77 @@ DocEntry* Document::ReadNextDocEntry()
    return newEntry;
 }
 
-
 /**
- * \brief   Generate a free TagKey i.e. a TagKey that is not present
- *          in the TagHt dictionary.
- * @param   group The generated tag must belong to this group.  
- * @return  The element of tag with given group which is fee.
+ * \brief   Handle broken private tag from Philips NTSCAN
+ *          where the endianess is being switch to BigEndian for no
+ *          apparent reason
+ * @return  no return
  */
-uint32_t Document::GenerateFreeTagKeyInGroup(uint16_t group) 
+void Document::HandleBrokenEndian(uint16_t &group, uint16_t &elem)
 {
-   for (uint32_t elem = 0; elem < UINT32_MAX; elem++) 
+   // Endian reversion. Some files contain groups of tags with reversed endianess.
+   static int reversedEndian = 0;
+   // try to fix endian switching in the middle of headers
+   if ((group == 0xfeff) && (elem == 0x00e0))
    {
-      TagKey key = DictEntry::TranslateToKey(group, elem);
-      if (TagHT.count(key) == 0)
-      {
-         return elem;
-      }
-   }
-   return UINT32_MAX;
-}
-
-/**
- * \brief   Assuming the internal file pointer \ref Document::Fp 
- *          is placed at the beginning of a tag check whether this
- *          tag is (TestGroup, TestElement).
- * \warning On success the internal file pointer \ref Document::Fp
- *          is modified to point after the tag.
- *          On failure (i.e. when the tag wasn't the expected tag
- *          (TestGroup, TestElement) the internal file pointer
- *          \ref Document::Fp is restored to it's original position.
- * @param   testGroup   The expected group of the tag.
- * @param   testElement The expected Element of the tag.
- * @return  True on success, false otherwise.
- */
-bool Document::ReadTag(uint16_t testGroup, uint16_t testElement)
-{
-   long positionOnEntry = Fp->tellg();
-   long currentPosition = Fp->tellg();          // On debugging purposes
-
-   //// Read the Item Tag group and element, and make
-   // sure they are what we expected:
-   uint16_t itemTagGroup;
-   uint16_t itemTagElement;
-   try
+     // start endian swap mark for group found
+     reversedEndian++;
+     SwitchByteSwapCode();
+     // fix the tag
+     group = 0xfffe;
+     elem  = 0xe000;
+   } 
+   else if (group == 0xfffe && elem == 0xe00d && reversedEndian) 
    {
-      itemTagGroup   = ReadInt16();
-      itemTagElement = ReadInt16();
-   }
-   catch ( FormatError e )
-   {
-      //std::cerr << e << std::endl;
-      return false;
-   }
-   if ( itemTagGroup != testGroup || itemTagElement != testElement )
-   {
-      itksys_ios::ostringstream s;
-      s << "   We should have found tag (";
-      s << std::hex << testGroup << "," << testElement << ")" << std::endl;
-      s << "   but instead we encountered tag (";
-      s << std::hex << itemTagGroup << "," << itemTagElement << ")"
-        << std::endl;
-      s << "  at address: " << (unsigned)currentPosition << std::endl;
-      dbg.Verbose(0, "Document::ReadItemTagLength: wrong Item Tag found:");
-      dbg.Verbose(0, s.str().c_str());
-      Fp->seekg(positionOnEntry, std::ios::beg);
-
-      return false;
-   }
-   return true;
-}
-
-/**
- * \brief   Assuming the internal file pointer \ref Document::Fp 
- *          is placed at the beginning of a tag (TestGroup, TestElement),
- *          read the length associated to the Tag.
- * \warning On success the internal file pointer \ref Document::Fp
- *          is modified to point after the tag and it's length.
- *          On failure (i.e. when the tag wasn't the expected tag
- *          (TestGroup, TestElement) the internal file pointer
- *          \ref Document::Fp is restored to it's original position.
- * @param   testGroup   The expected group of the tag.
- * @param   testElement The expected Element of the tag.
- * @return  On success returns the length associated to the tag. On failure
- *          returns 0.
- */
-uint32_t Document::ReadTagLength(uint16_t testGroup, uint16_t testElement)
-{
-   long positionOnEntry = Fp->tellg();
-   (void)positionOnEntry;
-
-   if ( !ReadTag(testGroup, testElement) )
-   {
-      return 0;
-   }
-                                                                                
-   //// Then read the associated Item Length
-   long currentPosition = Fp->tellg();
-   uint32_t itemLength  = ReadInt32();
-   {
-      itksys_ios::ostringstream s;
-      s << "Basic Item Length is: "
-        << itemLength << std::endl;
-      s << "  at address: " << (unsigned)currentPosition << std::endl;
-      dbg.Verbose(0, "Document::ReadItemTagLength: ", s.str().c_str());
-   }
-   return itemLength;
-}
-
-/**
- * \brief When parsing the Pixel Data of an encapsulated file, read
- *        the basic offset table (when present, and BTW dump it).
- */
-void Document::ReadAndSkipEncapsulatedBasicOffsetTable()
-{
-   //// Read the Basic Offset Table Item Tag length...
-   uint32_t itemLength = ReadTagLength(0xfffe, 0xe000);
-
-   // When present, read the basic offset table itself.
-   // Notes: - since the presence of this basic offset table is optional
-   //          we can't rely on it for the implementation, and we will simply
-   //          trash it's content (when present).
-   //        - still, when present, we could add some further checks on the
-   //          lengths, but we won't bother with such fuses for the time being.
-   if ( itemLength != 0 )
-   {
-      char* basicOffsetTableItemValue = new char[itemLength + 1];
-      Fp->read(basicOffsetTableItemValue, itemLength);
-
-#ifdef GDCM_DEBUG
-      for (unsigned int i=0; i < itemLength; i += 4 )
-      {
-         uint32_t individualLength = str2num( &basicOffsetTableItemValue[i],
-                                              uint32_t);
-         itksys_ios::ostringstream s;
-         s << "   Read one length: ";
-         s << std::hex << individualLength << std::endl;
-         dbg.Verbose(0,
-                     "Document::ReadAndSkipEncapsulatedBasicOffsetTable: ",
-                     s.str().c_str());
-      }
-#endif //GDCM_DEBUG
-
-      delete[] basicOffsetTableItemValue;
+     // end of reversed endian group
+     reversedEndian--;
+     SwitchByteSwapCode();
    }
 }
 
 /**
- * \brief Parse pixel data from disk of [multi-]fragment RLE encoding.
- *        Compute the RLE extra information and store it in \ref RLEInfo
- *        for later pixel retrieval usage.
+ * \brief   Group 0002 is always coded Little Endian
+ *          whatever Transfer Syntax is
+ * @return  no return
  */
-void Document::ComputeRLEInfo()
+void Document::HandleOutOfGroup0002(uint16_t &group, uint16_t &elem)
 {
-   TransferSyntaxType ts = GetTransferSyntax();
-   if ( ts != RLELossless )
+   // Endian reversion. Some files contain groups of tags with reversed endianess.
+   if ( !Group0002Parsed && group != 0x0002)
    {
-      return;
-   }
+      Group0002Parsed = true;
+      // we just came out of group 0002
+      // if Transfer syntax is Big Endian we have to change CheckSwap
 
-   // Encoded pixel data: for the time being we are only concerned with
-   // Jpeg or RLE Pixel data encodings.
-   // As stated in PS 3.5-2003, section 8.2 p44:
-   // "If sent in Encapsulated Format (i.e. other than the Native Format) the
-   //  value representation OB is used".
-   // Hence we expect an OB value representation. Concerning OB VR,
-   // the section PS 3.5-2003, section A.4.c p 58-59, states:
-   // "For the Value Representations OB and OW, the encoding shall meet the
-   //   following specifications depending on the Data element tag:"
-   //   [...snip...]
-   //    - the first item in the sequence of items before the encoded pixel
-   //      data stream shall be basic offset table item. The basic offset table
-   //      item value, however, is not required to be present"
-
-   ReadAndSkipEncapsulatedBasicOffsetTable();
-
-   // Encapsulated RLE Compressed Images (see PS 3.5-2003, Annex G)
-   // Loop on the individual frame[s] and store the information
-   // on the RLE fragments in a RLEFramesInfo.
-   // Note: - when only a single frame is present, this is a
-   //         classical image.
-   //       - when more than one frame are present, then we are in 
-   //         the case of a multi-frame image.
-   long frameLength;
-   while ( (frameLength = ReadTagLength(0xfffe, 0xe000)) )
-   { 
-      // Parse the RLE Header and store the corresponding RLE Segment
-      // Offset Table information on fragments of this current Frame.
-      // Note that the fragment pixels themselves are not loaded
-      // (but just skipped).
-      long frameOffset = Fp->tellg();
-
-      uint32_t nbRleSegments = ReadInt32();
-      if ( nbRleSegments > 16 )
+      std::string ts = GetTransferSyntax();
+      if ( !Global::GetTS()->IsTransferSyntax(ts) )
       {
-         // There should be at most 15 segments (refer to RLEFrame class)
-         dbg.Verbose(0, "Document::ComputeRLEInfo: too many segments.");
-      }
- 
-      uint32_t rleSegmentOffsetTable[15];
-      for( int k = 1; k <= 15; k++ )
-      {
-         rleSegmentOffsetTable[k] = ReadInt32();
+         gdcmWarningMacro("True DICOM File, with NO Tansfer Syntax: " << ts );
+         return;
       }
 
-      // Deduce from both the RLE Header and the frameLength the
-      // fragment length, and again store this info in a
-      // RLEFramesInfo.
-      long rleSegmentLength[15];
-      // skipping (not reading) RLE Segments
-      if ( nbRleSegments > 1)
-      {
-         for(unsigned int k = 1; k <= nbRleSegments-1; k++)
+      // Group 0002 is always 'Explicit ...' enven when Transfer Syntax says 'Implicit ..." 
+
+      if ( Global::GetTS()->GetSpecialTransferSyntax(ts) == TS::ImplicitVRLittleEndian )
          {
-             rleSegmentLength[k] =  rleSegmentOffsetTable[k+1]
-                                  - rleSegmentOffsetTable[k];
-             SkipBytes(rleSegmentLength[k]);
-          }
-       }
-
-       rleSegmentLength[nbRleSegments] = frameLength 
-                                      - rleSegmentOffsetTable[nbRleSegments];
-       SkipBytes(rleSegmentLength[nbRleSegments]);
-
-       // Store the collected info
-       RLEFrame* newFrameInfo = new RLEFrame;
-       newFrameInfo->NumberFragments = nbRleSegments;
-       for( unsigned int uk = 1; uk <= nbRleSegments; uk++ )
-       {
-          newFrameInfo->Offset[uk] = frameOffset + rleSegmentOffsetTable[uk];
-          newFrameInfo->Length[uk] = rleSegmentLength[uk];
-       }
-       RLEInfo->Frames.push_back( newFrameInfo );
-   }
-
-   // Make sure that at the end of the item we encounter a 'Sequence
-   // Delimiter Item':
-   if ( !ReadTag(0xfffe, 0xe0dd) )
-   {
-      dbg.Verbose(0, "Document::ComputeRLEInfo: no sequence delimiter ");
-      dbg.Verbose(0, "    item at end of RLE item sequence");
-   }
-}
-
-/**
- * \brief Parse pixel data from disk of [multi-]fragment Jpeg encoding.
- *        Compute the jpeg extra information (fragment[s] offset[s] and
- *        length) and store it[them] in \ref JPEGInfo for later pixel
- *        retrieval usage.
- */
-void Document::ComputeJPEGFragmentInfo()
-{
-   // If you need to, look for comments of ComputeRLEInfo().
-   if ( ! IsJPEG() )
-   {
-      return;
-   }
-
-   ReadAndSkipEncapsulatedBasicOffsetTable();
-
-   // Loop on the fragments[s] and store the parsed information in a
-   // JPEGInfo.
-   long fragmentLength;
-   while ( (fragmentLength = ReadTagLength(0xfffe, 0xe000)) )
-   { 
-      long fragmentOffset = Fp->tellg();
-
-       // Store the collected info
-       JPEGFragment* newFragment = new JPEGFragment;
-       newFragment->Offset = fragmentOffset;
-       newFragment->Length = fragmentLength;
-       JPEGInfo->Fragments.push_back( newFragment );
-
-       SkipBytes( fragmentLength );
-   }
-
-   // Make sure that at the end of the item we encounter a 'Sequence
-   // Delimiter Item':
-   if ( !ReadTag(0xfffe, 0xe0dd) )
-   {
-      dbg.Verbose(0, "Document::ComputeRLEInfo: no sequence delimiter ");
-      dbg.Verbose(0, "    item at end of JPEG item sequence");
-   }
-}
-
-/**
- * \brief Walk recursively the given \ref DocEntrySet, and feed
- *        the given hash table (\ref TagDocEntryHT) with all the
- *        \ref DocEntry (Dicom entries) encountered.
- *        This method does the job for \ref BuildFlatHashTable.
- * @param builtHT Where to collect all the \ref DocEntry encountered
- *        when recursively walking the given set.
- * @param set The structure to be traversed (recursively).
- */
-void Document::BuildFlatHashTableRecurse( TagDocEntryHT& builtHT,
-                                          DocEntrySet* set )
-{ 
-   if (ElementSet* elementSet = dynamic_cast< ElementSet* > ( set ) )
-   {
-      TagDocEntryHT const & currentHT = elementSet->GetTagHT();
-      for( TagDocEntryHT::const_iterator i  = currentHT.begin();
-                                         i != currentHT.end();
-                                       ++i)
-      {
-         DocEntry* entry = i->second;
-         if ( SeqEntry* seqEntry = dynamic_cast<SeqEntry*>(entry) )
-         {
-            const ListSQItem& items = seqEntry->GetSQItems();
-            for( ListSQItem::const_iterator item  = items.begin();
-                                            item != items.end();
-                                          ++item)
-            {
-               BuildFlatHashTableRecurse( builtHT, *item );
-            }
-            continue;
+            Filetype = ImplicitVR;
          }
-         builtHT[entry->GetKey()] = entry;
-      }
-      return;
-    }
-
-   if (SQItem* SQItemSet = dynamic_cast< SQItem* > ( set ) )
-   {
-      const ListDocEntry& currentList = SQItemSet->GetDocEntries();
-      for (ListDocEntry::const_iterator i  = currentList.begin();
-                                        i != currentList.end();
-                                      ++i)
+       
+      // FIXME Strangely, this works with 
+      //'Implicit VR Transfer Syntax (GE Private)
+      if ( Global::GetTS()->GetSpecialTransferSyntax(ts) == TS::ExplicitVRBigEndian )
       {
-         DocEntry* entry = *i;
-         if ( SeqEntry* seqEntry = dynamic_cast<SeqEntry*>(entry) )
-         {
-            const ListSQItem& items = seqEntry->GetSQItems();
-            for( ListSQItem::const_iterator item  = items.begin();
-                                            item != items.end();
-                                          ++item)
-            {
-               BuildFlatHashTableRecurse( builtHT, *item );
-            }
-            continue;
-         }
-         builtHT[entry->GetKey()] = entry;
+         gdcmWarningMacro("Transfer Syntax Name = [" 
+                        << GetTransferSyntaxName() << "]" );
+         SwitchByteSwapCode();
+         group = SwapShort(group);
+         elem  = SwapShort(elem);
       }
-
    }
 }
-
-/**
- * \brief Build a \ref TagDocEntryHT (i.e. a std::map<>) from the current
- *        Document.
- *
- *        The structure used by a Document (through \ref ElementSet),
- *        in order to old the parsed entries of a Dicom header, is a recursive
- *        one. This is due to the fact that the sequences (when present)
- *        can be nested. Additionaly, the sequence items (represented in
- *        gdcm as \ref SQItem) add an extra complexity to the data
- *        structure. Hence, a gdcm user whishing to visit all the entries of
- *        a Dicom header will need to dig in the gdcm internals (which
- *        implies exposing all the internal data structures to the API).
- *        In order to avoid this burden to the user, \ref BuildFlatHashTable
- *        recursively builds a temporary hash table, which holds all the
- *        Dicom entries in a flat structure (a \ref TagDocEntryHT i.e. a
- *        std::map<>).
- * \warning Of course there is NO integrity constrain between the 
- *        returned \ref TagDocEntryHT and the \ref ElementSet used
- *        to build it. Hence if the underlying \ref ElementSet is
- *        altered, then it is the caller responsability to invoke 
- *        \ref BuildFlatHashTable again...
- * @return The flat std::map<> we juste build.
- */
-TagDocEntryHT* Document::BuildFlatHashTable()
-{
-   TagDocEntryHT* FlatHT = new TagDocEntryHT;
-   BuildFlatHashTableRecurse( *FlatHT, this );
-   return FlatHT;
-}
-
-
-
-/**
- * \brief   Compares two documents, according to \ref DicomDir rules
- * \warning Does NOT work with ACR-NEMA files
- * \todo    Find a trick to solve the pb (use RET fields ?)
- * @param   document
- * @return  true if 'smaller'
- */
-bool Document::operator<(Document &document)
-{
-   // Patient Name
-   std::string s1 = GetEntryByNumber(0x0010,0x0010);
-   std::string s2 = document.GetEntryByNumber(0x0010,0x0010);
-   if(s1 < s2)
-   {
-      return true;
-   }
-   else if( s1 > s2 )
-   {
-      return false;
-   }
-   else
-   {
-      // Patient ID
-      s1 = GetEntryByNumber(0x0010,0x0020);
-      s2 = document.GetEntryByNumber(0x0010,0x0020);
-      if ( s1 < s2 )
-      {
-         return true;
-      }
-      else if ( s1 > s2 )
-      {
-         return false;
-      }
-      else
-      {
-         // Study Instance UID
-         s1 = GetEntryByNumber(0x0020,0x000d);
-         s2 = document.GetEntryByNumber(0x0020,0x000d);
-         if ( s1 < s2 )
-         {
-            return true;
-         }
-         else if( s1 > s2 )
-         {
-            return false;
-         }
-         else
-         {
-            // Serie Instance UID
-            s1 = GetEntryByNumber(0x0020,0x000e);
-            s2 = document.GetEntryByNumber(0x0020,0x000e);    
-            if ( s1 < s2 )
-            {
-               return true;
-            }
-            else if( s1 > s2 )
-            {
-               return false;
-            }
-         }
-      }
-   }
-   return false;
-}
-
-} // end namespace gdcm
 
 //-----------------------------------------------------------------------------
+// Print
+
+//-----------------------------------------------------------------------------
+} // end namespace gdcm

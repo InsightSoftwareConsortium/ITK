@@ -21,7 +21,9 @@
 #define GDCMRLEFRAME_H
 
 #include "gdcmCommon.h"
+
 #include <iostream>
+#include <fstream>
 
 namespace gdcm 
 {
@@ -43,15 +45,26 @@ namespace gdcm
  */
 class GDCM_EXPORT RLEFrame
 {
-friend class Document;
-friend class PixelConvert;
-   unsigned int NumberFragments;
-   long    Offset[15];
-   long    Length[15];
 public:
-   RLEFrame() { NumberFragments = 0; }
-   void Print( std::string indent = "", std::ostream &os = std::cout );
-   
+   RLEFrame() { NumberOfFragments = 0; }
+   void Print( std::ostream &os = std::cout, std::string indent = "" );
+
+   void SetNumberOfFragments(unsigned int number) { NumberOfFragments = number; };   
+   unsigned int GetNumberOfFragments() { return NumberOfFragments; };
+   void SetOffset(unsigned int id, long offset);
+   long GetOffset(unsigned int id);
+   void SetLength(unsigned int id, long length);
+   long GetLength(unsigned int id);
+
+   uint8_t *ReadAndDecompressRLEFrame( uint8_t *subRaw,long rawSegmentSize,
+                                       std::ifstream *fp );
+   bool ReadAndDecompressRLEFragment( uint8_t *subRaw, long fragmentSize,
+                                      long rawSegmentSize, std::ifstream *fp );
+
+private:
+   unsigned int NumberOfFragments;
+   long Offset[15];
+   long Length[15];
 };
 } // end namespace gdcm
 //-----------------------------------------------------------------------------

@@ -6,12 +6,13 @@ metaElem    0002 0010 "1.2.840.10008.1.2.1"  // Transfer Syntax UID i.e. : Expli
 metaElem    0002 0012 ""                     // Implementation Class UID : may be forged later
 metaElem    0002 0013 "gdcmLib "             // Implementation Version Name  don't remove trailing space !
 metaElem    0002 0016 " "                    // Source Application Entity Title (our ?)
+metaElem    0002 0100 ""                     // Private Information Creator
 metaElem    0004 1130 ""                     // File-set ID
 metaElem    0004 1200 "0"                    // Offset of the first dir of root dir entity : to be computed later
 metaElem    0004 1202 "0"                    // Offset of the last  dir of root dir entity : to be computed later
-metaElem    0004 1212 "0"                    // File-set consistency flag
+metaElem    0004 1212 "-1"                   // File-set consistency flag : 0xffff Length inconsistencies will be assumed
 
-patientElem fffe e000 "255"                   // 'no length' item : length to be set to 0xffffffff later
+patientElem fffe e000 "255"                  // 'no length' item : length to be set to 0xffffffff later
 patientElem 0004 1400 "0"                    // Offset of next directory record : = 0x0 : fffe e00d at end !
 patientElem 0004 1410 "65535"                // Record in use flag : 65535 = 0xFFFF (see 03_10PU.PDF p 31)
 patientElem 0004 1420 "0"                    // Offset of referenced lower-level dir entity : to be computed later
@@ -48,10 +49,13 @@ serieElem   0008 0031 ""                     // Series Time
 serieElem   0008 0060 ""                     // Modality
 serieElem   0008 0080 ""                     // Institution Name  :   may be forged later
 serieElem   0008 0081 ""                     // Institution Address : may be forged later
+serieElem   0008 1010 ""                     // Station Name
+serieElem   0008 1050 ""                     // Performing Physician's Name
 serieElem   0008 103e ""                     // Series Description :  may be forged later
+serieElem   0018 1030 ""                     // Protocol Name
 serieElem   0020 000e ""                     // Series Instance UID : may be forged later
 serieElem   0020 0011 "0"                    // Series Number :       may be forged later
-serieElem   fffe e00d ""                     // Item delimitation : length to be set to ZERO later
+serieElem   fffe e00d ""                     // Item delimitation :   length to be set to ZERO later
 
 imageElem   fffe e000 "-1"                   // 'no length' item : length to be set to 0xffffffff later
 imageElem   0004 1400 "0"                    // Offset of next directory record : = 0x0 : fffe e00d at end !
@@ -70,15 +74,22 @@ imageElem   0008 0023 ""                     // Content Date
 imageElem   0008 0033 ""                     // Content Time
 imageElem   0020 0013 "0"                    // Image Number
 imageElem   0020 0032 "1.0\1.0\1.0 "         // Image Position Patient
-imageElem   0020 0037 "1\0\0\0\1\0 "         // Image Orientation    Patient
+imageElem   0020 0037 "1\0\0\0\1\0 "         // Image Orientation Patient
 imageElem   0020 0052 "0"                    // Frame of Reference UID
 imageElem   0020 1041 "0.0"                  // Slice Location
+imageElem   0020 4000 ""                     // Image Comments
 imageElem   0028 0002 "1"                    // Samples per Pixel
+imageElem   0028 0004 " "                    // Photometric Interpretation
 imageElem   0028 0006 "0"                    // Planar Configuration
 imageElem   0028 0008 "1"                    // Number of Frames
 imageElem   0028 0010 "0"                    // Rows
 imageElem   0028 0011 "0"                    // Columns
 imageElem   0028 0030 "1.0\1.0 "             // Pixel Spacing
+imageElem   0028 0100 " "                    // Bits Allocated
+imageElem   0028 0101 " "                    // Bits Stored
+imageElem   0028 0103 " "                    // Pixel Representation
+imageElem   0028 1052 "0 "                   // Rescale Intercept
+imageElem   0028 1053 "1 "                   // Rescale Slope
 imageElem   0050 0004 "0"                    // Calibration Image
 imageElem   fffe e00d ""                     // Item delimitation : length to be set to ZERO later
 

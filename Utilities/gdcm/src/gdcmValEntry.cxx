@@ -17,17 +17,17 @@
 =========================================================================*/
 
 #include "gdcmValEntry.h"
+#include "gdcmVR.h"
 #include "gdcmTS.h"
 #include "gdcmGlobal.h"
 #include "gdcmUtil.h"
+#include "gdcmDebug.h"
 
 #include <fstream>
-#include <itksys/ios/sstream>
 
 namespace gdcm 
 {
-
-// CLEAN ME
+//-----------------------------------------------------------------------------
 #define MAX_SIZE_PRINT_ELEMENT_VALUE 128
 
 //-----------------------------------------------------------------------------
@@ -36,7 +36,8 @@ namespace gdcm
  * \brief   Constructor from a given DictEntry
  * @param   e Pointer to existing dictionary entry
  */
-ValEntry::ValEntry(DictEntry* e) : DocEntry(e)
+ValEntry::ValEntry(DictEntry *e) 
+        : ContentEntry(e)
 {
 }
 
@@ -44,16 +45,11 @@ ValEntry::ValEntry(DictEntry* e) : DocEntry(e)
  * \brief   Constructor from a given DocEntry
  * @param   e Pointer to existing Doc entry
  */
-ValEntry::ValEntry(DocEntry* e)
-             : DocEntry(e->GetDictEntry())
+ValEntry::ValEntry(DocEntry *e)
+        : ContentEntry(e->GetDictEntry())
 {
-   UsableLength = e->GetLength();
-   ReadLength   = e->GetReadLength();
-   ImplicitVR   = e->IsImplicitVR();
-   Offset       = e->GetOffset();
-   PrintLevel   = e->GetPrintLevel();
+   Copy(e);
 }
-
 
 /**
  * \brief   Canonical destructor.
@@ -63,136 +59,26 @@ ValEntry::~ValEntry ()
 }
 
 //-----------------------------------------------------------------------------
-// Print
+// Public
 /**
- * \brief   canonical Printer
+ * \brief   Writes the std::string representable' value of a ValEntry
+ * @param fp already open ofstream pointer
+ * @param filetype type of the file (ACR, ImplicitVR, ExplicitVR, ...)
  */
-void ValEntry::Print(std::ostream & os)
+void ValEntry::WriteContent(std::ofstream *fp, FileType filetype)
 {
-   uint16_t g = GetGroup();
-   uint16_t e = GetElement();
-   std::string vr = GetVR();
-   itksys_ios::ostringstream s; 
-   std::string st;
-   TSKey v;
-   std::string d2;
-     
-   DocEntry::Print(os); 
+   DocEntry::WriteContent(fp, filetype);
 
-   if (g == 0xfffe)
-   {
-      // just to avoid identing all the remaining code     
-      return;
-   }
-   
-   TS * ts = Global::GetTS();
-    
-   v  = GetValue();  // not applicable for SQ ...     
-   d2 = Util::CreateCleanString(v);  // replace non printable characters by '.'            
-   if( (GetLength()<=MAX_SIZE_PRINT_ELEMENT_VALUE) || 
-       //(PrintLevel>=3)  || (d2.find("gdcm::NotLoaded.") < d2.length()) )
-       (PrintLevel>=3)  || (d2.find(GDCM_NOTLOADED) < d2.length()) )
-   {
-      s << " [" << d2 << "]";
-   }
-   else
-   {
-      s << " [gdcm::too long for print (" << GetLength() << ") ]";
-   }
-   
-   // Display the UID value (instead of displaying only the rough code)
-   // First 'clean' trailing character (space or zero) 
-   if (g == 0x0002)
-   {
-      // Any more to be displayed ?
-      if ( (e == 0x0010) || (e == 0x0002) )
-      {
-         if ( v.length() != 0 )  // for brain damaged headers
-         {
-            if ( ! isdigit(v[v.length()-1]) )
-            {
-               v.erase(v.length()-1, 1);
-            }
-         }
-         s << "  ==>\t[" << ts->GetValue(v) << "]";
-      }
-   }
-   else
-   {
-      if (g == 0x0008)
-      {
-         if ( e == 0x0016 || e == 0x1150 )
-         {
-            if ( v.length() != 0 )  // for brain damaged headers
-            {
-               if ( ! isdigit(v[v.length()-1]) )
-               {
-                  v.erase(v.length()-1, 1);
-               }
-            }
-            s << "  ==>\t[" << ts->GetValue(v) << "]";
-         }
-      }
-      else
-      {
-         if (g == 0x0004)
-         {
-            if ( (e == 0x1510) || (e == 0x1512)  )
-            {
-               if ( v.length() != 0 )  // for brain damaged headers  
-               {
-                  if ( ! isdigit(v[v.length()-1]) )
-                  {
-                     v.erase(v.length()-1, 1);  
-                  }
-               }
-              s << "  ==>\t[" << ts->GetValue(v) << "]";
-            }
-         }     
-      }
-   }
-   //if (e == 0x0000) {        // elem 0x0000 --> group length 
-   if ( (vr == "UL") || (vr == "US") || (vr == "SL") || (vr == "SS") )
-   {
-      if (v == "4294967295") // to avoid troubles in convertion 
-      {
-         st = Util::Format(" x(ffffffff)");
-      }
-      else
-      {
-         if ( GetLength() !=0 )
-         {
-            st = Util::Format(" x(%x)", atoi(v.c_str()));//FIXME
-         }
-         else
-         {
-            st = Util::Format(" ");
-         }
-      }
-      s << st;
-   }
-   os << s.str();
-}
-
-/*
- * \brief   canonical Writer
- */
-void ValEntry::Write(std::ofstream* fp, FileType filetype)
-{
-   DocEntry::Write(fp, filetype);
-
-   //std::cout << "=====================================" << GetVR() << std::endl;
-      
-   if ( GetGroup() == 0xfffe ) 
+   if ( GetGroup() == 0xfffe )
    {
       return; //delimitors have NO value
    }
-      
-   std::string vr = GetVR();
-   unsigned int lgr = GetReadLength();
+
+   const VRKey &vr = GetVR();
+   unsigned int lgth = GetLength();
    if (vr == "US" || vr == "SS")
    {
-      // some 'Short integer' fields may be mulivaluated
+      // some 'Short integer' fields may be multivaluated
       // each single value is separated from the next one by '\'
       // we split the string and write each value as a short int
       std::vector<std::string> tokens;
@@ -209,7 +95,7 @@ void ValEntry::Write(std::ofstream* fp, FileType filetype)
    if (vr == "UL" || vr == "SL")
    {
       // Some 'Integer' fields may be multivaluated (multiple instances 
-      // of integers). But each single integer value is separated from the
+      // of integer). But each single integer value is separated from the
       // next one by '\' (backslash character). Hence we split the string
       // along the '\' and write each value as an int:
       std::vector<std::string> tokens;
@@ -224,18 +110,173 @@ void ValEntry::Write(std::ofstream* fp, FileType filetype)
       return;
    } 
 
-   assert( lgr == GetValue().size() ); 
+   gdcmAssertMacro( lgth == GetValue().length() );
    binary_write(*fp, GetValue());
 } 
 
-//-----------------------------------------------------------------------------
-// Public
+/**
+ * \brief   Sets the std::string representable' value of a ValEntry
+ * @param  val value to set 
+ */
+void ValEntry::SetValue(std::string const &val)
+{
+   // Integers have a special treatement for their length:
+   int l = val.length();
+   if ( l != 0) // To avoid to be cheated by 'zero length' integers
+   {   
+      const VRKey &vr = GetVR();
+      if( vr == "US" || vr == "SS" )
+      {
+         // for multivaluated items
+         l = (Util::CountSubstring(val, "\\") + 1) * 2;
+         ContentEntry::SetValue(val);
+      }
+      else if( vr == "UL" || vr == "SL" )
+      {
+         // for multivaluated items
+         l = (Util::CountSubstring(val, "\\") + 1) * 4;;
+         ContentEntry::SetValue(val);
+      }
+      else
+      {
+         std::string finalVal = Util::DicomString( val.c_str() );
+         gdcmAssertMacro( !(finalVal.size() % 2) );
+
+         l = finalVal.length();
+         ContentEntry::SetValue(finalVal);
+      }
+   }
+   else
+   {
+      std::string finalVal = Util::DicomString( val.c_str() );
+      gdcmAssertMacro( !(finalVal.size() % 2) );
+
+      l = finalVal.length();
+      ContentEntry::SetValue(finalVal);
+   }
+
+   SetLength(l);
+}
 
 //-----------------------------------------------------------------------------
 // Protected
 
 //-----------------------------------------------------------------------------
 // Private
+
+//-----------------------------------------------------------------------------
+// Print
+/**
+ * \brief   Prints the 'std::string representable' value of ValEntry
+ * @param   os ostream we want to print in
+ * @param indent Indentation string to be prepended during printing
+ */
+void ValEntry::Print(std::ostream &os, std::string const &)
+{
+   uint16_t g = GetGroup();
+   uint16_t e = GetElement();
+   VRKey vr   = GetVR();
+   std::ostringstream s; 
+   std::string st;
+   std::string d2;
+     
+   os << "V ";
+   DocEntry::Print(os); 
+
+   if (g == 0xfffe) // delimiters have NO value
+   {
+      // just to avoid identing all the remaining code     
+      return;
+   }
+   
+   TS *ts = Global::GetTS();
+    
+   TSAtr v  = GetValue();     
+   d2 = Util::CreateCleanString(v);  // replace non printable characters by '.'            
+   if( GetLength() <= MAX_SIZE_PRINT_ELEMENT_VALUE
+    || PrintLevel >= 3
+    || d2.find(GDCM_NOTLOADED) < d2.length() )
+   {
+      s << " [" << d2 << "]";
+   }
+   else
+   {
+      s << " [gdcm::too long for print (" << GetLength() << ") ]";
+   }
+   
+   // Display the UID value (instead of displaying only the rough code)
+   // First 'clean' trailing character (space or zero) 
+   if (g == 0x0002)
+   {
+      // Any more to be displayed ?
+      if ( e == 0x0010 || e == 0x0002 )
+      {
+         if ( v.length() != 0 )  // for brain damaged headers
+         {
+            if ( ! isdigit((unsigned char)v[v.length()-1]) )
+            {
+               v.erase(v.length()-1, 1);
+            }
+         }
+         s << "  ==>\t[" << ts->GetValue(v) << "]";
+      }
+   }
+   else
+   {
+      if (g == 0x0008)
+      {
+         if ( e == 0x0016 || e == 0x1150 )
+         {
+            if ( v.length() != 0 )  // for brain damaged headers
+            {
+               if ( ! isdigit((unsigned char)v[v.length()-1]) )
+               {
+                  v.erase(v.length()-1, 1);
+               }
+            }
+            s << "  ==>\t[" << ts->GetValue(v) << "]";
+         }
+      }
+      else
+      {
+         if (g == 0x0004)
+         {
+            if ( e == 0x1510 || e == 0x1512  )
+            {
+               if ( v.length() != 0 )  // for brain damaged headers  
+               {
+                  if ( ! isdigit((unsigned char)v[v.length()-1]) )
+                  {
+                     v.erase(v.length()-1, 1);  
+                  }
+               }
+              s << "  ==>\t[" << ts->GetValue(v) << "]";
+            }
+         }     
+      }
+   }
+   //if (e == 0x0000) {        // elem 0x0000 --> group length 
+   if ( vr == "UL" || vr == "US" || vr == "SL" || vr == "SS" )
+   {
+      if (v == "4294967295") // to avoid troubles in convertion 
+      {
+         st = Util::Format(" x(ffffffff)");
+      }
+      else
+      {
+         if ( GetLength() != 0 )
+         {
+            st = Util::Format(" x(%x)", atoi(v.c_str()));//FIXME
+         }
+         else
+         {
+            st = Util::Format(" ");
+         }
+      }
+      s << st;
+   }
+   os << s.str();
+}
 
 //-----------------------------------------------------------------------------
 } // end namespace gdcm

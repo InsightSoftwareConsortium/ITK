@@ -1,0 +1,46 @@
+Found in :
+ http://medical.nema.org/dicom/2004/04_15PU.PDF
+
+Unused till now :-( 
+ 
+
+1.2.840.10008.15.0.3.1            dicomDeviceName
+1.2.840.10008.15.0.3.2            dicomDescription
+1.2.840.10008.15.0.3.3            dicomManufacturer
+1.2.840.10008.15.0.3.4            dicomManufacturerModelName
+1.2.840.10008.15.0.3.5            dicomSoftwareVersion
+1.2.840.10008.15.0.3.6            dicomVendorData
+1.2.840.10008.15.0.3.7            dicomAETitle
+1.2.840.10008.15.0.3.8            dicomNetworkConnectionReference
+1.2.840.10008.15.0.3.9            dicomApplicationCluster
+1.2.840.10008.15.0.3.10           dicomAssociationInitiator
+1.2.840.10008.15.0.3.11           dicomAssociationAcceptor
+1.2.840.10008.15.0.3.12           dicomHostname
+1.2.840.10008.15.0.3.13           dicomPort
+1.2.840.10008.15.0.3.14           dicomSOPClass
+1.2.840.10008.15.0.3.15           dicomTransferRole
+1.2.840.10008.15.0.3.16           dicomTransferSyntax
+1.2.840.10008.15.0.3.17           dicomPrimaryDeviceType
+1.2.840.10008.15.0.3.18           dicomRelatedDeviceReference
+1.2.840.10008.15.0.3.19           dicomPreferredCalledAETitle
+1.2.840.10008.15.0.3.20           dicomTLSCyphersuite
+1.2.840.10008.15.0.3.21           dicomAuthorizedNodeCertificateReference
+1.2.840.10008.15.0.3.22           dicomThisNodeCertificateReference
+1.2.840.10008.15.0.3.23           dicomInstalled
+1.2.840.10008.15.0.3.24           dicomStationName
+1.2.840.10008.15.0.3.25           dicomDeviceSerialNumber
+1.2.840.10008.15.0.3.26           dicomInstitutionName
+1.2.840.10008.15.0.3.27           dicomInstitutionAddress
+1.2.840.10008.15.0.3.28           dicomInstitutionDepartmentName
+1.2.840.10008.15.0.3.29           dicomIssuerOfPatientID
+1.2.840.10008.15.0.3.30           dicomPreferredCallingAETitle
+1.2.840.10008.15.0.3.31           dicomSupportedCharacterSet
+1.2.840.10008.15.0.4.1            dicomConfigurationRoot
+1.2.840.10008.15.0.4.2            dicomDevicesRoot
+1.2.840.10008.15.0.4.3            dicomUniqueAETitlesRegistryRoot
+1.2.840.10008.15.0.4.4            dicomDevice
+1.2.840.10008.15.0.4.5            dicomNetworkAE
+1.2.840.10008.15.0.4.6            dicomNetworkConnection
+1.2.840.10008.15.0.4.7            dicomUniqueAETitle
+1.2.840.10008.15.0.4.8            dicomTransferCapability
+

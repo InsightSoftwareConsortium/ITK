@@ -15,7 +15,7 @@
      PURPOSE.  See the above copyright notices for more information.
                                                                                 
 =========================================================================*/
-#include "gdcmFile.h"
+#include "gdcmFileHelper.h"
 #include <stdio.h>
 
 extern "C" {
@@ -25,8 +25,9 @@ extern "C" {
 #include "itkjpeg/16/jerror.h"
 }
 
-#define gdcm_write_JPEG_file gdcm_write_JPEG_file16
-#define gdcm_read_JPEG_file  gdcm_read_JPEG_file16
+#define gdcm_write_JPEG_file  gdcm_write_JPEG_file16
+#define ReadJPEGFile   ReadJPEGFile16
+#define SampBuffer SampBuffer16
 
 #include "gdcmJpeg.cxx"
 

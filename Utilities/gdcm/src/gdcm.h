@@ -22,7 +22,6 @@
 // General purpose include file. This file should be included by
 // external users of gdcm. It exposes the necessary API.
 
-#include "gdcmException.h"
 #include "gdcmCommon.h"
 
 #include "gdcmDictEntry.h"
@@ -30,9 +29,9 @@
 #include "gdcmDictSet.h"
 
 #include "gdcmDocument.h"
-#include "gdcmHeader.h"
-#include "gdcmHeaderHelper.h"
 #include "gdcmFile.h"
+#include "gdcmFileHelper.h"
+#include "gdcmSerieHelper.h"
 
 #include "gdcmUtil.h"
 

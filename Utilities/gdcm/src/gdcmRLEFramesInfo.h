@@ -21,10 +21,11 @@
 #define GDCMRLEFRAMESINFO_H
 
 #include "gdcmRLEFrame.h"
+
 #include <list>
+
 namespace gdcm 
 {
-
 /**
  * \brief Utility class for gathering the informations of the collection
  *        of RLE frame[s] (see \ref RLEFrame)  when handling
@@ -32,23 +33,33 @@ namespace gdcm
  *        Note: a classical image can be considered as the degenerated case
  *              of a multiframe image. In this case the collection is limited
  *              to a single individual frame.
- *        The informations on each frame are obtained during the parsing
- *        of a Document (refer to
- *          \ref Document::ComputeRLEInfo() ).
+ *        The informations on each frame are obtained during the pixel parsing
+ *        of a gdcm::File (refer to
+ *          \ref File::ComputeRLEInfo() ).
  *        They shall be used when (if necessary) decoding the frames.
  *
  *        This class is simply a stl list<> of \ref RLEFrame.
  */
 class GDCM_EXPORT RLEFramesInfo
 {
-   typedef std::list< RLEFrame* > RLEFrameList;
-friend class Document;
-friend class File;
-friend class PixelConvert;
-   RLEFrameList Frames;
 public:
    ~RLEFramesInfo();
-   void Print( std::string indent = "", std::ostream &os = std::cout );
+   void Print( std::ostream &os = std::cout, std::string indent = "" );
+   bool DecompressRLEFile( std::ifstream *fp, uint8_t *subRaw, int xSize, 
+                           int ySize, int zSize, int bitsAllocated );
+   bool ConvertRLE16BitsFromRLE8Bits( uint8_t *subRaw, int xSize, int ySize, 
+                                      int numberOfFrames );
+
+   void AddFrame(RLEFrame *frame);
+
+   RLEFrame *GetFirstFrame();
+   RLEFrame *GetNextFrame();
+
+private:
+   typedef std::list<RLEFrame *> RLEFrameList;
+
+   RLEFrameList Frames;
+   RLEFrameList::iterator ItFrames;
 };
 } // end namespace gdcm
 

@@ -1,0 +1,37 @@
+
+2001 0010 LO 1 Private Creator Group 2001
+2001 1001 FL 1 Chemical Shift
+2001 1002 IS 1 Chemical Shift Number MR
+2001 1003 FL 1 Diffusion B-Factor
+2001 1004 CS 1 Diffusion Direction
+2001 1006 CS 1 Image Enhanced
+2001 1007 CS 1 Image Type ED ES
+2001 1008 IS 1 Phase Number
+2001 100a IS 1 Slice Number MR
+2001 100b CS 1 Slice Orientation
+2001 1011 FL 1 Diffusion Echo Time
+2001 1012 CS 1 Dynamic Series
+2001 1013 SL 1 EPI Factor
+2001 1014 SL 1 Number of Echoes
+2001 1015 SS 1 Number of Locations
+2001 1016 SS 1 Number of PC Directions
+2001 1017 SL 1 Number of Phases MR
+2001 1018 SL 1 Number of Slices MR
+2001 1019 CS 1 Partial Matrix Scanned
+2001 101a FL 1-n PC Velocity
+2001 101b FL 1 Prepulse Delay
+2001 101c CS 1 Prepulse Type
+2001 101d IS 1 Reconstruction Number MR
+2001 101f CS 1 Respiration Sync
+2001 1021 CS 1 SPIR
+2001 1022 FL 1 Water Fat Shift
+2001 105f SQ 1 Stack Sequence
+2001 102d SS 1 Number of Stack Slices
+2001 1032 FL 1-n Stack Radial Angle
+2001 1035 SS 1-n Stack Slice Number
+2001 1036 CS 1-n Stack Type
+2001 1060 SL 1 Number of Stacks
+2001 1081 IS 1 Number of Dynamic Scans
+2005 0010 LO 1 Private Creator Group 2005
+2005 1020 SL 1 Number of Chemical Shifts
+2005 10a1 CS 1 Syncra Scan Type

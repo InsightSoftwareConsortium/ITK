@@ -193,6 +193,14 @@ public:
   void SetByteOrderToLittleEndian()
   { this->SetByteOrder(LittleEndian); }
   
+  /** Convenience method returns the FileType as a string. This can be
+   * used for writing output files. */
+  std::string GetFileTypeAsString(FileType) const;
+
+  /** Convenience method returns the ByteOrder as a string. This can be
+   * used for writing output files. */
+  std::string GetByteOrderAsString(ByteOrder) const;
+
   /** Convenient method for accessing the number of bytes to get to 
    * the next pixel. Returns m_Strides[1]; */
   virtual unsigned int GetPixelStride () const;

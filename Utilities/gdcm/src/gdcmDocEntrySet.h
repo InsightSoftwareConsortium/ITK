@@ -19,11 +19,12 @@
 #ifndef GDCMDOCENTRYSET_H
 #define GDCMDOCENTRYSET_H
 
-#include "gdcmException.h"
+#include "gdcmBase.h"
 #include <fstream>
 
 namespace gdcm 
 {
+//-----------------------------------------------------------------------------
 class DocEntry;
 class ValEntry;
 class BinEntry;
@@ -31,14 +32,15 @@ class SeqEntry;
 class DictEntry;
 
 typedef std::string BaseTagKey;
-//-----------------------------------------------------------------------------
 
+//-----------------------------------------------------------------------------
 /**
+ * \brief
  * \ref DocEntrySet is an abstract base class for \ref ElementSet
  * and \ref SQItem which are both containers for DocEntries.
  * \ref ElementSet is based on the STL map<> container
  * (see \ref ElementSet::TagHT), as opposed to \ref SQItem
- * which is based on an STL list container (see \ref SQItem::docEntries).
+ * which is based on an STL list container (see \ref ListDocEntry).
  * Since the syntax for adding a new element to a map<> or a list<>
  * differ, \ref DocEntrySet is designed as an adapter to unify the
  * interfaces of \ref DocEntrySet and \ref ElementSet.
@@ -54,52 +56,82 @@ typedef std::string BaseTagKey;
  *       members to this class since this class is designed as an adapter 
  *       in the form of an abstract base class.
  */
-class GDCM_EXPORT DocEntrySet
+class GDCM_EXPORT DocEntrySet : public Base
 {
 public:
+   /// Canonical Constructor
    DocEntrySet() {};
+   /// Canonical Destructor
    virtual ~DocEntrySet() {};
 
-   /// \brief adds any type of entry to the entry set (pure vitual)
-   virtual bool AddEntry(DocEntry *Entry) = 0; // pure virtual
- 
-   /// \brief prints any type of entry to the entry set (pure vitual)
-   virtual void Print (std::ostream & os = std::cout) = 0;// pure virtual
-
    /// \brief write any type of entry to the entry set
-   virtual void Write (std::ofstream *fp, FileType filetype) = 0;// pure virtual
+   virtual void WriteContent (std::ofstream *fp, FileType filetype) = 0;
 
-   virtual DocEntry* GetDocEntryByNumber(uint16_t group,
-                                         uint16_t element) = 0;
-   DocEntry *GetDocEntryByName(TagName const & name);
-   virtual std::string GetEntryByNumber(uint16_t group, uint16_t element) = 0;
-   std::string GetEntryByName(TagName const & name);
-   DictEntry *NewVirtualDictEntry(uint16_t group, 
-                                  uint16_t element,
-                                  TagName const & vr     = "unkn",
-                                  TagName const & fourth = "unkn",
-                                  TagName const & name   = "unkn");
-  
-protected:
+   /// \brief Remove all Entry in the entry set
+   virtual void ClearEntry() = 0;
+   /// \brief adds any type of entry to the entry set
+   virtual bool AddEntry(DocEntry *Entry) = 0;
+   /// \brief Removes any type of entry out of the entry set, and destroys it
+   virtual bool RemoveEntry(DocEntry *EntryToRemove) = 0;
+   /// \brief Removes any type of entry out of the entry set, DOESN'T destroy it
+   virtual bool RemoveEntryNoDestroy(DocEntry *EntryToRemove) = 0;
+   /// Gets the first entry of any type of set
+   virtual DocEntry *GetFirstEntry()=0;
+   /// Gets the next entry of any type of set
+   virtual DocEntry *GetNextEntry()=0;
+
+   virtual std::string GetEntryValue(uint16_t group, uint16_t elem);
+   virtual void *GetEntryBinArea(uint16_t group, uint16_t elem);   
+   virtual int GetEntryLength(uint16_t group, uint16_t elem);
+   virtual std::string GetEntryVR(uint16_t group, uint16_t elem);
+
+   /// \brief Gets any type of DocEntry, identified by its (group,elem)
+   virtual DocEntry *GetDocEntry(uint16_t group, uint16_t elem) = 0;
+   /// \brief Gets a ValEntry, identified by its (group, elem)
+   ValEntry *GetValEntry(uint16_t group, uint16_t elem);
+   /// \brief Gets a BinEntry, identified by its (group,elem)
+   BinEntry *GetBinEntry(uint16_t group, uint16_t elem);
+   /// \brief Gets a SeqEntry, identified by its (group,elem)
+   SeqEntry *GetSeqEntry(uint16_t group, uint16_t elem);
+
+   bool SetValEntry(std::string const &content,
+                            uint16_t group, uint16_t elem);
+   bool SetBinEntry(uint8_t *content, int lgth,
+                            uint16_t group, uint16_t elem);
+   bool SetValEntry(std::string const &content, ValEntry *entry);
+   bool SetBinEntry(uint8_t *content, int lgth, BinEntry *entry);
+
+   ValEntry *InsertValEntry(std::string const &value,
+                                    uint16_t group, uint16_t elem,
+                                    TagName const &vr = GDCM_UNKNOWN);
+   BinEntry *InsertBinEntry(uint8_t *binArea, int lgth,
+                                    uint16_t group, uint16_t elem,
+                                    TagName const &vr = GDCM_UNKNOWN);
+   SeqEntry *InsertSeqEntry(uint16_t group, uint16_t elem);
+   /// tells us if the set contains no entry
+   virtual bool IsEmpty() = 0;
+   virtual bool CheckIfEntryExist(uint16_t group, uint16_t elem);
 
 // DocEntry  related utilities 
-   ValEntry* NewValEntryByNumber(uint16_t group, 
-                                 uint16_t element);
-   BinEntry* NewBinEntryByNumber(uint16_t group, 
-                                 uint16_t element);
-   DocEntry* NewDocEntryByNumber(uint16_t group, 
-                                 uint16_t element); 
-   DocEntry* NewDocEntryByNumber(uint16_t group, 
-                                 uint16_t element,
-                                 TagName const & vr); 
-   DocEntry* NewDocEntryByName  (TagName const & name);
-   SeqEntry* NewSeqEntryByNumber(uint16_t group, 
-                                 uint16_t element);
+   ValEntry *NewValEntry(uint16_t group,uint16_t elem,
+                         TagName const &vr = GDCM_UNKNOWN);
+   BinEntry *NewBinEntry(uint16_t group, uint16_t elem,
+                         TagName const &vr = GDCM_UNKNOWN);
+   SeqEntry *NewSeqEntry(uint16_t group, uint16_t elem);
 
+// DictEntry  related utilities 
+   DictEntry *NewVirtualDictEntry(uint16_t group,uint16_t elem,
+                                  TagName const &vr     = GDCM_UNKNOWN,
+                                  TagName const &vm     = GDCM_UNKNOWN,
+                                  TagName const &name   = GDCM_UNKNOWN );
+
+protected:
 // DictEntry  related utilities
-   DictEntry *GetDictEntryByName  (TagName const & name);
-   DictEntry *GetDictEntryByNumber(uint16_t, uint16_t);
+   DictEntry *GetDictEntry(uint16_t group, uint16_t elem);
+   DictEntry *GetDictEntry(uint16_t group, uint16_t elem,
+                           TagName const &vr);
 
+private:
 };
 
 } // end namespace gdcm

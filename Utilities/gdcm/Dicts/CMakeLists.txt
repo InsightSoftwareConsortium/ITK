@@ -21,7 +21,7 @@ SET(DICOM_DATA_DICTIONARY "")
 
 FOREACH(line ${ENT})
   STRING(REGEX REPLACE
-    "^([0-9a-f][0-9a-f][0-9a-f][0-9a-f]) ([0-9a-f][0-9a-f][0-9a-f][0-9a-f]) ([A-Z]+) ([A-Z?]+) (.*)$"
+    "^([0-9a-f][0-9a-f][0-9a-f][0-9a-f]) ([0-9a-f][0-9a-f][0-9a-f][0-9a-f]) ([A-Z]+) ([1-9n-]+) (.*)$"
     "   {0x\\1, 0x\\2, \"\\3\" , \"\\4\" , \"\\5\"}, " nline "${line}")
   SET(DICOM_DATA_DICTIONARY "${DICOM_DATA_DICTIONARY}\n${nline}")
 ENDFOREACH(line)
@@ -41,7 +41,7 @@ ENDFOREACH(line)
 
 FILE(READ "dicomVR.dic" ENT_VR)
 STRING(REGEX REPLACE ";" "/" ENT_VR "${ENT_VR}") # CMake doesn't like ';'
-STRING(REGEX REPLACE "\n" ";" ENT_VR "${ENT_VR}")
+STRING(REGEX REPLACE "\r?\n" ";" ENT_VR "${ENT_VR}")
 SET(DICOM_VR_DICTIONARY "")
 
 FOREACH(line ${ENT_VR})

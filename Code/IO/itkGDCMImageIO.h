@@ -129,7 +129,7 @@ public:
   void GetManufacturer(char* manu);
   void GetInstitution(char* ins);
   void GetModel(char* model);
-  void GetScanOptions( char *options);
+  void GetScanOptions(char *options);
 
 protected:
   GDCMImageIO();

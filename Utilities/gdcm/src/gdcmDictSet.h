@@ -19,60 +19,65 @@
 #ifndef GDCMDICTSET_H
 #define GDCMDICTSET_H
 
+#include "gdcmBase.h"
 #include "gdcmDict.h"
+
 #include <map>
 #include <list>
 
 namespace gdcm 
 {
-typedef std::string DictKey;
 typedef std::map<DictKey, Dict*> DictSetHT;
 
 //-----------------------------------------------------------------------------
-/*
- * \defgroup DictSet
- * \brief  Container for managing a set of loaded dictionaries.
+/**
+ * \brief  Container for managing a set of loaded dictionaries (Dict).
  * \note   Hopefully, sharing dictionaries should avoid
  * \par    reloading an already loaded dictionary (saving time)
  * \par    having many in memory representations of the same dictionary
  *        (saving memory).
  */
-class GDCM_EXPORT DictSet
+class GDCM_EXPORT DictSet : public Base
 {
 public:
    DictSet();
    ~DictSet();
 
-   void Print(std::ostream& os);
+   void Print(std::ostream &os = std::cout, std::string const &indent = "" );
 
-   EntryNamesList * GetPubDictEntryNames();
-   EntryNamesByCatMap * GetPubDictEntryNamesByCategory();
+   // Probabely useless !
+   //EntryNamesList *GetPubDictEntryNames();
+   //EntryNamesByCatMap *GetPubDictEntryNamesByCategory();
 
-   Dict* LoadDictFromFile( std::string const & fileName,
-                           DictKey const & name );
+   Dict *LoadDictFromFile( std::string const &fileName,
+                           DictKey const &name );
 
-   Dict* GetDict( DictKey const & DictName );
+   Dict *GetDict( DictKey const &DictName );
 
    /// \brief   Retrieve the default reference DICOM V3 public dictionary.
    Dict* GetDefaultPubDict() { return GetDict(PUB_DICT_NAME); };
 
    // \brief   Retrieve the virtual reference DICOM dictionary.
    // \warning : not end user intended
-   // Dict* GetVirtualDict() { return &VirtualEntry; };
+   // Dict *GetVirtualDict() { return &VirtualEntry; };
 
-   DictEntry* NewVirtualDictEntry(uint16_t group, uint16_t element,
-                                  TagName vr     = "Unknown",
-                                  TagName fourth = "Unknown",
-                                  TagName name   = "Unknown");
+   DictEntry *NewVirtualDictEntry(uint16_t group, uint16_t elem,
+                                  TagName vr     = GDCM_UNKNOWN,
+                                  TagName vm     = GDCM_UNKNOWN,
+                                  TagName name   = GDCM_UNKNOWN);
+
+   Dict *GetFirstEntry();
+   Dict *GetNextEntry();
 
    static std::string BuildDictPath();
 
 protected:
-   bool AppendDict(Dict *NewDict, DictKey const & name);
+   bool AppendDict(Dict *NewDict, DictKey const &name);
 
 private:
    /// Hash table of all dictionaries contained in this DictSet
    DictSetHT Dicts;
+   DictSetHT::iterator ItDictHt;
 
    /// Directory path to dictionaries
    std::string DictPath;

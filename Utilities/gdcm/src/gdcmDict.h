@@ -19,7 +19,7 @@
 #ifndef GDCMDICT_H
 #define GDCMDICT_H
 
-#include "gdcmCommon.h"
+#include "gdcmBase.h"
 #include "gdcmDictEntry.h"
 
 #include <iostream>
@@ -30,62 +30,49 @@ namespace gdcm
 {
 
 //-----------------------------------------------------------------------------
-typedef std::map<TagKey, DictEntry> TagKeyHT;
-typedef std::map<TagName, DictEntry> TagNameHT;
-typedef std::list<std::string>        EntryNamesList;
-typedef std::map<std::string, std::list<std::string> > EntryNamesByCatMap;
+typedef std::string DictKey;
+typedef std::map<TagKey, DictEntry>  TagKeyHT;
 //-----------------------------------------------------------------------------
-/*
- * \defgroup Dict
+/**
  * \brief    Dict acts a memory representation of a dicom dictionary i.e.
- *           it is a container for a collection of dictionary entries. The
- *           dictionary is loaded from in an ascii file.
+ *           it is a container for a collection of dictionary entries.
+ *           The dictionary is loaded from in an ascii file.
  *           There should be a single public dictionary (THE dictionary of
  *           the actual DICOM v3) but as many shadow dictionaries as imagers 
  *           combined with all software versions...
  * \see DictSet
  */
-class GDCM_EXPORT Dict
+class GDCM_EXPORT Dict : public Base
 {
 public:
-   Dict(std::string const & filename);
+   Dict();
+   Dict(std::string const &filename);
    ~Dict();
 
 // Print
-   void Print(std::ostream &os = std::cout);
-   void PrintByKey(std::ostream &os = std::cout);
-   void PrintByName(std::ostream &os = std::cout);
+   void Print(std::ostream &os = std::cout, std::string const &indent = "");
 
 // Entries
-   bool AddNewEntry (DictEntry const & newEntry);
-   bool ReplaceEntry(DictEntry const & newEntry);
-   bool RemoveEntry (TagKey const & key);
-   bool RemoveEntry (uint16_t group, uint16_t element);
+   bool AddEntry(DictEntry const &newEntry);
+   bool ReplaceEntry(DictEntry const &newEntry);
+   bool RemoveEntry (TagKey const &key);
+   bool RemoveEntry (uint16_t group, uint16_t elem);
+   void ClearEntry();
    
 // Tag
-   DictEntry *GetDictEntryByName(TagName const & name);
-   DictEntry *GetDictEntryByNumber(uint16_t group, uint16_t element);
+   DictEntry *GetEntry(uint16_t group, uint16_t elem);
+   DictEntry *GetEntry(TagKey const &key);
 
-   EntryNamesList *GetDictEntryNames();
-   EntryNamesByCatMap *GetDictEntryNamesByCategory();
+   DictEntry *GetFirstEntry();
+   DictEntry *GetNextEntry();
 
-   /// \brief  Returns a ref to the Dicom Dictionary H table (map)
-   /// @return the Dicom Dictionary H table
-   const TagKeyHT & GetEntriesByKey() const { return KeyHt; }
-
-   /// \brief  Returns a ref to the Dicom Dictionary H table (map)
-   /// @return the Dicom Dictionary H table
-   const TagNameHT & GetEntriesByName() const { return NameHt; }
- 
 private:
    /// ASCII file holding the Dictionnary
    std::string Filename;
 
-   /// Access through TagKey (see alternate access with NameHt)
-   TagKeyHT  KeyHt;
-
-   /// Access through TagName (see alternate access with KeyHt)
-   TagNameHT NameHt;
+   /// Access through TagKey
+   TagKeyHT KeyHt;
+   TagKeyHT::iterator ItKeyHt;
 };
 } // end namespace gdcm
 

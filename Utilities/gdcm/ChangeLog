@@ -1,3 +1,922 @@
+2005-02-11 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Testing/TestMAkeIcon.cxx : complete the test
+
+2005-02-10 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Testing/TestWriteSimple.cxx, TestSequence.cxx : fix memroy leaks
+
+2005-02-09 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmFileHelper.[h|cxx] : now correctly set the VR of the datas when 
+     writting the file
+
+2005-02-09 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Test/VTKTestWriteSeq.cxx : add a VTK test to write sequences
+
+2005-02-09 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Test/ : accelerate tests (it's not very significant accelerations).
+     Remove TestCopyDicom that is redundant with TestCopyRescaleDicom
+
+2005-02-07 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Testing/TestSequence.cxx : add test for sequences of images... test that
+     we have the same serie or the same study UID
+
+2005-02-07 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * gdcmPython/gdcm.i : bug fix. Now string are correctly converted in python
+     string type
+   * src/gdcmDict.h : remove commented code
+   * src/gdcmDocument.cxx : initialize values
+   * src/gdcmFile.cxx : bug fix when reading values
+   * gdcmPython/demo/ : change file names. Remove useless files
+
+2005-02-04 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmFile.cxx : remove the default array of initialization.
+     The static array contained pointers to non-static values (comming from
+     strings). To have coherences, when creating files, these values can't be
+     static. So, the array can't be static, too ! To simplify, the array have
+     been replaced by repeted lines to insert values in the File
+
+2005-02-03 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmBinEntry.cxx : bug fix for BIG_ENDIAN part when writing the content
+   * gdcmPython/gdcm.i : rename gdcmHeader to gdcmHelper
+
+2005-02-02 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+   * FIX SQItem::AddEntry inserts now *in the right place* any Entry
+              (Dicom Element) into the Sequence Item
+
+2005-01-31 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/*.cxx : first parss to normalize file organisation
+
+2005-01-31 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDirList.[h|cxx] : add method to find a directory
+   * Test/TestAllReadCompareDicom.cxx : bug fix under Windows
+
+2005-01-31 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * Finish cleaning up my JPEG mess. Should be ok now.
+   * Getting toward a RLE very similar to JPEG. Every RLE stuff is now self
+	  contained within the RLE* class(doh!)
+
+2005-01-30 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+   * SerieHeader::SetDirectory() allow recursive exploration of the Directory
+	* SerieHeader::AddFileName() creates as many Coherent Files lists 
+	              (same Serie UID) as it founds different Serie UID 
+					   amongst the files instead of discarting any file 
+						that doesn't match with the first one he found.
+	* SerieHeader::OrderGdcmFileList has now one parameter : 
+	               the Coherent Files list the user wants to sort
+   * SerieHeader::GetFirstCoherentFileList()  |
+   * SerieHeader::GetLastCoherentFileList()   | allow to parse 
+	               the set of Coherent Files lists 
+   * const SerieHeader::GdcmFileList &GetGdcmFileList() is kept, for backwards
+	               compatibility (it returns the *first* Coherent Files list, 
+						since there was only one before)
+	* Test/TestSerieHeader gets gdcmData as a default root directory		
+					  
+2005-01-28 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Remove friend between DocEntry and File classes
+   * Remove friend between PixelReadConverter and RLEFramesInfo, 
+     JPEGFragmentsInfo
+
+2005-01-28 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmFile.cxx, gdcmDocument.cxx : fix the bug on the group|element
+     0002|0000. The value was incorrect.
+
+2005-01-28 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * vtk/vtkGdcmWriter.[h|cxx] : add the gestion of UID
+
+2005-01-28 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmUtil.cxx : compilation fix on Win32
+   * src/gdcmUtil.[h|cxx] : Set the default GDCM UID in a static constant
+     variable, to be easy found. Add methods to change the default UID.
+     Amelioration of the CreateUniqueUID to use the correct default UID.
+   * src/gdcmFile.cxx : correct use of the CreateUniqueUID method to create
+     a new file
+
+2005-01-28 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Test/TestVR.cxx : fix memory leaks
+
+2005-01-27 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * Rewrite the base 256 to base 10 conversion, using string operation only.
+	 This allows us to get rid of the problematic 64bits integer type (does not
+	 always exist on target platform).
+
+2005-01-27 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+   * Add construct and destructor to class gdcm::Debug to close the debug file
+          automatically
+   * Don't let uset to open twice the same file
+   * gdcm has now an official UID prefix,
+          supplied by http://www.medicalconnections.co.uk
+          1.2.826.0.1.3680043.2.1143
+          (Thx to Mathieu for providing URL)
+   * Add a forty-entries private Dicom Dictionary (Philips MR Intera)
+         to be able to perform some more tests
+   * gdcm::ContentEntry : Contructors and Destructor are now protected,
+         in order to be sure no user will try to use them.
+         (at user level, only the children classes are meaningfull)
+
+2005-01-26 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * move RLEInfo & JPEGInfo from Document to File
+
+2005-01-26 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * FIX : remove so many friend between classes
+
+2005-01-25 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDocEntrySet.cxx : Bug fix when getting the value
+   * src/gdcmContentEntry.[h|cxx], gdcmValEntry.cxx : amelioration of code
+
+2005-01-25 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+   In order to avoid missbehaviour :
+   . gdcm::DocEntry is now specialized in
+     - gdcm::SeqEntry (Dicom Sequence) as opposed to :
+     - gdcm::ContentEntry (Dicom entry with a 'content')
+   . gdcm::ContentEntry is specialized in
+     - gdcm::ValEntry (Dicom entry with a std::string representable value, i.e.
+       characters value, or integers)
+     - gdcm::BinEntry (Dicom entry with a non strig representable value
+   (user hasn't any longer to thing about the precedence of his dynamic_casts)
+
+2005-01-25 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Test/VTKTest*.cxx : bug fix under linux
+
+2005-01-25 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/ : rename some methods on Entry (SetXxx, InsertXxx) to have a better
+     use with python. Some methods are moved from Document to ElementSet or
+     DocEntrySet. The equivalent methods to ElementSet have been added to 
+     SQItem and are virtual in DocEntrySet. Methods that may have the same code
+     in SQItem and ElementSet is directly placed in DocEntrySet
+
+2005-01-25 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Test/VTKTest*.cxx : remove the show variable in each test method because
+     it's useless (the viewer variable replace this variable)
+
+2005-01-25 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDocument.cxx : bug fix on potential memory leak
+   * src/gdcmSQItem.cxx : initialize the SQItemNumber value in the constructor
+   * src/gdcmSQItem.[h|cxx], gdcmElementSet.[h|cxx], gdcmDicomDir*.[h|cxx] : 
+     Add ClearXxx methods to remove all the content of the list or map
+   * gdcmDocEntrySet.h : add GetFirst/NextEntry in pure virtual
+
+2005-01-25 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+   * methods ReplaceOrCreate renamed as Insert
+     (nobody will be any longer confused by 'CreateOrReplace')
+  
+2005-01-24 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * Grealty simplify the JPEg decompression, no need to differenciate based on 
+     the JPEG possible type (with/without fragment, with/without multiple frame). 
+     Everything is done throught the JPEG IO Suspension mechanism in IJG
+
+2005-01-24 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+   * Stage 3 of normalization :
+     in order to avoid any missunderstanding while reading method names :
+     - All the methods xxxEntry now deal with dicom Entries
+     - Methods GetEntry splitted into
+        GetEntryValue
+        GetEntryBinArea
+     - Method SetEntry renamed as SetEntryValue
+     - Method SetEntryBinArea let as it was
+
+2005-01-24 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+    - Add empty nutshell for JPEG-LS (JPG-LS in NOT jpeg 'lossless')
+    - Position correctly the entry points for JPEG2000 and JPEG-LS
+      (Now Fragments info is get from the file, even for JPEG2000 and JPEG-LS)
+
+2005-01-22 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDicomDirElement.h, gdcmDict.h : rename AddNewXxx methods to AddXxx.
+   * src/gdcmDict.h : rename GetDictEntry moethod to GetEntry, to be coherent 
+     with other method names
+   * gdcmPython/gdcm.i : bug fix. Add the typemaps for the TagName type
+   * Test/TestDicomDirElement.cxx : add new test
+
+2005-01-22 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * Finish the CreateUniqueUID stuff. Seems to compiled/runs on every
+     plateforms ITK support. Had some troubles with uint64_t on Win32, go to
+     http://msdn.microsoft.com/library/default.asp?url=/library/en-us/vclang/html/_langref_data_type_ranges.asp
+     for more info. Basically you can not used 'unsigned' __int8 in an ostream.
+     So can't you use __int64 in ostream at all.
+
+2005-01-22 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * bug fix for compilation on MSVC6
+   * gdcmPython/gdcm.i : rename of classes missed
+
+2005-01-21 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+   * Stage 2 of names normalization :
+     - A gdcm::Document is now either a gdcm::DicomDir or a gdcm::File
+       (easy to understand ...)
+     - gdcm::FileHelper replaces old class gdcm::File
+
+2005-01-20 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * gdcmDicomDirElement.[h|cxx] : change the AddEntry method. Now, it gets a
+     type and not a string. So, there remove problems on the format of the
+     string.
+
+2005-01-20 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+   * Add Example/TestPapyrus.cxx
+     - reads a Papyrus file (gdcm::Header compliant),
+     - gets the pixels of all the images, using low level iterators
+     - writes an multiframes Dicom image.
+   (Just to show it's *possible* to do that)
+    Uses SQItems accessors (we could use it as a 'Test' program, to improve test
+    coverage ...)
+
+2005-01-20 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDicomDirObject.h : set the FillObject method in protected.
+     Thus, DicomDirXXX are created with a flad that indicates if the created
+     object is empty or not (when not empty, the DicomDirElement is used to
+     fill the object)
+
+2005-01-20 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDicomDir.cxx : simplify the NewPatient method, like made in
+     gdcm::DicomDirPatient, gdcm::DicomDirStudy, gdcm::DicomDirSerie
+
+2005-01-20 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmSQItem[h|cxx] : rename some methods to have coherent names
+
+2005-01-20 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDicomDir*.[h|cxx] : rename methods to be logik in their name.
+     Remove all access to the hash-tables or lists in the objects.
+
+2005-01-20 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDebug.h : remove the Debug test in the gdcmErrorMacro
+   * src/gdcmDocument.[h|cxx] : rename the Initialise method to Initialize, to
+     be complient with all the gdcm source code
+
+2005-01-19 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDocEntry.h : DocEntry is now secure. User can't change the
+     DictEntry or the VR.
+
+2005-01-19 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * gdcmPython/ : change GDCM_DATA_PATH to GDCM_DATA_ROOT to be complient with
+     all in gdcm
+
+2005-01-19 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Test/ : rename VTK tests to have a best name for the tests
+   * gdcmPython/demo/*.py.in : Change the InitTraversal/GetNextEntry use to
+     GetFirstEntry/GetNextEntry use
+
+2005-01-18 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+   * In SerieHeader::ImagePositionPatientOrdering()
+     // a Dicom 'Serie' may contain scout views
+     // and images may have differents directions.
+     // -> More than one may have the same 'pos'
+     // Sorting has then NO meaning !
+     Thx to Eduardo Davila for reporting bug.
+
+2005-01-18 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Test/ShowDicom.cxx, ShowDicomSeq.cxx, TestWriteWithVTK.cxx : change the
+     test. Now it's on image content and not on the resulting visualisation...
+     might solve the problem on linux when using the OpenGL drivers
+
+2005-01-18 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+   * ENH for DicomDir, DicomDirPatient, DicomDirStudy, 
+             DicomDirSerie, DicomDirImage
+             Dict, DictSet classes :
+         -add method GetFirstEntry to replace call to InitTraversal+GetNextEntry
+         -remove InitTraversal method.
+   * UPD Test programs + Example programs
+
+2005-01-18 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+   * remove useless and never updated keyword \ingroup         
+   * Solve pb when structure (list, map, ...) is empty.
+     Thx to Benoit for reporting bug
+
+2005-01-18 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+   * Taking into account of 'Transfer Syntax' value
+       (for 'true' Dicom V3 files, the 'ACR-NEMA' heuristics sometimes gives
+         unaccurate result)
+
+2005-01-17 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmUtil.cxx : bug fix to find the Windows MAC address. Now, there
+     is no memory access violation
+   * gdcmPython/demo : add python demos using VTK
+
+2005-01-16 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+    * FIX 'Dictionnary' is now spelt 'Dictionary'
+          'wether' is now spelt 'whether'
+          'archieve' is now spelt 'archive'   ;-)
+
+2005-01-15 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+    * ADD DicomDir, DicomDirPatient, DicomDirStudy, DicomDirSerie, DicomDirImage
+          related methods, in order not to expose internal mechanisms
+        InitTraversal();
+        GetNextEntry();
+    * REM methods that exposed internal mechanisms :
+        DicomDir::GetDicomDirPatients()
+        DicomDirPatient::GetDicomDirStudies()
+        DicomDirStudy::GetDicomDirSeries()
+        DicomDirSerie::GetDicomDirImages()
+    * UPD Test programs :
+        makeDicomDir.cxx
+        BuildUpDicomDir.cxx
+        TestDicomDir.cxx
+     * UPD Example program
+        PrintDicomDir.cxx
+    * ADD DictSet methods
+        InitTraversal()
+        GetNextEntry()
+
+2005-01-15 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * Removed the Print/indent/default parameter mess. There is absolutely no
+    reason to have to methods, moreover with the second taking the ostream as
+    *SECOND* parameter. This was clearly a bad hack to get things compile.
+
+2005-01-15 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * Complete rewrite of the GetMacAddress code. Now the code is *much*
+    smaller (no more MacOSX specific crap). A lot more POSIX oriented.
+    Unfortunately the main code does not work on SunOS, thus provide a specific
+    code for this platform only (and Win32 of course). Since this seems to be
+    working, change CreateUniqueUID to use GetMACAddress instead of the
+    problematic GctestetIPAddress
+
+2005-01-14 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * Unfortunately to be able to test gdcmDirList I had to break the API
+     a little. Now the class is not a std::list anymore but has a member
+     std::vector (more ITK compatible). Allow unit testing on Win32 and
+     shared libs.
+
+2005-01-14 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * Update SerieHeader to take into account a Serie Instance UID to properly
+     sort DICOM files
+
+2005-01-13 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+   * ENH - Comment out Mathieu's (dangerous) Super Hack
+         for dealing with BIGENDIAN processors
+         - Move equivalent stuff to BinEntry::WriteContent
+         When necessary, 16 Bits Pixels are swapped in a small buffer
+         and then written. This avoid allocating a huge buffer, in
+         PixelWriteConvertor, and avoid modifying the Pixel Area.
+         Note :
+         Probabely, the same operation will have to be done when we want 
+         to write image with Big Endian Transfert Syntax, 
+         and we are working on Little Endian Processor
+                  
+2005-01-14 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDocument.[h|cxx] : comment all methods concerning a flat hash
+     table.
+   * src/gdcmElementSet.[h|cxx] : rename Initialize into InitTraversal
+   * src/gdcmDict.[h|cxx] : add InitTraversal/getNextEntry methods to parse
+     all the dict content.
+   * src/gdcmDictEntry.cxx : add a carriage return at the end of the DictEntry
+     print
+   * Test/TestDict.cxx : add a new test for the dict classes
+
+2005-01-13 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * src/gdcmDebug.h : Adding an option to redirect debug stream to a 
+                       file. Debug is yanked if compiled with NDEBUG
+
+2005-01-13 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDictSet.h : set the default output to the os variable
+   * src/gdcmDictEntry.[h|cxx] : add the Print method
+   * gdcmPython/demo/ : add a new test
+
+2005-01-13 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+   * merging of Test/PrintDicomDir and Test/TestDicomDir
+   * removal of now redundant Test/PrintDicomDir
+   * enhancement of Example/PrintDicomDir
+
+2005-01-13 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Now, python test might work on systems
+   * Add the PrintDicomDir test
+
+2005-01-13 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+   * FIX : First entry following group 0002 was lost for
+           Explicit Big Endian Transfer Syntax files
+          (group and elem not swaped)
+   
+2005-01-12 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+   * FIX : Old quick and dirty 'optimistic' heuristic to deal with
+           Big Endian Transfer Syntax supposed the group following 0002
+           begins always by element 0000 (element 0000 is *optional*)
+           To avoid further troubles, let's be pessimistic, and use
+           Document::HandleOutOfGroup0002() method 
+    * FIX : comparison between GDCM_NOTLOADED and Transfer Syntax
+              (related pb not yet solved)
+
+2005-01-12 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Bug fix for the python part use
+   * Now, PrintHeader.py pass... but outside the ctest use. shit !
+
+2005-01-12 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * gdcmPython/gdcm.i : bug fix when compiling with MSCV
+
+2005-01-11 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * Untangle TransferSynatx from gdcm::Document. Now Document only manipulate
+     a string and should ask the global TS dict what are the propreties of 
+     the transfer syntax
+
+2005-01-11 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+   * Replace confusing name SwitchSwapToBigEndian name by SwitchByteSwapCode
+   * Add the Document::HandleOutOfGroup0002(uint16_t group) method
+       to swap the Swap Code, at parsing time, when we come out of group 0002
+       and Transfer Syntax is Big Endian
+       We should be able to read now 'true DICOM" Big Endian coded images
+    * Add optional run time SetDebugOn (last param) for PrintHeader, PrintFile
+    * Replace the french 'Transfert Syntax' by the english 'Transfer Syntax'
+
+2005-01-10 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * Hopefully fix the bug on MacOSX and static global initialization.
+   This is the only -minor- patch I found that both please MacOSX and VS6.
+   Other patch would be to declare a const std::string & GDCM_UNFOUND() instead,
+   but this would require a lot of change. Another approach would be that Global
+   create those string and GDCM_UNFOUND becomes a pointer to a string (which
+   gdcm::Global would destroy at exit).
+
+2005-01-08 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * Fix bug on MacOSX with static initialization in a multy threaded
+    environment. static const string in a header file used to be ill
+    initialized provoquing the freeze of any tests. patch should solve this
+    issue.
+
+2005-01-08 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+   * According to Benoit's suggestion, and without any objection from anybody
+      - methods SetxxxByNumber and GetxxxByNumber renamed as Setxxx and Getxxx
+      - methods Dict::Print() and Dict::PrintByKey() merged into Dict::Print()
+      - method gdcmDicomDirObject::GetEntry() renamed as 
+         gdcmDicomDirObject::GetEntryHT() to avoid confusion (and compile error)
+
+2005-01-07 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * Now gdcm::Debug is clearly a copy/paste of VTK approach. You can manipulate
+     you debug/warning message just as c++ streams which make them very convinient
+     to use. Once this is stabilize I will change the ostringstrem to be
+     redirected to a file (ofstream).
+   * Properly support C99 extension: __FUNCTION__ which allow us to display
+     the name of the function call (GNUC also allow __PRETTY_FUNCTION__ for c++)
+
+2005-01-07 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+   * Removal of useless and dangerous methods :
+         GetEntryByName, GetEntryVRByName, GetDocEntryByName, SetEntryByName
+         GetDocEntryByName, GetEntryByName, GetDictEntryByName
+   * Removal of usless methods :
+         Dict::PrintByName, Dict::GetDictEntryByName
+   * Commenting out of probabely useless methods :
+         Dict::GetDictEntryNames()
+         Dict::GetDictEntryNamesByCategory()
+         DictSet::GetPubDictEntryNames()
+         DictSet::GetPubDictEntryNamesByCategory()         
+   * ENH : New Dicom Dictionary (with Value Multiplicity) is now used    
+   * ENH : Use dicomTS.dic as described in 2004 version   
+   * ENH : Removal out of the Dicom Dictionary of non dicom 'fourth' field
+           Add         to the Dicom Dictionary of Dicom 'Value Multiplicity' field
+           Add Accessors on VM (Value Multiplicity), and VM related methods           
+   * ADD : Add a list of 'Dicom Attribute types', as found in
+           http://medical.nema.org/dicom/2004/04_15PU.PDF
+                      Unused till now...           
+   * ADD : Add dicomGroupNameAbbreviations.dic
+           should be used to write a method to replace the former
+           Dict::GetDictEntryNamesByCategory()
+
+2005-01-07 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDocEntry.[h|cxx] : now the ReadLength is the length of the data
+     to read in the file... and only it ! Length is the efective length of the
+     data in the DocEntry structure
+
+2005-01-07 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * Change the gdcmDebug approach. Remov the global static debug 'dbg'.
+     And now use a static function call instead, with a global variable. i
+     This is much closer to the VTK approach. Hopefully should be bulletproof
+     and easier to use...hopefully
+
+2005-01-06 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * Adding GetMACAddres very alpha for now. This is tricky to be cross plateform.
+
+2005-01-06 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDocument.[h|cxx] : remove all copy of DocEntry when parsing a file
+
+2005-01-06 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDocEntrySet.[h|cxx], gdcmDocument.[h|cxx] : amelioration of
+     ValEntry, BinEntry, SeqEntry creation or replace
+
+2005-01-06 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDictEntry.h : now, the IsVRUnknown is correct
+   * src/gdcmDocument.[h|cxx] : simplify the search of VR value when parsing
+     a file
+   * src/gdcmDocEntrySet.cxx : now the created DocEntry without values is good
+     when specifying the VR
+   * src/gdcmVR.[h|cxx] : add usefull method to test the validity of a VR
+   * src/gdcmDocEntry.cxx : amelioration of print
+
+2005-01-05 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
+   * ADD : Add the method Util::IsCurrentProcessorBigEndian
+          (we'll need it for 'Explicit VR Big Endian' Transfert Syntax)
+   * ADD  Method Document::ComputeGroupLength
+   * ENH : now  parsing creates a Vitual DictEntry for Pixels Element,
+           in order to allow further VR modification by user
+   * REM : removal of once-called method File::WriteBase   
+           integration of its code in formerly one-line method File::Write
+
+2005-01-05 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmCommon.h : add the GDCM_UNKNOWN constant. This constant is to
+     replace the different values "??", "Unkn", "Unknown".
+   * src/gdcmDicomDirElement.h, gdcmDictEntry.h, gdcmDictSet.h,
+     gdcmDocEntry.cxx, gdcmDocEntrySet.[h|cxx], gdcmDocument.h, gdcmSQItem.cxx,
+     gdcmVR.cxx : use the GDCM_UNKNOWN constant.
+   * Appears a bug in gdcmDictEntry : IsVRUnknown always returns false... bad
+
+2004-12-16 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmBase.[h|cxx] : new base class. Contains the PrintLevel and an
+     empty Print Method
+   * Set the gdcm::Base class to some Printable classes
+
+2004-12-16 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmFile.[h|cxx] : add the Print method
+   * src/gdcmPixelReadConvert.[h|cxx] : add the generalized Print method
+   * src/gdcmDocEntrySet.h : generalize the Print with the PrintLevel
+   * src/gdcmDocument.h : remove the PrintLevel informations
+   * Example/PrintFile.cxx : use the new gdcm::File::Print
+
+2004-12-16 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmFile.cxx : Add the code of ReplaceOrCreateByNumber to not have
+     problems when compiling with the python wrapping
+
+2004-12-16 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmFile.cxx : bug fix. Omitted a Push in the DocEntryArchive when
+     writting in ImplicitVR
+
+2004-12-12 Jean-Michel Rouet <jm.rouet@noos.fr>
+   * src/gdcmPixelReadConvert.[h|cxx], src/gdcmJpeg*.cxx : new handling of
+     JPEG decompression, especially when dicom frames are split into several
+     JPEG Fragments. This makes use of jpeg decompression from memory buffer.
+     This solves reading for example gdcm-JPEG-Lossless_Thoravision.dcm.
+
+2004-12-10 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmHeader.cxx : change the initialisation of default header.
+     Now, this header is readable by gdm, e-film, DicomWorks
+
+2004-12-10 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmFile.[h|cxx], gdcmPixelReadConvert.[h|cxx] : change the API.
+     Rename Decompressed to Raw
+   * Use the API changes in gdcm::File.
+   * vtk/vtkGdcmWriter.[h|cxx] : add the possibility to write in other modes
+     Memory leaks fixed
+
+2004-12-10 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * vtk/vtkGdcmWriter.cxx, Example/WriteDicomSimple.cxx : add comments for
+     each added entry in the header. Replace the 'Planes' field by the 'Number
+     of Frames' field
+
+2004-12-09 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * vtk/vtkGdcmWriter.[h|cxx] : now can write stack of images.
+   * vtk/vtkWriteDicom.cxx : can write 2D stack or 3D image
+
+2004-12-09 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Example/WriteDicomSimple.cxx : example to write a dicom file from nothing.
+     At this time, this image isn't readable by e-film... waiting JPR help to
+     solve it.
+
+2004-12-09 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmPixelReadConvert.cxx : bug fix when would forcing load of a
+     DocEntry. Now use methods of the Document !
+
+2004-12-09 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Test/ShowDicomSeq.cxx : bug fix
+ 
+2004-12-08 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * vtk/vtkGdcmReader.[h|cxx] : bug fix. Plane order isn't inverted
+   * vtk/vtkGdcmWriter.[h|cxx] : correctly write images (the Y axis is inverted)
+   * Test/ShowDicomSeq.cxx : new test to verify the use of AddFileName method
+   * Test/ShowDicom.cxx, TestWriteWithVTK.cxx : set the threshold of regression
+     test to 0.0
+   * Test/TestCopyRescaleDicom.cxx : remove unused variable
+   * Test/CMakeLists.txt : add the creation of the gdcmDataSeqImages.h file
+     containing found sequences
+
+2004-12-07 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Test/ShowDicom.cxx, TestWriteWithVTK.cxx : bug fix, now this test pass
+     not at all time
+   * Test/TestCopyRescaleDicom.cxx : rearrange the test to correctly pass...
+     Some fields in BinEntry must be copied to not seg fault when making the :
+              gdcm::File *copy     = new gdcm::File( copyH );
+     and tests are now made on good variables
+
+2004-12-07 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * vtk/vtkGdcmWriter.[h|cxx] : add a first version of vtkGdcmWriter
+   * src/gdcmValEntry.cxx : bug fix when setting the value. Problems of odd
+     length
+   * src/gdcmHeader.cxx : Remove a useless call to Util::DicomString
+   * Add vtkGdcmWriter example and test
+
+2004-12-07 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Test/TestUtil.cxx : reformat the source code
+   * vtk/vtkGdcmReader.cxx : remove and change prints
+   * src/gdcmValEntry.[cxx|h] : now set the length of the value when calling
+     SetValue
+   * src/gdcmBinEntry.[cxx|h] : SetValue method don't set the length
+   * src/*.cxx : remove all useless call to SetLength of a ValEntry object
+
+2004-12-07 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmPixelWriteConvert.[h|cxx] : ficnished this class
+   * src/gdcmFile.cxx : finished the correctly use of PixelWriteConvert
+
+2004-12-06 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDocument.cxx : bug fix when opening the file. All read is followed
+     by an eof to prevent all bad read of the file... and in this case, the
+     file isn't readable. 
+
+2004-12-06 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Example/Volume2Dicom.cxx : comment unused variables
+   * Test/PrintDicomDir.cxx : comment unused variables
+   * Test/BuildUpDicomDir.cxx : remove dbg.Verbose. Remove the FIXME.
+   * src/SQItem.[h|cxx] : remove the PtagHT variable. Remove the AddDocEntry
+     method that is redondant with AddEntry.
+   * src/gdcmDocEntrySet.h : add pure virtual methods common to ElementSet and
+     SQItem
+
+2004-12-04 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Bug fix due my last commit (compilation under Windows).
+   * Example/Volume2Dicom : bug fix in the file and reformatting source code
+   * src/gdcmFile.h : bug fix. Variable type and variable name had same name
+
+2004-12-03 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * Huge cleanup:
+     - Remove printf / sprintf
+     - include iostream AFTER gdcm so we don't get warnings
+     - GDCM_NO_ANSI_STRING_STREAM shouldn't be used explitely ouside of gdcm 
+       source
+     - Also remove tons of include from header files, hopefully this should 
+       speeup the compilation time, since it was becoming a dog slow.
+     - Remove gdcm.h as it include way too many files and slow down compilation 
+       (plus it is not up to date)
+     - remove 'using namespace std' this is BAD !
+
+2004-12-03 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Remove memory leaks on the DicomDir
+   * Remove some useless data in DicomDirObject
+   * Add usefull methods in SQItem, to be complient withe the ElementSet
+
+2004-12-03 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmFile.[h|cxx] : now use FileType instead of TWriteType.
+
+2004-12-03 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmPixelWriteConvert.[h|cxx] : new class to write data (and in the
+     future, with convertion)
+   * src/gdcmFile.[h|cxx] : the PixelWriteConverter instance replace Pixel_Data
+     and ImageDataSize values. Remove the method to get the PixelReadConverter
+     from the output of the class
+
+2004-12-03 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Rename src/gdcmPixelConvert.[h|cxx] to src/gdcmPixelReadConvert.[h|cxx]
+
+2004-12-02 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * vtk/vtkGdcmReader.cxx : correct error in vtkDebugMacro, vtkWarningMacro
+     and vtkErrorMacro use.
+   * gdcmPython/gdcm.i : corrections to avoid warnings at compilation
+
+2004-12-02 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Test/TestCopyDicom.cxx : the new dicom created is created empty, without
+     file name in input
+   * src/gdcmSeqEntry.cxx : bug fix in destruction of an element
+   * src/gdcmHeader.cxx : bug fix. Keep the string, otherwise it is destroyed.
+     The string leaves only in the fonction. So when we make a .c_str(), we
+     get the pointeur on the first element, element that will be destroyed 
+     immediately after thee instruction.
+   * src/gdcmDocument.cxx : remove memory leaks. Bug fix when testing if the
+     file has been opened : the test must be made on the content of the 
+     pointer and not directly on the pointer !
+     Code formatting
+
+2004-12-02 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * gdcmPython/gdcm.i : change gdcmHeaderHelper to gdcmSerieHeader. Now,
+     the python part recompiles
+
+2004-11-30 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Test/ShowDicom.cxx : Change the test to only open one vtkImageViewer.
+     Otherwise, under linux (Graphic card : NVidia / SE : FedoraCore 1) the
+     X session is killed (for my computer... it seems to not be identic on
+     all linux)
+
+2004-11-30 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Test/ShowDicom.cxx : now can be used with an off-screen rendering to
+     avoid problems (otherwise, the difference test between the visible image
+     and the reference is incorrect. If the reference is greater than the
+     screen resolution, it's produce errors).
+     Can be used for only one image. Can be used with a visible flag.
+   * vtk/vtkGdcmReader.cxx : remove commented codes.
+   * vtk/vtkGdcmReader.h : add the gdcmCommon.h include file to avoid warnings
+     under windows at compilation
+   * vtk/vtkgdcmViewer.cxx : reformat the file. Apply a default window/level
+     for grayscale images
+   * vtk/GdcmToBaseline.cxx : new program to easy create the reference image
+
+2004-11-30 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmFile.[h|cxx] : bug fix for ACR-LIBIDO files when writting the file
+   * Test/TestAllReadCompareDicom.cxx, TestReadWriteReadCompare.cxx : add
+     tests on the image size X, Y, Z
+
+2004-11-26 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Remove some useless methods in gdcm::Document, gdcm::Header and gdcm::File
+   * Rename gdcmHeaderHelper.[h|cxx] to gdcmSerieHeader.[h|cxx] to be coherent
+     between the class name and the file name
+
+2004-11-25 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/ : fix compilation warnings for the Write method (2 different
+     proto). So Rename 'Write(ifstream* fp' into 'WriteContent(ifstream* fp'
+     fix compilation warnings for the gdcm::Document::TransferSyntaxStrings
+     variable... create a static method in gdcm::Document to access to
+     this variable content.
+
+2004-11-25 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDocument.[h|cxx] : set the Transfert Syntax values to the header
+     file, to be accessed by other files (like gdcmFile). Remove commented
+     code. Move the change of the header to the gdcmFile, using the
+     DocEntryArchive
+   * src/gdcmHeader.[h|cxx] : the write is completely made in the Header.
+     To be sure of that (and simplify calls), the Write of the header now
+     gets a file name and not a file pointer (std::ifstream).
+   * src/gdcmFile.[h|cxx] : apply the write file type to the header, using the
+     DocEntryArchive. Remove all open of the written file
+
+2004-11-25 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * vtk/vtkGdcmReader.cxx : compilation bug fix for the vtk part
+
+2004-11-25 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDocument.cxx : fix bug... test if the fp is opened to use it
+   * src/gdcmPixelConvert.cxx : calculate the image size when while the grab of
+     the header.
+   * src/gdcmFile.[h|cxx] : remove PixelRead and ImageDataSizeRaw variables and
+     some corresponding methods. Write correctly the file and check before
+     write
+   * Test/TestCopyDicom.cxx, TestReadWriteReadCompare.cxx,
+     TestAllReadCompareDicom.cxx : pass the write of images to RGB and test
+     is now on RGB data (as before my last commit
+   * Example/PrintHeader.cxx, PrintFile.cxx : repad files.
+
+2004-11-24 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmBinEntry.cxx, gdcmSeqEntry.cxx, gdcmSQItem.cxx, gdcmValEntry.cxx :
+     Add a print information of the type of the entry
+   * src/gdcmDocument.cxx : add the write of the preambule of a Dicom file.
+     It was in the gdcmFile, and all write have been regrouped
+   * src/gdcmFile.[h|cxx] : add methods to get the Raw data elements and size.
+     Write correctly all dicom files (in decompressed mode only at this time)
+   * Test/ : test on files are now made using Raw data and not color data if
+     any.
+   * Example/PrintFile.cxx : add more printings
+
+2004-11-24 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Amelioration of code, remove some code copy. For the loading of
+     BinEntry (in gdcmDocument), add the test to verify if the file is already
+     opened or not.
+
+2004-11-24 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDocEntryArchive.[h|cxx] : bug fix and add a method to temporary
+     remove a DocEntry in the header (push an empty DocEntry)
+   * src/gdcmFile.[h|cxx] : remove some useless variables, methods and code
+     lines. Bug fix in the initialization of the PixelConvert and the 
+     DocEntryArchive
+   * src/gdcmElementSet.[h|cxx] : add methods Initialize and GetNext to
+     use in TestCopyDicom (now this test can run under windows... but fails)
+   * Test/TestCopyDicom.cxx : amelioration of the test :
+     - test the pixels written
+     - add test points to quickly find where is the error
+     - can set a file name input and output in arguments
+   * Test/TestAllReadCompareDicom.cxx, TestReadWriteReadCompare.cxx : 
+     amelioration of the test output
+
+2004-11-23 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDocEntryArchive.cxx : complete the print function, that prints
+     all replaced DocEntry's
+   * src/gdcmFile.[h|cxx] : remove all changes of the header when getting data.
+     Now, each needed DocEntry to modify is duplicated, modified and inserted
+     to the header using DocEntryArchive. Thus, after save, we can restore the
+     header initial state.
+
+2004-11-22 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmFile.h : fix compilation errors on zorglub linuc computer
+
+2004-11-19 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDocEntry.cxx : remove the copy of the DictEntry... there isn't
+     correct to copy it. The DictEntry is specified at the DocEntry creation,
+     then, it musn't change in the time.
+   * src/gdcmDocEntryArchive.[h|cxx] : new class. It's goal is to change the
+     header correctly. At this time, the change is only made for the first
+     level of the Document. In the future, it might consider sequences.
+     The change is made by replacing a DocEntry by an other that is created
+     outside the class. The old value is kept. When we restore the header
+     status, the added DocEntry is deleted and replaced by the old value.
+   * src/gdcmElementSet.h : Set the DocEntryArchive like friend.
+   * src/gdcmFile.[h|cxx] : Use the gdcmDocEntryArchive. Add methods to
+     set the write type to explicit VR, implicit VR or ACR. Add methods to set
+     the write mode to native, decompressed or RGB (but not used at this time)
+
+2004-11-15 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmSeqEntry.cxx : add initialisation of variable SeqTerm
+   * src/gdcmDocument.cxx : add delete of DocEntry's to remove some memory leaks
+
+2004-11-15 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDocument.cxx : now, when using the ReplaceOrCreateByNumber to
+     set a BinEntry, the binArea is copied (like to set a ValEntry, the string
+     is copied).
+   * Test/TestCopyDicom.cxx, Example/TestCopyDicom.cxx : the image data isn't 
+     set because already copied when copying the BinEntry's of the header
+   * Test/TestAllReadCompareDicom.cxx : remove warnings
+
+2004-11-15 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * FIX : now, the DocEntries are all deleted in the gdcmElementSet.
+     Two problems appear when doing it :
+      - with the gdcmFile : when the GetImageData method is called, the pixels
+        are stored in the gdcmPixelConvert, but a gdcmBinEntry link to these
+        data (pixels). And each structure destruct the data when it's
+        destructed. So we have two destructions for the same data. To solve it,
+        a flag is added in the gdcmBinEntry to indicate if the BinEntry owns the
+        data or not. If it doesn't own data, then they will not destroyed by
+        the gdcmBinEntry.
+      - with the gdcmDicomDir : the sequences (gdcmSQItem) contain DocEntry
+        elements. The DicomDir* (DicomDirPatient, etc.) inherit from SQItem.
+        Thus destruct the DicomDir* elements and the TagHT of the ElementSet 
+        create a double destruction of the same DocEntry's. So, to solve it, 
+        the TagHT is simply cleared and the DicomDir* elements are destroyed.
+   * TODO : add an entry concerning memory leaks in the DicomDir
+
+2004-11-15 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * FIX : src/gdcmDocument.cxx Remove obvious code in the destructor
+   * FIX : src/gdcmPixelConvert : Set to NULL the deleted structures in the
+     squeeze method
+
+2004-11-15 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * FIX: src/gdcmUtil.cxx : to compile with MSVC6
+   * src/gdcmDocument.cxx : fix memory leaks. Fix possible bugs : use an object
+     after it have been deleted
+
+2004-11-16 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+   * FIX: src/* fix the doxygen warnings.
+   * src/gdcmVR.cxx: removed some redundant tests (e.g. LO)
+   * src/gdcmDocument.cxx: FIX ::ComputeRLEInfo() rleSegmentOffsetTable[]
+     was erroneously defined with a size of 15 instead of 16. [many thanks
+     to Jean Michel Rouet for pointing out this bug].
+
+2004-11-15 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+    1. Finish merging JMR patch for writting DICOM from scratch
+    2. Fix -hopefully- bug with MONOCHROME and space vs null character
+    3. Use const ref when possible
+    4. Add a new function InitializeDefaultHeader, which create a template DICOM header (CT image for now)
+    5. A few more comments
+    6. CreateUniqueUID can now be called without parameter"
+
+2004-11-15 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+  * ENH: Slightly bigger patch:
+    1. Getting toward full integration of JMR patch for writting dicom from scratch
+    2. Update Test to test part of this patch: CreateUniqueUID
+    3. File was not close properly in gdcmDict
+    4. Use of typedef is to be prefered when possible (gdcmDict.cxx)
+    5. Use of const ref instead of copy (speed issue)
+    6. Remove temporary (duplicate) string in TranslateToKey
+    7. Mark extremely dangerous code as such (gdcmDocument.cxx and AddEntry fallback case)
+    8. Do not repeat virtual in subclasses
+    9. Implemented in gdcm::Util two new function: GetIPAddress, and CreateUniqueUID
+
+2004-11-15 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+  * Apply first patch toward better string comparison when dealing with broken 
+    DICOM files. Essentially the string could be padded with a space instead 
+    of a null character as defined by standard
+  
+2004-11-15 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+  * src/gdcmDocument.[cxx|h] : fix memory leaks. The return is suppressed
+    because never used... and in the same time, that's remove some memory leaks
+
+2004-11-15 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+  * src/gdcmFile.cxx : now delete the PixelConvert instance.
+  * In examples and tests : change the type of image data variables from void*
+    to uint8_t*. Remmove all delete on image data variables
+
+2004-11-10 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+  * src/gdcmDocument.cxx : Set the file pointer TP to 0 in the constructors.
+    Verify the file pointer value before open the file, and if it's not null,
+    a verbose message is generated.
+    Close correctly the file when the file isn't considered dicom-like. The
+    correctly close is a call to CloseFile.
+    When closing the file pointer, test if its not null to close the file.
+  * src/gdcmPixelConvert.cxx : bug fix for the SIEMENS_GBS_III-16-ACR_NEMA_1.acr
+    file. For an uncompressed image, the copied data correspond in the least 
+    case to the image size (calculated) or the image size specified in the 
+    header. A verbose is generated if these two size mismatch
+
+2004-11-09 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+  * Test/TestAllReadCompareDicom.cxx : test the existence of the directory
+    using an 'ifstream' other than a 'FILE *'. The previous solution ('FILE *')
+    break under windows (with msvc6 compilation).
+
+2004-11-09 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+  * src/gdcmDicomDir.h : bug fix for the last Boix's commit (problem when
+    compiling with MSVC6)
+
+2004-11-09 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+  * Bugs fix for the Windows build with VC6
+  * CMakeLists.txt : bug fix - The include of the VTK lib is made only when it's
+    needed (only for projects required VTK). If the VTK is included in all
+    projects, there is conflicts with the jpeg lib of vtk when compiling the
+    gdcmjpeg[8,12,16] projects. The first conflict is on the jmorecfg.h file.
+  * src/gdcmUtil.h : export binary_write methods. Otherwise, there's problems
+    when compiling the gdcm_wrap.cxx file (created by the compilation of the
+    gdcm.i file)
+  * vtk/vtkGdcmDemo.cxx : remove the use of std namespace for the cerr use
+    (like it's already made for the cout use). Otherwise, conflict with the
+    std::cerr of vtk.
+
+2004-11-09 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * src/gdcmDicomDit.h the Method typedef is now local to DicomDir class.
+  * gdcmPython/gdcm.i:
+    - comments on the DicomDir::Method related usage added.
+    - now that we use the namespace gdcm, a lot of internal classes do
+      NOT need to be wrapped anymore.
+  * gdcmPython/demo/DicomDirProgressMethod.py (that uses the above
+    DicomDir::Method) new example added.
+
 2004-11-05 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
   * Improve string manipulation. I now inforce the notion of 'DicomString'
     A DicomString can contain as many \0 as they want
@@ -10,7 +929,7 @@
     little endian. This should -heopfully- fix some tests
 
 2004-11-03 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
-  * Now the dictionary is compiled into gdcm lib. This is a default 
+  * Now the dictionary is compiled into gdcm lib. This is a default
     behavior, thus any dic file specified is picked before failback to 
     the one comiled into lib
 
@@ -110,7 +1029,7 @@
   images, without the need of the Cornwell lib, but we do read them properly now
   * To reduce code (well to avoid code duplication), I defined a common place
   for jpeg read/write: gdcmJpeg.cxx. Now gdcmJpeg[8,12 16] include this file and
-  redefine symbols. This is not prefect but this the best solution I found for a
+  redefine symbols. This is not perfect but this the best solution I found for a
   compilation time jpeg option.
 
 2004-10-13 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
@@ -123,7 +1042,7 @@
 2004-10-13 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
   * Doc/Website/MailingList.html added (Sidebar.html changed accordingly).
   * gdcmPython/gdcm.i: fix for compilation of wrappers (Note: %include order
-    matters, as stated in warning note at begining of %include section).
+    matters, as stated in warning note at beginning of %include section).
   * src/gdcmDicomDir*.[cxx|h]: coding style
   * src/gdcmDocument.h: doxygen \ref seems uncompatible with \todo.
   * src/gdcmJpeg8.cxx: doxygen fix.
@@ -210,7 +1129,7 @@
     necesseray. No need to rename file by hand what so ever. CMake handle the
     copying of the file within different directory, configure header file to
     modify some symbol. The only addition made to ijg wasd a mangle table so
-    that symbol are different wether we are within 8bits or 12bits.
+    that symbol are different whether we are within 8bits or 12bits.
 
 2004-10-01 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
   * Added documentation of vtkgdcmReader on Website:
@@ -275,7 +1194,7 @@
 2004-09-23 Jean-Pierre Roux
   * FIX In order not to be poluted any longer by casting problems,
     the member VoidArea of gdcmBinEntry is now uint8_t* (instead of void *)
-	 we can now delete[] it safely 	
+    we can now delete[] it safely 
   * VoidArea is now called BinArea (less confusing name),
     and all the methods called ...VoidArea... are now ... BinArea...
   * class gdcmObject is now called gdcmDicomDirObject (less confusing name)
@@ -291,7 +1210,7 @@
   * src/gdcmCommon.h, gdcmDocument.cxx: doxygen typos
 
 2004-09-17 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
-  * ENH: added some utility method that builds a flat dictionnary
+  * ENH: added some utility method that builds a flat dictionary
     holding all the Dicom entries contained in the recursive structure
     of a gdcmElementSet. Refer to add FlatHashTablePrint.cxx for 
     an example of usage.
@@ -320,10 +1239,10 @@
 2004-09-13 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
   * Preparation of writing a gdcmHeader iterator: generalisation of gdcmTagKey
     - The following is the doxygen comment of the typedef declaration
-      of gdcmagKey in src/gdcmCommon.h:
+      of gdcmTagKey in src/gdcmCommon.h:
            gdcmTagKey is made to old an "universal" (as in URL, Universal
            Ressource Locator)  key to a gdcmDocEntry i.e. a dicom tag.
-           A dicom tag allways has a group and an element, but a set of tags
+           A dicom tag always has a group and an element, but a set of tags
            embeded in various (optionally nested) sequences and sharing
            the same group and element all share the same (group, element)
            "identifier". Hence the (group, element) cannot be used as an
@@ -401,7 +1320,7 @@
   * TODO updated
   * gdcmPython/testSuite.py checks on CR-MONO1-10-chest.dcm moved to
     gdcmData/TestAllEntryVerifyReference.txt
-  * Test/TestAllEntryVerify.cxx is now effective (used allways return true)
+  * Test/TestAllEntryVerify.cxx is now effective (used always return true)
   * src/gdcmDocument.[cxx|h]: constructors no longer use the bool
     exception_on_error parameter.
     - src/gdcmFile.[cxx|h], src/gdcmHeader.[cxx|h] changed accordingly,
@@ -425,7 +1344,7 @@
 2004-07-21 Jean-Pierre Roux
   * FIX Now, Parsing and Printing a DICOMDIR do work!
        ( troubles remain in makeDicomDir and BuildUpDicomDir :-(
-		 
+ 
 2004-07-20 Jean-Pierre Roux
   * FIX Some brain damaged headers have Zero-Lenght fields 
         for 'Transfert Syntax UID', or 'Media Stored SOP Class UID'.
@@ -529,10 +1448,10 @@
 2004-06-29 Jean-Pierre Roux
    FIX : - remove Frog's beautified, but never checked 'Parse7FE0' code,
          - replace by uggly but working old code :-(
-		A lot of things should be OK again.
-	It's really urgent to have a test suite that *tests*, 
-	to prevent Frog's beautifying sessions to break all the stuff
-	(twice, withing a fortnigh ...) 	
+   A lot of things should be OK again.
+   It's really urgent to have a test suite that *tests*, 
+   to prevent Frog's beautifying sessions to break all the stuff
+   (twice, withing a fortnigh ...)    
 
 2004-06-28 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
    * Test/TestWriteRead.cxx and TestReadWrite.cxx merged (because of
@@ -553,7 +1472,7 @@
      image.
    * Test/CmakeList.txt: 8BitsRunLengthColor.dcm is now blacklisted
      (because TestWriteRead breaks on it, after a non conformal commit?).
-     ctest now runs properly, except for MakeDicomDir (which was allways
+     ctest now runs properly, except for MakeDicomDir (which was always
      broken) and the Python related stuff (still not fixed).
    
 2004-06-24 Jean-Pierre Roux
@@ -567,14 +1486,14 @@
 
 2004-06-24 Jean-Pierre Roux
    FIX : - now Write drops LUT Descriptors and LUTs (if any)
-	            when SamplesPerPixel =3
+           when SamplesPerPixel =3
          - now Write is no longer confused by 
-			      'BitsAllocated = 12" and 'BitsStored=12"
+          'BitsAllocated = 12" and 'BitsStored=12"
          - "UN" value representation Elements are now written correctly 
-               (their legth is stored on 4 bytes -just like OB, OW, and SQ-)									
+               (their legth is stored on 4 bytes -just like OB, OW, and SQ-)
    ENH : - now gdcmHeader has its own Write methods 
-	            (in order to split the job that has not to be done 
-					for gdcmDicomDir)
+           (in order to split the job that has not to be done 
+           for gdcmDicomDir)
 
 2004-06-23 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
    * Test/PrintAllDocument.cxx: looping on files is now effective. It used to
@@ -586,13 +1505,13 @@
 2004-06-24 Jean-Pierre Roux
    FIX : Write - All the Sequences and Sequence Item are now written 
             as 'no length' stuff, and a Sequence Delimitor aor an Item Delimitor
-				is added a the end, when necessary.
+            is added a the end, when necessary.
             - A lot of brain-damaged images, that were read correctly are 
-		      now written correctly
-				- length compatible BinEntry are now loaded correctly 
-				(even for odd groups) 
+              now written correctly
+            - length compatible BinEntry are now loaded correctly 
+              (even for odd groups) 
         Note : only Explicit Value Representation was checked.
-				(question : is implicit VR really necessary for gdcm ?)
+               (question : is implicit VR really necessary for gdcm ?)
 
 2004-06-23 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
    * DEVELOPPER: added a proposition of coding style.
@@ -612,40 +1531,40 @@
 
 2004-06-22 Jean-Pierre Roux
    In order : to write Sequences, whatever their imbrication level, 
-	         : to allow user to create his own Sequences
-	a lot of modif where necessary (adding, moving, or virtualising methods)
+            : to allow user to create his own Sequences
+   a lot of modif where necessary (adding, moving, or virtualising methods)
 
-WARNING : save your own sources *before* cvs up !
-	
-	- gdcmBinEntry
-	  ADD virtual void Write(FILE *fp, FileType filetype);
-	  
+   WARNING : save your own sources *before* cvs up !
+
+   - gdcmBinEntry
+     ADD virtual void Write(FILE *fp, FileType filetype);
+  
    - gdcmDocEntry
-	  ADD virtual void Write(FILE *fp, FileType filetype);
-	  ADD void gdcmDocEntry::WriteCommonPart(FILE *fp, FileType filetype);
-	  
-	- gdcmDocEntrySet
-	  ADD virtual void Write (FILE *fp, FileType filetype)=0;
-	  ADD	virtual gdcmDocEntry *GetDocEntryByNumber(guint16 group,guint16 element) = 0;
+     ADD virtual void Write(FILE *fp, FileType filetype);
+     ADD void gdcmDocEntry::WriteCommonPart(FILE *fp, FileType filetype);
+  
+   - gdcmDocEntrySet
+     ADD virtual void Write (FILE *fp, FileType filetype)=0;
+     ADD virtual gdcmDocEntry *GetDocEntryByNumber(guint16 group,guint16 element) = 0;
      ADD gdcmDocEntry *GetDocEntryByName(std::string name);
      ADD virtual std::string GetEntryByNumber(guint16 group,guint16 element) = 0;
-     ADD std::string GetEntryByName(TagName name);		         
+     ADD std::string GetEntryByName(TagName name);            
      ADD gdcmDictEntry *NewVirtualDictEntry(guint16 group, 
                                             guint16 element,
                                             std::string vr     = "unkn",
                                             std::string fourth = "unkn",
                                             std::string name   = "unkn"); 
-	  ADD gdcmValEntry *NewValEntryByNumber(guint16 group, guint16 element); 												 
-     ADD gdcmBinEntry *NewBinEntryByNumber(guint16 group, guint16 element); 	
+     ADD gdcmValEntry *NewValEntryByNumber(guint16 group, guint16 element);  
+     ADD gdcmBinEntry *NewBinEntryByNumber(guint16 group, guint16 element); 
      ADD gdcmDocEntry *NewDocEntryByNumber(guint16 group, guint16 element); 
      ADD gdcmDocEntry *NewDocEntryByName  (std::string Name);   
      ADD gdcmDictEntry *GetDictEntryByName   (std::string Name);
      ADD gdcmDictEntry *GetDictEntryByNumber(guint16, guint16);
-	  REM virtual gdcmDocEntry *NewDocEntryByNumber(guint16 group, guint16 element)=0;
+     REM virtual gdcmDocEntry *NewDocEntryByNumber(guint16 group, guint16 element)=0;
      REM virtual gdcmDocEntry *NewDocEntryByName  (std::string Name)=0;
-	  
-	- gdcmDocument
-     ADD virtual bool WriteF(FileType type); // New stuff, with recursive exploration		
+  
+   - gdcmDocument
+     ADD virtual bool WriteF(FileType type); // New stuff, with recursive exploration
      ADD virtual std::string GetEntryByName    (TagName tagName);
      ADD virtual std::string GetEntryVRByName  (TagName tagName);
      REM virtual bool Write(FILE *, FileType);
@@ -667,22 +1586,22 @@ WARNING : save your own sources *before* cvs up !
      REM gdcmDocEntry *NewDocEntryByName  (std::string Name);
      REM gdcmValEntry *NewValEntryByNumber(guint16 group, guint16 element); 
      REM gdcmBinEntry *NewBinEntryByNumber(guint16 group, guint16 element); 
-	  													 
-	- gdcmElementSet
-	  ADD virtual void Write(FILE *fp, FileType filetype);
-	  
+                                             
+   - gdcmElementSet
+     ADD virtual void Write(FILE *fp, FileType filetype);
+     
    - gdcmSeqEntry
-	  ADD virtual void Write(FILE *fp,FileType filetype);
+     ADD virtual void Write(FILE *fp,FileType filetype);
  
    - gdcmSQItem
      ADD virtual void Write(FILE *fp, FileType filetype);
-     ADD virtual std::string GetEntryByNumber(guint16 group, guint16 element);	      
+     ADD virtual std::string GetEntryByNumber(guint16 group, guint16 element);         
      REM std::string GetEntryByNumber(guint16 group, guint16 element);
      REM std::string GetEntryByName(TagName name);
 
    - gdcmValEntry
-	 ADD virtual void gdcmValEntry::Write(FILE *fp, FileType filetype); 
-				  
+    ADD virtual void gdcmValEntry::Write(FILE *fp, FileType filetype); 
+              
 2004-06-21 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
     * Test/TestWriteSimple.cxx: fix to gdcmHeader-gdcmHeaderHelper revamping.
       The default constructor invoked by the line
@@ -792,23 +1711,23 @@ WARNING : save your own sources *before* cvs up !
       - Specific clean up of Parse7FE0() (umproperly named actually).
     * gdcmPython/testSuite.py: an odd temporary kludge introduced.
 
-2004-06-14 Jean-Pierre Roux		
+2004-06-14 Jean-Pierre Roux      
    *  gdcmSeqEntry.cxx
-	   - fix the display of Sequence Delimitor (SQDepthLevel pb)
-		- fix the display of SQItem ordinal number
+      - fix the display of Sequence Delimitor (SQDepthLevel pb)
+      - fix the display of SQItem ordinal number
       - add the GetSQItemByOrdinalNumber method
-		- remove some useless never written private methods	
-		
+      - remove some useless never written private methods   
+      
 2004-06-14 Jean-Pierre Roux
    * gdcmBinEntry.cxx 
       - adding a constructor taking a gdcmDocEntry as an input param
-	   - ReplaceOrCreateByNumber now returns :
-	      a gdcmBinEntry * if a Binary (void *) value is passed as a param
-		   a gdcmValEntry * if a string value is passed as a param
+      - ReplaceOrCreateByNumber now returns :
+         a gdcmBinEntry * if a Binary (void *) value is passed as a param
+         a gdcmValEntry * if a string value is passed as a param
    * dcmDocument.cxx
       - SetEntryByNumber now allows setting gdcmValEntry or gdcmBinEntry, 
-	      according to the param type (no longer sets a gdcmDocEntry)
-	   - GetValEntryByNumber, GetBinEntryByNumber added
+         according to the param type (no longer sets a gdcmDocEntry)
+      - GetValEntryByNumber, GetBinEntryByNumber added
       - NewValEntryByNumber and NewBinEntryByNumber added
    * gdcmFile.cxx
       - Pixel Data are now linked to the (7fe0,0010) elements, after reading
@@ -816,10 +1735,10 @@ WARNING : save your own sources *before* cvs up !
       - GetSQItemNumber and SetSQItemNumber added, to provide 
             a (relative) Item identier inside a given Sequence
             \warning : some pb remaining around this number
-				will be solved asap
-      - AddEntry now takes the Item Number as a param 	
+            will be solved asap
+      - AddEntry now takes the Item Number as a param    
    * gdcmValEntry.cxx 
-      - adding a constructor taking a gdcmDocEntry as an input param	
+      - adding a constructor taking a gdcmDocEntry as an input param   
 
 2004-06-14 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
     * Memory leak hunt with the following command:
@@ -996,7 +1915,7 @@ WARNING : save your own sources *before* cvs up !
            SeQuence indented printing of Dicom Header.
      * ENH merge methods gdcmParser::Parse and gdcmParser::LoadHeaderEntries
            into the single gdcmParser::LoadHeaderEntries for efficiency purpose.
-	   Computation of SQDepthLevel is now part of gdcmHeader constructor
+      Computation of SQDepthLevel is now part of gdcmHeader constructor
      * ENH add self defined param 'new' to PrintHeader to 'show' the SeQuence
            tree-like structure of a Dicom Header.
      * FIX Test code cleaning     
@@ -1017,9 +1936,9 @@ WARNING : save your own sources *before* cvs up !
      * ENH Minor changes to the Print() methods.
      * ADD gdcmParser::PrintEntryNiceSQ() to allow SQ-indented
            Header printing. Example given with :
-	   > PrintHeader fileName  2 new
+      > PrintHeader fileName  2 new
           (SQ based tree-like structure still to be done for the Header ...)
-	   
+      
 2004-04-22  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
      * ENH: Some cosmetic clean up for compilation with -W -Wall -Werror
          1. I have added some unsigned where needed
@@ -1040,17 +1959,17 @@ WARNING : save your own sources *before* cvs up !
      * FIX gdcmHeaderHelper::GetXSpacing
            when a single value is found (bug ?), xpacing is now 
            defaulted to yspacing
-	   
+      
 2004-04-19  Jean-Pierre Roux
      * ADD gdcmData/Wrist.pap (PAPYRUS 3.0 -single frame-) for checking purpose
      * ENH add parameters :
                bool  exception_on_error = false, 
                bool  enable_sequences   = false,
-	       bool  ignore_shadow      = false
+          bool  ignore_shadow      = false
            to the gdcmFile constructors to be full gdcmParser compliant
      * FIX vtk/vtkGdcmReader.cxx now uses  enable_sequences = true in gdcmFile
            to allow reading of PAPYRUS 3.0 files 
-	      
+         
 2004-04-06  Jean-Pierre Roux
      * ADD gdcmData/E00001S03I0015.dcm for SQ checking purpose
      
@@ -1058,7 +1977,7 @@ WARNING : save your own sources *before* cvs up !
      * ADD : Test/checksequence.sh, for a general recap on SQ pb
      * FIX : gdcmParser::WriteEntryTagVRLength emprovement of special treatement
              for Philips spurious Tag fffe|0000 while rewritting Dicom files
-	     
+        
 2004-03-30  Jean-Pierre Roux
      * FIX gdcmParser::ReplaceOrCreateByNumber shouldn't seg fault any more 
          for ACR file, written out as DICOM files (hope so...)
@@ -1084,7 +2003,7 @@ WARNING : save your own sources *before* cvs up !
              from gdcmParser::WriteEntry to gdcmParser::WriteEntries
      * FIX : gdcmObject::ResetBoundaries now stops properly
              when end-of-list is reached
-	   : gdcmVersion modified (as Benoit Regrain asked)
+      : gdcmVersion modified (as Benoit Regrain asked)
 
 2004-03-29  Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
      * src/gdcmParser.cxx: removal of all TAB character. Indentation fixed.
@@ -1149,14 +2068,14 @@ WARNING : save your own sources *before* cvs up !
            add gdcmDicomDirPatient:NewStudy
            add gdcmDicomDirStudy:NewSerie
            add gdcmDicomDirSerie:NewImage
-	   to allow making gdcDicomDir object.
+      to allow making gdcDicomDir object.
      * ADD PrintDicomDir executable that uses gdcmDicomDir tree-like structure
           (as opposite to the gdcmHeader chained list)
 
 2004-02-11 Benoit Regrain
      * FIX : memory leaks and the set of ArgDelete methods in gdcmDicomDir
              when using from python
-
+             
 2004-02-10 Benoit Regrain
      * FIX : bug fix in the gdcmDirList for the recursivity in directories
      * FIX : in gdcmDicomDir when the directory is empty
@@ -1265,7 +2184,7 @@ WARNING : save your own sources *before* cvs up !
              IterHT  GetHeaderEntrySameNumber(grPixel,numPixel);
         to get *all* the Header Entries with the same tag.
         GetHeaderEntrySameName is probabely *useless* 
-        (no meaning : Name is *not* an identifier within the Dictionnary)
+        (no meaning : Name is *not* an identifier within the Dictionary)
 
 2004-01-26 Benoit Regrain
      * Bug fix in the print of hexadecimal representations. Remove long fields 
@@ -1336,9 +2255,9 @@ WARNING : save your own sources *before* cvs up !
 2004-01-12 Benoit Regrain
      * src/*.h : add comments
      * src/gdcmDictSet.h : set the method BuildDictPath in public
-     * src/gdcmTS.cxx, gdcmVR.cxx : use now a dictionnary file other than to be
+     * src/gdcmTS.cxx, gdcmVR.cxx : use now a dictionary file other than to be
        directly setted in the source code
-     * Dicts/dicomTS.dic, dicomVR.dic : 2 new dictionnary files loaded by
+     * Dicts/dicomTS.dic, dicomVR.dic : 2 new dictionary files loaded by
        gdcmTS and gdcmVR
 
 2004-01-09 Benoit Regrain
@@ -1351,7 +2270,7 @@ WARNING : save your own sources *before* cvs up !
 
 2003-12-10 Benoit Regrain
      * gdcmHeader is now aggregating gdcmFile, and not derived into. Thus, we
-       can use a gdcmHeaderHelper to load datas
+       can use a gdcmHeaderHelper to load data
      * gdcmPython/testSuite.py : make the testSuite compliant with modifications
        made in the source code
 
@@ -1375,19 +2294,19 @@ WARNING : save your own sources *before* cvs up !
              not longer on the TagElValueHT tagHt member
       * ENH : PrintPubElVal shows (temporarily) both results,
              with the tagHt member and the listElem member.
-	     (it's easier to 'see' the problems when using Printheader)
+        (it's easier to 'see' the problems when using Printheader)
 
       * FIX : old private member LgrElem is now splitted into
              ReadLength   : Length actually found on disk (updated only
-	                    if bug fixing is necessary), for internal
-			    use only
-	     UsableLength : Updated by FixFoundLength, to fix a bug
-	                    or to allow Parser going on.
-	     Will allow to re-write a kosher header when a SeQuence
-	     with a length (not 0000) is found
+                       if bug fixing is necessary), for internal
+             use only
+        UsableLength : Updated by FixFoundLength, to fix a bug
+                       or to allow Parser going on.
+        Will allow to re-write a kosher header when a SeQuence
+        with a length (not 0000) is found
       Warning : gdcmFile::Write still uses the TagHt (not ListElem)
-	        because gdcmElValSet::Add does not update ListElem
-		(to be written)
+           because gdcmElValSet::Add does not update ListElem
+      (to be written)
 
 2003-11-07 Jean-Pierre Roux
      * FIX misstyping in Transfert Syntax name table
@@ -1447,7 +2366,7 @@ WARNING : save your own sources *before* cvs up !
              
 2003-10-29  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
      * ENH: Can be used like this '$vtkgdcmViewer *.dcm' with *.dcm 
-	   being coherents dicom files.
+      being coherents dicom files.
      
 2003-10-29  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
      * FIX: DOH ! Forgot about windo$e users, they couldn't read lossless jpeg,
@@ -1652,7 +2571,7 @@ WARNING : save your own sources *before* cvs up !
          - deals with YcBcR (YBR_FULL) files
          - deals with YBR_YBR_FULL_422 files (they work as RBG files ?!?)
           WARNING : nothing was checked for YBR_PARTIAL_422, YBR_ICT, 
-	                                    YBR_RCT files.
+                                       YBR_RCT files.
           (no sample found :-(
 
 2003-10-02  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
@@ -2124,7 +3043,7 @@ WARNING : save your own sources *before* cvs up !
 
 2003-03-10 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
       * gdcmPython/__init__.py doesn't crash anymore when running in
-        in InstallMode or PreInstallMode but with an environement given
+        in InstallMode or PreInstallMode but with an environment given
         value of GDCM_DICT_PATH.
       * src/gdcmDictSet.[cxx/h] coding style.
 
@@ -2184,7 +3103,7 @@ WARNING : save your own sources *before* cvs up !
       * src/gdcm.h, gdcmHeader.cxx, gdcmDictSet.cxx:
         - gdcmHeader::GetPubTagNames and  gdcmHeader::GetPubTagNamesByCategory
           whose purpose is to publish the content of the TagNames of the
-          Dicom public dictionnary were not accessible without an
+          Dicom public dictionary were not accessible without an
           instance of class gdcmHeader.
         - those methods are now static methods of gdcmDictSet and hence
           require no instances at all to be invocated.
@@ -2265,7 +3184,7 @@ WARNING : save your own sources *before* cvs up !
         entries within the associated public Dicom dictionary resp. the same
         information but sorted by the fourth field (PAT, IMG, DIR) of the
         dictionary.
-        - Dicts/dicomV3.dic Entries which had and unspecified fourth field
+        - Dicts/dicomV3.dic Entries which had an unspecified fourth field
           are now in the "???" group.
         - python/gdcm.i changed accordingly,
         - python/demo/printGroupedPublicDict.py added, that gives an example
@@ -2354,7 +3273,7 @@ WARNING : save your own sources *before* cvs up !
 
 2002-11-18 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
       * src/gdcm.h and gdcmHeader.cxx are now "Big Endian transfer syntax"
-        aware. See the strategy comments in gdcmHeader::FindeLength().
+        aware. See the strategy comments in gdcmHeader::FindLength().
       * Test/test.cxx now accepts a filename as first argument.
       * Data/US-PAL-8-10x-echo.dcm and US-RGB-8-epicard.dcm added.
       * python/testSuite.py changed to integrate test on above files.
@@ -2417,10 +3336,10 @@ WARNING : save your own sources *before* cvs up !
 2002-10-31 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
       * Straightforward temporary fixes for swig to build the python wrappers.
         src/Makefile now has a python working entry [by working we mean
-        that we can import de shadow classes without errors].
+        that we can import the shadow classes without errors].
 
 2002-10-29 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
-      * hashtest.cxx removed (since allready in Test)
+      * hashtest.cxx removed (since already in Test)
       * src/gdcmlib.h renamed to src/gdcm.h
       * src/dcm.i renamed to src/gdcm.i
       * src/Makefile prepared for python wrapping

@@ -17,56 +17,50 @@
 =========================================================================*/
 
 #include "gdcmGlobal.h"
+
 #include "gdcmDebug.h"
+#include "gdcmVR.h"
+#include "gdcmTS.h"
+#include "gdcmDictSet.h"
+#include "gdcmDicomDirElement.h"
 
 namespace gdcm 
 {
+//-----------------------------------------------------------------------------
+/// \brief Those global string that are return by reference everywhere in 
+/// gdcm code used to be in gdcmCommon.h but due to a 'bug' in gcc/MacOSX
+/// you cannot have static initialization in a multithreaded environment
+/// since there is a lazy construction everything got skrew up somehow
+/// Therefore the actual initialization is done in a cxx file (avoid
+/// duplicated symbol), and an extern is used in gdcmCommon.h
+const std::string GDCM_UNKNOWN   = "gdcm::Unknown";
 const std::string GDCM_UNFOUND   = "gdcm::Unfound";
 const std::string GDCM_BINLOADED = "gdcm::Binary data loaded";
 const std::string GDCM_NOTLOADED = "gdcm::NotLoaded";
 const std::string GDCM_UNREAD    = "gdcm::UnRead";
 
-/**
- * \ingroup Globals
- * \brief Pointer to a container, holding _all_ the Dicom Dictionaries.
- */
-DictSet         *Global::Dicts  = (DictSet *)0;
+//-----------------------------------------------------------------------------
+DictSet         *Global::Dicts   = (DictSet *)0;
+VR              *Global::ValRes  = (VR *)0;
+TS              *Global::TranSyn = (TS *)0;
+DicomDirElement *Global::ddElem  = (DicomDirElement *)0;
 
+//-----------------------------------------------------------------------------
 /**
- * \ingroup Globals
- * \brief   Pointer to a hash table containing the 'Value Representations'.
- */
-VR              *Global::ValRes     = (VR *)0;
-
-/**
- * \ingroup Globals
- * \brief   Pointer to a hash table containing the Transfer Syntax codes
- *          and their english description 
- */
-TS              *Global::TranSyn     = (TS *)0;
-
-/**
- * \ingroup Globals
- * \brief   Pointer to the hash table containing the Dicom Elements
- *          necessary to describe each part of a DICOMDIR 
- */
-DicomDirElement *Global::ddElem = (DicomDirElement *)0;
-
-/**
- * \ingroup Globals
  * \brief   Global container
  */
 Global Glob;
 
+//-------------------------------------------------------------------------
+// Constructor / Destructor
 /**
- * \ingroup Global
  * \brief   constructor : populates the various H Tables
  */
 Global::Global()
 {
    if (ValRes || TranSyn || Dicts || ddElem)
    {
-      dbg.Verbose(0, "Global::Global : VR or TS or Dicts already allocated");
+      gdcmWarningMacro( "VR or TS or Dicts already allocated");
       return;
    }
    Dicts   = new DictSet();
@@ -76,7 +70,6 @@ Global::Global()
 }
 
 /**
- * \ingroup Global
  * \brief   canonical destructor 
  */
 Global::~Global()
@@ -86,36 +79,49 @@ Global::~Global()
    delete TranSyn;
    delete ddElem;
 }
+
+//-----------------------------------------------------------------------------
+// Public
 /**
- * \ingroup Global
- * \brief   returns a pointer to the 'Value Representation Table' 
- */
-VR *Global::GetVR()
-{
-   return ValRes;
-}
-/**
- * \ingroup Global
- * \brief   returns a pointer to the 'Transfert Syntax Table' 
- */
-TS *Global::GetTS()
-{
-   return TranSyn;
-}
-/**
- * \ingroup Global
  * \brief   returns a pointer to Dictionaries Table 
  */
 DictSet *Global::GetDicts()
 {
    return Dicts;
 }
+
 /**
- * \ingroup Global
+ * \brief   returns a pointer to the 'Value Representation Table' 
+ */
+VR *Global::GetVR()
+{
+   return ValRes;
+}
+
+/**
+ * \brief   returns a pointer to the 'Transfer Syntax Table' 
+ */
+TS *Global::GetTS()
+{
+   return TranSyn;
+}
+
+/**
  * \brief   returns a pointer to the DicomDir related elements Table 
  */
 DicomDirElement *Global::GetDicomDirElements()
 {
    return ddElem;
 }
+
+//-----------------------------------------------------------------------------
+// Protected
+
+//-----------------------------------------------------------------------------
+// Private
+
+//-----------------------------------------------------------------------------
+// Print
+
+//-----------------------------------------------------------------------------
 } // end namespace gdcm

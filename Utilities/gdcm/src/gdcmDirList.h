@@ -22,39 +22,46 @@
 #include "gdcmCommon.h"
 
 #include <string>
-#include <list>
+#include <vector>
+#include <iostream>
 
 namespace gdcm 
 {
 
+typedef std::vector<std::string> DirListType;
+
 //-----------------------------------------------------------------------------
-/**
- * \ingroup DirList
- * \brief   List containing the file headers from root directory. 
- */
+
 // NOTE: Due to a VC6 'feature' we can not export a std::list in a dll, 
 // so GDCM_EXPORT keyword was removed for this class only
 
-class DirList: public std::list<std::string>
+/**
+ * \brief   List containing the file headers of all the gdcm readable files
+ *          found by exploring recursively a root directory. 
+ */
+class GDCM_EXPORT DirList
 {
 public :
-   DirList(std::string const & dirName, bool recursive=false);
-   virtual ~DirList();
+   DirList(std::string const &dirName, bool recursive=false);
+   ~DirList();
 
-   std::string const & GetDirName() const;
+   void Print(std::ostream &os = std::cout);
 
-   /// Character '\' 
-   static const char SEPARATOR_X;
-   /// Character '/'  
-   static const char SEPARATOR_WIN;
-   /// depending on the O.S.
-   static const std::string SEPARATOR;
+   /// Return the name of the directory
+   std::string const &GetDirName() const { return DirName; }
+
+   /// Return the file names
+   DirListType const &GetFilenames() const { return Filenames; };
+
+   static bool IsDirectory(std::string const &dirName);
 
 private :
-   int Explore(std::string const & dirName, bool recursive=false);
+   int Explore(std::string const &dirName, bool recursive=false);
 
+   /// List of file names
+   DirListType Filenames;
    /// name of the root directory to explore
-   std::string name;
+   std::string DirName;
 };
 } // end namespace gdcm
 //-----------------------------------------------------------------------------

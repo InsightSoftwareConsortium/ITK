@@ -27,6 +27,8 @@
 // 'identifier' : class 'type' needs to have dll-interface to be used by
 // clients of class 'type2'
 #pragma warning ( disable : 4251 )
+// non dll-interface class 'type' used as base for dll-interface class 'type2'
+#pragma warning ( disable : 4275 )
 // 'identifier' : identifier was truncated to 'number' characters in the
 // debug information
 #pragma warning ( disable : 4786 )
@@ -45,19 +47,23 @@
 #endif //_MSC_VER
 
 //-----------------------------------------------------------------------------
-
-#include <string>
-#include <assert.h>
-
 #ifdef CMAKE_HAVE_STDINT_H
-#include <stdint.h>   // For uint8_t uint16_t and uint32_t
+   #include <stdint.h>
 #else
-#if defined(_MSC_VER) || defined(__BORLANDC__)
-typedef    signed char   int8_t;
+#ifdef CMAKE_HAVE_INTTYPES_H
+   // Old system only have this
+   #include <inttypes.h>   // For uint8_t uint16_t and uint32_t
 #endif
-typedef  unsigned char   uint8_t;
-typedef  unsigned short  uint16_t;
-typedef  unsigned int    uint32_t;
+#endif
+
+// Broken plateform do not respect C99 and do not provide those typedef
+#if defined(_MSC_VER) || defined(__BORLANDC__)
+typedef  signed char         int8_t;
+typedef  signed short        int16_t;
+typedef  signed int          int32_t;
+typedef  unsigned char       uint8_t;
+typedef  unsigned short      uint16_t;
+typedef  unsigned int        uint32_t;
 #define UINT32_MAX    (4294967295U)
 #endif
 
@@ -71,6 +77,9 @@ typedef  unsigned int    uint32_t;
   #define GDCM_EXPORT
 #endif
 
+#include <string>
+
+/// \brief namespace for Grass root DiCoM
 namespace gdcm
 {
 
@@ -84,23 +93,23 @@ namespace gdcm
 #define DICT_TS           "dicomTS.dic"
 #define DICT_VR           "dicomVR.dic"
 
+GDCM_EXPORT extern const std::string GDCM_UNKNOWN;
 GDCM_EXPORT extern const std::string GDCM_UNFOUND;
 GDCM_EXPORT extern const std::string GDCM_BINLOADED;
 GDCM_EXPORT extern const std::string GDCM_NOTLOADED;
 GDCM_EXPORT extern const std::string GDCM_UNREAD;
 
-
 /// \brief TagKey is made to hold an "universal" (as in URL, Universal
-///        Ressource Locator)  key to a DocEntry i.e. a dicom tag.
-///        A dicom tag always has a group and an element, but a set of tags
+///        Ressource Locator) key to a DocEntry i.e. a dicom tag.
+///        A dicom tag always has a group and an elem, but a set of tags
 ///        embeded in various (optionally nested) sequences and sharing
-///        the same group and element all share the same (group, element)
-///        "identifier". Hence the (group, element) cannot be used as an
+///        the same group and elem all share the same (group, elem)
+///        "identifier". Hence the (group, elem) cannot be used as an
 ///        identifier (in gdcm we shall refer to a "TagKey") of a tag.
 ///        In order to construct a proper tag identifier (i.e. a key) we
 ///        consider the following definition of a TagKey:
 ///        - let Group, Element be the string representation of the
-///          group and element dicom tag members,
+///          group and elem dicom tag members,
 ///        - let ItemNumber be the string representation of the integer
 ///          index of the considered item number of a sequence,
 ///        Let the key of a tag embeded in a sequence, noted SeqTag, be
@@ -121,12 +130,36 @@ typedef std::string TagKey;
 typedef std::string TagName;
 
 enum FileType {
-      Unknown = 0,
-      ExplicitVR, // DicomDir is in this case
-      ImplicitVR,
-      ACR,
-      ACR_LIBIDO
+   Unknown = 0,
+   ExplicitVR, // DicomDir is in this case. Except when it's ImplicitVR !...
+   ImplicitVR,
+   ACR,
+   ACR_LIBIDO
 };
+
+/// \brief type of the elements composing a DICOMDIR (for internal use only)
+enum DicomDirType {
+   DD_UNKNOWN = 0,
+   DD_META,
+   DD_PATIENT,
+   DD_STUDY,
+   DD_SERIE,
+   DD_IMAGE
+};
+
+/**
+ * \brief structure, for internal use only
+ */  
+GDCM_EXPORT typedef struct
+{
+   /// DicomGroup number
+   unsigned short int Group;
+   /// DicomElement number
+   unsigned short int Elem;
+   /// value (coded as a std::string) of the Element
+   std::string Value;
+} Element;
+
 } //namespace gdcm
 //-----------------------------------------------------------------------------
 #endif

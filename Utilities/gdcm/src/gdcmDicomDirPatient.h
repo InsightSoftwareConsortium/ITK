@@ -20,40 +20,44 @@
 #define GDCMPATIENT_H
 
 #include "gdcmDicomDirObject.h"
-#include "gdcmDicomDirStudy.h"
-#include "gdcmSQItem.h"
 
 namespace gdcm 
 {
+class DicomDirStudy;
 
 //-----------------------------------------------------------------------------
 typedef std::list<DicomDirStudy*> ListDicomDirStudy;
 
 //-----------------------------------------------------------------------------
+/**
+ * \brief   describes a PATIENT within a DICOMDIR (DicomDir)
+ */
+
 class GDCM_EXPORT DicomDirPatient : public DicomDirObject 
 {
 public:
-   DicomDirPatient(SQItem *s, TagDocEntryHT *ptagHT); 
-   DicomDirPatient(TagDocEntryHT *ptagHT); 
-
+   DicomDirPatient(bool empty=false); 
    ~DicomDirPatient();
 
-   void Print(std::ostream &os = std::cout);
-   void Write(std::ofstream *fp, FileType t);
+   void Print(std::ostream &os = std::cout, std::string const &indent = "" );
+   void WriteContent(std::ofstream *fp, FileType t);
+  
+   // Patient methods
+   /// \brief Adds a new gdcmDicomDirStudy to the Patient
+   void AddStudy(DicomDirStudy *obj) { Studies.push_back(obj); };
+   DicomDirStudy *NewStudy(); 
+   void ClearStudy();
 
-   /// Returns the STUDY chained List for this PATIENT.
-   ListDicomDirStudy const & GetDicomDirStudies() const { return Studies; };
+   DicomDirStudy *GetFirstStudy();
+   DicomDirStudy *GetNextStudy();
+   DicomDirStudy *GetLastStudy();
 
-   /// adds the passed STUDY to the STUDY chained List for this PATIENT.
-   void AddDicomDirStudy (DicomDirStudy *obj) { Studies.push_back(obj); };
-
-   ///  TODO
-   DicomDirStudy* NewStudy(); 
-         
 private:
 
-   /// chained list of DicomDirStudy
+   /// chained list of DicomDirStudy  (to be exploited hierarchicaly)
    ListDicomDirStudy Studies;
+   /// iterator on the DicomDirStudies of the current DicomDirPatient
+   ListDicomDirStudy::iterator ItStudy;
 };
 } // end namespace gdcm
 

@@ -27,9 +27,8 @@ namespace gdcm
 //-----------------------------------------------------------------------------
 // Constructor / Destructor
 /** 
- * \ingroup DictSet
- * \brief   The Dictionnary Set obtained with this constructor simply
- *          contains the Default Public dictionnary.
+ * \brief   The Dictionary Set obtained with this constructor simply
+ *          contains the Default Public dictionary.
  */
 DictSet::DictSet() 
 {
@@ -40,12 +39,11 @@ DictSet::DictSet()
 }
 
 /**
- * \ingroup DictSet
  * \brief  Destructor 
  */
 DictSet::~DictSet() 
 {
-   // Remove dictionnaries
+   // Remove dictionaries
    for (DictSetHT::iterator tag = Dicts.begin(); tag != Dicts.end(); ++tag) 
    {
       Dict *entryToDelete = tag->second;
@@ -57,74 +55,13 @@ DictSet::~DictSet()
    }
    Dicts.clear();
 
-   // Remove virtual dictionnary entries
+   // Remove virtual dictionary entries
    VirtualEntry.clear();
 }
 
 //-----------------------------------------------------------------------------
-// Print
-/**
- * \ingroup DictSet
- * \brief   Print, in an informal fashion, the list of all the dictionaries
- *          contained is this DictSet, along with their respective content.
- * @param   os Output stream used for printing.
- */
-void DictSet::Print(std::ostream& os) 
-{
-   for (DictSetHT::iterator dict = Dicts.begin(); dict != Dicts.end(); ++dict)
-   {
-      os << "Printing dictionary " << dict->first << std::endl;
-      dict->second->Print(os);
-   }
-}
-
-//-----------------------------------------------------------------------------
 // Public
-/** 
- * \ingroup DictSet
- * \brief   Consider all the entries of the public dicom dictionnary. 
- *          Build all list of all the tag names of all those entries.
- * \sa DictSet::GetPubDictTagNamesByCategory
- * @return  A list of all entries of the public dicom dictionnary.
- */
-EntryNamesList * DictSet::GetPubDictEntryNames() 
-{
-   return GetDefaultPubDict()->GetDictEntryNames();
-}
-
-/** 
- * \ingroup DictSet
- * \brief   
- *          - Consider all the entries of the public dicom dictionnary.
- *          - Build an hashtable whose keys are the names of the groups
- *           (fourth field in each line of dictionary) and whose corresponding
- *           values are lists of all the dictionnary entries among that
- *           group. Note that apparently the Dicom standard doesn't explicitely
- *           define a name (as a string) for each group.
- *          - A typical usage of this method would be to enable a dynamic
- *           configuration of a Dicom file browser: the admin/user can
- *           select in the interface which Dicom tags should be displayed.
- * \warning 
- *          - Dicom *doesn't* define any name for any 'categorie'
- *          (the dictionnary fourth field was formerly NIH defined
- *           -and no longer he is-
- *           and will be removed when Dicom provides us a text file
- *           with the 'official' Dictionnary, that would be more friendly
- *           than asking us to perform a line by line check of the dictionnary
- *           at the beginning of each year to -try to- guess the changes)
- *          - Therefore : please NEVER use that fourth field :-(
- * *
- * @return  An hashtable: whose keys are the names of the groups and whose
- *          corresponding values are lists of all the dictionnary entries
- *          among that group.
- */
-EntryNamesByCatMap * DictSet::GetPubDictEntryNamesByCategory() 
-{
-   return GetDefaultPubDict()->GetDictEntryNamesByCategory();
-}
-
 /**
- * \ingroup DictSet
  * \brief   Loads a dictionary from a specified file, and add it
  *          to already the existing ones contained in this DictSet.
  * @param   filename Absolute or relative filename containing the
@@ -132,8 +69,8 @@ EntryNamesByCatMap * DictSet::GetPubDictEntryNamesByCategory()
  * @param   name Symbolic name that be used as identifier of the newly 
  *          created dictionary.
  */
-Dict *DictSet::LoadDictFromFile(std::string const & filename, 
-                                DictKey const & name) 
+Dict *DictSet::LoadDictFromFile(std::string const &filename, 
+                                DictKey const &name) 
 {
    Dict *newDict = new Dict(filename);
    AppendDict(newDict, name);
@@ -142,13 +79,12 @@ Dict *DictSet::LoadDictFromFile(std::string const & filename,
 }
 
 /**
- * \ingroup DictSet
  * \brief   Retrieve the specified dictionary (when existing) from this
  *          DictSet.
  * @param   dictName The symbolic name of the searched dictionary.
  * \result  The retrieved dictionary.
  */
-Dict *DictSet::GetDict(DictKey const & dictName) 
+Dict *DictSet::GetDict(DictKey const &dictName) 
 {
    DictSetHT::iterator dict = Dicts.find(dictName);
    if(dict != Dicts.end())
@@ -159,19 +95,19 @@ Dict *DictSet::GetDict(DictKey const & dictName)
 }
 
 /**
- * \brief   Create a DictEntry which will be reference 
- *          in no dictionnary
+ * \brief   Create a DictEntry which will be referenced 
+ *          in no dictionary
  * @return  virtual entry
  */
 DictEntry *DictSet::NewVirtualDictEntry( uint16_t group,
                                          uint16_t element,
                                          TagName vr,
-                                         TagName fourth,
+                                         TagName vm,
                                          TagName name)
 {
    DictEntry *entry;
    const std::string tag = DictEntry::TranslateToKey(group,element)
-                           + "#" + vr + "#" + fourth + "#" + name;
+                           + "#" + vr + "#" + vm + "#" + name;
    TagKeyHT::iterator it;
    
    it = VirtualEntry.find(tag);
@@ -181,7 +117,7 @@ DictEntry *DictSet::NewVirtualDictEntry( uint16_t group,
    }
    else
    {
-      DictEntry ent(group, element, vr, fourth, name);
+      DictEntry ent(group, element, vr, vm, name);
       VirtualEntry.insert(
          std::map<TagKey, DictEntry>::value_type
             (tag, ent));
@@ -192,16 +128,44 @@ DictEntry *DictSet::NewVirtualDictEntry( uint16_t group,
 }
 
 /**
+ * \brief   Get the first entry while visiting the DictSet
+ * \return  The first Dict if found, otherwhise NULL
+ */
+Dict *DictSet::GetFirstEntry()
+{
+   ItDictHt = Dicts.begin();
+   if( ItDictHt != Dicts.end() )
+      return ItDictHt->second;
+   return NULL;
+}
+
+/**
+ * \brief   Get the next entry while visiting the Hash table (DictSetHT)
+ * \note : meaningfull only if GetFirstEntry already called
+ * \return  The next Dict if found, otherwhise NULL
+ */
+Dict *DictSet::GetNextEntry()
+{
+   gdcmAssertMacro (ItDictHt != Dicts.end());
+  
+   ++ItDictHt;
+   if ( ItDictHt != Dicts.end() )
+      return ItDictHt->second;
+   return NULL;
+}
+
+/**
  * \brief   Obtain from the GDCM_DICT_PATH environnement variable the
- *          path to directory containing the dictionnaries. When
+ *          path to directory containing the dictionaries. When
  *          the environnement variable is absent the path is defaulted
  *          to "../Dicts/".
- * @return  path to directory containing the dictionnaries
+ * @return  path to directory containing the dictionaries
  */
 std::string DictSet::BuildDictPath() 
 {
    std::string resultPath;
-   const char *envPath = getenv("GDCM_DICT_PATH");
+   const char *envPath = 0;
+   envPath = getenv("GDCM_DICT_PATH");
 
    if (envPath && (strlen(envPath) != 0)) 
    {
@@ -210,8 +174,7 @@ std::string DictSet::BuildDictPath()
       {
          resultPath += '/';
       }
-      dbg.Verbose(1, "DictSet::BuildDictPath:",
-                     "Dictionary path set from environnement");
+      gdcmWarningMacro( "Dictionary path set from environnement");
    } 
    else
    {
@@ -223,7 +186,11 @@ std::string DictSet::BuildDictPath()
 
 //-----------------------------------------------------------------------------
 // Protected
-bool DictSet::AppendDict(Dict *newDict, DictKey const & name)
+/**
+ * \brief   Adds a Dictionary to a DictSet
+ * \return  always true
+ */
+bool DictSet::AppendDict(Dict *newDict, DictKey const &name)
 {
    Dicts[name] = newDict;
 
@@ -234,5 +201,21 @@ bool DictSet::AppendDict(Dict *newDict, DictKey const & name)
 // Private
 
 //-----------------------------------------------------------------------------
+// Print
+/**
+ * \brief   Print, in an informal fashion, the list of all the dictionaries
+ *          contained is this DictSet, along with their respective content.
+ * @param   os Output stream used for printing.
+ * @param indent Indentation string to be prepended during printing
+ */
+void DictSet::Print(std::ostream &os, std::string const & )
+{
+   for (DictSetHT::iterator dict = Dicts.begin(); dict != Dicts.end(); ++dict)
+   {
+      os << "Printing dictionary " << dict->first << std::endl;
+      dict->second->Print(os);
+   }
+}
 
+//-----------------------------------------------------------------------------
 } // end namespace gdcm

@@ -35,7 +35,7 @@
 #include <stdio.h>   //only included in implementation file
 
 #if defined(_MSC_VER) || defined(__MINGW32__)
-   #include <winsock.h>  // for gethostname & gethostbyname
+   #include <winsock.h>  // for gethostname and gethostbyname
    #undef GetCurrentTime
 #else
 #ifndef __BORLANDC__
@@ -80,19 +80,26 @@
 
 // For GetCurrentThreadID()
 #ifdef __linux__
-#include <sys/types.h>
-#include <linux/unistd.h>
+   #include <sys/types.h>
+   #include <linux/unistd.h>
 #endif
 #ifdef __sun
-#include <thread.h>
+   #include <thread.h>
 #endif
 
 namespace gdcm 
 {
+//-------------------------------------------------------------------------
+const std::string Util::GDCM_UID = "1.2.826.0.1.3680043.2.1143";
+std::string Util::RootUID        = GDCM_UID;
+
+//-------------------------------------------------------------------------
+// Public
 /**
  * \brief Provide a better 'c++' approach for sprintf
  * For example c code is:
- * sprintf(trash, "%04x|%04x", group , elem);
+ * char result[200]; // hope 200 is enough
+ * sprintf(result, "%04x|%04x", group , elem);
  *
  * c++ code is 
  * std::ostringstream buf;
@@ -102,9 +109,9 @@ namespace gdcm
  * buf.str();
  *
  * gdcm style code is
- * Format("%04x|%04x", group , elem);
+ * string result;
+ * result = gdcm::Util::Format("%04x|%04x", group , elem);
  */
-
 std::string Util::Format(const char *format, ...)
 {
    char buffer[2048];
@@ -120,10 +127,14 @@ std::string Util::Format(const char *format, ...)
 
 /**
  * \brief Because not available in C++ (?)
+ * @param str string to check
+ * @param tokens std::vector to receive the tokenized substrings
+ * @param delimiters string containing the character delimitors
+ 
  */
 void Util::Tokenize (const std::string &str,
                      std::vector<std::string> &tokens,
-                     const std::string& delimiters)
+                     const std::string &delimiters)
 {
    std::string::size_type lastPos = str.find_first_not_of(delimiters,0);
    std::string::size_type pos     = str.find_first_of    (delimiters,lastPos);
@@ -138,24 +149,26 @@ void Util::Tokenize (const std::string &str,
 /**
  * \brief Because not available in C++ (?)
  *        Counts the number of occurences of a substring within a string
+ * @param str string to check
+ * @param subStr substring to count
  */
  
 int Util::CountSubstring (const std::string &str,
                           const std::string &subStr)
 {
-   int count = 0;   // counts how many times it appears
-   std::string::size_type x = 0;       // The index position in the string
+   int count = 0;                 // counts how many times it appears
+   std::string::size_type x = 0;  // The index position in the string
 
    do
    {
-      x = str.find(subStr,x);       // Find the substring
-      if (x != std::string::npos)   // If present
+      x = str.find(subStr,x);     // Find the substring
+      if (x != std::string::npos) // If present
       {
-         count++;                  // increase the count
-         x += subStr.length();     // Skip this word
+         count++;                 // increase the count
+         x += subStr.length();    // Skip this word
       }
    }
-   while (x != std::string::npos);  // Carry on until not present
+   while (x != std::string::npos);// Carry on until not present
 
    return count;
 }
@@ -311,6 +324,48 @@ std::string Util::GetCurrentDateTime()
    return r;
 }
 
+unsigned int Util::GetCurrentThreadID()
+{
+// FIXME the implementation is far from complete
+#if defined(_MSC_VER) || defined(__BORLANDC__) || defined(__MINGW32__)
+  return (unsigned int)GetCurrentThreadId();
+#endif
+#ifdef __linux__
+   return 0;
+   // Doesn't work on fedora, but is in the man page...
+   //return (unsigned int)gettid();
+#endif
+#ifdef __sun
+   return (unsigned int)thr_self();
+#else
+   //default implementation
+   return 0;
+#endif
+}
+
+unsigned int Util::GetCurrentProcessID()
+{
+#if defined(_MSC_VER) || defined(__BORLANDC__) || defined(__MINGW32__)
+  // NOTE: There is also a _getpid()...
+  return (unsigned int)GetCurrentProcessId();
+#else
+  // get process identification, POSIX
+  return (unsigned int)getpid();
+#endif
+}
+
+/**
+ * \brief   tells us if the processor we are working with is BigEndian or not
+ */
+bool Util::IsCurrentProcessorBigEndian()
+{
+#if defined(GDCM_WORDS_BIGENDIAN)
+   return true;
+#else
+   return false;
+#endif
+}
+
 /**
  * \brief Create a /DICOM/ string:
  * It should a of even length (no odd length ever)
@@ -322,19 +377,19 @@ std::string Util::GetCurrentDateTime()
 std::string Util::DicomString(const char *s, size_t l)
 {
    std::string r(s, s+l);
-   assert( !(r.size() % 2) ); // == basically 'l' is even
+   gdcmAssertMacro( !(r.size() % 2) ); // == basically 'l' is even
    return r;
 }
 
 /**
  * \brief Create a /DICOM/ string:
- * It should a of even lenght (no odd length ever)
+ * It should a of even length (no odd length ever)
  * It can contain as many (if you are reading this from your
  * editor the following character is is backslash followed by zero
  * that needed to be escaped with an extra backslash for doxygen) \\0
  * as you want.
  * This function is similar to DicomString(const char*), 
- * except it doesn't take a lenght. 
+ * except it doesn't take a length. 
  * It only pad with a null character if length is odd
  */
 std::string Util::DicomString(const char *s)
@@ -345,14 +400,14 @@ std::string Util::DicomString(const char *s)
       l++;
    }
    std::string r(s, s+l);
-   assert( !(r.size() % 2) );
+   gdcmAssertMacro( !(r.size() % 2) );
    return r;
 }
 
 /**
  * \brief Safely compare two Dicom String:
- *        - Both string should be of even lenght
- *        - We allow padding of even lenght string by either a null 
+ *        - Both string should be of even length
+ *        - We allow padding of even length string by either a null 
  *          character of a space
  */
 bool Util::DicomStringEqual(const std::string &s1, const char *s2)
@@ -368,29 +423,29 @@ bool Util::DicomStringEqual(const std::string &s1, const char *s2)
 }
 
 #ifdef _WIN32
-typedef BOOL(WINAPI * pSnmpExtensionInit) (
-        IN DWORD dwTimeZeroReference,
-        OUT HANDLE * hPollForTrapEvent,
-        OUT AsnObjectIdentifier * supportedView);
+   typedef BOOL(WINAPI * pSnmpExtensionInit) (
+           IN DWORD dwTimeZeroReference,
+           OUT HANDLE * hPollForTrapEvent,
+           OUT AsnObjectIdentifier * supportedView);
 
-typedef BOOL(WINAPI * pSnmpExtensionTrap) (
-        OUT AsnObjectIdentifier * enterprise,
-        OUT AsnInteger * genericTrap,
-        OUT AsnInteger * specificTrap,
-        OUT AsnTimeticks * timeStamp,
-        OUT RFC1157VarBindList * variableBindings);
+   typedef BOOL(WINAPI * pSnmpExtensionTrap) (
+           OUT AsnObjectIdentifier * enterprise,
+           OUT AsnInteger * genericTrap,
+           OUT AsnInteger * specificTrap,
+           OUT AsnTimeticks * timeStamp,
+           OUT RFC1157VarBindList * variableBindings);
 
-typedef BOOL(WINAPI * pSnmpExtensionQuery) (
-        IN BYTE requestType,
-        IN OUT RFC1157VarBindList * variableBindings,
-        OUT AsnInteger * errorStatus,
-        OUT AsnInteger * errorIndex);
+   typedef BOOL(WINAPI * pSnmpExtensionQuery) (
+           IN BYTE requestType,
+           IN OUT RFC1157VarBindList * variableBindings,
+           OUT AsnInteger * errorStatus,
+           OUT AsnInteger * errorIndex);
 
-typedef BOOL(WINAPI * pSnmpExtensionInitEx) (
-        OUT AsnObjectIdentifier * supportedView);
+   typedef BOOL(WINAPI * pSnmpExtensionInitEx) (
+           OUT AsnObjectIdentifier * supportedView);
 #endif //_WIN32
 
-
+/// \brief gets current M.A.C adress (for internal use only)
 int GetMacAddrSys ( unsigned char *addr )
 {
 #ifdef _WIN32
@@ -403,8 +458,8 @@ int GetMacAddrSys ( unsigned char *addr )
 
    HANDLE PollForTrapEvent;
    AsnObjectIdentifier SupportedView;
-   UINT OID_ifEntryType[] = { 1, 3, 6, 1, 2, 1, 2, 2, 1, 3 };
-   UINT OID_ifEntryNum[] = { 1, 3, 6, 1, 2, 1, 2, 1 };
+   UINT OID_ifEntryType[]  = { 1, 3, 6, 1, 2, 1, 2, 2, 1, 3 };
+   UINT OID_ifEntryNum[]   = { 1, 3, 6, 1, 2, 1, 2, 1 };
    UINT OID_ipMACEntAddr[] = { 1, 3, 6, 1, 2, 1, 2, 2, 1, 6 };
    AsnObjectIdentifier MIB_ifMACEntAddr = {
        sizeof(OID_ipMACEntAddr) / sizeof(UINT), OID_ipMACEntAddr };
@@ -520,7 +575,7 @@ int GetMacAddrSys ( unsigned char *addr )
 
 
 // implementation for POSIX system
-#if defined(CMAKE_HAVE_NET_IF_ARP_H) && defined(__sun)
+#ifdef __sun
    //The POSIX version is broken anyway on Solaris, plus would require full
    //root power
    struct  arpreq          parpreq;
@@ -580,13 +635,13 @@ int GetMacAddrSys ( unsigned char *addr )
 // We should investiage the use of SIZEOF_ADDR_IFREQ
 //
 #ifdef HAVE_SA_LEN
-#ifndef max
-#define max(a,b) ((a) > (b) ? (a) : (b))
-#endif
-#define ifreq_size(i) max(sizeof(struct ifreq),\
-     sizeof((i).ifr_name)+(i).ifr_addr.sa_len)
+   #ifndef max
+      #define max(a,b) ((a) > (b) ? (a) : (b))
+   #endif
+   #define ifreq_size(i) max(sizeof(struct ifreq),\
+        sizeof((i).ifr_name)+(i).ifr_addr.sa_len)
 #else
-#define ifreq_size(i) sizeof(struct ifreq)
+   #define ifreq_size(i) sizeof(struct ifreq)
 #endif // HAVE_SA_LEN
 
    if( (sd = socket(AF_INET, SOCK_DGRAM, IPPROTO_IP)) < 0 )
@@ -652,9 +707,9 @@ int GetMacAddrSys ( unsigned char *addr )
 }
 
 /**
- * Mini function to return the last digit from a number express in base 256
- * pre condition data contain an array of 6 unsigned char
- * post condition carry contain the last digit
+ * \brief Mini function to return the last digit from a number express in base 256
+ *        pre condition data contain an array of 6 unsigned char
+ *        post condition carry contain the last digit
  */
 inline int getlastdigit(unsigned char *data)
 {
@@ -679,9 +734,8 @@ std::string Util::GetMACAddress()
    // 3 OS: Win32, SunOS and 'real' POSIX
    // http://groups-beta.google.com/group/comp.unix.solaris/msg/ad36929d783d63be
    // http://bdn.borland.com/article/0,1410,26040,00.html
-   
    unsigned char addr[6];
- 
+
    int stat = GetMacAddrSys(addr);
    if (stat == 0)
    {
@@ -692,21 +746,203 @@ std::string Util::GetMACAddress()
       int res;
       std::string sres;
       while(!zero)
-        {
-        res = getlastdigit(addr);
-        sres.insert(sres.begin(), '0' + res );
-        zero = (addr[0] == 0) && (addr[1] == 0) && (addr[2] == 0) && (addr[3] == 0) && (addr[4] == 0) && (addr[5] == 0);
-        }
+      {
+         res = getlastdigit(addr);
+         sres.insert(sres.begin(), '0' + res);
+         zero = (addr[0] == 0) && (addr[1] == 0) && (addr[2] == 0) 
+             && (addr[3] == 0) && (addr[4] == 0) && (addr[5] == 0);
+      }
 
       return sres;
    }
    else
    {
-      dbg.Verbose(0, "Problem in finding the MAC Address");
+      gdcmWarningMacro("Problem in finding the MAC Address");
       return "";
    }
 }
 
+/**
+ * \brief Creates a new UID. As stipulate in the DICOM ref
+ *        each time a DICOM image is create it should have 
+ *        a unique identifier (URI)
+ * @param root is the DICOM prefix assigned by IOS group
+ */
+std::string Util::CreateUniqueUID(const std::string &root)
+{
+   std::string prefix;
+   std::string append;
+   if( root.empty() )
+   {
+      // gdcm UID prefix, as supplied by http://www.medicalconnections.co.uk
+      prefix = RootUID; 
+   }
+   else
+   {
+      prefix = root;
+   }
+
+   // A root was specified use it to forge our new UID:
+   append += ".";
+   append += Util::GetMACAddress();
+   append += ".";
+   append += Util::GetCurrentDateTime();
+
+   //Also add a mini random number just in case:
+   int r = (int) (100.0*rand()/RAND_MAX);
+   append += Format("%02d", r);
+
+   // If append is too long we need to rehash it
+   if( (prefix + append).size() > 64 )
+   {
+      gdcmErrorMacro( "Size of UID is too long." );
+      // we need a hash function to truncate this number
+      // if only md5 was cross plateform
+      // MD5(append);
+   }
+
+   return prefix + append;
+}
+
+void Util::SetRootUID(const std::string &root)
+{
+   if( root.empty() )
+      RootUID = GDCM_UID;
+   else
+      RootUID = root;
+}
+
+const std::string &Util::GetRootUID()
+{
+   return RootUID;
+}
+
+//-------------------------------------------------------------------------
+/**
+ * \brief binary_write binary_write
+ * @param os ostream to write to 
+ * @param val val
+ */ 
+std::ostream &binary_write(std::ostream &os, const uint16_t &val)
+{
+#if defined(GDCM_WORDS_BIGENDIAN) || defined(GDCM_FORCE_BIGENDIAN_EMULATION)
+   uint16_t swap;
+   //swap = ((( val << 8 ) & 0xff00 ) | (( val >> 8 ) & 0x00ff ) );
+   //save CPU time
+   swap = ( val << 8 |  val >> 8  );
+
+   return os.write(reinterpret_cast<const char*>(&swap), 2);
+#else
+   return os.write(reinterpret_cast<const char*>(&val), 2);
+#endif //GDCM_WORDS_BIGENDIAN
+}
+
+/**
+ * \brief binary_write binary_write
+ * @param os ostream to write to
+ * @param val val
+ */ 
+std::ostream &binary_write(std::ostream &os, const uint32_t &val)
+{
+#if defined(GDCM_WORDS_BIGENDIAN) || defined(GDCM_FORCE_BIGENDIAN_EMULATION)
+   uint32_t swap;
+//   swap = ( ((val<<24) & 0xff000000) | ((val<<8)  & 0x00ff0000) | 
+//            ((val>>8)  & 0x0000ff00) | ((val>>24) & 0x000000ff) );
+// save CPU time
+   swap = (  (val<<24)               | ((val<<8)  & 0x00ff0000) | 
+            ((val>>8)  & 0x0000ff00) |  (val>>24)               );
+   return os.write(reinterpret_cast<const char*>(&swap), 4);
+#else
+   return os.write(reinterpret_cast<const char*>(&val), 4);
+#endif //GDCM_WORDS_BIGENDIAN
+}
+
+/**
+ * \brief  binary_write binary_write
+ * @param os ostream to write to
+ * @param val val
+ */ 
+std::ostream &binary_write(std::ostream &os, const char *val)
+{
+   return os.write(val, strlen(val));
+}
+
+/**
+ * \brief
+ * @param os ostream to write to
+ * @param val val
+ */ 
+std::ostream &binary_write(std::ostream &os, std::string const &val)
+{
+   return os.write(val.c_str(), val.size());
+}
+
+/**
+ * \brief  binary_write binary_write
+ * @param os ostream to write to
+ * @param val value
+ * @param len length of the 'value' to be written
+ */ 
+std::ostream &binary_write(std::ostream &os, const uint8_t *val, size_t len)
+{
+   // We are writting sizeof(char) thus no need to swap bytes
+   return os.write(reinterpret_cast<const char*>(val), len);
+}
+
+/**
+ * \brief  binary_write binary_write
+ * @param os ostream to write to
+ * @param val val
+ * @param len length of the 'value' to be written 
+ */ 
+std::ostream &binary_write(std::ostream &os, const uint16_t *val, size_t len)
+{
+// This is tricky since we are writting two bytes buffer. 
+// Be carefull with little endian vs big endian. 
+// Also this other trick is to allocate a small (efficient) buffer that store
+// intermediate result before writting it.
+#if defined(GDCM_WORDS_BIGENDIAN) || defined(GDCM_FORCE_BIGENDIAN_EMULATION)
+   const int BUFFER_SIZE = 4096;
+   static char buffer[BUFFER_SIZE];
+   uint16_t *binArea16 = (uint16_t*)val; //for the const
+ 
+   // how many BUFFER_SIZE long pieces in binArea ?
+   int nbPieces = len/BUFFER_SIZE; //(16 bits = 2 Bytes)
+   int remainingSize = len%BUFFER_SIZE;
+
+   for (int j=0;j<nbPieces;j++)
+   {
+      uint16_t *pbuffer  = (uint16_t*)buffer; //reinitialize pbuffer
+      for (int i = 0; i < BUFFER_SIZE/2; i++)
+      {
+         *pbuffer = *binArea16 >> 8 | *binArea16 << 8;
+         pbuffer++;
+         binArea16++;
+      }
+      os.write ( buffer, BUFFER_SIZE );
+   }
+   if ( remainingSize > 0)
+   {
+      uint16_t *pbuffer  = (uint16_t*)buffer; //reinitialize pbuffer
+      for (int i = 0; i < remainingSize/2; i++)
+      {
+         *pbuffer = *binArea16 >> 8 | *binArea16 << 8;
+         pbuffer++;
+         binArea16++;
+      }
+      os.write ( buffer, remainingSize );
+   }
+   return os;
+#else
+   return os.write(reinterpret_cast<const char*>(val), len);
+#endif
+}
+
+//-------------------------------------------------------------------------
+// Protected
+
+//-------------------------------------------------------------------------
+// Private
 /**
  * \brief   Return the IP adress of the machine writting the DICOM image
  */
@@ -718,7 +954,7 @@ std::string Util::GetIPAddress()
    // SUSv2 guarantees that `Host names are limited to 255 bytes'.
    // POSIX 1003.1-2001 guarantees that `Host names (not including the
    // terminating NUL) are limited to HOST_NAME_MAX bytes'.
-#  define HOST_NAME_MAX 255
+#define HOST_NAME_MAX 255
    // In this case we should maybe check the string was not truncated.
    // But I don't known how to check that...
 #if defined(_MSC_VER) || defined(__BORLANDC__) || defined(__MINGW32__)
@@ -768,142 +1004,6 @@ std::string Util::GetIPAddress()
    return str;
 }
 
-/**
- * \brief Creates a new UID. As stipulate in the DICOM ref
- *        each time a DICOM image is create it should have 
- *        a unique identifier (URI)
- * @param root is the DICOM prefix assigned by IOS group
- * @param is a string you want to append to the UID.
- */
-std::string Util::CreateUniqueUID(const std::string &root)
-{
-   std::string prefix = root;
-   std::string append;
-   if( root.empty() )
-   {
-      // No root was specified use "GDCM" then
-      // echo "gdcm" | od -b
-      // 0000000 147 144 143 155 012
-      prefix = "147.144.143.155"; // special easter egg 
-   }
-   // else
-   // A root was specified use it to forge our new UID:
-   append += ".";
-   append += Util::GetMACAddress();
-   append += ".";
-   append += Util::GetCurrentDateTime();
-
-   //Also add a mini random number just in case:
-   //srand(GetCurrentProcessID());
-   int r = (int) (100.0*rand()/RAND_MAX);
-   append += Format("%02d", r);
-
-   // If append is too long we need to rehash it
-   if( (prefix + append).size() > 64 )
-   {
-      dbg.Error( "Size of UID is too long:", (prefix + append).c_str());
-      // we need a hash function to truncate this number
-      // if only md5 was cross plateform
-      // MD5(append);
-   }
-
-   return prefix + append;
-}
-
-unsigned int Util::GetCurrentThreadID()
-{
-// FIXME the implementation is far from complete
-#if defined(_MSC_VER) || defined(__BORLANDC__) || defined(__MINGW32__)
-  return (unsigned int)GetCurrentThreadId();
-#endif
-#ifdef __linux__
-   return 0;
-   // Doesn't work on fedora, but is in the man page...
-   //return (unsigned int)gettid();
-#endif
-#ifdef __sun
-   return (unsigned int)thr_self();
-#else
-   // default implementation
-   return 0;
-#endif
-}
-
-unsigned int Util::GetCurrentProcessID()
-{
-#if defined(_MSC_VER) || defined(__BORLANDC__) || defined(__MINGW32__)
-  // NOTE: There is also a _getpid()...
-  return (unsigned int)GetCurrentProcessId();
-#else
-  // get process identification, POSIX
-  return (unsigned int)getpid();
-#endif
-
-}
-
-/**
- * \brief
- * @param os ostream to write to
- * @param val val
- */ 
-template <class T>
-std::ostream &binary_write(std::ostream &os, const T &val)
-{
-   return os.write(reinterpret_cast<const char*>(&val), sizeof val);
-}
-
-/**
- * \brief binary_write binary_write
- * @param os ostream to write to 
- * @param val val
- */ 
-std::ostream &binary_write(std::ostream &os, const uint16_t &val)
-{
-#ifdef GDCM_WORDS_BIGENDIAN
-   uint16_t swap;
-   swap = ((( val << 8 ) & 0x0ff00 ) | (( val >> 8 ) & 0x00ff ) );
-   return os.write(reinterpret_cast<const char*>(&swap), 2);
-#else
-   return os.write(reinterpret_cast<const char*>(&val), 2);
-#endif //GDCM_WORDS_BIGENDIAN
-}
-
-/**
- * \brief binary_write binary_write
- * @param os ostream to write to
- * @param val val
- */ 
-std::ostream &binary_write(std::ostream &os, const uint32_t &val)
-{
-#ifdef GDCM_WORDS_BIGENDIAN
-   uint32_t swap;
-   swap = ( ((val<<24) & 0xff000000) | ((val<<8)  & 0x00ff0000) | 
-            ((val>>8)  & 0x0000ff00) | ((val>>24) & 0x000000ff) );
-   return os.write(reinterpret_cast<const char*>(&swap), 4);
-#else
-   return os.write(reinterpret_cast<const char*>(&val), 4);
-#endif //GDCM_WORDS_BIGENDIAN
-}
-
-/**
- * \brief  binary_write binary_write
- * @param os ostream to write to
- * @param val val
- */ 
-std::ostream &binary_write(std::ostream &os, const char *val)
-{
-   return os.write(val, strlen(val));
-}
-
-/**
- * \brief
- * @param os ostream to write to
- * @param val val
- */ 
-std::ostream &binary_write(std::ostream &os, std::string const &val)
-{
-   return os.write(val.c_str(), val.size());
-}
-
+//-------------------------------------------------------------------------
 } // end namespace gdcm
 

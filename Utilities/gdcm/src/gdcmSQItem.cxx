@@ -21,24 +21,24 @@
 #include "gdcmValEntry.h"
 #include "gdcmBinEntry.h"
 #include "gdcmGlobal.h"
+#include "gdcmDictSet.h"
 #include "gdcmUtil.h"
 #include "gdcmDebug.h"
 
 #include <fstream>
-#include <itksys/ios/sstream>
 
 namespace gdcm 
 {
 //-----------------------------------------------------------------------------
 // Constructor / Destructor
 /**
- * \ingroup SQItem
  * \brief   Constructor from a given SQItem
  */
 SQItem::SQItem(int depthLevel ) 
           : DocEntrySet( )
 {
    SQDepthLevel = depthLevel;
+   SQItemNumber = 0;
 }
 
 /**
@@ -46,59 +46,17 @@ SQItem::SQItem(int depthLevel )
  */
 SQItem::~SQItem() 
 {
-   for(ListDocEntry::iterator cc = DocEntries.begin();
-                             cc != DocEntries.end();
-                             ++cc)
-   {
-      delete *cc;
-   }
-   DocEntries.clear();
+   ClearEntry();
 }
 
 //-----------------------------------------------------------------------------
-// Print
+// Public
 /*
- * \brief   canonical Printer
- */
- void SQItem::Print(std::ostream& os)
- {
-   itksys_ios::ostringstream s;
-
-   if (SQDepthLevel > 0)
-   {
-      for (int i = 0; i < SQDepthLevel; ++i)
-      {
-         s << "   | " ;
-      }
-   }
-   //std::cout << s.str() << " --- SQItem number " << SQItemNumber  << std::endl;
-   for (ListDocEntry::iterator i  = DocEntries.begin();
-                               i != DocEntries.end();
-                             ++i)
-   {
-      DocEntry* Entry = *i;
-      bool PrintEndLine = true;
-
-      os << s.str();
-      Entry->SetPrintLevel(2);
-      Entry->Print(os); 
-      if ( SeqEntry* seqEntry = dynamic_cast<SeqEntry*>(Entry) )
-      {
-         (void)seqEntry;  //not used
-         PrintEndLine = false;
-      }
-      if (PrintEndLine)
-      {
-         os << std::endl;
-      }
-   } 
-}
-
-/*
- * \ingroup SQItem
  * \brief   canonical Writer
+ * @param fp     file pointer to an already open file. 
+ * @param filetype type of the file (ACR, ImplicitVR, ExplicitVR, ...)
  */
-void SQItem::Write(std::ofstream* fp, FileType filetype)
+void SQItem::WriteContent(std::ofstream *fp, FileType filetype)
 {
    int j;
    uint16_t item[4] = { 0xfffe, 0xe000, 0xffff, 0xffff };
@@ -111,13 +69,13 @@ void SQItem::Write(std::ofstream* fp, FileType filetype)
       binary_write( *fp, item[j]);  // fffe e000 ffff ffff 
    }
      
-   for (ListDocEntry::iterator i = DocEntries.begin();  
-                              i != DocEntries.end();
-                             ++i)
+   for (ListDocEntry::iterator it = DocEntries.begin();  
+                               it != DocEntries.end();
+                             ++it)
    {   
       // we skip delimitors (start and end one) because 
       // we force them as 'no length'
-      if ( (*i)->GetGroup() == 0xfffe )
+      if ( (*it)->GetGroup() == 0xfffe )
       {
          continue;
       }
@@ -125,12 +83,12 @@ void SQItem::Write(std::ofstream* fp, FileType filetype)
       // Fix in order to make some MR PHILIPS images e-film readable
       // see gdcmData/gdcm-MR-PHILIPS-16-Multi-Seq.dcm:
       // we just *always* ignore spurious fffe|0000 tag ! 
-      if ( (*i)->GetGroup() == 0xfffe && (*i)->GetElement() == 0x0000 )
+      if ( (*it)->GetGroup() == 0xfffe && (*it)->GetElement() == 0x0000 )
       {
          break; // FIXME : continue; ?!?
       }
 
-      (*i)->Write(fp, filetype);
+      (*it)->WriteContent(fp, filetype);
    }
       
     //we force the writting of an 'Item Delimitation' item
@@ -138,148 +96,194 @@ void SQItem::Write(std::ofstream* fp, FileType filetype)
    for(j=0;j<4;++j)
    {
       binary_write( *fp, itemt[j]);  // fffe e000 ffff ffff 
-   }
- 
+   } 
 }
 
-//-----------------------------------------------------------------------------
-// Public
 /**
- * \brief   adds any Entry (Dicom Element) to the Sequence Item
+ * \brief   Inserts *in the right place* any Entry (Dicom Element)
+ *          into the Sequence Item
+ * @param entry Entry to add
  */
-bool SQItem::AddEntry(DocEntry* entry)
-{
-   DocEntries.push_back(entry);
-   //TODO : check if it worked
+bool SQItem::AddEntry(DocEntry *entry)
+{   
+   if (DocEntries.empty() )
+   {
+      DocEntries.push_back(entry);
+      return true;
+   }
+ 
+   ListDocEntry::iterator insertSpot;
+   ListDocEntry::iterator it = DocEntries.end();
+   do
+   {
+      it--;
+
+      if ( (*it)->IsItemDelimitor() )
+      {
+         continue;
+      }
+      if ( (*it)->GetGroup() < entry->GetGroup() )
+         break;
+      else
+         if ( (*it)->GetGroup() == entry->GetGroup() &&
+              (*it)->GetElement() < entry->GetElement() )
+            break;
+   } while (it != DocEntries.begin() );
+  
+   insertSpot = it++;
+   insertSpot++; // ?!?
+   DocEntries.insert(insertSpot, entry); 
    return true;
 }   
 
 /**
- * \brief   Sets Entry (Dicom Element) value of an element,
- *          specified by it's tag (Group, Number) 
- *          and the length, too ...  inside a SQ Item
- *          If the Element is not found, it's just created !
- * \warning we suppose, right now, the element belongs to a Public Group
- *          (NOT a shadow one)       
- * @param   val string value to set
- * @param   group Group number of the searched tag.
- * @param   element Element number of the searched tag.
- * @return  true if element was found or created successfully
+ * \brief   Clear the std::list from given entry AND delete the entry.
+ * @param   entryToRemove Entry to remove AND delete.
+ * @return true if the entry was found and removed; false otherwise
  */
-
-bool SQItem::SetEntryByNumber(std::string const & val, uint16_t group, 
-                              uint16_t element)
+bool SQItem::RemoveEntry( DocEntry *entryToRemove )
 {
-   for(ListDocEntry::iterator i = DocEntries.begin(); 
-                              i != DocEntries.end(); 
-                            ++i)
-   { 
-      if ( (*i)->GetGroup() == 0xfffe && (*i)->GetElement() == 0xe000 ) 
+   for(ListDocEntry::iterator it = DocEntries.begin();
+                              it != DocEntries.end();
+                            ++it)
+   {
+      if( *it == entryToRemove )
       {
-         continue;
-      }
-
-      if (  ( group   < (*i)->GetGroup() )
-          ||( group == (*i)->GetGroup() && element < (*i)->GetElement()) )
-      {
-         // instead of ReplaceOrCreateByNumber 
-         // that is a method of Document :-( 
-         ValEntry* entry;
-         TagKey key = DictEntry::TranslateToKey(group, element);
-
-         if ( ! PtagHT->count(key))
-         {
-            // we assume a Public Dictionnary *is* loaded
-            Dict *pubDict = Global::GetDicts()->GetDefaultPubDict();
-            // if the invoked (group,elem) doesn't exist inside the Dictionary
-            // we create a VirtualDictEntry
-            DictEntry *dictEntry = pubDict->GetDictEntryByNumber(group, element);
-            if (dictEntry == NULL)
-            {
-               dictEntry = 
-                  Global::GetDicts()->NewVirtualDictEntry(group, element,
-                                                          "UN", "??", "??");
-            } 
-            // we assume the constructor didn't fail
-            entry = new ValEntry(dictEntry);
-            /// \todo
-            /// ----
-            /// better we don't assume too much !
-            /// SQItem is now used to describe any DICOMDIR related object
-         }
-         else
-         {
-            DocEntry* foundEntry = PtagHT->find(key)->second;
-            entry = dynamic_cast<ValEntry*>(foundEntry);
-            if (!entry)
-            {
-               dbg.Verbose(0, "SQItem::SetEntryByNumber: docEntries"
-                              " contains non ValEntry occurences");
-            }
-         }
-         if (entry)
-         {
-            entry->SetValue(val); 
-         }
-         entry->SetLength(val.length());
-         DocEntries.insert(i,entry);
-
+         DocEntries.erase(it);
+         gdcmWarningMacro( "One element erased: " << entryToRemove->GetKey() );
+         delete entryToRemove;
          return true;
-      }   
-      if (group == (*i)->GetGroup() && element == (*i)->GetElement() )
-      {
-         if ( ValEntry* entry = dynamic_cast<ValEntry*>(*i) )
-         {
-            entry->SetValue(val);
-         }
-         (*i)->SetLength(val.length()); 
-         return true;    
       }
    }
-   return false;
+   gdcmWarningMacro( "Entry not found: " << entryToRemove->GetKey() );
+   return false ;
 }
+
+/**
+ * \brief   Clear the std::list from given entry BUT keep the entry.
+ * @param   entryToRemove Entry to remove.
+ * @return true if the entry was found and removed; false otherwise
+ */
+bool SQItem::RemoveEntryNoDestroy(DocEntry *entryToRemove)
+{
+   for(ListDocEntry::iterator it =  DocEntries.begin();
+                              it != DocEntries.end();
+                            ++it)
+   {
+      if( *it == entryToRemove )
+      {
+         DocEntries.erase(it);
+         gdcmWarningMacro( "One element erased, no destroyed: "
+                            << entryToRemove->GetKey() );
+         return true;
+      }
+   }
+                                                                                
+   gdcmWarningMacro( "Entry not found:" << entryToRemove->GetKey() );
+   return false ;
+}
+                                                                                
+/**
+ * \brief  Remove all entry in the Sequence Item 
+ */
+void SQItem::ClearEntry()
+{
+   for(ListDocEntry::iterator cc = DocEntries.begin();
+                              cc != DocEntries.end();
+                            ++cc)
+   {
+      delete *cc;
+   }
+   DocEntries.clear();
+}
+
+/**
+ * \brief   Get the first Dicom entry while visiting the SQItem
+ * \return  The first DocEntry if found, otherwhise 0
+ */
+DocEntry *SQItem::GetFirstEntry()
+{
+   ItDocEntries = DocEntries.begin();
+   if( ItDocEntries != DocEntries.end() )
+      return *ItDocEntries;
+   return 0;   
+}
+                                                                                
+/**
+ * \brief   Get the next Dicom entry while visiting the SQItem
+ * \return  The next DocEntry if found, otherwhise NULL
+ */
+DocEntry *SQItem::GetNextEntry()
+{
+   ++ItDocEntries;
+   if( ItDocEntries != DocEntries.end() )
+      return  *ItDocEntries;
+   return NULL;
+}
+
+/**
+ * \brief   Gets a Dicom Element inside a SQ Item Entry
+ * @param   group   Group number of the Entry
+ * @param   elem  Element number of the Entry
+ * @return Entry whose (group,elem) was passed. 0 if not found
+ */
+DocEntry *SQItem::GetDocEntry(uint16_t group, uint16_t elem)
+{
+   for(ListDocEntry::iterator i =  DocEntries.begin();
+                              i != DocEntries.end(); 
+                            ++i)
+   {
+      if ( (*i)->GetGroup() == group && (*i)->GetElement() == elem )
+         return *i;
+   }
+   return NULL;
+}
+
 //-----------------------------------------------------------------------------
 // Protected
 
-
-/**
- * \brief   Gets a Dicom Element inside a SQ Item Entry, by number
- * @return
- */
-DocEntry* SQItem::GetDocEntryByNumber(uint16_t group, uint16_t element)
-{
-   for(ListDocEntry::iterator i = DocEntries.begin();
-                              i != DocEntries.end(); ++i)
-   {
-      if ( (*i)->GetGroup() == group && (*i)->GetElement() == element )
-      {
-         return *i;
-      }
-   }
-   return 0;
-}
-
-/**
- * \brief   Get the value of a Dicom Element inside a SQ Item Entry, by number
- * @return
- */ 
-
-std::string SQItem::GetEntryByNumber(uint16_t group, uint16_t element)
-{
-   for(ListDocEntry::iterator i = DocEntries.begin();
-                              i != DocEntries.end(); ++i)
-   {
-      if ( (*i)->GetGroup() == group && (*i)->GetElement() == element)
-      {
-         return ((ValEntry *)(*i))->GetValue();   //FIXME
-      }
-   }
-   return GDCM_UNFOUND;
-}
 //-----------------------------------------------------------------------------
 // Private
 
+//-----------------------------------------------------------------------------
+// Print
+/*
+ * \brief   canonical Printer
+ * @param os     Stream to print to. 
+ * @param indent Indentation string to be prepended during printing.
+ */
+void SQItem::Print(std::ostream &os, std::string const &)
+{
+   std::ostringstream s;
+
+   if (SQDepthLevel > 0)
+   {
+      for (int i = 0; i < SQDepthLevel; ++i)
+      {
+         s << "   | " ;
+      }
+   }
+   os << s.str() << " --- SQItem number " << SQItemNumber  << std::endl;
+   for (ListDocEntry::iterator i  = DocEntries.begin();
+                               i != DocEntries.end();
+                             ++i)
+   {
+      DocEntry *Entry = *i;
+      bool PrintEndLine = true;
+
+      os << s.str();
+      Entry->SetPrintLevel(PrintLevel);
+      Entry->Print(os); 
+      if ( dynamic_cast<SeqEntry*>(Entry) )
+      {
+         PrintEndLine = false;
+      }
+      if (PrintEndLine)
+      {
+         os << std::endl;
+      }
+   } 
+}
 
 //-----------------------------------------------------------------------------
-
 } // end namespace gdcm

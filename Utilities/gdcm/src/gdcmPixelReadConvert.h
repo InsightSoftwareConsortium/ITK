@@ -1,7 +1,7 @@
 /*=========================================================================
                                                                                 
   Program:   gdcm
-  Module:    gdcmPixelConvert.h
+  Module:    gdcmPixelReadConvert.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -17,61 +17,56 @@
 =========================================================================*/
 
 
-#ifndef GDCMPIXELCONVERT_H
-#define GDCMPIXELCONVERT_H
+#ifndef GDCMPIXELREADCONVERT_H
+#define GDCMPIXELREADCONVERT_H
 
 #include "gdcmCommon.h"
-#include "gdcmRLEFramesInfo.h"
-#include "gdcmJPEGFragmentsInfo.h"
+#include "gdcmBase.h"
 #include "gdcmException.h"
-#include "gdcmHeader.h"
 
 namespace gdcm
 {
-/*
+class File;
+class RLEFramesInfo;
+class JPEGFragmentsInfo;
+
+/**
  * \brief Utility container for gathering the various forms the pixel data
  *        migth take during the user demanded processes.
  */
-class GDCM_EXPORT PixelConvert
+class GDCM_EXPORT PixelReadConvert : public Base
 {
 public:
-   PixelConvert();
-   ~PixelConvert();
+   PixelReadConvert();
+   virtual ~PixelReadConvert();
 
-   //// Getter accessors:
-   uint8_t* GetRGB() { return RGB; }
+   void Print( std::ostream &os = std::cout, std::string const &indent = "" );
+
+   // Getter accessors:
+   uint8_t *GetRGB()     { return RGB;     }
    size_t   GetRGBSize() { return RGBSize; }
-   uint8_t* GetDecompressed() { return Decompressed; }
-   size_t   GetDecompressedSize() { return DecompressedSize; }
-   uint8_t* GetLutRGBA() { return LutRGBA; }
+   uint8_t *GetRaw()     { return Raw;     }
+   size_t   GetRawSize() { return RawSize; }
+   uint8_t *GetLutRGBA() { return LutRGBA; }
 
-   //// Predicates:
-   bool IsDecompressedRGB();
-
-   void Print( std::string indent = "", std::ostream &os = std::cout );
+   // Predicates:
+   bool IsRawRGB();
 
 // In progress
-   void GrabInformationsFromHeader( Header* header );
-   bool ReadAndDecompressPixelData( std::ifstream* fp );
+   void GrabInformationsFromFile( File *file );
+   bool ReadAndDecompressPixelData( std::ifstream *fp );
    void Squeeze();
    bool BuildRGBImage();
 
 private:
    // Use the fp:
-   bool ReadAndDecompressRLEFragment(
-                  uint8_t* subDecompressed,
-                  long fragmentSize,
-                  long decompressedSegmentSize,
-                  std::ifstream* fp );
-   void ReadAndDecompress12BitsTo16Bits( std::ifstream* fp ) throw ( FormatError );
-   bool ReadAndDecompressRLEFile( std::ifstream* fp );
-   bool ReadAndDecompressJPEGFile( std::ifstream* fp );
-   void BuildLUTRGBA( std::ifstream* fp );
+   void ReadAndDecompress12BitsTo16Bits( std::ifstream *fp ) 
+                                 throw ( FormatError );
+   bool ReadAndDecompressJPEGFile( std::ifstream *fp );
 
    // In place (within Decompressed and with no fp access) decompression
    // or convertion:
    void BuildLUTRGBA();
-   bool DecompressRLE16BitsFromRLE8Bits( int NumberOfFrames );
    void ConvertSwapZone();
    void ConvertReorderEndianity();
    bool ConvertReArrangeBits() throw ( FormatError );
@@ -79,22 +74,22 @@ private:
    void ConvertYcBcRPlanesToRGBPixels();
    void ConvertHandleColor();
 
-   void ComputeDecompressedAndRGBSizes();
+   void ComputeRawAndRGBSizes();
    void AllocateRGB();
-   void AllocateDecompressed();
+   void AllocateRaw();
 
 // Variables
    /// Pixel data represented as RGB after LUT color interpretation.
-   uint8_t* RGB;
-   /// Size of \ref RGB image.
+   uint8_t *RGB;
+   /// Size of RGB image.
    size_t   RGBSize;
    /// Pixel data after decompression and bit/byte rearrangement.
-   uint8_t* Decompressed;
-   /// Size of \ref Decompressed image.
-   size_t   DecompressedSize;
+   uint8_t *Raw;
+   /// Size of Decompressed image.
+   size_t   RawSize;
    /// \brief Red/Green/Blue/Alpha LookUpTable build out of the
    ///        Red/Green/Blue LUT descriptors (see \ref BuildLUTRGBA ).
-   uint8_t* LutRGBA;
+   uint8_t *LutRGBA;
 
    size_t PixelOffset;
    size_t PixelDataLength;
@@ -109,13 +104,16 @@ private:
    bool PixelSign;
    int SwapCode;
 
-   bool IsDecompressed;
+   bool IsRaw;
    bool IsJPEG2000;
+   bool IsJPEGLS;
    bool IsJPEGLossless;
+   bool IsJPEGLossy;
+   bool IsJPEG;
    bool IsRLELossless;
 
-   RLEFramesInfo* RLEInfo;
-   JPEGFragmentsInfo* JPEGInfo;
+   RLEFramesInfo *RLEInfo;
+   JPEGFragmentsInfo *JPEGInfo;
 
    // For handling color stage
    int PlanarConfiguration;
@@ -127,9 +125,9 @@ private:
    std::string LutRedDescriptor;
    std::string LutGreenDescriptor;
    std::string LutBlueDescriptor;
-   uint8_t* LutRedData;
-   uint8_t* LutGreenData;
-   uint8_t* LutBlueData;
+   uint8_t *LutRedData;
+   uint8_t *LutGreenData;
+   uint8_t *LutBlueData;
 
 };
 } // end namespace gdcm

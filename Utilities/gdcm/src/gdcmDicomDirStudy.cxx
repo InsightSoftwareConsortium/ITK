@@ -19,39 +19,71 @@
 #include "gdcmDicomDirStudy.h"
 #include "gdcmDicomDirElement.h"
 #include "gdcmGlobal.h"
+#include "gdcmDicomDirSerie.h"
+#include "gdcmDebug.h"
 
 namespace gdcm 
 {
 //-----------------------------------------------------------------------------
 // Constructor / Destructor
+/**
+ * \brief  Constructor 
+ * \note End user must use : DicomDirPatient::NewStudy()
+ */
+DicomDirStudy::DicomDirStudy(bool empty)
+              :DicomDirObject()
+{
+   if( !empty )
+   {
+      ListDicomDirStudyElem const &elemList = 
+         Global::GetDicomDirElements()->GetDicomDirStudyElements();
+      FillObject(elemList);
+   }
+}
 
 /**
- * \ingroup DicomDirStudy
- * \brief constructor  
- * @param  s SQ Item holding the elements related to this "STUDY" part
- * @param ptagHT pointer to the HTable (DicomDirObject needs it 
- *               to build the HeaderEntries)
- */
-DicomDirStudy::DicomDirStudy(SQItem* s, TagDocEntryHT* ptagHT):
-   DicomDirObject(ptagHT)
-{
-   DocEntries = s->GetDocEntries();
-}
-/**
- * \ingroup DicomDirStudy
- * \brief constructor  
- * @param ptagHT pointer to the HTable (DicomDirObject needs it 
- *               to build the HeaderEntries)
- */
-DicomDirStudy::DicomDirStudy(TagDocEntryHT* ptagHT):
-   DicomDirObject(ptagHT)
-{
-}
-/**
- * \ingroup DicomDirStudy
  * \brief   Canonical destructor.
  */
 DicomDirStudy::~DicomDirStudy() 
+{
+   ClearSerie();
+}
+
+//-----------------------------------------------------------------------------
+// Public
+/**
+ * \brief   Writes the Object
+ * @param fp ofstream to write to
+ * @param t Type of the File (explicit VR, implicitVR, ...) 
+ * @return
+ */ 
+void DicomDirStudy::WriteContent(std::ofstream *fp, FileType t)
+{
+   DicomDirObject::WriteContent(fp, t);
+
+   for(ListDicomDirSerie::iterator cc = Series.begin();
+                                   cc!= Series.end();
+                                 ++cc )
+   {
+      (*cc)->WriteContent( fp, t );
+   }
+}
+
+/**
+ * \brief   adds a new Serie at the beginning of the SerieList
+ *          of a partially created DICOMDIR
+ */
+DicomDirSerie *DicomDirStudy::NewSerie()
+{
+   DicomDirSerie *st = new DicomDirSerie();
+   Series.push_back(st);
+   return st;
+} 
+
+/**
+ * \brief  Remove all series in the study 
+ */
+void DicomDirStudy::ClearSerie()
 {
    for(ListDicomDirSerie::iterator cc = Series.begin();
                                    cc != Series.end();
@@ -59,16 +91,66 @@ DicomDirStudy::~DicomDirStudy()
    {
       delete *cc;
    }
+   Series.clear();
 }
+
+/**
+ * \brief   Get the first entry while visiting the DicomDirSeries
+ * \return  The first DicomDirSerie if found, otherwhise NULL
+ */
+DicomDirSerie *DicomDirStudy::GetFirstSerie()
+{
+   ItSerie = Series.begin();
+   if (ItSerie != Series.end())
+      return *ItSerie;
+   return NULL;
+}
+
+/**
+ * \brief   Get the next entry while visiting the DicomDirSeries
+ * \note : meaningfull only if GetFirstEntry already called
+ * \return  The next DicomDirSerie if found, otherwhise NULL
+ */
+DicomDirSerie *DicomDirStudy::GetNextSerie()
+{
+   gdcmAssertMacro (ItSerie != Series.end());
+
+   ++ItSerie;
+   if (ItSerie != Series.end())
+      return *ItSerie;
+   return NULL;
+}  
+
+/**
+ * \brief   Get the last entry while visiting the DicomDirSeries
+ * \return  The first DicomDirSerie if found, otherwhise NULL
+ */
+DicomDirSerie *DicomDirStudy::GetLastSerie()
+{
+   ItSerie = Series.end();
+   if (ItSerie != Series.begin())
+   {
+     --ItSerie;
+      return *ItSerie;
+   }
+   return NULL;
+}
+
+//-----------------------------------------------------------------------------
+// Protected
+
+//-----------------------------------------------------------------------------
+// Private
 
 //-----------------------------------------------------------------------------
 // Print
 /**
- * \ingroup DicomDirStudy
  * \brief   Prints the Object
+ * @param os ostream to write to 
+ * @param indent Indentation string to be prepended during printing
  * @return
  */ 
-void DicomDirStudy::Print(std::ostream& os)
+void DicomDirStudy::Print(std::ostream &os, std::string const & )
 {
    os << "STUDY" << std::endl;
    DicomDirObject::Print(os);
@@ -83,46 +165,4 @@ void DicomDirStudy::Print(std::ostream& os)
 }
 
 //-----------------------------------------------------------------------------
-// Public
-
-/**
- * \brief   Writes the Object
- * @return
- */ 
-void DicomDirStudy::Write(std::ofstream* fp, FileType t)
-{
-   DicomDirObject::Write(fp, t);
-
-   for(ListDicomDirSerie::iterator cc = Series.begin();
-                                   cc!= Series.end();
-                                 ++cc )
-   {
-      (*cc)->Write( fp, t );
-   }
-}
-
-/**
- * \ingroup DicomDirStudy
- * \brief   adds a new Serie at the begining of the SerieList
- *          of a partially created DICOMDIR
- */
-DicomDirSerie* DicomDirStudy::NewSerie()
-{
-   ListDicomDirSerieElem const & elemList = 
-      Global::GetDicomDirElements()->GetDicomDirSerieElements();   
-
-   DicomDirSerie* st = new DicomDirSerie(PtagHT);
-   FillObject(elemList);
-   Series.push_front(st);
-
-   return st;  
-}   
-//-----------------------------------------------------------------------------
-// Protected
-
-//-----------------------------------------------------------------------------
-// Private
-
-//-----------------------------------------------------------------------------
 } // end namespace gdcm
-

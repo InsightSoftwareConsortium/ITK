@@ -18,63 +18,49 @@
 
 #include "gdcmDicomDirMeta.h"
 #include "gdcmDocument.h"
+#include "gdcmDocEntry.h"
+#include "gdcmGlobal.h"
 
 namespace gdcm 
 {
-
 //-----------------------------------------------------------------------------
 // Constructor / Destructor
-
 /**
- * \ingroup DicomDirMeta
  * \brief  Constructor
  */ 
-DicomDirMeta::DicomDirMeta(TagDocEntryHT* ptagHT):
-   DicomDirObject(ptagHT)
+DicomDirMeta::DicomDirMeta(bool empty):
+   DicomDirObject()
 {
-
+   if( !empty )
+   {
+      ListDicomDirStudyElem const &elemList = 
+         Global::GetDicomDirElements()->GetDicomDirMetaElements();
+      FillObject(elemList);
+   }
 }
 
 /**
- * \ingroup DicomDirMeta
  * \brief   Canonical destructor.
  */
 DicomDirMeta::~DicomDirMeta() 
 {
-   
 }
-
-//-----------------------------------------------------------------------------
-// Print
-/**
- * \brief   Prints the Meta Elements
- */ 
-void DicomDirMeta::Print(std::ostream& os)
-{
-   os << "META" << std::endl;
-   // warning : META doesn't behave exactly like a Objet 
-   for (ListDocEntry::iterator i = DocEntries.begin();  
-        i != DocEntries.end();
-        ++i)
-      (*i)->Print();    
-}
-
 
 //-----------------------------------------------------------------------------
 // Public
-
-
 /**
  * \brief   Writes the Meta Elements
+ * @param fp ofstream to write to
+ * @param filetype type of the file (ACR, ImplicitVR, ExplicitVR, ...)
  * @return
  */ 
-void DicomDirMeta::Write(std::ofstream* fp, FileType t)
+void DicomDirMeta::WriteContent(std::ofstream *fp, FileType filetype)
 {   
    for (ListDocEntry::iterator i = DocEntries.begin();  
                               i != DocEntries.end();
                               ++i)
    {
-      (*i)->Write(fp, t);
+      (*i)->WriteContent(fp, filetype);
    }
 }
 
@@ -85,5 +71,25 @@ void DicomDirMeta::Write(std::ofstream* fp, FileType t)
 // Private
 
 //-----------------------------------------------------------------------------
+// Print
+/**
+ * \brief   Prints the Meta Elements
+ * @param os ostream to write to 
+ * @param indent Indentation string to be prepended during printing
+ */ 
+void DicomDirMeta::Print(std::ostream &os, std::string const & )
+{
+   os << "META" << std::endl;
+   // warning : META doesn't behave exactly like a Objet 
+   for (ListDocEntry::iterator i = DocEntries.begin();
+        i != DocEntries.end();
+        ++i)
+   {
+      (*i)->SetPrintLevel(PrintLevel);
+      (*i)->Print();
+      os << std::endl;
+   }
+}
 
+//-----------------------------------------------------------------------------
 } // end namespace gdcm

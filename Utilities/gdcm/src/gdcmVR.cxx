@@ -23,12 +23,16 @@
 
 #include <fstream>
 #include <iostream>
-#include <itksys/ios/sstream>
 
 namespace gdcm 
 {
-void FillDefaultVRDict(VRHT & vr);
 //-----------------------------------------------------------------------------
+/// \brief auto generated function, to fill up the 'Value Representation'
+///        Dictionnary, if relevant file is not found on user's disk
+void FillDefaultVRDict(VRHT &vr);
+
+//-----------------------------------------------------------------------------
+// Constructor / Destructor
 /**
  * \brief Constructor
  */
@@ -38,7 +42,7 @@ VR::VR()
    std::ifstream from(filename.c_str());
    if(!from)
    {
-      dbg.Verbose(2, "VR::VR: can't open dictionary", filename.c_str());
+      gdcmWarningMacro("Can't open dictionary" << filename.c_str());
       FillDefaultVRDict(vr);
    }
    else
@@ -68,7 +72,6 @@ VR::VR()
    }
 }
 
-//-----------------------------------------------------------------------------
 /**
  * \brief Destructor
  */
@@ -78,89 +81,76 @@ VR::~VR()
 }
 
 //-----------------------------------------------------------------------------
-// Print
-/**
- * \brief   Print all 
- * @param   os The output stream to be written to.
- */
-void VR::Print(std::ostream &os) 
-{
-   itksys_ios::ostringstream s;
-
-   for (VRHT::iterator it = vr.begin(); it != vr.end(); ++it)
-   {
-      s << "VR : " << it->first << " = " << it->second << std::endl;
-   }
-   os << s.str();
-}
-
-//-----------------------------------------------------------------------------
 // Public
 /**
  * \brief   Get the count for an element
  * @param   key key to count
  */
-int VR::Count(VRKey const & key) 
+int VR::Count(VRKey const &key) 
 {
    return vr.count(key);
 }
 
-//-----------------------------------------------------------------------------
 /**
- * \brief   Simple predicate that checks wether the given argument
+ * \brief   Simple predicate that checks whether the given argument
  *          corresponds to the Value Representation of a \ref BinEntry .
- *          This predicate is the negation of
- *          \ref VR::IsVROfGdcmStringRepresentable .
  * @param   tested value representation to check for.
  */
-bool VR::IsVROfGdcmBinaryRepresentable(VRKey const & tested)
+bool VR::IsVROfBinaryRepresentable(VRKey const &tested)
 {
-   //std::cout << "VR::IsVROfGdcmBinaryRepresentable===================="
-   //   << tested << std::endl;
-
-   if ( tested == "unkn")
+   if ( tested == GDCM_UNKNOWN)
       return true;
 
-   if ( ! Count(tested) )
-   {
-      dbg.Verbose(0, "VR::IsVROfGdcmBinaryRepresentable: tested not a VR!");
+   if ( IsVROfStringRepresentable(tested) )
       return false;
-   }
 
-   if ( IsVROfGdcmStringRepresentable(tested) )
-   {
-      dbg.Verbose(0, "VR::IsVROfGdcmBinaryRepresentable: binary VR !");
+   if ( IsVROfSequence(tested) )
       return false;
-   }
 
    return true;
 }
 
-//-----------------------------------------------------------------------------
 /**
- * \brief   Simple predicate that checks wether the given argument
+ * \brief   Simple predicate that checks whether the given argument
  *          corresponds to the Value Representation of a \ref ValEntry
  *          but NOT a \ref BinEntry.
+ * @param   tested value representation to be checked.
+ */
+bool VR::IsVROfStringRepresentable(VRKey const &tested)
+{
+   return tested == "AE" ||
+          tested == "AS" ||
+          tested == "CS" ||
+          tested == "DA" ||
+          tested == "DS" ||
+          tested == "IS" || 
+          tested == "LO" ||
+          tested == "LT" ||
+          tested == "PN" ||
+          tested == "SH" ||
+          tested == "SL" ||
+          tested == "SS" ||
+          tested == "ST" ||
+          tested == "TM" ||
+          tested == "UI" ||
+          tested == "UL" ||
+          tested == "UN" ||
+          tested == "US";
+}
+
+/**
+ * \brief   Simple predicate that checks whether the given argument
+ *          corresponds to the Value Representation of a \ref SeqEntry
  * @param   tested value representation to check for.
  */
-bool VR::IsVROfGdcmStringRepresentable(VRKey const & tested)
+bool VR::IsVROfSequence(VRKey const &tested)
 {
+   return tested == "SQ";
+}
 
-   if ( ! Count(tested) )
-   {
-      dbg.Verbose(0, "VR::IsVROfGdcmStringRepresentable: tested not a VR!");
-      return false;
-   }
-
-   if (tested == "AE" || tested == "AS" || tested == "DA" || tested == "PN" ||
-       tested == "UI" || tested == "TM" || tested == "SH" || tested == "LO" ||
-       tested == "CS" || tested == "IS" || tested == "LO" || tested == "LT" ||
-       tested == "SH" || tested == "ST" || tested == "DS" || tested == "SL" ||
-       tested == "SS" || tested == "UL" || tested == "US" || tested == "UN")
-   {
-      return true;
-   }
-   return false;
+bool VR::IsValidVR(VRKey const &key)
+{
+   return vr.find(key) != vr.end();
 }
 
 //-----------------------------------------------------------------------------
@@ -170,5 +160,21 @@ bool VR::IsVROfGdcmStringRepresentable(VRKey const & tested)
 // Private
 
 //-----------------------------------------------------------------------------
+// Print
+/**
+ * \brief   Print all 
+ * @param   os The output stream to be written to.
+ */
+void VR::Print(std::ostream &os) 
+{
+   std::ostringstream s;
 
+   for (VRHT::iterator it = vr.begin(); it != vr.end(); ++it)
+   {
+      s << "VR : " << it->first << " = " << it->second << std::endl;
+   }
+   os << s.str();
+}
+
+//-----------------------------------------------------------------------------
 } // end namespace gdcm

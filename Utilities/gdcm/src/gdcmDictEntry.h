@@ -19,38 +19,46 @@
 #ifndef GDCMDICTENTRY_H
 #define GDCMDICTENTRY_H
 
-#include "gdcmCommon.h"
+#include "gdcmBase.h"
 
 namespace gdcm 
 {
 
 //-----------------------------------------------------------------------------
-/*
- * \defgroup DictEntry
+/**
  * \brief
  * the DictEntry in an element contained by the Dict.
  * It contains :
  *  - the key referenced by the DICOM norm or the constructor (for private keys)
- *  - the corresponding name in english (it's equivalent to a label)
- *  - the owner group
- *  - etc.
+ *    i.e. the Group number
+ *         the Element number
+ *  - the VR (Value Representation)
+ *  - the VM (Value Multplicity)
+ *  - the corresponding name in english
  */
-class GDCM_EXPORT DictEntry 
+class GDCM_EXPORT DictEntry : public Base
 {
 public:
    DictEntry(uint16_t group, 
-             uint16_t element,
-             TagName const & vr     = "Unknown",
-             TagName const & fourth = "Unknown",
-             TagName const & name   = "Unknown");
+             uint16_t elem,
+             TagName const &vr     = GDCM_UNKNOWN,
+             TagName const &vm     = GDCM_UNKNOWN,
+             TagName const &name   = GDCM_UNKNOWN);
 
-   static TagKey TranslateToKey(uint16_t group, uint16_t element);
+// Print
+   void Print(std::ostream &os = std::cout, std::string const &indent = "");
 
-   void SetVR(TagName const & vr);
+// Content of DictEntry
+   void SetVR(TagName const &vr);
+   void SetVM(TagName const &vm);
 
    /// \brief tells if the V(alue) R(epresentation) is known (?!)
    /// @return 
-   bool IsVRUnknown() { return VR == "??"; }
+   bool IsVRUnknown() { return VR == GDCM_UNKNOWN; }
+
+   /// \brief tells if the V(alue) M(ultiplicity) is known (?!)
+   /// @return 
+   bool IsVMUnknown() { return VM == GDCM_UNKNOWN; }
 
    /// \brief  Returns the Dicom Group Number of the current DictEntry
    /// @return the Dicom Group Number
@@ -63,32 +71,33 @@ public:
    /// \brief  Returns the Dicom Value Representation of the current
    ///         DictEntry
    /// @return the Dicom Value Representation
-   const TagName & GetVR() const { return VR; }
+   const TagName &GetVR() const { return VR; }
  
    /// \brief   sets the key of the current DictEntry
    /// @param k New key to be set.
-   void SetKey(TagName const & k)  { Key = k; }
+   void SetKey(TagName const &k)  { Key = k; }
  
-   /// \brief   returns the Fourth field of the current DictEntry
-   /// \warning NOT part of the Dicom Standard.
-   ///          May be REMOVED an any time. NEVER use it.
-   /// @return  The Fourth field
-   const TagName & GetFourth() const { return Fourth; } 
+   /// \brief   returns the VM field of the current DictEntry
+   /// @return  The 'Value Multiplicity' field
+   const TagName &GetVM() const { return VM; } 
 
    /// \brief  Returns the Dicom Name of the current DictEntry
    ///         e.g. "Patient Name" for Dicom Tag (0x0010, 0x0010) 
    /// @return the Dicom Name
-   const TagName & GetName() const { return Name; } 
+   const TagName &GetName() const { return Name; } 
  
    /// \brief  Gets the key of the current DictEntry
    /// @return the key.
-   const TagName & GetKey() const { return Key; }
+   const TagKey &GetKey() const { return Key; }
+
+// Key creation
+   static TagKey TranslateToKey(uint16_t group, uint16_t elem);
 
 private:
    /// \todo FIXME 
-   ///        where are the group and element used except from building up
+   ///        where are the group and elem used except from building up
    ///        a TagKey. If the answer is nowhere then there is no need
-   ///        to store the group and element independently.
+   ///        to store the group and elem independently.
    ///
    ///        --> EVERYWHERE ! The alternate question would be :
    ///                         What's TagKey used for ?
@@ -100,22 +109,14 @@ private:
    uint16_t Element; // e.g. 0x0103
 
    /// \brief Value Representation i.e. some clue about the nature
-   ///        of the data represented e.g. "FD" short for
-   ///        "Floating Point Double" (see \ref VR)
+   ///        of the data represented e.g. 
+   ///        "FD" short for "Floating Point Double"(see \ref VR)
+   ///        "PN" short for "Person Name"       
    TagName VR;
 
-   /**
-    * \brief AVOID using the following fourth field at all costs.
-    * 
-    *  They are at least two good reasons for NOT using fourth:
-    *  - the main reason is that it is NOT part of the 'official'
-    *    Dicom Dictionnary.
-    *  - a second reason is that it is not defined for all the groups.
+   /*
     *  .
-    *  Still it provides some semantics as group name abbreviation that
-    *  can prove of some help when organizing things in an interface.
-    *  For the time being we keep it in gdcm but it migth be removed in
-    *  future releases it proves to be source of confusion.
+    *  Formerly 'Group name abbreviations'
     *  Here is a small dictionary we encountered in "nature":
     *  - CMD      Command        
     *  - META     Meta Information 
@@ -161,12 +162,13 @@ private:
     *  - LLO = Left  Lateral Oblique  
     *  .
     */
-   TagName Fourth; 
+   /// \brief Value Multiplicity (e.g. "1", "1-n", "6")
+   TagName VM; 
 
    /// e.g. "Patient's Name"                    
    TagName Name;      
 
-   /// Redundant with (group, element) but we add it for efficiency purpose.
+   /// Redundant with (group, elem) but we add it for efficiency purpose.
    TagKey  Key;
 };
 } // end namespace gdcm

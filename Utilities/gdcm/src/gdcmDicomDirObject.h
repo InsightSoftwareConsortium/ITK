@@ -29,38 +29,25 @@ namespace gdcm
 {
 //-----------------------------------------------------------------------------
 class DicomDirObject;
-typedef std::list<DicomDirObject *> ListContent;
 
 //-----------------------------------------------------------------------------
+typedef std::list<DicomDirObject *> ListContent;
+//-----------------------------------------------------------------------------
 /**
- * \ingroup DicomDirObject
- * \brief   Base object
+ * \brief   Parent object for DicomDirPatient, DicomDirStudy, 
+ *                            DicomDirSerie, DicomDirImage, of a DicomDir
  */
 class GDCM_EXPORT DicomDirObject : public SQItem
 {
 public:
 
-   DicomDirObject(TagDocEntryHT *ptagHT, int depth = 0);
-   ~DicomDirObject();
-
-   /**
-    * \brief   Sets the print level for the Dicom Header 
-    * \note    0 for Light Print; 1 for 'medium' Print, 2 for Heavy
-    */
-   void SetPrintLevel(int level) { PrintLevel = level; };
-   
-   TagDocEntryHT GetEntry();
-   void FillObject(ListDicomDirMetaElem const & elemList);
-
 protected:
-
    // Constructor and destructor are protected to avoid end user to
    // instanciate from this class. 
-   // NO ! DicomDir needs to instanciate it!
+   DicomDirObject(int depth = 1);
+   ~DicomDirObject();
 
-// Members :
-   ///\brief detail level to be printed 
-   int PrintLevel;
+   void FillObject(ListDicomDirMetaElem const &elemList);
 };
 } // end namespace gdcm
 

@@ -24,15 +24,17 @@
 namespace gdcm 
 {
 //-----------------------------------------------------------------------------
-class GDCM_EXPORT DicomDirImage : public DicomDirObject
+/**
+ * \brief   describes an IMAGE within a SERIE
+ * (DicomDirSerie) of a given DICOMDIR (DicomDir)
+ */
+ class GDCM_EXPORT DicomDirImage : public DicomDirObject
 {
 public:
-   DicomDirImage(SQItem *s, TagDocEntryHT *ptagHT); 
-   DicomDirImage(TagDocEntryHT *ptagHT); 
-
+   DicomDirImage(bool empty=false); 
    ~DicomDirImage();
 
-   void Print(std::ostream &os = std::cout);
+   void Print(std::ostream &os = std::cout, std::string const &indent = "" );
 };
 } // end namespace gdcm
 //-----------------------------------------------------------------------------

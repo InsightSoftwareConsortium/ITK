@@ -30,11 +30,11 @@ namespace gdcm
 
 typedef struct
 {
-  uint16_t group;
-  uint16_t element;
-  const char *vr;
-  const char *fourth;
-  const char *name;
+   uint16_t group;
+   uint16_t element;
+   const char *vr;
+   const char *vm;
+   const char *name;
 } DICT_ENTRY;
 
 static DICT_ENTRY datadir[] = {
@@ -43,14 +43,14 @@ static DICT_ENTRY datadir[] = {
 
 void FillDefaultDataDict(Dict *d)
 {
-  unsigned int i = 0;
-  DICT_ENTRY n = datadir[i];
-  while( n.name != 0 )
-    {
-    const DictEntry e( n.group, n.element, n.vr, n.fourth, n.name);
-    d->AddNewEntry( e );
-    n = datadir[++i];
-    }
+   unsigned int i = 0;
+   DICT_ENTRY n = datadir[i];
+   while( n.name != 0 )
+   {
+      const DictEntry e( n.group, n.element, n.vr, n.vm, n.name);
+      d->AddEntry( e );
+      n = datadir[++i];
+   }
 }
 
 void FillDefaultTSDict(TSHT & ts)
@@ -65,29 +65,47 @@ void FillDefaultVRDict(VRHT & vr)
 
 typedef struct
 {
-  const char *type;
-  unsigned short group;
-  unsigned short element;
-  const char *value;
+   const char *type;
+   unsigned short group;
+   unsigned short element;
+   const char *value;
 } ELEMENT;
 
-static ELEMENT dataelement[] = {
+static ELEMENT dataElement[] = {
 @DICOM_DIR_DICTIONARY@
 };
 
 void FillDefaultDIRDict(DicomDirElement *dde)
 {
-  unsigned int i = 0;
-  ELEMENT e = dataelement[i];
-  Element elem;
-  while( e.type != 0 )
-    {
-    elem.Group = e.group;
-    elem.Elem  = e.element;
-    elem.Value = e.value;
-    dde->AddNewEntry( e.type, elem);
-    e = dataelement[++i];
-    }
+   unsigned int i = 0;
+   ELEMENT e = dataElement[i];
+   Element elem;
+   DicomDirType type;
+   std::string strType;
+
+   while( e.type != 0 )
+   {
+      // Force to use the string comparision operator ==
+      strType = e.type;
+      if( strType == "metaElem" )
+         type = DD_META;
+      else if( strType == "patientElem" )
+         type = DD_PATIENT;
+      else if( strType == "studyElem" )
+         type = DD_STUDY;
+      else if( strType == "serieElem" )
+         type = DD_SERIE;
+      else if( strType == "imageElem" )
+         type = DD_IMAGE;
+      else
+         type = DD_UNKNOWN;
+
+      elem.Group = e.group;
+      elem.Elem  = e.element;
+      elem.Value = e.value;
+      dde->AddEntry( type, elem);
+      e = dataElement[++i];
+   }
 }
 
 } //end gdcm namespace

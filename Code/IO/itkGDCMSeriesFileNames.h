@@ -46,7 +46,7 @@ class ITK_EXPORT GDCMSeriesFileNames : public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef GDCMSeriesFileNames    Self;
+  typedef GDCMSeriesFileNames     Self;
   typedef Object                  Superclass;
   typedef SmartPointer<Self>      Pointer;
   

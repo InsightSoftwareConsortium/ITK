@@ -34,8 +34,8 @@ typedef std::string VRAtr;
 typedef std::map<VRKey, VRAtr> VRHT;
 
 //-----------------------------------------------------------------------------
-/*
- * Container for dicom Value Representation Hash Table
+/**
+ * \brief Container for dicom Value Representation Hash Table
  * \note   This is a singleton
  */
 class GDCM_EXPORT VR 
@@ -45,9 +45,13 @@ public:
    ~VR();
 
    void Print(std::ostream &os = std::cout);
-   int Count(VRKey const & key);
-   bool IsVROfGdcmBinaryRepresentable(VRKey const & tested);
-   bool IsVROfGdcmStringRepresentable(VRKey const & tested);
+
+   int Count(VRKey const &key);
+   bool IsVROfBinaryRepresentable(VRKey const &tested);
+   bool IsVROfStringRepresentable(VRKey const &tested);
+   bool IsVROfSequence(VRKey const &tested);
+
+   bool IsValidVR(VRKey const &key);
 
 private:
    VRHT vr;

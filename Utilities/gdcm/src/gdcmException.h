@@ -20,23 +20,24 @@
 #define GDCM_EXCEPTION_H
 
 #include "gdcmCommon.h"
+
 #include <string>
 #include <iostream>
 #include <exception>
+
 namespace gdcm 
 {
 
 //-----------------------------------------------------------------------------
-/*
- * Any exception thrown in the gdcm library
+/**
+ * \brief Any exception thrown in the gdcm library
  */
 class GDCM_EXPORT Exception : public std::exception
 {
 public:
    /*
-    * Builds an exception with minimal information: name of the thrower
-    * method and error message
-    *
+    * \brief Builds an exception with minimal information: name of the thrower
+    *        method and error message
     * @param from name of the thrower
     * @param error error description string
     */
@@ -67,7 +68,7 @@ public:
    /// returns exception name string
    operator const char *() const throw();
 
-   friend std::ostream& operator<<(std::ostream &os, const Exception &e);
+   friend std::ostream &operator<<(std::ostream &os, const Exception &e);
 
 protected:
    /// error message part 1
@@ -78,8 +79,8 @@ protected:
 
 
 //-----------------------------------------------------------------------------
-/*
- * File error exception thrown in the gdcm library
+/**
+ * \brief File error exception thrown in the gdcm library
  */
 class GDCM_EXPORT FileError : public Exception
 {

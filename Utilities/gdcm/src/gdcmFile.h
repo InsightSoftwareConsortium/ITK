@@ -19,157 +19,179 @@
 #ifndef GDCMFILE_H
 #define GDCMFILE_H
 
-#include "gdcmCommon.h"
-#include "gdcmHeader.h"
-#include "gdcmPixelConvert.h"
+#include "gdcmDocument.h"
 
 namespace gdcm 
 {
+class RLEFramesInfo;
+class JPEGFragmentsInfo;
+
 //-----------------------------------------------------------------------------
-/*
- * In addition to Dicom header exploration, this class is designed
- * for accessing the image/volume content. One can also use it to
- * write Dicom/ACR-NEMA/RAW files.
+// Dicom Part 3.3 Compliant
+enum ModalityType {
+   Unknow,
+   AU,       // Voice Audio
+   AS,       // Angioscopy
+   BI,       // Biomagnetic Imaging
+   CF,       // Cinefluorography
+   CP,       // Culposcopy
+   CR,       // Computed Radiography
+   CS,       // Cystoscopy
+   CT,       // Computed Tomography
+   DD,       // Duplex Dopler
+   DF,       // Digital Fluoroscopy
+   DG,       // Diaphanography
+   DM,       // Digital Microscopy
+   DS,       // Digital Substraction Angiography
+   DX,       // Digital Radiography
+   ECG,      // Echocardiography
+   EPS,      // Basic Cardiac EP
+   ES,       // Endoscopy
+   FA,       // Fluorescein Angiography
+   FS,       // Fundoscopy
+   HC,       // Hard Copy
+   HD,       // Hemodynamic
+   LP,       // Laparoscopy
+   LS,       // Laser Surface Scan
+   MA,       // Magnetic Resonance Angiography
+   MR,       // Magnetic Resonance
+   NM,       // Nuclear Medicine
+   OT,       // Other
+   PT,       // Positron Emission Tomography
+   RF,       // Radio Fluoroscopy
+   RG,       // Radiographic Imaging
+   RTDOSE,   // Radiotherapy Dose
+   RTIMAGE,  // Radiotherapy Image
+   RTPLAN,   // Radiotherapy Plan
+   RTSTRUCT, // Radiotherapy Structure Set
+   SM,       // Microscopic Imaging
+   ST,       // Single-photon Emission Computed Tomography
+   TG,       // Thermography
+   US,       // Ultrasound
+   VF,       // Videofluorography
+   XA,       // X-Ray Angiography
+   XC        // Photographic Imaging
+};
+
+//-----------------------------------------------------------------------------
+
+/**
+ * \brief DICOM elements and their corresponding values (and
+ * additionaly the corresponding DICOM dictionary entry) of the header
+ * of a DICOM file.
+ *
+ * The typical usage of instances of class File is to classify a set of
+ * dicom files according to header information e.g. to create a file hierarchy
+ * reflecting the Patient/Study/Serie informations, or extracting a given
+ * SerieId. Accessing the content (image[s] or volume[s]) is beyond the
+ * functionality of this class and belongs to gdmcFile.
+ * \note  The various entries of the explicit value representation (VR) shall
+ *        be managed within a dictionary which is shared by all File
+ *        instances.
+ * \note  The File::Set*Tag* family members cannot be defined as
+ *        protected due to Swig limitations for as Has_a dependency between
+ *        File and FileHelper.
  */
-class GDCM_EXPORT File
+class GDCM_EXPORT File : public Document
 {
 public:
-   File( Header* header );
-   File( std::string const& filename );
- 
-   virtual ~File();
+   File();
+   File( std::string const &filename );
+   ~File();
 
-   /// Accessor to \ref Header
-   Header* GetHeader() { return HeaderInternal; }
+   // Standard values and informations contained in the header
+   bool IsReadable();
 
-   /// Accessor to \ref ImageDataSize
-   size_t GetImageDataSize() { return ImageDataSize; };
+   // Some heuristic based accessors, end user intended 
+   int GetImageNumber();
+   ModalityType GetModality();
 
-   /// Accessor to \ref ImageDataSizeRaw
-   size_t GetImageDataSizeRaw() { return ImageDataSizeRaw; };
+   int GetXSize();
+   int GetYSize();
+   int GetZSize();
 
-   /// Accessor to \ref PixelConverter
-   PixelConvert* GetPixelConverter() { return PixelConverter; };
+   float GetXSpacing();
+   float GetYSpacing();
+   float GetZSpacing();
 
-   uint8_t* GetImageData();
-   size_t GetImageDataIntoVector(void* destination, size_t maxSize);
-   uint8_t* GetImageDataRaw();
+   float GetXOrigin();
+   float GetYOrigin();
+   float GetZOrigin();
 
-   // see also Header::SetImageDataSize ?!?         
-   bool SetImageData (uint8_t* data, size_t expectedSize);
+   void GetImageOrientationPatient( float iop[6] );
 
-   // Write pixels of ONE image on hard drive
-   // No test is made on processor "endianity"
-   // The user must call his reader correctly
-   bool WriteRawData  (std::string const& fileName);
-   bool WriteDcmImplVR(std::string const& fileName);
-   bool WriteDcmExplVR(std::string const& fileName);
-   bool WriteAcr      (std::string const& fileName);
+   int GetBitsStored();
+   int GetBitsAllocated();
+   int GetHighBitPosition();
+   int GetSamplesPerPixel();
+   int GetPlanarConfiguration();
+   int GetPixelSize();
+   std::string GetPixelType();
+   bool IsSignedPixelData();
+   bool IsMonochrome();
+   bool IsPaletteColor();
+   bool IsYBRFull();
 
-   virtual bool SetEntryByNumber(std::string const& content,
-                                 uint16_t group, uint16_t element)
-   { 
-      HeaderInternal->SetEntryByNumber(content,group,element);
-      return true;
-   }
-   uint8_t* GetLutRGBA();
-     
+   bool HasLUT();
+   int GetLUTNbits();
+
+   // For rescaling graylevel:
+   float GetRescaleIntercept();
+   float GetRescaleSlope();
+
+   int GetNumberOfScalarComponents();
+   int GetNumberOfScalarComponentsRaw();
+
+   /// Accessor to \ref File::GrPixel
+   uint16_t GetGrPixel()  { return GrPixel; }
+   /// Accessor to \ref File::NumPixel
+   uint16_t GetNumPixel() { return NumPixel; }
+
+   size_t GetPixelOffset();
+   size_t GetPixelAreaLength();
+
+   /// returns the RLE info
+   RLEFramesInfo *GetRLEInfo() { return RLEInfo; }
+   /// Returns the JPEG Fragments info
+   JPEGFragmentsInfo *GetJPEGInfo() { return JPEGInfo; }
+
+// Anonymization process
+   void AddAnonymizeElement (uint16_t group, uint16_t elem, 
+                             std::string const &value);
+   /// Clears the list of elements to be anonymized
+   void ClearAnonymizeList() { AnonymizeList.clear(); }      
+   void AnonymizeNoLoad();
+   /// Replace patient's own information by info from the Anonymization list
+   bool AnonymizeFile();
+
+   bool Write(std::string fileName, FileType filetype);
+
 protected:
-   bool WriteBase(std::string const& fileName, FileType type);
+   /// Initialize DICOM File when none
+   void InitializeDefaultFile();
+ 
+   /// Store the RLE frames info obtained during parsing of pixels.
+   RLEFramesInfo *RLEInfo;
+   /// Store the JPEG fragments info obtained during parsing of pixels.
+   JPEGFragmentsInfo *JPEGInfo;
+
+   /// \brief In some cases (e.g. for some ACR-NEMA images) the Entry Element
+   /// Number of the 'Pixel Element' is *not* found at 0x0010. In order to
+   /// make things easier the parser shall store the proper value in
+   /// NumPixel to provide a unique access facility. 
+   uint16_t NumPixel;
+   /// \brief In some cases (e.g. for some ACR-NEMA images) the header entry for
+   /// the group of pixels is *not* found at 0x7fe0. In order to
+   /// make things easier the parser shall store the proper value in
+   /// GrPixel to provide a unique access facility.
+   uint16_t GrPixel;
 
 private:
-   void Initialise();
-
-   void SaveInitialValues();    // will belong to the future PixelData class
-   void RestoreInitialValues(); // will belong to the future PixelData class
-   void DeleteInitialValues();  // will belong to the future PixelData class 
-   uint8_t* GetDecompressed();
-   int ComputeDecompressedPixelDataSizeFromHeader();
-
-private:
-// members variables:
-
-   /// Header to use to load the file
-   Header *HeaderInternal;
-
-   /// \brief Whether the underlying \ref Header was loaded by
-   ///  the constructor or passed to the constructor. When false
-   ///  the destructor is in charge of deletion.
-   bool SelfHeader;
-   
-   /// Wether already parsed or not
-   bool Parsed;
-      
-   /// Utility pixel converter
-   PixelConvert* PixelConverter;
-
-/// FIXME
-// --------------- Will be moved to a PixelData class
-//
-
-   /// \brief to hold the Pixels (when read)
-   uint8_t* Pixel_Data;  // (was PixelData)
-   
-   /// \brief Size (in bytes) of required memory to hold the Gray Level pixels
-   ///        represented in this file. This is used when the user DOESN'T want
-   ///        the RGB pixels image when it's stored as a PALETTE COLOR image
-   size_t ImageDataSizeRaw;
-   
-   /// \brief Size (in bytes) of requited memory to hold the the pixels
-   ///        of this image in it's RGB convertion either from:
-   ///        - Plane R, Plane G, Plane B 
-   ///        - Grey Plane + Palette Color
-   ///        - YBR Pixels (or from RGB Pixels, as well) 
-   size_t ImageDataSize;
-       
-  /// \brief ==1  if GetImageDataRaw was used
-  ///        ==0  if GetImageData    was used
-  ///        ==-1 if ImageData never read                       
-   int PixelRead;
-
-  /// \brief length of the last allocated area devoided to receive Pixels
-  ///        ( to allow us not to (free + new) if un necessary )     
-   size_t LastAllocatedPixelDataLength; 
-
-  // Initial values of some fields that can be modified during reading process
-  // if user asked to transform gray level + LUT image into RGB image
-     
-  /// \brief Samples Per Pixel           (0x0028,0x0002), as found on disk
-   std::string InitialSpp;
-  /// \brief Photometric Interpretation  (0x0028,0x0004), as found on disk
-   std::string InitialPhotInt;
-  /// \brief Planar Configuration        (0x0028,0x0006), as found on disk   
-   std::string InitialPlanConfig;
-    
-  // Initial values of some fields that can be modified during reading process
-  // if the image was a 'strange' ACR-NEMA 
-  // (Bits Allocated=12, High Bit not equal to Bits stored +1) 
-  /// \brief Bits Allocated              (0x0028,0x0100), as found on disk
-   std::string InitialBitsAllocated;
-  /// \brief High Bit                    (0x0028,0x0102), as found on disk
-   std::string InitialHighBit;
-  
-  // some DocEntry that can be moved out of the H table during reading process
-  // if user asked to transform gray level + LUT image into RGB image
-  // We keep a pointer on them for a future use.
-     
-  /// \brief Red Palette Color Lookup Table Descriptor   0028 1101 as read
-  DocEntry* InitialRedLUTDescr;  
-  /// \brief Green Palette Color Lookup Table Descriptor 0028 1102 as read
-  DocEntry* InitialGreenLUTDescr;
-  /// \brief Blue Palette Color Lookup Table Descriptor  0028 1103 as read
-  DocEntry* InitialBlueLUTDescr;
-  
-  /// \brief Red Palette Color Lookup Table Data         0028 1201 as read
-  DocEntry* InitialRedLUTData;  
-  /// \brief Green Palette Color Lookup Table Data       0028 1202 as read
-  DocEntry* InitialGreenLUTData;
-  /// \brief Blue Palette Color Lookup Table Data        0028 1203 as read
-  DocEntry* InitialBlueLUTData;
-  
-//
-// --------------- end of future PixelData class
-//  
+   void ComputeRLEInfo();
+   void ComputeJPEGFragmentInfo();
+   bool     ReadTag(uint16_t, uint16_t);
+   uint32_t ReadTagLength(uint16_t, uint16_t);
+   void ReadAndSkipEncapsulatedBasicOffsetTable();
 
 };
 } // end namespace gdcm

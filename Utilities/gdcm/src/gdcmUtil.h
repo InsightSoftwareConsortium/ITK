@@ -26,7 +26,6 @@
 namespace gdcm 
 {
 /**
- * \ingroup Globals Utility functions
  * \brief    Here are some utility functions, belonging to the Util class,
  *           dealing with strings, file names... that can be called
  *           from anywhere by whomsoever they can help.
@@ -53,24 +52,31 @@ public:
    static std::string GetCurrentDateTime();
    static unsigned int GetCurrentThreadID();
    static unsigned int GetCurrentProcessID();
+   static bool         IsCurrentProcessorBigEndian();
 
    static std::string DicomString(const char *s, size_t l);
    static std::string DicomString(const char *s);
    static bool        DicomStringEqual(const std::string &s1, const char *s2);
-   static std::string CreateUniqueUID(const std::string &root = "");
 
    static std::string GetMACAddress();
 
+   static std::string CreateUniqueUID(const std::string &root = "");
+   static void SetRootUID(const std::string &root = "");
+   static const std::string &GetRootUID();
+
 private:
    static std::string GetIPAddress(); //Do not expose this method
+
+   static std::string RootUID;
+   static const std::string GDCM_UID;
 };
 
-   template <class T> 
-   GDCM_EXPORT std::ostream &binary_write(std::ostream &os, const T &val);
-   GDCM_EXPORT std::ostream &binary_write(std::ostream &os, const uint16_t &val);
-   GDCM_EXPORT std::ostream &binary_write(std::ostream &os, const uint32_t &val);
-   GDCM_EXPORT std::ostream &binary_write(std::ostream &os, const char *val);
-   GDCM_EXPORT std::ostream &binary_write(std::ostream &os, std::string const & val);
+GDCM_EXPORT std::ostream &binary_write(std::ostream &os, const uint16_t &val);
+GDCM_EXPORT std::ostream &binary_write(std::ostream &os, const uint32_t &val);
+GDCM_EXPORT std::ostream &binary_write(std::ostream &os, const char *val);
+GDCM_EXPORT std::ostream &binary_write(std::ostream &os, std::string const &val);
+GDCM_EXPORT std::ostream &binary_write(std::ostream &os, const uint8_t *val, size_t len);
+GDCM_EXPORT std::ostream &binary_write(std::ostream &os, const uint16_t *val, size_t len);
 } // end namespace gdcm
 //-----------------------------------------------------------------------------
 #endif

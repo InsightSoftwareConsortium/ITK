@@ -20,48 +20,83 @@
 #define GDCMDICOMDIRSTUDY_H
 
 #include "gdcmDicomDirObject.h"
-#include "gdcmDicomDirSerie.h"
+
 namespace gdcm 
 {
-
+class DicomDirSerie;
 //-----------------------------------------------------------------------------
 typedef std::list<DicomDirSerie *> ListDicomDirSerie;
 
+/*
+// For future use (Full DICOMDIR)
+typedef std::list<DicomDirVisit *> ListDicomDirVisit;
+typedef std::list<DicomDirResult *> ListDicomDirResult;
+typedef std::list<DicomDirStudyComponent *> ListDicomDirStudyComponent;
+
+*/
 //-----------------------------------------------------------------------------
+/**
+ * \brief   describes a STUDY within a within a PATIENT
+ * (DicomDirPatient) of a given DICOMDIR (DicomDir)
+ */
 class GDCM_EXPORT DicomDirStudy : public DicomDirObject
 {
 public:
-   DicomDirStudy(SQItem *s, TagDocEntryHT *ptagHT); 
-   DicomDirStudy(TagDocEntryHT *ptagHT); 
-
+   DicomDirStudy(bool empty=false); 
    ~DicomDirStudy();
 
-   void Print(std::ostream &os = std::cout);
-   void Write(std::ofstream *fp, FileType t);
+   void Print(std::ostream &os = std::cout, std::string const &indent = "" );
+   void WriteContent(std::ofstream *fp, FileType t);
 
-   /**
-    * \ingroup DicomDirStudy
-    * \brief   returns the SERIE chained List for this STUDY.
-    */
-   ListDicomDirSerie const &GetDicomDirSeries() const { return Series; };
+   // Serie methods
+   DicomDirSerie *NewSerie();
+   /// Adds a gdcm::DicomDirSerie to a Study
+   void AddSerie(DicomDirSerie *obj) { Series.push_back(obj); };
+   void ClearSerie();
 
-   /**
-    * \ingroup DicomDirStudy
-    * \brief   adds the passed SERIE to the SERIE chained List for this STUDY.
-    */ 
-   void AddDicomDirSerie(DicomDirSerie *obj) { Series.push_back(obj); };
+   DicomDirSerie *GetFirstSerie();
+   DicomDirSerie *GetNextSerie();
+   DicomDirSerie *GetLastSerie();
 
-   /**
-    * \ingroup DicomDirStudy
-    * \brief   TODO
-    */ 
-   DicomDirSerie* NewSerie();
+/*
+   // for future use (Full DICOMDIR)
+
+   DicomDirVisit *GetFirstVisit();
+   DicomDirVisit *GetNextVisit();
+
+   DicomDirResult *GetFirstResult();
+   DicomDirResult *GetNextResult();
+
+   DicomDirStudyComponent *GetFirstStudyComponent();
+   DicomDirStudyComponent *GetNextStudyComponent();
+
+*/
     
 private:
-/**
-* \brief chained list of DicomDirSeries (to be exploited recursively)
-*/ 
+
+   /// chained list of DicomDirSeries (to be exploited hierarchicaly)
    ListDicomDirSerie Series;
+   /// iterator on the DicomDirSeries of the current DicomDirStudy
+   ListDicomDirSerie::iterator ItSerie;
+
+/*
+   // for future use (Full DICOMDIR)
+
+   /// chained list of DicomDirVisits(single level)
+   ListDicomDirVisit Visits;
+   /// iterator on the DicomDirVisits of the current DicomDirStudy
+   ListDicomDirVisit::iterator ItVisit;
+
+   /// chained list of DicomDirResults(single level)
+   ListDicomDirResult Results;
+   /// iterator on the DicomDirResults of the current DicomDirStudy
+   ListDicomDirResult::iterator ItResult;
+
+   /// chained list of DicomDirStudyComponents(single level)
+   ListDicomDirStudyComponent StudyComponents;
+   /// iterator on the DicomDirStudyComponents of the current DicomDirStudy
+   ListDicomDirStudyComponent::iterator ItStudyComponents;
+*/
 };
 } // end namespace gdcm
 

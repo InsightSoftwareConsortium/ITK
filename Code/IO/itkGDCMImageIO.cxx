@@ -24,7 +24,7 @@
 #include "gdcm/src/gdcmValEntry.h" //internal of gdcm
 #include "gdcm/src/gdcmBinEntry.h" //internal of gdcm
 #include "gdcm/src/gdcmFile.h"
-#include "gdcm/src/gdcmHeader.h"
+#include "gdcm/src/gdcmFileHelper.h"
 #include "gdcm/src/gdcmUtil.h"
 
 #include <fstream>
@@ -152,7 +152,7 @@ bool GDCMImageIO::CanReadFile(const char* filename)
   // Check to see if its a valid dicom file gdcm is able to parse:
   //We are parsing the header one time here:
 
-  gdcm::Header header( fname );
+  gdcm::File header( fname );
   if (!header.IsReadable())
     {
     itkExceptionMacro("Gdcm cannot parse file " << filename );
@@ -184,7 +184,7 @@ void GDCMImageIO::Read(void* buffer)
   //Should I handle differently dicom lut ?
   //GdcmHeader.HasLUT()
 
-  gdcm::File gfile( m_FileName );
+  gdcm::FileHelper gfile( m_FileName );
   size_t size = gfile.GetImageDataSize();
   //== this->GetImageSizeInComponents()
   unsigned char *source = (unsigned char*)gfile.GetImageData();
@@ -266,7 +266,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     itkExceptionMacro(<< "Cannot read requested file");
     }
 
-  gdcm::Header header( m_FileName );
+  gdcm::File header( m_FileName );
 
   // We don't need to positionate the Endian related stuff (by using
   // this->SetDataByteOrderToBigEndian() or SetDataByteOrderToLittleEndian()
@@ -353,8 +353,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   //Now copying the gdcm dictionary to the itk dictionary:
   MetaDataDictionary & dico = this->GetMetaDataDictionary();
 
-  header.Initialize();
-  gdcm::DocEntry* d = header.GetNextEntry();
+  gdcm::DocEntry* d = header.GetFirstEntry();
 
   // Copy of the header content
   while(d)
@@ -364,7 +363,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
       {
       if (b->GetName() != "Pixel Data" && b->GetName() != "unkn")
         {
-        if (b->GetValue() == "gdcm::Binary data loaded")
+        if (b->GetValue() == gdcm::GDCM_BINLOADED )
           {
           // base64 streams have to be a multiple of 4 bytes long
           int encodedLengthEstimate = 2 * b->GetLength();
@@ -377,7 +376,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
             (unsigned char *) bin,
             0);
           std::string encodedValue(bin, encodedLengthActual);
-          EncapsulateMetaData<std::string>(dico, b->GetName(), encodedValue); 
+          EncapsulateMetaData<std::string>(dico, b->GetKey(), encodedValue); 
           delete []bin;
           }      
         }
@@ -387,7 +386,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
       // Only copying field from the public DICOM dictionary
       if( v->GetName() != "unkn")
         {       
-        EncapsulateMetaData<std::string>(dico, v->GetName(), v->GetValue() );
+        EncapsulateMetaData<std::string>(dico, v->GetKey(), v->GetValue() );
         }
       }
     //else
@@ -449,10 +448,10 @@ void GDCMImageIO::Write(const void* buffer)
     }
   file.close();
 
-  const unsigned long numberOfBytes = this->GetImageSizeInBytes();
+  const size_t numberOfBytes = this->GetImageSizeInBytes();
 
-  gdcm::Header *header = new gdcm::Header();
-  gdcm::File *gfile = new gdcm::File( header );
+  gdcm::File *header = new gdcm::File();
+  gdcm::FileHelper *gfile = new gdcm::FileHelper( header );
 
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
   // Using real iterators (instead of the GetKeys() method)
@@ -467,8 +466,8 @@ void GDCMImageIO::Write(const void* buffer)
 
     // Convert DICOM name to DICOM (group,element)
     gdcm::DictEntry *dictEntry =
-      header->GetPubDict()->GetDictEntryByName(key);
-    // Anything that has been change in the MetaData Dict will be pushed
+      header->GetPubDict()->GetEntry(key);
+    // Anything that has been changed in the MetaData Dict will be pushed
     // into the DICOM header:
     if (dictEntry)
       {
@@ -476,7 +475,7 @@ void GDCMImageIO::Write(const void* buffer)
         {
         if(dictEntry->GetGroup() != 0 || dictEntry->GetElement() != 0)
           {
-          header->ReplaceOrCreateByNumber( value,
+          header->InsertValEntry( value,
                                            dictEntry->GetGroup(), 
                                            dictEntry->GetElement());
           }
@@ -492,7 +491,7 @@ void GDCMImageIO::Write(const void* buffer)
           value.size());
         if(dictEntry->GetGroup() != 0 || dictEntry->GetElement() != 0)
           {
-          header->ReplaceOrCreateByNumber( bin,
+          header->InsertBinEntry( bin,
                                            decodedLengthActual,
                                            dictEntry->GetGroup(), 
                                            dictEntry->GetElement());
@@ -543,10 +542,10 @@ void GDCMImageIO::Write(const void* buffer)
     }
 
   // Write component specific information in the header:
-  header->ReplaceOrCreateByNumber( bitsAllocated, 0x0028, 0x0100 ); //Bits Allocated
-  header->ReplaceOrCreateByNumber( bitsStored, 0x0028, 0x0101 ); //Bits Stored
-  header->ReplaceOrCreateByNumber( highBit, 0x0028, 0x0102 ); //High Bit
-  header->ReplaceOrCreateByNumber( pixelRep, 0x0028, 0x0103 ); //Pixel Representation
+  header->InsertValEntry( bitsAllocated, 0x0028, 0x0100 ); //Bits Allocated
+  header->InsertValEntry( bitsStored, 0x0028, 0x0101 ); //Bits Stored
+  header->InsertValEntry( highBit, 0x0028, 0x0102 ); //High Bit
+  header->InsertValEntry( pixelRep, 0x0028, 0x0103 ); //Pixel Representation
 
   if( !m_KeepOriginalUID )
   {
@@ -562,27 +561,29 @@ void GDCMImageIO::Write(const void* buffer)
     }
     std::string uid = gdcm::Util::CreateUniqueUID( m_UIDPrefix );
   
-    header->ReplaceOrCreateByNumber( uid, 0x0008, 0x0018); //[SOP Instance UID]
-    header->ReplaceOrCreateByNumber( uid, 0x0002, 0x0003); //[Media Stored SOP Instance UID]
-    header->ReplaceOrCreateByNumber( m_StudyInstanceUID, 0x0020, 0x000d); //[Study Instance UID]
-    header->ReplaceOrCreateByNumber( m_SeriesInstanceUID, 0x0020, 0x000e); //[Series Instance UID]
-    header->ReplaceOrCreateByNumber( m_FrameOfReferenceInstanceUID, 0x0020, 0x0052); //[Frame of Reference UID] 
+    header->InsertValEntry( uid, 0x0008, 0x0018); //[SOP Instance UID]
+    header->InsertValEntry( uid, 0x0002, 0x0003); //[Media Stored SOP Instance UID]
+    header->InsertValEntry( m_StudyInstanceUID, 0x0020, 0x000d); //[Study Instance UID]
+    header->InsertValEntry( m_SeriesInstanceUID, 0x0020, 0x000e); //[Series Instance UID]
+    header->InsertValEntry( m_FrameOfReferenceInstanceUID, 0x0020, 0x0052); //[Frame of Reference UID] 
   }
 
   //copy data from buffer to DICOM buffer
   uint8_t* imageData = new uint8_t[numberOfBytes];
   memcpy(imageData, buffer, numberOfBytes);
-  
+ 
   // Here we are passing directly a pointer, this should
-  header->ReplaceOrCreateByNumber( imageData, numberOfBytes, 0x7fe0, 0x0010, "PXL" );
-  gfile->WriteDcmExplVR( m_FileName );
+  gfile->SetUserData( imageData, numberOfBytes );
 
-  //gfile->SetWriteTypeToDcmExplVR();
-  //gfile->Write( m_FileName );
+  gfile->SetWriteTypeToDcmExplVR();
+  if( ! gfile->Write( m_FileName ) )
+    {
+    itkExceptionMacro(<< "Cannot write requested file:" << m_FileName );
+    }
 
   // DO NOT DELETE "imageData" since GDCM will delete it when the
   // GdcmHeader is deleted.
-  
+
   delete gfile;
   delete header;
 }
@@ -592,102 +593,102 @@ void GDCMImageIO::Write(const void* buffer)
 void GDCMImageIO::GetPatientName( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  ExposeMetaData<std::string>(dict, "Patient's Name", m_PatientName);
+  ExposeMetaData<std::string>(dict, "0010|0010", m_PatientName);
   strcpy (name, m_PatientName.c_str());
 }
 void GDCMImageIO::GetPatientID( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  ExposeMetaData<std::string>(dict, "Patient ID", m_PatientName);
+  ExposeMetaData<std::string>(dict, "0010|0020", m_PatientName);
   strcpy (name, m_PatientID.c_str());
 }
 void GDCMImageIO::GetPatientSex( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  ExposeMetaData<std::string>(dict, "Patient's Sex", m_PatientSex);
+  ExposeMetaData<std::string>(dict, "0010|0040", m_PatientSex);
   strcpy (name, m_PatientSex.c_str());
 }
 void GDCMImageIO::GetPatientAge( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  ExposeMetaData<std::string>(dict, "Patient's Age", m_PatientAge);
+  ExposeMetaData<std::string>(dict, "0010|1010", m_PatientAge);
   strcpy (name, m_PatientAge.c_str());
 }
 void GDCMImageIO::GetStudyID( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  ExposeMetaData<std::string>(dict, "Study ID", m_StudyID);
+  ExposeMetaData<std::string>(dict, "0020|0010", m_StudyID);
   strcpy (name, m_StudyID.c_str());
 }
 void GDCMImageIO::GetPatientDOB( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  ExposeMetaData<std::string>(dict, "Patient's Birthdate", m_PatientDOB);
+  ExposeMetaData<std::string>(dict, "0010|0030", m_PatientDOB);
   strcpy (name, m_PatientDOB.c_str());
 }
 void GDCMImageIO::GetStudyDescription( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  ExposeMetaData<std::string>(dict, "Study Description", m_StudyDescription);
+  ExposeMetaData<std::string>(dict, "0008|1030", m_StudyDescription);
   strcpy (name, m_StudyDescription.c_str());
 }
 void GDCMImageIO::GetBodyPart( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  ExposeMetaData<std::string>(dict, "Body Part Examined", m_BodyPart);
+  ExposeMetaData<std::string>(dict, "0018|0015", m_BodyPart);
   strcpy (name, m_BodyPart.c_str());
 }
 void GDCMImageIO::GetNumberOfSeriesInStudy( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  ExposeMetaData<std::string>(dict, "Series in Study", m_NumberOfSeriesInStudy);
+  ExposeMetaData<std::string>(dict, "0020|1000", m_NumberOfSeriesInStudy);
   strcpy (name, m_NumberOfSeriesInStudy.c_str());
 }
 void GDCMImageIO::GetNumberOfStudyRelatedSeries( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  ExposeMetaData<std::string>(dict, "Number of Study Related Series", m_NumberOfStudyRelatedSeries);
+  ExposeMetaData<std::string>(dict, "0020|1206", m_NumberOfStudyRelatedSeries);
   strcpy (name, m_NumberOfStudyRelatedSeries.c_str());
 }
 void GDCMImageIO::GetStudyDate( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  ExposeMetaData<std::string>(dict, "Study Date", m_StudyDate);
+  ExposeMetaData<std::string>(dict, "0008|0020", m_StudyDate);
   strcpy (name, m_StudyDate.c_str());
 }
 
 void GDCMImageIO::GetModality( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  ExposeMetaData<std::string>(dict, "Modality", m_Modality);
+  ExposeMetaData<std::string>(dict, "0008|0060", m_Modality);
   strcpy (name, m_Modality.c_str());
 }
 
 void GDCMImageIO::GetManufacturer( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  ExposeMetaData<std::string>(dict, "Manufacturer", m_Manufacturer);
+  ExposeMetaData<std::string>(dict, "0008|0070", m_Manufacturer);
   strcpy (name, m_Manufacturer.c_str());
 }
 
 void GDCMImageIO::GetInstitution( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  ExposeMetaData<std::string>(dict, "Institution Name", m_Institution);
+  ExposeMetaData<std::string>(dict, "0008|0080", m_Institution);
   strcpy (name, m_Institution.c_str());
 }
 
 void GDCMImageIO::GetModel( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  ExposeMetaData<std::string>(dict, "Manufacturer's Model Name", m_Model);
+  ExposeMetaData<std::string>(dict, "0008|1090", m_Model);
   strcpy (name, m_Model.c_str());
 }
 
 void GDCMImageIO::GetScanOptions( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  ExposeMetaData<std::string>(dict, "Scan Options", m_ScanOptions);
+  ExposeMetaData<std::string>(dict, "0018|0022", m_ScanOptions);
   strcpy (name, m_ScanOptions.c_str());
 }
 
@@ -715,7 +716,7 @@ void GDCMImageIO::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "Study Date:" << m_StudyDate << std::endl;
   os << indent << "Modality:" << m_Modality << std::endl;
   os << indent << "Manufacturer:" << m_Manufacturer << std::endl;
-  os << indent << "Institution:" << m_Institution << std::endl;
+  os << indent << "Institution Name:" << m_Institution << std::endl;
   os << indent << "Model:" << m_Model << std::endl;
   os << indent << "Scan Options:" << m_ScanOptions << std::endl;
 

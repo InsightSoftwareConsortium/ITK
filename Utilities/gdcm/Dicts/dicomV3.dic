@@ -1,2209 +1,2563 @@
-0000 0000 UL CMD Group Length
-0000 0001 UL CMD Group 0000 Length to End (RET)
-0000 0002 UI CMD Affected SOP Class UID
-0000 0003 UI CMD Requested SOP Class UID
-0000 0010 SH CMD Recognition Code (RET)
-0000 0100 US CMD Command Field
-0000 0110 US CMD Message ID (first)
-0000 0120 US CMD Message ID Responded to
-0000 0600 AE CMD Move Destination
-0000 0700 US CMD Priority
-0000 0800 US CMD Data Set Type
-0000 0900 US CMD Status
-0000 0901 AT CMD Offending Element
-0000 0902 LO CMD Error Comment
-0000 0903 US CMD Error ID
-0000 1001 UI CMD SOP Requested Instance UID
-0000 1000 UI CMD SOP Affected Instance UID
-0000 1002 US CMD Event Type ID
-0000 1008 US CMD Action Type ID
-0000 1020 US CMD Remaining Suboperations
-0000 1021 US CMD Completed Suboperations
-0000 1022 US CMD Failed Suboperations
-0000 1023 US CMD Warning Suboperations
-0000 1030 AE CMD AE Title
-0000 1031 US CMD Message ID (second)
-0000 1005 AT CMD Attribute Identifier List
-0002 0000 UL META Meta Group Length
-0002 0001 OB META File Meta Information Version
-0002 0002 UI META Media Stored SOP Class UID
-0002 0003 UI META Media Stored SOP Instance UID
-0002 0010 UI META Transfer Syntax UID
-0002 0012 UI META Implementation Class UID
-0002 0013 SH META Implementation Version Name
-0002 0016 AE META Source Application Entity Title
-0002 0100 UI META Private Information Creator
-0002 0102 OB META Private Information
-0004 0000 UL DIR Group 0004 Length
-0004 1130 CS DIR File-set ID
-0004 1141 CS DIR File-set descriptor ID
-0004 1142 CS DIR Specific character set
-0004 1200 UL DIR Offset of the first dir of root dir entity
-0004 1202 UL DIR Offset of the last dir of root dir entity
-0004 1212 US DIR File-set consistency flag
-0004 1220 SQ DIR Directory record sequence
-0004 1400 UL DIR Offset of next directory record
-0004 1410 US DIR Record in use flag
-0004 1420 UL DIR Offset of referenced lower-level dir entity
-0004 1430 CS DIR Directory Record Type
-0004 1432 UI DIR Private Record UID
-0004 1500 CS DIR Referenced File ID
-0004 1504 UL DIR Directory Record Offset
-0004 1510 UI DIR Referenced SOP Class UID in File
-0004 1511 UI DIR Referenced SOP Instance UID in File
-0004 1512 UI DIR Referenced Transfer Syntax in File
-0004 1600 UL DIR Number of References
-0008 0000 UL ID Group Length
-0008 0001 UL ID Length to End (RET)
-0008 0005 CS ID Specific Character Set
-0008 0008 CS ID Image Type
-0008 0010 SH ID Recognition Code (RET)
-0008 0012 DA ID Instance Creation Date
-0008 0013 TM ID Instance Creation Time
-0008 0014 UI ID Instance Creator UID
-0008 0016 UI ID SOP Class UID
-0008 0018 UI ID SOP Instance UID
-0008 0020 DA ID Study Date
-0008 0021 DA ID Series Date
-0008 0022 DA ID Acquisition Date
-0008 0023 DA ID Content Date
-0008 0024 DA ID Overlay Date
-0008 0025 DA ID Curve Date
-0008 002a DT ID Acquisition Datetime
-0008 0030 TM ID Study Time
-0008 0031 TM ID Series Time
-0008 0032 TM ID Acquisition Time
-0008 0033 TM ID Content Time
-0008 0034 TM ID Overlay Time
-0008 0035 TM ID Curve Time
-0008 0040 US ID Data Set Type (RET)
-0008 0041 US ID Data Set Subtype (RET)
-0008 0042 CS ID Nuclear Medecine Series Type (RET)
-0008 0050 SH ID Accession Number
-0008 0052 CS ID Query/Retreive Level
-0008 0054 AE ID Retrieve AE Title
-0008 0056 CS ID Instance Availability
-0008 0058 UI ID Failed SOP Instances List
-0008 0060 CS ID Modality
-0008 0061 CS ID Modalities in Study
-0008 0062 SQ ID Modality Subtype
-0008 0064 CS ID Conversion Type
-0008 0068 CS ID Presentation Intent Type
-0008 0070 LO ID Manufacturer
-0008 0080 LO ID Institution Name
-0008 0081 ST ID Institution Address
-0008 0082 SQ ID Institution Code Sequence
-0008 0090 PN ID Referring Physician's Name
-0008 0092 ST ID Referring Physician's Address
-0008 0094 SH ID Referring Physician's Telephone Numbers
-0008 0096 SH SQ Referring Physician's Identification Sequence
-0008 0100 SH ID Code Value
-0008 0102 SH ID Coding Scheme Designator
-0008 0103 SH ID Coding Scheme Version
-0008 0104 LO ID Code Meaning
-0008 0105 CS ID Mapping Resource
-0008 0106 DT ID Context Group Version
-0008 0107 DT ID Context Group Local Version
-0008 010b CS ID Context Group Extension Flag
-0008 010c UI ID Coding Scheme UID
-0008 010d UI ID Context Group Extension Creator UID
-0008 010f CS ID Context Identifier
-0008 0110 SQ ID Coding Scheme Identification Sequence
-0008 0112 LO ID Coding Scheme Registery
-0008 0114 ST ID Coding Scheme External ID
-0008 0115 ST ID Coding Scheme Name
-0008 0116 ST ID Responsible Organization
-0008 0201 SH ID Timezone Offset From UTC 
-0008 1000 LO ID Network ID (RET)
-0008 1010 SH ID Station Name
-0008 1030 LO ID Study Description
-0008 1032 SQ ID Procedure Code Sequence
-0008 103e LO ID Series Description
-0008 1040 LO ID Institutional Department Name
-0008 1048 PN ID Physician(s) of Record
-0008 1049 SQ ID Physician(s) of Record Identification Sequence
-0008 1050 PN ID Performing Physician's Name
-0008 1060 PN ID Name of Physician(s) Reading Study
-0008 1070 PN ID Operator's Name
-0008 1072 SQ ID Operator Identification Sequence
-0008 1080 LO ID Admitting Diagnoses Description
-0008 1084 SQ ID Admitting Diagnosis Code Sequence
-0008 1090 LO ID Manufacturer's Model Name
-0008 1100 SQ ID Referenced Results Sequence
-0008 1110 SQ ID Referenced Study Sequence
-0008 1111 SQ ID Referenced Performed Procedure Step Sequence
-0008 1115 SQ ID Referenced Series Sequence
-0008 1120 SQ ID Referenced Patient Sequence
-0008 1125 SQ ID Referenced Visit Sequence
-0008 1130 SQ ID Referenced Overlay Sequence
-0008 113a SQ ID Referenced Waveform Sequence
-0008 1140 SQ ID Referenced Image Sequence
-0008 1145 SQ ID Referenced Curve Sequence
-0008 1148 SQ ID Referenced Previous Waveform
-0008 114a SQ ID Referenced Simultaneous Waveforms
-0008 114c SQ ID Referenced Subsequent Waveform
-0008 1150 UI ID Referenced SOP Class UID
-0008 1155 UI ID Referenced SOP Instance UID
-0008 115a UI ID SOP Classes Supported
-0008 1160 IS ID Referenced Frame Number
-0008 1195 UI ID Transaction UID
-0008 1197 US ID Failure Reason
-0008 1198 SQ ID Failed SOP Sequence
-0008 1199 SQ ID Referenced SOP Sequence
-0008 2110 CS ID Lossy Image Compression (RET)
-0008 2111 ST ID Derivation Description
-0008 2112 SQ ID Source Image Sequence
-0008 2120 SH ID Stage Name
-0008 2122 IS ID Stage Number
-0008 2124 IS ID Number of Stages
-0008 2127 SH ID View Name
-0008 2128 IS ID View Number
-0008 2129 IS ID Number of Event Timers
-0008 212a IS ID Number of Views in Stage
-0008 2130 DS ID Event Elapsed Time(s)
-0008 2132 LO ID Event Event Timer Name(s)
-0008 2142 IS ID Start Trim
-0008 2143 IS ID Stop Trim
-0008 2144 IS ID Recommended Display Frame Rate
-0008 2200 CS ID Transducer Position (RET)
-0008 2204 CS ID Transducer Orientation (RET)
-0008 2208 CS ID Anatomic Structure (RET)
-0008 2218 SQ ID Anatomic Region Sequence
-0008 2220 SQ ID Anatomic Region Modifier Sequence
-0008 2228 SQ ID Primary Anatomic Structure Sequence
-0008 2229 SQ ID Anatomic Structure, Space or Region Sequence
-0008 2230 SQ ID Primary Anatomic Structure Modifier Sequence
-0008 2240 SQ ID Transducer Position Sequence
-0008 2242 SQ ID Transducer Position Modifer Sequence
-0008 2244 SQ ID Transducer Orientation Sequence
-0008 2246 SQ ID Transducer Orientation Modifer Sequence
-0008 4000 SH ID Comments (RET)
-0008 9007 CS ID Frame Type
-0008 9092 SQ ID Referenced Image Evidence Sequence
-0008 9121 SQ ID Referenced Raw Data Sequence
-0008 9123 UI ID Creator-Version UID
-0008 9124 SQ ID Derivation Image Sequence
-0008 9154 SQ ID Source Image Evidence Sequence
-0008 9205 CS ID Pixel Presentation
-0008 9206 CS ID Volumetric Properties
-0008 9207 CS ID Volume Based Calculation Technique
-0008 9208 CS ID Complex Image Component
-0008 9209 CS ID Acquisition Contrast
-0008 9215 SQ ID Derivation Code Sequence
-0008 9237 SQ ID Referenced Grayscale Presentation State Sequence
-0010 0000 UL PAT Group Length
-0010 0010 PN PAT Patient's Name
-0010 0020 LO PAT Patient ID
-0010 0021 LO PAT Issuer of Patient ID
-0010 0030 DA PAT Patient's Birthdate
-0010 0032 TM PAT Patient's Birth Time
-0010 0040 CS PAT Patient's Sex
-0010 0050 SQ PAT Patient's Insurance Plan Code Sequence
-0010 0101 SQ PAT Patient's Primary Language Code Sequence
-0010 0102 SQ PAT Patient's Primary Language Code Modifier Sequence
-0010 1000 LO PAT Other Patient IDs
-0010 1001 PN PAT Other Patient Names
-0010 1005 PN PAT Patient's Birth Name
-0010 1010 AS PAT Patient's Age
-0010 1020 DS PAT Patient's Size
-0010 1030 DS PAT Patient's Weight
-0010 1040 LO PAT Patient's Address
-0010 1050 SH PAT Insurance Plan Identification (RET)
-0010 1060 PN PAT Patient's Mother's Birth Name
-0010 1080 LO PAT Military Rank
-0010 1081 LO PAT Branch of Service
-0010 1090 LO PAT Medical Record Locator
-0010 2000 LO PAT Medical Alerts
-0010 2110 LO PAT Contrast Allergies
-0010 2150 LO PAT Country of Residence
-0010 2152 LO PAT Region of Residence
-0010 2154 SH PAT Patient's Telephone Numbers
-0010 2160 SH PAT Ethnic Group
-0010 2180 SH PAT Occupation
-0010 21a0 CS PAT Smoking Status
-0010 21b0 LT PAT Additional Patient History
-0010 21c0 US PAT Pregnancy Status
-0010 21d0 DA PAT Last Menstrual Date
-0010 21f0 LO PAT Patient's Religious Preference
-0010 4000 LT PAT Patient Comments
-0012 0010 LO CLI Clinical Trial Sponsor Name
-0012 0020 LO CLI Clinical Trial Protocol ID
-0012 0021 LO CLI Clinical Trial Protocol Name
-0012 0030 LO CLI Clinical Trial Site ID
-0012 0031 LO CLI Clinical Trial Site Name
-0012 0040 LO CLI Clinical Trial Subject ID
-0012 0042 LO CLI Clinical Trial Subject Reading ID
-0012 0050 LO CLI Clinical Trial Time Point ID
-0012 0051 ST CLI Clinical Trial Time Point Description
-0012 0060 LO CLI Clinical Trial Coordinating Center Name
-0018 0000 UL ACQ Group Length
-0018 0010 LO ACQ Contrast/Bolus Agent
-0018 0012 SQ ACQ Contrast/Bolus Agent Sequence
-0018 0014 SQ ACQ Contrast/Bolus Administration Route Sequence
-0018 0015 CS ACQ Body Part Examined
-0018 0020 CS ACQ Scanning Sequence
-0018 0021 CS ACQ Sequence Variant
-0018 0022 CS ACQ Scan Options
-0018 0023 CS ACQ MR Acquisition Type
-0018 0024 SH ACQ Sequence Name
-0018 0025 CS ACQ Angio Flag
-0018 0026 SQ ACQ Intervention Drug Information Sequence
-0018 0027 TM ACQ Intervention Drug Stop Time
-0018 0028 DS ACQ Intervention Drug Dose
-0018 0029 SQ ACQ Intervention Drug Code Sequence
-0018 002a SQ ACQ Additional Drug Sequence
-0018 0030 LO ACQ Radionuclide (RET)
-0018 0031 LO ACQ Radiopharmaceutical
-0018 0032 DS ACQ Energy Window Centerline (RET)
-0018 0033 DS ACQ Energy Window Total Width (RET)
-0018 0034 LO ACQ Intervention Drug Name
-0018 0035 TM ACQ Intervention Drug Start Time
-0018 0036 SQ ACQ Interventional Therapy Sequence
-0018 0037 CS ACQ Therapy Type (RET)
-0018 0038 CS ACQ Interventional Status
-0018 0039 CS ACQ Therapy Description
-0018 0040 IS ACQ Cine Rate
-0018 0050 DS ACQ Slice Thickness
-0018 0060 DS ACQ KVP
-0018 0070 IS ACQ Counts Accumulated
-0018 0071 CS ACQ Acquisition Termination Condition
-0018 0072 DS ACQ Effective Duration
-0018 0073 CS ACQ Acquisition Start Condition
-0018 0074 IS ACQ Acquisition Start Condition Data
-0018 0075 IS ACQ Acquisition Termination Condition Data
-0018 0080 DS ACQ Repetition Time
-0018 0081 DS ACQ Echo Time
-0018 0082 DS ACQ Inversion Time
-0018 0083 DS ACQ Number of Averages
-0018 0084 DS ACQ Imaging Frequency
-0018 0085 SH ACQ Imaged Nucleus
-0018 0086 IS ACQ Echo Number(s)
-0018 0087 DS ACQ Magnetic Field Strength
-0018 0088 DS ACQ Spacing Between Slices
-0018 0089 IS ACQ Number of Phase Encoding Steps
-0018 0090 DS ACQ Data Collection Diameter
-0018 0091 IS ACQ Echo Train Length
-0018 0093 DS ACQ Percent Sampling
-0018 0094 DS ACQ Percent Phase Field of View
-0018 0095 DS ACQ Pixel Bandwidth
-0018 1000 LO ACQ Device Serial Number
-0018 1004 LO ACQ Plate ID
-0018 1010 LO ACQ Secondary Capture Device ID
-0018 1011 LO ACQ Hardcopy Creation Device ID
-0018 1012 DA ACQ Date of Secondary Capture
-0018 1014 TM ACQ Time of Secondary Capture
-0018 1016 LO ACQ Secondary Capture Device Manufacturer
-0018 1018 LO ACQ Secondary Capture Device Model Name
-0018 1019 LO ACQ Secondary Capture Device Software Version(s)
-0018 101a LO ACQ Hardcopy Device Software Version
-0018 101b LO ACQ Hardcopy Device Manufacturer's Model Name
-0018 1020 LO ACQ Software Version(s)
-0018 1022 SH ACQ Video Image Format Acquired
-0018 1023 LO ACQ Digital Image Format Acquired
-0018 1030 LO ACQ Protocol Name
-0018 1040 LO ACQ Contrast/Bolus Route
-0018 1041 DS ACQ Contrast/Bolus Volume
-0018 1042 TM ACQ Contrast/Bolus Start Time
-0018 1043 TM ACQ Contrast/Bolus Stop Time
-0018 1044 DS ACQ Contrast/Bolus Total Dose
-0018 1045 IS ACQ Syringe Counts
-0018 1046 DS ACQ Contrast Flow Rate(s)
-0018 1047 DS ACQ Contrast Flow Duration(s)
-0018 1048 CS ACQ Contrast/Bolus Ingredient
-0018 1049 DS ACQ Contrast/Bolus Ingredient Concentration
-0018 1050 DS ACQ Spatial Resolution
-0018 1060 DS ACQ Trigger Time
-0018 1061 LO ACQ Trigger Source or Type
-0018 1062 IS ACQ Nominal Interval
-0018 1063 DS ACQ Frame Time
-0018 1064 LO ACQ Framing Type
-0018 1065 DS ACQ Frame Time Vector
-0018 1066 DS ACQ Frame Delay
-0018 1067 DS ACQ Image Trigger Delay
-0018 1068 DS ACQ Multiplex Group Time Offset
-0018 1069 DS ACQ Trigger Time Offset
-0018 106a CS ACQ Synchronization Trigger
-0018 106b UI ACQ Synchronization Frame of Reference
-0018 106c US ACQ Synchronization Channel
-0018 106e UL ACQ Trigger Sample Position
-0018 1070 LO ACQ Radiopharmaceutical Route
-0018 1071 DS ACQ Radiopharmaceutical Volume
-0018 1072 TM ACQ Radiopharmaceutical Start Time
-0018 1073 TM ACQ Radiopharmaceutical Stop Time
-0018 1074 DS ACQ Radionuclide Total Dose
-0018 1075 DS ACQ Radionuclide Half Life
-0018 1076 DS ACQ Radionuclide Positron Fraction
-0018 1077 DS ACQ Radiopharmaceutical Specific Activity
-0018 1080 CS ACQ Beat Rejection Flag
-0018 1081 IS ACQ Low R-R Value
-0018 1082 IS ACQ High R-R Value
-0018 1083 IS ACQ Intervals Acquired
-0018 1084 IS ACQ Intervals Rejected
-0018 1085 LO ACQ PVC Rejection
-0018 1086 IS ACQ Skip Beats
-0018 1088 IS ACQ Heart Rate
-0018 1090 IS ACQ Cardiac Number of Images
-0018 1094 IS ACQ Trigger Window
-0018 1100 DS ACQ Reconstruction Diameter
-0018 1110 DS ACQ Distance Source to Detector
-0018 1111 DS ACQ Distance Source to Patient
-0018 1114 DS ACQ Estimated Radiographic Magnification Factor
-0018 1120 DS ACQ Gantry/Detector Tilt
-0018 1121 DS ACQ Gantry/Detector Slew
-0018 1130 DS ACQ Table Height
-0018 1131 DS ACQ Table Traverse
-0018 1134 CS ACQ Table Motion
-0018 1135 DS ACQ Table Vertical Increment
-0018 1136 DS ACQ Table Lateral Increment
-0018 1137 DS ACQ Table Longitudinal Increment
-0018 1138 DS ACQ Table Angle
-0018 113a DS ACQ Table Type
-0018 1140 CS ACQ Rotation Direction
-0018 1141 DS ACQ Angular Position
-0018 1142 DS ACQ Radial Position
-0018 1143 DS ACQ Scan Arc
-0018 1144 DS ACQ Angular Step
-0018 1145 DS ACQ Center of Rotation Offset
-0018 1146 DS ACQ Rotation Offset (RET)
-0018 1147 CS ACQ Field of View Shape
-0018 1149 IS ACQ Field of View Dimension(s)
-0018 1150 IS ACQ Exposure Time
-0018 1151 IS ACQ X-ray Tube Current
-0018 1152 IS ACQ Exposure
-0018 1153 IS ACQ Exposure in uAs
-0018 1154 DS ACQ Average Pulse Width
-0018 1155 CS ACQ Radiation Setting
-0018 1156 CS ACQ Rectification Type
-0018 115a CS ACQ Radiation Mode
-0018 115e DS ACQ Image Area Dose Product
-0018 1160 SH ACQ Filter Type
-0018 1161 LO ACQ Type of Filters
-0018 1162 DS ACQ Intensifier Size
-0018 1164 DS ACQ Image Pixel Spacing
-0018 1166 CS ACQ Grid
-0018 1170 IS ACQ Generator Power
-0018 1180 SH ACQ Collimator/grid Name
-0018 1181 CS ACQ Collimator Type
-0018 1182 IS ACQ Focal Distance
-0018 1183 DS ACQ X Focus Center
-0018 1184 DS ACQ Y Focus Center
-0018 1190 DS ACQ Focal Spot(s)
-0018 1191 CS ACQ Anode Target Material
-0018 11a0 DS ACQ Body Part Thickness
-0018 11a2 DS ACQ Compression Force
-0018 1200 DA ACQ Date of Last Calibration
-0018 1201 TM ACQ Time of Last Calibration
-0018 1210 SH ACQ Convolution Kernel
-0018 1240 DS ACQ Upper/Lower Pixel Values (RET)
-0018 1242 IS ACQ Actual Frame Duration
-0018 1243 IS ACQ Count Rate
-0018 1244 US ACQ Preferred Playback Sequencing
-0018 1250 SH ACQ Receive Coil Name
-0018 1251 SH ACQ Transmit Coil Name
-0018 1260 SH ACQ Plate Type
-0018 1261 LO ACQ Phosphor Type
-0018 1300 DS ACQ Scan Velocity
-0018 1301 CS ACQ Whole Body Technique
-0018 1302 IS ACQ Scan Length
-0018 1310 US ACQ Acquisition Matrix
-0018 1312 CS ACQ In-plane Phase Encoding Direction
-0018 1314 DS ACQ Flip Angle
-0018 1315 CS ACQ Variable Flip Angle
-0018 1316 DS ACQ SAR
-0018 1318 DS ACQ dB/dt
-0018 1400 LO ACQ Acquisition Device Processing Description
-0018 1401 LO ACQ Acquisition Device Processing Code
-0018 1402 CS ACQ Cassette Orientation
-0018 1403 CS ACQ Cassette Size
-0018 1404 US ACQ Exposures on Plate
-0018 1405 IS ACQ Relative X-ray Exposure
-0018 1450 CS ACQ Column Angulation
-0018 1460 DS ACQ Tomo Layer Height
-0018 1470 DS ACQ Tomo Angle
-0018 1480 DS ACQ Tomo Time
-0018 1490 CS ACQ Tomo Type
-0018 1491 CS ACQ Tomo Class
-0018 1495 IS ACQ Number of Tomosynthesis Source Images
-0018 1500 CS ACQ Positioner Motion
-0018 1510 DS ACQ Positioner Primary Angle
-0018 1511 DS ACQ Positioner Secondary Angle
-0018 1520 DS ACQ Positioner Primary Angle Increment
-0018 1521 DS ACQ Positioner Secondary Angle Increment
-0018 1530 DS ACQ Detector Primary Angle
-0018 1531 DS ACQ Detector Secondary Angle
-0018 1600 CS ACQ Shutter Shape
-0018 1602 IS ACQ Shutter Left Vertical Edge
-0018 1604 IS ACQ Shutter Right Vertical Edge
-0018 1606 IS ACQ Shutter Upper Horizontal Edge
-0018 1608 IS ACQ Shutter Lower Horizontal Edge
-0018 1610 IS ACQ Center of Circular Shutter
-0018 1612 IS ACQ Radius of Circular Shutter
-0018 1620 IS ACQ Vertices of the Polygonal Shutter
-0018 1622 US ACQ Shutter Presentation Value
-0018 1623 US ACQ Shutter Overlay Group
-0018 1700 CS ACQ Collimator Shape
-0018 1702 IS ACQ Collimator Left Vertical Edge
-0018 1704 IS ACQ Collimator Right Vertical Edge
-0018 1706 IS ACQ Collimator Upper Horizontal Edge
-0018 1708 IS ACQ Collimator Lower Horizontal Edge
-0018 1710 IS ACQ Center of Circular Collimator
-0018 1712 IS ACQ Radius of Circular Collimator
-0018 1720 IS ACQ Vertices of the Polygonal Collimator
-0018 1800 CS ACQ Acquisition Time Synchronized
-0018 1801 SH ACQ Time Source
-0018 1802 CS ACQ Time Distribution Protocol
-0018 2001 IS ACQ Page Number Vector
-0018 2002 SH ACQ Frame Label Vector
-0018 2003 DS ACQ Frame Primary Angle Vector
-0018 2004 DS ACQ Frame Secondary Angle Vector
-0018 2005 DS ACQ Slice Location Vector
-0018 2006 SH ACQ Display Window Label Vector
-0018 2010 DS ACQ Nominal Scanned Pixel Spacing
-0018 2020 CS ACQ Digitized Device Transport Direction
-0018 2023 DS ACQ Rotation of Scanned Film
-0018 3100 CS ACQ IVUS Acquisition
-0018 3101 DS ACQ IVUS Pullback Rate
-0018 3101 DS ACQ IVUS Gated Rate
-0018 3103 IS ACQ IVUS Pullback Start Frame Number
-0018 3104 IS ACQ IVUS Pullback Stop Frame Number
-0018 3104 IS ACQ Lesion Number
-0018 4000 SH ACQ Comments (RET)
-0018 5000 SH ACQ Output Power
-0018 5010 LO ACQ Transducer Data
-0018 5012 DS ACQ Focus Depth
-0018 5020 LO ACQ Processing Function
-0018 5021 LO ACQ Postprocessing Function
-0018 5022 DS ACQ Mechanical Index
-0018 5024 DS ACQ Bone Thermal Index
-0018 5026 DS ACQ Cranial Thermal Index
-0018 5027 DS ACQ Soft Tissue Thermal Index
-0018 5028 DS ACQ Soft Tissue-focus Thermal Index
-0018 5029 CS ACQ Soft Tissue-surface Thermal Index
-0018 5030 DS ACQ Dynamic Range (RET)
-0018 5040 DS ACQ Total Gain (RET)
-0018 5050 IS ACQ Depth of Scan Field
-0018 5100 CS ACQ Patient Position
-0018 5101 CS ACQ View Position
-0018 5104 SQ ACQ Projection Eponymous Name Code Sequence
-0018 5210 DS ACQ Image Transformation Matrix
-0018 5212 DS ACQ Image Translation Vector
-0018 6000 DS ACQ Sensitivity
-0018 6011 SQ ACQ Sequence of Ultrasound Regions 
-0018 6012 US ACQ Region Spatial Format
-0018 6014 US ACQ Region Data Type
-0018 6016 UL ACQ Region Flags
-0018 6018 UL ACQ Region Location Min X(0)
-0018 601a UL ACQ Region Location Min Y(0)
-0018 601c UL ACQ Region Location Max X(1)
-0018 601e UL ACQ Region Location Max Y(1)
-0018 6020 SL ACQ Reference Pixel X(0)
-0018 6022 SL ACQ Reference Pixel Y(0)
-0018 6024 US ACQ Physical Units X Direction
-0018 6026 US ACQ Physical Units Y Direction
-0018 6028 FD ACQ Reference Pixel Physical Value X
-0018 602a FD ACQ Reference Pixel Physical Value Y
-0018 602c FD ACQ Physical Delta X
-0018 602e FD ACQ Physical Delta Y
-0018 6030 UL ACQ Transducer Frequency
-0018 6031 CS ACQ Transducer Type
-0018 6032 UL ACQ Pulse Repetition Frequency
-0018 6034 FD ACQ Doppler Correction Angle
-0018 6036 FD ACQ Sterring Angle
-0018 6038 UL ACQ Doppler Sample Volume X Position (RET)
-0018 6038 SL ACQ Doppler Sample Volume X Position
-0018 603a UL ACQ Doppler Sample Volume Y Position (RET)
-0018 603b SL ACQ Doppler Sample Volume Y Position
-0018 603c UL ACQ TM-Line Position X(0) (RET)
-0018 603d SL ACQ TM-Line Position X(0)
-0018 603e UL ACQ TM-Line Position Y(0) (RET)
-0018 603f SL ACQ TM-Line Position Y(0)
-0018 6040 UL ACQ TM-Line Position X(1) (RET)
-0018 6041 SL ACQ TM-Line Position X(1)
-0018 6042 UL ACQ TM-Line Position Y(1) (RET)
-0018 6043 SL ACQ TM-Line Position Y(1)
-0018 6044 US ACQ Pixel Component Organization
-0018 6046 UL ACQ Pixel Component Mask
-0018 6048 UL ACQ Pixel Component Range Start
-0018 604a UL ACQ Pixel Component Range Stop
-0018 604c US ACQ Pixel Component Physical Units
-0018 604e US ACQ Pixel Component Data Type
-0018 6050 UL ACQ Number of Table Break Points
-0018 6052 UL ACQ Table of X Break Points
-0018 6054 FD ACQ Table of Y Break Points
-0018 6056 UL ACQ Number of Table Entries
-0018 6058 UL ACQ Table of Pixel Values
-0018 605a FL ACQ Table of Parameter Values
-0018 7000 CS ACQ Detector Conditions Nominal Flag
-0018 7001 DS ACQ Detector Temperature
-0018 7004 CS ACQ Detector Type
-0018 7005 CS ACQ Detector Configuration
-0018 7006 LT ACQ Detector Description
-0018 7008 LT ACQ Detector Mode
-0018 700a SH ACQ Detector ID
-0018 700c DA ACQ Date of Last Detector Calibration
-0018 700e TM ACQ Time of Last Detector Calibration
-0018 7010 IS ACQ Exposures on Detector Since Last Calibration
-0018 7011 IS ACQ Exposures on Detector Since Manufactured
-0018 7012 DS ACQ Detector Time Since Last Exposure
-0018 7014 DS ACQ Detector Active Time
-0018 7016 DS ACQ Detector Activation Offset From Exposure
-0018 701a DS ACQ Detector Binning
-0018 7020 DS ACQ Detector Element Physical Size
-0018 7022 DS ACQ Detector Element Spacing
-0018 7024 CS ACQ Detector Active Shape
-0018 7026 DS ACQ Detector Active Dimension(s)
-0018 7028 DS ACQ Detector Active Origin
-0018 7030 DS ACQ Field of View Origin
-0018 7032 DS ACQ Field of View Rotation
-0018 7034 CS ACQ Field of View Horizontal Flip
-0018 7040 LT ACQ Grid Absorbing Material
-0018 7041 LT ACQ Grid Spacing Material
-0018 7042 DS ACQ Grid Thickness
-0018 7044 DS ACQ Grid Pitch
-0018 7046 IS ACQ Grid Aspect Ratio
-0018 7048 DS ACQ Grid Period
-0018 704c DS ACQ Grid Focal Distance
-0018 7050 CS ACQ Filter Material
-0018 7052 DS ACQ Filter Thickness Minimum
-0018 7054 DS ACQ Filter Thickness Maximum
-0018 7060 CS ACQ Exposure Control Mode
-0018 7062 LT ACQ Exposure Control Mode Description
-0018 7064 CS ACQ Exposure Status
-0018 7064 DS ACQ Phototimer Setting
-0018 8150 DS ACQ Exposure Time in mS
-0018 8151 DS ACQ X-Ray Tube Current in mA
-0018 9004 CS ACQ Content Qualification
-0018 9005 SH ACQ Pulse Sequence Name
-0018 9006 SQ ACQ MR Imaging Modifier Sequence
-0018 9008 CS ACQ Echo Pulse Sequence
-0018 9009 CS ACQ Inversion Recovery
-0018 9010 CS ACQ Flow Compensation
-0018 9011 CS ACQ Multiple Spin Echo
-0018 9012 CS ACQ Multi-planar Excitation
-0018 9014 CS ACQ Phase Contrast
-0018 9015 CS ACQ Time of Flight Contrast
-0018 9016 CS ACQ Spoiling
-0018 9017 CS ACQ Steady State Pulse Sequence
-0018 9018 CS ACQ Echo Planar Pulse Sequence
-0018 9019 FD ACQ Tag Angle First Axis
-0018 9020 CS ACQ Magnetization Transfer
-0018 9021 CS ACQ T2 Preparation
-0018 9022 CS ACQ Blood Signal Nulling
-0018 9024 CS ACQ Saturation Recovery
-0018 9025 CS ACQ Spectrally Selected Suppression
-0018 9026 CS ACQ Spectrally Selected Excitation
-0018 9027 CS ACQ Spatial Pre-saturation
-0018 9028 CS ACQ Tagging
-0018 9029 CS ACQ Oversampling Phase
-0018 9022 CS ACQ Blood Signal Nulling
-0018 9030 FD ACQ Tag Spacing First Dimension
-0018 9032 CS ACQ Geometry of k-Space Traversal
-0018 9033 CS ACQ Segmented k-Space Traversal
-0018 9034 CS ACQ Rectilinear Phase Encode Reordering
-0018 9035 CS ACQ Tag Thickness
-0018 9036 CS ACQ Partial Fourier Direction
-0018 9037 CS ACQ Cardiac Synchronization Technique
-0018 9041 LO ACQ Receive Coil Manufacturer Name
-0018 9042 SQ ACQ MR Receive Coil Sequence
-0018 9043 CS ACQ Receive Coil Type
-0018 9044 CS ACQ Quadrature Receive Coil
-0018 9045 SQ ACQ Multi-Coil Definition Sequence
-0018 9046 LO ACQ Multi-Coil Configuration
-0018 9047 SH ACQ Multi-Coil Element Name
-0018 9048 CS ACQ Multi-Coil Element Used
-0018 9049 SQ ACQ MR Transmit Coil Sequence
-0018 9050 LO ACQ Transmit Coil Manufacturer Name
-0018 9051 CS ACQ Transmit Coil Type
-0018 9052 FD ACQ Spectral Width
-0018 9053 FD ACQ Chemical Shift Reference
-0018 9054 CS ACQ Volume Localization Technique
-0018 9058 US ACQ MR Acquisition Frequency Encoding Steps
-0018 9059 CS ACQ De-coupling
-0018 9060 CS ACQ De-coupled Nucleus
-0018 9061 FD ACQ De-coupling Frequency
-0018 9062 CS ACQ De-coupling Method
-0018 9063 FD ACQ De-coupling Chemical Shift Reference
-0018 9064 CS ACQ k-space Filtering
-0018 9065 CS ACQ Time Domain Filtering
-0018 9066 US ACQ Number of Zero fills
-0018 9067 CS ACQ Baseline Correction
-0018 9069 FD ACQ Parallel Reduction Factor In-plane
-0018 9070 FD ACQ Cardiac R-R Interval Specified
-0018 9073 FD ACQ Acquisition Duration
-0018 9074 DT ACQ Frame Acquisition Datetime
-0018 9075 CS ACQ Diffusion Directionality
-0018 9076 SQ ACQ Diffusion Gradient Direction Sequence
-0018 9077 CS ACQ Parallel Acquisition 
-0018 9078 CS ACQ Parallel Acquisition Technique
-0018 9079 TM ACQ Inversion Times
-0018 9080 ST ACQ Metabolite Map Description
-0018 9081 CS ACQ Partial Fourier
-0018 9082 FD ACQ Effective Echo Time
-0018 9084 SQ ACQ Chemical Shift Sequence
-0018 9085 CS ACQ Cardiac Signal Source
-0018 9087 FD ACQ Diffusion b-value
-0018 9089 FD ACQ Diffusion Gradient Orientation
-0018 9090 FD ACQ Velocity Encoding Direction
-0018 9091 FD ACQ Velocity Encoding Minimum Value
-0018 9093 US ACQ Number of k-Space Trajectories
-0018 9094 CS ACQ Coverage of k-Space
-0018 9095 UL ACQ Spectroscopy Acquisition Phase Rows
-0018 9098 FD ACQ Transmitter Frequency
-0018 9100 CS ACQ Resonant Nucleus
-0018 9101 CS ACQ Frequency Correction
-0018 9103 SQ ACQ MR Spectroscopy FOV/Geometry Sequence
-0018 9104 FD ACQ Slab Thickness
-0018 9105 FD ACQ Slab Orientation
-0018 9106 FD ACQ Mid Slab Position
-0018 9107 SQ ACQ MR Spatial Saturation Sequence
-0018 9112 SQ ACQ MR Timing and Related Parameters Sequence
-0018 9114 SQ ACQ MR Echo Sequence
-0018 9115 SQ ACQ MR Modifier Sequence
-0018 9117 SQ ACQ MR Diffusion Sequence
-0018 9118 SQ ACQ Cardiac Trigger Sequence
-0018 9119 SQ ACQ MR Averages Sequence
-0018 9125 SQ ACQ MR FOV/Geometry Sequence
-0018 9126 SQ ACQ Volume Localization Sequence
-0018 9127 UL ACQ Spectroscopy Acquisition Data Columns
-0018 9147 CS ACQ Diffusion Anisotropy Type
-0018 9151 DT ACQ Frame Reference Datetime
-0018 9152 SQ ACQ MR Metabolite Map Sequence
-0018 9155 FD ACQ Parallel Reduction Factor out-of-plane
-0018 9159 UL ACQ Spectroscopy Acquisition Out-of-plane Phase Steps
-0018 9166 CS ACQ Bulk Motion Status
-0018 9168 FD ACQ Parallel Reduction Factor Second In-plane
-0018 9169 CS ACQ Cardiac Beat Rejection Technique
-0018 9170 CS ACQ Respiratory Motion Compensation Technique
-0018 9171 CS ACQ Respiratory Signal Source
-0018 9172 CS ACQ Bulk Motion Compensation Technique
-0018 9173 CS ACQ Bulk Motion Signal Source
-0018 9174 CS ACQ Applicable Safety Standard Agency
-0018 9175 LO ACQ Applicable Safety Standard Description
-0018 9176 SQ ACQ Operating Mode Sequence
-0018 9177 CS ACQ Operating Mode Type
-0018 9178 CS ACQ Operating Mode
-0018 9179 CS ACQ Specific Absorption Rate Definition
-0018 9180 CS ACQ Gradient Output Type
-0018 9181 FD ACQ Specific Absorption Rate Value
-0018 9182 FD ACQ Gradient Output
-0018 9183 CS ACQ Flow Compensation Direction
-0018 9184 FD ACQ Tagging Delay
-0018 9195 FD ACQ Chemical Shifts Minimum Integration Limit
-0018 9196 FD ACQ Chemical Shifts Maximum Integration Limit
-0018 9197 SQ ACQ MR Velocity Encoding Sequence
-0018 9198 CS ACQ First Order Phase Correction
-0018 9199 CS ACQ Water Referenced Phase Correction
-0018 9200 CS ACQ MR Spectroscopy Acquisition Type
-0018 9214 CS ACQ Respiratory Cycle Position
-0018 9217 FD ACQ Velocity Encoding Maximum Value
-0018 9218 SS ACQ Tag Spacing Second Dimension
-0018 9219 SS ACQ Tag Angle Second Axis
-0018 9220 FD ACQ Frame Acquisition Duration
-0018 9226 SQ ACQ MR Image Frame Type Sequence
-0018 9227 SQ ACQ MR Spectroscopy Frame Type Sequence
-0018 9231 US ACQ MR Acquisition Phase Encoding Steps in-plane
-0018 9232 US ACQ MR Acquisition Phase Encoding Steps out-of-plane
-0018 9234 UL ACQ Spectroscopy Acquisition Phase Columns
-0018 9236 CS ACQ Cardiac Cycle Position
-0018 9239 SQ ACQ Specific Absorption Rate Sequence
-0018 a001 SQ ACQ Contributing Equipment Sequence
-0018 a002 DT ACQ Contribution Date Time
-0018 a003 ST ACQ Contribution Description
-0020 0000 UL REL Group Length 
-0020 000d UI REL Study Instance UID
-0020 000e UI REL Series Instance UID
-0020 0010 SH REL Study ID
-0020 0011 IS REL Series Number
-0020 0012 IS REL Acquisition Number
-0020 0013 IS REL Image Number
-0020 0014 IS REL Isotope Number (RET)
-0020 0015 IS REL Phase Number (RET)
-0020 0016 IS REL Interval Number (RET)
-0020 0017 IS REL Time Slot Number (RET)
-0020 0018 IS REL Angle Number (RET)
-0020 0020 CS REL Patient Orientation
-0020 0022 IS REL Overlay Number
-0020 0024 IS REL Curve Number
-0020 0026 IS REL Lookup Table Number
-0020 0030 DS REL Image Position (RET)
-0020 0032 DS REL Image Position Patient
-0020 0035 DS REL Image Orientation (RET)
-0020 0037 DS REL Image Orientation (Patient)
-0020 0050 DS REL Location (RET)
-0020 0052 UI REL Frame of Reference UID
-0020 0060 CS REL Laterality
-0020 0070 SH REL Image Geometry Type (RET)
-0020 0080 UI REL Masking Image
-0020 0100 IS REL Temporal Position Identifier
-0020 0105 IS REL Number of Temporal Positions
-0020 0110 DS REL Temporal Resolution
-0020 0200 UI REL Synchronisation Frame of Reference UID
-0020 1000 IS REL Series in Study
-0020 1001 IS REL Acquisitions in Series (RET)
-0020 1002 IS REL Images in Acquisition
-0020 1004 IS REL Acquisitions in Study
-0020 1020 SH REL Reference (RET)
-0020 1040 LO REL Position Reference Indicator
-0020 1041 DS REL Slice Location
-0020 1070 IS REL Other Study Numbers
-0020 1200 IS REL Number of Patient Related Studies
-0020 1202 IS REL Number of Patient Related Series
-0020 1204 IS REL Number of Patient Related Instances
-0020 1206 IS REL Number of Study Related Series
-0020 1208 IS REL Number of Study Related Images
-0020 1209 IS REL Number of Series Related Instances
-0020 3100 SH REL Source Image IDs (RET)
-0020 3401 SH REL Modifying Device ID (RET)
-0020 3402 SH REL Modified Image ID (RET)
-0020 3403 SH REL Modified Image Date (RET)
-0020 3404 SH REL Modifying Device Manufacturer (RET)
-0020 3405 SH REL Modified Image Time (RET)
-0020 3406 SH REL Modified Image Description (RET)
-0020 4000 LT REL Image Comments
-0020 5000 US REL Original Image Identification (RET)
-0020 5002 SH REL Original Image Identification Nomenclature (RET)
-0020 9056 SH REL Stack ID
-0020 9057 UL REL In-Stack Position Number
-0020 9071 SQ REL Frame Anatomy Sequence
-0020 9072 CS REL Frame Laterality
-0020 9111 SQ REL Frame Content Sequence
-0020 9113 SQ REL Plane Content Sequence
-0020 9116 SQ REL Plane Orientation Sequence
-0020 9118 UL REL Temporal Position Index
-0020 9153 FD REL Trigger Delay Time
-0020 9156 US REL Frame Acquisition Number
-0020 9157 UL REL Dimension Index Values
-0020 9158 LT REL Frame Comments
-0020 9161 UI REL Concatenation UID
-0020 9162 US REL In-concatenation Number
-0020 9163 US REL In-concatenation Total Number
-0020 9164 UI REL Dimension Organization UID
-0020 9165 AT REL Dimension Index Pointer
-0020 9167 AT REL Functional Group Pointer
-0020 9213 LO REL Dimension Index Private Creator
-0020 9221 SQ REL Dimension Organization Sequence
-0020 9222 SQ REL Dimension Index Sequence
-0020 9228 UL REL Concatenation Frame Offset Number
-0020 9238 LO REL Functional Group Private Creator
-0028 0000 UL IMG Group Length
-0028 0002 US IMG Samples per Pixel
-0028 0004 CS IMG Photometric Interpretation
-0028 0005 US IMG Image Dimensions (RET)
-0028 0006 US IMG Planar Configuration
-0028 0008 IS IMG Number of Frames
-0028 0009 AT IMG Frame Increment Pointer
-0028 0010 US IMG Rows
-0028 0011 US IMG Columns
-0028 0012 US IMG Planes
-0028 0013 US IMG Instants (special LibIDO)
-0028 0014 US IMG Ultrasound Color Data Present
-0028 0015 US IMG UsedNbX ACR Libido special
-0028 0016 US IMG UsedNbY ACR Libido special
-0028 0017 US IMG UsedNbZ ACR Libido special
-0028 0018 US IMG UsedNbT ACR Libido special
-0028 0030 DS IMG Pixel Spacing
-0028 0031 DS IMG Zoom Factor
-0028 0032 DS IMG Zoom Center
-0028 0034 IS IMG Pixel Aspect Ratio
-0028 0040 SH IMG Image Format (RET)
-0028 0050 SH IMG Manipulated Image (RET)
-0028 0051 CS IMG Corrected Image
-0028 0060 SH IMG Compression Code (RET)
-0028 0100 US IMG Bits Allocated
-0028 0101 US IMG Bits Stored
-0028 0102 US IMG High Bit
-0028 0103 US IMG Pixel Representation
-0028 0104 US IMG Smallest Valid Pixel Value (RET)
-0028 0105 US IMG Largest Valid Pixel Value (RET)
-0028 0106 US IMG Smallest Image Pixel Value
-0028 0107 US IMG Largest Image Pixel Value
-0028 0108 US IMG Smallest Pixel Value in Series
-0028 0109 US IMG Largest Pixel Value in Series
-0028 0110 US IMG Smallest Pixel Value in Plane
-0028 0111 US IMG Largest Pixel Value in Plane
-0028 0120 US IMG Pixel Padding Value
-0028 0122 US IMG Waveform Padding Value
-0028 0199 US IMG LibIDO code (RET)
-0028 0200 US IMG Image Location (RET)
-0028 1040 CS IMG Pixel Intensity Relationship
-0028 1041 CS IMG Pixel Intensity Relationship Sign
-0028 1050 DS IMG Window Center
-0028 1051 DS IMG Window Width
-0028 1052 DS IMG Rescale Intercept
-0028 1053 DS IMG Rescale Slope
-0028 1054 LO IMG Rescale Type
-0028 1055 LO IMG Window Center & Width Explanation
-0028 1080 SH IMG Gray Scale (RET)
-0028 1090 CS IMG Recommended Viewing Mode
-0028 1100 US IMG Gray Lookup Table Descriptor (RET)
-0028 1101 US IMG Red Palette Color Lookup Table Descriptor
-0028 1102 US IMG Green Palette Color Lookup Table Descriptor
-0028 1103 US IMG Blue Palette Color Lookup Table Descriptor
-0028 1199 UI IMG Palette Color Lookup Table UID
-0028 1200 US IMG Gray Lookup Table Data (RET)
-0028 1201 OW IMG Red Palette Color Lookup Table Data
-0028 1202 OW IMG Green Palette Color Lookup Table Data
-0028 1203 OW IMG Blue Palette Color Lookup Table Data
-0028 1221 OW IMG Segmented Red Palette Color Lookup Table Data
-0028 1222 OW IMG Segmented Green Palette Color Lookup Table Data
-0028 1223 OW IMG Segmented Blue Palette Color Lookup Table Data
-0028 1300 CS IMG Implant Present
-0028 1350 CS IMG Partial View
-0028 1350 ST IMG Partial View Description
-0028 2110 CS IMG Lossy Image Compression
-0028 2112 DS IMG Lossy Image Compression Ratio
-0028 3000 SQ IMG Modality LUT Sequence
-0028 3002 US IMG LUT Descriptor
-0028 3003 LO IMG LUT Explanation
-0028 3004 LO IMG Modality LUT Type
-0028 3006 US IMG LUT Data (CTX dependent)
-0028 3010 SQ IMG VOI LUT Sequence
-0028 3110 SQ IMG Softcopy VOI LUT Sequence
-0028 4000 SH IMG Comments (RET)
-0028 5000 SQ IMG Bi-Plane Acquisition Sequence
-0028 6010 US IMG Representative Frame Number
-0028 6020 US IMG Frame Numbers of Interest (FOI)
-0028 6022 LO IMG Frame(s) of Interest Description
-0028 6030 US IMG Mask Pointer(s) (RET)
-0028 6040 US IMG R Wave Pointer
-0028 6100 SQ IMG Mask Subtraction Sequence
-0028 6101 CS IMG Mask Operation
-0028 6102 US IMG Applicable Frame Range
-0028 6110 US IMG Mask Frame Numbers
-0028 6112 US IMG Contrast Frame Averaging
-0028 6114 FL IMG Mask Sub-pixel Shift
-0028 6120 SS IMG TID Offset
-0028 6190 ST IMG Mask Operation Explanation
-0028 9001 UL IMG Data Point Rows
-0028 9002 UL IMG Data Point Columns
-0028 9003 CS IMG Signal Domain Columns
-0028 9099 US IMG Largest Monochrome Pixel Value
-0028 9108 CS IMG Data Representation
-0028 9110 SQ IMG Pixel Measures Sequence
-0028 9132 SQ IMG Frame VOI LUT Sequence
-0028 9145 SQ IMG Pixel Value Transformation Sequence
-0028 9235 CS IMG Signal Domain Rows
-0032 0000 UL SDY Study Group Length
-0032 000a CS SDY Study Status ID
-0032 000c CS SDY Study Priority ID
-0032 0012 LO SDY Study ID Issuer
-0032 0032 DA SDY Study Verified Date
-0032 0033 TM SDY Study Verified Time
-0032 0034 DA SDY Study Read Date
-0032 0035 TM SDY Study Read Time
-0032 1000 DA SDY Scheduled Study Start Date
-0032 1001 TM SDY Scheduled Study Start Time
-0032 1010 DA SDY Scheduled Study Stop Date
-0032 1011 TM SDY Scheduled Study Stop Time
-0032 1020 LO SDY Scheduled Study Location
-0032 1021 AE SDY Scheduled Study Location AE Title(s)
-0032 1030 LO SDY Reason for Study
-0032 1031 SQ SDY Requesting Physician Identification Sequence
-0032 1032 PN SDY Requesting Physician
-0032 1033 LO SDY Requesting Service
-0032 1040 DA SDY Study Arrival Date
-0032 1041 TM SDY Study Arrival Time
-0032 1050 DA SDY Study Completion Date
-0032 1051 TM SDY Study Completion Time
-0032 1055 CS SDY Study Component Status ID
-0032 1060 LO SDY Requested Procedure Description
-0032 1064 SQ SDY Requested Procedure Code Sequence
-0032 1070 LO SDY Requested Contrast Agent
-0032 4000 LT SDY Study Comments
-0038 0000 UL VIS Group Length
-0038 0004 SQ VIS Referenced Patient Alias Sequence
-0038 0008 CS VIS Visit Status ID
-0038 0010 LO VIS Admission ID
-0038 0011 LO VIS Issuer of Admission ID
-0038 0016 LO VIS Route of Admission
-0038 001a DA VIS Scheduled Admission Date
-0038 001b TM VIS Scheduled Admission Time
-0038 001c DA VIS Scheduled Discharge Date
-0038 001d TM VIS Scheduled Discharge Time
-0038 001e LO VIS Scheduled Patient Institution Residence
-0038 0020 DA VIS Admitting Date
-0038 0021 TM VIS Admitting Time
-0038 0030 DA VIS Discharge Date
-0038 0032 TM VIS Discharge Time
-0038 0040 LO VIS Discharge Diagnosis Description
-0038 0044 SQ VIS Discharge Diagnosis Code Sequence
-0038 0050 LO VIS Special Needs
-0038 0300 LO VIS Current Patient Location
-0038 0400 LO VIS Patient's Institution Residence
-0038 0500 LO VIS Patient State
-0038 4000 LT VIS Visit Comments
-003a 0000 UL WAV Group Length
-003a 0002 SQ WAV Waveform Sequence
-003a 0004 CS WAV Waveform Originality
-003a 0005 US WAV Number of Waveform Channels
-003a 0010 UL WAV Number of Waveform Samples
-003a 001a DS WAV Sampling Frequency
-003a 0020 SH WAV Multiplex Group Label
-003a 0103 CS WAV Data Value Representation
-003a 0200 SQ WAV Channel Definition Sequence
-003a 0202 IS WAV Waveform Channel Number
-003a 0203 SH WAV Channel Label
-003a 0205 CS WAV Channel Status
-003a 0208 SQ WAV Channel Source Sequence
-003a 0209 SQ WAV Channel Source Modifiers Sequence
-003a 020a SQ WAV Source Waveform Sequence
-003a 020c SQ WAV Channel Derivation Description
-003a 0210 DS WAV Channel Sensitivity
-003a 0211 SQ WAV Channel Sensitivity Units Sequence
-003a 0212 DS WAV Channel Sensitivity Correction Factor
-003a 0213 DS WAV Channel Baseline
-003a 0214 DS WAV Channel Time Skew
-003a 0215 DS WAV Channel Sample Skew
-003a 0216 CTX WAV Channel Minimum Value
-003a 0217 CTX WAV Channel Maximum Value
-003a 0218 DS WAV Channel Offset
-003a 021a US WAV Waveform Bits Stored
-003a 0220 DS WAV Filter Low Frequency
-003a 0221 DS WAV Filter High Frequency
-003a 0222 DS WAV Notch Filter Frequency
-003a 0223 DS WAV Notch Filter Bandwidth
-003a 1000 CTX WAV Waveform Data
-0040 0000 UL PRC Group Length
-0040 0001 AE PRC Scheduled Station AE Title
-0040 0002 DA PRC Scheduled Procedure Step Start Date
-0040 0003 TM PRC Scheduled Procedure Step Start Time
-0040 0004 DA PRC Scheduled Procedure Step End Date
-0040 0005 TM PRC Scheduled Procedure Step End Time
-0040 0006 PN PRC Scheduled Performing Physician's Name
-0040 0007 LO PRC Scheduled Step Description
-0040 0008 SQ PRC Scheduled Action Item Code Sequence
-0040 0009 SH PRC Scheduled Step ID
-0040 000a SH PRC Scheduled Procedure Step ID
-0040 000b SQ PRC Scheduled Performing Physician Identification Sequence
-0040 0010 SH PRC Scheduled Station Name
-0040 0011 SH PRC Scheduled Procedure Step Location
-0040 0012 LO PRC Pre-Medication
-0040 0020 CS PRC Schedule Procedure Step Status
-0040 0100 SQ PRC Scheduled Procedure Step Sequence
-0040 0220 SQ PRC Referenced Non-Image Composite SOP Instance Sequence
-0040 0241 AE PRC Performed Station AE Title
-0040 0242 SH PRC Performed Station Name
-0040 0243 SH PRC Performed Location
-0040 0244 DA PRC Performed Procedure Step Start Date
-0040 0245 TM PRC Performed Procedure Step Start Time
-0040 0250 DA PRC Performed Procedure Step End Date
-0040 0251 TM PRC Performed Procedure Step End Time
-0040 0252 CS PRC Performed Procedure Step Status
-0040 0253 SH PRC Performed Procedure Step ID
-0040 0254 LO PRC Performed Procedure Step Description
-0040 0255 LO PRC Performed Procedure Type Description
-0040 0260 SQ PRC Performed Protocol Code Sequence
-0040 0270 SQ PRC Scheduled Step Attributes Sequence
-0040 0275 SQ PRC Requested Attributes Sequence
-0040 0280 ST PRC Comments on the Performed Procedure Step
-0040 0281 SQ PRC Performed Procedure Step Reason Code Sequence
-0040 0293 SQ PRC Quantity Sequence
-0040 0294 DS PRC Quantity
-0040 0295 SQ PRC Measuring Units Sequence
-0040 0296 SQ PRC Billing Item Sequence
-0040 0300 US PRC Total Time of Fluoroscopy
-0040 0301 US PRC Total Number of Exposures
-0040 0302 US PRC Entrance Dose
-0040 0303 US PRC Exposed Area
-0040 0306 DS PRC Distance Source to Entrance
-0040 0307 DS PRC Distance Source to Support (RET)
-0040 030e DS PRC Exposure Dose Sequence
-0040 0310 ST PRC Comments on Radiation Dose
-0040 0312 DS PRC X-Ray Output
-0040 0314 DS PRC Half Value Layer
-0040 0316 DS PRC Organ Dose
-0040 0318 CS PRC Organ Exposed
-0040 0320 SQ PRC Billing Procedure Step Sequence
-0040 0321 SQ PRC Film Consumption Sequence
-0040 0324 SQ PRC Billing Supplies and Devices Sequence
-0040 0330 SQ PRC Referenced Procedure Step Sequence (RET)
-0040 0340 SQ PRC Performed Series Sequence
-0040 0400 LT PRC Comments on the Scheduled Procedure Step
-0040 050a LO PRC Specimen Accession Number
-0040 0550 SQ PRC Specimen Sequence
-0040 0551 LO PRC Specimen Identifier
-0040 0552 SQ PRC Specimen Description Sequence
-0040 0553 ST PRC Specimen Description
-0040 0555 SQ PRC Acquisition Context Sequence
-0040 0556 ST PRC Acquisition Context Description
-0040 059a SQ PRC Specimen Type Code Sequence
-0040 06fa LO PRC Slide Identifier
-0040 071a SQ PRC Image Center Point Coordinates Sequence
-0040 072a DS PRC X offset in Slide Coordinate System
-0040 073a DS PRC Y offset in Slide Coordinate System
-0040 074a DS PRC Z offset in Slide Coordinate System
-0040 08d8 SQ PRC Pixel Spacing Sequence
-0040 08da SQ PRC Coordinate System Axis Code Sequence
-0040 08ea SQ PRC Measurement Units Code Sequence
-0040 09f8 SQ PRC Vital Stain Code Sequence
-0040 1001 SH PRC Requested Procedure ID
-0040 1002 LO PRC Reason for the Requested Procedure
-0040 1003 SH PRC Requested Procedure Priority
-0040 1004 LO PRC Patient Transport Arrangements
-0040 1005 LO PRC Requested Procedure Location
-0040 1006 SH PRC Placer Order Number/Procedure (RET)
-0040 1007 SH PRC Filler Order Number/Procedure (RET)
-0040 1008 LO PRC Confidentiality Code
-0040 1009 SH PRC Reporting Priority
-0040 1010 PN PRC Names of Intended Recipients of Results
-0040 1011 SQ PRC Intended Recipients of Results Identification Sequence 
-0040 1101 SQ PRC Person Identification Code Sequence
-0040 1102 ST PRC Person's Adress
-0040 1103 LO PRC Person's Telephone Numbers
-0040 1400 LT PRC Requested Procedure Comments 
-0040 2001 LO PRC Reason for the Imaging Service Request
-0040 2004 DA PRC Issue Date of Imaging Service Request
-0040 2005 TM PRC Issue Time of Imaging Service Request
-0040 2006 SH PRC Placer Order Number/Imaging Service Request (RET)
-0040 2007 SH PRC Filler Order Number/Imaging Service Request (RET)
-0040 2008 PN PRC Order Entered By
-0040 2009 SH PRC Order Enterer's Location
-0040 2010 SH PRC Order Callback Phone Number
-0040 2016 LO PRC Placer Order Number/Imaging Service Number
-0040 2017 LO PRC Filler Order Number/Imaging Service Number
-0040 2400 LT PRC Imaging Service Request Comments
-0040 3001 LO PRC Confidentiality Constraint Patient Data Description
-0040 4001 CS PRC General Purpose Scheduled Procedure Step Status
-0040 4002 CS PRC General Purpose Performed Procedure Step Status
-0040 4003 CS PRC General Purpose Performed Procedure Step Priority
-0040 4004 SQ PRC Scheduled Processing Applications Code Sequence
-0040 4005 DT PRC Scheduled Procedure Step Start Date and Time
-0040 4006 CS PRC Multiple Copies Flag
-0040 4007 SQ PRC Performed Processing Applications Code Sequence
-0040 4009 SQ PRC Human Performer Code Sequence
-0040 4011 DT PRC Expected Completion Date and Time
-0040 4015 SQ PRC Resulting General Purpose Performed Procedure Steps Sequence
-0040 4016 SQ PRC Referenced General Purpose Scheduled Procedure Steps Sequence
-0040 4018 SQ PRC Scheduled Workitem Code Sequence
-0040 4019 SQ PRC Performed Workitem Code Sequence
-0040 4020 CS PRC Input Availability Flag
-0040 4021 SQ PRC Input Information Sequence
-0040 4022 SQ PRC Relevant Information Code Sequence
-0040 4023 SQ PRC Referenced General Purpose Scheduled Procedure Steps Transaction UID
-0040 4025 SQ PRC Scheduled Station Name Code Sequence
-0040 4026 SQ PRC Scheduled Station Class Code Sequence
-0040 4027 SQ PRC Scheduled Station Geographic Location Code Sequence
-0040 4028 SQ PRC Performed Station Name Code Sequence
-0040 4029 SQ PRC Performed Station Class Code Sequence
-0040 4030 SQ PRC Performed Station Geographic Location Code Sequence
-0040 4031 SQ PRC Requested Subsequent Workitem Code Sequence
-0040 4032 SQ PRC Non-DICOM Output Code Sequence
-0040 4033 SQ PRC Output Information Sequence
-0040 4034 SQ PRC Scheduled Human Performers Sequence
-0040 4035 SQ PRC Actual Human Performers Sequence
-0040 4036 LO PRC Human Performer's Organization
-0040 4037 PN PRC Human Performer's Name
-0040 8302 DS PRC Entrance Dose in mGy
-0040 9096 SQ PRC Real World Value Mapping Sequence
-0040 9210 SS PRC LUT Label
-0040 9211 US PRC Real World Value Last Value Mapped
-0040 9212 FD PRC Real World Value LUT Data
-0040 9216 US PRC Real World Value First Value Mapped
-0040 9224 FD PRC Real World Value Intercept
-0040 9225 FD PRC Real World Value Slope
-0040 a010 CS PRC Relationship Type
-0040 a027 LO PRC Verifying Organization
-0040 a030 DT PRC Verification Date Time
-0040 a032 DT PRC Observation Date Time
-0040 a040 CS PRC Value Type
-0040 a043 SQ PRC Concept Name Code Sequence
-0040 a050 CS PRC Continuity of Content
-0040 a073 SQ PRC Verifying Observer Sequence
-0040 a075 PN PRC Verifying Observer Name
-0040 a088 SQ PRC Verifying Observer Identification Code Sequence
-0040 a0b0 US PRC Referenced Waveform Channels
-0040 a120 DT PRC DateTime
-0040 a121 DA PRC Date
-0040 a122 TM PRC Time
-0040 a123 PN PRC Person Name
-0040 a124 UI PRC UID
-0040 a130 CS PRC Temporal Range Type
-0040 a132 UL PRC Referenced Sample Offsets
-0040 a136 US PRC Referenced Frame Numbers
-0040 a138 DS PRC Referenced Time Offsets
-0040 a13a DT PRC Referenced Datetime
-0040 a160 UT PRC Text Value
-0040 a168 SQ PRC Concept Code Sequence
-0040 a16a ST PRC Bibliographics Citation
-0040 a170 SQ PRC Purpose of Reference Code Sequence
-0040 a180 US PRC Annotation Group Number
-0040 a195 SQ PRC Modifier Code Sequence Modifier
-0040 a300 SQ PRC Measured Value Sequence
-0040 a301 SQ PRC Numeric Value Qualifier Code Sequence
-0040 a30a DS PRC Numeric Value
-0040 a353 ST PRC Address
-0040 a354 LO PRC Telephone Number
-0040 a360 SQ PRC Predecessor Documents Sequence
-0040 a370 SS PRC Referenced Request Sequence
-0040 a372 SQ PRC Performed Procedure Code Sequence
-0040 a375 SQ PRC Current Requested Procedure Evidence Sequence
-0040 a385 SQ PRC Pertinent Other Evidence Sequence
-0040 a491 CS PRC Completion Flag 
-0040 a492 LO PRC Completion Flag Description
-0040 a493 CS PRC Verification Flag
-0040 a504 SQ PRC Content Template Sequence
-0040 a525 SQ PRC Identical Documents Sequence
-0040 a730 SQ PRC Content Sequence
-0040 a992 ST PRC Uniform Resource Locator
-0040 b020 SQ PRC Annotation Sequence
-0040 db00 CS PRC Template Identifier
-0040 db06 DT PRC Template Version (RET)
-0040 db07 DT PRC Template Local Version (RET)
-0040 db0b CS PRC Template Extension Flag (RET)
-0040 db0c UI PRC Template Extension Organization UID (RET)
-0040 db0d UI PRC Template Extension Creator UID (RET)
-0040 db73 UL PRC Referenced Content Item Identifier
-0041 1050 SQ ??? Special PAPYRUS 3.0 (?)
-0050 0000 UL DEV Group Length
-0050 0004 CS DEV Calibration Image
-0050 0010 SQ DEV Device Sequence
-0050 0014 DS DEV Device Length
-0050 0016 DS DEV Device Diameter
-0050 0017 CS DEV Device Diameter Units
-0050 0018 DS DEV Device Volume
-0050 0019 DS DEV Inter-Marker Distance
-0050 0020 LO DEV Device Description
-0054 0000 UL NMI Group Length
-0054 0010 US NMI Energy Window Vector
-0054 0011 US NMI Number of Energy Windows
-0054 0012 SQ NMI Energy Window Information Sequence
-0054 0013 SQ NMI Energy Window Range Sequence
-0054 0014 DS NMI Energy Window Lower Limit
-0054 0015 DS NMI Energy Window Upper Limit
-0054 0016 SQ NMI Radiopharmaceutical Information Sequence
-0054 0017 IS NMI Residual Syringe Counts
-0054 0018 SH NMI Energy Window Name
-0054 0020 US NMI Detector Vector
-0054 0021 US NMI Number of Detectors
-0054 0022 SQ NMI Detector Information Sequence
-0054 0030 US NMI Phase Vector
-0054 0031 US NMI Number of Phases
-0054 0032 SQ NMI Phase Information Sequence
-0054 0033 US NMI Number of Frames in Phase
-0054 0036 IS NMI Phase Delay
-0054 0038 IS NMI Pause Between Frames
-0054 0050 US NMI Rotation Vector
-0054 0051 US NMI Number of Rotations
-0054 0052 SQ NMI Rotation Information Sequence
-0054 0053 US NMI Number of Frames in Rotation
-0054 0060 US NMI R-R Interval Vector
-0054 0061 US NMI Number of R-R Intervals
-0054 0062 SQ NMI Gated Information Sequence
-0054 0063 SQ NMI Data Information Sequence
-0054 0070 US NMI Time Slot Vector
-0054 0071 US NMI Number of Time Slots
-0054 0072 SQ NMI Time Slot Information Sequence
-0054 0073 DS NMI Time Slot Time
-0054 0080 US NMI Slice Vector
-0054 0081 US NMI Number of Slices
-0054 0090 US NMI Angular View Vector
-0054 0100 US NMI Time Slice Vector
-0054 0101 US NMI Number of Time Slices
-0054 0200 DS NMI Start Angle
-0054 0202 CS NMI Type of Detector Motion
-0054 0210 IS NMI Trigger Vector
-0054 0211 US NMI Number of Triggers in Phase
-0054 0220 SQ NMI View Code Sequence
-0054 0222 SQ NMI View Modifer Code Sequence
-0054 0300 SQ NMI Radionuclide Code Sequence
-0054 0302 SQ NMI Administration Route Code Sequence
-0054 0304 SQ NMI Radiopharmaceutical Code Sequence
-0054 0306 SQ NMI Calibration Data Sequence
-0054 0308 US NMI Energy Window Number
-0054 0400 SH NMI Image ID
-0054 0410 SQ NMI Patient Orientation Code Sequence
-0054 0412 SQ NMI Patient Orientation Modifier Code Sequence
-0054 0414 SQ NMI Patient Gantry Relationship Code Sequence
-0054 1000 CS NMI Series Type
-0054 1001 CS NMI Units
-0054 1002 CS NMI Counts Source
-0054 1004 CS NMI Reprojection Method
-0054 1100 CS NMI Randoms Correction Method
-0054 1101 LO NMI Attenuation Correction Method
-0054 1102 CS NMI Decay Correction
-0054 1103 LO NMI Reconstruction Method
-0054 1104 LO NMI Detector Lines of Response Used
-0054 1105 LO NMI Scatter Correction Method
-0054 1200 DS NMI Axial Acceptance
-0054 1201 IS NMI Axial Mash
-0054 1202 IS NMI Transverse Mash
-0054 1203 DS NMI Detector Element Size
-0054 1210 DS NMI Coincidence Window Width
-0054 1220 CS NMI Secondary Counts Type
-0054 1300 DS NMI Frame Reference Time
-0054 1310 IS NMI Primary (Prompts) Counts Accumulated
-0054 1311 IS NMI Secondary Counts Accumulated
-0054 1320 DS NMI Slice Sensitivity Factor
-0054 1321 DS NMI Decay Factor
-0054 1322 DS NMI Dose Calibration Factor
-0054 1323 DS NMI Scatter Fraction Factor
-0054 1324 DS NMI Dead Time Factor
-0054 1330 US NMI Image Index
-0054 1400 CS NMI Counts Included
-0054 1401 CS NMI Dead Time Correction Flag
-0060 0000 UL HIS Group Length
-0060 3000 SQ HIS Histogram Sequence
-0060 3002 US HIS Histogram Number of Bins
-0060 3004 US HIS Histogram First Bin Value
-0060 3006 US HIS Histogram Last Bin Value
-0060 3008 US HIS Histogram Bin Width
-0060 3010 LO HIS Histogram Explanation
-0060 3020 UL HIS Histogram Data
-0070 0000 UL ??? Group Length
-0070 0001 SQ ??? Graphic Annotation Sequence
-0070 0002 CS ??? Graphic Layer
-0070 0003 CS ??? Bounding Box Annotation Units
-0070 0004 CS ??? Anchor Point Annotation Units
-0070 0005 CS ??? Graphic Annotation Units 
-0070 0006 ST ??? Unformatted Text Value
-0070 0008 SQ ??? Text Object Sequence 
-0070 0009 SQ ??? Graphic Object Sequence 
-0070 0010 FL ??? Bounding Box Top Left Hand Corner
-0070 0011 FL ??? Bounding Box Bottom Left Hand Corner
-0070 0012 CS ??? Bounding Box Text Horizontal Justification
-0070 0014 FL ??? Anchor Point
-0070 0015 CS ??? Anchor Point Visibility
-0070 0020 US ??? Graphic Dimensions
-0070 0021 US ??? Number of Graphic Points
-0070 0022 FL ??? Graphic Data 
-0070 0023 CS ??? Graphic Type 
-0070 0024 CS ??? Graphic Filled 
-0070 0041 CS ??? Image Horizontal Flip 
-0070 0042 US ??? Image Rotation 
-0070 0052 SL ??? Displayed Area Top Left Hand Corner
-0070 0053 SL ??? Displayed Area Bottom Right Hand Corner
-0070 005a SQ ??? Displayed Area Selection Sequence
-0070 0060 SQ ??? Graphic Layer Sequence
-0070 0062 IS ??? Graphic Layer Order
-0070 0066 US ??? Graphic Layer Recommended Display Grayscale Value
-0070 0067 US ??? Graphic Layer Recommended Display RGB Value
-0070 0068 LO ??? Graphic Layer Description
-0070 0080 CS ??? Presentation Label
-0070 0081 LO ??? Presentation Description
-0070 0082 DA ??? Presentation Creation Date
-0070 0083 TM ??? Presentation Creation Time
-0070 0084 PN ??? Presentation Creator's Name
-0070 0100 CS ??? Presentation Size Mode
-0070 0101 DS ??? Presentation Pixel Spacing
-0070 0102 IS ??? Presentation Pixel Aspect Ratio
-0070 0103 IS ??? Presentation Pixel Magnification Ratio
-0088 0000 UL MED Storage Media Group Length
-0088 0130 SH MED Storage Media File-set ID
-0088 0140 UI MED Storage Media File-set UID
-0088 0200 SQ MED Icon Image Sequence
-0088 0904 LO MED Topic Title
-0088 0906 ST MED Topic Subject
-0088 0910 LO MED Topic Author
-0088 0912 LO MED Topic Keywords
-0100 0000 UL ??? Group Length
-0100 0410 CS ??? SOP Instance Status
-0100 0420 DT ??? SOP Autorization Date and Time
-0100 0424 LT ??? SOP Autorization Comment
-0100 0426 LO ??? Autorization Equipment Certification Number
-0400 0000 UL ??? Group Length
-0400 0005 US ??? MAC ID Number
-0400 0010 UI ??? MAC Calculation Transfer Syntax UID
-0400 0015 UI ??? MAC Algorithm
-0400 0020 AT ??? Data Elements Signed
-0400 0100 UI ??? Digital Signature UID
-0400 0105 DT ??? Digital Signature DateTime
-0400 0110 CS ??? Certificate Type
-0400 0115 OB ??? Certificate of Signer
-0400 0120 OB ??? Signature
-0400 0305 CS ??? Certified Timestamp Type
-0400 0310 OB ??? Certified Timestamp
-0400 0500 SQ ??? Encrypted Attributes Sequence
-0400 0510 UI ??? Encrypted Content Transfer Syntax UID
-0400 0520 OB ??? Encrypted Content
-0400 0550 SQ ??? Modified Attributes Sequence
-2000 0000 UL BFS Group Length
-2000 0010 IS BFS Number of Copies
-2000 001e SQ BFS Printer Configuration Sequence
-2000 0020 CS BFS Print Priority
-2000 0030 CS BFS Medium Type
-2000 0040 CS BFS Film Destination
-2000 0050 LO BFS Film Session Label
-2000 0060 IS BFS Memory Allocation
-2000 0061 IS BFS Maximum Memory Allocation
-2000 0062 CS BFS Color Image Printing Flag
-2000 0063 CS BFS Collation Flag
-2000 0065 CS BFS Anotation Flag
-2000 0067 CS BFS Image Overlay Flag
-2000 0069 CS BFS Presentation LUT Flag
-2000 006a CS BFS Image Box Presentation LUT Flag
-2000 00a0 US BFS Memory Bit Depth
-2000 00a1 US BFS Printing Bit Depth
-2000 00a2 SQ BFS Media Installed Sequence
-2000 00a4 SQ BFS Other Media Available Sequence
-2000 00a8 SQ BFS Supported Image Display Formats Sequence
-2000 0500 SQ BFS Referenced Film Box Sequence
-2000 0510 SQ BFS Referenced Stored Print Sequence
-2010 0000 UL BFB Group Length
-2010 0010 ST BFB Image Display Format
-2010 0030 CS BFB Annotation Display Format ID
-2010 0040 CS BFB Film Orientation
-2010 0050 CS BFB Film Size ID
-2010 0052 CS BFB Printer Resolution ID
-2010 0054 CS BFB Default Printer Resolution ID
-2010 0060 CS BFB Magnification Type
-2010 0080 CS BFB Smoothing Type
-2010 00a6 CS BFB Default Magnification Type
-2010 00a7 CS BFB Other Magnification Types Available
-2010 00a8 CS BFB Default Smoothing Type
-2010 00a9 CS BFB Other Smoothing Types Available
-2010 0100 CS BFB Border Density
-2010 0110 CS BFB Empty Image Density
-2010 0120 US BFB Min Density
-2010 0130 US BFB Max Density
-2010 0140 CS BFB Trim
-2010 0150 ST BFB Configuration Information
-2010 0152 LT BFB Configuration Information Description
-2010 0154 IS BFB Maximum Collated Films
-2010 015e US BFB Illumination
-2010 0160 US BFB Reflected Ambiant Light
-2010 0367 UD BFB Printer Pixel Spacing
-2010 0500 SQ BFB Referenced Film Session Sequence
-2010 0510 SQ BFB Referenced Image Box Sequence
-2010 0520 SQ BFB Referenced Basic Annotation Box Sequence
-2020 0000 UL BIB Group Length
-2020 0010 US BIB Image Position
-2020 0020 CS BIB Polarity
-2020 0030 DS BIB Requested Image Size
-2020 0040 CS BIB Requested Decimate/Crop Behaviour
-2020 0050 CS BIB Requested Resolution ID
-2020 00a0 CS BIB Requested Image Size Flag
-2020 00a2 CS BIB Decimate/Crop Result
-2020 0110 SQ BIB Basic Grayscale Image Sequence
-2020 0111 SQ BIB Basic Color Image Sequence
-2020 0130 SQ BIB Referenced Image Overlay Box Sequence (RET)
-2020 0140 SQ BIB Referenced VOI LUT Box Sequence (RET)
-2030 0000 UL BAB Group Length
-2030 0010 US BAB Annotation Position
-2030 0020 LO BAB Text String
-2040 0000 UL IOB Group Length
-2040 0010 SQ IOB Referenced Overlay Plane Sequence
-2040 0011 US IOB Referenced Overlay Plane Groups
-2040 0060 CS IOB Overlay Magnification Type
-2040 0070 CS IOB Overlay Smoothing Type
-2040 0072 CS IOB Overlay or Image Magnification
-2040 0074 CS IOB Magnify to Number of Columns
-2040 0080 CS IOB Overlay Foreground Density
-2040 0090 CS IOB Overlay Mode (RET)
-2040 0100 CS IOB Threshold Density (RET)
-2040 0500 SQ IOB Referenced Image Box Sequence (RET)
-2050 0000 UL ??? Group Length
-2050 0010 SQ ??? Presentation LUT Sequence
-2050 0020 CS ??? Presentation LUT Shape
-2050 0030 SQ ??? Referenced Presentation LUT Sequence
-2100 0000 UL PJ Group Length
-2100 0010 SH PJ Print Job ID
-2100 0020 CS PJ Execution Status
-2100 0030 CS PJ Execution Status Info
-2100 0040 DA PJ Creation Date
-2100 0050 TM PJ Creation Time
-2100 0070 AE PJ Originator
-2100 0140 AE PJ Destination AE
-2100 0160 SH PJ Owner ID 
-2100 0170 IS PJ Number of Films 
-2100 0500 SQ PJ Referenced Print Job Sequence
-2110 0000 UL PRINTER Group Length
-2110 0010 CS PRINTER Printer Status
-2110 0020 CS PRINTER Printer Status Information
-2110 0030 LO PRINTER Printer Name
-2110 0099 SH PRINTER Queue ID
-2120 0010 CS PRINTER Queue Status
-2120 0050 SQ PRINTER Printer Job Description Sequence
-2120 0070 SQ PRINTER Referenced Print Job Sequence
-2130 0000 UL ??? Group Length
-2130 0010 SQ ??? Print Management Capabilities Sequence
-2130 0015 SQ ??? Print Characteristics Sequence
-2130 0030 SQ ??? Film Box Content Sequence
-2130 0040 SQ ??? Image Box Content Sequence
-2130 0050 SQ ??? Annotation Content Sequence
-2130 0060 SQ ??? Image Overlay Box Content Sequence
-2130 0080 SQ ??? Presentation LUT Content Sequence
-2130 00a0 SQ ??? Proposed Study Sequence
-2130 00c0 SQ ??? Original Image Sequence
-3002 0000 UL RT Group Length
-3002 0002 SH RT RT Image Label
-3002 0003 LO RT RT Image Name
-3002 0004 ST RT RT Image Description
-3002 000a CS RT Reported Values Origin
-3002 000c CS RT RT Image Plane
-3002 000d DS RT X-Ray Image Receptor Translation
-3002 000e DS RT X-Ray Image Receptor Angle
-3002 0010 DS RT RT mage Orientation
-3002 0011 DS RT Image Plane Pixel Spacing
-3002 0012 DS RT RT Image Position
-3002 0020 SH RT Radiation Machine Name
-3002 0022 DS RT Radiation Machine SAD
-3002 0024 DS RT Radiation Machine SSD
-3002 0026 DS RT RT Image SID
-3002 0028 DS RT Source to Reference Object Distance
-3002 0029 IS RT Fraction Number
-3002 0030 SQ RT Exposure Sequence
-3002 0032 DS RT Meterset Exposure
-3002 0034 DS RT Diaphragm Position
-3004 0000 UL DVH DVH Group Length
-3004 0001 CS DVH DVH Type
-3004 0002 CS DVH Dose Units
-3004 0004 CS DVH Dose Type
-3004 0006 LO DVH Dose Comment
-3004 0008 DS DVH Normalization Point
-3004 000a CS DVH Dose Summation Type
-3004 000c DS DVH Grid Frame Offset Vector
-3004 000e DS DVH Dose Grid Scaling
-3004 0010 SQ DVH RT Dose ROI Sequence
-3004 0012 DS DVH Dose Value
-3004 0040 DS DVH DVH Normalization Point
-3004 0042 DS DVH DVH Normalization Dose Value
-3004 0050 SQ DVH DVH Sequence
-3004 0052 DS DVH DVH Dose Scaling
-3004 0054 CS DVH DVH Volume Units
-3004 0056 IS DVH DVH Number of Bins
-3004 0058 DS DVH DVH Data
-3004 0060 SQ DVH DVH Referenced ROI Sequence
-3004 0062 CS DVH DVH ROI Contribution Type
-3004 0070 DS DVH DVH Minimum Dose
-3004 0072 DS DVH DVH Maximum Dose
-3004 0074 DS DVH DVH Mean Dose
-3006 0000 UL SSET Group Length
-3006 0002 SH SSET Structure Set Label
-3006 0004 LO SSET Structure Set Name
-3006 0006 ST SSET Structure Set Description
-3006 0008 DA SSET Structure Set Date
-3006 0009 TM SSET Structure Set Time
-3006 0010 SQ SSET Referenced Frame of Reference Sequence
-3006 0012 SQ SSET RT Referenced Study Sequence
-3006 0014 SQ SSET RT Referenced Series Sequence
-3006 0016 SQ SSET Contour Image Sequence
-3006 0020 SQ SSET Structure Set ROI Sequence
-3006 0022 IS SSET ROI Number
-3006 0024 UI SSET Referenced Frame of Reference UID
-3006 0026 LO SSET ROI Name
-3006 0028 ST SSET ROI Description
-3006 002a IS SSET ROI Display Color
-3006 002c DS SSET ROI Volume
-3006 0030 SQ SSET RT Related ROI Sequence
-3006 0033 CS SSET RT ROI Relationship
-3006 0036 CS SSET ROI Generation Algorithm
-3006 0038 LO SSET ROI Generation Description
-3006 0039 SQ SSET ROI Contour Sequence
-3006 0040 SQ SSET Contour Sequence
-3006 0042 CS SSET Contour Geometric Type
-3006 0044 DS SSET Contour Slab Thickness
-3006 0045 DS SSET Contour Offset Vector
-3006 0046 IS SSET Number of Contour Points
-3006 0048 IS SSET Contour Number
-3006 0050 DS SSET Contour Data
-3006 0080 SQ SSET RT ROI Observations Sequence
-3006 0082 IS SSET Observation Number
-3006 0084 IS SSET Referenced ROI Number
-3006 0085 SH SSET ROI Observation Label
-3006 0086 SQ SSET RT ROI Identification Code Sequence
-3006 0088 ST SSET ROI Observation Description
-3006 00a0 SQ SSET Related RT ROI Observations Sequence
-3006 00a4 CS SSET RT ROI Interpreted Type
-3006 00a6 PN SSET ROI Interpreter
-3006 00b0 SQ SSET ROI Physical Properties Sequence
-3006 00b2 CS SSET ROI Physical Property
-3006 00b4 DS SSET ROI Physical Property Value
-3006 00c0 SQ SSET Frame of Referenced Relationship Sequence
-3006 00c2 UI SSET Related Frame of Reference UID
-3006 00c4 CS SSET Frame of Reference Transformation Type
-3006 00c6 DS SSET Frame of Reference Transformation Matrix
-3006 00c8 LO SSET Frame of Reference Transformation Comment
-3008 0000 UL ??? Group Length
-3008 0010 SQ ??? Measured Dose Reference Sequence
-3008 0012 ST ??? Measured Dose Description
-3008 0014 CS ??? Measured Dose Type
-3008 0016 DS ??? Measured Dose Value
-3008 0020 SQ ??? Treatment Session Beam Sequence
-3008 0022 IS ??? Current Fraction Number
-3008 0024 DA ??? Treatment Control Point Date
-3008 0025 TM ??? Treatment Control Point Time
-3008 002a CS ??? Treatment Termination Status
-3008 002b SH ??? Treatment Termination Code
-3008 002c CS ??? Treatment Verification Status
-3008 0030 SQ ??? Referenced Treatment Record Sequence
-3008 0032 DS ??? Specified Primary Meterset
-3008 0033 DS ??? Specified Secondary Meterset
-3008 0036 DS ??? Delivered Primary Meterset
-3008 0037 DS ??? Delivered Secondary Meterset
-3008 003a DS ??? Specified Treatment Time
-3008 003b DS ??? Delivered Treatment Time
-3008 0040 SQ ??? Control Point Delivery Sequence
-3008 0042 DS ??? Specified Meterset
-3008 0044 DS ??? Delivered Meterset
-3008 0048 DS ??? Dose Rate Delivered
-3008 0050 SQ ??? Treatment Summary Calculated Dose Reference Sequence
-3008 0052 DS ??? Cumulative Dose to Dose Reference
-3008 0054 DA ??? First Treatment Date
-3008 0056 DA ??? Most Recent Treatment Date
-3008 005a IS ??? Number of Fractions Delivered
-3008 0060 SQ ??? Override Sequence
-3008 0062 AT ??? Override Parameter Pointer
-3008 0064 IS ??? Measured Dose Reference Number
-3008 0066 ST ??? Override Reason
-3008 0070 SQ ??? Calculated Dose Reference Sequence
-3008 0072 IS ??? Calculated Dose Reference Number
-3008 0074 ST ??? Calculated Dose Reference Description
-3008 0076 DS ??? Calculated Dose Reference Dose Value
-3008 0078 DS ??? Start Meterset
-3008 007a DS ??? End Meterset
-3008 0080 SQ ??? Referenced Measured Dose Reference Sequence
-3008 0082 IS ??? Referenced Measured Dose Reference Number
-3008 0090 SQ ??? Referenced Calculated Dose Reference Sequence
-3008 0092 IS ??? Referenced Calculated Dose Reference Number
-3008 00a0 SQ ??? Beam Limiting Device Leaf Pairs Sequence
-3008 00b0 SQ ??? Recorded Wedge Sequence
-3008 00c0 SQ ??? Recorded Compensator Sequence
-3008 00d0 SQ ??? Recorded Block Sequence
-3008 00e0 SQ ??? Treatment Summary Measured Dose Reference Sequence
-3008 0100 SQ ??? Recorded Source Sequence
-3008 0105 LO ??? Source Serial Number
-3008 0110 SQ ??? Treatment Session Application Setup Sequence
-3008 0116 CS ??? Application Setup Check 
-3008 0120 SQ ??? Recorded Brachy Accessory Device Sequence
-3008 0122 IS ??? Referenced Brachy Accessory Device Number
-3008 0130 SQ ??? Recorded Channel Sequence
-3008 0132 DS ??? Specified Channel Total Time
-3008 0134 DS ??? Delivered Channel Total Time
-3008 0136 IS ??? Specified Number of Pulses
-3008 0138 IS ??? Delivered Number of Pulses
-3008 013a DS ??? Specified Pulse Repetition Interval
-3008 013c DS ??? Delivered Pulse Repetition Interval
-3008 0140 SQ ??? Recorded Source Applicator Sequence
-3008 0142 IS ??? Referenced Source Applicator Number
-3008 0150 SQ ??? Recorded Channel Shield Sequence
-3008 0152 IS ??? Referenced Channel Shield Number
-3008 0160 SQ ??? Brachy Control Point Delivered Sequence
-3008 0162 DA ??? Safe Position Exit Date
-3008 0164 TM ??? Safe Position Exit Time
-3008 0166 DA ??? Safe Position Return Date
-3008 0168 TM ??? Safe Position Return Time
-3008 0200 CS ??? Current Treatment Status
-3008 0202 ST ??? Treatment Status Comment
-3008 0220 SQ ??? Fraction Group Summary Sequence
-3008 0223 IS ??? Referenced Fraction Number
-3008 0224 CS ??? Fraction Group Type
-3008 0230 CS ??? Beam Stopper Position
-3008 0240 SQ ??? Fraction Status Summary Sequence
-3008 0250 DA ??? Treatment Date
-3008 0251 TM ??? Treatment Time
-300a 0000 UL RT Group Length
-300a 0002 SH RT RT Plan Label
-300a 0003 LO RT RT Plan Name
-300a 0004 ST RT RT Plan Description
-300a 0006 DA RT RT Plan Date
-300a 0007 TM RT RT Plan Time
-300a 0009 LO RT Treatment Protocols
-300a 000a CS RT Treatment Intent
-300a 000b LO RT Treatment Sites
-300a 000c CS RT RT Plan Geometry
-300a 000e ST RT Prescription Description
-300a 0010 SQ RT Dose Reference Sequence
-300a 0012 IS RT Dose Reference Number
-300a 0014 CS RT Dose Reference Structure Type
-300a 0015 CS RT Nominal Beam Energy Unit
-300a 0016 LO RT Dose Reference Description
-300a 0018 DS RT Dose Reference Point Coordinates
-300a 001a DS RT Nominal Prior Dose
-300a 0020 CS RT Dose Reference Type
-300a 0021 DS RT Constraint Weight
-300a 0022 DS RT Delivery Warning Dose
-300a 0023 DS RT Delivery Maximum Dose
-300a 0025 DS RT Target Minimum Dose
-300a 0026 DS RT Target Prescription Dose
-300a 0027 DS RT Target Maximum Dose
-300a 0028 DS RT Target Underdose Volume Fraction
-300a 002a DS RT Organ at Risk Full-volume Dose
-300a 002b DS RT Organ at Risk Limit Dose
-300a 002c DS RT Organ at Risk Maximum Dose
-300a 002d DS RT Organ at Risk Overdose Volume Fraction
-300a 0040 SQ RT Tolerance Table Sequence
-300a 0042 IS RT Tolerance Table Number
-300a 0043 SH RT Tolerance Table Label
-300a 0044 DS RT Gantry Angle Tolerance
-300a 0046 DS RT Beam Limiting Device Angle Tolerance
-300a 0048 SQ RT Beam Limiting Device Tolerance Sequence
-300a 004a DS RT Beam Limiting Device Position Tolerance
-300a 004c DS RT Patient Support Angle Tolerance
-300a 004e DS RT Table Top Eccentric Angle Tolerance
-300a 0051 DS RT Table Top Vertical Position Tolerance
-300a 0052 DS RT Table Top Longitudinal Position Tolerance
-300a 0053 DS RT Table Top Lateral Position Tolerance
-300a 0055 CS RT RT Plan Relationship
-300a 0070 SQ RT Fraction Group Sequence
-300a 0071 IS RT Fraction Group Number
-300a 0078 IS RT Number of Fractions Planned
-300a 0079 IS RT Number of Fractions Per Day
-300a 007a IS RT Repeat Fraction Cycle Length
-300a 007b LT RT Fraction Pattern
-300a 0080 IS RT Number of Beams
-300a 0082 DS RT Beam Dose Specification Point
-300a 0084 DS RT Beam Dose
-300a 0086 DS RT Beam Meterset
-300a 00a0 IS RT Number of Brachy Application Setups
-300a 00a2 DS RT Brachy App Setup Dose Specification Point
-300a 00a4 DS RT Brachy Application Setup Dose
-300a 00b0 SQ RT Beam Sequence
-300a 00b2 SH RT Treatment Machine Name
-300a 00b3 CS RT Primary Dosimeter Unit
-300a 00b4 DS RT Source-Axis Distance
-300a 00b6 SQ RT Beam Limiting Device Sequence
-300a 00b8 CS RT RT Beam Limiting Device Type
-300a 00ba DS RT Source to Beam Limiting Device Distance
-300a 00bc IS RT Number of Leaf/Jaw Pairs
-300a 00be DS RT Leaf Position Boundaries
-300a 00c0 IS RT Beam Number
-300a 00c2 LO RT Beam Name
-300a 00c3 ST RT Beam Description
-300a 00c4 CS RT Beam Type
-300a 00c6 CS RT Radiation Type
-300a 00c7 CS RT High-Dose Technique Type
-300a 00c8 IS RT Reference Image Number
-300a 00ca SQ RT Planned Verification Image Sequence
-300a 00cc LO RT Imaging Device-Specific Acquisition Parameters
-300a 00ce CS RT Treatment Delivery Type
-300a 00d0 IS RT Number of Wedges
-300a 00d1 SQ RT Wedge Sequence
-300a 00d2 IS RT Wedge Number
-300a 00d3 CS RT Wedge Type
-300a 00d4 SH RT Wedge ID
-300a 00d5 IS RT Wedge Angle
-300a 00d6 DS RT Wedge Factor
-300a 00d8 DS RT Wedge Orientation
-300a 00da DS RT Source to Wedge Tray Distance
-300a 00e0 IS RT Number of Compensators
-300a 00e1 SH RT Material ID
-300a 00e2 DS RT Total Compensator Tray Factor
-300a 00e3 SQ RT Compensator Sequence
-300a 00e4 IS RT Compensator Number
-300a 00e5 SH RT Compensator ID
-300a 00e6 DS RT Source to Compensator Tray Distance
-300a 00e7 IS RT Compensator Rows
-300a 00e8 IS RT Compensator Columns
-300a 00e9 DS RT Compensator Pixel Spacing
-300a 00ea DS RT Compensator Position
-300a 00eb DS RT Compensator Transmission Data
-300a 00ec DS RT Compensator Thickness Data
-300a 00ed IS RT Number of Boli
-300a 00f0 IS RT Number of Blocks
-300a 00f2 DS RT Total Block Tray Factor
-300a 00f4 SQ RT Block Sequence
-300a 00f5 SH RT Block Tray ID
-300a 00f6 DS RT Source to Block Tray Distance
-300a 00f8 CS RT Block Type
-300a 00fa CS RT Block Divergence
-300a 00fb CS RT Block Mounting Position
-300a 00fc IS RT Block Number
-300a 00fe LO RT Block Name
-300a 0100 DS RT Block Thickness
-300a 0102 DS RT Block Transmission
-300a 0104 IS RT Block Number of Points
-300a 0106 DS RT Block Data
-300a 0107 SQ RT Applicator Sequence
-300a 0108 SH RT Applicator ID
-300a 0109 CS RT Applicator Type
-300a 010a LO RT Applicator Description
-300a 010c DS RT Cumulative Dose Reference Coefficient
-300a 010e DS RT Final Cumulative Meterset Weight
-300a 0110 IS RT Number of Control Points
-300a 0111 SQ RT Control Point Sequence
-300a 0112 IS RT Control Point Index
-300a 0114 DS RT Nominal Beam Energy
-300a 0115 DS RT Dose Rate Set
-300a 0116 SQ RT Wedge Position Sequence
-300a 0118 CS RT Wedge Position
-300a 011a SQ RT Beam Limiting Device Position Sequence
-300a 011c DS RT Leaf/Jaw Positions
-300a 011e DS RT Gantry Angle
-300a 011f CS RT Gantry Rotation Direction
-300a 0120 DS RT Beam Limiting Device Angle
-300a 0121 CS RT Beam Limiting Device Rotation Direction
-300a 0122 DS RT Patient Support Angle
-300a 0123 CS RT Patient Support Rotation Direction
-300a 0124 DS RT Table Top Eccentric Axis Distance
-300a 0125 DS RT Table Top Eccentric Angle
-300a 0126 CS RT Table Top Eccentric Rotation Direction
-300a 0128 DS RT Table Top Vertical Position
-300a 0129 DS RT Table Top Longitudinal Position
-300a 012a DS RT Table Top Lateral Position
-300a 012c DS RT Isocenter Position
-300a 012e DS RT Surface Entry Point
-300a 0130 DS RT Source to Surface Distance
-300a 0134 DS RT Cumulative Meterset Weight
-300a 0180 SQ RT Patient Setup Sequence
-300a 0182 IS RT Patient Setup Number
-300a 0184 LO RT Patient Additional Position
-300a 0190 SQ RT Fixation Device Sequence
-300a 0192 CS RT Fixation Device Type
-300a 0194 SH RT Fixation Device Label
-300a 0196 ST RT Fixation Device Description
-300a 0198 SH RT Fixation Device Position
-300a 01a0 SQ RT Shielding Device Sequence
-300a 01a2 CS RT Shielding Device Type
-300a 01a4 SH RT Shielding Device Label
-300a 01a6 ST RT Shielding Device Description
-300a 01a8 SH RT Shielding Device Position
-300a 01b0 CS RT Setup Technique
-300a 01b2 ST RT Setup Technique Description
-300a 01b4 SQ RT Setup Device Sequence
-300a 01b6 CS RT Setup Device Type
-300a 01b8 SH RT Setup Device Label
-300a 01ba ST RT Setup Device Description
-300a 01bc DS RT Setup Device Parameter
-300a 01d0 ST RT Setup Reference Description
-300a 01d2 DS RT Table Top Vertical Setup Displacement
-300a 01d4 DS RT Table Top Longitudinal Setup Displacement
-300a 01d6 DS RT Table Top Lateral Setup Displacement
-300a 0200 CS RT Brachy Treatment Technique
-300a 0202 CS RT Brachy Treatment Type
-300a 0206 SQ RT Treatment Machine Sequence
-300a 0210 SQ RT Source Sequence
-300a 0212 IS RT Source Number
-300a 0214 CS RT Source Type
-300a 0216 LO RT Source Manufacturer
-300a 0218 DS RT Active Source Diameter
-300a 021a DS RT Active Source Length
-300a 0222 DS RT Source Encapsulation Nominal Thickness
-300a 0224 DS RT Source Encapsulation Nominal Transmission
-300a 0226 LO RT Source Isotope Name
-300a 0228 DS RT Source Isotope Half Life
-300a 022a DS RT Reference Air Kerma Rate
-300a 022c DA RT Air Kerma Rate Reference Date
-300a 022e TM RT Air Kerma Rate Reference Time
-300a 0230 SQ RT Application Setup Sequence
-300a 0232 CS RT Application Setup Type
-300a 0234 IS RT Application Setup Number
-300a 0236 LO RT Application Setup Name
-300a 0238 LO RT Application Setup Manufacturer
-300a 0240 IS RT Template Number
-300a 0242 SH RT Template Type
-300a 0244 LO RT Template Name
-300a 0250 DS RT Total Reference Air Kerma
-300a 0260 SQ RT Brachy Acessory Device Sequence
-300a 0262 IS RT Brachy Accessory Device Number
-300a 0263 SH RT Brachy Accessory Device ID
-300a 0264 CS RT Brachy Accessory Device Type
-300a 0266 LO RT Brachy Accessory Device Name
-300a 026a DS RT Brachy Accessory Device Nominal Thickness
-300a 026c DS RT Brachy Accessory Device Nominal Transmission
-300a 0280 SQ RT Channel Sequence
-300a 0282 IS RT Channel Number
-300a 0284 DS RT Channel Length
-300a 0286 DS RT Channel Total Time
-300a 0288 CS RT Source Movement Type
-300a 028a IS RT Number of Pulses
-300a 028c DS RT Pulse Repetition Interval
-300a 0290 IS RT Source Applicator Number
-300a 0291 SH RT Source Applicator ID
-300a 0292 CS RT Source Applicator Type
-300a 0294 LO RT Source Applicator Name
-300a 0296 DS RT Source Applicator Length
-300a 0298 LO RT Source Applicator Manufacturer
-300a 029c DS RT Source Applicator Wall Nominal Thickness
-300a 029e DS RT Source Applicator Wall Nominal Transmission
-300a 02a0 DS RT Source Applicator Step Size
-300a 02a2 IS RT Transfer Tube Number
-300a 02a4 DS RT Transfer Tube Length
-300a 02b0 SQ RT Channel Shield Sequence
-300a 02b2 IS RT Channel Shield Number
-300a 02b3 SH RT Channel Shield ID
-300a 02b4 LO RT Channel Shield Name
-300a 02b8 DS RT Channel Shield Nominal Thickness
-300a 02ba DS RT Channel Shield Nominal Transmission
-300a 02c8 DS RT Final Cumulative Time Weight
-300a 02d0 SQ RT Brachy Control Point Sequence
-300a 02d2 DS RT Control Point Relative Position
-300a 02d4 DS RT Control Point 3D Position
-300a 02d6 DS RT Cumulative Time Weight
-300a 02e0 CS RT Compensator Divergence
-300a 02e1 CS RT Compensator Mounting Position
-300a 02e2 DS RT Source to Compensator Distance
-300c 0000 UL RT Group Length
-300c 0002 SQ RT Referenced RT Plan Sequence
-300c 0004 SQ RT Referenced Beam Sequence
-300c 0006 IS RT Referenced Beam Number
-300c 0007 IS RT Referenced Reference Image Number
-300c 0008 DS RT Start Cumulative Meterset Weight
-300c 0009 DS RT End Cumulative Meterset Weight
-300c 000a SQ RT Referenced Brachy Application Setup Sequence
-300c 000c IS RT Referenced Brachy Application Setup Number
-300c 000e IS RT Referenced Source Number
-300c 0020 SQ RT Referenced Fraction Group Sequence
-300c 0022 IS RT Referenced Fraction Group Number
-300c 0040 SQ RT Referenced Verification Image Sequence
-300c 0042 SQ RT Referenced Reference Image Sequence
-300c 0050 SQ RT Referenced Dose Reference Sequence
-300c 0051 IS RT Referenced Dose Reference Number
-300c 0055 SQ RT Brachy Referenced Dose Reference Sequence
-300c 0060 SQ RT Referenced Structure Set Sequence
-300c 006a IS RT Referenced Patient Setup Number
-300c 0080 SQ RT Referenced Dose Sequence
-300c 00a0 IS RT Referenced Tolerance Table Number
-300c 00b0 SQ RT Referenced Bolus Sequence
-300c 00c0 IS RT Referenced Wedge Number
-300c 00d0 IS RT Referenced Compensator Number
-300c 00e0 IS RT Referenced Block Number
-300c 00f0 IS RT Referenced Control Point Index
-300e 0000 UL RT Group Length
-300e 0002 CS RT Approval Status
-300e 0004 DA RT Review Date
-300e 0005 TM RT Review Time
-300e 0008 PN RT Reviewer Name
-4008 0000 UL RES Group Length
-4008 0040 SH RES Results ID
-4008 0042 LO RES Results ID Issuer
-4008 0050 SQ RES Referenced Interpretation Sequence
-4008 0100 DA RES Interpretation Recorded Date
-4008 0101 TM RES Interpretation Recorded Time
-4008 0102 PN RES Interpretation Recorder
-4008 0103 LO RES Reference to Recorded Sound
-4008 0108 DA RES Interpretation Transcription Date
-4008 0109 TM RES Interpretation Transcription Time
-4008 010a PN RES Interpretation Transcriber
-4008 010b ST RES Interpretation Text
-4008 010c PN RES Interpretation Author
-4008 0111 SQ RES Interpretation Approver Sequence
-4008 0112 DA RES Interpretation Approval Date
-4008 0113 TM RES Interpretation Approval Time
-4008 0114 PN RES Physician Approving Interpretation
-4008 0115 LT RES Diagnosis
-4008 0117 SQ RES Diagnosis Code Sequence
-4008 0118 SQ RES Results Distribution List Sequence
-4008 0119 PN RES Distribution Name
-4008 011a LO RES Distribution Address
-4008 0200 SH RES Interpretation ID
-4008 0202 LO RES Interpretation ID Issuer
-4008 0210 CS RES Interpretation Type ID
-4008 0212 CS RES Interpretation Status ID
-4008 0300 ST RES Impressions
-4008 4000 ST RES Results Comments
-4ffe 0000 UL ??? Group Length
-4ffe 0001 SQ ??? MAC Parameters Sequence
-5000 0000 UL CRV Group Length
-5000 0005 US CRV Curve Dimensions
-5000 0010 US CRV Number of Points
-5000 0020 CS CRV Type of Data
-5000 0022 LO CRV Curve Description
-5000 0030 SH CRV Axis Units
-5000 0040 SH CRV Axis Labels
-5000 0103 US CRV Data Value Representation
-5000 0104 US CRV Minimum Coordinate Value
-5000 0105 US CRV Maximum Coordinate Value
-5000 0106 SH CRV Curve Range
-5000 0110 US CRV Data Descriptor
-5000 0112 US CRV Coordinate Start Value
-5000 0114 US CRV Coordinate Step Value
-5000 2000 US CRV Audio Type
-5000 2002 US CRV Audio Sample Format
-5000 2004 US CRV Number of Channels
-5000 2006 UL CRV Number of Samples
-5000 2008 UL CRV Sample Rate
-5000 200a UL CRV Total Time
-5000 200c OW CRV Audio Sample Data
-5000 200e LT CRV Audio Comments
-5000 2500 LO CRV Curve Label
-5000 2600 SQ CRV Referenced Overlay Sequence
-5000 2610 US CRV Referenced Overlay Group
-5000 3000 OW CRV Curve Data
+0000 0000 UL 1 Group Length
+0000 0001 UL 1 Group 0000 Length to End (RET)
+0000 0002 UI 1 Affected SOP Class UID
+0000 0003 UI 1 Requested SOP Class UID
+0000 0010 SH 1 Recognition Code (RET)
+0000 0100 US 1 Command Field
+0000 0110 US 1 Message ID (first)
+0000 0120 US 1 Message ID Responded to
+0000 0600 AE 1 Move Destination
+0000 0700 US 1 Priority
+0000 0800 US 1 Data Set Type
+0000 0900 US 1 Status
+0000 0901 AT 1 Offending Element
+0000 0902 LO 1 Error Comment
+0000 0903 US 1 Error ID
+0000 1001 UI 1 SOP Requested Instance UID
+0000 1000 UI 1 SOP Affected Instance UID
+0000 1002 US 1 Event Type ID
+0000 1008 US 1 Action Type ID
+0000 1020 US 1 Remaining Suboperations
+0000 1021 US 1 Completed Suboperations
+0000 1022 US 1 Failed Suboperations
+0000 1023 US 1 Warning Suboperations
+0000 1030 AE 1 AE Title
+0000 1031 US 1 Message ID (second)
+0000 1005 AT 1 Attribute Identifier List
 
-5004 0000 UL CRV Group Length
-5004 0005 US CRV Curve Dimensions
-5004 0010 US CRV Number of Points
-5004 0020 CS CRV Type of Data
-5004 0022 LO CRV Curve Description
-5004 0030 SH CRV Axis Units
-5004 0040 SH CRV Axis Labels
-5004 0103 US CRV Data Value Representation
-5004 0104 US CRV Minimum Coordinate Value
-5004 0105 US CRV Maximum Coordinate Value
-5004 0106 SH CRV Curve Range
-5004 0110 US CRV Data Descriptor
-5004 0112 US CRV Coordinate Start Value
-5004 0114 US CRV Coordinate Step Value
-5004 2000 US CRV Audio Type
-5004 2002 US CRV Audio Sample Format
-5004 2004 US CRV Number of Channels
-5004 2006 UL CRV Number of Samples
-5004 2008 UL CRV Sample Rate
-5004 200a UL CRV Total Time
-5004 200c OW CRV Audio Sample Data
-5004 200e LT CRV Audio Comments
-5004 2500 LO CRV Curve Label
-5004 2600 SQ CRV Referenced Overlay Sequence
-5004 2610 US CRV Referenced Overlay Group
-5004 3000 OW CRV Curve Data
+0002 0000 UL 1 Meta Group Length
+0002 0001 OB 1 File Meta Information Version
+0002 0002 UI 1 Media Stored SOP Class UID
+0002 0003 UI 1 Media Stored SOP Instance UID
+0002 0010 UI 1 Transfer Syntax UID
+0002 0012 UI 1 Implementation Class UID
+0002 0013 SH 1 Implementation Version Name
+0002 0016 AE 1 Source Application Entity Title
+0002 0100 UI 1 Private Information Creator
+0002 0102 OB 1 Private Information
 
-5200 0000 UL ??? Group Length
-5200 9229 SQ ??? Shared Functional Groups Sequence
-5200 9230 SQ ??? Pre-frame Functional Groups Sequence
-5400 0000 UL ??? Group Length
-5400 0100 SQ ??? Waveform Sequence
-5400 0110 OB ??? Channel Minimum Value
-5400 0112 OB ??? Channel Maximum Value
-5400 1004 US ??? Waveform Bits Allocated
-5400 1006 CS ??? Waveform Sample Interpretation
-5400 100a OB ??? Waveform Padding Value
-5400 1010 OB ??? Waveform Data
-5600 0000 UL ??? Group Length
-5600 0010 OF ??? First Order Phase Correction Angle
-5600 0020 OF ??? Spectroscopy Data
-6000 0000 UL OLY Group Length
-6000 0010 US OLY Rows
-6000 0011 US OLY Columns
-6000 0012 US OLY Planes
-6000 0015 IS OLY Number of Frames in Overlay
-6000 0022 LO OLY Overlay Description
-6000 0040 CS OLY Overlay Type
-6000 0045 LO OLY Overlay Subtype
-6000 0050 SS OLY Overlay Origin
-6000 0051 US OLY Image Frame Origin
-6000 0052 US OLY Overlay Plane Origin
-6000 0060 LO OLY Compression Code (RET)
-6000 0100 US OLY Overlay Bits Allocated
-6000 0102 US OLY Overlay Bit Position
-6000 0110 LO OLY Overlay Format (RET)
-6000 0200 US OLY Overlay Location (RET)
-6000 1001 US OLY Overlay Activation Layer
-6000 1100 US OLY Overlay Descriptor - Gray (RET)
-6000 1101 US OLY Overlay Descriptor - Red (RET)
-6000 1102 US OLY Overlay Descriptor - Green (RET)
-6000 1103 US OLY Overlay Descriptor - Blue (RET)
-6000 1200 US OLY Overlays - Gray
-6000 1201 US OLY Overlays - Red
-6000 1202 US OLY Overlays - Green
-6000 1203 US OLY Overlays - Blue
-6000 1301 IS OLY ROI Area
-6000 1302 DS OLY ROI Mean
-6000 1303 DS OLY ROI Standard Deviation
-6000 1500 LO OLY Overlay Label
-6000 3000 OW OLY Overlay Data
-6000 4000 LO OLY Comments (RET)
-6002 0000 UL OLY Group Length
-6002 0010 US OLY Rows
-6002 0011 US OLY Columns
-6002 0012 US OLY Planes
-6002 0015 IS OLY Number of Frames in Overlay
-6002 0022 LO OLY Overlay Description
-6002 0040 CS OLY Overlay Type
-6002 0045 LO OLY Overlay Subtype
-6002 0050 SS OLY Overlay Origin
-6002 0051 US OLY Image Frame Origin
-6002 0052 US OLY Overlay Plane Origin
-6002 0060 LO OLY Compression Code (RET)
-6002 0100 US OLY Overlay Bits Allocated
-6002 0102 US OLY Overlay Bit Position
-6002 0110 LO OLY Overlay Format (RET)
-6002 0200 US OLY Overlay Location (RET)
-6002 1001 US OLY Overlay Activation Layer
-6002 1100 US OLY Overlay Descriptor - Gray (RET)
-6002 1101 US OLY Overlay Descriptor - Red (RET)
-6002 1102 US OLY Overlay Descriptor - Green (RET)
-6002 1103 US OLY Overlay Descriptor - Blue (RET)
-6002 1200 US OLY Overlays - Gray
-6002 1201 US OLY Overlays - Red
-6002 1202 US OLY Overlays - Green
-6002 1203 US OLY Overlays - Blue
-6002 1301 IS OLY ROI Area
-6002 1302 DS OLY ROI Mean
-6002 1303 DS OLY ROI Standard Deviation
-6002 1500 LO OLY Overlay Label
-6002 3000 OW OLY Overlay Data
-6002 4000 LO OLY Comments (RET)
-6004 0000 UL OLY Group Length
-6004 0010 US OLY Rows
-6004 0011 US OLY Columns
-6004 0012 US OLY Planes
-6004 0015 IS OLY Number of Frames in Overlay
-6004 0022 LO OLY Overlay Description
-6004 0040 CS OLY Overlay Type
-6004 0045 LO OLY Overlay Subtype
-6004 0050 SS OLY Overlay Origin
-6004 0051 US OLY Image Frame Origin
-6004 0052 US OLY Overlay Plane Origin
-6004 0060 LO OLY Compression Code (RET)
-6004 0100 US OLY Overlay Bits Allocated
-6004 0102 US OLY Overlay Bit Position
-6004 0110 LO OLY Overlay Format (RET)
-6004 0200 US OLY Overlay Location (RET)
-6004 1001 US OLY Overlay Activation Layer
-6004 1100 US OLY Overlay Descriptor - Gray (RET)
-6004 1101 US OLY Overlay Descriptor - Red (RET)
-6004 1102 US OLY Overlay Descriptor - Green (RET)
-6004 1103 US OLY Overlay Descriptor - Blue (RET)
-6004 1200 US OLY Overlays - Gray
-6004 1201 US OLY Overlays - Red
-6004 1202 US OLY Overlays - Green
-6004 1203 US OLY Overlays - Blue
-6004 1301 IS OLY ROI Area
-6004 1302 DS OLY ROI Mean
-6004 1303 DS OLY ROI Standard Deviation
-6004 1500 LO OLY Overlay Label
-6004 3000 OW OLY Overlay Data
-6004 4000 LO OLY Comments (RET)
-6006 0000 UL OLY Group Length
-6006 0010 US OLY Rows
-6006 0011 US OLY Columns
-6006 0012 US OLY Planes
-6006 0015 IS OLY Number of Frames in Overlay
-6006 0022 LO OLY Overlay Description
-6006 0040 CS OLY Overlay Type
-6006 0045 LO OLY Overlay Subtype
-6006 0050 SS OLY Overlay Origin
-6006 0051 US OLY Image Frame Origin
-6006 0052 US OLY Overlay Plane Origin
-6006 0060 LO OLY Compression Code (RET)
-6006 0100 US OLY Overlay Bits Allocated
-6006 0102 US OLY Overlay Bit Position
-6006 0110 LO OLY Overlay Format (RET)
-6006 0200 US OLY Overlay Location (RET)
-6006 1001 US OLY Overlay Activation Layer
-6006 1100 US OLY Overlay Descriptor - Gray (RET)
-6006 1101 US OLY Overlay Descriptor - Red (RET)
-6006 1102 US OLY Overlay Descriptor - Green (RET)
-6006 1103 US OLY Overlay Descriptor - Blue (RET)
-6006 1200 US OLY Overlays - Gray
-6006 1201 US OLY Overlays - Red
-6006 1202 US OLY Overlays - Green
-6006 1203 US OLY Overlays - Blue
-6006 1301 IS OLY ROI Area
-6006 1302 DS OLY ROI Mean
-6006 1303 DS OLY ROI Standard Deviation
-6006 1500 LO OLY Overlay Label
-6006 3000 OW OLY Overlay Data
-6006 4000 LO OLY Comments (RET)
-600a 0000 UL OLY Group Length
-6008 0010 US OLY Rows
-6008 0011 US OLY Columns
-6008 0012 US OLY Planes
-6008 0015 IS OLY Number of Frames in Overlay
-6008 0022 LO OLY Overlay Description
-6008 0040 CS OLY Overlay Type
-6008 0045 LO OLY Overlay Subtype
-6008 0050 SS OLY Overlay Origin
-6008 0051 US OLY Image Frame Origin
-6008 0052 US OLY Overlay Plane Origin
-6008 0060 LO OLY Compression Code (RET)
-6008 0100 US OLY Overlay Bits Allocated
-6008 0102 US OLY Overlay Bit Position
-6008 0110 LO OLY Overlay Format (RET)
-6008 0200 US OLY Overlay Location (RET)
-6008 1001 US OLY Overlay Activation Layer
-6008 1100 US OLY Overlay Descriptor - Gray (RET)
-6008 1101 US OLY Overlay Descriptor - Red (RET)
-6008 1102 US OLY Overlay Descriptor - Green (RET)
-6008 1103 US OLY Overlay Descriptor - Blue (RET)
-6008 1200 US OLY Overlays - Gray
-6008 1201 US OLY Overlays - Red
-6008 1202 US OLY Overlays - Green
-6008 1203 US OLY Overlays - Blue
-6008 1301 IS OLY ROI Area
-6008 1302 DS OLY ROI Mean
-6008 1303 DS OLY ROI Standard Deviation
-6008 1500 LO OLY Overlay Label
-6008 3000 OW OLY Overlay Data
-6008 4000 LO OLY Comments (RET)
-600a 0000 UL OLY Group Length
-600a 0010 US OLY Rows
-600a 0011 US OLY Columns
-600a 0012 US OLY Planes
-600a 0015 IS OLY Number of Frames in Overlay
-600a 0022 LO OLY Overlay Description
-600a 0040 CS OLY Overlay Type
-600a 0045 LO OLY Overlay Subtype
-600a 0050 SS OLY Overlay Origin
-600a 0051 US OLY Image Frame Origin
-600a 0052 US OLY Overlay Plane Origin
-600a 0060 LO OLY Compression Code (RET)
-600a 0100 US OLY Overlay Bits Allocated
-600a 0102 US OLY Overlay Bit Position
-600a 0110 LO OLY Overlay Format (RET)
-600a 0200 US OLY Overlay Location (RET)
-600a 1001 US OLY Overlay Activation Layer
-600a 1100 US OLY Overlay Descriptor - Gray (RET)
-600a 1101 US OLY Overlay Descriptor - Red (RET)
-600a 1102 US OLY Overlay Descriptor - Green (RET)
-600a 1103 US OLY Overlay Descriptor - Blue (RET)
-600a 1200 US OLY Overlays - Gray
-600a 1201 US OLY Overlays - Red
-600a 1202 US OLY Overlays - Green
-600a 1203 US OLY Overlays - Blue
-600a 1301 IS OLY ROI Area
-600a 1302 DS OLY ROI Mean
-600a 1303 DS OLY ROI Standard Deviation
-600a 1500 LO OLY Overlay Label
-600a 3000 OW OLY Overlay Data
-600a 4000 LO OLY Comments (RET)
-600c 0000 UL OLY Group Length
-600c 0010 US OLY Rows
-600c 0011 US OLY Columns
-600c 0012 US OLY Planes
-600c 0015 IS OLY Number of Frames in Overlay
-600c 0022 LO OLY Overlay Description
-600c 0040 CS OLY Overlay Type
-600c 0045 LO OLY Overlay Subtype
-600c 0050 SS OLY Overlay Origin
-600c 0051 US OLY Image Frame Origin
-600c 0052 US OLY Overlay Plane Origin
-600c 0060 LO OLY Compression Code (RET)
-600c 0100 US OLY Overlay Bits Allocated
-600c 0102 US OLY Overlay Bit Position
-600c 0110 LO OLY Overlay Format (RET)
-600c 0200 US OLY Overlay Location (RET)
-600c 1001 US OLY Overlay Activation Layer
-600c 1100 US OLY Overlay Descriptor - Gray (RET)
-600c 1101 US OLY Overlay Descriptor - Red (RET)
-600c 1102 US OLY Overlay Descriptor - Green (RET)
-600c 1103 US OLY Overlay Descriptor - Blue (RET)
-600c 1200 US OLY Overlays - Gray
-600c 1201 US OLY Overlays - Red
-600c 1202 US OLY Overlays - Green
-600c 1203 US OLY Overlays - Blue
-600c 1301 IS OLY ROI Area
-600c 1302 DS OLY ROI Mean
-600c 1303 DS OLY ROI Standard Deviation
-600c 1500 LO OLY Overlay Label
-600c 3000 OW OLY Overlay Data
-600c 4000 LO OLY Comments (RET)
-600e 0000 UL OLY Group Length
-600e 0010 US OLY Rows
-600e 0011 US OLY Columns
-600e 0012 US OLY Planes
-600e 0015 IS OLY Number of Frames in Overlay
-600e 0022 LO OLY Overlay Description
-600e 0040 CS OLY Overlay Type
-600e 0045 LO OLY Overlay Subtype
-600e 0050 SS OLY Overlay Origin
-600e 0051 US OLY Image Frame Origin
-600e 0052 US OLY Overlay Plane Origin
-600e 0060 LO OLY Compression Code (RET)
-600e 0100 US OLY Overlay Bits Allocated
-600e 0102 US OLY Overlay Bit Position
-600e 0110 LO OLY Overlay Format (RET)
-600e 0200 US OLY Overlay Location (RET)
-600e 1001 US OLY Overlay Activation Layer
-600e 1100 US OLY Overlay Descriptor - Gray (RET)
-600e 1101 US OLY Overlay Descriptor - Red (RET)
-600e 1102 US OLY Overlay Descriptor - Green (RET)
-600e 1103 US OLY Overlay Descriptor - Blue (RET)
-600e 1200 US OLY Overlays - Gray
-600e 1201 US OLY Overlays - Red
-600e 1202 US OLY Overlays - Green
-600e 1203 US OLY Overlays - Blue
-600e 1301 IS OLY ROI Area
-600e 1302 DS OLY ROI Mean
-600e 1303 DS OLY ROI Standard Deviation
-600e 1500 LO OLY Overlay Label
-600e 3000 OW OLY Overlay Data
-600e 4000 LO OLY Comments (RET)
-7fe0 0000 UL PXL Group Length
-7fe0 0010 OW PXL Pixel Data
-fffa fffa SQ XX Digital Signatures Sequence
-fffc fffc OB XX Data Set Trailing Padding
-fffe e000 UL DL Item
-fffe e00d UL DL Item Delimitation Item
-fffe e0dd UL DL Sequence Delimitation Item
-ffff ffff UKN UKN Unknown Code
+0004 0000 UL 1 Group 0004 Length
+0004 1130 CS 1 File-set ID
+0004 1141 CS 1-8 File-set descriptor ID
+0004 1142 CS 1 Specific character set
+0004 1200 UL 1 Offset of the first dir of root dir entity
+0004 1202 UL 1 Offset of the last dir of root dir entity
+0004 1212 US 1 File-set consistency flag
+0004 1220 SQ 1 Directory record sequence
+0004 1400 UL 1 Offset of next directory record
+0004 1410 US 1 Record in use flag
+0004 1420 UL 1 Offset of referenced lower-level dir entity
+0004 1430 CS 1 Directory Record Type
+0004 1432 UI 1 Private Record UID
+0004 1500 CS 1-8 Referenced File ID
+0004 1504 UL 1 Directory Record Offset
+0004 1510 UI 1 Referenced SOP Class UID in File
+0004 1511 UI 1 Referenced SOP Instance UID in File
+0004 1512 UI 1 Referenced Transfer Syntax in File
+0004 1600 UL 1 Number of References
+
+0008 0000 UL 1 Group Length
+0008 0001 UL 1 Length to End (RET)
+0008 0005 CS 1-n Specific Character Set
+0008 0008 CS 1-n Image Type
+0008 0010 SH 1 Recognition Code (RET)
+0008 0012 DA 1 Instance Creation Date
+0008 0013 TM 1 Instance Creation Time
+0008 0014 UI 1 Instance Creator UID
+0008 0016 UI 1 SOP Class UID
+0008 0018 UI 1 SOP Instance UID
+0008 001a UI 1-n Related General SOP Class UID
+0008 001a UI 1-n Original Specialized SOP Class UID 
+0008 0020 DA 1 Study Date
+0008 0021 DA 1 Series Date
+0008 0022 DA 1 Acquisition Date
+0008 0023 DA 1 Content Date
+0008 0024 DA 1 Overlay Date
+0008 0025 DA 1 Curve Date
+0008 002a DT 1 Acquisition Datetime
+0008 0030 TM 1 Study Time
+0008 0031 TM 1 Series Time
+0008 0032 TM 1 Acquisition Time
+0008 0033 TM 1 Content Time
+0008 0034 TM 1 Overlay Time
+0008 0035 TM 1 Curve Time
+0008 0040 US 1 Data Set Type (RET)
+0008 0041 US 1 Data Set Subtype (RET)
+0008 0042 CS 1 Nuclear Medecine Series Type (RET)
+0008 0050 SH 1 Accession Number
+0008 0052 CS 1 Query/Retreive Level
+0008 0054 AE 1-n Retrieve AE Title
+0008 0056 CS 1 Instance Availability
+0008 0058 UI 1-n Failed SOP Instances List
+0008 0060 CS 1 Modality
+0008 0061 CS 1-n Modalities in Study
+0008 0062 UI 1-n SOP Classes in Study
+0008 0064 CS 1 Conversion Type
+0008 0068 CS 1 Presentation Intent Type
+0008 0070 LO 1 Manufacturer
+0008 0080 LO 1 Institution Name
+0008 0081 ST 1 Institution Address
+0008 0082 SQ 1 Institution Code Sequence
+0008 0090 PN 1 Referring Physician's Name
+0008 0092 ST 1 Referring Physician's Address
+0008 0094 SH 1-n Referring Physician's Telephone Numbers
+0008 0096 SH 1 SQ Referring Physician's Identification Sequence
+0008 0100 SH 1 Code Value
+0008 0102 SH 1 Coding Scheme Designator
+0008 0103 SH 1 Coding Scheme Version
+0008 0104 LO 1 Code Meaning
+0008 0105 CS 1 Mapping Resource
+0008 0106 DT 1 Context Group Version
+0008 0107 DT 1 Context Group Local Version
+0008 010b CS 1 Context Group Extension Flag
+0008 010c UI 1 Coding Scheme UID
+0008 010d UI 1 Context Group Extension Creator UID
+0008 010f CS 1 Context Identifier
+0008 0110 SQ 1 Coding Scheme Identification Sequence
+0008 0112 LO 1 Coding Scheme Registery
+0008 0114 ST 1 Coding Scheme External ID
+0008 0115 ST 1 Coding Scheme Name
+0008 0116 ST 1 Responsible Organization
+0008 0201 SH 1 Timezone Offset From UTC 
+0008 1000 LO 1 Network ID (RET)
+0008 1010 SH 1 Station Name
+0008 1030 LO 1 Study Description
+0008 1032 SQ 1 Procedure Code Sequence
+0008 103e LO 1 Series Description
+0008 1040 LO 1 Institutional Department Name
+0008 1048 PN 1-n Physician(s) of Record
+0008 1049 SQ 1 Physician(s) of Record Identification Sequence
+0008 1050 PN 1-n Performing Physician's Name
+0008 1060 PN 1-n Name of Physician(s) Reading Study
+0008 1062 SQ 1-n Physician(s) Reading Study Identification Sequence
+0008 1070 PN 1-n Operator's Name
+0008 1072 SQ 1 Operator Identification Sequence
+0008 1080 LO 1-n Admitting Diagnoses Description
+0008 1084 SQ 1 Admitting Diagnosis Code Sequence
+0008 1090 LO 1 Manufacturer's Model Name
+0008 1100 SQ 1 Referenced Results Sequence
+0008 1110 SQ 1 Referenced Study Sequence
+0008 1111 SQ 1 Referenced Performed Procedure Step Sequence
+0008 1115 SQ 1 Referenced Series Sequence
+0008 1120 SQ 1 Referenced Patient Sequence
+0008 1125 SQ 1 Referenced Visit Sequence
+0008 1130 SQ 1 Referenced Overlay Sequence
+0008 113a SQ 1 Referenced Waveform Sequence
+0008 1140 SQ 1 Referenced Image Sequence
+0008 1145 SQ 1 Referenced Curve Sequence
+0008 1148 SQ 1 Referenced Previous Waveform
+0008 114a SQ 1 Referenced Simultaneous Waveforms
+0008 114c SQ 1 Referenced Subsequent Waveform
+0008 1150 UI 1 Referenced SOP Class UID
+0008 1155 UI 1 Referenced SOP Instance UID
+0008 115a UI 1-n SOP Classes Supported
+0008 1160 IS 1-n Referenced Frame Number
+0008 1195 UI 1 Transaction UID
+0008 1197 US 1 Failure Reason
+0008 1198 SQ 1 Failed SOP Sequence
+0008 1199 SQ 1 Referenced SOP Sequence
+0008 1200 SQ 1 Studies Containing Other Referenced Instances Sequence
+0008 1250 SQ 1 Related Series Sequence
+0008 2110 CS 1 Lossy Image Compression (RET)
+0008 2111 ST 1 Derivation Description
+0008 2112 SQ 1 Source Image Sequence
+0008 2120 SH 1 Stage Name
+0008 2122 IS 1 Stage Number
+0008 2124 IS 1 Number of Stages
+0008 2127 SH 1 View Name
+0008 2128 IS 1 View Number
+0008 2129 IS 1 Number of Event Timers
+0008 212a IS 1 Number of Views in Stage
+0008 2130 DS 1-n Event Elapsed Time(s)
+0008 2132 LO 1-n Event Event Timer Name(s)
+0008 2142 IS 1 Start Trim
+0008 2143 IS 1 Stop Trim
+0008 2144 IS 1 Recommended Display Frame Rate
+0008 2200 CS 1 Transducer Position (RET)
+0008 2204 CS 1 Transducer Orientation (RET)
+0008 2208 CS 1 Anatomic Structure (RET)
+0008 2218 SQ 1 Anatomic Region Sequence
+0008 2220 SQ 1 Anatomic Region Modifier Sequence
+0008 2228 SQ 1 Primary Anatomic Structure Sequence
+0008 2229 SQ 1 Anatomic Structure, Space or Region Sequence
+0008 2230 SQ 1 Primary Anatomic Structure Modifier Sequence
+0008 2240 SQ 1 Transducer Position Sequence
+0008 2242 SQ 1 Transducer Position Modifer Sequence
+0008 2244 SQ 1 Transducer Orientation Sequence
+0008 2246 SQ 1 Transducer Orientation Modifer Sequence
+0008 3001 SQ 1 Alternate Representation Sequence
+0008 4000 SH 1 Comments (RET)
+0008 9007 CS 4 Frame Type
+0008 9092 SQ 1 Referenced Image Evidence Sequence
+0008 9121 SQ 1 Referenced Raw Data Sequence
+0008 9123 UI 1 Creator-Version UID
+0008 9124 SQ 1 Derivation Image Sequence
+0008 9154 SQ 1 Source Image Evidence Sequence
+0008 9205 CS 1 Pixel Presentation
+0008 9206 CS 1 Volumetric Properties
+0008 9207 CS 1 Volume Based Calculation Technique
+0008 9208 CS 1 Complex Image Component
+0008 9209 CS 1 Acquisition Contrast
+0008 9215 SQ 1 Derivation Code Sequence
+0008 9237 SQ 1 Referenced Grayscale Presentation State Sequence
+
+0010 0000 UL 1 Group Length
+0010 0010 PN 1 Patient's Name
+0010 0020 LO 1 Patient ID
+0010 0021 LO 1 Issuer of Patient ID
+0010 0030 DA 1 Patient's Birthdate
+0010 0032 TM 1 Patient's Birth Time
+0010 0040 CS 1 Patient's Sex
+0010 0050 SQ 1 Patient's Insurance Plan Code Sequence
+0010 0101 SQ 1 Patient's Primary Language Code Sequence
+0010 0102 SQ 1 Patient's Primary Language Code Modifier Sequence
+0010 1000 LO 1-n Other Patient IDs
+0010 1001 PN 1-n Other Patient Names
+0010 1005 PN 1 Patient's Birth Name
+0010 1010 AS 1 Patient's Age
+0010 1020 DS 1 Patient's Size
+0010 1030 DS 1 Patient's Weight
+0010 1040 LO 1 Patient's Address
+0010 1050 SH 1 Insurance Plan Identification (RET)
+0010 1060 PN 1 Patient's Mother's Birth Name
+0010 1080 LO 1 Military Rank
+0010 1081 LO 1 Branch of Service
+0010 1090 LO 1 Medical Record Locator
+0010 2000 LO 1-n Medical Alerts
+0010 2110 LO 1-n Contrast Allergies
+0010 2150 LO 1 Country of Residence
+0010 2152 LO 1 Region of Residence
+0010 2154 SH 1-n Patient's Telephone Numbers
+0010 2160 SH 1 Ethnic Group
+0010 2180 SH 1 Occupation
+0010 21a0 CS 1 Smoking Status
+0010 21b0 LT 1 Additional Patient History
+0010 21c0 US 1 Pregnancy Status
+0010 21d0 DA 1 Last Menstrual Date
+0010 21f0 LO 1 Patient's Religious Preference
+0010 4000 LT 1 Patient Comments
+
+0012 0010 LO 1 Clinical Trial Sponsor Name
+0012 0020 LO 1 Clinical Trial Protocol ID
+0012 0021 LO 1 Clinical Trial Protocol Name
+0012 0030 LO 1 Clinical Trial Site ID
+0012 0031 LO 1 Clinical Trial Site Name
+0012 0040 LO 1 Clinical Trial Subject ID
+0012 0042 LO 1 Clinical Trial Subject Reading ID
+0012 0050 LO 1 Clinical Trial Time Point ID
+0012 0051 ST 1 Clinical Trial Time Point Description
+0012 0060 LO 1 Clinical Trial Coordinating Center Name
+
+0018 0000 UL 1 Group Length
+0018 0010 LO 1 Contrast/Bolus Agent
+0018 0012 SQ 1 Contrast/Bolus Agent Sequence
+0018 0014 SQ 1 Contrast/Bolus Administration Route Sequence
+0018 0015 CS 1 Body Part Examined
+0018 0020 CS 1-n Scanning Sequence
+0018 0021 CS 1-n Sequence Variant
+0018 0022 CS 1-n Scan Options
+0018 0023 CS 1 MR Acquisition Type
+0018 0024 SH 1 Sequence Name
+0018 0025 CS 1 Angio Flag
+0018 0026 SQ 1 Intervention Drug Information Sequence
+0018 0027 TM 1 Intervention Drug Stop Time
+0018 0028 DS 1 Intervention Drug Dose
+0018 0029 SQ 1 Intervention Drug Sequence
+0018 002a SQ 1 Additional Drug Sequence
+0018 0030 LO 1-n Radionuclide (RET)
+0018 0031 LO 1 Radiopharmaceutical
+0018 0032 DS 1 Energy Window Centerline (RET)
+0018 0033 DS 1-n Energy Window Total Width (RET)
+0018 0034 LO 1 Intervention Drug Name
+0018 0035 TM 1 Intervention Drug Start Time
+0018 0036 SQ 1 Interventional Therapy Sequence
+0018 0037 CS 1 Therapy Type (RET)
+0018 0038 CS 1 Intervention Status
+0018 0039 CS 1 Therapy Description (RET)
+0018 003a ST 1 Intervention Description
+0018 0040 IS 1 Cine Rate
+0018 0050 DS 1 Slice Thickness
+0018 0060 DS 1 KVP
+0018 0070 IS 1 Counts Accumulated
+0018 0071 CS 1 Acquisition Termination Condition
+0018 0072 DS 1 Effective Duration
+0018 0073 CS 1 Acquisition Start Condition
+0018 0074 IS 1 Acquisition Start Condition Data
+0018 0075 IS 1 Acquisition Termination Condition Data
+0018 0080 DS 1 Repetition Time
+0018 0081 DS 1 Echo Time
+0018 0082 DS 1 Inversion Time
+0018 0083 DS 1 Number of Averages
+0018 0084 DS 1 Imaging Frequency
+0018 0085 SH 1 Imaged Nucleus
+0018 0086 IS 1-n Echo Number(s)
+0018 0087 DS 1 Magnetic Field Strength
+0018 0088 DS 1 Spacing Between Slices
+0018 0089 IS 1 Number of Phase Encoding Steps
+0018 0090 DS 1 Data Collection Diameter
+0018 0091 IS 1 Echo Train Length
+0018 0093 DS 1 Percent Sampling
+0018 0094 DS 1 Percent Phase Field of View
+0018 0095 DS 1 Pixel Bandwidth
+0018 1000 LO 1 Device Serial Number
+0018 1004 LO 1 Plate ID
+0018 1010 LO 1 Secondary Capture Device ID
+0018 1011 LO 1 Hardcopy Creation Device ID
+0018 1012 DA 1 Date of Secondary Capture
+0018 1014 TM 1 Time of Secondary Capture
+0018 1016 LO 1 Secondary Capture Device Manufacturer
+0018 1018 LO 1 Secondary Capture Device Model Name
+0018 1019 LO 1-n Secondary Capture Device Software Version(s)
+0018 101a LO 1-n Hardcopy Device Software Version
+0018 101b LO 1 Hardcopy Device Manufacturer's Model Name
+0018 1020 LO 1-n Software Version(s)
+0018 1022 SH 1 Video Image Format Acquired
+0018 1023 LO 1 Digital Image Format Acquired
+0018 1030 LO 1 Protocol Name
+0018 1040 LO 1 Contrast/Bolus Route
+0018 1041 DS 1 Contrast/Bolus Volume
+0018 1042 TM 1 Contrast/Bolus Start Time
+0018 1043 TM 1 Contrast/Bolus Stop Time
+0018 1044 DS 1 Contrast/Bolus Total Dose
+0018 1045 IS 1 Syringe Counts
+0018 1046 DS 1-n Contrast Flow Rate
+0018 1047 DS 1-n Contrast Flow Duration
+0018 1048 CS 1 Contrast/Bolus Ingredient
+0018 1049 DS 1 Contrast/Bolus Ingredient Concentration
+0018 1050 DS 1 Spatial Resolution
+0018 1060 DS 1 Trigger Time
+0018 1061 LO 1 Trigger Source or Type
+0018 1062 IS 1 Nominal Interval
+0018 1063 DS 1 Frame Time
+0018 1064 LO 1 Framing Type
+0018 1065 DS 1-n Frame Time Vector
+0018 1066 DS 1 Frame Delay
+0018 1067 DS 1 Image Trigger Delay
+0018 1068 DS 1 Multiplex Group Time Offset
+0018 1069 DS 1 Trigger Time Offset
+0018 106a CS 1 Synchronization Trigger
+0018 106b UI 1 Synchronization Frame of Reference
+0018 106c US 2 Synchronization Channel
+0018 106e UL 1 Trigger Sample Position
+0018 1070 LO 1 Radiopharmaceutical Route
+0018 1071 DS 1 Radiopharmaceutical Volume
+0018 1072 TM 1 Radiopharmaceutical Start Time
+0018 1073 TM 1 Radiopharmaceutical Stop Time
+0018 1074 DS 1 Radionuclide Total Dose
+0018 1075 DS 1 Radionuclide Half Life
+0018 1076 DS 1 Radionuclide Positron Fraction
+0018 1077 DS 1 Radiopharmaceutical Specific Activity
+0018 1080 CS 1 Beat Rejection Flag
+0018 1081 IS 1 Low R-R Value
+0018 1082 IS 1 High R-R Value
+0018 1083 IS 1 Intervals Acquired
+0018 1084 IS 1 Intervals Rejected
+0018 1085 LO 1 PVC Rejection
+0018 1086 IS 1 Skip Beats
+0018 1088 IS 1 Heart Rate
+0018 1090 IS 1 Cardiac Number of Images
+0018 1094 IS 1 Trigger Window
+0018 1100 DS 1 Reconstruction Diameter
+0018 1110 DS 1 Distance Source to Detector
+0018 1111 DS 1 Distance Source to Patient
+0018 1114 DS 1 Estimated Radiographic Magnification Factor
+0018 1120 DS 1 Gantry/Detector Tilt
+0018 1121 DS 1 Gantry/Detector Slew
+0018 1130 DS 1 Table Height
+0018 1131 DS 1 Table Traverse
+0018 1134 CS 1 Table Motion
+0018 1135 DS 1-n Table Vertical Increment
+0018 1136 DS 1-n Table Lateral Increment
+0018 1137 DS 1-n Table Longitudinal Increment
+0018 1138 DS 1 Table Angle
+0018 113a DS 1 Table Type
+0018 1140 CS 1 Rotation Direction
+0018 1141 DS 1 Angular Position
+0018 1142 DS 1-n Radial Position
+0018 1143 DS 1 Scan Arc
+0018 1144 DS 1 Angular Step
+0018 1145 DS 1 Center of Rotation Offset
+0018 1146 DS 1-n Rotation Offset (RET)
+0018 1147 CS 1 Field of View Shape
+0018 1149 IS 1-2 Field of View Dimension(s)
+0018 1150 IS 1 Exposure Time
+0018 1151 IS 1 X-ray Tube Current
+0018 1152 IS 1 Exposure
+0018 1153 IS 1 Exposure in uAs
+0018 1154 DS 1 Average Pulse Width
+0018 1155 CS 1 Radiation Setting
+0018 1156 CS 1 Rectification Type
+0018 115a CS 1 Radiation Mode
+0018 115e DS 1 Image Area Dose Product
+0018 1160 SH 1 Filter Type
+0018 1161 LO 1-n Type of Filters
+0018 1162 DS 1 Intensifier Size
+0018 1164 DS 2 Image Pixel Spacing
+0018 1166 CS 1-n Grid
+0018 1170 IS 1 Generator Power
+0018 1180 SH 1 Collimator/grid Name
+0018 1181 CS 1 Collimator Type
+0018 1182 IS 1-2 Focal Distance
+0018 1183 DS 1-2 X Focus Center
+0018 1184 DS 1-2 Y Focus Center
+0018 1190 DS 1-n Focal Spot(s)
+0018 1191 CS 1 Anode Target Material
+0018 11a0 DS 1 Body Part Thickness
+0018 11a2 DS 1 Compression Force
+0018 1200 DA 1-n Date of Last Calibration
+0018 1201 TM 1-n Time of Last Calibration
+0018 1210 SH 1-n Convolution Kernel
+0018 1240 DS 1 Upper/Lower Pixel Values (RET)
+0018 1242 IS 1 Actual Frame Duration
+0018 1243 IS 1 Count Rate
+0018 1244 US 1 Preferred Playback Sequencing
+0018 1250 SH 1 Receive Coil Name
+0018 1251 SH 1 Transmit Coil Name
+0018 1260 SH 1 Plate Type
+0018 1261 LO 1 Phosphor Type
+0018 1300 DS 1 Scan Velocity
+0018 1301 CS 1-n Whole Body Technique
+0018 1302 IS 1 Scan Length
+0018 1310 US 4 Acquisition Matrix
+0018 1312 CS 1 In-plane Phase Encoding Direction
+0018 1314 DS 1 Flip Angle
+0018 1315 CS 1 Variable Flip Angle
+0018 1316 DS 1 SAR
+0018 1318 DS 1 dB/dt
+0018 1400 LO 1 Acquisition Device Processing Description
+0018 1401 LO 1 Acquisition Device Processing Code
+0018 1402 CS 1 Cassette Orientation
+0018 1403 CS 1 Cassette Size
+0018 1404 US 1 Exposures on Plate
+0018 1405 IS 1 Relative X-ray Exposure
+0018 1450 CS 1 Column Angulation
+0018 1460 DS 1 Tomo Layer Height
+0018 1470 DS 1 Tomo Angle
+0018 1480 DS 1 Tomo Time
+0018 1490 CS 1 Tomo Type
+0018 1491 CS 1 Tomo Class
+0018 1495 IS 1 Number of Tomosynthesis Source Images
+0018 1500 CS 1 Positioner Motion
+0018 1510 DS 1 Positioner Primary Angle
+0018 1511 DS 1 Positioner Secondary Angle
+0018 1520 DS 1-n Positioner Primary Angle Increment
+0018 1521 DS 1-n Positioner Secondary Angle Increment
+0018 1530 DS 1 Detector Primary Angle
+0018 1531 DS 1 Detector Secondary Angle
+0018 1600 CS 1-3 Shutter Shape
+0018 1602 IS 1 Shutter Left Vertical Edge
+0018 1604 IS 1 Shutter Right Vertical Edge
+0018 1606 IS 1 Shutter Upper Horizontal Edge
+0018 1608 IS 1 Shutter Lower Horizontal Edge
+0018 1610 IS 2 Center of Circular Shutter
+0018 1612 IS 1 Radius of Circular Shutter
+0018 1620 IS 2-2n Vertices of the Polygonal Shutter
+0018 1622 US 1 Shutter Presentation Value
+0018 1623 US 1 Shutter Overlay Group
+0018 1700 CS 1-3 Collimator Shape
+0018 1702 IS 1 Collimator Left Vertical Edge
+0018 1704 IS 1 Collimator Right Vertical Edge
+0018 1706 IS 1 Collimator Upper Horizontal Edge
+0018 1708 IS 1 Collimator Lower Horizontal Edge
+0018 1710 IS 2 Center of Circular Collimator
+0018 1712 IS 1 Radius of Circular Collimator
+0018 1720 IS 2-2n Vertices of the Polygonal Collimator
+0018 1800 CS 1 Acquisition Time Synchronized
+0018 1801 SH 1 Time Source
+0018 1802 CS 1 Time Distribution Protocol
+0018 1803 LO 1 NTP Source Adresss
+0018 2001 IS 1-n Page Number Vector
+0018 2002 SH 1-n Frame Label Vector
+0018 2003 DS 1-n Frame Primary Angle Vector
+0018 2004 DS 1-n Frame Secondary Angle Vector
+0018 2005 DS 1-n Slice Location Vector
+0018 2006 SH 1-n Display Window Label Vector
+0018 2010 DS 2 Nominal Scanned Pixel Spacing
+0018 2020 CS 1 Digitized Device Transport Direction
+0018 2023 DS 1 Rotation of Scanned Film
+0018 3100 CS 1 IVUS Acquisition
+0018 3101 DS 1 IVUS Pullback Rate
+0018 3101 DS 1 IVUS Gated Rate
+0018 3103 IS 1 IVUS Pullback Start Frame Number
+0018 3104 IS 1 IVUS Pullback Stop Frame Number
+0018 3104 IS 1-n Lesion Number
+0018 4000 SH 1 Comments (RET)
+0018 5000 SH 1-n Output Power
+0018 5010 LO 3 Transducer Data
+0018 5012 DS 1 Focus Depth
+0018 5020 LO 1 Processing Function
+0018 5021 LO 1 Postprocessing Function
+0018 5022 DS 1 Mechanical Index
+0018 5024 DS 1 Bone Thermal Index
+0018 5026 DS 1 Cranial Thermal Index
+0018 5027 DS 1 Soft Tissue Thermal Index
+0018 5028 DS 1 Soft Tissue-focus Thermal Index
+0018 5029 CS 1 Soft Tissue-surface Thermal Index
+0018 5030 DS 1 Dynamic Range (RET)
+0018 5040 DS 1 Total Gain (RET)
+0018 5050 IS 1 Depth of Scan Field
+0018 5100 CS 1 Patient Position
+0018 5101 CS 1 View Position
+0018 5104 SQ 1 Projection Eponymous Name Code Sequence
+0018 5210 DS 6 Image Transformation Matrix (RET)
+0018 5212 DS 3 Image Translation Vector (RET)
+0018 6000 DS 1 Sensitivity
+0018 6011 SQ 1 Sequence of Ultrasound Regions 
+0018 6012 US 1 Region Spatial Format
+0018 6014 US 1 Region Data Type
+0018 6016 UL 1 Region Flags
+0018 6018 UL 1 Region Location Min X(0)
+0018 601a UL 1 Region Location Min Y(0)
+0018 601c UL 1 Region Location Max X(1)
+0018 601e UL 1 Region Location Max Y(1)
+0018 6020 SL 1 Reference Pixel X(0)
+0018 6022 SL 1 Reference Pixel Y(0)
+0018 6024 US 1 Physical Units X Direction
+0018 6026 US 1 Physical Units Y Direction
+0018 6028 FD 1 Reference Pixel Physical Value X
+0018 602a FD 1 Reference Pixel Physical Value Y
+0018 602c FD 1 Physical Delta X
+0018 602e FD 1 Physical Delta Y
+0018 6030 UL 1 Transducer Frequency
+0018 6031 CS 1 Transducer Type
+0018 6032 UL 1 Pulse Repetition Frequency
+0018 6034 FD 1 Doppler Correction Angle
+0018 6036 FD 1 Sterring Angle
+0018 6038 UL 1 Doppler Sample Volume X Position (RET)
+0018 6038 SL 1 Doppler Sample Volume X Position
+0018 603a UL 1 Doppler Sample Volume Y Position (RET)
+0018 603b SL 1 Doppler Sample Volume Y Position
+0018 603c UL 1 TM-Line Position X(0) (RET)
+0018 603d SL 1 TM-Line Position X(0)
+0018 603e UL 1 TM-Line Position Y(0) (RET)
+0018 603f SL 1 TM-Line Position Y(0)
+0018 6040 UL 1 TM-Line Position X(1) (RET)
+0018 6041 SL 1 TM-Line Position X(1)
+0018 6042 UL 1 TM-Line Position Y(1) (RET)
+0018 6043 SL 1 TM-Line Position Y(1)
+0018 6044 US 1 Pixel Component Organization
+0018 6046 UL 1 Pixel Component Mask
+0018 6048 UL 1 Pixel Component Range Start
+0018 604a UL 1 Pixel Component Range Stop
+0018 604c US 1 Pixel Component Physical Units
+0018 604e US 1 Pixel Component Data Type
+0018 6050 UL 1 Number of Table Break Points
+0018 6052 UL 1-n Table of X Break Points
+0018 6054 FD 1-n Table of Y Break Points
+0018 6056 UL 1 Number of Table Entries
+0018 6058 UL 1-n Table of Pixel Values
+0018 605a FL 1-n Table of Parameter Values
+0018 6060 FL 1-n R Wave Time Vector
+0018 7000 CS 1 Detector Conditions Nominal Flag
+0018 7001 DS 1 Detector Temperature
+0018 7004 CS 1 Detector Type
+0018 7005 CS 1 Detector Configuration
+0018 7006 LT 1 Detector Description
+0018 7008 LT 1 Detector Mode
+0018 700a SH 1 Detector ID
+0018 700c DA 1 Date of Last Detector Calibration
+0018 700e TM 1 Time of Last Detector Calibration
+0018 7010 IS 1 Exposures on Detector Since Last Calibration
+0018 7011 IS 1 Exposures on Detector Since Manufactured
+0018 7012 DS 1 Detector Time Since Last Exposure
+0018 7014 DS 1 Detector Active Time
+0018 7016 DS 1 Detector Activation Offset From Exposure
+0018 701a DS 2 Detector Binning
+0018 7020 DS 2 Detector Element Physical Size
+0018 7022 DS 2 Detector Element Spacing
+0018 7024 CS 1 Detector Active Shape
+0018 7026 DS 1-2 Detector Active Dimension(s)
+0018 7028 DS 2 Detector Active Origin
+0018 702a LO 1 Detector Manufacturer Name
+0018 702b LO 1 Detector Manufacturer's Model
+0018 7030 DS 2 Field of View Origin
+0018 7032 DS 1 Field of View Rotation
+0018 7034 CS 1 Field of View Horizontal Flip
+0018 7040 LT 1 Grid Absorbing Material
+0018 7041 LT 1 Grid Spacing Material
+0018 7042 DS 1 Grid Thickness
+0018 7044 DS 1 Grid Pitch
+0018 7046 IS 2 Grid Aspect Ratio
+0018 7048 DS 1 Grid Period
+0018 704c DS 1 Grid Focal Distance
+0018 7050 CS 1-n Filter Material
+0018 7052 DS 1-n Filter Thickness Minimum
+0018 7054 DS 1-n Filter Thickness Maximum
+0018 7060 CS 1 Exposure Control Mode
+0018 7062 LT 1 Exposure Control Mode Description
+0018 7064 CS 1 Exposure Status
+0018 7064 DS 1 Phototimer Setting
+0018 8150 DS 1 Exposure Time in mS
+0018 8151 DS 1 X-Ray Tube Current in mA
+0018 9004 CS 1 Content Qualification
+0018 9005 SH 1 Pulse Sequence Name
+0018 9006 SQ 1 MR Imaging Modifier Sequence
+0018 9008 CS 1 Echo Pulse Sequence
+0018 9009 CS 1 Inversion Recovery
+0018 9010 CS 1 Flow Compensation
+0018 9011 CS 1 Multiple Spin Echo
+0018 9012 CS 1 Multi-planar Excitation
+0018 9014 CS 1 Phase Contrast
+0018 9015 CS 1 Time of Flight Contrast
+0018 9016 CS 1 Spoiling
+0018 9017 CS 1 Steady State Pulse Sequence
+0018 9018 CS 1 Echo Planar Pulse Sequence
+0018 9019 FD 1 Tag Angle First Axis
+0018 9020 CS 1 Magnetization Transfer
+0018 9021 CS 1 T2 Preparation
+0018 9022 CS 1 Blood Signal Nulling
+0018 9024 CS 1 Saturation Recovery
+0018 9025 CS 1 Spectrally Selected Suppression
+0018 9026 CS 1 Spectrally Selected Excitation
+0018 9027 CS 1 Spatial Pre-saturation
+0018 9028 CS 1 Tagging
+0018 9029 CS 1 Oversampling Phase
+0018 9022 CS 1 Blood Signal Nulling
+0018 9030 FD 1 Tag Spacing First Dimension
+0018 9032 CS 1 Geometry of k-Space Traversal
+0018 9033 CS 1 Segmented k-Space Traversal
+0018 9034 CS 1 Rectilinear Phase Encode Reordering
+0018 9035 CS 1 Tag Thickness
+0018 9036 CS 1 Partial Fourier Direction
+0018 9037 CS 1 Cardiac Synchronization Technique
+0018 9041 LO 1 Receive Coil Manufacturer Name
+0018 9042 SQ 1 MR Receive Coil Sequence
+0018 9043 CS 1 Receive Coil Type
+0018 9044 CS 1 Quadrature Receive Coil
+0018 9045 SQ 1 Multi-Coil Definition Sequence
+0018 9046 LO 1 Multi-Coil Configuration
+0018 9047 SH 1 Multi-Coil Element Name
+0018 9048 CS 1 Multi-Coil Element Used
+0018 9049 SQ 1 MR Transmit Coil Sequence
+0018 9050 LO 1 Transmit Coil Manufacturer Name
+0018 9051 CS 1 Transmit Coil Type
+0018 9052 FD 1-2 Spectral Width
+0018 9053 FD 1-2 Chemical Shift Reference
+0018 9054 CS 1 Volume Localization Technique
+0018 9058 US 1 MR Acquisition Frequency Encoding Steps
+0018 9059 CS 1 De-coupling
+0018 9060 CS 1-2 De-coupled Nucleus
+0018 9061 FD 1-2 De-coupling Frequency
+0018 9062 CS 1 De-coupling Method
+0018 9063 FD 1-2 De-coupling Chemical Shift Reference
+0018 9064 CS 1 k-space Filtering
+0018 9065 CS 1-2 Time Domain Filtering
+0018 9066 US 1-2 Number of Zero fills
+0018 9067 CS 1 Baseline Correction
+0018 9069 FD 1 Parallel Reduction Factor In-plane
+0018 9070 FD 1 Cardiac R-R Interval Specified
+0018 9073 FD 1 Acquisition Duration
+0018 9074 DT 1 Frame Acquisition Datetime
+0018 9075 CS 1 Diffusion Directionality
+0018 9076 SQ 1 Diffusion Gradient Direction Sequence
+0018 9077 CS 1 Parallel Acquisition 
+0018 9078 CS 1 Parallel Acquisition Technique
+0018 9079 TM 1-n Inversion Times
+0018 9080 ST 1 Metabolite Map Description
+0018 9081 CS 1 Partial Fourier
+0018 9082 FD 1 Effective Echo Time
+0018 9083 SQ 1 Metabolite Map Code Sequence
+0018 9084 SQ 1 Chemical Shift Sequence
+0018 9085 CS 1 Cardiac Signal Source
+0018 9087 FD 1 Diffusion b-value
+0018 9089 FD 3 Diffusion Gradient Orientation
+0018 9090 FD 3 Velocity Encoding Direction
+0018 9091 FD 1 Velocity Encoding Minimum Value
+0018 9093 US 1 Number of k-Space Trajectories
+0018 9094 CS 1 Coverage of k-Space
+0018 9095 UL 1 Spectroscopy Acquisition Phase Rows
+0018 9098 FD 1-2 Transmitter Frequency
+0018 9100 CS 1-2 Resonant Nucleus
+0018 9101 CS 1 Frequency Correction
+0018 9103 SQ 1 MR Spectroscopy FOV/Geometry Sequence
+0018 9104 FD 1 Slab Thickness
+0018 9105 FD 3 Slab Orientation
+0018 9106 FD 3 Mid Slab Position
+0018 9107 SQ 1 MR Spatial Saturation Sequence
+0018 9112 SQ 1 MR Timing and Related Parameters Sequence
+0018 9114 SQ 1 MR Echo Sequence
+0018 9115 SQ 1 MR Modifier Sequence
+0018 9117 SQ 1 MR Diffusion Sequence
+0018 9118 SQ 1 Cardiac Trigger Sequence
+0018 9119 SQ 1 MR Averages Sequence
+0018 9125 SQ 1 MR FOV/Geometry Sequence
+0018 9126 SQ 1 Volume Localization Sequence
+0018 9127 UL 1 Spectroscopy Acquisition Data Columns
+0018 9147 CS 1 Diffusion Anisotropy Type
+0018 9151 DT 1 Frame Reference Datetime
+0018 9152 SQ 1 MR Metabolite Map Sequence
+0018 9155 FD 1 Parallel Reduction Factor out-of-plane
+0018 9159 UL 1 Spectroscopy Acquisition Out-of-plane Phase Steps
+0018 9166 CS 1 Bulk Motion Status
+0018 9168 FD 1 Parallel Reduction Factor Second In-plane
+0018 9169 CS 1 Cardiac Beat Rejection Technique
+0018 9170 CS 1 Respiratory Motion Compensation Technique
+0018 9171 CS 1 Respiratory Signal Source
+0018 9172 CS 1 Bulk Motion Compensation Technique
+0018 9173 CS 1 Bulk Motion Signal Source
+0018 9174 CS 1 Applicable Safety Standard Agency
+0018 9175 LO 1 Applicable Safety Standard Description
+0018 9176 SQ 1 Operating Mode Sequence
+0018 9177 CS 1 Operating Mode Type
+0018 9178 CS 1 Operating Mode
+0018 9179 CS 1 Specific Absorption Rate Definition
+0018 9180 CS 1 Gradient Output Type
+0018 9181 FD 1 Specific Absorption Rate Value
+0018 9182 FD 1 Gradient Output
+0018 9183 CS 1 Flow Compensation Direction
+0018 9184 FD 1 Tagging Delay
+0018 9195 FD 1 Chemical Shifts Minimum Integration Limit in Hz (RET)
+0018 9196 FD 1 Chemical Shifts Maximum Integration Limit in Hz (RET)
+0018 9197 SQ 1 MR Velocity Encoding Sequence
+0018 9198 CS 1 First Order Phase Correction
+0018 9199 CS 1 Water Referenced Phase Correction
+0018 9200 CS 1 MR Spectroscopy Acquisition Type
+0018 9214 CS 1 Respiratory Cycle Position
+0018 9217 FD 1 Velocity Encoding Maximum Value
+0018 9218 FD 1 Tag Spacing Second Dimension
+0018 9219 SS 1 Tag Angle Second Axis
+0018 9220 FD 1 Frame Acquisition Duration
+0018 9226 SQ 1 MR Image Frame Type Sequence
+0018 9227 SQ 1 MR Spectroscopy Frame Type Sequence
+0018 9231 US 1 MR Acquisition Phase Encoding Steps in-plane
+0018 9232 US 1 MR Acquisition Phase Encoding Steps out-of-plane
+0018 9234 UL 1 Spectroscopy Acquisition Phase Columns
+0018 9236 CS 1 Cardiac Cycle Position
+0018 9239 SQ 1 Specific Absorption Rate Sequence
+0018 9295 FD 1 Chemical Shifts Minimum Integration Limit in ppm
+0018 9296 FD 1 Chemical Shifts Maximum Integration Limit in ppm
+0018 9240 US 1 RF Echo Train Length             
+0018 9241 US 1 Gradient Echo Train Length
+0018 9301 SQ 1 CT Acquisition Type Sequence     
+0018 9302 CS 1 Acquisition Type
+0018 9303 FD 1 Tube Angle                       
+0018 9304 SQ 1 CT Acquisition Details Sequence  
+0018 9305 FD 1 Revolution Time                  
+0018 9306 FD 1 Single Collimation Width         
+0018 9307 FD 1 Total Collimation Width  
+0018 9308 SQ 1 CT Table Dynamics Sequence       
+0018 9309 FD 1 Table Speed                      
+0018 9310 FD 1 Table Feed per Rotation          
+0018 9311 FD 1 Spiral Pitch Factor     
+0018 9312 SQ 1 CT Geometry Sequence             
+0018 9313 FD 3 Data Collection Center Patient 
+0018 9314 SQ 1 CT Reconstruction Sequence   
+0018 9315 CS 1 Reconstruction Algorithm                  
+0018 9316 CS 1 Convolution Kernel Group                  
+0018 9317 FD 2 Reconstruction Field of View              
+0018 9318 FD 3 Reconstruction Target Center Patient    
+0018 9319 FD 1 Reconstruction Angle                      
+0018 9320 SH 1 Image Filter                              
+0018 9321 SQ 1 CT Exposure Sequence   
+0018 9322 FD 2 Reconstruction Pixel Spacing              
+0018 9323 CS 1 Exposure Modulation Type                  
+0018 9324 FD 1 Estimated Dose Saving                     
+0018 9325 SQ 1 CT X-ray Details Sequence  
+0018 9326 SQ 1 CT Position Sequence    
+0018 9327 FD 1 Table Position                            
+0018 9328 FD 1 Exposure Time in ms                       
+0018 9329 SQ 1 CT Image Frame Type Sequence              
+0018 9330 FD 1 X-Ray Tube Current in mA                   
+0018 9332 FD 1 Exposure in mAs                           
+0018 9333 CS 1 Constant Volume Flag                      
+0018 9334 CS 1 Fluoroscopy Flag                          
+0018 9335 FD 1 Distance Source to Data Collection Center 
+0018 9337 US 1 Contrast/Bolus Agent Number               
+0018 9338 SQ 1 Contrast/Bolus Ingredient Code Sequence    
+0018 9340 SQ 1 Contrast Administration Profile Sequence  
+0018 9341 SQ 1 Contrast/Bolus Usage Sequence    
+0018 9342 CS 1 Contrast/Bolus Agent Administered         
+0018 9343 CS 1 Contrast/Bolus Agent Detected 
+0018 9344 CS 1 Contrast/Bolus Agent Phase  
+0018 9345 FD 1 CTDIvol                                   
+0018 a001 SQ 1 Contributing Equipment Sequence
+0018 a002 DT 1 Contribution Date Time
+0018 a003 ST 1 Contribution Description
+
+0020 0000 UL 1 Group Length 
+0020 000d UI 1 Study Instance UID
+0020 000e UI 1 Series Instance UID
+0020 0010 SH 1 Study ID
+0020 0011 IS 1 Series Number
+0020 0012 IS 1 Acquisition Number
+0020 0013 IS 1 Image Number
+0020 0014 IS 1 Isotope Number (RET)
+0020 0015 IS 1 Phase Number (RET)
+0020 0016 IS 1 Interval Number (RET)
+0020 0017 IS 1 Time Slot Number (RET)
+0020 0018 IS 1 Angle Number (RET)
+0020 0020 CS 2 Patient Orientation
+0020 0022 IS 1 Overlay Number
+0020 0024 IS 1 Curve Number
+0020 0026 IS 1 Lookup Table Number
+0020 0030 DS 1 Image Position (RET)
+0020 0032 DS 3 Image Position Patient
+0020 0035 DS 6 Image Orientation (RET)
+0020 0037 DS 1 Image Orientation (Patient)
+0020 0050 DS 1 Location (RET)
+0020 0052 UI 1 Frame of Reference UID
+0020 0060 CS 1 Laterality
+0020 0070 SH 1 Image Geometry Type (RET)
+0020 0080 UI 1 Masking Image
+0020 0100 IS 1 Temporal Position Identifier
+0020 0105 IS 1 Number of Temporal Positions
+0020 0110 DS 1 Temporal Resolution
+0020 0200 UI 1 Synchronisation Frame of Reference UID
+0020 1000 IS 1 Series in Study
+0020 1001 IS 1 Acquisitions in Series (RET)
+0020 1002 IS 1 Images in Acquisition
+0020 1004 IS 1 Acquisitions in Study
+0020 1020 SH 1 Reference (RET)
+0020 1040 LO 1 Position Reference Indicator
+0020 1041 DS 1 Slice Location
+0020 1070 IS 1-n Other Study Numbers
+0020 1200 IS 1 Number of Patient Related Studies
+0020 1202 IS 1 Number of Patient Related Series
+0020 1204 IS 1 Number of Patient Related Instances
+0020 1206 IS 1 Number of Study Related Series
+0020 1208 IS 1 Number of Study Related Images
+0020 1209 IS 1 Number of Series Related Instances
+0020 3100 SH 1 Source Image IDs (RET)
+0020 3401 SH 1 Modifying Device ID (RET)
+0020 3402 SH 1 Modified Image ID (RET)
+0020 3403 SH 1 Modified Image Date (RET)
+0020 3404 SH 1 Modifying Device Manufacturer (RET)
+0020 3405 SH 1 Modified Image Time (RET)
+0020 3406 SH 1 Modified Image Description (RET)
+0020 4000 LT 1 Image Comments
+0020 5000 US 1 Original Image Identification (RET)
+0020 5002 SH 1 Original Image Identification Nomenclature (RET)
+0020 9056 SH 1 Stack ID
+0020 9057 UL 1 In-Stack Position Number
+0020 9071 SQ 1 Frame Anatomy Sequence
+0020 9072 CS 1 Frame Laterality
+0020 9111 SQ 1 Frame Content Sequence
+0020 9113 SQ 1 Plane Content Sequence
+0020 9116 SQ 1 Plane Orientation Sequence
+0020 9118 UL 1 Temporal Position Index
+0020 9153 FD 1 Trigger Delay Time
+0020 9156 US 1 Frame Acquisition Number
+0020 9157 UL 1-n Dimension Index Values
+0020 9158 LT 1 Frame Comments
+0020 9161 UI 1 Concatenation UID
+0020 9162 US 1 In-concatenation Number
+0020 9163 US 1 In-concatenation Total Number
+0020 9164 UI 1 Dimension Organization UID
+0020 9165 AT 1 Dimension Index Pointer
+0020 9167 AT 1 Functional Group Pointer
+0020 9213 LO 1 Dimension Index Private Creator
+0020 9221 SQ 1 Dimension Organization Sequence
+0020 9222 SQ 1 Dimension Index Sequence
+0020 9228 UL 1 Concatenation Frame Offset Number
+0020 9238 LO 1 Functional Group Private Creator
+
+0022 0001 US 1 Light Path Filter Pass-Through Wavelength   
+0022 0002 US 2 Light Path Filter Pass Band        
+0022 0003 US 1 Image Path Filter Pass-Through Wavelength
+0022 0004 US 2 Image Path Filter Pass Band  
+0022 0005 CS 1 Patient Eye Movement Commanded  
+0022 0006 SQ 1 Patient Eye Movement Command Code Sequence 
+0022 0007 FL 1 Spherical Lens Power        
+0022 0008 FL 1 Cylinder Lens Power 
+0022 0009 FL 1 Cylinder Axis
+0022 000a FL 1 Emmetropic Magnification 
+0022 000b FL 1 Intra Ocular Pressure
+0022 000c FL 1 Horizontal Field of View 
+0022 000d CS 1 Pupil Dilated   
+0022 000e FL 1 Degree of Dilation              
+0022 0010 FL 1 Stereo Baseline Angle  
+0022 0011 FL 1 Stereo Baseline Displacement 
+0022 0012 FL 1 Stereo Horizontal Pixel Offset 
+0022 0013 FL 1 Stereo Vertical Pixel Offset 
+0022 0014 FL 1 Stereo Rotation  
+0022 0015 SQ 1 Acquisition Device Type Code Sequence      
+0022 0016 SQ 1 Illumination Type Code Sequence 
+0022 0017 SQ 1 Light Path Filter Type Stack Code Sequence
+0022 0018 SQ 1 Image Path Filter Type Stack Code Sequence
+0022 0019 SQ 1 Lenses Code Sequence 
+0022 001a SQ 1 Channel Description Code Sequence 
+0022 001b SQ 1 Refractive State Sequence 
+0022 001c SQ 1 Mydriatic Agent Code Sequence 
+0022 001d SQ 1 Relative Image Position Code Sequence 
+0022 0020 SQ 1 Stereo Pairs Sequence 
+0022 0021 SQ 1 Left Image Sequence
+0022 0022 SQ 1 Right Image Sequence
+
+0028 0000 UL 1 Group Length
+0028 0002 US 1 Samples per Pixel
+0028 0003 US 1 Samples per Pixel Used
+0028 0004 CS 1 Photometric Interpretation
+0028 0005 US 1 Image Dimensions (RET)
+0028 0006 US 1 Planar Configuration
+0028 0008 IS 1 Number of Frames
+0028 0009 AT 1-n Frame Increment Pointer
+0028 000a AT 1-n Frame Dimension Ponter
+0028 0010 US 1 Rows
+0028 0011 US 1 Columns
+0028 0012 US 1 Planes
+0028 0013 US 1 Instants (special LibIDO)
+0028 0014 US 1 Ultrasound Color Data Present
+0028 0015 US 1 UsedNbX ACR Libido special
+0028 0016 US 1 UsedNbY ACR Libido special
+0028 0017 US 1 UsedNbZ ACR Libido special
+0028 0018 US 1 UsedNbT ACR Libido special
+0028 0030 DS 2 Pixel Spacing
+0028 0031 DS 2 Zoom Factor
+0028 0032 DS 2 Zoom Center
+0028 0034 IS 2 Pixel Aspect Ratio
+0028 0040 SH 1 Image Format (RET)
+0028 0050 SH 1 Manipulated Image (RET)
+0028 0051 CS 1-n Corrected Image
+0028 0060 SH 1 Compression Code (RET)
+0028 0100 US 1 Bits Allocated
+0028 0101 US 1 Bits Stored
+0028 0102 US 1 High Bit
+0028 0103 US 1 Pixel Representation
+0028 0104 US 1 Smallest Valid Pixel Value (RET)
+0028 0105 US 1 Largest Valid Pixel Value (RET)
+0028 0106 US 1 Smallest Image Pixel Value
+0028 0107 US 1 Largest Image Pixel Value
+0028 0108 US 1 Smallest Pixel Value in Series
+0028 0109 US 1 Largest Pixel Value in Series
+0028 0110 US 1 Smallest Pixel Value in Plane
+0028 0111 US 1 Largest Pixel Value in Plane
+0028 0120 US 1 Pixel Padding Value
+0028 0122 US 1 Waveform Padding Value
+0028 0199 US 1 LibIDO code (RET)
+0028 0200 US 1 Image Location (RET)
+0028 1040 CS 1 Pixel Intensity Relationship
+0028 1041 CS 1 Pixel Intensity Relationship Sign
+0028 1050 DS 1-n Window Center
+0028 1051 DS 1-n Window Width
+0028 1052 DS 1 Rescale Intercept
+0028 1053 DS 1 Rescale Slope
+0028 1054 LO 1 Rescale Type
+0028 1055 LO 1-n Window Center & Width Explanation
+0028 1080 SH 1 Gray Scale (RET)
+0028 1090 CS 1 Recommended Viewing Mode
+0028 1100 US 1 Gray Lookup Table Descriptor (RET)
+0028 1101 US 3 Red Palette Color Lookup Table Descriptor
+0028 1102 US 3 Green Palette Color Lookup Table Descriptor
+0028 1103 US 3 Blue Palette Color Lookup Table Descriptor
+0028 1199 UI 1 Palette Color Lookup Table UID
+0028 1200 US 1 Gray Lookup Table Data (RET)
+0028 1201 OW 1 Red Palette Color Lookup Table Data
+0028 1202 OW 1 Green Palette Color Lookup Table Data
+0028 1203 OW 1 Blue Palette Color Lookup Table Data
+0028 1221 OW 1 Segmented Red Palette Color Lookup Table Data
+0028 1222 OW 1 Segmented Green Palette Color Lookup Table Data
+0028 1223 OW 1 Segmented Blue Palette Color Lookup Table Data
+0028 1300 CS 1 Implant Present
+0028 1350 CS 1 Partial View
+0028 1350 ST 1 Partial View Description
+0028 2110 CS 1 Lossy Image Compression
+0028 2112 DS 1-n Lossy Image Compression Ratio
+0028 2114 CS 1-n Lossy Image Compression Method
+0028 3000 SQ 1 Modality LUT Sequence
+0028 3002 US 3 LUT Descriptor
+0028 3003 LO 1 LUT Explanation
+0028 3004 LO 1 Modality LUT Type
+0028 3006 OW 1 LUT Data (CTX dependent)
+0028 3010 SQ 1 VOI LUT Sequence
+0028 3110 SQ 1 Softcopy VOI LUT Sequence
+0028 4000 SH 1 Comments (RET)
+0028 5000 SQ 1 Bi-Plane Acquisition Sequence
+0028 6010 US 1 Representative Frame Number
+0028 6020 US 1-n Frame Numbers of Interest (FOI)
+0028 6022 LO 1-n Frame(s) of Interest Description
+0028 6023 CS 1-n Frame of Interest Type
+0028 6030 US 1-n Mask Pointer(s) (RET)
+0028 6040 US 1-n R Wave Pointer
+0028 6100 SQ 1 Mask Subtraction Sequence
+0028 6101 CS 1 Mask Operation
+0028 6102 US 2-2n Applicable Frame Range
+0028 6110 US 1-n Mask Frame Numbers
+0028 6112 US 1 Contrast Frame Averaging
+0028 6114 FL 2 Mask Sub-pixel Shift
+0028 6120 SS 1 TID Offset
+0028 6190 ST 1 Mask Operation Explanation
+0028 9001 UL 1 Data Point Rows
+0028 9002 UL 1 Data Point Columns
+0028 9003 CS 1 Signal Domain Columns
+0028 9099 US 1 Largest Monochrome Pixel Value
+0028 9108 CS 1 Data Representation
+0028 9110 SQ 1 Pixel Measures Sequence
+0028 9132 SQ 1 Frame VOI LUT Sequence
+0028 9145 SQ 1 Pixel Value Transformation Sequence
+0028 9235 CS 1 Signal Domain Rows
+
+0032 0000 UL 1 Study Group Length
+0032 000a CS 1 Study Status ID
+0032 000c CS 1 Study Priority ID
+0032 0012 LO 1 Study ID Issuer
+0032 0032 DA 1 Study Verified Date
+0032 0033 TM 1 Study Verified Time
+0032 0034 DA 1 Study Read Date
+0032 0035 TM 1 Study Read Time
+0032 1000 DA 1 Scheduled Study Start Date
+0032 1001 TM 1 Scheduled Study Start Time
+0032 1010 DA 1 Scheduled Study Stop Date
+0032 1011 TM 1 Scheduled Study Stop Time
+0032 1020 LO 1 Scheduled Study Location
+0032 1021 AE 1-n Scheduled Study Location AE Title(s)
+0032 1030 LO 1 Reason for Study
+0032 1031 SQ 1 Requesting Physician Identification Sequence
+0032 1032 PN 1 Requesting Physician
+0032 1033 LO 1 Requesting Service
+0032 1040 DA 1 Study Arrival Date
+0032 1041 TM 1 Study Arrival Time
+0032 1050 DA 1 Study Completion Date
+0032 1051 TM 1 Study Completion Time
+0032 1055 CS 1 Study Component Status ID
+0032 1060 LO 1 Requested Procedure Description
+0032 1064 SQ 1 Requested Procedure Code Sequence
+0032 1070 LO 1 Requested Contrast Agent
+0032 4000 LT 1 Study Comments
+
+0038 0000 UL 1 Group Length
+0038 0004 SQ 1 Referenced Patient Alias Sequence
+0038 0008 CS 1 Visit Status ID
+0038 0010 LO 1 Admission ID
+0038 0011 LO 1 Issuer of Admission ID
+0038 0016 LO 1 Route of Admission
+0038 001a DA 1 Scheduled Admission Date
+0038 001b TM 1 Scheduled Admission Time
+0038 001c DA 1 Scheduled Discharge Date
+0038 001d TM 1 Scheduled Discharge Time
+0038 001e LO 1 Scheduled Patient Institution Residence
+0038 0020 DA 1 Admitting Date
+0038 0021 TM 1 Admitting Time
+0038 0030 DA 1 Discharge Date
+0038 0032 TM 1 Discharge Time
+0038 0040 LO 1 Discharge Diagnosis Description
+0038 0044 SQ 1 Discharge Diagnosis Code Sequence
+0038 0050 LO 1 Special Needs
+0038 0300 LO 1 Current Patient Location
+0038 0400 LO 1 Patient's Institution Residence
+0038 0500 LO 1 Patient State
+0038 4000 LT 1 Visit Comments
+
+003a 0000 UL 1 Group Length
+003a 0002 SQ 1 Waveform Sequence
+003a 0004 CS 1 Waveform Originality
+003a 0005 US 1 Number of Waveform Channels
+003a 0010 UL 1 Number of Waveform Samples
+003a 001a DS 1 Sampling Frequency
+003a 0020 SH 1 Multiplex Group Label
+003a 0103 CS 1 Data Value Representation
+003a 0200 SQ 1 Channel Definition Sequence
+003a 0202 IS 1 Waveform Channel Number
+003a 0203 SH 1 Channel Label
+003a 0205 CS 1-n Channel Status
+003a 0208 SQ 1 Channel Source Sequence
+003a 0209 SQ 1 Channel Source Modifiers Sequence
+003a 020a SQ 1 Source Waveform Sequence
+003a 020c SQ 1 Channel Derivation Description
+003a 0210 DS 1 Channel Sensitivity
+003a 0211 SQ 1 Channel Sensitivity Units Sequence
+003a 0212 DS 1 Channel Sensitivity Correction Factor
+003a 0213 DS 1 Channel Baseline
+003a 0214 DS 1 Channel Time Skew
+003a 0215 DS 1 Channel Sample Skew
+003a 0218 DS 1 Channel Offset
+003a 021a US 1 Waveform Bits Stored
+003a 0220 DS 1 Filter Low Frequency
+003a 0221 DS 1 Filter High Frequency
+003a 0222 DS 1 Notch Filter Frequency
+003a 0223 DS 1 Notch Filter Bandwidth
+003a 0300 SQ 1 Multiplexed Audio Channels Description Code Sequence
+003a 0301 IS 1 Channel Identification Code
+003a 0302 CS 1 Channel Mode
+
+0040 0000 UL 1 Group Length
+0040 0001 AE 1-n Scheduled Station AE Title
+0040 0002 DA 1 Scheduled Procedure Step Start Date
+0040 0003 TM 1 Scheduled Procedure Step Start Time
+0040 0004 DA 1 Scheduled Procedure Step End Date
+0040 0005 TM 1 Scheduled Procedure Step End Time
+0040 0006 PN 1 Scheduled Performing Physician's Name
+0040 0007 LO 1 Scheduled Step Description
+0040 0008 SQ 1 Scheduled Action Item Code Sequence
+0040 0009 SH 1 Scheduled Step ID
+0040 000a SH 1 Scheduled Procedure Step ID
+0040 000b SQ 1 Scheduled Performing Physician Identification Sequence
+0040 0010 SH 1-n Scheduled Station Name
+0040 0011 SH 1 Scheduled Procedure Step Location
+0040 0012 LO 1 Pre-Medication
+0040 0020 CS 1 Schedule Procedure Step Status
+0040 0100 SQ 1 Scheduled Procedure Step Sequence
+0040 0220 SQ 1 Referenced Non-Image Composite SOP Instance Sequence
+0040 0241 AE 1 Performed Station AE Title
+0040 0242 SH 1 Performed Station Name
+0040 0243 SH 1 Performed Location
+0040 0244 DA 1 Performed Procedure Step Start Date
+0040 0245 TM 1 Performed Procedure Step Start Time
+0040 0250 DA 1 Performed Procedure Step End Date
+0040 0251 TM 1 Performed Procedure Step End Time
+0040 0252 CS 1 Performed Procedure Step Status
+0040 0253 SH 1 Performed Procedure Step ID
+0040 0254 LO 1 Performed Procedure Step Description
+0040 0255 LO 1 Performed Procedure Type Description
+0040 0260 SQ 1 Performed Protocol Code Sequence
+0040 0270 SQ 1 Scheduled Step Attributes Sequence
+0040 0275 SQ 1 Request Attributes Sequence
+0040 0280 ST 1 Comments on the Performed Procedure Step
+0040 0281 SQ 1 Performed Procedure Step Discontinuation Reason Code Sequence
+0040 0293 SQ 1 Quantity Sequence
+0040 0294 DS 1 Quantity
+0040 0295 SQ 1 Measuring Units Sequence
+0040 0296 SQ 1 Billing Item Sequence
+0040 0300 US 1 Total Time of Fluoroscopy
+0040 0301 US 1 Total Number of Exposures
+0040 0302 US 1 Entrance Dose
+0040 0303 US 1-2 Exposed Area
+0040 0306 DS 1 Distance Source to Entrance
+0040 0307 DS 1 Distance Source to Support (RET)
+0040 030e DS 1 Exposure Dose Sequence
+0040 0310 ST 1 Comments on Radiation Dose
+0040 0312 DS 1 X-Ray Output
+0040 0314 DS 1 Half Value Layer
+0040 0316 DS 1 Organ Dose
+0040 0318 CS 1 Organ Exposed
+0040 0320 SQ 1 Billing Procedure Step Sequence
+0040 0321 SQ 1 Film Consumption Sequence
+0040 0324 SQ 1 Billing Supplies and Devices Sequence
+0040 0330 SQ 1 Referenced Procedure Step Sequence (RET)
+0040 0340 SQ 1 Performed Series Sequence
+0040 0400 LT 1 Comments on the Scheduled Procedure Step
+0040 0440 SQ 1 Protocol Context Sequence
+0040 0441 SQ 1 Content Item Modifier Sequence
+0040 050a LO 1 Specimen Accession Number
+0040 0550 SQ 1 Specimen Sequence
+0040 0551 LO 1 Specimen Identifier
+0040 0552 SQ 1 Specimen Description Sequence
+0040 0553 ST 1 Specimen Description
+0040 0555 SQ 1 Acquisition Context Sequence
+0040 0556 ST 1 Acquisition Context Description
+0040 059a SQ 1 Specimen Type Code Sequence
+0040 06fa LO 1 Slide Identifier
+0040 071a SQ 1 Image Center Point Coordinates Sequence
+0040 072a DS 1 X offset in Slide Coordinate System
+0040 073a DS 1 Y offset in Slide Coordinate System
+0040 074a DS 1 Z offset in Slide Coordinate System
+0040 08d8 SQ 1 Pixel Spacing Sequence
+0040 08da SQ 1 Coordinate System Axis Code Sequence
+0040 08ea SQ 1 Measurement Units Code Sequence
+0040 09f8 SQ 1 Vital Stain Code Sequence
+0040 1001 SH 1 Requested Procedure ID
+0040 1002 LO 1 Reason for the Requested Procedure
+0040 1003 SH 1 Requested Procedure Priority
+0040 1004 LO 1 Patient Transport Arrangements
+0040 1005 LO 1 Requested Procedure Location
+0040 1006 SH 1 Placer Order Number/Procedure (RET)
+0040 1007 SH 1 Filler Order Number/Procedure (RET)
+0040 1008 LO 1 Confidentiality Code
+0040 1009 SH 1 Reporting Priority
+0040 100a SQ 1 Reason for Requested Procedure Code Sequence
+0040 1010 PN 1-n Names of Intended Recipients of Results
+0040 1011 SQ 1 Intended Recipients of Results Identification Sequence 
+0040 1101 SQ 1 Person Identification Code Sequence
+0040 1102 ST 1 Person's Adress
+0040 1103 LO 1-n Person's Telephone Numbers
+0040 1400 LT 1 Requested Procedure Comments 
+0040 2001 LO 1 Reason for the Imaging Service Request (RET)
+0040 2004 DA 1 Issue Date of Imaging Service Request
+0040 2005 TM 1 Issue Time of Imaging Service Request
+0040 2006 SH 1 Placer Order Number/Imaging Service Request (RET)
+0040 2007 SH 1 Filler Order Number/Imaging Service Request (RET)
+0040 2008 PN 1 Order Entered By
+0040 2009 SH 1 Order Enterer's Location
+0040 2010 SH 1 Order Callback Phone Number
+0040 2016 LO 1 Placer Order Number/Imaging Service Number
+0040 2017 LO 1 Filler Order Number/Imaging Service Number
+0040 2400 LT 1 Imaging Service Request Comments
+0040 3001 LO 1 Confidentiality Constraint Patient Data Description
+0040 4001 CS 1 General Purpose Scheduled Procedure Step Status
+0040 4002 CS 1 General Purpose Performed Procedure Step Status
+0040 4003 CS 1 General Purpose Performed Procedure Step Priority
+0040 4004 SQ 1 Scheduled Processing Applications Code Sequence
+0040 4005 DT 1 Scheduled Procedure Step Start Date and Time
+0040 4006 CS 1 Multiple Copies Flag
+0040 4007 SQ 1 Performed Processing Applications Code Sequence
+0040 4009 SQ 1 Human Performer Code Sequence
+0040 4010 DT 1 Scheduled Procedure Step Modification Date and Time
+0040 4011 DT 1 Expected Completion Date and Time
+0040 4015 SQ 1 Resulting General Purpose Performed Procedure Steps Sequence
+0040 4016 SQ 1 Referenced General Purpose Scheduled Procedure Steps Sequence
+0040 4018 SQ 1 Scheduled Workitem Code Sequence
+0040 4019 SQ 1 Performed Workitem Code Sequence
+0040 4020 CS 1 Input Availability Flag
+0040 4021 SQ 1 Input Information Sequence
+0040 4022 SQ 1 Relevant Information Code Sequence
+0040 4023 SQ 1 Referenced General Purpose Scheduled Procedure Steps Transaction UID
+0040 4025 SQ 1 Scheduled Station Name Code Sequence
+0040 4026 SQ 1 Scheduled Station Class Code Sequence
+0040 4027 SQ 1 Scheduled Station Geographic Location Code Sequence
+0040 4028 SQ 1 Performed Station Name Code Sequence
+0040 4029 SQ 1 Performed Station Class Code Sequence
+0040 4030 SQ 1 Performed Station Geographic Location Code Sequence
+0040 4031 SQ 1 Requested Subsequent Workitem Code Sequence
+0040 4032 SQ 1 Non-DICOM Output Code Sequence
+0040 4033 SQ 1 Output Information Sequence
+0040 4034 SQ 1 Scheduled Human Performers Sequence
+0040 4035 SQ 1 Actual Human Performers Sequence
+0040 4036 LO 1 Human Performer's Organization
+0040 4037 PN 1 Human Performer's Name
+0040 8302 DS 1 Entrance Dose in mGy
+0040 9096 SQ 1 Real World Value Mapping Sequence
+0040 9210 SH 1 LUT Label
+0040 9211 US 1 Real World Value Last Value Mapped
+0040 9212 FD 1-n Real World Value LUT Data
+0040 9216 US 1 Real World Value First Value Mapped
+0040 9224 FD 1 Real World Value Intercept
+0040 9225 FD 1 Real World Value Slope
+0040 a010 CS 1 Relationship Type
+0040 a027 LO 1 Verifying Organization
+0040 a030 DT 1 Verification Date Time
+0040 a032 DT 1 Observation Date Time
+0040 a040 CS 1 Value Type
+0040 a043 SQ 1 Concept Name Code Sequence
+0040 a050 CS 1 Continuity of Content
+0040 a073 SQ 1 Verifying Observer Sequence
+0040 a075 PN 1 Verifying Observer Name
+0040 a088 SQ 1 Verifying Observer Identification Code Sequence
+0040 a0b0 US 2-2n Referenced Waveform Channels
+0040 a120 DT 1 DateTime
+0040 a121 DA 1 Date
+0040 a122 TM 1 Time
+0040 a123 PN 1 Person Name
+0040 a124 UI 1 UID
+0040 a130 CS 1 Temporal Range Type
+0040 a132 UL 1-n Referenced Sample Offsets
+0040 a136 US 1-n Referenced Frame Numbers
+0040 a138 DS 1-n 1 Referenced Time Offsets
+0040 a13a DT 1-n Referenced Datetime
+0040 a160 UT 1 Text Value
+0040 a168 SQ 1 Concept Code Sequence
+0040 a16a ST 1 Bibliographics Citation
+0040 a170 SQ 1 Purpose of Reference Code Sequence
+0040 a180 US 1 Annotation Group Number
+0040 a195 SQ 1 Modifier Code Sequence Modifier
+0040 a300 SQ 1 Measured Value Sequence
+0040 a301 SQ 1 Numeric Value Qualifier Code Sequence
+0040 a30a DS 1-n Numeric Value
+0040 a353 ST 1 Address
+0040 a354 LO 1 Telephone Number
+0040 a360 SQ 1 Predecessor Documents Sequence
+0040 a370 SS 1 Referenced Request Sequence
+0040 a372 SQ 1 Performed Procedure Code Sequence
+0040 a375 SQ 1 Current Requested Procedure Evidence Sequence
+0040 a385 SQ 1 Pertinent Other Evidence Sequence
+0040 a491 CS 1 Completion Flag 
+0040 a492 LO 1 Completion Flag Description
+0040 a493 CS 1 Verification Flag
+0040 a504 SQ 1 Content Template Sequence
+0040 a525 SQ 1 Identical Documents Sequence
+0040 a730 SQ 1 Content Sequence
+0040 a992 ST 1 Uniform Resource Locator
+0040 b020 SQ 1 Annotation Sequence
+0040 db00 CS 1 Template Identifier
+0040 db06 DT 1 Template Version (RET)
+0040 db07 DT 1 Template Local Version (RET)
+0040 db0b CS 1 Template Extension Flag (RET)
+0040 db0c UI 1 Template Extension Organization UID (RET)
+0040 db0d UI 1 Template Extension Creator UID (RET)
+0040 db73 UL 1-n Referenced Content Item Identifier
+0041 1050 SQ 1 Special PAPYRUS 3.0
+
+0050 0000 UL 1 Group Length
+0050 0004 CS 1 Calibration Image
+0050 0010 SQ 1 Device Sequence
+0050 0014 DS 1 Device Length
+0050 0016 DS 1 Device Diameter
+0050 0017 CS 1 Device Diameter Units
+0050 0018 DS 1 Device Volume
+0050 0019 DS 1 Inter-Marker Distance
+0050 0020 LO 1 Device Description
+
+0054 0000 UL 1 Group Length
+0054 0010 US 1-n Energy Window Vector
+0054 0011 US 1 Number of Energy Windows
+0054 0012 SQ 1 Energy Window Information Sequence
+0054 0013 SQ 1 Energy Window Range Sequence
+0054 0014 DS 1 Energy Window Lower Limit
+0054 0015 DS 1 Energy Window Upper Limit
+0054 0016 SQ 1 Radiopharmaceutical Information Sequence
+0054 0017 IS 1 Residual Syringe Counts
+0054 0018 SH 1 Energy Window Name
+0054 0020 US 1-n Detector Vector
+0054 0021 US 1 Number of Detectors
+0054 0022 SQ 1 Detector Information Sequence
+0054 0030 US 1-n Phase Vector
+0054 0031 US 1 Number of Phases
+0054 0032 SQ 1 Phase Information Sequence
+0054 0033 US 1 Number of Frames in Phase
+0054 0036 IS 1 Phase Delay
+0054 0038 IS 1 Pause Between Frames
+0054 0039 CS 1 Phase Description
+0054 0050 US 1-n Rotation Vector
+0054 0051 US 1 Number of Rotations
+0054 0052 SQ 1 Rotation Information Sequence
+0054 0053 US 1 Number of Frames in Rotation
+0054 0060 US 1-n R-R Interval Vector
+0054 0061 US 1 Number of R-R Intervals
+0054 0062 SQ 1 Gated Information Sequence
+0054 0063 SQ 1 Data Information Sequence
+0054 0070 US 1-n Time Slot Vector
+0054 0071 US 1 Number of Time Slots
+0054 0072 SQ 1 Time Slot Information Sequence
+0054 0073 DS 1 Time Slot Time
+0054 0080 US 1-n Slice Vector
+0054 0081 US 1 Number of Slices
+0054 0090 US 1-n Angular View Vector
+0054 0100 US 1-n Time Slice Vector
+0054 0101 US 1 Number of Time Slices
+0054 0200 DS 1 Start Angle
+0054 0202 CS 1 Type of Detector Motion
+0054 0210 IS 1-n Trigger Vector
+0054 0211 US 1 Number of Triggers in Phase
+0054 0220 SQ 1 View Code Sequence
+0054 0222 SQ 1 View Modifer Code Sequence
+0054 0300 SQ 1 Radionuclide Code Sequence
+0054 0302 SQ 1 Administration Route Code Sequence
+0054 0304 SQ 1 Radiopharmaceutical Code Sequence
+0054 0306 SQ 1 Calibration Data Sequence
+0054 0308 US 1 Energy Window Number
+0054 0400 SH 1 Image ID
+0054 0410 SQ 1 Patient Orientation Code Sequence
+0054 0412 SQ 1 Patient Orientation Modifier Code Sequence
+0054 0414 SQ 1 Patient Gantry Relationship Code Sequence
+0054 0500 CS 1 Slide Progression Direction
+0054 1000 CS 2 Series Type
+0054 1001 CS 1 Units
+0054 1002 CS 1 Counts Source
+0054 1004 CS 1 Reprojection Method
+0054 1100 CS 1 Randoms Correction Method
+0054 1101 LO 1 Attenuation Correction Method
+0054 1102 CS 1 Decay Correction
+0054 1103 LO 1 Reconstruction Method
+0054 1104 LO 1 Detector Lines of Response Used
+0054 1105 LO 1 Scatter Correction Method
+0054 1200 DS 1 Axial Acceptance
+0054 1201 IS 2 Axial Mash
+0054 1202 IS 1 Transverse Mash
+0054 1203 DS 2 Detector Element Size
+0054 1210 DS 1 Coincidence Window Width
+0054 1220 CS 1-n Secondary Counts Type
+0054 1300 DS 1 Frame Reference Time
+0054 1310 IS 1 Primary (Prompts) Counts Accumulated
+0054 1311 IS 1-n Secondary Counts Accumulated
+0054 1320 DS 1 Slice Sensitivity Factor
+0054 1321 DS 1 Decay Factor
+0054 1322 DS 1 Dose Calibration Factor
+0054 1323 DS 1 Scatter Fraction Factor
+0054 1324 DS 1 Dead Time Factor
+0054 1330 US 1 Image Index
+0054 1400 CS 1-n Counts Included
+0054 1401 CS 1 Dead Time Correction Flag
+
+0060 0000 UL 1 Group Length
+0060 3000 SQ 1 Histogram Sequence
+0060 3002 US 1 Histogram Number of Bins
+0060 3004 US 1 Histogram First Bin Value
+0060 3006 US 1 Histogram Last Bin Value
+0060 3008 US 1 Histogram Bin Width
+0060 3010 LO 1 Histogram Explanation
+0060 3020 UL 1-n Histogram Data
+
+0070 0000 UL 1 Group Length
+0070 0001 SQ 1 Graphic Annotation Sequence
+0070 0002 CS 1 Graphic Layer
+0070 0003 CS 1 Bounding Box Annotation Units
+0070 0004 CS 1 Anchor Point Annotation Units
+0070 0005 CS 1 Graphic Annotation Units 
+0070 0006 ST 1 Unformatted Text Value
+0070 0008 SQ 1 Text Object Sequence 
+0070 0009 SQ 1 Graphic Object Sequence 
+0070 0010 FL 2 Bounding Box Top Left Hand Corner
+0070 0011 FL 2 Bounding Box Bottom Left Hand Corner
+0070 0012 CS 1 Bounding Box Text Horizontal Justification
+0070 0014 FL 2 Anchor Point
+0070 0015 CS 1 Anchor Point Visibility
+0070 0020 US 1 Graphic Dimensions
+0070 0021 US 1 Number of Graphic Points
+0070 0022 FL 2-n Graphic Data 
+0070 0023 CS 1 Graphic Type 
+0070 0024 CS 1 Graphic Filled 
+0070 0041 CS 1 Image Horizontal Flip 
+0070 0042 US 1 Image Rotation 
+0070 0052 SL 2 Displayed Area Top Left Hand Corner
+0070 0053 SL 2 Displayed Area Bottom Right Hand Corner
+0070 005a SQ 1 Displayed Area Selection Sequence
+0070 0060 SQ 1 Graphic Layer Sequence
+0070 0062 IS 1 Graphic Layer Order
+0070 0066 US 1 Graphic Layer Recommended Display Grayscale Value
+0070 0067 US 3 Graphic Layer Recommended Display RGB Value
+0070 0068 LO 1 Graphic Layer Description
+0070 0080 CS 1 Content Label
+0070 0081 LO 1 Content Description
+0070 0082 DA 1 Presentation Creation Date
+0070 0083 TM 1 Presentation Creation Time
+0070 0084 PN 1 Content Creator's Name
+0070 0100 CS 1 Presentation Size Mode
+0070 0101 DS 2 Presentation Pixel Spacing
+0070 0102 IS 2 Presentation Pixel Aspect Ratio
+0070 0103 IS 1 Presentation Pixel Magnification Ratio
+0070 0306 CS 1 Shape Type
+0070 0308 SQ 1 Registration Sequence                         
+0070 0309 SQ 1 Matrix Registration Sequence                  
+0070 030a SQ 1 Matrix Sequence                               
+0070 030c CS 1 Frame of Reference Transformation Matrix Type
+0070 030d SQ 1 Registration Type Code Sequence               
+0070 030f ST 1 Fiducial Description 
+0070 0310 SH 1 Fiducial Identifier                           
+0070 0311 SQ 1 Fiducial Identifier Code Sequence             
+0070 0312 FD 1 Contour Uncertainty Radius                    
+0070 0314 SQ 1 Used Fiducials Sequence                 
+0070 0318 SQ 1 Graphic Coordinates Data Sequence
+0070 031a UI 1 Fiducial UID                                  
+0070 031c SQ 1 Fiducial Set Sequence 
+0070 031e SQ 1 Fiducial Sequence
+
+0088 0000 UL 1 Storage Media Group Length
+0088 0130 SH 1 Storage Media File-set ID
+0088 0140 UI 1 Storage Media File-set UID
+0088 0200 SQ 1 Icon Image Sequence
+0088 0904 LO 1 Topic Title
+0088 0906 ST 1 Topic Subject
+0088 0910 LO 1 Topic Author
+0088 0912 LO 1-32 Topic Keywords
+
+0100 0000 UL 1 Group Length
+0100 0410 CS 1 SOP Instance Status
+0100 0420 DT 1 SOP Autorization Date and Time
+0100 0424 LT 1 SOP Autorization Comment
+0100 0426 LO 1 Autorization Equipment Certification Number
+
+0400 0000 UL 1 Group Length
+0400 0005 US 1 MAC ID Number
+0400 0010 UI 1 MAC Calculation Transfer Syntax UID
+0400 0015 UI 1 MAC Algorithm
+0400 0020 AT 1-n Data Elements Signed
+0400 0100 UI 1 Digital Signature UID
+0400 0105 DT 1 Digital Signature DateTime
+0400 0110 CS 1 Certificate Type
+0400 0115 OB 1 Certificate of Signer
+0400 0120 OB 1 Signature
+0400 0305 CS 1 Certified Timestamp Type
+0400 0310 OB 1 Certified Timestamp
+0400 0500 SQ 1 Encrypted Attributes Sequence
+0400 0510 UI 1 Encrypted Content Transfer Syntax UID
+0400 0520 OB 1 Encrypted Content
+0400 0550 SQ 1 Modified Attributes Sequence
+
+2000 0000 UL 1 Group Length
+2000 0010 IS 1 Number of Copies
+2000 001e SQ 1 Printer Configuration Sequence
+2000 0020 CS 1 Print Priority
+2000 0030 CS 1 Medium Type
+2000 0040 CS 1 Film Destination
+2000 0050 LO 1 Film Session Label
+2000 0060 IS 1 Memory Allocation
+2000 0061 IS 1 Maximum Memory Allocation
+2000 0062 CS 1 Color Image Printing Flag
+2000 0063 CS 1 Collation Flag
+2000 0065 CS 1 Anotation Flag
+2000 0067 CS 1 Image Overlay Flag
+2000 0069 CS 1 Presentation LUT Flag
+2000 006a CS 1 Image Box Presentation LUT Flag
+2000 00a0 US 1 Memory Bit Depth
+2000 00a1 US 1 Printing Bit Depth
+2000 00a2 SQ 1 Media Installed Sequence
+2000 00a4 SQ 1 Other Media Available Sequence
+2000 00a8 SQ 1 Supported Image Display Formats Sequence
+2000 0500 SQ 1 Referenced Film Box Sequence
+2000 0510 SQ 1 Referenced Stored Print Sequence
+
+2010 0000 UL 1 Group Length
+2010 0010 ST 1 Image Display Format
+2010 0030 CS 1 Annotation Display Format ID
+2010 0040 CS 1 Film Orientation
+2010 0050 CS 1 Film Size ID
+2010 0052 CS 1 Printer Resolution ID
+2010 0054 CS 1 Default Printer Resolution ID
+2010 0060 CS 1 Magnification Type
+2010 0080 CS 1 Smoothing Type
+2010 00a6 CS 1 Default Magnification Type
+2010 00a7 CS 1-n Other Magnification Types Available
+2010 00a8 CS 1 Default Smoothing Type
+2010 00a9 CS 1-n Other Smoothing Types Available
+2010 0100 CS 1 Border Density
+2010 0110 CS 1 Empty Image Density
+2010 0120 US 1 Min Density
+2010 0130 US 1 Max Density
+2010 0140 CS 1 Trim
+2010 0150 ST 1 Configuration Information
+2010 0152 LT 1 Configuration Information Description
+2010 0154 IS 1 Maximum Collated Films
+2010 015e US 1 Illumination
+2010 0160 US 1 Reflected Ambiant Light
+2010 0376 DS 2 Printer Pixel Spacing
+2010 0500 SQ 1 Referenced Film Session Sequence
+2010 0510 SQ 1 Referenced Image Box Sequence
+2010 0520 SQ 1 Referenced Basic Annotation Box Sequence
+
+2020 0000 UL 1 Group Length
+2020 0010 US 1 Image Position
+2020 0020 CS 1 Polarity
+2020 0030 DS 1 Requested Image Size
+2020 0040 CS 1 Requested Decimate/Crop Behaviour
+2020 0050 CS 1 Requested Resolution ID
+2020 00a0 CS 1 Requested Image Size Flag
+2020 00a2 CS 1 Decimate/Crop Result
+2020 0110 SQ 1 Basic Grayscale Image Sequence
+2020 0111 SQ 1 Basic Color Image Sequence
+2020 0130 SQ 1 Referenced Image Overlay Box Sequence (RET)
+2020 0140 SQ 1 Referenced VOI LUT Box Sequence (RET)
+
+2030 0000 UL 1 Group Length
+2030 0010 US 1 Annotation Position
+2030 0020 LO 1 Text String
+
+2040 0000 UL 1 Group Length
+2040 0010 SQ 1 Referenced Overlay Plane Sequence
+2040 0011 US 1-99 Referenced Overlay Plane Groups
+2040 0060 CS 1 Overlay Magnification Type
+2040 0070 CS 1 Overlay Smoothing Type
+2040 0072 CS 1 Overlay or Image Magnification
+2040 0074 CS 1 Magnify to Number of Columns
+2040 0080 CS 1 Overlay Foreground Density
+2040 0090 CS 1 Overlay Mode (RET)
+2040 0100 CS 1 Threshold Density (RET)
+2040 0500 SQ 1 Referenced Image Box Sequence (RET)
+
+2050 0000 UL 1 Group Length
+2050 0010 SQ 1 Presentation LUT Sequence
+2050 0020 CS 1 Presentation LUT Shape
+2050 0030 SQ 1 Referenced Presentation LUT Sequence
+
+2100 0000 UL 1 Group Length
+2100 0010 SH 1 Print Job ID
+2100 0020 CS 1 Execution Status
+2100 0030 CS 1 Execution Status Info
+2100 0040 DA 1 Creation Date
+2100 0050 TM 1 Creation Time
+2100 0070 AE 1 Originator
+2100 0140 AE 1 Destination AE
+2100 0160 SH 1 Owner ID 
+2100 0170 IS 1 Number of Films 
+2100 0500 SQ 1 Referenced Print Job Sequence
+
+2110 0000 UL 1 Group Length
+2110 0010 CS 1 Printer Status
+2110 0020 CS 1 Printer Status Information
+2110 0030 LO 1 Printer Name
+2110 0099 SH 1 Queue ID
+
+2120 0010 CS 1 Queue Status
+2120 0050 SQ 1 Printer Job Description Sequence
+2120 0070 SQ 1 Referenced Print Job Sequence
+
+2130 0000 UL 1 Group Length
+2130 0010 SQ 1 Print Management Capabilities Sequence
+2130 0015 SQ 1 Print Characteristics Sequence
+2130 0030 SQ 1 Film Box Content Sequence
+2130 0040 SQ 1 Image Box Content Sequence
+2130 0050 SQ 1 Annotation Content Sequence
+2130 0060 SQ 1 Image Overlay Box Content Sequence
+2130 0080 SQ 1 Presentation LUT Content Sequence
+2130 00a0 SQ 1 Proposed Study Sequence
+2130 00c0 SQ 1 Original Image Sequence
+
+2200 0001 CS 1 Label Using Information Extracted From Instances
+2200 0002 UT 1 Label Text                                      
+2200 0003 CS 1 Label Style Selection                           
+2200 0004 LT 1 Media Disposition                               
+2200 0005 LT 1 Barcode Value                     
+2200 0006 CS 1 Barcode Symbology                                
+2200 0007 CS 1 Allow Media Splitting                          
+2200 0008 CS 1 Include Non-DICOM Objects                       
+2200 0009 CS 1 Include Display Application           
+2200 000a CS 1 Preserve Composite Instances After Media Creation
+2200 000b US 1 Total Number of Pieces of Media Created          
+2200 000c LO 1 Requested Media Application Profile              
+2200 000d SQ 1 Referenced Storage Media Sequence                
+2200 000e AT 1-n Failure Attributes                               
+2200 000f CS 1 Allow Lossy Compression                          
+2200 0020 CS 1 Request Priority
+
+3002 0000 UL 1 Group Length
+3002 0002 SH 1 RT Image Label
+3002 0003 LO 1 RT Image Name
+3002 0004 ST 1 RT Image Description
+3002 000a CS 1 Reported Values Origin
+3002 000c CS 1 RT Image Plane
+3002 000d DS 3 X-Ray Image Receptor Translation
+3002 000e DS 1 X-Ray Image Receptor Angle
+3002 0010 DS 6 RT Image Orientation
+3002 0011 DS 2 Image Plane Pixel Spacing
+3002 0012 DS 2 RT Image Position
+3002 0020 SH 1 Radiation Machine Name
+3002 0022 DS 1 Radiation Machine SAD
+3002 0024 DS 1 Radiation Machine SSD
+3002 0026 DS 1 RT Image SID
+3002 0028 DS 1 Source to Reference Object Distance
+3002 0029 IS 1 Fraction Number
+3002 0030 SQ 1 Exposure Sequence
+3002 0032 DS 1 Meterset Exposure
+3002 0034 DS 4 Diaphragm Position
+
+3002 0040 SQ 1 Fluence Map Sequence
+3002 0041 CS 1 Fluence Data Source 
+3002 0042 DS 1 Fluence Data Scale
+
+3004 0000 UL 1 DVH Group Length
+3004 0001 CS 1 DVH Type
+3004 0002 CS 1 Dose Units
+3004 0004 CS 1 Dose Type
+3004 0006 LO 1 Dose Comment
+3004 0008 DS 3 Normalization Point
+3004 000a CS 1 Dose Summation Type
+3004 000c DS 2-2n Grid Frame Offset Vector
+3004 000e DS 1 Dose Grid Scaling
+3004 0010 SQ 1 RT Dose ROI Sequence
+3004 0012 DS 1 Dose Value
+3004 0014 CS 1-3 Tissue Heterogeneity Correction
+3004 0040 DS 1 DVH Normalization Point
+3004 0042 DS 1 DVH Normalization Dose Value
+3004 0050 SQ 1 DVH Sequence
+3004 0052 DS 1 DVH Dose Scaling
+3004 0054 CS 1 DVH Volume Units
+3004 0056 IS 1 DVH Number of Bins
+3004 0058 DS 2-2n DVH Data
+3004 0060 SQ 1 DVH Referenced ROI Sequence
+3004 0062 CS 1 DVH ROI Contribution Type
+3004 0070 DS 1 DVH Minimum Dose
+3004 0072 DS 1 DVH Maximum Dose
+3004 0074 DS 1 DVH Mean Dose
+
+3006 0000 UL 1 Group Length
+3006 0002 SH 1 Structure Set Label
+3006 0004 LO 1 Structure Set Name
+3006 0006 ST 1 Structure Set Description
+3006 0008 DA 1 Structure Set Date
+3006 0009 TM 1 Structure Set Time
+3006 0010 SQ 1 Referenced Frame of Reference Sequence
+3006 0012 SQ 1 RT Referenced Study Sequence
+3006 0014 SQ 1 RT Referenced Series Sequence
+3006 0016 SQ 1 Contour Image Sequence
+3006 0020 SQ 1 Structure Set ROI Sequence
+3006 0022 IS 1 ROI Number
+3006 0024 UI 1 Referenced Frame of Reference UID
+3006 0026 LO 1 ROI Name
+3006 0028 ST 1 ROI Description
+3006 002a IS 3 ROI Display Color
+3006 002c DS 1 ROI Volume
+3006 0030 SQ 1 RT Related ROI Sequence
+3006 0033 CS 1 RT ROI Relationship
+3006 0036 CS 1 ROI Generation Algorithm
+3006 0038 LO 1 ROI Generation Description
+3006 0039 SQ 1 ROI Contour Sequence
+3006 0040 SQ 1 Contour Sequence
+3006 0042 CS 1 Contour Geometric Type
+3006 0044 DS 1 Contour Slab Thickness
+3006 0045 DS 3 Contour Offset Vector
+3006 0046 IS 1 Number of Contour Points
+3006 0048 IS 1 Contour Number
+3006 0049 IS 1-n Attached Contours
+3006 0050 DS 3-3n Contour Data
+3006 0080 SQ 1 RT ROI Observations Sequence
+3006 0082 IS 1 Observation Number
+3006 0084 IS 1 Referenced ROI Number
+3006 0085 SH 1 ROI Observation Label
+3006 0086 SQ 1 RT ROI Identification Code Sequence
+3006 0088 ST 1 ROI Observation Description
+3006 00a0 SQ 1 Related RT ROI Observations Sequence
+3006 00a4 CS 1 RT ROI Interpreted Type
+3006 00a6 PN 1 ROI Interpreter
+3006 00b0 SQ 1 ROI Physical Properties Sequence
+3006 00b2 CS 1 ROI Physical Property
+3006 00b4 DS 1 ROI Physical Property Value
+3006 00c0 SQ 1 Frame of Referenced Relationship Sequence
+3006 00c2 UI 1 Related Frame of Reference UID
+3006 00c4 CS 1 Frame of Reference Transformation Type
+3006 00c6 DS 16 Frame of Reference Transformation Matrix
+3006 00c8 LO 1 Frame of Reference Transformation Comment
+
+3008 0000 UL 1 Group Length
+3008 0010 SQ 1 Measured Dose Reference Sequence
+3008 0012 ST 1 Measured Dose Description
+3008 0014 CS 1 Measured Dose Type
+3008 0016 DS 1 Measured Dose Value
+3008 0020 SQ 1 Treatment Session Beam Sequence
+3008 0022 IS 1 Current Fraction Number
+3008 0024 DA 1 Treatment Control Point Date
+3008 0025 TM 1 Treatment Control Point Time
+3008 002a CS 1 Treatment Termination Status
+3008 002b SH 1 Treatment Termination Code
+3008 002c CS 1 Treatment Verification Status
+3008 0030 SQ 1 Referenced Treatment Record Sequence
+3008 0032 DS 1 Specified Primary Meterset
+3008 0033 DS 1 Specified Secondary Meterset
+3008 0036 DS 1 Delivered Primary Meterset
+3008 0037 DS 1 Delivered Secondary Meterset
+3008 003a DS 1 Specified Treatment Time
+3008 003b DS 1 Delivered Treatment Time
+3008 0040 SQ 1 Control Point Delivery Sequence
+3008 0042 DS 1 Specified Meterset
+3008 0044 DS 1 Delivered Meterset
+3008 0048 DS 1 Dose Rate Delivered
+3008 0050 SQ 1 Treatment Summary Calculated Dose Reference Sequence
+3008 0052 DS 1 Cumulative Dose to Dose Reference
+3008 0054 DA 1 First Treatment Date
+3008 0056 DA 1 Most Recent Treatment Date
+3008 005a IS 1 Number of Fractions Delivered
+3008 0060 SQ 1 Override Sequence
+3008 0062 AT 1 Override Parameter Pointer
+3008 0064 IS 1 Measured Dose Reference Number
+3008 0066 ST 1 Override Reason
+3008 0070 SQ 1 Calculated Dose Reference Sequence
+3008 0072 IS 1 Calculated Dose Reference Number
+3008 0074 ST 1 Calculated Dose Reference Description
+3008 0076 DS 1 Calculated Dose Reference Dose Value
+3008 0078 DS 1 Start Meterset
+3008 007a DS 1 End Meterset
+3008 0080 SQ 1 Referenced Measured Dose Reference Sequence
+3008 0082 IS 1 Referenced Measured Dose Reference Number
+3008 0090 SQ 1 Referenced Calculated Dose Reference Sequence
+3008 0092 IS 1 Referenced Calculated Dose Reference Number
+3008 00a0 SQ 1 Beam Limiting Device Leaf Pairs Sequence
+3008 00b0 SQ 1 Recorded Wedge Sequence
+3008 00c0 SQ 1 Recorded Compensator Sequence
+3008 00d0 SQ 1 Recorded Block Sequence
+3008 00e0 SQ 1 Treatment Summary Measured Dose Reference Sequence
+3008 0100 SQ 1 Recorded Source Sequence
+3008 0105 LO 1 Source Serial Number
+3008 0110 SQ 1 Treatment Session Application Setup Sequence
+3008 0116 CS 1 Application Setup Check 
+3008 0120 SQ 1 Recorded Brachy Accessory Device Sequence
+3008 0122 IS 1 Referenced Brachy Accessory Device Number
+3008 0130 SQ 1 Recorded Channel Sequence
+3008 0132 DS 1 Specified Channel Total Time
+3008 0134 DS 1 Delivered Channel Total Time
+3008 0136 IS 1 Specified Number of Pulses
+3008 0138 IS 1 Delivered Number of Pulses
+3008 013a DS 1 Specified Pulse Repetition Interval
+3008 013c DS 1 Delivered Pulse Repetition Interval
+3008 0140 SQ 1 Recorded Source Applicator Sequence
+3008 0142 IS 1 Referenced Source Applicator Number
+3008 0150 SQ 1 Recorded Channel Shield Sequence
+3008 0152 IS 1 Referenced Channel Shield Number
+3008 0160 SQ 1 Brachy Control Point Delivered Sequence
+3008 0162 DA 1 Safe Position Exit Date
+3008 0164 TM 1 Safe Position Exit Time
+3008 0166 DA 1 Safe Position Return Date
+3008 0168 TM 1 Safe Position Return Time
+3008 0200 CS 1 Current Treatment Status
+3008 0202 ST 1 Treatment Status Comment
+3008 0220 SQ 1 Fraction Group Summary Sequence
+3008 0223 IS 1 Referenced Fraction Number
+3008 0224 CS 1 Fraction Group Type
+3008 0230 CS 1 Beam Stopper Position
+3008 0240 SQ 1 Fraction Status Summary Sequence
+3008 0250 DA 1 Treatment Date
+3008 0251 TM 1 Treatment Time
+
+300a 0000 UL 1 Group Length
+300a 0002 SH 1 RT Plan Label
+300a 0003 LO 1 RT Plan Name
+300a 0004 ST 1 RT Plan Description
+300a 0006 DA 1 RT Plan Date
+300a 0007 TM 1 RT Plan Time
+300a 0009 LO 1-n Treatment Protocols
+300a 000a CS 1 Treatment Intent
+300a 000b LO 1-n Treatment Sites
+300a 000c CS 1 RT Plan Geometry
+300a 000e ST 1 Prescription Description
+300a 0010 SQ 1 Dose Reference Sequence
+300a 0012 IS 1 Dose Reference Number
+300a 0013 UI 1 Dose Reference UID
+300a 0014 CS 1 Dose Reference Structure Type
+300a 0015 CS 1 Nominal Beam Energy Unit
+300a 0016 LO 1 Dose Reference Description
+300a 0018 DS 3 Dose Reference Point Coordinates
+300a 001a DS 1 Nominal Prior Dose
+300a 0020 CS 1 Dose Reference Type
+300a 0021 DS 1 Constraint Weight
+300a 0022 DS 1 Delivery Warning Dose
+300a 0023 DS 1 Delivery Maximum Dose
+300a 0025 DS 1 Target Minimum Dose
+300a 0026 DS 1 Target Prescription Dose
+300a 0027 DS 1 Target Maximum Dose
+300a 0028 DS 1 Target Underdose Volume Fraction
+300a 002a DS 1 Organ at Risk Full-volume Dose
+300a 002b DS 1 Organ at Risk Limit Dose
+300a 002c DS 1 Organ at Risk Maximum Dose
+300a 002d DS 1 Organ at Risk Overdose Volume Fraction
+300a 0040 SQ 1 Tolerance Table Sequence
+300a 0042 IS 1 Tolerance Table Number
+300a 0043 SH 1 Tolerance Table Label
+300a 0044 DS 1 Gantry Angle Tolerance
+300a 0046 DS 1 Beam Limiting Device Angle Tolerance
+300a 0048 SQ 1 Beam Limiting Device Tolerance Sequence
+300a 004a DS 1 Beam Limiting Device Position Tolerance
+300a 004c DS 1 Patient Support Angle Tolerance
+300a 004e DS 1 Table Top Eccentric Angle Tolerance
+300a 0051 DS 1 Table Top Vertical Position Tolerance
+300a 0052 DS 1 Table Top Longitudinal Position Tolerance
+300a 0053 DS 1 Table Top Lateral Position Tolerance
+300a 0055 CS 1 RT Plan Relationship
+300a 0070 SQ 1 Fraction Group Sequence
+300a 0071 IS 1 Fraction Group Number
+300a 0072 LO 1 Fraction Group Description
+300a 0078 IS 1 Number of Fractions Planned
+300a 0079 IS 1 Number of Fractions Per Day
+300a 007a IS 1 Repeat Fraction Cycle Length
+300a 007b LT 1 Fraction Pattern
+300a 0080 IS 1 Number of Beams
+300a 0082 DS 3 Beam Dose Specification Point
+300a 0084 DS 1 Beam Dose
+300a 0086 DS 1 Beam Meterset
+300a 00a0 IS 1 Number of Brachy Application Setups
+300a 00a2 DS 3 Brachy Application Setup Dose Specification Point
+300a 00a4 DS 1 Brachy Application Setup Dose
+300a 00b0 SQ 1 Beam Sequence
+300a 00b2 SH 1 Treatment Machine Name
+300a 00b3 CS 1 Primary Dosimeter Unit
+300a 00b4 DS 1 Source-Axis Distance
+300a 00b6 SQ 1 Beam Limiting Device Sequence
+300a 00b8 CS 1 RT Beam Limiting Device Type
+300a 00ba DS 1 Source to Beam Limiting Device Distance
+300a 00bc IS 1 Number of Leaf/Jaw Pairs
+300a 00be DS 3-n Leaf Position Boundaries
+300a 00c0 IS 1 Beam Number
+300a 00c2 LO 1 Beam Name
+300a 00c3 ST 1 Beam Description
+300a 00c4 CS 1 Beam Type
+300a 00c6 CS 1 Radiation Type
+300a 00c7 CS 1 High-Dose Technique Type
+300a 00c8 IS 1 Reference Image Number
+300a 00ca SQ 1 Planned Verification Image Sequence
+300a 00cc LO 1-n Imaging Device-Specific Acquisition Parameters
+300a 00ce CS 1 Treatment Delivery Type
+300a 00d0 IS 1 Number of Wedges
+300a 00d1 SQ 1 Wedge Sequence
+300a 00d2 IS 1 Wedge Number
+300a 00d3 CS 1 Wedge Type
+300a 00d4 SH 1 Wedge ID
+300a 00d5 IS 1 Wedge Angle
+300a 00d6 DS 1 Wedge Factor
+300a 00d8 DS 1 Wedge Orientation
+300a 00da DS 1 Source to Wedge Tray Distance
+300a 00e0 IS 1 Number of Compensators
+300a 00e1 SH 1 Material ID
+300a 00e2 DS 1 Total Compensator Tray Factor
+300a 00e3 SQ 1 Compensator Sequence
+300a 00e4 IS 1 Compensator Number
+300a 00e5 SH 1 Compensator ID
+300a 00e6 DS 1 Source to Compensator Tray Distance
+300a 00e7 IS 1 Compensator Rows
+300a 00e8 IS 1 Compensator Columns
+300a 00e9 DS 2 Compensator Pixel Spacing
+300a 00ea DS 2 Compensator Position
+300a 00eb DS 1-n Compensator Transmission Data
+300a 00ec DS 1-n Compensator Thickness Data
+300a 00ed IS 1 Number of Boli
+300a 00f0 IS 1 Number of Blocks
+300a 00f2 DS 1 Total Block Tray Factor
+300a 00f4 SQ 1 Block Sequence
+300a 00f5 SH 1 Block Tray ID
+300a 00f6 DS 1 Source to Block Tray Distance
+300a 00f8 CS 1 Block Type
+300a 00f9 LO 1 Accessory Code
+300a 00fa CS 1 Block Divergence
+300a 00fb CS 1 Block Mounting Position
+300a 00fc IS 1 Block Number
+300a 00fe LO 1 Block Name
+300a 0100 DS 1 Block Thickness
+300a 0102 DS 1 Block Transmission
+300a 0104 IS 1 Block Number of Points
+300a 0106 DS 2-2n Block Data
+300a 0107 SQ 1 Applicator Sequence
+300a 0108 SH 1 Applicator ID
+300a 0109 CS 1 Applicator Type
+300a 010a LO 1 Applicator Description
+300a 010c DS 1 Cumulative Dose Reference Coefficient
+300a 010e DS 1 Final Cumulative Meterset Weight
+300a 0110 IS 1 Number of Control Points
+300a 0111 SQ 1 Control Point Sequence
+300a 0112 IS 1 Control Point Index
+300a 0114 DS 1 Nominal Beam Energy
+300a 0115 DS 1 Dose Rate Set
+300a 0116 SQ 1 Wedge Position Sequence
+300a 0118 CS 1 Wedge Position
+300a 011a SQ 1 Beam Limiting Device Position Sequence
+300a 011c DS 2-2n Leaf/Jaw Positions
+300a 011e DS 1 Gantry Angle
+300a 011f CS 1 Gantry Rotation Direction
+300a 0120 DS 1 Beam Limiting Device Angle
+300a 0121 CS 1 Beam Limiting Device Rotation Direction
+300a 0122 DS 1 Patient Support Angle
+300a 0123 CS 1 Patient Support Rotation Direction
+300a 0124 DS 1 Table Top Eccentric Axis Distance
+300a 0125 DS 1 Table Top Eccentric Angle
+300a 0126 CS 1 Table Top Eccentric Rotation Direction
+300a 0128 DS 1 Table Top Vertical Position
+300a 0129 DS 1 Table Top Longitudinal Position
+300a 012a DS 1 Table Top Lateral Position
+300a 012c DS 3 Isocenter Position
+300a 012e DS 3 Surface Entry Point
+300a 0130 DS 1 Source to Surface Distance
+300a 0134 DS 1 Cumulative Meterset Weight
+300a 0180 SQ 1 Patient Setup Sequence
+300a 0182 IS 1 Patient Setup Number
+300a 0184 LO 1 Patient Additional Position
+300a 0190 SQ 1 Fixation Device Sequence
+300a 0192 CS 1 Fixation Device Type
+300a 0194 SH 1 Fixation Device Label
+300a 0196 ST 1 Fixation Device Description
+300a 0198 SH 1 Fixation Device Position
+300a 01a0 SQ 1 Shielding Device Sequence
+300a 01a2 CS 1 Shielding Device Type
+300a 01a4 SH 1 Shielding Device Label
+300a 01a6 ST 1 Shielding Device Description
+300a 01a8 SH 1 Shielding Device Position
+300a 01b0 CS 1 Setup Technique
+300a 01b2 ST 1 Setup Technique Description
+300a 01b4 SQ 1 Setup Device Sequence
+300a 01b6 CS 1 Setup Device Type
+300a 01b8 SH 1 Setup Device Label
+300a 01ba ST 1 Setup Device Description
+300a 01bc DS 1 Setup Device Parameter
+300a 01d0 ST 1 Setup Reference Description
+300a 01d2 DS 1 Table Top Vertical Setup Displacement
+300a 01d4 DS 1 Table Top Longitudinal Setup Displacement
+300a 01d6 DS 1 Table Top Lateral Setup Displacement
+300a 0200 CS 1 Brachy Treatment Technique
+300a 0202 CS 1 Brachy Treatment Type
+300a 0206 SQ 1 Treatment Machine Sequence
+300a 0210 SQ 1 Source Sequence
+300a 0212 IS 1 Source Number
+300a 0214 CS 1 Source Type
+300a 0216 LO 1 Source Manufacturer
+300a 0218 DS 1 Active Source Diameter
+300a 021a DS 1 Active Source Length
+300a 0222 DS 1 Source Encapsulation Nominal Thickness
+300a 0224 DS 1 Source Encapsulation Nominal Transmission
+300a 0226 LO 1 Source Isotope Name
+300a 0228 DS 1 Source Isotope Half Life
+300a 022a DS 1 Reference Air Kerma Rate
+300a 022c DA 1 Air Kerma Rate Reference Date
+300a 022e TM 1 Air Kerma Rate Reference Time
+300a 0230 SQ 1 Application Setup Sequence
+300a 0232 CS 1 Application Setup Type
+300a 0234 IS 1 Application Setup Number
+300a 0236 LO 1 Application Setup Name
+300a 0238 LO 1 Application Setup Manufacturer
+300a 0240 IS 1 Template Number
+300a 0242 SH 1 Template Type
+300a 0244 LO 1 Template Name
+300a 0250 DS 1 Total Reference Air Kerma
+300a 0260 SQ 1 Brachy Acessory Device Sequence
+300a 0262 IS 1 Brachy Accessory Device Number
+300a 0263 SH 1 Brachy Accessory Device ID
+300a 0264 CS 1 Brachy Accessory Device Type
+300a 0266 LO 1 Brachy Accessory Device Name
+300a 026a DS 1 Brachy Accessory Device Nominal Thickness
+300a 026c DS 1 Brachy Accessory Device Nominal Transmission
+300a 0280 SQ 1 Channel Sequence
+300a 0282 IS 1 Channel Number
+300a 0284 DS 1 Channel Length
+300a 0286 DS 1 Channel Total Time
+300a 0288 CS 1 Source Movement Type
+300a 028a IS 1 Number of Pulses
+300a 028c DS 1 Pulse Repetition Interval
+300a 0290 IS 1 Source Applicator Number
+300a 0291 SH 1 Source Applicator ID
+300a 0292 CS 1 Source Applicator Type
+300a 0294 LO 1 Source Applicator Name
+300a 0296 DS 1 Source Applicator Length
+300a 0298 LO 1 Source Applicator Manufacturer
+300a 029c DS 1 Source Applicator Wall Nominal Thickness
+300a 029e DS 1 Source Applicator Wall Nominal Transmission
+300a 02a0 DS 1 Source Applicator Step Size
+300a 02a2 IS 1 Transfer Tube Number
+300a 02a4 DS 1 Transfer Tube Length
+300a 02b0 SQ 1 Channel Shield Sequence
+300a 02b2 IS 1 Channel Shield Number
+300a 02b3 SH 1 Channel Shield ID
+300a 02b4 LO 1 Channel Shield Name
+300a 02b8 DS 1 Channel Shield Nominal Thickness
+300a 02ba DS 1 Channel Shield Nominal Transmission
+300a 02c8 DS 1 Final Cumulative Time Weight
+300a 02d0 SQ 1 Brachy Control Point Sequence
+300a 02d2 DS 1 Control Point Relative Position
+300a 02d4 DS 3 Control Point 3D Position
+300a 02d6 DS 1 Cumulative Time Weight
+300a 02e0 CS 1 Compensator Divergence
+300a 02e1 CS 1 Compensator Mounting Position
+300a 02e2 DS 1-n Source to Compensator Distance
+
+300c 0000 UL 1 Group Length
+300c 0002 SQ 1 Referenced Plan Sequence
+300c 0004 SQ 1 Referenced Beam Sequence
+300c 0006 IS 1 Referenced Beam Number
+300c 0007 IS 1 Referenced Reference Image Number
+300c 0008 DS 1 Start Cumulative Meterset Weight
+300c 0009 DS 1 End Cumulative Meterset Weight
+300c 000a SQ 1 Referenced Brachy Application Setup Sequence
+300c 000c IS 1 Referenced Brachy Application Setup Number
+300c 000e IS 1 Referenced Source Number
+300c 0020 SQ 1 Referenced Fraction Group Sequence
+300c 0022 IS 1 Referenced Fraction Group Number
+300c 0040 SQ 1 Referenced Verification Image Sequence
+300c 0042 SQ 1 Referenced Reference Image Sequence
+300c 0050 SQ 1 Referenced Dose Reference Sequence
+300c 0051 IS 1 Referenced Dose Reference Number
+300c 0055 SQ 1 Brachy Referenced Dose Reference Sequence
+300c 0060 SQ 1 Referenced Structure Set Sequence
+300c 006a IS 1 Referenced Patient Setup Number
+300c 0080 SQ 1 Referenced Dose Sequence
+300c 00a0 IS 1 Referenced Tolerance Table Number
+300c 00b0 SQ 1 Referenced Bolus Sequence
+300c 00c0 IS 1 Referenced Wedge Number
+300c 00d0 IS 1 Referenced Compensator Number
+300c 00e0 IS 1 Referenced Block Number
+300c 00f0 IS 1 Referenced Control Point Index
+
+300e 0000 UL 1 Group Length
+300e 0002 CS 1 Approval Status
+300e 0004 DA 1 Review Date
+300e 0005 TM 1 Review Time
+300e 0008 PN 1 Reviewer Name
+
+4008 0000 UL 1 Group Length
+4008 0040 SH 1 Results ID
+4008 0042 LO 1 Results ID Issuer
+4008 0050 SQ 1 Referenced Interpretation Sequence
+4008 0100 DA 1 Interpretation Recorded Date
+4008 0101 TM 1 Interpretation Recorded Time
+4008 0102 PN 1 Interpretation Recorder
+4008 0103 LO 1 Reference to Recorded Sound
+4008 0108 DA 1 Interpretation Transcription Date
+4008 0109 TM 1 Interpretation Transcription Time
+4008 010a PN 1 Interpretation Transcriber
+4008 010b ST 1 Interpretation Text
+4008 010c PN 1 Interpretation Author
+4008 0111 SQ 1 Interpretation Approver Sequence
+4008 0112 DA 1 Interpretation Approval Date
+4008 0113 TM 1 Interpretation Approval Time
+4008 0114 PN 1 Physician Approving Interpretation
+4008 0115 LT 1 Diagnosis
+4008 0117 SQ 1 Diagnosis Code Sequence
+4008 0118 SQ 1 Results Distribution List Sequence
+4008 0119 PN 1 Distribution Name
+4008 011a LO 1 Distribution Address
+4008 0200 SH 1 Interpretation ID
+4008 0202 LO 1 Interpretation ID Issuer
+4008 0210 CS 1 Interpretation Type ID
+4008 0212 CS 1 Interpretation Status ID
+4008 0300 ST 1 Impressions
+4008 4000 ST 1 Results Comments
+
+4ffe 0000 UL 1 Group Length
+4ffe 0001 SQ 1 MAC Parameters Sequence
+
+5000 0000 UL 1 Group Length
+5000 0005 US 1 Curve Dimensions
+5000 0010 US 1 Number of Points
+5000 0020 CS 1 Type of Data
+5000 0022 LO 1 Curve Description
+5000 0030 SH 1-n Axis Units
+5000 0040 SH 1-n Axis Labels
+5000 0103 US 1 Data Value Representation
+5000 0104 US 1-n Minimum Coordinate Value
+5000 0105 US 1-n Maximum Coordinate Value
+5000 0106 SH 1-n Curve Range
+5000 0110 US 1-n Data Descriptor
+5000 0112 US 1-n Coordinate Start Value
+5000 0114 US 1-n Coordinate Step Value
+5000 2000 US 1 Audio Type
+5000 2002 US 1 Audio Sample Format
+5000 2004 US 1 Number of Channels
+5000 2006 UL 1 Number of Samples
+5000 2008 UL 1 Sample Rate
+5000 200a UL 1 Total Time
+5000 200c OW 1 Audio Sample Data
+5000 200e LT 1 Audio Comments
+5000 2500 LO 1 Curve Label
+5000 2600 SQ 1 Referenced Overlay Sequence
+5000 2610 US 1 Referenced Overlay Group
+5000 3000 OW 1 Curve Data
+
+5002 0000 UL 1 Group Length
+5002 0005 US 1 Curve Dimensions
+5002 0010 US 1 Number of Points
+5002 0020 CS 1 Type of Data
+5002 0022 LO 1 Curve Description
+5002 0030 SH 1-n Axis Units
+5002 0040 SH 1-n Axis Labels
+5002 0103 US 1 Data Value Representation
+5002 0104 US 1-n Minimum Coordinate Value
+5002 0105 US 1-n Maximum Coordinate Value
+5002 0106 SH 1-n Curve Range
+5002 0110 US 1-n Data Descriptor
+5002 0112 US 1-n Coordinate Start Value
+5002 0114 US 1-n Coordinate Step Value
+5002 2000 US 1 Audio Type
+5002 2002 US 1 Audio Sample Format
+5002 2004 US 1 Number of Channels
+5002 2006 UL 1 Number of Samples
+5002 2008 UL 1 Sample Rate
+5002 200a UL 1 Total Time
+5002 200c OW 1 Audio Sample Data
+5002 200e LT 1 Audio Comments
+5002 2500 LO 1 Curve Label
+5002 2600 SQ 1 Referenced Overlay Sequence
+5002 2610 US 1 Referenced Overlay Group
+5002 3000 OW 1 Curve Data
+
+5004 0000 UL 1 Group Length
+5004 0005 US 1 Curve Dimensions
+5004 0010 US 1 Number of Points
+5004 0020 CS 1 Type of Data
+5004 0022 LO 1 Curve Description
+5004 0030 SH 1-n Axis Units
+5004 0040 SH 1-n Axis Labels
+5004 0103 US 1 Data Value Representation
+5004 0104 US 1-n Minimum Coordinate Value
+5004 0105 US 1-n Maximum Coordinate Value
+5004 0106 SH 1-n Curve Range
+5004 0110 US 1-n Data Descriptor
+5004 0112 US 1-n Coordinate Start Value
+5004 0114 US 1-n Coordinate Step Value
+5004 2000 US 1 Audio Type
+5004 2002 US 1 Audio Sample Format
+5004 2004 US 1 Number of Channels
+5004 2006 UL 1 Number of Samples
+5004 2008 UL 1 Sample Rate
+5004 200a UL 1 Total Time
+5004 200c OW 1 Audio Sample Data
+5004 200e LT 1 Audio Comments
+5004 2500 LO 1 Curve Label
+5004 2600 SQ 1 Referenced Overlay Sequence
+5004 2610 US 1 Referenced Overlay Group
+5004 3000 OW 1 Curve Data
+
+5006 0000 UL 1 Group Length
+5006 0005 US 1 Curve Dimensions
+5006 0010 US 1 Number of Points
+5006 0020 CS 1 Type of Data
+5006 0022 LO 1 Curve Description
+5006 0030 SH 1-n Axis Units
+5006 0040 SH 1-n Axis Labels
+5006 0103 US 1 Data Value Representation
+5006 0104 US 1-n Minimum Coordinate Value
+5006 0105 US 1-n Maximum Coordinate Value
+5006 0106 SH 1-n Curve Range
+5006 0110 US 1-n Data Descriptor
+5006 0112 US 1-n Coordinate Start Value
+5006 0114 US 1-n Coordinate Step Value
+5006 2000 US 1 Audio Type
+5006 2002 US 1 Audio Sample Format
+5006 2004 US 1 Number of Channels
+5006 2006 UL 1 Number of Samples
+5006 2008 UL 1 Sample Rate
+5006 200a UL 1 Total Time
+5006 200c OW 1 Audio Sample Data
+5006 200e LT 1 Audio Comments
+5006 2500 LO 1 Curve Label
+5006 2600 SQ 1 Referenced Overlay Sequence
+5006 2610 US 1 Referenced Overlay Group
+5006 3000 OW 1 Curve Data
+
+5008 0000 UL 1 Group Length
+5008 0005 US 1 Curve Dimensions
+5008 0010 US 1 Number of Points
+5008 0020 CS 1 Type of Data
+5008 0022 LO 1 Curve Description
+5008 0030 SH 1-n Axis Units
+5008 0040 SH 1-n Axis Labels
+5008 0103 US 1 Data Value Representation
+5008 0104 US 1-n Minimum Coordinate Value
+5008 0105 US 1-n Maximum Coordinate Value
+5008 0106 SH 1-n Curve Range
+5008 0110 US 1-n Data Descriptor
+5008 0112 US 1-n Coordinate Start Value
+5008 0114 US 1-n Coordinate Step Value
+5008 2000 US 1 Audio Type
+5008 2002 US 1 Audio Sample Format
+5008 2004 US 1 Number of Channels
+5008 2006 UL 1 Number of Samples
+5008 2008 UL 1 Sample Rate
+5008 200a UL 1 Total Time
+5008 200c OW 1 Audio Sample Data
+5008 200e LT 1 Audio Comments
+5008 2500 LO 1 Curve Label
+5008 2600 SQ 1 Referenced Overlay Sequence
+5008 2610 US 1 Referenced Overlay Group
+5008 3000 OW 1 Curve Data
+
+500a 0000 UL 1 Group Length
+500a 0005 US 1 Curve Dimensions
+500a 0010 US 1 Number of Points
+500a 0020 CS 1 Type of Data
+500a 0022 LO 1 Curve Description
+500a 0030 SH 1-n Axis Units
+500a 0040 SH 1-n Axis Labels
+500a 0103 US 1 Data Value Representation
+500a 0104 US 1-n Minimum Coordinate Value
+500a 0105 US 1-n Maximum Coordinate Value
+500a 0106 SH 1-n Curve Range
+500a 0110 US 1-n Data Descriptor
+500a 0112 US 1-n Coordinate Start Value
+500a 0114 US 1-n Coordinate Step Value
+500a 2000 US 1 Audio Type
+500a 2002 US 1 Audio Sample Format
+500a 2004 US 1 Number of Channels
+500a 2006 UL 1 Number of Samples
+500a 2008 UL 1 Sample Rate
+500a 200a UL 1 Total Time
+500a 200c OW 1 Audio Sample Data
+500a 200e LT 1 Audio Comments
+500a 2500 LO 1 Curve Label
+500a 2600 SQ 1 Referenced Overlay Sequence
+500a 2610 US 1 Referenced Overlay Group
+500a 3000 OW 1 Curve Data
+
+500c 0000 UL 1 Group Length
+500c 0005 US 1 Curve Dimensions
+500c 0010 US 1 Number of Points
+500c 0020 CS 1 Type of Data
+500c 0022 LO 1 Curve Description
+500c 0030 SH 1-n Axis Units
+500c 0040 SH 1-n Axis Labels
+500c 0103 US 1 Data Value Representation
+500c 0104 US 1-n Minimum Coordinate Value
+500c 0105 US 1-n Maximum Coordinate Value
+500c 0106 SH 1-n Curve Range
+500c 0110 US 1-n Data Descriptor
+500c 0112 US 1-n Coordinate Start Value
+500c 0114 US 1-n Coordinate Step Value
+500c 2000 US 1 Audio Type
+500c 2002 US 1 Audio Sample Format
+500c 2004 US 1 Number of Channels
+500c 2006 UL 1 Number of Samples
+500c 2008 UL 1 Sample Rate
+500c 200a UL 1 Total Time
+500c 200c OW 1 Audio Sample Data
+500c 200e LT 1 Audio Comments
+500c 2500 LO 1 Curve Label
+500c 2600 SQ 1 Referenced Overlay Sequence
+500c 2610 US 1 Referenced Overlay Group
+500c 3000 OW 1 Curve Data
+
+500e 0000 UL 1 Group Length
+500e 0005 US 1 Curve Dimensions
+500e 0010 US 1 Number of Points
+500e 0020 CS 1 Type of Data
+500e 0022 LO 1 Curve Description
+500e 0030 SH 1-n Axis Units
+500e 0040 SH 1-n Axis Labels
+500e 0103 US 1 Data Value Representation
+500e 0104 US 1-n Minimum Coordinate Value
+500e 0105 US 1-n Maximum Coordinate Value
+500e 0106 SH 1-n Curve Range
+500e 0110 US 1-n Data Descriptor
+500e 0112 US 1-n Coordinate Start Value
+500e 0114 US 1-n Coordinate Step Value
+500e 2000 US 1 Audio Type
+500e 2002 US 1 Audio Sample Format
+500e 2004 US 1 Number of Channels
+500e 2006 UL 1 Number of Samples
+500e 2008 UL 1 Sample Rate
+500e 200a UL 1 Total Time
+500e 200c OW 1 Audio Sample Data
+500e 200e LT 1 Audio Comments
+500e 2500 LO 1 Curve Label
+500e 2600 SQ 1 Referenced Overlay Sequence
+500e 2610 US 1 Referenced Overlay Group
+500e 3000 OW 1 Curve Data
+
+5200 0000 UL 1 Group Length
+5200 9229 SQ 1 Shared Functional Groups Sequence
+5200 9230 SQ 1 Pre-frame Functional Groups Sequence
+
+5400 0000 UL 1 Group Length
+5400 0100 SQ 1 Waveform Sequence
+5400 0110 OB 1 Channel Minimum Value
+5400 0112 OB 1 Channel Maximum Value
+5400 1004 US 1 Waveform Bits Allocated
+5400 1006 CS 1 Waveform Sample Interpretation
+5400 100a OB 1 Waveform Padding Value
+5400 1010 OB 1 Waveform Data
+
+5600 0000 UL 1 Group Length
+5600 0010 OF 1 First Order Phase Correction Angle
+5600 0020 OF 1 Spectroscopy Data
+
+6000 0000 UL 1 Group Length
+6000 0010 US 1 Rows
+6000 0011 US 1 Columns
+6000 0012 US 1 Planes
+6000 0015 IS 1 Number of Frames in Overlay
+6000 0022 LO 1 Overlay Description
+6000 0040 CS 1 Overlay Type
+6000 0045 LO 1 Overlay Subtype
+6000 0050 SS 1 Overlay Origin
+6000 0051 US 1 Image Frame Origin
+6000 0052 US 1 Overlay Plane Origin
+6000 0060 LO 1 Compression Code (RET)
+6000 0100 US 1 Overlay Bits Allocated
+6000 0102 US 1 Overlay Bit Position
+6000 0110 LO 1 Overlay Format (RET)
+6000 0200 US 1 Overlay Location (RET)
+6000 1001 US 1 Overlay Activation Layer
+6000 1100 US 1 Overlay Descriptor - Gray (RET)
+6000 1101 US 1 Overlay Descriptor - Red (RET)
+6000 1102 US 1 Overlay Descriptor - Green (RET)
+6000 1103 US 1 Overlay Descriptor - Blue (RET)
+6000 1200 US 1-n Overlays - Gray
+6000 1201 US 1-n Overlays - Red
+6000 1202 US 1-n Overlays - Green
+6000 1203 US 1-n Overlays - Blue
+6000 1301 IS 1 ROI Area
+6000 1302 DS 1 ROI Mean
+6000 1303 DS 1 ROI Standard Deviation
+6000 1500 LO 1 Overlay Label
+6000 3000 OW 1 Overlay Data
+6000 4000 LO 1 Comments (RET)
+
+6002 0000 UL 1 Group Length
+6002 0010 US 1 Rows
+6002 0011 US 1 Columns
+6002 0012 US 1 Planes
+6002 0015 IS 1 Number of Frames in Overlay
+6002 0022 LO 1 Overlay Description
+6002 0040 CS 1 Overlay Type
+6002 0045 LO 1 Overlay Subtype
+6002 0050 SS 1 Overlay Origin
+6002 0051 US 1 Image Frame Origin
+6002 0052 US 1 Overlay Plane Origin
+6002 0060 LO 1 Compression Code (RET)
+6002 0100 US 1 Overlay Bits Allocated
+6002 0102 US 1 Overlay Bit Position
+6002 0110 LO 1 Overlay Format (RET)
+6002 0200 US 1 Overlay Location (RET)
+6002 1001 US 1 Overlay Activation Layer
+6002 1100 US 1 Overlay Descriptor - Gray (RET)
+6002 1101 US 1 Overlay Descriptor - Red (RET)
+6002 1102 US 1 Overlay Descriptor - Green (RET)
+6002 1103 US 1 Overlay Descriptor - Blue (RET)
+6002 1200 US 1-n Overlays - Gray
+6002 1201 US 1-n Overlays - Red
+6002 1202 US 1-n Overlays - Green
+6002 1203 US 1-n Overlays - Blue
+6002 1301 IS 1 ROI Area
+6002 1302 DS 1 ROI Mean
+6002 1303 DS 1 ROI Standard Deviation
+6002 1500 LO 1 Overlay Label
+6002 3000 OW 1 Overlay Data
+6002 4000 LO 1 Comments (RET)
+
+6004 0000 UL 1 Group Length
+6004 0010 US 1 Rows
+6004 0011 US 1 Columns
+6004 0012 US 1 Planes
+6004 0015 IS 1 Number of Frames in Overlay
+6004 0022 LO 1 Overlay Description
+6004 0040 CS 1 Overlay Type
+6004 0045 LO 1 Overlay Subtype
+6004 0050 SS 1 Overlay Origin
+6004 0051 US 1 Image Frame Origin
+6004 0052 US 1 Overlay Plane Origin
+6004 0060 LO 1 Compression Code (RET)
+6004 0100 US 1 Overlay Bits Allocated
+6004 0102 US 1 Overlay Bit Position
+6004 0110 LO 1 Overlay Format (RET)
+6004 0200 US 1 Overlay Location (RET)
+6004 1001 US 1 Overlay Activation Layer
+6004 1100 US 1 Overlay Descriptor - Gray (RET)
+6004 1101 US 1 Overlay Descriptor - Red (RET)
+6004 1102 US 1 Overlay Descriptor - Green (RET)
+6004 1103 US 1 Overlay Descriptor - Blue (RET)
+6004 1200 US 1-n Overlays - Gray
+6004 1201 US 1-n Overlays - Red
+6004 1202 US 1-n Overlays - Green
+6004 1203 US 1-n Overlays - Blue
+6004 1301 IS 1 ROI Area
+6004 1302 DS 1 ROI Mean
+6004 1303 DS 1 ROI Standard Deviation
+6004 1500 LO 1 Overlay Label
+6004 3000 OW 1 Overlay Data
+6004 4000 LO 1 Comments (RET)
+
+6006 0000 UL 1 Group Length
+6006 0010 US 1 Rows
+6006 0011 US 1 Columns
+6006 0012 US 1 Planes
+6006 0015 IS 1 Number of Frames in Overlay
+6006 0022 LO 1 Overlay Description
+6006 0040 CS 1 Overlay Type
+6006 0045 LO 1 Overlay Subtype
+6006 0050 SS 1 Overlay Origin
+6006 0051 US 1 Image Frame Origin
+6006 0052 US 1 Overlay Plane Origin
+6006 0060 LO 1 Compression Code (RET)
+6006 0100 US 1 Overlay Bits Allocated
+6006 0102 US 1 Overlay Bit Position
+6006 0110 LO 1 Overlay Format (RET)
+6006 0200 US 1 Overlay Location (RET)
+6006 1001 US 1 Overlay Activation Layer
+6006 1100 US 1 Overlay Descriptor - Gray (RET)
+6006 1101 US 1 Overlay Descriptor - Red (RET)
+6006 1102 US 1 Overlay Descriptor - Green (RET)
+6006 1103 US 1 Overlay Descriptor - Blue (RET)
+6006 1200 US 1-n Overlays - Gray
+6006 1201 US 1-n Overlays - Red
+6006 1202 US 1-n Overlays - Green
+6006 1203 US 1-n Overlays - Blue
+6006 1301 IS 1 ROI Area
+6006 1302 DS 1 ROI Mean
+6006 1303 DS 1 ROI Standard Deviation
+6006 1500 LO 1 Overlay Label
+6006 3000 OW 1 Overlay Data
+6006 4000 LO 1 Comments (RET)
+
+600a 0000 UL 1 Group Length
+6008 0010 US 1 Rows
+6008 0011 US 1 Columns
+6008 0012 US 1 Planes
+6008 0015 IS 1 Number of Frames in Overlay
+6008 0022 LO 1 Overlay Description
+6008 0040 CS 1 Overlay Type
+6008 0045 LO 1 Overlay Subtype
+6008 0050 SS 1 Overlay Origin
+6008 0051 US 1 Image Frame Origin
+6008 0052 US 1 Overlay Plane Origin
+6008 0060 LO 1 Compression Code (RET)
+6008 0100 US 1 Overlay Bits Allocated
+6008 0102 US 1 Overlay Bit Position
+6008 0110 LO 1 Overlay Format (RET)
+6008 0200 US 1 Overlay Location (RET)
+6008 1001 US 1 Overlay Activation Layer
+6008 1100 US 1 Overlay Descriptor - Gray (RET)
+6008 1101 US 1 Overlay Descriptor - Red (RET)
+6008 1102 US 1 Overlay Descriptor - Green (RET)
+6008 1103 US 1 Overlay Descriptor - Blue (RET)
+6008 1200 US 1-n Overlays - Gray
+6008 1201 US 1-n Overlays - Red
+6008 1202 US 1-n Overlays - Green
+6008 1203 US 1-n Overlays - Blue
+6008 1301 IS 1 ROI Area
+6008 1302 DS 1 ROI Mean
+6008 1303 DS 1 ROI Standard Deviation
+6008 1500 LO 1 Overlay Label
+6008 3000 OW 1 Overlay Data
+6008 4000 LO 1 Comments (RET)
+
+600a 0000 UL 1 Group Length
+600a 0010 US 1 Rows
+600a 0011 US 1 Columns
+600a 0012 US 1 Planes
+600a 0015 IS 1 Number of Frames in Overlay
+600a 0022 LO 1 Overlay Description
+600a 0040 CS 1 Overlay Type
+600a 0045 LO 1 Overlay Subtype
+600a 0050 SS 1 Overlay Origin
+600a 0051 US 1 Image Frame Origin
+600a 0052 US 1 Overlay Plane Origin
+600a 0060 LO 1 Compression Code (RET)
+600a 0100 US 1 Overlay Bits Allocated
+600a 0102 US 1 Overlay Bit Position
+600a 0110 LO 1 Overlay Format (RET)
+600a 0200 US 1 Overlay Location (RET)
+600a 1001 US 1 Overlay Activation Layer
+600a 1100 US 1 Overlay Descriptor - Gray (RET)
+600a 1101 US 1 Overlay Descriptor - Red (RET)
+600a 1102 US 1 Overlay Descriptor - Green (RET)
+600a 1103 US 1 Overlay Descriptor - Blue (RET)
+600a 1200 US 1-n Overlays - Gray
+600a 1201 US 1-n Overlays - Red
+600a 1202 US 1-n Overlays - Green
+600a 1203 US 1-n Overlays - Blue
+600a 1301 IS 1 ROI Area
+600a 1302 DS 1 ROI Mean
+600a 1303 DS 1 ROI Standard Deviation
+600a 1500 LO 1 Overlay Label
+600a 3000 OW 1 Overlay Data
+600a 4000 LO 1 Comments (RET)
+
+600c 0000 UL 1 Group Length
+600c 0010 US 1 Rows
+600c 0011 US 1 Columns
+600c 0012 US 1 Planes
+600c 0015 IS 1 Number of Frames in Overlay
+600c 0022 LO 1 Overlay Description
+600c 0040 CS 1 Overlay Type
+600c 0045 LO 1 Overlay Subtype
+600c 0050 SS 1 Overlay Origin
+600c 0051 US 1 Image Frame Origin
+600c 0052 US 1 Overlay Plane Origin
+600c 0060 LO 1 Compression Code (RET)
+600c 0100 US 1 Overlay Bits Allocated
+600c 0102 US 1 Overlay Bit Position
+600c 0110 LO 1 Overlay Format (RET)
+600c 0200 US 1 Overlay Location (RET)
+600c 1001 US 1 Overlay Activation Layer
+600c 1100 US 1 Overlay Descriptor - Gray (RET)
+600c 1101 US 1 Overlay Descriptor - Red (RET)
+600c 1102 US 1 Overlay Descriptor - Green (RET)
+600c 1103 US 1 Overlay Descriptor - Blue (RET)
+600c 1200 US 1-n Overlays - Gray
+600c 1201 US 1-n Overlays - Red
+600c 1202 US 1-n Overlays - Green
+600c 1203 US 1-n Overlays - Blue
+600c 1301 IS 1 ROI Area
+600c 1302 DS 1 ROI Mean
+600c 1303 DS 1 ROI Standard Deviation
+600c 1500 LO 1 Overlay Label
+600c 3000 OW 1 Overlay Data
+600c 4000 LO 1 Comments (RET)
+
+600e 0000 UL 1 Group Length
+600e 0010 US 1 Rows
+600e 0011 US 1 Columns
+600e 0012 US 1 Planes
+600e 0015 IS 1 Number of Frames in Overlay
+600e 0022 LO 1 Overlay Description
+600e 0040 CS 1 Overlay Type
+600e 0045 LO 1 Overlay Subtype
+600e 0050 SS 1 Overlay Origin
+600e 0051 US 1 Image Frame Origin
+600e 0052 US 1 Overlay Plane Origin
+600e 0060 LO 1 Compression Code (RET)
+600e 0100 US 1 Overlay Bits Allocated
+600e 0102 US 1 Overlay Bit Position
+600e 0110 LO 1 Overlay Format (RET)
+600e 0200 US 1 Overlay Location (RET)
+600e 1001 US 1 Overlay Activation Layer
+600e 1100 US 1 Overlay Descriptor - Gray (RET)
+600e 1101 US 1 Overlay Descriptor - Red (RET)
+600e 1102 US 1 Overlay Descriptor - Green (RET)
+600e 1103 US 1 Overlay Descriptor - Blue (RET)
+600e 1200 US 1-n Overlays - Gray
+600e 1201 US 1-n Overlays - Red
+600e 1202 US 1-n Overlays - Green
+600e 1203 US 1-n Overlays - Blue
+600e 1301 IS 1 ROI Area
+600e 1302 DS 1 ROI Mean
+600e 1303 DS 1 ROI Standard Deviation
+600e 1500 LO 1 Overlay Label
+600e 3000 OW 1 Overlay Data
+600e 4000 LO 1 Comments (RET)
+
+7fe0 0000 UL 1 Group Length
+7fe0 0010 OB 1 Pixel Data
+
+fffa fffa SQ 1 Digital Signatures Sequence
+fffc fffc OB 1 Data Set Trailing Padding
+fffe e000 UL 1 Item
+fffe e00d UL 1 Item Delimitation Item
+fffe e0dd UL 1 Sequence Delimitation Item
+ffff ffff UK 1 Unknown Code

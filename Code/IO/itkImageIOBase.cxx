@@ -367,6 +367,37 @@ unsigned int ImageIOBase::GetComponentSize() const
   return 0;
 }
 
+std::string ImageIOBase::GetFileTypeAsString(FileType t) const
+{
+  std::string s;
+  switch(t)
+    {
+    case ASCII:
+      return s = "ASCII";
+    case Binary:
+      return s = "Binary";
+    case TypeNotApplicable:
+    default:
+      return s = "TypeNotApplicable";
+    }
+  return s="TypeNotApplicable";
+}
+
+std::string ImageIOBase::GetByteOrderAsString(ByteOrder t) const
+{
+  std::string s;
+  switch(t)
+    {
+    case BigEndian:
+      return s = "BigEndian";
+    case LittleEndian:
+      return s = "LittleEndian";
+    case OrderNotApplicable:
+    default:
+      return s = "OrderNotApplicable";
+    }
+  return s="OrderNotApplicable";
+}
 
 std::string ImageIOBase::GetComponentTypeAsString(IOComponentType t) const
 {
@@ -628,8 +659,8 @@ void ImageIOBase::PrintSelf(std::ostream& os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   os << indent << "FileName: " << m_FileName << std::endl;
-  os << indent << "FileType: " << m_FileType << std::endl;
-  os << indent << "ByteOrder: " << m_ByteOrder << std::endl;
+  os << indent << "FileType: " << this->GetFileTypeAsString(m_FileType) << std::endl;
+  os << indent << "ByteOrder: " << this->GetByteOrderAsString(m_ByteOrder) << std::endl;
   os << indent << "IORegion: " << std::endl;
   m_IORegion.Print(os, indent.GetNextIndent());
   os << indent << "Number of Components/Pixel: " << m_NumberOfComponents << "\n";

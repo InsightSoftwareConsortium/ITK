@@ -17,9 +17,18 @@
 =========================================================================*/
 
 #include "gdcmJPEGFragmentsInfo.h"
+#include "gdcmDebug.h"
+
+#include <fstream>
 
 namespace gdcm 
 {
+//-------------------------------------------------------------------------
+// Constructor / Destructor
+JPEGFragmentsInfo::JPEGFragmentsInfo()
+{
+   StateSuspension = 0;
+}
 
 /**
  * \brief Default destructor
@@ -35,16 +44,72 @@ JPEGFragmentsInfo::~JPEGFragmentsInfo()
    Fragments.clear();
 }
 
+//-----------------------------------------------------------------------------
+// Public
+void JPEGFragmentsInfo::DecompressFromFile(std::ifstream *fp, uint8_t *buffer, int nBits, int , int )
+{
+   // Pointer to the Raw image
+   uint8_t *localRaw = buffer;
+
+  // Loop on the fragment[s]
+   JPEGFragmentsList::const_iterator it;
+   for( it  = Fragments.begin();
+        it != Fragments.end();
+        ++it )
+   {
+     (*it)->DecompressJPEGFramesFromFile(fp, localRaw, nBits, StateSuspension);
+     // update pointer to image after some scanlines read:
+     localRaw = (*it)->GetImage();
+   }
+}
+
+void JPEGFragmentsInfo::AddFragment(JPEGFragment *fragment)
+{
+   Fragments.push_back(fragment);
+}
+
+JPEGFragment *JPEGFragmentsInfo::GetFirstFragment()
+{
+   ItFragments = Fragments.begin();
+   if (ItFragments != Fragments.end())
+      return  *ItFragments;
+   return NULL;
+}
+
+JPEGFragment *JPEGFragmentsInfo::GetNextFragment()
+{
+   gdcmAssertMacro (ItFragments != Fragments.end());
+
+   ++ItFragments;
+   if (ItFragments != Fragments.end())
+      return  *ItFragments;
+   return NULL;
+}
+
+unsigned int JPEGFragmentsInfo::GetFragmentCount()
+{
+   return Fragments.size();
+}
+
+//-----------------------------------------------------------------------------
+// Protected
+
+//-----------------------------------------------------------------------------
+// Private
+
+//-----------------------------------------------------------------------------
+// Print
 /**
  * \brief        Print self.
- * @param indent Indentation string to be prepended during printing.
  * @param os     Stream to print to.
+ * @param indent Indentation string to be prepended during printing.
  */
-void JPEGFragmentsInfo::Print( std::string indent, std::ostream &os )
+void JPEGFragmentsInfo::Print( std::ostream &os, std::string const &indent )
 {
+   os << std::endl;
    os << indent
       << "----------------- JPEG fragments --------------------------------"
-      << std::endl;
+      << std::endl << std::endl;
    os << indent
       << "Total number of fragments : " << Fragments.size()
       << std::endl;
@@ -55,10 +120,10 @@ void JPEGFragmentsInfo::Print( std::string indent, std::ostream &os )
    {
       os << indent
          << "   fragment number :" << fragmentNumber++;
-      (*it)->Print( indent + "   ", os );
-      os << std::endl;
+      (*it)->Print( os, indent + "   ");
    }
+   os << std::endl;
 }
 
-
+//-----------------------------------------------------------------------------
 } // end namespace gdcm

@@ -30,6 +30,9 @@ typedef struct {
   std::ifstream *infile;  /* source stream */ 
   JOCTET * buffer;        /* start of buffer */
   boolean start_of_file;  /* have we gotten any data yet? */
+
+  gdcm::JPEGFragment *frag;
+  size_t bytes_read;
 } my_source_mgr;
 
 typedef my_source_mgr * my_src_ptr;
@@ -93,7 +96,19 @@ fill_input_buffer (j_decompress_ptr cinfo)
 {
   my_src_ptr src = (my_src_ptr) cinfo->src;
 
-  src->infile->read( (char*)src->buffer, INPUT_BUF_SIZE);
+  if( src->bytes_read == src->frag->GetLength() )
+    {
+    // Start the I/O suspension simply by returning false here:
+    return FALSE;
+    }
+
+  size_t input_buf_size = INPUT_BUF_SIZE;
+  if( (src->bytes_read + INPUT_BUF_SIZE) > src->frag->GetLength() )
+    {
+    input_buf_size = src->frag->GetLength() - src->bytes_read;
+    }
+
+  src->infile->read( (char*)src->buffer, input_buf_size);
   size_t nbytes = src->infile->gcount();
 
   if (nbytes <= 0) {
@@ -109,6 +124,7 @@ fill_input_buffer (j_decompress_ptr cinfo)
   src->pub.next_input_byte = src->buffer;
   src->pub.bytes_in_buffer = nbytes;
   src->start_of_file = FALSE;
+  src->bytes_read += nbytes;
 
   return TRUE;
 }
@@ -182,7 +198,7 @@ term_source (j_decompress_ptr cinfo)
  */
 
 GLOBAL(void)
-jpeg_stdio_src (j_decompress_ptr cinfo, std::ifstream * infile)
+jpeg_stdio_src (j_decompress_ptr cinfo, std::ifstream * infile, gdcm::JPEGFragment *frag, int flag)
 {
   my_src_ptr src;
 
@@ -210,6 +226,14 @@ jpeg_stdio_src (j_decompress_ptr cinfo, std::ifstream * infile)
   src->pub.resync_to_restart = jpeg_resync_to_restart; /* use default method */
   src->pub.term_source = reinterpret_cast<void_jpeg_decompress_struct>(term_source);
   src->infile = infile;
-  src->pub.bytes_in_buffer = 0; /* forces fill_input_buffer on first read */
-  src->pub.next_input_byte = NULL; /* until buffer loaded */
+  
+  // Need to setup a new buffer, clean bytes_in_buffer and next_input_byte
+  if( flag )
+    {
+    src->pub.bytes_in_buffer = 0; /* forces fill_input_buffer on first read */
+    src->pub.next_input_byte = NULL; /* until buffer loaded */
+    }
+  //only upate the new fragment, valid for both 'flag' value
+  src->frag = frag;
+  src->bytes_read = 0;
 }

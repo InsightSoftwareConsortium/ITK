@@ -19,35 +19,71 @@
 #include "gdcmDicomDirPatient.h"
 #include "gdcmDicomDirElement.h"
 #include "gdcmGlobal.h"
+#include "gdcmDicomDirStudy.h"
+#include "gdcmSQItem.h"
+#include "gdcmDebug.h"
+
 namespace gdcm 
 {
-
 //-----------------------------------------------------------------------------
 // Constructor / Destructor
 /**
  * \brief   Constructor
- * @param  s SQ Item holding the elements related to this "PATIENT" part
- * @param ptagHT pointer to the HTable (DicomDirObject needs it 
- *               to build the HeaderEntries)
+ * \note End user must use : DicomDir::NewPatient()
  */
-DicomDirPatient::DicomDirPatient(SQItem *s, TagDocEntryHT *ptagHT) :
-   DicomDirObject(ptagHT)
+DicomDirPatient::DicomDirPatient(bool empty)
+                :DicomDirObject()
 {
-   DocEntries = s->GetDocEntries();
+   if( !empty )
+   {
+      ListDicomDirStudyElem const &elemList = 
+         Global::GetDicomDirElements()->GetDicomDirPatientElements();
+      FillObject(elemList);
+   }
 }
-/**
- * \brief   Constructor
- * @param ptagHT pointer to the HTable (DicomDirObject needs it 
- *               to build the HeaderEntries)
- */
-DicomDirPatient::DicomDirPatient(TagDocEntryHT* ptagHT):
-   DicomDirObject(ptagHT)
-{
-}
+
 /**
  * \brief   Canonical destructor.
  */
 DicomDirPatient::~DicomDirPatient() 
+{
+   ClearStudy();
+}
+
+//-----------------------------------------------------------------------------
+// Public
+/**
+ * \brief   Writes the Object
+ * @param fp ofstream to write to
+ * @param t Type of the File (explicit VR, implicitVR, ...) 
+ */ 
+void DicomDirPatient::WriteContent(std::ofstream *fp, FileType t)
+{
+   DicomDirObject::WriteContent(fp, t);
+
+   for(ListDicomDirStudy::iterator cc = Studies.begin();
+                                   cc!= Studies.end();
+                                 ++cc )
+   {
+      (*cc)->WriteContent( fp, t );
+   }
+}
+
+/**
+ * \brief   adds a new Patient at the beginning of the PatientList
+ *          of a partially created DICOMDIR
+ */
+DicomDirStudy* DicomDirPatient::NewStudy()
+{
+   DicomDirStudy *st = new DicomDirStudy();
+   Studies.push_back(st);
+   return st; 
+}   
+
+/**
+ * \brief  Remove all studies in the patient 
+ */
+void DicomDirPatient::ClearStudy()
 {
    for(ListDicomDirStudy::const_iterator cc = Studies.begin();
                                          cc != Studies.end(); 
@@ -55,15 +91,65 @@ DicomDirPatient::~DicomDirPatient()
    {
       delete *cc;
    }
+   Studies.clear();
 }
+
+/**
+ * \brief   Get the first entry while visiting the DicomDirStudy
+ * \return  The first DicomDirStudy if found, otherwhise NULL
+ */ 
+DicomDirStudy *DicomDirPatient::GetFirstStudy()
+{
+   ItStudy = Studies.begin();
+   if (ItStudy != Studies.end())
+      return *ItStudy;
+   return NULL;
+}
+
+/**
+ * \brief   Get the next entry while visiting the DicomDirStudies
+ * \note : meaningfull only if GetFirstEntry already called
+ * \return  The next DicomDirStudies if found, otherwhise NULL
+ */
+DicomDirStudy *DicomDirPatient::GetNextStudy()
+{
+   gdcmAssertMacro (ItStudy != Studies.end())
+
+   ++ItStudy;
+   if (ItStudy != Studies.end())
+      return *ItStudy;
+   return NULL;
+}
+
+/**
+ * \brief   Get the first entry while visiting the DicomDirStudy
+ * \return  The first DicomDirStudy if found, otherwhise NULL
+ */ 
+DicomDirStudy *DicomDirPatient::GetLastStudy()
+{
+   ItStudy = Studies.end();
+   if (ItStudy != Studies.begin())
+   {
+      --ItStudy;
+      return *ItStudy;
+   }
+   return NULL;
+}
+
+//-----------------------------------------------------------------------------
+// Protected
+
+//-----------------------------------------------------------------------------
+// Private
 
 //-----------------------------------------------------------------------------
 // Print
 /**
  * \brief   Prints the Object
- * @return
+ * @param os ostream to write to 
+ * @param indent Indentation string to be prepended during printing
  */ 
-void DicomDirPatient::Print(std::ostream& os)
+void DicomDirPatient::Print(std::ostream &os, std::string const & )
 {
    os << "PATIENT" << std::endl;
    DicomDirObject::Print(os);
@@ -77,46 +163,5 @@ void DicomDirPatient::Print(std::ostream& os)
    }
 }
 
-/**
- * \brief   Writes the Object
- * @return
- */ 
-void DicomDirPatient::Write(std::ofstream* fp, FileType t)
-{
-   DicomDirObject::Write(fp, t);
-
-   for(ListDicomDirStudy::iterator cc = Studies.begin();
-                                   cc!= Studies.end();
-                                 ++cc )
-   {
-      (*cc)->Write( fp, t );
-   }
-}
 //-----------------------------------------------------------------------------
-// Public
-
-/**
- * \brief   adds a new Patient at the begining of the PatientList
- *          of a partially created DICOMDIR
- */
-DicomDirStudy* DicomDirPatient::NewStudy()
-{
-   ListDicomDirStudyElem const & elemList = 
-      Global::GetDicomDirElements()->GetDicomDirStudyElements();
-      
-   DicomDirStudy* st = new DicomDirStudy( PtagHT );
-   st->FillObject(elemList);
-
-   Studies.push_front(st);
-   return st; 
-}   
-
-//-----------------------------------------------------------------------------
-// Protected
-
-//-----------------------------------------------------------------------------
-// Private
-
-//-----------------------------------------------------------------------------
-
 } // end namespace gdcm

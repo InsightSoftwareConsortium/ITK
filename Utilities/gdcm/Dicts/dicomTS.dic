@@ -24,15 +24,41 @@
 1.2.840.10008.1.2.4.81   JPEG-LS Lossy (Near-Lossless) Image Compression
 1.2.840.10008.1.2.4.90   JPEG 2000 Image Compression (Lossless Only)
 1.2.840.10008.1.2.4.91   JPEG 2000 Image Compression
+1.2.840.10008.1.2.4.100  MPEG2 Main Profile @ Main Level
 1.2.840.10008.1.2.5      RLE Lossless
+1.2.840.113619.5.2       Implicit VR - Big Endian (G.E Private)
+
+1.2.840.10008.1.3.10              Media Storage Directory Storage
+1.2.840.10008.1.4.1.1             Talairach Brain Atlas Frame of Reference
+1.2.840.10008.1.4.1.2             SPM2 T1 Frame of Reference
+1.2.840.10008.1.4.1.3             SPM2 T2 Frame of Reference
+1.2.840.10008.1.4.1.4             SPM2 PD Frame of Reference
+1.2.840.10008.1.4.1.5             SPM2 EPI Frame of Reference
+1.2.840.10008.1.4.1.6             SPM2 FIL T1 Frame of Reference
+1.2.840.10008.1.4.1.7             SPM2 PET Frame of Reference
+1.2.840.10008.1.4.1.8             SPM2 TRANSM Frame of Reference
+1.2.840.10008.1.4.1.9             SPM2 SPECT Frame of Reference
+1.2.840.10008.1.4.1.10            SPM2 GRAY Frame of Reference
+1.2.840.10008.1.4.1.11            SPM2 WHITE Frame of Reference
+1.2.840.10008.1.4.1.12            SPM2 CSF Frame of Reference
+1.2.840.10008.1.4.1.13            SPM2 BRAINMASK Frame of Reference
+1.2.840.10008.1.4.1.14            SPM2 AVG305T1 Frame of Reference
+1.2.840.10008.1.4.1.15            SPM2 AVG152T1 Frame of Reference
+1.2.840.10008.1.4.1.16            SPM2 AVG152T2 Frame of Reference
+1.2.840.10008.1.4.1.17            SPM2 AVG152PD Frame of Reference
+1.2.840.10008.1.4.1.18            SPM2 SINGLESUBJT1 Frame of Reference
+1.2.840.10008.1.4.2.1             ICBM 452 T1 Frame of Reference
+1.2.840.10008.1.4.2.2             ICBM Single Subject MRI Frame of Reference
 
 1.2.840.10008.1.1                 Verification SOP Class
-1.2.840.10008.1.3.10              Media Storage Directory Storage
 1.2.840.10008.1.9                 Basic Study Content Notification SOP Class
 1.2.840.10008.1.20.1              Image Commitment Push Model SOP Class
 1.2.840.10008.1.20.1.1            Image Commitment Push Model SOP Instance
 1.2.840.10008.1.20.2              Image Commitment Push Model SOP Class (Retired)
 1.2.840.10008.1.20.2.1            Image Commitment Push Model SOP Instance (Retired)
+
+1.2.840.10008.1.40                Procedural Event Logging SOP Class
+1.2.840.10008.1.40.1              Procedural Event Logging SOP Instance
 1.2.840.10008.2.16.4              DICOM Controlled Terminology
 1.2.840.10008.3.1.1.1             DICOM Application Context Name
 1.2.840.10008.3.1.2.1.1           Detached Patient Management SOP Class
@@ -47,6 +73,9 @@
 1.2.840.10008.3.1.2.5.4           Detached Results Management Meta SOP Class
 1.2.840.10008.3.1.2.5.5           Detached Study Management Meta SOP Class
 1.2.840.10008.3.1.2.6.1           Detached Interpretation Management SOP Class
+
+1.2.840.10008.4.2                 Storage Device Class
+
 1.2.840.10008.5.1.1.1             Basic Film Session SOP Class
 1.2.840.10008.5.1.1.2             Basic Film Box SOP Class
 1.2.840.10008.5.1.1.4             Basic Gray Scale Image Box SOP Class
@@ -73,6 +102,7 @@
 1.2.840.10008.5.1.1.30            Hardcopy Color Image Storage SOP Class
 1.2.840.10008.5.1.1.31            Pull Print Request SOP Class
 1.2.840.10008.5.1.1.32            Pull Stored Print Management Meta SOP Class
+1.2.840.10008.5.1.1.33            Media Creation Management SOP Class UID
 
 1.2.840.10008.5.1.4.1.1.1         Computed Radiography Image Storage
 1.2.840.10008.5.1.4.1.1.1.1       Digital X-Ray Image Storage - For Presentation
@@ -82,6 +112,8 @@
 1.2.840.10008.5.1.4.1.1.1.3       Digital Intra-oral X-ray Image Storage - For Presentation
 1.2.840.10008.5.1.4.1.1.1.3.1     Digital Intra-oral X-Ray Image Storage - For Processing
 1.2.840.10008.5.1.4.1.1.2         CT Image Storage
+1.2.840.10008.5.1.4.1.1.2.1       Enhanced CT Image Storage
+
 1.2.840.10008.5.1.4.1.1.3         Ultrasound Multi-Frame Image Storage (Retired)
 1.2.840.10008.5.1.4.1.1.3.1       Ultrasound Multi-Frame Image Storage
 1.2.840.10008.5.1.4.1.1.4         MR Image Storage
@@ -95,28 +127,38 @@
 1.2.840.10008.5.1.4.1.1.7.2       Multi-frame Grayscale Byte Secondary Capture Image Storage
 1.2.840.10008.5.1.4.1.1.7.3       Multi-frame Grayscale Word Secondary Capture Image Storage
 1.2.840.10008.5.1.4.1.1.7.4       Multi-frame True Color Secondary Capture Image Storage
-1.2.840.10008.5.1.4.1.1.8         Stand-alone Overlay Storage
-1.2.840.10008.5.1.4.1.1.9         Stand-alone Curve Storage
-1.2.840.10008.5.1.4.1.1.9.1.1     Twelve Lead ECG Waveform Storage
+1.2.840.10008.5.1.4.1.1.8         Standalone Overlay Storage
+1.2.840.10008.5.1.4.1.1.9         Standalone Curve Storage
+1.2.840.10008.5.1.4.1.1.9.1.1     12-Lead ECG Waveform Storage
 1.2.840.10008.5.1.4.1.1.9.1.2     General ECG Waveform Storage
 1.2.840.10008.5.1.4.1.1.9.1.3     Ambulatory ECG Waveform Storage
 1.2.840.10008.5.1.4.1.1.9.2.1     Hemodynamic Waveform Storage
 1.2.840.10008.5.1.4.1.1.9.3.1     Cardiac Electrophysiology Waveform Storage
 1.2.840.10008.5.1.4.1.1.9.4.1     Basic Voice Audio Waveform Storage
-1.2.840.10008.5.1.4.1.1.10        Stand-alone Modality LUT Storage
-1.2.840.10008.5.1.4.1.1.11        Stand-alone VOI LUT Storage
+1.2.840.10008.5.1.4.1.1.10        Standalone Modality LUT Storage
+1.2.840.10008.5.1.4.1.1.11        Standalone VOI LUT Storage
 1.2.840.10008.5.1.4.1.1.11.1      Grayscale Softcopy Presentation State Storage SOP Class
 1.2.840.10008.5.1.4.1.1.12.1      X-Ray Angiographic Image Storage
 1.2.840.10008.5.1.4.1.1.12.2      X-Ray Radiofluoroscoping Image Storage
 1.2.840.10008.5.1.4.1.1.12.3      X-Ray Angiographic Bi-Plane Image Storage (Retired)
 1.2.840.10008.5.1.4.1.1.20        Nuclear Medicine Image Storage
 1.2.840.10008.5.1.4.1.1.66        Raw Data Storage
+1.2.840.10008.5.1.4.1.1.66.1      Spacial Registration Storage
+1.2.840.10008.5.1.4.1.1.66.2      Spacial Fiducials Storage
+
 1.2.840.10008.5.1.4.1.1.77.1      VL Image Storage (Retired)
 1.2.840.10008.5.1.4.1.1.77.2      VL MultiFrame Image Storage (Retired)
 1.2.840.10008.5.1.4.1.1.77.1.1    VL Endoscoping Image Storage
+1.2.840.10008.5.1.4.1.1.77.1.1.1  Video Endoscoping Image Storage
 1.2.840.10008.5.1.4.1.1.77.1.2    VL Microscoping Image Storage
+1.2.840.10008.5.1.4.1.1.77.1.2.1  Video Microscoping Image Storage
 1.2.840.10008.5.1.4.1.1.77.1.3    VL Slide-Coordinates Microscoping Image Storage
 1.2.840.10008.5.1.4.1.1.77.1.4    VL Photographic Image Storage
+1.2.840.10008.5.1.4.1.1.77.1.4.1  Video Photographic Image Storage
+1.2.840.10008.5.1.4.1.1.77.1.5.1  Ophthalmic Photography 8 Bit Image Storage
+1.2.840.10008.5.1.4.1.1.77.1.5.2  Ophthalmic Photography 16 Bit Image Storage
+1.2.840.10008.5.1.4.1.1.77.1.5.3  Stereometric Relationship Storage
+
 1.2.840.10008.5.1.4.1.1.88.1      SR Text Storage
 1.2.840.10008.5.1.4.1.1.88.2      SR Audio Storage
 1.2.840.10008.5.1.4.1.1.88.3      SR Detail Storage
@@ -124,9 +166,10 @@
 1.2.840.10008.5.1.4.1.1.88.11     Basic Text SR
 1.2.840.10008.5.1.4.1.1.88.22     Enhanced SR
 1.2.840.10008.5.1.4.1.1.88.33     Comprehensive SR
+1.2.840.10008.5.1.4.1.1.88.40     Procedure Log Storage
 1.2.840.10008.5.1.4.1.1.88.50     Mammography CAD SR
 1.2.840.10008.5.1.4.1.1.88.59     Key Object Selection Document
-1.2.840.10008.5.1.4.1.1.88.65     Check CAD SR
+1.2.840.10008.5.1.4.1.1.88.65     Chest CAD SR
 1.2.840.10008.5.1.4.1.1.128       Positron Emission Tomography Image Storage
 1.2.840.10008.5.1.4.1.1.129       Standalone PET Curve Storage
 1.2.840.10008.5.1.4.1.1.481.1     RT Image Storage
@@ -151,4 +194,10 @@
 1.2.840.10008.5.1.4.32.2          General Purpose Scheduled Procedure Step SOP Class
 1.2.840.10008.5.1.4.32.3          General Purpose Performed Procedure Step SOP Class
 1.2.840.10008.5.1.4.32            General Purpose Worklist Management Meta SOP Class
+1.2.840.10008.5.1.4.33            Instance Availability Notification SOP Class
+1.2.840.10008.5.1.4.37.1          General Relevant Patient Information Query
+1.2.840.10008.5.1.4.37.2          Breast Imaging Relevant Patient Information Query
+1.2.840.10008.5.1.4.37.3          Cardiac Relevant Patient Information Query
+
+1.2.840.113619.5.2                Implicit VR Big Endian DLX (G.E Private)
 

@@ -30,65 +30,62 @@ class DocEntry;
 
 //-----------------------------------------------------------------------------
 typedef std::list<DocEntry *> ListDocEntry;
+
 //-----------------------------------------------------------------------------
+/**
+ * \brief a SeqEntry is composed by a set of SQItems.
+ *        Each SQItem is composed by a set of DocEntry
+ *        A DocEntry may be a SeqEntry
+ *        ... and so forth 
+ */ 
 class GDCM_EXPORT SQItem : public DocEntrySet 
 {
 public:
    SQItem(int depthLevel);
    ~SQItem();
 
-   void Print(std::ostream &os = std::cout); 
-   void Write(std::ofstream *fp, FileType filetype);
+   virtual void Print(std::ostream &os = std::cout, std::string const &indent = "" ); 
+   void WriteContent(std::ofstream *fp, FileType filetype);
 
-   /// \brief   returns the DocEntry chained List for this SQ Item.
-   ListDocEntry const & GetDocEntries() const { return DocEntries; };
-   
-   /// \brief   adds the passed DocEntry to the DocEntry chained List for
-   /// this SQ Item.      
-   void AddDocEntry(DocEntry *e) { DocEntries.push_back(e); };
-
-   virtual bool AddEntry(DocEntry *Entry); // add to the List
+   bool AddEntry(DocEntry *Entry); // add to the List
+   bool RemoveEntry(DocEntry *EntryToRemove);
+   bool RemoveEntryNoDestroy(DocEntry *EntryToRemove);
+   void ClearEntry();
   
-   DocEntry *GetDocEntryByNumber(uint16_t group, uint16_t element);
-   // FIXME method to write
-   //DocEntry *GetDocEntryByName  (std::string Name);
-   
-   bool SetEntryByNumber(std::string const & val, uint16_t group, 
-                                                  uint16_t element);
-    
-   std::string GetEntryByNumber(uint16_t group, uint16_t element);
+   DocEntry *GetFirstEntry();
+   DocEntry *GetNextEntry();
+
+   DocEntry *GetDocEntry(uint16_t group, uint16_t elem);
+
+   bool IsEmpty() { return DocEntries.empty(); };
 
    /// \brief   returns the ordinal position of a given SQItem
    int GetSQItemNumber() { return SQItemNumber; };
-
    /// \brief   Sets the ordinal position of a given SQItem
    void SetSQItemNumber(int itemNumber) { SQItemNumber = itemNumber; };
 
-   /// Accessor on \ref SQDepthLevel.
-   int GetDepthLevel() { return SQDepthLevel; }
-                                                                                
-   /// Accessor on \ref SQDepthLevel.
+   ///  \brief Accessor on \ref SQDepthLevel.
+   int GetDepthLevel() { return SQDepthLevel; }                                                                             
+
+   ///  \brief Accessor on \ref SQDepthLevel.
    void SetDepthLevel(int depth) { SQDepthLevel = depth; }
 
-   /// Accessor on \ref BaseTagKey.
-   void SetBaseTagKey( BaseTagKey const & key ) { BaseTagKeyNested = key; }
+   ///  \brief Accessor on \ref BaseTagKey.
+   void SetBaseTagKey( BaseTagKey const &key ) { BaseTagKeyNested = key; }
 
-   /// Accessor on \ref BaseTagKey.
-   BaseTagKey const & GetBaseTagKey() const { return BaseTagKeyNested; }
-
+   ///  \brief Accessor on \ref BaseTagKey.
+   BaseTagKey const &GetBaseTagKey() const { return BaseTagKeyNested; }
 
 protected:
-// Variables that need to be access in subclasses
-
-   /// \brief chained list of (Elementary) Doc Entries
+// Variables that need to be accessed in subclasses
+   /// \brief Chained list of Doc Entries
    ListDocEntry DocEntries;
-   
-   ///\brief pointer to the HTable of the Document,
-   ///       (because we don't know it within any DicomDirObject nor any SQItem)
-   TagDocEntryHT *PtagHT;
-
+   /// Iterator, used to visit the entries
+   ListDocEntry::iterator ItDocEntries;
+   /// Iterator, used to visit the Val Entries (for Python users)
+   ListDocEntry::iterator ItValEntries;
+  
 private:
-
    /// \brief Sequences can be nested. This \ref SQDepthLevel represents
    ///        the level of the nesting of instances of this class.
    ///        \ref SQDepthLevel and its \ref SeqEntry::SQDepthLevel
@@ -100,10 +97,8 @@ private:
    ///        with this BaseTagKey.
    BaseTagKey BaseTagKeyNested;
 
- 
    /// \brief SQ Item ordinal number 
    int SQItemNumber;
-
 };
 } // end namespace gdcm
 //-----------------------------------------------------------------------------

@@ -23,14 +23,16 @@
 
 #include <fstream>
 #include <iostream>
-#include <itksys/ios/sstream>
 
 namespace gdcm 
 {
+//-----------------------------------------------------------------------------
+/// \brief auto generate function, to fill up the default elements for 
+///        a DICOMDIR, if relevant file is not found on user's disk
 void FillDefaultDIRDict(DicomDirElement *dde);
+
 //-----------------------------------------------------------------------------
 // Constructor / Destructor
-
 /**
  * \brief   constructor : populates the chained lists 
  *          from the file 'Dicts/DicomDir.dic'
@@ -41,26 +43,41 @@ DicomDirElement::DicomDirElement()
    std::ifstream from(filename.c_str());
    if(!from)
    {
-      dbg.Verbose(2, 
-         "DicomDirElement::DicomDirElement: can't open dictionary", 
-            filename.c_str());
+      gdcmWarningMacro( "Can't open DicomDirElement dictionary" 
+                        << filename.c_str());
       FillDefaultDIRDict( this );
    }
    else
    {
       char buff[1024];
-      std::string type;
+      std::string strType;
       Element elem;
+      DicomDirType type;
 
       while (!from.eof())
       {
          from >> std::ws;
          from.getline(buff, 1024, ' ');
-         type = buff;
+         strType = buff;
 
-         if( type == "metaElem"  || type == "patientElem" || 
-             type == "studyElem" || type == "serieElem"   || 
-             type == "imageElem" )
+         if( strType == "metaElem" )
+            type = DD_META;
+         else if( strType == "patientElem" )
+            type = DD_PATIENT;
+         else if( strType == "studyElem" )
+            type = DD_STUDY;
+         else if( strType == "serieElem" )
+            type = DD_SERIE;
+         else if( strType == "imageElem" )
+            type = DD_IMAGE;
+         else
+         {
+            gdcmWarningMacro("Unknown type found in the file : "
+                             <<filename.c_str());
+            type = DD_UNKNOWN;
+         }
+
+         if( type!=DD_UNKNOWN )
          {
             from >> std::hex >> elem.Group >> elem.Elem;
 
@@ -70,7 +87,7 @@ DicomDirElement::DicomDirElement()
             from.getline(buff, 1024, '"');
             elem.Value = buff;
 
-            AddNewEntry(type, elem);
+            AddEntry(type, elem);
          }
          from.getline(buff, 1024, '\n');
       }
@@ -79,7 +96,6 @@ DicomDirElement::DicomDirElement()
 }
 
 /**
- * \ingroup DicomDirElement
  * \brief   canonical destructor 
  */
 DicomDirElement::~DicomDirElement()
@@ -92,16 +108,69 @@ DicomDirElement::~DicomDirElement()
 }
 
 //-----------------------------------------------------------------------------
+// Public
+/**
+ * \brief Add an entry to one of the DicomDir Elements 
+ *        (Patient, Study, Serie, Image)
+ * @param type Element type (DD_PATIENT, DD_STUDY, DD_SERIE, DD_IMAGE) 
+ * @param elem elem
+ */
+bool DicomDirElement::AddEntry(DicomDirType type, Element const &elem)
+{
+   switch( type )
+   {
+      case DD_META :
+         DicomDirMetaList.push_back(elem);
+         break;
+      case DD_PATIENT :
+         DicomDirPatientList.push_back(elem);
+         break;
+      case DD_STUDY :
+         DicomDirStudyList.push_back(elem);
+         break;
+      case DD_SERIE :
+         DicomDirSerieList.push_back(elem);
+         break;
+      case DD_IMAGE :
+         DicomDirImageList.push_back(elem);
+         break;
+      default :
+         return false;
+   }
+   return true;
+}
+
+/**
+ * \brief Add an entry to one of the DicomDir Elements 
+ *        (Patient, Study, Serie, Image)
+ * @param type Element type (DD_PATIENT, DD_STUDY, DD_SERIE, DD_IMAGE) 
+ * @param group  Group number of the entry to be added
+ * @param elem Element number of the entry to be added
+ */
+void DicomDirElement::AddDicomDirElement(DicomDirType type,
+                                         uint16_t group, uint16_t elem)
+{
+   Element el;
+   el.Group = group;
+   el.Elem  = elem;
+   el.Value = "";
+   AddEntry(type, el);
+}
+//-----------------------------------------------------------------------------
+// Protected
+
+//-----------------------------------------------------------------------------
+// Private
+
+//-----------------------------------------------------------------------------
 // Print
 /**
- * \ingroup DicomDirElement
  * \brief   Print all
- * \todo add a 'Print Level' check 
  * @param   os The output stream to be written to.
  */
 void DicomDirElement::Print(std::ostream &os)
 {
-   itksys_ios::ostringstream s;
+   std::ostringstream s;
    std::list<Element>::iterator it;
    //char greltag[10];  //group element tag
    std::string greltag;
@@ -145,43 +214,4 @@ void DicomDirElement::Print(std::ostream &os)
 }
 
 //-----------------------------------------------------------------------------
-// Public
-
-bool DicomDirElement::AddNewEntry(std::string const & type, 
-                                  Element const & elem)
-{
-   if( type == "metaElem" )
-   {
-      DicomDirMetaList.push_back(elem);
-   }
-   else if( type == "patientElem" )
-   {
-      DicomDirPatientList.push_back(elem);
-   }
-   else if( type == "studyElem" )
-   {
-      DicomDirStudyList.push_back(elem);
-   }
-   else if( type == "serieElem" )
-   {
-      DicomDirSerieList.push_back(elem);
-   }
-   else if( type == "imageElem" )
-   {
-      DicomDirImageList.push_back(elem);
-   }
-   else
-   {
-     return false;
-   }
-   return true;
-}
-//-----------------------------------------------------------------------------
-// Protected
-
-//-----------------------------------------------------------------------------
-// Private
-
-//-----------------------------------------------------------------------------
-
 } // end namespace gdcm

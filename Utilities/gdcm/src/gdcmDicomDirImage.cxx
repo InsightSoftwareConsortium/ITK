@@ -18,65 +18,32 @@
 
 #include "gdcmDicomDirImage.h"
 #include "gdcmValEntry.h"
+#include "gdcmGlobal.h"
 
 namespace gdcm 
 {
 //-----------------------------------------------------------------------------
 // Constructor / Destructor
-
 /**
- * \ingroup DicomDirImage
  * \brief  Constructor 
- * @param  s  SQ Item holding the elements
- * @param ptagHT pointer to the HTable (DicomDirObject needs it 
- *               to build the DocEntries)
+ * \note End user must use : DicomDirSerie::NewImage()
  */
-DicomDirImage::DicomDirImage(SQItem *s, TagDocEntryHT *ptagHT):
-   DicomDirObject(ptagHT)
+DicomDirImage::DicomDirImage(bool empty):
+   DicomDirObject()
 {
-   DocEntries = s->GetDocEntries();
+   if( !empty )
+   {
+      ListDicomDirImageElem const &elemList = 
+         Global::GetDicomDirElements()->GetDicomDirImageElements();
+      FillObject(elemList);
+   }
 }
 
 /**
- * \ingroup DicomDirImage
- * \brief  Constructor 
- * @param ptagHT pointer to the HTable (DicomDirObject needs it 
- *               to build the DocEntries)
- */
-DicomDirImage::DicomDirImage(TagDocEntryHT *ptagHT):
-   DicomDirObject(ptagHT)
-{
-}
-/**
- * \ingroup DicomDirImage
  * \brief   Canonical destructor.
  */
 DicomDirImage::~DicomDirImage() 
 {
-}
-
-//-----------------------------------------------------------------------------
-// Print
-/**
- * \ingroup DicomDirImage
- * \brief   Prints the Object
- * @return
- */ 
-void DicomDirImage::Print(std::ostream &os)
-{
-   os << "IMAGE : ";
-   for(ListDocEntry::iterator i = DocEntries.begin();
-                              i!= DocEntries.end();
-                              ++i)
-   {
-      if( (*i)->GetGroup() == 0x0004 && (*i)->GetElement() == 0x1500 )
-      {
-         os << ((ValEntry *)(*i))->GetValue(); //FIXME
-      }
-   }
-   os << std::endl;
-
-   DicomDirObject::Print(os);
 }
 
 //-----------------------------------------------------------------------------
@@ -87,6 +54,31 @@ void DicomDirImage::Print(std::ostream &os)
 
 //-----------------------------------------------------------------------------
 // Private
+
+//-----------------------------------------------------------------------------
+// Print
+/**
+ * \brief   Prints the Object
+ * @param os ostream to write to
+ * @param indent Indentation string to be prepended during printing
+ * @return
+ */ 
+void DicomDirImage::Print(std::ostream &os, std::string const & )
+{
+   os << "IMAGE : ";
+   for(ListDocEntry::iterator i = DocEntries.begin();
+                              i!= DocEntries.end();
+                              ++i)
+   {
+      if( (*i)->GetGroup() == 0x0004 && (*i)->GetElement() == 0x1500 )
+      {
+         os << (dynamic_cast<ValEntry *>(*i))->GetValue(); //FIXME
+      }
+   }
+   os << std::endl;
+
+   DicomDirObject::Print(os);
+}
 
 //-----------------------------------------------------------------------------
 } // end namespace gdcm

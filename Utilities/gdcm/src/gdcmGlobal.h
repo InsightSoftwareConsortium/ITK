@@ -19,14 +19,14 @@
 #ifndef GDCMGLOBAL_H
 #define GDCMGLOBAL_H
 
-#include "gdcmVR.h"
-#include "gdcmTS.h"
-#include "gdcmDictSet.h"
-#include "gdcmDicomDirElement.h"
+#include "gdcmCommon.h"
 
 namespace gdcm 
 {
-
+class DictSet;
+class VR;
+class TS;
+class DicomDirElement;
 //-----------------------------------------------------------------------------
 /**
  * \brief   This class contains all globals elements that might be
@@ -44,9 +44,15 @@ public:
    static DicomDirElement *GetDicomDirElements();
 
 private:
-   static DictSet *Dicts; 
+   /// Pointer to a container, holding _all_ the Dicom Dictionaries.
+   static DictSet *Dicts;
+   /// Pointer to a hash table containing the 'Value Representations'.
    static VR *ValRes;
+   /// \brief Pointer to a hash table containing the Transfer Syntax codes 
+   ///        and their english description 
    static TS *TranSyn; 
+   /// \brief Pointer to the hash table containing the Dicom Elements necessary 
+   ///        to describe each part of a DICOMDIR 
    static DicomDirElement *ddElem;
 };
 } // end namespace gdcm

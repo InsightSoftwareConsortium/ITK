@@ -9,7 +9,9 @@ INCLUDE_DIRECTORIES(
 )
 
 SET(libgdcm_la_SOURCES
+   gdcmBase.cxx
    gdcmBinEntry.cxx
+   gdcmContentEntry.cxx
    gdcmDebug.cxx
    gdcmDicomDir.cxx
    gdcmDicomDirElement.cxx
@@ -24,24 +26,26 @@ SET(libgdcm_la_SOURCES
    gdcmDictSet.cxx
    gdcmDirList.cxx
    gdcmDocEntry.cxx
+   gdcmDocEntryArchive.cxx
    gdcmDocEntrySet.cxx
    gdcmDocument.cxx
    gdcmElementSet.cxx
    gdcmException.cxx
-   gdcmFile.cxx
+   gdcmFileHelper.cxx
    gdcmGlobal.cxx
-   gdcmHeader.cxx
-   gdcmHeaderHelper.cxx
+   gdcmFile.cxx
    gdcmJPEGFragment.cxx
    gdcmJPEGFragmentsInfo.cxx
    gdcmJpeg8.cxx
    gdcmJpeg12.cxx
    gdcmJpeg16.cxx
    gdcmJpeg2000.cxx
-   gdcmPixelConvert.cxx
+   gdcmPixelReadConvert.cxx
+   gdcmPixelWriteConvert.cxx
    gdcmRLEFrame.cxx
    gdcmRLEFramesInfo.cxx
    gdcmSeqEntry.cxx
+   gdcmSerieHelper.cxx
    gdcmSQItem.cxx
    gdcmTS.cxx
    gdcmUtil.cxx
@@ -63,6 +67,7 @@ IF(WIN32)
 ENDIF(WIN32)
 
 # Need nsl to resolve gethostbyname on SunOS-5.8
+# and socket also
 IF(CMAKE_SYSTEM MATCHES "SunOS.*")
   TARGET_LINK_LIBRARIES(itkgdcm socket nsl)
 ENDIF(CMAKE_SYSTEM MATCHES "SunOS.*")

@@ -20,59 +20,43 @@
 #include "gdcmDebug.h"
 #include "gdcmUtil.h"
 
+#include <iomanip> // for std::ios::left, ...
+#include <fstream>
+
 namespace gdcm 
 {
-
 //-----------------------------------------------------------------------------
 // Constructor / Destructor
 /**
  * \brief   Constructor
  * @param   group      DICOM-Group Number
- * @param   element    DICOM-Element Number
- * @param   vr         Value Representatiion
- * @param   fourth    // DO NOT use any longer; 
- *                       NOT part of the Dicom Standard
+ * @param   elem       DICOM-Element Number
+ * @param   vr         Value Representation
+ * @param   vm         Value Mutlplicity 
  * @param   name      description of the element
 */
 
-DictEntry::DictEntry(uint16_t group, uint16_t element,
-                     TagName const & vr, TagName const & fourth,
-                     TagName const & name)
+DictEntry::DictEntry(uint16_t group, uint16_t elem,
+                     TagName const &vr, 
+                     TagName const &vm,
+                     TagName const &name)
 {
    Group   = group;
-   Element = element;
+   Element = elem;
    VR      = vr;
-   Fourth  = fourth;
+   VM      = vm;
    Name    = name;
-   Key     = TranslateToKey(group, element);
+   Key     = TranslateToKey(group, elem);
 }
-
-//-----------------------------------------------------------------------------
-// Print
 
 //-----------------------------------------------------------------------------
 // Public
-/**
- * \brief   concatenates 2 uint16_t (supposed to be a Dicom group number 
- *                                              and a Dicom element number)
- * @param  group the Dicom group number used to build the tag
- * @param  element the Dicom element number used to build the tag
- * @return the built tag
- */
-TagKey DictEntry::TranslateToKey(uint16_t group, uint16_t element)
-{
-   TagKey key = Util::Format("%04x|%04x", group , element);
-
-   return key;
-}
-
-//-----------------------------------------------------------------------------
 /**
  * \brief       If-and only if-the V(alue) R(epresentation)
  * \            is unset then overwrite it.
  * @param vr    New V(alue) R(epresentation) to be set.
  */
-void DictEntry::SetVR(TagName const & vr) 
+void DictEntry::SetVR(TagName const &vr) 
 {
    if ( IsVRUnknown() )
    {
@@ -80,9 +64,37 @@ void DictEntry::SetVR(TagName const & vr)
    }
    else 
    {
-      dbg.Error(true, "DictEntry::SetVR",
-                       "Overwriting VR might compromise a dictionary");
+      gdcmErrorMacro( "Overwriting VR might compromise a dictionary");
    }
+}
+
+/**
+ * \brief       If-and only if-the V(alue) M(ultiplicity)
+ * \            is unset then overwrite it.
+ * @param vm    New V(alue) M(ultiplicity) to be set.
+ */
+void DictEntry::SetVM(TagName const &vm) 
+{
+   if ( IsVMUnknown() )
+   {
+      VM = vm;
+   }
+   else 
+   {
+      gdcmErrorMacro( "Overwriting VM might compromise a dictionary");
+   }
+}
+
+/**
+ * \brief   concatenates 2 uint16_t (supposed to be a Dicom group number 
+ *                                              and a Dicom element number)
+ * @param  group the Dicom group number used to build the tag
+ * @param  elem the Dicom element number used to build the tag
+ * @return the built tag
+ */
+TagKey DictEntry::TranslateToKey(uint16_t group, uint16_t elem)
+{
+   return Util::Format("%04x|%04x", group, elem);
 }
 
 //-----------------------------------------------------------------------------
@@ -90,6 +102,35 @@ void DictEntry::SetVR(TagName const & vr)
 
 //-----------------------------------------------------------------------------
 // Private
+
+//-----------------------------------------------------------------------------
+// Print
+/**
+ * \brief   Prints an entry of the Dicom DictionaryEntry
+ * @param   os ostream we want to print in
+ * @param indent Indentation string to be prepended during printing
+ */
+void DictEntry::Print(std::ostream &os, std::string const & )
+{
+   std::string vr;
+   std::ostringstream s;
+
+   vr = GetVR();
+   if(vr==GDCM_UNKNOWN)
+      vr="  ";
+
+   s << DictEntry::TranslateToKey(GetGroup(),GetElement()); 
+   s << " [" << vr  << "] ";
+
+   if (PrintLevel >= 1)
+   {
+      s.setf(std::ios::left);
+      s << std::setw(66-GetName().length()) << " ";
+   }
+
+   s << "[" << GetName()<< "]";
+   os << s.str() << std::endl;
+}
 
 //-----------------------------------------------------------------------------
 } // end namespace gdcm

@@ -20,19 +20,22 @@
 #define GDCMDICOMDIRMETA_H
 
 #include "gdcmDicomDirObject.h"
+
 namespace gdcm 
 {
 
 //-----------------------------------------------------------------------------
+/**
+ * \brief   Meta Elements (group 0002) of a DicomDir
+ */
 class GDCM_EXPORT DicomDirMeta : public DicomDirObject 
 {
 public:
-   DicomDirMeta(TagDocEntryHT *ptagHT); 
-
+   DicomDirMeta(bool empty=false); 
    ~DicomDirMeta();
 
-   virtual void Print(std::ostream &os = std::cout);
-   virtual void Write(std::ofstream * fp, FileType t);
+   virtual void Print(std::ostream &os = std::cout, std::string const &indent = "" );
+   virtual void WriteContent(std::ofstream *fp, FileType t);
 };
 } // end namespace gdcm
 //-----------------------------------------------------------------------------

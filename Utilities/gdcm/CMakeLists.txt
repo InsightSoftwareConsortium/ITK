@@ -1,10 +1,10 @@
 PROJECT(GDCM)
-CMAKE_MINIMUM_REQUIRED(VERSION 1.8)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.0)
 
 #-----------------------------------------------------------------------------
 # GDCM version number, usefull for packaging and doxygen doc:
-SET(GDCM_MAJOR_VERSION 0)
-SET(GDCM_MINOR_VERSION 6)
+SET(GDCM_MAJOR_VERSION 1)
+SET(GDCM_MINOR_VERSION 0)
 SET(GDCM_BUILD_VERSION 0)
 SET(GDCM_VERSION 
     "${GDCM_MAJOR_VERSION}.${GDCM_MINOR_VERSION}.${GDCM_BUILD_VERSION}")
@@ -26,7 +26,7 @@ IF("GDCM_COMPILER_HAS_FUNCTION" MATCHES "^GDCM_COMPILER_HAS_FUNCTION$")
   MESSAGE(STATUS "Checking support for __FUNCTION__ in compiler")
   TRY_COMPILE(GDCM_COMPILER_HAS_FUNCTION
               ${GDCM_BINARY_DIR}/CMakeTmp/Function
-              ${GDCM_SOURCE_DIR}/gdcmTestFUNCTION.cxx
+              ${GDCM_SOURCE_DIR}/CMake/gdcmTestFUNCTION.cxx
               OUTPUT_VARIABLE OUTPUT)
   IF(GDCM_COMPILER_HAS_FUNCTION)
     MESSAGE(STATUS "Checking support for __FUNCTION__ -- yes")
@@ -74,6 +74,7 @@ IF("HAVE_SA_LEN" MATCHES "^HAVE_SA_LEN$")
       "${OUTPUT}\n" APPEND)
   ENDIF(HAVE_SA_LEN)
 ENDIF("HAVE_SA_LEN" MATCHES "^HAVE_SA_LEN$")
+
 #-----------------------------------------------------------------------------
 # Build directory on which many applications depend
 SUBDIRS(
@@ -113,6 +114,8 @@ CHECK_INCLUDE_FILE_CONCAT("net/if.h"       CMAKE_HAVE_NET_IF_H)
 CHECK_INCLUDE_FILE_CONCAT("netinet/in.h"   CMAKE_HAVE_NETINET_IN_H)
 CHECK_INCLUDE_FILE_CONCAT("net/if_dl.h"    CMAKE_HAVE_NET_IF_DL_H)
 CHECK_INCLUDE_FILE_CONCAT("net/if_arp.h"   CMAKE_HAVE_NET_IF_ARP_H)
+
+#-----------------------------------------------------------------------------
 
 CONFIGURE_FILE(${GDCM_SOURCE_DIR}/gdcmConfigure.h.in
                ${GDCM_BINARY_DIR}/gdcmConfigure.h @ONLY IMMEDIATE)

@@ -18,7 +18,8 @@
 #define _itkGDCMSeriesFileNames_h
 
 #include "itkGDCMSeriesFileNames.h"
-#include "gdcm/src/gdcmHeaderHelper.h"
+#include "gdcm/src/gdcmSerieHelper.h"
+#include "gdcm/src/gdcmFile.h"
 #include <itksys/SystemTools.hxx>
 
 #include <vector>
@@ -31,19 +32,19 @@ const std::vector<std::string> &GDCMSeriesFileNames::GetInputFileNames()
 {
   m_InputFileNames.clear();
   // Get the DICOM filenames from the directory
-  gdcm::SerieHeader *helper = new gdcm::SerieHeader();
+  gdcm::SerieHelper *helper = new gdcm::SerieHelper();
   helper->SetDirectory( m_InputDirectory );
-  helper->OrderGdcmFileList();
+  gdcm::GdcmFileList *flist = helper->GetFirstCoherentFileList();
+  helper->OrderGdcmFileList(flist);
   //We assume that there is only one study / one serie
 
-  std::list<gdcm::Header*> flist = helper->GetGdcmFileList();
-  std::list<gdcm::Header*>::iterator it;
-  if( flist.size() )
+  gdcm::GdcmFileList::iterator it;
+  if( flist->size() )
     {
-    for(it = flist.begin(); 
-        it != flist.end(); ++it )
+    for(it = flist->begin(); 
+        it != flist->end(); ++it )
       {
-        gdcm::Header * header = *it;
+        gdcm::File * header = *it;
         if( !header )
           {
           std::cerr << "GDCMSeriesFileNames got NULL header, this is a serious bug" << std::endl;

@@ -51,6 +51,7 @@
 #cmakedefine CMAKE_HAVE_NET_IF_ARP_H
 #cmakedefine HAVE_SA_LEN
 
+#cmakedefine GDCM_FORCE_BIGENDIAN_EMULATION
 
 /*--------------------------------------------------------------------------*/
 /* GDCM Versioning                                                          */

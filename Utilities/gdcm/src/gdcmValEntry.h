@@ -20,44 +20,48 @@
 #define GDCMVALENTRY_H
 
 #include "gdcmDocEntry.h"
+#include "gdcmContentEntry.h"
+
 #include <iostream>
 
 namespace gdcm 
 {
 //-----------------------------------------------------------------------------
 /**
- * \ingroup ValEntry
- * \brief   The dicom header of a Dicom file contains a set of such entries
- *          (when successfuly parsed against a given Dicom dictionary)
+ * \brief   Any Dicom Document (File or DicomDir) contains 
+ *           a set of DocEntry  - Dicom entries -
+ *          ValEntry is an elementary DocEntry (i.e. a ContentEntry, 
+ *           as opposed to SeqEntry)
+ *          whose content is 'std::string representable' : characters,
+ *          or integers (loaded in memory as a std::string)
+ *          ValEntry is a specialisation of ContentEntry
  */
-class GDCM_EXPORT ValEntry  : public DocEntry
+class GDCM_EXPORT ValEntry  : public ContentEntry
 {
 public:
-   ValEntry(DictEntry* e);
-   ValEntry(DocEntry* d); 
+
+   // Contructors and Destructor are public.
+   ValEntry(DictEntry *e);
+   ValEntry(DocEntry *d); 
+
    ~ValEntry();
 
-   /// \brief Returns the 'Value' (e.g. "Dupond Marcel") converted into a
-   /// 'string', event if it's stored as an integer in the header of the
-   /// current Dicom Document Entry
-   std::string const & GetValue() const { return Value; };
-    
-   /// Sets the value (string) of the current Dicom Document Entry
-   void SetValue(std::string const & val) { Value = val; }; 
+   // Other accessors are inherited from gdcm::ContentEntry
 
-   virtual void Print(std::ostream &os = std::cout); 
-   virtual void Write(std::ofstream *fp, FileType filetype);
+   void Print(std::ostream &os = std::cout,std::string const & indent = ""); 
+
+   void WriteContent(std::ofstream *fp, FileType filetype); 
+   
+   /// Sets the value (string) of the current Dicom entry.
+   /// The size is updated
+   void SetValue(std::string const &val);
 
 protected:
    
 private:
-// Members :
-  
-   /// \brief Document Entry value, internaly represented as a std::string
-   ///        The Value Representation (\ref VR) is independently used
-   ///        in order to interpret (decode) this field.
-   std::string Value;
+
 };
+
 } // end namespace gdcm
 
 //-----------------------------------------------------------------------------

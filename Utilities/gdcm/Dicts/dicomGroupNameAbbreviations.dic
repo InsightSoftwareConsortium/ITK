@@ -1,0 +1,63 @@
+// Group Number  
+// NHI Abbreviation (when known) - not part of DICOM standard -
+// Meaning          (when known) - not part of DICOM standard -
+
+0000 CMD Command
+0002 META Meta Elements
+0004 DIR Directory
+0008 ID Identification Informations
+0010 PAT Patient Informations
+0012 CLI Clinical Trial Informations
+0018 ACQ Acquisition Informations
+0020 REL Relationship Informations
+0022 ??? ???
+0028 IMG Image Informations
+0032 SDY Study Informations
+0038 VIS Visit Information
+003a WAV Waveform Information
+0040 PRC Procedure Informations
+0050 DEV Device Informations
+0054 NMI Nuclear Medicine
+0060 HIS Histogram
+0070 ??? ???
+0088 MED Medicine
+0100 ??? ???
+0400 ??? ???
+2000 BFS ???
+2010 BFB ???
+2020 BIB ???
+2030 BAB ???
+2040 IOB ???
+2050 ??? ???
+2100 PJ ???
+2110 PRINTER Printer
+2130 ??? ???
+2200 ??? ???
+3002 RT Radiotherapy
+3004 DVH ???
+3006 SSET ???
+3008 ??? ???
+300a RT Radiotherapy
+300c RT Radiotherapy
+300e RT Radiotherapy
+4008 RES Results
+4ffe ??? ???
+5000 CRV Curve
+5002 CRV Curve
+5004 CRV Curve
+5006 CRV Curve
+5008 CRV Curve
+500a CRV Curve
+500c CRV Curve
+500e CRV Curve
+5200 ??? ???
+5400 ??? ???
+5600 ??? ???
+6000 OLY Overlays
+6002 OLY Overlays
+6004 OLY Overlays
+6008 OLY Overlays
+600a OLY Overlays
+600c OLY Overlays
+600e OLY Overlays
+7fe0 PXL Pixels

@@ -16,104 +16,101 @@
                                                                                 
 =========================================================================*/
 
-#include <iostream>
 #include "gdcmDebug.h"
+#include <iostream>
 
 namespace gdcm 
 {
+//-----------------------------------------------------------------------------
+// Warning message level to be displayed
+static bool DebugFlag   = false;
+static bool DebugToFile = false;
+static std::ofstream DebugFile;
 
 //-----------------------------------------------------------------------------
-/**
- * \brief   constructor
- * @param level debug level
- */ 
-Debug::Debug(int level) 
+// Constructor / Destructor
+Debug::Debug()
 {
-   DebugLevel = level;
+
+}
+
+Debug::~Debug()
+{
+  if ( DebugFile.is_open() )
+      DebugFile.close();     
+}
+
+//-----------------------------------------------------------------------------
+// Public
+/**
+ * \brief   Sets the debug flag
+ * @param   flag Set the debug flag
+ */ 
+void Debug::SetDebugFlag (bool flag) 
+{
+   DebugFlag = flag;
+}
+
+/**
+ * \brief   Gets the debug flag value
+ * @return debug flag value
+ */ 
+bool Debug::GetDebugFlag ()
+{
+   return DebugFlag;
 }
 
 /**
  * \brief   Accessor
- * @param   level Set the debug level
+ * @param   flag whether we want to redirect to file
  */ 
-void Debug::SetDebug(int level) 
+void Debug::SetDebugToFile (bool flag) 
 {
-   DebugLevel = level;
+   DebugToFile = flag;
 }
 
 /**
- * \brief   Verbose 
- * @param level level
- * @param msg1 first message part
- * @param msg2 second message part 
- */
-void Debug::Verbose(int level, const char * msg1, const char * msg2) 
+ * \brief   Accessor to know if debug info are redirected to file
+ */ 
+bool Debug::GetDebugToFile ()
 {
-   if (level > DebugLevel)
-   {
-      return ;
-   }
-   std::cerr << "gdcm::" << msg1 << ' ' << msg2 << std::endl << std::flush;
+   return DebugToFile;
 }
 
 /**
- * \brief   Error 
- * @param test test
- * @param msg1 first message part
- * @param msg2 second message part 
- */
-void Debug::Error(bool test, const char * msg1, const char * msg2) 
+ * \brief Set the filename the debug stream should be redirect to
+ *        Settting a filename also set DebugToFile to true
+ * @param   filename  File to redirect debug info
+ *          Absolutely nothing is check. You have to pass in
+ *          a correct filename
+ */ 
+void Debug::SetDebugFilename (std::string const &filename)
 {
-   if (!test)
-   {
-      return;
-   }
-   std::cerr << "gdcm::" << msg1 << ' ' << msg2 << std::endl << std::flush;
-   Exit(1);
+   DebugToFile = true;  // Just in case ... 
+   DebugFlag = true;    // Just in case ...
+   if( DebugFile.is_open() )
+      DebugFile.close();
+   DebugFile.open( filename.c_str() );
 }
 
 /**
- * \brief   Error 
- * @param msg1 first message part
- * @param msg2 second message part
- * @param msg3 Third message part  
+ * \brief Internal use only. Allow us to retrieve the static from anywhere
+ *        in gdcm code
+ * @return Debug file
  */
-void Debug::Error(const char* msg1, const char* msg2,
-                      const char* msg3) 
+std::ofstream &Debug::GetDebugFile ()
 {
-   std::cerr << "gdcm::" << msg1 << ' ' << msg2 << ' ' << msg3
-             << std::endl << std::flush;
-   Exit(1);
+  return DebugFile;
 }
 
-/**
- * \brief   Assert 
- * @param level level 
- * @param test test
- * @param msg1 first message part
- * @param msg2 second message part
- */
-void Debug::Assert(int level, bool test, const char * msg1, 
-                       const char * msg2) 
-{
-   if (level > DebugLevel)
-   {
-      return ;
-   }
-   if (!test)
-   {
-      std::cerr << "gdcm::" <<  msg1 << ' ' << msg2
-                << std::endl << std::flush;
-   }
-}
+//-----------------------------------------------------------------------------
+// Protected
 
-/**
- * \brief   Exit 
- * @param a return code 
- */
-void Debug::Exit(int a) 
-{
-   exit(a);    // Found in #include <stdlib.h>
-}
+//-----------------------------------------------------------------------------
+// Private
+   
+//-----------------------------------------------------------------------------
+// Print
 
+//-----------------------------------------------------------------------------
 } // end namespace gdcm
