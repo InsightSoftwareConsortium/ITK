@@ -47,7 +47,7 @@ public:
    * Create an object and return a pointer to it as an
    * itkLightObject.
    */
-  virtual LightObject* CreateObject() = 0;
+  virtual SmartPointer<LightObject> CreateObject() = 0;
 };
 
 
@@ -71,7 +71,7 @@ public:
   
   // Methods from Object
   static Pointer New() { return new Self;}
-  LightObject* CreateObject()
+  LightObject::Pointer CreateObject()
     {
     return T::New();
     }
