@@ -19,6 +19,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"
+#include "itkFixedArray.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhood.h"
@@ -101,6 +102,9 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
   
+  /** Typedef of double containers */
+  typedef FixedArray<double, itkGetStaticConstMacro(ImageDimension)> ArrayType;
+
   /** Neighborhood iterator types. */
   typedef ConstNeighborhoodIterator<TInputImage> 
   NeighborhoodIteratorType ;
@@ -120,9 +124,8 @@ public:
   /** Standard get/set macros for filter parameters.
    * DomainSigma is specified in the same units as the Image spacing.
    * RangeSigma is specified in the units of intensity. */
-  itkSetVectorMacro(DomainSigma, double, ImageDimension);
-  itkSetVectorMacro(DomainSigma, float, ImageDimension);
-  itkGetVectorMacro(DomainSigma, const double, ImageDimension);
+  itkSetMacro(DomainSigma, ArrayType);
+  itkGetMacro(DomainSigma, const ArrayType);
   itkSetMacro(RangeSigma, double);
   itkGetMacro(RangeSigma, double);
   itkGetMacro(FilterDimensionality, unsigned int);
@@ -132,20 +135,9 @@ public:
    * same values.  */
   void SetDomainSigma(const double v)
   {
-    double vArray[ImageDimension];
-    for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
-    this->SetDomainSigma(vArray);
+    m_DomainSigma.Fill(v);
   }
   
-  /** Convenience get/set methods for setting all domain parameters to the
-   * same values.  */
-  void SetDomainSigma(const float v)
-  {
-    double vArray[ImageDimension];
-    for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = static_cast<double>(v); }
-    this->SetDomainSigma(vArray);
-  }
-
   /** Set/Get the number of samples in the approximation to the Gaussian
    * used for the range smoothing. Samples are only generated in the
    * range of [0, 4*m_RangeSigma]. Default is 100. */
@@ -158,11 +150,8 @@ protected:
   BilateralImageFilter()
   {
     unsigned int i;
-    for (i = 0; i < ImageDimension; i++)
-      {
-      m_DomainSigma[i] = 4.0f;
-      }
-    m_RangeSigma = 50.0f;
+    m_DomainSigma.Fill(4.0);
+    m_RangeSigma = 50.0;
     m_FilterDimensionality = ImageDimension;
     m_NumberOfRangeGaussianSamples = 100;
     m_DynamicRange = 0.0;
@@ -202,7 +191,7 @@ private:
   
   /** The standard deviation of the gaussian blurring kernel in each
       dimensional direction. Units match image spacing units. */
-  double m_DomainSigma[ImageDimension];
+  ArrayType m_DomainSigma;
 
   /** Multiplier used to define statistical thresholds.  Gaussians are
    * only evaluated to m_DomainMu*m_DomainSigma or m_RangeMu*m_RangeSigma. */

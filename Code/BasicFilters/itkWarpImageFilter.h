@@ -21,6 +21,7 @@
 #include "itkInterpolateImageFunction.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkPoint.h"
+#include "itkFixedArray.h"
 
 namespace itk
 {
@@ -113,6 +114,9 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension );
 
+  /** Typedef of double containers */
+  typedef FixedArray<double, itkGetStaticConstMacro(ImageDimension)> ArrayType;
+
   /** Deformation field typedef support. */
   typedef TDeformationField    DeformationFieldType;
   typedef typename DeformationFieldType::Pointer  DeformationFieldPointer;
@@ -140,20 +144,14 @@ public:
   /** Get a pointer to the interpolator function. */
   itkGetObjectMacro( Interpolator, InterpolatorType );
 
-  /** Set the output image spacing. */
-  virtual void SetOutputSpacing( const double values[ImageDimension] );
+  /** Set/Get the output image spacing. */
+  itkSetMacro(OutputSpacing, ArrayType);
+  itkGetMacro(OutputSpacing, const ArrayType);
 
-  /** Get the output image spacing. */
-  const double * GetOutputSpacing()
-  { return m_OutputSpacing; }
-
-  /** Set the output image origin. */
-  virtual void SetOutputOrigin( const double values[ImageDimension] );
-
-  /** Get the output image origin. */
-  const double * GetOutputOrigin()
-  { return m_OutputSpacing; }
-
+  /** Set/Get the output image origin. */
+  itkSetMacro(OutputOrigin, ArrayType);
+  itkGetMacro(OutputOrigin, const ArrayType);
+  
   /** Set the edge padding value */
   itkSetMacro( EdgePaddingValue, PixelType );
 
@@ -195,8 +193,8 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   PixelType                  m_EdgePaddingValue;
-  double                     m_OutputSpacing[ImageDimension];
-  double                     m_OutputOrigin[ImageDimension];
+  ArrayType                  m_OutputSpacing;
+  ArrayType                  m_OutputOrigin;
 
   InterpolatorPointer        m_Interpolator;
   

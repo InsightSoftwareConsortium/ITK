@@ -22,6 +22,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageToImageFilter.h"
 #include "itkInterpolateImageFunction.h"
+#include "itkFixedArray.h"
 #include "itkSize.h"
 
 namespace itk
@@ -82,6 +83,9 @@ public:
   /** Number of dimensions. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
+
+  /** Typedef of double containers */
+  typedef FixedArray<double, itkGetStaticConstMacro(ImageDimension)> ArrayType;
 
   /** Transform typedef.
    *
@@ -145,19 +149,12 @@ public:
   itkGetMacro(DefaultPixelValue,PixelType);
 
   /** Set the output image spacing. */
-  virtual void SetOutputSpacing( const double values[ImageDimension] );
-
-  /** Get the output image spacing. */
-  const double * GetOutputSpacing()
-  { return m_OutputSpacing; }
+  itkSetMacro(OutputSpacing, ArrayType);
+  itkGetMacro(OutputSpacing, const ArrayType);
 
   /** Set the output image origin. */
-  virtual void SetOutputOrigin( const double values[ImageDimension] );
-
-  /** Get the output image origin. */
-  const double * GetOutputOrigin()
-  { return m_OutputSpacing; }
-
+  itkSetMacro(OutputOrigin, ArrayType);
+  itkGetMacro(OutputOrigin, const ArrayType);
 
   /** ResampleImageFilter produces an image which is a different size
    * than its input.  As such, it needs to provide an implementation
@@ -207,8 +204,8 @@ private:
   PixelType               m_DefaultPixelValue; 
   // default pixel value if the point 
   // is outside the image
-  double                  m_OutputSpacing[ImageDimension]; // output image spacing
-  double                  m_OutputOrigin[ImageDimension];  // output image origin
+  ArrayType               m_OutputSpacing; // output image spacing
+  ArrayType               m_OutputOrigin;  // output image origin
 
 };
 

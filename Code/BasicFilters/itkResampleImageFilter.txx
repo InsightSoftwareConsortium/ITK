@@ -35,11 +35,11 @@ template <class TInputImage, class TOutputImage>
 ResampleImageFilter<TInputImage, TOutputImage>
 ::ResampleImageFilter()
 {
+  m_OutputSpacing.Fill(1.0);
+  m_OutputOrigin.Fill(0.0);
   for (unsigned int i = 0; i < ImageDimension; i++)
     {
     m_Size[i] = 0;
-    m_OutputSpacing[i] = 1.0;
-    m_OutputOrigin[i] = 0.0;
     }
   
   m_Transform = IdentityTransform<double, ImageDimension>::New();
@@ -72,86 +72,13 @@ ResampleImageFilter<TInputImage, TOutputImage>
     }
   os << m_Size[j] << "]" << std::endl;
 
-  os << indent << "OutputSpacing: [";
-  for( j = 0; j < ImageDimension - 1; j++ )
-    {
-    os << m_OutputSpacing[j] << ", ";
-    }
-  os << m_OutputSpacing[j] << "]" << std::endl;
-
-  os << indent << "OutputOrigin: [";
-  for( j = 0; j < ImageDimension - 1; j++ )
-    {
-    os << m_OutputOrigin[j] << ", ";
-    }
-  os << m_OutputOrigin[j] << "]" << std::endl;
-
+  os << indent << "OutputSpacing: " << m_OutputSpacing << std::endl;
+  os << indent << "OutputOrigin: " << m_OutputOrigin << std::endl;
   os << indent << "Transform: " << m_Transform.GetPointer() << std::endl;
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
 
   return;
 }
-
-
-/**
- * Set the output image spacing.
- */
-template <class TInputImage, class TOutputImage>
-void 
-ResampleImageFilter<TInputImage,TOutputImage>
-::SetOutputSpacing(
-  const double spacing[ImageDimension] )
-{
-
-  unsigned int j; 
-  for ( j = 0; j < ImageDimension; j++)
-    {
-    if ( spacing[j] != m_OutputSpacing[j] )
-      {
-      break;
-      }
-    } 
-  if ( j < ImageDimension ) 
-    { 
-    this->Modified(); 
-    for ( j = 0; j < ImageDimension; j++)
-      {
-      m_OutputSpacing[j] = spacing[j];
-      }
-    } 
-
-}
-
-
-/**
- * Set the output image origin.
- */
-template <class TInputImage, class TOutputImage>
-void 
-ResampleImageFilter<TInputImage,TOutputImage>
-::SetOutputOrigin(
-  const double origin[ImageDimension] )
-{
-
-  unsigned int j; 
-  for ( j = 0; j < ImageDimension; j++)
-    {
-    if ( origin[j] != m_OutputOrigin[j] )
-      {
-      break;
-      }
-    } 
-  if ( j < ImageDimension ) 
-    { 
-    this->Modified(); 
-    for ( j = 0; j < ImageDimension; j++)
-      {
-      m_OutputOrigin[j] = origin[j];
-      }
-    } 
-
-}
-
 
 
 /**

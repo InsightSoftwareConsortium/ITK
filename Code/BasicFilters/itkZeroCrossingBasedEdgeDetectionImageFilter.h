@@ -18,6 +18,7 @@
 #define __itkZeroCrossingBasedEdgeDetectionImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkFixedArray.h"
 #include "itkImage.h"
 
 
@@ -99,11 +100,14 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension );
   
+  /** Typedef of double containers */
+  typedef FixedArray<double, itkGetStaticConstMacro(ImageDimension)> ArrayType;
+
   /** Standard get/set macros for Gaussian filter parameters.  */
-  itkSetVectorMacro(Variance, double, ImageDimension);
-  itkGetVectorMacro(Variance, const double, ImageDimension);
-  itkSetVectorMacro(MaximumError, double, ImageDimension);
-  itkGetVectorMacro(MaximumError, const double, ImageDimension);
+  itkSetMacro(Variance, ArrayType);
+  itkGetMacro(Variance, const ArrayType);
+  itkSetMacro(MaximumError, ArrayType);
+  itkGetMacro(MaximumError, const ArrayType);
 
   /** Get/Set the label values for the ZeroCrossingImageFilter */
   itkGetMacro(BackgroundValue, OutputImagePixelType);
@@ -112,29 +116,22 @@ public:
   itkSetMacro(ForegroundValue, OutputImagePixelType);
   
   /** Set the variance parameter needed by the embedded gaussian filter  */ 
-  void SetVariance(const double v)
+  void SetVariance(const ArrayType::ValueType v)
   {
-    double vArray[ImageDimension];
-    for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
-    this->SetVariance(vArray);
+    m_Variance.Fill(v);
   }
   
   /** Set the MaximumError parameter needed by the embedded gaussian filter */
-  void SetMaximumError(const double v)
+  void SetMaximumError(const ArrayType::ValueType v)
   {
-    double vArray[ImageDimension];
-    for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
-    this->SetMaximumError(vArray);
+    m_MaximumError.Fill(v);
   }
-  
-  //  virtual void GenerateInputRequestedRegion()
-  //  throw(InvalidRequestedRegionError);
   
 protected:
   ZeroCrossingBasedEdgeDetectionImageFilter()
   {
-    this->SetVariance(1.0f);
-    this->SetMaximumError(0.01f);
+    m_Variance.Fill(1.0);
+    m_MaximumError.Fill(0.01);
     m_BackgroundValue = NumericTraits<OutputImagePixelType>::Zero;
     m_ForegroundValue = NumericTraits<OutputImagePixelType>::One;
   }
@@ -152,11 +149,11 @@ protected:
   
 private:
   /** The variance of the Gaussian Filter used in this filter */
-  double m_Variance[ImageDimension];
+  ArrayType m_Variance;
 
   /** The maximum error of the gaussian blurring kernel in each dimensional
    * direction.  */
-  double m_MaximumError[ImageDimension];
+  ArrayType m_MaximumError;
  
   OutputImagePixelType m_BackgroundValue;
   OutputImagePixelType m_ForegroundValue;

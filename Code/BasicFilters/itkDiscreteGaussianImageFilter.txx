@@ -206,25 +206,11 @@ void
 DiscreteGaussianImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  unsigned int i;
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Variance: [ ";
-  for (i = 0; i < ImageDimension; i++)
-    {
-    os << m_Variance[i] << " ";
-    }
-  os << "]" << std::endl;
-
-  os << indent << "MaximumError: [ ";
-  for (i = 0; i < ImageDimension; i++)
-    {
-    os << m_MaximumError[i] << " ";
-    }
-  os << "]" << std::endl;
-
+  os << indent << "Variance: " << m_Variance << std::endl;
+  os << indent << "MaximumError: " << m_MaximumError << std::endl;
   os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
-
   os << indent << "FilterDimensionality: " << m_FilterDimensionality << std::endl;
   os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
 }

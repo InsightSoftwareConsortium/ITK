@@ -320,12 +320,7 @@ BilateralImageFilter<TInputImage, TOutputImage>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "DomainSigma: ";
-  for ( unsigned int i = 0; i < ImageDimension; i++ )
-    {
-    os << m_DomainSigma[i] << " ";
-    }
-  os << std::endl;
+  os << indent << "DomainSigma: " << m_DomainSigma << std::endl;
   os << indent << "RangeSigma: " << m_RangeSigma << std::endl;
   os << indent << "FilterDimensionality: " << m_FilterDimensionality << std::endl;
   os << indent << "NumberOfRangeGaussianSamples: " << m_NumberOfRangeGaussianSamples << std::endl;

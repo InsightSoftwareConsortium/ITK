@@ -18,6 +18,7 @@
 #define __itkDiscreteGaussianImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkFixedArray.h"
 #include "itkImage.h"
 
 namespace itk
@@ -84,21 +85,22 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
   
+  /** Typedef of double containers */
+  typedef FixedArray<double, itkGetStaticConstMacro(ImageDimension)> ArrayType;
+
   /** The variance for the discrete Gaussian kernel.  Sets the variance
    * independently for each dimension, but 
    * see also SetVariance(const double v). The default is 0.0 in each
    * dimension. If UseImageSpacing is true, the units are the physical units
    * of your image.  If UseImageSpacing is false then the units are pixels.*/
-  itkSetVectorMacro(Variance, double, ImageDimension);
-  itkSetVectorMacro(Variance, float, ImageDimension);
-  itkGetVectorMacro(Variance, const double, ImageDimension);
+  itkSetMacro(Variance, ArrayType);
+  itkGetMacro(Variance, const ArrayType);
 
   /** The algorithm will size the discrete kernel so that the error
    * resulting from truncation of the kernel is no greater than
    * MaximumError. The default is 0.01 in each dimension. */
-  itkSetVectorMacro(MaximumError, double, ImageDimension);
-  itkSetVectorMacro(MaximumError, float, ImageDimension);
-  itkGetVectorMacro(MaximumError, const double, ImageDimension);
+  itkSetMacro(MaximumError, ArrayType);
+  itkGetMacro(MaximumError, const ArrayType);
 
   /** Set the kernel to be no wider than MaximumKernelWidth pixels,
    *  even if MaximumError demands it. The default is 32 pixels. */
@@ -108,36 +110,18 @@ public:
   itkGetMacro(FilterDimensionality, unsigned int);
   itkSetMacro(FilterDimensionality, unsigned int);
   
-  /** Convenience get/set methods for setting all dimensional parameters to the
-   * same values.  */
-  void SetVariance(const double v)
-  {
-    double vArray[ImageDimension];
-    for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
-    this->SetVariance(vArray);
-  }
-  void SetMaximumError(const double v)
-  {
-    double vArray[ImageDimension];
-    for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
-    this->SetMaximumError(vArray);
-  }
+  /** Convenience Set methods for setting all dimensional parameters
+   *  to the same values. */
+  void SetVariance (const ArrayType::ValueType v)
+    {
+      m_Variance.Fill(v);
+    }
 
-  /** Convenience get/set methods for setting all dimensional parameters to the
-   * same values.  */
-  void SetVariance(const float v)
-  {
-    double vArray[ImageDimension];
-    for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = static_cast<double>(v); }
-    this->SetVariance(vArray);
-  }
-  void SetMaximumError(const float v)
-  {
-    double vArray[ImageDimension];
-    for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = static_cast<double>(v); }
-    this->SetMaximumError(vArray);
-  }
-  
+  void SetMaximumError (const ArrayType::ValueType v)
+    {
+      m_MaximumError.Fill(v);
+    }
+
   /** Use the image spacing information in calculations. Use this option if you
    *  want to specify Gaussian variance in real world units.  Default is
    *   ImageSpacingOn. */
@@ -166,11 +150,8 @@ protected:
   DiscreteGaussianImageFilter()
   {
     unsigned int i;
-    for (i = 0; i < ImageDimension; i++)
-      {
-      m_Variance[i] = 0.0;
-      m_MaximumError[i] = 0.01;
-      }
+    m_Variance.Fill(0.0);
+    m_MaximumError.Fill(0.01);
     m_MaximumKernelWidth = 32;
     m_UseImageSpacing = true;
     m_FilterDimensionality = ImageDimension;
@@ -191,12 +172,12 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   /** The variance of the gaussian blurring kernel in each dimensional direction. */
-  double m_Variance[ImageDimension];
+  ArrayType m_Variance;
 
   /** The maximum error of the gaussian blurring kernel in each dimensional
    * direction. For definition of maximum error, see GaussianOperator.
    * \sa GaussianOperator */
-  double m_MaximumError[ImageDimension];
+  ArrayType m_MaximumError;
 
   /** Maximum allowed kernel width for any dimension of the discrete Gaussian
       approximation */

@@ -136,20 +136,8 @@ ZeroCrossingBasedEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "Variance: [";
-  for (unsigned i = 0; i < ImageDimension; ++i)
-    {
-    os << m_Variance[i] << " ";
-    }
-  os << "]" << std::endl;
-
-  os << indent << "MaximumError: [";
-  for (unsigned i = 0; i < ImageDimension; ++i)
-    {
-    os << m_MaximumError[i] << " ";
-    }
-  os << "]" << std::endl;
-
+  os << indent << "Variance: " << m_Variance << std::endl;
+  os << indent << "MaximumError: " << m_MaximumError << std::endl;
   os << indent << "ForegroundValue: "
      << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ForegroundValue)
      << std::endl;

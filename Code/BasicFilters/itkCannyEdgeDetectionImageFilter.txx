@@ -35,11 +35,9 @@ CannyEdgeDetectionImageFilter()
 {
   unsigned int i;
 
-  for (i = 0; i < ImageDimension; i++)
-    {
-    m_Variance[i] = 0.0;
-    m_MaximumError[i] = 0.01;
-    }
+  m_Variance.Fill(0.0);
+  m_MaximumError.Fill(0.01);
+
   m_OutsideValue = NumericTraits<OutputImagePixelType>::Zero;
   m_Threshold = NumericTraits<OutputImagePixelType>::Zero;
   m_UpperThreshold = NumericTraits<OutputImagePixelType>::Zero;
@@ -396,8 +394,6 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   float value;
 
   ListNodeType *node;
-  //m_UpperThreshold = m_UpperThreshold * (m_GradMax-m_GradMin) + m_GradMin;
-  //m_LowerThreshold = m_LowerThreshold * (m_GradMax-m_GradMin) + m_GradMin;
 
   ImageRegionIterator<TOutputImage> oit(output, output->GetRequestedRegion());
   
@@ -416,14 +412,13 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
     {
     value = oit.Value();
 
-    if(value > m_UpperThreshold){
-    node = m_NodeStore->Borrow();
-    node->m_Value = oit.GetIndex();
-    m_NodeList->PushFront(node);
-    FollowEdge(oit.GetIndex());
-    }
-
-    //FollowEdge(oit.GetIndex());
+    if(value > m_UpperThreshold)
+      {
+      node = m_NodeStore->Borrow();
+      node->m_Value = oit.GetIndex();
+      m_NodeList->PushFront(node);
+      FollowEdge(oit.GetIndex());
+      }
 
     ++oit;
     }
@@ -707,10 +702,8 @@ CannyEdgeDetectionImageFilter<TInputImage,TOutputImage>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << "Variance: "
-     << m_Variance << std::endl;
-  os << "MaximumError: "
-     << m_MaximumError << std::endl;
+  os << "Variance: " << m_Variance << std::endl;
+  os << "MaximumError: " << m_MaximumError << std::endl;
   os << indent << "Threshold: "
      << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>
     (m_Threshold)

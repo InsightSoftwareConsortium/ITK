@@ -19,6 +19,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"
+#include "itkFixedArray.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkMultiThreader.h"
@@ -133,28 +134,27 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
   
+  /** Typedef of double containers */
+  typedef FixedArray<double, itkGetStaticConstMacro(ImageDimension)> ArrayType;
+
   /** Standard get/set macros for filter parameters. */
-  itkSetVectorMacro(Variance, double, ImageDimension); 
-  itkGetVectorMacro(Variance, const double, ImageDimension); 
-  itkSetVectorMacro(MaximumError, double, ImageDimension); 
-  itkGetVectorMacro(MaximumError, const double, ImageDimension);
+  itkSetMacro(Variance, ArrayType);
+  itkGetMacro(Variance, const ArrayType);
+  itkSetMacro(MaximumError, ArrayType);
+  itkGetMacro(MaximumError, const ArrayType);
   
   /** Set/Get the Variance parameter used by the Gaussian smoothing
       filter in this algorithm */
-  void SetVariance(const double v)
+  void SetVariance(const ArrayType::ValueType v)
   {
-    double vArray[ImageDimension];
-    for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
-    this->SetVariance(vArray);
+    m_Variance.Fill(v);
   }
   
   /** Set/Get the MaximumError paramter used by the Gaussian smoothing filter
       in this algorithm */
-  void SetMaximumError(const double v)
+  void SetMaximumError(const ArrayType::ValueType v)
   {
-    double vArray[ImageDimension];
-    for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
-    this->SetMaximumError(vArray);
+    m_MaximumError.Fill(v);
   }
   
   /* Set the Threshold value for detected edges. */
@@ -267,11 +267,11 @@ private:
   Compute2ndDerivativePosThreaderCallback( void *arg );
 
   /** The variance of the Gaussian Filter used in this filter */
-  double m_Variance[ImageDimension];
+  ArrayType m_Variance;
 
   /** The maximum error of the gaussian blurring kernel in each dimensional
    * direction.  */
-  double m_MaximumError[ImageDimension];  
+  ArrayType m_MaximumError;
 
   /** Upper threshold value for identifying edges. */
   OutputImagePixelType m_UpperThreshold;  //should be float here?
