@@ -242,9 +242,21 @@ bool ImageIOBase::SetPixelType(const std::type_info& ptype)
     this->SetPixelType(ImageIOBase::FLOAT);
     this->SetComponentType(ImageIOBase::FLOAT);
     }
+  else if ( ptype == typeid(Vector<float,2>))
+    {
+    this->SetNumberOfComponents(2);
+    this->SetPixelType(ImageIOBase::FLOAT);
+    this->SetComponentType(ImageIOBase::FLOAT);
+    }
   else if ( ptype == typeid(Vector<float,3>))
     {
     this->SetNumberOfComponents(3);
+    this->SetPixelType(ImageIOBase::FLOAT);
+    this->SetComponentType(ImageIOBase::FLOAT);
+    }
+  else if ( ptype == typeid(Vector<float,4>))
+    {
+    this->SetNumberOfComponents(4);
     this->SetPixelType(ImageIOBase::FLOAT);
     this->SetComponentType(ImageIOBase::FLOAT);
     }
