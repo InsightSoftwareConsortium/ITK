@@ -83,6 +83,31 @@ ImageToHistogramGenerator< TImage >
 }
 
 
+template < class TImage >
+void
+ImageToHistogramGenerator< TImage >
+::SetHistogramMin(const MeasurementVectorType & histogramMin)
+{
+  m_HistogramGenerator->SetHistogramMin(histogramMin);
+}
+
+
+template < class TImage >
+void
+ImageToHistogramGenerator< TImage >
+::SetHistogramMax(const MeasurementVectorType & histogramMax)
+{
+  m_HistogramGenerator->SetHistogramMax(histogramMax);
+}
+
+
+template < class TImage >
+void
+ImageToHistogramGenerator< TImage >
+::SetAutoMinMax(bool autoMinMax)
+{
+  m_HistogramGenerator->SetAutoMinMax(autoMinMax);
+}
 
 
 template < class TImage >

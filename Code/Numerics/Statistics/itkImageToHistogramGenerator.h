@@ -62,6 +62,7 @@ public:
   typedef typename HistogramType::Pointer                   HistogramPointer;
   typedef typename HistogramType::ConstPointer              HistogramConstPointer;
   typedef typename HistogramType::SizeType                  SizeType;
+  typedef typename HistogramType::MeasurementVectorType     MeasurementVectorType;
 
 public:
 
@@ -81,7 +82,9 @@ public:
  
   /** Set marginal scale value to be passed to the histogram generator */
   void SetMarginalScale( double marginalScale );
-
+  void SetHistogramMin(const MeasurementVectorType & histogramMin);
+  void SetHistogramMax(const MeasurementVectorType & histogramMax);
+  void SetAutoMinMax(bool autoMinMax);
 
 protected:
   ImageToHistogramGenerator();
