@@ -276,7 +276,7 @@ MetaImageIO
 
   int nChannels = this->GetNumberOfComponents();
 
-  MET_ValueEnumType eType = MET_OTHER;
+  MET_ValueEnumType eType;
   switch(m_PixelType)
     {
     default:

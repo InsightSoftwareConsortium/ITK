@@ -54,7 +54,6 @@ public:
 protected:
   GiplImageIOFactory();
   ~GiplImageIOFactory();
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   GiplImageIOFactory(const Self&); //purposely not implemented

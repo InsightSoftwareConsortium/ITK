@@ -96,7 +96,6 @@ int main()
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  PixelType readValue;
 
   const bool found = pointSet->GetPointData( dataId, & value );   
   if( found ) {

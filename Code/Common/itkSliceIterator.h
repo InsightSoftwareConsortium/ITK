@@ -61,7 +61,7 @@ public:
   SliceIterator End()
     {
       SliceIterator ans = *this;
-      ans.m_Pos = m_Slice.size();
+      ans.m_Pos = static_cast<unsigned long>(m_Slice.size());
       return ans;
     }
 
@@ -120,7 +120,7 @@ private:
   TPixel& Loc(unsigned long n) const
     {
       return (*m_ContainerPointer)[m_Slice.start()
-                                  + n * m_Slice.stride()];
+                                  + n * static_cast<unsigned long>(m_Slice.stride())];
     }  
 
   /** Pointer to the container referenced by the slice iterator. */

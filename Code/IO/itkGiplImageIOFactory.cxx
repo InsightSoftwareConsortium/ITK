@@ -22,11 +22,6 @@
   
 namespace itk
 {
-void GiplImageIOFactory::PrintSelf(std::ostream& os, Indent indent) const
-{
-  
-}
-  
 
 GiplImageIOFactory::GiplImageIOFactory()
 {

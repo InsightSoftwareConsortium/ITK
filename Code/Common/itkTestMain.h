@@ -97,7 +97,7 @@ int main(int ac, char** av)
   if(j != StringToTestFunctionMap.end())
     {
     MainFuncPointer f = j->second;
-    int result = -1;
+    int result;
     try
       {
       // Invoke the test's "main" function.

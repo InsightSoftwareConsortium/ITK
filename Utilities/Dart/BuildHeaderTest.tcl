@@ -64,7 +64,7 @@ See COPYRIGHT.txt for copyright details.
 }
 
 set Trailer "
-int main ( int argc, char* argv[] )
+int main ( int , char* [] )
 {
   
   return 0;

@@ -75,7 +75,7 @@ DistanceToCentroidMembershipFunction< TVector >
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Centroid: [" ;
-  for (i=0; i < VectorDimension - 1; i++)
+  for (i=0; i < static_cast<int>(VectorDimension) - 1; i++)
     {
     os << m_Centroid[i] << ", ";
     }
