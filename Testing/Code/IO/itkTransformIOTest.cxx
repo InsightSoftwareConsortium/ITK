@@ -24,7 +24,7 @@
 #include "itkSimilarity2DTransform.h"
 #include "itkBSplineDeformableTransform.h"
 
-int itkTransformIOTest(int ac, char* av[])
+int itkTransformIOTest(int itkNotUsed(ac), char* itkNotUsed(av)[])
 {
   unsigned int i;
   typedef itk::AffineTransform<double,3> AffineTransformType;
