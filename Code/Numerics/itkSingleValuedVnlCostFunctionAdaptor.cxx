@@ -29,6 +29,7 @@ SingleValuedVnlCostFunctionAdaptor
 { 
   m_ScalesInitialized = false;
   m_NegateCostFunction = false;
+  m_Reporter = Object::New();
 }    
 
     
@@ -184,15 +185,36 @@ SingleValuedVnlCostFunctionAdaptor
   m_NegateCostFunction = flag;
 }
                                    
- /**  Returns whether the cost function is going to be negated or not. 
-  *   This is useful for adapting optimizers that are only minimizers. */
+/**  Returns whether the cost function is going to be negated or not. 
+ *   This is useful for adapting optimizers that are only minimizers. */
 bool 
 SingleValuedVnlCostFunctionAdaptor
 ::GetNegateCostFunction() const
 {
   return m_NegateCostFunction;
 }
+
+/**  Returns whether the cost function is going to be negated or not. 
+ *   This is useful for adapting optimizers that are only minimizers. */
+void 
+SingleValuedVnlCostFunctionAdaptor
+::ReportIteration() const
+{
+  this->m_Reporter->InvokeEvent( IterationEvent() );
+}
  
+
+
+/**  Connects a Command/Observer to the internal reporter class.
+ *   This is useful for reporting iteration event to potential observers. */
+unsigned long 
+SingleValuedVnlCostFunctionAdaptor
+::AddObserver(const EventObject & event, Command * command) const
+{
+  m_Reporter->AddObserver( event, command );
+}
+
+
 } // end namespace itk
 
 

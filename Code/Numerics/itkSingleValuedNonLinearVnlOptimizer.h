@@ -19,6 +19,7 @@
 
 #include "itkSingleValuedNonLinearOptimizer.h"
 #include "itkSingleValuedVnlCostFunctionAdaptor.h"
+#include "itkCommand.h"
 
 
 namespace itk
@@ -45,6 +46,12 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( SingleValuedNonLinearVnlOptimizer, 
                 SingleValueNonLinearOptimizer );
+
+  /** Command observer that will interact with the ITK-VNL cost-function
+   * adaptor in order to generate iteration events. This will allow to overcome
+   * the limitation of VNL optimizers not offering callbacks for every
+   * iteration */
+  typedef SimpleMemberCommand< Self >           CommandType;
 
   /** Set the cost Function. This method has to be overloaded
    *  by derived classes because the CostFunctionAdaptor requires
@@ -89,12 +96,17 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
   
 private:
+  /** Callback function for the Command Observer */
+  void IterationReport();
+  
   SingleValuedNonLinearVnlOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   CostFunctionAdaptorType * m_CostFunctionAdaptor;
 
   bool                      m_Maximize;
+
+  CommandType::Pointer      m_Command;
 };
 
 } // end namespace itk

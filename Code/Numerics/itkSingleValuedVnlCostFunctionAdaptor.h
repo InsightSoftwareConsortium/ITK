@@ -102,12 +102,25 @@ public:
    void NegateCostFunctionOn() { m_NegateCostFunction = true; }
    void NegateCostFunctionOff() { m_NegateCostFunction = false; }
  
+  /** This AddObserver method allows to simulate that this class derives from
+   * an itkObject for the purpose of reporting iteration events. The goal of
+   * this method is to allow ITK-vnl optimizer adaptors to get iteration events
+   * despite the fact that VNL does not provide callbacks. */
+  unsigned long AddObserver(const EventObject & event, Command *) const;
+
+protected:
+
+  /** This method is intended to be called by the derived classes in order to
+   * notify of an iteration event to any Command/Observers */
+  void ReportIteration() const;
+
 private:
 
   SingleValuedCostFunction::Pointer   m_CostFunction;
   bool                                m_ScalesInitialized;
   ScalesType                          m_Scales;
   bool                                m_NegateCostFunction;
+  Object::Pointer                     m_Reporter;
 
 };  // end of Class CostFunction
 

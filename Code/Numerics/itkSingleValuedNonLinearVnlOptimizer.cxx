@@ -30,6 +30,8 @@ SingleValuedNonLinearVnlOptimizer
 {
   m_CostFunctionAdaptor = 0;
   m_Maximize = false;
+  m_Command = CommandType::New();
+  m_Command->SetCallbackFunction( this, &SingleValuedNonLinearVnlOptimizer::IterationReport );
 }
 
 
@@ -66,6 +68,7 @@ SingleValuedNonLinearVnlOptimizer
 
   m_CostFunctionAdaptor = adaptor; 
 
+  m_CostFunctionAdaptor->AddObserver( IterationEvent(), m_Command );
 }
 
 
@@ -94,6 +97,21 @@ SingleValuedNonLinearVnlOptimizer
 {
   return m_CostFunctionAdaptor;
 }
+
+
+/** The purpose of this method is to get around the lack of iteration reportin
+ * in VNL optimizers. By interfacing directly with the ITK cost function
+ * adaptor we are generating here Iteration Events. Note the iteration events
+ * here are produce PER EVALUATION of the metric, not per real iteration of the
+ * vnl optimizer. Optimizers that evaluate the metric multiple times at each
+ * iteration will generate a lot more of Iteration events here. */
+void
+SingleValuedNonLinearVnlOptimizer
+::IterationReport( void ) 
+{
+  this->InvokeEvent( IterationEvent() );
+}
+
 
 
 /**
