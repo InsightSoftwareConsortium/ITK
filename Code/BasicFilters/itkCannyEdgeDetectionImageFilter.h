@@ -32,12 +32,12 @@ namespace itk
 
 
 template <class TValueType>
-class Node
+class ListNode
 {
 public:
   TValueType m_Value;
-  Node *Next;
-  Node *Previous;
+  ListNode *Next;
+  ListNode *Previous;
 };
 
 
@@ -115,7 +115,7 @@ public:
   typedef ConstNeighborhoodIterator<OutputImageType,
     DefaultBoundaryConditionType> NeighborhoodType;
 
-  typedef Node<IndexType> ListNodeType;
+  typedef ListNode<IndexType> ListNodeType;
   typedef ObjectStore<ListNodeType> ListNodeStorageType;
   typedef SparseFieldLayer<ListNodeType> ListType;
   typedef typename ListType::Pointer ListPointerType;
