@@ -4,6 +4,7 @@ ADD_LIBRARY(ITKNumericsTcl)
 ITK_WRAP_TCL(ITKNumericsTcl
   wrap_ITKNumerics.cxx
   wrap_ITKCostFunctions.cxx
+  wrap_ITKOptimizers.cxx
 )
 
 TARGET_LINK_LIBRARIES(ITKNumericsTcl ITKNumerics ${CABLE_TCL_LIBRARY})
