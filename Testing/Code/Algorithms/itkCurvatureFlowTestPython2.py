@@ -1,17 +1,18 @@
 from InsightToolkit import *
-from sys            import argv
-from os             import path
-from shutil         import *
-from os             import environ
+import itktesting
 
-basename = path.basename( argv[0] )
-name = path.splitext( basename )[0]
+import sys
+import os
+import shutil
+
+basename = os.path.basename( sys.argv[0] )
+name = os.path.splitext( basename )[0]
 dir  = "Algorithms"
 
-testInput  = environ['ITK_TEST_INPUT']
-testOutput = environ['ITK_TEST_OUTPUT']
-baseLine   = environ['ITK_TEST_BASELINE']
 
+testInput  = itktesting.ITK_TEST_INPUT
+testOutput = itktesting.ITK_TEST_OUTPUT
+baseLine   = itktesting.ITK_TEST_BASELINE
 
 
 reader = itkImageFileReaderF2_New()
@@ -77,7 +78,7 @@ if ( meanDiff > 0.1 ) :
   writer.SetInput( rescale.GetOutput() )
   writer.Write()
 
-  copyfile( baseLine+"/"+dir+"/"+name+".png", testOutput+"/"+name+".valid.png" )
+  shutil.copyfile( baseLine+"/"+dir+"/"+name+".png", testOutput+"/"+name+".valid.png" )
 
   print "<DartMeasurementFile name=\"TestImage\" type=\"image/png\">"+testOutput+"/"+name+".test.png</DartMeasurementFile>"
   print "<DartMeasurementFile name=\"DifferenceImage\" type=\"image/png\">"+testOutput+"/"+name+".diff.png</DartMeasurementFile>"
