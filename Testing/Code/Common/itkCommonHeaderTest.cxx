@@ -217,7 +217,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkOneWayEquivalencyTable.h"
 #include "itkOutputWindow.h"
 #include "itkParametricPath.txx"
-#include "itkPath.h"
+#include "itkPath.txx"
 #include "itkPathConstIterator.txx"
 #include "itkPathFunctions.h"
 #include "itkPathIterator.txx"
