@@ -1137,7 +1137,7 @@ namespace itk
     const std::string HeaderFileName = GetHeaderFileName( m_FileName );
     std::ofstream   local_OutputStream;
     local_OutputStream.open( HeaderFileName.c_str(), 
-                             std::ios::in | std::ios::binary );
+                             std::ios::out | std::ios::binary );
     if( local_OutputStream.fail() ) 
       {
         ExceptionObject exception(__FILE__, __LINE__);
