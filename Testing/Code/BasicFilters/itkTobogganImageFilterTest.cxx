@@ -124,6 +124,7 @@ int itkTobogganImageFilterTest(int ac, char** av)
     {
     if (it.Get() != rit.Get())
       {
+      std::cout << "Different pixel at: " << it.GetIndex() << " Baseline: " << rit.Get() << " Computed: " << it.Get() << std::endl;
       status++;
       }
     if ( it.Get() > classes )
@@ -134,7 +135,7 @@ int itkTobogganImageFilterTest(int ac, char** av)
     ++rit;  
     }
   std::cout << "Found " << classes << " Different objects" << std::endl;
-  std::cout << "Found " << status << " pixels different" << std::endl;
+  std::cout << "Found " << status << " pixel(s) different" << std::endl;
   if ( status > 1 )
     {
     exit ( 1 );
