@@ -1,4 +1,4 @@
-# This project is intended to be built outside the Insight source tree
+# This project is designed to be built outside the Insight source tree.
 PROJECT(HelloWorld)
 
 # Find ITK.

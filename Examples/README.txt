@@ -1,20 +1,21 @@
 ITK Examples Directory
 ----------------------
 
-This directory represents some simple, companion examples to the Insight 
+This directory contains simple, companion examples to the Insight
 Segmentation and Registration Toolkit (ITK). These examples are designed to
 demonstrate features of the system; they are not meant to be significant
-applications of the software (see Insight/Applications for such
-applications).
+applications of the software (see the separate checkout InsightApplications
+for such applications).
 
-Specifically, the purpose of these examples are as follows:
+Specifically, the purpose of these examples is as follows:
 
    * Provide simple, minimalist examples of important features of ITK and how
-     to use them. The examples should have minimal dependencies on outside
-     packages; and if they do, there should be CMake flags to turn them off.
+     to use them. The examples have minimal dependencies on outside packages;
+     and if they do, there should be CMake flags to turn them off.
 
    * Provide a consistent set of examples that will work in conjunctions with
-     the ITK Software Guide.
+     the ITK Software Guide. (The ITK Software Guide is found in the 
+     separate checkout InsightDocuments/SoftwareGuide.)
 
    * Provide a consistent set of examples that will work with ITK tutorials
      and courses.
@@ -25,13 +26,13 @@ Specifically, the purpose of these examples are as follows:
 The following is a list of subdirectories with a description of the code
 found in them.
 
-   * Installation - a very simple example to test compiling against the ITK
-     libraries and configuring CMake
+   * Installation - a very simple example to demonstrate compiling against
+     the ITK libraries and configuring CMake.
 
-   * DataRepresentation - creating images and meshes; basics of creating and
-     executing the pipeline
+   * DataRepresentation - creating images and meshes; shows the basics of
+     creating and executing the pipeline
 
-   * Iterators - iterating over images and meshes
+   * Iterators - iterating over images and meshes.
 
    * Infrastructure - events, observers, factories, smart pointers,
      namespaces, transforms, etc.
@@ -40,11 +41,11 @@ found in them.
 
    * IO - the basics of reading/writing data
 
-   * Filtering - examples of image processing and mesh filters
+   * Filtering - examples of image processing and mesh filters.
 
-   * Segmentation - a suite of basic segmentation examples
+   * Segmentation - a suite of basic segmentation examples.
 
-   * Registration - a suite of basic registration methods
+   * Registration - a suite of basic registration methods.
 
    * GUI - some outside package interface: wxWindows, Qt, FLTK, Tk, VTK. The
      absolute minimal interface.
@@ -54,6 +55,5 @@ found in them.
 
 To learn the software from these examples, you may wish to refer to the
 "Insight Software Guide" found in the InsightDocuments/SoftwareGuide
-directory (currently under construction, should be available early summer
-2003.) (Note: InsightDocuments is a separate cvs checkout as descriped in
+directory. (Note: InsightDocuments is a separate cvs checkout as descriped in
 the Insight/Documentation/InsightStart.pdf document.)

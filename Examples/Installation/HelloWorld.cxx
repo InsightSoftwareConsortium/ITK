@@ -1,6 +1,8 @@
 //  Software Guide : BeginLatex
 //
-//  The following code demonstrates a small \code{Insight} program.
+//  The following code is an implementation of a small \code{Insight}
+//  program. It tests including header files and linking with ITK
+//  libraries.
 //
 //  Software Guide : EndLatex 
 
@@ -29,7 +31,7 @@ int main()
 //  \code{SmartPointer}'s in detail, for now think of it as a handle on
 //  an instance of an object (see section \ref{sec:SmartPointers} for
 //  more information). 
-//  Similarly, the \code{Image} class will be described in section 
+//  The \code{Image} class will be described in section 
 //  \ref{sec:ImageSection}.
 //
 //  Software Guide : EndLatex 

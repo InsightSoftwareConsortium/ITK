@@ -15,31 +15,25 @@
 
 =========================================================================*/
 
-
 #include "itkImage.h"
-
 
 //  Software Guide : BeginLatex
 //
-//  The first thing required for reading images from files is to include
+//  The first thing required to read an image from a file is to include
 //  the header file of the \doxygen{ImageFileReader} class.
 //
 //  Software Guide : EndLatex 
-
 
 // Software Guide : BeginCodeSnippet
 #include "itkImageFileReader.h"
 // Software Guide : EndCodeSnippet
 
-
 int main( int argc, char ** argv )
 {
-
   // Software Guide : BeginLatex
   //
-  // Then, the image type should be instantiated by specifying the
-  // type to be used for representing pixels and the dimension of 
-  // the space represented by the image. 
+  // Then, the image type should be defined by specifying the
+  // type used to represent pixels and the dimension of the image.
   //
   // Software Guide : EndLatex 
 
@@ -50,20 +44,19 @@ int main( int argc, char ** argv )
   typedef itk::Image< PixelType, Dimension >   ImageType;
   // Software Guide : EndCodeSnippet
 
- 
-
 
   // Software Guide : BeginLatex
   //
-  // Using the image type it is now possible to instantiate the type of the
-  // image reader class. The type of the image used as template parameter
-  // defines how the file data will be represented once it gets loaded into
-  // memory. The type does not have to correspond directly to what it is stored
-  // on the file. However, a straight forward conversion based on C-style type
-  // casting should be valid. Readers do not apply any transformation to the
-  // pixel data other than casting from the pixel type on the file to the pixel
-  // type of the \code{ImageFileReader}. The following line illustrates the
-  // typical instantiation of the \code{ImageFileReader} type.
+  // Using the image type it is now possible to instantiate the image reader
+  // class. The image type is used as a template parameter to define how the
+  // data will be represented once it gets loaded into memory. This type does
+  // not have to correspond exactly to the type stored in the file. However,
+  // a conversion based on C-style type casting is used, so the type chosen
+  // to represent the data on disk must be sufficient to characterize it
+  // accurately. Readers do not apply any transformation to the pixel data
+  // other than casting from the pixel type on the file to the pixel type of
+  // the \code{ImageFileReader}. The following line illustrates the typical
+  // instantiation of the \code{ImageFileReader} type.
   //
   // \index{itk::ImageFileReader!Instantiation}
   // \index{itk::Image!read}
@@ -75,14 +68,12 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
   //
   // The reader type can now be used to create one reader object.  A
-  // \doxygen{SmartPointer} defined by the \code{::Pointer} notation is used to
-  // receive the reference to the newly created reader.  The \code{New()}
-  // method of the reader type is invoked to create the reader object.
+  // \doxygen{SmartPointer} defined by the \code{::Pointer} notation is used
+  // to receive the reference to the newly created reader.  The \code{New()}
+  // method is invoked to create an instance of the image reader.
   //
   // \index{itk::ImageFileReader!New()}
   // \index{itk::ImageFileReader!Pointer}
@@ -92,8 +83,6 @@ int main( int argc, char ** argv )
   // Software Guide : BeginCodeSnippet
   ReaderType::Pointer reader = ReaderType::New();
   // Software Guide : EndCodeSnippet
-
-
 
 
   // Software Guide : BeginLatex
@@ -108,24 +97,22 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   const char * filename = argv[1];
-
   reader->SetFileName( filename );
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
   //
-  // Reader objects perform as sources on the pipeline. They respond
-  // to the update mechanisms. This means that the image file is only 
-  // read into memory when an update request is made to the reader. 
-  // In the present example we are explicitly invoking the \code{Update()} 
-  // method because the output of the reader is not connected to any 
-  // other filter. On a normal application the output of the reader will
-  // be connected as input of another image filter and the update calls
-  // on this filter will trigger the update of the reader. The following
-  // line illustrates how an explicit update can be requested on the reader.
+  // Reader objects are referred to as pipeline source objects; that is, they
+  // respond to pipeline update requests and initiate the data flow in the
+  // pipeline. The pipeline update mechanism insures that the reader only
+  // executes when a data request is made to the reader and the reader has
+  // not read any data.  In the current example we explicitly invoke the
+  // \code{Update()} method because the output of the reader is not connected
+  // to other filters. In normal application the reader's output is connected
+  // to the input of an image filter and the update invocation on the filter
+  // triggers an update of the reader. The following line illustrates how an
+  // explicit update is invoked on the reader.
   //
   // \index{itk::ImageFileReader!Update()}
   //
@@ -136,15 +123,13 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
   //
-  // Access to the newly read image can be gained by calling the 
-  // \code{GetOutput()} method on the reader. This method can 
-  // also be called before the update request is sent to the reader.
-  // The reference to the image will be equally valid even though
-  // the image will lack any pixel data content.
+  // Access to the newly read image can be gained by calling the
+  // \code{GetOutput()} method on the reader. This method can also be called
+  // before the update request is sent to the reader.  The reference to the
+  // image will be valid even though the image will be empty until the reader
+  // actually executes.
   //
   // \index{itk::ImageFileReader!GetOutput()}
   //
@@ -156,15 +141,12 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginLatex
   //
-  // Any attempt to access image data before the first update call
-  // has been made on the reader will result in unpredictable results. 
-  // Most likely the result will be a program crash since the image 
-  // object will not be properly initialized yet.
+  // Any attempt to access image data before the reader executes will yield
+  // an image with no pixel data. It is likely that a program crash will 
+  // result since the image will not have been properly initialized.
   //
   // Software Guide : EndLatex 
 
   return 0;
-
-
 }
 

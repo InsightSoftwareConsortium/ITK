@@ -17,17 +17,18 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates how to import data in to the \doxygen{Image}.  This
-// is particularly useful for interfacing with other software systems that use
-// a different data structure for representing images. It is quite common to
-// use a contiguous block of memory as buffer for the image pixel data. The
-// current example assumes this is the case and uses this block of memory to
-// feed data into \doxygen{ImportImageFilter} that will produce an
-// \doxygen{Image} as output.  
+// This example illustrates how to import data into the ITK \doxygen{Image}
+// class. This is particularly useful for interfacing with other software
+// systems. Many such systems use a contiguous block of memory as a buffer
+// for the image pixel data. The current example assumes this is the case and
+// feeds the buffer into a \doxygen{ImportImageFilter} thereby producing an
+// \doxygen{Image} as output.
+
 //
-// For the sake of having some fun, we create a synthetic image with a centered
-// sphere in a locally allocated buffer and pass this block of memory to the
-// \code{ImportImageFilter}.
+// For fun we create a synthetic image with a centered sphere in
+// a locally allocated buffer and pass this block of memory to the
+// \code{ImportImageFilter}. This example is set up so that on execution the
+// user must provide the name of an output file as a command-line argument.
 //
 // \index{itk::ImportImageFilter!Instantiation}
 // \index{itk::ImportImageFilter!Header}
@@ -45,10 +46,8 @@
 
 #include "itkImageFileWriter.h"
 
-
 int main(int argc, char ** argv)
 {
-
   if( argc < 2 )
     {
     std::cerr << "Usage: " << std::endl;
@@ -58,7 +57,7 @@ int main(int argc, char ** argv)
   
   // Software Guide : BeginLatex
   // 
-  // We select here the data type to use for representing image pixels.  We
+  // Here we select the data type to use for representing image pixels.  We
   // assume that the external block of memory uses the same data type to
   // represent the pixels.
   //
@@ -88,8 +87,8 @@ int main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  A filter object is created using the \code{New()} method and assigning
-  //  the result to a \code{SmartPointer}.
+  //  A filter object is created using the \code{New()} method that is then
+  //  assigned to a \code{SmartPointer}.
   //  
   // \index{itk::ImportImageFilter!Pointer}
   // \index{itk::ImportImageFilter!New()}
@@ -132,7 +131,6 @@ int main(int argc, char ** argv)
   // Software Guide : EndCodeSnippet 
 
 
-
   //  Software Guide : BeginLatex
   //
   //  The origin of the output image is specified with the \code{SetOrigin()}
@@ -149,8 +147,6 @@ int main(int argc, char ** argv)
 
   importFilter->SetOrigin( origin );
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -170,15 +166,13 @@ int main(int argc, char ** argv)
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
-  //  We allocate the memory block that will contain the pixel data to be
-  //  passed to the \code{ImportImageFilter}. Note that we use exactly the same
-  //  size that was promised to the filter with the \code{SetRegion()} method.
-  //  In a practical application you may get this buffer from some other
-  //  library using a different data structure for representing images.
+  //  Next we allocate the memory block containing the pixel data to be
+  //  passed to the \code{ImportImageFilter}. Note that we use exactly the
+  //  same size that was specified with the \code{SetRegion()} method.  In a
+  //  practical application you may get this buffer from some other library
+  //  using a different data structure for representing images.
   //
   //  Software Guide : EndLatex 
 
@@ -188,17 +182,15 @@ int main(int argc, char ** argv)
   PixelType * localBuffer = new PixelType[ numberOfPixels ];
   // Software Guide : EndCodeSnippet
 
-
   const double radius = 80.0;
-
 
   //  Software Guide : BeginLatex
   //
-  //  Here we fill up the buffer with a binary sphere. We use good old-time
-  //  \code{for()} loops here... it looks just like FORTAN. Note that ITK does
-  //  not use \code{for()} loops in its internal code for accessing pixels. All
-  //  the pixel access tasks are performed using \doxygen{ImageIterator}s that
-  //  support managing $ND$ images.
+  //  Here we fill up the buffer with a binary sphere. We use simple
+  //  \code{for()} loops here... it looks just like FORTRAN. Note that ITK
+  //  does not use \code{for()} loops in its internal code for accessing
+  //  pixels. All the pixel access tasks are performed using
+  //  \doxygen{ImageIterator}s that support managing $ND$ images.
   //
   //  Software Guide : EndLatex 
 
@@ -221,9 +213,6 @@ int main(int argc, char ** argv)
       }
     }
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -254,16 +243,12 @@ int main(int argc, char ** argv)
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   //  Software Guide : BeginLatex
   //
-  //  Finally we can connect the output of this filter to a pipeline. Here, for
-  //  simplicity we just use a writer but it could be any other filter. 
+  //  Finally we can connect the output of this filter to a pipeline. Here,
+  //  for simplicity we just use a writer but it could be any other filter.
   //
   //  Software Guide : EndLatex 
-
 
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
@@ -290,12 +275,10 @@ int main(int argc, char ** argv)
   //
   //  Note that we do not call \code{delete} on the buffer since we pass
   //  \code{false} to the last argument of \code{SetImportPointer()}. Now the
-  //  C++ new operator allocated buffer is owned by the \code{ImportImageFilter}.
+  //  buffer is owned by the \code{ImportImageFilter}.
   //
   //  Software Guide : EndLatex
 
-
   return 0;
-
 }
 

@@ -15,16 +15,14 @@
 
 =========================================================================*/
 
-
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 
-
 //  Software Guide : BeginLatex
 //
-//  Thanks to the flexibility provided by the
+//  Thanks to the flexibility offered by the
 //  \href{http://www.boost.org/more/generic_programming.html}{Generic
-//  Programming} style on which ITK has been based, it is possible to
+//  Programming} style on which ITK is based, it is possible to
 //  instantiate images of arbitrary pixel type.  The following example
 //  illustrates how a color image with RGB pixels can be defined.
 //
@@ -44,15 +42,13 @@
 // Software Guide : EndCodeSnippet
 
 
-
 int main( int argc, char ** argv )
 {
-
   // Software Guide : BeginLatex
   //
-  // The RGB pixel class is templated over the type used to represent each
-  // one of the Red, Green and Blue components. A typical instantiation of 
-  // the templated class could be as follows.
+  // The RGB pixel class is templated over a type used to represent each one
+  // of red, green and blue pixel components. A typical instantiation of the
+  // templated class is as follows.
   //
   //  \index{itk::RGBPixel!Instantiation}
   //
@@ -61,8 +57,6 @@ int main( int argc, char ** argv )
   // Software Guide : BeginCodeSnippet
   typedef itk::RGBPixel< unsigned char >    PixelType;
   // Software Guide : EndCodeSnippet
-
-
 
 
   // Software Guide : BeginLatex
@@ -76,13 +70,11 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   // Software Guide : BeginLatex
   //
-  // The image type can be used for instantiating other filters. For example an
-  // \doxygen{ImageFileReader} object that will read the image from a file.
+  // The image type can be used for instantiating other filters. For example
+  // an \doxygen{ImageFileReader} object that will read the image from a
+  // file.
   //
   // \index{itk::ImageFileReader!RGB Image}
   //
@@ -93,20 +85,12 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
-
   ReaderType::Pointer reader = ReaderType::New();
-
   const char * filename = argv[1];
-
   reader->SetFileName( filename );
-
-
   reader->Update();
 
   ImageType::Pointer image = reader->GetOutput();
-
-
 
   ImageType::IndexType pixelIndex;
 
@@ -115,11 +99,10 @@ int main( int argc, char ** argv )
   pixelIndex[2] =  5;  
 
 
-
   // Software Guide : BeginLatex
   //
-  // Access to the color components on the pixels can now be performed 
-  // using the native methods provided by the RGBPixel class. For example.
+  // Access to the color components on the pixels can now be performed using
+  // the methods provided by the RGBPixel class. For example.
   //
   // \index{itk::Image!GetPixel()}
   // \index{itk::RGBPixel!GetRed()}
@@ -137,8 +120,6 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
   //
   // Or using the subindex notation since the \doxygen{RGBPixel} inherits the
@@ -152,15 +133,12 @@ int main( int argc, char ** argv )
   blue  = onePixel[2];  // extract Blue  component
   // Software Guide : EndCodeSnippet
 
-  //
-  // Lets repeat that both \code{SetPixel()} and \code{GetPixel()} are extremely
+  // Lets repeat that both \code{SetPixel()} and \code{GetPixel()} are
   // inefficient and should only be used for debugging purposes or for
-  // implementing interactions with a graphical user interface for supporting
-  // features like quering the content of a pixels by clicking with the mouse.
+  // implementing interactions with a graphical user interface such as
+  // querying pixel value by clicking with the mouse.
   //
  
   return 0;
-
-
 }
 

@@ -17,9 +17,9 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \doxygen{Image} class.  The
-// following code is the minimal procedure required to instantiate, declare and
-// create an image class.
+// This example illustrates how to manually construct an ITK \doxygen{Image}
+// class.  The following code is the minimal needed to instantiate, declare
+// and create the image class.
 //
 // \index{itk::Image!Instantiation}
 // \index{itk::Image!Header}
@@ -37,13 +37,12 @@
 
 int main()
 {
-
-  
   // Software Guide : BeginLatex
   // 
-  // Then we must decide what type to use for representing the pixels
+  // Then we must decide with what type to represent the pixels
   // and what the dimension of the image will be. With these two 
-  // parameters we can instantiate the image type.
+  // parameters we can instantiate the image class. Here we create
+  // a 3D image with \code{unsigned short} pixel data.
   //
   // Software Guide : EndLatex 
   //
@@ -70,11 +69,30 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // When an image is created manualy the user is responsible
-  // for defining the image size and the index in which the
-  // image grid starts. These two parameters make possible 
-  // later to manage partitions of an image in order to process
-  // selected regions. 
+  // In ITK images exist in combination with one or more \emph{regions}. A
+  // region is a subset of the image and indicates a portion of the image
+  // that may be processed by other classes in the system. One of the most
+  // common regions is known as the the \emph{LargestPossibleRegion} that
+  // defines the image in its entirety. Other important regions found in ITK
+  // are the \emph{BufferedRegion}, which is the portion of the image
+  // actually maintained in memory, and the \emph{RequestedRegion}, which
+  // is the region requested by a filter or other class when operating on
+  // the image.
+  //
+  // In ITK, manually creating an image requires that the image is
+  // instantiated as previously, and then regions describing the image are
+  // associated with it.
+  //
+  // A region is defined by two classes: the \doxygen{Index} and
+  // \doxygen{Size} classes. The origin of the region in the context of the
+  // image with which it is associated is defined by \code{Index}. The
+  // extent, or size, of the region is defined by \code{Size}. \code{Index}
+  // is represented by a N-Dimensional array where each component is an
+  // integer indicating---in topological image coordinates---the initial
+  // pixel of the image. When an image is created manualy the user is
+  // responsible for defining the image size and the index in which the image
+  // grid starts. These two parameters make it possible to process selected
+  // regions.
   //   
   // The starting point of the image is defined by an \doxygen{Index} class
   // that is an N-Dimensional array where each component is an integer
@@ -95,10 +113,10 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // The image size is defined by an \doxygen{Size} class that is simply an
-  // array of the same dimension of the image. The components of the array are
-  // integeres indicating the extent in pixels of the image along every
-  // dimension.
+  // The region size is represented by an array of the same dimension of the
+  // image (using the \doxygen{Size} class). The components of the array are
+  // unsigned integers indicating the extent in pixels of the image along
+  // every dimension.
   //
   // \index{itk::Image!Index}
   // \index{itk::Image!IndexType}
@@ -115,10 +133,10 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // Having defined the starting index and the image size, these
-  // two parameters are used to create an ImageRegion object that
-  // basically handles both concepts together. The region is initalized
-  // with the starting index and size of the image.
+  // Having defined the starting index and the image size, these two
+  // parameters are used to create an ImageRegion object which basically
+  // encapsulates both concepts together. The region is initalized with the
+  // starting index and size of the image.
   //
   // \index{itk::Image!itk::ImageRegion}
   // \index{itk::Image!RegionType}
@@ -134,11 +152,13 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // Finally the region is passed to the image object in order to
-  // define its extent and origin. So far, no memory allocation has
-  // been made for the pixel data. It is then necessary to invoke
-  // the \code{Allocate()} method on the image. Allocate does not require
-  // any arguments since all the information needed for memory 
+  // Finally the region is passed to the image object in order to define its
+  // extent and origin. The \code{SetRegions} method sets the
+  // LargestPossibleRegion, BufferedRegion, and RequestedRegion
+  // simultaneously. Note that none of the operations performed to this point
+  // have allocated memory for the image pixel data. It is necessary to
+  // invoke the \code{Allocate()} method to do this. Allocate does not
+  // require any arguments since all the information needed for memory
   // allocation has already been provided by the region.
   //
   // \index{itk::Image!Allocate()}
@@ -152,6 +172,5 @@ int main()
   // Software Guide : EndCodeSnippet 
 
   return 0;
-
 }
 

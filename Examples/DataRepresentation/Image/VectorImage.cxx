@@ -17,13 +17,12 @@
 
 // Software Guide : BeginLatex
 //
-// Many image processing tasks require images of non-scalar pixel types. A
-// typical example is the case of Images of vectors. This is the image type
-// required to represent the gradient of a scalar image. The following code
-// illustrates how to instantiate and use an image whose pixels are of vector
-// type.
+// Many image processing tasks require images of non-scalar pixel type. A
+// typical example is an image of vectors. This is the image type required to
+// represent the gradient of a scalar image. The following code illustrates
+// how to instantiate and use an image whose pixels are of vector type.
 //
-// For convenience we use here the \doxygen{Vector} class to define a pixel
+// For convenience we use the \doxygen{Vector} class to define the pixel
 // type.  The Vector class is intended to represent a geometrical vector in
 // space. It is not intended to be used as an array container like the
 // \href{http://www.sgi.com/tech/stl/Vector.html}{\code{std::vector}} in
@@ -44,19 +43,17 @@
 // Software Guide : EndCodeSnippet
 
 
-
 #include "itkImage.h"
 
 int main()
 {
-
   // Software Guide : BeginLatex
   // 
   // The \doxygen{Vector} class is templated over the type used to represent
-  // the coordinate in space and over the space dimension.  In this example we
-  // want the vector dimension to match the image dimension but this is by no
-  // means a requirement. We could have defined a four dimensional image with
-  // three dimensional vectors as pixels. 
+  // the coordinate in space and over the space dimension.  In this example
+  // we want the vector dimension to match the image dimension but this is by
+  // no means a requirement. We could have defined a four dimensional image
+  // with three dimensional vectors as pixels.
   //
   // \index{itk::Vector!Instantiation}
   // \index{itk::Vector!itk::Image}
@@ -72,9 +69,7 @@ int main()
   // Then the image object can be created
   ImageType::Pointer image = ImageType::New();
 
-
   // The image region should be initialized
-
   ImageType::IndexType start;
   ImageType::SizeType  size;
 
@@ -87,6 +82,8 @@ int main()
   start[2] =   0;  // first index on Z
 
   ImageType::RegionType region;
+  region.SetSize( size );
+  region.SetIndex( start );
   
   // Pixel data is allocated
   image->SetRegions( region );
@@ -102,7 +99,6 @@ int main()
   // Now the image buffer can be initialized with this
   // vector value.
   image->FillBuffer( initialValue );
-
 
   ImageType::IndexType pixelIndex;
  
@@ -128,11 +124,10 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
   // Software Guide : BeginLatex
   //
-  // We can now store this vector in one of the image pixels 
-  // by defining an index and invoking the \code{SetPixel()} method.
+  // We can now store this vector in one of the image pixels by defining an
+  // index and invoking the \code{SetPixel()} method.
   //
   // Software Guide : EndLatex 
 
@@ -141,23 +136,16 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   // The GetPixel method can also be used to read Vectors 
   // pixels from the image
   ImageType::PixelType value = image->GetPixel( pixelIndex );
 
 
-  //
-  // Lets repeat that both \code{SetPixel()} and \code{GetPixel()} are extremly
+  // Lets repeat that both \code{SetPixel()} and \code{GetPixel()} are
   // inefficient and should only be used for debugging purposes or for
-  // implementing interactions with a graphical user interface for supporting
-  // features like quering the content of a pixels by clicking with the mouse.
-  //
-
+  // implementing interactions with a graphical user interface such as
+  // querying pixel value by clicking with the mouse.
 
   return 0;
-
 }
 
