@@ -45,7 +45,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkMultiThreader.h"
 #include "itkSparseLevelSetNode.h"
 
-
 namespace itk {
 
 /**
@@ -114,7 +113,7 @@ public:
   //typedef ImageIndexValue<PixelType, ImageDimension>   LevelSetNodeType;
 
   typedef SparseLevelSetNode<PixelType, ImageDimension> LevelSetNodeType;
-  typedef list<LevelSetNodeType *> LevelSetNodeListType;
+  typedef std::list<LevelSetNodeType *> LevelSetNodeListType;
   typedef LevelSetNodeListType::iterator LevelSetNodeListIteratorType;
   
   typedef Image<unsigned int, ImageDimension>   ByteImageType;
