@@ -46,6 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkVTKImageWriter.h"
 #include "itkOutputWindow.h"
 #include "itkCommand.h"
+#include "itkCastImageFilter.h"
 #include "itkStreamingImageFilter.h"
 #include "itkImageRegionIterator.h"
 
@@ -118,8 +119,12 @@ int main()
 
 
   std::cout << "Run CurvatureFlowImageFilter using streamer" << std::endl;
+  typedef itk::CastImageFilter<ImageType,ImageType> CasterType;
+  CasterType::Pointer caster = CasterType::New();
+  caster->SetInput( denoiser->GetInput() );
+
   DenoiserType::Pointer denoiser2 = DenoiserType::New();
-  denoiser2->SetInput( denoiser->GetInput() );
+  denoiser2->SetInput( caster->GetOutput() );
   denoiser2->SetTimeStep( denoiser->GetTimeStep() );
   denoiser2->SetNumberOfIterations( denoiser->GetNumberOfIterations() );
 
