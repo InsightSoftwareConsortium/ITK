@@ -156,7 +156,7 @@ namespace itk
 	}
 
 	/* Compute principal moments and axes */
-	vnl_symmetric_eigensystem<double> eigen(m_cm);
+	vnl_symmetric_eigensystem<double> eigen(m_cm.GetVnlMatrix());
 	vnl_diag_matrix<double> pm = eigen.D;
 	for ( int i = 0; i < VRank; i++ )
 	    m_pm[i] = pm(i,i);
@@ -168,7 +168,7 @@ namespace itk
            way would be to use an eigensystem solver in the step above
            that either preserves parity, or that at least counts
            the number of reflections that it does. */
-        vnl_real_eigensystem eigenrot(m_pa);
+        vnl_real_eigensystem eigenrot(m_pa.GetVnlMatrix());
         vnl_diag_matrix<vnl_double_complex> eigenval = eigenrot.D;
         vnl_double_complex det(1.0, 0.0);
         for ( int i = 0 ; i < VRank; ++i) {
