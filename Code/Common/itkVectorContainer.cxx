@@ -26,7 +26,20 @@ itkVectorContainer< TElementIdentifier , TElement >
 {
   return new Self;
 }
-  
+
+
+/**
+ * Get a reference to the element at the given index.
+ * It is assumed that the index exists.
+ */
+template <typename TElementIdentifier, typename TElement>
+itkVectorContainer< TElementIdentifier , TElement >::Element&
+itkVectorContainer< TElementIdentifier , TElement >
+::ElementAt(ElementIdentifier id)
+{
+  return this->Vector::operator[](id);
+}
+
 
 /**
  * Read the element from the given index.

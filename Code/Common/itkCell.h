@@ -113,6 +113,16 @@ public:
   virtual void SetCellPoint(int localId, PointIdentifier)=0;
   
   /**
+   * Provide an interface to allow iteration over the point ID list.
+   */
+  typedef PointIdentifier*  PointIterator;
+  typedef const PointIdentifier*  PointConstIterator;
+  virtual PointIterator      PointIdsBegin(void)=0;
+  virtual PointConstIterator PointIdsBegin(void) const =0;
+  virtual PointIterator      PointIdsEnd(void)=0;
+  virtual PointConstIterator PointIdsEnd(void) const =0;
+  
+  /**
    * Interface to the boundary form of the cell to set/get UsingCells.
    * See the boundary wrapper source for more information.
    */
@@ -127,7 +137,7 @@ public:
   /**
    * ITK standard routines.
    */
-  virtual const char *GetClassName(void) const { return "itkCell"; }
+  itkTypeMacro(itkCell,none);
   void Register(void);
   void UnRegister(void);
 

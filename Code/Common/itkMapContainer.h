@@ -85,6 +85,7 @@ public:
    * Declare the public interface routines.
    */
   static Pointer New(void);
+  Element& ElementAt(ElementIdentifier);
   Element GetElement(ElementIdentifier) const;
   void SetElement(ElementIdentifier, Element);
   bool IndexExists(ElementIdentifier) const;

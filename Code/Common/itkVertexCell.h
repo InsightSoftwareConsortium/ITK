@@ -73,6 +73,10 @@ public:
   virtual void SetCellPoints(const PointIdentifier* first,
 			     const PointIdentifier* last);
   virtual void SetCellPoint(int localId, PointIdentifier);
+  virtual PointIterator      PointIdsBegin(void);
+  virtual PointConstIterator PointIdsBegin(void) const;
+  virtual PointIterator      PointIdsEnd(void);
+  virtual PointConstIterator PointIdsEnd(void) const; 
   
   /**
    * Vertex-specific interface.
@@ -98,7 +102,15 @@ protected:
 template <typename TPixelType, typename TCellType>
 class itkVertexBoundary:
   public itkCellBoundary< itkVertexCell< TPixelType , TCellType > >
-{};
+{
+public:
+  typedef itkVertexBoundary      Self;
+  typedef itkSmartPointer<Self>  Pointer;
+  
+  static Pointer New(void);
+  
+  itkTypeMacro(itkVertexBoundary, itkCellBoundary);
+};
 
 
 #ifndef ITK_MANUAL_INSTANTIATION

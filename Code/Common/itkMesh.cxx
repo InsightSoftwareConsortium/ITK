@@ -15,6 +15,8 @@
 =========================================================================*/
 // #include "itkMesh.h"
 
+#include <algorithm>
+
 /**
  * Object factory.
  */
@@ -758,10 +760,11 @@ itkMesh< TPixelType , TMeshType >
   /**
    * Sanity check on mesh status.
    */
-  if((m_Points == NULL) || (m_Cells == NULL))
+  if((m_Points == NULL) || (m_Cells == NULL) ||
+     (!m_Cells->IndexExists(cellId)))
     {
     /**
-     * TODO: Throw EXCEPTION here.
+     * TODO: Throw EXCEPTION here?
      */
     return 0;
     }
@@ -776,10 +779,12 @@ itkMesh< TPixelType , TMeshType >
     /**
      * Explicitly assigned boundary found.  Loop through its "UsingCells"
      * and put every one but the requested cell itself in the output
-     * cell list.
+     * cell list.  First empty out the list.
      */
     if(cellList != NULL)
       {
+      cellList->erase(cellList->begin(), cellList->end());
+      
       for(Boundary::UsingCellsContainerIterator usingCell = 
 	    boundary->UsingCellsBegin() ;
 	  usingCell != boundary->UsingCellsEnd() ; ++usingCell)
@@ -811,9 +816,94 @@ itkMesh< TPixelType , TMeshType >
     {
     this->BuildCellLinks();
     }
+  
   /**
-   * Cell links are up to date....
+   * Cell links are up to date. We can proceed with the set operations.
+   * We need to intersect the CellLinks sets for each point on the boundary
+   * feature.
    */
+  
+  /**
+   * First, ask the cell to construct the boundary feature so we can look
+   * at its points.
+   */
+  boundary =
+    m_Cells->GetElement(cellId)->GetBoundaryFeature(dimension, featureId);
+  
+  /**
+   * Now get the cell links for the first point.  Also allocate a second set
+   * for temporary storage during set intersections below.
+   */
+  Boundary::PointConstIterator pointId = boundary->PointIdsBegin();
+  PointCellLinksContainer*  currentCells =
+    new PointCellLinksContainer(m_CellLinks->GetElement(*pointId++));
+  PointCellLinksContainer*  tempCells = new PointCellLinksContainer();
+  
+  /**
+   * Next, loop over the other points, and intersect their cell links with
+   * the current result.  We maintain "currentCells" as a pointer to the
+   * current cell set instead of a set itself to prevent an extra copy of
+   * the temporary set after each intersection.
+   */
+  while(pointId != boundary->PointIdsEnd())
+    {
+    /**
+     * Clean out temporary cell set from previous iteration.
+     */
+    tempCells->erase(tempCells->begin(), tempCells->end());
+    
+    /**
+     * Perform the intersection.
+     */
+    set_intersection(m_CellLinks->ElementAt(*pointId).begin(),
+		     m_CellLinks->ElementAt(*pointId).end(),
+		     currentCells->begin(),
+		     currentCells->end(),
+		     inserter(*tempCells, tempCells->begin()));
+    
+    /**
+     * Switch the cell set pointers to make the intersection result the
+     * current set.
+     */
+    swap(currentCells, tempCells);
+    
+    /**
+     * Move on to the next point.
+     */
+    ++pointId;
+    }
+  
+  /**
+   * Don't need the second set anymore.
+   */
+  delete tempCells;
+  
+  /**
+   * Now we have a set of all the cells which share all the points on the
+   * boundary feature.  We simply need to copy this set to the output cell
+   * list, less the cell through which the request was made.
+   */
+  currentCells->erase(cellId);
+  if(cellList != NULL)
+    {
+    cellList->erase(cellList->begin(), cellList->end());
+    
+    for(PointCellLinksContainerIterator cell = currentCells->begin();
+	cell != currentCells->end() ; ++cell)
+      {
+      cellList->push_back(*cell);
+      }
+    }
+  
+  /**
+   * Don't need the cell set anymore.
+   */
+  delete currentCells;
+  
+  /**
+   * Return the number of neighboring cells that were put into the list.
+   */
+  return cellList->size();
 }
 
 
@@ -861,15 +951,44 @@ itkMesh< TPixelType , TMeshType >
 ::BuildCellLinks(void)
 {
   /**
+   * Make sure we have a cells and a points container.
+   */
+  if((m_Points == NULL) || (m_Cells == NULL))
+    {
+    /**
+     * TODO: Throw EXCEPTION here?
+     */
+    return;
+    }
+      
+  /**
    * Make sure the cell links container exists.
    */
   if(m_CellLinks == NULL)
     {
     this->SetCellLinksContainer(CellLinksContainer::New());
     }
+
   /**
-   * Loop over every cell, and add its identifier to 
+   * Loop through each cell, and add its identifier to the CellLinks of each
+   * of its points.
    */
+  for(CellsContainerIterator cellItr = m_Cells->Begin() ;
+      cellItr != m_Cells->End() ; ++cellItr)
+    {
+    CellIdentifier cellId = (*cellItr).first;
+    Cell::Pointer cell    = (*cellItr).second;
+    
+    /**
+     * For each point, make sure the cell links container has its index,
+     * and then insert the cell ID into the point's set.
+     */
+    for(Cell::PointConstIterator pointId = cell->PointIdsBegin() ;
+	pointId != cell->PointIdsEnd() ; ++pointId)
+      {
+      (m_CellLinks->ElementAt(*pointId)).insert(cellId);
+      }
+    }
 }
 
 

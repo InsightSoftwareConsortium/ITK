@@ -124,6 +124,43 @@ itkHexahedronCell< TPixelType , TCelltype >
 
 
 /**
+ * Provide iterator begin and end for the point identifier array.  These
+ * are just pointers to the beginning and one past the end.
+ */
+template <typename TPixelType, typename TCelltype>
+itkHexahedronCell< TPixelType , TCelltype >::PointIterator
+itkHexahedronCell< TPixelType , TCelltype >
+::PointIdsBegin(void)
+{
+  return &m_PointIds[0];
+}
+
+template <typename TPixelType, typename TCelltype>
+itkHexahedronCell< TPixelType , TCelltype >::PointConstIterator
+itkHexahedronCell< TPixelType , TCelltype >
+::PointIdsBegin(void) const
+{
+  return &m_PointIds[0];
+}
+
+template <typename TPixelType, typename TCelltype>
+itkHexahedronCell< TPixelType , TCelltype >::PointIterator
+itkHexahedronCell< TPixelType , TCelltype >
+::PointIdsEnd(void)
+{
+  return &m_PointIds[NumberOfPoints];
+}
+
+template <typename TPixelType, typename TCelltype>
+itkHexahedronCell< TPixelType , TCelltype >::PointConstIterator
+itkHexahedronCell< TPixelType , TCelltype >
+::PointIdsEnd(void) const
+{
+  return &m_PointIds[NumberOfPoints];
+}
+
+
+/**
  * Hexahedron-specific:
  * Get the number of vertices defining the hexahedron.
  */
@@ -230,3 +267,15 @@ itkHexahedronCell< TPixelType , TCelltype >
 ::m_Faces[6][4] = { {0,4,7,3}, {1,2,6,5},
                     {0,1,5,4}, {3,7,6,2},
                     {0,3,2,1}, {4,5,6,7} };
+
+/**
+ * Object factory for the boundary version of this cell type.
+ */
+template <typename TPixelType, typename TCellType>
+itkHexahedronBoundary< TPixelType , TCellType >::Pointer
+itkHexahedronBoundary< TPixelType , TCellType >
+::New(void)
+{
+  return new Self;
+}
+

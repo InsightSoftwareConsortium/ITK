@@ -72,7 +72,10 @@ public:
   virtual void SetCellPoints(const PointIdentifier* first,
 			     const PointIdentifier* last);
   virtual void SetCellPoint(int localId, PointIdentifier);
-  
+  virtual PointIterator      PointIdsBegin(void);
+  virtual PointConstIterator PointIdsBegin(void) const;
+  virtual PointIterator      PointIdsEnd(void);
+  virtual PointConstIterator PointIdsEnd(void) const; 
 
   /**
    * Hexahedron-specific interface.
@@ -125,7 +128,15 @@ protected:
 template <typename TPixelType, typename TCellType>
 class itkHexahedronBoundary:
   public itkCellBoundary< itkHexahedronCell< TPixelType , TCellType > >
-{};
+{
+public:
+  typedef itkHexahedronBoundary  Self;
+  typedef itkSmartPointer<Self>  Pointer;
+  
+  static Pointer New(void);
+  
+  itkTypeMacro(itkHexahedronBoundary, itkCellBoundary);
+};
 
 
 #ifndef ITK_MANUAL_INSTANTIATION

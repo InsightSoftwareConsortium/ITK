@@ -70,6 +70,10 @@ public:
   virtual void SetCellPoints(const PointIdentifier* first,
 			     const PointIdentifier* last);
   virtual void SetCellPoint(int localId, PointIdentifier);
+  virtual PointIterator      PointIdsBegin(void);
+  virtual PointConstIterator PointIdsBegin(void) const;
+  virtual PointIterator      PointIdsEnd(void);
+  virtual PointConstIterator PointIdsEnd(void) const; 
 
   /**
    * Triangle-specific interface.
@@ -114,7 +118,15 @@ protected:
 template <typename TPixelType, typename TCellType>
 class itkTriangleBoundary:
   public itkCellBoundary< itkTriangleCell< TPixelType , TCellType > >
-{};
+{
+public:
+  typedef itkTriangleBoundary    Self;
+  typedef itkSmartPointer<Self>  Pointer;
+  
+  static Pointer New(void);
+  
+  itkTypeMacro(itkTriangleBoundary, itkCellBoundary);
+};
 
 
 #ifndef ITK_MANUAL_INSTANTIATION

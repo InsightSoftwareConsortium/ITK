@@ -81,8 +81,29 @@ public:
   typedef typename PointDataContainer::Pointer     PointDataContainerPointer;
   typedef typename CellDataContainer::Pointer      CellDataContainerPointer;
   typedef typename BoundariesContainer::Pointer    BoundariesContainerPointer;
-  typedef typename BoundaryDataContainer::Pointer
-        BoundaryDataContainerPointer;  
+  typedef typename
+          BoundaryDataContainer::Pointer  BoundaryDataContainerPointer;  
+
+  /**
+   * Create types that are iterators for each of the container types.
+   */
+  typedef typename
+          PointsContainer::ConstIterator        PointsContainerIterator;
+  typedef typename
+          CellsContainer::ConstIterator         CellsContainerIterator;
+  typedef typename
+          CellLinksContainer::ConstIterator     CellLinksContainerIterator;
+  typedef typename
+          PointDataContainer::ConstIterator     PointDataContainerIterator;
+  typedef typename
+          CellDataContainer::ConstIterator      CellDataContainerIterator;
+  typedef typename
+          BoundariesContainer::ConstIterator    BoundariesContainerIterator;
+  typedef typename
+          BoundaryDataContainer::ConstIterator  BoundaryDataContainerIterator;
+  typedef typename
+     PointCellLinksContainer::const_iterator  PointCellLinksContainerIterator;
+  
   
   /**
    * A useful rename.

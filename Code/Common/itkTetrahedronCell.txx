@@ -124,6 +124,43 @@ itkTetrahedronCell< TPixelType , TCellType >
 
 
 /**
+ * Provide iterator begin and end for the point identifier array.  These
+ * are just pointers to the beginning and one past the end.
+ */
+template <typename TPixelType, typename TCelltype>
+itkTetrahedronCell< TPixelType , TCelltype >::PointIterator
+itkTetrahedronCell< TPixelType , TCelltype >
+::PointIdsBegin(void)
+{
+  return &m_PointIds[0];
+}
+
+template <typename TPixelType, typename TCelltype>
+itkTetrahedronCell< TPixelType , TCelltype >::PointConstIterator
+itkTetrahedronCell< TPixelType , TCelltype >
+::PointIdsBegin(void) const
+{
+  return &m_PointIds[0];
+}
+
+template <typename TPixelType, typename TCelltype>
+itkTetrahedronCell< TPixelType , TCelltype >::PointIterator
+itkTetrahedronCell< TPixelType , TCelltype >
+::PointIdsEnd(void)
+{
+  return &m_PointIds[NumberOfPoints];
+}
+
+template <typename TPixelType, typename TCelltype>
+itkTetrahedronCell< TPixelType , TCelltype >::PointConstIterator
+itkTetrahedronCell< TPixelType , TCelltype >
+::PointIdsEnd(void) const
+{
+  return &m_PointIds[NumberOfPoints];
+}
+
+
+/**
  * Tetrahedron-specific:
  * Get the number of vertices defining the tetrahedron.
  */
@@ -226,3 +263,16 @@ template <typename TPixelType, typename TCellType>
 const int
 itkTetrahedronCell< TPixelType , TCellType >
 ::m_Faces[4][3] = { {0,1,3}, {1,2,3}, {2,0,3}, {0,2,1} };
+
+
+/**
+ * Object factory for the boundary version of this cell type.
+ */
+template <typename TPixelType, typename TCellType>
+itkTetrahedronBoundary< TPixelType , TCellType >::Pointer
+itkTetrahedronBoundary< TPixelType , TCellType >
+::New(void)
+{
+  return new Self;
+}
+

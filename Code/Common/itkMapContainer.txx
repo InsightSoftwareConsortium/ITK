@@ -28,6 +28,19 @@ itkMapContainer< TElementIdentifier , TElement >
 
 
 /**
+ * Get a reference to the element at the given index.
+ * If the index does not exist, it is created automatically.
+ */
+template <typename TElementIdentifier, typename TElement>
+itkMapContainer< TElementIdentifier , TElement >::Element&
+itkMapContainer< TElementIdentifier , TElement >
+::ElementAt(ElementIdentifier id)
+{
+  return this->Map::operator[](id);
+}
+
+
+/**
  * Get the element at the specified index.  There is no check for
  * existence performed.
  */

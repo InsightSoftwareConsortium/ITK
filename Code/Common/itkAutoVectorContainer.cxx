@@ -29,6 +29,20 @@ itkAutoVectorContainer< TElementIdentifier , TElement >
 
 
 /**
+ * Get a reference to the element at the given index.
+ * If the index does not exist, it is created automatically.
+ */
+template <typename TElementIdentifier, typename TElement>
+itkAutoVectorContainer< TElementIdentifier , TElement >::Element&
+itkAutoVectorContainer< TElementIdentifier , TElement >
+::ElementAt(ElementIdentifier id)
+{
+  if(id >= this->Vector::size()) CreateIndex(id);
+  return this->Vector::operator[](id);
+}
+
+
+/**
  * Read the element from the given index.
  * It is assumed that the index exists.
  */

@@ -119,6 +119,43 @@ itkLineCell< TPixelType , TCellType >
 
 
 /**
+ * Provide iterator begin and end for the point identifier array.  These
+ * are just pointers to the beginning and one past the end.
+ */
+template <typename TPixelType, typename TCelltype>
+itkLineCell< TPixelType , TCelltype >::PointIterator
+itkLineCell< TPixelType , TCelltype >
+::PointIdsBegin(void)
+{
+  return &m_PointIds[0];
+}
+
+template <typename TPixelType, typename TCelltype>
+itkLineCell< TPixelType , TCelltype >::PointConstIterator
+itkLineCell< TPixelType , TCelltype >
+::PointIdsBegin(void) const
+{
+  return &m_PointIds[0];
+}
+
+template <typename TPixelType, typename TCelltype>
+itkLineCell< TPixelType , TCelltype >::PointIterator
+itkLineCell< TPixelType , TCelltype >
+::PointIdsEnd(void)
+{
+  return &m_PointIds[NumberOfPoints];
+}
+
+template <typename TPixelType, typename TCelltype>
+itkLineCell< TPixelType , TCelltype >::PointConstIterator
+itkLineCell< TPixelType , TCelltype >
+::PointIdsEnd(void) const
+{
+  return &m_PointIds[NumberOfPoints];
+}
+
+
+/**
  * Line-specific:
  * Get the number of vertices for this cell.
  */
@@ -144,5 +181,17 @@ itkLineCell< TPixelType , TCellType >
   vert->SetCellPoint(0, m_PointIds[vertexId]);
   
   return vert;  
+}
+
+
+/**
+ * Object factory for the boundary version of this cell type.
+ */
+template <typename TPixelType, typename TCellType>
+itkLineBoundary< TPixelType , TCellType >::Pointer
+itkLineBoundary< TPixelType , TCellType >
+::New(void)
+{
+  return new Self;
 }
 

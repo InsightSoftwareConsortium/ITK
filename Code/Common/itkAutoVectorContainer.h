@@ -109,6 +109,8 @@ public:
     ConstIterator  operator++(int) { Self tmp = *this; ++iter; ++pos; return tmp; }
     ConstIterator& operator--()    { --iter; --pos; return *this; }
     ConstIterator  operator--(int) { Self tmp = *this; --iter; --pos; return tmp; }
+    bool operator==(const Self& r) const { return (iter == r.iter); }
+    bool operator!=(const Self& r) const { return (iter != r.iter); }
     
   private:
     Vector::const_iterator iter;
@@ -119,6 +121,7 @@ public:
    * Declare the public interface routines.
    */
   static Pointer New(void);
+  Element& ElementAt(ElementIdentifier);
   Element GetElement(ElementIdentifier) const;
   void SetElement(ElementIdentifier, Element);
   bool IndexExists(ElementIdentifier) const;

@@ -121,6 +121,43 @@ itkQuadrilateralCell< TPixelType , TCellType >
 
 
 /**
+ * Provide iterator begin and end for the point identifier array.  These
+ * are just pointers to the beginning and one past the end.
+ */
+template <typename TPixelType, typename TCelltype>
+itkQuadrilateralCell< TPixelType , TCelltype >::PointIterator
+itkQuadrilateralCell< TPixelType , TCelltype >
+::PointIdsBegin(void)
+{
+  return &m_PointIds[0];
+}
+
+template <typename TPixelType, typename TCelltype>
+itkQuadrilateralCell< TPixelType , TCelltype >::PointConstIterator
+itkQuadrilateralCell< TPixelType , TCelltype >
+::PointIdsBegin(void) const
+{
+  return &m_PointIds[0];
+}
+
+template <typename TPixelType, typename TCelltype>
+itkQuadrilateralCell< TPixelType , TCelltype >::PointIterator
+itkQuadrilateralCell< TPixelType , TCelltype >
+::PointIdsEnd(void)
+{
+  return &m_PointIds[NumberOfPoints];
+}
+
+template <typename TPixelType, typename TCelltype>
+itkQuadrilateralCell< TPixelType , TCelltype >::PointConstIterator
+itkQuadrilateralCell< TPixelType , TCelltype >
+::PointIdsEnd(void) const
+{
+  return &m_PointIds[NumberOfPoints];
+}
+
+
+/**
  * Quadrilateral-specific:
  * Get the number of vertices defining the quadrilateral.
  */
@@ -187,3 +224,16 @@ template <typename TPixelType, typename TCellType>
 const int
 itkQuadrilateralCell< TPixelType , TCellType >
 ::m_Edges[4][2] = { {0,1}, {1,2}, {2,3}, {3,0} };
+
+
+/**
+ * Object factory for the boundary version of this cell type.
+ */
+template <typename TPixelType, typename TCellType>
+itkQuadrilateralBoundary< TPixelType , TCellType >::Pointer
+itkQuadrilateralBoundary< TPixelType , TCellType >
+::New(void)
+{
+  return new Self;
+}
+

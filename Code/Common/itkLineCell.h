@@ -68,6 +68,10 @@ public:
   virtual void SetCellPoints(const PointIdentifier* first,
 			     const PointIdentifier* last);
   virtual void SetCellPoint(int localId, PointIdentifier);
+  virtual PointIterator      PointIdsBegin(void);
+  virtual PointConstIterator PointIdsBegin(void) const;
+  virtual PointIterator      PointIdsEnd(void);
+  virtual PointConstIterator PointIdsEnd(void) const; 
 
   /**
    * Line-specific interface.
@@ -94,7 +98,15 @@ protected:
 template <typename TPixelType, typename TCellType>
 class itkLineBoundary:
   public itkCellBoundary< itkLineCell< TPixelType , TCellType > >
-{};
+{
+public:
+  typedef itkLineBoundary        Self;
+  typedef itkSmartPointer<Self>  Pointer;
+  
+  static Pointer New(void);
+  
+  itkTypeMacro(itkLineBoundary, itkCellBoundary);
+};
 
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -37,10 +37,11 @@ public:
    */
   typedef TElementIdentifier  ElementIdentifier;
   typedef TElement            Element;
-  
+
   /**
    * This is an "indexed" container, so we provide the indexing methods.
    */
+  virtual Element& ElementAt(ElementIdentifier)=0;
   virtual Element GetElement(ElementIdentifier) const =0;
   virtual void SetElement(ElementIdentifier, Element)=0;
   
