@@ -191,7 +191,7 @@ SOURCE_GROUP("ITPACK" itpack*)
 
 # Build the library
 ADD_LIBRARY(ITKFEM ${FEM_SRCS})
-TARGET_LINK_LIBRARIES(ITKFEM VXLNumerics
+TARGET_LINK_LIBRARIES(ITKFEM 
                       ITKNumerics
                       ITKCommon
                       ITKBasicFilters

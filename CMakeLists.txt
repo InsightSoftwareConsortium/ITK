@@ -50,6 +50,11 @@ OPTION(ITK_USE_SYSTEM_STDLIB
        "Use the system's version of the standard C++ library (STL and streams).  If 'OFF', ITK will build against a supplied version of the standard library from SGI.  On SGI systems, this should be set to 'OFF'." ON)
 OPTION(VXL_FROM_UTILITIES "Use new vxl from utilities." OFF)
 MARK_AS_ADVANCED(VXL_FROM_UTILITIES)
+IF(VXL_FROM_UTILITIES)
+  SET(VXL_NUMERICS_LIBRARIES itkvnl itkalgo itknetlib)
+ELSE(VXL_FROM_UTILITIES)
+  SET(VXL_NUMERICS_LIBRARIES VXLNumerics)
+ENDIF(VXL_FROM_UTILITIES)
 
 # Provide options to use system versions of third-party libraries.
 ITK_THIRD_PARTY_OPTION(ZLIB zlib)

@@ -2905,7 +2905,7 @@ char **argv;
 #endif /* not CDT_ONLY */
 #endif /* not TRILIBRARY */
   steinerleft = steiner;
-  useshelles = poly || refine || quality || convex;
+  useshelles = poly1 || refine || quality || convex;
   goodangle = cos(minangle * PI / 180.0);
   goodangle *= goodangle;
   if (refine && noiterationnum) {
@@ -2915,12 +2915,12 @@ char **argv;
   }
   /* Be careful not to allocate space for element area constraints that */
   /*   will never be assigned any value (other than the default -1.0).  */
-  if (!refine && !poly) {
+  if (!refine && !poly1) {
     vararea = 0;
   }
   /* Be careful not to add an extra attribute to each element unless the */
   /*   input supports it (PSLG in, but not refining a preexisting mesh). */
-  if (refine || !poly) {
+  if (refine || !poly1) {
     regionattrib = 0;
   }
 
@@ -3570,7 +3570,7 @@ void initializepointpool()
   pointmarkindex = ((mesh_dim + nextras) * sizeof(REAL) + sizeof(int) - 1)
                  / sizeof(int);
   pointsize = (pointmarkindex + 1) * sizeof(int);
-  if (poly) {
+  if (poly1) {
     /* The index within each point at which a triangle pointer is found.   */
     /*   Ensure the pointer is aligned to a sizeof(triangle)-byte address. */
     point2triindex = (pointsize + sizeof(triangle) - 1) / sizeof(triangle);
@@ -7651,7 +7651,7 @@ struct triedge *startghost;
     symself(dissolveedge);
     /* If no PSLG is involved, set the boundary markers of all the points */
     /*   on the convex hull.  If a PSLG is used, this step is done later. */
-    if (!poly) {
+    if (!poly1) {
       /* Watch out for the case where all the input points are collinear. */
       if (dissolveedge.tri != dummytri) {
         org(dissolveedge, markorg);
@@ -7870,7 +7870,7 @@ long removebox()
     symself(dissolveedge);
     /* If not using a PSLG, the vertices should be marked now. */
     /*   (If using a PSLG, markhull() will do the job.)        */
-    if (!poly) {
+    if (!poly1) {
       /* Be careful!  One must check for the case where all the input   */
       /*   points are collinear, and thus all the triangles are part of */
       /*   the bounding box.  Otherwise, the setpointmark() call below  */
@@ -8793,7 +8793,7 @@ FILE *polyfile;
     triangleloop.tri[3] = (triangle) triangleloop.tri;
   }
 
-  if (poly) {
+  if (poly1) {
 #ifdef TRILIBRARY
     insegments = numberofsegments;
     segmentmarkers = segmentmarkerlist != (int *) NULL;
@@ -9004,7 +9004,7 @@ FILE *polyfile;
 #endif /* not TRILIBRARY */
 
   hullsize = 0;                      /* Prepare to count the boundary edges. */
-  if (poly) {
+  if (poly1) {
     if (verbose) {
       printf("  Marking segments in triangulation.\n");
     }
@@ -9916,7 +9916,7 @@ char *polyfilename;
   int boundmarker;
   int i;
 
-  if (poly) {
+  if (poly1) {
     if (!quiet) {
       printf("Inserting segments into Delaunay triangulation.\n");
     }
@@ -10008,7 +10008,7 @@ char *polyfilename;
   } else {
     segments = 0;
   }
-  if (convex || !poly) {
+  if (convex || !poly1) {
     /* Enclose the convex hull with shell edges. */
     if (verbose) {
       printf("  Enclosing convex hull with segments.\n");
@@ -11258,7 +11258,7 @@ FILE **polyfile;
   int currentmarker;
   int i, j;
 
-  if (poly) {
+  if (poly1) {
     /* Read the points from a .poly file. */
     if (!quiet) {
       printf("Opening %s.\n", polyfilename);
@@ -12786,7 +12786,7 @@ void statistics()
   if (refine) {
     printf("  Input triangles: %d\n", inelements);
   }
-  if (poly) {
+  if (poly1) {
     printf("  Input segments: %d\n", insegments);
     if (!refine) {
       printf("  Input holes: %d\n", holes);
@@ -12796,7 +12796,7 @@ void statistics()
   printf("\n  Mesh points: %ld\n", points.items);
   printf("  Mesh triangles: %ld\n", triangles.items);
   printf("  Mesh edges: %ld\n", edges);
-  if (poly || refine) {
+  if (poly1 || refine) {
     printf("  Mesh boundary edges: %ld\n", hullsize);
     printf("  Mesh segments: %ld\n\n", shelles.items);
   } else {
@@ -12993,7 +12993,7 @@ char **argv;
   }
 #endif /* NO_TIMER */
 
-  if (poly) {
+  if (poly1) {
 #ifdef TRILIBRARY
     holearray = in->holelist;
     holes = in->numberofholes;
@@ -13107,7 +13107,7 @@ char **argv;
   }
   /* The -c switch (convex switch) causes a PSLG to be written */
   /*   even if none was read.                                  */
-  if (poly || convex) {
+  if (poly1 || convex) {
     /* If not using iteration numbers, don't overwrite the .poly file. */
     if (nopolywritten || noiterationnum) {
       if (!quiet) {
@@ -13122,7 +13122,7 @@ char **argv;
       writepoly(&out->segmentlist, &out->segmentmarkerlist);
       out->numberofholes = holes;
       out->numberofregions = regions;
-      if (poly) {
+      if (poly1) {
         out->holelist = in->holelist;
         out->regionlist = in->regionlist;
       } else {

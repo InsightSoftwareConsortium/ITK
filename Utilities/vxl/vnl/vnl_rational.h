@@ -75,12 +75,20 @@ public:
   //  Also serves as automatic cast from long to vnl_rational.
   //  The only input which is not allowed is (0,0);
   //  the denominator is allowed to be 0, to represent +Inf or -Inf.
-  explicit inline vnl_rational (long num = 0L, long den = 1L)
+#ifdef VCL_BORLAND
+  explicit 
+#endif
+  inline vnl_rational (long num = 0L, long den = 1L)
     : num_(num), den_(den) { assert(num!=0||den!=0); normalize(); }
+#ifdef VCL_BORLAND
   inline vnl_rational (int num, int den)
     : num_(num), den_(den) { assert(num!=0||den!=0); normalize(); }
   explicit inline vnl_rational (int num)
     : num_(num), den_(1) { assert(num!=0); normalize(); }
+#else
+  inline vnl_rational (int num, int den=1)
+    : num_(num), den_(den) { assert(num!=0||den!=0); normalize(); }
+#endif
   explicit inline vnl_rational (unsigned int num, unsigned int den = 1)
     : num_((long)num), den_((long)den) { assert(num!=0||den!=0); normalize(); }
   //: Creates a rational from a double.

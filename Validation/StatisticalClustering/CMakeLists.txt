@@ -1,8 +1,6 @@
 INCLUDE_DIRECTORIES(
 ${ITK_SOURCE_DIR}/Code/Common
 ${ITK_SOURCE_DIR}/Code/BasicFilters
-${ITK_SOURCE_DIR}/Code/Numerics
-${ITK_SOURCE_DIR}/Code/Numerics/vxl
 ${ITK_SOURCE_DIR}/Code/Numerics/Statistics
 ${ITK_SOURCE_DIR}/Applications/MRIBiasCorrection
 ${ITK_SOURCE_DIR}/Validation/StatisticalClustering
@@ -14,7 +12,6 @@ ${ITK_BINARY_DIR}/bin
 
 
 LINK_LIBRARIES (
-VXLNumerics
 ITKCommon
 ITKBasicFilters
 ITKNumerics

@@ -704,27 +704,20 @@ vnl_rnpoly_solve::~vnl_rnpoly_solve()
 
 bool vnl_rnpoly_solve::compute()
 {
-  vcl_cout << __FILE__ << " " << __LINE__ << "\n" << vcl_endl;
-  return true;
-  vcl_cout << __FILE__ << " " << __LINE__ << "\n";
+
   int i,j;
   int ideg[M], terms[M], polyn[M][T][M];
   vnl_rnpoly_solve_cmplx ans[LEN][M];
   double coeff[M][T];
-vcl_cout << __FILE__ << " " << __LINE__ << "\n";
   int p = Read_Input(ideg,terms,polyn,coeff);
-vcl_cout << __FILE__ << " " << __LINE__ << "\n";
   int totdegree = 1;
   for (j=0;j<p;j++) totdegree *= ideg[j];
-vcl_cout << __FILE__ << " " << __LINE__ << "\n";
   int NumSols = Perform_Distributed_Task(p,ans,ideg,terms,polyn,coeff);
-vcl_cout << __FILE__ << " " << __LINE__ << "\n";
   // Print out the answers
   vnl_vector<double> * rp, *ip;
 #ifdef DEBUG
   vcl_cout << "Numsolutions are: " << NumSols << vcl_endl;
 #endif
-vcl_cout << __FILE__ << " " << __LINE__ << "\n";
 for (i=0;i<NumSols;i++) {
     rp=new vnl_vector<double>(p);  r_.push_back(rp);
     ip=new vnl_vector<double>(p);  i_.push_back(ip);
@@ -734,7 +727,6 @@ for (i=0;i<NumSols;i++) {
 #endif
       (*rp)[j]=ans[i][j].R; (*ip)[j]=ans[i][j].C;
     }
-    vcl_cout << __FILE__ << " " << __LINE__ << "\n";
 #ifdef DEBUG
     vcl_cout<< vcl_endl;
 #endif
