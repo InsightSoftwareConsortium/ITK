@@ -99,7 +99,7 @@ public:
   /** Type of the segmentation function */
   typedef ThresholdSegmentationLevelSetFunction<OutputImageType,
                                                 FeatureImageType> ThresholdFunctionType;
-typedef typename ThresholdFunctionType::Pointer ThresholdFunctionPointer;
+  typedef typename ThresholdFunctionType::Pointer ThresholdFunctionPointer;
 
   
   /** Run-time type information (and related methods). */
@@ -109,25 +109,11 @@ typedef typename ThresholdFunctionType::Pointer ThresholdFunctionPointer;
   itkNewMacro(Self);
   
   /** Get/Set the threshold values that will be used to calculate the speed function. */
-  void SetUpperThreshold(ValueType v)
-  {
-    m_ThresholdFunction->SetUpperThreshold(v);
-    this->Modified();
-  }
-  void SetLowerThreshold(ValueType v)
-  {
-    m_ThresholdFunction->SetLowerThreshold(v);
-    this->Modified();
-  }
-  ValueType GetUpperThreshold() const
-  {
-    return m_ThresholdFunction->GetUpperThreshold();
-  }
-  ValueType GetLowerThreshold() const
-  {
-    return m_ThresholdFunction->GetLowerThreshold();
-  }
-  
+  void SetUpperThreshold(ValueType v);
+  void SetLowerThreshold(ValueType v);
+  ValueType GetUpperThreshold() const;
+  ValueType GetLowerThreshold() const;
+    
 protected:
   ~ThresholdSegmentationLevelSetImageFilter() {}
   ThresholdSegmentationLevelSetImageFilter();

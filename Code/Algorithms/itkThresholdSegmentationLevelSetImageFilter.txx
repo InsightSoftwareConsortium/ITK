@@ -32,7 +32,55 @@ ThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType
 
   this->SetSegmentationFunction(m_ThresholdFunction);
 }
-  
+
+
+ 
+template <class TInputImage, class TFeatureImage, class TOutputType>
+void 
+ThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
+::SetUpperThreshold(ValueType v)
+{
+  m_ThresholdFunction->SetUpperThreshold(v);
+  this->Modified();
+}
+
+
+
+
+template <class TInputImage, class TFeatureImage, class TOutputType>
+void 
+ThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
+::SetLowerThreshold(ValueType v)
+{
+  m_ThresholdFunction->SetLowerThreshold(v);
+  this->Modified();
+}
+
+
+
+
+template <class TInputImage, class TFeatureImage, class TOutputType>
+typename 
+ThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::ValueType
+ThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
+::GetUpperThreshold() const
+{
+  return m_ThresholdFunction->GetUpperThreshold();
+}
+
+
+
+template <class TInputImage, class TFeatureImage, class TOutputType>
+typename 
+ThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::ValueType
+ThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
+::GetLowerThreshold() const
+{
+  return m_ThresholdFunction->GetLowerThreshold();
+}
+
+
+ 
 template <class TInputImage, class TFeatureImage, class TOutputType>
 void
 ThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
