@@ -142,7 +142,7 @@ VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 bool
 VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
-TestHomogeneity(IndexList Plist)
+TestHomogeneity(IndexList &Plist)
 {
   int num=Plist.size();
   int i,j;
