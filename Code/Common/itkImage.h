@@ -400,7 +400,8 @@ public:
       m_IndexToPhysicalTransform->TransformPoint(inputPoint) ;
   
     // Update the output point
-    point = outputPoint;
+    for (unsigned int i = 0 ; i < VImageDimension ; ++i)
+      { point[i] = outputPoint[i]; }
     }
 
   /** \brief Copy information from the specified data set.  
