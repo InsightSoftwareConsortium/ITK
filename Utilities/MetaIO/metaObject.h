@@ -37,6 +37,8 @@ class MetaObject
 
       float m_Orientation[100];     // "Orientation = "      1,0,0, 0,1,0, 0,0,1
 
+      MET_OrientationEnumType m_AnatomicalOrientation[10];
+
       float m_ElementSpacing[10];   // "ElementSpacing = "   0,0,0
 
       float m_Color[4];             // "Color = "            1.0, 0.0, 0.0, 1.0
@@ -49,7 +51,7 @@ class MetaObject
 
       bool  m_BinaryData;           // "BinaryData = "      False
 
-      bool  m_ElementByteOrderMSB;
+      bool  m_BinaryDataByteOrderMSB;
       
       virtual void M_Destroy(void);
 
@@ -137,6 +139,15 @@ class MetaObject
       void  Orientation(const float * _orientation);
       void  Orientation(int _i, int _j, float _value);
 
+      const char * AnatomicalOrientationAcronym(void) const;
+      const MET_OrientationEnumType * AnatomicalOrientation(void) const;
+      MET_OrientationEnumType AnatomicalOrientation(int _dim) const;
+      void AnatomicalOrientation(const char *_ao);
+      void AnatomicalOrientation(const MET_OrientationEnumType *_ao);
+      void AnatomicalOrientation(int _dim, MET_OrientationEnumType _ao);
+      void AnatomicalOrientation(int _dim, char ao);
+
+      
       //    Transformation Type(...)
       //       Optional Field
       //     Name of the transformation used
@@ -182,8 +193,8 @@ class MetaObject
       void  BinaryData(bool _binaryData);
       bool  BinaryData(void) const;
 
-      void  ElementByteOrderMSB(bool _elementByteOrderMSB);
-      bool  ElementByteOrderMSB(void) const;
+      void  BinaryDataByteOrderMSB(bool _binaryDataByteOrderMSB);
+      bool  BinaryDataByteOrderMSB(void) const;
 
       virtual void Clear(void);
 

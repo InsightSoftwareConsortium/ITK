@@ -1,13 +1,12 @@
 /*!
  * File:
- *   MetaUtils (.h and .cpp)
+ *   MetaTypes (.h and .cpp)
  *
  * Description:
- *    This file provides generic include files, functions (tempates), 
- *    and type definitions for handling metaFiles and metaImageFiles.
+ *    This file provides the definition of the enumerated types used by
+ *    metaObjects as well as the record structured used to describe the
+ *    fields to be read and written by MetaObjects.
  *
- * Features:
- *    Most of these functions are quite broadly applicable
  *
  * \author Stephen R. Aylward
  * \date August 29, 1999
@@ -77,11 +76,28 @@ const char MET_ValueTypeName[MET_NUM_VALUE_TYPES][17] = {
    {'M','E','T','_','F','L','O','A','T','_','M','A','T','R','I','X','\0'},
    {'M','E','T','_','O','T','H','E','R','\0',' ',' ',' ',' ',' ',' ',' '}};
 
+
+typedef enum { MET_ORIENTATION_RL, MET_ORIENTATION_LR, MET_ORIENTATION_AP,
+       MET_ORIENTATION_PA, MET_ORIENTATION_SI, MET_ORIENTATION_IS,
+       MET_ORIENTATION_UNKNOWN } MET_OrientationEnumType;
+
+#define MET_NUM_ORIENTATION_TYPES 7
+
+const char MET_OrientationTypeName[MET_NUM_ORIENTATION_TYPES][3] = {
+   {'R','L','\0'},
+   {'L','R','\0'},
+   {'A','P','\0'},
+   {'P','A','\0'},
+   {'S','I','\0'},
+   {'I','S','\0'},
+   {'?','?','\0'}};
+
+   
 // Structure used to define a field (variable = value definition) in a MetaFile
 typedef struct
    {
    char           name[255];  // Fieldname / keyword to designate a variable
-   MET_ValueEnumType  type;       // Expected value type of the field
+   MET_ValueEnumType  type;   // Expected value type of the field
    bool           required;   // Is this field a required field in a metaFile
    int            dependsOn;  // If value type is an array, the size of this 
                               //    array can be defined by a different field
@@ -90,7 +106,9 @@ typedef struct
                               //    MetaFile being parsed
    int            length;     // Actual/expect length of an array
    double         value[255]; // Memory and pointers for the field's value(s).
-   bool           terminateRead;  // Set to true if field indicates end of meta data
+   bool           terminateRead;  // Set to true if field indicates end of 
+                                  //   meta data
    } MET_FieldRecordType;
+
 
 #endif

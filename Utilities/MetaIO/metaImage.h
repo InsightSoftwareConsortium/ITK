@@ -58,6 +58,7 @@ class MetaImage : public MetaObject
 
     float m_SequenceID[4];
 
+    bool  m_ElementSizeValid;
     float m_ElementSize[10];
 
     MET_ValueEnumType m_ElementType;
@@ -173,6 +174,8 @@ class MetaImage : public MetaObject
     //       Optional Field
     //       Physical size (in MM) of each element in the image
     //       (0 = xSize, 1 = ySize, 2 = zSize)
+    void ElementSizeValid(bool _elementSizeValid);
+    bool ElementSizeValid(void) const;
     const float * ElementSize(void) const;
     float ElementSize(int i) const;
     void  ElementSize(const float * _pointSize);

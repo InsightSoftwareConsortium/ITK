@@ -13,6 +13,5 @@ const char MET_ImageModalityTypeName[MET_NUM_IMAGE_MODALITY_TYPES][17] = {
    {'M','E','T','_','M','O','D','_','U','S','\0',' ',' ',' ',' ',' ',' '},
    {'M','E','T','_','M','O','D','_','O','T','H','E','R','\0',' ',' ',' '},
    {'M','E','T','_','M','O','D','_','U','N','K','N','O','W','N','\0',' '}};
-   
 
 #endif

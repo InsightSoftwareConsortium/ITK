@@ -157,6 +157,7 @@ PrintInfo() const
     }
   std::cout << std::endl;
 
+  std::cout << "ElementSizeValid = " << (int)m_ElementSizeValid;
   std::cout << "ElementSize = ";
   for(i=0; i<m_NDims; i++)
     {
@@ -194,7 +195,10 @@ CopyInfo(const MetaImage * _im)
   {
   MetaObject::CopyInfo(_im);
 
-  ElementSize(_im->ElementSize());
+  if(_im->ElementSizeValid())
+    {
+    ElementSize(_im->ElementSize());
+    }
   HeaderSize(_im->HeaderSize());
   Modality(_im->Modality());
   SequenceID(_im->SequenceID());
@@ -280,6 +284,18 @@ SequenceID(int _i, float _value)
   m_SequenceID[_i] = _value;
   }
 
+bool MetaImage::
+ElementSizeValid(void) const
+  {
+  return m_ElementSizeValid;
+  }
+
+void MetaImage::
+ElementSizeValid(bool _elementSizeValid)
+  {
+  m_ElementSizeValid = _elementSizeValid;
+  }
+
 const float * MetaImage::
 ElementSize(void) const
   {
@@ -296,12 +312,14 @@ void MetaImage::
 ElementSize(const float *_elementSize)
   {
   memcpy(m_ElementSize, _elementSize, m_NDims*sizeof(float));
+  m_ElementSizeValid = true;
   }
 
 void MetaImage::
 ElementSize(int _i, float _value)
   {
   m_ElementSize[_i] = _value;
+  m_ElementSizeValid = true;
   }
 
 MET_ValueEnumType MetaImage::
@@ -332,7 +350,6 @@ void MetaImage::
 ElementByteOrderSwap(void)
   {
   std::cout << "MetaImage: ElementByteOrderSwap" << std::endl;
-  std::cout << "swap: msb = " << (int)m_ElementByteOrderMSB << std::endl;
 
   int eSize;
   MET_SizeOfType(m_ElementType, &eSize);    
@@ -366,13 +383,13 @@ ElementByteOrderSwap(void)
       break;
       }
     }
-  m_ElementByteOrderMSB = !m_ElementByteOrderMSB;
+  m_BinaryDataByteOrderMSB = !m_BinaryDataByteOrderMSB;
   }
 
 bool MetaImage::
 ElementByteOrderFix(void)
   {
-  if(m_ElementByteOrderMSB != MET_SystemByteOrderMSB())
+  if(m_BinaryDataByteOrderMSB != MET_SystemByteOrderMSB())
     {
     ElementByteOrderSwap();
     return true;
@@ -847,6 +864,7 @@ Clear(void)
     {
     m_ElementSize[i] = 0;
     }
+  m_ElementSizeValid = false;
 
   MetaObject::Clear();
 
@@ -870,6 +888,7 @@ InitializeEssential(int _nDims,
   int i;
   m_Quantity = 1;
   m_SubQuantity[0] = 1;
+  m_ElementSizeValid = false;
   for(i=0; i<m_NDims; i++)
     {
     m_DimSize[i] = _dimSize[i];
@@ -882,6 +901,10 @@ InitializeEssential(int _nDims,
     if(m_ElementSize[i] == 0)
       {
       m_ElementSize[i] = m_ElementSpacing[i];
+      }
+    else
+      {
+      m_ElementSizeValid = true;
       }
     }
 
@@ -1049,16 +1072,7 @@ M_SetupWriteFields(void)
     m_Fields.push_back(mF);
     }
 
-  valid = false;
-  for(i=0; i<m_NDims; i++)
-    {
-    if(m_ElementSize[i] != 0 && m_ElementSize[i] != 1)
-      {
-      valid = true;
-      break;
-      }
-    }
-  if(valid)
+  if(m_ElementSizeValid)
     {
     mF = new MET_FieldRecordType;
     MET_InitWriteField(mF, "ElementSize", MET_FLOAT_ARRAY, m_NDims,
@@ -1274,11 +1288,16 @@ M_Read(void)
   mF = MET_GetFieldRecord("ElementSize", &m_Fields);
   if(mF && mF->defined)
     {
+    m_ElementSizeValid = true;
     int i;
     for(i=0; i<m_NDims; i++)
       {
       m_ElementSize[i] = mF->value[i];
       }
+    }
+  else
+    {
+    m_ElementSizeValid = false;
     }
 
   mF = MET_GetFieldRecord("ElementType", &m_Fields);

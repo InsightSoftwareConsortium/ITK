@@ -90,7 +90,7 @@ CopyInfo(const MetaObject * _object)
   ParentID(_object->ParentID());
   Name(_object->Name());
   BinaryData(_object->BinaryData());
-  ElementByteOrderMSB(_object->ElementByteOrderMSB());
+  BinaryDataByteOrderMSB(_object->BinaryDataByteOrderMSB());
   }
 
 bool MetaObject::
@@ -192,10 +192,10 @@ PrintInfo(void) const
     std::cout << "BinaryData = True" << std::endl;
   else
     std::cout << "BinaryData = False" << std::endl;
-  if(m_ElementByteOrderMSB)
-    std::cout << "ElementByteOrderMSB = True" << std::endl;
+  if(m_BinaryData && m_BinaryDataByteOrderMSB)
+    std::cout << "BinaryDataByteOrderMSB = True" << std::endl;
   else
-    std::cout << "ElementByteOrderMSB = False" << std::endl;
+    std::cout << "BinaryDataByteOrderMSB = False" << std::endl;
   std::cout << "Color = " ;
   for(i=0; i<4; i++)
     {
@@ -343,6 +343,85 @@ Orientation(int _i, int _j, float _value)
   m_Orientation[_i*m_NDims+_j] = _value;
   }
 
+const char * MetaObject::
+AnatomicalOrientationAcronym(void) const
+  {
+  static char str[10];
+  int i;
+  for(i=0; i<m_NDims; i++)
+    {
+    str[i] = MET_OrientationTypeName[m_AnatomicalOrientation[i]][0];
+    }
+  str[i] = '\0';
+  return str;
+  }
+
+const MET_OrientationEnumType * MetaObject::
+AnatomicalOrientation(void) const
+  {
+  return m_AnatomicalOrientation;
+  }
+
+MET_OrientationEnumType MetaObject::
+AnatomicalOrientation(int _dim) const
+  {
+  return m_AnatomicalOrientation[_dim];
+  }
+
+void MetaObject::
+AnatomicalOrientation(const char *_ao)
+  {
+  int i, j;
+  for(i=0; i<m_NDims; i++)
+    {
+    for(j=0; j<MET_NUM_ORIENTATION_TYPES; j++)
+      {
+      if(_ao[i] == MET_OrientationTypeName[j][0])
+        {
+        m_AnatomicalOrientation[i] = (MET_OrientationEnumType)j;
+        break;
+        }
+      }
+    if(j == MET_NUM_ORIENTATION_TYPES)
+      {
+      m_AnatomicalOrientation[i] = MET_ORIENTATION_UNKNOWN;
+      }
+    }
+  }
+
+void MetaObject::
+AnatomicalOrientation(const MET_OrientationEnumType *_ao)
+  {
+  int i;
+  for(i=0; i<m_NDims; i++)
+    {
+    m_AnatomicalOrientation[i] = _ao[i];
+    }
+  }
+
+void MetaObject::
+AnatomicalOrientation(int _dim, MET_OrientationEnumType _ao)
+  {
+  m_AnatomicalOrientation[_dim] = _ao;
+  }
+
+void MetaObject::
+AnatomicalOrientation(int _dim, char _ao)
+  {
+  int j;
+  for(j=0; j<MET_NUM_ORIENTATION_TYPES; j++)
+    {
+    if(_ao == MET_OrientationTypeName[j][0])
+      {
+      m_AnatomicalOrientation[_dim] = (MET_OrientationEnumType)j;
+      return;
+      }
+    }
+
+  m_AnatomicalOrientation[_dim] = MET_ORIENTATION_UNKNOWN;
+  }
+
+
 const float * MetaObject::
 ElementSpacing(void) const
   {
@@ -447,15 +526,15 @@ bool   MetaObject::BinaryData(void) const
 }
 
 bool MetaObject::
-ElementByteOrderMSB(void) const
+BinaryDataByteOrderMSB(void) const
   {
-  return m_ElementByteOrderMSB;
+  return m_BinaryDataByteOrderMSB;
   }
 
 void MetaObject::
-ElementByteOrderMSB(bool _elementByteOrderMSB)
+BinaryDataByteOrderMSB(bool _elementByteOrderMSB)
   {
-  m_ElementByteOrderMSB = _elementByteOrderMSB;
+  m_BinaryDataByteOrderMSB = _elementByteOrderMSB;
   }
 
 void MetaObject::
@@ -481,7 +560,7 @@ Clear(void)
   m_Color[3]=1.0; // red by default
   m_ParentID = -1;
   m_BinaryData = false;
-  m_ElementByteOrderMSB = MET_SystemByteOrderMSB();
+  m_BinaryDataByteOrderMSB = MET_SystemByteOrderMSB();
 
   if(META_DEBUG) 
     {
@@ -492,6 +571,7 @@ Clear(void)
     {
     m_ElementSpacing[i] = 1;
     m_Orientation[i*m_NDims+i] = 1;
+    m_AnatomicalOrientation[i] = MET_ORIENTATION_UNKNOWN;
     }
 
   std::vector<MET_FieldRecordType *>::iterator fieldIter;
@@ -594,6 +674,10 @@ M_SetupReadFields(void)
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
+  MET_InitReadField(mF, "BinaryDataByteOrderMSB", MET_STRING, false);
+  m_Fields.push_back(mF);
+
+  mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "Color", MET_FLOAT_ARRAY, false,-1,4);
   m_Fields.push_back(mF);
 
@@ -605,6 +689,10 @@ M_SetupReadFields(void)
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "Orientation", MET_FLOAT_MATRIX, false,
                     nDimsRecordNumber);
+  m_Fields.push_back(mF);
+
+  mF = new MET_FieldRecordType;
+  MET_InitReadField(mF, "AnatomicalOrientation", MET_STRING, false);
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
@@ -685,14 +773,17 @@ M_SetupWriteFields(void)
     MET_InitWriteField(mF, "BinaryData", MET_STRING, strlen("False"), "False");
   m_Fields.push_back(mF);
 
-  mF = new MET_FieldRecordType;
-  if(m_ElementByteOrderMSB)
-    MET_InitWriteField(mF, "ElementByteOrderMSB", MET_STRING,
-                       strlen("True"), "True");
-  else
-    MET_InitWriteField(mF, "ElementByteOrderMSB", MET_STRING,
-                       strlen("False"), "False");
-  m_Fields.push_back(mF);
+  if(m_BinaryData)
+    {
+    mF = new MET_FieldRecordType;
+    if(m_BinaryDataByteOrderMSB)
+      MET_InitWriteField(mF, "BinaryDataByteOrderMSB", MET_STRING,
+                         strlen("True"), "True");
+    else
+      MET_InitWriteField(mF, "BinaryDataByteOrderMSB", MET_STRING,
+                         strlen("False"), "False");
+    m_Fields.push_back(mF);
+    }
 
   mF = new MET_FieldRecordType;
   MET_InitWriteField(mF, "Color", MET_FLOAT_ARRAY, 4,
@@ -731,6 +822,14 @@ M_SetupWriteFields(void)
     mF = new MET_FieldRecordType;
     MET_InitWriteField(mF, "Orientation", MET_FLOAT_MATRIX, m_NDims,
                        m_Orientation);
+    m_Fields.push_back(mF);
+    }
+
+  if(m_AnatomicalOrientation[0] != MET_ORIENTATION_UNKNOWN)
+    {
+    const char * str = AnatomicalOrientationAcronym();
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "ElementSpacing", MET_STRING, strlen(str), str);
     m_Fields.push_back(mF);
     }
 
@@ -826,9 +925,19 @@ M_Read(void)
     {
     if(((char *)(mF->value))[0] == 'T' || ((char *)(mF->value))[0] == 't' 
        || ((char *)(mF->value))[0] == '1')
-      m_ElementByteOrderMSB = true;
+      m_BinaryDataByteOrderMSB = true;
     else
-      m_ElementByteOrderMSB = false;
+      m_BinaryDataByteOrderMSB = false;
+    }
+
+  mF = MET_GetFieldRecord("BinaryDataByteOrderMSB",  &m_Fields);
+  if(mF && mF->defined)
+    {
+    if(((char *)(mF->value))[0] == 'T' || ((char *)(mF->value))[0] == 't' 
+       || ((char *)(mF->value))[0] == '1')
+      m_BinaryDataByteOrderMSB = true;
+    else
+      m_BinaryDataByteOrderMSB = false;
     }
 
   int i;
@@ -858,6 +967,12 @@ M_Read(void)
       {
       m_Orientation[i] = mF->value[i];
       }
+    }
+
+  mF = MET_GetFieldRecord("AnatomicalOrientation", &m_Fields);
+  if(mF && mF->defined)
+    {
+    AnatomicalOrientation((char *)(mF->value));
     }
 
   mF = MET_GetFieldRecord("ElementSpacing", &m_Fields);
