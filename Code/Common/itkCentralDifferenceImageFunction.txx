@@ -25,8 +25,8 @@ namespace itk
 /**
  * Constructor
  */
-template <class TInputImage, class TCoordRep, class TOutputType>
-CentralDifferenceImageFunction<TInputImage,TCoordRep,TOutputType>
+template <class TInputImage, class TCoordRep>
+CentralDifferenceImageFunction<TInputImage,TCoordRep>
 ::CentralDifferenceImageFunction()
 {
 }
@@ -35,9 +35,9 @@ CentralDifferenceImageFunction<TInputImage,TCoordRep,TOutputType>
 /**
  *
  */
-template <class TInputImage, class TCoordRep, class TOutputType>
+template <class TInputImage, class TCoordRep>
 void
-CentralDifferenceImageFunction<TInputImage,TCoordRep,TOutputType>
+CentralDifferenceImageFunction<TInputImage,TCoordRep>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
@@ -47,11 +47,11 @@ CentralDifferenceImageFunction<TInputImage,TCoordRep,TOutputType>
 /**
  *
  */
-template <class TInputImage, class TCoordRep, class TOutputType>
+template <class TInputImage, class TCoordRep>
 typename
-CentralDifferenceImageFunction<TInputImage,TCoordRep,TOutputType>
+CentralDifferenceImageFunction<TInputImage,TCoordRep>
 ::OutputType
-CentralDifferenceImageFunction<TInputImage,TCoordRep,TOutputType>
+CentralDifferenceImageFunction<TInputImage,TCoordRep>
 ::EvaluateAtIndex( const IndexType& index ) const
 {
   

@@ -19,6 +19,7 @@
 
 #include "itkImageFunction.h"
 #include "itkCovariantVector.h"
+#include "itkImageBase.h"
 
 namespace itk
 {
@@ -37,15 +38,18 @@ namespace itk
  */
 template <
   class TInputImage, 
-  class TCoordRep = float,
-  class TOutputType = CovariantVector<double, ::itk::GetImageDimension<TInputImage>::ImageDimension> >
+  class TCoordRep = float >
 class ITK_EXPORT CentralDifferenceImageFunction :
-  public ImageFunction< TInputImage, TOutputType, TCoordRep >
+  public ImageFunction< TInputImage, 
+                        CovariantVector<double, ::itk::GetImageDimension<TInputImage>::ImageDimension>, 
+                        TCoordRep >
 {
 public:
   /** Standard class typedefs. */
   typedef CentralDifferenceImageFunction Self;
-  typedef ImageFunction<TInputImage, TOutputType, TCoordRep> Superclass;
+  typedef ImageFunction<TInputImage,
+                        CovariantVector<double, ::itk::GetImageDimension<TInputImage>::ImageDimension>,
+                        TCoordRep> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
