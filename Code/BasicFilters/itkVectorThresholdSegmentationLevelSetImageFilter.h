@@ -149,7 +149,7 @@ protected:
 
   virtual void PrintSelf(std::ostream &os, Indent indent) const; 
 
-  ThresholdSegmentationLevelSetImageFilter(const Self &); // purposely not impl.
+  VectorThresholdSegmentationLevelSetImageFilter(const Self &); // purposely not impl.
   void operator=(const Self&); //purposely not implemented
 private:
   ThresholdFunctionPointer m_ThresholdFunction;
