@@ -20,7 +20,6 @@
 #include "itkRegionBoundaryNeighborhoodIterator.h"
 #include "itkRandomAccessNeighborhoodIterator.h"
 #include "itkImageRegionIterator.h"
-#include <hash_map>
 #include <algorithm>
 namespace itk
 {
@@ -143,8 +142,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
                               NumericTraits<OutputScalarType>::Zero);
 
   sort_comp comp;
-  sort<typename MergeListType::iterator, sort_comp>
-    (m_MergeHeirarchy.begin(), m_MergeHeirarchy.end(), comp);
+  std::sort(m_MergeHeirarchy.begin(), m_MergeHeirarchy.end(), comp);
   basic_output->SetMergeList(m_MergeHeirarchy);
 
   // Copy basic_output labeled image to output
@@ -217,8 +215,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
   typename MergeListType::value_type topMerge = heap.front();
   while( (! heap.empty()) && (topMerge.Saliency <= floodLevel) )
     {
-      pop_heap<typename MergeListType::iterator, merge_comp>
-        (heap.begin(), heap.end(), comp);
+      std::pop_heap(heap.begin(), heap.end(), comp);
       heap.pop_back();  // Popping the heap moves the top element to the end
                         // of the container structure, so we delete that here.
 
@@ -241,31 +238,31 @@ WatershedImageFilter<TInputImage, TOutputImage>
           topMerge.ToLabel = toSegLabel;
           list.push_back(topMerge);  // Record this merge for posterity
           
-          fromSeg->second.MergedToLabel = toSegLabel;
+          (*fromSeg).second.MergedToLabel = toSegLabel;
           
           // Update A's edge table with that of B.  Leave out any edges between 
           // A and B.
-          for (edge_it = fromSeg->second.EdgeTable.begin();
-               edge_it != fromSeg->second.EdgeTable.end(); ++edge_it)
+          for (edge_it = (*fromSeg).second.EdgeTable.begin();
+               edge_it != (*fromSeg).second.EdgeTable.end(); ++edge_it)
             {
               // Is this going to be a duplicate value?  If so get the minimum
               // edge value
-              tempLabel = Self::ResolveLabel(segments, edge_it->first,
+              tempLabel = Self::ResolveLabel(segments, (*edge_it).first,
                                        UNLABELED_PIXEL);
-              tempEdgeVal = edge_it->second;
-              retVal = toSeg->second.EdgeTable.find(tempLabel);
-              if (retVal != toSeg->second.EdgeTable.end())
+              tempEdgeVal = (*edge_it).second;
+              retVal = (*toSeg).second.EdgeTable.find(tempLabel);
+              if (retVal != (*toSeg).second.EdgeTable.end())
                 {
-                  if (retVal->second < tempEdgeVal)
-                    tempEdgeVal = retVal->second;
+                  if ((*retVal).second < tempEdgeVal)
+                    tempEdgeVal = (*retVal).second;
                 }
               
               // Recursively resolve label
-              tempLabel =  Self::ResolveLabel(segments, edge_it->first,
+              tempLabel =  Self::ResolveLabel(segments, (*edge_it).first,
                                               UNLABELED_PIXEL);
               if (tempLabel != toSegLabel)
                 {
-                  toSeg->second.EdgeTable.insert(
+                  (*toSeg).second.EdgeTable.insert(
                      std::pair<OutputScalarType,InputScalarType>( tempLabel,
                                                            tempEdgeVal)); 
                 }
@@ -274,65 +271,64 @@ WatershedImageFilter<TInputImage, TOutputImage>
           // Purge A's new edge table of any references to B or A (again we
           // need to look recursively).
           purgeStack.push(fromSegLabel);
-          for (edge_it = toSeg->second.EdgeTable.begin();
-               edge_it != toSeg->second.EdgeTable.end();
+          for (edge_it = (*toSeg).second.EdgeTable.begin();
+               edge_it != (*toSeg).second.EdgeTable.end();
                ++edge_it)
             {
-              tempLabel = Self::ResolveLabel(segments, edge_it->first,
+              tempLabel = Self::ResolveLabel(segments, (*edge_it).first,
                                              UNLABELED_PIXEL);
-              if (tempLabel==fromSegLabel) purgeStack.push(edge_it->first);
-              else if (tempLabel==toSegLabel) purgeStack.push(edge_it->first);
+              if (tempLabel==fromSegLabel) purgeStack.push((*edge_it).first);
+              else if (tempLabel==toSegLabel) purgeStack.push((*edge_it).first);
             }
           while ( ! purgeStack.empty())
             {
-              toSeg->second.EdgeTable.erase(purgeStack.top());
+              (*toSeg).second.EdgeTable.erase(purgeStack.top());
               purgeStack.pop();
             }
           
           // New minimum?
-          if (fromSeg->second.Minimum < toSeg->second.Minimum)
-            toSeg->second.Minimum = fromSeg->second.Minimum;
+          if ((*fromSeg).second.Minimum < (*toSeg).second.Minimum)
+            (*toSeg).second.Minimum = (*fromSeg).second.Minimum;
           
           // Find the new A.MinimumEdgeValue
           bool flag = true;
-          for (edge_it = toSeg->second.EdgeTable.begin();
-               edge_it != toSeg->second.EdgeTable.end();
+          for (edge_it = (*toSeg).second.EdgeTable.begin();
+               edge_it != (*toSeg).second.EdgeTable.end();
                ++edge_it)
             {
               if (flag) // first time
                 {
                   flag = false;
-                  toSeg->second.MinimumEdgeValue = edge_it->second;
+                  (*toSeg).second.MinimumEdgeValue = (*edge_it).second;
                 }
-              else if (edge_it->second < toSeg->second.MinimumEdgeValue)
+              else if ( (*edge_it).second < (*toSeg).second.MinimumEdgeValue)
                 {
-                  toSeg->second.MinimumEdgeValue = edge_it->second;
+                  (*toSeg).second.MinimumEdgeValue = (*edge_it).second;
                 }  
             }
 
           // New depth.
-          toSeg->second.Depth = toSeg->second.MinimumEdgeValue -
-            toSeg->second.Minimum;
+          (*toSeg).second.Depth = (*toSeg).second.MinimumEdgeValue -
+            (*toSeg).second.Minimum;
               
           // Now check for new possible merges in A.
-          for (edge_it = toSeg->second.EdgeTable.begin(); edge_it !=
-                 toSeg->second.EdgeTable.end(); ++edge_it)
+          for (edge_it = (*toSeg).second.EdgeTable.begin(); edge_it !=
+                 (*toSeg).second.EdgeTable.end(); ++edge_it)
             {
-              neighbSeg = segments.find(edge_it->first)->second;
+              neighbSeg = (*(segments.find((*edge_it).first))).second;
               
-              if ( (toSeg->second.Depth >= neighbSeg.Depth)
+              if ( ( (*toSeg).second.Depth >= neighbSeg.Depth)
                    &&
-                   ( toSeg->second.MinimumEdgeValue == edge_it->second)
+                   ( (*toSeg).second.MinimumEdgeValue == (*edge_it).second)
                    &&
-                   ( edge_it->second == toSeg->second.MinimumEdgeValue)
+                   ( (*edge_it).second == (*toSeg).second.MinimumEdgeValue)
                    )
                 {
-                  tempMerge.FromLabel = edge_it->first;
+                  tempMerge.FromLabel = (*edge_it).first;
                   tempMerge.ToLabel   = toSegLabel;
-                  tempMerge.Saliency  = toSeg->second.Depth;
+                  tempMerge.Saliency  = (*toSeg).second.Depth;
                   heap.push_back(tempMerge);
-                  push_heap<typename MergeListType::iterator, merge_comp>
-                    (heap.begin(), heap.end(), comp);
+                  std::push_heap(heap.begin(), heap.end(), comp);
                 }
             }          
         }
@@ -358,29 +354,28 @@ WatershedImageFilter<TInputImage, TOutputImage>
        segment_ptr != segments.end(); ++segment_ptr)
     {
       for (EdgeTableType::const_iterator edge_ptr =
-             segment_ptr->second.EdgeTable.begin(); edge_ptr !=
-             segment_ptr->second.EdgeTable.end(); ++edge_ptr)
+             (*segment_ptr).second.EdgeTable.begin(); edge_ptr !=
+             (*segment_ptr).second.EdgeTable.end(); ++edge_ptr)
         {
-          neighbSeg = segments.find(edge_ptr->first)->second;
+          neighbSeg = (*segments.find((*edge_ptr).first)).second;
 
-          if ( (segment_ptr->second.Depth >= neighbSeg.Depth)
+          if ( ((*segment_ptr).second.Depth >= neighbSeg.Depth)
                &&
-               ( neighbSeg.MinimumEdgeValue == edge_ptr->second)
+               ( neighbSeg.MinimumEdgeValue == (*edge_ptr).second)
                &&
-               ( edge_ptr->second == segment_ptr->second.MinimumEdgeValue)
+               ( (*edge_ptr).second == (*segment_ptr).second.MinimumEdgeValue)
                )
             {
-              tempMerge.FromLabel = edge_ptr->first;
-              tempMerge.ToLabel   = segment_ptr->first;
-              tempMerge.Saliency  = segment_ptr->second.Depth;
+              tempMerge.FromLabel = (*edge_ptr).first;
+              tempMerge.ToLabel   = (*segment_ptr).first;
+              tempMerge.Saliency  = (*segment_ptr).second.Depth;
               mergeHeap.push_back(tempMerge); 
             }
         }
     }
 
   merge_comp comp;
-  make_heap<typename MergeListType::iterator, merge_comp>
-    (mergeHeap.begin(), mergeHeap.end(), comp);  
+  std::make_heap(mergeHeap.begin(), mergeHeap.end(), comp);  
 }
 
 
@@ -426,9 +421,9 @@ WatershedImageFilter<TInputImage, TOutputImage>
                               SegmentType>(segment_label,
                                            temp_segment))).first;
         }
-      else if (*searchIt[hoodCenter] < segment_ptr->second.Minimum)
+      else if (*searchIt[hoodCenter] < (*segment_ptr).second.Minimum)
         {      
-          segment_ptr->second.Minimum = *searchIt[hoodCenter];
+          (*segment_ptr).second.Minimum = *searchIt[hoodCenter];
         }
 
       // Look up each neighboring segment in this segment's edge table.
@@ -444,16 +439,16 @@ WatershedImageFilter<TInputImage, TOutputImage>
                 lowest_edge = *searchIt[hoodCenter];   // max of the two
               else lowest_edge = *searchIt[i];         // adjacent pixels
               
-              edge_ptr = segment_ptr->second.EdgeTable.find(*labelIt[i]);
-              if (edge_ptr == segment_ptr->second.EdgeTable.end())
+              edge_ptr = (*segment_ptr).second.EdgeTable.find(*labelIt[i]);
+              if (edge_ptr == (*segment_ptr).second.EdgeTable.end())
                 { // This edge has not been identified yet.
-                  segment_ptr->second.EdgeTable.insert(
+                  (*segment_ptr).second.EdgeTable.insert(
                   std::pair<OutputScalarType, InputScalarType>(
                   *labelIt[i], lowest_edge)); 
                 }
-              else if (lowest_edge < edge_ptr->second)
+              else if (lowest_edge < (*edge_ptr).second)
                 {
-                  edge_ptr->second = lowest_edge;
+                  (*edge_ptr).second = lowest_edge;
                 }
             }
         }
@@ -466,15 +461,17 @@ WatershedImageFilter<TInputImage, TOutputImage>
     for (segment_ptr = segments.begin(); segment_ptr != segments.end();
        ++segment_ptr)
       {
-        edge_ptr = segment_ptr->second.EdgeTable.begin();
-        lowest_edge = edge_ptr->second;
-        for (++edge_ptr; edge_ptr != segment_ptr->second.EdgeTable.end();
+        edge_ptr = (*segment_ptr).second.EdgeTable.begin();
+        lowest_edge = (*edge_ptr).second;
+        for (++edge_ptr; edge_ptr != (*segment_ptr).second.EdgeTable.end();
              ++edge_ptr)
           {
-            if (edge_ptr->second < lowest_edge) lowest_edge = edge_ptr->second;
+            if ((*edge_ptr).second < lowest_edge)
+              lowest_edge = (*edge_ptr).second;
           }
-        segment_ptr->second.Depth = lowest_edge - segment_ptr->second.Minimum;
-        segment_ptr->second.MinimumEdgeValue = lowest_edge;
+        (*segment_ptr).second.Depth
+          = lowest_edge - (*segment_ptr).second.Minimum;
+        (*segment_ptr).second.MinimumEdgeValue = lowest_edge;
     }  
 }
   
@@ -544,11 +541,11 @@ WatershedImageFilter<TInputImage, TOutputImage>
   for (FlatRegionTableType::const_iterator region = flatRegionTable.begin();
        region != flatRegionTable.end(); ++region)
     {
-      if ( (region->second.BoundaryMaxValue > region->second.RegionValue)
-           && (region->second.BoundaryMinValue < region->second.RegionValue) )
+      if ( ((*region).second.BoundaryMaxValue > (*region).second.RegionValue)
+           && ((*region).second.BoundaryMinValue < (*region).second.RegionValue) )
         {
-          equivLabelStack.push(LabelPairType(region->first,
-                              *(region->second.BoundaryMinLabelPointer)));
+          equivLabelStack.push(LabelPairType((*region).first,
+                              *((*region).second.BoundaryMinLabelPointer)));
         }
     }
   LabelTableType equivalentLabels  = Self::MergeLabelPairs(equivLabelStack);
@@ -589,7 +586,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
   // 0 1 2
   // 3 4 5
   // 6 7 8
-  Index<ImageDimension> mT[hoodSize];
+  Index<ImageDimension> mT[9];
   mT[0][0] = -1;  mT[0][1] = -1;
   mT[1][0] =  0;  mT[1][1] = -1;
   mT[2][0] =  1;  mT[2][1] = -1;
@@ -763,7 +760,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
   for ( it = it.Begin(); it < it.End(); ++it)
     {
       temp = map.find(*it);
-      if (temp != map.end()) { *it = temp->second; }
+      if (temp != map.end()) { *it = (*temp).second; }
     }
   
 }
@@ -796,10 +793,10 @@ WatershedImageFilter<TInputImage, TOutputImage>
       // Is this key in the table?  If it is and matches a different label,
       // put that new correspondence on the stack for processing.
       result = labels.insert(LabelPairType(first, second));
-      if ( (result.second == false) && (result.first->second != second) )
+      if ( (result.second == false) && ( (*(result.first)).second != second) )
         {
-          temp = result.first->second;
-          s.push(LabelPairType(second, result.first->second));
+          temp = (*(result.first)).second;
+          s.push(LabelPairType(second, (*(result.first)).second));
         }
     }
 
@@ -809,15 +806,15 @@ WatershedImageFilter<TInputImage, TOutputImage>
   for (LabelTableType::iterator it = labels.begin(); it != labels.end();
        ++it)
     {
-      recurse = labels.find(it->second);
+      recurse = labels.find((*it).second);
       if (recurse != labels.end() )
         {
           while (recurse != labels.end())
             {
-              temp = recurse->second;
+              temp = (*recurse).second;
               recurse = labels.find(temp);
             }
-          it->second = temp;
+          (*it).second = temp;
         }
     }
   return labels;
@@ -837,18 +834,18 @@ WatershedImageFilter<TInputImage, TOutputImage>
   for (LabelTableType::const_iterator it = labels.begin();
        it != labels.end(); ++it)
     {
-      if ( ((a = regions.find(it->first)) == regions.end())
-           || ((b = regions.find(it->second)) == regions.end()) )
+      if ( ((a = regions.find((*it).first)) == regions.end())
+           || ((b = regions.find((*it).second)) == regions.end()) )
         throw ExceptionObject();
-      if (a->second.BoundaryMinValue < b->second.BoundaryMinValue)
+      if ((*a).second.BoundaryMinValue < (*b).second.BoundaryMinValue)
         {
-          b->second.BoundaryMinValue = a->second.BoundaryMinValue;
-          b->second.BoundaryMinLabelPointer
-            = a->second.BoundaryMinLabelPointer;
+          (*b).second.BoundaryMinValue = (*a).second.BoundaryMinValue;
+          (*b).second.BoundaryMinLabelPointer
+            = (*a).second.BoundaryMinLabelPointer;
         }
-      if (b->second.BoundaryMaxValue < a->second.BoundaryMaxValue)
+      if ((*b).second.BoundaryMaxValue < (*a).second.BoundaryMaxValue)
         {
-          b->second.BoundaryMaxValue = a->second.BoundaryMaxValue;
+          (*b).second.BoundaryMaxValue = (*a).second.BoundaryMaxValue;
         }
       regions.erase(a);
     }

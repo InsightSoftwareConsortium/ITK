@@ -22,7 +22,8 @@
 #include "itkDataObject.h"
 #include <utility>
 #include <stack>
-#include <hash_map>
+#include <algorithm>
+#include "vcl_hash_map.h"
 #include <deque>
 #include <functional>
 
@@ -260,19 +261,19 @@ protected:
   /**
    * Hashing function for hash tables with OutputScalarType keys.
    */
-  class strhash : public std::hash<int>
+  class strhash : public vcl_hash<int>
   {
   public:
     ::size_t operator()(const OutputScalarType &s) const
     {
-      return std::hash<int>::operator()(static_cast<int>(s));
+      return vcl_hash<int>::operator()(static_cast<int>(s));
     }
   };
 
   /**
    * Table storing information about edges between segments.
    */
-  typedef std::hash_map<OutputScalarType, InputScalarType, strhash>
+  typedef vcl_hash_map<OutputScalarType, InputScalarType, strhash>
   EdgeTableType; 
 
   /**
@@ -321,19 +322,19 @@ protected:
   /**
    * Table for storing segment information.
    */
-  typedef std::hash_map<OutputScalarType, SegmentType, strhash>
+  typedef vcl_hash_map<OutputScalarType, SegmentType, strhash>
   SegmentTableType;
 
   /**
    * Table for storing flat region information.
    */
-  typedef std::hash_map<OutputScalarType, FlatRegion, strhash>
+  typedef vcl_hash_map<OutputScalarType, FlatRegion, strhash>
   FlatRegionTableType;
 
   /**
    * Table for storing correspondences between segment and region labels.
    */
-  typedef std::hash_map<OutputScalarType, OutputScalarType, strhash>
+  typedef vcl_hash_map<OutputScalarType, OutputScalarType, strhash>
   LabelTableType;
 
   /**
@@ -454,11 +455,11 @@ protected:
   {
     typename SegmentTableType::const_iterator it;
     it = segments.find(label);
-    while (it->second.MergedToLabel != UNLABELED_PIXEL)
+    while ((*it).second.MergedToLabel != UNLABELED_PIXEL)
         { 
-          it = segments.find(it->second.MergedToLabel);
+          it = segments.find((*it).second.MergedToLabel);
         }
-    return it->first;
+    return ( (*it).first );
   }
 
   /**
