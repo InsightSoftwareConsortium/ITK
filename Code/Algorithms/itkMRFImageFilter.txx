@@ -383,10 +383,6 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   // Loop through the data set and classify the data
   //---------------------------------------------------------------------
 
-  int kHalfWidth  = m_kWidth/2;
-  int kHalfHeight = m_kHeight/2;
-  int kHalfDepth  = m_kDepth/2;
-
   int offset;
   double *neighborInfluence = (double *) new double[m_NumClasses + 1];
 
