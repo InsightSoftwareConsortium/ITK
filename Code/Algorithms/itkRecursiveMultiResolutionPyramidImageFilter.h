@@ -49,7 +49,7 @@ namespace itk
 {
 
 /** \class RecursiveMultiResolutionPyramidImageFilter
- * \brief Creates a multi-resolutin pyramid using a recursive implementation.
+ * \brief Creates a multi-resolution pyramid using a recursive implementation.
  *
  * RecursiveMultiResolutionPyramidImageFilter creates an image pryamid
  * according to a user defined multi-resolution schedule.
