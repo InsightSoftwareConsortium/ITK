@@ -21,6 +21,8 @@ ADD_TEST(itkExpectationMaximizationMixtureModelEstimatorTest
          itkExpectationMaximizationMixtureModelEstimatorTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
 ADD_TEST(itkGoodnessOfFitMixtureModelCostFunctionTest ${STATISTICS_TESTS} 
          itkGoodnessOfFitMixtureModelCostFunctionTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
+ADD_TEST(itkGreyLevelCooccurrenceMatrixTextureCoefficientsCalculatorTest ${STATISTICS_TESTS} 
+         itkGreyLevelCooccurrenceMatrixTextureCoefficientsCalculatorTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
 ADD_TEST(itkHistogramTest ${STATISTICS_TESTS} itkHistogramTest)
 ADD_TEST(itkImageToListAdaptorTest ${STATISTICS_TESTS} itkImageToListAdaptorTest)
 ADD_TEST(itkImageToCooccurrenceListAdaptorTest ${STATISTICS_TESTS} 
@@ -33,6 +35,8 @@ ADD_TEST(itkKdTreeGeneratorTest ${STATISTICS_TESTS}
 ADD_TEST(itkListSampleTest ${STATISTICS_TESTS} itkListSampleTest)
 ADD_TEST(itkListSampleToHistogramFilterTest ${STATISTICS_TESTS} itkListSampleToHistogramFilterTest)
 ADD_TEST(itkListSampleToHistogramGeneratorTest ${STATISTICS_TESTS} itkListSampleToHistogramGeneratorTest)
+ADD_TEST(itkMaskedScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest ${STATISTICS_TESTS} 
+         itkMaskedScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest)
 ADD_TEST(itkMeanCalculatorTest ${STATISTICS_TESTS} itkMeanCalculatorTest)
 ADD_TEST(itkMembershipSampleTest ${STATISTICS_TESTS} itkMembershipSampleTest)
 ADD_TEST(itkNeighborhoodSamplerTest ${STATISTICS_TESTS} itkNeighborhoodSamplerTest)
@@ -46,6 +50,7 @@ ADD_TEST(itkSampleClassifierWithMaskTest ${STATISTICS_TESTS}
          itkSampleClassifierWithMaskTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
 ADD_TEST(itkSampleMeanShiftClusteringFilterTest ${STATISTICS_TESTS}                itkSampleMeanShiftClusteringFilterTest ${ITK_DATA_ROOT}/Input/sf4.png)
 ADD_TEST(itkSampleSelectiveMeanShiftBlurringFilterTest ${STATISTICS_TESTS}                itkSampleSelectiveMeanShiftBlurringFilterTest ${ITK_DATA_ROOT}/Input/sf4.png)
+ADD_TEST(itkScalarImageTextureCalculatorTest ${STATISTICS_TESTS} itkScalarImageTextureCalculatorTest)
 ADD_TEST(itkScalarImageToHistogramGeneratorTest ${STATISTICS_TESTS} itkScalarImageToHistogramGeneratorTest)
 ADD_TEST(itkScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest ${STATISTICS_TESTS} itkScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest)
 ADD_TEST(itkSelectiveSubsampleGeneratorTest ${STATISTICS_TESTS} 
@@ -62,7 +67,8 @@ itkStatisticsAlgorithmTest.cxx
 itkCovarianceCalculatorTest.cxx
 itkDenseFrequencyContainerTest.cxx
 itkExpectationMaximizationMixtureModelEstimatorTest.cxx
-itkGoodnessOfFitMixtureModelCostFunctionTest
+itkGoodnessOfFitMixtureModelCostFunctionTest.cxx
+itkGreyLevelCooccurrenceMatrixTextureCoefficientsCalculatorTest.cxx 
 itkHistogramTest.cxx
 itkImageToListAdaptorTest.cxx
 itkImageToCooccurrenceListAdaptorTest.cxx
@@ -73,6 +79,7 @@ itkListSampleTest.cxx
 itkListSampleToHistogramFilterTest.cxx
 itkListSampleToHistogramGeneratorTest.cxx
 itkMeanCalculatorTest.cxx
+itkMaskedScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest.cxx
 itkMembershipSampleTest.cxx
 itkMembershipSampleGeneratorTest.cxx
 itkNeighborhoodSamplerTest.cxx
@@ -83,6 +90,7 @@ itkSampleMeanShiftClusteringFilterTest.cxx
 itkSampleSelectiveMeanShiftBlurringFilterTest.cxx
 itkSelectiveSubsampleGeneratorTest.cxx
 itkScalarImageToHistogramGeneratorTest.cxx
+itkScalarImageTextureCalculatorTest.cxx
 itkScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest.cxx
 itkSubsampleTest.cxx
 itkWeightedMeanCalculatorTest.cxx
