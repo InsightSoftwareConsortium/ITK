@@ -250,13 +250,16 @@ class ProcessAborted : public ExceptionObject
 public:
   /** Default constructor.  Needed to ensure the exception object can be
    * copied. */
-  ProcessAborted() : ExceptionObject() {}
+  ProcessAborted() : ExceptionObject() {
+    this->SetDescription("Filter execution was aborted by an external request"); }
   
   /** Constructor. Needed to ensure the exception object can be copied. */
-  ProcessAborted(const char *file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}
+  ProcessAborted(const char *file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {
+    this->SetDescription("Filter execution was aborted by an external request"); }
 
   /** Constructor. Needed to ensure the exception object can be copied. */
-  ProcessAborted(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}  
+  ProcessAborted(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {  
+    this->SetDescription("Filter execution was aborted by an external request"); }
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~ProcessAborted() throw() {}

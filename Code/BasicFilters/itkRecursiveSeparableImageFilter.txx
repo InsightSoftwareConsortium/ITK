@@ -345,11 +345,10 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 
     // Inform others that we are aborting...
     this->InvokeEvent( AbortEvent() );
-
+    // Clear flag preventing pipeline to re-execute
+    this->ResetPipeline();
     // Throw the final exception.
-    ProcessAborted abortException(__FILE__,__LINE__);
-    abortException.SetDescription("Filter execution was aborted by an external request");
-    throw abortException;
+    throw ProcessAborted(__FILE__,__LINE__);
     }
 
   delete [] outs;

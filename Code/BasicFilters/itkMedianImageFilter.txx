@@ -171,10 +171,8 @@ MedianImageFilter< TInputImage, TOutputImage>
     // it.
 
     this->InvokeEvent( AbortEvent() );
-
-    ProcessAborted abortException(__FILE__,__LINE__);
-    abortException.SetDescription("Filter execution was aborted by an external request");
-    throw abortException;
+    this->ResetPipeline();
+    throw ProcessAborted(__FILE__,__LINE__);
     }
 
 }

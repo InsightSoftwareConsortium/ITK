@@ -120,6 +120,7 @@ ConnectedThresholdImageFilter<TInputImage,TOutputImage>
     // name. We also invoke AbortEvent in case some observer was interested on
     // it.
     this->InvokeEvent( AbortEvent() );
+    this->ResetPipeline();
     throw ProcessAborted(__FILE__,__LINE__);
     }
 }

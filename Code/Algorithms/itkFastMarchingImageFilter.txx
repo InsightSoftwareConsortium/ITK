@@ -353,6 +353,8 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
       oldProgress = newProgress;
       if( this->GetAbortGenerateData() )
         {
+        this->InvokeEvent( AbortEvent() );
+        this->ResetPipeline();
         throw ProcessAborted(__FILE__,__LINE__);
         }
       }

@@ -155,12 +155,9 @@ TernaryFunctorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage
     // progress reporter and rethrow it with the correct line number and file
     // name. We also invoke AbortEvent in case some observer was interested on
     // it.
-
     this->InvokeEvent( AbortEvent() );
-
-    ProcessAborted abortException(__FILE__,__LINE__);
-    abortException.SetDescription("Filter execution was aborted by an external request");
-    throw abortException;
+    this->ResetPipeline();
+    throw ProcessAborted(__FILE__,__LINE__);
     }
 }
 
