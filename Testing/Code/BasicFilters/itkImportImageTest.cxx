@@ -54,6 +54,13 @@ int itkImportImageTest(int, char* [] )
   shrink->SetShrinkFactors(2);
   shrink->Update();
 
+
+  // Test the SetVectorMacros and GetVectorMacros
+  //const double data[2] = {
+  //import->SetSpacing(data);
+  //import->GetSpacing();
+
+
   //
   // The rest of this code determines whether the shrink code produced
   // the image we expected.
@@ -87,5 +94,6 @@ int itkImportImageTest(int, char* [] )
     std::cout << "ImportImageFilter test failed." << std::endl;
     return EXIT_FAILURE;
     }
+
 
 }

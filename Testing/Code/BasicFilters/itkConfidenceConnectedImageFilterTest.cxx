@@ -65,6 +65,12 @@ int itkConfidenceConnectedImageFilterTest(int ac, char* av[] )
     return -1;
     }
 
+  // Test the GetMacros
+  double doubleMultiplier = filter->GetMultiplier();
+  unsigned int uintNumberOfIterations = filter->GetNumberOfIterations();
+  PixelType pixelReplaceValue = filter->GetReplaceValue();
+  const unsigned int cuintInitialNeighborhoodRadius = filter->GetInitialNeighborhoodRadius();
+
   // Generate test image
   itk::ImageFileWriter<myImage>::Pointer writer;
     writer = itk::ImageFileWriter<myImage>::New();

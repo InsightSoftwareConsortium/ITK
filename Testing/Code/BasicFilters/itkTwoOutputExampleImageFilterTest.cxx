@@ -146,6 +146,15 @@ int itkTwoOutputExampleImageFilterTest(int, char* [] )
   }
   itk::OutputWindow::GetInstance()->DisplayText( "End of Test #3 -----------------------------------");
   
+
+  // Test itkSetMacro and itkGetMacro
+  itk::TwoOutputExampleImageFilter<FloatImage2DType>::Pointer threshold;
+  threshold = itk::TwoOutputExampleImageFilter<FloatImage2DType>::New();
+  const float value = 0;
+  threshold->SetOutsideValue(value);
+  float value2 = threshold->GetOutsideValue();
+
+
   return EXIT_SUCCESS;
 }
 

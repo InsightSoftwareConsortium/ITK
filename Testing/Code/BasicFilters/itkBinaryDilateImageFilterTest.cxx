@@ -140,6 +140,10 @@ int itkBinaryDilateImageFilterTest(int, char* [] )
   // Get the Smart Pointer to the Filter Output 
   myImageType::Pointer outputImage = filter->GetOutput();
 
+
+  // Test the itkGetMacro
+  unsigned short value = filter->GetDilateValue();
+
   // Execute the filter
   try
     {

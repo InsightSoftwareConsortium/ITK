@@ -90,6 +90,10 @@ int itkLaplacianRecursiveGaussianImageFilterTest(int argc, char* argv[])
   rescale->SetInput( zeroFilter->GetOutput() );
 
 
+  // Test itkGetMacro
+  bool bNormalizeAcrossScale = lapFilter->GetNormalizeAcrossScale();
+
+
   try
     {
     writer->Update();
@@ -102,5 +106,7 @@ int itkLaplacianRecursiveGaussianImageFilterTest(int argc, char* argv[])
     } 
 
   return 0;
+
+
 
 }

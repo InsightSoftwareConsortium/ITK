@@ -107,6 +107,14 @@ int itkShiftScaleInPlaceImageFilterTest(int, char* [] )
   secondFilter->SetInput( filter->GetOutput() );
   secondFilter->SetShift( 50 );
   
+
+  // Test itkSetMacros and itkGetMacros
+  inPlaceFilter->GetShift();
+  //SetScale();
+  inPlaceFilter->GetScale();
+  long value = inPlaceFilter->GetUnderflowCount();
+  long value2 = inPlaceFilter-> GetOverflowCount();
+
   try
     {
     // update the in place filter

@@ -79,6 +79,12 @@ int itkPasteImageFilterTest(int ac, char* av[] )
   streamer->SetNumberOfStreamDivisions( 25 );
   streamer->SetRegionSplitter( splitter );
   
+
+  // Test itkGetMacros
+  myImage::IndexType  value  = filter->GetDestinationIndex();
+  myImage::RegionType value2 = filter->GetSourceRegion();
+  
+
   try
     {
     streamer->Update();
