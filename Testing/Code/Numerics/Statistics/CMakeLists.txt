@@ -36,6 +36,9 @@ ADD_TEST(itkExpectationMaximizationMixtureModelEstimatorTest ${STATISTICS_TESTS}
 ADD_TEST(itkGoodnessOfFitMixtureModelCostFunctionTest ${STATISTICS_TESTS} 
          itkGoodnessOfFitMixtureModelCostFunctionTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
 
+ADD_TEST(itkSampleClassifierTest ${STATISTICS_TESTS} 
+         itkSampleClassifierTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
+
 SET(Statistics_SRCS
 itkStatisticsAlgorithmTest.cxx
 itkCovarianceCalculatorTest.cxx
@@ -50,6 +53,7 @@ itkNormalVariateGeneratorTest.cxx
 itkKdTreeBasedKmeansEstimatorTest.cxx
 itkExpectationMaximizationMixtureModelEstimatorTest.cxx
 itkGoodnessOfFitMixtureModelCostFunctionTest
+itkSampleClassifierTest.cxx
 )
 
 ADD_EXECUTABLE(itkStatisticsTests itkStatisticsTests.cxx ${Statistics_SRCS})

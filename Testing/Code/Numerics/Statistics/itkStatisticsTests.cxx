@@ -19,4 +19,5 @@ void RegisterTests()
   REGISTER_TEST(itkKdTreeBasedKmeansEstimatorTest);
   REGISTER_TEST(itkExpectationMaximizationMixtureModelEstimatorTest);
   REGISTER_TEST(itkGoodnessOfFitMixtureModelCostFunctionTest);
+  REGISTER_TEST(itkSampleClassifierTest) ;
 }
