@@ -34,7 +34,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PNGImageIO, Superclass);
+  itkTypeMacro(PNGImageIO, ImageIOBase);
 
   /** Set if the compression should be used for writing */
   itkSetMacro(UseCompression, bool);
