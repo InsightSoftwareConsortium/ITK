@@ -6,153 +6,154 @@
 
 void RegisterTests()
 {
-REGISTER_TEST(BilateralImageFilter);
-REGISTER_TEST(BinaryMinMaxCurvatureFlowImageFilter);
-REGISTER_TEST(BinaryThresholdImageFilter);
-REGISTER_TEST(BinomialBlurImageFilter);
-REGISTER_TEST(CastingImageFilters);
-REGISTER_TEST(CurvatureAnisotropicDiffusionImageFilter);
-REGISTER_TEST(CurvatureFlowImageFilter);
-REGISTER_TEST(DanielssonDistanceMapImageFilter);
-REGISTER_TEST(DiscreteGaussianImageFilter);
-REGISTER_TEST(GradientAnisotropicDiffusionImageFilter);
-REGISTER_TEST(GradientMagnitudeImageFilter);
-REGISTER_TEST(GradientMagnitudeRecursiveGaussianImageFilter);
-REGISTER_TEST(LaplacianImageFilter);
-REGISTER_TEST(MathematicalMorphologyBinaryFilters);
-REGISTER_TEST(MathematicalMorphologyGrayscaleFilters);
-REGISTER_TEST(MeanImageFilter);
-REGISTER_TEST(MedianImageFilter);
-REGISTER_TEST(MinMaxCurvatureFlowImageFilter);
-REGISTER_TEST(RGBCurvatureAnisotropicDiffusionImageFilter);
-REGISTER_TEST(RGBGradientAnisotropicDiffusionImageFilter);
-REGISTER_TEST(ResampleImageFilter);
-REGISTER_TEST(ResampleImageFilter2);
-REGISTER_TEST(ResampleImageFilter3);
-REGISTER_TEST(ResampleImageFilter4);
-REGISTER_TEST(ResampleImageFilter5);
-REGISTER_TEST(SigmoidImageFilter);
-REGISTER_TEST(SmoothingRecursiveGaussianImageFilter);
-REGISTER_TEST(ThresholdImageFilter);
-REGISTER_TEST(VectorCurvatureAnisotropicDiffusionImageFilter);
-REGISTER_TEST(VectorGradientAnisotropicDiffusionImageFilter);
+REGISTER_TEST(BilateralImageFilterTest);
+REGISTER_TEST(BinaryMinMaxCurvatureFlowImageFilterTest);
+REGISTER_TEST(BinaryThresholdImageFilterTest);
+REGISTER_TEST(BinomialBlurImageFilterTest);
+REGISTER_TEST(CastingImageFiltersTest);
+REGISTER_TEST(CurvatureAnisotropicDiffusionImageFilterTest);
+REGISTER_TEST(CurvatureFlowImageFilterTest);
+REGISTER_TEST(DanielssonDistanceMapImageFilterTest);
+REGISTER_TEST(DiscreteGaussianImageFilterTest);
+REGISTER_TEST(GradientAnisotropicDiffusionImageFilterTest);
+REGISTER_TEST(GradientMagnitudeImageFilterTest);
+REGISTER_TEST(GradientMagnitudeRecursiveGaussianImageFilterTest);
+REGISTER_TEST(LaplacianImageFilterTest);
+REGISTER_TEST(MathematicalMorphologyBinaryFiltersTest);
+REGISTER_TEST(MathematicalMorphologyGrayscaleFiltersTest);
+REGISTER_TEST(MeanImageFilterTest);
+REGISTER_TEST(MedianImageFilterTest);
+REGISTER_TEST(MinMaxCurvatureFlowImageFilterTest);
+REGISTER_TEST(RGBCurvatureAnisotropicDiffusionImageFilterTest);
+REGISTER_TEST(RGBGradientAnisotropicDiffusionImageFilterTest);
+REGISTER_TEST(ResampleImageFilterTest);
+REGISTER_TEST(ResampleImageFilter2Test);
+REGISTER_TEST(ResampleImageFilter3Test);
+REGISTER_TEST(ResampleImageFilter4Test);
+REGISTER_TEST(ResampleImageFilter5Test);
+REGISTER_TEST(SigmoidImageFilterTest);
+REGISTER_TEST(SmoothingRecursiveGaussianImageFilterTest);
+REGISTER_TEST(ThresholdImageFilterTest);
+REGISTER_TEST(VectorCurvatureAnisotropicDiffusionImageFilterTest);
+REGISTER_TEST(VectorGradientAnisotropicDiffusionImageFilterTest);
 }
+
 #undef main
-#define main BilateralImageFilter
+#define main BilateralImageFilterTest
 #include "BilateralImageFilter.cxx"
 
 #undef main
-#define main BinaryMinMaxCurvatureFlowImageFilter
+#define main BinaryMinMaxCurvatureFlowImageFilterTest
 #include "BinaryMinMaxCurvatureFlowImageFilter.cxx"
 
 #undef main
-#define main BinaryThresholdImageFilter
+#define main BinaryThresholdImageFilterTest
 #include "BinaryThresholdImageFilter.cxx"
 
 #undef main
-#define main BinomialBlurImageFilter
+#define main BinomialBlurImageFilterTest
 #include "BinomialBlurImageFilter.cxx"
 
 #undef main
-#define main CastingImageFilters
+#define main CastingImageFiltersTest
 #include "CastingImageFilters.cxx"
 
 #undef main
-#define main CurvatureAnisotropicDiffusionImageFilter
+#define main CurvatureAnisotropicDiffusionImageFilterTest
 #include "CurvatureAnisotropicDiffusionImageFilter.cxx"
 
 #undef main
-#define main CurvatureFlowImageFilter
+#define main CurvatureFlowImageFilterTest
 #include "CurvatureFlowImageFilter.cxx"
 
 #undef main
-#define main DanielssonDistanceMapImageFilter
+#define main DanielssonDistanceMapImageFilterTest
 #include "DanielssonDistanceMapImageFilter.cxx"
 
 #undef main
-#define main DiscreteGaussianImageFilter
+#define main DiscreteGaussianImageFilterTest
 #include "DiscreteGaussianImageFilter.cxx"
 
 #undef main
-#define main GradientAnisotropicDiffusionImageFilter
+#define main GradientAnisotropicDiffusionImageFilterTest
 #include "GradientAnisotropicDiffusionImageFilter.cxx"
 
 #undef main
-#define main GradientMagnitudeImageFilter
+#define main GradientMagnitudeImageFilterTest
 #include "GradientMagnitudeImageFilter.cxx"
 
 #undef main
-#define main GradientMagnitudeRecursiveGaussianImageFilter
+#define main GradientMagnitudeRecursiveGaussianImageFilterTest
 #include "GradientMagnitudeRecursiveGaussianImageFilter.cxx"
 
 #undef main
-#define main LaplacianImageFilter
+#define main LaplacianImageFilterTest
 #include "LaplacianImageFilter.cxx"
 
 #undef main
-#define main MathematicalMorphologyBinaryFilters
+#define main MathematicalMorphologyBinaryFiltersTest
 #include "MathematicalMorphologyBinaryFilters.cxx"
 
 #undef main
-#define main MathematicalMorphologyGrayscaleFilters
+#define main MathematicalMorphologyGrayscaleFiltersTest
 #include "MathematicalMorphologyGrayscaleFilters.cxx"
 
 #undef main
-#define main MeanImageFilter
+#define main MeanImageFilterTest
 #include "MeanImageFilter.cxx"
 
 #undef main
-#define main MedianImageFilter
+#define main MedianImageFilterTest
 #include "MedianImageFilter.cxx"
 
 #undef main
-#define main MinMaxCurvatureFlowImageFilter
+#define main MinMaxCurvatureFlowImageFilterTest
 #include "MinMaxCurvatureFlowImageFilter.cxx"
 
 #undef main
-#define main RGBCurvatureAnisotropicDiffusionImageFilter
+#define main RGBCurvatureAnisotropicDiffusionImageFilterTest
 #include "RGBCurvatureAnisotropicDiffusionImageFilter.cxx"
 
 #undef main
-#define main RGBGradientAnisotropicDiffusionImageFilter
+#define main RGBGradientAnisotropicDiffusionImageFilterTest
 #include "RGBGradientAnisotropicDiffusionImageFilter.cxx"
 
 #undef main
-#define main ResampleImageFilter
+#define main ResampleImageFilterTest
 #include "ResampleImageFilter.cxx"
 
 #undef main
-#define main ResampleImageFilter2
+#define main ResampleImageFilter2Test
 #include "ResampleImageFilter2.cxx"
 
 #undef main
-#define main ResampleImageFilter3
+#define main ResampleImageFilter3Test
 #include "ResampleImageFilter3.cxx"
 
 #undef main
-#define main ResampleImageFilter4
+#define main ResampleImageFilter4Test
 #include "ResampleImageFilter4.cxx"
 
 #undef main
-#define main ResampleImageFilter5
+#define main ResampleImageFilter5Test
 #include "ResampleImageFilter5.cxx"
 
 #undef main
-#define main SigmoidImageFilter
+#define main SigmoidImageFilterTest
 #include "SigmoidImageFilter.cxx"
 
 #undef main
-#define main SmoothingRecursiveGaussianImageFilter
+#define main SmoothingRecursiveGaussianImageFilterTest
 #include "SmoothingRecursiveGaussianImageFilter.cxx"
 
 #undef main
-#define main ThresholdImageFilter
+#define main ThresholdImageFilterTest
 #include "ThresholdImageFilter.cxx"
 
 #undef main
-#define main VectorCurvatureAnisotropicDiffusionImageFilter
+#define main VectorCurvatureAnisotropicDiffusionImageFilterTest
 #include "VectorCurvatureAnisotropicDiffusionImageFilter.cxx"
 
 #undef main
-#define main VectorGradientAnisotropicDiffusionImageFilter
+#define main VectorGradientAnisotropicDiffusionImageFilterTest
 #include "VectorGradientAnisotropicDiffusionImageFilter.cxx"

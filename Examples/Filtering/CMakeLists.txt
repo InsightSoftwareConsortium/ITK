@@ -92,105 +92,105 @@ TARGET_LINK_LIBRARIES(LaplacianImageFilter ITKCommon ITKBasicFilters ITKIO)
 
 SET(FILTERING_EXAMPLES ${CXX_TEST_PATH}/FilteringExamples)
 
-ADD_TEST(BilateralImageFilter ${FILTERING_EXAMPLES}
+ADD_TEST(BilateralImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${ITK_DATA_ROOT}/Baseline/Filtering/BilateralImageFilter.png
             ${ITK_BINARY_DIR}/Testing/Temporary/BilateralImageFilter.png
-  BilateralImageFilter
+  BilateralImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_BINARY_DIR}/Testing/Temporary/BilateralImageFilter.png
         6.0 5.0
 )
-ADD_TEST( BinaryMinMaxCurvatureFlowImageFilter ${FILTERING_EXAMPLES}
+ADD_TEST( BinaryMinMaxCurvatureFlowImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${ITK_DATA_ROOT}/Baseline/Filtering/BinaryMinMaxCurvatureFlowImageFilter.png
             ${ITK_BINARY_DIR}/Testing/Temporary/BinaryMinMaxCurvatureFlowImageFilter.png
-  BinaryMinMaxCurvatureFlowImageFilter
+  BinaryMinMaxCurvatureFlowImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_BINARY_DIR}/Testing/Temporary/BinaryMinMaxCurvatureFlowImageFilter.png
         10 .25 1 128
 )
-ADD_TEST( BinaryThresholdImageFilter ${FILTERING_EXAMPLES}
+ADD_TEST( BinaryThresholdImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${ITK_DATA_ROOT}/Baseline/Filtering/BinaryThresholdImageFilter.png
             ${ITK_BINARY_DIR}/Testing/Temporary/BinaryThresholdImageFilter.png
-  BinaryThresholdImageFilter
+  BinaryThresholdImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_BINARY_DIR}/Testing/Temporary/BinaryThresholdImageFilter.png
         150 180 0 255
 )
-ADD_TEST( BinomialBlurImageFilter ${FILTERING_EXAMPLES}
+ADD_TEST( BinomialBlurImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${ITK_DATA_ROOT}/Baseline/Filtering/BinomialBlurImageFilter.png
             ${ITK_BINARY_DIR}/Testing/Temporary/BinomialBlurImageFilter.png
-  BinomialBlurImageFilter
+  BinomialBlurImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_BINARY_DIR}/Testing/Temporary/BinomialBlurImageFilter.png
         5
 )
-ADD_TEST( CurvatureAnisotropicDiffusionImageFilter ${FILTERING_EXAMPLES}
+ADD_TEST( CurvatureAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${ITK_DATA_ROOT}/Baseline/Filtering/CurvatureAnisotropicDiffusionImageFilter.png
             ${ITK_BINARY_DIR}/Testing/Temporary/CurvatureAnisotropicDiffusionImageFilter.png
-  CurvatureAnisotropicDiffusionImageFilter
+  CurvatureAnisotropicDiffusionImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_BINARY_DIR}/Testing/Temporary/CurvatureAnisotropicDiffusionImageFilter.png
         5 0.25 3.0
 )
-ADD_TEST( CurvatureFlowImageFilter ${FILTERING_EXAMPLES}
+ADD_TEST( CurvatureFlowImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${ITK_DATA_ROOT}/Baseline/Filtering/CurvatureFlowImageFilter.png
             ${ITK_BINARY_DIR}/Testing/Temporary/CurvatureFlowImageFilter.png
-  CurvatureFlowImageFilter
+  CurvatureFlowImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_BINARY_DIR}/Testing/Temporary/CurvatureFlowImageFilter.png
         5 0.25 3.0
 )
-ADD_TEST( DanielssonDistanceMapImageFilter ${FILTERING_EXAMPLES}
+ADD_TEST( DanielssonDistanceMapImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${ITK_DATA_ROOT}/Baseline/Filtering/DanielssonDistanceMapImageFilter.png
             ${ITK_BINARY_DIR}/Testing/Temporary/DanielssonDistanceMapImageFilter.png
-  DanielssonDistanceMapImageFilter
+  DanielssonDistanceMapImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/FivePoints.png
         ${ITK_BINARY_DIR}/Testing/Temporary/DanielssonDistanceMapImageFilter.png
         ${ITK_BINARY_DIR}/Testing/Temporary/DanielssonDistanceMapImageFilter2.png
         ${ITK_BINARY_DIR}/Testing/Temporary/DanielssonDistanceMapImageFilter.mha
 )
-ADD_TEST( DiscreteGaussianImageFilter ${FILTERING_EXAMPLES}
+ADD_TEST( DiscreteGaussianImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${ITK_DATA_ROOT}/Baseline/Filtering/DiscreteGaussianImageFilter.png
             ${ITK_BINARY_DIR}/Testing/Temporary/DiscreteGaussianImageFilter.png
-  DiscreteGaussianImageFilter
+  DiscreteGaussianImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_BINARY_DIR}/Testing/Temporary/DiscreteGaussianImageFilter.png
         1.73 10
 )
-ADD_TEST( GradientAnisotropicDiffusionImageFilter ${FILTERING_EXAMPLES}
+ADD_TEST( GradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${ITK_DATA_ROOT}/Baseline/Filtering/GradientAnisotropicDiffusionImageFilter.png
             ${ITK_BINARY_DIR}/Testing/Temporary/GradientAnisotropicDiffusionImageFilter.png
-  GradientAnisotropicDiffusionImageFilter
+  GradientAnisotropicDiffusionImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_BINARY_DIR}/Testing/Temporary/GradientAnisotropicDiffusionImageFilter.png
         5 0.25 3.0
 )
-ADD_TEST( GradientMagnitudeImageFilter ${FILTERING_EXAMPLES}
+ADD_TEST( GradientMagnitudeImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${ITK_DATA_ROOT}/Baseline/Filtering/GradientMagnitudeImageFilter.png
             ${ITK_BINARY_DIR}/Testing/Temporary/GradientMagnitudeImageFilter.png
-  GradientMagnitudeImageFilter
+  GradientMagnitudeImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_BINARY_DIR}/Testing/Temporary/GradientMagnitudeImageFilter.png
 )
-ADD_TEST( GradientMagnitudeRecursiveGaussianImageFilter ${FILTERING_EXAMPLES}
+ADD_TEST( GradientMagnitudeRecursiveGaussianImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${ITK_DATA_ROOT}/Baseline/Filtering/GradientMagnitudeRecursiveGaussianImageFilter.png
             ${ITK_BINARY_DIR}/Testing/Temporary/GradientMagnitudeRecursiveGaussianImageFilter.png
-  GradientMagnitudeRecursiveGaussianImageFilter
+  GradientMagnitudeRecursiveGaussianImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_BINARY_DIR}/Testing/Temporary/GradientMagnitudeRecursiveGaussianImageFilter.png
         5
 )
-ADD_TEST( LaplacianImageFilter ${FILTERING_EXAMPLES}
+ADD_TEST( LaplacianImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${ITK_DATA_ROOT}/Baseline/Filtering/LaplacianImageFilter.png
             ${ITK_BINARY_DIR}/Testing/Temporary/LaplacianImageFilter.png
-  LaplacianImageFilter
+  LaplacianImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_BINARY_DIR}/Testing/Temporary/LaplacianImageFilter.png
 )
-ADD_TEST( MathematicalMorphologyBinaryFilters ${FILTERING_EXAMPLES}
+ADD_TEST( MathematicalMorphologyBinaryFiltersTest ${FILTERING_EXAMPLES}
   --compare ${ITK_DATA_ROOT}/Baseline/Filtering/MathematicalMorphologyBinaryFiltersErode.png
             ${ITK_BINARY_DIR}/Testing/Temporary/MathematicalMorphologyBinaryFiltersErode.png
-  MathematicalMorphologyBinaryFilters
+  MathematicalMorphologyBinaryFiltersTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_BINARY_DIR}/Testing/Temporary/MathematicalMorphologyBinaryFiltersErode.png
         ${ITK_BINARY_DIR}/Testing/Temporary/MathematicalMorphologyBinaryFiltersDilate.png
