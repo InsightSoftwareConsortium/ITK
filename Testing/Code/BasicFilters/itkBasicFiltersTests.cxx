@@ -121,5 +121,7 @@ void RegisterTests()
   REGISTER_TEST(itkZeroCrossingBasedEdgeDetectionImageFilterTest );
   REGISTER_TEST(itkCannyEdgeDetectionImageFilterTest );
   REGISTER_TEST(itkTobogganImageFilterTest );
+  REGISTER_TEST(itkVectorGradientMagnitudeImageFilterTest1 );
+  REGISTER_TEST(itkVectorGradientMagnitudeImageFilterTest2 );
 }
 

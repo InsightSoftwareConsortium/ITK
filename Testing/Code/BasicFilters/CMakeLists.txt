@@ -127,7 +127,8 @@ ADD_TEST(itkHardConnectedComponentImageFilterTest ${BASIC_FILTERS_TESTS} itkHard
 ADD_TEST(itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest ${BASIC_FILTERS_TESTS} itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest)
 ADD_TEST(itkTobogganImageFilterTest ${BASIC_FILTERS_TESTS} itkTobogganImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/TobogganImageFilterTest.png)
 ADD_TEST(itkObjectMorphologyImageFilterTest ${BASIC_FILTERS_TESTS} itkObjectMorphologyImageFilterTest)
-
+ADD_TEST(itkVectorGradientMagnitudeImageFilterTest1 ${BASIC_FILTERS_TESTS} itkVectorGradientMagnitudeImageFilterTest1 ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorGradientMagnitudeImageFilterTest1.mha)
+ADD_TEST(itkVectorGradientMagnitudeImageFilterTest2 ${BASIC_FILTERS_TESTS} itkVectorGradientMagnitudeImageFilterTest2 ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorGradientMagnitudeImageFilterTest2.mha)
 
 SET(BasicFilters_SRCS
 itkChangeInformationImageFilterTest.cxx
@@ -246,6 +247,8 @@ itkHardConnectedComponentImageFilterTest.cxx
 itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest.cxx
 itkTobogganImageFilterTest.cxx
 itkObjectMorphologyImageFilterTest.cxx
+itkVectorGradientMagnitudeImageFilterTest1.cxx
+itkVectorGradientMagnitudeImageFilterTest2.cxx
 )
 
 
