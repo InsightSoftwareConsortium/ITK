@@ -136,17 +136,38 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   m_Mean     = itk::NumericTraits<InputRealType>::Zero;
   m_Variance = itk::NumericTraits<InputRealType>::Zero;
 
-  typename SeedsContainerType::const_iterator si = m_Seeds.begin();
-  typename SeedsContainerType::const_iterator li = m_Seeds.end();
-  while( si != li )
+  if( m_InitialNeighborhoodRadius > 0 )
     {
-    m_Mean     += meanFunction->EvaluateAtIndex( *si );
-    m_Variance += varianceFunction->EvaluateAtIndex( *si );
-    si++;
+    typename SeedsContainerType::const_iterator si = m_Seeds.begin();
+    typename SeedsContainerType::const_iterator li = m_Seeds.end();
+    while( si != li )
+      {
+      m_Mean     += meanFunction->EvaluateAtIndex( *si );
+      m_Variance += varianceFunction->EvaluateAtIndex( *si );
+      si++;
+      }
+    const unsigned int N = m_Seeds.size();
+    m_Mean     /= N;
+    m_Variance /= N;
     }
-  m_Mean     /= m_Seeds.size();
-  m_Variance /= m_Seeds.size();
+   else 
+    {
+    typename SeedsContainerType::const_iterator si = m_Seeds.begin();
+    typename SeedsContainerType::const_iterator li = m_Seeds.end();
+    while( si != li )
+      {
+      const InputRealType value = 
+               static_cast< InputRealType >( inputImage->GetPixel( *si ) );
 
+      m_Mean     += value;
+      m_Variance += value * value;
+      si++;
+      }
+    const unsigned int N = m_Seeds.size();
+    m_Mean     /= N;
+    m_Variance /= N;
+    m_Variance -= m_Mean * m_Mean;
+    }
 
   lower = m_Mean - m_Multiplier * sqrt( m_Variance );
   upper = m_Mean + m_Multiplier * sqrt( m_Variance );
@@ -154,8 +175,8 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   // Adjust lower and upper to always contain the seed's intensity, otherwise, no pixels will be
   // returned by the iterator and a zero variance will result
 
-  si = m_Seeds.begin();
-  li = m_Seeds.end();
+  typename SeedsContainerType::const_iterator si = m_Seeds.begin();
+  typename SeedsContainerType::const_iterator li = m_Seeds.end();
   while( si != li )
     {
     const InputRealType seedIntensity = 
