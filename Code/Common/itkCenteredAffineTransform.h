@@ -130,9 +130,6 @@ protected:
   /** Destroy an CenteredAffineTransform object   **/
   virtual ~CenteredAffineTransform();
 
-  /** Recompute inverse of the transformation matrix   **/
-  void RecomputeInverse();
-
 private:
   CenteredAffineTransform(const Self & other);
   const Self & operator=( const Self & );
