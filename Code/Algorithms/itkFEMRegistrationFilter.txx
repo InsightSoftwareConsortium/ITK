@@ -1720,15 +1720,17 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::SampleVectorFieldAtNodes(S
   Element::VectorType coord;  
   VectorType SolutionAtNode;
 
-  typename FixedImageType::IndexType rindex;
-  
-
   m_Interpolator->SetInputImage(m_Field);
 
   for(  Node::ArrayType::iterator node=nodes->begin(); node!=nodes->end(); node++) 
     {
     coord=(*node)->GetCoordinates();
 /*
+
+
+  typename FixedImageType::IndexType rindex;
+  
+
   bool inimage=true;
   for (ii=0; ii < ImageDimension; ii++)
   { 
@@ -1756,7 +1758,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::SampleVectorFieldAtNodes(S
     typedef typename InterpolatorType::OutputType InterpolatedType;
     InterpolatedType interpolatedValue;
   
-    typename FixedImageType::IndexType index;
+
     for (unsigned int jj=0; jj<ImageDimension; jj++) 
       {
       inputIndex[jj]=(CoordRepType) coord[jj];
