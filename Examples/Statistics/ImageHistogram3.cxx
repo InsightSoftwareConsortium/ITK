@@ -163,9 +163,6 @@ int main( int argc, char * argv [] )
   histogramGenerator->SetMarginalScale( 10.0 );
   histogramGenerator->Compute();
 
-  histogram = histogramGenerator->GetOutput();
-
-
   return 0;
   
 }
