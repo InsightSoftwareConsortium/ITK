@@ -27,6 +27,7 @@ namespace itk
 
 /** \brief Base exception class for IO conflicts
  *
+ * \deprecated Please refer to Exceptions defined in ImageFileReader and ImageFileWriter
  * \ingroup IOFilters
  * \ingroup Exceptions
  * \ingroup Deprecated
@@ -64,7 +65,7 @@ public:
  *  code in this class. (todo: how to use the pluggable)
  *
  *  \deprecated Use itk::ImageFileFilter instead
- *  \ingroup IOFilters
+ *  \ingroup IOFilters Deprecated
  */
 template <class TOutputImage>
 class ITK_EXPORT FileIOToImageFilter : public ImageSource<TOutputImage>
