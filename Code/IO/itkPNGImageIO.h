@@ -36,6 +36,14 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(PNGImageIO, Superclass);
 
+  /** Set if the compression should be used for writing */
+  itkSetMacro(UseCompression, bool);
+
+  /** Set/Get the level of compression for the output images.
+   *  0-9; 0 = none, 9 = maximum. */
+  itkSetMacro(CompressionLevel, int);
+  itkGetMacro(CompressionLevel, int);
+
   /*-------- This part of the interface deals with reading data. ------ */
 
   /** Determine the file type. Returns true if this ImageIO can read the
@@ -65,7 +73,7 @@ public:
   /** Writes the spacing and dimentions of the image.
    * Assumes SetFileName has been called with a valid file name. */
   virtual void WriteImageInformation();
- 
+
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegion has been set properly. */
   virtual void Write(const void* buffer);
@@ -78,12 +86,21 @@ protected:
   void WriteSlice(std::string& fileName, const void* buffer,
                   unsigned long offset);
 
+  /** Set if the compression should be used for writing 
+   *  the value is false by default */
+  bool m_UseCompression;
+  /** Determines the level of compression for written files. 
+   *  Range 0-9; 0 = none, 9 = maximum , default = 4 */
+  int m_CompressionLevel;
+
 private:
   PNGImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
 
 };
 
 } // end namespace itk
 
 #endif // __itkPNGImageIO_h
+

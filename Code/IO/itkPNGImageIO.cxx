@@ -38,6 +38,9 @@ struct PNGFileWrapper
     }
 };
 
+
+
+
 bool PNGImageIO::CanReadFile(const char* file) 
 { 
   PNGFileWrapper pngfp(file,"rb");
@@ -250,6 +253,8 @@ PNGImageIO::PNGImageIO()
 {
   this->SetNumberOfDimensions(2);
   m_PixelType = UCHAR;
+  m_UseCompression = false;
+  m_CompressionLevel = 4; // Range 0-9; 0 = no file compression, 9 = maximum file compression
 }
 
 PNGImageIO::~PNGImageIO()
@@ -371,13 +376,9 @@ bool PNGImageIO::CanWriteFile(const char*)
 }
 
 
- 
 void PNGImageIO::WriteImageInformation(void)
 {
 }
-
-
-
 
 void PNGImageIO::Write(const void* buffer)
 {
@@ -486,6 +487,11 @@ void PNGImageIO::WriteSlice(std::string& fileName, const void* buffer,
   // interlaceType - PNG_INTERLACE_NONE or
   //                 PNG_INTERLACE_ADAM7
     
+  if(m_UseCompression)
+  {
+    png_set_compression_level(png_ptr, m_CompressionLevel); // Set the image compression level.
+  }
+
   png_write_info(png_ptr, info_ptr);
   // default is big endian
   if (bitDepth > 8)
@@ -508,4 +514,6 @@ void PNGImageIO::WriteSlice(std::string& fileName, const void* buffer,
   png_destroy_write_struct(&png_ptr, &info_ptr);
 }
 
+
 } // end namespace itk
+
