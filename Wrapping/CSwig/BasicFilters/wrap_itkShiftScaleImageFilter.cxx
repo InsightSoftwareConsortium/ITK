@@ -31,7 +31,7 @@ namespace _cable_
     ITK_WRAP_OBJECT2(ShiftScaleImageFilter, image::US2, image::F2, 
                      itkShiftScaleImageFilterUS2F2);
     ITK_WRAP_OBJECT2(ShiftScaleImageFilter, image::F2, image::F2, 
-                     itkShiftScaleImageFilterF2);
+                     itkShiftScaleImageFilterF2F2);
     ITK_WRAP_OBJECT2(ShiftScaleImageFilter, image::F2, image::US2, 
                      itkShiftScaleImageFilterF2US2);
     ITK_WRAP_OBJECT2(ShiftScaleImageFilter, image::US2, image::US2, 
