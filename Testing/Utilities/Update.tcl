@@ -85,10 +85,10 @@ proc LoadCVSInformation { File } \
     #
     # Check to see if the date is still today
     # Always capture at least one revision...
-    if { [clock scan "$Time $Month/$Day/$Year"] < $YesterdayTS && $HaveOne} \
-    {
-      break
-    }
+#     if { [clock scan "$Time $Month/$Day/$Year"] < $YesterdayTS && $HaveOne} \
+#     {
+#       break
+#     }
     set HaveOne 1
 
 
