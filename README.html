@@ -1,0 +1,166 @@
+Welcome to the National Library of Medicine Insight Segmentation and
+Registration Toolkit (ITK).
+
+This document provides a brief description of the project, its history, and
+references to additional information describing how to use, develop, and
+contribute to ITK. 
+
+Table of Contents
+
+- Introduction
+* What is ITK?
+* Where are ITK's origins?
+* Who are the developers?
+* How do I participate?
+* What are the terms of use?
+
+- Technical Summary of ITK
+* Design Philosophy
+* Implementation Philosophy
+* Architecture
+* Data Objects
+* Process Objects (Filters)
+* Build Environment
+
+- Further Information
+* Getting Started
+* Additional Documentation
+* Contacts
+
+
+INTRODUCTION
+* What is ITK?
+
+ITK is an open-source software toolkit for performing registration and
+segmentation. Segmentation is the process of identifying and classifying data
+found in a digitally sampled representation. Typically the sampled
+representation is an image acquired from such medical instrumentation as CT
+or MRI scanners. Registration is the task of aligning or developing
+corresponances betwen data. For example, in the medical environment, a CT
+scane may be aligned with a MRI scan in order to combine the information
+contained in both.
+
+ITK is implemented in C++. In addition, an automated wrapping process
+generates interfaces between C++ and interpreted programming languages such
+as Tcl, Java, and Python. This enables developers to create software using a
+variety of programming languages. ITK's C++ implementation style is referred
+to as generic programming. Such C++ templating means that the code is highly
+efficient, and that the many software problems are discovered at
+compile-time, rather than at run-time during program execution.
+
+Because ITK is an open-source project, developers from around the world can
+use, debug, maintain, and extend the software. ITK uses a model of software
+development referred to as Extreme Programming. Extreme Programming collapses
+the usual software creation methodology into a simultaneous and iterative
+process of design-implement-test-release. The key features of Extreme
+Programming are communication and testing. Communication among the members 
+of the ITK community is what helps manage the rapid evolution of the
+software. Testing is what keeps the software stable. In ITK, an extensive
+testing process is in place that measures the quality on a daily basis.
+
+* Where are ITK's origins?
+
+In 1999 the US National Library of Medicine of the National Institutes of
+Health awarded a three-year contract to develop an open-source registration
+and segmentation toolkit, which eventually came to be known as the Insight
+Toolkit (ITK). ITK's NLM Project Manager was Dr. Terry Yoo, who coordinated
+the six prime contractors who made up the Insight consortium. These
+consortium members included the three commerical partners GE Corporate R&D,
+Kitware, Inc., and MathSoft; and the three academic partners University of
+North Carolina (UNC), University of Tennessee (UT), and University of
+Pennsylvania (UPenn). The Principle Investigators for these partners were,
+resptively, Bill Lorensen at GE CRD, Will Schroeder at Kitware, Vikram
+Chalana at Mathsoft, Steve Aylward at UNC, Ross Whitaker at UT, and xxx at
+UPenn. In addition, several subcontractors rounded out the consortium
+including Peter Raitu at Brigham & Women's Hospital, Pat Molholt and Celina
+xxx at Columbia Univerity, Jim Gee at UPenn's Grasp Lab, and George Stetton
+at Univerity of Pittsburgh. (Note: Ross Whitaker subsequently moved to
+Univeristy of Utah in 2000.)
+
+* Who are the developers?
+
+The best way to determine the names of developers is to view the CVS source
+code repository logs. Most of the early developers are listed in the
+following, however, many developers beyond those listed here will participate
+in the development of Insight as the code grows and becomes publically
+accessible.
+
+Some of the early developers include:
+
+Dan Blezek - GE CRD; testing infrastructure
+Josh Cates - Utah; imaging classes and filters
+Bill Hoffman - Kitware; CMake (build process); vxl/vnl numerics; infrastructure (smart pointers, object factories, callback mechanism)
+Luis Ibanez - UNC; imaging classes and filters
+Brad King - Kitware; Mesh class, autowrapping of C++ code
+Bill Lorensen - GE CRD; testing, requirements, architecture
+Ken Martin - Kitware; Build process, architecture, infrastructure
+Jim Miller - GR CRD; Image classes, iterators, pipeline update mechanism
+Lydia Ng - Mathsoft; Image filters, algorithms
+Will Schroeder - Kitware; Mesh classes, algorithms, core classes
+George Stetton - Pittsburgh; image filters, algorithms
+
+
+* How do I participate?
+
+Because ITK is an open-source system, you can participate. If you'd like to
+become involved, here are the following steps that you might consider.
+1. Read this document
+2. Obtain access to the CVS repository (read-only, anonymous access),
+   and obtain the distribution using the following procedure.
+3. Find the Insight/Documents/InsightStart.doc and read it thoroughly.
+4. As this document suggests, join the insight-developers list.
+5. Cntribute code or fix bugs by mailing code to the list or contacting 
+   a developer directly.
+6. Once you demonstrate your abilities, obtain read-write access to the
+   repository. Access can be obtained by contacting Bill Hoffman at
+   Kitware at 518-371-3971 x105 and leaving your desired account name
+   and account password.
+
+* What are the terms of use?
+
+Because ITK was developed through US Government funding, it does not carry
+a copyright as many open-source systems do. Instead, it carries a no-cost
+license. The licence can be found at Insight/license.txt.
+
+The important feature of the license is that it gives permission to use
+Insight for any purpose, including commercial purposes, with ....  There is a
+patented code found in the Insight/Code/Patented directory. If you use any of
+these code in commercial application, you must contact the patent holder to
+obtain permission.
+
+
+TECHNICAL SUMMARY
+
+The following sections summarize the technical features of the
+NLM's Insight ITK toolkit.
+
+* Design Philosophy
+segmentation
+registration
+no visualization
+no GUI
+little IO
+Extreme Programming with testing
+Supports multithreading
+cross platform (Unix & MCVC)
+
+* Implementation Philosophy
+generic programming
+automatic wrapping process generates Tcl, Python, Jave, Perl wrappers
+
+* Architecture
+Data flow, process objects (filters) and data object (image and mesh).
+
+
+* Build Environment
+
+Use the CMake build environment. Class-platform environment (Unix and
+Windows).  Uses configure and make on Unix; generates projects and workspaces
+in Windows environment (from OS-indepenent text files).
+
+
+
+FURTHER INFORMATION
+* Getting Started
+* Additional Documentation
+* Contacts
