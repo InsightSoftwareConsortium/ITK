@@ -93,7 +93,7 @@ AnisotropicDiffusionImageFilter<TPixel, VDimension>
 
   // Iterate
   u->m_Multiplier = this->GetTimeStep();
-  for (int i=0; i< this->GetIterations(); ++i)
+  for (unsigned int i=0; i< this->GetIterations(); ++i)
     {
       a->operator()(output, delta);
       u->operator()(delta, output);
@@ -119,10 +119,9 @@ TPixel AvgGradMagSquared<TPixel, VDimension>
   
   RNI_type iterator_list[VDimension];
   DerivativeOperator<TPixel, VDimension> operator_list[VDimension];
-  TPixel gradient_value_list[VDimension];
   
   // Set up the derivative operators and their iterators
-  for (int i = 0; i < VDimension; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
     {
       operator_list[i].SetOrder(1);
       operator_list[i].SetDirection(i);
@@ -139,7 +138,7 @@ TPixel AvgGradMagSquared<TPixel, VDimension>
   for (iterator_list[0] = iterator_list[0].Begin();
        iterator_list[0] < iterator_end; ++counter)
     {
-      for (int i = 0; i < VDimension; ++i)
+      for (unsigned int i = 0; i < VDimension; ++i)
         {
           val = IP(iterator_list[i], operator_list[i]);     
           accumulator += val * val;
