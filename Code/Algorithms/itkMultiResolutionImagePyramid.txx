@@ -60,7 +60,7 @@ MultiResolutionImagePyramid<TInputImage, TOutputImage>
 ::MultiResolutionImagePyramid()
 {
   this->SetNumberOfLevels( 2 );
-  this->SetCurrentLevel( 0 );
+  m_CurrentLevel = 0;
 }
 
 
