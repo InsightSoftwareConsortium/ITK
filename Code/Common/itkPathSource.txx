@@ -89,12 +89,26 @@ void
 PathSource<TOutputPath>
 ::GraftNthOutput(unsigned int idx, TOutputPath *graft)
 {
-  OutputPathType * output = this->GetOutput();
-
   if (idx < this->GetNumberOfOutputs())
     {
+    OutputPathType * output = this->GetOutput(idx);
+
     if (output && graft)
       {
+      // Paths do not have a generic pointer to their bulk data
+      itkWarningMacro( << "Warning:  GraftNthOutput() is broken" );
+      
+      // possible VERY WRONG KLUDGE that should enable mini-pipelining:
+      // Completely copy the path to graft over the current output path,
+      // but RESTORE the original Source ivars to preserve pipeline routing.
+      // 
+      // ProcessObject *source = output->GetSource();
+      // *output = *graft;
+      // output->DisconnectSource( graft->GetSource(),
+      //                           graft->GetSourceOutputIndex() );
+      // output->ConnectSource( source, idx );
+      
+      
       // grab a handle to the bulk data of the specified data object
       // output->SetPixelContainer( graft->GetPixelContainer() );
 
