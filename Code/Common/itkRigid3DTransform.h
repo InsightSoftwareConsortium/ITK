@@ -45,6 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 #include "itkTransformation.h"
 #include "itkExceptionObject.h"
+#include "vnl/vnl_quaternion.h"
 
 
 
@@ -187,6 +188,7 @@ public:
      * true, and postcomposed otherwise.
      **/
     void Rotate(const VnlQuaternionType &offset, bool pre=0);
+    void Rotate(const VectorType & axis, TScalarType angle );
 
     /**
      * Transform by an affine transformation
