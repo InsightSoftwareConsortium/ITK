@@ -44,7 +44,6 @@ void
 RecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation>
 ::SetUp(void)
 {
-  
   m_A0 = TComputation(  1.680  );
   m_A1 = TComputation(  3.735  );
   m_B0 = TComputation(  1.783  );
@@ -101,17 +100,36 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
     m_M11 = m_N11 - m_D11 * m_N00;
     m_M22 = m_N22 - m_D22 * m_N00;
     m_M33 = m_N33 - m_D33 * m_N00;
-    m_M44 =     - m_D44 * m_N00;
+    m_M44 =       - m_D44 * m_N00;
     }
   else
     {
     m_M11 = -( m_N11 - m_D11 * m_N00 );
     m_M22 = -( m_N22 - m_D22 * m_N00 );
     m_M33 = -( m_N33 - m_D33 * m_N00 );
-    m_M44 =          m_D44 * m_N00;
+    m_M44 =            m_D44 * m_N00;
     }
 
+  // Compute Coefficients to be used at the boundaries
+  // in order to prevent border effects
+  const TComputation SumOfNCoefficients = m_N00 + m_N11 + m_N22 + m_N33;
+  const TComputation SumOfMCoefficients = m_M11 + m_M22 + m_M33 + m_M44;
+  const TComputation SumOfDCoefficients = m_D11 + m_D22 + m_D33 + m_D44;
+  const TComputation CoefficientNormN    = SumOfNCoefficients / SumOfDCoefficients;
+  const TComputation CoefficientNormM    = SumOfMCoefficients / SumOfDCoefficients;
+
+  m_BN1 = m_D11 * CoefficientNormN;
+  m_BN2 = m_D22 * CoefficientNormN;
+  m_BN3 = m_D33 * CoefficientNormN;
+  m_BN4 = m_D44 * CoefficientNormN;
+  
+  m_BM1 = m_D11 * CoefficientNormM;
+  m_BM2 = m_D22 * CoefficientNormM;
+  m_BM3 = m_D33 * CoefficientNormM;
+  m_BM4 = m_D44 * CoefficientNormM;
+  
 }
+
 
 template <class TInputImage, class TOutputImage, class TComputation>
 void
@@ -120,7 +138,7 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation>
 {
   Superclass::PrintSelf(os,indent);
 
-  std::cout << "Sigma: " << m_Sigma << std::endl; 
+  os << "Sigma: " << m_Sigma << std::endl; 
 }
 
 } // end namespace itk

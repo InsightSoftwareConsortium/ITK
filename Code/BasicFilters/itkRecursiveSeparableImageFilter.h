@@ -50,6 +50,7 @@ public:
 
   /** Smart pointer typedef support.  */
   typedef typename TInputImage::Pointer  InputImagePointer;
+  typedef typename TInputImage::ConstPointer  InputImageConstPointer;
 
   /** Get the direction in which the filter is to be applied. */   
   itkGetMacro(Direction, unsigned int);
@@ -58,10 +59,10 @@ public:
   itkSetMacro(Direction, unsigned int);
 
   /** Set Input Image. */
-  void SetInputImage( InputImagePointer );
+  void SetInputImage( const TInputImage * );
     
   /** Get Input Image. */
-  TInputImage * GetInputImage( void );
+  const TInputImage * GetInputImage( void );
 
 protected:
   RecursiveSeparableImageFilter();
@@ -120,24 +121,36 @@ protected:
   TComputation m_W0;
   TComputation m_W1; 
 
-  /** Causal coefficients. */
+  /** Causal coefficients that multiply the input data. */
   TComputation m_N00;
   TComputation m_N11;
   TComputation m_N22;
   TComputation m_N33; 
   
-  /** Causal coefficients == Anticausal coefficients. */
+  /** Recursive coefficients that multiply previously computed values at the output.
+      In this case the Causal coefficients == Anticausal coefficients. */
   TComputation m_D11;
   TComputation m_D22;
   TComputation m_D33;
   TComputation m_D44; 
   
-  /** Anti-Causal coefficients (symmetric case). */
+  /** Anti-Causal coefficients (symmetric case). that multiply the input data */
   TComputation m_M11;
   TComputation m_M22;
   TComputation m_M33;
   TComputation m_M44; 
 
+  /** Recursive coefficients to be used at the boundaries to prevent border effects */
+  TComputation m_BN1;
+  TComputation m_BN2;
+  TComputation m_BN3;
+  TComputation m_BN4; 
+ 
+  TComputation m_BM1;
+  TComputation m_BM2;
+  TComputation m_BM3;
+  TComputation m_BM4; 
+ 
 };
 
 

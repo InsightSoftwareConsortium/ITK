@@ -20,6 +20,7 @@
 #include "itkRecursiveSeparableImageFilter.h"
 #include "itkObjectFactory.h"
 #include "itkImageLinearIteratorWithIndex.h"
+#include "itkImageLinearConstIteratorWithIndex.h"
 #include <new>
 
 
@@ -42,9 +43,11 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage,TComputation>
 template <class TInputImage, class TOutputImage, class TComputation>
 void
 RecursiveSeparableImageFilter<TInputImage,TOutputImage,TComputation>
-::SetInputImage( InputImagePointer input )
+::SetInputImage( const TInputImage * input )
 {
-  ProcessObject::SetNthInput(0, input);
+  // ProcessObject is not const_correct so this const_cast is required
+  ProcessObject::SetNthInput(0, 
+          const_cast< TInputImage * >(input) );
 }
 
 
@@ -54,11 +57,12 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage,TComputation>
  * Get Input Image
  */
 template <class TInputImage, class TOutputImage, class TComputation>
-TInputImage *
+const TInputImage *
 RecursiveSeparableImageFilter<TInputImage,TOutputImage,TComputation>
 ::GetInputImage( void )
 {
-  return dynamic_cast<TInputImage *>((ProcessObject::GetInput(0)).GetPointer());
+  return dynamic_cast<const TInputImage *>(
+          (ProcessObject::GetInput(0)).GetPointer());
 }
 
 
@@ -89,7 +93,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
     }
   catch( std::bad_alloc &) 
     {
-    throw ExceptionObject(__FILE__, __LINE__);
+    itkExceptionMacro("Problem allocating memory for internal computations");
     }
 
 
@@ -101,24 +105,29 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
     {
     delete [] s1; 
     s1=0; 
-    throw ExceptionObject(__FILE__, __LINE__);
+    itkExceptionMacro("Problem allocating memory for internal computations");
     }
   
   /**
    * Causal direction pass
    */
 
+  // this value is assumed to exist from the border to infinity.
+  TComputation outV = data[0];
+
   /**
    * Initialize borders
    */
-  s1[0] = TComputation( m_N00 * data[0] + m_N11 * data[1] + m_N22 * data[2] + m_N33 * data[3] );
-  s1[1] = TComputation( m_N00 * data[1] + m_N11 * data[0] + m_N22 * data[1] + m_N33 * data[2] );
-  s1[2] = TComputation( m_N00 * data[2] + m_N11 * data[1] + m_N22 * data[0] + m_N33 * data[1] );
-  s1[3] = TComputation( m_N00 * data[3] + m_N11 * data[2] + m_N22 * data[1] + m_N33 * data[0] );
+  s1[0] = TComputation( m_N00 * outV    + m_N11 * outV    + m_N22 * outV    + m_N33 * outV    );
+  s1[1] = TComputation( m_N00 * data[1] + m_N11 * outV    + m_N22 * outV    + m_N33 * outV    );
+  s1[2] = TComputation( m_N00 * data[2] + m_N11 * data[1] + m_N22 * outV    + m_N33 * outV    );
+  s1[3] = TComputation( m_N00 * data[3] + m_N11 * data[2] + m_N22 * data[1] + m_N33 * outV    );
 
-  s1[1] -= TComputation( m_D11 * s1[0] );
-  s1[2] -= TComputation( m_D11 * s1[1] + m_D22 * s1[0] );
-  s1[3] -= TComputation( m_D11 * s1[2] + m_D22 * s1[1] + m_D33 * s1[0] );
+  // note that the outV value is multiplied by the Boundary coefficients m_BNi
+  s1[0] -= TComputation( m_BN1 * outV  + m_BN2 * outV  + m_BN3 * outV   + m_BN4 * outV );
+  s1[1] -= TComputation( m_D11 * s1[0] + m_BN2 * outV  + m_BN3 * outV   + m_BN4 * outV );
+  s1[2] -= TComputation( m_D11 * s1[1] + m_D22 * s1[0] + m_BN3 * outV   + m_BN4 * outV );
+  s1[3] -= TComputation( m_D11 * s1[2] + m_D22 * s1[1] + m_D33 * s1[0]  + m_BN4 * outV );
 
   /**
    * Recursively filter the rest
@@ -133,17 +142,22 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
    * AntiCausal direction pass
    */
 
+  // this value is assumed to exist from the border to infinity.
+  outV = data[ln-1];
+
   /**
    * Initialize borders
    */
-  s2[ln-1] = TComputation( m_M11 * data[ln-2] + m_M22 * data[ln-3] + m_M33 * data[ln-4] );
-  s2[ln-2] = TComputation( m_M11 * data[ln-1] + m_M22 * data[ln-2] + m_M33 * data[ln-3] ); 
-  s2[ln-3] = TComputation( m_M11 * data[ln-2] + m_M22 * data[ln-1] + m_M33 * data[ln-2] ); 
-  s2[ln-4] = TComputation( m_M11 * data[ln-3] + m_M22 * data[ln-2] + m_M33 * data[ln-1] );
+  s2[ln-1] = TComputation( m_M11 * outV       + m_M22 * outV       + m_M33 * outV       + m_M44 * outV );
+  s2[ln-2] = TComputation( m_M11 * data[ln-1] + m_M22 * outV       + m_M33 * outV       + m_M44 * outV ); 
+  s2[ln-3] = TComputation( m_M11 * data[ln-2] + m_M22 * data[ln-1] + m_M33 * outV       + m_M44 * outV ); 
+  s2[ln-4] = TComputation( m_M11 * data[ln-3] + m_M22 * data[ln-2] + m_M33 * data[ln-1] + m_M44 * outV );
 
-  s2[ln-2] -= TComputation( m_D11 * s2[ln-1] );
-  s2[ln-3] -= TComputation( m_D11 * s2[ln-2] + m_D22 * s2[ln-1] );
-  s2[ln-4] -= TComputation( m_D11 * s2[ln-3] + m_D22 * s2[ln-2] + m_D33 * s2[ln-1] );
+  // note that the outV value is multiplied by the Boundary coefficients m_BMi
+  s2[ln-1] -= TComputation( m_BM1 * outV     + m_BM2 * outV     + m_BM3 * outV     + m_BM4 * outV );
+  s2[ln-2] -= TComputation( m_D11 * s2[ln-1] + m_BM2 * outV     + m_BM3 * outV     + m_BM4 * outV );
+  s2[ln-3] -= TComputation( m_D11 * s2[ln-2] + m_D22 * s2[ln-1] + m_BM3 * outV     + m_BM4 * outV );
+  s2[ln-4] -= TComputation( m_D11 * s2[ln-3] + m_D22 * s2[ln-2] + m_D33 * s2[ln-1] + m_BM4 * outV );
 
   /**
    * Recursively filter the rest
@@ -182,20 +196,20 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
   typedef typename TOutputImage::PixelType  TOutputType;
   typedef typename TInputImage::PixelType   TInputType;
 
-  typedef ImageLinearIteratorWithIndex< TInputImage  >  InputIteratorType;
+  typedef ImageLinearConstIteratorWithIndex< TInputImage  >  InputConstIteratorType;
   typedef ImageLinearIteratorWithIndex< TOutputImage >  OutputIteratorType;
 
   typedef ImageRegion< TInputImage::ImageDimension > RegionType;
     
-  const typename TInputImage::Pointer   inputImage(    GetInputImage ()   );
-        typename TOutputImage::Pointer  outputImage(   GetOutput()        );
+  typename TInputImage::ConstPointer   inputImage(    GetInputImage ()   );
+  typename TOutputImage::Pointer       outputImage(   GetOutput()        );
     
  
   const unsigned int imageDimension = inputImage->GetImageDimension();
 
   if( this->m_Direction >= imageDimension )
     {
-    throw ExceptionObject(__FILE__, __LINE__);
+    itkExceptionMacro("Direction selected for filtering is greater than ImageDimension");
     }
 
   outputImage->SetLargestPossibleRegion( 
@@ -216,8 +230,8 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
   
   RegionType region = inputImage->GetRequestedRegion();
 
-  InputIteratorType  inputIterator(  inputImage,  region );
-  OutputIteratorType outputIterator( outputImage, region );
+  InputConstIteratorType  inputIterator(  inputImage,  region );
+  OutputIteratorType      outputIterator( outputImage, region );
 
   inputIterator.SetDirection(  this->m_Direction );
   outputIterator.SetDirection( this->m_Direction );
@@ -234,17 +248,17 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
     }
   catch( std::bad_alloc & ) 
     {
-    throw ExceptionObject(__FILE__, __LINE__);
+    itkExceptionMacro("Problem allocating memory for internal computations");
     }
 
   try 
-  {
+    {
     outs = new TComputation[ ln ];
-  }
+    }
   catch( std::bad_alloc & ) 
-  {
-    throw ExceptionObject(__FILE__, __LINE__);
-  }
+    {
+    itkExceptionMacro("Problem allocating memory for internal computations");
+    }
 
 
   inputIterator.GoToBegin();
