@@ -83,13 +83,18 @@ public:
                                   double, 
                                   ImageDimension
                                                   > TransformationType;
-
-	/**
+  /**
    * Image Dimensions
    */
-   enum {ImageDimension = ReferenceType::ImageDimension,
-         ParametersDimension = TransformationType::ParametersDimension };
+   enum { ImageDimension = ReferenceType::ImageDimension }; 
 
+
+  /**
+   * Parameters Dimensions
+   */
+   enum { ParametersDimension = TransformationType::ParametersDimension }; 
+
+ 
   /**
    *  Type of the parameters
    */
@@ -238,7 +243,7 @@ public:
    /** 
     *  Dimension of the images
     */
-   enum { ImageDimension = TTarget::ImageDimension,
+   enum { ImageDimension = ReferenceType::ImageDimension,
           ParametersDimension = ImageDimension };
 
 
