@@ -79,7 +79,7 @@ int main( int argc, char* argv[] )
       {
       std::string tagkey   = itr->first;
       std::string tagvalue = entryvalue->GetMetaDataObjectValue();
-      std::cout << tagkey <<  " = " << tagvalue << std::endl;
+      std::cout << tagkey <<  " = " << tagvalue.c_str() << std::endl;
       }
     ++itr;
     }
