@@ -66,7 +66,7 @@ namespace itk
 
 #define ITK_CONVERTMETATOITKTRANSFORM_2(name,scalartype,dimension)\
   if( (!strcmp(metaTransform->ObjectSubTypeName(),(char *)(#name))) \
-    && (metaTransform->NDims() == (int)(#dimension)) \
+    && (metaTransform->NDims() == (int)(dimension)) \
     ) \
   { \
     typedef itk::name<scalartype,dimension> InternalTransformType;\
@@ -76,28 +76,28 @@ namespace itk
 
 #define ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(name,scalartype,dimension)\
   if((!strcmp(metaTransform->ObjectSubTypeName(),(char *)(#name)))\
-    && (metaTransform->NDims() == (int)(#dimension))\
+    && (metaTransform->NDims() == (int)(dimension))\
     )\
   {\
   typedef itk::name<scalartype,dimension> InternalTransformType;\
   transform = InternalTransformType::New();\
   itk::Point<scalartype,dimension> cor;\
-  for(unsigned int i=0;i<(int)(#dimension);i++){cor[i] = metaTransform->CenterOfRotation()[i];}\
+  for(unsigned int i=0;i<(int)(dimension);i++){cor[i] = metaTransform->CenterOfRotation()[i];}\
   static_cast<InternalTransformType*>(transform.GetPointer())->SetCenter(cor);\
   hasTransform = true;\
   } 
 
 #define ITK_CONVERTMETATO_ITK_BSPLINEDEFORMABLETRANSFORM(name,scalartype,dimension,order)\
   if( (!strcmp(metaTransform->ObjectSubTypeName(),(char *)(#name))) \
-    && (metaTransform->NDims() == (int)(#dimension)) \
-    && (metaTransform->TransformOrder() == (int)(#order))\
+    && (metaTransform->NDims() == (int)(dimension)) \
+    && (metaTransform->TransformOrder() == (int)(order))\
     ) \
   { \
     typedef itk::name<scalartype,dimension,order> InternalTransformType;\
     transform = InternalTransformType::New();\
     InternalTransformType::RegionType region;\
     InternalTransformType::SizeType size; \
-    for(unsigned int j=0;j<(int)(#dimension);j++) {size[j] = metaTransform->GridRegionSize()[j];}\
+    for(unsigned int j=0;j<(int)(dimension);j++) {size[j] = metaTransform->GridRegionSize()[j];}\
     region.SetSize(size);\
     static_cast<InternalTransformType*>(transform.GetPointer())->SetGridRegion(region);\
     hasTransform = true;\
