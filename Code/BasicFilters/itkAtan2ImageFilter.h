@@ -54,12 +54,16 @@ namespace itk
  * input images and the type of the output image. 
  * Numeric conversions (castings) are done by the C++ defaults.
  * 
+ * Both pixel input types are casted to \c double in order to be 
+ * used as parameters of \c atan2(). The resulting \c double value
+ * is casted to the output pixel type.
+ *
  * \ingroup IntensityImageFilters
  *
  *
  */
 
-namespace Function {  
+namespace Functor {  
   
   template< class TInput1, class TInput2, class TOutput>
   class Atan2
@@ -69,7 +73,11 @@ namespace Function {
     ~Atan2() {};
     inline TOutput operator()( const TInput1 & A, const TInput2 & B)
     {
-      return (TOutput)atan2((double) A,(double) B);
+      return static_cast<TOutput>( 
+          atan2(
+            static_cast<double>(A),
+            static_cast<double>(B)  )
+          );
     }
   }; 
 
@@ -81,7 +89,7 @@ template <class TInputImage1, class TInputImage2, class TOutputImage>
 class ITK_EXPORT Atan2ImageFilter :
     public
     BinaryImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-    Function::Atan2< 
+    Functor::Atan2< 
               typename TInputImage1::PixelType, 
               typename TInputImage2::PixelType,
               typename TOutputImage::PixelType>   >
@@ -98,7 +106,7 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef BinaryImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-    Function::Atan2< 
+    Functor::Atan2< 
               typename TInputImage1::PixelType, 
               typename TInputImage2::PixelType,
               typename TOutputImage::PixelType>   
