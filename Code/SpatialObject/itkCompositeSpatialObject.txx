@@ -26,6 +26,7 @@ namespace itk
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
   ::CompositeSpatialObject()
   {
+    m_ParentId=-1;
   }
 
   template < unsigned int NDimensions, class TransformType, class OutputType >

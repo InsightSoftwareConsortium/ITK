@@ -25,7 +25,7 @@ namespace itk
   TubeNetworkSpatialObject 
   ::TubeNetworkSpatialObject()
   {
-    
+    m_ParentId=-1;
   } 
 
   /**
