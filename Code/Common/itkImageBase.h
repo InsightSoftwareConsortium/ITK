@@ -13,7 +13,6 @@ All rights reserved.
 See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-///highest-level base class for templated image classes
 /**
  * itkImageBase is the base class for the templated itkImage base classes.
  */
@@ -26,33 +25,49 @@ See COPYRIGHT.txt for copyright details.
 class ITK_EXPORT itkImageBase : public itkDataObject
 {
 public:
-  /** Smart pointer typedef support */
+  /** 
+   * Smart pointer typedef support. 
+   */
   typedef itkSmartPointer<itkImageBase> Pointer;
 
-  /** Create an empty image. */
+  /** 
+   * Create an empty image. 
+   */
   static itkImageBase::Pointer New();
 
-  /** Restore object to initialized state */
+  /** 
+   * Restore object to initialized state.
+   */
   void Initialize();
 
-  /** Overload itkDataObject method.*/
+  /** 
+   * Overload itkDataObject method. This method allocates memory
+   * for the size, spacing, and image origin.
+   */
   virtual void SetDimension(int dim);
 
-  /** Set the size of the image. This method assumes that
-   *  the dimension of the data has been set. */
+  /** 
+   * Set the size of the image. This method assumes that
+   * the dimension of the data has been set. 
+   */
   void SetSize(int *size);
 
-  /** Get the size of the iamge. */
+  /** 
+   * Get the size of the iamge. 
+   */
   const int *GetSize() const {return m_Size;} ;
   
-  /** Set the dimensions of the image. This method assumes that
-   *  the dimension of the data has been set. */
+  /** 
+   * Set the dimensions of the image. This method assumes that
+   * the dimension of the data has been set. 
+   */
   void SetSpacing(float *spacing);
 
-  /** Set the dimensions of the image. This method assumes that
-   *  the dimension of the data has been set. */
+  /** 
+   * Set the dimensions of the image. This method assumes that
+   * the dimension of the data has been set. 
+   */
   void SetOrigin(float *origin);
-
 
 protected:
   itkImageBase();

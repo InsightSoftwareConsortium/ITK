@@ -13,7 +13,6 @@ All rights reserved.
 See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-///templated image class
 /**
  * itkImage is the templated image class.
  */
@@ -29,13 +28,19 @@ template <class T, unsigned int TImageDimension=2>
 class ITK_EXPORT itkImage : public itkImageBase
 {
 public:
-  /** Smart pointer typedef support */
+  /** 
+   * Smart pointer typedef support.
+   */
   typedef itkSmartPointer< itkImage<T, TImageDimension> > Pointer;
 
-  /** Index (iterator) typedef support */
+  /** 
+   * Index (iterator) typedef support.
+   */
   typedef itkIndex<TImageDimension> Index;
 
-  /** Create an empty image. */
+  /** 
+   * Create an empty image. 
+   */
   static itkImage<T, TImageDimension>::Pointer New();
 
   /**
@@ -44,12 +49,12 @@ public:
   void Allocate();
 
   /**
-   * Set a pixel
+   * Set a pixel.
    */
   void SetPixel(const itkImage<T, TImageDimension>::Index &index, const T& value);
   
   /**
-   * Get a pixel
+   * Get a pixel.
    */
   const T& GetPixel(const itkImage<T, TImageDimension>::Index &index);
 
