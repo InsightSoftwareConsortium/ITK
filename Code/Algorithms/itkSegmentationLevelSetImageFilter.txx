@@ -42,6 +42,7 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TO
   this->SetNumberOfLayers(ImageDimension);
   m_SegmentationFunction = 0;
   m_FeatureScaling = NumericTraits<ValueType>::One;
+  m_CurvatureScaling = NumericTraits<ValueType>::One;
   
   this->SetIsoSurfaceValue(NumericTraits<ValueType>::Zero);
   
