@@ -94,6 +94,12 @@ public:
   typedef typename TInputImage::RegionType InputImageRegionType;
 
   /**
+   * Typedef to describe the type of pixel.
+   */
+  typedef typename TOutputImage::PixelType OutputImagePixelType;
+  typedef typename TInputImage::PixelType InputImagePixelType;
+
+  /**
    * Typedef to describe the output and input image index and size types.
    */
   typedef typename TOutputImage::IndexType OutputImageIndexType;

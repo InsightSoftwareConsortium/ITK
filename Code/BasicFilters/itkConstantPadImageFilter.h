@@ -89,22 +89,22 @@ public:
   /**
    * Typedef to describe the output image region type.
    */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
-  typedef typename TInputImage::RegionType InputImageRegionType;
+  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  typedef typename Superclass::InputImageRegionType InputImageRegionType;
 
   /**
    * Typedef to describe the type of pixel.
    */
-  typedef typename TOutputImage::PixelType OutputImagePixelType;
-  typedef typename TInputImage::PixelType InputImagePixelType;
+  typedef typename Superclass::OutputImagePixelType OutputImagePixelType;
+  typedef typename Superclass::InputImagePixelType InputImagePixelType;
 
   /**
    * Typedef to describe the output and input image index and size types.
    */
-  typedef typename TOutputImage::IndexType OutputImageIndexType;
-  typedef typename TInputImage::IndexType InputImageIndexType;
-  typedef typename TOutputImage::SizeType OutputImageSizeType;
-  typedef typename TInputImage::SizeType InputImageSizeType;
+  typedef typename Superclass::OutputImageIndexType OutputImageIndexType;
+  typedef typename Superclass::InputImageIndexType InputImageIndexType;
+  typedef typename Superclass::OutputImageSizeType OutputImageSizeType;
+  typedef typename Superclass::InputImageSizeType InputImageSizeType;
 
   /** 
    * Run-time type information (and related methods).
