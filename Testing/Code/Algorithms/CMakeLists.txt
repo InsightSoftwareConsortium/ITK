@@ -80,6 +80,7 @@ ADD_TEST(itkNewTest ${ALGORITHMS_TESTS} itkNewTest)
 ADD_TEST(itkNormalizedCorrelationImageMetricTest ${ALGORITHMS_TESTS} itkNormalizedCorrelationImageMetricTest)
 ADD_TEST(itkNormalizedCorrelationPointSetToImageMetricTest ${ALGORITHMS_TESTS} itkNormalizedCorrelationPointSetToImageMetricTest)
 ADD_TEST(itkOtsuThresholdImageCalculatorTest ${ALGORITHMS_TESTS} itkOtsuThresholdImageCalculatorTest)
+ADD_TEST(itkOrthogonalSwath2DPathFilterTest ${ALGORITHMS_TESTS} itkOrthogonalSwath2DPathFilterTest)
 ADD_TEST(itkMeanReciprocalSquareDifferenceImageMetricTest ${ALGORITHMS_TESTS}  itkMeanReciprocalSquareDifferenceImageMetricTest)
 ADD_TEST(itkPointSetToImageRegistrationTest_1 ${ALGORITHMS_TESTS}  itkPointSetToImageRegistrationTest_1)
 ADD_TEST(itkRegionGrow2DTest ${ALGORITHMS_TESTS} itkRegionGrow2DTest)
@@ -89,6 +90,7 @@ ADD_TEST(itkShapePriorMAPCostFunctionTest ${ALGORITHMS_TESTS} itkShapePriorMAPCo
 ADD_TEST(itkShapePriorSegmentationLevelSetFunctionTest ${ALGORITHMS_TESTS} itkShapePriorSegmentationLevelSetFunctionTest)
 ADD_TEST(itkSpatialObjectToImageRegistrationTest ${ALGORITHMS_TESTS} itkSpatialObjectToImageRegistrationTest)
 ADD_TEST(itkSupervisedImageClassifierTest ${ALGORITHMS_TESTS} itkSupervisedImageClassifierTest)
+ADD_TEST(itkSwathChainCodePathFilterTest ${ALGORITHMS_TESTS} itkSwathChainCodePathFilterTest)
 ADD_TEST(itkThresholdSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkThresholdSegmentationLevelSetImageFilterTest)
 ADD_TEST(itkGibbsTest ${ALGORITHMS_TESTS} itkGibbsTest)
 ADD_TEST(itkDeformableTest ${ALGORITHMS_TESTS} itkDeformableTest)
@@ -170,6 +172,7 @@ itkNewTest.cxx
 itkNormalizedCorrelationImageMetricTest.cxx
 itkNormalizedCorrelationPointSetToImageMetricTest.cxx
 itkOtsuThresholdImageCalculatorTest.cxx
+itkOrthogonalSwath2DPathFilterTest.cxx
 itkMeanReciprocalSquareDifferenceImageMetricTest.cxx
 itkPointSetToImageRegistrationTest_1.cxx
 itkRegionGrow2DTest.cxx
@@ -179,6 +182,7 @@ itkShapePriorMAPCostFunctionTest.cxx
 itkShapePriorSegmentationLevelSetFunctionTest.cxx
 itkSpatialObjectToImageRegistrationTest.cxx
 itkSupervisedImageClassifierTest.cxx
+itkSwathChainCodePathFilterTest.cxx
 itkThresholdSegmentationLevelSetImageFilterTest.cxx
 itkGibbsTest.cxx
 itkDeformableTest.cxx
