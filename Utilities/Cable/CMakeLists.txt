@@ -25,5 +25,8 @@ ${CABLE_SOURCE_DIR}
 ${CABLE_SOURCE_DIR}/Expat/xmlparse
 )
 
+
 CONFIGURE_FILE(${CABLE_SOURCE_DIR}/cable.README
                ${CABLE_BINARY_DIR}/cable.README.txt COPYONLY)
+SET (CABLE_EXECUTABLE_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH} CACHE INTERNAL "Single output directory for building all libraries.")
+SET (CABLE_LIBRARY_OUTPUT_PATH ${LIBRARY_OUTPUT_PATH} CACHE INTERNAL "Single output directory for building all executables.")
