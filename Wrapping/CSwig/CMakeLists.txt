@@ -1,9 +1,30 @@
 PROJECT(WrapITK)
 
 # find python and tcl
-INCLUDE (${CMAKE_ROOT}/Modules/FindTCL.cmake)
-INCLUDE (${CMAKE_ROOT}/Modules/FindPythonLibs.cmake)
-INCLUDE (${CMAKE_ROOT}/Modules/FindJNI.cmake)
+IF(ITK_CSWIG_PYTHON)
+  INCLUDE (${CMAKE_ROOT}/Modules/FindPythonLibs.cmake)
+ENDIF(ITK_CSWIG_PYTHON)
+
+IF(ITK_CSWIG_JAVA)
+  INCLUDE (${CMAKE_ROOT}/Modules/FindJNI.cmake)
+ENDIF(ITK_CSWIG_JAVA)
+
+#-----------------------------------------------------------------------------
+# Configure Tcl support.
+IF(ITK_CSWIG_TCL)
+  INCLUDE(${CMAKE_ROOT}/Modules/FindTCL.cmake)
+
+  # Hide useless settings provided by FindTCL.
+  FOREACH(entry TCL_LIBRARY_DEBUG
+                TK_LIBRARY_DEBUG
+                TCL_STUB_LIBRARY
+                TCL_STUB_LIBRARY_DEBUG
+                TK_STUB_LIBRARY
+                TK_STUB_LIBRARY_DEBUG
+                TK_WISH)
+    SET(${entry} "${${entry}}" CACHE INTERNAL "This value is not used by ITK.")
+  ENDFOREACH(entry)
+ENDIF(ITK_CSWIG_TCL)
 
 FIND_PROGRAM(PYTHON_EXECUTABLE
   NAMES python2.3 python2.2 python2.1 python2.0 python1.6 python1.5 python
@@ -91,6 +112,30 @@ FIND_PROGRAM(CABLE_INDEX
 SET(IGNORE_WARNINGS -w362 -w389 -w503 -w508 -w509)
 # define macros for wrapping commands
 MACRO(GCCXML_CREATE_XML_FILE Source Bin Input Output Library)
+# if the make program is not an IDE then include
+# the depend file in a way that will make cmake 
+# re-run if it changes
+   IF(${CMAKE_MAKE_PROGRAM} MATCHES "make")
+     IF(EXISTS ${Bin}/${Output}.depend)
+     ELSE(EXISTS ${Bin}/${Output}.depend)
+        WRITE_FILE(${Bin}/${Output}.depend "")
+     ENDIF(EXISTS ${Bin}/${Output}.depend)
+     INCLUDE(${Bin}/${Output}.depend)
+   ELSE(${CMAKE_MAKE_PROGRAM} MATCHES "make")
+# for IDE generators like MS dev only include the depend files
+# if they exist.   This is to prevent ecessive reloading of
+# workspaces after each build.   This also means
+# that the depends will not be correct until cmake
+# is run once after the build has completed once.
+# the depend files are created in the wrap tcl/python sections
+# when the .xml file is parsed.
+     INCLUDE(${Bin}/${Output}.depend OPTIONAL)
+     IF(EXISTS ${Bin}/${Output}.depend)
+       MESSAGE("${CABLE_SWIG_DEPEND}")
+     ENDIF(EXISTS ${Bin}/${Output}.depend)
+       
+   ENDIF(${CMAKE_MAKE_PROGRAM} MATCHES "make")
+
    ADD_CUSTOM_COMMAND(
    COMMENT "${Output} from "
    SOURCE ${Source}/${Input}
@@ -99,7 +144,7 @@ MACRO(GCCXML_CREATE_XML_FILE Source Bin Input Output Library)
         -DCSWIG -DCABLE_CONFIGURATION ${Source}/${Input} -fxml=${Bin}/${Output} ${SWIG_INC}
    TARGET ${Library}
    OUTPUTS ${Bin}/${Output}
-   DEPENDS ${GCCXML})
+   DEPENDS ${GCCXML} ${CABLE_SWIG_DEPEND})
 ENDMACRO(GCCXML_CREATE_XML_FILE)
 
 
@@ -120,31 +165,15 @@ MACRO(CSWIG_CREATE_TCL_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Lib
    FOREACH(MIDX ${MasterIdx})
      SET(CINDEX ${CINDEX} -Cindex "${MIDX}")
    ENDFOREACH(MIDX)
-# if the make program is not an IDE then include
-# the depend file in a way that will make cmake 
-# re-run if it changes
-   IF(${CMAKE_MAKE_PROGRAM} MATCHES "make")
-     IF(EXISTS ${Bin}/${OutputTclCxx}.depend)
-     ELSE(EXISTS ${Bin}/${OutputTclCxx}.depend)
-        WRITE_FILE(${Bin}/${OutputTclCxx}.depend "")
-     ENDIF(EXISTS ${Bin}/${OutputTclCxx}.depend)
-     INCLUDE(${Bin}/${OutputTclCxx}.depend)
-   ELSE(${CMAKE_MAKE_PROGRAM} MATCHES "make")
-# for IDE generators like MS dev only include the depend files
-# if they exist.   This is to prevent ecessive reloading of
-# workspaces
-     INCLUDE(${Bin}/${OutputTclCxx}.depend OPTIONAL)
-   ENDIF(${CMAKE_MAKE_PROGRAM} MATCHES "make")
    ADD_CUSTOM_COMMAND(
      COMMENT "${OutputTclCxx} from "
      SOURCE ${Bin}/${InputIdx}
      COMMAND ${CSWIG}
-     ARGS -c ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${OutputTclCxx}.depend
+     ARGS -c ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${InputXml}.depend
           -o ${Bin}/${OutputTclCxx} -tcl -pkgversion "${ITK_VERSION_STRING}" -c++ ${Bin}/${InputXml}
      TARGET ${Library}
      OUTPUTS ${Bin}/${OutputTclCxx}
-     DEPENDS ${LibraryIndexFiles} ${Bin}/${InputXml} ${CSWIG} ${CABLE_SWIG_DEPEND}
-     )
+     DEPENDS ${LibraryIndexFiles} ${Bin}/${InputXml} ${CSWIG} )
 #     MESSAGE("depends are ${CABLE_SWIG_DEPEND}")
 ENDMACRO(CSWIG_CREATE_TCL_CXX_FILE)
 
@@ -153,32 +182,16 @@ MACRO(CSWIG_CREATE_PYTHON_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx 
    FOREACH(MIDX ${MasterIdx})
      SET(CINDEX ${CINDEX} -Cindex "${MIDX}")
    ENDFOREACH(MIDX)
-# if the make program is not an IDE then include
-# the depend file in a way that will make cmake 
-# re-run if it changes
-   IF(${CMAKE_MAKE_PROGRAM} MATCHES "make")
-     IF(EXISTS ${Bin}/${OutputTclCxx}.depend)
-     ELSE(EXISTS ${Bin}/${OutputTclCxx}.depend)
-        WRITE_FILE(${Bin}/${OutputTclCxx}.depend "")
-     ENDIF(EXISTS ${Bin}/${OutputTclCxx}.depend)
-     INCLUDE(${Bin}/${OutputTclCxx}.depend)
-   ELSE(${CMAKE_MAKE_PROGRAM} MATCHES "make")
-# for IDE generators like MS dev only include the depend files
-# if they exist.   This is to prevent ecessive reloading of
-# workspaces
-     INCLUDE(${Bin}/${OutputTclCxx}.depend OPTIONAL)
-   ENDIF(${CMAKE_MAKE_PROGRAM} MATCHES "make")
    ADD_CUSTOM_COMMAND(
      COMMENT "${OutputTclCxx} from "
      SOURCE ${Bin}/${InputIdx}
      COMMAND ${CSWIG} 
-     ARGS -c ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${OutputTclCxx}.depend
+     ARGS -c ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${InputXml}.depend
           -bindir "${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR}" 
           -o ${Bin}/${OutputTclCxx} -python -c++ ${Bin}/${InputXml}
      TARGET ${Library}
      OUTPUTS ${Bin}/${OutputTclCxx}
-     DEPENDS ${LibraryIndexFiles}  ${Bin}/${InputXml} ${CSWIG} ${CABLE_SWIG_DEPEND}
-     )
+     DEPENDS ${LibraryIndexFiles}  ${Bin}/${InputXml} ${CSWIG} )
 ENDMACRO(CSWIG_CREATE_PYTHON_CXX_FILE)
 
 
@@ -187,32 +200,16 @@ MACRO(CSWIG_CREATE_JAVA_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Li
    FOREACH(MIDX ${MasterIdx})
      SET(CINDEX ${CINDEX} -Cindex "${MIDX}")
    ENDFOREACH(MIDX)
-# if the make program is not an IDE then include
-# the depend file in a way that will make cmake 
-# re-run if it changes
-   IF(${CMAKE_MAKE_PROGRAM} MATCHES "make")
-     IF(EXISTS ${Bin}/${OutputTclCxx}.depend)
-     ELSE(EXISTS ${Bin}/${OutputTclCxx}.depend)
-        WRITE_FILE(${Bin}/${OutputTclCxx}.depend "")
-     ENDIF(EXISTS ${Bin}/${OutputTclCxx}.depend)
-     INCLUDE(${Bin}/${OutputTclCxx}.depend)
-   ELSE(${CMAKE_MAKE_PROGRAM} MATCHES "make")
-# for IDE generators like MS dev only include the depend files
-# if they exist.   This is to prevent ecessive reloading of
-# workspaces
-     INCLUDE(${Bin}/${OutputTclCxx}.depend OPTIONAL)
-   ENDIF(${CMAKE_MAKE_PROGRAM} MATCHES "make")
    ADD_CUSTOM_COMMAND(
      COMMENT "${OutputTclCxx} from "
      SOURCE ${Bin}/${InputIdx}
      COMMAND ${CSWIG} 
-     ARGS -c ${CINDEX} ${IGNORE_WARNINGS}
+     ARGS -c ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${InputXml}.depend
           -bindir "${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR}" 
           -o ${Bin}/${OutputTclCxx} -java -c++ ${Bin}/${InputXml}
      TARGET ${Library}
      OUTPUTS ${Bin}/${OutputTclCxx}
-     DEPENDS ${LibraryIndexFiles}  ${Bin}/${InputXml} ${CSWIG}  ${CABLE_SWIG_DEPEND}
-     )
+     DEPENDS ${LibraryIndexFiles}  ${Bin}/${InputXml} ${CSWIG} )
 ENDMACRO(CSWIG_CREATE_JAVA_CXX_FILE)
 
 
