@@ -44,10 +44,7 @@ PathAndImageToPathFilter<TInputPath,TInputImage,TOutputPath>
 ::SetPathInput(const InputPathType *path)
 {
   // We have 2 inputs:  a path and an image
-  if( 2 > this->GetNumberOfInputs() )
-    {
-    this->SetNumberOfRequiredInputs( 2 );
-    }
+
   // Process object is not const-correct so the const_cast is required here
   this->ProcessObject::SetNthInput(0, 
                                    const_cast< InputPathType * >( path ) );
@@ -73,10 +70,7 @@ PathAndImageToPathFilter<TInputPath,TInputImage,TOutputPath>
 ::SetImageInput(const InputImageType *image)
 {
   // We have 2 inputs:  a path and an image
-  if( 2 > this->GetNumberOfInputs() )
-    {
-    this->SetNumberOfRequiredInputs( 2 );
-    }
+
   // Process object is not const-correct so the const_cast is required here
   this->ProcessObject::SetNthInput(1, 
                                    const_cast< InputImageType * >( image ) );

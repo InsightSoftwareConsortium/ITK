@@ -69,10 +69,6 @@ void
 PathToImageFilter<TInputPath,TOutputImage>
 ::SetInput( unsigned int index, const InputPathType * path ) 
 {
-  if( index+1 > this->GetNumberOfInputs() )
-    {
-    this->SetNumberOfRequiredInputs( index + 1 );
-    }
   // Process object is not const-correct so the const_cast is required here
   this->ProcessObject::SetNthInput(index, const_cast< InputPathType *>(path) );
 }

@@ -63,10 +63,6 @@ void
 PointSetToImageFilter<TInputPointSet,TOutputImage>
 ::SetInput( unsigned int index, const TInputPointSet * pointset ) 
 {
-  if( index+1 > this->GetNumberOfInputs() )
-    {
-    this->SetNumberOfRequiredInputs( index + 1 );
-    }
   // Process object is not const-correct so the const_cast is required here
   this->ProcessObject::SetNthInput(index, 
                                    const_cast< TInputPointSet *>( pointset ) );
