@@ -2,6 +2,7 @@
 SET(ITKCommon_SRCS
   itkBloxItem.cxx
   itkCommand.h
+  itkConditionVariable.cxx
   itkDataObject.cxx 
   itkDecisionRuleBase.cxx 
   itkDirectory.cxx  
