@@ -68,7 +68,14 @@ public:
    */
   typedef   TParameters    ParametersType;
 
-  typedef typename ParametersType::Pointer ParametersTypePointer;
+
+  /**
+   * ParametersPointer typedef
+   * This is the type used to pass points in the
+   * search space to the optimizer
+   */
+  typedef   typename ParametersType::Pointer ParametersPointer;
+
 
   /**
    * Set the vector of parameters
@@ -90,7 +97,7 @@ protected:
 
 private:
 
-  ParametersTypePointer     m_Parameters;
+  ParametersPointer     m_Parameters;
 
 };
 
