@@ -71,7 +71,7 @@ ReflectImageFilter<TInputImage,TOutputImage>
   while( !inputIt.IsAtEnd() ) 
     {
 
-    outputIt.GoToReverseBeginOfLine();
+    outputIt.GoToEndOfLine();
     --outputIt;
     while( !inputIt.IsAtEndOfLine() ) 
       {
@@ -82,7 +82,7 @@ ReflectImageFilter<TInputImage,TOutputImage>
       }
 
      inputIt.NextLine();
-     outputIt.GoToReverseBeginOfLine(); // NextLine() assumes that the 
+     outputIt.GoToEndOfLine(); // NextLine() assumes that the 
      outputIt.NextLine();      // iterator is at the end of line.
     }
 }
