@@ -70,7 +70,7 @@ FloodFilledFunctionConditionalIterator<TImage, TFunction>
     if( tempPtr->GetPixel(m_IndexStack.top() ) == 0)
       {
       // Is this pixel inside the function?
-      if ( m_Function->EvaluateAtIndex( m_IndexStack.top() ) )
+      if ( this->IsPixelIncluded( m_IndexStack.top() ) )
         {
         // if it is, mark as inside
         tempPtr->GetPixel( m_IndexStack.top() ) = 2;
