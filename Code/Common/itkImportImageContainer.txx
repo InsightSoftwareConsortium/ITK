@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkImportImageContainer_txx
+#define _itkImportImageContainer_txx
 
 namespace itk
 {
@@ -148,3 +150,5 @@ ImportImageContainer< TElementIdentifier , TElement >
 }
 
 } // end namespace itk
+
+#endif

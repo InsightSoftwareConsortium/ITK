@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkImageLinearIterator_txx
+#define _itkImageLinearIterator_txx
 
 // #include "itkSimpleImageRegionIterator.h"
 
@@ -113,3 +115,5 @@ ImageLinearIterator<TImage>
 
 
 } // end namespace itk
+
+#endif

@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkStatSparseHistogram_txx
+#define _itkStatSparseHistogram_txx
 
 #include <map>
 
@@ -72,3 +74,5 @@ SparseHistogram<TBin, HistogramDimension>
 
 } // end of namespace
 
+
+#endif

@@ -12,7 +12,9 @@
 
   See COPYRIGHT.txt for copyright details.
 
-=========================================================================*/
+=========================================================================*/#ifndef _itkStatHistogram_txx
+#define _itkStatHistogram_txx
+
 #include "itkStatHistogram.h"
 
 namespace itk
@@ -192,3 +194,5 @@ Histogram<TBin, HistogramDimension>
 
 } // end of namespace
 
+
+#endif

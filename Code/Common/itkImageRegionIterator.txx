@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkImageRegionIterator_txx
+#define _itkImageRegionIterator_txx
 
 // #include "itkImageRegionIterator.h"
 
@@ -20,3 +22,5 @@ namespace itk
 {
 
 } // end namespace itk
+
+#endif

@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkMapContainer_txx
+#define _itkMapContainer_txx
 // #include "itkMapContainer.h"
 
 namespace itk
@@ -243,3 +245,5 @@ MapContainer< TElementIdentifier , TElement >
 
 
 } // end namespace itk
+
+#endif

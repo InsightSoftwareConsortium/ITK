@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkImageIterator_txx
+#define _itkImageIterator_txx
 
 // #include "itkImageIterator.h"
 
@@ -58,3 +60,5 @@ ImageIterator<TPixel, VImageDimension, TPixelContainer>
 }
 
 } // end namespace itk
+
+#endif

@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkImageRegion_txx
+#define _itkImageRegion_txx
 #include "itkImageRegion.h"
 
 namespace itk
@@ -59,3 +61,5 @@ ImageRegion<VImageDimension>
 
 } // end namespace itk
 
+
+#endif

@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
   =========================================================================*/
+#ifndef _itkDerivativeOperator_txx
+#define _itkDerivativeOperator_txx
 namespace itk
 {
 
@@ -67,3 +69,5 @@ DerivativeOperator<TPixel, VDimension, TAllocator>
 }
 
 } // namespace itk
+
+#endif

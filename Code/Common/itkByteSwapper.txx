@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkByteSwapper_txx
+#define _itkByteSwapper_txx
 #include "itkByteSwapper.h"
 #include "itkExceptionObject.h"
 #include "itkObjectFactory.h"
@@ -411,3 +413,5 @@ ByteSwapper<T>
 }
 
 } // end namespace itk
+
+#endif

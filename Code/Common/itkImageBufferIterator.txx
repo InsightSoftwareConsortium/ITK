@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkImageBufferIterator_txx
+#define _itkImageBufferIterator_txx
 
 // #include "itkImageBufferIterator.h"
 
@@ -20,3 +22,5 @@ namespace itk
 {
 
 } // end namespace itk
+
+#endif

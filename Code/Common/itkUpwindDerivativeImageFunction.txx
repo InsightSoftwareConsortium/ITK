@@ -12,6 +12,8 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
+#ifndef _itkUpwindDerivativeImageFunction_txx
+#define _itkUpwindDerivativeImageFunction_txx
 
 namespace itk
 {
@@ -93,3 +95,5 @@ unsigned int dim )
 
 
 } // namespace itk
+
+#endif

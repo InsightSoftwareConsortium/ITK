@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkImageSliceConstIterator_txx
+#define _itkImageSliceConstIterator_txx
 
 
 namespace itk
@@ -166,3 +168,5 @@ ImageSliceConstIterator<TImage>
 
 } // end namespace itk
 
+
+#endif

@@ -12,6 +12,8 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
+#ifndef _itkLevelSetCurvatureFunction_txx
+#define _itkLevelSetCurvatureFunction_txx
 #include "vnl/vnl_math.h"
 
 namespace itk
@@ -304,3 +306,5 @@ LevelSetCurvatureFunction<TInputImage>
 
 
 } // namespace itk
+
+#endif

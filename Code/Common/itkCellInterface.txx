@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkCellInterface_txx
+#define _itkCellInterface_txx
 // #include "itkCellInterface.h"
 
 namespace itk
@@ -126,3 +128,5 @@ CellInterface< TPixelType , TCellTraits >
 }
 
 } // end namespace itk
+
+#endif

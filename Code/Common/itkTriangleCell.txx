@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkTriangleCell_txx
+#define _itkTriangleCell_txx
 // #include "itkTriangleCell.h"
 
 namespace itk
@@ -275,3 +277,5 @@ TriangleCell< TPixelType , TCellTraits >
 ::m_Edges[3][2] = { {0,1}, {1,2}, {2,0} };
 
 } // end namespace itk
+
+#endif

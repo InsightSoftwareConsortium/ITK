@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkImageSource_txx
+#define _itkImageSource_txx
 // #include "itkImageSource.h"
 
 #include "vnl/vnl_math.h"
@@ -235,3 +237,5 @@ ImageSource<TOutputImage>
 
 
 } // end namespace itk
+
+#endif

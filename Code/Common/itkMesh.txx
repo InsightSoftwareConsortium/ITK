@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkMesh_txx
+#define _itkMesh_txx
 #include "itkMesh.h"
 #include <algorithm>
 #include "itkProcessObject.h"
@@ -1317,3 +1319,5 @@ Mesh<TPixelType,TMeshTraits>
 }
 
 } // end namespace itk
+
+#endif

@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkTransform_txx
+#define _itkTransform_txx
 
 
 namespace itk
@@ -53,3 +55,5 @@ Transform<TParameters>
 
 
 } // end namespace itk
+
+#endif

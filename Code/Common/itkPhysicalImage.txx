@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkPhysicalImage_txx
+#define _itkPhysicalImage_txx
 #include "itkPhysicalImage.h"
 #include "itkProcessObject.h"
 
@@ -216,3 +218,5 @@ GetPhysicalToIndexTransform()
 }
 
 } // end namespace itk
+
+#endif

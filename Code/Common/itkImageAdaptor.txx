@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkImageAdaptor_txx
+#define _itkImageAdaptor_txx
 #include "itkImageAdaptor.h"
 #include "itkProcessObject.h"
 
@@ -296,3 +298,5 @@ ImageAdaptor<TImage , TAccessor>
 } // end namespace itk
 
 
+
+#endif

@@ -12,6 +12,8 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
+#ifndef _itkVector_txx
+#define _itkVector_txx
 
 #include "itkVector.h" 
 #include <vnl/vnl_math.h>
@@ -317,3 +319,5 @@ operator>>(std::istream& is, Vector<T,TVectorDimension> & vct )
 
 } // end namespace itk
 
+
+#endif

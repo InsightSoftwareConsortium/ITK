@@ -1,3 +1,6 @@
+#ifndef _vcl_hash_txx
+#define _vcl_hash_txx
+
 #include <vcl_compiler.h>
 #include "vcl_algorithm.txx"
 #include "vcl_iterator.txx"
@@ -8,4 +11,6 @@
 #define VCL_INSTANTIATE_INLINE_LOOP(f) template f ;
 #else
 #define VCL_INSTANTIATE_INLINE_LOOP(f) VCL_INSTANTIATE_INLINE(f)
+#endif
+
 #endif

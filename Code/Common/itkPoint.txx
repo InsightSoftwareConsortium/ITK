@@ -12,6 +12,8 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
+#ifndef _itkPoint_txx
+#define _itkPoint_txx
 #include "itkPoint.h" 
 #include <vnl/vnl_math.h>
 
@@ -235,3 +237,5 @@ operator>>(std::istream& is, Point<T,TPointDimension> & vct )
 
 } // end namespace itk
 
+
+#endif

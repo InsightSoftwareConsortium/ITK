@@ -1,3 +1,21 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkArray.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
+
+  See COPYRIGHT.txt for copyright details.
+
+=========================================================================*/
+#ifndef _itkArray_txx
+#define _itkArray_txx
+
 // #include "itkArray.h"
 
 namespace itk
@@ -294,3 +312,5 @@ Array<TValueType, VLength>
 
 
 } // namespace itk
+
+#endif

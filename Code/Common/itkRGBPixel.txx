@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkRGBPixel_txx
+#define _itkRGBPixel_txx
 #include "itkRGBPixel.h"
 #include "itkNumericTraits.h"
 
@@ -202,3 +204,5 @@ operator>>(std::istream& is, RGBPixel<TComponent> & c )
 
 
 } // end namespace itk
+
+#endif

@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkImageToImageFilter_txx
+#define _itkImageToImageFilter_txx
 #include "itkImageToImageFilter.h"
 
 
@@ -113,3 +115,5 @@ ImageToImageFilter<TInputImage,TOutputImage>
 }
 
 } // end namespace itk
+
+#endif

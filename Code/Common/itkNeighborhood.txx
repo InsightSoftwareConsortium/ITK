@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
   =========================================================================*/
+#ifndef _itkNeighborhood_txx
+#define _itkNeighborhood_txx
 namespace itk {
 
 template<class TPixel, unsigned int VDimension, class TContainer>
@@ -76,3 +78,5 @@ void Neighborhood<TPixel, VDimension, TContainer>
 }
 
 }  // namespace itk
+
+#endif

@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkImageBase_txx
+#define _itkImageBase_txx
 #include "itkImageBase.h"
 
 namespace itk
@@ -276,3 +278,5 @@ ImageBase<VImageDimension>
 }
 
 } // end namespace itk
+
+#endif

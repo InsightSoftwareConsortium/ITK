@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkPhysicalImageAdaptor_txx
+#define _itkPhysicalImageAdaptor_txx
 #include "itkPhysicalImageAdaptor.h"
 #include "itkProcessObject.h"
 
@@ -134,3 +136,5 @@ PhysicalImageAdaptor<TImage , TAccessor>
 } // end namespace itk
 
 
+
+#endif

@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
   =========================================================================*/
+#ifndef _itkNeighborhoodOperator_txx
+#define _itkNeighborhoodOperator_txx
 namespace itk
 {
 
@@ -116,3 +118,5 @@ NeighborhoodOperator<TPixel, VDimension, TAllocator>
 }
 
 }// namespace itk
+
+#endif

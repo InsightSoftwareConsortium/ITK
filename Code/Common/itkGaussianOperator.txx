@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
   =========================================================================*/
+#ifndef _itkGaussianOperator_txx
+#define _itkGaussianOperator_txx
 namespace itk
 {
 
@@ -160,3 +162,5 @@ GaussianOperator<VDimension, TAllocator>
 }
 
 }// end namespace itk
+
+#endif

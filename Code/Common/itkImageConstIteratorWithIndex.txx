@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkImageConstIteratorWithIndex_txx
+#define _itkImageConstIteratorWithIndex_txx
 
 // #include "itkImageConstIteratorWithIndex.h"
 
@@ -152,3 +154,5 @@ ImageConstIteratorWithIndex<TImage>
 
 
 
+
+#endif

@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkImage_txx
+#define _itkImage_txx
 #include "itkImage.h"
 #include "itkProcessObject.h"
 
@@ -70,3 +72,5 @@ Image<TPixel, VImageDimension, TPixelContainer>
 
 
 } // end namespace itk
+
+#endif

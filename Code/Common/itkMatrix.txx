@@ -12,6 +12,8 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
+#ifndef _itkMatrix_txx
+#define _itkMatrix_txx
 
 #include "itkMatrix.h" 
 #include "itkNumericTraits.h"
@@ -134,3 +136,5 @@ Matrix<T, NRows, NColumns>
 
 } // end namespace itk
 
+
+#endif

@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
   =========================================================================*/
+#ifndef _itkForwardDifferenceOperator_txx
+#define _itkForwardDifferenceOperator_txx
 namespace itk
 {
 
@@ -32,3 +34,5 @@ ForwardDifferenceOperator<TPixel, VDimension, TAllocator>
 }
   
 } // namespace itk
+
+#endif

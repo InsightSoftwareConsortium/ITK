@@ -1,3 +1,20 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkCellBoundary.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
+
+  See COPYRIGHT.txt for copyright details.
+
+=========================================================================*/
+#ifndef _itkCellBoundary_txx
+#define _itkCellBoundary_txx
 // #include "itkCellBoundary.h"
 
 namespace itk
@@ -87,3 +104,5 @@ CellBoundary<TCell>
 }
 
 } // end namespace itk
+
+#endif

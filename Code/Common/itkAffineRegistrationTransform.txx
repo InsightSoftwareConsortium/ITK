@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkAffineRegistrationTransform_txx
+#define _itkAffineRegistrationTransform_txx
 
 #include <itkExceptionObject.h>
 
@@ -161,3 +163,5 @@ AffineRegistrationTransform<NDimensions>
 }
 
 } // end namespace itk
+
+#endif

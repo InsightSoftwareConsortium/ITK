@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkNeighborhoodAlgorithm_txx
+#define _itkNeighborhoodAlgorithm_txx
 #include "itkImageRegionIterator.h"
 #include "itkImageRegion.h"
 
@@ -851,3 +853,5 @@ Convolve1D(Neighborhood<TPixel, VDimension, TAllocator> &A,
 
 } // end namespace NeighborhoodAlgorithm
 } // end namespace itk
+
+#endif

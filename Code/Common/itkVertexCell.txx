@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkVertexCell_txx
+#define _itkVertexCell_txx
 #include "itkVertexCell.h"
 
 namespace itk
@@ -219,3 +221,5 @@ VertexCell< TPixelType , TCellTraits >
 
 
 } // end namespace itk
+
+#endif

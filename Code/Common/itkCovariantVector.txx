@@ -12,6 +12,8 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
+#ifndef _itkCovariantVector_txx
+#define _itkCovariantVector_txx
 
 #include "itkCovariantVector.h" 
 #include <vnl/vnl_math.h>
@@ -323,3 +325,5 @@ operator>>(std::istream& is,
 
 } // end namespace itk
 
+
+#endif

@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkTetrahedronCell_txx
+#define _itkTetrahedronCell_txx
 // #include "itkTetrahedronCell.h"
 
 namespace itk
@@ -322,3 +324,5 @@ TetrahedronCell< TPixelType , TCellTraits >
 
 
 } // end namespace itk
+
+#endif

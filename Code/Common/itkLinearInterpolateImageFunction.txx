@@ -12,6 +12,8 @@
   See COPYRIGHT.txt for copyright details.
 
 ==========================================================================*/
+#ifndef _itkLinearInterpolateImageFunction_txx
+#define _itkLinearInterpolateImageFunction_txx
 
 #include <iostream>          
 
@@ -174,3 +176,5 @@ double * dblIndex )
 
 
 } // namespace itk
+
+#endif

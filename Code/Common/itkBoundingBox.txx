@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkBoundingBox_txx
+#define _itkBoundingBox_txx
 #include "itkBoundingBox.h"
 #include "itkNumericTraits.h"
 #include "itkPoint.h"
@@ -216,3 +218,5 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 }
 
 } // end namespace itk
+
+#endif

@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkLineCell_txx
+#define _itkLineCell_txx
 // #include "itkLineCell.h"
 
 namespace itk
@@ -230,3 +232,5 @@ LineCell< TPixelType , TCellTraits >
 }
 
 } // end namespace itk
+
+#endif

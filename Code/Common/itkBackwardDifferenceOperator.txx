@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
   =========================================================================*/
+#ifndef _itkBackwardDifferenceOperator_txx
+#define _itkBackwardDifferenceOperator_txx
 namespace itk
 {
 
@@ -31,3 +33,5 @@ BackwardDifferenceOperator<TPixel, VDimension, TAllocator>
 }
   
 } // namespace itk
+
+#endif

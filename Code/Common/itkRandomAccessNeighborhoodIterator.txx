@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
   =========================================================================*/
+#ifndef _itkRandomAccessNeighborhoodIterator_txx
+#define _itkRandomAccessNeighborhoodIterator_txx
 namespace itk {
   
 template<class TImage, class TAccessor, class TDerefAccessor>
@@ -140,3 +142,5 @@ RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
 
 
 } // namespace itk
+
+#endif

@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
   =========================================================================*/
+#ifndef _itkNeighborhoodIterator_txx
+#define _itkNeighborhoodIterator_txx
 namespace itk {
 
 template<class TImage, class TAllocator, class TDerefAllocator>
@@ -220,3 +222,5 @@ NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
 }
 
 } // namespace itk
+
+#endif

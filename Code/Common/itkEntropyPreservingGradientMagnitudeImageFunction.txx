@@ -12,6 +12,8 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
+#ifndef _itkEntropyPreservingGradientMagnitudeImageFunction_txx
+#define _itkEntropyPreservingGradientMagnitudeImageFunction_txx
 #include "vnl/vnl_math.h"
 
 namespace itk
@@ -134,3 +136,5 @@ const IndexType& index )
 
 
 } // namespace itk
+
+#endif

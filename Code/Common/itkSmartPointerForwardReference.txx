@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkSmartPointerForwardReference_txx
+#define _itkSmartPointerForwardReference_txx
 #include "itkSmartPointerForwardReference.h"
 
 namespace itk
@@ -170,3 +172,5 @@ SmartPointerForwardReference<T>
 }
 
 } //end namespace
+
+#endif

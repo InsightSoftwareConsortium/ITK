@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkPointLocator_txx
+#define _itkPointLocator_txx
 #include "itkPointLocator.h"
 
 namespace itk
@@ -177,3 +179,5 @@ PointLocator<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 }
 
 } // end namespace itk
+
+#endif

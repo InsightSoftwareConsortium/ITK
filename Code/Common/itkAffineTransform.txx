@@ -15,8 +15,10 @@
 NOTE: The code in this file is tested partly by itkAffineTransformTest.cxx
 and partly by itkImageMomentsTest.cxx.
 =========================================================================*/
+#ifndef _itkAffineTransform_txx
+#define _itkAffineTransform_txx
 
-
+#include "itkNumericTraits.h"
 #include "itkAffineTransform.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
 
@@ -548,3 +550,5 @@ namespace itk
 
 
 } // namespace
+
+#endif

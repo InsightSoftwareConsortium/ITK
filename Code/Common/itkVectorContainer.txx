@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkVectorContainer_txx
+#define _itkVectorContainer_txx
 // #include "itkVectorContainer.h"
 
 #include "itkNumericTraits.h"
@@ -290,3 +292,5 @@ VectorContainer< TElementIdentifier , TElement >
 }
 
 } // end namespace itk
+
+#endif
