@@ -149,7 +149,7 @@ TileImageFilter<TInputImage, TOutputImage>
   if (m_Layout[OutputImageDimension - 1] == 0)
     {
     int used = 1;
-    for (int d = 0; d < OutputImageDimension - 1; d++)
+    for (unsigned int d = 0; d < OutputImageDimension - 1; d++)
       {
       used *= m_Layout[d];
       }
