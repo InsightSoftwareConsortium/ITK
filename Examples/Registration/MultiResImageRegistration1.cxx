@@ -63,7 +63,8 @@
 // \begin{figure}
 // \center
 // \includegraphics[width=\textwidth]{MultiResRegistrationConcept.eps}
-// \itkcaption{Conceptual representation of Multi-Resolution registration.}
+// \itkcaption[Conceptual representation of Multi-Resolution
+// registration]{Conceptual representation of Multi-Resolution registration.}
 // \label{fig:MultiResRegistrationConcept}
 // \end{figure}
 //
