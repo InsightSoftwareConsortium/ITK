@@ -166,4 +166,7 @@ TARGET_LINK_LIBRARIES(RegistrationExamples2 ITKAlgorithms ITKFEM ITKStatistics I
 ADD_EXECUTABLE(RegistrationExamples3 RegistrationExamples3.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples3 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
 
+ADD_EXECUTABLE(IterativeClosestPoint1   IterativeClosestPoint1.cxx )
+TARGET_LINK_LIBRARIES(IterativeClosestPoint1 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+
 
