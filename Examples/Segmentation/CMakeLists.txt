@@ -79,6 +79,8 @@ SET(SEGMENTATION_EXAMPLES4 ${CXX_TEST_PATH}/SegmentationExamples4)
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Segmentation)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
+IF( NOT ITK_DISABLE_CXX_TESTING )
+
 ADD_TEST(CannySegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/CannySegmentationLevelSetImageFilterTest.png
             ${TEMP}/CannySegmentationLevelSetImageFilterTest.png
@@ -405,6 +407,7 @@ ITKCommon
 ITKStatistics
 )
 
+
 ADD_EXECUTABLE(SegmentationExamples4 SegmentationExamples4.cxx )
 TARGET_LINK_LIBRARIES(SegmentationExamples4
 ITKAlgorithms 
@@ -413,3 +416,9 @@ ITKBasicFilters
 ITKCommon
 ITKStatistics
 )
+
+
+
+ENDIF( NOT ITK_DISABLE_CXX_TESTING )
+
+

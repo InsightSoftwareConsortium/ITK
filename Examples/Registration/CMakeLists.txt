@@ -100,6 +100,8 @@ SET(REGISTRATION_EXAMPLES7 ${CXX_TEST_PATH}/RegistrationExamples7)
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Registration)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
+IF( NOT ITK_DISABLE_CXX_TESTING )
+
 ADD_TEST(ImageRegistration1Test ${REGISTRATION_EXAMPLES}
   --compare ${BASELINE}/ImageRegistration1Test.png
             ${TEMP}/ImageRegistration1Test.png
@@ -292,4 +294,6 @@ TARGET_LINK_LIBRARIES(RegistrationExamples6 ITKAlgorithms ITKFEM ITKStatistics I
 ADD_EXECUTABLE(RegistrationExamples7 RegistrationExamples7.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples7 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
 
+
+ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 

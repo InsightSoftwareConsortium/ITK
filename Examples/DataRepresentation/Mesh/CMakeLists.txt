@@ -56,6 +56,8 @@ SET(MESH_EXAMPLES ${CXX_TEST_PATH}/MeshExamples)
 ADD_EXECUTABLE(MeshExamples MeshExamples.cxx )
 TARGET_LINK_LIBRARIES(MeshExamples ITKIO ITKCommon)
 
+IF( NOT ITK_DISABLE_CXX_TESTING )
+
 ADD_TEST(AutomaticMeshTest ${CXX_TEST_PATH}/MeshExamples AutomaticMeshTest)
 
 ADD_TEST(ImageToPointSetTest ${CXX_TEST_PATH}/MeshExamples
@@ -92,36 +94,6 @@ ADD_TEST(PointSetWithVectorsTest ${CXX_TEST_PATH}/MeshExamples PointSetWithVecto
 ADD_TEST(RGBPointSetTest ${CXX_TEST_PATH}/MeshExamples RGBPointSetTest)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 
 

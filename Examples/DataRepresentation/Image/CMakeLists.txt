@@ -37,6 +37,8 @@ TARGET_LINK_LIBRARIES(ImageAdaptor4 ITKCommon ITKIO)
 
 SET(IMAGE_EXAMPLES ${CXX_TEST_PATH}/ImageExamples)
 
+IF( NOT ITK_DISABLE_CXX_TESTING )
+
 ADD_TEST(Image1Test ${IMAGE_EXAMPLES}
   Image1Test
 )
@@ -91,3 +93,6 @@ ADD_TEST(VectorImageTest ${IMAGE_EXAMPLES}
 
 ADD_EXECUTABLE(ImageExamples ImageExamples.cxx )
 TARGET_LINK_LIBRARIES(ImageExamples ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+
+ENDIF( NOT ITK_DISABLE_CXX_TESTING )
+
