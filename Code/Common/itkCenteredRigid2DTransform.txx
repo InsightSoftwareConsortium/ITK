@@ -122,6 +122,33 @@ CenteredRigid2DTransform<TScalarType>
 
 
 
+
+
+template <class TScalarType>
+void
+CenteredRigid2DTransform<TScalarType>
+::SetCenterOfRotation( const InputPointType & center )
+{
+  m_Center = center;
+  this->ComputeMatrixAndOffset();
+}
+
+
+
+
+template <class TScalarType>
+void
+CenteredRigid2DTransform<TScalarType>
+::SetTranslation( const OutputVectorType & translation )
+{
+  m_Translation = translation;
+  this->ComputeMatrixAndOffset();
+}
+
+
+
+
+
 // Set Identity
 template <class TScalarType>
 void
@@ -154,11 +181,24 @@ void
 CenteredRigid2DTransform<TScalarType>
 ::ComputeMatrixAndOffset( void )
 {
-  const double cx = cos(m_Angle);
-  const double sx = sin(m_Angle);
+  const double ca = cos(m_Angle);
+  const double sa = sin(m_Angle);
 
-  m_RotationMatrix[0][0]=cx;m_RotationMatrix[0][1]=sx;
-  m_RotationMatrix[1][0]=-sx;m_RotationMatrix[1][1]=cx;
+  const double cx = m_Center[0];
+  const double cy = m_Center[1];
+
+  const double tx = m_Translation[0];
+  const double ty = m_Translation[1];
+
+  m_RotationMatrix[0][0]= ca; m_RotationMatrix[0][1]=-sa;
+  m_RotationMatrix[1][0]= sa; m_RotationMatrix[1][1]= ca;
+
+  OffsetType offset;
+
+  offset[0] = tx + cx + sa * cy + ( 1.0 - ca ) * cx;
+  offset[1] = ty + cy - sa * cx + ( 1.0 - ca ) * cy;
+
+  this->SetOffset( offset );
 
   m_InverseMatrix = m_RotationMatrix.GetTranspose();
 
@@ -173,21 +213,37 @@ CenteredRigid2DTransform<TScalarType>::
 GetJacobian( const InputPointType & p ) const
 {
   // need to check if angles are in the right order
-  const double cx = cos(m_Angle);
-  const double sx = sin(m_Angle);
+  const double ca = cos(m_Angle);
+  const double sa = sin(m_Angle);
 
   m_Jacobian.Fill(0.0);
 
-  // derivatives with respect to the angle
-  m_Jacobian[0][0] = -sx * p[0] + cx * p[1]; 
-  m_Jacobian[1][0] = -cx * p[0] + sx * p[1];
+  const double cx = m_Center[0];
+  const double cy = m_Center[1];
 
-  // compute derivatives for the translation part
-  unsigned int blockOffset = 1;  
-  for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
-    {
-    m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
-    }
+  const double tx = m_Translation[0];
+  const double ty = m_Translation[1];
+
+  // derivatives with respect to the angle
+  m_Jacobian[0][0] = -sa * ( p[0] - cx ) - ca * ( p[1] - cy );
+  m_Jacobian[1][0] =  ca * ( p[0] - cx ) - sa * ( p[1] - cy ); 
+
+  // compute derivatives with respect to the center part
+  // first with respect to cx
+  m_Jacobian[0][1] = 1.0 - ca;
+  m_Jacobian[1][1] =     - sa;  
+  // then with respect to cy
+  m_Jacobian[0][2] =       sa;
+  m_Jacobian[1][2] = 1.0 - ca;
+
+
+  // compute derivatives with respect to the translation part
+  // first with respect to tx
+  m_Jacobian[0][3] = 1.0;
+  m_Jacobian[1][3] = 0.0;
+  // first with respect to ty
+  m_Jacobian[0][4] = 0.0;
+  m_Jacobian[1][4] = 1.0;
 
   return m_Jacobian;
 
