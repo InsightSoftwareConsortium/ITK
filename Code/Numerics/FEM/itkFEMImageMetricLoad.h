@@ -166,33 +166,33 @@ public:
  
 // FUNCTIONS
 
-  /** Set/Get the Metric. FIXME */
+  /** Set/Get the Metric.  */
   void SetMetric(MetricBaseTypePointer MP) { m_Metric=MP; }; 
   
  /** Define the reference (moving) image. */
   void SetReferenceImage(ReferenceType* R)
   { 
     m_RefImage = R; 
-    // GET DATA SIZE  BUG!! FIXME!! MUST BE BETTER WAY TO GET SIZE
-    RefRegionIteratorType Iter (m_RefImage,m_RefImage->GetLargestPossibleRegion() );
-    Iter.GoToEnd();
-    typename ReferenceType::IndexType Ind = Iter.GetIndex();    
-    for (int i=0; i< ImageDimension; i++) m_RefSize[i]=Ind[i]+1; 
+    m_RefSize=m_RefImage->GetLargestPossibleRegion().GetSize();
   };
 
-  void SetMetricReferenceImage(ReferenceType* R)  { m_Metric->SetMovingImage( R ) ; };
+  void SetMetricReferenceImage(ReferenceType* R)  
+  { 
+    m_Metric->SetMovingImage( R ); 
+    m_RefSize=R->GetLargestPossibleRegion().GetSize(); 
+  };
 
   /** Define the target (fixed) image. */ 
   void SetTargetImage(TargetType* T)
   { 
      m_TarImage=T; 
-     // GET DATA SIZE  BUG!! FIXME!! MUST BE BETTER WAY TO GET SIZE
-     TarRegionIteratorType Iter (m_TarImage,m_TarImage->GetLargestPossibleRegion() );
-     Iter.GoToEnd();
-     typename ReferenceType::IndexType Ind = Iter.GetIndex();   
-     for (int i=0; i< ImageDimension; i++) m_TarSize[i]=Ind[i]+1; 
+     m_TarSize=T->GetLargestPossibleRegion().GetSize(); 
   };
-  void SetMetricTargetImage(TargetType* R)  { m_Metric->SetFixedImage( R ) ; };
+  void SetMetricTargetImage(TargetType* T)  
+  { 
+    m_Metric->SetFixedImage( T ) ; 
+    m_TarSize=T->GetLargestPossibleRegion().GetSize(); 
+  };
 
 
   ReferencePointer GetReferenceImage() { return m_RefImage; };
