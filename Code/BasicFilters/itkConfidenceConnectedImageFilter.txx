@@ -60,6 +60,9 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>
   os << indent << "ReplaceValue: "
      << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
      << std::endl;
+  os << indent << "InitialNeighborhoodRadius: " << m_InitialNeighborhoodRadius 
+     << std::endl;
+     
 }
 
 template <class TInputImage, class TOutputImage>

@@ -44,6 +44,7 @@ MeanImageFunction<TInputImage,TCoordRep>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
+  os << indent << "NeighborhoodRadius: "  << m_NeighborhoodRadius << std::endl;
 }
 
 
