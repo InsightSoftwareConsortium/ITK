@@ -441,7 +441,7 @@ int main( int argc, char *argv[] )
   //  the range of influence of the image edges. This filter has been discussed
   //  in section~\ref{sec:GradientMagnitudeRecursiveGaussianImageFilter}
   //
-  //  \index{itk::GradientMagnitudeRecursiveGaussianImageFilter!SetSigma()}
+  //  \index{itk::Gradient\-Magnitude\-Recursive\-Gaussian\-Image\-Filter!SetSigma()}
   //
   //  Software Guide : EndLatex 
 
@@ -664,10 +664,10 @@ int main( int argc, char *argv[] )
   //  However, the curvature scaling parameter should not be set too large, 
   //  as it will draw the contour away from the shape boundaries.
   //
-  //  \index{itk::ShapeDetectionLevelSetImageFilter!SetPropagationScaling()}
-  //  \index{itk::SegmentationLevelSetImageFilter!SetPropagationScaling()}
-  //  \index{itk::ShapeDetectionLevelSetImageFilter!SetCurvatureScaling()}
-  //  \index{itk::SegmentationLevelSetImageFilter!SetCurvatureScaling()}
+  //  \index{itk::Shape\-Detection\-LevelSet\-Image\-Filter!SetPropagationScaling()}
+  //  \index{itk::Segmentation\-Level\-Set\-Image\-Filter!SetPropagationScaling()}
+  //  \index{itk::Shape\-Detection\-Level\-Set\-Image\-Filter!SetCurvatureScaling()}
+  //  \index{itk::Segmentation\-Level\-Set\-Image\-Filter!SetCurvatureScaling()}
   //
   //  Software Guide : EndLatex 
 
@@ -694,10 +694,10 @@ int main( int argc, char *argv[] )
   //  to stop the algorithm before the zero set leaks through the regions of
   //  low gradient in the contour of the anatomical structure to be segmented.
   //
-  //  \index{itk::ShapeDetectionLevelSetImageFilter!SetMaximumRMSError()}
-  //  \index{itk::ShapeDetectionLevelSetImageFilter!SetMaximumIterations()}
-  //  \index{itk::SegmentationLevelSetImageFilter!SetMaximumRMSError()}
-  //  \index{itk::SegmentationLevelSetImageFilter!SetMaximumIterations()}
+  //  \index{itk::Shape\-Detection\-Level\-Set\-Image\-Filter!SetMaximumRMSError()}
+  //  \index{itk::Shape\-Detection\-Level\-Set\-Image\-Filter!SetMaximumIterations()}
+  //  \index{itk::Segmentation\-Level\-Set\-Image\-Filter!SetMaximumRMSError()}
+  //  \index{itk::Segmentation\-Level\-Set\-Image\-Filter!SetMaximumIterations()}
   //
   //  Software Guide : EndLatex 
 
