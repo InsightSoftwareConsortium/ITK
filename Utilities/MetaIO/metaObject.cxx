@@ -1177,7 +1177,8 @@ M_SetupWriteFields(void)
     }
 
   bool valSet = false;
-  for(unsigned int i=0; i<4; i++)
+  int i = 0;
+  for(i=0; i<4; i++)
     {
     if(m_Color[i] != 1)
       {
@@ -1228,7 +1229,7 @@ M_SetupWriteFields(void)
   
   
   valSet = false;
-  for(int i=0; i<m_NDims*m_NDims; i++)
+  for(i=0; i<m_NDims*m_NDims; i++)
     {
     if(m_TransformMatrix[i] != 0)
       {
