@@ -71,7 +71,7 @@ Rigid3DPerspectiveTransform<TScalarType>
   m_FocalDistance = other.m_FocalDistance;
   m_Width         = other.m_Width;
   m_Height        = other.m_Height;
-  m_DirectMatrix    = m_Versor.rotation_matrix();
+  m_DirectMatrix    = m_Versor.GetMatrix();
 }
 
 // Destructor
@@ -93,7 +93,7 @@ Rigid3DPerspectiveTransform<TScalarType>
   m_FocalDistance = other.m_FocalDistance;
   m_Width         = other.m_Width;
   m_Height        = other.m_Height;
-  m_DirectMatrix    = m_Versor.rotation_matrix();
+  m_DirectMatrix    = m_Versor.GetMatrix();
   return *this;
 }
 
@@ -161,7 +161,7 @@ Rigid3DPerspectiveTransform<TScalarType>::
 SetRotation(const VnlQuaternionType &rotation )
 {
   m_Versor      = rotation;
-  m_DirectMatrix  = m_Versor.rotation_matrix();
+  m_DirectMatrix  = m_Versor.GetMatrix();
   return;
 }
 
