@@ -154,9 +154,9 @@ public:
     unsigned valueindex = 0;
 
     double arg = 0;
-    for( int x = 0; x<m_RangeDimension; x++ ) 
+    for( unsigned int x = 0; x<m_RangeDimension; x++ ) 
       {
-      const double xd = (double)x;
+      const double xd = static_cast<double>( x );
       
       arg = ((xd-c)/(d*SQUARE_ROOT_OF_TWO));
       m_Measure[valueindex]  = (a+.5*(b-a)*(1 + erf(arg)));
@@ -179,7 +179,7 @@ public:
     unsigned valueindex = 0;
   
     double arg = 0;
-    for( int x = 0; x<m_RangeDimension; x++ ) 
+    for( unsigned int x = 0; x<m_RangeDimension; x++ ) 
     {
       arg     = ((x-c)/(d*SQUARE_ROOT_OF_TWO));
 
@@ -204,7 +204,7 @@ public:
 
   void SetTheoreticalData(double * setTheoreticalData)
   {
-    for( int x = 0; x<m_RangeDimension; x++ )
+    for( unsigned int x = 0; x<m_RangeDimension; x++ )
       {
       m_TheoreticalData[x] = setTheoreticalData[x];
       }
@@ -340,12 +340,12 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
       // Create a seed position for the spatial function iterator we'll use shortly
       typename TSourceImage::IndexType seedIndex;
 
-      typename TSourceImage::IndexValueType position[NDimensions] = {NULL};
+      typedef typename TSourceImage::IndexValueType IndexValueType;
 
       for(unsigned int i=0; i< NDimensions; i++)
-        position[i] = spatialFunctionOrigin[i];
-
-      seedIndex.SetIndex(position);
+        {
+        seedIndex[i] = static_cast<IndexValueType>( spatialFunctionOrigin[i] );
+        }
 
       // Create and initialize a spatial function iterator
       typedef FloodFilledSpatialFunctionConditionalIterator<TSourceImage, FunctionType> IteratorType;
