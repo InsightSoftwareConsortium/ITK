@@ -27,7 +27,6 @@
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"
 
 #include "vnl/vnl_matrix.h"
-//#include "vnl_vector.h"
 
 namespace itk
 {
@@ -272,6 +271,8 @@ BloxCoreAtomImage<dim>
   std::cerr << "Index\t# Core Atoms\tEigen Values\t\t\tMean CA Length\tVoted Eigen Values\n" 
             << "-----\t------------\t------------\t\t\t--------------\t------------------\n" << std::endl;
 
+  int counter = 0;
+
   for(bloxIt.GoToBegin(); !bloxIt.IsAtEnd(); ++bloxIt)
     {
     // Get a pointer to the pixel
@@ -280,7 +281,6 @@ BloxCoreAtomImage<dim>
     eigenvalues = pPixel.GetEigenvalues();
     veigenvalues = pPixel.GetVotedEigenvalues();
 
-
     if(!pPixel.empty())
       {
       std::cerr << bloxIt.GetIndex() << "\t";
@@ -288,8 +288,11 @@ BloxCoreAtomImage<dim>
       std::cerr << eigenvalues[0] << " " << eigenvalues[1] << " " << eigenvalues[2] << "\t";
       std::cerr << pPixel.GetMeanCoreAtomDiameter() << "\t\t";
       std::cerr << veigenvalues[0] << " " << veigenvalues[1] << " " << veigenvalues[2] << "\t" << std::endl;
+      std::cerr << std::endl << "Node Pointer List: " << (*m_NodePointerList)[counter]->GetVotedLocation() << std::endl;
+      counter++;
       }
-    }
+    }  
+  std::cerr << "Number of Medial Nodes: " << m_MedialNodeCount << std::endl;
   std::cerr << "Print Self Done" << std::endl;
 }
 
