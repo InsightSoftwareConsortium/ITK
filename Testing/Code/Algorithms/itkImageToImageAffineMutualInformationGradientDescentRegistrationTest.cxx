@@ -147,22 +147,9 @@ int main()
   registrationMethod->SetTargetTransformationCenter( transCenter );
   registrationMethod->SetReferenceTransformationCenter( transCenter );
 
-  //
-  // only allow translation - since the metric will allow any
-  // rotation without penalty as image is circular
-  //
-  RegistrationType::ParametersType weights;
-
-  for( unsigned int j = 0; j < 4; j++ )
-    {
-    weights[j] = 0.0;
-    }
-  for( unsigned int j=4; j < 6; j++ )
-    {
-    weights[j] = 1.0;
-    }
-  registrationMethod->SetScalingWeights( weights );
-
+  // set translation scale
+  const double transScale = 100;
+  registrationMethod->SetTranslationScale( transScale );
 
   // set metric related parameters
   registrationMethod->GetMetric()->SetTargetStandardDeviation( 5.0 );
@@ -172,16 +159,17 @@ int main()
   // do the registration
   // reduce learning rate as we go
   registrationMethod->SetNumberOfIterations( 500 );
-  registrationMethod->SetLearningRate( 0.1 );
+  registrationMethod->SetLearningRate( 1e-5 );
   registrationMethod->StartRegistration();
 
   registrationMethod->SetNumberOfIterations( 250 );
-  registrationMethod->SetLearningRate( 0.001 );
+  registrationMethod->SetLearningRate( 1e-7 );
   registrationMethod->StartRegistration();
 
   registrationMethod->SetNumberOfIterations( 125 );
-  registrationMethod->SetLearningRate( 0.0001 );
+  registrationMethod->SetLearningRate( 1e-8 );
   registrationMethod->StartRegistration();
+
 
   // get the results
   RegistrationType::ParametersType solution = 
@@ -210,7 +198,7 @@ int main()
     }
   for( unsigned int j = 4; j < 6; j++ )
     {
-    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 1.0 )
+    if( vnl_math_abs( solution[j] * transScale - trueParameters[j] ) > 1.0 )
       {
       std::cout << j << " ";
       std::cout << solution[j] << " ";

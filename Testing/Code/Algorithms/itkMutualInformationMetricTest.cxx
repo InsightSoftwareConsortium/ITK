@@ -173,8 +173,8 @@ int main()
   metric->SetTarget( imgTarget );
 
   // set the standard deviations
-  metric->SetTargetStandardDeviation( 20.0 );
-  metric->SetReferenceStandardDeviation( 20.0 );
+  metric->SetTargetStandardDeviation( 5.0 );
+  metric->SetReferenceStandardDeviation( 5.0 );
 
   // set the number of samples to use
   metric->SetNumberOfSpatialSamples( 100 );
