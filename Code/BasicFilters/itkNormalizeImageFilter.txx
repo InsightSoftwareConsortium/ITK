@@ -25,34 +25,59 @@
 
 namespace itk
 {
+
+template <class TInputImage, class TOutputImage>
+NormalizeImageFilter<TInputImage, TOutputImage>
+::NormalizeImageFilter()
+{
+  m_StatisticsFilter = 0;
+  m_ShiftScaleFilter = ShiftScaleImageFilter<TInputImage,TOutputImage>::New();
+  m_ProgressDone = false;
+}
+
+template <class TInputImage, class TOutputImage>
+void
+NormalizeImageFilter<TInputImage, TOutputImage>
+::GenerateInputRequestedRegion()
+{
+  Superclass::GenerateInputRequestedRegion();
+  if ( this->GetInput() )
+    {
+    this->GetInput()->SetRequestedRegionToLargestPossibleRegion();
+    }
+}
+
 template <class TInputImage, class TOutputImage>
 void 
 NormalizeImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
-  // Set up a mini pipeline
-  StatisticsImageFilter<TInputImage>::Pointer statisticsFilter =
-        StatisticsImageFilter<TInputImage>::New();
-  ShiftScaleImageFilter<TInputImage,TOutputImage>::Pointer shiftScaleFilter =
-        ShiftScaleImageFilter<TInputImage,TOutputImage>::New();
-  
-  // Progress is a bit complicated for mini pipelines
-  this->SetupProgressMethods(statisticsFilter, shiftScaleFilter);
+  // See if we need to compute statistics
+  if (!m_ProgressDone ||
+      this->GetInput()->GetPipelineMTime() > m_ShiftScaleFilter->GetMTime())
+    {
+    // Gather statistics
+    m_StatisticsFilter = StatisticsImageFilter<TInputImage>::New();
 
-  // Gather statistics
-  statisticsFilter->SetInput(this->GetInput());
-  statisticsFilter->Update();
+    // Progress is a bit complicated for mini pipelines
+    this->SetupProgressMethods(m_StatisticsFilter, m_ShiftScaleFilter);
 
-  // Shift the image
-  shiftScaleFilter->SetInput(statisticsFilter->GetOutput());
-  shiftScaleFilter->SetShift(-statisticsFilter->GetMean());
-  shiftScaleFilter->SetScale(
-             NumericTraits<StatisticsImageFilter<TInputImage>::RealType>::One
-             / statisticsFilter->GetSigma());
-  shiftScaleFilter->Update();
+    m_StatisticsFilter->SetInput(this->GetInput());
+    m_StatisticsFilter->GetOutput()->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
+    m_StatisticsFilter->Update();
+
+    // Set the parameters for Shift
+    m_ShiftScaleFilter->SetShift(-m_StatisticsFilter->GetMean());
+    m_ShiftScaleFilter->SetScale(NumericTraits<StatisticsImageFilter<TInputImage>::RealType>::One
+                                 / m_StatisticsFilter->GetSigma());
+    m_ShiftScaleFilter->SetInput(this->GetInput());
+    }
+
+  m_ShiftScaleFilter->GetOutput()->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
+  m_ShiftScaleFilter->Update();
 
   // Graft the mini pipeline output to this filters output
-  this->GraftOutput(shiftScaleFilter->GetOutput());
+  this->GraftOutput(m_ShiftScaleFilter->GetOutput());
 }
 
 // The following methods create callbacks for the progress method of each
@@ -87,14 +112,16 @@ NormalizeImageFilter<TInputImage, TOutputImage>
   CStyleCommand::Pointer statisticsProgress = CStyleCommand::New();
   statisticsProgress->SetCallback(&Self::StatisticsCallBack);
   statisticsProgress->SetClientData(static_cast<void *>(this));
-
-  CStyleCommand::Pointer shiftScaleProgress = CStyleCommand::New();
-  shiftScaleProgress->SetCallback(&Self::ShiftScaleCallBack);
-  shiftScaleProgress->SetClientData(static_cast<void *>(this));
-
-  // Create progress callbacks for both filters
   statistics->AddObserver (itk::ProgressEvent(), statisticsProgress);
-  shiftScale->AddObserver (itk::ProgressEvent(), shiftScaleProgress);
+
+  if (!m_ProgressDone)
+    {
+    CStyleCommand::Pointer shiftScaleProgress = CStyleCommand::New();
+    shiftScaleProgress->SetCallback(&Self::ShiftScaleCallBack);
+    shiftScaleProgress->SetClientData(static_cast<void *>(this));
+    shiftScale->AddObserver (itk::ProgressEvent(), shiftScaleProgress);
+    m_ProgressDone = true;
+    }
 }
 
 } // end namespace itk

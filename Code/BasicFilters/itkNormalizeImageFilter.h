@@ -18,6 +18,9 @@
 #define __itkNormalizeImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkStatisticsImageFilter.h"
+#include "itkShiftScaleImageFilter.h"
+
 #include "itkEventObject.h"
 
 namespace itk {
@@ -27,7 +30,7 @@ namespace itk {
  *
  * NormalizeImageFilter shifts and scales an image so that the pixels
  * in the image have a zero mean and unit variance. This filter uses
- * StatisticsImageFIlter to compute the mean and variance of the input
+ * StatisticsImageFilter to compute the mean and variance of the input
  * and then applies ShiftScaleImageFilter to shift and scale the pixels.
  *
  * NB: since this filter normalizes the data to lie within -1 to 1,
@@ -56,14 +59,21 @@ public:
   typedef typename TOutputImage::Pointer OutputImagePointer;
 
 protected:
-  NormalizeImageFilter(){}
-  
+  NormalizeImageFilter();
+
   /** GenerateData. */
   void  GenerateData ();
+
+  // Override since the filter needs all the data for the algorithm
+  void GenerateInputRequestedRegion();
 
  private:
   NormalizeImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  StatisticsImageFilter<TInputImage>::Pointer m_StatisticsFilter;
+  ShiftScaleImageFilter<TInputImage,TOutputImage>::Pointer m_ShiftScaleFilter;
+  bool m_ProgressDone;
 
   void SetupProgressMethods(ProcessObject *statistic, ProcessObject *shiftScale);
   static void StatisticsCallBack (Object *o, const EventObject &e, void *self);
