@@ -90,7 +90,6 @@ int itkDeformationFieldInverseImageFilterTest( int argc, char * argv[] )
     DeformationFieldType::IndexType index = it.GetIndex();
     pixelValue[0] = index[0] * 2.0;
     pixelValue[1] = index[1] * 2.0;
-    pixelValue[2] = index[2] * 2.0;
     it.Set( pixelValue );
     ++it;
     }
