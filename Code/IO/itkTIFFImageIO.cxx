@@ -187,6 +187,7 @@ int TIFFReaderInternal::Initialize()
       this->TileDepth = 0;
       }
     }
+
   return 1;
 }
 
@@ -661,14 +662,15 @@ void TIFFImageIO::Read(void* buffer)
       }
 
 
-  if(m_InternalImage->NumberOfPages>0)
+  // The IO region should be of dimensions 3 otherwise we read only the first page
+  if(m_InternalImage->NumberOfPages>0 && this->GetIORegion().GetImageDimension()>2)
     {
     this->ReadVolume(buffer);
     return;
     }
 
   
-  if(m_InternalImage->NumberOfTiles>0)
+  if(m_InternalImage->NumberOfTiles>0 && this->GetIORegion().GetImageDimension()>2)
     {
     this->ReadTiles(buffer);
     return;
