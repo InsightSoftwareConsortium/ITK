@@ -268,10 +268,15 @@ PointSet<TPixelType, VDimension, TMeshTraits>
  * Get the bounding box of the entire mesh.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-PointSet<TPixelType, VDimension, TMeshTraits>::BoundingBoxPointer 
+const PointSet<TPixelType, VDimension, TMeshTraits>::BoundingBoxType * 
 PointSet<TPixelType, VDimension, TMeshTraits>
-::GetBoundingBox(void)
+::GetBoundingBox(void) const
 {
+  m_BoundingBox->SetPoints( this->GetPoints() );
+  if( m_BoundingBox->GetMTime() > this->GetMTime() )
+    {
+    m_BoundingBox->ComputeBoundingBox();
+    }
   return m_BoundingBox;
 }
 

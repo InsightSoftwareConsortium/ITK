@@ -173,7 +173,7 @@ public:
   
   /** Get the bounding box of the mesh. The methods return a pointer to
    * the user-supplied bounding box as a convenience. */
-  BoundingBoxPointer GetBoundingBox();
+  const BoundingBoxType * GetBoundingBox(void) const;
 
   /** Geometric operations convert between coordinate systems, perform 
    * interpolation, and locate points and cells. */
