@@ -29,7 +29,7 @@ ADD_TEST(itkAutomaticTopologyMeshSourceTest ${ALGORITHMS_TESTS} itkAutomaticTopo
 ADD_TEST(itkBinaryMinMaxCurvatureFlowImageFilterTest ${ALGORITHMS_TESTS} itkBinaryMinMaxCurvatureFlowImageFilterTest )
 ADD_TEST(itkBinaryMask3DMeshSourceTest ${ALGORITHMS_TESTS} itkBinaryMask3DMeshSourceTest )
 ADD_TEST(itkBioCellTest ${ALGORITHMS_TESTS} itkBioCellTest )
-ADD_TEST(itkBioCellullarAggregateTest ${ALGORITHMS_TESTS} itkBioCellullarAggregateTest )
+ADD_TEST(itkBioCellularAggregateTest ${ALGORITHMS_TESTS} itkBioCellularAggregateTest )
 ADD_TEST(itkBioGeneTest ${ALGORITHMS_TESTS} itkBioGeneTest )
 ADD_TEST(itkBioGenomeTest ${ALGORITHMS_TESTS} itkBioGenomeTest )
 ADD_TEST(itkBioGeneNetworkTest ${ALGORITHMS_TESTS} itkBioGeneNetworkTest )
