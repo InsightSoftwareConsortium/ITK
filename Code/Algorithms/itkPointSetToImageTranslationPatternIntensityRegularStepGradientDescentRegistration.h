@@ -48,7 +48,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImage.h"
 #include "itkImageMapper.h"
 #include "itkTranslationRegistrationTransform.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkPointSet.h"
 
 namespace itk
