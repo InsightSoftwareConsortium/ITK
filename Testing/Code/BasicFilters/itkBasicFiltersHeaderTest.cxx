@@ -131,6 +131,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkReflectImageFilter.txx"
 #include "itkReflectiveImageRegionConstIterator.txx"
 #include "itkReflectiveImageRegionIterator.txx"
+#include "itkRegionOfInterestImageFilter.txx"
 #include "itkResampleImageFilter.txx"
 #include "itkRescaleIntensityImageFilter.txx"
 #include "itkScalarAnisotropicDiffusionFunction.txx"
