@@ -49,7 +49,7 @@ LineSpatialObject< TDimension, PipelineDimension >
  
 /** Returns a reference to the list of the Line points.*/ 
 template< unsigned int TDimension , unsigned int PipelineDimension >
-LineSpatialObject< TDimension, PipelineDimension > ::PointListType &  
+typename LineSpatialObject< TDimension, PipelineDimension > ::PointListType &  
 LineSpatialObject< TDimension, PipelineDimension > 
 ::GetPoints()
 { 
@@ -67,7 +67,7 @@ LineSpatialObject< TDimension, PipelineDimension >
   // just clear the list...
   m_Points.clear();
        
-  PointListType::iterator it,end;
+  typename PointListType::iterator it,end;
   it = points.begin();    
   end = points.end();
   for(; it != end; it++ )
@@ -101,8 +101,8 @@ LineSpatialObject< TDimension, PipelineDimension >
   {
     PointType pointLow, pointHigh; 
     PointType tempPointLow, tempPointHigh;
-    PointListType::iterator it  = m_Points.begin();
-    PointListType::iterator end = m_Points.end();
+    typename PointListType::iterator it  = m_Points.begin();
+    typename PointListType::iterator end = m_Points.end();
     PointContainerPointer points = PointContainerType::New();
     points->Initialize();
 
@@ -125,7 +125,7 @@ LineSpatialObject< TDimension, PipelineDimension >
 ::IsInside( const PointType & point )  
 {
   itkDebugMacro( "Checking the point [" << point << "is on the Line" );
-  PointListType::iterator it = m_Points.begin();
+  typename PointListType::iterator it = m_Points.begin();
   
   PointType transformedPoint = point;
   TransformPointToLocalCoordinate(transformedPoint);

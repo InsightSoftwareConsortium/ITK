@@ -180,7 +180,7 @@ void EquivalenceRelabeler<TScalarType, TImageDimension>
 }
 
 template <class TScalarType, unsigned int TImageDimension>
-EquivalenceRelabeler<TScalarType, TImageDimension>::DataObjectPointer
+typename EquivalenceRelabeler<TScalarType, TImageDimension>::DataObjectPointer
 EquivalenceRelabeler<TScalarType, TImageDimension>
 ::MakeOutput(unsigned int idx)
 {

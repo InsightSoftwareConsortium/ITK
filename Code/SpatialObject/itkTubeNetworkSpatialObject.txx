@@ -46,8 +46,8 @@ void
 TubeNetworkSpatialObject< TDimension , PipelineDimension >  
 ::CalcTangent( void )  
 { 
-  ChildrenListType::iterator it = m_Children.begin(); 
-  ChildrenListType::iterator end = m_Children.end();
+  typename ChildrenListType::iterator it = m_Children.begin(); 
+  typename ChildrenListType::iterator end = m_Children.end();
   
   TubeSpatialObject<TDimension> * tubePointer;
   TubeNetworkSpatialObject<TDimension> * tubeNetPointer; 
@@ -74,13 +74,13 @@ TubeNetworkSpatialObject< TDimension , PipelineDimension >
  *  maximumDepth = 1 returns tubes children.
  *  currentDepth variable doesn't have to be changed/provided. */
 template< unsigned int TDimension, unsigned int PipelineDimension >
-TubeNetworkSpatialObject< TDimension , PipelineDimension > ::TubeListType *
+typename TubeNetworkSpatialObject< TDimension , PipelineDimension > ::TubeListType *
 TubeNetworkSpatialObject< TDimension , PipelineDimension > 
 ::GetTubes( unsigned int maximumDepth , unsigned int currentDepth ) const
 {
   TubeListType * tubes = new TubeListType;
 
-  ChildrenListType::const_iterator childrenListIt = m_Children.begin();
+  typename ChildrenListType::const_iterator childrenListIt = m_Children.begin();
   while(childrenListIt != m_Children.end())
   {    
     // Check if the child is really a tube or a tube network

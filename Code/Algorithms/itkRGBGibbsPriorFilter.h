@@ -64,6 +64,14 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(RGBGibbsPriorFilter,MRFImageFilter);
 
+  /** Types from superclass.  */
+  typedef typename Superclass::InputImagePixelType InputImagePixelType;
+  typedef typename Superclass::InputImageRegionConstIterator InputImageRegionConstIterator;
+  typedef typename Superclass::InputImageRegionIterator InputImageRegionIterator;
+  typedef typename Superclass::LabelledImageRegionIterator LabelledImageRegionIterator;
+  typedef typename Superclass::LabelledImagePixelType LabelledImagePixelType;
+  typedef typename Superclass::IndexValueType IndexValueType;
+  
   /** A smart pointer to the input image type. */
   typedef TInputImage                                InputImageType;  
   typedef typename TInputImage::Pointer              InputImagePointer;  

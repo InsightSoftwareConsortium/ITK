@@ -219,7 +219,7 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
       InputMeshCellLinksContainerPointer cellLinks;
       cellLinks = input->GetCellLinks();
       InputMeshCellLinksContainer links;
-      std::set<InputMeshCellIdentifier>::iterator citer;
+      typename std::set<InputMeshCellIdentifier>::iterator citer;
       
       for (std::vector<unsigned long>::iterator i = m_SeedList.begin();
            i != m_SeedList.end(); ++i)
@@ -264,7 +264,7 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
       InputMeshCellLinksContainerPointer cellLinks;
       cellLinks = input->GetCellLinks();
       InputMeshCellLinksContainer links;
-      std::set<InputMeshCellIdentifier>::iterator citer;
+      typename std::set<InputMeshCellIdentifier>::iterator citer;
       
       links = cellLinks->ElementAt(minId);
       for (citer = links.begin(); citer != links.end();
@@ -390,7 +390,7 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
 
   std::vector<unsigned long>::iterator i;
   std::vector<unsigned long> *tmpWave;
-  std::set<InputMeshCellIdentifier>::iterator citer;
+  typename std::set<InputMeshCellIdentifier>::iterator citer;
 
   while ( m_Wave->size() > 0 )
     {

@@ -73,6 +73,9 @@ public:
   /** Convenient typedefs. */
   typedef typename Superclass::BinaryObjectImage BinaryObjectImage;
   typedef typename Superclass::IndexList IndexList;
+  typedef typename Superclass::IndexType IndexType;
+  typedef typename Superclass::RegionType RegionType;
+  typedef typename Superclass::InputImageType InputImageType;
 
   /** Set/Get the Estimation of the mean pixel value for the object. */
   itkSetMacro(Mean, double);

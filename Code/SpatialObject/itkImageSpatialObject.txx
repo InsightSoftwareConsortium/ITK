@@ -106,10 +106,10 @@ ImageSpatialObject< NDimensions, TransformType, PixelType, PipelineDimension >
 {
   if( this->GetMTime() > m_BoundsMTime )
   { 
-    ImageType::RegionType region = m_Image->GetLargestPossibleRegion();
+    typename ImageType::RegionType region = m_Image->GetLargestPossibleRegion();
     itk::Size<NDimensions> size = region.GetSize();
     PointType pointLow,pointHigh;
-    VectorContainerType::Pointer points = VectorContainerType::New();
+    typename VectorContainerType::Pointer points = VectorContainerType::New();
     points->Initialize(); 
 
     for( unsigned int i=0; i<NDimensions; i++ )
@@ -140,7 +140,7 @@ ImageSpatialObject< NDimensions, TransformType, PixelType, PipelineDimension >
 
 /** Get the image inside the spatial object */
 template< unsigned int NDimensions, class TransformType, class PixelType, unsigned int PipelineDimension >
-ImageSpatialObject< NDimensions, TransformType, PixelType, PipelineDimension >::ImageType *
+typename ImageSpatialObject< NDimensions, TransformType, PixelType, PipelineDimension >::ImageType *
 ImageSpatialObject< NDimensions, TransformType, PixelType, PipelineDimension >
 ::GetImage( void )
 {

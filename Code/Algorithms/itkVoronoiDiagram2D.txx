@@ -100,7 +100,7 @@ GetCellId(CellIdentifier cellId, CellAutoPointer & cellPtr )
 }
 
 template <typename TCoordRepType>
-VoronoiDiagram2D<TCoordRepType>::EdgeInfo 
+typename VoronoiDiagram2D<TCoordRepType>::EdgeInfo 
 VoronoiDiagram2D<TCoordRepType>::
 GetSeedsIDAroundEdge(VoronoiEdge *task)
 {
@@ -112,7 +112,7 @@ GetSeedsIDAroundEdge(VoronoiEdge *task)
 
 
 template <typename TCoordRepType>
-VoronoiDiagram2D<TCoordRepType>::VoronoiEdgeIterator 
+typename VoronoiDiagram2D<TCoordRepType>::VoronoiEdgeIterator 
 VoronoiDiagram2D<TCoordRepType>::
 EdgeBegin(void)
 {
@@ -120,7 +120,7 @@ EdgeBegin(void)
 }
 
 template <typename TCoordRepType>
-VoronoiDiagram2D<TCoordRepType>::VoronoiEdgeIterator 
+typename VoronoiDiagram2D<TCoordRepType>::VoronoiEdgeIterator 
 VoronoiDiagram2D<TCoordRepType>::
 EdgeEnd(void)
 {
@@ -128,7 +128,7 @@ EdgeEnd(void)
 }
 
 template <typename TCoordRepType>
-VoronoiDiagram2D<TCoordRepType>::NeighborIdIterator 
+typename VoronoiDiagram2D<TCoordRepType>::NeighborIdIterator 
 VoronoiDiagram2D<TCoordRepType>::
 NeighborIdsBegin(int seeds)
 {
@@ -136,7 +136,7 @@ NeighborIdsBegin(int seeds)
 }
 
 template <typename TCoordRepType>
-VoronoiDiagram2D<TCoordRepType>::NeighborIdIterator 
+typename VoronoiDiagram2D<TCoordRepType>::NeighborIdIterator 
 VoronoiDiagram2D<TCoordRepType>::
 NeighborIdsEnd(int seeds)
 {
@@ -144,7 +144,7 @@ NeighborIdsEnd(int seeds)
 }
 
 template <typename TCoordRepType>
-VoronoiDiagram2D<TCoordRepType>::VertexIterator 
+typename VoronoiDiagram2D<TCoordRepType>::VertexIterator 
 VoronoiDiagram2D<TCoordRepType>::
 VertexBegin(void)
 {
@@ -152,7 +152,7 @@ VertexBegin(void)
 }
 
 template <typename TCoordRepType>
-VoronoiDiagram2D<TCoordRepType>::VertexIterator 
+typename VoronoiDiagram2D<TCoordRepType>::VertexIterator 
 VoronoiDiagram2D<TCoordRepType>::
 VertexEnd(void)
 {
@@ -160,7 +160,7 @@ VertexEnd(void)
 }
 
 template <typename TCoordRepType>
-VoronoiDiagram2D<TCoordRepType>::PointType 
+typename VoronoiDiagram2D<TCoordRepType>::PointType 
 VoronoiDiagram2D<TCoordRepType>::
 GetSeed(int SeedID)
 {

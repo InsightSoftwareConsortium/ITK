@@ -70,7 +70,7 @@ SurfaceSpatialObjectPoint< TPointDimension >
 
 /** Get the normal at one point */
 template< unsigned int TPointDimension >
-SurfaceSpatialObjectPoint< TPointDimension >::VectorPointer
+typename SurfaceSpatialObjectPoint< TPointDimension >::VectorPointer
 SurfaceSpatialObjectPoint< TPointDimension >
 ::GetNormal() 
 {
@@ -91,7 +91,7 @@ SurfaceSpatialObjectPoint< TPointDimension >
 
 /** Copy a surface point to another */
 template< unsigned int TPointDimension >
-SurfaceSpatialObjectPoint< TPointDimension >::Self & 
+typename SurfaceSpatialObjectPoint< TPointDimension >::Self & 
 SurfaceSpatialObjectPoint< TPointDimension >
 ::operator=(const SurfaceSpatialObjectPoint & rhs) 
 {

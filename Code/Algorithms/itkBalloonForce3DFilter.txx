@@ -140,7 +140,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
     ++displacements;
   }
 
-  TriCell::CellAutoPointer insertCell;
+  typename TriCell::CellAutoPointer insertCell;
   unsigned long tripoints[3];
   const unsigned long *tp;
   double x;
@@ -735,7 +735,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
 ::ComputeOutput() 
 { 
   int i;
-  TriCell::CellAutoPointer insertCell;
+  typename TriCell::CellAutoPointer insertCell;
   unsigned long tripoints[3];
   const unsigned long *tp;
   double x;

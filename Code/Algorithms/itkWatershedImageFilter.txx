@@ -100,7 +100,7 @@ WatershedImageFilter<TInputImage>
 ::GenerateData()
 {
   // Allocate the output image.
-  OutputImageType::Pointer output = this->GetOutput();
+  typename OutputImageType::Pointer output = this->GetOutput();
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
 

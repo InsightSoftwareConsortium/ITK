@@ -95,7 +95,7 @@ Scene<PipelineDimension>
 
 /** Return the children list */
 template <unsigned int PipelineDimension>
-Scene<PipelineDimension>::ObjectListType &
+typename Scene<PipelineDimension>::ObjectListType &
 Scene<PipelineDimension>
 ::GetObjects( void )
 {

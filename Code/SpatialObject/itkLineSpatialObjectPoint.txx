@@ -40,7 +40,7 @@ LineSpatialObjectPoint< TPointDimension >
 
 /** Get the specified normal */
 template< unsigned int TPointDimension >
-const LineSpatialObjectPoint< TPointDimension >::VectorType &
+const typename LineSpatialObjectPoint< TPointDimension >::VectorType &
 LineSpatialObjectPoint< TPointDimension >
 ::GetNormal(unsigned int index) const
 {
@@ -72,7 +72,7 @@ LineSpatialObjectPoint< TPointDimension >
 
 /** Copy a point to another */
 template< unsigned int TPointDimension >
-LineSpatialObjectPoint< TPointDimension >::Self & 
+typename LineSpatialObjectPoint< TPointDimension >::Self & 
 LineSpatialObjectPoint< TPointDimension >
 ::operator=(const LineSpatialObjectPoint & rhs) 
 {

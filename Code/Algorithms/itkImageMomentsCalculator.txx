@@ -191,7 +191,7 @@ ComputeMoments( ImageType * image )
 //---------------------------------------------------------------------
 // Get sum of intensities
 template<class TImage>
-ImageMomentsCalculator<TImage>::ScalarType
+typename ImageMomentsCalculator<TImage>::ScalarType
 ImageMomentsCalculator<TImage>::
 GetTotalMass()
 {
@@ -202,7 +202,7 @@ GetTotalMass()
 //--------------------------------------------------------------------
 // Get first moments about origin, in index coordinates
 template<class TImage>
-ImageMomentsCalculator<TImage>::VectorType
+typename ImageMomentsCalculator<TImage>::VectorType
 ImageMomentsCalculator<TImage>::
 GetFirstMoments()
 {
@@ -213,7 +213,7 @@ GetFirstMoments()
 //--------------------------------------------------------------------
 // Get second moments about origin, in index coordinates
 template<class TImage>
-ImageMomentsCalculator<TImage>::MatrixType
+typename ImageMomentsCalculator<TImage>::MatrixType
 ImageMomentsCalculator<TImage>::
 GetSecondMoments()
 {
@@ -224,7 +224,7 @@ GetSecondMoments()
 //--------------------------------------------------------------------
 // Get center of gravity, in physical coordinates
 template<class TImage>
-ImageMomentsCalculator<TImage>::VectorType
+typename ImageMomentsCalculator<TImage>::VectorType
 ImageMomentsCalculator<TImage>::
 GetCenterOfGravity()
 {
@@ -235,7 +235,7 @@ GetCenterOfGravity()
 //--------------------------------------------------------------------
 // Get second central moments, in physical coordinates
 template<class TImage>
-ImageMomentsCalculator<TImage>::MatrixType
+typename ImageMomentsCalculator<TImage>::MatrixType
 ImageMomentsCalculator<TImage>::
 GetCentralMoments()
 {
@@ -246,7 +246,7 @@ GetCentralMoments()
 //--------------------------------------------------------------------
 // Get principal moments, in physical coordinates
 template<class TImage>
-ImageMomentsCalculator<TImage>::VectorType
+typename ImageMomentsCalculator<TImage>::VectorType
 ImageMomentsCalculator<TImage>::
 GetPrincipalMoments()
 {
@@ -259,7 +259,7 @@ GetPrincipalMoments()
 //--------------------------------------------------------------------
 // Get principal axes, in physical coordinates
 template<class TImage>
-ImageMomentsCalculator<TImage>::MatrixType
+typename ImageMomentsCalculator<TImage>::MatrixType
 ImageMomentsCalculator<TImage>::
 GetPrincipalAxes()
 {
@@ -272,12 +272,12 @@ GetPrincipalAxes()
 //--------------------------------------------------------------------
 // Get principal axes to physical axes transform
 template<class TImage>
-ImageMomentsCalculator<TImage>::AffineTransformPointer
+typename ImageMomentsCalculator<TImage>::AffineTransformPointer
 ImageMomentsCalculator<TImage>::
 GetPrincipalAxesToPhysicalAxesTransform(void) const
 {
-    AffineTransformType::MatrixType matrix;
-    AffineTransformType::OffsetType offset;
+    typename AffineTransformType::MatrixType matrix;
+    typename AffineTransformType::OffsetType offset;
     for (unsigned int i = 0; i < ImageDimension; i++) 
     {
       offset[i]  = m_Cg [i];
@@ -300,12 +300,12 @@ GetPrincipalAxesToPhysicalAxesTransform(void) const
 // Get physical axes to principal axes transform
 
 template<class TImage>
-ImageMomentsCalculator<TImage>::AffineTransformPointer
+typename ImageMomentsCalculator<TImage>::AffineTransformPointer
 ImageMomentsCalculator<TImage>::
 GetPhysicalAxesToPrincipalAxesTransform(void) const
 {
-    AffineTransformType::MatrixType matrix;
-    AffineTransformType::OffsetType offset;
+    typename AffineTransformType::MatrixType matrix;
+    typename AffineTransformType::OffsetType offset;
     for (unsigned int i = 0; i < ImageDimension; i++) 
     {
       offset[i]    = m_Cg [i];

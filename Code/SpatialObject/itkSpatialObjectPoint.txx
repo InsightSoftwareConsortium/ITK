@@ -44,7 +44,7 @@ SpatialObjectPoint< TPointDimension >
 
 /** Return the color of the point */
 template< unsigned int TPointDimension >
-const SpatialObjectPoint< TPointDimension >::PixelType &
+const typename SpatialObjectPoint< TPointDimension >::PixelType &
 SpatialObjectPoint< TPointDimension >
 ::GetColor( void ) const
 { 
@@ -134,7 +134,7 @@ SpatialObjectPoint< TPointDimension >
 
 /** Get a reference to the point */
 template< unsigned int TPointDimension >
-SpatialObjectPoint< TPointDimension >::Self & 
+typename SpatialObjectPoint< TPointDimension >::Self & 
 SpatialObjectPoint< TPointDimension >
 ::GetReference( void )
 {
@@ -143,7 +143,7 @@ SpatialObjectPoint< TPointDimension >
 
 /** Get a pointer to the point */
 template< unsigned int TPointDimension >
-SpatialObjectPoint< TPointDimension >::Pointer 
+typename SpatialObjectPoint< TPointDimension >::Pointer 
 SpatialObjectPoint< TPointDimension >
 ::GetPointer( void )
 {
@@ -179,7 +179,7 @@ SpatialObjectPoint< TPointDimension >
 
 /** Return the position of a point */
 template< unsigned int TPointDimension >
-SpatialObjectPoint< TPointDimension >::PointType 
+typename SpatialObjectPoint< TPointDimension >::PointType 
 SpatialObjectPoint< TPointDimension >
 ::GetPosition( void ) const
 {
@@ -219,7 +219,7 @@ SpatialObjectPoint< TPointDimension >
 
 /** Copy a point to another point */
 template< unsigned int TPointDimension >
-SpatialObjectPoint< TPointDimension >::Self & 
+typename SpatialObjectPoint< TPointDimension >::Self & 
 SpatialObjectPoint< TPointDimension >
 ::operator=(const SpatialObjectPoint & rhs) 
 {

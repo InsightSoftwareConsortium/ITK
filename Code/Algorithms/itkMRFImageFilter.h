@@ -135,6 +135,7 @@ public:
   typedef ImageToImageFilter<TInputImage,TClassifiedImage> Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+  typedef typename Superclass::OutputImagePointer OutputImagePointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -143,6 +144,7 @@ public:
   itkTypeMacro(MRFImageFilter,Object);
 
   /** Type definition for the input image. */
+  typedef TInputImage InputImageType;
   typedef typename TInputImage::Pointer              InputImagePointer;
   typedef typename TInputImage::ConstPointer         InputImageConstPointer;  
 

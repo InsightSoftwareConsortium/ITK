@@ -136,7 +136,7 @@ TubeSpatialObjectPoint< TPointDimension >
 
 
 template< unsigned int TPointDimension >
-TubeSpatialObjectPoint< TPointDimension >::VectorPointer 
+typename TubeSpatialObjectPoint< TPointDimension >::VectorPointer 
 TubeSpatialObjectPoint< TPointDimension >
 ::GetTangent( void ) 
 {
@@ -174,7 +174,7 @@ TubeSpatialObjectPoint< TPointDimension >
 }
 
 template< unsigned int TPointDimension >
-TubeSpatialObjectPoint< TPointDimension >::VectorPointer
+typename TubeSpatialObjectPoint< TPointDimension >::VectorPointer
 TubeSpatialObjectPoint< TPointDimension >
 ::GetV1() 
 {
@@ -213,7 +213,7 @@ TubeSpatialObjectPoint< TPointDimension >
 }
 
 template< unsigned int TPointDimension >
-TubeSpatialObjectPoint< TPointDimension >::VectorPointer 
+typename TubeSpatialObjectPoint< TPointDimension >::VectorPointer 
 TubeSpatialObjectPoint< TPointDimension >
 ::GetV2() 
 {
@@ -317,7 +317,7 @@ TubeSpatialObjectPoint< TPointDimension >
 
 
 template< unsigned int TPointDimension >
-TubeSpatialObjectPoint< TPointDimension >::Self & 
+typename TubeSpatialObjectPoint< TPointDimension >::Self & 
 TubeSpatialObjectPoint< TPointDimension >
 ::operator=(const TubeSpatialObjectPoint & rhs) 
 {

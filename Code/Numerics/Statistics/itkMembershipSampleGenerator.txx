@@ -76,7 +76,7 @@ MembershipSampleGenerator< TInputSample, TClassMaskSample >
 
 
 template< class TInputSample, class TClassMaskSample >
-MembershipSampleGenerator< TInputSample, TClassMaskSample >::OutputType*
+typename MembershipSampleGenerator< TInputSample, TClassMaskSample >::OutputType*
 MembershipSampleGenerator< TInputSample, TClassMaskSample >
 ::GetOutput()
 {

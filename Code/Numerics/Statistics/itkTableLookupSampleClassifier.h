@@ -85,6 +85,7 @@ public:
   itkNewMacro(Self) ;
 
   /** Common typedefs for classifiers which are Inherited from SampleClassifier class */
+  typedef typename Superclass::OutputType OutputType;
   typedef typename Superclass::MeasurementType MeasurementType ;
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType ;
 

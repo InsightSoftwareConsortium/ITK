@@ -42,7 +42,7 @@ int Read( const char *filename , bool ReadBigEndian, unsigned int dims[] )
     typedef itk::ImageFileReader<TImageType> ReaderType;
     typedef itk::RawImageIO<PixelType,ImageDimension> IOType;
 
-    IOType::Pointer io = IOType::New();
+    typename IOType::Pointer io = IOType::New();
 
     io->SetFileTypeToBinary();
     
@@ -63,7 +63,7 @@ int Read( const char *filename , bool ReadBigEndian, unsigned int dims[] )
 
 
     
-    ReaderType::Pointer reader = ReaderType::New();
+    typename ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName( filename );
     reader->SetImageIO( io );
     reader->Update();

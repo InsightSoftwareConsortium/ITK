@@ -259,7 +259,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
     ++displacements;
   }
 
-  TriCell::CellAutoPointer insertCell;
+  typename TriCell::CellAutoPointer insertCell;
   unsigned long tripoints[3];
   const unsigned long *tp;
   float x;
@@ -1154,7 +1154,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 {
  
   int i;
-  TriCell::CellAutoPointer  insertCell;
+  typename TriCell::CellAutoPointer  insertCell;
   unsigned long tripoints[3];
   const unsigned long *tp;
   float x;

@@ -73,6 +73,9 @@ public:
   /** Convenient typedefs. */
   typedef typename Superclass::BinaryObjectImage BinaryObjectImage;
   typedef typename Superclass::IndexList IndexList;
+  typedef typename Superclass::IndexType IndexType;
+  typedef typename Superclass::RegionType RegionType;
+  typedef typename Superclass::PixelType PixelType;
   typedef typename Superclass::InputImagePointer InputImagePointer;
   typedef typename Superclass::InputImageType InputImageType;
   typedef Vector<float,6> RGBHCVPixel;

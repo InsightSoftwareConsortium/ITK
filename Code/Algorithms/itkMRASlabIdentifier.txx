@@ -65,7 +65,7 @@ MRASlabIdentifier<TInputImage>
   std::vector<ImagePixelType> mins(m_NumberOfMinimumsPerSlice, 1000) ;
 
   ImagePixelType pixel ;
-  std::vector<ImagePixelType>::iterator target ;
+  typename std::vector<ImagePixelType>::iterator target ;
 
   long currentSlice = firstSlice ;
 
@@ -104,7 +104,7 @@ MRASlabIdentifier<TInputImage>
       }
 
     sum = 0 ;
-    std::vector<ImagePixelType>::iterator m_iter = mins.begin() ;
+    typename std::vector<ImagePixelType>::iterator m_iter = mins.begin() ;
     while (m_iter != mins.end())
       {
       sum += *m_iter ;
@@ -170,7 +170,7 @@ MRASlabIdentifier<TInputImage>
 
 
 template<class TInputImage>
-MRASlabIdentifier<TInputImage>::SlabRegionVectorType 
+typename MRASlabIdentifier<TInputImage>::SlabRegionVectorType 
 MRASlabIdentifier<TInputImage>
 ::GetSlabRegionVector(void)
 {

@@ -1307,7 +1307,7 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   };
 
   ListType           chash[4096+1];
-  ListType::iterator  iter;
+  typename ListType::iterator  iter;
   int                topIndex;
   int                pslices,prow,pcol;
   IndexType          current,index1,index2;
@@ -1401,7 +1401,7 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
               }
             else
               {
-              ListType::iterator iter;
+              typename ListType::iterator iter;
 
               for( iter = chash[value].begin();iter !=chash[value].end();iter++)
                 {
@@ -1497,7 +1497,7 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
               }
             else
               {
-              ListType::iterator iter;
+              typename ListType::iterator iter;
               for( iter = chash[value].begin();iter !=chash[value].end();iter++)
                 {
                 index2 = *iter;
@@ -1544,7 +1544,7 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   IndexType index;
   index.Fill(0);
 
-  UShortImage::RegionType region;
+  typename UShortImage::RegionType region;
   region.SetSize(m_Size);
   region.SetIndex(index);
   m_ObjectFuzzyScene = UShortImage::New();  

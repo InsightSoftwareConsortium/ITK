@@ -59,7 +59,7 @@ SegmentationLevelSetImageFilter<TInputImage, TOutputImage>
 
   m_SegmentationFunction = s; 
   
-  SegmentationFunctionType::RadiusType r;
+  typename SegmentationFunctionType::RadiusType r;
   for (i = 0; i < ImageDimension; ++i)  r[i] = 1;
   
   m_SegmentationFunction->Initialize(r);

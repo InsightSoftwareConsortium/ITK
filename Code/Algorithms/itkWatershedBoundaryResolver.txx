@@ -99,7 +99,7 @@ void BoundaryResolver<TPixelType, TDimension>
 }
 
 template<class TPixelType, unsigned int TDimension>
-BoundaryResolver<TPixelType, TDimension>::DataObjectPointer
+typename BoundaryResolver<TPixelType, TDimension>::DataObjectPointer
 BoundaryResolver<TPixelType, TDimension>
 ::MakeOutput(unsigned int idx)
 {

@@ -87,7 +87,7 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>
   // Find the minimum and maximum of the input image and use these values to
   // set m_UpperBinaryValue, m_LowerBinaryValue, and m_IsoSurfaceValue in the
   // parent class.
-  itk::MinimumMaximumImageCalculator<InputImageType>::Pointer
+  typename itk::MinimumMaximumImageCalculator<InputImageType>::Pointer
     minmax = itk::MinimumMaximumImageCalculator<InputImageType>::New();
   minmax->SetImage( this->GetInput() );
   minmax->ComputeMinimum();

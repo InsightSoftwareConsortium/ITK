@@ -49,7 +49,7 @@ BlobSpatialObject< TDimension, PipelineDimension >
  
 /** Get the list of points which are defining the blob */
 template< unsigned int TDimension , unsigned int PipelineDimension >
-BlobSpatialObject< TDimension, PipelineDimension > ::PointListType &  
+typename BlobSpatialObject< TDimension, PipelineDimension > ::PointListType &  
 BlobSpatialObject< TDimension, PipelineDimension > 
 ::GetPoints() 
 { 
@@ -67,7 +67,7 @@ BlobSpatialObject< TDimension, PipelineDimension >
   // just clear the list...
   m_Points.clear();
         
-  PointListType::iterator it,end;
+  typename PointListType::iterator it,end;
   it = points.begin();    
   end = points.end();
   for(; it != end; it++ )
@@ -101,8 +101,8 @@ BlobSpatialObject< TDimension, PipelineDimension >
   {
     PointType pointLow, pointHigh; 
     PointType tempPointLow, tempPointHigh;
-    PointListType::iterator it  = m_Points.begin();
-    PointListType::iterator end = m_Points.end();
+    typename PointListType::iterator it  = m_Points.begin();
+    typename PointListType::iterator end = m_Points.end();
 
     PointContainerPointer points = PointContainerType::New();
     points->Initialize();
@@ -126,7 +126,7 @@ BlobSpatialObject< TDimension, PipelineDimension >
 ::IsInside( const PointType & point )  
 {
   itkDebugMacro( "Checking the point [" << point << "is inside the blob" );
-  PointListType::iterator it = m_Points.begin();
+  typename PointListType::iterator it = m_Points.begin();
     
   PointType transformedPoint = point;
   TransformPointToLocalCoordinate(transformedPoint);

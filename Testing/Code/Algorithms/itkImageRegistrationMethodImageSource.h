@@ -76,9 +76,9 @@ const ParametersType & GetActualParameters(void) const
 
 void GenerateImages( const typename MovingImageType::SizeType & size )
 {
-  MovingImageType::IndexType index;
+  typename MovingImageType::IndexType index;
   index.Fill(0);
-  MovingImageType::RegionType region;
+  typename MovingImageType::RegionType region;
   region.SetSize( size );
   region.SetIndex( index );
 
@@ -124,7 +124,7 @@ void GenerateImages( const typename MovingImageType::SizeType & size )
     const double x = d[0];
     const double y = d[1];
     const double value = 200.0 * exp( - ( x*x + y*y )/(s*s) );
-    ri.Set( static_cast<MovingImageType::PixelType>(value) );
+    ri.Set( static_cast<typename MovingImageType::PixelType>(value) );
     ++ri;
   }
 
@@ -137,7 +137,7 @@ void GenerateImages( const typename MovingImageType::SizeType & size )
     const double x = d[0];
     const double y = d[1];
     const double value = 200.0 * exp( - ( x*x + y*y )/(s*s) );
-    ti.Set( static_cast<FixedImageType::PixelType>(value) );
+    ti.Set( static_cast<typename FixedImageType::PixelType>(value) );
     ++ti;
   }
 

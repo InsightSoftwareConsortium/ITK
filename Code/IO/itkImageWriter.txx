@@ -39,7 +39,7 @@ ImageWriter<TInputImage>
 
 
 template <class TInputImage>
-const ImageWriter<TInputImage>::InputImageType * 
+const typename ImageWriter<TInputImage>::InputImageType * 
 ImageWriter<TInputImage>
 ::GetInput(void)
 {

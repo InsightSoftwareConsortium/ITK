@@ -93,7 +93,7 @@ metaITKUtilLoadImage3D(const char *fname, MET_ValueEnumType _toType,
   it.Begin();
   for(unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
     {
-    it.Set( static_cast< ImageType::PixelType >( imIO->ElementData(i) ));
+    it.Set( static_cast< typename ImageType::PixelType >( imIO->ElementData(i) ));
     }
 
 

@@ -1174,7 +1174,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     m_AvailableNodes[4] = 1;
   } 
 
-  TriCell::CellAutoPointer insertCell;
+  typename TriCell::CellAutoPointer insertCell;
   unsigned long tripoints[3];
   unsigned char *tp;
   tp = (unsigned char *) malloc( 3*sizeof( unsigned char ) );

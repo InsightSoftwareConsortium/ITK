@@ -432,7 +432,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
           BloxBoundaryProfileItem<NDimensions>* boundaryProfile = new BloxBoundaryProfileItem<NDimensions>;
 
           // Set boundary parameters
-          boundaryProfile->SetProfileLength(m_UniqueAxis);        
+          boundaryProfile->SetProfileLength(static_cast<unsigned int>(m_UniqueAxis));
           boundaryProfile->SetLowerIntensity((double)m_FinalParameters[0]);
           boundaryProfile->SetUpperIntensity((double)m_FinalParameters[1]);
           boundaryProfile->SetMean((double)m_FinalParameters[2]);

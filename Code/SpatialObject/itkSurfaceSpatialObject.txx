@@ -49,7 +49,7 @@ SurfaceSpatialObject< TDimension, PipelineDimension >
  
 /** Get the list of points composing the surface */
 template< unsigned int TDimension , unsigned int PipelineDimension >
-SurfaceSpatialObject< TDimension, PipelineDimension > ::PointListType &  
+typename SurfaceSpatialObject< TDimension, PipelineDimension > ::PointListType &  
 SurfaceSpatialObject< TDimension, PipelineDimension > 
 ::GetPoints() 
 { 
@@ -67,7 +67,7 @@ SurfaceSpatialObject< TDimension, PipelineDimension >
   // just clear the list...
   m_Points.clear();
    
-  PointListType::iterator it,end;
+  typename PointListType::iterator it,end;
   it = points.begin();    
   end = points.end();
   for(; it != end; it++ )
@@ -102,8 +102,8 @@ SurfaceSpatialObject< TDimension, PipelineDimension >
   {
     PointType pointLow, pointHigh; 
     PointType tempPointLow, tempPointHigh;
-    PointListType::iterator it  = m_Points.begin();
-    PointListType::iterator end = m_Points.end();
+    typename PointListType::iterator it  = m_Points.begin();
+    typename PointListType::iterator end = m_Points.end();
     PointContainerPointer points = PointContainerType::New();
     points->Initialize();
 
@@ -125,7 +125,7 @@ SurfaceSpatialObject< TDimension, PipelineDimension >
 ::IsInside( const PointType & point )  
 {
   itkDebugMacro( "Checking the point [" << point << "is on the surface" );
-  PointListType::iterator it = m_Points.begin();
+  typename PointListType::iterator it = m_Points.begin();
   
   PointType transformedPoint = point;
   TransformPointToLocalCoordinate(transformedPoint);

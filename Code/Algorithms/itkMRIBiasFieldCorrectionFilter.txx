@@ -66,7 +66,7 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>
 
 
 template<class TImage, class TImageMask, class TBiasField>
-MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::MeasureType
+typename MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::MeasureType
 MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>
 ::GetValue( const ParametersType & parameters ) const
 {
@@ -282,7 +282,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
       coefficients[k] = (*tempCoefficients)[k] ;
     }
 
-  EnergyFunctionType::ParametersType initialPosition( noOfBiasFieldCoefficients );
+  typename EnergyFunctionType::ParametersType initialPosition( noOfBiasFieldCoefficients );
   for(unsigned int i=0; i < coefficients.size(); i++ )
     {
       initialPosition[i] = coefficients[i];
@@ -395,7 +395,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
       itkDebugMacro(<< "Searching slabs...");
 
       // find slabs
-      MRASlabIdentifier<InputImageType>::Pointer identifier = 
+      typename MRASlabIdentifier<InputImageType>::Pointer identifier = 
         MRASlabIdentifier<InputImageType>::New() ;
       identifier->SetImage(this->GetInput()) ;
       identifier->SetNumberOfMinimumsPerSlice(100) ;

@@ -75,9 +75,9 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
   {
     PointType p1,p2;
     OutputVectorType v1,v2;
-    OutputVectorType::Iterator it = value.Begin();
-    OutputVectorType::Iterator it_v1 = v1.Begin();
-    OutputVectorType::Iterator it_v2 = v2.Begin();
+    typename OutputVectorType::Iterator it = value.Begin();
+    typename OutputVectorType::Iterator it_v1 = v1.Begin();
+    typename OutputVectorType::Iterator it_v2 = v2.Begin();
 
     for( unsigned short i=0; i<NDimensions; i++, it++, it_v1++, it_v2++ )
     {
@@ -102,8 +102,8 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
     }
 
     /** Compute parent derivatives */
-    ChildrenListType::iterator it = m_Children.begin();
-    ChildrenListType::iterator end = m_Children.end();
+    typename ChildrenListType::iterator it = m_Children.begin();
+    typename ChildrenListType::iterator end = m_Children.end();
   
     for(; it!=end; it++)
     {
@@ -127,8 +127,8 @@ bool
 SpatialObject< NDimensions, TTransform, PipelineDimension>
 ::IsInside( const PointType &  point )
 {
-  ChildrenListType::iterator it = m_Children.begin();
-  ChildrenListType::iterator end = m_Children.end();
+  typename ChildrenListType::iterator it = m_Children.begin();
+  typename ChildrenListType::iterator end = m_Children.end();
   
   for(; it!=end; it++)
   {
@@ -146,8 +146,8 @@ bool
 SpatialObject< NDimensions, TTransform, PipelineDimension>
 ::IsEvaluableAt( const PointType & point )
 {
-  ChildrenListType::iterator it = m_Children.begin();
-  ChildrenListType::iterator end = m_Children.end();
+  typename ChildrenListType::iterator it = m_Children.begin();
+  typename ChildrenListType::iterator end = m_Children.end();
   
   for(; it!=end; it++)
   {
@@ -166,8 +166,8 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
 ::ValueAt( const PointType & point, double & value )
 {
   bool evaluable = false;
-  ChildrenListType::iterator it = m_Children.begin();
-  ChildrenListType::iterator end = m_Children.end();
+  typename ChildrenListType::iterator it = m_Children.begin();
+  typename ChildrenListType::iterator end = m_Children.end();
 
   for(; it!=end; it++)
   {
@@ -203,8 +203,8 @@ void
 SpatialObject< NDimensions, TTransform, PipelineDimension>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
-  TransformListType::const_iterator it;
-  TransformListType::const_iterator end;
+  typename TransformListType::const_iterator it;
+  typename TransformListType::const_iterator end;
 
   Superclass::PrintSelf(os, indent);
   os << indent << "Parent: " << m_Parent.GetPointer() << std::endl << std::endl;
@@ -235,8 +235,8 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
      << m_Children.size() << std::endl;
   os << indent << "List of children: ";
 
-  ChildrenListType::const_iterator it_children = m_Children.begin();
-  ChildrenListType::const_iterator children_end = m_Children.end();
+  typename ChildrenListType::const_iterator it_children = m_Children.begin();
+  typename ChildrenListType::const_iterator children_end = m_Children.end();
 
   for(; it_children != children_end; it_children++ )
     {
@@ -256,7 +256,7 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
 
 /** Get the bounds of the object */
 template< unsigned int NDimensions, typename TTransform, unsigned int PipelineDimension >
-SpatialObject< NDimensions, TTransform, PipelineDimension>::BoundingBoxType *
+typename SpatialObject< NDimensions, TTransform, PipelineDimension>::BoundingBoxType *
 SpatialObject< NDimensions, TTransform, PipelineDimension>
 ::GetBounds( void )
 { 
@@ -269,7 +269,7 @@ void
 SpatialObject< NDimensions, TTransform, PipelineDimension> 
 ::AddSpatialObject( Self * pointer )
 {
-  ChildrenListType::iterator it;
+  typename ChildrenListType::iterator it;
 
   it = std::find(m_Children.begin(),m_Children.end(),pointer);
 
@@ -292,7 +292,7 @@ void
 SpatialObject< NDimensions, TTransform, PipelineDimension>
 ::RemoveSpatialObject( Self * pointer )
 {
-  ChildrenListType::iterator it;
+  typename ChildrenListType::iterator it;
   it = std::find(m_Children.begin(),m_Children.end(),pointer);
 
   if( it != m_Children.end() )
@@ -310,7 +310,7 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
   }
 
   // remove the child from the NDimensional list also
-  NDimensionalChildrenListType::iterator it_NDim;
+  typename NDimensionalChildrenListType::iterator it_NDim;
   it_NDim = std::find(m_NDimensionalChildrenList.begin(),m_NDimensionalChildrenList.end(),pointer);
 
   if( it_NDim != m_NDimensionalChildrenList.end() )
@@ -365,8 +365,8 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
   m_LocalToGlobalTransformList.clear();
   BuildLocalToGlobalTransformList(m_LocalToGlobalTransformList,false);
 
-  ChildrenListType::const_iterator it = m_Children.begin();
-  ChildrenListType::const_iterator end = m_Children.end();
+  typename ChildrenListType::const_iterator it = m_Children.begin();
+  typename ChildrenListType::const_iterator end = m_Children.end();
 
   for(; it != end; it++ )
   {
@@ -383,8 +383,8 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
   m_GlobalToLocalTransformList.clear();
   BuildGlobalToLocalTransformList(m_GlobalToLocalTransformList,false);
 
-  ChildrenListType::const_iterator it = m_Children.begin();
-  ChildrenListType::const_iterator end = m_Children.end();
+  typename ChildrenListType::const_iterator it = m_Children.begin();
+  typename ChildrenListType::const_iterator end = m_Children.end();
 
   for(; it != end; it++ )
   {
@@ -414,7 +414,7 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
 
 /** Get the local to gloabal transformation */
 template< unsigned int NDimensions, typename TTransform, unsigned int PipelineDimension >
-const SpatialObject< NDimensions, TTransform, PipelineDimension>::TransformType *
+const typename SpatialObject< NDimensions, TTransform, PipelineDimension>::TransformType *
 SpatialObject< NDimensions, TTransform, PipelineDimension>
 ::GetLocalToGlobalTransform( void )
 {
@@ -433,7 +433,7 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
 
 /** Get the global to local transformation */
 template< unsigned int NDimensions, typename TTransform, unsigned int PipelineDimension >
-const SpatialObject< NDimensions, TTransform, PipelineDimension>::TransformType *
+const typename SpatialObject< NDimensions, TTransform, PipelineDimension>::TransformType *
 SpatialObject< NDimensions, TTransform, PipelineDimension>
 ::GetGlobalToLocalTransform( void )
 {
@@ -442,7 +442,7 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
 
 /** Get the Local to Global transformation list */
 template< unsigned int NDimensions, typename TTransform, unsigned int PipelineDimension >
-SpatialObject< NDimensions, TTransform, PipelineDimension>::TransformListType &
+typename SpatialObject< NDimensions, TTransform, PipelineDimension>::TransformListType &
 SpatialObject< NDimensions, TTransform, PipelineDimension>
 ::GetLocalToGlobalTransformList( void )
 {
@@ -451,7 +451,7 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
 
 /** Get the Global to Local transformation list */
 template< unsigned int NDimensions, typename TTransform, unsigned int PipelineDimension >
-SpatialObject< NDimensions, TTransform, PipelineDimension>::TransformListType &
+typename SpatialObject< NDimensions, TTransform, PipelineDimension>::TransformListType &
 SpatialObject< NDimensions, TTransform, PipelineDimension>
 ::GetGlobalToLocalTransformList( void )
 {
@@ -464,8 +464,8 @@ void
 SpatialObject< NDimensions, TTransform, PipelineDimension>
 ::TransformPointToLocalCoordinate( PointType & p ) const
 {
-  TransformListType::const_reverse_iterator it = m_GlobalToLocalTransformList.rbegin();
-  TransformListType::const_reverse_iterator end = m_GlobalToLocalTransformList.rend();
+  typename TransformListType::const_reverse_iterator it = m_GlobalToLocalTransformList.rbegin();
+  typename TransformListType::const_reverse_iterator end = m_GlobalToLocalTransformList.rend();
   PointType p1,p2;
   p1 = p;
  
@@ -484,8 +484,8 @@ void
 SpatialObject< NDimensions, TTransform, PipelineDimension>
 ::TransformPointToGlobalCoordinate( PointType & p ) const
 {
-  TransformListType::reverse_iterator it = m_LocalToGlobalTransformList->rbegin();
-  TransformListType::reverse_iterator end = m_LocalToGlobalTransformList->rend();
+  typename TransformListType::reverse_iterator it = m_LocalToGlobalTransformList->rbegin();
+  typename TransformListType::reverse_iterator end = m_LocalToGlobalTransformList->rend();
   PointType p1,p2;
   p1 = p;
 
@@ -511,8 +511,8 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
     latestTime = boundingBoxMTime;
   }
 
-  ChildrenListType::const_iterator it = m_Children.begin();
-  ChildrenListType::const_iterator end = m_Children.end();
+  typename ChildrenListType::const_iterator it = m_Children.begin();
+  typename ChildrenListType::const_iterator end = m_Children.end();
  
   unsigned long localTime;
 
@@ -534,19 +534,19 @@ void
 SpatialObject< NDimensions, TTransform, PipelineDimension>
 ::ComputeBounds( void )
 {
-  ChildrenListType::iterator it = m_Children.begin();
-  ChildrenListType::iterator end = m_Children.end();
+  typename ChildrenListType::iterator it = m_Children.begin();
+  typename ChildrenListType::iterator end = m_Children.end();
   PointType pointLow,pointHigh;
-  BoundingBoxType::PointsContainerPointer points = BoundingBoxType::PointsContainer::New() ;
+  typename BoundingBoxType::PointsContainerPointer points = BoundingBoxType::PointsContainer::New() ;
 
   if( this->GetMTime() > m_BoundsMTime )
   {
     unsigned int i = 0;
     for(; it!=end; it++)
     {
-      BoundingBoxType::PointsContainerConstPointer  childrenPoints  = (*it)->GetBounds()->GetPoints();
-      BoundingBoxType::PointsContainerConstIterator childrenPointsIt  = childrenPoints->Begin();
-      BoundingBoxType::PointsContainerConstIterator childrenPointsEnd = childrenPoints->End();
+      typename BoundingBoxType::PointsContainerConstPointer  childrenPoints  = (*it)->GetBounds()->GetPoints();
+      typename BoundingBoxType::PointsContainerConstIterator childrenPointsIt  = childrenPoints->Begin();
+      typename BoundingBoxType::PointsContainerConstIterator childrenPointsEnd = childrenPoints->End();
 
       for(; childrenPointsIt != childrenPointsEnd; childrenPointsIt++,i++ )
       {
@@ -563,7 +563,7 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
   
 /** Get the children list*/
 template< unsigned int NDimensions, typename TTransform, unsigned int PipelineDimension >
-SpatialObject< NDimensions, TTransform, PipelineDimension>::ChildrenListType &
+typename SpatialObject< NDimensions, TTransform, PipelineDimension>::ChildrenListType &
 SpatialObject< NDimensions, TTransform, PipelineDimension>
 ::GetChildren( void )
 {
@@ -578,8 +578,8 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
 { 
   m_Children = children;
 
-  ChildrenListType::const_iterator it = m_Children.begin();
-  ChildrenListType::const_iterator end = m_Children.end();
+  typename ChildrenListType::const_iterator it = m_Children.begin();
+  typename ChildrenListType::const_iterator end = m_Children.end();
   
   for(; it != end; it++ )
   {

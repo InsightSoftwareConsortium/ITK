@@ -35,7 +35,7 @@ Relabeler() : m_FloodLevel(0.0)
 }
   
 template <class TScalarType, unsigned int TImageDimension>
-Relabeler<TScalarType, TImageDimension>::DataObjectPointer
+typename Relabeler<TScalarType, TImageDimension>::DataObjectPointer
 Relabeler<TScalarType, TImageDimension>
 ::MakeOutput(unsigned int idx)
 {

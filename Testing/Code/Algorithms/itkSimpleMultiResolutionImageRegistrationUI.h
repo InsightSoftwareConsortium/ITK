@@ -34,7 +34,7 @@ public:
 
     if ( !ptr ) return;
     m_Registrator = ptr;
-    itk::SimpleMemberCommand<SimpleMultiResolutionImageRegistrationUI>::Pointer
+    typename itk::SimpleMemberCommand<SimpleMultiResolutionImageRegistrationUI>::Pointer
       iterationCommand =
     itk::SimpleMemberCommand<SimpleMultiResolutionImageRegistrationUI>::New();
 

@@ -158,7 +158,7 @@ AddOneSeed(PointType inputSeed)
 }
 
 template <typename TCoordRepType>
-VoronoiDiagram2DGenerator<TCoordRepType>::PointType 
+typename VoronoiDiagram2DGenerator<TCoordRepType>::PointType 
 VoronoiDiagram2DGenerator<TCoordRepType>::
 GetSeed(int SeedID)
 {
@@ -286,7 +286,7 @@ ConstructDiagram(void)
   m_OutputVD->AddVert(corner[3]);
 
   std::list<EdgeInfo> buildEdges;
-  std::list<EdgeInfo>::iterator BEiter;
+  typename std::list<EdgeInfo>::iterator BEiter;
   EdgeInfo curr;
   EdgeInfo curr1;
   EdgeInfo curr2;
@@ -602,7 +602,7 @@ dist(FortuneSite *s1,FortuneSite *s2)
 }
 
 template <typename TCoordRepType>
-VoronoiDiagram2DGenerator<TCoordRepType>::FortuneHalfEdge * 
+typename VoronoiDiagram2DGenerator<TCoordRepType>::FortuneHalfEdge * 
 VoronoiDiagram2DGenerator<TCoordRepType>::
 ELgethash( int b)
 {
@@ -630,7 +630,7 @@ ELgethash( int b)
 
 
 template <typename TCoordRepType>
-VoronoiDiagram2DGenerator<TCoordRepType>::FortuneHalfEdge * 
+typename VoronoiDiagram2DGenerator<TCoordRepType>::FortuneHalfEdge * 
 VoronoiDiagram2DGenerator<TCoordRepType>::
 findLeftHE(PointType *p)
 {
@@ -676,7 +676,7 @@ findLeftHE(PointType *p)
 }
 
 template <typename TCoordRepType>
-VoronoiDiagram2DGenerator<TCoordRepType>::FortuneSite *
+typename VoronoiDiagram2DGenerator<TCoordRepType>::FortuneSite *
 VoronoiDiagram2DGenerator<TCoordRepType>::
 getRightReg(FortuneHalfEdge *he)
 {
@@ -689,7 +689,7 @@ getRightReg(FortuneHalfEdge *he)
 }
 
 template <typename TCoordRepType>
-VoronoiDiagram2DGenerator<TCoordRepType>::FortuneSite *
+typename VoronoiDiagram2DGenerator<TCoordRepType>::FortuneSite *
 VoronoiDiagram2DGenerator<TCoordRepType>::
 getLeftReg(FortuneHalfEdge *he)
 {
@@ -813,7 +813,7 @@ intersect(FortuneSite *newV, FortuneHalfEdge *el1, FortuneHalfEdge *el2)
 }
 
 template <typename TCoordRepType>
-VoronoiDiagram2DGenerator<TCoordRepType>::FortuneHalfEdge *
+typename VoronoiDiagram2DGenerator<TCoordRepType>::FortuneHalfEdge *
 VoronoiDiagram2DGenerator<TCoordRepType>::
 getPQmin(void)
 {

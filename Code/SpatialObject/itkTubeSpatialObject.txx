@@ -51,7 +51,7 @@ TubeSpatialObject< TDimension, PipelineDimension >
  
 /** Get the list of points composing the tube */
 template< unsigned int TDimension , unsigned int PipelineDimension >
-TubeSpatialObject< TDimension, PipelineDimension > ::PointListPointer  
+typename TubeSpatialObject< TDimension, PipelineDimension > ::PointListPointer  
 TubeSpatialObject< TDimension, PipelineDimension > 
 ::GetPoints() const 
 { 
@@ -73,7 +73,7 @@ TubeSpatialObject< TDimension, PipelineDimension >
          
   if( points )
   {
-    PointListType::iterator it,end;
+    typename PointListType::iterator it,end;
     it = points->begin();    
     end = points->end();
 
@@ -109,8 +109,8 @@ TubeSpatialObject< TDimension, PipelineDimension >
   {
     PointType pointLow, pointHigh; 
     PointType tempPointLow, tempPointHigh;
-    PointListType::iterator it  = m_Points->begin();
-    PointListType::iterator end = m_Points->end();
+    typename PointListType::iterator it  = m_Points->begin();
+    typename PointListType::iterator end = m_Points->end();
 
     PointContainerPointer points = PointContainerType::New();
     points->Initialize();
@@ -143,9 +143,9 @@ TubeSpatialObject< TDimension, PipelineDimension >
 
   double minSquareDist=999999.0;
   double tempSquareDist;
-  PointListType::iterator it = m_Points->begin();
-  PointListType::iterator end = m_Points->end(); 
-  PointListType::iterator min;  
+  typename PointListType::iterator it = m_Points->begin();
+  typename PointListType::iterator end = m_Points->end(); 
+  typename PointListType::iterator min;  
   PointType transformedPoint = point;
   TransformPointToLocalCoordinate(transformedPoint);
 
@@ -209,7 +209,7 @@ TubeSpatialObject< TDimension, PipelineDimension >
     return true; 
   } 
      
-  PointListType::iterator i, j, k, e; 
+  typename PointListType::iterator i, j, k, e; 
   i = m_Points->begin(); 
   i++; 
   e = m_Points->end(); 

@@ -281,7 +281,7 @@ NDimensionalSpatialObject<PipelineDimension>
 
 
 template <unsigned int PipelineDimension>
-NDimensionalSpatialObject<PipelineDimension>::PropertyType * 
+typename NDimensionalSpatialObject<PipelineDimension>::PropertyType * 
 NDimensionalSpatialObject<PipelineDimension>
 ::GetProperty( void )
 { 
