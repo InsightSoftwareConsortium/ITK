@@ -106,7 +106,7 @@ int itkHardConnectedComponentImageFilterTest(int, char* [] )
       {
       std::cout<<std::endl;
       }
-    std::cout << it.Get() ? 1 : 0;
+    std::cout << ( it.Get() ? 1 : 0 );
     ++it;
     } 
   std::cout<<std::endl;

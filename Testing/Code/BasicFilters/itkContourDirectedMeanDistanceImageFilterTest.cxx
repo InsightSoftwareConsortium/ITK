@@ -95,7 +95,7 @@ int itkContourDirectedMeanDistanceImageFilterTest(int, char* [] )
   // check results
   
   FilterType::RealType trueDistance = 8.07158;
-    vcl_sqrt( static_cast<double>(ImageDimension) );
+    // This looks like a typo  should the trueDistance be hardcoded here?  perhaps it is a test vcl_sqrt( static_cast<double>(ImageDimension) );
   FilterType::RealType distance = filter->GetContourDirectedMeanDistance();
 
   std::cout << " True     distance: " << trueDistance << std::endl;
