@@ -77,7 +77,7 @@ void
 ProcessObject
 ::AddInput(DataObject *input)
 {
-  unsigned int idx;
+  std::vector<DataObjectPointer>::size_type idx;
   
   this->Modified();
   
@@ -367,7 +367,7 @@ ProcessObject
 
   if ( m_Inputs.size())
     {
-    unsigned int idx;
+    std::vector<DataObjectPointer>::size_type idx;
     for (idx = 0; idx < m_Inputs.size(); ++idx)
       {
       os << indent << "Input " << idx << ": (" << m_Inputs[idx] << ")\n";
@@ -379,7 +379,7 @@ ProcessObject
     }
   if ( m_Outputs.size())
     {
-    unsigned int idx;
+    std::vector<DataObjectPointer>::size_type idx;
     for (idx = 0; idx < m_Outputs.size(); ++idx)
       {
       os << indent << "Output " << idx << ": (" << m_Outputs[idx] << ")\n";
@@ -426,7 +426,7 @@ ProcessObject
 ::UpdateOutputInformation()
 {
   unsigned long t1, t2;
-  unsigned int idx;
+  std::vector<DataObjectPointer>::size_type idx;
   DataObject *input;
   DataObject *output;
 
@@ -552,7 +552,8 @@ ProcessObject
    * through all the inputs.
    */
   m_Updating = true;
-  for (unsigned int idx = 0; idx < m_Inputs.size(); ++idx)
+  std::vector<DataObjectPointer>::size_type idx;
+  for (idx = 0; idx < m_Inputs.size(); ++idx)
     {
     if (m_Inputs[idx])
       {
@@ -572,7 +573,8 @@ void
 ProcessObject
 ::GenerateInputRequestedRegion()
 {
-  for (unsigned int idx = 0; idx < m_Inputs.size(); ++idx)
+  std::vector<DataObjectPointer>::size_type idx;
+  for (idx = 0; idx < m_Inputs.size(); ++idx)
     {
     if (m_Inputs[idx])
       {
@@ -589,7 +591,7 @@ void
 ProcessObject
 ::UpdateOutputData(DataObject *itkNotUsed(output))
 {
-  unsigned int idx;
+  std::vector<DataObjectPointer>::size_type idx;
 
   /**
    * prevent chasing our tail
@@ -713,7 +715,7 @@ ProcessObject
   unsigned long maxSize = 0;
   unsigned long goingDownstreamSize = 0;
   unsigned long *inputSize = NULL;
-  unsigned int idx;
+  std::vector<DataObjectPointer>::size_type idx;
 
   /**
    * We need some space to store the input sizes if there are any inputs
@@ -915,7 +917,8 @@ ProcessObject
 {
   int refCount=this->GetReferenceCount();
   
-  for (int idx = 0; idx < m_Outputs.size(); ++idx)
+  std::vector<DataObjectPointer>::size_type idx;
+  for ( idx = 0; idx < m_Outputs.size(); ++idx)
     {
     if ( m_Outputs[idx] )
       {
@@ -951,7 +954,8 @@ ProcessObject
     Superclass::Register();
 
     // Break reference count cycle to output
-    for (int idx = 0; idx < m_Outputs.size(); ++idx)
+	std::vector<DataObjectPointer>::size_type idx;
+    for (idx = 0; idx < m_Outputs.size(); ++idx)
       {
       if ( m_Outputs[idx] )
         {
