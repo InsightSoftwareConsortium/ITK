@@ -63,7 +63,7 @@ main(
     /* Allocate a simple test image */
     itk::Image<unsigned short, 3>::Pointer
 	image = itk::Image<unsigned short,3>::New();
-    image->SetSize(size);
+    image->SetImageSize(size);
 
     /* Set origin and spacing of physical coordinates */
     image->SetOrigin(origin);

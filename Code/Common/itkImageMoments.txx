@@ -85,7 +85,7 @@ namespace itk
 	    }
 
 	/* Determine image dimensions */
-	const unsigned long *size   = image->GetSize();
+	const unsigned long *size   = image->GetImageSize();
 	const unsigned long nslices = size[0];
 	const unsigned long nrows   = size[1];
         const unsigned long ncols   = size[2];
