@@ -297,7 +297,7 @@ ByteSwapper<T>
 {
   char one_byte;
   char *pos = reinterpret_cast<char *>(ptr);
-  int i;
+  unsigned long i;
   
   for (i = 0; i < num; i++)
     {
@@ -316,9 +316,9 @@ ByteSwapper<T>
 {
   char one_byte;
   char *pos;
-  int i;
+  unsigned long i;
   char *cpy;
-  int chunkSize = 1000000;
+  unsigned long chunkSize = 1000000;
 
   if (num < chunkSize)
     {
@@ -377,7 +377,7 @@ ByteSwapper<T>
 {
   char one_byte;
   char *pos = reinterpret_cast<char *>(ptr);
-  int i;
+  unsigned long i;
 
   for (i = 0; i < num; i++)
     {
