@@ -43,6 +43,7 @@ ADD_TEST(itkImageRegistrationMethodTest_11 ${ALGORITHMS_TESTS} itkImageRegistrat
 ADD_TEST(itkImageRegistrationMethodTest_12 ${ALGORITHMS_TESTS} itkImageRegistrationMethodTest_12)
 ADD_TEST(itkImageRegistrationMethodTest_13 ${ALGORITHMS_TESTS} itkImageRegistrationMethodTest_13)
 ADD_TEST(itkImageRegistrationMethodTest_14 ${ALGORITHMS_TESTS} itkImageRegistrationMethodTest_14)
+ADD_TEST(itkImageRegistrationMethodTest_15 ${ALGORITHMS_TESTS} itkImageRegistrationMethodTest_15)
 ADD_TEST(itkInterpolateTest ${ALGORITHMS_TESTS} itkInterpolateTest)
 ADD_TEST(itkKalmanLinearEstimatorTest ${ALGORITHMS_TESTS} itkKalmanLinearEstimatorTest)
 ADD_TEST(itkKmeansModelEstimatorTest ${ALGORITHMS_TESTS} itkKmeansModelEstimatorTest)
@@ -111,6 +112,7 @@ itkImageRegistrationMethodTest_11.cxx
 itkImageRegistrationMethodTest_12.cxx
 itkImageRegistrationMethodTest_13.cxx
 itkImageRegistrationMethodTest_14.cxx
+itkImageRegistrationMethodTest_15.cxx
 itkInterpolateTest.cxx
 itkKalmanLinearEstimatorTest.cxx
 itkKmeansModelEstimatorTest.cxx

@@ -41,12 +41,11 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::MattesMutualInformationImageToImageMetric()
 {
 
+  m_NumberOfSpatialSamples = 500;
+  m_NumberOfHistogramBins = 50;
 
   m_ComputeGradient = false; // don't use the default gradient for now
 
-  //
-  // TODO: What other default parameter do we need to set here?
-  // 
   m_InterpolatorIsBSpline = false;
   m_TransformIsBSpline    = false;
 
