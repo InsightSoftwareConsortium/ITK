@@ -175,7 +175,7 @@ public:
   itkNewMacro(Self);  
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BinaryMask3DMeshSource, MeshSource);
+  itkTypeMacro(AutomaticTopologyMeshSource, MeshSource);
 
   /** Add the point p0 if it's not already there, and return its ID. */
   IdentifierType AddPoint( const PointType& p0 );
