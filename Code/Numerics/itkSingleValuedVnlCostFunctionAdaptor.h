@@ -53,6 +53,9 @@ public:
   /** Derivatives of the SingleValuedCostFunction */
   typedef SingleValuedCostFunction::DerivativeType DerivativeType;
 
+  /** Type of the SingleValuedCostFunction value */
+  typedef SingleValuedCostFunction::MeasureType MeasureType;
+
   /** Scales typedef */
   typedef Array<double>             ScalesType;
 
@@ -108,6 +111,14 @@ public:
    * despite the fact that VNL does not provide callbacks. */
   unsigned long AddObserver(const EventObject & event, Command *) const;
 
+  /** Return the value of the last evaluation to the value of the cost function.
+   *  Note that this method DOES NOT triggers a computation of the function or
+   *  the derivatives, it only returns previous values. Therefore the values here
+   *  are only valid after you invoke the f() or gradf() methods. */
+  const MeasureType & GetCachedValue() const;
+  const DerivativeType & GetCachedDerivative() const;
+  const ParametersType & GetCachedCurrentParameters() const;
+  
 protected:
 
   /** This method is intended to be called by the derived classes in order to
@@ -121,6 +132,10 @@ private:
   ScalesType                          m_Scales;
   bool                                m_NegateCostFunction;
   Object::Pointer                     m_Reporter;
+  
+  mutable MeasureType                 m_CachedValue;
+  mutable DerivativeType              m_CachedDerivative;
+  mutable ParametersType              m_CachedCurrentParameters;
 
 };  // end of Class CostFunction
 

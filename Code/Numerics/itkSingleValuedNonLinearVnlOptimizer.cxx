@@ -99,7 +99,7 @@ SingleValuedNonLinearVnlOptimizer
 }
 
 
-/** The purpose of this method is to get around the lack of iteration reportin
+/** The purpose of this method is to get around the lack of iteration reporting
  * in VNL optimizers. By interfacing directly with the ITK cost function
  * adaptor we are generating here Iteration Events. Note the iteration events
  * here are produce PER EVALUATION of the metric, not per real iteration of the
@@ -109,6 +109,10 @@ void
 SingleValuedNonLinearVnlOptimizer
 ::IterationReport( void ) 
 {
+  const CostFunctionAdaptorType * adaptor = this->GetCostFunctionAdaptor();
+  m_CachedValue = adaptor->GetCachedValue();
+  m_CachedDerivative = adaptor->GetCachedDerivative();
+  m_CachedCurrentPosition = adaptor->GetCachedCurrentParameters();
   this->InvokeEvent( IterationEvent() );
 }
 

@@ -74,6 +74,12 @@ SingleValuedVnlCostFunctionAdaptor
     value *= -1.0;
     }
 
+  // Notify observers. This is used for overcoming the limitaion of VNL
+  // optimizers of not providing callbacks per iteration.
+  m_CachedValue = value;
+  m_CachedCurrentParameters = parameters;
+  this->ReportIteration(); 
+    
   return value;
 }
   
@@ -91,7 +97,6 @@ SingleValuedVnlCostFunctionAdaptor
     }
 
    // Use scales if they are provided
-  DerivativeType externalGradient;
   ParametersType parameters(inparameters.size()); 
   if(m_ScalesInitialized)
     {
@@ -105,8 +110,8 @@ SingleValuedVnlCostFunctionAdaptor
     parameters.SetData(const_cast<double*>(inparameters.data_block()));
     }
     
-  m_CostFunction->GetDerivative( parameters, externalGradient );
-  this->ConvertExternalToInternalGradient( externalGradient, gradient);
+  m_CostFunction->GetDerivative( parameters, m_CachedDerivative );
+  this->ConvertExternalToInternalGradient( m_CachedDerivative, gradient);
 
 }
   
@@ -213,6 +218,34 @@ SingleValuedVnlCostFunctionAdaptor
 {
   return m_Reporter->AddObserver( event, command );
 }
+
+
+/**  Return the cached value of the cost function */
+const SingleValuedVnlCostFunctionAdaptor::MeasureType &
+SingleValuedVnlCostFunctionAdaptor
+::GetCachedValue() const
+{
+  return m_CachedValue;
+}
+
+
+/**  Return the cached value of the cost function derivative */
+const SingleValuedVnlCostFunctionAdaptor::DerivativeType &
+SingleValuedVnlCostFunctionAdaptor
+::GetCachedDerivative() const
+{
+  return m_CachedDerivative;
+}
+
+/**  Return the cached value of the parameters used for computing the function */
+const SingleValuedVnlCostFunctionAdaptor::ParametersType &
+SingleValuedVnlCostFunctionAdaptor
+::GetCachedCurrentParameters() const
+{
+  return m_CachedCurrentParameters;
+}
+
+
 
 
 } // end namespace itk

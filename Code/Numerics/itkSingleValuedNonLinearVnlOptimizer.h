@@ -77,7 +77,16 @@ public:
   { this->MaximizeOff(); }
   void MinimizeOff()
   { this->MaximizeOn(); }
- 
+
+  /** Return Cached Values. These method have the advantage of not triggering a
+   * recomputation of the metric value, but it has the disadvantage of returning
+   * a value that may not be the one corresponding to the current parameters. For
+   * GUI update purposes, this method is a good option, for mathematical
+   * validation you should rather call GetValue(). */
+  itkGetConstReferenceMacro(CachedValue, MeasureType);
+  itkGetConstReferenceMacro(CachedDerivative, DerivativeType);
+  itkGetConstReferenceMacro(CachedCurrentPosition, ParametersType);
+
 protected:
   SingleValuedNonLinearVnlOptimizer();
   virtual ~SingleValuedNonLinearVnlOptimizer();
@@ -107,6 +116,10 @@ private:
   bool                      m_Maximize;
 
   CommandType::Pointer      m_Command;
+
+  mutable ParametersType    m_CachedCurrentPosition;
+  mutable MeasureType       m_CachedValue;
+  mutable DerivativeType    m_CachedDerivative;
 };
 
 } // end namespace itk
