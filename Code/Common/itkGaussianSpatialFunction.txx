@@ -90,14 +90,14 @@ GaussianSpatialFunction<TOutput, VImageDimension, TInput>
 
   unsigned int i;
   os << indent << "Sigma: [";
-  for (i=0; i < VImageDimension - 1; i++)
+  for (i=0; i+1 < VImageDimension ; i++)
     {
     os << m_Sigma[i] << ", ";
     }
   os << "]" << std::endl;
 
   os << indent << "Mean: [";
-  for (i=0; i < VImageDimension - 1; i++)
+  for (i=0; i+1 < VImageDimension ; i++)
     {
     os << m_Mean[i] << ", ";
     }
