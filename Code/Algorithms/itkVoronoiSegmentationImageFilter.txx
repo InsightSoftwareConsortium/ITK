@@ -476,11 +476,11 @@ drawLine(PointType p1,PointType p2){
 template <class TInputImage, class TOutputImage>
 void
 VoronoiSegmentationImageFilter <TInputImage,TOutputImage>::
-TakeAPrior(BinaryObjectImage aprior)
+TakeAPrior(BinaryObjectImage* aprior)
 {
   region = m_InputImage->GetRequestedRegion();
-  itk::SimpleImageRegionIterator <UShortImage> ait(aprior, region);
-  itk::SimpleImageRegionIterator <UShortImage> iit(m_InputImage, region);
+  itk::SimpleImageRegionIterator <BinaryObjectImage> ait(aprior, region);
+  itk::SimpleImageRegionIterator <InputImageType> iit(m_InputImage, region);
   ait.Begin();
   iit.Begin();
 

@@ -93,7 +93,8 @@ public:
 	typedef typename VoronoiDiagram::FortuneEdgeInfo EdgeInfo;
 	typedef std::vector<PointType> PointTypeVector;
 	typedef std::deque<PointType> PointTypeDeque;
-  typedef typename itk::Image<bool,2>::Pointer BinaryObjectImage;
+  typedef itk::Image<bool,2>  BinaryObjectImage;
+  typedef typename BinaryObjectImage::Pointer  BinaryObjectImagePointer;
 
   /**
    * Set the Estimation of the mean pixel value for the object.
@@ -180,13 +181,13 @@ public:
 	 */
   void InitializeSegment(void);
 
-	/**
-	 * take a prior from other segmentation node, should be an
-	 * binary object.
-	 */
-	void TakeAPrior(BinaryObjectImage aprior);
-
-	/**
+  /**
+   * take a prior from other segmentation node, should be an
+   * binary object.
+   */
+  void TakeAPrior(BinaryObjectImage* aprior);
+  
+  /**
    * Perform the segmentation.
    */
   void ExcuteSegment(void);
