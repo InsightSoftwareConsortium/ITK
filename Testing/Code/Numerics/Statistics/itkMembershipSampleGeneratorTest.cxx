@@ -70,8 +70,8 @@ int itkMembershipSampleGeneratorTest( int, char* [] )
   generator->SetNumberOfClasses( 2 ) ;
   generator->GenerateData() ;
   
-  GeneratorType::OutputType::Pointer membershipSample = 
-    generator->GetOutput() ;
+  GeneratorType::OutputType::ConstPointer membershipSample = 
+                                                  generator->GetOutput() ;
 
   if (  membershipSample->Size() !=  3 )
     {

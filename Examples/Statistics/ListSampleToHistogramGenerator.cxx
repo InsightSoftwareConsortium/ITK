@@ -124,8 +124,8 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  GeneratorType::HistogramType::Pointer histogram = generator->GetOutput();
-  GeneratorType::HistogramType::Iterator iter = histogram->Begin();
+  GeneratorType::HistogramType::ConstPointer histogram = generator->GetOutput();
+  GeneratorType::HistogramType::ConstIterator iter = histogram->Begin();
   while ( iter != histogram->End() )
     {
     std::cout << "Measurement vectors = " << iter.GetMeasurementVector()

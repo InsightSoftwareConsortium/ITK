@@ -74,8 +74,8 @@ int itkSelectiveSubsampleGeneratorTest( int, char* [] )
   generator->SetSelectedClassLabels( selectedClassLabels ) ;
   generator->GenerateData() ;
   
-  GeneratorType::OutputType::Pointer subsample = 
-    generator->GetOutput() ;
+  GeneratorType::OutputType::ConstPointer subsample = 
+                                            generator->GetOutput() ;
 
   if (  subsample->Size() !=  2 )
     {

@@ -89,7 +89,7 @@ int main( int argc, char * argv [] )
   generator->SetMarginalScale( 10.0 );
   generator->Update();
 
-  HistogramType::Pointer histogram = generator->GetOutput();
+  HistogramType::ConstPointer histogram = generator->GetOutput();
 
   const unsigned int histogramSize = histogram->Size();
 

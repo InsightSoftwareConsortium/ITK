@@ -55,7 +55,7 @@ int itkListSampleToHistogramGeneratorTest(int, char* [] )
   generator->SetNumberOfBins(size) ;
   generator->Update() ;
 
-  GeneratorType::HistogramType::Pointer histogram = generator->GetOutput() ;
+  GeneratorType::HistogramType::ConstPointer histogram = generator->GetOutput() ;
 
   GeneratorType::HistogramType::IndexType index ;
   
