@@ -16,17 +16,6 @@ ClassType
 
 
 /**
- * Get an insertion iterator to add public superclasses to this class.
- */
-ClassTypeListInserter
-ClassType
-::GetParentInserter()
-{
-  return std::back_inserter(m_Parents);
-}
-
-
-/**
  * Add a public superclass to this class.
  */
 void
@@ -38,11 +27,12 @@ ClassType
 
 
 /**
- *
+ * Test whether this type with the given cv-qualifiers can convert to
+ * the given CvQualifiedType.
  */
 bool
 ClassType
-::CanConvertTo(const CvQualifiedType&, bool, bool, bool) const
+::CanConvertTo(const CvQualifiedType&, bool, bool) const
 {
   return false;
 }

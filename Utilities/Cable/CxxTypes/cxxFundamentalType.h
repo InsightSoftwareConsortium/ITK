@@ -25,7 +25,7 @@ public:
   virtual RepresentationType GetRepresentationType() const;
 
 protected:
-  virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const;
+  virtual bool CanConvertTo(const CvQualifiedType&, bool, bool) const;
   
   FundamentalType(Id);
   FundamentalType(const Self&) {}
@@ -37,6 +37,8 @@ private:
    * Store which integral type this is.
    */
   Id m_Id;
+  
+  friend TypeSystem;
 };
 
 

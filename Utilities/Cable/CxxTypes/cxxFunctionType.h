@@ -19,7 +19,7 @@ public:
   virtual RepresentationType GetRepresentationType() const;
 
 protected:
-  virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const;
+  virtual bool CanConvertTo(const CvQualifiedType&, bool, bool) const;
 
   FunctionType(const CvQualifiedType&);
   FunctionType(const Self&): m_ReturnType(NULL) {}
@@ -36,6 +36,8 @@ private:
    * The function's argument types.
    */
   CvQualifiedTypeList m_ArgumentList;
+  
+  friend TypeSystem;
 };
 
 } // namespace _cxx_

@@ -20,7 +20,7 @@ public:
   virtual RepresentationType GetRepresentationType() const = 0;
 
 protected:
-  virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const = 0;
+  virtual bool CanConvertTo(const CvQualifiedType&, bool, bool) const = 0;
 
   Type() {}
   virtual ~Type() {}

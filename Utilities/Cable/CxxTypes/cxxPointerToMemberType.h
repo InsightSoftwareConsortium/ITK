@@ -18,7 +18,7 @@ public:
   virtual RepresentationType GetRepresentationType() const;
 
 protected:
-  virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const;
+  virtual bool CanConvertTo(const CvQualifiedType&, bool, bool) const;
   
   PointerToMemberType(const CvQualifiedType&, const ClassType*);  
   PointerToMemberType(const Self& s): PointerType(s), m_ClassType(NULL) {}
@@ -30,6 +30,8 @@ private:
    * The class type holding the member.
    */
   const ClassType* m_ClassType;
+  
+  friend TypeSystem;
 };
 
 } // namespace _cxx_

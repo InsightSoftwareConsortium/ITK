@@ -13,12 +13,14 @@ FunctionType
   return FunctionType_id;
 }
 
+
 /**
- *
+ * Test whether this type with the given cv-qualifiers can convert to
+ * the given CvQualifiedType.
  */
 bool
 FunctionType
-::CanConvertTo(const CvQualifiedType&, bool, bool, bool) const
+::CanConvertTo(const CvQualifiedType&, bool, bool) const
 {
   return false;
 }

@@ -22,17 +22,20 @@ enum RepresentationType
   ReferenceType_id, FundamentalType_id, FunctionType_id
 };
 
+class TypeSystem;
+
 } // namespace _cxx_
 
 // Include all the representation types.
 #include "cxxCvQualifiedType.h"
+#include "cxxArrayType.h"
 #include "cxxClassType.h"
+#include "cxxFunctionType.h"
+#include "cxxFundamentalType.h"
 #include "cxxPointerType.h"
 #include "cxxPointerToMemberType.h"
 #include "cxxReferenceType.h"
-#include "cxxFundamentalType.h"
-#include "cxxArrayType.h"
-#include "cxxFunctionType.h"
+
 
 #endif
 

@@ -18,7 +18,7 @@ public:
   virtual RepresentationType GetRepresentationType() const;
 
 protected:
-  virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const;
+  virtual bool CanConvertTo(const CvQualifiedType&, bool, bool) const;
   
   ArrayType(const CvQualifiedType&, unsigned long);
   ArrayType(const Self&): m_ElementType(NULL), m_Length(0) {}
@@ -35,6 +35,8 @@ private:
    * The length of the array.
    */
   unsigned long m_Length;
+  
+  friend TypeSystem;
 };
 
 } // namespace _cxx_

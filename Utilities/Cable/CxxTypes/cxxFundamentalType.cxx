@@ -19,7 +19,7 @@ FundamentalType
  */
 bool
 FundamentalType
-::CanConvertTo(const CvQualifiedType&, bool, bool, bool) const
+::CanConvertTo(const CvQualifiedType&, bool, bool) const
 {
   return false;
 }

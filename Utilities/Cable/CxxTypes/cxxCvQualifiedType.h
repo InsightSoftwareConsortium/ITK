@@ -22,20 +22,16 @@ public:
   
   void SetConst(bool value)    { m_Const = value; }
   void SetVolatile(bool value) { m_Volatile = value; }
-  void SetRestrict(bool value) { m_Restrict = value; }
   
   bool IsConst() const    { return m_Const; }
   bool IsVolatile() const { return m_Volatile; }
-  bool IsRestrict() const { return m_Restrict; }
   
   const Type* GetType() const { return m_Type; }
   
-  /**
-   * Test if this cv-qualified type can be converted to the given
-   * cv-qualified type.
-   */
-  bool CanConvertTo(const Self& t)
-    { return m_Type->CanConvertTo(t, m_Const, m_Volatile, m_Restrict); }
+  bool CanConvertTo(const Self&) const;
+
+  bool operator== (const Self&) const;
+  bool operator< (const Self&) const;
   
 private:
   /**
@@ -52,11 +48,6 @@ private:
    * Flag for presence of "volatile" cv-qualifier.
    */
   bool m_Volatile;
-
-  /**
-   * Flag for presence of "restrict" qualifier.
-   */
-  bool m_Restrict;  
 };
 
 /**

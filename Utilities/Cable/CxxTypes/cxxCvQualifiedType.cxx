@@ -12,8 +12,7 @@ CvQualifiedType
 ::CvQualifiedType(const Type* in_type):
   m_Type(in_type),
   m_Const(false),
-  m_Volatile(false),
-  m_Restrict(false)
+  m_Volatile(false)
 {
 }
 
@@ -25,9 +24,64 @@ CvQualifiedType
 ::CvQualifiedType(const Self& r):
   m_Type(r.m_Type),
   m_Const(r.m_Const),
-  m_Volatile(r.m_Volatile),
-  m_Restrict(r.m_Restrict)
+  m_Volatile(r.m_Volatile)
 {
 }
+
+
+/**
+ * Test if this cv-qualified type can be converted to the given
+ * cv-qualified type.
+ */
+bool
+CvQualifiedType
+::CanConvertTo(const Self& in_type) const
+{
+  return m_Type->CanConvertTo(in_type, m_Const, m_Volatile);
+}
+
+
+/**
+ * CvQualifiedTypes compare equal iff they refer to the same Type, and
+ * have the same cv-qualifiers.
+ */
+bool
+CvQualifiedType
+::operator== (const Self& r) const
+{
+  return ((m_Type == r.m_Type)
+          && (m_Const == r.m_Const)
+          && (m_Volatile == r.m_Volatile));
+}
+
+
+/**
+ * Uniquely orders CvQualifiedType instances.  Useful for using them as
+ * map keys.
+ */
+bool
+CvQualifiedType
+::operator< (const Self& r) const
+{
+  // First, compare the Type pointers.  Here we take advantage of the
+  // fact that types are generated uniquely from the TypeSystem's factory,
+  // so that the same type always has the same pointer value.
+  if(m_Type < r.m_Type)
+    {
+    return true;
+    }
+  else if(m_Type > r.m_Type)
+    {
+    return false;
+    }
+  else // if(m_Type == r.m_Type)
+    {
+    // The base type is the same.  Compare the cv-qualifiers.
+    unsigned char lhs = ((m_Const << 1) | m_Volatile);
+    unsigned char rhs = ((r.m_Const << 1) | r.m_Volatile);
+    return (lhs < rhs);
+    }
+}
+
 
 } // namespace _cxx_

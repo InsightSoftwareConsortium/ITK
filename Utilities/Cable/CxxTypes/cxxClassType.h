@@ -14,12 +14,6 @@ class ClassType;
 typedef std::list<const ClassType*> ClassTypeList;
 
 /**
- * An insertion iterator for ClassTypeList.
- */
-typedef std::back_insert_iterator<ClassTypeList>  ClassTypeListInserter;
-
-
-/**
  * Represents a C++ class type.  This could have been produced by a
  * class, struct, union, template full specialization, or template
  * instantiation.
@@ -31,11 +25,10 @@ public:
   
   virtual RepresentationType GetRepresentationType() const;
 
-  ClassTypeListInserter GetParentInserter();
   void AddParent(const ClassType*);
   
 protected:
-  virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const;
+  virtual bool CanConvertTo(const CvQualifiedType&, bool, bool) const;
   
   ClassType(const String&);
   ClassType(const Self&) {}
@@ -65,6 +58,8 @@ private:
    * operator.
    */
   CvQualifiedTypeList m_ConversionOperators;
+  
+  friend TypeSystem;
 };
 
 
