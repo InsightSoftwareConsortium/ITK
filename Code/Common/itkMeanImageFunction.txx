@@ -1,44 +1,44 @@
-/*=========================================================================
+  /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMeanImageFunction.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+    Program:   Insight Segmentation & Registration Toolkit
+    Module:    itkMeanImageFunction.txx
+    Language:  C++
+    Date:      $Date$
+    Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+    Copyright (c) 2002 Insight Consortium. All rights reserved.
+    See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+       This software is distributed WITHOUT ANY WARRANTY; without even 
+       the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+       PURPOSE.  See the above copyright notices for more information.
 
-=========================================================================*/
-#ifndef _itkMeanImageFunction_txx
-#define _itkMeanImageFunction_txx
-#include "itkMeanImageFunction.h"
+  =========================================================================*/
+  #ifndef _itkMeanImageFunction_txx
+  #define _itkMeanImageFunction_txx
+  #include "itkMeanImageFunction.h"
 
-#include "itkNumericTraits.h"
-#include "itkConstSmartNeighborhoodIterator.h"
+  #include "itkNumericTraits.h"
+  #include "itkConstSmartNeighborhoodIterator.h"
 
-namespace itk
-{
+  namespace itk
+  {
 
-/**
- * Constructor
- */
-template <class TInputImage, class TCoordRep>
-MeanImageFunction<TInputImage,TCoordRep>
-::MeanImageFunction()
-{
-}
+  /**
+   * Constructor
+   */
+  template <class TInputImage, class TCoordRep>
+  MeanImageFunction<TInputImage,TCoordRep>
+  ::MeanImageFunction()
+  {
+  }
 
 
-/**
- *
- */
-template <class TInputImage, class TCoordRep>
-void
+  /**
+   *
+   */
+  template <class TInputImage, class TCoordRep>
+  void
 MeanImageFunction<TInputImage,TCoordRep>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
@@ -55,7 +55,6 @@ MeanImageFunction<TInputImage,TCoordRep>
 MeanImageFunction<TInputImage,TCoordRep>
 ::EvaluateAtIndex(const IndexType& index) const
 {
-  int i;
   RealType sum;
 
   sum = NumericTraits<RealType>::Zero;
@@ -81,7 +80,8 @@ MeanImageFunction<TInputImage,TCoordRep>
   it.SetLocation(index);
 
   // Walk the neighborhood
-  for (i = 0; i < it.Size(); ++i)
+  const unsigned int size = it.Size();
+  for (unsigned int i = 0; i < size; ++i)
     {
     sum += static_cast<RealType>(it.GetPixel(i));
     }
