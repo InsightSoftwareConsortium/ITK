@@ -8,7 +8,9 @@
 # include "borland55/vcl_config_compiler.h"
 # endif  
 #else 
-#  if _MSC_VER >=1300
+#  if _MSC_VER >=1310
+#    include "vc71/vcl_config_compiler.h"
+#  elif _MSC_VER >=1300
 #    include "vc70/vcl_config_compiler.h"
 #  else //_MSC_VER >=1200
 #    include "vc60/vcl_config_compiler.h"

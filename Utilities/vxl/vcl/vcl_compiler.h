@@ -74,7 +74,9 @@
 # define VCL_WIN32
 # if defined(_MSC_VER)
 #  define VCL_VC
-#  if _MSC_VER >= 1300
+#  if _MSC_VER >= 1310
+#   define VCL_VC71 1
+#  elif _MSC_VER >= 1300
 #   define VCL_VC70 1
 #  elif _MSC_VER >= 1200
 #   define VCL_VC60 1
