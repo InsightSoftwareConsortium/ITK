@@ -143,8 +143,6 @@ ADD_TEST(itkVoronoiSegmentationImageFilterTest ${ALGORITHMS_TESTS2} itkVoronoiSe
 ADD_TEST(itkWatershedImageFilterTest ${ALGORITHMS_TESTS2} itkWatershedImageFilterTest)
 ADD_TEST(itkPointSetToPointSetRegistrationTest ${ALGORITHMS_TESTS2}  itkPointSetToPointSetRegistrationTest)
 ADD_TEST(itkPointSetToSpatialObjectDemonsRegistrationTest ${ALGORITHMS_TESTS2}  itkPointSetToSpatialObjectDemonsRegistrationTest)
-ADD_TEST(itkActiveShapeModelCalculatorTest ${ALGORITHMS_TESTS2} itkActiveShapeModelCalculatorTest)
-
 
 ADD_TEST(itkCurvatureFlowTest ${ALGORITHMS_TESTS}
     itkCurvatureFlowTest ${ITK_TEST_OUTPUT_DIR}/itkCurvatureFlowTest.vtk)
