@@ -55,7 +55,8 @@ namespace itk
   ImageSpatialObject< NDimensions, TransformType, PixelType >
   ::IsInside( const PointType & point )
   {
-    PointType p = TransformPointToLocalCoordinate( point );
+    PointType p = point;
+    TransformPointToLocalCoordinate( p );
     return m_Bounds->IsInside( p );
   }
 
@@ -74,7 +75,8 @@ namespace itk
       throw e;
       }
 
-    PointType p = TransformPointToLocalCoordinate(point);
+    PointType p = point;
+    TransformPointToLocalCoordinate(p);
 
     if( m_Image->TransformPhysicalPointToIndex( p, index ) )
       {

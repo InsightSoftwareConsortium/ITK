@@ -51,7 +51,7 @@ public:
   typedef SmartPointer<Superclass> SuperclassPointer;
   typedef SpatialObject< 3, AffineTransform< double, 3 >, bool > ChildrenType;
   typedef SmartPointer<ChildrenType> ChildrenPointer;
-  typedef std::list< ChildrenPointer > ChildrenListType;
+  typedef std::list< ChildrenType * > ChildrenListType;
 
   itkNewMacro( Self );
   itkTypeMacro( Self, Superclass );

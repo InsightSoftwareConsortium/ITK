@@ -21,11 +21,13 @@ namespace itk
 { 
   TubeNetworkSpatialObject 
   ::TubeNetworkSpatialObject() // : CompositeSpatialObject<3, AffineTransform<double,3>, bool >()  
-  {} 
+  {
+  } 
  
   TubeNetworkSpatialObject 
   ::~TubeNetworkSpatialObject()  
-  {} 
+  {
+  } 
  
  
   /* 
@@ -40,17 +42,16 @@ namespace itk
     ChildrenListType::iterator it = m_Children.begin(); 
     ChildrenListType::iterator end = m_Children.end();
    
-    TubeSpatialObject* tubePointer;
-    TubeNetworkSpatialObject* tubeNetPointer; 
- 
- 
+    TubeSpatialObject * tubePointer;
+    TubeNetworkSpatialObject * tubeNetPointer; 
+
     for( ; it != end; it++ ) 
       { 
-      if( (tubePointer = dynamic_cast< TubeSpatialObject * >(it->GetPointer())) != 0 ) 
+      if( (tubePointer = dynamic_cast< TubeSpatialObject * >(*it)) != 0 ) 
         {
         tubePointer->CalcTangent(); 
         }
-      else if( (tubeNetPointer = dynamic_cast< TubeNetworkSpatialObject* >(it->GetPointer())) != 0 )
+      else if( (tubeNetPointer = dynamic_cast< TubeNetworkSpatialObject* >(*it)) != 0 )
         {
         tubeNetPointer->CalcTangent();
         }

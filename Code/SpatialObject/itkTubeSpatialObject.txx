@@ -40,7 +40,8 @@ namespace itk
  
   TubeSpatialObject 
   ::~TubeSpatialObject()
-  { } 
+  { 
+  } 
  
   TubeSpatialObject::PointListPointer  
   TubeSpatialObject
@@ -140,8 +141,9 @@ namespace itk
     PointListType::iterator it = m_Points->begin();
     PointListType::iterator end = m_Points->end(); 
     PointListType::iterator min;
-
-    PointType transformedPoint = TransformPointToLocalCoordinate(point);
+    
+    PointType transformedPoint = point;
+    TransformPointToLocalCoordinate(transformedPoint);
 
     if( !m_Bounds->IsInside(transformedPoint) )
       {

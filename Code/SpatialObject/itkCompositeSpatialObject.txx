@@ -25,37 +25,58 @@ namespace itk
   template < unsigned int NDimensions, class TransformType, class OutputType >
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
   ::CompositeSpatialObject()
-  {}
+  {
+  }
 
   template < unsigned int NDimensions, class TransformType, class OutputType >
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
   ::~CompositeSpatialObject()
-  {}
+  {
+  }
 
 
   template < unsigned int NDimensions, class TransformType, class OutputType >
   void 
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
-  ::AddSpatialObject( SuperclassPointer pointer )
+  ::AddSpatialObject( Superclass * pointer )
   {
-    m_Children.push_back( pointer );
-    pointer->SetParent( this );
+    ChildrenListType::iterator it;
+
+    it = std::find(m_Children.begin(),m_Children.end(),pointer);
+
+    if( it == m_Children.end() )
+      {
+      m_Children.push_back( pointer );
+      pointer->SetParent( this );
+      }
+    else
+      { 
+      //throw an exception object to let user know that he tried to add an object
+      // which is already in the list of the children.
+      }
   }
 
   template < unsigned int NDimensions, class TransformType, class OutputType >
   void
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
-  ::RemoveSpatialObject( SuperclassPointer pointer )
+  ::RemoveSpatialObject( Superclass * pointer )
   {
-    ChildrenListType::iterator it = m_Children.begin();
-    for( it = m_Children.begin(); it != m_Children.end(); ++it)
+    ChildrenListType::iterator it;
+    
+    it = std::find(m_Children.begin(),m_Children.end(),pointer);
+
+    if( it != m_Children.end() )
       {
       if( *it == pointer )
         {
         (*it)->SetParent(NULL);
         m_Children.erase( it );
-        break;
         }
+      }
+    else
+      { 
+      //throw an exception object to let user know that he tried to remove an object
+      // which is not in the list of the children.
       }
   }
   
@@ -251,7 +272,7 @@ namespace itk
 
     for(; it != end; it++ )
       {
-      os << "[" << (*it).GetPointer() << "] ";
+      os << "[" << (*it) << "] ";
       }
     os << std::endl;
 
@@ -261,7 +282,7 @@ namespace itk
   template < unsigned int NDimensions, class TransformType, class OutputType >
   void 
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
-  ::RebuildGlobalToLocalTransformList( void )
+  ::RebuildGlobalToLocalTransformList( void ) const
   {
     BuildGlobalToLocalTransformList(m_GlobalToLocalTransformList,false);
 
@@ -277,7 +298,7 @@ namespace itk
   template < unsigned int NDimensions, class TransformType, class OutputType >
   void 
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
-  ::RebuildLocalToGlobalTransformList( void )
+  ::RebuildLocalToGlobalTransformList( void ) const
   {
     BuildLocalToGlobalTransformList(m_LocalToGlobalTransformList,false);
 
@@ -289,7 +310,7 @@ namespace itk
       (*it)->RebuildLocalToGlobalTransformList();
       }
   }
-  
+
 } // end of namespace itk 
 
 #endif // __SpatialCompositeObject_txx

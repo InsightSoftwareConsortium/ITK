@@ -83,8 +83,10 @@ public:
   typedef OutputVectorType * OutputVectorPointer;
 
   typedef typename TransformType::Pointer  TransformPointer;
+  //typedef typename TransformType::ConstPointer  TransformConstPointer;
+  typedef const TransformType *  TransformConstPointer;
   
-  typedef std::list<TransformPointer> TransformListType;
+  typedef std::list< const TransformType * > TransformListType;
   typedef TransformListType * TransformListPointer;
   
   typedef VectorContainer< unsigned long int, PointType > VectorContainerType;
@@ -96,7 +98,7 @@ public:
   itkNewMacro( Self );
  
   /** Run-time type information (and related methods). */ 
-  itkTypeMacro( Self, Superclass );       
+  itkTypeMacro( Self, Superclass );
 
   /**
   * Set the bounding box of the object. 
@@ -117,17 +119,17 @@ public:
   /*
   * Set the property applied to the object.
   */
-  void SetProperty( PropertyPointer property ); 
+  void SetProperty( const PropertyType * property ); 
 
   /** 
   * Returns the dimension of the object. 
   */ 
   unsigned int GetDimension( void );
 
-  void SetLocalToGlobalTransform( TransformPointer transform ); 
+  void SetLocalToGlobalTransform( const TransformType * transform ); 
   const TransformPointer GetLocalToGlobalTransform( void ); 
   
-  void SetGlobalToLocalTransform( TransformPointer transform ); 
+  void SetGlobalToLocalTransform( const TransformType * transform ); 
   const TransformPointer GetGlobalToLocalTransform( void ); 
 
   /*
@@ -157,18 +159,18 @@ public:
   * Set the pointer to the parent object in the tree hierarchy
   * used for the spatial object patter.
   */
-  void SetParent( Pointer parent );
+  void SetParent( const Self * parent );
 
   /**
   * Return a pointer to the parent object in the hierarchy tree
   */ 
-  const Self & GetParent( void ); 
+  ConstPointer GetParent( void ); 
 
   /**
   * Return true if the object has a parent object. Basically, only
   * the root object , or some isolated objects should return false.
   */
-  bool HasParent( void );
+  bool HasParent( void ) const;
 
   /**
   * Return the n-th order derivative value at the specified point.
@@ -179,25 +181,27 @@ public:
   * Returns the coordinates of the point passed as argument in the object
   * local coordinate system.
   */
-  PointType TransformPointToLocalCoordinate( PointType p );
+  //PointType TransformPointToLocalCoordinate( PointType & p );
+  void TransformPointToLocalCoordinate( PointType & p ) const;
 
   /** 
   * Returns the coordinates of the point passed as argument in the object
   * local coordinate system.
   */
-  PointType TransformPointToGlobalCoordinate( PointType p ); 
+  //PointType TransformPointToGlobalCoordinate( PointType & p ); 
+  void TransformPointToGlobalCoordinate( PointType & p ) const; 
 
   /**
   * Build the list of local to global transforms to applied to the SpatialObject.
   * If init equals false, then the list will be initialized.
   */
-  void BuildLocalToGlobalTransformList( TransformListPointer list, bool init );
+  void BuildLocalToGlobalTransformList( TransformListPointer list, bool init ) const;
 
   /**
   * Build the list of global to local transforms applied to the SpatialObject.
   * If init equals false, then the list will be initialized.
   */
-  void BuildGlobalToLocalTransformList( TransformListPointer list, bool init );
+  void BuildGlobalToLocalTransformList( TransformListPointer list, bool init ) const;
 
   /**
   * Returns the list of local to global transforms.
@@ -227,33 +231,33 @@ public:
   * Rebuild the list of transform applied to the object to switch from the local
   * coordinate system, to the real world coordinate system.
   */
-  virtual void RebuildLocalToGlobalTransformList( void );
+  virtual void RebuildLocalToGlobalTransformList( void ) const;
 
   /**
   * Rebuild the list of transforms applied to the object to switch from the real
   * world coordinate systemn to the local coordinate system.
   */
-  virtual void RebuildGlobalToLocalTransformList( void );
+  virtual void RebuildGlobalToLocalTransformList( void ) const;
 
   /**
   * Rebuild all the transforms list. Basically, this function is performed every time
   * an object is plugged or unplugged to a hierarchy of objects.
   */
-  virtual void RebuildAllTransformLists( void );
+  virtual void RebuildAllTransformLists( void ) const;
 
 protected: 
 
   BoundingBoxPointer m_Bounds; 
   PropertyPointer m_Property; 
-  Pointer m_Parent; 
+  ConstPointer m_Parent; 
   VectorType m_Spacing;
   TimeStamp m_BoundsMTime;
 
   TransformListPointer m_LocalToGlobalTransformList;
   TransformListPointer m_GlobalToLocalTransformList;
 
-  TransformPointer m_LocalToGlobalTransform; 
-  TransformPointer m_GlobalToLocalTransform; 
+  TransformConstPointer m_LocalToGlobalTransform; 
+  TransformConstPointer m_GlobalToLocalTransform; 
 
   /** Constructor. */ 
   SpatialObject(); 

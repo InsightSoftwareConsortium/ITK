@@ -102,12 +102,14 @@ namespace itk
   template< class TComponentType >
   SpatialObjectProperty< TComponentType >
   ::SpatialObjectProperty()
-  {}
+  {
+  }
 
   template< class TComponentType >
   SpatialObjectProperty< TComponentType >
   ::~SpatialObjectProperty()
-  {}
+  {
+  }
 
   template< class TComponentType >
   void 

@@ -48,14 +48,6 @@ namespace itk
   TubePoint
   ::~TubePoint() 
   {
-    if (m_X != NULL) 
-    {
-    delete m_X;
-    }
-    if (m_T != NULL) 
-    {
-    delete m_T;
-    }
   }
 
   TubePoint::Self & 

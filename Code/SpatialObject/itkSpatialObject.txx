@@ -92,13 +92,13 @@ namespace itk
   template< unsigned int NDimensions, class TransformType, class OutputType >
   void 
   SpatialObject< NDimensions, TransformType, OutputType >
-  ::SetProperty( PropertyPointer property)
+  ::SetProperty( const PropertyType * property)
   { 
     m_Property = property; 
   }
 
   template< unsigned int NDimensions, class TransformType, class OutputType >
-  const SpatialObject< NDimensions, TransformType, OutputType >::Self & 
+  SpatialObject< NDimensions, TransformType, OutputType >::ConstPointer 
   SpatialObject< NDimensions, TransformType, OutputType >
   ::GetParent( void )
   {
@@ -108,7 +108,7 @@ namespace itk
   template< unsigned int NDimensions, class TransformType, class OutputType >  
   void 
   SpatialObject< NDimensions, TransformType, OutputType >
-  ::SetParent( Pointer parent )
+  ::SetParent( const Self * parent )
   {
     m_Parent = parent;
     RebuildAllTransformLists();
@@ -117,9 +117,9 @@ namespace itk
   template< unsigned int NDimensions, class TransformType, class OutputType >
   bool
   SpatialObject< NDimensions, TransformType, OutputType >
-  ::HasParent( void )
+  ::HasParent( void ) const
   {
-    if( m_Parent.GetPointer() != NULL )
+    if( m_Parent != NULL )
       return true;
     else
       return false;
@@ -145,8 +145,6 @@ namespace itk
   SpatialObject< NDimensions, TransformType, OutputType >
   ::~SpatialObject( void )
   {
-    delete m_LocalToGlobalTransformList;
-    delete m_GlobalToLocalTransformList;
   }
 
 
@@ -170,7 +168,7 @@ namespace itk
     end = m_LocalToGlobalTransformList->end();
     for( ; it != end; it++ )
       {
-      os<<"["<<(*it).GetPointer()<<"] ";
+      os<<"["<<(*it)<<"] ";
       }
     os << std::endl;
     os << indent << "GlobalToLocalTransformList size: ";
@@ -178,7 +176,7 @@ namespace itk
     end = m_GlobalToLocalTransformList->end();
     for( ; it != end; it++ )
       {
-      os<<"["<<(*it).GetPointer()<<"] ";
+      os<<"["<<(*it)<<"] ";
       }
     os << std::endl << std::endl;
     os << "Object properties: " << std::endl;
@@ -204,14 +202,10 @@ namespace itk
   template< unsigned int NDimensions, class TransformType, class OutputType >
   void
   SpatialObject< NDimensions, TransformType, OutputType >
-  ::BuildLocalToGlobalTransformList( TransformListPointer list, bool init )
+  ::BuildLocalToGlobalTransformList( TransformListPointer list, bool init ) const
   {
-    if( !init )
-      {
-      list->clear();
-      }
-
     list->push_back(m_LocalToGlobalTransform);
+
     if( HasParent() )
       {
       m_Parent->BuildLocalToGlobalTransformList(list,true);
@@ -221,14 +215,10 @@ namespace itk
   template< unsigned int NDimensions, class TransformType, class OutputType >
   void
   SpatialObject< NDimensions, TransformType, OutputType >
-  ::BuildGlobalToLocalTransformList( TransformListPointer list, bool init )
+  ::BuildGlobalToLocalTransformList( TransformListPointer list, bool init ) const
   {
-    if( !init )
-      {
-      list->clear();
-      }
-
     list->push_back(m_GlobalToLocalTransform);
+
     if( HasParent() )
       {
       m_Parent->BuildGlobalToLocalTransformList(list,true);
@@ -238,7 +228,34 @@ namespace itk
   template< unsigned int NDimensions, class TransformType, class OutputType >
   void 
   SpatialObject< NDimensions, TransformType, OutputType >
-  ::SetLocalToGlobalTransform( TransformPointer transform )
+  ::RebuildLocalToGlobalTransformList( void ) const
+  {
+    m_LocalToGlobalTransformList->clear();
+    BuildLocalToGlobalTransformList(m_LocalToGlobalTransformList,false);
+  }
+
+  template< unsigned int NDimensions, class TransformType, class OutputType >
+  void 
+  SpatialObject< NDimensions, TransformType, OutputType >
+  ::RebuildGlobalToLocalTransformList( void ) const
+  {
+    m_GlobalToLocalTransformList->clear();
+    BuildGlobalToLocalTransformList(m_GlobalToLocalTransformList,false);
+  }
+
+  template< unsigned int NDimensions, class TransformType, class OutputType >
+  void 
+  SpatialObject< NDimensions, TransformType, OutputType >
+  ::RebuildAllTransformLists( void ) const
+  {
+    RebuildLocalToGlobalTransformList();
+    RebuildGlobalToLocalTransformList();
+  }
+
+  template< unsigned int NDimensions, class TransformType, class OutputType >
+  void 
+  SpatialObject< NDimensions, TransformType, OutputType >
+  ::SetLocalToGlobalTransform( const TransformType * transform )
   {
     m_LocalToGlobalTransform = transform;
     RebuildLocalToGlobalTransformList();
@@ -255,7 +272,7 @@ namespace itk
   template< unsigned int NDimensions, class TransformType, class OutputType >
   void 
   SpatialObject< NDimensions, TransformType, OutputType >
-  ::SetGlobalToLocalTransform( TransformPointer transform )
+  ::SetGlobalToLocalTransform( const TransformType * transform )
   {
     m_GlobalToLocalTransform = transform;
     RebuildGlobalToLocalTransformList();
@@ -286,9 +303,9 @@ namespace itk
   }
 
   template< unsigned int NDimensions, class TransformType, class OutputType >
-  SpatialObject< NDimensions, TransformType, OutputType >::PointType
+  void
   SpatialObject< NDimensions, TransformType, OutputType >
-  ::TransformPointToLocalCoordinate( PointType p )
+  ::TransformPointToLocalCoordinate( PointType & p ) const
   {
     TransformListType::reverse_iterator it = m_GlobalToLocalTransformList->rbegin();
     TransformListType::reverse_iterator end = m_GlobalToLocalTransformList->rend();
@@ -302,13 +319,13 @@ namespace itk
       p1 = p2;
       }
 
-    return p2;
+    p = p2;
   }
 
   template< unsigned int NDimensions, class TransformType, class OutputType >
-  SpatialObject< NDimensions, TransformType, OutputType >::PointType
+  void
   SpatialObject< NDimensions, TransformType, OutputType >
-  ::TransformPointToGlobalCoordinate( PointType p )
+  ::TransformPointToGlobalCoordinate( PointType & p ) const
   {
     TransformListType::reverse_iterator it = m_LocalToGlobalTransformList->rbegin();
     TransformListType::reverse_iterator end = m_LocalToGlobalTransformList->rend();
@@ -322,7 +339,7 @@ namespace itk
       p1 = p2;
       }
 
-    return p2;
+    p = p2;
   }
 
   template< unsigned int NDimensions, class TransformType, class OutputType >
@@ -339,31 +356,6 @@ namespace itk
       }
     
     return latestTime;
-  }
-
-  template< unsigned int NDimensions, class TransformType, class OutputType >
-  void 
-  SpatialObject< NDimensions, TransformType, OutputType >
-  ::RebuildLocalToGlobalTransformList( void )
-  {
-    BuildLocalToGlobalTransformList(m_LocalToGlobalTransformList,false);
-  }
-
-  template< unsigned int NDimensions, class TransformType, class OutputType >
-  void 
-  SpatialObject< NDimensions, TransformType, OutputType >
-  ::RebuildGlobalToLocalTransformList( void )
-  {
-    BuildGlobalToLocalTransformList(m_GlobalToLocalTransformList,false);
-  }
-
-  template< unsigned int NDimensions, class TransformType, class OutputType >
-  void 
-  SpatialObject< NDimensions, TransformType, OutputType >
-  ::RebuildAllTransformLists( void )
-  {
-    RebuildLocalToGlobalTransformList();
-    RebuildGlobalToLocalTransformList();
   }
 
 } // end of namespace itk

@@ -52,7 +52,7 @@ public:
   typedef typename Superclass::Pointer SuperclassPointer; 
   typedef SmartPointer< Self > Pointer; 
   typedef SmartPointer< const Self > ConstPointer; 
-  typedef std::list< SuperclassPointer > ChildrenListType; 
+  typedef std::list< Superclass * > ChildrenListType; 
   typedef typename Superclass::PointType PointType;
   typedef typename Superclass::OutputVectorType OutputVectorType;
      
@@ -63,7 +63,7 @@ public:
   /** 
   * Add an object to the list of children. 
   */ 
-  void AddSpatialObject( SuperclassPointer pointer ); 
+  void AddSpatialObject( Superclass * pointer ); 
      
   /** 
   * Remove the object passed as arguments from the list of 
@@ -71,7 +71,7 @@ public:
   * should return a false value if the object to remove is 
   * not found in the list. 
   */ 
-  void RemoveSpatialObject( SuperclassPointer object ); 
+  void RemoveSpatialObject( Superclass * object ); 
 
   /** 
   * Execute the IsInside() function for each children of this 
@@ -97,8 +97,6 @@ public:
   * this function throws an exception.
   */
   void DerivativeAt( const PointType & point, short unsigned int order, OutputVectorType & value ); 
-
-  //OutputVectorType ComputeDerivative( OutputVectorType & v2, OutputVectorType & v1 );
 
   /**
   * Find if there is an evaluable children for the specified point,
@@ -138,13 +136,13 @@ public:
   * Rebuild the list of transform applied to the object to switch from the local
   * coordinate system, to the real world coordinate system.
   */
-  virtual void RebuildLocalToGlobalTransformList( void );
+  virtual void RebuildLocalToGlobalTransformList( void ) const;
   
   /**
   * Rebuild the list of transforms applied to the object to switch from the real
   * world coordinate systemn to the local coordinate system.
   */
-  virtual void RebuildGlobalToLocalTransformList( void );
+  virtual void RebuildGlobalToLocalTransformList( void ) const;
 
 protected: 
 
