@@ -40,7 +40,6 @@ namespace itk{
     typedef SpatialObjectProperty< TComponentType > Self;
     typedef LightObject Superclass;
     typedef RGBAPixel< TComponentType > PixelType;
-    typedef PixelType * PixelPointer;
     typedef std::string StringType;
 
     typedef SmartPointer<Self> Pointer;
@@ -49,7 +48,7 @@ namespace itk{
     itkNewMacro( Self );
     itkTypeMacro( Self, Superclass );
 
-    PixelType GetColor( void ) const;
+    const PixelType & GetColor( void ) const;
     void SetColor( PixelType & color );
 
     void SetRed( TComponentType r );
