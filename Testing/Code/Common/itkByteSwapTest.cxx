@@ -159,9 +159,9 @@ int itkByteSwapTest ( int argc, char* argv[] )
   catch ( itk::ByteSwapperError &)
     {
     std::cout << "Good catch! Caught double exception size is: " << sizeof ( double ) << std::endl;
-    return 0;
+    return 1;
     }
   // we failed to throw an exception for the double swap (once it's implemented, this should return 0
-  return 1;
+  return 0;
   
 }
