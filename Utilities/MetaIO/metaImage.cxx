@@ -19,6 +19,8 @@ MetaImage()
 {
   if(META_DEBUG) std::cout << "MetaImage()" << std::endl;
   MetaImage::Clear();
+  m_AutoFreeElementData = 0;
+  m_ElementData = NULL;
 }
 
 //
