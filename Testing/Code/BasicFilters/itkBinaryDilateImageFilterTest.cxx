@@ -21,7 +21,7 @@
 #include <itkBinaryDilateImageFilter.h>
 #include <itkBinaryBallStructuringElement.h>
 #include <itkImageRegionIterator.h>
-
+#include <itkExceptionObject.h>
 
 int main() 
 {
@@ -89,8 +89,21 @@ int main()
   ind[0] = 2;
   ind[1] = 2;
   inputImage->SetPixel(ind, fgValue);
+
   ind[0] = 19;
   ind[1] = 10;
+  inputImage->SetPixel(ind, fgValue);
+
+  ind[0] = 19;
+  ind[1] = 0;
+  inputImage->SetPixel(ind, fgValue);
+
+  ind[0] = 19;
+  ind[1] = 19;
+  inputImage->SetPixel(ind, fgValue);
+
+  ind[0] = 0;
+  ind[1] = 19;
   inputImage->SetPixel(ind, fgValue);
 
   it.GoToBegin();
@@ -135,25 +148,33 @@ int main()
   myImageType::Pointer outputImage = filter->GetOutput();
 
   // Execute the filter
-  filter->Update();
-
-  // Create an iterator for going through the image output
-  myIteratorType it2(outputImage, outputImage->GetBufferedRegion());
-  
-  //  Print the content of the result image
-  std::cout << "Result " << std::endl;
-  i=0;
-  while( !it2.IsAtEnd() ) 
+  try
     {
-    std::cout << it2.Get() << "  ";
-    ++it2;
-    
-    if (++i % 20 == 0)
-      {
-      std::cout << std::endl;
-      }
-    }
 
+    filter->Update();
+    // Create an iterator for going through the image output
+    myIteratorType it2(outputImage, outputImage->GetBufferedRegion());
+  
+    //  Print the content of the result image
+    std::cout << "Result " << std::endl;
+    i=0;
+    while( !it2.IsAtEnd() ) 
+      {
+      std::cout << it2.Get() << "  ";
+      ++it2;
+    
+      if (++i % 20 == 0)
+        {
+        std::cout << std::endl;
+        }
+      }
+   }
+
+  catch (itk::ExceptionObject& e)
+    {
+    std::cerr << "Exception caught during filter Update\n"  << e;
+    return -1;
+    }
 
   // All objects should be automatically destroyed at this point
 
