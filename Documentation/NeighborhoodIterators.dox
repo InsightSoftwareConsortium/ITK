@@ -10,14 +10,12 @@ the inline Itk documentation and manual.
 \par
 Neighborhood iterators are the abstraction of the concept of \em locality in
 image processing. They are designed to be used in algorithms that perform
-calculations using a neighborhood of pixel values around a point in an image.
-
-\par
-For example, a classic neighborhood-based operation is to compute the mean of a
-set of pixels in order to reduce noise in an image. This is typically done by
+calculations on a neighborhood of pixel values around a point in an image. For
+example, a classic neighborhood-based operation is to compute the mean of a set
+of pixels in order to reduce noise in an image. This is typically done by
 taking a region of 3x3 pixels and computing the average of their values. A new
-image is produced with the resulting means, this new image contains a lower
-amount of high frequencies and a cause of that a reduced amount of noise.
+image with fewer narrow high frequency spikes (noise) is produced using the
+resulting means.
 
 \par
 This code in classical \em texbook notation can look like:
@@ -47,8 +45,7 @@ by using iterators to dereference pixels, and for a two-dimensional image,
 code-readability may not suffer much.  But what if we want code for three
 or more dimensions?  Before long, the code size and complexity will increase to
 unmanageable levels.  In Itk, we have encapsulated this functionality for
-efficiency, readability, and reusability. ( In the code examples that follow,
-some template parameters may have been omitted for clarity. )
+efficiency, readability, and reusability. 
 
 \section NeighborhoodIteratorsSection Neighborhood iterators
 itk::Image neighborhood iteration and dereferencing is encapsulated in the
@@ -56,14 +53,16 @@ itk::NeighborhoodIterator classes. ITK NeighborhoodIterators allow for code
 that is closer to the algorithmic abstraction,
 
 \code
-  ForAllThePixels p in Image
-     GetTheNeighbors in a 3x3 region
-       Compute their means
-         Write the value to the output
+  ForAllTheIndicies i in Image
+     GetTheNeighbors n in a 3x3 region around i
+       Compute the mean of all pixels n
+         Write the value to the output at i
 \endcode
 
 Here is how the pseudocode above can be rewritten in ITK using neighborhood
-iterators:
+iterators: ( In the code examples that follow, some template parameters may
+have been omitted for clarity. )
+
 
 \code
 1   typedef itk::Image<float, 2> ImageType;
@@ -95,7 +94,7 @@ iterators:
 \endcode
 
 \par        
-Note that the computational work is done in lines 18-26. The code is also
+Note that the computational work is confined to lines 18-26. The code is also
 completely generalized for multiple dimensions.  For example, changing line 1
 to:
 \code
@@ -103,19 +102,25 @@ to:
 \endcode
 produces an averaging filter for five-dimensional images. 
 
+\par
+The values in the neighborhood are dereferenced through the GetPixel(n) method
+of the iterator.  Think of the iterator as a C array, storing  neighborhood 
+values in the same order that they are stored in the image, with the lowest
+dimension as the fastest increasing dimension.
+
 \section OperatorsOperationsSection Neighborhood operators and operations
 NeighborhoodOperators are container classes for generating and storing
 computational kernels such as LaPlacian, Gaussian, derivative, and
 morphological operators.  They provide a generalized interface for creation and 
-access of the operator coefficients.  
+access of the operator coefficients.
 
 \par
 Applying a NeighborhoodOperator to a NeighborhoodIterator requires defining
-some sort of operation.  For convolution, an inner product operation has been
-defined.  Using a neighborhood iterator, inner product operation, and a
-neighborhood operator, filtering by convolution with a kernel can be written
-easily in only a few lines of code in Itk.  The following code forms the basic
-model for neighborhood image processing in Itk.
+some sort of operation.  One common case is that of convolution with a kernel
+of coefficients.  In Itk, convolution filtering of an image can be done in just
+a few lines of code using an inner product operation between a neighborhood
+iterator and an operator.  The following convolution with a LaPlacian kernel
+demonstrates this concept.
 
 \code
 1  LaPlacianOperator<double, 3> OP;
@@ -131,10 +136,9 @@ model for neighborhood image processing in Itk.
 \endcode
 
 \par
-Of course it is also possible and appropriate to work outside of the
-operator/operation model.  Some algorithms may be written more easily and
-efficiently by simply using pixel-wise manipulations.  A ``half'' directional
-derivative is one such example.
+Sometimes it may be more appropriate and efficient to work outside of the
+operator/operation model.  The mean calculation above is one example.  A
+``half'' directional derivative, shown below, is another example.
 
 \code
 1  NeighborhoodIterator::RadiusType radius = {1, 0, 0};
@@ -147,10 +151,8 @@ derivative is one such example.
 \endcode
 
 \par
-Note that in this example the neighborhood is defined as a three pixel strip
-with width along only the first axis.  The neighborhood itself is referenced like
-a normal C array (through the GetPixel(n) method), with pixels ordered as in
-the itk::Image, where lowest dimension is the fastest increasing dimension.  Mapping
+In this example the neighborhood is defined as a three pixel strip
+with width along only the first axis.  Mapping
 the spatial orientation of neighborhood pixels to the array location is the
 responsibility of the code writer.  Some methods such as GetStride(n), which
 returns the stride length in pixels along an axis n, have been provided to help 
