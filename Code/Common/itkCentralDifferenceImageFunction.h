@@ -101,6 +101,11 @@ public:
    * Index typedef support.
    */
   typedef typename Superclass::IndexType IndexType;
+  
+  /**
+   * ContinuousIndex typedef support.
+   */
+  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
   /**
    * Point typedef support.
