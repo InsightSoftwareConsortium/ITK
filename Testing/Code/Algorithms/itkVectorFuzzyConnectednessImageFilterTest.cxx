@@ -157,9 +157,9 @@ int main()
 	testFuzzy->SetObjectsMean(mean2,1);
 
 	MatrixType matrix1;
-	matrix1.set((double *)object_cov1);
+	matrix1.GetVnlMatrix().set((double *)object_cov1);
 	testFuzzy->SetObjectsMatrix(matrix1,0);
-	matrix1.set((double *)object_cov2);
+	matrix1.GetVnlMatrix().set((double *)object_cov2);
 	testFuzzy->SetObjectsMatrix(matrix1,1);
 
 
