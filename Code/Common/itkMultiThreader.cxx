@@ -262,7 +262,7 @@ void MultiThreader::SingleMethodExecute()
     m_ThreadInfoArray[thread_loop].UserData    = m_SingleData;
     m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
     process_id[thread_loop] = 
-      sproc( this->SingleMethod, PR_SADDR, 
+      sproc( m_SingleMethod, PR_SADDR, 
 	     ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
     if ( process_id[thread_loop] == -1)
       {
@@ -273,7 +273,7 @@ void MultiThreader::SingleMethodExecute()
   // Now, the parent thread calls this->SingleMethod() itself
   m_ThreadInfoArray[0].UserData = m_SingleData;
   m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
-  this->SingleMethod((void *)(&m_ThreadInfoArray[0]) );
+  m_SingleMethod((void *)(&m_ThreadInfoArray[0]) );
 
   // The parent thread has finished this->SingleMethod() - so now it
   // waits for each of the other processes to exit
@@ -312,12 +312,12 @@ void MultiThreader::SingleMethodExecute()
 
 #ifdef ITK_HP_PTHREADS
     pthread_create( &(process_id[thread_loop]),
-		    attr, this->SingleMethod,  
+		    attr, m_SingleMethod,  
 		    ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
 #else
     int                threadError;
     threadError =
-      pthread_create( &(process_id[thread_loop]), &attr, this->m_SingleMethod,  
+      pthread_create( &(process_id[thread_loop]), &attr, m_SingleMethod,  
 		      ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
     if (threadError != 0)
       {
@@ -330,7 +330,7 @@ void MultiThreader::SingleMethodExecute()
   // Now, the parent thread calls this->SingleMethod() itself
   m_ThreadInfoArray[0].UserData = m_SingleData;
   m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
-  this->m_SingleMethod((void *)(&m_ThreadInfoArray[0]) );
+  m_SingleMethod((void *)(&m_ThreadInfoArray[0]) );
 
   // The parent thread has finished this->SingleMethod() - so now it
   // waits for each of the other processes to exit
@@ -346,7 +346,7 @@ void MultiThreader::SingleMethodExecute()
   // There is no multi threading, so there is only one thread.
   m_ThreadInfoArray[0].UserData    = m_SingleData;
   m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
-  this->m_SingleMethod( (void *)(&m_ThreadInfoArray[0]) );
+  m_SingleMethod( (void *)(&m_ThreadInfoArray[0]) );
 #endif
 #endif
 #endif
