@@ -51,7 +51,7 @@ namespace itk
  * \ingroup IOFilters
  * \sa VTKImageImport 
  */
-template <typename TOutputImage>
+template <typename TOutputImage, typename TVTKRealType=float>
 class ITK_EXPORT VTKImageImport: public ImageSource<TOutputImage>
 {
 public:
@@ -66,6 +66,10 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(VTKImageImport, ImageSource);
 
+  /** Typedef for VTK interface.  VTK 4.2 uses floats for positions,
+   * VTK 4.4 uses doubles. */
+  typedef TVTKRealType vtkFloatingPointType;
+
   /** Convenient typedefs from the output image. */
   typedef TOutputImage OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
@@ -76,8 +80,8 @@ public:
 
   /** VTK 4.2 uses float for representing origin and spacing
    *  after version 4.2 the types switched to double. */
-  typedef float   VTKSpacingType;
-  typedef float   VTKOriginType;
+  typedef vtkFloatingPointType   VTKSpacingType;
+  typedef vtkFloatingPointType   VTKOriginType;
   //  typedef double   VTKSpacingType;
   //  typedef double   VTKOriginType;
 

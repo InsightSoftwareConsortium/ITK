@@ -17,6 +17,10 @@
 #ifndef __itkVTKImageExportBase_h
 #define __itkVTKImageExportBase_h
 
+#ifndef vtkFloatingPointType
+#define vtkFloatingPointType float
+#endif
+
 #include "itkProcessObject.h"
 
 namespace itk
@@ -47,20 +51,10 @@ public:
   /** Returns the user data to set for the vtkImageImport callbacks. */
   void* GetCallbackUserData();
 
-  /** VTK 4.2 uses float for representing origin and spacing
-   *  after version 4.2 the types switched to double. */
-  typedef float   VTKSpacingType;
-  typedef float   VTKOriginType;
-  //  typedef double   VTKSpacingType;
-  //  typedef double   VTKOriginType;
-
-
   /** The function pointer type expected for a callback. */
   typedef void (*UpdateInformationCallbackType)(void*);
   typedef int (*PipelineModifiedCallbackType)(void*);
   typedef int* (*WholeExtentCallbackType)(void*);
-  typedef VTKSpacingType * (*SpacingCallbackType)(void*);
-  typedef VTKOriginType  * (*OriginCallbackType)(void*);
   typedef const char* (*ScalarTypeCallbackType)(void*); 
   typedef int (*NumberOfComponentsCallbackType)(void*);
   typedef void (*PropagateUpdateExtentCallbackType)(void*, int*);
@@ -72,8 +66,6 @@ public:
   UpdateInformationCallbackType     GetUpdateInformationCallback() const;
   PipelineModifiedCallbackType      GetPipelineModifiedCallback() const;
   WholeExtentCallbackType           GetWholeExtentCallback() const;
-  SpacingCallbackType               GetSpacingCallback() const;
-  OriginCallbackType                GetOriginCallback() const;
   ScalarTypeCallbackType            GetScalarTypeCallback() const;
   NumberOfComponentsCallbackType    GetNumberOfComponentsCallback() const;
   PropagateUpdateExtentCallbackType GetPropagateUpdateExtentCallback() const;
@@ -95,8 +87,6 @@ protected:
   /** These callbacks are image-type specific, and are implemented
    * in VTKImageExport. */
   virtual int* WholeExtentCallback()=0;
-  virtual VTKSpacingType * SpacingCallback()=0;
-  virtual VTKOriginType  * OriginCallback()=0;
   virtual const char* ScalarTypeCallback()=0;
   virtual int NumberOfComponentsCallback()=0;
   virtual void PropagateUpdateExtentCallback(int*)=0;
@@ -113,8 +103,6 @@ private:
   static void UpdateInformationCallbackFunction(void*);
   static int PipelineModifiedCallbackFunction(void*);
   static int* WholeExtentCallbackFunction(void*);
-  static VTKSpacingType * SpacingCallbackFunction(void*);
-  static VTKOriginType  * OriginCallbackFunction(void*);
   static const char* ScalarTypeCallbackFunction(void*); 
   static int NumberOfComponentsCallbackFunction(void*);
   static void PropagateUpdateExtentCallbackFunction(void*, int*);

@@ -48,7 +48,7 @@ namespace itk
  * \ingroup IOFilters
  * \sa VTKImageExportBase
  */
-template <class TInputImage>
+template <class TInputImage, typename TVTKRealType=float>
 class ITK_EXPORT VTKImageExport: public VTKImageExportBase
 {
 public:
@@ -64,14 +64,27 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** Typedef for VTK interface.  VTK 4.2 uses floats for positions,
+   * VTK 4.4 uses doubles. */
+  typedef TVTKRealType vtkFloatingPointType;
+  typedef vtkFloatingPointType VTKSpacingType;
+  typedef vtkFloatingPointType VTKOriginType;
+
   /** The type of the input image. */
   typedef TInputImage InputImageType;
   
+  /** The function pointer type expected for a callback. These
+   * callbacks depend on the "RealType" used by VTK, so they cannot be
+   * defined in the superclass. */
+  typedef TVTKRealType * (*SpacingCallbackType)(void*);
+  typedef TVTKRealType * (*OriginCallbackType)(void*);
+  
+  /** Get a pointer to function to set as a callback in vtkImageImport. */
+  SpacingCallbackType               GetSpacingCallback() const;
+  OriginCallbackType                GetOriginCallback() const;
+
   /** Set the input image of this image exporter. */
   void SetInput(const InputImageType*);
-  
-  typedef typename Superclass::VTKSpacingType   VTKSpacingType;
-  typedef typename Superclass::VTKOriginType    VTKOriginType;
 
 protected:
   VTKImageExport();
@@ -88,8 +101,8 @@ protected:
   InputImageType * GetInput(void);
   
   int* WholeExtentCallback();
-  VTKSpacingType * SpacingCallback();
-  VTKOriginType  * OriginCallback();
+  virtual VTKSpacingType * SpacingCallback();
+  virtual VTKOriginType  * OriginCallback();
   const char* ScalarTypeCallback();
   int NumberOfComponentsCallback();
   void PropagateUpdateExtentCallback(int*);
@@ -99,6 +112,12 @@ protected:
 private:
   VTKImageExport(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  /** Actual function sent to VTK as a callback.  Casts the user data
+   * to a VTKImageExportBase pointer and invokes the corresponding
+   * virtual method in that instance. */
+  static VTKSpacingType * SpacingCallbackFunction(void*);
+  static VTKOriginType  * OriginCallbackFunction(void*);
 
   std::string m_ScalarTypeName;
   int m_WholeExtent[6];

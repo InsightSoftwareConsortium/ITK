@@ -25,8 +25,8 @@ namespace itk
  * The constructor records the name of the pixel's scalar type for the
  * image to be sent to vtkImageImport's ScalarTypeCallback.
  */
-template <class TInputImage>
-VTKImageExport<TInputImage>::VTKImageExport()
+template <class TInputImage, typename TVTKRealType>
+VTKImageExport<TInputImage, TVTKRealType>::VTKImageExport()
 {
   typedef typename InputImageType::PixelType ScalarType;
 
@@ -76,8 +76,8 @@ VTKImageExport<TInputImage>::VTKImageExport()
     }
 }
 
-template <class TInputImage>
-void VTKImageExport<TInputImage>::PrintSelf(std::ostream& os,
+template <class TInputImage, typename TVTKRealType>
+void VTKImageExport<TInputImage, TVTKRealType>::PrintSelf(std::ostream& os,
                                             Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -87,8 +87,8 @@ void VTKImageExport<TInputImage>::PrintSelf(std::ostream& os,
 /**
  * Set the input image for this filter.
  */
-template <class TInputImage>
-void VTKImageExport<TInputImage>::SetInput(const InputImageType* input)
+template <class TInputImage, typename TVTKRealType>
+void VTKImageExport<TInputImage, TVTKRealType>::SetInput(const InputImageType* input)
 {
   this->ProcessObject::SetNthInput(0, 
                                    const_cast<TInputImage*>(input) );
@@ -98,9 +98,9 @@ void VTKImageExport<TInputImage>::SetInput(const InputImageType* input)
 /**
  * Get the current input image.
  */
-template <class TInputImage>
-typename VTKImageExport<TInputImage>::InputImageType *
-VTKImageExport<TInputImage>::GetInput(void)
+template <class TInputImage, typename TVTKRealType>
+typename VTKImageExport<TInputImage, TVTKRealType>::InputImageType *
+VTKImageExport<TInputImage, TVTKRealType>::GetInput(void)
 {
   return static_cast<TInputImage*>(
     this->ProcessObject::GetInput(0));
@@ -112,8 +112,8 @@ VTKImageExport<TInputImage>::GetInput(void)
  * array of six integers describing the VTK-style extent of the image.
  * This corresponds to the ITK image's LargestPossibleRegion.
  */
-template <class TInputImage>
-int* VTKImageExport<TInputImage>::WholeExtentCallback()
+template <class TInputImage, typename TVTKRealType>
+int* VTKImageExport<TInputImage, TVTKRealType>::WholeExtentCallback()
 {
   InputImagePointer input = this->GetInput();
   InputRegionType region = input->GetLargestPossibleRegion();
@@ -141,9 +141,9 @@ int* VTKImageExport<TInputImage>::WholeExtentCallback()
  * Implements the SpacingCallback.  This returns a pointer to an array
  * of three floating point values describing the spacing of the image.
  */
-template <class TInputImage>
-typename VTKImageExport<TInputImage>::VTKSpacingType * 
-VTKImageExport<TInputImage>::SpacingCallback()
+template <class TInputImage, typename TVTKRealType>
+typename VTKImageExport<TInputImage, TVTKRealType>::VTKSpacingType * 
+VTKImageExport<TInputImage, TVTKRealType>::SpacingCallback()
 {
   InputImagePointer input = this->GetInput();
   const typename TInputImage::SpacingType& spacing = input->GetSpacing();
@@ -167,9 +167,9 @@ VTKImageExport<TInputImage>::SpacingCallback()
  * Implements the OriginCallback.  This returns a pointer to an array
  * of three floating point values describing the origin of the image.
  */
-template <class TInputImage>
-typename VTKImageExport<TInputImage>::VTKOriginType * 
-VTKImageExport<TInputImage>::OriginCallback()
+template <class TInputImage, typename TVTKRealType>
+typename VTKImageExport<TInputImage, TVTKRealType>::VTKOriginType * 
+VTKImageExport<TInputImage, TVTKRealType>::OriginCallback()
 {
   InputImagePointer input = this->GetInput();
   const typename TInputImage::PointType& origin = input->GetOrigin();
@@ -193,8 +193,8 @@ VTKImageExport<TInputImage>::OriginCallback()
  * Implements the ScalarTypeCallback.  This returns the name of the
  * scalar value type of the image.
  */
-template <class TInputImage>
-const char* VTKImageExport<TInputImage>::ScalarTypeCallback()
+template <class TInputImage, typename TVTKRealType>
+const char* VTKImageExport<TInputImage, TVTKRealType>::ScalarTypeCallback()
 {
   return m_ScalarTypeName.c_str();
 }
@@ -206,8 +206,8 @@ const char* VTKImageExport<TInputImage>::ScalarTypeCallback()
  *
  * Currently, only one pixel component is supported by this class.
  */
-template <class TInputImage>
-int VTKImageExport<TInputImage>::NumberOfComponentsCallback()
+template <class TInputImage, typename TVTKRealType>
+int VTKImageExport<TInputImage, TVTKRealType>::NumberOfComponentsCallback()
 {
   return 1;
 }
@@ -219,8 +219,8 @@ int VTKImageExport<TInputImage>::NumberOfComponentsCallback()
  * the input image.  This requested region is then propagated through
  * the ITK pipeline.
  */
-template <class TInputImage>
-void VTKImageExport<TInputImage>::PropagateUpdateExtentCallback(int* extent)
+template <class TInputImage, typename TVTKRealType>
+void VTKImageExport<TInputImage, TVTKRealType>::PropagateUpdateExtentCallback(int* extent)
 {  
   InputSizeType size;
   InputIndexType index;
@@ -246,8 +246,8 @@ void VTKImageExport<TInputImage>::PropagateUpdateExtentCallback(int* extent)
  * buffered portion of the image.  This corresponds to the ITK image's
  * BufferedRegion.
  */
-template <class TInputImage>
-int* VTKImageExport<TInputImage>::DataExtentCallback()
+template <class TInputImage, typename TVTKRealType>
+int* VTKImageExport<TInputImage, TVTKRealType>::DataExtentCallback()
 {
   InputImagePointer input = this->GetInput();
   InputRegionType region = input->GetBufferedRegion();
@@ -273,12 +273,43 @@ int* VTKImageExport<TInputImage>::DataExtentCallback()
  * Implements the BufferPointerCallback.  This returns a pointer to
  * the image's memory buffer.
  */
-template <class TInputImage>
-void* VTKImageExport<TInputImage>::BufferPointerCallback()
+template <class TInputImage, typename TVTKRealType>
+void* VTKImageExport<TInputImage, TVTKRealType>::BufferPointerCallback()
 {
   InputImagePointer input = this->GetInput();
   return input->GetBufferPointer();
 }
+
+template <class TInputImage, typename TVTKRealType>
+typename VTKImageExport<TInputImage, TVTKRealType>::VTKSpacingType * 
+VTKImageExport<TInputImage, TVTKRealType>::SpacingCallbackFunction(void* userData)
+{
+  return static_cast<VTKImageExport<TInputImage, TVTKRealType>*>(userData)->
+    SpacingCallback();
+}
+
+template <class TInputImage, typename TVTKRealType>
+typename VTKImageExport<TInputImage, TVTKRealType>::VTKOriginType * 
+VTKImageExport<TInputImage, TVTKRealType>::OriginCallbackFunction(void* userData)
+{
+  return static_cast<VTKImageExport<TInputImage,TVTKRealType>*>(userData)->
+    OriginCallback();
+}
+
+template <class TInputImage, typename TVTKRealType>
+typename VTKImageExport<TInputImage, TVTKRealType>::SpacingCallbackType
+VTKImageExport<TInputImage, TVTKRealType>::GetSpacingCallback() const
+{
+  return &VTKImageExport<TInputImage, TVTKRealType>::SpacingCallbackFunction;
+}
+
+template <class TInputImage, typename TVTKRealType>
+typename VTKImageExport<TInputImage, TVTKRealType>::OriginCallbackType
+VTKImageExport<TInputImage, TVTKRealType>::GetOriginCallback() const
+{
+  return &VTKImageExport<TInputImage, TVTKRealType>::OriginCallbackFunction;
+}
+
 
 } // end namespace itk
 
