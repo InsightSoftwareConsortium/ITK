@@ -144,6 +144,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkProcessObject.h"
 #include "itkQuadrilateralCell.h"
 #include "itkQuaternionRigidTransform.h"
+#include "itkRGBAPixel.h"
 #include "itkRGBPixel.h"
 #include "itkRandomAccessNeighborhoodIterator.h"
 #include "itkRedPixelAccessor.h"
