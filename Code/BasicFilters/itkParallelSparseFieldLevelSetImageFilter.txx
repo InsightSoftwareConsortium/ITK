@@ -1218,6 +1218,17 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       = str->Filter->ThreadedCalculateChange(ThreadId);
     
     str->Filter->WaitForAll();
+
+    // Handle AbortGenerateData()
+    if (str->Filter->m_NumOfThreads == 1 || ThreadId == 0)
+      {
+      if( str->Filter->GetAbortGenerateData() )
+        {
+        str->Filter->InvokeEvent( IterationEvent() );
+        str->Filter->ResetPipeline(); 
+        throw ProcessAborted(__FILE__,__LINE__);
+        }
+      }
     
     // Calcualte the timestep (no need to do this when there is just 1 thread)
     if (str->Filter->m_NumOfThreads == 1)
@@ -1289,6 +1300,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
         str->TimeStep = str->Filter->ResolveTimeStep(str->TimeStepList,
                        str->ValidTimeStepList, str->Filter->m_NumOfThreads);
         }
+
       }
     
     str->Filter->WaitForAll();
