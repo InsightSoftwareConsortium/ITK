@@ -196,9 +196,17 @@ void
 ConstNeighborhoodIterator<TImage, TBoundaryCondition>
 ::SetEndIndex()
 {
-  m_EndIndex = m_Region.GetIndex();
-  m_EndIndex[Dimension-1] = m_Region.GetIndex()[Dimension-1] +
-    static_cast<long>(m_Region.GetSize()[Dimension-1]);
+  if (m_Region.GetNumberOfPixels() > 0)
+    {
+    m_EndIndex = m_Region.GetIndex();
+    m_EndIndex[Dimension-1] = m_Region.GetIndex()[Dimension-1] +
+      static_cast<long>(m_Region.GetSize()[Dimension-1]);
+    }
+  else
+    {
+    // Region has no pixels, so set the end index to be the begin index
+    m_EndIndex = m_Region.GetIndex();
+    }
 }
 
 template<class TImage, class TBoundaryCondition> 
