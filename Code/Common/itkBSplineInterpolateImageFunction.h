@@ -32,7 +32,7 @@
 namespace itk
 {
 /** \class BSplineInterpolateImageFunction
- * \brief Evaluates the B-Spline interpolation of an image.  Spline order may be from 2 to 5.
+ * \brief Evaluates the B-Spline interpolation of an image.  Spline order may be from 0 to 5.
  *
  * This class defines N-Dimension B-Spline transformation.
  * It is based on: 
@@ -50,7 +50,7 @@ namespace itk
  *        February 1993.
  * And code obtained from bigwww.epfl.ch by Philippe Thevenaz
  * 
- * Limitations:  Spline order must be between 2 and 5.
+ * Limitations:  Spline order must be between 0 and 5.
  *               Spline order must be set before setting the image.
  *               Uses mirror boundary conditions.
  *               Requires the same order of Spline for each dimension.
@@ -101,7 +101,7 @@ public:
   virtual double EvaluateAtContinuousIndex( 
       const ContinuousIndexType & index ) const; 
 
-  /** Get/Sets the Spline Order, supports 2nd - 5th order splines. The default
+  /** Get/Sets the Spline Order, supports 0th - 5th order splines. The default
    *  is a 3rd order spline. */
   void SetSplineOrder(int SplineOrder);
   itkGetMacro(SplineOrder, int);

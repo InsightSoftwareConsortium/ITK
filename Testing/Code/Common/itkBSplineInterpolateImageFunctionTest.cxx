@@ -169,6 +169,7 @@ int test1DCubicSpline()
 
   // Create and initialize the interpolator 
   InterpolatorType1D::Pointer interp = InterpolatorType1D::New();
+// interp->SetSplineOrder(1);
   interp->SetInputImage(image);
   interp->Print( std::cout );
 
@@ -224,7 +225,7 @@ int test2DSpline()
   image->SetSpacing(spacing);
 
   /* Create and initialize the interpolator */
-  for (int splineOrder = 2; splineOrder<=5; splineOrder++)
+  for (int splineOrder = 0; splineOrder<=5; splineOrder++)
     {
     InterpolatorType2D::Pointer interp = InterpolatorType2D::New();
     interp->SetSplineOrder(splineOrder);
@@ -247,10 +248,10 @@ int test2DSpline()
 #define NPOINTS2 4  // number of points 
 
       double darray1[NPOINTS2][2] = {{0.1, 0.2}, {3.4, 5.8}, {4.0, 6.0}, { 2.1, 8.0}};
-      double truth[NPOINTS2][4] = {{151.86429192392, 151.650316034, 151.865916515, 151.882483111},
-        { 22.688125812495, 22.411473093, 22.606968306, 22.908345604},
-        { 36.2, 36.2, 36.2, 36.2 },
-        {0,0,0,0}};
+      double truth[NPOINTS2][6] = {{154.5, 140.14, 151.86429192392, 151.650316034, 151.865916515, 151.882483111},
+        { 0, 13.84, 22.688125812495, 22.411473093, 22.606968306, 22.908345604},
+        { 36.2, 36.2, 36.2, 36.2, 36.2, 36.2 },
+        {0, 0, 0,0,0,0}};
     bool b_Inside[NPOINTS2] = {true, true, true, false};
    // double darray1[2];
 
@@ -260,12 +261,12 @@ int test2DSpline()
      // darray1[0] = darray[ii][0];
      // darray1[1] = darray[ii][1];
       cindex = ContinuousIndexType2D(&darray1[ii][0]);
-      passed = TestContinuousIndex<InterpolatorType2D, ContinuousIndexType2D >( interp, cindex, b_Inside[ii], truth[ii][splineOrder -2] );
+      passed = TestContinuousIndex<InterpolatorType2D, ContinuousIndexType2D >( interp, cindex, b_Inside[ii], truth[ii][splineOrder] );
   
       if( !passed ) flag += 1;
   
       interp->ConvertContinuousIndexToPoint( cindex, point );
-      passed = TestGeometricPoint<InterpolatorType2D, PointType2D>( interp, point, b_Inside[ii], truth[ii][splineOrder -2]  );
+      passed = TestGeometricPoint<InterpolatorType2D, PointType2D>( interp, point, b_Inside[ii], truth[ii][splineOrder ]  );
   
       if( !passed ) flag += 1;
       }

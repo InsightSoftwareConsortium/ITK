@@ -164,6 +164,12 @@ void BSplineInterpolateImageFunction< TImageType>
       m_NumberOfPoles = 1;
       m_SplinePoles[0] = sqrt(3.0) - 2.0;
       break;
+    case 0:
+      m_NumberOfPoles = 0;
+      break;
+    case 1:
+      m_NumberOfPoles = 0;
+      break;
     case 2:
       m_NumberOfPoles = 1;
       m_SplinePoles[0] = sqrt(8.0) - 3.0;
@@ -184,7 +190,7 @@ void BSplineInterpolateImageFunction< TImageType>
       // SplineOrder not implemented yet.
       ExceptionObject err(__FILE__, __LINE__);
       err.SetLocation( "BSplineInterpolateImageFunction" );
-      err.SetDescription( "SplineOrder must be between 2 and 5. Requested spline order has not been implemented yet." );
+      err.SetDescription( "SplineOrder must be between 0 and 5. Requested spline order has not been implemented yet." );
       throw err;
       break;
     }
@@ -449,6 +455,14 @@ void BSplineInterpolateImageFunction< TImageType>
         weights[n][2] = w + weights[n][0] - 2.0 * weights[n][3];
         weights[n][1] = 1.0 - weights[n][0] - weights[n][2] - weights[n][3];
         break;
+      case 0:
+        weights[n][0] = 1; // implements nearest neighbor
+        break;
+      case 1:
+        w = x[n] - (double) EvaluateIndex[n][0];
+        weights[n][1] = w;
+        weights[n][0] = 1.0 - w;
+        break;
       case 2:
       /* x */
       w = x[n] - (double)EvaluateIndex[n][1];
@@ -494,7 +508,7 @@ void BSplineInterpolateImageFunction< TImageType>
         // SplineOrder not implemented yet.
       ExceptionObject err(__FILE__, __LINE__);
       err.SetLocation( "BSplineInterpolateImageFunction" );
-      err.SetDescription( "SplineOrder must be between 2 and 5. Requested spline order has not been implemented yet." );
+      err.SetDescription( "SplineOrder must be between 0 and 5. Requested spline order has not been implemented yet." );
       throw err;
         break;
       }
