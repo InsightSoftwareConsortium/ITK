@@ -67,8 +67,6 @@ int itkDeformableTest(int argc, char *argv[])
 
   typedef DMesh::PointType   OPointType;
 
-  unsigned char *ImageBuffer = new unsigned char [WIDTH*HEIGHT];
-
   // Declare the type of the gradient image
   typedef itk::CovariantVector<double, myDimension> myGradientType;
   typedef itk::Image<myGradientType, myDimension>   myGradientImageType;
