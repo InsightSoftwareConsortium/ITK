@@ -132,7 +132,7 @@ public:
    * Compare two sizes.
    */
   bool
-  operator==(const Self &vec)
+  operator==(const Self &vec) const
     {
     bool same=1;
     for (unsigned int i=0; i < VDimension && same; i++)
@@ -144,7 +144,7 @@ public:
    * Compare two sizes.
    */
   bool
-  operator!=(const Self &vec)
+  operator!=(const Self &vec) const
     {
     bool same=1;
     for (unsigned int i=0; i < VDimension && same; i++)
