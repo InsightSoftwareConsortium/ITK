@@ -23,6 +23,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMesh.h"
 #include "itkTetrahedronCell.h"
 #include "itkHexahedronCell.h"
+#include "itkBoundingBox.h"
 
 /**
  * Some typedefs to make things easier.
@@ -54,7 +55,7 @@ typedef Cell        Boundary;
 /**
  * The type of point stored in the mesh. Because mesh was instantiated
  * with defaults (itkMeshTypeDefault), the point dimension is 3 and
- * the coordinate representation is double.
+ * the coordinate representation is float.
  */
 typedef Mesh::Point  Point;
 
@@ -234,6 +235,16 @@ int main(void)
   Mesh::CoordRep coords[Mesh::PointDimension];
   Mesh::PointIdentifier pointId;
   mesh->FindClosestPoint(coords,&pointId);
+
+  /**
+   * Compute the bounding box of the mesh
+   */
+  typedef itk::BoundingBox<Mesh::PointIdentifier,Mesh::PointDimension,
+    Mesh::CoordRep,Mesh::PointsContainer> BoundingBox;
+
+  BoundingBox::Pointer bbox(BoundingBox::New());
+  bbox->SetPoints(mesh->GetPoints());
+  std::cout << bbox << std::endl;
 
   return 0;  
 }
