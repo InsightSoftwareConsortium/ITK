@@ -54,7 +54,7 @@ public:
   enum {NDimensions = TInputImage::ImageDimension};
 
   /** typedef for images */
-  typedef typename TInputImage                    InputImageType;
+  typedef TInputImage                             InputImageType;
   typedef BloxBoundaryPointImage<NDimensions>     TOutputImage;
   typedef BloxBoundaryPointImage<NDimensions>     OutputImageType;
   typedef typename OutputImageType::Pointer       OutputImagePointer;
