@@ -53,6 +53,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 ::~BalloonForceFilter()
 {
   unsigned int i;
+#if 0
   if (m_NewNodes)
     {
     for (i = 0; i < m_NewNodeLimit; i++)
@@ -64,12 +65,12 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
       }
     free(m_NewNodes);
     }
-#if 0
+#endif
+
   if (m_K)
     {
     free (m_K);
     }
-#endif
 }
 
 /*
@@ -221,24 +222,24 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 //  TimeStep = 0.001; 
 
   while( points != myPoints->End() )
-  {
-  locations.Value() = points.Value();
-  tmp = locations.Value();
+    {
+    locations.Value() = points.Value();
+    tmp = locations.Value();
     ++points;
     ++locations;
-  }
+    }
 
   while( forces != myForces->End() )
-  {
-  forces.Value() = d;
+    {
+    forces.Value() = d;
     ++forces;
-  }
+    }
 
   while( normals != myNormals->End() )
-  {
-  normals.Value() = d;
+    {
+    normals.Value() = d;
     ++normals;
-  }
+    }
 
   for (unsigned int i=0; i+2 < m_NumberOfNodes; i++  )
     {
@@ -254,16 +255,16 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     }
    
   while( derives != myDerives->End() )
-  {
-  derives.Value() = d;
+    {
+    derives.Value() = d;
     ++derives;
-  }
+    }
 
   while( displacements != myDisplacements->End() )
-  {
-  displacements.Value() = d;
+    {
+    displacements.Value() = d;
     ++displacements;
-  }
+    }
 
   typename TriCell::CellAutoPointer insertCell;
   unsigned long tripoints[3];
@@ -382,10 +383,11 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   m_CStiffness[3][3] = 1.0; 
 
   int j=0;
-  while (celldata != myCellData->End()){
-  x = celldata.Value();
-  ++celldata;
-  switch ((int)(x)) { 
+  while (celldata != myCellData->End())
+    {
+    x = celldata.Value();
+    ++celldata;
+    switch ((int)(x)) { 
     case 1: 
       m_K[j] = &m_SStiffness; 
       break; 
@@ -396,8 +398,8 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
       m_K[j] = &m_CStiffness; 
       break; 
     } 
-  ++j;
-  }
+    ++j;
+    }
 
 } 
 
@@ -441,22 +443,22 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   i = 0;
   
   while( i != m_NumberOfNodes - 2 )
-  {
-  xs = ys = 1.0; 
-  x = points.Value();
+    {
+    xs = ys = 1.0; 
+    x = points.Value();
 
-  coord[0] = (int) x[0];
-  coord[1] = (int) x[1];
+    coord[0] = (int) x[0];
+    coord[1] = (int) x[1];
 
-  label = (unsigned short)m_Potential->GetPixel(coord);
-  if ( label != m_ObjectLabel ) {
+    label = (unsigned short)m_Potential->GetPixel(coord);
+    if ( label != m_ObjectLabel ) {
     xs = ys = 0.0;
-  }
+    }
 
-  //---------------------------------------------------------------------
-  // The following part should be added if the input potential are only 
-  // estimation of edges
-  //---------------------------------------------------------------------  
+    //---------------------------------------------------------------------
+    // The following part should be added if the input potential are only 
+    // estimation of edges
+    //---------------------------------------------------------------------  
 /*
   coord[0] = (int) (x[0]+1);
   coord[1] = (int) (x[1]+1);
@@ -506,53 +508,54 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     xs = ys = 0.0;
   }
 */
-  extends[0] = x[0];
-  extends[1] = x[1];
+    extends[0] = x[0];
+    extends[1] = x[1];
 //  extends[2] = x[2];
-  extend[0] = (int) x[0];
-  extend[1] = (int) x[1];
+    extend[0] = (int) x[0];
+    extend[1] = (int) x[1];
 //  extend[2] = (int) x[2];
 
-  f = normals.Value();
+    f = normals.Value();
 
-  max = vcl_abs(f[0]);
+    max = vcl_abs(f[0]);
 
-  //---------------------------------------------------------------------
-  // all the movement in z direction is now disabled for further test
-  //---------------------------------------------------------------------  
-  if ( vcl_abs(f[1]) > max ) max = vcl_abs(f[1]);
-  n[0] = f[0]/max;
-  n[1] = f[1]/max;
+    //---------------------------------------------------------------------
+    // all the movement in z direction is now disabled for further test
+    //---------------------------------------------------------------------  
+    if ( vcl_abs(f[1]) > max ) max = vcl_abs(f[1]);
+    n[0] = f[0]/max;
+    n[1] = f[1]/max;
 
-  t = 0.0;
+    t = 0.0;
 
-  while (t < 5.0){
-    extends[0] += n[0];
-    extends[1] += n[1];
-    extend[0] = (int) extends[0];
-    extend[1] = (int) extends[1];
-//    extend[2] = 0;
-    if ( (extend[0] < 0) || 
-         (extend[1] < 0) || 
-         (static_cast<unsigned int>(extend[0]) >= m_ImageWidth) || 
-         (static_cast<unsigned int>(extend[1]) >= m_ImageHeight    ) ) 
+    while (t < 5.0)
       {
-      break;
+      extends[0] += n[0];
+      extends[1] += n[1];
+      extend[0] = (int) extends[0];
+      extend[1] = (int) extends[1];
+//    extend[2] = 0;
+      if ( (extend[0] < 0) || 
+           (extend[1] < 0) || 
+           (static_cast<unsigned int>(extend[0]) >= m_ImageWidth) || 
+           (static_cast<unsigned int>(extend[1]) >= m_ImageHeight    ) ) 
+        {
+        break;
+        }
+
+      label = (unsigned short) m_Potential->GetPixel(extend);
+      if ( label != m_ObjectLabel ) break;
+
+      t += 1.0;
       }
 
-    label = (unsigned short) m_Potential->GetPixel(extend);
-    if ( label != m_ObjectLabel ) break;
+    dist = dist + t;
 
-    t += 1.0;
-  }
-
-  dist = dist + t;
-
-  if (t < 2) pointstatus.Value() = 1.0;
-  else {
+    if (t < 2) pointstatus.Value() = 1.0;
+    else {
     pointstatus.Value() = 0.0;
- //   m_ImageOutput->SetPixel(coord, 1);
-  }
+    //   m_ImageOutput->SetPixel(coord, 1);
+    }
     fo = sqrt(f[0]*f[0]+f[1]*f[1]);
     f[0] = t*100*f[0]*xs/fo; 
     f[1] = t*100*f[1]*ys/fo;
@@ -566,7 +569,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     ++points;
     ++normals;
     ++i;
-  }
+    }
 
   m_DistanceToBoundary = dist/((float)(m_NumberOfNodes-2));
   if (m_DistanceToBoundary < m_DistanceForGradient) m_GradientBegin = 1;
@@ -603,9 +606,9 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   v3_PixelType = &v3;
 
   while( cells != myCells->End() )
-  {
-  tp = cells.Value()->GetPointIds();
-  ++cells;
+    {
+    tp = cells.Value()->GetPointIds();
+    ++cells;
     m_Displacements->GetPoint (tp[0], v1_PixelType); 
     m_Displacements->GetPoint (tp[1], v2_PixelType); 
     m_Displacements->GetPoint (tp[2], v3_PixelType); 
@@ -623,9 +626,9 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     v1[2] += v2[2]+v3[2]; 
     m_Forces->GetPoint (tp[0], v2_PixelType); 
 
-  v2[0] -= v1[0]; 
-  v2[1] -= v1[1]; 
-  v2[2] -= v1[2];
+    v2[0] -= v1[0]; 
+    v2[1] -= v1[1]; 
+    v2[2] -= v1[2];
 
     m_Forces->SetPoint (tp[0], v2); 
  
@@ -646,9 +649,9 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     v1[2] += v2[2]+v3[2]; 
     m_Forces->GetPoint (tp[1], v2_PixelType);  
 
-  v2[0] -= v1[0]; 
-  v2[1] -= v1[1]; 
-  v2[2] -= v1[2];
+    v2[0] -= v1[0]; 
+    v2[1] -= v1[1]; 
+    v2[2] -= v1[2];
 
     m_Forces->SetPoint (tp[1], v2); 
  
@@ -669,13 +672,13 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     v1[2] += v2[2]+v3[2]; 
     m_Forces->GetPoint (tp[2], v2_PixelType); 
 
-  v2[0] -= v1[0]; 
-  v2[1] -= v1[1]; 
-  v2[2] -= v1[2];
+    v2[0] -= v1[0]; 
+    v2[1] -= v1[1]; 
+    v2[2] -= v1[2];
 
     m_Forces->SetPoint (tp[2], v2);  
-  ++i;
-  } 
+    ++i;
+    } 
 
   while ( derives != myDerives->End() ) {
   derives.Value() = forces.Value();
@@ -759,16 +762,16 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   j = 0;
   while (normals != myNormals->End()) {
   if (i > (int) m_NewNodes[j][3]) {
-    z[0] = m_NewNodes[j][0];
-    z[1] = m_NewNodes[j][1];
-    z[2] = m_NewNodes[j][2];
-    j++;
-    normals.Value() = z;
+  z[0] = m_NewNodes[j][0];
+  z[1] = m_NewNodes[j][1];
+  z[2] = m_NewNodes[j][2];
+  j++;
+  normals.Value() = z;
   } else {
-    x = points.Value();
-    i++;
-    normals.Value() = x;
-    ++points;
+  x = points.Value();
+  i++;
+  normals.Value() = x;
+  ++points;
   }
 
   ++normals;
@@ -784,22 +787,22 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   }
 
   while( forces != myForces->End() )
-  {
-  forces.Value() = d;
+    {
+    forces.Value() = d;
     ++forces;
-  }
+    }
 
   while( derives != myDerives->End() )
-  {
-  derives.Value() = d;
+    {
+    derives.Value() = d;
     ++derives;
-  }
+    }
 
   while( displacements != myDisplacements->End() )
-  {
-  displacements.Value() = d;
+    {
+    displacements.Value() = d;
     ++displacements;
-  }
+    }
 
   i = 0;
   j = 0;
@@ -809,18 +812,18 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   if ( tp[0] > (unsigned long) m_NewNodes[j][3] ) {
   } else {
-    outcells.Value() = cells.Value();
-    ++cells;
-    ++outcells;
-    outcells.Value() = cells.Value();
-    ++cells;
-    ++outcells;
+  outcells.Value() = cells.Value();
+  ++cells;
+  ++outcells;
+  outcells.Value() = cells.Value();
+  ++cells;
+  ++outcells;
   }
 
   i++;
   if (tp[0] != tp[1] - 1) {
-    res = i;
-    i = 0;
+  res = i;
+  i = 0;
   }
   }
 
@@ -828,30 +831,30 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   int p = 0, jn;
 
   // store cells containing the south pole nodes
-    for (int j=0; j<m_Resolution; j++) {
-      jn = (j+1)%m_Resolution; 
-      tripoints[0] = m_NumberOfNodes-2; 
-      tripoints[1] = jn; 
-      tripoints[2] = j; 
-    insertCell->SetPointIds(tripoints);
-    m_Locations->SetCell(p, insertCell);
-    m_Locations->SetCellData(p, (PixelType)1.0);
-    p++;
-    insertCell.TakeOwnership( new TriCell );
-    }
+  for (int j=0; j<m_Resolution; j++) {
+  jn = (j+1)%m_Resolution; 
+  tripoints[0] = m_NumberOfNodes-2; 
+  tripoints[1] = jn; 
+  tripoints[2] = j; 
+  insertCell->SetPointIds(tripoints);
+  m_Locations->SetCell(p, insertCell);
+  m_Locations->SetCellData(p, (PixelType)1.0);
+  p++;
+  insertCell.TakeOwnership( new TriCell );
+  }
 
   // store cells containing the north pole nodes
-    for (int j=0; j<m_Resolution; j++) {
-      jn = (j+1)%m_Resolution; 
-      tripoints[2] = (1-1)*m_Resolution+j; 
-    tripoints[1] = m_NumberOfNodes-1; 
-      tripoints[0] = tripoints[2]-j+jn; 
-    insertCell->SetPointIds(tripoints);
-    m_Locations->SetCell(p, insertCell);
-    m_Locations->SetCellData(p, (PixelType)2.0);
-    p++;
-      insertCell = TriCell::New();
-    }
+  for (int j=0; j<m_Resolution; j++) {
+  jn = (j+1)%m_Resolution; 
+  tripoints[2] = (1-1)*m_Resolution+j; 
+  tripoints[1] = m_NumberOfNodes-1; 
+  tripoints[0] = tripoints[2]-j+jn; 
+  insertCell->SetPointIds(tripoints);
+  m_Locations->SetCell(p, insertCell);
+  m_Locations->SetCellData(p, (PixelType)2.0);
+  p++;
+  insertCell = TriCell::New();
+  }
   
   m_NumberOfCells = p;
 
@@ -861,22 +864,23 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   InputCellDataContainerIterator    celldata = m_Locations->GetCellData()->Begin();
 
   int j=0;
-  while (celldata != m_Locations->GetCellData()->End()){
+  while (celldata != m_Locations->GetCellData()->End())
+    {
     w = celldata.Value();
     ++celldata;
     switch ((int)(w)) { 
-      case 1: 
-        m_K[j] = &m_SStiffness; 
-        break; 
-      case 2: 
-        m_K[j] = &m_NStiffness; 
-        break; 
-      case 3: 
-        m_K[j] = &m_CStiffness; 
-        break; 
-      } 
+    case 1: 
+      m_K[j] = &m_SStiffness; 
+      break; 
+    case 2: 
+      m_K[j] = &m_NStiffness; 
+      break; 
+    case 3: 
+      m_K[j] = &m_CStiffness; 
+      break; 
+    } 
     ++j;
-  }
+    }
   }
 }
 
@@ -901,35 +905,35 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   i=0;
   while( i < static_cast<int>(m_NumberOfNodes)-2 ) {
-    ds = derives.Value();
-    s = points.Value();
-    d = displacements.Value();
-    s[0] += m_TimeStep*ds[0]; 
-    s[1] += m_TimeStep*ds[1];
-    if ( m_GradientBegin ) {
-      d[0] += m_TimeStep*ds[0]; 
-      d[1] += m_TimeStep*ds[1]; 
-    } else {
-      d[0] = 0;
-      d[1] = 0;
-    }
+  ds = derives.Value();
+  s = points.Value();
+  d = displacements.Value();
+  s[0] += m_TimeStep*ds[0]; 
+  s[1] += m_TimeStep*ds[1];
+  if ( m_GradientBegin ) {
+  d[0] += m_TimeStep*ds[0]; 
+  d[1] += m_TimeStep*ds[1]; 
+  } else {
+  d[0] = 0;
+  d[1] = 0;
+  }
 
-    /** do not update the displacements if the nodes is moving out of the image region. */
-    if ( (s[0] > 0) && (s[1] > 0) && 
-      (s[0] < m_ImageWidth) && (s[1] < m_ImageHeight) ) {
-      points.Value() = s;
-      displacements.Value() = d;
-    }
+  /** do not update the displacements if the nodes is moving out of the image region. */
+  if ( (s[0] > 0) && (s[1] > 0) && 
+       (s[0] < m_ImageWidth) && (s[1] < m_ImageHeight) ) {
+  points.Value() = s;
+  displacements.Value() = d;
+  }
 
-    if ( m_GradientBegin ) {
-      dist += sqrt(ds[0]*ds[0]+ds[1]*ds[1])*m_TimeStep;
-      m_DistanceToBoundary = dist/((float)(m_NumberOfNodes-2));
-    }
+  if ( m_GradientBegin ) {
+  dist += sqrt(ds[0]*ds[0]+ds[1]*ds[1])*m_TimeStep;
+  m_DistanceToBoundary = dist/((float)(m_NumberOfNodes-2));
+  }
 
-    i++;
-    ++derives; 
-    ++points;
-    ++displacements;
+  i++;
+  ++derives; 
+  ++points;
+  ++displacements;
   } 
 
   s[0] = 0;
@@ -965,27 +969,27 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   InputCellDataContainerIterator celldata = myCellData->Begin(); 
 
   {
-    for (unsigned int i=0; i<m_NumberOfNodes; i++) {
-      points.Value() = locations.Value();
-      ++locations;
-      ++points;
-    }
+  for (unsigned int i=0; i<m_NumberOfNodes; i++) {
+  points.Value() = locations.Value();
+  ++locations;
+  ++points;
+  }
   }
 
   {
-    for (unsigned int i=0; i<m_NumberOfCells; i++) {
-      tp = cells.Value()->GetPointIds();
-      tripoints[0] = tp[0];
-      tripoints[1] = tp[1];
-      tripoints[2] = tp[2];
-      insertCell.TakeOwnership( new TriCell );
-      insertCell->SetPointIds(tripoints);
-      m_Output->SetCell(i, insertCell );
-      x = celldata.Value();
-      m_Output->SetCellData(i, (PixelType)x);
-      ++cells;
-      ++celldata;
-    }
+  for (unsigned int i=0; i<m_NumberOfCells; i++) {
+  tp = cells.Value()->GetPointIds();
+  tripoints[0] = tp[0];
+  tripoints[1] = tp[1];
+  tripoints[2] = tp[2];
+  insertCell.TakeOwnership( new TriCell );
+  insertCell->SetPointIds(tripoints);
+  m_Output->SetCell(i, insertCell );
+  x = celldata.Value();
+  m_Output->SetCellData(i, (PixelType)x);
+  ++cells;
+  ++celldata;
+  }
   }
 }
 
@@ -1012,7 +1016,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   }
 
   this->ComputeOutput();
- }
+}
 
 /*
  * when almost all the nodes is at the estimated boundary, use
@@ -1044,40 +1048,40 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   i = 0;
   while( i != m_NumberOfNodes - 2 )
-  { 
-  x = points.Value();
-  ++points;
+    { 
+    x = points.Value();
+    ++points;
 
     tp = cells.Value()->GetPointIds();
-  ++cells;
-  ++cells;
+    ++cells;
+    ++cells;
 
-  if (tp[0] == tp[1] - 1) y = points.Value();
-  else {
+    if (tp[0] == tp[1] - 1) y = points.Value();
+    else {
     m_Locations->GetPoint (tp[1], y_PixelType);
     res++;
-  }
+    }
   
-  dis[0] = x[0] - y[0];
-  dis[1] = x[1] - y[1];
-  dis[2] = x[2] - y[2];
-  gap = sqrt(dis[0]*dis[0]+dis[1]*dis[1]+dis[2]*dis[2]);
+    dis[0] = x[0] - y[0];
+    dis[1] = x[1] - y[1];
+    dis[2] = x[2] - y[2];
+    gap = sqrt(dis[0]*dis[0]+dis[1]*dis[1]+dis[2]*dis[2]);
   
-  m_Locations->GetPointData(q, st_PixelType);
-  if (gap > 3) {
+    m_Locations->GetPointData(q, st_PixelType);
+    if (gap > 3) {
     if ( pointstatus.Value() == 1.0) {
     ++pointstatus;
     if ( pointstatus.Value() == 1.0) {
-      z[0] = 0.5*(x[0]+y[0]);
-      z[1] = 0.5*(x[1]+y[1]);
-      z[2] = 0.5*(x[2]+y[2]);
-      this->NodeAddition(i, res, z);
+    z[0] = 0.5*(x[0]+y[0]);
+    z[1] = 0.5*(x[1]+y[1]);
+    z[2] = 0.5*(x[2]+y[2]);
+    this->NodeAddition(i, res, z);
     }
     } else ++pointstatus;
-  } else ++pointstatus;
+    } else ++pointstatus;
 
-  i++;
-  }
+    i++;
+    }
 
   this->Reset();        
 }
@@ -1095,7 +1099,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   if (m_NumNewNodes > m_NewNodeLimit) {
   realloc( m_NewNodes, m_NewNodeLimit*sizeof(float*)*2 );
   for (int i = m_NewNodeLimit; i < 2*m_NewNodeLimit; i++) {
-    m_NewNodes[i] = (float*) malloc(sizeof(float)*5);
+  m_NewNodes[i] = (float*) malloc(sizeof(float)*5);
   }
   m_NewNodeLimit = m_NewNodeLimit*2;
   }
@@ -1137,54 +1141,54 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   /* New gradient fit method testing. */
   while( forces != myForces->End() ) {
-    vec_loc = locations.Value();
-    vec_nor = normals.Value();
+  vec_loc = locations.Value();
+  vec_nor = normals.Value();
 
-    coord[0] = static_cast<IndexValueType>(vec_loc[0]);
-    coord[1] = static_cast<IndexValueType>(vec_loc[1]);
+  coord[0] = static_cast<IndexValueType>(vec_loc[0]);
+  coord[1] = static_cast<IndexValueType>(vec_loc[1]);
 
-    coord2[0] = static_cast<IndexValueType>( (ceil) (vec_loc[0]) );
-    coord2[1] = static_cast<IndexValueType>( (ceil) (vec_loc[1]) );
+  coord2[0] = static_cast<IndexValueType>( (ceil) (vec_loc[0]) );
+  coord2[1] = static_cast<IndexValueType>( (ceil) (vec_loc[1]) );
 
-    tmp_co_1[0] = coord2[0];
-    tmp_co_1[1] = coord[1];
-    tmp_co_2[0] = coord[0];
-    tmp_co_2[1] = coord2[1];
+  tmp_co_1[0] = coord2[0];
+  tmp_co_1[1] = coord[1];
+  tmp_co_2[0] = coord[0];
+  tmp_co_2[1] = coord2[1];
 
 
-    if ( (coord[0] >= 0) && 
-         (coord[1] >= 0) && 
-         (static_cast<unsigned int>( coord2[0] ) < m_ImageWidth) && 
-         (static_cast<unsigned int>( coord2[1] ) < m_ImageHeight) ) 
-      {      
-      vec_for[0] = m_Gradient->GetPixel(coord)[0];
-      vec_for[1] = m_Gradient->GetPixel(coord)[1];
+  if ( (coord[0] >= 0) && 
+       (coord[1] >= 0) && 
+       (static_cast<unsigned int>( coord2[0] ) < m_ImageWidth) && 
+       (static_cast<unsigned int>( coord2[1] ) < m_ImageHeight) ) 
+    {      
+    vec_for[0] = m_Gradient->GetPixel(coord)[0];
+    vec_for[1] = m_Gradient->GetPixel(coord)[1];
 
-      tmp_vec_1[0] = m_Gradient->GetPixel(tmp_co_1)[0] - m_Gradient->GetPixel(coord)[0];
-      tmp_vec_1[1] = m_Gradient->GetPixel(tmp_co_1)[1] - m_Gradient->GetPixel(coord)[1];
-      tmp_vec_2[0] = m_Gradient->GetPixel(tmp_co_2)[0] - m_Gradient->GetPixel(coord)[0];
-      tmp_vec_2[1] = m_Gradient->GetPixel(tmp_co_2)[1] - m_Gradient->GetPixel(coord)[1];
+    tmp_vec_1[0] = m_Gradient->GetPixel(tmp_co_1)[0] - m_Gradient->GetPixel(coord)[0];
+    tmp_vec_1[1] = m_Gradient->GetPixel(tmp_co_1)[1] - m_Gradient->GetPixel(coord)[1];
+    tmp_vec_2[0] = m_Gradient->GetPixel(tmp_co_2)[0] - m_Gradient->GetPixel(coord)[0];
+    tmp_vec_2[1] = m_Gradient->GetPixel(tmp_co_2)[1] - m_Gradient->GetPixel(coord)[1];
 
-      vec_for[0] = vec_for[0] + (vec_loc[0]-coord[0])*tmp_vec_1[0] + (vec_loc[1]-coord[1])*tmp_vec_2[0];
-      vec_for[1] = vec_for[1] + (vec_loc[1]-coord[1])*tmp_vec_2[1] + (vec_loc[0]-coord[0])*tmp_vec_1[1];
+    vec_for[0] = vec_for[0] + (vec_loc[0]-coord[0])*tmp_vec_1[0] + (vec_loc[1]-coord[1])*tmp_vec_2[0];
+    vec_for[1] = vec_for[1] + (vec_loc[1]-coord[1])*tmp_vec_2[1] + (vec_loc[0]-coord[0])*tmp_vec_1[1];
 
     } else {
-      vec_for[0] = 0;
-      vec_for[1] = 0;
+    vec_for[0] = 0;
+    vec_for[1] = 0;
     }
 //  for test
 //  vec_for[0] = 0;
 
-    mag = vec_for[0]*vec_nor[0] + vec_for[1]*vec_nor[1];
-    vec_for[0] = mag*vec_nor[0];
-    vec_for[1] = mag*vec_nor[1];
+  mag = vec_for[0]*vec_nor[0] + vec_for[1]*vec_nor[1];
+  vec_for[0] = mag*vec_nor[0];
+  vec_for[1] = mag*vec_nor[1];
 
-    forces.Value() = vec_for;
+  forces.Value() = vec_for;
 
-    ++forces;
-    ++forcedata;
-    ++locations;
-    ++normals;
+  ++forces;
+  ++forcedata;
+  ++locations;
+  ++normals;
   }
 
 }
@@ -1216,39 +1220,39 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   static float d[3]={0, 0, 0};
   while( normals != myNormals->End() )
-  {
-  normals.Value() = d;
+    {
+    normals.Value() = d;
     ++normals;
-  }
+    }
 
   while ( cells != myCells->End() ) {
-    tp = cells.Value()->GetPointIds();
+  tp = cells.Value()->GetPointIds();
   ++cells;
 
-    m_Locations->GetPoint (tp[0], v1_PixelType);
-    m_Locations->GetPoint (tp[1], v2_PixelType);
-    m_Locations->GetPoint (tp[2], v3_PixelType);
+  m_Locations->GetPoint (tp[0], v1_PixelType);
+  m_Locations->GetPoint (tp[1], v2_PixelType);
+  m_Locations->GetPoint (tp[2], v3_PixelType);
 
-    coa = -(v1[1]*(v2[2]-v3[2]) + 
-      v2[1]*(v3[2]-v1[2]) +
-      v3[1]*(v1[2]-v2[2])) ;
-    cob = -(v1[2] * (v2[0]-v3[0]) +
-      v2[2]*(v3[0]-v1[0]) +
-      v3[2]*(v1[0]-v2[0])) ;
-    coc = -(v1[0] * (v2[1]-v3[1]) +
-      v2[0]*(v3[1]-v1[1]) +
-      v3[0]*(v1[1]-v2[1])) ;
+  coa = -(v1[1]*(v2[2]-v3[2]) + 
+          v2[1]*(v3[2]-v1[2]) +
+          v3[1]*(v1[2]-v2[2])) ;
+  cob = -(v1[2] * (v2[0]-v3[0]) +
+          v2[2]*(v3[0]-v1[0]) +
+          v3[2]*(v1[0]-v2[0])) ;
+  coc = -(v1[0] * (v2[1]-v3[1]) +
+          v2[0]*(v3[1]-v1[1]) +
+          v3[0]*(v1[1]-v2[1])) ;
 
-    absvec = -sqrt ((double) ((coa*coa) + (cob*cob) + (coc*coc))) ;
+  absvec = -sqrt ((double) ((coa*coa) + (cob*cob) + (coc*coc))) ;
   
-    assert (absvec != 0);
+  assert (absvec != 0);
   
-    v4[0] = coa/absvec;
-    v4[1] = cob/absvec;
-    v4[2] = coc/absvec;
-    m_Normals->GetPoint (tp[0], v1_PixelType);
-    m_Normals->GetPoint (tp[1], v2_PixelType);
-    m_Normals->GetPoint (tp[2], v3_PixelType);
+  v4[0] = coa/absvec;
+  v4[1] = cob/absvec;
+  v4[2] = coc/absvec;
+  m_Normals->GetPoint (tp[0], v1_PixelType);
+  m_Normals->GetPoint (tp[1], v2_PixelType);
+  m_Normals->GetPoint (tp[2], v3_PixelType);
 
   v1[0] += v4[0];
   v1[1] += v4[1];
@@ -1270,15 +1274,15 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   normals = myNormals->Begin();
   while( normals != myNormals->End() )
-  {
-  v1 = normals.Value();
-  absvec = sqrt ((double) ((v1[0]*v1[0]) + (v1[1]*v1[1]) + (v1[2]*v1[2])));
-  v1[0] = v1[0]/absvec;
-  v1[1] = v1[1]/absvec;
-  v1[2] = v1[2]/absvec;
-  normals.Value() = v1;
-  ++normals;
-  }
+    {
+    v1 = normals.Value();
+    absvec = sqrt ((double) ((v1[0]*v1[0]) + (v1[1]*v1[1]) + (v1[2]*v1[2])));
+    v1[0] = v1[0]/absvec;
+    v1[1] = v1[1]/absvec;
+    v1[2] = v1[2]/absvec;
+    normals.Value() = v1;
+    ++normals;
+    }
 }
 
 /*
@@ -1320,127 +1324,127 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   forces++;
   
   while ( (i+1)%m_Resolution != 0 ) {
-    v2 = locations.Value();
-    ++locations;
-    v3 = locations.Value();
-    d1[0] = v1[0] - v2[0];
-    d2[0] = v3[0] - v2[0];
-    d1[1] = v1[1] - v2[1];
-    d2[1] = v3[1] - v2[1];
+  v2 = locations.Value();
+  ++locations;
+  v3 = locations.Value();
+  d1[0] = v1[0] - v2[0];
+  d2[0] = v3[0] - v2[0];
+  d1[1] = v1[1] - v2[1];
+  d2[1] = v3[1] - v2[1];
 //  d1[2] = v1[2] - v2[2];
 //  d2[2] = v3[2] - v2[2];
-    v1[0] = v2[0];
-    v1[1] = v2[1];
+  v1[0] = v2[0];
+  v1[1] = v2[1];
 //  v1[2] = v2[2];
-    dis = d1[0]*d2[0]+d1[1]*d2[1]/*+d1[2]*d2[2]*/;
-    if ( dis > 0 ) {
-      l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]/*+d1[2]*d1[2]*/);
-      l2 = sqrt(d2[0]*d2[0]+d2[1]*d2[1]/*+d2[2]*d2[2]*/);
-      dis = dis/sqrt(l1*l2);
-      d1[0] = d1[0]/l1;
-      d1[1] = d1[1]/l1;
+  dis = d1[0]*d2[0]+d1[1]*d2[1]/*+d1[2]*d2[2]*/;
+  if ( dis > 0 ) {
+  l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]/*+d1[2]*d1[2]*/);
+  l2 = sqrt(d2[0]*d2[0]+d2[1]*d2[1]/*+d2[2]*d2[2]*/);
+  dis = dis/sqrt(l1*l2);
+  d1[0] = d1[0]/l1;
+  d1[1] = d1[1]/l1;
 //    d1[2] = d1[2]/l1;
-      d2[0] = d2[0]/l2;
-      d2[1] = d2[1]/l2;
+  d2[0] = d2[0]/l2;
+  d2[1] = d2[1]/l2;
 //    d2[2] = d2[2]/l2;
-      d1[0] = (d1[0]+d2[0]);
-      d1[1] = (d1[1]+d2[1]);
+  d1[0] = (d1[0]+d2[0]);
+  d1[1] = (d1[1]+d2[1]);
 //    d1[2] = (d1[2]+d2[2]);
-      l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]/*+d1[2]*d1[2]*/);
-      d1[0] = d1[0]/l1;
-      d1[1] = d1[1]/l1;
+  l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]/*+d1[2]*d1[2]*/);
+  d1[0] = d1[0]/l1;
+  d1[1] = d1[1]/l1;
 //    d1[2] = d1[2]/l1;
-      v2[0] = v2[0] + dis * d1[0];
-      v2[1] = v2[1] + dis * d1[1];
+  v2[0] = v2[0] + dis * d1[0];
+  v2[1] = v2[1] + dis * d1[1];
 //    v2[2] = v2[2]/* + dis * d1[2]*/;
-    }
+  }
   
-    forces.Value() = v2;
-    i++;
-    ++forces;
+  forces.Value() = v2;
+  i++;
+  ++forces;
   }
 
 // for the last node in the slice
-    v2 = locations.Value();
-    ++locations;
-    v3[0] = s[0];
-    v3[1] = s[1];
-    v3[2] = s[2];
-    d1[0] = v1[0] - v2[0];
-    d2[0] = v3[0] - v2[0];
-    d1[1] = v1[1] - v2[1];
-    d2[1] = v3[1] - v2[1];
+  v2 = locations.Value();
+  ++locations;
+  v3[0] = s[0];
+  v3[1] = s[1];
+  v3[2] = s[2];
+  d1[0] = v1[0] - v2[0];
+  d2[0] = v3[0] - v2[0];
+  d1[1] = v1[1] - v2[1];
+  d2[1] = v3[1] - v2[1];
 //  d1[2] = v1[2] - v2[2];
 //  d2[2] = v3[2] - v2[2];
-    v1[0] = v2[0];
-    v1[1] = v2[1];
+  v1[0] = v2[0];
+  v1[1] = v2[1];
 //  v1[2] = v2[2];
-    dis = d1[0]*d2[0]+d1[1]*d2[1]/*+d1[2]*d2[2]*/;
-    if ( dis > 0 ) {
-      l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]/*+d1[2]*d1[2]*/);
-      l2 = sqrt(d2[0]*d2[0]+d2[1]*d2[1]/*+d2[2]*d2[2]*/);
-      dis = dis/sqrt(l1*l2);
-      d1[0] = d1[0]/l1;
-      d1[1] = d1[1]/l1;
+  dis = d1[0]*d2[0]+d1[1]*d2[1]/*+d1[2]*d2[2]*/;
+  if ( dis > 0 ) {
+  l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]/*+d1[2]*d1[2]*/);
+  l2 = sqrt(d2[0]*d2[0]+d2[1]*d2[1]/*+d2[2]*d2[2]*/);
+  dis = dis/sqrt(l1*l2);
+  d1[0] = d1[0]/l1;
+  d1[1] = d1[1]/l1;
 //  d1[2] = d1[2]/l1;
-      d2[0] = d2[0]/l2;
-      d2[1] = d2[1]/l2;
+  d2[0] = d2[0]/l2;
+  d2[1] = d2[1]/l2;
 //  d2[2] = d2[2]/l2;
-      d1[0] = (d1[0]+d2[0]);
-      d1[1] = (d1[1]+d2[1]);
+  d1[0] = (d1[0]+d2[0]);
+  d1[1] = (d1[1]+d2[1]);
 //  d1[2] = (d1[2]+d2[2]);
-      l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]/*+d1[2]*d1[2]*/);
-      d1[0] = d1[0]/l1;
-      d1[1] = d1[1]/l1;
+  l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]/*+d1[2]*d1[2]*/);
+  d1[0] = d1[0]/l1;
+  d1[1] = d1[1]/l1;
 //  d1[2] = d1[2]/l1;
-      v2[0] = v2[0] + dis * d1[0];
-      v2[1] = v2[1] + dis * d1[1];
+  v2[0] = v2[0] + dis * d1[0];
+  v2[1] = v2[1] + dis * d1[1];
 //  v2[2] = v2[2]/* + dis * d1[2]*/;
-    }
+  }
   
-    forces.Value() = v2;
-    ++forces;
+  forces.Value() = v2;
+  ++forces;
 
 // fro the first node in the slice
-    v2[0] = s[0];
-    v2[1] = s[1];
+  v2[0] = s[0];
+  v2[1] = s[1];
 //  v2[2] = s[2];
-    v3[0] = s1[0];
-    v3[1] = s1[1];
+  v3[0] = s1[0];
+  v3[1] = s1[1];
 //  v3[2] = s1[2];
-    d1[0] = v1[0] - v2[0];
-    d2[0] = v3[0] - v2[0];
-    d1[1] = v1[1] - v2[1];
-    d2[1] = v3[1] - v2[1];
+  d1[0] = v1[0] - v2[0];
+  d2[0] = v3[0] - v2[0];
+  d1[1] = v1[1] - v2[1];
+  d2[1] = v3[1] - v2[1];
 //  d1[2] = v1[2] - v2[2];
 //  d2[2] = v3[2] - v2[2];
 //  v1[0] = v2[0];
 //  v1[1] = v2[1];
 //  v1[2] = v2[2];
-    dis = d1[0]*d2[0]+d1[1]*d2[1];
-    if ( dis > 0 ) {
-      l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]);
-      l2 = sqrt(d2[0]*d2[0]+d2[1]*d2[1]);
-      dis = dis/sqrt(l1*l2);
-      d1[0] = d1[0]/l1;
-      d1[1] = d1[1]/l1;
+  dis = d1[0]*d2[0]+d1[1]*d2[1];
+  if ( dis > 0 ) {
+  l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]);
+  l2 = sqrt(d2[0]*d2[0]+d2[1]*d2[1]);
+  dis = dis/sqrt(l1*l2);
+  d1[0] = d1[0]/l1;
+  d1[1] = d1[1]/l1;
 //  d1[2] = d1[2]/l1;
-      d2[0] = d2[0]/l2;
+  d2[0] = d2[0]/l2;
 //  d2[1] = d2[1]/l2;
 //  d2[2] = d2[2]/l2;
-      d1[0] = (d1[0]+d2[0]);
-      d1[1] = (d1[1]+d2[1]);
+  d1[0] = (d1[0]+d2[0]);
+  d1[1] = (d1[1]+d2[1]);
 //  d1[2] = (d1[2]+d2[2]);
-      l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]);
-      d1[0] = d1[0]/l1;
-      d1[1] = d1[1]/l1;
+  l1 = sqrt(d1[0]*d1[0]+d1[1]*d1[1]);
+  d1[0] = d1[0]/l1;
+  d1[1] = d1[1]/l1;
 //  d1[2] = d1[2]/l1;
-      v2[0] = v2[0] + dis * d1[0];
-      v2[1] = v2[1] + dis * d1[1];
+  v2[0] = v2[0] + dis * d1[0];
+  v2[1] = v2[1] + dis * d1[1];
 //  v2[2] = v2[2]/* + dis * d1[2]*/;
-    }
+  }
 
-    forcescopy.Value() = v2;
+  forcescopy.Value() = v2;
 
   forces = myForces->Begin();
 
@@ -1450,12 +1454,12 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 //  forcescopy = forces;
 
   while ( i < m_Resolution - 1 ) {
-    v1 = forces.Value();
-    ++forces;
-    v2 = forces.Value();
+  v1 = forces.Value();
+  ++forces;
+  v2 = forces.Value();
 //    m_Displacements->GetPointData(i+j*m_Resolution, d_PixelTyper);
-    dis += sqrt((v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1]));
-    i++;
+  dis += sqrt((v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1]));
+  i++;
   }
 //  m_Displacements->GetPointData(i+j*m_Resolution, d_PixelTyper);
   dis += sqrt((s[0]-v2[0])*(s[0]-v2[0])+(s[1]-v2[1])*(s[1]-v2[1]));
@@ -1472,33 +1476,33 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   ++normals;
   v3 = forces.Value();
   while ( i < m_Resolution - 1 ) {
-    v1 = forces.Value();
-    ++forces;
-    v2 = forces.Value();
-    dis = sqrt((v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1]));
-    l2 = -1*l1;
-    l1 += dis;
+  v1 = forces.Value();
+  ++forces;
+  v2 = forces.Value();
+  dis = sqrt((v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1]));
+  l2 = -1*l1;
+  l1 += dis;
 //    m_Displacements->GetPointData(i+j*m_Resolution, d_PixelTyper);
-    while ( l1 > length ) {
-      if (k==m_Resolution) break;
-      s[0] = v1[0] + (length+l2)*(v2[0] - v1[0])/dis;
-      s[1] = v1[1] + (length+l2)*(v2[1] - v1[1])/dis;
+  while ( l1 > length ) {
+  if (k==m_Resolution) break;
+  s[0] = v1[0] + (length+l2)*(v2[0] - v1[0])/dis;
+  s[1] = v1[1] + (length+l2)*(v2[1] - v1[1])/dis;
 //      s[2] = v1[2];
-      normals.Value() = s;
-      ++normals;
-      k++;
-      l2 += length;
-      l1 -= length;
-    }
-    i++;
-    if (k==m_Resolution) break;
+  normals.Value() = s;
+  ++normals;
+  k++;
+  l2 += length;
+  l1 -= length;
+  }
+  i++;
+  if (k==m_Resolution) break;
   }
 
   if (k==m_Resolution) {
-    while (i < m_Resolution) {
-    i++;
-    ++forces;
-    }
+  while (i < m_Resolution) {
+  i++;
+  ++forces;
+  }
   }
 
   v1 = forces.Value();
@@ -1508,15 +1512,15 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   l1 += dis;
 //  m_Displacements->GetPointData(i+j*m_Resolution, d_PixelTyper);
   while ( l1 > length ) {
-    if (k==m_Resolution) break;
-    s[0] = v1[0] + (length+l2)*(v3[0] - v1[0])/dis;
-    s[1] = v1[1] + (length+l2)*(v3[1] - v1[1])/dis;
+  if (k==m_Resolution) break;
+  s[0] = v1[0] + (length+l2)*(v3[0] - v1[0])/dis;
+  s[1] = v1[1] + (length+l2)*(v3[1] - v1[1])/dis;
 //    s[2] = v1[2];
-    normals.Value() = s;
-    ++normals;
-    k++;
-    l2 += length;
-    l1 -= length;
+  normals.Value() = s;
+  ++normals;
+  k++;
+  l2 += length;
+  l1 -= length;
   }
 
   locations = myLocations->Begin();
@@ -1525,40 +1529,42 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   forces = myForces->Begin();
 
   {
-    i = 0;
-    while ( i < static_cast<int>(m_NumberOfNodes) - 2 ) {
-      v1 = normals.Value();
-      //  v1 = forces.Value();
-      v2 = locations.Value();
-      v3 = displacements.Value();
-      v3[0] += v1[0] - v2[0];
-      v3[1] += v1[1] - v2[1];
-      //  v3[2] += v1[2] - v2[2];
-      locations.Value() = v1;
-      if ( m_GradientBegin ) displacements.Value() = v3;
-      ++normals;
-      //  ++forces;
-      ++locations;
-      ++displacements;
-      i++;
-    }
+  i = 0;
+  while ( i < static_cast<int>(m_NumberOfNodes) - 2 ) {
+  v1 = normals.Value();
+  //  v1 = forces.Value();
+  v2 = locations.Value();
+  v3 = displacements.Value();
+  v3[0] += v1[0] - v2[0];
+  v3[1] += v1[1] - v2[1];
+  //  v3[2] += v1[2] - v2[2];
+  locations.Value() = v1;
+  if ( m_GradientBegin ) displacements.Value() = v3;
+  ++normals;
+  //  ++forces;
+  ++locations;
+  ++displacements;
+  i++;
+  }
   }
 
   locations = myLocations->Begin();
   j = 0;
-  for (; j < 1; j++) {
-  dis = 0;
-  i = 0;
-  s = locations.Value();
-  while ( i < m_Resolution - 1 ) {
-    v1 = locations.Value();
+  for (; j < 1; j++)
+    {
+    dis = 0;
+    i = 0;
+    s = locations.Value();
+    while ( i < m_Resolution - 1 )
+      {
+      v1 = locations.Value();
+      ++locations;
+      v2 = locations.Value();
+      dis = sqrt((v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1]));
+      i++;
+      }
     ++locations;
-    v2 = locations.Value();
-    dis = sqrt((v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1]));
-    i++;
-  }
-  ++locations;
-  }
+    }
 
 }
 
@@ -1617,138 +1623,141 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
         }
       else 
         {
-      if (((ii - m_ACD[m][l]) > m_Resolution/10) && 
-        ((m_Resolution-ii+m_ACD[m][l])>m_Resolution/10)) 
-        {
-        locationscopy1 = locationscopy;
-        n = 0;
-        v1[0] = 0;
-        v1[1] = 0;
-  //      v1[2] = 0;
-        if ( (ii - m_ACD[m][l]) < 0.5*m_Resolution ) 
+        if (((ii - m_ACD[m][l]) > m_Resolution/10) && 
+            ((m_Resolution-ii+m_ACD[m][l])>m_Resolution/10)) 
           {
-        if (m_ACD[m][l] == 0) 
-          {
-          PixelType1 = m_Resolution - 1;
-          }
-        else 
-          {
-          PixelType1 = m_ACD[m][l] - 1;
-          }
-        if (ii == m_Resolution - 1) 
-          { 
-          PixelType2 = 0; 
-          }
-        else 
-          { 
-          PixelType2 = ii + 1;
-          }
-        while (n<m_Resolution) 
-          {
-          v = locationscopy1.Value();
-          if ((n>m_ACD[m][l]) && (n<ii)) 
+          locationscopy1 = locationscopy;
+          n = 0;
+          v1[0] = 0;
+          v1[1] = 0;
+          //      v1[2] = 0;
+          if ( (ii - m_ACD[m][l]) < 0.5*m_Resolution ) 
             {
-            v1[0] += v[0];
-            v1[1] += v[1];
+            if (m_ACD[m][l] == 0) 
+              {
+              PixelType1 = m_Resolution - 1;
+              }
+            else 
+              {
+              PixelType1 = m_ACD[m][l] - 1;
+              }
+            if (ii == m_Resolution - 1) 
+              { 
+              PixelType2 = 0; 
+              }
+            else 
+              { 
+              PixelType2 = ii + 1;
+              }
+            while (n<m_Resolution) 
+              {
+              v = locationscopy1.Value();
+              if ((n>m_ACD[m][l]) && (n<ii)) 
+                {
+                v1[0] += v[0];
+                v1[1] += v[1];
+                } 
+              else 
+                {
+                if ( n == PixelType1) v2 = locationscopy1.Value();
+                if ( n == PixelType2 ) v3 = locationscopy1.Value();
+                }
+              ++locationscopy1;
+              n++;
+              }
+            v1[0] = v1[0]/(ii-m_ACD[m][l]-1);
+            v1[1] = v1[1]/(ii-m_ACD[m][l]-1);
+            s = 1;
+            if (s > 0) 
+              {
+              locationscopy1 = locationscopy;
+              dpcopy1 = dpcopy;
+              n = 0;
+              while (n<m_Resolution) 
+                {
+                if ((n>m_ACD[m][l]) && (n<ii)) 
+                  {
+                  v1 = locationscopy1.Value();
+                  locationscopy1.Value() = v;
+                  v2 = dpcopy1.Value();
+                  v2[0] += v[0] - v1[0];
+                  v2[1] += v[1] - v1[1];
+                  //          v2[2] += v[2] - v1[2];
+                  dpcopy1.Value() = v2;
+                  } 
+                if ( n == m_ACD[m][l] ) 
+                  {
+                  v = locationscopy1.Value();
+                  }
+                ++locationscopy1;
+                ++dpcopy1;
+                n++;
+                }
+              }
             } 
           else 
             {
-            if ( n == PixelType1) v2 = locationscopy1.Value();
-            if ( n == PixelType2 ) v3 = locationscopy1.Value();
-            }
-          ++locationscopy1;
-          n++;
-        }
-        v1[0] = v1[0]/(ii-m_ACD[m][l]-1);
-        v1[1] = v1[1]/(ii-m_ACD[m][l]-1);
-        s = 1;
-        if (s > 0) 
-          {
-          locationscopy1 = locationscopy;
-          dpcopy1 = dpcopy;
-          n = 0;
-          while (n<m_Resolution) 
-            {
-            if ((n>m_ACD[m][l]) && (n<ii)) 
+            while (n<m_Resolution) 
               {
-              v1 = locationscopy1.Value();
-              locationscopy1.Value() = v;
-              v2 = dpcopy1.Value();
-              v2[0] += v[0] - v1[0];
-              v2[1] += v[1] - v1[1];
-    //          v2[2] += v[2] - v1[2];
-              dpcopy1.Value() = v2;
-              } 
-            if ( n == m_ACD[m][l] ) 
-              {
+              PixelType1 = m_ACD[m][l] + 1;
+              PixelType2 = ii - 1;
               v = locationscopy1.Value();
+              if ((n<m_ACD[m][l]) && (n>ii)) 
+                {
+                v1[0] += v[0];
+                v1[1] += v[1];
+                }
+              else
+                {
+                if ( n == PixelType1 ) v2 = locationscopy1.Value();
+                if ( n == PixelType2 ) v3 = locationscopy1.Value();
+                }
+              ++locationscopy1;
+              n++;
               }
-          ++locationscopy1;
-          ++dpcopy1;
-          n++;
-          }
-        }
-        } 
-        else 
-          {
-          while (n<m_Resolution) 
-            {
-            PixelType1 = m_ACD[m][l] + 1;
-            PixelType2 = ii - 1;
-            v = locationscopy1.Value();
-            if ((n<m_ACD[m][l]) && (n>ii)) 
+            v1[0] = v1[0]/(ii-m_ACD[m][l]-1);
+            v1[1] = v1[1]/(ii-m_ACD[m][l]-1);
+            s = -1;
+            if (s < 0)
               {
-              v1[0] += v[0];
-              v1[1] += v[1];
+              locationscopy1 = locationscopy;
+              dpcopy1 = dpcopy;
+              n = 0;
+              while (n<m_Resolution)
+                {
+                if ( n == ii )
+                  {
+                  v = locationscopy1.Value();
+                  }
+                ++locationscopy1;
+                n++;
+                }
+              locationscopy1 = locationscopy;
+              n = 0;
+              while (n<m_Resolution) 
+                {
+                if ((n<m_ACD[m][l]) && (n>ii)) 
+                  {
+                  v1 = locationscopy1.Value();
+                  locationscopy1.Value() = v;
+                  v2 = dpcopy1.Value();
+                  v2[0] += v[0] - v1[0];
+                  v2[1] += v[1] - v1[1];
+                  //          v2[2] += v[2] - v1[2];
+                  dpcopy1.Value() = v2;
+                  }
+                ++locationscopy1;
+                ++dpcopy1;
+                n++;
+                }
               }
-            else
-              {
-              if ( n == PixelType1 ) v2 = locationscopy1.Value();
-              if ( n == PixelType2 ) v3 = locationscopy1.Value();
-              }
-          ++locationscopy1;
-          n++;
-          }
-        v1[0] = v1[0]/(ii-m_ACD[m][l]-1);
-        v1[1] = v1[1]/(ii-m_ACD[m][l]-1);
-        s = -1;
-        if (s < 0) {
-          locationscopy1 = locationscopy;
-          dpcopy1 = dpcopy;
-          n = 0;
-          while (n<m_Resolution) {
-            if ( n == ii ) {
-            v = locationscopy1.Value();
-          }
-            ++locationscopy1;
-            n++;
-          }
-          locationscopy1 = locationscopy;
-          n = 0;
-          while (n<m_Resolution) 
-            {
-            if ((n<m_ACD[m][l]) && (n>ii)) 
-              {
-              v1 = locationscopy1.Value();
-              locationscopy1.Value() = v;
-              v2 = dpcopy1.Value();
-              v2[0] += v[0] - v1[0];
-              v2[1] += v[1] - v1[1];
-    //          v2[2] += v[2] - v1[2];
-              dpcopy1.Value() = v2;
-              }
-            ++locationscopy1;
-            ++dpcopy1;
-            n++;
             }
-          }
-        }
         
-        m_ModelRestart = 1;
-        break;
+          m_ModelRestart = 1;
+          break;
+          }
         }
       }
-    }
     } 
 
   m_ModelRestart = 0;
