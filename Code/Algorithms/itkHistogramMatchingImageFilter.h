@@ -125,12 +125,21 @@ public:
   /** This filter requires all of the input to be in the buffer. */
   virtual void GenerateInputRequestedRegion();
 
+  /** Methods to get the histograms of the source, reference, and
+   * output. Objects are only valid after Update() has been called
+   * on this filter. */
+  itkGetObjectMacro(SourceHistogram, HistogramType);
+  itkGetObjectMacro(ReferenceHistogram, HistogramType);
+  itkGetObjectMacro(OutputHistogram, HistogramType);
+   
+
 protected:
   HistogramMatchingImageFilter();
   ~HistogramMatchingImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   void BeforeThreadedGenerateData();
+  void AfterThreadedGenerateData();
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 
@@ -153,6 +162,7 @@ private:
 
   InputPixelType        m_SourceIntensityThreshold;
   InputPixelType        m_ReferenceIntensityThreshold;
+  OutputPixelType       m_OutputIntensityThreshold;
 
   double                m_SourceMinValue;
   double                m_SourceMaxValue;
@@ -160,10 +170,17 @@ private:
   double                m_ReferenceMinValue;
   double                m_ReferenceMaxValue;
   double                m_ReferenceMeanValue;
+  double                m_OutputMinValue;
+  double                m_OutputMaxValue;
+  double                m_OutputMeanValue;
 
+  HistogramPointer      m_SourceHistogram;
+  HistogramPointer      m_ReferenceHistogram;
+  HistogramPointer      m_OutputHistogram;
+  
   typedef vnl_matrix<double>  TableType;
   TableType             m_QuantileTable;
-
+  
   typedef vnl_vector<double>  GradientArrayType;
   GradientArrayType     m_Gradients;
   double                m_LowerGradient;
