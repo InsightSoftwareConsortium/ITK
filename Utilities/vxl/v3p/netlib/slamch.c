@@ -549,6 +549,14 @@ real slamch_(const char *cmach)
     *rmax = lrmax;
 } /* slamc2_ */
 
+
+// Microsoft Visual C++ 2003 produces bad code when the following
+// routine is optimized.  Turn off the optimization for this one
+// routine and turn back on any optimizations after this routine.
+#if (_MSC_VER >= 1310)
+#pragma optimize("", off)
+#endif
+
 real slamc3_(real *a, real *b)
 {
 /*  -- LAPACK auxiliary routine (version 2.0) --
@@ -574,6 +582,12 @@ real slamc3_(real *a, real *b)
 
     return *a + *b;
 } /* slamc3_ */
+
+// Turn the optimizations back on for Visual Studio .NET 2003
+#if (_MSC_VER >= 1310)
+#pragma optimize("", on)
+#endif
+
 
 /* Subroutine */ void slamc4_(integer *emin, real *start, integer *base)
 {
