@@ -28,7 +28,9 @@ namespace itk {
   * CurvatureFlowImageFilter implements a curvature driven image denoising 
   * algorithm. Iso-brightness contours in the input image are viewed as a 
   * level set. The level set is then evolved using a curvature-based speed 
-  * function.
+  * function:
+  *
+  * \f[  I_t = \kappa |\nabla I\| \f]
   *
   * The advantage of this approach is that sharp boundaries are preserved
   * with smoothing occuring only within a region.
@@ -51,7 +53,8 @@ namespace itk {
   * only make use of the center valid central region.
   *
   * \warning This filter assumes that the input and output types have the
-  * same dimensions.
+  * same dimensions. This filter also requires that the output image pixels
+  * are of a floating point type.
   *
   * Reference:
   * "Level Set Methods and Fast Marching Methods", J.A. Sethian,
