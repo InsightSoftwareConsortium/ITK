@@ -33,6 +33,12 @@ int main(int argc, char** argv)
   return 0;
 }
 
+extern "C"
+{
+  int Vxlnumericstcl_Init(Tcl_Interp*);
+  int Itkcommontcl_Init(Tcl_Interp*);
+}
+
 int itkTclAppInit(Tcl_Interp* interp)
 {
   // Initialize Tcl.
@@ -47,7 +53,11 @@ int itkTclAppInit(Tcl_Interp* interp)
     "}\n";
   if(Tcl_GlobalEval(interp, pathScript) != TCL_OK) { return TCL_ERROR; }
   
-  // Initialize the ITK Tcl packages.
+  // Initialize the built-in packages.
+  if(Vxlnumericstcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
+  if(Itkcommontcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
+  
+  // Initialize all ITK Tcl packages.
   static char initScript[] = "package require itk 0.7";
   if(Tcl_GlobalEval(interp, initScript) != TCL_OK) { return TCL_ERROR; }
   
