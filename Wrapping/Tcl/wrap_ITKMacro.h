@@ -44,6 +44,7 @@
     typedef ::itk::Image<float, 3> ImageF3; \
     typedef ::itk::Image<unsigned short, 2> ImageUS2; \
     typedef ::itk::Image<unsigned short, 3> ImageUS3; \
+    typedef ::itk::Image<unsigned char, 2> ImageUC2; \
   }
 
 // Wrap a non-templated class that is not part of main hierarchy.
