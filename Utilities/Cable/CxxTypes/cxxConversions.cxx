@@ -38,21 +38,38 @@ bool Conversions::ReferenceCanBindAsIdentity(const CvQualifiedType& from,
     return true;
     }
   
-  // See if the "from" type is itself a ReferenceType.  If so, it must be
-  // to an equally, or less cv-qualified type than "to" references.
-  if(from.GetType()->IsReferenceType())
+  return false;
+}
+
+  
+/**
+ * Determine whether the given ReferenceType "to" can bind to the given
+ * type "from" with only a derived-to-base conversion and (possibly)
+ * cv-qualifier adjustment.
+ */
+bool Conversions::ReferenceCanBindAsDerivedToBase(const CvQualifiedType& from,
+                                                  const ReferenceType* to)
+{
+  CvQualifiedType toCvType = to->GetReferencedType();
+  
+  // Only a ClassType can have a derived-to-base reference binding.
+  if(!(toCvType.GetType()->IsClassType() && from.GetType()->IsClassType()))
     {
-    CvQualifiedType fromType = ReferenceType::SafeDownCast(from.GetType())->GetReferencedType();
-    if((toType == fromType)
-       || (toType == fromType.GetMoreQualifiedType(true, false))
-       || (toType == fromType.GetMoreQualifiedType(false, true))
-       || (toType == fromType.GetMoreQualifiedType(true, true)))
-      {
-      return true;
-      }
+    return false;
     }
   
-  return false;
+  // Make sure cv-qualifiers match up.
+  if(!toCvType.IsEquallyOrMoreCvQualifiedThan(from))
+    {
+    return false;
+    }
+  
+  // Get the ClassType information.
+  const ClassType* toType = ClassType::SafeDownCast(toCvType.GetType());
+  const ClassType* fromType = ClassType::SafeDownCast(from.GetType());
+  
+  // See if "fromType" is a subclass of "toType".
+  return fromType->IsSubclassOf(toType);
 }
 
 
