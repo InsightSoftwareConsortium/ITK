@@ -39,13 +39,15 @@ void
 AmoebaOptimizer<TCostFunction>
 ::StartOptimization( void )
 {
-  InternalParametersType initialValue( SpaceDimension );
 
-  VnlCostFunctionAdaptor::ConvertParameters( 
-                             GetInitialPosition(), 
-                             initialValue );
+  InternalParametersType initialParameters( SpaceDimension );
+  
+  VnlCostFunctionAdaptor::ConvertExternalToInternalParameters( 
+                            GetInitialPosition(), 
+                            initialParameters     );
 
-  m_Amoeba.minimize( initialValue );
+  m_Amoeba.minimize( initialParameters );
+
 }
 
 

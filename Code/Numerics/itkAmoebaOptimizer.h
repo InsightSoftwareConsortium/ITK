@@ -119,67 +119,6 @@ public:
   vnl_amoeba & GetOptimizer(void);
 
 
-  /** \class VnlCostFunction
-   * \brief Adaptor between the CostFunction and the vnl_cost_function classes
-   *
-   */
-
-  class VnlCostFunctionAdaptor : public vnl_cost_function
-  {
-  public:
-    VnlCostFunctionAdaptor():vnl_cost_function(TCostFunction::SpaceDimension) 
-      { m_CostFunction = 0; }    
-
-      void SetCostFunction( TCostFunction * costFunction ) 
-        { m_CostFunction = costFunction; }
-      
-
-      /** 
-       *  Delegate computation of the value to the CostFunction
-       */
-      virtual double f( const InternalParametersType & parameters ) {
-        if( !m_CostFunction )
-        {
-          throw ExceptionObject();
-        }
-        return m_CostFunction->GetValue( parameters );
-      }
-      
-      /** 
-       *  Delegate computation of the gradient to the CostFunction
-       */
-      virtual void gradf(const InternalParametersType & parameters,
-                               InternalDerivativeType & gradient ) {
-        if( !m_CostFunction )
-        {
-          throw ExceptionObject();
-        }
-        gradient = m_CostFunction->GetDerivative( parameters );
-      }
-      
-      /** 
-       *  Delegate computation of value and gradient to the CostFunction
-       */
-      virtual void compute(const InternalParametersType & x,
-                                 InternalMeasureType    * f, 
-                                 InternalDerivativeType * g ) {
-        // delegate the computation to the CostFunction
-        *f = m_CostFunction->GetValue( x );
-        *g = m_CostFunction->GetDerivative( x );
-      }
- 
-  private:
-      TCostFunction   * m_CostFunction;
-  };  // end of Class CostFunction
-
-
-  /**
-   * Set the cost Function of type TCostFunction
-   */
-  void SetCostFunction( TCostFunction * costFunction ) 
-    { m_CostFunction.SetCostFunction( costFunction ); }
-    
-  
   /**
    * Start optimization with an initial value
    */
