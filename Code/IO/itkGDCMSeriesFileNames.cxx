@@ -36,7 +36,7 @@ const std::vector<std::string> &GDCMSeriesFileNames::GetInputFileNames()
 #else
   gdcm::SerieHeader *helper = new gdcm::SerieHeader();
 #endif
-  helper->SetDirectory( m_InputDirectory.c_str() );
+  helper->SetDirectory( m_InputDirectory );
   helper->OrderGdcmFileList();
   //We assume that there is only one study / one serie
 

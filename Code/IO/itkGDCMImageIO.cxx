@@ -378,10 +378,6 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
 #if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
   TagDocEntryHT & nameHt = GdcmHeader.GetEntry();
   for (TagDocEntryHT::iterator tag = nameHt.begin(); tag != nameHt.end(); ++tag)
-#else
-  const gdcm::TagDocEntryHT &nameHt = GdcmHeader.GetTagHT();
-  for (gdcm::TagDocEntryHT::const_iterator tag = nameHt.begin(); tag != nameHt.end(); ++tag)
-#endif
     {
     // Do not copy field from private (unknown) dictionary.
     // In the longer term we might want to (but we need the Private dictionary
@@ -391,24 +387,33 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
        // skip DICOM SeQuence, otherwise following cast will crash
        continue;
      }
-#if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
     std::string temp = ((gdcmValEntry*)(tag->second))->GetValue();
-#else
-    std::string temp = ((gdcm::ValEntry*)(tag->second))->GetValue();
-#endif
     if( tag->second->GetName() != "unkn" 
      && temp.find( "gdcm::NotLoaded" ) != 0
      && temp.find( "gdcm::Binary" ) != 0
      && temp.find( "gdcm::Loaded" ) != 0 )
       {
       EncapsulateMetaData<std::string>(dico, tag->second->GetName(),
-#if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
                          ((gdcmValEntry*)(tag->second))->GetValue() );
-#else
-                         ((gdcm::ValEntry*)(tag->second))->GetValue() );
-#endif
       }
     }
+#else
+  GdcmHeader.Initialize();
+  gdcm::DocEntry* d = GdcmHeader.GetNextEntry();
+
+  // Copy of the header content
+  while(d)
+  {
+    if ( gdcm::ValEntry* v = dynamic_cast<gdcm::ValEntry*>(d) )
+    {   
+      EncapsulateMetaData<std::string>(dico, v->GetName(), v->GetValue() );
+    }
+    //else
+    // We skip pb of SQ recursive exploration, and we do not copy binary entries
+
+    d = GdcmHeader.GetNextEntry();
+  }
+#endif
 }
 
 void GDCMImageIO::ReadImageInformation()
@@ -490,7 +495,7 @@ void GDCMImageIO::Write(const void* buffer)
 #else
     gdcm::DictEntry *dictEntry =
 #endif
-      myGdcmHeader->GetPubDict()->GetDictEntryByName(itr->first);
+      myGdcmHeader->GetPubDict()->GetDictEntryByName(key);
     // Anything that has been change in the MetaData Dict will be pushed
     // into the DICOM header:
     myGdcmHeader->ReplaceOrCreateByNumber( value, dictEntry->GetGroup(), 
@@ -549,8 +554,11 @@ void GDCMImageIO::Write(const void* buffer)
   uint8_t* imageData = (uint8_t*)buffer;
   // Here we are passsing directly a pointer, this should
   myGdcmHeader->ReplaceOrCreateByNumber( imageData, numberOfBytes, 0x7fe0, 0x0010, "PXL" );
-
   myGdcmFile->WriteDcmExplVR( m_FileName );
+
+  //myGdcmFile->SetWriteTypeToDcmExplVR();
+  //myGdcmFile->Write( m_FileName );
+
   delete myGdcmFile;
   delete myGdcmHeader;
 #endif
