@@ -126,6 +126,9 @@ vnl_matrix<HexahedronC03D::Float> HexahedronC03D::Ke() const
     D[k][k] = 1 - (2 * m_mat->ni) * 0.5;
   }
 
+  /** Multiply by the factor */
+  D = D * fac;
+
   /** Initialize stiffness matrix */
   MatKe.fill(0.0);
 
