@@ -24,6 +24,7 @@
 #include "itkJPEGImageIO.h"
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
+#include <stdio.h>
 
 extern "C" {
 #include <jpeglib.h>
@@ -446,15 +447,15 @@ void JPEGImageIO::WriteSlice(std::string& fileName, const void* buffer)
     itkExceptionMacro("Unable to open file " << fileName);
     }
 
-  int bitDepth;
+  //int bitDepth;
   switch (this->GetComponentType())
     {
     case UCHAR:
-      bitDepth = 8;
+      //bitDepth = 8;
       break;
 
     case USHORT:
-      bitDepth = 16;
+      //bitDepth = 16;
       break;
 
     default:
