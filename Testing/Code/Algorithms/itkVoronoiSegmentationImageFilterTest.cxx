@@ -104,7 +104,7 @@ int main(void){
   testVorseg->SetNumberOfSeeds(400);
   testVorseg->SetSteps(5);
 
-  testVorseg->GenerateData();
+  testVorseg->Update();
 
   itk::ImageRegionIteratorWithIndex <UShortImage> ot(testVorseg->GetOutput(), region);
 

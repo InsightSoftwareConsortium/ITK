@@ -67,7 +67,7 @@ int main(void){
 	testVorGen->SetBoundary(insize);
 
 	testVorGen->SetRandomSeeds(NUMSEEDS);
-	testVorGen->GenerateData();
+	testVorGen->Update();
   testVor=testVorGen->GetOutput();
 
 	for(int i=0;i<NUMSEEDS; i++){
