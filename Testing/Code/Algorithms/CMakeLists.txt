@@ -133,6 +133,13 @@ ADD_TEST(itkDeformableTest ${ALGORITHMS_TESTS3} itkDeformableTest)
 ADD_TEST(itkDeformableSimplexMesh3DBalloonForceFilterTest ${ALGORITHMS_TESTS2} itkDeformableSimplexMesh3DBalloonForceFilterTest)
 ADD_TEST(itkDeformableSimplexMesh3DFilterTest ${ALGORITHMS_TESTS2} itkDeformableSimplexMesh3DFilterTest)
 ADD_TEST(itk2DDeformableTest ${ALGORITHMS_TESTS3} itk2DDeformableTest)
+ADD_TEST(itkBinaryThinningImageFilterTest ${ALGORITHMS_TESTS3}
+   --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/BinaryThinningImageFilterTest.png
+             ${ITK_TEST_OUTPUT_DIR}/BinaryThinningImageFilterTest.png
+  itkBinaryThinningImageFilterTest
+             ${ITK_DATA_ROOT}/Input/Shapes.png
+             ${ITK_TEST_OUTPUT_DIR}/BinaryThinningImageFilterTest.png 
+             )
 ADD_TEST(itkSphereMeshSourceTest ${ALGORITHMS_TESTS3} itkSphereMeshSourceTest)
 ADD_TEST(itkUnsharpMaskLevelSetImageFilterTest ${ALGORITHMS_TESTS3} itkUnsharpMaskLevelSetImageFilterTest) 
 ADD_TEST(itkVnlFFTTest ${ALGORITHMS_TESTS2} itkVnlFFTTest)
@@ -247,6 +254,7 @@ itkWatershedImageFilterTest.cxx
 
 SET(AlgorithmsTest3_SRCS
 itk2DDeformableTest.cxx
+itkBinaryThinningImageFilterTest.cxx
 itkDeformableTest.cxx
 itkGibbsTest.cxx
 itkMRFImageFilterTest.cxx
