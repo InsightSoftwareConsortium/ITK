@@ -35,7 +35,9 @@ int itkMultivariateLegendrePolynomialTest(int , char* [] )
   const unsigned int degree    = 3;
 
   PolynomialType::DomainSizeType domainSize(dimension);
-  domainSize.fill(2);
+  domainSize[0] = 2 ;
+  domainSize[1] = 2 ;
+  domainSize[2] = 2 ;
 
   PolynomialType polynomial( dimension, degree, domainSize );
 
@@ -65,7 +67,7 @@ int itkMultivariateLegendrePolynomialTest(int , char* [] )
 
   PolynomialType::CoefficientArrayType  coefficients(20) ;
 
-  coefficients.Fill( 0.1 ) ;
+  std::fill(coefficients.begin(), coefficients.end(), 0.1) ;
 
   try
     {
