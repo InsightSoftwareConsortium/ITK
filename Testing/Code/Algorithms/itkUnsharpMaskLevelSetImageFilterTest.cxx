@@ -66,6 +66,7 @@ int itkUnsharpMaskLevelSetImageFilterTest(int, char* [] )
   std::cout<<"max iteration = "<<(filter->GetMaxFilterIteration())<<"\n";
   std::cout<<"Starting processing.\n";
   filter->Update();
+  filter->Print(std::cout);
   std::cout<<"Passed.\n";
   return 0;
 }

@@ -2,11 +2,6 @@
 #include "itkImage.h"
 #include <iostream>
 
-const unsigned int HEIGHT = (128);
-const unsigned int WIDTH  = (128);
-const int LOW    = (34);
-const int HIGH   = (94);
-
 int itkIsotropicFourthOrderLevelSetImageFilterTest(int, char* [] )
 {
   typedef itk::Image<float, 2> ImageType;
@@ -15,7 +10,7 @@ int itkIsotropicFourthOrderLevelSetImageFilterTest(int, char* [] )
   ImageType::Pointer im_init = ImageType::New();
   
   ImageType::RegionType r;
-  ImageType::SizeType   sz = {{HEIGHT, WIDTH}};
+  ImageType::SizeType   sz = {{128, 128}};
   ImageType::IndexType  idx = {{0,0}};
   r.SetSize(sz);
   r.SetIndex(idx);
@@ -27,11 +22,11 @@ int itkIsotropicFourthOrderLevelSetImageFilterTest(int, char* [] )
 
   IndexType index;
 
-  for ( index[0]=0; index[0]<WIDTH; index[0]++ )
-    for ( index[1]=0; index[1]<HEIGHT; index[1]++ )
+  for ( index[0]=0; index[0] < 128; index[0]++ )
+    for ( index[1]=0; index[1] < 128; index[1]++ )
       {
-      if ( (index[0]>=LOW) && (index[0]<=HIGH) &&
-           (index[1]>=LOW) && (index[1]<=HIGH) )
+      if ( (index[0]>=32) && (index[0]<=96) &&
+           (index[1]>=32) && (index[1]<=96) )
         {
         im_init->SetPixel (index, static_cast<float>(-1));
         
@@ -51,6 +46,7 @@ int itkIsotropicFourthOrderLevelSetImageFilterTest(int, char* [] )
   std::cout<<"max iteration = "<<(filter->GetMaxFilterIteration())<<"\n";
   std::cout<<"Starting processing.\n";
   filter->Update();
+  filter->Print(std::cout);
   std::cout<<"Passed.\n";
   return 0;
 }

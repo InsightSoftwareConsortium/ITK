@@ -4,11 +4,6 @@
 
 /* This test exercises the itkSparseImage class. */
 
-const unsigned int HEIGHT = (24);
-const unsigned int WIDTH  = (24);
-const int LOW    = (6);
-const int HIGH   = (12);
-
 namespace itk {
 
 template <class TImageType>
@@ -34,7 +29,7 @@ int itkSparseImageTest(int, char* [] )
   
   SparseImageType::Pointer im = SparseImageType::New();
   ImageType::RegionType r;
-  ImageType::SizeType   sz = {{HEIGHT, WIDTH}};
+  ImageType::SizeType   sz = {{24, 24}};
   ImageType::IndexType  idx = {{0,0}};
   r.SetSize(sz);
   r.SetIndex(idx);
@@ -48,11 +43,11 @@ int itkSparseImageTest(int, char* [] )
   NodeType *node;
   int cnt = 0;
   
-  for ( index[0]=0; index[0]<WIDTH; index[0]++ )
-    for ( index[1]=0; index[1]<HEIGHT; index[1]++ )
+  for ( index[0]=0; index[0] < 24; index[0]++ )
+    for ( index[1]=0; index[1] < 24; index[1]++ )
       {
-      if ( (index[0]>=LOW) && (index[0]<=HIGH) &&
-           (index[1]>=LOW) && (index[1]<=HIGH) )
+      if ( (index[0]>=6) && (index[0]<=12) &&
+           (index[1]>=6) && (index[1]<=12) )
         {
         node = im->AddNode (index);
         node->m_Value = cnt++;
