@@ -17,15 +17,12 @@
 
 #ifndef __itkFEMLinearSystemWrapperVNL_h
 #define __itkFEMLinearSystemWrapperVNL_h
-
 #include "itkFEMLinearSystemWrapper.h"
 #include "vnl/vnl_sparse_matrix.h"
 #include "vnl/vnl_vector.h"
 #include <vnl/vnl_sparse_matrix_linear_system.h>
 #include <vxl/vnl/algo/vnl_lsqr.h>
 #include <vector>
-
-
 
 
 namespace itk {
@@ -68,7 +65,7 @@ public:
   virtual void  InitializeSolution(unsigned int SolutionIndex);
   virtual bool  IsSolutionInitialized(unsigned int solutionIndex);
   virtual void  DestroySolution(unsigned int SolutionIndex);
-  virtual void  SetMaximumNonZeroValuesInMatrix(unsigned int matrixIndex, unsigned int maxNonZeros) {}
+  virtual void  SetMaximumNonZeroValuesInMatrix(unsigned int maxNonZeros, unsigned int matrixIndex) {}
 
 
   /* assembly & solving routines */

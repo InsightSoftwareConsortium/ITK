@@ -88,8 +88,7 @@ void ItpackSparseMatrix::Initialize()
   if ( (m_N <= 0) || (m_NZ <= 0) ) 
   { 
     /* FIX ME: error handling */
-
-    return ;
+    throw ;
   }
 
   /* initialize itpack variables */
@@ -114,12 +113,30 @@ void ItpackSparseMatrix::Initialize()
   m_IWORK = new integer [ m_NZ ];
   m_A =     new doublereal [ m_NZ ];
 
+  int i;
+  for (i=0; i<m_NZ; i++) 
+  {
+    m_JA[i] = 0;
+    m_IWORK[i] = 0;
+    m_A[i] = 0.0;
+  }
+  for (i=0; i<=m_N; i++) 
+  {
+    m_IA[i] = 0;
+  }
+
   /* initialize sparse matrix storage via itpack routine */
   itpack::sbini_( &m_N, &m_NZ, &(m_IA[0]), &(m_JA[0]), &(m_A[0]), &(m_IWORK[0]) );
   
   /* set info flags */
   m_MatrixInitialized = 1;
   m_MatrixFinalized = 0;
+
+  /* Do this to avoid itpack stupidness (only it's somehow my stupidness) */
+  for (i=0; i<m_N; i++)
+  {
+    this->Set(i,i,0.0);
+  }
 
   return;
 }
@@ -171,10 +188,15 @@ void ItpackSparseMatrix::Finalize()
     return;
   }
 
+  //std::cout << "sbend_ ... " << std::endl;
+  //this->PrintCompressedRow();
+
   /* finalize */
   itpack::sbend_( &m_N, &m_NZ, &(m_IA[0]), &(m_JA[0]), &(m_A[0]), &(m_IWORK[0]) );
-
-
+  
+  //this->PrintCompressedRow();
+  //std::cout << "sbend_ " << m_IER << std::endl;
+ 
   /* set info flag */
   m_MatrixFinalized = 1;
 
@@ -194,7 +216,16 @@ void ItpackSparseMatrix::UnFinalize()
   }
 
   /* return matrix to dynamic form */
+  //std::cout << "sbagn_ ..." << std::endl;
+  //this->PrintCompressedRow();
   itpack::sbagn_(&m_N, &m_NZ, &(m_IA[0]), &(m_JA[0]), &(m_A[0]), &(m_IWORK[0]), &m_LEVEL, &m_NOUT, &m_IER);
+  //this->PrintCompressedRow();
+  //std::cout << "sbagn_ " << m_IER << std::endl;
+
+  /*
+   * m_IER = 703 -> m_NZ is to small
+   */
+  if (m_IER >= 703) throw;
 
   /* set info flag */
   m_MatrixFinalized = 0;
@@ -206,24 +237,24 @@ void ItpackSparseMatrix::UnFinalize()
 void ItpackSparseMatrix::Set(integer i, integer j, doublereal value)
 {
 
-
   /* check for dynamic form */
   if (m_MatrixInitialized == 0)
   {
 
     /* initialize if prepared */
-    if ( (m_N == 0) || (m_NZ == 0) )
+    if ( (m_N <= 0) || (m_NZ <= 0) )
     {
       /* FIX ME: error handling */
 
-      return;
+      throw;
     }
     else 
     {
       this->Initialize();
     }
   }
-  if (m_MatrixFinalized != 0) 
+
+  if (m_MatrixFinalized == 1) 
   {
     this->UnFinalize();
   }
@@ -236,6 +267,12 @@ void ItpackSparseMatrix::Set(integer i, integer j, doublereal value)
   integer fortranJ = j+1;
   itpack::sbsij_(&m_N, &m_NZ, &(m_IA[0]), &(m_JA[0]), &(m_A[0]), &(m_IWORK[0]), &fortranI, &fortranJ, &value, &m_MODE, &m_LEVEL, &m_NOUT, &m_IER);
 
+  /* 
+   * m_IER = 701 -> invalid fortranI or fortranJ
+   *       = 702 -> m_NZ is to small
+   */
+  if (m_IER >= 701) throw;
+
   return;
 }
 
@@ -243,6 +280,11 @@ void ItpackSparseMatrix::Set(integer i, integer j, doublereal value)
 void ItpackSparseMatrix::Add(integer i, integer j, doublereal value)
 {
 
+  /* ignore add zero */
+  if (value == 0.0) 
+  {
+    return;
+  }
 
   /* check for dynamic form */
   if (m_MatrixInitialized == 0)
@@ -286,7 +328,9 @@ itpack::doublereal ItpackSparseMatrix::Get(integer i, integer j)
 
   /* check for readiness */
   if (m_MatrixInitialized != 0)
-  {
+  {  
+
+
     /* ensure matrix is in readable form */
     if (m_MatrixFinalized == 0)
     {
@@ -439,6 +483,35 @@ void ItpackSparseMatrix::SetCompressedRow(integer* ia, integer* ja, doublereal *
   m_MatrixInitialized = 1;
 }
 
+/*
+void ItpackSparseMatrix::PrintCompressedRow()
+{
+
+  int unfin = 0;
+
+  //if (m_MatrixFinalized == 0) {
+  //  this->Finalize();
+  //  unfin = 1;
+  //}
+
+  int i;
+  for (i=0; i<=m_N; i++) {
+    std::cout << m_IA[i] << " ";
+  }
+  std::cout << std::endl;
+  for (i=0; i<m_NZ; i++) {
+    std::cout << m_JA[i] << " ";
+  }
+  std::cout << std::endl;
+  for (i=0; i<m_NZ; i++) {
+    std::cout << m_A[i] << " ";
+  }
+  std::cout << std::endl;
+
+  //if (unfin) this->UnFinalize();
+
+}
+*/
 
 
 ItpackSparseMatrix::~ItpackSparseMatrix()

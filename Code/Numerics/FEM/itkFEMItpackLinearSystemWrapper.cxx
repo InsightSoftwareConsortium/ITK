@@ -55,14 +55,18 @@ ItpackLinearSystemWrapper::ItpackLinearSystemWrapper()
 }
 
 
-void ItpackLinearSystemWrapper::SetMaximumNonZeroValuesInMatrix(unsigned int matrixIndex, unsigned int maxNonZeros)
+void ItpackLinearSystemWrapper::SetMaximumNonZeroValuesInMatrix(unsigned int maxNonZeros, unsigned int matrixIndex)
 {
+
   if (m_MaximumNonZeroValues == 0)
   {
     m_MaximumNonZeroValues = new unsigned int [m_NumberOfMatrices];
   }
 
   m_MaximumNonZeroValues[matrixIndex] = maxNonZeros;
+
+  return;
+
 }
 
 
@@ -423,6 +427,35 @@ void ItpackLinearSystemWrapper::Solve(void)
   m_IPARM[7] = NW;
   IWKSP = new integer [ 3*N ];
   WKSP = new doublereal [ NW ];
+
+  for (i=0; i<NW; i++) 
+  {
+    WKSP[i] = 0.0;
+  }
+  for (i=0; i<(3*N); i++) 
+  {
+    IWKSP[i] = 0;
+  }
+
+
+  /* crap
+  for (i=0; i<=N; i++) {
+    std::cout << (*m_Matrices)[0].GetIA()[i] << " ";
+  }
+  std::cout << std::endl;
+
+  for (i=0; i<(*m_Matrices)[0].GetMaxNonZeroValues(); i++)
+  {
+    std::cout << (*m_Matrices)[0].GetJA()[i] << " ";
+  }
+  std::cout << std::endl;
+
+  for (i=0; i<(*m_Matrices)[0].GetMaxNonZeroValues(); i++)
+  {
+    std::cout << (*m_Matrices)[0].GetA()[i] << " ";
+  }
+  std::cout << std::endl;
+  */
 
   /* call to itpack solver routine */
   (*m_Methods[m_Method])( &N, (*m_Matrices)[0].GetIA(), (*m_Matrices)[0].GetJA(), (*m_Matrices)[0].GetA(), 

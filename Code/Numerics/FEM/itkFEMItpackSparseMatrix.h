@@ -167,6 +167,8 @@ public:
    */
   void mult(ItpackSparseMatrix* rightMatrix, ItpackSparseMatrix* resultMatrix);
 
+  /** output compressed row vectors: IA, JA, A */
+  void PrintCompressedRow();
 
 private:
 
@@ -178,6 +180,8 @@ private:
 
   /** finalize matrix form */
   void Finalize();
+
+
 
   /** flag indicating whether the matrix representation has been finalized */
   integer m_MatrixFinalized;

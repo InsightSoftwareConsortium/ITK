@@ -95,7 +95,7 @@ public:
    * \note in general this function does nothing, however it may 
    *       redefined by the derived wrapper if necessary
    */
-  virtual void SetMaximumNonZeroValuesInMatrix(unsigned int matrixIndex, unsigned int maxNonZeros) = 0;
+  virtual void SetMaximumNonZeroValuesInMatrix(unsigned int maxNonZeros, unsigned int matrixIndex = 0) = 0;
 
   /**
    * Get Index of matrices used by system
@@ -210,7 +210,7 @@ public:
    * \param value value to add to the existing element
    * \param MatrixIndex index of matrix to add value to
    */
-  void AddMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int matrixIndex = 0);
+  virtual void AddMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int matrixIndex = 0) = 0;
 
   /**
    * Virtual function to get a value of a specific element of the B vector.
@@ -233,7 +233,7 @@ public:
    * \param value value to add to the existing element
    * \param VectorIndex index of vector to add value to
    */
-  void AddVectorValue(unsigned int i, Float value, unsigned int vectorIndex = 0);
+  virtual void AddVectorValue(unsigned int i, Float value, unsigned int vectorIndex = 0) = 0;
 
   /**
    * Virtual function to set a value of specific element of the solution
