@@ -43,7 +43,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkPhysicalImage.h"
 #include "itkVector.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageBufferIterator.h"
 #include "itkSimpleImageRegionIterator.h"
 #include <time.h>
 
