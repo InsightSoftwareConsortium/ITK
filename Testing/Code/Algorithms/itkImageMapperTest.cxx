@@ -143,7 +143,7 @@ int main()
   axis[2] = 3.0;
 
   VersorType::ValueType angle;
-  angle = 30 * ( atan(1) / 45.0 );
+  angle = 30.0f * ( atan(1.0f) / 45.0f );
 
   VersorType versor;
 
