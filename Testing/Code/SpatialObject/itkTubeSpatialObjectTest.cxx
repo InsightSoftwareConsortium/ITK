@@ -40,9 +40,9 @@ int itkTubeSpatialObjectTest(int, char **)
   typedef itk::Point< ScalarType, 3> Point;
   typedef itk::Matrix< ScalarType, 3, 3> Matrix;
   typedef itk::TubeSpatialObject Tube;
-  typedef itk::SmartPointer<Tube> TubePointer;
+  typedef itk::SmartPointer< itk::TubeSpatialObject > TubePointer;
   typedef itk::TubeNetworkSpatialObject TubeNet;
-  typedef itk::SmartPointer<TubeNet> TubeNetPointer;
+  typedef itk::SmartPointer< itk::TubeNetworkSpatialObject > TubeNetPointer;
   typedef itk::AffineTransform< ScalarType, 3 > AffineTransformType;
   typedef itk::SmartPointer<AffineTransformType> AffineTransformPointer;
   typedef std::list< itk::SpatialObject< 3, AffineTransformType, OutputType> * > ChildrenListType;
@@ -200,9 +200,9 @@ int itkTubeSpatialObjectTest(int, char **)
   tubeNet1->AddSpatialObject( tube3 );
 
   // testing the GetChildren() function...
-  childrenList.push_back( tube1 );
-  childrenList.push_back( tube2 );
-  childrenList.push_back( tube3 );
+  childrenList.push_back( tube1.GetPointer() );
+  childrenList.push_back( tube2.GetPointer() );
+  childrenList.push_back( tube3.GetPointer() );
 
   returnedList = tubeNet1->GetChildren();
 
