@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#include "itkImageRegionSimpleIterator.h"
+
 namespace itk
 {
   
@@ -21,106 +23,98 @@ namespace NeighborhoodAlgorithm
 
 template < class TPixel, unsigned long VDimension>
 void
-DoInnerProductOverRegion(Image<TPixel, VDimension> *ip,
-                         Image<TPixel, VDimension> *op,
-                         Neighborhood<TPixel, VDimension> &oper)
-
+DoUnsynchedInnerProduct(Image<TPixel, VDimension> *ip,
+                      Image<TPixel, VDimension> *op,
+                      Neighborhood<TPixel, VDimension> &oper)
 {
   typedef Image<TPixel, VDimension> Image;
   typedef Index<VDimension> Index;
-  typedef RegionNeighborhoodIterator<TPixel, VDimension> NonBoundaryIterator;
-  typedef RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
-    BoundaryIterator;
-
   const unsigned long *radius = oper.GetRadius();
   const unsigned long *regionsize = ip->GetRegionSize();
   const Index regionstartindex = ip->GetRegionStartIndex();
-
   int i; 
   unsigned long bound[VDimension];
   Index start;
 
-  // Apply operator to non-boundary pixels using fast Neighborhood iterator
-  for ( i = 0; i<VDimension; ++i)
+  // Apply operator to non-boundary pixels using a fast Neighborhood iterator
+  // and an image iterator
+  for ( i = 0; i < Image::ImageDimension; ++i)
     {
       start[i] = regionstartindex[i] + radius[i];
       bound[i] = regionsize[i] - radius[i]*2;
     }
-  NonBoundaryIterator nbi(radius, ip, start, bound);
-  const NonBoundaryIterator nbiEnd = nbi.End();
-  nbi.SetOutputBuffer(op->GetBufferPointer() + op->ComputeOffset(start));
-  for (nbi = nbi.Begin(); nbi < nbiEnd; ++nbi)
-    {
-      //*( nbi.GetOutputBuffer() ) += 1;
-           *( nbi.GetOutputBuffer() ) = nbi.InnerProduct(oper);
-    }
 
-  // Apply operator to boundary pixels using bounds checking Boundary iterator
-  for ( i = 0; i<VDimension; ++i)
+  RegionNeighborhoodIterator<TPixel, VDimension> nbi(radius, ip, start, bound);
+  ImageRegionSimpleIterator<TPixel, VDimension> rsi(op, start, bound);
+  rsi.Begin();
+ 
+  DoUnsynchedInnerProduct< RegionNeighborhoodIterator<TPixel, VDimension>,
+    ImageRegionSimpleIterator<TPixel, VDimension>, 
+    Neighborhood<TPixel, VDimension> >( nbi, rsi, oper );
+
+  // Apply operator to boundary pixels using bounds checking boundary iterators
+  for ( i = 0; i < Image::ImageDimension; ++i)
     {
       start[i] = regionstartindex[i];
       bound[i] = regionsize[i];
     }
-  BoundaryIterator bi(radius, ip, start, bound);
-  const BoundaryIterator biEnd = bi.End();
-  bi.SetOutputBuffer(op->GetBufferPointer() + op->ComputeOffset(start));
-  for (bi = bi.Begin(); bi < biEnd; ++bi)
+
+  RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
+    bi( radius, ip, start, bound);
+  RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
+    obi( radius, ip, start, bound);
+
+  const RegionBoundaryNeighborhoodIterator<TPixel, VDimension> biEnd= bi.End();
+  for (bi = bi.Begin(), obi = obi.Begin();
+       bi < biEnd; ++bi, ++obi)
     {
-      //*( bi.GetOutputBuffer() ) +=1;
-      *( bi.GetOutputBuffer() ) = bi.InnerProduct(oper);
+      *(obi.CenterPointer()) = bi.InnerProduct(oper);
     }
- 
+
 }
 
 template < class TPixel, unsigned long VDimension>
 void
-DoInnerProductOverRegion(Image<TPixel, VDimension> *ip,
-                         Image<TPixel, VDimension> *op,
-                         NeighborhoodOperatorList<TPixel, VDimension> &oper)
+DoSynchedInnerProduct(Image<TPixel, VDimension> *ip,
+                      Image<TPixel, VDimension> *op,
+                      Neighborhood<TPixel, VDimension> &oper)
 
 {
   typedef Image<TPixel, VDimension> Image;
   typedef Index<VDimension> Index;
-  typedef RegionNeighborhoodIterator<TPixel, VDimension> NonBoundaryIterator;
-  typedef RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
-    BoundaryIterator;
-
   const unsigned long *radius = oper.GetRadius();
   const unsigned long *regionsize = ip->GetRegionSize();
   const Index regionstartindex = ip->GetRegionStartIndex();
-
   int i; 
   unsigned long bound[VDimension];
   Index start;
 
   // Apply operator to non-boundary pixels using fast Neighborhood iterator
-  for ( i = 0; i<VDimension; ++i)
+  for ( i = 0; i < Image::ImageDimension; ++i)
     {
       start[i] = regionstartindex[i] + radius[i];
       bound[i] = regionsize[i] - radius[i]*2;
     }
-  NonBoundaryIterator nbi(radius, ip, start, bound);
-  const NonBoundaryIterator nbiEnd = nbi.End();
-  nbi.SetOutputBuffer(op->GetBufferPointer() + op->ComputeOffset(start));
-  for (nbi = nbi.Begin(); nbi < nbiEnd; ++nbi)
-    {
-      *( nbi.GetOutputBuffer() ) = nbi.InnerProduct(oper);
-    }
 
+  RegionNeighborhoodIterator<TPixel, VDimension> nbi(radius, ip, start, bound);
+  nbi.SetOutputBuffer( op->GetBufferPointer() + op->ComputeOffset(start) );
+  
+  DoSynchedInnerProduct< RegionNeighborhoodIterator<TPixel, VDimension>,
+    Neighborhood<TPixel, VDimension> >( nbi, oper );
+  
   // Apply operator to boundary pixels using bounds checking Boundary iterator
-  for ( i = 0; i<VDimension; ++i)
+  for ( i = 0; i < Image::ImageDimension; ++i)
     {
       start[i] = regionstartindex[i];
       bound[i] = regionsize[i];
     }
-  BoundaryIterator bi(radius, ip, start, bound);
-  const BoundaryIterator biEnd = bi.End();
-  bi.SetOutputBuffer(op->GetBufferPointer() + op->ComputeOffset(start));
-  for (bi = bi.Begin(); bi < biEnd; ++bi)
-    {
-      *( bi.GetOutputBuffer() ) = bi.InnerProduct(oper);
-    }
- 
+
+  RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
+    bi( radius, ip, start, bound);
+  bi.SetOutputBuffer( op->GetBufferPointer() );
+  
+  DoSynchedInnerProduct<RegionBoundaryNeighborhoodIterator<TPixel, VDimension>,
+    Neighborhood<TPixel, VDimension> >( bi, oper );
 }
 
 } // end namespace NeighborhoodAlgorithm
