@@ -100,7 +100,7 @@ public:
     return m_Size;
   }
   
-  int GetStride(unsigned int i)
+  unsigned int GetStride(unsigned int i)
   {
     return m_StrideTable[i];
   }
@@ -425,7 +425,7 @@ protected:
   
   /** */
   void ProcessStatusList(LayerType *InputList, StatusType ChangeToStatus,
-                         StatusType SearchForStatus, int ThreadId);
+                         StatusType SearchForStatus, unsigned int ThreadId);
   
   /** Adjusts the values associated with all the index layers of the sparse
    * field by propagating out one layer at a time from the active set. This
@@ -441,7 +441,7 @@ protected:
    *  propagation is inwards (more negative).  "InOrOut" == 0 indicates this
    *  propagation is outwards (more positive). */   
   void PropagateLayerValues(StatusType from, StatusType to, StatusType promote,
-                            int InOrOut);
+                            unsigned int InOrOut);
   
   /**This method pre-processes pixels inside and outside the sparse field
    * layers.  The default is to set them to positive and negative values,
@@ -452,8 +452,8 @@ protected:
   /** Each thread allocates and initializes the data it will use by itself.
    *  This maintains the memory locality of data w.r.t. the thread in a shared
    *  memory environment.*/
-  void ThreadedAllocateData(int ThreadId);
-  void ThreadedInitializeData(int ThreadId, const ThreadRegionType & ThreadRegion);
+  void ThreadedAllocateData(unsigned int ThreadId);
+  void ThreadedInitializeData(unsigned int ThreadId, const ThreadRegionType & ThreadRegion);
   
   /** This performs the initial load distribution among the threads.  Every
    *  thread gets a slab of the data to work on. The slabs created along a specific
@@ -467,10 +467,10 @@ protected:
   void ComputeInitialThreadBoundaries();
   
   /** Find the thread to which a pixel belongs  */
-  int GetThreadNumber(int splitAxisValue);
+  unsigned int GetThreadNumber(unsigned int splitAxisValue);
   
   /** Obtain a thread's region split as per the load balancing is done. */
-  void GetThreadRegionSplitByBoundary(int ThreadId, ThreadRegionType& ThreadRegion);
+  void GetThreadRegionSplitByBoundary(unsigned int ThreadId, ThreadRegionType& ThreadRegion);
   
   /** Delete the data and synchronization primitives used by the threads during
    *  iterations. */
@@ -509,7 +509,7 @@ protected:
 
   /** Does the actual work of updating the output from the UpdateContainer over
    *  an output region supplied by the multithreading mechanism.  */
-  virtual void ThreadedApplyUpdate(TimeStepType dt, int ThreadId);
+  virtual void ThreadedApplyUpdate(TimeStepType dt, unsigned int ThreadId);
   
   /** This method is not implemented or necessary for this solver */
   TimeStepType CalculateChange()
@@ -519,32 +519,32 @@ protected:
   
   /** This method does the actual work of calculating change over a region
    *  supplied by the multithreading mechanism.  */
-  virtual TimeStepType ThreadedCalculateChange(int ThreadId);
+  virtual TimeStepType ThreadedCalculateChange(unsigned int ThreadId);
 
   /** Updates the values (in the output-image) of the nodes in the active layer
    *  and constructs the up/down lists for nodes that are moving out of the
    *  active layer. */
   void ThreadedUpdateActiveLayerValues(TimeStepType dt, LayerType *StatusUpList,
-                                       LayerType *StatusDownList, int ThreadId);
+                                       LayerType *StatusDownList, unsigned int ThreadId);
   
   /** Make a copy of the nodes in the FromList and insert them into the ToList. */
-  void CopyInsertList(int ThreadId, LayerPointerType FromListPtr,
+  void CopyInsertList(unsigned int ThreadId, LayerPointerType FromListPtr,
                       LayerPointerType ToListPtr);
 
   /** Delete all nodes in the List */
-  void ClearList(int ThreadId, LayerPointerType ListPtr);
+  void ClearList(unsigned int ThreadId, LayerPointerType ListPtr);
 
   /** Make a copy of the nodes given to one thread by its neighbors to process
    *  and insert them into the thread's own list. */
-  void CopyInsertInterNeighborNodeTransferBufferLayers(int ThreadId,
+  void CopyInsertInterNeighborNodeTransferBufferLayers(unsigned int ThreadId,
                                                        LayerPointerType InputList,
-                                                       int InOrOut,
-                                                       int BufferLayerNumber);
+                                                       unsigned int InOrOut,
+                                                       unsigned int BufferLayerNumber);
   
   /** Delete all nodes in a thread's own lists which its used to transfer nodes
    *  to neighboring threads. */
-  void ClearInterNeighborNodeTransferBufferLayers(int ThreadId, int InOrOut,
-                                                  int BufferLayerNumber);
+  void ClearInterNeighborNodeTransferBufferLayers(unsigned int ThreadId, unsigned int InOrOut,
+                                                  unsigned int BufferLayerNumber);
   
   /** Performs two tasks. The situation here is that ThreadedProcessStatusList
    *  has been called just once after the active layer values have been updated and the
@@ -553,29 +553,29 @@ protected:
    *  1. modify the status-image like it is performed by the ThreadedProcessStatusList.
    *  2. Update the values in the output-image for those nodes that are moving IN the
    *  active layer. */
-  void ThreadedProcessFirstLayerStatusLists(int InputLayerNumber,
-                                            int OutputLayerNumber,
+  void ThreadedProcessFirstLayerStatusLists(unsigned int InputLayerNumber,
+                                            unsigned int OutputLayerNumber,
                                             StatusType SearchForStatus,
-                                            int InOrOut,
-                                            int BufferLayerNumber, int ThreadId);
+                                            unsigned int InOrOut,
+                                            unsigned int BufferLayerNumber, unsigned int ThreadId);
   
   /** */
-  void ThreadedProcessStatusList(int InputLayerNumber, int OutputLayerNumber,
+  void ThreadedProcessStatusList(unsigned int InputLayerNumber, unsigned int OutputLayerNumber,
                                  StatusType ChangeToStatus, StatusType SearchForStatus,
-                                 int InOrOut,
-                                 int BufferLayerNumber, int ThreadId);
+                                 unsigned int InOrOut,
+                                 unsigned int BufferLayerNumber, unsigned int ThreadId);
   
   /** */
-  void ThreadedProcessOutsideList(int InputLayerNumber, StatusType ChangeToStatus,
-                                  int InOrOut, int BufferLayerNumber, int ThreadId);
+  void ThreadedProcessOutsideList(unsigned int InputLayerNumber, StatusType ChangeToStatus,
+                                  unsigned int InOrOut, unsigned int BufferLayerNumber, unsigned int ThreadId);
   
   /** */
   void ThreadedPropagateLayerValues(StatusType from, StatusType to, StatusType promote,
-                                    int InorOut, int ThreadId);
+                                    unsigned int InorOut, unsigned int ThreadId);
   
   /** Split the volume uniformly along the chosen dimension for post processing
    *  the output. */
-  void GetThreadRegionSplitUniformly(int ThreadId, ThreadRegionType& ThreadRegion);
+  void GetThreadRegionSplitUniformly(unsigned int ThreadId, ThreadRegionType& ThreadRegion);
   
   /** */
   void ThreadedPostProcessOutput(const ThreadRegionType & regionToProcess);
@@ -594,39 +594,39 @@ protected:
   
   /** Redistribute an load among the threads to obtain a more balanced load distribution.
    *  This is performed in parallel by all the threads. */
-  virtual void ThreadedLoadBalance(int ThreadId);
+  virtual void ThreadedLoadBalance(unsigned int ThreadId);
   
   /** Thread synchronization methods. */
   void WaitForAll();
-  void SignalNeighborsAndWait (int ThreadId);
-  void SignalNeighbor  (int SemaphoreArrayNumber, int ThreadId);
-  void WaitForNeighbor (int SemaphoreArrayNumber, int ThreadId);
+  void SignalNeighborsAndWait (unsigned int ThreadId);
+  void SignalNeighbor  (unsigned int SemaphoreArrayNumber, unsigned int ThreadId);
+  void WaitForNeighbor (unsigned int SemaphoreArrayNumber, unsigned int ThreadId);
   
   /**  For debugging.  Writes the active layer set (grid-points closest to evolving
    *  interface) to a file. */
   //  void WriteActivePointsToFile ();
   
   /** The number of threads to use. */
-  int m_NumOfThreads;
+  unsigned int m_NumOfThreads;
   
   /** The dimension along which to distribute the load. */
-  int m_SplitAxis;
+  unsigned int m_SplitAxis;
   
   /** The length of the dimension along which to distribute the load. */
-  int m_ZSize;
+  unsigned int m_ZSize;
   
   /** A boolean variable stating if the boundaries had been changed during
    *  CheckLoadBalance() */
   bool m_BoundaryChanged;
   
   /** The boundaries defining thread regions */
-  int * m_Boundary;
+  unsigned int * m_Boundary;
 
   /** Histogram of number of pixels in each Z plane for the entire 3D volume */
   int * m_GlobalZHistogram;
 
   /** The mapping from a z-value to the thread in whose region the z-value lies */
-  int * m_MapZToThreadNumber;
+  unsigned int * m_MapZToThreadNumber;
 
   /** Cumulative frequency of number of pixels in each Z plane for the entire 3D
    *  volume  */
@@ -643,7 +643,7 @@ protected:
     TimeStepType TimeStep;
     ThreadRegionType ThreadRegion;
     ValueType m_RMSChange;
-    int m_Count;
+    unsigned int m_Count;
     
     /** The layers */
     LayerListType m_Layers;
@@ -674,7 +674,7 @@ protected:
     typename Semaphore::Pointer m_Semaphore[2];
     
     /** Indicates whether to use m_Semaphore[0] or m_Semaphore[1] for signalling/waiting */
-    int m_SemaphoreArrayNumber;
+    unsigned int m_SemaphoreArrayNumber;
     
     char pad2 [128];
   };
