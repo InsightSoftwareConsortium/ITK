@@ -117,7 +117,7 @@ ByteSwap
 
   delete [] cpy;
 #else
-  fp->write((void *)p, 4*num);
+  fp->write((void *)ptr, 4*num);
 #endif
 }
 
@@ -301,7 +301,7 @@ ByteSwap
   delete [] cpy;
   
 #else
-  fp->write((void *)p, 2*num);
+  fp->write((void *)ptr, 2*num);
 #endif
 }
 
