@@ -16,18 +16,22 @@
 namespace itk
 {
 
-template <class TDataType, unsigned int VDimension>
-std::vector<TDataType>
-DerivativeOperator<TDataType, VDimension>
+template <class TPixel, unsigned int VDimension>
+std::vector<TPixel>
+DerivativeOperator<TPixel, VDimension>
 ::GenerateCoefficients()
 {
+  // This routine only fills in the scalar portion of the pixels. This works
+  // for all native data types and Scalar<>'s.  A different operator is
+  // probably required for derivatives of vector and composite types.
   int i;
   int j;
   int h;
-  TDataType previous;
-  TDataType next;
+  TPixelScalarValueType previous;
+  TPixelScalarValueType next;
   const int w = 2*((m_Order + 1)/2) + 1;
-  std::vector<TDataType> coeff(w);
+  std::vector<TPixelScalarValueType> coeff(w);
+  std::vector<TPixel> coeffP(w);
 
   h = 1;
   coeff[w/2] = 1.0;
@@ -57,7 +61,15 @@ DerivativeOperator<TDataType, VDimension>
         coeff[j-1] = previous;
         coeff[j] = next;	    
       }
-  return coeff;
+
+    // Copy scalar values into a TPixel array, a useless exercise for native
+    // types but necessary to support itk::Scalar<>.
+    for (i=0; i<w; ++i)
+      {
+        ScalarTraits<TPixel>::SetScalar(coeffP[i], coeff[i]);
+      }
+    return coeffP;
+    
 }
 
 } // namespace itk
