@@ -18,7 +18,7 @@
 #define __itkUnaryCorrespondenceMatrix_h
 
 #include "itkDataObject.h"
-#include "vnl_matrix.h"
+#include "vnl/vnl_matrix.h"
 
 namespace itk
 {
