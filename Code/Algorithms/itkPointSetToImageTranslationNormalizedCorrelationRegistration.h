@@ -24,7 +24,7 @@
 #include "itkImageMapper.h"
 #include "itkTranslationRegistrationTransform.h"
 #include "itkSimpleImageRegionIterator.h"
-#include "itkPoint.h"
+#include "itkPointSet.h"
 
 namespace itk
 {
