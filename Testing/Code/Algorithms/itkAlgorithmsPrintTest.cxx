@@ -135,35 +135,35 @@ int itkAlgorithmsPrintTest(int , char* [])
     itk::BalloonForce3DFilter<Mesh2DType,Mesh2DType>::New();
   std:: cout << "-------------BalloonForce3DFilter " << BalloonForce3DFilterObj;
 
-#if 0
-  itk::BinaryMask3DMeshSource<InputType,OutputType>::Pointer BinaryMask3DMeshSourceObj =
-    itk::BinaryMask3DMeshSource<InputType,OutputType>::New();
+  itk::BinaryMask3DMeshSource<MeshType>::Pointer BinaryMask3DMeshSourceObj =
+    itk::BinaryMask3DMeshSource<MeshType>::New();
   std:: cout << "-------------BinaryMask3DMeshSource " << BinaryMask3DMeshSourceObj;
 
-  itk::BinaryMinMaxCurvatureFlowFunction<InputType,OutputType>::Pointer BinaryMinMaxCurvatureFlowFunctionObj =
-    itk::BinaryMinMaxCurvatureFlowFunction<InputType,OutputType>::New();
+  itk::BinaryMinMaxCurvatureFlowFunction<InputType>::Pointer BinaryMinMaxCurvatureFlowFunctionObj =
+    itk::BinaryMinMaxCurvatureFlowFunction<InputType>::New();
   std:: cout << "-------------BinaryMinMaxCurvatureFlowFunction " << BinaryMinMaxCurvatureFlowFunctionObj;
 
   itk::BinaryMinMaxCurvatureFlowImageFilter<InputType,OutputType>::Pointer BinaryMinMaxCurvatureFlowImageFilterObj =
     itk::BinaryMinMaxCurvatureFlowImageFilter<InputType,OutputType>::New();
   std:: cout << "-------------BinaryMinMaxCurvatureFlowImageFilter " << BinaryMinMaxCurvatureFlowImageFilterObj;
 
-  itk::CannySegmentationLevelSetFunction<InputType,OutputType>::Pointer CannySegmentationLevelSetFunctionObj =
-    itk::CannySegmentationLevelSetFunction<InputType,OutputType>::New();
+  itk::CannySegmentationLevelSetFunction<InputType,InputType>::Pointer CannySegmentationLevelSetFunctionObj =
+    itk::CannySegmentationLevelSetFunction<InputType,InputType>::New();
   std:: cout << "-------------CannySegmentationLevelSetFunction " << CannySegmentationLevelSetFunctionObj;
 
   itk::CannySegmentationLevelSetImageFilter<InputType,OutputType>::Pointer CannySegmentationLevelSetImageFilterObj =
     itk::CannySegmentationLevelSetImageFilter<InputType,OutputType>::New();
   std:: cout << "-------------CannySegmentationLevelSetImageFilter " << CannySegmentationLevelSetImageFilterObj;
 
-  itk::ConnectedRegionsMeshFilter<InputType,OutputType>::Pointer ConnectedRegionsMeshFilterObj =
-    itk::ConnectedRegionsMeshFilter<InputType,OutputType>::New();
+  itk::ConnectedRegionsMeshFilter<MeshType,MeshType>::Pointer ConnectedRegionsMeshFilterObj =
+    itk::ConnectedRegionsMeshFilter<MeshType,MeshType>::New();
   std:: cout << "-------------ConnectedRegionsMeshFilter " << ConnectedRegionsMeshFilterObj;
 
-  itk::CurvatureFlowFunction<InputType,OutputType>::Pointer CurvatureFlowFunctionObj =
-    itk::CurvatureFlowFunction<InputType,OutputType>::New();
+  itk::CurvatureFlowFunction<InputType>::Pointer CurvatureFlowFunctionObj =
+    itk::CurvatureFlowFunction<InputType>::New();
   std:: cout << "-------------CurvatureFlowFunction " << CurvatureFlowFunctionObj;
 
+#if 0
   itk::CurvatureFlowImageFilter<InputType,OutputType>::Pointer CurvatureFlowImageFilterObj =
     itk::CurvatureFlowImageFilter<InputType,OutputType>::New();
   std:: cout << "-------------CurvatureFlowImageFilter " << CurvatureFlowImageFilterObj;
