@@ -329,7 +329,7 @@ public:
   GetArgumentAsReferenceTo_const(const WrapperBase* wrapper):
     m_Wrapper(wrapper), m_Temporary(NULL) {}
   ~GetArgumentAsReferenceTo_const()
-    { if(m_Temporary) { delete m_Temporary; } }
+    { if(m_Temporary) { delete const_cast<T*>(m_Temporary); } }
   
   const T& operator()(const WrapperBase::Argument& argument)
     {
