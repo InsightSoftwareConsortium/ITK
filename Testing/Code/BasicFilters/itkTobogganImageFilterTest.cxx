@@ -28,7 +28,7 @@
 #include "itkImageRegionIterator.h"
 
 
-int itkTobogganImageFilterTest(int ac, char** av)
+void itkTobogganImageFilterTest(int ac, char** av)
 {
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
