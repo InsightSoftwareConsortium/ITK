@@ -19,9 +19,11 @@ ADD_TEST(itkBinaryMask3DMeshSourceTest ${ALGORITHMS_TESTS} itkBinaryMask3DMeshSo
 ADD_TEST(itkBioGeneTest ${ALGORITHMS_TESTS} itkBioGeneTest )
 ADD_TEST(itkBioGeneNetworkTest ${ALGORITHMS_TESTS} itkBioGeneNetworkTest )
 ADD_TEST(itkCannySegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkCannySegmentationLevelSetImageFilterTest)
+ADD_TEST(itkCurvesLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkCurvesLevelSetImageFilterTest)
 ADD_TEST(itkDemonsRegistrationFilterTest ${ALGORITHMS_TESTS} itkDemonsRegistrationFilterTest)
 ADD_TEST(itkExtensionVelocitiesImageFilterTest ${ALGORITHMS_TESTS} itkExtensionVelocitiesImageFilterTest)
 ADD_TEST(itkExtractMeshConnectedRegionsTest ${ALGORITHMS_TESTS} itkExtractMeshConnectedRegionsTest)
+ADD_TEST(itkFastChamferDistanceImageFilterTest ${ALGORITHMS_TESTS} itkFastChamferDistanceImageFilterTest)
 ADD_TEST(itkFastMarchingTest ${ALGORITHMS_TESTS} itkFastMarchingTest)
 ADD_TEST(itkFastMarchingExtensionImageFilterTest ${ALGORITHMS_TESTS} itkFastMarchingExtensionImageFilterTest)
 #ADD_TEST(itkFEMRegistrationFilterTest ${ALGORITHMS_TESTS} itkFEMRegistrationFilterTest)
@@ -51,6 +53,7 @@ ADD_TEST(itkImageRegistrationMethodTest_14 ${ALGORITHMS_TESTS} itkImageRegistrat
 ADD_TEST(itkImageRegistrationMethodTest_15 ${ALGORITHMS_TESTS} itkImageRegistrationMethodTest_15)
 ADD_TEST(itkImageRegistrationMethodTest_16 ${ALGORITHMS_TESTS} itkImageRegistrationMethodTest_16)
 ADD_TEST(itkInterpolateTest ${ALGORITHMS_TESTS} itkInterpolateTest)
+ADD_TEST(itkIsoContourDistanceImageFilterTest ${ALGORITHMS_TESTS} itkIsoContourDistanceImageFilterTest)
 ADD_TEST(itkKalmanLinearEstimatorTest ${ALGORITHMS_TESTS} itkKalmanLinearEstimatorTest)
 ADD_TEST(itkKmeansModelEstimatorTest ${ALGORITHMS_TESTS} itkKmeansModelEstimatorTest)
 ADD_TEST(itkLaplacianSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkLaplacianSegmentationLevelSetImageFilterTest)
@@ -71,6 +74,8 @@ itkMultiResolutionImageRegistrationMethodTest_1  )
 ADD_TEST(itkMultiResolutionImageRegistrationMethodTest_2 ${ALGORITHMS_TESTS}   
 itkMultiResolutionImageRegistrationMethodTest_2  )
 ADD_TEST(itkMutualInformationMetricTest ${ALGORITHMS_TESTS} itkMutualInformationMetricTest)
+ADD_TEST(itkNarrowBandCurvesLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkNarrowBandCurvesLevelSetImageFilterTest)
+ADD_TEST(itkNarrowBandThresholdSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkNarrowBandThresholdSegmentationLevelSetImageFilterTest)
 ADD_TEST(itkNewTest ${ALGORITHMS_TESTS} itkNewTest)
 ADD_TEST(itkNormalizedCorrelationImageMetricTest ${ALGORITHMS_TESTS} itkNormalizedCorrelationImageMetricTest)
 ADD_TEST(itkNormalizedCorrelationPointSetToImageMetricTest ${ALGORITHMS_TESTS} itkNormalizedCorrelationPointSetToImageMetricTest)
@@ -93,6 +98,7 @@ ADD_TEST(itkVectorFuzzyConnectednessImageFilterTest ${ALGORITHMS_TESTS} itkVecto
 ADD_TEST(itkVoronoiDiagram2DTest ${ALGORITHMS_TESTS} itkVoronoiDiagram2DTest)
 ADD_TEST(itkVoronoiSegmentationImageFilterTest ${ALGORITHMS_TESTS} itkVoronoiSegmentationImageFilterTest)
 ADD_TEST(itkWatershedImageFilterTest ${ALGORITHMS_TESTS} itkWatershedImageFilterTest)
+
 
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 ADD_TEST(itkCurvatureFlowTest ${ALGORITHMS_TESTS}
@@ -181,6 +187,11 @@ itkVectorFuzzyConnectednessImageFilterTest.cxx
 itkVoronoiDiagram2DTest.cxx
 itkVoronoiSegmentationImageFilterTest.cxx
 itkWatershedImageFilterTest.cxx
+itkIsoContourDistanceImageFilterTest.cxx
+itkFastChamferDistanceImageFilterTest.cxx
+itkCurvesLevelSetImageFilterTest.cxx
+itkNarrowBandCurvesLevelSetImageFilterTest.cxx
+itkNarrowBandThresholdSegmentationLevelSetImageFilterTest.cxx
 )
 
 ADD_EXECUTABLE(itkAlgorithmsHeaderTest itkAlgorithmsHeaderTest.cxx)
