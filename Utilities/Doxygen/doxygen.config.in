@@ -713,7 +713,7 @@ CGI_URL               = http://public.kitware.com/cgi-bin/
 # documentation is located. If left blank the absolute path to the 
 # documentation, with file:// prepended to it, will be used. 
 
-DOC_URL               = http://public.kitware.com/Insight/Doxygen/html/
+DOC_URL               = http://www.itk.org/Doxygen/html/
 
 # The DOC_ABSPATH tag should be the absolute path to the directory where the 
 # documentation is located. If left blank the directory on the local machine 
