@@ -27,7 +27,8 @@ template <typename TOutputImage>
 VTKImageImport<TOutputImage>
 ::VTKImageImport()
 {
-  typedef typename OutputImageType::PixelType ScalarType;
+  typedef typename TOutputImage::PixelType                 PixelType;
+  typedef typename PixelTraits< PixelType >::ValueType    ScalarType;
 
   if(typeid(ScalarType) == typeid(double))
     {
