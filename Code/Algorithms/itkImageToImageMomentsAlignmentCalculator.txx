@@ -114,7 +114,17 @@ ImageToImageMomentsAlignmentCalculator< TReference, TTarget>
 
 }
 
+template <class TReference, class TTarget>
+void
+ImageToImageMomentsAlignmentCalculator< TReference, TTarget>
+::PrintSelf( std::ostream& os, Indent indent ) const
+{
+  Superclass::PrintSelf(os,indent);
 
+  os << indent << "Reference: " << m_Reference << std::endl;
+  os << indent << "Target: " << m_Target << std::endl;
+  os << indent << "OutputTransform: " << m_OutputTransform << std::endl;
+}
 
 } // end namespace itk
 

@@ -106,6 +106,7 @@ public:
 protected:
   ImageToImageMomentsAlignmentCalculator();
   virtual ~ImageToImageMomentsAlignmentCalculator();
+  void PrintSelf(std::ostream& os, Indent indent) const;
   
 private:
   ImageToImageMomentsAlignmentCalculator(const Self&); //purposely not implemented
