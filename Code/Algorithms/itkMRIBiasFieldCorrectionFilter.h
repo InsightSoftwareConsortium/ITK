@@ -257,16 +257,16 @@ namespace itk
      * mask image related type definitions
      */
     typedef Image<unsigned char, ImageDimension> ImageMaskType ;
-    typedef ImageMaskType::Pointer ImageMaskPointer ;
-    typedef ImageMaskType::RegionType ImageMaskRegionType ;
+    typedef typename ImageMaskType::Pointer ImageMaskPointer ;
+    typedef typename ImageMaskType::RegionType ImageMaskRegionType ;
 
     /**
      * internal (temporary) image related type defintions
      */
     typedef Image< float, ImageDimension > InternalImageType ;
-    typedef InternalImageType::PixelType InternalImagePixelType ;
-    typedef InternalImageType::Pointer InternalImagePointer ;
-    typedef InternalImageType::RegionType InternalImageRegionType ;
+    typedef typename InternalImageType::PixelType InternalImagePixelType ;
+    typedef typename InternalImageType::Pointer InternalImagePointer ;
+    typedef typename InternalImageType::RegionType InternalImageRegionType ;
 
     /**
      * Regions of the MRI slab identifier return 
