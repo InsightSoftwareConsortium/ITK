@@ -144,6 +144,7 @@ PrintSelf(std::ostream& os, Indent indent) const
 
   os << indent << "Order: " << m_Order << std::endl;
   os << indent << "Direction: " << m_Direction << std::endl;
+  os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
 }
 
 } // end namespace itk
