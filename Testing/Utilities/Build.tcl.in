@@ -132,13 +132,13 @@ while { ![eof $Build] } \
     # For GCC, we get /path/to/source.cxx:##
     # or ../../../Insight/Code/Common
     set Found 0
-    if { !$Found && [regexp "${SourceDirectory}/(\[^:\]*):(\[0-9\]*)" $LogLine dummy SourceFile LineNumber] } \
+    if { !$Found && [regexp "${SourceDirectory}/(\[^:\]*):(\[0-9\]+)" $LogLine dummy SourceFile LineNumber] } \
     {
       set ErrorList($i,SourceFile) $SourceFile
       set ErrorList($i,SourceLineNumber) $LineNumber
       set Found 1
     }
-    if { !$Found && [regexp {/Insight/([^:]*):([0-9]*)} $LogLine dummy SourceFile LineNumber] } \
+    if { !$Found && [regexp {/Insight/([^:]*):([0-9]+)} $LogLine dummy SourceFile LineNumber] } \
     {
       set ErrorList($i,SourceFile) $SourceFile
       set ErrorList($i,SourceLineNumber) $LineNumber
@@ -146,12 +146,13 @@ while { ![eof $Build] } \
     }
     
     # MS VC++ 6.0
-    set match {Insight(\\|/)([^(]*)\(([0-9]*)\) : (error|fatal error|warning)}
+    set match {Insight(\\|/)([^(]*)\(([0-9]+)\) : (error|fatal error|warning)}
       
     if { !$Found && [regexp $match $LogLine dummy dummy2 SourceFile LineNumber] } \
     {
       # Replace all backslashes with forward slashes
       regsub -all {\\([a-zA-Z0-9_])} $SourceFile "/\\1" dummy
+      set SourceFile $dummy
       set ErrorList($i,SourceFile) $SourceFile
       set ErrorList($i,SourceLineNumber) $LineNumber
       set Found 1
@@ -159,7 +160,7 @@ while { ![eof $Build] } \
     
     # Irix compiler
     # cc-1552 CC: WARNING File = /home/blezek/src/Insight/Code/Common/itkAffineMutualInformationVW.txx, Line = 250
-    if { !$Found && [regexp "${SourceDirectory}/(\[^,\]*), Line = (\[0-9\]*)" $LogLine dummy SourceFile LineNumber] } \
+    if { !$Found && [regexp "${SourceDirectory}/(\[^,\]*), Line = (\[0-9\]+)" $LogLine dummy SourceFile LineNumber] } \
     {
       set ErrorList($i,SourceFile) $SourceFile
       set ErrorList($i,SourceLineNumber) $LineNumber
