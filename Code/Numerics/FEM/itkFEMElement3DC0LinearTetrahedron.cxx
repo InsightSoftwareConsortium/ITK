@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMElement3DC0LinearTetrahedron.txx
+  Module:    itkFEMElement3DC0LinearTetrahedron.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -15,9 +15,12 @@
 
 =========================================================================*/
 
-#ifndef __itkFEMElement3DC0LinearTetrahedron_txx
-#define __itkFEMElement3DC0LinearTetrahedron_txx
+// disable debug warnings in MS compiler
+#ifdef _MSC_VER
+#pragma warning(disable: 4786)
+#endif
 
+#include "itkFEMElement3DC0LinearTetrahedron.h"
 #include "vnl/vnl_math.h"
 
 namespace itk {
@@ -26,9 +29,8 @@ namespace fem {
 
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 void
-Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>
+Element3DC0LinearTetrahedron
 ::GetIntegrationPointAndWeight(unsigned int i, VectorType& pt, Float& w, unsigned int order) const
 {
   // FIXME: Write rules for other integration orders
@@ -47,9 +49,8 @@ Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>
 
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 unsigned int
-Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>
+Element3DC0LinearTetrahedron
 ::GetNumberOfIntegrationPoints(unsigned int order) const
 {
   return 1;
@@ -58,9 +59,8 @@ Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>
 
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
-Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>::VectorType
-Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>
+Element3DC0LinearTetrahedron::VectorType
+Element3DC0LinearTetrahedron
 ::ShapeFunctions( const VectorType& pt ) const
 {
   /* Linear tetrahedral element has four shape functions  */
@@ -90,9 +90,9 @@ Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>
 
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
+
 void
-Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>
+Element3DC0LinearTetrahedron
 ::ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const
 {
   /** functions at directions r and s.  */
@@ -112,9 +112,8 @@ Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>
 
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
-Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>::VectorType
-Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>
+Element3DC0LinearTetrahedron::VectorType
+Element3DC0LinearTetrahedron
 ::GetLocalFromGlobalCoordinates( const VectorType& pt ) const
 {
 
@@ -167,9 +166,8 @@ Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>
  * Draw the element on device context pDC.
  */
 #ifdef FEM_BUILD_VISUALIZATION
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 void
-Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>
+Element3DC0LinearTetrahedron
 ::Draw(CDC* pDC, Solution::ConstPointer sol) const 
 {
 
@@ -221,14 +219,4 @@ Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>
 
 
 
-#ifdef _MSC_VER
-// Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.
-// I have no idea why things don't work when this is not declared, but it
-// looks like this declaration makes compiler forget about some of the
-// troubles it has with templates.
-static void Dummy( void );
-#endif // #ifdef _MSC_VER
-
 }} // end namespace itk::fem
-
-#endif // #ifndef __itkFEMElement3DC0LinearTetrahedron_txx

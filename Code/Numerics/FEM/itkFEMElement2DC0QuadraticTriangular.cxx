@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMElement2DC0LinearTriangular.txx
+  Module:    itkFEMElement2DC0QuadraticTriangular.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -15,73 +15,17 @@
 
 =========================================================================*/
 
-#ifndef __itkFEMElement2DC0LinearTriangular_txx
-#define __itkFEMElement2DC0LinearTriangular_txx
-
-#include "vnl/vnl_math.h"
+#include "itkFEMElement2DC0QuadraticTriangular.h"
+#include "itkFEMElement2DC0LinearTriangular.h"
 
 namespace itk {
 namespace fem {
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
-const double
-Element2DC0LinearTriangular<VNumberOfDegreesOfFreedomPerNode>
-::trigGaussRuleInfo[6][7][4] = 
-{
-  { // order=0, never used
-    { 0.0 } 
-  },
-  { // order=1
-    //<-------------------------- point ---------------------------> <-------weight----->
-    {  0.33333333333333333, 0.33333333333333333, 0.33333333333333333, 1.00000000000000000}
-  },
-  
-  { // order=2
-    {  0.66666666666666667, 0.16666666666666667, 0.16666666666666667, 0.33333333333333333},
-    {  0.16666666666666667, 0.66666666666666667, 0.16666666666666667, 0.33333333333333333},
-    {  0.16666666666666667, 0.16666666666666667, 0.66666666666666667, 0.33333333333333333}
-  },
-
-  { // order=3, p=-3 in the book
-    {  0.00000000000000000, 0.50000000000000000, 0.50000000000000000, 0.33333333333333333},
-    {  0.50000000000000000, 0.00000000000000000, 0.50000000000000000, 0.33333333333333333},
-    {  0.50000000000000000, 0.50000000000000000, 0.00000000000000000, 0.33333333333333333}
-  },
-
-  { // order=4, p=6 in the book
-    {  0.10810301816807023, 0.44594849091596489, 0.44594849091596489, 0.22338158967801147},
-    {  0.44594849091596489, 0.10810301816807023, 0.44594849091596489, 0.22338158967801147},
-    {  0.44594849091596489, 0.44594849091596489, 0.10810301816807023, 0.22338158967801147},
-    {  0.81684757298045851, 0.09157621350977074, 0.09157621350977074, 0.10995174365532187},
-    {  0.09157621350977074, 0.81684757298045851, 0.09157621350977074, 0.10995174365532187},
-    {  0.09157621350977074, 0.09157621350977074, 0.81684757298045851, 0.10995174365532187}
-  },
-
-  { // order=5, p=7 in the book
-    {  0.33333333333333333, 0.33333333333333333, 0.33333333333333333, 0.22500000000000000},
-    {  0.79742698535308732, 0.10128650732345634, 0.10128650732345634, 0.12593918054482715},
-    {  0.10128650732345634, 0.79742698535308732, 0.10128650732345634, 0.12593918054482715},
-    {  0.10128650732345634, 0.10128650732345634, 0.79742698535308732, 0.12593918054482715},
-    {  0.05971587178976982, 0.47014206410511509, 0.47014206410511509, 0.13239415278850618},
-    {  0.47014206410511509, 0.05971587178976982, 0.47014206410511509, 0.13239415278850618},
-    {  0.47014206410511509, 0.47014206410511509, 0.05971587178976982, 0.13239415278850618}
-  }
-};
-
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
-const unsigned int 
-Element2DC0LinearTriangular<VNumberOfDegreesOfFreedomPerNode>
-::Nip[6]=
-{
-  0,1,3,3,6,7
-};
 
 
-
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 void
-Element2DC0LinearTriangular<VNumberOfDegreesOfFreedomPerNode>
+Element2DC0QuadraticTriangular
 ::GetIntegrationPointAndWeight(unsigned int i, VectorType& pt, Float& w, unsigned int order) const
 {
   // FIXME: range checking
@@ -104,19 +48,18 @@ Element2DC0LinearTriangular<VNumberOfDegreesOfFreedomPerNode>
    * does not mean that the rule is capable of integrating the polynomials
    * of 3rd degree. It's just an index of a rule.
    */
-  pt.copy_in(trigGaussRuleInfo[order][i]);
+  pt.copy_in(Element2DC0LinearTriangular::trigGaussRuleInfo[order][i]);
 
   // We scale the weight by 0.5, to take into account
   // the factor that must be applied when integrating.
-  w=0.5*trigGaussRuleInfo[order][i][3];
+  w=0.5*Element2DC0LinearTriangular::trigGaussRuleInfo[order][i][3];
 }
 
 
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 unsigned int
-Element2DC0LinearTriangular<VNumberOfDegreesOfFreedomPerNode>
+Element2DC0QuadraticTriangular
 ::GetNumberOfIntegrationPoints(unsigned int order) const
 {
   // FIXME: range checking
@@ -124,22 +67,26 @@ Element2DC0LinearTriangular<VNumberOfDegreesOfFreedomPerNode>
   // default integration order
   if (order==0) { order=DefaultIntegrationOrder; }
 
-  return Nip[order];
+  return Element2DC0LinearTriangular::Nip[order];
 }
 
 
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
-Element2DC0LinearTriangular<VNumberOfDegreesOfFreedomPerNode>::VectorType
-Element2DC0LinearTriangular<VNumberOfDegreesOfFreedomPerNode>
+Element2DC0QuadraticTriangular::VectorType
+Element2DC0QuadraticTriangular
 ::ShapeFunctions( const VectorType& pt ) const
 {
-  // Linear triangular element has 3 shape functions
-  VectorType shapeF(3);
+  // Quadratic triangular element has 6 shape functions
+  VectorType shapeF(6);
 
   // Shape functions are equal to coordinates
-  shapeF=pt;
+  shapeF[0]=pt[0]*(2*pt[0]-1);
+  shapeF[1]=pt[1]*(2*pt[1]-1);
+  shapeF[2]=pt[2]*(2*pt[2]-1);
+  shapeF[3]=4*pt[0]*pt[1];
+  shapeF[4]=4*pt[1]*pt[2];
+  shapeF[5]=4*pt[2]*pt[0];
 
   return shapeF;
 }
@@ -147,26 +94,32 @@ Element2DC0LinearTriangular<VNumberOfDegreesOfFreedomPerNode>
 
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 void
-Element2DC0LinearTriangular<VNumberOfDegreesOfFreedomPerNode>
+Element2DC0QuadraticTriangular
 ::ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const
 {
-  // Matrix of shape functions derivatives is an
-  // identity matrix for linear triangular element.
-  shapeD.resize(3,3);
+  shapeD.resize(3,6);
   shapeD.fill(0.0);
-  shapeD[0][0]=1.0;
-  shapeD[1][1]=1.0;
-  shapeD[2][2]=1.0;
+
+  shapeD[0][0]=4*pt[0]-1;
+  shapeD[0][3]=4*pt[1];
+  shapeD[0][5]=4*pt[2];
+
+  shapeD[1][1]=4*pt[1]-1;
+  shapeD[1][3]=4*pt[0];
+  shapeD[1][4]=4*pt[2];
+
+  shapeD[2][2]=4*pt[2]-1;
+  shapeD[2][4]=4*pt[1];
+  shapeD[2][5]=4*pt[0];
+
 }
 
 
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
-Element2DC0LinearTriangular<VNumberOfDegreesOfFreedomPerNode>::Float
-Element2DC0LinearTriangular<VNumberOfDegreesOfFreedomPerNode>
+Element2DC0QuadraticTriangular::Float
+Element2DC0QuadraticTriangular
 ::JacobianDeterminant( const VectorType& pt, const MatrixType* pJ ) const
 {
 
@@ -195,9 +148,8 @@ Element2DC0LinearTriangular<VNumberOfDegreesOfFreedomPerNode>
 
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 void
-Element2DC0LinearTriangular<VNumberOfDegreesOfFreedomPerNode>
+Element2DC0QuadraticTriangular
 ::JacobianInverse( const VectorType& pt, MatrixType& invJ, const MatrixType* pJ ) const
 {
   
@@ -230,9 +182,8 @@ Element2DC0LinearTriangular<VNumberOfDegreesOfFreedomPerNode>
  * Draw the element on device context pDC.
  */
 #ifdef FEM_BUILD_VISUALIZATION
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 void
-Element2DC0LinearTriangular<VNumberOfDegreesOfFreedomPerNode>
+Element2DC0QuadraticTriangular
 ::Draw(CDC* pDC, Solution::ConstPointer sol) const 
 {
 
@@ -244,6 +195,16 @@ Element2DC0LinearTriangular<VNumberOfDegreesOfFreedomPerNode>
   
   int x3=m_node[2]->GetCoordinates()[0]*DC_Scale;
   int y3=m_node[2]->GetCoordinates()[1]*DC_Scale;
+
+  int x4=m_node[3]->GetCoordinates()[0]*DC_Scale;
+  int y4=m_node[3]->GetCoordinates()[1]*DC_Scale;
+  
+  int x5=m_node[4]->GetCoordinates()[0]*DC_Scale;
+  int y5=m_node[4]->GetCoordinates()[1]*DC_Scale;
+  
+  int x6=m_node[5]->GetCoordinates()[0]*DC_Scale;
+  int y6=m_node[5]->GetCoordinates()[1]*DC_Scale;
+
   
   x1+=sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(0))*DC_Scale;
   y1+=sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(1))*DC_Scale;
@@ -251,10 +212,20 @@ Element2DC0LinearTriangular<VNumberOfDegreesOfFreedomPerNode>
   y2+=sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(1))*DC_Scale;
   x3+=sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(0))*DC_Scale;
   y3+=sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(1))*DC_Scale;
+  x4+=sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(0))*DC_Scale;
+  y4+=sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(1))*DC_Scale;
+  x5+=sol->GetSolutionValue(this->m_node[4]->GetDegreeOfFreedom(0))*DC_Scale;
+  y5+=sol->GetSolutionValue(this->m_node[4]->GetDegreeOfFreedom(1))*DC_Scale;
+  x6+=sol->GetSolutionValue(this->m_node[5]->GetDegreeOfFreedom(0))*DC_Scale;
+  y6+=sol->GetSolutionValue(this->m_node[5]->GetDegreeOfFreedom(1))*DC_Scale;
+
 
   pDC->MoveTo(x1,y1);
+  pDC->LineTo(x4,y4);
   pDC->LineTo(x2,y2);
+  pDC->LineTo(x5,y5);
   pDC->LineTo(x3,y3);
+  pDC->LineTo(x6,y6);
   pDC->LineTo(x1,y1);
 
 }
@@ -263,14 +234,4 @@ Element2DC0LinearTriangular<VNumberOfDegreesOfFreedomPerNode>
 
 
 
-#ifdef _MSC_VER
-// Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.
-// I have no idea why things don't work when this is not declared, but it
-// looks like this declaration makes compiler forget about some of the
-// troubles it has with templates.
-static void Dummy( void );
-#endif // #ifdef _MSC_VER
-
 }} // end namespace itk::fem
-
-#endif // #ifndef __itkFEMElement2DC0LinearTriangular_txx

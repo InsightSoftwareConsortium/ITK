@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMElement2DC0LinearQuadrilateral.txx
+  Module:    itkFEMElement2DC0LinearQuadrilateral.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -15,9 +15,12 @@
 
 =========================================================================*/
 
-#ifndef __itkFEMElement2DC0LinearQuadrilateral_txx
-#define __itkFEMElement2DC0LinearQuadrilateral_txx
+// disable debug warnings in MS compiler
+#ifdef _MSC_VER
+#pragma warning(disable: 4786)
+#endif
 
+#include "itkFEMElement2DC0LinearQuadrilateral.h"
 #include "vnl/vnl_math.h"
 
 namespace itk {
@@ -26,9 +29,8 @@ namespace fem {
 
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 void
-Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
+Element2DC0LinearQuadrilateral
 ::GetIntegrationPointAndWeight(unsigned int i, VectorType& pt, Float& w, unsigned int order) const
 {
   // FIXME: range checking
@@ -48,9 +50,8 @@ Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
 
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 unsigned int
-Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
+Element2DC0LinearQuadrilateral
 ::GetNumberOfIntegrationPoints(unsigned int order) const
 {
   // FIXME: range checking
@@ -64,9 +65,8 @@ Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
 
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
-Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>::VectorType
-Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
+Element2DC0LinearQuadrilateral::VectorType
+Element2DC0LinearQuadrilateral
 ::ShapeFunctions( const VectorType& pt ) const
 {
   /* Linear quadrilateral element has four shape functions  */
@@ -96,9 +96,9 @@ Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
 
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
+
 void
-Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
+Element2DC0LinearQuadrilateral
 ::ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const
 {
   /** functions at directions r and s.  */
@@ -133,9 +133,8 @@ Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
 
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
-Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>::VectorType
-Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
+Element2DC0LinearQuadrilateral::VectorType
+Element2DC0LinearQuadrilateral
 ::GetLocalFromGlobalCoordinates( const VectorType& pt ) const
 {
 
@@ -186,10 +185,9 @@ Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
  * Draw the element on device context pDC.
  */
 #ifdef FEM_BUILD_VISUALIZATION
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 void
-Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
-::Draw(CDC* pDC, Solution::ConstPointer sol) const 
+Element2DC0LinearQuadrilateral
+::Draw(CDC* pDC, Solution::ConstPointer sol) const
 {
 
   int x1=m_node[0]->GetCoordinates()[0]*DC_Scale;
@@ -225,14 +223,4 @@ Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
 
 
 
-#ifdef _MSC_VER
-// Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.
-// I have no idea why things don't work when this is not declared, but it
-// looks like this declaration makes compiler forget about some of the
-// troubles it has with templates.
-static void Dummy( void );
-#endif // #ifdef _MSC_VER
-
 }} // end namespace itk::fem
-
-#endif // #ifndef __itkFEMElement2DC0LinearQuadrilateral_txx

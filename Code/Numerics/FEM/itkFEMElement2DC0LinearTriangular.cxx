@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMElement2DC0QuadraticTriangular.txx
+  Module:    itkFEMElement2DC0LinearTriangular.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -15,16 +15,22 @@
 
 =========================================================================*/
 
-#ifndef __itkFEMElement2DC0QuadraticTriangular_txx
-#define __itkFEMElement2DC0QuadraticTriangular_txx
+// disable debug warnings in MS compiler
+#ifdef _MSC_VER
+#pragma warning(disable: 4786)
+#endif
+
+#include "itkFEMElement2DC0LinearTriangular.h"
+#include "vnl/vnl_math.h"
 
 namespace itk {
 namespace fem {
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
+
+
 const double
-Element2DC0QuadraticTriangular<VNumberOfDegreesOfFreedomPerNode>
+Element2DC0LinearTriangular
 ::trigGaussRuleInfo[6][7][4] = 
 {
   { // order=0, never used
@@ -67,9 +73,8 @@ Element2DC0QuadraticTriangular<VNumberOfDegreesOfFreedomPerNode>
   }
 };
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 const unsigned int 
-Element2DC0QuadraticTriangular<VNumberOfDegreesOfFreedomPerNode>
+Element2DC0LinearTriangular
 ::Nip[6]=
 {
   0,1,3,3,6,7
@@ -77,9 +82,8 @@ Element2DC0QuadraticTriangular<VNumberOfDegreesOfFreedomPerNode>
 
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 void
-Element2DC0QuadraticTriangular<VNumberOfDegreesOfFreedomPerNode>
+Element2DC0LinearTriangular
 ::GetIntegrationPointAndWeight(unsigned int i, VectorType& pt, Float& w, unsigned int order) const
 {
   // FIXME: range checking
@@ -112,9 +116,8 @@ Element2DC0QuadraticTriangular<VNumberOfDegreesOfFreedomPerNode>
 
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 unsigned int
-Element2DC0QuadraticTriangular<VNumberOfDegreesOfFreedomPerNode>
+Element2DC0LinearTriangular
 ::GetNumberOfIntegrationPoints(unsigned int order) const
 {
   // FIXME: range checking
@@ -128,21 +131,15 @@ Element2DC0QuadraticTriangular<VNumberOfDegreesOfFreedomPerNode>
 
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
-Element2DC0QuadraticTriangular<VNumberOfDegreesOfFreedomPerNode>::VectorType
-Element2DC0QuadraticTriangular<VNumberOfDegreesOfFreedomPerNode>
+Element2DC0LinearTriangular::VectorType
+Element2DC0LinearTriangular
 ::ShapeFunctions( const VectorType& pt ) const
 {
-  // Quadratic triangular element has 6 shape functions
-  VectorType shapeF(6);
+  // Linear triangular element has 3 shape functions
+  VectorType shapeF(3);
 
   // Shape functions are equal to coordinates
-  shapeF[0]=pt[0]*(2*pt[0]-1);
-  shapeF[1]=pt[1]*(2*pt[1]-1);
-  shapeF[2]=pt[2]*(2*pt[2]-1);
-  shapeF[3]=4*pt[0]*pt[1];
-  shapeF[4]=4*pt[1]*pt[2];
-  shapeF[5]=4*pt[2]*pt[0];
+  shapeF=pt;
 
   return shapeF;
 }
@@ -150,34 +147,24 @@ Element2DC0QuadraticTriangular<VNumberOfDegreesOfFreedomPerNode>
 
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 void
-Element2DC0QuadraticTriangular<VNumberOfDegreesOfFreedomPerNode>
+Element2DC0LinearTriangular
 ::ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const
 {
-  shapeD.resize(3,6);
+  // Matrix of shape functions derivatives is an
+  // identity matrix for linear triangular element.
+  shapeD.resize(3,3);
   shapeD.fill(0.0);
-
-  shapeD[0][0]=4*pt[0]-1;
-  shapeD[0][3]=4*pt[1];
-  shapeD[0][5]=4*pt[2];
-
-  shapeD[1][1]=4*pt[1]-1;
-  shapeD[1][3]=4*pt[0];
-  shapeD[1][4]=4*pt[2];
-
-  shapeD[2][2]=4*pt[2]-1;
-  shapeD[2][4]=4*pt[1];
-  shapeD[2][5]=4*pt[0];
-
+  shapeD[0][0]=1.0;
+  shapeD[1][1]=1.0;
+  shapeD[2][2]=1.0;
 }
 
 
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
-Element2DC0QuadraticTriangular<VNumberOfDegreesOfFreedomPerNode>::Float
-Element2DC0QuadraticTriangular<VNumberOfDegreesOfFreedomPerNode>
+Element2DC0LinearTriangular::Float
+Element2DC0LinearTriangular
 ::JacobianDeterminant( const VectorType& pt, const MatrixType* pJ ) const
 {
 
@@ -206,9 +193,8 @@ Element2DC0QuadraticTriangular<VNumberOfDegreesOfFreedomPerNode>
 
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 void
-Element2DC0QuadraticTriangular<VNumberOfDegreesOfFreedomPerNode>
+Element2DC0LinearTriangular
 ::JacobianInverse( const VectorType& pt, MatrixType& invJ, const MatrixType* pJ ) const
 {
   
@@ -241,9 +227,8 @@ Element2DC0QuadraticTriangular<VNumberOfDegreesOfFreedomPerNode>
  * Draw the element on device context pDC.
  */
 #ifdef FEM_BUILD_VISUALIZATION
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 void
-Element2DC0QuadraticTriangular<VNumberOfDegreesOfFreedomPerNode>
+Element2DC0LinearTriangular
 ::Draw(CDC* pDC, Solution::ConstPointer sol) const 
 {
 
@@ -255,16 +240,6 @@ Element2DC0QuadraticTriangular<VNumberOfDegreesOfFreedomPerNode>
   
   int x3=m_node[2]->GetCoordinates()[0]*DC_Scale;
   int y3=m_node[2]->GetCoordinates()[1]*DC_Scale;
-
-  int x4=m_node[3]->GetCoordinates()[0]*DC_Scale;
-  int y4=m_node[3]->GetCoordinates()[1]*DC_Scale;
-  
-  int x5=m_node[4]->GetCoordinates()[0]*DC_Scale;
-  int y5=m_node[4]->GetCoordinates()[1]*DC_Scale;
-  
-  int x6=m_node[5]->GetCoordinates()[0]*DC_Scale;
-  int y6=m_node[5]->GetCoordinates()[1]*DC_Scale;
-
   
   x1+=sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(0))*DC_Scale;
   y1+=sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(1))*DC_Scale;
@@ -272,20 +247,10 @@ Element2DC0QuadraticTriangular<VNumberOfDegreesOfFreedomPerNode>
   y2+=sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(1))*DC_Scale;
   x3+=sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(0))*DC_Scale;
   y3+=sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(1))*DC_Scale;
-  x4+=sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(0))*DC_Scale;
-  y4+=sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(1))*DC_Scale;
-  x5+=sol->GetSolutionValue(this->m_node[4]->GetDegreeOfFreedom(0))*DC_Scale;
-  y5+=sol->GetSolutionValue(this->m_node[4]->GetDegreeOfFreedom(1))*DC_Scale;
-  x6+=sol->GetSolutionValue(this->m_node[5]->GetDegreeOfFreedom(0))*DC_Scale;
-  y6+=sol->GetSolutionValue(this->m_node[5]->GetDegreeOfFreedom(1))*DC_Scale;
-
 
   pDC->MoveTo(x1,y1);
-  pDC->LineTo(x4,y4);
   pDC->LineTo(x2,y2);
-  pDC->LineTo(x5,y5);
   pDC->LineTo(x3,y3);
-  pDC->LineTo(x6,y6);
   pDC->LineTo(x1,y1);
 
 }
@@ -294,14 +259,4 @@ Element2DC0QuadraticTriangular<VNumberOfDegreesOfFreedomPerNode>
 
 
 
-#ifdef _MSC_VER
-// Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.
-// I have no idea why things don't work when this is not declared, but it
-// looks like this declaration makes compiler forget about some of the
-// troubles it has with templates.
-static void Dummy( void );
-#endif // #ifdef _MSC_VER
-
 }} // end namespace itk::fem
-
-#endif // #ifndef __itkFEMElement2DC0QuadraticTriangular_txx
