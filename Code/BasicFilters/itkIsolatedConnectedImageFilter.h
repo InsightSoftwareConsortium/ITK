@@ -23,15 +23,46 @@
 namespace itk{
 
 /** /class IsolatedConnectedImageFilter
- * \brief Label pixels that are connected to one seed but not another
+ * \brief Label pixels that are connected to one set of seeds but not
+ * another.
  *
- * IsolatedConnectedImageFilter labels pixels with ReplaceValue that
- * are connected to Seed1 AND NOT connected to Seed2. The filter
- * adjusts the upper threshold until the two seeds are not
- * connected. The user supplies a Lower threshold. The algorithm uses
- * a binary search to adjust the upper threshold, starting at
- * UpperValueLimit. UpperValueLimit defaults to the largest possible
+ * IsolatedConnectedImageFilter finds the optimal threshold to
+ * separate two regions.  It has two modes, one to separate dark
+ * regions surrounded by bright regions by automatically finding a
+ * minimum isolating upper threshold, and another to separate bright
+ * regions surrounded by dark regions by automatically finding a
+ * maximum lower isolating threshold.  The mode can be chosen by
+ * setting FindUpperThresholdOn()/Off().  In both cases, the isolating
+ * threshold is retrieved with GetIsolatedValue().
+ *
+ * The algorithm labels pixels with ReplaceValue that are connected to
+ * Seeds1 AND NOT connected to Seeds2.  When finding the threshold to
+ * separate two dark regions surrounded by bright regions, given a
+ * fixed lower threshold, the filter adjusts the upper threshold until
+ * the two sets of seeds are not connected. The algorithm uses a
+ * binary search to adjust the upper threshold, starting at Upper. The
+ * reverse is true for finding the threshold to separate two bright
+ * regions.  Lower defaults to the smallest possible value for the
+ * InputImagePixelType, and Upper defaults to the largest possible
  * value for the InputImagePixelType.
+ *
+ * The user can also supply the Lower and Upper values to restrict the
+ * search.  However, if the range is too restrictive, it could happen
+ * that no isolating threshold can be found between the user specified
+ * Lower and Upper values.  Therefore, unless the user is sure of the
+ * bounds to set, it is recommended that the user set these values to
+ * the lowest and highest intensity values in the image, respectively.
+ *
+ * The user can specify more than one seed for both regions to
+ * separate.  The algorithm will try find the threshold that ensures
+ * that all of the first seeds are contained in the resulting
+ * segmentation and all of the second seeds are not contained in the
+ * segmentation.
+ *
+ * It is possible that the algorithm may not be able to find the
+ * isolating threshold because no such threshold exists.  The user can
+ * check for this by querying the GetThresholdingFailed() flag.
+ *
  *
  * \ingroup RegionGrowingSegmentation 
  */
@@ -65,50 +96,118 @@ public:
   typedef typename OutputImageType::Pointer OutputImagePointer;
   typedef typename OutputImageType::RegionType OutputImageRegionType; 
   typedef typename OutputImageType::PixelType OutputImagePixelType; 
+
+  typedef std::vector< IndexType > SeedsContainerType;
+
+  typedef typename NumericTraits< 
+                InputImagePixelType >::RealType InputRealType;
   
+
   void PrintSelf ( std::ostream& os, Indent indent ) const;
 
   /** Set seed point 1. This seed will be isolated from Seed2 (if possible).
    *  All pixels connected to this seed will be replaced with ReplaceValue.
-   */
-  itkSetMacro(Seed1, IndexType);
+   *  This method is deprecated, please use AddSeed() */
+  void SetSeed1(const IndexType & seed)
+  {
+    m_Seeds1.clear();
+    this->AddSeed1( seed );
+  };
 
-  /** Set seed point 2. This seed will be isolated from Seed1 (if possible). */
-  itkSetMacro(Seed2, IndexType);
+  
+  /** Clear all the seeds1. */
+  void ClearSeeds1()
+  {
+    m_Seeds1.clear();
+  };
 
-  /** Set/Get the lower threshold. The default is 0. */
+
+  /** Add seed point 1. */
+  void AddSeed1(const IndexType & seed)
+  {
+    m_Seeds1.push_back( seed );
+    this->Modified();
+  };
+
+  /** Set seed point 2. This seed will be isolated from Seed1 (if possible).
+   *  This method is deprecated, please use AddSeed() */
+  void SetSeed2(const IndexType & seed)
+  {
+    m_Seeds2.clear();
+    this->AddSeed2( seed );
+  };
+
+  
+  /** Clear all the seeds2. */
+  void ClearSeeds2()
+  {
+    m_Seeds2.clear();
+  };
+
+
+  /** Add seed point 2. */
+  void AddSeed2(const IndexType & seed)
+  {
+    m_Seeds2.push_back( seed );
+    this->Modified();
+  };
+
+  /** Set/Get the limit on the lower threshold value. The default is the NonpositiveMin() for the InputPixelType. */
   itkSetMacro(Lower, InputImagePixelType);
   itkGetMacro(Lower, InputImagePixelType);
+
+  /** Set/Get the limit on the upper threshold value. The default is the max() for the InputPixelType. */
+  itkSetMacro(Upper, InputImagePixelType);
+  itkGetMacro(Upper, InputImagePixelType);
+
+  /** Set/Get the limit on the upper threshold value. The default is
+      the max() for the InputPixelType.  These methods have been
+      deprecated.  Please use Set/Get Upper instead. */
+  void SetUpperValueLimit( InputImagePixelType upperValue)
+    {
+      this->SetUpper( upperValue );
+    };
+  InputImagePixelType GetUpperValueLimit()
+    {
+      return this->GetUpper();
+    };
 
   /** Set/Get the precision required for the intensity threshold value. The default is 1. */
   itkSetMacro(IsolatedValueTolerance, InputImagePixelType);
   itkGetMacro(IsolatedValueTolerance, InputImagePixelType);
 
-  /** Set/Get the limit on the upper threshold value. The default is the max() for the InputPixelType. */
-  itkSetMacro(UpperValueLimit, InputImagePixelType);
-  itkGetMacro(UpperValueLimit, InputImagePixelType);
-
-
-  /** Set/Get value to replace thresholded pixels. Pixels that lie *
-   *  within Lower and Upper (inclusive) will be replaced with this
-   *  value. The default is 1. */
+  /** Set/Get value to replace thresholded pixels. Pixels that lie
+   *  within the thresholds will be replaced with this value. The
+   *  default is 1. */
   itkSetMacro(ReplaceValue, OutputImagePixelType);
   itkGetMacro(ReplaceValue, OutputImagePixelType);
 
   /** Get value that isolates the two seeds. */
   itkGetMacro(IsolatedValue, InputImagePixelType);
 
+  /** Set/Get whether to find an upper threshold (separating two dark
+   * regions) or a lower threshold (separating two bright regions). */
+  itkSetMacro(FindUpperThreshold,bool);
+  itkBooleanMacro(FindUpperThreshold);
+  itkGetMacro(FindUpperThreshold,bool);
+
+  /** Get the flag that tells whether the algorithm failed to find a
+   * threshold. */
+  itkGetMacro(ThresholdingFailed, bool);
+
 protected:
   IsolatedConnectedImageFilter();
   ~IsolatedConnectedImageFilter(){};
-  IndexType m_Seed1;
-  IndexType m_Seed2;
+  SeedsContainerType m_Seeds1;
+  SeedsContainerType m_Seeds2;
   InputImagePixelType m_Lower;
+  InputImagePixelType m_Upper;
   OutputImagePixelType m_ReplaceValue;
   InputImagePixelType m_IsolatedValue;
   InputImagePixelType m_IsolatedValueTolerance;
-  InputImagePixelType m_UpperValueLimit;
-
+  bool m_FindUpperThreshold;
+  bool m_ThresholdingFailed;
+  
   // Override since the filter needs all the data for the algorithm
   void GenerateInputRequestedRegion();
 

@@ -34,12 +34,14 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>
 ::IsolatedConnectedImageFilter()
 {
   m_Lower = NumericTraits<InputImagePixelType>::NonpositiveMin();
-  m_Seed1.Fill(0);
-  m_Seed2.Fill(0);
+  m_Upper = NumericTraits<InputImagePixelType>::max();
+  m_Seeds1.clear();
+  m_Seeds2.clear();
   m_ReplaceValue = NumericTraits<OutputImagePixelType>::One;
   m_IsolatedValue = NumericTraits<InputImagePixelType >::Zero;
   m_IsolatedValueTolerance = NumericTraits<InputImagePixelType >::One;
-  m_UpperValueLimit = NumericTraits<InputImagePixelType>::max();
+  m_FindUpperThreshold = true;
+  m_ThresholdingFailed = false;
 }
 
 /**
@@ -54,14 +56,12 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>
   os << indent << "Lower: "
      << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Lower)
      << std::endl;
-  os << indent << "UpperValueLimit: "
-     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_UpperValueLimit)
+  os << indent << "Upper: "
+     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Upper)
      << std::endl;
   os << indent << "ReplaceValue: "
      << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
      << std::endl;
-  os << indent << "Seed1: " << m_Seed1 << std::endl;
-  os << indent << "Seed2: " << m_Seed2 << std::endl;
   os << indent << "IsolatedValue: "
      << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_IsolatedValue)
      << std::endl;
@@ -113,52 +113,154 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
   typename FunctionType::Pointer function = FunctionType::New();
   function->SetInputImage ( inputImage );
 
-  InputImagePixelType lower = m_Lower;
-  InputImagePixelType upper = m_UpperValueLimit;
-  InputImagePixelType guess = upper;
-  IteratorType it = IteratorType ( outputImage, function, m_Seed1 );
-
-  // do a binary search to find an upper threshold that separates the
-  // two seeds.
-  const unsigned int maximumIterationsInBinarySearch = 
-      static_cast< unsigned int > (
-         log( ( static_cast<float>( upper ) - static_cast< float >( lower ) ) /
-                static_cast<float>( m_IsolatedValueTolerance ) )  / log( 2.0 ) );
-
-  const float progressWeight = 1.0f / static_cast<float>( maximumIterationsInBinarySearch + 2 );
-  float cumulatedProgress = 0.0f;
-
+  float progressWeight;
+  float cumulatedProgress;
+  IteratorType it = IteratorType ( outputImage, function, m_Seeds1 );
   IterationReporter iterate( this, 0, 1);
-  while (lower + m_IsolatedValueTolerance < guess)
+
+  // If the upper threshold has not been set, find it.
+  if (m_FindUpperThreshold)
     {
-    ProgressReporter progress( this, 0, region.GetNumberOfPixels(), 100, cumulatedProgress, progressWeight );
-    cumulatedProgress += progressWeight;
-    outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
-    function->ThresholdBetween ( m_Lower, guess );
-    it.GoToBegin();
-    while( !it.IsAtEnd())
+    InputImagePixelType lower = m_Lower;
+    InputImagePixelType upper = m_Upper;
+    InputImagePixelType guess = upper;
+
+    // do a binary search to find an upper threshold that separates the
+    // two sets of seeds.
+    const unsigned int maximumIterationsInBinarySearch = 
+      static_cast< unsigned int > (
+        log( ( static_cast<float>( upper ) - static_cast< float >( lower ) ) /
+             static_cast<float>( m_IsolatedValueTolerance ) )  / log( 2.0 ) );
+
+    progressWeight = 1.0f / static_cast<float>( maximumIterationsInBinarySearch + 2 );
+    cumulatedProgress = 0.0f;
+
+    while (lower + m_IsolatedValueTolerance < guess)
       {
-      it.Set(m_ReplaceValue);
-      ++it;
-      progress.CompletedPixel(); // potential exception thrown here
+      ProgressReporter progress( this, 0, region.GetNumberOfPixels(), 100, cumulatedProgress, progressWeight );
+      cumulatedProgress += progressWeight;
+      outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
+      function->ThresholdBetween ( m_Lower, guess );
+      it.GoToBegin();
+      while( !it.IsAtEnd())
+        {
+        it.Set(m_ReplaceValue);
+        if (it.GetIndex() == *m_Seeds2.begin())
+          {
+          break;
+          }
+        ++it;
+        progress.CompletedPixel(); // potential exception thrown here
+        }
+      // If any of second seeds are included, decrease the upper bound.
+      // Find the sum of the intensities in m_Seeds2.  If the second
+      // seeds are not included, the sum should be zero.  Otherwise,
+      // it will be other than zero.
+      InputRealType seedIntensitySum = 0;
+      typename SeedsContainerType::const_iterator si = m_Seeds2.begin();
+      typename SeedsContainerType::const_iterator li = m_Seeds2.end();
+      while( si != li )
+        {
+        const InputRealType value = 
+          static_cast< InputRealType >( outputImage->GetPixel( *si ) );
+        seedIntensitySum += value;
+        si++;
+        }
+
+      if (seedIntensitySum != 0)
+        {
+        upper = guess;
+        }
+      // Otherwise, increase the lower bound.
+      else
+        {
+        lower = guess;
+        }
+      guess = (upper + lower) /2;
+      iterate.CompletedStep();
       }
-    if (outputImage->GetPixel(m_Seed2) == m_ReplaceValue)
-      {
-      upper = guess;
-      }
-    else
-      {
-      lower = guess;
-      }
-    guess = (upper + lower) /2;
-    iterate.CompletedStep();
+
+    m_IsolatedValue = lower; //the lower bound on the upper threshold guess
     }
 
-  // now rerun the algorithm with the threshold that separates the seeds.
+
+  // If the lower threshold has not been set, find it.
+  else if (!m_FindUpperThreshold)
+    {
+    InputImagePixelType lower = m_Lower;
+    InputImagePixelType upper = m_Upper;
+    InputImagePixelType guess = lower;
+
+    // do a binary search to find a lower threshold that separates the
+    // two sets of seeds.
+    const unsigned int maximumIterationsInBinarySearch = 
+      static_cast< unsigned int > (
+        log( ( static_cast<float>( upper ) - static_cast< float >( lower ) ) /
+             static_cast<float>( m_IsolatedValueTolerance ) )  / log( 2.0 ) );
+
+    progressWeight = 1.0f / static_cast<float>( maximumIterationsInBinarySearch + 2 );
+    cumulatedProgress = 0.0f;
+
+    while (guess < upper - m_IsolatedValueTolerance)
+      {
+      ProgressReporter progress( this, 0, region.GetNumberOfPixels(), 100, cumulatedProgress, progressWeight );
+      cumulatedProgress += progressWeight;
+      outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
+      function->ThresholdBetween ( guess, m_Upper );
+      it.GoToBegin();
+      while( !it.IsAtEnd())
+        {
+        it.Set(m_ReplaceValue);
+        if (it.GetIndex() == *m_Seeds2.begin())
+          {
+          break;
+          }
+        ++it;
+        progress.CompletedPixel(); // potential exception thrown here
+        }
+      // If any of second seeds are included, increase the lower bound.
+      // Find the sum of the intensities in m_Seeds2.  If the second
+      // seeds are not included, the sum should be zero.  Otherwise,
+      // it will be other than zero.
+      InputRealType seedIntensitySum = 0;
+      typename SeedsContainerType::const_iterator si = m_Seeds2.begin();
+      typename SeedsContainerType::const_iterator li = m_Seeds2.end();
+      while( si != li )
+        {
+        const InputRealType value = 
+          static_cast< InputRealType >( outputImage->GetPixel( *si ) );
+        seedIntensitySum += value;
+        si++;
+        }
+
+      if (seedIntensitySum != 0)
+        {
+        lower = guess;
+        }
+      // Otherwise, decrease the upper bound.
+      else
+        {
+        upper = guess;
+        }
+      guess = (upper + lower) /2;
+      iterate.CompletedStep();
+      }
+
+    m_IsolatedValue = upper; //the upper bound on the lower threshold guess
+    }
+
+  // now rerun the algorithm with the thresholds that separate the seeds.
   ProgressReporter progress( this, 0, region.GetNumberOfPixels(), 100, cumulatedProgress, progressWeight );
 
   outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
-  function->ThresholdBetween ( m_Lower, lower);
+  if (m_FindUpperThreshold)
+    {
+    function->ThresholdBetween ( m_Lower, m_IsolatedValue);
+    }
+  else if (!m_FindUpperThreshold)
+    {
+    function->ThresholdBetween ( m_IsolatedValue, m_Upper);
+    }
   it.GoToBegin();
   while( !it.IsAtEnd())
     {
@@ -166,7 +268,39 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
     ++it;
     progress.CompletedPixel(); // potential exception thrown here
     }
-  m_IsolatedValue = lower;
+
+  // If any of the second seeds are included or some of the first
+  // seeds are not included, the algorithm could not find any threshold
+  // that would separate the two sets of seeds.  Set an error flag in
+  // this case.
+
+  // Find the sum of the intensities in m_Seeds2.  If the second
+  // seeds are not included, the sum should be zero.  Otherwise,
+  // it will be other than zero.
+  InputRealType seed1IntensitySum = 0;
+  InputRealType seed2IntensitySum = 0;
+  typename SeedsContainerType::const_iterator si1 = m_Seeds1.begin();
+  typename SeedsContainerType::const_iterator li1 = m_Seeds1.end();
+  while( si1 != li1 )
+    {
+    const InputRealType value = 
+      static_cast< InputRealType >( outputImage->GetPixel( *si1 ) );
+    seed1IntensitySum += value;
+    si1++;
+    }
+  typename SeedsContainerType::const_iterator si2 = m_Seeds2.begin();
+  typename SeedsContainerType::const_iterator li2 = m_Seeds2.end();
+  while( si2 != li2 )
+    {
+    const InputRealType value = 
+      static_cast< InputRealType >( outputImage->GetPixel( *si2 ) );
+    seed2IntensitySum += value;
+    si2++;
+    }
+  if (seed1IntensitySum != m_ReplaceValue*m_Seeds1.size() || seed2IntensitySum != 0) 
+    {
+    m_ThresholdingFailed = true;
+    }
   iterate.CompletedStep();
 }
 
