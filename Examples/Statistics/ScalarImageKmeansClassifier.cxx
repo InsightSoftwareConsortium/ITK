@@ -41,7 +41,7 @@ int main( int argc, char * argv [] )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0];
-    std::cerr << " inputScalarImage outputLabeledImage numberOfClasses mean1 mean2... meanN " << std::endl;
+    std::cerr << " inputScalarImage outputLabeledImage contiguousLabels numberOfClasses mean1 mean2... meanN " << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -59,7 +59,7 @@ int main( int argc, char * argv [] )
 // Software Guide : EndLatex 
   
 // Software Guide : BeginCodeSnippet
-  typedef unsigned char       PixelType;
+  typedef signed short       PixelType;
   const unsigned int          Dimension = 3;
 
   typedef itk::Image<PixelType, Dimension > ImageType;
@@ -88,12 +88,38 @@ int main( int argc, char * argv [] )
 
   kmeansFilter->SetInput( reader->GetOutput() );
 
-  const unsigned int numberOfInitialClasses = atoi( argv[3] );
+  const unsigned int numberOfInitialClasses = atoi( argv[4] );
 // Software Guide : EndCodeSnippet
 
 
 
-  if( argc < numberOfInitialClasses + 4 )
+
+// Software Guide : BeginLatex
+//
+// In general the classification will produce as output an image whose pixel
+// values are integers associated to the labels of the classes. Since typically
+// these integers will be generated in order (0,1,2,...N), the output image
+// will tend to look very dark when displayed with naive viewers. It is
+// therefore convenient to have the option of spreading the label values over
+// the dynamic range of the output image pixel type. When this is done, the
+// dynamic range of the pixels is divide by the number of classes in order to
+// define the increment between labels. For example, an output image of 8 bits
+// will have a dynamic range of [0:256], and when it is used for holding four
+// classes, the non-contiguous labels will be (0,64,128,192). The selection of
+// the mode to use is done with the method \code{SetUseContiguousLabels()}.
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+  const unsigned int useNonContiguousLabels = atoi( argv[3] );
+
+  kmeansFilter->SetUseNonContiguousLabels( useNonContiguousLabels );
+// Software Guide : EndCodeSnippet
+
+
+  const unsigned int argoffset = 5;
+
+  if( argc < numberOfInitialClasses + argoffset )
     {
     std::cerr << "Error: " << std::endl;
     std::cerr << numberOfInitialClasses << " classes has been specified ";
@@ -117,7 +143,7 @@ int main( int argc, char * argv [] )
 // Software Guide : BeginCodeSnippet
   for( unsigned k=0; k < numberOfInitialClasses; k++ )
     {
-    const double userProvidedInitialMean = atof( argv[k+4] );
+    const double userProvidedInitialMean = atof( argv[k+argoffset] );
     kmeansFilter->AddClassWithInitialMean( userProvidedInitialMean );
     }
 // Software Guide : BeginCodeSnippet
