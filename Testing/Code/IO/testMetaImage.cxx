@@ -27,7 +27,7 @@ int testMetaImage(int , char * [])
   {
 
   MetaImage tIm(8, 8, 1, 2, MET_CHAR);
-  MetaImage tImCopy(tIm);
+  MetaImage tImCopy(&tIm);
 
   int i;
   for(i=0; i<64; i++)
@@ -157,5 +157,6 @@ int testMetaImage(int , char * [])
   itksys::SystemTools::RemoveFile("test.mha");
 
   std::cout << "[DONE]" << std::endl;
+
   return 0;
   }
