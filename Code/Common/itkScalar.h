@@ -93,8 +93,10 @@ public:
 
   /**
    * Operator to get the scalar value as an rvalue.
+   * This cannot be "operator const T& () const" because that would
+   * ambiguate "operator T& ()" when either is allowed.
    */
-  operator const T& () const
+  operator T () const
   { return m_Scalar; };
   
   /**
