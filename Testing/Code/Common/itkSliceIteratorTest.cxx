@@ -61,11 +61,9 @@ void FillRegionSequential(itk::SmartPointer< itk::Image<T, N> > I)
 template< class T, unsigned int TDimension >
 void PrintRegion(itk::SmartPointer< itk::Image<T, TDimension> > I)
 {
-  int i, ArrayLength;
-  unsigned int iDim;
-  int nnf[TDimension];
-  unsigned long rsz[TDimension];
-  unsigned long Location[TDimension];
+  int iDim, ArrayLength;
+  long rsz[TDimension];
+  long Location[TDimension];
   
   memcpy(rsz, I->GetRequestedRegion().GetSize().m_Size,
          sizeof(unsigned long) * TDimension);
