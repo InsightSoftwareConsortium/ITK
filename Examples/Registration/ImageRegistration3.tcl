@@ -26,10 +26,10 @@ set optimizer          [ itkRegularStepGradientDescentOptimizer_New ]
 set interpolator       [ itkLinearInterpolateImageFunctionF2D_New  ]
 
 
-$registration   SetOptimizer      $optimizer
-$registration   SetTransform      $transform
-$registration   SetInterpolator   $interpolator
-$registration   SetMetric         $imageMetric
+$registration   SetOptimizer     [ $optimizer GetPointer ]
+$registration   SetTransform     [ $transform GetPointer ]
+$registration   SetInterpolator  [ $interpolator GetPointer ]
+$registration   SetMetric        [ $imageMetric GetPointer ]
 
 
 set fixedImageReader   [ itkImageFileReaderF2_New ]
@@ -47,7 +47,9 @@ $movingImageReader   Update
 set fixedImage  [ $fixedImageReader GetOutput  ]
 set movingImage [ $movingImageReader GetOutput ]
 
-$registration  SetFixedImageRegion   [ $fixedImage  GetBufferedRegion ]
+set fixedImageRegion  [ $fixedImage  GetBufferedRegion ]
+
+$registration  SetFixedImageRegion  $fixedImageRegion` 
 
 $transform SetIdentity
 set initialParameters [ $transform GetParameters ]
@@ -98,7 +100,7 @@ $resampler SetDefaultPixelValue 100
 
 set writer [ itkImageFileWriterF2_New ]
 
-$writer SetFileName [lindex $argv 3]
+$writer SetFileName [lindex $argv 2]
 $writer SetInput [ $resampler GetOutput ]
 $writer Update
 
