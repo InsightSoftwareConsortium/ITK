@@ -26,6 +26,8 @@ template< class TSample >
 MixtureModelComponentBase< TSample >
 ::MixtureModelComponentBase()
 {
+  m_Sample = 0 ;
+  m_MembershipFunction = 0 ;
   m_Weights = 0 ;
   m_MinimalParametersChange = 1.0e-06 ;
 }
@@ -48,9 +50,36 @@ MixtureModelComponentBase< TSample >
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Sample: " << m_Sample << std::endl;
-  os << indent << "Membership Function: " << m_MembershipFunction << std::endl;
-  os << indent << "Weights Array: " << m_Weights << std::endl;
+  os << indent << "Sample: " ;
+  if ( m_Sample != 0 )
+    {
+    os << m_Sample << std::endl;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+
+  os << indent << "Membership Function: " ;
+  if ( m_MembershipFunction != 0 )
+    {
+    os << m_MembershipFunction << std::endl;
+    }
+  else
+    {
+    os << "not instantiated yet." << std::endl ;
+    }
+
+  os << indent << "Weights Array: " ;
+  if ( m_Weights != 0 )
+    {
+    os << m_Weights << std::endl;
+    }
+  else
+    {
+    os << "not allocated yet." << std::endl ;
+    }
+  
   os << indent << "Parameters are modified: " << m_ParametersModified
      << std::endl;
 }
@@ -127,7 +156,10 @@ void
 MixtureModelComponentBase< TSample >
 ::DeleteWeightArray()
 {
-  delete m_Weights ;
+  if ( m_Weights != 0 )
+    {
+    delete m_Weights ;
+    }
 }
 
 template< class TSample >
@@ -159,7 +191,14 @@ inline void
 MixtureModelComponentBase< TSample >
 ::SetWeight(int index, double value)
 {
-  (*m_Weights)[index] = value ;
+  if ( m_Weights != 0 )
+    {
+    (*m_Weights)[index] = value ;
+    }
+  else
+    {
+    itkExceptionMacro("Weight array is not allocated.") ;
+    }
 }
 
 template< class TSample >
@@ -167,7 +206,14 @@ inline double
 MixtureModelComponentBase< TSample >
 ::GetWeight(int index)
 {
-  return (*m_Weights)[index] ;
+  if ( m_Weights != 0 )
+    {
+    return (*m_Weights)[index] ;
+    }
+  else
+    {
+    itkExceptionMacro("Weight array is not allocated.") ;
+    }
 }
 
 template< class TSample >
