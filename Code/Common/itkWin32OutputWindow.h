@@ -27,6 +27,7 @@
 #define __itkWin32OutputWindow_h
 
 #include "itkOutputWindow.h"
+#include "itkObjectFactory.h"
 #include <windows.h>
 
 namespace itk
