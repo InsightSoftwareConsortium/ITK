@@ -29,7 +29,7 @@ template < typename TValueType >
 Array<TValueType >
 ::Array():vnl_vector<TValueType>()
 {
-  m_Array_Own_Data = false;
+  m_ArrayOwnData = false;
 }
 
 
@@ -38,7 +38,7 @@ template < typename TValueType >
 Array<TValueType >
 ::Array(unsigned int dimension):vnl_vector<TValueType>(dimension)
 {
-  m_Array_Own_Data = false;
+  m_ArrayOwnData = false;
 }
 
 /** Destructor*/
@@ -46,7 +46,7 @@ template < typename TValueType >
 Array<TValueType >
 ::~Array()
 {
-  if(m_Array_Own_Data)
+  if(m_ArrayOwnData)
     {
     vnl_vector<TValueType>::data = 0;
     }
@@ -59,8 +59,12 @@ void
 Array<TValueType >
 ::SetData(TValueType* data)
 {
+  if(!m_ArrayOwnData)
+    {
+    vnl_vector<TValueType>::destroy();
+    }
   vnl_vector<TValueType>::data = data;
-  m_Array_Own_Data = true;
+  m_ArrayOwnData = true;
 }
 
 template < typename TValueType >
