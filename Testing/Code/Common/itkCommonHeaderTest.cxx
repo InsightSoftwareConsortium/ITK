@@ -89,6 +89,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageConstIteratorWithIndex.h"
 #include "itkImageContainerInterface.h"
 #include "itkImageFunction.h"
+#include "itkImageIO.h"
+#include "itkImageIOCommon.h"
 #include "itkImageIterator.h"
 #include "itkImageIteratorWithIndex.h"
 #include "itkImageLinearConstIteratorWithIndex.h"
