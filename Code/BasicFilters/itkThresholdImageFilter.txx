@@ -29,7 +29,7 @@ ThresholdImageFilter<TImage>
 ::ThresholdImageFilter()
 {
   m_OutsideValue = NumericTraits<ImageTraits<TImage>::PixelType>::Zero;
-  m_Lower = NumericTraits<PixelType>::min();
+  m_Lower = NumericTraits<PixelType>::NonpositiveMin();
   m_Upper = NumericTraits<PixelType>::max();
 
   typename TImage::Pointer output = TImage::New();
@@ -60,9 +60,10 @@ void
 ThresholdImageFilter<TImage>
 ::ThresholdAbove(PixelType &thresh)
 {
-  if (m_Upper != thresh || m_Lower > NumericTraits<PixelType>::min())
+  if (m_Upper != thresh
+      || m_Lower > NumericTraits<PixelType>::NonpositiveMin())
     {
-    m_Lower = NumericTraits<PixelType>::min();
+    m_Lower = NumericTraits<PixelType>::NonpositiveMin();
     m_Upper = thresh;
     this->Modified();
     }
