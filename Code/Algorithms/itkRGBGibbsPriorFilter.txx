@@ -23,13 +23,14 @@
 #include <time.h>
 #include <math.h>
 
+#define RGBGibbsPriorFilterNeedsDebugging 1
+
 namespace itk
 {
 /* Set intial value of some parameters in the constructor */
 template <typename TInputImage, typename TClassifiedImage>
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 ::RGBGibbsPriorFilter(void):
-    m_ObjectThreshold(5.0),
     m_InputImage(0),
     m_TrainingImage(0),
     m_LabelledImage(0),
@@ -58,7 +59,8 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     m_CliqueWeight_3(0.0),
     m_CliqueWeight_4(0.0),
     m_CliqueWeight_5(0.0),
-    m_CliqueWeight_6(0.0)
+    m_CliqueWeight_6(0.0),
+    m_ObjectThreshold(5.0)
 {
   m_StartPoint.Fill(0);
 }
@@ -563,7 +565,8 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   RegionEraser();
 
   std::cout<<"Region eraser finished! " <<std::endl; 
-/*
+
+#ifndef RGBGibbsPriorFilterNeedsDebugging 
   const unsigned int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
   const unsigned int rowsize = m_ImageWidth;
 
@@ -576,11 +579,12 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     if ((randomPixel > (rowsize - 1)) && (randomPixel < (size - rowsize)) 
         && (randomPixel%rowsize != 0) && (randomPixel%rowsize != rowsize-1)) 
       {
-      GibbsTotalEnergy(randomPixel); /* minimized f_2; *//*
+      GibbsTotalEnergy(randomPixel); // minimized f_2; 
       }
     m_Temp++;
     }
-*/
+#endif
+
 }
 
 template<class TInputImage, class TClassifiedImage>
