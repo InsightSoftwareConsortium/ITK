@@ -19,8 +19,7 @@
 
 
 #include <itkImage.h>
-#include <itkFirstDerivativeRecursiveGaussianImageFilter.h>
-#include <itkSecondDerivativeRecursiveGaussianImageFilter.h>
+#include <itkRecursiveGaussianImageFilter.h>
 #include <itkImageRegionIteratorWithIndex.h>
 
 
@@ -106,20 +105,21 @@ int itkRecursiveGaussianImageFiltersTest(int, char**)
 
 
 
-  // Declare the type for the  Smoothing  filter
+  // Declare the type for the  Gaussian  filter
   typedef itk::RecursiveGaussianImageFilter<
-                                      myImageType,
-                                      myImageType,
-                                      float       >  mySmoothingFilterType;
+                                              myImageType,
+                                              myImageType
+                                                        >  myGaussianFilterType;
             
 
   // Create a  Filter                                
-  mySmoothingFilterType::Pointer filter = mySmoothingFilterType::New();
+  myGaussianFilterType::Pointer filter = myGaussianFilterType::New();
 
 
   // Connect the input images
   filter->SetInput( inputImage ); 
   filter->SetDirection( 2 );  // apply along Z
+  filter->SetOrder( myGaussianFilterType::ZeroOrder );
 
   
   // Execute the filter
@@ -128,22 +128,14 @@ int itkRecursiveGaussianImageFiltersTest(int, char**)
   std::cout << " Done !" << std::endl;
 
 
-
-
-  // Declare the type for the  First Derivative
-  typedef itk::FirstDerivativeRecursiveGaussianImageFilter<
-                                            myImageType,
-                                            myImageType,
-                                            float       >  myFirstDerivativeFilterType;
-            
-
   // Create a  Filter                                
-  myFirstDerivativeFilterType::Pointer filter1 = myFirstDerivativeFilterType::New();
+  myGaussianFilterType::Pointer filter1 = myGaussianFilterType::New();
 
 
   // Connect the input images
   filter1->SetInput( inputImage ); 
   filter1->SetDirection( 2 );  // apply along Z
+  filter1->SetOrder( myGaussianFilterType::FirstOrder );
 
   
   // Execute the filter1
@@ -153,21 +145,14 @@ int itkRecursiveGaussianImageFiltersTest(int, char**)
 
 
 
-  // Declare the type for the  Second Derivative
-  typedef itk::SecondDerivativeRecursiveGaussianImageFilter<
-                                            myImageType,
-                                            myImageType,
-                                            float       >  mySecondDerivativeFilterType;
-            
-
   // Create a  Filter                                
-  mySecondDerivativeFilterType::Pointer filter2 = mySecondDerivativeFilterType::New();
+  myGaussianFilterType::Pointer filter2 = myGaussianFilterType::New();
 
 
   // Connect the input images
   filter2->SetInput( inputImage ); 
   filter2->SetDirection( 2 );  // apply along Z
-
+  filter2->SetOrder( myGaussianFilterType::SecondOrder );
   
   // Execute the filter2
   std::cout << "Executing Second Derivative filter...";

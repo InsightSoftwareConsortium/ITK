@@ -27,8 +27,8 @@
 namespace itk
 {
 
-template< class TInputImage, class TOutputImage, class TComputation >
-GradientToMagnitudeImageFilter< TInputImage, TOutputImage, TComputation >
+template< typename TInputImage, typename TOutputImage >
+GradientToMagnitudeImageFilter< TInputImage, TOutputImage >
 ::GradientToMagnitudeImageFilter()
 {
   itkDebugMacro(<< "GradientToMagnitudeImageFilter::GradientToMagnitudeImageFilter() called");
@@ -36,9 +36,9 @@ GradientToMagnitudeImageFilter< TInputImage, TOutputImage, TComputation >
 }
 
 
-template< class TInputImage, class TOutputImage, class TComputation >
+template< typename TInputImage, typename TOutputImage >
 void
-GradientToMagnitudeImageFilter< TInputImage, TOutputImage, TComputation >
+GradientToMagnitudeImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
   itkDebugMacro(<< "GradientToMagnitudeImageFilter::GenerateData() called");
@@ -62,15 +62,14 @@ GradientToMagnitudeImageFilter< TInputImage, TOutputImage, TComputation >
 
   inIt.GoToBegin();
 
-  TComputation component;
   // walk the output image, and sample the input image
   for ( outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt, ++inIt )
     {
-    TComputation acc = NumericTraits< TComputation >::Zero;
+    RealType acc = NumericTraits< RealType >::Zero;
 
     for(int i = 0; i < NDimensions; i++)
       {
-      component = static_cast<TComputation>( inIt.Get()[i]);
+      const RealType component = static_cast<RealType>( inIt.Get()[i]);
       acc += component * component;
       }
 
@@ -82,9 +81,9 @@ GradientToMagnitudeImageFilter< TInputImage, TOutputImage, TComputation >
   itkDebugMacro(<< "GradientToMagnitudeImageFilter::GenerateData() finished");
 }
 
-template< class TInputImage, class TOutputImage, class TComputation >
+template< typename TInputImage, typename TOutputImage >
 void
-GradientToMagnitudeImageFilter< TInputImage, TOutputImage, TComputation >
+GradientToMagnitudeImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);

@@ -27,16 +27,19 @@ namespace itk
 /**
  * Constructor
  */
-template <class TInputImage, class TOutputImage, class TComputation>
-GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation>
+template <typename TInputImage, typename TOutputImage >
+GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::GradientRecursiveGaussianImageFilter()
 {
 
   for( unsigned int i = 0; i<ImageDimension-1; i++ )
   {
-    m_SmoothingFilters[ i ] = SmoothingFilterType::New();
+    m_SmoothingFilters[ i ] = GaussianFilterType::New();
+    m_SmoothingFilters[ i ]->SetOrder( GaussianFilterType::ZeroOrder );
   }
-  m_DerivativeFilter = DerivativeFilterType::New();
+
+  m_DerivativeFilter = GaussianFilterType::New();
+  m_DerivativeFilter->SetOrder( GaussianFilterType::FirstOrder );
   
 
   m_SmoothingFilters[0]->SetInput( this->GetInput() );
@@ -59,10 +62,10 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation>
 /**
  * Set value of Sigma
  */
-template <class TInputImage, class TOutputImage, class TComputation>
+template <typename TInputImage, typename TOutputImage>
 void 
-GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation>
-::SetSigma( TComputation sigma )
+GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
+::SetSigma( RealType sigma )
 {
 
   for( unsigned int i = 0; i<ImageDimension-1; i++ )
@@ -81,9 +84,9 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation>
 /**
  * Compute filter for Gaussian kernel
  */
-template <class TInputImage, class TOutputImage, class TComputation>
+template <typename TInputImage, typename TOutputImage >
 void
-GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
+GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
 ::GenerateData(void)
 {
 

@@ -147,8 +147,8 @@ int itkGradientVectorFlowImageFilterTest(int, char**)
   // Declare the type for the 
   typedef itk::GradientRecursiveGaussianImageFilter<
                                             myImageType,
-                                            myGradientImageType,
-                                            double       >  myFilterType;
+                                            myGradientImageType
+                                                  >  myFilterType;
             
 
   // Create a  Filter                                

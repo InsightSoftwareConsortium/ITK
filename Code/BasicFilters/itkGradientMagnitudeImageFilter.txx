@@ -30,9 +30,9 @@
 namespace itk
 {
  
-template <class TInputImage, class TOutputImage, class TComputation>
+template <typename TInputImage, typename TOutputImage>
 void 
-GradientMagnitudeImageFilter<TInputImage,TOutputImage,TComputation>
+GradientMagnitudeImageFilter<TInputImage,TOutputImage>
 ::GenerateInputRequestedRegion() throw(InvalidRequestedRegionError)
 {
   // call the superclass' implementation of this method
@@ -90,14 +90,13 @@ GradientMagnitudeImageFilter<TInputImage,TOutputImage,TComputation>
 }
 
 
-template< class TInputImage, class TOutputImage, class TComputation>
+template< typename TInputImage, typename TOutputImage >
 void
-GradientMagnitudeImageFilter< TInputImage, TOutputImage, TComputation >
+GradientMagnitudeImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId)
 {
   unsigned int i;
-  TComputation a, g;
   ZeroFluxNeumannBoundaryCondition<TInputImage> nbc;
 
   ConstNeighborhoodIterator<TInputImage> nit;
@@ -164,10 +163,10 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage, TComputation >
       this->UpdateProgress((float)ii++ / (float)totalPixels);
       }
 
-    a = NumericTraits<OutputPixelType>::Zero;
+    RealType a = NumericTraits<RealType>::Zero;
     for (i = 0; i < ImageDimension; ++i)
       {
-      g = IP(x_slice[i], nit, op);
+      const RealType g = IP(x_slice[i], nit, op);
       a += g * g;
       }
     it.Value() = static_cast<OutputPixelType>(::sqrt(a));
@@ -192,10 +191,10 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage, TComputation >
     
     while ( ! bit.IsAtEnd() )
       {
-      a = NumericTraits<OutputPixelType>::Zero;
+      RealType a = NumericTraits<RealType>::Zero;
       for (i = 0; i < ImageDimension; ++i)
         {
-        g = SIP(x_slice[i], bit, op);
+        const RealType g = SIP(x_slice[i], bit, op);
         a += g * g;
         }
       it.Value() = static_cast<OutputPixelType>(::sqrt(a));

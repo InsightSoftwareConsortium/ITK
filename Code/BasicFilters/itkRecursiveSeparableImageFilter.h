@@ -18,6 +18,7 @@
 #define __itkRecursiveSeparableImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -34,7 +35,7 @@ namespace itk
  * 
  * \ingroup ImageFilters
  */
-template <class TInputImage, class TOutputImage, class TComputation>
+template <typename TInputImage, typename TOutputImage=TInputImage>
 class ITK_EXPORT RecursiveSeparableImageFilter :
     public ImageToImageFilter<TInputImage,TOutputImage> 
 {
@@ -51,6 +52,13 @@ public:
   /** Smart pointer typedef support.  */
   typedef typename TInputImage::Pointer  InputImagePointer;
   typedef typename TInputImage::ConstPointer  InputImageConstPointer;
+
+  /** Real type to be used in internal computations */
+  typedef typename TInputImage::PixelType                   InputPixelType;
+  typedef typename NumericTraits<InputPixelType>::RealType  RealType;
+
+  /** Type of the output image */
+  typedef TOutputImage      OutputImageType;
 
   /** Get the direction in which the filter is to be applied. */   
   itkGetMacro(Direction, unsigned int);
@@ -93,8 +101,8 @@ protected:
   /** Apply the Recursive Filter in an array of data.  this method is called
    * for each line of the volume from ApplyRecursiveFilter.
    * \sa ApplyRecursiveFilter.  */
-  void FilterDataArray(TComputation *outs,
-                       const TComputation *data, unsigned int ln);
+  void FilterDataArray(RealType *outs,
+                 const RealType *data, unsigned int ln);
 
 private:  
   RecursiveSeparableImageFilter(const Self&); //purposely not implemented
@@ -106,50 +114,50 @@ private:
 
 protected:
   /**  Normalization factor. */
-  TComputation m_K;                       
+  RealType m_K;                       
 
   /** Spacing along the direction of filtering. */   
-  TComputation m_Spacing;
+  RealType m_Spacing;
 
   /**  Parameter of exponential series. */
-  TComputation m_A0;
-  TComputation m_A1;
-  TComputation m_B0;
-  TComputation m_B1;
-  TComputation m_C0;
-  TComputation m_C1;
-  TComputation m_W0;
-  TComputation m_W1; 
+  RealType m_A0;
+  RealType m_A1;
+  RealType m_B0;
+  RealType m_B1;
+  RealType m_C0;
+  RealType m_C1;
+  RealType m_W0;
+  RealType m_W1; 
 
   /** Causal coefficients that multiply the input data. */
-  TComputation m_N00;
-  TComputation m_N11;
-  TComputation m_N22;
-  TComputation m_N33; 
+  RealType m_N00;
+  RealType m_N11;
+  RealType m_N22;
+  RealType m_N33; 
   
   /** Recursive coefficients that multiply previously computed values at the output.
       In this case the Causal coefficients == Anticausal coefficients. */
-  TComputation m_D11;
-  TComputation m_D22;
-  TComputation m_D33;
-  TComputation m_D44; 
+  RealType m_D11;
+  RealType m_D22;
+  RealType m_D33;
+  RealType m_D44; 
   
   /** Anti-Causal coefficients (symmetric case). that multiply the input data */
-  TComputation m_M11;
-  TComputation m_M22;
-  TComputation m_M33;
-  TComputation m_M44; 
+  RealType m_M11;
+  RealType m_M22;
+  RealType m_M33;
+  RealType m_M44; 
 
   /** Recursive coefficients to be used at the boundaries to prevent border effects */
-  TComputation m_BN1;
-  TComputation m_BN2;
-  TComputation m_BN3;
-  TComputation m_BN4; 
+  RealType m_BN1;
+  RealType m_BN2;
+  RealType m_BN3;
+  RealType m_BN4; 
  
-  TComputation m_BM1;
-  TComputation m_BM2;
-  TComputation m_BM3;
-  TComputation m_BM4; 
+  RealType m_BM1;
+  RealType m_BM2;
+  RealType m_BM3;
+  RealType m_BM4; 
  
 };
 

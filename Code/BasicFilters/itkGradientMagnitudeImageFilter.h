@@ -38,7 +38,7 @@ namespace itk
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
  */
-template <class TInputImage, class TOutputImage, class TComputation=double>
+template <typename TInputImage, typename TOutputImage>
 class ITK_EXPORT GradientMagnitudeImageFilter :
     public ImageToImageFilter< TInputImage, TOutputImage >
 {
@@ -59,6 +59,7 @@ public:
    * of the two images is assumed to be the same. */
   typedef typename TOutputImage::PixelType OutputPixelType;
   typedef typename TInputImage::PixelType InputPixelType;
+  typedef typename NumericTraits<InputPixelType>::RealType RealType;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */

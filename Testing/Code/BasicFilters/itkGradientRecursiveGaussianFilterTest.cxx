@@ -30,12 +30,8 @@ int itkGradientRecursiveGaussianFilterTest(int, char**)
   // Define the dimension of the images
   const unsigned int myDimension = 3;
 
-  // Declare gradient type
-  typedef itk::CovariantVector<float, myDimension> myGradientType;
-
   // Declare the types of the images
   typedef itk::Image<float, myDimension>           myImageType;
-  typedef itk::Image<myGradientType, myDimension>  myGradientImageType;
 
   // Declare the type of the index to access images
   typedef itk::Index<myDimension>             myIndexType;
@@ -69,11 +65,8 @@ int itkGradientRecursiveGaussianFilterTest(int, char**)
   inputImage->SetRequestedRegion( region );
   inputImage->Allocate();
 
-  // Declare Iterator types apropriated for each image 
+  // Declare Iterator type for the input image
   typedef itk::ImageRegionIteratorWithIndex<myImageType>  myIteratorType;
-
-  typedef itk::ImageRegionIteratorWithIndex<
-                                 myGradientImageType>  myOutputIteratorType;
 
   // Create one iterator for the Input Image A (this is a light object)
   myIteratorType it( inputImage, inputImage->GetRequestedRegion() );
@@ -106,11 +99,11 @@ int itkGradientRecursiveGaussianFilterTest(int, char**)
   }
 
   // Declare the type for the 
-  typedef itk::GradientRecursiveGaussianImageFilter<
-                                            myImageType,
-                                            myGradientImageType,
-                                            float       >  myFilterType;
+  typedef itk::GradientRecursiveGaussianImageFilter< 
+                                            myImageType >  myFilterType;
             
+  typedef myFilterType::OutputImageType myGradientImageType;
+
 
   // Create a  Filter                                
   myFilterType::Pointer filter = myFilterType::New();
@@ -131,6 +124,10 @@ int itkGradientRecursiveGaussianFilterTest(int, char**)
   // Because the object connected to the output may be changed
   // by another during GenerateData() call
   myGradientImageType::Pointer outputImage = filter->GetOutput();
+
+  // Declare Iterator type for the output image
+  typedef itk::ImageRegionIteratorWithIndex<
+                                 myGradientImageType>  myOutputIteratorType;
 
   // Create an iterator for going through the output image
   myOutputIteratorType itg( outputImage, 

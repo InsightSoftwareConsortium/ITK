@@ -17,8 +17,9 @@
 #ifndef __itkGradientRecursiveGaussianImageFilter_h
 #define __itkGradientRecursiveGaussianImageFilter_h
 
-#include "itkFirstDerivativeRecursiveGaussianImageFilter.h"
+#include "itkRecursiveGaussianImageFilter.h"
 #include "itkNthElementImageAdaptor.h"
+#include "itkImage.h"
 
 namespace itk
 {
@@ -34,7 +35,12 @@ namespace itk
  * \ingroup GradientFilters   
  * \ingroup Singlethreaded
  */
-template <class TInputImage, class TOutputImage, class TComputation>
+template <typename TInputImage, 
+          typename TOutputImage=
+              Image< CovariantVector< 
+                      typename NumericTraits<typename TInputImage::PixelType>::RealType,
+                      ExtractImageDimension<TInputImage>::ImageDimension >,
+                          ExtractImageDimension<TInputImage>::ImageDimension > >
 class ITK_EXPORT GradientRecursiveGaussianImageFilter:
   public ImageToImageFilter<TInputImage,TOutputImage>
 {
@@ -44,6 +50,7 @@ public:
   typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
   typedef SmartPointer<Self>                   Pointer;
   typedef SmartPointer<const Self>        ConstPointer;
+  
   
   /**  Output Image Nth Element Adaptor
    *  This adaptor allows to use conventional scalar 
@@ -57,30 +64,28 @@ public:
   /**  Smoothing filter type */
   typedef RecursiveGaussianImageFilter<
                                   TInputImage,
-                                  TInputImage,
-                                  TComputation>    SmoothingFilterType;
+                                  TInputImage
+                                  >    GaussianFilterType;
 
-  /**  Derivative along one dimension filter type. */
-  typedef FirstDerivativeRecursiveGaussianImageFilter<
-                                  TInputImage,
-                                  TInputImage,
-                                  TComputation>    DerivativeFilterType;
-
-  /**  Pointer to a smoothing filter.  */
-  typedef typename SmoothingFilterType::Pointer    SmoothingFilterPointer;
-
-  /**  Pointer to a derivative filter.  */
-  typedef typename DerivativeFilterType::Pointer   DerivativeFilterPointer;                                  
+  /**  Pointer to a gaussian filter.  */
+  typedef typename GaussianFilterType::Pointer   GaussianFilterPointer;
   /**  Pointer to the Output Image */
   typedef typename TOutputImage::Pointer          OutputImagePointer;                                  
   /** Image dimension. */
   enum { ImageDimension = TInputImage::ImageDimension };
 
+  /** Pixel Type of the input image */
+  typedef typename TInputImage::PixelType                PixelType;
+  typedef typename NumericTraits<PixelType>::RealType    RealType;
+
+  /** Type of the output Image */
+  typedef TOutputImage      OutputImageType;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Set Sigma value */
-  void SetSigma( TComputation sigma );
+  void SetSigma( RealType sigma );
 
 protected:
   GradientRecursiveGaussianImageFilter();
@@ -93,8 +98,8 @@ private:
   GradientRecursiveGaussianImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  SmoothingFilterPointer        m_SmoothingFilters[ImageDimension-1];
-  DerivativeFilterPointer       m_DerivativeFilter;
+  GaussianFilterPointer         m_SmoothingFilters[ImageDimension-1];
+  GaussianFilterPointer         m_DerivativeFilter;
   OutputImageAdaptorPointer     m_ImageAdaptor;
 
 };

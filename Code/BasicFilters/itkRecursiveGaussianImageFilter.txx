@@ -26,12 +26,13 @@
 namespace itk
 {
   
-template <class TInputImage, class TOutputImage, class TComputation>
-RecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation>
+template <typename TInputImage, typename TOutputImage>
+RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::RecursiveGaussianImageFilter()
 {
   m_Sigma = 1.0;
   m_NormalizeAcrossScale = false;
+  m_Order = ZeroOrder;
 }
 
 
@@ -40,23 +41,20 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation>
 /**
  *   Compute filter for Gaussian kernel
  */
-template <class TInputImage, class TOutputImage, class TComputation>
+template <typename TInputImage, typename TOutputImage>
 void
-RecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation>
+RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::SetUp(void)
 {
-  m_A0 = TComputation(  1.680  );
-  m_A1 = TComputation(  3.735  );
-  m_B0 = TComputation(  1.783  );
-  m_B1 = TComputation(  1.723  );
-  m_C0 = TComputation( -0.6803 );
-  m_C1 = TComputation( -0.2598 );
-  m_W0 = TComputation(  0.6318 );
-  m_W1 = TComputation(  1.9970 );
+ 
+  const RealType spacingTolerance = 1e-5;
+
+  if( m_Spacing < spacingTolerance )
+    {
+    itkExceptionMacro(<<"The spacing " << m_Spacing << "is suspiciosly small in this image");
+    } 
   
-  if( m_Spacing < TComputation( 0.0001 ) ) return;
-  
-  const TComputation sigmad = m_Sigma/m_Spacing;
+  const RealType sigmad = m_Sigma/m_Spacing;
 
   if( this->GetNormalizeAcrossScale() )
     {
@@ -66,8 +64,54 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation>
     {
     m_K = 1.0 / ( sigmad * sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0f ) ) ) );
     }
-  
-  const bool symmetric = true;
+
+  bool symmetric;
+
+  switch( m_Order ) 
+    {
+    case ZeroOrder: // equivalent to convolution with a gaussian
+      {
+      m_A0 = static_cast<RealType>(  1.680  );
+      m_A1 = static_cast<RealType>(  3.735  );
+      m_B0 = static_cast<RealType>(  1.783  );
+      m_B1 = static_cast<RealType>(  1.723  );
+      m_C0 = static_cast<RealType>( -0.6803 );
+      m_C1 = static_cast<RealType>( -0.2598 );
+      m_W0 = static_cast<RealType>(  0.6318 );
+      m_W1 = static_cast<RealType>(  1.9970 );
+      symmetric = true;
+      break;
+      }
+    case FirstOrder: // equivalent to convolution with 
+                     // the first derivative of a gaussian
+      {
+      m_A0 = static_cast<RealType>(  -0.6472 );
+      m_A1 = static_cast<RealType>(  -4.5310 );
+      m_B0 = static_cast<RealType>(   1.5270 );
+      m_B1 = static_cast<RealType>(   1.5160 );
+      m_C0 = static_cast<RealType>(   0.6494 );
+      m_C1 = static_cast<RealType>(   0.9557 );
+      m_W0 = static_cast<RealType>(   0.6719 );
+      m_W1 = static_cast<RealType>(   2.0720 );
+      symmetric = false;
+      break;
+      }
+    case SecondOrder: // equivalent to convolution with 
+                      // the second derivative of a gaussian
+      {
+      m_A0 = static_cast<RealType>(  -1.3310 );
+      m_A1 = static_cast<RealType>(   3.6610 );
+      m_B0 = static_cast<RealType>(   1.2400 );
+      m_B1 = static_cast<RealType>(   1.3140 );
+      m_C0 = static_cast<RealType>(   0.3225 );
+      m_C1 = static_cast<RealType>(  -1.7380 );
+      m_W0 = static_cast<RealType>(   0.7480 );
+      m_W1 = static_cast<RealType>(   2.1660 );
+      symmetric = true;
+      break;
+      }
+    }
+
   ComputeFilterCoefficients(symmetric);
 
 }
@@ -77,13 +121,13 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation>
 /**
  * Compute Recursive Filter Coefficients 
  */
-template <class TInputImage, class TOutputImage, class TComputation>
+template <typename TInputImage, typename TOutputImage>
 void
-RecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
+RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::ComputeFilterCoefficients(bool symmetric) 
 {
 
-  const TComputation sigmad = m_Sigma/m_Spacing;
+  const RealType sigmad = m_Sigma/m_Spacing;
   
   m_N00  = m_A0 + m_C0;
   m_N11  = exp(-m_B1/sigmad)*(m_C1*sin(m_W1/sigmad)-(m_C0+2*m_A0)*cos(m_W1/sigmad)); 
@@ -119,11 +163,11 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
 
   // Compute Coefficients to be used at the boundaries
   // in order to prevent border effects
-  const TComputation SumOfNCoefficients = m_N00 + m_N11 + m_N22 + m_N33;
-  const TComputation SumOfMCoefficients = m_M11 + m_M22 + m_M33 + m_M44;
-  const TComputation SumOfDCoefficients = m_D11 + m_D22 + m_D33 + m_D44;
-  const TComputation CoefficientNormN    = SumOfNCoefficients / ( 1.0 + SumOfDCoefficients );
-  const TComputation CoefficientNormM    = SumOfMCoefficients / ( 1.0 + SumOfDCoefficients );
+  const RealType SumOfNCoefficients = m_N00 + m_N11 + m_N22 + m_N33;
+  const RealType SumOfMCoefficients = m_M11 + m_M22 + m_M33 + m_M44;
+  const RealType SumOfDCoefficients = m_D11 + m_D22 + m_D33 + m_D44;
+  const RealType CoefficientNormN    = SumOfNCoefficients / ( 1.0 + SumOfDCoefficients );
+  const RealType CoefficientNormM    = SumOfMCoefficients / ( 1.0 + SumOfDCoefficients );
 
   m_BN1 = m_D11 * CoefficientNormN;
   m_BN2 = m_D22 * CoefficientNormN;
@@ -138,9 +182,9 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
 }
 
 
-template <class TInputImage, class TOutputImage, class TComputation>
+template <typename TInputImage, typename TOutputImage>
 void
-RecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation>
+RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);

@@ -20,6 +20,7 @@
 #include "itkImageFunction.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageToImageFilter.h"
+#include "itkPixelTraits.h"
 #include "itkSize.h"
 
 namespace itk
@@ -30,7 +31,7 @@ namespace itk
  * 
  * \ingroup GradientFilters
  */
-template<class TInputImage, class TOutputImage, class TComputation=double>
+template<typename TInputImage, typename TOutputImage >
 class ITK_EXPORT GradientToMagnitudeImageFilter :
    public ImageToImageFilter<TInputImage, TOutputImage>
 {
@@ -58,6 +59,10 @@ public:
 
   /** Image pixel value typedef. */
   typedef typename TOutputImage::PixelType OutputImagePixelType;
+  typedef typename TInputImage::PixelType  InputImagePixelType;
+  // the input pixel type is expected to have components.
+  typedef typename InputImagePixelType::ValueType InputValueType;
+  typedef typename NumericTraits<InputValueType>::RealType RealType;
 
   /** Typedef to describe the output image region type. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;

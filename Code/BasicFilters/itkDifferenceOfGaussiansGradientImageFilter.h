@@ -19,6 +19,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"
+#include "itkCovariantVector.h"
 
 namespace itk
 {
@@ -33,7 +34,8 @@ namespace itk
 template<typename TInputImage, typename TDataType>
 class ITK_EXPORT DifferenceOfGaussiansGradientImageFilter :
 public ImageToImageFilter<TInputImage,
-  Image<CovariantVector<TDataType, TInputImage::ImageDimension>, TInputImage::ImageDimension> >
+  Image< CovariantVector<TDataType, ExtractImageDimension<TInputImage>::ImageDimension>, 
+         ExtractImageDimension<TInputImage>::ImageDimension> >
 {
 public:
   /** Output image typedef. The output image is always an n-dimensional

@@ -27,8 +27,8 @@
 namespace itk
 {
   
-template <class TInputImage, class TOutputImage, class TComputation>
-RecursiveSeparableImageFilter<TInputImage,TOutputImage,TComputation>
+template <typename TInputImage, typename TOutputImage>
+RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 ::RecursiveSeparableImageFilter()
 {
   m_Direction = 0;
@@ -40,9 +40,9 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage,TComputation>
 /**
  * Set Input Image
  */
-template <class TInputImage, class TOutputImage, class TComputation>
+template <typename TInputImage, typename TOutputImage>
 void
-RecursiveSeparableImageFilter<TInputImage,TOutputImage,TComputation>
+RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 ::SetInputImage( const TInputImage * input )
 {
   // ProcessObject is not const_correct so this const_cast is required
@@ -56,9 +56,9 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage,TComputation>
 /**
  * Get Input Image
  */
-template <class TInputImage, class TOutputImage, class TComputation>
+template <typename TInputImage, typename TOutputImage>
 const TInputImage *
-RecursiveSeparableImageFilter<TInputImage,TOutputImage,TComputation>
+RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 ::GetInputImage( void )
 {
   return dynamic_cast<const TInputImage *>(
@@ -74,21 +74,21 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage,TComputation>
  * two internal arrays are allocate and destroyed at each time 
  * the function is called, maybe that can be factorized somehow.
  */
-template <class TInputImage, class TOutputImage, class TComputation>
+template <typename TInputImage, typename TOutputImage>
 void
-RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
-::FilterDataArray(TComputation *outs,const TComputation *data,unsigned int ln) 
+RecursiveSeparableImageFilter<TInputImage,TOutputImage>
+::FilterDataArray(RealType *outs,const RealType *data,unsigned int ln) 
 {
 
 
   if( !outs || !data ) return;
 
-  TComputation *s1 = 0;
-  TComputation *s2 = 0;
+  RealType *s1 = 0;
+  RealType *s2 = 0;
 
   try 
     {
-    s1 = new TComputation[ln];
+    s1 = new RealType[ln];
     }
   catch( std::bad_alloc &) 
     {
@@ -98,7 +98,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
 
   try
     {
-    s2 = new TComputation[ln];
+    s2 = new RealType[ln];
     }
   catch( std::bad_alloc &) 
     {
@@ -112,29 +112,29 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
    */
 
   // this value is assumed to exist from the border to infinity.
-  const TComputation outV1 = data[0];
+  const RealType outV1 = data[0];
 
   /**
    * Initialize borders
    */
-  s1[0] = TComputation( m_N00 * outV1   + m_N11 * outV1   + m_N22 * outV1   + m_N33 * outV1    );
-  s1[1] = TComputation( m_N00 * data[1] + m_N11 * outV1   + m_N22 * outV1   + m_N33 * outV1    );
-  s1[2] = TComputation( m_N00 * data[2] + m_N11 * data[1] + m_N22 * outV1   + m_N33 * outV1    );
-  s1[3] = TComputation( m_N00 * data[3] + m_N11 * data[2] + m_N22 * data[1] + m_N33 * outV1    );
+  s1[0] = RealType( m_N00 * outV1   + m_N11 * outV1   + m_N22 * outV1   + m_N33 * outV1    );
+  s1[1] = RealType( m_N00 * data[1] + m_N11 * outV1   + m_N22 * outV1   + m_N33 * outV1    );
+  s1[2] = RealType( m_N00 * data[2] + m_N11 * data[1] + m_N22 * outV1   + m_N33 * outV1    );
+  s1[3] = RealType( m_N00 * data[3] + m_N11 * data[2] + m_N22 * data[1] + m_N33 * outV1    );
 
   // note that the outV1 value is multiplied by the Boundary coefficients m_BNi
-  s1[0] -= TComputation( m_BN1 * outV1 + m_BN2 * outV1 + m_BN3 * outV1  + m_BN4 * outV1 );
-  s1[1] -= TComputation( m_D11 * s1[0] + m_BN2 * outV1 + m_BN3 * outV1  + m_BN4 * outV1 );
-  s1[2] -= TComputation( m_D11 * s1[1] + m_D22 * s1[0] + m_BN3 * outV1  + m_BN4 * outV1 );
-  s1[3] -= TComputation( m_D11 * s1[2] + m_D22 * s1[1] + m_D33 * s1[0]  + m_BN4 * outV1 );
+  s1[0] -= RealType( m_BN1 * outV1 + m_BN2 * outV1 + m_BN3 * outV1  + m_BN4 * outV1 );
+  s1[1] -= RealType( m_D11 * s1[0] + m_BN2 * outV1 + m_BN3 * outV1  + m_BN4 * outV1 );
+  s1[2] -= RealType( m_D11 * s1[1] + m_D22 * s1[0] + m_BN3 * outV1  + m_BN4 * outV1 );
+  s1[3] -= RealType( m_D11 * s1[2] + m_D22 * s1[1] + m_D33 * s1[0]  + m_BN4 * outV1 );
 
   /**
    * Recursively filter the rest
    */
   for( unsigned int i=4; i<ln; i++ ) 
     {
-    s1[i]  = TComputation( m_N00 * data[i] + m_N11 * data[i-1] + m_N22 * data[i-2] + m_N33 * data[i-3] );
-    s1[i] -= TComputation( m_D11 * s1[i-1] + m_D22 *   s1[i-2] + m_D33 *   s1[i-3] + m_D44 *   s1[i-4] );
+    s1[i]  = RealType( m_N00 * data[i] + m_N11 * data[i-1] + m_N22 * data[i-2] + m_N33 * data[i-3] );
+    s1[i] -= RealType( m_D11 * s1[i-1] + m_D22 *   s1[i-2] + m_D33 *   s1[i-3] + m_D44 *   s1[i-4] );
     }
 
   /**
@@ -142,29 +142,29 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
    */
 
   // this value is assumed to exist from the border to infinity.
-  const TComputation outV2 = data[ln-1];
+  const RealType outV2 = data[ln-1];
 
   /**
    * Initialize borders
    */
-  s2[ln-1] = TComputation( m_M11 * outV2      + m_M22 * outV2      + m_M33 * outV2      + m_M44 * outV2);
-  s2[ln-2] = TComputation( m_M11 * data[ln-1] + m_M22 * outV2      + m_M33 * outV2      + m_M44 * outV2); 
-  s2[ln-3] = TComputation( m_M11 * data[ln-2] + m_M22 * data[ln-1] + m_M33 * outV2      + m_M44 * outV2); 
-  s2[ln-4] = TComputation( m_M11 * data[ln-3] + m_M22 * data[ln-2] + m_M33 * data[ln-1] + m_M44 * outV2);
+  s2[ln-1] = RealType( m_M11 * outV2      + m_M22 * outV2      + m_M33 * outV2      + m_M44 * outV2);
+  s2[ln-2] = RealType( m_M11 * data[ln-1] + m_M22 * outV2      + m_M33 * outV2      + m_M44 * outV2); 
+  s2[ln-3] = RealType( m_M11 * data[ln-2] + m_M22 * data[ln-1] + m_M33 * outV2      + m_M44 * outV2); 
+  s2[ln-4] = RealType( m_M11 * data[ln-3] + m_M22 * data[ln-2] + m_M33 * data[ln-1] + m_M44 * outV2);
 
   // note that the outV2value is multiplied by the Boundary coefficients m_BMi
-  s2[ln-1] -= TComputation( m_BM1 * outV2    + m_BM2 * outV2    + m_BM3 * outV2    + m_BM4 * outV2);
-  s2[ln-2] -= TComputation( m_D11 * s2[ln-1] + m_BM2 * outV2    + m_BM3 * outV2    + m_BM4 * outV2);
-  s2[ln-3] -= TComputation( m_D11 * s2[ln-2] + m_D22 * s2[ln-1] + m_BM3 * outV2    + m_BM4 * outV2);
-  s2[ln-4] -= TComputation( m_D11 * s2[ln-3] + m_D22 * s2[ln-2] + m_D33 * s2[ln-1] + m_BM4 * outV2);
+  s2[ln-1] -= RealType( m_BM1 * outV2    + m_BM2 * outV2    + m_BM3 * outV2    + m_BM4 * outV2);
+  s2[ln-2] -= RealType( m_D11 * s2[ln-1] + m_BM2 * outV2    + m_BM3 * outV2    + m_BM4 * outV2);
+  s2[ln-3] -= RealType( m_D11 * s2[ln-2] + m_D22 * s2[ln-1] + m_BM3 * outV2    + m_BM4 * outV2);
+  s2[ln-4] -= RealType( m_D11 * s2[ln-3] + m_D22 * s2[ln-2] + m_D33 * s2[ln-1] + m_BM4 * outV2);
 
   /**
    * Recursively filter the rest
    */
   for( unsigned int i=ln-4; i>0; i-- ) 
     {
-    s2[i-1]  = TComputation( m_M11 * data[i] + m_M22 * data[i+1] + m_M33 * data[i+2] + m_M44 * data[i+3] );
-    s2[i-1] -= TComputation( m_D11 *   s2[i] + m_D22 *   s2[i+1] + m_D33 *   s2[i+2] + m_D44 *   s2[i+3] );
+    s2[i-1]  = RealType( m_M11 * data[i] + m_M22 * data[i+1] + m_M33 * data[i+2] + m_M44 * data[i+3] );
+    s2[i-1] -= RealType( m_D11 *   s2[i] + m_D22 *   s2[i+1] + m_D33 *   s2[i+2] + m_D44 *   s2[i+3] );
     }
 
 
@@ -174,7 +174,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
    */
   for( unsigned int i=0; i<ln; i++ ) 
     {
-    outs[i] = TComputation( m_K * ( s1[i] + s2[i] ) );
+    outs[i] = RealType( m_K * ( s1[i] + s2[i] ) );
     }
 
   delete [] s1;  
@@ -187,9 +187,9 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
  * Compute Recursive filter
  * line by line in one of the dimensions
  */
-template <class TInputImage, class TOutputImage, class TComputation>
+template <typename TInputImage, typename TOutputImage>
 void
-RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
+RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 ::GenerateData() 
 {
   typedef typename TOutputImage::PixelType  TOutputType;
@@ -238,12 +238,12 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
   
   const unsigned int ln = region.GetSize()[ this->m_Direction ];
 
-  TComputation *inps = 0;
-  TComputation *outs = 0;
+  RealType *inps = 0;
+  RealType *outs = 0;
 
   try 
     {
-    inps = new TComputation[ ln ];
+    inps = new RealType[ ln ];
     }
   catch( std::bad_alloc & ) 
     {
@@ -252,7 +252,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
 
   try 
     {
-    outs = new TComputation[ ln ];
+    outs = new RealType[ ln ];
     }
   catch( std::bad_alloc & ) 
     {
@@ -306,9 +306,9 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
 
 }
 
-template <class TInputImage, class TOutputImage, class TComputation>
+template <typename TInputImage, typename TOutputImage>
 void
-RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
+RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
@@ -318,3 +318,6 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
 } // end namespace itk
 
 #endif
+
+
+

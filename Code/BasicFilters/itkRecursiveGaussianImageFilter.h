@@ -33,17 +33,18 @@ namespace itk
  * 
  * \ingroup ImageEnhancement  Singlethreaded
  */
-template <class TInputImage, class TOutputImage, class TComputation>
+template <typename TInputImage, typename TOutputImage=TInputImage>
 class ITK_EXPORT RecursiveGaussianImageFilter :
-   public RecursiveSeparableImageFilter<TInputImage,TOutputImage,TComputation> 
+   public RecursiveSeparableImageFilter<TInputImage,TOutputImage> 
 {
 public:
   /** Standard class typedefs. */
   typedef RecursiveGaussianImageFilter  Self;
-  typedef RecursiveSeparableImageFilter<
-              TInputImage,TOutputImage,TComputation> Superclass;
+  typedef RecursiveSeparableImageFilter<TInputImage,TOutputImage> Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+
+  typedef Superclass::RealType      RealType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -52,25 +53,17 @@ public:
   itkTypeMacro( RecursiveGaussianImageFilter, RecursiveSeparableImageFilter );
 
   /** Set/Get the Sigma of the Gaussian kernel. */   
-  itkGetMacro( Sigma, TComputation );
-  itkSetMacro( Sigma, TComputation );
+  itkGetMacro( Sigma, RealType );
+  itkSetMacro( Sigma, RealType );
 
-protected:
-  RecursiveGaussianImageFilter();
-  virtual ~RecursiveGaussianImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  /** Enum type that indicates if the filter applies the equivalent operation
+      of convolving with a gaussian, first derivative of a gaussian or the 
+      second derivative of a gaussian.  */
+  typedef  enum { ZeroOrder, FirstOrder, SecondOrder } OrderEnumType;
+ 
+  /** Type of the output image */
+  typedef TOutputImage      OutputImageType;
 
-  /** Set up the coefficients of the filter to approximate a specific kernel.
-   * typically it can be used to approximate a gaussian or one of its
-   * derivatives. */
-  virtual void SetUp(void);
-
-   /** Compute Recursive Filter Coefficients this method prepares the values of
-   * the coefficients used for filtering the image. The symmetric flag is
-   * used to enforce that the filter will be symmetric or antisymmetric. For
-   * example, the Gaussian kernel is symmetric, while its first derivative is
-   * antisymmetric. */
-  void ComputeFilterCoefficients(bool symmetric);
 
   /** Set/Get the flag for normalizing the gaussian over scale Space
       When this flag is ON the filter will be normalized in such a way 
@@ -89,16 +82,43 @@ protected:
   itkSetMacro( NormalizeAcrossScale, bool );
   itkGetMacro( NormalizeAcrossScale, bool );
 
+  /** Set/Get the Order of the Gaussian to convolve with. 
+      \li ZeroOrder is equivalent to convolving with a Gaussian
+      \li FirstOrder is equivalet to convolving with the first derivative of a Gaussian
+      \li SecondOrder is equivalet to convolving with the second derivative of a Gaussian
+    */
+   itkSetMacro( Order, OrderEnumType );
+   itkGetMacro( Order, OrderEnumType );
   
+   
+protected:
+  RecursiveGaussianImageFilter();
+  virtual ~RecursiveGaussianImageFilter() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
+  /** Set up the coefficients of the filter to approximate a specific kernel.
+   * typically it can be used to approximate a gaussian or one of its
+   * derivatives. */
+  virtual void SetUp(void);
+
+   /** Compute Recursive Filter Coefficients this method prepares the values of
+   * the coefficients used for filtering the image. The symmetric flag is
+   * used to enforce that the filter will be symmetric or antisymmetric. For
+   * example, the Gaussian kernel is symmetric, while its first derivative is
+   * antisymmetric. */
+  void ComputeFilterCoefficients(bool symmetric);
+
 private:  
   RecursiveGaussianImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   /** Sigma of the gaussian kernel. */   
-  TComputation m_Sigma;
+  RealType m_Sigma;
 
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale; 
+
+  OrderEnumType   m_Order;
 
 };
 

@@ -15,8 +15,6 @@
 
 =========================================================================*/
 #include <itkImage.h>
-#include <itkFirstDerivativeRecursiveGaussianImageFilter.h>
-#include <itkSecondDerivativeRecursiveGaussianImageFilter.h>
 #include <itkImageRegionIteratorWithIndex.h>
 #include <itkSphereMeshSource.h>
 #include <itkDeformableMesh3DFilter.h>
@@ -153,8 +151,8 @@ int itkDeformableTest(int, char**)
 
   typedef itk::GradientRecursiveGaussianImageFilter<
                                             myImageType,
-                                            myGradientImageType,
-                                            double       >  myFilterType;
+                                            myGradientImageType
+                                                  >  myFilterType;
             
   // Create a  Filter                                
   myFilterType::Pointer filter = myFilterType::New();
