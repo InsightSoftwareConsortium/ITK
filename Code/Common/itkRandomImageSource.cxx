@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRandomImage.cxx
+  Module:    itkRandomImageSource.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,27 +13,27 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "itkRandomImage.h"
+#include "itkRandomImageSource.h"
 
 //------------------------------------------------------------------------
 template <class TOutputImage>
-itkRandomImage<TOutputImage>::Pointer 
-itkRandomImage<TOutputImage>
+itkRandomImageSource<TOutputImage>::Pointer 
+itkRandomImageSource<TOutputImage>
 ::New()
 {
-  return itkRandomImage::Pointer(new itkRandomImage<TOutputImage>);
+  return itkRandomImageSource::Pointer(new itkRandomImageSource<TOutputImage>);
 }
 
 //----------------------------------------------------------------------------
 template <class TOutputImage>
-itkRandomImage<TOutputImage>
-::itkRandomImage()
+itkRandomImageSource<TOutputImage>
+::itkRandomImageSource()
 {
 }
 
 //----------------------------------------------------------------------------
 template <class TOutputImage>
-void itkRandomImage<TOutputImage>
+void itkRandomImageSource<TOutputImage>
 ::PrintSelf(std::ostream& os, itkIndent indent)
 {
   itkImageSource<TOutputImage>::PrintSelf(os,indent);
@@ -42,7 +42,7 @@ void itkRandomImage<TOutputImage>
 
 //----------------------------------------------------------------------------
 template <class TOutputImage>
-void itkRandomImage<TOutputImage>
+void itkRandomImageSource<TOutputImage>
 ::Execute()
 {
   itkDebugMacro(<<"Actually executing");

@@ -25,7 +25,7 @@ See COPYRIGHT.txt for copyright details.
 
 #ifndef __itkSetGet_h
 #define __itkSetGet_h
-#include <string.h>
+#include <string>
 #include "itkWin32Header.h"
 //
 // Some constants used throughout code
@@ -140,7 +140,8 @@ extern ITK_EXPORT void itkOutputWindowDisplayText(const char*);
              << "\n\n" << ends; \
       itkmsgbuff = itkmsg.str(); \
       itkOutputWindowDisplayText(itkmsgbuff);\
-      itkmsg.rdbuf()->freeze(0);}}
+      itkmsg.rdbuf()->freeze(0);}
+}
 #endif
 
 #define itkWarningMacro(x)

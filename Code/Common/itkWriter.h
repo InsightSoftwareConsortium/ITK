@@ -21,7 +21,6 @@
 #define __itkWriter_h
 
 #include "itkProcessObject.h"
-#include <string>
 
 #define ITK_ASCII 0
 #define ITK_BINARY 1

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRandomImage.h
+  Module:    itkRandomImageSource.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,23 +14,28 @@
 
 =========================================================================*/
 /**
- * itkRandomImage generates an image of the specified size consisting
+ * itkRandomImageSource generates an image of the specified size consisting
  * of random values. All the components of the output image are set to
  * random values.
  */
-#ifndef __itkRandomImage_h
-#define __itkRandomImage_h
+#ifndef __itkRandomImageSource_h
+#define __itkRandomImageSource_h
 
 #include "itkImageSource.h"
 
 template <class TOutputImage>
-class ITK_EXPORT itkRandomImage : public itkImageSource<TOutputImage>
+class ITK_EXPORT itkRandomImageSource : public itkImageSource<TOutputImage>
 {
 public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef itkSmartPointer< itkRandomImage<TOutputImage> > Pointer;
+  typedef itkSmartPointer< itkRandomImageSource<TOutputImage> > Pointer;
+
+  /** 
+   * Run-time type information (and related methods).
+   */
+  vtkTypeMacro(itkRandomImageSourceSource,itkImageSource);
 
   /** 
    * Create the source with one output initially.
@@ -38,10 +43,10 @@ public:
   static Pointer New();
 
 protected:
-  itkRandomImage();
-  ~itkRandomImage() {};
-  itkRandomImage(const itkRandomImage&) {};
-  void operator=(const itkRandomImage&) {};
+  itkRandomImageSource();
+  ~itkRandomImageSource() {};
+  itkRandomImageSource(const itkRandomImageSource&) {};
+  void operator=(const itkRandomImageSource&) {};
   void PrintSelf(std::ostream& os, itkIndent indent);
   
   void Execute();
@@ -51,7 +56,7 @@ private:
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRandomImage.cxx"
+#include "itkRandomImageSource.cxx"
 #endif
 
 #endif
