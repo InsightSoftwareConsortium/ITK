@@ -34,7 +34,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
 /**
  * standard 
- */
+ *
 template <typename TInputMesh, typename TOutputMesh>
 BalloonForceFilter<TInputMesh, TOutputMesh>
 ::~BalloonForceFilter()
@@ -44,7 +44,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 //  m_Derives->Delete();
 //  m_Normals->Delete();
 //  m_Locations->Delete();
-}
+}*/
 
 /**
  * PrintSelf
