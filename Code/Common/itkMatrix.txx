@@ -96,18 +96,6 @@ Matrix<T, NRows, NColumns>
 
  
 /**
- *  Product by a Matrix
- */
-template<class T, unsigned int NRows, unsigned int NColumns >
-vnl_matrix<T> 
-Matrix<T, NRows, NColumns>
-::operator*( const vnl_matrix<T> & matrix ) const
-{
-  return vnl_matrix<T>::operator*( matrix );
-}
-
- 
-/**
  *  Assignment
  */
 template<class T, unsigned int NRows, unsigned int NColumns >

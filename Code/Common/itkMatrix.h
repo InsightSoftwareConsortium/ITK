@@ -64,12 +64,6 @@ class Matrix : public vnl_matrix_fixed<T,NRows,NColumns> {
                  const CovariantVector<T,NColumns> & vector) const;
  
   /**
-   * Matrix by Matrix multiplication. 
-   */
-  inline vnl_matrix<T> operator*( const vnl_matrix<T> & matrix) const;
- 
-
-  /**
    * Assignment Operator
    */
   inline const Self & operator=( const vnl_matrix<T> & matrix);
