@@ -113,6 +113,22 @@ int main( int argc, char * argv[] )
   resampler->SetInput( movingReader->GetOutput() );
   
   movingWriter->SetInput( resampler->GetOutput() );
+//  Software Guide : EndCodeSnippet
+
+
+//  Software Guide : BeginLatex
+//
+//  We instantiate now the type of the \code{BSplineDeformableTransform} using
+//  as template parameters the type for coordinates representation, the
+//  dimension of the space, and the order of the BSpline. 
+// 
+//  \index{BSplineDeformableTransform|New}
+//  \index{BSplineDeformableTransform|Instantiation}
+//
+//  Software Guide : EndLatex 
+
+
+// Software Guide : BeginCodeSnippet
 
   const unsigned int SpaceDimension = ImageDimension;
   const unsigned int SplineOrder = 3;
@@ -122,17 +138,31 @@ int main( int argc, char * argv[] )
                             CoordinateRepType,
                             SpaceDimension,
                             SplineOrder >     TransformType;
-   
-
   
   TransformType::Pointer bsplineTransform = TransformType::New();
 
-  resampler->SetTransform( bsplineTransform );
+//  Software Guide : EndCodeSnippet
 
 
-  /**
-   * Define the deformable grid region, spacing and origin
-   */
+//  Software Guide : BeginLatex
+//
+//  Since we are using a BSpline of order 3, the coverage of the BSpling grid
+//  should exceed by one the spatial extent of the image. We choose here to use
+//  a $10 \times 10$ BSpline grid, from which only a $8 \times 8$ sub-grid will
+//  be covering the input image. If we use an input image of size $256 \times
+//  256$ pixels, and pixel spacing $1.0 \times 1.0$ then we need the $8\times8$
+//  BSpline grid to cover a physical extent of $256 \times 256$ mm. This can be
+//  achieved by setting the pixel spacing of the BSpline grid to $32.0 \times
+//  32.0$. The origin of the BSpline grid must also be set at the negative
+//  value of one grid square, in this case to $(-32.0,-32.0)$.  All this is
+//  done with the following lines of code.
+// 
+//  \index{BSplineDeformableTransform}
+//
+//  Software Guide : EndLatex 
+
+
+// Software Guide : BeginCodeSnippet
   typedef TransformType::RegionType RegionType;
   RegionType bsplineRegion;
   RegionType::SizeType   size;
@@ -163,9 +193,33 @@ int main( int argc, char * argv[] )
   const unsigned int numberOfNodes = numberOfParameters / SpaceDimension;
 
   ParametersType parameters( numberOfParameters );
+//  Software Guide : EndCodeSnippet
 
 
-  //  Read the coefficients from an input file
+
+
+//  Software Guide : BeginLatex
+//
+//  The BSpline grid should now be fed with coeficients at each node. Since
+//  this is a two dimensional grid, each node should receive two coefficients.
+//  Each coefficient pair is representing a displacement vector at this node.
+//  The coefficients can be passed to the BSpline in the form of an array where
+//  the first set of elements are the first component of the displacements for
+//  all the nodes, and the second set of elemets is formed by the second
+//  component of the displacements for all the nodes.
+//
+//  In this example we read such displacements from a file, but for convinience
+//  we have written this file using the pairs of $(x,y)$ displacement for every
+//  node. The elements read from the file should therefore be reorganized when
+//  assigned to the elements of the array. We do this by storing all the odd
+//  elements from the file in the first block of the array, and all the even
+//  elements from the file in the second block of the array. Finally the array
+//  is passed to the BSpline transform using the \code{SetParameters()}.
+//
+//  Software Guide : EndLatex 
+
+
+// Software Guide : BeginCodeSnippet
   std::ifstream infile;
 
   infile.open( argv[1] );
@@ -177,12 +231,38 @@ int main( int argc, char * argv[] )
     } 
 
   infile.close();
+//  Software Guide : EndCodeSnippet
 
+
+
+//  Software Guide : BeginLatex
+//
+//   Finally the array is passed to the BSpline transform using the
+//   \code{SetParameters()}.
+//
+//  Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
 
   bsplineTransform->SetParameters( parameters );
 
-  bsplineTransform->Print( std::cout );
+//  Software Guide : EndCodeSnippet
 
+
+
+  
+
+//  Software Guide : BeginLatex
+//
+//  At this point we are ready to use the transform as part of the resample
+//  filter. We trigger the execution of the pipeline by invoking
+//  \code{Update()} on the last filter of the pipeline, in this case writer.
+//  
+//  Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+  resampler->SetTransform( bsplineTransform );
+  
   try
     {
     movingWriter->Update();
@@ -193,11 +273,8 @@ int main( int argc, char * argv[] )
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
-
+//  Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;
-
-//  Software Guide : EndLatex
-
 }
 
