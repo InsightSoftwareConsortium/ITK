@@ -62,9 +62,10 @@ public:
    * Some typedefs.
    */
   typedef TInputMesh InputMeshType;
-  typedef itk::Image<unsigned char> ImageType;
+  typedef itk::Image<unsigned short, 3> ImageType;
   typedef typename InputMeshType::Pointer InputMeshPointer;
   typedef typename ImageType::Pointer ImagePointer;
+  typedef typename ImageType::IndexType IndexType;
 
   typedef itk::Vector<float, 3> FloatVector;
   typedef itk::Vector<int, 3> IntVector;
@@ -83,6 +84,7 @@ public:
   void Advance();
   void SetStiffness(double a, double b);
   void SetResolution(int a, int b, int c);
+  void SetCenter(int a, int b, int c);
   void Reset();
   void ComputeDt();
   void ComputeOutput();
@@ -118,6 +120,7 @@ protected:
   double Stiffness[2];
   double TimeStep;
   int Resolution[3];
+  int Center[3];
 
   ImagePointer Potential;
   
