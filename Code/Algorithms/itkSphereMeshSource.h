@@ -111,6 +111,10 @@ protected:
 
   void GenerateData();
 
+private:
+  SphereMeshSource(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   /** model center. */
   OPointType m_Center; 
 
