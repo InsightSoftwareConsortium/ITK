@@ -30,6 +30,7 @@
 #include "itkMetaLineConverter.h"
 #include "itkMetaSurfaceConverter.h"
 #include "itkMetaLandmarkConverter.h"
+#include "itkMetaArrowConverter.h"
 
 #include "itkSceneSpatialObject.h"
 #include "itkEllipseSpatialObject.h"
@@ -42,6 +43,7 @@
 #include "itkSurfaceSpatialObject.h"
 #include "itkLandmarkSpatialObject.h"
 #include "itkMeshSpatialObject.h"
+#include "itkArrowSpatialObject.h"
 
 #include <algorithm>
 
@@ -193,6 +195,15 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
       MetaEllipseConverter<NDimensions> ellipseConverter;
       typename itk::EllipseSpatialObject<NDimensions>::Pointer so = 
           ellipseConverter.MetaEllipseToEllipseSpatialObject((MetaEllipse*)*it);
+      this->SetTransform(so, *it) ;
+      soScene->AddSpatialObject( so);
+    }
+
+    if(!strncmp((*it)->ObjectTypeName(),"Arrow",5))
+    {
+      MetaArrowConverter<NDimensions> arrowConverter;
+      typename itk::ArrowSpatialObject<NDimensions>::Pointer so = 
+          arrowConverter.MetaArrowToArrowSpatialObject((MetaArrow*)*it);
       this->SetTransform(so, *it) ;
       soScene->AddSpatialObject( so);
     }
@@ -378,6 +389,23 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
       ellipse->Name((*it)->GetProperty()->GetName().c_str());
       this->SetTransform(ellipse, (*it)->GetObjectToParentTransform()) ;
       metaScene->AddObject(ellipse);
+      }
+
+    
+    if(!strncmp((*it)->GetTypeName(),"ArrowSpatialObject",18))
+      {
+      MetaArrowConverter<NDimensions> converter;
+      MetaArrow* arrow = converter.ArrowSpatialObjectToMetaArrow(
+          dynamic_cast<itk::ArrowSpatialObject<NDimensions>*>(
+               (*it).GetPointer()));
+      
+      if((*it)->GetParent())
+        {
+        arrow->ParentID((*it)->GetParent()->GetId());
+        }
+      arrow->Name((*it)->GetProperty()->GetName().c_str());
+      this->SetTransform(arrow, (*it)->GetObjectToParentTransform()) ;
+      metaScene->AddObject(arrow);
       }
     
     if(!strncmp((*it)->GetTypeName(),"ImageSpatialObject",17))
