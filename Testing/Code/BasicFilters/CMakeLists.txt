@@ -692,7 +692,17 @@ IF(ITK_CSWIG_PYTHON)
            ${ITK_TEST_OUTPUT_DIR}/SigmoidImageFilterPythonTest.png
            0 255  1.0  128  )
 
+  ADD_TEST(ThresholdImageFilterPython ${PYTHON_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/ThresholdImageFilter.py
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/ThresholdImageFilterPythonTest.png
+           0 150 )
 
+  ADD_TEST(BinaryThresholdImageFilterPython ${PYTHON_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/BinaryThresholdImageFilter.py
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/BinaryThresholdImageFilterPythonTest.png
+           0 255 150 )
 
 ENDIF(ITK_CSWIG_PYTHON)
 
@@ -700,10 +710,13 @@ IF(ITK_CSWIG_JAVA)
   SET(JAVACLASSPATH $ENV{CLASSPATH} )
 
   FOREACH( javatestfile 
-     MeanImageFilter
+     BinaryThresholdImageFilter
      CurvatureFlowImageFilter
      CurvatureAnisotropicDiffusionImageFilter
      GradientAnisotropicDiffusionImageFilter
+     MeanImageFilter
+     MedianImageFilter
+     ThresholdImageFilter
      )
 
   ADD_CUSTOM_TARGET(${javatestfile}Java ALL  DEPENDS ${ITK_BINARY_DIR}/Examples/Filtering/${javatestfile}.class)
@@ -723,6 +736,11 @@ IF(ITK_CSWIG_JAVA)
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/MeanImageFilterJavaTest.png  1 )  
 
+  ADD_TEST(MedianImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
+           MedianImageFilter
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/MedianImageFilterJavaTest.png  1 )  
+
   ADD_TEST(CurvatureFlowImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
            CurvatureFlowImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
@@ -737,6 +755,16 @@ IF(ITK_CSWIG_JAVA)
            GradientAnisotropicDiffusionImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterJavaTest.png 5 0.125 3.0)  
+
+  ADD_TEST(ThresholdImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
+           ThresholdImageFilter
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+           ${ITK_TEST_OUTPUT_DIR}/ThresholdImageFilterJavaTest.png  0 150)  
+
+  ADD_TEST(BinaryThresholdImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
+           BinaryThresholdImageFilter
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+           ${ITK_TEST_OUTPUT_DIR}/BinaryThresholdImageFilterJavaTest.png 150 180 0 255 )  
 
 ENDIF(ITK_CSWIG_JAVA)
 
