@@ -38,6 +38,8 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 {
 // Modify superclass default values, set default values,
 // can be overridden by subclasses
+  m_ObjectLabel = 1;
+  m_ClusterSize = 10;
   m_BoundaryGradient = 7;
   m_BoundaryWeight = 1;
   m_GibbsPriorWeight = 1;
