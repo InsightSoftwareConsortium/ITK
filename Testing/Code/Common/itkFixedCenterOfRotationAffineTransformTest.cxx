@@ -82,9 +82,9 @@ int itkFixedCenterOfRotationAffineTransformTest(int, char *[])
   point2[1] = 1;
 
   FCoRAffine2DType::Pointer aff2 = FCoRAffine2DType::New();
+  aff2->SetCenterOfRotationComponent( point2 );
   aff2->SetMatrixComponent( matrix2 );
   aff2->SetOffsetComponent( vector2 );
-  aff2->SetCenterOfRotationComponent( point2 );
 
   std::cout << "Instantiation of a given 2D transform: ";
   
