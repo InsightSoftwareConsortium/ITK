@@ -94,6 +94,9 @@ TARGET_LINK_LIBRARIES(ResampleImageFilter4 ITKCommon ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(ResampleImageFilter5 ResampleImageFilter5.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter5 ITKCommon ITKBasicFilters ITKIO)
 
+ADD_EXECUTABLE(ResampleVolumesToBeIsotropic ResampleVolumesToBeIsotropic.cxx )
+TARGET_LINK_LIBRARIES(ResampleVolumesToBeIsotropic ITKCommon ITKBasicFilters ITKIO)
+
 ADD_EXECUTABLE(LaplacianImageFilter LaplacianImageFilter.cxx )
 TARGET_LINK_LIBRARIES(LaplacianImageFilter ITKCommon ITKBasicFilters ITKIO)
 
