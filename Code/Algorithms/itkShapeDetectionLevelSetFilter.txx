@@ -17,6 +17,7 @@
 #ifndef _itkShapeDetectionLevelSetFilter_txx
 #define _itkShapeDetectionLevelSetFilter_txx
 
+#include "itkShapeDetectionLevelSetFilter.h"
 #include "itkLevelSetCurvatureFunction.h"
 #include "itkEntropyPreservingGradientMagnitudeImageFunction.h"
 #include "itkImageRegionIterator.h"

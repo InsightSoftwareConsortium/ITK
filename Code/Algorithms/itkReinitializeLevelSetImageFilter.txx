@@ -17,6 +17,7 @@
 #ifndef _itkReinitializeLevelSetImageFilter_txx
 #define _itkReinitializeLevelSetImageFilter_txx
 
+#include "itkReinitializeLevelSetImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkIndex.h"
 
