@@ -326,26 +326,27 @@ void itkDataObject::CopyInformation(itkDataObject *data)
 
 bool itkDataObject::UpdateExtentIsOutsideOfTheExtent()
 {
+  int i;
+
   switch ( this->GetExtentType() )
     {
     case ITK_UNSTRUCTURED_EXTENT:
       if ( m_UpdatePiece != m_Piece ||
-	   m_UpdateNumberOfPieces != m_NumberOfPieces )
-	{
+           m_UpdateNumberOfPieces != m_NumberOfPieces )
+        {
         return true;
-	}
+        }
       break;
 
     case ITK_STRUCTURED_EXTENT:
-      if ( m_UpdateExtent[0] < m_Extent[0] ||
-	   m_UpdateExtent[1] > m_Extent[1] ||
-	   m_UpdateExtent[2] < m_Extent[2] ||
-	   m_UpdateExtent[3] > m_Extent[3] ||
-	   m_UpdateExtent[4] < m_Extent[4] ||
-	   m_UpdateExtent[5] > m_Extent[5] )
-	{
-        return true;
-	}
+      for (i=0; i<m_Dimension; i++)
+        {
+        if ( m_UpdateExtent[2*i] < m_Extent[2*i] ||
+             m_UpdateExtent[2*i+1] > m_Extent[2*i+1] )
+          {
+          return true;
+          }
+        }
       break;
 
     // We should never have this case occur
@@ -359,56 +360,41 @@ bool itkDataObject::UpdateExtentIsOutsideOfTheExtent()
 bool itkDataObject::VerifyUpdateExtent()
 {
   bool retval = true;
+  int i;
 
   switch ( this->GetExtentType() )
     {
     // Are we asking for more pieces than we can get?
     case ITK_UNSTRUCTURED_EXTENT:
       if ( m_UpdateNumberOfPieces > m_MaximumNumberOfPieces )
-	{
-	itkErrorMacro( << "Cannot break object into " <<
-	               m_UpdateNumberOfPieces << ". The limit is " <<
-	               m_MaximumNumberOfPieces );
-	retval = false;
-	}
+        {
+        itkErrorMacro( << "Cannot break object into " <<
+                       m_UpdateNumberOfPieces << ". The limit is " <<
+                       m_MaximumNumberOfPieces );
+        retval = false;
+        }
 
       if ( m_UpdatePiece >= m_UpdateNumberOfPieces ||
-	   m_UpdatePiece < 0 )
-	{
-	  itkErrorMacro( << "Invalid update piece " << m_UpdatePiece
-	                 << ". Must be between 0 and " 
-	                 << m_UpdateNumberOfPieces - 1);
-	retval = false;
-	}
+           m_UpdatePiece < 0 )
+        {
+          itkErrorMacro( << "Invalid update piece " << m_UpdatePiece
+                         << ". Must be between 0 and " 
+                         << m_UpdateNumberOfPieces - 1);
+        retval = false;
+        }
       break;
 
     // Is our update extent within the whole extent?
     case ITK_STRUCTURED_EXTENT:
-      if ( m_UpdateExtent[0] < m_WholeExtent[0] ||
-	   m_UpdateExtent[1] > m_WholeExtent[1] ||
-	   m_UpdateExtent[2] < m_WholeExtent[2] ||
-	   m_UpdateExtent[3] > m_WholeExtent[3] ||
-	   m_UpdateExtent[4] < m_WholeExtent[4] ||
-	   m_UpdateExtent[5] > m_WholeExtent[5] )
-	{
-	itkErrorMacro( << "Update extent does not lie within whole extent" );
-	itkErrorMacro( << "Update extent is: " <<
-	m_UpdateExtent[0] << ", " <<
-	m_UpdateExtent[1] << ", " <<
-	m_UpdateExtent[2] << ", " <<
-	m_UpdateExtent[3] << ", " <<
-	m_UpdateExtent[4] << ", " <<
-	m_UpdateExtent[5]);
-	itkErrorMacro( << "Whole extent is: " <<
-	m_WholeExtent[0] << ", " <<
-	m_WholeExtent[1] << ", " <<
-	m_WholeExtent[2] << ", " <<
-	m_WholeExtent[3] << ", " <<
-	m_WholeExtent[4] << ", " <<
-	m_WholeExtent[5]);
-	
-	retval = false;
-	}
+      for (i=0; i<m_Dimension; i++)
+        {
+        if ( m_UpdateExtent[2*i] < m_WholeExtent[2*i] ||
+             m_UpdateExtent[2*i+1] > m_WholeExtent[2*i+1] )
+          {
+          itkErrorMacro( << "Update extent does not lie within whole extent" );
+          retval = false;
+          }
+        }
       break;
 
     // We should never have this case occur
