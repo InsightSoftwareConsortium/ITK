@@ -253,7 +253,7 @@ public:
 
   /** 
    * Get the origin of the image. The origin is the geometric
-   * coordinates of the image origin.  The value returned is
+   * coordinates of the index (0,0).  The value returned is
    * a pointer to a double array.
    * \sa SetOrigin()
    */
