@@ -317,7 +317,7 @@ ProcessObject
 ::UpdateProgress(float amount)
 {
   m_Progress = amount;
-  this->InvokeEvent(Command::ProgressEvent, 0);
+  this->InvokeEvent(Command::ProgressEvent);
 }
 
 
@@ -640,7 +640,7 @@ ProcessObject
       }
     }
  
-  this->InvokeEvent(Command::StartEvent, 0);
+  this->InvokeEvent(Command::StartEvent);
 
   /**
    * GenerateData this object - we have not aborted yet, and our progress
@@ -667,7 +667,7 @@ ProcessObject
     }
 
   // Notify end event observers
-  this->InvokeEvent(Command::EndEvent, 0);
+  this->InvokeEvent(Command::EndEvent);
 
   /**
    * Now we have to mark the data as up to data.

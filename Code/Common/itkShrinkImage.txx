@@ -83,15 +83,15 @@ ShrinkImage<TInputImage,TOutputImage>
   if ( threadId == 0 )
     {
     updateVisits = 
-      outputPtr->GetRequestedRegion().GetNumberOfPixels();
+      outputPtr->GetRequestedRegion().GetNumberOfPixels()/10;
     }
-
+        
   // walk the output region, and sample the input image
   for ( int i=0; !outIt.IsAtEnd(); ++outIt, i++ )
     {
     if ( threadId == 0 && !(i % updateVisits ) )
       {
-      this->UpdateProgress((float)i/(updateVisits*10.0));
+      this->UpdateProgress((float)i/(float(updateVisits)*10.0));
       }
     
     // determine the index of the output pixel

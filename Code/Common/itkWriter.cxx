@@ -54,11 +54,11 @@ Writer
     }
 
   this->GetInput(0)->Update();
-  this->InvokeEvent(Command::StartEvent, 0);
+  this->InvokeEvent(Command::StartEvent);
 
   this->WriteData();
   // Notify end event observers
-  this->InvokeEvent(Command::EndEvent, 0);
+  this->InvokeEvent(Command::EndEvent);
 
   if ( this->GetInput(0)->ShouldIReleaseData() )
     {

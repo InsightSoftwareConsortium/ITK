@@ -110,13 +110,18 @@ public:
    * This is an implementation of the subject/observer design pattern. An 
    * observer is added by specifying an event to respond to and an itk::Command
    * to execute. It returns an unsigned long tag which can be used later to
-   * remove the event or retrieve the command.
+   * remove the event or retrieve the command.  The memory for the Command
+   * becomes the responsibility of this object, so don't pass the same 
+   * instance of a command to two different objects
    */
   unsigned long AddObserver(unsigned long event, Command *);
   unsigned long AddObserver(const char *event, Command *);
+  // this can not return a smart pointer, but can be assigned to one.
+  // Command is a sub-class of this class (LightObject), so can not be used as an object
+  // until after this class is defined
   Command *GetCommand(unsigned long tag);
-  void InvokeEvent(unsigned long event, void *callData);
-  void InvokeEvent(const char *event, void *callData);
+  void InvokeEvent(unsigned long event);
+  void InvokeEvent(const char *event);
   void RemoveObserver(unsigned long tag);
   int HasObserver(unsigned long event);
   int HasObserver(const char *event);

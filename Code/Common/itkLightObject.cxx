@@ -24,8 +24,13 @@ namespace itk
 class Observer
 {
 public:
-  Observer(Command* c) :m_Command(c) { }
-  std::auto_ptr<Command> m_Command;
+  Observer(Command* c, 
+           unsigned long event,
+           unsigned long tag) :m_Command(c),
+                               m_Event(event),
+                               m_Tag(tag)
+    { }
+  Command::Pointer m_Command;
   unsigned long m_Event;
   unsigned long m_Tag;
 };
@@ -38,7 +43,7 @@ public:
   ~SubjectImplementation();
   unsigned long AddObserver(unsigned long event, Command* cmd);
   void RemoveObserver(unsigned long tag);
-  void InvokeEvent(unsigned long event, void* data, LightObject* self);
+  void InvokeEvent(unsigned long event, LightObject* self);
   Command *GetCommand(unsigned long tag);
   bool HasObserver(unsigned long event);
 private:
@@ -62,9 +67,8 @@ SubjectImplementation::
 AddObserver(unsigned long event,
 	    Command* cmd)
 {
-  Observer* ptr = new Observer(cmd);
+  Observer* ptr = new Observer(cmd, event, m_Count);
   m_Observers.push_back(ptr);
-  ptr->m_Tag = m_Count;
   m_Count++;
   return ptr->m_Tag;
 }
@@ -89,7 +93,6 @@ RemoveObserver(unsigned long tag)
 void 
 SubjectImplementation::
 InvokeEvent(unsigned long event,
-	    void* data,
 	    LightObject* self)
 {
   for(std::list<Observer* >::iterator i = m_Observers.begin();
@@ -97,7 +100,7 @@ InvokeEvent(unsigned long event,
     {
     if( (*i)->m_Event == event)
       {
-      (*i)->m_Command->Execute(self, data);
+      (*i)->m_Command->Execute(self, event);
       }
     }
 }
@@ -110,7 +113,7 @@ GetCommand(unsigned long tag)
     {
     if ( (*i)->m_Tag == tag)
       {
-      return (*i)->m_Command.get();
+      return (*i)->m_Command;
       }
     }
   return 0;
@@ -246,7 +249,7 @@ LightObject
     /**
      * If there is a delete method, invoke it.
      */
-    this->InvokeEvent(Command::DeleteEvent, 0);
+    this->InvokeEvent(Command::DeleteEvent);
     delete this;
     }
 }
@@ -265,7 +268,7 @@ LightObject
     /**
      * If there is a delete method, invoke it.
      */
-    this->InvokeEvent(Command::DeleteEvent, 0);
+    this->InvokeEvent(Command::DeleteEvent);
     delete this;
     }
 }
@@ -380,17 +383,17 @@ void LightObject::RemoveObserver(unsigned long tag)
     }
 }
 
-void LightObject::InvokeEvent(unsigned long event, void *callData)
+void LightObject::InvokeEvent(unsigned long event)
 {
   if (this->m_SubjectImplementation)
     {
-    this->m_SubjectImplementation->InvokeEvent(event,callData, this);
+    this->m_SubjectImplementation->InvokeEvent(event,this);
     }
 }
 
-void LightObject::InvokeEvent(const char *event, void *callData)
+void LightObject::InvokeEvent(const char *event)
 {
-  this->InvokeEvent(Command::GetEventIdFromString(event), callData);
+  this->InvokeEvent(Command::GetEventIdFromString(event));
 }
 
 int LightObject::HasObserver(unsigned long event)
