@@ -129,7 +129,7 @@ public:
   typedef Array<double> ScalesType;
 
   /** Sets the derivative step length scales. */
-  inline void SetDerivateStepLengthScales(ScalesType const& scales)
+  inline void SetDerivativeStepLengthScales(ScalesType const& scales)
     {
       m_DerivativeStepLengthScales = scales;
     }
