@@ -25,9 +25,9 @@
 int itkTIFFImageIOTest( int ac, char* av[] )
 {
 
-  if(ac < 3)
+  if(ac < 4)
     {
-    std::cerr << "Usage: " << av[0] << " Input Output\n";
+    std::cerr << "Usage: " << av[0] << " Input Output [dimensionality:default 2]\n";
     return EXIT_FAILURE;
     }
   
@@ -37,14 +37,34 @@ int itkTIFFImageIOTest( int ac, char* av[] )
 
   typedef itk::Image<PixelType, 2> myImage;
 
+  typedef itk::Image<unsigned char, 3> myImage3D;
+
   itk::ImageFileReader<myImage>::Pointer reader 
                                   = itk::ImageFileReader<myImage>::New();
-  
-  reader->SetFileName(av[1]);
+
+  itk::ImageFileReader<myImage3D>::Pointer reader3D 
+                                  = itk::ImageFileReader<myImage3D>::New();
+
+  if((ac == 4) && (!strcmp(av[3],"3")))
+    {
+    reader3D->SetFileName(av[1]);
+    }
+  else
+    {
+    reader->SetFileName(av[1]);
+    }
+
 
   try
     {
-    reader->Update();
+    if((ac == 4) && (!strcmp(av[3],"3")))
+      {
+      reader3D->Update();
+      }
+    else
+      {
+      reader->Update();
+      }
     }
   catch (itk::ExceptionObject & e)
     {
@@ -54,19 +74,38 @@ int itkTIFFImageIOTest( int ac, char* av[] )
     return EXIT_FAILURE;
     }
   
-  myImage::Pointer image = reader->GetOutput();
+  if((ac == 4) && (!strcmp(av[3],"3")))
+    {
+    myImage3D::Pointer image = reader3D->GetOutput();
 
-  image->Print(std::cout );
+    image->Print(std::cout );
 
-  myImage::RegionType region = image->GetLargestPossibleRegion();
-  std::cout << "region " << region;
+    myImage3D::RegionType region = image->GetLargestPossibleRegion();
+    std::cout << "region " << region;
 
-  // Generate test image
-  itk::ImageFileWriter<myImage>::Pointer writer;
-  writer = itk::ImageFileWriter<myImage>::New();
-  writer->SetInput( reader->GetOutput() );
-  writer->SetFileName(av[2]);
-  writer->Update();
+    // Generate test image
+    itk::ImageFileWriter<myImage3D>::Pointer writer;
+    writer = itk::ImageFileWriter<myImage3D>::New();
+    writer->SetInput( reader3D->GetOutput() );
+    writer->SetFileName(av[2]);
+    writer->Update();
+    }
+  else
+    {
+    myImage::Pointer image = reader->GetOutput();
+
+    image->Print(std::cout );
+
+    myImage::RegionType region = image->GetLargestPossibleRegion();
+    std::cout << "region " << region;
+
+    // Generate test image
+    itk::ImageFileWriter<myImage>::Pointer writer;
+    writer = itk::ImageFileWriter<myImage>::New();
+    writer->SetInput( reader->GetOutput() );
+    writer->SetFileName(av[2]);
+    writer->Update();
+    }
 
   return EXIT_SUCCESS;
 
