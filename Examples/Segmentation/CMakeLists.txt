@@ -71,7 +71,7 @@ SET(SEGMENTATION_EXAMPLES ${CXX_TEST_PATH}/SegmentationExamples)
 SET(SEGMENTATION_EXAMPLES2 ${CXX_TEST_PATH}/SegmentationExamples2)
 SET(SEGMENTATION_EXAMPLES3 ${CXX_TEST_PATH}/SegmentationExamples3)
 SET(SEGMENTATION_EXAMPLES4 ${CXX_TEST_PATH}/SegmentationExamples4)
-
+SET(SEGMENTATION_EXAMPLES5 ${CXX_TEST_PATH}/SegmentationExamples5)
 
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Segmentation)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
@@ -341,7 +341,7 @@ ADD_TEST(ThresholdSegmentationLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES2}
         107 69 5 180 210
 )
 
-ADD_TEST(WatershedSegmentation1Test1 ${SEGMENTATION_EXAMPLES3}
+ADD_TEST(WatershedSegmentation1Test1 ${SEGMENTATION_EXAMPLES5}
   --compare ${BASELINE}/WatershedSegmentation1Test1.png
             ${TEMP}/WatershedSegmentation1Test1.png
   WatershedSegmentation1Test
@@ -350,7 +350,7 @@ ADD_TEST(WatershedSegmentation1Test1 ${SEGMENTATION_EXAMPLES3}
         2.0 10 0.0 0.05 1
 )
 
-ADD_TEST(WatershedSegmentation1Test2 ${SEGMENTATION_EXAMPLES3}
+ADD_TEST(WatershedSegmentation1Test2 ${SEGMENTATION_EXAMPLES5}
   --compare ${BASELINE}/WatershedSegmentation1Test2.png
             ${TEMP}/WatershedSegmentation1Test2.png
   WatershedSegmentation1Test
@@ -413,7 +413,14 @@ ITKCommon
 ITKStatistics
 )
 
-
+ADD_EXECUTABLE(SegmentationExamples5 SegmentationExamples5.cxx )
+TARGET_LINK_LIBRARIES(SegmentationExamples5
+ITKAlgorithms 
+ITKIO 
+ITKBasicFilters 
+ITKCommon
+ITKStatistics
+)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 
