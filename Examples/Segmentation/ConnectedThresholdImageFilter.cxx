@@ -27,7 +27,7 @@
 // pixel should be included in the current region or not.
 //
 // \index{itk::FloodFillIterator!In Region Growing}
-// \index{itk::ConnectedThresholdImageFilter|textbf}
+// \index{itk::ConnectedThresholdImageFilter}
 // \index{itk::ConnectedThresholdImageFilter!header}
 //
 // The criterion used by the \doxygen{ConnectedThresholdImageFilter} is based

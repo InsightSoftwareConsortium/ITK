@@ -35,7 +35,7 @@
 //  
 //  The header of the \doxygen{IsolatedConnectedImageFilter} is included below.
 //
-//  \index{itk::IsolatedConnectedImageFilter!header}
+//  \index{itk::Isolated\-Connected\-Image\-Filter!header}
 //
 //  Software Guide : EndLatex 
 
@@ -173,9 +173,9 @@ int main( int argc, char *argv[] )
   //  threshold and two seeds. We take all of them from the command line
   //  arguments.
   //
-  //  \index{itk::IsolatedConnectedImageFilter!SetLower()}
-  //  \index{itk::IsolatedConnectedImageFilter!SetSeed1()}
-  //  \index{itk::IsolatedConnectedImageFilter!SetSeed2()}
+  //  \index{itk::Isolated\-Connected\-Image\-Filter!SetLower()}
+  //  \index{itk::Isolated\-Connected\-Image\-Filter!SetSeed1()}
+  //  \index{itk::Isolated\-Connected\-Image\-Filter!SetSeed2()}
   //
   //  Software Guide : EndLatex 
 
@@ -208,7 +208,7 @@ int main( int argc, char *argv[] )
   //  intensity value to be used for the output pixels accepted in the region
   //  and at least one seed point to define the initial region.
   //
-  //  \index{itk::IsolatedConnectedImageFilter!SetReplaceValue()}
+  //  \index{itk::Isolated\-Connected\-Image\-Filter!SetReplaceValue()}
   //
   //  Software Guide : EndLatex 
 
@@ -248,7 +248,7 @@ int main( int argc, char *argv[] )
   //  The intensity value allowing us to separate both regions can be recovered
   //  with the method \code{GetIsolatedValue()}
   //
-  //  \index{itk::IsolatedConnectedImageFilter!GetIsolatedValue()}
+  //  \index{itk::Isolated\-Connected\-Image\-Filter!GetIsolatedValue()}
   //
   //  Software Guide : EndLatex 
 

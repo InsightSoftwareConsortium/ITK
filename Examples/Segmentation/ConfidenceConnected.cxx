@@ -27,7 +27,7 @@
 // pixel should be included in the current region or not.
 //
 // \index{itk::FloodFillIterator!In Region Growing}
-// \index{itk::ConfidenceConnectedImageFilter|textbf}
+// \index{itk::ConfidenceConnectedImageFilter}
 // \index{itk::ConfidenceConnectedImageFilter!header}
 //
 // The criterion used by the \doxygen{ConfidenceConnectedImageFilter} is based on

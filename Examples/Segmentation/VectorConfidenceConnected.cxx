@@ -147,7 +147,7 @@ int main( int argc, char *argv[] )
   //  the image that may actually belong to separate anatomical
   //  structures.
   //
-  //  \index{itk::VectorConfidenceConnectedImageFilter!SetMultiplier()}
+  //  \index{itk::Vector\-Confidence\-Connected\-Image\-Filter!SetMultiplier()}
   //
   //  Software Guide : EndLatex 
 
@@ -173,7 +173,7 @@ int main( int argc, char *argv[] )
   //  letting the algorithm run for more iterations the region will end up
   //  engulfing the entire image.
   //
-  //  \index{itk::VectorConfidenceConnectedImageFilter!SetNumberOfIterations()}
+  //  \index{itk::Vector\-Confidence\-Connected\-Image\-Filter!SetNumberOfIterations()}
   //
   //  Software Guide : EndLatex 
 
@@ -192,7 +192,7 @@ int main( int argc, char *argv[] )
   //  everywhere except on the extracted region. The intensity value to be put
   //  inside the region is selected with the method \code{SetReplaceValue()}
   //
-  //  \index{itk::VectorConfidenceConnectedImageFilter!SetReplaceValue()}
+  //  \index{itk::Vector\-Confidence\-Connected\-Image\-Filter!SetReplaceValue()}
   //
   //  Software Guide : EndLatex 
 
@@ -211,8 +211,8 @@ int main( int argc, char *argv[] )
   //  initial mean and standard deviation for the inclusion criterion. The seed
   //  is passed in the form of a \doxygen{Index} to the \code{SetSeed()} method.
   //
-  //  \index{itk::VectorConfidenceConnectedImageFilter!SetSeed()}
-  //  \index{itk::VectorConfidenceConnectedImageFilter!SetInitialNeighborhoodRadius()}
+  //  \index{itk::Vector\-Confidence\-Connected\-Image\-Filter!SetSeed()}
+  //  \index{itk::Vector\-Confidence\-Connected\-Image\-Filter!SetInitialNeighborhoodRadius()}
   //
   //  Software Guide : EndLatex 
 
