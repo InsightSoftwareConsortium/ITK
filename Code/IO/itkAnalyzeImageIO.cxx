@@ -17,7 +17,6 @@
 #include "itkAnalyzeImageIO.h"
 #include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
-#include "itkImageIOCommon.h"
 
 #include "dbh.h"
 #include <zlib.h>
