@@ -79,10 +79,10 @@ ParametricPath<VDimension>
   currentImageIndex = this->EvaluateToIndex( input );
   finalImageIndex   = this->EvaluateToIndex( finalInputValue );
   offset            = finalImageIndex - currentImageIndex;
-  if(  ( offset == m_ZeroOffset && input != StartOfInput() )  ||
+  if(  ( offset == this->GetZeroOffset() && input != this->StartOfInput() )  ||
        ( input >=finalInputValue )  )
     {
-    return m_ZeroOffset;
+    return this->GetZeroOffset();
     }
   
   do
@@ -93,7 +93,7 @@ ParametricPath<VDimension>
     offset            = nextImageIndex - currentImageIndex;
     
     tooBig = false;
-    tooSmall = ( offset == m_ZeroOffset );
+    tooSmall = ( offset == this->GetZeroOffset() );
     if( tooSmall )
       {
       // double the input step size, but don't go past the end of the input
