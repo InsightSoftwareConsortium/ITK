@@ -77,7 +77,7 @@ FilterImageVectorValuedAnisotropicDiffusion<TPixel, VDimension>
       // image component's gradient magnitude's.
       grad_mag_avg = 0;
       VectorValueType vo;
-      for (int j = 0; j < VectorLength; ++j)
+      for (nsigned int j = 0; j < VectorLength; ++j)
         {
           accessor.SetVisibleComponent(j);
           vo=  NeighborhoodAlgorithm::AverageGradientMagnitudeSquared

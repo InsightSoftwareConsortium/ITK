@@ -204,7 +204,7 @@ protected:
    */
   void SetSize()
   {
-    for (int i=0; i<VDimension; ++i)
+    for (unsigned int i=0; i<VDimension; ++i)
       {
         m_Size[i] = m_Radius[i]*2+1;
       }

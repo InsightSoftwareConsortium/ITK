@@ -25,7 +25,7 @@ NeighborhoodBase<TPixel, VDimension>
   unsigned long stride;
 
   size_t accum = 1;
-  for (int i=0; i<VDimension; ++i)
+  for (unsigned int i=0; i<VDimension; ++i)
     {
       if (i == axis) stride = accum;
       accum *= m_Size[i];
@@ -40,7 +40,7 @@ NeighborhoodBase<TPixel, VDimension>
 ::SetRadius(const unsigned long s)
 {
   SizeType k;
-  for (int i = 0; i< VDimension; i++)
+  for (unsigned int i = 0; i< VDimension; i++)
     {
       k[i] = s;
     }
@@ -56,7 +56,7 @@ NeighborhoodBase<TPixel, VDimension>
   this->SetSize();
 
   unsigned int cumul=1;
-  for (int i = 0; i<VDimension; i++)
+  for (unsigned int i = 0; i<VDimension; i++)
     {
       cumul*=m_Size[i];
     }

@@ -20,7 +20,7 @@ void NeighborhoodIterator<TPixel, VDimension>
 ::SetPixelPointers(const IndexType &offset)
 {
   const Iterator _end = this->end();
-  int i;
+  unsigned int i;
   Iterator Nit;
   TPixel * Iit;
   unsigned long loop[VDimension];
@@ -61,7 +61,7 @@ const NeighborhoodIterator<TPixel, VDimension> &
 NeighborhoodIterator<TPixel, VDimension>
 ::operator++()
 {
-  int i;
+  unsigned int i;
   Iterator it;
   const Iterator _end = this->end();
   
@@ -102,7 +102,7 @@ const NeighborhoodIterator<TPixel, VDimension> &
 NeighborhoodIterator<TPixel, VDimension>
 ::operator--()
 {
-  int i;
+  unsigned int i;
   Iterator it;
   const Iterator _end = this->end();
   
