@@ -172,10 +172,8 @@ const typename QuaternionRigidTransform<TScalarType>::JacobianType &
 QuaternionRigidTransform<TScalarType>::
 GetJacobian( const InputPointType & p ) const
 {
- 
-  // compute derivatives with respect to rotation
-  VnlQuaternionType Q = m_Rotation;
 
+  // compute derivatives with respect to rotation
   m_Jacobian.Fill(0.0);
 
   const TScalarType x = p[0] - m_Center[0];
@@ -183,10 +181,14 @@ GetJacobian( const InputPointType & p ) const
   const TScalarType z = p[2] - m_Center[2];
 
   // compute Jacobian with respect to quaternion parameters
-  m_Jacobian[0][0] =   2.0 * (  Q.x() * x + Q.y() * y + Q.z() * z );
-  m_Jacobian[0][1] =   2.0 * (- Q.y() * x + Q.x() * y + Q.r() * z );
-  m_Jacobian[0][2] =   2.0 * (- Q.z() * x - Q.r() * y + Q.x() * z );
-  m_Jacobian[0][3] = - 2.0 * (- Q.r() * x + Q.z() * y - Q.y() * z );
+  m_Jacobian[0][0] =   2.0 * (  m_Rotation.x() * x + m_Rotation.y() * y 
+                              + m_Rotation.z() * z );
+  m_Jacobian[0][1] =   2.0 * (- m_Rotation.y() * x + m_Rotation.x() * y 
+                              + m_Rotation.r() * z );
+  m_Jacobian[0][2] =   2.0 * (- m_Rotation.z() * x - m_Rotation.r() * y 
+                              + m_Rotation.x() * z );
+  m_Jacobian[0][3] = - 2.0 * (- m_Rotation.r() * x + m_Rotation.z() * y 
+                              - m_Rotation.y() * z );
 
   m_Jacobian[1][0] = - m_Jacobian[0][1];
   m_Jacobian[1][1] =   m_Jacobian[0][0];
