@@ -90,11 +90,21 @@ public:
    * Typedef to describe the output image region type.
    */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
+  typedef typename TInputImage::RegionType InputImageRegionType;
 
   /**
    * Typedef to describe the type of pixel.
    */
-  typedef typename TOutputImage::PixelType PixelType;
+  typedef typename TOutputImage::PixelType OutputPixelType;
+  typedef typename TInputImage::PixelType InputPixelType;
+
+  /**
+   * Typedef to describe the output and input image index and size types.
+   */
+  typedef typename TOutputImage::IndexType OutputImageIndexType;
+  typedef typename TInputImage::IndexType InputImageIndexType;
+  typedef typename TOutputImage::SizeType OutputImageSizeType;
+  typedef typename TInputImage::SizeType InputImageSizeType;
 
   /** 
    * Run-time type information (and related methods).
@@ -109,13 +119,13 @@ public:
   /**
    * Set the pad value.  Default is Zero.
    */
-  void SetConstant( PixelType constant )
+  void SetConstant( OutputImagePixelType constant )
     {m_Constant = constant; this->Modified();}
   
   /** 
    * Get the output image extent.
    */
-  const PixelType GetConstant() const
+  const OutputImagePixelType GetConstant() const
 		{ return m_Constant; }
                  
  protected:
@@ -144,7 +154,7 @@ public:
 			 OutputImageRegionType& outputRegion);
 
 private:
-  PixelType m_Constant;
+  OutputImagePixelType m_Constant;
 };
 
   
