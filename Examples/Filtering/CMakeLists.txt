@@ -187,5 +187,16 @@ ADD_TEST( LaplacianImageFilter ${FILTERING_EXAMPLES}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_BINARY_DIR}/Testing/Temporary/LaplacianImageFilter.png
 )
+ADD_TEST( MathematicalMorphologyBinaryFilters ${FILTERING_EXAMPLES}
+  --compare ${ITK_DATA_ROOT}/Baseline/Filtering/MathematicalMorphologyBinaryFiltersErode.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/MathematicalMorphologyBinaryFiltersErode.png
+  MathematicalMorphologyBinaryFilters
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/MathematicalMorphologyBinaryFiltersErode.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/MathematicalMorphologyBinaryFiltersDilate.png
+        150 180
+)
+
+
 ADD_EXECUTABLE(FilteringExamples FilteringExamples.cxx ${FilteringExamples_SRCS})
 TARGET_LINK_LIBRARIES(FilteringExamples ITKIO ITKBasicFilters ITKCommon)
