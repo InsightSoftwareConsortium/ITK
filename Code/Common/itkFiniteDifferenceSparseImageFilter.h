@@ -106,6 +106,9 @@ public:
   /** Sets the function object that will be called for computing updates. */
   void SetSparseFunction( SparseFunctionType *sf );
 
+  itkSetMacro(PrecomputeFlag, bool);
+  itkGetMacro(PrecomputeFlag, bool);
+
 protected:
   FiniteDifferenceSparseImageFilter();
   ~FiniteDifferenceSparseImageFilter() {}
@@ -124,10 +127,7 @@ protected:
    * values. Default is no constraint. */
   virtual NodeDataType DataConstraint( const NodeDataType &data ) const 
   { return data; }
-
-  itkSetMacro(PrecomputeFlag, bool);
-  itkGetMacro(PrecomputeFlag, bool);
-
+  
 private:
   /** The type of region used in multithreading. */
   struct ThreadRegionType 

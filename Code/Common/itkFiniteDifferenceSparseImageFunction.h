@@ -41,7 +41,6 @@ namespace itk {
  *to speed up computation by avoiding repetitions. See the
  *NormalVectorDiffusionFunction for an example. 
  */
-
 template <class TSparseImageType>
 class ITK_EXPORT FiniteDifferenceSparseImageFunction
   :public FiniteDifferenceFunction <TSparseImageType>
