@@ -1,0 +1,434 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkFEMItpackLinearSystemWrapper.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+#include "itpack.h"
+#include "itpack_f2c.h"
+#include "itkFEMItpackLinearSystemWrapper.h"
+#include <vector>
+
+namespace itk {
+namespace fem {
+
+typedef ItpackLinearSystemWrapper::integer integer;
+typedef ItpackLinearSystemWrapper::doublereal doublereal;
+
+/**
+ * constructor 
+ */
+ItpackLinearSystemWrapper::ItpackLinearSystemWrapper()
+{
+
+  /* fill m_Methods with pointers to solver functions */
+  m_Methods[0] = itpack::jcg_;
+  m_Methods[1] = itpack::jsi_;
+  m_Methods[2] = itpack::sor_;
+  m_Methods[3] = itpack::ssorcg_;
+  m_Methods[4] = itpack::ssorsi_;
+  m_Methods[5] = itpack::rscg_;
+  m_Methods[6] = itpack::rssi_;
+  m_Method = 0;                   /* set default method to jcg_ */
+
+  /* Set solving parameters */
+  itpack::dfault_( &(m_IPARM[0]) , &(m_RPARM[0]) );
+  m_IPARM[0] = 500;  /* number of iterations */
+  m_IPARM[1] = -1;   /* no error message output */
+  m_IPARM[4] = 1;    /* non-symmetric matrix */
+
+}
+
+
+void ItpackLinearSystemWrapper::SetMaximumNonZeroValuesInMatrix(unsigned int matrixIndex, unsigned int maxNonZeros)
+{
+  if (m_MaximumNonZeroValues.get() == 0)
+  {
+    m_MaximumNonZeroValues = std::auto_ptr<unsigned int>(new unsigned int [m_NumberOfMatrices]);
+  }
+
+  m_MaximumNonZeroValues.get()[matrixIndex] = maxNonZeros;
+}
+
+
+void ItpackLinearSystemWrapper::InitializeMatrix(unsigned int matrixIndex)
+{
+
+  // FIX ME
+  if (!m_Order || !(m_MaximumNonZeroValues.get()) ) return;
+
+  // allocate if necessay
+  if (m_Matrices.get() == 0)
+  {
+    m_Matrices = MatrixArrayPtr( new MatrixHolder(m_NumberOfMatrices) );
+  }
+
+  /* Set required variables */
+  (*m_Matrices)[matrixIndex].SetOrder(m_Order);
+  (*m_Matrices)[matrixIndex].SetMaxNonZeroValues( m_MaximumNonZeroValues.get()[matrixIndex] );
+
+}
+
+
+void ItpackLinearSystemWrapper::InitializeVector(unsigned int vectorIndex)
+{
+
+  /* allocate if necessay */
+  if (m_Vectors.get() == NULL)
+  {
+    m_Vectors = VectorArrayPtr(new VectorHolder(m_NumberOfVectors));
+  }
+  
+  /* insert new vector */
+  (*m_Vectors)[vectorIndex] = VectorRepresentation(new doublereal [m_Order]);
+
+  /* fill with zeros */
+  for (int i=0; i<m_Order; i++)
+  {
+    (*m_Vectors)[vectorIndex].get()[i] = 0.0;
+  }
+
+}
+
+
+void ItpackLinearSystemWrapper::InitializeSolution(unsigned int solutionIndex)
+{
+
+  // allocate if necessay
+  if (m_Solutions.get() == 0)
+  {
+    m_Solutions = VectorArrayPtr(new VectorHolder(m_NumberOfSolutions));
+  }
+
+  /* insert new vector */
+  (*m_Solutions)[solutionIndex] = VectorRepresentation(new doublereal [m_Order]);
+
+  /* fill with zeros */
+  for (int i=0; i<m_Order; i++)
+  {
+    (*m_Solutions)[solutionIndex].get()[i] = 0.0;
+  }
+
+}
+
+
+void ItpackLinearSystemWrapper::DestroyMatrix(unsigned int matrixIndex)
+{
+
+  // FIX ME: error checking
+
+  (*m_Matrices)[matrixIndex].Clear();
+}
+
+
+void ItpackLinearSystemWrapper::DestroyVector(unsigned int vectorIndex)
+{
+  // FIX ME: error checking
+
+  //this->InitializeVector(vectorIndex);
+  if (m_Vectors.get() == NULL)
+  {
+    return;
+  }
+  
+  /* insert new vector */
+  (*m_Vectors)[vectorIndex] = VectorRepresentation(new doublereal(0.0));
+
+}
+
+
+void ItpackLinearSystemWrapper::DestroySolution(unsigned int solutionIndex)
+{
+  // FIX ME: error checking
+
+  //this->InitializeVector(vectorIndex);
+  if (m_Solutions.get() == NULL)
+  {
+    return;
+  }
+  
+  /* insert new vector */
+  (*m_Solutions)[solutionIndex] = VectorRepresentation(new doublereal(0.0));
+  
+}
+
+
+ItpackLinearSystemWrapper::Float ItpackLinearSystemWrapper::GetMatrixValue(unsigned int i, unsigned int j, unsigned int matrixIndex) const
+{
+  // FIX ME: error checking
+
+  return (*m_Matrices)[matrixIndex].Get(i,j);
+}
+
+
+void ItpackLinearSystemWrapper::SetMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int matrixIndex)
+{
+  // FIX ME: error checking
+
+  ((*m_Matrices)[matrixIndex]).Set(i,j,value);
+}
+
+
+void ItpackLinearSystemWrapper::AddMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int matrixIndex)
+{
+  // FIX ME: error checking
+
+  ((*m_Matrices)[matrixIndex]).Add(i,j,value);
+}
+
+
+ItpackLinearSystemWrapper::Float ItpackLinearSystemWrapper::GetVectorValue(unsigned int i, unsigned int vectorIndex) const
+{
+  // FIX ME: error checking
+
+  return ((*m_Vectors)[vectorIndex].get())[i];
+}
+
+
+void ItpackLinearSystemWrapper::SetVectorValue(unsigned int i, Float value, unsigned int vectorIndex)
+{
+  // FIX ME: error checking
+
+  ((*m_Vectors)[vectorIndex].get())[i] = value;
+}
+
+
+void ItpackLinearSystemWrapper::AddVectorValue(unsigned int i, Float value, unsigned int vectorIndex)
+{
+  // FIX ME: error checking
+
+  ((*m_Vectors)[vectorIndex].get())[i] += value;
+}
+
+
+ItpackLinearSystemWrapper::Float ItpackLinearSystemWrapper::GetSolutionValue(unsigned int i, unsigned int solutionIndex) const
+{
+  // FIX ME: error checking
+
+  return ((*m_Solutions)[solutionIndex].get())[i];
+}
+
+
+void ItpackLinearSystemWrapper::SetSolutionValue(unsigned int i, Float value, unsigned int solutionIndex)
+{
+  // FIX ME: error checking
+
+  ((*m_Solutions)[solutionIndex].get())[i] = value;
+
+}
+
+
+void ItpackLinearSystemWrapper::AddSolutionValue(unsigned int i, Float value, unsigned int solutionIndex)
+{
+  // FIX ME: error checking
+
+  ((*m_Solutions)[solutionIndex].get())[i] += value;
+}
+
+
+void ItpackLinearSystemWrapper::Solve(void)
+{
+
+  // FIX ME: error checking
+
+
+
+  // itpack variables
+  integer N;
+  integer NW;
+  integer NCG;
+  integer *IWKSP;
+  doublereal *WKSP;
+  integer IERR = 0;
+
+  /* *******************************************************************
+   * FIX ME: itpack does not allow for any non-zero diagonal elements
+   * so "very small" numbers are inserted to allow for a solution
+   */
+  int i;
+  doublereal fakeZero = 1.0e-16;
+
+  /* insert "fake" zeros */
+  for (i=0; i<m_Order; i++)
+  {
+    if ( (*m_Matrices)[0].Get(i,i) == 0.0)
+    {
+      (*m_Matrices)[0].Set(i,i,fakeZero);
+    }
+  }
+  /* END FIX ME ********************************************************/
+
+
+  /* Initialize solution values (set to zero) */
+  double val = 0.0;
+
+  this->InitializeSolution(0);
+  integer order = m_Order;
+
+ /* Set up itpack workspace variables
+  *
+  * N -> Order of system
+  *
+  * NCG -> 
+  *
+  * NW -> on input: length of wksp, on output: actual amount used
+  *  jcg_()    - 4*N + NCG
+  *  jsi_()    - 2*N
+  *  sor_()    - N
+  *  ssorcg_() - 6*N + NCG
+  *  ssorsi_() - 5*N
+  *  rscg_()   - N + 3*NB + NCG 
+  *  rssi_()   - N + NB
+  *
+  * IWKSP -> temp variable used by itpack (integer[3*N])
+  * WKSP -> temp variable used by itpack (doublereal[NW])
+  */
+  N = m_Order;
+  if (m_IPARM[4] == 1)
+  {
+    NCG = 4 * m_IPARM[0];
+  }
+  else 
+  {
+    NCG = 2 * m_IPARM[1];
+  }
+  switch ( m_Method ) {
+  case 0:
+    NW = 4*N + NCG;
+    break;
+  case 1:
+    NW = 2*N;
+    break;
+  case 2:
+    NW = N;
+    break;
+  case 3:
+    NW = 6*N + NCG;
+    break;
+  case 4:
+    NW = 5*N;
+    break;
+  case 5:
+    NW = N + m_IPARM[8] + NCG;
+    break;
+  case 6:
+    NW = N + m_IPARM[8];
+    break;
+  }
+  m_IPARM[7] = NW;
+  IWKSP = new integer [ 3*N ];
+  WKSP = new doublereal [ NW ];
+
+  /* call to itpack solver routine */
+  (*m_Methods[m_Method])( &N, (*m_Matrices)[0].GetIA(), (*m_Matrices)[0].GetJA(), (*m_Matrices)[0].GetA(), 
+    (*m_Vectors)[0].get(), (*m_Solutions)[0].get(), &(IWKSP[0]), &NW, &(WKSP[0]), &(m_IPARM[0]), &(m_RPARM[0]), &IERR);
+
+  delete [] IWKSP;
+  delete [] WKSP;
+
+  /*
+   * error flag for matrix solving
+   *   IERR = 0   - no error
+   *        = 1   - invalid order of system
+   *        = 2   - m_WKSP no large enough - m_IPARM[7] is set to required space m_NW
+   *        = 3   - failure to converge in m_IPARM[0] iterations.  m_RPARM[0] is reset to last stopping value
+   *        = 4   - invalid order of the black subsystem ???
+   *        = 101 - a diagnoal element is not positive
+   *        = 102 - no diagonal element in a row
+   *        = 201 - red-black indexing is not possible
+   *        = 301 - no entry in a row of the original matrix
+   *        = 302 - no entry in a row of the permuted matrix
+   *        = 303 - sorting error in a row of the permuted matrix
+   *        = 401 - a diagonal element is not positive
+   *        = 402 - no diagonal element in a row
+   *        = 501 - failure to converge in m_ITMAX function evaluations
+   *        = 502 - function does not change sign at the endpointegers
+   *        = 601 - successive iterates are not monotone increasing
+   */
+
+}
+
+
+/* STILL NEED TO BE IMPLEMENTED */
+
+
+void ItpackLinearSystemWrapper::SwapMatrices(unsigned int matrixIndex1, unsigned int matrixIndex2)
+{
+
+  int n = (*m_Matrices)[matrixIndex2].GetOrder();
+  int nz = (*m_Matrices)[matrixIndex2].GetMaxNonZeroValues();
+  integer* ia = (*m_Matrices)[matrixIndex2].GetIA();
+  integer *ja = (*m_Matrices)[matrixIndex2].GetJA();
+  doublereal *a = (*m_Matrices)[matrixIndex2].GetA();
+
+  (*m_Matrices)[matrixIndex2].SetOrder( (*m_Matrices)[matrixIndex1].GetOrder() );
+  (*m_Matrices)[matrixIndex2].SetMaxNonZeroValues ( (*m_Matrices)[matrixIndex1].GetMaxNonZeroValues() );
+  (*m_Matrices)[matrixIndex2].SetCompressedRow((*m_Matrices)[matrixIndex1].GetIA(), 
+    (*m_Matrices)[matrixIndex1].GetJA(), (*m_Matrices)[matrixIndex1].GetA() );
+
+  (*m_Matrices)[matrixIndex1].SetOrder( n );
+  (*m_Matrices)[matrixIndex1].SetMaxNonZeroValues ( nz );
+  (*m_Matrices)[matrixIndex1].SetCompressedRow(ia, ja, a);
+
+}
+
+
+void ItpackLinearSystemWrapper::SwapVectors(unsigned int vectorIndex1, unsigned int vectorIndex2)
+{
+  VectorRepresentation temp = (*m_Vectors)[vectorIndex1];
+
+  (*m_Vectors)[vectorIndex1] = (*m_Vectors)[vectorIndex2];
+  (*m_Vectors)[vectorIndex2] = temp;
+}
+
+
+void ItpackLinearSystemWrapper::SwapSolutions(unsigned int solutionIndex1, unsigned int solutionIndex2)
+{
+  VectorRepresentation temp = (*m_Solutions)[solutionIndex1];
+
+  (*m_Solutions)[solutionIndex1] = (*m_Solutions)[solutionIndex2];
+  (*m_Solutions)[solutionIndex2] = temp;
+}
+
+
+void ItpackLinearSystemWrapper::CopySolution2Vector(unsigned solutionIndex, unsigned int vectorIndex)
+{
+
+  this->InitializeVector(vectorIndex);
+
+  /* copy values */
+  for (int i=0; i<m_Order; i++)
+  {
+    (*m_Vectors)[vectorIndex].get()[i] = (*m_Solutions)[solutionIndex].get()[i];
+  }
+}
+
+
+void ItpackLinearSystemWrapper::MultiplyMatrixMatrix(unsigned int resultMatrixIndex, unsigned int leftMatrixIndex, unsigned int rightMatrixIndex)
+{
+
+  (*m_Matrices)[leftMatrixIndex].mult( &((*m_Matrices)[rightMatrixIndex]), &((*m_Matrices)[resultMatrixIndex]) );
+
+}
+
+
+void ItpackLinearSystemWrapper::MultiplyMatrixVector(unsigned int resultVectorIndex, unsigned int matrixIndex, unsigned int vectorIndex)
+{
+
+  (*m_Matrices)[matrixIndex].mult( (*m_Vectors)[vectorIndex].get(), (*m_Vectors)[resultVectorIndex].get() );
+
+}
+
+
+}}  // end namespace itk::fem
+
