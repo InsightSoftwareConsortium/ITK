@@ -48,7 +48,7 @@ public:
   typedef SmartPointer < const Self >                 ConstPointer;
   typedef double                                      ScalarType;
   typedef SpatialObjectPoint< TDimension >            LandmarkPointType; 
-  typedef std::list < LandmarkPointType >             PointListType;
+  typedef std::vector < LandmarkPointType >           PointListType;
   typedef typename Superclass::PointType              PointType;
   typedef typename Superclass::TransformType          TransformType;
   typedef VectorContainer<unsigned long,PointType>    PointContainerType;
