@@ -140,8 +140,8 @@ LINK_LIBRARIES (
 VXLNumerics
 ITKNumerics
 ITKCommon
-ITKBasicFilters        
-TKIO  
+ITKBasicFilters
+ITKIO
 )
 
 
