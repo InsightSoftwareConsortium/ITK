@@ -86,7 +86,7 @@ public:
   itkTypeMacro(VoronoiSegmentationImageFilter,
                VoronoiSegmentationImageFilterBase);
 
-  /** Convenient typedefs.
+  /** Convenient typedefs. */
   typedef typename Superclass::BinaryObjectImage BinaryObjectImage;
   typedef typename Superclass::IndexList IndexList;
 
