@@ -1,3 +1,5 @@
+SET(EXECUTABLE_OUTPUT_PATH ${vxl_BINARY_DIR}/v3p/netlib/examples)
+
 LINK_LIBRARIES(netlib)
 
 INCLUDE(${MODULE_PATH}/FindNetlib.cmake)

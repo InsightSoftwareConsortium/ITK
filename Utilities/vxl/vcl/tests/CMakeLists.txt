@@ -1,5 +1,7 @@
 # vcl/tests/CMakeLists.txt
 
+SET(EXECUTABLE_OUTPUT_PATH ${vxl_BINARY_DIR}/vcl/tests)
+
 # Avoid adding more test executables here, in order to keep the number
 # of projects small. (This is a concern for IDEs like Visual Studio.)
 # Try to follow one of the other tests, like test_algorithm.cxx,

@@ -1,4 +1,5 @@
 # vxl/vnl/examples/CMakeLists.txt
+SET(EXECUTABLE_OUTPUT_PATH ${vxl_BINARY_DIR}/core/vnl/examples)
 
 LINK_LIBRARIES( vnl_algo vnl vul )
 

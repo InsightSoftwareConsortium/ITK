@@ -1,3 +1,5 @@
+SET(EXECUTABLE_OUTPUT_PATH ${vxl_BINARY_DIR}/v3p/netlib/tests)
+
 IF(BUILD_TESTING)
   LINK_LIBRARIES( netlib )
 

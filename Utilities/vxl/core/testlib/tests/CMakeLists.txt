@@ -1,4 +1,5 @@
 # This is core/testlib/tests/CMakeLists.txt
+SET(EXECUTABLE_OUTPUT_PATH ${vxl_BINARY_DIR}/core/testlib/tests)
 
 ADD_EXECUTABLE( testlib_test_all
    test_driver.cxx

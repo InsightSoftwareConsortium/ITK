@@ -1,4 +1,5 @@
 # This is core/vnl/io/tests/CMakeLists.txt
+SET(EXECUTABLE_OUTPUT_PATH ${vxl_BINARY_DIR}/core/vnl/io/tests)
 
 ADD_EXECUTABLE( vnl_io_test_all
   # Driver source
