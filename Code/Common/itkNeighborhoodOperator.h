@@ -121,6 +121,10 @@ public:
    * \sa CreateDirectional \sa Fill */
   virtual void CreateToRadius(const unsigned long);
 
+  /** Reverses the direction of all axes of the operator by reversing the order
+    * of the coefficients. */
+  virtual void FlipAxes();
+  
   /** Prints some debugging information. */
   virtual void PrintSelf(std::ostream& os, Indent i) const
     {

@@ -18,7 +18,27 @@
 #define _itkNeighborhoodOperator_txx
 namespace itk
 {
+template <class TPixel, unsigned int VDimension, class TAllocator>
+void
+NeighborhoodOperator<TPixel, VDimension, TAllocator>
+::FlipAxes()
+{
+  // To flip the operator across all of its axes, all we have to do is reverse
+  // the order of all coefficients.
+  const unsigned size = this->Size();
+  unsigned i, swap_with;
+  PixelType temp;
 
+  for (i = 0; i < size/2; ++i)
+    {
+      swap_with = size - 1 - i;
+      temp = this->operator[](i);
+      this->operator[](i) = this->operator[](swap_with);
+      this->operator[](swap_with) = temp;
+    }
+}
+
+  
 template <class TPixel, unsigned int VDimension, class TAllocator>
 void
 NeighborhoodOperator<TPixel, VDimension, TAllocator>
