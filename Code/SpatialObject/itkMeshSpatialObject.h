@@ -92,10 +92,17 @@ public:
   /** Returns the latest modified time of the object and its component. */
   unsigned long GetMTime( void ) const;
 
+  /** Return the type of pixel used */
+  const char* GetPixelType()
+    {
+    return m_PixelType.c_str();
+    }
+
+
 protected:
 
   MeshPointer m_Mesh;
-
+  std::string m_PixelType;
   MeshSpatialObject();
   virtual ~MeshSpatialObject();
 

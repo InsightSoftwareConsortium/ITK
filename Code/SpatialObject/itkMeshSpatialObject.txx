@@ -32,6 +32,7 @@ MeshSpatialObject< TMesh >
   m_TypeName = "MeshSpatialObject";
   m_Mesh = MeshType::New();
   ComputeBoundingBox();
+  m_PixelType = typeid(TMesh::PixelType).name();
 }
 
 /** Destructor */
