@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkEigenAnalysis2DImageFilter_txx
 
 #include "itkEigenAnalysis2DImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
 {
@@ -56,9 +57,9 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 {
   this->SetNumberOfRequiredInputs( 3 );
   this->SetNumberOfRequiredOutputs( 3 );
-  this->SetNthOutput( 0, TEigenValueImage::New() );
-  this->SetNthOutput( 1, TEigenValueImage::New() );
-  this->SetNthOutput( 2, TEigenVectorImage::New() );
+  this->SetNthOutput( 0, EigenValueImageType::New() );
+  this->SetNthOutput( 1, EigenValueImageType::New() );
+  this->SetNthOutput( 2, EigenVectorImageType::New() );
   
 }
 
@@ -112,7 +113,7 @@ typename TEigenValueImage::Pointer
 EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 ::GetMaxEigenValue( void )
 {
-  return dynamic_cast<TEigenValueImage *>(
+  return dynamic_cast<EigenValueImageType *>(
                     this->GetOutput( 0 ).GetPointer() );
 }
 
@@ -127,7 +128,7 @@ typename TEigenValueImage::Pointer
 EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 ::GetMinEigenValue( void )
 {
-  return dynamic_cast<TEigenValueImage *>(
+  return dynamic_cast<EigenValueImageType *>(
                     this->GetOutput( 1 ).GetPointer() );
 }
 
@@ -141,7 +142,7 @@ typename TEigenVectorImage::Pointer
 EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 ::GetMaxEigenVector( void )
 {
-  return dynamic_cast<TEigenVectorImage *>(
+  return dynamic_cast<EigenVectorImageType *>(
                     this->GetOutput( 2 ).GetPointer() );
 }
 
@@ -169,17 +170,17 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
                      dynamic_cast<TInputImage *>(
                            (ProcessObject::GetInput(2)).GetPointer()));
 
-  typename TEigenValueImage::Pointer   outputPtr1 = this->GetMaxEigenValue();
-  typename TEigenValueImage::Pointer   outputPtr2 = this->GetMinEigenValue();
-  typename TEigenVectorImage::Pointer  outputPtr3 = this->GetMaxEigenVector();
+  EigenValueImagePointer   outputPtr1 = this->GetMaxEigenValue();
+  EigenValueImagePointer   outputPtr2 = this->GetMinEigenValue();
+  EigenVectorImagePointer  outputPtr3 = this->GetMaxEigenVector();
   
-  ImageRegionIterator<TInputImage>   inputIt1(inputPtr1, outputRegionForThread);
-  ImageRegionIterator<TInputImage>   inputIt2(inputPtr2, outputRegionForThread);
-  ImageRegionIterator<TInputImage>   inputIt3(inputPtr3, outputRegionForThread);
+  ImageRegionIteratorWithIndex<TInputImage>   inputIt1(inputPtr1, outputRegionForThread);
+  ImageRegionIteratorWithIndex<TInputImage>   inputIt2(inputPtr2, outputRegionForThread);
+  ImageRegionIteratorWithIndex<TInputImage>   inputIt3(inputPtr3, outputRegionForThread);
 
-  ImageRegionIterator<TEigenValueImage>   outputIt1(outputPtr1, outputRegionForThread);
-  ImageRegionIterator<TEigenValueImage>   outputIt2(outputPtr2, outputRegionForThread);
-  ImageRegionIterator<TEigenVectorImage>  outputIt3(outputPtr3, outputRegionForThread);
+  ImageRegionIteratorWithIndex<EigenValueImageType>   outputIt1(outputPtr1, outputRegionForThread);
+  ImageRegionIteratorWithIndex<EigenValueImageType>   outputIt2(outputPtr2, outputRegionForThread);
+  ImageRegionIteratorWithIndex<EigenVectorImageType>  outputIt3(outputPtr3, outputRegionForThread);
 
   EigenVectorType nullVector;
   nullVector.Fill( 0.0 );

@@ -93,6 +93,17 @@ public:
 	typedef typename TEigenVectorImage::PixelType     EigenVectorType;
   typedef typename EigenVectorType::ValueType   VectorComponentType;
 
+  /** 
+   * Some typedefs.
+   */
+  typedef TEigenValueImage EigenValueImageType;
+  typedef typename EigenValueImageType::Pointer     EigenValueImagePointer;
+  typedef typename EigenValueImageType::RegionType  EigenValueImageRegionType; 
+  typedef typename EigenValueImageType::PixelType   EigenValueImagePixelType; 
+  typedef TEigenVectorImage EigenVectorImageType;
+  typedef typename EigenVectorImageType::Pointer     EigenVectorImagePointer;
+  typedef typename EigenVectorImageType::RegionType  EigenVectorImageRegionType; 
+  typedef typename EigenVectorImageType::PixelType   EigenVectorImagePixelType; 
 
   /** 
    * Image Dimension
@@ -127,18 +138,18 @@ public:
   /**
    * Get the Output image with the greatest eigenvalue
    */
-   typename TEigenValueImage::Pointer GetMaxEigenValue( void );
+   EigenValueImagePointer GetMaxEigenValue( void );
 
   /**
    * Get the Output image with the smallest eigenvalue
    */
-   typename TEigenValueImage::Pointer GetMinEigenValue( void );
+   EigenValueImagePointer GetMinEigenValue( void );
 
   /**
    * Get the Output image with the eigen vector associated with
    * the greatest eigen value
    */
-   typename TEigenVectorImage::Pointer GetMaxEigenVector( void );
+   EigenVectorImagePointer GetMaxEigenVector( void );
 
 
 protected:
