@@ -4,14 +4,14 @@ Code \
 Testing 
 
 INCLUDE_DIRECTORIES = \
-${CMAKE_CONFIG_DIR} \
-${CMAKE_CONFIG_DIR}/Code/Insight3DParty/vxl \
-${srcdir}/Code/Common \
-${srcdir}/Code/Insight3DParty/vxl 
+${CMAKE_BINARY_DIR} \
+${CMAKE_BINARY_DIR}/Code/Insight3DParty/vxl \
+${CMAKE_SOURCE_ROOT}/Code/Common \
+${CMAKE_SOURCE_ROOT}/Code/Insight3DParty/vxl 
 
 LINK_DIRECTORIES = \
-${CMAKE_CONFIG_DIR}/Code/Common \
-${CMAKE_CONFIG_DIR}/Code/Insight3DParty/vxl 
+${CMAKE_BINARY_DIR}/Code/Common \
+${CMAKE_BINARY_DIR}/Code/Insight3DParty/vxl 
 
 LINK_LIBRARIES = \
 ITKCommon \
