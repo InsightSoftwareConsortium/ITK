@@ -465,7 +465,7 @@ int main( int argc, char *argv[] )
 
   // Print out some useful information 
   std::cout << std::endl;
-  std::cout << "Max. no. iterations: " << geodesicActiveContour->GetMaximumIterations() << std::endl;
+  std::cout << "Max. no. iterations: " << geodesicActiveContour->GetNumberOfIterations() << std::endl;
   std::cout << "Max. RMS error: " << geodesicActiveContour->GetMaximumRMSError() << std::endl;
   std::cout << std::endl;
   std::cout << "No. elpased iterations: " << geodesicActiveContour->GetElapsedIterations() << std::endl;

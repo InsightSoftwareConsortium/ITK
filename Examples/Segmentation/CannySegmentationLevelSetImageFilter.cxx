@@ -268,7 +268,7 @@ int main( int argc, char *argv[] )
 
   // Print out some useful information 
   std::cout << std::endl;
-  std::cout << "Max. no. iterations: " << cannySegmentation->GetMaximumIterations() << std::endl;
+  std::cout << "Max. no. iterations: " << cannySegmentation->GetNumberOfIterations() << std::endl;
   std::cout << "Max. RMS error: " << cannySegmentation->GetMaximumRMSError() << std::endl;
   std::cout << std::endl;
   std::cout << "No. elpased iterations: " << cannySegmentation->GetElapsedIterations() << std::endl;

@@ -331,7 +331,7 @@ int main( int argc, char *argv[] )
 
   // Print out some useful information 
   std::cout << std::endl;
-  std::cout << "Max. no. iterations: " << thresholdSegmentation->GetMaximumIterations() << std::endl;
+  std::cout << "Max. no. iterations: " << thresholdSegmentation->GetNumberOfIterations() << std::endl;
   std::cout << "Max. RMS error: " << thresholdSegmentation->GetMaximumRMSError() << std::endl;
   std::cout << std::endl;
   std::cout << "No. elpased iterations: " << thresholdSegmentation->GetElapsedIterations() << std::endl;

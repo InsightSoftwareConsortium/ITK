@@ -241,7 +241,7 @@ int main( int argc, char *argv[] )
 
   // Print out some useful information 
   std::cout << std::endl;
-  std::cout << "Max. no. iterations: " << laplacianSegmentation->GetMaximumIterations() << std::endl;
+  std::cout << "Max. no. iterations: " << laplacianSegmentation->GetNumberOfIterations() << std::endl;
   std::cout << "Max. RMS error: " << laplacianSegmentation->GetMaximumRMSError() << std::endl;
   std::cout << std::endl;
   std::cout << "No. elpased iterations: " << laplacianSegmentation->GetElapsedIterations() << std::endl;

@@ -656,7 +656,7 @@ int main( int argc, char *argv[] )
 
   // Print out some useful information 
   std::cout << std::endl;
-  std::cout << "Max. no. iterations: " << shapeDetection->GetMaximumIterations() << std::endl;
+  std::cout << "Max. no. iterations: " << shapeDetection->GetNumberOfIterations() << std::endl;
   std::cout << "Max. RMS error: " << shapeDetection->GetMaximumRMSError() << std::endl;
   std::cout << std::endl;
   std::cout << "No. elpased iterations: " << shapeDetection->GetElapsedIterations() << std::endl;
