@@ -439,8 +439,6 @@ void DicomImageIO::ReadImageInformation()
   long int len;
   unsigned char bytePair[2];
   unsigned char c;
-  unsigned int rows;
-  unsigned int columns;
   unsigned int allocatedbits;
   unsigned int representation;
   char chain [4];
