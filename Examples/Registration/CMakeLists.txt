@@ -1,4 +1,5 @@
 PROJECT(ImageRegistration)
+INCLUDE_REGULAR_EXPRESSION("^.*$")
 
 ADD_EXECUTABLE(ImageRegistration1 ImageRegistration1.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration1 ITKNumerics ITKIO)
