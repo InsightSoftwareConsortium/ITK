@@ -94,6 +94,13 @@ int main()
   std::cout << "pc += va = ";
   Print( pc );
 
+  ValueType distance = pc.EuclideanDistanceTo( pb );
+  std::cout << "Euclidean distance between pc and pb = ";
+  std::cout << distance << std::endl;
+
+  ValueType distance2 = pc.SquaredEuclideanDistanceTo( pb );
+  std::cout << "Squared Euclidean distance between pc and pb = ";
+  std::cout << distance2 << std::endl;
 
   vnl_vector_ref< ValueType > vnlVector = pa.Get_vnl_vector();
   std::cout << "vnl_vector = ";
