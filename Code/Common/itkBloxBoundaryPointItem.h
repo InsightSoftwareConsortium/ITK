@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkBloxBoundaryPointItem_h
 #define __itkBloxBoundaryPointItem_h
 
-#include "VNL/vnl_vector_fixed.h"
+#include "vnl/vnl_vector_fixed.h"
 #include "itkBloxItem.h"
 
 namespace itk
