@@ -29,7 +29,7 @@ GrayscaleFunctionErodeImageFilter<TInputImage, TOutputImage, TKernel>
 {
   unsigned int i;
   PixelType min = NumericTraits<PixelType>::max();
-  PixelType temp = min ;
+  PixelType temp;
   
   KernelIteratorType kernel_it;
   const KernelIteratorType kernelEnd = kernel.End();
