@@ -103,7 +103,7 @@ public:
 
   virtual unsigned int Size() const = 0 ;
 
-  /** retunrs the measurement of the instance which is identified by the 'id'*/
+  /** returns the measurement of the instance which is identified by the 'id'*/
   virtual MeasurementVectorType& GetMeasurementVector(const InstanceIdentifier &id) = 0 ;
 
   /** returns the frequency of the instance which is identified by the 'id'*/
