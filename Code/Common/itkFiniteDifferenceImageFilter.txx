@@ -31,7 +31,7 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
   typename TOutputImage::Pointer output = this->GetOutput();
   
   ImageRegionIterator<TInputImage>  in(input, output->GetRequestedRegion());
-  ImageRegionIterator<TInputImage> out(output, output->GetRequestedRegion());
+  ImageRegionIterator<TOutputImage> out(output, output->GetRequestedRegion());
 
   while( ! out.IsAtEnd() )
     {
