@@ -33,7 +33,10 @@ namespace itk {
  *
  *  \par Inputs and Outputs
  *  This is an image-to-image filter.  The requirements for data types and
- *  dimensionality of the input and output are defined by subclasses.
+ *  dimensionality of the input and output are defined by subclasses.  In
+ *  general, these filters expect images of real-valued types.  This means
+ *  pixel types of floats, doubles, or a user-defined type with floating point
+ *  accuracy and arithmetic operations.  
  *
  *  \par Parameters
  *  Set/GetNumberOfIterations specifies the number of iterations (time-step updates)
@@ -45,6 +48,9 @@ namespace itk {
  *  \par
  *  Set/GetTimeStep sets the time step to be used for each iteration (update).
  *  This parameter is described in detail in itkAnisotropicDiffusionFunction.
+ *  The time step is constrained at run-time to keep the solution stable.  In
+ *  general, the time step should be at or below 1/2^N, where N is the
+ *  dimensionality of the image.
  *
  *  \par
  *  Set/GetConductanceParameter set a common parameter used by subclasses of
