@@ -139,6 +139,22 @@ public:
   itkGetMacro(Diff_Var, double);
   
   /**
+   * Set the Estimation of the mean difference between neighbor pixels for the object.
+   */
+  itkSetMacro(Mean, double);
+  /**
+   * Get the Estimation of the mean difference between neighbor pixels for the object.
+   */
+  itkGetMacro(Mean, double);
+  /**
+   * Set the Estimation of the variance of the difference between pixels for the object.
+   */
+  itkSetMacro(Var, double);
+  /**
+   * Get the Estimation of the variance of the difference between pixels for the object.
+   */
+  itkGetMacro(Var, double);
+  /**
    * Setting the parameters for segmentation:
    */
   void SetParameters(const double inmean,const double invar, 
