@@ -21,4 +21,5 @@ itkPixelAccessTest \
 itkExtractMeshConnectedRegionsTest \
 itkMutualInformationTest \
 itkFastMarchingTest \
-itkLevelSetShapeDetectionTest
+itkLevelSetShapeDetectionTest \
+itkGeodesicActiveContoursTest
