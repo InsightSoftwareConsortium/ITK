@@ -72,7 +72,7 @@ MinimumMaximumImageFilter<TInputImage>
                                           this->GetInput(),  
                                           this->GetInput()->GetRequestedRegion() );
 
-  m_Maximum = NumericTraits<InputPixelType>::min() ;
+  m_Maximum = NumericTraits<InputPixelType>::NonpositiveMin() ;
   m_Minimum = NumericTraits<InputPixelType>::max() ;
 
   while( !it.IsAtEnd() )
