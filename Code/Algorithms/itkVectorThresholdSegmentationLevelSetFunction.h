@@ -80,8 +80,9 @@ public:
                       Superclass::ImageDimension);
 
   /** Extract the number of components in the vector pixel type . */
+  typedef typename FeatureImageType::PixelType FeatureImagePixelType;
   itkStaticConstMacro(NumberOfComponents, unsigned int,
-                        FeatureImageType::PixelType::Dimension);
+                        FeatureImagePixelType::Dimension);
 
 
   typedef Statistics::MahalanobisDistanceMembershipFunction<FeatureScalarType> MahalanobisFunctionType;
