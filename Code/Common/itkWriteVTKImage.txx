@@ -213,7 +213,7 @@ static void WriteDataArray(std::ostream *fp, TInputImage *image, int fileType)
     ImageRegionIterator<InputImagePixelType, TInputImage::ImageDimension>
     InputIterator;
 
-  TInputImage::Region region = image->GetLargestPossibleRegion();
+  typename TInputImage::Region region = image->GetLargestPossibleRegion();
 
   InputIterator inIt(image, region);
 
