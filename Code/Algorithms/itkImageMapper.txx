@@ -70,11 +70,6 @@ ImageMapper<TImage,TTransformation>
   m_Interpolator = InterpolatorType::New();
   m_Interpolator->SetInputImage( domain );
 
-  // FIXME: remove these once GetSpacing/GetOrigin
-  // have been added to itk::Image
-  m_Interpolator->SetImageSpacing( domain->GetSpacing() );
-  m_Interpolator->SetImageOrigin( domain->GetOrigin() );
-
 }
 
 
