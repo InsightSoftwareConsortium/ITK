@@ -29,6 +29,7 @@ namespace itk
 BMPImageIO::BMPImageIO()
 {
   m_ByteOrder = BigEndian;
+  m_BitMapOffset = 0;
   this->SetNumberOfDimensions(2);
   m_PixelType = UCHAR;
   m_Spacing[0] = 1.0;
@@ -241,19 +242,34 @@ void BMPImageIO::Read(void* buffer)
   unsigned long step = 1;
   long streamRead = m_Dimensions[0]*m_Depth/8;
 
+  char* value = new char[streamRead+1];
+  if (m_FileLowerLeft)
+    {
     for(unsigned int id=0;id<m_Dimensions[1];id++)
       {
-    char* value = new char[streamRead+1];
-    m_Ifstream.seekg(-streamRead*(id+1),std::ios::end);
-    m_Ifstream.read((char *)value, streamRead);
-    
-    for(long i=0;i<streamRead;i+=step)
-      { 
-      p[l++]=value[i];  
+      m_Ifstream.seekg(m_BitMapOffset + streamRead*(m_Dimensions[1] - id - 1),std::ios::beg);
+      m_Ifstream.read((char *)value, streamRead);
+
+      for(long i=0;i<streamRead;i+=step)
+        { 
+        p[l++]=value[i];  
+        }
       }
- 
+    }
+  else
+    {
+    m_Ifstream.seekg(m_BitMapOffset,std::ios::beg);
+    for(unsigned int id=0;id<m_Dimensions[1];id++)
+      {
+      m_Ifstream.read((char *)value, streamRead);
+
+      for(long i=0;i<streamRead;i+=step)
+        { 
+        p[l++]=value[i];  
+        }
+      }
+    }
   delete value;
-      }
   m_Ifstream.close();
 }
 
@@ -298,6 +314,7 @@ void BMPImageIO::ReadImageInformation()
     m_Ifstream.read((char*)&tmp,4);
     // read the offset
     m_Ifstream.read((char*)&tmp,4);
+    m_BitMapOffset = tmp;
     }
   else
     {
@@ -306,6 +323,7 @@ void BMPImageIO::ReadImageInformation()
     m_Ifstream.read((char*)&itmp,4);
     // read the offset
     m_Ifstream.read((char*)&itmp,4);
+    m_BitMapOffset = static_cast<long>(itmp);
     }
 
   // get size of header
@@ -425,6 +443,7 @@ void BMPImageIO::ReadImageInformation()
     {
     this->SetNumberOfComponents(3);
     }
+
 }
 
 
@@ -653,6 +672,7 @@ void BMPImageIO::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "PixelType " << m_PixelType << "\n";
   os << indent << "Depth " << m_Depth << "\n";
   os << indent << "FileLowerLeft " << m_FileLowerLeft << "\n";
+  os << indent << "BitMapOffset " << m_BitMapOffset << "\n";
   if(m_Allow8BitBMP)
     {
     os << indent << "m_Allow8BitBMP : True" << "\n";

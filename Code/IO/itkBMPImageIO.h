@@ -93,6 +93,7 @@ private:
  
   std::ifstream   m_Ifstream;
   std::ofstream   m_Ofstream;
+  long            m_BitMapOffset;
   bool            m_FileLowerLeft;
   short           m_Depth;
   bool            m_Allow8BitBMP;
