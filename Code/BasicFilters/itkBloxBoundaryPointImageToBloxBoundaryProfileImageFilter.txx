@@ -279,9 +279,9 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
   outputPtr->Allocate();
 
   // Create an iterator to walk the boundary point image
-  typedef ImageRegionIterator<BoundaryPointImageType> TBPIteratorType;
+  typedef ImageRegionIterator<BoundaryPointImageType> BPIteratorType;
 
-  TBPIteratorType bpIt = TBPIteratorType(bpPtr,
+  BPIteratorType bpIt = BPIteratorType(bpPtr,
                                             bpPtr->GetRequestedRegion() );
 
   // Count number of iterated boundary points
@@ -305,21 +305,21 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
       //---------Create and initialize a sampling spatial function-----------
 
       // Symmetric Ellipsoid spatial function typedef
-      typedef SymmetricEllipsoidInteriorExteriorSpatialFunction<NDimensions> TFunctionType;
+      typedef SymmetricEllipsoidInteriorExteriorSpatialFunction<NDimensions> FunctionType;
   
       // Point position typedef
-      typedef TFunctionType::InputType TSymEllipsoidFunctionVectorType;
+      typedef FunctionType::InputType SymEllipsoidFunctionVectorType;
 
       // Create a symmetric ellipsoid spatial function for the source image
-      TFunctionType::Pointer spatialFunc = TFunctionType::New();
+      FunctionType::Pointer spatialFunc = FunctionType::New();
 
       // Set the origin of the spatial function to the current boundary point location
 
-      TPositionType spatialFunctionOrigin = (*bpiterator)->GetPhysicalPosition();
+      PositionType spatialFunctionOrigin = (*bpiterator)->GetPhysicalPosition();
       spatialFunc->SetCenter(spatialFunctionOrigin);
 
       // Convert the origin position to a vector     
-      TVectorType spatialFunctionOriginVector;
+      VectorType spatialFunctionOriginVector;
       spatialFunctionOriginVector.Set_vnl_vector( spatialFunctionOrigin.Get_vnl_vector() );
 
       // Set the orientation of the ellipsoid to the current boundary point gradient
@@ -330,7 +330,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 
       gradientNormalized = (*bpiterator)->GetGradient()/gradientNorm;
 
-      TVectorType orientationVNL;
+      VectorType orientationVNL;
       for(unsigned int i = 0; i < NDimensions; i++)
         {
         orientation[i] = gradientNormalized[i];
@@ -351,12 +351,12 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
       seedIndex.SetIndex(position);
 
       // Create and initialize a spatial function iterator
-      typedef FloodFilledSpatialFunctionConditionalIterator<TSourceImage, TFunctionType> TIteratorType;
-      TIteratorType sfi = TIteratorType(sourcePtr, spatialFunc, seedIndex);
+      typedef FloodFilledSpatialFunctionConditionalIterator<TSourceImage, FunctionType> IteratorType;
+      IteratorType sfi = IteratorType(sourcePtr, spatialFunc, seedIndex);
 
       // The index of the pixel
     
-      TVectorType indexPosition;
+      VectorType indexPosition;
 
       for(int i = 0; i < m_NumberOfBins; ++i)
         { 
@@ -370,7 +370,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
         for(unsigned int i = 0; i < NDimensions; i++)
           indexPosition[i] = sfi.GetIndex()[i];
         
-        TVectorType deltaPoint;
+        VectorType deltaPoint;
 
       for(unsigned int i = 0; i < NDimensions; i++)
         // Calculate difference in spatial function index and origin
@@ -445,7 +445,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
           boundaryProfile->SetStandardDeviationNormalized();
           boundaryProfile->SetOptimalBoundaryLocation(spatialFunctionOriginVector.Get_vnl_vector(), orientationVNL.Get_vnl_vector());
 
-          TPositionType optimalBoundaryLocation;
+          PositionType optimalBoundaryLocation;
           for(unsigned int i = 0; i < NDimensions; i++)
             optimalBoundaryLocation[i] = boundaryProfile->GetOptimalBoundaryLocation()[i];
 

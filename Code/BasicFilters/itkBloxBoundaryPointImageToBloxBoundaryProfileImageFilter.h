@@ -91,10 +91,10 @@ public:
   typedef typename BloxBoundaryProfileImage<NDimensions>::PixelType PixelType;
 
   /** The type of vector used to convert between physical and blox space */
-  typedef Point<double, NDimensions> TPositionType;
+  typedef Point<double, NDimensions> PositionType;
 
   /** Vector typedef */
-  typedef typename TPositionType::VectorType TVectorType;
+  typedef typename PositionType::VectorType VectorType;
 
   /** Set the blurred original image */
   void SetInput1( const SourceImageType * image1 );

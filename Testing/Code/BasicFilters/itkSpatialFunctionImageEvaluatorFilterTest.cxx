@@ -42,19 +42,19 @@ int itkSpatialFunctionImageEvaluatorFilterTest(int, char**)
   double sourceImageOrigin[] = { 0,0,0 };
 
   // Image typedef
-  typedef itk::Image< unsigned char, dim > TImageType;
+  typedef itk::Image< unsigned char, dim > ImageType;
 
   // Create the sourceImage
-  TImageType::Pointer sourceImage = TImageType::New();
+  ImageType::Pointer sourceImage = ImageType::New();
   sourceImage->SetOrigin(sourceImageOrigin);
   sourceImage->SetSpacing(sourceImageSpacing);
 
   // Create a size object native to the sourceImage type
-  TImageType::SizeType sourceImageSizeObject;
+  ImageType::SizeType sourceImageSizeObject;
   // Set the size object to the array defined earlier
   sourceImageSizeObject.SetSize( sourceImageSize );
   // Create a region object native to the sourceImage type
-  TImageType::RegionType largestPossibleRegion;
+  ImageType::RegionType largestPossibleRegion;
   // Resize the region
   largestPossibleRegion.SetSize( sourceImageSizeObject );
   // Set the largest legal region size (i.e. the size of the whole sourceImage) to what we just defined
@@ -67,16 +67,16 @@ int itkSpatialFunctionImageEvaluatorFilterTest(int, char**)
   sourceImage->Allocate();
 
   // Create and initialize a new Gaussian function
-  typedef itk::GaussianSpatialFunction<char, dim> TFunctionType;
-  TFunctionType::Pointer pFunc = TFunctionType::New();
+  typedef itk::GaussianSpatialFunction<char, dim> FunctionType;
+  FunctionType::Pointer pFunc = FunctionType::New();
 
   // Run the image evaluator filter
-  typedef itk::SpatialFunctionImageEvaluatorFilter<TFunctionType, TImageType, TImageType> TFilter;
+  typedef itk::SpatialFunctionImageEvaluatorFilter<FunctionType, ImageType, ImageType> TFilter;
   TFilter::Pointer pFilter = TFilter::New();
 
   pFilter->SetInput(sourceImage);
   pFilter->SetFunction(pFunc);
-  TImageType::Pointer outputImage = pFilter->GetOutput();
+  ImageType::Pointer outputImage = pFilter->GetOutput();
 
   pFilter->Update();
 

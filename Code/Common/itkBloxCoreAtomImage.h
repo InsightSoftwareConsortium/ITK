@@ -64,7 +64,7 @@ public:
   itkTypeMacro(BloxCoreAtomImage, BloxImage);
 
   /** The type of boundary point item we process * */
-  typedef BloxBoundaryPointItem<NDimensions> TBPItemType;
+  typedef BloxBoundaryPointItem<NDimensions> BPItemType;
 
   /** Pixel typedef support. Used to declare pixel type in filters
    * or other operations. */
@@ -81,13 +81,13 @@ public:
   typedef DefaultPixelAccessor< PixelType > AccessorType;
 
   /** The type of Point used to convert between physical and blox space */
-  typedef Point<double, NDimensions> TPositionType;
+  typedef Point<double, NDimensions> PositionType;
 
   /** The vector between two points */
-  typedef typename TPositionType::VectorType TVectorType;
+  typedef typename PositionType::VectorType VectorType;
 
   /** How we represent gradients. */
-  typedef CovariantVector<double, NDimensions> TGradientType;
+  typedef CovariantVector<double, NDimensions> GradientType;
 
   /** Convenient typedefs obtained from Superclass.
    * Note: Unlike "normal" images BloxCoreAtomImages support neither Scalar nor

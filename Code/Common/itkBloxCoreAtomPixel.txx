@@ -70,7 +70,7 @@ BloxCoreAtomPixel<NDimensions>
   for (bpiterator = this->begin(); bpiterator != this->end(); ++bpiterator)
     {
     // Get the pointer of the core atom
-    TCoreAtomItemType* pCoreAtom = *bpiterator;
+    CoreAtomItemType* pCoreAtom = *bpiterator;
 
     //get mean intensity for this core atom
     temp_intensity = (pCoreAtom->GetBoundaryPointA()->GetValue() + pCoreAtom->GetBoundaryPointB()->GetValue())/2
@@ -90,13 +90,13 @@ BloxCoreAtomPixel<NDimensions>
   // The iterator for accessing linked list info
   itk::BloxCoreAtomPixel<NDimensions>::iterator bpiterator;
   
-  TPositionType center;
+  PositionType center;
 
   // Walk through all of the items in the voting pixel
   for (bpiterator = votingPixel->begin(); bpiterator != votingPixel->end(); ++bpiterator)
     {
     // Get the pointer of the core atom
-    TCoreAtomItemType* pCoreAtom = *bpiterator;
+    CoreAtomItemType* pCoreAtom = *bpiterator;
 
     // Get the center of the core atom
     center = pCoreAtom->GetCenterPosition();
@@ -130,7 +130,7 @@ BloxCoreAtomPixel<NDimensions>
   for (bpiterator = this->begin(); bpiterator != this->end(); ++bpiterator)
     {
     // Get the pointer of the core atom
-    TCoreAtomItemType* pCoreAtom = *bpiterator;
+    CoreAtomItemType* pCoreAtom = *bpiterator;
 
     m_MeanCoreAtomDiameter += pCoreAtom->GetDiameter();
     
@@ -166,21 +166,21 @@ BloxCoreAtomPixel<NDimensions>
   for (bpiterator = this->begin(); bpiterator != this->end(); ++bpiterator)
     {
     // Get the pointer of the core atom
-    TCoreAtomItemType* pCoreAtom = *bpiterator;
+    CoreAtomItemType* pCoreAtom = *bpiterator;
 
     // Get the boundary points
-    TBPItemType* pBPOne = pCoreAtom->GetBoundaryPointA();
-    TBPItemType* pBPTwo = pCoreAtom->GetBoundaryPointB();
+    BPItemType* pBPOne = pCoreAtom->GetBoundaryPointA();
+    BPItemType* pBPTwo = pCoreAtom->GetBoundaryPointB();
     
     // Get the physical positions of the two boundary points
-    TVectorType P1;
+    VectorType P1;
     P1 = pBPOne->GetPhysicalPosition().Get_vnl_vector();
     
-    TVectorType P2;
+    VectorType P2;
     P2 = pBPTwo->GetPhysicalPosition().Get_vnl_vector();
 
     // Figure out the "C" vector of the core atom
-    TVectorType cVector = P2 - P1;
+    VectorType cVector = P2 - P1;
     cVector.normalize();
 
     // Now, add to m_RawCMatrix
@@ -228,7 +228,7 @@ BloxCoreAtomPixel<NDimensions>
 }
 
 template <unsigned int NDimensions>
-BloxCoreAtomPixel<NDimensions>::TPositionType
+BloxCoreAtomPixel<NDimensions>::PositionType
 BloxCoreAtomPixel<NDimensions>
 ::GetVotedLocation()
 {

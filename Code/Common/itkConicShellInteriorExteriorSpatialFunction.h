@@ -78,7 +78,7 @@ public:
   typedef typename Superclass::OutputType OutputType;
 
   /** The type of vector used to store the gradient info. */
-  typedef CovariantVector<double, VDimension> TGradientType;
+  typedef CovariantVector<double, VDimension> GradientType;
   
   /** Evaluates the function at a given position */
   OutputType Evaluate(const InputType& position) const;
@@ -88,8 +88,8 @@ public:
   itkSetMacro( Origin, InputType);
   
   /** Set/Get the gradient at the origin of the function. */
-  TGradientType GetOriginGradient() {return m_OriginGradient;}
-  void SetOriginGradient(TGradientType grad);
+  GradientType GetOriginGradient() {return m_OriginGradient;}
+  void SetOriginGradient(GradientType grad);
   
   /** Set/Get the minimum search distance. */
   itkGetMacro( DistanceMin, double);
@@ -120,7 +120,7 @@ private:
   InputType m_Origin;
 
   /** The gradient at the origin */
-  TGradientType m_OriginGradient;
+  GradientType m_OriginGradient;
 
   double m_DistanceMin;
   double m_DistanceMax;

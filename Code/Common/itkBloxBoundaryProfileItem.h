@@ -13,19 +13,19 @@ class BloxBoundaryProfileItem: public BloxItem
 {
 public:
    /** The point type used to store the position of the boundary profile */
-   typedef Point<double, VImageDimension> TPositionType;
+   typedef Point<double, VImageDimension> PositionType;
 
    /** The type of vector used to store the gradient of the BoundaryPointItem * */
-   typedef CovariantVector<double, VImageDimension> TGradientType;
+   typedef CovariantVector<double, VImageDimension> GradientType;
 
    //** Vector Type
    typedef vnl_vector<double> VectorType;
 
    /** The type of boundary point item we store pointers to */
-   typedef BloxBoundaryPointItem<VImageDimension> TBPItemType;
+   typedef BloxBoundaryPointItem<VImageDimension> BPItemType;
   
    /** Set the position of the first boundary point in physical space */
-   void SetBoundaryPoint(TBPItemType* point)
+   void SetBoundaryPoint(BPItemType* point)
    { m_BoundaryPoint = point; }
 
    /** Set and get lower intensity estimates */
@@ -94,14 +94,14 @@ public:
          { m_OptimalBoundaryLocation[i] = optimalBoundaryLocation[i]; }
       }
 
-   TPositionType GetOptimalBoundaryLocation(void)
+   PositionType GetOptimalBoundaryLocation(void)
    { return(m_OptimalBoundaryLocation); }
 
    /** Set the gradient of the boundary profile * */
-   void SetGradient(TGradientType grad){m_Gradient = grad;};
+   void SetGradient(GradientType grad){m_Gradient = grad;};
 
    /** Get the gradient of the boundary profile * */
-   TGradientType GetGradient(){return m_Gradient;};
+   GradientType GetGradient(){return m_Gradient;};
 
    BloxBoundaryProfileItem();
    ~BloxBoundaryProfileItem();
@@ -118,10 +118,10 @@ private:
    double       m_StandardDeviationNormalized;
    
    /** The position of the estimated boundary location */
-   TPositionType m_OptimalBoundaryLocation;
+   PositionType m_OptimalBoundaryLocation;
 
    /** The gradient of the boundary point (non-normalized) * */
-   TGradientType m_Gradient;
+   GradientType m_Gradient;
 };
 
 } // end namespace itk

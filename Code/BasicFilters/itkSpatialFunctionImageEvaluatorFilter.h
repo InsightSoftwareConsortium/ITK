@@ -71,16 +71,16 @@ public:
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
   /** Type of function. */
-  typedef TSpatialFunction TFunctionType;
+  typedef TSpatialFunction FunctionType;
 
   /** Return type of function. */
-  typedef typename TFunctionType::OutputType TFunctionValueType;
+  typedef typename FunctionType::OutputType FunctionValueType;
 
   /** Typedef describing vector info. */
-  typedef typename TFunctionType::InputType TPositionType;
+  typedef typename FunctionType::InputType PositionType;
 
   /** Set the internal spatial function. */
-  void SetFunction( TFunctionType* PixelFunction )
+  void SetFunction( FunctionType* PixelFunction )
     {m_PixelFunction = PixelFunction;};
 
 protected:
@@ -95,7 +95,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   /** The function that will be evaluated over the image */
-  TFunctionType* m_PixelFunction;
+  FunctionType* m_PixelFunction;
 };
 
 } // end namespace itk

@@ -83,13 +83,13 @@ public:
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
   /** The type of Point used to convert between physical and blox space */
-  typedef Point<double, NDimensions> TPositionType;
+  typedef Point<double, NDimensions> PositionType;
 
   /** The vector between two points */
-  typedef typename TPositionType::VectorType TVectorType;
+  typedef typename PositionType::VectorType VectorType;
 
   /** How we represent gradients. */
-  typedef CovariantVector<double, NDimensions> TGradientType;
+  typedef CovariantVector<double, NDimensions> GradientType;
 
   /** Walk the input image, find core atoms, store them.  */
   void FindCoreAtoms();

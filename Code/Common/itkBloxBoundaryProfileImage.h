@@ -64,11 +64,11 @@ public:
 
   typedef DefaultPixelAccessor< PixelType > AccessorType;
 
-  typedef Point<double, VImageDimension> TPositionType;
+  typedef Point<double, VImageDimension> PositionType;
 
-  typedef typename TPositionType::VectorType TVectorType;
+  typedef typename PositionType::VectorType VectorType;
 
-  typedef CovariantVector<double, VImageDimension> TGradientType;
+  typedef CovariantVector<double, VImageDimension> GradientType;
 
   typedef typename Superclass::PixelContainer PixelContainer;
   typedef typename Superclass::SizeType SizeType;

@@ -49,10 +49,10 @@ int itkBloxBoundaryPointImageTest(int, char**)
   double sourceImageOrigin[] = { 0,0,0 };
 
   // Image typedef
-  typedef itk::Image< unsigned char, dim > TImageType;
+  typedef itk::Image< unsigned char, dim > ImageType;
 
   // Creates the sourceImage (but doesn't set the size or allocate memory)
-  TImageType::Pointer sourceImage = TImageType::New();
+  ImageType::Pointer sourceImage = ImageType::New();
   sourceImage->SetOrigin(sourceImageOrigin);
   sourceImage->SetSpacing(sourceImageSpacing);
 
@@ -61,11 +61,11 @@ int itkBloxBoundaryPointImageTest(int, char**)
   //-----The following block allocates the sourceImage-----
 
   // Create a size object native to the sourceImage type
-  TImageType::SizeType sourceImageSizeObject;
+  ImageType::SizeType sourceImageSizeObject;
   // Set the size object to the array defined earlier
   sourceImageSizeObject.SetSize( sourceImageSize );
   // Create a region object native to the sourceImage type
-  TImageType::RegionType largestPossibleRegion;
+  ImageType::RegionType largestPossibleRegion;
   // Resize the region
   largestPossibleRegion.SetSize( sourceImageSizeObject );
   // Set the largest legal region size (i.e. the size of the whole sourceImage) to what we just defined
@@ -80,8 +80,8 @@ int itkBloxBoundaryPointImageTest(int, char**)
   printf("New sourceImage allocated\n");
 
   // Initialize the image to hold all 0's
-  itk::ImageRegionIterator<TImageType> it = 
-    itk::ImageRegionIterator<TImageType>(sourceImage, largestPossibleRegion);
+  itk::ImageRegionIterator<ImageType> it = 
+    itk::ImageRegionIterator<ImageType>(sourceImage, largestPossibleRegion);
 
   for(it.GoToBegin(); !it.IsAtEnd(); ++it)
     {
@@ -90,15 +90,15 @@ int itkBloxBoundaryPointImageTest(int, char**)
 
   //---------Create and initialize a spatial function-----------
 
-  typedef itk::SphereSpatialFunction<dim> TFunctionType;
-  typedef TFunctionType::InputType TFunctionPositionType;
+  typedef itk::SphereSpatialFunction<dim> FunctionType;
+  typedef FunctionType::InputType FunctionPositionType;
 
   // Create and initialize a new sphere function
 
-  TFunctionType::Pointer spatialFunc = TFunctionType::New();
+  FunctionType::Pointer spatialFunc = FunctionType::New();
   spatialFunc->SetRadius( 5 );
 
-  TFunctionPositionType center;
+  FunctionPositionType center;
   center[0]=10;
   center[1]=10;
   center[2]=10;
@@ -107,13 +107,13 @@ int itkBloxBoundaryPointImageTest(int, char**)
   printf("Sphere spatial function created\n");
 
   //---------Create and initialize a spatial function iterator-----------
-  TImageType::IndexType seedPos;
-  const TImageType::IndexValueType pos[] = {10,10,10};
+  ImageType::IndexType seedPos;
+  const ImageType::IndexValueType pos[] = {10,10,10};
   seedPos.SetIndex(pos);
 
   typedef itk::FloodFilledSpatialFunctionConditionalIterator
-    <TImageType, TFunctionType> TItType;
-  TItType sfi = TItType(sourceImage, spatialFunc, seedPos);
+    <ImageType, FunctionType> ItType;
+  ItType sfi = ItType(sourceImage, spatialFunc, seedPos);
 
   // Iterate through the entire image and set interior pixels to 255
   for( ; !( sfi.IsAtEnd() ); ++sfi)
@@ -124,11 +124,11 @@ int itkBloxBoundaryPointImageTest(int, char**)
   printf("Spatial function iterator created, sphere drawn\n");
 
   //--------------------Do blurring and edge detection----------------
-  typedef TImageType TOutputType;
+  typedef ImageType OutputType;
   
   // Create a binomial blur filter
-  itk::BinomialBlurImageFilter<TImageType, TOutputType>::Pointer binfilter;
-  binfilter = itk::BinomialBlurImageFilter<TImageType, TOutputType>::New();
+  itk::BinomialBlurImageFilter<ImageType, OutputType>::Pointer binfilter;
+  binfilter = itk::BinomialBlurImageFilter<ImageType, OutputType>::New();
 
   sourceImage->SetRequestedRegion(sourceImage->GetLargestPossibleRegion() );
 
@@ -137,48 +137,48 @@ int itkBloxBoundaryPointImageTest(int, char**)
   binfilter->SetRepetitions(4);
 
   // Set up the output of the filter
-  TImageType::Pointer blurredImage = binfilter->GetOutput();
+  ImageType::Pointer blurredImage = binfilter->GetOutput();
 
   // Execute the filter
   binfilter->Update();
   std::cout << "Binomial blur filter updated\n";
 
   // Create a differennce of gaussians gradient filter
-  typedef itk::DifferenceOfGaussiansGradientImageFilter<TOutputType,
-    double> TDOGFilterType;
-  TDOGFilterType::Pointer DOGFilter = TDOGFilterType::New();
+  typedef itk::DifferenceOfGaussiansGradientImageFilter<OutputType,
+    double> DOGFilterType;
+  DOGFilterType::Pointer DOGFilter = DOGFilterType::New();
 
   // We're filtering the output of the binomial filter
   DOGFilter->SetInput(blurredImage);
 
   // Get the output of the gradient filter
-  TDOGFilterType::TOutputImage::Pointer gradientImage = DOGFilter->GetOutput();
+  DOGFilterType::TOutputImage::Pointer gradientImage = DOGFilter->GetOutput();
 
   // Go!
   DOGFilter->Update();
 
   //------------------------Blox Boundary Point Analysis-------------------------
 
-  typedef itk::GradientImageToBloxBoundaryPointImageFilter<TDOGFilterType::TOutputImage> TBPFilter;
-  typedef TBPFilter::TOutputImage TBloxBPImageType;
+  typedef itk::GradientImageToBloxBoundaryPointImageFilter<DOGFilterType::TOutputImage> TBPFilter;
+  typedef TBPFilter::TOutputImage BloxBPImageType;
 
   TBPFilter::Pointer bpFilter= TBPFilter::New();
   bpFilter->SetInput( DOGFilter->GetOutput() );
 
-  TBloxBPImageType::Pointer bloxBoundaryPointImage = bpFilter->GetOutput();
+  BloxBPImageType::Pointer bloxBoundaryPointImage = bpFilter->GetOutput();
 
   bpFilter->Update();
 
   //-------------------Pull boundary points out of the image----------------------
 
   // Create an iterator that will walk the blox image
-  typedef itk::ImageRegionIterator<TBloxBPImageType> BloxIterator;
+  typedef itk::ImageRegionIterator<BloxBPImageType> BloxIterator;
 
   BloxIterator bloxIt = BloxIterator(bloxBoundaryPointImage,
                                      bloxBoundaryPointImage->GetRequestedRegion() );
 
   // Used for obtaining the index of a pixel
-  TBloxBPImageType::IndexType bloxindex;
+  BloxBPImageType::IndexType bloxindex;
 
   // Used for obtaining position data from a BloxPoint
   itk::Point<double, 3> position;

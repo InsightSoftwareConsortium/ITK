@@ -45,7 +45,7 @@ ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
 template <unsigned int VDimension, typename TInput>
 void
 ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
-::SetOriginGradient(TGradientType grad)
+::SetOriginGradient(GradientType grad)
 {
   m_OriginGradient = grad;
 
@@ -83,10 +83,10 @@ ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
   // O means the direction that the gradient is pointing,
   // 1 means the opposite direction
 
-  typedef Vector<double, VDimension> TVectorType;
+  typedef Vector<double, VDimension> VectorType;
 
   // Compute the vector from the origin to the point we're testing
-  TVectorType vecOriginToTest = position - m_Origin;
+  VectorType vecOriginToTest = position - m_Origin;
 
   // Compute the length of this vector
   // double vecDistance = vecOriginToTest.Get_vnl_vector().magnitude();
@@ -101,7 +101,7 @@ ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
   vecOriginToTest.Normalize();
 
   // Create a temp vector to get around const problems
-  TGradientType originGradient = m_OriginGradient;
+  GradientType originGradient = m_OriginGradient;
 
   // Now compute the dot product
   // double dotprod = dot_product(originGradient.Get_vnl_vector(), vecOriginToTest.Get_vnl_vector());

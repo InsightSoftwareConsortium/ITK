@@ -70,13 +70,13 @@ BloxCoreAtomImage<dim>
   BloxCoreAtomPixel<NDimensions>* pPixel = 0;
 
   // Results of eigenanalysis from each pixel
-  BloxCoreAtomPixel<NDimensions>::TEigenvalueType eigenvalues;
-  BloxCoreAtomPixel<NDimensions>::TEigenvectorType eigenvectors;
+  BloxCoreAtomPixel<NDimensions>::EigenvalueType eigenvalues;
+  BloxCoreAtomPixel<NDimensions>::EigenvectorType eigenvectors;
 
   //TESTING
   // Results of eigenanalysis from each pixel
-  BloxCoreAtomPixel<NDimensions>::TEigenvalueType sf_eigenvalues;
-  BloxCoreAtomPixel<NDimensions>::TEigenvectorType sf_eigenvectors;
+  BloxCoreAtomPixel<NDimensions>::EigenvalueType sf_eigenvalues;
+  BloxCoreAtomPixel<NDimensions>::EigenvectorType sf_eigenvectors;
 
   int voterCount = 0;
   for(bloxIt.GoToBegin(); !bloxIt.IsAtEnd(); ++bloxIt)
@@ -117,12 +117,12 @@ BloxCoreAtomImage<dim>
       }
 
     // Build the ellipsoid voting region
-    typedef EllipsoidInteriorExteriorSpatialFunction<NDimensions, TPositionType> TVoteFunctionType;
-    TVoteFunctionType::Pointer ellipsoid = TVoteFunctionType::New();
+    typedef EllipsoidInteriorExteriorSpatialFunction<NDimensions, PositionType> VoteFunctionType;
+    VoteFunctionType::Pointer ellipsoid = VoteFunctionType::New();
 
     // Create an iterator to traverse the ellipsoid region
     typedef FloodFilledSpatialFunctionConditionalIterator
-      <Self, TVoteFunctionType> TItType;
+      <Self, VoteFunctionType> ItType;
 
     // The seed position for the ellipsoid is the current pixel's index in data space
     // since this is always at the center of the voting ellipsoid
@@ -130,7 +130,7 @@ BloxCoreAtomImage<dim>
     
     // Figure out the center of the ellipsoid, which is the center
     // of the voting pixel
-    TVoteFunctionType::InputType centerPosition;
+    VoteFunctionType::InputType centerPosition;
 
     ContinuousIndex<double, dim> contIndex;
 
@@ -147,7 +147,7 @@ BloxCoreAtomImage<dim>
     ellipsoid->SetAxes(axisLengthArray);
     
     // Instantiate the iterator
-    TItType sfi = TItType(this, ellipsoid, seedPos);
+    ItType sfi = ItType(this, ellipsoid, seedPos);
 
     // Get the position of the voting blox
     typedef Point<double, NDimensions> TPosition;
@@ -263,8 +263,8 @@ BloxCoreAtomImage<dim>
   BloxCoreAtomPixel<NDimensions> pPixel;
 
   // Results of eigenanalysis from each pixel
-  BloxCoreAtomPixel<NDimensions>::TEigenvalueType eigenvalues;
-  BloxCoreAtomPixel<NDimensions>::TEigenvalueType veigenvalues;
+  BloxCoreAtomPixel<NDimensions>::EigenvalueType eigenvalues;
+  BloxCoreAtomPixel<NDimensions>::EigenvalueType veigenvalues;
 
   int voterCount = 0;
 

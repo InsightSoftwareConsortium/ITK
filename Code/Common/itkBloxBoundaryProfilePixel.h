@@ -19,13 +19,13 @@ class BloxBoundaryProfilePixel : public BloxPixel< BloxBoundaryProfileItem<NDime
 {
 public:
   /** The type of boundary profile item we process. */
-  typedef BloxBoundaryProfilePixel<NDimensions> TBoundaryProfileItemType;
+  typedef BloxBoundaryProfilePixel<NDimensions> BoundaryProfileItemType;
 
   /** The type of boundary point item we process. */
-  typedef BloxBoundaryPointItem<NDimensions> TBPItemType;
+  typedef BloxBoundaryPointItem<NDimensions> BPItemType;
 
   /** The type used to store the position of the boundary point item. */
-  typedef Point<double, NDimensions> TPositionType;
+  typedef Point<double, NDimensions> PositionType;
   
   BloxBoundaryProfilePixel();
   ~BloxBoundaryProfilePixel();

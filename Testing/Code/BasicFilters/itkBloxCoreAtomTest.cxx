@@ -50,10 +50,10 @@ int itkBloxCoreAtomTest(int, char**)
   double sourceImageOrigin[] = { 0,0,0 };
 
   // Image typedef
-  typedef itk::Image< unsigned char, dim > TImageType;
+  typedef itk::Image< unsigned char, dim > ImageType;
 
   // Creates the sourceImage (but doesn't set the size or allocate memory)
-  TImageType::Pointer sourceImage = TImageType::New();
+  ImageType::Pointer sourceImage = ImageType::New();
   sourceImage->SetOrigin(sourceImageOrigin);
   sourceImage->SetSpacing(sourceImageSpacing);
 
@@ -62,11 +62,11 @@ int itkBloxCoreAtomTest(int, char**)
   //-----The following block allocates the sourceImage-----
 
   // Create a size object native to the sourceImage type
-  TImageType::SizeType sourceImageSizeObject;
+  ImageType::SizeType sourceImageSizeObject;
   // Set the size object to the array defined earlier
   sourceImageSizeObject.SetSize( sourceImageSize );
   // Create a region object native to the sourceImage type
-  TImageType::RegionType largestPossibleRegion;
+  ImageType::RegionType largestPossibleRegion;
   // Resize the region
   largestPossibleRegion.SetSize( sourceImageSizeObject );
   // Set the largest legal region size (i.e. the size of the whole sourceImage) to what we just defined
@@ -81,8 +81,8 @@ int itkBloxCoreAtomTest(int, char**)
   printf("New sourceImage allocated\n");
 
   // Initialize the image to hold all 0's
-  itk::ImageRegionIterator<TImageType> it = 
-    itk::ImageRegionIterator<TImageType>(sourceImage, largestPossibleRegion);
+  itk::ImageRegionIterator<ImageType> it = 
+    itk::ImageRegionIterator<ImageType>(sourceImage, largestPossibleRegion);
 
   for(it.GoToBegin(); !it.IsAtEnd(); ++it)
     {
@@ -91,15 +91,15 @@ int itkBloxCoreAtomTest(int, char**)
 
   //---------Create and initialize a spatial function-----------
 
-  typedef itk::SphereSpatialFunction<dim> TFunctionType;
-  typedef TFunctionType::InputType TFunctionPositionType;
+  typedef itk::SphereSpatialFunction<dim> FunctionType;
+  typedef FunctionType::InputType FunctionPositionType;
 
   // Create and initialize a new sphere function
 
-  TFunctionType::Pointer spatialFunc = TFunctionType::New();
+  FunctionType::Pointer spatialFunc = FunctionType::New();
   spatialFunc->SetRadius( 5 );
 
-  TFunctionPositionType center;
+  FunctionPositionType center;
   center[0]=10;
   center[1]=10;
   center[2]=10;
@@ -108,13 +108,13 @@ int itkBloxCoreAtomTest(int, char**)
   printf("Sphere spatial function created\n");
 
   //---------Create and initialize a spatial function iterator-----------
-  TImageType::IndexType seedPos;
-  const TImageType::IndexValueType pos[] = {10,10,10};
+  ImageType::IndexType seedPos;
+  const ImageType::IndexValueType pos[] = {10,10,10};
   seedPos.SetIndex(pos);
 
   typedef itk::FloodFilledSpatialFunctionConditionalIterator
-    <TImageType, TFunctionType> TItType;
-  TItType sfi = TItType(sourceImage, spatialFunc, seedPos);
+    <ImageType, FunctionType> ItType;
+  ItType sfi = ItType(sourceImage, spatialFunc, seedPos);
 
   // Iterate through the entire image and set interior pixels to 255
   for( ; !( sfi.IsAtEnd() ); ++sfi)
@@ -125,11 +125,11 @@ int itkBloxCoreAtomTest(int, char**)
   printf("Spatial function iterator created, sphere drawn\n");
 
   //--------------------Do blurring and edge detection----------------
-  typedef TImageType TOutputType;
+  typedef ImageType OutputType;
   
   // Create a binomial blur filter
-  itk::BinomialBlurImageFilter<TImageType, TOutputType>::Pointer binfilter;
-  binfilter = itk::BinomialBlurImageFilter<TImageType, TOutputType>::New();
+  itk::BinomialBlurImageFilter<ImageType, OutputType>::Pointer binfilter;
+  binfilter = itk::BinomialBlurImageFilter<ImageType, OutputType>::New();
 
   sourceImage->SetRequestedRegion(sourceImage->GetLargestPossibleRegion() );
 
@@ -138,38 +138,38 @@ int itkBloxCoreAtomTest(int, char**)
   binfilter->SetRepetitions(4);
 
   // Set up the output of the filter
-  TImageType::Pointer blurredImage = binfilter->GetOutput();
+  ImageType::Pointer blurredImage = binfilter->GetOutput();
 
   // Create a differennce of gaussians gradient filter
-  typedef itk::DifferenceOfGaussiansGradientImageFilter<TOutputType,
-    double> TDOGFilterType;
-  TDOGFilterType::Pointer DOGFilter = TDOGFilterType::New();
+  typedef itk::DifferenceOfGaussiansGradientImageFilter<OutputType,
+    double> DOGFilterType;
+  DOGFilterType::Pointer DOGFilter = DOGFilterType::New();
 
   // We're filtering the output of the binomial filter
   DOGFilter->SetInput(blurredImage);
 
   // Get the output of the gradient filter
-  TDOGFilterType::TOutputImage::Pointer gradientImage = DOGFilter->GetOutput();
+  DOGFilterType::TOutputImage::Pointer gradientImage = DOGFilter->GetOutput();
 
   //------------------------Blox Boundary Point Analysis-------------------------
 
-  typedef itk::GradientImageToBloxBoundaryPointImageFilter<TDOGFilterType::TOutputImage> TBPFilter;
-  typedef TBPFilter::TOutputImage TBloxBPImageType;
+  typedef itk::GradientImageToBloxBoundaryPointImageFilter<DOGFilterType::TOutputImage> TBPFilter;
+  typedef TBPFilter::TOutputImage BloxBPImageType;
 
   TBPFilter::Pointer bpFilter= TBPFilter::New();
   bpFilter->SetInput( DOGFilter->GetOutput() );
 
-  TBloxBPImageType::Pointer bloxBoundaryPointImage = bpFilter->GetOutput();
+  BloxBPImageType::Pointer bloxBoundaryPointImage = bpFilter->GetOutput();
 
   bpFilter->Update();
 
   //----------------------Find core atoms-------------------------
 
-  typedef itk::BloxCoreAtomImage<dim> TCoreAtomType;
-  TCoreAtomType::Pointer coreAtomImage = TCoreAtomType::New();
+  typedef itk::BloxCoreAtomImage<dim> CoreAtomType;
+  CoreAtomType::Pointer coreAtomImage = CoreAtomType::New();
 
   typedef itk::BloxBoundaryPointToCoreAtomImageFilter<dim> TCAFilter;
-  typedef TCAFilter::TOutputImage TBloxCAImageType;
+  typedef TCAFilter::TOutputImage BloxCAImageType;
 
   TCAFilter::Pointer caFilter = TCAFilter::New();
   caFilter->SetInput(bloxBoundaryPointImage);
@@ -178,7 +178,7 @@ int itkBloxCoreAtomTest(int, char**)
   caFilter->SetEpsilon(0.05);
   caFilter->SetPolarity(0);
 
-  TBloxCAImageType::Pointer bloxCoreAtomImage = caFilter->GetOutput();
+  BloxCAImageType::Pointer bloxCoreAtomImage = caFilter->GetOutput();
 
   caFilter->Update();
 

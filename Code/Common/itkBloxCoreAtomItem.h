@@ -40,33 +40,33 @@ class BloxCoreAtomItem: public BloxItem
 {
 public:
   /** The point type used to store the position of the CoreAtomItem. */
-  typedef Point<double, VImageDimension> TPositionType;
+  typedef Point<double, VImageDimension> PositionType;
 
   /** The type of boundary point item we store pointers to. * */
-  typedef BloxBoundaryPointItem<VImageDimension> TBPItemType;
+  typedef BloxBoundaryPointItem<VImageDimension> BPItemType;
 
   /** Set the position of the first boundary point in physical space. */
-  void SetBoundaryPointA(TBPItemType* pointA)
+  void SetBoundaryPointA(BPItemType* pointA)
     { m_BoundaryPointA = pointA; }
 
   /** Get the position of the first boundary point in physical space. */
-  TBPItemType* GetBoundaryPointA()
+  BPItemType* GetBoundaryPointA()
     { return m_BoundaryPointA; }
 
   /** Set the position of the second boundary point in physical space. */
-  void SetBoundaryPointB(TBPItemType* pointB)
+  void SetBoundaryPointB(BPItemType* pointB)
     { m_BoundaryPointB = pointB; }
 
   /** Get the position of the first boundary point in physical space. */
-  TBPItemType* GetBoundaryPointB()
+  BPItemType* GetBoundaryPointB()
     { return m_BoundaryPointB; }
 
   /** Set the position of the center of the core atom in physical space. */
-  void SetCenterPosition(TPositionType pos)
+  void SetCenterPosition(PositionType pos)
     { m_CenterPosition = pos; }
 
   /** Get the position of the center of the core atom in physical space. */
-  TPositionType GetCenterPosition()
+  PositionType GetCenterPosition()
     {return m_CenterPosition; }
 
   /** Set the diameter of the atom. */
@@ -90,17 +90,17 @@ public:
 
 private:
   /** The position of the center of the core atom. */
-  TPositionType m_CenterPosition;
+  PositionType m_CenterPosition;
 
   /** The diameter of the core atom
    * This is the magnitude of the vector from boundary points A->B. */
   double m_Diameter;
 
   /** The first boundary point that's part of the core atom. */
-  TBPItemType* m_BoundaryPointA;
+  BPItemType* m_BoundaryPointA;
 
   /** The second boundary point that's part of the core atom. */
-  TBPItemType* m_BoundaryPointB;
+  BPItemType* m_BoundaryPointB;
 
 };
 
