@@ -210,7 +210,7 @@ public:
   /** 
    * Definition of the Point type used for settin the origin
    */
-  typedef AffineTransformType::PointType    PointType;
+  typedef typename AffineTransformType::PointType    PointType;
 
 
   /** 
