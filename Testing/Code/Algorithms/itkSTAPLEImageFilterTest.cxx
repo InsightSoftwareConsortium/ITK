@@ -92,7 +92,7 @@ private:
 template< unsigned int VDimension >
 int Stapler<VDimension>::Execute()
 {
-  unsigned int i;
+  int i;
 
   typename itk::ImageFileReader<InputImageType>::Pointer  reader;
   typename itk::ImageFileWriter<OutputImageType>::Pointer writer
