@@ -938,8 +938,10 @@ namespace itk
       temp[24]='\0';
       itk::EncapsulateMetaData<std::string>(thisDic,"ANALYZE_AUX_FILE_NAME",temp);
 
-      itk::EncapsulateMetaData<itk::IOCommon::ValidOrientationFlags>(thisDic,"ITK_Orientation",
-          static_cast<itk::IOCommon::ValidOrientationFlags>(this->m_hdr.hist.orient));
+      {
+        itk::IOCommon::ValidOrientationFlags temporient= static_cast<itk::IOCommon::ValidOrientationFlags>(this->m_hdr.hist.orient);
+        itk::EncapsulateMetaData<itk::IOCommon::ValidOrientationFlags>(thisDic,"ITK_Orientation", temporient);
+      }
 
       strncpy(temp,this->m_hdr.hist.originator,10);//Note this is necessary because the array is not necessarily null terminated.
       temp[10]='\0';
@@ -1036,7 +1038,11 @@ namespace itk
           strncpy(this->m_hdr.hist.aux_file,temp.c_str(),24);//Note this is necessary because the array is not necessarily null terminated.
         }
 
-        itk::ExposeMetaData<itk::IOCommon::ValidOrientationFlags>(thisDic,"ITK_Orientation", static_cast<itk::IOCommon::ValidOrientationFlags>(this->m_hdr.hist.orient));
+        {
+          itk::IOCommon::ValidOrientationFlags temporient;
+          itk::ExposeMetaData<itk::IOCommon::ValidOrientationFlags>(thisDic,"ITK_Orientation", temporient);
+          this->m_hdr.hist.orient=static_cast<itk::IOCommon::ValidOrientationFlags>(temporient);
+        }
 
         if(itk::ExposeMetaData<std::string>(thisDic,"ITK_FileOriginator",temp))
         {
