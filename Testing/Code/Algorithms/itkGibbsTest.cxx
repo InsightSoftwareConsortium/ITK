@@ -206,6 +206,8 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
   //Kick off the Gibbs labeller function
   applyGibbsImageFilter->Update();
 
+  std::cout << "applyGibbsImageFilter: " << applyGibbsImageFilter;
+
   ClassImageType::Pointer  outClassImage = applyGibbsImageFilter->GetOutput();
 
   //Print the mrf labelled image
