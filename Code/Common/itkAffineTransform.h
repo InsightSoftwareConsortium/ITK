@@ -190,6 +190,7 @@ public:
   void SetIdentity( void )
     { m_Matrix.SetIdentity();
       m_Offset.Fill( 0.0 );
+      this->RecomputeInverse();
       this->Modified();  
     }
 

@@ -95,6 +95,11 @@ PrintSelf(std::ostream &os, Indent indent) const
       }
     os << m_Offset[i] << std::endl;
     }
+
+  // for debugging
+  os << indent << "Inverse: " << m_Inverse << std::endl;
+  os << indent << "Singular: " << m_Singular << std::endl;
+
 }
 
 
@@ -647,7 +652,9 @@ SetParameters( const ParametersType & parameters )
     m_Offset[i] = m_Parameters[par];
     ++par;
   }
-
+ 
+  // Recompute the inverse
+  this->RecomputeInverse();
   this->Modified();
 }
 

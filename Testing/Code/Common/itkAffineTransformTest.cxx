@@ -50,7 +50,7 @@ int itkAffineTransformTest(
     MatrixType                   inverse2;
     VectorType                   vector2;
 
-    int i, j;
+    unsigned int i, j;
 
     /* FIXME: This code exercises most of the methods but doesn't
        actually check that the results are correct. */
@@ -228,9 +228,7 @@ int itkAffineTransformTest(
     std::cout << "Create an inverse transformation:" << std::endl;
     inv3->Print( std::cout );
 
-    
-    
-
+   
     /* Test output of GetJacobian */
     Affine3DType::Pointer jaff = Affine3DType::New();
     Affine3DType::MatrixType jaffMatrix = jaff->GetMatrix();
@@ -245,6 +243,30 @@ int itkAffineTransformTest(
     std::cout << "GetJacobian: " << std::endl;
     std::cout << jaffJacobian << std::endl;
     
+    /* Test SetParameters */
+    Affine3DType::Pointer paff = Affine3DType::New();
+    Affine3DType::ParametersType parameters( paff->GetNumberOfParameters() );
 
+    /* set up a 3x3 magic square matrix */
+    parameters[0] = 8;
+    parameters[1] = 1;
+    parameters[2] = 6;
+    parameters[3] = 3;
+    parameters[4] = 5;
+    parameters[5] = 7;
+    parameters[6] = 4;
+    parameters[7] = 9;
+    parameters[8] = 2;
+
+    parameters[9] = 5;
+    parameters[10] = 5;
+    parameters[11] = 5;
+    
+    paff->Print( std::cout );
+    paff->SetParameters( parameters );
+    paff->Print( std::cout );
+
+    paff->SetIdentity();
+    paff->Print( std::cout );
     return any;
 }
