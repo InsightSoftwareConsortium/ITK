@@ -11,7 +11,6 @@ void RegisterTests()
 {
 REGISTER_TEST(ConfidenceConnectedTest);
 REGISTER_TEST(ConnectedThresholdImageFilterTest);
-REGISTER_TEST(DeformableModel1Test);
 REGISTER_TEST(FastMarchingImageFilterTest);
 REGISTER_TEST(GeodesicActiveContourImageFilterTest);
 REGISTER_TEST(GibbsPriorImageFilter1Test);
@@ -28,10 +27,6 @@ REGISTER_TEST(WatershedSegmentation1Test);
 #undef main
 #define main ConnectedThresholdImageFilterTest
 #include "ConnectedThresholdImageFilter.cxx"
-
-#undef main
-#define main DeformableModel1Test
-#include "DeformableModel1.cxx"
 
 #undef main
 #define main FastMarchingImageFilterTest
