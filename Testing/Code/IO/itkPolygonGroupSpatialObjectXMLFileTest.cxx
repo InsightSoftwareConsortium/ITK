@@ -96,7 +96,11 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
   while(it1 != end1)
     {
     if(it2 == end2) // premature end of list
+      {
+      delete children1;
+      delete children2;
       return -1;
+      }
     Polygon3DType *curstrand1 =
       dynamic_cast<Polygon3DType *>((*it1).GetPointer());
     Polygon3DType *curstrand2 =
@@ -120,7 +124,11 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
     while(pointIt1 != pointItEnd1) 
       {
       if(pointIt2 == pointItEnd2)
+        {
+        delete children1;
+        delete children2;
         return -1;
+        }
       Polygon3DType::PointType curpoint1 = 
         (*pointIt1).GetPosition();
       Polygon3DType::PointType curpoint2 = 
@@ -129,12 +137,24 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
       pointIt2++;
       }
     if(pointIt2 != pointItEnd2)
+      {
+      delete children1;
+      delete children2;
       return -1;
+      }
     it1++;
     it2++;
     }
+  
   if(it2 != end2)
+    {
+    delete children1;
+    delete children2;
     return -1;
+    }
+  
+  delete children1;
+  delete children2;
   return 0;
 }
 int itkPolygonGroupSpatialObjectXMLFileTest(int ac, char *av[])
@@ -146,6 +166,7 @@ int itkPolygonGroupSpatialObjectXMLFileTest(int ac, char *av[])
     }
 
   PolygonGroup3DPointer PolygonGroup = PolygonGroup3DType::New();
+
   PolygonGroup3DPointer PGroupFromFile;
   if(buildPolygonGroup(PolygonGroup) != 0 || PolygonGroup.IsNull())
     {
@@ -189,5 +210,6 @@ int itkPolygonGroupSpatialObjectXMLFileTest(int ac, char *av[])
     return EXIT_FAILURE;
     }
   itksys::SystemTools::RemoveFile(xmlfilename.c_str());
+
   return testPolygonGroupEquivalence(PolygonGroup,PGroupFromFile);
 }
