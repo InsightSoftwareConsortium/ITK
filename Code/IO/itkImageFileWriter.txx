@@ -143,21 +143,22 @@ ImageFileWriter<TInputImage>
     itkExceptionMacro(<<"No ImageIO set, or none could be created.");
     }
 
-  // Make sure the data is up-to-date.
   // NOTE: this const_cast<> is due to the lack of const-correctness
   // of the ProcessObject.
   InputImageType * nonConstImage = const_cast<InputImageType *>(input);
-  nonConstImage->Update();
 
   typedef typename TInputImage::RegionType   RegionType;
 
   if ( ! m_UserSpecifiedIORegion )
     {
+    // Make sure the data is up-to-date.
+    if( nonConstImage->GetSource() )
+      {
+      nonConstImage->GetSource()->UpdateLargestPossibleRegion();
+      }
     // Write the whole image
     ImageIORegion ioRegion(TInputImage::ImageDimension);
     RegionType region = input->GetLargestPossibleRegion();
-//    const double *spacing = input->GetSpacing();
-//    const double *origin = input->GetOrigin();
 
     for(unsigned int i=0; i<TInputImage::ImageDimension; i++)
       {
@@ -165,6 +166,10 @@ ImageFileWriter<TInputImage>
       ioRegion.SetIndex(i,region.GetIndex(i));
       }
     m_IORegion = ioRegion; //used by GenerateData
+    }
+  else
+    {
+    nonConstImage->Update();
     }
 
   // Setup the ImageIO
