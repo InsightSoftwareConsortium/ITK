@@ -40,7 +40,7 @@ ColorTable<TPixel>
 
     if(m_ColorName != NULL) {
         int i;
-        for(i=0; m_NumberOfColors; i++)
+        for(i=0; i < m_NumberOfColors; i++)
             delete [] m_ColorName[i];
         delete [] m_ColorName;
     }
