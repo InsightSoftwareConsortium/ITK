@@ -58,10 +58,10 @@ class ITK_EXPORT FilterImageTernaryModulus :
     FilterImageTernary<TInputImage1,TInputImage2,
                       TInputImage3,TOutputImage, 
             function::Modulus3< 
-                      typename TInputImage1::PixelType::ValueType, 
-                      typename TInputImage2::PixelType::ValueType,
-                      typename TInputImage3::PixelType::ValueType,
-                      typename TOutputImage::PixelType::ValueType >   >
+                      typename TInputImage1::PixelType, 
+                      typename TInputImage2::PixelType,
+                      typename TInputImage3::PixelType,
+                      typename TOutputImage::PixelType>   >
 
 
 {
@@ -77,10 +77,10 @@ public:
   typedef FilterImageTernary<TInputImage1,TInputImage2,
                       TInputImage3,TOutputImage, 
                       function::Modulus3< 
-                      typename TInputImage1::PixelType::ValueType, 
-                      typename TInputImage2::PixelType::ValueType,
-                      typename TInputImage3::PixelType::ValueType,
-                      typename TOutputImage::PixelType::ValueType >   
+                      typename TInputImage1::PixelType, 
+                      typename TInputImage2::PixelType,
+                      typename TInputImage3::PixelType,
+                      typename TOutputImage::PixelType>   
                         >  Superclass;
 
   /** 
