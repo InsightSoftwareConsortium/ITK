@@ -38,10 +38,10 @@ int main()
 
   NodeType node;
 
-  FloatImage::IndexType index0 = {{28,35}};
+  FloatImage::OffsetType index0 = {{28,35}};
   
   node.value = 0.0;
-  node.index = index0;
+  node.index += index0;
   trialPoints->InsertElement(0, node);
   
   marcher->SetTrialPoints( trialPoints );
