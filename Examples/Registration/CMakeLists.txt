@@ -64,6 +64,10 @@ TARGET_LINK_LIBRARIES(BSplineWarping1 ITKNumerics ITKIO)
 ADD_EXECUTABLE(ModelToImageRegistration1 ModelToImageRegistration1.cxx )
 TARGET_LINK_LIBRARIES(ModelToImageRegistration1 ITKStatistics ITKNumerics ITKIO)
 
+ADD_EXECUTABLE(IterativeClosestPoint1   IterativeClosestPoint1.cxx )
+TARGET_LINK_LIBRARIES(IterativeClosestPoint1 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+
+
 SET(REGISTRATION_EXAMPLES ${CXX_TEST_PATH}/RegistrationExamples)
 SET(REGISTRATION_EXAMPLES2 ${CXX_TEST_PATH}/RegistrationExamples2)
 SET(REGISTRATION_EXAMPLES3 ${CXX_TEST_PATH}/RegistrationExamples3)
@@ -168,8 +172,5 @@ TARGET_LINK_LIBRARIES(RegistrationExamples2 ITKAlgorithms ITKFEM ITKStatistics I
 
 ADD_EXECUTABLE(RegistrationExamples3 RegistrationExamples3.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples3 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
-
-ADD_EXECUTABLE(IterativeClosestPoint1   IterativeClosestPoint1.cxx )
-TARGET_LINK_LIBRARIES(IterativeClosestPoint1 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
 
 
