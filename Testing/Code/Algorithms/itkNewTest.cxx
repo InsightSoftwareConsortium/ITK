@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkMesh.h"
 #include "itkCellInterfaceVisitor.h"
 #include "itkCreateObjectFunction.h"
-#include "itkDataAccessor.h"
+#include "itkPixelAccessor.h"
 #include "itkBackwardDifferenceOperator.h"
 #include "itkForwardDifferenceOperator.h"
 #include "itkAddImageFilter.h"
@@ -125,9 +125,9 @@ int main ( int argc, char* argv[] )
   // itk::CreateObjectFunction<itk::Mesh<int> >::Pointer COF = itk::CreateObjectFunction<itk::Mesh<int> >::New();
   // itk::Mesh<int>::Pointer B = COF->CreateObject();
 
-  // DataAccessor
+  // PixelAccessor
   // unused: float f = 100.0;
-  // unused: double d = itk::DataAccessor<float, double>::Get ( f );
+  // unused: double d = itk::PixelAccessor<float, double>::Get ( f );
 
   // BackwardDifferenceOperator
   // Bad
