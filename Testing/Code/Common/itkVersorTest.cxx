@@ -485,6 +485,22 @@ int main()
       return EXIT_FAILURE;
       }  
 
+    unit =  v2;
+    unit /= v2;
+
+    if( fabs( unit.GetX() ) > epsilon ||
+        fabs( unit.GetY() ) > epsilon ||
+        fabs( unit.GetZ() ) > epsilon ||
+        fabs( unit.GetW() - 1.0 ) > epsilon )
+      {
+      std::cout << "Error in Division operator/= ! " << std::endl;
+      std::cout << "Versor          = " << v2    << std::endl;
+      std::cout << "Self Division   = " << unit  << std::endl;
+
+      return EXIT_FAILURE;
+      }  
+
+
 
 
 
