@@ -668,6 +668,7 @@ AC_SUBST(JAVACOMMAND)
 # create mkdir files just to make some of the directories
 
 AC_OUTPUT(
+CMakeSystemConfig.txt:CMake/CMakeSystemConfig.txt.in
 Makefile:CMake/CMakeTopMakefileTemplate.in
 CMakeTargets.make:CMake/CMakeTargets.make.in 
 CMake/CMakeSimpleRules.make 
