@@ -45,7 +45,7 @@ int itkSimplexMeshTest(int , char *[] )
 
   typedef  SimplexMeshType::NeighborListType              NeighborsListType;
 
-  NeighborsListType* neighbors;
+  NeighborsListType* neighbors = NULL;
 
   /**
    * Define the 3d geometric positions for 8 points in a cube.
@@ -138,13 +138,15 @@ int itkSimplexMeshTest(int , char *[] )
     timeProbe.Start();
     for (unsigned int pointIndex = 0; pointIndex < simplexMesh->GetPoints()->Size(); pointIndex++)
       {
-      neighbors = simplexMesh->GetNeighbors( pointIndex, i );
+      neighbors = simplexMesh->GetNeighbors( pointIndex, i, neighbors );
       }
     timeProbe.Stop();
     if (neighbors)
       {
       std::cout << "Rigidity: " << i << ", neighbor list size: " << neighbors->size() << std::endl;
+      delete neighbors;
       }
+
     std::cout << ", Elapsed time (for getting neighbors): " << timeProbe.GetMeanTime() << std::endl;
     }
 
