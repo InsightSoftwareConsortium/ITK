@@ -71,7 +71,6 @@ public:
   virtual WrapperFunction GetClassWrapperFunction() const;
   virtual WrapperFunction GetObjectWrapperFunction() const;
   void InitializeForInterpreter();  
-  int ClassWrapperDispatch(ClientData, int, Tcl_Obj*CONST[]);
   static void Initialize();  
   static Wrapper* GetForInterpreter(Tcl_Interp*);
   
@@ -88,6 +87,12 @@ private:
   typedef std::vector<Argument> Arguments;
   
   /**
+   * The constructor wrapper pointer to member function type for constructor
+   * wrappers in this Wrapper.
+   */
+  typedef void* (Wrapper<WrappedType>::*ConstructorWrapper)(const Arguments&) const;
+  
+  /**
    * The method wrapper pointer to member function type for method
    * wrappers in this Wrapper.
    */
@@ -101,25 +106,49 @@ private:
   static InterpreterWrapperMap interpreterWrapperMap;
   
   /**
-   * The subclass of WrapperBase::MethodBase which is used for method
+   * The subclass of WrapperBase::FunctionBase which is used for constructor
    * wrappers for this Wrapper.
    */
-  class Method: public WrapperBase::MethodBase
+  class Constructor: public WrapperBase::FunctionBase
   {
   public:
     // Pull a typedef out of the superclass.
-    typedef MethodBase::ParameterTypes ParameterTypes;
+    typedef FunctionBase::ParameterTypes ParameterTypes;
+    
+    Constructor(Wrapper<WrappedType>* wrapper,
+                ConstructorWrapper constructorWrapper,
+                const String& name,
+                const ParameterTypes& parameterTypes = ParameterTypes());
+    virtual String GetPrototype() const;
+    virtual void Call(int objc, Tcl_Obj*CONST objv[]) const;
+  private:
+    const Wrapper<WrappedType>* m_Wrapper;
+    ConstructorWrapper m_ConstructorWrapper;
+    const Type* m_Class;
+  };
+  
+  /**
+   * The subclass of WrapperBase::FunctionBase which is used for method
+   * wrappers for this Wrapper.
+   */
+  class Method: public WrapperBase::FunctionBase
+  {
+  public:
+    // Pull a typedef out of the superclass.
+    typedef FunctionBase::ParameterTypes ParameterTypes;
     
     Method(Wrapper<WrappedType>* wrapper,
            MethodWrapper methodWrapper,
            const String& name,
-           const CvQualifiedType& implicit,
+           bool isConst,
            const CvQualifiedType& returnType,
            const ParameterTypes& parameterTypes = ParameterTypes());
+    virtual String GetPrototype() const;
     virtual void Call(int objc, Tcl_Obj*CONST objv[]) const;
   private:
     const Wrapper<WrappedType>* m_Wrapper;
     MethodWrapper m_MethodWrapper;
+    CvQualifiedType m_ReturnType;
   };
   
 private:
@@ -200,7 +229,7 @@ Wrapper< _wrap_WRAPPED_TYPE >
                                      &OldObjectOf<WrappedType>::Delete);
   Tcl_CreateObjCommand(m_Interpreter,
                        const_cast<char*>(m_WrappedTypeName.c_str()),
-                       ClassWrapperDispatchFunction,
+                       this->GetClassWrapperFunction(),
                        (ClientData)NULL, (Tcl_CmdDeleteProc*)NULL);  
 }
 
@@ -258,30 +287,6 @@ Wrapper< _wrap_WRAPPED_TYPE >
 
 
 /**
- * This is from ClassWrapperDispatchFunction to handle a call-back from
- * the Tcl interpreter to invoke a command referring to the wrapped type.
- */
-int
-Wrapper< _wrap_WRAPPED_TYPE >
-::ClassWrapperDispatch(ClientData, int objc, Tcl_Obj* CONST objv[])
-{
-  char* instanceName = Tcl_GetString(objv[1]);
-  
-  // Create an instance of the wrapped type and put it in the InstanceTable
-  // with the specified name.
-  m_InstanceTable->SetObject(instanceName,
-                             NewObjectOf<WrappedType>::Create(),
-                             m_WrappedTypeRepresentation->GetCvQualifiedType(false, false));
-  
-  // Create the Tcl command corresponding to the instance.
-  Tcl_CreateObjCommand(m_Interpreter, instanceName,
-                       ObjectWrapperDispatchFunction,
-                       (ClientData)NULL, (Tcl_CmdDeleteProc*)NULL);
-  return TCL_OK;
-}
-
-
-/**
  * Makes sure that InitializeTypeRepresentations is called exactly once.
  */
 void Wrapper< _wrap_WRAPPED_TYPE >::Initialize()
@@ -318,22 +323,127 @@ Wrapper< _wrap_WRAPPED_TYPE >::GetForInterpreter(Tcl_Interp* interp)
 Wrapper< _wrap_WRAPPED_TYPE >::InterpreterWrapperMap
 Wrapper< _wrap_WRAPPED_TYPE >::interpreterWrapperMap;
 
+
 /**
- * The constructor passes everything but the Wrapper and MethodWrapper
- * through to the MethodBase constructor.  The Wrapper and MethodWrapper
- * are needed to actually call the method wrapper this represents.
+ * The constructor passes the function name and pararmeter types down to
+ * the FunctionBase.
+ */
+Wrapper< _wrap_WRAPPED_TYPE >
+::Constructor::Constructor(Wrapper<WrappedType>* wrapper,
+                           ConstructorWrapper constructorWrapper,
+                           const String& name,
+                           const ParameterTypes& parameterTypes):
+  FunctionBase(name, parameterTypes),
+  m_Wrapper(wrapper),
+  m_ConstructorWrapper(constructorWrapper),
+  m_Class(wrapper->GetWrappedTypeRepresentation())
+{
+}
+
+
+/**
+ * Get a string representation of the constructor's function prototype.
+ */
+String
+Wrapper< _wrap_WRAPPED_TYPE >
+::Constructor::GetPrototype() const
+{
+  String prototype = m_Class->Name() + "::" + m_Name + "(";
+  ParameterTypes::const_iterator arg = m_ParameterTypes.begin();
+  while(arg != m_ParameterTypes.end())
+    {
+    prototype += (*arg)->Name();
+    if(++arg != m_ParameterTypes.end())
+      { prototype += ", "; }
+    }
+  prototype += ")";
+  
+  return prototype;
+}
+
+
+/**
+ * Invokes a wrapped constructor.  This actually extracts the C++ objects
+ * from the Tcl objects given as arguments and calls the constructor wrapper.
+ *
+ * If construction succeeds, this also adds the object to the Wrapper's
+ * instance table.
+ */
+void
+Wrapper< _wrap_WRAPPED_TYPE >
+::Constructor::Call(int objc, Tcl_Obj*CONST objv[]) const
+{
+  // Prepare the list of arguments for the method wrapper to convert and pass
+  // to the real method.
+  Arguments arguments;
+  for(int i=2; i < objc; ++i)
+    {
+    arguments.push_back(m_Wrapper->GetObjectArgument(objv[i]));
+    }
+  
+  // Call the constructor wrapper.
+  void* object = (m_Wrapper->*m_ConstructorWrapper)(arguments);
+  
+  // TODO: Make sure object != NULL
+  
+  // Get the name of the instance.
+  char* instanceName = Tcl_GetString(objv[1]);
+  
+  // Insert the object into the instance table.
+  m_Wrapper->AddInstance(instanceName, object);
+}
+
+
+/**
+ * The constructor passes the function name and pararmeter types down to
+ * the FunctionBase.  It then adds the implicit object parameter to the
+ * front of the parameter list.
  */
 Wrapper< _wrap_WRAPPED_TYPE >
 ::Method::Method(Wrapper<WrappedType>* wrapper,
                  MethodWrapper methodWrapper,
                  const String& name,
-                 const CvQualifiedType& implicit,
+                 bool isConst,
                  const CvQualifiedType& returnType,
                  const ParameterTypes& parameterTypes):
-  MethodBase(name, implicit, returnType, parameterTypes),
+  FunctionBase(name, parameterTypes),
   m_Wrapper(wrapper),
-  m_MethodWrapper(methodWrapper)
+  m_MethodWrapper(methodWrapper),
+  m_ReturnType(returnType)
 {
+  // Add the implicit object parameter to the front of the parameter list.
+  CvQualifiedType wrappedType = wrapper->GetWrappedTypeRepresentation()
+    ->GetCvQualifiedType(isConst, false);
+  const Type* implicit = TypeInfo::GetReferenceType(wrappedType).GetType();
+  m_ParameterTypes.insert(m_ParameterTypes.begin(), implicit);
+}
+
+
+/**
+ * Get a string representation of the method's function prototype.
+ */
+String
+Wrapper< _wrap_WRAPPED_TYPE >
+::Method::GetPrototype() const
+{
+  String prototype = m_ReturnType.GetName() + " ";
+  ParameterTypes::const_iterator arg = m_ParameterTypes.begin();
+  CvQualifiedType implicit = ReferenceType::SafeDownCast(*arg++)->GetReferencedType();
+  prototype += implicit.GetType()->Name() + "::" + m_Name + "(";
+  while(arg != m_ParameterTypes.end())
+    {
+    prototype += (*arg)->Name();
+    if(++arg != m_ParameterTypes.end())
+      { prototype += ", "; }
+    }
+  prototype += ")";
+  
+  if(implicit.IsConst())
+    {
+    prototype += " const";
+    }
+  
+  return prototype;
 }
 
 

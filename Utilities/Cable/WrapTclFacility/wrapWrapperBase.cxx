@@ -40,12 +40,21 @@ WrapperBase::WrapperBase(Tcl_Interp* interp, const String& wrappedTypeName):
  */
 WrapperBase::~WrapperBase()
 {
-  // Free all the wrapped methods.
-  for(MethodMap::const_iterator i = m_MethodMap.begin();
-      i != m_MethodMap.end(); ++i)
+  // Free all the wrapped functions.
+  for(FunctionMap::const_iterator i = m_FunctionMap.begin();
+      i != m_FunctionMap.end(); ++i)
     {
     delete i->second;
     }
+}
+
+
+/**
+ * Get the representation of the type that is wrapped by this instance.
+ */
+const Type* WrapperBase::GetWrappedTypeRepresentation() const
+{
+  return m_WrappedTypeRepresentation;
 }
 
 
@@ -84,6 +93,24 @@ void WrapperBase::CreateResultCommand(const String& name,
     // TODO: Create a dummy wrapper that reports that the wrapper
     // for the type has not been loaded.
     }
+}
+
+
+/**
+ * Add an instance of the wrapped object to the InstanceTable.
+ */
+void WrapperBase::AddInstance(const String& name, void* object) const
+{
+  // The instance has no cv-qualifiers.
+  CvQualifiedType type = m_WrappedTypeRepresentation->GetCvQualifiedType(false, false);
+  
+  // Add the instance to the InstanceTable.
+  m_InstanceTable->SetObject(name, object, type);
+  
+  // Create the Tcl command corresponding to the instance.
+  Tcl_CreateObjCommand(m_Interpreter, const_cast<char*>(name.c_str()),
+                       this->GetObjectWrapperFunction(),
+                       (ClientData)NULL, (Tcl_CmdDeleteProc*)NULL);
 }
 
 
@@ -300,34 +327,32 @@ WrapperBase::GetConversionFunction(const CvQualifiedType& from,
 
 
 /**
- * A subclass calls this to add a wrapped method.
+ * A subclass calls this to add a wrapped function.
  */
-void WrapperBase::AddMethod(MethodBase* method)
+void WrapperBase::AddFunction(FunctionBase* function)
 {
-  String name = method->GetName();
-  m_MethodMap.insert(MethodMap::value_type(name, method));
+  m_FunctionMap.insert(FunctionMap::value_type(function->GetName(), function));
 }
 
 
 /**
  * ObjectWrapperDispatch calls this to select the candidate function best
- * matching the given argument types and implicit object parameter type.
+ * matching the given argument types.
  *
  * If no suitable candidate is found, NULL is returned.
  *
  * THIS IS A HACK VERSION!  It should be reimplemented to do full
  * overload resolution.  Perhaps it should be moved into its own class.
  */
-WrapperBase::MethodBase*
-WrapperBase::ResolveOverload(const CvQualifiedType& objectType,
-                             const CvQualifiedTypes& argumentTypes,
-                             const CandidateMethods& candidates) const
+WrapperBase::FunctionBase*
+WrapperBase::ResolveOverload(const CvQualifiedTypes& argumentTypes,
+                             const CandidateFunctions& candidates) const
 {
   // Construct a set of viable functions from the set of candidates.
-  CandidateMethods viableFunctions;
+  CandidateFunctions viableFunctions;
   
   // 13.3.2 Viable Functions
-  for(CandidateMethods::const_iterator i = candidates.begin();
+  for(CandidateFunctions::const_iterator i = candidates.begin();
       i != candidates.end(); ++i)
     {
     // 13.3.2/2
@@ -343,7 +368,7 @@ WrapperBase::ResolveOverload(const CvQualifiedType& objectType,
     // argument an implicit conversion sequence (13.3.3.1) that converts
     // that argument to the corresponding parameter of F.
     CvQualifiedTypes::const_iterator argument = argumentTypes.begin();
-    MethodBase::ParameterTypes::const_iterator parameter = (*i)->ParametersBegin();
+    FunctionBase::ParameterTypes::const_iterator parameter = (*i)->ParametersBegin();
     for(;argument != argumentTypes.end(); ++argument, ++parameter)
       {
       CvQualifiedType from = *argument;
@@ -407,6 +432,18 @@ WrapperBase::ResolveOverload(const CvQualifiedType& objectType,
 
 
 /**
+ * When a type name is given as a command with no arguments, no instance
+ * name has been specified.  This is called to generate the error message.
+ */
+void WrapperBase::NoNameSpecified() const
+{
+  String errorMessage =
+    "No name specified for new object of "+m_WrappedTypeName;
+  this->ReportErrorMessage(errorMessage);
+}
+
+
+/**
  * When an object name is given as a command with no arguments, no method
  * name has been specified.  This is called to generate the error message.
  */
@@ -419,17 +456,58 @@ void WrapperBase::NoMethodSpecified() const
 
 
 /**
+ * When an unknown constructor is encountered by the wrapper, this is called
+ * to generate the error message.
+ */
+void WrapperBase::UnknownConstructor(const String& methodName,
+                                     const CvQualifiedTypes& argumentTypes,
+                                     const CandidateFunctions& candidates) const
+{
+  String errorMessage = "No constructor matches ";
+  errorMessage += m_WrappedTypeName + "::" + methodName + "(";
+  CvQualifiedTypes::const_iterator arg = argumentTypes.begin();
+  while(arg != argumentTypes.end())
+    {
+    errorMessage += arg->GetName();
+    if(++arg != argumentTypes.end())
+      { errorMessage += ", "; }
+    }
+  errorMessage += ")";
+  
+  // If there are any candidates, list them.
+  if(!candidates.empty())
+    {
+    errorMessage += "\nCandidates are:";
+    for(CandidateFunctions::const_iterator i = candidates.begin();
+        i != candidates.end(); ++i)
+      {
+      String candidate = (*i)->GetPrototype();
+      errorMessage += "\n  "+candidate;
+      }
+    }
+  
+  this->ReportErrorMessage(errorMessage);
+}
+
+
+/**
  * When an unknown method is encountered by the wrapper, this is called
  * to generate the error message.
  */
-void WrapperBase::UnknownMethod(const CvQualifiedType& objectType,
-                                const String& methodName,
+void WrapperBase::UnknownMethod(const String& methodName,
                                 const CvQualifiedTypes& argumentTypes,
-                                const CandidateMethods& candidates) const
+                                const CandidateFunctions& candidates) const
 {
   String errorMessage = "No method matches ";
-  errorMessage += objectType.GetType()->Name() + "::" + methodName + "(";
   CvQualifiedTypes::const_iterator arg = argumentTypes.begin();
+  CvQualifiedType objectType = (*arg++);
+  if(objectType.GetType()->IsReferenceType())
+    {
+    const ReferenceType* objectReference =
+      ReferenceType::SafeDownCast(objectType.GetType());
+    objectType = objectReference->GetReferencedType();
+    }
+  errorMessage += objectType.GetType()->Name() + "::" + methodName + "(";
   while(arg != argumentTypes.end())
     {
     errorMessage += arg->GetName();
@@ -447,10 +525,10 @@ void WrapperBase::UnknownMethod(const CvQualifiedType& objectType,
   if(!candidates.empty())
     {
     errorMessage += "\nCandidates are:";
-    for(CandidateMethods::const_iterator i = candidates.begin();
+    for(CandidateFunctions::const_iterator i = candidates.begin();
         i != candidates.end(); ++i)
       {
-      String candidate = (*i)->GetMethodPrototype();
+      String candidate = (*i)->GetPrototype();
       errorMessage += "\n  "+candidate;
       }
     }
@@ -513,6 +591,79 @@ void WrapperBase::FreeTemporaries(int objc, Tcl_Obj*CONST objv[]) const
 
 
 /**
+ * Dispatch function to select a wrapped constructor called through
+ * a command associated with the wrapped class name.
+ */
+int
+WrapperBase
+::ClassWrapperDispatch(ClientData, int objc, Tcl_Obj* CONST objv[]) const
+{
+  if(objc < 2)
+    {
+    this->NoNameSpecified();
+    return TCL_ERROR;
+    }  
+  
+  // Determine the argument types of the constructor call.
+  CvQualifiedTypes argumentTypes;  
+  for(int i=2; i < objc; ++i)
+    {
+    argumentTypes.push_back(this->GetObjectType(objv[i]));
+    }
+  
+  // See if this wrapper knows about a constructor.
+  String methodName = m_WrappedTypeName;
+  if(m_FunctionMap.count(methodName) > 0)
+    {
+    // Prepare the set of candidate functions.
+    CandidateFunctions candidates;    
+    FunctionMap::const_iterator first = m_FunctionMap.lower_bound(methodName);
+    FunctionMap::const_iterator last = m_FunctionMap.upper_bound(methodName);
+    for(FunctionMap::const_iterator i = first; i != last; ++i)
+      {
+      candidates.push_back(i->second);
+      }
+    
+    // See if any candidates match the given arguments.
+    FunctionBase* constructor =
+      this->ResolveOverload(argumentTypes, candidates);
+    
+    // Make sure we have a matching candidate.
+    if(!constructor)
+      {
+      this->UnknownConstructor(methodName, argumentTypes, candidates);
+      return TCL_ERROR;
+      }
+    
+    // Try to call the wrapped constructor.
+    try
+      {
+      constructor->Call(objc, objv);
+      }
+    catch (TclException e)
+      {
+      this->ReportErrorMessage(e.GetMessage());
+      return TCL_ERROR;
+      }
+    // We must catch any C++ exception to prevent it from unwinding the
+    // call stack back through the Tcl interpreter's C code.
+    catch (...)
+      {
+      this->ReportErrorMessage("Caught unknown exception!!");
+      return TCL_ERROR;
+      }
+    }
+  else
+    {
+    // We don't have a constructor.
+    this->UnknownConstructor(methodName, argumentTypes);
+    return TCL_ERROR;
+    }  
+  return TCL_OK;
+}
+
+
+/**
  * Dispatch function to select a wrapped method called through an object.
  */
 int WrapperBase::ObjectWrapperDispatch(ClientData clientData,
@@ -528,8 +679,11 @@ int WrapperBase::ObjectWrapperDispatch(ClientData clientData,
   // type or a subclass of it, but possibly with cv-qualifiers added.
   CvQualifiedType objectType = this->GetObjectType(objv[0]);
 
-  // Determine the argument types.  
-  CvQualifiedTypes argumentTypes;  
+  // Determine the argument types of the method call.
+  CvQualifiedTypes argumentTypes;
+  // Add the implicit object argument.
+  argumentTypes.push_back(objectType);
+  // Add the normal arguments.
   for(int i=2; i < objc; ++i)
     {
     argumentTypes.push_back(this->GetObjectType(objv[i]));
@@ -539,26 +693,26 @@ int WrapperBase::ObjectWrapperDispatch(ClientData clientData,
   String methodName = Tcl_GetString(objv[1]);
   
   // See if this wrapper knows about a method with this name.
-  if(m_MethodMap.count(methodName) > 0)
+  if(m_FunctionMap.count(methodName) > 0)
     {
     // Prepare the set of candidate functions.
-    CandidateMethods candidates;    
-    MethodMap::const_iterator first = m_MethodMap.lower_bound(methodName);
-    MethodMap::const_iterator last = m_MethodMap.upper_bound(methodName);
-    for(MethodMap::const_iterator i = first; i != last; ++i)
+    CandidateFunctions candidates;    
+    FunctionMap::const_iterator first = m_FunctionMap.lower_bound(methodName);
+    FunctionMap::const_iterator last = m_FunctionMap.upper_bound(methodName);
+    for(FunctionMap::const_iterator i = first; i != last; ++i)
       {
       candidates.push_back(i->second);
       }
     
     // See if any candidates match the given arguments.
-    MethodBase* method = this->ResolveOverload(objectType, argumentTypes, 
-                                               candidates);
+    FunctionBase* method =
+      this->ResolveOverload(argumentTypes, candidates);
     
     // Make sure we have a matching candidate.  If not, we do not chain
     // up the class hierarchy because of name hiding.
     if(!method)
       {
-      this->UnknownMethod(objectType, methodName, argumentTypes, candidates);
+      this->UnknownMethod(methodName, argumentTypes, candidates);
       return TCL_ERROR;
       }
     
@@ -586,7 +740,7 @@ int WrapperBase::ObjectWrapperDispatch(ClientData clientData,
     // chaining the call up the hierarchy.
     // MUST BE IMPLEMENTED
     // For now, just report that the method is not known.
-    this->UnknownMethod(objectType, methodName, argumentTypes);
+    this->UnknownMethod(methodName, argumentTypes);
     return TCL_ERROR;
     }
   return TCL_OK;  
@@ -765,13 +919,9 @@ void WrapperBase::Argument::SetToFunction(FunctionType f,
  * a subclass's constructor, which is only called by a member of a subclass
  * of WrapperBase.
  */
-WrapperBase::MethodBase::MethodBase(const String& name,
-                                    const CvQualifiedType& implicit,
-                                    const CvQualifiedType& returnType,
-                                    const ParameterTypes& parameterTypes):
+WrapperBase::FunctionBase::FunctionBase(const String& name,
+                                        const ParameterTypes& parameterTypes):
   m_Name(name),
-  m_This(implicit),
-  m_ReturnType(returnType),
   m_ParameterTypes(parameterTypes)
 {
 }
@@ -780,7 +930,7 @@ WrapperBase::MethodBase::MethodBase(const String& name,
 /**
  * Need a virtual destructor.
  */
-WrapperBase::MethodBase::~MethodBase()
+WrapperBase::FunctionBase::~FunctionBase()
 {
 }
 
@@ -788,41 +938,16 @@ WrapperBase::MethodBase::~MethodBase()
 /**
  * Get the name of the wrapped method.
  */
-const String& WrapperBase::MethodBase::GetName() const
+const String& WrapperBase::FunctionBase::GetName() const
 {
   return m_Name;
 }
 
 
 /**
- * Get a string representation of the method's function prototype.
- */
-String WrapperBase::MethodBase::GetMethodPrototype() const
-{
-  String prototype = m_ReturnType.GetName() + " ";
-  prototype += m_This.GetType()->Name() + "::" + m_Name + "(";
-  ParameterTypes::const_iterator arg = m_ParameterTypes.begin();
-  while(arg != m_ParameterTypes.end())
-    {
-    prototype += (*arg)->Name();
-    if(++arg != m_ParameterTypes.end())
-      { prototype += ", "; }
-    }
-  prototype += ")";
-  
-  if(m_This.IsConst())
-    {
-    prototype += " const";
-    }
-  
-  return prototype;
-}
-
-
-/**
  * Get the number of arguments that the method takes.
  */
-unsigned long WrapperBase::MethodBase::GetNumberOfParameters() const
+unsigned long WrapperBase::FunctionBase::GetNumberOfParameters() const
 {
   return m_ParameterTypes.size();
 }
@@ -831,8 +956,8 @@ unsigned long WrapperBase::MethodBase::GetNumberOfParameters() const
 /**  
  * Get a begin iterator to the method's parameter types.
  */
-WrapperBase::MethodBase::ParameterTypes::const_iterator
-WrapperBase::MethodBase::ParametersBegin() const
+WrapperBase::FunctionBase::ParameterTypes::const_iterator
+WrapperBase::FunctionBase::ParametersBegin() const
 {
   return m_ParameterTypes.begin();
 }
@@ -841,8 +966,8 @@ WrapperBase::MethodBase::ParametersBegin() const
 /**  
  * Get an end iterator to the method's parameter types.
  */
-WrapperBase::MethodBase::ParameterTypes::const_iterator
-WrapperBase::MethodBase::ParametersEnd() const
+WrapperBase::FunctionBase::ParameterTypes::const_iterator
+WrapperBase::FunctionBase::ParametersEnd() const
 {
   return m_ParameterTypes.end();
 }

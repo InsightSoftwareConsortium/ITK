@@ -47,8 +47,11 @@ public:
   WrapperBase(Tcl_Interp* interp, const String& wrappedTypeName);
   virtual ~WrapperBase();
   
+  const Type* GetWrappedTypeRepresentation() const;
+  
   Tcl_Interp* GetInterpreter() const;
   void CreateResultCommand(const String& name, const Type* type) const;
+  void AddInstance(const String& name, void* object) const;
   String CreateTemporary(void* object, const CvQualifiedType&) const;
   
   class Argument;
@@ -80,22 +83,25 @@ public:
    */
   virtual WrapperFunction GetObjectWrapperFunction() const =0;
   
-  class MethodBase;
-  typedef std::vector<MethodBase*> CandidateMethods;
+  class FunctionBase;
+  typedef std::vector<FunctionBase*> CandidateFunctions;
   
 protected:
-  void AddMethod(MethodBase*);
-  MethodBase* ResolveOverload(const CvQualifiedType& objectType,
-                              const CvQualifiedTypes& argumentTypes,
-                              const CandidateMethods& candidates) const;
+  void AddFunction(FunctionBase*);
+  FunctionBase* ResolveOverload(const CvQualifiedTypes& argumentTypes,
+                                const CandidateFunctions& candidates) const;
+  void NoNameSpecified() const;
   void NoMethodSpecified() const;
-  void UnknownMethod(const CvQualifiedType& objectType,
-                     const String& methodName,
+  void UnknownConstructor(const String& methodName,
+                          const CvQualifiedTypes& argumentTypes,
+                          const CandidateFunctions& = CandidateFunctions()) const;
+  void UnknownMethod(const String& methodName,
                      const CvQualifiedTypes& argumentTypes,
-                     const CandidateMethods& = CandidateMethods()) const;
+                     const CandidateFunctions& = CandidateFunctions()) const;
   void UnknownInstance(const String& objectName) const;
   void ReportErrorMessage(const String& errorMessage) const;
   void FreeTemporaries(int objc, Tcl_Obj*CONST objv[]) const;  
+  int ClassWrapperDispatch(ClientData, int, Tcl_Obj* CONST[]) const;
   int ObjectWrapperDispatch(ClientData ,int, Tcl_Obj* CONST[]) const;
 
 protected:
@@ -133,14 +139,14 @@ protected:
    * Map from method name to method wrapper.  Duplicate names are
    * allowed.
    */
-  typedef std::multimap<String, MethodBase*> MethodMap;
+  typedef std::multimap<String, FunctionBase*> FunctionMap;
   
   /**
    * The method dispatch function needs to know about all possible methods.
    * This is defined here, but must be filled in by calls from a subclass
    * to AddMethod.
    */
-  MethodMap m_MethodMap;
+  FunctionMap m_FunctionMap;
 };
 
 
@@ -209,18 +215,16 @@ private:
  * define a subclass of this to define a method wrapper corresponding
  * to the type it wraps.
  */
-class _wrap_EXPORT WrapperBase::MethodBase
+class _wrap_EXPORT WrapperBase::FunctionBase
 {
 public:
   typedef std::vector<const Type*> ParameterTypes;
-  MethodBase(const String& name,
-             const CvQualifiedType& implicit,
-             const CvQualifiedType& returnType,
-             const ParameterTypes& parameterTypes);
-  virtual ~MethodBase();
+  FunctionBase(const String& name,
+               const ParameterTypes& parameterTypes);
+  virtual ~FunctionBase();
 
   const String& GetName() const;
-  String GetMethodPrototype() const;
+  virtual String GetPrototype() const =0;
   unsigned long GetNumberOfParameters() const;
   ParameterTypes::const_iterator ParametersBegin() const;
   ParameterTypes::const_iterator ParametersEnd() const;
@@ -236,16 +240,6 @@ protected:
    * The name of the method.
    */
   String m_Name;
-  
-  /**
-   * The type to which the method's "this" pointer points.
-   */
-  CvQualifiedType m_This;
-  
-  /**
-   * The return type of the method.
-   */
-  CvQualifiedType m_ReturnType;
   
   /**
    * The parameter types of the method.  These may be needed for
