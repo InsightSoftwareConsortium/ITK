@@ -69,13 +69,13 @@ void ItpackLinearSystemWrapper::SetMaximumNonZeroValuesInMatrix(unsigned int mat
 void ItpackLinearSystemWrapper::InitializeMatrix(unsigned int matrixIndex)
 {
 
-  // FIX ME
-  if (!m_Order || !m_MaximumNonZeroValues) return;
+  /* FIX ME: exceptions */
+  if (!m_Order || !m_MaximumNonZeroValues || !m_NumberOfMatrices) throw;
+  if ( !m_MaximumNonZeroValues[matrixIndex] ) throw;
 
   // allocate if necessay
   if (m_Matrices == 0)
   {
-    //m_Matrices = MatrixArrayPtr( new MatrixHolder(m_NumberOfMatrices) );
     m_Matrices = new MatrixHolder(m_NumberOfMatrices);
   }
 
@@ -89,6 +89,9 @@ void ItpackLinearSystemWrapper::InitializeMatrix(unsigned int matrixIndex)
 
 void ItpackLinearSystemWrapper::InitializeVector(unsigned int vectorIndex)
 {
+
+  /* FIX ME: exceptions */
+  if (!m_Order || !m_NumberOfVectors) throw;
 
   /* allocate if necessay */
   if (m_Vectors == 0)
@@ -117,6 +120,9 @@ void ItpackLinearSystemWrapper::InitializeVector(unsigned int vectorIndex)
 void ItpackLinearSystemWrapper::InitializeSolution(unsigned int solutionIndex)
 {
 
+  /* FIX ME: exceptions */
+  if (!m_Order || !m_NumberOfSolutions) throw;
+
   // allocate if necessay
   if (m_Solutions == 0)
   {
@@ -144,7 +150,9 @@ void ItpackLinearSystemWrapper::InitializeSolution(unsigned int solutionIndex)
 void ItpackLinearSystemWrapper::DestroyMatrix(unsigned int matrixIndex)
 {
 
-  // FIX ME: error checking
+  /* FIX ME: exceptions */
+  if ( !m_Matrices ) return;
+  if ( matrixIndex >= m_NumberOfMatrices ) throw;
 
   (*m_Matrices)[matrixIndex].Clear();
 }
@@ -152,16 +160,12 @@ void ItpackLinearSystemWrapper::DestroyMatrix(unsigned int matrixIndex)
 
 void ItpackLinearSystemWrapper::DestroyVector(unsigned int vectorIndex)
 {
-  // FIX ME: error checking
+  /* FIX ME: exceptions */
+  if (!m_Vectors) return;
+  if (vectorIndex >= m_NumberOfVectors) throw;
+  if ( !(*m_Vectors)[vectorIndex] ) return;
 
-  //this->InitializeVector(vectorIndex);
-  if (m_Vectors == 0)
-  {
-    return;
-  }
-  
-  /* insert new vector */
-  //(*m_Vectors)[vectorIndex] = VectorRepresentation(new doublereal(0.0));
+  /* delete vector */
   delete [] (*m_Vectors)[vectorIndex];
   (*m_Vectors)[vectorIndex] = 0;
 
@@ -170,16 +174,12 @@ void ItpackLinearSystemWrapper::DestroyVector(unsigned int vectorIndex)
 
 void ItpackLinearSystemWrapper::DestroySolution(unsigned int solutionIndex)
 {
-  // FIX ME: error checking
+  // FIX ME: exceptions
+  if (!m_Solutions) return;
+  if (solutionIndex >= m_NumberOfSolutions) throw;
+  if ( !(*m_Solutions)[solutionIndex] ) return;
 
-  //this->InitializeVector(vectorIndex);
-  if (m_Solutions == 0)
-  {
-    return;
-  }
-  
-  /* insert new vector */
-  //(*m_Solutions)[solutionIndex] = VectorRepresentation(new doublereal(0.0));
+  /* delete vector */
   delete [] (*m_Solutions)[solutionIndex];
   (*m_Solutions)[solutionIndex] = 0;
 
@@ -189,6 +189,8 @@ void ItpackLinearSystemWrapper::DestroySolution(unsigned int solutionIndex)
 ItpackLinearSystemWrapper::Float ItpackLinearSystemWrapper::GetMatrixValue(unsigned int i, unsigned int j, unsigned int matrixIndex) const
 {
   // FIX ME: error checking
+  if ( (i >= m_Order) || (j >= m_Order) || !m_Matrices) throw;
+  if ( matrixIndex >= m_NumberOfMatrices ) throw;
 
   return (*m_Matrices)[matrixIndex].Get(i,j);
 }
@@ -197,6 +199,8 @@ ItpackLinearSystemWrapper::Float ItpackLinearSystemWrapper::GetMatrixValue(unsig
 void ItpackLinearSystemWrapper::SetMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int matrixIndex)
 {
   // FIX ME: error checking
+  if ( (i >= m_Order) || (j >= m_Order) || !m_Matrices) throw;
+  if ( matrixIndex >= m_NumberOfMatrices ) throw;
 
   ((*m_Matrices)[matrixIndex]).Set(i,j,value);
 }
@@ -205,6 +209,8 @@ void ItpackLinearSystemWrapper::SetMatrixValue(unsigned int i, unsigned int j, F
 void ItpackLinearSystemWrapper::AddMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int matrixIndex)
 {
   // FIX ME: error checking
+  if ( (i >= m_Order) || (j >= m_Order) || !m_Matrices) throw;
+  if ( matrixIndex >= m_NumberOfMatrices ) throw;
 
   ((*m_Matrices)[matrixIndex]).Add(i,j,value);
 }
@@ -212,6 +218,8 @@ void ItpackLinearSystemWrapper::AddMatrixValue(unsigned int i, unsigned int j, F
 void ItpackLinearSystemWrapper::ScaleMatrix(Float scale, unsigned int matrixIndex)
 {
   // FIX ME: error checking
+  if ( !m_Matrices || (matrixIndex >= m_NumberOfMatrices) ) throw;
+  if ( matrixIndex >= m_NumberOfMatrices ) throw;
 
   int i;
   doublereal *values = (*m_Matrices)[matrixIndex].GetA();
@@ -226,6 +234,8 @@ void ItpackLinearSystemWrapper::ScaleMatrix(Float scale, unsigned int matrixInde
 ItpackLinearSystemWrapper::Float ItpackLinearSystemWrapper::GetVectorValue(unsigned int i, unsigned int vectorIndex) const
 {
   // FIX ME: error checking
+  if ( (i >= m_Order) || !m_Vectors || (vectorIndex >= m_NumberOfVectors) ) throw;
+  if ( !(*m_Vectors)[vectorIndex] ) throw;
 
   return (*m_Vectors)[vectorIndex][i];
 }
@@ -234,6 +244,8 @@ ItpackLinearSystemWrapper::Float ItpackLinearSystemWrapper::GetVectorValue(unsig
 void ItpackLinearSystemWrapper::SetVectorValue(unsigned int i, Float value, unsigned int vectorIndex)
 {
   // FIX ME: error checking
+  if ( (i >= m_Order) || !m_Vectors || (vectorIndex >= m_NumberOfVectors) ) throw;
+  if ( !(*m_Vectors)[vectorIndex] ) throw;
 
   (*m_Vectors)[vectorIndex][i] = value;
 }
@@ -242,6 +254,8 @@ void ItpackLinearSystemWrapper::SetVectorValue(unsigned int i, Float value, unsi
 void ItpackLinearSystemWrapper::AddVectorValue(unsigned int i, Float value, unsigned int vectorIndex)
 {
   // FIX ME: error checking
+  if ( (i >= m_Order) || !m_Vectors || (vectorIndex >= m_NumberOfVectors) ) throw;
+  if ( !(*m_Vectors)[vectorIndex] ) throw;
 
   (*m_Vectors)[vectorIndex][i] += value;
 }
@@ -250,6 +264,8 @@ void ItpackLinearSystemWrapper::AddVectorValue(unsigned int i, Float value, unsi
 ItpackLinearSystemWrapper::Float ItpackLinearSystemWrapper::GetSolutionValue(unsigned int i, unsigned int solutionIndex) const
 {
   // FIX ME: error checking
+  if ( (i >= m_Order) || !m_Solutions || (solutionIndex >= m_NumberOfSolutions) ) throw;
+  if ( !(*m_Solutions)[solutionIndex] ) throw;
 
   return (*m_Solutions)[solutionIndex][i];
 }
@@ -258,6 +274,8 @@ ItpackLinearSystemWrapper::Float ItpackLinearSystemWrapper::GetSolutionValue(uns
 void ItpackLinearSystemWrapper::SetSolutionValue(unsigned int i, Float value, unsigned int solutionIndex)
 {
   // FIX ME: error checking
+  if ( (i >= m_Order) || !m_Solutions || (solutionIndex >= m_NumberOfSolutions) ) throw;
+  if ( !(*m_Solutions)[solutionIndex] ) throw;
 
   (*m_Solutions)[solutionIndex][i] = value;
 
@@ -267,6 +285,8 @@ void ItpackLinearSystemWrapper::SetSolutionValue(unsigned int i, Float value, un
 void ItpackLinearSystemWrapper::AddSolutionValue(unsigned int i, Float value, unsigned int solutionIndex)
 {
   // FIX ME: error checking
+  if ( (i >= m_Order) || !m_Solutions || (solutionIndex >= m_NumberOfSolutions) ) throw;
+  if ( !(*m_Solutions)[solutionIndex] ) throw;
 
   (*m_Solutions)[solutionIndex][i] += value;
 }
@@ -276,10 +296,10 @@ void ItpackLinearSystemWrapper::Solve(void)
 {
 
   // FIX ME: error checking
+  if (!m_Order || !m_Matrices || !m_Vectors || !m_Solutions) throw;
+  if ( !(*m_Matrices)[0].GetOrder() ) throw;
 
-
-
-  // itpack variables
+  /* itpack variables */
   integer N;
   integer NW;
   integer NCG;
@@ -302,7 +322,8 @@ void ItpackLinearSystemWrapper::Solve(void)
       (*m_Matrices)[0].Set(i,i,fakeZero);
     }
   }
-  /* END FIX ME ********************************************************/
+  /* END FIX ME 
+   *********************************************************************/
 
 
   /* Initialize solution values (set to zero) */
@@ -395,11 +416,11 @@ void ItpackLinearSystemWrapper::Solve(void)
 }
 
 
-/* STILL NEED TO BE IMPLEMENTED */
-
-
 void ItpackLinearSystemWrapper::SwapMatrices(unsigned int matrixIndex1, unsigned int matrixIndex2)
 {
+
+  /* FIX ME: error checking */
+  if (!m_Matrices || (matrixIndex1 >= m_NumberOfMatrices) || (matrixIndex2 >= m_NumberOfMatrices) ) throw;
 
   int n = (*m_Matrices)[matrixIndex2].GetOrder();
   int nz = (*m_Matrices)[matrixIndex2].GetMaxNonZeroValues();
@@ -423,6 +444,10 @@ void ItpackLinearSystemWrapper::SwapMatrices(unsigned int matrixIndex1, unsigned
 
 void ItpackLinearSystemWrapper::SwapVectors(unsigned int vectorIndex1, unsigned int vectorIndex2)
 {
+
+  if ( !m_Vectors || (vectorIndex1 >= m_NumberOfVectors) || (vectorIndex2 >= m_NumberOfVectors) ) throw;
+  if ( !(*m_Vectors)[vectorIndex1] || !(*m_Vectors)[vectorIndex2] ) throw;
+
   VectorRepresentation temp = (*m_Vectors)[vectorIndex1];
 
   (*m_Vectors)[vectorIndex1] = (*m_Vectors)[vectorIndex2];
@@ -432,6 +457,10 @@ void ItpackLinearSystemWrapper::SwapVectors(unsigned int vectorIndex1, unsigned 
 
 void ItpackLinearSystemWrapper::SwapSolutions(unsigned int solutionIndex1, unsigned int solutionIndex2)
 {
+
+  if ( !m_Solutions || (solutionIndex1 >= m_NumberOfSolutions) || (solutionIndex2 >= m_NumberOfSolutions) ) throw;
+  if ( !(*m_Solutions)[solutionIndex1] || !(*m_Solutions)[solutionIndex2] ) throw;
+
   VectorRepresentation temp = (*m_Solutions)[solutionIndex1];
 
   (*m_Solutions)[solutionIndex1] = (*m_Solutions)[solutionIndex2];
@@ -441,6 +470,10 @@ void ItpackLinearSystemWrapper::SwapSolutions(unsigned int solutionIndex1, unsig
 
 void ItpackLinearSystemWrapper::CopySolution2Vector(unsigned solutionIndex, unsigned int vectorIndex)
 {
+
+  /* FIX ME: error checking */
+  if (!m_Solutions || !m_Vectors || (solutionIndex >= m_NumberOfSolutions) || (vectorIndex >= m_NumberOfVectors) ) throw;
+  if ( !(*m_Solutions)[solutionIndex] || !(*m_Vectors)[vectorIndex] ) throw;
 
   this->InitializeVector(vectorIndex);
 
