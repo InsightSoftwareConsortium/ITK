@@ -1406,7 +1406,7 @@ M_Read(void)
     int i;
     for(i=0; i<m_NDims; i++)
       {
-      m_SequenceID[i] = mF->value[i];
+      m_SequenceID[i] = (float)(mF->value[i]);
       }
     }
 
@@ -1436,7 +1436,7 @@ M_Read(void)
     int i;
     for(i=0; i<m_NDims; i++)
       {
-      m_ElementSize[i] = mF->value[i];
+      m_ElementSize[i] = (float)(mF->value[i]);
       }
     mF = MET_GetFieldRecord("ElementSpacing", &m_Fields);
     if(mF && !mF->defined)
