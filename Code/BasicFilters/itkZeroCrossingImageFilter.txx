@@ -245,6 +245,18 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
     }
 }
 
+template< class TInputImage, class TOutputImage >
+void
+ZeroCrossingImageFilter< TInputImage, TOutputImage >
+::PrintSelf( std::ostream& os, Indent indent ) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "BackgroundValue: " << m_BackgroundValue << std::endl;
+  os << indent << "ForegroundValue: " << m_ForegroundValue << std::endl;
+
+}
+
 }//end of itk namespace
 
 

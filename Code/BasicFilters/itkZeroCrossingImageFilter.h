@@ -134,10 +134,9 @@ protected:
       m_BackgroundValue = NumericTraits<OutputImagePixelType>::Zero;
     }
   ~ZeroCrossingImageFilter(){}
+  void PrintSelf(std::ostream& os, Indent indent) const;
+  
   ZeroCrossingImageFilter(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent) const
-    {  Superclass::PrintSelf(os,indent);   }
-
   OutputImagePixelType m_BackgroundValue;
   OutputImagePixelType m_ForegroundValue;
   

@@ -715,9 +715,22 @@ CannyEdgeDetectionImageFilter<TInputImage,TOutputImage>
 {
   Superclass::PrintSelf(os,indent);
 
-  std::cout << "Variance: " << m_Variance << std::endl;
-  std::cout << "MaximumError: " << m_MaximumError << std::endl;
-  std::cout << "Threshold: " << m_Threshold << std::endl;
+  std::cout << "Variance: "
+            << m_Variance << std::endl;
+  std::cout << "MaximumError: "
+            << m_MaximumError << std::endl;
+  std::cout << "Threshold: "
+            << m_Threshold << std::endl;
+  std::cout << "OutsideValue: "
+            << m_OutsideValue << std::endl;
+  std::cout << "Center: "
+            << m_Center << std::endl;
+  std::cout << "Stride: "
+            << m_Stride << std::endl;
+  std::cout << "UpdateBuffer: "
+            << m_UpdateBuffer;
+  std::cout << "UpdateBuffer1: "
+            << m_UpdateBuffer1;
 }
 
 }//end of itk namespace
