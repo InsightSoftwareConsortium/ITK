@@ -152,5 +152,5 @@ int itkGradientDifferenceImageToImageMetricTest(int , char*[] )
     return EXIT_FAILURE;
     }
 
-  return EXIT_FAILURE;
+  return EXIT_SUCCESS;
 }
