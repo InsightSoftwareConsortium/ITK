@@ -73,13 +73,15 @@ int main( int argc, char* argv[] )
   DictionaryType::ConstIterator itr = dictionary.Begin();
   DictionaryType::ConstIterator end = dictionary.End();
 
+  
   typedef itk::MetaDataObject< std::string > MetaDataStringType;
 
   while( itr != end )
     {
     itk::MetaDataObjectBase::Pointer  entry = itr->second;
 
-    MetaDataStringType::Pointer entryvalue = dynamic_cast<MetaDataStringType *>( entry.GetPointer() ) ;
+    MetaDataStringType::Pointer entryvalue = 
+      dynamic_cast<MetaDataStringType *>( entry.GetPointer() ) ;
 
     if( entryvalue )
       {
@@ -89,6 +91,29 @@ int main( int argc, char* argv[] )
       }
     ++itr;
     }
+
+
+  
+  
+//  Software Guide : BeginLatex
+//
+//  In order to read a specific tag, the string of the entry can be used
+//  for quering the MetaDataDictionary.
+//
+//  Software Guide : EndLatex 
+
+
+    std::string entryId = "Patient Name";
+    itk::MetaDataObjectBase::ConstPointer  entry = dictionary[entryId];
+
+    MetaDataStringType::ConstPointer entryvalue = 
+      dynamic_cast<const MetaDataStringType *>( entry.GetPointer() ) ;
+
+    if( entryvalue )
+      {
+      std::string tagvalue = entryvalue->GetMetaDataObjectValue();
+      std::cout << entryId <<  " = " << tagvalue << std::endl;
+      }
 
 
   return EXIT_SUCCESS;
