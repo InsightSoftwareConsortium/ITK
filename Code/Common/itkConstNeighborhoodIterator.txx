@@ -152,6 +152,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   m_Region.SetSize(zeroSize);
   
   m_WrapOffset.Fill(0);
+  this->ResetBoundaryCondition();
 }
 
 template<class TImage, class TBoundaryCondition>
