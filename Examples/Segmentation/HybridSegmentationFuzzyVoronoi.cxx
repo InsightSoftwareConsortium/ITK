@@ -119,8 +119,8 @@ int main( int argc, char *argv[] )
   //  The fuzzy connectedness segmentation filter is created by invoking the 
   //  \code{New()} method and assigning the result to a \code{itk::SmartPointer}.
   //
-  //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!New()}
-  //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!Pointer}
+  //  \index{itk::SimpleFuzzy\-Connectedness\-Scalar\-Image\-Filter!New()}
+  //  \index{itk::SimpleFuzzy\-Connectedness\-Scalar\-Image\-Filter!Pointer}
   //
   //  Software Guide : EndLatex 
 
@@ -160,8 +160,8 @@ int main( int argc, char *argv[] )
   //  The following lines declare the type of the Voronoi diagram
   //  classification filter and create one filter object.
   //
-  //  \index{itk::VoronoiSegmentationImageFilter!New()}
-  //  \index{itk::VoronoiSegmentationImageFilter!Pointer}
+  //  \index{itk::Voronoi\-Segmentation\-Image\-Filter!New()}
+  //  \index{itk::Voronoi\-Segmentation\-Image\-Filter!Pointer}
   //
   //  Software Guide : EndLatex 
 
@@ -224,7 +224,7 @@ int main( int argc, char *argv[] )
   //  
   //  The input that is passed to the fuzzy segmentation filter is taken from the reader.
   //
-  //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetInput()}
+  //  \index{itk::Simple\-Fuzzy\-Connectedness\-Scalar\-Image\-Filter!SetInput()}
   //
   //  Software Guide : EndLatex 
   
@@ -258,10 +258,10 @@ int main( int argc, char *argv[] )
   //  variance on the computation of the segmentation, please see
   //  \cite{Udupa1996}. 
   //
-  //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetObjectsSeed()}
-  //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetMean()}
-  //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetVariance()}
-  //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetThreshold()}
+  //  \index{itk::Simple\-Fuzzy\-Connectedness\-Scalar\-Image\-Filter!SetObjectsSeed()}
+  //  \index{itk::Simple\-Fuzzy\-Connectedness\-Scalar\-Image\-Filter!SetMean()}
+  //  \index{itk::Simple\-Fuzzy\-Connectedness\-Scalar\-Image\-Filter!SetVariance()}
+  //  \index{itk::Simple\-Fuzzy\-Connectedness\-Scalar\-Image\-Filter!SetThreshold()}
   //
   //  Software Guide : EndLatex 
 
