@@ -37,15 +37,15 @@
 // \code{Start}, \code{End}, \code{Progress} and \code{Iteration}.
 //
 // Registration is controled by an \code{itk::Optimizer} which in general
-// executes an iterative process. Every \code{Optimizer} invokes an
+// executes an iterative process. Most \code{Optimizer} invoke an
 // \code{itk::IterationEvent} at the end of each iteration. When an event is
 // invoked by an object, this object goes through its list of registered
-// observers (\code{itk::Command}s) and checks if any one of them declared to
-// be interested in the current event type. Whenever such an observer is found,
-// its corresponding \code{Execute()} method is invoked.  In this context
-// \code{Execute()} methods should be considered as \emph{callbacks}. As such,
-// some of the common-sense rules of callbacks should be respected. For
-// example, \code{Execute()} methods should not perform heavy computational
+// observers (\code{itk::Command}s) and checks whether any one of them declared
+// to be interested in the current event type. Whenever such an observer is
+// found, its corresponding \code{Execute()} method is invoked.  In this
+// context \code{Execute()} methods should be considered as \emph{callbacks}.
+// As such, some of the common-sense rules of callbacks should be respected.
+// For example, \code{Execute()} methods should not perform heavy computational
 // tasks.  They are supposed to execute rapid and short pieces of code like
 // printing out a message or updating a value in a GUI.
 //
@@ -92,7 +92,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  Our custom comman class is called here \code{CommandIterationUpdate}. It
+//  Our custom command class is called here \code{CommandIterationUpdate}. It
 //  derives from the \code{itk::Command} class and declares for convenience the
 //  types \code{Self} and \code{Superclass}. This facilitate to standarize some
 //  further code in macros.
@@ -157,13 +157,13 @@ public:
 
   //  Software Guide : BeginLatex
   //
-  //  Since this object will be observing the Optimizer, the following typedefs
-  //  are useful for converting pointers when the Execute method is invoked.
-  //  Note the use of \code{const} on the declaration of
-  //  \code{OptimizerPointer}.  This is relevant since the observer is not
-  //  intended to modify the optimizer in any way. A \code{const} interface
-  //  makes the compiler help to enforce that all actions invoked on the
-  //  optimizer are read-only.
+  //  Since this \code{Command} object will be observing the Optimizer, the
+  //  following typedefs are useful for converting pointers when the Execute
+  //  method is invoked.  Note the use of \code{const} on the declaration of
+  //  \code{OptimizerPointer}.  This is relevant since, in this case, the
+  //  observer is not intended to modify the optimizer in any way. A
+  //  \code{const} interface makes the compiler help to enforce that all
+  //  actions invoked on the optimizer are read-only.
   //
   //  Software Guide : EndLatex 
 
@@ -181,7 +181,11 @@ public:
   //  and the one that can be invoked from a \code{non-const} object. In this
   //  particular example the \code{non-const} version simply invoke the
   //  \code{const}  version. In a more elaborate situation the implementation
-  //  of both \code{Execute()} methods could be quite different.
+  //  of both \code{Execute()} methods could be quite different. For example,
+  //  you could imagine a \code{non-const} interaction in which the observer
+  //  decides to stop the optimizer as a response to a divergent behavior. A
+  //  similar case could happen when a user is controling the registration
+  //  process from a GUI.
   //
   //  Software Guide : EndLatex 
 
@@ -249,7 +253,7 @@ public:
 
   //  Software Guide : BeginLatex
   //
-  //  If the event type matches what we are looking for, we are ready for
+  //  If the event matches the type we are looking for, we are ready for
   //  querying data from the optimizer. Here, for example, we get the current
   //  number of iterations, the current value of the cost function and the
   //  current position on the parameter space. All of these values are printed
@@ -269,7 +273,7 @@ public:
   //  Software Guide : BeginLatex
   //
   //  This concludes our revision of the minimal \code{Command} class capable
-  //  of observing our registration method.  We can now move on and configure a
+  //  of observing our registration method.  We can now move on to configure a
   //  registration process.
   //
   //  Software Guide : EndLatex 
@@ -408,9 +412,9 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The newly command is registered as observer on the Optimizer. The method
-  //  \code{AddObserver()} is used to that end. Note that the event type is
-  //  provided as the first argument to this method. In order for the RTTI
+  //  The newly created command is registered as observer on the Optimizer. The
+  //  method \code{AddObserver()} is used to that end. Note that the event type
+  //  is provided as the first argument to this method. In order for the RTTI
   //  mechanism to work correctly a newly created event of the desired type can
   //  be passes as first argument. The second argument being simply the smart
   //  pointer to the optimizer. Figure \ref{fig:ImageRegistration3Observer}
@@ -440,7 +444,7 @@ int main( int argc, char **argv )
     } 
   catch( itk::ExceptionObject & err ) 
     { 
-    std::cout << "Caught expected ExceptionObject" << std::endl; 
+    std::cout << "ExceptionObject caught !" << std::endl; 
     std::cout << err << std::endl; 
     return -1;
     } 
@@ -482,13 +486,13 @@ int main( int argc, char **argv )
   //
   //  As you can verify from the code in the \code{Execute()} method, the first
   //  column is the iteration number, the second column is the metric value and
-  //  the third and fourth columns are the parameters of the transform which is
-  //  a $2D$ translation transform in this case. By tracking these values as the
-  //  registration progress you will be able to determine if the optimizer is
-  //  advancing in the right direction and if the step-length is of reasonable
-  //  size.  That will allow you to interrupt the registration process and fine
-  //  tune parameters without having to wait until the optimizer stops by
-  //  itself.
+  //  the third and fourth columns are the parameters of the transform, which
+  //  is a $2D$ translation transform in this case. By tracking these values as
+  //  the registration progresses you will be able to determine whether the
+  //  optimizer is advancing in the right direction and whether the step-length
+  //  is of reasonable size.  That will allow you to interrupt the registration
+  //  process and fine tune parameters without having to wait until the
+  //  optimizer stops by itself.
   //
   //  Software Guide : EndLatex 
 
