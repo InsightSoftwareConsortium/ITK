@@ -499,13 +499,10 @@ out:
 /**
  * Write the element to the output stream.
  */
-void TetrahedronC03D::Write( std::ostream& f, int clid ) const {
-
-  /** If not set already, se set the clid */
-  if (clid<0) clid=CLID;
-
+void TetrahedronC03D::Write( std::ostream& f ) const
+{
   /** First call the parent's write function */
-  Superclass::Write(f,clid);
+  Superclass::Write(f);
 
   /**
    * Then write the actual data (node, and material numbers).

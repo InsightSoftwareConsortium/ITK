@@ -52,15 +52,6 @@ public:
       NodeIDType n2_,
       Material::ConstPointer p_ );
 
-  virtual void Write( std::ostream& f, int clid ) const
-  {
-    // if not set already, se set the clid
-    if (clid<0) { clid=CLID; }
-
-    // then call the parent's write function
-    Superclass::Write(f,clid);
-  }
-
 }; // class Element2DC0LinearLineStress
 
 FEM_CLASS_INIT(Element2DC0LinearLineStress)

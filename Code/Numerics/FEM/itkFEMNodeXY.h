@@ -48,7 +48,7 @@ public:
   NodeXY(Float X_, Float Y_) : X(X_), Y(Y_) {}
 
   void Read(  std::istream& f, void* info );
-  void Write( std::ostream& f, int clid ) const;
+  void Write( std::ostream& f ) const;
 
   /**
    * Windows visualization

@@ -72,7 +72,7 @@ public:
   /**
    * Write an object to the output stream
    */
-  virtual void Write( std::ostream& f, int clid ) const;
+  virtual void Write( std::ostream& f ) const;
 
 };
 

@@ -102,22 +102,15 @@ public:
    * Write an object to the output stream. Call this member to write
    * the data members in the current object to the output stream.
    * Here we also need to know which derived class we actually
-   * are, so that we can write the class name. This is done by passing
-   * the ObjectFactory id in clid from the most derived class.
+   * are, so that we can write the class name. The class name is obtained
+   * by calling the virtual ClassID() member function and passing
+   * the result to the FEMObjectFactory.
    *
    * Implementations of Write member funtion in derived classes should
-   * first sheck if clid is negative. If it is, they should set it to
-   * the correct id of a class. If it is not, they should just leave it
-   * as it is.
-   * Next thing to do is call the parent's implementation of Write (make
-   * sure that you also pass the clid parameter), and finaly write
-   * whatever you need.
-   *
-   * When you are calling this member to write the class to ostream, you
-   * should omit the clid member. It will be automatically set
-   * correctly in the most derived implementation of Write.
+   * first call the parent's implementation of Write and finaly write
+   * whatever they need.
    */
-  virtual void Write( std::ostream& f, int clid=-1 ) const;
+  virtual void Write( std::ostream& f ) const;
 
 
 #ifdef FEM_USE_SMART_POINTERS

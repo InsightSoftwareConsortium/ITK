@@ -31,18 +31,12 @@ namespace fem {
 /**
  * Write the NodeXYrotZ to the output stream
  */
-void NodeXYrotZ::Write( std::ostream& f, int clid ) const 
-  {
-
-  /**
-   * if not set already, se set the clid
-   */
-  if (clid<0) clid=CLID;
-
+void NodeXYrotZ::Write( std::ostream& f ) const 
+{
   /**
    * first call the parent's write function
    */
-  Superclass::Write(f,clid);
+  Superclass::Write(f);
 
   /* 
    * we don't need to write anything else, since

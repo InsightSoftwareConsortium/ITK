@@ -234,7 +234,7 @@ public:
     }
 
     virtual void Read(  std::istream& f, void* info );
-    virtual void Write( std::ostream& f, int clid=-1 ) const;
+    virtual void Write( std::ostream& f ) const;
 
   public:
     /**

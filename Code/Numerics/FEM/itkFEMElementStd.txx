@@ -79,18 +79,10 @@ out:
 template<unsigned int VNumberOfPoints, unsigned int VNumberOfSpatialDimensions, class TBaseClass>
 void
 ElementStd<VNumberOfPoints, VNumberOfSpatialDimensions, TBaseClass>
-::Write( std::ostream& f, int clid ) const
+::Write( std::ostream& f ) const
 {
-
-  // ElementStd cannot be the most derived class, so
-  // if clid was not set already, we throw an exception.
-  if (clid<0)
-  {
-    throw FEMExceptionIO(__FILE__,__LINE__,"ElementStd::Write()","Error writing FEM element!. Parameter clid was not set!");
-  }
-
   // First call the parent's write function
-  Superclass::Write(f,clid);
+  Superclass::Write(f);
 
   // ... then write the actual data (node ids)
   // We also add some comments in the output file

@@ -140,7 +140,7 @@ public:
   /**
    * Write data for this class to output stream
    */
-  virtual void Write( std::ostream& f, int clid ) const;
+  virtual void Write( std::ostream& f ) const;
 
 
 

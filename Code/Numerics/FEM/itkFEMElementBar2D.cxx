@@ -156,13 +156,10 @@ out:
 /**
  * Write the element to the output stream
  */
-void Bar2D::Write( std::ostream& f, int clid ) const {
-
-  /** if not set already, se set the clid */
-  if (clid<0) { clid=CLID; }
+void Bar2D::Write( std::ostream& f ) const {
 
   /**  first call the parent's write function */
-  Superclass::Write(f,clid);
+  Superclass::Write(f);
 
   /** 
    * then write the actual data (node, and material numbers)

@@ -61,7 +61,7 @@ public:
   /**
    * Write this class to output stream
    */
-  virtual void Write( std::ostream& f, int clid ) const;
+  virtual void Write( std::ostream& f ) const;
 
   /**
    * Default constructor only clears the internal storage

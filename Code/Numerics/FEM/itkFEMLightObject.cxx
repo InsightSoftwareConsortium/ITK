@@ -53,40 +53,27 @@ out:
 
 
 
-/** 
+/*
  * Here we just write the class name and GN.
  * This should be the first function called when writing object data, so
  * every derived class should first call the parent's write function.
- * Each derived class should also set the clid to correct value only if
- * clid  is <0.
- * This way the Write function in base (this one) class knows which class is
- * being written and can write the class name properly.
+ * The Write function in base (this one) class knows which class is
+ * being written by calling the virtual ClassID() function and can write
+ * the class name properly.
  */
-void FEMLightObject::Write( std::ostream& f, int clid ) const
+void FEMLightObject::Write( std::ostream& f ) const
 {
+  // first write the class name
+  f<<'<'<<FEMObjectFactory<Self>::ID2ClassName(this->ClassID())<<">\n";
 
-  /** check if somebody has defined the clid */
-  if (clid<0) {
-    /**
-     * Nope... This means that either no Write function is defined for
-     * the derived class, or somebody was trying to write an abstract
-     * class. We should start yelling here...
-     */
-    return;
-  }
-
-  /**  first write the class name */
-  f<<'<'<<FEMObjectFactory<Self>::ID2ClassName(clid)<<">\n";
-
-  /** then the global object number */
+  // then the global object number
   f<<"\t"<<GN<<"\t% Global object number\n";
 
-  /** check for errors */
+  // check for errors
   if (!f)
   {
     throw FEMExceptionIO(__FILE__,__LINE__,"FEMLightObject::Write","Error writing FEM object!");
   }
-
 }
 
 

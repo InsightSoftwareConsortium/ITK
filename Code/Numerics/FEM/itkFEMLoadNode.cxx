@@ -81,13 +81,10 @@ out:
 /**
  * Write the LoadNode to the output stream
  */
-void LoadNode::Write( std::ostream& f, int clid ) const {
-
-  /** if not set already, se set the clid */
-  if (clid<0) clid=CLID;
+void LoadNode::Write( std::ostream& f ) const {
 
   /** first call the parent's write function */
-  Superclass::Write(f,clid);
+  Superclass::Write(f);
 
   /** write the actual Load data */
   f<<"\t"<<this->m_element->GN<<"\t% GN of element on which the load acts"<<"\n";

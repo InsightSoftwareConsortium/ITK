@@ -101,7 +101,7 @@ public:
   /**
    * Write this class to output stream
    */
-  void Write( std::ostream& f, int clid ) const ;
+  void Write( std::ostream& f ) const ;
 
 protected:
   

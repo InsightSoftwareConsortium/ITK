@@ -51,7 +51,7 @@ public:
   /**
    * Write the NodeXYrotZ to output stream
    */
-  void Write( std::ostream& f, int clid ) const;
+  void Write( std::ostream& f ) const;
 
   /**
    * Windows visualizatoion

@@ -97,13 +97,12 @@ out:
 /**
  * Write the LoadElement to the output stream
  */
-void LoadElement::Write( std::ostream& f, int clid ) const {
-
+void LoadElement::Write( std::ostream& f ) const
+{
   /**
    * first call the parent's write function
-   * this is an abstract class, so the clid should already be set
    */
-  Superclass::Write(f,clid);
+  Superclass::Write(f);
 
   /** Write the list of element global numbers */
   if (!el.empty()) {

@@ -57,7 +57,7 @@ public:
   ElementPointersVectorType el;  /** pointers to element objects on which the load acts */
 
   virtual void Read( std::istream& f, void* info );
-  void Write( std::ostream& f, int clid ) const;
+  void Write( std::ostream& f ) const;
 
   LoadElement() : el(0) {}
 

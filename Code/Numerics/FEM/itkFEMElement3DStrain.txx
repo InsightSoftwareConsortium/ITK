@@ -169,17 +169,10 @@ out:
 template<class TBaseClass>
 void
 Element3DStrain<TBaseClass>
-::Write( std::ostream& f, int clid ) const {
-
-  // Element3DStress cannot be the most derived class, so
-  // if clid was not set already, we throw an exception.
-  if (clid<0)
-  {
-    throw FEMExceptionIO(__FILE__,__LINE__,"Element3DStress::Write()","Error writing FEM element!. Parameter clid was not set!");
-  }
+::Write( std::ostream& f ) const {
 
   // First call the parent's write function
-  Superclass::Write(f,clid);
+  Superclass::Write(f);
 
   /*
    * then write the actual data (material number)

@@ -66,21 +66,13 @@ out:
 /**
  * writes the NodeXY to the output stream
  */
-void NodeXY::Write( std::ostream& f, int clid ) const 
+void NodeXY::Write( std::ostream& f ) const 
 {
-
-  /**
-   * if not set already, se set the clid
-   */
-  if (clid<0) 
-    {
-    clid=CLID;
-    }
 
   /**
    * first call the parent's write function
    */
-  Superclass::Write(f,clid);
+  Superclass::Write(f);
 
   /**
    * write actual data (node, and properties numbers)

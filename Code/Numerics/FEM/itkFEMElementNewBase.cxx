@@ -120,21 +120,12 @@ out:
 /*
  * Write the Node to the output stream
  */
-void ElementNew::Node::Write( std::ostream& f, int clid ) const 
+void ElementNew::Node::Write( std::ostream& f ) const 
 {
-
-  /*
-   * If not set already, se set the clid
-   */
-  if (clid<0) 
-  {
-    clid=CLID;
-  }
-
   /**
    * First call the parent's write function
    */
-  Self::Superclass::Write(f,clid);
+  Self::Superclass::Write(f);
 
   /**
    * Write actual data (node, and properties numbers)
@@ -149,7 +140,6 @@ void ElementNew::Node::Write( std::ostream& f, int clid ) const
   {
     throw FEMExceptionIO(__FILE__,__LINE__,"ElementNew::Node::Write()","Error writing FEM node!");
   }
-
 }
 
 

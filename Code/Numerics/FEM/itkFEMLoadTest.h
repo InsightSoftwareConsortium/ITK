@@ -54,13 +54,10 @@ public:
   {
     Superclass::Read(f,info);
   }
-  void Write( std::ostream& f, int clid ) const
+  void Write( std::ostream& f ) const
   {
-    // if not set already, se set the clid
-    if (clid<0) clid=CLID;
-
     // call the parent's write function
-    Superclass::Write(f,clid);
+    Superclass::Write(f);
   }
 
   /**

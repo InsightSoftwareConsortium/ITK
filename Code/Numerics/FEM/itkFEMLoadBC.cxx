@@ -74,14 +74,10 @@ out:
 /**
  * Write the LoadBC object to the output stream
  */
-void LoadBC::Write( std::ostream& f, int clid ) const 
+void LoadBC::Write( std::ostream& f ) const 
 {
-
-  /* if not set already, se set the clid */
-  if (clid<0) clid=CLID;
-
   /* first call the parent's write function */
-  Superclass::Write(f,clid);
+  Superclass::Write(f);
 
   /*
    * Write the actual Load data
