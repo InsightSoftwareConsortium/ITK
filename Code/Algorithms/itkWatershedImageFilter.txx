@@ -88,6 +88,15 @@ WatershedImageFilter<TInputImage>
 template< class TInputImage >
 void
 WatershedImageFilter<TInputImage>
+::EnlargeOutputRequestedRegion(DataObject *data)
+{
+  Superclass::EnlargeOutputRequestedRegion(data);
+  data->SetRequestedRegionToLargestPossibleRegion();
+}
+
+template< class TInputImage >
+void
+WatershedImageFilter<TInputImage>
 ::GenerateData()
 {
   // Allocate the output image.
@@ -97,6 +106,7 @@ WatershedImageFilter<TInputImage>
 
   // Set the largest possible region in the segmenter
   m_Segmenter->SetLargestPossibleRegion(this->GetInput()->GetLargestPossibleRegion());
+  m_Segmenter->GetOutputImage()->SetRequestedRegion(this->GetInput()->GetLargestPossibleRegion());
   
   // Fiddle with the update command to accomodate filters that will and will
   // not execute.  This logic is not guaranteed to cover all update cases.

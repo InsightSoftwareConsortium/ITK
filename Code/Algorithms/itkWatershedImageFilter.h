@@ -17,6 +17,10 @@
 #ifndef __itkWatershedImageFilter_h
 #define __itkWatershedImageFilter_h
 
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"
 #include "itkWatershedSegmenter.h"
@@ -227,6 +231,9 @@ public:
       return m_TreeGenerator->GetOutputSegmentTree();
     }
    
+  // Override since the filter produces all of its output
+  void EnlargeOutputRequestedRegion(DataObject *data);
+
 protected:
   WatershedImageFilter();
   virtual ~WatershedImageFilter() {}
