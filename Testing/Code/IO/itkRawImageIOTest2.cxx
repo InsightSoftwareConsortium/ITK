@@ -22,19 +22,23 @@
 #include "itkImage.h"
 
 // this class is used to send output to stdout and not the itk window
-class TextOutput : public itk::OutputWindow
+class IoTextOutput : public itk::OutputWindow
 {
 public:
-  typedef itk::SmartPointer<TextOutput> Pointer;
-  itkNewMacro(TextOutput);
+  typedef itk::SmartPointer<IoTextOutput> Pointer;
+  itkNewMacro(IoTextOutput);
   virtual void DisplayText(const char* s)
     {
       std::cout << s << std::endl;
     }
 };
 
-int itkRawImageIOTest2(int argc, char **argv)
+
+int main(int argc, char **argv)
 {
+
+
+
   if ( argc < 2 )
     {
     itkGenericOutputMacro(<<"Need a file to process");
