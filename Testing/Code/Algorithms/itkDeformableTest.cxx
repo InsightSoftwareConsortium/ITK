@@ -263,14 +263,23 @@ int itkDeformableTest(int, char**)
   bfilter->SetSliceDistanceThreshold(1.0);
   bfilter->SetModelDistanceToBoundaryThreshold(0.0);
 
-  time(&btime);
-  bfilter->Update();
-  time(&etime);
+  try {
+    time(&btime);
+    bfilter->Update();
+    time(&etime);
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cout << "Exception caught: " << std::endl;
+    std::cout << "Description: " << e.GetDescription() << std::endl;
+    std::cout << "Location:    " << e.GetLocation() << std::endl;
+    return EXIT_FAILURE;
+    }
 
   std::cout<<"Finished: "<<etime-btime<<" seconds."<<std::endl;
   
 // All objects should be automatically destroyed at this point
-  return 0;
+  return EXIT_SUCCESS;
 
 }
 
