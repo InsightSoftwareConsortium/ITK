@@ -53,8 +53,8 @@ public:
   /** 
    * Some typedefs
    */
-  typedef TInputImage InputImage;
-  typedef typename InputImage::Pointer InputImagePointer;
+  typedef TInputImage InputImageType;
+  typedef typename InputImageType::Pointer InputImagePointer;
 
   /** 
    * Run-time type information (and related methods).

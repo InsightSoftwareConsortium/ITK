@@ -75,24 +75,22 @@ public:
   itkGetMacro(ShrinkFactor,unsigned int);
                  
   /**
-   * NonThreadedShrinkImage produces an image which is a different resolution and
-   * with a different pixel spacing than its input image.  As such,
+   * NonThreadedShrinkImage produces an image which is a different resolution
+   * and with a different pixel spacing than its input image.  As such,
    * NonThreadedShrinkImage needs to provide an implementation for
-   * UpdateOutputInformation() in order to inform the pipeline execution model.
-   * The original documentation of this method is below.
+   * UpdateOutputInformation() in order to inform the pipeline execution
+   * model.  The original documentation of this method is below.
    *
-   * \sa ProcessObject::UpdateOutputInformaton()
-   */
+   * \sa ProcessObject::UpdateOutputInformaton() */
   virtual void UpdateOutputInformation();
 
   /**
-   * NonThreadedShrinkImage needs a larger input requested region than the output
-   * requested region.  As such, NonThreadedShrinkImage needs to provide an implementation
-   * for GenerateInputRequestedRegion() in order to inform the pipeline
-   * execution model.  
+   * NonThreadedShrinkImage needs a larger input requested region than the
+   * output requested region.  As such, NonThreadedShrinkImage needs to
+   * provide an implementation for GenerateInputRequestedRegion() in order to
+   * inform the pipeline execution model.
    *
-   * \sa ProcessObject::GenerateInputRequestedRegion()
-   */
+   * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();
 
  protected:

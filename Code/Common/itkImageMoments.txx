@@ -48,7 +48,7 @@ namespace itk
     template<class TPixel, int VRank>
     ImageMoments<TPixel, VRank>::
     ImageMoments(
-	ImageT &image) 
+	ImageType &image) 
 	{
 	    ComputeMoments(image);
 	}
@@ -77,7 +77,7 @@ namespace itk
     void
     ImageMoments<TPixel, VRank>::
     ComputeMoments(
-	ImageT &image)
+	ImageType &image)
     {
 	/* FIXME:  Algorithm currently works for 3D only */
 	if ( VRank != 3) {
@@ -203,7 +203,7 @@ namespace itk
      * were last computed by this object.
      */
     template<class TPixel, int VRank>
-    ImageMoments<TPixel,VRank>::ScalarT
+    ImageMoments<TPixel,VRank>::ScalarType
     ImageMoments<TPixel,VRank>::
     GetTotalMass()
     {
@@ -220,7 +220,7 @@ namespace itk
      * rather than physical coordinates.
      */
     template<class TPixel, int VRank>
-    ImageMoments<TPixel,VRank>::VectorT
+    ImageMoments<TPixel,VRank>::VectorType
     ImageMoments<TPixel,VRank>::
     GetFirstMoments()
     {
@@ -237,7 +237,7 @@ namespace itk
      * rather than physical coordinates.
      */
     template<class TPixel, int VRank>
-    ImageMoments<TPixel,VRank>::MatrixT
+    ImageMoments<TPixel,VRank>::MatrixType
     ImageMoments<TPixel,VRank>::
     GetSecondMoments()
     {
@@ -253,7 +253,7 @@ namespace itk
      * gravity is computed in physical coordinates.
      */
     template<class TPixel, int VRank>
-    ImageMoments<TPixel, VRank>::VectorT
+    ImageMoments<TPixel, VRank>::VectorType
     ImageMoments<TPixel, VRank>::
     GetCenterOfGravity()
     {
@@ -269,7 +269,7 @@ namespace itk
      * moments are computed in physical coordinates.
      */
     template<class TPixel, int VRank>
-    ImageMoments<TPixel, VRank>::MatrixT
+    ImageMoments<TPixel, VRank>::MatrixType
     ImageMoments<TPixel, VRank>::
     GetCentralMoments()
     {
@@ -287,7 +287,7 @@ namespace itk
      * coordinates.  
      */
     template<class TPixel, int VRank>
-    ImageMoments<TPixel, VRank>::VectorT
+    ImageMoments<TPixel, VRank>::VectorType
     ImageMoments<TPixel, VRank>::
     GetPrincipalMoments()
     {
@@ -310,7 +310,7 @@ namespace itk
      * in that case, _you_ get to figure out the consequences.)  The
      * moments are computed in physical coordinates.  */
     template<class TPixel, int VRank>
-    ImageMoments<TPixel, VRank>::MatrixT
+    ImageMoments<TPixel, VRank>::MatrixType
     ImageMoments<TPixel, VRank>::
     GetPrincipalAxes()
     {

@@ -71,7 +71,7 @@ public:
    * Note that we have to rescope Index back to itk::Index to that is it not
    * confused with ImageIterator::Index.
    */
-  typedef itk::Index<VImageDimension> Index;
+  typedef itk::Index<VImageDimension> IndexType;
 
   /** 
    * Size typedef support. While this was already typdef'ed in the superclass
@@ -79,7 +79,7 @@ public:
    * Note that we have to rescope Size back to itk::Size to that is it not
    * confused with ImageIterator::Size.
    */
-  typedef itk::Size<VImageDimension> Size;
+  typedef itk::Size<VImageDimension> SizeType;
 
   /**
    * Image typedef support. While this was already typdef'ed in the superclass
@@ -87,7 +87,7 @@ public:
    * Note that we have to rescope Image back to itk::Image so that is it not
    * confused with ImageIterator::Image.
    */
-  typedef itk::Image<TPixel, VImageDimension, TPixelContainer> Image;
+  typedef itk::Image<TPixel, VImageDimension, TPixelContainer> ImageType;
 
   /** 
    * PixelContainer typedef support. Used to refer to the container for
@@ -103,7 +103,7 @@ public:
    * Note that we have to rescope Region back to itk::ImageRegion so that is
    * it not confused with ImageIterator::Index.
    */
-  typedef itk::ImageRegion<VImageDimension> Region;
+  typedef itk::ImageRegion<VImageDimension> RegionType;
 
   /**
    * Default constructor. Needed since we provide a cast constructor.
@@ -114,8 +114,8 @@ public:
    * Constructor establishes an iterator to walk a particular image and a
    * particular region of that image.
    */
-  ImageBufferIterator(Image *ptr,
-                      const Region& region)
+  ImageBufferIterator(ImageType *ptr,
+                      const RegionType& region)
     : ImageIterator<TPixel, VImageDimension, TPixelContainer>(ptr, region) {}
   
   /**
@@ -135,7 +135,7 @@ public:
    * is not constrained to the region.
    */
   Self &
-  Increment(const Index &vec)
+  Increment(const IndexType &vec)
   {
     const unsigned long *offsetTable = m_Image->GetOffsetTable();
     
@@ -178,7 +178,7 @@ public:
    * is not constrained to the region.
    */
   Self &
-  Decrement(const Index &vec)
+  Decrement(const IndexType &vec)
   {
     const unsigned long *offsetTable = m_Image->GetOffsetTable();
     
@@ -220,7 +220,7 @@ public:
    * checking is performed. The new iterator is not constrained to the region.
    */
   Self
-  Add(const Index &vec) const
+  Add(const IndexType &vec) const
   {
     Self result( *this ); // copy the original ivars
 
@@ -272,7 +272,7 @@ public:
    * checking is performed. The new iterator is not constrained to the region.
    */
   Self
-  Subtract(const Index &vec) const
+  Subtract(const IndexType &vec) const
   {
     Self result( *this ); // copy the original ivars
 

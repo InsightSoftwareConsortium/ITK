@@ -60,13 +60,13 @@ public:
   /** 
    * Some typedefs.
    */
-  typedef TInputMesh InputMesh;
-  typedef typename InputMesh::Pointer InputMeshPointer;
+  typedef TInputMesh InputMeshType;
+  typedef typename InputMeshType::Pointer InputMeshPointer;
 
   /** 
    * Set the mesh input of this process object. 
    */
-  void SetInput(InputMesh *input);
+  void SetInput(InputMeshType *input);
 
   /** 
    * Get the mesh input of this process object. 

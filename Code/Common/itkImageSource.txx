@@ -71,7 +71,7 @@ ImageSource<TOutputImage>
 template<class TOutputImage>
 void 
 ImageSource<TOutputImage>
-::SetOutput(OutputImage *output)
+::SetOutput(TOutputImage *output)
 {
   this->ProcessObject::SetNthOutput(0, output);
 }
@@ -104,16 +104,16 @@ ImageSource<TOutputImage>
 template <class TOutputImage>
 int 
 ImageSource<TOutputImage>
-::SplitRequestedRegion(int i, int num, OutputImageRegion& splitRegion)
+::SplitRequestedRegion(int i, int num, OutputImageRegionType& splitRegion)
 {
   // Get the output pointer
   OutputImagePointer outputPtr = this->GetOutput();
-  const typename OutputImage::SizeType& requestedRegionSize 
+  const typename TOutputImage::SizeType& requestedRegionSize 
     = outputPtr->GetRequestedRegion().GetSize();
 
   int splitAxis;
-  typename OutputImage::IndexType splitIndex;
-  typename OutputImage::SizeType splitSize;
+  typename TOutputImage::IndexType splitIndex;
+  typename TOutputImage::SizeType splitSize;
 
   // Initialize the splitRegion to the output requested region
   splitRegion = outputPtr->GetRequestedRegion();
@@ -189,7 +189,7 @@ ImageSource<TOutputImage>
 template <class TOutputImage>
 void 
 ImageSource<TOutputImage>
-::ThreadedGenerateData(const OutputImageRegion& outputRegionForThread,
+::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId )
 {
   itkErrorMacro("subclass should override this method!!!");
@@ -213,7 +213,7 @@ ImageSource<TOutputImage>
 
   // execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
-  typename OutputImage::RegionType splitRegion;
+  typename TOutputImage::RegionType splitRegion;
   total = str->Filter->SplitRequestedRegion(threadId, threadCount,
                                             splitRegion);
   

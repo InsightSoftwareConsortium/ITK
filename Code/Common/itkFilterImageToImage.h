@@ -83,15 +83,15 @@ public:
   /** 
    * Some typedefs.
    */
-  typedef TInputImage InputImage;
-  typedef typename InputImage::Pointer InputImagePointer;
-  typedef typename InputImage::RegionType InputImageRegion; 
-  typedef typename InputImage::PixelType InputImagePixelType; 
+  typedef TInputImage InputImageType;
+  typedef typename InputImageType::Pointer InputImagePointer;
+  typedef typename InputImageType::RegionType InputImageRegionType; 
+  typedef typename InputImageType::PixelType InputImagePixelType; 
 
   /** 
    * Set the image input of this process object. 
    */
-  void SetInput(InputImage *input);
+  void SetInput(InputImageType *input);
 
   /** 
    * Get the image input of this process object. 

@@ -111,7 +111,6 @@ public:
    */
   typedef typename TOutputImage::RegionType RegionType;
 
-
   /**
    * Connect one of the operands for pixel-wise addition
    */

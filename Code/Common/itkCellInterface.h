@@ -145,7 +145,7 @@ public:
      *  Visitor type, because VisualC++ 6.0 does not like
      *  Visitor being a nested type of CellInterfaceVisitor
      */
-    typedef CellInterfaceVisitor<TPixelType, TCellType> Visitor;
+    typedef CellInterfaceVisitor<TPixelType, TCellType> VisitorType;
 
     /**
      * Standard "Self" typedef.
@@ -170,7 +170,7 @@ public:
     /**
      * Typedefs for the visitor class.
      */
-    typedef typename Visitor::Pointer VisitorPointer;
+    typedef typename VisitorType::Pointer VisitorPointer;
 
     /* 
      * Get the Visitor for the given id
@@ -184,7 +184,7 @@ public:
 	  }
 	else
 	  {
-	  std::map<int, Visitor::Pointer>:: iterator pos = m_UserDefined.find(id);
+	  std::map<int, VisitorType::Pointer>:: iterator pos = m_UserDefined.find(id);
 	  if(pos != m_UserDefined.end())
 	    {
 	    return (*pos).second;
@@ -192,7 +192,7 @@ public:
 	  }
         return 0;
       }
-    void AddVisitor(Visitor* v)
+    void AddVisitor(VisitorType* v)
       {
         int id = v->GetCellTopologyId();
 	if(id <= LAST_ITK_CELL)

@@ -48,8 +48,8 @@ void main()
   import->SetImportPointer( rawImage, 8*12, true);
   
   // Create another filter
-  itk::ShrinkImage<ImportImage::OutputImage, ShortImage >::Pointer shrink;
-  shrink = itk::ShrinkImage<ImportImage::OutputImage, ShortImage>::New();
+  itk::ShrinkImage<ImportImage::OutputImageType, ShortImage >::Pointer shrink;
+  shrink = itk::ShrinkImage<ImportImage::OutputImageType, ShortImage>::New();
   shrink->SetInput( import->GetOutput() );
   shrink->SetShrinkFactor(2);
   shrink->Update();

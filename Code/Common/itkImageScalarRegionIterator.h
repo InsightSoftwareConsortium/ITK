@@ -58,7 +58,7 @@ public:
    * Note that we have to rescope Index back to itk::Index to that is it not
    * confused with ImageIterator::Index.
    */
-  typedef itk::Index<VImageDimension> Index;
+  typedef itk::Index<VImageDimension> IndexType;
 
   /**
    * Image typedef support. While this was already typdef'ed in the superclass
@@ -66,7 +66,7 @@ public:
    * Note that we have to rescope Image back to itk::Image to that is it not
    * confused with ImageIterator::Image.
    */
-  typedef itk::Image<TPixel, VImageDimension, TPixelContainer> Image;
+  typedef itk::Image<TPixel, VImageDimension, TPixelContainer> ImageType;
 
   /** 
    * PixelContainer typedef support. Used to refer to the container for
@@ -82,7 +82,7 @@ public:
    * Note that we have to rescope Region back to itk::ImageRegion so that is
    * it not confused with ImageIterator::Index.
    */
-  typedef itk::ImageRegion<VImageDimension> Region;
+  typedef itk::ImageRegion<VImageDimension> RegionType;
 
   /**
    * Default constructor. Needed since we provide a cast constructor.
@@ -94,8 +94,8 @@ public:
    * Constructor establishes an iterator to walk a particular image and a
    * particular region of that image.
    */
-  ImageScalarRegionIterator(Image *ptr,
-                            const Region &region)
+  ImageScalarRegionIterator(ImageType *ptr,
+                            const RegionType &region)
     : ImageRegionIterator<TPixel, VImageDimension, TPixelContainer>(ptr, region) {}
 
   /**

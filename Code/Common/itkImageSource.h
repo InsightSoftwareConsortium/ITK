@@ -62,10 +62,10 @@ public:
   /** 
    * Some typedefs.
    */
-  typedef TOutputImage OutputImage;
-  typedef typename OutputImage::Pointer OutputImagePointer;
-  typedef typename OutputImage::RegionType OutputImageRegion;
-  typedef typename OutputImage::PixelType OutputImagePixelType;
+  typedef TOutputImage OutputImageType;
+  typedef typename OutputImageType::Pointer OutputImagePointer;
+  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  typedef typename OutputImageType::PixelType OutputImagePixelType;
   
   /** 
    * Get the image output of this process object. 
@@ -76,7 +76,7 @@ public:
   /** 
    * Set the image output of this process object. 
    */
-  void SetOutput(OutputImage *output);
+  void SetOutput(OutputImageType *output);
 
 protected:
   ImageSource();
@@ -135,7 +135,7 @@ protected:
    * \sa GenerateData(), SplitRequestedRegion()
    */
   virtual
-  void ThreadedGenerateData(const OutputImageRegion& outputRegionForThread,
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 
   /**
@@ -146,7 +146,7 @@ protected:
    * i.e. return value is less than or equal to "num".
    */
   virtual
-  int SplitRequestedRegion(int i, int num, OutputImageRegion& splitRegion);
+  int SplitRequestedRegion(int i, int num, OutputImageRegionType& splitRegion);
 
   /**
    * Static function used as a "callback" by the MultiThreader.  The threading

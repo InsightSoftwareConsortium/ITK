@@ -76,7 +76,7 @@ private:
   /**
    * Quick access to the STL valarray type that was inherited.
    */
-  typedef std::valarray<Element>  Valarray;
+  typedef std::valarray<Element>  ValarrayType;
   
   
 protected:
@@ -91,25 +91,25 @@ protected:
    *
    */
   ValarrayImageContainer():
-    Valarray() {}
+    ValarrayType() {}
   
   /**
    *
    */
   ValarrayImageContainer(unsigned long n):
-    Valarray(n) {}
+    ValarrayType(n) {}
   
   /**
    *
    */
   ValarrayImageContainer(unsigned long n, const Element& x):
-    Valarray(n, x) {}
+    ValarrayType(n, x) {}
   
   /**
    *
    */
   ValarrayImageContainer(const Self& r):
-    Valarray(r) {}
+    ValarrayType(r) {}
   
 
 public:
@@ -122,13 +122,13 @@ public:
    * Index operator. This version can be an lvalue.
    */
   TElement & operator[](const ElementIdentifier id)
-    { return this->Valarray::operator[](id); };
+    { return this->ValarrayType::operator[](id); };
 
   /**
    * Index operator. This version can only be an rvalue
    */
   const TElement & operator[](const ElementIdentifier id) const
-    { return this->Valarray::operator[](id); };
+    { return this->ValarrayType::operator[](id); };
     
 
   /**
@@ -136,13 +136,13 @@ public:
    * the image iterator class.
    */
   TElement *GetBufferPointer()
-    { return &(this->Valarray::operator[](0)); };
+    { return &(this->ValarrayType::operator[](0)); };
   
   /**
    * Get the number of elements currently stored in the container.
    */
   unsigned long Size(void) const
-    { return this->Valarray::size(); };
+    { return this->ValarrayType::size(); };
 
   /**
    * Tell the container to allocate enough memory to allow at least
@@ -151,7 +151,7 @@ public:
    * implementation of the container allocates contiguous storage.
    */
   void Reserve(ElementIdentifier num)
-    { this->Valarray::resize(num); };
+    { this->ValarrayType::resize(num); };
   
   /**
    * Tell the container to try to minimize its memory usage for storage of
@@ -159,7 +159,7 @@ public:
    * memory usage.
    */
   void Squeeze(void)
-    { this->Valarray::resize( this->Valarray::size() ); };
+    { this->ValarrayType::resize( this->ValarrayType::size() ); };
   
   /**
    * Standard part of every itk Object.

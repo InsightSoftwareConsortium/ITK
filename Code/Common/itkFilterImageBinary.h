@@ -74,7 +74,6 @@ public:
    */
   typedef typename TOutputImage::RegionType RegionType;
 
-
   /**
    *  Iterator type for first input image
    */

@@ -46,7 +46,7 @@ public:
    * Note that we have to rescope Index back to itk::Index to that is it not
    * confused with ImageIterator::Index.
    */
-  typedef typename TImage::Index Index;
+  typedef typename TImage::Index IndexType;
 
   /**
    * Image typedef support. While this was already typdef'ed in the superclass
@@ -54,7 +54,7 @@ public:
    * Note that we have to rescope Index back to itk::Index to that is it not
    * confused with ImageIterator::Index.
    */
-  typedef TImage Image;
+  typedef TImage ImageType;
 
   /** 
    * PixelContainer typedef support. Used to refer to the container for

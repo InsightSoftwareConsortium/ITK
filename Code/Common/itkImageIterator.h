@@ -70,17 +70,17 @@ public:
   /** 
    * Index typedef support.
    */
-  typedef Index<VImageDimension> Index;
+  typedef Index<VImageDimension> IndexType;
 
   /** 
    * Size typedef support.
    */
-  typedef Size<VImageDimension> Size;
+  typedef Size<VImageDimension> SizeType;
 
   /**
    * Image typedef support.
    */
-  typedef Image<TPixel, VImageDimension, TPixelContainer> Image;
+  typedef Image<TPixel, VImageDimension, TPixelContainer> ImageType;
 
   /** 
    * PixelContainer typedef support. Used to refer to the container for
@@ -92,7 +92,7 @@ public:
   /**
    * Region typedef support.
    */
-  typedef ImageRegion<VImageDimension> Region;
+  typedef ImageRegion<VImageDimension> RegionType;
   
   /**
    * Default Constructor. Need to provide a default constructor since we
@@ -126,8 +126,8 @@ public:
    * Constructor establishes an iterator to walk a particular image and a
    * particular region of that image.
    */
-  ImageIterator(Image *ptr,
-                const Region &region)
+  ImageIterator(ImageType *ptr,
+                const RegionType &region)
   {
     m_Image = ptr;
     m_Buffer = m_Image->GetBufferPointer();
@@ -138,8 +138,8 @@ public:
     m_BeginOffset = m_Offset;
     
     // Compute the end offset
-    Index ind(m_Region.GetIndex());
-    Size size(m_Region.GetSize());
+    IndexType ind(m_Region.GetIndex());
+    SizeType size(m_Region.GetSize());
     for (unsigned int i=0; i < VImageDimension; ++i)
       {
       ind[i] += (size[i] - 1);
@@ -247,14 +247,14 @@ public:
    * therefore an expensive operation.
    * \sa SetIndex
    */
-  const Index GetIndex()
+  const IndexType GetIndex()
     { return m_Image->ComputeIndex( m_Offset );  }
 
   /**
    * Set the index. No bounds checking is performed.
    * \sa GetIndex
    */
-  virtual void SetIndex(const Index &ind)
+  virtual void SetIndex(const IndexType &ind)
     { m_Offset = m_Image->ComputeOffset( ind ); }
 
 
@@ -262,8 +262,8 @@ public:
    * Get the region that this iterator walks. ImageIterators know the
    * beginning and the end of the region of the image to iterate over.
    */
-  const Region& GetRegion() const
-  { return m_Region; };
+  const RegionType& GetRegion() const
+    { return m_Region; };
 
   /**
    * Dereference the iterator, returns a reference to the pixel. Used to set
@@ -299,8 +299,8 @@ public:
     }
   
 protected: //made protected so other iterators can access 
-  SmartPointer<Image> m_Image;
-  Region         m_Region;                    // region to iterate over
+  SmartPointer<ImageType> m_Image;
+  RegionType              m_Region;      // region to iterate over
   
   unsigned long  m_Offset;
   unsigned long  m_BeginOffset;

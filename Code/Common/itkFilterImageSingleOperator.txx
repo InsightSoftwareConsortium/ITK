@@ -77,8 +77,8 @@ FilterImageSingleOperator<TPixel, VDimension>
 ::GenerateData()
 {
   // Allocate output
-  Image::Pointer output = this->GetOutput();
-  Image::Pointer input  = this->GetInput();
+  ImageType::Pointer output = this->GetOutput();
+  ImageType::Pointer input  = this->GetInput();
  
   // Need to allocate output buffer memory.
   output->SetBufferedRegion(output->GetRequestedRegion());

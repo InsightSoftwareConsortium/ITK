@@ -47,27 +47,27 @@ public:
   /**
    * Typedef for the output image.  
    */
-  typedef Image<TPixel, VImageDimension, ImportImageContainer<unsigned long, TPixel> > OutputImage;
+  typedef Image<TPixel, VImageDimension, ImportImageContainer<unsigned long, TPixel> > OutputImageType;
   
   /** 
    * Index typedef support. An index is used to access pixel values.
    */
-  typedef Index<VImageDimension>  Index;
+  typedef Index<VImageDimension>  IndexType;
 
   /** 
    * Size typedef support. A size is used to define region bounds.
    */
-  typedef Size<VImageDimension>  Size;
+  typedef Size<VImageDimension>  SizeType;
 
   /** 
    * Region typedef support. A region is used to specify a subset of an image.
    */
-  typedef ImageRegion<VImageDimension>  Region;
+  typedef ImageRegion<VImageDimension>  RegionType;
 
   /**
    * Standard "Superclass" typedef.
    */
-  typedef ImageSource<OutputImage>  Superclass;
+  typedef ImageSource<OutputImageType>  Superclass;
 
   /** 
    * Smart pointer typedef support.
@@ -113,7 +113,7 @@ public:
    * the BufferedRegion, and the RequestedRegion.
    * \sa ImageRegion
    */
-  void SetRegion(const Region &region)
+  void SetRegion(const RegionType &region)
     { if (m_Region != region) {m_Region = region; this->Modified();} };
   
   /**
@@ -122,7 +122,7 @@ public:
    * the BufferedRegion, and the RequestedRegion.
    * \sa ImageRegion
    */
-  const Region& GetRegion() const
+  const RegionType& GetRegion() const
     { return m_Region;};
   
   /** 
@@ -182,7 +182,7 @@ protected:
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
 
 private:  
-  Region  m_Region;
+  RegionType  m_Region;
   float   m_Spacing[VImageDimension];
   float   m_Origin[VImageDimension];
 };

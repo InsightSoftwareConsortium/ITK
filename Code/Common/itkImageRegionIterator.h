@@ -75,7 +75,7 @@ public:
    * Note that we have to rescope Index back to itk::Index to that is it not
    * confused with ImageIterator::Index.
    */
-  typedef itk::Index<VImageDimension> Index;
+  typedef itk::Index<VImageDimension> IndexType;
 
   /** 
    * Size typedef support. While this was already typdef'ed in the superclass
@@ -83,7 +83,7 @@ public:
    * Note that we have to rescope Size back to itk::Size to that is it not
    * confused with ImageIterator::Size.
    */
-  typedef itk::Size<VImageDimension> Size;
+  typedef itk::Size<VImageDimension> SizeType;
 
   /**
    * Image typedef support. While this was already typdef'ed in the superclass
@@ -91,7 +91,7 @@ public:
    * Note that we have to rescope Image back to itk::Image to that is it not
    * confused with ImageIterator::Image.
    */
-  typedef itk::Image<TPixel, VImageDimension, TPixelContainer> Image;
+  typedef itk::Image<TPixel, VImageDimension, TPixelContainer> ImageType;
 
   /** 
    * PixelContainer typedef support. Used to refer to the container for
@@ -107,7 +107,7 @@ public:
    * Note that we have to rescope Region back to itk::ImageRegion so that is
    * it not confused with ImageIterator::Index.
    */
-  typedef itk::ImageRegion<VImageDimension> Region;
+  typedef itk::ImageRegion<VImageDimension> RegionType;
   
   /** 
    * Run-time type information (and related methods).
@@ -123,8 +123,8 @@ public:
    * Constructor establishes an iterator to walk a particular image and a
    * particular region of that image.
    */
-  ImageRegionIterator(Image *ptr,
-                      const Region &region)
+  ImageRegionIterator(ImageType *ptr,
+                      const RegionType &region)
     : ImageIterator<TPixel, VImageDimension, TPixelContainer>(ptr, region)
   { m_SpanEndOffset = m_BeginOffset + m_Region.GetSize()[0]; }
 
@@ -139,7 +139,7 @@ public:
   ImageRegionIterator( const ImageIterator<TPixel, VImageDimension, TPixelContainer> &it)
   {
     this->ImageIterator<TPixel,VImageDimension,TPixelContainer>::operator=(it);
-    Index ind = this->GetIndex();
+    IndexType ind = this->GetIndex();
     m_SpanEndOffset = m_Offset + m_Region.GetSize()[0] 
       - (ind[0] - m_Region.GetIndex()[0]);
   }
@@ -150,7 +150,7 @@ public:
    * from the parent because we have an extra ivar.
    * \sa GetIndex
    */
-  void SetIndex(const Index &ind)
+  void SetIndex(const IndexType &ind)
   { Superclass::SetIndex(ind);
     m_SpanEndOffset = m_Offset + m_Region.GetSize()[0] 
       - (ind[0] - m_Region.GetIndex()[0]); }
@@ -176,12 +176,12 @@ public:
       --m_Offset;
       
       // Get the index of the last pixel on the span (row)
-      ImageIterator<TPixel, VImageDimension, TPixelContainer>::Index
+      ImageIterator<TPixel, VImageDimension, TPixelContainer>::IndexType
         ind = m_Image->ComputeIndex( m_Offset );
 
-      const ImageIterator<TPixel, VImageDimension, TPixelContainer>::Index&
+      const ImageIterator<TPixel, VImageDimension, TPixelContainer>::IndexType&
         startIndex = m_Region.GetIndex();
-      const ImageIterator<TPixel, VImageDimension, TPixelContainer>::Size&
+      const ImageIterator<TPixel, VImageDimension, TPixelContainer>::SizeType&
         size = m_Region.GetSize();
 
       // Increment along a row, then wrap at the end of the region row.

@@ -32,7 +32,7 @@ VectorContainer< TElementIdentifier , TElement >
 ::ElementAt(ElementIdentifier id)
 {
   this->Modified();
-  return this->Vector::operator[](id);
+  return this->VectorType::operator[](id);
 }
 
 
@@ -49,12 +49,12 @@ VectorContainer< TElementIdentifier , TElement >::Element&
 VectorContainer< TElementIdentifier , TElement >
 ::CreateElementAt(ElementIdentifier id)
 {
-  if(id >= this->Vector::size())
+  if(id >= this->VectorType::size())
     {
     this->CreateIndex(id);
     }
   this->Modified();
-  return this->Vector::operator[](id);
+  return this->VectorType::operator[](id);
 }
 
 
@@ -67,7 +67,7 @@ VectorContainer< TElementIdentifier , TElement >::Element
 VectorContainer< TElementIdentifier , TElement >
 ::GetElement(ElementIdentifier id) const
 {
-  return this->Vector::operator[](id);
+  return this->VectorType::operator[](id);
 }
 
 
@@ -80,7 +80,7 @@ void
 VectorContainer< TElementIdentifier , TElement >
 ::SetElement(ElementIdentifier id, Element element)
 {
-  this->Vector::operator[](id) = element;
+  this->VectorType::operator[](id) = element;
   this->Modified();
 }
 
@@ -95,11 +95,11 @@ void
 VectorContainer< TElementIdentifier , TElement >
 ::InsertElement(ElementIdentifier id, Element element)
 {
-  if(id >= this->Vector::size())
+  if(id >= this->VectorType::size())
     {
     this->CreateIndex(id);
     }
-  this->Vector::operator[](id) = element;
+  this->VectorType::operator[](id) = element;
   this->Modified();
 }
 
@@ -113,7 +113,7 @@ bool
 VectorContainer< TElementIdentifier , TElement >
 ::IndexExists(ElementIdentifier id) const
 {
-  return ((id >= 0) && (id < this->Vector::size()));
+  return ((id >= 0) && (id < this->VectorType::size()));
 }
 
 
@@ -127,11 +127,11 @@ bool
 VectorContainer< TElementIdentifier , TElement >
 ::GetElementIfIndexExists(ElementIdentifier id, Element* element) const
 {
-  if((id >= 0) && (id < this->Vector::size()))
+  if((id >= 0) && (id < this->VectorType::size()))
     {
     if(element)
       {
-      *element = this->Vector::operator[](id);
+      *element = this->VectorType::operator[](id);
       }
     return true;
     }
@@ -149,13 +149,13 @@ void
 VectorContainer< TElementIdentifier , TElement >
 ::CreateIndex(ElementIdentifier id)
 {
-  if(id >= this->Vector::size())
+  if(id >= this->VectorType::size())
     {
     /**
      * The vector must be expanded to fit the
      * new id.
      */
-    this->Vector::resize(id+1);
+    this->VectorType::resize(id+1);
     this->Modified();
     }
   else if(id >= 0)
@@ -164,7 +164,7 @@ VectorContainer< TElementIdentifier , TElement >
      * No expansion was necessary.  Just overwrite the index's entry with
      * the default element.
      */
-    this->Vector::operator[](id) = Element();
+    this->VectorType::operator[](id) = Element();
     this->Modified();
     }
 }
@@ -179,7 +179,7 @@ void
 VectorContainer< TElementIdentifier , TElement >
 ::DeleteIndex(ElementIdentifier id)
 {
-  this->Vector::operator[](id) = Element();
+  this->VectorType::operator[](id) = Element();
   this->Modified();
 }
 
@@ -192,7 +192,7 @@ VectorContainer< TElementIdentifier , TElement >::ConstIterator
 VectorContainer< TElementIdentifier , TElement >
 ::Begin(void) const
 {
-  return ConstIterator(0, this->Vector::begin());
+  return ConstIterator(0, this->VectorType::begin());
 }
 
 
@@ -204,7 +204,7 @@ VectorContainer< TElementIdentifier , TElement >::ConstIterator
 VectorContainer< TElementIdentifier , TElement >
 ::End(void) const
 {
-  return ConstIterator(this->Vector::size()-1, this->Vector::end());
+  return ConstIterator(this->VectorType::size()-1, this->VectorType::end());
 }
 
 
@@ -216,7 +216,7 @@ VectorContainer< TElementIdentifier , TElement >::Iterator
 VectorContainer< TElementIdentifier , TElement >
 ::Begin(void) 
 {
-  return Iterator(0, this->Vector::begin());
+  return Iterator(0, this->VectorType::begin());
 }
 
 
@@ -228,7 +228,7 @@ VectorContainer< TElementIdentifier , TElement >::Iterator
 VectorContainer< TElementIdentifier , TElement >
 ::End(void) 
 {
-  return Iterator(this->Vector::size()-1, this->Vector::end());
+  return Iterator(this->VectorType::size()-1, this->VectorType::end());
 }
 
 
@@ -240,7 +240,7 @@ unsigned long
 VectorContainer< TElementIdentifier , TElement >
 ::Size(void) const
 {
-  return this->Vector::size();
+  return this->VectorType::size();
 }
 
 

@@ -88,17 +88,17 @@ public:
   /** 
    * Index typedef support. An index is used to access pixel values.
    */
-  typedef typename TImage::Index  Index;
+  typedef typename TImage::IndexType  IndexType;
 
   /** 
    * Size typedef support. A size is used to define region bounds.
    */
-  typedef typename TImage::Size  Size;
+  typedef typename TImage::SizeType  SizeType;
 
   /** 
    * Region typedef support. A region is used to specify a subset of an image.
    */
-  typedef typename TImage::Region  Region;
+  typedef typename TImage::RegionType  RegionType;
   
   /** 
    * Run-time type information (and related methods).
@@ -124,7 +124,7 @@ public:
    * conditions.
    * \sa ImageRegion, SetBufferedRegion(), SetRequestedRegion()
    */
-  void SetLargestPossibleRegion(const Region &region)
+  void SetLargestPossibleRegion(const RegionType &region)
     { m_Image->SetLargestPossibleRegion( region ); }
 
   /**
@@ -143,7 +143,7 @@ public:
    * of the region of the image currently load in memory. 
    * \sa ImageRegion, SetLargestPossibleRegion(), SetRequestedRegion()
    */
-  void SetBufferedRegion(const Region &region)
+  void SetBufferedRegion(const RegionType &region)
     { m_Image->SetBufferedRegion( region ); }
 
   /**
@@ -159,7 +159,7 @@ public:
    * for the region of the image requested.
    * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion()
    */
-  void SetRequestedRegion(const Region &region)
+  void SetRequestedRegion(const RegionType &region)
   { m_Image->SetRequestedRegion( region ); }
 
   /**
@@ -167,7 +167,7 @@ public:
    * for the region of the image requested.
    * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion()
    */
-  const Region& GetRequestedRegion()
+  const RegionType& GetRequestedRegion()
   { return m_Image->GetRequestedRegion(); }
 
 
@@ -180,31 +180,31 @@ public:
   /**
    * Set a pixel.
    */
-  void SetPixel(const Index &index, const PixelType & value)
+  void SetPixel(const IndexType &index, const PixelType & value)
   { TAccessor::Set( m_Image->GetPixel(index), value ); }
   
   /**
    * Get a pixel (read only version) 
    */
-  const PixelType & GetPixel(const Index &index) const
+  const PixelType & GetPixel(const IndexType &index) const
   { return TAccessor::Get( m_Image->GetPixel(index) ); }
 
   /**
    * Get a pixel for editing. 
    */
-  PixelType & GetPixel(const Index &index)
+  PixelType & GetPixel(const IndexType &index)
   { return TAccessor::Get( m_Image->GetPixel(index) ); }
     
   /**
    * Access a pixel. This version can be an lvalue.
    */
-  PixelType & operator[](const Index &index)
+  PixelType & operator[](const IndexType &index)
   { return TAccessor::Get( m_Image->GetPixel(index) ); }
   
   /**
    * Access a pixel. This version can only be an rvalue.
    */
-  const PixelType & operator[](const Index &index) const
+  const PixelType & operator[](const IndexType &index) const
   { return TAccessor::Get( m_Image->GetPixel(index) ); }
 
 
@@ -251,14 +251,14 @@ public:
    * Compute an offset from the beginning of the buffer for a pixel
    * at the specified index.
    */
-  unsigned long ComputeOffset(const Index &ind) const
+  unsigned long ComputeOffset(const IndexType &ind) const
   { return m_Image->ComputeOffset( ind ); }
 
   /**
    * Compute the index of the pixel at a specified offset from the
    * beginning of the buffer.
    */
-  Index ComputeIndex(unsigned long offset) const
+  IndexType ComputeIndex(unsigned long offset) const
   { return m_Image->ComputeIndex( offset ); }
 
   /**

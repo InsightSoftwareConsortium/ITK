@@ -24,7 +24,7 @@ namespace itk
 template <class TInputImage>
 void 
 WriteImage<TInputImage>
-::SetInput(InputImage *input)
+::SetInput(InputImageType *input)
 {
   this->ProcessObject::SetNthInput(0, input);
 }

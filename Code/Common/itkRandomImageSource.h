@@ -132,7 +132,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent);
   
   virtual void 
-  ThreadedGenerateData(const OutputImageRegion& outputRegionForThread,
+  ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId );
   virtual void GenerateOutputInformation();
 

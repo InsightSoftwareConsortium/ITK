@@ -65,56 +65,56 @@ public:
 
     // Abbreviated types for use in this class
     /// Standard scalar type within this class.
-    typedef double                                 ScalarT;
+    typedef double                                 ScalarType;
     /// Standard vector type within this class.
-    typedef vnl_vector_fixed<double,VRank>         VectorT;
+    typedef vnl_vector_fixed<double,VRank>         VectorType;
     /// Standard matrix type within this class.
-    typedef vnl_matrix_fixed<double,VRank,VRank>   MatrixT;
+    typedef vnl_matrix_fixed<double,VRank,VRank>   MatrixType;
     /// Standard image type within this class.
-    typedef typename Image<TPixel, VRank>::Pointer ImageT;
+    typedef typename Image<TPixel, VRank>::Pointer ImageType;
 
     
     // Compute moments for a new or modified image
-    void ComputeMoments(ImageT &image);
+    void ComputeMoments(ImageType &image);
 
     // Get sum of intensities
-    ScalarT GetTotalMass();
+    ScalarType GetTotalMass();
 
     // Get first moments about origin, in index coordinates
-    VectorT GetFirstMoments();
+    VectorType GetFirstMoments();
 
     // Get second moments about origin, in index coordinates
-    MatrixT GetSecondMoments();
+    MatrixType GetSecondMoments();
 
     // Get center of gravity, in physical coordinates
-    VectorT GetCenterOfGravity();
+    VectorType GetCenterOfGravity();
 
     // Get second central moments, in physical coordinates
-    MatrixT GetCentralMoments();
+    MatrixType GetCentralMoments();
 
     // Get principal moments, in physical coordinates
-    VectorT GetPrincipalMoments();
+    VectorType GetPrincipalMoments();
 
     // Get principal axes, in physical coordinates
-    MatrixT GetPrincipalAxes();
+    MatrixType GetPrincipalAxes();
 
     /* Constructors  */
     ImageMoments();            // Create w/o summing moments
     ImageMoments(              // Create and sum moments of an image
-	ImageT &image);
+	ImageType &image);
 
     /* Destructor */
     ~ImageMoments();
 
 private:
     bool m_valid;                   // Have moments been computed yet?
-    ScalarT m_m0;                   // Zeroth moment
-    VectorT m_m1;                   // First moments about origin
-    MatrixT m_m2;                   // Second moments about origin
-    VectorT m_cg;                   // Center of gravity (physical units)
-    MatrixT m_cm;                   // Second central moments (physical)
-    VectorT m_pm;                   // Principal moments (physical)
-    MatrixT m_pa;                   // Principal axes (physical)
+    ScalarType m_m0;                   // Zeroth moment
+    VectorType m_m1;                   // First moments about origin
+    MatrixType m_m2;                   // Second moments about origin
+    VectorType m_cg;                   // Center of gravity (physical units)
+    MatrixType m_cm;                   // Second central moments (physical)
+    VectorType m_pm;                   // Principal moments (physical)
+    MatrixType m_pa;                   // Principal axes (physical)
 
     static const char* notvalid;     // Error message when m_valid == 0
 

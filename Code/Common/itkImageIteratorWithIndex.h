@@ -284,10 +284,8 @@ protected: //made protected so other iterators can access
   IndexType    m_EndIndex;          // Index to finish iterating:
                                     // one pixel past the end of each
                                     // row, col, slice, etc....
-                               
 
   RegionType   m_Region;            // region to iterate over
-
 
   unsigned long          m_OffsetTable[ImageIteratorDimension+1]; 
   

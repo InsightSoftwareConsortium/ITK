@@ -116,7 +116,7 @@ public:
    * \sa FilterImageToImage::ThreadedGenerateData(),
    *     FilterImageToImage::GenerateData()
    */
-  void ThreadedGenerateData(const OutputImageRegion& outputRegionForThread,
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 
 private:

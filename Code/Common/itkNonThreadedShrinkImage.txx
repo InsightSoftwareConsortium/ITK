@@ -66,7 +66,7 @@ NonThreadedShrinkImage<TInputImage,TOutputImage>
 
   // Define/declare an iterator that will walk the output region
   typedef
-    ImageRegionIterator<OutputImage::PixelType, OutputImage::ImageDimension>
+    ImageRegionIterator<typename TOutputImage::PixelType, OutputImage::ImageDimension>
     OutputIterator;
 
   OutputIterator outIt = OutputIterator(outputPtr,
@@ -74,9 +74,9 @@ NonThreadedShrinkImage<TInputImage,TOutputImage>
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
-  OutputImage::Index outputIndex;
-  InputImage::Index inputIndex;
-  InputImage::Index factorIndex;
+  typename TOutputImage::IndexType outputIndex;
+  typename TInputImage::IndexType inputIndex;
+  typename TInputImage::IndexType factorIndex;
 
   for (int i=0; i < InputImage::ImageDimension; i++)
     {
@@ -116,13 +116,13 @@ NonThreadedShrinkImage<TInputImage,TOutputImage>
 
   // we need to compute the input requested region (size and start index)
   int i;
-  const OutputImage::Size& outputRequestedRegionSize
+  const typename TOutputImage::SizeType& outputRequestedRegionSize
     = outputPtr->GetRequestedRegion().GetSize();
-  const OutputImage::Index& outputRequestedRegionStartIndex
+  const typename TOutputImage::IndexType& outputRequestedRegionStartIndex
     = outputPtr->GetRequestedRegion().GetIndex();
   
-  InputImage::Size  inputRequestedRegionSize;
-  InputImage::Index inputRequestedRegionStartIndex;
+  InputImage::SizeType  inputRequestedRegionSize;
+  InputImage::IndexType inputRequestedRegionStartIndex;
   
   for (i = 0; i < InputImage::ImageDimension; i++)
     {
@@ -132,7 +132,7 @@ NonThreadedShrinkImage<TInputImage,TOutputImage>
       = outputRequestedRegionStartIndex[i] * (int)m_ShrinkFactor;
     }
 
-  InputImage::Region inputRequestedRegion;
+  InputImage::RegionType inputRequestedRegion;
   inputRequestedRegion.SetSize( inputRequestedRegionSize );
   inputRequestedRegion.SetIndex( inputRequestedRegionStartIndex );
 
@@ -158,16 +158,16 @@ NonThreadedShrinkImage<TInputImage,TOutputImage>
   // output image start index
   int i;
   const float              *inputSpacing = inputPtr->GetSpacing();
-  const InputImage::Size&   inputSize
+  const typename TInputImage::SizeType&   inputSize
     = inputPtr->GetLargestPossibleRegion().GetSize();
-  const InputImage::Index&  inputStartIndex
+  const typename TInputImage::IndexType&  inputStartIndex
     = inputPtr->GetLargestPossibleRegion().GetIndex();
   
   float                     outputSpacing[OutputImage::ImageDimension];
-  OutputImage::Size         outputSize;
-  OutputImage::Index        outputStartIndex;
+  typename TOutputImage::SizeType         outputSize;
+  typename TOutputImage::IndexType        outputStartIndex;
   
-  for (i = 0; i < OutputImage::ImageDimension; i++)
+  for (i = 0; i < TOutputImage::ImageDimension; i++)
     {
     outputSpacing[i] = inputSpacing[i] * (float) m_ShrinkFactor;
     outputSize[i] = (unsigned int)
@@ -179,7 +179,7 @@ NonThreadedShrinkImage<TInputImage,TOutputImage>
 
   outputPtr->SetSpacing( outputSpacing );
 
-  OutputImage::Region outputLargestPossibleRegion;
+  typename TOutputImage::RegionType outputLargestPossibleRegion;
   outputLargestPossibleRegion.SetSize( outputSize );
   outputLargestPossibleRegion.SetIndex( outputStartIndex );
 

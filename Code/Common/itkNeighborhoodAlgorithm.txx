@@ -29,26 +29,26 @@ DoUnsynchedInnerProduct(Image<TPixel, VDimension> *ip,
                       Image<TPixel, VDimension> *op,
                       Neighborhood<TPixel, VDimension> &oper)
 {
-  typedef Image<TPixel, VDimension> Image;
-  typedef Index<VDimension> Index;
-  typedef Size<VDimension> Size;
-  typedef ImageRegion<VDimension> Region;
+  typedef Image<TPixel, VDimension> ImageType;
+  typedef Index<VDimension> IndexType;
+  typedef Size<VDimension> SizeType;
+  typedef ImageRegion<VDimension> RegionType;
 
-  const Size&   hoodRadius  = oper.GetRadius();
-  const Region& imageRegion = ip->GetRequestedRegion();
+  const SizeType&   hoodRadius  = oper.GetRadius();
+  const RegionType& imageRegion = ip->GetRequestedRegion();
 
   int i; 
-  Size  size;
-  Index start;
+  SizeType  size;
+  IndexType start;
 
   // Apply operator to non-boundary pixels using a fast Neighborhood iterator
   // and an image iterator
-  for ( i = 0; i < Image::ImageDimension; ++i)
+  for ( i = 0; i < ImageType::ImageDimension; ++i)
     {
-      start[i]  = imageRegion.GetIndex()[i] + hoodRadius[i];
-      size[i]   = imageRegion.GetSize()[i]  - hoodRadius[i] * 2;
+    start[i]  = imageRegion.GetIndex()[i] + hoodRadius[i];
+    size[i]   = imageRegion.GetSize()[i]  - hoodRadius[i] * 2;
     }
-  Region iterRegion;
+  RegionType iterRegion;
   iterRegion.SetSize(size);
   iterRegion.SetIndex(start);
 
@@ -85,26 +85,26 @@ DoSynchedInnerProduct(Image<TPixel, VDimension> *ip,
                       Neighborhood<TPixel, VDimension> &oper)
 
 {
-  typedef Image<TPixel, VDimension> Image;
-  typedef Index<VDimension> Index;
-  typedef ImageRegion<VDimension> Region;
-  typedef Size<VDimension> Size;
+  typedef Image<TPixel, VDimension> ImageType;
+  typedef Index<VDimension> IndexType;
+  typedef ImageRegion<VDimension> RegionType;
+  typedef Size<VDimension> SizeType;
 
-  const Size&   hoodRadius  = oper.GetRadius();
-  const Region& imageRegion = ip->GetRequestedRegion();
+  const SizeType&   hoodRadius  = oper.GetRadius();
+  const RegionType& imageRegion = ip->GetRequestedRegion();
 
   int i; 
   unsigned long bound[VDimension];
-  Index start;
-  Size  size;
+  IndexType start;
+  SizeType  size;
 
   // Apply operator to non-boundary pixels using fast Neighborhood iterator
-  for ( i = 0; i < Image::ImageDimension; ++i)
+  for ( i = 0; i < ImageType::ImageDimension; ++i)
     {
       start[i] = imageRegion.GetIndex()[i] + hoodRadius[i];
       size[i]  = imageRegion.GetSize()[i]  - hoodRadius[i] * 2;
     }
-  Region iterRegion;
+  RegionType iterRegion;
   iterRegion.SetSize(size);
   iterRegion.SetIndex(start);
 
@@ -154,7 +154,7 @@ InnerProduct(Neighborhood<TPixel, VDimension> &n,
 template <class TNeighborhoodIterator, class TInternalType, class TExternalType>
 TExternalType
 AverageGradientMagnitudeSquared(typename TNeighborhoodIterator::ImageType *ip,
-                        typename TNeighborhoodIterator::ImageType::Region region,
+                        typename TNeighborhoodIterator::ImageType::RegionType region,
         VectorComponentDataAccessor<TInternalType, TExternalType> accessor)
 {
   typedef  typename TNeighborhoodIterator::ImageType ImageType;

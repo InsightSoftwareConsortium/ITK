@@ -74,7 +74,7 @@ void
 MapContainer< TElementIdentifier , TElement >
 ::SetElement(ElementIdentifier id, Element element)
 {
-  Map::operator[](id) = element;
+  MapType::operator[](id) = element;
   this->Modified();
 }
 

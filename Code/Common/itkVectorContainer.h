@@ -75,10 +75,10 @@ private:
   /**
    * Quick access to the STL vector type that was inherited.
    */
-  typedef std::vector<Element>  Vector;
-  typedef typename Vector::size_type     size_type;  
-  typedef typename Vector::iterator           VectorIterator;
-  typedef typename Vector::const_iterator     VectorConstIterator;
+  typedef std::vector<Element>                VectorType;
+  typedef typename VectorType::size_type          size_type;  
+  typedef typename VectorType::iterator           VectorIterator;
+  typedef typename VectorType::const_iterator     VectorConstIterator;
   
   
 protected:
@@ -92,32 +92,32 @@ protected:
    *
    */
   VectorContainer():
-    Vector() {}
+    VectorType() {}
   
   /**
    *
    */
   VectorContainer(size_type n):
-    Vector(n) {}
+    VectorType(n) {}
   
   /**
    *
    */
   VectorContainer(size_type n, const Element& x):
-    Vector(n, x) {}
+    VectorType(n, x) {}
   
   /**
    *
    */
   VectorContainer(const Self& r):
-    Vector(r) {}
+    VectorType(r) {}
   
   /**
    *
    */
   template <typename InputIterator>
   VectorContainer(InputIterator first, InputIterator last):
-    Vector(first, last) {}
+    VectorType(first, last) {}
 
 public:
   /**

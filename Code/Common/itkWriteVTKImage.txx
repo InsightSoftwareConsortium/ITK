@@ -65,7 +65,7 @@ WriteVTKImage<TInputImage>
   //
   *fptr << "DATASET STRUCTURED_POINTS\n";
 
-  const typename InputImage::SizeType& dims =
+  const typename TInputImage::SizeType& dims =
     input->GetLargestPossibleRegion().GetSize();
   *fptr << "DIMENSIONS"; 
   for (i=0; i < TInputImage::ImageDimension; i++)

@@ -98,7 +98,7 @@ RandomImageSource<TOutputImage>
 template <typename TOutputImage>
 void 
 RandomImageSource<TOutputImage>
-::ThreadedGenerateData(const OutputImageRegion& outputRegionForThread,
+::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId )
 {
   itkDebugMacro(<<"Generating a random image of scalars");

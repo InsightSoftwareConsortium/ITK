@@ -32,17 +32,17 @@ void main()
   float origin3D[3] = { 5, 2.1, 8.1};
   float spacing3D[3] = { 1.5, 2.1, 1};
 
-  ScalarImage::Size imageSize3D = { 200, 200, 200 };
-  ScalarImage::Size bufferSize3D = { 200, 200, 200 };
-  ScalarImage::Size regionSize3D = { 190, 190, 190 };
+  ScalarImage::SizeType imageSize3D = { 200, 200, 200 };
+  ScalarImage::SizeType bufferSize3D = { 200, 200, 200 };
+  ScalarImage::SizeType regionSize3D = { 190, 190, 190 };
 
-  ScalarImage::Index startIndex3D = {0, 0, 0};
-  ScalarImage::Index bufferStartIndex3D = {0, 0, 0};
-  ScalarImage::Index regionStartIndex3D = {5,5, 5};
-  ScalarImage::Index regionEndIndex3D = {194, 194, 194};
+  ScalarImage::IndexType startIndex3D = {0, 0, 0};
+  ScalarImage::IndexType bufferStartIndex3D = {0, 0, 0};
+  ScalarImage::IndexType regionStartIndex3D = {5,5, 5};
+  ScalarImage::IndexType regionEndIndex3D = {194, 194, 194};
 
 
-  ScalarImage::Region region;
+  ScalarImage::RegionType region;
   region.SetSize(imageSize3D);
   region.SetIndex(startIndex3D);
   o3->SetLargestPossibleRegion( region );
@@ -82,7 +82,7 @@ void main()
   ptr = o3->GetBufferPointer();
   for (i=0; i < num; ++i)
     {
-    *ptr = 5;
+//    *ptr = itk::Scalar<unsigned short> (5);
     ++ptr;
     }
   end = clock();
@@ -151,7 +151,7 @@ void main()
   i = 0;
   for ( it2.Begin(); !it2.IsAtEnd(); ++it2)
     {
-    *it2 = 5;
+//    it2 = itk::Scalar<unsigned short> (5);
     ++i;
     }
   end = clock();

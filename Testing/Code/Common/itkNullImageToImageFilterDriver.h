@@ -109,7 +109,8 @@ public:
   /**
    * Sets the image size.
    */
-  void SetImageSize(const typename TOutputImage::Size s) {m_ImageSize = s;}
+  void SetImageSize(const typename TOutputImage::SizeType s) 
+    {m_ImageSize = s;}
 
   /**
    * Returns an image pointer that represents the output of a non-pipeline
@@ -129,8 +130,8 @@ protected:
   virtual void GenerateOutputInformation();
   
 private:
-  typename TOutputImage::Size m_ImageSize;
-  typename TOutputImage::Pointer m_NonPipelineOutput;
+  typename TOutputImage::SizeType m_ImageSize;
+  typename TOutputImage::Pointer  m_NonPipelineOutput;
 };
 
 
@@ -142,9 +143,9 @@ void
 NullImageSource<TOutputImage>::GenerateOutputInformation()
 {
   TOutputImage *output;
-  typename TOutputImage::Index index = {0};
+  typename TOutputImage::IndexType index = {0};
   output = this->GetOutput(0);
-  typename TOutputImage::Region largestPossibleRegion;
+  typename TOutputImage::RegionType largestPossibleRegion;
   largestPossibleRegion.SetSize( m_ImageSize );
   largestPossibleRegion.SetIndex( index);
   output->SetLargestPossibleRegion( largestPossibleRegion );
@@ -248,7 +249,8 @@ public:
   /**
    * Set the size of the input image.
    */
-  void SetImageSize(const typename TInputImage::Size s) {m_ImageSize = s;}
+  void SetImageSize(const typename TInputImage::SizeType s) 
+    {m_ImageSize = s;}
 
   /**
    * Drive the filter without using the itk pipeline.
@@ -257,7 +259,7 @@ public:
   
 private:
   FilterImageToImage<TInputImage, TOutputImage> *m_Filter;
-  typename TInputImage::Size m_ImageSize;
+  typename TInputImage::SizeType m_ImageSize;
 };
 
 /**

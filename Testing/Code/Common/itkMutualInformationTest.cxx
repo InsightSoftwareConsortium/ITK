@@ -28,9 +28,9 @@ void main()
    */
   typedef itk::Image<float,2> ImageType;
 
-  ImageType::Size size = {64,64};
-  ImageType::Index index = {0,0};
-  ImageType::Region region;
+  ImageType::SizeType size = {64,64};
+  ImageType::IndexType index = {0,0};
+  ImageType::RegionType region;
   region.SetSize( size );
   region.SetIndex( index );
 

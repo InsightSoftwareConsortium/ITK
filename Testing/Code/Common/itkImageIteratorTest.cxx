@@ -34,7 +34,7 @@ int IterateOverRegion( itk::ImageBufferIterator<T, VImageDimension> it,
   
   if (dim > 0)
     {
-    itk::ImageBufferIterator<T, VImageDimension>::Index basisIndex;
+    itk::ImageBufferIterator<T, VImageDimension>::IndexType basisIndex;
 
     try
       {
@@ -74,7 +74,7 @@ int IterateOverRegion( itk::ImageBufferIterator<T, VImageDimension> it,
     for (j=0; j < it.GetRegion().GetSize()[dim]; j++)
       {
       std::cout << "IterateOverImage(): ";
-      itk::ImageIterator<T, VImageDimension>::Index index=it.GetIndex();
+      itk::ImageIterator<T, VImageDimension>::IndexType index=it.GetIndex();
       for (int ii=0; ii < index.GetIndexDimension(); ii++)
         {
         std::cout << index[ii] << " ";
@@ -130,7 +130,7 @@ int IterateOverRegion2( itk::ImageBufferIterator<T, VImageDimension> it,
     for (j=0; j < it.GetRegion().GetSize()[dim]; j++)
       {
       std::cout << "IterateOverRegion2(): ";
-      itk::ImageIterator<T, VImageDimension>::Index index=it.GetIndex();
+      itk::ImageIterator<T, VImageDimension>::IndexType index=it.GetIndex();
       for (int ii=0; ii < index.GetIndexDimension(); ii++)
         {
         std::cout << index[ii] << " ";

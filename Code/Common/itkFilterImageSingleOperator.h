@@ -67,7 +67,7 @@ public:
   /**
    * Image typedef support
    */
-  typedef Image<TPixel, VDimension> Image;
+  typedef Image<TPixel, VDimension> ImageType;
 
   /**
    * Run-time type information (and related methods)

@@ -38,7 +38,7 @@ FilterMeshToMesh<TInputMesh,TOutputMesh>
 template <class TInputMesh, class TOutputMesh>
 void 
 FilterMeshToMesh<TInputMesh,TOutputMesh>
-::SetInput(InputMesh *input)
+::SetInput(TInputMesh *input)
 {
   this->ProcessObject::SetNthInput(0, input);
 }

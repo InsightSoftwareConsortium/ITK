@@ -61,12 +61,13 @@ bool operator<(const ObjectFactoryBase::OverrideInformation& rhs,
  * and a pointer member can be used.  This avoids other
  * classes including <map> and getting long symbol warnings.
  */
-typedef std::multimap<std::string, ObjectFactoryBase::OverrideInformation> StringOverMap;
+typedef std::multimap<std::string, ObjectFactoryBase::OverrideInformation> 
+              StringOverMapType;
 
 /** \class OverRideMap
  * \brief Internal implementation class for ObjectFactorBase.
  */
-class OverRideMap : public StringOverMap
+class OverRideMap : public StringOverMapType
 {
 public:
 };

@@ -247,7 +247,7 @@ VectorContainer& derivatives )
 {
   VectorType refVec;
   VectorType derivVec;
-  typename TTestImage::Size size = 
+  typename TTestImage::SizeType size = 
     m_TestImage->GetLargestPossibleRegion().GetSize();
 
   for( int s = 0; s < m_NumberOfSamples; s++ )
