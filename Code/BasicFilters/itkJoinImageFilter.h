@@ -147,6 +147,15 @@ private:
     }
 }; //class JoinFunction
 
+template <typename TImage1, typename TImage2>
+struct MakeJoin
+{
+  typedef JoinFunctor<typename TImage1::PixelType,
+                      typename TImage2::PixelType> FunctorType;
+  typedef Image<typename FunctorType::JoinType,
+                ::itk::GetImageDimension<TImage1>::ImageDimension> ImageType;
+};
+
 } //namespace functor
   
 /** \class JoinImageFilter
@@ -174,10 +183,14 @@ private:
  */
 template <class TInputImage1, class TInputImage2>
 class ITK_EXPORT JoinImageFilter:
-    public BinaryFunctorImageFilter<TInputImage1,
-                                    TInputImage2,
-                                    Image< ITK_TYPENAME Functor::JoinFunctor<ITK_TYPENAME TInputImage1::PixelType,  ITK_TYPENAME TInputImage2::PixelType>::JoinType, ::itk::GetImageDimension<TInputImage1>::ImageDimension>,
-                                    Functor::JoinFunctor< ITK_TYPENAME TInputImage1::PixelType, ITK_TYPENAME TInputImage2::PixelType> >
+  public BinaryFunctorImageFilter<TInputImage1,
+                                  TInputImage2,
+                                  ITK_TYPENAME
+                                  Functor::MakeJoin<TInputImage1,
+                                                    TInputImage2>::ImageType,
+                                  ITK_TYPENAME
+                                  Functor::MakeJoin<TInputImage1,
+                                                    TInputImage2>::FunctorType>
 {
 public:
   /** Capture the output image dimension. */
@@ -188,13 +201,15 @@ public:
   typedef JoinImageFilter  Self;
 
   /** Output typedefs. */
-  typedef typename Functor::JoinFunctor< typename TInputImage1::PixelType,  typename TInputImage2::PixelType>::JoinType OutputImagePixelType;
-  typedef Image<OutputImagePixelType, itkGetStaticConstMacro(OutputImageDimension)> OutputImageType;
+  typedef typename Functor::MakeJoin<TInputImage1,
+                                     TInputImage2>::FunctorType FunctorType;
+  typedef typename Functor::MakeJoin<TInputImage1,
+                                     TInputImage2>::ImageType OutputImageType;
+  typedef typename FunctorType::JoinType OutputImagePixelType;  
   
   /** Standard class typedefs. */
   typedef BinaryFunctorImageFilter<TInputImage1,TInputImage2, OutputImageType,
-      Functor::JoinFunctor< typename TInputImage1::PixelType,
-                            typename TInputImage2::PixelType> > Superclass; 
+                                   FunctorType > Superclass; 
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
