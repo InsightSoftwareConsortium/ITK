@@ -16,6 +16,8 @@ SET(WRAP_SOURCES
   wrap_itkIndex
   wrap_itkPoint
   wrap_itkSize
+  wrap_itkScaleTransform
+  wrap_itkTransform
   wrap_itkVector
 )
 

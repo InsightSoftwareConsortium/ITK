@@ -37,6 +37,8 @@ namespace _cable_
     ITK_WRAP_GROUP(itkIndex),
     ITK_WRAP_GROUP(itkPoint),
     ITK_WRAP_GROUP(itkSize),
+    ITK_WRAP_GROUP(itkScaleTransform),
+    ITK_WRAP_GROUP(itkTransform),
 #ifdef ITK_TCL_WRAP
     ITK_WRAP_GROUP(ITKUtils),
 #endif

@@ -27,12 +27,9 @@
 #include "itkRigid2DTransform.h"
 #include "itkRigid3DPerspectiveTransform.h"
 #include "itkRigid3DTransform.h"
-#include "itkScaleTransform.h"
-#include "itkScaleLogarithmicTransform.h"
 #include "itkSimilarity2DTransform.h"
 #include "itkThinPlateR2LogRSplineKernelTransform.h"
 #include "itkThinPlateSplineKernelTransform.h"
-#include "itkTransform.h"
 #include "itkTranslationTransform.h"
 #include "itkVersorRigid3DTransform.h"
 #include "itkVersorTransform.h"
@@ -76,10 +73,6 @@ namespace _cable_
     ITK_WRAP_TRANSFORM_2(IdentityTransform, 3);
     ITK_WRAP_TRANSFORM_2(KernelTransform, 2);
     ITK_WRAP_TRANSFORM_2(KernelTransform, 3);
-    ITK_WRAP_TRANSFORM_2(ScaleTransform, 2);
-    ITK_WRAP_TRANSFORM_2(ScaleTransform, 3);
-    ITK_WRAP_TRANSFORM_2(ScaleLogarithmicTransform, 2);
-    ITK_WRAP_TRANSFORM_2(ScaleLogarithmicTransform, 3);
     ITK_WRAP_TRANSFORM_2(ThinPlateR2LogRSplineKernelTransform, 2);
     ITK_WRAP_TRANSFORM_2(ThinPlateR2LogRSplineKernelTransform, 3);
     ITK_WRAP_TRANSFORM_2(ThinPlateSplineKernelTransform, 2);
@@ -90,9 +83,6 @@ namespace _cable_
     ITK_WRAP_TRANSFORM_2(VolumeSplineKernelTransform, 3);
     ITK_WRAP_TRANSFORM_3(BSplineDeformableTransform, 2, 3);
     ITK_WRAP_TRANSFORM_3(BSplineDeformableTransform, 3, 3);
-    ITK_WRAP_TRANSFORM_3(Transform, 2, 2);
-    ITK_WRAP_TRANSFORM_3(Transform, 3, 2);
-    ITK_WRAP_TRANSFORM_3(Transform, 3, 3);
   }
 }
 #endif
