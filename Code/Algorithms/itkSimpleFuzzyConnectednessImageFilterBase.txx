@@ -48,18 +48,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk{
 
 
-/**
- *
- */
 template <class TInputImage, class TOutputImage>
 SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 ::SimpleFuzzyConnectednessImageFilterBase()
 {
 }
 
-/**
- *
- */
 template <class TInputImage, class TOutputImage>
 SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 ::~SimpleFuzzyConnectednessImageFilterBase()
@@ -67,9 +61,6 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 }
 
 
-/**
- *
- */
 template <class TInputImage, class TOutputImage>
 void 
 SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
@@ -78,9 +69,6 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   m_Seed = seed;
 }
 
-/**
- *
- */
 template <class TInputImage, class TOutputImage>
 void 
 SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
@@ -89,26 +77,23 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   IndexType current=center;
     
   for(unsigned int i = 0; i < ImageDimension; i++)
-    {
-    if(current[i] < static_cast<typename IndexType::IndexValueType>(m_Size[i])-1)
-      {
+  {
+  if(current[i] < static_cast<typename IndexType::IndexValueType>(m_Size[i])-1)
+  {
       current[i]++;
-      m_Queue.push(current);
-      current[i]--;
-      }
-  
-    if(current[i]>0)
-      {
-      current[i]--;
-      m_Queue.push(current);
-      current[i]++;
-      }
+    m_Queue.push(current);
+    current[i]--;
     }
+  
+  if(current[i]>0)
+    {
+    current[i]--;
+    m_Queue.push(current);
+      current[i]++;
+    }
+  }
 }
 
-/**
- *
- */
 template <class TInputImage, class TOutputImage>
 double 
 SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
@@ -185,9 +170,6 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   return(tmp);
 }
 
-/**
- *
- */
 template <class TInputImage, class TOutputImage>
 void 
 SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
@@ -211,9 +193,6 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 }
 
 
-/**
- *
- */
 template <class TInputImage, class TOutputImage>
 void 
 SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
@@ -278,7 +257,7 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   MakeSegmentObject();
 }
 
-} // end namespace itk
+} /** end namespace itk. */
 
 #endif
 
