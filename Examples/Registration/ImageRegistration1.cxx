@@ -294,7 +294,7 @@ int main( int argc, char *argv[] )
   //  control is passed to the optimizer.
   //
   //  It is usually desirable to fine tune the parameters of the optimizer.
-  //  Each optimizer have particular parameters that must be interpreted in the
+  //  Each optimizer has particular parameters that must be interpreted in the
   //  context of the optimization strategy it implements. The optimizer used in
   //  this example is a variant of gradient descent that attempts to prevent it
   //  from taken steps which are too large.  At each iteration this optimizer
