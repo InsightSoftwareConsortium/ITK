@@ -22,6 +22,7 @@ itkImageSeriesWriterTest.cxx
 itkJPEGImageIOTest.cxx
 itkMeshSpatialObjectIOTest.cxx
 itkMetaImageIOTest.cxx
+itkNrrdImageIOTest.cxx
 itkNumericSeriesFileNamesTest.cxx
 itkPolygonGroupSpatialObjectXMLFileTest.cxx
 itkPNGImageIOTest.cxx
@@ -64,6 +65,8 @@ ADD_TEST(testMetaLine ${IO_TESTS} testMetaLine)
 ADD_TEST(testMetaLandmark ${IO_TESTS} testMetaLandmark)
 ADD_TEST(testMetaMesh ${IO_TESTS} testMetaMesh )
 ADD_TEST(testMetaScene ${IO_TESTS} testMetaScene)
+ADD_TEST(itkNrrdImageIOTest1 ${IO_TESTS} itkNrrdImageIOTest ${ITK_TEST_OUTPUT_DIR}/testNrrd.nrrd)
+ADD_TEST(itkNrrdImageIOTest2 ${IO_TESTS} itkNrrdImageIOTest ${ITK_TEST_OUTPUT_DIR}/testNrrd.nhdr)
 ADD_TEST(itkReadWriteSpatialObjectTest ${IO_TESTS} itkReadWriteSpatialObjectTest)
 ADD_TEST(itkMeshSpatialObjectIOTest ${IO_TESTS} itkMeshSpatialObjectIOTest)
 
