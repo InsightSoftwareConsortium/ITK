@@ -95,6 +95,10 @@ public:
    * transform is invertible at this point. */
   const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
+  /** Set the transformation to an Identity
+   * This sets the matrix to identity and the Offset to null. */
+  virtual void SetIdentity( void );
+
 
 protected:
   Euler2DTransform();

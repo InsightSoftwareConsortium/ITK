@@ -65,6 +65,21 @@ Euler2DTransform<TScalarType>
 }
 
 
+// Set Identity
+template <class TScalarType>
+void
+Euler2DTransform<TScalarType>
+::SetIdentity(void)
+{
+  m_Angle = NumericTraits< TScalarType >::Zero;
+  ComputeMatrix();
+  OffsetType offset;
+  offset.Fill( NumericTraits<TScalarType>::Zero );
+  this->SetOffset( offset );
+}
+
+
+
 // Set Rotational Part
 template <class TScalarType>
 void
