@@ -415,7 +415,10 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
         {
         if (b->GetValue() == "gdcm::Binary data loaded")
           {
+          // base64 streams have to be a multiple of 4 bytes long
           int encodedLengthEstimate = 2 * b->GetLength();
+          encodedLengthEstimate = ((encodedLengthEstimate / 4) + 1) * 4;
+            
           char *bin = new char[encodedLengthEstimate];
           int encodedLengthActual = itksysBase64_Encode(
             (const unsigned char *) b->GetBinArea(),
