@@ -35,7 +35,7 @@ PlaheImageFilter<TImageType>
 ::CumulativeFunction(float u, float v)
 {
   // Calculate cumulative function
-  return 0.5*vnl_math_sgn(u-v)*pow(abs(2*(u-v)),m_Alpha) + m_Beta*v;
+  return 0.5*vnl_math_sgn(u-v)*pow(vnl_math_abs(2*(u-v)),m_Alpha) + m_Beta*v;
 }
 
 template <class TImageType>
