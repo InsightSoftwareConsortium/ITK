@@ -31,15 +31,9 @@ namespace fem {
 
 
 /* This macro makes registering Load implementations easier. */
-#ifndef FEM_USE_SMART_POINTERS
 #define REGISTER_LOAD(ElementClass,LoadClass,FunctionName) \
-  extern Element::LoadVectorType FunctionName(ElementClass::ConstPointer, LoadElement::Pointer); \
-  VisitorDispatcher<ElementClass, LoadElement, Element::LoadVectorType>::RegisterVisitor((LoadClass*)0, &FunctionName);
-#else
-#define REGISTER_LOAD(ElementClass,LoadClass,FunctionName) \
-  extern Element::LoadVectorType FunctionName(ElementClass::ConstPointer, FEMLightObject::Pointer); \
-  VisitorDispatcher<ElementClass, FEMLightObject, Element::LoadVectorType>::RegisterVisitor((LoadClass*)0, &FunctionName);
-#endif
+  extern Element::LoadVectorType FunctionName(ElementClass::ConstPointer, Element::LoadElementPointer); \
+  VisitorDispatcher<ElementClass, Element::LoadElementType, Element::LoadVectorType>::RegisterVisitor((LoadClass*)0, &FunctionName);
 
 
 
@@ -74,11 +68,9 @@ void LoadImplementationsRegister(void)
   REGISTER_LOAD( MembraneC02D, LoadGrav,         LoadGravImplementationMembraneC02D );
   
 /*  typedef Image< unsigned char, 2 > ImageType;
-  extern Element::LoadVectorType LoadGravImplementation_MembraneC02D 
-    (MembraneC02D::ConstPointer, LoadElement::Pointer); 
-  VisitorDispatcher<MembraneC02D, LoadElement, 
-    Element::LoadVectorType>::RegisterVisitor((LoadImagePairBase<ImageType,ImageType>*)0, 
-    &LoadGravImplementation_MembraneC02D ); */
+  VisitorDispatcher<MembraneC02D, LoadElement, Element::LoadVectorType>
+    ::RegisterVisitor( (LoadImagePairBase<ImageType,ImageType>*)0, 
+                       &LoadGravImplementationMembraneC02D ); */
 
   // Loads acting on C1IsoCurve2D element
   REGISTER_LOAD( C1IsoCurve2D, LoadElement,      LoadImplementationC1IsoCurve2D );

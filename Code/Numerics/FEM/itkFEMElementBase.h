@@ -57,8 +57,6 @@ namespace fem {
  * to these parameters (like nodes, materials...).
  */
 
-/* We need forward declaration of the LoadElement base class. */
-class LoadElement;
 
 /**
  * \def LOAD_FUNCTION()
@@ -67,15 +65,9 @@ class LoadElement;
  * NOTE: This macro must be called in declaration of ALL
  *       derived Element classes.
  */
-#ifndef FEM_USE_SMART_POINTERS
 #define LOAD_FUNCTION() \
   virtual LoadVectorType Fe( LoadElementPointer l ) const \
-  { return VisitorDispatcher<Self,LoadElement,LoadVectorType>::Visit(this,l); }
-#else
-#define LOAD_FUNCTION() \
-  virtual LoadVectorType Fe( LoadElementPointer l ) const \
-  { return VisitorDispatcher<Self,FEMLightObject,LoadVectorType>::Visit(this,l); }
-#endif
+  { return VisitorDispatcher<Self,LoadElementType,LoadVectorType>::Visit(this,l); }
 
 
 class Element : public FEMLightObject
@@ -116,8 +108,8 @@ public:
   virtual vnl_matrix<Float> Me() const;
 
   /**
-   * Easy access of LoadElement pointer type. When using SmartPointers,
-   * this is a pointer to FEMLightObject to avoid cyclic references between
+   * Easy access of LoadElement and LoadElement::Pointer type.
+   * This is a pointer to FEMLightObject to avoid cyclic references between
    * LoadElement and Element classes.
    * As a consequence whenever you need to use a pointer to LoadElement class
    * within the element's declaration or definition, ALWAYS use this typedef
@@ -126,11 +118,8 @@ public:
    * convert the argument to Element::LoadElementPointer. See code of function
    * Solver::AssembleF(...) for more info.
    */
-#ifndef FEM_USE_SMART_POINTERS
-  typedef LoadElement* LoadElementPointer;
-#else
-  typedef SmartPointer<FEMLightObject> LoadElementPointer;
-#endif
+  typedef FEMLightObject LoadElementType;
+  typedef LoadElementType::Pointer LoadElementPointer;
 
   /**
    * Compute and return the element load vector for a given external load.
