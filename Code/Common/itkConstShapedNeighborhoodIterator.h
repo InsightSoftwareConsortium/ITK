@@ -226,6 +226,7 @@ public:
   Superclass::GetRadius;
   Superclass::GetIndex;
   Superclass::GetNeighborhoodIndex;
+  Superclass::GetCenterNeighborhoodIndex;
   Superclass::GetRegion;
   Superclass::GetBeginIndex;
   Superclass::GoToBegin;
