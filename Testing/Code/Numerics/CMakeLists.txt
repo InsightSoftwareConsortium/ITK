@@ -1,6 +1,8 @@
 SUBDIRS(vxl)
 
 TESTS(
+itkConjugateGradientOptimizerTest
+itkLevenbergMarquardtOptimizerTest
 itkNumericsHeaderTest
 itkNumericsTest
 )
@@ -8,3 +10,5 @@ itkNumericsTest
 LINK_LIBRARIES (
 ITKCommon
 )
+
+
