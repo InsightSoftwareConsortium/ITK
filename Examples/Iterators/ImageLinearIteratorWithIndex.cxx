@@ -59,8 +59,8 @@
 // \item \textbf{\code{GoToBeginOfLine()}} Moves the iterator to the beginning
 // pixel of the current line.
 //
-// \item \textbf{\code{GoToReverseBeginOfLine()}}  Move the iterator to the
-// last valid pixel of the current line.
+// \item \textbf{\code{GoToEndOfLine()}}  Move the iterator to 
+// \emph{one past} the last valid pixel of the current line.
 //
 //
 // \index{itk::ImageLinearIteratorWithIndex!IsAtReverseEndOfLine()}
@@ -187,7 +187,8 @@ int main( int argc, char *argv[] )
         outputIt.NextLine(),  inputIt.NextLine())
     {
       inputIt.GoToBeginOfLine();
-      outputIt.GoToReverseBeginOfLine();
+      outputIt.GoToEndOfLine();
+      --outputIt;
       while ( ! inputIt.IsAtEndOfLine() )
         {
           outputIt.Set( inputIt.Get() );
