@@ -122,7 +122,7 @@ CurvatureFlowFunction<TImage>
     }
 
   // compute the magnitude
-  magnitude = vnl_math_sqrt( magnitude );
+  magnitude = vnl_math_sqrt( (double)magnitude );
   if ( magnitude < 1e-9 )
     {
     return NumericTraits<PixelType>::Zero; 
@@ -216,7 +216,7 @@ CurvatureFlowFunction<TImage>
     }
 
   // compute the magnitude
-  magnitude = vnl_math_sqrt( magnitude );
+  magnitude = vnl_math_sqrt( (double)magnitude );
   if ( magnitude < 1e-9 )
     {
     return NumericTraits<PixelType>::Zero; 
