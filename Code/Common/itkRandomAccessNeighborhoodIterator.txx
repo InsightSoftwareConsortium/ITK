@@ -41,124 +41,33 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkRandomAccessNeighborhoodIterator_txx
 #define _itkRandomAccessNeighborhoodIterator_txx
 namespace itk {
-  
-template<class TImage>
-RandomAccessNeighborhoodIterator<TImage>
-RandomAccessNeighborhoodIterator<TImage>
-::Begin() const
-{
-  //Copy the current iterator
-  Self it( *this );
-
-  // Set the position to the m_BeginOffset
-  it.SetLocation( this->m_StartIndex );
-
-  return it;
-}
 
 template<class TImage>
+void
 RandomAccessNeighborhoodIterator<TImage>
-RandomAccessNeighborhoodIterator<TImage>
-::End() const 
-{
-  IndexType endIndex;
-  
-  // Copy the current iterator
-  Self it( *this );
-
-  // Calculate the end index
-  for (unsigned int i = 0; i< Dimension; ++i)
-    {
-      endIndex.m_Index[i] = m_Bound[i] -1;
-    }
-  it.SetLocation( endIndex );
-
-  ++it;
-
-  return it;
-}
-
-
-template<class TImage>
-RandomAccessNeighborhoodIterator<TImage> &
-RandomAccessNeighborhoodIterator<TImage>
-::operator+=(const OffsetType & idx)
+::PrintSelf(std::ostream &os, Indent indent) const
 {
   unsigned int i;
-  Iterator it;
-  const Iterator _end = this->end();
-  unsigned long accumulator = 0;
-  const unsigned long* stride = this->GetImagePointer()->GetOffsetTable();
-
-  // Offset from the increment in the lowest dimension
-  accumulator += idx[0];
-  
-  // Offsets from the stride lengths in each dimension.
-  //
-  // Because the image offset table is based on its buffer size and not its
-  // requested region size, we don't have to worry about adding in the wrapping
-  // offsets. 
-  for (i = 1; i< Dimension; ++i)
-    {
-      accumulator += idx[i] * stride[i];
-    }
-
-  // Increment pointers.
-  for (it = this->begin(); it < _end; ++it)
-    {
-      (*it) += accumulator;
-    }
-  if (m_OutputBuffer)
-    {
-      m_OutputBuffer += accumulator;
-    }
-
-  // Update loop counter values
-  m_Loop += idx;
-
-  return *this;
+  os << indent;
+  os << "RandomAccessNeighborhoodIterator {this= " << this << "}" << std::endl;
+  Superclass::PrintSelf(os, indent.GetNextIndent());
 }
 
 template<class TImage>
-RandomAccessNeighborhoodIterator<TImage> &
-RandomAccessNeighborhoodIterator<TImage> 
-::operator-=(const OffsetType & idx)
+void
+RandomAccessNeighborhoodIterator<TImage>
+::SetNeighborhood(const NeighborhoodType &N)
 {
-  unsigned int i;
-  Iterator it;
-  const Iterator _end = this->end();
-  unsigned long accumulator = 0;
-  const unsigned long* stride = this->GetImagePointer()->GetOffsetTable();
-
-  // Offset from the increment in the lowest dimension
-  accumulator += idx[0];
+  Iterator this_it;
+  const Iterator _end = Superclass::End();
+  typename NeighborhoodType::ConstIterator N_it;
+  N_it = N.Begin();
   
-  // Offsets from the stride lengths in each dimension.
-  //
-  // Because the image offset table is based on its buffer size and not its
-  // requested region size, we don't have to worry about adding in the wrapping
-  // offsets. 
-  for (i = 1; i< Dimension; ++i)
+  for (this_it = Superclass::Begin(); this_it < _end; this_it++, N_it++)
     {
-      accumulator += idx[i] * stride[i];
+      **this_it = *N_it;
     }
-
-  // Increment pointers.
-  for (it = this->begin(); it < _end; ++it)
-    {
-      (*it) -= accumulator;
-    }
-  if (m_OutputBuffer)
-    {
-      m_OutputBuffer -= accumulator;
-    }
-
-  // Update loop counter values
-  m_Loop -= idx;
-
-  return *this;
 }
-
 
 } // namespace itk
 

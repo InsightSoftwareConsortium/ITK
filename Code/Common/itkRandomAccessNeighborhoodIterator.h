@@ -41,181 +41,108 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkRandomAccessNeighborhoodIterator_h
 #define __itkRandomAccessNeighborhoodIterator_h
 
-#include "itkRegionNeighborhoodIterator.h"
-#include "itkIndex.h"
+#include <vector>
+#include <string.h>
+#include <iostream>
+#include "itkConstRandomAccessNeighborhoodIterator.h"
 
 namespace itk {
 
 /**
  * \class RandomAccessNeighborhoodIterator
- * \brief A random access iterator that maintains pointers to arbitrarily-sized
- * neighborhoods of values in an image.
- * 
- * This is a neighborhood  iterator (maintains pointers to a neighborhood of
- * values in an itk::Image) that provides both increment  and decrement operators 
- * (subclasses RegionNeighborhoodIterator), and that also provides
- * constant-time methods for moving forward and backward in arbitrary-sized
- * steps along any dimension.
- * 
- * RandomAccessNeighborhoodIterator only maintains counters for loop position and
- * upper bounds, and so it is "unaware" when it is overlapping a region
- * boundary. You can only safely use this iterator on regions sufficiently contained
- * within the itk::Image buffer.  Adding an itk::Index with a length exceeding
- * the distance to any image boundary will have undefined results.
+ * \brief
  *
- * \sa NeighborhoodIterator
- * \sa RegionNeighborhoodIterator
- * \sa RandomAccessBoundaryNeighborhoodIterator
- * \sa SmartRegionNeighborhoodIterator
- * \sa Neighborhood
- * \sa NeighborhoodAlgorithm
  */
 template<class TImage>
-class RandomAccessNeighborhoodIterator
-  :  public RegionNeighborhoodIterator<TImage> 
+class ITK_EXPORT RandomAccessNeighborhoodIterator
+  :  public ConstRandomAccessNeighborhoodIterator<TImage>
 {
 public:
   /** 
    * Standard "Self" & Superclass typedef support.
    */
   typedef RandomAccessNeighborhoodIterator Self;
-  typedef RegionNeighborhoodIterator<TImage> Superclass;
+  typedef ConstRandomAccessNeighborhoodIterator<TImage> Superclass;
 
- /**
-   * Extract image type information.
+  /**
+   * Extract typedefs from superclass
    */
   typedef typename Superclass::InternalPixelType InternalPixelType;
-  typedef typename Superclass::PixelType PixelType;
-  enum {Dimension = Superclass::Dimension };
-
-  /**
-   * Some common itk object typedefs
-   */
-  typedef typename Superclass::ImageType ImageType;
+  typedef typename Superclass::PixelType  PixelType;
+  typedef typename Superclass::SizeType   SizeType;
+  typedef typename Superclass::ImageType  ImageType;
   typedef typename Superclass::RegionType RegionType;
-  typedef typename Superclass::SizeType SizeType;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::IndexType IndexType;
+  typedef typename Superclass::IndexType  IndexType;
   typedef typename Superclass::OffsetType OffsetType;
-  
-  /**
-   * Scalar data type typedef support
-   */
+  typedef typename Superclass::RadiusType RadiusType;
+  typedef typename Superclass::NeighborhoodType NeighborhoodType;
+  enum {Dimension = Superclass::Dimension };
+  typedef typename Superclass::Iterator      Iterator;
+  typedef typename Superclass::ConstIterator ConstIterator;
+  typedef typename Superclass::ImageBoundaryConditionPointerType
+   ImageBoundaryConditionPointerType;
   typedef typename Superclass::ScalarValueType ScalarValueType;
-
-  /**
-   * Default constructor
-   */
-  RandomAccessNeighborhoodIterator() {};
   
   /**
-  * Constructor establishes a neighborhood of iterators of a specified
-  * dimension to walk a particular image and a particular region of
-  * that image.
-  */
-  RandomAccessNeighborhoodIterator(const SizeType &radius,
-                             ImageType *ptr,
-                             const RegionType &region)
-    : RegionNeighborhoodIterator<TImage>(radius, ptr, region) { }
-
-  /**
-   * Return an iterator for the beginning of the region.
+   * Default constructor.
    */
-  Self Begin() const;
-
-  /**
-   * Return an iterator for the end of the region.
-   */
-  Self End() const;
-
- /**
-   * 
-   */
-  virtual void SetEnd()
-  {    m_EndPointer = this->End().operator[](this->Size()>>1);  }
+  RandomAccessNeighborhoodIterator(): Superclass() {}
   
-  /**
-   *
-   */
-  virtual void SetToBegin()
-  {    *this = this->Begin();  }
-
-
   /**
    * Copy constructor
    */
-  RandomAccessNeighborhoodIterator( const Self &other)
-    : RegionNeighborhoodIterator<TImage>(other)   { }
+  RandomAccessNeighborhoodIterator( const RandomAccessNeighborhoodIterator &n )
+    : Superclass(n) {}
   
   /**
    * Assignment operator
    */
   Self &operator=(const Self& orig)
-  {
-    Superclass::operator=(orig);
-    return *this;
-  }
-
-  /**
-   * Addition of an itk::Offset.  Note that this method does not do any bounds
-   * checking.  Adding an offset that moves the iterator out of its assigned
-   * region will produce undefined results.
-   */
-  Self &operator+=(const OffsetType &);
-
-  /**
-   * Subtraction of an itk::Offset. Note that this method does not do any bounds
-   * checking.  Subtracting an offset that moves the iterator out of its
-   * assigned region will produce undefined results.
-   */
-  Self &operator-=(const OffsetType &);
-
-  /**
-   * Distance between two iterators
-   */
-  OffsetType operator-(const Self& b)
-  {  return m_Loop - b.m_Loop;  }
+    {
+      Superclass::operator=(orig);
+      return *this;
+    }
   
   /**
-   * Standard print method.
+   * Constructor which establishes the region size, neighborhood, and image
+   * over which to walk.
    */
-  virtual void PrintSelf(std::ostream &os, Indent i) const
-  {
-    os << i << "RandomAccessNeighborhoodIterator" << std::endl;
-    Superclass::PrintSelf(os, i.GetNextIndent());
-  }
+  RandomAccessNeighborhoodIterator(const SizeType &radius,
+                       ImageType * ptr,
+                       const RegionType &region
+                       )
+    : Superclass(radius, ptr, region)
+    { }
+
+  /**
+   * Standard print method
+   */
+  virtual void PrintSelf(std::ostream &, Indent) const;
+
+  /**
+   * Returns the central memory pointer of the neighborhood.
+   */
+  InternalPixelType *GetCenterPointer()
+    {    return (this->operator[]((this->Size())>>1));  }
+
+
+  virtual void SetCenterPixel(const PixelType &p)
+    {    *( this->GetCenterPointer() ) = p;  }
+  
+  /**
+   * Virtual function that replaces the pixel values in the image
+   * neighborhood that are pointed to by this RandomAccessNeighborhoodIterator with
+   * the pixel values contained in a Neighborhood.
+   */
+  virtual void SetNeighborhood(const NeighborhoodType &);
+
+  /**
+   *
+   */
+  virtual void SetPixel(const unsigned long i, const PixelType &v)
+    { *(this->operator[](i)) = v; }
+    
 };
-
-template<class TImage>
-inline RandomAccessNeighborhoodIterator<TImage>
-operator+(const RandomAccessNeighborhoodIterator<TImage> &it,
-          const typename RandomAccessNeighborhoodIterator<TImage>
-          ::OffsetType &ind)
-{
-  RandomAccessNeighborhoodIterator<TImage> ret;
-  ret = it;
-  ret += ind;
-  return ret;
-}
-
-template<class TImage>
-inline RandomAccessNeighborhoodIterator<TImage>
-operator+(const typename RandomAccessNeighborhoodIterator<TImage>
-          ::OffsetType &ind,
-          const RandomAccessNeighborhoodIterator<TImage> &it)
-{  return (it + ind); }
-
-template<class TImage>
-inline RandomAccessNeighborhoodIterator<TImage>
-operator-(const RandomAccessNeighborhoodIterator<TImage> &it,
-          const typename RandomAccessNeighborhoodIterator<TImage>
-          ::OffsetType &ind)
-{
-  RandomAccessNeighborhoodIterator<TImage> ret;
-  ret = it;
-  ret -= ind;
-  return ret;
-}
 
 } // namespace itk
 
@@ -224,4 +151,4 @@ operator-(const RandomAccessNeighborhoodIterator<TImage> &it,
 #include "itkRandomAccessNeighborhoodIterator.txx"
 #endif
 
-#endif 
+#endif
