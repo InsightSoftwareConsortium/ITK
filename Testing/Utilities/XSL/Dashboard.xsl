@@ -246,25 +246,27 @@
                 <xsl:sort select="Purify/SiteName"/>
                 <xsl:sort select="Purify/BuildName"/>
                 <xsl:variable name="URLBase">../../Sites/<xsl:value-of select="Purify/SiteName"/>/<xsl:value-of select="Purify/BuildName"/>/<xsl:value-of select="Purify/BuildStamp"/></xsl:variable>
-                <tr>
-                  <td align="left"><xsl:value-of select="Purify/SiteName"/></td>
-                  <td align="left"><xsl:value-of select="Purify/BuildName"/></td>
-                  <td align="center">
-                    <xsl:choose>
-                      <xsl:when test="Purify/DefectCount != 0">
-                        <xsl:attribute name="bgcolor"><xsl:value-of select="$WarningColor"/></xsl:attribute>
-                      </xsl:when>
-                      <xsl:otherwise>
-                        <xsl:attribute name="bgcolor"><xsl:value-of select="$NormalColor"/></xsl:attribute>
-                      </xsl:otherwise>
-                    </xsl:choose>
-                    <a>
-                      <xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Purify.html</xsl:attribute><b><xsl:value-of select="Purify/DefectCount"/></b>
-                    </a>
-                  </td>
-                  <td align="left"><xsl:value-of select="Purify/StartDateTime"/></td>
-                  <td align="left"><xsl:value-of select="PurifySubmissionDateTime"/></td>
-                </tr>
+                <xsl:if test="Purify/SiteName != ''">
+                  <tr>
+                    <td align="left"><xsl:value-of select="Purify/SiteName"/></td>
+                    <td align="left"><xsl:value-of select="Purify/BuildName"/></td>
+                    <td align="center">
+                      <xsl:choose>
+                        <xsl:when test="Purify/DefectCount != 0">
+                          <xsl:attribute name="bgcolor"><xsl:value-of select="$WarningColor"/></xsl:attribute>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:attribute name="bgcolor"><xsl:value-of select="$NormalColor"/></xsl:attribute>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                      <a>
+                        <xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Purify.html</xsl:attribute><b><xsl:value-of select="Purify/DefectCount"/></b>
+                      </a>
+                    </td>
+                    <td align="left"><xsl:value-of select="Purify/StartDateTime"/></td>
+                    <td align="left"><xsl:value-of select="PurifySubmissionDateTime"/></td>
+                  </tr>
+                </xsl:if>
               </xsl:for-each>
             </table>
           </xsl:when>
