@@ -17,37 +17,28 @@
 #include "itkMetaImageIOFactory.h"
 #include "itkPNGImageIOFactory.h"
 #include "itkPNGImageIO.h"
-#include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "wrap_ITKIO.h"
 
-#define ITK_WRAP_IFR_TYPEDEF(x) \
-  typedef ::itk::ImageFileReader< Image##x > ImageFileReader##x; \
-  typedef ImageFileReader##x::Pointer ImageFileReader##x##_Pointer
-#define ITK_WRAP_IFR_SIZEOF(x) \
-  sizeof(ImageFileReader##x); \
-  sizeof(ImageFileReader##x##_Pointer)
+#define ITK_WRAP_BASE_TYPEDEF(x) \
+  typedef ::itk::x x; \
+  typedef ::itk::x::Pointer x##_Pointer
+
+#define ITK_WRAP_BASE_SIZEOF(x) \
+  sizeof(x); \
+  sizeof(x##_Pointer)
 
 namespace _cable_
 {
   const char* const group = ITK_WRAP_GROUP(IOBase);
-  typedef ::itk::Image<float, 2> ImageF2;
-  typedef ::itk::Image<float, 3> ImageF3;
-  typedef ::itk::Image<unsigned short, 2> ImageUS2;
-  typedef ::itk::Image<unsigned short, 3> ImageUS3;
   namespace wrappers
   {
     namespace itk
     {
-      typedef ::itk::PNGImageIO         PNGImageIO;
-      typedef ::itk::MetaImageIOFactory MetaImageIOFactory;
-      typedef ::itk::PNGImageIOFactory  PNGImageIOFactory;
-      ITK_WRAP_IFR_TYPEDEF(F2);
-      ITK_WRAP_IFR_TYPEDEF(F3);
-      ITK_WRAP_IFR_TYPEDEF(US2);
-      ITK_WRAP_IFR_TYPEDEF(US3);
+      ITK_WRAP_BASE_TYPEDEF(PNGImageIO);
+      ITK_WRAP_BASE_TYPEDEF(MetaImageIOFactory);
+      ITK_WRAP_BASE_TYPEDEF(PNGImageIOFactory);
     }
   }
 }
@@ -55,13 +46,9 @@ namespace _cable_
 void force_instantiate()
 {
   using namespace _cable_::wrappers::itk;
-  sizeof(PNGImageIO);
-  sizeof(MetaImageIOFactory);
-  sizeof(PNGImageIOFactory);
-  ITK_WRAP_IFR_SIZEOF(F2);
-  ITK_WRAP_IFR_SIZEOF(F3);
-  ITK_WRAP_IFR_SIZEOF(US2);
-  ITK_WRAP_IFR_SIZEOF(US3);
+  ITK_WRAP_BASE_SIZEOF(PNGImageIO);
+  ITK_WRAP_BASE_SIZEOF(MetaImageIOFactory);
+  ITK_WRAP_BASE_SIZEOF(PNGImageIOFactory);
 }
 
 #endif

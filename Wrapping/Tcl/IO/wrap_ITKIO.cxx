@@ -22,7 +22,9 @@ namespace _cable_
   const char* const package_version = ITK_WRAP_PACKAGE_VERSION;
   const char* const groups[] =
   {
-    ITK_WRAP_GROUP(IOBase)
+    ITK_WRAP_GROUP(IOBase),
+    ITK_WRAP_GROUP(itkImageFileReader),
+    ITK_WRAP_GROUP(itkImageFileWriter)
   };
 }
 #endif
