@@ -152,12 +152,12 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
     // i loop runs through all possible dimensions
     for(unsigned int i=0; i<NDimensions; i++)
       {
-      IndexType tempIndex;
-      m_IsValidIndex = true;
-
       // The j loop establishes either left or right neighbor (+-1)
       for(int j=-1; j<=1; j+=2)
         {
+        IndexType tempIndex;
+        m_IsValidIndex = true;
+
         // build the index of a neighbor
         for(unsigned int k=0; k<NDimensions; k++)
           {
