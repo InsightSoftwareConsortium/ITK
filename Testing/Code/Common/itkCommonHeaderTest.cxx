@@ -48,6 +48,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkDerivativeOperator.h"
 #include "itkDirectory.h"
 #include "itkDynamicLoader.h"
+#include "itkElasticBodySplineKernelTransform.h"
 #include "itkEntropyPreservingGradientMagnitudeImageFunction.h"
 #include "itkExceptionObject.h"
 #include "itkExpImageAdaptor.h"
@@ -82,6 +83,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkIndex.h"
 #include "itkIndexedContainerInterface.h"
 #include "itkIntTypes.h"
+#include "itkKernelTransform.h"
 #include "itkLevelSetCurvatureFunction.h"
 #include "itkLightObject.h"
 #include "itkLineCell.h"
@@ -140,9 +142,11 @@ See COPYRIGHT.txt for copyright details.
 #include "itkStatSparseHistogram.h"
 #include "itkTanImageAdaptor.h"
 #include "itkTetrahedronCell.h"
+#include "itkThinPlateSplineKernelTransform.h"
 #include "itkTimeStamp.h"
 #include "itkTransformation.h"
 #include "itkTranslationRegistrationTransform.h"
+#include "itkTranslationTransform.h"
 #include "itkTriangleCell.h"
 #include "itkUpwindDerivativeImageFunction.h"
 #include "itkValarrayImageContainer.h"
@@ -154,14 +158,15 @@ See COPYRIGHT.txt for copyright details.
 #include "itkWin32Header.h"
 #include "itkWin32OutputWindow.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
+#include "itk_alloc.h"
+#include "itk_hash_map.h"
+#include "itk_hash_set.h"
+#include "itk_hashtable.h"
 #include "vcl_alloc.h"
-#include "vcl_hash_map.h"
-#include "vcl_hash_set.h"
-#include "vcl_hashtable.h"
 
 int main ( int argc, char* argv )
 {
-
+  
   return 0;
 }
 
