@@ -89,7 +89,7 @@ public:
   bool ComputeTangentAndNormals( void );
 
   /** Remove duplicate points */
-  unsigned int RemoveDuplicatePoints(void);
+  unsigned int RemoveDuplicatePoints(unsigned int step=1);
 
   /** Returns true if the tube is evaluable at the requested point, 
    *  false otherwise. */
