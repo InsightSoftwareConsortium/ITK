@@ -17,7 +17,9 @@
 #ifndef __itkLightObject_h
 #define __itkLightObject_h
 
-
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
 
 #include <iostream>
 #include <typeinfo>
