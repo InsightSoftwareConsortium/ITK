@@ -76,7 +76,7 @@ public:
   void ValueAt( const PointType & point, double & value );
 
   /** Returns true if the point is inside the Surface, false otherwise. */
-  bool IsInside( const PointType & point );
+  bool IsInside( const PointType & point ) const;
 
   /** Compute the boundaries of the Surface. */
   void ComputeBounds( void );

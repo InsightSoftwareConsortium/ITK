@@ -63,7 +63,7 @@ public:
   virtual bool IsEvaluableAt( const PointType & point );
 
   /** Test whether a point is inside or outside the object */ 
-  virtual bool IsInside( const PointType & point );
+  virtual bool IsInside( const PointType & point ) const;
 
  /** provide a method to get the boundaries of 
   *  a specific object. Basically, this function need to be called

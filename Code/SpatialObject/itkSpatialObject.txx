@@ -170,10 +170,10 @@ SpatialObject< NDimensions, PipelineDimension>
 template< unsigned int NDimensions, unsigned int PipelineDimension >
 bool
 SpatialObject< NDimensions, PipelineDimension>
-::IsInside( const PointType &  point )
+::IsInside( const PointType &  point ) const
 {
-  typename ChildrenListType::iterator it = m_Children.begin();
-  typename ChildrenListType::iterator end = m_Children.end();
+  typename ChildrenListType::const_iterator it = m_Children.begin();
+  typename ChildrenListType::const_iterator end = m_Children.end();
   
   for(; it!=end; it++)
   {

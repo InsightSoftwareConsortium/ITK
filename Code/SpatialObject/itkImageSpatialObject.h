@@ -84,7 +84,7 @@ public:
   void ValueAt( const PointType & point, double & value );
   
   /** Returns true if the point is inside, false otherwise. */
-  bool IsInside( const PointType & point );
+  bool IsInside( const PointType & point ) const;
  
   /** Compute the boundaries of the iamge spatial object. */
   void ComputeBounds( void );

@@ -119,7 +119,7 @@ public:
   virtual bool IsEvaluableAt( const PointType & point ); // purposely not implemented
 
   /** Test whether a point is inside or outside the object. */ 
-  virtual bool IsInside( const PointType & point ); // purposely not implemented
+  virtual bool IsInside( const PointType & point ) const; // purposely not implemented
 
   /** Set the pointer to the parent object in the tree hierarchy
    *  used for the spatial object patter. */

@@ -65,7 +65,7 @@ ImageSpatialObject< NDimensions,  PixelType, PipelineDimension >
 template< unsigned int NDimensions, class PixelType, unsigned int PipelineDimension >
 bool
 ImageSpatialObject< NDimensions,  PixelType, PipelineDimension >
-::IsInside( const PointType & point )
+::IsInside( const PointType & point ) const
 {
   PointType p = point;
   TransformPointToLocalCoordinate( p );

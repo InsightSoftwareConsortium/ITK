@@ -43,7 +43,7 @@ PlaneSpatialObject<NDimensions, PipelineDimension >
 template< unsigned int NDimensions , unsigned int PipelineDimension >
 bool 
 PlaneSpatialObject< NDimensions, PipelineDimension > 
-::IsInside( const PointType & point )  
+::IsInside( const PointType & point ) const
 {
   itkDebugMacro( "Checking the point [" << point << "is inside the plane" );
     

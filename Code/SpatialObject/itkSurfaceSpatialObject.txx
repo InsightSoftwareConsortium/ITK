@@ -126,10 +126,10 @@ SurfaceSpatialObject< TDimension, PipelineDimension >
 template< unsigned int TDimension , unsigned int PipelineDimension >
 bool 
 SurfaceSpatialObject< TDimension, PipelineDimension >  
-::IsInside( const PointType & point )  
+::IsInside( const PointType & point ) const
 {
   itkDebugMacro( "Checking the point [" << point << "is on the surface" );
-  typename PointListType::iterator it = m_Points.begin();
+  typename PointListType::const_iterator it = m_Points.begin();
   
   PointType transformedPoint = point;
   TransformPointToLocalCoordinate(transformedPoint);
