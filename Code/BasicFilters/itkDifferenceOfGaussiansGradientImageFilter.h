@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkDifferenceOfGaussiansGradientImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkPhysicalImage.h"
 #include "itkScalarVector.h"
 
 namespace itk
@@ -64,20 +65,20 @@ public:
   /**
    * Standard "Self" typedef.
    */
-  typedef typename DifferenceOfGaussiansGradientImageFilter Self;
+  typedef DifferenceOfGaussiansGradientImageFilter Self;
 
   /**
    * Output image typedef. The output image is always an n-dimensional
    * image of n-dimensional vectors of doubles.
    */
-  typedef typename PhysicalImage<ScalarVector<
+  typedef PhysicalImage<ScalarVector<
     TScalarType, TVectorType, TInputImage::ImageDimension> ,
     TInputImage::ImageDimension> TOutputImage;
 
   /**
    * Standard "Superclass" typedef.
    */
-  typedef typename ImageToImageFilter<TInputImage, TOutputImage>  Superclass;
+  typedef ImageToImageFilter<TInputImage, TOutputImage>  Superclass;
 
   /** 
    * Smart pointer typedef support.
