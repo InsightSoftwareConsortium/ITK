@@ -79,7 +79,7 @@ GaussianSpatialFunction<TOutput, VImageDimension, TInput>
     {
     prefixDenom = m_Sigma[0];
 
-    for(int i = 1; i < VImageDimension; i++)
+    for(unsigned int i = 1; i < VImageDimension; i++)
       {
       prefixDenom *= m_Sigma[i];
       }
@@ -93,7 +93,7 @@ GaussianSpatialFunction<TOutput, VImageDimension, TInput>
 
   double suffixExp = 0;
 
-  for(int i = 0; i < VImageDimension; i++)
+  for(unsigned int i = 0; i < VImageDimension; i++)
     {
     suffixExp += (position[i] - m_Mean[i])*(position[i] - m_Mean[i]) / (2 * m_Sigma[i] * m_Sigma[i]);
     }
