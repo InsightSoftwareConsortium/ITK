@@ -75,8 +75,7 @@ public:
   SmartRegionNeighborhoodIterator(const Size& radius,
                                   Image *ptr,
                                   const Region& region)
-    : m_BoundsChecking(true),
-      NeighborhoodIterator<TPixel, VDimension>(radius, ptr, region)
+    : NeighborhoodIterator<TPixel, VDimension>(radius, ptr, region)
   {
     this->SetBound(region.GetSize());
   }
@@ -91,17 +90,6 @@ public:
    */
   Self End();
 
-  /**
-   * Sets whether or not bounds checking is performed on dereferencing.
-   */
-  void SetBoundsChecking(const bool &v) { m_BoundsChecking = v; }
-
-  /**
-   * Returns the status of whether or not bounds checking is performed
-   * during dereferencing.
-   */
-  bool GetBoundsChecking() const { return m_BoundsChecking; }
-  
   /**
    * "Dereferences" the iterator. Returns the Neighborhood of values in the
    * itk::Image at the position of the iterator.
@@ -130,7 +118,22 @@ public:
    * \sa Neighborhood
    * \sa SlicedInnerProduct
    */
-   TPixel InnerProduct(std::valarray<TPixel> &);
+  TPixel InnerProduct(std::valarray<TPixel> &);
+  TPixel SlicedInnerProduct(const std::slice &s, std::valarray<TPixel> &v);
+
+  /**
+   * Assignment operator
+   */
+  Self &operator=(const Self& orig)
+  {
+    Superclass::operator=(orig);
+    memcpy(m_InnerBoundsLow, orig.m_InnerBoundsLow, sizeof(long int) *
+           VDimension);
+    memcpy(m_InnerBoundsHigh, orig.m_InnerBoundsHigh, sizeof(long int) *
+           VDimension);
+    memcpy(m_InBounds, orig.m_InBounds, sizeof(bool) * VDimension);
+    return *this;
+  }
 
   
 protected:
@@ -163,17 +166,6 @@ protected:
   bool m_InBounds[VDimension];
 
 private:
-
-  /**
-   * Boolean value that indicates whether or not bounds checking and boundary
-   * conditions are evaluated when the SmartRegionNeighborhoodIterator is
-   * "dereferenced" by SetNeighborhood and GetNeighborhood.
-   * \sa SetBoundsChecking
-   * \sa GetBoundsChecking
-   * \sa SetNeighborhood
-   * \sa GetNeighborhood
-   */
-  bool m_BoundsChecking;
 };
 
 } // namespace itk
