@@ -22,7 +22,7 @@
 #include <iostream>
 
 namespace itk{ 
-  itkEventMacro( TestEvent,        ::itk::UserEvent );
+  itkEventMacro( TestEvent,        UserEvent );
   itkEventMacro( TestDerivedEvent, TestEvent );
   itkEventMacro( TestOtherEvent,   AnyEvent  );
   }
