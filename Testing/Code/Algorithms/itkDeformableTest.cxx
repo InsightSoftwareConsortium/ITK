@@ -4,6 +4,7 @@
 #include <itkImageRegionIteratorWithIndex.h>
 #include <itkSphereSource.h>
 #include <itkBalloonForceFilter.h>
+#include <itkPoint.h>
 #include <itkMesh.h>
 #include <time.h>
 
@@ -191,9 +192,12 @@ int main()
   SphereSourceType::Pointer m_spheresource = SphereSourceType::New();
   m_bfilter->SetInput(m_spheresource->GetOutput());
 
-  m_spheresource->SetCenter(SEEDX, SEEDY, 0);
-  m_spheresource->SetResolution(1, 200);
-  m_spheresource->SetScale(10, 10, 1);
+  itk::Point<float,3> center; center = SEEDX,SEEDY,0;
+  m_spheresource->SetCenter(center);
+  m_spheresource->SetResolutionX(1);
+  m_spheresource->SetResolutionY(200);
+  itk::Point<float,3> scale; scale = 10,10,1;
+  m_spheresource->SetScale(scale);
   m_spheresource->Update();
 
   m_bfilter->SetCenter(SEEDX, SEEDY, 0);
