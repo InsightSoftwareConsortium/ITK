@@ -32,6 +32,4 @@ void RegisterTests()
   REGISTER_TEST(itkGaussianSpatialObjectTest);
   REGISTER_TEST(itkImageMaskSpatialObjectTest);
   REGISTER_TEST(itkImageSpatialObjectTest);
-  REGISTER_TEST(itkLandmarkSpatialObjectTest);
-  REGISTER_TEST(itkLineSpatialObjectTest);
 }

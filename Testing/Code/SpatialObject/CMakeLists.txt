@@ -21,8 +21,8 @@ ADD_TEST( itkEllipseSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkEllipseSpatialO
 ADD_TEST( itkGaussianSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkGaussianSpatialObjectTest)
 ADD_TEST( itkImageMaskSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkImageMaskSpatialObjectTest )
 ADD_TEST( itkImageSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkImageSpatialObjectTest )
-ADD_TEST( itkLandmarkSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkLandmarkSpatialObjectTest )
-ADD_TEST( itkLineSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkLineSpatialObjectTest )
+ADD_TEST( itkLandmarkSpatialObjectTest ${SPATIAL_OBJECT_TESTS3} itkLandmarkSpatialObjectTest )
+ADD_TEST( itkLineSpatialObjectTest ${SPATIAL_OBJECT_TESTS3} itkLineSpatialObjectTest )
 
 ADD_TEST( itkMeshSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkMeshSpatialObjectTest )
 ADD_TEST( itkPlaneSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkPlaneSpatialObjectTest )
@@ -44,8 +44,6 @@ SET(SpatialObject_SRCS
   itkGaussianSpatialObjectTest.cxx
   itkImageMaskSpatialObjectTest.cxx
   itkImageSpatialObjectTest.cxx
-  itkLandmarkSpatialObjectTest.cxx
-  itkLineSpatialObjectTest.cxx
 )
 
 SET(SpatialObject_SRCS2
@@ -59,6 +57,8 @@ SET(SpatialObject_SRCS2
 )
 
 SET(SpatialObject_SRCS3
+  itkLandmarkSpatialObjectTest.cxx
+  itkLineSpatialObjectTest.cxx
   itkSpatialObjectPrintTest.cxx
 )
 

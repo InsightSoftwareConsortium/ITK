@@ -24,5 +24,7 @@
 
 void RegisterTests()
 {
+  REGISTER_TEST(itkLandmarkSpatialObjectTest);
+  REGISTER_TEST(itkLineSpatialObjectTest);
   REGISTER_TEST(itkSpatialObjectPrintTest);
 }
