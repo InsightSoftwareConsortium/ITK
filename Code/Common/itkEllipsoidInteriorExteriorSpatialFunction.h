@@ -107,8 +107,7 @@ public:
   /**
    * Set the orientation vectors (must be orthogonal) of the ellipsoid axes.
    */
-  //SetOrientations(VectorType * orientations[]); 
-  SetOrientations(vnl_matrix<VectorType>);
+  void SetOrientations(vnl_matrix<VectorType>);
 
   /**
    * Evaluates the function at a given position.
