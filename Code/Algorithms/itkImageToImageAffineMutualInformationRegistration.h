@@ -27,6 +27,67 @@ namespace itk
 {
 
 /**
+ *  Traits class that defines the different types to be
+ *  used by this registration method
+ */
+template <class TReference, class TTarget>
+class ITK_EXPORT ImageToImageAffineMutualInformationGradientDescentRegistrationTraits 
+{
+  
+public:
+
+  /**
+   *  Type of the Reference
+   */
+   typedef TReference  ReferenceType;
+
+  /**
+   *  Type of the Target
+   */
+   typedef TTarget TargetType;
+
+  /**
+   * Image Dimensions
+   */
+   enum {ImageDimension = ReferenceType::ImageDimension,
+         ParametersDimension = ImageDimension*(ImageDimension+1) };
+
+  /**
+   *  Type of the parameters
+   */
+   typedef Point<double,ParametersDimension>   ParametersType;
+
+  /**
+   *  Type of the Transformation
+   */
+
+   typedef CenteredAffineRegistrationTransform<
+                double, 
+                ImageDimension, 
+                ParametersType >  TransformationType;
+
+  /**
+   *  Type of the Mapper
+   */
+   typedef ImageMapper<ReferenceType,TransformationType>  MapperType;
+
+  /**
+   *  Type of the Metric
+   */
+   typedef MutualInformationImageToImageMetric<TargetType, MapperType>   MetricType;
+
+
+  /**
+   *  Type of the Optimizer 
+   */
+   typedef GradientDescentOptimizer<MetricType>           OptimizerType;
+
+
+};
+
+
+
+/**
  * \class ImageToImageAffineMutualInformationRegistration
  * \brief Register two images using mutual information.
  *
@@ -74,8 +135,11 @@ namespace itk
  *
  */
 template <class TReference, class TTarget>
-class ITK_EXPORT ImageToImageAffineMutualInformationRegistration :
-  public RegistrationMethod<TReference,TTarget>
+class ITK_EXPORT ImageToImageAffineMutualInformationRegistration 
+: public RegistrationMethod< 
+   ImageToImageAffineMutualInformationGradientDescentRegistrationTraits<
+               TReference,
+               TTarget>  >
 {
 public:
   /**
@@ -86,7 +150,10 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-   typedef RegistrationMethod  Superclass;
+   typedef RegistrationMethod< 
+      ImageToImageAffineMutualInformationGradientDescentRegistrationTraits<
+                                       TReference,
+                                       TTarget>  >           Superclass;
 
   /**
    * Smart pointer typedef support
@@ -117,13 +184,12 @@ public:
   /**
    * Parameters Type
    */
-   typedef Point<double,ParametersDimension> ParametersType;
+   typedef typename Superclass::ParametersType   ParametersType;
 
   /**
    *  Type of the Transformation
    */
-   typedef CenteredAffineRegistrationTransform<
-     double, ImageDimension, ParametersType >  TransformationType;
+   typedef typename Superclass::TransformationType    TransformationType;
 
   /**
    * Point Type
@@ -133,18 +199,17 @@ public:
   /**
    *  Type of the Mapper
    */
-   typedef ImageMapper<ReferenceType,TransformationType>  MapperType;
+   typedef typename Superclass::MapperType   MapperType;
 
   /**
    *  Type of the Metric
    */
-   typedef MutualInformationImageToImageMetric<
-                             TargetType, MapperType>  MetricType;
+   typedef typename Superclass::MetricType   MetricType;
 
   /**
    *  Type of the Optimizer 
    */
-   typedef GradientDescentOptimizer<MetricType>  OptimizerType;
+   typedef typename  Superclass::OptimizerType  OptimizerType;
 
   /**
    *  Pointer type for the optimizer 
@@ -191,22 +256,6 @@ public:
    * Method that initiates the registration.
    */
    int StartRegistration( void );
-
-  /**
-   * Get the Transformation
-   */
-   itkGetMacro( Transformation, TransformationPointer );
-
-  /**
-   * Get the Metric
-   */
-   itkGetMacro( Metric, MetricPointer );
-
-
-  /**
-   * Get the Optimizer
-   */
-   itkGetMacro( Optimizer, OptimizerPointer );
 
 
   /**
@@ -289,10 +338,6 @@ protected:
 
 private:
 
-  TransformationPointer      m_Transformation;
-  MapperPointer              m_Mapper;
-  MetricPointer              m_Metric;
-  OptimizerPointer           m_Optimizer;
   ParametersType             m_Parameters;
 
   PointType                  m_TargetTransformationCenter;

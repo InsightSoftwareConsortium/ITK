@@ -29,10 +29,6 @@ template <class TReference, class TTarget>
 ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
 ::ImageToImageAffineMutualInformationRegistration()
 {
-  m_Metric = MetricType::New();
-  m_Mapper = MapperType::New();
-  m_Transformation = TransformationType::New();
-  m_Optimizer = OptimizerType::New();
 
   // initialize the parameter to be the identity transform
   typename ParametersType::Iterator pit = m_Parameters.Begin();
@@ -77,11 +73,8 @@ ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
 template <class TReference, class TTarget>
 ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
 ::ImageToImageAffineMutualInformationRegistration( const Self & other )
+:Superclass( other )
 {
-  m_Reference       =   other.m_Reference;
-  m_Target          =   other.m_Target;
-  m_Transformation  =   other.m_Transformation;
-  m_Metric          =   other.m_Metric;
 }
 
 
@@ -105,40 +98,11 @@ const ImageToImageAffineMutualInformationRegistration< TReference, TTarget> &
 ImageToImageAffineMutualInformationRegistration< TReference, TTarget>
 ::operator=( const Self & other )
 {
-  m_Reference       =   other.m_Reference;
-  m_Target          =   other.m_Target;
-  m_Transformation  =   other.m_Transformation;
-  m_Metric          =   other.m_Metric;
+  Superclass::operator=( other );
   return *this;
 }
 
 
-/**
- * Set Reference
- */
-
-
-template <class TReference, class TTarget>
-void
-ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
-::SetReference( ReferenceType * reference )
-{
-  m_Reference       =   reference;
-  m_Mapper->SetDomain( m_Reference );
-}
-
-
-/**
- * Set Target
- */
-template <class TReference, class TTarget>
-void
-ImageToImageAffineMutualInformationRegistration< TReference, TTarget>
-::SetTarget( TargetType * target )
-{
-  m_Target       =   target;
-  m_Metric->SetTarget( m_Target );
-}
 
 
 /**
@@ -150,8 +114,12 @@ ImageToImageAffineMutualInformationRegistration< TReference, TTarget>
 ::SetTargetTransformationCenter( const PointType& center )
 {
   m_TargetTransformationCenter = center;
-  m_Transformation->SetDomainTransformationCenter(
-   m_TargetTransformationCenter );
+
+  typename TransformationType::Pointer transformation =
+            this->GetMetric()->GetMapper()->GetTransformation();
+
+  transformation->SetDomainTransformationCenter(
+                           m_TargetTransformationCenter );
 
 }
 
@@ -165,8 +133,12 @@ ImageToImageAffineMutualInformationRegistration< TReference, TTarget>
 ::SetReferenceTransformationCenter( const PointType& center )
 {
   m_ReferenceTransformationCenter = center;
-  m_Transformation->SetRangeTransformationCenter(
-   m_ReferenceTransformationCenter );
+
+  typename TransformationType::Pointer transformation =
+            this->GetMetric()->GetMapper()->GetTransformation();
+
+  transformation->SetRangeTransformationCenter(
+                           m_ReferenceTransformationCenter );
 
 }
 
@@ -180,22 +152,23 @@ ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
 ::StartRegistration( void )
 {
 
-  m_Mapper->SetTransformation(m_Transformation);
-  m_Metric->SetMapper(m_Mapper);
-  m_Optimizer->SetCostFunction( m_Metric );
+  typename OptimizerType::Pointer optimizer;
+  optimizer = this->GetOptimizer();
+
+  optimizer->SetCostFunction( this->GetMetric() );
 
   // setup the optimizer
-  m_Optimizer->SetMaximize();
-  m_Optimizer->SetLearningRate( m_LearningRate );
-  m_Optimizer->SetScale( m_ScalingWeights );
-  m_Optimizer->SetNumberOfIterations( m_NumberOfIterations );
-  m_Optimizer->SetInitialPosition( m_Parameters );
+  optimizer->SetMaximize();
+  optimizer->SetLearningRate( m_LearningRate );
+  optimizer->SetScale( m_ScalingWeights );
+  optimizer->SetNumberOfIterations( m_NumberOfIterations );
+  optimizer->SetInitialPosition( m_Parameters );
 
   // do the optimization
-  m_Optimizer->StartOptimization();
+  optimizer->StartOptimization();
 
   // get the results
-  m_Parameters = m_Optimizer->GetCurrentPosition();
+  m_Parameters = optimizer->GetCurrentPosition();
   
   return 0;
 
