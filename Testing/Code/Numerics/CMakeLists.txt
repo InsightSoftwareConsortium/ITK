@@ -41,7 +41,7 @@ itkRegularStepGradientDescentOptimizerTest
 itkVersorTransformOptimizerTest
 )
 
-ADD_EXECUTABLE(itkNumericsHeaderTest itkNumericsHeaderTest)
+ADD_EXECUTABLE(itkNumericsHeaderTest itkNumericsHeaderTest.cxx)
 ADD_EXECUTABLE(itkNumericsTests itkNumericsTests.cxx Numerics_SRCS)
 
 
