@@ -110,16 +110,6 @@ namespace itk
     };
 } // end namespace itk
 
-//Define the PrintSelf for known types.  These are defined in itkMetaDataObject.cxx;
-extern void itk::MetaDataObject<float>::PrintSelf(std::ostream& os, Indent indent) const;
-extern void itk::MetaDataObject<double>::PrintSelf(std::ostream& os, Indent indent) const;
-extern void itk::MetaDataObject<char>::PrintSelf(std::ostream& os, Indent indent) const;
-extern void itk::MetaDataObject<unsigned char>::PrintSelf(std::ostream& os, Indent indent) const;
-extern void itk::MetaDataObject<int>::PrintSelf(std::ostream& os, Indent indent) const;
-extern void itk::MetaDataObject<unsigned int>::PrintSelf(std::ostream& os, Indent indent) const;
-extern void itk::MetaDataObject<short int>::PrintSelf(std::ostream& os, Indent indent) const;
-extern void itk::MetaDataObject<unsigned short int>::PrintSelf(std::ostream& os, Indent indent) const;
-
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMetaDataObject.txx"
 #endif
