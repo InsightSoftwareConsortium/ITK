@@ -225,32 +225,6 @@ Image<TPixel, VImageDimension>
     }
 }
 
-
-//----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-void 
-Image<TPixel, VImageDimension>
-::SetOrigin(const OriginOffsetType & origin )
-{
-  unsigned int i; 
-  for (i=0; i<VImageDimension; i++)
-    {
-    if ( (double)origin[i] != m_Origin[i] )
-      {
-      break;
-      }
-    } 
-  if ( i < VImageDimension ) 
-    { 
-    for (i=0; i<VImageDimension; i++)
-      {
-      m_Origin[i] = origin[i];
-      }
-    this->RebuildTransforms();
-    }
-}
-
-
 //----------------------------------------------------------------------------
 template<class TPixel, unsigned int VImageDimension>
 const double *
@@ -281,10 +255,17 @@ Image<TPixel, VImageDimension>
 
   // Create a new transform if one doesn't already exist
   if ( !m_IndexToPhysicalTransform )
-    m_IndexToPhysicalTransform = AffineTransformType::New();
+    {
+    AffineTransformPointer affineTransform = AffineTransformType::New();
+    m_IndexToPhysicalTransform = affineTransform.GetPointer();
+    }
 
-  m_IndexToPhysicalTransform->SetMatrix(matrix);
-  m_IndexToPhysicalTransform->SetOffset(offset);
+  AffineTransformPointer affineTransform =
+                            dynamic_cast< AffineTransformType * >( 
+                                    m_IndexToPhysicalTransform.GetPointer() );
+
+  affineTransform->SetMatrix(matrix);
+  affineTransform->SetOffset(offset);
 
   for (unsigned int i = 0; i < VImageDimension; i++)
     {
@@ -299,11 +280,16 @@ Image<TPixel, VImageDimension>
   // Create a new transform if one doesn't already exist
   if( !m_PhysicalToIndexTransform  )
     {
-    m_PhysicalToIndexTransform = AffineTransformType::New();
+    AffineTransformPointer affineTransform = AffineTransformType::New();
+    m_PhysicalToIndexTransform = affineTransform.GetPointer();
     }
   
-  m_PhysicalToIndexTransform->SetMatrix(matrix);
-  m_PhysicalToIndexTransform->SetOffset(offset);
+
+  affineTransform = dynamic_cast< AffineTransformType * >( 
+                              m_PhysicalToIndexTransform.GetPointer() );
+
+  affineTransform->SetMatrix(matrix);
+  affineTransform->SetOffset(offset);
 
   this->Modified();
 
@@ -312,7 +298,7 @@ Image<TPixel, VImageDimension>
 
 //---------------------------------------------------------------------------
 template<class TPixel, unsigned int VImageDimension>
-typename Image<TPixel, VImageDimension>::AffineTransformPointer
+typename Image<TPixel, VImageDimension>::TransformPointer
 Image<TPixel, VImageDimension>
 ::GetIndexToPhysicalTransform(void)
 {
@@ -322,13 +308,13 @@ Image<TPixel, VImageDimension>
     RebuildTransforms();
     }
       
-  return m_IndexToPhysicalTransform;
+  return m_IndexToPhysicalTransform.GetPointer();
 }
 
 
 //---------------------------------------------------------------------------
 template<class TPixel, unsigned int VImageDimension>
-typename Image<TPixel, VImageDimension>::AffineTransformPointer
+typename Image<TPixel, VImageDimension>::TransformPointer
 Image<TPixel, VImageDimension>
 ::GetPhysicalToIndexTransform(void)
 {
@@ -338,7 +324,7 @@ Image<TPixel, VImageDimension>
     RebuildTransforms();
     }
 
-  return m_PhysicalToIndexTransform;
+  return m_PhysicalToIndexTransform.GetPointer();
 }
 
 //----------------------------------------------------------------------------

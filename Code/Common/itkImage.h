@@ -124,6 +124,15 @@ public:
   /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;
 
+  /** 
+   *  Typedefs of the Transform Base class associated with the image
+   *  This transform facilitate the mapping between Indexes and PhysicalPoints.
+   *  The Image keeps a SmartPointer to a Transform (the base class). Any Transform 
+   *  deriving from itk::Transform can be associated to this pointer.
+   */
+   typedef Transform< double, VImageDimension, VImageDimension > TransformType;
+   typedef typename TransformType::Pointer                      TransformPointer;
+
   /** Typedefs for the associated AffineTransform.* This is used
    * specifically as the type of the index-to-physical and physical-to-index
    * transforms associated with the origin and spacing for the image, and
@@ -131,8 +140,6 @@ public:
   typedef AffineTransform<double, VImageDimension> AffineTransformType;
   typedef typename AffineTransformType::Pointer   AffineTransformPointer;
   
-  /** Definition of the point type used for setting the origin */
-  typedef typename AffineTransformType::OffsetType OriginOffsetType;
 
   /** Allocate the image memory. The image Dimension and Size must 
    * already been set. */
@@ -249,7 +256,6 @@ public:
    * \sa GetOrigin() */
   virtual void SetOrigin( const double values[ImageDimension] );
   virtual void SetOrigin( const float values[ImageDimension] );
-  virtual void SetOrigin( const OriginOffsetType & origin );
   
   /** Get the origin of the image. The origin is the geometric
    * coordinates of the index (0,0).  The value returned is
@@ -262,18 +268,18 @@ public:
    * This method returns an AffineTransform which defines the
    * transformation from index coordinates to physical coordinates
    * determined by the origin and spacing of this image. */
-  AffineTransformPointer GetIndexToPhysicalTransform(void);
+  TransformPointer GetIndexToPhysicalTransform(void);
 
   /** Get the physical-to-index coordinate transformation
    *
    * This method returns an AffineTransform which defines the
    * transformation from physical coordinates to index coordinates
    * determined by the origin and spacing of this image. */
-  AffineTransformPointer GetPhysicalToIndexTransform(void);
+  TransformPointer GetPhysicalToIndexTransform(void);
 
   /** Gets and sets for affine transforms. */
-  itkSetMacro(IndexToPhysicalTransform, AffineTransformPointer);
-  itkSetMacro(PhysicalToIndexTransform, AffineTransformPointer);
+  itkSetObjectMacro(IndexToPhysicalTransform, TransformType );
+  itkSetObjectMacro(PhysicalToIndexTransform, TransformType );
     
   /** Rebuild affine transforms based on origin and spacing */
   void RebuildTransforms();
@@ -403,7 +409,7 @@ public:
    * \sa AffineTransform */
   template<class TCoordRep> 
   void TransformIndexToPhysicalPoint(Index<VImageDimension>& index, 
-    Point<TCoordRep, VImageDimension>& point)
+    Point<TCoordRep, VImageDimension>& point) 
     {
     // If no current transforms exist, build them using the origin and spacing
     if ( !m_IndexToPhysicalTransform ) { this->RebuildTransforms(); }
@@ -458,8 +464,8 @@ private:
   double                m_Origin[ImageDimension];
 
   /** Affine transforms used to convert between data and physical space. */
-  AffineTransformPointer m_IndexToPhysicalTransform;
-  AffineTransformPointer m_PhysicalToIndexTransform;
+  TransformPointer  m_IndexToPhysicalTransform;
+  TransformPointer  m_PhysicalToIndexTransform;
 };
 
 } // end namespace itk
