@@ -119,31 +119,31 @@ public:
   static itkIndex<TIndexDimension> GetBasisIndex(unsigned int dim); 
 
 public:
-friend  std::ostream& operator<< <> (std::ostream& os, 
-              const itkIndex<TIndexDimension> &ind);
+  virtual void PrintSelf(std::ostream& os, itkIndent indent);
+
 private:
   unsigned long m_Index[TIndexDimension];
 };
 
 template<unsigned int TIndexDimension>
-std::ostream& operator<<(std::ostream& os,
-			 const itkIndex<TIndexDimension> &ind)
+void 
+itkIndex<TIndexDimension>
+::PrintSelf(std::ostream& os, itkIndent indent)
 {
   unsigned int i;
   
   os << "[";
   for (i=0; i < TIndexDimension - 1; i++)
     {
-    os << ind.m_Index[i] << ", ";
+    os << m_Index[i] << ", ";
     }
-  os << ind.m_Index[i] << "] ";
-  
-  return os;
+  os << m_Index[i] << "] ";
 }
 
 template<unsigned int TIndexDimension>
+itkIndex<TIndexDimension> 
 itkIndex<TIndexDimension>
-itkIndex<TIndexDimension>::GetBasisIndex(unsigned int dim)
+::GetBasisIndex(unsigned int dim)
 {
   if (dim >= TIndexDimension)
     {
