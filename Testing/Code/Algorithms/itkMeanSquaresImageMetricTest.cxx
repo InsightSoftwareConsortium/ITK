@@ -71,14 +71,14 @@ int itkMeanSquaresImageMetricTest(int, char**)
   movingImageSource->SetSize(    movingImageSize    );
   movingImageSource->SetOrigin(  movingImageOrigin  );
   movingImageSource->SetSpacing( movingImageSpacing );
-  movingImageSource->SetNormalized( true );
-  movingImageSource->SetScale( 1.0f );
+  movingImageSource->SetNormalized( false );
+  movingImageSource->SetScale( 250.0f );
 
   fixedImageSource->SetSize(    fixedImageSize    );
   fixedImageSource->SetOrigin(  fixedImageOrigin  );
   fixedImageSource->SetSpacing( fixedImageSpacing );
-  fixedImageSource->SetNormalized( true );
-  fixedImageSource->SetScale( 1.0f );
+  fixedImageSource->SetNormalized( false );
+  fixedImageSource->SetScale( 250.0f );
 
   movingImageSource->Update(); // Force the filter to run
   fixedImageSource->Update();  // Force the filter to run
@@ -187,12 +187,16 @@ int itkMeanSquaresImageMetricTest(int, char**)
     parameters[1] = trans;
     metric->GetValueAndDerivative( parameters, measure, derivative );
 
-    std::cout.width(8);
+    std::cout.width(5);
+    std::cout.precision(5);
     std::cout << trans;
-    std::cout.width(8);
+    std::cout.width(15);
+    std::cout.precision(5);
     std::cout << measure;
-    std::cout.width(8);
+    std::cout.width(15);
+    std::cout.precision(5);
     std::cout << derivative[1];
+    std::cout << std::endl;
 
     // exercise the other functions
     metric->GetValue( parameters );
