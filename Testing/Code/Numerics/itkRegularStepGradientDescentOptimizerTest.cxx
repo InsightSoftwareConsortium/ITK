@@ -33,11 +33,11 @@
  *   the solution is the vector | 2 -2 |
  *
  */ 
-class myCostFunction : public itk::SingleValuedCostFunction 
+class RSGCostFunction : public itk::SingleValuedCostFunction 
 {
 public:
 
-  typedef myCostFunction                     Self;
+  typedef RSGCostFunction                     Self;
   typedef itk::SingleValuedCostFunction      Superclass;
   typedef itk::SmartPointer<Self>            Pointer;
   typedef itk::SmartPointer<const Self>      ConstPointer;
@@ -50,7 +50,7 @@ public:
   typedef Superclass::MeasureType         MeasureType ;
 
 
-  myCostFunction() 
+  RSGCostFunction() 
   {
   }
 
@@ -119,13 +119,13 @@ int itkRegularStepGradientDescentOptimizerTest(int, char**)
 
 
   // Declaration of the CostFunction 
-  myCostFunction::Pointer costFunction = myCostFunction::New();
+  RSGCostFunction::Pointer costFunction = RSGCostFunction::New();
 
 
   itkOptimizer->SetCostFunction( costFunction.GetPointer() );
 
   
-  typedef myCostFunction::ParametersType    ParametersType;
+  typedef RSGCostFunction::ParametersType    ParametersType;
 
 
   const unsigned int spaceDimension = 

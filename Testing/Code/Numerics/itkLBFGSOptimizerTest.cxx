@@ -36,16 +36,16 @@
  *   the solution is the vector | 2 -2 |
  *
  */ 
-class myCostFunction : public itk::SingleValuedCostFunction 
+class LBFCostFunction : public itk::SingleValuedCostFunction 
 {
 public:
 
-  typedef myCostFunction                    Self;
+  typedef LBFCostFunction                    Self;
   typedef itk::SingleValuedCostFunction     Superclass;
   typedef itk::SmartPointer<Self>           Pointer;
   typedef itk::SmartPointer<const Self>     ConstPointer;
   itkNewMacro( Self );
-  itkTypeMacro( myCostFunction, SingleValuedCostFunction );
+  itkTypeMacro( LBFCostFunction, SingleValuedCostFunction );
 
   enum { SpaceDimension=2 };
 
@@ -57,7 +57,7 @@ public:
 
   typedef double MeasureType ;
 
-  myCostFunction()
+  LBFCostFunction()
   {
   }
 
@@ -126,7 +126,7 @@ int itkLBFGSOptimizerTest(int, char**)
 
 
   // Declaration of the CostFunction adaptor
-  myCostFunction::Pointer costFunction = myCostFunction::New();
+  LBFCostFunction::Pointer costFunction = LBFCostFunction::New();
 
 
   itkOptimizer->SetCostFunction( costFunction.GetPointer() );

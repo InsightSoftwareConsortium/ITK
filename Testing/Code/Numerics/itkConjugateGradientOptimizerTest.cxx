@@ -36,16 +36,16 @@
  *   the solution is the vector | 2 -2 |
  *
  */ 
-class myCostFunction : public itk::SingleValuedCostFunction 
+class conjugateCostFunction : public itk::SingleValuedCostFunction 
 {
 public:
 
-  typedef myCostFunction                    Self;
+  typedef conjugateCostFunction                    Self;
   typedef itk::SingleValuedCostFunction     Superclass;
   typedef itk::SmartPointer<Self>           Pointer;
   typedef itk::SmartPointer<const Self>     ConstPointer;
   itkNewMacro( Self );
-  itkTypeMacro( myCostFunction, SingleValuedCostFunction );
+  itkTypeMacro( conjugateCostFunction, SingleValuedCostFunction );
 
   enum { SpaceDimension=2 };
 
@@ -58,7 +58,7 @@ public:
   typedef double MeasureType ;
 
 
-  myCostFunction()
+  conjugateCostFunction()
   {
   }
 
@@ -129,7 +129,7 @@ int itkConjugateGradientOptimizerTest(int, char**)
 
 
   // Declaration of the CostFunction adaptor
-  myCostFunction::Pointer costFunction = myCostFunction::New();
+  conjugateCostFunction::Pointer costFunction = conjugateCostFunction::New();
 
 
   itkOptimizer->SetCostFunction( costFunction.GetPointer() );

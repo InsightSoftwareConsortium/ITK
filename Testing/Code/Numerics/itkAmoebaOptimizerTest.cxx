@@ -43,16 +43,16 @@
  *   the solution is the vector | 2 -2 |
  *
  */ 
-class myCostFunction : public itk::SingleValuedCostFunction 
+class amoebaCostFunction : public itk::SingleValuedCostFunction 
 {
 public:
 
-  typedef myCostFunction                    Self;
+  typedef amoebaCostFunction                    Self;
   typedef itk::SingleValuedCostFunction     Superclass;
   typedef itk::SmartPointer<Self>           Pointer;
   typedef itk::SmartPointer<const Self>     ConstPointer;
   itkNewMacro( Self );
-  itkTypeMacro( myCostFunction, SingleValuedCostFunction );
+  itkTypeMacro( amoebaCostFunction, SingleValuedCostFunction );
 
   enum { SpaceDimension=2 };
 
@@ -64,7 +64,7 @@ public:
   typedef vnl_matrix<double>                      MatrixType;
 
 
-  myCostFunction():m_A(SpaceDimension,SpaceDimension),m_b(SpaceDimension) 
+  amoebaCostFunction():m_A(SpaceDimension,SpaceDimension),m_b(SpaceDimension) 
    {
     m_A[0][0] =  3;
     m_A[0][1] =  2;
@@ -139,7 +139,7 @@ int itkAmoebaOptimizerTest(int, char**)
 
 
   // Declaration of the CostFunction adaptor
-  myCostFunction::Pointer costFunction = myCostFunction::New();
+  amoebaCostFunction::Pointer costFunction = amoebaCostFunction::New();
 
 
   itkOptimizer->SetCostFunction( costFunction.GetPointer() );

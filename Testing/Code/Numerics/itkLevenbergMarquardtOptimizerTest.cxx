@@ -47,10 +47,10 @@ const double rc = 29.0;
  *   whose size is defined by XRange and YRange
  *
  */ 
-class myCostFunction : public itk::MultipleValuedCostFunction
+class LMCostFunction : public itk::MultipleValuedCostFunction
 {
 public:
-  typedef myCostFunction                    Self;
+  typedef LMCostFunction                    Self;
   typedef itk::MultipleValuedCostFunction   Superclass;
   typedef itk::SmartPointer<Self>           Pointer;
   typedef itk::SmartPointer<const Self>     ConstPointer;
@@ -66,7 +66,7 @@ public:
   typedef Superclass::DerivativeType              DerivativeType;
   typedef Superclass::MeasureType                 MeasureType;
 
-  myCostFunction():
+  LMCostFunction():
             m_Measure(RangeDimension),
             m_Derivative(SpaceDimension,RangeDimension),
             m_TheoreticalData(SpaceDimension)  
@@ -203,8 +203,12 @@ int itkLevenbergMarquardtOptimizerTest(int, char**)
 
 
   // Declaration of the CostFunction adaptor
-  myCostFunction::Pointer costFunction = myCostFunction::New();
-
+  LMCostFunction::Pointer costFunction = LMCostFunction::New();
+  typedef LMCostFunction::ParametersType ParametersType;
+  ParametersType  parameters(LMCostFunction::SpaceDimension);
+  costFunction->GetValue(parameters);
+  
+  std::cout << costFunction->GetNumberOfValues() << "\n";
 
   try 
     {
@@ -233,13 +237,13 @@ int itkLevenbergMarquardtOptimizerTest(int, char**)
   vnlOptimizer->set_max_function_evals( Max_Iterations );
 
   // We start not so far from the solution 
-  typedef myCostFunction::ParametersType ParametersType;
-  ParametersType  initialValue(myCostFunction::SpaceDimension);
+  typedef LMCostFunction::ParametersType ParametersType;
+  ParametersType  initialValue(LMCostFunction::SpaceDimension);
   initialValue[0] = 100;
   initialValue[1] = 200;
   initialValue[2] = 150;
 
-  OptimizerType::ParametersType currentValue(myCostFunction::SpaceDimension);
+  OptimizerType::ParametersType currentValue(LMCostFunction::SpaceDimension);
 
   currentValue = initialValue;
 
@@ -304,7 +308,7 @@ int itkLevenbergMarquardtOptimizerTest(int, char**)
   //
   bool pass = true;
   double trueParameters[3] = { ra,rb,rc };
-  for( unsigned int j = 0; j < myCostFunction::SpaceDimension; j++ )
+  for( unsigned int j = 0; j < LMCostFunction::SpaceDimension; j++ )
     {
     if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
       pass = false;

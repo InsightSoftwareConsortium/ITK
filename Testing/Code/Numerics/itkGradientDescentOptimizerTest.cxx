@@ -34,16 +34,16 @@
  *   the solution is the vector | 2 -2 |
  *
  */ 
-class myCostFunction : public itk::SingleValuedCostFunction 
+class gradientCostFunction : public itk::SingleValuedCostFunction 
 {
 public:
 
-  typedef myCostFunction                  Self;
+  typedef gradientCostFunction                  Self;
   typedef itk::SingleValuedCostFunction   Superclass;
   typedef itk::SmartPointer<Self>         Pointer;
   typedef itk::SmartPointer<const Self>   ConstPointer;
   itkNewMacro( Self );
-  itkTypeMacro( myCostFunction, SingleValuedCostFunction );
+  itkTypeMacro( gradientCostFunction, SingleValuedCostFunction );
 
   enum { SpaceDimension=2 };
   
@@ -51,7 +51,7 @@ public:
   typedef Superclass::DerivativeType      DerivativeType;
   typedef Superclass::MeasureType         MeasureType ;
 
-  myCostFunction()
+  gradientCostFunction()
   {
   }
 
@@ -121,13 +121,13 @@ int itkGradientDescentOptimizerTest(int, char**)
 
 
   // Declaration of the CostFunction 
-  myCostFunction::Pointer costFunction = myCostFunction::New();
+  gradientCostFunction::Pointer costFunction = gradientCostFunction::New();
 
 
   itkOptimizer->SetCostFunction( costFunction.GetPointer() );
 
   
-  typedef myCostFunction::ParametersType    ParametersType;
+  typedef gradientCostFunction::ParametersType    ParametersType;
 
   const unsigned int spaceDimension = 
                       costFunction->GetNumberOfParameters();

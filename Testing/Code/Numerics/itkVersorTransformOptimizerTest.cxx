@@ -42,11 +42,11 @@
  *        k2 = cos( 45 degrees )
  *
  */ 
-class myCostFunction : public itk::SingleValuedCostFunction 
+class versorCostFunction : public itk::SingleValuedCostFunction 
 {
 public:
 
-  typedef myCostFunction                      Self;
+  typedef versorCostFunction                      Self;
   typedef itk::SingleValuedCostFunction       Superclass;
   typedef itk::SmartPointer<Self>             Pointer;
   typedef itk::SmartPointer<const Self>       ConstPointer;
@@ -54,7 +54,7 @@ public:
   typedef itk::VersorTransform<double>        TransformType;
     
   itkNewMacro( Self );
-  itkTypeMacro( myCostFunction, SingleValuedCostFunction );
+  itkTypeMacro( versorCostFunction, SingleValuedCostFunction );
 
   enum { SpaceDimension = 3 };
   
@@ -68,7 +68,7 @@ public:
   typedef double MeasureType;
 
 
-  myCostFunction()
+  versorCostFunction()
   {
     m_Transform = TransformType::New();
   }
@@ -196,13 +196,13 @@ int itkVersorTransformOptimizerTest(int, char**)
 
 
   // Declaration of the CostFunction adaptor
-  myCostFunction::Pointer costFunction = myCostFunction::New();
+  versorCostFunction::Pointer costFunction = versorCostFunction::New();
 
 
   itkOptimizer->SetCostFunction( costFunction );
 
   
-  typedef myCostFunction::ParametersType    ParametersType;
+  typedef versorCostFunction::ParametersType    ParametersType;
 
   typedef OptimizerType::VersorType      VersorType;
 
