@@ -6,7 +6,7 @@ proc SetConfiguration { variable { value INSIGHTINVALIDVALUE } } \
   global TestingUtility
   upvar \#0 $variable myvariable
   
-  if { ![info exists TestingUtilyt(Valid)] } \
+  if { ![info exists TestingUtility(Valid)] } \
   {
     set TestingUtility(Valid) 0
   }
