@@ -303,7 +303,10 @@ ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
 Inverse(void) const
 {
   Pointer result = New();
-  result->m_Scale   = 1.0 / m_Scale;
+  for( unsigned int i=0; i<SpaceDimension; i++ )
+  {
+    result->m_Scale[i] = 1.0 / m_Scale[i];
+  }
   return result;
 }
 
