@@ -134,7 +134,7 @@ main()
       itk::Neighborhood<int, 2> op;
       op.SetRadius(hoodRadius);
       op = 2;
-      op.Print();
+      op.PrintSelf();
       
       itk::Index<2> idx;
       idx[0]=idx[1]=0;
@@ -159,7 +159,7 @@ main()
       for (it = it.Begin(); it < itEnd; ++it)
         {
           temp = it.GetNeighborhood();
-          temp.Print();
+          temp.PrintSelf();
           PrintSlice(hnsi);
           PrintSlice(vnsi);
           std::cout <<  temp.InnerProduct(op) << std::endl;
