@@ -537,8 +537,15 @@ void FEMRegistrationFilter<TReference,TTarget>::CreateMesh(double ElementsPerSid
 
   if (m_ReadMeshFile)
   {
-    std::ifstream meshstream(m_MeshFileName); 
-    mySolver.Read(meshstream); 
+  std::ifstream meshstream; 
+  meshstream.open(m_MeshFileName);
+  if (!meshstream)
+  {
+    std::cout<<"File "<<m_MeshFileName<<" not found!\n";
+    return;
+  }
+
+  mySolver.Read(meshstream); 
   itk::fem::MaterialLinearElasticity::Pointer m=dynamic_cast<MaterialLinearElasticity*>(mySolver.mat.Find(0));
     if (m) { 
     m->E=this->GetElasticity(m_CurrentLevel);  // Young modulus -- used in the membrane ///
@@ -614,18 +621,20 @@ void FEMRegistrationFilter<TReference,TTarget>::ApplyLoads(SolverType& mySolver,
   }
   }*/
   
-  //Pin  corners of one element 
-  unsigned int CornerCounter=0,ii=0;
+  //Pin  one corner image  
+  unsigned int CornerCounter=0,ii=0,EdgeCounter=0;
   Node::ArrayType* nodes = &(mySolver.node);
   Element::VectorType coord;
   Node::ArrayType::iterator node=nodes->begin();
-  bool CornerFound=false;
-  while(   node!=nodes->end() && !CornerFound ) 
+  bool CornerFound=false; bool EdgeFound=false;
+  bool EdgeBool[ImageDimension];
+  while(   node!=nodes->end() && EdgeCounter < ImageDimension ) 
   {
     coord=(*node)->GetCoordinates();
     CornerCounter=0;
     for (ii=0; ii < ImageDimension; ii++)
     { 
+      EdgeBool[ii]=false;
       if (coord[ii] == m_ImageOrigin[ii] || coord[ii] == ImgSz[ii]-1 ) CornerCounter++;
     }
     if (CornerCounter == ImageDimension) // the node is located at a true corner
@@ -634,24 +643,36 @@ void FEMRegistrationFilter<TReference,TTarget>::ApplyLoads(SolverType& mySolver,
       unsigned int numnodesperelt=(*((*node)->m_elements.begin()))->GetNumberOfNodes();
       unsigned int whichnode=0;
      
-      unsigned int maxnode;               
-      if (ImageDimension == 2) maxnode=( 3 < numnodesperelt ? 3 : numnodesperelt-1); 
-      if (ImageDimension == 3) maxnode=( 4 < numnodesperelt ? 4 : numnodesperelt-1); 
+      unsigned int maxnode=numnodesperelt-1;
+      typedef typename Node::SetOfElements NodeEltSetType;
+      for( NodeEltSetType::iterator elt=(*node)->m_elements.begin(); 
+                                          elt!=(*node)->m_elements.end(); elt++) 
+      {
       for (whichnode=0; whichnode<=maxnode; whichnode++)
       {
-        Node::ConstPointer tnode=( *((*node)->m_elements.begin()))->GetNode(whichnode); 
+        Node::ConstPointer tnode=(*elt)->GetNode(whichnode); 
         coord=(tnode)->GetCoordinates();
         CornerCounter=0;
         for (ii=0; ii < ImageDimension; ii++)
         { 
-          if (coord[ii] == m_ImageOrigin[ii] || coord[ii] == ImgSz[ii]-1 ) CornerCounter++;
+          if ((coord[ii] == m_ImageOrigin[ii] && EdgeBool[ii]==false )|| 
+              (coord[ii] == ImgSz[ii]-1       && EdgeBool[ii]==false )) 
+          {
+            CornerCounter++;
+          }
         }
-        if (CornerCounter == ImageDimension - 1) CornerFound=false; else CornerFound=true;
-        if (!CornerFound){
+        if (CornerCounter == ImageDimension - 1) EdgeFound=true; else EdgeFound=false;
+        if (EdgeFound){
           for (unsigned int jj=0; jj<ndofpernode; jj++){
             std::cout << " which node " << whichnode << std::endl; 
             std::cout << " edge coord " << coord << std::endl;
-    
+            for (ii=0; ii < ImageDimension; ii++)
+            { 
+              if (coord[ii] == m_ImageOrigin[ii] || coord[ii] == ImgSz[ii]-1 ) 
+              {
+                EdgeBool[ii]=false;
+              }
+            }
             l1=LoadBC::New();
             // now we get the element from the node -- we assume we need fix the dof only once
             // even if more than one element shares it.
@@ -661,8 +682,10 @@ void FEMRegistrationFilter<TReference,TTarget>::ApplyLoads(SolverType& mySolver,
             l1->m_value=vnl_vector<double>(1,0.0);
             mySolver.load.push_back( FEMP<Load>(&*l1) );
           }
+          EdgeCounter++;
         }
       }
+      }//end elt loop
       CornerFound=true;
   }
     node++;
@@ -735,11 +758,11 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
   
   
    Float mint=1.0; //,ImageSimilarity=0.0;
-   if (DLS > 0 && (iters > 0 || m_CurrentLevel !=0) && (iters % LSF) != 0) 
+   if (DLS > 0 && (iters > 0 /*|| m_CurrentLevel !=0*/) && (iters % LSF) != 0) 
    {
      std::cout << " line search ";
-     if (DLS == 1 ) LastE=mySolver.GoldenSection(1.e-1,1000);
-     else  LastE=mySolver.BrentsMethod(1.e-1,200);
+     if (DLS == 1 ) LastE=mySolver.GoldenSection(1.e-1,50);
+     else  LastE=mySolver.BrentsMethod(1.e-1,50);
      std::cout << " line search done " << std::endl;
    } else  LastE=mySolver.EvaluateResidual(mint);
 
