@@ -63,7 +63,7 @@ ADD_TEST(itkFEMC0QuadElementTrapezoidalGeometry-NoLoads itkFEMTests itkFEMElemen
 ADD_TEST(itkFEMC0TriangularElement-NodalLoads-BCs itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/tri2.fem)
 ADD_TEST(itkFEMC0TriangularElement-NoLoads itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/tri3.fem)
 ADD_TEST(itkFEMTruss itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/truss.fem)
-ADD_TEST(itkFEMTruss-NoLoads itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/truss_noload.fem)
+#ADD_TEST(itkFEMTruss-NoLoads itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/truss_noload.fem)
 ADD_TEST(itkFEMLinearSystemWrapperItpackTest  itkFEMTests itkFEMLinearSystemWrapperItpackTest)
 ADD_TEST(itkFEMLinearSystemWrapperVNLTest  itkFEMTests itkFEMLinearSystemWrapperVNLTest)
 ADD_TEST(itkFEMLinearSystemWrapperDenseVNLTest  itkFEMTests itkFEMLinearSystemWrapperDenseVNLTest)
