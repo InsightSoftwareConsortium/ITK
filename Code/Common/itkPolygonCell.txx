@@ -76,8 +76,8 @@ PolygonCell< TPixelType , TCellTraits >
 {
   switch (dimension)
     {
-    case 0: return GetNumberOfVertices();
-    case 1: return GetNumberOfEdges();
+    case 0: return this->GetNumberOfVertices();
+    case 1: return this->GetNumberOfEdges();
     default: return 0;
     }
 }
@@ -120,8 +120,7 @@ PolygonCell< TPixelType , TCellTraits >
     {
     m_PointIds.push_back(*ii++);
     }
-  m_NumberOfPoints = num;
-  BuildEdges();
+  this->BuildEdges();
 }
 
 /**
@@ -130,19 +129,22 @@ PolygonCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 void
 PolygonCell< TPixelType , TCellTraits >
-::BuildEdges(void){
-  m_Edges.clear();
-  if( m_NumberOfPoints > 0 )
+::BuildEdges(void)
+{
+  if( m_PointIds.size() > 0 )
     {
-    m_Edges.resize(m_NumberOfPoints);
-    for(int i = 1;i < m_NumberOfPoints; i++)
+    m_Edges.resize(m_PointIds.size());
+    for(int i = 1;i < m_PointIds.size(); i++)
       {
       m_Edges[i][0]=i-1;
       m_Edges[i][1]=i;
       }
-    m_Edges[m_NumberOfPoints-1][0]=m_NumberOfPoints-1;
-    m_Edges[m_NumberOfPoints-1][1]=0;
-    m_NumberOfEdges=m_NumberOfPoints;
+    m_Edges[m_PointIds.size()-1][0]=m_PointIds.size()-1;
+    m_Edges[m_PointIds.size()-1][1]=0;
+    }
+  else
+    {
+    m_Edges.clear();
     }
 }
 
@@ -168,7 +170,6 @@ PolygonCell< TPixelType , TCellTraits >
 ::AddPointId(PointIdentifier ptID)
 {
   m_PointIds.push_back(ptID);
-  m_NumberOfPoints++;
 }
 
 /**
@@ -179,8 +180,6 @@ void
 PolygonCell< TPixelType , TCellTraits >
 ::ClearPoints(void)
 {
-  m_NumberOfPoints=0;
-  m_NumberOfEdges=0;
   m_PointIds.clear();
   m_Edges.clear();
 }
@@ -199,8 +198,7 @@ PolygonCell< TPixelType , TCellTraits >
 {
   m_PointIds.erase(m_PointIds.begin(), m_PointIds.end());
   m_PointIds.insert(m_PointIds.begin(), first, last);
-  m_NumberOfPoints = m_PointIds.size();
-  BuildEdges();
+  this->BuildEdges();
 }
 
 /**
@@ -216,7 +214,6 @@ PolygonCell< TPixelType , TCellTraits >
     m_PointIds.resize( localId + 1 );
   }
   m_PointIds[localId] = ptId;
-  m_NumberOfPoints = m_PointIds.size();
 }
 
 
@@ -326,7 +323,7 @@ PolygonCell< TPixelType , TCellTraits >
 ::GetEdge(CellFeatureIdentifier edgeId)
 {
   EdgePointer edge(Edge::New());
-  unsigned int max_pointId = GetNumberOfPoints() - 1;
+  unsigned int max_pointId = this->GetNumberOfPoints() - 1;
 
   if( edgeId < max_pointId ){
     edge->SetPointId(0, m_PointIds[edgeId]);

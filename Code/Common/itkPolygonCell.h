@@ -90,7 +90,7 @@ public:
   /** The type of boundary for this voronoi cell's edges. */
   typedef LineBoundary< TPixelType , TCellTraits >    Edge;
   typedef typename Edge::Pointer EdgePointer;
-  typedef Point<int,2> EdgeInfo;
+  typedef FixedArray<int,2> EdgeInfo;
   typedef std::deque<EdgeInfo> EdgeInfoDQ;
   
   /** Method for creation through the object factory. */
@@ -134,11 +134,9 @@ public:
   
 protected:
   std::vector<EdgeInfo> m_Edges;
-  int m_NumberOfEdges;
   std::vector<PointIdentifier> m_PointIds;
-  int m_NumberOfPoints;
 
-  PolygonCell() : m_NumberOfEdges(0), m_NumberOfPoints(0) {}
+  PolygonCell() {}
   ~PolygonCell() {}
  private:
   PolygonCell(const Self&); //purposely not implemented
