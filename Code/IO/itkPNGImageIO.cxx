@@ -485,7 +485,7 @@ void PNGImageIO::WriteSlice(std::string& fileName, void* buffer,
     }
   png_byte **row_pointers = new png_byte *[height];
   int rowInc = width*numComp*bitDepth/8;
-  for (int ui = 0; ui < height; ui++)
+  for (unsigned int ui = 0; ui < height; ui++)
     {
     row_pointers[height - ui - 1] = (png_byte *)outPtr;
     outPtr = (unsigned char *)outPtr + rowInc;
