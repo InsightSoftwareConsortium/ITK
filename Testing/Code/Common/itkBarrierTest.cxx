@@ -101,7 +101,7 @@ ITK_THREAD_RETURN_TYPE BarrierTestCallback( void *ptr )
   return ITK_THREAD_RETURN_VALUE;
 }
 
-int itkBarrierTest(int, char **)
+int itkBarrierTest(int, char * [])
 {
   BarrierTestUserData data;
   
