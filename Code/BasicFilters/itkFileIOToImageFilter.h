@@ -69,6 +69,13 @@ public:
   {
     SetDescription("Problem during File IO");
   }
+  /**
+   * Copy constructor.  Needed to ensure the exception object can be copied.
+   */
+  FileIOException(const FileIOException &orig) : ExceptionObject(orig)
+    {
+    }
+
 };
 
 
