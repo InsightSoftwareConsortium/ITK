@@ -147,8 +147,8 @@ SpatialSampleContainer& samples )
     {
     // if all the samples mapped to the outside throw an exception
     ExceptionObject err(__FILE__, __LINE__);
-    err.SetLocation( "MutualInformationImageToImageMetric" );
-    err.SetDescription( "All the sampled point mapped to outside of the reference image" );
+    err.SetLocation( "SampleFixedImageDomain()" );
+    err.SetDescription( "All the sampled point mapped to outside of the moving image" );
     throw err;
     }
 
@@ -181,8 +181,8 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   this->SampleFixedImageDomain( m_SampleB );
 
   // calculate the mutual information
-  double dLogSumTarget = 0.0;
-  double dLogSumRef    = 0.0;
+  double dLogSumFixed = 0.0;
+  double dLogSumMoving    = 0.0;
   double dLogSumJoint  = 0.0;
 
   typename SpatialSampleContainer::const_iterator aiter;
@@ -192,31 +192,31 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   for( biter = m_SampleB.begin() ; biter != bend; ++biter )
     {
-    double dSumTarget  = m_MinProbability;
-    double dSumRef     = m_MinProbability;
+    double dSumFixed  = m_MinProbability;
+    double dSumMoving     = m_MinProbability;
     double dSumJoint   = m_MinProbability;
 
     for( aiter = m_SampleA.begin() ; aiter != aend; ++aiter )
       {
-      double valueTarget;
-      double valueRef;
+      double valueFixed;
+      double valueMoving;
 
-      valueTarget = ( (*biter).FixedImageValue - (*aiter).FixedImageValue ) /
+      valueFixed = ( (*biter).FixedImageValue - (*aiter).FixedImageValue ) /
         m_FixedImageStandardDeviation;
-      valueTarget = m_KernelFunction->Evaluate( valueTarget );
+      valueFixed = m_KernelFunction->Evaluate( valueFixed );
 
-      valueRef = ( (*biter).MovingImageValue - (*aiter).MovingImageValue ) /
+      valueMoving = ( (*biter).MovingImageValue - (*aiter).MovingImageValue ) /
         m_MovingImageStandardDeviation;
-      valueRef = m_KernelFunction->Evaluate( valueRef );
+      valueMoving = m_KernelFunction->Evaluate( valueMoving );
 
-      dSumTarget += valueTarget;
-      dSumRef    += valueRef;
-      dSumJoint  += valueTarget * valueRef;
+      dSumFixed += valueFixed;
+      dSumMoving    += valueMoving;
+      dSumJoint  += valueFixed * valueMoving;
 
       } // end of sample A loop
 
-    dLogSumTarget -= log( dSumTarget );
-    dLogSumRef    -= log( dSumRef );
+    dLogSumFixed -= log( dSumFixed );
+    dLogSumMoving    -= log( dSumMoving );
     dLogSumJoint  -= log( dSumJoint );
 
     } // end of sample B loop
@@ -224,18 +224,18 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   double nsamp   = double( m_NumberOfSpatialSamples );
 
   double threshold = -0.5 * nsamp * log( m_MinProbability );
-  if( dLogSumRef > threshold || dLogSumTarget > threshold ||
+  if( dLogSumMoving > threshold || dLogSumFixed > threshold ||
       dLogSumJoint > threshold  )
     {
     // at least half the samples in B did not occur within
     // the Parzen window width of samples in A
     ExceptionObject err(__FILE__, __LINE__);
-    err.SetLocation( "MutualInformationImageToImageMetric" );
+    err.SetLocation( "GetValue()" );
     err.SetDescription( "Standard deviation is too small" );
     throw err;
     }
 
-  m_MatchMeasure = dLogSumTarget + dLogSumRef - dLogSumJoint;
+  m_MatchMeasure = dLogSumFixed + dLogSumMoving - dLogSumJoint;
   m_MatchMeasure /= nsamp;
   m_MatchMeasure += log( nsamp );
 
@@ -285,8 +285,8 @@ DerivativeType& derivative)
 
 
   // calculate the mutual information
-  double dLogSumTarget = 0.0;
-  double dLogSumRef    = 0.0;
+  double dLogSumFixed = 0.0;
+  double dLogSumMoving    = 0.0;
   double dLogSumJoint  = 0.0;
 
   typename SpatialSampleContainer::iterator aiter;
@@ -315,33 +315,33 @@ DerivativeType& derivative)
 
   for( biter = m_SampleB.begin(); biter != bend; ++biter )
     {
-    double dDenominatorRef = m_MinProbability;
+    double dDenominatorMoving = m_MinProbability;
     double dDenominatorJoint = m_MinProbability;
 
-    double dSumTarget = m_MinProbability;
+    double dSumFixed = m_MinProbability;
 
     for( aiter = m_SampleA.begin(); aiter != aend; ++aiter )
       {
-      double valueTarget;
-      double valueRef;
+      double valueFixed;
+      double valueMoving;
 
-      valueTarget = ( (*biter).FixedImageValue - (*aiter).FixedImageValue )
+      valueFixed = ( (*biter).FixedImageValue - (*aiter).FixedImageValue )
         / m_FixedImageStandardDeviation;
-      valueTarget = m_KernelFunction->Evaluate( valueTarget );
+      valueFixed = m_KernelFunction->Evaluate( valueFixed );
 
-      valueRef = ( (*biter).MovingImageValue - (*aiter).MovingImageValue )
+      valueMoving = ( (*biter).MovingImageValue - (*aiter).MovingImageValue )
         / m_MovingImageStandardDeviation;
-      valueRef = m_KernelFunction->Evaluate( valueRef );
+      valueMoving = m_KernelFunction->Evaluate( valueMoving );
 
-      dDenominatorRef += valueRef;
-      dDenominatorJoint += valueRef * valueTarget;
+      dDenominatorMoving += valueMoving;
+      dDenominatorJoint += valueMoving * valueFixed;
 
-      dSumTarget += valueTarget;
+      dSumFixed += valueFixed;
 
       } // end of sample A loop
 
-    dLogSumTarget -= log( dSumTarget );
-    dLogSumRef    -= log( dDenominatorRef );
+    dLogSumFixed -= log( dSumFixed );
+    dLogSumMoving    -= log( dDenominatorMoving );
     dLogSumJoint  -= log( dDenominatorJoint );
 
     // get the image derivative for this B sample
@@ -350,24 +350,24 @@ DerivativeType& derivative)
     for( aiter = m_SampleA.begin(), aditer = sampleADerivatives.begin();
       aiter != aend; ++aiter, ++aditer )
       {
-      double valueTarget;
-      double valueRef;
-      double weightRef;
+      double valueFixed;
+      double valueMoving;
+      double weightMoving;
       double weightJoint;
       double weight;
 
-      valueTarget = ( (*biter).FixedImageValue - (*aiter).FixedImageValue ) /
+      valueFixed = ( (*biter).FixedImageValue - (*aiter).FixedImageValue ) /
         m_FixedImageStandardDeviation;
-      valueTarget = m_KernelFunction->Evaluate( valueTarget );
+      valueFixed = m_KernelFunction->Evaluate( valueFixed );
 
-      valueRef = ( (*biter).MovingImageValue - (*aiter).MovingImageValue ) /
+      valueMoving = ( (*biter).MovingImageValue - (*aiter).MovingImageValue ) /
         m_MovingImageStandardDeviation;
-      valueRef = m_KernelFunction->Evaluate( valueRef );
+      valueMoving = m_KernelFunction->Evaluate( valueMoving );
 
-      weightRef = valueRef / dDenominatorRef;
-      weightJoint = valueRef * valueTarget / dDenominatorJoint;
+      weightMoving = valueMoving / dDenominatorMoving;
+      weightJoint = valueMoving * valueFixed / dDenominatorJoint;
 
-      weight = ( weightRef - weightJoint );
+      weight = ( weightMoving - weightJoint );
       weight *= (*biter).MovingImageValue - (*aiter).MovingImageValue;
 
       m_MatchMeasureDerivatives += ( derivB - (*aditer) ) * weight;
@@ -380,18 +380,18 @@ DerivativeType& derivative)
   double nsamp    = double( m_NumberOfSpatialSamples );
 
   double threshold = -0.5 * nsamp * log( m_MinProbability );
-  if( dLogSumRef > threshold || dLogSumTarget > threshold ||
+  if( dLogSumMoving > threshold || dLogSumFixed > threshold ||
       dLogSumJoint > threshold  )
     {
     // at least half the samples in B did not occur within
     // the Parzen window width of samples in A
     ExceptionObject err(__FILE__, __LINE__);
-    err.SetLocation( "MutualInformationImageToImageMetric" );
+    err.SetLocation( "GetValueAndDerivative()" );
     err.SetDescription( "Standard deviation is too small" );
     throw err;
     }
 
-  m_MatchMeasure  = dLogSumTarget + dLogSumRef - dLogSumJoint;
+  m_MatchMeasure  = dLogSumFixed + dLogSumMoving - dLogSumJoint;
   m_MatchMeasure /= nsamp;
   m_MatchMeasure += log( nsamp );
 
@@ -444,7 +444,7 @@ DerivativeType& derivatives )
   
   /*** FIXME: figure how to do this with the image's PhysicalToIndexTransform.
    Problem: can't GetPhysicalToIndexTransform because it is not const and
-   this metic holds a const reference to the moving image ******/
+   this metic holds a const pointerto the moving image ******/
   MovingImageIndexType mappedIndex; 
   for( unsigned int j = 0; j < MovingImageDimension; j++ )
     {
