@@ -134,7 +134,7 @@ public:
    * the ScalarValueType for a PixelType that only has a vector may be
    * defined to match the vector value type.
    */
-  //typedef typename ScalarTraits<TPixel>::ValueType ScalarValueType;
+  typedef typename ScalarTraits<TPixel>::ValueType ScalarValueType;
 
   /** 
    * Pixel (vector) value typedef support. The vector value is the native
@@ -146,7 +146,7 @@ public:
    * instance, the VectorValueType for a PixelType that only has a scalar may
    * be defined to match the vector value type.
    */
-  //typedef typename VectorTraits<TPixel>::ValueType VectorValueType;
+  typedef typename VectorTraits<TPixel>::ValueType VectorValueType;
 
   /**
    * Dimension of the image.  This enum is used by functions that are
