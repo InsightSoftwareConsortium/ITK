@@ -1040,7 +1040,7 @@ InitializeEssential(int _nDims,
     {
     m_AutoFreeElementData = true;
     MET_SizeOfType(m_ElementType, &i);
-    m_ElementData = calloc(m_Quantity*m_ElementNumberOfChannels, i);
+    m_ElementData = new char[m_Quantity*m_ElementNumberOfChannels*i]; //calloc(m_Quantity*m_ElementNumberOfChannels, i);
     if(m_ElementData == NULL)
       {
       m_AutoFreeElementData = false;
