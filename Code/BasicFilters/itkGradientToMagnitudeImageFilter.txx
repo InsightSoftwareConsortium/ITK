@@ -30,6 +30,8 @@ GradientToMagnitudeImageFilter< TInputImage, TOutputImage >
   InputImagePointer  inputPtr = this->GetInput(0);
   OutputImagePointer outputPtr = this->GetOutput(0);
 
+  // Commented out per Lydia's instructions
+  /*
   // Make sure we're getting everything
   inputPtr->SetRequestedRegionToLargestPossibleRegion();
 
@@ -48,6 +50,10 @@ GradientToMagnitudeImageFilter< TInputImage, TOutputImage >
   outputPtr->SetBufferedRegion( outputRegion );
   outputPtr->SetRequestedRegion( outputRegion );
   outputPtr->Allocate();
+  */
+
+  outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
+  outputPtr->Allocate();
 
   // Create an iterator that will walk the output region
   typedef ImageRegionIterator<TOutputImage> OutputIterator;
@@ -59,22 +65,11 @@ GradientToMagnitudeImageFilter< TInputImage, TOutputImage >
   // to an output pixel
   typename TOutputImage::IndexType index;
 
-  const double* origin;
-  const double* spacing;
-
-  // Get the origin and spacing from the input image
-  origin = inputPtr->GetOrigin();
-  spacing = inputPtr->GetSpacing();
-
-  // Set the origin and spacing of the output image
-  outputPtr->SetOrigin(origin);
-  outputPtr->SetSpacing(spacing);
-
-  double acc = 0;
-
   // walk the output image, and sample the input image
   for ( ; !outIt.IsAtEnd(); ++outIt)
     {
+    double acc = 0;
+
     // determine the index of the output pixel
     index = outIt.GetIndex();
 
