@@ -78,12 +78,7 @@ public:
   /** 
   * Return a pointer to the point object.
   */
-  PointType * GetPointerToCenterLinePoint( void );
-
-  /** 
-  * Return a reference to the point object.
-  */
-  PointType & GetReferenceToCenterLinePoint( void );
+  PointType GetCenterLinePoint( void );
 
   /** 
   * Set the point object. Couldn't use macros for these methods.
@@ -179,7 +174,7 @@ protected:
   /** A unique ID assigned to this tubepoint */
   unsigned int m_ID;
 
-  PointType * m_X;
+  PointType m_X;
   VectorType * m_T;
   VectorType * m_V1;
   VectorType * m_V2;

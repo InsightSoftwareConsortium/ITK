@@ -39,7 +39,6 @@ namespace itk
   {
     CommonConstruction();
     m_NumDimensions = numDimensions;
-    m_X = new PointType;
     m_T = new VectorType(m_NumDimensions);
     m_V1 = new VectorType(m_NumDimensions);
     m_V2 = new VectorType(m_NumDimensions);
@@ -48,7 +47,6 @@ namespace itk
   TubePoint
   ::~TubePoint() 
   {
-    delete m_X;
     delete m_T;
     delete m_V1;
     delete m_V2;
@@ -166,18 +164,11 @@ namespace itk
     return m_NumDimensions;
   }
 
-  TubePoint::PointType * 
+  TubePoint::PointType 
   TubePoint
-  ::GetPointerToCenterLinePoint( void ) 
+  ::GetCenterLinePoint( void ) 
   {
     return m_X;
-  }
-
-  TubePoint::PointType & 
-  TubePoint
-  ::GetReferenceToCenterLinePoint( void ) 
-  {
-    return *m_X;
   }
 
   // n-D case
@@ -185,7 +176,7 @@ namespace itk
   TubePoint
   ::SetCenterLinePoint( const PointType & newX ) 
   {
-    *m_X = newX;
+    m_X = newX;
   }
 
   // 3-D case
@@ -193,9 +184,9 @@ namespace itk
   TubePoint
   ::SetCenterLinePoint( const double x0, const double x1, const double x2 ) 
   {
-    (* m_X) [0] = x0;
-    (* m_X) [1] = x1;
-    (* m_X) [2] = x2;
+    m_X[0] = x0;
+    m_X[1] = x1;
+    m_X[2] = x2;
   }
 
   // 2-D case
@@ -203,8 +194,8 @@ namespace itk
   TubePoint
   ::SetCenterLinePoint( const double x0, const double x1 ) 
   {
-    (* m_X) [0] = x0;
-    (* m_X) [1] = x1;
+    m_X[0] = x0;
+    m_X[1] = x1;
   }
 
   TubePoint::VectorType * 
@@ -227,9 +218,9 @@ namespace itk
   TubePoint
   ::SetTangent( const double t0, const double t1, const double t2 ) 
   {
-    (* m_T) [0] = t0;
-    (* m_T) [1] = t1;
-    (* m_T) [2] = t2;
+    (* m_T) (0) = t0;
+    (* m_T) (1) = t1;
+    (* m_T) (2) = t2;
   }
 
   // 2-D case
@@ -237,8 +228,8 @@ namespace itk
   TubePoint
   ::SetTangent( const double t0, const double t1 ) 
   {
-    (* m_T) [0] = t0;
-    (* m_T) [1] = t1;
+    (* m_T) (0) = t0;
+    (* m_T) (1) = t1;
   }
 
   TubePoint::VectorType * 
@@ -261,9 +252,9 @@ namespace itk
   TubePoint
   ::SetV1( const double v10, const double v11, const double v12 ) 
   {
-    (* m_V1) [0] = v10;
-    (* m_V1) [1] = v11;
-    (* m_V1) [2] = v12;
+    (* m_V1) (0) = v10;
+    (* m_V1) (1) = v11;
+    (* m_V1) (2) = v12;
   }
 
   // 2-D case
@@ -271,8 +262,8 @@ namespace itk
   TubePoint
   ::SetV1( const double v10, const double v11 ) 
   {
-    (* m_V1) [0] = v10;
-    (* m_V1) [1] = v11;
+    (* m_V1) (0) = v10;
+    (* m_V1) (1) = v11;
   }
 
   TubePoint::VectorType * 
@@ -295,9 +286,9 @@ namespace itk
   TubePoint
   ::SetV2( const double v20, const double v21, const double v22 ) 
   {
-    (* m_V2) [0] = v20;
-    (* m_V2) [1] = v21;
-    (* m_V2) [2] = v22;
+    (* m_V2) (0) = v20;
+    (* m_V2) (1) = v21;
+    (* m_V2) (2) = v22;
   }
 
   // 2-D case
@@ -305,8 +296,8 @@ namespace itk
   TubePoint
   ::SetV2( const double v20, const double v21 ) 
   {
-    (* m_V2) [0] = v20;
-    (* m_V2) [1] = v21;
+    (* m_V2) (0) = v20;
+    (* m_V2) (1) = v21;
   }
 
   float 
@@ -379,7 +370,7 @@ namespace itk
     m_Branchness = rhs.m_Branchness;
     m_Mark = rhs.m_Mark;
     m_NumDimensions = rhs.m_NumDimensions;
-    * m_X = * (rhs.m_X);
+    m_X = rhs.m_X;
     * m_T = * (rhs.m_T);
 
     return * this;
