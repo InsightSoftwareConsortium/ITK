@@ -22,6 +22,7 @@ king:Brad King:brad.king@kitware.com
 lawcc:Charles Law:charles.law@kitware.com
 lng:Lydia Ng:lng@insightful.com
 lorensen:Bill Lorensen:lorensen@crd.ge.com
+mackelfr:Andrew MacKelfresh:mackelfr@rad.unc.edu
 montillo:Albert Montillo:montillo@gradient.cis.upenn.edu
 martink:Ken Martin:ken.martin@kitware.com
 millerjv:Jim Miller:millerjv@crd.ge.com
