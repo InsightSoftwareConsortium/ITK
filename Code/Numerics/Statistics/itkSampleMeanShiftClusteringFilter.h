@@ -25,8 +25,16 @@ namespace itk{
 namespace Statistics{
   
 /** \class SampleMeanShiftClusteringFilter
- * \brief Calculates the covariance matrix of the target sample data.
+ * \brief This filter create a cluster map from an input sample.
  *
+ * The clustering process is done by linking measurement vectors whose
+ * distance is below the threshold value set by the SetThreshold
+ * method. However, if the resulting cluster size is below the minimum
+ * number of measurement vectors set by the MinimumClusterSize
+ * method. Such measurement vectors are clustered together and
+ * labelled zero. 
+ *
+ * \sa SampleMeanShiftBlurringFilter, SampleSelectiveMeanShiftBlurringFilter
  */
 
 template< class TSample >
@@ -56,9 +64,6 @@ public:
   itkSetMacro(MinimumClusterSize, unsigned long) ;
   itkGetMacro(MinimumClusterSize, unsigned long) ;
 
-  /** Returns the covariance matrix of the target sample data */ 
-  MeasurementVectorType Evolve(MeasurementVectorType instance) ;
-  
   ClusterLabelsType& GetOutput()
   { return m_Output ; }
 
