@@ -17,6 +17,7 @@
 #define __itkArray_h
 
 #include "itkMacro.h"
+#include "itkConceptChecking.h"
 
 namespace itk
 {
