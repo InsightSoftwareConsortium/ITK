@@ -71,7 +71,7 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
 
   // try changing the spacing on the output to test the sorting on
   // physical size
-  ChangeFilterType::ArrayType changeSpacing;
+  ChangeFilterType::SpacingType changeSpacing;
   changeSpacing[0] = 1;
   changeSpacing[1] = 0.5;
   change->SetInput( reader->GetOutput() );
