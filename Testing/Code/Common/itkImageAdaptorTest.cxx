@@ -72,7 +72,7 @@ int main() {
   myImageType::PixelType  color( 1.0, 0.5, 0.5 );
   
   // Initializing all the pixel in the image
-  it1.Begin();
+  it1.GoToBegin();
   while( !it1.IsAtEnd() )
   {
     it1.Set(color);
@@ -81,7 +81,7 @@ int main() {
 
   // Reading the values to verify the image content
   std::cout << "--- Before --- " << std::endl;
-  it1.Begin();
+  it1.GoToBegin();
   while( !it1.IsAtEnd() )
   {
     const myImageType::PixelType c( it1.Get() );
@@ -100,7 +100,7 @@ int main() {
   myRedIteratorType  it2( myAdaptor, myAdaptor->GetRequestedRegion() );
 
   // Set the values of the Red component of myImage, using myAdaptor
-  it2.Begin();
+  it2.GoToBegin();
   while( !it2.IsAtEnd() )
   {
     it2.Set( 0.4 );
@@ -110,7 +110,7 @@ int main() {
 
   std::cout << "--- After --- " << std::endl;
 
-  it1.Begin();
+  it1.GoToBegin();
   while( !it1.IsAtEnd() )
   {
     const myImageType::PixelType c( it1.Get() );
