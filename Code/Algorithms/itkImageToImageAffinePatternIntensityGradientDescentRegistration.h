@@ -80,7 +80,7 @@ public:
    */
    typedef AffineTransform<
                             double, 
-                            ReferenceType::ImageDimension, 
+                            ReferenceType::ImageDimension 
                                                   > TransformationType;
 
 	/**
@@ -92,10 +92,15 @@ public:
   /**
    * Image Dimensions
    */
-   enum {ImageDimension = ReferenceType::ImageDimension,
-         ParametersDimension = TransformationType::ParametersDimension }; 
+   enum { ImageDimension = ReferenceType::ImageDimension }; 
 
 
+  /**
+   * Parameters Dimensions
+   */
+   enum { ParametersDimension = TransformationType::ParametersDimension }; 
+
+ 
   /**
    *  Type of the Mapper
    */
@@ -237,7 +242,7 @@ public:
    /** 
     *  Dimension of the images
     */
-   enum { ImageDimension = TTarget::ImageDimension };
+   enum { ImageDimension = ReferenceType::ImageDimension };
 
 
 

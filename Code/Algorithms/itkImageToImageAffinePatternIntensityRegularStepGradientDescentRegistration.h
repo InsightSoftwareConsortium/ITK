@@ -75,18 +75,13 @@ public:
    typedef TTarget TargetType;
 
 
-  /**
-   *  Type of the parameters
-   */
-   typedef Point<double,ParametersDimension>   ParametersType;
-
 
   /**
    *  Type of the Transformation
    */
    typedef AffineTransform<
                             double, 
-                             ReferenceType::ImageDimension, 
+                             ReferenceType::ImageDimension 
                                                       > TransformationType;
 	/**
    *  Type of the parameters
@@ -97,8 +92,14 @@ public:
   /**
    * Image Dimensions
    */
-   enum {ImageDimension = ReferenceType::ImageDimension,
-         ParametersDimension = TransformationType::ParametersDimension }; 
+   enum { ImageDimension = ReferenceType::ImageDimension }; 
+
+
+  /**
+   * Parameters Dimensions
+   */
+   enum { ParametersDimension = TransformationType::ParametersDimension }; 
+
 
   /**
    *  Type of the Mapper
@@ -241,7 +242,7 @@ public:
    /** 
     *  Dimension of the images
     */
-   enum { ImageDimension = TTarget::ImageDimension };
+   enum { ImageDimension = ReferenceType::ImageDimension };
 
 
 
