@@ -84,7 +84,7 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>
 } 
 
 template<class TInputImage, class TOutputImage, class TKernel>
-BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::RegionType
+void
 BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
