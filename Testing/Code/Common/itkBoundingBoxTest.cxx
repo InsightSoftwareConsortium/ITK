@@ -172,6 +172,25 @@ int itkBoundingBoxTest (int, char*[])
     return EXIT_FAILURE;
     }
 
+  // Testing the corners
+  std::cout << "Testing GetCorners() : ";
+  const CC::PointsContainer * corners = my3DBox->GetCorners();
+  CC::PointsContainer::const_iterator it = corners->begin();
+  unsigned int j=0;
+  while(it != corners->end())
+    {      
+    for(unsigned int i=0; i<3;i++)
+      {
+      if((*it)[i] != pow(-1,j/(int(pow(2,i)))))
+        {
+        std::cout << "[FAILED]" << std::endl;
+        return EXIT_FAILURE;
+        }
+      } 
+    j++;
+    ++it;
+    }
+  std::cout << "[PASSED]" << std::endl;
 
   std::cout << "BoundingBox test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
