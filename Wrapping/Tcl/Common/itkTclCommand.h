@@ -76,8 +76,8 @@ public:
   Tcl_Interp* GetInterpreter() const;
   void SetCommandString(const char*);
   const char* GetCommandString() const;
-  void Execute(LightObject*, unsigned long);
-  void Execute(const LightObject*, unsigned long);
+  void Execute(Object*, unsigned long);
+  void Execute(const Object*, unsigned long);
 
 protected:
   TclCommand();
