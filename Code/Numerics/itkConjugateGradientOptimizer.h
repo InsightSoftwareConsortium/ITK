@@ -77,8 +77,6 @@ public:
  
   /**
    * Start optimization with an initial value
-   * (it cannot be const VectorType because vnl_ layer
-   * uses a non-const reference
    */
   void StartOptimization( VectorType & );
  
