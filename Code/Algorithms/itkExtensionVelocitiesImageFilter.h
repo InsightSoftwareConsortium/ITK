@@ -103,13 +103,15 @@ public:
   typedef typename AuxVarType::AuxImageType AuxImageType;
   typedef typename AuxVarType::AuxImagePointer AuxImagePointer;
 
-  /** Get one of the extended velocity images. */
-  AuxImagePointer GetVelocityImage( unsigned int idx = 0) const
-    { if( idx >= VAuxDimension ) return NULL;
-    return m_OutputAuxImage[idx]; }
+  /** Number of velocity images to be extended. */
+  enum { AuxDimension = VAuxDimension };
 
-  /** Set one of the input velocity images to be extended. */
-  void SetVelocityImage(AuxImageType * ptr, unsigned int idx = 0);
+  /** Set/Get one of the input velocity images to be extended. */
+  void SetInputVelocityImage(AuxImageType * ptr, unsigned int idx = 0);
+  AuxImagePointer GetInputVelocityImage(unsigned int idx = 0);
+
+  /** Get one of the extended velocity images. */
+  AuxImagePointer GetOutputVelocityImage( unsigned int idx = 0 );
 
 protected:
   ExtensionVelocitiesImageFilter();
@@ -131,10 +133,8 @@ private:
   typedef FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension> 
     FastMarchingImageFilterType;
 
-  typename LocatorType::Pointer         m_Locator;
+  typename LocatorType::Pointer                    m_Locator;
   typename FastMarchingImageFilterType::Pointer    m_Marcher;
-  AuxImagePointer                       m_InputAuxImage[VAuxDimension];
-  AuxImagePointer                       m_OutputAuxImage[VAuxDimension];
 
 };
 

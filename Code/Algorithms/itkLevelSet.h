@@ -53,8 +53,12 @@ namespace itk
  * \class LevelSetNode
  * \brief Represent a node in a level set.
  *
- * LevelSetNode is a simple templated class that represents a node in a level
- * set.  LevelSetNode is templated over the data type and dimension of the
+ * LevelSetNode is a simple templated class that represents a node 
+ * or grid position of a level set. A group or collection of
+ * LevelSetNode can then be used to represents a narrowband or
+ * region of interest.  
+ *
+ * LevelSetNode is templated over the data type and dimension of the
  * level set.
  *
  * \ingroup LevelSetSegmentation 
@@ -67,21 +71,30 @@ public:
   /** Standard class typedefs. */
   typedef LevelSetNode Self;
 
+  /** Pixel typedef. */
+  typedef TPixel PixelType;
+
+  /** Level set dimension. */
+  enum { SetDimension = VSetDimension };
+
+  /** Index typedef. */
+  typedef Index<SetDimension> IndexType;
+
   /** Operator >. A LevelSetNode is sorted by its value field. */
   bool operator> ( const Self& node ) const
-    { return value > node.value; }
+    { return m_Value > node.m_Value; }
 
   /** Operator <. A LevelSetNode is sorted by its value field. */
   bool operator< ( const Self& node ) const
-    { return value < node.value; }
+    { return m_Value < node.m_Value; }
 
   /** Operator <=. A LevelSetNode is sorted by its value field. */
   bool operator<= ( const Self& node ) const
-    { return value <= node.value; }
+    { return m_Value <= node.m_Value; }
 
   /** Operator >=. A LevelSetNode is sorted by its value field. */
   bool operator>= ( const Self& node ) const
-    { return value >= node.value; }
+    { return m_Value >= node.m_Value; }
 
   /** Operator =. Two nodes are equal if both their value and index fields
    * are the same. */
@@ -89,13 +102,27 @@ public:
     {
       if( this == &rhs ) {return *this;}
   
-      value = rhs.value;
-      index = rhs.index;
+      m_Value = rhs.m_Value;
+      m_Index = rhs.m_Index;
       return *this;
     }
 
-  TPixel                     value;
-  Index<VSetDimension>       index;
+  /** Get/Set level set value. */
+  PixelType& GetValue()
+    { return m_Value; };
+  void SetValue( const PixelType& input )
+    { m_Value = input; };
+
+  /** Get/Set index. */
+  IndexType& GetIndex()
+    { return m_Index; }
+  void SetIndex( const IndexType& input )
+    { m_Index = input; };
+  
+
+private:
+  PixelType       m_Value;
+  IndexType       m_Index;
   
 };
 
@@ -105,6 +132,10 @@ public:
  * LevelSetTypeDefault is a simple class that holds type information
  * useful for level set algorithms. This class is templated over the
  * level set image type.
+ *
+ * A NodeContainer contains a group or collection of level set 
+ * node or grid points useful for representing a narrowband or
+ * region of interest.
  *
  * \ingroup LevelSetSegmentation 
  */
@@ -142,6 +173,11 @@ public:
  * for auxiliary variables in some level set algorithms. This class is templated
  * over the auxiliary variable data type, the number of auxiliary variables
  * and the level set dimension.
+ *
+ * A AuxValueContainer contains a collection of auxiliary
+ * values vectors. It is used in conjunction with 
+ * LevelSetTypeDefault::NodeContainer to represent auxiliary variable values 
+ * in a group or collection of level set nodes or grid positions.
  *
  * \ingroup LevelSetSegmentation 
  */

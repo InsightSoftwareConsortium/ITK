@@ -50,19 +50,22 @@ namespace itk
 /** \class LevelSetVelocityNeighborhoodExtractor
  * \brief Locate pixels of a particular level set.
  *
- * LevelSetNeighborhoodExtractor locates a particular level set in the input
- * level set. Specifically, the method Locate() fills two containers: one
- * containing pixels immediately inside the contour defined by the level set
- * and the other containing pixels immediately outside.  For each located
- * pixel, an estimated distance to the particular level set is also
- * calculated.
+ * LevelSetVelocityNeighborhoodExtractor extends the functionality of
+ * LevelSetNeighborhoodExtractor by also extracting the values 
+ * of velocity variables at the specified level set. Specifically, 
+ * it populates two containers: one containing the value of velocity 
+ * variables immediately inside the contour defined by the level set and the
+ * other containing values for velocity variables immediately outside.
  *
- * This class also calculates the values of auxiliary variables
- * at located pixel.
+ * The containers AuxInsideValues() and AuxOutsideValues() can
+ * be used in conjunction with Superclass::InsidePoints() and 
+ * Superclass::OutsidePoints() in FastMarchingExtensionImageFilter
+ * to produce images which extends the velocity variables smoothly
+ * from the specified level set.
  *
  * This class is templated over the image type representing
- * the level set, the type of the auxiliary variables and the
- * number of auxiliary variables.
+ * the level set, the type of the auxiliary/velocity variables and the
+ * number of auxiliary/velocity variables.
  *
  * Implemenation of this class is based on Chapter 11 of
  * "Level Set Methods and Fast Marching Methods", J.A. Sethian,
@@ -112,12 +115,26 @@ public:
 
   /** Set the auxiliary images. */
   void SetAuxImage( AuxImageType * ptr, unsigned int idx = 0 )
-  { 
-    if( idx < VAuxDimension )
+    { 
+    if ( idx < VAuxDimension && m_AuxImage[idx] != ptr )
       {
       m_AuxImage[idx] = ptr;
       }
-  }
+    this->Modified();
+    }
+
+  /** Get the auxiliary images. */
+  AuxImagePointer GetAuxImage( unsigned int idx = 0 )
+    {
+    if ( idx >= VAuxDimension ) 
+      { 
+      return NULL; 
+      }
+    else 
+      { 
+      return m_AuxImage[idx]; 
+      }
+    }
 
   /** Get the container of auxiliary values associated with the inside
    *  points. */

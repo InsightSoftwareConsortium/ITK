@@ -80,9 +80,8 @@ int main()
 
   FloatImage::OffsetType offset0 = {{28,35}};
   
-  node.value = 0.0;
-  node.index += offset0;
-  node.index = itk::Index<2>::ZeroIndex + offset0;
+  node.SetValue( 0.0 );
+  node.SetIndex( itk::Index<2>::ZeroIndex + offset0 );
   trialPoints->InsertElement(0, node);
   
   marcher->SetTrialPoints( trialPoints );

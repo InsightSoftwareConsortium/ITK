@@ -56,6 +56,10 @@ namespace itk
  * pixel, an estimated distance to the particular level set is also
  * calculated.
  *
+ * The containers InsidePoints and OutsidePoints can then be used 
+ * in FastMarchingImageFilter to produce a signed distance map from 
+ * the specified level set.
+ *
  * This class is templated over the image type representing
  * the level set.
  *
@@ -103,10 +107,10 @@ public:
   typedef Index<SetDimension> IndexType;
 
   /** Set the input level set. */
-  void SetInput( TLevelSet * ptr );
+  itkSetObjectMacro( InputLevelSet, LevelSetImageType );
 
   /** Get the input level set. */
-  LevelSetPointer GetInput();
+  itkGetObjectMacro( InputLevelSet, LevelSetImageType );
 
   /** Set the value of the level set to be located. Default is 0. */
   itkSetMacro( LevelSetValue, double );
@@ -128,9 +132,10 @@ public:
   itkGetMacro( NarrowBanding, bool );
   itkBooleanMacro( NarrowBanding );
 
-  /** Set the input narrowband. A narrowband is represented as
+  /** Set/Get the input narrowband. A narrowband is represented as
    * a VectorContainer of LevelSetNodes. */
   void SetInputNarrowBand( NodeContainer * ptr );
+  itkGetObjectMacro( InputNarrowBand, NodeContainer );
 
   /** Get the container of inside points. The inside points are
    * stored in a VectorContainer of LevelSetNodes. */

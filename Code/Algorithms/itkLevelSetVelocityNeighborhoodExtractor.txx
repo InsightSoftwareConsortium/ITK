@@ -45,6 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
+
 /**
  *
  */
@@ -56,6 +57,7 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension>
   
 }
 
+
 /**
  *
  */
@@ -66,9 +68,15 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Locate level set with auxiliary variable extension" 
-    << std::endl;
+  os << indent << "Input aux image: [";
+  int j;
+  for( j = 0; j < VAuxDimension - 1; j++ )
+    {
+    os << m_AuxImage[j].GetPointer() << ", ";
+    }
+  os << m_AuxImage[j].GetPointer() << "]";
 }
+
 
 /**
  *
@@ -87,6 +95,7 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension>
 
 }
 
+
 /**
  *
  */
@@ -99,15 +108,15 @@ Index& index)
 {
   double distance = this->Superclass::CalculateDistance( index );
   if( distance >= this->GetLargeValue() )
-  {
+    {
     return distance;
-  }
+    }
 
   // is this an inside or outside point
   double pixelValue;
   PixelType inputPixel;
 
-  inputPixel = (this->GetInput())->GetPixel( index );
+  inputPixel = (this->GetInputLevelSet())->GetPixel( index );
   pixelValue = (double) inputPixel;
   pixelValue -= this->GetLevelSetValue();
 
@@ -117,14 +126,14 @@ Index& index)
   AuxValueVectorType auxVector;
 
   for( unsigned int k = 0; k < VAuxDimension; k++ )
-  {
+    {
     auxPixel = m_AuxImage[k]->GetPixel( index );
     centerValue[k] = (double) auxPixel;
-  }
+    }
 
   // if distance is zero, insert point in inside container
   if( distance == 0.0 )
-  {
+    {
     for( unsigned int k = 0; k < VAuxDimension; k++ )
       {
       auxVector[k] = centerValue[k];
@@ -133,16 +142,16 @@ Index& index)
     m_AuxInsideValues->InsertElement( m_AuxInsideValues->Size(), auxVector );
     
     return distance;
-  }
+    }
 
   double denom = 0.0;
   double numer[VAuxDimension];
   NodeType neighNode;
 
   for( unsigned int k = 0; k < VAuxDimension; k++ )
-  {
+    {
     numer[k] = 0.0;
-  }
+    }
 
 
  // The extend velcoity value is a weighted value of
@@ -154,38 +163,38 @@ Index& index)
  // crossing.
 
   for( int j = 0; j < SetDimension; j++ )
-  {
+    {
     neighNode = this->GetNodeUsedInCalculation(j);
-    if( neighNode.value >= this->GetLargeValue() )
-    {
+    if( neighNode.GetValue() >= this->GetLargeValue() )
+      {
       break;
-    }
+      }
 
-    denom += 1.0 / vnl_math_sqr( neighNode.value );
+    denom += 1.0 / vnl_math_sqr( neighNode.GetValue() );
     for( unsigned int k = 0; k < VAuxDimension; k++ )
-    {
-      auxPixel = m_AuxImage[k]->GetPixel( neighNode.index );
-      numer[k] += (double) ( auxPixel ) / vnl_math_sqr( neighNode.value );
-    }
+      {
+      auxPixel = m_AuxImage[k]->GetPixel( neighNode.GetIndex() );
+      numer[k] += (double) ( auxPixel ) / vnl_math_sqr( neighNode.GetValue() );
+      }
 
-  }
+    }
 
   for( unsigned int k = 0; k < VAuxDimension; k++ )
-  {
+    {
     numer[k] /= denom;
     auxVector[k] = numer[k];
-  }
+    }
 
   if( inside )
-  {
+    {
     m_AuxInsideValues->InsertElement( 
       m_AuxInsideValues->Size(), auxVector );
-  }
+    }
   else
-  {
+    {
     m_AuxOutsideValues->InsertElement( 
       m_AuxOutsideValues->Size(), auxVector );
-  }
+    }
 
   return distance;
 

@@ -159,7 +159,18 @@ DataObject *output )
   TLevelSet * imgData;
 
   imgData = dynamic_cast<TLevelSet*>( output );
-  imgData->SetRequestedRegionToLargestPossibleRegion();
+  if ( imgData )
+    {
+    imgData->SetRequestedRegionToLargestPossibleRegion();
+    }
+  else
+    {
+    // Pointer could not be cast to TLevelSet *
+    itkWarningMacro(<< "itk::FastMarchingImageFilter" <<
+              "::EnlargeOutputRequestedRegion cannot cast "
+              << typeid(output).name() << " to "
+              << typeid(TLevelSet*).name() );    
+    }
 
 }
 
@@ -235,7 +246,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
       bool inRange = true;
       for ( int j = 0; j < SetDimension; j++ )
         {
-        if ( node.index[j] > (signed long) m_OutputSize[j] )
+        if ( node.GetIndex()[j] > (signed long) m_OutputSize[j] )
           {
           inRange = false;
           break;
@@ -244,10 +255,10 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
       if ( !inRange ) continue;
 
       // make this an alive point
-      m_LabelImage->SetPixel( node.index, AlivePoint );
+      m_LabelImage->SetPixel( node.GetIndex(), AlivePoint );
 
-      outputPixel = node.value;
-      output->SetPixel( node.index, outputPixel );
+      outputPixel = node.GetValue();
+      output->SetPixel( node.GetIndex(), outputPixel );
 
       }
     }
@@ -276,7 +287,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
       bool inRange = true;
       for ( int j = 0; j < SetDimension; j++ )
       {
-       if( node.index[j] > (signed long) m_OutputSize[j] )
+       if( node.GetIndex()[j] > (signed long) m_OutputSize[j] )
         {
         inRange = false;
         break;
@@ -285,10 +296,10 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
       if ( !inRange ) continue;
 
       // make this a trail point
-      m_LabelImage->SetPixel( node.index, TrialPoint );
+      m_LabelImage->SetPixel( node.GetIndex(), TrialPoint );
 
-      outputPixel = node.value;
-      output->SetPixel( node.index, outputPixel );
+      outputPixel = node.GetValue();
+      output->SetPixel( node.GetIndex(), outputPixel );
 
       m_TrialHeap.push( node );
 
@@ -334,16 +345,16 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
     if ( this->GetDebug() ) { NumPoints++; }
 
     // does this node contain the current value ?
-    currentValue = (double) output->GetPixel( node.index );
+    currentValue = (double) output->GetPixel( node.GetIndex() );
 
-    if ( node.value != currentValue )
+    if ( node.GetValue() != currentValue )
       {
       if( this->GetDebug() ) { InvalidPoints++; }
       continue;
       } 
 
     // is this node already alive ?
-    if ( m_LabelImage->GetPixel( node.index ) != TrialPoint ) 
+    if ( m_LabelImage->GetPixel( node.GetIndex() ) != TrialPoint ) 
       {
       if( this->GetDebug() ) { InvalidPoints++; }
       continue;
@@ -357,7 +368,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 
     if ( this->GetDebug() && currentValue < oldValue) 
       {
-      itkDebugMacro(<< "error value decrease at:" << node.index );
+      itkDebugMacro(<< "error value decrease at:" << node.GetIndex() );
       }
     oldValue = currentValue;
 
@@ -367,10 +378,10 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
       }
     
     // set this node as alive
-    m_LabelImage->SetPixel( node.index, AlivePoint );
+    m_LabelImage->SetPixel( node.GetIndex(), AlivePoint );
 
     // update its neighbors
-    this->UpdateNeighbors( node.index, speedImage, output );
+    this->UpdateNeighbors( node.GetIndex(), speedImage, output );
 
     }
   
@@ -440,7 +451,7 @@ LevelSetImageType * output )
 
   for ( int j = 0; j < SetDimension; j++ )
   {
-    node.value = m_LargeValue;
+    node.SetValue( m_LargeValue );
 
     // find smallest valued neighbor in this dimension
     for( int s = -1; s < 2; s = s + 2 )
@@ -458,10 +469,10 @@ LevelSetImageType * output )
         outputPixel = output->GetPixel( neighIndex );
         neighValue = outputPixel ;
 
-        if( node.value > neighValue )
+        if( node.GetValue() > neighValue )
         {
-          node.value = neighValue;
-          node.index = neighIndex;
+          node.SetValue( neighValue );
+          node.SetIndex( neighIndex );
         }
       }
 
@@ -501,11 +512,11 @@ LevelSetImageType * output )
   {
     node = m_NodesUsed[j];
 
-    if ( solution >= node.value )
+    if ( solution >= node.GetValue() )
     {
       aa += 1.0;
-      bb += node.value;
-      cc += vnl_math_sqr( node.value );
+      bb += node.GetValue();
+      cc += vnl_math_sqr( node.GetValue() );
 
       discrim = vnl_math_sqr( bb ) - aa * cc;
       if ( discrim < 0.0 )
@@ -533,8 +544,8 @@ LevelSetImageType * output )
 
     // insert point into trial heap
   m_LabelImage->SetPixel( index, TrialPoint );
-  node.value = solution;
-  node.index = index;
+  node.SetValue( solution );
+  node.SetIndex( index );
   m_TrialHeap.push( node );
   }
 

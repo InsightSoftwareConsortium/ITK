@@ -54,6 +54,11 @@ namespace itk
  * the approximated signed distance function from a particular 
  * level set. The output is a level set of the same type as the input.
  *
+ * For some level set algorithms, it is useful to periodically
+ * reinitialize the level set function to prevent numerical accuracy
+ * problems in computing derivatives and curvature values where level
+ * sets are densely bunched together.
+ *
  * This class is templated over the image type which represents
  * the level set.
  *
@@ -123,8 +128,8 @@ public:
    * By default, both the input and output are set to 12. */
   void SetNarrowBandwidth( double value )
     {
-      this->SetInputNarrowBandwidth(value);
-      this->SetOutputNarrowBandwidth(value);
+    this->SetInputNarrowBandwidth(value);
+    this->SetOutputNarrowBandwidth(value);
     }
 
   /** Set/Get the input narrowband. */
@@ -144,7 +149,7 @@ protected:
   typedef LevelSetNeighborhoodExtractor<TLevelSet> LocatorType;
   typedef FastMarchingImageFilter<TLevelSet> FastMarchingImageFilterType;
 
-  virtual void GenerateData();
+  void GenerateData();
   virtual void GenerateDataFull();
   virtual void GenerateDataNarrowBand();
   virtual void AllocateOutput();
@@ -161,7 +166,7 @@ private:
   
   double                                m_LevelSetValue;
 
-  typename LocatorType::Pointer         m_Locator;
+  typename LocatorType::Pointer                    m_Locator;
   typename FastMarchingImageFilterType::Pointer    m_Marcher;
 
   bool                                  m_NarrowBanding;

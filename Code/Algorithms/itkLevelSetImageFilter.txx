@@ -83,6 +83,7 @@ LevelSetImageFilter<TLevelSet>
   os << indent << "No. iterations: " << m_NumberOfIterations << std::endl;  
 }
 
+
 /**
  *
  */
@@ -202,11 +203,6 @@ LevelSetImageFilter<TLevelSet>
   // available.
   LevelSetPointer inputPtr = this->GetInput();
 
-  if( !inputPtr )
-    { 
-    throw ExceptionObject(__FILE__, __LINE__);  
-    }
-
   // Define iterators
   typedef
     ImageRegionIterator<LevelSetImageType> IteratorType;
@@ -239,11 +235,6 @@ LevelSetImageFilter<TLevelSet>
   // Replace this by a "DeepCopy" function when
   // available.
   LevelSetPointer outputPtr = this->GetOutput();
-
-  if( !outputPtr )
-    { 
-    throw ExceptionObject(__FILE__, __LINE__);  
-    }
 
   // Define iterators
   typedef

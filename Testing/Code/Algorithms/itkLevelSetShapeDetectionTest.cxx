@@ -68,8 +68,8 @@ int main()
 
   FloatImage::IndexType index0 = {{28,35}};
   
-  node.value = 0.0;
-  node.index = index0;
+  node.SetValue( 0.0 );
+  node.SetIndex( index0 );
   trialPoints->InsertElement(0, node);
   
   marcher->SetTrialPoints( trialPoints );

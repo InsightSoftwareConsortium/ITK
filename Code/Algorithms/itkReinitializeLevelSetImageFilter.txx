@@ -139,7 +139,19 @@ DataObject *output )
   // the buffer
   TLevelSet *imgData;
   imgData = dynamic_cast<TLevelSet*>( output );
-  imgData->SetRequestedRegionToLargestPossibleRegion();
+  if ( imgData )
+    {
+    imgData->SetRequestedRegionToLargestPossibleRegion();
+    }
+  else
+    {
+    // pointer could not be cast to TLevelSet *
+    itkWarningMacro(<< "itk::ReinitializeLevelSetImageFilter" <<
+              "::EnlargeOutputRequestedRegion cannot cast "
+              << typeid(output).name() << " to "
+              << typeid(TLevelSet*).name() );
+
+    }
 
 }
 
@@ -212,10 +224,14 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 
   IteratorType tempIt;
 
+  this->UpdateProgress( 0.0 );
+
   // locate the level set
-  m_Locator->SetInput( inputPtr );
+  m_Locator->SetInputLevelSet( inputPtr );
   m_Locator->SetLevelSetValue( m_LevelSetValue );
   m_Locator->Locate();
+
+  this->UpdateProgress( 0.33 );
 
   // march outward
   m_Marcher->SetTrialPoints( m_Locator->GetOutsidePoints() );
@@ -238,6 +254,8 @@ ReinitializeLevelSetImageFilter<TLevelSet>
     ++outputIt;
     ++tempIt;
     }
+
+  this->UpdateProgress( 0.66 );
 
   // march inward
   m_Marcher->SetTrialPoints( m_Locator->GetInsidePoints() );
@@ -316,9 +334,10 @@ ReinitializeLevelSetImageFilter<TLevelSet>
   // create a new output narrowband container
   m_OutputNarrowBand = NodeContainer::New();
 
+  this->UpdateProgress( 0.0 );
 
   // locate the level set
-  m_Locator->SetInput( inputPtr );
+  m_Locator->SetInputLevelSet( inputPtr );
   m_Locator->SetLevelSetValue( m_LevelSetValue );
 
   if( m_NarrowBanding && m_InputNarrowBand )
@@ -333,6 +352,8 @@ ReinitializeLevelSetImageFilter<TLevelSet>
     }
 
   m_Locator->Locate();
+
+  this->UpdateProgress( 0.33 );
 
   // march outward
   double stoppingValue = ( m_OutputNarrowBandwidth / 2.0 ) + 2.0;
@@ -355,18 +376,20 @@ ReinitializeLevelSetImageFilter<TLevelSet>
   for( ; pointsIt != pointsEnd; ++pointsIt )
     {
     node = pointsIt.Value();
-    inPixel = inputPtr->GetPixel( node.index );
+    inPixel = inputPtr->GetPixel( node.GetIndex() );
     
     value = (double) inPixel;
     if( value - m_LevelSetValue > 0 )
       {
-      inPixel = tempLevelSet->GetPixel( node.index );
-      outputPtr->SetPixel( node.index, inPixel );
+      inPixel = tempLevelSet->GetPixel( node.GetIndex() );
+      outputPtr->SetPixel( node.GetIndex(), inPixel );
       m_OutputNarrowBand->InsertElement( m_OutputNarrowBand->Size(), node );
 
       }
 
   } // end for loop
+
+  this->UpdateProgress( 0.66 );
 
   // march inward
   m_Marcher->SetTrialPoints( m_Locator->GetInsidePoints() );
@@ -379,16 +402,16 @@ ReinitializeLevelSetImageFilter<TLevelSet>
   for( ; pointsIt != pointsEnd; ++pointsIt )
     {
     node = pointsIt.Value();
-    inPixel = inputPtr->GetPixel( node.index );
+    inPixel = inputPtr->GetPixel( node.GetIndex() );
     
     value = (double) inPixel ;
     if( value - m_LevelSetValue <= 0 )
       {
-      inPixel = tempLevelSet->GetPixel( node.index );
+      inPixel = tempLevelSet->GetPixel( node.GetIndex() );
       value = (double) inPixel;
       inPixel =  -1.0 * value;
-      outputPtr->SetPixel( node.index, inPixel );
-      node.value *= -1.0;
+      outputPtr->SetPixel( node.GetIndex(), inPixel );
+      node.SetValue( node.GetValue() * -1.0 );
       m_OutputNarrowBand->InsertElement( m_OutputNarrowBand->Size(), node );
 
       }

@@ -78,6 +78,8 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+  os << indent << "Input level set: " << m_InputLevelSet.GetPointer();
+  os << std::endl;
   os << indent << "Level set value: " << m_LevelSetValue << std::endl;
   os << indent << "Narrow bandwidth: " << m_NarrowBandwidth;
   os << std::endl;
@@ -100,32 +102,6 @@ NodeContainer * ptr )
     m_InputNarrowBand = ptr;
     this->Modified();
     }
-}
-
-/**
- *
- */
-template <class TLevelSet>
-void
-LevelSetNeighborhoodExtractor<TLevelSet>
-::SetInput(TLevelSet *ptr)
-{
-  if( m_InputLevelSet != ptr )
-    {
-    m_InputLevelSet = ptr;
-    this->Modified();
-    }
-}
-
-/**
- *
- */
-template <class TLevelSet>
-LevelSetNeighborhoodExtractor<TLevelSet>::LevelSetPointer
-LevelSetNeighborhoodExtractor<TLevelSet>
-::GetInput()
-{
-  return m_InputLevelSet;
 }
 
 
@@ -154,7 +130,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>
   m_OutsidePoints = NodeContainer::New();
 
   typename TLevelSet::SizeType size =
-    m_InputLevelSet->GetLargestPossibleRegion().GetSize();
+    m_InputLevelSet->GetBufferedRegion().GetSize();
 
   for( int j = 0; j < SetDimension; j++ )
     {
@@ -173,7 +149,10 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 {
   if( !m_InputLevelSet ) 
     { 
-    throw ExceptionObject(__FILE__, __LINE__);
+    ExceptionObject err(__FILE__, __LINE__);
+    err.SetLocation( "GenerateData" );
+    err.SetDescription( "Input level set in NULL" );
+    throw err;
     }
 
   this->Initialize();
@@ -228,7 +207,10 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 {
   if( !m_InputNarrowBand )
     {
-    throw ExceptionObject(__FILE__, __LINE__);
+    ExceptionObject err(__FILE__, __LINE__);
+    err.SetLocation("GenerateDataNarrowBand");
+    err.SetDescription("InputNarrowBand has not been set" );
+    throw err;
     }
 
   typename NodeContainer::ConstIterator pointsIter;
@@ -242,9 +224,9 @@ LevelSetNeighborhoodExtractor<TLevelSet>
   for( ; pointsIter != pointsEnd; ++pointsIter )
     {
     node = pointsIter.Value();
-    if( vnl_math_abs( node.value ) <= maxValue )
+    if( vnl_math_abs( node.GetValue() ) <= maxValue )
       {
-      this->CalculateDistance( node.index );
+      this->CalculateDistance( node.GetIndex() );
       }
     }
 
@@ -267,11 +249,11 @@ IndexType& index)
   centerValue -= m_LevelSetValue;
 
   NodeType centerNode;
-  centerNode.index = index;
+  centerNode.SetIndex( index );
 
   if( centerValue == 0.0 )
     { 
-    centerNode.value = 0.0;
+    centerNode.SetValue( 0.0 );
     m_InsidePoints->InsertElement( m_InsidePoints->Size(), centerNode );
     return 0.0;
     }
@@ -287,7 +269,7 @@ IndexType& index)
   // by linear interpolating along the grid line.
   for( int j = 0; j < SetDimension; j++ )
     {
-    neighNode.value = m_LargeValue;
+    neighNode.SetValue( m_LargeValue );
 
     for( int s = -1; s < 2; s = s + 2 )
       {
@@ -308,10 +290,10 @@ IndexType& index)
         {
          distance = centerValue / ( centerValue - neighValue );
 
-         if( neighNode.value > distance )
+         if( neighNode.GetValue() > distance )
           {
-            neighNode.value = distance;
-            neighNode.index = neighIndex;
+            neighNode.SetValue( distance );
+            neighNode.SetIndex( neighIndex );
           }
         }
 
@@ -335,12 +317,12 @@ IndexType& index)
     {
     neighNode = m_NodesUsed[j];
 
-    if( neighNode.value >= m_LargeValue )
+    if( neighNode.GetValue() >= m_LargeValue )
       { 
       break;
       }
 
-    distance += 1.0 / vnl_math_sqr( neighNode.value );
+    distance += 1.0 / vnl_math_sqr( neighNode.GetValue() );
     }
 
   if( distance == 0.0 )
@@ -349,7 +331,7 @@ IndexType& index)
     }
 
   distance = vnl_math_sqrt( 1.0 / distance );
-  centerNode.value = distance;
+  centerNode.SetValue( distance );
 
   if( inside )
     {

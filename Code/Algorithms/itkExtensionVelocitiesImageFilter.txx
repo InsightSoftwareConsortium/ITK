@@ -56,18 +56,16 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 {
 
   m_Locator = LocatorType::New();
-
   m_Marcher = FastMarchingImageFilterType::New();
 
   this->ProcessObject::SetNumberOfRequiredInputs(VAuxDimension + 1);
   this->ProcessObject::SetNumberOfRequiredOutputs(VAuxDimension + 1);
 
-  for( unsigned int k = 0; k < VAuxDimension; k++ )
+  for( int k = 0; k < VAuxDimension; k++ )
     {
     AuxImagePointer ptr;
     ptr = AuxImageType::New();
-    m_OutputAuxImage[k] = ptr;
-    this->ProcessObject::AddOutput( ptr.GetPointer() );
+    this->ProcessObject::SetNthOutput( k+1, ptr.GetPointer() );
     }
 
 }
@@ -78,7 +76,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension >
 void
 ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
-::SetVelocityImage(
+::SetInputVelocityImage(
 AuxImageType * ptr,
 unsigned int idx )
 {
@@ -87,8 +85,49 @@ unsigned int idx )
     return;
     }
 
-  m_InputAuxImage[idx] = ptr;
   this->ProcessObject::SetNthInput( idx+1, ptr );
+
+}
+
+
+/**
+ * 
+ */
+template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
+ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
+::AuxImagePointer
+ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
+::GetInputVelocityImage( unsigned int idx )
+{
+
+  if ( idx >= VAuxDimension || this->GetNumberOfInputs() < idx )
+    {
+    return NULL;
+    }
+
+  return static_cast<AuxImageType*>(
+    this->ProcessObject::GetInput(idx+1).GetPointer() );
+
+}
+
+
+/**
+ * 
+ */
+template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
+ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
+::AuxImagePointer
+ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
+::GetOutputVelocityImage( unsigned int idx )
+{
+
+  if ( idx >= VAuxDimension || this->GetNumberOfOutputs() < idx )
+    {
+    return NULL;
+    }
+
+  return static_cast<AuxImageType*>(
+    this->ProcessObject::GetOutput(idx+1).GetPointer() );
 
 }
 
@@ -108,7 +147,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
   // in the buffer
   for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
-    m_InputAuxImage[k]->
+    this->GetInputVelocityImage(k)->
       SetRequestedRegionToLargestPossibleRegion();
     }
 
@@ -131,7 +170,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
   LevelSetPointer primaryOutput = this->GetOutput(0);
   for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
-    m_OutputAuxImage[k]->SetRequestedRegion(
+    this->GetOutputVelocityImage(k)->SetRequestedRegion(
       primaryOutput->GetRequestedRegion() );
     }
 
@@ -151,9 +190,9 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
   // allocate memory for the output images
   for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
-    m_OutputAuxImage[k]->SetBufferedRegion( 
-      m_OutputAuxImage[k]->GetRequestedRegion() );
-    m_OutputAuxImage[k]->Allocate();
+    AuxImagePointer output = this->GetOutputVelocityImage(k);
+    output->SetBufferedRegion( output->GetRequestedRegion() );
+    output->Allocate();
     }
 
   // set the marcher output size
@@ -197,21 +236,24 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 
   for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
-    AuxImagePointer ptr;
-    ptr = m_OutputAuxImage[k];
+    AuxImagePointer ptr = this->GetOutputVelocityImage(k);
     auxOutputIt[k] = AuxIteratorType( ptr,
       ptr->GetBufferedRegion() );
     }
  
+  this->UpdateProgress( 0.0 );
+
   // locate the level set
-  m_Locator->SetInput( inputPtr );
+  m_Locator->SetInputLevelSet( inputPtr );
   for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
-    m_Locator->SetAuxImage( m_InputAuxImage[k], k );
+    m_Locator->SetAuxImage( this->GetInputVelocityImage(k), k );
     }
   m_Locator->SetLevelSetValue( levelSetValue );
   m_Locator->Locate();
 
+
+  this->UpdateProgress( 0.33 );
 
   // march outward
   m_Marcher->SetTrialPoints( m_Locator->GetOutsidePoints() );
@@ -263,6 +305,8 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
       ++(auxOutputIt[k]);
       }
     }
+
+  this->UpdateProgress( 0.66 );
 
   // march inward
   m_Marcher->SetTrialPoints( m_Locator->GetInsidePoints() );
@@ -372,8 +416,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 
   for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
-    AuxImagePointer ptr;
-    ptr = m_OutputAuxImage[k];
+    AuxImagePointer ptr = this->GetOutputVelocityImage(k);
     auxOutputIt[k] = AuxIteratorType( ptr,
       ptr->GetBufferedRegion() );
     auxOutputIt[k].GoToBegin();
@@ -389,20 +432,24 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
     }
 
   AuxImagePointer tempAuxImage[VAuxDimension];
+  AuxImagePointer outputAuxImage[VAuxDimension];
   for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     tempAuxImage[k] = m_Marcher->GetAuxiliaryImage(k);
+    outputAuxImage[k] = this->GetOutputVelocityImage(k);
     }
 
   // create a new output narrowband container
   NodeContainerPointer outputNB = NodeContainer::New();
   this->SetOutputNarrowBand( outputNB );
 
+  this->UpdateProgress( 0.0 );
+
   // locate the level set
-  m_Locator->SetInput( inputPtr );
+  m_Locator->SetInputLevelSet( inputPtr );
   for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
-    m_Locator->SetAuxImage( m_InputAuxImage[k], k );
+    m_Locator->SetAuxImage( this->GetInputVelocityImage(k), k );
     }
   m_Locator->SetLevelSetValue( levelSetValue );
 
@@ -418,6 +465,9 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
     }
 
   m_Locator->Locate();
+
+  this->UpdateProgress( 0.33 );
+
 
   // march outward
   double stoppingValue = ( outputBandwidth / 2.0 ) + 2.0;
@@ -441,24 +491,26 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
   for( ; pointsIt != pointsEnd; ++pointsIt )
     {
     node = pointsIt.Value();
-    inPixel = inputPtr->GetPixel( node.index );
+    inPixel = inputPtr->GetPixel( node.GetIndex() );
     
     value = (double) inPixel;
     if( value - levelSetValue > 0 )
       {
-      inPixel = tempLevelSet->GetPixel( node.index );
-      outputPtr->SetPixel( node.index, inPixel );
+      inPixel = tempLevelSet->GetPixel( node.GetIndex() );
+      outputPtr->SetPixel( node.GetIndex(), inPixel );
       outputNB->InsertElement( outputNB->Size(), node );
 
       for( unsigned int k = 0; k < VAuxDimension; k++ )
         { 
-        m_OutputAuxImage[k]->SetPixel( node.index, 
-          tempAuxImage[k]->GetPixel( node.index ) );
+        outputAuxImage[k]->SetPixel( node.GetIndex(), 
+          tempAuxImage[k]->GetPixel( node.GetIndex() ) );
         }
 
       }
 
     }
+
+  this->UpdateProgress( 0.66 );
 
   // march inward
   m_Marcher->SetTrialPoints( m_Locator->GetInsidePoints() );
@@ -472,22 +524,22 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
   for( ; pointsIt != pointsEnd; ++pointsIt )
     {
     node = pointsIt.Value();
-    inPixel = inputPtr->GetPixel( node.index );
+    inPixel = inputPtr->GetPixel( node.GetIndex() );
     
     value = (double) inPixel;
     if( value - levelSetValue <= 0 )
       {
-      inPixel = tempLevelSet->GetPixel( node.index );
+      inPixel = tempLevelSet->GetPixel( node.GetIndex() );
       value = (double) inPixel;
       inPixel = -1.0 * value;
-      outputPtr->SetPixel( node.index, inPixel );
-      node.value *= -1.0;
+      outputPtr->SetPixel( node.GetIndex(), inPixel );
+      node.SetValue( node.GetValue() * -1.0 );
       outputNB->InsertElement( outputNB->Size(), node );
 
       for( unsigned int k = 0; k < VAuxDimension; k++ )
         { 
-        m_OutputAuxImage[k]->SetPixel( node.index, 
-          tempAuxImage[k]->GetPixel( node.index ) );
+        outputAuxImage[k]->SetPixel( node.GetIndex(), 
+          tempAuxImage[k]->GetPixel( node.GetIndex() ) );
         }
 
       }

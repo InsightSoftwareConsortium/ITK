@@ -242,7 +242,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
       bool inRange = true;
       for ( unsigned int j = 0; j < SetDimension; j++ )
         {
-        if ( node.index[j] > (signed long) size[j] )
+        if ( node.GetIndex()[j] > (signed long) size[j] )
           {
           inRange = false;
           break;
@@ -252,7 +252,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
     
       for ( unsigned int k = 0; k < VAuxDimension; k++ )
         {
-        auxImages[k]->SetPixel( node.index, auxVec[k] );
+        auxImages[k]->SetPixel( node.GetIndex(), auxVec[k] );
         }
     
       } // end container loop
@@ -273,7 +273,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
       bool inRange = true;
       for ( unsigned int j = 0; j < SetDimension; j++ )
         {
-        if ( node.index[j] > (signed long) size[j] )
+        if ( node.GetIndex()[j] > (signed long) size[j] )
           {
           inRange = false;
           break;
@@ -283,7 +283,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 
       for ( unsigned int k = 0; k < VAuxDimension; k++ )
         {
-        auxImages[k]->SetPixel( node.index, auxVec[k] );
+        auxImages[k]->SetPixel( node.GetIndex(), auxVec[k] );
         }
 
       } // end container loop
@@ -336,14 +336,14 @@ LevelSetImageType * output )
         {
         node = this->GetNodeUsedInCalculation(j);
 
-        if( solution < node.value )
+        if( solution < node.GetValue() )
           {
           break;
           }
 
-        auxVal = this->GetAuxiliaryImage(k)->GetPixel( node.index );
-        numer +=  auxVal  *  ( solution - node.value );
-        denom += solution - node.value;
+        auxVal = this->GetAuxiliaryImage(k)->GetPixel( node.GetIndex() );
+        numer +=  auxVal  *  ( solution - node.GetValue() );
+        denom += solution - node.GetValue();
 
         }
 

@@ -400,43 +400,43 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
       {
       node = pointsIt.Value();
 
-      if( vnl_math_abs( node.value ) <= maxValue )
+      if( vnl_math_abs( node.GetValue() ) <= maxValue )
         {
 
-        magnitude = inEntropy->EvaluateAtIndex( node.index );
+        magnitude = inEntropy->EvaluateAtIndex( node.GetIndex() );
         updateValue = m_InflationStrength * magnitude;
         if( propagateOutwards )
           {
           updateValue *= -1.0;
           }
 
-        curvature = inCurvature->EvaluateAtIndex( node.index );
+        curvature = inCurvature->EvaluateAtIndex( node.GetIndex() );
         magnitude = inCurvature->GetMagnitude();
         updateValue += curvature * magnitude;
 
         typedef typename TEdgeImage::PixelType EdgePixelType;
-        speed = (double) edgeImage->GetPixel(node.index);
+        speed = (double) edgeImage->GetPixel(node.GetIndex());
 
         updateValue *= speed;
 
         for( unsigned int j = 0; j < SetDimension; j++ )
           {
           typedef typename TDerivImage::PixelType DerivPixelType;
-          deriv = (double) m_DerivImages[j]->GetPixel( node.index );
+          deriv = (double) m_DerivImages[j]->GetPixel( node.GetIndex() );
 
           inUpwind->SetSpeed( -1.0 * deriv );
           
-          updateValue += deriv * inUpwind->EvaluateAtIndex( node.index, j );
+          updateValue += deriv * inUpwind->EvaluateAtIndex( node.GetIndex(), j );
 
           }
 
         updateValue *= timeStepSize; 
     
-        value = (double) inputPtr->GetPixel( node.index );
+        value = (double) inputPtr->GetPixel( node.GetIndex() );
         value += updateValue;
 
         lsetPixel =  value;
-        outputPtr->SetPixel( node.index, lsetPixel );
+        outputPtr->SetPixel( node.GetIndex(), lsetPixel );
 
         }
 

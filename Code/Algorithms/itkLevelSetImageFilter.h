@@ -50,23 +50,29 @@ namespace itk
 /** \class LevelSetImageFilter
   * \brief
   *
-  * LevelSetImageFilter is the base class for all process objects which evolves
-  * an input level set to an output level set according to some set 
-  * update equations. This class is templated over the level set type. 
+  * LevelSetImageFilter is the abstract base class for all process objects 
+  * which evolves an input level set to an output level set according to some 
+  * PDE update equations. This class is templated over the level set type. 
   * Both the input and output level sets are of the same type
   * represented as Images.
+  *
+  * Depending on the application a level set function may correspond to 
+  * iso-intensity contours of an image (e.g. for image denoising) or
+  * some signed distance function from a shape boundary or interface. 
   *
   * Typically, level set evolution is a iterative process.
   * This class provides infrastructure for internal iterations. Specifically,
   * this class maintains two buffers to keep intermediate results between
-  * iterations. This is a workaround until an IterativeFilter baseclass has
-  * been implemented.
+  * iterations.
   *
   * This class also provides a mechanism for narrowbanding, where only
   * data within a narrow band of interest is processed. 
   *
   * This class is templated over the image type which represents the
   * level set.
+  *
+  * Note: All level set algorithms will eventually be reimplemented
+  * to in the Finite Difference Solver framework.
   *
   * \ingroup LevelSetSegmentation 
   * \ingroup ImageEnhancement 
@@ -192,14 +198,14 @@ private:
   LevelSetImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  NodeContainerPointer m_InputNarrowBand;
-  double m_TimeStepSize;
-  bool   m_NarrowBanding;
-  double m_NarrowBandwidth;
+  NodeContainerPointer   m_InputNarrowBand;
+  double                 m_TimeStepSize;
+  bool                   m_NarrowBanding;
+  double                 m_NarrowBandwidth;
 
-  unsigned int m_NumberOfIterations;
-  LevelSetPointer m_InputBuffer;
-  LevelSetPointer m_OutputBuffer;
+  unsigned int           m_NumberOfIterations;
+  LevelSetPointer        m_InputBuffer;
+  LevelSetPointer        m_OutputBuffer;
 
 };
 

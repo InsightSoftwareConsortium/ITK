@@ -194,10 +194,10 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
     LevelSetPointer outputBuffer = this->GetOutputBuffer();
 
     // Setup the extender
-    m_Extender->SetVelocityImage( m_EdgeImage );
+    m_Extender->SetInputVelocityImage( m_EdgeImage );
     m_Extender->SetInput( inputBuffer );
     m_Extender->Update();
-    typename TEdgeImage::Pointer extVelPtr = m_Extender->GetVelocityImage();
+    typename TEdgeImage::Pointer extVelPtr = m_Extender->GetOutputVelocityImage();
 
     // Define a level set curvature calculator
     typedef
@@ -305,7 +305,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
     }
 
   // Setup the extender
-  m_Extender->SetVelocityImage( m_EdgeImage );
+  m_Extender->SetInputVelocityImage( m_EdgeImage );
   m_Extender->NarrowBandingOn();
   m_Extender->SetNarrowBandwidth( narrowBandwidth );
 
@@ -322,7 +322,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
     m_Extender->SetInputNarrowBand( inputNarrowBand );
     m_Extender->Update();
 
-    typename TEdgeImage::Pointer extVelPtr = m_Extender->GetVelocityImage();
+    typename TEdgeImage::Pointer extVelPtr = m_Extender->GetOutputVelocityImage();
 
     inputNarrowBand = m_Extender->GetOutputNarrowBand();
     inputPtr = m_Extender->GetOutput();
@@ -358,25 +358,25 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
       {
       node = pointsIt.Value();
 
-      if( vnl_math_abs( node.value ) <= maxValue )
+      if( vnl_math_abs( node.GetValue() ) <= maxValue )
         {
         
-        magnitude = inEntropy->EvaluateAtIndex( node.index );
+        magnitude = inEntropy->EvaluateAtIndex( node.GetIndex() );
         updateValue = -1.0 * magnitude;
 
-        curvature = inCurvature->EvaluateAtIndex( node.index );
+        curvature = inCurvature->EvaluateAtIndex( node.GetIndex() );
         magnitude = inCurvature->GetMagnitude();
         updateValue += m_LengthPenaltyStrength * curvature * magnitude;
 
-        speed = (double) extVelPtr->GetPixel(node.index);
+        speed = (double) extVelPtr->GetPixel(node.GetIndex());
 
         updateValue *= timeStepSize * speed; 
     
-        value = (double) inputPtr->GetPixel( node.index );
+        value = (double) inputPtr->GetPixel( node.GetIndex() );
         value += updateValue;
 
         lsetPixel = value;
-        outputPtr->SetPixel( node.index, lsetPixel );
+        outputPtr->SetPixel( node.GetIndex(), lsetPixel );
 
         }
 
