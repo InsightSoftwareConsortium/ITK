@@ -53,7 +53,7 @@ Rigid3DTransform<ScalarType, NDimensions>::
 Rigid3DTransform()
 {
   m_Offset.Fill( 0 );
-  m_Rotation = VnlQuaternionType(0,0,1,0);
+  m_Rotation = VnlQuaternionType(0,0,0,1); // axis * sin(t/2), cos(t/2)
   m_DirectMatrix = m_Rotation.rotation_matrix();
   m_InverseMatrix = m_DirectMatrix.GetTranspose();
 }
