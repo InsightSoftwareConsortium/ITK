@@ -34,6 +34,8 @@ Rigid3DPerspectiveTransform():Superclass(SpaceDimension,ParametersDimension)
   m_FocalDistance = 1.0;
   m_FixedOffset.Fill(0);
   m_CenterOfRotation.Fill(0);
+  m_Parameters.Fill(0);
+  m_Parameters[3]=1; // identity versor
 }
  
 
@@ -54,6 +56,7 @@ PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 
+  os << indent << "Parameters: "   << m_Parameters  << std::endl;
   os << indent << "Offset: "       << m_Offset   << std::endl;
   os << indent << "Rotation: "     << m_Versor << std::endl;
   os << indent << "FocalDistance: "<< m_FocalDistance << std::endl;
