@@ -244,6 +244,7 @@ public:
 };
 
 
+
 /** \class ScalarTraits<Index<unsigned int VDimension>>
  * \brief Define (pixel) scalar traits for type <Index<unsigned int VDimension> >.
  */
@@ -255,6 +256,37 @@ public:
   static ScalarValueType& GetScalar( Index<3> & v) {return v;}
   static void SetScalar( Index<3> & data, ScalarValueType const& v) {data = v;}
 };
+
+
+/** \class ScalarTraits<Offset<unsigned int VDimension>>
+ * \brief Define (pixel) scalar traits for type <Offset<unsigned int VDimension> >.
+ */
+template <>
+class ScalarTraits< Offset<2> > {
+public:
+  typedef  Offset<2>  ValueType;
+  typedef  Offset<2>  ScalarValueType;
+  static ScalarValueType& GetScalar( Offset<2> & v) {return v;}
+  static void SetScalar( Offset<2> & data, ScalarValueType const& v) {data = v;}
+};
+
+
+
+/** \class ScalarTraits<Offset<unsigned int VDimension>>
+ * \brief Define (pixel) scalar traits for type <Offset<unsigned int VDimension> >.
+ */
+template <>
+class ScalarTraits< Offset<3> > {
+public:
+  typedef  Offset<3>  ValueType;
+  typedef  Offset<3>  ScalarValueType;
+  static ScalarValueType& GetScalar( Offset<3> & v) {return v;}
+  static void SetScalar( Offset<3> & data, ScalarValueType const& v) {data = v;}
+};
+
+
+
+
 
 
 /** \class ScalarTraits<RGBPixel<float>>
@@ -447,6 +479,7 @@ public:
 };
 
 
+
 /** \class VectorTraits<Index<unsigned int VDimension>>
  * \brief Define (pixel) vector traits for type Index<unsigned int VDimension>
  */
@@ -458,6 +491,35 @@ public:
   static VectorValueType& GetVector(Index<3>& v) {return v;}
   static void SetVector(Index<3>& data, VectorValueType const & v) {data = v;}
 };
+
+
+
+/** \class VectorTraits<Offset<unsigned int VDimension>>
+ * \brief Define (pixel) vector traits for type Offset<unsigned int VDimension>
+ */
+template <>
+class VectorTraits< Offset<2> > {
+public:
+  typedef Offset<2> ValueType;
+  typedef Offset<2> VectorValueType;
+  static VectorValueType& GetVector(Offset<2>& v) {return v;}
+  static void SetVector(Offset<2>& data, VectorValueType const & v) {data = v;}
+};
+
+
+
+/** \class VectorTraits<Offset<unsigned int VDimension>>
+ * \brief Define (pixel) vector traits for type Offset<unsigned int VDimension>
+ */
+template <>
+class VectorTraits< Offset<3> > {
+public:
+  typedef Offset<3> ValueType;
+  typedef Offset<3> VectorValueType;
+  static VectorValueType& GetVector(Offset<3>& v) {return v;}
+  static void SetVector(Offset<3>& data, VectorValueType const & v) {data = v;}
+};
+
 
 
 
