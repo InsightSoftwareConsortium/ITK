@@ -41,6 +41,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::MattesMutualInformationImageToImageMetric()
 {
 
+  std::cout << "Construct" << std::endl;
   m_NumberOfSpatialSamples = 500;
   m_NumberOfHistogramBins = 50;
 
@@ -53,6 +54,11 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   m_JointPDF = NULL;
   m_JointPDFDerivatives = NULL;
 
+  typename BSplineTransformType::Pointer transformer = BSplineTransformType::New();
+  this->SetTransform (transformer);
+
+  typename BSplineInterpolatorType::Pointer interpolator = BSplineInterpolatorType::New();
+  this->SetInterpolator (interpolator);
 }
 
 
@@ -284,6 +290,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
    *
    */
   m_InterpolatorIsBSpline = true;
+
   BSplineInterpolatorType * testPtr = dynamic_cast<BSplineInterpolatorType *>(
      m_Interpolator.GetPointer() );
   if ( !testPtr )
@@ -310,6 +317,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
    *
    */
   m_TransformIsBSpline = true;
+
   BSplineTransformType * testPtr2 = dynamic_cast<BSplineTransformType *>(
     m_Transform.GetPointer() );
   if( !testPtr2 )
@@ -323,14 +331,14 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     m_BSplineTransform = testPtr2;
     m_NumParametersPerDim = m_BSplineTransform->GetNumberOfParametersPerDimension();
     m_NumBSplineWeights = m_BSplineTransform->GetNumberOfWeights();
+    itkDebugMacro( "Transform is BSplineDeformable" );
+    }
+
     if ( m_TransformIsBSpline )
       {
       m_BSplineTransformWeights = BSplineTransformWeightsType( m_NumBSplineWeights );
       m_BSplineTransformIndices = BSplineTransformIndexArrayType( m_NumBSplineWeights );
       }
-
-    itkDebugMacro( "Transform is BSplineDeformable" );
-    }
 
 }
 
@@ -380,10 +388,6 @@ typename MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValue( const ParametersType& parameters ) const
 {
-
-  // Set Output values to zero
-  MeasureType measure;
-  measure = NumericTraits< MeasureType >::Zero;
 
   // Reset marginal pdf to all zeros.
   // Assumed the size has already been set to NumberOfHistogramBins
@@ -607,7 +611,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
    *
    */
   double sum = 0.0;
-  for( int fixedIndex = 0; fixedIndex < m_NumberOfHistogramBins; ++fixedIndex )
+  for( unsigned int fixedIndex = 0; fixedIndex < m_NumberOfHistogramBins; ++fixedIndex )
     {
     jointPDFIndex[0] = fixedIndex;
     double fixedImagePDFValue = m_FixedImageMarginalPDF[fixedIndex];
@@ -983,11 +987,11 @@ DerivativeType& derivative) const
    *
    */
   double sum = 0.0;
-  for( int fixedIndex = 0; fixedIndex < m_NumberOfHistogramBins; ++fixedIndex )
+  for( unsigned int fixedIndex = 0; fixedIndex < m_NumberOfHistogramBins; ++fixedIndex )
     {
     jointPDFIndex[0] = fixedIndex;
     double fixedImagePDFValue = m_FixedImageMarginalPDF[fixedIndex];
-    for( int movingIndex = 0; movingIndex < m_NumberOfHistogramBins; ++movingIndex )      
+    for( unsigned int movingIndex = 0; movingIndex < m_NumberOfHistogramBins; ++movingIndex )      
       {
       double movingImagePDFValue = m_MovingImageMarginalPDF[movingIndex];
       jointPDFIndex[1] = movingIndex;
