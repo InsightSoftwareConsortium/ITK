@@ -18,9 +18,10 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{SimpleFuzzyConnectednessScalarImageFilter}
-// and \doxygen{VoronoiSegmentationImageFilter} to build a hybrid segmentation framework.
+// and \doxygen{VoronoiSegmentationImageFilter} to build a hybrid segmentation that integrates fuzzy
+// connectedness with the Voronoi Diagram Classification.
 //
-// First, the header files of the filters must be included.
+// First, we include the header files of the two filters.
 //
 // Software Guide : EndLatex 
 
@@ -58,8 +59,8 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  Then, we declare the pixel type and image dimension.  With them we
-  //  declare the image type to be used as input.
+  //  Next, we declare the pixel type and image dimension and 
+  //  specify the image type to be used as input.
   //
   //  Software Guide : EndLatex 
 
@@ -73,12 +74,13 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  A Fuzzy Connectedness segmentation will be performed first to generate a
-  //  rough segmentation, and the binary result will be used as a prior for the
-  //  next step.  The \doxygen{SimpleFuzzyConnectednessScalarImageFilter} is used
-  //  here, but any of the image segmentation filters could do it.  The result
-  //  of the segmentation produced by the fuzzy segmentation filter will be
-  //  stored in a binary image.  Here we declare the type of this image using a
+  //  Fuzzy Connectedness segmentation is performed first to generate a
+  //  rough segmentation that yields a sample of tissue from a region to be segmented.
+  //  A binary result, representing the sample, is used as a prior for the
+  //  next step.  We use here the \doxygen{SimpleFuzzyConnectednessScalarImageFilter} 
+  //  but we may also utilize any other image segmentation filter instead.  The result
+  //  of the segmentation produced by the fuzzy segmentation filter is 
+  //  stored in a binary image.  Below, we declare the type of the image using a
   //  pixel type and a spatial dimension.
   //
   //  Software Guide : EndLatex 
@@ -128,13 +130,14 @@ int main( int argc, char **argv )
   
   //  Software Guide : BeginLatex
   //  
-  //  The second step of this hybrid method involve using the prior generated
-  //  from the fuzzy segmentation to build a homogeneity measurement for the
-  //  object.  A \doxygen{VoronoiSegmentationImageFilter} is applied based on this
-  //  measurement to give the final segmentation result.  In this example, the
-  //  result of the \doxygen{VoronoiSegmentationImageFilter} will be sent to a
-  //  writer. It is convenient to declare its output type as one compatible with the
-  //  writers.  
+  //  In the next step of the hybrid segmenttaion method the prior generated
+  //  from the fuzzy segmentation method is used to build a homogeneity measurement for the
+  //  object.  A \doxygen{VoronoiSegmentationImageFilter} uses the homogeneity measurement
+  //  to drive iterative subdivision of Voronoi regions and to generate the final
+  //  segmentation result (for details, please read \cite{Imielinska2000b}).  
+  //  In this example, the result of the \doxygen{VoronoiSegmentationImageFilter} is sent to a
+  //  writer. Its output type is conveniently declared as one that is compatible with the
+  //  writer.  
   //
   //  Software Guide : EndLatex 
 
@@ -148,7 +151,7 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The following lines declare the type of the voronoi segmentation filter
+  //  The following lines declare the type of the Voronoi Diagram Classification filter
   //  and create one filter object.
   //
   //  \index{itk::VoronoiSegmentationImageFilter!New()}
@@ -209,7 +212,7 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The input to the FuzzySegmentationFilter is taken from the reader.
+  //  The input that is passed to the FuzzySegmentationFilter is taken from the reader.
   //
   //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetInput()}
   //
@@ -239,11 +242,10 @@ int main( int argc, char **argv )
   //  point is provided with the method \code{SetObjectsSeed()} in order to
   //  initialize the region to be grown.  Estimated values for the mean and
   //  variance of the object intensities are also provided with the methods
-  //  \code{SetMean()} and \code{SetVariance()} respectively. A threshold value
-  //  for generating the binary object is finally preset with the method
-  //  \code{SetThreshold()}.  Details on the influence that the mean and
-  //  variance on the computation of the segmentation can be found in
-  //  \cite{Udupa1996}. 
+  //  \code{SetMean()} and \code{SetVariance()}, respectively. A threshold value
+  //  for generating the binary object is preset with the method
+  //  \code{SetThreshold()}.  For details describing the role of the the mean and
+  //  variance on the computation of the segmentation see \cite{Udupa1996}. 
   //
   //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetObjectsSeed()}
   //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetMean()}
@@ -279,8 +281,8 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The input to the voronoi filter is taken from the reader and the prior is
-  //  taken from the fuzzy segmentation filter.
+  //  The input to the Voronoi Diagram Classification filter is fetched from the reader and the prior is
+  //  fetched from the fuzzy segmentation filter.
   //
   //  \index{itk::VoronoiSegmentationImageFilter!SetInput()}
   //  \index{itk::VoronoiSegmentationImageFilter!TakeAPrior()}
@@ -304,8 +306,8 @@ int main( int argc, char **argv )
   //  \code{SetSTDPercentError()}. Note that the
   //  \doxygen{FuzzySegmentationFilter} uses \emph{variance} as parameter while
   //  the \doxygen{VoronoiSegmentationImageFilter} uses the tolerance of the
-  //  \emph{standard deviation}. Details on how these parameters should be
-  //  selected can be found in \cite{Imielinska2000b}.
+  //  \emph{standard deviation} as a parameter. For more details on how these parameters should be
+  //  selected see \cite{Imielinska2000b}.
   //  
   //  \index{itk::VoronoiSegmentationImageFilter!SetMeanPercentError()}
   //  \index{itk::VoronoiSegmentationImageFilter!SetSTDPercentError()}
@@ -324,7 +326,7 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   // 
-  //  The \emph{resolution} of the voronoi segmentation can be choosen with the
+  //  The \emph{resolution} of the Voronoi Diagram Classification can be choosen with the
   //  method \code{SetMinRegion()}. 
   //
   //  \index{itk::VoronoiSegmentationImageFilter!SetMinRegion()}
@@ -357,10 +359,10 @@ int main( int argc, char **argv )
   
   //  Software Guide : BeginLatex
   //
-  //  The output of the voronoi segmentation is an image mask with zeros
+  //  The output of the Voronoi Diagram Classification is an image mask with zeros
   //  everywhere an $1$s inside the segmented object. This image will appear
-  //  black in many image viewers since they usually do not stretch the
-  //  graylevels. We add here then a \doxygen{RescaleIntensityImageFilter} in
+  //  black on many image viewers since they usually do not stretch the
+  //  graylevels. We add here a \doxygen{RescaleIntensityImageFilter} in
   //  order to expand the dynamic range to more typical values. 
   //
   //  Software Guide : EndLatex 
@@ -383,8 +385,8 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  // The output of the rescaler is finally passed to the writer. The invokation
-  // of the \code{Update()} method on the writer will trigger the execution of
+  // The output of the rescaler is passed to the writer. The invocation
+  // of the \code{Update()} method on the writer triggers the execution of
   // the pipeline.
   //  
   //  Software Guide : EndLatex 
@@ -399,25 +401,25 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Let's execute this program on the image \code{BrainT1Slice.png} available
+  //  We execute this program on the image \code{BrainT1Slice.png} available
   //  in the directory \code{Insight/Examples/Data}. The following parameters
-  //  should be passed to the command line:
+  //  are passed to the command line:
   // 
   //  \begin{verbatim}
   //  HybridSegmentationFuzzyVoronoi BrainT1Slice.png Output.png 140 125 140 25 0.2 2.0
   //  \end{verbatim}
   //
-  //  Where $(140,125)$ is the index position of a seed point in the image,
-  //  $140$ and $25$ are the estimated mean and standard deviation of the
-  //  object to be segmented, and finally $0.2$ and $2.0$ are the tolerace for
-  //  the mean and standard deviation.  Figure
+  //  Parameters $(140,125)$ specify the index position of a seed point in the image,
+  //  $140$ and $25$ are the estimated mean and standard deviation, respectively, of the
+  //  object to be segmented; and finally $0.2$ and $2.0$ are the tolerace for
+  //  the mean and standard deviation, respectively.  Figure
   //  \ref{fig:HybridSegmentationFuzzyVoronoiOutput} shows the input image and
   //  the binary mask resulting from the segmentation.
   //
-  //  You might have to play with the parameters in order to generate
-  //  reasonable segmentations for other input images. For example, when
+  //  Note that in order to segment successfully other images, one has to play with setting
+  //  proper parameters that are best chosen for a new data. For example, when
   //  segmenting the input image \code{FatMRISlice.png} we apply the following
-  //  parameters.
+  //  new set of parameters parameters. 
   // 
   //  \begin{verbatim}
   //  HybridSegmentationFuzzyVoronoi FatMRISlice.png Output.png 80 200 140 300 0.3 3.0
@@ -425,6 +427,13 @@ int main( int argc, char **argv )
   //
   //  Figure \ref{fig:HybridSegmentationFuzzyVoronoiOutput2} shows the input
   //  image and the binary mask resulting from this segmentation.
+  //  
+  //  Similarly, we can segment color (RGB) and other multi-channel images. Examples illustrating
+  //  it will be posted soon on the ITK site.
+  //  We have built user friendly interfaces for each filter in the Hybrid Segmentation Engine
+  //  that allow setting up interactively parameters for segmentation. This environment makes
+  //  building pipeline for new hybrid methods, and running segmentation algorithms more efficient.
+  //  
   //
   //  Software Guide : EndLatex 
 
