@@ -118,6 +118,8 @@ TARGET_LINK_LIBRARIES(ModelToImageRegistration1 ITKStatistics ITKNumerics ITKIO)
 ADD_EXECUTABLE(MeanSquaresImageMetric1  MeanSquaresImageMetric1.cxx )
 TARGET_LINK_LIBRARIES(MeanSquaresImageMetric1 ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
 
+ADD_EXECUTABLE(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistrationHistogramPlotter ITKNumerics ITKIO ITKCommon)
 
 IF( NOT ITK_DISABLE_CXX_TESTING )
 
