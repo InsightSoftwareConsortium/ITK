@@ -130,7 +130,7 @@ public:
    * specifically as the type of the index-to-physical and physical-to-index
    * transforms associated with the origin and spacing for the image, and
    * more generally as any affine transformation of the image. */
-  typedef AffineTransform<double, ImageDimension> AffineTransformType;
+  typedef AffineTransform<double, VImageDimension> AffineTransformType;
   typedef typename AffineTransformType::Pointer   AffineTransformPointer;
   
   /** Definition of the point type used for setting the origin */
@@ -207,12 +207,12 @@ public:
   void SetPixelContainer( PixelContainer *container );
   
   /** Return the Pixel Accessor object */
-  AccessorType & GetPixelAccessor( void ) 
-    { return m_PixelAccessor; }
+  AccessorType GetPixelAccessor( void ) 
+    { return AccessorType(); }
     
   /** Return the Pixel Accesor object */
-  const AccessorType & GetPixelAccessor( void ) const
-    { return m_PixelAccessor; }
+  const AccessorType GetPixelAccessor( void ) const
+    { return AccessorType(); }
     
   /** Set the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples.
@@ -436,9 +436,6 @@ private:
 
   /** Memory for the current buffer. */
   PixelContainerPointer m_Buffer;
-
-  /** Pixel accessor object - it converts the presentation of a pixel. */
-  AccessorType          m_PixelAccessor;
 
   /** Origin and spacing of physical coordinates. */
   double                m_Spacing[ImageDimension];
