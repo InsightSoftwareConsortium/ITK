@@ -56,7 +56,7 @@ namespace itk
  * \sa Image
  * \sa Mesh
  * \sa Point
- * \sa CovariantCovariantVector
+ * \sa Vector
  * \sa Matrix
  */
 
