@@ -1756,7 +1756,7 @@ void Document::FindDocEntryLength( DocEntry *entry )
                // the length and proceed.
                long currentPosition = Fp->tellg();
                Fp->seekg(0L,std::ios::end);
-               long lengthUntilEOF = Fp->tellg() - currentPosition;
+               long lengthUntilEOF = (long)Fp->tellg() - currentPosition;
                Fp->seekg(currentPosition, std::ios::beg);
                entry->SetLength(lengthUntilEOF);
                return;
