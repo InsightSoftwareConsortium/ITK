@@ -70,7 +70,7 @@ MeanSquaresImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
 ::GetValue( void)
 {
 
-  TTarget::RegionType  m_Target_region = m_Target->GetLargestPossibleRegion();
+  typename TTarget::RegionType  m_Target_region = m_Target->GetLargestPossibleRegion();
   itk::Point<double, TTarget::ImageDimension> Point;  
 
   double ReferenceValue;
@@ -82,7 +82,7 @@ MeanSquaresImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
   TargetIteratorType ti(m_Target,m_Target_region);
   ti.Begin();
 
-  TTarget::IndexType index;
+  typename TTarget::IndexType index;
 
   m_MatchMeasure=0;
   
