@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkBloxImage_h
 
 #include "itkBloxPixel.h"
-#include "itkPhysicalImage.h"
+#include "itkImage.h"
 
 namespace itk
 {
@@ -67,7 +67,7 @@ namespace itk
 
 template <unsigned int VImageDimension=3,
           class TImageTraits = DefaultImageTraits<BloxPixel, VImageDimension> >
-class ITK_EXPORT BloxImage : public PhysicalImage<BloxPixel, VImageDimension, TImageTraits>
+class ITK_EXPORT BloxImage : public Image<BloxPixel, VImageDimension, TImageTraits>
 {
 public:
   /**

@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkIndex.h"
 #include "itkSize.h"
 #include "itkConditionalIterator.h"
-#include "itkPhysicalImage.h"
+#include "itkImage.h"
 
 namespace itk
 {
