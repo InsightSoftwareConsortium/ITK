@@ -214,6 +214,13 @@ protected:
      **/
     const Self & operator=( const Self & );
 
+
+    /**
+     * Compute Matrix
+     * Compute the components of the rotation matrix in the superclass
+     **/
+    void ComputeMatrix(void);
+
 private:
 
     /**

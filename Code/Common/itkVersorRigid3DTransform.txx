@@ -97,6 +97,8 @@ VersorRigid3DTransform<TScalarType>
   
   this->SetOffset( offset );
 
+  ComputeMatrix();
+
 }
 
 
@@ -107,6 +109,7 @@ VersorRigid3DTransform<TScalarType>
 ::SetRotation( const VersorType & versor )
 {
     m_Versor = versor;
+    ComputeMatrix();
 }
 
 
@@ -118,6 +121,44 @@ VersorRigid3DTransform<TScalarType>
 ::SetRotation( const AxisType & axis, AngleType  angle )
 {
     m_Versor.Set( axis, angle );
+    ComputeMatrix();
+}
+
+
+// Compute the matrix
+template <class TScalarType>
+void
+VersorRigid3DTransform<TScalarType>
+::ComputeMatrix( void )
+{
+
+  const TScalarType vx = m_Versor.GetX();
+  const TScalarType vy = m_Versor.GetY();
+  const TScalarType vz = m_Versor.GetZ();
+  const TScalarType vw = m_Versor.GetW();
+      
+  const TScalarType xx = vx * vx;
+  const TScalarType yy = vy * vy;
+  const TScalarType zz = vz * vz;
+  const TScalarType xy = vx * vy;
+  const TScalarType xz = vx * vz;
+  const TScalarType xw = vx * vw;
+  const TScalarType yz = vy * vz;
+  const TScalarType yw = vy * vw;
+  const TScalarType zw = vz * vw;
+
+  m_DirectMatrix[0][0] = 1.0 - 2.0 * ( yy + zz );
+  m_DirectMatrix[1][1] = 1.0 - 2.0 * ( xx + zz );
+  m_DirectMatrix[2][2] = 1.0 - 2.0 * ( xx + yy );
+  m_DirectMatrix[0][1] = 2.0 * ( xy - zw );
+  m_DirectMatrix[0][2] = 2.0 * ( xz + yw );
+  m_DirectMatrix[1][0] = 2.0 * ( xy + zw );
+  m_DirectMatrix[2][0] = 2.0 * ( xz - yw );
+  m_DirectMatrix[2][1] = 2.0 * ( yz + xw );
+  m_DirectMatrix[1][2] = 2.0 * ( yz - xw );
+ 
+  m_InverseMatrix = m_DirectMatrix.GetTranspose();
+
 }
 
 
