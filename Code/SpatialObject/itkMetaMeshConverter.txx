@@ -68,9 +68,9 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
 
 
   // Add Points
-  typedef typename MeshType::PointListType PointListType;
+  typedef typename MetaMesh::PointListType PointListType;
   const PointListType points = _mesh->GetPoints();
-  typename PointListType::const_iterator it_points = points.begin();
+  typename MetaMesh::PointListType::const_iterator it_points = points.begin();
 
   while(it_points != points.end())
     {
@@ -91,9 +91,9 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
 
   for(unsigned int celltype=0;celltype<MET_NUM_CELL_TYPES;celltype++)
     {
-    typedef typename MeshType::CellListType         CellListType;
+    typedef typename MetaMesh::CellListType         CellListType;
     const CellListType cells = _mesh->GetCells((MET_CellGeometry)celltype);
-    typename MeshType::CellListType::const_iterator it_cells = cells.begin();
+    typename MetaMesh::CellListType::const_iterator it_cells = cells.begin();
     
     typedef typename MeshType::CellType  CellInterfaceType;
     typedef itk::VertexCell<CellInterfaceType> VertexCellType;
@@ -155,9 +155,9 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
     }
 
   // Add cell links 
-  typedef typename MeshType::CellLinkListType CellLinkListType;
+  typedef typename MetaMesh::CellLinkListType CellLinkListType;
   const CellLinkListType links = _mesh->GetCellLinks();
-  typename MeshType::CellLinkListType::const_iterator it_links = links.begin();
+  typename MetaMesh::CellLinkListType::const_iterator it_links = links.begin();
 
 
   typedef typename MeshType::CellLinksContainer CellLinksContainerType;
