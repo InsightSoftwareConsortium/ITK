@@ -875,6 +875,13 @@ void DICOMAppHelper::ClearSeriesUIDMap()
        iter++)
        {
        delete [] (*iter).first;
+       for (std::vector<char*>::iterator viter = (*iter).second.begin();
+            viter != (*iter).second.end();
+            viter++)
+            {
+            delete [] (*viter);
+            }
+       // delete [] &(*iter).second;
        }
 
  this->SeriesUIDMap.clear();
