@@ -19,9 +19,7 @@
 
 #include "itkScalarImageToGreyLevelCooccurrenceMatrixGenerator.h"
 
-#include "itkImageRegionConstIterator.h"
-#include "itkConstShapedNeighborhoodIterator.h"
-#include "itkNeighborhoodAlgorithm.h"
+#include "itkConstNeighborhoodIterator.h"
 #include "vnl/vnl_math.h"
 
 
@@ -69,21 +67,11 @@ namespace itk {
           }
         }
       
-      // Next, find all the pixels that are not within one radius of the
-      // edge of the buffered region.
-      typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>
-        FaceCalculatorType;
-     
       RadiusType radius;
       radius.Fill(minRadius);
-      FaceCalculatorType faceCalculator;
-      typename FaceCalculatorType::FaceListType faceList;
-      faceList = faceCalculator(m_Image, m_Image->GetRequestedRegion(),
-                                 radius);
-      RegionType nonBoundaryRegion = faceList.front();
       
       // Now fill in the histogram
-      this->FillHistogram(radius, nonBoundaryRegion);
+      this->FillHistogram(radius, m_Image->GetRequestedRegion());
       
       // Normalizse the histogram if requested
       if(m_Normalize)
@@ -101,53 +89,48 @@ namespace itk {
       {
       // Iterate over all of those pixels and offsets, adding each 
       // co-occurrence pair to the histogram
-      typedef ImageRegionConstIterator<ImageType>
-      RegionIteratorType;
       
-      typedef ConstShapedNeighborhoodIterator<ImageType>
-        ShapedNeighborhoodIteratorType;
-      
-      ShapedNeighborhoodIteratorType shapedIt;
-      RegionIteratorType regionIt;
-      
-      shapedIt = ShapedNeighborhoodIteratorType(radius, m_Image, region);
-      regionIt = RegionIteratorType(m_Image, region);
-      
-      MeasurementVectorType cooccur;
-      typename OffsetVector::ConstIterator offsets;
-      for(offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); offsets++)
+      typedef ConstNeighborhoodIterator<ImageType> NeighborhoodIteratorType;
+      NeighborhoodIteratorType neighborIt;
+      neighborIt = NeighborhoodIteratorType(radius, m_Image, region);
+
+      for (neighborIt.GoToBegin(); !neighborIt.IsAtEnd(); ++neighborIt) 
         {
-        shapedIt.ActivateOffset(offsets.Value());
-        }
-      
-      for (shapedIt.GoToBegin(), regionIt.GoToBegin(); !shapedIt.IsAtEnd(); 
-           ++shapedIt, ++regionIt) 
-        {
-        const PixelType center_pixel_intensity = regionIt.Get();
-        if (center_pixel_intensity < m_Min || 
-            center_pixel_intensity > m_Max)
+        const PixelType centerPixelIntensity = neighborIt.GetCenterPixel();
+        if (centerPixelIntensity < m_Min || 
+            centerPixelIntensity > m_Max)
           {
-          continue; // don't put a pixel in the histogram if it's out-of-bounds.
+          continue; // don't put a pixel in the histogram if the value
+                    // is out-of-bounds.
           }
         
-        typename ShapedNeighborhoodIteratorType::ConstIterator neighborhoodIt;
-        for (neighborhoodIt = shapedIt.Begin(); !neighborhoodIt.IsAtEnd(); 
-             ++neighborhoodIt)
+        typename OffsetVector::ConstIterator offsets;
+        for(offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); offsets++)
           {
-          const PixelType pixel_intensity = neighborhoodIt.Get();
-          if (pixel_intensity < m_Min || 
-              pixel_intensity > m_Max)
+          bool pixelInBounds;
+          const PixelType pixelIntensity = 
+            neighborIt.GetPixel(offsets.Value(), pixelInBounds);
+          
+          if (!pixelInBounds)
             {
             continue; // don't put a pixel in the histogram if it's out-of-bounds.
             }
           
+          if (pixelIntensity < m_Min || 
+              pixelIntensity > m_Max)
+            {
+            continue; // don't put a pixel in the histogram if the value
+                      // is out-of-bounds.
+            }
+          
           // Now make both possible co-occurrence combinations and increment the
           // histogram with them.
-          cooccur[0] = center_pixel_intensity;
-          cooccur[1] = pixel_intensity;
+          MeasurementVectorType cooccur;
+          cooccur[0] = centerPixelIntensity;
+          cooccur[1] = pixelIntensity;
           m_Histogram->IncreaseFrequency(cooccur, 1);
-          cooccur[1] = center_pixel_intensity;
-          cooccur[0] = pixel_intensity;
+          cooccur[1] = centerPixelIntensity;
+          cooccur[0] = pixelIntensity;
           m_Histogram->IncreaseFrequency(cooccur, 1);
           }
         }
