@@ -109,8 +109,8 @@ int main()
   
   unsigned int upperfactors[2] = { 0, 0};
   unsigned int lowerfactors[2] = { 0, 0};
-  wrapPad->PadLowerBound(lowerfactors);
-  wrapPad->PadUpperBound(upperfactors);
+  wrapPad->SetPadLowerBound(lowerfactors);
+  wrapPad->SetPadUpperBound(upperfactors);
   wrapPad->UpdateLargestPossibleRegion();
  
   std::cout << wrapPad << std::endl;
@@ -128,8 +128,8 @@ int main()
   // CASE 1
   lowerfactors[0] = 1; lowerfactors[1] = 3; 
   upperfactors[0] = 2; upperfactors[1] = 4;
-  wrapPad->PadLowerBound(lowerfactors);
-  wrapPad->PadUpperBound(upperfactors);
+  wrapPad->SetPadLowerBound(lowerfactors);
+  wrapPad->SetPadUpperBound(upperfactors);
   wrapPad->UpdateLargestPossibleRegion();
   requestedRegion = wrapPad->GetOutput()->GetRequestedRegion();
   
@@ -174,13 +174,13 @@ int main()
   // CASE 2
   lowerfactors[0] = 10; 
   upperfactors[1] = 15;
-  wrapPad->PadLowerBound(0, lowerfactors[0]);
-  wrapPad->PadUpperBound(1, upperfactors[1]);
+  wrapPad->SetPadLowerBound(lowerfactors);
+  wrapPad->SetPadUpperBound(upperfactors);
   
-  if ((wrapPad->GetPadUpperBound(0) != upperfactors[0]) 
+  if ((wrapPad->GetPadUpperBound()[0] != upperfactors[0]) 
       || (wrapPad->GetPadUpperBound()[1] != upperfactors[1])
       || (wrapPad->GetPadLowerBound()[0] != lowerfactors[0])
-      || (wrapPad->GetPadLowerBound(1) != lowerfactors[1]))
+      || (wrapPad->GetPadLowerBound()[1] != lowerfactors[1]))
     {
       passed = false;
     } 
@@ -230,13 +230,13 @@ int main()
   // CASE 3
   lowerfactors[1] = 16; 
   upperfactors[0] = 9;
-  wrapPad->PadLowerBound(1, lowerfactors[1]);
-  wrapPad->PadUpperBound(0, upperfactors[0]);
+  wrapPad->SetPadLowerBound(lowerfactors);
+  wrapPad->SetPadUpperBound(upperfactors);
   
-  if ((wrapPad->GetPadUpperBound(0) != upperfactors[0]) 
+  if ((wrapPad->GetPadUpperBound()[0] != upperfactors[0]) 
       || (wrapPad->GetPadUpperBound()[1] != upperfactors[1])
       || (wrapPad->GetPadLowerBound()[0] != lowerfactors[0])
-      || (wrapPad->GetPadLowerBound(1) != lowerfactors[1]))
+      || (wrapPad->GetPadLowerBound()[1] != lowerfactors[1]))
     {
       passed = false;
     } 
