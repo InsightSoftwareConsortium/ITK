@@ -63,6 +63,11 @@ public:
   /** Set the test image input.  This will be input 1.  */
   virtual void SetTestInput(const InputImageType* testImage);
   
+  /** Set/Get the maximum distance away to look for a matching pixel.
+      Default is 0. */
+  itkSetMacro(ToleranceRadius, int);
+  itkGetMacro(ToleranceRadius, int);
+  
   /** Set/Get the minimum threshold for pixels to be different.
       Default is 0. */
   itkSetMacro(DifferenceThreshold, OutputPixelType);
@@ -96,6 +101,7 @@ protected:
   OutputPixelType m_DifferenceThreshold;
   RealType m_MeanDifference;
   AccumulateType m_TotalDifference;
+  int m_ToleranceRadius;
   
   Array<AccumulateType> m_ThreadDifferenceSum;
   

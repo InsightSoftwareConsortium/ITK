@@ -40,6 +40,9 @@ DifferenceImageFilter<TInputImage, TOutputImage>
   // Set the default DifferenceThreshold.
   m_DifferenceThreshold = NumericTraits<OutputPixelType>::Zero;
   
+  // Set the default ToleranceRadius.
+  m_ToleranceRadius = 0;
+  
   // Initialize statistics about difference image.
   m_MeanDifference = NumericTraits<RealType>::Zero;
   m_TotalDifference = NumericTraits<AccumulateType>::Zero;
@@ -107,9 +110,16 @@ DifferenceImageFilter<TInputImage, TOutputImage>
   const InputImageType* testImage = this->GetInput(1);
   OutputImageType* outputPtr = this->GetOutput();
   
-  // Create a radius of 1 pixel.
+  // Create a radius of pixels.
   RadiusType radius;
-  radius.Fill(1);
+  if(m_ToleranceRadius > 0)
+    {
+    radius.Fill(m_ToleranceRadius);
+    }
+  else
+    {
+    radius.Fill(0);
+    }
   
   // Find the data-set boundary faces.
   FacesCalculator boundaryCalculator;
