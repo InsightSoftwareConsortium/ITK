@@ -17,9 +17,9 @@
 #ifndef __itkImageToImageMetric_h
 #define __itkImageToImageMetric_h
 
-#include "itkObject.h"
 #include "itkTransform.h"
 #include "itkInterpolateImageFunction.h"
+#include "itkSingleValuedCostFunction.h"
 
 namespace itk
 {
@@ -44,7 +44,7 @@ namespace itk
  */
 
 template <class TFixedImage,  class TMovingImage> 
-class ITK_EXPORT ImageToImageMetric : public Object 
+class ITK_EXPORT ImageToImageMetric : public SingleValuedCostFunction 
 {
 public:
   /** Standard class typedefs. */
