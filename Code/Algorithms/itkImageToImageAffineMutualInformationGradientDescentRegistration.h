@@ -84,7 +84,7 @@ public:
 
    typedef AffineTransform< double, ImageDimension >  TransformationType;
 
-	/**
+  /**
    *  Type of the parameters
    */
    typedef typename TransformationType::ParametersType  ParametersType;
