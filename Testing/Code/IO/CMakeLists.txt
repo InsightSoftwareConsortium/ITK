@@ -21,7 +21,6 @@ ADD_TEST(itkDicomImageIOTest ${IO_TESTS} itkDicomImageIOTest)
 ADD_TEST(itkAnalyzeImageIOTest ${IO_TESTS} itkAnalyzeImageIOTest)
 ADD_TEST(itkGiplImageIOTest ${IO_TESTS} itkGiplImageIOTest)
 ADD_TEST(itkMetaImageIOTest ${IO_TESTS} itkMetaImageIOTest)
-ADD_TEST(itkPNGImageIOTest ${IO_TESTS} itkPNGImageIOTest)
 ADD_TEST(itkVOLImageIOTest ${IO_TESTS} itkVOLImageIOTest)
 ADD_TEST(itkVTKImageIOTest ${IO_TESTS} itkVTKImageIOTest)
 ADD_TEST(itkRawImageIOTest ${IO_TESTS} itkRawImageIOTest)
@@ -43,6 +42,13 @@ IF(VW_RAW_DATA_PATH)
   ADD_TEST(itkRawImageIOTest2 ${IO_TESTS} itkRawImageIOTest2
            ${VW_RAW_DATA_PATH}/avfCROP.1023c.raw)
 ENDIF(VW_RAW_DATA_PATH)
+
+IF(ITK_DATA_ROOT)
+  ADD_TEST(itkPNGImageIOTest1 ${IO_TESTS} itkPNGImageIOTest
+           ${ITK_DATA_ROOT}/Input/cthead1.png)
+  ADD_TEST(itkPNGImageIOTest2 ${IO_TESTS} itkPNGImageIOTest
+           ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png)
+ENDIF(ITK_DATA_ROOT)
 
 IF(ITK_BINARY_DIR)
   IF(TCL_TCLSH)
