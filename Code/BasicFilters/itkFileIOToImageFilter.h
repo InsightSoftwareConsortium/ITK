@@ -29,6 +29,7 @@ namespace itk
  *
  * \ingroup IOFilters
  * \ingroup Exceptions
+ * \ingroup Deprecated
  */
 class FileIOException : public ExceptionObject 
 {
