@@ -160,7 +160,7 @@ BloxBoundaryProfileItem<VImageDimension>
 }
 
 template <unsigned int VImageDimension>
-Point<double, VImageDimension>
+BloxBoundaryProfileItem<VImageDimension>::PositionType
 BloxBoundaryProfileItem<VImageDimension>
 ::GetOptimalBoundaryLocation(void)
 {
@@ -176,7 +176,7 @@ BloxBoundaryProfileItem<VImageDimension>
 }
 
 template <unsigned int VImageDimension>
-CovariantVector<double, VImageDimension>
+BloxBoundaryProfileItem<VImageDimension>::GradientType
 BloxBoundaryProfileItem<VImageDimension>
 ::GetGradient()
 {
