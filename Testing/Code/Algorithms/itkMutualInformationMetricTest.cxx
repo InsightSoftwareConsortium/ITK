@@ -233,6 +233,43 @@ int main()
 
     }
 
+//-------------------------------------------------------
+// exercise misc member functions
+//-------------------------------------------------------
+  std::cout << "Name of class: " <<
+    metric->GetNameOfClass() << std::endl;
+  std::cout << "No. of samples used = " << 
+    metric->GetNumberOfSpatialSamples() << std::endl;
+  std::cout << "Target std dev = " <<
+    metric->GetTargetStandardDeviation() << std::endl;
+  std::cout << "Reference std dev = " <<
+    metric->GetReferenceStandardDeviation() << std::endl;
+
+  std::cout << "Try causing a exception by making std dev too small";
+  std::cout << std::endl;
+  metric->SetTargetStandardDeviation( 0.001 );
+  try
+    {
+    std::cout << "Value = " << metric->GetValue( parameters );
+    std::cout << std::endl;
+    }
+  catch(...)
+    {
+    std::cout << "Caught the exception." << std::endl;
+    }
+
+  // reset standard deviation
+  metric->SetTargetStandardDeviation( 5.0 );
+
+  std::cout << "Check case when Target is NULL" << std::endl;
+  metric->SetTarget( NULL );
+  std::cout << "Value = " << metric->GetValue( parameters );
+  std::cout << std::endl;
+  
+  metric->GetValueAndDerivative( parameters, measure, derivative );
+  std::cout << "Value = " << measure << std::endl;
+
+
   return EXIT_SUCCESS;
 
 }
