@@ -22,6 +22,7 @@
 #include <map>
 #include "itkCellInterfaceVisitor.h"
 #include "itkAutoPointer.h"
+#include "itkArray.h"
 
 
 // Define a macro for CellInterface sub-classes to use
@@ -309,13 +310,11 @@ public:
     {return bool();}
   
   /** Given the parametric coordinates of a point in the cell
-   * (pCoords[CellDimension]), determine its global geometric coordinates
-   * (returned through pointer to array: coords[PointDimension]).
-   * Also get the interpolation weights if pointer is not NULL
-   * (returned through pointer to array: weights[NumberOfPoints]). */
-  virtual void EvaluateLocation(CoordRepType pCoords[],
-                                CoordRepType coords[PointDimension],
-                                InterpolationWeightType weights[]) {}
+   *  determine the value of its Shape Functions
+   *  returned through an itkArray<InterpolationWeightType>).  */
+  virtual void EvaluateShapeFunctions( 
+                          const Array<CoordRepType> & parametricCoordinates,
+                                Array<InterpolationWeightType> & weights) {}
 
   /** Intersect the cell with a line given by an origin (origin[PointDimension])
    * and direction (direction[PointDimension]).  The intersection point
