@@ -43,8 +43,15 @@ public:
 }
 
 
-int itkCurvatureFlowTest(int, char* [] )
+int itkCurvatureFlowTest(int argc, char* argv[] )
 {
+
+  if( argc < 2 ) 
+    { 
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0] << "  outputFile" << std::endl;
+    return 1;
+    }
 
    itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
@@ -128,7 +135,7 @@ int itkCurvatureFlowTest(int, char* [] )
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( streamer->GetOutput() );
-  writer->SetFileName("CurvatureFlowImageFilterImage.vtk");
+  writer->SetFileName(argv[1]);
   writer->SetImageIO(vtkIO);
   writer->Write();
 
