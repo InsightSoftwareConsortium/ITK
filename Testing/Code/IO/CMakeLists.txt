@@ -12,6 +12,7 @@ itkDICOMSeriesFileNamesTest.cxx
 itkDICOMImageSeriesTest.cxx
 itkGEImageIOTest.cxx
 itkGiplImageIOTest.cxx
+itkImageSeriesWriterTest.cxx
 itkMetaImageIOTest.cxx
 itkNumericSeriesFileNamesTest.cxx
 itkPolygonGroupSpatialObjectXMLFileTest.cxx
@@ -119,6 +120,12 @@ ADD_TEST(itkDICOMImageSeriesTest ${IO_TESTS}
 ADD_TEST(itkDICOMSeriesFileNamesTest ${IO_TESTS} 
   itkDICOMSeriesFileNamesTest
             ${ITK_DATA_ROOT}/Input/DicomSeries)
+
+ADD_TEST(itkImageSeriesWriterTest ${IO_TESTS} 
+  itkImageSeriesWriterTest
+            ${ITK_DATA_ROOT}/Input/DicomSeries
+            ${ITK_TEST_OUTPUT_DIR} png
+         )
 
 ADD_TEST(itkNumericSeriesFileNamesTest ${IO_TESTS} 
   itkNumericSeriesFileNamesTest)

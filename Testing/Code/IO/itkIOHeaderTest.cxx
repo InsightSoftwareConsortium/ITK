@@ -37,7 +37,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkDefaultConvertPixelTraits.h"
 #include "itkDicomImageIO.h"
 #include "itkDicomImageIOFactory.h"
-#include "itkFileIteratorBase.h"
 #include "itkGE4ImageIO.h"
 #include "itkGE4ImageIOFactory.h"
 #include "itkGE5ImageIO.h"
