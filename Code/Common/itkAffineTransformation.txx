@@ -43,6 +43,12 @@ const AffineTransformation<TScalarType,NDimensions> &
 AffineTransformation<TScalarType,NDimensions>
 ::operator=( const Self & other )
 {
+  m_Matrix = other.m_Matrix;
+  m_Offset = other.m_Offset;
+  m_Linear = other.m_Linear;
+  m_SetMatrix = other.m_SetMatrix;
+  m_SetOffset = other.m_SetOffset;
+  m_SetLinear = other.m_SetLinear;
   return *this;
 }
 
@@ -89,14 +95,14 @@ AffineTransformation<TScalarType,NDimensions>
   if( m_SetLinear == false )
   {
     for(unsigned int i=0; i<NDimensions ; i++)
-	{
-	  for(unsigned int j=0; j<NDimensions ; j++)
-	  {
+  {
+    for(unsigned int j=0; j<NDimensions ; j++)
+    {
         if(i == j) m_Linear(i,j) = 1;
-	    else  m_Linear(i,j) = 0;
-	  }
-	}
-	m_SetLinear = true;
+      else  m_Linear(i,j) = 0;
+    }
+  }
+  m_SetLinear = true;
   }
 
 }
@@ -118,9 +124,9 @@ AffineTransformation<TScalarType,NDimensions>
   {
     for (int i = 0; i < NDimensions; i++) 
     { 
-	  result[i] = m_Matrix[NDimensions][i];
+    result[i] = m_Matrix[NDimensions][i];
       for (int j = 0; j < NDimensions; j++) 
-	  {
+    {
         result[i] += m_Matrix[i][j] * initial_point[j];
       }
     }
@@ -133,13 +139,13 @@ AffineTransformation<TScalarType,NDimensions>
     {
       for (int i = 0; i < NDimensions; i++) 
       { 
-	    result[i] = m_Offset[i];
+      result[i] = m_Offset[i];
         for (int j = 0; j < NDimensions; j++) 
-	    { 
+      { 
           result[i] += m_Linear[i][j] * initial_point[j];
         }
-	  }
-	}
+    }
+  }
   } 
 
   return result;
