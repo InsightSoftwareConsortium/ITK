@@ -321,8 +321,9 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
     bool inReg = false;
     for (cell=inCells->Begin(); cell != inCells->End(); ++cell, ++cellId)
       {
-      if ( (regionId=m_Visited[cellId]) >= 0 )
+      if ( m_Visited[cellId] >= 0 )
         {
+        regionId=static_cast<unsigned long>(m_Visited[cellId]);
         //see if cell is on region
         for ( i = m_RegionList.begin(); i != m_RegionList.end(); ++i)
           {
