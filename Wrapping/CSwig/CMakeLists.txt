@@ -139,6 +139,7 @@ MACRO(CSWIG_CREATE_PERL_CXX_FILE Bin MasterIdx InputIdx InputXml OutputPerlCxx L
 ENDMACRO(CSWIG_CREATE_PERL_CXX_FILE)
 
 SET(ITK_CSWIG_PYTHON_NO_EXCEPTION_REGEX "(ContinuousIndex|Python)\\.xml$")
+SET(ITK_CSWIG_JAVA_NO_EXCEPTION_REGEX "(Java)\\.xml$")
 
 MACRO(CSWIG_CREATE_PYTHON_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Library LibraryIndexFiles)
    SET(CINDEX)
@@ -170,13 +171,18 @@ MACRO(CSWIG_CREATE_JAVA_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Li
    FOREACH(MIDX ${MasterIdx})
      SET(CINDEX ${CINDEX} -Cindex "${MIDX}")
    ENDFOREACH(MIDX)
+   IF("${InputXml}" MATCHES "${ITK_CSWIG_JAVA_NO_EXCEPTION_REGEX}")
+     SET(ITK_SWG_FILE "")
+   ELSE("${InputXml}" MATCHES "${ITK_CSWIG_JAVA_NO_EXCEPTION_REGEX}")
+     SET(ITK_SWG_FILE "-l${ITK_TOP}/Wrapping/CSwig/itk.swg")
+   ENDIF("${InputXml}" MATCHES "${ITK_CSWIG_JAVA_NO_EXCEPTION_REGEX}")
    ADD_CUSTOM_COMMAND(
      COMMENT "${OutputTclCxx} from "
      SOURCE ${Bin}/${InputIdx}
      COMMAND ${CSWIG} 
      ARGS -I${ITK_SWIG_DEFAULT_LIB}
           -I${ITK_SWIG_DEFAULT_LIB}/java
-          -l${ITK_TOP}/Wrapping/CSwig/itk.swg
+          ${ITK_SWG_FILE}
           -noruntime ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${InputXml}.depend
           -outdir ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/InsightToolkit
           -o ${Bin}/${OutputTclCxx} -package InsightToolkit -java -c++ ${Bin}/${InputXml}
