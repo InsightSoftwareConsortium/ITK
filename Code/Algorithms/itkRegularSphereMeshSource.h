@@ -70,7 +70,7 @@ public:
   typedef typename TriCellType::SelfAutoPointer       TriCellAutoPointer;
   typedef typename TriCellType::CellAutoPointer       CellAutoPointer;
 
-  typedef typename std::pair<unsigned long,unsigned long> IndexPairType;
+  typedef std::pair<unsigned long,unsigned long> IndexPairType;
   typedef typename itk::MapContainer<IndexPairType, unsigned long> PointMapType;
   typedef typename PointType::VectorType VectorType;
     
