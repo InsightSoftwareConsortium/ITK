@@ -67,9 +67,11 @@ public:
   typedef typename Superclass::VectorType VectorType;
   typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
 
+  /** Extract some parameters from the superclass. */
+  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
+
   /** Define an image type for the advection field. */
-  typedef Image<VectorType, 
-                ::itk::GetImageDimension<TImageType>::ImageDimension > VectorImageType;
+  typedef Image<VectorType, itkGetStaticConstMacro(ImageDimension)> VectorImageType;
 
 
   /** Define a scalar interpolator */
@@ -81,9 +83,6 @@ public:
   /** Continuous index type recognized by the interpolator */
   typedef typename InterpolatorType::ContinuousIndexType ContinuousIndexType;
   
-  /** Extract some parameters from the superclass. */
-  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
-
   /** Set/Get the image which will be used to calculate the speed function. */
   virtual const FeatureImageType *GetFeatureImage() const
   { return m_FeatureImage.GetPointer(); }
