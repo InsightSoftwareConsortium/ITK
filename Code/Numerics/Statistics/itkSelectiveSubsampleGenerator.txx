@@ -24,6 +24,45 @@ template< class TInputSample, class TClassMaskSample >
 SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
 ::SelectiveSubsampleGenerator()
 {
+  m_Input = 0 ;
+  m_ClassMask = 0 ;
+  m_Output = OutputType::New() ;
+}
+
+template< class TInputSample, class TClassMaskSample >
+void
+SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "Input: " ;
+  if ( m_Input != 0 )
+    {
+    os << m_Input << std::endl;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+
+  os << indent << "ClassMask: " ;
+  if ( m_ClassMask != 0 )
+    {
+    os << m_ClassMask << std::endl ;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+
+  os << indent << "Output: " << m_Output << std::endl;
+  os << indent << "SelectedClassLabels: " ;
+  for ( unsigned int i = 0 ; i < m_SelectedClassLabels.size() ; ++i )
+    {
+    os << " " << m_SelectedClassLabels[i] ;
+    }
+  os << std::endl ;
 }
 
 template< class TInputSample, class TClassMaskSample >
@@ -71,7 +110,6 @@ void
 SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
 ::GenerateData()
 {
-  m_Output = OutputType::New() ;
   m_Output->SetSample(m_Input) ;
   typename TClassMaskSample::Iterator iter = m_ClassMask->Begin() ;
   while (iter != m_ClassMask->End())
@@ -87,19 +125,6 @@ SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
     }
 }
 
-template< class TInputSample, class TClassMaskSample >
-void
-SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-
-  os << indent << "Input: " << m_Input << std::endl;
-  os << indent << "Output: " << m_Output << std::endl;
-  os << indent << "ClassMask: " << m_ClassMask << std::endl ;
-  //  os << indent << "Selected Class Labels: " << &m_SelectedClassLabels 
-  //  << std::endl ;
-}
 } // end namespace Statistics
 } // end namespace itk
 
