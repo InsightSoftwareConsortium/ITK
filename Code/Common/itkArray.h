@@ -67,8 +67,6 @@ public:
       { return static_cast<unsigned int>( this->size() ); }
 
   /** Get one element */
-  TValueType & GetElement( unsigned int i )
-    { return this->operator[]( i ); }
   const TValueType & GetElement( unsigned int i ) const
     { return this->operator[]( i ); }
 
