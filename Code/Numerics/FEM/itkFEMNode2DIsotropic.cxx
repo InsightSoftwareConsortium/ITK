@@ -123,7 +123,7 @@ void Node2DIsotropic::Write( std::ostream& f, int ofid ) const {
   if (!f) { throw std::runtime_error("Error writing node!"); }
 }
 
-FEM_CLASS_REGISTER(Node2DIsotropic);
+FEM_CLASS_REGISTER(Node2DIsotropic)
 
 
 

@@ -480,14 +480,14 @@ void TetrahedronC03D::Write( std::ostream& f, int ofid ) const {
     f<<"\t"<<m_nodes[j]->GN<<"\t% NodeXYZ "<<j+1<<" ID\n";
   }
   
-  /** Check for erros */
+  /** Check for errors */
   if (!f) 
   { 
     throw std::runtime_error("Error writing element!");
   }
 }
 
-FEM_CLASS_REGISTER(TetrahedronC03D);
+FEM_CLASS_REGISTER(TetrahedronC03D)
 
 
 

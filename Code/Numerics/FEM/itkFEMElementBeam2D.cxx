@@ -288,7 +288,7 @@ void Beam2D::Write( std::ostream& f, int ofid ) const {
   f<<"\t"<<m_node1->GN<<"\t% NodeXYrotZ 1 ID\n";
   f<<"\t"<<m_node2->GN<<"\t% NodeXYrotZ 2 ID\n";
 
-  /** Check for erros */
+  /** Check for errors */
   if (!f) { throw std::runtime_error("Error writing element!"); }
 
 }

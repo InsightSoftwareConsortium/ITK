@@ -170,7 +170,7 @@ void MaterialStandard::Write( std::ostream& f, int ofid ) const {
   f<<"\tni : "<<ni<<"\t% Poisson's ratio\n";
   f<<"\tEND:\t% End of material definition\n";
 
-  /** check for erros */
+  /** check for errors */
   if (!f) { throw std::runtime_error("Error writing material!"); }
 }
 

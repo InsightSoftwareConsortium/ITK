@@ -65,28 +65,36 @@ class FEMPArray : public std::vector<FEMP<T> >
 {
 public:
   /**
-   * FEM_CLASS_SP macro excpects Self to be already defined. Since we
-   * are creating the base class, we must provide the typedef manually.
+   * Standard Self typedef
    */
   typedef FEMPArray Self;
 
-  /**  Dumb pointer typedef support. */
+  /**
+   * Standard Superclass typedef
+   */
+  typedef std::vector<FEMP<T> > Superclass;
+
+  /**
+   * Dumb pointer typedef support.
+   */
   typedef Self* Pointer;
   typedef const Self* ConstPointer;
 
-  /** Easy (and required on MSVC) access to the base class of objects inside the array */
+  /**
+   * Easy (and required on MSVC) access to the base class of objects inside the array.
+   */
   typedef T ClassType;
   typedef typename ClassType::Pointer ClassTypePointer;
   typedef typename ClassType::ConstPointer ClassTypeConstPointer;
 
   /**
-   * function finds and returns the standard pointer to the object with specific global number
+   * Finds and returns a pointer to the object with specific global number
    */
   ClassTypePointer Find(int gn);
   ClassTypeConstPointer Find(int gn) const;
 
   /**
-   * returns a pointer to i-th object stored in an array (not a pointer to FEMP of that object)
+   * Returns a pointer to i-th object stored in an array (not a pointer to FEMP of that object).
    */
   ClassTypePointer operator() (int i) 
   {
@@ -94,7 +102,8 @@ public:
   }
 
   /**
-   * same for the const arrays
+   * Returns a pointer to i-th object stored in an array (not a pointer to FEMP of that object).
+   * This function works on the const arrays.
    */
   ClassTypeConstPointer operator() (int i) const 
   {  
@@ -103,9 +112,9 @@ public:
 
 
   /**
-   * applies new numbers to objects in array so that they ar in order (0,1,2,...)
-   * this speeds up finding object by global number a lot. the function returns
-   * total number of objects in an array
+   * Applies new numbers to objects in array so that they are in order (0,1,2,...).
+   * This speeds up finding object by global number a lot. The function returns
+   * total number of objects in an array.
    */
   int Renumber();
 
@@ -114,32 +123,32 @@ public:
 
 
 /**
- * find function for for non-const objects
+ * Find function for for non-const objects
  */
 template<class T>
 FEMPArray<T>::ClassTypePointer FEMPArray<T>::Find(int gn)
 {
 
-  iterator i;
+  Superclass::iterator i;
 
   /**
-   * first take a guess, which only works on sorted arrays and is much faster than searching
+   * First take a guess. This only works on sorted arrays and is much faster than searching.
    */
   if( gn>=size() || gn<0 || (*(i=&this->operator[](gn)))->GN!=gn )
   {
     /** 
-     * the array is not sorted, we need to search for the correct GN
+     * The array is not sorted, we need to search for the correct GN.
      */
     for(i=begin(); i!=end() && (*i)->GN!=gn; i++);
 
     /**
-     * we din't find an object with that GN.
+     * We din't find an object with that GN.
      */
     if(i==end()) return 0;
   }
 
   /**
-   * return the pointer to the found object
+   * Return a pointer to the found object.
    */
   return &(*(*i));
 
@@ -149,33 +158,20 @@ FEMPArray<T>::ClassTypePointer FEMPArray<T>::Find(int gn)
 
 
 /**
- * find function for for const objects
+ * Find function for for const objects
  */
 template<class T>
-FEMPArray<T>::ClassTypeConstPointer FEMPArray<T>::Find(int gn) const 
+FEMPArray<T>::ClassTypeConstPointer FEMPArray<T>::Find(int gn) const
 {
 
-  const_iterator i;
+  Superclass::const_iterator i;
 
-  /**
-   * first take a guess, which only works on sorted arrays and is much faster than searching
-   */
   if( gn>=size() || gn<0 || (*(i=&this->operator[](gn)))->GN!=gn )
   {
-    /** 
-     * the array is not sorted, we need to search for the correct GN
-     */
     for(i=begin(); i!=end() && (*i)->GN!=gn; i++);
-
-    /**
-     * we din't find an object with that GN.
-     */
     if(i==end()) return 0;
   }
 
-  /**
-   * return the pointer to the found object
-   */
   return &(*(*i));
 
 }
@@ -186,14 +182,18 @@ FEMPArray<T>::ClassTypeConstPointer FEMPArray<T>::Find(int gn) const
 template<class T>
 int FEMPArray<T>::Renumber() 
 {
+
+  Superclass::iterator i;
   int j=0;
-  for(iterator i=begin(); i!=end(); i++) 
+
+  for(i=begin(); i!=end(); i++)
   {
     (*i)->GN=j;
     j++;
   }
 
   return j;
+
 }
 
 

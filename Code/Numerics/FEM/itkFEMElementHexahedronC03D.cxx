@@ -608,7 +608,7 @@ void HexahedronC03D::Write( std::ostream& f, int ofid ) const {
     f<<"\t"<<m_nodes[j]->GN<<"\t% NodeXYZ "<<j+1<<" ID\n";
   }
   
-  /** check for erros */
+  /** check for errors */
   if (!f) { throw std::runtime_error("Error writing element!"); }
 }
 

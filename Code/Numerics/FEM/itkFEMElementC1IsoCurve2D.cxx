@@ -226,7 +226,7 @@ void C1IsoCurve2D::Write( std::ostream& f, int ofid ) const {
   f<<"\t"<<mat->GN<<"\t% MaterialStandard ID\n";
   f<<"\t"<<cur_node->GN<<"\t% node 1 ID\n";
 
-  /** Check for erros */
+  /** Check for errors */
   if (!f) { throw std::runtime_error("Error writing element!"); }
 }
 

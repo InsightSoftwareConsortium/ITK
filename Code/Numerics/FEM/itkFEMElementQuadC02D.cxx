@@ -760,7 +760,7 @@ void QuadC02D::Write( std::ostream& f, int ofid ) const {
   f<<"\t"<<m_node3->GN<<"\t% NodeXY 3 ID\n";
   f<<"\t"<<m_node4->GN<<"\t% NodeXY 4 ID\n";
 
-  /** check for erros */
+  /** check for errors */
   if (!f) { throw std::runtime_error("Error writing element!"); }
 }
 

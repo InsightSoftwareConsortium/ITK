@@ -256,7 +256,7 @@ void Bar2D::Write( std::ostream& f, int ofid ) const {
   f<<"\t"<<m_node1->GN<<"\t% NodeXY 1 ID\n";
   f<<"\t"<<m_node2->GN<<"\t% NodeXY 2 ID\n";
 
-  /** check for erros */
+  /** check for errors */
   if( !f ) {
     throw std::runtime_error("Error writing element!");
   }
