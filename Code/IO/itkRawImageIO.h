@@ -142,6 +142,11 @@ public:
   /** Writes the data to disk from the memory buffer provided. */
   virtual void Write(const void* buffer);
 
+
+  virtual bool SetPixelType(const std::type_info& ptype)
+  { return true; }
+
+  virtual void SetPixelType(const IODataType ctype) {}
 protected:
   RawImageIO();
   ~RawImageIO();
