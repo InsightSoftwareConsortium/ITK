@@ -1,0 +1,101 @@
+/*
+ * Copyright (c) 1998
+ * Silicon Graphics Computer Systems, Inc.
+ *
+ * Permission to use, copy, modify, distribute and sell this software
+ * and its documentation for any purpose is hereby granted without fee,
+ * provided that the above copyright notice appear in all copies and
+ * that both that copyright notice and this permission notice appear
+ * in supporting documentation.  Silicon Graphics makes no
+ * representations about the suitability of this software for any
+ * purpose.  It is provided "as is" without express or implied warranty.
+ */ 
+
+// This header is an extension.  It defines two streambufs:
+// stdio_istreambuf, a read-only streambuf synchronized with a C stdio
+// FILE object, and stdio_ostreambuf, a write-only streambuf
+// synchronized with a C stdio FILE object.  Note that neither 
+// stdio_istreambuf nor stdio_ostreambuf is a template; both classes
+// are derived from basic_streambuf<char, char_traits<char> >.
+
+// Note: the imbue() member function is a no-op.  In particular, these
+// classes assume that codecvt<char, char, mbstate_t> is always an identity
+// transformation.  This is true of the default locale, and of all locales
+// defined for the C I/O library.  If you need to use a locale where 
+// the codecvt<char, char, mbstate_t> facet performs a nontrivial 
+// conversion, then you should use basic_filebuf<> instead of stdio_istreambuf
+// or stdio_ostreambuf.  (If you don't understand what any of this means, 
+// then it's not a feature you need to worry about.  Locales where 
+// codecvt<char, char, mbstate_t> does something nontrivial are a rare
+// corner case.)
+
+
+#ifndef __SGI_STL_STDIO_STREAMBUF
+#define __SGI_STL_STDIO_STREAMBUF
+
+#if defined(__sgi) && !defined(__GNUC__) && !defined(_STANDARD_C_PLUS_PLUS)
+#error This header file requires the -LANG:std option
+#endif
+
+#include <streambuf>            // For basic_streambuf<>
+#include <stdio.h>              // For FILE.
+
+// This is an extension.  It is in namespace SGI, not namespace std
+namespace SGI {
+
+// Base class for features common to stdio_istreambuf and stdio_ostreambuf
+class stdio_streambuf_base : public __STD::streambuf
+{
+  typedef __STD::streambuf _Base; // vc++ workaround, see constructor def.
+public:                         // Constructor, destructor.
+  // The argument may not be null.  It must be an open file pointer.
+  stdio_streambuf_base(FILE*);
+
+  // The destructor flushes the stream, but does not close it.
+  ~stdio_streambuf_base();
+
+protected:                      // Virtual functions from basic_streambuf.
+  __STD::streambuf* setbuf(char*, __STD::streamsize);
+
+  pos_type seekoff(off_type, __STD::ios_base::seekdir,
+                   __STD::ios_base::openmode
+                          = __STD::ios_base::in | __STD::ios_base::out);
+  pos_type seekpos(pos_type,
+                   __STD::ios_base::openmode
+                          = __STD::ios_base::in | __STD::ios_base::out);
+  int sync();
+
+protected:
+  FILE* _M_file;
+};
+
+class stdio_istreambuf : public stdio_streambuf_base
+{
+public:                         // Constructor, destructor.
+  stdio_istreambuf(FILE* __f) : stdio_streambuf_base(__f) {}
+
+protected:                      // Virtual functions from basic_streambuf.
+  __STD::streamsize showmanyc();
+  int_type underflow();
+  int_type uflow();
+  int_type pbackfail(int_type c = traits_type::eof());
+};
+
+class stdio_ostreambuf : public stdio_streambuf_base
+{
+public:                         // Constructor, destructor.
+  stdio_ostreambuf(FILE* __f) : stdio_streambuf_base(__f) {}
+
+protected:                      // Virtual functions from basic_streambuf.
+  __STD::streamsize showmanyc();
+  int_type overflow(int_type c = traits_type::eof());
+};
+
+} // Close namespace SGI.
+
+#endif /* __SGI_STL_STDIO_STREAMBUF */
+
+
+// Local Variables:
+// mode:C++
+// End:

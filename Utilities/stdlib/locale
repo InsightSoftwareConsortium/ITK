@@ -1,0 +1,146 @@
+/*
+ * Copyright (c) 1998
+ * Silicon Graphics Computer Systems, Inc.
+ *
+ * Permission to use, copy, modify, distribute and sell this software
+ * and its documentation for any purpose is hereby granted without fee,
+ * provided that the above copyright notice appear in all copies and
+ * that both that copyright notice and this permission notice appear
+ * in supporting documentation.  Silicon Graphics makes no
+ * representations about the suitability of this software for any
+ * purpose.  It is provided "as is" without express or implied warranty.
+ */ 
+
+#ifndef __SGI_STL_LOCALE
+#define __SGI_STL_LOCALE
+
+// Basic framework: class locale and class locale::facet
+#include <stl_config.h>
+#include <stl_locale.h>
+
+#include <ios>                  // Some facets need basic_ios and/or ios_base
+#include <iterator>             // Needed for [io]streambuf_iterator
+#include <streambuf>            // Needed by <iterator>
+#include <limits>               // Needed by numeric facets
+#include <time.h>               // Needed (for struct tm) by time facets
+
+// Individual facets
+#include <stl_ctype.h>
+#include <stl_codecvt.h>
+#include <stl_collate.h>
+#include <stl_numeric_facets.h>
+#include <stl_monetary.h>
+#include <stl_time_facets.h>
+#include <stl_messages_facets.h>
+
+// Convenience interfaces
+#undef isspace
+#undef isprint
+#undef iscntrl
+#undef isupper
+#undef islower
+#undef isalpha
+#undef isdigit
+#undef ispunct
+#undef isxdigit
+#undef isalnum
+#undef isgraph
+#undef toupper
+#undef tolower
+
+__STL_BEGIN_NAMESPACE
+
+template <class _CharT> 
+inline bool isspace (_CharT c, const locale& loc) {
+  return use_facet<ctype<_CharT> >(loc).is(ctype_base::space, c);
+}
+
+template <class _CharT> 
+inline bool isprint (_CharT c, const locale& loc) {
+  return use_facet<ctype<_CharT> >(loc).is(ctype_base::print, c);
+}
+
+template <class _CharT> 
+inline bool iscntrl (_CharT c, const locale& loc) {
+  return use_facet<ctype<_CharT> >(loc).is(ctype_base::cntrl, c);
+}
+
+template <class _CharT> 
+inline bool isupper (_CharT c, const locale& loc) {
+  return use_facet<ctype<_CharT> >(loc).is(ctype_base::upper, c);
+}
+
+template <class _CharT> 
+inline bool islower (_CharT c, const locale& loc) {
+  return use_facet<ctype<_CharT> >(loc).is(ctype_base::lower, c);
+}
+
+template <class _CharT> 
+inline bool isalpha (_CharT c, const locale& loc) {
+  return use_facet<ctype<_CharT> >(loc).is(ctype_base::alpha, c);
+}
+
+template <class _CharT> 
+inline bool isdigit (_CharT c, const locale& loc) {
+  return use_facet<ctype<_CharT> >(loc).is(ctype_base::digit, c);
+}
+
+template <class _CharT> 
+inline bool ispunct (_CharT c, const locale& loc) {
+  return use_facet<ctype<_CharT> >(loc).is(ctype_base::punct, c);
+}
+
+template <class _CharT> 
+inline bool isxdigit (_CharT c, const locale& loc) {
+  return use_facet<ctype<_CharT> >(loc).is(ctype_base::xdigit, c);
+}
+
+template <class _CharT> 
+inline bool isalnum (_CharT c, const locale& loc) {
+  return use_facet<ctype<_CharT> >(loc).is(ctype_base::alnum, c);
+}
+
+template <class _CharT> 
+inline bool isgraph (_CharT c, const locale& loc) {
+  return use_facet<ctype<_CharT> >(loc).is(ctype_base::graph, c);
+}
+
+template <class _CharT>
+inline _CharT toupper(_CharT c, const locale& loc) {
+  return use_facet<ctype<_CharT> >(loc).toupper(c);
+}
+
+template <class _CharT>
+inline _CharT tolower(_CharT c, const locale& loc) {
+  return use_facet<ctype<_CharT> >(loc).tolower(c);
+}
+
+//----------------------------------------------------------------------
+// Declarations of static template members.
+
+template <class _CharT, class _InputIterator>
+locale::id money_get<_CharT, _InputIterator>::id;
+
+template <class _CharT, class _OutputIterator>
+locale::id money_put<_CharT, _OutputIterator>::id;
+
+template <class _CharT, class _InputIterator>
+locale::id num_get<_CharT, _InputIterator>::id;
+
+template <class _CharT, class _OutputIterator>
+locale::id num_put<_CharT, _OutputIterator>::id;
+
+template <class _CharT, class _InputIterator>
+locale::id time_get<_CharT, _InputIterator>::id;
+
+template <class _CharT, class _OutputIterator>
+locale::id time_put<_CharT, _OutputIterator>::id;
+
+__STL_END_NAMESPACE
+
+#endif /* __SGI_STL_LOCALE */
+
+
+// Local Variables:
+// mode:C++
+// End:

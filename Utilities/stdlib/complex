@@ -1,0 +1,1048 @@
+/*
+ * Copyright (c) 1997-1998
+ * Silicon Graphics Computer Systems, Inc.
+ *
+ * Permission to use, copy, modify, distribute and sell this software
+ * and its documentation for any purpose is hereby granted without fee,
+ * provided that the above copyright notice appear in all copies and
+ * that both that copyright notice and this permission notice appear
+ * in supporting documentation.  Silicon Graphics makes no
+ * representations about the suitability of this software for any
+ * purpose.  It is provided "as is" without express or implied warranty.
+ */ 
+
+#ifndef __sgi_template_complex
+#define __sgi_template_complex
+
+// This header declares the template class complex, as described in 
+// in the draft C++ standard.  Single-precision complex numbers
+// are complex<float>, double-precision are complex<double>, and
+// quad precision are complex<long double>.
+
+// Note that the template class complex is declared within namespace
+// std, as called for by the draft C++ standard.  
+
+#include <stl_config.h>
+
+#ifdef __STL_USE_NEW_IOSTREAMS
+#include <iostream>
+#include <sstream>
+#else
+#include <iostream.h>
+#endif
+
+extern "C" {
+  double hypot(double, double);
+  float hypotf(float, float);
+  long double hypotl(long double, long double);
+}
+
+__STL_BEGIN_NAMESPACE
+
+template <class _Tp>
+struct complex {
+  typedef _Tp value_type;
+
+  // Constructors, destructor, assignment operator.
+  complex() : _M_re(0), _M_im(0) {}
+  complex(const value_type& __x)
+    : _M_re(__x), _M_im(0) {}
+  complex(const value_type& __x, const value_type& __y)
+    : _M_re(__x), _M_im(__y) {}
+  complex(const complex& __z)
+    : _M_re(__z._M_re), _M_im(__z._M_im) {}
+
+  complex& operator=(const complex& __z) {
+    _M_re = __z._M_re;
+    _M_im = __z._M_im;
+    return *this;
+  }
+
+#ifdef __STL_MEMBER_TEMPLATES
+  template <class _Tp2>
+  explicit complex(const complex<_Tp2>& __z)
+    : _M_re(__z._M_re), _M_im(__z._M_im) {}
+
+  template <class _Tp2>
+  complex& operator=(const complex<_Tp2>& __z) {
+    _M_re = __z._M_re;
+    _M_im = __z._M_im;
+    return *this;
+  }
+#endif /* __STL_MEMBER_TEMPLATES */
+
+  // Element access.
+  value_type real() const { return _M_re; }
+  value_type imag() const { return _M_im; }
+
+  // Arithmetic op= operations involving one real argument.
+
+  complex& operator= (const value_type& __x) {
+    _M_re = __x;
+    _M_im = 0;
+    return *this;
+  }
+  complex& operator+= (const value_type& __x) {
+    _M_re += __x;
+    return *this;
+  }
+  complex& operator-= (const value_type& __x) {
+    _M_re -= __x;
+    return *this;
+  }
+  complex& operator*= (const value_type& __x) {
+    _M_re *= __x;
+    _M_im *= __x;
+    return *this;
+  }
+  complex& operator/= (const value_type& __x) {
+    _M_re /= __x;
+    _M_im /= __x;
+    return *this;
+  }
+
+  // Arithmetic op= operations involving two complex arguments.
+
+  static void _div(const value_type& __z1_r, const value_type& __z1_i,
+                   const value_type& __z2_r, const value_type& __z2_i,
+                   value_type& __res_r, value_type& __res_i);
+
+  static void _div(const value_type& __z1_r, 
+                   const value_type& __z2_r, const value_type& __z2_i,
+                   value_type& __res_r, value_type& __res_i);
+
+#ifdef __STL_MEMBER_TEMPLATES
+
+  template <class _Tp2> complex& operator+= (const complex<_Tp2>& __z) {
+    _M_re += __z._M_re;
+    _M_im += __z._M_im;
+    return *this;
+  }
+
+  template <class _Tp2> complex& operator-= (const complex<_Tp2>& __z) {
+    _M_re -= __z._M_re;
+    _M_im -= __z._M_im;
+    return *this;
+  }
+
+  template <class _Tp2> complex& operator*= (const complex<_Tp2>& __z) {
+    value_type __r = _M_re * __z._M_re - _M_im * __z._M_im;
+    value_type __i = _M_re * __z._M_im + _M_im * __z._M_re;
+    _M_re = __r;
+    _M_im = __i;
+    return *this;
+  }
+
+  template <class _Tp2> complex& operator/= (const complex<_Tp2>& __z) {
+    value_type __r;
+    value_type __i;
+    _div(_M_re, _M_im, __z._M_re, __z._M_im, __r, __i);
+    _M_re = __r;
+    _M_im = __i;
+    return *this;
+  }
+
+#endif /* __STL_MEMBER_TEMPLATES */
+
+  complex& operator+= (const complex& __z) {
+    _M_re += __z._M_re;
+    _M_im += __z._M_im;
+    return *this;
+  }
+
+  complex& operator-= (const complex& __z) {
+    _M_re -= __z._M_re;
+    _M_im -= __z._M_im;
+    return *this;
+  }
+  
+  complex& operator*= (const complex& __z) {
+    value_type __r = _M_re * __z._M_re - _M_im * __z._M_im;
+    value_type __i = _M_re * __z._M_im + _M_im * __z._M_re;
+    _M_re = __r;
+    _M_im = __i;
+    return *this;
+  }
+
+  complex& operator/= (const complex& __z) {
+    value_type __r;
+    value_type __i;
+    _div(_M_re, _M_im, __z._M_re, __z._M_im, __r, __i);
+    _M_re = __r;
+    _M_im = __i;
+    return *this;
+  }
+
+
+  // Data members.
+  value_type _M_re;
+  value_type _M_im;
+};
+
+// Explicit specializations for float, double, long double.  The only
+// reason for these specializations is to enable automatic conversions
+// from complex<float> to complex<double>, and complex<double> to
+// complex<long double>.
+
+__STL_TEMPLATE_NULL struct complex<float>;
+__STL_TEMPLATE_NULL struct complex<double>;
+__STL_TEMPLATE_NULL struct complex<long double>;
+
+
+__STL_TEMPLATE_NULL struct complex<float> {
+  typedef float value_type;
+
+  // Constructors, destructor, assignment operator.
+  complex() : _M_re(0), _M_im(0) {}
+  complex(value_type __x)
+    : _M_re(__x), _M_im(0) {}
+  complex(value_type __x, value_type __y)
+    : _M_re(__x), _M_im(__y) {}
+
+  complex(const complex<float>& __z)
+    : _M_re(__z._M_re), _M_im(__z._M_im) {}
+  explicit complex(const complex<double>& __z);
+  explicit complex(const complex<long double>& __z);
+
+  // Element access.
+  value_type real() const { return _M_re; }
+  value_type imag() const { return _M_im; }
+
+  // Arithmetic op= operations involving one real argument.
+
+  complex& operator= (value_type __x) {
+    _M_re = __x;
+    _M_im = 0;
+    return *this;
+  }
+  complex& operator+= (value_type __x) {
+    _M_re += __x;
+    return *this;
+  }
+  complex& operator-= (value_type __x) {
+    _M_re -= __x;
+    return *this;
+  }
+  complex& operator*= (value_type __x) {
+    _M_re *= __x;
+    _M_im *= __x;
+    return *this;
+  }
+  complex& operator/= (value_type __x) {
+    _M_re /= __x;
+    _M_im /= __x;
+    return *this;
+  }
+
+  // Arithmetic op= operations involving two complex arguments.
+
+  static void _div(const value_type& __z1_r, const value_type& __z1_i,
+                   const value_type& __z2_r, const value_type& __z2_i,
+                   value_type& __res_r, value_type& __res_i);
+
+  static void _div(const value_type& __z1_r, 
+                   const value_type& __z2_r, const value_type& __z2_i,
+                   value_type& __res_r, value_type& __res_i);
+
+#ifdef __STL_MEMBER_TEMPLATES
+
+  template <class _Tp2>
+  complex<float>& operator=(const complex<_Tp2>& __z) {
+    _M_re = __z._M_re;
+    _M_im = __z._M_im;
+    return *this;
+  }
+
+  template <class _Tp2>
+  complex<float>& operator+= (const complex<_Tp2>& __z) {
+    _M_re += __z._M_re;
+    _M_im += __z._M_im;
+    return *this;
+  }
+
+  template <class _Tp2>
+  complex<float>& operator-= (const complex<_Tp2>& __z) {
+    _M_re -= __z._M_re;
+    _M_im -= __z._M_im;
+    return *this;
+  }
+
+  template <class _Tp2>
+  complex<float>& operator*= (const complex<_Tp2>& __z) {
+    float __r = _M_re * __z._M_re - _M_im * __z._M_im;
+    float __i = _M_re * __z._M_im + _M_im * __z._M_re;
+    _M_re = __r;
+    _M_im = __i;
+    return *this;
+  }
+
+  template <class _Tp2>
+  complex<float>& operator/= (const complex<_Tp2>& __z) {
+    float __r;
+    float __i;
+    _div(_M_re, _M_im, __z._M_re, __z._M_im, __r, __i);
+    _M_re = __r;
+    _M_im = __i;
+    return *this;
+  }
+
+#endif /* __STL_MEMBER_TEMPLATES */
+
+  complex& operator=(const complex& __z) {
+    _M_re = __z._M_re;
+    _M_im = __z._M_im;
+    return *this;
+  }
+
+  complex& operator+= (const complex& __z) {
+    _M_re += __z._M_re;
+    _M_im += __z._M_im;
+    return *this;
+  }
+
+  complex& operator-= (const complex& __z) {
+    _M_re -= __z._M_re;
+    _M_im -= __z._M_im;
+    return *this;
+  }
+  
+  complex& operator*= (const complex& __z) {
+    value_type __r = _M_re * __z._M_re - _M_im * __z._M_im;
+    value_type __i = _M_re * __z._M_im + _M_im * __z._M_re;
+    _M_re = __r;
+    _M_im = __i;
+    return *this;
+  }
+
+  complex& operator/= (const complex& __z) {
+    value_type __r;
+    value_type __i;
+    _div(_M_re, _M_im, __z._M_re, __z._M_im, __r, __i);
+    _M_re = __r;
+    _M_im = __i;
+    return *this;
+  }
+
+  // Data members.
+  value_type _M_re;
+  value_type _M_im;
+};
+
+
+__STL_TEMPLATE_NULL struct complex<double> {
+  typedef double value_type;
+
+  // Constructors, destructor, assignment operator.
+  complex() : _M_re(0), _M_im(0) {}
+  complex(value_type __x)
+    : _M_re(__x), _M_im(0) {}
+  complex(value_type __x, value_type __y)
+    : _M_re(__x), _M_im(__y) {}
+
+  complex(const complex<double>& __z)
+    : _M_re(__z._M_re), _M_im(__z._M_im) {}
+  complex(const complex<float>& __z);
+  explicit complex(const complex<long double>& __z);
+
+  // Element access.
+  value_type real() const { return _M_re; }
+  value_type imag() const { return _M_im; }
+
+  // Arithmetic op= operations involving one real argument.
+
+  complex& operator= (value_type __x) {
+    _M_re = __x;
+    _M_im = 0;
+    return *this;
+  }
+  complex& operator+= (value_type __x) {
+    _M_re += __x;
+    return *this;
+  }
+  complex& operator-= (value_type __x) {
+    _M_re -= __x;
+    return *this;
+  }
+  complex& operator*= (value_type __x) {
+    _M_re *= __x;
+    _M_im *= __x;
+    return *this;
+  }
+  complex& operator/= (value_type __x) {
+    _M_re /= __x;
+    _M_im /= __x;
+    return *this;
+  }
+
+  // Arithmetic op= operations involving two complex arguments.
+
+  static void _div(const value_type& __z1_r, const value_type& __z1_i,
+                   const value_type& __z2_r, const value_type& __z2_i,
+                   value_type& __res_r, value_type& __res_i);
+
+  static void _div(const value_type& __z1_r, 
+                   const value_type& __z2_r, const value_type& __z2_i,
+                   value_type& __res_r, value_type& __res_i);
+
+#ifdef __STL_MEMBER_TEMPLATES
+
+  template <class _Tp2>
+  complex<double>& operator=(const complex<_Tp2>& __z) {
+    _M_re = __z._M_re;
+    _M_im = __z._M_im;
+    return *this;
+  }
+
+  template <class _Tp2>
+  complex<double>& operator+= (const complex<_Tp2>& __z) {
+    _M_re += __z._M_re;
+    _M_im += __z._M_im;
+    return *this;
+  }
+
+  template <class _Tp2>
+  complex<double>& operator-= (const complex<_Tp2>& __z) {
+    _M_re -= __z._M_re;
+    _M_im -= __z._M_im;
+    return *this;
+  }
+
+  template <class _Tp2>
+  complex<double>& operator*= (const complex<_Tp2>& __z) {
+    double __r = _M_re * __z._M_re - _M_im * __z._M_im;
+    double __i = _M_re * __z._M_im + _M_im * __z._M_re;
+    _M_re = __r;
+    _M_im = __i;
+    return *this;
+  }
+
+  template <class _Tp2>
+  complex<double>& operator/= (const complex<_Tp2>& __z) {
+    double __r;
+    double __i;
+    _div(_M_re, _M_im, __z._M_re, __z._M_im, __r, __i);
+    _M_re = __r;
+    _M_im = __i;
+    return *this;
+  }
+
+#endif /* __STL_MEMBER_TEMPLATES */
+
+  complex& operator=(const complex& __z) {
+    _M_re = __z._M_re;
+    _M_im = __z._M_im;
+    return *this;
+  }
+
+  complex& operator+= (const complex& __z) {
+    _M_re += __z._M_re;
+    _M_im += __z._M_im;
+    return *this;
+  }
+
+  complex& operator-= (const complex& __z) {
+    _M_re -= __z._M_re;
+    _M_im -= __z._M_im;
+    return *this;
+  }
+  
+  complex& operator*= (const complex& __z) {
+    value_type __r = _M_re * __z._M_re - _M_im * __z._M_im;
+    value_type __i = _M_re * __z._M_im + _M_im * __z._M_re;
+    _M_re = __r;
+    _M_im = __i;
+    return *this;
+  }
+
+  complex& operator/= (const complex& __z) {
+    value_type __r;
+    value_type __i;
+    _div(_M_re, _M_im, __z._M_re, __z._M_im, __r, __i);
+    _M_re = __r;
+    _M_im = __i;
+    return *this;
+  }
+
+  // Data members.
+  value_type _M_re;
+  value_type _M_im;
+};
+
+
+__STL_TEMPLATE_NULL struct complex<long double> {
+  typedef long double value_type;
+
+  // Constructors, destructor, assignment operator.
+  complex() : _M_re(0), _M_im(0) {}
+  complex(value_type __x)
+    : _M_re(__x), _M_im(0) {}
+  complex(value_type __x, value_type __y)
+    : _M_re(__x), _M_im(__y) {}
+
+  complex(const complex<long double>& __z)
+    : _M_re(__z._M_re), _M_im(__z._M_im) {}
+  complex(const complex<float>& __z);
+  complex(const complex<double>& __z);
+
+  // Element access.
+  value_type real() const { return _M_re; }
+  value_type imag() const { return _M_im; }
+
+  // Arithmetic op= operations involving one real argument.
+
+  complex& operator= (value_type __x) {
+    _M_re = __x;
+    _M_im = 0;
+    return *this;
+  }
+  complex& operator+= (value_type __x) {
+    _M_re += __x;
+    return *this;
+  }
+  complex& operator-= (value_type __x) {
+    _M_re -= __x;
+    return *this;
+  }
+  complex& operator*= (value_type __x) {
+    _M_re *= __x;
+    _M_im *= __x;
+    return *this;
+  }
+  complex& operator/= (value_type __x) {
+    _M_re /= __x;
+    _M_im /= __x;
+    return *this;
+  }
+
+  // Arithmetic op= operations involving two complex arguments.
+
+  static void _div(const value_type& __z1_r, const value_type& __z1_i,
+                   const value_type& __z2_r, const value_type& __z2_i,
+                   value_type& __res_r, value_type& __res_i);
+
+  static void _div(const value_type& __z1_r, 
+                   const value_type& __z2_r, const value_type& __z2_i,
+                   value_type& __res_r, value_type& __res_i);
+
+#ifdef __STL_MEMBER_TEMPLATES
+
+  template <class _Tp2>
+  complex<long double>& operator=(const complex<_Tp2>& __z) {
+    _M_re = __z._M_re;
+    _M_im = __z._M_im;
+    return *this;
+  }
+
+  template <class _Tp2>
+  complex<long double>& operator+= (const complex<_Tp2>& __z) {
+    _M_re += __z._M_re;
+    _M_im += __z._M_im;
+    return *this;
+  }
+
+  template <class _Tp2>
+  complex<long double>& operator-= (const complex<_Tp2>& __z) {
+    _M_re -= __z._M_re;
+    _M_im -= __z._M_im;
+    return *this;
+  }
+
+  template <class _Tp2>
+  complex<long double>& operator*= (const complex<_Tp2>& __z) {
+    long double __r = _M_re * __z._M_re - _M_im * __z._M_im;
+    long double __i = _M_re * __z._M_im + _M_im * __z._M_re;
+    _M_re = __r;
+    _M_im = __i;
+    return *this;
+  }
+
+  template <class _Tp2>
+  complex<long double>& operator/= (const complex<_Tp2>& __z) {
+    long double __r;
+    long double __i;
+    _div(_M_re, _M_im, __z._M_re, __z._M_im, __r, __i);
+    _M_re = __r;
+    _M_im = __i;
+    return *this;
+  }
+
+#endif /* __STL_MEMBER_TEMPLATES */
+
+  complex& operator=(const complex& __z) {
+    _M_re = __z._M_re;
+    _M_im = __z._M_im;
+    return *this;
+  }
+
+  complex& operator+= (const complex& __z) {
+    _M_re += __z._M_re;
+    _M_im += __z._M_im;
+    return *this;
+  }
+
+  complex& operator-= (const complex& __z) {
+    _M_re -= __z._M_re;
+    _M_im -= __z._M_im;
+    return *this;
+  }
+  
+  complex& operator*= (const complex& __z) {
+    value_type __r = _M_re * __z._M_re - _M_im * __z._M_im;
+    value_type __i = _M_re * __z._M_im + _M_im * __z._M_re;
+    _M_re = __r;
+    _M_im = __i;
+    return *this;
+  }
+
+  complex& operator/= (const complex& __z) {
+    value_type __r;
+    value_type __i;
+    _div(_M_re, _M_im, __z._M_re, __z._M_im, __r, __i);
+    _M_re = __r;
+    _M_im = __i;
+    return *this;
+  }
+
+  // Data members.
+  value_type _M_re;
+  value_type _M_im;
+};
+
+// Converting constructors from one of these three specialized types
+// to another.
+
+inline complex<float>::complex(const complex<double>& __z)
+  : _M_re(__z._M_re), _M_im(__z._M_im) {}
+inline complex<float>::complex(const complex<long double>& __z)
+  : _M_re(__z._M_re), _M_im(__z._M_im) {}
+inline complex<double>::complex(const complex<float>& __z)
+  : _M_re(__z._M_re), _M_im(__z._M_im) {}
+inline complex<double>::complex(const complex<long double>& __z)
+  : _M_re(__z._M_re), _M_im(__z._M_im) {}
+inline complex<long double>::complex(const complex<float>& __z)
+  : _M_re(__z._M_re), _M_im(__z._M_im) {}
+inline complex<long double>::complex(const complex<double>& __z)
+  : _M_re(__z._M_re), _M_im(__z._M_im) {}
+
+// Unary non-member arithmetic operators.
+
+template <class _Tp>
+inline complex<_Tp> operator+(const complex<_Tp>& __z) {
+  return __z;
+}
+
+template <class _Tp>
+inline complex<_Tp> operator-(const complex<_Tp>& __z) {
+  return complex<_Tp>(-__z._M_re, -__z._M_im);
+}
+
+// Non-member arithmetic operations involving one real argument.
+
+template <class _Tp> 
+inline complex<_Tp> operator+(const _Tp& __x, const complex<_Tp>& __z) {
+  return complex<_Tp>(__x + __z._M_re, __z._M_im);
+}
+
+template <class _Tp> 
+inline complex<_Tp> operator+(const complex<_Tp>& __z, const _Tp& __x) {
+  return complex<_Tp>(__z._M_re + __x, __z._M_im);
+}
+
+template <class _Tp> 
+inline complex<_Tp> operator-(const _Tp& __x, const complex<_Tp>& __z) {
+  return complex<_Tp>(__x - __z._M_re, -__z._M_im);
+}
+
+template <class _Tp> 
+inline complex<_Tp> operator-(const complex<_Tp>& __z, const _Tp& __x) {
+  return complex<_Tp>(__z._M_re - __x, __z._M_im);
+}
+
+template <class _Tp> 
+inline complex<_Tp> operator*(const _Tp& __x, const complex<_Tp>& __z) {
+  return complex<_Tp>(__x * __z._M_re, __x * __z._M_im);
+}
+
+template <class _Tp> 
+inline complex<_Tp> operator*(const complex<_Tp>& __z, const _Tp& __x) {
+  return complex<_Tp>(__z._M_re * __x, __z._M_im * __x);
+}
+
+template <class _Tp> 
+inline complex<_Tp> operator/(const _Tp& __x, const complex<_Tp>& __z) {
+  complex<_Tp> __result;
+  complex<_Tp>::_div(__x,
+                     __z._M_re, __z._M_im,
+                     __result._M_re, __result._M_im);
+  return __result;
+}
+
+template <class _Tp> 
+inline complex<_Tp> operator/(const complex<_Tp>& __z, const _Tp& __x) {
+  return complex<_Tp>(__z._M_re / __x, __z._M_im / __x);
+}
+
+// Non-member arithmetic operations involving two complex arguments
+
+template <class _Tp> 
+inline complex<_Tp>
+operator+(const complex<_Tp>& __z1, const complex<_Tp>& __z2) {
+  return complex<_Tp>(__z1._M_re + __z2._M_re, __z1._M_im + __z2._M_im);
+}
+
+template <class _Tp> 
+inline complex<_Tp>
+operator-(const complex<_Tp>& __z1, const complex<_Tp>& __z2) {
+  return complex<_Tp>(__z1._M_re - __z2._M_re, __z1._M_im - __z2._M_im);
+}
+
+template <class _Tp> 
+inline complex<_Tp>
+operator*(const complex<_Tp>& __z1, const complex<_Tp>& __z2) {
+  return complex<_Tp>(__z1._M_re * __z2._M_re - __z1._M_im * __z2._M_im,
+                      __z1._M_re * __z2._M_im + __z1._M_im * __z2._M_re);
+}
+
+template <class _Tp> 
+inline complex<_Tp>
+operator/(const complex<_Tp>& __z1, const complex<_Tp>& __z2) {
+  complex<_Tp> __result;
+  complex<_Tp>::_div(__z1._M_re, __z1._M_im,
+                     __z2._M_re, __z2._M_im,
+                     __result._M_re, __result._M_im);
+  return __result;
+}
+
+// Comparison operators.
+
+template <class _Tp>
+inline bool operator==(const complex<_Tp>& __z1, const complex<_Tp>& __z2) {
+  return __z1._M_re == __z2._M_re && __z1._M_im == __z2._M_im;
+}
+
+template <class _Tp>
+inline bool operator==(const complex<_Tp>& __z, const _Tp& __x) {
+  return __z._M_re == __x && __z._M_im == 0;
+}
+
+template <class _Tp>
+inline bool operator==(const _Tp& __x, const complex<_Tp>& __z) {
+  return __x == __z._M_re && 0 == __z._M_im;
+}
+
+#ifdef __STL_FUNCTION_TMPL_PARTIAL_ORDER
+
+template <class _Tp>
+inline bool operator!=(const complex<_Tp>& __z1, const complex<_Tp>& __z2) {
+  return __z1._M_re != __z2._M_re || __z1._M_im != __z2._M_im;
+}
+
+#endif /* __STL_FUNCTION_TMPL_PARTIAL_ORDER */
+
+template <class _Tp>
+inline bool operator!=(const complex<_Tp>& __z, const _Tp& __x) {
+  return __z._M_re != __x || __z._M_im != 0;
+}
+
+template <class _Tp>
+inline bool operator!=(const _Tp& __x, const complex<_Tp>& __z) {
+  return __x != __z._M_re || 0 != __z._M_im;
+}
+
+// Other basic arithmetic operations
+
+template <class _Tp>
+inline _Tp real(const complex<_Tp>& __z) {
+  return __z._M_re;
+}
+
+template <class _Tp>
+inline _Tp imag(const complex<_Tp>& __z) {
+  return __z._M_im;
+}
+
+
+float abs(const complex<float>&);
+double abs(const complex<double>&);
+long double abs(const complex<long double>&);
+
+template <class _Tp>
+_Tp abs(const complex<_Tp>& __z) {
+  return _Tp(abs(complex<double>(double(__z.real()), double(__z.imag()))));
+}
+
+
+float arg(const complex<float>&);
+double arg(const complex<double>&);
+long double arg(const complex<long double>&);
+
+template <class _Tp>
+_Tp arg(const complex<_Tp>& __z) {
+  return _Tp(arg(complex<double>(double(__z.real()), double(__z.imag()))));
+}
+
+
+template <class _Tp>
+inline _Tp norm(const complex<_Tp>& __z) {
+  return __z._M_re * __z._M_re + __z._M_im * __z._M_im;
+}
+
+template <class _Tp>
+inline complex<_Tp> conj(const complex<_Tp>& __z) {
+  return complex<_Tp>(__z._M_re, -__z._M_im);
+}
+
+
+complex<float> polar(const float& __rho, const float& __phi);
+complex<double> polar(const double& __rho, const double& __phi);
+complex<long double> polar(const long double&, const long double&);
+
+template <class _Tp>
+complex<_Tp> polar(const _Tp& __rho) {
+  return complex<_Tp>(__rho, 0);
+}
+
+template <class _Tp>
+complex<_Tp> polar(const _Tp& __rho, const _Tp& __phi) {
+  complex<double> __tmp = polar(double(__rho), double(__phi));
+  return complex<_Tp>(_Tp(__tmp.real()), _Tp(__tmp.imag()));
+}
+
+
+// Non-inline member functions.
+
+template <class _Tp>
+void complex<_Tp>::_div(const _Tp& __z1_r, const _Tp& __z1_i,
+                        const _Tp& __z2_r, const _Tp& __z2_i,
+                        _Tp& __res_r, _Tp& __res_i) {
+  _Tp __ar = __z2_r >= 0 ? __z2_r : -__z2_r;
+  _Tp __ai = __z2_i >= 0 ? __z2_i : -__z2_i;
+
+  if (__ar <= __ai) {
+    _Tp __ratio = __z2_r / __z2_i;
+    _Tp __denom = __z2_i * (1 + __ratio * __ratio);
+    __res_r = (__z1_r * __ratio + __z1_i) / __denom;
+    __res_i = (__z1_i * __ratio - __z1_r) / __denom;
+  }
+  else {
+    _Tp __ratio = __z2_i / __z2_r;
+    _Tp __denom = __z2_r * (1 + __ratio * __ratio);
+    __res_r = (__z1_r + __z1_i * __ratio) / __denom;
+    __res_i = (__z1_i - __z1_r * __ratio) / __denom;
+  }
+}
+
+template <class _Tp>
+void complex<_Tp>::_div(const _Tp& __z1_r,
+                        const _Tp& __z2_r, const _Tp& __z2_i,
+                        _Tp& __res_r, _Tp& __res_i) {
+  _Tp __ar = __z2_r >= 0 ? __z2_r : -__z2_r;
+  _Tp __ai = __z2_i >= 0 ? __z2_i : -__z2_i;
+
+  if (__ar <= __ai) {
+    _Tp __ratio = __z2_r / __z2_i;
+    _Tp __denom = __z2_i * (1 + __ratio * __ratio);
+    __res_r = (__z1_r * __ratio) / __denom;
+    __res_i = - __z1_r / __denom;
+  }
+  else {
+    _Tp __ratio = __z2_i / __z2_r;
+    _Tp __denom = __z2_r * (1 + __ratio * __ratio);
+    __res_r = __z1_r / __denom;
+    __res_i = - (__z1_r * __ratio) / __denom;
+  }
+}
+
+// I/O.
+
+#ifdef __STL_USE_NEW_IOSTREAMS
+
+// Complex output, in the form (re,im).  We use a two-step process 
+// involving stringstream so that we get the padding right.  
+template <class _Tp, class _CharT, class _Traits>
+basic_ostream<_CharT, _Traits>&
+operator<<(basic_ostream<_CharT, _Traits>& __os, const complex<_Tp>& __z)
+{
+  basic_ostringstream<_CharT, _Traits> __tmp;
+  __tmp.flags(__os.flags());
+  __tmp.imbue(__os.getloc());
+  __tmp.precision(__os.precision());
+  __tmp << '(' << __z.real() << ',' << __z.imag() << ')';
+  return __os << __tmp.str();
+}
+
+// Complex input from arbitrary streams.  Note that results in some
+// locales may be confusing, since the decimal character varies with
+// locale and the separator between real and imaginary parts does not.
+
+template <class _Tp, class _CharT, class _Traits>
+basic_istream<_CharT, _Traits>&
+operator>>(basic_istream<_CharT, _Traits>& __is, complex<_Tp>& __z)
+{
+  _Tp  __re = 0;
+  _Tp  __im = 0;
+
+  typedef ctype<_CharT> _Ctype;
+  locale __loc = __is.getloc();
+  const _Ctype&  __ctype  = use_facet<_Ctype>(__loc);
+
+  char   __punct[4] = "(,)";
+  _CharT __wpunct[3];
+  __ctype.widen(__punct, __punct + 3, __wpunct);
+
+  _CharT __c;
+
+  __is >> __c;
+  if (_Traits::eq(__c, __wpunct[0])) {  // Left paren
+    __is >> __re >> __c;
+    if (_Traits::eq(__c, __wpunct[1]))  // Comma
+      __is >> __im >> __c;
+    if (!_Traits::eq(__c, __wpunct[2])) // Right paren
+      __is.setstate(ios_base::failbit);
+  }
+  else {
+    __is.putback(__c);
+    __is >> __re;
+  }
+
+  if (__is)
+    __z = complex<_Tp>(__re, __im);
+  return __is;
+}
+
+
+#ifdef __STL_FUNCTION_TMPL_PARTIAL_ORDER
+
+// Specialization for narrow characters; lets us avoid widen.
+template <class _Tp>
+basic_istream<char>& operator>>(basic_istream<char>& __is, complex<_Tp>& __z)
+{
+  _Tp  __re = 0;
+  _Tp  __im = 0;
+
+  char __c;
+
+  __is >> __c;
+  if (__c == '(') {
+    __is >> __re >> __c;
+    if (__c == ',')
+      __is >> __im >> __c;
+    if (__c != ')')
+      __is.setstate(ios_base::failbit);
+  }
+  else {
+    __is.putback(__c);
+    __is >> __re;
+  }
+
+  if (__is)
+    __z = complex<_Tp>(__re, __im);
+  return __is;
+}
+#endif /* __STL_FUNCTION_TMPL_PARTIAL_ORDER */
+
+#else /* __STL_USE_NEW_IOSTREAMS */
+
+template <class _Tp>
+ostream& operator<<(ostream& s, const complex<_Tp>& __z)
+{
+  return s << "( " << __z._M_re <<", " << __z._M_im <<")";
+}
+
+template <class _Tp>
+istream& operator>>(istream& s, complex<_Tp>& a)
+{
+  _Tp re = 0, im = 0;
+  char 	c = 0;
+
+  s >> c;
+  if (c == '(') {
+    s >> re >> c;
+    if (c == ',') s >> im >> c;
+    if (c != ')') s.clear(ios::badbit);
+  }
+  else {
+    s.putback(c);
+    s >> re;
+  }
+
+  if (s) a = complex<_Tp>(re, im);
+  return s;
+}
+
+#endif /* __STL_USE_NEW_IOSTREAMS */
+
+// Transcendental functions.  These are defined only for float, 
+//  double, and long double.  (Sqrt isn't transcendental, of course,
+//  but it's included in this section anyway.)
+
+
+complex<float> sqrt(const complex<float>&);
+
+complex<float> exp(const complex<float>&);
+complex<float> log(const complex<float>&);
+complex<float> log10(const complex<float>&);
+
+complex<float> pow(const complex<float>&, int);
+complex<float> pow(const complex<float>&, const float&);
+complex<float> pow(const float&, const complex<float>&);
+complex<float> pow(const complex<float>&, const complex<float>&);
+
+complex<float> sin(const complex<float>&);
+complex<float> cos(const complex<float>&);
+complex<float> tan(const complex<float>&);
+
+complex<float> sinh(const complex<float>&);
+complex<float> cosh(const complex<float>&);
+complex<float> tanh(const complex<float>&);
+
+
+
+complex<double> sqrt(const complex<double>&);
+
+complex<double> exp(const complex<double>&);
+complex<double> log(const complex<double>&);
+complex<double> log10(const complex<double>&);
+
+complex<double> pow(const complex<double>&, int);
+complex<double> pow(const complex<double>&, const double&);
+complex<double> pow(const double&, const complex<double>&);
+complex<double> pow(const complex<double>&, const complex<double>&);
+
+complex<double> sin(const complex<double>&);
+complex<double> cos(const complex<double>&);
+complex<double> tan(const complex<double>&);
+
+complex<double> sinh(const complex<double>&);
+complex<double> cosh(const complex<double>&);
+complex<double> tanh(const complex<double>&);
+
+
+
+complex<long double> sqrt(const complex<long double>&);
+
+complex<long double> exp(const complex<long double>&);
+complex<long double> log(const complex<long double>&);
+complex<long double> log10(const complex<long double>&);
+
+complex<long double> pow(const complex<long double>&, int);
+complex<long double> pow(const complex<long double>&, const long double&);
+complex<long double> pow(const long double&, const complex<long double>&);
+complex<long double> pow(const complex<long double>&,
+                         const complex<long double>&);
+
+complex<long double> sin(const complex<long double>&);
+complex<long double> cos(const complex<long double>&);
+complex<long double> tan(const complex<long double>&);
+
+complex<long double> sinh(const complex<long double>&);
+complex<long double> cosh(const complex<long double>&);
+complex<long double> tanh(const complex<long double>&);
+
+__STL_END_NAMESPACE
+
+#endif /* __sgi_template_complex */
+
+// Local Variables:
+// mode:C++
+// End:

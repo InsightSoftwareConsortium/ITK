@@ -1,0 +1,598 @@
+/*
+ * Copyright (c) 1998
+ * Silicon Graphics Computer Systems, Inc.
+ *
+ * Permission to use, copy, modify, distribute and sell this software
+ * and its documentation for any purpose is hereby granted without fee,
+ * provided that the above copyright notice appear in all copies and
+ * that both that copyright notice and this permission notice appear
+ * in supporting documentation.  Silicon Graphics makes no
+ * representations about the suitability of this software for any
+ * purpose.  It is provided "as is" without express or implied warranty.
+ */ 
+
+#ifndef __SGI_STL_STREAMBUF
+#define __SGI_STL_STREAMBUF
+
+#if defined(__sgi) && !defined(__GNUC__) && !defined(_STANDARD_C_PLUS_PLUS)
+#error This header file requires the -LANG:std option
+#endif
+
+#include <ios>                  // Needed for ios_base bitfield members.
+                                // <ios> includes <iosfwd>.
+#include <stl_stdio_file.h>     // Declaration of struct FILE, and of
+                                // functions to manipulate it.
+
+__STL_BEGIN_NAMESPACE
+
+//----------------------------------------------------------------------
+// Class basic_streambuf<>, the base class of the streambuf hierarchy.
+
+// A basic_streambuf<> manages an input (get) area and an output (put)
+// area.  Each is described by three pointers: a beginning, an end, and a
+// current position.  basic_streambuf<> contains some very simple member
+// functions that manipulate those six pointers, but almost all of the real
+// functionality gets delegated to protected virtual member functions.
+// All of the public member functions are inline, and most of the protected
+// member functions are virtual.
+
+// Although basic_streambuf<> is not abstract, it is useful only as a base
+// class.  Its virtual member functions have default definitions such that
+// reading from a basic_streambuf<> will always yield EOF, and writing to a
+// basic_streambuf<> will always fail.
+
+// The second template parameter, _Traits, defaults to char_traits<_CharT>.
+// The default is declared in header <iosfwd>, and it isn't declared here
+// because C++ language rules do not allow it to be declared twice. 
+
+template <class _CharT, class _Traits>
+class basic_streambuf
+{
+ friend class basic_istream<_CharT, _Traits>;
+ friend class basic_ostream<_CharT, _Traits>;
+public:                         // Typedefs.
+  typedef _CharT                     char_type;
+  typedef typename _Traits::int_type int_type;
+  typedef typename _Traits::pos_type pos_type;
+  typedef typename _Traits::off_type off_type;
+  typedef _Traits                    traits_type;
+
+public:                         // Destructor.
+  virtual ~basic_streambuf() {}
+
+public:                         // Locale-related functions.
+  locale pubimbue(const locale& __loc) {
+    this->imbue(__loc);
+    locale __tmp = _M_locale;
+    _M_locale = __loc;
+    return __tmp;
+  }
+  locale getloc() const { return _M_locale; }
+
+public:                         // Buffer management.
+  basic_streambuf* pubsetbuf(char_type* __s, streamsize __n) 
+    { return this->setbuf(__s, __n); }
+
+  pos_type pubseekoff(off_type __offset, ios_base::seekdir __way,
+                      ios_base::openmode __mod = ios_base::in | ios_base::out)
+    { return this->seekoff(__offset, __way, __mod); }
+
+  pos_type pubseekpos(pos_type __sp,
+                      ios_base::openmode __mod = ios_base::in | ios_base::out)
+    { return this->seekpos(__sp, __mod); }
+
+  int pubsync() { return this->sync(); }
+
+public:                         // Public members for reading characters.
+  streamsize in_avail() {
+    return _M_gnext < _M_gend ? _M_gend - _M_gnext : this->showmanyc();
+  }
+  
+  // Advance to the next character and return it.
+  int_type snextc() {
+    return _M_gend - _M_gnext > 1 ? _Traits::to_int_type(*++_M_gnext) 
+                                  : this->_M_snextc_aux();
+  }
+
+  // Return the current character and advance to the next.
+  int_type sbumpc() {
+    return _M_gnext < _M_gend ? _Traits::to_int_type(*_M_gnext++) 
+                              : this->uflow();
+  }
+
+  // Return the current character without advancing to the next.
+  int_type sgetc() {
+    return _M_gnext < _M_gend ? _Traits::to_int_type(*_M_gnext) 
+                              : this->underflow();
+  }
+    
+  streamsize sgetn(char_type* __s, streamsize __n)
+    { return this->xsgetn(__s, __n); }
+
+  int_type sputbackc(char_type __c) {
+    return _M_gbegin < _M_gnext && _Traits::eq(__c, *(_M_gnext - 1))
+      ? _Traits::to_int_type(*--_M_gnext)
+      : this->pbackfail(_Traits::to_int_type(__c));
+  }
+
+  int_type sungetc() {
+    return _M_gbegin < _M_gnext
+      ? _Traits::to_int_type(*--_M_gnext)
+      : this->pbackfail();
+  }
+
+public:                         // Public members for writing characters.
+  // Write a single character.
+  int_type sputc(char_type __c) {
+    return _M_pnext < _M_pend
+      ? _Traits::to_int_type(*_M_pnext++ = __c)
+      : this->overflow(_Traits::to_int_type(__c));
+  }
+
+  // Write __n characters.
+  streamsize sputn(const char_type* __s, streamsize __n)
+    { return this->xsputn(__s, __n); }
+
+  // Extension: write __n copies of __c.
+  streamsize _M_sputnc(char_type __c, streamsize __n)
+    { return this->_M_xsputnc(__c, __n); }
+
+public:                         // Extension: locking, for thread safety.
+  _STL_mutex_lock _M_lock;
+
+protected:                      // The default constructor.
+  basic_streambuf()
+    : _M_gbegin(0), _M_gnext(0), _M_gend(0),
+      _M_pbegin(0), _M_pnext(0), _M_pend(0),
+      _M_locale()
+    {
+      _M_lock._M_initialize();
+    }
+
+protected:                      // Protected interface to the get area.
+  char_type* eback() const { return _M_gbegin; } // Beginning
+  char_type* gptr()  const { return _M_gnext; }  // Current position
+  char_type* egptr() const { return _M_gend; }   // End
+
+  void gbump(int __n) { _M_gnext += __n; }
+  void setg(char_type* __gbegin, char_type* __gnext, char_type* __gend) {
+    _M_gbegin = __gbegin;
+    _M_gnext  = __gnext;
+    _M_gend   = __gend;
+  }
+
+protected:                      // Protected interface to the put area
+
+  char_type* pbase() const { return _M_pbegin; } // Beginning
+  char_type* pptr()  const { return _M_pnext; }  // Current position
+  char_type* epptr() const { return _M_pend; }   // End
+
+  void pbump(int __n) { _M_pnext += __n; }
+  void setp(char_type* __pbegin, char_type* __pend) {
+    _M_pbegin = __pbegin;
+    _M_pnext  = __pbegin;
+    _M_pend   = __pend;
+  }  
+
+protected:                      // Virtual locale functions.
+
+  // This is a hook, called by pubimbue() just before pubimbue()
+  // sets the streambuf's locale to __loc.  Note that imbue should
+  // not (and cannot, since it has no access to streambuf's private
+  // members) set the streambuf's locale itself.
+  virtual void imbue(const locale&) {}
+
+protected:                      // Virtual buffer management functions.
+
+  virtual basic_streambuf* setbuf(char_type*, streamsize)
+    { return this; }
+
+
+  // Alters the stream position, using an integer offset.  In this
+  // class seekoff does nothing; subclasses are expected to override it.
+  virtual pos_type seekoff(off_type, ios_base::seekdir,
+                           ios_base::openmode = ios_base::in | ios_base::out)
+    { return pos_type(-1); }
+
+
+  // Alters the stream position, using a previously obtained streampos.  In
+  // this class seekpos does nothing; subclasses are expected to override it.
+  virtual pos_type
+  seekpos(pos_type, ios_base::openmode = ios_base::in | ios_base::out)
+    { return pos_type(-1); }
+
+  // Synchronizes (i.e. flushes) the buffer.  All subclasses are expected to 
+  // override this virtual member function.
+  virtual int sync() { return 0; }
+
+protected:                      // Virtual get area functions, as defined in
+                                // 17.5.2.4.3 and 17.5.2.4.4 of the standard.
+
+  // Returns a lower bound on the number of characters that we can read,
+  // with underflow, before reaching end of file.  (-1 is a special value:
+  // it means that underflow will fail.)  Most subclasses should probably
+  // override this virtual member function.
+  virtual streamsize showmanyc()
+    { return 0; }
+
+  // Reads up to __n characters.  Return value is the number of 
+  // characters read.
+  virtual streamsize xsgetn(char_type* __s, streamsize __n);
+
+  // Called when there is no read position, i.e. when gptr() is null
+  // or when gptr() >= egptr().  Subclasses are expected to override
+  // this virtual member function.
+  virtual int_type underflow()
+    { return _Traits::eof(); }
+
+  // Similar to underflow(), but used for unbuffered input.  Most 
+  // subclasses should probably override this virtual member function.
+  virtual int_type uflow() {
+    return _Traits::eq_int_type(this->underflow(), _Traits::eof())
+      ? _Traits::eof()
+      : _Traits::to_int_type(*_M_gnext++);
+  }
+
+  // Called when there is no putback position, i.e. when gptr() is null
+  // or when gptr() == eback().  All subclasses are expected to override
+  // this virtual member function.
+  virtual int_type pbackfail(int_type __c = _Traits::eof())
+    { return _Traits::eof(); }
+
+protected:                      // Virtual put area functions, as defined in
+                                // 27.5.2.4.5 of the standard.
+
+  // Writes up to __n characters.  Return value is the number of characters
+  // written.
+  virtual streamsize xsputn(const char_type* __s, streamsize __n);
+
+  // Extension: writes up to __n copies of __c.  Return value is the number
+  // of characters written.
+  virtual streamsize _M_xsputnc(char_type __c, streamsize __n);
+
+  // Called when there is no write position.  All subclasses are expected to
+  // override this virtual member function.
+  virtual int_type overflow(int_type = _Traits::eof())
+    { return _Traits::eof(); }
+
+private:                        // Helper functions.
+
+#if defined(_MSC_VER) && !defined(__ICL)
+  int_type _M_snextc_aux()
+  {
+    int_type __eof = _Traits::eof();
+    if (_M_gend == _M_gnext)
+      return _Traits::eq_int_type(this->uflow(), __eof) ?
+	__eof : this->sgetc();
+    else {
+      _M_gnext = _M_gend;
+      return this->underflow();
+    }
+  }	
+#else  /* _MSC_VER && !__ICL */
+  int_type _M_snextc_aux();
+#endif /* _MSC_VER && !__ICL */
+
+private:                        // Data members.
+
+  char_type* _M_gbegin;         // Beginning of get area
+  char_type* _M_gnext;          // Current position within the get area
+  char_type* _M_gend;           // End of get area
+
+  char_type* _M_pbegin;         // Beginning of put area
+  char_type* _M_pnext;          // Current position within the put area
+  char_type* _M_pend;           // End of put area
+
+  locale _M_locale;             // The streambuf's locale object
+};
+  
+
+//----------------------------------------------------------------------
+// Non-inline basic_streambuf<> member functions.
+
+template <class _CharT, class _Traits>
+streamsize
+basic_streambuf<_CharT, _Traits>::xsgetn(_CharT* __s, streamsize __n)
+{
+  streamsize __result = 0;
+  const int_type __eof = _Traits::eof();
+
+  while (__result < __n) {
+    if (_M_gnext < _M_gend) {
+      size_t __chunk = min(static_cast<size_t>(_M_gend - _M_gnext),
+                           static_cast<size_t>(__n - __result));
+      _Traits::copy(__s, _M_gnext, __chunk);
+      __result += __chunk;
+      __s += __chunk;
+      _M_gnext += __chunk;
+    }
+    else {
+      int_type __c = this->sbumpc();
+      if (!_Traits::eq_int_type(__c, __eof)) {
+        __s[__result] = __c;
+        ++__result;
+        ++__s;
+      }
+      else
+        break; 
+    }
+  }
+  
+  return __result;
+}
+
+template <class _CharT, class _Traits>
+streamsize
+basic_streambuf<_CharT, _Traits>::xsputn(const _CharT* __s, streamsize __n)
+{
+  streamsize __result = 0;
+  const int_type __eof = _Traits::eof();
+
+  while (__result < __n) {
+    if (_M_pnext < _M_pend) {
+      size_t __chunk = min(static_cast<size_t>(_M_pend - _M_pnext),
+                           static_cast<size_t>(__n - __result));
+      _Traits::copy(_M_pnext, __s, __chunk);
+      __result += __chunk;
+      __s += __chunk;
+      _M_pnext += __chunk;
+    }
+
+    else if (!_Traits::eq_int_type(this->overflow(_Traits::to_int_type(*__s)),
+                                   __eof)) {
+      ++__result;
+      ++__s;
+    }
+    else
+      break;
+  }
+  return __result;
+}
+
+template <class _CharT, class _Traits>
+streamsize
+basic_streambuf<_CharT, _Traits>::_M_xsputnc(_CharT __c, streamsize __n)
+{
+  streamsize __result = 0;
+  const int_type __eof = _Traits::eof();
+
+  while (__result < __n) {
+    if (_M_pnext < _M_pend) {
+      size_t __chunk = min(static_cast<size_t>(_M_pend - _M_pnext),
+                           static_cast<size_t>(__n - __result));
+      _Traits::assign(_M_pnext, __chunk, __c);
+      __result += __chunk;
+      _M_pnext += __chunk;
+    }
+
+    else if (!_Traits::eq_int_type(this->overflow(_Traits::to_int_type(__c)),
+                                   __eof))
+      ++__result;
+    else
+      break;
+  }
+  return __result;
+}
+
+
+#if !defined(_MSC_VER) || defined(__ICL)
+template <class _CharT, class _Traits>
+typename _Traits::int_type basic_streambuf<_CharT, _Traits>::_M_snextc_aux()
+{
+  int_type __eof = _Traits::eof();
+  if (_M_gend == _M_gnext)
+    return _Traits::eq_int_type(this->uflow(), __eof) ? __eof : this->sgetc();
+  else {
+    _M_gnext = _M_gend;
+    return this->underflow();
+  }
+}
+#endif /* !_MSC_VER || __ICL */
+
+//----------------------------------------------------------------------
+// Specialization: basic_streambuf<char, char_traits<char> >
+
+// We implement basic_streambuf<char, char_traits<char> > very differently
+// than the general basic_streambuf<> template.  The main reason for this
+// difference is a requirement in the C++ standard: the standard input
+// and output streams cin and cout are required by default to be synchronized
+// with the C library components stdin and stdout.  This means it must be
+// possible to synchronize a basic_streambuf<char> with a C buffer.
+//
+// There are two basic ways to do that.  First, the streambuf could be
+// unbuffered and delegate all buffering to stdio operations.  This
+// would be correct, but slow: it would require at least one virtual
+// function call for every character.  Second, the streambuf could use 
+// a C stdio FILE as its buffer.  
+//
+// We choose the latter option.  Every streambuf has pointers to two
+// FILE objects, one for the get area and one for the put area.  Ordinarily
+// it just uses a FILE object as a convenient way to package the three
+// get/put area pointers.  If a basic_streambuf<char> is synchronized with
+// a stdio stream, though, then the pointers are to a FILE object that's
+// also used by the C library.
+//
+// The header <stl_stdio_file.h> encapsulates the implementation details
+// of struct FILE.  It contains low-level inline functions that convert
+// between whe FILE's internal representation and the three-pointer 
+// representation that basic_streambuf<> needs.
+
+__STL_TEMPLATE_NULL class basic_streambuf<char, char_traits<char> >
+{
+ friend class basic_istream<char>;
+ friend class basic_ostream<char>;
+public:                         // Typedefs.
+  typedef char                        char_type;
+  typedef char_traits<char>::int_type int_type;
+  typedef char_traits<char>::pos_type pos_type;
+  typedef char_traits<char>::off_type off_type;
+  typedef char_traits<char>           traits_type;
+  typedef char_traits<char>           _Traits;
+
+public:                         // Destructor.
+  virtual ~basic_streambuf() {}
+
+public:                         // Locale-related functions.
+  locale pubimbue(const locale&);
+  locale getloc() const { return _M_locale; }
+
+public:                         // Buffer management.
+  basic_streambuf* pubsetbuf(char_type* __s, streamsize __n) 
+    { return this->setbuf(__s, __n); }
+
+  pos_type pubseekoff(off_type __offset, ios_base::seekdir __way,
+                      ios_base::openmode __mod = ios_base::in | ios_base::out)
+    { return this->seekoff(__offset, __way, __mod); }
+
+  pos_type pubseekpos(pos_type __sp,
+                      ios_base::openmode __mod = ios_base::in | ios_base::out)
+    { return this->seekpos(__sp, __mod); }
+
+  int pubsync() { return this->sync(); }
+
+public:                         // Public members for reading characters.
+  streamsize in_avail()
+    { return _FILE_I_avail(_M_get) > 0 ? _FILE_I_avail(_M_get) 
+                                       : this->showmanyc(); }
+  
+  // Advance to the next character and return it.
+  int_type snextc() {
+    return _FILE_I_avail(_M_get) > 1
+      ? traits_type::to_int_type(_FILE_I_preincr(_M_get))
+      : this->_M_snextc_aux();
+  }
+
+  // Return the current character and advance to the next.
+  int_type sbumpc() {
+    return _FILE_I_avail(_M_get) > 0
+      ? traits_type::to_int_type(_FILE_I_postincr(_M_get))
+      : this->uflow();
+  }
+
+  // Return the current character without advancing to the next.
+  int_type sgetc() {
+    return _FILE_I_avail(_M_get) > 0
+      ? _Traits::to_int_type(*_FILE_I_next(_M_get))
+      : this->underflow();
+  }
+    
+  streamsize sgetn(char_type* __s, streamsize __n)
+    { return this->xsgetn(__s, __n); }
+
+  int_type sputbackc(char_type __c) {
+    return _FILE_I_begin(_M_get) < _FILE_I_next(_M_get) &&
+           __c == *(_FILE_I_next(_M_get) - 1)
+      ? traits_type::to_int_type(_FILE_I_predecr(_M_get))
+      : this->pbackfail(traits_type::to_int_type(__c));
+  }
+
+  int_type sungetc() {
+    return _FILE_I_begin(_M_get) < _FILE_I_next(_M_get)
+      ? _Traits::to_int_type(_FILE_I_predecr(_M_get))
+      : this->pbackfail();
+  }
+
+public:                         // Public members for writing characters.
+  // Write a single character.
+  int_type sputc(char_type __c) {
+    return _FILE_O_avail(_M_put) > 0 
+      ? traits_type::to_int_type(_FILE_O_postincr(_M_put) = __c)
+      : this->overflow(_Traits::to_int_type(__c));
+  }
+
+  // Write __n characters.
+  streamsize sputn(const char_type* __s, streamsize __n)
+    { return this->xsputn(__s, __n); }
+
+  // Extension: write __n copies of __c.
+  streamsize _M_sputnc(char_type __c, streamsize __n)
+    { return this->_M_xsputnc(__c, __n); }
+
+public:                         // Extension: locking, for thread safety.
+  _STL_mutex_lock _M_lock;
+
+protected:                      // Constructors.
+
+  // The default constructor.
+  basic_streambuf();
+
+  // Extension: a constructor for streambufs synchronized with C stdio files.
+  basic_streambuf(FILE* __get, FILE* __put);
+
+protected:                      // Protected interface to the get area.
+  char_type* eback() const { return _FILE_I_begin(_M_get); }
+  char_type* gptr()  const { return _FILE_I_next(_M_get); }
+  char_type* egptr() const { return _FILE_I_end(_M_get); }
+
+  void gbump(int __n) { _FILE_I_bump(_M_get, __n); }
+  void setg(char_type* __gbegin, char_type* __gnext, char_type* __gend)
+    { _FILE_I_set(_M_get, __gbegin, __gnext, __gend); }
+
+public:
+  // An alternate public interface to the above functions
+  // which allows us to avoid using templated friends which
+  // are not supported on some compilers.
+
+  char_type* _M_eback() const { return _FILE_I_begin(_M_get); }
+  char_type* _M_gptr()  const { return _FILE_I_next(_M_get); }
+  char_type* _M_egptr() const { return _FILE_I_end(_M_get); }
+
+  void _M_gbump(int __n) { _FILE_I_bump(_M_get, __n); }
+  void _M_setg(char_type* __gbegin, char_type* __gnext, char_type* __gend)
+    { _FILE_I_set(_M_get, __gbegin, __gnext, __gend); }
+
+protected:                      // Protected interface to the put area
+
+  char_type* pbase() const { return _FILE_O_begin(_M_put); }
+  char_type* pptr()  const { return _FILE_O_next(_M_put); }
+  char_type* epptr() const { return _FILE_O_end(_M_put); }
+
+  void pbump(int __n) { _FILE_O_bump(_M_put, __n); }
+  void setp(char_type* __pbegin, char_type* __pend)
+    { _FILE_O_set(_M_put, __pbegin, __pbegin, __pend); }
+
+protected:                      // Virtual locale functions.
+  virtual void imbue(const locale&);
+
+protected:                      // Virtual buffer-management functions.
+  virtual basic_streambuf* setbuf(char_type*, streamsize);
+  virtual pos_type seekoff(off_type, ios_base::seekdir,
+                           ios_base::openmode = ios_base::in | ios_base::out);
+  virtual pos_type
+  seekpos(pos_type, ios_base::openmode = ios_base::in | ios_base::out);
+  virtual int sync();
+
+protected:                      // Virtual get area functions.
+  virtual streamsize showmanyc();
+  virtual streamsize xsgetn(char_type* __s, streamsize __n);
+  virtual int_type underflow();
+  virtual int_type uflow();
+  virtual int_type pbackfail(int_type __c = _Traits::eof());
+
+protected:                      // Virtual put area functions.
+  virtual streamsize xsputn(const char_type* __s, streamsize __n);
+  virtual streamsize _M_xsputnc(char_type __c, streamsize __n);
+  virtual int_type overflow(int_type = _Traits::eof());
+
+private:                        // Helper functions.
+  int_type _M_snextc_aux();
+
+private:                        // Data members.
+
+  FILE& _M_get;                 // Reference to the get area
+  FILE& _M_put;                 // Reference to the put area
+
+  FILE _M_default_get;          // Get area, unless we're syncing with stdio.
+  FILE _M_default_put;          // Put area, unless we're syncing with stdio.
+
+  locale _M_locale;
+};  
+
+
+__STL_END_NAMESPACE
+
+#endif /* __SGI_STL_STREAMBUF */
+
+// Local Variables:
+// mode:C++
+// End:
