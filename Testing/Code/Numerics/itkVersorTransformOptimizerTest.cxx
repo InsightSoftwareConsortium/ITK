@@ -172,9 +172,9 @@ int main()
   // We start with a null rotation
   ParametersType  initialRotation;
   ParametersType::VectorType axis;
-
-  axis = 1.0f, 0.0f, 0.0f;
-
+  axis[0] = 1.0f;
+  axis[1] = 0.0f;
+  axis[2] = 0.0f;
   ParametersType::ValueType angle = 0.0f;
 
   initialRotation.Set( axis, angle );
