@@ -23,6 +23,7 @@ itkJPEGImageIOTest.cxx
 itkMeshSpatialObjectIOTest.cxx
 itkMetaImageIOTest.cxx
 itkNrrdImageIOTest.cxx
+itkNrrdImageReadWriteTest.cxx
 itkNumericSeriesFileNamesTest.cxx
 itkPolygonGroupSpatialObjectXMLFileTest.cxx
 itkPNGImageIOTest.cxx
@@ -365,38 +366,41 @@ ADD_TEST(itkGiplImageIOTest2 ${IO_TESTS} itkGiplImageIOTest
     ${ITK_DATA_ROOT}/Input/Archetype/a7b1.PNG)
 
 
-IF(USE_GDCM)
-  INCLUDE_DIRECTORIES( ${GDCM_INCLUDE_DIR})
-  ADD_EXECUTABLE(itkGDCMImageIOTest itkGDCMImageIOTest.cxx)
-  TARGET_LINK_LIBRARIES(itkGDCMImageIOTest ITKIO ITKCommon)
-  ADD_TEST(itkGDCMImageIOTest1 ${CXX_TEST_PATH}/itkGDCMImageIOTest
-            ${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm
-            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.dcm
-            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.png
-            ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest.dcm)
-  ADD_TEST(itkGDCMImageIOTest2 ${CXX_TEST_PATH}/itkGDCMImageIOTest
-            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.dcm
-            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.dcm
-            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.png
-            ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest2.dcm)
-  ADD_TEST(itkGDCMImageIOTest3 ${CXX_TEST_PATH}/itkGDCMImageIOTest
-            ${ITK_DATA_ROOT}/Input/012345.002.050
-            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.dcm
-            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.png
-            ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest3.dcm)
-  ADD_TEST(itkGDCMImageIOTest4 ${CXX_TEST_PATH}/itkGDCMImageIOTest
-            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.dcm
-            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.dcm
-            ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.png
-            ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest4.dcm)
-  ADD_EXECUTABLE(itkGDCMSeriesReadImageWrite itkGDCMSeriesReadImageWrite.cxx)
-  TARGET_LINK_LIBRARIES(itkGDCMSeriesReadImageWrite ITKIO ITKCommon)
-  ADD_TEST(itkGDCMSeriesReadImageWrite ${CXX_TEST_PATH}/itkGDCMSeriesReadImageWrite
-            ${ITK_DATA_ROOT}/Input/DicomSeries
-            ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesReadImageWrite.vtk
-            ${ITK_TEST_OUTPUT_DIR} )
-ENDIF(USE_GDCM)
-
+INCLUDE_DIRECTORIES( ${GDCM_INCLUDE_DIR})
+ADD_EXECUTABLE(itkGDCMImageIOTest itkGDCMImageIOTest.cxx)
+TARGET_LINK_LIBRARIES(itkGDCMImageIOTest ITKIO ITKCommon)
+ADD_TEST(itkGDCMImageIOTest1 ${CXX_TEST_PATH}/itkGDCMImageIOTest
+        ${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm
+        ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.dcm
+        ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.png
+        ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest.dcm)
+ADD_TEST(itkGDCMImageIOTest2 ${CXX_TEST_PATH}/itkGDCMImageIOTest
+        ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.dcm
+        ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.dcm
+        ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.png
+        ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest2.dcm)
+ADD_TEST(itkGDCMImageIOTest3 ${CXX_TEST_PATH}/itkGDCMImageIOTest
+        ${ITK_DATA_ROOT}/Input/012345.002.050
+        ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.dcm
+        ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.png
+        ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest3.dcm)
+ADD_TEST(itkGDCMImageIOTest4 ${CXX_TEST_PATH}/itkGDCMImageIOTest
+        ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.dcm
+        ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.dcm
+        ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.png
+        ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest4.dcm)
+ADD_EXECUTABLE(itkGDCMSeriesReadImageWrite itkGDCMSeriesReadImageWrite.cxx)
+TARGET_LINK_LIBRARIES(itkGDCMSeriesReadImageWrite ITKIO ITKCommon)
+ADD_TEST(itkGDCMSeriesReadImageWrite ${CXX_TEST_PATH}/itkGDCMSeriesReadImageWrite
+        ${ITK_DATA_ROOT}/Input/DicomSeries
+        ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesReadImageWrite.vtk
+        ${ITK_TEST_OUTPUT_DIR} )
+ADD_TEST(itkNrrdImageReadWriteTest1 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/NrrdImageReadWriteTest1.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/box.nrrd
+  itkNrrdImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/box.nhdr
+            ${ITK_TEST_OUTPUT_DIR}/box.nrrd)
 
 ENDIF(ITK_DATA_ROOT)
 
