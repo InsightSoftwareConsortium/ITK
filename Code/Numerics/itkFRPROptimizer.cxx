@@ -118,7 +118,6 @@ FRPROptimizer
        currentIteration <= this->GetMaximumIteration();
        currentIteration++)
     {
-    std::cout << currentIteration << " : " << p << " : " << fp << std::endl;
     this->SetCurrentIteration(currentIteration);
 
     double fret;
