@@ -22,8 +22,9 @@
 // the \doxygen{ConnectedThresholdImageFilter}.  In this filter two seeds and a
 // lower threshold are provided by the user. The filter will grow a region
 // connected to the first seed and \textbf{not connected} to the second one. In
-// order to do this, the filter finds a threshold that could be used as lower
-// threshold for one seed and upper threshold for the other.
+// order to do this, the filter finds an intensity value that could be used as
+// upper threshold for the first seed. A binary search is used to find the
+// value that separates both seeds.
 //
 // The current code follows closely the previous examples. Only the releavant
 // pieces of code are hightlighted here. 
@@ -68,7 +69,7 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  We declare now the image type using a pixel type and a particular
+  //  We declare the image type using a pixel type and a particular
   //  dimension. 
   //
   //  Software Guide : EndLatex 
@@ -116,8 +117,8 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  We declare now the type of the region growing filter. In this case it is
-  //  the \doxygen{IsolatedConnectedImageFilter}. 
+  //  The type of the \doxygen{IsolatedConnectedImageFilter} is instantiated in
+  //  the lines below. 
   //
   //  Software Guide : EndLatex 
 
@@ -126,6 +127,9 @@ int main( int argc, char **argv )
                                     InternalImageType, 
                                     InternalImageType > ConnectedFilterType;
   // Software Guide : EndCodeSnippet
+
+
+
 
   //  Software Guide : BeginLatex
   //  
@@ -274,6 +278,13 @@ int main( int argc, char **argv )
   //  the input image and the result of smoothing with the
   //  \doxygen{CurvatureFlowImageFilter} followed by segmentation results.
   //
+  //  This filter is intended to be used in cases where adjacent anatomical
+  //  structures are difficult to separate. Selecting one seed in one structure
+  //  and the other seed in the adjacent structure creates the appropriate
+  //  setup for computing the threshold that will separate both structures.
+  //  The following table presents the parameters used to obtaine the images
+  //  shown in Figure~\ref{fig:IsolatedConnectedImageFilterOutput}.
+  //
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|c|c|c|}
   //  \hline
@@ -286,18 +297,13 @@ int main( int argc, char **argv )
   //  \end{center}
   //
   // \begin{figure} \center
-  // \includegraphics[width=6cm]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=6cm]{IsolatedConnectedImageFilterOutput0.eps}
-  // \includegraphics[width=6cm]{IsolatedConnectedImageFilterOutput1.eps}
-  // \caption{Segmentation results of the IsolatedConnectedImageFilter for various seed points.}
+  // \includegraphics[width=5cm]{BrainProtonDensitySlice.eps}
+  // \includegraphics[width=5cm]{IsolatedConnectedImageFilterOutput0.eps}
+  // \includegraphics[width=5cm]{IsolatedConnectedImageFilterOutput1.eps}
+  // \caption{Segmentation results of the IsolatedConnectedImageFilter.}
   // \label{fig:IsolatedConnectedImageFilterOutput}
   // \end{figure}
   //
-  //  This filter is intended to be used in cases where adjacent anatomical
-  //  structures are difficult to separate. Selecting one seed in one
-  //  structure and the other seed in the adjacent structure creates the
-  //  appropriate setup for computing the threshold that will separate both
-  //  structures.
   //
   //  Software Guide : EndLatex 
 
