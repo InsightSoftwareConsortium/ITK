@@ -104,6 +104,18 @@ public:
    */
   itkNewMacro(Self);
 
+  /**
+   * GradientMagnitudeImageFilter needs a larger input requested
+   * region than the output requested region (larger by the kernel
+   * size to calculate derivatives).  As such,
+   * GradientMagnitudeImageFilter needs to provide an implementation
+   * for GenerateInputRequestedRegion() in order to inform the
+   * pipeline execution model.
+   *
+   * \sa ImageToImageFilter::GenerateInputRequestedRegion()
+   */
+  virtual void GenerateInputRequestedRegion();
+
 protected:
   GradientMagnitudeImageFilter() {}
   virtual ~GradientMagnitudeImageFilter() {}
@@ -111,9 +123,20 @@ protected:
   void operator=(const Self&) {}
 
   /**
-   * Standard pipeline method.
+   * GradientMagnitudeImageFilter can be implemented as a
+   * multithreaded filter.  Therefore, this implementation provides a
+   * ThreadedGenerateData() routine which is called for each
+   * processing thread. The output image data is allocated
+   * automatically by the superclass prior to calling
+   * ThreadedGenerateData().  ThreadedGenerateData can only write to
+   * the portion of the output image specified by the parameter
+   * "outputRegionForThread"
+   *
+   * \sa ImageToImageFilter::ThreadedGenerateData(),
+   *     ImageToImageFilter::GenerateData()
    */
-  void GenerateData();
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+                            int threadId );
 
 };
   

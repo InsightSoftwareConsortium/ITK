@@ -53,10 +53,96 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
  
+template <class TInputImage, class TOutputImage>
+void 
+GradientMagnitudeImageFilter<TInputImage,TOutputImage>
+::GenerateInputRequestedRegion()
+{
+  // call the superclass' implementation of this method
+  Superclass::GenerateInputRequestedRegion();
+  
+  // get pointers to the input and output
+  InputImagePointer  inputPtr = this->GetInput();
+  OutputImagePointer outputPtr = this->GetOutput();
+  
+  if ( !inputPtr || !outputPtr )
+    {
+    return;
+    }
+
+  // Build an operator so that we can determine the kernel size
+  DerivativeOperator<OutputPixelType, ImageDimension> oper;
+   oper.SetDirection(0);
+   oper.SetOrder(1);
+   oper.CreateDirectional();
+  long radius = oper.GetRadius()[0];
+  
+  // we need to compute the input requested region (size and start index)
+  int i;
+  const typename TOutputImage::SizeType& outputRequestedRegionSize
+    = outputPtr->GetRequestedRegion().GetSize();
+  const typename TOutputImage::IndexType& outputRequestedRegionStartIndex
+    = outputPtr->GetRequestedRegion().GetIndex();
+  
+  typename TInputImage::SizeType  inputRequestedRegionSize;
+  typename TInputImage::IndexType inputRequestedRegionStartIndex;
+
+  const typename TInputImage::SizeType  inputLargestPossibleRegionSize
+    = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TInputImage::IndexType inputLargestPossibleRegionStartIndex
+    = inputPtr->GetLargestPossibleRegion().GetIndex();
+
+  long crop=0;
+  for (i = 0; i < TInputImage::ImageDimension; i++)
+    {
+    inputRequestedRegionSize[i]
+      = outputRequestedRegionSize[i] + 2 * radius;
+    inputRequestedRegionStartIndex[i]
+      = outputRequestedRegionStartIndex[i] - radius;
+
+    // crop the requested region to the largest possible region
+    //
+
+    // first check the start index
+    if (inputRequestedRegionStartIndex[i]
+        < inputLargestPossibleRegionStartIndex[i])
+      {
+      // how much do we need to adjust
+      crop = inputLargestPossibleRegionStartIndex[i]
+        - inputRequestedRegionStartIndex[i];
+
+      // adjust the start index and the size of the requested region
+      inputRequestedRegionStartIndex[i] += crop;
+      inputRequestedRegionSize[i] -= crop;
+      }
+    // now check the final size
+    if (inputRequestedRegionStartIndex[i] + inputRequestedRegionSize[i] 
+        > inputLargestPossibleRegionStartIndex[i]
+        + inputLargestPossibleRegionSize[i])
+      {
+      // how much do we need to adjust
+      crop = inputRequestedRegionStartIndex[i] + inputRequestedRegionSize[i] 
+        - inputLargestPossibleRegionStartIndex[i]
+        - inputLargestPossibleRegionSize[i];
+
+      // adjust the size
+      inputRequestedRegionSize[i] -= crop;
+      }
+    }
+  
+  typename TInputImage::RegionType inputRequestedRegion;
+  inputRequestedRegion.SetSize( inputRequestedRegionSize );
+  inputRequestedRegion.SetIndex( inputRequestedRegionStartIndex );
+  
+  inputPtr->SetRequestedRegion( inputRequestedRegion );
+}
+
+
 template< class TInputImage, class TOutputImage >
 void
 GradientMagnitudeImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+                       int threadId)
 {
   unsigned int i;
   OutputPixelType a, g;
@@ -72,8 +158,6 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
   // Allocate output
   typename OutputImageType::Pointer output = this->GetOutput();
   typename  InputImageType::Pointer input  = this->GetInput();
-  output->SetBufferedRegion(output->GetRequestedRegion());
-  output->Allocate();
   
   // Set up operators
   DerivativeOperator<OutputPixelType, ImageDimension> op;
@@ -89,11 +173,22 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::
     FaceListType faceList;
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage> bC;
-  faceList = bC(input, input->GetRequestedRegion(), radius);
+  faceList = bC(input, outputRegionForThread, radius);
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::
     FaceListType::iterator fit;
   fit = faceList.begin();
+
+  // support progress methods/callbacks
+  unsigned long ii = 0;
+  unsigned long updateVisits = 0;
+  unsigned long totalPixels = 0;
+  if ( threadId == 0 )
+    {
+    totalPixels = outputRegionForThread.GetNumberOfPixels();
+    updateVisits = totalPixels / 10;
+    if( updateVisits < 1 ) updateVisits = 1;
+    }
 
   // Process non-boundary face
   nit = ConstNeighborhoodIterator<TInputImage>(radius, input, *fit);
@@ -112,42 +207,50 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
 
   while( ! nit.IsAtEnd() )
     {
-      a = NumericTraits<OutputPixelType>::Zero;
-      for (i = 0; i < ImageDimension; ++i)
-        {
-          g = IP(x_slice[i], nit, op);
-          a += g * g;
-        }
-      it.Value() = ::sqrt(a);
-      ++nit;
-      ++it;
+    if ( threadId == 0 && !(ii % updateVisits ) )
+      {
+      this->UpdateProgress((float)ii++ / (float)totalPixels);
+      }
+
+    a = NumericTraits<OutputPixelType>::Zero;
+    for (i = 0; i < ImageDimension; ++i)
+      {
+      g = IP(x_slice[i], nit, op);
+      a += g * g;
+      }
+    it.Value() = ::sqrt(a);
+    ++nit;
+    ++it;
     }
   
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
   for (++fit; fit != faceList.end(); ++fit)
     { 
-      bit =
-        ConstSmartNeighborhoodIterator<InputImageType>(radius,
-                                                       input, *fit);
-      it = ImageRegionIterator<OutputImageType>(output, *fit);
-      bit.OverrideBoundaryCondition(&nbc);
-      bit.GoToBegin();
-
-      while ( ! bit.IsAtEnd() )
-        {
-          a = NumericTraits<OutputPixelType>::Zero;
-          for (i = 0; i < ImageDimension; ++i)
-            {
-              g = SIP(x_slice[i], bit, op);
-              a += g * g;
-            }
-          it.Value() = ::sqrt(a);          
-          ++bit;
-          ++it;
-        }
+    if ( threadId == 0 && !(ii % updateVisits ) )
+      {
+      this->UpdateProgress((float)ii++ / (float)totalPixels);
       }
 
+    bit = ConstSmartNeighborhoodIterator<InputImageType>(radius,
+                                                         input, *fit);
+    it = ImageRegionIterator<OutputImageType>(output, *fit);
+    bit.OverrideBoundaryCondition(&nbc);
+    bit.GoToBegin();
+    
+    while ( ! bit.IsAtEnd() )
+      {
+      a = NumericTraits<OutputPixelType>::Zero;
+      for (i = 0; i < ImageDimension; ++i)
+        {
+        g = SIP(x_slice[i], bit, op);
+        a += g * g;
+        }
+      it.Value() = ::sqrt(a);          
+      ++bit;
+      ++it;
+      }
+    }
 }
 
 } // end namespace itk
