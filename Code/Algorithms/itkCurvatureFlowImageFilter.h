@@ -80,6 +80,9 @@ namespace itk {
   * \ingroup Multithreaded 
   * \ingroup Streamed
   * 
+  * Input/Output Restrictions:
+  *  TInputImage and TOutputImage must have the same dimension.
+  *  TOutputImage's pixel type must be a real number type.
   */
 template <class TInputImage, class TOutputImage>
 class CurvatureFlowImageFilter
