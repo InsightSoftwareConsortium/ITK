@@ -70,6 +70,9 @@ TARGET_LINK_LIBRARIES(IterativeClosestPoint1 ITKAlgorithms ITKFEM ITKStatistics 
 ADD_EXECUTABLE(IterativeClosestPoint2   IterativeClosestPoint2.cxx )
 TARGET_LINK_LIBRARIES(IterativeClosestPoint2 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
 
+ADD_EXECUTABLE(IterativeClosestPoint3   IterativeClosestPoint3.cxx )
+TARGET_LINK_LIBRARIES(IterativeClosestPoint3 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+
 
 SET(REGISTRATION_EXAMPLES ${CXX_TEST_PATH}/RegistrationExamples)
 SET(REGISTRATION_EXAMPLES2 ${CXX_TEST_PATH}/RegistrationExamples2)
@@ -178,6 +181,13 @@ ADD_TEST(IterativeClosestPoint2Test ${REGISTRATION_EXAMPLES3}
         ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointFixedPoints2.txt
         ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointMovingPoints2.txt
 )
+
+ADD_TEST(IterativeClosestPoint3Test ${REGISTRATION_EXAMPLES3}
+  IterativeClosestPoint3Test
+        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointFixedPoints.txt
+        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointMovingPoints.txt
+)
+
 
 
 ADD_EXECUTABLE(RegistrationExamples RegistrationExamples.cxx )

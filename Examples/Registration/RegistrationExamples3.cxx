@@ -15,6 +15,7 @@ void RegisterTests()
   REGISTER_TEST(ImageRegistration9Test);
   REGISTER_TEST(IterativeClosestPoint1Test);
   REGISTER_TEST(IterativeClosestPoint2Test);
+  REGISTER_TEST(IterativeClosestPoint3Test);
 }
 
 #undef main
@@ -40,6 +41,14 @@ void RegisterTests()
 #undef CommandIterationUpdate
 #define CommandIterationUpdate CommandIterationUpdate13
 #include "IterativeClosestPoint2.cxx"
+
+#undef main
+#define main  IterativeClosestPoint3Test
+#undef CommandIterationUpdate
+#define CommandIterationUpdate CommandIterationUpdate14
+#include "IterativeClosestPoint3.cxx"
+
+
 
 
 
