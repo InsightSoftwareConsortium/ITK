@@ -51,6 +51,7 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 
   m_TempField = DeformationFieldType::New();
   m_MaximumError = 0.1;
+  m_MaximumKernelWidth = 30;
   m_StopRegistrationFlag = false;
 
 }
@@ -158,6 +159,10 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
   os << m_StandardDeviations[j] << "]" << std::endl;
   os << indent << "StopRegistrationFlag: ";
   os << m_StopRegistrationFlag << std::endl;
+  os << indent << "MaximumError: ";
+  os << m_MaximumError << std::endl;
+  os << indent << "MaximumKernelWidth: ";
+  os << m_MaximumKernelWidth << std::endl; 
 
 }
 
@@ -379,6 +384,7 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
     double variance = vnl_math_sqr( m_StandardDeviations[j] );
     oper->SetVariance( variance );
     oper->SetMaximumError( m_MaximumError );
+    oper->SetMaximumKernelWidth( m_MaximumKernelWidth );
     oper->CreateDirectional();
 
     // todo: make sure we only smooth within the buffered region

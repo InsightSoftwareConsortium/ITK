@@ -148,6 +148,17 @@ public:
   virtual void StopRegistration()
     { m_StopRegistrationFlag = true; }
 
+  /** Set/Get the desired maximum error of the Guassian kernel approximate. 
+   * \sa GaussianOperator. */
+  itkSetMacro( MaximumError, double );
+  itkGetMacro( MaximumError, double );
+
+  /** Set/Get the desired limits of the Gaussian kernel width.
+   * \sa GaussianOperator. */
+  itkSetMacro( MaximumKernelWidth, unsigned int );
+  itkGetMacro( MaximumKernelWidth, unsigned int );
+  
+
 protected:
   PDEDeformableRegistrationFilter();
   ~PDEDeformableRegistrationFilter() {}
@@ -213,6 +224,9 @@ private:
 
   /** Maximum error for Gaussian operator approximation. */
   double                    m_MaximumError;
+
+  /** Limits of Guassian kernel width. */
+  unsigned int              m_MaximumKernelWidth;
 
   /** Flag to indicate user stop registration request. */
   bool                      m_StopRegistrationFlag;

@@ -181,6 +181,8 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
   registrator->SetNumberOfIterations( 200 );
   registrator->SetStandardDeviations( 2.0 );
   registrator->SetStandardDeviations( 1.0 );
+  registrator->SetMaximumError( 0.08 );
+  registrator->SetMaximumKernelWidth( 10 );
 
   // turn on inplace execution
   registrator->InPlaceOn();
@@ -193,6 +195,8 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
 
   // exercise other member variables
   std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << std::endl;
+  std::cout << "Max. kernel error: " << registrator->GetMaximumError() << std::endl;
+  std::cout << "Max. kernel width: " << registrator->GetMaximumKernelWidth() << std::endl;
   
   double v[ImageDimension];
   for ( unsigned int j = 0; j < ImageDimension; j++ )
