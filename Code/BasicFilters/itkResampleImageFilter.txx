@@ -140,7 +140,7 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
       outputPoint[ii] = outputIndex[ii];
 
     // Compute corresponding input pixel position
-    inputPoint = m_Transform->Transform(outputPoint);
+    inputPoint = m_Transform->TransformPoint(outputPoint);
 
     // Evaluate input at right position and copy to the output
     if( m_Interpolator->IsInsideBuffer(inputPoint) )
