@@ -355,7 +355,7 @@ public:
      *
      **/
     void Scale(const OutputVectorType &factor, bool pre=0);
-    void Scale(const ScalarType &factor, bool pre=0);
+    void Scale(const TScalarType &factor, bool pre=0);
 
 
 

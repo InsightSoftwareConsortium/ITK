@@ -186,7 +186,7 @@ template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType >
 void
 AffineTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
-Scale(const ScalarType &factor, bool pre) 
+Scale(const TScalarType &factor, bool pre) 
 {
   if (pre) 
     {
