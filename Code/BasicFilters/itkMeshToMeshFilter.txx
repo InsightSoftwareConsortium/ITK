@@ -52,7 +52,7 @@ MeshToMeshFilter<TInputMesh,TOutputMesh>::InputMeshPointer
 MeshToMeshFilter<TInputMesh,TOutputMesh>
 ::GetInput()
 {
-  if (this->NumberOfInputs < 1)
+  if (this->GetNumberOfInputs() < 1)
     {
     return 0;
     }
