@@ -71,7 +71,7 @@ int main(void){
   testVor=testVorGen->GetOutput();
 
 	for(int i=0;i<NUMSEEDS; i++){
-		PointType currP=testVor->getSeed(i);
+		PointType currP=testVor->GetSeed(i);
 		std::cout<<"Seed No."<<i<<": At ("<<currP[0]<<"," <<currP[1]<<")"<<std::endl;
 		std::cout<<"  Boundary Vertices List (in order):";
 		CellPointer currCell;
