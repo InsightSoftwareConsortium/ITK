@@ -738,8 +738,8 @@ Mesh< TPixelType , TMeshType >
 
 /**
  * Get the set of cells neighboring the given cell across the given boundary
- * feature.  Returns the number of neighbors found.  If cellList is not
- * NULL, the list of cell pointers is filled in with identifiers of the
+ * feature.  Returns the number of neighbors found.  If cellSet is not
+ * NULL, the set of cell pointers is filled in with identifiers of the
  * neighboring cells.
  */
 template <typename TPixelType, typename TMeshType>
@@ -747,7 +747,7 @@ unsigned long
 Mesh< TPixelType , TMeshType >
 ::GetBoundaryFeatureNeighbors(int dimension, CellIdentifier cellId,
 			      CellFeatureIdentifier featureId,
-			      std::list<CellIdentifier>* cellList)
+			      std::set<CellIdentifier>* cellSet)
 {
   /**
    * Sanity check on mesh status.
@@ -769,13 +769,13 @@ Mesh< TPixelType , TMeshType >
     dimension, cellId, featureId, &boundary))
     {
     /**
-     * Explicitly assigned boundary found.  Loop through its "UsingCells"
-     * and put every one but the requested cell itself in the output
-     * cell list.  First empty out the list.
+     * Explicitly assigned boundary found.  Loop through its UsingCells,
+     * and put them in the output set except for the cell through which the
+     * request was made.  First we empty the output set.
      */
-    if(cellList != NULL)
+    if(cellSet != NULL)
       {
-      cellList->erase(cellList->begin(), cellList->end());
+      cellSet->erase(cellSet->begin(), cellSet->end());
       
       for(Boundary::UsingCellsContainerIterator usingCell = 
 	    boundary->UsingCellsBegin() ;
@@ -783,7 +783,7 @@ Mesh< TPixelType , TMeshType >
 	{
 	if((*usingCell) != cellId)
 	  {
-	  cellList->push_back(*usingCell);
+	  cellSet->insert(*usingCell);
 	  }
 	}
       }
@@ -873,18 +873,12 @@ Mesh< TPixelType , TMeshType >
   /**
    * Now we have a set of all the cells which share all the points on the
    * boundary feature.  We simply need to copy this set to the output cell
-   * list, less the cell through which the request was made.
+   * set, less the cell through which the request was made.
    */
   currentCells->erase(cellId);
-  if(cellList != NULL)
+  if(cellSet != NULL)
     {
-    cellList->erase(cellList->begin(), cellList->end());
-    
-    for(PointCellLinksContainerIterator cell = currentCells->begin();
-	cell != currentCells->end() ; ++cell)
-      {
-      cellList->push_back(*cell);
-      }
+    *cellSet = *currentCells;    
     }
   
   /**
@@ -893,9 +887,9 @@ Mesh< TPixelType , TMeshType >
   delete currentCells;
   
   /**
-   * Return the number of neighboring cells that were put into the list.
+   * Return the number of neighboring cells that were put into the set.
    */
-  return cellList->size();
+  return cellSet->size();
 }
 
 

@@ -17,7 +17,7 @@
 #define __itkMesh_h
 
 #include <vector>
-#include <list>
+#include <set>
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
@@ -393,7 +393,7 @@ public:
 
   unsigned long GetBoundaryFeatureNeighbors(
     int dimension, CellIdentifier, CellFeatureIdentifier,
-    std::list<CellIdentifier>* cellList);
+    std::set<CellIdentifier>* cellSet);
 
   bool GetAssignedBoundaryIfOneExists(int dimension, CellIdentifier,
 				      CellFeatureIdentifier,
