@@ -22,6 +22,7 @@ public:
    */
   typedef FileIO						Self;
   typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
   /**
    * Standard "Superclass" typedef.

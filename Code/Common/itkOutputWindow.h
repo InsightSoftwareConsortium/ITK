@@ -44,6 +44,7 @@ public:
    * Smart pointer typedef support. 
    */
   typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
   /** 
    * This is a singleton pattern New.  There will only be ONE

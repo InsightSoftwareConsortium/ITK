@@ -41,6 +41,7 @@ public:
    * Smart pointer typedef support. 
    */
   typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
   /**
    * Create an object and return a pointer to it as an

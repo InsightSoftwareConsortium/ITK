@@ -63,17 +63,18 @@ public:
   /**
    * Standard "Self" typedef.
    */
-   typedef Classifier   Self;
+  typedef Classifier   Self;
 
   /**
    * Standard "Superclass" typedef
    */
-   typedef Object Superclass;
+  typedef Object Superclass;
 
   /** 
    * Smart pointer typedef support.
    */
-   typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
   /** 
    * Run-time type information (and related methods).

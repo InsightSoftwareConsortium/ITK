@@ -44,6 +44,7 @@ public:
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
   virtual void Execute(LightObject *caller, unsigned long event) = 0;
 

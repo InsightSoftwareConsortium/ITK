@@ -58,6 +58,7 @@ public:
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
   /**
    * Class Methods used to interface with the registered factories

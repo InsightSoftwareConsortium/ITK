@@ -57,6 +57,7 @@ public:
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self>   Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
   
   /**
    * The type of the cell that is wrapped with the additional boundary

@@ -57,6 +57,7 @@ public:
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
   
   /** \typedef
    * Save the template parameters.

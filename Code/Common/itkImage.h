@@ -94,6 +94,7 @@ public:
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
   /** 
    * Pixel typedef support. Used to declare pixel type in filters
