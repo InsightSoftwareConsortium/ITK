@@ -15,7 +15,7 @@ See COPYRIGHT.txt for copyright details.
 =========================================================================*/
 #include "itkPhysicalImage.h"
 #include "itkSimpleImageRegionIterator.h"
-#include "itkPointSetToImageTranslationPattenIntensityRegularStepGradientDescentRegistration.h"
+#include "itkPointSetToImageTranslationPatternIntensityGradientDescentRegistration.h"
 
 /** 
  *  This test uses two 2D-Gaussians (standard deviation RegionSize/2)
@@ -47,7 +47,7 @@ int main()
 
   typedef PointSetType                                          TargetType;
 
-  typedef itk::PointSetToImageTranslationPattenIntensityRegularStepGradientDescentRegistration<
+  typedef itk::PointSetToImageTranslationPatternIntensityGradientDescentRegistration<
                                                                 ReferenceType,
                                                                 TargetType> RegistrationType;
 
@@ -160,6 +160,8 @@ int main()
 
   registrationMethod->SetReference(imgReference);
   registrationMethod->SetTarget(pointSetTarget);
+  registrationMethod->GetOptimizer()->SetLearningRate( 1e-3 );
+  registrationMethod->GetOptimizer()->SetNumberOfIterations( 200 );
 
   registrationMethod->StartRegistration();
 
