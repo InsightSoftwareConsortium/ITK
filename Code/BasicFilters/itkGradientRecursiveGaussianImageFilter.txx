@@ -138,7 +138,7 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 //
 template <typename TInputImage, typename TOutputImage>
 void
-GradientRecursiveSeparableImageFilter<TInputImage,TOutputImage>
+GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::GenerateInputRequestedRegion() throw(InvalidRequestedRegionError)
 {
   // call the superclass' implementation of this method. this should
@@ -156,7 +156,7 @@ GradientRecursiveSeparableImageFilter<TInputImage,TOutputImage>
 //
 template <typename TInputImage, typename TOutputImage>
 void
-GradientRecursiveSeparableImageFilter<TInputImage,TOutputImage>
+GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::EnlargeOutputRequestedRegion(DataObject *output)
 {
   TOutputImage *out = dynamic_cast<TOutputImage*>(output);
@@ -166,7 +166,6 @@ GradientRecursiveSeparableImageFilter<TInputImage,TOutputImage>
     out->SetRequestedRegion( out->GetLargestPossibleRegion() );
     }
 }
-
 
 /**
  * Compute filter for Gaussian kernel
