@@ -19,6 +19,7 @@
 
 #include "itkAffineTransform.h"
 #include "itkMacro.h"
+#include "itkPhysicalImage.h"
 
 #include "vnl/vnl_vector_fixed.h"
 #include "vnl/vnl_matrix_fixed.h"
