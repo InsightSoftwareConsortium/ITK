@@ -62,24 +62,8 @@ namespace _wrap_
  *
  * These methods must be defined by the rest of the source after
  * including this file.  They must be registered in the definition of
- * RegisterMethodWrappers().
- *
- * The prototypes of the method wrappers should look like this:
- *
- *   static void Method_name(const Arguments&) const; ??
- *
- * Where "name" is the name of the method being wrapped.  In the case of
- * overloaded methods, a count of the form "#_" should be added before
- * the method name.  If the method is an operator, it should instead
- * begin with "Operator_" instead of "Method_".  Here are some examples:
- *
- * void Method_0_SetV(const Argument&, const Arguments&) const;
- * void Method_1_SetV(const Argument&, const Arguments&) const;
- * void Method_GetVector(const Argument&, const Arguments&) const;
- * void Operator_Plus(const Argument&, const Arguments&) const;
- * void Operator_PlusEquals(const Argument&, const Arguments&) const;
- *
- * This naming scheme should avoid name collisions.
+ * RegisterMethodWrappers().  See WrapperBase::AddFunction for more
+ * information.
  */
 template <>
 class Wrapper< _wrap_WRAPPED_TYPE >: public WrapperBase
@@ -154,46 +138,32 @@ Wrapper(WrapperFacility* wrapperFacility):
 namespace
 {
 /**
- * Initializes this file's CvType<> specializations.
+ * Initializes this group's CvType<> specializations.
  */
-void InitializeTypeRepresentations();
+void InitializeGroupTypeRepresentations();
 
 /**
- * Initialize the given interpreter to do conversions for this file's
- * CvType<> specializations.
+ * Initialize the given WrapperFacility to handle types specified by
+ * this group's CvType<> specializations.
  */
-void InitializeConversions(Tcl_Interp* interp);
+void InitializeGroupTypeHandlers(WrapperFacility*);
+
 
 /**
- * This is called by InitializeGroupForInterpreter() to initialize the
- * non-interpreter-specific parts of the wrapper module.
+ * Initialize this group for the given WrapperFacility.
  */
-void InitializeGroup()
-{
-  // Make sure this is only executed once.
-  static bool initialized = false;
-  if(initialized) { return; }
-  
-  // Make sure the wrapper facility has been initialized.
-  WrapperFacility::ClassInitialize();
-  
-  // Initialize this module's type representations.
-  InitializeTypeRepresentations();
-  
-  initialized = true;
-}
-
-/**
- * Makes sure that InitializeConversions is called exactly once per
- * interpreter.
- */
-void InitializeGroupForInterpreter(Tcl_Interp* interp)
+void InitializeGroupForFacility(WrapperFacility* wrapperFacility)
 {
   // Make sure the global group stuff has been initialized.
-  InitializeGroup();
+  static bool initialized = false;
+  if(!initialized)
+    {
+    InitializeGroupTypeRepresentations();
+    initialized = true;
+    }
   
   // Initialize interpreter-specific stuff for this group.
-  InitializeConversions(interp);
+  InitializeGroupTypeHandlers(wrapperFacility);
 }
 
 } // anonymous namespace

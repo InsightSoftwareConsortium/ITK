@@ -145,14 +145,13 @@ void TclGenerator::GenerateWrappers()
     "\n"
     "namespace\n"
     "{\n"
-    "void InitializeTypeRepresentations()\n"
+    "void InitializeGroupTypeRepresentations()\n"
     "{\n";
   m_CvTypeGenerator.GenerateInitializations(m_Output);  
   m_Output <<
     "}\n"
-    "void InitializeConversions(Tcl_Interp* interp)\n"
-    "{\n"
-    "  WrapperFacility* wrapperFacility = WrapperFacility::GetForInterpreter(interp);\n";
+    "void InitializeGroupTypeHandlers(WrapperFacility* wrapperFacility)\n"
+    "{\n";
   this->WriteConversionInititialization();
   m_Output <<
     "}\n"
@@ -160,8 +159,8 @@ void TclGenerator::GenerateWrappers()
     "\n"
     "void Wrapper_" << m_CableConfiguration->GetGroupName().c_str() << "_Initialize(Tcl_Interp* interp)\n"
     "{\n"
-    "  InitializeGroupForInterpreter(interp);\n"
-    "  WrapperFacility* wrapperFacility = WrapperFacility::GetForInterpreter(interp);\n";
+    "  WrapperFacility* wrapperFacility = WrapperFacility::GetForInterpreter(interp);\n"
+    "  InitializeGroupForFacility(wrapperFacility);\n";
   for(WrapperList::const_iterator w = m_WrapperList.begin();
       w != m_WrapperList.end(); ++w)
     {
