@@ -18,10 +18,13 @@
 // disable debug warnings in MS compiler
 #ifdef _MSC_VER
 #pragma warning(disable: 4786)
-#endif
+#endif 
 
 #include "itkFEMElementBase.h"
 #include "vnl/algo/vnl_svd.h"
+#include "vnl/algo/vnl_qr.h"   
+
+
 
 namespace itk {
 namespace fem {
@@ -271,7 +274,7 @@ void Element::GetLandmarkContributionMatrix(float eta, MatrixType& Le) const
     }
   }
 
-  Le = Le / (eta * eta);
+  Le = Le / (eta );
 }
 
 
@@ -442,7 +445,8 @@ Element::JacobianDeterminant( const VectorType& pt, const MatrixType* pJ ) const
     pJ=pJlocal;
   }
 
-  Float det=vnl_svd<Float>(*pJ).determinant_magnitude();
+  //  Float det=vnl_svd<Float>(*pJ).determinant_magnitude();
+  Float det=vnl_qr<Float>(*pJ).determinant();
 
   delete pJlocal;
 
@@ -468,7 +472,8 @@ Element::JacobianInverse( const VectorType& pt, MatrixType& invJ, const MatrixTy
     pJ=pJlocal;
   }
 
-  invJ=vnl_svd_inverse<Float>(*pJ);
+//  invJ=vnl_svd_inverse<Float>(*pJ);
+  invJ=vnl_qr<Float>(*pJ).inverse();
 
   delete pJlocal;
 
