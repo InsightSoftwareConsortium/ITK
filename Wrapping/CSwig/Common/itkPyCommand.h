@@ -49,6 +49,11 @@ public:
   ///! Method for creation through the object factory.
   itkNewMacro(Self);
 
+  /** 
+   * Assign a Python callable object to be used.  You don't have to keep
+   * a binding to the callable, PyCommand will also take out a reference
+   * to make sure the Callable sticks around.
+   */
   void SetCommandCallable(PyObject *obj);
 
   void Execute(Object *, const EventObject&);
