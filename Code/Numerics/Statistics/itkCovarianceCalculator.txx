@@ -123,7 +123,7 @@ void
 CovarianceCalculator< TSample >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  unsigned int i ;
+  int i ;
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Sample: " << m_Sample << std::endl;
