@@ -1,4 +1,5 @@
 #include "itkImage.h"
+#include "itkPoint.h"
 
 int main()
 {
@@ -40,6 +41,18 @@ int main()
   origin[2] = 0.0;
 
   image->SetOrigin( origin );
+
+  typedef itk::Point<double,3> PointType;
+ 
+  PointType point;
+
+  point[0] = 1.45;
+  point[1] = 7.21;
+  point[2] = 9.28;
+
+  ImageType::IndexType index;
+
+  image->TransformPhysicalPointToIndex( point, index ); 
 
   return 0;
 
