@@ -31,9 +31,6 @@ int itkBilateralImageFilterTest3(int ac, char** av)
     return -1;
     }
 
-  // Register one Factory of PNG readers
-  itk::PNGImageIOFactory::RegisterOneFactory();
-  
   typedef unsigned char PixelType;
   typedef itk::Image<PixelType, 2> myImage;
   itk::ImageFileReader<myImage>::Pointer input 
