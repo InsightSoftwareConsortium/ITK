@@ -47,8 +47,8 @@ ImageRegionSplitter<VImageDimension>
 
   // determine the actual number of pieces that will be generated
   SizeValueType range = regionSize[splitAxis];
-  int valuesPerPiece = (int)ceil(range/(double)requestedNumber);
-  int maxPieceUsed = (int)ceil(range/(double)valuesPerPiece) - 1;
+  int valuesPerPiece = (int)::ceil(range/(double)requestedNumber);
+  int maxPieceUsed = (int)::ceil(range/(double)valuesPerPiece) - 1;
 
   return maxPieceUsed + 1;
 }
@@ -89,8 +89,8 @@ ImageRegionSplitter<VImageDimension>
 
   // determine the actual number of pieces that will be generated
   SizeValueType range = regionSize[splitAxis];
-  int valuesPerPiece = (int)ceil(range/(double)numberOfPieces);
-  int maxPieceUsed = (int)ceil(range/(double)valuesPerPiece) - 1;
+  int valuesPerPiece = (int)::ceil(range/(double)numberOfPieces);
+  int maxPieceUsed = (int)::ceil(range/(double)valuesPerPiece) - 1;
 
   // Split the region
   if ((int) i < maxPieceUsed)

@@ -103,7 +103,7 @@ for (i=0; i<3; i++)
 if ( this->Automatic && (estNumPts > 0) )
 {
   level = (float) estNumPts / this->NumberOfPointsPerBucket;
-  level = ceil( pow((double)level,(double)0.33333333) );
+  level = ::ceil( pow((double)level,(double)0.33333333) );
   for (i=0; i<3; i++)
     {
     ndivs[i] = (int) level;
@@ -142,7 +142,7 @@ for (maxDivs=0, hmin=VTK_LARGE_FLOAT, i=0; i<3; i++)
   hmin = (this->H[i] < hmin ? this->H[i] : hmin);
   maxDivs = (maxDivs > this->Divisions[i] ? maxDivs : this->Divisions[i]);
 }
-this->InsertionLevel = ceil ((double) this->Tolerance / hmin);
+this->InsertionLevel = ::ceil ((double) this->Tolerance / hmin);
 this->InsertionLevel = (this->InsertionLevel > maxDivs ? maxDivs : this->InsertionLevel);
 return 1;
 #endif
