@@ -81,7 +81,7 @@ public:
   typedef typename TransformType::Pointer  TransformPointer;
   typedef const TransformType*             TransformConstPointer;
   
-  typedef std::list< const TransformType * > TransformListType;
+  typedef std::list< TransformType * > TransformListType;
   typedef TransformListType * TransformListPointer;
   
   typedef VectorContainer< unsigned long int, PointType > VectorContainerType;
