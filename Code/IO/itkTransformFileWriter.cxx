@@ -21,6 +21,7 @@
 #include "metaScene.h"
 #include "itkBSplineDeformableTransform.h"
 #include "itkRigid2DTransform.h"
+#include "itkAffineTransform.h"
 
 namespace itk
 {
@@ -107,7 +108,7 @@ void TransformFileWriter
       double* cor = new double[(*it)->GetInputSpaceDimension()];
       for(unsigned int i=0;i<(*it)->GetInputSpaceDimension();i++)
         {
-        cor[i] = reinterpret_cast<const itk::AffineTransform<>*>(*it)->GetCenter()[i];
+        cor[i] = reinterpret_cast<const AffineTransform<>*>(*it)->GetCenter()[i];
         }
       transform->CenterOfRotation(cor);
       delete cor;
