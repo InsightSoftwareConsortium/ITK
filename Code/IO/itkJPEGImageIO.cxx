@@ -399,7 +399,7 @@ void JPEGImageIO::Write(const void* buffer)
     }
 
   if ( this->GetComponentType() != UCHAR
-    || this->GetComponentType() != UINT)
+    && this->GetComponentType() != UINT)
     {
     itkExceptionMacro(<<"JPEG supports unsigned char/int only");
     }
