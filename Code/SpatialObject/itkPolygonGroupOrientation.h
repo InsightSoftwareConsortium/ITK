@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkROIOrientation.h
+  Module:    itkPolygonGroupOrientation.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,10 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkROIOrientation_h
-#define _itkROIOrientation_h
+#ifndef _itkPolygonGroupOrientation_h
+#define _itkPolygonGroupOrientation_h
 /**
- * \Enumerated ROIOrientation
+ * \Enumerated PolygonGroupOrientation
  * \brief enumerates the possible spatial orientations
  */
 namespace itk {
@@ -27,6 +27,6 @@ namespace itk {
     Sagittal = 2,
     UserPlane = 3,
     Unknown = 4
-  } ROIOrientation;
+  } PolygonGroupOrientation;
 }
 #endif

@@ -1,7 +1,7 @@
 /*=========================================================================
 
 Program:   Insight Segmentation & Registration Toolkit
-Module:    itkROISpatialObject.txx
+Module:    itkPolygonGroupSpatialObject.txx
 Language:  C++
 Date:      $Date$
 Version:   $Revision$
@@ -14,42 +14,42 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itk_ROISpatialObject_txx_
-#define __itk_ROISpatialObject_txx_
+#ifndef __itk_PolygonGroupSpatialObject_txx_
+#define __itk_PolygonGroupSpatialObject_txx_
 
-#include "itkROISpatialObject.h"
+#include "itkPolygonGroupSpatialObject.h"
 
 namespace itk
 {
 
 
 template <unsigned int TDimension >
-bool ROISpatialObject<TDimension>::
-AddStrand(ROIStrandSpatialObject<TDimension> *toAdd)
+bool PolygonGroupSpatialObject<TDimension>::
+AddStrand(PolygonSpatialObject<TDimension> *toAdd)
 {
   this->AddSpatialObject(toAdd);
   return true;
 }
 
 template <unsigned int TDimension >
-bool ROISpatialObject<TDimension>::
-DeleteStrand(ROIStrandSpatialObject<TDimension> *toDelete)
+bool PolygonGroupSpatialObject<TDimension>::
+DeleteStrand(PolygonSpatialObject<TDimension> *toDelete)
 {
   this->RemoveSpatialObject(toDelete);
   return true;
 }
 
 template <unsigned int TDimension >
-bool ROISpatialObject<TDimension>::
-ReplaceStrand(ROIStrandSpatialObject<TDimension> *toReplace,ROIStrandSpatialObject<TDimension> *replacement)
+bool PolygonGroupSpatialObject<TDimension>::
+ReplaceStrand(PolygonSpatialObject<TDimension> *toReplace,PolygonSpatialObject<TDimension> *replacement)
 {
-  typename SpatialObject<TDimension>::iterator it = this->m_Children.begin();
-  typename SpatialObject<TDimension>::iterator itend = this->m_Children.end();
+  typename ChildrenListType::iterator it = this->m_Children.begin();
+  typename ChildrenListType::iterator itend = this->m_Children.end();
   while(it != itend)
     {
     if((*it) == toReplace)
       {
-      typename SpatialObject<TDimension>::iterator after = it;
+      typename ChildrenListType::iterator after = it;
       after++;
       this->m_Children.insert(after,1,replacement);
       this->m_Children.erase(it);
@@ -61,15 +61,15 @@ ReplaceStrand(ROIStrandSpatialObject<TDimension> *toReplace,ROIStrandSpatialObje
 }
 
 template <unsigned int TDimension >
-bool ROISpatialObject<TDimension>::
+bool PolygonGroupSpatialObject<TDimension>::
 IsClosed()
 {
-  typename SpatialObject<TDimension>::iterator it = this->m_Children.begin();
-  typename SpatialObject<TDimension>::iterator itend = this->m_Children.end();
+  typename ChildrenListType::iterator it = this->m_Children.begin();
+  typename ChildrenListType::iterator itend = this->m_Children.end();
   while(it != itend) 
     {
-    ROIStrandSpatialObject<TDimension> *curstrand =
-        dynamic_cast<ROIStrandSpatialObject<TDimension> *>((*it));
+    PolygonSpatialObject<TDimension> *curstrand =
+        dynamic_cast<PolygonSpatialObject<TDimension> *>((*it));
       if(curstrand != 0)
         {
         if (!curstrand->IsClosed())
@@ -83,7 +83,7 @@ IsClosed()
 }
 
 template <unsigned int TDimension >
-unsigned ROISpatialObject<TDimension>::
+unsigned PolygonGroupSpatialObject<TDimension>::
 NumberOfStrands()
 {
   return this->m_Children.size();
@@ -91,29 +91,31 @@ NumberOfStrands()
 }
 
 template <unsigned int TDimension >
-double ROISpatialObject<TDimension>::
+double PolygonGroupSpatialObject<TDimension>::
 Volume()
 {
   double volume = 0;
-  typename SpatialObject<TDimension>::iterator it = this->m_Children.begin();
-  typename SpatialObject<TDimension>::iterator itend = this->m_Children.end();
+  typename ChildrenListType::iterator it = this->m_Children.begin();
+  typename ChildrenListType::iterator itend = this->m_Children.end();
   while(it != itend)
     {
-    volume += (*it)->MeasureVolume();
+    PolygonSpatialObject<TDimension> *curstrand =
+      dynamic_cast<PolygonSpatialObject<TDimension> *>((*it));
+    volume += curstrand->MeasureVolume();
     it++;
     }
   return volume;
 }
 
 template <unsigned int TDimension >
-double ROISpatialObject<TDimension>::
+double PolygonGroupSpatialObject<TDimension>::
 MeasureVolume()
 {
   return this->Volume();
 }
 
 template <unsigned int TDimension >
-bool ROISpatialObject<TDimension>::
+bool PolygonGroupSpatialObject<TDimension>::
 IsInside( const PointType & point,unsigned int depth,char * name) const
 {
   // want to encompass all children, at least 2 levels, but to be
@@ -124,7 +126,7 @@ IsInside( const PointType & point,unsigned int depth,char * name) const
     {
     return false;
     }
-  return this->SpatialObject<TDimension>::IsInside(point,depth,name);
+  return this->SpatialObject<TDimension>::IsInside(point,4,name);
 }
 
 }

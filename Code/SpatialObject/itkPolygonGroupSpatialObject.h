@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkROISpatialObject.h
+  Module:    itkPolygonGroupSpatialObject.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,40 +14,40 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkROISpatialObject_h
-#define __itkROISpatialObject_h
+#ifndef __itkPolygonGroupSpatialObject_h
+#define __itkPolygonGroupSpatialObject_h
 #include "itkGroupSpatialObject.h"
-#include "itkROIOrientation.h"
-#include "itkROIStrandSpatialObject.h"
+#include "itkPolygonGroupOrientation.h"
+#include "itkPolygonSpatialObject.h"
 
 /**
- * \class ROISpatialObject
+ * \class PolygonGroupSpatialObject
  * \brief Implements a Region Of Interest Type
  *
  * This class implements a Region of Interest, which is simply a space
  * in a medical image that has some significance as a component of the
  * scan.  Different components of brain anatomy, for instance are Regions
  * of Interest in the human brain.
- * The primary difference between ROISpatialObject and other descendants
+ * The primary difference between PolygonGroupSpatialObject and other descendants
  * of SpatialObject are these:
- * 1. For now, an ROI needs to comprise a series of slices parallel to
+ * 1. For now, an PolygonGroup needs to comprise a series of slices parallel to
  * a plane swept by any two of the major axes. In other words, the points
  * in each slice (or strand) all need to have one of the X,Y,Z values to
  * be constant.
  * 2. The IsInside method implements the concept of spatial 'insidedness'
  * where other descendents of SpatialObject have a concept of insidedness
- * defined in a rather ad-hoc manner. ROISpatialObjects define IsInside
+ * defined in a rather ad-hoc manner. PolygonGroupSpatialObjects define IsInside
  * to mean that the given point resides in space inside the surface of
- * the ROISpatialObject.
+ * the PolygonGroupSpatialObject.
  */
 namespace itk
 {
 template <unsigned int TDimension = 3> class 
-  ROISpatialObject
+  PolygonGroupSpatialObject
   :public GroupSpatialObject<TDimension>
   {
     public:
-    typedef ROISpatialObject< TDimension >             Self;
+    typedef PolygonGroupSpatialObject< TDimension >             Self;
     typedef BlobSpatialObject< TDimension >            Superclass;
     typedef SmartPointer < Self >                      Pointer;
     typedef SmartPointer < const Self >                ConstPointer;
@@ -59,29 +59,29 @@ template <unsigned int TDimension = 3> class
     /** Method for creation through the object factory. */
     itkTypeMacro( Self, Superclass );
   
-    /** Return true if the given ROIStrandSpatialObject is successfully
-     * added to the ROI.
+    /** Return true if the given PolygonSpatialObject is successfully
+     * added to the PolygonGroup.
      */
-    bool AddStrand(ROIStrandSpatialObject<TDimension> *toAdd);
+    bool AddStrand(PolygonSpatialObject<TDimension> *toAdd);
 
-    /** Return true if the given ROIStrandSpatialObject is successfully
-     * removed from the ROI
+    /** Return true if the given PolygonSpatialObject is successfully
+     * removed from the PolygonGroup
      */
-    bool DeleteStrand(ROIStrandSpatialObject<TDimension> *toDelete);
+    bool DeleteStrand(PolygonSpatialObject<TDimension> *toDelete);
 
-    /** Return true if the given ROIStrandSpatialObject successfully
-     * replaces the ROIStrand given in toReplace. This will fail if
-     * toReplace is not a strand in the ROIObject.
+    /** Return true if the given PolygonSpatialObject successfully
+     * replaces the Polygon given in toReplace. This will fail if
+     * toReplace is not a strand in the PolygonGroupObject.
      */
-    bool ReplaceStrand(ROIStrandSpatialObject<TDimension> *toReplace,
-                       ROIStrandSpatialObject<TDimension> *replacement);
+    bool ReplaceStrand(PolygonSpatialObject<TDimension> *toReplace,
+                       PolygonSpatialObject<TDimension> *replacement);
 
-    /** Return true if all constituent ROIStrands are closed. */
+    /** Return true if all constituent Polygons are closed. */
     bool IsClosed();
-    /** returns the number of ROIStrands in this ROI */
+    /** returns the number of Polygons in this PolygonGroup */
     unsigned int NumberOfStrands();
-    /** Volume of this ROI, which is the sum of the volume of all
-     * its constituent ROIStrands
+    /** Volume of this PolygonGroup, which is the sum of the volume of all
+     * its constituent Polygons
      */
     double Volume();
     /** Same as Volume, above.*/
@@ -93,7 +93,7 @@ template <unsigned int TDimension = 3> class
   };
 }
 #ifndef ITK_MANUAL_INSTANTIATION 
-#include "itkROISpatialObject.txx" 
+#include "itkPolygonGroupSpatialObject.txx" 
 #endif 
 
 #endif
