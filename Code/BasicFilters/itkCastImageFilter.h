@@ -50,8 +50,8 @@ namespace itk
  *
  * \brief Casts input pixels to output pixel type.
  *
- * This filter is templated over the pixel type of the input image
- * and the pixel type of the output image. 
+ * This filter is templated over the input image type
+ * and the output image type.
  * 
  * The filter expect both images to have the same number of dimensions.
  *
