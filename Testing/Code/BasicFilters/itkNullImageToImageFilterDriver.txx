@@ -50,6 +50,8 @@ class ITK_EXPORT NullImageToImageFilterDriver
 public:
   NullImageToImageFilterDriver() {};
 
+  typedef typename TInputImage::SizeType ImageSizeType;
+
   /**
    * Set the image-to-image filter to drive.
    */
@@ -59,7 +61,7 @@ public:
   /**
    * Set the size of the input and output image.
    */
-  void SetImageSize(const typename TInputImage::SizeType s) 
+  void SetImageSize(const ImageSizeType s) 
     { m_ImageSize = s; }
 
   /**
@@ -69,7 +71,7 @@ public:
   
 private:
   ImageToImageFilter<TInputImage, TOutputImage> *m_Filter;
-  typename TInputImage::SizeType m_ImageSize;
+  ImageSizeType m_ImageSize;
 };
 
 /**

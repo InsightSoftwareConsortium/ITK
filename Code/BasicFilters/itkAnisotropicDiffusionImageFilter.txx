@@ -108,7 +108,7 @@ template<class TImageType>
 AvgGradMagSquared<TImageType>::PixelType
 AvgGradMagSquared<TImageType>
 ::operator()(TImageType *ip,
-             const typename ImageTraits<TImageType>::RegionType &region)
+             const RegionType &region)
   const
 {
   PixelType accumulator;

@@ -32,11 +32,10 @@ template <class TImageType>
 struct ITK_EXPORT AvgGradMagSquared
 {
   typedef typename ImageTraits<TImageType>::PixelType PixelType;
+  typedef typename ImageTraits<TImageType>::RegionType RegionType;
   enum { ImageDimension = ImageTraits<TImageType>::ImageDimension };
-
   AvgGradMagSquared() {}
-  PixelType operator() (TImageType *,
-                     const typename ImageTraits<TImageType>::RegionType &) const;
+  PixelType operator() (TImageType *, const RegionType &) const;
 };
 
 struct ITK_EXPORT CopyStrategy
@@ -99,7 +98,6 @@ struct ITK_EXPORT UpdateStrategyScalar : public UpdateStrategy
   UpdateStrategyScalar() {} 
   virtual void operator()(void *, void *) const;
 };
-
 
 /**
  * \class AnisotropicDiffusionImageFilter
