@@ -43,6 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkVector.h"
 #include "itkPoint.h"
+#include "itkMatrix.h"
 #include "itkCovariantVector.h"
 #include "vnl/vnl_quaternion.h"
 #include "vnl/vnl_vector_fixed.h"
