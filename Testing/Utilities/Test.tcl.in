@@ -80,7 +80,7 @@ puts $Out "\t</TestList>"
 
 proc CheckFile { Filename } \
 {
-  return [exec [file exists $Filename] && [file executable $Filename]]
+  return [expr [file exists $Filename] && [file executable $Filename]]
 }
 
 # For each test, cd to the directory, and run it.
