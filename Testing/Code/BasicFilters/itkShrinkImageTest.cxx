@@ -96,9 +96,12 @@ int main()
     {
     std::cout << "Pixel " << iterator2.GetIndex() << " = " << iterator2.Get()
               << std::endl;
-    if ( iterator2.Get() != ((shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0])
-                        + (region.GetSize()[0]
-                           * shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1])))
+
+    short trueValue = (short) (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0])
+              + (region.GetSize()[0]
+                * shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1]);
+
+    if ( iterator2.Get() != trueValue )
       {
       passed = false;
       }
