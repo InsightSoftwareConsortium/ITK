@@ -33,6 +33,15 @@
 int main( int argc, char * argv [] )
 {
 
+  // Verify the number of parameters in the command line
+  if( argc < 3 )
+    {
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0] << " inputImageFile  outputImageFile " << std::endl;
+    return -1;
+    }
+
+
   const unsigned int Dimension = 2;
 
   typedef itk::Vector< float, Dimension >    PixelType;
