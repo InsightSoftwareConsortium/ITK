@@ -37,7 +37,7 @@ class DICOMParser
   //
   // Default destructor.
   //
-  ~DICOMParser();
+  virtual ~DICOMParser();
 
   //
   // Opens a file and initializes the parser.
@@ -126,6 +126,12 @@ class DICOMParser
     }
 
 
+  void TransferSyntaxCallback(doublebyte,
+                                            doublebyte,
+                                            DICOMParser::VRTypes,
+                                            unsigned char* val,
+                                            quadbyte) ;
+
  protected:
 
   bool ParseExplicitRecord(doublebyte group, doublebyte element, 
@@ -138,7 +144,8 @@ class DICOMParser
   //
   // Print a tag.
   //
-  void DumpTag(doublebyte group, doublebyte element, VRTypes datatype, unsigned char* data, quadbyte length);
+  // void DumpTag(doublebyte group, doublebyte element, VRTypes datatype, unsigned char* data, quadbyte length);
+  void DumpTag(std::ostream& out, doublebyte group, doublebyte element, VRTypes vrtype, unsigned char* tempdata, quadbyte length);
 
   //
   // Hack to check out dynamic modality tags.
@@ -198,6 +205,8 @@ class DICOMParser
   // Pointer to the DICOMFile we're parsing.
   //
   DICOMFile* DataFile;
+
+  bool ToggleByteSwapImageData;
 
 };
 
