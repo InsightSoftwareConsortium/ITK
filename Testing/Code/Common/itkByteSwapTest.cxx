@@ -34,11 +34,11 @@ int main ( int argc, char* argv[] )
 
   if ( itk::ByteSwap<int>::IsBigEndian() == itk::ByteSwap<int>::IsLE() )
     {
-    return 0;
+    return 1;
     }
   if ( itk::ByteSwap<int>::IsBE() == itk::ByteSwap<int>::IsLittleEndian() )
     {
-    return 0;
+    return 1;
     }
 
   if ( itk::ByteSwap<int>::IsBigEndian() )
@@ -117,13 +117,13 @@ int main ( int argc, char* argv[] )
     {
     if ( itk::ByteSwap<int>::IsBigEndian() )
       {
-      itk::ByteSwap<float>::SwapBE ( &f );
-      itk::ByteSwap<float>::SwapBE ( &f );
+      itk::ByteSwap<float>::SwapLE ( &f );
+      itk::ByteSwap<float>::SwapLE ( &f );
       }
     else
       {
-      itk::ByteSwap<float>::SwapLE ( &f );
-      itk::ByteSwap<float>::SwapLE ( &f );    
+      itk::ByteSwap<float>::SwapBE ( &f );
+      itk::ByteSwap<float>::SwapBE ( &f );    
       }
     if ( f != f1 )
       {
@@ -134,15 +134,15 @@ int main ( int argc, char* argv[] )
   catch ( itk::ByteSwapError &e )
     {
     std::cout << "Caught float exception size is: " << sizeof ( float ) << std::endl;
+    return 1;
     }
-
 
   try
     {
     if ( itk::ByteSwap<int>::IsBigEndian() )
       {
-      itk::ByteSwap<double>::SwapBE ( &d );
-      itk::ByteSwap<double>::SwapBE ( &d );
+      itk::ByteSwap<double>::SwapLE ( &d );
+      itk::ByteSwap<double>::SwapLE ( &d );
       }
     else
       {
@@ -158,7 +158,8 @@ int main ( int argc, char* argv[] )
   catch ( itk::ByteSwapError &e )
     {
     std::cout << "Caught double exception size is: " << sizeof ( double ) << std::endl;
+    return 1;
     }
-
+  return 0;
   
 }
