@@ -209,7 +209,7 @@ ConstantPadImageFilter<TInputImage,TOutputImage> // support progress methods/cal
 	}
       else
 	{
-	  sizeTemp = outputSize[dimCtr];
+	  sizeTemp = static_cast<long>(outputSize[dimCtr]);
 	}
 	sizes[1][dimCtr] = ((sizeTemp > 0) ? sizeTemp:0);
         sizeTemp = outputIndex[dimCtr] + static_cast<long>(outputSize[dimCtr])

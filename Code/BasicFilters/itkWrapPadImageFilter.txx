@@ -293,13 +293,13 @@ WrapPadImageFilter<TInputImage,TOutputImage>
     {
       regCtr++;
       outputRegionStart[regCtr] = outputRegionStart[regCtr-1]
-        + outputRegionSizes[regCtr-1];
+        + static_cast<long>(outputRegionSizes[regCtr-1]);
       inputRegionStart[regCtr] = inputIndex;
       outputRegionSizes[regCtr] = inputSize;
       inputRegionSizes[regCtr] = inputSize;
     }
   // Fix size on last region, if necessary.
-  if ((outputRegionStart[regCtr]+outputRegionSizes[regCtr]) 
+  if ((outputRegionStart[regCtr]+static_cast<long>(outputRegionSizes[regCtr])) 
       > (outputIndex+outputSize)) 
     {
       outputRegionSizes[regCtr] = outputIndex + outputSize 
@@ -339,7 +339,7 @@ WrapPadImageFilter<TInputImage,TOutputImage>
   // region of possibly smaller size.
   regCtr++;
   sizeTemp = outputIndex + outputSize - inputIndex - inputSize;
-  sizeTemp = ((sizeTemp>0) ? (sizeTemp % static_cast<long>(inputSize)):0);
+  sizeTemp = ((sizeTemp>0) ? (sizeTemp % inputSize):0);
   outputRegionSizes[regCtr] = sizeTemp;
   inputRegionSizes[regCtr] = sizeTemp;
   outputRegionStart[regCtr] = outputIndex + outputSize - sizeTemp;
@@ -509,7 +509,7 @@ WrapPadImageFilter<TInputImage,TOutputImage>
   for (dimCtr=0; dimCtr<ImageDimension; dimCtr++) 
     {
       minIndex[dimCtr] = inputRegionStart[dimCtr][0]; 
-      maxIndex[dimCtr] = minIndex[dimCtr] + inputRegionSizes[dimCtr][0];
+      maxIndex[dimCtr] = minIndex[dimCtr] + static_cast<long>(inputRegionSizes[dimCtr][0]);
       
       for (regCtr=1; 
            regCtr<(numIn[dimCtr]+numPre[dimCtr]+numPost[dimCtr]); 
@@ -519,7 +519,7 @@ WrapPadImageFilter<TInputImage,TOutputImage>
             {
               minIndex[dimCtr] = inputRegionStart[dimCtr][regCtr]; 
               maxIndex[dimCtr] = minIndex[dimCtr] 
-                + inputRegionSizes[dimCtr][regCtr];
+                + static_cast<long>(inputRegionSizes[dimCtr][regCtr]);
             }
           else
             {
@@ -528,11 +528,11 @@ WrapPadImageFilter<TInputImage,TOutputImage>
                   minIndex[dimCtr] = inputRegionStart[dimCtr][regCtr];
                 }
               if ((inputRegionStart[dimCtr][regCtr]
-                   +inputRegionSizes[dimCtr][regCtr])
+                   +static_cast<long>(inputRegionSizes[dimCtr][regCtr]))
                   > maxIndex[dimCtr])
                 {
                   maxIndex[dimCtr] = inputRegionStart[dimCtr][regCtr]
-                    + inputRegionSizes[dimCtr][regCtr];
+                    + static_cast<long>(inputRegionSizes[dimCtr][regCtr]);
                 }
             }
         }

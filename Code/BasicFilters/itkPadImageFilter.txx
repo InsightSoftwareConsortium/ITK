@@ -151,15 +151,15 @@ PadImageFilter<TInputImage,TOutputImage>
 	    outputRequestedRegionStartIndex[i];
 	}
 
-      if ((inputWholeRegionStartIndex[i]+inputWholeRegionSize[i]) <= 
-	  (outputRequestedRegionStartIndex[i]+outputRequestedRegionSize[i]))
+      if ((inputWholeRegionStartIndex[i]+static_cast<long>(inputWholeRegionSize[i])) <= 
+	  (outputRequestedRegionStartIndex[i]+static_cast<long>(outputRequestedRegionSize[i])))
 	{
-	  sizeTemp = inputWholeRegionSize[i] 
+	  sizeTemp = static_cast<long>(inputWholeRegionSize[i]) 
 	    + inputWholeRegionStartIndex[i] - inputRequestedRegionStartIndex[i];
 	}
       else
 	{
-	  sizeTemp = outputRequestedRegionSize[i]
+	  sizeTemp = static_cast<long>(outputRequestedRegionSize[i])
 	    + outputRequestedRegionStartIndex[i] - inputRequestedRegionStartIndex[i];
 	}
 
@@ -227,7 +227,7 @@ PadImageFilter<TInputImage,TOutputImage>
 
   for (i = 0; i < TOutputImage::ImageDimension; i++)
     {
-      outputSize[i] = inputSize[i] + m_PadLowerBound[i] + m_PadUpperBound [i];
+      outputSize[i] = static_cast<long>(inputSize[i]) + m_PadLowerBound[i] + m_PadUpperBound [i];
       outputStartIndex[i] = inputStartIndex[i] - static_cast<long>(m_PadLowerBound[i]);
     }
 
