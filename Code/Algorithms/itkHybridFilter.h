@@ -25,11 +25,9 @@ namespace itk
 {
 
 /** \class HybridFilter
- * \brief Computes the gradient of an image by convolution
- *        with the first derivative of a Gaussian.
- * 
- * This filter is implemented using the recursive gaussian
- * filters
+ * \brief the filter try to combine the gibbs prior model and deformable model into
+ *  a segmentation framework, the output of Gibbs Prior model will be automatically set 
+ *  as the input of deformable model
  *
  * \ingroup HybridSegmentation 
  *
