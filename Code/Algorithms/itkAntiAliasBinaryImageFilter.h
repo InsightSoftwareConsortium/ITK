@@ -33,7 +33,7 @@ namespace itk {
  * The binary volume (filter input) is used as a set of constraints in an
  * iterative relaxation process of an estimated ND surface.  The surface is
  * described implicitly as the zero level set of a volume \f$ \phi \f$ and
- * allowed to deform under curvature flow.  A set of contraints is introduced
+ * allowed to deform under curvature flow.  A set of contraints is imposed
  * on this movement as follows:
  *
  * \par
@@ -70,11 +70,6 @@ namespace itk {
  *  The MaximumIterations parameter can be used to halt the solution after a
  *  specified number of iterations.
  *
- *  \par
- *  The CurvatureWeight parameter allows you to set the weighting applied to
- *  curvature in the solver. You should not need to change this parameter from
- *  its default value of 1.0 except in very rare circumstances.
- * 
  * \par INPUT 
  *  The input is an N-dimensional image of any type. It is assumed to be a
  *  binary image. The filter will use an isosurface value that is halfway
