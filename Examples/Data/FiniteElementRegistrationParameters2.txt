@@ -1,0 +1,61 @@
+% Configuration file #1 for DeformableRegistration1.cxx
+% 
+% This example demonstrates the setup of a basic registration 
+% problem that does NOT use multi-resolution strategies.  As a 
+% result, only one value for the parameters between 
+% (# of pixels per element) and (maximum iterations) is necessary.
+% If you were using multi-resolution, you would have to specify
+% values for those parameters at each level of the pyramid.  
+%
+% Note: the paths in the parameters assume you have the traditional 
+% ITK file hierarchy as shown below:
+%
+% ITK/Insight/Examples/Registration/DeformableRegistration1.cxx
+% ITK/Insight/Examples/Data/RatLungSlice*
+% ITK/Insight-Bin/bin/DeformableRegistration1
+%
+% ---------------------------------------------------------
+% Parameters for the single- or multi-resolution techniques
+% ---------------------------------------------------------
+1	% Number of levels in the multi-res pyramid (1 = single-res)
+1	% Highest level to use in the pyramid
+ 1 1    	% Scaling at lowest level of pyramid
+ 4		% Number of pixels per element
+ 1.e4 	        % Elasticity (E)
+ 1.e4 	        % Density x capacity (RhoC)
+ 1		% Image energy scaling (gamma) - sets gradient step size
+ 2		% NumberOfIntegrationPoints
+ 1  		% WidthOfMetricRegion
+ 20		% MaximumIterations
+% -------------------------------
+% Parameters for the registration
+% -------------------------------
+0 0.99  % Similarity metric (0=mean sq, 1 = ncc, 2=pattern int, 3=MI, 5=demons)
+1.0	% Alpha
+0	% DescentDirection (1 = max, 0 = min)
+0	% DoLineSearch (0=never, 1=always, 2=if needed)
+1.e1	% TimeStep
+0.5     % Landmark variance
+0       % Employ regridding / enforce diffeomorphism ( >= 1 -> true)
+% ----------------------------------
+% Information about the image inputs
+% ----------------------------------
+128	% Nx (image x dimension)
+128	% Ny (image y dimension)
+0  	% Nz (image z dimension - not used if 2D)
+../../Insight/Examples/Data/RatLungSlice1.mha  % ReferenceFileName 
+../../Insight/Examples/Data/RatLungSlice2.mha  % TargetFileName
+% -------------------------------------------------------------------
+% The actions below depend on the values of the flags preceding them.
+% For example, to write out the displacement fields, you have to set
+% the value of WriteDisplacementField to 1.
+% -------------------------------------------------------------------
+1	% UseLandmarks? - read the file name below if this is true
+FiniteElementRegistrationLandmarks.txt	% LandmarkFileName
+./RatLung_result                       % ResultsFileName (prefix only)
+1       % WriteDisplacementField?
+./RatLung_disp                         % DisplacementsFileName (prefix only)
+0       % ReadMeshFile?
+-                                      % MeshFileName
+END
+
