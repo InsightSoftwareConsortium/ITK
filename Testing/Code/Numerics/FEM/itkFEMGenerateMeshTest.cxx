@@ -75,7 +75,7 @@ int itkFEMGenerateMeshTest(int, char*[])
 
   try 
     {
-    Generate2DRectilinearMesh(e1,S,MeshOriginV,MeshSizeV,ElementsPerDim);
+    itk::fem::Generate2DRectilinearMesh(e1,S,MeshOriginV,MeshSizeV,ElementsPerDim);
     std::cout << "Generated 2D rectilinear mesh" << std::endl;
     }
   catch ( itk::ExceptionObject& ) 
@@ -100,7 +100,7 @@ int itkFEMGenerateMeshTest(int, char*[])
 
   try
     {
-    Generate3DRectilinearMesh(e2,S,MeshOriginV,MeshSizeV,ElementsPerDim);
+    itk::fem::Generate3DRectilinearMesh(e2,S,MeshOriginV,MeshSizeV,ElementsPerDim);
     std::cout << "Generated 3D rectilinear mesh" << std::endl;
     }
   catch ( itk::ExceptionObject&) 
