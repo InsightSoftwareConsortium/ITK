@@ -87,7 +87,7 @@ class vnl_math
 // since that would override the non-inline specialisations. - PVr.
 //
 // isnan
-#ifdef VCL_VC // Template versions don't get overridden by vnl_rational version
+#if defined(VCL_VC) || defined(__BORLANDC__)
 inline bool vnl_math_isnan(unsigned char ) { return false; }
 inline bool vnl_math_isnan(signed char ) { return false; }
 inline bool vnl_math_isnan(unsigned short ) { return false; }
@@ -104,7 +104,7 @@ bool vnl_math_isnan(double);
 bool vnl_math_isnan(long double);
 
 // isinf
-#ifdef VCL_VC
+#if defined(VCL_VC) || defined(__BORLANDC__)
 inline bool vnl_math_isinf(unsigned char ) { return false; }
 inline bool vnl_math_isinf(signed char ) { return false; }
 inline bool vnl_math_isinf(unsigned short ) { return false; }
@@ -121,7 +121,7 @@ bool vnl_math_isinf(double);
 bool vnl_math_isinf(long double);
 
 // isfinite
-#ifdef VCL_VC
+#if defined(VCL_VC) || defined(__BORLANDC__)
 inline bool vnl_math_isfinite(unsigned char ) { return true; }
 inline bool vnl_math_isfinite(signed char ) { return true; }
 inline bool vnl_math_isfinite(unsigned short ) { return true; }

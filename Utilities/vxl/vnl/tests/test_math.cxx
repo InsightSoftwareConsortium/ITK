@@ -3,6 +3,8 @@
 #include <vnl/vnl_complex.h>
 #include <testlib/testlib_test.h>
 
+
+
 // Use these variables instead of compile time constants so that the
 // compiler won't warn about the intentional division by zero below.
 // Constants for one avoid warnings about loss of precision. Making
@@ -39,10 +41,27 @@ void test_static_const_definition()
   check_pointer( &vnl_math::eps );
   check_pointer( &vnl_math::sqrteps );
 }
+#if defined(__BORLANDC__)
+#include <math.h>
+#include <float.h>
+void initfp(void)
+{
+    // disable floating point exceptions
+    _control87(MCW_EM,MCW_EM);
+}
 
+int _matherr(struct _exception  *e)
+{
+    e;               // dummy reference to catch the warning
+    return 1;        // error has been handled
+}
 
+#endif
 void test_math()
 {
+#if defined(__BORLANDC__)
+  initfp();
+#endif
   // Call it to avoid compiler warnings
   test_static_const_definition();
 
@@ -78,7 +97,7 @@ void test_math()
   testlib_test_assert_near("exp(d*i) ~= -1", vnl_math_abs(e_ipi+1.0), 0);
   vcl_cout << vcl_endl;
 
-#if !defined(__alpha__) && !defined(__BORLANDC__)
+#if !defined(__alpha__) 
   // Create Inf and -Inf:
   float a1 = one_f / zero_f;
   float a2 = (-one_f) / zero_f;
@@ -91,7 +110,9 @@ void test_math()
   float b1 = zero_f / zero_f;
   double b2 = zero_d / zero_d;
   long double b3 = zero_ld / zero_ld;
-
+#if defined (__BORLANDC__)
+  b3 = b2;
+#endif
 #else // avoid FPE on zero division
   // Create Inf and -Inf:
   long inf = 0x7f800000L; float a1 = *(float*)(&inf);
@@ -106,7 +127,6 @@ void test_math()
   double b2 = b1;
   long double b3 = b2;
 #endif
-
   testlib_test_assert(" isfinite(f)    ",  vnl_math_isfinite(f));
   testlib_test_assert(" isfinite(d)    ",  vnl_math_isfinite(d));
   testlib_test_assert(" isfinite(i)    ",  vnl_math_isfinite(i));

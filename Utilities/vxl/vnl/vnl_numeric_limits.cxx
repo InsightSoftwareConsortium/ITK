@@ -183,11 +183,7 @@ double vnl_numeric_limits<double>::infinity()
 
 double vnl_numeric_limits<double>::quiet_NaN()
 {
-#ifdef VCL_BORLAND
-  return 0;
-#else
   return dnan.nan;
-#endif
 }
 
 double vnl_numeric_limits<double>::signaling_NaN()
@@ -256,11 +252,7 @@ float vnl_numeric_limits<float>::infinity()
 
 float vnl_numeric_limits<float>::quiet_NaN()
 {
-#ifdef VCL_BORLAND
-  return 0;
-#else
   return fnan.nan;
-#endif
 }
 
 float vnl_numeric_limits<float>::signaling_NaN()

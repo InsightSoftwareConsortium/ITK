@@ -54,10 +54,28 @@ void test_static_const_definition()
   TEST_TYPE(double);
 #undef TEST_TYPE
 }
+#if defined(__BORLANDC__)
+#include <math.h>
+#include <float.h>
+void initfp(void)
+{
+    // disable floating point exceptions
+    _control87(MCW_EM,MCW_EM);
+}
 
+int _matherr(struct _exception  *e)
+{
+    e;               // dummy reference to catch the warning
+    return 1;        // error has been handled
+}
+
+#endif
 
 void test_numeric_limits()
 {
+#if defined(__BORLANDC__)
+  initfp();
+#endif
   // call it to avoid "unused function" compiler warnings,
   // and to force compilation with "very clever" compilers:
   test_static_const_definition();
