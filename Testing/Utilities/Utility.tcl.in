@@ -110,6 +110,7 @@ proc ExpandStamp { Stamp } \
 
 proc FileMap { Queue PatternList Map } \
 {
+  
   while { [llength $Queue] != 0 } \
   {
     set Filename [lindex $Queue 0]
@@ -121,7 +122,11 @@ proc FileMap { Queue PatternList Map } \
       {
 	continue
       }
-      set Queue [concat $Queue [glob -nocomplain -- [file join $Filename *]]]
+      set Status [catch { set Queue [concat $Queue [glob -nocomplain -- [file join $Filename *]]] } Result]
+      if { $Status } \
+      {
+	puts "Caught $Result"
+      }
       continue;
     }
     foreach Pattern $PatternList \
