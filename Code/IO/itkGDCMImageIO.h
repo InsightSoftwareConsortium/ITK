@@ -77,8 +77,9 @@ public:
    * that the IORegion has been set properly. */
   virtual void Write(const void* buffer);
   
-  // Useful for rescaling graylevel, 
-  // TODO: temporary solution
+  /** Macro to access Rescale Slope and Rescale Intercept. Which are
+   * needed to rescale properly image when needed. User then need to 
+   * Always check those value when access value from the DICOM header */
   itkGetMacro(RescaleSlope, double);
   itkGetMacro(RescaleIntercept, double);
 
@@ -100,6 +101,10 @@ protected:
 private:
   GDCMImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  /** Internal function to rescale pixel according to Slope/Intercept */
+  template<class TBuffer, class TSource>
+  void RescaleFunction(TBuffer* buffer, TSource *source, size_t size);
 };
 
 } // end namespace itk

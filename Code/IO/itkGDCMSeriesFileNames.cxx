@@ -83,7 +83,7 @@ const std::vector<std::string> &GDCMSeriesFileNames::GetOutputFileNames()
 {
   // We are trying to extract the original filename and compose it with a path:
 
-  //There is two different approach if directory does not exist:
+  //There are two different approachs if directory does not exist:
   // 1. Exit
   // 2. Mkdir
   //bool SystemTools::FileExists(const char* filename)

@@ -170,6 +170,17 @@ bool GDCMImageIO::CanReadFile(const char* filename)
   return true;
 }
 
+template<class TBuffer, class TSource>
+void GDCMImageIO::RescaleFunction(TBuffer* buffer, TSource *source, 
+                                  size_t size)
+{
+  size /= sizeof(TSource);
+  for(int i=0; i<size; i++)
+   {
+   buffer[i] = (TBuffer)(source[i]*m_RescaleSlope + m_RescaleIntercept);
+   }
+}
+
 void GDCMImageIO::Read(void* buffer)
 {
   std::ifstream file;
@@ -194,9 +205,70 @@ void GDCMImageIO::Read(void* buffer)
 #endif
   size_t size = GdcmFile.GetImageDataSize();
   //== this->GetImageSizeInComponents()
-  unsigned char *Source = (unsigned char*)GdcmFile.GetImageData();
-  memcpy(buffer, (void*)Source, size);
-  delete[] Source;
+  unsigned char *source = (unsigned char*)GdcmFile.GetImageData();
+
+  switch(m_ComponentType)
+    {
+    case UCHAR:
+      {
+      unsigned char *ucbuffer = (unsigned char*)buffer;
+      unsigned char *ucsource = (unsigned char*)source;
+      this->RescaleFunction(ucbuffer, ucsource, size);
+      }
+      break;
+    case CHAR:
+      {
+      char *cbuffer = (char*)buffer;
+      char *csource = (char*)source;
+      this->RescaleFunction(cbuffer, csource, size);
+      }
+      break;
+    case USHORT:
+      {
+      unsigned short *usbuffer = (unsigned short*)buffer;
+      unsigned short *ussource = (unsigned short*)source;
+      this->RescaleFunction(usbuffer, ussource, size);
+      }
+      break;
+    case SHORT:
+      {
+      short *sbuffer = (short*)buffer;
+      short *ssource = (short*)source;
+      this->RescaleFunction(sbuffer, ssource, size);
+      }
+      break;
+    case UINT:
+      {
+      unsigned int *uibuffer = (unsigned int*)buffer;
+      unsigned int *uisource = (unsigned int*)source;
+      this->RescaleFunction(uibuffer, uisource, size);
+      }
+      break;
+    case INT:
+      {
+      int *ibuffer = (int*)buffer;
+      int *isource = (int*)source;
+      this->RescaleFunction(ibuffer, isource, size);
+      }
+      break;
+    case FLOAT:
+      {
+      // Particular case for PET image that need to be return as FLOAT image
+      float *fbuffer = (float*)buffer;
+      unsigned short *fsource = (unsigned short*)source;
+      this->RescaleFunction(fbuffer, fsource, size);
+      }
+      break;
+    case DOUBLE:
+      {
+      double *dbuffer = (double*)buffer;
+      double *dsource = (double*)source;
+      this->RescaleFunction(dbuffer, dsource, size);
+      }
+      break;
+    }
+
+  delete[] source;
 
   //closing files:
   file.close();
@@ -279,6 +351,24 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   //For grayscale image :
   m_RescaleSlope = GdcmHeader.GetRescaleSlope();
   m_RescaleIntercept = GdcmHeader.GetRescaleIntercept();
+
+  // Before copying the image we need to check the slope/offset
+  // If they are not integer the scalar become FLOAT:
+  // Copy paste from DICOMAppHelper.cxx:
+  // 0028 1052 DS IMG Rescale Intercept
+  // 0028 1053 DS IMG Rescale Slope
+
+  int s = int(m_RescaleSlope);
+  int i = int(m_RescaleIntercept);
+  float fs = float(s);
+  float fi = float(i);
+
+  double slope_dif = fabs(fs - m_RescaleSlope);
+  double inter_dif = fabs(fi - m_RescaleIntercept);
+  if (slope_dif > 0.0 || inter_dif > 0.0)
+    {
+    this->SetComponentType(ImageIOBase::FLOAT);
+    }
 
   //Now copying the gdcm dictionary to the itk dictionary:
   MetaDataDictionary & dico = this->GetMetaDataDictionary();
