@@ -76,6 +76,7 @@ public:
   typedef typename Superclass::PointIDType PointIDType;
   typedef typename Superclass::DegreeOfFreedomIDType DegreeOfFreedomIDType;
   typedef typename Superclass::NodeDefinitionType NodeDefinitionType;
+  typedef typename Superclass::ReadInfoType ReadInfoType;
   enum{ InvalidDegreeOfFreedomID = Superclass::InvalidDegreeOfFreedomID };
 
   /**
