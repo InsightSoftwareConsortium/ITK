@@ -179,8 +179,8 @@ VTKImageImport<TOutputImage>
     }
   if (m_SpacingCallback)
     {
-    float* inSpacing = (m_SpacingCallback)(m_CallbackUserData);
-    double outSpacing[OutputImageDimension];
+    VTKSpacingType * inSpacing = (m_SpacingCallback)(m_CallbackUserData);
+    VTKSpacingType  outSpacing[OutputImageDimension];
     for(unsigned int i=0;i < OutputImageDimension;++i)
       {
       outSpacing[i] = inSpacing[i];
@@ -189,8 +189,8 @@ VTKImageImport<TOutputImage>
     }
   if (m_OriginCallback)
     {
-    float* inOrigin = (m_OriginCallback)(m_CallbackUserData);
-    double outOrigin[OutputImageDimension];
+    VTKOriginType * inOrigin = (m_OriginCallback)(m_CallbackUserData);
+    VTKOriginType  outOrigin[OutputImageDimension];
     for(unsigned int i=0;i < OutputImageDimension;++i)
       {
       outOrigin[i] = inOrigin[i];

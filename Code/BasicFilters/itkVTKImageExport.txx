@@ -142,7 +142,8 @@ int* VTKImageExport<TInputImage>::WholeExtentCallback()
  * of three floating point values describing the spacing of the image.
  */
 template <class TInputImage>
-float* VTKImageExport<TInputImage>::SpacingCallback()
+typename VTKImageExport<TInputImage>::VTKSpacingType * 
+VTKImageExport<TInputImage>::SpacingCallback()
 {
   InputImagePointer input = this->GetInput();
   const typename TInputImage::SpacingType& spacing = input->GetSpacing();
@@ -151,7 +152,7 @@ float* VTKImageExport<TInputImage>::SpacingCallback()
   // Fill in the known portion of the spacing.
   for(;i < InputImageDimension;++i)
     {
-    m_DataSpacing[i] = float(spacing[i]);
+    m_DataSpacing[i] = VTKSpacingType (spacing[i]);
     }
   // Fill up the spacing with defaults up to three dimensions.
   for(;i < 3;++i)
@@ -167,7 +168,8 @@ float* VTKImageExport<TInputImage>::SpacingCallback()
  * of three floating point values describing the origin of the image.
  */
 template <class TInputImage>
-float* VTKImageExport<TInputImage>::OriginCallback()
+typename VTKImageExport<TInputImage>::VTKOriginType * 
+VTKImageExport<TInputImage>::OriginCallback()
 {
   InputImagePointer input = this->GetInput();
   const typename TInputImage::PointType& origin = input->GetOrigin();
@@ -176,7 +178,7 @@ float* VTKImageExport<TInputImage>::OriginCallback()
   // Fill in the known portion of the origin.
   for(;i < InputImageDimension;++i)
     {
-    m_DataOrigin[i] = float(origin[i]);
+    m_DataOrigin[i] = VTKOriginType (origin[i]);
     }
   // Fill up the origin with defaults up to three dimensions.
   for(;i < 3;++i)

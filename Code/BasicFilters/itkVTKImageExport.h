@@ -54,7 +54,7 @@ class ITK_EXPORT VTKImageExport: public VTKImageExportBase
 public:
   /** Standard class typedefs. */
   typedef VTKImageExport Self;
-  typedef ProcessObject Superclass;
+  typedef VTKImageExportBase Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -70,6 +70,9 @@ public:
   /** Set the input image of this image exporter. */
   void SetInput(const InputImageType*);
   
+  typedef typename Superclass::VTKSpacingType   VTKSpacingType;
+  typedef typename Superclass::VTKOriginType    VTKOriginType;
+
 protected:
   VTKImageExport();
   ~VTKImageExport() {}
@@ -85,8 +88,8 @@ protected:
   InputImageType * GetInput(void);
   
   int* WholeExtentCallback();
-  float* SpacingCallback();
-  float* OriginCallback();
+  VTKSpacingType * SpacingCallback();
+  VTKOriginType  * OriginCallback();
   const char* ScalarTypeCallback();
   int NumberOfComponentsCallback();
   void PropagateUpdateExtentCallback(int*);
@@ -100,8 +103,8 @@ private:
   std::string m_ScalarTypeName;
   int m_WholeExtent[6];
   int m_DataExtent[6];
-  float m_DataSpacing[3];
-  float m_DataOrigin[3];
+  VTKSpacingType m_DataSpacing[3];
+  VTKOriginType  m_DataOrigin[3];
 };
 
 } // end namespace itk

@@ -182,13 +182,13 @@ int* VTKImageExportBase::WholeExtentCallbackFunction(void* userData)
     WholeExtentCallback();
 }
 
-float* VTKImageExportBase::SpacingCallbackFunction(void* userData)
+VTKSpacingType * VTKImageExportBase::SpacingCallbackFunction(void* userData)
 {
   return static_cast<VTKImageExportBase*>(userData)->
     SpacingCallback();
 }
 
-float* VTKImageExportBase::OriginCallbackFunction(void* userData)
+VTKOriginType * VTKImageExportBase::OriginCallbackFunction(void* userData)
 {
   return static_cast<VTKImageExportBase*>(userData)->
     OriginCallback();

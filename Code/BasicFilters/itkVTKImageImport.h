@@ -74,6 +74,14 @@ public:
   typedef typename OutputImageType::IndexType OutputIndexType;
   typedef typename OutputImageType::RegionType OutputRegionType;
 
+  /** VTK 4.2 uses float for representing origin and spacing
+   *  after version 4.2 the types switched to double. */
+  typedef float   VTKSpacingType;
+  typedef float   VTKOriginType;
+  //  typedef double   VTKSpacingType;
+  //  typedef double   VTKOriginType;
+
+
   /** The output image dimension. */
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       OutputImageType::ImageDimension);
@@ -83,8 +91,8 @@ public:
   typedef void (*UpdateInformationCallbackType)(void*);
   typedef int (*PipelineModifiedCallbackType)(void*);
   typedef int* (*WholeExtentCallbackType)(void*);
-  typedef float* (*SpacingCallbackType)(void*);
-  typedef float* (*OriginCallbackType)(void*);
+  typedef VTKSpacingType * (*SpacingCallbackType)(void*);
+  typedef VTKOriginType  * (*OriginCallbackType)(void*);
   typedef const char* (*ScalarTypeCallbackType)(void*); 
   typedef int (*NumberOfComponentsCallbackType)(void*);
   typedef void (*PropagateUpdateExtentCallbackType)(void*, int*);
