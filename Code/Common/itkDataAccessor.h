@@ -49,10 +49,10 @@ public:
   typedef TInternalType InternalType;
 
 
-  static inline void Set(TInternalType & output, const TExternalType & input) 
+  inline void Set(TInternalType & output, const TExternalType & input) const
     {output = (TInternalType) input;}
 
-  static inline const TExternalType & Get( const TInternalType & input )
+  inline const TExternalType & Get( const TInternalType & input ) const
     {return (TExternalType)input;}
 
 };
