@@ -178,7 +178,7 @@ public:
    * Constructor establishes an iterator to walk a particular image and a
    * particular region of that image.
    */
-  ImageConstIterator(ImageType *ptr,
+  ImageConstIterator(const ImageType *ptr,
                 const RegionType &region)
   {
     m_Image = ptr;
@@ -383,14 +383,14 @@ public:
     }
   
 protected: //made protected so other iterators can access 
-  SmartPointer<ImageType> m_Image;
-  RegionType              m_Region;      // region to iterate over
+  typename ImageType::ConstPointer   m_Image;
+  RegionType                         m_Region;      // region to iterate over
   
   unsigned long  m_Offset;
   unsigned long  m_BeginOffset; // offset to first pixel in region
   unsigned long  m_EndOffset;  // offset to one pixel past last pixel in region
 
-  InternalPixelType        *m_Buffer;
+  const InternalPixelType   *m_Buffer;
 
   AccessorType              m_PixelAccessor;
 };
