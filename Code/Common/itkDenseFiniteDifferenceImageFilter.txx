@@ -156,7 +156,7 @@ template <class TInputImage, class TOutputImage>
 void
 DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
 ::ThreadedApplyUpdate(TimeStepType dt, const ThreadRegionType &regionToProcess,
-                           int threadId)
+                           int)
 {
   ImageRegionIterator<UpdateBufferType> u(m_UpdateBuffer,    regionToProcess);
   ImageRegionIterator<OutputImageType>  o(this->GetOutput(), regionToProcess);
@@ -176,8 +176,7 @@ template <class TInputImage, class TOutputImage>
 typename
 DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::TimeStepType
 DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
-::ThreadedCalculateChange(const ThreadRegionType &regionToProcess, int
-                          threadId)
+::ThreadedCalculateChange(const ThreadRegionType &regionToProcess, int)
 {
   typedef typename OutputImageType::RegionType RegionType;
   typedef typename OutputImageType::SizeType   SizeType;

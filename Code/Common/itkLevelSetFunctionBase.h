@@ -75,23 +75,23 @@ public:
   /** Propagation speed.  This term controls surface expansion/contraction.
    *  Default implementation returns zero. */ 
   virtual ScalarValueType PropagationSpeed(
-    const NeighborhoodType& neighborhood,
+    const NeighborhoodType& ,
     const FloatOffsetType & ) const
     { return NumericTraits<ScalarValueType>::Zero; }
   virtual ScalarValueType PropagationSpeed(
     const BoundaryNeighborhoodType
-    &neighborhood, const FloatOffsetType &) const
+    &, const FloatOffsetType &) const
     { return NumericTraits<ScalarValueType>::Zero; }
 
   /** Curvature speed.  Can be used to spatially modify the effects of
       curvature . The default implementation returns one. */
-  virtual ScalarValueType CurvatureSpeed(const NeighborhoodType
-                                         &neighborhood, const FloatOffsetType &
+  virtual ScalarValueType CurvatureSpeed(const NeighborhoodType &,
+                                         const FloatOffsetType &
                                          ) const
     { return NumericTraits<ScalarValueType>::One; }
 
-  virtual ScalarValueType CurvatureSpeed(const BoundaryNeighborhoodType
-                                         &neighborhood, const FloatOffsetType &
+  virtual ScalarValueType CurvatureSpeed(const BoundaryNeighborhoodType &,
+                                         const FloatOffsetType &
                                          ) const
     { return NumericTraits<ScalarValueType>::One; }
 

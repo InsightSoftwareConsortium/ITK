@@ -112,7 +112,7 @@ bool
 ImageRegion<VImageDimension>
 ::Crop(const Self& region)
 {
-  long crop=0;
+  long crop;
   unsigned int i;
   bool cropPossible = true;
 

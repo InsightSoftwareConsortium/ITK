@@ -207,22 +207,22 @@ public:
     { return m_WeightsFunction->GetNumberOfWeights(); }
 
   /**  Method to transform a vector - not applicable for this type of transform. */
-  virtual OutputVectorType TransformVector(const InputVectorType &vector) const
+  virtual OutputVectorType TransformVector(const InputVectorType &) const
     { 
       itkExceptionMacro(<< "Method not applicable for deformable transform." );
       return OutputVectorType(); 
     }
 
   /**  Method to transform a vnl_vector - not applicable for this type of transform */
-  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &vector) const
+  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &) const
     { 
       itkExceptionMacro(<< "Method not applicable for deformable transform. ");
       return OutputVnlVectorType(); 
     }
 
-  /**  Method to transform a CovariantVector - not application for this type of transform */
+  /**  Method to transform a CovariantVector - not applicable for this type of transform */
   virtual OutputCovariantVectorType TransformCovariantVector(
-    const InputCovariantVectorType &vector) const
+    const InputCovariantVectorType &) const
     { 
       itkExceptionMacro(<< "Method not applicable for deformable transfrom. ");
       return OutputCovariantVectorType(); 

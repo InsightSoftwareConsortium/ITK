@@ -231,7 +231,7 @@ SetIdentity( void )
 template<class TScalarType >
 const typename Rigid3DTransform<TScalarType>::JacobianType & 
 Rigid3DTransform< TScalarType >::
-GetJacobian( const InputPointType & p ) const
+GetJacobian( const InputPointType & ) const
 {
   
 
