@@ -373,7 +373,26 @@ protected:
    */
   virtual void GenerateOutputInformation();
 
-private:
+  /**
+   * These ivars are made protected so filters like itkStreamingImageFilter
+   * can access them directly
+   *
+   *
+   *
+   */
+  
+  /**
+   * This flag indicates when the pipeline is executing.
+   * It prevents infinite recursion when pipelines have loops.
+   */
+  bool m_Updating;
+
+  /**
+   * Time when GenerateOutputInformation was last called.
+   */
+  TimeStamp m_InformationTime;
+
+ private:
   /**
    * An array of the inputs to the filter.
    */
@@ -385,17 +404,6 @@ private:
    */
   std::vector<DataObjectPointer> m_Outputs;
   unsigned int m_NumberOfRequiredOutputs;
-
-  /**
-   * This flag indicates when the pipeline is executing.
-   * It prevents infinite recursion when pipelines have loops.
-   */
-  bool m_Updating;
-
-  /**
-   * Time when GenerateOutputInformation was last called.
-   */
-  TimeStamp m_InformationTime;
 
   /**
    * These support the progress method and aborting filter execution.
