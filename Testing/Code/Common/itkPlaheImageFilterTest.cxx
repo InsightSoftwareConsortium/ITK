@@ -1,16 +1,16 @@
 #include <iostream>
 
-#include "itkReadMetaImage.h"
+#include "itkReadMetaImage.h" 
 #include "itkWriteMetaImage.h"
 
 #include "itkPlaheImageFilter.h"
-#include "itkPhysicalImage.h"
+#include "itkImage.h"
 #define dimension 2
 
 int main()
 {
   
-  typedef itk::PhysicalImage<unsigned short, dimension>           ImageType;
+  typedef itk::Image<unsigned short, dimension>           ImageType;
   typedef itk::PlaheImageFilter<unsigned short,dimension> PlaheType;
   
   PlaheType::Pointer plahe = PlaheType::New(); 
