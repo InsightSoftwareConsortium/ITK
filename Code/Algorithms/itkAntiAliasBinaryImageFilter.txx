@@ -30,6 +30,7 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>
   Superclass::PrintSelf(os, indent);
   os << indent << "m_UpperBinaryValue = " << m_UpperBinaryValue << std::endl;
   os << indent << "m_LowerBinaryValue = " << m_LowerBinaryValue << std::endl;
+  os << indent << "m_InputImage = " << m_InputImage << std::endl;
 }
 
 
@@ -40,13 +41,18 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>
                        const ValueType &value, const ValueType &change)
 {
   // This method introduces the constraint on the flow of the surface.
-  const BinaryValueType binary_val = this->GetInput()->GetPixel(idx);
+  
+  const BinaryValueType binary_val = m_InputImage->GetPixel( idx );
   const ValueType new_value = value + dt * change;
 
   if (binary_val == m_UpperBinaryValue)
-    {   return ( vnl_math_max(new_value, m_ValueZero) ); }
+    {   
+    return ( vnl_math_max(new_value, m_ValueZero) ); 
+    }
   else
-    {   return ( vnl_math_min(new_value, m_ValueZero) ); }
+    {
+   return ( vnl_math_min(new_value, m_ValueZero) ); 
+    }
   
 }
 
@@ -82,12 +88,14 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>
     itkWarningMacro("Only 3 layers are being used in the solver.  You should consider using at least as many layers as dimensions of your input.  This value can be set by calling SetNumberOfLayers(n) on this filter.");
     }
   
+  m_InputImage = this->GetInput();
+
   // Find the minimum and maximum of the input image and use these values to
   // set m_UpperBinaryValue, m_LowerBinaryValue, and m_IsoSurfaceValue in the
   // parent class.
   typename itk::MinimumMaximumImageCalculator<InputImageType>::Pointer
     minmax = itk::MinimumMaximumImageCalculator<InputImageType>::New();
-  minmax->SetImage( this->GetInput() );
+  minmax->SetImage( m_InputImage );
   minmax->ComputeMinimum();
   minmax->ComputeMaximum();
 
