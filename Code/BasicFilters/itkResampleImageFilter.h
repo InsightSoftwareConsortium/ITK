@@ -17,12 +17,12 @@
 #ifndef __itkResampleImageFilter_h
 #define __itkResampleImageFilter_h
 
+#include "itkFixedArray.h"
 #include "itkTransform.h"
 #include "itkImageFunction.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageToImageFilter.h"
 #include "itkInterpolateImageFunction.h"
-#include "itkFixedArray.h"
 #include "itkSize.h"
 
 namespace itk
