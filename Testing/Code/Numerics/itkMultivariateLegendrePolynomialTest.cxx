@@ -17,7 +17,7 @@
 
 
 
-#include <itkMultivariateLegendrePolynomial.h>
+#include "itkMultivariateLegendrePolynomial.h"
 
 
 
@@ -30,7 +30,7 @@
  */ 
 
 
-int main()
+int itkMultivariateLegendrePolynomialTest(int , char **)
 {
   
   typedef itk::MultivariateLegendrePolynomial PolynomialType;
