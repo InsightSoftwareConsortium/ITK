@@ -228,7 +228,7 @@ BloxCoreAtomPixel<NDimensions>
 }
 
 template <unsigned int NDimensions>
-Point<double, NDimensions>
+BloxCoreAtomPixel<NDimensions>::TPositionType
 BloxCoreAtomPixel<NDimensions>
 ::GetVotedLocation()
 {
