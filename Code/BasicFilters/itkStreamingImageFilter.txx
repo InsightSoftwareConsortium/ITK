@@ -169,22 +169,24 @@ StreamingImageFilter<TInputImage,TOutputImage>
    * piece, and copy the results into the output image.
    */
   unsigned int piece;
+  InputImageRegionType streamRegion;
   for (piece = 0;
        piece < numDivisions && !this->GetAbortGenerateData();
        piece++)
     {
-    inputPtr
-      ->SetRequestedRegion(m_RegionSplitter->GetSplit(piece, numDivisions,
-                                                      outputRegion));
+    streamRegion = m_RegionSplitter->GetSplit(piece, numDivisions,
+                                                   outputRegion);
+      
+    inputPtr->SetRequestedRegion(streamRegion);
     inputPtr->PropagateRequestedRegion();
     inputPtr->UpdateOutputData();
 
     // copy the result to the proper place in the output. the input
-    // region is used to construct the iterators for both the input and output
-    ImageRegionIterator<InputImageType> inIt(inputPtr,
-                                             inputPtr->GetRequestedRegion());
-    ImageRegionIterator<OutputImageType> outIt(outputPtr,
-                                               inputPtr->GetRequestedRegion());
+    // requested region determined by the RegionSplitter (as opposed
+    // to what the pipeline might have enlarged it to) is used to
+    // construct the iterators for both the input and output
+    ImageRegionIterator<InputImageType> inIt(inputPtr, streamRegion);
+    ImageRegionIterator<OutputImageType> outIt(outputPtr, streamRegion);
 
     for (inIt.GoToBegin(), outIt.GoToBegin(); !inIt.IsAtEnd(); ++inIt, ++outIt)
       {
