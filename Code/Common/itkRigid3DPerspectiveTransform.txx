@@ -53,8 +53,7 @@ Rigid3DPerspectiveTransform<TScalarType>::
 Rigid3DPerspectiveTransform()
 {
   m_Offset.Fill( 0 );
-  m_Rotation = VnlQuaternionType(0,0,0,1); // axis * sin(t/2), cos(t/2)
-  m_DirectMatrix = m_Rotation.rotation_matrix();
+  m_DirectMatrix = m_Versor.GetMatrix();
   m_FocalDistance = 1.0;
   m_Height = 1.0;
   m_Width  = 1.0;
@@ -68,11 +67,11 @@ Rigid3DPerspectiveTransform<TScalarType>
 ::Rigid3DPerspectiveTransform( const Rigid3DPerspectiveTransform<TScalarType> & other )
 {
   m_Offset        = other.m_Offset;
-  m_Rotation      = other.m_Rotation;
+  m_Versor      = other.m_Versor;
   m_FocalDistance = other.m_FocalDistance;
   m_Width         = other.m_Width;
   m_Height        = other.m_Height;
-  m_DirectMatrix    = m_Rotation.rotation_matrix();
+  m_DirectMatrix    = m_Versor.rotation_matrix();
 }
 
 // Destructor
@@ -90,11 +89,11 @@ Rigid3DPerspectiveTransform<TScalarType>
 ::operator=( const Self & other )
 {
   m_Offset        = other.m_Offset;
-  m_Rotation      = other.m_Rotation;
+  m_Versor      = other.m_Versor;
   m_FocalDistance = other.m_FocalDistance;
   m_Width         = other.m_Width;
   m_Height        = other.m_Height;
-  m_DirectMatrix    = m_Rotation.rotation_matrix();
+  m_DirectMatrix    = m_Versor.rotation_matrix();
   return *this;
 }
 
@@ -108,11 +107,50 @@ PrintSelf(std::ostream &os, Indent indent) const
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Offset: "       << m_Offset   << std::endl;
-  os << indent << "Rotation: "     << m_Rotation << std::endl;
+  os << indent << "Rotation: "     << m_Versor << std::endl;
   os << indent << "FocalDistance: "<< m_FocalDistance << std::endl;
   os << indent << "Height: "       << m_Height << std::endl;
   os << indent << "Width: "        << m_Width << std::endl;
   os << indent << "DirectMatrix: " << m_DirectMatrix   << std::endl;
+}
+
+
+// Set Parameters
+template <class TScalarType>
+void
+Rigid3DPerspectiveTransform<TScalarType>
+::SetParameters( const ParametersType & parameters )
+{
+
+
+  // Transfer the versor part
+  
+  AxisType axis;
+
+  axis[0] = parameters[0];
+  axis[1] = parameters[1];
+  axis[2] = parameters[2];
+
+  const TScalarType angle  = parameters[3];
+
+  m_Versor.Set( axis, angle );
+
+
+  
+  
+  // Transfer the translation part
+  
+  OffsetType offset;
+  for(unsigned int i=0; i < SpaceDimension; i++) 
+    {
+    offset[i] = parameters[i+3];
+    }
+
+  
+  this->SetOffset( offset );
+
+  ComputeMatrix();
+
 }
 
 
@@ -122,8 +160,8 @@ void
 Rigid3DPerspectiveTransform<TScalarType>::
 SetRotation(const VnlQuaternionType &rotation )
 {
-  m_Rotation      = rotation;
-  m_DirectMatrix  = m_Rotation.rotation_matrix();
+  m_Versor      = rotation;
+  m_DirectMatrix  = m_Versor.rotation_matrix();
   return;
 }
 
@@ -169,6 +207,18 @@ TransformPoint(const InputPointType &point) const
 }
 
 
+
+// Transform a point
+template<class TScalarType>
+void
+Rigid3DPerspectiveTransform<TScalarType>::
+ComputeMatrix(void) 
+{
+  m_DirectMatrix = m_Versor.GetMatrix();
+}
+
+
+ 
 } // namespace
 
 #endif

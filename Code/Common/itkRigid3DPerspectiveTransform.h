@@ -47,6 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 #include "itkMatrix.h"
 #include "itkTransform.h"
+#include "itkVersor.h"
 
 
 
@@ -68,8 +69,8 @@ template <
     class TScalarType=double>    // Data type for scalars (float or double)
 class ITK_EXPORT Rigid3DPerspectiveTransform : 
         public Transform<  TScalarType, 3,
-                           2, Point<TScalarType,7>, 
-                           Matrix<TScalarType,2,7>   > 
+                           2, Point<TScalarType,6>, 
+                           Matrix<TScalarType,2,6>   > 
 
 
 
@@ -89,14 +90,20 @@ public:
       OutputSpaceDimension     = 2,
     };
 
+    /// Dimension of parameters
+    enum { SpaceDimension = 3, 
+           ParametersDimension = 6 };
+
 
     /**
      * Standard "Superclass" typedef.
      */
-    typedef Transform< TScalarType, 3,
-                       2, Point<TScalarType,7>, 
-                       Matrix<TScalarType,2,7>   >             Superclass;
-
+    typedef Transform<  TScalarType, 
+                        InputSpaceDimension,
+                        OutputSpaceDimension, 
+                        Point<TScalarType,ParametersDimension>, 
+                        Matrix<TScalarType,OutputSpaceDimension,ParametersDimension>   >
+                                                                                Superclass;
 
 
     /** 
@@ -160,6 +167,14 @@ public:
     /// Standard vnl_quaternion type
     typedef vnl_quaternion<TScalarType>           VnlQuaternionType;
 
+
+    /**
+     * Versor Type
+     */
+    typedef Versor<TScalarType>             VersorType;
+    typedef typename VersorType::VectorType  AxisType;
+    typedef typename VersorType::ValueType   AngleType;
+
     /**
      * Construct an Rigid3DPerspectiveTransform object
      *
@@ -195,14 +210,25 @@ public:
      * This method returns the value of the rotation of the
      * Rigid3DPerspectiveTransform.
      **/
-    const VnlQuaternionType & GetRotation() const
-        { return m_Rotation; }
+    const VersorType & GetRotation() const
+        { return m_Versor; }
 
 
     /**
      * Assignment operator
      **/
     const Self & operator=( const Self & );
+
+
+    /**
+     * Set the transformation from a container of parameters
+     * This is typically used by optimizers.
+     *
+     * There are 6 parameters. The first three represent the
+     * versor and the last three represents the offset.
+     *
+     **/
+    void SetParameters( const ParametersType & parameters );
 
 
     /**
@@ -277,9 +303,16 @@ public:
 
 
     /**
+     * Compute Matrix
+     **/
+    void ComputeMatrix(void);
+      
+
+    /**
      * Print contents of an Rigid3DPerspectiveTransform
      **/
     void PrintSelf(std::ostream &os, Indent indent) const;
+
 
 private:
 
@@ -287,7 +320,7 @@ private:
     OffsetType          m_Offset;   
 
     // Rotation of the transformation
-    VnlQuaternionType   m_Rotation; 
+    VersorType          m_Versor; 
 
     // Set Focal distance of the projection
     TScalarType         m_FocalDistance;  
