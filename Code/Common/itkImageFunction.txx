@@ -64,7 +64,6 @@ const InputImageType * ptr )
   if ( ptr )
     {
     typedef typename IndexType::IndexValueType IndexValueType;
-    CoordRepType epsilon = 5.0e-15;
     typename InputImageType::SizeType size = ptr->GetBufferedRegion().GetSize();
     m_StartIndex = ptr->GetBufferedRegion().GetIndex();
 
@@ -72,8 +71,8 @@ const InputImageType * ptr )
       {
       m_EndIndex[j] = m_StartIndex[j] + 
         static_cast<IndexValueType>( size[j] ) - 1;
-      m_StartContinuousIndex[j] = static_cast<CoordRepType>( m_StartIndex[j] ) - epsilon;
-      m_EndContinuousIndex[j]   = static_cast<CoordRepType>( m_EndIndex[j] ) + epsilon;
+      m_StartContinuousIndex[j] = static_cast<CoordRepType>( m_StartIndex[j] );
+      m_EndContinuousIndex[j]   = static_cast<CoordRepType>( m_EndIndex[j] );
       }
 
     }

@@ -248,7 +248,8 @@ int itkRGBInterpolateImageFunctionTest(int, char**)
 
   // position near image border
   {
-  double darray[3] = {19, 20, 40};
+  double epsilon = 1.0e-10;
+  double darray[3] = {19 - epsilon, 20, 40};
   double temp[3] = {79, 158, 237};
   output = OutputType( temp );
   cindex = ContinuousIndexType(darray);

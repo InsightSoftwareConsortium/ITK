@@ -40,6 +40,8 @@ namespace
   
 /* Define the image size and physical coordinates */
 SizeType size = {{20, 40, 80}};
+double origin [3] = { 0.5L,   0.5L,   0.5L};
+double spacing[3] = { 0.1L,   0.05L , 0.025L};
 
 }
 
@@ -133,9 +135,6 @@ itkInterpolateTest(
 
     std::cout << "Testing image interpolation methods:\n";
 
-    double origin [3] = { 0.5L,   0.5L,   0.5L};
-    double spacing[3] = { 0.1L,   0.05L , 0.025L};
-
     /* Allocate a simple test image */
     ImageType::Pointer image = ImageType::New();
     ImageType::RegionType region;
@@ -198,7 +197,8 @@ itkInterpolateTest(
     if( !passed ) flag = 1;
 
     // position near image border
-    double darray3[3] = {19, 20, 40};
+    double epsilon = 1.0e-10;
+    double darray3[3] = {19 - epsilon, 20, 40};
     cindex = ContinuousIndexType(darray3);
     passed = TestContinuousIndex<InterpolatorType>( interp, cindex, true, 79 );
 
