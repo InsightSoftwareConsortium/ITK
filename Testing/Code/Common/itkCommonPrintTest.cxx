@@ -255,9 +255,6 @@ int itkCommonPrintTest(int , char* [])
     itk::ConicShellInteriorExteriorSpatialFunction<3>::New();
   std::cout << "------------ConicShellInteriorExteriorSpatialFunction" << ConicShellInteriorExteriorSpatialFunctionObj;
   
-  itk::ConstRandomAccessNeighborhoodIterator<InputType> ConstRandomAccessNeighborhoodIteratorObj;
-  std::cout << "------------ConstRandomAccessNeighborhoodIteratorObj "<< ConstRandomAccessNeighborhoodIteratorObj;
-  
   itk::CosImageAdaptor<InputType,InputType>::Pointer CosImageAdaptorObj =
     itk::CosImageAdaptor<InputType,InputType>::New();
   std::cout << "------------CosImageAdaptor" << CosImageAdaptorObj;
