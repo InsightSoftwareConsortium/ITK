@@ -326,7 +326,7 @@ DerivativeType& derivative)
     this->CalculateDerivatives( (*biter).TargetPointValue, derivB );
 
     for( aiter = m_SampleA.begin(), aditer = m_SampleADerivatives.begin();
-      aiter != aend; ++aiter )
+      aiter != aend; ++aiter, ++aditer )
       {
       double valueTarget;
       double valueRef;
