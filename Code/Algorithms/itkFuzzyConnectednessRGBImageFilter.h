@@ -102,34 +102,34 @@ public:
     {
     omean[0]=m_Mean[0];omean[1]=m_Mean[1];omean[2]=m_Mean[2];
     }
-  void SetVar(double ivar[3][3])
+  void SetVariance(double ivar[3][3])
     {
-    m_Var[0][0]=ivar[0][0];m_Var[0][1]=ivar[0][1];m_Var[0][2]=ivar[0][2];
-    m_Var[1][0]=ivar[1][0];m_Var[1][1]=ivar[1][1];m_Var[1][2]=ivar[1][2];
-    m_Var[2][0]=ivar[2][0];m_Var[2][1]=ivar[2][2];m_Var[2][2]=ivar[2][2];
+    m_Variance[0][0]=ivar[0][0];m_Variance[0][1]=ivar[0][1];m_Variance[0][2]=ivar[0][2];
+    m_Variance[1][0]=ivar[1][0];m_Variance[1][1]=ivar[1][1];m_Variance[1][2]=ivar[1][2];
+    m_Variance[2][0]=ivar[2][0];m_Variance[2][1]=ivar[2][2];m_Variance[2][2]=ivar[2][2];
     }
-  void GetVar(double ovar[3][3])
+  void GetVariance(double ovar[3][3])
     {
-    ovar[0][0]=m_Var[0][0];ovar[0][1]=m_Var[0][1];ovar[0][2]=m_Var[0][2];
-    ovar[1][0]=m_Var[1][0];ovar[1][1]=m_Var[1][1];ovar[1][2]=m_Var[1][2];
-    ovar[2][0]=m_Var[2][0];ovar[2][1]=m_Var[2][1];ovar[2][2]=m_Var[2][2];
+    ovar[0][0]=m_Variance[0][0];ovar[0][1]=m_Variance[0][1];ovar[0][2]=m_Variance[0][2];
+    ovar[1][0]=m_Variance[1][0];ovar[1][1]=m_Variance[1][1];ovar[1][2]=m_Variance[1][2];
+    ovar[2][0]=m_Variance[2][0];ovar[2][1]=m_Variance[2][1];ovar[2][2]=m_Variance[2][2];
     }
-  itkSetVectorMacro(DiffMean,double,3);
-  void GetDiffMean(double odmean[3])
+  itkSetVectorMacro(Diff_Mean,double,3);
+  void GetDiff_Mean(double odmean[3])
     {
-    odmean[0]=m_DiffMean[0];odmean[1]=m_DiffMean[1];odmean[2]=m_DiffMean[2];
+    odmean[0]=m_Diff_Mean[0];odmean[1]=m_Diff_Mean[1];odmean[2]=m_Diff_Mean[2];
     };
-  void SetDiffVar(double idvar[3][3])
+  void SetDiff_Variance(double idvar[3][3])
     {
-    m_DiffVar[0][0]=idvar[0][0];m_DiffVar[0][1]=idvar[0][1];m_DiffVar[0][2]=idvar[0][2];
-    m_DiffVar[1][0]=idvar[1][0];m_DiffVar[1][1]=idvar[1][1];m_DiffVar[1][2]=idvar[1][2];
-    m_DiffVar[2][0]=idvar[2][0];m_DiffVar[2][1]=idvar[2][1];m_DiffVar[2][2]=idvar[2][2];
+    m_Diff_Variance[0][0]=idvar[0][0];m_Diff_Variance[0][1]=idvar[0][1];m_Diff_Variance[0][2]=idvar[0][2];
+    m_Diff_Variance[1][0]=idvar[1][0];m_Diff_Variance[1][1]=idvar[1][1];m_Diff_Variance[1][2]=idvar[1][2];
+    m_Diff_Variance[2][0]=idvar[2][0];m_Diff_Variance[2][1]=idvar[2][1];m_Diff_Variance[2][2]=idvar[2][2];
     }
-  void GetDiffVar(double odvar[3][3])
+  void GetDiff_Variance(double odvar[3][3])
     {
-    odvar[0][0]=m_DiffVar[0][0];odvar[0][1]=m_DiffVar[0][1];odvar[0][2]=m_DiffVar[0][2];
-    odvar[1][0]=m_DiffVar[1][0];odvar[1][1]=m_DiffVar[1][1];odvar[1][2]=m_DiffVar[1][2];
-    odvar[2][0]=m_DiffVar[2][0];odvar[2][1]=m_DiffVar[2][1];odvar[2][2]=m_DiffVar[2][2];
+    odvar[0][0]=m_Diff_Variance[0][0];odvar[0][1]=m_Diff_Variance[0][1];odvar[0][2]=m_Diff_Variance[0][2];
+    odvar[1][0]=m_Diff_Variance[1][0];odvar[1][1]=m_Diff_Variance[1][1];odvar[1][2]=m_Diff_Variance[1][2];
+    odvar[2][0]=m_Diff_Variance[2][0];odvar[2][1]=m_Diff_Variance[2][1];odvar[2][2]=m_Diff_Variance[2][2];
     }
 
 protected:
@@ -143,13 +143,14 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   double m_Mean[3];
-  double m_Var[3][3]; 
-  double m_DiffMean[3];
-  double m_DiffVar[3][3];
-  double m_VarInverse[3][3];
-  double m_DiffVarInverse[3][3];
-  double m_VarDet;
-  double m_DiffVarDet;
+  double m_Variance[3][3]; 
+  double m_Diff_Mean[3];
+  double m_Diff_Variance[3][3];
+
+  double m_VarianceInverse[3][3];
+  double m_Diff_VarianceInverse[3][3];
+  double m_VarianceDet;
+  double m_Diff_VarianceDet;
 
   virtual double FuzzyAffinity(const PixelType f1, const PixelType f2);
 };
