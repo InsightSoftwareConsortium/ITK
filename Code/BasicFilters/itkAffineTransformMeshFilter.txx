@@ -50,11 +50,11 @@ AffineTransformMeshFilter<TInputMesh,TOutputMesh>
 ::GenerateData(void) 
 {
   
-  typedef TInputMesh::PointsContainer  InputPointsContainer;
-  typedef TOutputMesh::PointsContainer OutputPointsContainer;
+  typedef typename TInputMesh::PointsContainer  InputPointsContainer;
+  typedef typename TOutputMesh::PointsContainer OutputPointsContainer;
 
-  typedef TInputMesh::PointsContainerPointer  InputPointsContainerPointer;
-  typedef TOutputMesh::PointsContainerPointer OutputPointsContainerPointer;
+  typedef typename TInputMesh::PointsContainerPointer  InputPointsContainerPointer;
+  typedef typename TOutputMesh::PointsContainerPointer OutputPointsContainerPointer;
 
   InputMeshPointer    inputMesh      =  GetInput();
   OutputMeshPointer   outputMesh     =  GetOutput();
@@ -75,8 +75,8 @@ AffineTransformMeshFilter<TInputMesh,TOutputMesh>
   outPoints->Reserve( inputMesh->GetNumberOfPoints() );
   outPoints->Squeeze();
 
-  InputPointsContainer::ConstIterator  inputPoint  = inPoints->Begin();
-  OutputPointsContainer::Iterator outputPoint = outPoints->Begin();
+  typename InputPointsContainer::ConstIterator  inputPoint  = inPoints->Begin();
+  typename OutputPointsContainer::Iterator outputPoint = outPoints->Begin();
 
   while( inputPoint != inPoints->End() ) 
   {
