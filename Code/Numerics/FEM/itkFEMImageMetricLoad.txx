@@ -130,7 +130,7 @@ ImageMetricLoad<TReference , TTarget>::EvaluateMetricGivenSolution( Element::Arr
       }
       catch( itk::ExceptionObject & e )
       { 
-      e=e;
+      // do nothing we dont care if the metric region is outside the image
       //std::cerr << e << std::endl;
       }
       
@@ -163,6 +163,7 @@ ImageMetricLoad<TReference , TTarget>::Fe
 //  int temp=1;
   ParametersType parameters( m_Transform->GetNumberOfParameters() );
   typename TargetType::RegionType requestedRegion;
+  TargetRadiusType regionRadius;
   typename TargetType::IndexType tindex;
   typename ReferenceType::IndexType rindex;
   VectorType OutVec(ImageDimension,0.0); // gradient direction
@@ -171,13 +172,18 @@ ImageMetricLoad<TReference , TTarget>::Fe
   { 
   //Set the size of the image region
     parameters[k]= Gsol[k]; // this gives the translation by the vector field 
-    tindex[k] =(long)(Gpos[k]+Gsol[k]);  // where the piece of reference image currently lines up under the above translation
+    tindex[k] =(long)(Gpos[k]+Gsol[k]+0.5);  // where the piece of reference image currently lines up under the above translation
     rindex[k]= (long)(Gpos[k]);  // position in reference image
+    int hibordercheck=(int)tindex[k]+(int)m_MetricRadius[k]-(int)m_TarSize[k];
+  int lobordercheck=(int)tindex[k]-(int)m_MetricRadius[k];
+  if (hibordercheck >= 0) regionRadius[k]=m_MetricRadius[k]-(long)hibordercheck-1;
+  else if (lobordercheck < 0) regionRadius[k]=m_MetricRadius[k]+(long)lobordercheck;
+  else regionRadius[k]=m_MetricRadius[k];
   }
 
 // Set the associated region
 
-  requestedRegion.SetSize(m_MetricRadius);
+  requestedRegion.SetSize(regionRadius);
   requestedRegion.SetIndex(tindex);
 
   m_TarImage->SetRequestedRegion(requestedRegion);  
@@ -186,16 +192,17 @@ ImageMetricLoad<TReference , TTarget>::Fe
 //--------------------------------------------------------
 // Get metric values
 
-  typename MetricBaseType::MeasureType     measure;
+//  typename MetricBaseType::MeasureType     measure;
   typename MetricBaseType::DerivativeType  derivative;
 
   try
   { 
-  m_Metric->GetValueAndDerivative( parameters, measure, derivative );
+  //m_Metric->GetValueAndDerivative( parameters, measure, derivative );
+    m_Metric->GetDerivative( parameters, derivative );
   }
   catch( itk::ExceptionObject & e )
   {
-  e=e;
+  // do nothing we don't care if the metric lies outside the image sometimes
   //std::cerr << e << std::endl;
   }
  
@@ -231,6 +238,7 @@ ImageMetricLoad<TReference , TTarget>::GetMetric
   typename TargetType::RegionType requestedRegion;
   typename TargetType::IndexType tindex;
   typename ReferenceType::IndexType rindex;
+  TargetRadiusType regionRadius;
   VectorType OutVec(ImageDimension,0.0); // gradient direction
   //std::cout << " pos   translation " << InVec  << endl;
    // initialize the offset/vector part
@@ -238,13 +246,18 @@ ImageMetricLoad<TReference , TTarget>::GetMetric
   { 
   //Set the size of the image region
     parameters[k]= InVec[k+ImageDimension]; // this gives the translation by the vector field 
-    tindex[k] =(long)(InVec[k]+InVec[k+ImageDimension]);  // where the piece of reference image currently lines up under the above translation
+    tindex[k] =(long)(InVec[k]+InVec[k+ImageDimension]+0.5);  // where the piece of reference image currently lines up under the above translation
     rindex[k]= (long)(InVec[k]);  // position in reference image
+    int hibordercheck=(int)tindex[k]+(int)m_MetricRadius[k]-(int)m_TarSize[k];
+  int lobordercheck=(int)tindex[k]-(int)m_MetricRadius[k];
+  if (hibordercheck > 0) regionRadius[k]=m_MetricRadius[k]-(long)hibordercheck-1;
+  else if (lobordercheck < 0) regionRadius[k]=m_MetricRadius[k]+(long)lobordercheck;
+  else regionRadius[k]=m_MetricRadius[k];
   }
 
 // Set the associated region
 
-  requestedRegion.SetSize(m_MetricRadius);
+  requestedRegion.SetSize(regionRadius);
   requestedRegion.SetIndex(tindex);
 
   m_TarImage->SetRequestedRegion(requestedRegion);  
@@ -260,7 +273,7 @@ ImageMetricLoad<TReference , TTarget>::GetMetric
   }
   catch( itk::ExceptionObject & e )
   {
-  e=e;
+  // do nothing we dont care if the metric lies outside the image sometimes
   //std::cerr << e << std::endl;
   }
       
