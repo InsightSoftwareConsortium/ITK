@@ -1,4 +1,5 @@
 PROJECT(ITKNrrdIO)
+INCLUDE_REGULAR_EXPRESSION("^.*.h$")
 
 #
 # This CMake file configures the NrrdIO library build.  NrrdIO
