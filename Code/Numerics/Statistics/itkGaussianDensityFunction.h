@@ -60,11 +60,20 @@ public:
 
   typedef Vector< double, itkGetStaticConstMacro(VectorDimension) > MeanType ;
   typedef Matrix< double, itkGetStaticConstMacro(VectorDimension), itkGetStaticConstMacro(VectorDimension) > CovarianceType ;
+
   /** Method to set mean */
-  void SetMean(MeanType* mean) ;
+  void SetMean(MeanType* mean)
+  {
+    if ( m_Mean != mean) 
+      {
+        m_Mean = mean ;
+        this->Modified() ;
+      }
+  }
   
   /** Method to get mean */
-  MeanType* GetMean() ;
+  MeanType* GetMean() const
+  { return m_Mean ; }
 
   /** Method to set covariance matrix
    * Also, this function calculates inverse covariance and pre factor of 
@@ -72,7 +81,7 @@ public:
   void SetCovariance(CovarianceType* cov); 
   
   /** Method to get covariance matrix */
-  CovarianceType* GetCovariance() ;
+  CovarianceType* GetCovariance() const ;
 
   /**y Method to get probability of an instance. The return value is the
    * value of the density function, not probability. */
@@ -84,8 +93,8 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  MeanType*  m_Mean;              // mean
-  CovarianceType*  m_Covariance;         // covariance matrix
+  MeanType* m_Mean;              // mean
+  CovarianceType* m_Covariance;         // covariance matrix
 
   // inverse covariance matrix which is automatically calculated 
   // when covariace matirx is set.  This speed up the GetProbability()
