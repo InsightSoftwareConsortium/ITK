@@ -24,7 +24,8 @@
    */
 template<class T, unsigned int TImageDimension>
 const itkImageIterator<T, TImageDimension>
-itkImageIterator<T, TImageDimension>::Add(const Index &vec)
+itkImageIterator<T, TImageDimension>
+::Add(const Index &vec)
 {
   itkImageIterator<T, TImageDimension> result( *this ); // copy all the ivars
   result.m_Index = m_Index + vec;
@@ -52,7 +53,8 @@ itkImageIterator<T, TImageDimension>::Add(const Index &vec)
    */
 template<class T, unsigned int TImageDimension>
 const itkImageIterator<T, TImageDimension> &
-itkImageIterator<T, TImageDimension>::Increment(const Index &vec)
+itkImageIterator<T, TImageDimension>
+::Increment(const Index &vec)
 {
   m_Index += vec;
 
@@ -79,7 +81,8 @@ itkImageIterator<T, TImageDimension>::Increment(const Index &vec)
    */
 template<class T, unsigned int TImageDimension>
 const itkImageIterator<T, TImageDimension>
-itkImageIterator<T, TImageDimension>::Subtract(const Index &vec)
+itkImageIterator<T, TImageDimension>
+::Subtract(const Index &vec)
 {
   itkImageIterator<T, TImageDimension> result( *this ); // copy all the ivars
   result.m_Index = m_Index - vec;
@@ -107,7 +110,8 @@ itkImageIterator<T, TImageDimension>::Subtract(const Index &vec)
    */
 template<class T, unsigned int TImageDimension>
 const itkImageIterator<T, TImageDimension> &
-itkImageIterator<T, TImageDimension>::Decrement(const Index &vec)
+itkImageIterator<T, TImageDimension>
+::Decrement(const Index &vec)
 {
   m_Index -= vec;
 
@@ -126,3 +130,6 @@ itkImageIterator<T, TImageDimension>::Decrement(const Index &vec)
   this->ComputeOffset();
   return *this;
 }
+
+
+

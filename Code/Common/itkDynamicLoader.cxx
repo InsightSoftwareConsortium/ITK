@@ -31,18 +31,24 @@
 #include <dl.h>
 
 //----------------------------------------------------------------------------
-itkLibHandle itkDynamicLoader::OpenLibrary(const char* libname )
+itkLibHandle 
+itkDynamicLoader
+::OpenLibrary(const char* libname )
 {
   return shl_load(libname, BIND_DEFERRED | DYNAMIC_PATH, 0L);
 }
 
-int itkDynamicLoader::CloseLibrary(itkLibHandle lib)
+int 
+itkDynamicLoader::
+CloseLibrary(itkLibHandle lib)
 {
   return 0;
 }
 
 //----------------------------------------------------------------------------
-void* itkDynamicLoader::GetSymbolAddress(itkLibHandle lib, const char* sym)
+void* 
+itkDynamicLoader
+::GetSymbolAddress(itkLibHandle lib, const char* sym)
 { 
   void* addr;
   int status;
@@ -52,19 +58,25 @@ void* itkDynamicLoader::GetSymbolAddress(itkLibHandle lib, const char* sym)
 }
 
 //----------------------------------------------------------------------------
-const char* itkDynamicLoader::LibPrefix()
+const char* 
+itkDynamicLoader
+::LibPrefix()
 { 
   return "lib";
 }
 
 //----------------------------------------------------------------------------
-const char* itkDynamicLoader::LibExtension()
+const char* 
+itkDynamicLoader
+::LibExtension()
 {
   return ".sl";
 }
 
 //----------------------------------------------------------------------------
-const char* itkDynamicLoader::LastError()
+const char* 
+itkDynamicLoader
+::LastError()
 {
   return 0;
 }
@@ -81,7 +93,9 @@ const char* itkDynamicLoader::LastError()
 #include <Timer.h>
 
 //----------------------------------------------------------------------------
-itkLibHandle itkDynamicLoader::OpenLibrary(const char* libname )
+itkLibHandle 
+itkDynamicLoader
+::OpenLibrary(const char* libname )
 {
     Str63 libName;
     libName[0] = strlen(libname);
@@ -96,13 +110,17 @@ itkLibHandle itkDynamicLoader::OpenLibrary(const char* libname )
 }
 
 //----------------------------------------------------------------------------
-int itkDynamicLoader::CloseLibrary(itkLibHandle lib)
+int 
+itkDynamicLoader
+::CloseLibrary(itkLibHandle lib)
 {
   return 0;
 }
 
 //----------------------------------------------------------------------------
-void* itkDynamicLoader::GetSymbolAddress(itkLibHandle lib, const char* sym)
+void* 
+itkDynamicLoader
+::GetSymbolAddress(itkLibHandle lib, const char* sym)
 { 
   Str255 symName;
   symName[0] = strlen(sym);
@@ -114,19 +132,25 @@ void* itkDynamicLoader::GetSymbolAddress(itkLibHandle lib, const char* sym)
 }
 
 //----------------------------------------------------------------------------
-const char* itkDynamicLoader::LibPrefix()
+const char* 
+itkDynamicLoader
+::LibPrefix()
 { 
   return "";
 }
 
 //----------------------------------------------------------------------------
-const char* itkDynamicLoader::LibExtension()
+const char* 
+itkDynamicLoader
+::LibExtension()
 {
   return ".lib";
 }
 
 //----------------------------------------------------------------------------
-const char* itkDynamicLoader::LastError()
+const char* 
+itkDynamicLoader
+::LastError()
 {
   return 0;
 }
@@ -139,37 +163,49 @@ const char* itkDynamicLoader::LastError()
 #define ITKDYNAMICLOADER_DEFINED 1
 
 //----------------------------------------------------------------------------
-itkLibHandle itkDynamicLoader::OpenLibrary(const char* libname )
+itkLibHandle 
+itkDynamicLoader
+::OpenLibrary(const char* libname )
 {
   return LoadLibrary(libname);
 }
 
 //----------------------------------------------------------------------------
-int itkDynamicLoader::CloseLibrary(itkLibHandle lib)
+int 
+itkDynamicLoader
+::CloseLibrary(itkLibHandle lib)
 {
   return (int)FreeLibrary(lib);
 }
 
 //----------------------------------------------------------------------------
-void* itkDynamicLoader::GetSymbolAddress(itkLibHandle lib, const char* sym)
+void* 
+itkDynamicLoader
+::GetSymbolAddress(itkLibHandle lib, const char* sym)
 { 
   return GetProcAddress(lib, sym);
 }
 
 //----------------------------------------------------------------------------
-const char* itkDynamicLoader::LibPrefix()
+const char* 
+itkDynamicLoader
+::LibPrefix()
 { 
   return "";
 }
 
 //----------------------------------------------------------------------------
-const char* itkDynamicLoader::LibExtension()
+const char* 
+itkDynamicLoader
+::LibExtension()
 {
   return ".dll";
 }
 
 //----------------------------------------------------------------------------
-const char* itkDynamicLoader::LastError()
+const char* 
+itkDynamicLoader
+::LastError()
 {
    DWORD errcode = GetLastError();
   LPVOID lpMsgBuf;
@@ -203,37 +239,49 @@ const char* itkDynamicLoader::LastError()
 #include <dlfcn.h>
 
 //----------------------------------------------------------------------------
-itkLibHandle itkDynamicLoader::OpenLibrary(const char* libname )
+itkLibHandle 
+itkDynamicLoader
+::OpenLibrary(const char* libname )
 {
   return dlopen(libname, RTLD_LAZY);
 }
 
 //----------------------------------------------------------------------------
-int itkDynamicLoader::CloseLibrary(itkLibHandle lib)
+int 
+itkDynamicLoader
+::CloseLibrary(itkLibHandle lib)
 {
   return (int)dlclose(lib);
 }
 
 //----------------------------------------------------------------------------
-void* itkDynamicLoader::GetSymbolAddress(itkLibHandle lib, const char* sym)
+void* 
+itkDynamicLoader
+::GetSymbolAddress(itkLibHandle lib, const char* sym)
 { 
   return dlsym(lib, sym);
 }
 
 //----------------------------------------------------------------------------
-const char* itkDynamicLoader::LibPrefix()
+const char* 
+itkDynamicLoader
+::LibPrefix()
 { 
   return "lib";
 }
 
 //----------------------------------------------------------------------------
-const char* itkDynamicLoader::LibExtension()
+const char* 
+itkDynamicLoader
+::LibExtension()
 {
   return ".so";
 }
 
 //----------------------------------------------------------------------------
-const char* itkDynamicLoader::LastError()
+const char* 
+itkDynamicLoader
+::LastError()
 {
   return dlerror(); 
 }

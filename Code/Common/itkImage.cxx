@@ -18,7 +18,8 @@
 
 //----------------------------------------------------------------------------
 template<class T, unsigned int TImageDimension>
-itkImage<T, TImageDimension>::Pointer itkImage<T, TImageDimension>
+itkImage<T, TImageDimension>::Pointer 
+itkImage<T, TImageDimension>
 ::New()
 {
   itkImage<T, TImageDimension>* ret = 
@@ -27,17 +28,16 @@ itkImage<T, TImageDimension>::Pointer itkImage<T, TImageDimension>
     {
     return ret;
     }
-  return
-    itkImage<T, TImageDimension>::Pointer(new itkImage<T, TImageDimension>);
+  return new itkImage<T, TImageDimension>;
 }
 
 //----------------------------------------------------------------------------
 template<class T, unsigned int TImageDimension>
 itkImage<T, TImageDimension>
 ::itkImage()
-  : m_Data(0)
 {
-   this->SetDimension( TImageDimension );
+  m_Data = 0;
+  this->SetDimension( TImageDimension );
 }
 
 template<class T, unsigned int TImageDimension>

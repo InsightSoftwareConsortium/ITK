@@ -27,13 +27,13 @@ itkVTKImageWriter<TInputImage>::Pointer itkVTKImageWriter<TInputImage>
     {
     return ret;
     }
-  return itkVTKImageWriter<TInputImage>::Pointer(
-    new itkVTKImageWriter<TInputImage>);
+  return new itkVTKImageWriter<TInputImage>;
 }
 
 //----------------------------------------------------------------------------
 template <class TInputImage>
-void itkVTKImageWriter<TInputImage>
+void 
+itkVTKImageWriter<TInputImage>
 ::WriteData()
 {
   itkDebugMacro(<<"Writing image in VTK format");
@@ -41,7 +41,8 @@ void itkVTKImageWriter<TInputImage>
 
 //----------------------------------------------------------------------------
 template <class TInputImage>
-void itkVTKImageWriter<TInputImage>
+void 
+itkVTKImageWriter<TInputImage>
 ::PrintSelf(std::ostream& os, itkIndent indent)
 {
   itkImageWriter<TInputImage>::PrintSelf(os,indent);

@@ -17,18 +17,22 @@
 #include "itkDataObject.h"
 
 //----------------------------------------------------------------------------
-itkWriter::itkWriter()
+itkWriter
+::itkWriter()
 {
   m_FileName = "";
   m_FileType = ITK_ASCII;
 }
 
 //----------------------------------------------------------------------------
-itkWriter::~itkWriter()
+itkWriter
+::~itkWriter()
 {
 }
 
-void itkWriter::Write()
+void 
+itkWriter
+::Write()
 {
   // make sure input is available
   if ( !this->GetInput(0) )
@@ -57,7 +61,9 @@ void itkWriter::Write()
 }
 
 //----------------------------------------------------------------------------
-void itkWriter::PrintSelf(std::ostream& os, itkIndent indent)
+void 
+itkWriter
+::PrintSelf(std::ostream& os, itkIndent indent)
 {
   itkProcessObject::PrintSelf(os,indent);
 

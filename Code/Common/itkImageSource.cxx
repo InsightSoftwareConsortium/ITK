@@ -18,7 +18,8 @@
 
 //------------------------------------------------------------------------
 template<class TOutputImage>
-itkImageSource<TOutputImage>::Pointer itkImageSource<TOutputImage>
+itkImageSource<TOutputImage>::Pointer 
+itkImageSource<TOutputImage>
 ::New()
 {
   itkImageSource<TOutputImage>* ret = 
@@ -27,8 +28,7 @@ itkImageSource<TOutputImage>::Pointer itkImageSource<TOutputImage>
     {
     return ret;
     }
-  return
-    itkImageSource<TOutputImage>::Pointer(new itkImageSource<TOutputImage>);
+  return new itkImageSource<TOutputImage>;
 }
 
 //----------------------------------------------------------------------------
@@ -46,7 +46,8 @@ itkImageSource<TOutputImage>
 
 //----------------------------------------------------------------------------
 template<class TOutputImage>
-TOutputImage *itkImageSource<TOutputImage>
+TOutputImage *
+itkImageSource<TOutputImage>
 ::GetOutput()
 {
   if (this->GetNumberOfOutputs() < 1)
@@ -59,7 +60,8 @@ TOutputImage *itkImageSource<TOutputImage>
 
 //----------------------------------------------------------------------------
 template<class TOutputImage>
-void itkImageSource<TOutputImage>
+void 
+itkImageSource<TOutputImage>
 ::SetOutput(TOutputImage *output)
 {
   this->itkProcessObject::SetNthOutput(0, output);
@@ -67,14 +69,16 @@ void itkImageSource<TOutputImage>
 
 //----------------------------------------------------------------------------
 template<class TOutputImage>
-void itkImageSource<TOutputImage>
+void 
+itkImageSource<TOutputImage>
 ::ComputeInputUpdateExtents(itkDataObject *data)
 {
 }
 
 //----------------------------------------------------------------------------
 template<class TOutputImage>
-void itkImageSource<TOutputImage>
+void 
+itkImageSource<TOutputImage>
 ::PrintSelf(std::ostream& os, itkIndent indent)
 {
   itkProcessObject::PrintSelf(os,indent);

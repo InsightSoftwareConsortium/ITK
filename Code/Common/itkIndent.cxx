@@ -17,7 +17,9 @@
 #include "itkObjectFactory.h"
 
 //------------------------------------------------------------------------
-itkIndent* itkIndent::New()
+itkIndent* 
+itkIndent
+::New()
 {
   itkIndent *ret = itkObjectFactory<itkIndent>::Create();
   if ( ret )
@@ -35,7 +37,9 @@ static const char blanks[ITK_NUMBER_OF_BLANKS+1] =
 
 // Determine the next indentation level. Keep indenting by two until the 
 // max of forty.
-itkIndent itkIndent::GetNextIndent()
+itkIndent 
+itkIndent
+::GetNextIndent()
 {
   int indent = m_Indent + ITK_STD_INDENT;
   if ( indent > ITK_NUMBER_OF_BLANKS )
@@ -46,7 +50,8 @@ itkIndent itkIndent::GetNextIndent()
 }
  
 // Print out the indentation. Basically output a bunch of spaces.
-std::ostream& operator<<(std::ostream& os, itkIndent& ind)
+std::ostream& 
+operator<<(std::ostream& os, itkIndent& ind)
 {
   os << blanks + (ITK_NUMBER_OF_BLANKS-ind.m_Indent) ;
   return os;

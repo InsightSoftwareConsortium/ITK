@@ -27,8 +27,7 @@ itkVTKImageReader<TOutputImage>::Pointer itkVTKImageReader<TOutputImage>
     {
     return ret;
     }
-  return itkVTKImageReader<TOutputImage>::Pointer(
-    new itkVTKImageReader<TOutputImage>);
+  return new itkVTKImageReader<TOutputImage>;
 }
 
 //----------------------------------------------------------------------------
@@ -41,14 +40,16 @@ itkVTKImageReader<TOutputImage>
 
 //----------------------------------------------------------------------------
 template <class TOutputImage>
-void itkVTKImageReader<TOutputImage>
+void 
+itkVTKImageReader<TOutputImage>
 ::Execute()
 {
 }
 
 //----------------------------------------------------------------------------
 template <class TOutputImage>
-void itkVTKImageReader<TOutputImage>
+void 
+itkVTKImageReader<TOutputImage>
 ::PrintSelf(std::ostream& os, itkIndent indent)
 {
   itkImageSource<TOutputImage>::PrintSelf(os,indent);

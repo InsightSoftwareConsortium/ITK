@@ -17,7 +17,9 @@
 #include "itkObjectFactory.h"
 
 //------------------------------------------------------------------------
-itkVersion* itkVersion::New()
+itkVersion* 
+itkVersion
+::New()
 {
   itkVersion *ret = itkObjectFactory<itkVersion>::Create();
   if ( ret )

@@ -16,13 +16,17 @@
 #include "itkDirectory.h"
 
 //----------------------------------------------------------------------------
-itkDirectory::itkDirectory() 
-  :m_NumberOfFiles(0), m_Files(0), m_Path(0)
+itkDirectory
+::itkDirectory() 
 {
+  m_NumberOfFiles = 0;
+  m_Files = 0;
+  m_Path = 0;
 }
 
 //----------------------------------------------------------------------------
-itkDirectory::~itkDirectory() 
+itkDirectory
+::~itkDirectory() 
 {
   for ( int i =0; i < m_NumberOfFiles; i++ )
     {
@@ -32,7 +36,9 @@ itkDirectory::~itkDirectory()
 }
 
 //----------------------------------------------------------------------------
-void itkDirectory::PrintSelf(std::ostream& os, itkIndent indent)
+void 
+itkDirectory
+::PrintSelf(std::ostream& os, itkIndent indent)
 { 
   itkObject::PrintSelf(os, indent);
   if ( !m_Path )
@@ -64,7 +70,9 @@ void itkDirectory::PrintSelf(std::ostream& os, itkIndent indent)
 #include <sys/types.h>
 
 //----------------------------------------------------------------------------
-bool itkDirectory::Load(const char* name)
+bool 
+itkDirectory
+::Load(const char* name)
 {
   char* buf;
   int n = strlen(name);
@@ -126,7 +134,9 @@ bool itkDirectory::Load(const char* name)
 #include <dirent.h>
 
 //----------------------------------------------------------------------------
-bool itkDirectory::Load(const char* name)
+bool 
+itkDirectory
+::Load(const char* name)
 {
   DIR* dir = opendir(name);
   if ( !dir ) 
@@ -159,7 +169,9 @@ bool itkDirectory::Load(const char* name)
 
 
 //----------------------------------------------------------------------------
-const char* itkDirectory::GetFile(int index)
+const char* 
+itkDirectory
+::GetFile(int index)
 {
   if ( index >= m_NumberOfFiles || index < 0 )
     {

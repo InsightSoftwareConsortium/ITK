@@ -43,7 +43,8 @@ itkShrinkImage<TInputImage,TOutputImage>
 
 //----------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage>
-void itkShrinkImage<TInputImage,TOutputImage>
+void 
+itkShrinkImage<TInputImage,TOutputImage>
 ::PrintSelf(std::ostream& os, itkIndent indent)
 {
   itkImageToImageFilter<TInputImage,TOutputImage>::PrintSelf(os,indent);
@@ -53,7 +54,8 @@ void itkShrinkImage<TInputImage,TOutputImage>
 
 //----------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage>
-void itkShrinkImage<TInputImage,TOutputImage>
+void 
+itkShrinkImage<TInputImage,TOutputImage>
 ::Execute()
 {
   itkDebugMacro(<<"Actually executing");

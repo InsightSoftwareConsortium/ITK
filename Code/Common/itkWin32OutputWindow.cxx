@@ -16,19 +16,23 @@
 #include "itkWin32OutputWindow.h"
 #include "itkObjectFactory.h"
 
-itkWin32OutputWindow* itkWin32OutputWindow::New()
+itkWin32OutputWindow* 
+itkWin32OutputWindow
+::New()
 {
   itkWin32OutputWindow *ret = itkObjectFactory<itkWin32OutputWindow>::Create();
   if ( ret )
     {
     return ret;
     }
-  return itkWin32OutputWindow::Pointer(new itkWin32OutputWindow);
+  return new itkWin32OutputWindow;
 }
 
-LRESULT APIENTRY itkWin32OutputWindow::WndProc(HWND hWnd, UINT message, 
-                                               WPARAM wParam, 
-                                               LPARAM lParam)
+LRESULT APIENTRY 
+itkWin32OutputWindow
+::WndProc(HWND hWnd, UINT message, 
+          WPARAM wParam, 
+          LPARAM lParam)
 { 
   switch (message) 
     {
@@ -55,7 +59,9 @@ HWND itkWin32OutputWindow::m_OutputWindow = 0;
 
 // Display text in the window, and translate the \n to \r\n.
 
-void itkWin32OutputWindow::DisplayText(const char* text)
+void 
+itkWin32OutputWindow
+::DisplayText(const char* text)
 {
   if ( !text )
     {
@@ -101,7 +107,9 @@ void itkWin32OutputWindow::DisplayText(const char* text)
 
 // Add some text to the EDIT control.
 
-void itkWin32OutputWindow::AddText(const char* text)
+void 
+itkWin32OutputWindow
+::AddText(const char* text)
 {
   if(!Initialize()  || (strlen(text) == 0))
     {
@@ -120,7 +128,9 @@ void itkWin32OutputWindow::AddText(const char* text)
 // initialize the output window with an EDIT control and
 // a container window.
 
-int itkWin32OutputWindow::Initialize()
+int 
+itkWin32OutputWindow
+::Initialize()
 {
   // check to see if it is already initialized
   if(itkWin32OutputWindow::m_OutputWindow)
@@ -197,7 +207,9 @@ int itkWin32OutputWindow::Initialize()
 }
 
 
-void itkWin32OutputWindow::PromptText(const char* text)
+void 
+itkWin32OutputWindow
+::PromptText(const char* text)
 {
   ostrstream itkmsg;
   itkmsg << text << "\nPress Cancel to supress any further messages." << ends;

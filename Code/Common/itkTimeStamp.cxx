@@ -17,7 +17,9 @@
 #include "itkObjectFactory.h"
 
 //-------------------------------------------------------------------------
-itkTimeStamp *itkTimeStamp::New()
+itkTimeStamp *
+itkTimeStamp
+::New()
 {
   itkTimeStamp *ret = itkObjectFactory<itkTimeStamp>::Create();
   if ( ret )
@@ -29,7 +31,9 @@ itkTimeStamp *itkTimeStamp::New()
 
 // Initialize static member
 //
-void itkTimeStamp::Modified()
+void 
+itkTimeStamp
+::Modified()
 {
   static unsigned long itkTimeStampTime = 0; 
   m_ModifiedTime = ++itkTimeStampTime;

@@ -22,21 +22,26 @@
 itkOutputWindow* itkOutputWindow::m_Instance = 0;
 
 // Prompting off by default
-itkOutputWindow::itkOutputWindow()
+itkOutputWindow
+::itkOutputWindow()
 {
   m_PromptUser = 0;
 }
 
-itkOutputWindow::~itkOutputWindow()
+itkOutputWindow
+::~itkOutputWindow()
 {
 }
 
-void itkOutputWindowDisplayText(const char* message)
+void 
+itkOutputWindowDisplayText(const char* message)
 {
   itkOutputWindow::GetInstance()->DisplayText(message);
 }
 
-void itkOutputWindow::PrintSelf(std::ostream& os, itkIndent indent)
+void 
+itkOutputWindow
+::PrintSelf(std::ostream& os, itkIndent indent)
 {
   this->itkObject::PrintSelf(os, indent);
 
@@ -47,7 +52,9 @@ void itkOutputWindow::PrintSelf(std::ostream& os, itkIndent indent)
 }
 
 // default implementation outputs to cerr only
-void itkOutputWindow::DisplayText(const char* txt)
+void 
+itkOutputWindow
+::DisplayText(const char* txt)
 {
   std::cerr << txt;
   if ( m_PromptUser )
@@ -64,7 +71,9 @@ void itkOutputWindow::DisplayText(const char* txt)
 }
 
 // Return the single instance of the itkOutputWindow
-itkOutputWindow* itkOutputWindow::GetInstance()
+itkOutputWindow* 
+itkOutputWindow
+::GetInstance()
 {
   if ( !itkOutputWindow::m_Instance )
     {
@@ -84,7 +93,9 @@ itkOutputWindow* itkOutputWindow::GetInstance()
   return itkOutputWindow::m_Instance;
 }
 
-void itkOutputWindow::SetInstance(itkOutputWindow* instance)
+void 
+itkOutputWindow
+::SetInstance(itkOutputWindow* instance)
 {
   if ( itkOutputWindow::m_Instance == instance )
     {
@@ -103,7 +114,9 @@ void itkOutputWindow::SetInstance(itkOutputWindow* instance)
 }
 
 // Up the reference count so it behaves like New
-itkOutputWindow* itkOutputWindow::New()
+itkOutputWindow* 
+itkOutputWindow
+::New()
 {
   itkOutputWindow* ret = itkOutputWindow::GetInstance();
   return ret;

@@ -17,7 +17,8 @@
 
 //----------------------------------------------------------------------------
 template <class TInputImage>
-void itkImageWriter<TInputImage>
+void 
+itkImageWriter<TInputImage>
 ::SetInput(TInputImage *input)
 {
   this->itkProcessObject::SetNthInput(0, input);
@@ -25,7 +26,8 @@ void itkImageWriter<TInputImage>
 
 //----------------------------------------------------------------------------
 template <class TInputImage>
-TInputImage *itkImageWriter<TInputImage>
+TInputImage *
+itkImageWriter<TInputImage>
 ::GetInput()
 {
   if (this->NumberOfInputs < 1)
@@ -38,7 +40,8 @@ TInputImage *itkImageWriter<TInputImage>
 
 //----------------------------------------------------------------------------
 template <class TInputImage>
-void itkImageWriter<TInputImage>
+void 
+itkImageWriter<TInputImage>
 ::PrintSelf(std::ostream& os, itkIndent indent)
 {
   itkWriter::PrintSelf(os,indent);

@@ -28,9 +28,7 @@ itkRandomImageSource<TOutputImage>
     {
     return ret;
     }
-  return 
-    itkRandomImageSource<TOutputImage>::Pointer(
-      new itkRandomImageSource<TOutputImage>);
+  return new itkRandomImageSource<TOutputImage>;
 }
 
 //----------------------------------------------------------------------------
@@ -42,7 +40,8 @@ itkRandomImageSource<TOutputImage>
 
 //----------------------------------------------------------------------------
 template <class TOutputImage>
-void itkRandomImageSource<TOutputImage>
+void 
+itkRandomImageSource<TOutputImage>
 ::PrintSelf(std::ostream& os, itkIndent indent)
 {
   itkImageSource<TOutputImage>::PrintSelf(os,indent);
@@ -51,7 +50,8 @@ void itkRandomImageSource<TOutputImage>
 
 //----------------------------------------------------------------------------
 template <class TOutputImage>
-void itkRandomImageSource<TOutputImage>
+void 
+itkRandomImageSource<TOutputImage>
 ::Execute()
 {
   TOutputImage *image=this->GetOutput(0);

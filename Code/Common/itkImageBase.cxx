@@ -16,18 +16,21 @@
 #include "itkImageBase.h"
 #include "itkObjectFactory.h"
 
-itkImageBase::Pointer itkImageBase::New()
+itkImageBase::Pointer 
+itkImageBase
+::New()
 {
   itkImageBase *ret = itkObjectFactory<itkImageBase>::Create();
   if ( ret )
     {
     return ret;
     }
-  return itkImageBase::Pointer(new itkImageBase);
+  return new itkImageBase;
 }
 
 //-------------------------------------------------------------------------
-itkImageBase::itkImageBase()
+itkImageBase
+::itkImageBase()
 {
   m_Size = 0;
   m_Spacing = 0;
@@ -35,13 +38,16 @@ itkImageBase::itkImageBase()
 }
 
 //-------------------------------------------------------------------------
-itkImageBase::~itkImageBase()
+itkImageBase
+::~itkImageBase()
 {
   this->Initialize();
 }
 
 //-------------------------------------------------------------------------
-void itkImageBase::Initialize()
+void 
+itkImageBase
+::Initialize()
 {
   if ( m_Size != 0 )
     {
@@ -53,7 +59,9 @@ void itkImageBase::Initialize()
 }
 
 //-------------------------------------------------------------------------
-void itkImageBase::SetDimension(unsigned int dim)
+void 
+itkImageBase
+::SetDimension(unsigned int dim)
 {
   if ( dim != this->GetDimension() )
     {
@@ -69,7 +77,9 @@ void itkImageBase::SetDimension(unsigned int dim)
 }
 
 //-------------------------------------------------------------------------
-void itkImageBase::SetSize(unsigned long *size)
+void 
+itkImageBase
+::SetSize(unsigned long *size)
 {
   bool modified;
 
@@ -89,7 +99,9 @@ void itkImageBase::SetSize(unsigned long *size)
 }
 
 //-------------------------------------------------------------------------
-void itkImageBase::SetSpacing(float *spacing)
+void 
+itkImageBase
+::SetSpacing(float *spacing)
 {
   bool modified;
 
@@ -109,7 +121,9 @@ void itkImageBase::SetSpacing(float *spacing)
 }
 
 //-------------------------------------------------------------------------
-void itkImageBase::SetOrigin(float *origin)
+void 
+itkImageBase
+::SetOrigin(float *origin)
 {
   bool modified;
 
@@ -129,7 +143,9 @@ void itkImageBase::SetOrigin(float *origin)
 }
 
 //-------------------------------------------------------------------------
-void itkImageBase::PrintSelf(std::ostream& os, itkIndent indent)
+void 
+itkImageBase
+::PrintSelf(std::ostream& os, itkIndent indent)
 {
   itkDataObject::PrintSelf(os,indent);
   

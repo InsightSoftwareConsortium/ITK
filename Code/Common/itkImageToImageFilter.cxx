@@ -28,9 +28,7 @@ itkImageToImageFilter<TInputImage,TOutputImage>
     {
     return ret;
     }
-  return
-    itkImageToImageFilter<TInputImage,TOutputImage>::Pointer(
-      new itkImageToImageFilter<TInputImage, TOutputImage>);
+  return new itkImageToImageFilter<TInputImage, TOutputImage>);
 }
 
 //----------------------------------------------------------------------------
@@ -45,7 +43,8 @@ itkImageToImageFilter<TInputImage,TOutputImage>
 
 //----------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage>
-void itkImageToImageFilter<TInputImage,TOutputImage>
+void 
+itkImageToImageFilter<TInputImage,TOutputImage>
 ::SetInput(TInputImage *input)
 {
   this->itkProcessObject::SetNthInput(0, input);
@@ -53,7 +52,8 @@ void itkImageToImageFilter<TInputImage,TOutputImage>
 
 //----------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage>
-TInputImage *itkImageToImageFilter<TInputImage,TOutputImage>
+TInputImage *
+itkImageToImageFilter<TInputImage,TOutputImage>
 ::GetInput()
 {
   if (this->NumberOfInputs < 1)
@@ -66,7 +66,8 @@ TInputImage *itkImageToImageFilter<TInputImage,TOutputImage>
 
 //----------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage>
-void itkImageToImageFilter<TInputImage,TOutputImage>
+void 
+itkImageToImageFilter<TInputImage,TOutputImage>
 ::PrintSelf(std::ostream& os, itkIndent indent)
 {
   itkImageSource<TOutputImage>::PrintSelf(os,indent);
