@@ -58,8 +58,9 @@ PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension,TImage>
 {
   m_NumberOfPrincipalComponents = n;
 
-  m_PrincipalComponentImages.resize(n);
+  m_PrincipalComponentImages.resize(n,NULL);
   m_PrincipalComponentStandardDeviations.resize(n);
+  m_PrincipalComponentStandardDeviations.Fill( 1.0 );
 
   m_WeightOfPrincipalComponents.resize(n);
 }
