@@ -2,6 +2,7 @@ INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/zlib)
 INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/png)
 
 SOURCE_FILES(ITKIO_SRCS
+itkWriter
 itkImageIOBase
 itkImageIOFactory
 itkMetaImageIOFactory
