@@ -44,16 +44,6 @@ Image<TPixel, VImageDimension>
 }
 
 
-/**
- *
- */
-template<class TPixel, unsigned int VImageDimension>
-Image<TPixel, VImageDimension>
-::~Image()
-{
-}
-
-
 //----------------------------------------------------------------------------
 template<class TPixel, unsigned int VImageDimension>
 void 
