@@ -95,7 +95,7 @@ int main()
   // Image object with an array pixel type (anything derived from the
   // \doxygen{FixedArray} class such as \doxygen{Vector},
   // \doxygen{Point}, \doxygen{RGBPixel}, and
-  // \doxygen{CovarinatVector}).
+  // \doxygen{CovariantVector}).
   //
   // Since in this example the image pixel type is \code{float},
   // we will use single element a \code{float} FixedArray as
