@@ -41,7 +41,7 @@ namespace itk
   VnlFFTRealToComplexConjugateImageFilter<TPixel,Dimension>::
   Legaldim(int n)
   {
-    int k, ifac = 2;
+    int ifac = 2;
     for (int l = 1; l <= 3; l++) 
       {
       // Original code
@@ -54,10 +54,8 @@ namespace itk
 //       L20:
 //       pqr[l-1] = k;
 //       ifac += l;
-      k = 0;
       for(; n % ifac == 0;)
         {
-        ++k;
         n /= ifac;
         }
       ifac += l;
