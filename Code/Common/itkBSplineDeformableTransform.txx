@@ -106,6 +106,19 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 }
 
 
+// Get the number of parameters per dimension
+template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+unsigned int
+BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+::GetNumberOfParametersPerDimension(void) const
+{
+  // The number of parameters per dimension equal number of
+  // of pixels in the grid region.
+  return ( static_cast<unsigned int>( m_GridRegion.GetNumberOfPixels() ) );
+
+}
+
+
 // Set the grid region
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
@@ -282,11 +295,12 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 const InputPointType & point, 
 OutputPointType & outputPoint, 
 WeightsType & weights, 
-IndexType & supportIndex,
+ParameterIndexArrayType & indices,
 bool& inside ) const
 {
 
   unsigned int j;
+  IndexType supportIndex;
 
   InputPointType transformedPoint;
   if ( m_BulkTransform )
@@ -329,6 +343,7 @@ bool& inside ) const
   typedef ImageRegionConstIterator<ImageType> IteratorType;
   IteratorType m_Iterator[ SpaceDimension ];
   unsigned long counter = 0;
+  PixelType * basePointer = m_CoefficientImage[0]->GetBufferPointer();
 
   for ( j = 0; j < SpaceDimension; j++ )
     {
@@ -344,6 +359,9 @@ bool& inside ) const
       outputPoint[j] += static_cast<ScalarType>( 
         weights[counter] * m_Iterator[j].Get());
       }
+
+    // populate the indices array
+    indices[counter] = &(m_Iterator[0].Value()) - basePointer;
 
     // go to next coefficient in the support region
     ++ counter;
@@ -373,11 +391,11 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 {
   
   WeightsType weights( m_WeightsFunction->GetNumberOfWeights() );
-  IndexType supportIndex;
+  ParameterIndexArrayType indices( m_WeightsFunction->GetNumberOfWeights() );
   OutputPointType outputPoint;
   bool inside;
 
-  this->TransformPoint( point, outputPoint, weights, supportIndex, inside );
+  this->TransformPoint( point, outputPoint, weights, indices, inside );
 
   return outputPoint;
 

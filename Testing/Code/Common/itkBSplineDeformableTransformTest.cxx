@@ -187,20 +187,45 @@ int itkBSplineDeformableTransformTest(int, char **)
   // use the other version of TransformPoint
   typedef TransformType::WeightsType WeightsType;
   typedef TransformType::IndexType IndexType;
+  typedef TransformType::ParameterIndexArrayType IndexArrayType;
 
   WeightsType weights( transform->GetNumberOfWeights() );
-  IndexType startIndex;
+  IndexArrayType indices( transform->GetNumberOfWeights() );
   bool inside;
 
   inputPoint.Fill( 8.3 );
-  transform->TransformPoint( inputPoint, outputPoint, weights, startIndex, inside );
+  transform->TransformPoint( inputPoint, outputPoint, weights, indices, inside );
 
+  std::cout << "Number of Parameters: " << transform->GetNumberOfParameters() << std::endl;
+  std::cout << "Number of Parameters per dimension: " << 
+    transform->GetNumberOfParametersPerDimension() << std::endl;
   std::cout << "Input Point: " << inputPoint << std::endl;
   std::cout << "Output Point: " << outputPoint << std::endl;
-  std::cout << "Start Index: " << startIndex << std::endl;
+  std::cout << "Indices: " << indices << std::endl;
   std::cout << "Weights: " << weights << std::endl;
   std::cout << "Inside: " << inside << std::endl;
   std::cout << std::endl;
+
+  // cycling through all the parameters and weights used in the previous
+  // transformation
+  unsigned int numberOfCoefficientInSupportRegion = transform->GetNumberOfWeights();
+  unsigned int numberOfParametersPerDimension = transform->GetNumberOfParametersPerDimension();
+  unsigned int linearIndex;
+  unsigned int baseIndex;
+
+  std::cout << "Index" << "\t" << "Value" << "\t" << "Weight" << std::endl;
+  for ( j = 0; j < SpaceDimension; j++ )
+    {
+    baseIndex = j * numberOfParametersPerDimension;
+    for ( unsigned int k = 0; k < numberOfCoefficientInSupportRegion; k++ )
+      {
+      linearIndex = indices[k] + baseIndex;
+      std::cout << linearIndex << "\t";
+      std::cout << parameters[linearIndex] << "\t";
+      std::cout << weights[k] << "\t";
+      std::cout << std::endl;
+      }
+    }
 
 
   /**

@@ -185,15 +185,21 @@ public:
   typedef typename WeightsFunctionType::WeightsType WeightsType;
   typedef typename WeightsFunctionType::ContinuousIndexType ContinuousIndexType;
 
+  /** Parameter index array type. */
+  typedef Array<unsigned long> ParameterIndexArrayType;
+
   /** Transform points by a BSpline deformable transformation. 
    * On return, weights contains the interpolation weights used to compute the 
-   * deformation and startIndex contains the support region of coefficient
-   * used to compute the deformation.
+   * deformation and indices of the x (zeroth) dimension coefficient parameters
+   * in the support region used to compute the deformation.
+   * Parameter indices for the i-th dimension can be obtained by adding
+   * ( i * this->GetNumberOfParametersPerDimension() ) to the indices array.
    */
   void TransformPoint( const InputPointType & inputPoint,
                        OutputPointType & outputPoint,
                        WeightsType & weights,
-                       IndexType & startIndex, bool & inside ) const;
+                       ParameterIndexArrayType & indices, 
+                       bool & inside ) const;
 
   /** Get number of weights. */
   unsigned long GetNumberOfWeights() const
@@ -229,6 +235,9 @@ public:
 
   /** Return the number of parameters that completely define the Transfom */
   unsigned int virtual GetNumberOfParameters(void) const;
+
+  /** Return the number of parameters per dimension */
+  unsigned int GetNumberOfParametersPerDimension(void) const;
 
 protected:
   BSplineDeformableTransform();
