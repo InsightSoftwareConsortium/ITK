@@ -86,7 +86,7 @@ ADD_TEST(CannySegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES}
             ${TEMP}/CannySegmentationLevelSetImageFilterTest.png
   CannySegmentationLevelSetImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-        ${BASELINE}/ThresholdSegmentationLevelSetVentricleTest.png
+        ${BASELINE}/ThresholdSegmentationLevelSetVentricle.png
         ${TEMP}/CannySegmentationLevelSetImageFilterTest.png
         7 0.1 -10.0 127.5 10000
 )
@@ -187,7 +187,7 @@ ADD_TEST(FastMarchingLeftVentricleTest ${SEGMENTATION_EXAMPLES}
   FastMarchingImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/FastMarchingLeftVentricleTest.png
-        81 114 1.0 -0.5 3.0 100 150        
+        81 114 1.0 -0.5 3.0 100 100        
 )
 
 ADD_TEST(FastMarchingRightVentricleTest ${SEGMENTATION_EXAMPLES}
@@ -196,7 +196,7 @@ ADD_TEST(FastMarchingRightVentricleTest ${SEGMENTATION_EXAMPLES}
   FastMarchingImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/FastMarchingRightVentricleTest.png
-        99 114 1.0 -0.5 3.0 100 150        
+        99 114 1.0 -0.5 3.0 100 100
 )
 
 ADD_TEST(FastMarchingWhiteMatterTest ${SEGMENTATION_EXAMPLES}
@@ -205,7 +205,7 @@ ADD_TEST(FastMarchingWhiteMatterTest ${SEGMENTATION_EXAMPLES}
   FastMarchingImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/FastMarchingWhiteMatterTest.png
-        56 92 1.0 -0.3 2.0 200 250        
+        56 92 1.0 -0.3 2.0 200 100       
 )
 
 ADD_TEST(FastMarchingGrayMatterTest ${SEGMENTATION_EXAMPLES}
@@ -214,7 +214,7 @@ ADD_TEST(FastMarchingGrayMatterTest ${SEGMENTATION_EXAMPLES}
   FastMarchingImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/FastMarchingGrayMatterTest.png
-        40 90 1.0 -0.3 2.0 200 250        
+        40 90 .5 -0.3 2.0 200 100        
 )
 
 ADD_TEST(GeodesicActiveContourLeftVentricleTest ${SEGMENTATION_EXAMPLES}
@@ -259,7 +259,7 @@ ADD_TEST(GeodesicActiveContourGrayMatterTest ${SEGMENTATION_EXAMPLES}
   GeodesicActiveContourImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/GeodesicActiveContourGrayMatterTest.png
-        40 90 5.0 1.0 -0.3 2.0 10.0
+        40 90 5.0 .5 -0.3 2.0 10.0
 
 )
 
@@ -332,7 +332,7 @@ ADD_TEST(ThresholdSegmentationLevelSetWhiteMatterTest ${SEGMENTATION_EXAMPLES2}
   ThresholdSegmentationLevelSetImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ThresholdSegmentationLevelSetWhiteMatterTest.png
-        60 116 5 150 180 10.0
+        60 116 5 150 180
 )
 
 ADD_TEST(ThresholdSegmentationLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES2}
@@ -380,6 +380,50 @@ ADD_TEST(CellularSegmentation1Test ${SEGMENTATION_EXAMPLES4}
         100 115 200 255 3000
 )
 
+ADD_TEST(RelabelComponentImageFilterTest ${SEGMENTATION_EXAMPLES5}
+  --compare ${BASELINE}/RelabelComponentImageFilter.png
+            ${TEMP}/RelabelComponentImageFilter.png
+  RelabelComponentImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/WatershedSegmentation.png
+        ${TEMP}/RelabelComponentImageFilter.png
+)
+
+ADD_TEST(LaplacianSegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES5}
+  --compare ${BASELINE}/LaplacianSegmentationLevelSetImageFilter.png
+            ${TEMP}/LaplacianSegmentationLevelSetImageFilter.png
+  LaplacianSegmentationLevelSetImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${BASELINE}/ThresholdSegmentationLevelSetVentricle.png
+        ${TEMP}/LaplacianSegmentationLevelSetImageFilter.png
+        10 2.0 1 127.5 15
+)
+
+ADD_TEST(VectorConfidenceConnectedTest1 ${SEGMENTATION_EXAMPLES5}
+  --compare ${BASELINE}/VectorConfidenceConnected1.png
+            ${TEMP}/VectorConfidenceConnected1.png
+  VectorConfidenceConnectedTest
+        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+        ${TEMP}/VectorConfidenceConnected1.png
+        70 120 7 1
+)
+
+ADD_TEST(VectorConfidenceConnectedTest2 ${SEGMENTATION_EXAMPLES5}
+  --compare ${BASELINE}/VectorConfidenceConnected2.png
+            ${TEMP}/VectorConfidenceConnected2.png
+  VectorConfidenceConnectedTest
+        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+        ${TEMP}/VectorConfidenceConnected2.png
+        23 93 7 1
+)
+
+ADD_TEST(VectorConfidenceConnectedTest3 ${SEGMENTATION_EXAMPLES5}
+  --compare ${BASELINE}/VectorConfidenceConnected3.png
+            ${TEMP}/VectorConfidenceConnected3.png
+  VectorConfidenceConnectedTest
+        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+        ${TEMP}/VectorConfidenceConnected3.png
+        66 66 3 1
+)
 
 ADD_EXECUTABLE(SegmentationExamples SegmentationExamples.cxx )
 TARGET_LINK_LIBRARIES(SegmentationExamples
