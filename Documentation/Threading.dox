@@ -12,6 +12,8 @@
    thread for processing data and another thread for a user
    interface. We call this "Application Level Multithreading".
 
+   \image html Threading.gif "Filters may process their data in multiple threads in a shared memory configuration."
+
    \section FilterThreadSafety Filter Level Multithreading
         
    A multithreaded filter provides an implementation of the
@@ -32,8 +34,6 @@
    call of ThreadedGenerateData().  Each thread is allowed to read
    from anywhere in the input image but each thread can only write to
    its designated portion of the output image.
-
-   \image html Threading.gif "Filters may process their data in multiple threads in a shared memory configuration."
 
    The output image is a single contiguous block on memory that is
    used for all processing threads.  Each thread is informed which
