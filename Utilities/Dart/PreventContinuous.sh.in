@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "Allow Continuous to run"
+echo "Prevent Continuous to run"
 cd @ITK_BINARY_DIR@
 if [ -e continuous.lock ]
 then  del continuous.lock;
