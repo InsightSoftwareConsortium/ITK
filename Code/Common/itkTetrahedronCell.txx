@@ -201,7 +201,8 @@ TetrahedronCell< TCellInterface >
     if (closestPoint)
       {
       FaceAutoPointer triangle;
-      for (*minDist2=99999999999,i=0; i<4; i++)
+      *minDist2 = NumericTraits< double >::max();
+      for (i=0; i<4; i++)
         {
         this->GetFace (i,triangle);
         triangle->EvaluatePosition(x,points,closest,pc,&dist2,NULL);
