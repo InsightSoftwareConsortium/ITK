@@ -81,16 +81,6 @@ public:
   itkSetMacro(FileDimensionality, unsigned long);
   itkGetMacro(FileDimensionality, unsigned long);
   
-  /** Get the component type of the pixel.  */
-  virtual const std::type_info& GetComponentTypeInfo() const
-  {return typeid(ComponentType);}
-  
-  /** Compute the size (in bytes) of the components of a pixel. For
-   * example, and RGB pixel of unsigned char would have a 
-   * component size of 1 byte. */
-  virtual unsigned int GetComponentSize() const
-  {return sizeof(typename PixelTraits<PixelType>::ValueType);}
-
   /** The different types of ImageIO's can support data of varying
    * dimensionality. For example, some file formats are strictly 2D
    * while others can support 2D, 3D, or even n-D. This method returns
@@ -142,12 +132,6 @@ public:
   /** Writes the data to disk from the memory buffer provided. */
   virtual void Write(const void* buffer);
 
-
-  virtual bool SetPixelType(const std::type_info& )
-  { return true; }
-
-  virtual void SetPixelType(const IOPixelType ) {}
-  virtual void SetComponentType(const IOComponentType ) {}
 protected:
   RawImageIO();
   ~RawImageIO();
