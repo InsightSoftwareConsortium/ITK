@@ -84,7 +84,7 @@ namespace itk
 // cygwin threads are unreliable
 #ifdef __CYGWIN__
 #undef ITK_MAX_THREADS
-#define ITK_MAX_THREADS 1
+#define ITK_MAX_THREADS 128 
 #endif
 
 #ifndef ITK_MAX_THREADS
