@@ -87,7 +87,7 @@ proc LoadCVSInformation { File } \
 
   #  puts stderr $YesterdayTS
 
-  set Log [exec $cvs log -N $File]
+  if { [catch { set Log [exec $cvs log -N $File] }] } { return }
   # puts stderr "Log of $File: $Log"
 
   regexp "head: (\[0-9.\]+)" $Log dummy FileStatus($File,Head)
@@ -136,9 +136,9 @@ proc LoadCVSInformation { File } \
 
     regexp "date: (\[^;\]+);  author: (\[^;\]+);" [lindex $SplitLog 1] dummy FileStatus($File,RevisionLog,$i,Date) FileStatus($File,RevisionLog,$i,Author)
 
-    if { [info exists Users($FileStatus($File,$RevisionLog,$i,Author))] } \
+    if { [info exists Users($FileStatus($File,RevisionLog,$i,Author))] } \
     {
-      set FileStatus($File,RevisionLog,$i,Email) $Users($FileStatus,RevisionLog,$i,Email)
+      set FileStatus($File,RevisionLog,$i,Email) $Users($FileStatus($File,RevisionLog,$i,Author))
     } \
     else \
     {
