@@ -193,7 +193,7 @@ int main()
 
 
   std::cout << std::endl << "After  " << 
-    registrationMethod->GetOptimizer()->GetCurrentNumberOfIterations()
+    registrationMethod->GetOptimizer()->GetCurrentIteration()
     << "  Iterations " << std::endl;
 
   // get the results

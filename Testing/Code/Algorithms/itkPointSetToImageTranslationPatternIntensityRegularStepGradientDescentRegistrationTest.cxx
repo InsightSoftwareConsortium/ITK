@@ -186,13 +186,13 @@ int main()
   registrationMethod->SetReference(imgReference);
   registrationMethod->SetTarget(pointSetTarget);
 
-  registrationMethod->GetOptimizer()->SetMaximumNumberOfIterations( 100 );
+  registrationMethod->GetOptimizer()->SetNumberOfIterations( 100 );
 
   registrationMethod->StartRegistration();
 
 
   std::cout << std::endl << "After  " << 
-    registrationMethod->GetOptimizer()->GetCurrentNumberOfIterations()
+    registrationMethod->GetOptimizer()->GetCurrentIteration()
     << "  Iterations " << std::endl;
 
   // get the results

@@ -138,13 +138,13 @@ int main()
   registrationMethod->GetOptimizer()->SetMaximumStepLength( 1.0  );
   registrationMethod->GetOptimizer()->SetMinimumStepLength( 1e-3 );
   registrationMethod->GetOptimizer()->SetGradientMagnitudeTolerance( 1e-8 );
-  registrationMethod->GetOptimizer()->SetMaximumNumberOfIterations( 200 );
+  registrationMethod->GetOptimizer()->SetNumberOfIterations( 200 );
 
   registrationMethod->StartRegistration();
 
 
   std::cout << std::endl << "After  " << 
-    registrationMethod->GetOptimizer()->GetCurrentNumberOfIterations()
+    registrationMethod->GetOptimizer()->GetCurrentIteration()
     << "  Iterations " << std::endl;
 
   std::cout << std::endl << "Stop for condition  " << 
