@@ -114,7 +114,7 @@ public:
 
   typedef SparseLevelSetNode<PixelType, ImageDimension> LevelSetNodeType;
   typedef std::list<LevelSetNodeType *> LevelSetNodeListType;
-  typedef LevelSetNodeListType::iterator LevelSetNodeListIteratorType;
+  typedef typename LevelSetNodeListType::iterator LevelSetNodeListIteratorType;
   
   typedef Image<unsigned int, ImageDimension>   ByteImageType;
   
