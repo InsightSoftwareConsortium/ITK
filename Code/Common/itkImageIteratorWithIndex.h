@@ -245,7 +245,7 @@ public:
    * Set the pixel value
    */
   void Set( const PixelType & value) const  
-    { return AccessorType::Set(*m_Position,value); }
+    { AccessorType::Set(*m_Position,value); }
 
   /**
    * Move an iterator to the beginning of the region.
