@@ -73,13 +73,6 @@
     <xsl:value-of select="$IconDir"/>/<xsl:value-of select="$TestsIcon"/><xsl:text disable-output-escaping="yes">" border="0">&lt;/img>&lt;/a>
                   &lt;/td>
                 &lt;/tr>
-                &lt;tr>
-                  &lt;td>
-                    &lt;a >&lt;img src="
-    </xsl:text>
-    <xsl:value-of select="$IconDir"/>/<xsl:value-of select="$CoverageIcon"/><xsl:text disable-output-escaping="yes">" border="0">&lt;/img>&lt;/a>
-                  &lt;/td>
-                &lt;/tr>
 		&lt;tr>
 		&lt;td>
                     &lt;a href="http://public.kitware.com/cgi-bin/itkcvsweb.cgi/Insight/">
