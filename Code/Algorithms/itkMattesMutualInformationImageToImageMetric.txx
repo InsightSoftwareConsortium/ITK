@@ -363,8 +363,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   typedef ImageRandomConstIteratorWithIndex<FixedImageType> RandomIterator;
   RandomIterator randIter( m_FixedImage, this->GetFixedImageRegion() );
 
-  randIter.GoToBegin();
   randIter.SetNumberOfSamples( m_NumberOfSpatialSamples );
+  randIter.GoToBegin();
 
   typename FixedImageSpatialSampleContainer::iterator iter;
   typename FixedImageSpatialSampleContainer::const_iterator end=samples.end();
