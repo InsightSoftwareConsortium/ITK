@@ -57,9 +57,9 @@
 
 int main( int argc, char * argv [] )
 {
-  if( argc < 3 )
+  if( argc < 4 )
     {
-    std::cerr << "Usage: " << argv[0] << " inputScalarImage  outputRealPartOfComplexImage" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " inputScalarImage  outputRealPartOfComplexImage outputRealImaginaryPartOfComplexImage" << std::endl;
     }
 
 
@@ -226,7 +226,7 @@ int main( int argc, char * argv [] )
   imaginaryFilter->SetInput( filter->GetOutput() );
 
 
-  intensityRescaler->SetInput( realFilter->GetOutput() );
+  intensityRescaler->SetInput( imaginaryFilter->GetOutput() );
   writer->SetFileName( argv[3] );
 
   try
