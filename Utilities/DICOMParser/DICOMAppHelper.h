@@ -3,16 +3,14 @@
 #define __DICOM_APP_HELPER_H_
 
 #include <fstream>
-// #include <string.h>
 #include "DICOMTypes.h"
 #include "DICOMParser.h"
+#include "DICOMCallback.h"
 
 #include <vector>
 #include <string>
 #include <iomanip>
 #include <iostream>
-
-//#include <pair>
 
 struct ltstr
 {
@@ -211,15 +209,9 @@ class DICOMAppHelper
     return this->SliceNumber;
     }
 
-  void ClearSliceNumberMap()
-    { 
-    this->SliceNumberMap.clear();
-    }
+  void ClearSliceNumberMap();
 
-  void ClearSeriesUIDMap()
-    {
-    this->SeriesUIDMap.clear();
-    }
+  void ClearSeriesUIDMap();
 
   void GetSliceNumberFilenamePairs(std::vector<std::pair<int, std::string> > & v);
 
@@ -266,6 +258,19 @@ class DICOMAppHelper
   void* ImageData;
   DICOMParser::VRTypes ImageDataType;
   unsigned long ImageDataLengthInBytes;
+
+  DICOMMemberCallback<DICOMAppHelper>* SeriesUIDCB;
+  DICOMMemberCallback<DICOMAppHelper>* SliceNumberCB;
+  DICOMMemberCallback<DICOMAppHelper>* TransferSyntaxCB;
+  DICOMMemberCallback<DICOMAppHelper>* BitsAllocatedCB;
+  DICOMMemberCallback<DICOMAppHelper>* PixelSpacingCB;
+  DICOMMemberCallback<DICOMAppHelper>* WidthCB;
+  DICOMMemberCallback<DICOMAppHelper>* PixelRepresentationCB;
+  DICOMMemberCallback<DICOMAppHelper>* PhotometricInterpretationCB;
+  DICOMMemberCallback<DICOMAppHelper>* RescaleOffsetCB;
+  DICOMMemberCallback<DICOMAppHelper>* RescaleSlopeCB;
+  DICOMMemberCallback<DICOMAppHelper>* PixelDataCB;
+
 };
 
 #endif

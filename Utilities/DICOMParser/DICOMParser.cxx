@@ -42,6 +42,7 @@ DICOMParser::DICOMParser() : ParserOutputFile()
 {
   this->DataFile = NULL;
   this->ToggleByteSwapImageData = false;
+  this->TransferSyntaxCB = new DICOMMemberCallback<DICOMParser>;
   this->InitTypeMap();
 }
 
@@ -67,43 +68,28 @@ bool DICOMParser::OpenFile(const char* filename)
   // std::string parseroutput(std::string(std::string(filename) + std::string(".parser.txt")));
   this->ParserOutputFile.open(parseroutput.c_str()); //, std::ios::app);
 #endif
-  
+ 
   return val;
 }
 
 DICOMParser::~DICOMParser() {
-#ifdef DEBUG_DICOM
-  this->ParserOutputFile.flush();
-  this->ParserOutputFile.close();
-#endif
+  //
+  // Delete the callbacks.
+  //
+  this->ClearAllDICOMTagCallbacks();
+
   if (this->DataFile)
     {
     delete this->DataFile;
     }
-  //
-  // Delete the callbacks.
-  //
-  DICOMParserMap::iterator mapIter;
-  
-  for (mapIter = this->Map.begin();
-       mapIter != this->Map.end();
-       mapIter++)
-       {
-       std::pair<DICOMMapKey, DICOMMapValue> mapPair = *mapIter;
-       DICOMMapValue mapVal = mapPair.second;
-       std::vector<DICOMCallback*>* cbVector = mapVal.second;
-       
-       /*
-       std::vector<DICOMCallback*>::iterator cbVectorIter;
-       for (cbVectorIter = cbVector->begin();
-            cbVectorIter != cbVector->end();
-            cbVectorIter++)
-            {
-            delete *cbVectorIter;
-            }
-       */
-       delete cbVector;
-       }
+
+  delete this->TransferSyntaxCB;
+
+#ifdef DEBUG_DICOM
+  this->ParserOutputFile.flush();
+  this->ParserOutputFile.close();
+#endif
+
 }
 
 bool DICOMParser::ReadHeader() {
@@ -113,9 +99,13 @@ bool DICOMParser::ReadHeader() {
     return false;
     }
 
-  DICOMMemberCallback<DICOMParser>* cb4 = new DICOMMemberCallback<DICOMParser>;
-  cb4->SetCallbackFunction(this, &DICOMParser::TransferSyntaxCallback);
-  this->AddDICOMTagCallback(0x0002, 0x0010, DICOMParser::VR_UI, cb4);
+  // DICOMMemberCallback<DICOMParser>* cb4 = new DICOMMemberCallback<DICOMParser>;
+  // cb4->SetCallbackFunction(this, &DICOMParser::TransferSyntaxCallback);
+  // this->AddDICOMTagCallback(0x0002, 0x0010, DICOMParser::VR_UI, cb4);
+
+  // DICOMMemberCallback<DICOMParser>* cb4 = new DICOMMemberCallback<DICOMParser>;
+  this->TransferSyntaxCB->SetCallbackFunction(this, &DICOMParser::TransferSyntaxCallback);
+  this->AddDICOMTagCallback(0x0002, 0x0010, DICOMParser::VR_UI, this->TransferSyntaxCB);
 
   this->ToggleByteSwapImageData = false;
 
@@ -727,3 +717,20 @@ void DICOMParser::GetGroupsElementsDatatypes(std::vector<doublebyte>& groups,
     }
 }
 
+void DICOMParser::ClearAllDICOMTagCallbacks()
+{
+  DICOMParserMap::iterator mapIter;
+  
+  for (mapIter = this->Map.begin();
+       mapIter != this->Map.end();
+       mapIter++)
+       {
+       std::pair<DICOMMapKey, DICOMMapValue> mapPair = *mapIter;
+       DICOMMapValue mapVal = mapPair.second;
+       std::vector<DICOMCallback*>* cbVector = mapVal.second;
+       
+       delete cbVector;
+       }
+
+  this->Map.clear();
+}

@@ -30,18 +30,39 @@ DICOMAppHelper::DICOMAppHelper()
   this->RescaleSlope = 1.0;
   this->ImageData = NULL;
   this->ImageDataLengthInBytes = 0;
+
+  this->SeriesUIDCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->SliceNumberCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->TransferSyntaxCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->BitsAllocatedCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->PixelSpacingCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->WidthCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->PixelRepresentationCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->PhotometricInterpretationCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->RescaleOffsetCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->RescaleSlopeCB = new DICOMMemberCallback<DICOMAppHelper>;
+
+  this->PixelDataCB = new DICOMMemberCallback<DICOMAppHelper>;
+
 }
 
 DICOMAppHelper::~DICOMAppHelper()
 {
+  this->ClearSeriesUIDMap();
+  this->ClearSliceNumberMap();
+
   this->HeaderFile.close();
   if (this->FileName)
     {
     delete [] this->FileName;
     }
+
+  //
+  // Fix warning here.
+  //
   if (this->ImageData)
     {
-    delete [] this->ImageData;
+    delete [] (static_cast<char*> (this->ImageData));
     }
   if (this->TransferSyntaxUID)
     {
@@ -51,6 +72,18 @@ DICOMAppHelper::~DICOMAppHelper()
     {
     delete this->PhotometricInterpretation;
     }
+
+  delete this->SeriesUIDCB;
+  delete this->SliceNumberCB;
+  delete this->TransferSyntaxCB;
+  delete this->BitsAllocatedCB;
+  delete this->PixelSpacingCB;
+  delete this->WidthCB;
+  delete this->PixelRepresentationCB;
+  delete this->PhotometricInterpretationCB;
+  delete this->RescaleOffsetCB;
+  delete this->RescaleSlopeCB;
+
 }
 
 void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
@@ -61,51 +94,41 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
     }
 
   this->Parser = parser;
-  
-  DICOMMemberCallback<DICOMAppHelper>* cb2 = new DICOMMemberCallback<DICOMAppHelper>;
-  cb2->SetCallbackFunction(this, &DICOMAppHelper::SeriesUIDCallback);
-  parser->AddDICOMTagCallback(0x0020, 0x000e, DICOMParser::VR_UI, cb2);
 
-  DICOMMemberCallback<DICOMAppHelper>* cb3 = new DICOMMemberCallback<DICOMAppHelper>;
-  cb3->SetCallbackFunction(this, &DICOMAppHelper::SliceNumberCallback);
-  parser->AddDICOMTagCallback(0x0020, 0x0013, DICOMParser::VR_IS, cb3);
+  SeriesUIDCB->SetCallbackFunction(this, &DICOMAppHelper::SeriesUIDCallback);
+  parser->AddDICOMTagCallback(0x0020, 0x000e, DICOMParser::VR_UI, SeriesUIDCB);
 
-  DICOMMemberCallback<DICOMAppHelper>* cb4 = new DICOMMemberCallback<DICOMAppHelper>;
-  cb4->SetCallbackFunction(this, &DICOMAppHelper::TransferSyntaxCallback);
-  parser->AddDICOMTagCallback(0x0002, 0x0010, DICOMParser::VR_UI, cb4);
+  SliceNumberCB->SetCallbackFunction(this, &DICOMAppHelper::SliceNumberCallback);
+  parser->AddDICOMTagCallback(0x0020, 0x0013, DICOMParser::VR_IS, SliceNumberCB);
 
-  DICOMMemberCallback<DICOMAppHelper>* cb5 = new DICOMMemberCallback<DICOMAppHelper>;
-  cb5->SetCallbackFunction(this, &DICOMAppHelper::BitsAllocatedCallback);
-  parser->AddDICOMTagCallback(0x0028, 0x0100, DICOMParser::VR_US, cb5);
+  TransferSyntaxCB->SetCallbackFunction(this, &DICOMAppHelper::TransferSyntaxCallback);
+  parser->AddDICOMTagCallback(0x0002, 0x0010, DICOMParser::VR_UI, TransferSyntaxCB);
 
-  DICOMMemberCallback<DICOMAppHelper>* cb6 = new DICOMMemberCallback<DICOMAppHelper>;
-  cb6->SetCallbackFunction(this, &DICOMAppHelper::PixelSpacingCallback);
-  parser->AddDICOMTagCallback(0x0028, 0x0030, DICOMParser::VR_FL, cb6);
-  parser->AddDICOMTagCallback(0x0018, 0x0050, DICOMParser::VR_FL, cb6);
+  BitsAllocatedCB->SetCallbackFunction(this, &DICOMAppHelper::BitsAllocatedCallback);
+  parser->AddDICOMTagCallback(0x0028, 0x0100, DICOMParser::VR_US, BitsAllocatedCB);
 
-  DICOMMemberCallback<DICOMAppHelper>* cb7 = new DICOMMemberCallback<DICOMAppHelper>;
-  cb7->SetCallbackFunction(this, &DICOMAppHelper::WidthCallback);
-  parser->AddDICOMTagCallback(0x0028, 0x0011, DICOMParser::VR_US, cb7);
+  PixelSpacingCB->SetCallbackFunction(this, &DICOMAppHelper::PixelSpacingCallback);
+  parser->AddDICOMTagCallback(0x0028, 0x0030, DICOMParser::VR_FL, PixelSpacingCB);
+  parser->AddDICOMTagCallback(0x0018, 0x0050, DICOMParser::VR_FL, PixelSpacingCB);
 
-  DICOMMemberCallback<DICOMAppHelper>* cb8 = new DICOMMemberCallback<DICOMAppHelper>;
-  cb8->SetCallbackFunction(this, &DICOMAppHelper::HeightCallback);
-  parser->AddDICOMTagCallback(0x0028, 0x0010, DICOMParser::VR_US, cb8);
+  WidthCB->SetCallbackFunction(this, &DICOMAppHelper::WidthCallback);
+  parser->AddDICOMTagCallback(0x0028, 0x0011, DICOMParser::VR_US, WidthCB);
 
-  DICOMMemberCallback<DICOMAppHelper>* cb9 = new DICOMMemberCallback<DICOMAppHelper>;
-  cb9->SetCallbackFunction(this, &DICOMAppHelper::PixelRepresentationCallback);
-  parser->AddDICOMTagCallback(0x0028, 0x0103, DICOMParser::VR_US, cb9);
+  DICOMMemberCallback<DICOMAppHelper>* HeightCB = new DICOMMemberCallback<DICOMAppHelper>;
+  HeightCB->SetCallbackFunction(this, &DICOMAppHelper::HeightCallback);
+  parser->AddDICOMTagCallback(0x0028, 0x0010, DICOMParser::VR_US, HeightCB);
 
-  DICOMMemberCallback<DICOMAppHelper>* cb10 = new DICOMMemberCallback<DICOMAppHelper>;
-  cb10->SetCallbackFunction(this, &DICOMAppHelper::PhotometricInterpretationCallback);
-  parser->AddDICOMTagCallback(0x0028, 0x0004, DICOMParser::VR_CS, cb10);
+  PixelRepresentationCB->SetCallbackFunction(this, &DICOMAppHelper::PixelRepresentationCallback);
+  parser->AddDICOMTagCallback(0x0028, 0x0103, DICOMParser::VR_US, PixelRepresentationCB);
 
-  DICOMMemberCallback<DICOMAppHelper>* cb11 = new DICOMMemberCallback<DICOMAppHelper>;
-  cb11->SetCallbackFunction(this, &DICOMAppHelper::RescaleOffsetCallback);
-  parser->AddDICOMTagCallback(0x0028, 0x1052, DICOMParser::VR_CS, cb11);
+  PhotometricInterpretationCB->SetCallbackFunction(this, &DICOMAppHelper::PhotometricInterpretationCallback);
+  parser->AddDICOMTagCallback(0x0028, 0x0004, DICOMParser::VR_CS, PhotometricInterpretationCB);
 
-  DICOMMemberCallback<DICOMAppHelper>* cb12 = new DICOMMemberCallback<DICOMAppHelper>;
-  cb12->SetCallbackFunction(this, &DICOMAppHelper::RescaleSlopeCallback);
-  parser->AddDICOMTagCallback(0x0028, 0x1053, DICOMParser::VR_FL, cb12);
+  RescaleOffsetCB->SetCallbackFunction(this, &DICOMAppHelper::RescaleOffsetCallback);
+  parser->AddDICOMTagCallback(0x0028, 0x1052, DICOMParser::VR_CS, RescaleOffsetCB);
+
+  RescaleSlopeCB->SetCallbackFunction(this, &DICOMAppHelper::RescaleSlopeCallback);
+  parser->AddDICOMTagCallback(0x0028, 0x1053, DICOMParser::VR_FL, RescaleSlopeCB);
 
   DICOMTagInfo dicom_tags[] = {
     {0x0002, 0x0002, DICOMParser::VR_UI, "Media storage SOP class uid"},
@@ -139,15 +162,13 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
   };
 
   int num_tags = sizeof(dicom_tags)/sizeof(DICOMTagInfo);
+
+#ifdef DEBUG_DICOM_APP_HELPER
   DICOMMemberCallback<DICOMAppHelper>** callbackArray = new DICOMMemberCallback<DICOMAppHelper>*[num_tags];
+#endif
 
   for (int j = 0; j < num_tags; j++)
     {
-    //
-    // Make callback
-    //
-    callbackArray[j] = new DICOMMemberCallback<DICOMAppHelper>;
-    callbackArray[j]->SetCallbackFunction(this, &DICOMAppHelper::ArrayCallback);
     //
     // Setup internal map.
     //
@@ -160,10 +181,15 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
     std::pair<std::pair<doublebyte, doublebyte>, DICOMTagInfo> mapPair(gePair, tagStruct);
     this->TagMap.insert(mapPair);
 
+#ifdef DEBUG_DICOM_APP_HELPER
+    //
+    // Make callback
+    //
+    callbackArray[j] = new DICOMMemberCallback<DICOMAppHelper>;
+    callbackArray[j]->SetCallbackFunction(this, &DICOMAppHelper::ArrayCallback);
     //
     // Set callback on parser.
     //
-#ifdef DEBUG_DICOM_APP_HELPER
     parser->AddDICOMTagCallback(group, element,datatype, callbackArray[j]);
 #endif
 
@@ -234,10 +260,6 @@ void DICOMAppHelper::SetFileName(const char* filename)
     this->HeaderFile.close();
     }
 
-  //
-  // Make a copy of the filename
-  //
-  //this->FileName = (char*) filename;
   if (this->FileName)
     {
     delete [] this->FileName;
@@ -584,8 +606,6 @@ void DICOMAppHelper::PixelDataCallback( doublebyte,
   
   bool isFloat = this->RescaledImageDataIsFloat();
 
-  float* tempData = new float[numPixels];
-
   if (isFloat)
     {
 #ifdef DEBUG_DICOM_APP_HELPER
@@ -687,9 +707,11 @@ void DICOMAppHelper::PixelDataCallback( doublebyte,
 
 void DICOMAppHelper::RegisterPixelDataCallback()
 {
-  DICOMMemberCallback<DICOMAppHelper>* cb = new DICOMMemberCallback<DICOMAppHelper>;
-  cb->SetCallbackFunction(this, &DICOMAppHelper::PixelDataCallback);
-  this->Parser->AddDICOMTagCallback(0x7FE0, 0x0010, DICOMParser::VR_OW, cb);
+  //DICOMMemberCallback<DICOMAppHelper>* cb = new DICOMMemberCallback<DICOMAppHelper>;
+  //cb->SetCallbackFunction(this, &DICOMAppHelper::PixelDataCallback);
+  //this->Parser->AddDICOMTagCallback(0x7FE0, 0x0010, DICOMParser::VR_OW, cb);
+  this->PixelDataCB->SetCallbackFunction(this, &DICOMAppHelper::PixelDataCallback);
+  this->Parser->AddDICOMTagCallback(0x7FE0, 0x0010, DICOMParser::VR_OW, this->PixelDataCB);
 }
 
 void DICOMAppHelper::RescaleOffsetCallback( doublebyte,
@@ -831,3 +853,28 @@ void DICOMAppHelper::GetSliceNumberFilenamePairs(std::vector<std::pair<int, std:
 
 }
 
+void DICOMAppHelper::ClearSliceNumberMap()
+{ 
+  std::map<char*, int, ltstr>::iterator sn_iter;
+  
+  for (sn_iter = this->SliceNumberMap.begin();
+       sn_iter != this->SliceNumberMap.end();
+       sn_iter++)
+       {
+       delete [] (*sn_iter).first;
+       }
+  this->SliceNumberMap.clear();
+}
+
+void DICOMAppHelper::ClearSeriesUIDMap()
+{
+  std::map<char*, std::vector<char*>, ltstr >::iterator iter;
+  for (iter = this->SeriesUIDMap.begin();
+       iter != this->SeriesUIDMap.end();
+       iter++)
+       {
+       delete [] (*iter).first;
+       }
+
+ this->SeriesUIDMap.clear();
+}

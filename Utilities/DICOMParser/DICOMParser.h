@@ -15,8 +15,10 @@
 #include "DICOMFile.h"
 #include "DICOMTypes.h"
 #include "DICOMParserMap.h"
+// #include "DICOMCallback.h"
 
 class DICOMCallback;
+template <class T> class DICOMMemberCallback;
 
 //
 // We should keep a map with the implicit types for the groups and elements
@@ -120,10 +122,7 @@ class DICOMParser
     return this->DataFile;
     }
 
-  void ClearAllDICOMTagCallbacks()
-    {
-    Map.clear();
-    }
+  void ClearAllDICOMTagCallbacks();
 
 
   void TransferSyntaxCallback(doublebyte,
@@ -215,6 +214,8 @@ class DICOMParser
   std::vector<doublebyte> Groups;
   std::vector<doublebyte> Elements;
   std::vector<VRTypes> Datatypes;
+
+  DICOMMemberCallback<DICOMParser>* TransferSyntaxCB;
 
 };
 
