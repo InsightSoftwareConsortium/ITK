@@ -194,7 +194,7 @@ public:
    * topological dimension CellDimension-1.  If the "inside" pointer is not
    * NULL, the flag is set to indicate whether the point is inside the cell.
    */
-  virtual Pointer GetClosestBoundary(CoordRep pCoords[], bool* inside) {}
+  virtual Pointer GetClosestBoundary(CoordRep pCoords[], bool* inside) {return Pointer();}
 
   /**
    * Given the geometric coordinates of a point (coord[PointDimension]),
@@ -218,7 +218,7 @@ public:
 				CoordRep closestPoint[PointDimension],
 				CoordRep pCoords[],
 				CoordRep* dist2,
-				InterpolationWeight weights[]) {}
+				InterpolationWeight weights[]) {return bool();}
   
   /**
    * Given the parametric coordinates of a point in the cell
@@ -253,7 +253,7 @@ public:
 				 CoordRep tolerance,
 				 CoordRep coords[PointDimension],
 				 CoordRep* t,
-				 CoordRep pCoords[]) {}
+				 CoordRep pCoords[]) {return bool();}
   
   /**
    * Compute cell bounding box and store in the user-provided array.
@@ -261,12 +261,12 @@ public:
    * array is returned for convenience.  This allows code like:
    * "CoordRep* bounds = cell->GetBoundingBox(new CoordRep[6]);".
    */
-  CoordRep* GetBoundingBox(CoordRep bounds[PointDimension*2]) {}
+  CoordRep* GetBoundingBox(CoordRep bounds[PointDimension*2]) {return NULL;}
 
   /**
    * Compute the square of the diagonal length of the bounding box.
    */
-  CoordRep GetBoundingBoxDiagonalLength2(void) {}
+  CoordRep GetBoundingBoxDiagonalLength2(void) {return CoordRep();}
 
   /**
    * Intersect the given bounding box (bounds[PointDimension*2]) with a line
@@ -286,7 +286,7 @@ public:
 					    CoordRep origin[PointDimension],
 					    CoordRep direction[PointDimension],
 					    CoordRep coords[PointDimension],
-					    CoordRep* t) {}
+					    CoordRep* t) {return bool();}
   
   /**
    * Interface to the boundary form of the cell to set/get UsingCells.

@@ -728,6 +728,7 @@ Mesh< TPixelType , TMeshType >
 ::GetNumberOfPoints(void)
 {  
   // IMPLEMENT ME
+  return 0;
 }
 
 
@@ -740,6 +741,7 @@ Mesh< TPixelType , TMeshType >
 ::GetNumberOfCells(void)
 {  
   // IMPLEMENT ME
+  return 0;
 }
 
 
@@ -771,6 +773,7 @@ Mesh< TPixelType , TMeshType >
 		   PointIdentifier* pointId)
 {
   // IMPLEMENT ME
+  return bool();
 }
 
 
@@ -808,6 +811,7 @@ Mesh< TPixelType , TMeshType >
 ::GetBoundingBox(CoordRep bounds[PointDimension*2])
 {
   // IMPLEMENT ME
+  return NULL;
 }
 
 
@@ -821,6 +825,7 @@ Mesh< TPixelType , TMeshType >
 ::GetCenter(CoordRep center[PointDimension])
 {
   // IMPLEMENT ME
+  return NULL;
 }
 
 
@@ -834,6 +839,7 @@ Mesh< TPixelType , TMeshType >
 ::GetBoundingBoxDiagonalLength2(void)
 {
   // IMPLEMENT ME
+  return CoordRep();
 }
 
 
