@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
   =========================================================================*/
+#ifndef __itkZeroFluxNeumannBoundaryCondition_txx
+#define __itkZeroFluxNeumannBoundaryCondition_txx
 namespace itk
 {
 template<class TImage, class TNeighborhoodType>
@@ -35,3 +37,5 @@ ZeroFluxNeumannBoundaryCondition<TImage, TNeighborhoodType>
 }
 
 } // end namespace itk
+
+#endif
