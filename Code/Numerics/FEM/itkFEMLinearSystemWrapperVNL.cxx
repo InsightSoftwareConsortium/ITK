@@ -165,6 +165,7 @@ void LinearSystemWrapperVNL::Solve(void)
   if (m_PrimarySolutionSetupFunction != NULL) (*m_PrimarySolutionSetupFunction)(static_cast<SuperClass*>(this));
   */
 
+
   /*
    * Solve the sparse system of linear equation and store the result in m_Solutions(0).
    * Here we use the iterative least squares solver.
