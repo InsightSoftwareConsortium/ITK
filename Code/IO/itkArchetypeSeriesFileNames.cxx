@@ -154,6 +154,7 @@ ArchetypeSeriesFileNames
     std::string regExpFileName = fileName;
 
     regExpFileName.replace(numGroupStart[i],numGroupLength[i],regExpString);
+    regExpFileName = "^" + regExpFileName + "$";
     regExpFileNameVector.push_back( regExpFileName );
     }
 
