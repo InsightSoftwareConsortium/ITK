@@ -37,7 +37,7 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
     }
 
   typedef   unsigned short  InternalPixelType;
-  typedef   unsigned short  OutputPixelType;
+  typedef   unsigned char   OutputPixelType;
   typedef   unsigned char   WritePixelType;
   const     unsigned int    Dimension = 2;
   
@@ -94,7 +94,9 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
   // numbers increase as the size of the objects decrease.
   connected->SetInput (threshold->GetOutput());
   relabel->SetInput( connected->GetOutput() );
-
+  relabel->SetNumberOfObjectsToPrint( 5 );
+  std::cout << "Modified time of relabel's output = " << relabel->GetOutput()->GetMTime() << std::endl;
+  
   // pull out the largest object
   finalThreshold->SetInput( relabel->GetOutput() );
   finalThreshold->SetLowerThreshold( 1 ); // object #1
@@ -107,6 +109,12 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
     writer->SetInput (finalThreshold->GetOutput());
     writer->SetFileName( argv[2] );
     writer->Update();
+    std::cout << "Modified time of relabel's output = " << relabel->GetOutput()->GetMTime() << std::endl;
+    writer->Update();
+    std::cout << "Modified time of relabel's output = " << relabel->GetOutput()->GetMTime() << std::endl;
+    relabel->Modified();
+    relabel->Update();
+    std::cout << "Modified time of relabel's output = " << relabel->GetOutput()->GetMTime() << std::endl;
     }
   catch( itk::ExceptionObject & excep )
     {
