@@ -62,8 +62,6 @@ Image<TPixel, VImageDimension, TImageTraits>
     m_Spacing[i] = 1.0;
     m_Origin[i] = 0.0;
     }
-  m_IndexToPhysicalTransform = NULL;
-  m_PhysicalToIndexTransform = NULL;
 }
 
 
@@ -299,7 +297,7 @@ Image<TPixel, VImageDimension, TImageTraits>
     }
 
   // Create a new transform if one doesn't already exist
-  if (m_IndexToPhysicalTransform == NULL)
+  if ( !m_IndexToPhysicalTransform )
     m_IndexToPhysicalTransform = AffineTransformType::New();
 
   m_IndexToPhysicalTransform->SetMatrix(matrix);
@@ -316,7 +314,7 @@ Image<TPixel, VImageDimension, TImageTraits>
     }
 
   // Create a new transform if one doesn't already exist
-  if(m_PhysicalToIndexTransform == NULL)
+  if( !m_PhysicalToIndexTransform  )
     m_PhysicalToIndexTransform = AffineTransformType::New();
   
   m_PhysicalToIndexTransform->SetMatrix(matrix);
@@ -331,7 +329,7 @@ Image<TPixel, VImageDimension, TImageTraits>
 ::GetIndexToPhysicalTransform(void)
 {
   
-  if (m_IndexToPhysicalTransform == NULL)
+  if ( !m_IndexToPhysicalTransform )
     RebuildTransforms();
       
   return m_IndexToPhysicalTransform;
@@ -345,7 +343,7 @@ Image<TPixel, VImageDimension, TImageTraits>
 ::GetPhysicalToIndexTransform(void)
 {
 
-  if (m_PhysicalToIndexTransform == NULL)
+  if ( !m_PhysicalToIndexTransform )
     RebuildTransforms();
 
   return m_PhysicalToIndexTransform;
