@@ -118,8 +118,8 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
     typedef typename InputMeshType::NeighborListType::iterator    InputNeighborsIterator;
 
     typedef itk::MapContainer<unsigned long, std::set<unsigned long> > VertexNeighborListType;
-    typedef typename std::set<unsigned long>      NeighborSetType;
-    typedef typename std::set<unsigned long>      IndexSetType;
+    typedef std::set<unsigned long>      NeighborSetType;
+    typedef std::set<unsigned long>      IndexSetType;
     typedef typename NeighborSetType::iterator    NeighborSetIterator;
     typedef typename IndexSetType::iterator       IndexSetIterator;
 
