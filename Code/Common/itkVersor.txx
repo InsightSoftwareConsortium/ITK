@@ -73,6 +73,21 @@ Versor<T>
 }
 
 
+/**
+ * Set to an identity transform
+ */
+template<class T>
+void
+Versor<T>
+::SetIdentity()
+{
+  m_X = NumericTraits<T>::Zero;
+  m_Y = NumericTraits<T>::Zero;
+  m_Z = NumericTraits<T>::Zero;
+  m_W = NumericTraits<T>::One;
+}
+
+
 
 
 /**

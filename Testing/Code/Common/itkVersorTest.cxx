@@ -65,6 +65,13 @@ int itkVersorTest(int, char**)
   //  VnlQuaternion type
   typedef    VersorType::VnlQuaternionType   VnlQuaternionType;
 
+
+  //  Matrix type
+  typedef    VersorType::MatrixType          MatrixType;
+
+
+
+
   {
     std::cout << "Test default constructor... ";
     VersorType qa;
@@ -90,6 +97,18 @@ int itkVersorTest(int, char**)
       } 
     std::cout << " PASSED !" << std::endl;
   }
+
+
+  {
+    std::cout << "Test initialization and GetMatrix()... ";
+    VersorType qa;
+    qa.SetIdentity();
+    MatrixType ma = qa.GetMatrix();
+    std::cout << "Matrix = " << std::endl;
+    std::cout <<    ma       << std::endl;
+  }
+
+
 
   {
     std::cout << "Test for setting Axis and Angle...";

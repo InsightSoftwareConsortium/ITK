@@ -74,6 +74,9 @@ public:
   /** Vnl Quaternion type.  */
   typedef  vnl_quaternion<T>       VnlQuaternionType;
 
+  /** Type of the rotation matrix equivalent to the Versor */
+  typedef  Matrix<T,3,3>          MatrixType;
+
   /** Get a vnl_quaternion with a copy of the internal memory block. */
   vnl_quaternion<T> GetVnlQuaternion( void ) const;
 
@@ -213,6 +216,10 @@ public:
    * \sa Set \sa SetRotationAroundX \sa SetRotationAroundY */
   void SetRotationAroundZ( ValueType angle );
 
+  /** Reset the values so the versor is equivalent to an identity 
+   *  transformation. This is equivalent to set a zero angle */
+  void SetIdentity();
+  
   /** Transform a vector. */
   VectorType Transform( const VectorType & v ) const;
 
@@ -226,7 +233,7 @@ public:
   VnlVectorType Transform( const VnlVectorType & v ) const;
 
   /** Get the matrix representation. */
-  Matrix<T,3,3> GetMatrix(void) const;
+  MatrixType GetMatrix(void) const;
    
   /** Get the Square root of the unit quaternion. */
   Self SquareRoot(void) const;
