@@ -369,7 +369,9 @@ inline void vnl_c_vector_dealloc(void* v, int n, int size)
 #if VNL_C_VECTOR_USE_VNL_ALLOC
   if (v)
     vnl_alloc::deallocate(v, (n == 0) ? 8 : (n * size));
-#else
+#else 
+  (void)n;
+  (void)size;
   delete [] static_cast<char*>(v);
 #endif
 }
