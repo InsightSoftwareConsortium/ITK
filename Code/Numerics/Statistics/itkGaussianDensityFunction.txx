@@ -84,32 +84,32 @@ GaussianDensityFunction< TMeasurementVector >
 { 
 
   double temp ;
-  int i, j ;
+
   vnl_vector< double > tempVector(m_VectorSize) ;
   vnl_vector< double > tempVector2(m_VectorSize) ;
 
   // Compute |y - mean | 
-  for (i = 0 ; i < m_VectorSize ; i++)
+  for ( unsigned int i = 0 ; i < m_VectorSize ; i++)
     {
-      tempVector[i] = measurement[i] - m_Mean[i] ;
+    tempVector[i] = measurement[i] - m_Mean[i] ;
     }
 
   // Compute |y - mean | * inverse(cov) 
-  for (i = 0 ; i < m_VectorSize ; i++)
+  for (unsigned int i = 0 ; i < m_VectorSize ; i++)
     {
-      temp = 0 ;
-      for (j = 0 ; j < m_VectorSize ; j++)
-        {
-          temp += tempVector[j] * m_InverseCovariance.get(j, i) ;
-        }
-      tempVector2[i] = temp ;
+    temp = 0 ;
+    for (unsigned int j = 0 ; j < m_VectorSize ; j++)
+      {
+      temp += tempVector[j] * m_InverseCovariance.get(j, i) ;
+      }
+    tempVector2[i] = temp ;
     }
 
   // Compute |y - mean | * inverse(cov) * |y - mean|^T 
   temp = 0 ;
-  for (i = 0 ; i < m_VectorSize ; i++)
+  for (unsigned int i = 0 ; i < m_VectorSize ; i++)
     {
-      temp += tempVector2[i] * tempVector[i] ;
+    temp += tempVector2[i] * tempVector[i] ;
     }
 
   return  m_PreFactor * exp( -0.5 * temp ) ;
