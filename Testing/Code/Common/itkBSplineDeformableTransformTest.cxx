@@ -184,6 +184,22 @@ int itkBSplineDeformableTransformTest(int, char * [] )
   std::cout << "Output Point: " << outputPoint << std::endl;
   std::cout << std::endl;
 
+  // point outside the grid support region
+  inputPoint.Fill( 2.0 );
+  outputPoint = transform->TransformPoint( inputPoint );
+
+  std::cout << "Input Point: " << inputPoint << std::endl;
+  std::cout << "Output Point: " << outputPoint << std::endl;
+  std::cout << std::endl;
+
+  // point inside the grid support region
+  inputPoint.Fill( 2.1 );
+  outputPoint = transform->TransformPoint( inputPoint );
+
+  std::cout << "Input Point: " << inputPoint << std::endl;
+  std::cout << "Output Point: " << outputPoint << std::endl;
+  std::cout << std::endl;
+
   // use the other version of TransformPoint
   typedef TransformType::WeightsType WeightsType;
   typedef TransformType::IndexType IndexType;

@@ -66,6 +66,14 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 
   // Setup variables for computing interpolation
   m_Offset = ( SplineOrder + 1 ) / 2;
+  if ( SplineOrder % 2 ) 
+    {
+    m_SplineOrderOdd = true;
+    }
+  else
+    {
+    m_SplineOrderOdd = false;
+    }
   m_ValidRegion = m_GridRegion;
 
   // Initialize jacobian images
@@ -146,6 +154,11 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
         static_cast< typename RegionType::IndexValueType >( m_Offset );
       size[j] -= 
         static_cast< typename RegionType::SizeValueType> ( 2 * m_Offset );
+      if ( m_SplineOrderOdd )
+        { 
+        index[j] -= 1;
+        size[j]  += 1; 
+        };
       }
     m_ValidRegion.SetSize( size );
     m_ValidRegion.SetIndex( index );
@@ -288,6 +301,36 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   os << indent << "BulkTransform: " << m_BulkTransform << std::endl;
 }
 
+// Transform a point
+template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+bool 
+BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+::InsideValidRegion( 
+const ContinuousIndexType& index ) const
+{
+  bool inside = true;
+
+  if ( !m_ValidRegion.IsInside( index ) )
+    {
+    inside = false;
+    }
+
+  if ( inside && m_SplineOrderOdd )
+    {
+    typedef typename ContinuousIndexType::ValueType ValueType;
+    IndexType validStart = m_ValidRegion.GetIndex();
+    for( unsigned int j = 0; j < SpaceDimension; j++ )
+      {
+      if ( index[j] <= static_cast<ValueType>( validStart[j] ) )
+        { 
+        inside = false;
+        break;
+        }
+      }
+    }
+
+  return inside;
+}
 
 // Transform a point
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
@@ -323,12 +366,10 @@ bool& inside ) const
 
   // NOTE: if the support region does not lie totally within the grid
   // we assume zero displacement and return the input point
-
-  inside = true;
-  if ( !m_ValidRegion.IsInside( index ) )
+  inside = this->InsideValidRegion( index );
+  if ( !inside )
     {
     outputPoint = transformedPoint;
-    inside = false;
     return;
     }
 
@@ -453,7 +494,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 
   // NOTE: if the support region does not lie totally within the grid
   // we assume zero displacement and return the input point
-  if ( !m_ValidRegion.IsInside( index ) )
+  if ( !this->InsideValidRegion( index ) )
     {
     return m_Jacobian;
     }

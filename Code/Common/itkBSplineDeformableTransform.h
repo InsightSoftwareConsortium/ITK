@@ -264,6 +264,7 @@ private:
 
   /** Variables defining the interpolation support region. */
   unsigned long m_Offset;
+  bool          m_SplineOrderOdd;
   SizeType      m_SupportSize;
 
   /** Parameters as SpaceDimension number of images. */
@@ -289,6 +290,9 @@ private:
 
   /** Pointer to function used to compute Bspline interpolation weights. */
   typename WeightsFunctionType::Pointer  m_WeightsFunction;
+
+  /** Check if a continuous index is inside the valid region. */
+  bool InsideValidRegion( const ContinuousIndexType& index ) const;
 
 
 }; //class BSplineDeformableTransform
