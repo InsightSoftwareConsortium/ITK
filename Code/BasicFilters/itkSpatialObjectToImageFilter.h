@@ -41,6 +41,8 @@ public:
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   typedef typename TOutputImage::SizeType   SizeType;
+  typedef TOutputImage  OutputImageType;
+  typedef typename OutputImageType::Pointer OutputImagePointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
