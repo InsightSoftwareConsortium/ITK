@@ -221,11 +221,11 @@ public:
 
   virtual void Reset(void){}; //reset the segmentation, ready for taking aprior from itself
 
-  void GenerateData(void); //general pipeline function.
-    
 protected:
   VoronoiSegmentationImageFilterBase();
   ~VoronoiSegmentationImageFilterBase();
+
+  void GenerateData(void); //general pipeline function.
 
   SizeType m_Size;
   int m_NumberOfSeeds;

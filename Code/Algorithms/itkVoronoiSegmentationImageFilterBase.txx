@@ -381,7 +381,7 @@ RunSegmentOneStep(void){
   m_NumberOfPixels.resize(m_NumberOfSeeds);
   m_Label.resize(m_NumberOfSeeds);
   m_SeedsToAdded.clear();
-  m_VDGenerator->GenerateData();
+  m_VDGenerator->Update();
   m_WorkingVD=m_VDGenerator->GetOutput();
   ClassifyDiagram();
   GenerateAddingSeeds();
@@ -429,7 +429,6 @@ template <class TInputImage, class TOutputImage>
 void
 VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>::
 GenerateData(void){ 
-  InitializeSegment();
   RunSegment();
   if(m_OutputBoundary)
     MakeSegmentBoundary();

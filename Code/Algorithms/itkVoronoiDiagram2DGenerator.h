@@ -124,10 +124,8 @@ public:
   void AddOneSeed(PointType);
 
   void SortSeeds(void);
-  /**
-   * Generate Voronoi Diagram based on the current list of seeds.
-   */
-  void GenerateData(void);
+
+  virtual void GenerateOutputInformation(){};
 
   /**
    * Update the Voronoi Diagram after adding seed(s).
@@ -153,6 +151,10 @@ public:
 protected:
   VoronoiDiagram2DGenerator();
   ~VoronoiDiagram2DGenerator();
+  /**
+   * Generate Voronoi Diagram based on the current list of seeds.
+   */
+  void GenerateData(void);
 
 private:
   unsigned int m_NumberOfSeeds;
