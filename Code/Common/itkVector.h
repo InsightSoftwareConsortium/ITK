@@ -189,11 +189,11 @@ public:
 };
 
 template< class T, unsigned int NVectorDimension >  
-ITKCommon_EXPORT std::ostream& operator<<(std::ostream& os, 
+std::ostream& operator<<(std::ostream& os, 
                                     const Vector<T,NVectorDimension> & v); 
 
 template< class T, unsigned int NVectorDimension >  
-ITKCommon_EXPORT std::istream& operator>>(std::istream& is, 
+std::istream& operator>>(std::istream& is, 
                                     Vector<T,NVectorDimension> & v); 
 
 ITKCommon_EXPORT Vector<double,3> CrossProduct( const Vector<double,3> &,
