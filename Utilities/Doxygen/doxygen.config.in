@@ -562,7 +562,7 @@ PREDEFINED  =  "itkNotUsed(x)="\
                   enum { name = 0 };" \
                "ITK_NUMERIC_LIMITS= \
                   std::numeric_limits" \
-               "FEM_CLASS_SP(thisClass,parentClass)= \
+               "FEM_ABSTRACT_CLASS(thisClass,parentClass)= \
                   public:                                               \
                     /** Standard "Self" typedef.*/                      \
                     typedef thisClass Self;                             \
@@ -574,12 +574,18 @@ PREDEFINED  =  "itkNotUsed(x)="\
                     typedef const Self* ConstPointer;                   \
                   private:"                                             \
                "FEM_CLASS(thisClass,parentClass)= \
-                  FEM_CLASS_SP(thisClass,parentClass)                   \
+                  FEM_ABSTRACT_CLASS(thisClass,parentClass)             \
                   public:                                               \
                     /** Create a new object from the existing one  */   \
                     virtual Baseclass::Pointer Clone() const;           \
-                    /** Class ID for FEMObjectFactory */                \
-                    static const int OFID;                              \
+                    /** Class ID for FEM object factory */              \
+                    static const int CLID;                              \
+                    /** Virtual function to access the class ID */      \
+                    virtual int ClassID() const                         \
+                      { return CLID; }                                  \
+                    /** Object creation in an itk compatible way */     \
+                    static Self::Pointer New()                          \
+                      { return new Self(); }                            \
                   private:"                                             \
 		"FREEVERSION" "ERROR_CHECKING"                          \
                 "HAS_TIFF" "HAS_JPEG" "HAS_NETLIB" "HAS_PNG" "HAS_ZLIB" \
