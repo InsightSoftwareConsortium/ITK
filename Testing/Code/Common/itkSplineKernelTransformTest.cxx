@@ -17,14 +17,15 @@ int main(int argc, char* argv[])
 	int i, j;
 	typedef ElasticBodySplineKernelTransform<double, 2> EBSTransform2DType;
   typedef ThinPlateSplineKernelTransform<double, 2> TPSTransform2DType;
-	EBSTransform2DType::Pointer ebs2D;
-  TPSTransform2DType::Pointer tps2D;
+	EBSTransform2DType* ebs2D;
+  TPSTransform2DType* tps2D;
 	typedef EBSTransform2DType::PointType PointType2D;
 	PointType2D* sourcePoint2D;
 	PointType2D* targetPoint2D;
 
-	ebs2D = EBSTransform2DType::New();
-  tps2D = TPSTransform2DType::New();
+	ebs2D = new EBSTransform2DType();
+  tps2D = new TPSTransform2DType();
+
 	// Create landmark sets
 	for (i = 0; i < 2; i++)
 	{
@@ -60,19 +61,21 @@ int main(int argc, char* argv[])
 						tps2D->Transform(*((*tps2D->Getp())[i])) << std::endl;
 	}
 	std::cout << std::endl;
+	delete ebs2D;
+	delete tps2D;
 
 	// 3-D case
 	int k;
 	typedef ElasticBodySplineKernelTransform<double, 3> EBSTransform3DType;
   typedef ThinPlateSplineKernelTransform<double, 3> TPSTransform3DType;
-	EBSTransform3DType::Pointer ebs3D;
-  TPSTransform3DType::Pointer tps3D;
+	EBSTransform3DType* ebs3D;
+  TPSTransform3DType* tps3D;
 	typedef EBSTransform3DType::PointType PointType3D;
 	PointType3D* sourcePoint3D;
 	PointType3D* targetPoint3D;
 
-	ebs3D = EBSTransform3DType::New();
-  tps3D = TPSTransform3DType::New();
+	ebs3D = new EBSTransform3DType();
+  tps3D = new TPSTransform3DType();
 	// Create landmark sets
 	for (i = 0; i < 2; i++)
 	{
@@ -113,19 +116,21 @@ int main(int argc, char* argv[])
 						tps3D->Transform(*((*tps3D->Getp())[i])) << std::endl;
 	}
 	std::cout << std::endl;
+	delete ebs3D;
+	delete tps3D;
 
 	// 4-D case
 	int l;
 	typedef ElasticBodySplineKernelTransform<double, 4> EBSTransform4DType;
-	EBSTransform4DType::Pointer ebs4D;
 	typedef ThinPlateSplineKernelTransform<double, 4> TPSTransform4DType;
-	TPSTransform4DType::Pointer tps4D;
+	EBSTransform4DType* ebs4D;
+	TPSTransform4DType* tps4D;
 	typedef EBSTransform4DType::PointType PointType4D;
 	PointType4D* sourcePoint4D;
 	PointType4D* targetPoint4D;
 
-	ebs4D = EBSTransform4DType::New();
-  tps4D = TPSTransform4DType::New();
+	ebs4D = new EBSTransform4DType();
+  tps4D = new TPSTransform4DType();
 	// Create landmark sets
 	for (i = 0; i < 2; i++)
 	{
@@ -171,6 +176,8 @@ int main(int argc, char* argv[])
 						tps4D->Transform(*((*tps4D->Getp())[i])) << std::endl;
 	}
 	std::cout << std::endl;
+	delete ebs4D;
+	delete tps4D;
 
 	return 0;
 }
