@@ -266,7 +266,9 @@ public:
     { return *(m_Buffer+m_Offset); }
  
   /** Return an iterator for the beginning of the region. "Begin"
-   * is defined as the first pixel in the region. */
+   * is defined as the first pixel in the region.
+   * \deprecated Use GoToBegin() instead.
+   */
   Self Begin(void) const;
 
  /** Move an iterator to the beginning of the region. "Begin" is
@@ -277,7 +279,9 @@ public:
     };
 
   /** Return an iterator for the end of the region. "End" is defined
-   * as one pixel past the last pixel of the region. */
+   * as one pixel past the last pixel of the region.
+   * \deprecated Use GoToEnd() instead.
+   */
   Self End(void) const;
 
  /** Move an iterator to the end of the region. "End" is defined as
@@ -301,6 +305,7 @@ public:
     return (m_Offset == m_EndOffset);
     }
   
+
 protected: //made protected so other iterators can access 
   SmartPointer<const ImageType>  m_Image;
   RegionType                     m_Region;      // region to iterate over

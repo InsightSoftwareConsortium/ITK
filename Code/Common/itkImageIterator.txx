@@ -105,13 +105,7 @@ ImageIterator<TImage>
 ImageIterator<TImage>
 ::Begin() const
 {
-  // Copy the current iterator
-  Self it( *this );
-
-  // Set the offset to the m_BeginOffset. 
-  it.m_Offset = m_BeginOffset;
-  
-  return it;
+  return this->Superclass::Begin();
 }
 
 //----------------------------------------------------------------------------
@@ -127,13 +121,7 @@ ImageIterator<TImage>
 ImageIterator<TImage>
 ::End() const
 {
-  // Copy the current iterator
-  Self it( *this );
-
-  // Set the offset to the m_EndOffset. 
-  it.m_Offset = m_EndOffset;
-  
-  return it;
+  return this->Superclass::Begin();
 }
 
 
