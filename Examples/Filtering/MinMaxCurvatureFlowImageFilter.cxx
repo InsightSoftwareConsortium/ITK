@@ -20,13 +20,12 @@
 //  \itkpiccaption[MinMaxCurvatureFlow computation]{Elements involved in the
 //  computation of min-max curvature flow.
 //  \label{fig:MinMaxCurvatureFlowFunctionDiagram}}
-//  \parpic(7cm,6cm)[r]{\includegraphics[width=6cm]{MinMaxCurvatureFlowFunctionDiagram.eps}}
+//  \parpic(6cm,5cm)[r]{\includegraphics[width=5cm]{MinMaxCurvatureFlowFunctionDiagram.eps}}
 //
-//  The \doxygen{MinMaxCurvatureFlowImageFilter} applies a variant of the
-//  \doxygen{CurvatureFlowImageFilter} algorithm where diffusion is turned on
-//  or off depending of the scale of the noise that one wants to remove.  The
-//  evolution speed is switched between $\min(\kappa,0)$ and $\max(\kappa,0)$
-//  such that:
+//  The MinMax curvature flow filter applies a variant of the curvature flow
+//  algorithm where diffusion is turned on or off depending of the scale of the
+//  noise that one wants to remove.  The evolution speed is switched between
+//  $\min(\kappa,0)$ and $\max(\kappa,0)$ such that:
 //
 //  \begin{equation}
 //  I_t = F |\nabla I|
@@ -73,7 +72,8 @@
 
 //  Software Guide : BeginLatex
 //
-//  The first step required to use this filter is to include its header file.
+//  The first step required to use the \doxygen{MinMaxCurvatureFlowImageFilter}
+//  is to include its header file.
 //
 //  \index{itk::MinMaxCurvatureFlowImageFilter!header}
 //
@@ -242,6 +242,11 @@ int main( int argc, char * argv[] )
   //  results in the figure has sharper edges than the same example using
   //  simple curvature flow in Figure
   //  \ref{fig:CurvatureFlowImageFilterInputOutput}.
+  //  
+  //  \relatedClasses
+  //  \begin{itemize}
+  //  \item \doxygen{CurvatureFlowImageFilter}
+  //  \end{itemize}
   //
   //
   //  Software Guide : EndLatex 
