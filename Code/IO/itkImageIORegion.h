@@ -213,7 +213,7 @@ inline std::ostream & operator<<(std::ostream &os, const ImageIORegion &region)
     os << *i << " ";
     }
   os << std::endl;
-  os << "Index: ";
+  os << "Size: ";
   for(ImageIORegion::SizeType::const_iterator k = region.GetSize().begin();
       k != region.GetSize().end(); ++k)
     {
