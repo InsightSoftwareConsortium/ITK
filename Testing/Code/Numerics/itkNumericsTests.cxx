@@ -15,5 +15,6 @@ void RegisterTests()
   REGISTER_TEST(itkNumericsTest);
   REGISTER_TEST(itkOptimizersHierarchyTest);
   REGISTER_TEST(itkRegularStepGradientDescentOptimizerTest);
+  REGISTER_TEST(itkSymmetricEigenSystemTest);
   REGISTER_TEST(itkVersorTransformOptimizerTest);
 }
