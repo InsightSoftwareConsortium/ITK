@@ -608,8 +608,9 @@ void GDCMImageIO::Write(const void* buffer)
   myGdcmHeader->ReplaceOrCreateByNumber( pixelRep, 0x0028, 0x0103 ); //Pixel Representation
 
   //copy data from buffer to DICOM buffer
-  // The current gdcm API does not allow anything fancy, you have to go lower level
-  uint8_t* imageData = (uint8_t*)buffer;
+  uint8_t* imageData = new uint8_t[numberOfBytes];
+  memcpy(imageData, buffer, numberOfBytes);
+  
   // Here we are passsing directly a pointer, this should
   myGdcmHeader->ReplaceOrCreateByNumber( imageData, numberOfBytes, 0x7fe0, 0x0010, "PXL" );
   myGdcmFile->WriteDcmExplVR( m_FileName );
@@ -617,6 +618,9 @@ void GDCMImageIO::Write(const void* buffer)
   //myGdcmFile->SetWriteTypeToDcmExplVR();
   //myGdcmFile->Write( m_FileName );
 
+  // DO NOT DELETE "imageData" since GDCM will delete it when the
+  // GdcmHeader is deleted.
+  
   delete myGdcmFile;
   delete myGdcmHeader;
 #endif
