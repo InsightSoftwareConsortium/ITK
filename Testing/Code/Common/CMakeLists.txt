@@ -6,6 +6,16 @@ IF(ITK_BINARY_DIR)
   ENDIF(TCL_TCLSH)
 ENDIF(ITK_BINARY_DIR)
 
+IF(ITK_CSWIG_TCL)
+  ADD_TEST(itkBasicClasses ${ITKWISH_EXECUTABLE}
+           ${ITKTesting_SOURCE_DIR}/Code/Common/itkBasicClasses.tcl)
+ENDIF(ITK_CSWIG_TCL)
+#-----------------------------------------------------------------------------
+# Setup the system information test.  Write out some basic failsafe
+# information in case the test doesn't run.
+
+IF( NOT ITK_DISABLE_CXX_TESTING )
+
 SET(COMMON_TESTS ${CXX_TEST_PATH}/itkCommonTests)
 SET(COMMON_HEADER_TEST ${CXX_TEST_PATH}/itkCommonHeaderTest)
 SET(SYSTEM_INFORMATION_TEST ${CXX_TEST_PATH}/itkSystemInformationTest)
@@ -132,14 +142,6 @@ ADD_TEST(itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest ${COMMON_TESTS
 ADD_TEST(itkMetaDataDictionaryTest ${COMMON_TESTS} itkMetaDataDictionaryTest)
 ADD_TEST(itkSTLThreadTest ${COMMON_TESTS} itkSTLThreadTest)
 ADD_TEST(itkOctreeTest ${COMMON_TESTS} itkOctreeTest)
-
-IF(ITK_CSWIG_TCL)
-  ADD_TEST(itkBasicClasses ${ITKWISH_EXECUTABLE}
-           ${ITKTesting_SOURCE_DIR}/Code/Common/itkBasicClasses.tcl)
-ENDIF(ITK_CSWIG_TCL)
-#-----------------------------------------------------------------------------
-# Setup the system information test.  Write out some basic failsafe
-# information in case the test doesn't run.
 
 ADD_TEST(itkSystemInformationTest ${SYSTEM_INFORMATION_TEST})
 
@@ -312,3 +314,7 @@ ADD_EXECUTABLE(itkCommonHeaderTest itkCommonHeaderTest.cxx)
 ADD_EXECUTABLE(itkCommonTests itkCommonTests.cxx ${BasicTests_SRCS})
 TARGET_LINK_LIBRARIES(itkCommonHeaderTest ITKCommon)
 TARGET_LINK_LIBRARIES(itkCommonTests ITKIO ITKCommon)
+
+
+ENDIF( NOT ITK_DISABLE_CXX_TESTING )
+

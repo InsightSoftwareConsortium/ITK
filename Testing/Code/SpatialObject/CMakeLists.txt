@@ -6,6 +6,8 @@ IF(ITK_BINARY_DIR)
   ENDIF(TCL_TCLSH)
 ENDIF(ITK_BINARY_DIR)
 
+IF( NOT ITK_DISABLE_CXX_TESTING )
+
 SET(SPATIAL_OBJECT_TESTS        ${CXX_TEST_PATH}/itkSpatialObjectTests)
 SET(SPATIAL_OBJECT_HEADER_TEST  ${CXX_TEST_PATH}/itkSpatialObjectHeaderTest)
 
@@ -44,4 +46,6 @@ ADD_EXECUTABLE(itkSpatialObjectTests itkSpatialObjectTests.cxx ${SpatialObject_S
 ADD_EXECUTABLE(itkSpatialObjectHeaderTest itkSpatialObjectHeaderTest.cxx)
 TARGET_LINK_LIBRARIES(itkSpatialObjectHeaderTest ITKCommon)
 TARGET_LINK_LIBRARIES(itkSpatialObjectTests ITKIO ITKCommon)
+
+ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 

@@ -6,6 +6,10 @@ IF(ITK_BINARY_DIR)
   ENDIF(TCL_TCLSH)
 ENDIF(ITK_BINARY_DIR)
 
+
+IF( NOT ITK_DISABLE_CXX_TESTING )
+
+
 SET(STATISTICS_TESTS ${CXX_TEST_PATH}/itkStatisticsTests)
 
 ADD_TEST(itkStatisticsPrintTest ${STATISTICS_TESTS} itkStatisticsPrintTest)
@@ -85,7 +89,6 @@ TARGET_LINK_LIBRARIES(itkStatisticsTests ITKIO ITKCommon ITKNumerics ITKStatisti
 
 
 
-
-
+ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 
 

@@ -9,6 +9,8 @@ IF(ITK_BINARY_DIR)
   ENDIF(TCL_TCLSH)
 ENDIF(ITK_BINARY_DIR)
 
+IF( NOT ITK_DISABLE_CXX_TESTING )
+
 SET(NUMERICS_TESTS ${CXX_TEST_PATH}/itkNumericsTests)
 SET(NUMERICS_HEADER_TEST ${CXX_TEST_PATH}/itkNumericsHeaderTest)
 
@@ -51,4 +53,8 @@ ADD_EXECUTABLE(itkNumericsHeaderTest itkNumericsHeaderTest.cxx)
 TARGET_LINK_LIBRARIES(itkNumericsHeaderTest ITKCommon ITKNumerics)
 ADD_EXECUTABLE(itkNumericsTests itkNumericsTests.cxx ${Numerics_SRCS})
 TARGET_LINK_LIBRARIES(itkNumericsTests ITKCommon ITKNumerics ITKIO)
+
+ENDIF( NOT ITK_DISABLE_CXX_TESTING )
+
+
 

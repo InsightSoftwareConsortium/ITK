@@ -6,6 +6,8 @@ IF(ITK_BINARY_DIR)
   ENDIF(TCL_TCLSH)
 ENDIF(ITK_BINARY_DIR)
 
+IF( NOT ITK_DISABLE_CXX_TESTING )
+
 SET(BASIC_FILTERS_TESTS ${CXX_TEST_PATH}/itkBasicFiltersTests)
 SET(BASIC_FILTERS_HEADER_TEST ${CXX_TEST_PATH}/itkBasicFiltersHeaderTest)
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/BasicFilters)
@@ -602,4 +604,6 @@ ADD_EXECUTABLE(itkBasicFiltersHeaderTest itkBasicFiltersHeaderTest.cxx)
 TARGET_LINK_LIBRARIES(itkBasicFiltersHeaderTest ITKIO ITKNumerics ITKBasicFilters)
 ADD_EXECUTABLE(itkBasicFiltersTests itkBasicFiltersTests.cxx ${BasicFilters_SRCS})
 TARGET_LINK_LIBRARIES(itkBasicFiltersTests ITKIO ITKNumerics ITKBasicFilters)
+
+ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 
