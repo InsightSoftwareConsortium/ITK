@@ -19,8 +19,8 @@ ADD_TEST(itkMembershipSampleTest itkStatisticsTests itkMembershipSampleTest)
 ADD_TEST(itkImageToListAdaptorTest itkStatisticsTests itkImageToListAdaptorTest)
 ADD_TEST(itkHistogramTest itkStatisticsTests itkHistogramTest)
 ADD_TEST(itkDenseFrequencyContainerTest itkStatisticsTests itkDenseFrequencyContainerTest)
-ADD_TEST(itkFastRandomUnitNormalVariateGeneratorTest itkStatisticsTests 
-                    itkFastRandomUnitNormalVariateGeneratorTest)
+ADD_TEST(itkNormalVariateGeneratorTest itkStatisticsTests 
+                    itkNormalVariateGeneratorTest)
 
 
 SET(Statistics_SRCS
@@ -32,7 +32,7 @@ itkMembershipSampleTest.cxx
 itkImageToListAdaptorTest.cxx
 itkHistogramTest.cxx
 itkDenseFrequencyContainerTest.cxx
-itkFastRandomUnitNormalVariateGeneratorTest.cxx
+itkNormalVariateGeneratorTest.cxx
 )
 
 ADD_EXECUTABLE(itkStatisticsTests itkStatisticsTests.cxx ${Statistics_SRCS})
