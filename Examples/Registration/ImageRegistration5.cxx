@@ -379,8 +379,8 @@ int main( int argc, char **argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetMaximumStepLength( 1.0    ); 
-  optimizer->SetMinimumStepLength( 0.0001 );
+  optimizer->SetMaximumStepLength( 0.1    ); 
+  optimizer->SetMinimumStepLength( 0.001 );
 
   optimizer->SetNumberOfIterations( 200 );
   // Software Guide : EndCodeSnippet
