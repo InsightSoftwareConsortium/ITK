@@ -55,6 +55,18 @@ RGB< TComponent >
 }
 
 
+/**
+ * Constructor with components
+ */
+template < typename TComponent >
+RGB< TComponent >
+::RGB( TComponent red, TComponent green, TComponent blue )
+{
+  m_Red   = red;
+  m_Green = green;
+  m_Blue  = blue;
+}
+
 
 /**
  *  Set Red

@@ -51,6 +51,7 @@ public:
    */
   RGB();
   RGB(const RGB &);
+  RGB( ComponentType red, ComponentType green, ComponentType blue );
   
  
   /**
