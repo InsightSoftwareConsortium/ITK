@@ -97,6 +97,14 @@ int itkMatrixTest(int, char* [] )
 
   MatrixType matrix5;
   matrix5.Fill( 1.7 );
+
+  const NumericType value = 2;
+  matrix5[1][1] = value;
+  if( matrix5[1][1] != value )
+    {
+    std::cerr << "Problem accessing matrix element " << std::endl;
+    return EXIT_FAILURE;
+    }
   
   MatrixType matrix6 = matrix5 * 2.5;
 
