@@ -166,6 +166,7 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   // output segmentation and its neighbors become candidates for the
   // iterator to walk.
   IteratorType it = IteratorType ( outputImage, function, m_Seed );
+  it.GoToBegin();
   while( !it.IsAtEnd())
     {
     it.Set(m_ReplaceValue);
@@ -191,6 +192,7 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     
     SecondIteratorType sit
       = SecondIteratorType ( inputImage, secondFunction, m_Seed );
+    sit.GoToBegin();
     while( !sit.IsAtEnd())
       {
       const InputRealType value = static_cast<InputRealType>(sit.Get());
@@ -246,6 +248,7 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     // iterator to walk.
     outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
     IteratorType thirdIt = IteratorType ( outputImage, function, m_Seed );
+    thirdIt.GoToBegin();
     while( !thirdIt.IsAtEnd())
       {
       thirdIt.Set(m_ReplaceValue);
