@@ -251,7 +251,7 @@
                   <td align="left"><xsl:value-of select="Purify/BuildName"/></td>
                   <td align="center">
                     <xsl:choose>
-                      <xsl:when test="Purify/PercentCoverage != 0">
+                      <xsl:when test="Purify/DefectCount != 0">
                         <xsl:attribute name="bgcolor"><xsl:value-of select="$WarningColor"/></xsl:attribute>
                       </xsl:when>
                       <xsl:otherwise>

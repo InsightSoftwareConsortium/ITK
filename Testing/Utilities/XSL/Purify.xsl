@@ -94,17 +94,94 @@
               </xsl:otherwise>
             </xsl:choose>
           </td>
-          <td align="center"><xsl:value-of select="Results/MLK"/></td>
-          <td align="center"><xsl:value-of select="Results/ABR"/></td>
-          <td align="center"><xsl:value-of select="Results/ABW"/></td>
-          <td align="center"><xsl:value-of select="Results/COR"/></td>
-          <td align="center"><xsl:value-of select="Results/FMM"/></td>
-          <td align="center"><xsl:value-of select="Results/FUM"/></td>
-          <td align="center"><xsl:value-of select="Results/FMR"/></td>
-          <td align="center"><xsl:value-of select="Results/FMW"/></td>
-          <td align="center"><xsl:value-of select="Results/MAF"/></td>
-          <td align="center"><xsl:value-of select="Results/UMC"/></td>
-          <td align="center"><xsl:value-of select="Results/UMR"/></td>
+          <td align="center">
+            <xsl:if test="Results/MLK != 0">
+              <xsl:attribute name="bgcolor">
+                <xsl:value-of select="$WarningColor"/>
+              </xsl:attribute>
+            </xsl:if>
+            <xsl:value-of select="Results/MLK"/>
+          </td>
+          <td align="center">
+            <xsl:if test="Results/ABR != 0">
+              <xsl:attribute name="bgcolor">
+                <xsl:value-of select="$WarningColor"/>
+              </xsl:attribute>
+            </xsl:if>
+            <xsl:value-of select="Results/ABR"/>
+          </td>
+          <td align="center">
+            <xsl:if test="Results/ABW != 0">
+              <xsl:attribute name="bgcolor">
+                <xsl:value-of select="$WarningColor"/>
+              </xsl:attribute>
+            </xsl:if>
+            <xsl:value-of select="Results/ABW"/>
+          </td>
+          <td align="center">
+            <xsl:if test="Results/COR != 0">
+              <xsl:attribute name="bgcolor">
+                <xsl:value-of select="$WarningColor"/>
+              </xsl:attribute>
+            </xsl:if>
+            <xsl:value-of select="Results/COR"/>
+          </td>
+          <td align="center">
+            <xsl:if test="Results/FMM != 0">
+              <xsl:attribute name="bgcolor">
+                <xsl:value-of select="$WarningColor"/>
+              </xsl:attribute>
+            </xsl:if>
+            <xsl:value-of select="Results/FMM"/>
+          </td>
+          <td align="center">
+            <xsl:if test="Results/FUM != 0">
+              <xsl:attribute name="bgcolor">
+                <xsl:value-of select="$WarningColor"/>
+              </xsl:attribute>
+            </xsl:if>
+            <xsl:value-of select="Results/FUM"/>
+          </td>
+          <td align="center">
+            <xsl:if test="Results/FMR != 0">
+              <xsl:attribute name="bgcolor">
+                <xsl:value-of select="$WarningColor"/>
+              </xsl:attribute>
+            </xsl:if>
+            <xsl:value-of select="Results/FMR"/>
+          </td>
+          <td align="center">
+            <xsl:if test="Results/FMW != 0">
+              <xsl:attribute name="bgcolor">
+                <xsl:value-of select="$WarningColor"/>
+              </xsl:attribute>
+            </xsl:if>
+            <xsl:value-of select="Results/FMW"/>
+          </td>
+          <td align="center">
+            <xsl:if test="Results/MAF != 0">
+              <xsl:attribute name="bgcolor">
+                <xsl:value-of select="$WarningColor"/>
+              </xsl:attribute>
+            </xsl:if>
+            <xsl:value-of select="Results/MAF"/>
+          </td>
+          <td align="center">
+            <xsl:if test="Results/UMC != 0">
+              <xsl:attribute name="bgcolor">
+                <xsl:value-of select="$WarningColor"/>
+              </xsl:attribute>
+            </xsl:if>
+            <xsl:value-of select="Results/UMC"/>
+          </td>
+          <td align="center">
+            <xsl:if test="Results/UMR != 0">
+              <xsl:attribute name="bgcolor">
+                <xsl:value-of select="$WarningColor"/>
+              </xsl:attribute>
+            </xsl:if>
+            <xsl:value-of select="Results/UMR"/>
+          </td>
         </tr>
       </xsl:for-each>
     </table>
