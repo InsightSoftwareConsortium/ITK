@@ -326,6 +326,16 @@ FilterImageRecursiveGaussian<TInputImage,TOutputImage, TComputation>
   inputIterator.Begin();
   outputIterator.Begin();
 
+  const unsigned long * offsetTable = inputImage->GetOffsetTable();
+  
+  float       progress        = 0.0f;
+
+  const float progressAdvance =    
+                    (float)ln
+                  / (float)offsetTable[ TInputImage::ImageDimension ];
+
+  UpdateProgress( progress );
+
   while( !inputIterator.IsAtEnd() && !outputIterator.IsAtEnd() )
   {
     
@@ -347,6 +357,10 @@ FilterImageRecursiveGaussian<TInputImage,TOutputImage, TComputation>
 
     inputIterator.NextLine();
     outputIterator.NextLine();
+
+    progress += progressAdvance;
+
+    UpdateProgress( progress );
 
   }
 
