@@ -17,115 +17,56 @@
 #ifndef __itkImageRandomIteratorWithIndex_h
 #define __itkImageRandomIteratorWithIndex_h
 
+#include "itkImageRandomConstIteratorWithIndex.h"
 #include "itkImageIteratorWithIndex.h"
 
 namespace itk
 {
 
 /** \class ImageRandomIteratorWithIndex
- * \brief Multi-dimensional image iterator which walks randomly within a region.
+ * \brief Multi-dimensional image iterator which only walks a region.
  * 
  * ImageRandomIteratorWithIndex is a templated class to represent a multi-dimensional
  * iterator. ImageRandomIteratorWithIndex is templated over the image type
  * ImageRandomIteratorWithIndex is constrained to walk only within the 
- * specified region. It samples random pixel positions at each increment.
+ * specified region and along a line parallel to one of the coordinate axis.
  *
- * ImageRandomIteratorWithIndex is a multi-dimensional iterator, requiring more
- * information be specified before the iterator can be used than conventional
- * iterators. Whereas the std::vector::iterator from the STL only needs to be
- * passed a pointer to establish the iterator, the multi-dimensional image
- * iterator needs a pointer, the size of the buffer, the size of the region,
- * the start index of the buffer, and the start index of the region. To gain
- * access to this information, ImageRandomIteratorWithIndex holds a reference to the
- * image over which it is traversing.
+ * Most of the functionality is inherited from the ImageRandomConstIteratorWithIndex.
+ * The current class only adds write access to image pixels.
  *
- * ImageRandomIteratorWithIndex assumes a particular layout of the image data. The
- * is arranged in a 1D array as if it were [][][][slice][row][col] with
- * Index[0] = col, Index[1] = row, Index[2] = slice, etc.
- *
- * operator++ provides a simple syntax for walking around a region of
- * a multidimensional image. operator++ performs a jump to a random
- * position within the specified image region. 
- * This is designed to facilitate the extraction
- * of random samples from the image.
- *
- * This is the typical use of this iterator in a loop:
- *
- * \code
- *  
- * ImageRandomIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
  * 
- * it.SetNumberOfSamples(10);
- * it.GoToBegin();
- * while( !it.IsAtEnd() )
- * {
- *   it.Get();
- *   ++it;  // here it jumps to another random position inside the region
- *  } 
- *
- *  \endcode
- *
- * or
- *
- * \code
- *  
- * ImageRandomIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
- * 
- * it.SetNumberOfSamples(10);
- * it.GoToEnd();
- * while( !it.IsAtBegin() )
- * {
- *   it.Get();
- *   --it;  // here it jumps to another random position inside the region
- *  } 
- *
- *  \endcode
- *
- * \warning Incrementing the iterator (++it) followed by a decrement (--it)
- * or vice versa does not in general return the iterator to the same position.
- *
- * \example  Common/itkImageRandomIteratorWithIndexTest.cxx
- *
+ * \sa ImageRandomConstIteratorWithIndex
  *
  * \ingroup ImageIterators
  *
  *
  */
 template<typename TImage>
-class ImageRandomIteratorWithIndex : public ImageIteratorWithIndex<TImage>
+class ImageRandomIteratorWithIndex : public ImageRandomConstIteratorWithIndex<TImage>
 {
 public:
   /** Standard class typedefs. */
   typedef ImageRandomIteratorWithIndex Self;
-  typedef ImageIteratorWithIndex<TImage>  Superclass;
+  typedef ImageRandomConstIteratorWithIndex<TImage>  Superclass;
   
-  /** Index typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index. */
-  typedef typename TImage::IndexType   IndexType;
+   /** Types inherited from the Superclass */
+  typedef typename Superclass::IndexType              IndexType;
+  typedef typename Superclass::IndexValueType         IndexValueType;
+  typedef typename Superclass::SizeType               SizeType;
+  typedef typename Superclass::SizeValueType          SizeValueType;
+  typedef typename Superclass::OffsetType             OffsetType;
+  typedef typename Superclass::OffsetValueType        OffsetValueType;
+  typedef typename Superclass::RegionType             RegionType;
+  typedef typename Superclass::ImageType              ImageType;
+  typedef typename Superclass::PixelContainer         PixelContainer;
+  typedef typename Superclass::PixelContainerPointer  PixelContainerPointer;
+  typedef typename Superclass::InternalPixelType      InternalPixelType;
+  typedef typename Superclass::PixelType              PixelType;
+  typedef typename Superclass::AccessorType           AccessorType;
 
-  /** Region typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Region back to itk::ImageRegion so that is
-   * it not confused with ImageIterator::Index. */
-  typedef typename TImage::RegionType RegionType;
-  
-  /** Image typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index. */
-  typedef TImage ImageType;
 
-  /** PixelContainer typedef support. Used to refer to the container for
-   * the pixel data. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename TImage::PixelContainer PixelContainer;
-  typedef typename PixelContainer::Pointer PixelContainerPointer;
-  
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRandomIteratorWithIndex();
-  virtual ~ImageRandomIteratorWithIndex() {};
   
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
@@ -137,39 +78,25 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRandomIteratorWithIndex. */
-  ImageRandomIteratorWithIndex( const ImageIteratorWithIndex<TImage> &it)
-    { this->ImageIteratorWithIndex<TImage>::operator=(it); }
-
-  /** Move an iterator to the beginning of the region. */
-  virtual void GoToBegin(void);
-
-  /** Move an iterator to the End of the region. */
-  virtual void GoToEnd(void);
-
-  /** Is the iterator at the beginning of the region? */
-  bool IsAtBegin(void) const
-    { return (m_NumberOfSamplesDone > m_NumberOfSamplesRequested) ; }
-
-  /** Is the iterator at the end of the region? */
-  bool IsAtEnd(void) const
-    { return (m_NumberOfSamplesDone > m_NumberOfSamplesRequested);  }
- 
-  /** Increment (prefix) the selected dimension.
-   * No bounds checking is performed. \sa GetIndex \sa operator-- */
-  Self & operator++();
-
-  /** Decrement (prefix) the selected dimension.
-   * No bounds checking is performed. \sa GetIndex \sa operator++ */
-  Self & operator--();
+  ImageRandomIteratorWithIndex( const ImageIteratorWithIndex<TImage> &it);
   
-  /** Set/Get number of random samples to get from the image region */
-  void SetNumberOfSamples( unsigned long number );
-  unsigned long GetNumberOfSamples( void ) const;
+  /** Set the pixel value */
+  void Set( const PixelType & value) const  
+    { m_PixelAccessor.Set(*(const_cast<InternalPixelType *>(m_Position)),value); }
 
-private:
-    unsigned long  m_NumberOfSamplesRequested;
-    unsigned long  m_NumberOfSamplesDone;
-    unsigned long  m_NumberOfPixelsInRegion;
+  /** Return a reference to the pixel 
+   * This method will provide the fastest access to pixel
+   * data, but it will NOT support ImageAdaptors. */
+  PixelType & Value(void) 
+    { return *(const_cast<InternalPixelType *>(m_Position)); }
+ 
+protected:
+  /** the construction from a const iterator is declared protected
+      in order to enforce const correctness. */
+  ImageRandomIteratorWithIndex( const ImageRandomConstIteratorWithIndex<TImage> &it);
+  Self & operator=(const ImageRandomConstIteratorWithIndex<TImage> & it);
+ 
+
 };
 
 } // end namespace itk

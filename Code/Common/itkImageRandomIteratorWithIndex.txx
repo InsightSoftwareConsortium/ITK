@@ -9,8 +9,8 @@
   Copyright (c) 2002 Insight Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -18,124 +18,58 @@
 #define _itkImageRandomIteratorWithIndex_txx
 
 #include "itkImageRandomIteratorWithIndex.h"
-#include "vnl/vnl_sample.h"
 
 namespace itk
 {
 
 
-/** Default constructor. Needed since we provide a cast constructor. */
-template<class TImage>
+
+template< typename TImage >
 ImageRandomIteratorWithIndex<TImage>
-::ImageRandomIteratorWithIndex() : ImageIteratorWithIndex<TImage>()
+::ImageRandomIteratorWithIndex()
+    : ImageRandomConstIteratorWithIndex<TImage>() 
 {
-  m_NumberOfPixelsInRegion    = 0L;
-  m_NumberOfSamplesRequested  = 0L;
-  m_NumberOfSamplesDone       = 0L;
-  m_NumberOfRandomJumps       = 0L;
+
+
 }
 
 
 
-
-/** Constructor establishes an iterator to walk a particular image and a
- * particular region of that image. */
-template<class TImage>
+template< typename TImage >
 ImageRandomIteratorWithIndex<TImage>
-::ImageRandomIteratorWithIndex(ImageType *ptr, const RegionType& region)
-    : ImageIteratorWithIndex<TImage>( ptr, region )
+::ImageRandomIteratorWithIndex(ImageType *ptr, const RegionType& region) :
+    ImageRandomConstIteratorWithIndex<TImage>(   ptr, region ) 
 {
-  m_NumberOfPixelsInRegion   = region.GetNumberOfPixels();
-  m_NumberOfSamplesRequested = 0L;
-  m_NumberOfSamplesDone      = 0L;
+
+
 }
 
 
-
-/**  Go to the initial position for iterating */
-template<class TImage>
-void
+ 
+template< typename TImage >
 ImageRandomIteratorWithIndex<TImage>
-::GoToBegin(void)
-{
-  m_NumberOfSamplesDone = 0L;
-  this->operator++();
+::ImageRandomIteratorWithIndex( const ImageIteratorWithIndex<TImage> &it):
+                                        ImageRandomConstIteratorWithIndex<TImage>(it)
+{ 
 }
 
-
-
-/**  Go to the last position for iterating */
-template<class TImage>
-void
+ 
+template< typename TImage >
 ImageRandomIteratorWithIndex<TImage>
-::GoToEnd(void)
-{
-  m_NumberOfSamplesDone = 0L;
-  this->operator--();
+::ImageRandomIteratorWithIndex( const ImageRandomConstIteratorWithIndex<TImage> &it):
+                                        ImageRandomConstIteratorWithIndex<TImage>(it)
+{ 
 }
 
-
-
-/**  Set the number of samples to extract from the region */
-template<class TImage>
-void
+ 
+template< typename TImage >
+ImageRandomIteratorWithIndex<TImage> &
 ImageRandomIteratorWithIndex<TImage>
-::SetNumberOfSamples( unsigned long number )
-{
-  m_NumberOfSamplesRequested = number;
-}
-
-
-/**  Set the number of samples to extract from the region */
-template<class TImage>
-unsigned long
-ImageRandomIteratorWithIndex<TImage>
-::GetNumberOfSamples( void ) const
-{
-  return m_NumberOfSamplesRequested;
-}
-
-
-/**  Execute an acrobatic random jump forward */
-template<class TImage>
-ImageRandomIteratorWithIndex<TImage>  &
-ImageRandomIteratorWithIndex<TImage>
-::operator++()
-{
-  const unsigned long randomPosition =
-     static_cast<unsigned long > (
-        vnl_sample_uniform(0.0f, 
-                    static_cast<double>(m_NumberOfPixelsInRegion)-0.5) );
-
-  unsigned long position = randomPosition;
-  unsigned long residual;
-  for( unsigned int dim = 0; dim < TImage::ImageDimension; dim++ )
-    {
-    const unsigned long sizeInThisDimension = m_Region.GetSize()[dim];
-    residual = position % sizeInThisDimension;
-    m_PositionIndex[dim] =  residual + m_BeginIndex[dim];
-    position -= residual;
-    position /= sizeInThisDimension;
-    }
-
-  m_Position = m_Image->GetBufferPointer() + m_Image->ComputeOffset( m_PositionIndex );
-  m_NumberOfSamplesDone++;
+::operator=( const ImageRandomConstIteratorWithIndex<TImage> &it)
+{ 
+  this->ImageRandomConstIteratorWithIndex<TImage>::operator=(it);
   return *this;
-
 }
-
-
-/**  Execute an acrobatic random jump  backwards,
-     ...but actually is the same code */
-template<class TImage>
-ImageRandomIteratorWithIndex<TImage>  &
-ImageRandomIteratorWithIndex<TImage>
-::operator--()
-{
-  return ++(*this);
-}
-
-
 
 
 
