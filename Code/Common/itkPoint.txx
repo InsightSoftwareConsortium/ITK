@@ -1,4 +1,4 @@
-/*=========================================================================
+/*==========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkPoint.txx
@@ -6,73 +6,125 @@
   Date:      $Date$
   Version:   $Revision$
 
-
   Copyright (c) 2000 National Library of Medicine
   All rights reserved.
 
   See COPYRIGHT.txt for copyright details.
+  
+==========================================================================*/
+#include "itkPoint.h" 
 
-=========================================================================*/
-#include "itkPoint.h"
+
 
 namespace itk
 {
 
-/**
- * Default constructor.
- */
-template <int VPointDimension, typename TCoordRep>
-Point< VPointDimension , TCoordRep >
-::Point()
-{
-  for(int i=0; i < PointDimension ; ++i)
-    {
-    m_Coords[i] = CoordRepType();
-    }
-}
-
 
 /**
- * Constructor which takes a coordinate set.
+ *
  */
-template <int VPointDimension, typename TCoordRep>
-Point< VPointDimension , TCoordRep >
-::Point(CoordRepType coords[PointDimension])
+template<class T, unsigned int TPointDimension>
+const Point<T, TPointDimension> &
+Point<T, TPointDimension>
+::operator=( const Point<T, TPointDimension> & point )
 {
-  for(int i=0; i < PointDimension ; ++i)
-    {
-    m_Coords[i] = coords[i];
-    }
+  for( unsigned int i=0; i<TPointDimension; i++) 
+  {
+    (*this)[i] = point[i];
+  }
+  return *this;
 }
+
+ 
 
 
 /**
- * Set coordinates of the point.
+ *
  */
-template <int VPointDimension, typename TCoordRep>
-void
-Point< VPointDimension , TCoordRep >
-::SetCoords(CoordRepType coords[PointDimension])
+template<class T, unsigned int TPointDimension>
+const Point<T, TPointDimension> &
+Point<T, TPointDimension>
+::operator+=( const Vector<T, TPointDimension> & vector )
 {
-  for(int i=0; i < PointDimension ; ++i)
-    {
-    m_Coords[i] = coords[i];
-    }
+  for( unsigned int i=0; i<TPointDimension; i++) 
+  {
+    (*this)[i] += vector[i];
+  }
+  return *this;
 }
+
+ 
+/**
+ *
+ */
+template<class T, unsigned int TPointDimension>
+const Point<T, TPointDimension> &
+Point<T, TPointDimension>
+::operator-=( const Vector<T, TPointDimension> & vector )
+{
+  for( unsigned int i=0; i<TPointDimension; i++) 
+  {
+    (*this)[i] -= vector[i];
+  }
+  return *this;
+}
+
+ 
+
+/**
+ * Returns a temporary copy of a point
+ */
+template<class T, unsigned int TPointDimension>
+Point<T, TPointDimension> 
+Point<T, TPointDimension>
+::operator+( const Vector<T, TPointDimension> & vector ) const
+{
+  Self result;
+  for( unsigned int i=0; i<TPointDimension; i++) 
+  {
+    result[i] = (*this)[i] + vector[i];
+  }
+  return result;
+}
+
 
 
 /**
- * Get coordinates of the point.
+ * Returns a temporary copy of a point
  */
-template <int VPointDimension, typename TCoordRep>
-void
-Point< VPointDimension , TCoordRep >
-::GetCoords(CoordRepType coords[PointDimension]) const
+template<class T, unsigned int TPointDimension>
+Point<T, TPointDimension> 
+Point<T, TPointDimension>
+::operator-( const Vector<T, TPointDimension> & vector )  const
 {
-  for(int i=0; i < PointDimension ; ++i)
-    {
-    coords[i] = m_Coords[i];
-    }
+  Self result;
+  for( unsigned int i=0; i<TPointDimension; i++) 
+  {
+    result[i] = (*this)[i] - vector[i];
+  }
+  return result;
 }
 
+
+
+/**
+ * Difference between two points
+ */
+template<class T, unsigned int TPointDimension>
+Vector<T, TPointDimension> 
+Point<T, TPointDimension>
+::operator-( const Point<T, TPointDimension> & point )  const
+{
+  VectorType result;
+  for( unsigned int i=0; i<TPointDimension; i++) 
+  {
+    result[i] = (*this)[i] - point[i];
+  }
+  return result;
+}
+
+
+
+ 
 } // end namespace itk
+

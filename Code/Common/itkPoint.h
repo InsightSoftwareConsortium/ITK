@@ -1,4 +1,4 @@
-/*=========================================================================
+/*==========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkPoint.h
@@ -6,115 +6,125 @@
   Date:      $Date$
   Version:   $Revision$
 
-
   Copyright (c) 2000 National Library of Medicine
   All rights reserved.
 
   See COPYRIGHT.txt for copyright details.
-
-=========================================================================*/
+  
+==========================================================================*/
 #ifndef __itkPoint_h
 #define __itkPoint_h
 
-#include "itkMacro.h"
+#include "itkVector.h"
+
 
 namespace itk
 {
 
 /** \class Point
- * \brief Represent the coordinates of a point in n-dimensional space.
+ * \brief A templated class holding a geometric point in n-Dimensional space.
+ * 
+ * Point is a templated class that holds a set of coordinates (components).
+ * Point can be used as the data type held at each pixel in
+ * an Image or at each vertex of an Mesh. The template parameter T can
+ * be any data type that behaves like a primitive (or atomic) data type (int,
+ * short, float, complex).  The TPointDimension defines the number of
+ * components in the point array. 
  *
- * Point simply represents the geometric coordinates of one point in
- * N-dimensional space. Point is used by various types of containers
- * (e.g., VectorContainer) to represent the points in a mesh or cell.
+ * 
+ * \sa Image
+ * \sa Mesh
+ * \sa Vector
+ * \sa CovariantVector
+ * \sa Matrix
  *
- * Template parameters for Point:
- *
- * VPointDimension =
- *     Geometric dimension of space.
- * TCoordRep =
- *     Numerical type to store each coordinate value.
  */
 
-template <
-  int VPointDimension,
-  typename TCoordRep = float
-  >
-class Point
-{
-public:
+template<class T, unsigned int TPointDimension=3>
+class Point : public Array< T, TPointDimension > {
+ public:
   /**
    * Standard "Self" typedef.
    */
   typedef Point  Self;
-
-  /**
-   * Save template parameter information.
-   */
-  enum { PointDimension = VPointDimension };
-  typedef TCoordRep CoordRepType;
-
-  /**
-   * Constructors.
-   */
-  Point();
-  Point(CoordRepType coords[PointDimension]);
   
   /**
-   * Allow run-time point dimension access.
+   * ValueType can be used to declare a variable that is the same type
+   * as a data element held in an Point.  
    */
-  int GetPointDimension(void) const
-    {
-    return PointDimension;
-    }
+  typedef T ValueType;
+
+
+  /**
+   * Dimension of the Space
+   */
+  enum { PointDimension = TPointDimension };
+
+
+  /**
+   * Get the dimension (size) of the point.
+   */
+  static unsigned int GetPointDimension() 
+    { return TPointDimension; }
   
-  /**
-   * Access routines.
+   /**
+   * VectorType define the difference between two Points
    */
-  void SetCoords(CoordRepType coords[PointDimension]);
-  void GetCoords(CoordRepType coords[PointDimension]) const;
-  const CoordRepType* GetCoords() const 
-    { return m_Coords;} ;
+  typedef Vector< ValueType, TPointDimension >   VectorType;
+
+ 
+  /**
+   * Operator=.  Assign a point to a point.
+   */
+  const Self& operator=(const Self& point);
+
+
+   /**
+   * Point operator+=.  Adds a vector to the current point.
+   */
+  const Self& operator+=(const VectorType &vec);
+
 
   /**
-   * Read or write an individual coordinate.
+   * Point operator-=.  Subtracts a vector from a current point.
    */
-  CoordRepType& operator[] (unsigned int i)
-  { return m_Coords[i]; }
+  const Self& operator-=(const VectorType &vec);
+
 
   /**
-   * Read an individual coordinate.
+   * Computes the Vector difference between two points
    */
-  CoordRepType operator[] (unsigned int i) const
-  { return m_Coords[i]; }
+  VectorType operator-(const Self &point) const;
 
-protected:
+
+
   /**
-   * Actually store the point's geometrical information.
+   * Add a vector to a point. Return a new point.
    */
-  CoordRepType m_Coords[PointDimension];
+  Self operator+(const VectorType &vec) const;
+  
+
+   /**
+   * Subtract a vector from a point. Return a new point.
+   */
+  Self operator-(const VectorType &vec) const;
+  
+
+  /**
+   * Access an element of a point. This version can be used as an lvalue.
+   */
+  VectorType GetVectorFromOrigin( void ) const;
+  
+  
 };
 
-  /**
-   * Print the coordinates of a point
-   **/
-  template<int VPointDimension, typename TCoordRep>
-  std::ostream &
-  operator<< (std::ostream &s, Point<VPointDimension, TCoordRep> &point)
-  {
-    int i;
-    const TCoordRep *coords;
-    coords = point.GetCoords();
-    for (i = 0; i < VPointDimension; i++) {
-        s << coords[i] << "   ";
-    }
-    return s;
-  }
-
+  
 } // end namespace itk
+  
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkPoint.txx"
 #endif
 
-#endif
+
+#endif 
