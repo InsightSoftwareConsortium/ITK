@@ -24,7 +24,7 @@
 #include <itkImage.h>
 #include <itkSmoothingRecursiveGaussianImageFilter.h>
 #include <itkImageRegionIteratorWithIndex.h>
-
+#include "itkFilterWatcher.h"
 
 int itkSmoothingRecursiveGaussianImageFilterTest(int, char* [] ) 
 {
@@ -109,7 +109,7 @@ int itkSmoothingRecursiveGaussianImageFilterTest(int, char* [] )
 
   // Create a  Filter                                
   myFilterType::Pointer filter = myFilterType::New();
-
+  FilterWatcher watchit(filter);
 
   // Connect the input images
   filter->SetInput( inputImage ); 
@@ -123,9 +123,9 @@ int itkSmoothingRecursiveGaussianImageFilterTest(int, char* [] )
     {
     filter->Update();
     }
-  catch(...)
+  catch(itk::ExceptionObject &err)
     {
-    std::cerr << "Exception thrown during Update() " << std::endl;
+    (&err)->Print(std::cerr);
     return EXIT_FAILURE;
     }
 
