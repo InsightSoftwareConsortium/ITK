@@ -51,7 +51,7 @@ namespace itk
 template<class TImage>
 ImageIterator<TImage>
 ImageIterator<TImage>
-::Begin()
+::Begin() const
 {
   // Copy the current iterator
   Self it( *this );
@@ -73,7 +73,7 @@ ImageIterator<TImage>
 template<class TImage>
 ImageIterator<TImage>
 ImageIterator<TImage>
-::End()
+::End() const
 {
   // Copy the current iterator
   Self it( *this );
