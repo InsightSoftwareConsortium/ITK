@@ -13,9 +13,10 @@ BuildNames = $(wildcard ../Sites/*/*/)
 LatestBuildStamps = $(foreach BuildName, $(BuildNames), $(wordlist $(words $(wildcard $(BuildName)*)),$(words $(wildcard $(BuildName)*)), $(sort $(wildcard $(BuildName)*))))
 
 DashboardStamp := $(shell date -u +%Y%m%d%H%M)
+PreviousDashboards = $(wildcard 20*)
 
 
-MAKEFILES = $(CMAKE_CONFIG_DIR)/CMake/CMakeVariables.make $(CMAKE_CONFIG_DIR)/Testing/Utilities/CMakeTestingRules.make 
+MAKEFILES = $(CMAKE_CONFIG_DIR)/CMake/CMakeVariables.make $(CMAKE_CONFIG_DIR)/Testing/Utilities/CMakeTestingDashboardRules.make 
 
 Dashboard: $(LatestBuildStamps)
 	mkdir $(DashboardStamp)
@@ -23,5 +24,11 @@ Dashboard: $(LatestBuildStamps)
 	$(MAKE) -C $(DashboardStamp) Dashboard
 	$(shell rm -f MostRecentResults)
 	$(shell ln -s $(DashboardStamp) MostRecentResults)
+
+RemakeDashboard:
+	$(foreach Previous, $(PreviousDashboards), \
+	$(MAKE) -C $(Previous) RemakeDashboard; \
+	)
+
 
 END MAKE VERBATIM

@@ -26,14 +26,26 @@ $(DL_LIBS) \
 
 BEGIN MAKE VERBATIM
 
+CompleteDashboard:
+	$(MAKE) DashboardBuild
+	$(MAKE) DashboardTest
+	$(MAKE) DashboardCoverage
+	$(MAKE) Dashboard
+
 Dashboard:
 	$(MAKE) -C Testing/HTML/TestingResults/Dashboard Dashboard
+
+RemakeDashboard:
+	$(MAKE) -C Testing/HTML/TestingResults/Dashboard RemakeDashboard
 
 DashboardBuild:
 	$(TCLSH) Testing/Utilities/Build.tcl
 
 DashboardTest:
 	$(TCLSH) Testing/Utilities/Test.tcl
+
+DashboardCoverage:
+	$(TCLSH) Testing/Utilities/Coverage.tcl
 
 DashboardSubmission:
 	$(TCLSH) Testing/Utilities/Submit.tcl

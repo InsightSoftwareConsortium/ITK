@@ -1,0 +1,357 @@
+
+source Testing/Utilities/Utility.conf
+source Testing/Utilities/Utility.tcl
+
+
+set HTMLDir [file join Testing HTML]
+set TempDir [file join Testing Temporary]
+
+set SiteDir [file join $HTMLDir TestingResults Sites $Site]
+set BuildNameDir [file join $SiteDir $BuildName]
+
+set BuildRoot [pwd]
+
+# Find the build name directory
+set Status [catch { set BuildStampDirs [glob [file join $BuildNameDir *] ] } Result]
+if { $Status == 1 } \
+{
+  puts stderr "Could not find any builds in the $BuildNameDir to do testing $Result"
+  exit 1
+}
+
+set BuildStampDir [lindex [lsort $BuildStampDirs] end]
+set BuildStamp [file tail $BuildStampDir]
+set XMLDir [file join $BuildStampDir XML]
+
+# We can assume that Testing/HTML/TestingResults/@SITE@ is built
+file mkdir $HTMLDir $SiteDir $BuildNameDir $BuildStampDir $TempDir $XMLDir
+
+
+set Out [open [file join $XMLDir Coverage.xml] w]
+
+
+catch { unset Coverage }
+
+# Clean out the build directory files
+# puts "Currently in $BuildRoot"
+
+cd Testing/Utilities
+cd $SourceDirectory
+set BuildDirectory $BuildRoot
+set SourceDirectory [pwd]
+set Coverage(BuildDirectory) $BuildRoot
+set Coverage(SourceDirectory) [pwd]
+
+
+# puts "Currently in [pwd]"
+
+set Counter 0
+
+
+set Queue [glob [file join Code *]]
+set id "File[incr Counter]"
+set TopLevelID $id
+set Coverage($id,FileList) [list]
+set Coverage($id,DirList) [list]
+set Coverage($id,Name) Code
+set Coverage($id,FullPath) Code
+set Coverage(Code,ID) $id
+
+# puts $Queue
+while { [llength $Queue] != 0 } \
+{
+  set Filename [lindex $Queue 0]
+  set Queue [lrange $Queue 1 end]
+
+  if { [file isdirectory $Filename] } \
+  {
+    if { [file tail $Filename] == "CVS" } \
+    {
+      continue
+    }
+    set id "File[incr Counter]"
+    set Coverage($id,FileList) [list]
+    set Coverage($id,DirList) [list]
+    set Coverage($id,Name) [file tail $Filename]
+    set Coverage($id,FullPath) $Filename
+    set Coverage($Filename,ID) $id
+    # puts $Filename
+    set ParentID $Coverage([file dir $Filename],ID)
+    lappend Coverage($ParentID,DirList) $id
+
+    
+    catch { set Queue [concat $Queue [glob $Filename/*]] }
+    continue;
+  }
+  # puts "Looking at $Filename"
+  switch [file extension $Filename] \
+  {
+    .h - 
+    .c - 
+    .txx - 
+    .cxx 
+    {
+      set Dir [pwd]
+      set BuildDir [file join $BuildRoot [file dirname $Filename]]
+      if { [file exists $BuildDir] } \
+      {
+	cd $BuildDir
+
+	set l [llength [file split [file dirname $Filename]]]
+	set path .
+	for { set i 0 } { $i < $l } { incr i } \
+	{
+	  # puts "Running gcov with a path of $path: gcov -o $path [file tail $Filename]"
+	  set Status [catch { exec gcov -o $path [file tail $Filename] } Result]
+	  if { $Status == 0 } \
+	  {
+	    break
+	  }
+	  set path ../$path
+	}
+	  
+	set FileCovered 0
+	set FileCoverage 0.0
+	foreach l [split $Result "\n"] \
+	{
+	  if { [file tail [lindex $l 8]] == [file tail $Filename] } \
+	  {
+	    # puts "Coverage [lindex $l 0]"
+	    set FileCovered 1
+	    set FileCoverage [string trim [lindex $l 0] "%"]
+	  }
+	}
+	set Result [Grep [file tail $Filename] [split $Result "\n"]]
+
+	set id "File[incr Counter]"
+	set Coverage($id,Coverage) $FileCoverage
+	set Coverage($id,Covered) $FileCovered
+	set Coverage($id,Name) [file tail $Filename]
+	set Coverage($id,FullPath) $Filename
+	set ParentID $Coverage([file dir $Filename],ID)
+	lappend Coverage($ParentID,FileList) $id
+
+	# puts "Coverage on $Filename was $FileCoverage"
+	cd $Dir
+      }
+    }
+  }
+}
+
+proc PercentCoverage { t ut } \
+{
+  if { $ut != 0 && $t != 0 } \
+  {
+    return [format "%.2f" [expr 100.0 * $t / double ( $ut + $t )]]
+  }
+  return 0.00;
+}
+
+proc LOC { id } \
+{
+  global Coverage
+  set file $Coverage($id,FullPath)
+
+  set gcov [file join $Coverage(BuildDirectory) $file.gcov]
+  set Untested 0
+  set Tested 0
+  set Coverage($id,GCovFile) ""
+  if { [file exists $gcov] } \
+  {
+    set Coverage($id,GCovFile) $file.gcov
+    set f [open $gcov]
+    while { ![eof $f] } \
+    {
+      set l [gets $f]
+      if { [regexp "\#\#\#\#\#" $l] } \
+      {
+	incr Untested
+      }
+      if { [regexp {^[ ]*[0-9][0-9]*} $l] } \
+      {
+	incr Tested
+      }
+    }
+    close $f
+  }
+  set Coverage($id,Tested) $Tested
+  set Coverage($id,Untested) $Untested
+  return [list $Tested $Untested]
+}
+
+proc RollUpCoverage { id } \
+{
+  global Coverage
+  set DirCoverage 0
+  set DirFiles 0
+  set Coverage($id,Tested) 0
+  set Coverage($id,Untested) 0
+  foreach Dir $Coverage($id,DirList) \
+  {
+    RollUpCoverage $Dir
+    set DirCoverage [expr $DirCoverage + $Coverage($Dir,Coverage)]
+    incr DirFiles $Coverage($Dir,FileCount)
+    incr Coverage($id,Tested) $Coverage($Dir,Tested)
+    incr Coverage($id,Untested) $Coverage($Dir,Untested)
+  }
+  foreach File $Coverage($id,FileList) \
+  {
+    set t [LOC $File]
+    set Tested [lindex $t 0]
+    set Untested [lindex $t 1]
+    set DirCoverage [expr $DirCoverage + $Coverage($File,Coverage)]
+    set Coverage($File,Tested) $Tested
+    set Coverage($File,Untested) $Untested
+    incr Coverage($id,Tested) $Tested
+    incr Coverage($id,Untested) $Untested
+    incr DirFiles
+  }
+  set Coverage($id,Coverage) 0.0
+  if { $Coverage($id,Tested) != 0 && $Coverage($id,Untested) != 0} \
+  {
+    set Coverage($id,Coverage) [expr $Coverage($id,Tested) / double ( $Coverage($id,Tested) + $Coverage($id,Untested))]
+  }
+  set Coverage($id,FileCount) $DirFiles
+}
+
+RollUpCoverage $TopLevelID
+
+# parray Coverage
+
+proc Indent { i } \
+{
+  set r ""
+  for { set j 0 } { $j < $i } { incr j } \
+  {
+    set r "\t$r"
+  }
+  return $r
+}
+
+proc EmitXML { id Out indent } \
+{
+  global Coverage
+
+  if { $Coverage($id,FileCount) == 0 } \
+  {
+    return;
+  }
+  puts $Out "[Indent $indent]<Directory Name=\"$Coverage($id,Name)\" FullPath=\"$Coverage($id,FullPath)\">"
+  incr indent
+  puts $Out "[Indent $indent]<LOCTested>$Coverage($id,Tested)</LOCTested>"
+  puts $Out "[Indent $indent]<LOCUntested>$Coverage($id,Untested)</LOCUntested>"
+  puts $Out "[Indent $indent]<PercentCoverage>[PercentCoverage $Coverage($id,Tested) $Coverage($id,Untested)]</PercentCoverage>"
+  puts $Out "[Indent $indent]<LOC>[expr $Coverage($id,Untested) + $Coverage($id,Tested)]</LOC>"
+  
+  foreach File $Coverage($id,FileList) \
+  {
+    set Covered false
+    if { $Coverage($File,Covered) } \
+    {
+      set Covered true
+    }
+    puts $Out "[Indent $indent]<File Name=\"$Coverage($File,Name)\"  FullPath=\"$Coverage($id,FullPath)\" Covered=\"$Covered\">"
+    
+    incr indent
+    puts $Out "[Indent $indent]<LOCTested>$Coverage($File,Tested)</LOCTested>"
+    puts $Out "[Indent $indent]<LOCUntested>$Coverage($File,Untested)</LOCUntested>"
+    puts $Out "[Indent $indent]<PercentCoverage>[PercentCoverage $Coverage($File,Tested) $Coverage($File,Untested)]</PercentCoverage>"
+    if { $Coverage($File,GCovFile) != "" } \
+    {
+      puts $Out "[Indent $indent]<GCovFile>$Coverage($File,GCovFile)</GCovFile>"
+    }
+    incr indent -1
+    puts $Out "[Indent $indent]</File>"
+  }
+  foreach Dir $Coverage($id,DirList) \
+  {
+    EmitXML $Dir $Out $indent
+  }
+
+  incr indent -1
+  puts $Out "[Indent $indent]</Directory>"
+  return
+}
+
+
+puts $Out {<?xml version="1.0" encoding="UTF-8"?>}
+puts $Out "<Site BuildName=\"$BuildName\" BuildStamp=\"$BuildStamp\" Name=\"$Site\">"
+puts $Out {<Coverage>}
+puts $Out "\t<StartDateTime>[clock format [clock seconds]]</StartDateTime>"
+puts $Out "\t<LOCTested>$Coverage($TopLevelID,Tested)</LOCTested>"
+puts $Out "\t<LOCUntested>$Coverage($TopLevelID,Untested)</LOCUntested>"
+puts $Out "\t<LOC>[expr $Coverage($TopLevelID,Untested) + $Coverage($TopLevelID,Tested)]</LOC>"
+
+
+puts $Out "\t<PercentCoverage>[PercentCoverage $Coverage($TopLevelID,Tested) $Coverage($TopLevelID,Untested)]</PercentCoverage>"
+
+  EmitXML $TopLevelID $Out 1
+
+
+puts $Out "\t<EndDateTime>[clock format [clock seconds]]</EndDateTime>"
+
+puts $Out "</Coverage>"
+puts $Out "</Site>"
+
+
+close $Out
+exit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Clean out the build directory files
+# set Queue [glob [file join Code *]]
+# while { [llength $Queue] != 0 } \
+# {
+#   set Filename [lindex $Queue 0]
+#   set Queue [lrange $Queue 1 end]
+
+#   if { [file isdirectory $Filename] } \
+#   {
+#     catch { set Queue [concat $Queue [glob $Filename/*]] }
+#     continue;
+#   }
+#   switch { [file tail $Filename] } \
+#   {
+#     .bb -
+#     .bbg -
+#     .gcov -
+#     .da \
+#     {
+#       file remove $Filename
+#     }
+#   }
+# }
+
+# set Queue [glob [file join Testing *]]
+# while { [llength $Queue] != 0 } \
+# {
+#   # pop off first item
+#   set Filename [lindex $Queue 0]
+#   set Queue [lrange $Queue 1 end]
+
+#   if { [file isdirectory $Filename] } \
+#   {
+#     catch { set Queue [concat $Queue [glob $Filename/*]] }
+#     continue;
+#   }
+#   if { [file executable $Filename] } \
+#   {
+#     # We don't care about the exit status of this test
+#     catch { exec $Filename }
+#   }
+# }

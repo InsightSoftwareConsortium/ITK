@@ -6,13 +6,22 @@ XALAN = $(topdir)/Code/Insight3DParty/xalan/xalan.jar
 XMLHEADER = <?xml version="1.0" encoding="UTF-8"?>
 
 
+TARGETS = Build.html Test.html Coverage.html BuildSummary.xml TestSummary.xml SummaryByTest.xml CoverageSummary.xml
+
 # BuildStampRules
+all: $(TARGETS) 
+
+clean:
+	$(RM) $(TARGETS)
 
 Build.html: XML/Build.xml $(topdir)/Testing/Utilities/XSL/Build.xsl
 	$(JAVA) -jar $(XALAN) -Q -OUT $@ -IN $< -XSL $(topdir)/Testing/Utilities/XSL/Build.xsl
 
 Test.html: XML/Test.xml $(topdir)/Testing/Utilities/XSL/Test.xsl
 	$(JAVA) -jar $(XALAN) -Q -OUT $@ -IN $< -XSL $(topdir)/Testing/Utilities/XSL/Test.xsl
+
+Coverage.html: XML/Coverage.xml $(topdir)/Testing/Utilities/XSL/Coverage.xsl
+	$(JAVA) -jar $(XALAN) -Q -OUT $@ -IN $< -XSL $(topdir)/Testing/Utilities/XSL/Coverage.xsl
 
 BuildSummary.xml: XML/Build.xml $(topdir)/Testing/Utilities/XSL/BuildSummary.xsl
 	$(JAVA) -jar $(XALAN) -Q -OUT $@ -IN $< -XSL $(topdir)/Testing/Utilities/XSL/BuildSummary.xsl
@@ -23,30 +32,6 @@ TestSummary.xml: XML/Test.xml $(topdir)/Testing/Utilities/XSL/TestSummary.xsl
 SummaryByTest.xml: XML/Test.xml $(topdir)/Testing/Utilities/XSL/SummaryByTest.xsl
 	$(JAVA) -jar $(XALAN) -Q -OUT $@ -IN $< -XSL $(topdir)/Testing/Utilities/XSL/SummaryByTest.xsl
 
-
-# For Dashboard/DashboardStamp directories
-
-include DashboardTargets.make
-
-DashboardDependancies = $(topdir)/Testing/Utilities/XSL/*.xsl
-
-
-Dashboard: $(BuildStamps) $(DashboardDependancies)
-	@echo '$(XMLHEADER)' > Dashboard.xml
-	@echo '$(XMLHEADER)' > DashboardByTest.xml
-	@echo '<Dashboard>' >> Dashboard.xml
-	@echo '<Dashboard>' >> DashboardByTest.xml
-	$(foreach dir,$(LatestBuildStamps), \
-	$(MAKE) -C $(dir) Build.html Test.html BuildSummary.xml TestSummary.xml SummaryByTest.xml; \
-	@echo '<Instance>' >> Dashboard.xml; \
-	grep -v "<?xml" $(dir)/BuildSummary.xml >> Dashboard.xml; \
-	grep -v "<?xml" $(dir)/TestSummary.xml >> Dashboard.xml; \
-	grep -v "<?xml" $(dir)/SummaryByTest.xml >> DashboardByTest.xml; \
-	@echo '</Instance>' >> Dashboard.xml; \
-	)
-	@echo '</Dashboard>' >> Dashboard.xml
-	@echo '</Dashboard>' >> DashboardByTest.xml
-	$(JAVA) -jar $(XALAN) -Q -OUT Dashboard.html -IN Dashboard.xml -XSL $(topdir)/Testing/Utilities/XSL/Dashboard.xsl	
-	$(JAVA) -jar $(XALAN) -Q -OUT DashboardByTest.html -IN DashboardByTest.xml -XSL $(topdir)/Testing/Utilities/XSL/DashboardByTest.xsl
-
+CoverageSummary.xml: XML/Coverage.xml $(topdir)/Testing/Utilities/XSL/CoverageSummary.xsl
+	$(JAVA) -jar $(XALAN) -Q -OUT $@ -IN $< -XSL $(topdir)/Testing/Utilities/XSL/CoverageSummary.xsl
 

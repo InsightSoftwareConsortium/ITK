@@ -18,17 +18,12 @@
 	<th>Build Warnings</th>
 	<th>Passed</th>
 	<th>Failed</th>
+	<th>Date</th>
 	</tr>
-
-
-
-	
-
 
 	<xsl:for-each select="Instance">
 	
-	<xsl:variable name="URLBase">
-		../Sites/<xsl:value-of select="Site/SiteName"/>/<xsl:value-of select="Site/BuildName"/>/<xsl:value-of select="Site/BuildStamp"/>
+	<xsl:variable name="URLBase">../../Sites/<xsl:value-of select="Site/SiteName"/>/<xsl:value-of select="Site/BuildName"/>/<xsl:value-of select="Site/BuildStamp"/>
 	</xsl:variable>
 	<tr>
 	<td><xsl:value-of select="Site/SiteName"/></td>
@@ -51,13 +46,52 @@
 	</td>
 	<td>
 		<a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html</xsl:attribute>
-		<xsl:value-of select="count(Site/Testing/FailedCount)"/>
+		<xsl:value-of select="Site/Testing/FailedCount"/>
 		</a>
 	</td>
+	<td><xsl:value-of select="Site/Testing/StartDateTime"/></td>
 	</tr>
 	</xsl:for-each>
 
 </table>
+
+	<xsl:choose>
+	<xsl:when test="count(Instance/Site/Coverage) != 0">
+	<h3>Coverage</h3>
+	<table>
+	<tr>
+		<th>Site</th>
+		<th>Instance</th>
+		<th>Percentage</th>
+		<th>Coverage</th>
+		<th>Date</th>
+	</tr>
+	
+	<!-- Loop over each instance -->
+	<xsl:for-each select="Instance">
+		<xsl:if test="count(Site/Coverage) != 0">
+
+		<xsl:variable name="URLBase">../../Sites/<xsl:value-of select="Site/SiteName"/>/<xsl:value-of select="Site/BuildName"/>/<xsl:value-of select="Site/BuildStamp"/>
+		</xsl:variable>
+
+		<tr>
+		<td><xsl:value-of select="Site/SiteName"/></td>
+		<td><xsl:value-of select="Site/BuildName"/></td>
+		<td><a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Coverage.html</xsl:attribute>
+		<xsl:value-of select="Site/Coverage/PercentCoverage"/>%</a></td>
+		<td><xsl:value-of select="Site/Coverage/LOCTested"/><xsl:text> of </xsl:text><xsl:value-of select="Site/Coverage/LOC"/></td>
+		<td><xsl:value-of select="Site/Coverage/StartDateTime"/></td>
+		</tr>
+		</xsl:if>
+	</xsl:for-each>
+	</table>
+	</xsl:when>
+	<xsl:otherwise>
+		<h3>No coverage information</h3><br/>
+	</xsl:otherwise>
+	</xsl:choose>
+
+
 </body>
 </html>
 
