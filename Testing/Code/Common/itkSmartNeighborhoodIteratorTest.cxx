@@ -92,5 +92,10 @@ int main()
   std::cout << it.GetCenterPointer() << " = "
             << *(it.GetCenterPointer()) << std::endl;
 
+  // Test GetBoundaryCondition
+
+  it.GetBoundaryCondition();
+
+  
   return 0;
 }

@@ -105,5 +105,9 @@ int main()
       printnb<itk::ConstSmartNeighborhoodIterator<TestImageType> >(it, false);
     }
 
+  // Test GetBoundaryCondition
+
+  it.GetBoundaryCondition();
+  
   return 0;
 }
