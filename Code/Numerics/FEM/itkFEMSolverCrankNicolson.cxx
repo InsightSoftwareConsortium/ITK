@@ -520,7 +520,7 @@ Element::Float SolverCrankNicolson::EvaluateResidual(Float t)
     ForceEnergy+=iSolVal*FVal;
 #endif
 #ifdef TOTE
-    Fval=Fval+0.0;
+    FVal=FVal+0.0;
     iSolVal=t*(m_ls->GetSolutionValue(i,SolutionTIndex))
         +m_ls->GetSolutionValue(i,TotalSolutionIndex);// FOR TOT E
     ForceEnergy+=iSolVal*(m_ls->GetVectorValue(i,ForceTotalIndex)+
