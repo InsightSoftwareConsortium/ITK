@@ -65,6 +65,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMeshToMeshFilter.h"
 #include "itkMorphologyImageFilter.h"
 #include "itkMultiplyImageFilter.h"
+#include "itkNaryImageFilter.h"
 #include "itkNeighborhoodOperatorImageFilter.h"
 #include "itkNonThreadedShrinkImageFilter.h"
 #include "itkPadImageFilter.h"

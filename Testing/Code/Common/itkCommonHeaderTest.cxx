@@ -110,6 +110,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkIndexedContainerInterface.h"
 #include "itkIntTypes.h"
 #include "itkInteriorExteriorSpatialFunction.h"
+#include "itkInterpolateImageFunction.h"
 #include "itkKernelTransform.h"
 #include "itkLevelSetCurvatureFunction.h"
 #include "itkLightObject.h"
