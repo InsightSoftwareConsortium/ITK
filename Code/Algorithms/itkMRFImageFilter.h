@@ -143,7 +143,8 @@ public:
   itkTypeMacro(MRFImageFilter,Object);
 
   /** Type definition for the input image. */
-  typedef typename TInputImage::Pointer              InputImagePointer;  
+  typedef typename TInputImage::Pointer              InputImagePointer;
+  typedef typename TInputImage::ConstPointer         InputImageConstPointer;  
 
   /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType            InputImagePixelType;
