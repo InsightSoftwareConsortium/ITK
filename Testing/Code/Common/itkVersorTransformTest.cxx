@@ -309,7 +309,8 @@ int itkVersorTransformTest(int, char* [] )
     center[1] = 62;
     center[2] = 93;
     
-    transform->SetCenter( center );
+    // FIXME: A center will be available after the Transforms are refactored.
+    // transform->SetCenter( center );
 
     TransformType::OutputPointType transformedPoint;
     transformedPoint = transform->TransformPoint( center );
