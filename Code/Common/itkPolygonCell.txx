@@ -35,7 +35,7 @@ PolygonCell< TCellInterface >
 {
   Self * newPolygonCell = new Self;
   cellPointer.TakeOwnership( newPolygonCell );
-  const unsigned long numberOfPoints = cellPointer->GetNumberOfPoints();
+  const unsigned long numberOfPoints = this->GetNumberOfPoints();
   newPolygonCell->SetPointIds(0, numberOfPoints, this->GetPointIds());
 }
 
