@@ -1,6 +1,7 @@
 INCLUDE_DIRECTORIES(
     ${ITK_SOURCE_DIR}/Utilities/GlutMaster
     ${GLUT_INCLUDE_DIR}
+	${ITK_SOURCE_DIR}/Utilities/DICOMParser
     )
 
 SET(ITKIO_SRCS
@@ -19,6 +20,8 @@ itkDicomImageIOFactory.cxx
 itkDicomImageIO.cxx
 itkGiplImageIOFactory.cxx
 itkGiplImageIO.cxx
+itkDICOMImageIO2Factory.cxx
+itkDICOMImageIO2.cxx
 )
 
 IF(GLUT_FOUND)
@@ -36,7 +39,7 @@ ENDIF(WIN32)
 
 # Add ITKIO library
 ADD_LIBRARY(ITKIO ${ITKIO_SRCS})
-TARGET_LINK_LIBRARIES(ITKIO ITKCommon itkpng itkzlib ITKMetaIO)
+TARGET_LINK_LIBRARIES(ITKIO ITKCommon itkpng itkzlib ITKMetaIO DICOMParser)
 
 
 IF(GLUT_FOUND)
