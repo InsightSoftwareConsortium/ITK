@@ -62,6 +62,13 @@ unsigned int dim )
     {
     return 0.0;
     }
+  
+  for( unsigned int j = 0; j < ImageDimension; j++ )
+    {
+    if( index[j] > m_ImageSize[j] - 1 )
+      return 0.0;
+    }
+
 
   m_Derivative = 0.0;
   IndexType neighIndex = index ;
