@@ -40,12 +40,12 @@ int itkTubeSpatialObjectTest(int, char **)
   typedef itk::Point< ScalarType, 3> Point;
   typedef itk::Matrix< ScalarType, 3, 3> Matrix;
   typedef itk::TubeSpatialObject Tube;
-  typedef itk::TubeSpatialObject::Pointer TubePointer;
+  typedef itk::SmartPointer<Tube> TubePointer;
   typedef itk::TubeNetworkSpatialObject TubeNet;
-  typedef itk::TubeNetworkSpatialObject::Pointer TubeNetPointer;
+  typedef itk::SmartPointer<TubeNet> TubeNetPointer;
   typedef itk::AffineTransform< ScalarType, 3 > AffineTransformType;
-  typedef AffineTransformType::Pointer AffineTransformPointer;
-  typedef itk::TubeNetworkSpatialObject::ChildrenListType ChildrenListType;
+  typedef itk::SmartPointer<AffineTransformType> AffineTransformPointer;
+  typedef std::list< itk::SpatialObject< 3, AffineTransformType, OutputType> * > ChildrenListType;
 
   Vector axis, translation;
   Point in, out;
