@@ -40,7 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkImageLinearConstIterator_h
 #define __itkImageLinearConstIterator_h
 
-#include "itkImageConstIteratorWithIndex.h"
+#include "itkImageConstIterator.h"
 
 namespace itk
 {
@@ -101,7 +101,7 @@ namespace itk
  *
  */
 template<typename TImage>
-class ImageLinearConstIterator : public ImageConstIteratorWithIndex<TImage>
+class ImageLinearConstIterator : public ImageConstIterator<TImage>
 {
 public:
   /**
@@ -112,7 +112,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef ImageConstIteratorWithIndex<TImage>  Superclass;
+  typedef ImageConstIterator<TImage>  Superclass;
 
   /** 
    * Index typedef support. While this was already typdef'ed in the superclass
@@ -149,7 +149,7 @@ public:
   /**
    * Default constructor. Needed since we provide a cast constructor.
    */
-  ImageLinearConstIterator() : ImageConstIteratorWithIndex<TImage>() {}
+  ImageLinearConstIterator() : ImageConstIterator<TImage>() {}
   
   /**
    * Constructor establishes an iterator to walk a particular image and a
@@ -157,7 +157,7 @@ public:
    */
   ImageLinearConstIterator(ImageType *ptr,
                       const RegionType& region)
-    : ImageConstIteratorWithIndex<TImage>( ptr, region ) {}
+    : ImageConstIterator<TImage>( ptr, region ) {}
 
   /**
    * Constructor that can be used to cast from an ImageIterator to an
@@ -167,8 +167,8 @@ public:
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageLinearConstIterator.
    */
-  ImageLinearConstIterator( const ImageConstIteratorWithIndex<TImage> &it)
-    { this->ImageConstIteratorWithIndex<TImage>::operator=(it); }
+  ImageLinearConstIterator( const ImageConstIterator<TImage> &it)
+    { this->ImageConstIterator<TImage>::operator=(it); }
 
   /**
    * Go to the next line
