@@ -202,8 +202,8 @@ public:
   enum {OutputImageDimension = TInputImage1::ImageDimension};
 
   /** Output typedefs. */
-  typedef Image<OutputImagePixelType, OutputImageDimension> OutputImageType;
   typedef typename Functor::JoinFunctor< typename TInputImage1::PixelType,  typename TInputImage2::PixelType>::JoinType OutputImagePixelType;
+  typedef Image<OutputImagePixelType, OutputImageDimension> OutputImageType;
   
   /** Standard class typedefs. */
   typedef JoinImageFilter  Self;

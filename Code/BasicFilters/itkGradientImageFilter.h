@@ -84,7 +84,7 @@ public:
 
   /** Standard class typedefs. */
   typedef GradientImageFilter Self;
-  typedef ImageToImageFilter< InputImageType, OutputImageType> Superclass;
+  typedef ImageToImageFilter< TInputImage, OutputImageType> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

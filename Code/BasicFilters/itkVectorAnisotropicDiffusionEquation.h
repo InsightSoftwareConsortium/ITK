@@ -78,16 +78,16 @@ public:
                AnisotropicDiffusionEquation);
   
   /** Inherit some parameters from the superclass type */
-  enum { ImageDimension = Superclass::ImageDimension };
-  enum { VectorDimension = PixelType::VectorDimension };
-
-  /** Inherit some parameters from the superclass type */
   typedef typename Superclass::ImageType        ImageType;
   typedef typename Superclass::PixelType        PixelType;
   typedef typename Superclass::TimeStepType     TimeStepType;
   typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
+  /** Inherit some parameters from the superclass type */
+  enum { ImageDimension = Superclass::ImageDimension };
+  enum { VectorDimension = PixelType::VectorDimension };
+
   /** Compute the average gradient magnitude squared. */
   virtual void CalculateAverageGradientMagnitudeSquared(TImage *);
 
