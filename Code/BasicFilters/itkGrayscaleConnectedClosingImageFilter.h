@@ -22,11 +22,18 @@
 namespace itk {
 
 /** \class GrayscaleConnectedClosingImageFilter
- * \brief Segment pixels that are connected to seed point and have intensity greater than or equal to the seed point.
+ * \brief Enhance pixels associated with a dark object (identified by
+ * a seed pixel) where the dark object is surrounded by a brigher object.
  *
- * Geodesic morphology and the Fillhole algorithm is described in
- * Chapter 6 of Pierre Soille's book "Morphological Image Analysis:
- * Principles and Applications", Second Edition, Springer, 2003.
+ * GrayscaleConnectedClosingImagefilter is useful for enhancing dark
+ * objects that are surrounded by bright borders. This filter makes it
+ * easier to threshold the image and extract just the object of
+ * interest. 
+ *
+ * Geodesic morphology and the connected closing algorithm are
+ * described in Chapter 6 of Pierre Soille's book "Morphological Image
+ * Analysis: Principles and Applications", Second Edition, Springer,
+ * 2003.
  *
  * \sa GrayscaleGeodesicDilateImageFilter
  * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter
