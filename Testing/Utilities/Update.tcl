@@ -191,7 +191,7 @@ foreach File $Files \
     puts $Out "\t\t<Revisions>"
     foreach Field [list Revision PreviousRevision Author Date Comment] \
     {
-      puts $Out "\t\t\t<$Field>$FileStatus($File,RevisionLog,$i,$Field)</$Field>"
+      puts $Out "\t\t\t<$Field>[XMLSafeString $FileStatus($File,RevisionLog,$i,$Field)]</$Field>"
     }    
     puts $Out "\t</Revisions>"
   }
