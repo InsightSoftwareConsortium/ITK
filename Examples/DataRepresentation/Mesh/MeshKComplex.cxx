@@ -396,9 +396,9 @@ int main()
   //  The \code{PointIdsEnd()} method returns the iterator to the past-end
   //  point-identifier in the cell.
   //
-  //  \index{CellType::PointIdsBegin()}
-  //  \index{CellType::PointIdsEnd()}
-  //  \index{CellType::PointIdIterator}
+  //  \index{CellType!PointIdsBegin()}
+  //  \index{CellType!PointIdsEnd()}
+  //  \index{CellType!PointIdIterator}
   //  \index{PointIdIterator}
   //  \index{PointIdsBegin()}
   //  \index{PointIdsEnd()}
