@@ -158,8 +158,6 @@ LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>
       itkExceptionMacro( << "required node has CurvatureFlag = false\n");
       }
     refitterm = NumericTraits<ScalarValueType>::Zero;
-    cv = NumericTraits<ScalarValueType>::Zero;
-    tcv = NumericTraits<ScalarValueType>::Zero;
     }
   else
     {
