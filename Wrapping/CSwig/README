@@ -18,9 +18,12 @@ cable, and gccxml.   When built CableSwig will have three execuables:
 To build ITK with the CSwig wrappers:
 
         1. checkout a copy of CableSwig  
-                cvs -d:pserver:anonymous@public.kitware.com:/cvsroot/CableSwig login 
-                password: cmake
+
+                Simply do:
+
                 cvs -d:pserver:anonymous@public.kitware.com:/cvsroot/CableSwig co CableSwig
+
+                Note that no cvs login is needed here.
 
         2. build CableSwig on your system.
 
