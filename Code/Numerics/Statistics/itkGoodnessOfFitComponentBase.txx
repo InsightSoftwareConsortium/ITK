@@ -75,7 +75,10 @@ GoodnessOfFitComponentBase< TInputSample >
     os << "not set." << std::endl ;
     }
 
-  os << indent << "Parameters : " << m_Parameters << std::endl;
+  if(!m_Parameters.empty())
+    {
+    os << indent << "Parameters : " << m_Parameters << std::endl;
+    }
   os << indent << "Proportion: " << m_Proportion << std::endl;
   os << indent << "Resampler: " << m_Resampler << std::endl;
   os << indent << "Projector: " << m_Projector << std::endl;
