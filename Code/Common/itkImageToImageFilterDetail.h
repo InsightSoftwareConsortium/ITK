@@ -21,6 +21,7 @@
 #define __itkImageToImageFilterDetail_h
 
 #include "itkImageRegion.h"
+#include "itkSmartPointer.h"
 
 namespace itk
 {
@@ -171,7 +172,7 @@ namespace ImageToImageFilterDetail
    * input of the filter is the destination region.
    */
   template <unsigned int D1, unsigned int D2>
-  void CopyRegion(const typename
+  void ImageToImageFilterDefaultCopyRegion(const typename
                   BinaryUnsignedIntDispatch<D1, D2>::FirstEqualsSecondType &,
                   ImageRegion<D1> &destRegion,
                   const ImageRegion<D2> &srcRegion)
@@ -196,7 +197,7 @@ namespace ImageToImageFilterDetail
    * input of the filter is the destination.
    */
   template <unsigned int D1, unsigned int D2>
-  void CopyRegion(const typename
+  void ImageToImageFilterDefaultCopyRegion(const typename
                   BinaryUnsignedIntDispatch<D1, D2>::FirstLessThanSecondType &,
                   ImageRegion<D1> &destRegion,
                   const ImageRegion<D2> &srcRegion)
@@ -237,7 +238,7 @@ namespace ImageToImageFilterDetail
    * input of the filter is the destination.
    */
   template <unsigned int D1, unsigned int D2>
-  void CopyRegion(const typename
+  void ImageToImageFilterDefaultCopyRegion(const typename
                BinaryUnsignedIntDispatch<D1, D2>::FirstGreaterThanSecondType &,
                ImageRegion<D1> &destRegion,
                const ImageRegion<D2> &srcRegion)
@@ -311,16 +312,18 @@ namespace ImageToImageFilterDetail
    * dimensions of the input).
    */
   template <unsigned int D1, unsigned int D2>
-  class ITK_EXPORT ImageRegionCopier
+    class ITK_EXPORT ImageRegionCopier 
   {
-   public:
+  public:
     virtual void operator() (ImageRegion<D1> &destRegion,
-                             const ImageRegion<D2> &srcRegion) const
+                            const ImageRegion<D2> &srcRegion) const
     {
-      CopyRegion<D1, D2>(BinaryUnsignedIntDispatch<D1, D2>::ComparisonType(),
-                         destRegion, srcRegion);
+      ImageToImageFilterDefaultCopyRegion<D1, D2>(
+                      BinaryUnsignedIntDispatch<D1, D2>::ComparisonType(),
+                      destRegion, srcRegion);
     }
   };
+
 
   /** Stream operator for ImageRegionCopier objects. Just prints the RTTI
       typename. */
