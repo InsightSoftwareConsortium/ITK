@@ -29,7 +29,7 @@ template <class TInputImage1, class TInputImage2,
 FilterImageBinary<TInputImage1,TInputImage2,TOutputImage,TFunction>
 ::FilterImageBinary()
 {
-  image3 = GetOutput();
+  this->m_OutputImage = GetOutput();
 }
 
 
@@ -42,7 +42,7 @@ void
 FilterImageBinary<TInputImage1,TInputImage2,TOutputImage,TFunction>
 ::SetInput1( Image1Pointer image1 ) 
 {
-  this->image1 = image1;
+  this->m_Image1 = image1;
   SetNthInput(0, image1.GetPointer() );
 }
 
@@ -56,7 +56,7 @@ void
 FilterImageBinary<TInputImage1,TInputImage2,TOutputImage,TFunction>
 ::SetInput2( Image2Pointer image2 ) 
 {
-  this->image2 = image2;
+  this->m_Image2 = image2;
   SetNthInput(0, image2.GetPointer());
 }
 
@@ -74,28 +74,34 @@ FilterImageBinary<TInputImage1,TInputImage2,TOutputImage,TFunction>
 ::Execute( void )
 {
 
-  image3->SetImageSize(  image1->GetImageSize() );
-  image3->SetBufferSize( image1->GetBufferSize() );
-  image3->Allocate();
-  image3->SetImageStartIndex(  image1->GetImageStartIndex() );
-  image3->SetBufferStartIndex( image1->GetBufferStartIndex() );
+  m_OutputImage->SetImageSize(  m_Image1->GetImageSize() );
+  m_OutputImage->SetBufferSize( m_Image1->GetBufferSize() );
+  m_OutputImage->Allocate();
+  m_OutputImage->SetImageStartIndex(  m_Image1->GetImageStartIndex() );
+  m_OutputImage->SetBufferStartIndex( m_Image1->GetBufferStartIndex() );
 
-  Image1Iterator it1(image1, image1->GetBufferStartIndex(),image1->GetBufferSize());
-  Image2Iterator it2(image2, image2->GetBufferStartIndex(),image2->GetBufferSize());
-  Image3Iterator it3(image3, image3->GetBufferStartIndex(),image3->GetBufferSize());
+  Image1Iterator it1(m_Image1, m_Image1->GetBufferStartIndex(),
+                     m_Image1->GetBufferSize());
+  
+  Image2Iterator it2(m_Image2, m_Image2->GetBufferStartIndex(),
+                     m_Image2->GetBufferSize());
+  
+  Image3Iterator ot(m_OutputImage, m_OutputImage->GetBufferStartIndex(),
+                     m_OutputImage->GetBufferSize());
 
   it1.Begin();
   it2.Begin();
-  it3.Begin();
+
+  ot.Begin();
 
   TFunction function;
 
   while( !it1.IsAtEnd() ) 
   {
-	*it3 = function(*it1,*it2);
-	++it1;
-	++it2;
-	++it3;
+    *ot = function(*it1,*it2);
+    ++it1;
+    ++it2;
+    ++ot;
   }
 
 

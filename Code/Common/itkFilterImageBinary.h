@@ -62,7 +62,7 @@ public:
   /**
    *  Pointer type for output image
    */
-  typedef typename TOutputImage::Pointer Image3Pointer;
+  typedef typename TOutputImage::Pointer ImageOutputPointer;
 
   /**
    *  Iterator type for first input image
@@ -75,9 +75,9 @@ public:
   typedef itk::ImageRegionSimpleIterator< typename TInputImage2::PixelType, TInputImage2::ImageDimension> Image2Iterator;
 
   /**
-   *  Iterator type for first input image
+   *  Iterator type for output image
    */
-  typedef itk::ImageRegionSimpleIterator< typename TOutputImage::PixelType, TOutputImage::ImageDimension> Image3Iterator;
+  typedef itk::ImageRegionSimpleIterator< typename TOutputImage::PixelType, TOutputImage::ImageDimension> ImageOutputIterator;
 
 
   /**
@@ -102,9 +102,10 @@ public:
 
 protected:
 
-  Image1Pointer image1;
-  Image2Pointer image2;
-  Image3Pointer image3;
+  Image1Pointer m_Image1;
+  Image2Pointer m_Image2;
+
+  ImageOutputPointer m_OutputImage;
 
   FilterImageBinary();
   virtual ~FilterImageBinary() {};
