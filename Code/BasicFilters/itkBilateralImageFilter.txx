@@ -269,8 +269,8 @@ BilateralImageFilter<TInputImage, TOutputImage>
         {
         // distance squared between neighborhood pixel and neighborhood center
         rangeDistanceSq
-          = (static_cast<OutputPixelRealType>(n_iter.GetPixel(i))-centerPixel)
-          * (static_cast<OutputPixelRealType>(n_iter.GetPixel(i))-centerPixel);
+          = (static_cast<OutputPixelRealType>(b_iter.GetPixel(i))-centerPixel)
+          * (static_cast<OutputPixelRealType>(b_iter.GetPixel(i))-centerPixel);
 
         // range Gaussian value
         rangeGaussian = exp(-0.5*rangeDistanceSq / (m_RangeSigma*m_RangeSigma))
@@ -280,7 +280,7 @@ BilateralImageFilter<TInputImage, TOutputImage>
         normFactor += (*k_it) * rangeGaussian;
       
         // Input Image * Domain Gaussian * Range Gaussian 
-        val += n_iter.GetPixel(i) * (*k_it) * rangeGaussian;
+        val += b_iter.GetPixel(i) * (*k_it) * rangeGaussian;
         }
       // normalize the value
       val /= normFactor;
