@@ -107,17 +107,17 @@ SphereSource<TOutputMesh>
         if (cos(u) > 0) {signu = 1;} else {signu = -1;}
         if (cos(v) > 0) {signv = 1;} else {signv = -1;}
 
-        p1[0] = m_Scale[0]*signu*(pow((float)(fabs(cos(u))), m_Squareness1))*signv* 
-            (pow((float)(fabs(cos(v))), m_Squareness2)) + m_Center[0]; 
+        p1[0] = m_Scale[0]*signu*(pow((float)(fabs(cos(u))), (float) m_Squareness1))*signv* 
+            (pow((float)(fabs(cos(v))), (float) m_Squareness2)) + m_Center[0]; 
 
         if (sin(v) > 0) {signv = 1;} else {signv = -1;}
 
-        p1[1] = m_Scale[1]*signu*(pow((float)(fabs(cos(u))), m_Squareness1))*signv* 
-            (pow((float)(fabs(sin(v))), m_Squareness2)) + m_Center[1]; 
+        p1[1] = m_Scale[1]*signu*(pow((float)(fabs(cos(u))), (float) m_Squareness1))*signv* 
+            (pow((float)(fabs(sin(v))), (float) m_Squareness2)) + m_Center[1]; 
 
         if (sin(u) > 0) {signu = 1;} else {signu = -1;}
 
-        p1[2] = m_Scale[2]*signu*(pow((float)(fabs(sin(u))), m_Squareness1)) + 
+        p1[2] = m_Scale[2]*signu*(pow((float)(fabs(sin(u))), (float) m_Squareness1)) + 
             m_Center[2];
 
         point.Value() = p1;
