@@ -8,6 +8,14 @@ SOURCE_GROUP("XML Files" "[.]xml$")
 # The matching ELSE/ENDIF should be the last lines in the file.
 IF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" GREATER 1.5)
 
+# If CMake is the version we're expecting, don't show the
+# CMAKE_BACKWARDS_COMPATIBILITY option.
+IF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" MATCHES "^1\\.6$")
+  MARK_AS_ADVANCED(FORCE CMAKE_BACKWARDS_COMPATIBILITY)
+ELSE("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" MATCHES "^1\\.6$")
+  MARK_AS_ADVANCED(CLEAR CMAKE_BACKWARDS_COMPATIBILITY)
+ENDIF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" MATCHES "^1\\.6$")
+
 #-----------------------------------------------------------------------------
 # ITK version number.  An even minor number corresponds to releases.
 SET(ITK_VERSION_MAJOR "1")
@@ -63,7 +71,7 @@ ENDIF(CMAKE_SYSTEM MATCHES "IRIX.*")
 #-----------------------------------------------------------------------------
 # Configure Dart testing support.
 INCLUDE(${CMAKE_ROOT}/Modules/Dart.cmake)
-MARK_AS_ADVANCED(TCL_TCLSH)
+MARK_AS_ADVANCED(TCL_TCLSH DART_ROOT BUILD_TESTING)
 IF(BUILD_TESTING)
   ENABLE_TESTING()
   CONFIGURE_FILE(${ITK_SOURCE_DIR}/InsightLogo.gif
@@ -128,6 +136,7 @@ ENDIF(NOT ITK_USE_SYSTEM_STDLIB)
 #-----------------------------------------------------------------------------
 # Configure the default ITK_DATA_ROOT for the location of ITK Data.
 FIND_PATH(ITK_DATA_ROOT ITKData.readme ${ITK_SOURCE_DIR}/Testing/Data $ENV{ITK_DATA_ROOT})
+MARK_AS_ADVANCED(ITK_DATA_ROOT)
 
 #-----------------------------------------------------------------------------
 # Configure Tcl support.

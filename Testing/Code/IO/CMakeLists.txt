@@ -38,6 +38,7 @@ TARGET_LINK_LIBRARIES(itkIOTests ITKIO)
 ##Add tests that depend on finding data
 FIND_PATH(VW_RAW_DATA_PATH avfCROP.1023c.raw 
           ${ITKTesting_SOURCE_DIR}/../../InsightData/VisibleWomanHead/CROPraw)
+MARK_AS_ADVANCED(VW_RAW_DATA_PATH)
 
 IF(VW_RAW_DATA_PATH)
   ADD_TEST(itkRawImageIOTest2 ${IO_TESTS} itkRawImageIOTest2

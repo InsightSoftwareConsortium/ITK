@@ -30,6 +30,7 @@ ELSE(ITK_BINARY_DIR)
 
   # Find the data directory.
   FIND_PATH(ITK_DATA_ROOT ITKData.readme ${ITKTesting_SOURCE_DIR}/Data $ENV{ITK_DATA_ROOT})
+  MARK_AS_ADVANCED(ITK_DATA_ROOT)
 
   # Find ITK and load its settings.
   FIND_PACKAGE(ITK)
