@@ -405,7 +405,7 @@ void DicomImageIO::Read(void* buffer)
     throw exception;
   }
 
-  inFile.seekg(m_InputPosition);
+  inFile.seekg( m_InputPosition );
   if( !inFile )
   {
     ExceptionObject exception(__FILE__, __LINE__);

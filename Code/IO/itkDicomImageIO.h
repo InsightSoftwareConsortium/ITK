@@ -115,7 +115,7 @@ private:
   bool IfEqual(unsigned char * tag, int tagvalue1, int tagvalue2) const;
   
   // Position after ReadImageInformation.
-  size_t m_InputPosition;
+  std::fstream::pos_type   m_InputPosition;
 };
 
 } // end namespace itk
