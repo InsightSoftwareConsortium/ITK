@@ -98,7 +98,7 @@ protected:
    * alpha is a constant
    * r(x) = Euclidean norm = sqrt[x1^2 + x2^2 + x3^2]
    * I = identity matrix */
-  GMatrixType ComputeG(const InputVectorType& x) const;
+  const GMatrixType & ComputeG(const InputVectorType& x) const;
 
   /** alpha, Poisson's ratio */
   TScalarType m_Alpha;

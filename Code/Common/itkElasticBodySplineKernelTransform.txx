@@ -35,20 +35,27 @@ ElasticBodySplineKernelTransform<TScalarType, NDimensions>::
 }
 
 template <class TScalarType, int NDimensions>
-ElasticBodySplineKernelTransform<TScalarType, NDimensions>::GMatrixType
+const ElasticBodySplineKernelTransform<TScalarType, NDimensions>::GMatrixType &
 ElasticBodySplineKernelTransform<TScalarType, NDimensions>
 ::ComputeG(const InputVectorType & x) const
 {
-  const TScalarType r = x.GetNorm();
-  IMatrixType CV;
+  const TScalarType r       = x.GetNorm();
+  const TScalarType factor  = -3.0 * r;
+  const TScalarType radial  = m_Alpha * ( r * r ) * r;
   for(unsigned int i=0; i<NDimensions; i++)
     {
-    for(unsigned int j=0; j<NDimensions; j++)
+    const InputVectorType::ValueType xi = x[i] * factor;
+    // G is symmetric
+    for(unsigned int j=0; j<i; j++)
       {
-        CV[i][j] = x[i] * x[j];
+        const TScalarType value = xi * x[j]; 
+        m_GMatrix[i][j] = value;
+        m_GMatrix[j][i] = value;
       }
+    m_GMatrix[i][i] =  radial + xi * x[i];
     }
-  return ( (m_Alpha * (r*r) * m_I) - ( CV*3.0 ) ) * r;
+  
+  return m_GMatrix;
 }
 
 
