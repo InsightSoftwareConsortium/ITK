@@ -143,7 +143,7 @@ inline void FindSampleBound(TSubsample* sample,
   typename TSubsample::MeasurementVectorType temp ;
 
   min = max = temp = sample->GetMeasurementVectorByIndex(beginIndex) ;
-  while (beginIndex < endIndex)
+  while (true)
     {
       for (dimension= 0 ; dimension < Dimension ; dimension++) 
         {
@@ -157,6 +157,10 @@ inline void FindSampleBound(TSubsample* sample,
             }
         }
       ++beginIndex ;
+      if (beginIndex == endIndex)
+        {
+          break ;
+        }
       temp = sample->GetMeasurementVectorByIndex(beginIndex) ;
     } // end of while
 }
@@ -186,7 +190,7 @@ FindSampleBoundAndMean(TSubsample* sample,
   min = max = temp = sample->GetMeasurementVectorByIndex(beginIndex) ;
   sum.Fill(0.0) ;
  
-  while (beginIndex < endIndex)
+  while (true)
     {
       for (dimension= 0 ; dimension < Dimension ; dimension++) 
         {
@@ -201,6 +205,10 @@ FindSampleBoundAndMean(TSubsample* sample,
           sum[dimension] += temp[dimension] ;
         }
       ++beginIndex ;
+      if (beginIndex == endIndex)
+        {
+          break ;
+        }
       temp = sample->GetMeasurementVectorByIndex(beginIndex) ;
     } // end of while
 
