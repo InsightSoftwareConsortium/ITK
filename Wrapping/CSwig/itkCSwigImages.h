@@ -27,7 +27,7 @@ namespace image
   typedef itk::Image<signed long   , 3> SL3;
 }
 
-namespace vector
+namespace itkvector
 {
   typedef itk::Vector< float,  2>  F2;
   typedef itk::Vector< float,  3>  F3;
@@ -45,12 +45,12 @@ namespace covariantvector
 
 namespace image
 {
-  typedef itk::Image< vector::F2, 2 > VF2;
-  typedef itk::Image< vector::F3, 3 > VF3;
-  typedef itk::Image< vector::F2, 2 > VD2;
-  typedef itk::Image< vector::F3, 3 > VD3;
-  typedef itk::Image< vector::F2, 2 > V2F2;
-  typedef itk::Image< vector::F2, 3 > V2F3;
+  typedef itk::Image< itkvector::F2, 2 > VF2;
+  typedef itk::Image< itkvector::F3, 3 > VF3;
+  typedef itk::Image< itkvector::F2, 2 > VD2;
+  typedef itk::Image< itkvector::F3, 3 > VD3;
+  typedef itk::Image< itkvector::F2, 2 > V2F2;
+  typedef itk::Image< itkvector::F2, 3 > V2F3;
 
   typedef itk::Image< covariantvector::F2, 2 > CVF2;
   typedef itk::Image< covariantvector::F3, 3 > CVF3;

@@ -36,8 +36,8 @@ namespace _cable_
     ITK_WRAP_OBJECT2(Image, signed short, 2, itkImageSS2);
     ITK_WRAP_OBJECT2(Image, signed int, 2, itkImageSI2);
 
-    ITK_WRAP_OBJECT2(Image, vector::F2, 2, itkImageVF2);
-    ITK_WRAP_OBJECT2(Image, vector::D2, 2, itkImageVD2);
+    ITK_WRAP_OBJECT2(Image, itkvector::F2, 2, itkImageVF2);
+    ITK_WRAP_OBJECT2(Image, itkvector::D2, 2, itkImageVD2);
     ITK_WRAP_OBJECT2(Image, covariantvector::F2, 2, itkImageCVF2);
     ITK_WRAP_OBJECT2(Image, covariantvector::D2, 2, itkImageCVD2);
 
