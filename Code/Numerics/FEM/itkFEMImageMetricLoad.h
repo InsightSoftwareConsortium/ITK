@@ -117,9 +117,6 @@ public:
   typedef typename TargetNeighborhoodIteratorType::RadiusType 
                                      TargetRadiusType;
 
-  typedef   Array<Float>  ParametersType;
-  
-
 // IMAGE DATA
   typedef   typename  ReferenceType::PixelType RefPixelType;
   typedef   typename  TargetType::PixelType    TarPixelType;
@@ -153,10 +150,10 @@ public:
 
   typedef   PatternIntensityImageToImageMetric<  TargetType, ReferenceType  > PatternIntensityMetricType;
 
-//  typedef typename MutualInformationMetricType             DefaultMetricType;
-//  typedef typename NormalizedCorrelationMetricType             DefaultMetricType;
-//  typedef typename PatternIntensityMetricType             DefaultMetricType;
-  typedef typename MeanSquaresMetricType             DefaultMetricType;
+//  typedef  MutualInformationMetricType             DefaultMetricType;
+//  typedef  NormalizedCorrelationMetricType             DefaultMetricType;
+//  typedef  PatternIntensityMetricType             DefaultMetricType;
+  typedef  MeanSquaresMetricType             DefaultMetricType;
   typedef typename DefaultTransformType::ParametersType         ParametersType;
   typedef typename DefaultTransformType::JacobianType           JacobianType;
 
@@ -278,7 +275,7 @@ private:
   Float                                               m_Sign;
 
   typename Solution::ConstPointer                     m_Solution;
-  typename MetricBaseTypePointer                      m_Metric;
+  MetricBaseTypePointer                               m_Metric;
   typename TransformBaseType::Pointer                 m_Transform;
   typename InterpolatorType::Pointer                  m_Interpolator;
 };

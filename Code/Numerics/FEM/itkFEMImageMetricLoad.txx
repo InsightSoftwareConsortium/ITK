@@ -22,7 +22,7 @@ void
 ImageMetricLoad<TReference , TTarget>
 ::InitializeMetric(void)
 { 
-  if (!m_Transform) m_Transform =  DefaultTransformType::New();
+  if (!m_Transform) m_Transform = DefaultTransformType::New();
   if (!m_Metric)    m_Metric = DefaultMetricType::New();
 
 //------------------------------------------------------------
