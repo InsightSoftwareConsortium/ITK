@@ -24,6 +24,8 @@
 #endif
 #include <fstream>
 
+#include "itkImageFileWriter.h" 
+#include "itkRawImageIO.h" 
 #include "itkFEMRegistrationFilter.h"
 
 

@@ -22,8 +22,6 @@
 #include "itkFEMLinearSystemWrapperDenseVNL.h"
 
 #include "itkImage.h"
-#include "itkImageFileWriter.h" 
-#include "itkRawImageIO.h" 
 #include "itkCastImageFilter.h"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 #include "itkVector.h"
