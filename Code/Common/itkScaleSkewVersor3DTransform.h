@@ -103,12 +103,14 @@ public:
    * This is typically used by optimizers.
    * There are 15 parameters:
    *   0-2   versor
-   *   3-5   offset
+   *   3-5   translation
    *   6-8   Scale
    *   9-14  Skew
    **  */
   void SetParameters( const ParametersType & parameters );
   virtual const ParametersType& GetParameters(void) const;
+
+  virtual const MatrixType & GetMatrix(void) const;
 
   void SetScale( const ScaleVectorType & scale );
   itkGetConstReferenceMacro( Scale, ScaleVectorType );

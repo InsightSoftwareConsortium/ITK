@@ -184,6 +184,14 @@ ScaleSkewVersor3DTransform<TScalarType>
   this->ComputeMatrixAndOffset();
 }
 
+template <class TScalarType>
+typename const ScaleSkewVersor3DTransform<TScalarType>::MatrixType &
+ScaleSkewVersor3DTransform<TScalarType>
+::GetMatrix( void ) const
+{
+  return this->m_RotationMatrix;
+}
+
 // Compute the matrix
 template <class TScalarType>
 void
