@@ -81,6 +81,12 @@ public:
       return (m_ElementNumber != accessor.m_ElementNumber);
     }
 
+  /** Constructor */
+  NthElementPixelAccessor()
+    {
+    m_ElementNumber = 0;
+    }
+
 private:
   // Identifier of the N-th element to be accessed
   unsigned int    m_ElementNumber;
