@@ -245,6 +245,13 @@ LBFGSOptimizer
   // in the variable provided as initial position
   m_VnlOptimizer->minimize( parameters );
 
+  if ( parameters.size() != initialPosition.size() )
+    {
+    // set current position to initial position and throw an exception
+    this->SetCurrentPosition( initialPosition );
+    itkExceptionMacro( << "Error occured in optimization" );
+    }
+
    // we scale the parameters down if scales are defined
   if(m_ScalesInitialized)
     {
