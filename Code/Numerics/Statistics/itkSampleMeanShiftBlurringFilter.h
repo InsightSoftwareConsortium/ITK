@@ -25,8 +25,15 @@ namespace itk{
 namespace Statistics{
   
 /** \class SampleMeanShiftBlurringFilter
- * \brief Calculates the covariance matrix of the target sample data.
+ * \brief This filter blurres the input sample data using mean shift
+ * algorithm.
  *
+ * The mode seeking part is done by any class derived from the
+ * MeanShiftModeSeekerBase. Users should set the input sample using
+ * the SetInputSample method of the superclass and set the mean shift
+ * mode seeker using the SetMeanShiftModeSeeker method.
+ *
+ * \sa SampleMeanShiftClusteringFilter, MeanShiftModeSeekerBase
  */
 
 template< class TSample >
@@ -51,14 +58,12 @@ public:
   typedef ListSample< MeasurementVectorType > OutputType ;
   typedef MeanShiftModeSeekerBase< TSample > MeanShiftModeSeekerType ;
 
-  /** Sets the mean shift evolving function */
+  /** Set/Gets the mean shift evolving function */
   void SetMeanShiftModeSeeker(MeanShiftModeSeekerType* function) ;
-
-  /** Sets the mean shift evolving function */
   MeanShiftModeSeekerType* GetMeanShiftModeSeeker()
   { return m_ModeSeeker ; }
 
-  /** Returns the covariance matrix of the target sample data */ 
+  /** Returns the blurred sample data in a ListSample object */
   OutputType* GetOutput() ;
 
 protected:
