@@ -63,11 +63,11 @@ namespace watershed
  * 
  * \par
  * This is an itkDataObject.  It contains a matrix of ``faces'' of an
- * N-dimensional hypercube. A chunk of a volume with /f$ N /f$ dimensions
- * has /f$ 2N /f$ faces of dimension /f$ N-1 /f$. Some examples: A
- * 2-dimensional image has 4 faces that are lines.  A 3-dimensional image has 6 
+ * N-dimensional hypercube. A chunk of a volume with \f$ N \f$ dimensions
+ * has \f$ 2N \f$ faces of dimension \f$ N-1 \f$. Some examples: A
+ * 2-dimensional image has 4 faces that are lines.  A 3-dimensional image has 6
  * faces that are planes.  A 4-dimensional image has 8 faces which are
- * cubes. Faces are indexed as /f$ N /f$ sets of pairs /f$ (low, high) /f$.
+ * cubes. Faces are indexed as \f$ N \f$ sets of pairs \f$ (low, high) \f$.
  *
  * \sa WatershedSegmenter
  * \sa WatershedBoundaryResolver
