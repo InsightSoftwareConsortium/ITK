@@ -7508,7 +7508,7 @@ doublereal eigvns_(integer *n, doublereal *tri, doublereal *d__, doublereal *
     tri -= 3;
 
     /* Function Body */
-    ret_val = 0.;
+    ret_val;
 
     d__[1] = -tri[3];
     i__1 = *n;
@@ -7564,7 +7564,7 @@ doublereal eigvss_(integer *n, doublereal *tri, doublereal *start, doublereal
     tri -= 3;
 
     /* Function Body */
-    ret_val = 0.;
+    ret_val;
     d__1 = abs(*zeta);
     itmp = (integer) ((real) (-d_lg10(&d__1)));
     nsig = max(itmp,4);
@@ -10872,7 +10872,7 @@ doublereal pvtbv_(integer *n, integer *ia, integer *ja, doublereal *a,
     --a;
 
     /* Function Body */
-    ret_val = 0.;
+    ret_val;
     sum = 0.;
     i__1 = *n;
     for (ii = 1; ii <= i__1; ++ii) {

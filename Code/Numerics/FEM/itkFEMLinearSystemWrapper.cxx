@@ -415,7 +415,7 @@ void LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int row
       }
 
       /* add rows in rowBuffer to bufferArray (don't add repeats) */
-      unsigned int repeatFlag = 0;
+      unsigned int repeatFlag;
       for (k=0; k<rowBuffer.size(); k++)
       {
         repeatFlag = 0;

@@ -275,8 +275,8 @@ void SolverCrankNicolson::FindBracketingTriplet(Float* a, Float* b, Float* c)
   Float Tiny=1.e-20;
   
   Float ax, bx,cx;
-  ax=0.0; bx=1.; cx=2.0;
-  Float fc=0.0;
+  ax=0.0; bx=1.; cx;
+  Float fc;
   Float fa=fabs(EvaluateResidual(ax));
   Float fb=fabs(EvaluateResidual(bx));
   
@@ -494,8 +494,8 @@ void SolverCrankNicolson::SetEnergyToMin(Float xmin)
 {
   for (unsigned int j=0; j<NGFN; j++)
     {
-    Float SolVal=0.0;
-    Float FVal=0.0;
+    Float SolVal;
+    Float FVal;
 #ifdef LOCE
     SolVal=xmin*m_ls->GetSolutionValue(j,SolutionTIndex)
       +(1.-xmin)*m_ls->GetSolutionValue(j,SolutionTMinus1Index);   
@@ -516,7 +516,7 @@ void SolverCrankNicolson::SetEnergyToMin(Float xmin)
 Element::Float SolverCrankNicolson::GetDeformationEnergy(Float t)
 {
   Float DeformationEnergy=0.0;
-  Float iSolVal=0.0,jSolVal=0.0;
+  Float iSolVal,jSolVal;
 
   for (unsigned int i=0; i<NGFN; i++)
     {
@@ -554,7 +554,7 @@ Element::Float SolverCrankNicolson::EvaluateResidual(Float t)
  
   Float ForceEnergy=0.0,FVal=0.0;
   Float DeformationEnergy=0.0;
-  Float iSolVal=0.0,jSolVal=0.0;
+  Float iSolVal,jSolVal;
 
   for (unsigned int i=0; i<NGFN; i++)
   {
@@ -604,7 +604,7 @@ void SolverCrankNicolson::AddToDisplacements(Float optimum)
    * Copy the resulting displacements from 
    * solution vector back to node objects.
    */
-  Float mins=0.0, maxs=0.0,CurrentTotSolution,CurrentSolution=0.,CurrentForce=0.;
+  Float mins=0.0, maxs=0.0,CurrentTotSolution,CurrentSolution,CurrentForce;
   Float mins2=0.0, maxs2=0.0;
   for(unsigned int i=0;i<NGFN;i++)
   {  
