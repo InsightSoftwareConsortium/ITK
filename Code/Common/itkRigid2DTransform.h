@@ -100,6 +100,12 @@ public:
    **/
    itkGetConstReferenceMacro( RotationMatrix, MatrixType );
 
+  /**
+   * Get rotation Matrix from an Rigid2DTransform
+   *
+   * This method returns the value of the rotation of the
+   * Rigid2DTransform.
+   **/
    const MatrixType & GetMatrix( )
      {
      return this->GetRotationMatrix();
