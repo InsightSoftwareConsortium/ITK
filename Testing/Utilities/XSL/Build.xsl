@@ -14,14 +14,16 @@
   <xsl:param name="TestDocDir">.</xsl:param>
   <xsl:preserve-space elements="xsl:text"/>
   <xsl:include href="Insight.xsl"/>
-
+  <xsl:output method="html"/>
   <xsl:template match="/">
     <xsl:call-template name="Summary"/>
 
     <!--
          Write both the Errors and Warnings
          -->
+    <redirect:write select="concat(string('{$TestDocDir}'), '/BuildError.html' )">
       <xsl:call-template name="ErrorLog"/>
+    </redirect:write>
     <redirect:write select="concat(string('{$TestDocDir}'), '/BuildWarning.html' )">
       <xsl:call-template name="WarningLog"/>
     </redirect:write>
@@ -29,7 +31,6 @@
   </xsl:template>
 
   <xsl:template name="ErrorLog">
-    <redirect:write select="concat(string('{$TestDocDir}'), '/BuildError.html' )">
       <xsl:call-template name="InsightHeader">
         <xsl:with-param name="Title">Insight Errors</xsl:with-param>
         <xsl:with-param name="IconDir">../../../../Icons</xsl:with-param>
@@ -43,7 +44,6 @@ Found <xsl:value-of select="count(Site/Build/Error)"/> Errors<br/>
         <xsl:call-template name="FormatContext"/>
       </xsl:for-each>
       <xsl:call-template name="InsightFooter"/>
-    </redirect:write>
   </xsl:template>
 
   <xsl:template name="WarningLog">
@@ -92,8 +92,8 @@ Found <xsl:value-of select="count(Site/Build/Error)"/> Errors<br/>
       </xsl:if>
     </xsl:when>
   </xsl:choose>
-  <pre><xsl:value-of select="PreContext" disable-output-escaping="yes"/><b><xsl:value-of select="Text" disable-output-escaping="yes"/></b>
-<xsl:value-of select="PostContext" disable-output-escaping="yes"/></pre>
+  <pre><xsl:value-of select="PreContext"/><b><xsl:value-of select="Text"/></b>
+<xsl:value-of select="PostContext"/></pre>
 </xsl:template>
 
 
