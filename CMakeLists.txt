@@ -87,6 +87,13 @@ OPTION(ITK_USE_SYSTEM_STDLIB
        "Use the system's version of the standard C++ library (STL and streams).  If 'OFF', ITK will build against a supplied version of the standard library from SGI.  On SGI systems, this should be set to 'OFF'." ON)
 SET(ITK_USE_SYSTEM_STDLIB ON)
 SET(VXL_NUMERICS_LIBRARIES itkvnl itkvnl_algo itknetlib)
+IF(ITK_CSWIG_TCL AND ITK_WRAP_TCL)
+  MESSAGE("Warning.  You cannot use ITK_WRAP_TCL and ITK_CSWIG_TCL together.  "
+          "Assuming ITK_CSWIG_TCL is preferred and disabling ITK_WRAP_TCL.  "
+          "Disable ITK_CSWIG_TCL to enable use of ITK_WRAP_TCL.")
+  SET(ITK_WRAP_TCL OFF)
+ENDIF(ITK_CSWIG_TCL AND ITK_WRAP_TCL)
+
 
 # Provide options to use system versions of third-party libraries.
 ITK_THIRD_PARTY_OPTION(ZLIB zlib)
