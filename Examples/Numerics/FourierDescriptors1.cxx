@@ -190,7 +190,10 @@ int main(int argc, char * argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int spectrumSize = 1 << (int)ceil(log(numberOfPoints)/log(2.0)) ;
+  const unsigned int powerOfTwo   = ceil( log( (double)(numberOfPoints)) /
+                                          log( (double)(2.0)));
+
+  const unsigned int spectrumSize = 1 << powerOfTwo;
 
   FFTSpectrumType signal( spectrumSize );  
 
