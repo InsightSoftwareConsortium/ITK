@@ -22,7 +22,7 @@
 #include "itkDataObject.h"
 #include "itkImageIOFactory.h"
 #include "itkCommand.h"
-#include "itkIOCOmmon.h"
+#include "itkIOCommon.h"
 #include "itkProgressReporter.h"
 
 #include <stdio.h>
