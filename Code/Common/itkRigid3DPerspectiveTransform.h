@@ -190,7 +190,7 @@ private:
   TScalarType         m_Width;  
 
   /** Matrix representation of the rotation. */
-  MatrixType          m_DirectMatrix;   
+  MatrixType          m_RotationMatrix;   
 
 }; //class Rigid3DPerspectiveTransform:
 

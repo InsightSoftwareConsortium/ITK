@@ -29,7 +29,7 @@ Rigid3DPerspectiveTransform<TScalarType>::
 Rigid3DPerspectiveTransform()
 {
   m_Offset.Fill( 0 );
-  m_DirectMatrix = m_Versor.GetMatrix();
+  m_RotationMatrix = m_Versor.GetMatrix();
   m_FocalDistance = 1.0;
   m_Height = 1.0;
   m_Width  = 1.0;
@@ -57,7 +57,7 @@ PrintSelf(std::ostream &os, Indent indent) const
   os << indent << "FocalDistance: "<< m_FocalDistance << std::endl;
   os << indent << "Height: "       << m_Height << std::endl;
   os << indent << "Width: "        << m_Width << std::endl;
-  os << indent << "DirectMatrix: " << m_DirectMatrix   << std::endl;
+  os << indent << "DirectMatrix: " << m_RotationMatrix   << std::endl;
 }
 
 
@@ -106,8 +106,8 @@ void
 Rigid3DPerspectiveTransform<TScalarType>::
 SetRotation(const VersorType &rotation )
 {
-  m_Versor        = rotation;
-  m_DirectMatrix  = m_Versor.GetMatrix();
+  m_Versor          = rotation;
+  m_RotationMatrix  = m_Versor.GetMatrix();
   return;
 }
 
@@ -140,7 +140,7 @@ Rigid3DPerspectiveTransform<TScalarType>::
 TransformPoint(const InputPointType &point) const 
 {
   
-  InputPointType rigid =  m_DirectMatrix * point + m_Offset;
+  InputPointType rigid =  m_RotationMatrix * point + m_Offset;
   
   OutputPointType result;
   
@@ -160,7 +160,7 @@ void
 Rigid3DPerspectiveTransform<TScalarType>::
 ComputeMatrix(void) 
 {
-  m_DirectMatrix = m_Versor.GetMatrix();
+  m_RotationMatrix = m_Versor.GetMatrix();
 }
 
 

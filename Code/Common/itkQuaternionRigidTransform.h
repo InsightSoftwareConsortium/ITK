@@ -101,7 +101,7 @@ public:
    * This method returns the value of the rotation of the
    * QuaternionRigidTransform.   **/
   const MatrixType & GetRotationMatrix(void) const
-    { return m_DirectMatrix; }
+    { return m_RotationMatrix; }
 
   /** Set the offset of a QuaternionRigidTransform.
    *
@@ -144,7 +144,7 @@ protected:
    * Should be protected in order to be modified
    * by derived classes that instantiate an interface
    * to rotation computation. */
-   MatrixType          m_DirectMatrix;
+   MatrixType          m_RotationMatrix;
 
 private:
   QuaternionRigidTransform(const Self&); //purposely not implemented

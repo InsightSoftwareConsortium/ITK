@@ -103,9 +103,7 @@ public:
    * This method returns the value of the offset of the
    * Rigid3DTransform.
    **/
-  const OffsetType & GetOffset(void) const
-      { return m_Offset; }
-
+   itkGetConstMacro( Offset, OffsetType );
 
   /**
    * Get rotation MAtrix from an Rigid3DTransform
@@ -113,8 +111,7 @@ public:
    * This method returns the value of the rotation of the
    * Rigid3DTransform.
    **/
-  const MatrixType & GetRotationMatrix(void) const
-    { return m_DirectMatrix; }
+   itkGetConstMacro( RotationMatrix, MatrixType );
 
 
   /**
@@ -123,8 +120,19 @@ public:
    * This method sets the offset of an Rigid3DTransform to a
    * value specified by the user.
    **/
-  void SetOffset(const OffsetType &offset)
-      { m_Offset = offset; return; }
+  itkSetMacro( Offset, OffsetType );
+
+
+  /**
+   * Set the rotation Matrix of a Rigid3D Transform
+   *
+   * This method sets the 3x3 matrix representing a rotation
+   * in the transform.  The Matrix is expected to be orthogonal
+   * with a certain tolerance.
+   * \warning This method will throw an exception is the matrix
+   * provided as argument is not orthogonal.
+   **/
+  void SetRotationMatrix(const MatrixType &matrix);
 
 
   /**
@@ -194,7 +202,7 @@ protected:
   // Should be protected in order to be modified 
   // by derived classes that instantiate an interface
   // to rotation computation
-  MatrixType          m_DirectMatrix;   
+  MatrixType          m_RotationMatrix;   
 
   // representation of the inverse rottion
   MatrixType          m_InverseMatrix; 

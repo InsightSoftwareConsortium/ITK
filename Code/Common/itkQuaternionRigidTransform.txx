@@ -30,7 +30,7 @@ QuaternionRigidTransform<TScalarType>
 {
   m_Offset.Fill( 0 );
   m_Rotation = VnlQuaternionType(0,0,0,1); // axis * sin(t/2), cos(t/2)
-  m_DirectMatrix = m_Rotation.rotation_matrix();
+  m_RotationMatrix = m_Rotation.rotation_matrix();
 }
 
 
@@ -43,7 +43,7 @@ PrintSelf(std::ostream &os, Indent indent ) const
   Superclass::PrintSelf(os,indent);
   os << indent << "Offset: " << m_Offset   << std::endl;
   os << indent << "Rotation: " << m_Rotation << std::endl;
-  os << indent << "DirectMatrix: " << m_DirectMatrix   << std::endl;
+  os << indent << "DirectMatrix: " << m_RotationMatrix   << std::endl;
 }
 
 
@@ -54,7 +54,7 @@ QuaternionRigidTransform<TScalarType>::
 SetRotation(const VnlQuaternionType &rotation )
 {
   m_Rotation      = rotation;
-  m_DirectMatrix  = m_Rotation.rotation_matrix();
+  m_RotationMatrix  = m_Rotation.rotation_matrix();
   return;
 }
 
@@ -65,7 +65,7 @@ QuaternionRigidTransform<TScalarType>::
 TransformPoint(const InputPointType &point) const 
 {
 
-  return m_DirectMatrix * point + m_Offset;
+  return m_RotationMatrix * point + m_Offset;
 
 }
 

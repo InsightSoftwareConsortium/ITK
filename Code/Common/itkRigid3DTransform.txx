@@ -29,7 +29,7 @@ Rigid3DTransform<TScalarType>::
 Rigid3DTransform()
 {
   m_Offset.Fill( 0 );
-  m_DirectMatrix.SetIdentity();
+  m_RotationMatrix.SetIdentity();
   m_InverseMatrix.SetIdentity();
 }
  
@@ -52,11 +52,38 @@ PrintSelf(std::ostream &os, Indent indent) const
   Superclass::PrintSelf(os,indent);
   
   os << indent << "Offset: " << m_Offset   << std::endl;
-  os << indent << "DirectMatrix: " << m_DirectMatrix   << std::endl;
+  os << indent << "RotationMatrix: " << m_RotationMatrix   << std::endl;
 }
 
 
- 
+  
+// Compose with another affine transformation
+template<class TScalarType>
+void
+Rigid3DTransform<TScalarType>::
+SetRotationMatrix(const MatrixType & matrix )
+{
+  itkDebugMacro("setting  m_RotationMatrix  to " << matrix ); 
+  // The matrix must be orthogonal otherwise it is not
+  // representing a valid rotaion in 3D space
+  MatrixType::InternalMatrixType test = 
+                  matrix.GetVnlMatrix() * matrix.GetTranspose();
+
+  const double tolerance = 1e-10;
+  if( !test.is_identity( tolerance ) ) 
+    {
+    itk::ExceptionObject ex;
+    ex.SetDescription("Attempt to set a Non-Orthogonal matrix");
+    ex.SetLocation(__FILE__);
+    throw ex;
+    }
+
+  m_RotationMatrix = matrix;
+
+  this->Modified(); 
+}
+
+
 // Compose with another affine transformation
 template<class TScalarType>
 void
@@ -65,15 +92,15 @@ Compose(const Self * other, bool pre )
 {
   if (pre) 
     {
-    m_Offset       = m_DirectMatrix * other->m_Offset + m_Offset;
-    m_DirectMatrix = m_DirectMatrix * other->m_DirectMatrix;
+    m_Offset         = m_RotationMatrix * other->m_Offset + m_Offset;
+    m_RotationMatrix = m_RotationMatrix * other->m_RotationMatrix;
     }
   else 
     {
-    m_Offset       = other->m_DirectMatrix * m_Offset + other->m_Offset;
-    m_DirectMatrix = other->m_DirectMatrix * m_DirectMatrix;
+    m_Offset         = other->m_RotationMatrix * m_Offset + other->m_Offset;
+    m_RotationMatrix = other->m_RotationMatrix * m_RotationMatrix;
     }
-  m_InverseMatrix = m_DirectMatrix.GetTranspose();
+  m_InverseMatrix = m_RotationMatrix.GetTranspose();
 }
 
 
@@ -96,7 +123,7 @@ Rigid3DTransform<TScalarType>::OutputPointType
 Rigid3DTransform<TScalarType>::
 TransformPoint(const InputPointType &point) const 
 {
-  return m_DirectMatrix * point + m_Offset; 
+  return m_RotationMatrix * point + m_Offset; 
 }
 
 
@@ -106,7 +133,7 @@ Rigid3DTransform<TScalarType>::OutputVectorType
 Rigid3DTransform<TScalarType>::
 TransformVector(const InputVectorType &vect) const 
 {
-  return  m_DirectMatrix * vect;
+  return  m_RotationMatrix * vect;
 }
 
 
@@ -116,7 +143,7 @@ Rigid3DTransform<TScalarType>::OutputVnlVectorType
 Rigid3DTransform<TScalarType>::
 TransformVector(const InputVnlVectorType &vect) const 
 {
-  return  m_DirectMatrix * vect;
+  return  m_RotationMatrix * vect;
 }
 
 
@@ -128,7 +155,7 @@ TransformCovariantVector(const InputCovariantVectorType &vect) const
 {
   // Covariant vectors are transformed like contravariant
   // vectors under orthogonal transformations.
-  return  m_DirectMatrix * vect;
+  return  m_RotationMatrix * vect;
 }
 
 
@@ -167,7 +194,7 @@ Rigid3DTransform<TScalarType>::InputCovariantVectorType
 Rigid3DTransform<TScalarType>::
 BackTransform(const OutputCovariantVectorType &vect) const 
 {
-  return m_DirectMatrix * vect;
+  return m_RotationMatrix * vect;
 }
 
 
@@ -179,9 +206,9 @@ Rigid3DTransform<TScalarType>::
 Inverse( void ) const
 {
   Pointer result = New();
-  result->m_DirectMatrix   =   m_InverseMatrix;
-  result->m_InverseMatrix  =   m_DirectMatrix;
-  result->m_Offset         = -(m_InverseMatrix * m_Offset);
+  result->m_RotationMatrix   =   m_InverseMatrix;
+  result->m_InverseMatrix    =   m_RotationMatrix;
+  result->m_Offset           = -(m_InverseMatrix * m_Offset);
   return result;
 }
 

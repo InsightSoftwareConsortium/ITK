@@ -112,17 +112,17 @@ VersorTransform<TScalarType>
   const TScalarType yw = vy * vw;
   const TScalarType zw = vz * vw;
 
-  m_DirectMatrix[0][0] = 1.0 - 2.0 * ( yy + zz );
-  m_DirectMatrix[1][1] = 1.0 - 2.0 * ( xx + zz );
-  m_DirectMatrix[2][2] = 1.0 - 2.0 * ( xx + yy );
-  m_DirectMatrix[0][1] = 2.0 * ( xy - zw );
-  m_DirectMatrix[0][2] = 2.0 * ( xz + yw );
-  m_DirectMatrix[1][0] = 2.0 * ( xy + zw );
-  m_DirectMatrix[2][0] = 2.0 * ( xz - yw );
-  m_DirectMatrix[2][1] = 2.0 * ( yz + xw );
-  m_DirectMatrix[1][2] = 2.0 * ( yz - xw );
+  m_RotationMatrix[0][0] = 1.0 - 2.0 * ( yy + zz );
+  m_RotationMatrix[1][1] = 1.0 - 2.0 * ( xx + zz );
+  m_RotationMatrix[2][2] = 1.0 - 2.0 * ( xx + yy );
+  m_RotationMatrix[0][1] = 2.0 * ( xy - zw );
+  m_RotationMatrix[0][2] = 2.0 * ( xz + yw );
+  m_RotationMatrix[1][0] = 2.0 * ( xy + zw );
+  m_RotationMatrix[2][0] = 2.0 * ( xz - yw );
+  m_RotationMatrix[2][1] = 2.0 * ( yz + xw );
+  m_RotationMatrix[1][2] = 2.0 * ( yz - xw );
  
-  m_InverseMatrix = m_DirectMatrix.GetTranspose();
+  m_InverseMatrix = m_RotationMatrix.GetTranspose();
 
 }
 
