@@ -498,8 +498,10 @@ int main(int, char *[])
   //  \end{center}
   // 
   //  In the code example above, the values of featureId range from zero to
-  //  three. The cell identifiers of the vertex cells in this example are the
-  //  numbers \{11,12,13,14\}.
+  //  three. The cell identifiers of the triangle cells in this example are the
+  //  numbers \{1,2,3,4\}, while the cell identifiers of the vertex cells are
+  //  the numbers \{11,12,13,14\}.
+
   //
   //  Let's now assign one-dimensional boundary features of the tetrahedron.
   //  Those are the line cells with identifiers  \{5,6,7,8,9,10\}. Note that the
