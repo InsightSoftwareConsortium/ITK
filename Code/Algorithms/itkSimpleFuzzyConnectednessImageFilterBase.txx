@@ -31,9 +31,13 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 ::SimpleFuzzyConnectednessImageFilterBase()
 {
   m_Threshold = 1.0;
-  m_ObjectsSeed.Fill(0);
+  m_ObjectSeed.Fill(0);
   m_Weight = 1.0;
+  m_InsideValue  = NumericTraits< OutputPixelType >::max();
+  m_OutsideValue = NumericTraits< OutputPixelType >::min();
 }
+
+
 
 template <class TInputImage, class TOutputImage>
 SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
@@ -42,13 +46,6 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 }
 
 
-template <class TInputImage, class TOutputImage>
-void 
-SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
-::SetObjectsSeed(const IndexType &seed)
-{
-  m_ObjectsSeed = seed;
-}
 
 template <class TInputImage, class TOutputImage>
 void 
@@ -151,23 +148,32 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   return(tmp);
 }
 
+
+
 template <class TInputImage, class TOutputImage>
 void 
 SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 ::MakeSegmentObject()
 {
-  RegionType regionOUT = this->m_SegmentObject->GetRequestedRegion();
-  typename UShortImage::RegionType regionIN = this->m_FuzzyScene->GetRequestedRegion();
+  RegionType regionOUT = m_SegmentObject->GetRequestedRegion();
+  typename FuzzySceneType::RegionType regionIN = m_FuzzyScene->GetRequestedRegion();
   
   const double activeThreshold = (NumericTraits<unsigned short>::max()) * m_Threshold;
 
 
-  ImageRegionIteratorWithIndex <UShortImage> it(this->m_FuzzyScene, regionIN);
-  ImageRegionIteratorWithIndex <OutputImageType> ot(this->m_SegmentObject, regionOUT);
+  ImageRegionIteratorWithIndex < FuzzySceneType  > it( m_FuzzyScene,    regionIN  );
+  ImageRegionIteratorWithIndex < OutputImageType > ot( m_SegmentObject, regionOUT );
 
   while( !it.IsAtEnd())
     {    
-    ot.Set(it.Get() > activeThreshold );
+    if( it.Get() > activeThreshold )
+      {
+      ot.Set( m_InsideValue );
+      }
+    else
+      {
+      ot.Set( m_OutsideValue );
+      }
     ++it;
     ++ot;
     }
@@ -188,10 +194,10 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   m_Size = m_InputImage->GetLargestPossibleRegion().GetSize();
   IndexType index;
   index.Fill(0);
-  typename UShortImage::RegionType region;
+  typename FuzzySceneType::RegionType region;
   region.SetSize(m_Size);
   region.SetIndex(index);
-  m_FuzzyScene = UShortImage::New();  
+  m_FuzzyScene = FuzzySceneType::New();  
   m_FuzzyScene->SetRegions( region );
   m_FuzzyScene->Allocate();  
   m_FuzzyScene->FillBuffer( 0 );
@@ -202,8 +208,8 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   m_SegmentObject->SetRegions( region1 );
   m_SegmentObject->Allocate();  
 
-  this->PushNeighbors( m_ObjectsSeed );
-  m_FuzzyScene->SetPixel( m_ObjectsSeed, NumericTraits<unsigned short>::max() );
+  this->PushNeighbors( m_ObjectSeed );
+  m_FuzzyScene->SetPixel( m_ObjectSeed, NumericTraits<unsigned short>::max() );
 
   ProgressReporter progress(this, 0, region.GetNumberOfPixels() * 2 * m_InputImage->GetImageDimension() );
 
@@ -223,6 +229,9 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   this->MakeSegmentObject();
 }
 
+
+
+
 template <class TInputImage, class TOutputImage>
 void 
 SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
@@ -232,6 +241,9 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   this->MakeSegmentObject();
 }
 
+
+
+
 template <class TInputImage, class TOutputImage>
 void 
 SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
@@ -240,6 +252,9 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   Superclass::PrintSelf(os, indent);
   os << indent << "Weight: " << m_Weight << std::endl;
   os << indent << "Threshold: " << m_Threshold << std::endl;
+  os << indent << "Inside  value: " << m_InsideValue  << std::endl;
+  os << indent << "Outside value: " << m_OutsideValue << std::endl;
+  os << indent << "Object seed : " << m_ObjectSeed << std::endl;
 }
 
 } /* end namespace itk. */

@@ -78,30 +78,48 @@ public:
   typedef TInputImage InputImageType;
   typedef TOutputImage OutputImageType;
   typedef Image <unsigned short, itkGetStaticConstMacro(ImageDimension)> UShortImage;
-  typedef typename TInputImage::IndexType IndexType;
-  typedef typename TInputImage::SizeType SizeType;
-  typedef typename TInputImage::PixelType PixelType;
-  typedef typename UShortImage::Pointer FuzzyScene;
-  typedef std::queue<IndexType> QueueType;
-  typedef typename TOutputImage::RegionType RegionType;
+  typedef typename TInputImage::IndexType         IndexType;
+  typedef typename TInputImage::SizeType          SizeType;
+  typedef typename TInputImage::PixelType         PixelType;
+  typedef UShortImage                             FuzzySceneType;
+  typedef typename FuzzySceneType::Pointer        FuzzyScenePointer;
+  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
+  typedef std::queue<IndexType>                   QueueType;
+  typedef typename OutputImageType::RegionType    RegionType;
+  typedef typename OutputImageType::PixelType     OutputPixelType;
+  typedef typename OutputImageType::Pointer       OutputImagePointer;
   
   /** Set/Get the weight of the first term (standard statistics) in the
    * affinity computation. */
   itkSetMacro(Weight, double);
   itkGetMacro(Weight, double);
   
-  /** Set/Get the threshold value for the segmentation. */
+  /** Set/Get the threshold value for the segmentation. This threshold value is
+   * scaled with respect to the range of the unsigned short type.  The
+   * resulting value is used to thresold the affinity map and generate a binary
+   * image as output. */
   itkSetMacro(Threshold, double);
   itkGetMacro(Threshold, double);
 
+  /** Set/Get the value to assign to the inside of the segmented object.
+   *  By default this value is set to the maximum value of the output pixel type */
+  itkSetMacro(InsideValue, OutputPixelType);
+  itkGetMacro(InsideValue, OutputPixelType);
+
+  /** Set/Get the value to assign to the outside of the segmented object.
+   *  By default this value is set to the minimum value of the output pixel type */
+  itkSetMacro(OutsideValue, OutputPixelType);
+  itkGetMacro(OutsideValue, OutputPixelType);
+
   /** Setting the starting point, believed to be inside the object. */
-  void SetObjectsSeed(const IndexType & seed);
+  itkSetMacro(      ObjectSeed, IndexType );
+  itkGetConstMacro( ObjectSeed, IndexType );
   
   /** Update the binary result (needed after an update the threshold). */
   void MakeSegmentObject();
 
   /** Extract the FuzzyScene not thresholded. */
-  FuzzyScene GetFuzzyScene(void)
+  const FuzzySceneType * GetFuzzyScene(void) const
   { return m_FuzzyScene; };
 
   /** A simple combination of SetThreshold and MakeSegmentObject methods. */
@@ -115,14 +133,14 @@ protected:
   /** Standard pipeline method.*/
   void GenerateData();
 
-  double m_Weight;
-  double m_Threshold;
-  IndexType m_ObjectsSeed;
-  SizeType m_Size;
+  double            m_Weight;
+  double            m_Threshold;
+  IndexType         m_ObjectSeed;
+  SizeType          m_Size;
 
-  typename InputImageType::ConstPointer m_InputImage;
-  typename UShortImage::Pointer m_FuzzyScene;
-  typename OutputImageType::Pointer m_SegmentObject; 
+  InputImageConstPointer    m_InputImage;
+  FuzzyScenePointer         m_FuzzyScene;
+  OutputImagePointer        m_SegmentObject; 
   
   QueueType m_Queue;
 
@@ -137,6 +155,9 @@ protected:
 private:
   SimpleFuzzyConnectednessImageFilterBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  OutputPixelType  m_InsideValue;
+  OutputPixelType  m_OutsideValue;
 
 };
 
