@@ -141,7 +141,7 @@ BloxCoreAtomImage<dim>
 
     ContinuousIndex<double, dim> contIndex;
 
-    for(int i = 0; i < dim; i ++ )
+    for(unsigned int i = 0; i < dim; i ++ )
       {
       contIndex[i] = (double)seedPos[i] + 0.5;
       }
@@ -191,7 +191,7 @@ BloxCoreAtomImage<dim>
       double de = 0;
       double sf_de_sqr = 0;
 
-      for (int i = 0; i < NDimensions; i++)
+      for (unsigned int i = 0; i < NDimensions; i++)
         {
         de += pow((dot_product(eigenvectors.get_column(i), dbar.Get_vnl_vector() ) /
           axisLengthArray[i] ), 2);
@@ -212,7 +212,7 @@ BloxCoreAtomImage<dim>
       sf_eigenvalues = sfi.Get().GetEigenvalues();
       sf_eigenvectors = sfi.Get().GetEigenvectors();
 
-      for (int i = 0; i < NDimensions; i++)
+      for (unsigned int i = 0; i < NDimensions; i++)
         {
         sf_de_sqr += pow((dot_product(sf_eigenvectors.get_column(i), dbar.Get_vnl_vector() ) /
           axisLengthArray[i] ), 2);
