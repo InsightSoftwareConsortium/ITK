@@ -16,15 +16,12 @@ See COPYRIGHT.txt for copyright details.
 #include <iostream>
 #include "itkImage.h"
 #include "itkScalar.h"
-#include "itkVector.h"
 #include "itkRandomImageSource.h"
 #include "itkShrinkImage.h"
 #include "itkWriteVTKImage.h"
-#include "itkWriteRawImage.h"
 #include "itkReadVTKImage.h"
 #include "itkCommand.h"
 #include "itkOutputWindow.h"
-
 
 // this class is used to send output to stdout and not the itk window
 class TextOutput : public itk::OutputWindow
@@ -36,8 +33,8 @@ public:
     }
 };
 
-// The following three classes are used to support callbacks
-// on the shrink filter in the pipeline that follows later
+// The following class is used to support callbacks
+// on the shrink filter in the pipeline that follows later.
 class DeleteEvent
 {
 public:
@@ -45,9 +42,9 @@ public:
     {std::cout << "Deleting: " << caller->GetClassName() << std::endl;}
 };
 
-
 // Note about scoping: Lots of blocks are created here to force the order
 // of deletion of objects to insure that the output is in the correct order.
+// (Deletion of the smart pointers occurs automatically as scope is exited.)
 //
 int main()
 {
