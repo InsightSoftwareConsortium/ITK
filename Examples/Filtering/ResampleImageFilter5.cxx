@@ -258,7 +258,8 @@ int main( int argc, char * argv[] )
   //  \center
   //  \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
   //  \includegraphics[width=0.44\textwidth]{ResampleImageFilterOutput11.eps}
-  //  \itkcaption{Effect of the Resample filter rotating and scaling an image}
+  //  \itkcaption[Effect of the Resample filter rotating and scaling an
+  //  image]{Effect of the Resample filter rotating and scaling an image}
   //  \label{fig:ResampleImageFilterOutput11}
   //  \end{figure}
   //

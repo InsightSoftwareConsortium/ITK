@@ -311,7 +311,7 @@ int main( int argc, char * argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{ResampleImageFilterOutput1.eps}
-  // \itkcaption{Effect of the Resample filter}
+  // \itkcaption[Effect of the Resample filter]{Effect of the Resample filter}
   // \label{fig:ResampleImageFilterOutput1}
   // \end{figure}
   //
@@ -379,14 +379,17 @@ int main( int argc, char * argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{ResampleImageFilterOutput2.eps}
-  // \itkcaption{ResampleImageFilter with a translation by $(-30,-50)$}
+  // \itkcaption[ResampleImageFilter with a translation by
+  // $(-30,-50)$]{ResampleImageFilter with a translation by $(-30,-50)$}
   // \label{fig:ResampleImageFilterOutput2}
   // \end{figure}
   //
   // \begin{figure}
   // \center
   // \includegraphics[width=\textwidth]{ResampleImageFilterOutput2Analysis.eps}
-  // \itkcaption{ResampleImageFilter. Analysis of a translation by $(-30,-50)$.}
+  // \itkcaption[ResampleImageFilter. Analysis of a translation by
+  // $(-30,-50)$]{ResampleImageFilter. Analysis of a translation by
+  // $(-30,-50)$.}
   // \label{fig:ResampleImageFilterOutput2Analysis}
   // \end{figure}
   //

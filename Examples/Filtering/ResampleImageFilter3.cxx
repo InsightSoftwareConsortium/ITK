@@ -54,7 +54,8 @@
 // \begin{figure}
 // \center
 // \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition6.eps}
-// \itkcaption{Input and output image placed in a common reference system.}
+// \itkcaption[Input and output image placed in a common reference
+// system]{Input and output image placed in a common reference system.}
 // \label{fig:ResampleImageFilterTransformComposition6}
 // \end{figure}
 //

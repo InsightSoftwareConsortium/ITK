@@ -207,7 +207,8 @@ int main( int argc, char * argv[] )
   // \begin{figure}
   // \center
   // \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition1.eps}
-  // \itkcaption{ResampleImageFilter selecting the origin of the output image}
+  // \itkcaption[ResampleImageFilter selecting the origin of the output
+  // image]{ResampleImageFilter selecting the origin of the output image}
   // \label{fig:ResampleImageFilterTransformComposition1}
   // \end{figure}
   //
@@ -274,7 +275,8 @@ int main( int argc, char * argv[] )
   // \begin{figure}
   // \center
   // \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition2.eps}
-  // \itkcaption{ResampleImageFilter selecting the origin of the output image}
+  // \itkcaption[ResampleImageFilter selecting the origin of the output
+  // image]{ResampleImageFilter selecting the origin of the output image}
   // \label{fig:ResampleImageFilterTransformComposition2}
   // \end{figure}
   //
