@@ -212,6 +212,7 @@ int itkMeshSpatialObjectIOTest(int, char*[])
     it_cells++;
     }
   std::cout<<" [PASSED]"<<std::endl;
+  delete children;
 
   // Testing celllinks
   std::cout<<"Testing CellLinks : ";
