@@ -118,7 +118,7 @@ public:
   /**
    *  Pointer type for the optimizer 
    */
-   typedef typedef OptimizerType::Pointer     OptimizerPointer;
+   typedef typename OptimizerType::Pointer     OptimizerPointer;
 
 
   /**
