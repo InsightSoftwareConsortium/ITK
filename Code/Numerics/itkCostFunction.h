@@ -68,7 +68,10 @@ protected:
   CostFunction() {};
   virtual ~CostFunction() {};
   void PrintSelf(std::ostream& os, Indent indent) const
-    { Superclass::PrintSelf(os,indent); }
+    { 
+      Superclass::PrintSelf(os,indent);
+      os << indent << "Parameters " << m_Parameters << std::endl;
+     }
 
   /** Store the parameters in ivars because optimizers do not keep track
    *  of the optimal values   */
