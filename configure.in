@@ -577,7 +577,7 @@ COMPILER=`echo $CXX | cut -d ' ' -f1`
 COMPILER=`which $COMPILER`
 COMPILER=`basename $COMPILER`
 BUILDNAME=$system-$COMPILER
-BUILDNAME=`echo $BUILDNAME | tr [\(\/] | tr -d \)`
+BUILDNAME=`echo $BUILDNAME | tr [\(\/] _ | tr -d \)`
 if test ! "$buildname_specified" = none; then
 	BUILDNAME=$buildname_specified
 fi
