@@ -38,7 +38,7 @@ int testMetaImage(int , char * [])
     if(i != tIm.ElementData(i))
       {
       std::cout << "Assigned Element Values Maintained: FAIL" << std::endl;
-      return 1;
+      return EXIT_FAILURE;
       }
     }
 
@@ -106,7 +106,7 @@ int testMetaImage(int , char * [])
   else
     { 
     std::cout << "[FAILED]" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   tIm2.PrintInfo();
@@ -115,7 +115,7 @@ int testMetaImage(int , char * [])
     if(i != tIm.ElementData(i))
       {
       std::cout << "Read Element Values: FAIL" << std::endl;
-      return 1;
+      return EXIT_FAILURE;
       }
     }
 
@@ -133,7 +133,7 @@ int testMetaImage(int , char * [])
   if(!MET_ImageModalityToString(MET_MOD_CT,modality))
     {
       std::cout << "MET_ImageModalityToString: FAIL" << std::endl;
-      return 1;
+      return EXIT_FAILURE;
     }
   else
     {
@@ -158,5 +158,5 @@ int testMetaImage(int , char * [])
 
   std::cout << "[DONE]" << std::endl;
 
-  return 0;
+  return EXIT_SUCCESS;
   }

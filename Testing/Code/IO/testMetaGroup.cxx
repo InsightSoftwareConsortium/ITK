@@ -47,7 +47,7 @@ int testMetaGroup(int , char *[])
   groupCopy.PrintInfo();
 
   std::cout << "[DONE]" << std::endl;
-  return 0;
+  return EXIT_SUCCESS;
   }
 
 

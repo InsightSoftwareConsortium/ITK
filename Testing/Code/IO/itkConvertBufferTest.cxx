@@ -114,7 +114,7 @@ int itkConvertBufferTest(int, char* [])
   typedef itk::Image<unsigned char, 2> ushort3Image;
   itk::ImageFileReader<ushort3Image>::Pointer reader 
     = itk::ImageFileReader<ushort3Image>::New();
-        return 0;
+        return EXIT_SUCCESS;
 }
 
 

@@ -113,5 +113,5 @@ int itkIOPrintTest(int , char* [])
   reader->SetImageIO(VTKio);
   std::cout << "---------------VTK" << reader;
 
-  return 0;
+  return EXIT_SUCCESS;
 }

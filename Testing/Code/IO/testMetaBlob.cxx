@@ -82,5 +82,5 @@ int testMetaBlob(int , char * [])
   }
 
   std::cout << "done" << std::endl;
-  return 0;
+  return EXIT_SUCCESS;
 }

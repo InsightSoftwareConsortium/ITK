@@ -51,7 +51,7 @@ int itkGEImageIOFactoryTest(int ac, char * av[])
     }
   if(ac < 2)
     {
-    return 1;
+    return EXIT_FAILURE;
     }
   char *filename = *++av;
 
@@ -68,9 +68,9 @@ int itkGEImageIOFactoryTest(int ac, char * av[])
     {
     std::cerr << "itkGEImageIOFactoryTest caught an exception:\n"
               << e.what() << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 int itkGEImageIOTest(int ac, char * av[])
@@ -85,7 +85,7 @@ int itkGEImageIOTest(int ac, char * av[])
 
   if((ac != 5) && (ac != 4))
     {
-    return 1;
+    return EXIT_FAILURE;
     }
   std::string failmode(av[1]);
   std::string filetype(av[2]);
@@ -110,7 +110,7 @@ int itkGEImageIOTest(int ac, char * av[])
     }
   else
     {
-      return 1;
+      return EXIT_FAILURE;
     }
 
   ImagePointer input ;

@@ -46,7 +46,7 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
       if(!PolygonGroup->AddStrand(strand))
         {
         std::cerr << "Error adding point" << std::endl;
-        return -1;
+        return EXIT_FAILURE;
         }
       strand->SetThickness(1.0);
       //
@@ -61,7 +61,7 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
         if(!strand->AddPoint(curpoint)) 
           {
           std::cerr << "Error adding point" << std::endl;
-          return -1;
+          return EXIT_FAILURE;
           }
         }
       }
@@ -69,9 +69,9 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
   catch(itk::ExceptionObject &)
     {
     std::cerr << "Error creating PolygonGroup" << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
@@ -99,7 +99,7 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
       {
       delete children1;
       delete children2;
-      return -1;
+      return EXIT_FAILURE;
       }
     Polygon3DType *curstrand1 =
       dynamic_cast<Polygon3DType *>((*it1).GetPointer());
@@ -127,7 +127,7 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
         {
         delete children1;
         delete children2;
-        return -1;
+        return EXIT_FAILURE;
         }
       Polygon3DType::PointType curpoint1 = 
         (*pointIt1).GetPosition();
@@ -140,7 +140,7 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
       {
       delete children1;
       delete children2;
-      return -1;
+      return EXIT_FAILURE;
       }
     it1++;
     it2++;
@@ -150,12 +150,12 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
     {
     delete children1;
     delete children2;
-    return -1;
+    return EXIT_FAILURE;
     }
   
   delete children1;
   delete children2;
-  return 0;
+  return EXIT_SUCCESS;
 }
 int itkPolygonGroupSpatialObjectXMLFileTest(int ac, char *av[])
 {

@@ -32,7 +32,7 @@ int itkStimulateImageIOTest(int argc, char* argv[] )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  output1 output2 " << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   // Create a source object (in this case a random image generator).
@@ -63,7 +63,7 @@ int itkStimulateImageIOTest(int argc, char* argv[] )
 
   if ( !sprIO->CanReadFile(argv[1]) )
     {
-    return 1;
+    return EXIT_FAILURE;
     }
 
   // Create a source object (in this case a reader)

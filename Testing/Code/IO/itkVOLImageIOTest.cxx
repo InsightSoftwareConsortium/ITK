@@ -29,7 +29,7 @@ int itkVOLImageIOTest(int ac, char* av[])
   if(ac < 2)
     {
     std::cerr << "Usage: " << av[0] << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   // Register at least one factory capable of producing 

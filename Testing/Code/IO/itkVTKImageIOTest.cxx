@@ -73,7 +73,7 @@ int ReadWrite(TScalar low, TScalar hi, char *file1, char *file2, bool ascii)
 
   if ( !vtkIO->CanReadFile(file1) )
     {
-    return 1;
+    return EXIT_FAILURE;
     }
 
   // Create a source object (in this case a reader)
@@ -87,7 +87,7 @@ int ReadWrite(TScalar low, TScalar hi, char *file1, char *file2, bool ascii)
   writer->SetFileName(file2);
   writer->Write();
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 
@@ -98,7 +98,7 @@ int itkVTKImageIOTest(int argc, char* argv[] )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  output1 output2 " << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   int status = 0;

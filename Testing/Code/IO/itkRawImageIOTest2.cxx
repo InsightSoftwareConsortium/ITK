@@ -31,7 +31,7 @@ int itkRawImageIOTest2(int argc, char * argv [])
   if ( argc < 2 )
     {
     itkGenericOutputMacro(<<"Need a file to process");
-    return 1;
+    return EXIT_FAILURE;
     }
 
   // Comment the following if you want to use the itk text output window

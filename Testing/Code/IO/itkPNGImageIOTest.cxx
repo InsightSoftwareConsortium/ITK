@@ -30,7 +30,7 @@ int itkPNGImageIOTest(int argc, char * argv[])
   if( argc < 2)
     {
     std::cerr << "Usage: " << argv[0] << " filename\n";
-    return 1;
+    return EXIT_FAILURE;
     }
 
   // We are converting read data into RGB pixel image

@@ -101,7 +101,7 @@ int itkConvertBufferTest2(int, char* [])
     itk::DefaultConvertPixelTraits<itk::RGBAPixel<int> > >::
     Convert(gray5, 5, rgbapixel, 5);
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 

@@ -76,7 +76,7 @@ int itkBrains2MaskTest(int ac, char *av[])
   catch(itk::ExceptionObject & ex)
     {
     ex.Print(std::cerr);
-    return -1;
+    return EXIT_FAILURE;
     }
   //
   // images in brains2 format are flipped in the y axis
@@ -99,7 +99,7 @@ int itkBrains2MaskTest(int ac, char *av[])
     {
     std::cout << "Must specify directory containing Brains2Test.mask"
               << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
   std::string fileName(av[1]);
   fileName = fileName + "/Brains2Test.mask";
@@ -123,7 +123,7 @@ int itkBrains2MaskTest(int ac, char *av[])
     message += ex.GetDescription();
     std::cerr << message << std::endl;
     itksys::SystemTools::RemoveFile(fileName.c_str());
-    return -1;
+    return EXIT_FAILURE;
     }
   ImageType::Pointer readImage;
   try
@@ -145,7 +145,7 @@ int itkBrains2MaskTest(int ac, char *av[])
     message += ex.GetDescription();
     std::cerr << message << std::endl;
     itksys::SystemTools::RemoveFile(fileName.c_str());
-    return -1;
+    return EXIT_FAILURE;
     }
   ri.GoToBegin();
   itk::ImageRegionIterator<ImageType> ri2(readImage,region);
@@ -165,7 +165,7 @@ int itkBrains2MaskTest(int ac, char *av[])
         std::cerr << 
           "Error comparing Input Image and File Image of Brains2 Mask" << 
           std::endl;
-        return -1;
+        return EXIT_FAILURE;
         }
       counter++;
       ++ri;
@@ -174,13 +174,13 @@ int itkBrains2MaskTest(int ac, char *av[])
     if(!ri.IsAtEnd() || !ri2.IsAtEnd())
       {
       std::cerr << "Error, inconsistent image sizes " << std::endl;
-      return -1;
+      return EXIT_FAILURE;
       }
     }
   catch(itk::ExceptionObject & ex)
     {
     ex.Print(std::cerr);
-    return -1;
+    return EXIT_FAILURE;
     }
   //
   // test the factory interface. This ImageIO class doesn't get
@@ -197,7 +197,7 @@ int itkBrains2MaskTest(int ac, char *av[])
   catch(itk::ExceptionObject & ex)
     {
     ex.Print(std::cerr);
-    return -1;
+    return EXIT_FAILURE;
     }
-  return 0;
+  return EXIT_SUCCESS;
 }

@@ -64,26 +64,26 @@ int WriteTestFiles(void)
 #include "BigEndian_img.h"
   std::ofstream little_hdr("LittleEndian.hdr", std::ios::binary | std::ios::out);
   if(!little_hdr.is_open())
-    return -1;
+    return EXIT_FAILURE;
   std::cout << "LittleEndian written" << std::endl;
   little_hdr.write(reinterpret_cast<const char *>(LittleEndian_hdr),sizeof(LittleEndian_hdr));
   little_hdr.close();
   std::ofstream little_img("LittleEndian.img", std::ios::binary | std::ios::out);
   if(!little_img.is_open())
-    return -1;
+    return EXIT_FAILURE;
   little_img.write(reinterpret_cast<const char *>(LittleEndian_img),sizeof(LittleEndian_img));
   little_img.close();
   std::ofstream big_hdr("BigEndian.hdr", std::ios::binary | std::ios::out);
   if(!big_hdr.is_open())
-    return -1;
+    return EXIT_FAILURE;
   big_hdr.write(reinterpret_cast<const char *>(BigEndian_hdr),sizeof(BigEndian_hdr));
   big_hdr.close();
   std::ofstream big_img("BigEndian.img", std::ios::binary | std::ios::out);
   if(!big_img.is_open())
-    return -1;
+    return EXIT_FAILURE;
   big_img.write(reinterpret_cast<const char *>(BigEndian_img),sizeof(BigEndian_img));
   big_img.close();
-  return 0;
+  return EXIT_SUCCESS;
 }
 void RemoveByteSwapTestFiles(void)
 {
@@ -100,7 +100,7 @@ int TestByteSwap(void)
   typedef itk::ImageFileReader< ImageType > ImageReaderType ;
   if(WriteTestFiles() == -1)
     {
-      return -1;
+      return EXIT_FAILURE;
     }
 
   ImageType::Pointer little;
@@ -123,7 +123,7 @@ int TestByteSwap(void)
     {
       e.Print(std::cerr) ;
       RemoveByteSwapTestFiles();
-      return -1;
+      return EXIT_FAILURE;
     }
   rval = 0;
   try
@@ -185,7 +185,7 @@ template <typename T> int MakeImage(void)
     catch ( itk::ExceptionObject & ex )
       {
         std::cerr << "Error filling array" << ex.GetDescription() << std::endl;
-        return -1;
+        return EXIT_FAILURE;
       }
   }
   { //Fill in left half
@@ -252,7 +252,7 @@ template <typename T> int MakeImage(void)
       message += ex.GetDescription();
       std::cerr << message << std::endl;
       Remove(filename);
-      return -1;
+      return EXIT_FAILURE;
     }
 
   //typedef itk::ImageFileReader< ImageType > ImageReaderType ;
@@ -269,10 +269,10 @@ template <typename T> int MakeImage(void)
     {
       e.Print(std::cerr) ;
       Remove(filename);
-      return -1;
+      return EXIT_FAILURE;
     }
   Remove(filename);
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 //template int MakeImage<char>();
@@ -396,7 +396,7 @@ int itkAnalyzeImageIOTest2(int ac, char* av[])
     itksys::SystemTools::ChangeDirectory(testdir);
   }
   if(ac != 3)
-    return 1;
+    return EXIT_FAILURE;
   char *arg1 = av[1];
   char *arg2 = av[2];
   int test_success = 0;

@@ -87,7 +87,7 @@ int testMetaObject(int , char *[])
   if(strcmp(name,"Julien"))
   {
     std::cout << "MyName: FAIL" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
   }
 
   delete [] name;
@@ -99,7 +99,7 @@ int testMetaObject(int , char *[])
     if(array[i] != i+1)
     {
       std::cout << "MyArray: FAIL" << std::endl;
-      return 1;
+      return EXIT_FAILURE;
     }
   }
 
@@ -111,7 +111,7 @@ int testMetaObject(int , char *[])
     if(matrix[i] != i)
       {
       std::cout << "MyMatrix: FAIL" << std::endl;
-      return 1;
+      return EXIT_FAILURE;
       }
     } 
 
@@ -135,7 +135,7 @@ int testMetaObject(int , char *[])
   if(tObj.NDims() != 2)
     {
     std::cout << "NDims: FAIL" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
   else
     {
@@ -146,7 +146,7 @@ int testMetaObject(int , char *[])
   if(tObj.Position(zero) != 4)
     {
     std::cout << "Position: FAIL :" << tObj.Position(zero) << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
   else
     {
@@ -156,7 +156,7 @@ int testMetaObject(int , char *[])
   if(tObj.ElementSpacing(zero) != 2)
     {
     std::cout << "ElementSpacing: FAIL: " << tObj.ElementSpacing(zero) << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
   else
     {
@@ -172,7 +172,7 @@ int testMetaObject(int , char *[])
   if(!MET_ValueToValue(MET_CHAR_ARRAY,inDataChar,0,MET_CHAR_ARRAY,outDataChar))
     {
     std::cout << "MET_ValueToValue: FAIL" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
   else
     {
@@ -188,7 +188,7 @@ int testMetaObject(int , char *[])
   if(!MET_ValueToValue(MET_UCHAR_ARRAY,inDataUChar,0,MET_UCHAR_ARRAY,outDataUChar))
     {
     std::cout << "MET_ValueToValue: FAIL" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
   else
     {
@@ -200,7 +200,7 @@ int testMetaObject(int , char *[])
 
 
   std::cout << "[DONE]" << std::endl;
-  return 0;
+  return EXIT_SUCCESS;
   }
 
 

@@ -264,5 +264,5 @@ int testMetaUtils(int , char * [])
     }
 
   std::cout << "[DONE]" << std::endl;
-  return 0;
+  return EXIT_SUCCESS;
   }

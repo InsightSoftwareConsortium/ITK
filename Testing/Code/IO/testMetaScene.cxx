@@ -73,7 +73,7 @@ int testMetaScene(int , char * [])
     {
     std::cout << "Number of obejcts: " << s->NObjects()
               << " != 3...[FAILED]" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   std::cout << "...[ok]" << std::endl;
@@ -101,10 +101,10 @@ int testMetaScene(int , char * [])
     std::cout << "Number of obejcts: " << s->NObjects()
               << " != 1...[FAILED]" << std::endl;
     delete s;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   delete s;
   std::cout << "[OK]" << std::endl;
-  return 0;
+  return EXIT_SUCCESS;
 }

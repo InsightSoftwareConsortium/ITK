@@ -125,5 +125,5 @@ int testMetaSurface(int , char * [])
   
   delete surfaceBin;
   std::cout << "done" << std::endl;
-  return 0;
+  return EXIT_SUCCESS;
 }

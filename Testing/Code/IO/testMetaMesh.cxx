@@ -44,7 +44,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
       std::cout <<  (*it2)->m_Id << " : " << (*it2)->m_X[0] 
       << " " << (*it2)->m_X[1] << " " << (*it2)->m_X[2] << std::endl;
       std::cout << "[FAILED]" << std::endl;
-      return 1;
+      return EXIT_FAILURE;
       }
     it2++;
     }
@@ -62,7 +62,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
       {        
       std::cout << "Cell Type = " << (*it3)->m_Dim << " : " << (*it3)->m_Id << " : ";
       std::cout << "[FAILED]" << std::endl;
-      return 1;
+      return EXIT_FAILURE;
       }
     
     for(int k=0;k<static_cast<int>((*it3)->m_Dim);k++)
@@ -71,7 +71,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
         {
         std::cout << (*it3)->m_PointsId[k] << " ";
         std::cout << "[FAILED]" << std::endl;
-        return 1;
+        return EXIT_FAILURE;
         }
       }
       it3++;
@@ -85,7 +85,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
       {        
       std::cout << "Cell Type = " << (*it3)->m_Dim << " : " << (*it3)->m_Id << " : ";
       std::cout << "[FAILED]" << std::endl;
-      return 1;
+      return EXIT_FAILURE;
       }
     for(int k=0;k<static_cast<int>((*it3)->m_Dim);k++)
       {
@@ -93,7 +93,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
         {
         std::cout << (*it3)->m_PointsId[k] << " ";
         std::cout << "[FAILED]" << std::endl;
-        return 1;
+        return EXIT_FAILURE;
         }
       }
     it3++;
@@ -110,7 +110,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
       {
       std::cout << "CellLink ID = " << (*it_link)->m_Id << " : " ;
       std::cout << "[FAILED]" << std::endl;
-      return 1;
+      return EXIT_FAILURE;
       }
     std::list<int>::const_iterator it_link2 = (*it_link)->m_Links.begin();
     while(it_link2 != (*it_link)->m_Links.end())
@@ -118,7 +118,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
       if(*it_link2 != j+1)
         {
         std::cout << "[FAILED]" << std::endl;
-        return 1;
+        return EXIT_FAILURE;
         }
       it_link2++;
       }
@@ -136,7 +136,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
       {
       std::cout << "PointData ID = " << (*it_pd)->m_Id << " : " << (int)(static_cast<MeshData<int>*>(*it_pd)->m_Data) << std::endl;    
       std::cout << "[FAILED]" << std::endl;
-      return 1;
+      return EXIT_FAILURE;
       }
     it_pd++;
     }
@@ -153,13 +153,13 @@ bool TestingMetaMesh(MetaMesh* _mesh)
       {
       std::cout << "CellData ID = " << (*it_cd)->m_Id << " : " << (float)(static_cast<MeshData<float>*>(*it_cd)->m_Data) << " : " << f << std::endl;    
       std::cout << "[FAILED]" << std::endl;
-      return 1;
+      return EXIT_FAILURE;
       }
     f += (float)0.2;
     it_cd++;
    }
  std::cout << "[PASSED]" << std::endl;
- return 0;
+ return EXIT_SUCCESS;
 }
 
 
@@ -264,7 +264,7 @@ int testMetaMesh(int , char * [])
       if(TestingMetaMesh(mesh2))
         {
         std::cout << "[FAILED]" << std::endl;
-        return 1;
+        return EXIT_FAILURE;
         }
       (mesh2)->PrintInfo();
       }    
@@ -295,12 +295,12 @@ int testMetaMesh(int , char * [])
       if(TestingMetaMesh(mesh2))
         {
         std::cout << "[FAILED]" << std::endl;
-        return 1;
+        return EXIT_FAILURE;
         }
       (mesh2)->PrintInfo();
       }    
     it++;
     }
   std::cout << "[DONE]" << std::endl;
-  return 0;
+  return EXIT_SUCCESS;
 }
