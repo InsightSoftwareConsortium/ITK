@@ -89,6 +89,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMException.h
   
   ReadMe.txt
+  ToDo.txt
 
 )
 ENDIF(WIN32)

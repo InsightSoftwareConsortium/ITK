@@ -1,0 +1,37 @@
+/**
+ *
+ * READ THIS FIRST!!!
+ *
+ *
+ * This file summarizes tasks that still need to be done on the FEM library.
+ *
+ * Tasks should be completed in order given by numbers. Tasks that can be done
+ * simultaneously, are listed under the same number using the bulleted list (-).
+ *
+ * If you think of another task that is still missing, add the text to the
+ * appropriate position.
+ * 
+ * If you complete a task, remove it from the list.
+ *
+ * If you find any errors or discrepancies in this file, make the appropriate
+ * corrections immediately.
+ *
+ */
+
+1. - Make modifications to all FEM classes so that they use the (new) itk::Mesh to represent geometry
+      a. DOFs are maintained automatically by elements
+      b. Node objects have to be created by user and must contain displacement objects
+   - Create the LinearSystemWrapper class for use with the ITPACK
+
+2. - 2D registration example
+   - Create new LoadBC class for boundary conditions that preserve positive definitness of master stiffness matrix.
+   - Determine the way dynamic elements will be handled
+   - Restructure class inheritance of elements to reduce code duplication
+
+
+3. - Fix and complete the code for 3d elements.
+   - Implement LoadEdge handling in 3d elements
+
+
+4. - Nonlinear elements
+   - C1 elements
