@@ -32,6 +32,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkBinomialBlurImageFilter.h"
 #include "itkCannyEdgeDetectionImageFilter.h"
 #include "itkCastImageFilter.h"
+#include "itkConnectedThresholdImageFilter.h"
 #include "itkConstantPadImageFilter.h"
 #include "itkCosImageFilter.h"
 #include "itkCurvatureAnisotropicDiffusionImageFilter.h"

@@ -38,6 +38,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkGaussianSupervisedClassifier.h"
 #include "itkGeodesicActiveContourImageFilter.h"
 #include "itkGibbsPriorFilter.h"
+#include "itkGradientVectorFlowImageFilter.h"
 #include "itkHistogramMatchingImageFilter.h"
 #include "itkHybridFilter.h"
 #include "itkImageMapper.h"
