@@ -15,7 +15,7 @@ See COPYRIGHT.txt for copyright details.
 =========================================================================*/
 #include <iostream>
 
-#include "itkImage.h"
+#include "itkPhysicalImage.h"
 #include "itkScalar.h"
 #include "itkVector.h"
 #include "itkImageRegionIterator.h"
@@ -26,7 +26,7 @@ See COPYRIGHT.txt for copyright details.
 int main()
 {
   std::cout << "Creating an image" << std::endl;
-  typedef itk::Image<itk::Scalar<unsigned short>, 3> ScalarImage;
+  typedef itk::PhysicalImage<itk::Scalar<unsigned short>, 3> ScalarImage;
   ScalarImage::Pointer  o3 = ScalarImage::New();
 
   double origin3D[3] = { 5, 2.1, 8.1};
