@@ -109,8 +109,6 @@ QuaternionRigidRegistrationTransform<TScalarType,TParameters>
   m_RigidTransform.SetRotation( quaternion );
   m_RigidTransform.SetOffset( translation );
 
-//  std::cout << "SetParameters = " << std::endl;
-//  std::cout << m_RigidTransform << std::endl;
 }
 
 

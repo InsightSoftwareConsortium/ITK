@@ -134,19 +134,24 @@ Rigid3DPerspectiveTransform<TScalar>::OutputPointType
 Rigid3DPerspectiveTransform<TScalar>::
 Transform(const InputPointType &point) const 
 {
+  /*
   std::cout << "Rigid3DPerspectiveTransform = " << (void *)this << std::endl;
   std::cout << "Width " << m_Width          << std::endl;
   std::cout << "Height" << m_Height         << std::endl;
   std::cout << "Focal " << m_FocalDistance  << std::endl;
   std::cout << "Input point = " << point << std::endl;
+  */
+  
   InputPointType rigid =  m_DirectMatrix * point + m_Offset;
-  std::cout << "Rigid point = " << rigid << std::endl;
+  
+  //  std::cout << "Rigid point = " << rigid << std::endl;
+  
   OutputPointType result;
   TScalar factor = m_Height / (rigid[0]-m_FocalDistance);
   result[0] = rigid[0] * factor + m_Width  / 2.0;
   result[1] = rigid[1] * factor + m_Height / 2.0;
-  std::cout << "Mapped point = " << result << std::endl;
-  std::cout << std::endl;
+  // std::cout << "Mapped point = " << result << std::endl;
+  // std::cout << std::endl;
   return result;
 }
 

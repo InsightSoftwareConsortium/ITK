@@ -134,8 +134,6 @@ AffineRegistrationTransform<TScalarType,NDimensions,TParameters>
   m_AffineTransform.SetMatrix( linear );
   m_AffineTransform.SetOffset( constant );
 
-  std::cout << "SetParameters = " << std::endl;
-  std::cout << m_AffineTransform << std::endl;
 }
 
 

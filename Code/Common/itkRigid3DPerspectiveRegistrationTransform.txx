@@ -139,8 +139,6 @@ Rigid3DPerspectiveRegistrationTransform<TScalarType,TParameters>
   m_Transform.SetRotation( rotation );
   m_Transform.SetOffset( translation );
 
-//  std::cout << "SetParameters = " << std::endl;
-//  std::cout << m_RigidTransform << std::endl;
 }
 
 
