@@ -20,7 +20,14 @@ PURPOSE.  See the above copyright notices for more information.
 #ifndef MetaDataObject_h_h
 #define MetaDataObject_h_h
 
-#include "itkMetaDataObjectBase.h"
+//#include "itkMetaDataObjectBase.h"
+#include "itkMetaDataDictionary.h"
+#include "itkMacro.h"
+#include "itkObjectFactory.h"
+#include "itkCommand.h"
+#include "itkFastMutexLock.h"
+#include <string>
+
 
 namespace itk
 {
@@ -62,7 +69,7 @@ namespace itk
         typedef SmartPointer<const Self>  ConstPointer;
 
         /** Method for creation through the object factory. */
-        //itkNewMacro(Self);
+        itkNewMacro(Self);
 
         /** Run-time type information (and related methods). */
         itkTypeMacro(MetaDataObject, MetaDataObjectBase);
@@ -120,12 +127,60 @@ namespace itk
          */
         virtual void Print(std::ostream& os) const;
       private:
+        //This is made private to force the use of the MetaDataObject<MetaDataObjectType>::New() operator!
+        //void * operator new(size_t nothing) {};//purposefully not implemented
         /**
          * \author Hans J. Johnson
          * A variable to store this derived type.
          */
         MetaDataObjectType m_MetaDataObjectValue;
     };
+
+
+  /**
+   * EncapsulateMetaData is a convenience function that encapsulates raw MetaData into a
+   * MetaDataObject that can be put into the MetaDataDictionary.
+   * \param value the value of type T that is to be encapsulated.
+   * \return A smartpointer ot a MetaDataObject that is suitable for
+   * insertion into a MetaDataDictionary.
+   */
+  template <class T>
+    inline void EncapsulateMetaData(MetaDataDictionary &Dictionary, const std::string & key, const T &invalue)
+    {
+      MetaDataObject<T>::Pointer temp=MetaDataObject<T>::New();
+      temp->SetMetaDataObjectValue(invalue);
+      Dictionary[key]=temp;
+    }
+
+  /**
+   * FindValInDictionary provides a shortcut for pulling a value of type
+   * T out of a MetaDataDictionary.
+   * If Dictionary[key] isn't set, return false, otherwise copy into
+   * outval reference and return true.
+   * \param Dictionary -- reference to a dictionary
+   * \parm key -- string identifier for this object
+   * \param outval -- where to store value found in table.
+   */
+  template <class T>
+    inline bool ExposeMetaData(MetaDataDictionary &Dictionary, const std::string key, T &outval)
+    {
+      if(Dictionary.find(key) == Dictionary.end())
+      {
+        return false;
+      }
+
+      MetaDataObjectBase::Pointer baseObjectSmartPointer = Dictionary[key];
+
+      if(strcmp(typeid(T).name(),baseObjectSmartPointer->GetMetaDataObjectTypeName()) != 0)
+      {
+        return false;
+      }
+      outval =
+        dynamic_cast<MetaDataObject <T> *>(Dictionary[key].GetPointer())->GetMetaDataObjectValue();
+      //                                 --------------- ^^^^^^^^^^^^
+      //                                 SmartPointer    MetaDataObject<T>*
+      return true;
+    }
 } // end namespace itk
 
 /**
@@ -137,14 +192,14 @@ namespace itk
  */
 #define NATIVE_TYPE_METADATAPRINT(TYPE_NAME) \
 void \
-itk::MetaDataObject<TYPE_NAME> \
-::Print(std::ostream& os) const \
+  itk::MetaDataObject<TYPE_NAME> \
+  ::Print(std::ostream& os) const \
 { \
   os << this->m_MetaDataObjectValue << std::endl; \
 } \
 void \
-itk::MetaDataObject<const TYPE_NAME> \
-::Print(std::ostream& os) const \
+  itk::MetaDataObject<const TYPE_NAME> \
+  ::Print(std::ostream& os) const \
 { \
   os << this->m_MetaDataObjectValue << std::endl; \
 }
@@ -159,16 +214,16 @@ itk::MetaDataObject<const TYPE_NAME> \
  */
 #define ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(TYPE_NAME_PART1,TYPE_NAME_PART2) \
 void \
-itk::MetaDataObject<TYPE_NAME_PART1,TYPE_NAME_PART2> \
-::Print(std::ostream& os) const \
+  itk::MetaDataObject<TYPE_NAME_PART1,TYPE_NAME_PART2> \
+  ::Print(std::ostream& os) const \
 { \
-     this->m_MetaDataObjectValue->Print(os); \
+  this->m_MetaDataObjectValue->Print(os); \
 } \
 void \
-itk::MetaDataObject<const TYPE_NAME_PART1,TYPE_NAME_PART2> \
-::Print(std::ostream& os) const \
+  itk::MetaDataObject<const TYPE_NAME_PART1,TYPE_NAME_PART2> \
+  ::Print(std::ostream& os) const \
 { \
-     this->m_MetaDataObjectValue->Print(os); \
+  this->m_MetaDataObjectValue->Print(os); \
 }
 
 /**
@@ -180,13 +235,13 @@ itk::MetaDataObject<const TYPE_NAME_PART1,TYPE_NAME_PART2> \
  */
 #define ITK_IMAGE_TYPE_METADATAPRINT(STORAGE_TYPE) \
 ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,1>::Pointer) \
-ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,2>::Pointer) \
-ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,3>::Pointer) \
-ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,4>::Pointer) \
-ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,5>::Pointer) \
-ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,6>::Pointer) \
-ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,7>::Pointer) \
-ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,8>::Pointer) \
+  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,2>::Pointer) \
+  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,3>::Pointer) \
+  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,4>::Pointer) \
+  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,5>::Pointer) \
+  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,6>::Pointer) \
+  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,7>::Pointer) \
+  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,8>::Pointer) \
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMetaDataObject.txx"

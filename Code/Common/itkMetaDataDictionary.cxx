@@ -32,14 +32,4 @@ itk::MetaDataDictionary
 itk::MetaDataDictionary
 ::~MetaDataDictionary()
 {
-  //Need to clean up all allocated memory
-  //std::cout << "         Deleteing: " << this << std::endl;
-  //for(itk::MetaDataDictionary::iterator it=this->begin();
-  //    it != this->end();
-  //    it++)
-  //{
-  //  delete (it->second);
-  //}
-  //Erase all elements
-  //this->erase(this->begin(),this->end());
 }

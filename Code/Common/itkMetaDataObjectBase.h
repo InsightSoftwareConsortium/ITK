@@ -45,9 +45,6 @@ namespace itk {
       typedef SmartPointer<Self>  Pointer;
       typedef SmartPointer<const Self>  ConstPointer;
 
-      /** Method for creation through the object factory.   */
-      //itkNewMacro(Self);
-      //static  Pointer New(void);
 
       /** Run-time type information (and related methods). */
       itkTypeMacro(MetaDataObjectBase, LightObject);
@@ -68,12 +65,16 @@ namespace itk {
        */
       virtual void Print(std::ostream& os) const;
     protected:
+      /** Method for creation through the object factory.   */
+      // Should not be able to construct a new MetaDataObjectBase
+      static  Pointer New(void);
       /**
        * Default destructor
        */
       virtual ~MetaDataObjectBase();
       MetaDataObjectBase();
     private:
+      //void * operator new(size_t nothing) {};//purposefully not implemented
       MetaDataObjectBase(const Self &);//purposely not implemented
       void operator=(const Self&); //purposely not implemented
   };

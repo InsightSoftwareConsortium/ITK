@@ -15,6 +15,10 @@
 
 =========================================================================*/
 #include "itkMetaDataObjectBase.h"
+#include "itkObjectFactory.h"
+#include "itkCommand.h"
+#include "itkFastMutexLock.h"
+
 
 void
 itk::MetaDataObjectBase
@@ -52,9 +56,17 @@ itk::MetaDataObjectBase
   //Nothing to do here
 }
 
-//itk::MetaDataObjectBase
-//::New(void)
-//{
-//  return new Self;
-//}
-
+itk::MetaDataObjectBase::Pointer
+itk::MetaDataObjectBase
+::New(void)
+{
+  Pointer smartPtr;
+  itk::MetaDataObjectBase *rawPtr = ::itk::ObjectFactory<itk::MetaDataObjectBase>::Create();
+  if(rawPtr == NULL)
+  {
+    rawPtr = new itk::MetaDataObjectBase;
+  }
+  smartPtr = rawPtr;
+  rawPtr->UnRegister();
+  return smartPtr;
+}
