@@ -96,7 +96,13 @@ int main()
   ws_merger->SetInput(ws_filter->GetBasicOutput());
   
   println("Executing the filter");
+  try {
   ws_merger->Update();
+  }
+  catch (...) {
+  std::cout << "WatershedImageFilter exception thrown" << std::endl;
+  return 1;
+  }
 
   return 0;
 }
