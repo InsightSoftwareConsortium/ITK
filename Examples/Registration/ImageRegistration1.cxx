@@ -636,7 +636,8 @@ int main( int argc, char *argv[] )
   // \begin{figure}
   // \center
   // \includegraphics[width=\textwidth]{ImageRegistration1Pipeline.eps}
-  // \itkcaption{Pipeline structure of the registration example.}
+  // \itkcaption[Pipeline structure of the registration example]{Pipeline
+  // structure of the registration example.}
   // \label{fig:ImageRegistration1Pipeline}
   // \end{figure}
   //

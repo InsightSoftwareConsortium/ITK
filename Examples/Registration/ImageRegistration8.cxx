@@ -519,7 +519,8 @@ int main( int argc, char *argv[] )
   // \begin{figure}
   // \center
   // \includegraphics[width=\textwidth]{TranslationAndRotationCenter.eps}
-  // \itkcaption{Effect of changing the center of rotation.}
+  // \itkcaption[Effect of changing the center of rotation]{Effect of changing
+  // the center of rotation.}
   // \label{fig:TranslationAndRotationCenter}
   // \end{figure}
   //
