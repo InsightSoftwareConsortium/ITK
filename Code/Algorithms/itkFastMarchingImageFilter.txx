@@ -20,7 +20,6 @@
 #include "itkFastMarchingImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
-#include "itkIterationReporter.h"
 #include "vnl/vnl_math.h"
 #include <algorithm>
 
@@ -288,11 +287,10 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   double currentValue;
   double oldValue = -m_LargeValue;
 
+  double oldProgress = 0;
+
   unsigned long NumPoints = 0;
   unsigned long InvalidPoints = 0;
-
-  // helper class for calling InvokeEvents() every so often
-  IterationReporter iterationReporter(this,0,10000L);
 
   while ( !m_TrialHeap.empty() )
     {
@@ -341,8 +339,14 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
     // update its neighbors
     this->UpdateNeighbors( node.GetIndex(), speedImage, output );
 
+
     // Send events every certain number of points.
-    iterationReporter.CompletedStep();
+    const double newProgress = currentValue / m_StoppingValue;
+    if( newProgress - oldProgress > 0.01 )  // update every 1%
+      {
+      this->UpdateProgress( newProgress );
+      oldProgress = newProgress;
+      }
 
     }
   
