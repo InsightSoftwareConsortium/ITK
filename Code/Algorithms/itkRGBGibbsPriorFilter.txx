@@ -41,7 +41,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkRGBGibbsPriorFilter_txx
 #define _itkRGBGibbsPriorFilter_txx
 
-
 #include "itkRGBGibbsPriorFilter.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -56,15 +55,15 @@ namespace itk
 /**
  * set intial value of some parameters in the constructor
  */
-template <typename TInputImage, typename TClassifiedImage>
-RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
-::RGBGibbsPriorFilter(void):
+  template <typename TInputImage, typename TClassifiedImage>
+  RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
+  ::RGBGibbsPriorFilter(void):
     m_InputImage(0),
-      m_TrainingImage(0),
-      m_LabelledImage(0),
-      m_NumberOfClasses(0),
-      m_MaximumNumberOfIterations(10),
-      m_ClassifierPtr(0),
+    m_TrainingImage(0),
+    m_LabelledImage(0),
+    m_NumberOfClasses(0),
+    m_MaximumNumberOfIterations(10),
+    m_ClassifierPtr(0),
 //      m_ErrorCounter(0),
     m_BoundaryGradient(7),
     m_GibbsNeighborsThreshold(1),
@@ -73,23 +72,23 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     m_StartRadius(10),
     m_RecursiveNum(0),
     m_LabelStatus(0)
-{
-  m_StartPoint[0] = 0;
-  m_StartPoint[1] = 0;
-  m_StartPoint[2] = 0;
-}
+  {
+    m_StartPoint[0] = 0;
+    m_StartPoint[1] = 0;
+    m_StartPoint[2] = 0;
+  }
 
 /**
  * Set the labelled image.
  */
-template<typename TInputImage, typename TClassifiedImage>
-void
-RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
-::SetLabelledImage(LabelledImageType image)
-{
-  m_LabelledImage = image;
-  this->Allocate();
-}// Set the LabelledImage
+  template<typename TInputImage, typename TClassifiedImage>
+  void
+  RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
+  ::SetLabelledImage(LabelledImageType image)
+  {
+    m_LabelledImage = image;
+    this->Allocate();
+  }// Set the LabelledImage
 
 
 /**
@@ -165,17 +164,17 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 ::Allocate()
 {
   if( m_NumberOfClasses <= 0 )
-  {
+    {
 //    throw ExceptionObject(__FILE__, __LINE__);
-  }
+    }
 
   InputImageSizeType inputImageSize = m_InputImage->GetBufferedRegion().GetSize();
 
   //Ensure that the data provided is three dimensional data set
   if(TInputImage::ImageDimension <= 2 )
-  {
+    {
 //    throw ExceptionObject(__FILE__, __LINE__);
-  }
+    }
   
   //---------------------------------------------------------------------
   //Get the image width/height and depth
@@ -188,9 +187,9 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   for( int index = 0; 
        index < ( m_imgWidth * m_imgHeight * m_imgDepth ); 
        index++ ) 
-  {
+    {
     m_LabelStatus[index]=1;
-  }
+    }
 
 }// Allocate
 
@@ -213,60 +212,67 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   int change, signs[4], x, numx, rgb;
   int origin, neighbors[4];
 
-  for (rgb = 0; rgb < m_VecDim; rgb++) {
-  origin = (int) m_InputImage->GetPixel( Index3D )[rgb];
-  int j = 0;
-  for(int i = 0; i < ImageDimension-1; i++) {
-
-    Index3D[i]--;
-    neighbors[j] = (int) m_InputImage->GetPixel( Index3D )[rgb];
-    Index3D[i]++;
-    j++;
+  for (rgb = 0; rgb < m_VecDim; rgb++) 
+    {
+    origin = (int) m_InputImage->GetPixel( Index3D )[rgb];
+    int j = 0;
+    for(int i = 0; i < ImageDimension-1; i++) 
+      {
+      Index3D[i]--;
+      neighbors[j] = (int) m_InputImage->GetPixel( Index3D )[rgb];
+      Index3D[i]++;
+      j++;
 
       Index3D[i]++;
       neighbors[j] = (int) m_InputImage->GetPixel( Index3D )[rgb];
       Index3D[i]--;
-    j++;
-  }
+      j++;
+      }
 
-  for (unsigned int ii=0; ii<4; ii++) signs[ii] = 0;  
+    for (unsigned int ii=0; ii<4; ii++) signs[ii] = 0;  
 
 // calculate the minimum points of piecewise smoothness  
-  m_LowPoint[rgb] = origin;
-  change = 1;
-  x = origin;
-  numx = 1;
-  while ( change > 0 ) {
-    unsigned int i;
-    change = 0;
-    for (i=0; i<4; i++) {
-    if (signs[i] == 0) {
-          if (abs(m_LowPoint[rgb] - neighbors[i]) < m_BoundaryGradient) {
-      numx++;
-        x += neighbors[i];
-      signs[i]++;
-      change++;
-      }
-    }
-    }
+    m_LowPoint[rgb] = origin;
+    change = 1;
+    x = origin;
+    numx = 1;
+    while ( change > 0 ) 
+      {
+      unsigned int i;
+      change = 0;
+      for (i=0; i<4; i++) 
+        {
+        if (signs[i] == 0) 
+          {
+          if (abs(m_LowPoint[rgb] - neighbors[i]) < m_BoundaryGradient) 
+            {
+            numx++;
+            x += neighbors[i];
+            signs[i]++;
+            change++;
+            }
+          }
+        }
 
-    m_LowPoint[rgb] = x/numx;
+      m_LowPoint[rgb] = x/numx;
 
-      for (i=0; i<4; i++) {
-        if (signs[i] == 1) {
-          if (abs(m_LowPoint[rgb] - neighbors[i]) > m_BoundaryGradient) {
+      for (i=0; i<4; i++) 
+        {
+        if (signs[i] == 1) 
+          {
+          if (abs(m_LowPoint[rgb] - neighbors[i]) > m_BoundaryGradient) 
+            {
             numx--;
-      x -= neighbors[i];
-      signs[i]--;
-      change++;
+            x -= neighbors[i];
+            signs[i]--;
+            change++;
+            }
+          }
+        }
+
+      m_LowPoint[rgb] = x/numx;
       }
     }
-    }
-
-    m_LowPoint[rgb] = x/numx;
-  }
-  }
-
 }
 
 
@@ -326,76 +332,77 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   offsetIndex3D[0] = (i % frame) % m_imgHeight;
 
   if ((i > rowsize - 1)&&((i%rowsize) != rowsize - 1)&&
-    (i < size - rowsize)&&((i%rowsize) != 0)) {
+      (i < size - rowsize)&&((i%rowsize) != 0)) 
+    {
+    offsetIndex3D[0]--;
+    offsetIndex3D[1]--;
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
 
-  offsetIndex3D[0]--;
-  offsetIndex3D[1]--;
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
-  
-  offsetIndex3D[0]++;
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
-  
-  offsetIndex3D[0]++;
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
-  
-  offsetIndex3D[1]++;  
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
-  
-  offsetIndex3D[1]++;
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
-  
-  offsetIndex3D[0]--;
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
-  
-  offsetIndex3D[0]--;
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
-  
-  offsetIndex3D[1]--;
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+    offsetIndex3D[0]++;
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
 
-  }
+    offsetIndex3D[0]++;
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+
+    offsetIndex3D[1]++;  
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+
+    offsetIndex3D[1]++;
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+
+    offsetIndex3D[0]--;
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+
+    offsetIndex3D[0]--;
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+
+    offsetIndex3D[1]--;
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+    }
 
   k = 0;
-  for(j=0;j<8;j++) {
-  if (f[j] == m_ObjectLabel) k++;
-  }
+  for(j=0;j<8;j++) 
+    {
+    if (f[j] == m_ObjectLabel) k++;
+    }
     
   bool changeflag = (k > 3);
 
-
-  for(int j = 0; j < 2; j++) {
-  energy[j] = 0;
+  for(int j = 0; j < 2; j++) 
+    {
+    energy[j] = 0;
     energy[j] += GibbsEnergy(i,       0, j);
-  energy[j] += GibbsEnergy(i+rowsize+1, 1, j);
-  energy[j] += GibbsEnergy(i+rowsize,   2, j);
-  energy[j] += GibbsEnergy(i+rowsize-1, 3, j);
-  energy[j] += GibbsEnergy(i-1,     4, j);
-  energy[j] += GibbsEnergy(i-rowsize-1, 5, j);
-  energy[j] += GibbsEnergy(i-rowsize,   6, j);
-  energy[j] += GibbsEnergy(i-rowsize+1, 7, j);
-  energy[j] += GibbsEnergy(i+1,     8, j);
-  if ( m_LabelStatus[i] == j ) energy[j] += -3;
-  else energy[j] += 3;  
-  }
+    energy[j] += GibbsEnergy(i+rowsize+1, 1, j);
+    energy[j] += GibbsEnergy(i+rowsize,   2, j);
+    energy[j] += GibbsEnergy(i+rowsize-1, 3, j);
+    energy[j] += GibbsEnergy(i-1,     4, j);
+    energy[j] += GibbsEnergy(i-rowsize-1, 5, j);
+    energy[j] += GibbsEnergy(i-rowsize,   6, j);
+    energy[j] += GibbsEnergy(i-rowsize+1, 7, j);
+    energy[j] += GibbsEnergy(i+1,     8, j);
+    if ( m_LabelStatus[i] == j ) {energy[j] += -3;}
+    else {energy[j] += 3;}
+    }
 
   if (energy[0] < energy[1]) label = 0;
   else label = 1;
 
   originlabel = m_LabelledImage->GetPixel(offsetIndex3D);
-  if (originlabel != label) {
+  if (originlabel != label) 
+    {
 //    m_ErrorCounter++;
-  m_LabelledImage->SetPixel(offsetIndex3D, label);
-  }
-  
-
-  else {
-  if (changeflag) {
-    difenergy = energy[label]-energy[1-label]; 
-      float rand_num = (float) (rand()/32768.0);
-    float energy_num = (float) (exp((double) (difenergy*0.5*size/(2*size-m_Temp))));
-    if ( rand_num < energy_num ) m_LabelledImage->SetPixel(offsetIndex3D, 1-label);
+    m_LabelledImage->SetPixel(offsetIndex3D, label);
     }
-  }
+  else 
+    {
+    if (changeflag) 
+      {
+      difenergy = energy[label]-energy[1-label]; 
+      float rand_num = (float) (rand()/32768.0);
+      float energy_num = (float) (exp((double) (difenergy*0.5*size/(2*size-m_Temp))));
+      if ( rand_num < energy_num ) m_LabelledImage->SetPixel(offsetIndex3D, 1-label);
+      }
+    }
 }
 
 template <typename TInputImage, typename TClassifiedImage>
@@ -423,37 +430,36 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   offsetIndex3D[0] = (i % frame) % m_imgHeight;
   
   if (k != 0) labelledPixel = 
-    ( LabelledImagePixelType ) m_LabelledImage->GetPixel( offsetIndex3D );
+                ( LabelledImagePixelType ) m_LabelledImage->GetPixel( offsetIndex3D );
 
   if ((i > rowsize - 1)&&((i%rowsize) != rowsize - 1)&&
-    (i < size - rowsize)&&((i%rowsize) != 0)) {
-
-  offsetIndex3D[0]--;
-  offsetIndex3D[1]--;
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+      (i < size - rowsize)&&((i%rowsize) != 0)) 
+    {
+    offsetIndex3D[0]--;
+    offsetIndex3D[1]--;
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
   
-  offsetIndex3D[0]++;
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+    offsetIndex3D[0]++;
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
   
-  offsetIndex3D[0]++;
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+    offsetIndex3D[0]++;
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
   
-  offsetIndex3D[1]++;  
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+    offsetIndex3D[1]++;  
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
   
-  offsetIndex3D[1]++;
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+    offsetIndex3D[1]++;
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
   
-  offsetIndex3D[0]--;
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+    offsetIndex3D[0]--;
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
   
-  offsetIndex3D[0]--;
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+    offsetIndex3D[0]--;
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
   
-  offsetIndex3D[1]--;
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
-
-  }
+    offsetIndex3D[1]--;
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+    }
 
 // pixels at the edge of image will be dropped 
   if (neighborcount != 8) return 0.0; 
@@ -465,22 +471,26 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 
 // assuming we are segmenting objects with smooth boundaries, we give 
 // weight to such kind of local characteristics
-  for(j=0;j<8;j++) {
-  if ((f[j] == labelledPixel) != changeflag) {
+  for(j=0;j<8;j++) 
+    {
+    if ((f[j] == labelledPixel) != changeflag) 
+      {
       changenum++;
-    changeflag = !changeflag;
-  }
+      changeflag = !changeflag;
+      }
       
-    if (changeflag) {
-    if (j%2==0) res -= 0.7;
-    else res -= 1.0;
-    simnum++;
-  } else difnum++;
-  }
+    if (changeflag) 
+      {
+      if (j%2==0) res -= 0.7;
+      else res -= 1.0;
+      simnum++;
+      } else difnum++;
+    }
   
-  if (changenum < 3) {
+  if (changenum < 3) 
+    {
     if ( (simnum==4)||(simnum==5) ) return res -= 1.2;
-  }
+    }
 
   return res;
 }
@@ -515,15 +525,13 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   // create the training image using the original image or the output of deformable model
   m_ClassifierPtr->SetTrainingImage( m_TrainingImage );
 
-
   //Run the gaussian classifier algorithm
-
   time(&btime);
   m_ClassifierPtr->ClassifyImage();
 
   time(&etime);
 
-  std::cout<<"Classify finished in: "<<etime-btime<<" seconds."<<std::endl;
+  itkDebugMacro(<<"Classify finished in: "<<etime-btime<<" seconds.");
 
   SetLabelledImage( m_ClassifierPtr->GetClassifiedImage() );
 
@@ -531,11 +539,12 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   //Set the output labelled and allocate the memory
   LabelledImageType outputPtr = this->GetOutput();
 
-  if (m_RecursiveNum == 0) {
-  outputPtr->SetLargestPossibleRegion( m_InputImage->GetLargestPossibleRegion() );
-  outputPtr->SetBufferedRegion( m_InputImage->GetLargestPossibleRegion() );
+  if (m_RecursiveNum == 0) 
+    {
+    outputPtr->SetLargestPossibleRegion( m_InputImage->GetLargestPossibleRegion() );
+    outputPtr->SetBufferedRegion( m_InputImage->GetLargestPossibleRegion() );
 //  outputPtr->Allocate();
-  }
+    }
 
   //Allocate the output buffer memory 
   outputPtr->Allocate();
@@ -546,7 +555,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   // Set the iterators to the processed image
   //--------------------------------------------------------------------
   LabelledImageIterator  
-  labelledImageIt( m_LabelledImage, m_LabelledImage->GetBufferedRegion() );
+    labelledImageIt( m_LabelledImage, m_LabelledImage->GetBufferedRegion() );
 
   //--------------------------------------------------------------------
   // Set the iterators to the output image buffer
@@ -557,13 +566,13 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   //--------------------------------------------------------------------
 
   while ( !outImageIt.IsAtEnd() )
-  {
+    {
     LabelledImagePixelType labelvalue = 
       ( LabelledImagePixelType ) labelledImageIt.Get();
     outImageIt.Set( labelvalue );
     ++labelledImageIt;
     ++outImageIt;
-  }// end while
+    }// end while
 
   m_RecursiveNum++;
 
@@ -598,13 +607,13 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   ApplyGibbsLabeller();
   time(&etime);
 
-  std::cout<<"Piecewise smoothness finished in: "<<etime-btime<<" seconds."<<std::endl;
+  itkDebugMacro(<<"Piecewise smoothness finished in: "<<etime-btime<<" seconds.");
 
   time(&btime);
   RegionEraser();
   time(&etime);
 
-  std::cout<<"Region eraser finished in: "<<etime-btime<<" seconds."<<std::endl; 
+  itkDebugMacro(<<"Region eraser finished in: "<<etime-btime<<" seconds."); 
 
   int size = m_imgWidth * m_imgHeight * m_imgDepth;
   int frame = m_imgWidth * m_imgHeight;
@@ -614,22 +623,23 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   srand ((unsigned)time(NULL));
 
   time (&btime);
-  while ( m_Temp < 2*m_imgWidth*m_imgDepth*m_imgHeight ) {
-     
+  while ( m_Temp < 2*m_imgWidth*m_imgDepth*m_imgHeight ) 
+    {
     int randomPixel = (int) size*rand()/32768;
 
   
-  if ((randomPixel > (rowsize - 1)) && (randomPixel < (size - rowsize)) 
-    && (randomPixel%rowsize != 0) && (randomPixel%rowsize != rowsize-1)) {
-    GibbsTotalEnergy(randomPixel); // minimized f_2;
-  }
+    if ((randomPixel > (rowsize - 1)) && (randomPixel < (size - rowsize)) 
+        && (randomPixel%rowsize != 0) && (randomPixel%rowsize != rowsize-1)) 
+      {
+      GibbsTotalEnergy(randomPixel); // minimized f_2;
+      }
 
-  m_Temp++;
-  }
+    m_Temp++;
+    }
 
   time(&etime);
 
-  std::cout<<"Gibbs filter finished in: "<<etime-btime<<" seconds."<<std::endl;
+  itkDebugMacro(<<"Gibbs filter finished in: "<<etime-btime<<" seconds.");
 
 }
 
@@ -645,7 +655,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
                                    m_InputImage->GetBufferedRegion() );
 
   InputImageIterator  mediumImageIt(m_MediumImage, 
-                                   m_MediumImage->GetBufferedRegion() );
+                                    m_MediumImage->GetBufferedRegion() );
 
   //--------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the classified image
@@ -679,53 +689,60 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   mediumImageIt.GoToBegin();
 
   int i = 0;
-  while ( !inputImageIt.IsAtEnd() ) {
+  while ( !inputImageIt.IsAtEnd() ) 
+    {
+    offsetIndex3D[2] = i / frame;
+    offsetIndex3D[1] = (i % frame) / m_imgHeight;
+    offsetIndex3D[0] = (i % frame) % m_imgHeight;
 
-  offsetIndex3D[2] = i / frame;
-  offsetIndex3D[1] = (i % frame) / m_imgHeight;
-  offsetIndex3D[0] = (i % frame) % m_imgHeight;
-
-  if ((i > (rowsize - 1)) && (i < (size - rowsize)) 
-    && (i%rowsize != 0) && (i%rowsize != rowsize-1)) {
+    if ((i > (rowsize - 1)) && (i < (size - rowsize)) 
+        && (i%rowsize != 0) && (i%rowsize != rowsize-1)) 
+      {
       OriginPixelVec = inputImageIt.Get();
       GreyScalarBoundary(offsetIndex3D);
-    for (int rgb = 0; rgb < m_VecDim; rgb++) {
-    ChangedPixelVec[rgb] = m_LowPoint[rgb];
-    }
+      for (int rgb = 0; rgb < m_VecDim; rgb++) 
+        {
+        ChangedPixelVec[rgb] = m_LowPoint[rgb];
+        }
 //    mediumImageIt.Set(ChangedPixelVec);
-    } else ChangedPixelVec = inputImageIt.Get();
+      } else ChangedPixelVec = inputImageIt.Get();
 
     m_ClassifierPtr->GetPixelDistance( ChangedPixelVec, dist );
     double minDist = 1e+20;
-      int pixLabel = -1;
+    int pixLabel = -1;
 
-      for( int index = 0; index < m_NumberOfClasses; index++ ) {
-        if ( dist[index] < minDist ) {
-          minDist = dist[index];
-          pixLabel = index;
+    for( int index = 0; index < m_NumberOfClasses; index++ ) 
+      {
+      if ( dist[index] < minDist ) 
+        {
+        minDist = dist[index];
+        pixLabel = index;
         }// if
       }// for
 
-      labelledPixel = 
-        ( LabelledImagePixelType ) labelledImageIt.Get();
+    labelledPixel = 
+      ( LabelledImagePixelType ) labelledImageIt.Get();
 
-        //Check if the label has changed then set the change flag in all the 
-        //neighborhood of the current pixel
-      if( pixLabel != m_ObjectLabel ) {
+    //Check if the label has changed then set the change flag in all the 
+    //neighborhood of the current pixel
+    if( pixLabel != m_ObjectLabel ) 
+      {
       outLabelledPix = 1-m_ObjectLabel;
-          labelledImageIt.Set( outLabelledPix );
+      labelledImageIt.Set( outLabelledPix );
       m_LabelStatus[i] = outLabelledPix;
 //      m_ErrorCounter++;
-    } else {
-    labelledImageIt.Set( m_ObjectLabel );
-    m_LabelStatus[i] = m_ObjectLabel; 
+      } 
+    else 
+      {
+      labelledImageIt.Set( m_ObjectLabel );
+      m_LabelStatus[i] = m_ObjectLabel; 
       }
 
-  i++;
-  ++labelledImageIt;
-  ++inputImageIt;
-  ++mediumImageIt;
-  }
+    i++;
+    ++labelledImageIt;
+    ++inputImageIt;
+    ++mediumImageIt;
+    }
 
   delete dist;
 
@@ -750,49 +767,57 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   LabelledImageIterator  
     labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
 
-  for ( i=0; i<size; i++ ) {
-  m_Region[i] = 0;
-  m_RegionCount[i] = 1;
-  }
-  for ( i=0; i<size/100; i++ ) {
-  valid_region_counter[i] = 0;
-  }
+  for ( i=0; i<size; i++ ) 
+    {
+    m_Region[i] = 0;
+    m_RegionCount[i] = 1;
+    }
+  for ( i=0; i<size/100; i++ ) 
+    {
+    valid_region_counter[i] = 0;
+    }
 
   i = 0;
   k = 0;
   int l = 0;
   int label;
 
-  while ( !labelledImageIt.IsAtEnd() ) {
-  if ( m_Region[i] == 0 ) {
+  while ( !labelledImageIt.IsAtEnd() ) 
+    {
+    if ( m_Region[i] == 0 ) 
+      {
       label = labelledImageIt.Get();
-    if (LabelRegion(i, ++l, label) > m_ClusterSize) {
-    valid_region_counter[k] = l;
-    k++;
-    }
-  }
+      if (LabelRegion(i, ++l, label) > m_ClusterSize) 
+        {
+        valid_region_counter[k] = l;
+        k++;
+        }
+      }
 
-  i++;
-  ++labelledImageIt;
-  }
+    i++;
+    ++labelledImageIt;
+    }
 
   i = 0; 
   labelledImageIt.GoToBegin();
 
-  while ( !labelledImageIt.IsAtEnd() ) {
+  while ( !labelledImageIt.IsAtEnd() ) 
+    {
     j = 0;
-  while ( (m_Region[i] != valid_region_counter[j]) && (j < k) ) {
-    j++;
-  }
+    while ( (m_Region[i] != valid_region_counter[j]) && (j < k) ) 
+      {
+      j++;
+      }
 
-  if (j == k) {
+    if (j == k) 
+      {
       label = labelledImageIt.Get();
-    labelledImageIt.Set(1-label);
-  }
+      labelledImageIt.Set(1-label);
+      }
 
-  i++;
-  ++labelledImageIt;
-  }
+    i++;
+    ++labelledImageIt;
+    }
 
   delete valid_region_counter;
 
@@ -816,38 +841,41 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   offsetIndex3D[1] = (i % frame) / m_imgHeight;
   offsetIndex3D[0] = (i % frame) % m_imgHeight;
   
-  
-  if (offsetIndex3D[0] > 0) {
+  if (offsetIndex3D[0] > 0) 
+    {
     offsetIndex3D[0]--;
-  m = m_LabelledImage->GetPixel(offsetIndex3D);
+    m = m_LabelledImage->GetPixel(offsetIndex3D);
     if ((m==change)&&(m_Region[i-1]==0))
-    count += LabelRegion(i-1, l, change);
-  offsetIndex3D[0]++;
-  }
-
-  if (offsetIndex3D[0] < m_imgWidth-1) {
+      count += LabelRegion(i-1, l, change);
     offsetIndex3D[0]++;
-  m = m_LabelledImage->GetPixel(offsetIndex3D);
+    }
+
+  if (offsetIndex3D[0] < m_imgWidth-1) 
+    {
+    offsetIndex3D[0]++;
+    m = m_LabelledImage->GetPixel(offsetIndex3D);
     if ((m==change)&&(m_Region[i+1]==0))
-    count += LabelRegion(i+1, l, change);
-  offsetIndex3D[0]--;
-  }
+      count += LabelRegion(i+1, l, change);
+    offsetIndex3D[0]--;
+    }
 
-  if (offsetIndex3D[1] > 0) {
+  if (offsetIndex3D[1] > 0) 
+    {
     offsetIndex3D[1]--;
-  m = m_LabelledImage->GetPixel(offsetIndex3D);
+    m = m_LabelledImage->GetPixel(offsetIndex3D);
     if ((m==change)&&(m_Region[i-rowsize]==0))
-    count += LabelRegion(i-rowsize, l, change);
-  offsetIndex3D[1]++;
-  }
-
-  if (offsetIndex3D[1] < m_imgHeight-1) {
+      count += LabelRegion(i-rowsize, l, change);
     offsetIndex3D[1]++;
-  m = m_LabelledImage->GetPixel(offsetIndex3D);
+    }
+
+  if (offsetIndex3D[1] < m_imgHeight-1) 
+    {
+    offsetIndex3D[1]++;
+    m = m_LabelledImage->GetPixel(offsetIndex3D);
     if ((m==change)&&(m_Region[i+rowsize]==0))
-    count += LabelRegion(i+rowsize, l, change);
-  offsetIndex3D[1]--;
-  }
+      count += LabelRegion(i+rowsize, l, change);
+    offsetIndex3D[1]--;
+    }
 
   return count;
       

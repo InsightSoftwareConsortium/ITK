@@ -47,17 +47,14 @@ namespace itk
 {
 
 /**
- * Constructor
- */
+* Constructor
+*/
 template < class TTarget, class TMapper > 
 PatternIntensityPointSetToImageMetric<TTarget,TMapper>
 ::PatternIntensityPointSetToImageMetric()
 {
   m_Lambda = 1.0;
 }
-
-
-
 
 /**
  * Get the match Measure
@@ -67,23 +64,20 @@ PatternIntensityPointSetToImageMetric<TTarget,TMapper>::MeasureType
 PatternIntensityPointSetToImageMetric<TTarget,TMapper>
 ::GetValue( const ParametersType & parameters )
 {
-
-
   double ReferenceValue;
   double TargetValue;
 
   typedef  typename  TargetType::PointsContainerConstPointer     
-                                         PointsContainerConstPointerType;
+    PointsContainerConstPointerType;
 
   typedef  typename  TargetType::PointDataContainerConstPointer 
-                                         PointsDataContainerConstPointerType;
+    PointsDataContainerConstPointerType;
 
   typedef  typename  TargetType::PointsContainer     
-                                              PointsContainerType;
+    PointsContainerType;
 
   typedef  typename  TargetType::PointDataContainer 
-                                              PointsDataContainerType;
-
+    PointsDataContainerType;
 
   typename  PointsContainerType::ConstIterator       pt;
   typename  PointsDataContainerType::ConstIterator   vl;
@@ -97,47 +91,41 @@ PatternIntensityPointSetToImageMetric<TTarget,TMapper>
   vl = data->Begin();
 
   m_MatchMeasure = 0;
-  
+
   unsigned int  count = 0;
 
   MapperPointer mapper = Superclass::GetMapper();
   mapper->GetTransform()->SetParameters( parameters );
 
   while( pt != points->End()  || vl != data->End() )
-  {
+    {
     TargetValue = vl.Value();
 
     if( mapper->IsInside( pt.Value() ) )
-    {
+      {
       ReferenceValue = mapper->Evaluate();
       count++;
       const double diff = ReferenceValue - TargetValue; 
       const double diffnorm = diff / m_Lambda;
       m_MatchMeasure += 1.0 / ( 1.0 + diffnorm * diffnorm ); 
-    }  
-  
-   ++pt;
-   ++vl;
-  }
+      }  
+
+    ++pt;
+    ++vl;
+    }
 
 
   if(count == 0) 
-  {
-    std::cerr << "All the mapped image is outside !" << std::endl;
+    {
+    itkErrorMacro(<< "All the mapped image is outside !" );
     return 100000;
-  } 
+    } 
 
   // The sign is changed because the optimization method looks for minima
   m_MatchMeasure = -m_MatchMeasure;
-  
-  
+
   return m_MatchMeasure;
-
 }
-
-
-
-
 
 /**
  * Get the Derivative Measure
@@ -153,21 +141,18 @@ PatternIntensityPointSetToImageMetric<TTarget,TMapper>
   testPoint = parameters;
 
   for( unsigned int i=0; i<SpaceDimension; i++) 
-  {
+    {
     testPoint[i] -= delta;
     const MeasureType valuep0 = GetValue( testPoint );
     testPoint[i] += 2*delta;
     const MeasureType valuep1 = GetValue( testPoint );
     m_MatchMeasureDerivatives[i] = (valuep1 - valuep0 ) / ( 2.0 * delta );
     testPoint[i] = parameters[i];
-  }
+    }
 
   return m_MatchMeasureDerivatives;
 
 }
-
-
-
 
 /**
  * Get both the match Measure and theDerivative Measure 

@@ -144,8 +144,7 @@ void
 HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
 ::GenerateData()
 {
-  std::cout << "Hi, HybridFilter generating data ";
-  std::cout << std::endl;
+  itkDebugMacro(<< "HybridFilter generating data ");
 
   const typename TInputImage::Pointer   inputImage(    GetInput()   );
         typename TOutputImage::Pointer  outputImage(   GetOutput()  );

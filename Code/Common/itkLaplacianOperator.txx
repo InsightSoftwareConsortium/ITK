@@ -51,7 +51,6 @@ void
 LaplacianOperator<TPixel, VDimension, TAllocator>
 ::CreateOperator()
 {
-  unsigned long k[VDimension];
   CoefficientVector coefficients;
   
   coefficients = this->GenerateCoefficients();
@@ -95,9 +94,6 @@ LaplacianOperator<TPixel, VDimension, TAllocator>
 ::GenerateCoefficients()
 {
   unsigned int i;
-  unsigned int j;
-  PixelType previous;
-  PixelType next;
   unsigned int w = 1;
 
   for(i = 0; i < VDimension; i ++)

@@ -66,7 +66,6 @@ void
 KLMSegmentationBorder<TInputImage,TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-
   Superclass::PrintSelf(os,indent);
   os << indent << "Region border KLM object" << std::endl;
 
@@ -155,20 +154,16 @@ void
 KLMSegmentationBorder<TInputImage,TOutputImage>
 ::PrintBorderInfo()
 {
-
-  std::cout << "------------------------------" << std::endl;
-  std::cout << "Location      : " << this << std::endl;
-  std::cout << "Lambda        : " << m_Lambda << std::endl;
-  std::cout << "Region1       : " << this->GetRegion1() << std::endl;
-  std::cout << "Region 1 Label: " << (this->GetRegion1()->GetRegionLabel()) 
-                                                            << std::endl;
-  std::cout << "Region2       : " << this->GetRegion2() << std::endl;
-  std::cout << "Region 2 Label: " << (this->GetRegion2()->GetRegionLabel()) 
-                                                            << std::endl;
-  std::cout << "++++++++++++++++++++++++++++++" << std::endl;
-          
-  std::cout << "------------------------------" << std::endl;
-  std::cout << "------------------------------" << std::endl;
+  itkDebugMacro(<< "------------------------------");
+  itkDebugMacro(<< "Location      : " << this);
+  itkDebugMacro(<< "Lambda        : " << m_Lambda);
+  itkDebugMacro(<< "Region1       : " << this->GetRegion1());
+  itkDebugMacro(<< "Region 1 Label: " << (this->GetRegion1()->GetRegionLabel())); 
+  itkDebugMacro(<< "Region2       : " << this->GetRegion2());
+  itkDebugMacro(<< "Region 2 Label: " << (this->GetRegion2()->GetRegionLabel()));
+  itkDebugMacro(<< "++++++++++++++++++++++++++++++" );
+  itkDebugMacro(<< "------------------------------" );
+  itkDebugMacro(<< "------------------------------" );
 
 }//end PrintBorderResults
 

@@ -56,9 +56,6 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
 {
 }
 
-
-
-
 /**
  * Get the match Measure
  */
@@ -84,38 +81,38 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
   typename TTarget::IndexType index;
 
   m_MatchMeasure = 0;
-  
+
 
   unsigned int  count = 0;
 
   GetMapper()->GetTransform()->SetParameters( parameters );
 
   while(!ti.IsAtEnd())
-  {
+    {
     index = ti.GetIndex();
     for(unsigned int i=0 ; i<TTarget::ImageDimension ; i++)
-    {
-    Point[i]=index[i];
-    }
+      {
+      Point[i]=index[i];
+      }
 
 
     if( GetMapper()->IsInside( Point ) )
-    {
+      {
       ReferenceValue = GetMapper()->Evaluate();
       TargetValue = ti.Get();
       count++;
       const double diff = ReferenceValue - TargetValue; 
       m_MatchMeasure += diff * diff; 
+      }
+
+    ++ti;
     }
-  
-   ++ti;
-  }
 
   if(count == 0) 
-  {
-    std::cerr << "All the mapped image is outside !" << std::endl;
+    {
+    itkErrorMacro(<< "All the mapped image is outside !" );
     return 100000;
-  } 
+    } 
 
   m_MatchMeasure = m_MatchMeasure / count;     
   return m_MatchMeasure;
@@ -140,20 +137,18 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
   testPoint = parameters;
 
   for( unsigned int i=0; i<SpaceDimension; i++) 
-  {
+    {
     testPoint[i] -= delta;
     const MeasureType valuep0 = GetValue( testPoint );
     testPoint[i] += 2*delta;
     const MeasureType valuep1 = GetValue( testPoint );
     m_MatchMeasureDerivatives[i] = (valuep1 - valuep0 ) / ( 2 * delta );
     testPoint[i] = parameters[i];
-  }
+    }
 
   return m_MatchMeasureDerivatives;
 
 }
-
-
 
 
 /**
@@ -168,8 +163,6 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
   Value      = GetValue( parameters );
   Derivative = GetDerivative( parameters );
 }
-
-
 
 } // end namespace itk
 

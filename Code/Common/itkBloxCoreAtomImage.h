@@ -55,16 +55,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class BloxCoreAtomImage
+/** \class BloxCoreAtomImage
  * \brief N-dimensional image class which handles BloxCoreAtomItems
  *
  * A BloxCoreAtomImage stores and processes BloxCoreAtomItem's (in BloxPixel
  * linked lists). The primary task of BloxCoreAtomImage is finding core atoms
  * and storing them in the correct blox location.
  * \ingroup ImageObjects
- * */
-
+ */
 template <class TBoundaryPointImage,
   class TImageTraits = DefaultImageTraits<BloxCoreAtomPixel<TBoundaryPointImage::ImageDimension>,
   TBoundaryPointImage::ImageDimension> >
@@ -76,15 +74,15 @@ public:
   /** Standard class typedefs. */
   typedef BloxCoreAtomImage  Self;
   typedef BloxImage<BloxCoreAtomPixel<TBoundaryPointImage::ImageDimension>,
-                    TBoundaryPointImage::ImageDimension, TImageTraits>  Superclass;
+          TBoundaryPointImage::ImageDimension, TImageTraits>  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(BloxCoreAtomImage, BloxImage);
-
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(BloxCoreAtomImage, BloxImage);
 
   /** Dimension of the image.  This enum is used by functions that are
    * templated over image type (as opposed to being templated over pixel
@@ -105,8 +103,8 @@ public:
    * representation. */
   typedef PixelType InternalPixelType;
 
-  /**  Accessor type that convert data between internal and external
-   *  representations. */
+  /** Accessor type that convert data between internal and external
+   * representations. */
   typedef DefaultPixelAccessor< PixelType > AccessorType;
 
   /** The type of Point used to convert between physical and blox space */
@@ -124,9 +122,7 @@ public:
    * make sense for linked lists (at the present time). */
   typedef TImageTraits ImageTraits;
 
-  /**
-   * Convenient typedefs obtained from TImageTraits template parameter.
-   */
+  /** Convenient typedefs obtained from TImageTraits template parameter. */
   typedef typename ImageTraits::PixelContainer PixelContainer;
   typedef typename ImageTraits::SizeType SizeType;
   typedef typename ImageTraits::IndexType IndexType;
@@ -136,11 +132,13 @@ public:
   /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;
 
-  /** Set the boundary point image from which we derive core atoms, */
-  void SetBoundaryPointImage(typename TBoundaryPointImage::Pointer pSource){
-    m_BoundaryPointImage = pSource;
-    m_BPImageOrigin = m_BoundaryPointImage->GetOrigin();
-    m_BPImageSpacing = m_BoundaryPointImage->GetSpacing(); };
+  /** Set the boundary point image from which we derive core atoms. */
+  void SetBoundaryPointImage(typename TBoundaryPointImage::Pointer pSource)
+    {
+      m_BoundaryPointImage = pSource;
+      m_BPImageOrigin = m_BoundaryPointImage->GetOrigin();
+      m_BPImageSpacing = m_BoundaryPointImage->GetSpacing(); 
+    }
 
   /** Walk the source image, find core atoms, store them.  */
   void FindCoreAtoms();
@@ -154,7 +152,7 @@ public:
   /** Core atom voting routine. */
   void DoCoreAtomVoting();
 
-  /** Gets and sets for member variables */
+  /** Gets and sets for member variables. */
   itkSetMacro(DistanceMin, double);
   itkSetMacro(DistanceMax, double);
   itkSetMacro(Epsilon, double);
@@ -169,16 +167,16 @@ private:
   BloxCoreAtomImage(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /** Pointer to the image that holds boundary points */
+  /** Pointer to the image that holds boundary points. */
   typename TBoundaryPointImage::Pointer m_BoundaryPointImage;
 
-  /** The origin of the boundary point image */
+  /** The origin of the boundary point image. */
   const double* m_BPImageOrigin;
 
-  /** The spacing of the boundary point image */
+  /** The spacing of the boundary point image. */
   const double* m_BPImageSpacing;
   
-  /** Parameters used to establish conic shell iterator regions
+  /** Parameters used to establish conic shell iterator regions.
    * See the documentation for itkConicShellInteriorExteriorSpatialFunction
    * for how these affect the iterator. */
   double m_DistanceMin;

@@ -93,7 +93,6 @@ namespace itk
  *
  * \ingroup MeshObjects
  */
-  
 template <
   typename TPixelType,
   unsigned int VDimension = 3,
@@ -124,22 +123,22 @@ public:
   enum {MaxTopologicalDimension = MeshTraits::MaxTopologicalDimension};
   
   /** Convenient typedefs obtained from TMeshTraits template parameter. */
-  typedef typename MeshTraits::CoordRepType             CoordRepType;  
-  typedef typename MeshTraits::InterpolationWeightType  InterpolationWeightType;
-  typedef typename MeshTraits::PointIdentifier          PointIdentifier;
-  typedef typename MeshTraits::CellIdentifier           CellIdentifier;
-  typedef typename MeshTraits::BoundaryIdentifier       BoundaryIdentifier;
-  typedef typename MeshTraits::CellFeatureIdentifier    CellFeatureIdentifier;
-  typedef typename MeshTraits::PointType                PointType;
-  typedef typename MeshTraits::PointsContainer          PointsContainer;
-  typedef typename MeshTraits::CellTraits               CellTraits;
-  typedef typename MeshTraits::CellsContainer           CellsContainer;
-  typedef typename MeshTraits::PointCellLinksContainer  PointCellLinksContainer;
-  typedef typename MeshTraits::CellLinksContainer       CellLinksContainer;
-  typedef typename MeshTraits::PointDataContainer       PointDataContainer;
-  typedef typename MeshTraits::CellDataContainer        CellDataContainer;  
-  typedef typename MeshTraits::BoundariesContainer      BoundariesContainer;
-  typedef typename MeshTraits::BoundaryDataContainer    BoundaryDataContainer;
+  typedef typename MeshTraits::CoordRepType            CoordRepType;  
+  typedef typename MeshTraits::InterpolationWeightType InterpolationWeightType;
+  typedef typename MeshTraits::PointIdentifier         PointIdentifier;
+  typedef typename MeshTraits::CellIdentifier          CellIdentifier;
+  typedef typename MeshTraits::BoundaryIdentifier      BoundaryIdentifier;
+  typedef typename MeshTraits::CellFeatureIdentifier   CellFeatureIdentifier;
+  typedef typename MeshTraits::PointType               PointType;
+  typedef typename MeshTraits::PointsContainer         PointsContainer;
+  typedef typename MeshTraits::CellTraits              CellTraits;
+  typedef typename MeshTraits::CellsContainer          CellsContainer;
+  typedef typename MeshTraits::PointCellLinksContainer PointCellLinksContainer;
+  typedef typename MeshTraits::CellLinksContainer      CellLinksContainer;
+  typedef typename MeshTraits::PointDataContainer      PointDataContainer;
+  typedef typename MeshTraits::CellDataContainer       CellDataContainer;  
+  typedef typename MeshTraits::BoundariesContainer     BoundariesContainer;
+  typedef typename MeshTraits::BoundaryDataContainer   BoundaryDataContainer;
   
   /** Used to support geometric operations on the toolkit. */
   typedef PointLocator<PointIdentifier,PointDimension,
@@ -148,15 +147,15 @@ public:
                       CoordRepType,PointsContainer>   BoundingBoxType;
   
   /** Create types that are pointers to each of the container types. */
-  typedef typename PointsContainer::Pointer        PointsContainerPointer;
-  typedef typename CellsContainer::Pointer         CellsContainerPointer;
-  typedef typename CellLinksContainer::Pointer     CellLinksContainerPointer;
-  typedef typename PointDataContainer::Pointer     PointDataContainerPointer;
-  typedef typename CellDataContainer::Pointer      CellDataContainerPointer;
-  typedef typename BoundariesContainer::Pointer    BoundariesContainerPointer;
-  typedef typename BoundaryDataContainer::Pointer  BoundaryDataContainerPointer;  
-  typedef typename PointLocatorType::Pointer       PointLocatorPointer;
-  typedef typename BoundingBoxType::Pointer        BoundingBoxPointer;
+  typedef typename PointsContainer::Pointer       PointsContainerPointer;
+  typedef typename CellsContainer::Pointer        CellsContainerPointer;
+  typedef typename CellLinksContainer::Pointer    CellLinksContainerPointer;
+  typedef typename PointDataContainer::Pointer    PointDataContainerPointer;
+  typedef typename CellDataContainer::Pointer     CellDataContainerPointer;
+  typedef typename BoundariesContainer::Pointer   BoundariesContainerPointer;
+  typedef typename BoundaryDataContainer::Pointer BoundaryDataContainerPointer;
+  typedef typename PointLocatorType::Pointer      PointLocatorPointer;
+  typedef typename BoundingBoxType::Pointer       BoundingBoxPointer;
   
   /** Create types that are iterators for each of the container types. */
   typedef typename

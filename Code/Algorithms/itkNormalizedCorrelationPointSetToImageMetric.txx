@@ -47,16 +47,13 @@ namespace itk
 {
 
 /**
- * Constructor
- */
+* Constructor
+*/
 template < class TTarget, class TMapper > 
 NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>
 ::NormalizedCorrelationPointSetToImageMetric()
 {
 }
-
-
-
 
 /**
  * Get the match Measure
@@ -66,24 +63,22 @@ NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>::MeasureType
 NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>
 ::GetValue( const ParametersType & parameters )
 {
-
   typename TargetType::PointType point;  
 
   double ReferenceValue;
   double TargetValue;
 
   typedef  typename  TargetType::PointsContainerConstPointer     
-                                              PointsContainerConstPointerType;
+    PointsContainerConstPointerType;
 
   typedef  typename  TargetType::PointDataContainerConstPointer 
-                                              PointsDataContainerConstPointerType;
+    PointsDataContainerConstPointerType;
 
   typedef  typename  TargetType::PointsContainer     
-                                              PointsContainerType;
+    PointsContainerType;
 
   typedef  typename  TargetType::PointDataContainer 
-                                              PointsDataContainerType;
-
+    PointsDataContainerType;
 
   typename  PointsContainerType::ConstIterator       pt;
   typename  PointsDataContainerType::ConstIterator   vl;
@@ -97,7 +92,6 @@ NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>
   vl = data->Begin();
 
   m_MatchMeasure = 0;
-  
 
   unsigned int  count = 0;
 
@@ -109,28 +103,28 @@ NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>
   double sbb = 0.0;
 
   while( pt != points->End()  || vl != data->End() )
-  {
+    {
     point       = pt.Value();
     TargetValue = vl.Value();
 
     if( mapper->IsInside( point ) )
-    {
+      {
       ReferenceValue = mapper->Evaluate();
       count++;
       sab  += ReferenceValue  *  TargetValue;
       saa  += ReferenceValue  *  ReferenceValue;
       sbb  += TargetValue     *  TargetValue;
-    }  
-  
-   ++pt;
-   ++vl;
-  }
+      }  
+
+    ++pt;
+    ++vl;
+    }
 
   if(count == 0) 
-  {
-    std::cerr << "All the mapped image is outside !" << std::endl;
+    {
+    itkErrorMacro(<< "All the mapped image is outside !" );
     return 100000;
-  } 
+    } 
 
   // The sign is changed because the optimization method looks for minima
   m_MatchMeasure = -sab / sqrt( saa * sbb );
@@ -138,10 +132,6 @@ NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>
   return m_MatchMeasure;
 
 }
-
-
-
-
 
 /**
  * Get the Derivative Measure
@@ -151,27 +141,22 @@ const NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>::DerivativeTyp
 NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>
 ::GetDerivative( const ParametersType & parameters )
 {
-
   const double delta = 0.001;
   ParametersType testPoint;
   testPoint = parameters;
 
   for( unsigned int i=0; i<SpaceDimension; i++) 
-  {
+    {
     testPoint[i] -= delta;
     const MeasureType valuep0 = GetValue( testPoint );
     testPoint[i] += 2*delta;
     const MeasureType valuep1 = GetValue( testPoint );
     m_MatchMeasureDerivatives[i] = (valuep1 - valuep0 ) / ( 2.0 * delta );
     testPoint[i] = parameters[i];
-  }
+    }
 
   return m_MatchMeasureDerivatives;
-
 }
-
-
-
 
 /**
  * Get both the match Measure and theDerivative Measure 

@@ -146,13 +146,11 @@ public:
   typedef typename TInputImage::PixelType::VectorType InputImageVectorType;
 
   /** Type definition for the image iterators to be used. */
-  typedef
-    ImageRegionIterator< TInputImage > InputImageIterator;
+  typedef ImageRegionIterator< TInputImage > InputImageIterator;
 
   /** Type definition for vector container that stores the borders
    * associated with a current region. */             
-  typedef 
-    std::vector< KLMSegmentationBorder<TInputImage,TOutputImage>* > 
+  typedef std::vector< KLMSegmentationBorder<TInputImage,TOutputImage>* > 
       RegionBorderVecType;
 
   /** Type definition for the region border vector iterators to be used. */
@@ -182,24 +180,24 @@ public:
                                       TOutputImage> *pBorderCandidate);
 
   /** Reorder the region borders given a candidate border after region 
-   * merging */
+   * merging. */
   void ReorderRegionBorders(KLMSegmentationBorder<TInputImage,
                                         TOutputImage> *pBorderCandidate);
 
   /** Get a head pointer to the vector containter storing the borders
-   * associated with a region */
+   * associated with a region. */
   RegionBorderVecIterator GetRegionBorderItBegin();
 
   /** Get a tail pointer to the vector containter storing the borders
-   * associated with a region */
+   * associated with a region. */
   RegionBorderVecIterator GetRegionBorderItEnd();
 
   /** Recalculate the lambda values for all the borders defining the region
    * and resort the entire border list in decending order of the lambda
-   * values */
+   * values. */
   void UpdateRegionBorderLambda();
 
-  /** Function that allows printing of the region parameters using std::cout */
+  /** Function that allows printing of the region parameters using std::cout. */
   void PrintRegionInfo();
 
 protected:

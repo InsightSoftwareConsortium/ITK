@@ -41,7 +41,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkSobelOperator_txx
 #define _itkSobelOperator_txx
 
-
 namespace itk
 {
 
@@ -51,7 +50,6 @@ void
 SobelOperator<TPixel, VDimension, TAllocator>
 ::CreateOperator()
 {
-  unsigned long k[VDimension];
   CoefficientVector coefficients;
   
   coefficients = this->GenerateCoefficients();
@@ -94,7 +92,6 @@ SobelOperator<TPixel, VDimension, TAllocator>
 ::GenerateCoefficients()
 {
   unsigned int i;
-  unsigned int j;
 
   unsigned int w = 1;
 
@@ -102,7 +99,6 @@ SobelOperator<TPixel, VDimension, TAllocator>
     {
       w = w*3;
     }
-
 
   std::vector<PixelType> coeff(w);
   CoefficientVector coeffP(w);
@@ -113,7 +109,9 @@ SobelOperator<TPixel, VDimension, TAllocator>
   unsigned long k[VDimension];
   
   if(VDimension < 2)
-    cout<<"Dimension must be larger than 1 !"<<endl;
+    {
+    itkGenericOutputMacro(<<"Dimension must be larger than 1 !");
+    }
 
   k[0] = 1;
   k[1] = 1;
@@ -135,8 +133,6 @@ SobelOperator<TPixel, VDimension, TAllocator>
 
   offset[0] = this->GetStride(direction);
   offset[1] = - this->GetStride(direction);
-
-
 
   if ( direction == 0)
     {

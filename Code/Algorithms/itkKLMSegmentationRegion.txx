@@ -59,8 +59,8 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
 }
 
 /**
- * PrintSelf
- */
+* PrintSelf
+*/
 template <class TInputImage, class TOutputImage>
 void
 KLMSegmentationRegion<TInputImage,TOutputImage>
@@ -88,7 +88,7 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
   // Assign region label
   this->SetRegionLabel( label );
 
-        
+
 }//end Set Region
 
 //----------------------------------------------------------------------
@@ -102,47 +102,47 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
   // If this is the first border being added to the region
 
   if( m_RegionBorderVec.empty() )
-  {
+    {
 
     m_RegionBorderVec.push_back( pnewRegionBorder ); 
-  
-  }
+
+    }
   // If this is not the first border being added to the region 
   // The new region belongs at the head of the list 
   // else if(newBorderRegion2Label < firstBorderRegion2Label)
 
   else if(
-           ( pnewRegionBorder->GetRegion2()->GetRegionLabel() ) <
-           ( this->GetFirstRegionBorder()->GetRegion2()->GetRegionLabel() )
-         )
-  {
+    ( pnewRegionBorder->GetRegion2()->GetRegionLabel() ) <
+    ( this->GetFirstRegionBorder()->GetRegion2()->GetRegionLabel() )
+    )
+    {
 
     // Iterator set to the first element of the region border element
 
     RegionBorderVecType::iterator RegionBorderVecIt = m_RegionBorderVec.begin();
     m_RegionBorderVec.insert( RegionBorderVecIt, pnewRegionBorder );
 
-  }// end else if
+    }// end else if
 
   // The new border should be the second element of the region border list,
   // see internal documentation of calling function 
   else 
-  {  
+    {  
     // Iterator set to the first element of the region border element
     RegionBorderVecType::iterator RegionBorderVecIt = m_RegionBorderVec.begin();
 
     // The offset 1 is to point the interator to the second vector element
     // so the insert function inserts 
     if( ( RegionBorderVecIt + 1 ) <= m_RegionBorderVec.end() )
-    {
+      {
       m_RegionBorderVec.insert( RegionBorderVecIt + 1, pnewRegionBorder );
-    }//end if
+      }//end if
     else
-    {
+      {
       m_RegionBorderVec.push_back( pnewRegionBorder );
+      }//end else
     }//end else
-  }//end else
- 
+
 }//end SetRegionBorder
 
 //----------------------------------------------------------------------
@@ -159,19 +159,19 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
   // catch it if it does.
 
   if( m_RegionBorderVec.empty() )
-  {
+    {
 
     throw ExceptionObject(__FILE__, __LINE__); 
-  
-  }
+
+    }
   // 
   // The new region belongs at the head of the list 
   // else if(newBorderRegion1Label < firstBorderRegion1Label)
 
   else if(
-           ( pnewRegionBorder->GetRegion1()->GetRegionLabel() ) <
-           ( this->GetFirstRegionBorder()->GetRegion1()->GetRegionLabel() )
-         )
+    ( pnewRegionBorder->GetRegion1()->GetRegionLabel() ) <
+    ( this->GetFirstRegionBorder()->GetRegion1()->GetRegionLabel() )
+    )
     {
 
     // Iterator set to the first element of the region border element
@@ -189,7 +189,7 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
     // Iterator set to the first element of the region border element
     RegionBorderVecType::iterator RegionBorderVecIt = m_RegionBorderVec.begin();
     m_RegionBorderVec.push_back( pnewRegionBorder );
-    
+
     }//end else
 
 }//end SetRegionBorder3d
@@ -215,9 +215,9 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
 {
 
   if( pBorderCandidate == NULL )
-  {
+    {
     throw ExceptionObject(__FILE__, __LINE__);
-  }
+    }
 
   // The m_RegionBorderVec is a ordered vector of pointers to the
   // borders. If index points to the current border, index-1 points to the 
@@ -225,31 +225,31 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
   unsigned int index = 0;
 
   while( m_RegionBorderVec[index] != pBorderCandidate ) 
-  {
+    {
     index++;
-  }//end
+    }//end
 
   if(index > m_RegionBorderVec.size())
-  {
+    {
     throw ExceptionObject(__FILE__, __LINE__);
-  }
+    }
 
   // Iterator set to the first element of the region border element
   RegionBorderVecIterator RegionBorderVecIt = m_RegionBorderVec.begin();
 
   if( index <= m_RegionBorderVec.size() )
-  {
+    {
 
     // Erase the region border that matches the pBorderCandidate
     m_RegionBorderVec.erase( RegionBorderVecIt + index );
-  
-  }
-  else
-  {
 
-    std::cout << "Border candidate not in region borders list" << std::endl;
-  
-  }//end else
+    }
+  else
+    {
+
+    itkDebugMacro(<< "Border candidate not in region borders list" );
+
+    }//end else
 
 }// end DeleteRegionBorder()
 
@@ -260,9 +260,9 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
 {
   // Ensure that the border candidate is not a null pointer
   if( pBorderCandidate == NULL )
-  {
+    {
     throw ExceptionObject(__FILE__, __LINE__);
-  }
+    }
 
   // First delete the border from the region border list
   DeleteRegionBorder( pBorderCandidate );
@@ -276,18 +276,18 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
   RegionBorderVecIterator regionBorderVecIt    = m_RegionBorderVec.begin();  
   RegionBorderVecIterator regionBorderVecItEnd = m_RegionBorderVec.end();  
 
-  // If the region border vector is empty, there is only one region border
+// If the region border vector is empty, there is only one region border
   if( m_RegionBorderVec.empty() )
-  {
+    {
     m_RegionBorderVec.insert(regionBorderVecIt,pBorderCandidate);
     index++;
-  }
+    }
 
   // If there are many region borders
   else
-  {
-    while( ( regionBorderVecIt + index ) != regionBorderVecItEnd )
     {
+    while( ( regionBorderVecIt + index ) != regionBorderVecItEnd )
+      {
 
       int tmp1 = pBorderCandidate->GetRegion1()->GetRegionLabel();
       int tmp2 = (* ( regionBorderVecIt + index ))->GetRegion1()->GetRegionLabel(); 
@@ -299,33 +299,33 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
             ( *(regionBorderVecIt + index) )->GetRegion1()->GetRegionLabel() &&
             pBorderCandidate->GetRegion2()->GetRegionLabel() ==
             ( *(regionBorderVecIt + index) )->GetRegion2()->GetRegionLabel() ) )
-      {
-        
+        {
+
         //Insert region border at the head of the list
         if(index == 0)
-        {
+          {
           m_RegionBorderVec.insert(regionBorderVecIt,pBorderCandidate);
-        }
+          }
 
         //Insert the region border in the middle of the list
         else
-        {
+          {
           m_RegionBorderVec.insert(regionBorderVecIt+index,pBorderCandidate); 
-        }
+          }
 
         pBorderCandidate = NULL;
         break;
 
-      }// end of the big if clasue 
+        }// end of the big if clasue 
 
       index++;
-    }// end of while
-    
+      }// end of while
+
     // It should always be inserted at the end
     if( pBorderCandidate != NULL )
-    m_RegionBorderVec.push_back( pBorderCandidate );
+      m_RegionBorderVec.push_back( pBorderCandidate );
 
-  }// end of the big else for the case with many region borders
+    }// end of the big else for the case with many region borders
 
 }// end ReorderRegionBorders
 
@@ -337,9 +337,9 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
 {
   // Ensure that the border candidate is not a null pointer
   if( pBorderCandidate == NULL )
-  {
+    {
     throw ExceptionObject(__FILE__, __LINE__);
-  }
+    }
 
   // The m_RegionBorderVec is a ordered vector of pointers to the
   // borders. Insert a valid region border into the region border vector
@@ -357,20 +357,20 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
 {
   // Check if the number of borders for this region is NULL
   if( m_RegionBorderVec.empty() )
-  {
-    std::cout << "The region border for computing lambda is NULL" << std::endl;
-  }
+    {
+    itkDebugMacro(<< "The region border for computing lambda is NULL" );
+    }
 
   // Set up the iterator to loop through the region border vector
   RegionBorderVecIterator regionBorderVecIt    = m_RegionBorderVec.begin();  
   RegionBorderVecIterator regionBorderVecItEnd = m_RegionBorderVec.end(); 
 
-  // Loop through the entire border list and update the lambda values
+// Loop through the entire border list and update the lambda values
   while( regionBorderVecIt != regionBorderVecItEnd )
-  {
+    {
     ( *regionBorderVecIt )->EvaluateLambda();
     regionBorderVecIt++; 
-  }// End while loop
+    }// End while loop
 
 } // end UpdateRegionBorderLambda
 
@@ -390,9 +390,7 @@ KLMSegmentationRegion<TInputImage,TOutputImage>::RegionBorderVecIterator
 KLMSegmentationRegion<TInputImage,TOutputImage>
 ::GetRegionBorderItEnd()
 {
-
   return m_RegionBorderVec.end();
-
 }// end GetRegionBorderItBegin
 
 template<class TInputImage, class TOutputImage>
@@ -402,28 +400,29 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
 {
   int region1label;
   int region2label;
-  std::cout << "------------------------------" << std::endl;
-  std::cout << "Location   : " << this << std::endl;
-  std::cout << "Label      : " << (this->GetRegionLabel()) << std::endl;
-  std::cout << "Area       : " << (this->GetRegionArea()) << std::endl;
-  std::cout << "Mean       : " << (this->GetMeanRegionIntensity()) << std::endl;
-  std::cout << "Num Borders: " << m_RegionBorderVec.size() << std::endl;
-  std::cout << "++++++++++++++++++++++++++++++" << std::endl;
+
+  itkDebugMacro(<< "------------------------------" );
+  itkDebugMacro(<< "Location   : " << this );
+  itkDebugMacro(<< "Label      : " << (this->GetRegionLabel()) );
+  itkDebugMacro(<< "Area       : " << (this->GetRegionArea()) );
+  itkDebugMacro(<< "Mean       : " << (this->GetMeanRegionIntensity()) );
+  itkDebugMacro(<< "Num Borders: " << m_RegionBorderVec.size() );
+  itkDebugMacro(<< "++++++++++++++++++++++++++++++" );
 
   // If there are border pointers print the results
   RegionBorderVecIterator tempVecIt = m_RegionBorderVec.begin();
   for( int k = 0; k < m_RegionBorderVec.size(); k++ )
-  {      
+    {      
     region1label = (*tempVecIt)->GetRegion1()->GetRegionLabel();
     region2label = (*tempVecIt)->GetRegion2()->GetRegionLabel(); 
 
-    std::cout << "Border Ptr :" << (*tempVecIt) << "( " << 
-    region1label << " - " << region2label << " )" << std::endl;
+    itkDebugMacro(<< "Border Ptr :" << (*tempVecIt) << "( " << 
+      region1label << " - " << region2label << " )" );
     tempVecIt++;
-  }// end while
-          
-  std::cout << "------------------------------" << std::endl;
-  std::cout << "------------------------------" << std::endl;
+    }// end while
+
+  itkDebugMacro(<< "------------------------------" );
+  itkDebugMacro(<< "------------------------------" );
 
 }//end PrintRegionInfo
 

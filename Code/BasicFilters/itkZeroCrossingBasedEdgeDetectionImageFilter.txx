@@ -116,10 +116,6 @@ void
 ZeroCrossingBasedEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::GenerateData( )
 {
-
-  //  cout<<"being generating data"<<endl;
-  unsigned int i;
-
   typename  InputImageType::Pointer input  = this->GetInput();
 
   

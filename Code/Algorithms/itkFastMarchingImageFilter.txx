@@ -5,6 +5,7 @@
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
+
 Copyright (c) 2001 Insight Consortium
 All rights reserved.
 
@@ -348,7 +349,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 
     if( this->GetDebug() && currentValue < oldValue) 
       {
-       std::cout << "error value decrease at:" << node.index << std::endl;
+      itkDebugMacro(<< "error value decrease at:" << node.index );
       }
     oldValue = currentValue;
 

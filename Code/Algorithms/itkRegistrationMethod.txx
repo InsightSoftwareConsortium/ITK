@@ -129,8 +129,8 @@ void
 RegistrationMethod<TTraits>
 ::StartRegistration( void )
 { 
-  std::cerr << "RegistrationMethod::StartRegistration::" << std::endl;
-  std::cerr << "This method should have been overloaded" << std::endl;
+  itkErrorMacro(<< "RegistrationMethod::StartRegistration::" );
+  itkErrorMacro(<< "This method should have been overloaded" );
 
 }
 

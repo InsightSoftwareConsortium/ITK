@@ -58,9 +58,6 @@ PatternIntensityImageToImageMetric<TTarget,TMapper>
 {
 }
 
-
-
-
 /**
  * Get the match Measure
  */
@@ -86,37 +83,37 @@ PatternIntensityImageToImageMetric<TTarget,TMapper>
   typename TTarget::IndexType index;
 
   m_MatchMeasure = 0;
-  
+
 
   unsigned int  count = 0;
 
   GetMapper()->GetTransform()->SetParameters( parameters );
 
   while(!ti.IsAtEnd())
-  {
+    {
     index = ti.GetIndex();
     for(unsigned int i=0 ; i<TTarget::ImageDimension ; i++)
-    {
-    Point[i]=index[i];
-    }
+      {
+      Point[i]=index[i];
+      }
 
     if( GetMapper()->IsInside( Point ) )
-    {
+      {
       ReferenceValue = GetMapper()->Evaluate();
       TargetValue = ti.Get();
       count++;
       const double diff = ReferenceValue - TargetValue; 
       m_MatchMeasure += 1.0 / ( 1.0 + diff * diff ); 
-    }  
-  
-   ++ti;
-  }
+      }  
+
+    ++ti;
+    }
 
   if(count == 0) 
-  {
-    std::cerr << "All the mapped image is outside !" << std::endl;
+    {
+    itkErrorMacro(<< "All the mapped image is outside !" );
     return 100000;
-  } 
+    } 
 
   // Negative sign to produce a metric to minimize
   m_MatchMeasure = -m_MatchMeasure;     
@@ -124,10 +121,6 @@ PatternIntensityImageToImageMetric<TTarget,TMapper>
   return m_MatchMeasure;
 
 }
-
-
-
-
 
 /**
  * Get the Derivative Measure
@@ -143,7 +136,7 @@ PatternIntensityImageToImageMetric<TTarget,TMapper>
   testPoint = parameters;
 
   for( unsigned int i=0; i<SpaceDimension; i++) 
-  {
+    {
     testPoint[i] -= delta;
     const MeasureType valuep0 = GetValue( testPoint );
     testPoint[i] += 2*delta;
@@ -151,14 +144,11 @@ PatternIntensityImageToImageMetric<TTarget,TMapper>
     m_MatchMeasureDerivatives[i] = (valuep1 - valuep0 ) / ( 2 * delta );
     m_MatchMeasureDerivatives[i];
     testPoint[i] = parameters[i];
-  }
+    }
 
   return m_MatchMeasureDerivatives;
 
 }
-
-
-
 
 /**
  * Get both the match Measure and theDerivative Measure 
