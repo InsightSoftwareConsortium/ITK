@@ -57,6 +57,9 @@ ImageIteratorWithIndex<TImage>
   m_Begin       = it.m_Begin;
   m_End         = it.m_End;
   m_Remaining   = it.m_Remaining;
+
+  m_DataAccessor = it.m_DataAccessor;
+
 }
 
 
@@ -95,6 +98,8 @@ ImageIteratorWithIndex<TImage>
   m_End++;
   m_Remaining = true;
 
+  m_DataAccessor = m_Image->GetDataAccessor();
+
 }
  
 
@@ -119,6 +124,8 @@ ImageIteratorWithIndex<TImage>
   m_Begin       = it.m_Begin;
   m_End         = it.m_End;
   m_Remaining   = it.m_Remaining;
+
+  m_DataAccessor = it.m_DataAccessor;
 
   return *this;
 } 

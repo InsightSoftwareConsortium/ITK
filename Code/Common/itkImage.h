@@ -242,6 +242,22 @@ public:
   PixelContainerPointer GetPixelContainer()
   { return m_Buffer; };
 
+
+  /**
+   * Return the Data Accesor object
+   */
+  AccessorType & GetDataAccessor( void ) 
+  { return m_DataAccessor; }
+    
+  /**
+   * Return the Data Accesor object
+   */
+  const AccessorType & GetDataAccessor( void ) const
+  { return m_DataAccessor; }
+    
+
+
+  
 protected:
   Image();
   virtual ~Image();
@@ -253,6 +269,10 @@ protected:
 private:
   // memory for the current buffer
   PixelContainerPointer m_Buffer;
+
+  // Data accessor object, 
+  // it converts the presentation of a pixel
+  AccessorType          m_DataAccessor;
   
 };
 

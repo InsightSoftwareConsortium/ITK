@@ -239,13 +239,13 @@ public:
    * Get the pixel value
    */
   PixelType Get(void) const  
-    { return AccessorType::Get(*m_Position); }
+    { return m_DataAccessor.Get(*m_Position); }
   
   /**
    * Set the pixel value
    */
   void Set( const PixelType & value) const  
-    { AccessorType::Set(*m_Position,value); }
+    { m_DataAccessor.Set(*m_Position,value); }
 
   /**
    * Move an iterator to the beginning of the region.
@@ -295,6 +295,8 @@ protected: //made protected so other iterators can access
 
   bool                   m_Remaining;
 
+  AccessorType           m_DataAccessor;
+  
 };
 
 } // end namespace itk

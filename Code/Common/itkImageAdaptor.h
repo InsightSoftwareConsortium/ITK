@@ -243,6 +243,22 @@ public:
    * Delegate GetMTime to the Internal Image
    */
   virtual unsigned long GetMTime() const;
+  
+
+  /**
+   * Return the Data Accesor object
+   */
+  AccessorType & GetDataAccessor( void ) 
+  { return m_DataAccessor; }
+    
+  /**
+   * Return the Data Accesor object
+   */
+  const AccessorType & GetDataAccessor( void ) const
+  { return m_DataAccessor; }
+    
+
+
 
 
   virtual void Update();
@@ -260,7 +276,14 @@ protected:
   
 private:
   
+  // Adapted image, most of the calls to ImageAdaptor
+  // will be delegated to this image
   typename TImage::Pointer   m_Image;
+
+  // Data accessor object, 
+  // it converts the presentation of a pixel
+  AccessorType               m_DataAccessor;
+  
 
 };
   
