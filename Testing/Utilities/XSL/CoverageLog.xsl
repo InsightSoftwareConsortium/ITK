@@ -20,8 +20,6 @@
   <xsl:template match="/">
     <xsl:for-each select="Site/CoverageLog/File">
 
-    <xsl:message>Working on <xsl:value-of select="@Name"/></xsl:message>
-    <xsl:message>  FullName on <xsl:value-of select="@FullPath"/></xsl:message>
     <redirect:write select="concat(string('{$TestDocDir}'), '/../Coverage/', translate ( @FullPath, '/.', '__' ), '.html' )" file="dan.html">
       <xsl:call-template name="InsightHeader">
         <xsl:with-param name="Title">Annotated Coverage for <xsl:value-of select="@Name"/></xsl:with-param>
