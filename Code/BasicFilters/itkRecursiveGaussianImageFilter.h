@@ -23,7 +23,11 @@ namespace itk
 {
   
 /** \class RecursiveGaussianImageFilter
- * \brief Base class for recursive convolution with Gaussian kernel.
+ * \brief Base class for computing IIR convolution with a Gaussian kernel.
+ *
+ *    \f[    
+ *      \frac{ 1 }{ \sigma \sqrt{ 2 \pi } } \exp{ \left( - \frac{x^2}{ 2 \sigma^2 } \right) }
+ *    \f]
  *
  * RecursiveGaussianImageFilter is the base class for recursive filters that
  * approximate convolution with the Gaussian kernel.
@@ -77,13 +81,13 @@ public:
       that larger sigmas will not result in the image fading away.
 
       \f[    
-            \frac{ 1 }{ \sigma  \sqrt{ 2 \pi } };
+            \frac{ 1 }{ \sqrt{ 2 \pi } };
       \f]
 
       When the flag is OFF the normalization will conserve contant the 
       integral of the image intensity. 
       \f[    
-            \frac{ 1 }{ \sigma^2  \sqrt{ 2 \pi } };
+            \frac{ 1 }{ \sigma  \sqrt{ 2 \pi } };
       \f]
       For analyzing an image across Scale Space you want to enable
       this flag.  It is disabled by default.  */
