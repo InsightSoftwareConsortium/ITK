@@ -27,7 +27,7 @@ namespace itk
  *
  */
 
-namespace function {  
+namespace Function {  
   
   template< class TInput, class TOutput>
   class Sin
@@ -49,7 +49,7 @@ template <class TInputImage, class TOutputImage>
 class ITK_EXPORT SinImageFilter :
     public
     UnaryImageFilter<TInputImage,TOutputImage, 
-    function::Sin< 
+    Function::Sin< 
               typename TInputImage::PixelType, 
               typename TOutputImage::PixelType>   >
 
@@ -65,7 +65,7 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef UnaryImageFilter<TInputImage,TOutputImage, 
-    function::Sin< 
+    Function::Sin< 
               typename TInputImage::PixelType, 
               typename TOutputImage::PixelType>   
                 >  Superclass;

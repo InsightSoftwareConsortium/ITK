@@ -27,7 +27,7 @@ namespace itk
  *
  */
 
-namespace function {  
+namespace Function {  
   
   template< class TInput, class TOutput>
   class Exp
@@ -49,7 +49,7 @@ template <class TInputImage, class TOutputImage>
 class ITK_EXPORT ExpImageFilter :
     public
     UnaryImageFilter<TInputImage,TOutputImage, 
-    function::Exp< 
+    Function::Exp< 
               typename TInputImage::PixelType, 
               typename TOutputImage::PixelType>   >
 
@@ -65,7 +65,7 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef UnaryImageFilter<TInputImage,TOutputImage, 
-    function::Exp< 
+    Function::Exp< 
               typename TInputImage::PixelType, 
               typename TOutputImage::PixelType>   
                 >  Superclass;

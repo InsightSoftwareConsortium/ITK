@@ -30,7 +30,7 @@ namespace itk
  *
  */
 
-namespace function {  
+namespace Function {  
   
   template< class TInput1, class TInput2, class TInput3, class TOutput>
   class Modulus3
@@ -56,7 +56,7 @@ class ITK_EXPORT TernaryMagnitudeImageFilter :
     public
     TernaryImageFilter<TInputImage1,TInputImage2,
                       TInputImage3,TOutputImage, 
-            function::Modulus3< 
+            Function::Modulus3< 
                       typename TInputImage1::PixelType, 
                       typename TInputImage2::PixelType,
                       typename TInputImage3::PixelType,
@@ -75,7 +75,7 @@ public:
    */
   typedef TernaryImageFilter<TInputImage1,TInputImage2,
                       TInputImage3,TOutputImage, 
-                      function::Modulus3< 
+                      Function::Modulus3< 
                       typename TInputImage1::PixelType, 
                       typename TInputImage2::PixelType,
                       typename TInputImage3::PixelType,

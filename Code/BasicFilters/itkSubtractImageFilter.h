@@ -30,7 +30,7 @@ namespace itk
  *
  */
 
-namespace function {  
+namespace Function {  
   
   template< class TInput1, class TInput2, class TOutput>
   class Sub2
@@ -50,7 +50,7 @@ template <class TInputImage1, class TInputImage2, class TOutputImage>
 class ITK_EXPORT SubtractImageFilter :
     public
     BinaryImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-    function::Sub2< 
+    Function::Sub2< 
               typename TInputImage1::PixelType, 
               typename TInputImage2::PixelType,
               typename TOutputImage::PixelType>   >
@@ -67,7 +67,7 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef BinaryImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-    function::Sub2< 
+    Function::Sub2< 
               typename TInputImage1::PixelType, 
               typename TInputImage2::PixelType,
               typename TOutputImage::PixelType>   
