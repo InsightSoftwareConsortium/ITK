@@ -141,8 +141,14 @@
 /* true if <ieeefp.h> declares finite() */
 #define VXL_IEEEFP_HAS_FINITE     @VXL_IEEEFP_HAS_FINITE@
 
+/* true if <math.h> declares finitef() */
+#define VXL_C_MATH_HAS_FINITEF     @VXL_C_MATH_HAS_FINITEF@
+
 /* true if <math.h> declares finite() */
 #define VXL_C_MATH_HAS_FINITE     @VXL_C_MATH_HAS_FINITE@
+
+/* true if <math.h> declares finitel() */
+#define VXL_C_MATH_HAS_FINITEL     @VXL_C_MATH_HAS_FINITEL@
 
 /* true if <math.h> declares sqrtf() for the C compiler */
 #define VXL_C_MATH_HAS_SQRTF      @VXL_C_MATH_HAS_SQRTF@
