@@ -26,7 +26,7 @@
 # define ITK_SYSTEM_INFORMATION_DIR ITKTesting_BINARY_DIR
 #endif
 
-void itkSystemInformationPrintFile(const char* name, ostream& os)
+void itkSystemInformationPrintFile(const char* name, std::ostream& os)
 {
   os << "================================================================\n";
   struct stat fs;
@@ -37,9 +37,9 @@ void itkSystemInformationPrintFile(const char* name, ostream& os)
     }
 
 #ifdef _WIN32
-  std::ifstream fin(name, ios::in | ios::binary);
+  std::ifstream fin(name, std::ios::in | std::ios::binary);
 #else
-  std::ifstream fin(name, ios::in);
+  std::ifstream fin(name, std::ios::in);
 #endif
 
   if(fin)
