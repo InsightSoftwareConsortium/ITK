@@ -95,5 +95,7 @@ int itkSparseFieldLayerTest(int argc, char **argv)
       std::cout << layer->Size() << std::endl;
     }
 
+  delete[] store;
+  
   return EXIT_SUCCESS;
 }
