@@ -62,11 +62,11 @@ public:
     Vector<ScalarValueType, itkGetStaticConstMacro(ImageDimension)> VectorType;
 
   /** Advection field.  Default implementation returns a vector of zeros. */
-  virtual VectorType AdvectionField(const NeighborhoodType &neighborhood,
+  virtual VectorType AdvectionField(const NeighborhoodType &,
                                     const FloatOffsetType &)  const
     { return m_ZeroVectorConstant; }
   virtual VectorType AdvectionField(const BoundaryNeighborhoodType
-                                    &neighborhood, const FloatOffsetType &
+                                    &, const FloatOffsetType &
                                     ) const
     { return m_ZeroVectorConstant; }
 

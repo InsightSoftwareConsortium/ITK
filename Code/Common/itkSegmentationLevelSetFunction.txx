@@ -40,7 +40,7 @@ void SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 }
 
 template <class TImageType, class TFeatureImageType>
-SegmentationLevelSetFunction<TImageType, TFeatureImageType>::ScalarValueType
+typename SegmentationLevelSetFunction<TImageType, TFeatureImageType>::ScalarValueType
 SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 ::PropagationSpeed(const NeighborhoodType &neighborhood,
                    const FloatOffsetType &offset) const
@@ -60,7 +60,7 @@ SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 }
 
 template <class TImageType, class TFeatureImageType>
-SegmentationLevelSetFunction<TImageType, TFeatureImageType>::ScalarValueType
+typename SegmentationLevelSetFunction<TImageType, TFeatureImageType>::ScalarValueType
 SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 ::PropagationSpeed(const BoundaryNeighborhoodType &neighborhood,
                    const FloatOffsetType &offset) const
