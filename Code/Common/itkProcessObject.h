@@ -200,13 +200,31 @@ public:
    * Bring this filter up-to-date. Update() checks modified times against
    * last execution times, and re-executes objects if necessary. A side
    * effect of this method is that the whole pipeline may execute
-   * in order to bring this filter up-to-date.
+   * in order to bring this filter up-to-date. This method updates the
+   * currently prescribed requested region.  If no requested region has
+   * been set on the output, then the requested region will be set to the
+   * largest possible region. Once the requested region is set, Update()
+   * will make sure the specified requested region is up-to-date. This
+   * is a confusing side effect to users who are just calling Update() on
+   * a filter.  A first call to Update() will cause the largest possible
+   * region to be updated.  A second call to Update() will update that
+   * same region.  If a modification to the upstream pipeline cause a
+   * filter to have a different largest possible region, this second
+   * call to Update() will not cause the output requested region to be
+   * reset to the new largest possible region.  Instead, the output requested
+   * region will be the same as the last time Update() was called. To have
+   * a filter always to produce its largest possible region, users should
+   * call UpdateLargestPossibleRegion() instead.
    */
   virtual void Update();
 
   /** 
-   * Like Update(), but make sure the requested region is the largest possible
-   * region the output.
+   * Like Update(), but sets the output requested region to the
+   * largest possible region for the output.  This is the method users
+   * should call if they want the entire dataset to be processed.  If
+   * a user wants to update the same output region as a previous call
+   * to Update() or a previous call to UpdateLargestPossibleRegion(), 
+   * then they should call the method Update().
    */
   virtual void UpdateLargestPossibleRegion();
 
