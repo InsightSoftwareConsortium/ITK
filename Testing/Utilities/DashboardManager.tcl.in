@@ -84,7 +84,11 @@ foreach Command $Commands \
     Submit \
     {
       # puts "Running $Command in $Model model"
-      exec $TclshCommand [file join $UtilitiesDir $Command.tcl ] $Model
+      set Status [catch { exec $TclshCommand [file join $UtilitiesDir $Command.tcl ] $Model } Result]
+      if { $Status != 0 } \
+      {
+	puts $Result
+      }
     }
     End \
     {
