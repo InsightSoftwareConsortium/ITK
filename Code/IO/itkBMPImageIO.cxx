@@ -203,7 +203,7 @@ void BMPImageIO::Read(void* buffer)
 
   char * p = static_cast<char *>(buffer);
   unsigned long l=0;
-  unsigned long step = 1;
+  unsigned long step = 3;
   long streamRead = m_Dimensions[0]*m_Depth/8;
 
   char* value = new char[streamRead+1];
@@ -215,8 +215,10 @@ void BMPImageIO::Read(void* buffer)
       m_Ifstream.read((char *)value, streamRead);
 
       for(long i=0;i<streamRead;i+=step)
-        { 
-        p[l++]=value[i];  
+        {
+        p[l++]=value[i+2];
+        p[l++]=value[i+1];
+        p[l++]=value[i];
         }
       }
     }
@@ -229,6 +231,8 @@ void BMPImageIO::Read(void* buffer)
 
       for(long i=0;i<streamRead;i+=step)
         { 
+        p[l++]=value[i+2];
+        p[l++]=value[i+1];
         p[l++]=value[i];  
         }
       }
@@ -606,26 +610,26 @@ BMPImageIO
         {
         for (i = 0; i < m_Dimensions[0]; i++)
           {
+           ptr+=2;
            m_Ofstream.write(ptr,sizeof(char));
-           ptr++;
+           ptr--;
            m_Ofstream.write(ptr,sizeof(char));
-           ptr++;
+           ptr--;
            m_Ofstream.write(ptr,sizeof(char));
-           ptr++;
-         
+           ptr+=3;
           }
         }
       if (bpp == 4)
         {
         for (i = 0; i < m_Dimensions[0]; i++)
           {
+           ptr+=2;
            m_Ofstream.write(ptr,sizeof(char));
-           ptr++;
+           ptr--;
            m_Ofstream.write(ptr,sizeof(char));
-           ptr++;
+           ptr--;
            m_Ofstream.write(ptr,sizeof(char));
-           ptr++;
-           ptr++; // skip the alpha value
+           ptr+=4;
           }
         }
       }
