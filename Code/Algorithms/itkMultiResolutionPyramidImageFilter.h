@@ -199,8 +199,8 @@ public:
    * Set a multi-resolution schedule.
    * The input schedule must have only ImageDimension number
    * of columns and NumberOfLevels number of rows.
-   * For each dimension, the shrink factor be non-increasing
-   * for subsequent levels. This function will clamp shrink
+   * For each dimension, the shrink factor must be non-increasing
+   * with respect to subsequent levels. This function will clamp shrink
    * factors to satisify this condition.
    * All shrink factors less than one will also be clamped
    * to the value of 1.
@@ -229,7 +229,7 @@ public:
   /**
    * Test if the schedule is downward divisible. This method returns
    * true if at every level, the shrink factors are divisble by
-   * the shrink factors in the next level.
+   * the shrink factors at the next level.
    */
   static bool IsScheduleDownwardDivisible( const ScheduleType& schedule );
 
