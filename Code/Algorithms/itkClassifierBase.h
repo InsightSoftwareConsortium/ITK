@@ -29,7 +29,7 @@ namespace itk
 /** \class ClassifierBase
  * \brief Base class for classifier object
  * 
- * itkClassifierBase is the base class for the classifier objects. It provides
+ * ClassifierBase is the base class for the classifier objects. It provides
  * the basic function definitions that are inherent to a classifier objects.
  *
  * This is the SuperClass for the classifier framework. This is an
@@ -74,12 +74,11 @@ namespace itk
  * decision rule can include some prior knowledge that can improve the
  * result. To plug in the decision rule, use SetDecisionRule method.  
  *
- * Before you call the GenerateData method to start the classification process, 
+ * Before you call the Update method to start the classification process, 
  * you should plug in all necessary parts ( one or more membership 
  * functions, a decision rule, the unclassified data). 
  *
- * This function is templated over the measurement vector type. In the case of
- * images this would be the measurement vector pixel type in the input image. 
+ * This class is templated over the container type. 
  *
  * \ingroup ClassificationFilters 
  */
@@ -90,19 +89,17 @@ public:
   /** Standard class typedefs. */
   typedef ClassifierBase   Self;
   typedef LightProcessObject Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ClassifierBase,LightProcessObject);
 
-  /** Set the number of classes. */
+  /** Sets the number of classes. */
   itkSetMacro(NumberOfClasses, unsigned int);
 
-  /** Get the number of classes. */
+  /** Gets the number of classes. */
   itkGetConstMacro(NumberOfClasses, unsigned int);
 
-  /**Set the decision rule */
+  /**Sets the decision rule */
   typedef typename TDataContainer::ValueType MeasurementVectorType ;
   
   /** Typedefs for membership funciton */
@@ -116,7 +113,7 @@ public:
   /** Type alias for decision rule */
   typedef DecisionRuleBase DecisionRuleType;
 
-  /** Set the pointer to the decision rule.
+  /** Sets the pointer to the decision rule.
    * Stores the decision rule that makes the real decision using 
    * informations from MembershipFunctions and other prior knowledge */
   void SetDecisionRule( DecisionRuleType* ptrToDecisionRule )
@@ -124,44 +121,47 @@ public:
     m_DecisionRulePointer = ptrToDecisionRule;
   }
 
-  /** Get the pointer to the decision rule being used. */
+  /** Gets the pointer to the decision rule being used. */
   DecisionRuleType* GetDecisionRule(void)
   {
     return m_DecisionRulePointer.GetPointer() ;
   }
   
-  /** Method to get the set of MembershipFunction that are plugged in by
-   * the AddMembershipFunction method*/
-  const MembershipFunctionPointerVector GetMembershipFunctions() const
+  /** Gets the MembershipFunction that are plugged in by
+   * the AddMembershipFunction method. The index is assigned according
+   * to the order each membership function has been added using the
+   * AddMemberShipFunction method */
+  const MembershipFunctionType* GetMembershipFunction(unsigned int index)const
   {
-    return m_MembershipFunctions;
+    return m_MembershipFunctions[index].GetPointer() ;
   }
 
-  /** Method to get mean */
+  /** Gets the number of membership functions */
   unsigned int GetNumberOfMembershipFunctions() 
   {
     return static_cast<unsigned int>( m_MembershipFunctions.size() );
   }
 
-  /** Stores a MembershipCalculator of a class in its internal vector */
-  unsigned int AddMembershipFunction(MembershipFunctionType * function);
+  /** Stores a membership function of a class in its internal vector */
+  unsigned int AddMembershipFunction(MembershipFunctionType* function);
 
-  /** Define a virtual function to perform clustering of input data
-   */
+  /** Starts the classification process */
   void Update() ;
   
 protected:
-  ClassifierBase();
-  ~ClassifierBase();
+  ClassifierBase() ;
+  ~ClassifierBase() ;
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  virtual void GenerateData();
+  /** The real classification logic implementaion. All the subclasses
+   * of this class should implement this method. */
+  virtual void GenerateData() = 0 ;
 
 private:
-
   ClassifierBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
+  /** Number of classes */
   unsigned int                       m_NumberOfClasses;
 
   /** Pointer to the decision rule to be used for classification. */
