@@ -25,7 +25,7 @@ StartDashboard: $(LatestBuildStamps)
 	mkdir $(DashboardStamp)
 
 EndDashboard:
-	echo 'BuildStamps = $(foreach stamp, $(LatestBuildStamps), ../$(stamp))' > $(DashboardStamp)/DashboardTargets.make
+	echo 'BuildStamps = $(foreach stamp, $(LatestBuildStamps), ../$(stamp))' > $(LatestDashboard)/DashboardTargets.make
 	@echo "Latest Dashboard: $(LatestDashboard)"
 	$(MAKE) -C $(LatestDashboard) EndDashboard
 	$(shell rm -f MostRecentResults)
