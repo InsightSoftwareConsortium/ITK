@@ -42,3 +42,5 @@ IF(RUN_CONFIGURE)
  ENDIF(RET)
 ENDIF(RUN_CONFIGURE)
 
+INSTALL_FILES(/include/InsightToolkit/Utilities/vxl/vcl ".h" "vxl_config")
+SUBDIRS(vcl)

@@ -293,6 +293,7 @@ ADD_LIBRARY( itknetlib ${netlib_sources} )
 IF(UNIX)
   TARGET_LINK_LIBRARIES( itknetlib m )
 ENDIF(UNIX)
+INSTALL_TARGETS(/lib/InsightToolkit itknetlib)
 
 IF(BUILD_TESTING)
   SUBDIRS(tests)

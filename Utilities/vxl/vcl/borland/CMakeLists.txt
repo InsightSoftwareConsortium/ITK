@@ -1,1 +1,1 @@
-INSTALL_FILES(/include/InsightToolkit/Numerics/vxl/vcl/borland "(\\.h|\\.txx)$")
+INSTALL_FILES(/include/InsightToolkit/Utilities/vxl/vcl/borland "(\\.h|\\.txx)$")

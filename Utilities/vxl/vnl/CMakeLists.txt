@@ -141,6 +141,14 @@ IF(UNIX)
   TARGET_LINK_LIBRARIES(itkvnl -lm)
 ENDIF(UNIX)
 
+INSTALL_TARGETS(/lib/InsightToolkit itkvnl)
+INSTALL_FILES(/include/InsightToolkit/Utilities/vxl/vnl ".txx"
+              "vnl_matrix"
+              "vnl_vector"
+              "vnl_vector_fixed"
+              "vnl_c_vector")
+
+INSTALL_FILES(/include/InsightToolkit/Utilities/vxl/vnl "(\\.h)$")
 
 SUBDIRS(algo)
 

@@ -64,5 +64,8 @@ IF(NETLIB_FOUND)
 
   ADD_LIBRARY( itkvnl_algo ${vnl_algo_sources})
   TARGET_LINK_LIBRARIES( itkvnl_algo ${NETLIB_LIBRARIES} itkvnl )
+  INSTALL_TARGETS(/lib/InsightToolkit itkvnl_algo)
 
 ENDIF(NETLIB_FOUND)
+
+INSTALL_FILES(/include/InsightToolkit/Utilities/vxl/vnl/algo "(\\.h|\\.txx)$")
