@@ -306,8 +306,8 @@ TubeSpatialObject< TDimension >
      n2[1] = -t[2]*t[1];
      n2[2] = t[0]*t[0] - t[1]*t[1];
  
-      (*it1).SetV1(n1);
-      (*it1).SetV2(n2);
+      (*it1).SetNormal1(n1);
+      (*it1).SetNormal2(n2);
     }
 
  
