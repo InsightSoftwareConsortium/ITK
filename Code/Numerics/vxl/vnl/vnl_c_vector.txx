@@ -253,14 +253,14 @@ void vnl_c_vector_inf_norm(T const *p, unsigned n, S *out)
 //---------------------------------------------------------------------------
 
 // this should not be changed at run-time anyway.
-#define vnl_c_vector_use_vnl_alloc 1
+#define vnl_c_vector_use_vnl_alloc 0
 
 #include <vnl/vnl_alloc.h>
 //#include <vcl_iostream.h>
 
 inline void* vnl_c_vector_alloc(int n, int size)
 {
-  //vcl_cerr << "\ncall to vnl_c_vector_alloc(" << n << ", " << size << ")\n";
+//  vcl_cerr << "\ncall to vnl_c_vector_alloc(" << n << ", " << size << ")\n";
   //#if vnl_c_vector_use_win32_native_alloc
   // native was:  return (T**)std::allocator<T*>().allocate(n, 0);
   // on windows, it just calls malloc, so is useless....
@@ -273,8 +273,8 @@ inline void* vnl_c_vector_alloc(int n, int size)
 
 inline void vnl_c_vector_dealloc(void* v, int n, int size)
 { 
-  //vcl_cerr << "\ncall to vnl_c_vector_dealloc(" << v << ", " << n
-  //         << ", " << size << ")\n";
+//  vcl_cerr << "\ncall to vnl_c_vector_dealloc(" << v << ", " << n
+//           << ", " << size << ")\n";
 #if vnl_c_vector_use_vnl_alloc
   if (v) 
     vnl_alloc::deallocate(v, (n == 0) ? 8 : (n * size));
