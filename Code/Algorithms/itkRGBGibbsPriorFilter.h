@@ -159,7 +159,7 @@ protected:
   RGBGibbsPriorFilter();
   ~RGBGibbsPriorFilter() {};
 
-  void Allocate();
+  void Allocate(); /** allocate memory space for the filter. */
 
   virtual void MinimizeFunctional();
   virtual void GenerateData();
@@ -174,43 +174,40 @@ private:
   typedef typename TInputImage::SizeType InputImageSizeType;
   typename ClassifierType::Pointer m_ClassifierPtr;
 
-  InputImageType      m_InputImage;
-  InputImageType      m_MediumImage;
-  TrainingImageType   m_TrainingImage;
-  LabelledImageType   m_LabelledImage;
+  InputImageType      m_InputImage;    /** the input */
+  InputImageType      m_MediumImage;   /** the medium image to store intermedium result */
+  TrainingImageType   m_TrainingImage; /** image to train the filter. */
+  LabelledImageType   m_LabelledImage; /** output */
 
-  float m_BoundaryWt; 
-  float m_GibbsPriorWt; 
-  int   m_StartRadius;
-  float m_NewRegionThreshold;
-  int   m_Temp;
-  IndexType m_StartPoint; 
-  int m_StartModelSize; 
-  int m_GibbsNeighborsThreshold; 
-  int m_BoundaryGradient;
-  int m_RecursiveNum;
-  unsigned int      *m_LabelStatus;
+  float m_BoundaryWt; /** weight for H_1 */
+  float m_GibbsPriorWt; /** weight for H_2 */
+  int   m_StartRadius;  /** define the start region of the object. */
+  int   m_Temp;         /** for SA algo. */
+  IndexType m_StartPoint; /** the seed of object */
+  int m_BoundaryGradient; /** the threshold for the existence of a boundary. */
+  int m_RecursiveNum;     /** number of SA iterations. */
+  unsigned int      *m_LabelStatus; /** array for the state of each pixel. */
 
-  int         m_imgWidth;
+  int         m_imgWidth; /** image size. */
   int         m_imgHeight;
   int         m_imgDepth;
-  int         m_ClusterSize;
-  int         m_ObjectLabel;
-  int         m_VecDim;
-  int         m_NumberOfClasses;
-  unsigned int      m_MaximumNumberOfIterations;
-  InputPixelType    m_LowPoint;
+  int         m_ClusterSize; /** region size smaller than the threshold will be erased. */
+  int         m_ObjectLabel; /** the label for object region. */
+  int         m_VecDim;      /** the channel number in the image. */
+  int         m_NumberOfClasses; /** the number of class need to be classified. */
+  unsigned int      m_MaximumNumberOfIterations; /** number of the iteration. */
+  InputPixelType    m_LowPoint;  /** the point give lowest value of H-1 in neighbor. */
 
-  unsigned short    *m_Region;
-  unsigned short    *m_RegionCount;
+  unsigned short    *m_Region;   /** for region erase. */
+  unsigned short    *m_RegionCount;  /** for region erase. */
 
-  void  GibbsTotalEnergy(int i);
-  float GibbsEnergy(int i, int k, int k1);
-  int Sim(int a, int b);
-  int LabelRegion(int i, int l, int change);
-  void  RegionEraser();
-  void  GenerateMediumImage();
-  void  GreyScalarBoundary(LabelledImageIndexType Index3D); 
+  void  GibbsTotalEnergy(int i); /** calculate H_2. */
+  float GibbsEnergy(int i, int k, int k1); /** calculate the energy in each cluster. */
+  int Sim(int a, int b);         /** method to return 1 when a equal to b. */
+  int LabelRegion(int i, int l, int change);  /** help to erase the small region. */
+  void  RegionEraser();                       /** erase the small region. */
+  void  GenerateMediumImage();                /** create the intermedium image. */
+  void  GreyScalarBoundary(LabelledImageIndexType Index3D); /** calculate H_1. */
 
 };
 
