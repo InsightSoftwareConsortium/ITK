@@ -445,7 +445,7 @@ itkMesh< TPixelType , TMeshType >
 template <typename TPixelType, typename TMeshType>
 bool
 itkMesh< TPixelType , TMeshType >
-::GetCell(CellIdentifier cellId, CellPointer* cell) const
+::GetCell(CellIdentifier cellId, Cell::Pointer* cell) const
 {
   /**
    * If the cells container doesn't exist, then the cell doesn't exist.
@@ -561,7 +561,7 @@ itkMesh< TPixelType , TMeshType >
 template <typename TPixelType, typename TMeshType>
 bool
 itkMesh< TPixelType , TMeshType >
-::GetBoundary(BoundaryIdentifier boundaryId, BoundaryPointer* boundary) const
+::GetBoundary(BoundaryIdentifier boundaryId, Boundary::Pointer* boundary) const
 {
   /**
    * If the boundaries container doesn't exist, then the boundary
@@ -777,6 +777,74 @@ itkMesh< TPixelType , TMeshType >
 }
 
 
+/**
+ * Get the number of cell boundary features of the given topological dimension
+ * on the cell with the given identifier.
+ */
+template <typename TPixelType, typename TMeshType>
+itkMesh< TPixelType , TMeshType >::CellFeatureCount
+itkMesh< TPixelType , TMeshType >
+::GetNumberOfCellBoundaryFeatures(CellIdentifier cellId, int dimension)
+{
+  /**
+   * Make sure the cell container exists and contains the given cell Id.
+   */
+  if(m_Cells == NULL) return 0;
+  if(!m_Cells->IndexExists(cellId)) return 0;
+  
+  /**
+   * Ask the cell for its boundary count of the given dimension.
+   */
+  return (*m_Cells)[cellId]->GetNumberOfBoundaryFeatures(dimension);
+}
+
+
+/**
+ * Get the boundary feature of the given dimension of the given cell
+ * corresponding to the given feature identifier.
+ */
+template <typename TPixelType, typename TMeshType>
+itkMesh< TPixelType , TMeshType >::Cell::Pointer
+itkMesh< TPixelType , TMeshType >
+::GetCellBoundaryFeature(CellIdentifier cellId, int dimension,
+			 CellFeatureId featureId)
+{
+  /**
+   * First check if the boundary has been explicitly assigned.
+   */
+  if((m_BoundaryAssignments[dimension] != NULL) &&
+     (m_Boundaries[dimension] != NULL))
+    {
+    BoundaryAssignmentId assignId(cellId, featureId);
+    if(m_BoundaryAssignments[dimension]->IndexExists(assignId))
+      {
+      BoundaryIdentifier boundaryId =
+	(*(m_BoundaryAssignments[dimension]))[assignId];
+      if(m_Boundaries[dimension]->IndexExists(boundaryId))
+	{
+	return (*(m_Boundaries[dimension]))[boundaryId];
+	}
+      }
+    }
+  
+  /**
+   * It was not explicitly assigned, so ask the cell to construct it.
+   */
+  if(m_Cells != NULL)
+    {
+    if(m_Cells->IndexExists(cellId))
+      {
+      return (*m_Cells)[cellId]->GetBoundaryFeature(dimension, featureId);
+      }
+    }
+  
+  /**
+   * The cell did not exist, so just give up.
+   */
+  return Cell::Pointer(NULL);
+}
+
+
 /******************************************************************************
  * PROTECTED METHOD DEFINITIONS
  *****************************************************************************/
@@ -808,12 +876,12 @@ itkMesh< TPixelType , TMeshType >
 #define DefaultPointDataContainerForNonIntegralIdentifiers    itkMapContainer< PointIdentifier , PixelType >
 #define DefaultCellLinksContainerForIntegralIdentifiers       itkAutoVectorContainer< PointIdentifier , PointCellLinksContainerPointer >
 #define DefaultCellLinksContainerForNonIntegralIdentifiers    itkMapContainer< PointIdentifier , PointCellLinksContainerPointer >
-#define DefaultCellsContainerForIntegralIdentifiers           itkAutoVectorContainer< CellIdentifier , CellPointer >
-#define DefaultCellsContainerForNonIntegralIdentifiers        itkMapContainer< CellIdentifier , CellPointer >
+#define DefaultCellsContainerForIntegralIdentifiers           itkAutoVectorContainer< CellIdentifier , Cell::Pointer >
+#define DefaultCellsContainerForNonIntegralIdentifiers        itkMapContainer< CellIdentifier , Cell::Pointer >
 #define DefaultCellDataContainerForIntegralIdentifiers        itkAutoVectorContainer< CellIdentifier , PixelType >
 #define DefaultCellDataContainerForNonIntegralIdentifiers     itkMapContainer< CellIdentifier , PixelType >
-#define DefaultBoundariesContainerForIntegralIdentifiers      itkAutoVectorContainer< BoundaryIdentifier , BoundaryPointer >
-#define DefaultBoundariesContainerForNonIntegralIdentifiers   itkMapContainer< BoundaryIdentifier , BoundaryPointer >
+#define DefaultBoundariesContainerForIntegralIdentifiers      itkAutoVectorContainer< BoundaryIdentifier , Boundary::Pointer >
+#define DefaultBoundariesContainerForNonIntegralIdentifiers   itkMapContainer< BoundaryIdentifier , Boundary::Pointer >
 #define DefaultBoundaryDataContainerForIntegralIdentifiers    itkAutoVectorContainer< BoundaryIdentifier , PixelType >
 #define DefaultBoundaryDataContainerForNonIntegralIdentifiers itkMapContainer< BoundaryIdentifier , PixelType >
 #define DefaultBoundaryAssignmentsContainer                   itkMapContainer< BoundaryAssignmentId , BoundaryIdentifier >

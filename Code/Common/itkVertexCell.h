@@ -67,7 +67,7 @@ public:
   static Pointer New(void);
   virtual int GetCellDimension(void);
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
-  virtual Cell::Pointer GetBoundaryFeature(int dimension, CellFeatureId, Mesh*);
+  virtual Cell::Pointer GetBoundaryFeature(int dimension, CellFeatureId);
   virtual void SetCellPoints(PointIdentifier *ptList);
   
   /**

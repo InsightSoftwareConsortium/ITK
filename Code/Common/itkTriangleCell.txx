@@ -63,12 +63,12 @@ itkTriangleCell< TPixelType , TMeshType >
 template <typename TPixelType, typename TMeshType>
 itkTriangleCell< TPixelType , TMeshType >::Cell::Pointer
 itkTriangleCell< TPixelType , TMeshType >
-::GetBoundaryFeature(int dimension, CellFeatureId featureId, Mesh* mesh)
+::GetBoundaryFeature(int dimension, CellFeatureId featureId)
 {
   switch (dimension)
     {
-    case 0: return Cell::Pointer(GetCellVertex(featureId, mesh));
-    case 1: return Cell::Pointer(GetCellEdge(featureId, mesh));
+    case 0: return Cell::Pointer(GetCellVertex(featureId));
+    case 1: return Cell::Pointer(GetCellEdge(featureId));
     default: return Cell::Pointer(NULL);
     }
 }
@@ -121,7 +121,7 @@ itkTriangleCell< TPixelType , TMeshType >
 template <typename TPixelType, typename TMeshType>
 itkTriangleCell< TPixelType , TMeshType >::Vertex::Pointer
 itkTriangleCell< TPixelType , TMeshType >
-::GetCellVertex(CellFeatureId vertexId, Mesh*)
+::GetCellVertex(CellFeatureId vertexId)
 {
   Vertex::Pointer vert(Vertex::New());
   vert->SetCellPoint(0, m_PointIds[vertexId]);
@@ -137,7 +137,7 @@ itkTriangleCell< TPixelType , TMeshType >
 template <typename TPixelType, typename TMeshType>
 itkTriangleCell< TPixelType , TMeshType >::Edge::Pointer
 itkTriangleCell< TPixelType , TMeshType >
-::GetCellEdge(CellFeatureId edgeId, Mesh*)
+::GetCellEdge(CellFeatureId edgeId)
 {
   Edge::Pointer edge(Edge::New());
   

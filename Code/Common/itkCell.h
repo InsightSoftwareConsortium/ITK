@@ -102,7 +102,7 @@ public:
   /**
    * Get the boundary feature corresponding to the given dimension and Id.
    */
-  virtual Pointer GetBoundaryFeature(int dimension, CellFeatureId, Mesh*)=0;
+  virtual Pointer GetBoundaryFeature(int dimension, CellFeatureId)=0;
   
   /**
    * Set the point list used by the cell.  It is assumed that the argument

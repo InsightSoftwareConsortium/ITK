@@ -67,6 +67,11 @@ public:
   typedef typename MeshType::BoundaryIdentifier       BoundaryIdentifier;
   typedef typename MeshType::CellFeatureId            CellFeatureId;
   typedef typename MeshType::PointCellLinksContainer  PointCellLinksContainer;
+
+  /**
+   * A useful rename.
+   */
+  typedef CellFeatureId  CellFeatureCount;
   
   /**
    * Define the type of point stored in this mesh.
@@ -74,18 +79,11 @@ public:
   typedef itkPoint< PointDimension , CoordRep >  Point;
   
   /**
-   * Define a type that points to a cell of any type.
+   * Define the base cell type for cells in this mesh.
+   * It also happens that boundaries are also cells.
    */
   typedef itkCell< PixelType , MeshType >  Cell;
-  typedef Cell::Pointer                    CellPointer;
-  
-  /**
-   * Define a type for cell boundaries and a type that points to a
-   * cell boundary.
-   * It happens to be that such boundaries are cells also.
-   */
-  typedef Cell         Boundary;
-  typedef CellPointer  BoundaryPointer;
+  typedef Cell                             Boundary;
   
   /**
    * Define a type that points to the container of cell links stored for
@@ -178,7 +176,7 @@ protected:
    * An object containing cells used by the mesh.  Individual cellss are
    * accessed through cell identifiers.
    */
-  typedef itkIndexedContainer< CellIdentifier , CellPointer >
+  typedef itkIndexedContainer< CellIdentifier , Cell::Pointer >
         CellsContainer;
   CellsContainer::Pointer  m_Cells;
   
@@ -201,7 +199,7 @@ protected:
    * identifiers are used to access the container in this vector corresponding
    * to the topological dimension of the boundary.
    */
-  typedef itkIndexedContainer< BoundaryIdentifier , BoundaryPointer >
+  typedef itkIndexedContainer< BoundaryIdentifier , Boundary::Pointer >
         BoundariesContainer;
   typedef std::vector< BoundariesContainer::Pointer >
         BoundariesContainerVector;
@@ -290,7 +288,7 @@ public:
    * from it.
    */
   void SetCell(CellIdentifier, Cell*);
-  bool GetCell(CellIdentifier, CellPointer*) const;
+  bool GetCell(CellIdentifier, Cell::Pointer*) const;
 
   /**
    * Access routines to fill the CellData container, and get information
@@ -304,7 +302,7 @@ public:
    * from it.
    */
   void SetBoundary(BoundaryIdentifier, Boundary*);
-  bool GetBoundary(BoundaryIdentifier, BoundaryPointer*) const;
+  bool GetBoundary(BoundaryIdentifier, Boundary::Pointer*) const;
 
   /**
    * Access routines to fill the BoundaryData container, and get information
@@ -328,6 +326,14 @@ public:
   bool RemoveBoundaryAssignment(BoundaryAssignmentId, int dimension);
   bool RemoveBoundaryAssignment(CellIdentifier cellId, CellFeatureId featureId,
 				int dimension);
+
+  /**
+   * Interface to cells.
+   */
+  CellFeatureCount GetNumberOfCellBoundaryFeatures(CellIdentifier,
+						   int dimension);
+  Cell::Pointer GetCellBoundaryFeature(CellIdentifier, int dimension,
+				       CellFeatureId);
   
   /**
    * Standard part of itkObject class.  Used for debugging output.

@@ -62,11 +62,11 @@ itkLineCell< TPixelType , TMeshType >
 template <typename TPixelType, typename TMeshType>
 itkLineCell< TPixelType , TMeshType >::Cell::Pointer
 itkLineCell< TPixelType , TMeshType >
-::GetBoundaryFeature(int dimension, CellFeatureId featureId, Mesh* mesh)
+::GetBoundaryFeature(int dimension, CellFeatureId featureId)
 {
   switch (dimension)
     {
-    case 0: return Cell::Pointer(GetCellVertex(featureId, mesh));
+    case 0: return Cell::Pointer(GetCellVertex(featureId));
     default: return Cell::Pointer(NULL);
     }
 }
@@ -106,7 +106,7 @@ itkLineCell< TPixelType , TMeshType >
 template <typename TPixelType, typename TMeshType>
 itkLineCell< TPixelType , TMeshType >::Vertex::Pointer
 itkLineCell< TPixelType , TMeshType >
-::GetCellVertex(CellFeatureId vertexId, Mesh*)
+::GetCellVertex(CellFeatureId vertexId)
 {
   Vertex::Pointer vert(Vertex::New());
   vert->SetCellPoint(0, m_PointIds[vertexId]);
