@@ -60,29 +60,29 @@ is what keeps the software stable. In ITK, an extensive testing process is
 in place that measures the quality on a daily basis.<br>
 
 <h3>What are ITK's origins?</h3>
-In 1999 the US
-<a href="http://www.nlm.nih.gov/nlmhome.html">National Library of Medicine</a>
-of the National Institutes of
-Health awarded a three-year contract to develop an open-source registration
-and segmentation toolkit, which eventually came to be known as the Insight
-Toolkit (ITK). The primary purpose of the project is to support the 
+
+In 1999 the US <a href="http://www.nlm.nih.gov/nlmhome.html">National Library
+of Medicine</a> of the National Institutes of Health awarded a three-year
+contract to develop an open-source registration and segmentation toolkit,
+which eventually came to be known as the Insight Toolkit (ITK). The primary
+purpose of the project is to support the
 <a href="http://www.nlm.nih.gov/research/visible/visible_human.html">
-Visible Human Project</a> by providing software tools to process and work with
-the project data.
-ITK's NLM Project Manager was Dr. Terry Yoo, who coordinated
-the six prime contractors who made up the Insight consortium. These
-consortium members included the three commercial partners GE Corporate
-R&amp;D, Kitware, Inc., and MathSoft; and the three academic partners
-University of North Carolina (UNC), University of Tennessee (UT), and
-University of Pennsylvania (UPenn).  The Principle Investigators for these
-partners were, respectively, Bill Lorensen at GE CRD, Will Schroeder at
-Kitware, Vikram Chalana at Mathsoft, Stephen Aylward with Luis Ibanez at UNC,
-Ross Whitaker at UT, and Dimitri Metaxas at UPenn. In addition, several
-subcontractors rounded out the consortium including Peter Raitu at Brigham
-&amp; Women's Hospital, Pat Molholt and Celina Imielinska at Columbia
-University, Jim Gee at UPenn's Grasp Lab, and George Stetton at University of
-Pittsburgh. (Note: Ross Whitaker subsequently moved to University of Utah in
-2000.)<br>
+Visible Human Project</a> by providing software tools to process and work
+with the project data. ITK's NLM Project Manager was Dr. Terry Yoo, who
+coordinated the six prime contractors who made up the Insight
+consortium. These consortium members included the three commercial partners
+GE Corporate R&amp;D, Kitware, Inc., and MathSoft (the company name is now
+Insightful); and the three academic partners University of North Carolina
+(UNC), University of Tennessee (UT), and University of Pennsylvania (UPenn).
+The Principle Investigators for these partners were, respectively, Bill
+Lorensen at GE CRD, Will Schroeder at Kitware, Vikram Chalana at Mathsoft,
+Stephen Aylward with Luis Ibanez at UNC (Luis is now at Kitware), Ross
+Whitaker with Josh Cates at UT (both now at Utah), and Dimitri Metaxas at
+UPenn. In addition, several subcontractors rounded out the consortium
+including Peter Raitu at Brigham &amp; Women's Hospital, Pat Molholt and
+Celina Imielinska at Columbia University, Jim Gee at UPenn's Grasp Lab, and
+George Stetton at University of Pittsburgh.
+<br>
 
 <h3> Who are the developers?</h3>
 The best way to determine the names of developers is to view the CVS source
@@ -95,19 +95,21 @@ Some of the early developers include:<br>
   <li> Stephen Aylward - UNC; architecture, algorithms</li>
   <li>Dan Blezek - GE CRD; testing infrastructure</li>
   <li>Josh Cates - Utah; imaging classes and filters</li>
+  <li>Vikram Chalana - Mathsoft (now Insightful); GNATS</li>
   <li>Bill Hoffman - Kitware; CMake (build process); vxl/vnl numerics; infrastructure
 (smart pointers, object factories, callback mechanism)</li>
-  <li>Paul Hughett - ; quality, algorithms</li>
-  <li>Luis Ibanez - UNC; imaging classes and filters</li>
+  <li>Paul Hughett - UPenn; quality, algorithms</li>
+  <li>Luis Ibanez - UNC (now Kitware); imaging classes and filters</li>
   <li>Brad King - Kitware; Mesh class, autowrapping of C++ code</li>
   <li>Bill Lorensen - GE CRD; testing, requirements, architecture</li>
   <li>Ken Martin - Kitware; Build process, architecture, infrastructure</li>
   <li>Jim Miller - GR CRD; Image classes, iterators, pipeline update mechanism</li>
-  <li>Lydia Ng - Mathsoft; Image filters, clustering/segementation algorithms</li>
-  <li>Sayan Pathak &ndash; MathSoft, Inc.; image clustering/segementation
+  <li>Lydia Ng - Mathsoft (now Insightful); Image filters, clustering/segementation algorithms</li>
+  <li>Sayan Pathak &ndash; MathSoft (now Insightful); image clustering/segementation
 algorithms</li>
   <li>Will Schroeder - Kitware; Mesh classes, documentation, algorithms,
 core classes</li>
+  <li>Damion Shelton - Pittsburgh; BLOX images, spatial filters</li>
   <li>George Stetton - Pittsburgh; image filters, algorithms</li>
   <li>Ross Whitaker - Utah; architecture, algorithms</li>
 </ul>
@@ -147,14 +149,14 @@ The following are key features of the toolkit design philosophy.<br>
 <ul>
   <li>The toolkit provides data representation and algorithms for performing
 segmentation and registration. The focus is on medical applications; although
-the toolkit is capable of processing other types.<br>
+the toolkit is capable of processing other data types.<br>
  </li>
   <li>The toolkit provides data representations in general form for images
 (arbitrary dimension) and (unstructured) meshes.<br>
  </li>
   <li>The toolkit does not address visualization or graphical user interface.
 These are left to other toolkits (such as 
-<a href="http://www.kitware.com/vtk.html">VTK</a>, 
+<a href="http://public.kitware.com/VTK">VTK</a>, 
 <a href="http://rolle.engr.utk.edu/~vision/vispack/">VisPack</a>, 
 <a href="http://mipgsun.mipg.upenn.edu/~Vnews/">3DViewnix</a>,
 MetaImage, etc.)
@@ -162,11 +164,16 @@ MetaImage, etc.)
   <li> The toolkit provides minimal tools for file interface. Again, this
 is left to other toolkits/libraries to provide. </li>
   <li>Multi-threaded (shared memory) parallel processing is supported. </li>
-  <li>The development of the toolkit is based on principles of extreme programming.
-That is, design, implementation, and testing is performed in a rapid, iterative
-process. Testing forms the core of this process. In Insight, testing is performed
-continuously as files are checked in, and every night across multiple platforms
-and compilers. </li>
+
+  <li>The development of the toolkit is based on principles of extreme
+programming.  That is, design, implementation, and testing is performed in a
+rapid, iterative process. Testing forms the core of this process. In Insight,
+testing is performed continuously as files are checked in, and every night
+across multiple platforms and compilers. The 
+<a href="http://public.kitware.com/dashboard.php?name=itk">Insight testing 
+dashboard</a>, where testing results are posted, is central to this
+process.</li>
+
 </ul>
 <h3>Architecture </h3>
 The following are key features of the toolkit architecture.
@@ -184,12 +191,14 @@ The following are key features of the toolkit implementation philosophy.<br>
 <ul>
   <li>The toolkit is implemented using generic programming principles. Such
 heavily templated C++ code challenges many compilers; hence development was
-carried out with the latest &nbsp; &nbsp; versions of the MSVC, Sun, gcc,
+carried out with the latest versions of the MSVC, Sun, gcc, Intel,
 and SGI compilers.</li>
   <li>The toolkit is cross-platform (Unix and Windows).</li>
-  <li> The toolkit supports multiple language bindings, including such languages
-as Tcl, Python, and Java. These bindings are generated automatically using
-an auto-wrap process.</li>
+  <li> The toolkit supports multiple language bindings, including such 
+  languages as Tcl, Python, and Java. These bindings are generated 
+  automatically using an auto-wrap process. 
+  <a href="http://public.kitware.com/Cable">Cable</a> is the tool we use for
+  wrapping the code.</li>
   <li> The memory model depends on "smart pointers" that maintain a reference
 count to objects. Smart pointers can be allocated on the stack, and when
 scope is exited, the smart pointers disappear and decrement their reference
@@ -197,15 +206,18 @@ count to the object that they refer to. </li>
 </ul>
 <h3>Build Environment</h3>
 Insight uses the 
-<a href="http://public.kitware.com/CMake">CMake</a>
+<a href="http://www.cmake.org">CMake</a>
 (cross-platform make) build environment. CMake uses
 configure and make on Unix and generates projects and workspaces in the windows
 environment.<br>
 <h3>Testing Environment</h3>
 Insight supports an extensive testing environment. The code is tested daily
-on many hardware/operating system/compiler combinations and the results are
-posted daily on the 
-<a href="http://www.itk.org/Testing/HTML/TestingResults/Dashboard/MostRecentResults-Nightly/Dashboard.html">Insight Quality Dashboard<a>.
+(and even continuously) on many hardware/operating system/compiler 
+combinations and the results are posted daily on the 
+<a href="http://public.kitware.com/dashboard.php?name=itk">Insight testing 
+dashboard</a>. We use 
+<a href="http://public.kitware.com/Dart/">Dart</a> to manage the testing 
+process, and to post the results to the dashboard.
 <br>
 <h3>Background References </h3>
 <h4>C++ Patterns and Generics</h4>
@@ -220,53 +232,49 @@ by Matthew H. Austern </li>
 </ul>
 
 
-<h2>FURTHER INFORMATION</h2>
-Refer to the 
-<a href="http://www.itk.org">Insight homepage</a>
-for more information.
-Also, grab the code from the
-<a href="http://www.itk.org/Web/HTML/Download.htm">
-Insight CVS repository</a>. To download Insight using CVS, use the 
-following procedure:<br> 
-<pre>   cvs -d :pserver:anonymous@public.kitware.com:/insight/cvsroot login</pre>
-with password "insight"...then get the source/documentation as follows:<br>
-<br>
-<pre>   cvs -d :pserver:anonymous@public.kitware.com:/insight/cvsroot checkout Insight</pre>
-
-Once you have done this, look for the following documents:
-<ul>
-  <li>Insight/Documents/InsightStart.doc|.pdf (Word/PDF). <br>
-The basics of working with CVS, obtaining the source code repository, and
-compiling Insight.<br>
-    <br>
-  </li>
-  <li>Additional Documentation (all found in the directory Insight/Documentation)</li>
-</ul>
-<blockquote>
+<h2>ADDITIONAL INFORMATION</h2>
+  <h3>Resources</h3>
+  A number of resources are available to learn more about ITK.
   <ul>
-    <li>CMake (CMake.rtf|.pdf (Word/PDF)</li>
-    <li> Requirements (Requirements.doc|.pdf)</li>
-    <li>Style Guide (a must read for coders) (Style.ppt|.pdf)</li>
+    <li>The ITK web pages are located
+    <a href="http://www.itk.org">http://www.itk.org</a>.
+    <li>Users of the toolkit should look in the file
+    <a href="GettingStarted.txt">GettingStarted.txt</a>. This file contains 
+    information on how to obtain ITK and the basics of compilation and
+    otherwise managing the software.
+    <li>Developers, or users interested in learning more, should look in the
+    document <a href="Documentation/InsightStart.pdf">InsightStart.pdf</a> or
+    InsightStart.doc found in the Insight/Documentation directory.
+    <li>Developers should also look at the ITK style guide
+    <a href="Documentation/Style.pdf">Style.pdf</a>.
   </ul>
-  </blockquote>
-Additional documentation is being developed in a separate CVS
-checkout directory (InsightDocuments). While this is not complete, you
-may find useful information (including a coding style document).
-If you would like to access this directory, use the following procedure:
 
-<pre>   cvs -d :pserver:anonymous@public.kitware.com:/insight/cvsroot login</pre>
-with password "insight"...then get the source/documentation as follows:<br>
-<br>
-<pre>   cvs -d :pserver:anonymous@public.kitware.com:/insight/cvsroot checkout InsightDocuments</pre>
+  <h3>Examples</h3>
+  A great way to learn about ITK is to see how it is used. There are three
+  places to find examples.
+  <ol>
+  <li>The <a href="Examples/">Insight/Examples</a> distributed with ITK.
+  The source code is available.</li>
+  <li>The <a href="http://www.itk.org/HTML/Examples.htm">Examples web pages</a>. 
+  These are extensive descriptions, with images and references, of the 
+  examples found in #1 above.</li>
+  <li>The <a href="Testing/Code/">Testing directories</a> distributed with
+  ITK are simple, mainly undocumented examples of how to use the code.</li>
+  </ol>
 
-  <h3> Contacts</h3>
+  <h3>Data</h3>
+  Data is available via anonymous ftp from: 
+  <a href="ftp://public.kitware.com/pub/itk/Data/">
+  ftp://public.kitware.com/pub/itk/Data/</a>.
+
+  <h3>Contacts</h3>
   <ul>
     <li>Terry Yoo (NLM/NIH Insight Project Manager yoo@fluorite.nlm.nih.gov)</li>
     <li>Bill Lorensen (PI GE CRD lorensen@crd.ge.com)</li>
     <li>Will Schroeder (PI Kitware, Inc. will.schroeder@kitware.com)</li>
-    <li>Stephen Aylward with Luis Ibanez (UNC aylward@unc.edu, ibanez@cs.unc.edu).</li>
+    <li>Stephen Aylward (PI UNC aylward@unc.edu).</li>
     <li>Ross Whitaker (PI Utah whitaker@cs.utah.edu)</li>
-    <li>Vikram Chalana (PI Mathsoft vikram@statsci.com)</li>
+    <li>Vikram Chalana (PI Mathsoft (now Insightful) vikram@insightful.com)</li>
     <li>Dimitri Metaxas (PI UPenn dnm@central.cis.upenn.edu) </li>
   </ul>
   <br>
