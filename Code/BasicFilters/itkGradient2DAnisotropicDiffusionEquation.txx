@@ -79,9 +79,9 @@ Gradient2DAnisotropicDiffusionEquation<TImage>
   PixelType dy, dx, dy_aug, dy_dim, dx_aug, dx_dim;
    
   dx_forward = it.GetPixel(8)  - it.GetPixel(7);
-  dx_backward= it.GetPixel(6)  - it.GetPixel(7);
+  dx_backward= it.GetPixel(7)  - it.GetPixel(6);
   dy_forward = it.GetPixel(12) - it.GetPixel(7);
-  dy_backward= it.GetPixel(2)  - it.GetPixel(7);
+  dy_backward= it.GetPixel(7)  - it.GetPixel(2);
   
   dx         = m_InnerProduct(x_slice, it, dx_op);
   dy         = m_InnerProduct(y_slice, it, dy_op);
@@ -107,7 +107,7 @@ Gradient2DAnisotropicDiffusionEquation<TImage>
   dx_backward *= Cxd;
   dy_backward *= Cyd;
   
-  return ( dx_forward  + dy_forward + dx_backward + dy_backward );
+  return (( dx_forward  - dx_backward) + (dy_forward - dy_backward ));
 }
 
 template<class TImage>
@@ -121,9 +121,9 @@ Gradient2DAnisotropicDiffusionEquation<TImage>
   PixelType dy, dx, dy_aug, dy_dim, dx_aug, dx_dim;
    
   dx_forward = it.GetPixel(8)  - it.GetPixel(7);
-  dx_backward= it.GetPixel(6)  - it.GetPixel(7);
+  dx_backward= it.GetPixel(7)  - it.GetPixel(6);
   dy_forward = it.GetPixel(12) - it.GetPixel(7);
-  dy_backward= it.GetPixel(2)  - it.GetPixel(7);
+  dy_backward= it.GetPixel(7)  - it.GetPixel(2);
   
   dx         = m_SmartInnerProduct(x_slice, it, dx_op);
   dy         = m_SmartInnerProduct(y_slice, it, dy_op);
@@ -149,8 +149,7 @@ Gradient2DAnisotropicDiffusionEquation<TImage>
   dx_backward *= Cxd;
   dy_backward *= Cyd;
   
-
-  return ( dx_forward  + dy_forward + dx_backward + dy_backward );
+  return (( dx_forward  - dx_backward) + (dy_forward - dy_backward ));
 
 }
 
