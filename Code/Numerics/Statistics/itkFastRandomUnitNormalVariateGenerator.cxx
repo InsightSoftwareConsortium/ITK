@@ -101,13 +101,29 @@ double FastRandomUnitNormalVariateGenerator::GetNormalVariate()
 
 double FastRandomUnitNormalVariateGenerator::FastNorm(void)
 {
-  long i;
-  long inc;
-  long skew, stride, mask;
-  long p, q, r, s, t;
-  long *pa, *pb, *pc, *pd, *pe, *p0;
-  long mtype, stype;
-  double ts, tr, tx, ty, tz;
+  long i = 0;
+  long inc    = 0;
+  long skew   = 0;
+  long stride = 0;
+  long mask   = 0;
+  long p = 0;
+  long q = 0;
+  long r = 0;
+  long s = 0;
+  long t = 0;
+  long *pa = 0;
+  long *pb = 0;
+  long *pc = 0;
+  long *pd = 0;
+  long *pe = 0;
+  long *p0 = 0;
+  long mtype = 0;
+  long stype = 0;
+  double ts = 0.0;
+  double tr = 0.0;
+  double tx = 0.0;
+  double ty = 0.0;
+  double tz = 0.0;
 
   /*	See if time to make a new set of 'original' deviates  */
   /*	or at least to correct for a drift in sum-of-squares	*/
