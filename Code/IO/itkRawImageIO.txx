@@ -275,6 +275,7 @@ void RawImageIO<TPixel,VImageDimension>
       }
 
     }
+  file.close();
 }
 
 
