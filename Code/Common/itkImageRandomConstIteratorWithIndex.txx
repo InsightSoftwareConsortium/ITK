@@ -71,7 +71,8 @@ void
 ImageRandomConstIteratorWithIndex<TImage>
 ::GoToEnd()
 {
-  m_NumberOfSamplesDone = m_NumberOfSamplesRequested;
+  m_NumberOfSamplesDone = 0L;
+  this->operator--();
 }
 
 

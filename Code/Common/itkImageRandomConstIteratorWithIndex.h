@@ -23,7 +23,7 @@ namespace itk
 {
 
 /** \class ImageRandomConstIteratorWithIndex
- * \brief Multi-dimensional image iterator which only walks a region.
+ * \brief Multi-dimensional image iterator which walks randomly within a region.
  * 
  * ImageRandomConstIteratorWithIndex is a templated class to represent a multi-dimensional
  * iterator. ImageRandomConstIteratorWithIndex is templated over the image type
@@ -44,8 +44,9 @@ namespace itk
  * Index[0] = col, Index[1] = row, Index[2] = slice, etc.
  *
  * operator++ provides a simple syntax for walking around a region of
- * a multidimensional image. operator++ iterates performs a jump to a random
- * position on the Image Buffer. This is designed to facilitate the extraction
+ * a multidimensional image. operator++ performs a jump to a random
+ * position within the specified image region. 
+ * This is designed to facilitate the extraction
  * of random samples from the image.
  *
  * This is the typical use of this iterator in a loop:
@@ -63,6 +64,25 @@ namespace itk
  *  } 
  *
  *  \endcode
+ *
+ * or
+ *
+ * \code
+ *  
+ * ImageRandomConstIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
+ * 
+ * it.SetNumberOfSamples(200);
+ * it.GoToEnd();
+ * while( !it.IsAtBegin() )
+ * {
+ *   it.Get();
+ *   ++it;  // here it jumps to another random position inside the region
+ *  } 
+ *
+ *  \endcode
+ *
+ * \warning Incrementing the iterator (++it) followed by a decrement (--it)
+ * or vice versa does not in general return the iterator to the same position.
  *
  * \example  Common/itkImageRandomConstIteratorWithIndexTest.cxx
  *
@@ -128,7 +148,7 @@ public:
 
   /** Is the iterator at the beginning of the region? */
   bool IsAtBegin(void) const
-    { return (m_NumberOfSamplesDone==0) ; }
+    { return (m_NumberOfSamplesDone > m_NumberOfSamplesRequested) ; }
 
   /** Is the iterator at the end of the region? */
   bool IsAtEnd(void) const
