@@ -187,6 +187,7 @@ public:
   
     /** Typedefs for the visitor class.   */
     typedef typename VisitorType::Pointer VisitorPointer;
+    typedef typename std::map<int, VisitorPointer>::value_type VisitorPointerValueType;
 
   public:
     VisitorType * GetVisitor(int id)
@@ -215,7 +216,7 @@ public:
           }
         else
           {
-          m_UserDefined.insert(typename std::map<int, VisitorPointer>::value_type(id,v));
+          m_UserDefined.insert(VisitorPointerValueType(id,v));
           }
       }
     virtual ~MultiVisitor() {}
