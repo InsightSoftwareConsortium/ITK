@@ -29,9 +29,9 @@ int itkVoronoiDiagram2DTest(int, char**){
   typedef itk::VoronoiDiagram2DGenerator<double> VorGenerator;
 
   typedef Vor::PointType PointType;
-  typedef Vor::Cell Cell;
-  typedef Vor::CellPointer CellPointer;
-  typedef Cell::PointIdIterator PointIdIterator;
+  typedef Vor::CellType CellType;
+  typedef Vor::CellAutoPointer CellAutoPointer;
+  typedef CellType::PointIdIterator PointIdIterator;
   typedef Vor::NeighborIdIterator NeighborIdIterator;
 
   Vor::Pointer testVor(Vor::New());
@@ -50,8 +50,8 @@ int itkVoronoiDiagram2DTest(int, char**){
     PointType currP=testVor->GetSeed(i);
     std::cout<<"Seed No."<<i<<": At ("<<currP[0]<<"," <<currP[1]<<")"<<std::endl;
     std::cout<<"  Boundary Vertices List (in order):";
-    CellPointer currCell;
-    currCell=testVor->GetCellId(i);
+    CellAutoPointer currCell;
+    testVor->GetCellId(i, currCell);
     PointIdIterator currCellP;
     for(currCellP=currCell->PointIdsBegin();currCellP!=currCell->PointIdsEnd();++currCellP)
     {

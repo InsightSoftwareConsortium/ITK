@@ -110,13 +110,13 @@ public:
   
   /** The interface to cells to be used by the mesh.
    * This should not be changed. */
-  typedef CellInterface< CellPixelType , CellTraits >  Cell;
-//typedef typename Cell::Pointer CellPointer;
-  typedef          Cell        * CellPointer;
+  typedef CellInterface< CellPixelType , CellTraits >  CellType;
+  typedef typename CellType::CellRawPointer                CellRawPointer;
+  typedef typename CellType::CellAutoPointer               CellAutoPointer;
     
   /** The container type for use in storing cells.  It must conform to
    * the IndexedContainer interface. */
-  typedef VectorContainer< CellIdentifier , CellPointer >
+  typedef VectorContainer< CellIdentifier , CellType *  >
         CellsContainer;
   
   /** The CellLinks container should be a container of PointCellLinksContainer,
@@ -140,7 +140,7 @@ public:
 
   /** The container type for use in storing explicitly created
    * boundaries.  It must conform to the IndexedContainer interface. */
-  typedef VectorContainer< BoundaryIdentifier , CellPointer >
+  typedef VectorContainer< BoundaryIdentifier , CellType * >
         BoundariesContainer;
 
   /** The container type for use in storing data for explicitly

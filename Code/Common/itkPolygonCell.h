@@ -50,65 +50,37 @@ class PolygonCell: public TCellInterface
 {
 public:
   /** Standard class typedefs. */
-  typedef PolygonCell  Self;
-  typedef TCellInterface  Superclass;
-//  typedef CellInterface<TPixelType,TCellTraits>  Superclass;
-//  typedef SmartPointer<Self>  Pointer;
-//  typedef SmartPointer<const Self>  ConstPointer;
-  typedef       Self * Pointer;
-  typedef const Self * ConstPointer;
-    
-  /** Save the PixelType template parameter. */
-  typedef typename Superclass::PixelType              PixelType;
-  
-  /** Save the CellTraits template parameter. */
-  typedef typename Superclass::CellTraits             CellTraits;
-
-  /** Extract typedefs from superclass. */
-  typedef typename Superclass::PointIdIterator        PointIdIterator;
-  typedef typename Superclass::PointIdConstIterator   PointIdConstIterator;
-  typedef typename Superclass::CellFeatureIdentifier  CellFeatureIdentifier;
-  typedef CellFeatureIdentifier                       CellFeatureCount;
-  
-  /** Save some template parameter information. */
-  typedef typename CellTraits::CoordRepType         CoordRepType;
-  typedef typename CellTraits::PointIdentifier  PointIdentifier;
-    
-  /** Save some template parameter information. */
-  enum { PointDimension = CellTraits::PointDimension};
-  enum { CellDimension = 2 };
-    
-  /** Define a typedef to the cell interface. */
-  typedef typename CellInterface<PixelType,CellTraits>::Pointer CellPointer;
-
-  /** The type of boundary for this voronoi cell's vertices. */
-  typedef VertexBoundary< TCellInterface >  Vertex;
-  typedef typename Vertex::Pointer          VertexPointer;
-  
-  /** The type of boundary for this voronoi cell's edges. */
-  typedef LineBoundary< TCellInterface >    Edge;
-  typedef typename Edge::Pointer EdgePointer;
-  typedef FixedArray<int,2> EdgeInfo;
-  typedef std::deque<EdgeInfo> EdgeInfoDQ;
-  
-  /** Method for creation through the object factory. */
-  // itkNewMacro(Self);
-  static Pointer New(void) { return new Self; }
-
+  itkCellCommonTypedefs(PolygonCell);
+  itkCellInheritedTypedefs(TCellInterface);
+   
   /** Standard part of every itk Object. */
   itkTypeMacro(PolygonCell, CellInterface);
 
-  /** Need to add POLYGON_CELL into CellInterface. */
+  /** Save some template parameter information. */
+  enum { CellDimension = 2 };
+
+  /** The type of boundary for this triangle's vertices. */
+  typedef VertexBoundary< TCellInterface >            VertexType;
+  typedef typename VertexType::SelfAutoPointer        VertexAutoPointer;
+  
+  /** The type of boundary for this triangle's edges. */
+  typedef LineBoundary< TCellInterface >              EdgeType;
+  typedef typename EdgeType::SelfAutoPointer          EdgeAutoPointer;
+    
+  typedef FixedArray<int,2> EdgeInfo;
+  typedef std::deque<EdgeInfo> EdgeInfoDQ;
+  
+ /** Need to add POLYGON_CELL into CellInterface. */
   itkCellVisitMacro(POLYGON_CELL);
 
   /** Implement the standard CellInterface. */
-  virtual typename Superclass::CellType GetType(void) const 
+  virtual CellGeometry GetType(void) const 
     {return Superclass::POLYGON_CELL;}
-  virtual CellPointer MakeCopy(void);
-  virtual int GetDimension(void) const;
-  virtual int GetNumberOfPoints(void) const;
+  virtual void MakeCopy( CellAutoPointer & ) const;
+  virtual unsigned int GetDimension(void) const;
+  virtual unsigned int GetNumberOfPoints(void) const;
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const;
-  virtual CellPointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
+  virtual bool GetBoundaryFeature(int dimension, CellFeatureIdentifier,CellAutoPointer &);
   
   virtual void SetPointIds(PointIdConstIterator first); 
   virtual void SetPointIds(PointIdConstIterator first,
@@ -128,16 +100,17 @@ public:
   /** Polygon-specific interface. */
   virtual CellFeatureCount GetNumberOfVertices(void) const;
   virtual CellFeatureCount GetNumberOfEdges(void) const;
-  virtual VertexPointer GetVertex(CellFeatureIdentifier);
-  virtual EdgePointer GetEdge(CellFeatureIdentifier);
+  virtual bool GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
+  virtual bool GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
   
+
+  /** Constructor and destructor */
+  PolygonCell() {}
+  ~PolygonCell() {}
+
 protected:
   std::vector<EdgeInfo> m_Edges;
   std::vector<PointIdentifier> m_PointIds;
-
-public:
-  PolygonCell() {}
-  ~PolygonCell() {}
 
 private:
   PolygonCell(const Self&); //purposely not implemented
@@ -156,18 +129,15 @@ class PolygonBoundary:
 {
 public:
   /** Standard class typedefs. */
-  typedef PolygonBoundary  Self;
-  //typedef SmartPointer<Self>     Pointer;
-//  typedef SmartPointer<const Self>  ConstPointer;
-  typedef       Self * Pointer;
-  typedef const Self * ConstPointer;
-    
-  /** Method for creation through the object factory. */
-  //itkNewMacro(Self);
-  static Pointer New(void) { return new Self; }
-  
+  itkCellCommonTypedefs(PolygonBoundary);
+
   /** Standard part of every itk Object. */
   itkTypeMacro(PolygonBoundary, CellBoundary);
+
+  /** Constructor and destructor */
+  PolygonBoundary() {}
+  ~PolygonBoundary() {}
+
 };
 
 } //end namespace

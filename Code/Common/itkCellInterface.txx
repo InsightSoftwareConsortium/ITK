@@ -24,7 +24,7 @@ namespace itk
  * Get the interpolation order of the cell.  Usually linear.
  */
 template <typename TPixelType, typename TCellTraits>
-int
+unsigned int
 CellInterface< TPixelType , TCellTraits >
 ::GetInterpolationOrder(void) const
 {
@@ -97,7 +97,7 @@ CellInterface< TPixelType , TCellTraits >
  * This is only part of the boundary interface.  The call is ignored.
  */
 template <typename TPixelType, typename TCellTraits>
-int
+unsigned int
 CellInterface< TPixelType , TCellTraits >
 ::GetNumberOfUsingCells(void)
 {

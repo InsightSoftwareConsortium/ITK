@@ -25,14 +25,15 @@ namespace itk
  * Standard CellInterface:
  */
 template <typename TCellInterface>
-VertexCell< TCellInterface >::CellPointer
+void
 VertexCell< TCellInterface >
-::MakeCopy(void)
+::MakeCopy(CellAutoPointer & cellPointer) const
 {
-  CellPointer newCell(Self::New());
-  newCell->SetPointIds(this->GetPointIds());
-  return newCell;
+  cellPointer = new Self;
+  cellPointer->SetPointIds(this->GetPointIds());
 }
+
+
 
   
 /**
@@ -40,7 +41,7 @@ VertexCell< TCellInterface >
  * Get the topological dimension of this cell.
  */
 template <typename TCellInterface>
-int
+unsigned int
 VertexCell< TCellInterface >
 ::GetDimension(void) const
 {
@@ -53,7 +54,7 @@ VertexCell< TCellInterface >
  * Get the number of points required to define the cell.
  */
 template <typename TCellInterface>
-int
+unsigned int
 VertexCell< TCellInterface >
 ::GetNumberOfPoints(void) const
 {
@@ -79,11 +80,12 @@ VertexCell< TCellInterface >
  * A vertex has no boundary entities.  Just return null.
  */
 template <typename TCellInterface >
-VertexCell< TCellInterface >::CellPointer
+bool
 VertexCell< TCellInterface >
-::GetBoundaryFeature(int, CellFeatureIdentifier)
+::GetBoundaryFeature(int, CellFeatureIdentifier, CellAutoPointer & cellAPtr )
 {
-  return CellPointer(NULL);
+  cellAPtr.Reset();
+  return false;
 }
 
 

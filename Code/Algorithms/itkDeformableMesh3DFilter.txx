@@ -90,7 +90,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
   InputCellsContainerPointer       myCells = this->GetInput(0)->GetCells();
   InputCellsContainerIterator      cells = myCells->Begin(); 
-  
+
   InputCellDataContainerPointer    myCellData = this->GetInput(0)->GetCellData();
 
   ImageSizeType ImageSize = m_Gradient->GetBufferedRegion().GetSize();
@@ -136,7 +136,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   PixelType* x_pt;
   x_pt = &x;
   while( cells != myCells->End() ) {
-    tp = cells.Value()->GetPointIds();
+    typename InputMeshType::CellType * cellPtr = cells.Value();
+    tp = cellPtr->GetPointIds();
     for ( int i=0; i<3; i++ ) {
       m_Forces->GetPointData((int)(tp[i]), x_pt);
       x = x + 1.0;
@@ -394,7 +395,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 {
  
   int i;
-  TriCell::Pointer insertCell;
+  TriCell::CellAutoPointer insertCell;
   unsigned long tripoints[3];
   const unsigned long *tp;
   double x;
@@ -426,9 +427,9 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     tripoints[0] = tp[0];
     tripoints[1] = tp[1];
     tripoints[2] = tp[2];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
-    m_Output->SetCell(i, insertCell);
+    m_Output->SetCell(i, insertCell );
     x = celldata.Value();
     m_Output->SetCellData(i, (PixelType)x);
     ++cells;

@@ -263,7 +263,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>
-::SetCell(CellIdentifier cellId, Cell* cell)
+::SetCell(CellIdentifier cellId, CellAutoPointer & cellPointer )
 {
   /**
    * Make sure a cells container exists.
@@ -276,7 +276,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   /**
    * Insert the cell into the container with the given identifier.
    */
-  m_CellsContainer->InsertElement(cellId, cell);
+  m_CellsContainer->InsertElement(cellId, cellPointer.ReleaseOwnership() ); 
 }
 
 
@@ -290,18 +290,32 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 bool
 Mesh<TPixelType, VDimension, TMeshTraits>
-::GetCell(CellIdentifier cellId, CellPointer* cell) const
+::GetCell(CellIdentifier cellId, CellAutoPointer & cellPointer ) const
 {
   /**
    * If the cells container doesn't exist, then the cell doesn't exist.
    */
   if( m_CellsContainer == 0 )
+    {
+    cellPointer.Reset();
     return false;
+    }
   
   /**
    * Ask the container if the cell identifier exists.
    */
-  return m_CellsContainer->GetElementIfIndexExists(cellId, cell);
+  CellType * cellptr;
+  const bool found = m_CellsContainer->GetElementIfIndexExists(cellId, &cellptr);
+  if( found )
+    {
+    cellPointer = cellptr;
+    }
+  else
+    {
+    cellPointer.Reset();
+    }
+
+  return found; 
 }
 
 
@@ -364,7 +378,7 @@ template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::SetBoundary(int dimension, BoundaryIdentifier boundaryId, 
-                             BoundaryType* boundary)
+                             BoundaryAutoPointer & boundaryPointer )
 {
   /**
    * Make sure a boundaries container exists.
@@ -377,7 +391,9 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   /**
    * Insert the boundary into the container with the given identifier.
    */
-  m_BoundariesContainers[dimension]->InsertElement(boundaryId, boundary);
+  // Transfer ownership of the boundary cell
+  m_BoundariesContainers[dimension]
+      ->InsertElement(boundaryId, boundaryPointer.ReleaseOwnership() );
 }
 
 
@@ -392,20 +408,32 @@ template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 bool
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetBoundary(int dimension, BoundaryIdentifier boundaryId,
-              BoundaryPointer* boundary) const
+                             BoundaryAutoPointer & boundaryPointer) const
 {
   /**
    * If the boundaries container doesn't exist, then the boundary
    * doesn't exist.
    */
   if( !m_BoundariesContainers[dimension] )
+    {
+    boundaryPointer.Reset();
     return false;
+    }
   
   /**
    * Ask the container if the boundary identifier exists.
    */
-  return m_BoundariesContainers[dimension]->
-    GetElementIfIndexExists(boundaryId, boundary);
+  CellType * boundaryptr; 
+  const bool found = m_BoundariesContainers[dimension]
+                        ->GetElementIfIndexExists(boundaryId, &boundaryptr);
+  if( found ) 
+    {
+    boundaryPointer = boundaryptr; // Don't take ownership
+    return true;
+    }
+
+  boundaryptr.Reset();
+  return false;
 }
 
 
@@ -653,18 +681,18 @@ Mesh<TPixelType, VDimension, TMeshTraits>
  * corresponding to the given feature identifier.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-Mesh<TPixelType, VDimension, TMeshTraits>::BoundaryPointer
+bool
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetCellBoundaryFeature(int dimension, CellIdentifier cellId,
-                         CellFeatureIdentifier featureId) const
+                         CellFeatureIdentifier featureId,
+                         BoundaryAutoPointer & boundary) const
 {
   /**
    * First check if the boundary has been explicitly assigned.
    */
-  BoundaryType::Pointer boundary;
-  if(GetAssignedCellBoundaryIfOneExists(dimension, cellId, featureId, &boundary))
+  if(GetAssignedCellBoundaryIfOneExists(dimension, cellId, featureId, boundary))
     {
-    return boundary;
+    return true;
     }
   
   /**
@@ -672,21 +700,32 @@ Mesh<TPixelType, VDimension, TMeshTraits>
    */
   if((m_CellsContainer != 0) && m_CellsContainer->IndexExists(cellId))
     {
-    boundary = m_CellsContainer->GetElement(cellId)
-                      ->GetBoundaryFeature(dimension, featureId);
-    // If a container for this dimension doesn't exist, create one.
-    if( ! m_BoundariesContainers[dimension] )
+    // Don't take ownership
+    CellType * thecell = m_CellsContainer->GetElement(cellId);
+    if( thecell->GetBoundaryFeature(dimension, featureId, boundary ) )
       {
-      m_BoundariesContainers[dimension] = BoundariesContainer::New();
+      // If a container for this dimension doesn't exist, create one.
+      if( ! m_BoundariesContainers[dimension] )
+        {
+        m_BoundariesContainers[dimension] = BoundariesContainer::New();
+        }
+      m_BoundariesContainers[dimension]->InsertElement( featureId, boundary.ReleaseOwnership() );
+      return true;
       }
-    m_BoundariesContainers[dimension]->InsertElement( featureId, boundary );
-    return boundary;
+    else
+      {
+      boundary.Reset();
+      return false;
+      }
     }
   
   /**
    * The cell did not exist, so just give up.
    */
-  return CellPointer(0);
+  boundary.Reset();
+
+  return false;
+
 }
 
 
@@ -723,9 +762,9 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   /**
    * First check if the boundary has been explicitly assigned.
    */
-  BoundaryPointer boundary;
+  BoundaryAutoPointer boundary;
   if(this->GetAssignedCellBoundaryIfOneExists(
-    dimension, cellId, featureId, &boundary))
+    dimension, cellId, featureId, boundary))
     {
     /**
      * Explicitly assigned boundary found.  Loop through its UsingCells,
@@ -778,8 +817,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>
    * First, ask the cell to construct the boundary feature so we can look
    * at its points.
    */
-  boundary =
-    m_CellsContainer->GetElement(cellId)->GetBoundaryFeature(dimension, featureId);
+   m_CellsContainer->GetElement(cellId)
+          ->GetBoundaryFeature(dimension, featureId, boundary);
   
 
   /**
@@ -830,8 +869,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>
    */
   delete tempCells;
   
-  /** delete the boundary feature added as a temporary auxiliar object */
-  delete boundary;
+  /** delete the boundary feature added as a temporary auxiliar object,
+      being an AutoPointer it will release memory when going out of scope */
 
   /**
    * Now we have a set of all the cells which share all the points on the
@@ -867,7 +906,7 @@ bool
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetAssignedCellBoundaryIfOneExists(int dimension, CellIdentifier cellId,
                                      CellFeatureIdentifier featureId,
-                                     BoundaryPointer* boundary) const
+                                     BoundaryAutoPointer & boundary) const
 {
   if((m_BoundaryAssignmentsContainers[dimension] != 0) &&
      (m_BoundariesContainers[dimension] != 0))
@@ -878,14 +917,18 @@ Mesh<TPixelType, VDimension, TMeshTraits>
     if(m_BoundaryAssignmentsContainers[dimension]->
        GetElementIfIndexExists(assignId, &boundaryId))
       {
-      return m_BoundariesContainers[dimension]->
-        GetElementIfIndexExists(boundaryId, boundary);
+      BoundaryType * boundaryptr;
+      const bool found = m_BoundariesContainers[dimension]->
+        GetElementIfIndexExists(boundaryId, &boundaryptr);
+      boundary = boundaryptr;
+      return found;
       }
     }
   
   /**
    * An explicitly assigned boundary was not found.
    */
+  boundary.Reset();
   return false;
 }
 
@@ -905,7 +948,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   for(CellsContainerIterator i = m_CellsContainer->Begin();
       i != m_CellsContainer->End(); ++i)
     {
-//    if(i->Value().GetPointer())
     if( i->Value() )
       {
       i->Value()->Accept(i->Index(), mv);
@@ -953,15 +995,15 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   for(CellsContainerIterator cellItr = m_CellsContainer->Begin() ;
       cellItr != m_CellsContainer->End() ; ++cellItr)
     {
-    CellIdentifier cellId = cellItr->Index();
-    Cell::Pointer cell    = cellItr->Value();
+    CellIdentifier cellId  = cellItr->Index();
+    CellType *     cellptr = cellItr->Value();
     
     /**
      * For each point, make sure the cell links container has its index,
      * and then insert the cell ID into the point's set.
      */
-    for(Cell::PointIdConstIterator pointId = cell->PointIdsBegin() ;
-        pointId != cell->PointIdsEnd() ; ++pointId)
+    for(CellType::PointIdConstIterator pointId = cellptr->PointIdsBegin() ;
+        pointId != cellptr->PointIdsEnd() ; ++pointId)
       {
       (m_CellLinksContainer->CreateElementAt(*pointId)).insert(cellId);
       }
@@ -1061,7 +1103,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
       // the pointer to the first Cell is assumed to be the 
       // base pointer of the array
       CellsContainerIterator first = m_CellsContainer->Begin();
-      Cell * baseOfCellsArray = first->Value();
+      CellType * baseOfCellsArray = first->Value();
       delete [] baseOfCellsArray;
       }
     case CellsAllocatedDynamicallyCellByCell:
@@ -1073,7 +1115,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
       CellsContainerIterator end   = m_CellsContainer->End();
       while( cell != end )
         {
-        const Cell * cellToBeDeleted = cell->Value();
+        const CellType * cellToBeDeleted = cell->Value();
         delete cellToBeDeleted;
         ++cell; 
         }
@@ -1174,7 +1216,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
       // the pointer to the first Cell is assumed to be the 
       // base pointer of the array
       BoundariesContainerIterator first = boundariesContainer->Begin();
-      Cell * baseOfBoundariesArray = first->Value();
+      CellType * baseOfBoundariesArray = first->Value();
       delete [] baseOfBoundariesArray;
       }
     case BoundariesAllocatedDynamicallyCellByCell:
@@ -1186,7 +1228,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
       BoundariesContainerIterator end   = boundariesContainer->End();
       while( cell != end )
         {
-        const Cell * cellToBeDeleted = cell->Value();
+        const CellType * cellToBeDeleted = cell->Value();
         delete cellToBeDeleted;
         ++cell; 
         }

@@ -73,7 +73,7 @@ CellBoundary<TCell>
  * Get the number of cells in the UsingCellsContainer.
  */
 template <typename TCell>
-int
+unsigned int
 CellBoundary<TCell>
 ::GetNumberOfUsingCells(void)
 {

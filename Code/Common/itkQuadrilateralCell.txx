@@ -25,13 +25,12 @@ namespace itk
  * Standard CellInterface:
  */
 template <typename TCellInterface>
-QuadrilateralCell< TCellInterface >::CellPointer
+void
 QuadrilateralCell< TCellInterface >
-::MakeCopy(void)
+::MakeCopy(CellAutoPointer & cellPointer) const
 {
-  CellPointer newCell(Self::New());
-  newCell->SetPointIds(this->GetPointIds());
-  return newCell;
+  cellPointer = new Self;
+  cellPointer->SetPointIds(this->GetPointIds());
 }
 
   
@@ -40,7 +39,7 @@ QuadrilateralCell< TCellInterface >
  * Get the topological dimension of this cell.
  */
 template <typename TCellInterface>
-int
+unsigned int
 QuadrilateralCell< TCellInterface >
 ::GetDimension(void) const
 {
@@ -53,7 +52,7 @@ QuadrilateralCell< TCellInterface >
  * Get the number of points required to define the cell.
  */
 template <typename TCellInterface>
-int
+unsigned int
 QuadrilateralCell< TCellInterface >
 ::GetNumberOfPoints(void) const
 {
@@ -86,15 +85,48 @@ QuadrilateralCell< TCellInterface >
  * The Id can range from 0 to GetNumberOfBoundaryFeatures(dimension)-1.
  */
 template <typename TCellInterface>
-QuadrilateralCell< TCellInterface >::CellPointer
+bool
 QuadrilateralCell< TCellInterface >
-::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId)
+::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId,CellAutoPointer & cellPointer)
 {
   switch (dimension)
     {
-    case 0: return CellPointer(GetVertex(featureId));
-    case 1: return CellPointer(GetEdge(featureId));
-    default: return CellPointer(NULL);
+    case 0: 
+      {
+      VertexAutoPointer vertexPointer;
+      if( this->GetVertex(featureId,vertexPointer) )
+        {
+        TransferAutoPointer(cellPointer,vertexPointer);
+        return true;
+        }
+      else
+        {
+        cellPointer.Reset();
+        return false;
+        }
+      break;
+      }
+    case 1: 
+      {
+      EdgeAutoPointer edgePointer;
+      if( this->GetEdge(featureId,edgePointer) )
+        {
+        TransferAutoPointer(cellPointer,edgePointer);
+        return true;
+        }
+      else
+        {
+        cellPointer.Reset();
+        return false;
+        }
+      break;
+      }
+
+    default: 
+      {
+      cellPointer.Reset();
+      return false;
+      }
     }
 }
 
@@ -192,7 +224,6 @@ QuadrilateralCell< TCellInterface >
   return &m_PointIds[Self::NumberOfPoints];
 }
 
-
 /**
  * Standard CellInterface:
  * Get a const end iterator to the list of point identifiers used
@@ -236,14 +267,15 @@ QuadrilateralCell< TCellInterface >
  * The Id can range from 0 to GetNumberOfVertices()-1.
  */
 template <typename TCellInterface>
-QuadrilateralCell< TCellInterface >::VertexPointer
+bool
 QuadrilateralCell< TCellInterface >
-::GetVertex(CellFeatureIdentifier vertexId)
+::GetVertex(CellFeatureIdentifier vertexId,VertexAutoPointer & vertexPointer )
 {
-  VertexPointer vert(Vertex::New());
+  VertexType * vert = new VertexType;
   vert->SetPointId(0, m_PointIds[vertexId]);
-  
-  return vert;
+  vertexPointer = vert;
+  vertexPointer.TakeOwnership();
+  return true;  
 }
 
 /**
@@ -252,19 +284,20 @@ QuadrilateralCell< TCellInterface >
  * The Id can range from 0 to GetNumberOfEdges()-1.
  */
 template <typename TCellInterface>
-QuadrilateralCell< TCellInterface >::EdgePointer
+bool
 QuadrilateralCell< TCellInterface >
-::GetEdge(CellFeatureIdentifier edgeId)
+::GetEdge(CellFeatureIdentifier edgeId, EdgeAutoPointer & edgePointer )
 {
-  EdgePointer edge(Edge::New());
-
-  for(int i=0; i < Edge::NumberOfPoints; ++i)
+  EdgeType * edge = new EdgeType;
+  for(int i=0; i < EdgeType::NumberOfPoints; ++i)
     {
     edge->SetPointId(i, m_PointIds[ m_Edges[edgeId][i] ]);
     }
-  
-  return edge;
+  edgePointer = edge;
+  edgePointer.TakeOwnership(); 
+  return true;
 }
+
 
 /**
  * The quadrilateral's topology data: Edges.

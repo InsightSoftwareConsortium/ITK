@@ -231,7 +231,7 @@ void
 TranslationTransform<TScalarType, NDimensions>::
 SetIdentity()
 {
-  m_Offset.Fill( 0 );
+  m_Offset.Fill( 0.0 );
 }
  
   

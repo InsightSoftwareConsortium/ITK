@@ -25,13 +25,12 @@ namespace itk
  * Standard CellInterface:
  */
 template <typename TCellInterface>
-TriangleCell< TCellInterface >::CellPointer
+void
 TriangleCell< TCellInterface >
-::MakeCopy(void)
+::MakeCopy(CellAutoPointer & cellPointer) const
 {
-  CellPointer newCell(Self::New());
-  newCell->SetPointIds(this->GetPointIds());
-  return newCell;
+  cellPointer = new Self;
+  cellPointer->SetPointIds(this->GetPointIds());
 }
 
   
@@ -40,7 +39,7 @@ TriangleCell< TCellInterface >
  * Get the topological dimension of this cell.
  */
 template <typename TCellInterface>
-int
+unsigned int
 TriangleCell< TCellInterface >
 ::GetDimension(void) const
 {
@@ -53,7 +52,7 @@ TriangleCell< TCellInterface >
  * Get the number of points required to define the cell.
  */
 template <typename TCellInterface>
-int
+unsigned int
 TriangleCell< TCellInterface >
 ::GetNumberOfPoints(void) const
 {
@@ -86,16 +85,51 @@ TriangleCell< TCellInterface >
  * The Id can range from 0 to GetNumberOfBoundaryFeatures(dimension)-1.
  */
 template <typename TCellInterface>
-TriangleCell< TCellInterface >::CellPointer
+bool
 TriangleCell< TCellInterface >
-::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId)
+::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId,
+                      CellAutoPointer& cellPointer )
 {
   switch (dimension)
     {
-    case 0: return CellPointer(GetVertex(featureId));
-    case 1: return CellPointer(GetEdge(featureId));
-    default: return CellPointer(NULL);
+    case 0: 
+      {
+      VertexAutoPointer vertexPointer;
+      if( this->GetVertex(featureId,vertexPointer) )
+        {
+        TransferAutoPointer(cellPointer,vertexPointer);
+        return true;
+        }
+      else
+        {
+        cellPointer.Reset();
+        return false;
+        }
+      break;
+      }
+    case 1: 
+      {
+      EdgeAutoPointer edgePointer;
+      if( this->GetEdge(featureId,edgePointer) )
+        {
+        TransferAutoPointer(cellPointer,edgePointer);
+        return true;
+        }
+      else
+        {
+        cellPointer.Reset();
+        return false;
+        }
+      break;
+      }
+
+    default: 
+      {
+      cellPointer.Reset();
+      return false;
+      }
     }
+
 }
 
 
@@ -238,14 +272,14 @@ TriangleCell< TCellInterface >
  * The Id can range from 0 to GetNumberOfVertices()-1.
  */
 template <typename TCellInterface>
-TriangleCell< TCellInterface >::VertexPointer
+bool
 TriangleCell< TCellInterface >
-::GetVertex(CellFeatureIdentifier vertexId)
+::GetVertex(CellFeatureIdentifier vertexId,VertexAutoPointer & vertexPointer )
 {
-  VertexPointer vert(Vertex::New());
+  VertexType * vert = new VertexType;
   vert->SetPointId(0, m_PointIds[vertexId]);
-  
-  return vert;
+  vertexPointer = vert;
+  return true;  
 }
 
 /**
@@ -254,20 +288,18 @@ TriangleCell< TCellInterface >
  * The Id can range from 0 to GetNumberOfEdges()-1.
  */
 template <typename TCellInterface>
-TriangleCell< TCellInterface >::EdgePointer
+bool
 TriangleCell< TCellInterface >
-::GetEdge(CellFeatureIdentifier edgeId)
+::GetEdge(CellFeatureIdentifier edgeId, EdgeAutoPointer & edgePointer )
 {
-  EdgePointer edge(Edge::New());
-  
-  for(int i=0; i < Edge::NumberOfPoints; ++i)
+  EdgeType * edge = new EdgeType;
+  for(int i=0; i < EdgeType::NumberOfPoints; ++i)
     {
     edge->SetPointId(i, m_PointIds[ m_Edges[edgeId][i] ]);
     }
-  
-  return edge;
+  edgePointer = edge;
+  return true;
 }
-
 
 /**
  * The triangle's topology data: Edges

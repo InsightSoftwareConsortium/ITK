@@ -46,50 +46,20 @@ class QuadrilateralCell: public TCellInterface
 {
 public:
   /** Standard class typedefs. */
-  typedef QuadrilateralCell   Self;
-  typedef TCellInterface      Superclass;
-//  typedef CellInterface<TPixelType,TCellTraits>  Superclass;
-//  typedef SmartPointer<Self>  Pointer;
-//  typedef SmartPointer<const Self>  ConstPointer;
-  typedef       Self *      Pointer;
-  typedef const Self *      ConstPointer;
-    
-  /** Method for creation through the object factory. */
-  //itkNewMacro(Self);
-  static Pointer   New(void) { return new Self; }
-  
+  itkCellCommonTypedefs(QuadrilateralCell);
+  itkCellInheritedTypedefs(TCellInterface);
+
   /** Standard part of every itk Object. */
   itkTypeMacro(QuadrilateralCell, CellInterface);
 
-  /** Save the PixelType template parameter. */
-  typedef typename Superclass::PixelType              PixelType;
+  /** The type of boundary for this triangle's vertices. */
+  typedef VertexBoundary< TCellInterface >            VertexType;
+  typedef typename VertexType::SelfAutoPointer        VertexAutoPointer;
   
-  /** Save the CellTraits template parameter. */
-  typedef typename Superclass::CellTraits             CellTraits;
-
-  /** Pick-up typedefs from superclass */
-  typedef typename Superclass::PointIdIterator        PointIdIterator;
-  typedef typename Superclass::PointIdConstIterator   PointIdConstIterator;
-  typedef typename Superclass::CellFeatureIdentifier  CellFeatureIdentifier;
-  typedef CellFeatureIdentifier                       CellFeatureCount;
-
-  
-  /** Save some template parameter information. */
-  enum { PointDimension = CellTraits::PointDimension };
-
-  /**( Save some template parameter information. */
-  typedef typename CellTraits::CoordRepType                     CoordRepType;
-  typedef typename CellTraits::PointIdentifier                  PointIdentifier;
-  typedef typename CellInterface<PixelType,CellTraits>::Pointer CellPointer;
-  
-  /** The type of boundary for this quadrilateral's vertices. */
-  typedef VertexBoundary< TCellInterface >  Vertex;
-  typedef typename Vertex::Pointer VertexPointer;
-  
-  /** The type of boundary for this quadrilateral's edges. */
-  typedef LineBoundary< TCellInterface >              Edge;
-  typedef typename Edge::Pointer                      EdgePointer;
-    
+  /** The type of boundary for this triangle's edges. */
+  typedef LineBoundary< TCellInterface >              EdgeType;
+  typedef typename EdgeType::SelfAutoPointer          EdgeAutoPointer;
+ 
   /** Quadrilateral-specific topology numbers. */
   enum { NumberOfPoints   = 4,
          NumberOfVertices = 4,
@@ -97,13 +67,13 @@ public:
          CellDimension    = 2 };
   
   /** Implement the standard CellInterface. */
-  virtual typename Superclass::CellType GetType(void) const 
+  virtual CellGeometry GetType(void) const 
     {return Superclass::QUADRILATERAL_CELL;}
-  virtual CellPointer MakeCopy(void);
-  virtual int GetDimension(void) const;
-  virtual int GetNumberOfPoints(void) const;
+  virtual void MakeCopy( CellAutoPointer & ) const;
+  virtual unsigned int GetDimension(void) const;
+  virtual unsigned int GetNumberOfPoints(void) const;
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const;
-  virtual CellPointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
+  virtual bool GetBoundaryFeature(int dimension, CellFeatureIdentifier,CellAutoPointer &);
   virtual void SetPointIds(PointIdConstIterator first);
   virtual void SetPointIds(PointIdConstIterator first,
                            PointIdConstIterator last);
@@ -116,15 +86,17 @@ public:
   /** Quadrilateral-specific interface. */
   virtual CellFeatureCount GetNumberOfVertices(void) const;
   virtual CellFeatureCount GetNumberOfEdges(void) const;
-  virtual VertexPointer GetVertex(CellFeatureIdentifier);
-  virtual EdgePointer GetEdge(CellFeatureIdentifier);
+  virtual bool GetVertex(CellFeatureIdentifier,VertexAutoPointer &);
+  virtual bool GetEdge(CellFeatureIdentifier,EdgeAutoPointer &);
   
   /** Visitor interface */
   itkCellVisitMacro(QUADRILATERAL_CELL);
 
-public:
-  QuadrilateralCell() {}
-  ~QuadrilateralCell() {}
+  /** Constructor and destructor */
+  QuadrilateralCell() {};
+  ~QuadrilateralCell() {
+     std::cout << "QuadrilateralCell " << this << " being destroyed" << std::endl;
+    };
 
 protected:
   /** Store the number of points needed for a quadrilateral. */
@@ -147,18 +119,15 @@ class QuadrilateralBoundary:
 {
 public:
   /** Standard class typedefs. */
-  typedef QuadrilateralBoundary  Self;
-//typedef SmartPointer<Self>     Pointer;
-//typedef SmartPointer<const Self>  ConstPointer;
-  typedef       Self *      Pointer;
-  typedef const Self *      ConstPointer;
-    
-  /** Method for creation through the object factory. */
-  //itkNewMacro(Self);
-  static Pointer   New(void) { return new Self; }
-  
+  itkCellCommonTypedefs(QuadrilateralBoundary);
+ 
   /** Standard part of every itk Object. */
   itkTypeMacro(QuadrilateralBoundary, CellBoundary);
+
+  /** Constructor and destructor */
+  QuadrilateralBoundary() {}
+  ~QuadrilateralBoundary() {}
+
 };
 
 } // end namespace itk

@@ -49,49 +49,43 @@ public:
   /** Standard class typedefs. */
   typedef CellBoundary  Self;
   typedef TCell  Superclass;
-//  typedef SmartPointer<Self>   Pointer;
-//  typedef SmartPointer<const Self>  ConstPointer;
-  typedef       Self *       Pointer;
-  typedef const Self *       ConstPointer;
     
-  /** Method for creation through the object factory. */
-  //itkNewMacro(Self);
-  static Pointer New(void) { return new Self; }
-
   /** Standard part of Object class.  Used for debugging output. */
   itkTypeMacro(CellBoundary, Cell);
   
   /** The type of the cell that is wrapped with the additional boundary
    * functionality. */
-  typedef TCell  Cell;
+  typedef TCell  CellType;
   
   /** The type of container to store the cells using this boundary. */
-  typedef typename Cell::UsingCellsContainer      UsingCellsContainer;
+  typedef typename CellType::UsingCellsContainer      UsingCellsContainer;
   
   /** An iterator through the UsingCellsContainer. */
   typedef typename UsingCellsContainer::iterator  UsingCellsContainerIterator;
   
   /** The type stored in the UsingCellsContainer.  This should always be
    * the Cell's CellIdentifier type. */
-  typedef typename Cell::CellIdentifier           CellIdentifier;
+  typedef typename CellType::CellIdentifier           CellIdentifier;
   
   /** Define the interface to the boundary information. */
   virtual bool IsBoundary(void);
   virtual void AddUsingCell(CellIdentifier cellId);
   virtual void RemoveUsingCell(CellIdentifier cellId);
   virtual bool IsUsingCell(CellIdentifier cellId);
-  virtual int GetNumberOfUsingCells(void);
+  virtual unsigned int GetNumberOfUsingCells(void);
   virtual UsingCellsContainerIterator UsingCellsBegin(void);
   virtual UsingCellsContainerIterator UsingCellsEnd(void);
     
+  /** Constructor and destructor */
+  CellBoundary() {};
+  ~CellBoundary() {};
+
+
 protected:
   /** Store the set of cells using this boundary. */
   UsingCellsContainer m_UsingCells;
 
-protected:
-  CellBoundary() {}
-  ~CellBoundary() {}
-  
+ 
 private:
   CellBoundary(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented  

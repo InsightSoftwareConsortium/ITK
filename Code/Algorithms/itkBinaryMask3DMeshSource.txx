@@ -1071,9 +1071,25 @@ BinaryMask3DMeshSource<TOutputMesh>
   }
   else m_ColFlag = 1;
    
-  if ( ((index % (m_ImageWidth*m_ImageHeight)) < m_ImageWidth) || ((index / m_ImageWidth) > m_LastRowIndex + 1) ) m_RowFlag = 0; else m_RowFlag = 1;
+  if ( ((index % (m_ImageWidth*m_ImageHeight)) < m_ImageWidth) || 
+       ((index /  m_ImageWidth) > m_LastRowIndex + 1) )
+    {
+    m_RowFlag = 0; 
+    }
+  else 
+    {
+    m_RowFlag = 1;
+    }
 
-  if ( (index < m_ImageWidth*m_ImageHeight) || ((index / (m_ImageWidth*m_ImageHeight)) > m_LastFrameIndex + 1) ) m_FrameFlag = 0; else m_FrameFlag = 1;
+  if ( ( index <  m_ImageWidth*m_ImageHeight) || 
+       ((index / (m_ImageWidth*m_ImageHeight)) > m_LastFrameIndex + 1) )
+    {
+    m_FrameFlag = 0; 
+    }
+  else 
+    {
+    m_FrameFlag = 1;
+    }
 
   /** allocate memory */
   if ( m_RowFlag == 1 ) {
@@ -1158,7 +1174,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     m_AvailableNodes[4] = 1;
   } 
 
-  TriCell::Pointer insertCell;
+  TriCell::CellAutoPointer insertCell;
   unsigned long tripoints[3];
   unsigned char *tp;
   tp = (unsigned char *) malloc( 3*sizeof( unsigned char ) );
@@ -1176,7 +1192,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1191,7 +1207,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1204,7 +1220,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1219,7 +1235,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1232,7 +1248,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1247,7 +1263,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1260,7 +1276,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1275,7 +1291,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1288,7 +1304,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1301,7 +1317,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1314,7 +1330,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1327,7 +1343,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1342,7 +1358,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1355,7 +1371,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1368,7 +1384,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1383,7 +1399,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1396,7 +1412,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1409,7 +1425,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1424,7 +1440,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1437,7 +1453,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1450,7 +1466,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1463,7 +1479,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1478,7 +1494,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1491,7 +1507,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1504,7 +1520,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1517,7 +1533,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1530,7 +1546,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1543,7 +1559,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1558,7 +1574,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1571,7 +1587,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1584,7 +1600,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1597,7 +1613,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1612,7 +1628,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1625,7 +1641,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1638,7 +1654,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1651,7 +1667,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1664,7 +1680,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1677,7 +1693,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1692,7 +1708,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1705,7 +1721,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1718,7 +1734,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1731,7 +1747,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1744,7 +1760,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1757,7 +1773,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1772,7 +1788,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1785,7 +1801,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1798,7 +1814,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1811,7 +1827,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1826,7 +1842,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1839,7 +1855,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1852,7 +1868,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1865,7 +1881,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1878,7 +1894,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1891,7 +1907,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1904,7 +1920,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1919,7 +1935,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1932,7 +1948,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1945,7 +1961,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1958,7 +1974,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1971,7 +1987,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1984,7 +2000,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -1999,7 +2015,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -2012,7 +2028,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -2025,7 +2041,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -2038,7 +2054,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -2051,7 +2067,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -2064,7 +2080,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
@@ -2077,7 +2093,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
     this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);

@@ -162,6 +162,7 @@ SphereSource<TOutputMesh>
   p = 0;
 
 // store all regular cells
+  CellAutoPointer testCell;
   for(unsigned int i=0; i+1 < m_ResolutionX; i++) 
     {
     for (unsigned int j=0; j<m_ResolutionY; j++) 
@@ -170,16 +171,16 @@ SphereSource<TOutputMesh>
       tripoints[0] = i*m_ResolutionY+j; 
       tripoints[1] = tripoints[0]-j+jn; 
       tripoints[2] = tripoints[0]+m_ResolutionY; 
-      TriCellPointer testCell = TriCell::New();
+      testCell.TakeOwnership( new TriCell );
       testCell->SetPointIds(tripoints);
-      outputMesh->SetCell(p, testCell);
+      outputMesh->SetCell(p, testCell );
       outputMesh->SetCellData(p, (OPixelType)3.0);
       p++;
-      testCell = TriCell::New();
+      testCell.TakeOwnership( new TriCell );
       tripoints[0] = tripoints[1]; 
       tripoints[1] = tripoints[0]+m_ResolutionY; 
       testCell->SetPointIds(tripoints);
-      outputMesh->SetCell(p, testCell);
+      outputMesh->SetCell(p, testCell );
       outputMesh->SetCellData(p, (OPixelType)3.0);
       p++;
       }
@@ -192,9 +193,9 @@ SphereSource<TOutputMesh>
     tripoints[0] = numpts-2; 
     tripoints[1] = jn; 
     tripoints[2] = j; 
-    TriCellPointer testCell = TriCell::New();
+    testCell.TakeOwnership( new TriCell );
     testCell->SetPointIds(tripoints);
-    outputMesh->SetCell(p, testCell);
+    outputMesh->SetCell(p, testCell );
     outputMesh->SetCellData(p, (OPixelType)1.0);
     p++;
     }
@@ -206,9 +207,9 @@ SphereSource<TOutputMesh>
     tripoints[2] = (m_ResolutionX-1)*m_ResolutionY+j; 
     tripoints[1] = numpts-1; 
     tripoints[0] = tripoints[2]-j+jn; 
-    TriCellPointer testCell = TriCell::New();
+    testCell.TakeOwnership( new TriCell );
     testCell->SetPointIds(tripoints);
-    outputMesh->SetCell(p, testCell);
+    outputMesh->SetCell(p, testCell );
     outputMesh->SetCellData(p, (OPixelType)2.0);
     p++;
     }

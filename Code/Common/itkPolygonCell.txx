@@ -29,15 +29,14 @@ namespace itk
  * Standard CellInterface:
  */
 template <typename TCellInterface>
-PolygonCell< TCellInterface >::CellPointer
+void
 PolygonCell< TCellInterface >
-::MakeCopy(void)
+::MakeCopy(CellAutoPointer & cellPointer) const
 {
-
-  CellPointer newCell(Self::New());
-  newCell->SetPointIds(this->PointIdsBegin(),this->PointIdsEnd());
-  return newCell;
+  cellPointer = new Self;
+  cellPointer->SetPointIds(this->GetPointIds());
 }
+
 
   
 /**
@@ -45,7 +44,7 @@ PolygonCell< TCellInterface >
  * Get the topological dimension of this cell.
  */
 template <typename TCellInterface>
-int
+unsigned int
 PolygonCell< TCellInterface >
 ::GetDimension(void) const
 {
@@ -58,7 +57,7 @@ PolygonCell< TCellInterface >
  * Get the number of points required to define the cell.
  */
 template <typename TCellInterface>
-int
+unsigned int
 PolygonCell< TCellInterface >
 ::GetNumberOfPoints(void) const
 {
@@ -91,17 +90,53 @@ PolygonCell< TCellInterface >
  * The Id can range from 0 to GetNumberOfBoundaryFeatures(dimension)-1.
  */
 template <typename TCellInterface>
-PolygonCell< TCellInterface >::CellPointer
+bool
 PolygonCell< TCellInterface >
-::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId)
+::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId,
+                      CellAutoPointer& cellPointer )
 {
   switch (dimension)
     {
-    case 0: return CellPointer(GetVertex(featureId));
-    case 1: return CellPointer(GetEdge(featureId));
-    default: return CellPointer(NULL);
+    case 0: 
+      {
+      VertexAutoPointer vertexPointer;
+      if( this->GetVertex(featureId,vertexPointer) )
+        {
+        TransferAutoPointer(cellPointer,vertexPointer);
+        return true;
+        }
+      else
+        {
+        cellPointer.Reset();
+        return false;
+        }
+      break;
+      }
+    case 1: 
+      {
+      EdgeAutoPointer edgePointer;
+      if( this->GetEdge(featureId,edgePointer) )
+        {
+        TransferAutoPointer(cellPointer,edgePointer);
+        return true;
+        }
+      else
+        {
+        cellPointer.Reset();
+        return false;
+        }
+      break;
+      }
+
+    default: 
+      {
+      cellPointer.Reset();
+      return false;
+      }
     }
+
 }
+
 
 
 /**
@@ -303,16 +338,16 @@ PolygonCell< TCellInterface >
  * The Id can range from 0 to GetNumberOfVertices()-1.
  */ 
 template <typename TCellInterface>
-PolygonCell< TCellInterface >::VertexPointer
+bool
 PolygonCell< TCellInterface >
-::GetVertex(CellFeatureIdentifier vertexId)
+::GetVertex(CellFeatureIdentifier vertexId,VertexAutoPointer & vertexPointer )
 {
-  VertexPointer vert(Vertex::New());
+  VertexType * vert = new VertexType;
   vert->SetPointId(0, m_PointIds[vertexId]);
-  
-  return vert;
+  vertexPointer = vert;
+  vertexPointer.TakeOwnership();
+  return true;  
 }
-
 
 /**
  * Polygon-specific:
@@ -320,13 +355,12 @@ PolygonCell< TCellInterface >
  * The Id can range from 0 to GetNumberOfEdges()-1.
  */ 
 template <typename TCellInterface>
-PolygonCell< TCellInterface >::EdgePointer
+bool
 PolygonCell< TCellInterface >
-::GetEdge(CellFeatureIdentifier edgeId)
+::GetEdge(CellFeatureIdentifier edgeId, EdgeAutoPointer & edgePointer )
 {
-  EdgePointer edge(Edge::New());
+  EdgeType * edge = new EdgeType;
   unsigned int max_pointId = this->GetNumberOfPoints() - 1;
-
   if( edgeId < max_pointId ){
     edge->SetPointId(0, m_PointIds[edgeId]);
     edge->SetPointId(1, m_PointIds[edgeId+1]);
@@ -335,9 +369,10 @@ PolygonCell< TCellInterface >
     edge->SetPointId(0, m_PointIds[max_pointId] );
     edge->SetPointId(1, m_PointIds[0] );
   }
-  return edge;
+  edgePointer = edge;
+  edgePointer.TakeOwnership(); 
+  return true;
 }
-
 
 } // end namespace itk
 

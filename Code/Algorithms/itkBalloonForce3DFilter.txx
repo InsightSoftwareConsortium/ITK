@@ -140,7 +140,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
     ++displacements;
   }
 
-  TriCell::Pointer insertCell;
+  TriCell::CellAutoPointer insertCell;
   unsigned long tripoints[3];
   const unsigned long *tp;
   double x;
@@ -150,7 +150,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
     tripoints[0] = tp[0];
     tripoints[1] = tp[1];
     tripoints[2] = tp[2];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     m_Locations->SetCell(i, insertCell);
     x = celldata.Value();
@@ -725,7 +725,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
 ::ComputeOutput() 
 { 
   int i;
-  TriCell::Pointer insertCell;
+  TriCell::CellAutoPointer insertCell;
   unsigned long tripoints[3];
   const unsigned long *tp;
   double x;
@@ -757,7 +757,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
     tripoints[0] = tp[0];
     tripoints[1] = tp[1];
     tripoints[2] = tp[2];
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
     m_Output->SetCell(i, insertCell);
     x = celldata.Value();

@@ -83,7 +83,7 @@ public:
                    CellsContainerConstIterator;
   typedef typename InputMeshType::CellDataContainer::ConstIterator
                    CellDataContainerConstIterator;
-  typedef typename TInputMesh::CellPointer InputMeshCellPointer;
+  typedef typename TInputMesh::CellAutoPointer InputMeshCellPointer;
   typedef typename TInputMesh::CellTraits::PointIdConstIterator 
                    InputMeshPointIdConstIterator;
   typedef typename TInputMesh::CellLinksContainerPointer

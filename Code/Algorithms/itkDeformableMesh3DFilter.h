@@ -92,7 +92,7 @@ public:
       OutputPointsContainerIterator;
 
   /** Other definitions. */
-  typedef typename InputMeshType::Cell              Cell;
+  typedef typename InputMeshType::CellType          CellType;
   typedef typename InputMeshType::CellTraits        CellTraits;
   typedef itk::CellInterface<double, CellTraits>    TCellInterface;
   typedef itk::TriangleCell<TCellInterface>         TriCell;

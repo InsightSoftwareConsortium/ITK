@@ -175,8 +175,8 @@ GenerateData(void)
 {
   SortSeeds();
   m_OutputVD->SetSeeds(m_NumberOfSeeds, m_Seeds.begin());
-  GenerateVDFortune();
-  ConstructDiagram();
+  this->GenerateVDFortune();
+  this->ConstructDiagram();
 }
 
 template <typename TCoordRepType>
@@ -184,7 +184,7 @@ void
 VoronoiDiagram2DGenerator<TCoordRepType>::
 UpdateDiagram(void)
 {
-  GenerateData();
+  this->GenerateData();
 }
 
 

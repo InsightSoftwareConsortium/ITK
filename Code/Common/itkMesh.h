@@ -193,16 +193,15 @@ public:
   typedef CellFeatureIdentifier  CellFeatureCount;
   
   /** The base cell type for cells in this mesh. */
-  typedef CellInterface<CellPixelType,CellTraits>  Cell;
-//typedef typename    Cell::Pointer      CellPointer;
-  typedef             Cell             * CellPointer;
+  typedef CellInterface<CellPixelType,CellTraits>  CellType;
+  typedef typename CellType::CellAutoPointer       CellAutoPointer;
   
   /** It happens that boundaries are also cells. */
-  typedef Cell BoundaryType;
-  typedef CellPointer BoundaryPointer;
+  typedef CellType          BoundaryType;
+  typedef CellAutoPointer   BoundaryAutoPointer;
     
   /** Visiting cells. */
-  typedef typename Cell::MultiVisitor CellMultiVisitorType;
+  typedef typename CellType::MultiVisitor CellMultiVisitorType;
 
 protected:
   /** An explicit cell boundary assignment can be accessed through the cell
@@ -331,8 +330,8 @@ public:
     
   /** Access routines to fill the Cells container, and get information from
    *  it.  */
-  void SetCell(CellIdentifier, Cell*);
-  bool GetCell(CellIdentifier, CellPointer*) const;
+  void SetCell(CellIdentifier, CellAutoPointer & );
+  bool GetCell(CellIdentifier, CellAutoPointer & ) const;
   
   /** Access routines to fill the CellData container, and get information
    *  from it.  */
@@ -341,9 +340,8 @@ public:
     
   /** Access routines to fill the Boundaries container, and get information
    *  from it. */
-  void SetBoundary(int dimension, BoundaryIdentifier, BoundaryType*);
-  bool GetBoundary(int dimension, BoundaryIdentifier, BoundaryPointer*)
-    const;
+  void SetBoundary(int dimension, BoundaryIdentifier, BoundaryAutoPointer & );
+  bool GetBoundary(int dimension, BoundaryIdentifier, BoundaryAutoPointer & ) const;
     
   /** Access routines to fill the BoundaryData container, and get information
    *  from it. */
@@ -364,15 +362,15 @@ public:
   /** Interface to cells. */
   CellFeatureCount GetNumberOfCellBoundaryFeatures(int dimension,
                                                    CellIdentifier) const;
-  BoundaryPointer GetCellBoundaryFeature(int dimension, CellIdentifier,
-                                           CellFeatureIdentifier) const;
+  bool GetCellBoundaryFeature(int dimension, CellIdentifier,
+                       CellFeatureIdentifier, BoundaryAutoPointer & ) const;
   unsigned long GetCellBoundaryFeatureNeighbors(
     int dimension, CellIdentifier, CellFeatureIdentifier,
     std::set<CellIdentifier>* cellSet);
   
   bool GetAssignedCellBoundaryIfOneExists(int dimension, CellIdentifier,
                                           CellFeatureIdentifier,
-                                          BoundaryPointer*) const;
+                                          BoundaryAutoPointer& ) const;
   void BuildCellLinks(void);
     
   /** Get the bounding box of a cell in the mesh. The user

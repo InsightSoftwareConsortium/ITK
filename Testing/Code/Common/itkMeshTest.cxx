@@ -30,8 +30,8 @@
  * Define a mesh type that stores a PixelType of "int".  Use the defaults
  * for the other template parameters.
  */
-typedef itk::Mesh<int>  Mesh;
-typedef Mesh::CellTraits  CellTraits;
+typedef itk::Mesh<int>  MeshType;
+typedef MeshType::CellTraits  CellTraits;
 
 /**
  * Define a few cell types which uses a PixelType of "int".  Again,
@@ -39,23 +39,25 @@ typedef Mesh::CellTraits  CellTraits;
  * parameters must match those of the mesh into which it is inserted.
  */
 typedef itk::CellInterface< int, CellTraits >    CellInterfaceType;
-typedef itk::LineBoundary<CellInterfaceType>     LineBoundary;
-typedef itk::TetrahedronCell<CellInterfaceType>  TetraCell;
-typedef itk::HexahedronCell<CellInterfaceType>   HexaCell;
+typedef itk::LineBoundary<CellInterfaceType>     LineBoundaryType;
+typedef itk::TetrahedronCell<CellInterfaceType>  TetraCellType;
+typedef itk::HexahedronCell<CellInterfaceType>   HexaCellType;
 
 /**
  * Typedef the generic cell type for the mesh.  It is an abstract class,
  * so we can only use information from it, like get its pointer type.
  */
-typedef Mesh::Cell  Cell;
-typedef Cell        Boundary;
+typedef MeshType::CellType              CellType;
+typedef CellType                        BoundaryType;
+typedef CellType::CellAutoPointer       CellAutoPointer;
+typedef BoundaryType::SelfAutoPointer   BoundaryAutoPointer;
 
 /**
  * The type of point stored in the mesh. Because mesh was instantiated
  * with defaults (itkDefaultStaticMeshTraits), the point dimension is 3 and
  * the coordinate representation is float.
  */
-typedef Mesh::PointType  PointType;
+typedef MeshType::PointType  PointType;
 
 /**
  * The mesh that is created consists of a single hexahedron and a single
@@ -69,7 +71,7 @@ int itkMeshTest(int, char**)
   /**
    * Define the 3d geometric positions for 8 points in a cube.
    */
-  Mesh::CoordRepType testPointCoords[8][3]
+  MeshType::CoordRepType testPointCoords[8][3]
     = { {0,0,0}, {9,0,0}, {9,0,9}, {0,0,9},
         {0,9,0}, {9,9,0}, {9,9,9}, {0,9,9} };
   
@@ -87,7 +89,7 @@ int itkMeshTest(int, char**)
   /**
    * Create the mesh through its object factory.
    */
-  Mesh::Pointer mesh(Mesh::New());  
+  MeshType::Pointer mesh(MeshType::New());  
 
   /**
    * Add our test points to the mesh.
@@ -101,11 +103,12 @@ int itkMeshTest(int, char**)
     }
 
   /**
-   * Create the test cell. Note that testCell is a generic smart
+   * Create the test cell. Note that testCell is a generici auto
    * pointer to a cell; in this example it ends up pointing to
    * different types of cells.
    */
-  Cell::Pointer testCell(TetraCell::New());
+  CellAutoPointer testCell(  new TetraCellType ); // polymorphism
+  testCell.TakeOwnership();
 
   /**
    * Assign the points to the tetrahedron through their identifiers.
@@ -116,29 +119,76 @@ int itkMeshTest(int, char**)
    * Add the test cell to the mesh.
    * mesh->SetCell(cellId, cell)
    */
-  mesh->SetCell(0, testCell);
+  mesh->SetCell(0, testCell ); // Transfer ownership to the mesh
   
   /**
    * Create another test cell.
    */
-  testCell = HexaCell::New();
+  testCell = new HexaCellType; // polymorphism
+  testCell.TakeOwnership();
   testCell->SetPointIds(hexaPoints);
-  mesh->SetCell(1, testCell);
+  mesh->SetCell(1, testCell ); // Internally transfers ownership to the mesh
 
+
+  CellAutoPointer hexaCell;
+  if(  mesh->GetCell(1, hexaCell) )
+    {
+    std::cout << "Hexahedron cell recovered" << std::endl;
+    std::cout << "GetNameOfClass()    = " << hexaCell->GetNameOfClass() << std::endl;
+    std::cout << "GetNumberOfPoints() = " << hexaCell->GetNumberOfPoints() << std::endl;
+    }
+  else
+    {
+    std::cout << "Failure: hexahedron cell was not recovered" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  CellAutoPointer cellPointer;
   /**
    * Try getting one of the hexahedron's faces.
    */
-  testCell = mesh->GetCellBoundaryFeature(
-    2,    // Topological dimension of boundary.
-    1,    // CellIdentifier.
-    0);   // CellFeatureIdentifier
+  const bool faceExists = mesh->GetCellBoundaryFeature(
+                2,    // Topological dimension of boundary.
+                1,    // CellIdentifier.
+                0,    // CellFeatureIdentifier
+                cellPointer ); // CellPointer to return the result
 
-  std::cout << testCell->GetNameOfClass() << std::endl;
+  std::cout << typeid( cellPointer ).name() << std::endl;
+  std::cout << typeid( cellPointer.GetPointer() ).name() << std::endl;
+  std::cout << "GetCellBoundaryFeature() return AutoPointer owner = " << cellPointer.IsOwner() << std::endl;
+  
+  HexaCellType::FaceType * quad = 0;
+  try
+    {
+    quad = dynamic_cast<HexaCellType::FaceType *>(  cellPointer.GetPointer() );
+    std::cout << "Quad face recovered " << std::endl;
+    std::cout << quad->GetNameOfClass() << std::endl;
+    }
+  catch(...)
+    {
+    std::cout << "CellPointer cannot be down-cast to a QuadCellType" << std::endl;
+    quad = 0;
+    }
+  if( quad )
+    {
+    std::cout << "CellPointer was safely down-casted to a QuadCellType" << std::endl;
+    }
+
+  if( faceExists ) 
+    {
+    std::cout << cellPointer->GetNumberOfPoints() << std::endl;
+    std::cout << cellPointer->GetNameOfClass() << std::endl;
+    }
+  else 
+    {
+    std::cout << "Hexahedron face couldn't be extracted " << std::endl;
+    }
   
   /**
    * Allocate an explicity boundary line.
    */
-  Boundary::Pointer boundLine(LineBoundary::New());
+  BoundaryAutoPointer boundLine(  new LineBoundaryType ); // polymorphism
+  boundLine.TakeOwnership();  // take the responsibility for memory release
   
   /**
    * We don't want the hexahedron to consider the tetrahedron a neighbor
@@ -148,21 +198,21 @@ int itkMeshTest(int, char**)
   boundLine->SetPointId(0,0);
   boundLine->SetPointId(1,1);
   
-  mesh->SetBoundary(1,     // Topological dimension of boundary.
-        0,       // Boundary identifier.
-        boundLine);  // Pointer to explicit boundary.
+  mesh->SetBoundary(1,            // Topological dimension of boundary.
+        0,                        // Boundary identifier.
+        boundLine);               // Pointer to explicit boundary.
   
-  mesh->SetBoundaryAssignment(1,   // Topologoical dimension.
-            1,   // CellIdentifier
-            0,   // CellFeatureIdentifier
-            0);  // Boundary identifier.  
+  mesh->SetBoundaryAssignment(1,  // Topologoical dimension.
+            1,                    // CellIdentifier
+            0,                    // CellFeatureIdentifier
+            0);                   // Boundary identifier.  
   /**
    * Try getting the hexahedron's neighbor through its first edge.
    * This should be the test tetrahedron, except that we have done an
    * explicit assignment which removes this.
    */
-  std::set<Mesh::CellIdentifier>  neighborSet;
-  std::set<Mesh::CellIdentifier>::iterator cell;
+  std::set<MeshType::CellIdentifier>  neighborSet;
+  std::set<MeshType::CellIdentifier>::iterator cell;
   mesh->GetCellBoundaryFeatureNeighbors(
     1,              // Topological dimension of feature.
     1,              // CellIdentifier
@@ -173,9 +223,10 @@ int itkMeshTest(int, char**)
   for(cell = neighborSet.begin(); cell != neighborSet.end(); ++cell)
     {
     std::cout << "Id " << *cell << ": ";
-    if(mesh->GetCell(*cell, &testCell))
+    CellAutoPointer cellPointer;
+    if( mesh->GetCell( *cell, cellPointer ) )
       {
-      std::cout << testCell->GetNameOfClass();
+      std::cout << cellPointer->GetNameOfClass();
       }
     std::cout << std::endl;
     }
@@ -198,9 +249,10 @@ int itkMeshTest(int, char**)
   for(cell = neighborSet.begin(); cell != neighborSet.end(); ++cell)
     {
     std::cout << "Id " << *cell << ": ";
-    if(mesh->GetCell(*cell, &testCell))
+    CellAutoPointer cellPointer;
+    if( mesh->GetCell(*cell, cellPointer) )
       {
-      std::cout << testCell->GetNameOfClass();
+      std::cout << cellPointer->GetNameOfClass();
       }
     std::cout << std::endl;
     }
@@ -220,9 +272,10 @@ int itkMeshTest(int, char**)
   for(cell = neighborSet.begin(); cell != neighborSet.end(); ++cell)
     {
     std::cout << "Id " << *cell << ": ";
-    if(mesh->GetCell(*cell, &testCell))
+    CellAutoPointer cellPointer;
+    if( mesh->GetCell(*cell, cellPointer) )
       {
-      std::cout << testCell->GetNameOfClass();
+      std::cout << cellPointer->GetNameOfClass();
       }
     std::cout << std::endl;
     }
@@ -232,15 +285,15 @@ int itkMeshTest(int, char**)
    * Perform some geometric operations (coordinate transformations)
    * to see if they are working.
    */
-  Mesh::CoordRepType coords[Mesh::PointDimension];
-  Mesh::PointIdentifier pointId;
+  MeshType::CoordRepType coords[MeshType::PointDimension];
+  MeshType::PointIdentifier pointId;
   mesh->FindClosestPoint(coords,&pointId);
 
   /**
    * Compute the bounding box of the mesh
    */
-  typedef itk::BoundingBox<Mesh::PointIdentifier,Mesh::PointDimension,
-    Mesh::CoordRepType,Mesh::PointsContainer> BoundingBox;
+  typedef itk::BoundingBox<MeshType::PointIdentifier,MeshType::PointDimension,
+    MeshType::CoordRepType,MeshType::PointsContainer> BoundingBox;
 
   BoundingBox::Pointer bbox(BoundingBox::New());
   bbox->SetPoints(mesh->GetPoints());

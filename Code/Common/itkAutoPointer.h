@@ -66,7 +66,7 @@ public:
 
   /** Constructor to pointer p.  */
   explicit AutoPointer ( ObjectType * p):
-                    m_Pointer(p), 
+                    m_Pointer(p),
                     m_IsOwner(false) // ownership not assumed by default
       { }
   
@@ -113,7 +113,7 @@ public:
       delete m_Pointer; // remove the current one
       }
     m_Pointer = objectptr;
-    m_IsOwner = true; 
+    m_IsOwner = true;
     }
 
   /** Query for the ownership */
@@ -209,7 +209,7 @@ template <typename T>
 std::ostream& operator<< (std::ostream& os, AutoPointer<T> p) 
 {
   p.Print(os); 
-    os << "Owner: " << p.IsOwner() << std::endl;
+  os << "Owner: " << p.IsOwner() << std::endl;
   return os;
 }
 

@@ -259,7 +259,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     ++displacements;
   }
 
-  TriCell::Pointer insertCell;
+  TriCell::CellAutoPointer insertCell;
   unsigned long tripoints[3];
   const unsigned long *tp;
   float x;
@@ -269,7 +269,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   tripoints[0] = tp[0];
   tripoints[1] = tp[1];
   tripoints[2] = tp[2];
-  insertCell = TriCell::New();
+  insertCell.TakeOwnership( new TriCell );
   insertCell->SetPointIds(tripoints);
   m_Locations->SetCell(i, insertCell);
   x = celldata.Value();
@@ -745,7 +745,8 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   myOutCellData->Reserve(m_NumCells);
   InputCellDataContainerIterator    outcelldata = myOutCellData->Begin();
    
-  typename TriCell::Pointer       insertCell = TriCell::New(); 
+  typename TriCell::CellAutoPointer insertCell = new TriCell;
+  insertCell.TakeOwnership();
 
   i = 0;
   j = 0;
@@ -829,14 +830,14 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
       m_Locations->SetCell(p, insertCell);
       m_Locations->SetCellData(p, (PT)3.0);
       p++;
-      insertCell = TriCell::New();
+      insertCell.TakeOwnership( new TriCell );
         tripoints[0] = tripoints[1]; 
         tripoints[1] = tripoints[0]+m_Resolution[1]; 
       insertCell->SetPointIds(tripoints);
       m_Locations->SetCell(p, insertCell);
       m_Locations->SetCellData(p, (PT)3.0);
       p++;
-      insertCell = TriCell::New();
+      insertCell.TakeOwnership( new TriCell );
     }
     }
  
@@ -850,7 +851,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     m_Locations->SetCell(p, insertCell);
     m_Locations->SetCellData(p, (PT)1.0);
     p++;
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     }
 
 // store cells containing the north pole nodes
@@ -959,7 +960,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 {
  
   int i;
-  TriCell::Pointer insertCell;
+  TriCell::CellAutoPointer insertCell;
   unsigned long tripoints[3];
   const unsigned long *tp;
   float x;
@@ -991,7 +992,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   tripoints[0] = tp[0];
   tripoints[1] = tp[1];
   tripoints[2] = tp[2];
-  insertCell = TriCell::New();
+  insertCell.TakeOwnership( new TriCell );
   insertCell->SetPointIds(tripoints);
   m_Output->SetCell(i, insertCell);
   x = celldata.Value();

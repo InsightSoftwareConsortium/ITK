@@ -92,7 +92,7 @@ public:
   typedef typename MeshTraits::CellDataContainer       CellDataContainer;  
   typedef typename MeshTraits::BoundariesContainer     BoundariesContainer;
   typedef typename MeshTraits::BoundaryDataContainer   BoundaryDataContainer;
-  typedef typename MeshTraits::CellPointer    genericCellPointer;
+  typedef typename MeshTraits::CellAutoPointer         genericCellPointer;
   typedef PointLocator<PointIdentifier,PointDimension,
                        CoordRepType,PointsContainer>  PointLocatorType;
   typedef BoundingBox<PointIdentifier,PointDimension,
@@ -129,16 +129,16 @@ public:
   typedef CellFeatureIdentifier                     CellFeatureCount;
   typedef CellInterface<PixelType,CellTraits>       CellInterfaceType;
   typedef PolygonCell<CellInterfaceType>            CellType;
-  typedef typename CellType::Pointer                CellPointer;
+  typedef typename CellType::CellAutoPointer        CellAutoPointer;
   typedef Point<int,2> EdgeInfo;
   typedef std::deque<EdgeInfo> EdgeInfoDQ;
   typedef CellType BoundaryType;
-  typedef CellPointer BoundaryPointer;
+  typedef CellAutoPointer BoundaryAutoPointer;
   typedef typename CellType::MultiVisitor CellMultiVisitorType;
   typedef std::vector<PointType> SeedsType;
   typedef typename SeedsType::iterator SeedsIterator;
   typedef LineBoundary <CellInterfaceType> Edge;
-  typedef typename Edge::Pointer EdgePointer;
+  typedef typename Edge::SelfAutoPointer EdgeAutoPointer;
   typedef std::list<PointType> PointList;
   typedef std::vector<int> INTvector;
   typedef typename INTvector::iterator NeighborIdIterator;
@@ -167,7 +167,7 @@ public:
   PointType GetSeed(int SeedID);
 
   /** Return the required cell pointer. */
-  CellPointer GetCellId(CellIdentifier cellId);
+  void GetCellId(CellIdentifier cellId, CellAutoPointer &);
 
   /** Return the given vertex of the voronoi diagram. */ 
   void GetPoint(int pId,PointType *answer);
@@ -200,9 +200,9 @@ public:
   void AddCellNeighbor(EdgeInfo x){ 
      m_CellNeighborsID[x[0]].push_back(x[1]);
      m_CellNeighborsID[x[1]].push_back(x[0]);};
-  void ClearRegion(int i){ VoronoiRegions[i]->ClearPoints();};  
-  void VoronoiRegionAddPointId(int id, int x){VoronoiRegions[id]->AddPointId(x);};
-  void BuildEdge(int id){ VoronoiRegions[id]->BuildEdges();};
+  void ClearRegion(int i){ m_VoronoiRegions[i]->ClearPoints();};  
+  void VoronoiRegionAddPointId(int id, int x){m_VoronoiRegions[id]->AddPointId(x);};
+  void BuildEdge(int id){ m_VoronoiRegions[id]->BuildEdges();};
 
   void LineListClear(){ f_LineList.clear();};
   void EdgeListClear(){ f_EdgeList.clear();};
@@ -236,7 +236,7 @@ private:
   
   SeedsType m_Seeds;
   unsigned int m_NumberOfSeeds;
-  std::vector<CellPointer> VoronoiRegions;
+  std::vector<CellType *> m_VoronoiRegions;
   PointType m_VoronoiBoundary;
   PointType m_VoronoiBoundaryOrigin;
   std::vector< std::vector<int> > m_CellNeighborsID;

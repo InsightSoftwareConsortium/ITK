@@ -403,7 +403,7 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
         m_NumberOfCellsInRegion++;
         
         //now get the cell points, and then cells using these points
-        input->GetCell(cellId, &cellPtr);
+        input->GetCell(cellId, cellPtr);
         for ( piter=cellPtr->PointIdsBegin(); 
               piter != cellPtr->PointIdsEnd(); ++piter)
           {

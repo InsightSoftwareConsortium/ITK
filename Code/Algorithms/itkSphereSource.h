@@ -68,7 +68,8 @@ public:
    * and will be used in FEM application. */
   typedef CellInterface<OPixelType, CellTraits>   CellInterfaceType;
   typedef TriangleCell<CellInterfaceType>         TriCell;
-  typedef typename TriCell::Pointer               TriCellPointer;
+  typedef typename TriCell::SelfAutoPointer       TriCellAutoPointer;
+  typedef typename TriCell::CellAutoPointer       CellAutoPointer;
 
   /** All these parameter setting function are public temporarily to make the
    * test easier */

@@ -92,11 +92,11 @@ GetPoint(int pId, PointType *answer)
  
 
 template <typename TCoordRepType>
-VoronoiDiagram2D<TCoordRepType>::CellPointer
+void
 VoronoiDiagram2D<TCoordRepType>::
-GetCellId(CellIdentifier cellId)
+GetCellId(CellIdentifier cellId, CellAutoPointer & cellPtr )
 {
-  return(VoronoiRegions[cellId]);
+  cellPtr = m_VoronoiRegions[cellId];
 }
 
 template <typename TCoordRepType>
@@ -175,13 +175,13 @@ void
 VoronoiDiagram2D<TCoordRepType>::
 Reset(void)
 {
-  VoronoiRegions.clear();
-  VoronoiRegions.resize(m_NumberOfSeeds);
+  m_VoronoiRegions.clear();
+  m_VoronoiRegions.resize(m_NumberOfSeeds);
   m_CellNeighborsID.resize(m_NumberOfSeeds);
 
   for(unsigned int i = 0; i < m_NumberOfSeeds; i++)
     {
-    VoronoiRegions[i] = CellType::New();
+    m_VoronoiRegions[i] = new CellType;
     m_CellNeighborsID[i].clear();
     }  
 }
@@ -191,9 +191,11 @@ void
 VoronoiDiagram2D<TCoordRepType>::
 InsertCells(void)
 {
+  genericCellPointer cellPtr;
   for(unsigned int i = 0; i < m_NumberOfSeeds; i++)
     {
-    this->SetCell(i, VoronoiRegions[i]);
+    cellPtr.TakeOwnership( m_VoronoiRegions[i] );
+    this->SetCell(i, cellPtr );
     }  
 }
 

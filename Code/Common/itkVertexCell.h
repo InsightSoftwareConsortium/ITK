@@ -45,54 +45,24 @@ class VertexCell: public TCellInterface
 {
 public:
   /** Standard class typedefs. */
-  typedef VertexCell          Self;
-  typedef TCellInterface      Superclass;
-//  typedef CellInterface<TPixelType,TCellTraits>  Superclass;
-//  typedef SmartPointer<Self>  Pointer;
-//  typedef SmartPointer<const Self>  ConstPointer;
-  typedef       Self * Pointer;
-  typedef const Self * ConstPointer;
+  itkCellCommonTypedefs(VertexCell);
+  itkCellInheritedTypedefs(TCellInterface);
 
-  
   /** Standard part of every itk Object. */
   itkTypeMacro(VertexCell, CellInterface);
-
-  /** Save the PixelType template parameter. */
-  typedef typename Superclass::PixelType                     PixelType;
-  
-  /** Save the CellTraits template parameter. */
-  typedef typename Superclass::CellTraits                    CellTraits;
-
-  /** Save some template parameter information. */
-  typedef typename CellTraits::CoordRepType                       CoordRepType;
-  typedef typename CellTraits::PointIdentifier                    PointIdentifier;
-  typedef typename CellInterface<PixelType,CellTraits>::Pointer   CellPointer;
-  
-  /** Save some template parameter information. */
-  enum { PointDimension = CellTraits::PointDimension };
-
+ 
   /** Vertex-specific topology numbers. */
   enum { NumberOfPoints = 1,
          CellDimension  = 0 };
   
-  /** Method for creation through the object factory. */
-//  itkNewMacro(Self);
-  static Pointer New(void) { return new Self; }
-  
-  /** Pick-up typedefs from superclass or classes that we use. */
-  typedef typename Superclass::PointIdIterator        PointIdIterator;
-  typedef typename Superclass::PointIdConstIterator   PointIdConstIterator;
-  typedef typename Superclass::CellFeatureIdentifier  CellFeatureIdentifier;
-  typedef CellFeatureIdentifier                       CellFeatureCount;
-  
   /** Implement the standard CellInterface. */
-  virtual typename Superclass::CellType GetType(void) const 
+  virtual CellGeometry GetType(void) const 
     {return Superclass::VERTEX_CELL;}
-  virtual CellPointer MakeCopy(void);
-  virtual int GetDimension(void) const;
-  virtual int GetNumberOfPoints(void) const;
+  virtual void MakeCopy( CellAutoPointer & ) const;
+  virtual unsigned int GetDimension(void) const;
+  virtual unsigned int GetNumberOfPoints(void) const;
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const;
-  virtual CellPointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
+  virtual bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &);
   virtual void SetPointIds(PointIdConstIterator first);
   virtual void SetPointIds(PointIdConstIterator first,
                            PointIdConstIterator last);
@@ -133,16 +103,8 @@ class VertexBoundary:
 {
 public:
   /** Standard class typdefs. */
-  typedef VertexBoundary      Self;
-//  typedef SmartPointer<Self>  Pointer;
-//  typedef SmartPointer<const Self>  ConstPointer;
-  typedef       Self * Pointer;
-  typedef const Self * ConstPointer;
-    
-  /** Method for creation through the object factory. */
-//  itkNewMacro(Self);  
-  static Pointer New(void) { return new Self; }
-  
+  itkCellCommonTypedefs(VertexBoundary);
+ 
   /** Standard part of every itk Object. */
   itkTypeMacro(VertexBoundary, CellBoundary);
 };

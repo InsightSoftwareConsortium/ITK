@@ -319,7 +319,6 @@ void
 VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
 ::ClassifyDiagram(void)
 {
-  CellPointer currCell; 
   PointIdIterator currPit;
   PointIdIterator currPitEnd;
   PointType currP;
@@ -327,7 +326,8 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   IndexList PixelPool;
   for(int i=0;i<m_NumberOfSeeds;i++)
     {
-    currCell = m_WorkingVD->GetCellId(i);
+    CellAutoPointer currCell;
+    m_WorkingVD->GetCellId(i,currCell);
     currPitEnd = currCell->PointIdsEnd();
     VertList.clear();
     for(currPit=currCell->PointIdsBegin();currPit!=currPitEnd;++currPit)
@@ -534,7 +534,6 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
     oit.Set(0); 
     ++oit; 
     }
-  CellPointer currCell; 
   PointIdIterator currPit;
   PointIdIterator currPitEnd;
   PointType currP;
@@ -543,7 +542,8 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
     {
     if(m_Label[i] == 1)
       {
-      currCell = m_WorkingVD->GetCellId(i);
+      CellAutoPointer currCell; 
+      m_WorkingVD->GetCellId(i, currCell);
       currPitEnd = currCell->PointIdsEnd();
       VertList.clear();
       for(currPit=currCell->PointIdsBegin();currPit!=currPitEnd;++currPit)

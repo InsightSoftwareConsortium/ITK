@@ -25,13 +25,12 @@ namespace itk
  * Standard CellInterface:
  */
 template <typename TCellInterface >
-HexahedronCell< TCellInterface >::CellPointer
+void
 HexahedronCell< TCellInterface >
-::MakeCopy(void)
+::MakeCopy(CellAutoPointer & cellPointer) const
 {
-  CellPointer newCell(Self::New());
-  newCell->SetPointIds(this->GetPointIds());
-  return newCell;
+  cellPointer.TakeOwnership( new Self );
+  cellPointer->SetPointIds(this->GetPointIds());
 }
 
 /**
@@ -39,7 +38,7 @@ HexahedronCell< TCellInterface >
  * Get the topological dimension of this cell.
  */
 template <typename TCellInterface>
-int
+unsigned int
 HexahedronCell< TCellInterface >
 ::GetDimension(void) const
 {
@@ -51,7 +50,7 @@ HexahedronCell< TCellInterface >
  * Get the number of points required to define the cell.
  */
 template <typename TCellInterface>
-int
+unsigned int
 HexahedronCell< TCellInterface >
 ::GetNumberOfPoints(void) const
 {
@@ -83,16 +82,63 @@ HexahedronCell< TCellInterface >
  * The Id can range from 0 to GetNumberOfBoundaryFeatures(dimension)-1.
  */
 template <typename TCellInterface>
-HexahedronCell< TCellInterface >::CellPointer
+bool
 HexahedronCell< TCellInterface >
-::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId)
+::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId, 
+                                    CellAutoPointer & cellPointer )
 {
   switch (dimension)
     {
-    case 0: return CellPointer(GetVertex(featureId));
-    case 1: return CellPointer(GetEdge(featureId));
-    case 2: return CellPointer(GetFace(featureId));
-    default: return CellPointer(NULL);
+    case 0: 
+      {
+      VertexAutoPointer vertexPointer;
+      if( this->GetVertex(featureId,vertexPointer) )
+        {
+        TransferAutoPointer(cellPointer,vertexPointer);
+        return true;
+        }
+      else
+        {
+        cellPointer.Reset();
+        return false;
+        }
+      break;
+      }
+    case 1: 
+      {
+      EdgeAutoPointer edgePointer;
+      if( this->GetEdge(featureId,edgePointer) )
+        {
+        TransferAutoPointer(cellPointer,edgePointer);
+        return true;
+        }
+      else
+        {
+        cellPointer.Reset();
+        return false;
+        }
+      break;
+      }
+    case 2: 
+      {
+      FaceAutoPointer facePointer;
+      if( this->GetFace(featureId,facePointer) )
+        {
+        TransferAutoPointer(cellPointer,facePointer);
+        return true;
+        }
+      else
+        {
+        cellPointer.Reset();
+        return false;
+        }
+      break;
+      }
+    default: 
+      {
+      cellPointer.Reset();
+      return false;
+      }
     }
 }
 
@@ -239,16 +285,16 @@ HexahedronCell< TCellInterface >
  * The Id can range from 0 to GetNumberOfVertices()-1.
  */
 template <typename TCellInterface>
-HexahedronCell< TCellInterface >::VertexPointer
+bool
 HexahedronCell< TCellInterface >
-::GetVertex(CellFeatureIdentifier vertexId)
+::GetVertex(CellFeatureIdentifier vertexId,VertexAutoPointer & vertexPointer )
 {
-  Vertex::Pointer vert(Vertex::New());
+  VertexType * vert = new VertexType;
   vert->SetPointId(0, m_PointIds[vertexId]);
-  
-  return vert;
+  vertexPointer = vert;
+  vertexPointer.TakeOwnership();
+  return true;  
 }
-
 
 /**
  * Hexahedron-specific:
@@ -256,19 +302,20 @@ HexahedronCell< TCellInterface >
  * The Id can range from 0 to GetNumberOfEdges()-1.
  */
 template <typename TCellInterface>
-HexahedronCell< TCellInterface >::EdgePointer
+bool
 HexahedronCell< TCellInterface >
-::GetEdge(CellFeatureIdentifier edgeId)
+::GetEdge(CellFeatureIdentifier edgeId, EdgeAutoPointer & edgePointer )
 {
-  Edge::Pointer edge(Edge::New());
-
-  for(int i=0; i < Edge::NumberOfPoints; ++i)
+  EdgeType * edge = new EdgeType;
+  for(int i=0; i < EdgeType::NumberOfPoints; ++i)
     {
     edge->SetPointId(i, m_PointIds[ m_Edges[edgeId][i] ]);
     }
-  
-  return edge;
+  edgePointer = edge;
+  edgePointer.TakeOwnership(); 
+  return true;
 }
+
 
 /**
  * Hexahedron-specific:
@@ -276,18 +323,18 @@ HexahedronCell< TCellInterface >
  * The Id can range from 0 to GetNumberOfFaces()-1.
  */
 template <typename TCellInterface>
-HexahedronCell< TCellInterface >::FacePointer
+bool
 HexahedronCell< TCellInterface >
-::GetFace(CellFeatureIdentifier faceId)
+::GetFace(CellFeatureIdentifier faceId, FaceAutoPointer & facePointer )
 {
-  Face::Pointer face(Face::New());
-  
-  for(int i=0; i < Face::NumberOfPoints; ++i)
+  FaceType * face = new FaceType;
+  for(int i=0; i < FaceType::NumberOfPoints; ++i)
     {
     face->SetPointId(i, m_PointIds[ m_Faces[faceId][i] ]);
     }
-  
-  return face;
+  facePointer = face;
+  facePointer.TakeOwnership(); 
+  return true;
 }
 
 /**

@@ -87,10 +87,10 @@ public:
   typedef VoronoiDiagram2D<double> VoronoiDiagram;
   typedef VoronoiDiagram2DGenerator<double> VoronoiDiagramGenerator;
   typedef typename VoronoiDiagram::PointType PointType;
-  typedef typename VoronoiDiagram::Cell Cell;
-  typedef typename VoronoiDiagram::CellPointer CellPointer;
+  typedef typename VoronoiDiagram::CellType CellType;
+  typedef typename VoronoiDiagram::CellAutoPointer CellAutoPointer;
   typedef typename VoronoiDiagram::Pointer VoronoiPointer;
-  typedef typename Cell::PointIdIterator PointIdIterator;
+  typedef typename CellType::PointIdIterator PointIdIterator;
   typedef typename VoronoiDiagram::SeedsType SeedsType;
   typedef typename VoronoiDiagram::SeedsIterator SeedsIterator;
   typedef typename VoronoiDiagram::NeighborIdIterator NeighborIdIterator;

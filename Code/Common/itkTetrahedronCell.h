@@ -44,53 +44,24 @@ class TetrahedronCell: public TCellInterface
 {
 public:
   /** Standard class typedefa. */
-  typedef TetrahedronCell     Self;
-  typedef TCellInterface      Superclass;
-//  typedef CellInterface<TPixelType,TCellTraits>  Superclass;
-//  typedef SmartPointer<Self>  Pointer;
-//  typedef SmartPointer<const Self>  ConstPointer;
-  typedef       Self * Pointer;
-  typedef const Self * ConstPointer;
-  
-  /** Method for creation through the object factory. */
-  //itkNewMacro(Self);
-  static Pointer New(void) { return new Self; }
+  itkCellCommonTypedefs(TetrahedronCell);
+  itkCellInheritedTypedefs(TCellInterface);
   
   /** Standard part of every itk Object. */
   itkTypeMacro(TetrahedronCell, CellInterface);
 
-  /** Save the PixelType template parameter. */
-  typedef typename Superclass::PixelType              PixelType;
+  /** The type of boundary for this triangle's vertices. */
+  typedef VertexBoundary< TCellInterface >            VertexType;
+  typedef typename VertexType::SelfAutoPointer        VertexAutoPointer;
   
-  /** Save the CellTraits template parameter. */
-  typedef typename Superclass::CellTraits             CellTraits;
-
-  /** Pick-up typedefs from superclass */
-  typedef typename Superclass::PointIdIterator        PointIdIterator;
-  typedef typename Superclass::PointIdConstIterator   PointIdConstIterator;
-  typedef typename Superclass::CellFeatureIdentifier  CellFeatureIdentifier;
-  typedef CellFeatureIdentifier                       CellFeatureCount;
+  /** The type of boundary for this triangle's edges. */
+  typedef LineBoundary< TCellInterface >              EdgeType;
+  typedef typename EdgeType::SelfAutoPointer          EdgeAutoPointer;
   
-  /** Save some template parameter from cell traits. */
-  typedef typename CellTraits::CoordRepType                       CoordRepType;
-  typedef typename CellTraits::PointIdentifier                    PointIdentifier;
-  typedef typename CellInterface<PixelType,CellTraits>::Pointer   CellPointer;
-  
-  /** Save some template parameter from cell traits. */
-  enum { PointDimension = CellTraits::PointDimension };
-
-  /** The type of boundary for this tetrahedron's vertices. */
-  typedef VertexBoundary< TCellInterface >              Vertex;
-  typedef typename Vertex::Pointer VertexPointer;
-  
-  /** The type of boundary for this tetrahedron's edges. */
-  typedef LineBoundary< TCellInterface >                Edge;
-  typedef typename Edge::Pointer EdgePointer;
-  
-  /** The type of boundary for this tetrahedron's faces. */
-  typedef TriangleBoundary< TCellInterface >            Face;
-  typedef typename Face::Pointer FacePointer;
-    
+  /** The type of boundary for this hexahedron's faces. */
+  typedef TriangleBoundary< TCellInterface >          FaceType;
+  typedef typename FaceType::SelfAutoPointer          FaceAutoPointer;
+ 
   /** Tetrahedron-specific topology numbers. */
   enum { NumberOfPoints   = 4,
          NumberOfVertices = 4,
@@ -99,13 +70,13 @@ public:
          CellDimension    = 3 };
 
   /** Implement the standard CellInterface. */
-  virtual typename Superclass::CellType GetType(void) const 
+  virtual CellGeometry GetType(void) const 
     {return Superclass::TETRAHEDRON_CELL;}
-  virtual CellPointer MakeCopy(void);
-  virtual int GetDimension(void) const;
-  virtual int GetNumberOfPoints(void) const;
+  virtual void MakeCopy( CellAutoPointer & ) const;
+  virtual unsigned int GetDimension(void) const;
+  virtual unsigned int GetNumberOfPoints(void) const;
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const;
-  virtual CellPointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
+  virtual bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &);
   virtual void SetPointIds(PointIdConstIterator first);
   virtual void SetPointIds(PointIdConstIterator first,
                            PointIdConstIterator last);
@@ -119,9 +90,9 @@ public:
   virtual CellFeatureCount GetNumberOfVertices(void) const;
   virtual CellFeatureCount GetNumberOfEdges(void) const;
   virtual CellFeatureCount GetNumberOfFaces(void) const;
-  virtual VertexPointer  GetVertex(CellFeatureIdentifier);
-  virtual EdgePointer    GetEdge(CellFeatureIdentifier);  
-  virtual FacePointer    GetFace(CellFeatureIdentifier);  
+  virtual bool  GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
+  virtual bool  GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);  
+  virtual bool  GetFace(CellFeatureIdentifier, FaceAutoPointer &);  
   
   /** Visitor interface. */
   itkCellVisitMacro(TETRAHEDRON_CELL);
@@ -153,18 +124,15 @@ class TetrahedronBoundary:
 {
 public:
   /** Standard class typedefs. */
-  typedef TetrahedronBoundary  Self;
-//  typedef SmartPointer<Self>   Pointer;
-//  typedef SmartPointer<const Self>  ConstPointer;
-  typedef       Self * Pointer;
-  typedef const Self * ConstPointer;
-    
-  /** Method for creation through the object factory. */
-  //itkNewMacro(Self);
-  static Pointer New(void) { return new Self; }
-  
+  itkCellCommonTypedefs(TetrahedronBoundary);
+
   /** Standard part of every itk Object. */
   itkTypeMacro(TetrahedronBoundary, CellBoundary);
+
+  /** Constructor and destructor */
+  TetrahedronBoundary() {};
+  ~TetrahedronBoundary() {};
+
 };
 
 } // end namespace itk

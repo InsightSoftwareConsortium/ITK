@@ -25,14 +25,14 @@ namespace itk
  * Standard CellInterface:
  */
 template <typename TCellInterface>
-LineCell< TCellInterface >::CellPointer
+void
 LineCell< TCellInterface >
-::MakeCopy(void)
+::MakeCopy(CellAutoPointer & cellPointer) const
 {
-  CellPointer newCell(Self::New());
-  newCell->SetPointIds(this->GetPointIds());
-  return newCell;
+  cellPointer = new Self;
+  cellPointer->SetPointIds(this->GetPointIds());
 }
+
 
   
 /**
@@ -40,20 +40,19 @@ LineCell< TCellInterface >
  * Get the topological dimension of this cell.
  */
 template <typename TCellInterface>
-int
+unsigned int
 LineCell< TCellInterface >
 ::GetDimension(void) const
 {
   return Self::CellDimension;
 }
 
-
 /**
  * Standard CellInterface:
  * Get the number of points required to define the cell.
  */
 template <typename TCellInterface>
-int
+unsigned int
 LineCell< TCellInterface >
 ::GetNumberOfPoints(void) const
 {
@@ -85,14 +84,33 @@ LineCell< TCellInterface >
  * The Id can range from 0 to GetNumberOfBoundaryFeatures(dimension)-1.
  */
 template <typename TCellInterface>
-LineCell< TCellInterface >::CellPointer
+bool
 LineCell< TCellInterface >
-::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId)
+::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId, 
+                     CellAutoPointer & cellPointer)
 {
   switch (dimension)
     {
-    case 0: return CellPointer(GetVertex(featureId));
-    default: return CellPointer(NULL);
+    case 0: 
+      {
+      VertexAutoPointer vertexPointer;
+      if( this->GetVertex(featureId,vertexPointer) )
+        {
+        TransferAutoPointer(cellPointer,vertexPointer);
+        return true;
+        }
+      else
+        {
+        cellPointer.Reset();
+        return false;
+        }
+      break;
+      }
+    default: 
+      {
+      cellPointer.Reset();
+      return false;
+      }
     }
 }
 
@@ -222,14 +240,15 @@ LineCell< TCellInterface >
  * The Id can range from 0 to GetNumberOfVertices()-1.
  */
 template <typename TCellInterface>
-LineCell< TCellInterface >::VertexPointer
+bool
 LineCell< TCellInterface >
-::GetVertex(CellFeatureIdentifier vertexId)
+::GetVertex(CellFeatureIdentifier vertexId, VertexAutoPointer & vertexPointer )
 {
-  VertexPointer vert(Vertex::New());
+  VertexType * vert = new VertexType;
   vert->SetPointId(0, m_PointIds[vertexId]);
-  
-  return vert;  
+  vertexPointer = vert;
+  vertexPointer.TakeOwnership();
+  return true;  
 }
 
 } // end namespace itk

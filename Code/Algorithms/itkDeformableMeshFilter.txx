@@ -259,7 +259,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
     ++displacements;
   }
 
-  TriCell::Pointer insertCell;
+  TriCell::CellAutoPointer insertCell;
   unsigned long tripoints[3];
   const unsigned long *tp;
   float x;
@@ -269,7 +269,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   tripoints[0] = tp[0];
   tripoints[1] = tp[1];
   tripoints[2] = tp[2];
-  insertCell = TriCell::New();
+  insertCell.TakeOwnership( new TriCell );
   insertCell->SetPointIds(tripoints);
   m_Locations->SetCell(i, insertCell);
   x = celldata.Value();
@@ -825,7 +825,9 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 {
   int i; 
   const unsigned long *tp;
-  typename TriCell::Pointer testCell = TriCell::New();
+  typename TriCell::Pointer testCell;
+  testCell.TakeOwnership( new TriCell );
+
   int npts = 3;
 
   InputCellsContainerPointer    myCells = m_Locations->GetCells();
@@ -991,7 +993,8 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   myOutCellData->Reserve(m_NumCells);
   InputCellDataContainerIterator    outcelldata = myOutCellData->Begin();
    
-  typename TriCell::Pointer       insertCell = TriCell::New(); 
+  typename TriCell::Pointer       insertCell;
+  insertCell.TakeOwnership( new TriCell ); 
 
   i = 0;
   j = 0;
@@ -1008,14 +1011,14 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
       m_Locations->SetCell(p, insertCell);
       m_Locations->SetCellData(p, (PT)3.0);
       p++;
-      insertCell = TriCell::New();
-        tripoints[0] = tripoints[1]; 
-        tripoints[1] = tripoints[0]+m_Resolution[1]; 
+      insertCell.TakeOwnership( new TriCell );
+      tripoints[0] = tripoints[1]; 
+      tripoints[1] = tripoints[0]+m_Resolution[1]; 
       insertCell->SetPointIds(tripoints);
       m_Locations->SetCell(p, insertCell);
       m_Locations->SetCellData(p, (PT)3.0);
       p++;
-      insertCell = TriCell::New();
+      insertCell.TakeOwnership( new TriCell );
     }
     }
  
@@ -1029,7 +1032,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
     m_Locations->SetCell(p, insertCell);
     m_Locations->SetCellData(p, (PT)1.0);
     p++;
-    insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     }
 
 // store cells containing the north pole nodes
@@ -1042,7 +1045,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
     m_Locations->SetCell(p, insertCell);
     m_Locations->SetCellData(p, (PT)2.0);
     p++;
-      insertCell = TriCell::New();
+    insertCell.TakeOwnership( new TriCell );
     }
   
 /*  m_NumCells = p;
@@ -1151,7 +1154,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 {
  
   int i;
-  TriCell::Pointer insertCell;
+  TriCell::CellAutoPointer  insertCell;
   unsigned long tripoints[3];
   const unsigned long *tp;
   float x;
@@ -1183,7 +1186,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   tripoints[0] = tp[0];
   tripoints[1] = tp[1];
   tripoints[2] = tp[2];
-  insertCell = TriCell::New();
+  insertCell.TakeOwnership( new TriCell );
   insertCell->SetPointIds(tripoints);
   m_Output->SetCell(i, insertCell);
   x = celldata.Value();

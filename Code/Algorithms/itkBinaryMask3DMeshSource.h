@@ -77,7 +77,7 @@ public:
    * and will be used in FEM application. */
   typedef CellInterface<OPixelType, CellTraits>  TCellInterface;
   typedef TriangleCell<TCellInterface> TriCell;
-  typedef typename TriCell::Pointer TriCellPointer;
+  typedef typename TriCell::SelfAutoPointer TriCellAutoPointer;
 
 
   typedef Image<unsigned short, 3> BinaryImageType;
