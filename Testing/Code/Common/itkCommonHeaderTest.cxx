@@ -225,7 +225,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSimilarity2DTransform.txx"
 #include "itkSimpleFastMutexLock.h"
 #include "itkSimpleImageRegionConstIterator.txx"
-#include "itkSimpleImageRegionIterator.txx"
 #include "itkSinImageAdaptor.h"
 #include "itkSize.h"
 #include "itkSliceIterator.h"
