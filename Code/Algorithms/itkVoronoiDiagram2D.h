@@ -17,6 +17,10 @@
 #ifndef __itkVoronoiDiagram2D_h
 #define __itkVoronoiDiagram2D_h
 
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
 #include "itkCellInterface.h"
 #include "itkCellBoundary.h"
 #include "itkLineCell.h"

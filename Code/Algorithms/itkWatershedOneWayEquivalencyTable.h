@@ -17,6 +17,10 @@
 #ifndef __itkWatershedOneWayEquivalencyTable_h
 #define __itkWatershedOneWayEquivalencyTable_h
 
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
 #include "itkObjectFactory.h"
 #include "itkDataObject.h"
 #include "itkProcessObject.h"

@@ -18,6 +18,10 @@
 #define __itkWatershedBoundary_txx
 #include "itkWatershedBoundary.h"
 
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
 #include "itkImageRegionIterator.h"
 
 namespace itk
