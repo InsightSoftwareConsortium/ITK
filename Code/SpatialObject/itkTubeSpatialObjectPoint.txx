@@ -31,6 +31,9 @@ TubeSpatialObjectPoint< TPointDimension >
   m_T = new VectorType(m_NumDimensions);
   m_V1 = new VectorType(m_NumDimensions);
   m_V2 = new VectorType(m_NumDimensions);
+  m_T->fill(0);
+  m_V1->fill(0);
+  m_V2->fill(0);
   m_ID = 0;
   m_R = 0;
   m_Medialness = 0;
