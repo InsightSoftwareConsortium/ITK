@@ -178,7 +178,7 @@ void
 CenteredEuler3DTransform<TScalarType>
 ::ComputeMatrix( void )
 {
-  Superclass::ComputeMatrix();
+  Superclass::ComputeMatrixAndOffset();
 
   ParametersType parameters = this->GetParameters();
 
