@@ -23,6 +23,9 @@
 #include <typeinfo>
 #include <map>
 
+namespace itk {
+namespace fem {
+
 
 
 
@@ -116,10 +119,6 @@
  *       Object of this type will be returned, when calling the
  *       VisitorDispatcher::Visit function.
  */
-
-namespace itk {
-namespace fem {
-
 template<class TVisitedClass, class TVisitorBase, class TVisitFunctionPointerType>
 class VisitorDispatcher
 {
