@@ -58,6 +58,12 @@ int itkSTLThreadTest(int argc, char* argv[])
       }
     }
   
+  // Enforce limit on number of threads.
+  if(numThreads > ITK_MAX_THREADS)
+    {
+    numThreads = ITK_MAX_THREADS;
+    }
+  
   // Report what we'll do.
   std::cout << "Using " << numThreads << " threads.\n";
   if(itkSTLThreadTestImpl::numberOfIterations)
