@@ -177,7 +177,8 @@ public:
 
 private:
 
-  friend class ItpackLinearSystemWrapper;
+  /** friend class */
+  friend class LinearSystemWrapperItpack;
 
   /** initialize matrix */
   void Initialize();
