@@ -18,6 +18,7 @@
 #define __itkOtsuThresholdImageCalculator_h
 
 #include "itkObject.h"
+#include "itkObjectFactory.h"
 #include "itkNumericTraits.h"
 
 namespace itk
