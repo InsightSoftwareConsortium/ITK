@@ -52,53 +52,55 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
     }
 
   register unsigned int i;
-  OffsetType OverlapLow, OverlapHigh, temp, offset;
+  OffsetValueType OverlapLow, OverlapHigh;
+  OffsetType temp, offset;
   bool flag;
 
   // Is this whole neighborhood in bounds?
-  if (this->InBounds()) return (*(this->operator[](n)));
+  if (this->InBounds())
+    {
+    return (*(this->operator[](n)));
+    }
   else
     {
-     temp = this->ComputeInternalIndex(n);
+    temp = this->ComputeInternalIndex(n);
       
-      // Calculate overlap
-      for (i=0; i<Dimension; i++)
-        {
-          OverlapLow[i] = m_InnerBoundsLow[i] - m_Loop[i];
-          OverlapHigh[i]=
-            static_cast<OffsetValueType>(this->GetSize(i) - ( (m_Loop[i]+2) - m_InnerBoundsHigh[i] ));
-        }
+    flag = true;
 
-      flag = true;
+    // Is this pixel in bounds?
+    for (i=0; i<Dimension; ++i)
+      {
+      if (m_InBounds[i]) offset[i] = 0; // this dimension in bounds
+      else  // part of this dimension spills out of bounds
+        {
+        // Calculate overlap for this dimension
+        OverlapLow = m_InnerBoundsLow[i] - m_Loop[i];
+        OverlapHigh =
+          static_cast<OffsetValueType>(this->GetSize(i) - ( (m_Loop[i]+2) - m_InnerBoundsHigh[i] ));
 
-      // Is this pixel in bounds?
-      for (i=0; i<Dimension; ++i)
-        {
-          if (m_InBounds[i]) offset[i] = 0; // this dimension in bounds
-          else  // part of this dimension spills out of bounds
-            {
-              if (temp[i] < OverlapLow[i])
-                {
-                  flag = false;
-                  offset[i] = OverlapLow[i] - temp[i];
-                }
-              else if ( OverlapHigh[i] < temp[i] )
-                {
-                  flag = false;
-                  offset[i] =  OverlapHigh[i] - temp[i];
-                }
-              else offset[i] = 0;
-            }
+        // 
+        if (temp[i] < OverlapLow)
+          {
+          flag = false;
+          offset[i] = OverlapLow - temp[i];
+          }
+        else if ( OverlapHigh < temp[i] )
+          {
+          flag = false;
+          offset[i] =  OverlapHigh - temp[i];
+          }
+        else offset[i] = 0;
         }
+      }
 
-      if (flag) 
-        {
-        return ( *(this->operator[](n)) ) ;
-        }
-      else 
-        {
-        return( m_BoundaryCondition->operator()(temp, offset, this) );
-        }
+    if (flag) 
+      {
+      return ( *(this->operator[](n)) ) ;
+      }
+    else 
+      {
+      return( m_BoundaryCondition->operator()(temp, offset, this) );
+      }
     } 
 }
   
@@ -119,6 +121,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
     }
   return ans;
 }
+
 
 template <class TImage, class TBoundaryCondition>
 typename ConstNeighborhoodIterator<TImage, TBoundaryCondition>::RegionType
