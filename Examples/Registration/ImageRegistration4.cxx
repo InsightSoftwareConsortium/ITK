@@ -374,61 +374,17 @@ int main( int argc, char **argv )
   //  
   // \begin{figure}
   // \center
-  // \includegraphics[width=7cm]{ImageRegistration2TraceTranslations.eps}
-  // \includegraphics[width=7cm]{ImageRegistration2TraceTranslations2.eps}
-  // \caption{Sequence of translations during the registration process. Left,
-  // iterations form 0 to 200. Right iterations from 150 to 200.}
-  // \label{fig:ImageRegistration2TraceTranslations}
+  // \includegraphics[height=6cm]{ImageRegistration4TraceTranslations.eps}
+  // \includegraphics[height=6cm]{ImageRegistration4TraceMetric.eps}
+  // \caption{Sequence of translations and metric values at each iteration of the optimizer.}
+  // \label{fig:ImageRegistration4TraceTranslations}
   // \end{figure}
   //
-  //  Figure \ref{fig:ImageRegistration2TraceTranslations} presents the
+  //  Figure \ref{fig:ImageRegistration4TraceTranslations} (left) presents the
   //  sequence of translations followed by the optimizer as it searched the
-  //  parameter space. The left plot shows iterations $0$ to $200$ while the
-  //  right figure zooms into iterations $150$ to $200$. The area covered by
-  //  the right figure has been highlighted by a rectangle in the left image.
-  //  It can be seen that after a certain number of iterations the optimizer
-  //  oscillates within a one or two pixels of the true solution. 
-  //  At this point it is
-  //  clear that more iterations will not help. Instead it is time to modify
-  //  some of the parameters of the registration process. For example, 
-  //  reducing the learning rate of the optimizer and continuing the
-  //  registration so that smaller steps are taken.
-  //
-  // \begin{figure}
-  // \center
-  // \includegraphics[width=7cm]{ImageRegistration2TraceMetric.eps}
-  // \includegraphics[width=7cm]{ImageRegistration2TraceMetric2.eps}
-  // \caption{Sequence of metric values during the registration process. Left,
-  // iterations form 0 to 300. Right, iterations from 100 to 200.}
-  // \label{fig:ImageRegistration2TraceMetric}
-  // \end{figure}
-  //
-  //  Figure \ref{fig:ImageRegistration2TraceMetric} shows the sequence of
+  //  parameter space. The right side of the same figure shows the sequence of
   //  metric values computed as the optimizer searched the parameter space.
-  //  The left plot shows values when iterations are extended from $0$ to $300$
-  //  while the right figure zooms into iterations $100$ to $200$. 
-  //  The fluctuations in the measure value is due to the stochastic
-  //  nature in which the measure is computed. At each call of 
-  //  \code{GetValue()}, two new sets of intensity samples is randomly 
-  //  taken from the image to compute the density and entrophy estimates.
-  //  Even with the fluctuations, overall the measure initially increases
-  //  with the number of iterations.
-  //  After about 150 iterations the metric value oscilates
-  //  without further noticeable convergence. 
-  //  The trace plots in Figure \ref{fig:ImageRegistration2TraceMetric}
-  //  highlights one of the difficulties with using this particular metric:
-  //  the stochastic oscillations makes it difficult to determine
-  //  convergence and limits the use of more sophisticated optimizations
-  //  methods. As explained above,
-  //  the reduction of the learning rate as the registration progresses
-  //  is very important to get precise results.
   //
-  //  This example highlight the importance of tracking the evolution of the
-  //  registration method in order to get some insight on the characteristics
-  //  of the particular problem at hand and the components being used. 
-  //  The behavior revealed by these plots
-  //  usually helps to identify possible improvements in the setup of the
-  //  registration parameters. 
   //
   //  Software Guide : EndLatex 
 
