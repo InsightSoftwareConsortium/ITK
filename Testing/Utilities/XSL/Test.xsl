@@ -22,6 +22,13 @@
       <xsl:with-param name="DashboardDir" select="$DashboardDir"/>
     </xsl:call-template>
     <h2>Testing started on <xsl:value-of select="Site/Testing/StartDateTime"/></h2>
+    <p>
+      <b>Site Name: </b> <xsl:value-of select="/Site/@Name"/>
+    </p>
+    <p>
+      <b>Build Name: </b> <xsl:value-of select="/Site/@BuildName"/>
+    </p>
+    <br/>
     <h3>
       <a href="#Passed">
         <xsl:value-of select="count(Site/Testing/Test[@Status='passed'])"/>
@@ -34,57 +41,127 @@
       </a> not run
     </h3>
     <br/>
-    <ul>
+    <table cellspacing="0">
+      <tr>
+        <th>Name</th>
+        <th>Status</th>
+      </tr>
       <xsl:for-each select="Site/Testing/Test[@Status='failed']">
         <xsl:sort select="Name"/>
-        <li>
-          <a>
-            <xsl:attribute name="href"><xsl:value-of select="concat ( 'Results/', translate ( FullName, '/.', '__' ), '.html' )"/></xsl:attribute><xsl:value-of select="Name"/>
-          </a>
-          <font color="#FF0000"> Failed</font>
-        </li>
+        <tr>
+          <td>
+            <a>
+              <xsl:attribute name="href">
+                <xsl:call-template name="TranslateTestName">
+                  <xsl:with-param name="Prefix">Results/</xsl:with-param>
+                  <xsl:with-param name="TestName" select="FullName"/>
+                  <xsl:with-param name="Postfix">.html</xsl:with-param>
+                </xsl:call-template>
+              </xsl:attribute><xsl:value-of select="Name"/>
+            </a>
+          </td>
+          <td>
+            <a>
+              <xsl:attribute name="href">
+                <xsl:call-template name="TranslateTestName">
+                  <xsl:with-param name="Prefix"><xsl:value-of select="$DashboardDir"/>/TestDetail/</xsl:with-param>
+                  <xsl:with-param name="TestName" select="FullName"/>
+                  <xsl:with-param name="Postfix">.html</xsl:with-param>
+                </xsl:call-template>
+              </xsl:attribute>
+              <font color="#FF0000"> Failed </font>
+            </a>
+          </td>
+        </tr>
       </xsl:for-each>
-    </ul>
-
-    <hr/>
-    <ul>
+      <tr>
+        <td colspan="2"></td>
+      </tr>
       <xsl:for-each select="Site/Testing/Test[@Status='notrun']">
         <xsl:sort select="Name"/>
-        <li>
-          <xsl:value-of select="Name"/><font color="#FF0000"> Not Run</font>
-        </li>
+        <tr>
+          <td>
+            <xsl:value-of select="Name"/>
+          </td>
+          <td>
+            <a>
+              <xsl:attribute name="href">
+                <xsl:call-template name="TranslateTestName">
+                  <xsl:with-param name="Prefix"><xsl:value-of select="$DashboardDir"/>/TestDetail/</xsl:with-param>
+                  <xsl:with-param name="TestName" select="FullName"/>
+                  <xsl:with-param name="Postfix">.html</xsl:with-param>
+                </xsl:call-template>
+              </xsl:attribute>
+              <font color="#FF0000"> Not Run</font>
+            </a>
+          </td>
+        </tr>
       </xsl:for-each>
-    </ul>
-    <hr/>
-    <ul>
+      <tr>
+        <td colspan="2"></td>
+      </tr>
       <xsl:for-each select="Site/Testing/Test[@Status='passed']">
         <xsl:sort select="Name"/>
-        <li>
-          <a>
-            <xsl:attribute name="HREF"><xsl:value-of select="concat ( 'Results/', translate ( FullName, '/.', '__' ), '.html' )"/></xsl:attribute><xsl:value-of select="Name"/>
-            <font color="#00AA00"> Passed</font>
-          </a>
-        </li>
+        <tr>
+          <td>
+            <a>
+              <xsl:attribute name="HREF">
+                <xsl:call-template name="TranslateTestName">
+                  <xsl:with-param name="Prefix">Results/</xsl:with-param>
+                  <xsl:with-param name="TestName" select="FullName"/>
+                  <xsl:with-param name="Postfix">.html</xsl:with-param>
+                </xsl:call-template>
+              </xsl:attribute>
+              <xsl:value-of select="Name"/>
+            </a>
+          </td>
+          <td>
+            <a>
+              <xsl:attribute name="href">
+                <xsl:call-template name="TranslateTestName">
+                  <xsl:with-param name="Prefix"><xsl:value-of select="$DashboardDir"/>/TestDetail/</xsl:with-param>
+                  <xsl:with-param name="TestName" select="FullName"/>
+                  <xsl:with-param name="Postfix">.html</xsl:with-param>
+                </xsl:call-template>
+              </xsl:attribute>
+              <font color="#00AA00">Passed</font>
+            </a>
+          </td>
+        </tr>
       </xsl:for-each>
-    </ul>
-    <hr/>
+    </table>
     
     <xsl:for-each select="//Testing/Test">
-      <xsl:apply-templates select="."/>
+      <xsl:call-template name="Test"/>
     </xsl:for-each>
 
     <xsl:call-template name="InsightFooter"/>
 
   </xsl:template>
     
-  <xsl:template match="Test">
+  <xsl:template name="Test">
       <redirect:write select="concat(string('{$TestDocDir}'), '/Results/', translate ( FullName, '/.', '__' ) , '.html' )" file="dan.html">
       <xsl:call-template name="InsightHeader">
         <xsl:with-param name="Title">Test results for <xsl:value-of select="Name"/></xsl:with-param>
         <xsl:with-param name="IconDir">../../../../../Icons</xsl:with-param>
-        <xsl:with-param name="DashboardDir" select="$DashboardDir"/>
+        <xsl:with-param name="DashboardDir">../<xsl:value-of select="$DashboardDir"/></xsl:with-param>
       </xsl:call-template>
-      <xsl:value-of select="Name"/>
+      <p>
+        <b>Site Name: </b> <xsl:value-of select="/Site/@Name"/>
+      </p>
+      <p>
+        <b>Build Name: </b> <xsl:value-of select="/Site/@BuildName"/>
+      </p>
+      <a>
+        <xsl:attribute name="href">
+          <xsl:call-template name="TranslateTestName">
+            <xsl:with-param name="Prefix">../<xsl:value-of select="$DashboardDir"/>/TestDetail/</xsl:with-param>
+            <xsl:with-param name="TestName" select="FullName"/>
+            <xsl:with-param name="Postfix">.html</xsl:with-param>
+          </xsl:call-template>
+        </xsl:attribute>
+        <xsl:value-of select="Name"/> 
+      </a>
       <xsl:choose>
         <xsl:when test="contains('failed',@Status)">
           <font color="#FF0000"> Failed</font>

@@ -59,6 +59,34 @@
       <br/>
      
     </h3>
+    <table cellspacing="0" border="0">
+      <tr>
+        <td>Reported Builds</td>
+        <td><xsl:value-of select="count(BuildStamp/Build/BuildStamp)"/></td>
+      </tr>
+      <tr>
+        <td><xsl:value-of select="sum(/Dashboard/BuildStamp/Build/ErrorCount)"/></td>
+        <td>Reported Errors</td>
+      </tr>
+      <tr>
+        <td>Reported Warnings</td>
+        <td><xsl:value-of select="sum(/Dashboard/BuildStamp/Build/WarningCount)"/></td>
+      </tr>
+      <tr>
+        <td>Passed Tests</td>
+        <td><xsl:value-of select="sum(/Dashboard/BuildStamp/Testing/PassedCount)"/></td>
+      </tr>
+      <tr>
+        <td>Failed Tests</td>
+        <td><xsl:value-of select="sum(/Dashboard/BuildStamp/Testing/FailedCount)"/></td>
+      </tr>
+      <tr>
+        <td>Tests Not Run</td>
+        <td><xsl:value-of select="sum(/Dashboard/BuildStamp/Testing/NotRunCount)"/></td>
+      </tr>
+    </table>
+    
+      
     
             
     <table border="2" width="100%">
@@ -237,7 +265,7 @@
         <b><a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html</xsl:attribute><xsl:value-of select="Testing/NotRunCount"/></a></b>
         <xsl:text disable-output-escaping="yes">&amp;nbsp;&amp;nbsp;&amp;nbsp;</xsl:text>
       </td>
-      <td><xsl:value-of select="Testing/StartDateTime"/></td>
+      <td><xsl:value-of select="Build/StartDateTime"/></td>
       <td><xsl:value-of select="TestSubmissionDateTime"/></td>
     </tr>
     
