@@ -18,10 +18,12 @@
 #include "itkTranslationTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkNormalizedCorrelationPointSetToImageMetric.h"
+#include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkGaussianImageSource.h"
 #include "itkImage.h"
 #include "itkPointSet.h"
-#include "itkImageRegionIterator.h"
+#include "itkPointSetToImageRegistrationMethod.h"
+#include "itkCommandIterationUpdate.h"
 
 #include <iostream>
 
@@ -97,6 +99,8 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
 
   const unsigned int numberOfPoints = 100;
 
+  fixedPointSet->SetPointData( FixedPointSetType::PointDataContainer::New() );
+
   fixedPointSet->GetPoints()->Reserve( numberOfPoints );
   fixedPointSet->GetPointData()->Reserve( numberOfPoints );
 
@@ -145,12 +149,9 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
 
   MetricType::Pointer  metric = MetricType::New();
 
+  metric->SetScaleGradient( 1.0 );
 
-//-----------------------------------------------------------
-// Plug the Images into the metric
-//-----------------------------------------------------------
-  metric->SetFixedPointSet( fixedPointSet );
-  metric->SetMovingImage( movingImage );
+
 
 //-----------------------------------------------------------
 // Set up a Transform
@@ -162,8 +163,6 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
 
   TransformType::Pointer transform = TransformType::New();
 
-  metric->SetTransform( transform.GetPointer() );
-
 
 //------------------------------------------------------------
 // Set up an Interpolator
@@ -174,33 +173,72 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
-  interpolator->SetInputImage( movingImage.GetPointer() );
- 
-  metric->SetInterpolator( interpolator.GetPointer() );
 
 
-//------------------------------------------------------------
-// Define the Scale at which the Gradient of the image will be computed
-//------------------------------------------------------------
-   metric->SetScaleGradient( 1.0 );
+  // Optimizer Type
+  typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
+
+  OptimizerType::Pointer      optimizer     = OptimizerType::New();
+
+
+
+  // Registration Method
+  typedef itk::PointSetToImageRegistrationMethod< 
+                                    FixedPointSetType, 
+                                    MovingImageType >    RegistrationType;
+
+
+  RegistrationType::Pointer   registration  = RegistrationType::New();
+
+
+  typedef itk::CommandIterationUpdate<  
+                                  OptimizerType >    CommandIterationType;
+
+
+  // Instantiate an Observer to report the progress of the Optimization
+  CommandIterationType::Pointer iterationCommand = CommandIterationType::New();
+  iterationCommand->SetOptimizer(  optimizer.GetPointer() );
+
+
+  // Scale the translation components of the Transform in the Optimizer
+  OptimizerType::ScalesType scales( transform->GetNumberOfParameters() );
+  scales.Fill( 1.0 );
+
   
-  std::cout << metric << std::endl;
+  unsigned long   numberOfIterations =   50;
+  double          translationScale   =  1.0;
+  double          maximumStepLenght  =  10.0; // no step will be larger than this
+  double          minimumStepLenght  =   0.1; // convergence criterion
+  double          gradientTolerance  =   0.01; // convergence criterion
 
 
-//------------------------------------------------------------
-// This call is mandatory before start querying the Metric
-// This method do all the necesary connections between the 
-// internal components: Interpolator, Transform and Images
-//------------------------------------------------------------
-  try {
-    metric->Initialize();
-    }
-  catch( itk::ExceptionObject & e )
-    {
-    std::cout << "Metric initialization failed" << std::endl;
-    std::cout << "Reason " << e.GetDescription() << std::endl;
-    return EXIT_FAILURE;
-    }
+  optimizer->SetScales( scales );
+  optimizer->SetNumberOfIterations( numberOfIterations );
+  optimizer->SetMinimumStepLength( minimumStepLenght );
+  optimizer->SetMaximumStepLength( maximumStepLenght );
+  optimizer->SetGradientMagnitudeTolerance( gradientTolerance );
+  optimizer->MinimizeOn();
+
+  // Start from an Identity transform (in a normal case, the user 
+  // can probably provide a better guess than the identity...
+  transform->SetIdentity();
+  registration->SetInitialTransformParameters( transform->GetParameters() );
+
+
+
+
+
+  //------------------------------------------------------
+  // Connect all the components required for Registration
+  //------------------------------------------------------
+  registration->SetMetric(        metric        );
+  registration->SetOptimizer(     optimizer     );
+  registration->SetTransform(     transform     );
+  registration->SetFixedPointSet( fixedPointSet );
+  registration->SetMovingImage(   movingImage   );
+  registration->SetInterpolator(  interpolator  );
+
+
 
 
 //------------------------------------------------------------
@@ -215,74 +253,14 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
     }
 
 
-//---------------------------------------------------------
-// Print out metric values
-// for parameters[1] = {-10,10}  (arbitrary choice...)
-//---------------------------------------------------------
-
-  MetricType::MeasureType     measure;
-  MetricType::DerivativeType  derivative;
-
-  std::cout << "param[1]   Metric    d(Metric)/d(param[1] " << std::endl;
-
-  for( double trans = -10; trans <= 5; trans += 0.2 )
-    {
-    parameters[1] = trans;
-    metric->GetValueAndDerivative( parameters, measure, derivative );
-
-    std::cout.width(5);
-    std::cout.precision(5);
-    std::cout << trans;
-    std::cout.width(15);
-    std::cout.precision(5);
-    std::cout << measure;
-    std::cout.width(15);
-    std::cout.precision(5);
-    std::cout << derivative[1];
-    std::cout << std::endl;
-
-    // exercise the other functions
-    metric->GetValue( parameters );
-    metric->GetDerivative( parameters, derivative );
-
-    }
-
-//-------------------------------------------------------
-// exercise misc member functions
-//-------------------------------------------------------
-  std::cout << "Check case when Target is NULL" << std::endl;
-  metric->SetFixedPointSet( NULL );
-  try 
-    {
-    std::cout << "Value = " << metric->GetValue( parameters );
-    std::cout << "If you are reading this message the Metric " << std::endl;
-    std::cout << "is NOT managing exceptions correctly    " << std::endl;
-    return EXIT_FAILURE;
+  try {
+    registration->StartRegistration();
     }
   catch( itk::ExceptionObject & e )
-    { 
-    std::cout << "Exception received (as expected) "    << std::endl;
-    std::cout << "Description : " << e.GetDescription() << std::endl;
-    std::cout << "Location    : " << e.GetLocation()    << std::endl;
-    std::cout << "Test for exception throwing... PASSED ! " << std::endl;
-    }
-  
-  try 
     {
-    metric->GetValueAndDerivative( parameters, measure, derivative );
-    std::cout << "Value = " << measure << std::endl;
-    std::cout << "If you are reading this message the Metric " << std::endl;
-    std::cout << "is NOT managing exceptions correctly    " << std::endl;
+    std::cout << e << std::endl;
     return EXIT_FAILURE;
     }
-  catch( itk::ExceptionObject & e )
-    { 
-    std::cout << "Exception received (as expected) "    << std::endl;
-    std::cout << "Description : " << e.GetDescription() << std::endl;
-    std::cout << "Location    : " << e.GetLocation()    << std::endl;
-    std::cout << "Test for exception throwing... PASSED ! "  << std::endl;
-    }
- 
 
   return EXIT_SUCCESS;
 
