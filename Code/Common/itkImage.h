@@ -31,13 +31,19 @@ public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef itkSmartPointer< itkImage<T, TImageDimension> > Pointer;
+  typedef typename itkSmartPointer< itkImage<T, TImageDimension> > Pointer;
 
   /** 
    * Pixel typedef support. Used to declare pixel type in filters
    * or other operations.
    */
-  typedef T PixelType;
+  typedef typename T PixelType;
+
+  /** 
+   * Pixel value typedef support. The pixel value is the type that
+   * pixels are composed of; usually something like float, int, etc.
+   */
+  typedef typename T::ValueType PixelValueType;
 
   /** 
    * Image dimension typedef support. Used to help declare pixel types
@@ -50,12 +56,12 @@ public:
    * Iterator typedef support. An iterator is used to traverse
    * the image.
    */
-  typedef itkImageIterator<T, TImageDimension> Iterator;
+  typedef typename itkImageIterator<T, TImageDimension> Iterator;
 
   /** 
    * Index typedef support. An index is used to access pixel values.
    */
-  typedef itkIndex<TImageDimension> Index;
+  typedef typename itkIndex<TImageDimension> Index;
   
   /** 
    * Run-time type information (and related methods).

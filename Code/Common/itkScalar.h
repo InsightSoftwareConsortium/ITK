@@ -47,14 +47,10 @@ template<class T>
 class itkScalar {
  public:
   /**
-   * scalar_value_type can be used to declare a variable that is the same type
-   * as the data held in an itkScalar.  The naming convention here follows
-   * STL conventions. scalar_value_type is what STL would call value_type.
-   * scalar_value_type is used instead of STL's value_type to avoid confusion
-   * when a data type holds a scalar and a vector of different types.
-   * \sa itkScalarVector
+   * ValueType can be used to declare a variable that is the same type
+   * as the data held in an itkScalar.
    */
-  typedef T scalar_value_type;
+  typedef T ValueType;
 
   /**
    * Get the dimension (size) of this scalar. The method is necessary

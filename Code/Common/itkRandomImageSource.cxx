@@ -14,6 +14,7 @@
 
 =========================================================================*/
 #include "itkRandomImageSource.h"
+#include "itkPixelTraits.h"
 #include "itkObjectFactory.h"
 
 //------------------------------------------------------------------------
@@ -58,6 +59,13 @@ itkRandomImageSource<TOutputImage>
   unsigned int imageDimension = image->GetImageDimension();
   TOutputImage::Index ind;
   long index[2];
+  TOutputImage::PixelType pixel;
+  TOutputImage::PixelValueType min = 
+    itkPixelTraits<TOutputImage::PixelValueType>::Min;
+  TOutputImage::PixelValueType max = 
+    itkPixelTraits<TOutputImage::PixelValueType>::Max;
+  TOutputImage::PixelValueType value;
+  unsigned int pixelDimension = pixel.GetPixelDimension();
 
   itkDebugMacro(<<"Generating random image");
   
@@ -65,9 +73,9 @@ itkRandomImageSource<TOutputImage>
   index[1] = 0;
   ind.SetIndex(index);
   
-  typename TOutputImage::PixelType pixel;
-  unsigned int pixelDimension = pixel.GetPixelDimension();
+  pixel.SetScalar(min);
 
+  
  // for (int j=0; j<imageSize; j++)
   
 }

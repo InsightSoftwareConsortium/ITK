@@ -52,14 +52,10 @@ template<class T, unsigned int TVectorDimension=3>
 class itkVector {
  public:
   /**
-   * Vector_value_type can be used to declare a variable that is the same type
-   * as the data held in an itkVector.  The naming convention here follows
-   * STL conventions. vector_value_type is what STL would call value_type.
-   * vector_value_type is used instead of STL's value_type to avoid confusion
-   * when a data type holds a scalar and vector of different types.
-   * \sa itkScalarVector
+   * ValueType can be used to declare a variable that is the same type
+   * as the data held in an itkVector.  
    */
-  typedef T vector_value_type;
+  typedef T ValueType;
 
   /**
    * Get the dimension (size) of the vector.
