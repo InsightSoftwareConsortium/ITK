@@ -110,6 +110,7 @@ int itkEuler3DTransformTest(int,char *[] )
   EulerTransformType::OffsetType ioffset = ioffsetInit;
 
   eulerTransform->SetOffset( ioffset );
+  std::cout << "eulerTransform: " << eulerTransform;
 
   q = p + ioffset;
       
