@@ -464,19 +464,19 @@ M_Read(void)
     }
     if(!strcmp(pntVal[j], "mri2"))
     {
-      posmri1 = j;
+      posmri2 = j;
     }
     if(!strcmp(pntVal[j], "mri3"))
     {
-      posmri1 = j;
+      posmri3 = j;
     }
     if(!strcmp(pntVal[j], "mri4"))
     {
-      posmri1 = j;
+      posmri4 = j;
     }
     if(!strcmp(pntVal[j], "mri5"))
     {
-      posmri1 = j;
+      posmri5 = j;
     }
     if(!strcmp(pntVal[j], "tensor1"))
     {
@@ -834,7 +834,7 @@ M_Read(void)
       // Read tensor2
       if(postensor2 >= 0 && postensor2 < pntDim)
       {
-        pnt->m_TensorMatrix[2] = v[postensor2];
+        pnt->m_TensorMatrix[1] = v[postensor2];
       }
       // Read tensor3
       if(postensor3 >= 0 && postensor3 < pntDim)
