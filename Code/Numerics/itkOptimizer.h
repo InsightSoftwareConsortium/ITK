@@ -86,7 +86,9 @@ public:
   itkGetObjectMacro( Transform, TransformType );
 
 protected:
-  Optimizer() 
+  Optimizer() :
+    m_InitialPosition(),
+    m_CurrentPosition()
     { m_Transform = TransformType::New(); };
   virtual ~Optimizer() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
