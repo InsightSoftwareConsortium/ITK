@@ -107,6 +107,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkHoughTransform2DLinesImageFilter.txx"
 #include "itkImageToMeshFilter.txx"
 #include "itkImageToParametricSpaceFilter.txx"
+#include "itkImplicitManifoldNormalVectorFilter.txx"
 #include "itkImportImageFilter.txx"
 #include "itkIntensityWindowingImageFilter.txx"
 #include "itkInteriorExteriorMeshFilter.txx"
