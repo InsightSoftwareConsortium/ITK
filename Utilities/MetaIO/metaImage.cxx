@@ -850,10 +850,14 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
 
   if(!m_WriteStream)
   {
+  // Some older sgi compilers have a error in the ofstream constructor
+  // that requires a file to exist for output
+#ifdef __sgi
     {
     std::ofstream tFile(m_FileName,std::ios::binary | std::ios::out);
     tFile.close();                    
     }
+#endif
   m_WriteStream = new std::ofstream;
   }
   m_WriteStream->open(m_FileName, std::ios::binary | std::ios::out);
@@ -898,6 +902,14 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
         for(i=1; i<=m_DimSize[m_NDims-1]; i++)
           {
           sprintf(fName, dataFileName, i);
+  // Some older sgi compilers have a error in the ofstream constructor
+  // that requires a file to exist for output
+#ifdef __sgi
+    {
+    std::ofstream tFile(fName,std::ios::binary | std::ios::out);
+    tFile.close();                    
+    }
+#endif
           writeStreamTemp->open(fName, std::ios::binary | std::ios::out);
           writeStreamTemp->write(
                            &(((char *)m_ElementData)[i*sliceNumberOfBytes]),
@@ -907,6 +919,14 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
         }
       else
         {
+  // Some older sgi compilers have a error in the ofstream constructor
+  // that requires a file to exist for output
+#ifdef __sgi
+    {
+    std::ofstream tFile(dataFileName,std::ios::binary | std::ios::out);
+    tFile.close();                    
+    }
+#endif
         writeStreamTemp->open(dataFileName, std::ios::binary | std::ios::out);
         writeStreamTemp->write( (char *)m_ElementData, 
                                 m_Quantity * elementNumberOfBytes );
@@ -1287,6 +1307,14 @@ bool MetaImage
       for(i=1; i<=m_DimSize[m_NDims-1]; i++)
         {
         sprintf(fName, dataFileName, i);
+  // Some older sgi compilers have a error in the ofstream constructor
+  // that requires a file to exist for output
+#ifdef __sgi
+    {
+    std::ofstream tFile(fName,std::ios::binary | std::ios::out);
+    tFile.close();                    
+    }
+#endif
         writeStreamTemp->open(fName, std::ios::binary | std::ios::out);
         writeStreamTemp->write(&(((char *)m_ElementData)[i*sliceNumberOfBytes]),
                               sliceNumberOfBytes);
@@ -1295,6 +1323,14 @@ bool MetaImage
       }
     else
       {
+  // Some older sgi compilers have a error in the ofstream constructor
+  // that requires a file to exist for output
+#ifdef __sgi
+    {
+    std::ofstream tFile(dataFileName,std::ios::binary | std::ios::out);
+    tFile.close();                    
+    }
+#endif
       writeStreamTemp->open(dataFileName, std::ios::binary | std::ios::out);
       writeStreamTemp->write( (char *)m_ElementData,
                               m_Quantity * elementNumberOfBytes);
