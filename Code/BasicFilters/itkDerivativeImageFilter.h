@@ -25,8 +25,13 @@ namespace itk
 /** \class DerivativeImageFilter
  * \brief Computes the directional derivative of an image.
  * The directional derivative at each pixel location is computed by convolution
- * with a first-order derivative operator.
+ * with a derivative operator of user-specified order.
  *
+ * SetOrder specifies the order of the derivative.
+ *
+ * SetDirection specifies the direction of the derivative with respect to the
+ * coordinate axes of the image.
+ * 
  * \sa Image
  * \sa Neighborhood
  * \sa NeighborhoodOperator
@@ -72,6 +77,21 @@ public:
   itkGetMacro(Order, unsigned int);
   itkSetMacro(Direction, unsigned int);
   itkGetMacro(Direction, unsigned int);
+
+  /** Use the image spacing information in calculations. Use this option if you
+   *  want derivatives in physical space. Default is UseImageSpacingOn. */
+  void SetUseImageSpacingOn()
+  { this->SetUseImageSpacing(true); }
+  
+  /** Ignore the image spacing. Use this option if you want derivatives in
+      isotropic pixel space.  Default is UseImageSpacingOn. */
+  void SetUseImageSpacingOff()
+  { this->SetUseImageSpacing(false); }
+  
+  /** Set/Get whether or not the filter will use the spacing of the input
+      image in its calculations */
+  itkSetMacro(UseImageSpacing, bool);
+  itkGetMacro(UseImageSpacing, bool);
   
   /** DerivativeImageFilter needs a larger input requested region than
    * the output requested region (larger in the direction of the
@@ -83,7 +103,12 @@ public:
   virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
 protected:
-  DerivativeImageFilter() {m_Order = 0; m_Direction = 0;}
+  DerivativeImageFilter()
+  {
+    m_Order = 1;
+    m_Direction = 0;
+    m_UseImageSpacing = true;
+  }
   virtual ~DerivativeImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
@@ -104,6 +129,8 @@ private:
   /** The direction of the derivative. */
   unsigned int m_Direction;
 
+  bool m_UseImageSpacing;
+  
 };
   
 } // end namespace itk

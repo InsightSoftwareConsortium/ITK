@@ -96,7 +96,19 @@ DerivativeImageFilter< TInputImage, TOutputImage >
    oper.SetOrder(m_Order);
    oper.CreateDirectional();
    oper.FlipAxes();
-   
+
+   if (m_UseImageSpacing == true)
+     {
+     if ( this->GetInput()->GetSpacing()[m_Direction] == 0.0 )
+       {
+       itkExceptionMacro(<< "Image spacing cannot be zero.");
+       }
+     else
+       {
+       oper.ScaleCoefficients( 1.0 / this->GetInput()->GetSpacing()[m_Direction] );
+       }
+     }
+
   typename NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>
     ::Pointer filter =
     NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>
