@@ -33,11 +33,9 @@ ENDIF (BUILD_TESTING)
 CONFIGURE_FILE(${ITK_SOURCE_DIR}/UseITK.cmake
                ${ITK_BINARY_DIR}/UseITK.cmake COPYONLY)
 
-# Add an option to build or not build the Auxiliary stuff
-OPTION(BUILD_AUXILIARY "Build the unsupported directory")
-IF(BUILD_AUXILIARY)
-  SUBDIRS(Auxiliary)
-ENDIF(BUILD_AUXILIARY)
+# Build the Auxiliary subdirectory. It has its own 
+# checking for dependencies on third party libraries
+SUBDIRS(Auxiliary)
 
 
 # Add an option to build or not build the Examples
