@@ -158,6 +158,8 @@ CABLE_OPEN_NAMESPACE(itk)
     "LinearInterpolateImageFunction<$PhysicalImageType >"
     "UpwindDerivativeImageFunction<$ImageType >"
     "UpwindDerivativeImageFunction<$PhysicalImageType >"
+    "LevelSetCurvatureFunction<$ImageType >"
+    "LevelSetCurvatureFunction<$PhysicalImageType >"
     "CenteredAffineRegistrationTransform<float, $Dimension, $PointType >"
   )
 CABLE_CLOSE_NAMESPACE(itk)
