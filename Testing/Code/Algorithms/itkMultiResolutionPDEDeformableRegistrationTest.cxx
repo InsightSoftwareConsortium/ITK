@@ -217,7 +217,7 @@ int main()
   unsigned int numLevel = 5;
   std::vector<unsigned int> numIterations(numLevel);
   numIterations[0] = 512;
-  
+
   unsigned int ilevel;
   for( ilevel = 1; ilevel < numLevel; ilevel++ )
     {
@@ -225,7 +225,8 @@ int main()
     }
   
   registrator->SetNumberOfLevels( numLevel );
-  registrator->SetNumberOfIterations( numIterations.begin() );
+  registrator->SetNumberOfIterations( 
+   static_cast<unsigned int*>(numIterations.begin()) );
 
   registrator->Print(std::cout);
 
@@ -328,7 +329,6 @@ int main()
   unsigned int n = 5;
   registrator->SetNumberOfIterations( &n );
 
-  registrator->Print( std::cout );
   registrator->Update();
 
   if( registrator->GetOutput()->GetBufferedRegion() != 
