@@ -13,10 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * Text messages that the system should display to the user are sent to 
- * this object (or subclasses of this object).
- */
 #ifndef __itkOutputWindow_h
 #define __itkOutputWindow_h
 
@@ -24,14 +20,24 @@
 
 namespace itk
 {
+/** \class OutputWindow
+ * \brief Messages sent from the system are collected by this object.
+ *
+ * Text messages that the system should display to the user are sent to 
+ * this object (or subclasses of this object).
+ */
 
 class ITK_EXPORT OutputWindow : public Object
 {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
+  typedef OutputWindow        Self;
+
   /** 
    * Smart pointer typedef support. 
    */
-  typedef OutputWindow        Self;
   typedef SmartPointer<Self>  Pointer;
 
   /** 

@@ -13,7 +13,19 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
+#ifndef __itkObjectFactoryBase_h
+#define __itkObjectFactoryBase_h
+
+#include "itkObject.h"
+#include "itkCreateObjectFunction.h"
+#include <list>
+#include <vector>
+
+namespace itk
+{
+/** /class ObjectFactorBase
+ * /brief Create instances of classes using an object factory.
+ *
  * ObjectFactoryBase is used to create itk objects. The base class
  * ObjectFactoryBase contains a static method CreateInstance() that is
  * used to create itk objects from the list of registerd ObjectFactoryBase
@@ -27,26 +39,19 @@
  * This can be use to overide the creation of any object in ITK.  
  */
 
-#ifndef __itkObjectFactoryBase_h
-#define __itkObjectFactoryBase_h
-
-#include "itkObject.h"
-#include "itkCreateObjectFunction.h"
-#include <list>
-#include <vector>
-
-namespace itk
-{
-  
 class OverRideMap;
 
 class ITK_EXPORT ObjectFactoryBase : public Object
 {
 public:  
+  /**
+   * Standard "Self" typedef.
+   */
+  typedef ObjectFactoryBase   Self;
+
   /** 
    * Smart pointer typedef support.
    */
-  typedef ObjectFactoryBase   Self;
   typedef SmartPointer<Self>  Pointer;
 
   /**

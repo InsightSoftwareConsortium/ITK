@@ -13,14 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * Holds methods for defining/determining the current itk version
- * (major, minor, build).
- *
- * This file will change frequently to update the ITKSourceVersion which
- * timestamps a particular source release.
- */
-
 #ifndef __itkVersion_h
 #define __itkVersion_h
 
@@ -31,15 +23,31 @@
 #define ITK_MAJOR_VERSION 0
 #define ITK_MINOR_VERSION 0
 #define ITK_BUILD_VERSION 2
-#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.2 $, $Date: 2000-06-28 10:03:21 $ (GMT)"
+#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.3 $, $Date: 2000-07-03 09:41:20 $ (GMT)"
 
 namespace itk
 {
+/** \class Version
+ * \brief Track the current version of the software.
+ *
+ * Holds methods for defining/determining the current itk version
+ * (major, minor, build).
+ *
+ * This file will change frequently to update the ITKSourceVersion which
+ * timestamps a particular source release.
+ */
 
 class ITK_EXPORT Version : public Object 
 {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
   typedef Version             Self;
+
+  /** 
+   * Smart pointer typedef support. 
+   */
   typedef SmartPointer<Self>  Pointer;
 
   /**
@@ -74,7 +82,6 @@ protected:
 
 };
 
-  
 } // namespace itk
 
 #endif 
