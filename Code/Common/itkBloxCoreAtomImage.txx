@@ -168,7 +168,7 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
   TPositionType seedPos = spatialFunctionOrigin + (seedVector * m_DistanceMin);
 
   // If the seed position is inside the image, go ahead and process it
-  if( this->ConvertPhysicalToDataCoords(seedPos, seedIndex) )
+  if( this->TransformPhysicalPointToIndex(seedPos, seedIndex) )
     {
     // Create and initialize a spatial function iterator
     typedef itk::FloodFilledSpatialFunctionConditionalIterator<TBoundaryPointImage, TFunctionType> TSphereItType;
@@ -234,7 +234,7 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
           // Figure out the data space coordinates of the center
           IndexType coreAtomPos;
           
-          this->ConvertPhysicalToDataCoords(coreAtomCenter, coreAtomPos);
+          this->TransformPhysicalPointToIndex(coreAtomCenter, coreAtomPos);
          
           // Store the new core atom in the correct spot
           this->GetPixel(coreAtomPos).push_back(pCoreAtom);
@@ -245,36 +245,6 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
         } // end iterate through boundary points in pixel
       } // end iterate through the conic shell
    } // end if the seed position for the conic shell is in the image
-}
-
-template<class TBoundaryPointImage, class TImageTraits>
-bool
-BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>::
-ConvertPhysicalToDataCoords(TPositionType physicalCoords, IndexType& dataCoords)
-{
-  // How big is this blox image in pixels?
-  SizeType bloxSizeObject = this->GetLargestPossibleRegion().GetSize();
-  const unsigned long* mySize = bloxSizeObject.GetSize();
-
-  // Get the origin and spacing of this image
-  const double* myOrigin = this->GetOrigin();
-  const double* mySpacing = this->GetSpacing();
-
-  // Position in data space along the dimension of interest
-  long int dimPosition;
-
-  // Convert to data coordinates, abort if it's outside allowed data space bounds
-  for (int ii = 0; ii < NDimensions; ++ii)
-    {
-    dimPosition = (long int) ( (physicalCoords[ii]/mySpacing[ii]) - myOrigin[ii]);
- 
-    if( (dimPosition < 0) || (dimPosition>=mySize[ii]) )
-      return false;
-    else
-      dataCoords.m_Index[ii] = dimPosition;
-    }
-  
-  return true;
 }
 
 template<class TBoundaryPointImage, class TImageTraits>
