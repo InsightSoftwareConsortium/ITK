@@ -266,7 +266,7 @@ protected:
   virtual ~ReceptorMemberCommand() {}
 
 private:
-  Self(const Self&); //purposely not implemented
+  ReceptorMemberCommand(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
 };
@@ -338,7 +338,7 @@ protected:
   virtual ~SimpleMemberCommand() {}
 
 private:
-  Self(const Self&); //purposely not implemented
+  SimpleMemberCommand(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
 };
@@ -408,7 +408,7 @@ protected:
   virtual ~SimpleConstMemberCommand() {} 
 
 private:
-  Self(const Self&); //purposely not implemented
+  SimpleConstMemberCommand(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
 };
