@@ -17,6 +17,9 @@
 
 #ifndef __itkDefaultConvertPixelTraits_h
 #define __itkDefaultConvertPixelTraits_h
+
+#include "itkOffset.h"
+
 namespace itk
 {
   
@@ -87,7 +90,34 @@ ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(long)
 ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(unsigned long)
 
 #undef ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL
-  
+
+
+
+
+//
+//  Default traits for the Offset<> pixel type
+//
+template<unsigned int NDimension>
+class DefaultConvertPixelTraits< Offset<NDimension> >
+{
+public:
+  typedef Offset<NDimension>  TargetType;
+  typedef typename TargetType::OffsetValueType  ComponentType;   
+  static unsigned int GetNumberOfComponents()
+    {
+      return NDimension;
+    }
+  static void SetNthComponent(int i, TargetType & pixel, const ComponentType& v)
+    {
+      pixel[i] = v;
+    }             
+  static ComponentType GetScalarValue(const TargetType& pixel) 
+    {                                          
+      return pixel[0];  // this operation lacks sense on the Offset                          
+    }                                        
+};
+
+ 
 } // end namespace itk
 
 
