@@ -78,6 +78,7 @@ public:
    */
   itkNewMacro(Self);
 
+  //@{
   /**
    * Hold on to the type information specified by the template parameters.
    */
@@ -87,11 +88,18 @@ public:
   typedef TPointsContainer PointsContainer;
   typedef typename PointsContainer::Pointer PointsContainerPointer;
   typedef Point< PointDimension , CoordRep >  Point;
+  //@}
 
+  //@{
+  /**
+   * Convenient typedefs.
+   */
   typedef typename
           PointsContainer::ConstIterator        PointsContainerConstIterator;
   typedef typename
           PointsContainer::Iterator             PointsContainerIterator;
+  //@}
+  
   /**
    * Set the points from which the bounding box should be computed. The 
    * bounding box is cached and is not recomputed if the points are not 
@@ -100,6 +108,9 @@ public:
   void SetPoints(PointsContainer *);
   PointsContainerPointer GetPoints(void);
 
+  /**
+   * Method that actually computes bounding box.
+   */
   bool ComputeBoundingBox(void);
 
   /**
@@ -115,12 +126,15 @@ public:
    */
   CoordRep* GetCenter(CoordRep bounds[PointDimension*2]);
 
+  //@{
   /**
    * Get the length squared of the diagonal of the bounding box.
-   * Returns zero bounding box cannot be computed.
+   * Returns zero if bounding box cannot be computed. Note that the
+   * Accumulate type is used to represent the length.
    */
   typedef typename NumericTraits<CoordRep>::AccumulateType AccumulateType;
   AccumulateType GetDiagonalLength2(void);
+  //@}
 
 #if 0
   /**

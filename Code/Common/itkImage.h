@@ -213,14 +213,14 @@ public:
 
   /**
    * Set the region object that defines the size and starting index
-   * of the region of the image currently load in memory. 
+   * of the region of the image currently loaded in memory. 
    * \sa ImageRegion, SetLargestPossibleRegion(), SetRequestedRegion()
    */
   void SetBufferedRegion(const Region &region);
 
   /**
    * Get the region object that defines the size and starting index
-   * of the region of the image currently load in memory. 
+   * of the region of the image currently loaded in memory. 
    * \sa ImageRegion, SetLargestPossibleRegion(), SetRequestedRegion()
    */
   const Region& GetBufferedRegion()
@@ -228,27 +228,30 @@ public:
   
   /**
    * Set the region object that defines the size and starting index
-   * for the region of the image requested.
+   * for the region of the image requested (i.e., the region of the
+   * image to be operated on by a filter).
    * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion()
    */
   void SetRequestedRegion(const Region &region);
 
   /**
    * Get the region object that defines the size and starting index
-   * for the region of the image requested.
+   * for the region of the image requested (i.e., the region of the
+   * image to be operated on by a filter).
    * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion()
    */
   const Region& GetRequestedRegion()
   { return m_RequestedRegion;};
 
   /**
-   * Allocate the image memory. Dimension and Size must be set a priori.
+   * Allocate the image memory. The image Dimension and Size must 
+   * be set a priori.
    */
   void Allocate();
 
 
   /**
-   * Set a pixel.
+   * Set a pixel value.
    */
   void SetPixel(const Index &index, const TPixel& value)
   {
@@ -257,7 +260,7 @@ public:
   }
   
   /**
-   * Get a pixel (read only version) 
+   * Get a pixel (read only version).
    */
   const TPixel& GetPixel(const Index &index) const
   {
@@ -271,7 +274,6 @@ public:
    */
   TPixel& GetPixel(const Index &index)
   {
-    // std::cerr << "Normal GetPixel()" << std::endl;
     unsigned long offset = this->ComputeOffset(index);
     return ( (*m_Buffer)[offset] );
   }
@@ -289,25 +291,29 @@ public:
      { return this->GetPixel(index); }
 
   /** 
-   * Set the spacing (size of a pixel) of the image.
+   * Set the spacing (size of a pixel) of the image. The
+   * spacing is the geometric distance between image samples.
    * \sa GetSpacing()
    */
   itkSetVectorMacro(Spacing, const float, VImageDimension);
 
   /** 
-   * Get the spacing (size of a pixel) of the image.
+   * Get the spacing (size of a pixel) of the image. The
+   * spacing is the geometric distance between image samples.
    * \sa SetSpacing()
    */
   itkGetVectorMacro(Spacing, const float, VImageDimension);
   
   /** 
-   * Set the origin of the image.
+   * Set the origin of the image. The origin is the geometric
+   * coordinates of the image origin.
    * \sa GetOrigin()
    */
   itkSetVectorMacro(Origin, const float, VImageDimension);
 
   /** 
-   * Get the origin of the image.
+   * Get the origin of the image. The origin is the geometric
+   * coordinates of the image origin.
    * \sa SetOrigin()
    */
   itkGetVectorMacro(Origin, const float, VImageDimension);
@@ -361,7 +367,7 @@ public:
 
   /**
    * Compute the index of the pixel at a specified offset from the
-   * beginning of the buffer.
+   * beginning of the buffered region.
    */
   Index ComputeIndex(unsigned long offset) const
   {

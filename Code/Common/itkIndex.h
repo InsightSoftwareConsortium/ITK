@@ -29,9 +29,9 @@ namespace itk
  * \class Index
  * \brief Represent a n-dimensional index in a n-dimensional image.
  *
- * Index is a templated class to represent a multi-dimensional
- * index, i.e. (i,j,k). Index is templated over the dimension of the index.
- * itk assumes the first element of an index is the fastest moving index.
+ * Index is a templated class to represent a multi-dimensional index,
+ * i.e. (i,j,k,...). Index is templated over the dimension of the index.  
+ * ITK assumes the first element of an index is the fastest moving index.
  *
  * For efficiency sake, Index does not define a default constructor, a
  * copy constructor, or an operator=. We rely on the compiler to provide
@@ -43,8 +43,9 @@ namespace itk
  * The following syntax for assigning an index is allowed/suggested:
  *    Index<3> index = {5, 2, 7};
  *
+ * \remark
  * Should there be an itkBoundedIndex to handle bounds checking? Or should
- * there be an API to perform bounded increments in the iterator.
+ * there be an API to perform bounded increments in the iterator.  
  */
 
 
@@ -201,7 +202,7 @@ public:
 
   /**
    * Get the index. This provides a read only reference to the index.
-   * \sa SetIndex
+   * \sa SetIndex()
    */
   const long *GetIndex() const { return m_Index; };
 
@@ -209,7 +210,7 @@ public:
    * Set the index.
    * Try to prototype this function so that val has to point to a block of
    * memory that is the appropriate size.
-   * \sa GetIndex
+   * \sa GetIndex()
    */
   void SetIndex(const long val[VIndexDimension])
     { memcpy(m_Index, val, sizeof(long)*VIndexDimension); }

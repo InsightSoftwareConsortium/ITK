@@ -209,6 +209,9 @@ protected:
   class BoundaryAssignmentIdentifier
   {
   public:
+    /**
+     * Create an alias to BoundaryAssignmentIdentifier.
+     */
     typedef BoundaryAssignmentIdentifier Self;
 
     /**
