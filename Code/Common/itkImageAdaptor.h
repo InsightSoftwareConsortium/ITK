@@ -42,8 +42,7 @@ namespace itk
  */
 
 template <class TImage, class TAccessor >
-class ITK_EXPORT ImageAdaptor : 
-    public Image< typename TAccessor::ExternalType, TImage::ImageDimension >
+class ITK_EXPORT ImageAdaptor : public DataObject 
 {
 public:
   /**
@@ -124,8 +123,7 @@ public:
    * conditions.
    * \sa ImageRegion, SetBufferedRegion(), SetRequestedRegion()
    */
-  void SetLargestPossibleRegion(const RegionType &region)
-    { m_Image->SetLargestPossibleRegion( region ); }
+  void SetLargestPossibleRegion(const RegionType &region);
 
   /**
    * Get the region object that defines the size and starting index
@@ -135,40 +133,38 @@ public:
    * conditions.
    * \sa ImageRegion, GetBufferedRegion(), GetRequestedRegion()
    */
-  const Region& GetLargestPossibleRegion()
-    { return m_Image->GetLargestPossibleRegion(); }
+  const RegionType& GetLargestPossibleRegion();
 
   /**
    * Set the region object that defines the size and starting index
    * of the region of the image currently load in memory. 
    * \sa ImageRegion, SetLargestPossibleRegion(), SetRequestedRegion()
    */
-  void SetBufferedRegion(const RegionType &region)
-    { m_Image->SetBufferedRegion( region ); }
+  void SetBufferedRegion(const RegionType &region);
+
 
   /**
    * Get the region object that defines the size and starting index
    * of the region of the image currently load in memory. 
    * \sa ImageRegion, SetLargestPossibleRegion(), SetRequestedRegion()
    */
-  const Region& GetBufferedRegion()
-  { return m_Image->GetBufferedRegion(); }
+  const RegionType& GetBufferedRegion();
   
+
   /**
    * Set the region object that defines the size and starting index
    * for the region of the image requested.
    * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion()
    */
-  void SetRequestedRegion(const RegionType &region)
-  { m_Image->SetRequestedRegion( region ); }
+  void SetRequestedRegion(const RegionType &region);
+
 
   /**
    * Get the region object that defines the size and starting index
    * for the region of the image requested.
    * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion()
    */
-  const RegionType& GetRequestedRegion()
-  { return m_Image->GetRequestedRegion(); }
+  const RegionType& GetRequestedRegion();
 
 
   /**
@@ -236,11 +232,22 @@ public:
   virtual const double * GetOrigin() const;
 
 
+  /** 
+   * PixelContainer typedef support. Used to construct a container for
+   * the pixel data.
+   */
+  typedef typename TImage::PixelContainer        PixelContainer;
+  typedef typename TImage::PixelContainerPointer PixelContainerPointer;
+
+
   /**
    * Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class.
    */
   InternalPixelType *GetBufferPointer();
+
+  typedef InternalPixelType * InternalPixelPointerType;
+  void GetBufferPointer2( InternalPixelPointerType  & );
 
   /**
    * Get the offset table.  
@@ -251,15 +258,14 @@ public:
    * Compute an offset from the beginning of the buffer for a pixel
    * at the specified index.
    */
-  unsigned long ComputeOffset(const IndexType &ind) const
-  { return m_Image->ComputeOffset( ind ); }
+  unsigned long ComputeOffset(const IndexType &ind) const;
 
   /**
    * Compute the index of the pixel at a specified offset from the
    * beginning of the buffer.
    */
-  IndexType ComputeIndex(unsigned long offset) const
-  { return m_Image->ComputeIndex( offset ); }
+  IndexType ComputeIndex(unsigned long offset) const;
+
 
   /**
    * Set Internal Image
@@ -278,6 +284,7 @@ public:
   virtual unsigned long GetMTime();
 
 
+  virtual void Update();
   virtual void UpdateOutputInformation();
   virtual void SetRequestedRegionToLargestPossibleRegion();
   virtual void CopyInformation(DataObject *data);
