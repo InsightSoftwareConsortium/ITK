@@ -104,7 +104,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   os << indent << "GradientBegin = " << m_GradientBegin << std::endl;
   os << indent << "Resolution = " << m_Resolution << std::endl;
 
-  if (!m_ImageOutput)
+  if (!m_ImageOutput.IsNull())
     {
     os << indent << "ImageOutput = " << m_ImageOutput << std::endl;
     }
