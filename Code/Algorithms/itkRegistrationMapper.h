@@ -17,20 +17,10 @@
 #define __itkRegistrationMapper_h
 
 #include "itkObject.h"
-#include "itkExceptionObject.h"
 
 namespace itk
 {
   
-class ITK_EXPORT MapperException : public ExceptionObject {
-  public:
-    MapperException() {
-      SetDescription("Point lies outside the image");
-    }
-    ~MapperException() {}
-};
-
-
 /** \class RegistrationMapper
  * \brief Maps one object on the coordinate system of other.
  *

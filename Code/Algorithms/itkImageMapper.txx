@@ -56,13 +56,14 @@ ImageMapper<TImage,TTransformation>
 
 
 
+
 /**
- * Evaluate the image at some point
+ * Test whether the point is inside the image domain
  */
 template <class TImage, class TTransformation> 
-double
+bool
 ImageMapper<TImage,TTransformation>
-::Evaluate( PointType & point )
+::IsInside( const PointType & point ) 
 { 
 
   typename Superclass::TransformationType::Pointer transformation;
@@ -71,37 +72,46 @@ ImageMapper<TImage,TTransformation>
 
   PointType mappedPoint = transformation->Transform( point );
 
-  double index[TImage::ImageDimension];
 
   for( unsigned int j = 0; j < TImage::ImageDimension; j++ )
   {
-    index[j] =  mappedPoint[j] / m_Spacing[j] ;
+    m_CurrentIndex[j] =  mappedPoint[j] / m_Spacing[j] ;
   }
    
-   
-  // Verify the range of the image
-  // Throw and exception if the point is outside the 
-  // RequestedRegion of the image
-  // in our case just return 0;
+  bool value = true;
   for( unsigned int i = 0; i < TImage::ImageDimension; i++ )
   {
     
-    if( index[i] < m_Start[i] )
+    if( m_CurrentIndex[i] < m_Start[i] )
     { 
-      MapperException outOfImage;
-      outOfImage.SetLocation("Evaluate()");
-      throw outOfImage;
+      value = false;
+      break;
     }
     
-    if( index[i] >= m_Start[i] + m_Size[i] ) 
+    if( m_CurrentIndex[i] >= m_Start[i] + m_Size[i] ) 
     {
-      MapperException outOfImage;
-      outOfImage.SetLocation("Evaluate()");
-      throw outOfImage;
+      value = false;
+      break;
     }
   }
 
-  const double value = m_Interpolator->Evaluate( index );
+  return value;
+
+}
+
+
+
+
+/**
+ * Evaluate the image at some point
+ */
+template <class TImage, class TTransformation> 
+typename ImageMapper<TImage,TTransformation>::PixelType
+ImageMapper<TImage,TTransformation>
+::Evaluate( void ) const
+{ 
+
+  const double value = m_Interpolator->Evaluate( m_CurrentIndex );
 
   return value;
 

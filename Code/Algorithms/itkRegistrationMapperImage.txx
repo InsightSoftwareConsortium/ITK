@@ -31,52 +31,69 @@ RegistrationMapperImage<TImage,TTransformation>
 }
 
 
+
+
+
 /**
- * Evaluate the image at some point
+ * Test whether the point is inside the image domain
  */
 template <class TImage, class TTransformation> 
-RegistrationMapperImage<TImage,TTransformation>::PixelType
+bool
 RegistrationMapperImage<TImage,TTransformation>
-::Evaluate( const PointType & point )
-{
-  PointType mappedPoint = m_Transformation->TransformPoint( point );
+::IsInside( const PointType & point ) const
+{ 
 
-  double * spacing  = m_Domain->GetSpacing();
-  RegionType region = m_Domain->GetRequestedRegion();
-  IndexType  start  = region.GetIndex();
-  SizeType   size   = region.GetSize();
+  typename Superclass::TransformationType::Pointer transformation;
 
-  IndexType index;
+  transformation = GetTransformation();
+
+  PointType mappedPoint = transformation->Transform( point );
+
+  double index[TImage::ImageDimension];
 
   for( unsigned int j = 0; j < TImage::ImageDimension; j++ )
   {
-    index[j] = vnl_math_rnd( mappedPoint[j] / spacing[j] );
+    m_CurrentIndex[j] =  mappedPoint[j] / m_Spacing[j] ;
   }
-
-  // Verify the range of the image
-  // Throw and exception if the point is outside the 
-  // RequestedRegion of the image
+   
+  bool value = true;
   for( unsigned int i = 0; i < TImage::ImageDimension; i++ )
   {
-
-    if( index[i] < start[i] )
-    {
-      throw MapperException();
+    
+    if( m_CurrentIndex[i] < m_Start[i] )
+    { 
+      value = false;
+      break;
     }
     
-    if( index[i] >= start[i] + size[i] ) 
+    if( m_CurrentIndex[i] >= m_Start[i] + m_Size[i] ) 
     {
-      throw MapperException();
+      value = false;
+      break;
     }
-
   }
 
-  const PixelType value = m_Domain->GetPixel( index );
- 
   return value;
 
 }
 
+
+
+
+/**
+ * Evaluate the image at some point
+ */
+template <class TImage, class TTransformation> 
+typename RegistrationMapperImage<TImage,TTransformation>::PixelType
+RegistrationMapperImage<TImage,TTransformation>
+::Evaluate( void ) const
+{ 
+
+  const double value = m_Interpolator->Evaluate( m_CurrentIndex );
+
+  return value;
+
+}
 
 
 

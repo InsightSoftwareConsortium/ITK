@@ -92,11 +92,15 @@ public:
 public: 
 
   /**
-   * Specify the point for which the image value is wanted
-   * this method will throw a MapperException is the mapped
-   * point lies outside the image domain
+   * Evaluate the pixel at the current position
    */
-   PixelType Evaluate( const PointType & point ); // throw MapperException
+   PixelType Evaluate( void ) const; 
+
+
+  /**
+   * Test whether the point is inside the image or not
+   */
+   bool IsInside( const PointType & point ) const;
 
 
 protected:
@@ -104,6 +108,8 @@ protected:
   ~RegistrationMapperImage(){};
   RegistrationMapperImage(const Self&) {}
   void operator=(const Self&) {}
+
+  mutable IndexType         m_CurrentIndex;
 
 
 };

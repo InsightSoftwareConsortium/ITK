@@ -86,12 +86,6 @@ public:
 
 
   /**
-   * Typedef of the exception
-    */
-   typedef MapperException   ExceptionType;
-
-
-  /**
    * Typedef of the Image type
    */
    typedef  TImage   ImageType;
@@ -160,13 +154,23 @@ public:
 public: 
 
   /**
-   * Specify the point for which the image value is wanted
-   * this method will throw a MapperException is the mapped
-   * point lies outside the image domain
+   * Evaluate the pixel value for the point previously 
+   * specified in the IsInside() method
+   *
+   * \sa IsInside()
+   *
    */
-   double Evaluate( PointType & point ); // throw MapperException
+   PixelType Evaluate( void ) const; 
 
-
+   /**
+    * Test whether the specified point is inside of
+    * the Image Domain. Point coordinates are stored
+    * in internal memory to be used by the Evaluate() method.
+    *
+    * \sa Evaluate();
+    *
+    */
+   bool IsInside( const PointType & point );
 
 protected:
 
@@ -174,6 +178,7 @@ protected:
   IndexType                 m_Start;
   SizeType                  m_Size;
   InterpolatorPointer       m_Interpolator;
+  mutable IndexType         m_CurrentIndex;
 
   ImageMapper();
   ~ImageMapper(){};
