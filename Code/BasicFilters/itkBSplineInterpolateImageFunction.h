@@ -124,12 +124,12 @@ public:
   typedef CovariantVector<OutputType,itkGetStaticConstMacro(ImageDimension)>
       CovariantVectorType;
 
-  CovariantVectorType EvaluateDerivative( const PointType & point )
+  CovariantVectorType EvaluateDerivative( const PointType & point ) const
     {    
     ContinuousIndexType index;
     this->ConvertPointToContinuousIndex( point, index );
     return ( this->EvaluateDerivativeAtContinuousIndex( index ) );
-    }
+    } 
 
   CovariantVectorType EvaluateDerivativeAtContinuousIndex( 
     const ContinuousIndexType & x ) const;
