@@ -44,7 +44,7 @@ public:
   typedef LightObject                       Superclass;
   typedef SmartPointer<Self>                Pointer;
   typedef const SmartPointer< const Self >  ConstPointer;
-  typedef Point< double, 3 >                PointType;
+  typedef Point< double, TPointDimension >  PointType;
   typedef vnl_vector< double >              VectorType;
   typedef VectorType *                      VectorPointer;
 
