@@ -34,6 +34,9 @@ TARGET_LINK_LIBRARIES(ImageRegistration10 ITKNumerics ITKIO)
 ADD_EXECUTABLE(ImageRegistration11 ImageRegistration11.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration11 ITKStatistics ITKNumerics ITKIO)
 
+ADD_EXECUTABLE(ImageRegistration12 ImageRegistration12.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration12 ITKStatistics ITKNumerics ITKIO)
+
 ADD_EXECUTABLE(MultiResImageRegistration1 MultiResImageRegistration1.cxx )
 TARGET_LINK_LIBRARIES(MultiResImageRegistration1 ITKNumerics ITKIO)
 
