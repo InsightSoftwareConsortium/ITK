@@ -335,7 +335,7 @@ ADD_TEST(WatershedSegmentation1Test1 ${SEGMENTATION_EXAMPLES2}
   WatershedSegmentation1Test
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
         ${TEMP}/WatershedSegmentation1Test1.png
-        2.0 10 0.0 0.05 1
+        4.0 10 0.0 0.05 1
 )
 
 ADD_TEST(WatershedSegmentation1Test2 ${SEGMENTATION_EXAMPLES2}
@@ -344,7 +344,7 @@ ADD_TEST(WatershedSegmentation1Test2 ${SEGMENTATION_EXAMPLES2}
   WatershedSegmentation1Test
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
         ${TEMP}/WatershedSegmentation1Test2.png
-        2.0 10 0.001 0.15 0
+        4.0 10 0.001 0.15 0
 )
 
 ADD_EXECUTABLE(SegmentationExamples SegmentationExamples.cxx )
