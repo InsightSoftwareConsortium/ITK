@@ -96,11 +96,12 @@ void Solver::InitializeLinearSystemWrapper(void)
  */
 void Solver::Read(std::istream& f) {
 
-  // clear all arrays
-  el.clear();
-  node.clear();
-  mat.clear();
-  load.clear();
+  // clear all arrays - uncomment these 4 lines if you want to use the
+  // Windows-based visualization
+  //   el.clear();
+  //   node.clear();
+  //   mat.clear();
+  //   load.clear();
 
   // Initialize the pointers to arrays in ReadInfoType object to the
   // arrays in solver object.
