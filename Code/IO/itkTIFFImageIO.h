@@ -109,7 +109,25 @@ public:
   void SetCompressionToDeflate()       { this->SetCompression(Deflate); }
   void SetCompressionToLZW()           { this->SetCompression(LZW); }
 
-  itkSetMacro(Compression,int);
+  void SetCompression(int compression) 
+    {
+    m_Compression = compression;
+ 
+    // This If block isn't strictly necessary:
+    // m_UseCompression = true; would be sufficient.
+    // However, it reads strangely for SetCompression(NoCompression) to
+    // then set m_UseCompression to true.
+    // Doing it this way is probaly also less likely to break in the future.
+    if (compression == NoCompression)
+      {
+      m_UseCompression = false;
+      }
+    else
+      {
+      m_UseCompression = true;
+      }
+    }
+
 
 protected:
   TIFFImageIO();

@@ -864,13 +864,21 @@ void TIFFImageIO::WriteSlice(std::string& fileName, const void* buffer)
     }
 
   int compression;
-  switch ( m_Compression )
+
+  if(m_UseCompression)
     {
-  case TIFFImageIO::PackBits: compression = COMPRESSION_PACKBITS; break;
-  case TIFFImageIO::JPEG:     compression = COMPRESSION_JPEG; break;
-  case TIFFImageIO::Deflate:  compression = COMPRESSION_DEFLATE; break;
-  case TIFFImageIO::LZW:      compression = COMPRESSION_LZW; break;
-  default: compression = COMPRESSION_NONE;
+    switch ( m_Compression )
+      {
+      case TIFFImageIO::PackBits: compression = COMPRESSION_PACKBITS; break;
+      case TIFFImageIO::JPEG:     compression = COMPRESSION_JPEG; break;
+      case TIFFImageIO::Deflate:  compression = COMPRESSION_DEFLATE; break;
+      case TIFFImageIO::LZW:      compression = COMPRESSION_LZW; break;
+      default: compression = COMPRESSION_NONE;
+      }
+    }
+  else
+    {
+    compression = COMPRESSION_NONE;
     }
   //compression = COMPRESSION_JPEG;
   //compression = COMPRESSION_NONE;
