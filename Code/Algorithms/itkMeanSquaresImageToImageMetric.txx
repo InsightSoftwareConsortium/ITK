@@ -48,8 +48,8 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
     itkExceptionMacro( << "Fixed image has not been assigned" );
     }
 
-  const unsigned int dimension = FixedImageType::ImageDimension;
-  itk::Point<double, dimension> Point;  
+  const unsigned int ImageDimension = FixedImageType::ImageDimension;
+  itk::Point<double, ImageDimension> Point;  
 
   double MovingValue;
   double FixedValue;
@@ -111,9 +111,9 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
   TransformParametersType testPoint;
   testPoint = parameters;
 
-  derivative = DerivativeType( this->GetNumberOfParameters() );
-  const unsigned int dimension = FixedImageType::ImageDimension;
-  for( unsigned int i=0; i<dimension; i++) 
+  const unsigned int ParametersDimension = this->GetNumberOfParameters();
+  derivative = DerivativeType( ParametersDimension );
+  for( unsigned int i=0; i<ParametersDimension; i++) 
     {
     testPoint[i] -= delta;
     const MeasureType valuep0 = this->GetValue( testPoint );
