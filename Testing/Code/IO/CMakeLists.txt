@@ -16,7 +16,7 @@ ADD_EXECUTABLE(itkPNGImageIOTest itkPNGImageIOTest)
 ADD_EXECUTABLE(itkVOLImageIOTest itkVOLImageIOTest)
 ADD_EXECUTABLE(itkVTKImageIOTest itkVTKImageIOTest)
 
-#ADD_EXECUTABLE(itkRawImageIOTest itkRawImageIOTest)
+ADD_EXECUTABLE(itkRawImageIOTest itkRawImageIOTest)
 
 
 # Add VTK code if we found VTK
@@ -32,6 +32,11 @@ IF (USE_VTK_FILE)
       vtkFiltering
       vtkCommon
   )
+IF (VTKTIFF_BINARY_DIR)
+  LINK_LIBRARIES( 
+        vtktiff
+  )
+ENDIF (VTKTIFF_BINARY_DIR)
 ENDIF (USE_VTK_FILE)
 
 IF (TCL_TCLSH)
