@@ -102,6 +102,8 @@ void TkImageViewer2D::Draw()
   
   // Bring the image up to date.
   RescaleFilter::OutputImageType* image = m_RescaleFilter->GetOutput();
+  image->UpdateOutputInformation();
+  image->SetRequestedRegion(image->GetLargestPossibleRegion());
   image->Update();
   
   // Get the size of the image.
