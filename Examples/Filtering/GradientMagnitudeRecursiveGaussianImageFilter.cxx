@@ -160,7 +160,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  It is not time for selecting the sigma of the gaussian to use for
+  //  It is now time for selecting the sigma of the gaussian to use for
   //  smoothing the data prior to te differentiation.
   //
   //  \index{itk::GradientMagnitudeRecursiveGaussianImageFilter!SetSigma()}
