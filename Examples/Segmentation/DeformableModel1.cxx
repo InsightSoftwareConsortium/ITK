@@ -149,26 +149,40 @@
 #include "itkCovariantVector.h"
 //  Software Guide : EndCodeSnippet 
 
+//  Software Guide : BeginLatex
+//  
+//  The deformed mesh is converted into a binary image using the
+//  \doxygen{PointSetToImageFilter}.
+//
+//  Software Guide : EndLatex 
+
+//  Software Guide : BeginCodeSnippet
+#include "itkPointSetToImageFilter.h"
+//  Software Guide : EndCodeSnippet 
+
+
 
 //  Software Guide : BeginLatex
 //  
 //  In order to read both the input image and the mask image, we need the
-//  \doxygen{ImageFileReader} class too.
+//  \doxygen{ImageFileReader} class. We also need the \doxygen{ImageFileWriter}
+//  to save the resulting deformed mask image.
 //
 //  Software Guide : EndLatex 
 
 //  Software Guide : BeginCodeSnippet
 #include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 //  Software Guide : EndCodeSnippet 
-
 
 int main( int argc, char *argv[] )
 {
-  if( argc < 3 )
+
+  if( argc < 4 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " InputImage  Binaryimage" << std::endl;
+    std::cerr << " InputImage  BinaryImage DeformedMaskImage" << std::endl;
     return 1;
     }
  
@@ -255,6 +269,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginCodeSnippet
   typedef itk::BinaryMask3DMeshSource< MeshType >  MeshSourceType;
+  // typedef itk::BinaryMaskToNarrowBandPointSetFilter<BinaryImageType, MeshType >  MeshSourceType;
   //  Software Guide : EndCodeSnippet 
 
 
@@ -419,7 +434,6 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   DeformableFilterType::Pointer deformableModelFilter = 
                                      DeformableFilterType::New();
-  deformableModelFilter->SetInput(    meshSource->GetOutput()        );
   deformableModelFilter->SetGradient( gradientMapFilter->GetOutput() );
   // Software Guide : EndCodeSnippet
 
@@ -433,19 +447,33 @@ int main( int argc, char *argv[] )
   //  this case we select the value $200$ and pass it to the filter using its
   //  method \code{SetObjectValue()}.
   //
-  //  \index{itk::BinaryMask3DMeshSource!SetBinaryImage()}
+  //  \index{itk::BinaryMask3DMeshSource!SetInput()}
   //  \index{itk::BinaryMask3DMeshSource!SetObjectValue()}
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  meshSource->SetBinaryImage( maskReader->GetOutput() );
+  BinaryImageType::Pointer mask = maskReader->GetOutput();
+  meshSource->SetInput( mask );
   meshSource->SetObjectValue( 200 );
+
+  std::cout << "Creating mesh..." << std::endl;
+  try 
+    {
+    meshSource->Update();
+    }
+  catch( itk::ExceptionObject & excep )
+    {
+    std::cerr << "Exception Caught !" << std::endl;
+    std::cerr << excep << std::endl;
+    }
+
+  deformableModelFilter->SetInput(  meshSource->GetOutput() );
   // Software Guide : EndCodeSnippet
 
+  meshSource->GetOutput()->Print(std::cout);
 
   std::cout << "Deformable mesh created using Marching Cube!" << std::endl;
-
 
   //  Software Guide : BeginLatex
   //  
@@ -524,30 +552,56 @@ int main( int argc, char *argv[] )
     }
   // Software Guide : EndCodeSnippet
 
+  std::cout << "Mesh Source: " << meshSource;
 
   //  Software Guide : BeginLatex
   //  
-  //  These tests use synthetic data.  However, users can use BrainWeb 3D
-  //  image volumes to test the hybrid framework.
+  //  The \doxygen{PointSetToImageFilter} takes the deformed
+  //  mesh and produce a binary image corresponding to the node
+  //  of the mesh. Note that only the nodes are producing the image
+  //  and not the cells. See the section on SpatialObjects to produce
+  //  a complete binary image from cells using the \doxygen{MeshSpatialObject}
+  //  combined with the \doxygen{SpatialObjectToImageFilter}.
+  //  However, using SpatialObjects is computationaly more expensive.
   //  
   //  Software Guide : EndLatex 
  
-  std::cout << "Mesh Source: " << meshSource;
+  // Software Guide : BeginCodeSnippet
+  typedef itk::PointSetToImageFilter<MeshType,ImageType> MeshFilterType;
+  MeshFilterType::Pointer meshFilter = MeshFilterType::New();
+  meshFilter->SetOrigin(mask->GetOrigin());
+  meshFilter->SetSize(mask->GetLargestPossibleRegion().GetSize());
+  meshFilter->SetSpacing(mask->GetSpacing());
+  meshFilter->SetInput(meshSource->GetOutput());
+  try 
+    {
+    meshFilter->Update();
+    }
+  catch( itk::ExceptionObject & excep )
+    {
+    std::cerr << "Exception Caught !" << std::endl;
+    std::cerr << excep << std::endl;
+    }
+  // Software Guide : EndCodeSnippet
 
+  //  Software Guide : BeginLatex
+  //  
+  //  The resulting deformed binary mask can be written on disk
+  //  using the \doxygen{ImageFileWriter}.
+  //  
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  typedef itk::ImageFileWriter<ImageType> WriterType;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetInput(meshFilter->GetOutput());
+  writer->SetFileName(argv[3]);
+  writer->Update();
+  // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
   //
-  //  We execute this program on the image \code{BrainProtonDensitySlice.png}
-  //  found under \code{Examples/Data}.  The following parameters are passed
-  //  to the command line:
-  // 
-  //  \small
-  //  \begin{verbatim}
-  //DeformableModel1  BrainProtonDensitySlice.png ConfidenceConnectedOutput1.png
-  //  \end{verbatim}
-  //  \normalsize
-  //
-  //  Note that in order to successfully segment other images, input
+  //  Note that in order to successfully segment images, input
   //  parameters must be adjusted to reflect the characteristics of the
   //  data. The output of the filter is an Mesh.  Users can use
   //  their own visualization packages to see the segmentation results.
@@ -556,7 +610,3 @@ int main( int argc, char *argv[] )
 
   return EXIT_SUCCESS;
 }
-
-
-
-
