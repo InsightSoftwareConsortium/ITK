@@ -53,9 +53,9 @@ float square(unsigned x, unsigned y)
     Y = ::fabs(y - (float)HEIGHT/2.0);
     float dis;
     if (!((X > RADIUS)&&(Y > RADIUS)))
-  dis = RADIUS - vnl_math_max(X, Y);
+      dis = RADIUS - vnl_math_max(X, Y);
     else
-  dis = -sqrt((X - RADIUS)*(X - RADIUS) +  (Y - RADIUS)*(Y - RADIUS));
+      dis = -sqrt((X - RADIUS)*(X - RADIUS) +  (Y - RADIUS)*(Y - RADIUS));
     return(dis);
 }
 
@@ -123,10 +123,10 @@ protected:
 
 private:
   Image<float, 2>::Pointer m_DistanceTransform;
-
   virtual ScalarValueType PropagationSpeed(
                             const NeighborhoodType& neighborhood,
-                            const FloatOffsetType &
+                            const FloatOffsetType &,
+                            GlobalDataStruct * 
                           ) const
     {
       Index<2> idx = neighborhood.GetIndex();
@@ -194,7 +194,7 @@ int itkLevelSetFunctionTest(int, char* [] )
 {
   typedef itk::Image<float, 2> ImageType;
   
-  const int n = 200;  // Number of iterations
+  const int n = 100;  // Number of iterations
   
   ImageType::Pointer im_init = ImageType::New();
   ImageType::Pointer im_target = ImageType::New();
