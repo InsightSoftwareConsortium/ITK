@@ -95,15 +95,15 @@ public:
   /**
    * The type of boundary for this voronoi cell's vertices.
    */
-  typedef typename VertexBoundary< TPixelType , TCellTraits >  Vertex;
+  typedef VertexBoundary< TPixelType , TCellTraits >  Vertex;
   typedef typename Vertex::Pointer VertexPointer;
 
   /**
    * The type of boundary for this voronoi cell's edges.
    */
-  typedef typename LineBoundary< TPixelType , TCellTraits >    Edge;
+  typedef LineBoundary< TPixelType , TCellTraits >    Edge;
   typedef typename Edge::Pointer EdgePointer;
-  typedef typename Point<int,2> EdgeInfo;
+  typedef Point<int,2> EdgeInfo;
 
   /**
    * Method for creation through the object factory.
@@ -153,9 +153,9 @@ public:
   virtual EdgePointer GetEdge(CellFeatureIdentifier);
 
 protected:
-  typename std::vector<EdgeInfo> m_Edges;
+  std::vector<EdgeInfo> m_Edges;
   int m_NumberOfEdges;
-  typename std::vector<PointIdentifier> m_PointIds;
+  std::vector<PointIdentifier> m_PointIds;
   int m_NumberOfPoints;
 
   DynamicPolygonCell(){

@@ -100,9 +100,9 @@ public:
   typedef typename MeshTraits::BoundaryDataContainer    BoundaryDataContainer;
   typedef typename MeshTraits::CellPointer    genericCellPointer;
 
-  typedef typename PointLocator<PointIdentifier,PointDimension,
+  typedef PointLocator<PointIdentifier,PointDimension,
                        CoordRepType,PointsContainer>  PointLocatorType;
-  typedef typename BoundingBox<PointIdentifier,PointDimension,
+  typedef BoundingBox<PointIdentifier,PointDimension,
                       CoordRepType,PointsContainer>   BoundingBoxType;
 
   typedef typename PointsContainer::Pointer        PointsContainerPointer;
@@ -138,7 +138,7 @@ public:
   
   typedef CellFeatureIdentifier  CellFeatureCount;
   
-  typedef typename DynamicPolygonCell<PixelType,CellTraits>  Cell;
+  typedef DynamicPolygonCell<PixelType,CellTraits>  Cell;
   typedef typename DynamicPolygonCell<PixelType,CellTraits>::Pointer  CellPointer;
   typedef typename Cell::EdgeInfo EdgeInfo;
 
@@ -148,17 +148,17 @@ public:
   typedef typename Cell::MultiVisitor CellMultiVisitorType;
 
 
-	typedef typename std::vector<PointType> SeedsType;
+	typedef std::vector<PointType> SeedsType;
 	typedef typename SeedsType::iterator SeedsIterator;
 
-	typedef typename LineBoundary <PixelType, CellTraits> Edge;
+	typedef LineBoundary <PixelType, CellTraits> Edge;
 	typedef typename Edge::Pointer EdgePointer;
 
-	typedef typename std::list<PointType> PointList;
-	typedef typename std::vector<int> INTvector;
+	typedef std::list<PointType> PointList;
+	typedef std::vector<int> INTvector;
 	typedef typename INTvector::iterator NeighborIdIterator;
   typedef typename std::vector<PointType>::iterator VertexIterator;
-	typedef typename Point<int, 2> TwoINT;
+	typedef Point<int, 2> TwoINT;
 	
 
 	itkGetMacro(NumberOfSeeds,unsigned int);
@@ -252,9 +252,9 @@ protected:
 private:
 	SeedsType m_Seeds;
 	unsigned int m_NumberOfSeeds;
-  typename std::vector<CellPointer> VDregions;
+  std::vector<CellPointer> VDregions;
 	PointType m_VorBoundary;
-	typename std::vector< std::vector<int> > m_CellNeighborsID;
+	std::vector< std::vector<int> > m_CellNeighborsID;
 
 	static bool comp(PointType arg1,PointType arg2);
 
@@ -294,14 +294,10 @@ private:
 	};
 
 	
-	typename std::vector<FortuneSite> f_SeedSites;
-	typename std::vector< Point<int,2> > f_LineList;
-	typename std::vector<PointType> f_VertList;
-	typename std::vector<FortuneEdgeInfo> f_EdgeList;
-	double f_xmin;
-	double f_xmax;
-	double f_ymin;
-	double f_ymax;
+	std::vector<FortuneSite> f_SeedSites;
+	std::vector< Point<int,2> > f_LineList;
+	std::vector<PointType> f_VertList;
+	std::vector<FortuneEdgeInfo> f_EdgeList;
 	double f_pxmin;
 	double f_pxmax;
 	double f_pymin;
@@ -314,12 +310,12 @@ private:
 	int f_PQhashsize;
 	int f_nedges;
 	int f_nvert;
-	typename FortuneSite *f_bottomSite;
-	typename std::vector<FortuneHalfEdge> f_PQHash;
+	FortuneSite *f_bottomSite;
+	std::vector<FortuneHalfEdge> f_PQHash;
 	int f_ELhashsize;
 	FortuneHalfEdge f_ELleftend;
 	FortuneHalfEdge f_ELrightend;
-	typename std::vector<FortuneHalfEdge *> f_ELHash;
+	std::vector<FortuneHalfEdge *> f_ELHash;
 	FortuneEdge f_DELETED;
 	
 
