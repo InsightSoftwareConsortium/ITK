@@ -196,12 +196,14 @@ int itkBoundaryConditionTest(int, char* [] )
              {
                temp2N[ii] = it2d.GetPixel(ii);
              }
+#if 0
            std::cout << " ________________________________________ " << std::endl; 
            printn(it2d.GetNeighborhood().GetBufferReference(),
                   it2d.GetNeighborhood().GetSize() );
            std::cout << "  +++++ " << std::endl;
            printn(temp2N.GetBufferReference(), temp2N.GetSize());
            std::cout << "________________________________________"<< std::endl;
+#endif
          }
        
        it2d.OverrideBoundaryCondition(&neumann);
