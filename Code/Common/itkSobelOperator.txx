@@ -79,7 +79,7 @@ typename SobelOperator<TPixel, VDimension, TAllocator>
 SobelOperator<TPixel, VDimension, TAllocator>
 ::GenerateCoefficients()
 {
-  unsigned i, j;
+  unsigned i;
   std::vector<double> coeff;
   if (VDimension == 2 && this->GetDirection() == 0)
     {
