@@ -155,7 +155,7 @@ int main( int argc, char * argv[] )
   // 
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{BinaryThresholdImageFilter.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{BinaryMedianImageFilterOutput.eps}
   // \itkcaption[Effect of the BinaryMedian filter.]{Effect of the
   // BinaryMedianImageFilter on a slice from a MRI proton density brain image
