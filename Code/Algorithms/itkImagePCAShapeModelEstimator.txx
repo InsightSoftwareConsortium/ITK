@@ -467,6 +467,10 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>
   //Extract the diagonal elements into the Eigen value vector
   m_EigenValues = (eigenVectors_eigenValues.D).diagonal();
   
+  //Flip the eigen values since the eigen vectors output
+  //is ordered in decending order of theri corresponding eigen values.
+  m_EigenValues.flip();
+
   //--------------------------------------------------------------------
   //Normalize the eigen values 
   //--------------------------------------------------------------------

@@ -189,9 +189,10 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
     applyPCAShapeEstimator->GetEigenValues();
 
   unsigned int numEigVal =  eigenValues.size();
-  for(unsigned int i= numEigVal; i> (numEigVal - NUMLARGESTPC); i-- )
+
+  for(unsigned int i= 0; i< NUMLARGESTPC ; i++ )
     {
-    std::cout << eigenValues[ i-1 ] << std::ends; 
+    std::cout << eigenValues[ i ] << std::ends; 
     }  
   std::cout << "" << std::endl;
   std::cout << "" << std::endl;
