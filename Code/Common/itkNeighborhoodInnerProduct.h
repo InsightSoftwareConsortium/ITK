@@ -59,6 +59,9 @@ public:
   typedef Neighborhood<OperatorPixelType,
                       itkGetStaticConstMacro(ImageDimension)> OperatorType;
 
+  typedef Neighborhood<ImagePixelType,
+                       itkGetStaticConstMacro(ImageDimension)> NeighborhoodType;
+  
   /** Reference oeprator. */
   OutputPixelType operator()(const std::slice &s,
                        const ConstNeighborhoodIterator<TImage> &it,
@@ -68,7 +71,23 @@ public:
     {
       return this->operator()(std::slice(0, it.Size(), 1), it, op);
     }
-  };
+
+
+  OutputPixelType operator()(const std::slice &s,
+                       const NeighborhoodType &N,
+                             const OperatorType &op) const;
+  
+  OutputPixelType operator()(const NeighborhoodType &N,
+                       const OperatorType &op) const
+    {
+      return this->operator()(std::slice(0, N.Size(), 1), N, op);
+    }
+
+
+
+};
+
+
   
   
   

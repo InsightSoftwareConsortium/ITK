@@ -47,5 +47,33 @@ NeighborhoodInnerProduct<TImage, TOperator, TComputation>
    return sum;
 } 
 
+
+template<class TImage, class TOperator, class TComputation>
+typename NeighborhoodInnerProduct<TImage, TOperator, TComputation>::OutputPixelType
+NeighborhoodInnerProduct<TImage, TOperator, TComputation>
+::operator()(const std::slice &s,
+             /*           const ImageBoundaryCondition<TImage> *,*/
+             const NeighborhoodType &N,
+             const OperatorType &op) const
+{
+  typename OperatorType::ConstIterator o_it;
+  OutputPixelType sum = NumericTraits<OutputPixelType>::Zero;
+
+  o_it = op.Begin();
+  const typename OperatorType::ConstIterator op_end = op.End();
+
+  const unsigned int start  = static_cast<unsigned int>( s.start() );
+  const unsigned int stride = static_cast<unsigned int>( s.stride() );
+  for ( unsigned int i = start; o_it < op_end; i+=stride, ++o_it )
+    {
+    sum += *o_it * N[i];
+    }
+  
+
+   return sum;
+} 
+
+
+
 }// end namespace itk
 #endif
