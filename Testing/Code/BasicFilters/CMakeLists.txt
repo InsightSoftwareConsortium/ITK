@@ -187,6 +187,30 @@ ADD_TEST(itkGrayscaleFillholeImageFilterTest ${BASIC_FILTERS_TESTS}
                ${ITK_DATA_ROOT}/Input/cthead1.png 
                ${ITK_TEST_OUTPUT_DIR}/GrayscaleFillholeImageFilterTest.png )
 
+ADD_TEST(itkGrayscaleConnectedClosingImageFilterTest ${BASIC_FILTERS_TESTS} 
+     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/GrayscaleConnectedClosingImageFilterTest.png 
+               ${ITK_TEST_OUTPUT_DIR}/GrayscaleConnectedClosingImageFilterTest.png itkGrayscaleConnectedClosingImageFilterTest 
+               ${ITK_DATA_ROOT}/Input/cthead1.png 
+               ${ITK_TEST_OUTPUT_DIR}/GrayscaleConnectedClosingImageFilterTest.png 174 41)
+
+ADD_TEST(itkGrayscaleConnectedClosingImageFilterTest2 ${BASIC_FILTERS_TESTS} 
+     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/GrayscaleConnectedClosingImageFilterTest2.png 
+               ${ITK_TEST_OUTPUT_DIR}/GrayscaleConnectedClosingImageFilterTest2.png itkGrayscaleConnectedClosingImageFilterTest 
+               ${ITK_DATA_ROOT}/Input/cthead1.png 
+               ${ITK_TEST_OUTPUT_DIR}/GrayscaleConnectedClosingImageFilterTest2.png 150 86)
+
+ADD_TEST(itkGrayscaleConnectedOpeningImageFilterTest ${BASIC_FILTERS_TESTS} 
+     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/GrayscaleConnectedOpeningImageFilterTest.png 
+               ${ITK_TEST_OUTPUT_DIR}/GrayscaleConnectedOpeningImageFilterTest.png itkGrayscaleConnectedOpeningImageFilterTest 
+               ${ITK_DATA_ROOT}/Input/cthead1.png 
+               ${ITK_TEST_OUTPUT_DIR}/GrayscaleConnectedOpeningImageFilterTest.png 174 41)
+
+ADD_TEST(itkGrayscaleConnectedOpeningImageFilterTest2 ${BASIC_FILTERS_TESTS} 
+     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/GrayscaleConnectedOpeningImageFilterTes2t.png 
+               ${ITK_TEST_OUTPUT_DIR}/GrayscaleConnectedOpeningImageFilterTest2.png itkGrayscaleConnectedOpeningImageFilterTest 
+               ${ITK_DATA_ROOT}/Input/cthead1.png 
+               ${ITK_TEST_OUTPUT_DIR}/GrayscaleConnectedOpeningImageFilterTest2.png 150 86)
+
 ADD_TEST(itkIsolatedConnectedImageFilterTest ${BASIC_FILTERS_TESTS}
    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/IsolatedConnectedImageFilterTest.png
              ${ITK_TEST_OUTPUT_DIR}/IsolatedConnectedImageFilterTest.png
@@ -308,6 +332,8 @@ itkGradientMagnitudeImageFilterTest.cxx
 itkGradientMagnitudeRecursiveGaussianFilterTest.cxx
 itkGradientRecursiveGaussianFilterTest.cxx
 itkGradientToMagnitudeImageFilterTest.cxx
+itkGrayscaleConnectedOpeningImageFilterTest.cxx
+itkGrayscaleConnectedClosingImageFilterTest.cxx
 itkGrayscaleFillholeImageFilterTest.cxx
 itkHardConnectedComponentImageFilterTest.cxx
 itkHausdorffDistanceImageFilterTest.cxx
