@@ -21,7 +21,6 @@
 #include <itksys/SystemTools.hxx>
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
-#include <sstream>
 #define RAISE_EXCEPTION(s) \
         { ExceptionObject exception(__FILE__, __LINE__); \
         exception.SetDescription(s); \
@@ -176,7 +175,7 @@ CharacterDataHandler(const char *inData, int inLength)
     std::cout << inData[i];
   std::cout << std::endl;
 #endif
-  m_CurCharacterData.clear();
+  m_CurCharacterData = "";
   for(int i = 0; i < inLength; i++)
     m_CurCharacterData = m_CurCharacterData + inData[i];
 }
