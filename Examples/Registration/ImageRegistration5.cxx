@@ -342,8 +342,8 @@ int main( int argc, char **argv )
   //  Keeping in mind that the scale of units in rotation and translation are
   //  quite different, we take advantage of the scaling functionality provided
   //  by the optimizers. We know that the first element of the parameters array
-  //  corresponds to the angle. For this reason we use a small scale in this
-  //  first parameter.
+  //  corresponds to the angle. For this reason we use small factors in the
+  //  scales associated with translations and the rotation center. 
   //
   //  Software Guide : EndLatex 
 
@@ -352,7 +352,7 @@ int main( int argc, char **argv )
 
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
-  const double translationScale = 1.0 / 100.0;
+  const double translationScale = 1.0 / 1000.0;
 
   optimizerScales[0] = 1.0;
   optimizerScales[1] = translationScale;
@@ -370,15 +370,19 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  We set also the normal parameters of the optimization method. In this
-  //  case we are using a \code{RegularStepGradientDescentOptimizer}.
+  //  case we are using 
+  //  A \code{RegularStepGradientDescentOptimizer} is used in this case. Below,
+  //  we define the optimization parameters like initial step length, minimal
+  //  step length and number of iterations. These last two act as stopping
+  //  criteria for the optimization.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetMaximumStepLength( 0.1   ); // 0.1 radian is about 5 degrees
-  optimizer->SetMinimumStepLength( 0.001 );
+  optimizer->SetMaximumStepLength( 1.0    ); 
+  optimizer->SetMinimumStepLength( 0.0001 );
 
-  optimizer->SetNumberOfIterations( 50 );
+  optimizer->SetNumberOfIterations( 200 );
   // Software Guide : EndCodeSnippet
 
 
@@ -572,6 +576,88 @@ int main( int argc, char **argv )
     difference->SetInput2( movingImageReader->GetOutput() );
     writer2->Update();
     }
+
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  Let's now consider the case in which rotations and translations are
+  //  simultaneously present in the miss-registration. For example in the pair
+  //  of images:
+  //  
+  //  \begin{itemize}
+  //  \item \code{BrainProtonDensitySliceBorder20.png} 
+  //  \item \code{BrainProtonDensitySliceR10X13Y17.png}
+  //  \end{itemize}
+  //
+  //  The second image is the result of intentionally rotating the first image
+  //  by $10$ degrees and then translation it $13mm$ in $X$ and $17mm$ in $Y$.
+  //  Both images have unit-spacing and are shown in Figure
+  //  \ref{fig:FixedMovingImageRegistration5b}. In order to accelerate
+  //  convergence it is convenient here to use a larger step length. For
+  //  example, with the following change:
+  //
+  //  Software Guide : EndLatex 
+
+
+  // Software Guide : BeginCodeSnippet
+  optimizer->SetMaximumStepLength( 1.0 );
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The registration takes this time $96$ iterations and produce as result
+  //  the parameters:
+  //
+  //  \begin{center}
+  //  \begin{verbatim}
+  //  [0.174493, 109.657, 129.124, 12.9047, 15.8471]
+  //  \end{verbatim}
+  //  \end{center}
+  //
+  //  That are interpreted as
+  //
+  //  \begin{itemize}
+  //  \item Angle         =                     $0.174493$   radians
+  //  \item Center        = $( 109.657     , 129.124      )$ millimeters
+  //  \item Translation   = $(  12.9047    ,  15.8471     )$ millimeters
+  //  \end{itemize}
+  //  
+  // 
+  //  These values reasonably match the miss-registration intentionally
+  //  introduced in the moving image. Since $10$ degrees is about $0.174532$
+  //  radians. The horizontal translation is well resolved while the vertical
+  //  translation ends up being off by a bit more thatn one millimeter.
+  //
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=6cm]{BrainProtonDensitySliceBorder20.eps}
+  // \includegraphics[width=6cm]{BrainProtonDensitySliceR10X13Y17.eps}
+  // \caption{Fixed and Moving image provided as input to the registration
+  // method using CenteredRigid2D transform.}
+  // \label{fig:FixedMovingImageRegistration5b}
+  // \end{figure}
+  //
+  //
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=5cm]{ImageRegistration5Output2.eps}
+  // \includegraphics[width=5cm]{ImageRegistration5DifferenceBefore2.eps}
+  // \includegraphics[width=5cm]{ImageRegistration5DifferenceAfter2.eps} 
+  // \caption{Resampled moving image (left). Differences between fixed and
+  // moving images, before (center) and after (right) registration with the
+  // CenteredRigid2D transform.}
+  // \label{fig:ImageRegistration5Outputs2}
+  // \end{figure}
+  //
+
+  // Figure \ref{fig:ImageRegistration5Outputs2} shows the output of the
+  // registration. The right most image of this Figure shows the squared
+  // magnitude of pixel differences between the fixed image and the resampled
+  // moving image. 
+  //
+  //  Software Guide : EndLatex 
 
 
   return 0;
