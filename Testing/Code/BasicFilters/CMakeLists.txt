@@ -669,7 +669,8 @@ IF(ITK_CSWIG_TCL)
   ADD_TEST(CannyEdgeDetectionImageFilterTcl ${ITKWISH_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Filtering/CannyEdgeDetectionImageFilter.tcl
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-           ${ITK_TEST_OUTPUT_DIR}/CannyEdgeDetectionImageFilterTclTest.png 5 0.125)
+           ${ITK_TEST_OUTPUT_DIR}/CannyEdgeDetectionImageFilterTclTest.png 
+           5 0.125)
 
   ADD_TEST(CastImageFilterTcl ${ITKWISH_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Filtering/CastImageFilter.tcl
@@ -679,17 +680,20 @@ IF(ITK_CSWIG_TCL)
   ADD_TEST(CurvatureFlowImageFilterTcl ${ITKWISH_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Filtering/CurvatureFlowImageFilter.tcl
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-           ${ITK_TEST_OUTPUT_DIR}/CurvatureFlowImageFilterTclTest.png 5 0.125)
+           ${ITK_TEST_OUTPUT_DIR}/CurvatureFlowImageFilterTclTest.png 
+           5 0.125)
 
   ADD_TEST(CurvatureAnisotropicDiffusionImageFilterTcl ${ITKWISH_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Filtering/CurvatureAnisotropicDiffusionImageFilter.tcl
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-           ${ITK_TEST_OUTPUT_DIR}/CurvatureAnisotropicDiffusionImageFilterTclTest.png 5 0.125 3.0)
+           ${ITK_TEST_OUTPUT_DIR}/CurvatureAnisotropicDiffusionImageFilterTclTest.png 
+           5 0.125 3.0)
 
   ADD_TEST(GradientAnisotropicDiffusionImageFilterTcl ${ITKWISH_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Filtering/GradientAnisotropicDiffusionImageFilter.tcl
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-           ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterTclTest.png 5 0.125 3.0)
+           ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterTclTest.png 
+           5 0.125 3.0)
 
  ADD_TEST(BinaryDilateImageFilterTcl ${ITKWISH_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Filtering/BinaryDilateImageFilter.tcl
@@ -706,6 +710,12 @@ IF(ITK_CSWIG_TCL)
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/MeanImageFilterTclTest.png
            2 )
+
+  ADD_TEST(MedianImageFilterTcl ${ITKWISH_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/MedianImageFilter.tcl
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/MedianImageFilterTclTest.png
+           1 )
 
   ADD_TEST(SigmoidImageFilterTcl ${ITKWISH_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Filtering/SigmoidImageFilter.tcl
@@ -734,7 +744,8 @@ IF(ITK_CSWIG_PYTHON)
   ADD_TEST(CannyEdgeDetectionImageFilterPython ${PYTHON_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Filtering/CannyEdgeDetectionImageFilter.py
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-           ${ITK_TEST_OUTPUT_DIR}/CannyEdgeDetectionImageFilterPythonTest.png  5 0.125)
+           ${ITK_TEST_OUTPUT_DIR}/CannyEdgeDetectionImageFilterPythonTest.png  
+           5 0.125)
 
   ADD_TEST(CastImageFilterPython ${PYTHON_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Filtering/CastImageFilter.py
@@ -744,17 +755,20 @@ IF(ITK_CSWIG_PYTHON)
   ADD_TEST(CurvatureFlowImageFilterPython ${PYTHON_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Filtering/CurvatureFlowImageFilter.py
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-           ${ITK_TEST_OUTPUT_DIR}/CurvatureFlowImageFilterPythonTest.png 5 0.125)
+           ${ITK_TEST_OUTPUT_DIR}/CurvatureFlowImageFilterPythonTest.png 
+           5 0.125)
 
   ADD_TEST(CurvatureAnisotropicDiffusionImageFilterPython ${PYTHON_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Filtering/CurvatureAnisotropicDiffusionImageFilter.py
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-           ${ITK_TEST_OUTPUT_DIR}/CurvatureAnisotropicDiffusionImageFilterPythonTest.png 5 0.125 3.0)
+           ${ITK_TEST_OUTPUT_DIR}/CurvatureAnisotropicDiffusionImageFilterPythonTest.png 
+           5 0.125 3.0)
 
   ADD_TEST(GradientAnisotropicDiffusionImageFilterPython ${PYTHON_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Filtering/GradientAnisotropicDiffusionImageFilter.py
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-           ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterPythonTest.png 5 0.125 3.0)
+           ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterPythonTest.png 
+           5 0.125 3.0)
 
  ADD_TEST(BinaryErodeImageFilterPython ${PYTHON_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Filtering/BinaryErodeImageFilter.py
@@ -766,6 +780,12 @@ IF(ITK_CSWIG_PYTHON)
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/MeanImageFilterPythonTest.png
            2 )
+
+  ADD_TEST(MedianImageFilterPython ${PYTHON_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/MedianImageFilter.py
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/MedianImageFilterPythonTest.png
+           1 )
 
   ADD_TEST(SigmoidImageFilterPython ${PYTHON_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Filtering/SigmoidImageFilter.py
@@ -820,17 +840,20 @@ IF(ITK_CSWIG_JAVA)
   ADD_TEST(MeanImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
            MeanImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-           ${ITK_TEST_OUTPUT_DIR}/MeanImageFilterJavaTest.png  1 )  
+           ${ITK_TEST_OUTPUT_DIR}/MeanImageFilterJavaTest.png  
+           1 )  
 
   ADD_TEST(MedianImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
            MedianImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-           ${ITK_TEST_OUTPUT_DIR}/MedianImageFilterJavaTest.png  1 )  
+           ${ITK_TEST_OUTPUT_DIR}/MedianImageFilterJavaTest.png  
+           1 )  
 
   ADD_TEST(CannyEdgeDetectionImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
            CannyEdgeDetectionImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-           ${ITK_TEST_OUTPUT_DIR}/CannyEdgeDetectionImageFilterJavaTest.png 5 0.125 )  
+           ${ITK_TEST_OUTPUT_DIR}/CannyEdgeDetectionImageFilterJavaTest.png 
+           5 0.125 )  
 
   ADD_TEST(CastImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
            CastImageFilter
@@ -840,27 +863,32 @@ IF(ITK_CSWIG_JAVA)
  ADD_TEST(CurvatureFlowImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
            CurvatureFlowImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-           ${ITK_TEST_OUTPUT_DIR}/CurvatureFlowImageFilterJavaTest.png 5 0.125 )  
+           ${ITK_TEST_OUTPUT_DIR}/CurvatureFlowImageFilterJavaTest.png 
+           5 0.125 )  
 
   ADD_TEST(CurvatureAnisotropicDiffusionImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
            CurvatureAnisotropicDiffusionImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-           ${ITK_TEST_OUTPUT_DIR}/CurvatureAnisotropicDiffusionImageFilterJavaTest.png 5 0.125 3.0)  
+           ${ITK_TEST_OUTPUT_DIR}/CurvatureAnisotropicDiffusionImageFilterJavaTest.png 
+           5 0.125 3.0)  
 
   ADD_TEST(GradientAnisotropicDiffusionImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
            GradientAnisotropicDiffusionImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-           ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterJavaTest.png 5 0.125 3.0)  
+           ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterJavaTest.png 
+           5 0.125 3.0)  
 
   ADD_TEST(ThresholdImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
            ThresholdImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-           ${ITK_TEST_OUTPUT_DIR}/ThresholdImageFilterJavaTest.png  0 150)  
+           ${ITK_TEST_OUTPUT_DIR}/ThresholdImageFilterJavaTest.png  
+           0 150)  
 
   ADD_TEST(BinaryThresholdImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
            BinaryThresholdImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-           ${ITK_TEST_OUTPUT_DIR}/BinaryThresholdImageFilterJavaTest.png 150 180 0 255 )  
+           ${ITK_TEST_OUTPUT_DIR}/BinaryThresholdImageFilterJavaTest.png 
+           150 180 0 255 )  
 
   ADD_TEST(BinaryDilateImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
            BinaryDilateImageFilter
@@ -875,7 +903,8 @@ IF(ITK_CSWIG_JAVA)
   ADD_TEST(SigmoidImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
            SigmoidImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-           ${ITK_TEST_OUTPUT_DIR}/SigmoidImageFilterJavaTest.png  0 255  1.0  128  )
+           ${ITK_TEST_OUTPUT_DIR}/SigmoidImageFilterJavaTest.png  
+           0 255  1.0  128  )
 
 ENDIF(ITK_CSWIG_JAVA)
 
