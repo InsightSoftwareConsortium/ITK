@@ -246,7 +246,7 @@ class MetaImage : public MetaObject
 
     void Clear(void);
 
-    virtual bool InitializeEssential(int _nDims, 
+    bool InitializeEssential(int _nDims, 
                                      const int * _dimSize,
                                      const float * _elementSpacing,
                                      MET_ValueEnumType _elementType,

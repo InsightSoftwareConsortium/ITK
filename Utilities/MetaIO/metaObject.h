@@ -182,7 +182,7 @@ class MetaObject
 
       virtual void Clear(void);
 
-      virtual bool InitializeEssential(int m_NDims);
+      bool InitializeEssential(int m_NDims);
 
   };
 
