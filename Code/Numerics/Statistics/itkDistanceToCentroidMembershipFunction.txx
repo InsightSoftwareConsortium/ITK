@@ -74,13 +74,20 @@ DistanceToCentroidMembershipFunction< TVector >
   unsigned int i;
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Centroid: [" ;
-  for (i=0; i+1 < VectorDimension; i++)
+  if ( m_Centroid.size() == VectorDimension )
     {
-    os << m_Centroid[i] << ", ";
+    os << indent << "Centroid: [" ;
+    for (i=0; i+1 < VectorDimension; i++)
+      {
+      os << m_Centroid[i] << ", ";
+      }
+    os << m_Centroid[i] << "]" << std::endl;
     }
-  os << m_Centroid[i] << "]" << std::endl;
-
+  else
+    {
+    os <<  indent << "Centorid: not set or size doen't match." << std::endl ;
+    }
+  
   os << indent << "Number of Samples: " << m_NumberOfSamples << std::endl;
   os << indent << "VectorSize:        " << VectorDimension << std::endl;
 }
