@@ -323,7 +323,7 @@ int main( int argc, char **argv )
   //  section~\ref{sec:GradientAnisotropicDiffusionImageFilter}.
   //
   
-  smoothing->SetTimeStep( 0.25 );
+  smoothing->SetTimeStep( 0.125 );
   smoothing->SetNumberOfIterations(  5 );
   smoothing->SetConductanceParameter( 3.0 );
 

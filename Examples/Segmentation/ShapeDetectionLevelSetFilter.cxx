@@ -423,7 +423,7 @@ int main( int argc, char **argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  smoothing->SetTimeStep( 0.25 );
+  smoothing->SetTimeStep( 0.125 );
   smoothing->SetNumberOfIterations(  5 );
   smoothing->SetConductanceParameter( 3.0 );
   // Software Guide : EndCodeSnippet
