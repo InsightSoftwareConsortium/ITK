@@ -679,7 +679,7 @@
 0018 9173 CS ACQ Bulk Motion Signal Source
 0018 9174 CS ACQ Applicable Safety Standard Agency
 0018 9175 LO ACQ Applicable Safety Standard Description
-0018 9176 SQ ACQ Operating Mode Sequence	
+0018 9176 SQ ACQ Operating Mode Sequence
 0018 9177 CS ACQ Operating Mode Type
 0018 9178 CS ACQ Operating Mode
 0018 9179 CS ACQ Specific Absorption Rate Definition
@@ -692,7 +692,7 @@
 0018 9196 FD ACQ Chemical Shifts Maximum Integration Limit
 0018 9197 SQ ACQ MR Velocity Encoding Sequence
 0018 9198 CS ACQ First Order Phase Correction
-0018 9199 CS ACQ Water Referenced Phase Correction	
+0018 9199 CS ACQ Water Referenced Phase Correction
 0018 9200 CS ACQ MR Spectroscopy Acquisition Type
 0018 9214 CS ACQ Respiratory Cycle Position
 0018 9217 FD ACQ Velocity Encoding Maximum Value
