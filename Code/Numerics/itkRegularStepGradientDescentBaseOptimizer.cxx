@@ -269,6 +269,8 @@ RegularStepGradientDescentBaseOptimizer
      << m_CurrentStepLength << std::endl;
   os << indent << "StopCondition: "
      << m_StopCondition << std::endl;
+  os << indent << "Gradient: "
+     << m_Gradient << std::endl;
 }
 } // end namespace itk
 
