@@ -222,7 +222,7 @@ TubeSpatialObject< TDimension, PipelineDimension >
     return true; 
   } 
      
-  PointListType::iterator it1,it2,it3; 
+  typename PointListType::iterator it1,it2,it3; 
   it1 = m_Points.begin(); 
   it2 = m_Points.begin();
   it2++;
@@ -285,7 +285,7 @@ TubeSpatialObject< TDimension, PipelineDimension >
   VectorType n1;
   VectorType n2; 
     
-  PointListType::iterator it1,it2; 
+  typename PointListType::iterator it1,it2; 
   it1 = m_Points.begin(); 
  
   while(it1 != m_Points.end())

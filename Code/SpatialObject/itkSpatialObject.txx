@@ -278,9 +278,6 @@ void
 SpatialObject< NDimensions, PipelineDimension>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
-  typename TransformListType::const_iterator it;
-  typename TransformListType::const_iterator end;
-
   Superclass::PrintSelf(os, indent);
   os << indent << "Parent: " << m_Parent << std::endl << std::endl;
   os << "Bounding Box:" << std::endl;
@@ -420,8 +417,8 @@ SpatialObject< NDimensions, PipelineDimension>
 ::ComputeGlobalTransform( )
 {
 
-  TransformType::MatrixType matrix = m_Transform->GetMatrix();
-  TransformType::OffsetType offset = m_Transform->GetOffset();
+  typename TransformType::MatrixType matrix = m_Transform->GetMatrix();
+  typename TransformType::OffsetType offset = m_Transform->GetOffset();
 
   // matrix is changed to include the scaling
   for(unsigned int i=0;i<3;i++)

@@ -615,7 +615,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     {
     jointPDFIndex[0] = fixedIndex;
     double fixedImagePDFValue = m_FixedImageMarginalPDF[fixedIndex];
-    for( int movingIndex = 0; movingIndex < m_NumberOfHistogramBins; ++movingIndex )      
+    for( unsigned int movingIndex = 0; movingIndex < m_NumberOfHistogramBins; ++movingIndex )      
       {
       double movingImagePDFValue = m_MovingImageMarginalPDF[movingIndex];
       jointPDFIndex[1] = movingIndex;
@@ -1070,7 +1070,7 @@ ImageDerivativesType& gradient ) const
       mappedIndex[j] = static_cast<long>( vnl_math_rnd( tempPoint[j] ) );
       }
 
-    for( int j = 0; j < MovingImageDimension; ++j )
+    for( unsigned int j = 0; j < MovingImageDimension; ++j )
       {
       gradient[j] = 
         m_DerivativeCalculator->EvaluateAtIndex( mappedIndex, j );

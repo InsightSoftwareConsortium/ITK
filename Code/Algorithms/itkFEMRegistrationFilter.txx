@@ -963,7 +963,7 @@ template<class TReference,class TTarget>
 typename FEMRegistrationFilter<TReference , TTarget>::FloatImageType* 
 FEMRegistrationFilter<TReference,TTarget>::GetMetricImage(FieldType* Field)
 {
-  FloatImageType::RegionType metricRegion;
+  typename FloatImageType::RegionType metricRegion;
   metricRegion.SetSize( m_RefImg->GetLargestPossibleRegion().GetSize() );
   if (m_FloatImage == NULL){
   m_FloatImage = FloatImageType::New();
@@ -995,16 +995,16 @@ FEMRegistrationFilter<TReference,TTarget>::GetMetricImage(FieldType* Field)
   for( ; !m_FieldIter.IsAtEnd(); ++m_FieldIter )
   {
     rindex=m_FieldIter.GetIndex();
-    FieldType::PixelType vector=m_Field->GetPixel(rindex);
+    typename FieldType::PixelType vector=m_Field->GetPixel(rindex);
 
-    ImageMetricLoadType::VectorType invec;
+    typename ImageMetricLoadType::VectorType invec;
     invec.resize(ImageDimension*2);
     for (unsigned int i=0; i<ImageDimension; i++)
     {
       invec[i]=(double) rindex[i];
       invec[i+ImageDimension]=(double) vector[i];
     }
-    FloatImageType::PixelType mPix=m_Load->GetMetric(invec);
+    typename FloatImageType::PixelType mPix=m_Load->GetMetric(invec);
     
     m_FloatImage->SetPixel(rindex, mPix );
 
@@ -1017,7 +1017,7 @@ FEMRegistrationFilter<TReference,TTarget>::GetMetricImage(FieldType* Field)
 template<class TReference,class TTarget>
 void FEMRegistrationFilter<TReference,TTarget>::ComputeJacobian()
 {
-  FloatImageType::RegionType m_JacobianRegion;
+  typename FloatImageType::RegionType m_JacobianRegion;
   m_JacobianRegion.SetSize( m_Field->GetLargestPossibleRegion().GetSize() );
   if (!m_FloatImage){
   m_FloatImage = FloatImageType::New();
@@ -1045,7 +1045,7 @@ void FEMRegistrationFilter<TReference,TTarget>::ComputeJacobian()
     typename ImageType::IndexType temp=rindex;
 
     Float dV;
-    FieldType::PixelType dPix;
+    typename FieldType::PixelType dPix;
     for(row=0; row< ImageDimension;row++){
       difIndex[row][0]=rindex;
       difIndex[row][1]=rindex;

@@ -341,7 +341,7 @@ ImageMetricLoad<TReference , TTarget>::MetricFiniteDiff
  ImageMetricLoad<TReference , TTarget>::VectorType  Gsol ) 
 {
 
-  MetricBaseType::MeasureType     measure;
+  typename MetricBaseType::MeasureType     measure;
   ParametersType parameters( ImageDimension );
   typename TargetType::RegionType requestedRegion;
   typename TargetType::IndexType tindex;
@@ -363,9 +363,9 @@ ImageMetricLoad<TReference , TTarget>::MetricFiniteDiff
   }
   
   unsigned int row;
-  ImageType::IndexType difIndex[ImageDimension][2];
+  typename ImageType::IndexType difIndex[ImageDimension][2];
   
-  MetricBaseType::MeasureType   dPixL,dPixR;
+  typename MetricBaseType::MeasureType   dPixL,dPixR;
   for(row=0; row< ImageDimension;row++){
     difIndex[row][0]=tindex;
     difIndex[row][1]=tindex;
@@ -417,7 +417,7 @@ ImageMetricLoad<TReference , TTarget>::GetPolynomialFitToMetric
 //
 //f(x,y,z) = a0 + a1*x + a2*y + a3*z
 //
-  MetricBaseType::MeasureType     measure;
+  typename MetricBaseType::MeasureType     measure;
   ParametersType parameters( ImageDimension );
   typename TargetType::RegionType requestedRegion;
   typename TargetType::IndexType tindex;

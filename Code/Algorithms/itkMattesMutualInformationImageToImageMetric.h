@@ -313,7 +313,7 @@ private:
   /** 
    * The number of BSpline transform weights is the number of
    * of parameter in the support region (per dimension ). */   
-  long m_NumBSplineWeights;
+  unsigned long m_NumBSplineWeights;
 
   /** The fixed image dimension. */
   itkStaticConstMacro( FixedImageDimension, unsigned int,
