@@ -122,7 +122,7 @@ namespace fem {
  */
 template< class TVisitedClass,
           class TVisitorBase,
-          class TVisitFunctionPointerType=void (*)(TVisitedClass::ConstPointer, TVisitorBase::Pointer) >
+          class TVisitFunctionPointerType=void (*)(typename TVisitedClass::ConstPointer, typename TVisitorBase::Pointer) >
 class VisitorDispatcher
 {
 public:
