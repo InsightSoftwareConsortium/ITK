@@ -11,9 +11,20 @@
 
   See COPYRIGHT.txt for copyright details.
   
-  ==========================================================================*/
+==========================================================================*/
+#ifndef __itkIndex_h
+#define __itkIndex_h
 
-/**
+#include <memory>
+
+#include "itkExceptionObject.h"
+
+namespace itk
+{
+
+/** \class Index
+ * \brief Represent a n-dimensional index in a n-dimensional image.
+ *
  * Index is a templated class to represent a multi-dimensional index.  
  * Index is templated over the dimension of the index.
  *
@@ -26,19 +37,12 @@
  */
 
 
-#ifndef __itkIndex_h
-#define __itkIndex_h
-
-#include <memory>
-
-#include "itkExceptionObject.h"
-
-namespace itk
-{
-
 template<unsigned int TIndexDimension=2>
 class Index {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
   typedef Index  Self;
   
   /**
