@@ -92,6 +92,8 @@ int testMetaObject(int , char *[])
     }
   } 
 
+  delete [] matrix;
+
   std::cout << "PASSED!" << std::endl;
 
   tObj.Clear();
