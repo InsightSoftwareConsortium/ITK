@@ -19,7 +19,7 @@
 #endif
 
 // On some old sgi compilers, this test gets into an infinite loop without the following
-#if defined(__sgi) && COMPILER_VERSION <= 730
+#if defined(__sgi) && defined(_COMPILER_VERSION) && _COMPILER_VERSION < 730
 #define _PTHREADS
 #endif
 
