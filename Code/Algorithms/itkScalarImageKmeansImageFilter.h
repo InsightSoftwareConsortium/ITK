@@ -113,6 +113,15 @@ public:
   /** Return the array of Means found after the classification */
   itkGetConstReferenceMacro( FinalMeans, ParametersType );
 
+  /** Set/Get the UseNonContiguousLabels flag. When this is set to false the
+   * labels are numbered contiguously, like in {0,1,3..N}. When the flag is set
+   * to true, the labels are selected in order to span the dynamic range of the
+   * output image. This last option is useful when the output image is intended
+   * only for display. The default value is false. */
+  itkSetMacro( UseNonContiguousLabels, bool );
+  itkGetConstReferenceMacro( UseNonContiguousLabels, bool );
+  itkBooleanMacro( UseNonContiguousLabels );
+  
 protected:
   ScalarImageKmeansImageFilter();
   virtual ~ScalarImageKmeansImageFilter() {}
@@ -135,6 +144,7 @@ private:
 
   ParametersType  m_FinalMeans;
 
+  bool m_UseNonContiguousLabels;
 };
   
 } // end namespace itk
