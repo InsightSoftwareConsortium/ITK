@@ -1233,14 +1233,18 @@ Mesh<TPixelType,TMeshType>
 {
   Mesh *mesh;
   
-  try
+  mesh = dynamic_cast<Mesh*>(data);
+
+  if (mesh)
     {
-    mesh = dynamic_cast<Mesh*>(data);
     m_MaximumNumberOfRegions = mesh->GetMaximumNumberOfRegions();
     }
-  catch (...)
+  else
     {
-    return;
+    // pointer could not be cast back down
+    std::cerr << "itk::Mesh::CopyInformation() cannot cast "
+              << typeid(data).name() << " to "
+              << typeid(Mesh*).name() << std::endl;
     }
 }
 
