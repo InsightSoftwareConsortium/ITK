@@ -115,12 +115,6 @@ public:
   /** Access an element of a point. This version can be used as an lvalue. */
   VectorType GetVectorFromOrigin() const;
 
-  /** Returns Euclidean distance between two points */
-  TCoordRep EuclideanDistanceTo( const Self &  ) const;
-  
-  /** Returns Squared Euclidean distance between two points */
-  TCoordRep SquaredEuclideanDistanceTo( const Self &  ) const;
-
   /** Get a vnl_vector_ref referencing the same memory block */
   vnl_vector_ref<TCoordRep> Get_vnl_vector( void );
 
@@ -209,6 +203,37 @@ public:
       (*this)[i] = static_cast<TCoordRep>( pa[i] );
       }
   }
+
+
+  /** Compute the Squared Euclidean Distance from this point to another point
+    * with a different representation type.  Casting is done with C-Like rules  */
+
+  template < typename TCoordRepB >
+  TCoordRep SquaredEuclideanDistanceTo( const Point<TCoordRepB,NPointDimension> & pa )
+  {
+    TCoordRep sum = NumericTraits< TCoordRep >::Zero;
+    for(unsigned int i=0; i<NPointDimension; i++ )
+      {
+      const TCoordRep component =  static_cast<TCoordRep>( pa[i] );
+      const ValueType difference = (*this)[i] - component;
+      sum += component * component;
+      }
+  return sum;
+  }
+
+
+
+  /** Compute the Euclidean Distance from this point to another point
+    * with a different representation type.  Casting is done with C-Like rules  */
+  template < typename TCoordRepB >
+  TCoordRep EuclideanDistanceTo( const Point<TCoordRepB,NPointDimension> & pa )
+  {
+  const double distance = sqrt( 
+    static_cast<double>( this->SquaredEuclideanDistanceTo( pa ) ) ) ;
+  return static_cast<TCoordRep>( distance );
+  }
+
+
 };
 
 template< class T, unsigned int NPointDimension >  

@@ -175,39 +175,6 @@ Point<T, TPointDimension>
 }
 
 
-/*
- * Returns Squared Euclidean distance between two points
- */
-template<class T, unsigned int TPointDimension>
-typename Point<T, TPointDimension>::ValueType
-Point<T, TPointDimension>
-::SquaredEuclideanDistanceTo( const Self & pnt )  const
-{
-  ValueType sum = NumericTraits<ValueType>::Zero;
-  for( unsigned int i=0; i<TPointDimension; i++) 
-    {
-    const ValueType difference = (*this)[i] - pnt[i];
-    sum += difference * difference;
-    }
-  return sum;
-}
-
-
-
-/*
- * Returns Euclidean distance between two points
- */
-template<class T, unsigned int TPointDimension>
-typename Point<T, TPointDimension>::ValueType
-Point<T, TPointDimension>
-::EuclideanDistanceTo( const Self & pnt )  const
-{
-  const double distance = sqrt( 
-    static_cast<double>( SquaredEuclideanDistanceTo( pnt ) ) ) ;
-  return static_cast<ValueType>( distance );
-}
- 
-
 
 /*
  * Set the point to the median point of the two arguments
