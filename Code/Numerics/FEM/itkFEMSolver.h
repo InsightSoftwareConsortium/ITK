@@ -57,7 +57,6 @@ namespace fem {
 
 
 /**
- * \class Solver
  * \brief Main FEM solver
  * 
  * This is the main class used for solving the FEM problems.

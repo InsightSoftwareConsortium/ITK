@@ -75,7 +75,6 @@ void FindNode(  Node::ArrayType::ConstPointer nodes, const Node::Displacement *d
         Node::ConstPointer &pnode, int& n);
 
 /**
- * \class GaussIntegrate
  * \brief Use the Gauss-Legendre formula to perform integration
  *
  * Numerical integration (Gauss-Legendre formula).

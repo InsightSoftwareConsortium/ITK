@@ -51,7 +51,6 @@ namespace fem {
 
 
 /**
- * \class FEMObjectFactory
  * \brief Create objects of derived classes by specifying a class ID.
  *
  * ObjectFactory is used to create various objects of derived classes by
@@ -192,9 +191,8 @@ private:
 
 private:
   /**
-   * \class Dummy
-   * This class is here just to get rid of some 
-   * warnings about destructor being private in gcc
+   * \brief This class is defined in FEMObjectFactory just to get rid of some
+            warnings about destructor being private in gcc
    */
   class Dummy {};
   friend class Dummy;

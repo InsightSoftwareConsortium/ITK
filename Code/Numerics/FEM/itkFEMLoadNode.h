@@ -52,8 +52,8 @@ namespace fem {
 
 
 /**
- * \class LoadNode
  * \brief This load is applied on a specific node within the system.
+ *
  * Since the load does not depend on the element, we provide the pointer to a node
  * on which the load acts. Force vector F should have node->N() dimensions.
  */

@@ -48,7 +48,6 @@ namespace fem {
 
 
 /**
- * \class FEMP
  * \brief Pointer used to store polymorphic elements in STL arrays.
  *
  * FEMP holds a pointer to objects of class T and its derived classes. it

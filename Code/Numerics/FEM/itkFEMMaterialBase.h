@@ -53,9 +53,9 @@ namespace fem {
 
 
 /**
- * \class Material
  * \brief Base class for storing all the implicit material and other properties
-          requiredto fully define the element class.
+          required to fully define the element class.
+ *
  * When specifying materials for particular element, you should use MaterialStandard
  * class or derive your own class (using Material or MaterialStandard as a base class)
  * if your Element requires special properties or constants

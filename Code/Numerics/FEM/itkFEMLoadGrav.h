@@ -52,8 +52,8 @@ namespace fem {
 
 
 /**
- * \class LoadGrav
  * \brief Abstract gravity load class.
+ *
  * This load is integrated over a whole element. The load vector is returned in a 
  * Fg member function defined in a derived class. The Fg function accepts a vector 
  * specifying a point in global coordinate system and returns a load vector
@@ -72,8 +72,8 @@ public:
 
 
 /**
- * \class LoadGravConst
  * \brief Constant gravity load class.
+ *
  * This is a special case of LoadGrav. The load vector is the same on
  * every point in space.
  */

@@ -52,8 +52,8 @@ namespace fem {
 class LoadElement;
 
 /**
- * \class FEMLightObject
  * \brief Base class for all classes that define FEM system.
+ *
  * Base class for all classes that define FEM system (Elements, Nodes...).
  * Every FEM object requires a global number that can be used to find
  * that object. It is also required that the object can be written to and

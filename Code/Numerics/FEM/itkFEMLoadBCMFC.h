@@ -50,7 +50,6 @@ namespace fem {
 
 
 /**
- * \class LoadBCMFC
  * \brief Generic linear multi freedom displacement constraint in global coordinate system.
  *
  * These constraints are implemented using the Lagrange multiplier method.

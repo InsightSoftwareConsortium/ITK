@@ -53,9 +53,9 @@ namespace fem {
 
 
 /**
- * \class Bar2D
  * \brief 1D Bar (spring) finite element in 2D space.
- * Bar2D finite element is derived from the Element base class
+ *
+ * This element is defined by two NodeXY object and a MaterialStandard object.
  */
 class Bar2D : public Element
 {

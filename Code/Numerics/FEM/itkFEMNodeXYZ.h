@@ -50,7 +50,6 @@ namespace fem {
 
 
 /**
- * \class NodeXYZ
  * \brief Node in 3D space
  *
  * This class defines the basic node in 3D space.  It holds X, Y, and

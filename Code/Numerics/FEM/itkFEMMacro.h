@@ -56,6 +56,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * \brief If defined, FEM classes will use smart pointers.
+ *
  * Define this macro if you want to compile the FEM classes so that
  * they use itk's SmartPointer object instead of standard c++ pointers.
  * This macro should be defined (if required) on a command line of a
@@ -73,6 +74,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * \brief If defined, FEM classes will include routines for drawing
  *        on the device context.
+ *
  * Define this macro if you want to compile the FEM Element and Node
  * classes so that they include Draw() virtual member function. Calling
  * this function draws the element or node on the specified windows
@@ -117,6 +119,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * \brief Defines typedefs for pointers to class.
+ *
  * This macro should be called immediately after the { in class declaration.
  * It defines Self, Superclass, Pointer and ConstPointer typedef members in
  * a class. It also includes all the necessary typedefs for compatibility
@@ -166,6 +169,7 @@ private:  // everything that follows from here is private by default (like in th
 
 /**
  * \brief Defines typedefs for pointers to class.
+ *
  * This macro should be called immediately after the { in class declaration.
  * It first calls the #FEM_CLASS_SP macro. In addition it defines the Clone()
  * function, OFID member that holds the class ID for FEMObjectFactory. Also,
@@ -212,6 +216,7 @@ private:  // everything that follows from here is private by default (like in th
 
 /**
  * \brief Register the specified class with FEMObjectFactory.
+ *
  * Registering is required for every class that the object factory will
  * later be able to create. The class must contain static const int
  * member OFID and must define or inherit Baseclass typedef. This is
@@ -239,6 +244,7 @@ private:  // everything that follows from here is private by default (like in th
 
 /**
  * \brief Perform any initialization tasks for a class.
+ *
  * The macro creates a constant reference to class OFID that is globally
  * accesable. This also insures that the class is properly registered with
  * FEMObjectFactory.

@@ -51,8 +51,8 @@ namespace fem {
 
 
 /**
- * \class MaterialStandard
  * \brief Standard material class
+ *
  * This class includes material and other kind of properties required to
  * define any standard element in FEM toolkit. Most of the Elements
  * can use this material class.

@@ -51,7 +51,6 @@ namespace fem {
 
 
 /**
- * \class NodeXYrotZ
  * \brief Node with 2 displacements and 1 rotation
  *
  * this node class is derived from NodeXY class. the additional component urotZ holds the displacement of rotation

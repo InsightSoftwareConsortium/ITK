@@ -53,7 +53,6 @@ namespace fem {
 
 
 /**
- * \class Node
  * \brief Abstract base class for nodes
  *
  * Abstranct base class for nodes. Create specific nodes by deriving this (or any other) base class.

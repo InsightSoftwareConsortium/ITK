@@ -57,7 +57,6 @@ namespace fem {
 
 
 /**
- * \class Element
  * \brief Abstract base element class.
  *
  * Derive this class to create new finite element classes.

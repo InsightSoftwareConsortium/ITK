@@ -57,8 +57,7 @@ namespace fem {
 
 
 /**
- * \class TetrahedronC03D
- * \brief 4-noded 3D element class
+ * \brief 4-noded finite element class in 3D space.
  */
 class TetrahedronC03D : public Element
 {

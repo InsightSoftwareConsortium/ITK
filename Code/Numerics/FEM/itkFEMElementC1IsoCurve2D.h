@@ -57,8 +57,8 @@ namespace fem {
 
 
 /**
- * \class C1IsoCurve2D
  * \brief An isotropic C1 curve element for 2D.
+ *
  * An isotropic C1 curve element for 2D.  To expand to ND, must
  * implement correct node class.  Derivatives are estimated by using
  * neighboring node positions.  interpolation is with cubic hermite

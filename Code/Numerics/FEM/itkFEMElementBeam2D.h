@@ -53,9 +53,7 @@ namespace fem {
 
 
 /**
- * \class Beam2D
  * \brief 1D Beam (spring that also bends) finite element in 2D space.
- * Beam2D finite element is derived from the Element base class
  */
 class Beam2D : public Element
 {

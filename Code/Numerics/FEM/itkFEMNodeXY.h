@@ -50,7 +50,6 @@ namespace fem {
 
 
 /**
- * \class NodeXY
  * \brief Defines basid 2D node in space
  *
  * class that defines the basic 2D node in space. this implies that the NodeXY class holds 2 coordinates (X and Y)

@@ -52,7 +52,6 @@ namespace fem {
 
 
 /**
- * \class LoadEdge
  * \brief A generic load that can be applied to an edge of the element.
  *
  * Can also be used to apply natural (Neumann) boundary condition on the
