@@ -135,7 +135,7 @@ public:
    */
   void SetMaximumError(const float &max_error)
   {
-    if (m_MaximumError >= 1 || m_MaximumError <= 0)
+    if (max_error >= 1 || max_error <= 0)
       {
         throw ExceptionObject();
       }
