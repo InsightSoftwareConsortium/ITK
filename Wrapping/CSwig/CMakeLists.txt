@@ -33,6 +33,7 @@ MACRO(GCCXML_CREATE_XML_FILE Source Bin Input Output Library)
 # if the make program is not an IDE then include
 # the depend file in a way that will make cmake 
 # re-run if it changes
+   SET(CABLE_SWIG_DEPEND)
    IF(${CMAKE_MAKE_PROGRAM} MATCHES "make")
      IF(EXISTS ${Bin}/${Output}.depend)
      ELSE(EXISTS ${Bin}/${Output}.depend)
@@ -49,6 +50,18 @@ MACRO(GCCXML_CREATE_XML_FILE Source Bin Input Output Library)
 # when the .xml file is parsed.
      INCLUDE(${Bin}/${Output}.depend OPTIONAL)
    ENDIF(${CMAKE_MAKE_PROGRAM} MATCHES "make")
+
+   SET(CABLE_SWIG_DEPEND_REGENERATE)
+   FOREACH(f ${CABLE_SWIG_DEPEND})
+     IF(EXISTS ${f})
+     ELSE(EXISTS ${f})
+       SET(CABLE_SWIG_DEPEND_REGENERATE 1)
+     ENDIF(EXISTS ${f})
+   ENDFOREACH(f)
+   IF(CABLE_SWIG_DEPEND_REGENERATE)
+     SET(CABLE_SWIG_DEPEND ${Bin}/${Output}.depend)
+     WRITE_FILE(${Bin}/${Output}.depend "")
+   ENDIF(CABLE_SWIG_DEPEND_REGENERATE)
 
    ADD_CUSTOM_COMMAND(
    COMMENT "${Output} from "
@@ -195,7 +208,7 @@ ENDIF(ITK_CSWIG_JAVA)
 FOREACH(INCDIR ${ITK_INCLUDE_DIRS_BUILD_TREE} ${ITK_INCLUDE_DIRS_BUILD_TREE_CXX} ${ITK_INCLUDE_DIRS_SYSTEM})
   SET(SWIG_INC ${SWIG_INC} -I${INCDIR})
 ENDFOREACH(INCDIR)
-SET(SWIG_INC ${SWIG_INC} -I${ITK_TOP}/Utilities/vxl/vnl)
+SET(SWIG_INC ${SWIG_INC} -I${ITK_TOP}/Utilities/vxl/core/vnl)
 SET(SWIG_INC ${SWIG_INC} -I${ITK_TOP}/Utilities/vxl/vcl)
 SET(SWIG_INC ${SWIG_INC} -I${ITK_TOP}/Utilities/vxl/vcl/doc)
 SET(SWIG_INC ${SWIG_INC} -I${ITK_TOP}/Wrapping/CSwig)
