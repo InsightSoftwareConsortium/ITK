@@ -362,8 +362,8 @@ protected:
   typedef FastChamferDistanceImageFilter<OutputImageType,OutputImageType>
           ChamferFilterType; 
 
-  IsoFilterType::Pointer     m_IsoFilter;
-  ChamferFilterType::Pointer m_ChamferFilter;
+  typename IsoFilterType::Pointer     m_IsoFilter;
+  typename ChamferFilterType::Pointer m_ChamferFilter;
 
 private:
   unsigned int m_MaximumIterations;
