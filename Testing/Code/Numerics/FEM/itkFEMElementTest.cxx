@@ -23,12 +23,14 @@
 #include "itkFEM.h"
 #include "itkFEMSolver.h"
 #include "itkFEMLinearSystemWrapper.h"
+#include "itkFEMLinearSystemWrapperItpack.h"
 #include "itkExceptionObject.h"
 
 #include <iostream>
 #include <fstream>
+#include <exception>
 
-#define DEBUG_FEM_TESTS     0
+#define DEBUG_FEM_TESTS     1
 
 using namespace std;
 using namespace itk;
@@ -57,19 +59,16 @@ int itkFEMElementTest(int ac, char** av)
   char buffer[80] = {'\0'};
   int numfiles = 0;
   char *fname = NULL;
-  char *loc = NULL;
-
-  // Flag in case command-line arguments are wrong
-  int notfound = 0;
 
   if (ac < 2)
+  // Display the menu
   {
-    // Display the menu
     std::cout << "Loading menu..." << std::endl;
     
     f.open(listloc);
     if (!f) {
-      std::cout << "ERROR: null file handle - couldn't read input file list\n";
+      std::cout << "ERROR: null file handle - couldn't read input file list" << std::endl;
+      std::cout << "Test FAILED" << std::endl;
       return EXIT_FAILURE;
     }
     
@@ -85,8 +84,7 @@ int itkFEMElementTest(int ac, char** av)
     // Prompt the user to select a problem
     int ch = -1;
     while (ch < 0 || ch >= numfiles) {
-      for (int j=0; j < numfiles; j++)
-        std::cout << j << ": " << filelist[j] << std::endl;
+      for (int j=0; j < numfiles; j++) { std::cout << j << ": " << filelist[j] << std::endl; }
       std::cout << std::endl << "NOTE: some of these problems follow an older data file" << std::endl;
       std::cout << "format, and have not yet been updated.  They may end in \"Abort\"." << std::endl;
       std::cout << std::endl << "Select an FEM problem to solve:  ";
@@ -112,17 +110,20 @@ int itkFEMElementTest(int ac, char** av)
     std::cout << std::endl << "FEM Input: " << fname << std::endl;
   }
     
-  // Declare the FEM solver & associated input stream and read the input file
+  // Open a file handle & associate it with the input file
   f.open(fname);
-
   if (!f)
   {
-    std::cout << "ERROR: null file handle...terminating.\n";
+    std::cout << "ERROR: null file handle...terminating." << std::endl;
+    std::cout << "Test FAILED" << std::endl;
     return EXIT_FAILURE;
   }
 
   try {
-  
+
+    // Declare the FEM solver & associated input stream and read the
+    // input file
+
     std::cout << "Solver()" << std::endl;
     Solver S;
     std::cout << "Read()" << std::endl;
@@ -136,13 +137,21 @@ int itkFEMElementTest(int ac, char** av)
     
     std::cout << "GenerateGFN()" << std::endl;
     S.GenerateGFN();          // Generate global freedom numbers for system DOFs
-    
+
+    // Select the LinearSystemWrapperItpack for the Solver
+    std::cout << "Using LinearSystemWrapperItpack" << std::endl;
+    LinearSystemWrapperItpack lsw_itpack;
+    lsw_itpack.SetMaximumNonZeroValuesInMatrix(1000);
+    S.SetLinearSystemWrapper(&lsw_itpack);
+
     std::cout << "AssembleK()" << std::endl;
     S.AssembleK();            // Assemble the global stiffness matrix K
     
 #if DEBUG_FEM_TESTS
-    // Print K
+
+    // Print K - the global stiffness matrix
     LinearSystemWrapper::Pointer lsw = S.GetLinearSystemWrapper();
+
     std::cout << "k=[" << std::endl;
     for (int j=0; j < lsw->GetSystemOrder(); j++) {
       for (int k=0; k < lsw->GetSystemOrder(); k++)
@@ -150,6 +159,7 @@ int itkFEMElementTest(int ac, char** av)
       std::cout << std::endl;
     }
     std::cout << "];" << std::endl;
+
 #endif
     
     std::cout << "DecomposeK()" << std::endl;
@@ -159,17 +169,22 @@ int itkFEMElementTest(int ac, char** av)
     S.AssembleF();            // Assemble the global load vector F
     
 #if DEBUG_FEM_TESTS
-    // Print F
+
+    // Print F - the global load vector
+
     std::cout << "f=[" << std::endl;
     for (int j=0; j < lsw->GetSystemOrder(); j++)
       std::cout << lsw->GetVectorValue(j) << "  ";
     std::cout << "];" << std::endl;
+
 #endif    
 
     std::cout << "Solve()"<< std::endl;
     S.Solve();                // Solve the system Ku=F for u
     
     std::cout << "Done" << std::endl;
+
+    // Print the displacements
     
     std::cout << "Print displacements: " << std::endl;
     for( ::itk::fem::Solver::NodeArray::iterator n = S.node.begin(); n!=S.node.end(); n++) {
@@ -184,8 +199,10 @@ int itkFEMElementTest(int ac, char** av)
   }
   catch (::itk::ExceptionObject &err) {
     std::cerr << "ITK exception detected: "  << err;
+    std::cout << "Test FAILED" << std::endl;
     return EXIT_FAILURE;
   }
 
+  std::cout << "Test PASSED" << std::endl;
   return EXIT_SUCCESS;
 }
