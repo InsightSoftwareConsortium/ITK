@@ -415,7 +415,7 @@ PDF_HYPERLINKS        = NO
 # running if errors occur, instead of asking the user for help. 
 # This option is also used when generating formulas in HTML. 
 
-LATEX_BATCHMODE       = NO
+LATEX_BATCHMODE       = YES
 
 #---------------------------------------------------------------------------
 # configuration options related to the RTF output
