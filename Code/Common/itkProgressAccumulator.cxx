@@ -21,6 +21,8 @@ namespace itk {
 ProgressAccumulator
 ::ProgressAccumulator()
 {
+  m_MiniPipelineFilter = 0;
+
   // Initialize the progress values
   this->ResetProgress();
 
@@ -61,8 +63,10 @@ ProgressAccumulator
   // The filters should no longer be observing us
   FilterRecordVector::iterator it;
   for(it = m_FilterRecord.begin();it!=m_FilterRecord.end();++it)
+    {
     it->Filter->RemoveObserver(it->ObserverTag);
- 
+    }
+
   // Clear the filter array
   m_FilterRecord.clear();
 
@@ -80,8 +84,9 @@ ProgressAccumulator
   // Reset each of the individial progress meters 
   FilterRecordVector::iterator it;
   for(it = m_FilterRecord.begin();it!=m_FilterRecord.end();++it)
+    {
     it->Progress = 0.0f;
- 
+    }
 }
 
 void 
@@ -111,6 +116,18 @@ ProgressAccumulator
     // Update the progress of the client mini-pipeline filter
     m_MiniPipelineFilter->UpdateProgress(m_AccumulatedProgress);
     }
+}
+
+void ProgressAccumulator
+::PrintSelf(std::ostream &os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  if (m_MiniPipelineFilter)
+    {
+    os << indent << m_MiniPipelineFilter << std::endl;
+    }
+  os << indent << m_AccumulatedProgress << std::endl;
 }
 
 } // End namespace itk

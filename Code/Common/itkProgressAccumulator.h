@@ -87,6 +87,7 @@ public:
 protected:
   ProgressAccumulator();
   virtual ~ProgressAccumulator();
+  void PrintSelf(std::ostream &s, Indent indent) const;
 
 private:
   /**  Command for observing progress of pipeline filters */
