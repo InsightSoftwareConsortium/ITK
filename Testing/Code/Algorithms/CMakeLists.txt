@@ -235,14 +235,14 @@ TARGET_LINK_LIBRARIES(itkAlgorithmsTests2 ITKAlgorithms ITKIO ITKBasicFilters IT
 IF(ITK_DATA_ROOT)
 
 ADD_TEST(itkVoronoiPartitioningImageFilterTest1 ${ALGORITHMS_TESTS2}
-  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/VoronoiPartioningImageFilterTest1.png
+  --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/VoronoiPartioningImageFilterTest1.png
             ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest1.png
   itkVoronoiPartitioningImageFilterTest
             ${ITK_DATA_ROOT}/Input/sf4.png
             ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest1.png 1)
 
 ADD_TEST(itkVoronoiPartitioningImageFilterTest2 ${ALGORITHMS_TESTS2}
-  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/VoronoiPartioningImageFilterTest2.png
+  --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/VoronoiPartioningImageFilterTest2.png
             ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest2.png
   itkVoronoiPartitioningImageFilterTest
             ${ITK_DATA_ROOT}/Input/sf4.png
