@@ -98,12 +98,12 @@ ImageRandomConstIteratorWithIndex<TImage>  &
 ImageRandomConstIteratorWithIndex<TImage>
 ::operator++()
 {
-  const double nomalizationFactor = 
+  const double normalizationFactor = 
       static_cast<double>( m_NumberOfPixelsInRegion ) / RAND_MAX;
 
   const unsigned long randomPosition =
      static_cast<unsigned long> (
-       static_cast<double>( random() ) * nomalizationFactor );
+       static_cast<double>( rand() ) * normalizationFactor );
 
   unsigned long position = randomPosition;
   unsigned long residual;
