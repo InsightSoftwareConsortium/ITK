@@ -421,6 +421,10 @@ protected:
    *  sparse field. */
   static StatusType m_StatusActiveChangingDown;
 
+  /** Special status value which indicates a pixel is on the boundary of the
+   *  image */
+  static StatusType m_StatusBoundaryPixel;
+
   /** Special status value used as a default for indicies which have no
       meaningful status. */
   static StatusType m_StatusNull;
@@ -468,6 +472,11 @@ protected:
 private:
   SparseFieldLevelSetImageFilter(const Self&);//purposely not implemented
   void operator=(const Self&);      //purposely not implemented
+
+  /** This flag is true when methods need to check boundary conditions and
+      false when methods do not need to check for boundary conditions. */
+  bool m_BoundsCheckingActive;
+
 };
   
   

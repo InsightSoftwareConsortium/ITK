@@ -22,6 +22,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkShiftScaleImageFilter.h"
+#include "itkNeighborhoodAlgorithm.h"
 
 namespace itk {
 
@@ -118,6 +119,11 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_StatusActiveChangingDown = -3;
 
 template<class TInputImage, class TOutputImage>
+typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::m_StatusBoundaryPixel = -4;
+
+template<class TInputImage, class TOutputImage>
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::SparseFieldLevelSetImageFilter()
 {
@@ -127,6 +133,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   m_LayerNodeStore->SetGrowthStrategyToExponential();
   m_RMSChange = m_ValueZero;
   m_InterpolateSurfaceLocation = true;
+  m_BoundsCheckingActive = false;
 }
 
 template<class TInputImage, class TOutputImage>
@@ -204,7 +211,6 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // Finally, we update all of the layer values (excluding the active layer,
   // which has already been updated).
   this->PropagateAllLayerValues();
-  
 }
 
 template <class TInputImage, class TOutputImage>
@@ -239,10 +245,10 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     statusIt(m_NeighborList.GetRadius(), m_StatusImage,
              this->GetOutput()->GetRequestedRegion());
 
-  // DEBUG
-  //  statusIt.NeedToUseBoundaryConditionOff();
-  /// DEBUG
-
+  if (m_BoundsCheckingActive == false )
+    {
+    statusIt.NeedToUseBoundaryConditionOff();
+    }
   
   // Push each index in the input list into its appropriate status layer
   // (ChangeToStatus) and update the status image value at that index.
@@ -260,6 +266,14 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     for (i = 0; i < m_NeighborList.GetSize(); ++i)
       {
       neighbor_status = statusIt.GetPixel(m_NeighborList.GetArrayIndex(i));
+
+      // Have we bumped up against the boundary?  If so, turn on bounds
+      // checking.
+      if ( neighbor_status == m_StatusBoundaryPixel )
+        {
+        m_BoundsCheckingActive = true;
+        }
+
       if (neighbor_status == SearchForStatus)
         { // mark this pixel so we don't add it twice.
         statusIt.SetPixel(m_NeighborList.GetArrayIndex(i),
@@ -308,12 +322,11 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     statusIt(m_NeighborList.GetRadius(), m_StatusImage,
              this->GetOutput()->GetRequestedRegion());
 
-  // DEBUG ----------
-  //  outputIt.NeedToUseBoundaryConditionOff();
-  //  statusIt.NeedToUseBoundaryConditionOff();
-  // DEBUG ---------
-
-
+  if ( m_BoundsCheckingActive == false )
+    {
+    outputIt.NeedToUseBoundaryConditionOff();
+    statusIt.NeedToUseBoundaryConditionOff();
+    }
   
   counter =0;
   rms_change_accumulator = m_ValueZero;
@@ -508,8 +521,30 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // Initialize the status image to contain all m_StatusNull values.
   ImageRegionIterator<StatusImageType>
     statusIt(m_StatusImage, m_StatusImage->GetRequestedRegion());
-  for (statusIt = statusIt.Begin(); ! statusIt.IsAtEnd(); ++statusIt)
+  for (statusIt.GoToBegin(); ! statusIt.IsAtEnd(); ++statusIt)
     { statusIt.Set( m_StatusNull ); }
+
+  // Initialize the boundary pixels in the status images to
+  // m_StatusBoundaryPixel values.  Uses the face calculator to find all of the
+  // region faces.
+  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<StatusImageType>
+    BFCType;
+
+  BFCType faceCalculator;
+  typename BFCType::FaceListType faceList;
+  typename BFCType::SizeType sz;
+  typename BFCType::FaceListType::iterator fit;
+  
+  sz.Fill(1);
+  faceList = faceCalculator(m_StatusImage, m_StatusImage->GetRequestedRegion(), sz);
+  fit = faceList.begin();
+
+  for (++fit; fit != faceList.end(); ++fit) // skip the first (nonboundary) region
+    {
+    statusIt = ImageRegionIterator<StatusImageType>(m_StatusImage, *fit);
+    for (statusIt.GoToBegin(); ! statusIt.IsAtEnd(); ++statusIt)
+      {      statusIt.Set( m_StatusBoundaryPixel );      }
+    }
 
   // Erase all existing layer lists.
   for (i = 0; i < m_Layers.size(); ++i)
@@ -533,13 +568,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // Throw an exception if we don't have enough layers.
   if (m_Layers.size() < 3)
     {
-    ExceptionObject e(__FILE__, __LINE__);
-    OStringStream msg;
-    msg << static_cast<const char *>(this->GetNameOfClass())
-        << "::Initialize()";
-    e.SetLocation(msg.str().c_str());
-    e.SetDescription("Not enough layers have been allocated for the sparse field.  Requires at least one layer.");
-    throw e;      
+    itkExceptionMacro( << "Not enough layers have been allocated for the sparse field.  Requires at least one layer.");
     }
   
   // Construct the active layer and initialize the first layers inside and
@@ -611,12 +640,18 @@ void
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::ConstructActiveLayer()
 {
+  //
   // We find the active layer by searching for 0's in the zero crossing image
   // (output image).  The first inside and outside layers are also constructed
   // by searching the neighbors of the active layer in the (shifted) input image.
   // Negative neighbors not in the active set are assigned to the inside,
   // positive neighbors are assigned to the outside.
   //
+  // During construction we also check whether any of the layers of the active
+  // set (or the active set itself) is sitting on a boundary pixel location. If
+  // this is the case, then we need to active bounds checking in the solver
+  //
+  
   unsigned int i;
   NeighborhoodIterator<OutputImageType>
     shiftedIt(m_NeighborList.GetRadius(), m_ShiftedImage,
@@ -633,6 +668,11 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   ValueType value;
   StatusType layer_number;
 
+  typename OutputImageType::IndexType upperBounds, lowerBounds;
+  lowerBounds = this->GetOutput()->GetRequestedRegion().GetIndex();
+  upperBounds = this->GetOutput()->GetRequestedRegion().GetIndex()
+    + this->GetOutput()->GetRequestedRegion().GetSize();
+
   for (outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt)
     {
     if ( outputIt.GetCenterPixel() == m_ValueZero )
@@ -640,7 +680,18 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       // Grab the neighborhood in the status image.
       center_index = outputIt.GetIndex();
       statusIt.SetLocation( center_index );
-          
+
+      // Check to see if any of the sparse field touches a boundary.  If so,
+      // then activate bounds checking.
+      for (i = 0; i < ImageDimension; i++)
+        {
+        if (center_index[i] + static_cast<long>(m_NumberOfLayers) >= (upperBounds[i] - 1)
+            || center_index[i] - static_cast<long>(m_NumberOfLayers) <= lowerBounds[i])
+          {
+          m_BoundsCheckingActive = true;
+          }
+        }
+      
       // Borrow a node from the store and set its value.
       node = m_LayerNodeStore->Borrow();
       node->m_Value = center_index;
@@ -808,9 +859,11 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   TimeStepType timeStep;
   center = outputIt.Size() /2;
 
-
-  //  outputIt.NeedToUseBoundaryConditionOff();
-
+  if ( m_BoundsCheckingActive == false )
+    {
+    outputIt.NeedToUseBoundaryConditionOff();
+    }
+  
   m_UpdateBuffer.clear();
   m_UpdateBuffer.reserve(m_Layers[0]->Size());
 
@@ -919,13 +972,11 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     statusIt(m_NeighborList.GetRadius(), m_StatusImage,
              this->GetOutput()->GetRequestedRegion() );
 
-
-  // DEBUG
-  //  outputIt.NeedToUseBoundaryConditionOff();
-  //  statusIt.NeedToUseBoundaryConditionOff();
-  // DEBUG----
-
-
+  if ( m_BoundsCheckingActive == false )
+    {
+    outputIt.NeedToUseBoundaryConditionOff();
+    statusIt.NeedToUseBoundaryConditionOff();
+    }
   
   toIt  = m_Layers[to]->Begin();
   while ( toIt != m_Layers[to]->End() )
@@ -1042,6 +1093,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   unsigned int i;
   os << indent << "m_IsoSurfaceValue" << m_IsoSurfaceValue << std::endl;
   os << indent << "m_LayerNodeStore: " << m_LayerNodeStore;
+  os << indent << "m_BoundsCheckingActive: " << m_BoundsCheckingActive;
   for (i=0; i < m_Layers.size(); i++)
     {
     os << indent << "m_Layers[" << i << "]: size="
