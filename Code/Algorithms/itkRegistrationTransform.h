@@ -180,13 +180,13 @@ public:
   /**
    * Set the Target
    */
-   itkSetConstObjectMacro( Target, TargetType );
+   void SetTarget( const TargetType * );
 
    
   /**
    * Set the Reference
    */
-   itkSetConstObjectMacro( Reference, ReferenceType );
+   void SetReference( const  ReferenceType * );
 
 
   /**

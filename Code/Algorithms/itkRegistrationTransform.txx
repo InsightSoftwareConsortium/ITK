@@ -106,7 +106,7 @@ RegistrationTransform<TMetric, TOptimizationMethod>
 template <class TMetric, class TOptimizationMethod>
 void
 RegistrationTransform<TMetric, TOptimizationMethod>
-::SetReference( ReferenceType * reference )
+::SetReference( const ReferenceType * reference )
 {
   m_Reference       =   reference;
   m_Metric->SetReference( m_Reference );
@@ -119,7 +119,7 @@ RegistrationTransform<TMetric, TOptimizationMethod>
 template <class TMetric, class TOptimizationMethod>
 void
 RegistrationTransform<TMetric, TOptimizationMethod>
-::SetTarget( TargetType * target )
+::SetTarget( const TargetType * target )
 {
   m_Target       =   target;
   m_Metric->SetTarget( m_Target );
