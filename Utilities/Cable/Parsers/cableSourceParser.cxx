@@ -1,4 +1,4 @@
-#include "xmlSourceParser.h"
+#include "sourceParser.h"
 
 namespace source
 {

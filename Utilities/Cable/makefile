@@ -4,8 +4,8 @@ EXPAT = expat
 DEBUG = -g
 INCLUDES = -I$(EXPAT)/xmlparse -I$(EXPAT)/xmltok
 
-PARSER_OBJS= xmlSourceParser.o \
-             xmlConfigurationParser.o \
+PARSER_OBJS= sourceParser.o \
+             configurationParser.o \
              xmlAttributes.o \
              internalRep.o \
              configRep.o \
@@ -27,8 +27,8 @@ all: $(EXECUTABLES)
 -include internalRep.d
 -include configRep.d
 -include xmlAttributes.d
--include xmlSourceParser.d
--include xmlConfigurationParser.d
+-include sourceParser.d
+-include configurationParser.d
 -include displayTree.d
 #-include generateTcl.d
 

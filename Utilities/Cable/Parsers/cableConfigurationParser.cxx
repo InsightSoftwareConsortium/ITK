@@ -1,4 +1,4 @@
-#include "xmlConfigurationParser.h"
+#include "configurationParser.h"
 
 namespace configuration
 {
