@@ -99,7 +99,10 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>
       unsigned int counter = 0;
       unsigned int counterCopy = 0;
       unsigned int dim = TImage::ImageDimension;
-      unsigned int numReps = (unsigned int)pow(2, dim);
+      unsigned int numReps = static_cast<unsigned int>( pow(
+                                            static_cast<double>( 2.0 ),
+                                            static_cast<double>( dim ) ) );
+
       IndexType tempIndex;
 
       // First we loop over the binary counter
@@ -141,7 +144,9 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>
     unsigned int counter = 0;
     unsigned int counterCopy = 0;
     unsigned int dim = TImage::ImageDimension;
-    unsigned int numReps = (unsigned int)pow(2, dim);
+    unsigned int numReps = static_cast<unsigned int>( pow(
+                                          static_cast<double>( 2.0 ),
+                                          static_cast<double>( dim ) ) );
     IndexType tempIndex;
 
     // First we loop over the binary counter
