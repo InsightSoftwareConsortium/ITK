@@ -269,8 +269,13 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   for (TagDocEntryHT::iterator tag = nameHt.begin(); tag != nameHt.end(); ++tag)
     {
     // Do not copy field from private (unknown) dictionary.
-    // In the longer we might want to (but we need the Private dictionary from manufacturer
-    if( tag->second->GetName() != "unkn" )
+    // In the longer term we might want to (but we need the Private dictionary
+    // from manufacturer)
+    std::string temp = ((gdcmValEntry*)(tag->second))->GetValue();
+    if( tag->second->GetName() != "unkn" 
+     && tag->second->GetName() != "Acquisition Matrix"
+     && temp.find( "gdcm::NotLoaded" ) != 0
+     && temp.find( "gdcm::Loaded" ) != 0 )
       {
       EncapsulateMetaData<std::string>(dico, tag->second->GetName(),
                          ((gdcmValEntry*)(tag->second))->GetValue() );
