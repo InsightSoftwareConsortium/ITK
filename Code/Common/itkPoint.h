@@ -45,6 +45,9 @@ public:
   /** Standard class typedefs. */
   typedef Point  Self;
   typedef FixedArray<TCoordRep,NPointDimension>  Superclass;
+
+  /** Run-time type information (and related methods).   */
+  itkTypeMacro( Point, FixedArray );
   
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an Point.   */
@@ -118,9 +121,17 @@ public:
   VectorType GetVectorFromOrigin() const;
 
   /** Get a vnl_vector_ref referencing the same memory block */
-  vnl_vector_ref<TCoordRep> Get_vnl_vector( void );
+  vnl_vector_ref<TCoordRep> GetVnlVector( void );
 
   /** Get a vnl_vector with a copy of the internal memory block. */
+  vnl_vector<TCoordRep> GetVnlVector( void ) const;
+
+  /** Get a vnl_vector_ref referencing the same memory block 
+   * \deprecated Use GetVnlVector() instead. */
+  vnl_vector_ref<TCoordRep> Get_vnl_vector( void );
+
+  /** Get a vnl_vector with a copy of the internal memory block. 
+   * \deprecated Use GetVnlVector() instead. */
   vnl_vector<TCoordRep> Get_vnl_vector( void ) const;
 
   /** Set to median point between the two points

@@ -196,7 +196,7 @@ BloxCoreAtomImage<dim>
 
       for (unsigned int i = 0; i < NDimensions; i++)
         {
-        de += pow((dot_product(eigenvectors.get_column(i), dbar.Get_vnl_vector() ) /
+        de += pow((dot_product(eigenvectors.get_column(i), dbar.GetVnlVector() ) /
                    axisLengthArray[i] ), 2);
         }
 
@@ -217,7 +217,7 @@ BloxCoreAtomImage<dim>
 
       for (unsigned int i = 0; i < NDimensions; i++)
         {
-        sf_de_sqr += pow((dot_product(sf_eigenvectors.get_column(i), dbar.Get_vnl_vector() ) /
+        sf_de_sqr += pow((dot_product(sf_eigenvectors.get_column(i), dbar.GetVnlVector() ) /
                           axisLengthArray[i] ), 2);
         }
 

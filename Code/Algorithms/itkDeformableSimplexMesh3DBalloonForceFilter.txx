@@ -123,7 +123,7 @@ namespace itk
       vec_for.Fill(0);
       }
 
-    double mag = dot_product(data->normal.Get_vnl_vector(),vec_for.Get_vnl_vector());
+    double mag = dot_product(data->normal.GetVnlVector(),vec_for.GetVnlVector());
 
     vec_for[0] = this->GetBeta() * mag*(data->normal)[0]/*num_for*/;
     vec_for[1] = this->GetBeta() * mag*(data->normal)[1]/*num_for*/; 

@@ -67,6 +67,9 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
   /** Standard class typedefs. */
   typedef CovariantVector  Self;
   typedef FixedArray<T,NVectorDimension>  Superclass;
+
+  /** Run-time type information (and related methods).   */
+  itkTypeMacro( Vector, FixedArray );
     
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an CovariantVector.   */
@@ -86,14 +89,28 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
   static unsigned int GetCovariantVectorDimension() 
     { return NVectorDimension; }  
 
-  /** Set a vnl_vector_ref referencing the same memory block */
+  /** Set a vnl_vector_ref referencing the same memory block. */
+  void SetVnlVector( const vnl_vector<T> & );
+
+  /** Get a vnl_vector_ref referencing the same memory block. */
+  vnl_vector_ref<T> GetVnlVector( void );
+
+  /** Get a vnl_vector with a copy of the internal memory block. */
+  vnl_vector<T> GetVnlVector( void ) const;
+
+
+  /** Set a vnl_vector_ref referencing the same memory block.
+   * \deprecated Use SetVnlVector() instead. */
   void Set_vnl_vector( const vnl_vector<T> & );
 
-  /** Get a vnl_vector_ref referencing the same memory block */
+  /** Get a vnl_vector_ref referencing the same memory block. 
+   * \deprecated Use GetVnlVector() instead. */
   vnl_vector_ref<T> Get_vnl_vector( void );
 
-  /** Get a vnl_vector with a copy of the internal memory block */
+  /** Get a vnl_vector with a copy of the internal memory block. 
+   * \deprecated Use GetVnlVector() instead. */
   vnl_vector<T> Get_vnl_vector( void ) const;
+
 
   /** Default constructor has nothing to do. */
   CovariantVector() {}

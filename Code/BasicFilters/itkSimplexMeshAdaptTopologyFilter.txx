@@ -181,7 +181,7 @@ namespace itk
         v1 = firstNewNormal.GetVectorFromOrigin();
         v2 = lineOneFirstNormal.GetVectorFromOrigin();
 
-        prod = dot_product( v1.Get_vnl_vector() , v2.Get_vnl_vector() );
+        prod = dot_product( v1.GetVnlVector() , v2.GetVnlVector() );
 
         if (prod < 0) 
           {
@@ -189,8 +189,8 @@ namespace itk
           firstNewNormal = inputMesh->ComputeNormal(firstNewIndex);
           }
 
-        prod = dot_product(secondNewNormal.GetVectorFromOrigin().Get_vnl_vector() ,
-                        lineTwoFirstNormal.GetVectorFromOrigin().Get_vnl_vector() );
+        prod = dot_product(secondNewNormal.GetVectorFromOrigin().GetVnlVector() ,
+                        lineTwoFirstNormal.GetVectorFromOrigin().GetVnlVector() );
         if (prod < 0) 
           {
           inputMesh->SwapNeighbors( secondNewIndex, lineTwoFirstIdx, lineTwoSecondIdx);
@@ -365,7 +365,7 @@ namespace itk
       pointIt++;
       }
 
-    tmp.Set_vnl_vector( cellCenter.Get_vnl_vector()/simplexCell->GetNumberOfPoints() );
+    tmp.SetVnlVector( cellCenter.GetVnlVector()/simplexCell->GetNumberOfPoints() );
     cellCenter.Fill(0.0);
     cellCenter += tmp;
 

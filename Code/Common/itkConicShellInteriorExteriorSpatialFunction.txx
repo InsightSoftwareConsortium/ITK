@@ -50,7 +50,7 @@ ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
   m_OriginGradient = grad;
 
   // Normalize the origin gradient
-  m_OriginGradient.Get_vnl_vector().normalize();
+  m_OriginGradient.GetVnlVector().normalize();
 }
 
 template <unsigned int VDimension, typename TInput>
@@ -89,7 +89,7 @@ ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
   VectorType vecOriginToTest = position - m_Origin;
 
   // Compute the length of this vector
-  // double vecDistance = vecOriginToTest.Get_vnl_vector().magnitude();
+  // double vecDistance = vecOriginToTest.GetVnlVector().magnitude();
   double vecDistance = vecOriginToTest.GetNorm();
 
   // Check to see if this an allowed distance
@@ -97,14 +97,14 @@ ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
     return 0; // not inside the conic shell
 
   // Normalize it
-  // vecOriginToTest.Get_vnl_vector().normalize();
+  // vecOriginToTest.GetVnlVector().normalize();
   vecOriginToTest.Normalize();
 
   // Create a temp vector to get around const problems
   GradientType originGradient = m_OriginGradient;
 
   // Now compute the dot product
-  // double dotprod = dot_product(originGradient.Get_vnl_vector(), vecOriginToTest.Get_vnl_vector());
+  // double dotprod = dot_product(originGradient.GetVnlVector(), vecOriginToTest.GetVnlVector());
   double dotprod = originGradient * vecOriginToTest;
 
   if(m_Polarity==1)

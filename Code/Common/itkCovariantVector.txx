@@ -280,6 +280,49 @@ CovariantVector<T, NVectorDimension>
 }
 
 
+/**
+ * Set a vnl_vector
+ */
+template<class T, unsigned int NVectorDimension >
+void
+CovariantVector<T, NVectorDimension >
+::SetVnlVector( const vnl_vector<T> & v)
+{
+  for(unsigned int i=0;i<v.size();i++) 
+    {
+    (*this)[i] = v(i);
+    } 
+}
+ 
+
+/**
+ * Return a vnl_vector_ref
+ */
+template<class T, unsigned int NVectorDimension>
+vnl_vector_ref< T >
+CovariantVector<T, NVectorDimension>
+::GetVnlVector( void ) 
+{
+  return vnl_vector_ref< T >( NVectorDimension, this->GetDataPointer() );
+}
+
+
+/**
+ * Return a vnl_vector const
+ */
+template<class T, unsigned int NVectorDimension>
+vnl_vector< T >
+CovariantVector<T, NVectorDimension>
+::GetVnlVector( void ) const 
+{
+  // Return a vector_ref<>.  This will be automatically converted to a
+  // vnl_vector<>.  We have to use a const_cast<> which would normally
+  // be prohibited in a const method, but it is safe to do here
+  // because the cast to vnl_vector<> will ultimately copy the data.
+  return vnl_vector_ref<T>( NVectorDimension,
+                            const_cast<T*>(this->GetDataPointer()));
+}
+
 
 /**
  * Set a vnl_vector
@@ -289,6 +332,7 @@ void
 CovariantVector<T, NVectorDimension >
 ::Set_vnl_vector( const vnl_vector<T> & v)
 {
+  itkWarningMacro("Set_vnl_vector() is deprecated.  Please use SetVnlVector() instead.");
   for(unsigned int i=0;i<v.size();i++) 
     {
     (*this)[i] = v(i);
@@ -304,6 +348,7 @@ vnl_vector_ref< T >
 CovariantVector<T, NVectorDimension>
 ::Get_vnl_vector( void ) 
 {
+  itkWarningMacro("Get_vnl_vector() is deprecated.  Please use GetVnlVector() instead.");
   return vnl_vector_ref< T >( NVectorDimension, this->GetDataPointer() );
 }
 
@@ -316,6 +361,7 @@ vnl_vector< T >
 CovariantVector<T, NVectorDimension>
 ::Get_vnl_vector( void ) const 
 {
+  itkWarningMacro("Get_vnl_vector() is deprecated.  Please use GetVnlVector() instead.");
   // Return a vector_ref<>.  This will be automatically converted to a
   // vnl_vector<>.  We have to use a const_cast<> which would normally
   // be prohibited in a const method, but it is safe to do here

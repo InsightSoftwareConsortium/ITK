@@ -158,7 +158,7 @@ ArrowSpatialObject< TDimension >
     v.Normalize();
     v2.Normalize();
 
-    if(dot_product(v.Get_vnl_vector(),v2.Get_vnl_vector()) == 1)
+    if(dot_product(v.GetVnlVector(),v2.GetVnlVector()) == 1)
       {
       return true;
       }

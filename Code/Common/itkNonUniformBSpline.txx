@@ -270,7 +270,7 @@ NonUniformBSpline< TDimension >::ComputeControlPoints()
       PointType pt = (*iter);
       for (int i = 0; i < dim; i++)
         {
-        data_matrix(rr, i) = pt.Get_vnl_vector()[i];
+        data_matrix(rr, i) = pt.GetVnlVector()[i];
         }
       rr++;
       }
@@ -326,7 +326,7 @@ NonUniformBSpline< TDimension >::ComputeControlPoints()
     {
     vnl_vector<double> v = B.get_row(j);
     itk::Vector<double> iv;
-    iv.Set_vnl_vector(v);
+    iv.SetVnlVector(v);
     itk::Point<double, TDimension> pt;
     for (int d = 0; d < dim; d++)
       {
@@ -364,7 +364,7 @@ NonUniformBSpline< TDimension >
         cpiter++)
     {
     ControlPointType pt = *cpiter;
-    vnl_vector<double> v = pt.Get_vnl_vector();
+    vnl_vector<double> v = pt.GetVnlVector();
 
     N =  this->NonUniformBSplineFunctionRecursive(m_SplineOrder, i, t);
     result = result + N * v;

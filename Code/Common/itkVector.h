@@ -22,6 +22,7 @@
 #include "vnl/vnl_vector_ref.h"
 #include "itkIndent.h"
 
+
 namespace itk
 {
 
@@ -60,6 +61,9 @@ public:
   /** Standard class typedefs. */
   typedef Vector  Self;
   typedef FixedArray<T,NVectorDimension>  Superclass;
+
+  /** Run-time type information (and related methods).   */
+  itkTypeMacro( Vector, FixedArray );
   
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an Vector.   */
@@ -83,12 +87,25 @@ public:
     { return NVectorDimension; }  
 
   /** Set a vnl_vector_ref referencing the same memory block. */
-  void Set_vnl_vector( const vnl_vector<T> & );
+  void SetVnlVector( const vnl_vector<T> & );
 
   /** Get a vnl_vector_ref referencing the same memory block. */
-  vnl_vector_ref<T> Get_vnl_vector( void );
+  vnl_vector_ref<T> GetVnlVector( void );
 
   /** Get a vnl_vector with a copy of the internal memory block. */
+  vnl_vector<T> GetVnlVector( void ) const;
+
+
+  /** Set a vnl_vector_ref referencing the same memory block.
+   * \deprecated Use SetVnlVector() instead. */
+  void Set_vnl_vector( const vnl_vector<T> & );
+
+  /** Get a vnl_vector_ref referencing the same memory block. 
+   * \deprecated Use GetVnlVector() instead. */
+  vnl_vector_ref<T> Get_vnl_vector( void );
+
+  /** Get a vnl_vector with a copy of the internal memory block. 
+   * \deprecated Use GetVnlVector() instead. */
   vnl_vector<T> Get_vnl_vector( void ) const;
 
   /** Default constructor and copy constructors. */

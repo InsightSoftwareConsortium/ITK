@@ -452,7 +452,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
   PointType normal;
   normal.Fill(0.0);
   VectorType z;
-  z.Set_vnl_vector( itk_cross_3d((n2-n1).Get_vnl_vector() , (n3-n1).Get_vnl_vector()) );
+  z.SetVnlVector( itk_cross_3d((n2-n1).GetVnlVector() , (n3-n1).GetVnlVector()) );
   z.Normalize();
   normal += z;
 

@@ -19,7 +19,7 @@ Program:   Insight Segmentation & Registration Toolkit
 #define _itkPoint_txx
 #include "itkPoint.h" 
 #include <vnl/vnl_math.h>
-
+#include "itkObject.h"
 
 
 namespace itk
@@ -137,6 +137,32 @@ Point<T, TPointDimension>
   return result;
 }
 
+/*
+ * Return a vnl_vector_ref
+ */
+template<class T, unsigned int TPointDimension >
+vnl_vector_ref< T >
+Point<T, TPointDimension>
+::GetVnlVector( void ) 
+{
+  return vnl_vector_ref< T >( TPointDimension, this->GetDataPointer());
+}
+
+/**
+ * Return a vnl_vector const
+ */
+template<class T, unsigned int TPointDimension>
+vnl_vector< T >
+Point<T, TPointDimension>
+::GetVnlVector( void ) const 
+{
+  // Return a vector_ref<>.  This will be automatically converted to a
+  // vnl_vector<>.  We have to use a const_cast<> which would normally
+  // be prohibited in a const method, but it is safe to do here
+  // because the cast to vnl_vector<> will ultimately copy the data.
+  return vnl_vector_ref<T>( TPointDimension,
+                            const_cast<T*>(this->GetDataPointer()));
+}
 
 /*
  * Return a vnl_vector_ref
@@ -146,6 +172,7 @@ vnl_vector_ref< T >
 Point<T, TPointDimension>
 ::Get_vnl_vector( void ) 
 {
+  itkWarningMacro("Get_vnl_vector() is deprecated.  Please use GetVnlVector() instead.");
   return vnl_vector_ref< T >( TPointDimension, this->GetDataPointer());
 }
 
@@ -157,6 +184,7 @@ vnl_vector< T >
 Point<T, TPointDimension>
 ::Get_vnl_vector( void ) const 
 {
+  itkWarningMacro("Get_vnl_vector() is deprecated.  Please use GetVnlVector() instead.");
   // Return a vector_ref<>.  This will be automatically converted to a
   // vnl_vector<>.  We have to use a const_cast<> which would normally
   // be prohibited in a const method, but it is safe to do here

@@ -174,10 +174,10 @@ BloxCoreAtomPixel<NDimensions>
     
     // Get the physical positions of the two boundary points
     VectorType P1;
-    P1 = pBPOne->GetPhysicalPosition().Get_vnl_vector();
+    P1 = pBPOne->GetPhysicalPosition().GetVnlVector();
     
     VectorType P2;
-    P2 = pBPTwo->GetPhysicalPosition().Get_vnl_vector();
+    P2 = pBPTwo->GetPhysicalPosition().GetVnlVector();
 
     // Figure out the "C" vector of the core atom
     VectorType cVector = P2 - P1;

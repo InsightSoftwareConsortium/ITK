@@ -170,7 +170,7 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
     //VectorType spatialFunctionOriginVector = spatialFunctionOrigin.GetVectorFromOrigin();
 
     VectorType spatialFunctionOriginVector;
-    spatialFunctionOriginVector.Set_vnl_vector( spatialFunctionOrigin.Get_vnl_vector() );
+    spatialFunctionOriginVector.SetVnlVector( spatialFunctionOrigin.GetVnlVector() );
 
     // Set the gradient of the conic shell to the current boundary point gradient
     FunctionGradientType spatialFunctionGradient = pBPOne->GetGradient2();
@@ -181,7 +181,7 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
 
     // Normalize the origin gradient
     VectorType seedVector;
-    seedVector.Set_vnl_vector(spatialFunctionGradient.Get_vnl_vector());
+    seedVector.SetVnlVector(spatialFunctionGradient.GetVnlVector());
     seedVector = seedVector / seedVector.GetNorm();
   
     // If the polarity is 1, the seed position is in the direction
@@ -245,8 +245,8 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
             }
 
           // Calculate face-to-faceness
-          double faceness1 = dot_product(G1.Get_vnl_vector(), C12.Get_vnl_vector() );
-          double faceness2 = dot_product(G2.Get_vnl_vector(), C21.Get_vnl_vector() );
+          double faceness1 = dot_product(G1.GetVnlVector(), C12.GetVnlVector() );
+          double faceness2 = dot_product(G2.GetVnlVector(), C21.GetVnlVector() );
           double faceToFaceness = faceness1 * faceness2;
 
           // If face-to-faceness meets threshold criteria

@@ -69,12 +69,12 @@ SimplexMeshGeometry
   b = this->neighbors[2] - this->neighbors[0];
   c = this->neighbors[1] - this->neighbors[0];
         
-  cXb.Set_vnl_vector( cross_3d<double>(c.Get_vnl_vector(),b.Get_vnl_vector()) );
+  cXb.SetVnlVector( cross_3d<double>(c.GetVnlVector(),b.GetVnlVector()) );
  
-  tmp.Set_vnl_vector( b.GetSquaredNorm() * 
-                        cross_3d<double>( cXb.Get_vnl_vector(), c.Get_vnl_vector() ) +
+  tmp.SetVnlVector( b.GetSquaredNorm() * 
+                        cross_3d<double>( cXb.GetVnlVector(), c.GetVnlVector() ) +
                       c.GetSquaredNorm() * 
-                        cross_3d<double>( b.Get_vnl_vector() , cXb.Get_vnl_vector() ) );
+                        cross_3d<double>( b.GetVnlVector() , cXb.GetVnlVector() ) );
 
   double cXbSquaredNorm = 2 * cXb.GetSquaredNorm();
   
@@ -88,12 +88,12 @@ SimplexMeshGeometry
   VectorType d,dXc,bXd,sphereTmp, denom;
 
   d = pos - this->neighbors[0];
-  dXc.Set_vnl_vector( cross_3d<double>(d.Get_vnl_vector(),c.Get_vnl_vector()) );
-  bXd.Set_vnl_vector( cross_3d<double>(b.Get_vnl_vector(),d.Get_vnl_vector()) );
+  dXc.SetVnlVector( cross_3d<double>(d.GetVnlVector(),c.GetVnlVector()) );
+  bXd.SetVnlVector( cross_3d<double>(b.GetVnlVector(),d.GetVnlVector()) );
 
-  sphereTmp.Set_vnl_vector( d.GetSquaredNorm()* cXb.Get_vnl_vector() +
-                            b.GetSquaredNorm()* dXc.Get_vnl_vector() +
-                            c.GetSquaredNorm()* bXd.Get_vnl_vector()
+  sphereTmp.SetVnlVector( d.GetSquaredNorm()* cXb.GetVnlVector() +
+                            b.GetSquaredNorm()* dXc.GetVnlVector() +
+                            c.GetSquaredNorm()* bXd.GetVnlVector()
                           );
   
   double val = 2 * (c[0]*(b[1]*d[2]-b[2]*d[1]) - 

@@ -178,7 +178,7 @@ class SimplexMeshAdaptTopologyFilter : public MeshToMeshFilter<TInputMesh, TOutp
           mesh->GetPoint(p1, &v1);
           mesh->GetPoint(p2, &v2);
           mesh->GetPoint(p3, &v3);
-          return vcl_abs (itk_cross_3d((v2-v1).Get_vnl_vector(), (v3-v1).Get_vnl_vector()).two_norm() /2.0);
+          return vcl_abs (itk_cross_3d((v2-v1).GetVnlVector(), (v3-v1).GetVnlVector()).two_norm() /2.0);
           }
 
         DoubleValueMapType::Pointer GetAreaMap()

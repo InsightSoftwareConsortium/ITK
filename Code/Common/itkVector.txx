@@ -21,6 +21,7 @@
 #include "itkNumericTraits.h" 
 #include <vnl/vnl_math.h>
 #include "vnl/vnl_vector.h"
+#include "itkObject.h"
 
 
 namespace itk
@@ -271,6 +272,7 @@ void
 Vector<T, TVectorDimension>
 ::Set_vnl_vector( const vnl_vector<T> & v)
 {
+  itkWarningMacro("Set_vnl_vector() is deprecated.  Please use SetVnlVector() instead.");
   for(unsigned int i=0;i<v.size();i++) 
     {
     (*this)[i] = v(i);
@@ -286,6 +288,7 @@ vnl_vector_ref< T >
 Vector<T, TVectorDimension>
 ::Get_vnl_vector( void ) 
 {
+  itkWarningMacro("Get_vnl_vector() is deprecated.  Please use GetVnlVector() instead.");
   return vnl_vector_ref< T >( TVectorDimension, this->GetDataPointer() );
 }
  
@@ -298,6 +301,7 @@ vnl_vector< T >
 Vector<T, TVectorDimension>
 ::Get_vnl_vector( void ) const 
 {
+  itkWarningMacro("Get_vnl_vector() is deprecated.  Please use GetVnlVector() instead.");
   // Return a vector_ref<>.  This will be automatically converted to a
   // vnl_vector<>.  We have to use a const_cast<> which would normally
   // be prohibited in a const method, but it is safe to do here
@@ -306,6 +310,48 @@ Vector<T, TVectorDimension>
                             const_cast<T*>(this->GetDataPointer()));
 }
  
+/**
+ * Set a vnl_vector
+ */
+template<class T, unsigned int TVectorDimension>
+void
+Vector<T, TVectorDimension>
+::SetVnlVector( const vnl_vector<T> & v)
+{
+  for(unsigned int i=0;i<v.size();i++) 
+    {
+    (*this)[i] = v(i);
+    } 
+}
+ 
+
+/**
+ * Return a vnl_vector_ref
+ */
+template<class T, unsigned int TVectorDimension>
+vnl_vector_ref< T >
+Vector<T, TVectorDimension>
+::GetVnlVector( void ) 
+{
+  return vnl_vector_ref< T >( TVectorDimension, this->GetDataPointer() );
+}
+ 
+
+/**
+ * Return a vnl_vector const
+ */
+template<class T, unsigned int TVectorDimension>
+vnl_vector< T >
+Vector<T, TVectorDimension>
+::GetVnlVector( void ) const 
+{
+  // Return a vector_ref<>.  This will be automatically converted to a
+  // vnl_vector<>.  We have to use a const_cast<> which would normally
+  // be prohibited in a const method, but it is safe to do here
+  // because the cast to vnl_vector<> will ultimately copy the data.
+  return vnl_vector_ref<T>( TVectorDimension,
+                            const_cast<T*>(this->GetDataPointer()));
+}
 
 /**
  * Print content to an ostream

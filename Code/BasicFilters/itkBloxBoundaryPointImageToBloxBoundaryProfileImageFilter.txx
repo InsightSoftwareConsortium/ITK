@@ -287,7 +287,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 
       // Convert the origin position to a vector
       VectorType spatialFunctionOriginVector;
-      spatialFunctionOriginVector.Set_vnl_vector( spatialFunctionOrigin.Get_vnl_vector() );
+      spatialFunctionOriginVector.SetVnlVector( spatialFunctionOrigin.GetVnlVector() );
 
       // Set the orientation of the ellipsoid to the current boundary point gradient
       Vector<double, NDimensions> orientation;
@@ -344,7 +344,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
           }
         
         // Project boundary point onto major axis of ellipsoid
-        double projOntoMajorAxis = inner_product<double>(deltaPoint.Get_vnl_vector(), orientationVNL.Get_vnl_vector());
+        double projOntoMajorAxis = inner_product<double>(deltaPoint.GetVnlVector(), orientationVNL.GetVnlVector());
 
         // Length of profile is the length of the ellipsoid's major axis
         double profileLength = m_UniqueAxis;
@@ -415,7 +415,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
             boundaryProfile->SetStandardDeviation(m_FinalParameters[3]);
             boundaryProfile->SetMeanNormalized();
             boundaryProfile->SetStandardDeviationNormalized();
-            boundaryProfile->SetOptimalBoundaryLocation(spatialFunctionOriginVector.Get_vnl_vector(), orientationVNL.Get_vnl_vector());
+            boundaryProfile->SetOptimalBoundaryLocation(spatialFunctionOriginVector.GetVnlVector(), orientationVNL.GetVnlVector());
             boundaryProfile->SetBoundaryPoint( (*bpiterator) );
             boundaryProfile->SetGradient2((*bpiterator)->GetGradient());
 
