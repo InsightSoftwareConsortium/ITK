@@ -71,6 +71,8 @@ VersorRigid3DTransform<TScalarType>
 {
 
 
+  itkDebugMacro( << "Setting paramaters " << parameters );
+
   // Transfer the versor part
   
   AxisType axis;
@@ -79,11 +81,10 @@ VersorRigid3DTransform<TScalarType>
   axis[1] = parameters[1];
   axis[2] = parameters[2];
 
-  const TScalarType angle  = parameters[3];
-
-  m_Versor.Set( axis, angle );
+  m_Versor.Set( axis );
 
 
+  itkDebugMacro( <<"Versor is now " << m_Versor );
   
   
   // Transfer the translation part
@@ -99,6 +100,7 @@ VersorRigid3DTransform<TScalarType>
 
   ComputeMatrix();
 
+  itkDebugMacro(<<"After setting paramaters ");
 }
 
 
