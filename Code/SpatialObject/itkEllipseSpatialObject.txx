@@ -27,7 +27,7 @@ template< unsigned int TDimension >
 EllipseSpatialObject< TDimension >
 ::EllipseSpatialObject()
 {
-  strcpy(m_TypeName,"EllipseSpatialObject");
+  m_TypeName = "EllipseSpatialObject";
   m_Radius.Fill(1.0);
   m_Dimension = TDimension;
 } 
@@ -62,7 +62,7 @@ EllipseSpatialObject< TDimension >
     
   if(name == NULL || strstr(typeid(Self).name(), name) )
     {
-    const TransformType * giT = GetGlobalIndexTransform();
+    const TransformType * giT = GetWorldToIndexTransform();
     PointType transformedPoint = giT->TransformPoint(point);
   
     double r = 0;
@@ -84,15 +84,16 @@ EllipseSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 EllipseSpatialObject< TDimension >
-::ComputeBoundingBox( unsigned int depth, char * name ) 
+::ComputeBoundingBox() const
 { 
   itkDebugMacro( "Computing tube bounding box" );
 
   if( this->GetMTime() > m_BoundsMTime )
     { 
-    bool ret = Superclass::ComputeBoundingBox(depth, name);
+    bool ret = Superclass::ComputeBoundingBox();
 
-    if(name == NULL || strstr(typeid(Self).name(), name) )
+     if( m_BoundingBoxChildrenName.empty() 
+       || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
       {
       PointType pnt;
       PointType pnt2;
