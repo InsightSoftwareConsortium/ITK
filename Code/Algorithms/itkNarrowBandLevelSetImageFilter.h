@@ -246,7 +246,7 @@ public:
    * expansion/contraction as appropriate to a particular application or data
    * set. */
   itkSetMacro(ReverseExpansionDirection, bool);
-  itkGetMacro(ReverseExpansionDirection, bool);
+  itkGetConstMacro(ReverseExpansionDirection, bool);
   itkBooleanMacro(ReverseExpansionDirection);
   
   /** Combined scaling of the propagation and advection speed
