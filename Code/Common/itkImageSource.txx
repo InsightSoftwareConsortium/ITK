@@ -144,6 +144,32 @@ ImageSource<TOutputImage>
 
 
 /**
+ * 
+ */
+template<class TOutputImage>
+void
+ImageSource<TOutputImage>
+::GraftNthOutput(unsigned int num, TOutputImage *graft)
+{
+  OutputImagePointer output = this->GetOutput(num);
+
+  if (output && graft)
+    {
+    // grab a handle to the bulk data of the specified data object
+    output->SetPixelContainer( graft->GetPixelContainer() );
+    
+    // copy the region ivars of the specified data object
+    output->SetRequestedRegion( graft->GetRequestedRegion() );
+    output->SetLargestPossibleRegion( graft->GetLargestPossibleRegion() );
+    output->SetBufferedRegion( graft->GetBufferedRegion() );
+
+    // copy the meta-information
+    output->CopyInformation( graft );
+    }
+}
+
+
+/**
  *
  */
 template<class TOutputImage>

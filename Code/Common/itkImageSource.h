@@ -151,6 +151,7 @@ public:
    * 
    */
   virtual void GraftOutput(OutputImageType *output);
+  virtual void GraftNthOutput( unsigned int num, OutputImageType *output );
 
   /**
    * Make a DataObject of the correct type to used as the specified
