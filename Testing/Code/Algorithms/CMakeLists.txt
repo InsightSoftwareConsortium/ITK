@@ -173,11 +173,6 @@ ADD_EXECUTABLE(itkAlgorithmsTests itkAlgorithmsTests.cxx ${AlgorithmsTest_SRCS})
 TARGET_LINK_LIBRARIES(itkAlgorithmsTests ITKAlgorithms ITKIO ITKBasicFilters ITKFEM ITKStatistics)
 
 
-IF(ITK_WRAP_TCL)
-  ADD_TEST(itkCurvatureFlowTestTcl ${ITKTCL_EXECUTABLE}
-           ${ITKTesting_SOURCE_DIR}/Code/Algorithms/itkCurvatureFlowTestTcl.tcl)
-ENDIF(ITK_WRAP_TCL)
-
 IF(ITK_CSWIG_TCL)
   ADD_TEST(itkCurvatureFlowTestTcl2 ${ITKWISH_EXECUTABLE}
            ${ITKTesting_SOURCE_DIR}/Code/Algorithms/itkCurvatureFlowTestTcl2.tcl)

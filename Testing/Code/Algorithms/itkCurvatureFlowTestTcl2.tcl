@@ -31,6 +31,8 @@ $diff Update
 
 set meanDiff [$diff GetMeanDifference]
 set totalDiff [$diff GetTotalDifference]
+puts "MeanDifference = $meanDiff"
+puts "TotalDifference = $totalDiff"
 puts "<DartMeasurement name=\"MeanDifference\" type=\"numeric/double\">$meanDiff</DartMeasurement>"
 puts "<DartMeasurement name=\"TotalDifference\" type=\"numeric/double\">$totalDiff</DartMeasurement>"
 

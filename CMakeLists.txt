@@ -81,18 +81,11 @@ IF(WIN32)
    SET(BUILD_SHARED_LIBS OFF)
 ENDIF(WIN32)
 
-OPTION(ITK_WRAP_TCL "Build Tcl wrapper support (requires CABLE/GCC-XML)." OFF)
 OPTION(BUILD_EXAMPLES "Build the Examples directory." ON)
 OPTION(ITK_USE_SYSTEM_STDLIB
        "Use the system's version of the standard C++ library (STL and streams).  If 'OFF', ITK will build against a supplied version of the standard library from SGI.  On SGI systems, this should be set to 'OFF'." ON)
 SET(ITK_USE_SYSTEM_STDLIB ON)
 SET(VXL_NUMERICS_LIBRARIES itkvnl itkvnl_algo itknetlib)
-IF(ITK_CSWIG_TCL AND ITK_WRAP_TCL)
-  MESSAGE("Warning.  You cannot use ITK_WRAP_TCL and ITK_CSWIG_TCL together.  "
-          "Assuming ITK_CSWIG_TCL is preferred and disabling ITK_WRAP_TCL.  "
-          "Disable ITK_CSWIG_TCL to enable use of ITK_WRAP_TCL.")
-  SET(ITK_WRAP_TCL OFF)
-ENDIF(ITK_CSWIG_TCL AND ITK_WRAP_TCL)
 
 
 # Provide options to use system versions of third-party libraries.
@@ -100,7 +93,6 @@ ITK_THIRD_PARTY_OPTION(ZLIB zlib)
 ITK_THIRD_PARTY_OPTION(PNG  png)
 ITK_THIRD_PARTY_OPTION(JPEG jpeg)
 
-MARK_AS_ADVANCED(ITK_WRAP_TCL)
 MARK_AS_ADVANCED(ITK_CSWIG_PYTHON)
 MARK_AS_ADVANCED(ITK_CSWIG_TCL)
 MARK_AS_ADVANCED(ITK_CSWIG_JAVA)
@@ -138,10 +130,6 @@ ENDIF(ITK_CSWIG_PYTHON)
 IF(ITK_CSWIG_DIR)
   SUBDIRS(Wrapping/CSwig)
 ENDIF(ITK_CSWIG_DIR)
-
-IF(ITK_WRAP_TCL)
-  SUBDIRS(Wrapping)
-ENDIF(ITK_WRAP_TCL)
 
 IF (BUILD_TESTING)
   SUBDIRS(Testing)
@@ -194,22 +182,6 @@ ENDIF(NOT ITK_USE_SYSTEM_STDLIB)
 FIND_PATH(ITK_DATA_ROOT ITKData.readme ${ITK_SOURCE_DIR}/Testing/Data $ENV{ITK_DATA_ROOT})
 MARK_AS_ADVANCED(ITK_DATA_ROOT)
 
-#-----------------------------------------------------------------------------
-# Configure Tcl support.
-IF(ITK_WRAP_TCL)
-  INCLUDE(${CMAKE_ROOT}/Modules/FindTCL.cmake)
-
-  # Hide useless settings provided by FindTCL.
-  FOREACH(entry TCL_LIBRARY_DEBUG
-                TK_LIBRARY_DEBUG
-                TCL_STUB_LIBRARY
-                TCL_STUB_LIBRARY_DEBUG
-                TK_STUB_LIBRARY
-                TK_STUB_LIBRARY_DEBUG
-                TK_WISH)
-    SET(${entry} "${${entry}}" CACHE INTERNAL "This value is not used by ITK.")
-  ENDFOREACH(entry)
-ENDIF(ITK_WRAP_TCL)
 
 #-----------------------------------------------------------------------------
 # Configure files with settings for use by the build.
