@@ -48,21 +48,25 @@ namespace itk
 
   bool GE4ImageIO::CanReadFile( const char* FileNameToRead )
   {
+    char tmpStr[64];
     this->SetFileName(FileNameToRead);
-    //
-    // first off, enforce a file suffix, since itk:ImageIO really
-    // wants to differentiate by suffix.
-    char *dot = std::strrchr(FileNameToRead,'.');
-    if(dot == NULL)
-      return false;
-    if(std::strcmp(dot,".ge4") != 0 && std::strcmp(dot,".GE4") != 0)
-      return false;
-    //
-    // Next, can you open it?
     std::ifstream f(FileNameToRead,std::ifstream::binary);
     if(!f.is_open())
       return false;
     f.close();
+    // This is a weak heuristic but should only be true for GE4 files
+    // 
+    // Get the Plane from the IMAGE Header.
+    if(this->GetStringAt(f, SEHDR_START * 2 + SEHDR_PNAME * 2,tmpStr,16,false) == -1)
+      return false;
+    tmpStr[16] = '\0';
+    // if none of these strings show up, most likely not GE4
+    if (strstr (tmpStr, "CORONAL") == NULL &&
+        strstr (tmpStr, "SAGITTAL") == NULL &&
+        strstr (tmpStr, "AXIAL") == NULL)
+      {
+        return false;
+      }
     //
     // doesn't appear to be any signature in the header so I guess
     // I have to assume it's readable
