@@ -50,15 +50,6 @@ public:
         {
         return false;
         }
-      // size in pixels are the same, sort base on size in physical units
-      else if (a.m_SizeInPhysicalUnits > b.m_SizeInPhysicalUnits)
-        {
-        return true;
-        }
-      else if (a.m_SizeInPhysicalUnits < b.m_SizeInPhysicalUnits)
-        {
-        return false;
-        }
       // size in pixels and physical units are the same, sort based on
       // original object number
       else if (a.m_ObjectNumber < b.m_ObjectNumber)
