@@ -91,7 +91,7 @@ public:
     {return true;}
 
   /** Get the type of the pixel.  */
-  virtual const type_info& GetPixelType() const
+  virtual const std::type_info& GetPixelType() const
     {return typeid(PixelType);}
 
   /** Reads data from disk into internal memory (the RequestedRegionData). */
