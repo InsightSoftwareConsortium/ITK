@@ -11,7 +11,7 @@ inflate.c   trees.c
 
 CONFIGURE_FILE(
 ${ITKZLIB_SOURCE_DIR}/.NoDartCoverage 
-${UTKZLIB_BINARY_DIR}/.NoDartCoverage)
+${ITKZLIB_BINARY_DIR}/.NoDartCoverage)
 
 # for windows add the .def and .rc files to the source list
 IF(WIN32)
