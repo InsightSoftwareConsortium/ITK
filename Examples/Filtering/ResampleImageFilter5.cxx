@@ -125,8 +125,10 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex 
 
   reader->Update();
-  const double * spacing = reader->GetOutput()->GetSpacing();
-  const double * origin  = reader->GetOutput()->GetOrigin();
+  const InputImageType::SpacingType&
+    spacing = reader->GetOutput()->GetSpacing();
+  const InputImageType::PointType&
+    origin  = reader->GetOutput()->GetOrigin();
   InputImageType::SizeType size = 
       reader->GetOutput()->GetLargestPossibleRegion().GetSize();
 

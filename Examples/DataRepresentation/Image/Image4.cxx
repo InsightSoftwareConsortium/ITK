@@ -87,7 +87,7 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // Image spacing is represented in a \code{C-like} array of type \code{double}
+  // Image spacing is represented in a \code{FixedArray} 
   // whose size matches the dimension of the image. In order to manually set
   // the spacing of the image, an array of the corresponding type must be
   // created.  The elements of the array should then be initialized with the
@@ -100,7 +100,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet 
-  double spacing[ ImageType::ImageDimension ];
+  ImageType::SpacingType spacing;
 
   // Note: measurement units (e.g., mm, inches, etc.) are defined by the application.
   spacing[0] = 0.33; // spacing along X
@@ -126,15 +126,15 @@ int main()
   //  Software Guide : BeginLatex
   //
   // The spacing information can be retrieved from an image by using the
-  // \code{GetSpacing()} method. This method returns a pointer to a static
-  // array of type \code{double}. The returned pointer can then be used to read the
+  // \code{GetSpacing()} method. This method returns a reference to a 
+  // \code{FixedArray}. The returned object can then be used to read the
   // contents of the array. Note the use of the \code{const} keyword to indicate
   // that the array will not be modified. 
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  const double * sp = image->GetSpacing();  
+  const ImageType::SpacingType& sp = image->GetSpacing();  
 
   std::cout << "Spacing = ";
   std::cout << sp[0] << ", " << sp[1] << ", " << sp[2] << std::endl;
@@ -144,14 +144,14 @@ int main()
   // Software Guide : BeginLatex
   //
   // The image origin is managed in a similar way to the spacing.  A
-  // \code{C-like} array of type \code{double} matching the dimension of the image
-  // must first be allocated.  The coordinates of the origin can then be
-  // assigned to every component.  These coordinates correspond to the
-  // position of the first pixel of the image with respect to an arbitrary
-  // reference system in physical space. It is the user's responsibility to
-  // make sure that multiple images used in the same application are using a
-  // consistent reference system. This is extremely important in image
-  // registration applications.
+  // \code{Point} of the appropriate dimension must first be
+  // allocated.  The coordinates of the origin can then be assigned to
+  // every component.  These coordinates correspond to the position of
+  // the first pixel of the image with respect to an arbitrary
+  // reference system in physical space. It is the user's
+  // responsibility to make sure that multiple images used in the same
+  // application are using a consistent reference system. This is
+  // extremely important in image registration applications.
   // 
   // The following code illustrates the creation and assignment of a variable
   // suitable for initializing the image origin.
@@ -161,8 +161,8 @@ int main()
   //
   // Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet 
-  double origin[ ImageType::ImageDimension ];
+  // Software Guide : BeginCodeSnippet
+  ImageType::PointType origin;
 
   origin[0] = 0.0;  // coordinates of the 
   origin[1] = 0.0;  // first pixel in N-D
@@ -175,15 +175,15 @@ int main()
   //  Software Guide : BeginLatex
   //
   //  The origin can also be retrieved from an image by using the
-  //  \code{GetOrigin()} method. This will return a pointer to an internal
-  //  array of \code{double}s. The pointer can be used to read the contents of
+  //  \code{GetOrigin()} method. This will return a reference to a
+  //  \code{Point}. The reference can be used to read the contents of
   //  the array. Note again the use of the \code{const} keyword to indicate
   //  that the array contents will not be modified.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  const double * orgn = image->GetOrigin();
+  const ImageType::PointType& orgn = image->GetOrigin();
 
   std::cout << "Origin = ";
   std::cout << orgn[0] << ", " << orgn[1] << ", " << orgn[2] << std::endl;

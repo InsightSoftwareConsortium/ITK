@@ -67,7 +67,7 @@ int main( int argc, char * argv[] )
 
   InputImageType::ConstPointer inputImage = reader->GetOutput();
 
-  const double * inputSpacing = inputImage->GetSpacing();
+  const InputImageType::SpacingType& inputSpacing = inputImage->GetSpacing();
 
   const double isoSpacing = sqrt( inputSpacing[2] * inputSpacing[0] );
 
@@ -134,7 +134,7 @@ int main( int argc, char * argv[] )
   resampler->SetDefaultPixelValue( 255 ); // highlight regions without source
 
 
-  double spacing[ Dimension ];
+  OutputImageType::SpacingType spacing;
 
   spacing[0] = isoSpacing;
   spacing[1] = isoSpacing;
