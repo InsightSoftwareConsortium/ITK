@@ -178,9 +178,12 @@ int itkConjugateGradientOptimizerTest(int, char**)
     }
 
 
-  std::cout << "End condition   = " << vnlOptimizer->get_failure_code()    << std::endl;
   std::cout << "Number of iters = " << vnlOptimizer->get_num_iterations()  << std::endl;
   std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << std::endl;    
+
+  std::cout << "Report from vnl optimizer: " << std::endl;
+  vnlOptimizer->diagnose_outcome( std::cout );
+
   std::cout << std::endl;
 
   //
