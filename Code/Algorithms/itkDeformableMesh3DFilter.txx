@@ -2109,7 +2109,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     i++;
   }
 
-/*
+
   const unsigned long *tp;
   InputPointType* v1_pt;
   InputPointType* v2_pt;
