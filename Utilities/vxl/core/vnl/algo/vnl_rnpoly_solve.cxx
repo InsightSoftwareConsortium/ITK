@@ -727,19 +727,23 @@ vnl_rnpoly_solve::~vnl_rnpoly_solve()
   while (i_.size() > 0) { delete i_.back(); i_.pop_back(); }
 }
 
-bool vnl_rnpoly_solve::compute()
+struct vnl_rnpoly_solve_compute_data
 {
   int ideg[M_], terms[M_], polyn[M_][T_][M_];
   double coeff[M_][T_];
+  vnl_rnpoly_solve_cmplx ans[LEN_][M_];
+};
 
-  int p = Read_Input(ideg,terms,polyn,coeff);
+bool vnl_rnpoly_solve::compute()
+{
+  vnl_rnpoly_solve_compute_data* d = new vnl_rnpoly_solve_compute_data;
+  int p = Read_Input(d->ideg,d->terms,d->polyn,d->coeff);
 
   unsigned int totdegree = 1;
-  for (int j=0;j<p;++j) totdegree *= ideg[j];
+  for (int j=0;j<p;++j) totdegree *= d->ideg[j];
   assert(totdegree < LEN_);
 
-  vnl_rnpoly_solve_cmplx ans[LEN_][M_];
-  int NumSols = Perform_Distributed_Task(p,ans,ideg,terms,polyn,coeff);
+  int NumSols = Perform_Distributed_Task(p,d->ans,d->ideg,d->terms,d->polyn,d->coeff);
 
   // Print out the answers
   vnl_vector<double> * rp, *ip;
@@ -754,13 +758,14 @@ bool vnl_rnpoly_solve::compute()
     for (int j=0;j<p;j++)
     {
 #ifdef DEBUG
-      vcl_cout << ans[i][j].R << " + j " << ans[i][j].C << vcl_endl;
+      vcl_cout << d->ans[i][j].R << " + j " << d->ans[i][j].C << vcl_endl;
 #endif
-      (*rp)[j]=ans[i][j].R; (*ip)[j]=ans[i][j].C;
+      (*rp)[j]=d->ans[i][j].R; (*ip)[j]=d->ans[i][j].C;
     }
 #ifdef DEBUG
     vcl_cout<< vcl_endl;
 #endif
   }
+  delete d;
   return true;
 }
