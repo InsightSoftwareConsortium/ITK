@@ -108,7 +108,7 @@ int itkVectorRescaleIntensityImageFilterTest(int, char* [] )
           }
         }
       }
-    ot++;
+    ++ot;
     }
     
   std::cout << "Test PASSED ! " << std::endl;
