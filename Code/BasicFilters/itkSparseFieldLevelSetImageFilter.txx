@@ -274,7 +274,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
           m_ActiveList->push_back(newItem);
 
           ait.Value() = ACTIVE_STATUS;
-          it.Value() = zero;
+          //it.Value() = zero;
 
         }
       else if(it.Value() > zero)
@@ -304,7 +304,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
               //m_ActiveLists[idx].push_back(newItem);
               //m_ActiveList->push_back(newItem);
               ait.Value() = ACTIVE_STATUS;
-              it.Value() = zero;
+              //it.Value() = zero;
             }
           else if(it.Value() > zero)
             it.Value() = OUTSIDE_VALUE;
@@ -357,21 +357,21 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   while(iit!= m_ActiveList->end())
     {
 
-      nit.GoToBegin();
+      //nit.GoToBegin();
       oit.GoToBegin();
       currentItem = *iit;
       pixelIndex = currentItem->GetIndex();
       offset = pixelIndex - startIndex;
-      nit +=  offset;
+      //nit +=  offset;
       oit +=  offset;
       
       for(int i = 0; i < ImageDimension; i++)
         {
-          dpx[i] = nit.GetPixel(center + nit.GetStride(i)) -
-            nit.GetCenterPixel();
+          dpx[i] = oit.GetPixel(center + oit.GetStride(i)) -
+            oit.GetCenterPixel();
 
-          dmx[i] = nit.GetCenterPixel() - nit.GetPixel(center -
-                                                       nit.GetStride(i));
+          dmx[i] = oit.GetCenterPixel() - oit.GetPixel(center -
+                                                       oit.GetStride(i));
           if(vnl_math_abs(dpx[i]) > vnl_math_abs(dmx[i]))
             vec[i] = dpx[i];
           else
