@@ -396,6 +396,16 @@ continuous index or point.
 */
 
 /**
+\defgroup ImageInterpolators Image Interpolators
+\ingroup ImageFunctions
+Image interpolators compute pixel values in non-grid positions. A value can be computed at an image index, continuous index or point.
+
+\sa Image
+\sa ImageFunction
+*/
+
+
+/**
 \defgroup SpatialFunctions Spatial Functions
 \ingroup Functions
 */
