@@ -44,18 +44,23 @@ template<class TReference,class TTarget>
 FEMRegistrationFilter<TReference,TTarget>::FEMRegistrationFilter( )
 {
   m_FileCount=0; 
-  m_MeshResolution=16*2;  // determines the 'resolution' of the grid
  
   m_MinE=vnl_huge_val(m_MinE);  
 
   m_DescentDirection=positive;
-  m_E=1.; 
-  m_Maxiters=1;  
+  m_E.resize(1);
+  m_Rho.resize(1);
+  m_E[0]=1.; 
+  m_Rho[0]=1.;
+  m_CurrentLevel=0;
+  m_Maxiters.resize(1);
+  m_Maxiters[m_CurrentLevel]=1;  
   m_dT=1;
-  m_Rho=1;
 
-  m_NumberOfIntegrationPoints=4;
-  m_MetricWidth=3;
+  m_NumberOfIntegrationPoints.resize(1);
+  m_NumberOfIntegrationPoints[m_CurrentLevel]=4;
+  m_MetricWidth.resize(1);
+  m_MetricWidth[m_CurrentLevel]=3;
   m_DoLineSearchOnImageEnergy=false;
   m_LineSearchFrequency=1;
 
@@ -71,6 +76,8 @@ FEMRegistrationFilter<TReference,TTarget>::FEMRegistrationFilter( )
   m_LandmarkFileName = NULL;
   m_Field=NULL;
   m_TotalIterations=0;
+
+  m_ReadMeshFile=false;
 
   for (unsigned int i=0; i < ImageDimension; i++)
   {
@@ -89,13 +96,13 @@ void FEMRegistrationFilter<TReference,TTarget>::RunRegistration()
 
   // Solve the system in time 
 
-  if (!m_DoMultiRes) 
+  if (!m_DoMultiRes && m_Maxiters[m_CurrentLevel] > 0) 
   {
     m_Solver.SetDeltatT(m_dT);  
-    m_Solver.SetRho(m_Rho);      
+    m_Solver.SetRho(m_Rho[m_CurrentLevel]);      
     m_Solver.SetAlpha(m_Alpha); 
     
-    CreateMesh(m_ImageOrigin,m_ImageSize,(double)m_MeshResolution,m_Solver); 
+    CreateMesh((double)m_MeshElementsPerDimensionAtEachResolution[m_CurrentLevel],m_Solver); 
     m_Solver.GenerateGFN(); 
     ApplyLoads(m_Solver,m_ImageSize);
 
@@ -114,9 +121,9 @@ void FEMRegistrationFilter<TReference,TTarget>::RunRegistration()
     m_Load->SetMetric(m_Metric);
     m_Load->InitializeMetric();
     ImageSizeType r;
-  for (unsigned int i=0; i<ImageDimension; i++) r[i]=m_MetricWidth;
+  for (unsigned int i=0; i<ImageDimension; i++) r[i]=m_MetricWidth[m_CurrentLevel];
     m_Load->SetMetricRadius(r);
-    m_Load->SetNumberOfIntegrationPoints(m_NumberOfIntegrationPoints);
+    m_Load->SetNumberOfIntegrationPoints(m_NumberOfIntegrationPoints[m_CurrentLevel]);
     m_Load->GN=m_Solver.load.size()+1; //NOTE SETTING GN FOR FIND LATER
     m_Load->SetSign((Float)m_DescentDirection);
     m_Solver.load.push_back( FEMP<Load>(&*m_Load) );    
@@ -130,13 +137,13 @@ void FEMRegistrationFilter<TReference,TTarget>::RunRegistration()
     GetVectorField(m_Solver);
     WarpImage(m_RefImg); 
   }
-  else 
+  else if (m_Maxiters[m_CurrentLevel] > 0)
   {
     MultiResSolve();
   }
     
 
-  std::cout<<"\n E " << m_E << " dt " << m_dT << " rho " << m_Rho << "\n";
+  std::cout<<"\n E " << m_E[m_CurrentLevel] << " dt " << m_dT << " rho " << m_Rho[m_CurrentLevel] << "\n";
   
 }
 
@@ -195,11 +202,61 @@ bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname
   Float fbuf = 0.0;
   unsigned int ibuf = 0;
   char* sbuf;
+  unsigned int jj=0;
 
   std::cout << "Reading config file..." << fname << std::endl;
   f.open(fname);
   if (f) {
+  
+    this->DoMultiRes(true);
+
+    FEMLightObject::SkipWhiteSpace(f);
+    f >> ibuf;
+    this->m_NumLevels = (unsigned int) ibuf;
+
+    FEMLightObject::SkipWhiteSpace(f);
+    f >> ibuf;
+    this->m_MaxLevel = ibuf;
     
+    this->m_MeshElementsPerDimensionAtEachResolution.resize(m_NumLevels);
+    FEMLightObject::SkipWhiteSpace(f);
+    for (jj=0; jj<this->m_NumLevels; jj++) {
+      f >> ibuf;
+      this->m_MeshElementsPerDimensionAtEachResolution(jj) = ibuf;
+    }
+    
+    FEMLightObject::SkipWhiteSpace(f);
+    this->m_E.resize(m_NumLevels);
+    for (jj=0; jj<this->m_NumLevels; jj++) {
+      f >> fbuf;
+      this->SetElasticity(fbuf,jj);
+    }
+
+    FEMLightObject::SkipWhiteSpace(f);
+    this->m_Rho.resize(m_NumLevels);
+    for (jj=0; jj<this->m_NumLevels; jj++) {
+      f >> fbuf;
+      this->SetRho(fbuf,jj);
+    }
+
+    FEMLightObject::SkipWhiteSpace(f);
+    for(jj=0; jj< m_NumLevels; jj++){ 
+    f >> ibuf;
+    this->SetNumberOfIntegrationPoints(ibuf,jj);}
+
+    FEMLightObject::SkipWhiteSpace(f);
+    for(jj=0; jj< m_NumLevels; jj++){ 
+    f >> ibuf;
+    this->SetWidthOfMetricRegion(ibuf,jj);}
+    
+    FEMLightObject::SkipWhiteSpace(f);
+    this->m_Maxiters.resize(m_NumLevels);
+    for (unsigned int jj=0; jj<this->m_NumLevels; jj++) {
+      f >> ibuf;
+      this->SetMaximumIterations(ibuf,jj);
+    }
+
+
     FEMLightObject::SkipWhiteSpace(f);
     f >> fbuf;
     this->m_Alpha=fbuf;
@@ -213,14 +270,9 @@ bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname
     f >> ibuf;
     this->DoLineSearch(ibuf); 
     
-
-    FEMLightObject::SkipWhiteSpace(f);
-    f >> fbuf;
-    this->SetElasticity(fbuf);
-
     FEMLightObject::SkipWhiteSpace(f);
     f >> ibuf;
-    this->SetMaximumIterations(ibuf);
+    m_LineSearchFrequency=ibuf;
     
     FEMLightObject::SkipWhiteSpace(f);
     f >> fbuf;
@@ -231,8 +283,20 @@ bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname
     this->SetEnergyReductionFactor(fbuf);
 
     FEMLightObject::SkipWhiteSpace(f);
-    f >> fbuf;
-    m_Rho=fbuf;
+    f >> ibuf;
+    unsigned int dim = ibuf;
+
+    FEMLightObject::SkipWhiteSpace(f);
+    f >> ibuf;
+    this->m_ImageSize[0] = ibuf;
+
+    FEMLightObject::SkipWhiteSpace(f);
+    f >> ibuf;
+    this->m_ImageSize[1] = ibuf;
+
+    FEMLightObject::SkipWhiteSpace(f);
+    f >> ibuf;
+    if (dim == 3) this->m_ImageSize[2] = ibuf;
 
     FEMLightObject::SkipWhiteSpace(f);
     f >> buffer;
@@ -267,34 +331,6 @@ bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname
 
     FEMLightObject::SkipWhiteSpace(f);
     f >> ibuf;
-    unsigned int dim = ibuf;
-
-    FEMLightObject::SkipWhiteSpace(f);
-    f >> ibuf;
-    this->m_ImageSize[0] = ibuf;
-
-    FEMLightObject::SkipWhiteSpace(f);
-    f >> ibuf;
-    this->m_ImageSize[1] = ibuf;
-
-    FEMLightObject::SkipWhiteSpace(f);
-    f >> ibuf;
-    if (dim == 3) this->m_ImageSize[2] = ibuf;
-
-    FEMLightObject::SkipWhiteSpace(f);
-    f >> ibuf;
-    this->SetMeshResolution(ibuf);
-
-    FEMLightObject::SkipWhiteSpace(f);
-    f >> ibuf;
-    this->SetNumberOfIntegrationPoints(ibuf);
-
-    FEMLightObject::SkipWhiteSpace(f);
-    f >> ibuf;
-    this->SetWidthOfMetricRegion(ibuf);
-    
-    FEMLightObject::SkipWhiteSpace(f);
-    f >> ibuf;
     FEMLightObject::SkipWhiteSpace(f);
     f >> buffer;
 
@@ -308,33 +344,19 @@ bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname
 
     FEMLightObject::SkipWhiteSpace(f);
     f >> ibuf;
+    FEMLightObject::SkipWhiteSpace(f);
+    f >> buffer;
+
     if (ibuf == 1) {
-      this->DoMultiRes(true);
-
-      FEMLightObject::SkipWhiteSpace(f);
-      f >> ibuf;
-      m_LineSearchFrequency=ibuf;
-
-      FEMLightObject::SkipWhiteSpace(f);
-      f >> ibuf;
-      this->m_NumLevels = (unsigned int) ibuf;
-
-      FEMLightObject::SkipWhiteSpace(f);
-      f >> ibuf;
-      this->m_MaxLevel = ibuf;
-    
-      this->m_MeshElementsPerDimensionAtEachResolution.resize(m_NumLevels);
-      for (unsigned int jj=0; jj<this->m_NumLevels; jj++) {
-        FEMLightObject::SkipWhiteSpace(f);
-        f >> ibuf;
-        this->m_MeshElementsPerDimensionAtEachResolution(jj) = ibuf;
-      }
+      this->m_ReadMeshFile=true;
+      sbuf = new char[256];
+      strcpy(sbuf, buffer);
+      this->m_MeshFileName=sbuf;
     }
-    else { this->DoMultiRes(false); }
-
+    else { this->m_ReadMeshFile=false; }
 
     f.close();
-    std::cout << "Example configured." << std::endl;
+    std::cout << "Example configured. E " << m_E << " rho " << m_Rho << std::endl;
     return true;
   }
   else { 
@@ -385,10 +407,7 @@ int FEMRegistrationFilter<TReference,TTarget>::WriteDisplacementField(unsigned i
 template<class TReference,class TTarget>
 void FEMRegistrationFilter<TReference,TTarget>::WarpImage(ImageType* ImageToWarp)
 {
- // -------------------------------------------------------
-  std::cout << "Warping image" << std::endl;
-
-   // -------------------------------------------------------
+    // -------------------------------------------------------
   std::cout << "Warping image" << std::endl;
   bool InverseWarp=true;
 
@@ -459,8 +478,7 @@ void FEMRegistrationFilter<TReference,TTarget>::WarpImage(ImageType* ImageToWarp
 
 
 template<class TReference,class TTarget>
-void FEMRegistrationFilter<TReference,TTarget>::CreateMesh(ImageSizeType MeshOrigin, ImageSizeType MeshSize, 
-                              double ElementsPerSide, Solver& mySolver)
+void FEMRegistrationFilter<TReference,TTarget>::CreateMesh(double ElementsPerSide, Solver& mySolver)
 {
 
   vnl_vector<double> MeshOriginV; MeshOriginV.resize(ImageDimension); 
@@ -468,37 +486,40 @@ void FEMRegistrationFilter<TReference,TTarget>::CreateMesh(ImageSizeType MeshOri
   vnl_vector<double> ElementsPerDimension;  ElementsPerDimension.resize(ImageDimension); 
   for (unsigned int i=0; i<ImageDimension; i++)
   { 
-    MeshSizeV[i]=(double)MeshSize[i]-1; // FIX ME  make more general
-    MeshOriginV[i]=(double)MeshOrigin[i];// FIX ME make more general
+    MeshSizeV[i]=(double)m_ImageSize[i]/(double)m_ImageScaling[i]; // FIX ME  make more general
+    MeshOriginV[i]=(double)m_ImageOrigin[i];// FIX ME make more general
     ElementsPerDimension[i]=(double)ElementsPerSide;
   }
 
-/*  if (m_ReadMeshFile)
+  if (m_ReadMeshFile)
   {
-    ifstream meshstream(m_MeshFileName); 
-    mySolver.Read(meshtream);
-    itk::fem::MaterialLinearElasticity::Pointer m=mySolver.mat.Find(0);
-    m->E=this->GetElasticity();  // Young modulus -- used in the membrane ///
-    m->A=1.0;     // Crossection area ///
-    m->h=1.0;     // Crossection area ///
-    m->I=1.0;    // Moment of inertia ///
-    m->nu=0.; //.0;    // poissons -- DONT CHOOSE 1.0!!///
-    m->RhoC=1.0;
+    std::ifstream meshstream(m_MeshFileName); 
+    mySolver.Read(meshstream); 
+  itk::fem::MaterialLinearElasticity::Pointer m=dynamic_cast<MaterialLinearElasticity*>(mySolver.mat.Find(0));
+    if (m) { 
+    m->E=this->GetElasticity(m_CurrentLevel);  // Young modulus -- used in the membrane ///
+      //m->A=1.0;     // Crossection area ///
+      //m->h=1.0;     // Crossection area ///
+      //m->I=1.0;    // Moment of inertia ///
+      //m->nu=0.; //.0;    // poissons -- DONT CHOOSE 1.0!!///
+      //m->RhoC=1.0;
+    }   
   }
-  else*/ 
-  if (ImageDimension == 2 && dynamic_cast<Element2DC0LinearQuadrilateral*>(m_Element) != NULL)
+  else if (ImageDimension == 2 && dynamic_cast<Element2DC0LinearQuadrilateral*>(m_Element) != NULL)
   {
+    m_Material->E=this->GetElasticity(m_CurrentLevel);
     Generate2DRectilinearMesh(m_Element,mySolver,MeshOriginV,MeshSizeV,ElementsPerDimension); 
   }
   else if ( ImageDimension == 3 && dynamic_cast<Element3DC0LinearHexahedron*>(m_Element) != NULL) 
   {
+    m_Material->E=this->GetElasticity(m_CurrentLevel);
+  
     Generate3DRectilinearMesh(m_Element,mySolver,MeshOriginV,MeshSizeV,ElementsPerDimension); 
   }
   else 
   {  
     throw FEMException(__FILE__, __LINE__, "CreateMesh - wrong image or element type ");
   }
-
 }
 
 
@@ -634,9 +655,9 @@ void FEMRegistrationFilter<TReference,TTarget>::ApplyLoads(SolverType& mySolver,
   m_Load->SetMetric(m_Metric);
   m_Load->InitializeMetric();
   typename ImageType::SizeType r;
-  for (unsigned int i=0; i < ImageDimension; i++) r[i]=m_MetricWidth;
+  for (unsigned int i=0; i < ImageDimension; i++) r[i]=m_MetricWidth[m_CurrentLevel];
   m_Load->SetMetricRadius(r);
-  m_Load->SetNumberOfIntegrationPoints(m_NumberOfIntegrationPoints);
+  m_Load->SetNumberOfIntegrationPoints(m_NumberOfIntegrationPoints[m_CurrentLevel]);
   m_Load->GN=mySolver.load.size()+1; //NOTE SETTING GN FOR FIND LATER
   m_Load->SetSign((Float)m_DescentDirection);
   mySolver.load.push_back( FEMP<Load>(&*m_Load) );    
@@ -670,35 +691,28 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
   
   
    Float mint=1.0; //,ImageSimilarity=0.0;
-   if (DLS > 0 && iters > 0  && (iters % LSF) == 0) 
+   if (DLS > 0 && (iters > 0 || m_CurrentLevel !=0) && (iters % LSF) == 0) 
    {
      std::cout << " line search ";
-     if (DLS == 1 ) mySolver.GoldenSection(1.e-1,100);
-     else  mySolver.BrentsMethod(1.e-1,200);
+     if (DLS == 1 ) LastE=mySolver.GoldenSection(1.e-1,1000);
+     else  LastE=mySolver.BrentsMethod(1.e-1,200);
      std::cout << " line search done " << std::endl;
-   } else if (DLS >0 && iters == 0) mint=1.0;
+   } else if (DLS >0 && iters == 0) LastE=mySolver.EvaluateResidual(mint);
 
    //ImageSimilarity=0.0;//m_Load->EvaluateMetricGivenSolution(&(mySolver.el), mint);
-   LastE=mySolver.EvaluateResidual(mint);
    deltE=(LastE-m_MinE);
    mySolver.AddToDisplacements(mint); 
-   if ((LastE <= m_EnergyReductionFactor )/*|| ImageSimilarity > LastISim*/) 
+   if ((LastE <= m_EnergyReductionFactor  || deltE == 0.0 )
+        /*|| ImageSimilarity > LastISim*/) 
    {
      Done=true;
-     m_MinE=LastE;
-   }
-   else 
-   {  
-     m_MinE=LastE;
-     //LastISim = ImageSimilarity;
    } 
+   m_MinE=LastE;
    
    std::cout << " min E " << m_MinE << " delt E " << deltE <<  " iter " << iters << std::endl;
    iters++;
-   if ( iters > m_Maxiters ) DLS=1;
-   if (iters > (m_Maxiters+3) ) {
-     Done=true;
-   }
+   if ( iters > m_Maxiters[m_CurrentLevel] ) DLS=1;
+   
    // uncomment to write out every deformation SLOW due to interpolating vector field everywhere.
    //GetVectorField();
    //WarpImage(m_RefImg);
@@ -722,66 +736,104 @@ void FEMRegistrationFilter<TReference,TTarget>::GetVectorField(SolverType& mySol
   FieldIterator m_FieldIter( m_Field, m_FieldRegion );
   m_FieldIter.GoToBegin();
   typename ImageType::IndexType rindex = m_FieldIter.GetIndex();
-
   for(  Element::ArrayType::iterator elt=el->begin(); elt!=el->end(); elt++) 
   {
   
-    unsigned int sfsz= (*elt)->GetNumberOfNodes();
-    vnl_vector<double> shapeF( sfsz );
-
 // this code works only for 2 and 3 dimensions !!
-   if (ImageDimension == 2) 
-   {
-    for (double r=-1.0; r <= 1.; r=r+ 1./(1.0* (double)m_ImageSize[0] / (double)m_MeshResolution) )
-    for (double s=-1.0; s <= 1.; s=s+ 1./(1.0* (double)m_ImageSize[1] / (double)m_MeshResolution) )
+  if (ImageDimension == 2) 
+  {
+    for (double r=-1.0; r <= 1.; r=r+ 2./(1.0* (double)m_ImageSize[0]/(double)m_MeshElementsPerDimensionAtEachResolution[m_CurrentLevel]) ){
+    for (double s=-1.0; s <= 1.; s=s+ 2./(1.0* (double)m_ImageSize[1]/(double)m_MeshElementsPerDimensionAtEachResolution[m_CurrentLevel]) )
     {
       Pos[0]=r; 
       Pos[1]=s;
-      VectorType disp; 
- 
-      Gpt=(*elt)->GetGlobalFromLocalCoordinates(Pos);
-      Sol=(*elt)->InterpolateSolution(Pos,*(mySolver.GetLS()),mySolver.TotalSolutionIndex); // for total solution index
-      for (unsigned int ii=0; ii < ImageDimension; ii++)
-      { 
-        Float x=Gpt[ii];
-        long int temp;
-        if (r == -1.0 || s==-1.0) temp=(long int) ((x)*(Float)m_ImageScaling[ii]+0.5);// BUG FIX ME
-        else temp=(long int) ((x+0.5)*(Float)m_ImageScaling[ii]);
-        rindex[ii]=temp;
-        disp[ii] =(Float) 1.0*Sol[ii]*((Float)m_ImageScaling[ii]);
-      }
+
+//      for(  Element::ArrayType::iterator elt=el->begin(); elt!=el->end(); elt++) 
+//      {
+        VectorType disp; 
+        unsigned int Nnodes= (*elt)->GetNumberOfNodes();
+        typename Element::VectorType shapef(Nnodes);
+
+        Gpt=(*elt)->GetGlobalFromLocalCoordinates(Pos);
+        Sol=(*elt)->InterpolateSolution(Pos,*(mySolver.GetLS()),mySolver.TotalSolutionIndex); // for total solution index
+         
+        bool inimage=true;
+        for (unsigned int ii=0; ii < ImageDimension; ii++)
+        { 
+          Float x=Gpt[ii];
+          long int temp;
+          if (x !=0.0) temp=(long int) ((x)*(Float)m_ImageScaling[ii]+0.5);// BUG FIX ME
+          else temp=0;
+          rindex[ii]=temp;
+          disp[ii] =(Float) 1.0*Sol[ii]*((Float)m_ImageScaling[ii]);
+          if ( temp < 0 || temp > m_FieldSize[ii]-1)  inimage=false;
+        }
      
-      m_Field->SetPixel(rindex, disp );
-    }
-    } 
-    else if (ImageDimension==3){
-    for (double r=-1.0; r <= 1.; r=r+ 1./(1.0* (double)m_ImageSize[0] / (double)m_MeshResolution) )
-    for (double s=-1.0; s <= 1.; s=s+ 1./(1.0* (double)m_ImageSize[1] / (double)m_MeshResolution) )
-    for (double t=-1.0; t <= 1.; t=t+ 1./(1.0* (double)m_ImageSize[2] / (double)m_MeshResolution) )
-    {
+        if (inimage) m_Field->SetPixel(rindex, disp );
+    //} //other elt for
+    }} // end for r,s loop
+  } else if (ImageDimension==3){
+    Float rstep=2.0*(double)m_MeshElementsPerDimensionAtEachResolution[m_CurrentLevel]/(double)m_ImageSize[0];
+    Float sstep=2.0*(double)m_MeshElementsPerDimensionAtEachResolution[m_CurrentLevel]/(double)m_ImageSize[1];
+    Float tstep=2.0*(double)m_MeshElementsPerDimensionAtEachResolution[m_CurrentLevel]/(double)m_ImageSize[2];
+//    std::cout << " r s t steps " << rstep << sstep << tstep << std::endl;
+    for (double r=-1.0; r <= 1.0; r=r+rstep ){
+    for (double s=-1.0; s <= 1.0; s=s+sstep ){
+    for (double t=-1.0; t <= 1.0; t=t+tstep ){
       Pos[0]=r; 
       Pos[1]=s;
       Pos[2]=t; 
-      VectorType disp; 
- 
-      Gpt=(*elt)->GetGlobalFromLocalCoordinates(Pos);
-      Sol=(*elt)->InterpolateSolution(Pos,*(mySolver.GetLS()),mySolver.TotalSolutionIndex); // for total solution index
-      for (unsigned int ii=0; ii < ImageDimension; ii++)
-      { 
-        Float x=Gpt[ii];
-        long int temp;
-        if (r == -1.0 || s==-1.0) temp=(long int) ((x)*(Float)m_ImageScaling[ii]+0.5);// BUG FIX ME
-        else temp=(long int) ((x+0.5)*(Float)m_ImageScaling[ii]);
-        rindex[ii]=temp;
-        disp[ii] =(Float) 1.0*Sol[ii]*((Float)m_ImageScaling[ii]);
-//        if (disp[ii] < -100.) std:: cout << " Num Error " << disp[ii] << std::endl; 
-      }
-     
-      m_Field->SetPixel(rindex, disp );
-    }}
-  }
-  /* Insure that the values are exact at the nodes. They won't necessarily be unless we use this code.
-  Node::ArrayType* nodes = &(mySolver.node);
+ //     for(  Element::ArrayType::iterator elt=el->begin(); elt!=el->end(); elt++) 
+ //     {
+  
+        VectorType disp; 
+        unsigned int Nnodes= (*elt)->GetNumberOfNodes();
+        typename Element::VectorType shapef(Nnodes);
+
+#define FASTHEX
+#ifdef FASTHEX
+//FIXME temporarily using hexahedron shape f for speed
+  shapef[0] = (1 - r) * (1 - s) * (1 - t) * 0.125;
+  shapef[1] = (1 + r) * (1 - s) * (1 - t) * 0.125;
+  shapef[2] = (1 + r) * (1 + s) * (1 - t) * 0.125;
+  shapef[3] = (1 - r) * (1 + s) * (1 - t) * 0.125;
+  shapef[4] = (1 - r) * (1 - s) * (1 + t) * 0.125;
+  shapef[5] = (1 + r) * (1 - s) * (1 + t) * 0.125;
+  shapef[6] = (1 + r) * (1 + s) * (1 + t) * 0.125;
+  shapef[7] = (1 - r) * (1 + s) * (1 + t) * 0.125;
+#else
+        shapef = (*elt)->ShapeFunctions(Pos);
+#endif
+        Float solval,posval;
+        bool inimage=true;
+        for(unsigned int f=0; f<ImageDimension; f++)
+        {
+          solval=0.0;
+          posval=0.0;
+          for(unsigned int n=0; n<Nnodes; n++)
+          {
+          posval+=shapef[n]*(((*elt)->GetNodeCoordinates(n))[f]);
+            solval+=shapef[n] * mySolver.GetLS()->GetSolutionValue( (*elt)->GetNode(n)->GetDegreeOfFreedom(f) , mySolver.TotalSolutionIndex);
+          }
+          Sol[f]=solval;
+          Gpt[f]=posval;
+
+          Float x=Gpt[f];
+          long int temp;
+          if (x !=0) temp=(long int) ((x)*(Float)m_ImageScaling[f]+0.5); else temp=0;// round after scaling
+          rindex[f]=temp;
+          disp[f] =(Float) 1.0*Sol[f]*((Float)m_ImageScaling[f]); 
+          if ( temp < 0 || temp > m_FieldSize[f]-1)  inimage=false;
+        }
+//        if (fabs(r) == 1.0 && fabs(s)==1.0 && fabs(t)==1.0 ) std::cout << " rindex " << rindex << " sol " << Sol << std::endl;
+        if (inimage) m_Field->SetPixel(rindex, disp );
+
+//  }//end of other elt loop
+  }}}//end of for loops
+  } // end of if image dim
+  } // end of elt array loop
+  // Insure that the values are exact at the nodes. They won't necessarily be unless we use this code.
+  /*Node::ArrayType* nodes = &(mySolver.node);
   Element::VectorType coord;  
   VectorType SolutionAtNode;
   for(  Node::ArrayType::iterator node=nodes->begin(); node!=nodes->end(); node++) 
@@ -789,7 +841,8 @@ void FEMRegistrationFilter<TReference,TTarget>::GetVectorField(SolverType& mySol
     coord=(*node)->GetCoordinates();
     for (unsigned int ii=0; ii < ImageDimension; ii++)
     { 
-      rindex[ii]=(long int) (coord[ii]*(Float)m_ImageScaling[ii]+0.5);
+      if (coord[ii] != 0) rindex[ii]=(long int) (coord[ii]*(Float)m_ImageScaling[ii])-1; 
+       else rindex[ii]=0;
       Float OldSol=mySolver.GetLinearSystemWrapper()->
         GetSolutionValue((*node)->GetDegreeOfFreedom(ii),mySolver.TotalSolutionIndex);
       SolutionAtNode[ii]=OldSol*((Float)m_ImageScaling[ii]);    
@@ -841,7 +894,7 @@ void FEMRegistrationFilter<TReference,TTarget>::SampleVectorFieldAtNodes(SolverT
   std::cout << " upsampling vector field " << std::endl;
   // Here, we need to iterate through the nodes, get the nodal coordinates,
   // sample the VF at the node and place the values in the SolutionVector.
-
+  unsigned int ii=0;
   Node::ArrayType* nodes = &(mySolver.node);
   Element::VectorType coord;  
   VectorType SolutionAtNode;
@@ -853,23 +906,43 @@ void FEMRegistrationFilter<TReference,TTarget>::SampleVectorFieldAtNodes(SolverT
   for(  Node::ArrayType::iterator node=nodes->begin(); node!=nodes->end(); node++) 
   {
     coord=(*node)->GetCoordinates();
-    for (unsigned int ii=0; ii < ImageDimension; ii++)
+    for (ii=0; ii < ImageDimension; ii++)
     { 
-      rindex[ii]=(long int) (coord[ii]*(Float)m_ImageScaling[ii]+0.5);
+      if (coord[ii] != 0) rindex[ii]=((long int) ((Float)coord[ii]*(Float)m_ImageScaling[ii]+0.5)-1.);
+     else rindex[ii]=0;
     }
     SolutionAtNode=m_Field->GetPixel(rindex);
     // Now put it into the solution!
-    for (unsigned int ii=0; ii < ImageDimension; ii++)
+    for (ii=0; ii < ImageDimension; ii++)
     { 
       Float Sol=SolutionAtNode[ii]/((Float)m_ImageScaling[ii]); // Scale back to current scale
+    std::cout << " the sol " << Sol << " at coord " << coord << " rind " << rindex << std::endl;
       mySolver.GetLinearSystemWrapper()->
         SetSolutionValue((*node)->GetDegreeOfFreedom(ii),Sol,mySolver.TotalSolutionIndex);    
+      mySolver.GetLinearSystemWrapper()->
+        SetSolutionValue((*node)->GetDegreeOfFreedom(ii),Sol,mySolver.SolutionTMinus1Index);    
     }
   }
 
 }
 
 
+
+template<class TReference,class TTarget>
+void FEMRegistrationFilter<TReference,TTarget>::PrintVectorField()
+{
+  FieldIterator m_FieldIter( m_Field, m_FieldRegion );
+  m_FieldIter.GoToBegin();
+  unsigned int ct=0;
+  while( !m_FieldIter.IsAtEnd() /*&& ct < 10*/ )
+  {
+    //VectorType disp;  for (unsigned int i=0; i<ImageDimension; i++) disp[i]=-9.9;
+    std::cout << " field pix " << m_FieldIter.Get() << std::endl;
+//    m_FieldIter.Set(disp);
+    ++m_FieldIter; 
+    ct++;
+  }
+}
 
 template<class TReference,class TTarget>
 void FEMRegistrationFilter<TReference,TTarget>::MultiResSolve()
@@ -897,20 +970,18 @@ void FEMRegistrationFilter<TReference,TTarget>::MultiResSolve()
   pyramidT->SetInput( Tcaster1->GetOutput());
 
 // set schedule by specifying the number of levels;
-  unsigned int numLevels = (unsigned int) m_NumLevels;
-  pyramidR->SetNumberOfLevels( numLevels );
-  pyramidT->SetNumberOfLevels( numLevels );
+   pyramidR->SetNumberOfLevels( m_NumLevels );
+  pyramidT->SetNumberOfLevels( m_NumLevels );
 
 //  ImageType::SizeType Isz=m_RefImg->GetLargestPossibleRegion().GetSize();
   ScheduleType SizeReductionR=pyramidR->GetSchedule();
   ScheduleType SizeReductionT=pyramidT->GetSchedule();
-  //for (unsigned int ii=0; ii<numLevels; ii++) for (unsigned int jj=0; jj<ImageDimension; jj++) 
+  //for (unsigned int ii=0; ii<m_NumLevels; ii++) for (unsigned int jj=0; jj<ImageDimension; jj++) 
   //{ SizeReductionR[ii][jj]=1;SizeReductionT[ii][jj]=1;}
   pyramidR->SetSchedule(SizeReductionR); pyramidT->SetSchedule(SizeReductionT);
   std::cout << " size change at this level " << SizeReductionR << std::endl;
   pyramidR->Update();
   pyramidT->Update();
-
 
 /*  itk::RawImageIO<ImageDataType,ImageDimension>::Pointer io;
   itk::ImageFileWriter<ImageType>::Pointer writer;
@@ -920,37 +991,34 @@ void FEMRegistrationFilter<TReference,TTarget>::MultiResSolve()
   writer->SetFileName("E:\\Avants\\MetaImages\\junk64x64.raw");
   writer->SetInput(m_TarImg); writer->Write();*/
  
-  for (unsigned int i=0; i<m_MaxLevel; i++)
+  for (m_CurrentLevel=0; m_CurrentLevel<m_MaxLevel; m_CurrentLevel++)
   {
-    pyramidR->GetOutput( i )->Update();
-    pyramidT->GetOutput( i )->Update();
+    pyramidR->GetOutput( m_CurrentLevel )->Update();
+    pyramidT->GetOutput( m_CurrentLevel )->Update();
 
-//    Tcaster2->SetInput(pyramidT->GetOutput(i)); Tcaster2->Update(); writer->SetInput(Tcaster2->GetOutput()); writer->Write();
+//    Tcaster2->SetInput(pyramidT->GetOutput(m_CurrentLevel)); Tcaster2->Update(); writer->SetInput(Tcaster2->GetOutput()); writer->Write();
     
-    typename ImageType::SizeType Isz=pyramidT->GetOutput( i )->GetLargestPossibleRegion().GetSize();
+    typename ImageType::SizeType Isz=pyramidT->GetOutput( m_CurrentLevel )->GetLargestPossibleRegion().GetSize();
 
     for (unsigned int d=0; d < ImageDimension; d++)
     {
-      m_ImageScaling[d]=m_ImageSize[d]/Isz[d];
+      m_ImageScaling[d]=SizeReductionR[m_CurrentLevel][d];
     }
 
-    //for (unsigned int m=0; m < m_MeshLevels; m++) // mesh resolution loop
-    {
-      double MeshResolution=(double)this->m_MeshElementsPerDimensionAtEachResolution(i);//m_MeshResolution/ m_ImageScaling[0]; //pow((double)m_MeshStep,(double)m_MeshLevels-1.0-(double)m);
+      double MeshResolution=(double)this->m_MeshElementsPerDimensionAtEachResolution(m_CurrentLevel);
 
       Rcaster2 = CasterType2::New();// Weird - don't know why but this worked
       Tcaster2 = CasterType2::New();// and declaring the casters outside the loop did not.
-      
+
       SolverType SSS;
 
       SSS.SetDeltatT(m_dT);  
-      SSS.SetRho(m_Rho);     
+      SSS.SetRho(m_Rho[m_CurrentLevel]);     
       SSS.SetAlpha(m_Alpha);    
 
-      CreateMesh(m_ImageOrigin,Isz,MeshResolution,SSS); 
+      CreateMesh(MeshResolution,SSS); 
       SSS.GenerateGFN();
       ApplyLoads(SSS,Isz);
- 
 
       LinearSystemWrapperItpack itpackWrapper; 
       itpackWrapper.SetMaximumNonZeroValuesInMatrix(25*SSS.GetNGFN());
@@ -961,18 +1029,18 @@ void FEMRegistrationFilter<TReference,TTarget>::MultiResSolve()
 
       m_Load=FEMRegistrationFilter<TReference,TTarget>::ImageMetricLoadType::New();
 
-      Rcaster2->SetInput(pyramidR->GetOutput(i)); Rcaster2->Update();
+      Rcaster2->SetInput(pyramidR->GetOutput(m_CurrentLevel)); Rcaster2->Update();
       m_Load->SetReferenceImage(Rcaster2->GetOutput()); 
-
-      Tcaster2->SetInput(pyramidT->GetOutput(i)); Tcaster2->Update();
+ 
+      Tcaster2->SetInput(pyramidT->GetOutput(m_CurrentLevel)); Tcaster2->Update();
       m_Load->SetTargetImage(Tcaster2->GetOutput());  
 
       m_Load->SetMetric(m_Metric);
       m_Load->InitializeMetric();
       ImageSizeType r;
-      for (unsigned int dd=0; dd<ImageDimension; dd++) r[dd]=m_MetricWidth;
+      for (unsigned int dd=0; dd<ImageDimension; dd++) r[dd]=m_MetricWidth[m_CurrentLevel];
       m_Load->SetMetricRadius(r);
-      m_Load->SetNumberOfIntegrationPoints(m_NumberOfIntegrationPoints);
+      m_Load->SetNumberOfIntegrationPoints(m_NumberOfIntegrationPoints[m_CurrentLevel]);
       m_Load->GN=SSS.load.size()+1; //NOTE SETTING GN FOR FIND LATER
       m_Load->SetSign((Float)m_DescentDirection);
       SSS.load.push_back( FEMP<Load>(&*m_Load) );    
@@ -980,7 +1048,7 @@ void FEMRegistrationFilter<TReference,TTarget>::MultiResSolve()
    
       SSS.AssembleKandM();
  
-      if ( i > 0) 
+      if ( m_CurrentLevel > 0) 
       {
         SampleVectorFieldAtNodes(SSS);
 //        LastScaleEnergy=ThisScaleEnergy; ThisScaleEnergy=LastScaleEnergy; // need to resolve this
@@ -993,14 +1061,13 @@ void FEMRegistrationFilter<TReference,TTarget>::MultiResSolve()
 //      ThisScaleEnergy=SSS.EvaluateResidual(0.0);
 //      std::cout << " E " << ThisScaleEnergy << std::endl;
 
-      GetVectorField(SSS);
-      if ( i == m_MaxLevel-1) 
+      GetVectorField(SSS); 
+      if ( m_CurrentLevel == m_MaxLevel-1) 
       { 
       //  m_RefImg=Tcaster2->GetOutput(); // for testing
         WarpImage(m_RefImg);     
       } 
       
-    }// end mesh resolution loop
   }// end image resolution loop
 
   //LinearSystemSolverType* temp=
@@ -1045,5 +1112,5 @@ void FEMRegistrationFilter<TReference,TTarget>::CreateLinearSystemSolver()
 
 }} // end namespace itk::fem
 
-
+ 
 #endif
