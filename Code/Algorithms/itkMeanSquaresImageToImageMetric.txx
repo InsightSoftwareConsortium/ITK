@@ -144,7 +144,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType( ParametersDimension );
-  derivative.Fill( NumericTraits<typename DerivativeType::ValueType>::Zero );
+  derivative.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
 
   ti.GoToBegin();
   gi.GoToBegin();
@@ -247,7 +247,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType( ParametersDimension );
-  derivative.Fill( NumericTraits<typename DerivativeType::ValueType>::Zero );
+  derivative.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
 
   ti.GoToBegin();
   gi.GoToBegin();
