@@ -111,7 +111,7 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  An optimizer if required to explore the parameter space of the transform
+  //  An optimizer is required to explore the parameter space of the transform
   //  in search of optimal values of the metric.
   //
   //  Software Guide : EndLatex 
@@ -154,7 +154,7 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //
   //  The RegistrationMethod type is instantiated using the types of the fixed
-  //  and moving images. This class is just putting together all the components 
+  //  and moving images. This class is responsible for interconnecting all the components 
   //  we have described so far.
   //
   //  Software Guide : EndLatex 
@@ -219,7 +219,7 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  In this example, the fixed and moving images are read from files. This
-  //  requires the \code{RegistrationMethod} to connect its inputs to the
+  //  requires the \code{ImageRegistrationMethod} to connect its inputs to the
   //  output of the respective readers.
   //
   //  Software Guide : EndLatex 
@@ -255,13 +255,11 @@ int main( int argc, char **argv )
      fixedImageReader->GetOutput()->GetBufferedRegion() );
   // Software Guide : EndCodeSnippet
 
-
-
   //  Software Guide : BeginLatex
   //
   //  The parameters of the transform are initialized by passing them in an
   //  array. This can be used to setup an initial known correction to the
-  //  miss-registration. In this particular case, a translation transform is
+  //  misalignment. In this particular case, a translation transform is
   //  being used for the registration. The array of parameters for this
   //  transform is simply composed by the values of translation along each
   //  dimension. Setting the values of the parameters to zero leads to
@@ -289,7 +287,7 @@ int main( int argc, char **argv )
   //
   //  At this point the registration method is ready to be executed. The
   //  optimizer is the component that drives the execution of the registration.
-  //  However, the \code{RegistrationMethod} class orchestrates the ensemble in
+  //  However, the \code{ImageRegistrationMethod} class orchestrates the ensemble in
   //  order to make sure that everything is in place before the control is
   //  passed to the optimizer.
   //
@@ -298,18 +296,18 @@ int main( int argc, char **argv )
   //  context of the optimization strategy it implements. The optimizer used in
   //  this example is a variant of gradient descent that attempts to prevent
   //  too large steps to be taken.  At each iteration this optimizer will take
-  //  a step along the direction of the \code{ImageMetric} derivative. The
+  //  a step along the direction of the \code{ImageToImageMetric} derivative. The
   //  initial length of the step is defined by the user. Each time that the
   //  direction of the derivative changes abruptly the optimizer assumes that a
   //  local extrema has been passed and reacts by reducing the step length by a
   //  half. After several reductions of the step length the optimizer may be
   //  moving in a very restricted area of the transform parameters space . The
   //  user can define how small the step length should be to consider that the
-  //  method has converged. This is equivalent to define the precision with
+  //  method has converged. This is equivalent to defining the precision with
   //  which the final transform is to be known.
   //
   //  The initial step length is defined with the method
-  //  \code{SetMaximumStepLength()} while the tolerance for convergence is
+  //  \code{SetMaximumStepLength()}, while the tolerance for convergence is
   //  defined with the method \code{SetMinimumStepLength()}.
   //
   //  \index{itk::RegularStepGradientDescentOptimizer!SetMaximumStepLength()}
@@ -328,7 +326,7 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  In case the optimizer never succeed in reaching the desired precision
-  //  tolerance it is prudent to establish a limit to the number of iterations
+  //  tolerance it is prudent to establish a limit on the number of iterations
   //  to be performed. This maximum number is defined with the method
   //  \code{SetNumberOfIterations()}.
   //
@@ -371,7 +369,7 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   // In a real application you may attempt to recover from the error in the
-  // catch block. Here we are simply printing a message out and cowardly
+  // catch block. Here we are simply printing out a message and cowardly
   // refusing to continue with the execution of the program.
   //
   //  Software Guide : EndLatex 
@@ -394,8 +392,9 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  In the case of the \code{itk::TranslationTransform} the parameters can be
-  //  interpreted very straighforward. Each element of the array corresponds to
+  //  In the case of the \code{itk::TranslationTransform}, there is a straightforward
+  //  interpretation of the parameters. 
+  //  Each element of the array corresponds to
   //  a translation along one of the dimensions of space.
   //
   //  Software Guide : EndLatex 
@@ -463,7 +462,7 @@ int main( int argc, char **argv )
   //  Translation Y = 17.0001
   //  \end{verbatim}
   // 
-  //  As expected, these values match pretty well the initial miss-registration
+  //  As expected, these values match pretty well the initial misalignment
   //  intentionally introduced in the moving image.
   //
   // \begin{figure}
