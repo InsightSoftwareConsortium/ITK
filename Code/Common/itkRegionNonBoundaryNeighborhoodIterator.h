@@ -53,22 +53,27 @@ public:
    * Standard Superclass typedef
    */
   typedef RegionNeighborhoodIterator<TPixel, VDimension> Superclass;
-  
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(RegionNonBoundaryNeighborhoodIterator, RegionNeighborhoodIterator);
-  
-  /**
-   * Size object typedef support
-   */
-  typedef typename NeighborhoodBase<TPixel,VDimension>::SizeType SizeType;
 
   /**
    * Image typedef support.
    */
   typedef Image<TPixel, VDimension> ImageType;
 
+  /**
+   * Region typedef support.
+   */
+  typedef ImageRegion<VDimension> RegionType;
+  
+  /**
+   * Size object typedef support
+   */
+  typedef typename NeighborhoodBase<TPixel,VDimension>::SizeType SizeType;
+
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(RegionNonBoundaryNeighborhoodIterator, RegionNeighborhoodIterator);
+  
   /**
    * Default constructor
    */
