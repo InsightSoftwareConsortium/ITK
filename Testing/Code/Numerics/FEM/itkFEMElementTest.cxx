@@ -56,6 +56,8 @@ int itkFEMElementTest(int ac, char** av)
   // Call the appropriate sequence of Solver methods to solve the
   // problem
 
+  try
+    {
   std::cout << "GenerateGFN()" << std::endl;
   S.GenerateGFN();          // Generate global freedom numbers for system DOFs
   std::cout << "AssembleK()" << std::endl;
@@ -84,6 +86,11 @@ int itkFEMElementTest(int ac, char** av)
     std::cout<<"\n";
   }
 
-
+    }
+  catch (itk::ExceptionObject &err)
+    {
+    std::cerr << "Exception detected: "  << err;
+    return EXIT_FAILURE;
+    }
   return EXIT_SUCCESS;
 }
