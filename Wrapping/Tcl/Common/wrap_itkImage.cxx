@@ -36,6 +36,10 @@ namespace _cable_
       typedef ImageF3::Pointer ImageF3_Pointer;
       typedef ImageUS2::Pointer ImageUS2_Pointer;
       typedef ImageUS3::Pointer ImageUS3_Pointer;
+      typedef ImageF2::PixelContainer ImageF_PixelContainer;
+      typedef ImageUS2::PixelContainer ImageUS_PixelContainer;
+      typedef ImageF_PixelContainer::Pointer ImageF_PixelContainer_Pointer;
+      typedef ImageUS_PixelContainer::Pointer ImageUS_PixelContainer_Pointer;
     }
   }
 }
@@ -53,6 +57,10 @@ void force_instantiate()
   sizeof(ImageF3_Pointer);
   sizeof(ImageUS2_Pointer);
   sizeof(ImageUS3_Pointer);
+  sizeof(ImageF_PixelContainer);
+  sizeof(ImageUS_PixelContainer);
+  sizeof(ImageF_PixelContainer_Pointer);
+  sizeof(ImageUS_PixelContainer_Pointer);
 }
 
 #endif
