@@ -20,6 +20,8 @@
 #include "itkMetaSceneConverter.h"
 #include "itkMetaEllipseConverter.h"
 #include "itkMetaTubeConverter.h"
+#include "itkMetaDTITubeConverter.h"
+#include "itkMetaVesselTubeConverter.h"
 #include "itkMetaGroupConverter.h"
 #include "itkMetaImageConverter.h"
 #include "itkMetaBlobConverter.h"
@@ -149,11 +151,31 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
     /** New object goes here */
     if(!strncmp((*it)->ObjectTypeName(),"Tube",4))
     {
-      MetaTubeConverter<NDimensions> tubeConverter;
-      typename itk::TubeSpatialObject<NDimensions>::Pointer so =
-               tubeConverter.MetaTubeToTubeSpatialObject((MetaTube*)*it);
-      this->SetTransform(so, *it) ;
-      soScene->AddSpatialObject(so);
+      // If there is the subtype is a vessel
+      if(!strncmp((*it)->ObjectSubTypeName(),"Vessel",6))
+        {
+        MetaVesselTubeConverter<NDimensions> tubeConverter;
+        typename itk::VesselTubeSpatialObject<NDimensions>::Pointer so =
+                 tubeConverter.MetaVesselTubeToVesselTubeSpatialObject((MetaVesselTube*)*it);
+        this->SetTransform(so, *it) ;
+        soScene->AddSpatialObject(so);
+        }
+      else if(!strncmp((*it)->ObjectSubTypeName(),"DTI",3))
+        {
+        MetaDTITubeConverter<NDimensions> tubeConverter;
+        typename itk::DTITubeSpatialObject<NDimensions>::Pointer so =
+                 tubeConverter.MetaDTITubeToDTITubeSpatialObject((MetaDTITube*)*it);
+        this->SetTransform(so, *it) ;
+        soScene->AddSpatialObject(so);
+        }
+      else
+        {
+        MetaTubeConverter<NDimensions> tubeConverter;
+        typename itk::TubeSpatialObject<NDimensions>::Pointer so =
+                 tubeConverter.MetaTubeToTubeSpatialObject((MetaTube*)*it);
+        this->SetTransform(so, *it) ;
+        soScene->AddSpatialObject(so);
+        }
     }
 
     if(!strncmp((*it)->ObjectTypeName(),"Group",5) ||
@@ -313,7 +335,35 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
       this->SetTransform(tube, (*it)->GetObjectToParentTransform()) ;
       metaScene->AddObject(tube);
       }
-  
+   
+    if(!strncmp((*it)->GetTypeName(),"VesselTubeSpatialObject",23))
+      {
+      MetaVesselTubeConverter<NDimensions> converter;
+      MetaVesselTube* tube = converter.VesselTubeSpatialObjectToMetaVesselTube(
+          dynamic_cast<itk::VesselTubeSpatialObject<NDimensions>*>((*it).GetPointer()));
+      if((*it)->GetParent())
+        {
+        tube->ParentID((*it)->GetParent()->GetId());
+        }
+      tube->Name((*it)->GetProperty()->GetName().c_str());
+      this->SetTransform(tube, (*it)->GetObjectToParentTransform()) ;
+      metaScene->AddObject(tube);
+      }
+
+    if(!strncmp((*it)->GetTypeName(),"DTITubeSpatialObject",20))
+      {
+      MetaDTITubeConverter<NDimensions> converter;
+      MetaDTITube* tube = converter.DTITubeSpatialObjectToMetaDTITube(
+          dynamic_cast<itk::DTITubeSpatialObject<NDimensions>*>((*it).GetPointer()));
+      if((*it)->GetParent())
+        {
+        tube->ParentID((*it)->GetParent()->GetId());
+        }
+      tube->Name((*it)->GetProperty()->GetName().c_str());
+      this->SetTransform(tube, (*it)->GetObjectToParentTransform()) ;
+      metaScene->AddObject(tube);
+      }
+
     if(!strncmp((*it)->GetTypeName(),"EllipseSpatialObject",20))
       {
       MetaEllipseConverter<NDimensions> converter;
