@@ -285,7 +285,7 @@ SET(SWIG_INC ${SWIG_INC} -I${ITK_TOP}/Wrapping/CSwig/Algorithms)
 ADD_DEFINITIONS(-DSWIG_GLOBAL)
 
 
-SUBDIRS(SwigRuntime VXLNumerics Common Numerics BasicFilters IO Algorithms)
+SUBDIRS(SwigRuntime VXLNumerics Common Numerics BasicFilters IO Algorithms Tests)
 
 IF(UNIX)
   SET(ITK_CSWIG_LIBNAME_PREFIX "lib")
