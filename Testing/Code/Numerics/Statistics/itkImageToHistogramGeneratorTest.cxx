@@ -40,9 +40,9 @@ int itkImageToHistogramGeneratorTest( int , char * [] )
   RGBImageType::SizeType   size;
   RGBImageType::IndexType  start;
 
-  size[0] = 255;
-  size[1] = 255;
-  size[2] = 255;
+  size[0] = 127;
+  size[1] = 127;
+  size[2] = 127;
   
   start[0] = 0;
   start[1] = 0;
@@ -82,7 +82,7 @@ int itkImageToHistogramGeneratorTest( int , char * [] )
 
   HistogramSizeType hsize;
 
-  hsize[0] = 255;  // number of bins for the Red   channel
+  hsize[0] = 127;  // number of bins for the Red   channel
   hsize[1] =   1;  // number of bins for the Green channel
   hsize[2] =   1;  // number of bins for the Blue  channel
 
@@ -109,7 +109,7 @@ int itkImageToHistogramGeneratorTest( int , char * [] )
 
   std::cout << "Histogram of the red component" << std::endl;
 
-  const unsigned int expectedFrequency = 255 * 255;
+  const unsigned int expectedFrequency = 127 * 127;
 
   for( unsigned int bin=0; bin < histogramSize; bin++ )
     {
@@ -124,7 +124,7 @@ int itkImageToHistogramGeneratorTest( int , char * [] )
 
   // Now compute the histogram for the Green component
   hsize[0] =   1;  // number of bins for the Red   channel
-  hsize[1] = 255;  // number of bins for the Green channel
+  hsize[1] = 127;  // number of bins for the Green channel
   hsize[2] =   1;  // number of bins for the Blue  channel
 
   histogramGenerator->SetNumberOfBins( hsize );
@@ -145,7 +145,7 @@ int itkImageToHistogramGeneratorTest( int , char * [] )
   // Now compute the histogram for the Blue component
   size[0] =   1;  // number of bins for the Red   channel
   size[1] =   1;  // number of bins for the Green channel
-  size[2] = 255;  // number of bins for the Blue  channel
+  size[2] = 127;  // number of bins for the Blue  channel
 
   histogramGenerator->SetNumberOfBins( size );
   histogramGenerator->SetMarginalScale( 10.0 );
@@ -163,16 +163,13 @@ int itkImageToHistogramGeneratorTest( int , char * [] )
 
 
   // Now compute the joint histogram for the three components
-  hsize[0] = 255;  // number of bins for the Red   channel
-  hsize[1] = 255;  // number of bins for the Green channel
-  hsize[2] = 255;  // number of bins for the Blue  channel
+  hsize[0] = 127;  // number of bins for the Red   channel
+  hsize[1] = 127;  // number of bins for the Green channel
+  hsize[2] = 127;  // number of bins for the Blue  channel
 
   histogramGenerator->SetNumberOfBins( hsize );
   histogramGenerator->SetMarginalScale( 10.0 );
   histogramGenerator->Compute();
-
-  histogram = histogramGenerator->GetOutput();
-
 
   return EXIT_SUCCESS;
   
