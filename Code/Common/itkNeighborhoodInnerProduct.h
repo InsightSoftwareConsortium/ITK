@@ -18,7 +18,6 @@
 #define __itkNeighborhoodInnerProduct_h
 
 #include "itkNeighborhoodIterator.h"
-#include "itkSmartNeighborhoodIterator.h"
 #include "itkNeighborhood.h"
 #include "itkConstSliceIterator.h"
 #include "itkImageBoundaryCondition.h"
