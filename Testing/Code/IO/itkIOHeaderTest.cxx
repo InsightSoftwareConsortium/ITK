@@ -24,15 +24,18 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageIOBase.h"
 #include "itkImageIOFactory.h"
 #include "itkImageIORegion.h"
+#include "itkImageWriter.h"
 #include "itkMetaImageIO.h"
 #include "itkMetaImageIOFactory.h"
 #include "itkPNGImageIO.h"
 #include "itkPNGImageIOFactory.h"
 #include "itkRawImageIO.h"
+#include "itkRawImageWriter.h"
 #include "itkVOLImageIO.h"
 #include "itkVOLImageIOFactory.h"
 #include "itkVTKImageIO.h"
 #include "itkVTKImageIOFactory.h"
+#include "itkWriter.h"
 
 int main ( int argc, char* argv )
 {
