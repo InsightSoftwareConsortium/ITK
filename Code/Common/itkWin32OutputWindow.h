@@ -13,16 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * This class is used for error and debug message output on the windows
- * platform. It creates a read only EDIT control to display the
- * output. This class should not be used directly. It should
- * only be used through the interface of OutputWindow.  This class
- * only handles one output window per process.  If the window is destroyed,
- * the Object::GlobalWarningDisplayOff() function is called.  The
- * window is created the next time text is written to the window.
- */
-
 #ifndef __itkWin32OutputWindow_h
 #define __itkWin32OutputWindow_h
 
@@ -33,13 +23,29 @@
 namespace itk
 {
 
+/** \class Win32OutputWindow
+ * \brief Collect error and debug messages on Win32-based systems.
+ *
+ * This class is used for error and debug message output on the windows
+ * platform. It creates a read only EDIT control to display the
+ * output. This class should not be used directly. It should
+ * only be used through the interface of OutputWindow.  This class
+ * only handles one output window per process.  If the window is destroyed,
+ * the Object::GlobalWarningDisplayOff() function is called.  The
+ * window is created the next time text is written to the window.
+ */
+
 class ITK_EXPORT Win32OutputWindow : public OutputWindow
 {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
+  typedef Win32OutputWindow   Self;
+
   /** 
    * Smart pointer typedef support.
    */
-  typedef Win32OutputWindow   Self;
   typedef SmartPointer<Self>  Pointer;
 
   /**
