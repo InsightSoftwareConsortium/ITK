@@ -301,6 +301,11 @@ protected:
   PointLocatorPointer m_PointLocator;
   
   /**
+   * The bounding box (xmin,xmax, ymin,ymax, ...) of the mesh.
+   */
+//  CoordRep *BoundingBox;
+
+  /**
    * Define the mesh's public interface.  This includes access routines along
    * with specific mesh operations.
    */

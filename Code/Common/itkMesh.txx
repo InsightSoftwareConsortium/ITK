@@ -795,8 +795,11 @@ Mesh< TPixelType , TMeshType >
 ::FindClosestPoint(CoordRep coords[PointDimension],
 		   PointIdentifier* pointId)
 {
-  // IMPLEMENT ME
+  CoordRep bounds[2*PointDimension];
+
   m_PointLocator->DebugOn();
+  m_PointLocator->InitPointInsertion(m_PointsContainer, 
+                                     this->GetBoundingBox(bounds));
 
   return bool();
 }
@@ -836,7 +839,8 @@ Mesh< TPixelType , TMeshType >::CoordRep*
 Mesh< TPixelType , TMeshType >
 ::GetBoundingBox(CoordRep bounds[PointDimension*2])
 {
-  // IMPLEMENT ME
+  this->ComputeBoundingBox();
+//  return this->BoundingBox;
   return NULL;
 }
 
@@ -1212,7 +1216,8 @@ Mesh< TPixelType , TMeshType >
   m_BoundaryAssignmentsContainers(
     BoundaryAssignmentsContainerVector(MaxTopologicalDimension)),
   m_PointLocator(NULL)
-{}
+{
+}
 
 
 ITK_NAMESPACE_END
