@@ -867,8 +867,6 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   unsigned long nSamples=0;
   unsigned long nFixedImageSamples=0;
 
-std::cout << "DEBUG: m_FixedImageSamples.size() = " << m_FixedImageSamples.size() << std::endl;
-
   for ( fiter = m_FixedImageSamples.begin(); fiter != fend; ++fiter )
     {
 
@@ -882,8 +880,6 @@ std::cout << "DEBUG: m_FixedImageSamples.size() = " << m_FixedImageSamples.size(
 
     if( sampleOk )
       {
-      std::cout << "Entering sampleOk  nSamples = " << nSamples << std::endl;
-
       ++nSamples; 
 
       // Get moving image derivative at the mapped position
