@@ -24,7 +24,7 @@
 // information is the best way to overcome the difficulties of multi-modality
 // registration.
 //
-// \index{itk::ImageRegistrationMethod!Multi-Modality|textbf}
+// \index{itk::Image\-Registration\-Method!Multi-Modality}
 //
 // The following simple example illustrates how multiple imaging modalities
 // can be registered using the ITK registration framework. The first
@@ -235,9 +235,9 @@ int main( int argc, char *argv[] )
   //  which have been normalized to a mean of zero and unit variance.  We
   //  will follow this empirical rule in this example.
   //
-  //  \index{itk::MutualInformationImageToImageMetric!SetFixedImageStandardDeviation()}
-  //  \index{itk::MutualInformationImageToImageMetric!SetMovingImageStandardDeviation()}
-  //  \index{itk::MutualInformationImageToImageMetric!SetNumberOfSpatialSamples()}
+  //  \index{itk::Mutual\-Information\-Image\-To\-Image\-Metric!SetFixedImageStandardDeviation()}
+  //  \index{itk::Mutual\-Information\-Image\-To\-Image\-Metric!SetMovingImageStandardDeviation()}
+  //  \index{itk::Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfSpatialSamples()}
   //
   //  Software Guide : EndLatex 
 
@@ -267,11 +267,20 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::NormalizeImageFilter< 
-                        FixedImageType, InternalImageType > FixedNormalizeFilterType;
+                                FixedImageType, 
+                                InternalImageType 
+                                        > FixedNormalizeFilterType;
+
   typedef itk::NormalizeImageFilter< 
-                        MovingImageType, InternalImageType > MovingNormalizeFilterType;
-  FixedNormalizeFilterType::Pointer fixedNormalizer = FixedNormalizeFilterType::New();
-  MovingNormalizeFilterType::Pointer movingNormalizer = MovingNormalizeFilterType::New();
+                                MovingImageType, 
+                                InternalImageType 
+                                              > MovingNormalizeFilterType;
+
+  FixedNormalizeFilterType::Pointer fixedNormalizer = 
+                                            FixedNormalizeFilterType::New();
+
+  MovingNormalizeFilterType::Pointer movingNormalizer =
+                                            MovingNormalizeFilterType::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -284,7 +293,9 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::DiscreteGaussianImageFilter<
-                      InternalImageType, InternalImageType> GaussianFilterType;
+                                      InternalImageType, 
+                                      InternalImageType
+                                                    > GaussianFilterType;
   
   GaussianFilterType::Pointer fixedSmoother  = GaussianFilterType::New();
   GaussianFilterType::Pointer movingSmoother = GaussianFilterType::New();
@@ -337,8 +348,8 @@ int main( int argc, char *argv[] )
   //  Additionally, we need to define the optimizer's step size using the
   //  \code{SetLearningRate()} method.
   //
-  //  \index{itk::GradientDescentOptimizer!MaximizeOn()}
-  //  \index{itk::ImageRegistrationMethod!Maximize vs Minimize}
+  //  \index{itk::Gradient\-Descent\-Optimizer!MaximizeOn()}
+  //  \index{itk::Image\-Registration\-Method!Maximize vs Minimize}
   //
   //  Software Guide : EndLatex 
 
