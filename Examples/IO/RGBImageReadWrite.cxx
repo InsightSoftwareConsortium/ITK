@@ -124,6 +124,15 @@ int main( int argc, char ** argv )
   writer->Update();
   // Software Guide : EndCodeSnippet
 
+  //  Software Guide : BeginLatex
+  //
+  //  You may have noticed that apart from the declaraton of the
+  //  \code{PixelType} there is nothing in this code that is specific for RGB
+  //  images. All the actions required to support color images are implemented
+  //  internally in the \code{ImageIO} objects.
+  //
+  //  Software Guide : EndLatex 
+
 
 
   return 0;
