@@ -4,6 +4,18 @@ PROJECT(WrapITK)
 INCLUDE (${CMAKE_ROOT}/Modules/FindTCL.cmake)
 INCLUDE (${CMAKE_ROOT}/Modules/FindPythonLibs.cmake)
 
+FIND_PROGRAM(PYTHON_EXECUTABLE
+  NAMES python2.3 python2.2 python2.1 python2.0 python1.6 python1.5 python
+  PATHS
+  [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\2.3\\InstallPath]
+  [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\2.2\\InstallPath]
+  [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\2.1\\InstallPath]
+  [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\2.0\\InstallPath]
+  [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\1.6\\InstallPath]
+  [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\1.5\\InstallPath]
+)
+MARK_AS_ADVANCED(PYTHON_EXECUTABLE)
+
 IF(CSWIG)
   GET_FILENAME_COMPONENT(CSWIG_PATH ${CSWIG} PATH)
 ENDIF(CSWIG)
@@ -238,19 +250,19 @@ SET(ITK_CSWIG_PACKAGE_DIR_BUILD "${ITK_LIBRARY_PATH}")
 SET(ITK_CSWIG_CONFIGURATION_TYPES ${CMAKE_CONFIGURATION_TYPES})
 SET(ITK_CSWIG_DATA_ROOT "${ITK_DATA_ROOT}")
 SET(ITK_CSWIG_TEST_ROOT "${ITK_BINARY_DIR}/Testing")
-SET(ITK_CSWIG_SCRIPT_DIR "${ITK_SOURCE_DIR}/Wrapping/CSwig")
+SET(ITK_CSWIG_SCRIPT_DIR "${ITK_SOURCE_DIR}/Wrapping/CSwig/Tcl")
 
 IF(ITK_CSWIG_CONFIGURATION_TYPES)
   FOREACH(config ${ITK_CSWIG_CONFIGURATION_TYPES})
     SET(ITK_CSWIG_PACKAGE_DIR "${ITK_CSWIG_PACKAGE_DIR_BUILD}/${config}")
-    CONFIGURE_FILE("${ITK_SOURCE_DIR}/Wrapping/CSwig/pkgIndex.tcl.in"
-                   "${ITK_BINARY_DIR}/Wrapping/CSwig/${config}/pkgIndex.tcl"
+    CONFIGURE_FILE("${ITK_SOURCE_DIR}/Wrapping/CSwig/Tcl/pkgIndex.tcl.in"
+                   "${ITK_BINARY_DIR}/Wrapping/CSwig/Tcl/${config}/pkgIndex.tcl"
                    @ONLY IMMEDIATE)
   ENDFOREACH(config)
 ELSE(ITK_CSWIG_CONFIGURATION_TYPES)
   SET(ITK_CSWIG_PACKAGE_DIR "${ITK_CSWIG_PACKAGE_DIR_BUILD}")
-  CONFIGURE_FILE("${ITK_SOURCE_DIR}/Wrapping/CSwig/pkgIndex.tcl.in"
-                 "${ITK_BINARY_DIR}/Wrapping/CSwig/pkgIndex.tcl"
+  CONFIGURE_FILE("${ITK_SOURCE_DIR}/Wrapping/CSwig/Tcl/pkgIndex.tcl.in"
+                 "${ITK_BINARY_DIR}/Wrapping/CSwig/Tcl/pkgIndex.tcl"
                  @ONLY IMMEDIATE)
 ENDIF(ITK_CSWIG_CONFIGURATION_TYPES)
 
@@ -261,8 +273,103 @@ SET(ITK_CSWIG_SCRIPT_DIR "[file dirname [info script]]")
 SET(ITK_CSWIG_PACKAGE_DIR "[file dirname [info script]]")
 SET(ITK_CSWIG_DATA_ROOT "[file dirname [info script]]/Data")
 SET(ITK_CSWIG_TEST_ROOT "<NO_DEFAULT>")
-CONFIGURE_FILE("${ITK_SOURCE_DIR}/Wrapping/CSwig/pkgIndex.tcl.in"
-               "${ITK_BINARY_DIR}/Wrapping/CSwig/InstallOnly/Hide/pkgIndex.tcl"
+CONFIGURE_FILE("${ITK_SOURCE_DIR}/Wrapping/CSwig/Tcl/pkgIndex.tcl.in"
+               "${ITK_BINARY_DIR}/Wrapping/CSwig/Tcl/InstallOnly/Hide/pkgIndex.tcl"
                IMMEDIATE @ONLY)
 INSTALL_FILES(/lib/InsightToolkit FILES
-              "${ITK_BINARY_DIR}/Wrapping/CSwig/InstallOnly/Hide/pkgIndex.tcl")
+              "${ITK_BINARY_DIR}/Wrapping/CSwig/Tcl/InstallOnly/Hide/pkgIndex.tcl")
+
+
+SET(ITK_CSWIG_SCRIPT_DIR "${ITK_SOURCE_DIR}/Wrapping/CSwig/Tcl")
+
+IF(ITK_CSWIG_CONFIGURATION_TYPES)
+  FOREACH(config ${ITK_CSWIG_CONFIGURATION_TYPES})
+    SET(ITK_CSWIG_PACKAGE_DIR "${ITK_CSWIG_PACKAGE_DIR_BUILD}/${config}")
+    CONFIGURE_FILE("${ITK_SOURCE_DIR}/Wrapping/CSwig/Tcl/pkgIndex.tcl.in"
+                   "${ITK_BINARY_DIR}/Wrapping/CSwig/Tcl/${config}/pkgIndex.tcl"
+                   @ONLY IMMEDIATE)
+  ENDFOREACH(config)
+ELSE(ITK_CSWIG_CONFIGURATION_TYPES)
+  SET(ITK_CSWIG_SCRIPT_DIR "'${ITK_BINARY_DIR}/Wrapping/CSwig/Python'")
+  SET(ITK_CSWIG_PACKAGE_DIR "'${ITK_CSWIG_PACKAGE_DIR_BUILD}'")
+  CONFIGURE_FILE("${ITK_SOURCE_DIR}/Wrapping/CSwig/Python/itkbase.py.in"
+                 "${ITK_BINARY_DIR}/Wrapping/CSwig/Python/itkbase.py"
+                 @ONLY IMMEDIATE)
+ENDIF(ITK_CSWIG_CONFIGURATION_TYPES)
+
+# Handle out-of-source builds correctly.
+#
+#  1. Create a list of Python files to be installed/copied.
+#  2. Copy them to ITK_BINARY_DIR if it is different from ITK_SOURCE_DIR.
+#  3. Use Python's compileall to compile the copied files.
+#
+# *** Step 1 has to be done carefully to avoid missing out files ***
+
+IF(PYTHON_EXECUTABLE)
+  ADD_CUSTOM_TARGET(itkpython_pyc ALL echo "...")
+
+  # Make the necessary directories.
+  MAKE_DIRECTORY(${ITK_BINARY_DIR}/Wrapping/CSwig/Python)
+
+  # Now create a list of Python files.
+  SET(ITK_PYTHON_FILES)
+
+  # Wrapping/CSwig/Python/*.py
+  SET(ITK_PYTHON_FILES 
+    ${ITK_PYTHON_FILES}
+    InsightToolkit
+    itkalgorithms
+    itkbasicfilters
+    itkcommon
+    itkio
+    itknumerics
+    vxlnumerics
+    )
+  # Done listing files.
+
+  # Now copy these files if necessary.
+  SET(ITK_PYTHON_SOURCE_FILES)
+  SET(ITK_PYTHON_OUTPUT_FILES)
+  FOREACH(file ${ITK_PYTHON_FILES})
+    SET(src "${ITK_BINARY_DIR}/Wrapping/CSwig/Python/${file}.py")
+    SET(ITK_PYTHON_SOURCE_FILES ${ITK_PYTHON_SOURCE_FILES} ${src})
+  ENDFOREACH(file)
+
+  IF ("${ITK_BINARY_DIR}" MATCHES "^${ITK_SOURCE_DIR}$")
+    #MESSAGE("In source build -- no need to copy Python files.")
+  ELSE ("${ITK_BINARY_DIR}" MATCHES "^${ITK_SOURCE_DIR}$")
+    FOREACH(file ${ITK_PYTHON_FILES})
+      SET(src "${ITK_SOURCE_DIR}/Wrapping/CSwig/Python/${file}.py")
+      SET(tgt "${ITK_BINARY_DIR}/Wrapping/CSwig/Python/${file}.py")
+      ADD_CUSTOM_COMMAND(SOURCE ${src}
+		         COMMAND ${CMAKE_COMMAND}
+                         ARGS -E copy ${src} ${tgt}
+                         OUTPUTS ${tgt}
+			 TARGET itkpython_pyc
+                         COMMENT "source copy")
+    ENDFOREACH(file)
+  ENDIF ("${ITK_BINARY_DIR}" MATCHES "^${ITK_SOURCE_DIR}$")
+
+  # Byte compile the Python files.
+  WRITE_FILE(${ITK_BINARY_DIR}/Wrapping/CSwig/Python/compile_all_itk
+        "import compileall\n"
+        "compileall.compile_dir('${ITK_BINARY_DIR}/Wrapping/CSwig/Python')\n"
+	"file = open('${ITK_BINARY_DIR}/Wrapping/CSwig/Python/itk_compile_complete', 'w')\n"
+	"file.write('Done')\n")
+
+  ADD_CUSTOM_COMMAND(
+    SOURCE ${ITK_BINARY_DIR}/Wrapping/CSwig/Python/compile_all_itk
+    COMMAND ${PYTHON_EXECUTABLE}
+    ARGS ${ITK_BINARY_DIR}/Wrapping/CSwig/Python/compile_all_itk
+    DEPENDS ${ITK_PYTHON_SOURCE_FILES}
+    OUTPUTS "${ITK_BINARY_DIR}/Wrapping/CSwig/Python/itk_compile_complete"
+    TARGET itkpython_pyc
+    )
+
+  ADD_CUSTOM_COMMAND(
+    SOURCE itkpython_pyc
+    DEPENDS "${ITK_BINARY_DIR}/Wrapping/CSwig/Python/itk_compile_complete"
+    TARGET itkpython_pyc
+    )
+
+ENDIF(PYTHON_EXECUTABLE)

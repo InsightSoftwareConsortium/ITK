@@ -35,7 +35,6 @@ namespace eval itk {
       package require itkio $version
       package require itkbasicfilters $version
       package require itkalgorithms $version
-      package require itkutils $version
       package provide InsightToolkit $version
     "
 
@@ -63,12 +62,6 @@ namespace eval itk {
     package ifneeded itkio $version "
       package require itkiotcl $version
       package provide itkio $version
-    "
-
-    package ifneeded itkutils $version "
-      set src \[file join \"@ITK_CSWIG_SCRIPT_DIR@\" itkutils.tcl\]
-      if {\[catch { source \"\$src\" } errorMessage \]} { puts \$errorMessage } \\
-      else { package provide itkutils $version }
     "
 
     package ifneeded itkinteraction $version "
