@@ -271,7 +271,7 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.32\textwidth]{BinaryThresholdImageFilterOutput.eps}
   // \includegraphics[width=0.32\textwidth]{MathematicalMorphologyBinaryErosionOutput.eps}
   // \includegraphics[width=0.32\textwidth]{MathematicalMorphologyBinaryDilationOutput.eps}
-  // \caption{Effect of Erosion and Dilation in a binary image.}
+  // \itkcaption{Effect of Erosion and Dilation in a binary image.}
   // \label{fig:MathematicalMorphologyBinaryFilters}
   // \end{figure}
   //

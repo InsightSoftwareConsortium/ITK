@@ -181,7 +181,7 @@ int main( int argc, char * argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{MeanImageFilterOutput.eps}
-  // \caption[Effect of the Mean filter]{Effect of the Mean filter on a slice
+  // \itkcaption[Effect of the Mean filter]{Effect of the Mean filter on a slice
   // from a MRI Proton Density brain image.}
   // \label{fig:MeanImageFilterOutput}
   // \end{figure}

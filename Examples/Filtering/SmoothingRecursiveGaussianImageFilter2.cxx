@@ -220,7 +220,7 @@ int main( int argc, char * argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{SmoothingRecursiveGaussianImageFilterOutput3.eps}
   // \includegraphics[width=0.44\textwidth]{SmoothingRecursiveGaussianImageFilterOutput5.eps}
-  // \caption[SmoothingRecursiveGaussianImageFilter output]{Effect of the
+  // \itkcaption[SmoothingRecursiveGaussianImageFilter output]{Effect of the
   // SmoothingRecursiveGaussianImageFilter on a slice from a MRI Proton Density image
   // of the brain.}
   // \label{fig:SmoothingRecursiveGaussianImageFilterInputOutput}

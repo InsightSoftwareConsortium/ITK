@@ -243,7 +243,7 @@ int main( int argc, char * argv[] )
   // \begin{figure} \center
   // \includegraphics[width=0.44\textwidth]{VectorGradientAnisotropicDiffusionImageFilterInput.eps}
   // \includegraphics[width=0.44\textwidth]{VectorGradientAnisotropicDiffusionImageFilterOutput.eps}
-  // \caption[VectorGradientAnisotropicDiffusionImageFilter output]{Effect of
+  // \itkcaption[VectorGradientAnisotropicDiffusionImageFilter output]{Effect of
   // the VectorGradientAnisotropicDiffusionImageFilter on the $X$ component of
   // the gradient from a MRI-PD brain image.}
   // \label{fig:VectorGradientAnisotropicDiffusionImageFilterInputOutput}

@@ -43,7 +43,7 @@
 // \center
 // \includegraphics[width=0.44\textwidth]{SigmoidParameterAlpha.eps}
 // \includegraphics[width=0.44\textwidth]{SigmoidParameterBeta.eps} 
-// \caption[Sigmoid Parameters]{Effect of various parameters in the Sigmoid.
+// \itkcaption[Sigmoid Parameters]{Effect of various parameters in the Sigmoid.
 // The alpha parameter is associated with the width of intensity window while
 // the beta parameter is associated with the center of such intensity window.}
 // \label{fig:SigmoidParameters}
@@ -223,7 +223,7 @@ int main( int argc, char * argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{SigmoidImageFilterOutput.eps}
-  // \caption[Effect of the Sigmoid filter]{Effect of the Sigmoid filter on a
+  // \itkcaption[Effect of the Sigmoid filter]{Effect of the Sigmoid filter on a
   // slice from a MRI Proton Density brain image.}
   // \label{fig:SigmoidImageFilterOutput}
   // \end{figure}

@@ -168,7 +168,7 @@ int main( int argc, char * argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{BinomialBlurImageFilterOutput.eps}
-  // \caption[BinomialBlurImageFilter output]{Effect of the
+  // \itkcaption[BinomialBlurImageFilter output]{Effect of the
   // BinomialBlurImageFilter on a slice from a MRI Proton Density image  of the
   // brain.}
   // \label{fig:BinomialBlurImageFilterInputOutput}

@@ -218,7 +218,7 @@ int main( int argc, char * argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{DiscreteGaussianImageFilterOutput.eps}
-  // \caption[DiscreteGaussianImageFilter output]{Effect of the
+  // \itkcaption[DiscreteGaussianImageFilter output]{Effect of the
   // DiscreteGaussianImageFilter on a slice from a MRI Proton Density image  of
   // the brain.}
   // \label{fig:DiscreteGaussianImageFilterInputOutput}

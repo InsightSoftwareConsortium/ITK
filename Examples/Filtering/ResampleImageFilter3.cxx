@@ -45,7 +45,7 @@
 // \center
 // \includegraphics[height=6cm]{ResampleImageFilterInput2x3.eps}
 // \includegraphics[height=4cm]{ResampleImageFilterOutput9.eps}
-// \caption[Effect of a rotation on the resampling filter.]{Effect of a
+// \itkcaption[Effect of a rotation on the resampling filter.]{Effect of a
 // rotation on the resampling filter. Input image at left, Output image at
 // right.} 
 // \label{fig:ResampleImageFilterOutput9}
@@ -54,7 +54,7 @@
 // \begin{figure}
 // \center
 // \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition6.eps}
-// \caption{Input and output image placed in a common reference system.}
+// \itkcaption{Input and output image placed in a common reference system.}
 // \label{fig:ResampleImageFilterTransformComposition6}
 // \end{figure}
 //

@@ -311,14 +311,14 @@ int main( int argc, char * argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{ResampleImageFilterOutput1.eps}
-  // \caption{Effect of the Resample filter}
+  // \itkcaption{Effect of the Resample filter}
   // \label{fig:ResampleImageFilterOutput1}
   // \end{figure}
   //
   // \begin{figure}
   // \center
   // \includegraphics[width=\textwidth]{ResampleImageFilterOutput1Analysis.eps}
-  // \caption[Analysis of resampling in common coordinate system]{Analysis of
+  // \itkcaption[Analysis of resampling in common coordinate system]{Analysis of
   // the resample image done in a common coordinate system.}
   // \label{fig:ResampleImageFilterOutput1Analysis}
   // \end{figure}
@@ -379,14 +379,14 @@ int main( int argc, char * argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{ResampleImageFilterOutput2.eps}
-  // \caption{ResampleImageFilter with a translation by $(-30,-50)$}
+  // \itkcaption{ResampleImageFilter with a translation by $(-30,-50)$}
   // \label{fig:ResampleImageFilterOutput2}
   // \end{figure}
   //
   // \begin{figure}
   // \center
   // \includegraphics[width=\textwidth]{ResampleImageFilterOutput2Analysis.eps}
-  // \caption{ResampleImageFilter. Analysis of a translation by $(-30,-50)$.}
+  // \itkcaption{ResampleImageFilter. Analysis of a translation by $(-30,-50)$.}
   // \label{fig:ResampleImageFilterOutput2Analysis}
   // \end{figure}
   //
@@ -436,7 +436,7 @@ int main( int argc, char * argv[] )
   // \begin{figure}
   // \center
   // \includegraphics[width=\textwidth]{ResampleImageFilterOutput3Analysis.eps}
-  // \caption[ResampleImageFilter highlighting image
+  // \itkcaption[ResampleImageFilter highlighting image
   // borders]{ResampleImageFilter highlighting image borders with
   // SetDefaultPixelValue().}
   // \label{fig:ResampleImageFilterOutput3Analysis}

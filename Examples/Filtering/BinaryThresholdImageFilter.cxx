@@ -235,7 +235,7 @@ int main( int argc, char * argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{BinaryThresholdImageFilterOutput.eps}
-  // \caption[BinaryThresholdImageFilter output]{Effect of the BinaryThresholdImageFilter on a slice from a MRI
+  // \itkcaption[BinaryThresholdImageFilter output]{Effect of the BinaryThresholdImageFilter on a slice from a MRI
   // Proton Density image  of the brain.}
   // \label{fig:BinaryThresholdImageFilterInputOutput}
   // \end{figure}
