@@ -9,8 +9,8 @@
   Copyright (c) 2002 Insight Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -40,10 +40,10 @@ public:
 
 template<unsigned int VImageDimension>
 int testMinMaxCurvatureFlow(
-  itk::Size<VImageDimension> & size, 
-  double radius,                    
-  int numberOfRuns,                  
-  unsigned int niter[],              
+  itk::Size<VImageDimension> & size,
+  double radius,
+  int numberOfRuns,
+  unsigned int niter[],
   unsigned long radii[] );
 
 /**
@@ -51,7 +51,7 @@ int testMinMaxCurvatureFlow(
  * The test uses a binary image of a circle/sphere with intensity value
  * of 0 (black). The background is white ( intensity = 255 ).
  * X% salt and pepper noise is added to the the input image. Specifically,
- * X% of the pixels is replaced with a value choosen from a uniform 
+ * X% of the pixels is replaced with a value choosen from a uniform
  * distribution between 0 and 255.
  *
  * We then test the ability of MinMaxCurvatureFlowImageFilter to denoise
@@ -61,12 +61,12 @@ int main()
 {
 
   double radius;
-  int numberOfRuns;   
-  unsigned int niter[MAXRUNS];  
-  unsigned long radii[MAXRUNS]; 
+  int numberOfRuns;
+  unsigned int niter[MAXRUNS];
+  unsigned long radii[MAXRUNS];
 
   itk::Size<2> size2D;
-  size2D[0] = 64; size2D[1] = 64;  
+  size2D[0] = 64; size2D[1] = 64;
   radius = 20.0;
   numberOfRuns = 2;
   niter[0] = 100; niter[1] = 100;
@@ -79,17 +79,17 @@ int main()
   size3D[0] = 32; size3D[1] = 32; size3D[2] = 32;
   radius = 10.0;
   numberOfRuns = 1;
-  niter[0] = 10;
+  niter[0] = 20;
   radii[1] = 1;
   int err3D = testMinMaxCurvatureFlow( size3D, radius, numberOfRuns,
     niter, radii );
 
-  
+
   itk::Size<4> size4D;
   size4D[0] = 8; size4D[1] = 8; size4D[2] = 8; size4D[3] = 8;
   radius = 2.6;
   numberOfRuns = 1;
-  niter[0] = 5;
+  niter[0] = 20;
   radii[1] = 1;
   int err4D = testMinMaxCurvatureFlow( size4D, radius, numberOfRuns,
     niter, radii );
@@ -135,17 +135,17 @@ int testMinMaxCurvatureFlow(
   std::cout << "Create an image of circle/sphere with noise" << std::endl;
   ImageType::Pointer circleImage = ImageType::New();
 
-  
+
   ImageType::RegionType region;
   region.SetSize( size );
-  
+
   circleImage->SetLargestPossibleRegion( region );
   circleImage->SetBufferedRegion( region );
   circleImage->Allocate();
 
   IteratorType circleIter( circleImage, circleImage->GetBufferedRegion() );
 
-  
+
   for ( ; !circleIter.IsAtEnd() ; ++circleIter )
     {
     ImageType::IndexType index = circleIter.GetIndex();
@@ -167,7 +167,7 @@ int testMinMaxCurvatureFlow(
 
     if ( vnl_sample_uniform( 0.0, 1.0 ) < fractionNoise )
       {
-      value = vnl_sample_uniform( vnl_math_min(foreground,background), 
+      value = vnl_sample_uniform( vnl_math_min(foreground,background),
         vnl_math_max(foreground,background) );
       }
 
@@ -204,7 +204,7 @@ int testMinMaxCurvatureFlow(
     // set the stencil radius and number of iterations
     denoiser->SetStencilRadius( radii[j] );
     denoiser->SetNumberOfIterations( niter[j] );
-  
+
     std::cout << " Run: " << j;
     std::cout << " Radius: " << denoiser->GetStencilRadius();
     std::cout << " Iter: " << denoiser->GetNumberOfIterations();
@@ -221,23 +221,23 @@ int testMinMaxCurvatureFlow(
   /**
    * Check the quality of the output by comparing it against a
    * clean image of the circle/sphere.
-   * An output pixel is okay if it is within 
+   * An output pixel is okay if it is within
    * 0.1 * |foreground - background| of the true value.
    * This test is considered as passed if the fraction of wrong
    * pixels is less than the original noise fraction.
    */
   std::cout << "Checking the output..." << std::endl;
 
-  IteratorType outIter( swapPointer, 
+  IteratorType outIter( swapPointer,
     swapPointer->GetBufferedRegion() );
-  
+
   PixelType tolerance = vnl_math_abs( foreground - background ) * 0.1;
 
   unsigned long numPixelsWrong = 0;
 
   for ( ; !outIter.IsAtEnd(); ++outIter )
     {
-    
+
     ImageType::IndexType index = outIter.GetIndex();
     PixelType value = outIter.Get();
 
@@ -259,16 +259,16 @@ int testMinMaxCurvatureFlow(
       }
     }
 
-  double fractionWrong = (double) numPixelsWrong / 
+  double fractionWrong = (double) numPixelsWrong /
     (double) region.GetNumberOfPixels();
 
   std::cout << "Noise reduced from " << fractionNoise << " to ";
   std::cout << fractionWrong << std::endl;
 
   bool passed = true;
-  if ( fractionWrong > fractionNoise ) 
-    { 
-    passed = false; 
+  if ( fractionWrong > fractionNoise )
+    {
+    passed = false;
     }
 
 
