@@ -77,7 +77,7 @@ public:
   /**
    * Inherit some parameters from the superclass
    */
-  typedef Superclass::ImageType ImageType;
+  typedef typename Superclass::ImageType ImageType;
   enum { ImageDimension = Superclass::ImageDimension };
 
   typedef typename Superclass::PixelType        PixelType;
