@@ -116,6 +116,10 @@ ComputeMoments( ImageType * image )
     ++it;
   }
 
+  // Throw an error if the total mass is zero
+  if ( m_m0 == 0.0 )
+      Error("Total mass is zero; cg and central moments are undefined.");
+
   // Normalize using the total mass
   for(unsigned int i=0; i<ImageDimension; i++)
   {
@@ -137,7 +141,6 @@ ComputeMoments( ImageType * image )
       m_cm[i][j] -= m_cg[i] * m_cg[j];
     }
   }
-
 
   // Compute principal moments and axes
   vnl_symmetric_eigensystem<double> eigen( m_cm.GetVnlMatrix() );
