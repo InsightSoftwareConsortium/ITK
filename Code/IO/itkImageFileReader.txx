@@ -24,11 +24,10 @@
 #include "itkImageRegion.h"
 
 
+
 namespace itk
 {
 
-// BILL: You were missing the matching template arguments on the method
-// implementations in itkImageFileReader.txx.
 template <class TOutputImage, class ConvertPixelTraits>
 ImageFileReader<TOutputImage, ConvertPixelTraits>
 ::ImageFileReader()
