@@ -48,7 +48,7 @@ void
 OutputWindow
 ::PrintSelf(std::ostream& os, Indent indent)
 {
-  this->Object::PrintSelf(os, indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "OutputWindow (single instance): "
      << (void*)OutputWindow::m_Instance << std::endl;

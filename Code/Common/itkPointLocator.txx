@@ -172,7 +172,7 @@ void
 PointLocator<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 ::PrintSelf(std::ostream& os, Indent indent)
 {
-  Object::PrintSelf(os, indent);
+  Superclass::PrintSelf(os, indent);
 
 }
 

@@ -99,7 +99,7 @@ void
 ImageSource<TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
-  this->ProcessObject::PrintSelf(os,indent);
+  Superclass::PrintSelf(os,indent);
 }
 
 } // end namespace itk

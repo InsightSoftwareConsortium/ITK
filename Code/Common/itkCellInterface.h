@@ -68,6 +68,11 @@ public:
   typedef CellInterface       Self;
   
   /**
+   * Standard "Superclass" typedef.
+   */
+  typedef LightObject  Superclass;
+
+  /**
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self>  Pointer;

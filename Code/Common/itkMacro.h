@@ -452,7 +452,6 @@ static Pointer New(void) \
 #define itkGenericOutputMacro(x)
 
 #define itkTypeMacro(thisClass,superclass) \
-    typedef superclass Superclass; \
     virtual const char *GetClassName() const \
         {return #thisClass;}
 

@@ -99,7 +99,7 @@ void
 Image<TPixel, VImageDimension>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
-  ImageBase::PrintSelf(os,indent);
+  Superclass::PrintSelf(os,indent);
   
   os << indent << "Data: " << m_Buffer << std::endl;
 }

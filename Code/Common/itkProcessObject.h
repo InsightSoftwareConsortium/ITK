@@ -64,11 +64,20 @@ class ITK_EXPORT ProcessObject : public Object
 {
 public:
   /** 
-   * Smart pointer typedef support. 
+   * Standard "Self" typedef.
    */
   typedef ProcessObject       Self;
-  typedef SmartPointer<Self>  Pointer;
   
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef Object  Superclass;
+
+  /** 
+   * Smart pointer typedef support. 
+   */
+  typedef SmartPointer<Self>  Pointer;
+
   /**
    * Method for creation through the object factory.
    */

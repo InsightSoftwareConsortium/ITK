@@ -42,6 +42,11 @@ public:
    */
   typedef ExtractMeshConnectedRegions  Self;
 
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef FilterMeshToMesh<TInputMesh,TOutputMesh>   Superclass;
+
   /** 
    * Smart pointer typedef support 
    */

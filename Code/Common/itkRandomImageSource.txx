@@ -59,7 +59,7 @@ void
 RandomImageSource<TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
-  ImageSource<TOutputImage>::PrintSelf(os,indent);
+  Superclass::PrintSelf(os,indent);
 }
 
 

@@ -43,11 +43,15 @@ public:
    */
   typedef FilterImageTernary  Self;
 
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef ImageSource<TOutputImage>   Superclass;
+
   /** 
-   * Smart pointer typedef support 
+   * Smart pointer typedef support.
    */
   typedef SmartPointer<Self>   Pointer;
-
 
   /**
    *  Pointer type for first input image

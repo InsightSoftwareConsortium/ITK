@@ -363,7 +363,7 @@ void
 ObjectFactoryBase
 ::PrintSelf(std::ostream& os, Indent indent)
 {
-  Object::PrintSelf(os, indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Factory DLL path: " << m_LibraryPath.c_str() << "\n";
   os << indent << "Factory description: " << this->GetDescription() << std::endl;

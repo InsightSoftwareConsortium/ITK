@@ -55,6 +55,11 @@ public:
    */
   typedef ImageBufferIterator Self;
 
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef ImageIterator<TPixel,VImageDimension>  Superclass;
+
   /** 
    * Run-time type information (and related methods).
    */

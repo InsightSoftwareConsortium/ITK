@@ -32,13 +32,19 @@ namespace itk
  */
 
 template<class TPixel, unsigned int TImageDimension=2>
-class ImageScalarIterator : public ImageIterator<TPixel,TImageDimension> {
+class ImageScalarIterator : public ImageIterator<TPixel,TImageDimension> 
+{
 public:
   /**
    * Standard "Self" typedef.
    */
   typedef ImageScalarIterator  Self;
   
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef ImageIterator<TPixel,TImageDimension>  Superclass;
+
   /**
    * Dereference the iterator, returns a reference to the pixel. Used to set
    * or get the value referenced by the index.

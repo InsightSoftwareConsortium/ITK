@@ -42,6 +42,12 @@ public:
    */
   typedef FilterImageGaussianSecondDerivative  Self;
 
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef FilterImageGaussian<TInputImage,TOutputImage,TComputation> 
+          Superclass;
+
   /** 
    * Smart pointer typedef support.
    */

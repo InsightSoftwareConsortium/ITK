@@ -497,7 +497,7 @@ void
 ProcessObject
 ::PrintSelf(std::ostream& os, Indent indent)
 {
-  Object::PrintSelf(os,indent);
+  Superclass::PrintSelf(os,indent);
 
   os << indent << "Number Of Required Inputs: "
      << m_NumberOfRequiredInputs << std::endl;

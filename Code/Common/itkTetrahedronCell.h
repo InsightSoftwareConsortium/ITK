@@ -51,6 +51,11 @@ public:
   typedef TetrahedronCell     Self;
   
   /**
+   * Standard "Superclass" typedef.
+   */
+  typedef CellInterface<TPixelType,TCellType>  Superclass;
+
+  /**
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self>  Pointer;

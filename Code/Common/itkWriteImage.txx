@@ -52,7 +52,7 @@ void
 WriteImage<TInputImage>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
-  Writer::PrintSelf(os,indent);
+  Superclass::PrintSelf(os,indent);
   
 }
 

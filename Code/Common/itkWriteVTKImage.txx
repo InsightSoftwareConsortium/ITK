@@ -87,7 +87,7 @@ void
 WriteVTKImage<TInputImage>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
-  WriteImage<TInputImage>::PrintSelf(os,indent);
+  Superclass::PrintSelf(os,indent);
 
   if ( m_FileType == WriteVTKImage::VTK_BINARY )
     {

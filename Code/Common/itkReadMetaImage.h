@@ -39,6 +39,11 @@ public:
    */
   typedef ReadMetaImage        Self;
 
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef ImageSource<TOutputImage>  Superclass;
+
   /** 
    * Smart pointer typedef support.
    */

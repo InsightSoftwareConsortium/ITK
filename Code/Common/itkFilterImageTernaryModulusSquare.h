@@ -70,6 +70,17 @@ public:
    */
   typedef FilterImageTernaryModulusSquare  Self;
 
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef FilterImageTernary<TInputImage1,TInputImage2,
+                      TInputImage3,TOutputImage, 
+                      function::ModulusSquare3< 
+                      typename TInputImage1::PixelType, 
+                      typename TInputImage2::PixelType,
+                      typename TInputImage3::PixelType,
+                      typename TOutputImage::PixelType >   >  Superclass;
+
   /** 
    * Smart pointer typedef support 
    */

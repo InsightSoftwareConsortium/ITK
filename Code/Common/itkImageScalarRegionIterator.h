@@ -33,13 +33,20 @@ namespace itk
  */
 
 template<class TPixel, unsigned int VImageDimension=2>
-class ImageScalarRegionIterator : public ImageRegionIterator<TPixel,VImageDimension> {
+class ImageScalarRegionIterator : 
+public ImageRegionIterator<TPixel,VImageDimension> 
+{
 public:
   /**
    * Standard "Self" typedef.
    */
   typedef ImageScalarRegionIterator  Self;
   
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef ImageRegionIterator<TPixel,VImageDimension>  Superclass;
+
   /** 
    * Run-time type information (and related methods).
    */

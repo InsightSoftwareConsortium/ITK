@@ -63,6 +63,15 @@ public:
    */
   typedef FilterImageAdd  Self;
 
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef FilterImageBinary<TInputImage1,TInputImage2,TOutputImage, 
+    function::Add2< 
+              typename TInputImage1::PixelType, 
+              typename TInputImage2::PixelType,
+              typename TOutputImage::PixelType >   >  Superclass;
+
   /** 
    * Smart pointer typedef support 
    */

@@ -42,6 +42,11 @@ public:
    */
   typedef FilterImageSub  Self;
 
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef ImageSource<TOutputImage>   Superclass;
+
   /** 
    * Smart pointer typedef support 
    */

@@ -45,6 +45,11 @@ public:
    */
   typedef Win32OutputWindow   Self;
 
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef OutputWindow  Superclass;
+
   /** 
    * Smart pointer typedef support.
    */

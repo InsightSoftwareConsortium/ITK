@@ -37,6 +37,11 @@ public:
    */
   typedef ReadVTKImage        Self;
 
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef ImageSource<TOutputImage>  Superclass;
+
   /** 
    * Smart pointer typedef support.
    */

@@ -35,6 +35,11 @@ public:
    */
   typedef ImageSliceIterator Self;
 
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef ImageIteratorWithIndex<TPixel,VImageDimension>  Superclass;
+
   /** 
    * Index typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.

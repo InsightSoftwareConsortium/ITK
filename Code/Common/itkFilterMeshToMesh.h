@@ -37,6 +37,11 @@ public:
    */
   typedef FilterMeshToMesh  Self;
 
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef MeshSource<TOutputMesh> Superclass;
+
   /** 
    * Smart pointer typedef support 
    */

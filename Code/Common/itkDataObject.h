@@ -42,17 +42,21 @@ public:
    * Smart pointer typedef support.
    */
   typedef DataObject          Self;
+
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef Object  Superclass;
+
+  /**
+   * Standard smart pointer typedef.
+   */
   typedef SmartPointer<Self>  Pointer;
 
   /** 
    * Run-time type information (and related methods).
    */
   itkTypeMacro(DataObject,Object);
-
-  /**
-   * Method for creation through the object factory.
-   */
-//  itkNewMacro(Self);
 
   /** 
    * Set the source object creating this data object. 

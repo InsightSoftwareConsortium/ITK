@@ -38,7 +38,7 @@ void
 ExtractMeshConnectedRegions<TInputMesh,TOutputMesh>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
-  FilterMeshToMesh<TInputMesh,TOutputMesh>::PrintSelf(os,indent);
+  Superclass::PrintSelf(os,indent);
 
   os << indent << "Extraction Mode: ";
   if ( m_ExtractionMode == Self::PointSeededRegions )

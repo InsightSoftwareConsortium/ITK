@@ -37,6 +37,11 @@ public:
    */
   typedef ShrinkImage         Self;
 
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef FilterImageToImage<TInputImage,TOutputImage>  Superclass;
+
   /** 
    * Smart pointer typedef support.
    */

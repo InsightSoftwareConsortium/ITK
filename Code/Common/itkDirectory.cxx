@@ -49,7 +49,7 @@ void
 Directory
 ::PrintSelf(std::ostream& os, Indent indent)
 { 
-  Object::PrintSelf(os, indent);
+  Superclass::PrintSelf(os, indent);
   os << indent << "Directory for: " << m_Path << "\n";
   os << indent << "Contains the following files:\n";
   indent = indent.GetNextIndent();

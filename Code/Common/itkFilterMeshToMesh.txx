@@ -83,7 +83,7 @@ void
 FilterMeshToMesh<TInputMesh,TOutputMesh>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
-  MeshSource<TOutputMesh>::PrintSelf(os,indent);
+  Superclass::PrintSelf(os,indent);
 }
 
 } // end namespace itk

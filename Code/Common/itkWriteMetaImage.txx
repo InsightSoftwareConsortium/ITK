@@ -133,7 +133,7 @@ void
 WriteMetaImage<TInputImage>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
-  WriteImage<TInputImage>::PrintSelf(os,indent);
+  Superclass::PrintSelf(os,indent);
   os << indent << "Meta Image file format writer";
 }
 

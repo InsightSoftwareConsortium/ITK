@@ -55,7 +55,7 @@ void
 ImageBase
 ::PrintSelf(std::ostream& os, Indent indent)
 {
-  DataObject::PrintSelf(os,indent);
+  Superclass::PrintSelf(os,indent);
 }
 
 } // end namespace itk

@@ -45,6 +45,9 @@ template <
 class Point
 {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
   typedef Point  Self;
 
   /**

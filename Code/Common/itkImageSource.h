@@ -39,6 +39,11 @@ public:
    */
   typedef ImageSource         Self;
 
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef ProcessObject  Superclass;
+
   /** 
    * Smart pointer typedef support.
    */

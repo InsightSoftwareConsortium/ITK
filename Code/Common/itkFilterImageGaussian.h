@@ -42,6 +42,11 @@ public:
    */
   typedef FilterImageGaussian  Self;
 
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef ImageSource<TOutputImage>   Superclass;
+
   /** 
    * Smart pointer typedef support 
    */

@@ -38,7 +38,7 @@ void
 ShrinkImage<TInputImage,TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
-  FilterImageToImage<TInputImage,TOutputImage>::PrintSelf(os,indent);
+  Superclass::PrintSelf(os,indent);
 
   os << indent << "Shrink Factor: " << m_ShrinkFactor << std::endl;
 }

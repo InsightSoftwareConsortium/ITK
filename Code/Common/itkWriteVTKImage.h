@@ -37,6 +37,11 @@ public:
    */
   typedef WriteVTKImage       Self;
 
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef WriteImage<TInputImage>  Superclass;
+
   /** 
    * Smart pointer typedef support.
    */

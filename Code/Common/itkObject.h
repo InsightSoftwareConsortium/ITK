@@ -42,6 +42,11 @@ public:
   typedef SmartPointer<Self>  Pointer;
 
   /**
+   * Standard "Superclass" typedef.
+   */
+  typedef LightObject  Superclass;
+
+  /**
    * Method for creation through the object factory.
    */
   static Pointer New();

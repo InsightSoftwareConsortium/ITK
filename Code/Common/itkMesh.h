@@ -82,6 +82,11 @@ public:
   typedef Mesh                Self;
   
   /**
+   * Standard "Superclass" typedef.
+   */
+  typedef DataObject  Superclass;
+
+  /**
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self>  Pointer;

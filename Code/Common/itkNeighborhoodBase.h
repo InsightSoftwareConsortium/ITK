@@ -46,6 +46,11 @@ public:
   typedef NeighborhoodBase Self;
 
   /**
+   * Standard "Superclass" typedef.
+   */
+  typedef std::valarray<TPixel>  Superclass;
+
+  /**
    * Iterator typedef support.
    */
   typedef TPixel * Iterator;

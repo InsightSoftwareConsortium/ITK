@@ -32,6 +32,11 @@ public:
    */
   typedef CreateObjectFunctionBase  Self;
 
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef Object  Superclass;
+
   /** 
    * Smart pointer typedef support. 
    */

@@ -72,6 +72,11 @@ public:
    */
   typedef Image               Self;
 
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef ImageBase  Superclass;
+
   /** 
    * Smart pointer typedef support.
    */

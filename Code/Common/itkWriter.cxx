@@ -79,7 +79,7 @@ void
 Writer
 ::PrintSelf(std::ostream& os, Indent indent)
 {
-  ProcessObject::PrintSelf(os,indent);
+  Superclass::PrintSelf(os,indent);
 
   os << indent << "File Name: " 
      << (m_FileName.data() ? m_FileName.data() : "(none)") << std::endl;

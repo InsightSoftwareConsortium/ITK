@@ -49,6 +49,11 @@ public:
   typedef CellBoundary  Self;
   
   /**
+   * Standard "Superclass" typedef.
+   */
+  typedef TCell  Superclass;
+
+  /**
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self>   Pointer;

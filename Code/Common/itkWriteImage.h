@@ -35,6 +35,11 @@ public:
    */
   typedef WriteImage          Self;
 
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef Writer   Superclass;
+
   /** 
    * Smart pointer typedef support.
    */

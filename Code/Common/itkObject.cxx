@@ -220,6 +220,8 @@ void
 Object
 ::PrintSelf(std::ostream& os, Indent indent)
 {
+  Superclass::PrintSelf(os, indent);
+
   os << indent << "m_Debug: " << (m_Debug ? "On\n" : "Off\n");
 
   if ( m_DeleteMethod )

@@ -49,6 +49,11 @@ public:
    */
   typedef ObjectFactoryBase   Self;
 
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef Object  Superclass;
+
   /** 
    * Smart pointer typedef support.
    */

@@ -25,7 +25,7 @@ void
 Mesh<TPixelType,TMeshType>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
-  Object::PrintSelf(os, indent);
+  Superclass::PrintSelf(os, indent);
   os << indent << "Number Of Points: " 
      << ((m_PointsContainer.GetPointer()) ?  m_PointsContainer->Size() : 0) << std::endl;
     os << indent << "Number Of Cell Links: " 
