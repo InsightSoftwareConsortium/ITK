@@ -118,7 +118,7 @@ Point<T, TPointDimension>
 template<class T, unsigned int TPointDimension>
 const Point<T, TPointDimension> &
 Point<T, TPointDimension>
-::operator+=( const Vector<T, TPointDimension> & vec )
+::operator+=( const VectorType & vec )
 {
   for( unsigned int i=0; i<TPointDimension; i++) 
   {
@@ -134,7 +134,7 @@ Point<T, TPointDimension>
 template<class T, unsigned int TPointDimension>
 const Point<T, TPointDimension> &
 Point<T, TPointDimension>
-::operator-=( const Vector<T, TPointDimension> & vec )
+::operator-=( const VectorType & vec )
 {
   for( unsigned int i=0; i<TPointDimension; i++) 
   {
@@ -151,7 +151,7 @@ Point<T, TPointDimension>
 template<class T, unsigned int TPointDimension>
 Point<T, TPointDimension> 
 Point<T, TPointDimension>
-::operator+( const Vector<T, TPointDimension> & vec ) const
+::operator+( const VectorType & vec ) const
 {
   Self result;
   for( unsigned int i=0; i<TPointDimension; i++) 
@@ -169,7 +169,7 @@ Point<T, TPointDimension>
 template<class T, unsigned int TPointDimension>
 Point<T, TPointDimension> 
 Point<T, TPointDimension>
-::operator-( const Vector<T, TPointDimension> & vec )  const
+::operator-( const VectorType & vec )  const
 {
   Self result;
   for( unsigned int i=0; i<TPointDimension; i++) 
@@ -187,7 +187,7 @@ Point<T, TPointDimension>
 template<class T, unsigned int TPointDimension>
 Vector<T, TPointDimension> 
 Point<T, TPointDimension>
-::operator-( const Point<T, TPointDimension> & pnt )  const
+::operator-( const Self & pnt )  const
 {
   VectorType result;
   for( unsigned int i=0; i<TPointDimension; i++) 
