@@ -90,7 +90,22 @@ namespace itk
  * the member can be changed through the "Get" access routine.
  */
 #define itkGetConstMacro(name,type) \
-  virtual const type Get##name () const \
+  virtual type Get##name () const \
+  { \
+    itkDebugMacro(<< this->GetClassName() << " (" << this \
+                  << "): returning " << #name " of " << this->m_##name ); \
+    return this->m_##name; \
+  }
+
+
+/**
+ * Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
+ * This is the "const" form of the itkGetMacro.  It should be used unless
+ * the member can be changed through the "Get" access routine.
+ * This versions returns a const reference to the variable.
+ */
+#define itkGetConstReferenceMacro(name,type) \
+  virtual const type & Get##name () const \
   { \
     itkDebugMacro(<< this->GetClassName() << " (" << this \
                   << "): returning " << #name " of " << this->m_##name ); \
@@ -179,6 +194,19 @@ namespace itk
                   << "): returning " #name " address " << this->m_##name ); \
     return this->m_##name; \
   } 
+
+/**
+ * Get a const reference to a smart pointer to an object.  
+ * Creates the member Get"name"() (e.g., GetPoints()).
+ */
+#define itkGetConstReferenceObjectMacro(name,type) \
+  virtual const type::Pointer & Get##name () const \
+  { \
+    itkDebugMacro(<< this->GetClassName() << " (" << this \
+                  << "): returning " #name " address " << this->m_##name ); \
+    return this->m_##name; \
+  } 
+
 
 /**
  * Create members "name"On() and "name"Off() (e.g., DebugOn() DebugOff()).
