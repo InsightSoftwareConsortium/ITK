@@ -31,7 +31,7 @@ public:
   unsigned int m_NumberOfIterations;
   bool m_TestFailure;
   
-  BarrierTestUserData()
+  BarrierTestUserData( unsigned int number_of_threads)
   {
     m_TestFailure = false;
     for (unsigned int i = 0; i < 3; i++)
@@ -39,8 +39,8 @@ public:
     m_NumberOfIterations = 50;
     m_FirstBarrier = itk::Barrier::New();
     m_SecondBarrier = itk::Barrier::New();
-    m_FirstBarrier->Initialize(4);
-    m_SecondBarrier->Initialize(4);
+    m_FirstBarrier->Initialize(number_of_threads);
+    m_SecondBarrier->Initialize(number_of_threads);
   }
   ~BarrierTestUserData() {}
 };
@@ -117,14 +117,20 @@ ITK_THREAD_RETURN_TYPE BarrierSpecialTest( void *ptr )
   return ITK_THREAD_RETURN_VALUE;
 }
 
-int itkBarrierTest(int, char * [])
+int itkBarrierTest(int argc, char *argv[])
 {
-  BarrierTestUserData data;
-  
+  int number_of_threads = 4;
+  if (argc > 1)
+    {
+    number_of_threads = ::atoi(argv[1]);
+    }
+
+  BarrierTestUserData data(number_of_threads);
+
   try
     {  
     itk::MultiThreader::Pointer multithreader = itk::MultiThreader::New();
-    multithreader->SetNumberOfThreads(4);
+    multithreader->SetNumberOfThreads(number_of_threads);
     multithreader->SetSingleMethod( BarrierTestCallback, &data);
     
     for (unsigned int i = 0; i < 5; i++)
