@@ -209,7 +209,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   const unsigned long *tp;
   float x;
 
-  for (int i=0; i<m_NumberOfCells; i++) {
+  for (unsigned int i=0; i<m_NumberOfCells; i++) {
   tp = cells.Value()->GetPointIds();
   tripoints[0] = tp[0];
   tripoints[1] = tp[1];
@@ -351,7 +351,7 @@ void
 BalloonForceFilter<TInputMesh, TOutputMesh>
 ::ComputeForce()
 {
-  int i;
+  unsigned int i;
   IndexType coord; coord.Fill(0);
   IndexType extend; extend.Fill(0);
   float extends[2], fo, t, xs, ys;
@@ -835,7 +835,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   InputPointsContainerIterator points = myPoints->Begin();
 
   i=0;
-  while( i < m_NumberOfNodes-2 ) {
+  while( i < static_cast<int>(m_NumberOfNodes)-2 ) {
     ds = derives.Value();
     s = points.Value();
     d = displacements.Value();
@@ -1337,7 +1337,6 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     ++forces;
 
 // fro the first node in the slice
-    i = 0;
     v2[0] = s[0];
     v2[1] = s[1];
 //  v2[2] = s[2];
@@ -1493,7 +1492,6 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     dis = sqrt((v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1]));
     i++;
   }
-  dis = sqrt((s[0]-v2[0])*(s[0]-v2[0])+(s[1]-v2[1])*(s[1]-v2[1]));
   ++locations;
   }
 
@@ -1504,7 +1502,8 @@ void
 BalloonForceFilter<TInputMesh, TOutputMesh>
 ::ACDSearch() 
 {
-  int i, j, l, m, n, PixelType1, PixelType2;
+  unsigned int i;
+  int j, l, m, n, PixelType1, PixelType2;
   float s;
   IPixelType v, v1, v2, v3;
   m_ACD = (int**) malloc(sizeof(int *)*m_ImageHeight/2);

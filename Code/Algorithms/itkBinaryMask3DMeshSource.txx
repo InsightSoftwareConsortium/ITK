@@ -2220,7 +2220,7 @@ void
 BinaryMask3DMeshSource<TOutputMesh>
 ::AddNodes( int index, unsigned char *nodesid, unsigned long *globalnodesid, unsigned long **currentrowtmp, unsigned long **currentframetmp )
 {
-  int i = 0;
+  int i;
   OPointType new_p;
 //  unsigned long currentrowtmp[4][2] = {{0,0},{0,0},{0,0},{0,0}};
 //  unsigned long currentframetmp[4][2] = {{0,0},{0,0},{0,0},{0,0}};
