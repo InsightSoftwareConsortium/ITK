@@ -49,8 +49,9 @@ public:
    virtual void CallBackReshapeFunc(int w, int h);   
    virtual void CallBackKeyboardFunc(unsigned char key, int x, int y);
 
-   virtual void SetSize( int w, int h );
-   virtual void SetPosition( int x, int y );
+   virtual void SetBufferSize( int w, int h );
+   virtual void SetWindowSize( int w, int h );
+   virtual void SetWindowPosition( int x, int y );
 
    /** This method initiates the event loop 
        enabling interaction with the GUI */

@@ -256,20 +256,24 @@ ImageViewer<TInputImage>
   switch( image->GetImageDimension() )
     { 
     case 2:
-      m_Window->SetSize( size[0], size[1] );
+      m_Window->SetWindowSize( size[0], size[1] );
+      m_Window->SetBufferSize( size[0], size[1] );
       break;
     case 3:
       {
       switch( m_Direction )
         {
         case 0:
-          m_Window->SetSize( size[1], size[2] );
+          m_Window->SetWindowSize( size[1], size[2] );
+          m_Window->SetBufferSize( size[1], size[2] );
           break;
         case 1:
-          m_Window->SetSize( size[2], size[0] );
+          m_Window->SetWindowSize( size[2], size[0] );
+          m_Window->SetBufferSize( size[2], size[0] );
           break;
         case 2:
-          m_Window->SetSize( size[0], size[1] );
+          m_Window->SetWindowSize( size[0], size[1] );
+          m_Window->SetBufferSize( size[0], size[1] );
           break;
         }
       }

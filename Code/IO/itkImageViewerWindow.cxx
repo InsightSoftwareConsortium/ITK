@@ -99,12 +99,26 @@ ImageViewerWindow
 
 void 
 ImageViewerWindow
-::CallBackReshapeFunc(int w, int h)
+::SetBufferSize(int w, int h)
 {
   m_Width  = w;
   m_Height = h;
+  if( m_Buffer )
+    {
+    delete [] m_Buffer;
+    m_Buffer = new BufferPixelType[ m_Width * m_Height ];
+    }
+}
 
-  glViewport( 0, 0, m_Width, m_Height ); 
+
+
+void 
+ImageViewerWindow
+::CallBackReshapeFunc(int w, int h)
+{
+//  Don't change m_Width, m_Height, they relate to the
+//  Image, not the window.
+  glViewport( 0, 0, w, h ); 
   this->CallBackDisplayFunc();
 }
 
@@ -144,25 +158,17 @@ ImageViewerWindow
 
 void
 ImageViewerWindow
-::SetSize( int w, int h )
+::SetWindowSize( int w, int h )
 {
   glutSetWindow( m_WindowID );
-
-  m_Width  = w;
-  m_Height = h;
-  if( m_Buffer )
-    {
-    delete [] m_Buffer;
-    m_Buffer = new BufferPixelType[ m_Width * m_Height ]; 
-    }
-  glutReshapeWindow( m_Width, m_Height ); 
+  glutReshapeWindow( w, h ); 
 }
  
 
 
 void
 ImageViewerWindow
-::SetPosition( int x, int y )
+::SetWindowPosition( int x, int y )
 {
   glutSetWindow( m_WindowID );
   glutPositionWindow( x, y );
