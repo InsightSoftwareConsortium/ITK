@@ -124,8 +124,6 @@ void
 FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>
 ::PrecalculateChange()
 {
-  int threadCount;
-
   // Set up for multithreaded processing.
   FDThreadStruct str;
   str.Filter = this;
