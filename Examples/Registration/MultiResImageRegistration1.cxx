@@ -573,8 +573,9 @@ int main( int argc, char **argv )
   // \includegraphics[width=5cm]{MultiResImageRegistration1Output.eps}
   // \includegraphics[width=5cm]{MultiResImageRegistration1CheckerboardBefore.eps}
   // \includegraphics[width=5cm]{MultiResImageRegistration1CheckerboardAfter.eps}
-  // \caption{Mapped moving image (left) and composition of fixed and moving
-  // images before (center) and after (right) registration.}
+  // \caption[Multi-Resolution registration input images]{Mapped moving image
+  // (left) and composition of fixed and moving images before (center) and
+  // after (right) registration.}
   // \label{fig:MultiResImageRegistration1Output}
   // \end{figure}
   //
@@ -591,7 +592,8 @@ int main( int argc, char **argv )
   // \center
   // \includegraphics[height=6cm]{MultiResImageRegistration1TraceTranslations.eps}
   // \includegraphics[height=6cm]{MultiResImageRegistration1TraceMetric.eps}
-  // \caption{Sequence of translations and metric values at each iteration of the optimizer.}
+  // \caption[Multi-Resolution registration output images]{Sequence of
+  // translations and metric values at each iteration of the optimizer.}
   // \label{fig:MultiResImageRegistration1Trace}
   // \end{figure}
   //

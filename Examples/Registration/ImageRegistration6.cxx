@@ -537,8 +537,9 @@ int main( int argc, char **argv )
   // \center
   // \includegraphics[width=6cm]{BrainProtonDensitySliceBorder20.eps}
   // \includegraphics[width=6cm]{BrainProtonDensitySliceR10X13Y17.eps}
-  // \caption{Fixed and Moving image provided as input to the registration
-  // method using CenteredTransformInitializer.}
+  // \caption[CenteredTransformInitializer input images]{Fixed and Moving image
+  // provided as input to the registration method using
+  // CenteredTransformInitializer.}
   // \label{fig:FixedMovingImageRegistration6}
   // \end{figure}
   //
@@ -548,8 +549,9 @@ int main( int argc, char **argv )
   // \includegraphics[width=5cm]{ImageRegistration6Output.eps}
   // \includegraphics[width=5cm]{ImageRegistration6DifferenceBefore.eps}
   // \includegraphics[width=5cm]{ImageRegistration6DifferenceAfter.eps} 
-  // \caption{Resampled moving image (left). Differences between fixed and
-  // moving images, before (center) and after (right) registration with the
+  // \caption[CenteredTransformInitializer output images]{Resampled moving
+  // image (left). Differences between fixed and moving images, before (center)
+  // and after (right) registration with the
   // CenteredTransformInitializer.}
   // \label{fig:ImageRegistration6Outputs}
   // \end{figure}
@@ -564,8 +566,9 @@ int main( int argc, char **argv )
   // \includegraphics[height=5cm]{ImageRegistration6TraceMetric.eps}
   // \includegraphics[height=5cm]{ImageRegistration6TraceAngle.eps}
   // \includegraphics[height=5cm]{ImageRegistration6TraceTranslations.eps} 
-  // \caption{Plots of the Metric, rotation angle, center of rotation and
-  // translations during the registration using CenteredTransformInitializer.}
+  // \caption[CenteredTransformInitializer output plots]{Plots of the Metric,
+  // rotation angle, center of rotation and translations during the
+  // registration using CenteredTransformInitializer.}
   // \label{fig:ImageRegistration6Plots}
   // \end{figure}
   //
