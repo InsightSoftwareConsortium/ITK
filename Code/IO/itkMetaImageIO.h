@@ -48,7 +48,7 @@ public:
    * while others can support 2D, 3D, or even n-D. This method returns
    * true/false as to whether the ImageIO can support the dimension
    * indicated. */
-  virtual bool SupportsDimension(unsigned long dim)
+  virtual bool SupportsDimension(unsigned long )
     {return true;}
 
   /*-------- This part of the interfaces deals with reading data. ----- */
