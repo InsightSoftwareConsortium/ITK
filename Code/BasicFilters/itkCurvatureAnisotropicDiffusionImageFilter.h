@@ -42,7 +42,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkCurvatureAnisotropicDiffusionImageFilter_h_
 
 #include "itkAnisotropicDiffusionImageFilter.h"
-#include "itkCurvature2DAnisotropicDiffusionEquation.h"
 #include "itkCurvatureNDAnisotropicDiffusionEquation.h"
 
 namespace itk {
@@ -83,18 +82,9 @@ public:
 protected:
   CurvatureAnisotropicDiffusionImageFilter()
     {
-      if ( ImageDimension == 2 )
-        {
-        Curvature2DAnisotropicDiffusionEquation<UpdateBufferType>::Pointer p        
-          = Curvature2DAnisotropicDiffusionEquation<UpdateBufferType>::New();
-        this->SetDifferenceEquation(p);
-        }
-      else
-        {
-        CurvatureNDAnisotropicDiffusionEquation<UpdateBufferType>::Pointer q
+      CurvatureNDAnisotropicDiffusionEquation<UpdateBufferType>::Pointer q
           = CurvatureNDAnisotropicDiffusionEquation<UpdateBufferType>::New();
-        this->SetDifferenceEquation(q);
-        }
+      this->SetDifferenceEquation(q);
     }
   ~CurvatureAnisotropicDiffusionImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const
