@@ -23,11 +23,11 @@ namespace eval itk::testing {
   # Put the ITK_TEST_ROOT setting in the global namespace.  This
   # package is only used for testing, so this is okay.
   
-  # Look for the -O command line option.
+  # Look for the -T command line option.
   if {! [info exists ::ITK_TEST_ROOT] && [info exists argc]} {
     set argcm1 [expr $argc - 1]
     for {set i 0} {$i < $argcm1} {incr i} {
-      if {[lindex $argv $i] == "-O" && $i < $argcm1} {
+      if {[lindex $argv $i] == "-T" && $i < $argcm1} {
         set ::ITK_TEST_ROOT [lindex $argv [expr $i + 1]]
         break
       }
@@ -41,7 +41,12 @@ namespace eval itk::testing {
   
   # Use the default output directory.
   if {! [info exists ::ITK_TEST_ROOT]} {
-    set ::ITK_TEST_ROOT $::itk::testing::defaultTestRoot
+    set dtr $::itk::testing::defaultTestRoot
+    if {$dtr == "<NO_DEFAULT>"} {
+      error "Set ITK_TEST_ROOT or use -T option to specify."
+    } else {
+      set ::ITK_TEST_ROOT $dtr
+    }
   }
 
   # Setup testing directories.

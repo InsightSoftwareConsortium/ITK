@@ -27,7 +27,7 @@ IF(UNIX)
 
   # Configure pkgIndex.tcl for installation.
   SET(ITK_TCL_DATA_ROOT "[file dirname [info script]]/Data")
-  SET(ITK_TCL_TEST_ROOT "[file dirname [info script]]/Testing")
+  SET(ITK_TCL_TEST_ROOT "<NO_DEFAULT>")
   SET(ITK_TCL_SCRIPT_DIR "[file dirname [info script]]")
   SET(ITK_TCL_PACKAGE_DIR "[file dirname [info script]]")
   CONFIGURE_FILE(${ITK_SOURCE_DIR}/Wrapping/Tcl/pkgIndex.tcl.in
@@ -37,7 +37,7 @@ ELSE(UNIX)
   # actually do anything on Windows, this generated file will be useful
   # to those creating binary distribution packages.
   SET(ITK_TCL_DATA_ROOT "[file dirname [info script]]/Data")
-  SET(ITK_TCL_TEST_ROOT "[file dirname [info script]]/Testing")
+  SET(ITK_TCL_TEST_ROOT "<NO_DEFAULT>")
   SET(ITK_TCL_SCRIPT_DIR "[file dirname [info script]]")
   SET(ITK_TCL_PACKAGE_DIR "[file dirname [info script]]")
   SET(ITK_MSDEV_CONFIG_DIR "")
