@@ -268,6 +268,8 @@ itkVoronoiPartitioningImageFilterTest.cxx
 itkVoronoiSegmentationImageFilterTest.cxx
 itkWatershedImageFilterTest.cxx
 itkFFTTest.cxx
+itkMatchCardinalityImageToImageMetricTest.cxx
+itkKappaStatisticImageToImageMetricTest.cxx
 )
 
 ADD_EXECUTABLE(itkAlgorithmsPrintTest itkAlgorithmsPrintTest.cxx)
@@ -306,6 +308,12 @@ ENDIF(USE_SCSL)
 
 IF(ITK_DATA_ROOT)
 
+ADD_TEST(itkMatchCardinalityImageToImageMetricTest ${ALGORITHMS_TESTS2}
+  itkMatchCardinalityImageToImageMetricTest ${ITK_DATA_ROOT}/Input/Spots.png)
+                                                   
+ADD_TEST(itkKappaStatisticImageToImageMetricTest ${ALGORITHMS_TESTS2}
+  itkKappaStatisticImageToImageMetricTest ${ITK_DATA_ROOT}/Input/Spots.png)
+                                                   
 ADD_TEST(itkIsolatedWatershedImageFilterTest ${ALGORITHMS_TESTS2}
    --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/IsolatedWatershedImageFilterTest.png
              ${ITK_TEST_OUTPUT_DIR}/IsolatedWatershedImageFilterTest.png

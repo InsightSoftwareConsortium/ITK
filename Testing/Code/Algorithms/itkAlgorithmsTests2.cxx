@@ -12,11 +12,13 @@ void RegisterTests()
   REGISTER_TEST(itkDeformableSimplexMesh3DFilterTest   );
   REGISTER_TEST(itkDeformableSimplexMesh3DBalloonForceFilterTest  );
   REGISTER_TEST(itkGradientDifferenceImageToImageMetricTest );
+  REGISTER_TEST(itkKappaStatisticImageToImageMetricTest );
   REGISTER_TEST(itkKullbackLeiblerCompareHistogramImageToImageMetricTest );
   REGISTER_TEST(itkImagePCAShapeModelEstimatorTest);
   REGISTER_TEST(itkImagePCADecompositionCalculatorTest);
   REGISTER_TEST(itkIsolatedWatershedImageFilterTest );
   REGISTER_TEST(itkMIRegistrationFunctionTest );
+  REGISTER_TEST(itkMatchCardinalityImageToImageMetricTest );
   REGISTER_TEST(itkOtsuMultipleThresholdsCalculatorTest );
   REGISTER_TEST(itkPointSetToPointSetRegistrationTest );
   REGISTER_TEST(itkPointSetToSpatialObjectDemonsRegistrationTest );
