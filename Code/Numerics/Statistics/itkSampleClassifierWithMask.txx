@@ -27,6 +27,33 @@ SampleClassifierWithMask< TSample, TMaskSample >
 ::SampleClassifierWithMask()
 {
   m_OtherClassLabel = 0 ;
+  m_Mask = 0 ;
+}
+
+template< class TSample, class TMaskSample >
+void
+SampleClassifierWithMask< TSample, TMaskSample >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "Mask: " ;
+  if ( m_Mask != 0 )
+    {
+    os << m_Mask << std::endl;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+
+  os << indent << "SelectedClassLabels: " ;
+  for ( unsigned int i = 0 ; i < m_SelectedClassLabels.size() ; ++i )
+    {
+    os << " " << m_SelectedClassLabels[i] ;
+    }
+  os << std::endl ;
+  os << indent << "OtherClassLabel: " << m_OtherClassLabel << std::endl ;
 }
 
 template< class TSample, class TMaskSample >
@@ -127,15 +154,6 @@ SampleClassifierWithMask< TSample, TMaskSample >
     }
 }
 
-template< class TSample, class TMaskSample >
-void
-SampleClassifierWithMask< TSample, TMaskSample >
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-
-  os << indent << "Mask: " << m_Mask << std::endl;
-}
 } // end of namespace Statistics 
 } // end of namespace itk
 
