@@ -97,7 +97,8 @@ int itkSampleClassifierTest(int argc, char* argv[] )
 
   ClassifierType::Pointer classifier = ClassifierType::New() ;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New() ;
-  classifier->SetDecisionRule((itk::DecisionRuleBase::Pointer) decisionRule) ;
+  
+  classifier->SetDecisionRule(decisionRule) ;
   classifier->SetNumberOfClasses(numberOfClasses) ;
   classifier->SetSample(sample.GetPointer()) ;
   std::vector< MembershipFunctionType::Pointer > membershipFunctions ;
@@ -156,6 +157,13 @@ int itkSampleClassifierTest(int argc, char* argv[] )
     }
 
   std::cout << "Test passed." << std::endl;
+
+  // following three lines to increase test coverage of the
+  // DecisionRuleBase
+  std::cout << "Decision rule base class = " 
+            << decisionRule->itk::DecisionRuleBase::GetNameOfClass() 
+            << std::endl ;
+
   return EXIT_SUCCESS;
 }
 
