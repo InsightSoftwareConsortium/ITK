@@ -234,7 +234,7 @@ MedialNodeTripletCorrespondenceProcess< TSourceImage >
   typename InputDataStructureType::CorrespondingListType::iterator CorrespondingListIterator1;
   typename InputDataStructureType::CorrespondingListType::iterator CorrespondingListIterator2;
 
-  bool BaseTripAdded = false;
+  bool BaseTripAdded;
 
   while( NodeListIterator != m_InputDataStructure->m_NodeList->end() )//iterate through NodeList in pair structure
     {
@@ -331,7 +331,6 @@ MedialNodeTripletCorrespondenceProcess< TSourceImage >
                     TemporaryDistanceA = m_DistanceMatrixA->get(SecondaryListIterator1->GetIndex(0), SecondaryListIterator2->GetIndex(0));
                     TemporaryDistanceB = m_DistanceMatrixB->get(CorrespondingListIterator1->GetNodeIndex(1),CorrespondingListIterator2->GetNodeIndex(1));
 
-                    int numTriplets = 0;
                     if( TemporaryDistanceA <= (TemporaryDistanceB+0.1) && TemporaryDistanceA >= (TemporaryDistanceB-0.1) )
                       {
                       // If this comes out true, we have found a corresponding triplet.
@@ -402,7 +401,6 @@ MedialNodeTripletCorrespondenceProcess< TSourceImage >
                         if(m_CreateOutputFile)
                           OutputFile << "      Added new node to CorrespondingTripletListPointer" << std::endl;
                         }
-                      numTriplets++;
                       }
                     }
                   else
