@@ -92,14 +92,15 @@ public:
   /** 
    * Some typedefs.
    */
-  typedef TInputImage Input1ImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
-  typedef typename InputImageType::RegionType InputImageRegionType; 
-  typedef typename InputImageType::PixelType InputImagePixelType; 
+  typedef TInputImage InputImageType;
+  typedef typename    InputImageType::Pointer    InputImagePointer;
+  typedef typename    InputImageType::RegionType InputImageRegionType; 
+  typedef typename    InputImageType::PixelType  InputImagePixelType; 
+
   typedef TOutputImage OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename OutputImageType::PixelType OutputImagePixelType;
+  typedef typename     OutputImageType::Pointer    OutputImagePointer;
+  typedef typename     OutputImageType::RegionType OutputImageRegionType;
+  typedef typename     OutputImageType::PixelType  OutputImagePixelType;
 
 protected:
   UnaryImageFilter();
