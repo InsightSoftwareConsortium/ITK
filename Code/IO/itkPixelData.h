@@ -7,7 +7,7 @@
  *      Include File Name:  PixelData.h
  \author WR Edens, JL Agle, MJ Benson
  * Source
- * $Revision$  $Date: 2003-06-22 19:49:12 $
+ * $Revision$  $Date: 2004-01-08 00:39:07 $
  */
 /*@Synopsis Description of the PixelData header
  */
@@ -351,7 +351,7 @@ PixUpk;
    *      Include File Name:      phonebook
    \author David Carleton
    * Source
-   * $Revision$  $Date: 2003-06-22 19:49:12 $
+   * $Revision$  $Date: 2004-01-08 00:39:07 $
    */
 /*@Synopsis     Contains defaults and strings for the Phone Book feature.
    */
