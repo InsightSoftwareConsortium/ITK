@@ -79,12 +79,12 @@ namespace itpack {
  * They are all inline, to speed things up a bit.
  */
 
-inline double pow_dd(doublereal *ap, doublereal *bp)
+static double pow_dd(doublereal *ap, doublereal *bp)
 {
   return(pow(*ap, *bp) );
 }
 
-inline double pow_di(doublereal *ap, integer *bp)
+static double pow_di(doublereal *ap, integer *bp)
 {
 double pow, x;
 integer n;
@@ -114,29 +114,29 @@ if(n != 0)
 return(pow);
 }
 
-inline double d_lg10(doublereal *x)
+static double d_lg10(doublereal *x)
 {
 return( 0.43429448190325182765 * log(*x) );
 }
 
-inline double sqrt(doublereal x)
+static double sqrt(doublereal x)
 {
   return( ::sqrt(x) );
 }
 
-inline double log(doublereal x)
+static double log(doublereal x)
 {
   return( ::log(x) );
 }
 
-inline double d_sign(doublereal *a, doublereal *b)
+static double d_sign(doublereal *a, doublereal *b)
 {
 double x;
 x = (*a >= 0 ? *a : - *a);
 return( *b >= 0 ? x : -x);
 }
 
-inline integer i_sign(integer *a, integer *b)
+static integer i_sign(integer *a, integer *b)
 {
 integer x;
 x = (*a >= 0 ? *a : - *a);
@@ -149,22 +149,22 @@ return( *b >= 0 ? x : -x);
  * do with I/O. Since we don't want ITPACK to output
  * anything, the functions do nothing.
  */
-inline integer do_fio(ftnint *number, char *ptr, ftnlen len)
+static integer do_fio(ftnint *number, char *ptr, ftnlen len)
 {
   return 0;
 }
 
-inline integer e_wsfe(void)
+static integer e_wsfe(void)
 {
   return 0;
 }
 
-inline integer s_wsfe(cilist *a)
+static integer s_wsfe(cilist *a)
 {
   return 0;
 }
 
-inline doublereal etime_(float *tarray)
+static doublereal etime_(float *tarray)
 {
   tarray[0]=0.0;
   tarray[1]=0.0;
