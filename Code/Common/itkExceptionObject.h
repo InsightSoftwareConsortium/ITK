@@ -23,6 +23,18 @@
 namespace itk
 {
 
+/** \class ExceptionObject
+ * \brief Standard exception handling object.
+ *
+ * ExceptionObject provides standard methods for throwing
+ * and managing exceptions in itk. Specific exceptions should be
+ * derived from this class.
+ *
+ * ExceptionObject maintains two pieces of information: a location
+ * and description (both of which are strings). The location is the
+ * point in the code where the exception was thrown; the description
+ * is an error message that describes the exception.
+ */
 class ExceptionObject
 {
 public:
@@ -39,8 +51,8 @@ public:
 
   ExceptionObject( const ExceptionObject &orig )
   {
-    this->m_Location    = orig.m_Location;
-    this->m_Description = orig.m_Description;
+    m_Location    = orig.m_Location;
+    m_Description = orig.m_Description;
   }
   
   /**
@@ -48,15 +60,15 @@ public:
    */
   ExceptionObject &operator= ( const ExceptionObject &orig )
   {
-    this->m_Location    = orig.m_Location;
-    this->m_Description = orig.m_Description;
+    m_Location    = orig.m_Location;
+    m_Description = orig.m_Description;
     return *this;
   }
   
   virtual bool operator==( const ExceptionObject &orig )
   {
-    if ( this->m_Location    == orig.m_Location &&
-         this->m_Description == orig.m_Description ) 
+    if ( m_Location    == orig.m_Location &&
+         m_Description == orig.m_Description ) 
       {
       return true;
       }
@@ -114,18 +126,28 @@ inline std::ostream& operator<<(std::ostream& os, ExceptionObject &e)
  * Specific exception types that are subclasses of ExceptionObject follow
  */
 
+/** \class RangeError
+ * Exception thrown when accessing memory out of range.
+ */
 class RangeError : public ExceptionObject
 {
 public:
   itkTypeMacro(RangeError, ExceptionObject);
 };
 
+/** \class InvalidArgumentError
+ * Exception thrown when invalid argument is given to a method
+ * or function.
+ */
 class InvalidArgumentError : public ExceptionObject
 {
 public:
   itkTypeMacro(InvalidArgumentError, ExceptionObject);
 };
 
+/** \class InvalidArgumentError
+ * Exception thrown when two operands are incompatible.
+ */
 class IncompatibleOperandsError : public ExceptionObject
 {
 public:
@@ -147,14 +169,14 @@ public:
   SampleError () : ExceptionObject(), m_ExtraInfo(0) {}
   SampleError (const SampleError& orig) : ExceptionObject(orig)
   {
-        this->m_ExtraInfo = orig.m_ExtraInfo;
+        m_ExtraInfo = orig.m_ExtraInfo;
   }
 
   // Assignment operator:  Be sure parent assignment operator is called.
   SampleError &operator= ( const SampleError &orig )
   { 
         ExceptionObject::operator= ( orig );
-        this->m_ExtraInfo = orig.m_ExtraInfo;
+        m_ExtraInfo = orig.m_ExtraInfo;
         return *this;
   }
 
