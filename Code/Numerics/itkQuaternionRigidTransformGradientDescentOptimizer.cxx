@@ -80,10 +80,12 @@ QuaternionRigidTransformGradientDescentOptimizer
       direction * m_LearningRate * transformedGradient[j];
     }
 
-  this->SetCurrentPosition( newPosition );
 
+  // First invoke the event, so the current position
+  // still corresponds to the metric values.
   this->InvokeEvent( IterationEvent() );
 
+  this->SetCurrentPosition( newPosition );
 }
 
 
