@@ -140,13 +140,13 @@ public:
   virtual void SetFixedImage( const FixedImageType * ptr );
 
   /** Get the fixed image. */
-  const FixedImageType * GetFixedImage(void);
+  const FixedImageType * GetFixedImage(void) const;
 
   /** Set the moving image. */
   virtual void SetMovingImage( const MovingImageType * ptr );
 
   /** Get the moving image. */
-  const MovingImageType * GetMovingImage(void);
+  const MovingImageType * GetMovingImage(void) const;
 
   /** Set initial deformation field. */
   virtual void SetInitialDeformationField( DeformationFieldType * itkNotUsed(ptr) )
@@ -158,6 +158,14 @@ public:
   /** Get output deformation field. */
   const DeformationFieldType * GetDeformationField(void)
   { return this->GetOutput(); }
+
+  /** Get the number of valid inputs.  For
+   * MultiResolutionPDEDeformableRegistration, this checks whether the
+   * fixed and moving images have been set. While
+   * MultiResolutionPDEDeformableRegistration can take a third input
+   * as an initial deformation field, this input is not a required input.
+   */
+  virtual std::vector<DataObjectPointer>::size_type GetNumberOfValidRequiredInputs() const;
 
   /** Set the internal registrator. */
   itkSetObjectMacro( RegistrationFilter, RegistrationType );

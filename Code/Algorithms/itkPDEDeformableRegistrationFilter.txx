@@ -39,7 +39,7 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::PDEDeformableRegistrationFilter()
 {
  
-  this->SetNumberOfRequiredInputs(3);
+  this->SetNumberOfRequiredInputs(2);
 
   this->SetNumberOfIterations(10);
  
@@ -77,7 +77,7 @@ template <class TFixedImage, class TMovingImage, class TDeformationField>
 const typename PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::FixedImageType *
 PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
-::GetFixedImage()
+::GetFixedImage() const
 {
   return dynamic_cast< const FixedImageType * >
     ( this->ProcessObject::GetInput( 1 ) );
@@ -104,10 +104,34 @@ template <class TFixedImage, class TMovingImage, class TDeformationField>
 const typename PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::MovingImageType *
 PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
-::GetMovingImage()
+::GetMovingImage() const
 {
-  return dynamic_cast< MovingImageType * >
+  return dynamic_cast< const MovingImageType * >
     ( this->ProcessObject::GetInput( 2 ) );
+}
+
+
+/*
+ * 
+ */
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+std::vector<SmartPointer<DataObject> >::size_type
+PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+::GetNumberOfValidRequiredInputs() const
+{
+  std::vector<DataObjectPointer>::size_type num = 0;
+
+  if (this->GetFixedImage())
+    {
+    num++;
+    }
+
+  if (this->GetMovingImage())
+    {
+    num++;
+    }
+  
+  return num;
 }
 
 

@@ -118,9 +118,11 @@ public:
   /** Get the number of valid inputs.  This is the number of non-null
    * entries in the input vector in the first NumberOfRequiredInputs
    * slots. This method is used to determine whether the necessary
-   * required inputs have been set.
+   * required inputs have been set. Subclasses of ProcessObject may
+   * override this implementation if the required inputs are not
+   * the first slots in input vector.
    */
-  std::vector<DataObjectPointer>::size_type GetNumberOfValidRequiredInputs() const;
+  virtual std::vector<DataObjectPointer>::size_type GetNumberOfValidRequiredInputs() const;
   
   /** Return an array with all the outputs of this process object.
    * This is useful for tracing forward in the pipeline to contruct

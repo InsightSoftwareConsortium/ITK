@@ -119,13 +119,13 @@ public:
   void SetFixedImage( const FixedImageType * ptr );
 
   /** Get the fixed image. */
-  const FixedImageType * GetFixedImage(void);
+  const FixedImageType * GetFixedImage(void) const;
 
   /** Set the moving image. */
   void SetMovingImage( const MovingImageType * ptr );
 
   /** Get the moving image. */
-  const MovingImageType * GetMovingImage(void);
+  const MovingImageType * GetMovingImage(void) const;
 
   /** Set initial deformation field. */
   void SetInitialDeformationField( DeformationFieldType * ptr )
@@ -134,6 +134,13 @@ public:
   /** Get output deformation field. */
   DeformationFieldType * GetDeformationField()
   { return this->GetOutput(); }
+
+  /** Get the number of valid inputs.  For PDEDeformableRegistration,
+   * this checks whether the fixed and moving images have been
+   * set. While PDEDeformableRegistration can take a third input as an
+   * initial deformation field, this input is not a required input.
+   */
+  virtual std::vector<DataObjectPointer>::size_type GetNumberOfValidRequiredInputs() const;
 
   /** Set the Gaussian smoothing standard deviations. The
    * values are set with respect to pixel coordinates. */

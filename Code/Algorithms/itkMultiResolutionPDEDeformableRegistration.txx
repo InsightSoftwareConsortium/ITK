@@ -32,7 +32,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
 ::MultiResolutionPDEDeformableRegistration()
 {
  
-  this->SetNumberOfRequiredInputs(3);
+  this->SetNumberOfRequiredInputs(2);
 
   typename DefaultRegistrationType::Pointer registrator =
     DefaultRegistrationType::New();
@@ -80,7 +80,7 @@ template <class TFixedImage, class TMovingImage, class TDeformationField>
 const typename MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
 ::MovingImageType *
 MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
-::GetMovingImage(void)
+::GetMovingImage(void) const
 {
   return dynamic_cast< const MovingImageType * >
     ( this->ProcessObject::GetInput( 2 ) );
@@ -107,10 +107,33 @@ template <class TFixedImage, class TMovingImage, class TDeformationField>
 const typename MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
 ::FixedImageType *
 MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
-::GetFixedImage(void)
+::GetFixedImage(void) const
 {
   return dynamic_cast< const FixedImageType * >
     ( this->ProcessObject::GetInput( 1 ) );
+}
+
+/*
+ * 
+ */
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+std::vector<SmartPointer<DataObject> >::size_type
+MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
+::GetNumberOfValidRequiredInputs() const
+{
+  std::vector<DataObjectPointer>::size_type num = 0;
+
+  if (this->GetFixedImage())
+    {
+    num++;
+    }
+
+  if (this->GetMovingImage())
+    {
+    num++;
+    }
+  
+  return num;
 }
 
 
