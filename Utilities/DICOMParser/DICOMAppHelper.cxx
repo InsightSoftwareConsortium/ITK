@@ -312,9 +312,9 @@ void DICOMAppHelper::ArrayCallback(doublebyte group,
     
 void DICOMAppHelper::SliceNumberCallback(doublebyte,
                                          doublebyte element,
-                                         DICOMParser::VRTypes type,
+                                         DICOMParser::VRTypes,
                                          unsigned char* val,
-                                         quadbyte len) 
+                                         quadbyte) 
 {
   char* newString = (char*) val;
   int sliceNumber = atoi(newString);
