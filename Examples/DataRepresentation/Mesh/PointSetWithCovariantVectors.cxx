@@ -183,7 +183,7 @@ int main()
   //  completely intentional with the aim of preventing the  incorrect use of
   //  the mathematical concepts they represent.
   //
-  //  \index{itk::CovariantVectors}
+  //  \index{itk::CovariantVector}
   //
   //  Software Guide : EndLatex 
   //
