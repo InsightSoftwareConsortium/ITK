@@ -14,6 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef __itkTubePoint_txx
+#define __itkTubePoint_txx
 
 #include "itkTubePoint.h"
 
@@ -422,3 +424,5 @@ namespace itk
   }
 
 } // end namespace itk
+
+#endif
