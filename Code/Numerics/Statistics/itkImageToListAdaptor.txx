@@ -97,7 +97,7 @@ inline typename ImageToListAdaptor< TImage >::FrequencyType
 ImageToListAdaptor< TImage >
 ::GetFrequency(const InstanceIdentifier &id) const 
 {
-  return 1 ;
+  return NumericTraits< FrequencyType >::One ;
 }
 
 template < class TImage >
