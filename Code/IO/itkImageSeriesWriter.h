@@ -77,6 +77,8 @@ public:
  *
  * \sa ImageFileWriter
  * \sa ImageIOBase
+ * \sa FileIteratorBase
+ * \sa ImageSeriesReader
  *
  * \ingroup IOFilters 
  */
@@ -130,11 +132,6 @@ public:
    * LargestPossibleRegion. */
   virtual void Write(void);
 
-  /** Specify the region to write. If left NULL, then the whole image
-   * is written. */
-  void SetIORegion(const ImageIORegion *region);
-  const ImageIORegion *GetIORegion() const;
-
   /** Aliased to the Write() method to be consistent with the rest of the
    * pipeline. */
   virtual void Update()
@@ -151,16 +148,23 @@ protected:
   /** Used to produce the names of the output files in the series */
   FileIteratorBase::Pointer m_FileIterator;
   
-private:
-  ImageSeriesWriter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
   ImageIOBase::Pointer m_ImageIO;
   bool m_UserSpecifiedImageIO; //track whether the ImageIO is user specified
   
   ImageIORegion m_IORegion;
   bool m_UserSpecifiedIORegion; //track whether the region is user specified
   
+  /** Specify the region to write. If left NULL, then the whole image
+   * is written. (Left protected for now to insure that the user doesn't
+   * try to use writing of partial images just yet since it's really not
+   * working at this time.) */
+  void SetIORegion(const ImageIORegion *region);
+  const ImageIORegion *GetIORegion() const;
+
+private:
+  ImageSeriesWriter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
 };
 
   

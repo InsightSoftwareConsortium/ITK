@@ -113,9 +113,9 @@ ImageSeriesWriter<TInputImage>
 
   // Okay, set up the FileIterator and ImageIO
   //
-  if ( m_FileIterator == 0 )
+  if ( m_FileIterator.IsNull() )
     {
-    if ( m_ImageIO == 0 )
+    if ( m_ImageIO.IsNull() )
       {
       itkExceptionMacro(<< "Either a file iterator or ImageIO must be set");
       }
@@ -127,7 +127,7 @@ ImageSeriesWriter<TInputImage>
   else //have a FileIterator, may have to create ImageIO
     {
     const char *format = m_FileIterator->GetSeriesFormat();
-    if ( m_ImageIO == 0 ) //try creating via factory
+    if ( m_ImageIO.IsNull() ) //try creating via factory
       {
       itkDebugMacro(<<"Attempting factory creation of ImageIO" << format);
       m_ImageIO = ImageIOFactory::CreateImageIO( format,
@@ -146,10 +146,9 @@ ImageSeriesWriter<TInputImage>
       }
     }
 
-  if ( m_ImageIO == 0 || m_FileIterator == 0 )
+  if ( m_ImageIO.IsNull() || m_FileIterator.IsNull() )
     {
     itkExceptionMacro(<<"Cannot determine what type of files to create.");
-    return;
     }
 
   // Make sure the data is up-to-date.
@@ -268,6 +267,7 @@ ImageSeriesWriter<TInputImage>
   
   // Loop over the image adjusting the IO Region as appropriate
   //
+  m_FileIterator->WriteModeOn();
   m_FileIterator->Begin();
   for (int slice=0; slice < m_IORegion.GetSize(2); slice++)
     {
@@ -291,7 +291,7 @@ ImageSeriesWriter<TInputImage>
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Image IO: ";
-  if ( m_ImageIO == 0 )
+  if ( m_ImageIO.IsNull() )
     {
     os << "(none)\n";
     }
@@ -301,7 +301,7 @@ ImageSeriesWriter<TInputImage>
     }
   
   os << indent << "File Iterator: ";
-  if ( m_FileIterator == 0 )
+  if ( m_FileIterator.IsNull() )
     {
     os << "(none)\n";
     }

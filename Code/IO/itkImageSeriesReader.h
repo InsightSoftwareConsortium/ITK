@@ -60,7 +60,11 @@ public:
  * the ImageIOBase class to actually do the reading of the
  * data. Object factory machinery can be used to automatically create
  * the ImageIOBase, or the ImageIOBase can be manually created and
- * set.
+ * set. The format of the series is controlled with a FileIteratorBase.
+ * This class typically works in conjunction with the ImageIO class
+ * (ImageIO provides an instance of FileIteratorBase to use for determing
+ * the names of files in a series; however the FileIterator subclass can
+ * also be manually set). 
  *
  * TOutputImage is the type expected by the external users of the
  * filter. If data stored in the file is stored in a different format
@@ -74,6 +78,8 @@ public:
  *
  * \sa ImageFileReader
  * \sa ImageIOBase
+ * \sa FileIteratorBase
+ * \sa ImageSeriesWriter
  *
  * \ingroup IOFilters
  *
@@ -85,9 +91,9 @@ class ITK_EXPORT ImageSeriesReader : public ImageSource<TOutputImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageSeriesReader         Self;
+  typedef ImageSeriesReader          Self;
   typedef ImageSource<TOutputImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<Self>         Pointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -104,12 +110,10 @@ public:
   /** The pixel type of the output image. */
   typedef typename TOutputImage::PixelType OutputImagePixelType;
   
-  /** Specify one of the files in the series to read. Note that this
-   * is a "seed" that is used to determine the file type as well as
-   * establish the configuration of the series (i.e., the sequence of
-   * files in the series). */
-  itkSetStringMacro(FileName);
-  itkGetStringMacro(FileName);
+  /** The naming of the input files is controlled by using a subclass of 
+   * FileIteratorBase (e.g., NumericSeriesFileIterator). */
+  itkSetObjectMacro(FileIterator,FileIteratorBase);
+  itkGetObjectMacro(FileIterator,FileIteratorBase);
   
   /** Set/Get the ImageIO helper class. Often this is created via the object
    * factory mechanism that determines whether a particular ImageIO can
@@ -143,10 +147,10 @@ protected:
   virtual void GenerateData();
 
   ImageIOBase::Pointer m_ImageIO;
-  bool m_UserSpecifiedImageIO; //keep track whether the ImageIO is user specified
+  bool m_UserSpecifiedImageIO; //track whether the ImageIO is user specified
 
-  /** The seed file for the series. */
-  std::string m_FileName;
+  /** Used to produce the names of the files in the series. */
+  FileIteratorBase::Pointer m_FileIterator;
   
 private:
   ImageSeriesReader(const Self&); //purposely not implemented

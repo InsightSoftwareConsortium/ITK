@@ -52,7 +52,7 @@ int itkImageSeriesIOTest(int argc, char *argv[])
   // will pick the right sequence of files.
   itk::ImageSeriesReader<Image3DType>::Pointer reader = 
      itk::ImageSeriesReader<Image3DType>::New();
-  reader->SetFileName("junk.11.png");
+  reader->SetFileIterator(fileIter);
   reader->Update();
 
   return EXIT_SUCCESS;

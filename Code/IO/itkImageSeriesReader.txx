@@ -29,10 +29,10 @@ namespace itk
 
 template <class TOutputImage, class ConvertPixelTraits>
 ImageSeriesReader<TOutputImage, ConvertPixelTraits>
-::ImageSeriesReader()
+::ImageSeriesReader() :
+m_ImageIO(0), m_UserSpecifiedImageIO(false), 
+m_FileIterator(0)
 {
-  m_ImageIO = 0;
-  m_FileName = "";
 }
 
 template <class TOutputImage, class ConvertPixelTraits>
@@ -51,54 +51,72 @@ void ImageSeriesReader<TOutputImage, ConvertPixelTraits>::PrintSelf(std::ostream
     }
   else
     {
-    os << indent << "m_ImageIO: (null)" << "\n";
+    os << indent << "m_ImageIO: (none)" << "\n";
     }
-  os << indent << "m_UserSpecified m_ImageIO flag: " << m_UserSpecifiedImageIO << "\n";
-  os << indent << "m_FileName: " << m_FileName << "\n";
-}
 
+  os << indent << "File Iterator: ";
+  if ( m_FileIterator == 0 )
+    {
+    os << "(none)\n";
+    }
+  else
+    {
+    os << m_FileIterator << "\n";
+    }
+}
 
 template <class TOutputImage, class ConvertPixelTraits>
 void ImageSeriesReader<TOutputImage, ConvertPixelTraits>
 ::GenerateOutputInformation(void)
 {
-
   typename TOutputImage::Pointer output = this->GetOutput();
-
-  itkDebugMacro(<<"Reading file for GenerateOutputInformation()" << m_FileName);
+  itkDebugMacro(<<"Reading series for GenerateOutputInformation()");
   
-  // Check to see if we can read the file given the name or prefix
+  // Okay, set up the FileIterator and ImageIO
   //
-  if ( m_FileName == "" )
+  if ( m_FileIterator.IsNull() )
     {
-    throw ImageSeriesReaderException(__FILE__, __LINE__, "FileName must be specified");
+    if ( m_ImageIO.IsNull() )
+      {
+      itkExceptionMacro(<< "Either a file iterator or ImageIO must be set");
+      }
+    else
+      {
+      m_FileIterator = m_ImageIO->NewFileIterator();
+      }
     }
 
-  if ( m_ImageIO == 0 ) //try creating via factory
+  else //have a FileIterator, may have to create ImageIO
     {
-    m_UserSpecifiedImageIO = false;
-    m_ImageIO = ImageIOFactory::CreateImageIO( m_FileName.c_str(), ImageIOFactory::ReadMode );
+    const char *format = (m_FileIterator->Begin()).c_str();
+    if ( m_ImageIO.IsNull() ) //try creating via factory
+      {
+      itkDebugMacro(<<"Attempting factory creation of ImageIO" << format);
+      m_ImageIO = ImageIOFactory::CreateImageIO( format,
+                                                 ImageIOFactory::ReadMode );
+      }
+    else
+      {
+      if( !m_ImageIO->CanReadFile( format ) )
+        {
+        itkDebugMacro(<<"ImageIO exists but doesn't know how to read: "
+                      << format );
+        itkDebugMacro(<<"Attempting factory creation of ImageIO:" << format);
+        m_ImageIO = ImageIOFactory::CreateImageIO( format,
+                                                   ImageIOFactory::ReadMode );
+        }
+      }
     }
-  else
+
+  if ( m_ImageIO.IsNull() || m_FileIterator.IsNull() )
     {
-    m_UserSpecifiedImageIO = true;
-    }
-  
-  if ( m_ImageIO == 0 )
-    {
-    ImageSeriesReaderException e(__FILE__, __LINE__);
-    OStringStream msg;
-    msg << " Could not create IO object for file "
-        << m_FileName.c_str();
-    e.SetDescription(msg.str().c_str());
-    throw e;
-    return;
+    itkExceptionMacro(<<"Cannot determine what type of files to create.");
     }
 
   // Got to allocate space for the image. Determine the characteristics of
   // the image.
   //
-  m_ImageIO->SetFileName(m_FileName.c_str());
+//  m_ImageIO->SetFileName(m_FileName.c_str());
   m_ImageIO->ReadImageInformation();
 
   SizeType dimSize;
@@ -159,7 +177,8 @@ ImageSeriesReader<TOutputImage, ConvertPixelTraits>
 
 
 template <class TOutputImage, class ConvertPixelTraits>
-void ImageSeriesReader<TOutputImage, ConvertPixelTraits>::GenerateData()
+void ImageSeriesReader<TOutputImage, ConvertPixelTraits>
+::GenerateData()
 {
 
   typename TOutputImage::Pointer output = this->GetOutput();
@@ -168,80 +187,6 @@ void ImageSeriesReader<TOutputImage, ConvertPixelTraits>::GenerateData()
   output->SetBufferedRegion( output->GetRequestedRegion() );
   output->Allocate();
 
-  // Tell the ImageIO to read the file
-  //
-  OutputImagePixelType *buffer = 
-    output->GetPixelContainer()->GetBufferPointer();
-  m_ImageIO->SetFileName(m_FileName.c_str());
-
-  ImageIORegion ioRegion(TOutputImage::ImageDimension);
-  
-  ImageIORegion::SizeType ioSize = ioRegion.GetSize();
-  ImageIORegion::IndexType ioStart = ioRegion.GetIndex();
-
-  SizeType dimSize;
-  for(unsigned int i=0; i<TOutputImage::ImageDimension; i++)
-    {
-    if (i < m_ImageIO->GetNumberOfDimensions())
-      {
-      dimSize[i] = m_ImageIO->GetDimensions(i);
-      }
-    else
-      {
-      // Number of dimensions in the output is more than number of dimensions
-      // in the ImageIO object (the file).  Use default values for the size,
-      // spacing, and origin for the final (degenerate) dimensions.
-      dimSize[i] = 1;
-      }
-    }
-
-  for(unsigned int i = 0; i < dimSize.GetSizeDimension(); ++i)
-    {
-    ioSize[i] = dimSize[i];
-    }
-
-  typedef typename TOutputImage::IndexType   IndexType;
-  IndexType start;
-  start.Fill(0);
-  for(unsigned int i = 0; i < start.GetIndexDimension(); ++i)
-    {
-    ioStart[i] = start[i];
-    }
-
-  ioRegion.SetSize(ioSize);
-  ioRegion.SetIndex(ioStart);
-
-  itkDebugMacro (<< "ioRegion: " << ioRegion);
- 
-  m_ImageIO->SetIORegion(ioRegion);
-
-  if ( m_ImageIO->GetPixelType() == typeid(TOutputImage::PixelType) &&
-       (m_ImageIO->GetNumberOfComponents() == 
-        ConvertPixelTraits::GetNumberOfComponents()))
-    {
-    itkDebugMacro(<< "No buffer conversion required.");
-    // allocate a buffer and have the ImageIO read directly into it
-    m_ImageIO->Read(buffer);
-    return;
-    }
-  else // a type conversion is necessary
-    {
-    itkDebugMacro(<< "Buffer conversion required.");
-    // note: char is used here because the buffer is read in bytes
-    // regardles of the actual type of the pixels.
-    ImageRegionType region = output->GetBufferedRegion();
-    char * loadBuffer = 
-      new char[m_ImageIO->GetImageSizeInBytes()];
-
-    m_ImageIO->Read(loadBuffer);
-    
-    itkDebugMacro(<< "Buffer conversion required from: "
-                 << m_ImageIO->GetPixelType().name()
-                 << " to: " << typeid(TOutputImage::PixelType).name());
-
-    this->DoConvertBuffer(loadBuffer, region.GetNumberOfPixels());
-    delete [] loadBuffer;
-    }
 }
 
 

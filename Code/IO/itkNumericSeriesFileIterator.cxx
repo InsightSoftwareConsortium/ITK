@@ -24,7 +24,8 @@ namespace itk
 {
 
 NumericSeriesFileIterator::NumericSeriesFileIterator() :
-  m_StartIndex(1)
+  m_StartIndex(1),m_EndIndex(10000),m_NumberOfFiles(10000),
+  m_ThrowExceptionOnMissingFile(true)
 {
 }
 
@@ -39,79 +40,84 @@ void NumericSeriesFileIterator
 
   os << indent << "Series Format: " << m_SeriesFormat << "\n";
   os << indent << "Start Index: " << m_StartIndex << "\n";
+  os << indent << "End Index: " << m_EndIndex << "\n";
+  os << indent << "Number of files: " << m_NumberOfFiles << "\n";
 
+}
+
+const std::string& NumericSeriesFileIterator
+::ProduceNextFileName(unsigned long idx)
+{
+  char filename[4096], seriesFormat[2048];      
+  strcpy(seriesFormat, m_SeriesFormat.c_str());
+  sprintf(filename, seriesFormat, idx);
+  m_CurrentFileName = filename;
+
+  return m_CurrentFileName;
 }
 
 const std::string& NumericSeriesFileIterator::Begin()
 {
-  if ( m_WriteMode )
+  if ( m_SeriesFormat == "" )
     {
-    if ( m_SeriesFormat == "" )
-      {
-      itkExceptionMacro(<< "No series format defined!");
-      m_CurrentFileName = "";
-      }
-    char filename[2048], seriesFormat[1024];      
-    strcpy(seriesFormat,m_SeriesFormat.c_str());
-    sprintf(filename,seriesFormat,m_StartIndex);
-    m_CurrentFileName = filename;
-    m_CurrentIndex = m_StartIndex;
-    }
-  else
-    {
+    itkExceptionMacro(<< "No series format defined!");
     }
 
-  return m_CurrentFileName;
+  if ( m_WriteMode )
+    {
+    m_CurrentIndex = m_StartIndex;
+    return this->ProduceNextFileName(m_StartIndex);
+    }
+
+  else //in read mode
+    {
+    return m_CurrentFileName;
+    }
 }
 
 const std::string& NumericSeriesFileIterator::operator++()
 {
-  if ( m_WriteMode )
+  if ( m_SeriesFormat == "" )
     {
-    if ( m_SeriesFormat == "" )
-      {
-      itkExceptionMacro(<< "No series format defined!");
-      m_CurrentFileName = "";
-      }
-    char filename[2048], seriesFormat[1024];      
-    strcpy(seriesFormat,m_SeriesFormat.c_str());
-    m_CurrentIndex++;
-    sprintf(filename,seriesFormat,m_CurrentIndex);
-    m_CurrentFileName = filename;
-    }
-  else
-    {
+    itkExceptionMacro(<< "No series format defined!");
     }
 
-  return m_CurrentFileName;
+  if ( m_WriteMode )
+    {
+    return this->ProduceNextFileName(++m_CurrentIndex);
+    }
+
+  else //in read mode
+    {
+    return m_CurrentFileName;
+    }
 }
 
 const std::string& NumericSeriesFileIterator::operator--()
 {
+  if ( m_SeriesFormat == "" )
+    {
+    itkExceptionMacro(<< "No series format defined!");
+    }
+
   if ( m_WriteMode )
     {
-    if ( m_SeriesFormat == "" )
-      {
-      itkExceptionMacro(<< "No series format defined!");
-      m_CurrentFileName = "";
-      }
     if ( --m_CurrentIndex < m_StartIndex )
       {
+      m_CurrentIndex = m_StartIndex;
       m_CurrentFileName = "";
+      return m_CurrentFileName;
       }
     else
       {
-      char filename[2048], seriesFormat[1024];      
-      strcpy(seriesFormat,m_SeriesFormat.c_str());
-      sprintf(filename,seriesFormat,m_CurrentIndex);
-      m_CurrentFileName = filename;
+      return this->ProduceNextFileName(m_CurrentIndex);
       }
     }
-  else
-    {
-    }
 
-  return m_CurrentFileName;
+  else  //in read mode
+    {
+    return m_CurrentFileName;
+    }
 }
 
 } //namespace ITK

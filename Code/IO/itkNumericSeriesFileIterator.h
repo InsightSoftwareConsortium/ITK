@@ -27,11 +27,20 @@ namespace itk
  *
  * This class is used to generate an ordered sequence of files
  * whose filenames contain a single unique, non-negative, integral
- * value (e.g. test.1.png, test2.png, foo.3, etc.). This class can
- * be used in to write files in which case a sprintf-style series
- * format and a starting index must be specified; or to read files,
- * in which case you can either provide the series format, or the
- * class will attempt to deduce the format.
+ * value (e.g. test.1.png, test2.png, foo.3, etc.). The class oeprates
+ * in either write or read mode. In write mode, the StartIndex is used to
+ * name the first file, and the index is incremented by one to produce the
+ * next file in the series. Also note that in write mode the files are 
+ * assumed not to exist. In read mode, the files are assumed to exist and
+ * NumericSeriesFileIterator will attempt to find them in sequence. Note
+ * that in read mode the file iterator can be set up to throw an exception
+ * if a file is missing in a sequence or continue reading until the end
+ * of the sequence. (The instance variable "NumberOfFiles" should
+ * be set to indicate the expected number of files in the sequence.)
+ * 
+ * The file name is created from a sprintf-style series
+ * format which should contain an integer format string like "%d". Bad 
+ * formats will cause the series reader to throw an exception.
  *
  * \ingroup IOFilters
  *
@@ -67,10 +76,30 @@ public:
   /* -------- Define the API for NumericSeriesFileIterator ----------- */
 
   /** Use this method to set the starting index of the numeric series.
-   * The method is used only when generating file sequences in write mode
-   * (see documentation for superclass). The default value is 1. */
+   * The default value is 1. */
   itkSetMacro(StartIndex,unsigned long);
   itkGetMacro(StartIndex,unsigned long);
+
+  /** Use this method to set the end index of the numeric series.
+   * The default value is 10000. This file iterator will attempt to
+   * read NumberOfFiles files beginning with StartIndex (make sure
+   * ThrowExceptionOnMissingFile is off if there are gaps in the series
+   * numbering.) If EndIndex is reached without reading NumberOfFiles
+   * files then an exception is thrown. */
+  itkSetMacro(EndIndex,unsigned long);
+  itkGetMacro(EndIndex,unsigned long);
+
+  /** Set/Get the number of files in the series. This is used in read
+   * mode to limit the the number of possible files in the series. */
+  itkSetMacro(NumberOfFiles,unsigned long);
+  itkGetMacro(NumberOfFiles,unsigned long);
+
+  /** If this flag is set (default is on) then a missing file in the
+   * sequence causes an exception to be thrown. This flag is only
+   * used when the file iterator is in read mode. */
+  itkSetMacro(ThrowExceptionOnMissingFile,bool);
+  itkGetMacro(ThrowExceptionOnMissingFile,bool);
+  itkBooleanMacro(ThrowExceptionOnMissingFile);
 
 protected:
   NumericSeriesFileIterator();
@@ -80,8 +109,20 @@ protected:
   /** The starting index for writing a sequence of files. */
   unsigned long m_StartIndex;
 
-  /** The current index in the series of files. */
+  /** The ending index for writing a sequence of files. */
+  unsigned long m_EndIndex;
+
+  /** The number of files in the sequence. */
+  unsigned long m_NumberOfFiles;
+
+  /** The number of files in the sequence. */
   unsigned long m_CurrentIndex;
+
+  /** Throw an exception if the sequence ordering is interrupted. */
+  bool m_ThrowExceptionOnMissingFile;
+
+  /** A helper function produces filenames from the series format. */
+  const std::string& ProduceNextFileName(unsigned long idx);
 
 private:
   NumericSeriesFileIterator(const Self&); //purposely not implemented
