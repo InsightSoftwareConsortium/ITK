@@ -129,6 +129,12 @@ nding
 
 #include "f2c.h"
 
+/* JVM - Turned off global optimizations for this routine on VC++.  If this
+   routine is optimized, an infinite loop results. */
+#if defined(_MSC_VER)
+#pragma optimize("g", off)
+#endif
+
 /* Subroutine */ int slamc1_(integer *beta, integer *t, logical *rnd, logical 
 	*ieee1)
 {
@@ -339,6 +345,12 @@ L30:
 /*     End of SLAMC1 */
 
 } /* slamc1_ */
+
+
+/* JVM - Reset optimizations to their original state */
+#if defined(_MSC_VER)
+#pragma optimize("", on)
+#endif
 
 #include "f2c.h"
 
