@@ -294,9 +294,19 @@ public:
   virtual void Update();
 
   /**
-   * Methods to update the pipeline.
+   * Update the information for this DataObject so that it can be used
+   * as an output of a ProcessObject.  This method is used the pipeline
+   * mechanism to propagate information and initialize the meta data
+   * associated with a DataObject. This method calls its source's
+   * ProcessObject::UpdateOutputInformation() which determines modified
+   * times, LargestPossibleRegions, and any extra meta data like spacing,
+   * origin, etc.
    */
   virtual void UpdateOutputInformation() = 0;
+
+  /**
+   * Methods to update the pipeline.
+   */
   virtual void PropagateRequestedRegion() throw (InvalidRequestedRegionError);
   virtual void UpdateOutputData();
 
@@ -314,16 +324,67 @@ public:
     {m_PipelineMTime = time;}
   itkGetMacro(PipelineMTime,unsigned long);
 
+  /**
+   * Setup a DataObject to receive new data.  This method is called
+   * by the pipeline mechanism on each output of filter that needs
+   * to execute.  The default implementation is to return a DataObject
+   * to its initial state.  This may involve releasing previously
+   * allocated bulk data.  Subclasses of DataObject may want to
+   * override this method and/or the Initialize() method if they
+   * want a different default behavior (for instance a DataObject
+   * might want finer control over its bulk data memory management).
+   */
   virtual void PrepareForNewData() 
-    {this->Initialize();}
+  {this->Initialize();}
+
+  /**
+   * Inform the pipeline mechanism that data has been generated.  This
+   * method is called by ProcessObject::UpdateOutputData() once the
+   * process object has finished generating its data. This essentially
+   * marks the DataObject as being updated and ready for use.
+   */
   void DataHasBeenGenerated();
+
+  /**
+   * Methods used to estimate how much memory is used during a
+   * pipeline execution. These methods could be used to control
+   * the data streaming mechanism.
+   */
   void ComputeEstimatedPipelineMemorySize(unsigned long sizes[3]);
   unsigned long GetEstimatedPipelineMemorySize();
   virtual unsigned long GetEstimatedMemorySize();
   virtual unsigned long GetActualMemorySize();
 
+  /**
+   * Set the RequestedRegion to the LargestPossibleRegion.  This
+   * forces a filter to produce all of the output in one execution
+   * (i.e. not streaming) on the next call to Update().
+   */
   virtual void SetRequestedRegionToLargestPossibleRegion() = 0;
+
+  /**
+   * Determine whether the RequestedRegion is outside of the
+   * BufferedRegion. This method returns true if the RequestedRegion
+   * is outside the BufferedRegion (true if at least one pixel is
+   * outside). This is used by the pipeline mechanism to determine
+   * whether a filter needs to re-execute in order to satisfy the
+   * current request.  If the current RequestedRegion is already
+   * inside the BufferedRegion from the previous execution (and the
+   * current filter is up to date), then a given filter does not need
+   * to re-execute
+   */
   virtual bool RequestedRegionIsOutsideOfTheBufferedRegion() = 0;
+
+  /**
+   * Verify that the RequestedRegion is within the
+   * LargestPossibleRegion.  If the RequestedRegion is not within the
+   * LargestPossibleRegion, then the filter cannot possible satisfy
+   * the request. This method returns true if the request can be
+   * satisfied and returns fails if the request cannot. This method is
+   * used by PropagateRequestedRegion().  PropagateRequestedRegion()
+   * throws a InvalidRequestedRegionError exception is the requested
+   * region is not within the LargestPossibleRegion.
+   */
   virtual bool VerifyRequestedRegion() = 0;
 
   /**

@@ -298,11 +298,46 @@ public:
   virtual void CopyInformation(DataObject *data);
 
   /**
-   * Other pipeline methods
+   * Update the information for this DataObject so that it can be used
+   * as an output of a ProcessObject.  This method is used the pipeline
+   * mechanism to propagate information and initialize the meta data
+   * associated with a DataObject. This method calls its source's
+   * ProcessObject::UpdateOutputInformation() which determines modified
+   * times, LargestPossibleRegions, and any extra meta data like spacing,
+   * origin, etc.
    */
   virtual void UpdateOutputInformation();
+
+  /**
+   * Set the RequestedRegion to the LargestPossibleRegion.  This
+   * forces a filter to produce all of the output in one execution
+   * (i.e. not streaming) on the next call to Update().
+   */
   virtual void SetRequestedRegionToLargestPossibleRegion();
+
+  /**
+   * Determine whether the RequestedRegion is outside of the
+   * BufferedRegion. This method returns true if the RequestedRegion
+   * is outside the BufferedRegion (true if at least one pixel is
+   * outside). This is used by the pipeline mechanism to determine
+   * whether a filter needs to re-execute in order to satisfy the
+   * current request.  If the current RequestedRegion is already
+   * inside the BufferedRegion from the previous execution (and the
+   * current filter is up to date), then a given filter does not need
+   * to re-execute
+   */
   virtual bool RequestedRegionIsOutsideOfTheBufferedRegion();
+
+  /**
+   * Verify that the RequestedRegion is within the
+   * LargestPossibleRegion.  If the RequestedRegion is not within the
+   * LargestPossibleRegion, then the filter cannot possible satisfy
+   * the request. This method returns true if the request can be
+   * satisfied and returns fails if the request cannot. This method is
+   * used by PropagateRequestedRegion().  PropagateRequestedRegion()
+   * throws a InvalidRequestedRegionError exception is the requested
+   * region is not within the LargestPossibleRegion.
+   */
   virtual bool VerifyRequestedRegion();
   
 protected:
