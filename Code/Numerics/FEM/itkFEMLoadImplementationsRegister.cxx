@@ -25,7 +25,6 @@
 #include "itkFEMLoadPoint.h"
 #include "itkFEMLoadGrav.h"
 #include "itkFEMLoadEdge.h"
-#include "itkFEMLoadImagePairBase.h"
 
 #include "itkFEMElementBar2D.h"
 #include "itkFEMElementBeam2D.h"

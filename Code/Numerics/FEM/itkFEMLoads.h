@@ -29,7 +29,7 @@
 #include "itkFEMLoadPoint.h"
 #include "itkFEMLoadGrav.h"
 #include "itkFEMLoadEdge.h"
-#include "itkFEMLoadImagePairBase.h"
+#include "itkFEMImageMetricLoad.h"
 
 #include "itkFEMLoadTest.h"
 #include "itkFEMLoadImplementationTestBar2D.h"
