@@ -138,25 +138,8 @@ public:
  // LoadImagePairBase(const char * rfn,const char * tfn, Float sigma);
 
   
-  inline void SetReferenceImage(ReferenceType* R ) 
-  { 
-    m_RefImage = R; 
-     // GET DATA SIZE  BUG!! FIXME!! MUST BE BETTER WAY TO GET SIZE
-    typedef ImageRegionIteratorWithIndex<TReference>  IterType;
-    IterType Iter (m_RefImage,m_RefImage->GetLargestPossibleRegion() );
-    Iter.GoToEnd();
-    typename ReferenceType::IndexType Ind = Iter.GetIndex();    
-    m_RefSize={{Ind[0]+1,Ind[1]+1}};
-  };
-  inline void SetTargetImage(TargetType* T ) 
-  {    // GET DATA SIZE  BUG!! FIXME!! MUST BE BETTER WAY TO GET SIZE
-    m_TarImage=T; 
-    typedef ImageRegionIteratorWithIndex<TTarget>  IterType;
-    IterType Iter (m_RefImage,m_RefImage->GetLargestPossibleRegion() );
-    Iter.GoToEnd();
-    typename ReferenceType::IndexType Ind = Iter.GetIndex();    
-    m_TarSize={{Ind[0]+1,Ind[1]+1}};
-  };
+  void SetReferenceImage(ReferenceType*);
+  void SetTargetImage(TargetType*);
 
 protected:
  
