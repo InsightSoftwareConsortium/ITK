@@ -55,8 +55,8 @@ DicomImageIO::~DicomImageIO()
 bool DicomImageIO
 ::IfEqual(unsigned char * tag,int tagvalue1,int tagvalue2) const
 {
-  return (BytePairToUnsigned(&tag[0]) == tagvalue1 &&
-          BytePairToUnsigned(&tag[2]) == tagvalue2);
+  return (BytePairToUnsigned(&tag[0]) == static_cast<unsigned int>(tagvalue1) &&
+          BytePairToUnsigned(&tag[2]) == static_cast<unsigned int>(tagvalue2));
 }
 
 /** This function puts the cursor of inputStream on the first byte
@@ -176,7 +176,6 @@ bool DicomImageIO::GoToTag(std::ifstream & inputStream,int subtagref1,
   again=true;
   while(again)
   {
-    unsigned int pos = inputStream.tellg();
     //0xAAAA and 0xBBBB >> Subtag1 And Subtag2 
     if (!DicomImageIO::IfEqual(current,subtagref1,subtagref2))
     {
