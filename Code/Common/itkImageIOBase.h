@@ -51,7 +51,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-class ITK_EXPORT ImageIOBase : public ProcessObject
+class ITK_EXPORT ImageIOBase : public Object
 {
 public:
   /**
@@ -88,9 +88,43 @@ public:
   } PixelType;        // enumerated constants for the different data types
 
   /**
-   * Determine the file type
+   * Set the filename.
    */
-  virtual bool CanReadFile(const char*) const =0;
+  itkSetStringMacro(FileName);
+  itkGetStringMacro(FileName);
+
+  /**
+   * Determine the file type. Returns true if this ImageIO can read the
+   * file specified.
+   */
+  virtual bool CanReadFile(const char*) const = 0;
+
+  /**
+   * Set/Get the type of the pixel. Often this is set during the read
+   * operation and does not always need to be set.
+   */
+  itkGetMacro(PixelType, typeid);
+
+  /**
+   * Specify the region of the data to load.
+   */
+  void SetLoadRegion(ImageIORegion region);
+
+  /**
+   * Loads the data from disk into internal memory (the RequestedRegionData).
+   */
+  virtual void Load() = 0;
+  
+  /**
+   * Loads the data from disk into the memory buffer provided.
+   */
+  virtual void Load(void* buffer) = 0;
+
+  /**
+   * The guts of this class. Returns the data in the requested region, 
+   * which holds the raw pixels of the image read from disk.
+   */
+  void* GetRequestedRegionData() const;
 
   /**
    * Get the image origin.
@@ -103,18 +137,6 @@ public:
   virtual const double* GetSpacing() const =0;
 
   /**
-   * Set the filename.
-   */
-  itkSetStringMacro(FileName);
-  itkGetStringMacro(FileName);
-
-  /**
-   * The guts of this class. Returns FileData, which holds the raw
-   * pixels of the image read from disk.
-   */
-  void* GetRequestedRegionData() const;
-
-  /**
    * Get the number of components per pixel in the image. This may
    * be set by the reading process.
    */
@@ -125,12 +147,6 @@ public:
    * being read.
    */
   itkGetMacro(NumberOfDimensions, unsigned int);
-
-  /**
-   * Set/Get the type of the pixel. Often this is set during the read
-   * operation and does not always need to be set.
-   */
-  itkGetMacro(PixelType, PixelType);
 
   /**
    * Convenient method for accessing the number of bytes to get to 
@@ -166,7 +182,7 @@ protected:
    * Set/Get the type of the pixel. Often this is set during the read
    * operation and does not always need to be set.
    */
-  itkSetMacro(PixelType, AtomicPixelType);
+  itkSetMacro(PixelType, PixelType);
 
   /**
    * Does the ImageIOBase object have enough info to be of use?
@@ -182,6 +198,11 @@ protected:
    * Type of the pixel.
    */
   PixelType  m_PixelType;
+
+  /**
+   * The region to load.
+   */
+  ImageIORegion m_Region;
 
   /**
    * Stores the number of components per pixel. This will be 1 for 

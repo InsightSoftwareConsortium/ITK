@@ -142,33 +142,26 @@ public:
   itkGetStringMacro(FilePattern);
 
   /**
-   * Get the ImageIO helper class. Often this is created via the object
-   * factory mechanism which keys off of the filename extension. This
-   * method provides a way to get the ImageIO instance that is 
-   * created.
-   */
-  itkGetObjectMacro(ImageIO,ImageIOBase);
-
-  /**
-   * Set the ImageIO helper class. Often this is created via the object
-   * factory mechanism which keys off of the filename extension, so you 
-   * don't have to specify it. This method is provided so that you can 
-   * manually specify the IO helper class.
+   * Set/Get the ImageIO helper class. Often this is created via the object
+   * factory mechanism that determines whether a particular ImageIO can
+   * read a certain file. This method provides a way to get the ImageIO 
+   * instance that is created.
    */
   itkSetObjectMacro(ImageIO,ImageIOBase);
+  itkGetObjectMacro(ImageIO,ImageIOBase);
 
 protected:
-  void GenerateData();
   ImageFileReader();
   ~ImageFileReader();
+  ImageFileReader(const Self&) {}
+  void operator=(const Self&) {}
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * Cause the filter to read data.
-   */
+  //Does the real work
   virtual void GenerateData();
 
   ImageIOBase::Pointer m_ImageIO;
-  bool m_UserSpecified;
+  bool m_UserSpecified; //keep track whether the ImageIO is user specified
 
   std::string m_FileName;
   std::string m_FilePrefix;

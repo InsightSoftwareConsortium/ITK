@@ -75,10 +75,13 @@ ImageFileReader<TOutputImage>::~ImageFileReader()
 template <class TOutputImage>
 void ImageFileReader<TOutputImage>::GenerateData()
 {
-  typename TOutputImage::Pointer m_OutputImage = this->GetOutput();
-  Size dimSize;
+  typename TOutputImage::Pointer output = this->GetOutput();
+  typedef typename TOutputImage::PixelType  OutputPixelType;
 
-
+  itkDebugMacro(<<"Reading file");
+  
+  // Check to see if we can read the file with something
+  //
   if ( m_FileName == "" && m_FilePrefix == "" )
     {
     throw FileIOException();
@@ -97,106 +100,112 @@ void ImageFileReader<TOutputImage>::GenerateData()
   if ( m_ImageIO == 0 )
     {
     throw FileIOException();
+    return;
     }
 
+  // Got to allocate space for the image. Determine the characteristics of
+  // the image.
+  //
+  Size dimSize;
   for(unsigned int i=0; i<TOutputImage::ImageDimension; i++)
     {
     dimSize[i] = m_ImageIO->GetDimensions(i);
     }
-  m_OutputImage->SetOrigin( m_ImageIO->GetOrigin() );
-  m_OutputImage->SetSpacing( m_ImageIO->GetSpacing() );
-
-
-  // Now tell the ImageIO to read the file
-  m_ImageIO->SetFileName(m_FileName.c_str());
-  m_ImageIO->SetLoadRegion(region);
-  if ( m_ImageIO->GetPixelType() == typeid(TOutputImage::PixelType) )
-    {
-    // allocate a buffer
-    m_ImageIO->Load(buffer);
-    return;
-    }
-
-  // Do a type conversion
-  m_ImageIO->Load();
-  if( m_ImageIO->GetPixelType() == typeid(unsigned char) )
-    {
-    ConvertBuffer<unsigned char, TOutputImage::PixelType>(m_ImageIO->GetRequestedRegionData(),
-                                                          buffer);
-    }
-  else if (m_ImageIO->GetPixelType() == typeid( char) )
-    {
-    ConvertBuffer<char, TOutputImage::PixelType>(m_ImageIO->GetRequestedRegionData(),
-                                                 buffer);
-    }
-  else if (m_ImageIO->GetPixelType() == typeid( unsigned short) )
-    {
-    ConvertBuffer<unsigned short, TOutputImage::PixelType>(m_ImageIO->GetRequestedRegionData(),
-                                                           buffer);
-    }
-  else if (m_ImageIO->GetPixelType() == typeid( short) )
-    {
-    ConvertBuffer< short, TOutputImage::PixelType>(m_ImageIO->GetRequestedRegionData(),
-                                                   buffer);
-    }
-  else if (m_ImageIO->GetPixelType() == typeid( unsigned int) )
-    {
-    ConvertBuffer< unsigned int, TOutputImage::PixelType>(m_ImageIO->GetRequestedRegionData(),
-                                                          buffer);
-    }
-  else if (m_ImageIO->GetPixelType() == typeid(  int) )
-    {
-    ConvertBuffer< int, TOutputImage::PixelType>(m_ImageIO->GetRequestedRegionData(),
-                                                 buffer);
-    }
-  else if (m_ImageIO->GetPixelType() == typeid( float ) )
-    {
-    ConvertBuffer< float, TOutputImage::PixelType>(m_ImageIO->GetRequestedRegionData(),
-                                                 buffer);
-    }
-  else if (m_ImageIO->GetPixelType() == typeid( double ) )
-    {
-    ConvertBuffer< float, TOutputImage::PixelType>(m_ImageIO->GetRequestedRegionData(),
-                                                   buffer);
-    }
-//    else if (m_ImageIO->GetPixelType() == typeid( RGBPixel ) )
-//      {
-//      ConvertBuffer< RGBPixel, TOutputImage::PixelType>(m_ImageIO->GetRequestedRegionData(),
-//                                                     buffer);
-//      }
-  else
-    {
-    itkErrorMacro(<<"Couldn't convert pixel type");
-    return;
-    }
-
-
+  output->SetOrigin( m_ImageIO->GetOrigin() );
+  output->SetSpacing( m_ImageIO->GetSpacing() );
 
   const unsigned long startPosition[] = { 0, 0, 0 };
   typename TOutputImage::IndexType start;
   start.SetIndex( startPosition );
 
   Region region;
-
   region.SetSize(dimSize);
   region.SetIndex(start);
 
-  m_OutputImage->SetLargestPossibleRegion(region);
-  m_OutputImage->SetBufferedRegion(region);
-  m_OutputImage->Allocate();
+  output->SetLargestPossibleRegion(region);
+  output->SetBufferedRegion(region);
+  output->Allocate();
 
-  typedef typename TOutputImage::PixelType  OutputPixelType;
-  typedef SimpleImageRegionIterator< TOutputImage> IteratorType;
+  // Tell the ImageIO to read the file
+  //
+  OutputPixelType *buffer = output->GetPixelContainer()->GetBufferPointer();
+  m_ImageIO->SetFileName(m_FileName.c_str());
+  m_ImageIO->SetLoadRegion(IORegion);
 
-  IteratorType it(m_OutputImage,
-                  m_OutputImage->GetLargestPossibleRegion());
-
-  OutputPixelType* source = (OutputPixelType*) m_IO->GetFileData();
-
-  for ( it.Begin(); !it.IsAtEnd(); ++it, ++source )
+  if ( m_ImageIO->GetPixelType() == typeid(TOutputImage::PixelType) )
     {
-    it.Set(*source);
+    // allocate a buffer and have the ImageIO read directly into it
+    m_ImageIO->Load(buffer);
+    return;
     }
+
+  else // a type conversion is necessary
+    {
+    m_ImageIO->Load();
+    if( m_ImageIO->GetPixelType() == typeid(unsigned char) )
+      {
+      ConvertBuffer<unsigned char, TOutputImage::PixelType>(m_ImageIO->GetRequestedRegionData(),
+                                                            buffer);
+      }
+    else if (m_ImageIO->GetPixelType() == typeid(char) )
+      {
+      ConvertBuffer<char, TOutputImage::PixelType>(m_ImageIO->GetRequestedRegionData(),
+                                                   buffer);
+      }
+    else if (m_ImageIO->GetPixelType() == typeid(unsigned short) )
+      {
+      ConvertBuffer<unsigned short, TOutputImage::PixelType>(m_ImageIO->GetRequestedRegionData(),
+                                                             buffer);
+      }
+    else if (m_ImageIO->GetPixelType() == typeid(short) )
+      {
+      ConvertBuffer<short, TOutputImage::PixelType>(m_ImageIO->GetRequestedRegionData(),
+                                                     buffer);
+      }
+    else if (m_ImageIO->GetPixelType() == typeid(unsigned int) )
+      {
+      ConvertBuffer<unsigned int, TOutputImage::PixelType>(m_ImageIO->GetRequestedRegionData(),
+                                                            buffer);
+      }
+    else if (m_ImageIO->GetPixelType() == typeid(int) )
+      {
+      ConvertBuffer<int, TOutputImage::PixelType>(m_ImageIO->GetRequestedRegionData(),
+                                                   buffer);
+      }
+    else if (m_ImageIO->GetPixelType() == typeid(float ) )
+      {
+      ConvertBuffer<float, TOutputImage::PixelType>(m_ImageIO->GetRequestedRegionData(),
+                                                   buffer);
+      }
+    else if (m_ImageIO->GetPixelType() == typeid(double) )
+      {
+      ConvertBuffer<double, TOutputImage::PixelType>(m_ImageIO->GetRequestedRegionData(),
+                                                     buffer);
+      }
+  //    else if (m_ImageIO->GetPixelType() == typeid( RGBPixel ) )
+  //      {
+  //      ConvertBuffer< RGBPixel, TOutputImage::PixelType>(m_ImageIO->GetRequestedRegionData(),
+  //                                                     buffer);
+  //      }
+    else
+      {
+      itkErrorMacro(<<"Couldn't convert pixel type");
+      return;
+      }
+
+    // Perform the type conversion
+    typedef SimpleImageRegionIterator< TOutputImage> IteratorType;
+
+    IteratorType it(m_OutputImage,
+                    m_OutputImage->GetLargestPossibleRegion());
+
+    OutputPixelType* source = (OutputPixelType*) m_IO->GetFileData();
+
+    for ( it.Begin(); !it.IsAtEnd(); ++it, ++source )
+      {
+      it.Set(*source);
+      }
+    } //else need to do a type conversion
 }
 
 
