@@ -55,8 +55,6 @@ VarianceImageFunction<TInputImage,TCoordRep>
 VarianceImageFunction<TInputImage,TCoordRep>
 ::EvaluateAtIndex(const IndexType& index) const
 {
-  int i;
-  double num;
   RealType sum;
   RealType sumOfSquares;
   RealType var;
@@ -86,16 +84,16 @@ VarianceImageFunction<TInputImage,TCoordRep>
   it.SetLocation(index);
 
   // Walk the neighborhood
-  for (i = 0; i < it.Size(); ++i)
+  const unsigned int size = it.Size();
+  for (unsigned int i = 0; i < size; ++i)
     {
-    sum += static_cast<RealType>(it.GetPixel(i));
-    sumOfSquares
-      += (static_cast<RealType>(it.GetPixel(i))
-          * static_cast<RealType>(it.GetPixel(i)));
+    const RealType value = static_cast<RealType>( it.GetPixel(i) );
+    sum           += value;
+    sumOfSquares  += value * value;
     }
 
-  num = (double) it.Size();
-  var = (sumOfSquares - (sum*sum / num)) / (num - 1.0);
+  const double num = static_cast<double>( size );
+  var = ( sumOfSquares - ( sum*sum / num ) ) / ( num - 1.0 );
   
   return ( var );
 }
