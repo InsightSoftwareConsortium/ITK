@@ -1,3 +1,20 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkSimplexMeshGeometry.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+
 #ifndef _SimplexMeshGeometry_cxx
 #define _SimplexMeshGeometry_cxx
 
@@ -90,6 +107,9 @@ SimplexMeshGeometry
     sphereRadius = -1 * sphereRadius;
   }
 }
-}
+
+
+
+}  // end namespace itk
 
 #endif // _SimplexMeshGeometry_cxx
