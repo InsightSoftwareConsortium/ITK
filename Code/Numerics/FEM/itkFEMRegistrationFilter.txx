@@ -778,7 +778,7 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
    
    std::cout << " min E " << m_MinE << " delt E " << deltE <<  " iter " << iters << std::endl;
    iters++;
-   if ( iters > m_Maxiters[m_CurrentLevel] ) DLS=1;
+   if ( iters > m_Maxiters[m_CurrentLevel] -3) { DLS=1; LSF=m_Maxiters[m_CurrentLevel]*2;}
    
    // uncomment to write out every deformation SLOW due to interpolating vector field everywhere.
    //GetVectorField();
