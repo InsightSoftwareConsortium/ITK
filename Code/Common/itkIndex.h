@@ -75,7 +75,7 @@ public:
    * Add two indices. This method models a random access Index.
    */
   const Self
-  operator+(const Self &vec)
+  operator+(const Self &vec) const
     {
     Self result;
     for (unsigned int i=0; i < VIndexDimension; i++)
@@ -98,7 +98,7 @@ public:
    * Add a size to an index. This method models a random access Index.
    */
   const Self
-  operator+(const Size<VIndexDimension> &size)
+  operator+(const Size<VIndexDimension> &size) const
     {
     Self result;
     for (unsigned int i=0; i < VIndexDimension; i++)
