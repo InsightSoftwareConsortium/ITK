@@ -300,10 +300,14 @@ void Semaphore::Remove()
 #ifndef __sgi
 #ifndef __APPLE__
   // IRIX pthreads implementation of sem_destroy is buggy
-  if ( sem_destroy(&m_Sema) != 0 )
+  if(m_Sema != 0) 
     {
-    itkExceptionMacro( << "sem_destroy call failed. " );
+    if ( sem_destroy(&m_Sema) != 0 )
+      {
+      itkExceptionMacro( << "sem_destroy call failed. " );
+      }
     }
+  m_Sema = 0;
 #endif
 #endif
 
