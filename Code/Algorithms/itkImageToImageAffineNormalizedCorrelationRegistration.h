@@ -16,7 +16,7 @@
 #ifndef __itkImageToImageAffineNormalizedCorrelationRegistration_h
 #define __itkImageToImageAffineNormalizedCorrelationRegistration_h
 
-#include "itkObject.h"
+#include "itkRegistrationMethod.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkNormalizedCorrelationImageToImageMetric.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
@@ -48,7 +48,8 @@ namespace itk
  */
 
 template <class TReference, class TTarget>
-class ITK_EXPORT ImageToImageAffineNormalizedCorrelationRegistration : public Object 
+class ITK_EXPORT ImageToImageAffineNormalizedCorrelationRegistration 
+                    : public RegistrationMethod<TReference,TTarget> 
 {
 public:
   /**
@@ -60,8 +61,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-   typedef Object  Superclass;
-
+   typedef RegistrationMethod  Superclass; 
 
   /** 
    * Smart pointer typedef support 
@@ -159,7 +159,8 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-   itkTypeMacro(ImageToImageAffineNormalizedCorrelationRegistration, Object);
+   itkTypeMacro(ImageToImageAffineNormalizedCorrelationRegistration,
+       RegistrationMethod);
 
 
   /**

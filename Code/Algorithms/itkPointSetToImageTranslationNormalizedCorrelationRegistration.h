@@ -16,7 +16,7 @@
 #ifndef __itkPointSetToImageTranslationNormalizedCorrelationRegistration_h
 #define __itkPointSetToImageTranslationNormalizedCorrelationRegistration_h
 
-#include "itkObject.h"
+#include "itkRegistrationMethod.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkNormalizedCorrelationPointSetToImageMetric.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
@@ -46,7 +46,8 @@ namespace itk
  */
 
 template <class TReference, class TTarget>
-class ITK_EXPORT PointSetToImageTranslationNormalizedCorrelationRegistration : public Object 
+class ITK_EXPORT PointSetToImageTranslationNormalizedCorrelationRegistration :
+public RegistrationMethod<TReference,TTarget> 
 {
 public:
   /**
@@ -58,7 +59,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-   typedef Object  Superclass;
+   typedef RegistrationMethod  Superclass;
 
 
   /** 
@@ -157,7 +158,8 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-   itkTypeMacro(PointSetToImageTranslationNormalizedCorrelationRegistration, Object);
+   itkTypeMacro(PointSetToImageTranslationNormalizedCorrelationRegistration,
+       RegistrationMethod);
 
 
   /**

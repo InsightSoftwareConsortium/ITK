@@ -16,7 +16,7 @@
 #ifndef __itkImageToImageAffineMeanSquaresRegistration_h
 #define __itkImageToImageAffineMeanSquaresRegistration_h
 
-#include "itkObject.h"
+#include "itkRegistrationMethod.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkMeanSquaresImageToImageMetric.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
@@ -48,7 +48,8 @@ namespace itk
  */
 
 template <class TReference, class TTarget>
-class ITK_EXPORT ImageToImageAffineMeanSquaresRegistration : public Object 
+class ITK_EXPORT ImageToImageAffineMeanSquaresRegistration 
+: public RegistrationMethod<TReference,TTarget>
 {
 public:
   /**
@@ -60,7 +61,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-   typedef Object  Superclass;
+   typedef RegistrationMethod  Superclass;
 
 
   /** 
@@ -159,7 +160,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-   itkTypeMacro(ImageToImageAffineMeanSquaresRegistration, Object);
+   itkTypeMacro(ImageToImageAffineMeanSquaresRegistration, RegistrationMethod);
 
 
   /**

@@ -16,7 +16,7 @@
 #ifndef __itkImageToImageAffinePatternIntensityRegistration_h
 #define __itkImageToImageAffinePatternIntensityRegistration_h
 
-#include "itkObject.h"
+#include "itkRegistrationMethod.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkPatternIntensityImageToImageMetric.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
@@ -48,7 +48,8 @@ namespace itk
  */
 
 template <class TReference, class TTarget>
-class ITK_EXPORT ImageToImageAffinePatternIntensityRegistration : public Object 
+class ITK_EXPORT ImageToImageAffinePatternIntensityRegistration : public
+RegistrationMethod<TReference,TTarget> 
 {
 public:
   /**
@@ -60,7 +61,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-   typedef Object  Superclass;
+   typedef RegistrationMethod  Superclass;
 
 
   /** 
@@ -159,7 +160,8 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-   itkTypeMacro(ImageToImageAffinePatternIntensityRegistration, Object);
+   itkTypeMacro(ImageToImageAffinePatternIntensityRegistration,
+       RegistrationMethod);
 
 
   /**

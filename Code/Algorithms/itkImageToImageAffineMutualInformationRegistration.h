@@ -16,7 +16,7 @@
 #ifndef __itkImageToImageAffineMutualInformationRegistration_h
 #define __itkImageToImageAffineMutualInformationRegistration_h
 
-#include "itkObject.h"
+#include "itkRegistrationMethod.h"
 #include "itkMutualInformationImageToImageMetric.h"
 #include "itkGradientDescentOptimizer.h"
 #include "itkImageMapper.h"
@@ -75,7 +75,7 @@ namespace itk
  */
 template <class TReference, class TTarget>
 class ITK_EXPORT ImageToImageAffineMutualInformationRegistration :
-  public Object
+  public RegistrationMethod<TReference,TTarget>
 {
 public:
   /**
@@ -86,7 +86,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-   typedef Object  Superclass;
+   typedef RegistrationMethod  Superclass;
 
   /**
    * Smart pointer typedef support
@@ -179,7 +179,8 @@ public:
   /**
    * Run-time type information (and related methods).
    */
-   itkTypeMacro(ImageToImageAffineMutualInformationRegistration, Object);
+   itkTypeMacro(ImageToImageAffineMutualInformationRegistration,
+       RegistrationMethod);
 
   /**
    * Method for creation through the object factory.
