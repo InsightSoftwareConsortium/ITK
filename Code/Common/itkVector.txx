@@ -260,7 +260,7 @@ typename Vector<T, TVectorDimension>::ValueType
 Vector<T, TVectorDimension>
 ::GetSquaredNorm( void ) const
 {
-  ValueType sum = 0;  // consider a trait for null here ?
+  ValueType sum = NumericTraits<T>::Zero;
   for( unsigned int i=0; i<TVectorDimension; i++) 
   {
     const ValueType value = (*this)[i];
@@ -409,6 +409,52 @@ Vector<T, TVectorDimension>
   }
   return value;
 }
+
+
+
+/**
+ *  Methods specialized by dimension
+ *
+ *  Limitations of VC++ on partial specialization 
+ *  force us to define the following method for
+ *  a set of types.
+ */
+
+
+Vector<double,3>
+ITK_EXPORT operator^( const Vector<double,3> & a, const Vector<double,3> & b ) 
+{
+  Vector<double,3> c;
+  c[0] = a[1] * b[2] - a[2] * b[1];
+  c[1] = a[2] * b[0] - a[0] * b[2];
+  c[1] = a[0] * b[1] - a[1] * b[0];
+  return c;  
+}
+
+
+Vector<float,3>
+ITK_EXPORT operator^( const Vector<float,3> & a, const Vector<float,3> & b ) 
+{
+  Vector<float,3> c;
+  c[0] = a[1] * b[2] - a[2] * b[1];
+  c[1] = a[2] * b[0] - a[0] * b[2];
+  c[1] = a[0] * b[1] - a[1] * b[0];
+  return c;  
+}
+
+
+Vector<int,3>
+ITK_EXPORT operator^( const Vector<int,3> & a, const Vector<int,3> & b ) 
+{
+  Vector<int,3> c;
+  c[0] = a[1] * b[2] - a[2] * b[1];
+  c[1] = a[2] * b[0] - a[0] * b[2];
+  c[1] = a[0] * b[1] - a[1] * b[0];
+  return c;  
+}
+
+
+
 
 
 } // end namespace itk
