@@ -77,6 +77,11 @@ public:
    */
   typedef SliceIterator<TPixel, Self> SliceIteratorType;
 
+  /**
+   * Default destructor method.
+   */ 
+  virtual ~NeighborhoodBase() {}
+  
   /** 
    * Run-time type information (and related methods).
    */
@@ -202,6 +207,7 @@ public:
            sizeof(unsigned long) * VDimension);
     memcpy(m_Size.m_Size, orig.m_Size.m_Size,
            sizeof(unsigned long) * VDimension);
+    return *this;
   }
 protected:
   /**
