@@ -1550,6 +1550,16 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 
 //----------------------------------------------------------------------------
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+void
+Mesh<TPixelType, VDimension, TMeshTraits>
+::SetRequestedRegion(const RegionType &region)
+{
+  this->Superclass::SetRequestedRegion( region );
+}
+
+
+//----------------------------------------------------------------------------
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void 
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::SetRequestedRegion(DataObject *data)

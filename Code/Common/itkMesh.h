@@ -470,6 +470,10 @@ public:
    *  castable to a Mesh. */
   virtual void SetRequestedRegion(DataObject *data);
 
+  /** Set/Get the Requested region */
+  virtual void SetRequestedRegion( const RegionType & region );
+  itkGetMacro( RequestedRegion, RegionType );
+
   /** Set/Get the identification of the method used to allocate cells
       \warning Failure to call this method correctly will lead to memory leaks
       and/or segmentation faults because the cell memory will not be erased or
