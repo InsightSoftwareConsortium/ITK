@@ -100,7 +100,7 @@ public:
    **/
    itkGetConstReferenceMacro( RotationMatrix, MatrixType );
 
-   const typename MatrixType & GetMatrix( )
+   const MatrixType & GetMatrix( )
      {
      return this->GetRotationMatrix();
      }
