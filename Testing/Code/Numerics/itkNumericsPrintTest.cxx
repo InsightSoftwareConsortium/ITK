@@ -23,6 +23,8 @@
 #include "itkCompositeValleyFunction.h"
 #include "itkConjugateGradientOptimizer.h"
 #include "itkCostFunction.h"
+#include "itkCumulativeGaussianCostFunction.h"
+#include "itkCumulativeGaussianOptimizer.h"
 #include "itkGradientDescentOptimizer.h"
 #include "itkLBFGSOptimizer.h"
 #include "itkLevenbergMarquardtOptimizer.h"
@@ -54,6 +56,14 @@ int itkNumericsPrintTest(int , char* [])
   itk::ConjugateGradientOptimizer::Pointer ConjugateGradientOptimizerObj =
     itk::ConjugateGradientOptimizer::New();
   std::cout << "----------ConjugateGradientOptimizer " << ConjugateGradientOptimizerObj;
+
+  itk::CumulativeGaussianOptimizer::Pointer CumulativeGaussianOptimizerObj =
+    itk::CumulativeGaussianOptimizer::New();
+  std::cout << "----------CumulativeGaussianOptimizer " << CumulativeGaussianOptimizerObj;
+  
+  itk::CumulativeGaussianCostFunction::Pointer CumulativeGaussianCostFunctionObj =
+    itk::CumulativeGaussianCostFunction::New();
+  std::cout << "----------CumulativeGaussianCostFunction " << CumulativeGaussianCostFunctionObj;
 
   itk::GradientDescentOptimizer::Pointer GradientDescentOptimizerObj =
     itk::GradientDescentOptimizer::New();

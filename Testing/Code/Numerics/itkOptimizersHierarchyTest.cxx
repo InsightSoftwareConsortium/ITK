@@ -24,6 +24,8 @@
 #include "itkSingleValuedNonLinearVnlOptimizer.h"
 #include "itkAmoebaOptimizer.h"
 #include "itkConjugateGradientOptimizer.h"
+#include "itkCumulativeGaussianOptimizer.h"
+#include "itkCumulativeGaussianCostFunction.h"
 #include "itkLBFGSOptimizer.h"
 #include "itkMultipleValuedCostFunction.h"
 #include "itkMultipleValuedNonLinearOptimizer.h"
@@ -152,7 +154,12 @@ int itkOptimizersHierarchyTest(int, char* [] )
 
   OnePlusOneEvolutionaryOptimizerType::Pointer onePlusOne = 
                                           OnePlusOneEvolutionaryOptimizerType::New();
-
+  
+  typedef itk::CumulativeGaussianOptimizer CumulativeGaussianOptimizerType;
+  CumulativeGaussianOptimizerType::Pointer   cumgaussopt = CumulativeGaussianOptimizerType::New();
+  
+  typedef itk::CumulativeGaussianCostFunction CumulativeGaussianCostFunctionType;
+  CumulativeGaussianCostFunctionType::Pointer   cumgausstype = CumulativeGaussianCostFunctionType::New();
 
   if ( !pass )
     {

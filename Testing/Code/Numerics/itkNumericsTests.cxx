@@ -10,6 +10,7 @@ void RegisterTests()
   REGISTER_TEST(itkAmoebaOptimizerTest);
   REGISTER_TEST(itkConjugateGradientOptimizerTest);
   REGISTER_TEST(itkCompositeValleyFunctionTest);
+  REGISTER_TEST(itkCumulativeGaussianOptimizerTest);
   REGISTER_TEST(itkGradientDescentOptimizerTest);
   REGISTER_TEST(itkLevenbergMarquardtOptimizerTest);
   REGISTER_TEST(itkLBFGSOptimizerTest);

@@ -25,6 +25,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkCacheableScalarFunction.h"
 #include "itkCompositeValleyFunction.h"
 #include "itkConjugateGradientOptimizer.h"
+#include "itkCumulativeGaussianCostFunction.h"
+#include "itkCumulativeGaussianOptimizer.h"
 #include "itkCostFunction.h"
 #include "itkGradientDescentOptimizer.h"
 #include "itkLBFGSOptimizer.h"

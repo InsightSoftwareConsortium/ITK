@@ -16,6 +16,7 @@ ADD_TEST(itkNumericsPrintTest ${NUMERICS_TESTS} itkNumericsPrintTest)
 ADD_TEST(itkAmoebaOptimizerTest ${NUMERICS_TESTS} itkAmoebaOptimizerTest)
 ADD_TEST(itkConjugateGradientOptimizerTest ${NUMERICS_TESTS} itkConjugateGradientOptimizerTest)
 ADD_TEST(itkCompositeValleyFunctionTest ${NUMERICS_TESTS} itkCompositeValleyFunctionTest)
+ADD_TEST(itkCumulativeGaussianOptimizerTest ${NUMERICS_TESTS} itkCumulativeGaussianOptimizerTest)
 ADD_TEST(itkGradientDescentOptimizerTest ${NUMERICS_TESTS} itkGradientDescentOptimizerTest)
 ADD_TEST(itkLevenbergMarquardtOptimizerTest ${NUMERICS_TESTS} itkLevenbergMarquardtOptimizerTest)
 ADD_TEST(itkLBFGSOptimizerTest ${NUMERICS_TESTS} itkLBFGSOptimizerTest)
@@ -32,6 +33,7 @@ itkNumericsPrintTest.cxx
 itkAmoebaOptimizerTest.cxx
 itkConjugateGradientOptimizerTest.cxx
 itkCompositeValleyFunctionTest.cxx
+itkCumulativeGaussianOptimizerTest.cxx
 itkGradientDescentOptimizerTest.cxx
 itkLevenbergMarquardtOptimizerTest.cxx
 itkLBFGSOptimizerTest.cxx
