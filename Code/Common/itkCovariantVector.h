@@ -68,9 +68,6 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
   typedef CovariantVector  Self;
   typedef FixedArray<T,NVectorDimension>  Superclass;
 
-  /** Run-time type information (and related methods).   */
-  itkTypeMacro( Vector, FixedArray );
-    
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an CovariantVector.   */
   typedef T ValueType;

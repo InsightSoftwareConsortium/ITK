@@ -62,9 +62,6 @@ public:
   typedef Vector  Self;
   typedef FixedArray<T,NVectorDimension>  Superclass;
 
-  /** Run-time type information (and related methods).   */
-  itkTypeMacro( Vector, FixedArray );
-  
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an Vector.   */
   typedef T ValueType;

@@ -45,9 +45,6 @@ public:
   /** Standard class typedefs. */
   typedef Point  Self;
   typedef FixedArray<TCoordRep,NPointDimension>  Superclass;
-
-  /** Run-time type information (and related methods).   */
-  itkTypeMacro( Point, FixedArray );
   
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an Point.   */

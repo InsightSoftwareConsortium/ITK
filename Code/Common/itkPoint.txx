@@ -172,7 +172,6 @@ vnl_vector_ref< T >
 Point<T, TPointDimension>
 ::Get_vnl_vector( void ) 
 {
-  itkWarningMacro("Get_vnl_vector() is deprecated.  Please use GetVnlVector() instead.");
   return vnl_vector_ref< T >( TPointDimension, this->GetDataPointer());
 }
 
@@ -184,7 +183,6 @@ vnl_vector< T >
 Point<T, TPointDimension>
 ::Get_vnl_vector( void ) const 
 {
-  itkWarningMacro("Get_vnl_vector() is deprecated.  Please use GetVnlVector() instead.");
   // Return a vector_ref<>.  This will be automatically converted to a
   // vnl_vector<>.  We have to use a const_cast<> which would normally
   // be prohibited in a const method, but it is safe to do here
