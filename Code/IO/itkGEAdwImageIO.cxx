@@ -23,7 +23,6 @@
 #include "idbm_hdr_def.h"
 #include "itkMvtSunf.h"
 #include "itkDirectory.h"
-#include <cstdio>
 #include <iostream>
 #include <fstream>
 #include <string.h>
@@ -105,8 +104,8 @@ namespace itk
   strcat(hdr->patientId,ptr);
       }
 
-    this->GetStringAt(f,GE_ADW_EX_PATNAME,hdr->name,GE_ADW_GE_ADW_EX_PATNAME_LEN);
-    hdr->name[GE_ADW_GE_ADW_EX_PATNAME_LEN] = '\0';
+    this->GetStringAt(f,GE_ADW_EX_PATNAME,hdr->name,GE_ADW_EX_PATNAME_LEN);
+    hdr->name[GE_ADW_EX_PATNAME_LEN] = '\0';
 
     this->GetStringAt(f,GE_ADW_EX_HOSPNAME,hdr->hospital,34);
     hdr->hospital[33] = '\0';
@@ -123,9 +122,9 @@ namespace itk
 
     this->GetShortAt(f,GE_ADW_IM_NO,&(hdr->imageNumber));
 
-    this->GetShortAt(f,GE_ADW_GE_ADW_IM_CPHASENUM,&(hdr->imagesPerSlice));
+    this->GetShortAt(f,GE_ADW_IM_CPHASENUM,&(hdr->imagesPerSlice));
 
-    this->GetShortAt(f,GE_ADW_GE_ADW_IM_CPHASENUM,&(hdr->turboFactor));
+    this->GetShortAt(f,GE_ADW_IM_CPHASENUM,&(hdr->turboFactor));
 
     this->GetFloatAt(f,GE_ADW_IM_SLTHICK,&(hdr->sliceThickness));
 
