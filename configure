@@ -3030,7 +3030,7 @@ fi
 # Setup the instance name (OS, Revision, Compiler, and someday Compiler Revision)
 COMPILER=`echo $CXX | cut -d ' ' -f1`
 COMPILER=`which $COMPILER`
-COMPILER=`basename $COMPILER`
+COMPILER=`basename $COMPILER .exe`
 BUILDNAME=$system-$COMPILER
 BUILDNAME=`echo $BUILDNAME | tr \(\/ _ | tr -d \)`
 if test ! "$buildname_specified" = none; then
