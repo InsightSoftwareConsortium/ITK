@@ -91,6 +91,33 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
   m_FrequencyContainer->Initialize(m_OffsetTable[VMeasurementVectorSize]) ;
 }
 
+template< class TMeasurement, unsigned int VMeasurementVectorSize,
+          class TFrequencyContainer>
+void 
+Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
+::Initialize(SizeType size, MeasurementVectorType lowerBound,
+             MeasurementVectorType upperBound)
+{
+  this->Initialize(size) ;
+
+  MeasurementType interval ;
+  for ( int i = 0 ; i < MeasurementVectorSize ; i++)
+    {
+      interval = (upperBound[i] - lowerBound[i]) / 
+        static_cast< MeasurementType >(size[i]) ;
+      // Set the min vector and max vector
+      for (int j = 0; j < (size[i] - 1) ; j++)
+        {
+          this->SetBinMin(i, j, lowerBound[i] + j * interval) ;
+          this->SetBinMax(i, j, lowerBound[i] + (j + 1) * interval);
+        }
+      this->SetBinMin(i, size[i] - 1, 
+                           lowerBound[i] + (size[i] - 1) * interval) ;
+      this->SetBinMax(i, size[i] - 1, 
+                           upperBound[i]) ;
+    }
+}
+
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
   class TFrequencyContainer>
 inline Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>::IndexType&

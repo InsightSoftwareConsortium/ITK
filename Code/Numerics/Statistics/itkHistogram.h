@@ -114,6 +114,15 @@ public:
    * the overide methods have prepare the frequency container for
    * input and output. */
   void Initialize(SizeType size) ;
+  
+
+  /** Do the same thing as the above Initialize(SizeType) method do
+   * , and also creates equal size bins within the range given 
+   * by lower and upper bound. If users want to assign bin's min and
+   * max values along each dimension use SetBinMin() and SetBinMax()
+   * functions*/
+  void Initialize(SizeType size, MeasurementVectorType lowerBound,
+                  MeasurementVectorType upperBound) ;
 
   /** returns the index of histogram corresponding to measurement value */
   IndexType& GetIndex(const MeasurementVectorType &measurement) ;
@@ -143,7 +152,7 @@ public:
   { return static_cast< int >(m_Size[dimension]) ; }
 
   /** Method to get m_Size */
-  SizeType& GetSize() const
+  SizeType GetSize() const
   { return m_Size ; }
 
   /** return the size of each dimension of the measurement vector container */
@@ -330,11 +339,6 @@ public:
       return m_Histogram->GetMeasurementVector(m_Id) ;
     } 
 
-    MeasurementType& GetMeasurement(int dim) const
-    { 
-      return m_Histogram->GetMeasurementVector(m_Id)[dim] ;
-    } 
-
     Iterator& operator++() 
     { 
       ++m_Id; 
@@ -373,7 +377,7 @@ protected:
   virtual ~Histogram() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  // The number of bins for each each dimension
+  // The number of bins for each dimension
   SizeType m_Size ;
   
   // lower bound of each bin
