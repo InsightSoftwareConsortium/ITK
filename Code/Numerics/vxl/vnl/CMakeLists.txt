@@ -5,3 +5,5 @@ INSTALL_FILES(/include/InsightToolkit/Numerics/vxl/vnl ".txx"
               "vnl_c_vector")
 
 INSTALL_FILES(/include/InsightToolkit/Numerics/vxl/vnl "(\\.h)$")
+
+SUBDIRS(algo)
