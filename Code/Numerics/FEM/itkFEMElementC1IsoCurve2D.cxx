@@ -89,9 +89,6 @@ vnl_vector<Node::Float> C1IsoCurve2D::Fe(LoadElementPointer L)  const{
 
   vnl_vector<Float> fvec(N()*NI(),0.0);
   
-  if ( LoadGrav::Pointer l0=dynamic_cast<LoadGrav*>(&*L) ) {
-    return fvec;
-  } else
   return fvec;
   //Superclass::Fe(L);  // we can't handle this load, pass it over to the parent class
 /* FIX ME!!

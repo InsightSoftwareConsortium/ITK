@@ -529,10 +529,12 @@ HexahedronC03D::ComputeDBMatrix(const vnl_matrix<Float>& D, const vnl_matrix<Flo
 vnl_vector<HexahedronC03D::Float> HexahedronC03D::Fe(LoadElementPointer l) const {
   std::cout << "TS: Fe" << std::endl;
 
-  if ( LoadGrav::Pointer l0=dynamic_cast<LoadGrav*>(&*l) ) {
-    return Superclass::Fe(l);
-  } else
-  return Superclass::Fe(l);  /** we can't handle this load, pass it over to the parent class */
+  /**
+   * We can't handle this load, pass it over to the parent class
+   * FIXME: write code that handles loads.
+   */
+  return Superclass::Fe(l);
+
 }
 
 

@@ -410,11 +410,13 @@ TetrahedronC03D::ComputeDBMatrix(const vnl_matrix<Float>& D, const vnl_matrix<Fl
  * Return the force vector for TetrahedronC03D element
  */
 vnl_vector<TetrahedronC03D::Float> TetrahedronC03D::Fe(LoadElementPointer l) const {
-  if ( LoadGrav::Pointer l0=dynamic_cast<LoadGrav*>(&*l) ) {
-    return Superclass::Fe(l);
-  } else
-    /** we can't handle this load, pass it over to the parent class */
-    return Superclass::Fe(l);  
+
+  /**
+   * We can't handle this load, pass it over to the parent class 
+   * FIXME: write code that handles loads.
+   */
+  return Superclass::Fe(l);  
+
 }
 
 

@@ -132,9 +132,12 @@ FEMPArray<T>::ClassTypePointer FEMPArray<T>::Find(int gn)
   Superclass::iterator i;
 
   /**
-   * First take a guess. This only works on sorted arrays and is much faster than searching.
+   * First take a guess. This only works on sorted
+   * arrays and is much faster than searching.
    */
-  if( gn<0 || gn>=(int)size() || (*(i=&this->operator[](gn)))->GN!=gn )
+  if( gn<0 ||
+      gn>=(int)size() ||
+      ( *( i=static_cast<Superclass::iterator>(&this->operator[](gn)) ) )->GN!=gn )
   {
     /** 
      * The array is not sorted, we need to search for the correct GN.
@@ -166,7 +169,9 @@ FEMPArray<T>::ClassTypeConstPointer FEMPArray<T>::Find(int gn) const
 
   Superclass::const_iterator i;
 
-  if( gn>=size() || gn<0 || (*(i=&this->operator[](gn)))->GN!=gn )
+  if( gn<0 ||
+      gn>=(int)size() ||
+      ( *( i=static_cast<Superclass::const_iterator>(&this->operator[](gn)) ) )->GN!=gn )
   {
     for(i=begin(); i!=end() && (*i)->GN!=gn; i++);
     if(i==end()) return 0;
