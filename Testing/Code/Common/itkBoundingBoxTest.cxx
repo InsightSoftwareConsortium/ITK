@@ -27,7 +27,7 @@ int main ( int argc, char* argv[] )
   BB::PointsContainerPointer NewPoints = BB::PointsContainer::New();
 
   int i;
-  itk::Point<1,double> P;
+  itk::Point<double, 1> P;
 
   double coordinates[2];
   std::cout << "Testing Bounding Box" <<std::endl;
@@ -58,9 +58,7 @@ int main ( int argc, char* argv[] )
   
   for ( i = 0; i < 10; i++ )
     {
-    double coord;
-    coord = (double) i;
-    P.SetCoords ( &coord );
+    P[0] = (double)i;
     Points->InsertElement ( i, P );
     }
   std::cout << "Insert ponits passed" <<std::endl;
