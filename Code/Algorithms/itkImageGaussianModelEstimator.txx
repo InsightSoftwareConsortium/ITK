@@ -17,6 +17,7 @@
 #ifndef _itkImageGaussianModelEstimator_txx
 #define _itkImageGaussianModelEstimator_txx
 
+#include "itkImageGaussianModelEstimator.h"
 namespace itk
 {
 
