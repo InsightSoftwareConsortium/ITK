@@ -1,9 +1,12 @@
 
-#ifdef WIN32
-#pragma warning(disable:4786)
-#pragma warning(disable:4503)
-#endif
-
+#ifdef _MSC_VER
+#pragma warning ( disable : 4514 )
+#pragma warning ( disable : 4786 )
+#pragma warning ( disable : 4503 )
+#pragma warning ( disable : 4710 )
+#pragma warning ( disable : 4702 )
+#pragma warning ( push, 3 )
+#endif 
 
 #include "DICOMAppHelper.h"
 #include "DICOMCallback.h"
@@ -1122,3 +1125,8 @@ void DICOMAppHelper::Clear()
   this->SliceOrderingMap.clear();
   this->SeriesUIDMap.clear();
 }
+
+#ifdef _MSC_VER
+#pragma warning ( pop )
+#endif
+

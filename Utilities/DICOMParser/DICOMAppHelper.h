@@ -2,15 +2,20 @@
 #ifndef __DICOM_APP_HELPER_H_
 #define __DICOM_APP_HELPER_H_
 
-#include <fstream>
-#include "DICOMTypes.h"
-#include "DICOMParser.h"
-#include "DICOMCallback.h"
+#ifdef _MSC_VER
+#pragma warning ( disable : 4514 )
+#pragma warning ( push, 3 )
+#endif 
 
+#include <fstream>
 #include <vector>
 #include <string>
 #include <iomanip>
 #include <iostream>
+
+#include "DICOMTypes.h"
+#include "DICOMParser.h"
+#include "DICOMCallback.h"
 
 
 // Function object for sorting strings
@@ -381,7 +386,6 @@ public:
      series. Use the first series by default. */
   void GetImagePositionPatientFilenamePairs(std::vector<std::pair<float, std::string> > &v);
 
-  
  protected:
   int BitsAllocated;
   bool ByteSwapData;
@@ -430,6 +434,14 @@ public:
   DICOMMemberCallback<DICOMAppHelper>* RescaleSlopeCB;
   DICOMMemberCallback<DICOMAppHelper>* PixelDataCB;
 
+ private:
+  DICOMAppHelper(const DICOMAppHelper&);  
+  void operator=(const DICOMAppHelper&); 
+   
 };
+
+#ifdef _MSC_VER
+#pragma warning ( pop )
+#endif
 
 #endif
