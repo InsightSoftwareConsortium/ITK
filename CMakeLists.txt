@@ -116,12 +116,14 @@ IF(USE_VTK)
   INCLUDE (${ITK_SOURCE_DIR}/Utilities/ITKFindVTK.cmake)
   IF (USE_VTK_FILE)
     INCLUDE (${USE_VTK_FILE})
-    # Test for VTK using std libs
-    IF(VTK_USE_ANSI_STDLIB)
       SET(HAS_VTK 1)
-    ELSE( VTK_USE_ANSI_STDLIB )
-      MESSAGE ("Warning. Your VTK was not built with the VTK_USE_ANSI_STDLIB option ON. \nPlease reconfigure and recompile VTK with this option before trying to use it with ITK.")
-    ENDIF( VTK_USE_ANSI_STDLIB )
+    # Test for VTK using std libs
+    IF(NOT VTK_USE_ANSI_STDLIB)
+      MESSAGE(
+	"Warning. Your VTK was not built with the VTK_USE_ANSI_STDLIB option ON.\n"
+        "Link errors may occur.  Consider re-building VTK with this option ON.\n"
+        "For MSVC 6, you MUST turn on the VTK option.  ITK will not link otherwise.")
+    ENDIF(NOT VTK_USE_ANSI_STDLIB)
     # Test for VTK building Hybrid
     IF(VTK_USE_HYBRID)
       SET(HAS_VTK_HYBRID 1 CACHE INTERNAL "VTK Hybrid libraries are available")
