@@ -34,16 +34,17 @@ void SolverCrankNicolson::InitializeForSolution()
 {
   m_ls->SetSystemOrder(NGFN+NMFC);
   m_ls->SetNumberOfVectors(5);
-  m_ls->SetNumberOfSolutions(2);
+  m_ls->SetNumberOfSolutions(3);
   m_ls->SetNumberOfMatrices(2);
   m_ls->InitializeMatrix(SumMatrixIndex);
   m_ls->InitializeMatrix(DifferenceMatrixIndex);
   m_ls->InitializeVector(ForceTIndex);
   m_ls->InitializeVector(ForceTMinus1Index);
-  m_ls->InitializeVector(SolutionTMinus1Index);
+  m_ls->InitializeVector(SolutionVectorTMinus1Index);
   m_ls->InitializeVector(DiffMatrixBySolutionTMinus1Index);
   m_ls->InitializeSolution(SolutionTIndex);
   m_ls->InitializeSolution(TotalSolutionIndex);
+  m_ls->InitializeSolution(SolutionTMinus1Index);
 }
 
 /*
@@ -170,11 +171,12 @@ void SolverCrankNicolson::AssembleFforTimeStep(int dim) {
   // Now set the solution t_minus1 vector to fit the BCs
   for( BCTermType::iterator q=bcterm.begin(); q!=bcterm.end(); q++)
   { 
-    m_ls->SetVectorValue(q->first,0.0,SolutionTMinus1Index); //FIXME? 
+    m_ls->SetVectorValue(q->first,0.0,SolutionVectorTMinus1Index); //FIXME? 
+    m_ls->SetSolutionValue(q->first,0.0,SolutionTMinus1Index); //FIXME? 
   }
 
   m_ls->MultiplyMatrixVector(DiffMatrixBySolutionTMinus1Index,
-                             DifferenceMatrixIndex,SolutionTMinus1Index);
+                             DifferenceMatrixIndex,SolutionVectorTMinus1Index);
    
   for (unsigned int index=0; index<NGFN; index++) RecomputeForceVector(index);
 
@@ -213,6 +215,154 @@ void SolverCrankNicolson::Solve()
 }
 
 
+void SolverCrankNicolson::GoldenSection()
+{
+ // in 1-D domain, we want to find a < b < c , s.t.  f(b) < f(a) && f(b) < f(c)
+ //  see Numerical Recipes
+ 
+  Float Gold=1.618034;
+  Float Glimit=100.0;
+  Float Tiny=1.e-20;
+  
+  Float ax=0., bx=1.0, cx=1.01,fc=0.0;
+  Float fa=EvaluateResidual(ax);
+  Float fb=EvaluateResidual(bx);
+  Float ulim,u,r,q,fu,dum;
+
+  if ( fb > fa ) 
+  {
+     dum=ax; ax=bx; bx=dum;
+     dum=fb; fb=fa; fa=dum;
+  }
+
+  cx=bx+Gold*(bx-ax);  // first guess for c - the 3rd pt needed to bracket the min
+  fc=EvaluateResidual(cx);
+
+  bool bDone=false;
+  while (fb > fc && !bDone)
+  {
+    r=(bx-ax)*(fb-fc);
+    q=(bx-cx)*(fb-fa);
+    u=(bx)-((bx-cx)*q-(bx-ax)*r)/(2.0*GSSign(GSMax(fabs(q-r),Tiny),q-r));
+    ulim=bx + Glimit*(cx-bx);
+    if ((bx-u)*(u-cx) > 0.0)
+    {
+      fu=EvaluateResidual(u);
+      if (fu < fc)
+      {
+        ax=bx;
+        bx=u;
+        fa=fb;
+        fb=fu;
+        bDone=true;
+      } else if (fu > fb) {
+        cx=u;
+        fc=fu;
+        bDone=true;
+      }
+      if (!bDone){
+        u=cx+Gold*(cx-bx);
+        fu=EvaluateResidual(u);
+      }
+    } else if ( (cx-u)*(u-ulim) > 0.0) {
+      fu=EvaluateResidual(u);
+      if (fu < fc)
+      {
+        bx=cx; cx=u; u=cx+Gold*(cx-bx);
+        fb=fc; fc=fu; fu=EvaluateResidual(u);
+      }
+
+    } else if ( (u-ulim)*(ulim-cx) >= 0.0) {
+      u=ulim;
+      fu=EvaluateResidual(u);
+    } else {
+      u=cx+Gold*(cx-bx);
+      fu=EvaluateResidual(u);
+    }
+    if (!bDone){
+      ax=bx; bx=cx; cx=u;
+      fa=fb; fb=fc; fc=u;
+    }
+  }
+
+  // We should now have a, b and c, as well as f(a), f(b), f(c), 
+  // where b gives the optimal position;
+//  AddToDisplacements(bx); 
+//  ax=1.0, bx=1.0 ,cx=1.0;
+
+  Float xmin=1.0;
+  if (fb!=0.0)
+  {
+  Float f0,f1,f2,f3,x0,x1,x2,x3,fmin;
+
+  Float R=0.6180339;
+  Float C=(1.0-R);
+  Float tol=1.e-4;
+
+  x0=ax;
+  x3=cx;
+  if (fabs(cx-bx) > fabs(bx-ax)){
+    x1=bx;
+    x2=bx+C*(bx-ax);
+  } else {
+    x2=bx;
+    x1=bx-C*(bx-ax);
+  }
+  f1=EvaluateResidual(x1);
+  f2=EvaluateResidual(x2);
+  while (fabs(x3-x0) > tol*(fabs(x1)+fabs(x2)))
+  {
+    if (f2 < f1){
+      x0=x1; x1=x2; x2=R*x2+C*x3;
+      f0=f1; f1=f2; f2=EvaluateResidual(x2);
+    } else {
+      x3=x2; x2=x1; x1=R*x2+C*x0;
+      f3=f2; f2=f1; f1=EvaluateResidual(x1);
+    }
+  }
+  if (f1<f2){
+    xmin=x1;
+    fmin=f1;
+  } else {
+    xmin=x2;
+    fmin=f2;
+  }
+  }
+  for (unsigned int j=0; j<NGFN; j++)
+  {
+    Float SolVal;
+    SolVal=xmin*m_ls->GetSolutionValue(j,SolutionTIndex)+
+        (1.-xmin)*m_ls->GetSolutionValue(j,SolutionTMinus1Index);
+    m_ls->SetSolutionValue(j,SolVal,SolutionTIndex);
+  }
+}
+
+
+Element::Float SolverCrankNicolson::EvaluateResidual(Float t)
+{
+ 
+  Float ForceEnergy=0.0;
+  Float DeformationEnergy=0.0;
+  Float iSolVal=0.0,jSolVal=0.0;
+
+  for (unsigned int i=0; i<NGFN; i++)
+  {
+// forming  U^T F
+    iSolVal=t*m_ls->GetSolutionValue(i,SolutionTIndex)+
+      (1.-t)*m_ls->GetSolutionValue(i,SolutionTMinus1Index);
+    ForceEnergy+=m_ls->GetVectorValue(i,ForceTIndex)*iSolVal;// FIXME USE FTMINUS1?
+
+    Float TempRowVal=0.0;
+    for (unsigned int j=0; j<NGFN; j++)
+    {
+      jSolVal=t*m_ls->GetSolutionValue(j,SolutionTIndex)+
+        (1.-t)*m_ls->GetSolutionValue(j,SolutionTMinus1Index);
+      TempRowVal+=m_ls->GetMatrixValue(i,j,SumMatrixIndex)*jSolVal;
+    }
+    DeformationEnergy+=iSolVal*TempRowVal;
+  }
+  return fabs(DeformationEnergy-ForceEnergy);
+}
 
 /*
  * Copy solution vector u to the corresponding nodal values, which are
@@ -230,13 +380,13 @@ void SolverCrankNicolson::AddToDisplacements(Float optimum)
   {  
     
     Float CurrentSolution=optimum*m_ls->GetSolutionValue(i,SolutionTIndex);
+      //+(1.-optimum)*m_ls->GetVectorValue(i,SolutionVectorTMinus1Index);
     if (CurrentSolution < mins2 )  mins2=CurrentSolution;
     else if (CurrentSolution > maxs2 )  maxs2=CurrentSolution;
 //  note: set rather than add - i.e. last solution of system not total solution  
-    m_ls->SetVectorValue(i,CurrentSolution,SolutionTMinus1Index);  
+    m_ls->SetVectorValue(i,CurrentSolution,SolutionVectorTMinus1Index);   
+    m_ls->SetSolutionValue(i,CurrentSolution,SolutionTMinus1Index);  
     m_ls->AddSolutionValue(i,CurrentSolution,TotalSolutionIndex);
-//    m_ls->SetVectorValue(i,m_ls->GetSolutionValue(i,TotalSolutionIndex),SolutionTMinus1Index);  
-    
     CurrentSolution=m_ls->GetSolutionValue(i,TotalSolutionIndex);
     if (CurrentSolution < mins )  mins=CurrentSolution;
     else if (CurrentSolution > maxs )  maxs=CurrentSolution;
@@ -261,9 +411,10 @@ void SolverCrankNicolson::AverageLastTwoDisplacements(Float t)
   for(unsigned int i=0;i<NGFN;i++)
   {  
     Float temp=m_ls->GetSolutionValue(i,SolutionTIndex);
-    Float temp2=m_ls->GetVectorValue(i,SolutionTMinus1Index);
+    Float temp2=m_ls->GetSolutionValue(i,SolutionTMinus1Index);
     Float newsol=t*(temp)+(1.-t)*temp2;
-    m_ls->SetVectorValue(i,newsol,SolutionTMinus1Index);  
+    m_ls->SetSolutionValue(i,newsol,SolutionTMinus1Index);  
+    m_ls->SetVectorValue(i,newsol,SolutionVectorTMinus1Index);  
     m_ls->SetSolutionValue(i,newsol,SolutionTIndex);    
     if ( newsol > maxs )  maxs=newsol;
   }  
@@ -285,7 +436,7 @@ void SolverCrankNicolson::PrintDisplacements()
   std::cout <<  " printing current displacements " << std::endl;
   for(unsigned int i=0;i<NGFN;i++)
   {  
-    std::cout << m_ls->GetVectorValue(i,SolutionTMinus1Index) << std::endl;
+    std::cout << m_ls->GetSolutionValue(i,TotalSolutionIndex) << std::endl;
   }
 }
 

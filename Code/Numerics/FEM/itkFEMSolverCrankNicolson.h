@@ -31,6 +31,7 @@
 #include "vnl/algo/vnl_cholesky.h"
 #include <vnl/vnl_sparse_matrix_linear_system.h>
 #include <vxl/vnl/algo/vnl_lsqr.h>
+#include <math.h>
 
 
 namespace itk {
@@ -113,6 +114,14 @@ public:
    */
   void RecomputeForceVector(unsigned int index);
 
+  /** Finds the optimum value between the last two solutions 
+    * and sets the current solution to that value.  Uses Evaluate Residual;
+    */
+  void GoldenSection();
+  Float EvaluateResidual(Float t=1.0);
+  inline Float GSSign(Float a,Float b) { return (b > 0.0 ? fabs(a) : -1.*fabs(a)); }
+  inline Float GSMax(Float a,Float b) { return (a > b ? a : b); }
+
   inline LinearSystemWrapper* GetLS(){ return m_ls;}
 
    /**
@@ -127,10 +136,11 @@ public:
     // BUG FIXME NOT SURE IF SOLVER IS USING VECTOR INDEX 1 FOR BCs
     ForceTIndex=0;                        // vector
     ForceTMinus1Index=2;                  // vector
-    SolutionTMinus1Index=3;               // vector
+    SolutionVectorTMinus1Index=3;         // vector
     DiffMatrixBySolutionTMinus1Index=4;   // vector
     SolutionTIndex=0;                   // solution
     TotalSolutionIndex=1;               // solution
+    SolutionTMinus1Index=2;       // solution
     SumMatrixIndex=0;                   // matrix
     DifferenceMatrixIndex=1;            // matrix
   }
@@ -146,6 +156,7 @@ public:
   unsigned int ForceTMinus1Index;
   unsigned int SolutionTIndex;
   unsigned int SolutionTMinus1Index;
+  unsigned int SolutionVectorTMinus1Index;
   unsigned int TotalSolutionIndex;
   unsigned int DifferenceMatrixIndex;
   unsigned int SumMatrixIndex;
