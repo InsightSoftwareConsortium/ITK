@@ -18,31 +18,47 @@
 // Software Guide : BeginLatex
 //
 // The following example illustrates the use of the
-// \doxygen{GeodesicActiveContourImageFilter}.  The implementation of this filter
-// in ITK is based on the paper by Malladi \cite{Malladi1995}.  This filter
-// expects two inputs, the first is an initial Level Set in the form of an
-// \doxygen{Image}, the second input is an edge potential image which basically
-// follows the same rules applicable to the speed image used for the
-// \doxygen{FastMarchingImageFilter} discussed in
-// section~\ref{sec:FastMarchingImageFilter}. 
+// \doxygen{GeodesicActiveContourImageFilter}.  The implementation of this
+// filter in ITK is based on the paper by Caselles \cite{Caselles1997}.  This
+// filter expects three inputs. The first is an initial Level Set in the form
+// of an \doxygen{Image}. The second input is an edge potential image which
+// basically follows the same rules used for the
+// \doxygen{ShapeDetectionLevelSetFilter} discussed in
+// section~\ref{sec:ShapeDetectionLevelSetFilter}. The third input is the
+// gradient image of the edge potential map. This third image is used to
+// improve the convergence of the zero set towards the edges of the eventual
+// structures present in the image. This filter also introduce an additional
+// factor on the forces driving the contours evolution. This new factor is an
+// inflation force that produce an effect similar to blowing up a ballon inside
+// the contour.
 //
-// In this example we use an \doxygen{FastMarchingImageFilter} for producing
-// the initial LevelSet as the the distance funcition to a set of user-provided
-// seeds. The \doxygen{FastMarchingImageFilter} is run with its option for a
-// constant speed value which allows to use this filter as a distance map
-// calculator.
+// The configuration of this example is quite similar to the example on the use
+// of the \doxygen{ShapeDetectionLevelSetFilter} in
+// section~\ref{sec:ShapeDetectionLevelSetFilter}. We omit most of the
+// redundant description. A look at the code will reveal the large similarity
+// between both examples.
 //
 // \begin{figure} \center
-// \includegraphics[width=15cm]{GeodesicActiveContourCollaborationDiagram1.eps}
-// \caption[GeodesicActiveContourImageFilter collaboration diagram]{Collaboration
-// diagram of the GeodesicActiveContourImageFilter applied to a segmentation task.}
-// \label{fig:GeodesicActiveContourCollaborationDiagram}
+// \includegraphics[width=15cm]{GeodesicActiveContoursCollaborationDiagram1.eps}
+// \caption[GeodesicActiveContourImageFilter collaboration
+// diagram]{Collaboration diagram of the GeodesicActiveContourImageFilter
+// applied to a segmentation task. Note the addition of the gradient filter
+// computing the derivative of the edge potential map.}
+// \label{fig:GeodesicActiveContoursCollaborationDiagram}
 // \end{figure}
 //
-// Figure~\ref{fig:GeodesicActiveContourCollaborationDiagram} shows the major
+// Figure~\ref{fig:GeodesicActiveContoursCollaborationDiagram} shows the major
 // components involved in the application of the
-// \doxygen{GeodesicActiveContourImageFilter} to a segmentation task. It involves a
-// first stage of smoothing using the
+// \doxygen{GeodesicActiveContourImageFilter} to a segmentation task. This
+// pipeline is quite similar to the one used by the
+// \doxygen{ShapeDetectionLevelSetFilter} in
+// section~\ref{sec:ShapeDetectionLevelSetFilter}. The most relevant change
+// here is the introduction of the
+// \doxygen{GradientRecursiveGaussianImageFilter} for computing the derivatives
+// of the edge potential map and passing it as input to the
+// \doxygen{GeodesicActiveContourImageFilter}.  
+//
+// The pipeline involves a first stage of smoothing using the
 // \doxygen{CurvatureAnisotropicDiffusionImageFilter}. The smoothed image is
 // passed as the input for the
 // \doxygen{GradientMagnitudeRecursiveGaussianImageFilter} and then to the
@@ -63,28 +79,23 @@
 //
 // Software Guide : EndLatex 
 
-// Software Guide : BeginCodeSnippet
-#include "itkCurvatureAnisotropicDiffusionImageFilter.h"
-#include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
-#include "itkSigmoidImageFilter.h"
-// Software Guide : EndCodeSnippet
-
-
-//  Software Guide : BeginLatex
-//  
-//  We will need the \doxygen{Image} class, the
-//  \doxygen{FastMarchingImageFilter} class and the
-//  \doxygen{GeodesicActiveContourImageFilter} class. Hence we include their
-//  headers here.
-//
-//  Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
 #include "itkImage.h"
-#include "itkFastMarchingImageFilter.h"
 #include "itkGeodesicActiveContourImageFilter.h"
 // Software Guide : EndCodeSnippet
 
+
+
+
+#include "itkCurvatureAnisotropicDiffusionImageFilter.h"
+#include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
+#include "itkSigmoidImageFilter.h"
+#include "itkFastMarchingImageFilter.h"
+#include "itkRescaleIntensityImageFilter.h"
+#include "itkBinaryThresholdImageFilter.h"
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 
 
 
@@ -109,49 +120,21 @@
 
 
 
-//  Software Guide : BeginLatex
-//  
-//  The LevelSet resulting from the \doxygen{GeodesicActiveContourImageFilter} will
-//  be thresholded at the Zero level in order to get a binary image
-//  representing the segmented object. The \doxygen{BinaryThresholdImageFilter}
-//  is used for this purpose.
-//
-//  Software Guide : EndLatex 
 
-// Software Guide : BeginCodeSnippet
-#include "itkBinaryThresholdImageFilter.h"
-// Software Guide : EndCodeSnippet
-
-
-
-
-//  
-//  Reading and writing images will be done with the \doxygen{FileImageReader}
-//  and \doxygen{FileImageWriter}.
-//
-
-#include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
-
-
-// 
-//  The RescaleIntensityImageFilter is used to renormailize the output 
-//  of filters before sending them to files. 
-// 
-#include "itkRescaleIntensityImageFilter.h"
 
 
 int main( int argc, char **argv )
 {
 
 
-  if( argc < 10 )
+  if( argc < 11 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage  outputImage";
     std::cerr << " seedX seedY InitialDistance";
-    std::cerr << " Sigma SigmoidAlpha SigmoidBeta Iterations" << std::endl;
+    std::cerr << " Sigma SigmoidAlpha SigmoidBeta Iterations";
+    std::cerr << " InflationStrength"  << std::endl;
     return 1;
     }
 
@@ -204,59 +187,28 @@ int main( int argc, char **argv )
   //  Software Guide : EndCodeSnippet 
 
 
-  //  Software Guide : BeginLatex
-  //  
-  //  The output image of the thresholding, on the other hand, is selected to be binary.
-  //
-  //  Software Guide : EndLatex 
 
-  // Software Guide : BeginCodeSnippet
+                                     
+
+  //  
+  //  The following lines instantiate the tresholding filter that will
+  //  process the final level set at the output of the GeodesicActiveContourImageFilter.                                    
+  //
   typedef unsigned char OutputPixelType;
 
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  // Software Guide : EndCodeSnippet
 
-
-
-
-
-  //  Software Guide : BeginLatex
-  //  
-  //  The type of the \doxygen{BinaryThresholdImageFilter} filter is
-  //  instantiated below using the internal image type and the output image
-  //  type.
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
   typedef itk::BinaryThresholdImageFilter< 
                         InternalImageType, 
                         OutputImageType    >    ThresholdingFilterType;
   
   ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
-  // Software Guide : EndCodeSnippet
                         
-
-
-
-  //  Software Guide : BeginLatex
-  //
-  //  The upper threshold of the \doxygen{BinaryThresholdImageFilter} is set up
-  //  to $0.0$ in order to make visible the zero set of the resulting level
-  //  set. The lower threshold is set to a large negative number in order to
-  //  ensure that all the interior of the segmented object will appear in the
-  //  inside of the binary region.
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
   thresholder->SetLowerThreshold( -1000.0 );
   thresholder->SetUpperThreshold(     0.0 );
 
   thresholder->SetOutsideValue(  0  );
   thresholder->SetInsideValue(  255 );
-  // Software Guide : EndCodeSnippet
-
 
 
 
@@ -284,44 +236,22 @@ int main( int argc, char **argv )
                                InternalImageType, 
                                OutputImageType >   CastFilterType;
 
-  //  Software Guide : BeginLatex
-  //  
   //  
   //  The \doxygen{CurvatureAnisotropicDiffusionImageFilter} type is
   //  instantiated using the internal image type. 
   //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
   typedef   itk::CurvatureAnisotropicDiffusionImageFilter< 
                                InternalImageType, 
                                InternalImageType >  SmoothingFilterType;
-  // Software Guide : EndCodeSnippet
 
-
-
-
-  //  Software Guide : BeginLatex
-  //  
-  //  Then, the filter is created by invoking the \code{New()} method and
-  //  assigning the result to a \doxygen{SmartPointer}.
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
   SmoothingFilterType::Pointer smoothing = SmoothingFilterType::New();
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //  
   //  The types of the \doxygen{GradientMagnitudeRecursiveGaussianImageFilter} and
   //  \doxygen{SigmoidImageFilter} are instantiated using the internal
   //  image type. 
   //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
   typedef   itk::GradientMagnitudeRecursiveGaussianImageFilter< 
                                InternalImageType, 
                                InternalImageType >  GradientFilterType;
@@ -329,26 +259,12 @@ int main( int argc, char **argv )
   typedef   itk::SigmoidImageFilter<                               
                                InternalImageType, 
                                InternalImageType >  SigmoidFilterType;
-  // Software Guide : EndCodeSnippet
 
-
-
-
-  //  Software Guide : BeginLatex
-  //  
-  //  The corresponding filter objects are created with the method
-  //  \code{New()}.
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
   GradientFilterType::Pointer  gradientMagnitude = GradientFilterType::New();
 
   SigmoidFilterType::Pointer sigmoid = SigmoidFilterType::New();
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  The minimum and maximum values of the \doxygen{SigmoidImageFilter} output
   //  are defined with the methods \code{SetOutputMinimum()} and
@@ -358,43 +274,27 @@ int main( int argc, char **argv )
   //  \doxygen{SigmoidImageFilter} are presented in
   //  section~\ref{sec:IntensityNonLinearMapping}.
   //
-  //  Software Guide : EndLatex 
 
-  // Software Guide : BeginCodeSnippet
   sigmoid->SetOutputMinimum(  0.0  );
   sigmoid->SetOutputMaximum(  1.0  );
-  // Software Guide : EndCodeSnippet
 
 
 
 
-  //  Software Guide : BeginLatex
   //  
   //  We declare now the type of the \doxygen{FastMarchingImageFilter} that
   //  will be used to generate the initial level set in the form of a distance
   //  map.
   //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
   typedef  itk::FastMarchingImageFilter< 
                               InternalImageType, 
                               InternalImageType >    FastMarchingFilterType;
-  // Software Guide : EndCodeSnippet
 
 
-
-
-
-  //  Software Guide : BeginLatex
   //  
   //  then, we  construct one filter of this class using the \code{New()} method. 
   //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
   FastMarchingFilterType::Pointer  fastMarching = FastMarchingFilterType::New();
-  // Software Guide : EndCodeSnippet
 
 
 
@@ -457,12 +357,31 @@ int main( int argc, char **argv )
   // Software Guide : EndCodeSnippet
 
 
+  
+  //  Software Guide : BeginLatex
+  //  
+  //  The differential equation used by the
+  //  \doxygen{GeodesicActiveContourImageFilter} includes an inflation term.
+  //  This value drives a ballon-like force that help expand the contour. The
+  //  value of this factor is passed to the filter with the
+  //  \code{SetInflationStrength()} method. In our current example, we take
+  //  this value from the command line arguments.
+  //
+  //  \index{GeodesicActiveContourImageFilter!SetInflationStrength()}
+  //
+  //  Software Guide : EndLatex 
+
+  const double inflationStrength = atof( argv[10] );
+
+  //  Software Guide : BeginCodeSnippet
+  geodesicActiveContour->SetInflationStrength( inflationStrength ); 
+  //  Software Guide : EndCodeSnippet 
 
 
   //  Software Guide : BeginLatex
   //  
   //  The filters are now connected in a pipeline indicated in
-  //  Figure~\ref{fig:GeodesicActiveContourCollaborationDiagram} using the following
+  //  Figure~\ref{fig:GeodesicActiveContoursCollaborationDiagram} using the following
   //  lines. 
   //
   //  Software Guide : EndLatex 
@@ -486,7 +405,6 @@ int main( int argc, char **argv )
 
 
 
-  //  Software Guide : BeginLatex
   //
   //  The \doxygen{CurvatureAnisotropicDiffusionImageFilter} requires a couple
   //  of parameter to be defined. The following are typical values for $2D$
@@ -494,18 +412,14 @@ int main( int argc, char **argv )
   //  noise present in the input image. This filter has been discussed in
   //  section~\ref{sec:GradientAnisotropicDiffusionImageFilter}.
   //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
+  
   smoothing->SetTimeStep( 0.25 );
   smoothing->SetIterations(  5 );
   smoothing->SetConductanceParameter( 3.0 );
-  // Software Guide : EndCodeSnippet
 
 
 
 
-  //  Software Guide : BeginLatex
   //
   //  The \doxygen{GradientMagnitudeRecursiveGaussianImageFilter} performs the
   //  equivalent of a convolution with a Gaussian kernel, followed by a
@@ -513,40 +427,30 @@ int main( int argc, char **argv )
   //  the range of influence of the image edges. This filter has been discussed
   //  in section~\ref{sec:GradientMagnitudeRecursiveGaussianImageFilter}
   //
-  //  \index{itk::GradientMagnitudeRecursiveGaussianImageFilter!SetSigma()}
-  //
-  //  Software Guide : EndLatex 
 
   const double sigma = atof( argv[6] );
 
-  // Software Guide : BeginCodeSnippet
   gradientMagnitude->SetSigma(  sigma  );
-  // Software Guide : EndCodeSnippet
 
 
 
-  //  Software Guide : BeginLatex
   //
   //  The \doxygen{SigmoidImageFilter} requires two parameters that define the
   //  linear transformation to be applied to the sigmoid argument. This
   //  parameters have been discussed in sections~\ref{sec:SigmoidImageFilter}
   //  and \ref{sec:FastMarchingImageFilter}.
   //
-  //  Software Guide : EndLatex 
 
   const double alpha =  atof( argv[7] );
   const double beta  =  atof( argv[8] );
 
 
-  // Software Guide : BeginCodeSnippet
   sigmoid->SetAlpha( alpha );
   sigmoid->SetBeta(  beta  );
-  // Software Guide : EndCodeSnippet
 
 
 
   
-  //  Software Guide : BeginLatex
   //
   //  The \doxygen{FastMarchingImageFilter} requires the user to provide a seed
   //  point from which the level set will be generated. The user can actually
@@ -555,24 +459,16 @@ int main( int argc, char **argv )
   //  determination of an initial Level Set. We could have used the
   //  \doxygen{DanielssonDistanceMapImageFilter} in the same way.
   //
-  //  \index{itk::FastMarchingImageFilter!Multiple seeds}
   //
   //  The seeds are passed stored in a container. The type of this
   //  container is defined as \code{NodeContainer} among the
   //  \doxygen{FastMarchingImageFilter} traits.
   //
-  //  \index{itk::FastMarchingImageFilter!Nodes}
-  //  \index{itk::FastMarchingImageFilter!NodeContainer}
-  //  \index{itk::FastMarchingImageFilter!NodeType}
-  //
-  //  Software Guide : EndLatex 
 
-  //  Software Guide : BeginCodeSnippet
   typedef FastMarchingFilterType::NodeContainer           NodeContainer;
   typedef FastMarchingFilterType::NodeType                NodeType;
 
   NodeContainer::Pointer seeds = NodeContainer::New();
-  //  Software Guide : EndCodeSnippet 
   
 
   InternalImageType::IndexType  seedPosition;
@@ -581,7 +477,6 @@ int main( int argc, char **argv )
   seedPosition[1] = atoi( argv[4] );
 
 
-  //  Software Guide : BeginLatex
   //
   //  Nodes are created as stack variables and initialized with a value and an
   //  \doxygen{Index} position. Note that here we assign the value of minus the
@@ -594,68 +489,48 @@ int main( int argc, char **argv )
   //  value as the distance from the seed points at which he want the initial
   //  contour to be.
   //
-  //  \index{itk::FastMarchingImageFilter!Seed initialization}
-  //
-  //  Software Guide : EndLatex 
 
   const double initialDistance = atof( argv[5] );
 
-  // Software Guide : BeginCodeSnippet
   NodeType node;
 
   const double seedValue = - initialDistance;
   
   node.SetValue( seedValue );
   node.SetIndex( seedPosition );
-  // Software Guide : EndCodeSnippet
 
 
 
-  //  Software Guide : BeginLatex
   //
   //  The list of nodes is initialized and then every node is inserted using
   //  the \code{InsertElement()}.
   //
-  //  Software Guide : EndLatex 
 
-  //  Software Guide : BeginCodeSnippet
   seeds->Initialize();
-
   seeds->InsertElement( 0, node );
-  //  Software Guide : EndCodeSnippet 
 
 
 
 
-  //  Software Guide : BeginLatex
   //
   //  The set of seed nodes is passed now to the
   //  \doxygen{FastMarchingImageFilter} with the method
   //  \code{SetTrialPoints()}.
   //
-  //  \index{itk::FastMarchingImageFilter!SetTrialPoints()}
-  //
-  //  Software Guide : EndLatex 
 
-  // Software Guide : BeginCodeSnippet
   fastMarching->SetTrialPoints(  seeds  );
-  // Software Guide : EndCodeSnippet
 
 
 
 
-  //  Software Guide : BeginLatex
   //  
   //  Since the \doxygen{FastMarchingImageFilter} is used here just as a
   //  Distance Map generator. It does not require a speed image as input.
   //  Instead the constant value $1.0$ is passed using the
   //  \code{SetSpeedConstant()} method.
   //
-  //  Software Guide : EndLatex 
-
-  //  Software Guide : BeginCodeSnippet
+  
   fastMarching->SetSpeedConstant( 1.0 );
-  //  Software Guide : EndCodeSnippet 
 
 
   //
@@ -707,7 +582,6 @@ int main( int argc, char **argv )
 
 
 
-  //  Software Guide : BeginLatex
   //
   //  The \doxygen{FastMarchingImageFilter} requires the user to specify the
   //  size of the image to be produced as output. This is done using the
@@ -716,15 +590,11 @@ int main( int argc, char **argv )
   //  only after the \code{Update()} methods of this filter has been called
   //  directly or indirectly.
   //
-  //  Software Guide : EndLatex 
 
-  // Software Guide : BeginCodeSnippet
   fastMarching->SetOutputSize( 
            reader->GetOutput()->GetBufferedRegion().GetSize() );
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //  
   //  Several parameters should be set in the
   //  \doxygen{GeodesicActiveContourImageFilter}. In particular, the number of
@@ -741,27 +611,21 @@ int main( int argc, char **argv )
   //  to stop the algorithm before the zero set leaks through the regions of
   //  low gradient in the contour of the anatomical structure to be segmented.
   //
-  //  \index{itk::GeodesicActiveContourImageFilter!SetTimeStepSize()}
-  //  \index{itk::GeodesicActiveContourImageFilter!SetNumberOfIterations()}
-  //  \index{itk::LevelSetImageFilter!SetTimeStepSize()}
-  //  \index{itk::LevelSetImageFilter!SetNumberOfIterations()}
-  //
-  //  Software Guide : EndLatex 
-
+  
   const unsigned int numberOfIterations = atoi( argv[ 9] ); 
-  //  Software Guide : BeginCodeSnippet
+ 
   geodesicActiveContour->SetNumberOfIterations(  numberOfIterations );
 
   geodesicActiveContour->SetTimeStepSize( 0.25 ); 
-  //  Software Guide : EndCodeSnippet 
+
 
 
 
 
   //  Software Guide : BeginLatex
   //  
-  //  In addition to that, we enable the option of using a narrow band
-  //  technique for computing th evolution of the contour.
+  //  In order to speed up the computation, we enable the option of using a
+  //  narrow band technique for computing th evolution of the contour.
   //
   //  \index{itk::GeodesicActiveContourImageFilter!NarrowBandingOn()}
   //  \index{itk::LevelSetImageFilter!NarrowBandingOn()}
@@ -773,7 +637,6 @@ int main( int argc, char **argv )
   //  Software Guide : EndCodeSnippet 
 
 
-  derivativeFilter->Update();
 
   
   //  Software Guide : BeginLatex
@@ -839,51 +702,41 @@ int main( int argc, char **argv )
   //  table presents the parameters used for some structures.
   //
   //  \begin{center}
-  //  \begin{tabular}{|l|c|c|c|c|c|c|c|}
+  //  \begin{tabular}{|l|c|c|c|c|c|c|c|c|}
   //  \hline
   //  Structure    & Seed Index &  Distance   &   $\sigma$  &     
-  //  $\alpha$     &  $\beta$   & Iterations  & Output Image \\   
+  //  $\alpha$     &  $\beta$   & Iterations  & Inflation & Output Image \\   
   //  \hline
-  //  Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 150 & First  in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\ 
-  //  Right Ventricle & $(99,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 150 & Second in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\ 
-  //  White matter    & $(56, 92)$ & 5.0 & 1.0 & -0.3 & 2.0  & 800 & Third  in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\ 
-  //  Gray matter     & $(40, 90)$ & 5.0 & 0.5 & -0.3 & 2.0  & 200 & Fourth in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\ 
+  //  Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 100 & 3.0 & First  in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\ 
+  //  Right Ventricle & $(99,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 100 & 3.0 & Second in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\ 
+  //  White matter    & $(56, 92)$ & 5.0 & 1.0 & -0.3 & 2.0  & 500 & 3.0 & Third  in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\ 
+  //  Gray matter     & $(40, 90)$ & 5.0 & 0.5 & -0.3 & 2.0  & 200 & 3.0 & Fourth in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\ 
   //  \hline
   //  \end{tabular}
   //  \end{center}
   //
-  //  Figure~\ref{fig:GeodesicActiveContourImageFilterOutput} presents the intermediate
-  //  outputs of the pipeline illustrated in
-  //  Figure~\ref{fig:GeodesicActiveContourCollaborationDiagram}. They are from left
-  //  to right: the output of the anisotropic diffusing filter, the gradient
-  //  magnitude of the smoothed image and the sigmoid of the gradient magnitude
-  //  which is finally used as the edge potential for the
-  //  \doxygen{GeodesicActiveContourImageFilter}.
+  //  The intermediate outputs of this pipeline are identical to those of the
+  //  \doxygen{ShapDetectionImageFilter} presented in
+  //  Figure~\ref{fig:ShapDetectionImageFilterOutput}.
   //
-  // \begin{figure} \center
-  // \includegraphics[width=6cm]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=6cm]{GeodesicActiveContourImageFilterOutput1.eps}
-  // \includegraphics[width=6cm]{GeodesicActiveContourImageFilterOutput2.eps}
-  // \includegraphics[width=6cm]{GeodesicActiveContourImageFilterOutput3.eps}
-  // \caption[GeodesicActiveContourImageFilter intermediate output]{Images generated by
-  // the segmentation process based on the GeodesicActiveContourImageFilter. From left
-  // to right and top to bottom: Input image to be segmented, image smoothed with an
-  // edge-preserving smoothing filter, gradient magnitude of the smoothed
-  // image, sigmoid of the gradient magnitude. This last image, the sigmoid, is
-  // used to compute the speed term for the front propagation }
-  // \label{fig:GeodesicActiveContourImageFilterOutput}
-  // \end{figure}
-  //
-  //  A larger number of iterations is reguired for segmenting large structures
-  //  since it takes longer for the front to propagate and cover the region to
-  //  be segmented.  It can be noticed that the gray matter is not being
-  //  completly segmented.  This drawback can be easily mitigated by setting
-  //  many seed points in the initialization of the
-  //  \doxygen{FastMarchingImageFilter}. This will generate an initial level
-  //  set much closer in shape to the object to be segmented and hence
-  //  requiring less iterations to fill in and reach out the edges of the
-  //  anatomical structure.
-  //
+  //  An interesting trade-off exists between the number of iterations to run,
+  //  the inflation strength and the contrast of the borders in the anatomical
+  //  structure. In principle we want to set the inflation strength as high as
+  //  possible since this will make the front propagate faster and hence less
+  //  iteration will be needed to move the contour to the structure edges.
+  //  However the inflation force may provoke a premature leaking of the
+  //  contour through the regions of weak contrast in the structure edges.
+  //  Unfortunately only experimentation can allow to determine the optimal
+  //  values for the inflation strength and the number of iterations. In a real
+  //  application we could imagine an interactive mechanism by which a human
+  //  operator identifies the regions of weak contrast in the object edges, and
+  //  from this value a reasonable guess of the inflation strength could be
+  //  made. Then the filter could be run for a certain number of iterations
+  //  stopping periodically in order to display intermediate results showing
+  //  the current position of the contour. In this setup, an operator will be
+  //  able to supervise the growth of the contour and make informed decisions
+  //  on whether new parameters are needed or simply more iterations are
+  //  required.
   //
   // \begin{figure} \center
   // \includegraphics[width=4cm]{GeodesicActiveContourImageFilterOutput5.eps}
