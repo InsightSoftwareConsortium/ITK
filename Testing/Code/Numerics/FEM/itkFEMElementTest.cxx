@@ -38,7 +38,7 @@
 // Only one of these _OUTPUT variables should be nonzero, otherwise
 // things will become confusing!  If both are zero, no output will be
 // generated.
-#define MATLAB_OUTPUT       0
+#define MATLAB_OUTPUT       1
 #define IDL_OUTPUT          0
 #define DEBUG_FEM_TESTS     ( MATLAB_OUTPUT || IDL_OUTPUT )
 
@@ -80,30 +80,29 @@ void PrintResults(Solver& S, int s, char comment)
   
   // Print the nodal coordinates
   
-  NodeXY::Pointer nxy;
-  NodeXYZ::Pointer nxyz;
-  NodeXYrotZ::Pointer nxyrz;
-  
   std::cout << std::endl << comment << "Nodal coordinates: " << std::endl;
-  std::cout << "xyz" << s << "=[";
-  for (Solver::NodeArray::iterator n = S.node.begin(); n != S.node.end(); n++) {
-    if (IDL_OUTPUT) { std::cout << " ["; }
-    if ( ( nxyz = dynamic_cast<NodeXYZ*>(&*(*n)) ) ) {
-      std::cout << nxyz->X << ", " << nxyz->Y << ", " << nxyz->Z;
-    }
-    else if ( ( nxy = dynamic_cast<NodeXY*>(&*(*n)) ) ) {
-      std::cout << nxy->X << ", " << nxy->Y;
-    }
-    else if ( ( nxyrz =  dynamic_cast<NodeXYrotZ*>(&*(*n)) ) ) {
-      std::cout << nxyrz->X << ", " << nxyrz->Y;
-    }
-    if (IDL_OUTPUT) { 
-      if ((n+1) != S.node.end()) { std::cout << " ], $" << std::endl; }
-      else { std::cout << "]"; }
-    }
-    else if (MATLAB_OUTPUT) { std::cout << std::endl; }
-  }
-  std::cout << "];" << std::endl;
+  // FIXME: now that the nodes have conveniently disappeared, we need
+  // another way of doing this
+
+//   std::cout << "xyz" << s << "=[";
+//   for (Solver::NodeArray::iterator n = S.node.begin(); n != S.node.end(); n++) {
+//     if (IDL_OUTPUT) { std::cout << " ["; }
+//     if ( ( nxyz = dynamic_cast<NodeXYZ*>(&*(*n)) ) ) {
+//       std::cout << nxyz->X << ", " << nxyz->Y << ", " << nxyz->Z;
+//     }
+//     else if ( ( nxy = dynamic_cast<NodeXY*>(&*(*n)) ) ) {
+//       std::cout << nxy->X << ", " << nxy->Y;
+//     }
+//     else if ( ( nxyrz =  dynamic_cast<NodeXYrotZ*>(&*(*n)) ) ) {
+//       std::cout << nxyrz->X << ", " << nxyrz->Y;
+//     }
+//     if (IDL_OUTPUT) { 
+//       if ((n+1) != S.node.end()) { std::cout << " ], $" << std::endl; }
+//       else { std::cout << "]"; }
+//     }
+//     else if (MATLAB_OUTPUT) { std::cout << std::endl; }
+//   }
+//   std::cout << "];" << std::endl;
   
   // Print the displacements
   std::cout << std::endl << comment << "Displacements: " << std::endl;
@@ -279,7 +278,7 @@ int itkFEMElementTest(int ac, char** av)
       std::cout << comment << "AssembleF()" << std::endl;
       S.AssembleF();            // Assemble the global load vector F
       
-      std::cout << comment << "Calling Solver::Solve()"<< std::endl;
+      std::cout << comment << "Solver::Solve()"<< std::endl;
       S.Solve();                // Solve the system Ku=F for u
       
 #if DEBUG_FEM_TESTS
