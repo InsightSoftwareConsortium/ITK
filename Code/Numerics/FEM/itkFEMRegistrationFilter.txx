@@ -192,6 +192,45 @@ void FEMRegistrationFilter<TReference,TTarget>::SetTargetImage(TargetImageType* 
   m_Tregion = m_TarImg->GetLargestPossibleRegion();
 }
 
+
+template<class TReference,class TTarget>
+void FEMRegistrationFilter<TReference,TTarget>::ChooseMetric(unsigned int whichmetric)
+{
+  // Choose the similarity metric
+
+  typedef itk::ImageToImageMetric<ImageType,TargetImageType> MetricType;
+  typedef itk::MeanSquaresImageToImageMetric<ImageType,TargetImageType> MetricType0;
+  typedef itk::NormalizedCorrelationImageToImageMetric<ImageType,TargetImageType> MetricType1;
+  typedef itk::PatternIntensityImageToImageMetric<ImageType,TargetImageType> MetricType2;
+  typedef itk::MutualInformationImageToImageMetric<ImageType,TargetImageType> MetricType3;
+
+  MetricType::Pointer msqp;
+  
+  switch (whichmetric){
+    case 0:
+      msqp=MetricType0::New();
+      msqp->SetScaleGradient(1.0); // this is the default(?)
+    break;
+    case 1:
+      msqp=MetricType1::New();
+      msqp->SetScaleGradient(1.0); 
+    break;
+    case 2:
+      msqp=MetricType2::New();
+      msqp->SetScaleGradient(1.0); 
+    break;
+    case 3:
+      msqp=MetricType3::New();
+      msqp->SetScaleGradient(1.0); 
+    break;
+    default:
+      msqp=MetricType0::New();
+      msqp->SetScaleGradient(1.0); 
+  }
+  this->SetMetric(msqp.GetPointer());
+
+}
+
 template<class TReference,class TTarget>
 bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname)
   // Reads the parameters necessary to configure the example & returns
@@ -256,6 +295,9 @@ bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname
       this->SetMaximumIterations(ibuf,jj);
     }
 
+    FEMLightObject::SkipWhiteSpace(f);
+    f >> ibuf;
+    this->ChooseMetric(ibuf);
 
     FEMLightObject::SkipWhiteSpace(f);
     f >> fbuf;

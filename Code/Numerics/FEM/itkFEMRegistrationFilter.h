@@ -235,7 +235,9 @@ public:
 
   /** Set/Get the Metric.  */
   void      SetMetric(MetricBaseTypePointer MP) { m_Metric=MP; }
-  
+  /** Choose the metric by parameter : 0= mean squares, 1=cross correlation, 
+      2=pattern intensity, 3 = mutual information. */
+  void      ChooseMetric( unsigned int whichmetric); 
   /** This function allows one to set the element and its material externally. */
   void      SetElement(Element::Pointer e) {m_Element=e;}
 
