@@ -14,4 +14,5 @@ void RegisterTests()
   REGISTER_TEST(itkSubsampleTest);
   REGISTER_TEST(itkMeanCalculatorTest);
   REGISTER_TEST(itkCovarianceCalculatorTest);
+  REGISTER_TEST(itkStatisticsAlgorithmTest);
 }
