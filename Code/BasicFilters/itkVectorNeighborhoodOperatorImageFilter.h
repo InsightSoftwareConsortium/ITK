@@ -48,8 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk
 {
-/**
- * \class VectorNeighborhoodOperatorImageFilter
+/** \class VectorNeighborhoodOperatorImageFilter
  * \brief Applies a single scalar NeighborhoodOperator to an 
  * itk::Vector image region. 
  *
@@ -82,94 +81,71 @@ class ITK_EXPORT VectorNeighborhoodOperatorImageFilter :
     public ImageToImageFilter< TInputImage, TOutputImage > 
 {
 public:
-  /**
-   * Standard "Self" & Superclass typedef.
-   */
+  /** Standard class typedefs. */
   typedef VectorNeighborhoodOperatorImageFilter Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef       SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
- /**
-   * Extract some information from the image types.  Dimensionality
-   * of the two images is assumed to be the same.
-   */
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods) */
+  itkTypeMacro(VectorNeighborhoodOperatorImageFilter, ImageToImageFilter);
+  
+  /** Extract some information from the image types.  Dimensionality
+   * of the two images is assumed to be the same. */
   typedef typename TOutputImage::PixelType         OutputPixelType;
   typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
   typedef typename  TInputImage::PixelType         InputPixelType;
   typedef typename  TInputImage::InternalPixelType InputInternalPixelType;
-  enum { ImageDimension = TOutputImage::ImageDimension };
   typedef typename OutputPixelType::ValueType      ScalarValueType;
   
-  /**
-   * Image typedef support
-   */
+  /** Determine image dimension. */
+  enum { ImageDimension = TOutputImage::ImageDimension };
+
+  /** Image typedef support */
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
-  
-  /** 
-   * Smart pointer typedef support 
-   */
-  typedef       SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
 
-  /**
-   * Typedef for generic boundary condition pointer
-   */
+  /** Typedef for generic boundary condition pointer */
   typedef ImageBoundaryCondition<OutputImageType> *
    ImageBoundaryConditionPointerType;
   
-  /**
-   * Run-time type information (and related methods)
-   */
-  itkTypeMacro(VectorNeighborhoodOperatorImageFilter, ImageToImageFilter);
-  
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-
-  /**
-   * Superclass typedefs.
-   */
+  /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
-  /**
-   * Sets the operator that is used to filter the image. Note
+  /** Sets the operator that is used to filter the image. Note
    * that the operator is stored as an internal COPY (it
-   * is not part of the pipeline).
-   */
+   * is not part of the pipeline). */
   void SetOperator(const Neighborhood<ScalarValueType, ImageDimension> &p)
-  {
+    {
     m_Operator = p;
     this->Modified();
-  }
+    }
 
-  /**
-   * Allows a user to override the internal boundary condition. Care should be
+  /** Allows a user to override the internal boundary condition. Care should be
    * be taken to ensure that the overriding boundary condition is a persistent
    * object during the time it is referenced.  The overriding condition
    * can be of a different type than the default type as long as it is
-   * a subclass of ImageBoundaryCondition.
-   */
+   * a subclass of ImageBoundaryCondition. */
   void OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i)
     { m_BoundsCondition = i; }
 
-  /**
-   * VectorNeighborhoodOperatorImageFilter needs a larger input requested
+  /** VectorNeighborhoodOperatorImageFilter needs a larger input requested
    * region than the output requested region.  As such,
    * VectorNeighborhoodOperatorImageFilter needs to provide an implementation for
    * GenerateInputRequestedRegion() in order to inform the pipeline
    * execution model.
    *
-   * \sa ProcessObject::GenerateInputRequestedRegion()
-   */
+   * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion() throw (InvalidRequestedRegionError);
 
 protected:
   VectorNeighborhoodOperatorImageFilter() {}
   virtual ~VectorNeighborhoodOperatorImageFilter() {}
     
-  /**
-   * VectorNeighborhoodOperatorImageFilter can be implemented as a
+  /** VectorNeighborhoodOperatorImageFilter can be implemented as a
    * multithreaded filter.  Therefore, this implementation provides a
    * ThreadedGenerateData() routine which is called for each
    * processing thread. The output image data is allocated
@@ -177,10 +153,8 @@ protected:
    * ThreadedGenerateData().  ThreadedGenerateData can only write to
    * the portion of the output image specified by the parameter
    * "outputRegionForThread"
-   *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData()
-   */
+   *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 
@@ -188,15 +162,11 @@ private:
   VectorNeighborhoodOperatorImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /**
-   * Pointer to the internal operator used to filter the image.
-   */
+  /** Pointer to the internal operator used to filter the image. */
   Neighborhood<ScalarValueType, ImageDimension> m_Operator;
 
-  /**
-   * Pointer to a persistent boundary condition object used
-   * for the image iterator.
-   */
+  /** Pointer to a persistent boundary condition object used
+   * for the image iterator. */
   ImageBoundaryConditionPointerType m_BoundsCondition;
 
 };

@@ -55,16 +55,16 @@ class ScalarAnisotropicDiffusionEquation :
     public AnisotropicDiffusionEquation<TImage>
 {
 public:
- /**
-   * Standard itk Self & Superclass typedefs
-   */
+ /** Standard class typedefs. */
   typedef ScalarAnisotropicDiffusionEquation Self;
   typedef AnisotropicDiffusionEquation<TImage> Superclass;
+  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
-  /**
-   * Inherit some parameters from the superclass type
-   */
+  /** Inherit some parameters from the superclass type. */
   enum { ImageDimension = Superclass::ImageDimension };
+
+  /** Inherit some parameters from the superclass type. */
   typedef typename Superclass::ImageType ImageType;
   typedef typename Superclass::PixelType PixelType;
   typedef typename Superclass::RadiusType RadiusType;
@@ -72,26 +72,13 @@ public:
   typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
   typedef typename Superclass::TimeStepType TimeStepType;
 
-  /** 
-   * Smart pointer support for this class.
-   */
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-
-  /**
-   * Run-time type information (and related methods)
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(ScalarAnisotropicDiffusionEquation,
                 AnisotropicDiffusionEquation);
   
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   *
-   */
   virtual void CalculateAverageGradientMagnitudeSquared(TImage *);
 
 protected:

@@ -50,8 +50,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class SpatialFunctionImageEvaluatorFilter
+/** \class SpatialFunctionImageEvaluatorFilter
  * \brief Evaluates an SpatialFunction onto a source image
  *
  * SpatialFunctionImageEvaluatorFilter walks an input image and evaluates
@@ -63,94 +62,55 @@ namespace itk
  * pipeline and produces a unique output image.
  * 
  * \ingroup ImageFilters
- *
- * */
-
+ */
 template<class TSpatialFunction, class TInputImage, class TOutputImage>
 class ITK_EXPORT SpatialFunctionImageEvaluatorFilter :
    public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-   
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef SpatialFunctionImageEvaluatorFilter Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Number of dimensions
-   */
-  enum {NDimensions = TInputImage::ImageDimension};
-
-  /**
-   * Image size typedef
-   */
-  typedef Size<TOutputImage::ImageDimension> SizeType;
-
-  /**
-   * Image index typedef
-   */
-  typedef typename TOutputImage::IndexType IndexType;
-
-  /**
-   * Image pixel value typedef
-   */
-  typedef typename TOutputImage::PixelType PixelType;
-
-  /**
-   * Typedef to describe the output image region type.
-   */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
-
-  /**
-   * Type of function
-   */
-  typedef TSpatialFunction TFunctionType;
-
-  /**
-   * Return type of function
-   */
-  typedef typename TFunctionType::OutputType TFunctionValueType;
-
-  /**
-  * Typedef describing vector info
-  */
-  typedef typename TFunctionType::InputType TPositionType;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro( SpatialFunctionImageEvaluatorFilter, ImageToImageFilter );
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
-  /**
-   * Set the internal implicit function
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( SpatialFunctionImageEvaluatorFilter, ImageToImageFilter );
+
+  /** Number of dimensions. */
+  enum {NDimensions = TInputImage::ImageDimension};
+
+  /** Image size typedef. */
+  typedef Size<TOutputImage::ImageDimension> SizeType;
+
+  /** Image index typedef. */
+  typedef typename TOutputImage::IndexType IndexType;
+
+  /** Image pixel value typedef. */
+  typedef typename TOutputImage::PixelType PixelType;
+
+  /** Typedef to describe the output image region type. */
+  typedef typename TOutputImage::RegionType OutputImageRegionType;
+
+  /** Type of function. */
+  typedef TSpatialFunction TFunctionType;
+
+  /** Return type of function. */
+  typedef typename TFunctionType::OutputType TFunctionValueType;
+
+  /** Typedef describing vector info. */
+  typedef typename TFunctionType::InputType TPositionType;
+
+  /** Set the internal implicit function. */
   void SetFunction( TFunctionType* pFunction )
     {m_pFunction = pFunction;};
 
-  /**
-   * Gets and sets for member variables
-   */
-
+  /** Gets and sets for member variables. */
   itkSetMacro( InteriorValue, PixelType );
   itkGetMacro( InteriorValue, PixelType );
-
   itkSetMacro( ExteriorValue, PixelType );
   itkGetMacro( ExteriorValue, PixelType );
 
@@ -158,18 +118,14 @@ protected:
   SpatialFunctionImageEvaluatorFilter();
   virtual ~SpatialFunctionImageEvaluatorFilter() {};
 
-  /**
-   * Method for evaluating the implicit function over the image.
-   */
+  /** Method for evaluating the implicit function over the image. */
   void GenerateData();
 
 private:
   SpatialFunctionImageEvaluatorFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /**
-   * The function that will be evaluated over the image
-   */
+  /** The function that will be evaluated over the image */
   TFunctionType* m_pFunction;
 };
 

@@ -68,100 +68,70 @@ namespace itk
  * ThreadedGenerateData() method for its implementation.
  * 
  * \ingroup GeometricTransforms
- *
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT ShrinkImageFilter:
     public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef ShrinkImageFilter         Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
-  /**
-   * Typedef to describe the output image region type.
-   */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(ShrinkImageFilter, ImageToImageFilter);
 
-  /**
-   * ImageDimension enumeration
-   */
+  /** Typedef to describe the output image region type. */
+  typedef typename TOutputImage::RegionType OutputImageRegionType;
+
+  /** ImageDimension enumeration. */
   enum { ImageDimension = TInputImage::ImageDimension };
 
-  /**
-   * Set the shrink factors. Values are clamped to 
-   * a minimum value of 1. Default is 1 for all dimensions.
-   */
+  /** Set the shrink factors. Values are clamped to 
+   * a minimum value of 1. Default is 1 for all dimensions. */
   void SetShrinkFactors( unsigned int factors[] );
   void SetShrinkFactors( unsigned int factor );
   
-  /** 
-   * Get the shrink factors.
-   */
+  /** Get the shrink factors. */
   const unsigned int * GetShrinkFactors() const
     { return m_ShrinkFactors; }
                  
-  /**
-   * ShrinkImageFilter produces an image which is a different
+  /** ShrinkImageFilter produces an image which is a different
    * resolution and with a different pixel spacing than its input
    * image.  As such, ShrinkImageFilter needs to provide an
    * implementation for GenerateOutputInformation() in order to inform
    * the pipeline execution model.  The original documentation of this
    * method is below.
-   *
-   * \sa ProcessObject::GenerateOutputInformaton()
-   */
+   * \sa ProcessObject::GenerateOutputInformaton() */
   virtual void GenerateOutputInformation();
 
-  /**
-   * ShrinkImageFilter needs a larger input requested region than the output
-   * requested region.  As such, ShrinkImageFilter needs to provide an implementation
-   * for GenerateInputRequestedRegion() in order to inform the pipeline
-   * execution model.  
-   *
-   * \sa ProcessObject::GenerateInputRequestedRegion()
-   */
+  /** ShrinkImageFilter needs a larger input requested region than the output
+   * requested region.  As such, ShrinkImageFilter needs to provide an
+   * implementation for GenerateInputRequestedRegion() in order to inform the
+   * pipeline execution model.
+   * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();
 
- protected:
+protected:
   ShrinkImageFilter();
   ~ShrinkImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * ShrinkImageFilter can be implemented as a multithreaded filter.  Therefore,
-   * this implementation provides a ThreadedGenerateData() routine which
-   * is called for each processing thread. The output image data is allocated
-   * automatically by the superclass prior to calling ThreadedGenerateData().
-   * ThreadedGenerateData can only write to the portion of the output image
-   * specified by the parameter "outputRegionForThread"
+  /** ShrinkImageFilter can be implemented as a multithreaded filter.
+   * Therefore, this implementation provides a ThreadedGenerateData() routine
+   * which is called for each processing thread. The output image data is
+   * allocated automatically by the superclass prior to calling
+   * ThreadedGenerateData().  ThreadedGenerateData can only write to the
+   * portion of the output image specified by the parameter
+   * "outputRegionForThread"
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData()
-   */
+   *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 

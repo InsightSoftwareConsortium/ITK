@@ -48,8 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
-/**
- * \class VectorGradientAnisotropicDiffusionImageFilter
+/** \class VectorGradientAnisotropicDiffusionImageFilter
  * 
  * \ingroup ImageEnhancement
  * \ingroup GradientFilters
@@ -61,20 +60,24 @@ class VectorGradientAnisotropicDiffusionImageFilter
   : public AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /**
-   * Standard itk typedefs
-   */
+  /** Standard class typedefs. */
   typedef VectorGradientAnisotropicDiffusionImageFilter Self;
   typedef AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
    Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
+
+  /** Instantiation through the object factory. */
   itkNewMacro(Self);
 
+  /** Run-time type information. */
   itkTypeMacro(VectorGradientAnisotropicDiffusionImageFilter,
                AnisotropicDiffusionImageFilter);
   
+  /** Extract information from the superclass. */
   typedef typename Superclass::UpdateBufferType UpdateBufferType;
+
+  /** Determine the image dimension from the  superclass. */
   enum { ImageDimension = Superclass::ImageDimension };
   
 protected:
@@ -82,15 +85,15 @@ protected:
     {
       if ( ImageDimension == 2) 
         {
-          VectorGradient2DAnisotropicDiffusionEquation<UpdateBufferType>::Pointer p        
-            = VectorGradient2DAnisotropicDiffusionEquation<UpdateBufferType>::New();
-          this->SetDifferenceEquation(p);
+        VectorGradient2DAnisotropicDiffusionEquation<UpdateBufferType>::Pointer p        
+          = VectorGradient2DAnisotropicDiffusionEquation<UpdateBufferType>::New();
+        this->SetDifferenceEquation(p);
         }
       else
         {
-          VectorGradientNDAnisotropicDiffusionEquation<UpdateBufferType>::Pointer p        
-            = VectorGradientNDAnisotropicDiffusionEquation<UpdateBufferType>::New();
-          this->SetDifferenceEquation(p);
+        VectorGradientNDAnisotropicDiffusionEquation<UpdateBufferType>::Pointer p        
+          = VectorGradientNDAnisotropicDiffusionEquation<UpdateBufferType>::New();
+        this->SetDifferenceEquation(p);
         }
     }
   ~VectorGradientAnisotropicDiffusionImageFilter() {}

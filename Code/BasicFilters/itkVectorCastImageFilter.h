@@ -60,7 +60,6 @@ namespace itk
  * \sa Vector
  *
  * \ingroup IntensityImageFilters  Multithreaded
- *
  */
 namespace Functor {  
   
@@ -68,58 +67,37 @@ namespace Functor {
   class VectorCast
   {
   public:
-    VectorCast() {};
-    ~VectorCast() {};
+    VectorCast() {}
+    ~VectorCast() {}
     inline TOutput operator()( const TInput & A )
-    {
+      {
       typedef typename TOutput::ValueType OutputValueType;
 
       TOutput value;
       for( int k = 0; k < TOutput::VectorDimension; k++ )
-        { 
-        value[k] = static_cast<OutputValueType>( A[k] );
-        }
+        { value[k] = static_cast<OutputValueType>( A[k] ); }
       return value;
     }
   }; 
-
 }
-
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT VectorCastImageFilter :
     public
     UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::VectorCast< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   >
-
-
+    Functor::VectorCast< typename TInputImage::PixelType, 
+                         typename TOutputImage::PixelType>   >
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef VectorCastImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::VectorCast< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   
-                >  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
+    Functor::VectorCast< typename TInputImage::PixelType, 
+                         typename TOutputImage::PixelType> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
 protected:

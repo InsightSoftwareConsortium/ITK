@@ -108,41 +108,22 @@ class ITK_EXPORT WarpImageFilter :
   public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef WarpImageFilter      Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>         Pointer;
   typedef SmartPointer<const Self>   ConstPointer;
 
-  /**
-   * Run-time type information (and related methods)
-   */
-  itkTypeMacro( WarpImageFilter, ImageToImageFilter );
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Typedef to describe the output image region type.
-   */
+  /** Run-time type information (and related methods) */
+  itkTypeMacro( WarpImageFilter, ImageToImageFilter );
+
+  /** Typedef to describe the output image region type. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
-  /**
-   * Inherit some types from the superclass.
-   */
+  /** Inherit some types from the superclass. */
   typedef typename Superclass::InputImageType        InputImageType;
   typedef typename Superclass::InputImagePointer     InputImagePointer;
   typedef typename Superclass::OutputImageType       OutputImageType;
@@ -150,120 +131,85 @@ public:
   typedef typename OutputImageType::IndexType        IndexType;
   typedef typename OutputImageType::SizeType         SizeType;
   typedef typename OutputImageType::PixelType        PixelType;
+
+  /** Determine the image dimension. */
   enum { ImageDimension = OutputImageType::ImageDimension };
 
-  /**
-   * Deformation field typedef support.
-   */
+  /** Deformation field typedef support. */
   typedef TDeformationField    DeformationFieldType;
   typedef typename DeformationFieldType::Pointer  DeformationFieldPointer;
   typedef typename DeformationFieldType::PixelType DisplacementType;
 
-  /** 
-   * Interpolator typedef support.
-   */
+  /** Interpolator typedef support. */
   typedef InterpolateImageFunction<InputImageType>   InterpolatorType;
   typedef typename InterpolatorType::Pointer   InterpolatorPointer;
   typedef LinearInterpolateImageFunction<InputImageType>
     DefaultInterpolatorType;
 
-  /**
-   * Point type
-   */
+  /** Point type */
   typedef Point<double,ImageDimension> PointType;
 
-  /**
-   * Set the deformation field.
-   */
+  /** Set the deformation field. */
   void SetDeformationField( DeformationFieldType * field );
 
-  /**
-   * Get a pointer the deformation field.
-   */
+  /** Get a pointer the deformation field. */
   DeformationFieldPointer GetDeformationField();
 
-  /**
-   * Set the interpolator function.
-   */
+  /** Set the interpolator function. */
   itkSetObjectMacro( Interpolator, InterpolatorType );
 
-  /**
-   * Get a pointer to the interpolator function.
-   */
+  /** Get a pointer to the interpolator function. */
   itkGetObjectMacro( Interpolator, InterpolatorType );
 
-  /**
-   * Set the output image spacing.
-   */
+  /** Set the output image spacing. */
   virtual void SetOutputSpacing( const double values[ImageDimension] );
 
-  /**
-   * Get the output image spacing.
-   */
+  /** Get the output image spacing. */
   const double * GetOutputSpacing()
     { return m_OutputSpacing; }
 
-  /**
-   * Set the output image origin.
-   */
+  /** Set the output image origin. */
   virtual void SetOutputOrigin( const double values[ImageDimension] );
 
-  /**
-   * Get the output image origin.
-   */
+  /** Get the output image origin. */
   const double * GetOutputOrigin()
     { return m_OutputSpacing; }
 
-  /**
-   * Set the edge padding value
-   */
+  /** Set the edge padding value */
   itkSetMacro( EdgePaddingValue, PixelType );
 
-  /**
-   * Get the edge padding value
-   */
+  /** Get the edge padding value */
   itkGetMacro( EdgePaddingValue, PixelType );
 
-
-  /**
-   * WarpImageFilter produces an image which is a different
+  /** WarpImageFilter produces an image which is a different
    * size than its input image. As such, it needs to provide an
    * implemenation for GenerateOutputInformation() which set
    * the output information according the OutputSpacing, OutputOrigin
-   * and the deformation field's LargestPossibleRegion.
-   */
+   * and the deformation field's LargestPossibleRegion. */
   virtual void GenerateOutputInformation();
 
-  /**
-   * It is difficult to compute in advance the input image region
+  /** It is difficult to compute in advance the input image region
    * required to compute the requested output region. Thus the safest
    * thing to do is to request for the whole input image.
    *
    * For the deformation field, the input requested region
-   * set to be the same as that of the output requested region.
-   */
+   * set to be the same as that of the output requested region. */
   virtual void GenerateInputRequestedRegion();
 
-  /**
-   * WarpImageFilter is implemented as a multi-threaded filter.
-   * As such, it needs to provide and implementation for 
-   * ThreadedGenerateData().
-   */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
-
-  /**
-   * This method is used to set the state of the filter before 
-   * multi-threading.
-   */
+  /** This method is used to set the state of the filter before 
+   * multi-threading. */
   virtual void BeforeThreadedGenerateData();
 
-
 protected:
-
   WarpImageFilter();
   ~WarpImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
+
+  /** WarpImageFilter is implemented as a multi-threaded filter.
+   * As such, it needs to provide and implementation for 
+   * ThreadedGenerateData(). */
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+                            int threadId );
 
 private:
   WarpImageFilter(const Self&); //purposely not implemented

@@ -76,26 +76,22 @@ template <class TInputImage>
 class ITK_EXPORT VTKImageExport: public VTKImageExportBase
 {
 public:
-  ///! Standard class typedefs.
+  /** Standard class typedefs. */
   typedef VTKImageExport Self;
-
-  ///! Standard "Superclass" typedef.
   typedef ProcessObject Superclass;
-
-  ///! Smart pointer typedef support.
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  ///! Run-time type information (and related methods).
+  /** Run-time type information (and related methods). */
   itkTypeMacro(VTKImageExport,VTKImageExportBase);
 
-  ///! Method for creation through the object factory.
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  ///! The type of the input image.
+  /** The type of the input image. */
   typedef TInputImage InputImageType;
   
-  ///! Set the input image of this image exporter.
+  /** Set the input image of this image exporter. */
   void SetInput(InputImageType*);
   
 protected:

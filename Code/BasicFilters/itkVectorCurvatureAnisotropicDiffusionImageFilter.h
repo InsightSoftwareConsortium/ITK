@@ -48,8 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
-/**
- * \class VectorCurvatureAnisotropicDiffusionImageFilter
+/** \class VectorCurvatureAnisotropicDiffusionImageFilter
  * 
  * \ingroup ImageEnhancement
  *
@@ -60,20 +59,24 @@ class VectorCurvatureAnisotropicDiffusionImageFilter
   : public AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /**
-   * Standard itk typedefs
-   */
+  /** Standard itk typedefs */
   typedef VectorCurvatureAnisotropicDiffusionImageFilter Self;
   typedef AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
    Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
+
+  /** Instantiation through object factory. */
   itkNewMacro(Self);
 
+  /** Run-time type information. */
   itkTypeMacro(VectorCurvatureAnisotropicDiffusionImageFilter,
                AnisotropicDiffusionImageFilter);
   
+  /** Convenient typedef. */
   typedef typename Superclass::UpdateBufferType UpdateBufferType;
+
+  /** Determine the image dimension. */
   enum { ImageDimension = Superclass::ImageDimension };
   
 protected:
@@ -81,15 +84,15 @@ protected:
     {
       if ( ImageDimension == 2) 
         {
-          VectorCurvature2DAnisotropicDiffusionEquation<UpdateBufferType>::Pointer p        
-            = VectorCurvature2DAnisotropicDiffusionEquation<UpdateBufferType>::New();
-          this->SetDifferenceEquation(p);
+        VectorCurvature2DAnisotropicDiffusionEquation<UpdateBufferType>::Pointer p        
+          = VectorCurvature2DAnisotropicDiffusionEquation<UpdateBufferType>::New();
+        this->SetDifferenceEquation(p);
         }
       else
         {
-          VectorCurvatureNDAnisotropicDiffusionEquation<UpdateBufferType>::Pointer q
-            = VectorCurvatureNDAnisotropicDiffusionEquation<UpdateBufferType>::New();
-          this->SetDifferenceEquation(q);
+        VectorCurvatureNDAnisotropicDiffusionEquation<UpdateBufferType>::Pointer q
+          = VectorCurvatureNDAnisotropicDiffusionEquation<UpdateBufferType>::New();
+        this->SetDifferenceEquation(q);
         }
     }
   ~VectorCurvatureAnisotropicDiffusionImageFilter() {}

@@ -59,40 +59,22 @@ template <class TOutputImage>
 class ITK_EXPORT VTKImageReader : public ImageSource<TOutputImage>
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef VTKImageReader        Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageSource<TOutputImage>  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(VTKImageReader,ImageSource);
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
-  /** 
-   * Specify the name of the input file.
-   */
+  /** Specify the name of the input file. */
   itkSetStringMacro(FileName);
   
-  /** 
-   * Get the name of the input file.
-   */
+  /** Get the name of the input file. */
   itkGetStringMacro(FileName);
   
 protected:

@@ -57,68 +57,40 @@ namespace itk
 class ITK_EXPORT Writer : public ProcessObject
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef Writer              Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ProcessObject  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(Writer,ProcessObject);
 
-  /** 
-   * Specify the name of the output file.
-   */
+  /** Specify the name of the output file. */
   itkSetStringMacro(FileName);
   
-  /** 
-   * Get the name of the output file.
-   */
+  /** Get the name of the output file. */
   itkGetStringMacro(FileName);
   
-  /**
-   * Enums used to specify VTK type: binary or ASCII.
-   */
+  /** Enums used to specify VTK type: binary or ASCII. */
   typedef  enum {ASCII,Binary} FileType;
   
-  /** 
-   * Set the file type. The default is ASCII.
-   */
+  /** Set the file type. The default is ASCII. */
   itkSetMacro(FileType,FileType);
   
-  /** 
-   * Get the file type.
-   */
+  /** Get the file type. */
   itkGetMacro(FileType,FileType);
                  
-  /** 
-   * Specify the output file type as ASCII (the default).
-   */
+  /** Specify the output file type as ASCII (the default). */
   void SetFileTypeToASCII() 
     {this->SetFileType(Writer::ASCII);}
 
-  /** 
-   * Specify the output file type to binary.
-   */
+  /** Specify the output file type to binary. */
   void SetFileTypeToBinary() 
     {this->SetFileType(Writer::Binary);}
 
-  /** 
-   * A special version of the Update() method for writers.
-   * It invokes start and end methods and handles releasing data.
-   */
+  /** A special version of the Update() method for writers.
+   * It invokes start and end methods and handles releasing data. */
   virtual void Write();
 
 protected:
@@ -126,12 +98,10 @@ protected:
   ~Writer();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * All writers must respond to WriteData(). The WriteData() method
+  /** All writers must respond to WriteData(). The WriteData() method
    * is responsible for updating the pipeline, and may request pieces
    * of the data (e.g., stream) if necessary to write out the entire 
-   * input dataset.
-   */
+   * input dataset. */
   virtual void WriteData() = 0;
 
   void GenerateData() 

@@ -60,57 +60,34 @@ namespace itk
  * have to take care of transforming this data by other means.
  * 
  * \ingroup MeshFilters
- *
  */
 template <class TInputMesh, class TOutputMesh, class TTransform>
 class ITK_EXPORT TransformMeshFilter : 
     public MeshToMeshFilter<TInputMesh,TOutputMesh>
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef TransformMeshFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef MeshToMeshFilter<TInputMesh,TOutputMesh> Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Type for representing coordinates
-   */
+  /** Type for representing coordinates. */
   typedef typename TInputMesh::CoordRepType  CoordRepType;
 
-  /** 
-   * Type of the  Transform
-   */
+  /** Type of the transform. */
   typedef TTransform  TransformType;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(TransformMeshFilter,MeshToMeshFilter);
 
-  /** 
-   * Set transform.
-   */
+  /** Set transform. */
   itkSetObjectMacro(Transform, TransformType); 
 
-  /** 
-   * Get transform.
-   */
+  /** Get transform. */
   itkGetObjectMacro(Transform,TransformType);
 
 protected:
@@ -118,14 +95,10 @@ protected:
   ~TransformMeshFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
   
-  /** 
-   * Generate Requested Data
-   */
+  /** Generate Requested Data */
   virtual void GenerateData( void );
 
- /**
-  *   transform to apply to all the mesh points
-  */
+ /** Transform to apply to all the mesh points. */
   typename TransformType::Pointer   m_Transform;
 
 private:

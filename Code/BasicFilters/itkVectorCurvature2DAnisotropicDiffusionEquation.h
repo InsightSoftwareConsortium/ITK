@@ -48,8 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
-/**
- * \class VectorCurvature2DAnisotropicDiffusionEquation
+/** \class VectorCurvature2DAnisotropicDiffusionEquation
  *  
  * \ingroup Operators 
  *
@@ -57,74 +56,49 @@ namespace itk {
  * term varies inversely with curvature in the image.  Areas with high
  * curvature undergo less diffusion.
  *
- *
- *
- *
- *
  * \todo DOCUMENT! References
- * 
  */ 
 template <class TImage>
 class VectorCurvature2DAnisotropicDiffusionEquation :
     public VectorAnisotropicDiffusionEquation<TImage>
 {
 public:
- /**
-   * Standard itk Self & Superclass typedefs
-   */
+  /** Standard class typedefs. */
   typedef VectorCurvature2DAnisotropicDiffusionEquation Self;
   typedef VectorAnisotropicDiffusionEquation<TImage> Superclass;
+  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
-  /**
-   * Inherit some parameters from the superclass type
-   */
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( VectorCurvature2DAnisotropicDiffusionEquation,
+                ScalarAnisotropicDiffusionEquation );
+  
+  /** Inherit some parameters from the superclass type. */
   typedef typename Superclass::ImageType        ImageType;
   typedef typename Superclass::PixelType        PixelType;
   typedef typename Superclass::TimeStepType     TimeStepType;
   typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
-  enum { ImageDimension = Superclass::ImageDimension };
-  enum { VectorDimension = Superclass::VectorDimension };
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
   typedef typename PixelType::ValueType ScalarValueType;
-  
-  /** 
-   * Smart pointer support for this class.
-   */
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
 
-  /**
-   * Run-time type information (and related methods)
-   */
-  itkTypeMacro( VectorCurvature2DAnisotropicDiffusionEquation,
-                ScalarAnisotropicDiffusionEquation );
+  /** Inherit some parameters from the superclass type. */
+  enum { ImageDimension = Superclass::ImageDimension };
+  enum { VectorDimension = Superclass::VectorDimension };
   
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-
-  /**
-   *
-   */
+  /** Compute the equation value. */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
-                                  void * globalData,
-                                  const FloatOffsetType& offset = m_ZeroOffset) const;
-
-  /**
-   *
-   */
+                    void * globalData,
+                    const FloatOffsetType& offset = m_ZeroOffset) const;
   virtual PixelType ComputeUpdate(const BoundaryNeighborhoodType
-                                  &neighborhood, void * globalData, const
-                                  FloatOffsetType& offset = m_ZeroOffset)
-    const;
+                    &neighborhood, void * globalData, const
+                    FloatOffsetType& offset = m_ZeroOffset) const;
 
-
-  /**
-   * This method is called prior to each iteration of the solver.
-   */
+  /** This method is called prior to each iteration of the solver. */
   virtual void InitializeIteration()
     {
       m_k = this->GetAverageGradientMagnitudeSquared() *
@@ -139,23 +113,17 @@ private:
   VectorCurvature2DAnisotropicDiffusionEquation(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  /**
-   * Inner product function.
-   */
+  /** Inner product function. */
   VectorNeighborhoodInnerProduct<ImageType> m_InnerProduct;
 
 
-  /**
-   * Boundary Inner product function.
-   */
+  /** Boundary Inner product function. */
   SmartVectorNeighborhoodInnerProduct<ImageType> m_SmartInnerProduct;
 
-  /**
-   * Slices for the 2D neighborhood.
+  /** Slices for the 2D neighborhood.
    * 0  1  2  3  4
    * 5  6 *7* 8  9
-   * 10 11 12 13 14
-   */
+   * 10 11 12 13 14 */
   std::slice  x_slice; // (6,3,1)
   std::slice  y_slice; // (2,3,5)
   std::slice xa_slice; // (7,3,1)
@@ -163,15 +131,11 @@ private:
   std::slice xd_slice; // (5,3,1)
   std::slice yd_slice; // (1,3,5)
 
-  /**
-   * Derivative operators.
-   */
+  /** Derivative operators. */
   DerivativeOperator<ScalarValueType, 2> dx_op;
   DerivativeOperator<ScalarValueType, 2> dy_op;
 
-  /**
-   * Modified global average gradient magnitude term.
-   */
+  /** Modified global average gradient magnitude term. */
   double m_k;
   
 };

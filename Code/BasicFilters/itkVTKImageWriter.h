@@ -60,30 +60,16 @@ template <class TInputImage>
 class ITK_EXPORT VTKImageWriter : public ImageWriter<TInputImage>
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef VTKImageWriter       Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageWriter<TInputImage>  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(VTKImageWriter,ImageWriter);
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
 protected:

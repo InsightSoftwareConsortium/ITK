@@ -57,85 +57,54 @@ namespace itk
  * The pixels must support the operators >= and <=.
  * 
  * \ingroup IntensityImageFilters
- *
  */
 template <class TImage>
 class ITK_EXPORT ThresholdImageFilter:public ImageToImageFilter<TImage,TImage>
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef ThresholdImageFilter         Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageToImageFilter<TImage,TImage>  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
-  /**
-   * Typedef to describe the type of pixel.
-   */
-  typedef typename TImage::PixelType PixelType;
-  
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(ThresholdImageFilter, ImageToImageFilter);
 
-  /** 
-   * Set the "outside" pixel value. The default value 
-   * NumericTraits<PixelType>::Zero;
-   */
+  /** Typedef to describe the type of pixel. */
+  typedef typename TImage::PixelType PixelType;
+  
+  /** Set the "outside" pixel value. The default value 
+   * NumericTraits<PixelType>::Zero. */
   itkSetMacro(OutsideValue,PixelType);
   
-  /** 
-   * Get the "outside" pixel value.
-   */
+  /** Get the "outside" pixel value. */
   itkGetMacro(OutsideValue,PixelType);
                  
-  /**
-   * The values greater than or equal to the value are set to OutsideValue
-   */
+  /** The values greater than or equal to the value are set to OutsideValue. */
   void ThresholdAbove(PixelType &thresh);
   
-  /**
-   * The values less than or equal to the value are set to OutsideValue
-   */
+  /** The values less than or equal to the value are set to OutsideValue. */
   void ThresholdBelow(PixelType &thresh);
 
-  /**
-   * The values outside the range are set to OutsideValue
-   */
+  /** The values outside the range are set to OutsideValue. */
   void ThresholdOutside(PixelType &lower, PixelType &upper);
 
-  /** 
-   * Some additional typedefs 
-   */
+  /** Some additional typedefs.  */
   typedef TImage OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   typedef typename OutputImageType::PixelType OutputImagePixelType;
-  
 
 protected:
   ThresholdImageFilter();
   ~ThresholdImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * ThresholdImageFilter can be implemented as a multithreaded filter.
+  /** ThresholdImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine
    * which is called for each processing thread. The output image data is
    * allocated automatically by the superclass prior to calling
@@ -144,8 +113,7 @@ protected:
    * "outputRegionForThread"
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData() 
-   */
+   *     ImageToImageFilter::GenerateData()  */
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 

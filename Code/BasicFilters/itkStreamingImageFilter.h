@@ -67,35 +67,19 @@ template <class TInputImage, class TOutputImage>
 class ITK_EXPORT StreamingImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef StreamingImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageToImageFilter<TInputImage, TOutputImage>  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(StreamingImageFilter,ImageToImageFilter);
 
-  /** 
-   * Some typedefs for the input and output.
-   */
+  /** Some typedefs for the input and output. */
   typedef TInputImage InputImageType;
   typedef typename InputImageType::Pointer InputImagePointer;
   typedef typename InputImageType::RegionType InputImageRegionType; 
@@ -105,49 +89,38 @@ public:
   typedef typename OutputImageType::RegionType OutputImageRegionType; 
   typedef typename OutputImageType::PixelType OutputImagePixelType; 
 
-  /**
-   * SmartPointer to a region splitting object
-   */
+  /** Dimension of input image. */
   enum { InputImageDimension = InputImageType::ImageDimension };
+
+  /** SmartPointer to a region splitting object */
   typedef ImageRegionSplitter<InputImageDimension> SplitterType;
   typedef typename SplitterType::Pointer RegionSplitterPointer;
   
-  /**
-   * Set the number of pieces to divide the input.  The upstream pipeline
-   * will be executed this many times.
-   */
+  /** Set the number of pieces to divide the input.  The upstream pipeline
+   * will be executed this many times. */
   itkSetMacro(NumberOfStreamDivisions,unsigned int);
 
-  /**
-   * Get the number of pieces to divide the input. The upstream pipeline
-   * will be executed this many times.
-   */
+  /** Get the number of pieces to divide the input. The upstream pipeline
+   * will be executed this many times. */
   itkGetConstReferenceMacro(NumberOfStreamDivisions,unsigned int);
 
-  /**
-   * Set the helper class for dividing the input into chunks.
-   */
+  /** Set the helper class for dividing the input into chunks. */
   itkSetObjectMacro(RegionSplitter, SplitterType);
 
-  /**
-   * Get the helper class for dividing the input into chunks.
-   */
+  /** Get the helper class for dividing the input into chunks. */
   itkGetObjectMacro(RegionSplitter, SplitterType);
 
-  /**
-   * Override UpdateOutputData() from ProcessObject to divide upstream
+  /** Override UpdateOutputData() from ProcessObject to divide upstream
    * updates into pieces. This filter does not have a GenerateData()
    * or ThreadedGenerateData() method.  Instead, all the work is done
    * in UpdateOutputData() since it must update a little, execute a little,
-   * update some more, execute some more, etc.
-   */
+   * update some more, execute some more, etc. */
   virtual void UpdateOutputData(DataObject *output);
   
 protected:
   StreamingImageFilter();
   ~StreamingImageFilter();
   void PrintSelf(std::ostream& os, Indent indent) const;
-
 
 private:
   StreamingImageFilter(const StreamingImageFilter&); //purposely not implemented

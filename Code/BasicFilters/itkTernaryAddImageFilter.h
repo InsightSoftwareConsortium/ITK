@@ -55,23 +55,19 @@ namespace itk
  * 
  * \ingroup IntensityImageFilters
  */
-
 namespace Function {  
   
   template< class TInput1, class TInput2, class TInput3, class TOutput>
   class Add3
   {
   public:
-    Add3() {};
-    ~Add3() {};
+    Add3() {}
+    ~Add3() {}
     inline TOutput operator()( const TInput1 & A, 
                                const TInput2 & B,
                                const TInput3 & C)
-    {
-      return (TOutput)(A + B + C);
-    }
+      { return (TOutput)(A + B + C); }
   }; 
-
 }
 
 template <class TInputImage1, class TInputImage2, 
@@ -80,40 +76,24 @@ class ITK_EXPORT TernaryAddImageFilter :
     public
     TernaryFunctorImageFilter<TInputImage1,TInputImage2,
                       TInputImage3,TOutputImage, 
-            Function::Add3< 
-                      typename TInputImage1::PixelType, 
-                      typename TInputImage2::PixelType,
-                      typename TInputImage3::PixelType,
-                      typename TOutputImage::PixelType>   >
-
-
+            Function::Add3< typename TInputImage1::PixelType, 
+                            typename TInputImage2::PixelType,
+                            typename TInputImage3::PixelType,
+                            typename TOutputImage::PixelType>   >
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef TernaryAddImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef TernaryFunctorImageFilter<TInputImage1,TInputImage2,
                       TInputImage3,TOutputImage, 
-                      Function::Add3< 
-                      typename TInputImage1::PixelType,
-                      typename TInputImage2::PixelType,
-                      typename TInputImage3::PixelType,
-                      typename TOutputImage::PixelType>   >  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
+                      Function::Add3< typename TInputImage1::PixelType,
+                            typename TInputImage2::PixelType,
+                            typename TInputImage3::PixelType,
+                            typename TOutputImage::PixelType>   >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
 protected:

@@ -49,30 +49,22 @@ namespace itk
   
 /** \class SinImageFilter
  * \brief Computes the sin(x) pixel-wise
- *
  * 
  * \ingroup IntensityImageFilters  Multithreaded
- *
  */
-
 namespace Function {  
   
   template< class TInput, class TOutput>
   class Sin
   {
   public:
-    Sin() {};
-    ~Sin() {};
+    Sin() {}
+    ~Sin() {}
     inline TOutput operator()( const TInput & A )
-    {
-      return (TOutput)sin((double)A);
-    }
+      { return (TOutput)sin((double)A); }
   }; 
-
 }
-// Wrap: SinImageFilter<$Image,$Image,$Image,$Function>
-// Wrap: <XML code for Function....>
-// Wrap: SinImageFilter<Image<$BasicPixel,$BasicDimension>,$Image,$Image,$Function>
+
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT SinImageFilter :
     public
@@ -80,34 +72,17 @@ class ITK_EXPORT SinImageFilter :
     Function::Sin< 
               typename TInputImage::PixelType, 
               typename TOutputImage::PixelType>   >
-
-
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef SinImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Function::Sin< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   
-                >  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
+    Function::Sin< typename TInputImage::PixelType, 
+                   typename TOutputImage::PixelType> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
 protected:
@@ -117,7 +92,6 @@ protected:
 private:
   SinImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
 
 };
 

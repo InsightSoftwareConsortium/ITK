@@ -54,23 +54,19 @@ namespace itk
  * Numeric conversions (castings) are done by the C++ defaults.
  *
  * \ingroup IntensityImageFilters
- *
  */
-
 namespace Function {  
   
   template< class TInput1, class TInput2, class TInput3, class TOutput>
   class Modulus3
   {
   public:
-    Modulus3() {};
-    ~Modulus3() {};
+    Modulus3() {}
+    ~Modulus3() {}
     inline TOutput operator()( const TInput1 & A, 
                                const TInput2 & B,
                                const TInput3 & C)
-    {
-      return (TOutput) sqrt( (double)(A*A + B*B + C*C) );
-    }
+      { return (TOutput) sqrt( (double)(A*A + B*B + C*C) ); }
   }; 
 }
 
@@ -87,14 +83,8 @@ class ITK_EXPORT TernaryMagnitudeImageFilter :
                       typename TOutputImage::PixelType>   >
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef TernaryMagnitudeImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef TernaryFunctorImageFilter<TInputImage1,TInputImage2,
                       TInputImage3,TOutputImage, 
                       Function::Modulus3< 
@@ -103,17 +93,10 @@ public:
                       typename TInputImage3::PixelType,
                       typename TOutputImage::PixelType>   
                         >  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
 protected:

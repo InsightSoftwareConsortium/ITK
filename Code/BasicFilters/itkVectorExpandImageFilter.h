@@ -105,121 +105,79 @@ class ITK_EXPORT VectorExpandImageFilter:
   public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
-
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef VectorExpandImageFilter         Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
-  /**
-   * Typedef to describe the output image region type.
-   */
+  /** Typedef to describe the output image region type. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(VectorExpandImageFilter, ImageToImageFilter);
 
-  /**
-   * ImageDimension enumeration
-   */
+  /** ImageDimension enumeration */
   enum { ImageDimension = TInputImage::ImageDimension };
 
-  /**
-   * Inherit some types from superclass
-   */
+  /** Inherit some types from superclass */
   typedef typename Superclass::InputImageType  InputImageType;
   typedef typename Superclass::OutputImageType OutputImageType;
 
-  /**
-   * Input/output vector types.
-   */
+  /** Input/output vector types. */
   typedef typename OutputImageType::PixelType  OutputPixelType;
   typedef typename OutputPixelType::ValueType  OutputValueType;
   typedef typename InputImageType::PixelType  InputPixelType;
   typedef typename InputPixelType::ValueType   InputValueType;
-  enum { VectorDimension = InputPixelType::VectorDimension };
-  
 
-  /**
-   * Typedef support for the interpolation function
-   */
+  /** Determine the vector dimension. */
+  enum { VectorDimension = InputPixelType::VectorDimension };
+
+  /** Typedef support for the interpolation function */
   typedef VectorInterpolateImageFunction<InputImageType> 
     InterpolatorType;
   typedef typename InterpolatorType::Pointer InterpolatorPointer;
   typedef VectorLinearInterpolateImageFunction<InputImageType> 
     DefaultInterpolatorType;
 
-  /**
-   * Set the interpolator function.
-   */
+  /** Set the interpolator function. */
   itkSetObjectMacro( Interpolator, InterpolatorType );
 
-  /**
-   * Get a pointer to the interpolator function.
-   */
+  /** Get a pointer to the interpolator function. */
   itkGetObjectMacro( Interpolator, InterpolatorType );
 
-  /**
-   * Set the expand factors. Values are clamped to 
-   * a minimum value of 1. Default is 1 for all dimensions.
-   */
+  /** Set the expand factors. Values are clamped to 
+   * a minimum value of 1. Default is 1 for all dimensions. */
   virtual void SetExpandFactors( const unsigned int factors[] );
   virtual void SetExpandFactors( const unsigned int factor );
 
-  /** 
-   * Get the expand factors.
-   */
+  /** Get the expand factors. */
   const unsigned int * GetExpandFactors() const
     { return m_ExpandFactors; }
 
-  /**
-   * Set the edge padding value. The default is a vector of zero.
-   */
+  /** Set the edge padding value. The default is a vector of zero. */
   virtual void SetEdgePaddingValue( const OutputPixelType& value );
 
-  /**
-   * Get the edge padding value
-   */
+  /** Get the edge padding value. */
   virtual const OutputPixelType& GetEdgePaddingValue()
     { return m_EdgePaddingValue; }
 
-  /**
-   * VectorExpandImageFilter produces an image which is a different resolution and
-   * with a different pixel spacing than its input image.  As such,
-   * VectorExpandImageFilter needs to provide an implementation for
-   * UpdateOutputInformation() in order to inform the pipeline execution model.
-   * The original documentation of this method is below.
-   *
-   * \sa ProcessObject::GenerateOutputInformaton()
-   */
+  /** VectorExpandImageFilter produces an image which is a different
+   * resolution and with a different pixel spacing than its input image.  As
+   * such, VectorExpandImageFilter needs to provide an implementation for
+   * UpdateOutputInformation() in order to inform the pipeline execution
+   * model.  The original documentation of this method is below.  \sa
+   * ProcessObject::GenerateOutputInformaton() */
   virtual void GenerateOutputInformation();
 
-  /**
-   * VectorExpandImageFilter needs a smaller input requested region than the output
-   * requested region.  As such, ShrinkImageFilter needs to provide an 
-   * implementation for GenerateInputRequestedRegion() in order to inform 
-   * the pipeline execution model.  
-   *
-   * \sa ProcessObject::GenerateInputRequestedRegion()
-   */
+  /** VectorExpandImageFilter needs a smaller input requested region than the
+   * output requested region.  As such, ShrinkImageFilter needs to provide an
+   * implementation for GenerateInputRequestedRegion() in order to inform the
+   * pipeline execution model.  \sa
+   * ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();
 
 protected:
@@ -228,27 +186,21 @@ protected:
   ~VectorExpandImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * VectorExpandImageFilter is implemented as a multithreaded filter.  Therefore,
-   * this implementation provides a ThreadedGenerateData() routine which
-   * is called for each processing thread. The output image data is allocated
-   * automatically by the superclass prior to calling ThreadedGenerateData().
-   * ThreadedGenerateData can only write to the portion of the output image
-   * specified by the parameter "outputRegionForThread"
-   *
-   * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData()
-   */
+  /** VectorExpandImageFilter is implemented as a multithreaded filter.
+   * Therefore, this implementation provides a ThreadedGenerateData() routine
+   * which is called for each processing thread. The output image data is
+   * allocated automatically by the superclass prior to calling
+   * ThreadedGenerateData().  ThreadedGenerateData can only write to the
+   * portion of the output image specified by the parameter
+   * "outputRegionForThread" \sa ImageToImageFilter::ThreadedGenerateData(),
+   * ImageToImageFilter::GenerateData() */
   virtual
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
   
-  /**
-   * This method is used to set the state of the filter before 
-   * multi-threading.
-   */
+  /** This method is used to set the state of the filter before 
+   * multi-threading. */
   virtual void BeforeThreadedGenerateData();
-
 
 private:
   VectorExpandImageFilter(const Self&); //purposely not implemented

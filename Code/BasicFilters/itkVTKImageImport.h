@@ -59,42 +59,37 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-
 /** 
  * \brief Connect the end of an VTK pipeline to an ITK image pipeline.
- *
  */
 template <typename TOutputImage>
 class ITK_EXPORT VTKImageImport: public ImageSource<TOutputImage>
 {
 public:
-  ///! Standard class typedefs.
+  /** Standard class typedefs. */
   typedef VTKImageImport Self;
-  
-  ///! Standard "Superclass" typedef.
   typedef ImageSource<TOutputImage> Superclass;
-
-  ///! Smart pointer typedef support.
   typedef SmartPointer<Self>  Pointer;
 
-  ///! Method for creation through the object factory.
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  ///! Run-time type information (and related methods).
+  /** Run-time type information (and related methods). */
   itkTypeMacro(VTKImageImport, ImageSource);
 
+  /** Convenient typedefs from the output image. */
   typedef TOutputImage OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
   typedef typename OutputImageType::PixelType OutputPixelType;
   typedef typename OutputImageType::SizeType OutputSizeType;
   typedef typename OutputImageType::IndexType OutputIndexType;
   typedef typename OutputImageType::RegionType OutputRegionType;
+
+  /** The output image dimension. */
   enum { OutputImageDimension = OutputImageType::ImageDimension };
 
-  /*@{
-   * These are function pointer types for the pipeline connection
-   * callbacks.
-   */
+  /** These are function pointer types for the pipeline connection
+   * callbacks. */
   typedef void (*UpdateInformationCallbackType)(void*);
   typedef int (*PipelineModifiedCallbackType)(void*);
   typedef int* (*WholeExtentCallbackType)(void*);
@@ -106,41 +101,52 @@ public:
   typedef void (*UpdateDataCallbackType)(void*);
   typedef int* (*DataExtentCallbackType)(void*);
   typedef void* (*BufferPointerCallbackType)(void*);
-  //@}
   
+  /** What to do when recieving UpdateInformation(). */
   itkSetMacro(UpdateInformationCallback, UpdateInformationCallbackType);
   itkGetMacro(UpdateInformationCallback, UpdateInformationCallbackType);
   
+  /** What to do when recieving PipelineModified(). */
   itkSetMacro(PipelineModifiedCallback, PipelineModifiedCallbackType);
   itkGetMacro(PipelineModifiedCallback, PipelineModifiedCallbackType);
   
+  /** What to do when recieving SetWholeExtent(). */
   itkSetMacro(WholeExtentCallback, WholeExtentCallbackType);
   itkGetMacro(WholeExtentCallback, WholeExtentCallbackType);
   
+  /** What to do when recieving SetSpacing(). */
   itkSetMacro(SpacingCallback, SpacingCallbackType);
   itkGetMacro(SpacingCallback, SpacingCallbackType);
   
+  /** What to do when recieving SetOrigin(). */
   itkSetMacro(OriginCallback, OriginCallbackType);
   itkGetMacro(OriginCallback, OriginCallbackType);
   
+  /** What to do when recieving UpdateInformation(). */
   itkSetMacro(ScalarTypeCallback, ScalarTypeCallbackType);
   itkGetMacro(ScalarTypeCallback, ScalarTypeCallbackType);
   
+  /** What to do when recieving SetNumberOfComponents(). */
   itkSetMacro(NumberOfComponentsCallback, NumberOfComponentsCallbackType);
   itkGetMacro(NumberOfComponentsCallback, NumberOfComponentsCallbackType);
   
+  /** What to do when recieving PropagateUpdateExtent(). */
   itkSetMacro(PropagateUpdateExtentCallback, PropagateUpdateExtentCallbackType);
   itkGetMacro(PropagateUpdateExtentCallback, PropagateUpdateExtentCallbackType);
   
+  /** What to do when recieving UpdateData(). */
   itkSetMacro(UpdateDataCallback, UpdateDataCallbackType);
   itkGetMacro(UpdateDataCallback, UpdateDataCallbackType);
 
+  /** What to do when recieving DataExtent(). */
   itkSetMacro(DataExtentCallback, DataExtentCallbackType);
   itkGetMacro(DataExtentCallback, DataExtentCallbackType);
   
+  /** What to do when recieving BufferPointer(). */
   itkSetMacro(BufferPointerCallback, BufferPointerCallbackType);
   itkGetMacro(BufferPointerCallback, BufferPointerCallbackType);
 
+  /** Specify callback data. */
   itkSetMacro2(CallbackUserData, void*);
   itkGetMacro(CallbackUserData, void*);
   

@@ -50,64 +50,37 @@ namespace itk
 /** \class TanImageFilter
  * \brief Computes the tan(x) pixel-wise
  *
- * 
  * \ingroup IntensityImageFilters  Multithreaded
- *
  */
-
 namespace Function {  
   
   template< class TInput, class TOutput>
   class Tan
   {
   public:
-    Tan() {};
-    ~Tan() {};
+    Tan() {}
+    ~Tan() {}
     inline TOutput operator()( const TInput & A )
-    {
-      return (TOutput)tan((double)A);
-    }
+      { return (TOutput)tan((double)A); }
   }; 
-
 }
-// Wrap: TanImageFilter<$Image,$Image,$Image,$Function>
-// Wrap: <XML code for Function....>
-// Wrap: TanImageFilter<Image<$BasicPixel,$BasicDimension>,$Image,$Image,$Function>
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT TanImageFilter :
     public
     UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Function::Tan< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   >
-
-
+    Function::Tan< typename TInputImage::PixelType, 
+                   typename TOutputImage::PixelType>   >
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef TanImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Function::Tan< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   
-                >  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
+    Function::Tan< typename TInputImage::PixelType, 
+                   typename TOutputImage::PixelType> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
 protected:

@@ -48,9 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
-/**
- * \class VectorCurvatureNDAnisotropicDiffusionEquation
- *  
+/** \class VectorCurvatureNDAnisotropicDiffusionEquation
  *  
  * \sa AnisotropicDiffusionEquation
  * \sa VectorCurvature2DAnisotropicDiffusionEquation
@@ -62,15 +60,20 @@ class VectorCurvatureNDAnisotropicDiffusionEquation :
     public VectorAnisotropicDiffusionEquation<TImage>
 {
 public:
- /**
-   * Standard itk Self & Superclass typedefs
-   */
+ /** Standard itk Self & Superclass typedefs */
   typedef VectorCurvatureNDAnisotropicDiffusionEquation Self;
   typedef VectorAnisotropicDiffusionEquation<TImage> Superclass;
+  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
-  /**
-   * Inherit some parameters from the superclass type
-   */
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( VectorCurvatureNDAnisotropicDiffusionEquation,
+                VectorAnisotropicDiffusionEquation );
+  
+  /** Inherit some parameters from the superclass type. */
   typedef typename Superclass::ImageType        ImageType;
   typedef typename Superclass::PixelType        PixelType;
   typedef typename Superclass::TimeStepType     TimeStepType;
@@ -79,47 +82,23 @@ public:
   typedef typename Superclass::BoundaryNeighborhoodType
     BoundaryNeighborhoodType;
   typedef typename Superclass::FloatOffsetType  FloatOffsetType;
-  enum { ImageDimension = Superclass::ImageDimension };
-  enum { VectorDimension = Superclass::VectorDimension };
   typedef typename PixelType::ValueType ScalarValueType;
   
-  /** 
-   * Smart pointer support for this class.
-   */
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Extract the image and vector dimension. */
+  enum { ImageDimension = Superclass::ImageDimension };
+  enum { VectorDimension = Superclass::VectorDimension };
 
-  /**
-   * Run-time type information (and related methods)
-   */
-  itkTypeMacro( VectorCurvatureNDAnisotropicDiffusionEquation,
-                VectorAnisotropicDiffusionEquation );
-  
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-
-  /**
-   *
-   */
+  /** Compute the equation value. */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
                                   void *globalData,
                                   const FloatOffsetType& offset = m_ZeroOffset
                                   ) const;
-
-  /**
-   *
-   */
   virtual PixelType ComputeUpdate(const BoundaryNeighborhoodType
                                   &neighborhood, void *globalData,
                                   const FloatOffsetType& offset = m_ZeroOffset
                                   ) const;
 
-
-  /**
-   * This method is called prior to each iteration of the solver.
-   */
+  /** This method is called prior to each iteration of the solver. */
   virtual void InitializeIteration()
     {
       m_k = this->GetAverageGradientMagnitudeSquared() *
@@ -134,42 +113,24 @@ private:
   VectorCurvatureNDAnisotropicDiffusionEquation(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  /**
-   * Inner product function.
-   */
+  /** Inner product function. */
   VectorNeighborhoodInnerProduct<ImageType> m_InnerProduct;
 
-
-  /**
-   * Boundary Inner product function.
-   */
+  /** Boundary Inner product function. */
   SmartVectorNeighborhoodInnerProduct<ImageType> m_SmartInnerProduct;
 
-  /**
-   * Slices for the ND neighborhood.
-   */
+  /** Slices for the ND neighborhood. */
   std::slice  x_slice[ImageDimension];
   std::slice xa_slice[ImageDimension];
   std::slice xd_slice[ImageDimension];
 
-  /**
-   * Derivative operator
-   */
+  /** Derivative operator */
   DerivativeOperator<ScalarValueType, ImageDimension> dx_op;
 
-  /**
-   * Modified global average gradient magnitude term.
-   */
+  /** Modified global average gradient magnitude term. */
   double m_k;
 
-  /**
-   * 
-   */
   unsigned long m_Center;
-
-  /**
-   *
-   */
   unsigned long m_Stride[ImageDimension];
 
 };

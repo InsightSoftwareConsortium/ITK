@@ -64,45 +64,31 @@ class VectorAnisotropicDiffusionEquation :
     public AnisotropicDiffusionEquation<TImage>
 {
 public:
- /**
-   * Standard itk Self & Superclass typedefs
-   */
+  /** Standard class typedefs. */
   typedef VectorAnisotropicDiffusionEquation   Self;
   typedef AnisotropicDiffusionEquation<TImage> Superclass;
+  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
-  /**
-   * Inherit some parameters from the superclass type
-   */
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods) */
+  itkTypeMacro(VectorAnisotropicDiffusionEquation,
+               AnisotropicDiffusionEquation);
+  
+  /** Inherit some parameters from the superclass type */
   enum { ImageDimension = Superclass::ImageDimension };
+  enum { VectorDimension = PixelType::VectorDimension };
+
+  /** Inherit some parameters from the superclass type */
   typedef typename Superclass::ImageType        ImageType;
   typedef typename Superclass::PixelType        PixelType;
   typedef typename Superclass::TimeStepType     TimeStepType;
   typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
-  enum { VectorDimension = PixelType::VectorDimension };
-
-
-  /** 
-   * Smart pointer support for this class.
-   */
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-
-  /**
-   * Run-time type information (and related methods)
-   */
-  itkTypeMacro(VectorAnisotropicDiffusionEquation,
-               AnisotropicDiffusionEquation);
-  
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-
-  /**
-   *
-   */
+  /** Compute the average gradient magnitude squared. */
   virtual void CalculateAverageGradientMagnitudeSquared(TImage *);
 
 protected:

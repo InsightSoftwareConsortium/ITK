@@ -50,64 +50,39 @@ namespace itk
 /** \class SqrtImageFilter
  * \brief Computes the sqrt(x) pixel-wise
  *
- * 
  * \ingroup IntensityImageFilters  Multithreaded
- *
  */
-
 namespace Function {  
   
   template< class TInput, class TOutput>
   class Sqrt
   {
   public:
-    Sqrt() {};
-    ~Sqrt() {};
+    Sqrt() {}
+    ~Sqrt() {}
     inline TOutput operator()( const TInput & A )
     {
       return (TOutput)sqrt((double)A);
     }
   }; 
-
 }
-// Wrap: SqrtImageFilter<$Image,$Image,$Image,$Function>
-// Wrap: <XML code for Function....>
-// Wrap: SqrtImageFilter<Image<$BasicPixel,$BasicDimension>,$Image,$Image,$Function>
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT SqrtImageFilter :
     public
     UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Function::Sqrt< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   >
-
-
+    Function::Sqrt< typename TInputImage::PixelType, 
+                    typename TOutputImage::PixelType>   >
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef SqrtImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Function::Sqrt< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   
-                >  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
+    Function::Sqrt< typename TInputImage::PixelType, 
+                    typename TOutputImage::PixelType> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
 protected:
