@@ -44,6 +44,7 @@ public:
   unsigned long AddObserver(unsigned long event, Command* cmd);
   void RemoveObserver(unsigned long tag);
   void InvokeEvent(unsigned long event, LightObject* self);
+  void InvokeEvent(unsigned long event, const LightObject* self);
   Command *GetCommand(unsigned long tag);
   bool HasObserver(unsigned long event);
 private:
@@ -94,6 +95,22 @@ void
 SubjectImplementation::
 InvokeEvent(unsigned long event,
 	    LightObject* self)
+{
+  for(std::list<Observer* >::iterator i = m_Observers.begin();
+      i != m_Observers.end(); ++i)
+    {
+    unsigned long e =  (*i)->m_Event;
+    if( e == Command::AnyEvent || e == event)
+      {
+      (*i)->m_Command->Execute(self, event);
+      }
+    }
+}
+
+void 
+SubjectImplementation::
+InvokeEvent(unsigned long event,
+	    const LightObject* self)
 {
   for(std::list<Observer* >::iterator i = m_Observers.begin();
       i != m_Observers.end(); ++i)
@@ -405,12 +422,35 @@ LightObject
     }
 }
 
+
+void 
+LightObject
+::InvokeEvent(unsigned long event) const
+{
+  if (this->m_SubjectImplementation)
+    {
+    this->m_SubjectImplementation->InvokeEvent(event,this);
+    }
+}
+
+
+
 void 
 LightObject
 ::InvokeEvent(const char *event)
 {
   this->InvokeEvent(Command::GetEventIdFromString(event));
 }
+
+
+void 
+LightObject
+::InvokeEvent(const char *event) const
+{
+  this->InvokeEvent(Command::GetEventIdFromString(event));
+}
+
+
 
 bool
 LightObject

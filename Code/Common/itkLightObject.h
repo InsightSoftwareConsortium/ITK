@@ -145,12 +145,26 @@ public:
    * Call Execute on all the Commands observing this event id.
    */
   void InvokeEvent(unsigned long event);
-  
+
+  /**
+   * Call Execute on all the Commands observing this event id.
+   * The actions triggered by this call doesn't modify this object.
+   */
+  void InvokeEvent(unsigned long event) const;
+ 
   /**
    * Call Execute on all the Commands observing this event, convert the
    * string to id first.  
    */
   void InvokeEvent(const char *event);
+
+  /**
+   * Call Execute on all the Commands observing this event, convert the
+   * string to id first.  
+   * The actions triggered by this call doesn't modify this object.
+   */
+  void InvokeEvent(const char *event) const;
+
 
   /**
    * Remove the observer with this tag value.
