@@ -306,6 +306,39 @@ ResampleImageFilter<TInputImage,TOutputImage>
   return;
 }
 
+
+
+/** 
+ * Verify if any of the components has been modified.
+ */
+template <class TInputImage, class TOutputImage>
+unsigned long 
+ResampleImageFilter<TInputImage,TOutputImage>
+::GetMTime( void ) const
+{
+  unsigned long latestTime = Object::GetMTime(); 
+
+  if( m_Transform )
+    {
+    if( latestTime < m_Transform->GetMTime() )
+      {
+      latestTime = m_Transform->GetMTime();
+      }
+    }
+
+  if( m_Interpolator )
+      {
+      if( latestTime < m_Interpolator->GetMTime() )
+        {
+        latestTime = m_Interpolator->GetMTime();
+        }
+      }
+
+  return latestTime;
+}
+
+
+
 } // end namespace itk
 
 #endif

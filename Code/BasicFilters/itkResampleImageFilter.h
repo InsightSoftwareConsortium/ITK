@@ -161,6 +161,8 @@ public:
    * multi-threading. */
   virtual void BeforeThreadedGenerateData();
 
+  /** Method Compute the Modified Time based on changed to the components. */
+  unsigned long GetMTime( void ) const;
 
 protected:
   ResampleImageFilter();
@@ -182,7 +184,7 @@ private:
   ResampleImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  SizeType m_Size;                      // Size of the output image
+  SizeType                m_Size;       // Size of the output image
   TransformPointerType    m_Transform;  // Coordinate transform to use
   InterpolatorPointerType m_Interpolator;
                                         // Image function for interpolation
