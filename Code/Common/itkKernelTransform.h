@@ -36,10 +36,9 @@ namespace itk
 /** \class KernelTransform
  * Intended to be a base class for elastic body spline and thin plate spline.
  * This is implemented in as straightforward a manner as possible from the
- * IEEE TMI paper by Davis, Khotanzad, Flamig, and Harms,
- ; Vol. 16 No. 3 June 1997
- * Notation closely follows their paper, so if you have it in front of you,
- * this code will make a lot more sense.
+ * IEEE TMI paper by Davis, Khotanzad, Flamig, and Harms, Vol. 16,
+ * No. 3 June 1997. Notation closely follows their paper, so if you have it
+ * in front of you, this code will make a lot more sense.
  *
  * KernelTransform:
  *  Provides support for defining source and target landmarks
@@ -47,6 +46,14 @@ namespace itk
  *  Defines the mathematical framework used to compute all splines,
  *    so that subclasses need only provide a kernel specific to
  *    that spline
+ *
+ * This formulation allows the stiffness of the spline to
+ * be adjusted, allowing the spline to vary from interpolating the
+ * landmarks to approximating the landmarks.  This part of the
+ * formulation is based on the short paper by R. Sprengel, K. Rohr,
+ * H. Stiehl. "Thin-Plate Spline Approximation for Image
+ * Registration". In 18th International Conference of the IEEE
+ * Engineering in Medicine and Biology Society. 1996.
  *
  * \ingroup Transforms
  *
@@ -142,12 +149,26 @@ public:
   /** Get the Transformation Parameters. */
   virtual const ParametersType& GetParameters(void) const;
 
+  /** Stiffness of the spline.  A stiffness of zero results in the
+   * standard interpolating spline.  A non-zero stiffness allows the
+   * spline to approximate rather than interpolate the landmarks.
+   * Stiffness values are usually rather small, typically in the range
+   * of 0.001 to 0.1. The approximating spline formulation is based on
+   * the short paper by R. Sprengel, K. Rohr, H. Stiehl. "Thin-Plate
+   * Spline Approximation for Image Registration". In 18th
+   * International Conference of the IEEE Engineering in Medicine and
+   * Biology Society. 1996.
+   */
+  itkSetClampMacro(Stiffness, double, 0.0, NumericTraits<double>::max());
+  itkGetMacro(Stiffness, double);
+
 
 protected:
   KernelTransform();
   virtual ~KernelTransform();
   void PrintSelf(std::ostream& os, Indent indent) const;
-  
+
+public:  
   /** 'G' matrix typedef. */
   typedef vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> GMatrixType;
   
@@ -181,6 +202,7 @@ protected:
   /** Column matrix typedef. */
   typedef vnl_matrix_fixed<TScalarType, NDimensions, 1> ColumnMatrixType;
 
+protected:
   /** Compute G(x)
    * This is essentially the kernel of the transform.
    * By overriding this method, we can obtain (among others):
@@ -188,6 +210,15 @@ protected:
    *    Thin plate spline
    *    Volume spline */
   virtual const GMatrixType & ComputeG(const InputVectorType & landmarkVector) const;
+
+  /** Compute a G(x) for a point to itself (i.e. for the block
+   * diagonal elements of the matrix K. Parameter indicates for which
+   * landmark the reflexive G is to be computed. The default
+   * implementation for the reflexive contribution is a diagonal
+   * matrix where the diagonal elements are the stiffness of the
+   * spline. */
+  virtual const GMatrixType & ComputeReflexiveG(PointsIterator) const;
+
   
   /** Compute the contribution of the landmarks weighted by the kernel funcion
       to the global deformation of the space  */
@@ -221,6 +252,9 @@ protected:
   /** The list of target landmarks, denoted 'q'. */
   PointSetPointer m_TargetLandmarks;
   
+  /** Stiffness parameter */
+  double m_Stiffness;
+
   /** The list of displacements.
    * d[i] = q[i] - p[i]; */
   VectorSetPointer m_Displacements;

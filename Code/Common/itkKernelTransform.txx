@@ -42,6 +42,8 @@ KernelTransform():Superclass(
   m_TargetLandmarks = PointSetType::New();
   m_Displacements   = VectorSetType::New();
   m_WMatrixComputed = false;
+
+  m_Stiffness = 0.0;
 }
 
 /**
@@ -67,6 +69,20 @@ ComputeG( const InputVectorType & vect ) const
   // Should an Exception be thrown here  ?
   //
   itkWarningMacro(<< "ComputeG() should be reimplemented in the subclass !!");
+  return m_GMatrix;
+}
+
+/**
+ *
+ */
+template <class TScalarType, unsigned int NDimensions>
+const typename KernelTransform<TScalarType, NDimensions>::GMatrixType &
+KernelTransform<TScalarType, NDimensions>::
+ComputeReflexiveG( PointsIterator ) const
+{
+  m_GMatrix.fill( NumericTraits< TScalarType >::Zero );
+  m_GMatrix.fill_diagonal( m_Stiffness );
+
   return m_GMatrix;
 }
 
@@ -194,16 +210,28 @@ ComputeK(void)
   PointsIterator p1  = m_SourceLandmarks->GetPoints()->Begin();
   PointsIterator end = m_SourceLandmarks->GetPoints()->End();
 
+  // K matrix is symmetric, so only evaluate the upper triangle and
+  // store the values in bot the upper and lower triangle
   unsigned int i = 0;
   while( p1 != end )
   {
-    PointsIterator p2  = m_SourceLandmarks->GetPoints()->Begin();
-    unsigned int j = 0;
+    PointsIterator p2 = p1; // start at the diagonal element
+    unsigned int j = i;
+
+    // Compute the block diagonal element, i.e. kernel for pi->pi
+    G = ComputeReflexiveG(p1);
+    m_KMatrix.update(G, i*NDimensions, i*NDimensions);
+    p2++;
+    j++;
+    
+    // Compute the upper (and copy into lower) triangular part of K
     while( p2 != end ) 
     {
       const InputVectorType s = p1.Value() - p2.Value();
       G = ComputeG(s);
+      // write value in upper and lower triangle of matrix
       m_KMatrix.update(G, i*NDimensions, j*NDimensions);
+      m_KMatrix.update(G, j*NDimensions, i*NDimensions);  
       p2++;
       j++;
     }
