@@ -62,30 +62,40 @@ public:
   itkTypeMacro(MixtureModelComponentBase, Object);
   itkNewMacro(Self) ;
   
-  /** Sample typedefs alias */
-  typedef TSample SampleType ;
-  typedef typename TSample::Pointer SamplePointer ;
   typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
 
   /** typedef for the MembershipFunctionBase */
   typedef MembershipFunctionBase< MeasurementVectorType >
   MembershipFunctionType ;
-  typedef typename MembershipFunctionType::Pointer MembershipFunctionPointer ;
 
   /** typedef of strorage for the weights */
   typedef Array< double > WeightArrayType ;
 
+  typedef Array< double > ParametersType ;
+
   /** stores the sample pointer */
-  virtual void SetSample(SamplePointer sample) ;
+  virtual void SetSample(TSample* sample) ;
   
   /** returns the sample pointer */
-  SamplePointer GetSample() ;
+  TSample* GetSample() ;
 
   /** returns the pointer to the membership function object.
    * Subclasses of this class are responsible for creating the
    * actual membership function objects and cast them to 
    * MembershipFunctionBase objects */
-  MembershipFunctionPointer GetMembershipFunction() ;
+  MembershipFunctionType* GetMembershipFunction() ;
+
+  void SetMinimalParametersChange(double change)
+  { m_MinimalParametersChange = change ; }
+
+  double GetMinimalParametersChange()
+  { return m_MinimalParametersChange ; }
+
+  virtual void SetParameters(const ParametersType &parameters) ;
+
+  virtual ParametersType GetFullParameters()
+  { return m_Parameters ; }
+
 
   /** sets the parameters modified tag. if one or more of the membership 
    * funtion's parameters are changed, then flag should be true */
@@ -120,19 +130,24 @@ protected:
   /** stores the pointer to the membership function.
    * subclasses use this funtion to store their membership function
    * object after dynamic creation */ 
-  void SetMembershipFunction(MembershipFunctionPointer function) ;
+  void SetMembershipFunction(MembershipFunctionType* function) ;
 
   virtual void GenerateData() ;
 
 private:
   /** target sample data pointer */
-  SamplePointer m_Sample ;
+  TSample* m_Sample ;
+
+  double m_MinimalParametersChange ;
+
+  ParametersType m_Parameters ;
   /** SmartPointer to the memberhip function - usually density function */
-  MembershipFunctionPointer m_MembershipFunction ;
+  MembershipFunctionType* m_MembershipFunction ;
   /** weights array */
   WeightArrayType* m_Weights ;
   /** indicative flag of membership function's parameter changes */
   bool m_ParametersModified ;
+  
 } ; // end of class
     
 } // end of namespace Statistics 
