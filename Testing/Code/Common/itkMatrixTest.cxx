@@ -113,5 +113,91 @@ int itkMatrixTest(int, char* [] )
 
   matrix6 *= 1.3;
 
+
+  // This was added after a bug in operator*() was reported on the users list.
+  std::cout << "Testing products in non-square matrices" << std::endl;
+
+  try
+    {
+      itk::Matrix<double,2,2> m1;
+      itk::Matrix<double,2,2> m2;
+       
+      for(unsigned int i=0; i<2 ;i++ ) 
+        {
+        for( unsigned int j=0; j<2; j++ )
+          {
+          m1[i][j]=i+j;
+          }
+        }
+
+      std::cout << "m1="  << std::endl;
+      std::cout << m1 << std::endl;
+
+
+      for(unsigned int i=0; i<2; i++)
+        {
+        for(unsigned int j=0; j<2; j++)
+          {
+          m2[i][j]=i+j;
+          }
+        }
+
+      std::cout << "m2=" << std::endl;
+      std::cout << m2 << std::endl;
+
+
+      std::cout << "VNL * VNL Multiplication result: " << std::endl;
+      std::cout << m1.GetVnlMatrix()*m2.GetVnlMatrix() << std::endl;
+
+      std::cout << "ITK * VNL Multiplication result: " << std::endl;
+      std::cout << m1*m2.GetVnlMatrix() << std::endl;
+
+
+
+      itk::Matrix<double,2,2> m3;
+      itk::Matrix<double,2,3> m4;
+       
+      for(unsigned int i=0; i<2; i++ )
+          {
+          for(unsigned int j=0; j<2; j++)
+            {
+            m3[i][j]=i+j;
+            }
+          }
+
+      std::cout << "m3="  << std::endl;
+      std::cout << m3 << std::endl;
+
+
+      for(unsigned int i=0; i<2; i++ )
+        {
+        for(unsigned int j=0; j<3; j++ )
+          {
+          m4[i][j]=i+j;
+          }
+        }
+
+      std::cout << "m4=" << std::endl;
+      std::cout << m4 << std::endl;
+
+
+      std::cout << "VNL * VNL Multiplication result: " << std::endl;
+      std::cout << m3.GetVnlMatrix()*m4.GetVnlMatrix() << std::endl;
+
+      std::cout << "ITK * VNL Multiplication result: " << std::endl;
+      std::cout << m3*m4.GetVnlMatrix() << std::endl;
+      
+    } 
+  catch ( itk::ExceptionObject & e) 
+    {
+    std::cerr<<"Exception caught in test..."<<std::endl;
+    std::cerr<< e <<std::endl;
+    return EXIT_FAILURE;
+    }
+      
+  std::cout << "Test Passed !" << std::endl;
+
   return EXIT_SUCCESS;
 }
+
+
