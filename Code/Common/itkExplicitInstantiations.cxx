@@ -17,10 +17,17 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#undef _INSTANTIATION
+#undef ITK_EXPLICIT_INSTANTIATION
 //NOTE: If this file is compiled, then this flag must not have been already defined.
-//The ITK_EXPLICIT_INSTANTIATION flag turns off the  instantiation in the itkImage.h so that these files are build once.
-//This should not be necessary with he  tag
+//The ITK_EXPLICIT_INSTANTIATION flag turns off the  instantiation in the itkImage.h so that these classes are built once.  With out undef'ing ITK_EXPLICIT_INSTANTIATION in this file, the compiler will refuse to instatiate the objects, expeting that to be done elsewhere.
+
+
+//The SGI compiler requires #pragma commands to infect the whole system to get htis to work.
+
+//This seems to work really well on the gcc compilers.
+
+//The example for doing this was taken from the VC6.0 documentation, so I assume that it would work there also.
+
 #include "itkImageBase.h"
 #include "itkImage.h"
 #include "itkImageSource.h"
