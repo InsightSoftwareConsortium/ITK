@@ -377,8 +377,22 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
                                 it( distanceComponents, region );
   it.GoToBegin();
 
+  // support progress methods/callbacks
+  unsigned long updateVisits = 0, i=0;
+  updateVisits = region.GetNumberOfPixels()/10;
+  if ( updateVisits < 1 ) 
+  {
+    updateVisits = 1;
+  }
+ 
   while( !it.IsAtEnd() )
   {
+
+    if ( !(i % updateVisits ) )
+      {
+      this->UpdateProgress((float)i/(float(updateVisits)*10.0));
+      }
+
     IndexType here = it.GetIndex();
     for(unsigned int dim=0; dim <VectorImageType::ImageDimension; dim++)
     {
@@ -396,12 +410,31 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
       }
     }
     ++it;
+    ++i;
   }
   
   ComputeVoronoiMap();
 
 } // end GenerateData()
 
+
+
+
+/**
+ *  Print Self
+ */
+template <class TInputImage,class TOutputImage>
+void 
+DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+  
+  os << indent << "Danielson Distance: " << std::endl;
+  os << indent << "Input Is Binary   : " << m_InputIsBinary << std::endl;
+  os << indent << "Squared Distance  : " << m_SquaredDistance << std::endl;
+
+}
 
 
 
