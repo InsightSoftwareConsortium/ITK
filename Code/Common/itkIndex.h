@@ -14,58 +14,138 @@
   ==========================================================================*/
 
 /**
- * itkIndex is a templated class that holds a single index.  itkIndex
- * can be used as the data type held at each pixel in an itkImage or at each
- * vertex of an itkMesh. The template parameter can be any data type that
- * behaves like a primitive (or atomic) data type (int, short, float, complex).
- * itk filters that rely on index data assume the data type held at each
- * pixel or each vertex responds to GetIndex()/SetIndex() methods. If not,
- * a compile time error will occur.
- *
- * itkIndex is not a dynamically extendible array like std::index. It is
- * intended to be used like a mathematical index.
+ * itkIndex is a templated class to represent a multi-dimensional index.  
+ * itkIndex is templated over the dimension of the index.
  *
  * For efficiency sake, itkIndex does not define a default constructor, a
  * copy constructor, or an operator=. We rely on the compiler to provide
  * efficient bitwise copies.
  *
+ * Should there be an itkBoundedIndex to handle bounds checking? Or should
+ * there be an API to perform bounded increments in the iterator.
  */
 
-// To compile / test this class
-// Windows: cl itkDataTypeTest.cxx; .\itkDataTypeTest.exe
-// linux:   c++ itkDataTypeTest.cxx; ./a.out
-// other:   CCcompiler itkDataTypeTest.cxx;  ./a.out
 
 #ifndef __itkIndex_h
 #define __itkIndex_h
 
 #include <memory.h>
 
-template<unsigned int TIndexDimension=3>
+template<unsigned int TIndexDimension=2>
 class itkIndex {
  public:
   /**
    * Get the dimension (size) of the index.
    */
   static unsigned int GetIndexDimension() { return TIndexDimension; }
-  
+
+  /**
+   * Add two indices. This method models a random access Index.
+   */
+  const itkIndex<TIndexDimension>
+  operator+(const itkIndex<TIndexDimension> &vec)
+    {
+    itkIndex<TIndexDimension> result;
+    for (unsigned int i=0; i < TIndexDimension; i++)
+      { result[i] = m_Index[i] + vec.m_Index[i]; }
+    return result;
+    }
+
+  /**
+   * Increment index by an index. This method models a random access Index.
+   */
+  const itkIndex<TIndexDimension> &
+  operator+=(const itkIndex<TIndexDimension> &vec)
+    {
+    for (unsigned int i=0; i < TIndexDimension; i++)
+      { m_Index[i] += vec.m_Index[i]; }
+    return *this;
+    }
+
+  /**
+   * Subtract two indices. This method models a random access Index.
+   */
+  const itkIndex<TIndexDimension>
+  operator-(const itkIndex<TIndexDimension> &vec)
+    {
+    itkIndex<T, TIndexDimension> result;
+    for (unsigned int i=0; i < TIndexDimension; i++)
+      { result[i] = m_Index[i] - vec.m_Index[i]; }
+    return result;
+    }
+
+  /**
+   * Decrement index by an index. This method models a random access Index.
+   */
+  const itkIndex<TIndexDimension> &
+  operator-=(const itkIndex<TIndexDimension> &vec)
+    {
+    for (unsigned int i=0; i < TIndexDimension; i++)
+      { m_Index[i] -= vec.m_Index[i]; }
+    return *this;
+    }
+
   /**
    * Get the index. This provides a read only reference to the index.
    * \sa SetIndex
    */
-  const unsigned long *GetIndex() const { return m_Index; };
+  const long *GetIndex() const { return m_Index; };
 
   /**
    * Set the index.
+   * Try to prototype this function so that val has to point to a block of
+   * memory that is the appropriate size.
    * \sa GetIndex
    */
-  void SetIndex(const unsigned long  *val)
-  { memcpy(m_Index, val, sizeof(unsigned long)*TIndexDimension); };
+  void SetIndex(const long val[TIndexDimension])
+  { memcpy(m_Index, val, sizeof(long)*TIndexDimension); };
 
+  /**
+   * Return a basis vector of the form [0, ..., 0, 1, 0, ... 0] where the "1"
+   * is positioned in the location specified by the parameter "dim".
+   *
+   * This routine will throw an exception (itkInvalidDimension) if
+   * "dim" > dimension of the index.
+   */
+  static itkIndex<TIndexDimension> GetBasisIndex(unsigned int dim); 
 
  private:
-  unsigned long m_Index[TIndexDimension];
+  friend std::ostream& operator<<(std::ostream& os,
+				  const itkIndex<TIndexDimension> &ind);
+
+  long m_Index[TIndexDimension];
 };
 
+template<int TIndexDimension>
+std::ostream& operator<<(std::ostream& os,
+			 const itkIndex<TIndexDimension> &ind)
+{
+  unsigned int i;
+  
+  os << "[";
+  for (i=0; i < TIndexDimension - 1; i++)
+    {
+    os << ind.m_Index[i] << ", ";
+    }
+  os << ind.m_Index[i] << "] ";
+  
+  return os;
+}
+
+template<unsigned int TIndexDimension>
+itkIndex<TIndexDimension>
+itkIndex<TIndexDimension>::GetBasisIndex(unsigned int dim)
+{
+  if (dim >= TIndexDimension)
+    {
+    throw itkInvalidDimension;
+    }
+  
+  itkIndex<TIndexDimension> ind;
+  
+  memset(ind.m_Index, 0, sizeof(long)*TIndexDimension);
+  ind.m_Index[dim] = 1;
+  return ind;
+}
 
 #endif 
