@@ -317,7 +317,7 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
   else if ( m_ExtractionMode == SpecifiedRegions )
     {
     std::vector<unsigned long>::iterator i;
-    unsigned long regionId;
+    long regionId;
     bool inReg = false;
     for (cell=inCells->Begin(); cell != inCells->End(); ++cell, ++cellId)
       {
