@@ -18,7 +18,7 @@ public:
    /** The type of vector used to store the gradient of the BoundaryPointItem * */
    typedef CovariantVector<double, VImageDimension> GradientType;
 
-   //** Vector Type
+   /** Vector type */
    typedef vnl_vector<double> VectorType;
 
    /** The type of boundary point item we store pointers to */
