@@ -111,7 +111,7 @@ TobogganImageFilter<TInputImage>
       IndexType MinimumNeighborIndex;
       IndexType CurrentPositionIndex;
       unsigned int Dimension;
-      int t, i;
+      int t;
       bool FoundNewClass = false;
       bool FoundMinimum = false;
 
