@@ -390,9 +390,18 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
 {
   int i, l=0, slice;
   unsigned short label; 
-  IndexType coord = {0, 0, 0};
-  IndexType extend = {0, 0, 0};
-  double max, fo, t, xs, ys, zs; 
+  IndexType coord; 
+  IndexType extend;
+
+  coord.Fill( 0 );
+  extend.Fill( 0 );
+
+  double max;
+  double fo;
+  double t;
+  double xs;
+  double ys;
+  double zs; 
 
   InputPointType x, y, z, f, n, extends;
   InputPointType* y_pt;
@@ -547,7 +556,8 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
 {
   int i; 
   const unsigned long *tp;
-  typename TriCell::Pointer testCell = TriCell::New();
+  typename TriCell::CellAutoPointer testCell;
+  testCell.TakeOwnership( new TriCell );
   int npts = 3;
 
   InputCellsContainerPointer  myCells = m_Locations->GetCells();
@@ -778,8 +788,14 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
 
   while (m_Step < m_StepThreshold2) {
     this->ComputeNormals();
-    if (m_Step > m_StepThreshold1) this->GradientFit();
-    else  this->ComputeForce();
+    if (m_Step > m_StepThreshold1) 
+      {
+      this->GradientFit();
+      }
+    else  
+      {
+      this->ComputeForce();
+      }
     this->ComputeDt();
     this->Advance();
     this->ACDSearch();
@@ -806,7 +822,8 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
 {
   int i, j, k, node, slice;
   double dis;
-  IndexType coord = {0, 0, 0};
+  IndexType coord;
+  coord.Fill( 0 );
   InputPointType v1, v2;
   InputPointType* v1_pt;
   InputPointType* v2_pt;

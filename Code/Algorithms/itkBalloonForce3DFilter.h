@@ -117,7 +117,7 @@ public:
       OutputPointsContainerIterator;
 
   /** typedefs for cell and point.*/
-  typedef typename InputMeshType::Cell              Cell;
+  typedef typename InputMeshType::CellType          CellType;
   typedef typename InputMeshType::CellTraits        CellTraits;
   typedef typename InputMeshType::PointType         InputPointType;
   typedef typename InputMeshType::PixelType         PixelType;

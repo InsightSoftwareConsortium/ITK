@@ -103,7 +103,7 @@ public:
   typedef Vector<int, 3>                      IntVector;
 
   /** Cell related types. */
-  typedef typename InputMeshType::Cell        Cell;
+  typedef typename InputMeshType::CellType    CellType;
   typedef typename InputMeshType::CellTraits  CellTraits;
   typedef CellInterface<float, CellTraits>    CellInterface;
   typedef TriangleCell< CellInterface >       TriCell;
