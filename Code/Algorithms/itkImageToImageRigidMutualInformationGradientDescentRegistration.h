@@ -119,7 +119,7 @@ public:
  * rigid registration
  * between a target and reference image using mutual information.
  * It uses the optimization method of Viola and Wells to find the
- * best affine transform to register the reference image onto the target
+ * best rigid transform to register the reference image onto the target
  * image. The two images are defined via methods SetTarget()
  * and SetReference().
  *
