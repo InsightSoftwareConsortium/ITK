@@ -317,8 +317,6 @@ void
 CovariantVector<T, TCovariantVectorDimension>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  Superclass::PrintSelf( os, indent );
-  os << indent;
   for( unsigned int i=0; i<TCovariantVectorDimension; i++)
   {
     os <<  (*this)[i] << ", ";
