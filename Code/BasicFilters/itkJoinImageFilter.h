@@ -193,7 +193,7 @@ template <class TInputImage1, class TInputImage2>
 class ITK_EXPORT JoinImageFilter:
     public BinaryFunctorImageFilter<TInputImage1,
                                     TInputImage2,
-                                    Image< Functor::JoinFunctor<ITK_TYPENAME TInputImage1::PixelType,  ITK_TYPENAME TInputImage2::PixelType>::JoinType, TInputImage1::ImageDimension>,
+                                    Image< ITK_TYPENAME Functor::JoinFunctor<ITK_TYPENAME TInputImage1::PixelType,  ITK_TYPENAME TInputImage2::PixelType>::JoinType, TInputImage1::ImageDimension>,
                                     Functor::JoinFunctor< ITK_TYPENAME TInputImage1::PixelType, ITK_TYPENAME TInputImage2::PixelType> >
 {
 public:
@@ -205,7 +205,7 @@ public:
   /**
    * Output typedefs
    */
-  typedef Functor::JoinFunctor< typename TInputImage1::PixelType,  typename TInputImage2::PixelType>::JoinType OutputImagePixelType;
+  typedef typename Functor::JoinFunctor< typename TInputImage1::PixelType,  typename TInputImage2::PixelType>::JoinType OutputImagePixelType;
   enum {OutputImageDimension = TInputImage1::ImageDimension};
   typedef Image<OutputImagePixelType, OutputImageDimension> OutputImageType;
   
