@@ -166,21 +166,6 @@ Set
 
 
 /**
- * Add all the elements in the given Set to this one.
- */
-void
-Set
-::Add(const Set* elementSet)
-{
-  for(ElementContainer::const_iterator e = elementSet->Begin();
-      e != elementSet->End(); ++e)
-    {
-    m_Elements.insert(*e);
-    }
-}
-
-
-/**
  * Create a new WrapperSet and return a pointer to it.
  */
 WrapperSet::Pointer
@@ -188,6 +173,17 @@ WrapperSet
 ::New()
 {
   return new WrapperSet;
+}
+
+
+/**
+ * Create a new InstantiationSet and return a pointer to it.
+ */
+InstantiationSet::Pointer
+InstantiationSet
+::New()
+{
+  return new InstantiationSet;
 }
 
 
@@ -209,6 +205,17 @@ Namespace
 void
 Namespace
 ::AddWrapperSet(WrapperSet* set)
+{
+  m_WrapperList.push_back(set);
+}
+
+
+/**
+ * Add a InstantiationSet to the list of instantiations for this Namespace.
+ */
+void
+Namespace
+::AddInstantiationSet(InstantiationSet* set)
 {
   m_WrapperList.push_back(set);
 }

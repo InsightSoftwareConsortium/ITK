@@ -102,6 +102,7 @@ private:
   void begin_Set(const Attributes&);
   void begin_Element(const Attributes&);
   void begin_WrapperSet(const Attributes&);
+  void begin_InstantiationSet(const Attributes&);
   
   // The element end handlers.
   void end_Package();
@@ -114,6 +115,7 @@ private:
   void end_Set();
   void end_Element();
   void end_WrapperSet();
+  void end_InstantiationSet();
   
   // Element map utilities.
   static void InitializeHandlers();

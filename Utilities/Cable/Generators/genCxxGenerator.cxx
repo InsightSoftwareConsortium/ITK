@@ -2,7 +2,8 @@
 
 namespace gen
 {
-  
+
+using namespace configuration;
 
 /**
  * Print indentation spaces.
@@ -47,7 +48,7 @@ std::ostream& operator<<(std::ostream& os, const String& str)
 
 
 /**
- *
+ * Generate the C++ wrappers to the given output stream.
  */
 void
 CxxGenerator
@@ -56,14 +57,17 @@ CxxGenerator
   Namespace::ConstPointer globalNamespace =
     m_Package->GetGlobalNamespace().RealPointer();
   
+  // We want everything in the global namespace to start in the first column.
   Indent indent(-2);
   
+  // Start the output with the global namespace of definitions.
   this->GenerateNamespace(os, indent, globalNamespace);
 }
  
   
 /**
- *
+ * Generate the C++ wrappers for this namespace and all namespaces
+ * nested inside it.
  */
 void
 CxxGenerator
@@ -90,6 +94,11 @@ CxxGenerator
       this->GenerateWrapperSet(os, indent.Next(),
                                dynamic_cast<const WrapperSet*>(wrapper));
       }
+    else if(wrapper->IsInstantiationSet())
+      {
+      this->GenerateInstantiationSet(os, indent.Next(),
+                                     dynamic_cast<const InstantiationSet*>(wrapper));
+      }
     else
       {
       os << "ERROR!!!\n";
@@ -105,7 +114,7 @@ CxxGenerator
 
 
 /**
- *
+ * Generate the code needed for given set of C++ wrappers.
  */
 void
 CxxGenerator
@@ -120,6 +129,25 @@ CxxGenerator
       {
       os << indent << "typedef " << wrapper->second << " "
          << wrapper->first << ";" << std::endl;
+      }
+    }
+}
+
+
+/**
+ * Generate the code needed for given set of C++ template instantiations.
+ */
+void
+CxxGenerator
+::GenerateInstantiationSet(std::ostream& os, const Indent& indent,
+                     const InstantiationSet* instantiationSet)
+{
+  for(InstantiationSet::ConstIterator wrapper = instantiationSet->Begin();
+      wrapper != instantiationSet->End(); ++wrapper)
+    {
+    if(wrapper->first != wrapper->second)
+      {
+      os << indent << "template " << wrapper->second << ";" << std::endl;
       }
     }
 }

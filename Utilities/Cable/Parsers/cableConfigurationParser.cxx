@@ -382,7 +382,8 @@ Parser
 ::CurrentSet() const
 {
   if(!m_ElementStack.top()->IsSet()
-     && !m_ElementStack.top()->IsWrapperSet())
+     && !m_ElementStack.top()->IsWrapperSet()
+     && !m_ElementStack.top()->IsInstantiationSet())
     throw ElementStackTypeException("Set",
                                     m_ElementStack.top()->GetClassName());
 
@@ -779,39 +780,17 @@ Parser
 {
   String name = atts.Get("name");
   
-  if(this->TopParseElement()->IsSet()
-     || this->TopParseElement()->IsWrapperSet())
+  // Create a new Set.
+  Set::Pointer newSet = Set::New(name);
+  
+  // Save the Set by this name.
+  if(!this->CurrentNamespaceScope()->AddSet(newSet))
     {
-    // The Set is being referenced inside another set.
-    const Set* otherSet = this->MostNestedNamespace()->LookupSet(name);
-    if(otherSet)
-      {
-      // Copy all the elements over to it.
-      this->CurrentSet()->Add(otherSet);
-      }
-    else
-      {
-      // The referenced element set does not exist.  Complain.
-      throw UnknownSetException(name);
-      }
-    
-    // Put a dummy element on the stack to be popped off by end_Set().
-    this->PushElement(0);
+    throw NameExistsException(name);
     }
-  else
-    {
-    // Create a new Set.
-    Set::Pointer newSet = Set::New(name);
-    
-    // Save the Set by this name.
-    if(!this->CurrentNamespaceScope()->AddSet(newSet))
-      {
-      throw NameExistsException(name);
-      }
-      
-    // Put new Set on the stack so it can be filled.
-    this->PushElement(newSet);
-    }
+  
+  // Put new Set on the stack so it can be filled.
+  this->PushElement(newSet);
 }
 
 
@@ -834,8 +813,13 @@ void
 Parser
 ::begin_Element(const Attributes& atts)
 {
-  String tag = atts.Get("tag");
+  String tag = "";
   
+  if(atts.Have("tag"))
+    {
+    tag = atts.Get("tag");
+    }
+    
   // Create a new Element.
   Element::Pointer newElement = Element::New(tag);
   
@@ -894,6 +878,36 @@ Parser
 
 
 /**
+ * Begin handler for InstantiationSet element.
+ */
+void
+Parser
+::begin_InstantiationSet(const Attributes&)
+{
+  // Create a new InstantiationSet.
+  InstantiationSet::Pointer newInstantiationSet = InstantiationSet::New();
+    
+  // Save the InstantiationSet.
+  this->CurrentNamespaceScope()->AddInstantiationSet(newInstantiationSet);
+    
+  // Put new InstantiationSet on the stack so it can be filled.
+  this->PushElement(newInstantiationSet);
+}
+
+
+/**
+ * End handler for InstantiationSet element.
+ */
+void
+Parser
+::end_InstantiationSet()
+{
+  // Take the InstantiationSet off the stack.
+  this->PopElement();
+}
+
+
+/**
  * Map of Parser element begin handlers.
  */
 Parser::BeginHandlers Parser::beginHandlers;
@@ -916,27 +930,29 @@ Parser
   static bool initialized = false;  
   if(initialized) return;
   
-  beginHandlers["Package"]      = &Parser::begin_Package;
-  beginHandlers["Dependencies"] = &Parser::begin_Dependencies;
-  beginHandlers["Headers"]      = &Parser::begin_Headers;
-  beginHandlers["File"]         = &Parser::begin_File;
-  beginHandlers["Directory"]    = &Parser::begin_Directory;
-  beginHandlers["Namespace"]    = &Parser::begin_Namespace;
-  beginHandlers["Code"]         = &Parser::begin_Code;
-  beginHandlers["Set"]          = &Parser::begin_Set;
-  beginHandlers["Element"]      = &Parser::begin_Element;
-  beginHandlers["WrapperSet"]   = &Parser::begin_WrapperSet;
+  beginHandlers["Package"]          = &Parser::begin_Package;
+  beginHandlers["Dependencies"]     = &Parser::begin_Dependencies;
+  beginHandlers["Headers"]          = &Parser::begin_Headers;
+  beginHandlers["File"]             = &Parser::begin_File;
+  beginHandlers["Directory"]        = &Parser::begin_Directory;
+  beginHandlers["Namespace"]        = &Parser::begin_Namespace;
+  beginHandlers["Code"]             = &Parser::begin_Code;
+  beginHandlers["Set"]              = &Parser::begin_Set;
+  beginHandlers["Element"]          = &Parser::begin_Element;
+  beginHandlers["WrapperSet"]       = &Parser::begin_WrapperSet;
+  beginHandlers["InstantiationSet"] = &Parser::begin_InstantiationSet;
 
-  endHandlers["Package"]      = &Parser::end_Package;
-  endHandlers["Dependencies"] = &Parser::end_Dependencies;
-  endHandlers["Headers"]      = &Parser::end_Headers;
-  endHandlers["File"]         = &Parser::end_File;
-  endHandlers["Directory"]    = &Parser::end_Directory;
-  endHandlers["Namespace"]    = &Parser::end_Namespace;
-  endHandlers["Code"]         = &Parser::end_Code;
-  endHandlers["Set"]          = &Parser::end_Set;
-  endHandlers["Element"]      = &Parser::end_Element;
-  endHandlers["WrapperSet"]   = &Parser::end_WrapperSet;
+  endHandlers["Package"]          = &Parser::end_Package;
+  endHandlers["Dependencies"]     = &Parser::end_Dependencies;
+  endHandlers["Headers"]          = &Parser::end_Headers;
+  endHandlers["File"]             = &Parser::end_File;
+  endHandlers["Directory"]        = &Parser::end_Directory;
+  endHandlers["Namespace"]        = &Parser::end_Namespace;
+  endHandlers["Code"]             = &Parser::end_Code;
+  endHandlers["Set"]              = &Parser::end_Set;
+  endHandlers["Element"]          = &Parser::end_Element;
+  endHandlers["WrapperSet"]       = &Parser::end_WrapperSet;
+  endHandlers["InstantiationSet"] = &Parser::end_InstantiationSet;
   
   initialized = true;
 }

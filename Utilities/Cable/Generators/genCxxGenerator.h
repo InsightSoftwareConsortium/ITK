@@ -6,6 +6,7 @@
 namespace gen
 {
 
+typedef std::string String;
 
 /**
  * Class to simplify indentation printing.
@@ -22,28 +23,30 @@ private:
 
 std::ostream& operator<<(std::ostream&, const Indent&);
 
-using namespace configuration;
-
 /**
  * Generation class for C++ wrappers.
  */
 class CxxGenerator
 {
 public:
-  CxxGenerator(const Package* in_package):
+  CxxGenerator(const configuration::Package* in_package):
     m_Package(in_package) {}
   ~CxxGenerator() {}
   
   void Generate(std::ostream&);
 private:
   
-  void GenerateNamespace(std::ostream&, const Indent&, const Namespace*);
-  void GenerateWrapperSet(std::ostream&, const Indent&, const WrapperSet*);
+  void GenerateNamespace(std::ostream&, const Indent&,
+                         const configuration::Namespace*);
+  void GenerateWrapperSet(std::ostream&, const Indent&,
+                          const configuration::WrapperSet*);
+  void GenerateInstantiationSet(std::ostream&, const Indent&,
+                                const configuration::InstantiationSet*);
 
   /**
    * The package to generate.
    */
-  Package::ConstPointer m_Package;
+  configuration::Package::ConstPointer m_Package;
 };
 
 } // namespace gen

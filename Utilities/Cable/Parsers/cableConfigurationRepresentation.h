@@ -22,7 +22,7 @@ enum TypeOfObject {
   Undefined_id=0,
 
   Dependencies_id, CodeBlock_id, Element_id, Set_id, WrapperSet_id,
-  Namespace_id, Headers_id, Package_id
+  InstantiationSet_id, Namespace_id, Headers_id, Package_id
 };
 
 
@@ -39,14 +39,15 @@ public:
   virtual const char* GetClassName() const { return "ConfigureObject"; }
   virtual TypeOfObject GetTypeOfObject() const;
   
-  bool IsPackage() const      { return (this->GetTypeOfObject() == Package_id); }
-  bool IsDependencies() const { return (this->GetTypeOfObject() == Dependencies_id); }
-  bool IsHeaders() const      { return (this->GetTypeOfObject() == Headers_id); }
-  bool IsNamespace() const    { return (this->GetTypeOfObject() == Namespace_id); }
-  bool IsCodeBlock() const    { return (this->GetTypeOfObject() == CodeBlock_id); }
-  bool IsSet() const          { return (this->GetTypeOfObject() == Set_id); }
-  bool IsWrapperSet() const   { return (this->GetTypeOfObject() == WrapperSet_id); }
-  bool IsElement() const      { return (this->GetTypeOfObject() == Element_id); }
+  bool IsPackage() const          { return (this->GetTypeOfObject() == Package_id); }
+  bool IsDependencies() const     { return (this->GetTypeOfObject() == Dependencies_id); }
+  bool IsHeaders() const          { return (this->GetTypeOfObject() == Headers_id); }
+  bool IsNamespace() const        { return (this->GetTypeOfObject() == Namespace_id); }
+  bool IsCodeBlock() const        { return (this->GetTypeOfObject() == CodeBlock_id); }
+  bool IsSet() const              { return (this->GetTypeOfObject() == Set_id); }
+  bool IsWrapperSet() const       { return (this->GetTypeOfObject() == WrapperSet_id); }
+  bool IsInstantiationSet() const { return (this->GetTypeOfObject() == InstantiationSet_id); }
+  bool IsElement() const          { return (this->GetTypeOfObject() == Element_id); }
 
   virtual void AddCharacterData(const char*, unsigned long, bool);
   
@@ -228,7 +229,6 @@ public:
   static Pointer New(const String&);
   
   void Add(const String&, const String&);
-  void Add(const Set*);
   
   typedef std::map<String, String> ElementContainer;
   typedef ElementContainer::iterator  Iterator;
@@ -254,7 +254,6 @@ private:
    */
   ElementContainer  m_Elements;
 };
-
 
 
 /**
@@ -285,6 +284,33 @@ protected:
 
 
 /**
+ * Store a set of elements that produce explicit instantiations in C++.
+ */
+class InstantiationSet: public Set
+{
+public:
+  typedef InstantiationSet           Self;
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
+
+  virtual const char* GetClassName() const { return "InstantiationSet"; }
+  virtual TypeOfObject GetTypeOfObject() const { return InstantiationSet_id; }
+  
+  static Pointer New();
+  
+  typedef Set::ElementContainer  ElementContainer;
+  typedef Set::Iterator          Iterator;
+  typedef Set::ConstIterator     ConstIterator;
+  
+protected:
+  InstantiationSet(): Set("") {}
+  InstantiationSet(const Self&): Set("") {}
+  void operator=(const Self&) {}
+  virtual ~InstantiationSet() {}
+};
+
+
+/**
  * Represent a namespace in the configuration file.  This will correspond
  * to a namespace in the generated wrappers, as well as for Set and CodeBlock names
  * in the configuration itself.
@@ -305,6 +331,7 @@ public:
   typedef WrapperList::const_iterator WrapperIterator;
 
   void AddWrapperSet(WrapperSet*);
+  void AddInstantiationSet(InstantiationSet*);
   
   bool AddField(Named*);
   

@@ -37,9 +37,13 @@
       <Element tag="Image"><![CDATA[Image<$BasicScalarType, $Dimension>]]></Element>
     </Set>
 
+    <InstantiationSet>
+      <Element>class $ImageType</Element>
+    </InstantiationSet>
+
     <WrapperSet>
       <Element tag="Directory">Directory</Element>
-      <Set name="ImageType"/>
+      <Element>$ImageType</Element>
     </WrapperSet>
   </Namespace>
 
