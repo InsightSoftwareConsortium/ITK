@@ -23,8 +23,8 @@ SET( testlib_sources
   testlib_root_dir.h            testlib_root_dir.cxx
 )
 
-ADD_LIBRARY( testlib ${testlib_sources} )
-TARGET_LINK_LIBRARIES( testlib vcl )
+ADD_LIBRARY( itktestlib ${testlib_sources} )
+TARGET_LINK_LIBRARIES( itktestlib itkvcl )
 
 IF( BUILD_TESTING )
   SUBDIRS( tests )

@@ -44,14 +44,13 @@ static void write50(double* v, int n)
 //C     AMOUNT OF OUTPUT ARE CONTROLLED BY IPRINT.
 //C     -------------------------------------------------------------
 */
-void lb1_(
-  int *iprint, int *iter, int *nfun,
-  double *gnorm,
-  int *n, int *m,
-  double *x, double *f, double *g, double *stp,
-  int *finish /* logical*/)
+void lb1_(iprint, iter, nfun, gnorm, n, m, x, f, g, stp, finish)
+int *iprint, *iter, *nfun;
+double *gnorm;
+int *n, *m;
+double *x, *f, *g, *stp;
+int *finish; /* logical*/
 {
-  (void)m;
   --iprint;
 /* C*/
 /*IF (ITER.EQ.0)THEN*/

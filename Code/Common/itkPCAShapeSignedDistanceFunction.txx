@@ -37,16 +37,16 @@ PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension,TImage>
 
   m_MeanImage = NULL;
   m_PrincipalComponentImages.resize(0);
-  m_PrincipalComponentStandardDeviations.resize(0);
+  m_PrincipalComponentStandardDeviations.SetSize(0);
 
   m_Transform = TranslationTransform<TCoordRep, SpaceDimension>::New();
   m_Interpolators.resize(0);
   m_Extrapolators.resize(0);
   m_Selectors.resize(0);
 
-  m_WeightOfPrincipalComponents.resize(0);
-  m_TransformParameters.resize(0);
-  m_Parameters.resize(0);
+  m_WeightOfPrincipalComponents.SetSize(0);
+  m_TransformParameters.SetSize(0);
+  m_Parameters.SetSize(0);
 }
     
 
@@ -59,10 +59,10 @@ PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension,TImage>
   m_NumberOfPrincipalComponents = n;
 
   m_PrincipalComponentImages.resize(n,NULL);
-  m_PrincipalComponentStandardDeviations.resize(n);
+  m_PrincipalComponentStandardDeviations.SetSize(n);
   m_PrincipalComponentStandardDeviations.Fill( 1.0 );
 
-  m_WeightOfPrincipalComponents.resize(n);
+  m_WeightOfPrincipalComponents.SetSize(n);
 }
 
 
@@ -82,7 +82,7 @@ PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension,TImage>
   // set the transform parameters
   m_NumberOfTransformParameters = 
     parameters.size() - m_NumberOfPrincipalComponents;
-  m_TransformParameters.resize(m_NumberOfTransformParameters);
+  m_TransformParameters.SetSize(m_NumberOfTransformParameters);
 
   for(i=0; i<m_NumberOfTransformParameters; i++)
     {m_TransformParameters[i] = parameters[m_NumberOfPrincipalComponents+i];}

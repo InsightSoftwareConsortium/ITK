@@ -77,7 +77,8 @@ IF(NETLIB_FOUND)
 
   AUX_SOURCE_DIRECTORY(Templates vnl_algo_sources)
 
-  ADD_LIBRARY( vnl_algo ${vnl_algo_sources})
-  TARGET_LINK_LIBRARIES( vnl_algo ${NETLIB_LIBRARIES} vnl )
-
+  ADD_LIBRARY( itkvnl_algo ${vnl_algo_sources})
+  TARGET_LINK_LIBRARIES( itkvnl_algo ${NETLIB_LIBRARIES} itkvnl )
+  INSTALL_TARGETS(/lib/InsightToolkit itkvnl_algo)
 ENDIF(NETLIB_FOUND)
+INSTALL_FILES(${VXL_INSTALL_ROOT}/core/vnl/algo "(\\.h|\\.txx)$")

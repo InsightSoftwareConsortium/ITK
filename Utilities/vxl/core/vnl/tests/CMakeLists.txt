@@ -18,7 +18,7 @@ IF(NETLIB_FOUND)
     test_cholesky.cxx
     test_complex.cxx
     test_complex_eigensystem.cxx
-    test_convolve.cxx
+    #test_convolve.cxx
     test_cpoly_roots.cxx
     test_determinant.cxx
     test_inverse.cxx
@@ -33,7 +33,7 @@ IF(NETLIB_FOUND)
     test_generalized_eigensystem.cxx
     test_levenberg_marquardt.cxx
     test_math.cxx
-    test_matlab.cxx
+    #test_matlab.cxx
     test_matrix.cxx
     test_matrix_exp.cxx
     test_matrix_fixed.cxx
@@ -67,11 +67,11 @@ IF(NETLIB_FOUND)
     SET_SOURCE_FILES_PROPERTIES(test_finite.cxx PROPERTIES COMPILE_FLAGS -O0)
   ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
-  TARGET_LINK_LIBRARIES( vnl_test_all vnl_algo vnl vpl vul testlib ${CMAKE_THREAD_LIBS} )
+  TARGET_LINK_LIBRARIES( vnl_test_all itkvnl_algo itkvnl itktestlib ${CMAKE_THREAD_LIBS} )
 
 
   ADD_EXECUTABLE( vnl_basic_operation_timings basic_operation_timings.cxx  )
-  TARGET_LINK_LIBRARIES( vnl_basic_operation_timings vnl )
+  TARGET_LINK_LIBRARIES( vnl_basic_operation_timings itkvnl )
 
 
   ADD_TEST( vnl_test_amoeba                   vnl_test_all test_amoeba                  )
@@ -79,7 +79,7 @@ IF(NETLIB_FOUND)
   ADD_TEST( vnl_test_cholesky                 vnl_test_all test_cholesky                )
   ADD_TEST( vnl_test_complex                  vnl_test_all test_complex                 )
   ADD_TEST( vnl_test_complex_eigensystem      vnl_test_all test_complex_eigensystem     )
-  ADD_TEST( vnl_test_convolve                 vnl_test_all test_convolve                )
+#  ADD_TEST( vnl_test_convolve                 vnl_test_all test_convolve                )
   ADD_TEST( vnl_test_cpoly_roots              vnl_test_all test_cpoly_roots             )
   ADD_TEST( vnl_test_determinant              vnl_test_all test_determinant             )
   ADD_TEST( vnl_test_diag_matrix              vnl_test_all test_diag_matrix             )
@@ -93,7 +93,7 @@ IF(NETLIB_FOUND)
   ADD_TEST( vnl_test_inverse                  vnl_test_all test_inverse                 )
   ADD_TEST( vnl_test_levenberg_marquardt      vnl_test_all test_levenberg_marquardt     )
   ADD_TEST( vnl_test_math                     vnl_test_all test_math                    )
-  ADD_TEST( vnl_test_matlab                   vnl_test_all test_matlab                  )
+#  ADD_TEST( vnl_test_matlab                   vnl_test_all test_matlab                  )
   ADD_TEST( vnl_test_matrix                   vnl_test_all test_matrix                  )
   ADD_TEST( vnl_test_matrix_exp               vnl_test_all test_matrix_exp              )
   ADD_TEST( vnl_test_matrix_fixed             vnl_test_all test_matrix_fixed            )
@@ -124,4 +124,4 @@ IF(NETLIB_FOUND)
 ENDIF(NETLIB_FOUND)
 
 ADD_EXECUTABLE( vnl_test_include test_include.cxx )
-TARGET_LINK_LIBRARIES( vnl_test_include vnl_algo vnl )
+TARGET_LINK_LIBRARIES( vnl_test_include itkvnl_algo itkvnl )

@@ -26,8 +26,8 @@ template<class TInputImage, class TOutputImage>
 ImagePCAShapeModelEstimator<TInputImage,TOutputImage>
 ::ImagePCAShapeModelEstimator(void):m_NumberOfPixels(0),m_NumberOfTrainingImages(0)
 {
-  m_EigenVectors.resize(0,0);
-  m_EigenValues.resize(0);
+  m_EigenVectors.set_size(0,0);
+  m_EigenValues.set_size(0);
 
   m_NumberOfPrincipalComponentsRequired = 0;
   this->SetNumberOfPrincipalComponentsRequired( 1 );
@@ -339,7 +339,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>
   //-------------------------------------------------------------------------
   //Calculate the Means
   //-------------------------------------------------------------------------
-  m_Means.resize(m_NumberOfPixels);
+  m_Means.set_size(m_NumberOfPixels);
   m_Means.fill(0);
 
   InputImageConstIterator tempImageItA;
@@ -361,7 +361,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>
   //-------------------------------------------------------------------------
   // Calculate the inner product
   //-------------------------------------------------------------------------
-  m_InnerProduct.resize( m_NumberOfTrainingImages, m_NumberOfTrainingImages );
+  m_InnerProduct.set_size( m_NumberOfTrainingImages, m_NumberOfTrainingImages );
   m_InnerProduct.fill( 0 );
 
   InputImageConstIterator tempImageItB; 
@@ -439,7 +439,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>
   //to derive the pricipal shapes.
   //--------------------------------------------------------------------
 
-  m_EigenVectors.resize(m_NumberOfPixels, m_NumberOfTrainingImages);    
+  m_EigenVectors.set_size(m_NumberOfPixels, m_NumberOfTrainingImages);    
   m_EigenVectors.fill(0);  
 
   double pix_value;
@@ -462,7 +462,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>
 
   m_EigenVectors.normalize_columns();
 
-  m_EigenValues.resize(m_NumberOfTrainingImages);    
+  m_EigenValues.set_size(m_NumberOfTrainingImages);    
 
   //Extract the diagonal elements into the Eigen value vector
   m_EigenValues = (eigenVectors_eigenValues.D).diagonal();

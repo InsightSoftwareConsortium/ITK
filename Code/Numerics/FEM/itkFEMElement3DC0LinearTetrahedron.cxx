@@ -34,7 +34,7 @@ Element3DC0LinearTetrahedron
 ::GetIntegrationPointAndWeight( unsigned int, VectorType& pt, Float& w, unsigned int ) const
 {
   // FIXME: Write rules for other integration orders
-  pt.resize(3);
+  pt.set_size(3);
 
   Float d = 1.0/sqrt(3.0);
 
@@ -96,7 +96,7 @@ Element3DC0LinearTetrahedron
 ::ShapeFunctionDerivatives( const VectorType&, MatrixType& shapeD ) const
 {
   /** functions at directions r and s.  */
-  shapeD.resize(3,4);
+  shapeD.set_size(3,4);
   shapeD.fill(0.0);
 
   /** d(N_1) / d(r,s,t) = -1 */
@@ -121,7 +121,7 @@ Element3DC0LinearTetrahedron
 //         A, J1, J2, x0, y0, dx, dy, be, bn, ce, cn;
 
   localPt=globalPt;
-  localPt.resize(3);
+  localPt.set_size(3);
   localPt.fill(0.0);
 
   // FIXME!

@@ -33,7 +33,7 @@ Element2DC0QuadraticTriangular
   // default integration order
   if (order==0 || order>5) { order=DefaultIntegrationOrder; }
 
-  pt.resize(3);
+  pt.set_size(3);
 
   /*
    * We provide implementation for 5 different integration rules
@@ -101,7 +101,7 @@ Element2DC0QuadraticTriangular
 {
   VectorType::element_type p2 = 1.0 - pt[0] - pt[1];
 
-  shapeD.resize(3,6);
+  shapeD.set_size(3,6);
   shapeD.fill(0.0);
 
   shapeD[0][0]=4*pt[0]-1;
@@ -168,7 +168,7 @@ Element2DC0QuadraticTriangular
   }
 
   // Note that inverse of Jacobian is not quadratic matrix
-  invJ.resize(2,3);
+  invJ.set_size(2,3);
 
   Float idet=1.0/this->JacobianDeterminant( pt, pJ );
 

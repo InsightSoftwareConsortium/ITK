@@ -1,1 +1,1 @@
-INSTALL_FILES(/include/InsightToolkit/Utilities/vxl/vcl/sgi "(\\.h|\\.txx)$")
+INSTALL_FILES(${VXL_INSTALL_ROOT}/vcl/sgi "(\\.h|\\.txx)$")

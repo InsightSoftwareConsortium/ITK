@@ -87,7 +87,7 @@ void LoadBCMFC::Read( std::istream& f, void* info )
 
   /** read the rhs */
   SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  rhs.resize(n);
+  rhs.set_size(n);
   SkipWhiteSpace(f); f>>rhs; if(!f) goto out;
 
 out:

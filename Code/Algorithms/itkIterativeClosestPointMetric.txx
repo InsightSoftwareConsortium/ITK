@@ -74,7 +74,7 @@ IterativeClosestPointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
 
 
   MeasureType measure;
-  measure.resize(movingPointSet->GetPoints()->Size());
+  measure.set_size(movingPointSet->GetPoints()->Size());
 
   this->SetTransformParameters( parameters );
 

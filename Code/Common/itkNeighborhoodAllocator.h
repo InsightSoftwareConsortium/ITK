@@ -69,7 +69,7 @@ public:
   /** Copy constructor. */
   NeighborhoodAllocator(const Self& other) : m_ElementCount(0), m_Data(0)
   {
-    this->resize(other.m_ElementCount);
+    this->set_size(other.m_ElementCount);
     for (unsigned int i = 0; i < other.m_ElementCount; ++i)
       this->operator[](i) = other[i];
     m_ElementCount = other.m_ElementCount;
@@ -78,7 +78,7 @@ public:
   /** Assignment operator. */
   const Self& operator=(const Self& other)
   {
-    this->resize(other.m_ElementCount);
+    this->set_size(other.m_ElementCount);
     for (unsigned int i = 0; i < other.m_ElementCount; ++i)
       this->operator[](i) = other[i];
     m_ElementCount = other.m_ElementCount;
@@ -116,11 +116,11 @@ public:
     { return m_Data[i]; }
   
   /** Allocates or Reallocates a buffer of size n */
-  void resize(unsigned int n)
-  {
+  void set_size(unsigned int n)
+    {
     if (m_Data) { Deallocate(); }
     this->Allocate(n);
-  }
+    }
 
 protected:
   unsigned int m_ElementCount;

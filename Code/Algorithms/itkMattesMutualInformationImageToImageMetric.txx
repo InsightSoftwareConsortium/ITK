@@ -25,7 +25,6 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageIterator.h"
 #include "vnl/vnl_math.h"
-#include "vnl/vnl_numeric_limits.h"
 #include "itkBSplineDeformableTransform.h"
 
 

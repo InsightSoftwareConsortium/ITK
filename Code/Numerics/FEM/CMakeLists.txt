@@ -175,8 +175,7 @@ SOURCE_GROUP("Materials" REGULAR_EXPRESSION itkFEMMaterial*)
 SOURCE_GROUP("Linear Systems" REGULAR_EXPRESSION itkFEMLinearSystem*)
 SOURCE_GROUP("Source Files Template" REGULAR_EXPRESSION ./*.txx)
 
-
-
+INCLUDE_DIRECTORIES(${VXL_NETLIB_INCLUDE_DIR}) # Some .cxx files need f2c.h.
 
 # Build the library
 ADD_LIBRARY(ITKFEM ${FEM_SRCS})

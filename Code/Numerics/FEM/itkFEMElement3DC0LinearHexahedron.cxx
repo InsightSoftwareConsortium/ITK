@@ -38,7 +38,7 @@ Element3DC0LinearHexahedron
   // default integration order=2
   if (order==0) { order=2; }
 
-  pt.resize(3);
+  pt.set_size(3);
   pt[0] = gaussPoint[order][i%order];
   pt[1] = gaussPoint[order][(i/order)%order];
   pt[2] = gaussPoint[order][(i/(order*order))];
@@ -113,7 +113,7 @@ Element3DC0LinearHexahedron
 ::ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const
 {
   /** functions at directions r and s.  */
-  shapeD.resize(3,8);
+  shapeD.set_size(3,8);
 
   // d(N_1) / d(r)
   shapeD[0][0] = (-1) * (1 - pt[1]) * (1 - pt[2]) * 0.125;
@@ -199,7 +199,7 @@ Element3DC0LinearHexahedron
 //        A, J1, J2, x0, y0, dx, dy, be, bn, ce, cn;
 
   localPt=globalPt;
-  localPt.resize(3);
+  localPt.set_size(3);
   localPt.fill(0.0);
 
   // FIXME!

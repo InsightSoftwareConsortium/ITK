@@ -267,7 +267,7 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
   DistanceMatrixPointer correctDistance = MatrixType::New(); // The ground truth values for this test
 
   // Set the correct values of the distance matrix to test against.
-  correctDistance->resize(numberNodes1, numberNodes1);
+  correctDistance->set_size(numberNodes1, numberNodes1);
   correctDistance->put(0,0,0); 
   correctDistance->put(0,1,2.42792);
   correctDistance->put(0,2,2.42792);
@@ -390,7 +390,7 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
 
   // Set correctCorrespondenceMatrix to test against.
   DistanceMatrixPointer correctCorrespondenceMatrix = MatrixType::New();
-  correctCorrespondenceMatrix->resize(numberNodes1, numberNodes2);
+  correctCorrespondenceMatrix->set_size(numberNodes1, numberNodes2);
   correctCorrespondenceMatrix->put(0,0,0.99678);
   correctCorrespondenceMatrix->put(0,1,0.982923);
   correctCorrespondenceMatrix->put(0,2,0.982923);

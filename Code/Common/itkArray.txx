@@ -43,7 +43,12 @@ Array<TValueType >
 {
 }
 
-
+template < typename TValueType >
+void Array<TValueType >
+::SetSize(unsigned int sz)
+{
+  this->set_size(sz);
+}
 
 
 } // namespace itk

@@ -103,7 +103,7 @@ public:
     {
       if (m_force.size() != force.size())
   {
-    m_force.resize(force.size());
+    m_force.set_size(force.size());
   }
       for (unsigned int i=0; i<force.size(); i++)
   m_force[i]=force[i];
@@ -117,7 +117,7 @@ public:
     {
       if (m_source.size() != source.size())
   {
-    m_source.resize(source.size());
+    m_source.set_size(source.size());
   }
       for (unsigned int i=0; i<source.size(); i++)
   m_source[i]=source[i];
@@ -138,7 +138,7 @@ public:
     {
       if (m_target.size() != target.size())
   {
-    m_target.resize(target.size());
+    m_target.set_size(target.size());
   }
       for (unsigned int i=0; i<target.size(); i++)
   m_target[i]=target[i];

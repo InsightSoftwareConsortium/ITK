@@ -49,11 +49,11 @@ int itkCumulativeGaussianOptimizerTest(int, char* [] )
 
   // Declare and initialize the data array.
   //CostFunctionType::MeasureType * cumGaussianArray = new CostFunctionType::MeasureType();
-  //cumGaussianArray->resize(numberOfSamples);
+  //cumGaussianArray->SetSize(numberOfSamples);
   
   // Set the parameters.
   CostFunctionType::ParametersType parameters;
-  parameters.resize(4);
+  parameters.SetSize(4);
   parameters[0] = mean;
   parameters[1] = standardDeviation;
   parameters[2] = lowerAsymptote;

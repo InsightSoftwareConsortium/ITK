@@ -144,7 +144,7 @@ CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
   m_Rows = m_CoreAtomImageA->GetMedialNodeCount();
   m_Columns = m_CoreAtomImageB->GetMedialNodeCount();
 
-  if(m_CorrespondenceMatrix->resize(m_Rows,m_Columns))
+  if(m_CorrespondenceMatrix->set_size(m_Rows,m_Columns))
     {
     itkDebugMacro(<< "m_CorrespondenceMatrix resized successfully");
     }

@@ -1452,7 +1452,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //Calculate V[0] for the constant model facet for the Region Grow
   //algorithm
 
-  m_InitRegionMean.resize( vecDim, 1 );
+  m_InitRegionMean.set_size( vecDim, 1 );
   m_InitRegionMean.fill(0);
 
   for ( unsigned int nrow = row_start; nrow < row_end; nrow++ ) 
@@ -1523,7 +1523,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //Calculate V[0] for the constant model facet for the Region Grow
   //algorithm
 
-  m_InitRegionMean.resize( vecDim, 1 );
+  m_InitRegionMean.set_size( vecDim, 1 );
   m_InitRegionMean.fill(0);
 
   for( unsigned int nslice = slice_start; nslice < slice_end; nslice++ )

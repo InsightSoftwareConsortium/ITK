@@ -1,1 +1,1 @@
-INSTALL_FILES(/include/InsightToolkit/Utilities/vxl/vcl/vcl_sys "(\\.h|\\.txx)$")
+INSTALL_FILES(${VXL_INSTALL_ROOT}/vcl/vcl_sys "(\\.h|\\.txx)$")

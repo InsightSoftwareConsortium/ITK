@@ -68,11 +68,11 @@ StatisticsImageFilter<TInputImage>
   int numberOfThreads = this->GetNumberOfThreads();
 
   // Resize the thread temporaries
-  m_Count.resize(numberOfThreads);
-  m_SumOfSquares.resize(numberOfThreads);
-  m_ThreadSum.resize(numberOfThreads);
-  m_ThreadMin.resize(numberOfThreads);
-  m_ThreadMax.resize(numberOfThreads);
+  m_Count.SetSize(numberOfThreads);
+  m_SumOfSquares.SetSize(numberOfThreads);
+  m_ThreadSum.SetSize(numberOfThreads);
+  m_ThreadMin.SetSize(numberOfThreads);
+  m_ThreadMax.SetSize(numberOfThreads);
   
   // Initialize the temporaries
   m_Count.Fill(NumericTraits<long>::Zero);

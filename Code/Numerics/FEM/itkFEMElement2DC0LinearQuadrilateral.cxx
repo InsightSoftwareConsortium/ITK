@@ -38,7 +38,7 @@ Element2DC0LinearQuadrilateral
   // default integration order
   if (order==0) { order=DefaultIntegrationOrder; }
 
-  pt.resize(2);
+  pt.set_size(2);
 
   pt[0]=gaussPoint[order][i%order];
   pt[1]=gaussPoint[order][i/order];
@@ -102,7 +102,7 @@ Element2DC0LinearQuadrilateral
 ::ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const
 {
   /** functions at directions r and s.  */
-  shapeD.resize(2,4);
+  shapeD.set_size(2,4);
 
   /** Derivative w.r.t r for shape function 1 (node 1) */
   shapeD[0][0] = -(1 - pt[1]) * .25;
@@ -140,7 +140,7 @@ Element2DC0LinearQuadrilateral
   Float x1, x2, x3, x4, y1, y2, y3, y4, xce, yce, xb, yb, xcn, ycn,
         A, J1, J2, x0, y0, dx, dy, be, bn, ce, cn;
 
-  localPt.resize(2);
+  localPt.set_size(2);
   localPt.fill(0.0);
 
   x1 = this->m_node[0]->GetCoordinates()[0];   y1 = this->m_node[0]->GetCoordinates()[1];

@@ -44,7 +44,7 @@ CumulativeGaussianCostFunction
 ::SetOriginalDataArray(MeasureType * setOriginalDataArray)
 {
   // Set the original data array.
-  m_OriginalDataArray->resize(m_RangeDimension);
+  m_OriginalDataArray->SetSize(m_RangeDimension);
 
   for(int i = 0; i < (int)(setOriginalDataArray->GetNumberOfElements()); i++)
     {
@@ -157,7 +157,7 @@ CumulativeGaussianCostFunction::MeasureType *
 CumulativeGaussianCostFunction
 ::GetValue( ParametersType & parameters )
 {  
-  m_MeasurePointer->resize(m_RangeDimension);
+  m_MeasurePointer->SetSize(m_RangeDimension);
 
   for(unsigned int i = 0; i < m_RangeDimension; i++)
     m_MeasurePointer->put(i, parameters.get(2) + ((parameters.get(3)-parameters.get(2))*(EvaluateCumulativeGaussian((i-parameters.get(0))/(parameters.get(1)*sqrt(2.0)))+1)/2));
@@ -187,7 +187,7 @@ CumulativeGaussianCostFunction
 {
   // Initialize the arrays.
   m_RangeDimension = rangeDimension;
-  m_Measure.resize(m_RangeDimension);
+  m_Measure.SetSize(m_RangeDimension);
 }
 
 void

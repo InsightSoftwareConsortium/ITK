@@ -63,21 +63,21 @@ FEMRegistrationFilter<TMovingImage,TFixedImage>::FEMRegistrationFilter( )
 
   m_CurrentLevel=0;
   m_DescentDirection=positive;
-  m_E.resize(1);
-  m_Gamma.resize(1);
+  m_E.set_size(1);
+  m_Gamma.set_size(1);
   m_Gamma[m_CurrentLevel]=1;
-  m_Rho.resize(1);
+  m_Rho.set_size(1);
   m_E[0]=1.; 
   m_Rho[0]=1.;
-  m_Maxiters.resize(1);
+  m_Maxiters.set_size(1);
   m_Maxiters[m_CurrentLevel]=1;  
   m_dT=1;
   m_Alpha=1.0;
   m_Temp=0.0;
-  m_MeshPixelsPerElementAtEachResolution.resize(1);
-  m_NumberOfIntegrationPoints.resize(1);
+  m_MeshPixelsPerElementAtEachResolution.set_size(1);
+  m_NumberOfIntegrationPoints.set_size(1);
   m_NumberOfIntegrationPoints[m_CurrentLevel]=4;
-  m_MetricWidth.resize(1);
+  m_MetricWidth.set_size(1);
   m_MetricWidth[m_CurrentLevel]=3;
   m_DoLineSearchOnImageEnergy=1;
   m_LineSearchMaximumIterations=100;
@@ -364,7 +364,7 @@ bool FEMRegistrationFilter<TMovingImage,TFixedImage>::ReadConfigFile(const char*
       m_ImageScaling[jj] = ibuf;
       }
     
-    this->m_MeshPixelsPerElementAtEachResolution.resize(m_NumLevels);
+    this->m_MeshPixelsPerElementAtEachResolution.set_size(m_NumLevels);
     FEMLightObject::SkipWhiteSpace(f);
     for (jj=0; jj<this->m_NumLevels; jj++)
       {
@@ -373,7 +373,7 @@ bool FEMRegistrationFilter<TMovingImage,TFixedImage>::ReadConfigFile(const char*
       }
     
     FEMLightObject::SkipWhiteSpace(f);
-    this->m_E.resize(m_NumLevels);
+    this->m_E.set_size(m_NumLevels);
     for (jj=0; jj<this->m_NumLevels; jj++)
       {
       f >> fbuf;
@@ -381,7 +381,7 @@ bool FEMRegistrationFilter<TMovingImage,TFixedImage>::ReadConfigFile(const char*
       }
 
     FEMLightObject::SkipWhiteSpace(f);
-    this->m_Rho.resize(m_NumLevels);
+    this->m_Rho.set_size(m_NumLevels);
     for (jj=0; jj<this->m_NumLevels; jj++)
       {
       f >> fbuf;
@@ -389,7 +389,7 @@ bool FEMRegistrationFilter<TMovingImage,TFixedImage>::ReadConfigFile(const char*
       }
 
     FEMLightObject::SkipWhiteSpace(f);
-    this->m_Gamma.resize(m_NumLevels);
+    this->m_Gamma.set_size(m_NumLevels);
     for (jj=0; jj<this->m_NumLevels; jj++)
       {
       f >> fbuf;
@@ -397,7 +397,7 @@ bool FEMRegistrationFilter<TMovingImage,TFixedImage>::ReadConfigFile(const char*
       }
 
     FEMLightObject::SkipWhiteSpace(f);
-    this->m_NumberOfIntegrationPoints.resize(m_NumLevels);
+    this->m_NumberOfIntegrationPoints.set_size(m_NumLevels);
     for(jj=0; jj< m_NumLevels; jj++)
       { 
       f >> ibuf;
@@ -405,7 +405,7 @@ bool FEMRegistrationFilter<TMovingImage,TFixedImage>::ReadConfigFile(const char*
       }
 
     FEMLightObject::SkipWhiteSpace(f);
-    this->m_MetricWidth.resize(m_NumLevels);
+    this->m_MetricWidth.set_size(m_NumLevels);
     for(jj=0; jj< m_NumLevels; jj++)
       { 
       f >> ibuf;
@@ -413,7 +413,7 @@ bool FEMRegistrationFilter<TMovingImage,TFixedImage>::ReadConfigFile(const char*
       }
     
     FEMLightObject::SkipWhiteSpace(f);
-    this->m_Maxiters.resize(m_NumLevels);
+    this->m_Maxiters.set_size(m_NumLevels);
     for (unsigned int jj=0; jj<this->m_NumLevels; jj++)
       {
       f >> ibuf;
@@ -642,10 +642,10 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::CreateMesh(double PixelsPe
                                                                  Solver& mySolver, ImageSizeType imagesize)
 {
 
-  vnl_vector<double> MeshOriginV; MeshOriginV.resize(ImageDimension); 
-  vnl_vector<double> MeshSizeV;   MeshSizeV.resize(ImageDimension); 
-  vnl_vector<double> ImageSizeV;   ImageSizeV.resize(ImageDimension); 
-  vnl_vector<double> ElementsPerDim;  ElementsPerDim.resize(ImageDimension); 
+  vnl_vector<double> MeshOriginV; MeshOriginV.set_size(ImageDimension); 
+  vnl_vector<double> MeshSizeV;   MeshSizeV.set_size(ImageDimension); 
+  vnl_vector<double> ImageSizeV;   ImageSizeV.set_size(ImageDimension); 
+  vnl_vector<double> ElementsPerDim;  ElementsPerDim.set_size(ImageDimension); 
   for (unsigned int i=0; i<ImageDimension; i++)
 
     { 
@@ -759,8 +759,8 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ApplyLoads(SolverType& myS
   ///
   std::cout << " applying loads " << std::endl;
 
-  vnl_vector<Float> pd; pd.resize(ImageDimension);
-  vnl_vector<Float> pu; pu.resize(ImageDimension);
+  vnl_vector<Float> pd; pd.set_size(ImageDimension);
+  vnl_vector<Float> pu; pu.set_size(ImageDimension);
 
   if (m_UseLandmarks)
     {
@@ -1109,8 +1109,8 @@ FEMRegistrationFilter<TMovingImage,TFixedImage>::InterpolateVectorField(SolverTy
   m_FieldIter.GoToBegin();
   typename FixedImageType::IndexType rindex = m_FieldIter.GetIndex();
 
-  Sol.resize(ImageDimension); 
-  Gpt.resize(ImageDimension);
+  Sol.set_size(ImageDimension); 
+  Gpt.set_size(ImageDimension);
 
   if (ImageDimension == 2){
   Element::ConstPointer eltp;
@@ -1160,7 +1160,7 @@ FEMRegistrationFilter<TMovingImage,TFixedImage>::InterpolateVectorField(SolverTy
     tstep=1.25/((double)m_MeshPixelsPerElementAtEachResolution[m_CurrentLevel]);//
 //  std::cout << " r s t steps " << rstep << " " << sstep << " "<< tstep << std::endl;
 
-    Pos.resize(ImageDimension);
+    Pos.set_size(ImageDimension);
     for(  Element::ArrayType::iterator elt=mySolver.el.begin(); elt!=mySolver.el.end(); elt++) 
       {
       for (double r=-1.0; r <= 1.0; r=r+rstep ){
@@ -1287,7 +1287,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ComputeJacobian( float sig
  
 
   typename Element::MatrixType jMatrix,idMatrix;
-  jMatrix.resize(ImageDimension,ImageDimension);
+  jMatrix.set_size(ImageDimension,ImageDimension);
   
   FieldIterator m_FieldIter( field, field->GetLargestPossibleRegion() );
   typename FixedImageType::IndexType rindex;

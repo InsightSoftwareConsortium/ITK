@@ -45,7 +45,7 @@ void LoadEdge::Read( std::istream& f, void* info )
   SkipWhiteSpace(f); f>>n; if(!f) goto out;
   /** ... # of cols */
   SkipWhiteSpace(f); f>>m; if(!f) goto out;
-  m_Force.resize(n,m);
+  m_Force.set_size(n,m);
   for(int i=0; i<n; i++)
   {
     SkipWhiteSpace(f);

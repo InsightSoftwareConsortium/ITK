@@ -74,18 +74,25 @@
 # define VCL_WIN32
 # if defined(_MSC_VER)
 #  define VCL_VC
-#  if _MSC_VER >= 1310
-#   define VCL_VC71 1
-#  elif _MSC_VER >= 1300
-#   define VCL_VC70 1
-#  elif _MSC_VER >= 1200
+#  if _MSC_VER >= 1300
+#   define VCL_VC_DOTNET 1 // VC is at least version >= 7.0
+#   if _MSC_VER >= 1310
+#    define VCL_VC71 1     // .NET 2003 = Version 7.1
+#   else
+#    define VCL_VC70 1     // earlier .NET versions = Version 7.0
+#   endif
+#  elif _MSC_VER >= 1200   // last version before advent of .NET = Version 6.0
 #   define VCL_VC60 1
 #  else
 #   define VCL_VC50 1
 #  endif
-# endif
-# if defined(__BORLANDC__)
+# elif defined(__BORLANDC__)
 #  define VCL_BORLAND
+#  if __BORLANDC__ >= 0x0560
+#   define VCL_BORLAND_56
+#  elif __BORLANDC__ >= 0x0550
+#   define VCL_BORLAND_55
+#  endif
 # endif
 #endif
 
@@ -95,7 +102,7 @@
 #  ifdef VCL_VC60
 #    pragma warning(disable:4786 4660 4661)
 #    pragma warning(disable:4786 4660 4355 4390)
-#  elif VCL_VC70
+#  elif VCL_VC_DOTNET
 // 4786: 'identifier' : identifier was truncated to 'number' characters in the debug information
 // 4018: signed/unsigned mismatch
 // 4146: unary minus operator applied to unsigned type, result still unsigned
@@ -109,7 +116,7 @@
 # define VCL_KAI
 #endif
 
-#if (defined(__ICC)||defined(__ECC)) // Intel compiler?
+#if defined(__ICC) ||defined(__ECC) // Intel compiler?
 # define VCL_ICC
 #endif
 

@@ -94,6 +94,13 @@ Array2D<TValueType >
   return *this;
 }
 
+template < typename TValueType >
+void Array2D<TValueType >
+::SetSize(unsigned int m, unsigned int n)
+{
+  this->set_size(m, n);
+}
+
 
   
 

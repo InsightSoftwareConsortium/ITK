@@ -1,63 +1,26 @@
-PROJECT(vxl)
-#
-# Root vxl
-#
-#   geoff.cross@crd.ge.com
-
-# VXL can handle this statement, which introduces warnings about deprecations.
-# However, it is commented out for the benefit of those building other projects
-# within the VXL tree, but not fully conforming to CMake 1.4 standards.
-# After a waiting period, this line should be uncommented.
-# CMAKE_MINIMUM_REQUIRED(VERSION 1.4)
-
+# Root vxl ported to ITK Utilities.
 PROJECT(vxl)
 
-# To avoid typing for the FindXXX.cmake modules
-SET( MODULE_PATH ${vxl_SOURCE_DIR}/config/cmake/Modules CACHE INTERNAL "VXL module path" )
+IF(NOT ITK_SOURCE_DIR)
+  SET(BUILD_TESTING 1)
+  SET(LIBRARY_OUTPUT_PATH ${vxl_BINARY_DIR}/bin)
+  SET(EXECUTABLE_OUTPUT_PATH ${vxl_BINARY_DIR}/bin)
+ENDIF(NOT ITK_SOURCE_DIR)
 
-INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/vxl/vcl
-                    ${ITK_BINARY_DIR}/Utilities/vxl/vcl
-                    ${ITK_SOURCE_DIR}/Utilities/vxl)
+# CMake support directory.
+SET(VXL_CMAKE_DIR ${vxl_SOURCE_DIR}/config/cmake/Modules)
+SET(MODULE_PATH ${vxl_SOURCE_DIR}/config/cmake/Modules)
 
-IF(WIN32)
-  IF(NOT CYGWIN)
-    INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/vxl/vcl/config.win32)
-  ENDIF(NOT CYGWIN)
-ENDIF(WIN32)
+# Do platform-specific configuration.
+SUBDIRS(config/cmake/config)
 
-# Check for "sliced destructor" bug in C++ compiler.
-IF(VXL_CXX_SLICED_DESTRUCTOR_BUG MATCHES "^VXL_CXX_SLICED_DESTRUCTOR_BUG$")
-  # Assume the bug does not exist unless the program compiles and
-  # returns non-zero.
-  SET(VXL_CXX_SLICED_DESTRUCTOR_BUG 0)
-  TRY_RUN(VXL_CXX_SLICED_DESTRUCTOR_BUG
-    VXL_CXX_SLICED_DESTRUCTOR_BUG_COMPILE_RESULT
-    ${CMAKE_BINARY_DIR}
-    ${vxl_SOURCE_DIR}/CheckCXXSlicedDestructorBug.cxx)
-  SET(VXL_CXX_SLICED_DESTRUCTOR_BUG
-    "${VXL_CXX_SLICED_DESTRUCTOR_BUG}" CACHE INTERNAL
-    "Whether the C++ compiler has the sliced destructor bug.")
-ENDIF(VXL_CXX_SLICED_DESTRUCTOR_BUG MATCHES "^VXL_CXX_SLICED_DESTRUCTOR_BUG$")
-
-CONFIGURE_FILE(${vxl_SOURCE_DIR}/vxl_config_itk.h.in
-               ${vxl_BINARY_DIR}/vxl_config_itk.h @ONLY IMMEDIATE)
-
-INCLUDE(${MODULE_PATH}/FindNetlib.cmake)
 # Build the core vxl + support libraries
-SUBDIRS(v3p/netlib testlib vnl)
+SUBDIRS(vcl v3p core)
 
-IF(RUN_CONFIGURE)
- IF(UNIX)
-  MESSAGE(STATUS "Running ${vxl_SOURCE_DIR}/configure ...")
-  EXEC_PROGRAM( ${vxl_SOURCE_DIR}/configure
-                ${vxl_BINARY_DIR} RETURN_VALUE RET)
- ENDIF(UNIX)
- IF(RET)
-    MESSAGE(SEND_ERROR "VXL configure script failed.")
- ENDIF(RET)
-ENDIF(RUN_CONFIGURE)
+# Standard include directories.
+SET(VXLCORE_INCLUDE_DIR ${vxl_BINARY_DIR}/core ${vxl_SOURCE_DIR}/core)
+SET(VCL_INCLUDE_DIR ${vxl_BINARY_DIR}/vcl ${vxl_SOURCE_DIR}/vcl)
 
-INSTALL_FILES(/include/InsightToolkit/Utilities/vxl/vcl ".h"
-  vxl_config vxl_config_itk
-  )
-SUBDIRS(vcl)
+INCLUDE_DIRECTORIES(${VCL_INCLUDE_DIR} ${VXLCORE_INCLUDE_DIR})
+
+SET(VXL_INSTALL_ROOT /include/InsightToolkit/Utilities/vxl)

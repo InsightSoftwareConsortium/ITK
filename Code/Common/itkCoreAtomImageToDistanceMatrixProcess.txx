@@ -109,7 +109,7 @@ CoreAtomImageToDistanceMatrixProcess< TSourceImage >
   m_NumberOfNodes = m_CoreAtomImage->GetMedialNodeCount();
 
   // Resize the distance matrix
-  if(m_DistanceMatrix->resize(m_NumberOfNodes,m_NumberOfNodes))
+  if(m_DistanceMatrix->set_size(m_NumberOfNodes,m_NumberOfNodes))
     {
     itkDebugMacro(<< "m_DistanceMatrix resized successfully");
     }

@@ -155,8 +155,20 @@ IF(WIN32)
 ENDIF(WIN32)
 
 OPTION(BUILD_EXAMPLES "Build the Examples directory." ON)
-SET(VXL_NUMERICS_LIBRARIES itkvnl itkvnl_algo itknetlib)
 
+OPTION(ITK_USE_SYSTEM_VXL "Use an outside build of VXL." OFF)
+IF(ITK_USE_SYSTEM_VXL)
+  FIND_PACKAGE(VXL)
+  IF(VXL_FOUND)
+    INCLUDE(${VXL_CMAKE_DIR}/UseVXL.cmake)
+    SET(VXL_NUMERICS_LIBRARIES vnl vnl_algo netlib vcl)
+  ELSE(VXL_FOUND)
+    MESSAGE(FATAL_ERROR "Must set VXL_DIR for ITK_USE_SYSTEM_VXL.")
+  ENDIF(VXL_FOUND)
+ELSE(ITK_USE_SYSTEM_VXL)
+  SET(VXL_NETLIB_INCLUDE_DIR ${ITK_SOURCE_DIR}/Utilities/vxl/v3p/netlib)
+  SET(VXL_NUMERICS_LIBRARIES itkvnl itkvnl_algo itknetlib)
+ENDIF(ITK_USE_SYSTEM_VXL)
 
 # Provide options to use system versions of third-party libraries.
 ITK_THIRD_PARTY_OPTION(ZLIB zlib)

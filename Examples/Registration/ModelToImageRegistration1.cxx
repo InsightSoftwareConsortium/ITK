@@ -780,7 +780,7 @@ int main( int argc, char *argv[] )
  
   // Software Guide : BeginCodeSnippet
   TransformType::ParametersType parametersScale;
-  parametersScale.resize(3);
+  parametersScale.set_size(3);
   parametersScale[0] = 1000; // angle scale
 
   for( unsigned int i=1; i<3; i++ )

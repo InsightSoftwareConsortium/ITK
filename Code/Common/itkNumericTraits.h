@@ -21,13 +21,7 @@
 #undef min
 #undef max
 
-#if (defined(_MSC_VER)) || (defined(__BORLANDC__)) || (defined(__sgi) && !defined(__GNUC__))
-#include <limits>
-#define ITK_NUMERIC_LIMITS std::numeric_limits
-#else
-#include "vnl/vnl_numeric_limits.h"
-#define ITK_NUMERIC_LIMITS vnl_numeric_limits
-#endif
+#include "vcl_limits.h" // for vcl_numeric_limits
 
 namespace itk
 {
@@ -43,7 +37,7 @@ namespace itk
  * \ingroup DataRepresentation
  */
 template <class T>
-class NumericTraits : public ITK_NUMERIC_LIMITS<T> {
+class NumericTraits : public vcl_numeric_limits<T> {
 public:
   /** Return the type of this native type. */
   typedef T ValueType; 
@@ -86,7 +80,7 @@ public:
  */
 
 template <>
-class NumericTraits<bool> : public ITK_NUMERIC_LIMITS<bool> {
+class NumericTraits<bool> : public vcl_numeric_limits<bool> {
 public:
   typedef bool ValueType;
   typedef bool PrintType;
@@ -107,7 +101,7 @@ public:
  * NOTE: char is not guarenteed to be signed. On SGI's, thge default is unsigned
  */
 template <>
-class NumericTraits<char> : public ITK_NUMERIC_LIMITS<char> {
+class NumericTraits<char> : public vcl_numeric_limits<char> {
 public:
   typedef char ValueType;
   typedef int PrintType;
@@ -131,7 +125,7 @@ public:
  * NOTE: char is not guarenteed to be signed. On SGI's, thge default is unsigned
  */
 template <>
-class NumericTraits<signed char> : public ITK_NUMERIC_LIMITS<signed char> {
+class NumericTraits<signed char> : public vcl_numeric_limits<signed char> {
 public:
   typedef signed char ValueType;
   typedef int PrintType;
@@ -155,7 +149,7 @@ public:
  * \ingroup DataRepresentation
  */
 template <>
-class NumericTraits<unsigned char> : public ITK_NUMERIC_LIMITS<unsigned char> {
+class NumericTraits<unsigned char> : public vcl_numeric_limits<unsigned char> {
 public:
   typedef unsigned char ValueType;
   typedef int PrintType;
@@ -176,7 +170,7 @@ public:
  * \brief Define traits for type short.
  */
 template <>
-class NumericTraits<short> : public ITK_NUMERIC_LIMITS<short> {
+class NumericTraits<short> : public vcl_numeric_limits<short> {
 public:
   typedef short ValueType;
   typedef short PrintType;
@@ -198,7 +192,7 @@ public:
  * \ingroup DataRepresentation
  */
 template <>
-class NumericTraits<unsigned short> : public ITK_NUMERIC_LIMITS<unsigned short> {
+class NumericTraits<unsigned short> : public vcl_numeric_limits<unsigned short> {
 public:
   typedef unsigned short ValueType;
   typedef unsigned short PrintType;
@@ -219,7 +213,7 @@ public:
  * \brief Define traits for type int.
  */
 template <>
-class NumericTraits<int> : public ITK_NUMERIC_LIMITS<int> {
+class NumericTraits<int> : public vcl_numeric_limits<int> {
 public:
   typedef int ValueType;
   typedef int PrintType;
@@ -241,7 +235,7 @@ public:
  * \ingroup DataRepresentation
  */
 template <>
-class NumericTraits<unsigned int> : public ITK_NUMERIC_LIMITS<unsigned int> {
+class NumericTraits<unsigned int> : public vcl_numeric_limits<unsigned int> {
 public:
   typedef unsigned int ValueType;
   typedef unsigned int PrintType;
@@ -265,7 +259,7 @@ public:
  * \ingroup DataRepresentation
  */
 template <>
-class NumericTraits<long> : public ITK_NUMERIC_LIMITS<long> {
+class NumericTraits<long> : public vcl_numeric_limits<long> {
 public:
   typedef long ValueType;
   typedef long PrintType;
@@ -287,7 +281,7 @@ public:
  * \ingroup DataRepresentation 
  */
 template <>
-class NumericTraits<unsigned long> : public ITK_NUMERIC_LIMITS<unsigned long> {
+class NumericTraits<unsigned long> : public vcl_numeric_limits<unsigned long> {
 public:
   typedef unsigned long ValueType;
   typedef unsigned long PrintType;
@@ -309,7 +303,7 @@ public:
  * \ingroup DataRepresentation
  */
 template <>
-class NumericTraits<float> : public ITK_NUMERIC_LIMITS<float> {
+class NumericTraits<float> : public vcl_numeric_limits<float> {
 public:
   typedef float ValueType;
   typedef float PrintType;
@@ -331,7 +325,7 @@ public:
  * \ingroup DataRepresentation 
  */
 template <>
-class NumericTraits<double> : public ITK_NUMERIC_LIMITS<double> {
+class NumericTraits<double> : public vcl_numeric_limits<double> {
 public:
   typedef double ValueType;
   typedef double PrintType;
@@ -353,7 +347,7 @@ public:
  * \ingroup DataRepresentation 
  */
 template <>
-class NumericTraits<long double> : public ITK_NUMERIC_LIMITS<long double> {
+class NumericTraits<long double> : public vcl_numeric_limits<long double> {
 public:
   typedef long double ValueType;
   typedef long double PrintType;

@@ -38,7 +38,7 @@ Element2DC0LinearLine
   // default integration order
   if (order==0) { order=DefaultIntegrationOrder; }
 
-  pt.resize(1);
+  pt.set_size(1);
 
   pt[0]=gaussPoint[order][i];
   w=gaussWeight[order][i];
@@ -83,7 +83,7 @@ void
 Element2DC0LinearLine
 ::ShapeFunctionDerivatives( const VectorType&, MatrixType& shapeD ) const
 {
-  shapeD.resize(1,2);
+  shapeD.set_size(1,2);
 
   shapeD[0][0] = -0.5;
   shapeD[0][1] =  0.5;
@@ -98,7 +98,7 @@ Element2DC0LinearLine
 {
   // Since the line element defines only one global coordinate
   // and lives in 2D space, we need to provide a custom Jacobian.
-  J.resize(1,1);
+  J.set_size(1,1);
 
   // Get the length of the element
   // Note: This simple implementation is only valid for linear line elements.

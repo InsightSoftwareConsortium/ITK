@@ -45,7 +45,7 @@ Element3DMembrane<TBaseClass>
 {
   unsigned int p;
   unsigned int Nn=this->GetNumberOfNodes();
-  B.resize(9,3*Nn); //  note minor difference from 2D membrane
+  B.set_size(9,3*Nn); //  note minor difference from 2D membrane
   
   // Copy the shape function derivatives to the B matrix.
   for (unsigned int i=0; i<Nn; i++) {
@@ -122,7 +122,7 @@ Element3DMembrane<TBaseClass>
 ::GetMaterialMatrix(MatrixType& D) const
 {
   unsigned int d=9;  
-  D.resize(d,d);
+  D.set_size(d,d);
 
   D.fill(0.0);
 

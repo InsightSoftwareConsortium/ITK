@@ -61,7 +61,7 @@ void
 Element2DC0LinearLineStress
 ::GetMassMatrix( MatrixType& Me ) const
 {
-  Me.resize(4,4);
+  Me.set_size(4,4);
   Me.fill(0.0);
 
   Float l=(m_node[1]->GetCoordinates()-m_node[0]->GetCoordinates()).magnitude();

@@ -72,9 +72,9 @@ public:
             m_TheoreticalData(SpaceDimension)  
   {
 
-    m_Measure.resize(RangeDimension);
-    m_Derivative.resize(SpaceDimension,RangeDimension);
-    m_TheoreticalData.resize(RangeDimension);
+    m_Measure.SetSize(RangeDimension);
+    m_Derivative.SetSize(SpaceDimension,RangeDimension);
+    m_TheoreticalData.SetSize(RangeDimension);
     
     // Compute points of the function over a square region
     unsigned valueindex = 0;

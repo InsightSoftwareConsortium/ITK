@@ -155,11 +155,11 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 
   // Declare and initialize the data array.
   CostFunctionType::MeasureType * cumGaussianArray = new CostFunctionType::MeasureType();
-  cumGaussianArray->resize(m_NumberOfBins);
+  cumGaussianArray->SetSize(m_NumberOfBins);
 
   // Set the parameters.
   CostFunctionType::ParametersType parameters;
-  parameters.resize(4);
+  parameters.SetSize(4);
   parameters[0] = lowerAsymptote;
   parameters[1] = upperAsymptote;
   parameters[2] = mean;
@@ -170,7 +170,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 
   // Set the data array.
   CostFunctionType::MeasureType * normalizedAccumulator = new CostFunctionType::MeasureType();
-  normalizedAccumulator->resize(m_NumberOfBins);
+  normalizedAccumulator->SetSize(m_NumberOfBins);
 
   for(int i = 0; i < (int)(m_NumberOfBins); i++)
     {

@@ -119,7 +119,7 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
   int numberOfThreads = this->GetNumberOfThreads();
 
   // Resize the thread temporaries
-  m_MaxDistance.resize(numberOfThreads);
+  m_MaxDistance.SetSize(numberOfThreads);
   
   // Initialize the temporaries
   m_MaxDistance.Fill(NumericTraits<RealType>::Zero);

@@ -109,10 +109,10 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::EvaluateMetricGivenSolution( Ele
   const unsigned int Nnodes=(*elt)->GetNumberOfNodes();
 
   FEMVectorType Gpos,Gsol;
-  Gpos.resize(ImageDimension); Gpos.fill(0.0);
-  Gsol.resize(ImageDimension); Gsol.fill(0.0);
+  Gpos.set_size(ImageDimension); Gpos.fill(0.0);
+  Gsol.set_size(ImageDimension); Gsol.fill(0.0);
 
-  solmat.resize(Nnodes*ImageDimension,1);
+  solmat.set_size(Nnodes*ImageDimension,1);
 
   for(  ; elt!=el->end(); elt++) 
   {
@@ -190,7 +190,7 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::Fe
 
   VectorType OutVec;
   FEMVectorType femVec;
-  femVec.resize(ImageDimension);
+  femVec.set_size(ImageDimension);
   femVec.fill(0.0);
 
   if (!m_DifferenceFunction || !m_DeformationField || !m_FixedImage || !m_MovingImage)

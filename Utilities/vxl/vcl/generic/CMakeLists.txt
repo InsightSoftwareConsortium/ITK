@@ -1,1 +1,1 @@
-INSTALL_FILES(/include/InsightToolkit/Utilities/vxl/vcl/generic "(\\.h|\\.txx|\\.hhh)$")
+INSTALL_FILES(${VXL_INSTALL_ROOT}/vcl/generic "(\\.h|\\.txx)$")

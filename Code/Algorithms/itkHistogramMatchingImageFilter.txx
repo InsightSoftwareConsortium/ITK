@@ -38,9 +38,9 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
   m_NumberOfHistogramLevels = 256;
   m_NumberOfMatchPoints = 1;
 
-  m_QuantileTable.resize( 3, m_NumberOfMatchPoints + 2 );
+  m_QuantileTable.set_size( 3, m_NumberOfMatchPoints + 2 );
   m_QuantileTable.fill(0);
-  m_Gradients.resize( m_NumberOfMatchPoints + 1 );
+  m_Gradients.set_size( m_NumberOfMatchPoints + 1 );
   m_Gradients.fill(0);
 
   m_ThresholdAtMeanIntensity = true;
@@ -188,7 +188,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
                             m_ReferenceMaxValue );    
    
   // Fill in the quantile table.
-  m_QuantileTable.resize( 3, m_NumberOfMatchPoints + 2 );
+  m_QuantileTable.set_size( 3, m_NumberOfMatchPoints + 2 );
   m_QuantileTable[0][0] = m_SourceIntensityThreshold;
   m_QuantileTable[1][0] = m_ReferenceIntensityThreshold;
 
@@ -206,7 +206,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
     } 
 
   // Fill in the gradient array.
-  m_Gradients.resize( m_NumberOfMatchPoints + 1 );
+  m_Gradients.set_size( m_NumberOfMatchPoints + 1 );
   double denominator;
   for ( j = 0; j < m_NumberOfMatchPoints + 1; j++ )
     {

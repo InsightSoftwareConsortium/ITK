@@ -31,7 +31,7 @@ ADD_EXECUTABLE( vcl_test_all
      test_vector.cxx
      test_cstdio.cxx
 )
-TARGET_LINK_LIBRARIES( vcl_test_all vcl )
+TARGET_LINK_LIBRARIES( vcl_test_all itkvcl )
 
 ADD_TEST( vcl_test_algorithm   vcl_test_all test_algorithm )
 ADD_TEST( vcl_test_cctype      vcl_test_all test_cctype )
@@ -57,4 +57,4 @@ ADD_TEST( vcl_test_cstdio      vcl_test_all test_cstdio ${CMAKE_CURRENT_SOURCE_D
 #ADD_TEST( vcl_test_stlfwd      vcl_test_all test_stlfwd )
 
 ADD_EXECUTABLE( vcl_test_include test_include.cxx )
-TARGET_LINK_LIBRARIES( vcl_test_include vcl )
+TARGET_LINK_LIBRARIES( vcl_test_include itkvcl )

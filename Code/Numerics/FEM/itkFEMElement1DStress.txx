@@ -43,7 +43,7 @@ void
 Element1DStress<TBaseClass>
 ::GetStrainDisplacementMatrix(MatrixType& B, const MatrixType& shapeDgl) const
 {
-  B.resize(1,2);
+  B.set_size(1,2);
   
   // Copy the shape function derivatives to the B matrix.
   B[0][0] = shapeDgl[0][0];
@@ -58,7 +58,7 @@ void
 Element1DStress<TBaseClass>
 ::GetMaterialMatrix(MatrixType& D) const
 {
-  D.resize(1,1);
+  D.set_size(1,1);
   D.fill(0.0);
 
   // Material properties matrix is a scalar

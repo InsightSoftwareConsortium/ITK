@@ -1,1 +1,1 @@
-INSTALL_FILES(/include/InsightToolkit/Utilities/vxl/vcl/egcs "(\\.h|\\.txx)$")
+INSTALL_FILES(${VXL_INSTALL_ROOT}/vcl/egcs "(\\.h|\\.txx)$")

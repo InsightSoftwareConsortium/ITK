@@ -29,7 +29,7 @@ QuaternionRigidTransform<TScalarType>
 ::QuaternionRigidTransform():Superclass(SpaceDimension,ParametersDimension) 
 {
   m_Rotation = VnlQuaternionType(0,0,0,1); // axis * sin(t/2), cos(t/2)
-  m_RotationMatrix = m_Rotation.rotation_matrix();
+  m_RotationMatrix = m_Rotation.rotation_matrix_transpose();
   m_InverseMatrix  = m_RotationMatrix.GetTranspose();
   m_Parameters.Fill(0);
   m_Parameters[3] = 1.0;
@@ -62,10 +62,10 @@ SetRotation(const VnlQuaternionType &rotation )
   VnlQuaternionType conjugateRotation = m_Rotation.conjugate();
   // this is done to compensate for the transposed representation
   // between VNL and ITK
-  m_RotationMatrix  = conjugateRotation.rotation_matrix();
+  m_RotationMatrix  = conjugateRotation.rotation_matrix_transpose();
 
   VnlQuaternionType inverseRotation = conjugateRotation.inverse();
-  m_InverseMatrix = inverseRotation.rotation_matrix();
+  m_InverseMatrix = inverseRotation.rotation_matrix_transpose();
   return;
 }
 

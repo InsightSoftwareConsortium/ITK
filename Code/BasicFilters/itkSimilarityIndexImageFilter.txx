@@ -117,9 +117,9 @@ SimilarityIndexImageFilter<TInputImage1, TInputImage2>
   int numberOfThreads = this->GetNumberOfThreads();
 
   // Resize the thread temporaries
-  m_CountOfImage1.resize(numberOfThreads);
-  m_CountOfImage2.resize(numberOfThreads);
-  m_CountOfIntersection.resize(numberOfThreads);
+  m_CountOfImage1.SetSize(numberOfThreads);
+  m_CountOfImage2.SetSize(numberOfThreads);
+  m_CountOfIntersection.SetSize(numberOfThreads);
   
   // Initialize the temporaries
   m_CountOfImage1.Fill(NumericTraits<unsigned long>::Zero);

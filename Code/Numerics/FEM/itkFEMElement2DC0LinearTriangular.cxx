@@ -91,7 +91,7 @@ Element2DC0LinearTriangular
   // default integration order
   if (order==0 || order>5) { order=DefaultIntegrationOrder; }
 
-  pt.resize(3);
+  pt.set_size(3);
 
   /*
    * We provide implementation for 5 different integration rules
@@ -153,7 +153,7 @@ Element2DC0LinearTriangular
 {
   // Matrix of shape functions derivatives is an
   // identity matrix for linear triangular element.
-  shapeD.resize(3,3);
+  shapeD.set_size(3,3);
   shapeD.fill(0.0);
   shapeD[0][0]=1.0;
   shapeD[1][1]=1.0;
@@ -172,7 +172,7 @@ Element2DC0LinearTriangular
         y, y1, y2, y3,
         A;
 
-  localPt.resize(3);
+  localPt.set_size(3);
 
   x=globalPt[0]; y=globalPt[1];
   x1 = this->m_node[0]->GetCoordinates()[0];   y1 = this->m_node[0]->GetCoordinates()[1];
@@ -244,7 +244,7 @@ Element2DC0LinearTriangular
   }
 
   // Note that inverse of Jacobian is not quadratic matrix
-  invJ.resize(2,3);
+  invJ.set_size(2,3);
 
   Float idet=1.0/this->JacobianDeterminant( pt, pJ );
 

@@ -104,13 +104,13 @@ ImageToSpatialObjectRegistrationMethod<TFixedImage,TMovingSpatialObject>
     {
     std::cout << " WARNING : Size mismatch between initial parameter and transform" << std::endl;
     std::cout << "Resizing m_InitialTransformParameters to  " << m_Transform->GetNumberOfParameters() << std::endl;
-    m_InitialTransformParameters.resize(m_Transform->GetNumberOfParameters());
+    m_InitialTransformParameters.set_size(m_Transform->GetNumberOfParameters());
     m_InitialTransformParameters.Fill( 0.0f );
     }
 
   if ( m_LastTransformParameters.Size() != m_Transform->GetNumberOfParameters() )
     {
-    m_LastTransformParameters.resize(m_Transform->GetNumberOfParameters());
+    m_LastTransformParameters.set_size(m_Transform->GetNumberOfParameters());
     m_LastTransformParameters.Fill( 0.0f );
     }
 

@@ -65,7 +65,7 @@ Element2DC1Beam
   // default integration order
   if (order==0) { order=DefaultIntegrationOrder; }
 
-  pt.resize(1);
+  pt.set_size(1);
 
   pt[0]=gaussPoint[order][i];
   w=gaussWeight[order][i];
@@ -110,7 +110,7 @@ Element2DC1Beam
 {
   // FIXME: write proper implementation, since we need the 2nd
   //        order derivatives
-  shapeD.resize(1,2);
+  shapeD.set_size(1,2);
   shapeD.fill(0.0);
 }
 

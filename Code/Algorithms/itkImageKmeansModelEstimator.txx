@@ -172,7 +172,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>
     initCodebookSize = (unsigned long) 1;
     finalCodebookSize= (unsigned long)m_NumberOfCodewords;
 
-    m_Codebook.resize( initCodebookSize, m_VectorDimension );
+    m_Codebook.set_size( initCodebookSize, m_VectorDimension );
 
     // initialize m_Codebook to 0 (it now has only one row) 
     m_Codebook.fill( 0 );
@@ -183,13 +183,13 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>
   //Allocate scratch memory for the centroid, codebook histogram
   //and the codebook distorsion
 
-  m_Centroid.resize( finalCodebookSize, m_VectorDimension );
+  m_Centroid.set_size( finalCodebookSize, m_VectorDimension );
   m_Centroid.fill( 0 );
 
-  m_CodewordHistogram.resize( m_NumberOfCodewords, 1 ); 
+  m_CodewordHistogram.set_size( m_NumberOfCodewords, 1 ); 
   m_CodewordHistogram.fill( 0 );
 
-  m_CodewordDistortion.resize( m_NumberOfCodewords, 1 );  
+  m_CodewordDistortion.set_size( m_NumberOfCodewords, 1 );  
   m_CodewordDistortion.fill( 0 );
 
 } // end Allocate function
@@ -209,7 +209,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>
 
   //Save the contents of m_Codebook in the tmpCodebook
   tmpCodebook = m_Codebook;
-  m_Codebook.resize( newSize, m_VectorDimension );
+  m_Codebook.set_size( newSize, m_VectorDimension );
 
   // Copy back the saved data into the codebook
 

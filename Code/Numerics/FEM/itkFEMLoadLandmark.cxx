@@ -40,16 +40,16 @@ void LoadLandmark::Read( std::istream& f, void*)
 
   // read the dimensions of the undeformed point and set the size of the point accordingly
   SkipWhiteSpace(f); f>>n1; if(!f) goto out;
-  pu.resize(n1);
-  this->m_pt.resize(n1);
+  pu.set_size(n1);
+  this->m_pt.set_size(n1);
 
   // read the undeformed point in global coordinates
   SkipWhiteSpace(f); f>>pu; if(!f) goto out;
 
   // Read the dimensions of the deformed point and set the size of the point accordingly
   SkipWhiteSpace(f); f>>n2; if(!f) goto out;
-  pd.resize(n2);
-  m_force.resize(n2);
+  pd.set_size(n2);
+  m_force.set_size(n2);
 
   // read the deformed point in global coordinates
   SkipWhiteSpace(f); f>>pd; if(!f) goto out;

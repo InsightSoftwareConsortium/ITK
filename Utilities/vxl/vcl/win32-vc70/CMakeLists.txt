@@ -1,1 +1,1 @@
-INSTALL_FILES(/include/InsightToolkit/Utilities/vxl/vcl/win32-vc70 "(\\.h|\\.txx)$")
+INSTALL_FILES(${VXL_INSTALL_ROOT}/vcl/win32-vc70 "(\\.h|\\.txx)$")

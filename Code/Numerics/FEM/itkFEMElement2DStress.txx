@@ -45,7 +45,7 @@ Element2DStress<TBaseClass>
 {
   unsigned int p;
   unsigned int Nn=this->GetNumberOfNodes();
-  B.resize(3,2*Nn);
+  B.set_size(3,2*Nn);
   
   // Copy the shape function derivatives to the B matrix.
   for (unsigned int i=0; i<Nn; i++) {
@@ -86,7 +86,7 @@ void
 Element2DStress<TBaseClass>
 ::GetMaterialMatrix(MatrixType& D) const
 {
-  D.resize(3,3);
+  D.set_size(3,3);
 
   /* Material properties matrix */
   Float disot = (m_mat->h * m_mat->E)/(1.0 - (m_mat->nu*m_mat->nu));

@@ -41,7 +41,7 @@ LoadImplementationGenericLandmarkLoad
   Element::VectorType force( NnDOF, 0.0 ), disp( NnDOF, 0.0 ), new_source (NnDOF, 0.0);
   Element::VectorType shapeF;
 
-  Fe.resize(element->GetNumberOfDegreesOfFreedom());
+  Fe.set_size(element->GetNumberOfDegreesOfFreedom());
   Fe.fill(0.0);
 
   // Retrieve the local coordinate at which the force acts

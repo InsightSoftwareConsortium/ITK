@@ -60,7 +60,7 @@ void LoadNode::Read( std::istream& f, void* info )
     
   /** read and set the number of elements inside a force vector */
   SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  this->F.resize(n);  
+  this->F.set_size(n);  
 
   /** read the force vector itself */
   SkipWhiteSpace(f); f>>this->F; if(!f) goto out;

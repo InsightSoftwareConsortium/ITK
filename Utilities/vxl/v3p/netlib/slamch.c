@@ -63,7 +63,7 @@ real slamch_(const char *cmach)
     static real emin, prec, emax;
     static integer imin, imax;
     static logical lrnd;
-    static real rmin, rmax, t, rmach;
+    static real rmin, rmax, t;
     static real small, sfmin;
     static integer it;
     static real rnd, eps;
@@ -88,39 +88,23 @@ real slamch_(const char *cmach)
         sfmin = rmin;
         small = 1.f / rmax;
         if (small >= sfmin) {
-
-/*           Use SMALL plus a bit, to avoid the possibility of rounding
-             causing overflow when computing  1/sfmin.
-*/
-
+            /* Use SMALL plus a bit, to avoid the possibility of rounding */
+            /* causing overflow when computing  1/sfmin. */
             sfmin = small * (eps + 1.f);
         }
     }
 
-    if (lsame_(cmach, "E")) {
-        rmach = eps;
-    } else if (lsame_(cmach, "S")) {
-        rmach = sfmin;
-    } else if (lsame_(cmach, "B")) {
-        rmach = base;
-    } else if (lsame_(cmach, "P")) {
-        rmach = prec;
-    } else if (lsame_(cmach, "N")) {
-        rmach = t;
-    } else if (lsame_(cmach, "R")) {
-        rmach = rnd;
-    } else if (lsame_(cmach, "M")) {
-        rmach = emin;
-    } else if (lsame_(cmach, "U")) {
-        rmach = rmin;
-    } else if (lsame_(cmach, "L")) {
-        rmach = emax;
-    } else if (lsame_(cmach, "O")) {
-        rmach = rmax;
-    }
-
-    return rmach;
-
+    if      (*cmach=='E' || *cmach=='e') return eps;   /* 1.19209e-7f */
+    else if (*cmach=='S' || *cmach=='s') return sfmin; /* 1.17549e-38f */
+    else if (*cmach=='B' || *cmach=='b') return base;  /* 2.f */
+    else if (*cmach=='P' || *cmach=='p') return prec;  /* 2.38419e-7.f */
+    else if (*cmach=='N' || *cmach=='n') return t;     /* 24.f */
+    else if (*cmach=='R' || *cmach=='r') return rnd;   /* 0.f */
+    else if (*cmach=='M' || *cmach=='m') return emin;  /* -125.f */
+    else if (*cmach=='U' || *cmach=='u') return rmin;  /* 1.17549e-38f */
+    else if (*cmach=='L' || *cmach=='l') return emax;  /* 128.f */
+    else if (*cmach=='O' || *cmach=='o') return rmax;  /* 3.40282e38f */
+    else return 0.f; /* in case a non-documented argument was passed */
 } /* slamch_ */
 
 /* Subroutine */ void slamc1_(integer *beta, integer *t, logical *rnd, logical *ieee1)
@@ -189,17 +173,14 @@ real slamch_(const char *cmach)
     if (first) {
         first = FALSE_;
 
-/*        LBETA,  LIEEE1,  LT and  LRND  are the  local values  of  BETA,
-          IEEE1, T and RND.
+        /* LBETA,  LIEEE1,  LT and  LRND  are the  local values  of  BETA, IEEE1, T and RND. */
 
-          Throughout this routine  we use the function  SLAMC3  to ensure
-          that relevant values are  stored and not held in registers, or
-          are not affected by optimizers.
+        /* Throughout this routine  we use the function  SLAMC3  to ensure */
+        /* that relevant values are  stored and not held in registers, or */
+        /* are not affected by optimizers. */
 
-          Compute  a = 2.0**m  with the  smallest positive integer m such
-          that
-               fl( a + 1.0 ) = a.
-*/
+        /* Compute  a = 2.0**m  with the  smallest positive integer m such that */
+        /*      fl( a + 1.0 ) = a. */
 
         a = c = one;
 
@@ -210,44 +191,40 @@ real slamch_(const char *cmach)
             c = slamc3_(&c, &r__1);
         }
 
-/*        Now compute  b = 2.0**m  with the smallest positive integer m
-          such that
-             fl( a + b ) .gt. a.
-*/
+        /* Now compute  b = 2.0**m  with the smallest positive integer m such that */
+        /*  fl( a + b ) .gt. a. */
 
         b = one;
         c = slamc3_(&a, &b);
 
-/* The next two lines of code were replaced by Ian Scott from the original line
-  > while (c==a) {
-  During a optimised build under MSVC, the compiler was using the value of
-  C still in a register in while loop test. This is an 80-bit value rather than
-  the 64 bit value it uses after saving and loading from memory.
-  So the 80 bit precision value was having 1 added, making it a different number
-  and so not executing the loop.
-  The call to slamc3_ in the loop condition forces the value to 64-bit precision
-  as during the previous calculation.
-*/
+        /* The next two lines of code were replaced by Ian Scott from the original line
+                     while (c==a) {
+          During a optimised build under MSVC, the compiler was using the value of
+          C still in a register in while loop test. This is an 80-bit value rather than
+          the 64 bit value it uses after saving and loading from memory.
+          So the 80 bit precision value was having 1 added, making it a different number
+          and so not executing the loop.
+          The call to slamc3_ in the loop condition forces the value to 64-bit precision
+          as during the previous calculation.
+        */
         r__1 = -a;
         while (slamc3_(&c, &r__1) == 0.f) {
             b *= 2;
             c = slamc3_(&a, &b);
         }
 
-/*        Now compute the base.  a and c  are neighbouring floating point
-          numbers  in the  interval  ( beta**t, beta**( t + 1 ) )  and so
-          their difference is beta. Adding 0.25 to c is to ensure that it
-          is truncated to beta and not ( beta - 1 ).
-*/
+        /* Now compute the base.  a and c  are neighbouring floating point */
+        /* numbers  in the  interval  ( beta**t, beta**( t + 1 ) )  and so */
+        /* their difference is beta. Adding 0.25 to c is to ensure that it */
+        /* is truncated to beta and not ( beta - 1 ). */
 
         savec = c;
         r__1 = -a;
         c = slamc3_(&c, &r__1);
         lbeta = (integer)(c + 0.25f);
 
-/*        Now determine whether rounding or chopping occurs,  by adding a
-          bit  less  than  beta/2  and a  bit  more  than  beta/2  to a.
-*/
+        /* Now determine whether rounding or chopping occurs,  by adding a */
+        /* bit  less  than  beta/2  and a  bit  more  than  beta/2  to a. */
 
         b = (real) lbeta;
         r__1 = b / 2;
@@ -267,12 +244,11 @@ real slamch_(const char *cmach)
             lrnd = FALSE_;
         }
 
-/*        Try and decide whether rounding is done in the  IEEE  'round to
-          nearest' style. B/2 is half a unit in the last place of the two
-          numbers A and SAVEC. Furthermore, A is even, i.e. has last bit
-          zero, and SAVEC is odd. Thus adding B/2 to A should not  change
-          A, but adding B/2 to SAVEC should change SAVEC.
-*/
+        /* Try and decide whether rounding is done in the  IEEE  'round to */
+        /* nearest' style. B/2 is half a unit in the last place of the two */
+        /* numbers A and SAVEC. Furthermore, A is even, i.e. has last bit */
+        /* zero, and SAVEC is odd. Thus adding B/2 to A should not  change */
+        /* A, but adding B/2 to SAVEC should change SAVEC. */
 
         r__1 = b / 2;
         t1 = slamc3_(&r__1, &a);
@@ -280,12 +256,11 @@ real slamch_(const char *cmach)
         t2 = slamc3_(&r__1, &savec);
         lieee1 = t1 == a && t2 > savec && lrnd;
 
-/*        Now find  the  mantissa, t.  It should  be the  integer part of
-          log to the base beta of a,  however it is safer to determine t
-          by powering.  So we find t as the smallest positive integer for
-          which
-
-             fl( beta**t + 1.0 ) = 1.0. */
+        /* Now find  the  mantissa, t.  It should  be the  integer part of */
+        /* log to the base beta of a,  however it is safer to determine t */
+        /* by powering.  So we find t as the smallest positive integer for */
+        /* which */
+        /*    fl( beta**t + 1.0 ) = 1.0. */
 
         lt = 0;
         a = c = one;
@@ -408,14 +383,14 @@ real slamch_(const char *cmach)
 
         slamc1_(&lbeta, &lt, &lrnd, &lieee1);
 
-/*        Start to find EPS. */
+        /* Start to find EPS. */
 
         b = (real) lbeta;
         i__1 = -lt;
         a = pow_ri(&b, &i__1);
         leps = a;
 
-/*        Try some tricks to see whether or not this is the correct  EPS. */
+        /* Try some tricks to see whether or not this is the correct  EPS. */
 
         b = 2.f / 3;
         r__1 = -half;
@@ -472,32 +447,32 @@ real slamch_(const char *cmach)
         if (ngpmin == ngnmin && gpmin == gnmin) {
             if (ngpmin == gpmin) {
                 lemin = ngpmin;
-/*            ( Non twos-complement machines, no gradual underflow; e.g.,  VAX ) */
+                /* ( Non twos-complement machines, no gradual underflow; e.g.,  VAX ) */
             } else if (gpmin - ngpmin == 3) {
                 lemin = ngpmin - 1 + lt;
                 ieee = TRUE_;
-/*            ( Non twos-complement machines, with gradual underflow; e.g., IEEE standard followers ) */
+                /* ( Non twos-complement machines, with gradual underflow; e.g., IEEE standard followers ) */
             } else {
                 lemin = min(ngpmin,gpmin);
-/*            ( A guess; no known machine ) */
+                /* ( A guess; no known machine ) */
                 iwarn = TRUE_;
             }
         } else if (ngpmin == gpmin && ngnmin == gnmin) {
             if (abs(ngpmin - ngnmin) == 1) {
                 lemin = max(ngpmin,ngnmin);
-/*            ( Twos-complement machines, no gradual underflow; e.g., CYBER 205 ) */
+                /* ( Twos-complement machines, no gradual underflow; e.g., CYBER 205 ) */
             } else {
                 lemin = min(ngpmin,ngnmin);
-/*            ( A guess; no known machine ) */
+                /* ( A guess; no known machine ) */
                 iwarn = TRUE_;
             }
         } else if (abs(ngpmin - ngnmin) == 1 && gpmin == gnmin) {
             if (gpmin - min(ngpmin,ngnmin) == 3) {
                 lemin = max(ngpmin,ngnmin) - 1 + lt;
-/*            ( Twos-complement machines with gradual underflow; no known machine ) */
+                /* ( Twos-complement machines with gradual underflow; no known machine ) */
             } else {
                 lemin = min(ngpmin,ngnmin);
-/*            ( A guess; no known machine ) */
+                /* ( A guess; no known machine ) */
                 iwarn = TRUE_;
             }
         } else {
@@ -505,15 +480,15 @@ real slamch_(const char *cmach)
 /*         ( A guess; no known machine ) */
             iwarn = TRUE_;
         }
-/* ** Comment out this if block if EMIN is ok */
+        /* ** Comment out this if block if EMIN is ok */
         if (iwarn) {
             first = TRUE_;
-            printf("\n\n WARNING. The value EMIN may be incorrect:- ");
+            printf("\n\n WARNING. The value EMIN may be incorrect: - ");
             printf("EMIN = %8i\n",lemin);
             printf("If, after inspection, the value EMIN looks acceptable");
-            printf("please comment out \n the IF block as marked within the");
-            printf("code of routine SLAMC2, \n otherwise supply EMIN");
-            printf("explicitly.\n");
+            printf(" please comment out\n the IF block as marked within the");
+            printf(" code of routine SLAMC2,\n otherwise supply EMIN");
+            printf(" explicitly.\n");
         }
 /* **     Assume IEEE arithmetic if we found denormalised  numbers above,
           or if arithmetic seems to round in the  IEEE style,  determined
@@ -550,11 +525,13 @@ real slamch_(const char *cmach)
 } /* slamc2_ */
 
 
-// Microsoft Visual C++ 2003 produces bad code when the following
-// routine is optimized.  Turn off the optimization for this one
-// routine and turn back on any optimizations after this routine.
+/* Microsoft Visual C++ 2003 produces bad code when the following */
+/* routine is optimized.  Turn off the optimization for this one  */
+/* routine and turn back on any optimizations after this routine. */
+#if defined(_WIN32) || defined(WIN32)
 #if (_MSC_VER >= 1310)
 #pragma optimize("", off)
+#endif
 #endif
 
 real slamc3_(real *a, real *b)
@@ -583,11 +560,12 @@ real slamc3_(real *a, real *b)
     return *a + *b;
 } /* slamc3_ */
 
-// Turn the optimizations back on for Visual Studio .NET 2003
+/* Turn the optimizations back on for Visual Studio .NET 2003 */
+#if defined(_WIN32) || defined(WIN32)
 #if (_MSC_VER >= 1310)
 #pragma optimize("", on)
 #endif
-
+#endif
 
 /* Subroutine */ void slamc4_(integer *emin, real *start, integer *base)
 {
@@ -655,7 +633,7 @@ real slamc3_(real *a, real *b)
 } /* slamc4_ */
 
 /* Subroutine */ void slamc5_(integer *beta, integer *p, integer *emin,
-        logical *ieee, integer *emax, real *rmax)
+                              logical *ieee, integer *emax, real *rmax)
 {
 /*  -- LAPACK auxiliary routine (version 2.0) --
        Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -741,15 +719,13 @@ real slamc3_(real *a, real *b)
         expsum = uexp << 1;
     }
 
-/*     EXPSUM is the exponent range, approximately equal to EMAX - EMIN + 1 . */
-
+    /* EXPSUM is the exponent range, approximately equal to EMAX - EMIN + 1 . */
     *emax = expsum + *emin - 1;
     nbits = exbits + 1 + *p;
 
 /*     NBITS is the total number of bits needed to store a floating-point number. */
 
     if (nbits % 2 == 1 && *beta == 2) {
-
 /*        Either there are an odd number of bits used to store a
           floating-point number, which is unlikely, or some bits are
           not used in the representation of numbers, which is possible,
@@ -761,21 +737,16 @@ real slamc3_(real *a, real *b)
           system. On machines like Cray, we are reducing EMAX by one
           unnecessarily.
 */
-
         --(*emax);
     }
 
     if (*ieee) {
-
-/*        Assume we are on an IEEE machine which reserves one exponent for infinity and NaN. */
-
+        /* Assume we are on an IEEE machine which reserves one exponent for infinity and NaN. */
         --(*emax);
     }
 
-/*     Now create RMAX, the largest machine number, which should
-       be equal to (1.0 - BETA**(-P)) * BETA**EMAX .
-
-       First compute 1.0 - BETA**(-P), being careful that the result is less than 1.0 . */
+/*  Now create RMAX, the largest machine number, which should be equal to (1.0 - BETA**(-P)) * BETA**EMAX . */
+/*  First compute 1.0 - BETA**(-P), being careful that the result is less than 1.0 . */
 
     recbas = 1.f / *beta;
     z = *beta - 1.f;
@@ -791,8 +762,7 @@ real slamc3_(real *a, real *b)
         y = oldy;
     }
 
-/*     Now multiply by BETA**EMAX to get RMAX. */
-
+    /* Now multiply by BETA**EMAX to get RMAX. */
     for (i = 1; i <= *emax; ++i) {
         r__1 = y * *beta;
         y = slamc3_(&r__1, &c_b5);

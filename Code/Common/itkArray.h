@@ -74,7 +74,8 @@ public:
   void SetElement( unsigned int i, const TValueType & value )
     { this->operator[]( i ) = value; }
 
-
+  /** Destructively set the size to that given.  Will lose data.  */
+  void SetSize(unsigned int sz);
 
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */

@@ -109,7 +109,7 @@ MahalanobisDistanceMembershipFunction< TVector >
   // a very large number; otherwise, inverse it 
   if( cov_sum < m_Epsilon ) 
     {
-    m_InverseCovariance.resize( VectorDimension, VectorDimension );
+    m_InverseCovariance.set_size( VectorDimension, VectorDimension );
     m_InverseCovariance.set_identity();
     m_InverseCovariance *= m_DoubleMax;
     }
@@ -118,7 +118,7 @@ MahalanobisDistanceMembershipFunction< TVector >
     // check if num_bands == 1, if it is, we just use 1 to divide it
     if( VectorDimension < 2 ) 
       {
-      m_InverseCovariance.resize(1,1);
+      m_InverseCovariance.set_size(1,1);
       m_InverseCovariance[0][0] = 1.0 / m_Covariance[0][0];
       }
     else 

@@ -41,7 +41,7 @@
 #include "itkDifferenceImageFilter.h"
 #include "itkImageRegion.h"
 
-#define ITK_TEST_DIMENSION_MAX 9
+#define ITK_TEST_DIMENSION_MAX 6
 
 typedef int (*MainFuncPointer)(int , char* [] );
 std::map<std::string, MainFuncPointer> StringToTestFunctionMap;

@@ -157,7 +157,7 @@ SET( netlib_sources
   snlaso.c
 
   # from OPT
-  lbfgs.c
+  lbfgs.c lbfgs.h
   lbfgs-lb1.c
 
   # from LAPACK
@@ -282,32 +282,19 @@ SET( netlib_sources
   i_dnnt.c
 
   # The "Triangle" program of Jonathan Richard Shewchuk
-#  triangle.h triangle.c
+  triangle.h triangle.c
 )
 
 IF(CMAKE_COMPILER_IS_GNUCXX)
-  SET_SOURCE_FILES_PROPERTIES(gpfa5f.c COMPILE_FLAGS -O0)
-  SET_SOURCE_FILES_PROPERTIES(dgpfa5f.c COMPILE_FLAGS -O0)
-  SET_SOURCE_FILES_PROPERTIES(zlarfx.c COMPILE_FLAGS -Os)
+  SET_SOURCE_FILES_PROPERTIES(gpfa5f.c PROPERTIES COMPILE_FLAGS -O0)
+  SET_SOURCE_FILES_PROPERTIES(dgpfa5f.c PROPERTIES COMPILE_FLAGS -O0)
+  SET_SOURCE_FILES_PROPERTIES(zlarfx.c PROPERTIES COMPILE_FLAGS -Os)
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
-
-IF(CMAKE_C_COMPILER MATCHES "icc")
-  # Disable floating point size warnings.  They are present in this
-  # source file on purpose.
-  SET_SOURCE_FILES_PROPERTIES(rpoly.c COMPILE_FLAGS -wd239,264)
-ENDIF(CMAKE_C_COMPILER MATCHES "icc")
 
 ADD_LIBRARY( itknetlib ${netlib_sources} )
 
 IF(UNIX)
   TARGET_LINK_LIBRARIES( itknetlib m )
 ENDIF(UNIX)
+
 INSTALL_TARGETS(/lib/InsightToolkit itknetlib)
-
-IF(BUILD_TESTING)
-  SUBDIRS(tests)
-ENDIF(BUILD_TESTING)
-
-IF(BUILD_EXAMPLES)
-#  SUBDIRS(examples)
-ENDIF(BUILD_EXAMPLES)

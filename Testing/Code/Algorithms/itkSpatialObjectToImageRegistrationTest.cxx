@@ -362,7 +362,7 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
 
   /** Setup the optimizer */
   TransformType::ParametersType m_ParametersScale;
-  m_ParametersScale.resize(3);
+  m_ParametersScale.set_size(3);
 
   m_ParametersScale[0]=100; // angle scale
 
@@ -374,7 +374,7 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   optimizer->SetScales( m_ParametersScale );
 
   TransformType::ParametersType initialParameters;
-  initialParameters.resize(3);
+  initialParameters.set_size(3);
 
   initialParameters[0] = 0.2; // angle
   initialParameters[1] = 7; // offset 

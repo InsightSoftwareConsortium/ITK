@@ -94,7 +94,7 @@ DifferenceImageFilter<TInputImage, TOutputImage>
   m_TotalDifference = NumericTraits<AccumulateType>::Zero;
   
   // Resize the thread temporaries
-  m_ThreadDifferenceSum.resize(numberOfThreads);
+  m_ThreadDifferenceSum.SetSize(numberOfThreads);
   
   // Initialize the temporaries
   m_ThreadDifferenceSum.Fill(NumericTraits<AccumulateType>::Zero);

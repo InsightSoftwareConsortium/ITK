@@ -568,7 +568,7 @@ PREDEFINED  =  "itkNotUsed(x)="\
                   virtual const char *GetClassName() const;" \
                "itkConceptMacro(name,concept)= \
                   enum { name = 0 };" \
-               "ITK_NUMERIC_LIMITS= \
+               "vcl_numeric_limits= \
                   std::numeric_limits" \
                "ITK_TYPENAME= \
                   typename" \

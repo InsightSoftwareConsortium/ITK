@@ -57,7 +57,7 @@ void LoadBC::Read( std::istream& f, void* info )
 
   /* read the value to which the DOF is fixed */
   SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  this->m_value.resize(n);
+  this->m_value.set_size(n);
   SkipWhiteSpace(f); f>>this->m_value; if(!f) goto out;
 
 out:

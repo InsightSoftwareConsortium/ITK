@@ -114,7 +114,7 @@ ImageMetricLoad<TMoving , TFixed>::EvaluateMetricGivenSolution( Element::ArrayTy
   Element::ArrayType::iterator elt=el->begin();
   const unsigned int Nnodes=(*elt)->GetNumberOfNodes();
 
-  solmat.resize(Nnodes*ImageDimension,1);
+  solmat.set_size(Nnodes*ImageDimension,1);
 
   for(  ; elt!=el->end(); elt++) 
   {
@@ -194,7 +194,7 @@ ImageMetricLoad<TMoving , TFixed>::Fe
         vnl_math_isnan(Gsol[k])  || vnl_math_isinf(Gsol[k]) ||
          fabs(Gpos[k]) > 1.e33  || fabs(Gsol[k]) > 1.e33  ) 
     {
-      OutVec.resize(ImageDimension);  OutVec.fill(0.0);  return OutVec;
+      OutVec.set_size(ImageDimension);  OutVec.fill(0.0);  return OutVec;
     }
   }
 //  OutVec=this->MetricFiniteDiff(Gpos,Gsol); // gradient direction
@@ -211,7 +211,7 @@ ImageMetricLoad<TMoving , TFixed>::Fe
   FixedRadiusType regionRadius;
   typename FixedType::IndexType tindex;
   typename MovingType::IndexType rindex; 
-  OutVec.resize(ImageDimension);
+  OutVec.set_size(ImageDimension);
 
   int lobordercheck=0,hibordercheck=0;
   for( unsigned int k = 0; k < ImageDimension; k++ )
@@ -355,7 +355,7 @@ ImageMetricLoad<TMoving , TFixed>::MetricFiniteDiff
   FixedRadiusType regionRadius;
 
   VectorType OutVec;
-  OutVec.resize(ImageDimension);
+  OutVec.set_size(ImageDimension);
 
   for( unsigned int k = 0; k < ImageDimension; k++ )
   { 
@@ -434,7 +434,7 @@ ImageMetricLoad<TMoving , TFixed>::GetPolynomialFitToMetric
   typename ImageType::IndexType temp;
 
   VectorType chebycoefs; // gradient direction
-  chebycoefs.resize(ImageDimension);
+  chebycoefs.set_size(ImageDimension);
   double chebycoefs0=0.0;  // the constant term
   double datatotal=0.0;
   double a0norm=1.0;

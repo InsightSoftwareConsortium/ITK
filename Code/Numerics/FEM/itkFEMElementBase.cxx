@@ -97,7 +97,7 @@ void Element::Node::Read(  std::istream& f, void* info )
    * Read and set node coordinates
    */
   SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  this->m_coordinates.resize(n);
+  this->m_coordinates.set_size(n);
   SkipWhiteSpace(f); f>>this->m_coordinates; if(!f) goto out;
 
 out:
@@ -250,7 +250,7 @@ void Element::GetLandmarkContributionMatrix(float eta, MatrixType& Le) const
   const unsigned int NDOF = GetNumberOfDegreesOfFreedom();
   const unsigned int Nip=this->GetNumberOfIntegrationPoints(0);
 
-  Le.resize(NDOF,NDOF); // resize the target matrix object
+  Le.set_size(NDOF,NDOF); // resize the target matrix object
   Le.fill(0.0);
 
   Float w;
@@ -306,7 +306,7 @@ void Element::GetMassMatrix( MatrixType& Me ) const
   const unsigned int NDOF = GetNumberOfDegreesOfFreedom();
   const unsigned int Nip=this->GetNumberOfIntegrationPoints(0);
 
-  Me.resize(NDOF,NDOF); // resize the target matrix object
+  Me.set_size(NDOF,NDOF); // resize the target matrix object
   Me.fill(0.0);
 
   Float w;

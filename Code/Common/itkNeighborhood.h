@@ -220,7 +220,7 @@ protected:
 
   /** Allocates the neighborhood's memory buffer. */
   virtual void Allocate(unsigned int i)
-    { m_DataBuffer.resize(i); }
+    { m_DataBuffer.set_size(i); }
 
   /** Standard itk object method. */
   virtual void PrintSelf(std::ostream&, Indent) const;

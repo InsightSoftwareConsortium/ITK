@@ -1,4 +1,4 @@
-LINK_LIBRARIES(itknetlib)
+LINK_LIBRARIES(netlib)
 
 INCLUDE(${MODULE_PATH}/FindNetlib.cmake)
 IF(NETLIB_FOUND)

@@ -90,11 +90,11 @@ private:
                          ip,gip,gsol,force_tmp,shapef;
     Element::Float w,detJ;
 
-    Fe.resize(element->GetNumberOfDegreesOfFreedom());
+    Fe.set_size(element->GetNumberOfDegreesOfFreedom());
     Fe.fill(0.0);
-    shapef.resize(Nnodes);
-    gsol.resize(Ndofs);
-    gip.resize(Ndofs);
+    shapef.set_size(Nnodes);
+    gsol.set_size(Ndofs);
+    gip.set_size(Ndofs);
 
     for(unsigned int i=0; i<Nip; i++)
     {

@@ -102,9 +102,9 @@ CumulativeGaussianOptimizer
   int sampledGaussianArraySize = sampledGaussianArray->GetNumberOfElements();
   int extendedArraySize = 3 * sampledGaussianArraySize;
   MeasureType * extendedArray = new MeasureType();  
-  extendedArray->resize(extendedArraySize);
+  extendedArray->SetSize(extendedArraySize);
   MeasureType * extendedArrayCopy = new MeasureType(); 
-  extendedArrayCopy->resize(extendedArraySize);
+  extendedArrayCopy->SetSize(extendedArraySize);
 
   double averageSumOfSquaredDifferences = m_DifferenceTolerance;
   
@@ -231,10 +231,10 @@ CumulativeGaussianOptimizer
 //  int cumGaussianArrayCopySize = cumGaussianArraySize;
   
   MeasureType * sampledGaussianArray = new MeasureType();
-  sampledGaussianArray->resize(sampledGaussianArraySize);
+  sampledGaussianArray->SetSize(sampledGaussianArraySize);
 
   MeasureType * cumGaussianArrayCopy = new MeasureType();
-  cumGaussianArrayCopy->resize(cumGaussianArraySize);
+  cumGaussianArrayCopy->SetSize(cumGaussianArraySize);
 
   // Make a copy of the Cumulative Gaussian sampled data array.
   for(int j = 0; j < cumGaussianArraySize; j++)
@@ -242,7 +242,7 @@ CumulativeGaussianOptimizer
   
   // Take the derivative of the data array resulting in a Gaussian array.
   MeasureType * derivative = new MeasureType();
-  derivative->resize(cumGaussianArraySize - 1);
+  derivative->SetSize(cumGaussianArraySize - 1);
 
   for(int i=1; i < (int)(derivative->GetNumberOfElements()+1); i++)
     derivative->put(i-1, m_CumulativeGaussianArray->get(i) - m_CumulativeGaussianArray->get(i-1) );
@@ -282,7 +282,7 @@ CumulativeGaussianOptimizer
   m_LowerAsymptote = y - m_ComputedTransitionHeight/2;
 
   m_FinalSampledArray = new MeasureType();
-  m_FinalSampledArray->resize(sampledGaussianArray->GetNumberOfElements());
+  m_FinalSampledArray->SetSize(sampledGaussianArray->GetNumberOfElements());
   for(int i = 0; i < (int)(m_FinalSampledArray->GetNumberOfElements()); i++)
     {
     m_FinalSampledArray->put(i, sampledGaussianArray->get(i));

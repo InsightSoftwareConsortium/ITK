@@ -258,7 +258,7 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
     }
 
     // VNL uses transposed matrices.
-    vnl_matrix_fixed<double,3,3> mrotation = qrotation.rotation_matrix();
+    vnl_matrix_fixed<double,3,3> mrotation = qrotation.rotation_matrix_transpose();
 
     // Verify the Matrix content
     TransformType::MatrixType matrix = rotation->GetRotationMatrix();
@@ -591,7 +591,7 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
     }
 
     // VNL uses transposed matrices.
-    vnl_matrix_fixed<double,3,3> mrotation = qrotation.rotation_matrix();
+    vnl_matrix_fixed<double,3,3> mrotation = qrotation.rotation_matrix_transpose();
 
     // Verify the Matrix content
     TransformType::MatrixType matrix = rotation->GetRotationMatrix();

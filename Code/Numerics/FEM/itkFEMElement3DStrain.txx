@@ -44,7 +44,7 @@ void Element3DStrain<TBaseClass>
 {
   unsigned int p;
   unsigned int Nn=3*this->GetNumberOfNodes();
-  B.resize(6,Nn);
+  B.set_size(6,Nn);
 
   // Initialize the B matrix to zero - subsequently, only the nonzero
   // terms will be filled in
@@ -87,7 +87,7 @@ void
 Element3DStrain<TBaseClass>
 ::GetMaterialMatrix(MatrixType& D) const
 {
-  D.resize(6,6);
+  D.set_size(6,6);
   D.fill(0.0);
 
   /* Material properties matrix */

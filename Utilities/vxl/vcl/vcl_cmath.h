@@ -39,20 +39,24 @@
 
 #include "vcl_compiler.h"
 
-#if defined(VCL_GCC)
+#if defined(VCL_STLPORT)
+# include "stlport/vcl_cmath.h"
+#elif defined(VCL_GCC)
 # include "gcc/vcl_cmath.h"
 #elif defined(VCL_SGI_CC)
 # include "sgi/vcl_cmath.h"
-#elif VCL_VC60
+#elif defined(VCL_VC60)
 # include "win32-vc60/vcl_cmath.h"
-#elif defined(VCL_BORLAND) 
-# include "borland/vcl_cmath.h"
-#elif VCL_VC70
+#elif defined(VCL_VC71)     // C++ .NET 2003 is iso compliant
+# include "iso/vcl_cmath.h" 
+#elif defined(VCL_VC70)     // C++ .NET earlier than 2003 is not iso compliant
 # include "win32-vc70/vcl_cmath.h"
 #elif defined(VCL_SUNPRO_CC)
 # include "sunpro/vcl_cmath.h"
 #elif defined(VCL_METRO_WERKS)
 # include "mwerks/vcl_cmath.h"
+#elif defined(VCL_BORLAND_55)
+# include "borland55/vcl_cmath.h"
 #else
 # include "iso/vcl_cmath.h"
 #endif

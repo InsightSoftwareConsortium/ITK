@@ -16,17 +16,17 @@
 //
 // A macro VCL_COMPLEX_INSTANTIATE(T) which allows you to instantiate
 // complex over other number types.
-//
-// If you just want to forward declare the vcl complex types, use 
-// vcl_complex_fwd.h instead.
-#include "vcl_complex_fwd.h"
+
 
 // ---------- all emulation
 #if !VCL_USE_NATIVE_COMPLEX 
 # include "emulation/vcl_complex.h"
 
+#elif defined(VCL_STLPORT)
+# include "stlport/vcl_complex.h"
+
 // ---------- Visual Studio 6
-#elif VCL_VC60
+#elif defined(VCL_VC60)
 # include "win32-vc60/vcl_complex.h"
 
 // ---------- SunPro compiler
@@ -41,9 +41,17 @@
 #elif defined(VCL_METRO_WERKS)
 #include  "mwerks/vcl_complex.h"
 
-// ---------- BORLAND
-#elif defined(VCL_BORLAND)
-#include  "borland/vcl_complex.h"
+// ---------- GCC 2.95
+#elif defined(VCL_GCC_295)
+#include  "gcc-295/vcl_complex.h"
+
+// ---------- Borland 5.5
+#elif defined(VCL_BORLAND_55)
+# include "borland55/vcl_complex.h"
+
+// ---------- Borland 5.6
+#elif defined(VCL_BORLAND_56)
+#include  "borland56/vcl_complex.h"
 
 // ---------- ISO
 #else

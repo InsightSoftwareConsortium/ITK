@@ -28,7 +28,7 @@ template <class TScalarType>
 Euler2DTransform<TScalarType>
 ::Euler2DTransform()
 {
-  m_Parameters.resize(ParametersDimension);
+  m_Parameters.set_size(ParametersDimension);
   m_Angle = 0.0;
 }
 

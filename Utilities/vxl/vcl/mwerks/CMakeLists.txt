@@ -1,1 +1,1 @@
-INSTALL_FILES(/include/InsightToolkit/Utilities/vxl/vcl/mwerks "(\\.h|\\.txx)$")
+INSTALL_FILES(${VXL_INSTALL_ROOT}/vcl/mwerks "(\\.h|\\.txx)$")

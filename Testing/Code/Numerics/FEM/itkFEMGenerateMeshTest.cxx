@@ -44,9 +44,9 @@ int itkFEMGenerateMeshTest(int, char*[])
   vnl_vector<double> MeshSizeV;
   vnl_vector<double> ElementsPerDim;
 
-  MeshOriginV.resize(2);
-  MeshSizeV.resize(2);
-  ElementsPerDim.resize(2);
+  MeshOriginV.set_size(2);
+  MeshSizeV.set_size(2);
+  ElementsPerDim.set_size(2);
 
   for ( unsigned int j=0; j<2; j++ )
     {
@@ -84,9 +84,9 @@ int itkFEMGenerateMeshTest(int, char*[])
     return EXIT_FAILURE;
     }
 
-  MeshOriginV.resize(3);
-  MeshSizeV.resize(3);
-  ElementsPerDim.resize(3);
+  MeshOriginV.set_size(3);
+  MeshSizeV.set_size(3);
+  ElementsPerDim.set_size(3);
 
   for (unsigned int j=0;j<3;j++) 
     {

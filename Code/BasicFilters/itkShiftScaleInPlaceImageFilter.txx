@@ -33,8 +33,8 @@ ShiftScaleInPlaceImageFilter<TInputImage>
   m_Scale = NumericTraits<RealType>::One;
   m_UnderflowCount = 0;
   m_OverflowCount = 0;
-  m_ThreadUnderflow.resize(1);
-  m_ThreadOverflow.resize(1);
+  m_ThreadUnderflow.SetSize(1);
+  m_ThreadOverflow.SetSize(1);
 }
 
 template<class TInputImage>
@@ -51,9 +51,9 @@ ShiftScaleInPlaceImageFilter<TInputImage>
   int numberOfThreads = this->GetNumberOfThreads();
 
   //  Allocate and initialize the thread temporaries
-  m_ThreadUnderflow.resize(numberOfThreads);
+  m_ThreadUnderflow.SetSize(numberOfThreads);
   m_ThreadUnderflow.Fill(0);
-  m_ThreadOverflow.resize(numberOfThreads);
+  m_ThreadOverflow.SetSize(numberOfThreads);
   m_ThreadOverflow.Fill(0);
 }
 

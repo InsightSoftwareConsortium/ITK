@@ -41,7 +41,7 @@ BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>
   m_SupportSize.Fill( SplineOrder + 1 );
 
   // Initialize offset to index lookup table
-  m_OffsetToIndexTable.resize( m_NumberOfWeights, SpaceDimension );
+  m_OffsetToIndexTable.set_size( m_NumberOfWeights, SpaceDimension );
 
   typedef Image<char,SpaceDimension> CharImageType;
   typename CharImageType::Pointer tempImage = CharImageType::New();

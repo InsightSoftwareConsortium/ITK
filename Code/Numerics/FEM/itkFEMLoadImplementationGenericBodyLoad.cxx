@@ -52,7 +52,7 @@ LoadImplementationGenericBodyLoad
   Element::VectorType force(Ndofs,0.0),
                       ip,gip,force_tmp,shapeF;
 
-  Fe.resize(element->GetNumberOfDegreesOfFreedom());
+  Fe.set_size(element->GetNumberOfDegreesOfFreedom());
   Fe.fill(0.0);
 
   Element::Float w,detJ;

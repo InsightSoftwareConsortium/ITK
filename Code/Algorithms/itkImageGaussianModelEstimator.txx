@@ -184,10 +184,10 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
   // Set up the matrices to hold the means and the covariance for the
   // training data
 
-  m_Means.resize(numberOfModels, VectorDimension);
+  m_Means.set_size(numberOfModels, VectorDimension);
   m_Means.fill(0);
 
-  m_NumberOfSamples.resize(numberOfModels,1);
+  m_NumberOfSamples.set_size(numberOfModels,1);
   m_NumberOfSamples.fill(0);
 
   // delete previous allocation first
@@ -197,7 +197,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
 
   for(unsigned int i = 0; i < numberOfModels; i++ )
     {
-    m_Covariance[i].resize( VectorDimension, VectorDimension );
+    m_Covariance[i].set_size( VectorDimension, VectorDimension );
     m_Covariance[i].fill( 0 );
     }
 
@@ -267,7 +267,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
       }// end else
 
     MatrixType tempMeanSq;
-    tempMeanSq.resize( VectorDimension, VectorDimension );
+    tempMeanSq.set_size( VectorDimension, VectorDimension );
     tempMeanSq.fill(0);
 
     for( unsigned int band_x = 0; band_x < VectorDimension; band_x++)

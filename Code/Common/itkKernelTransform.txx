@@ -178,7 +178,7 @@ ComputeL(void)
   this->ComputeP();
   this->ComputeK();
 
-  m_LMatrix.resize( NDimensions*(numberOfLandmarks+NDimensions+1),
+  m_LMatrix.set_size( NDimensions*(numberOfLandmarks+NDimensions+1),
                     NDimensions*(numberOfLandmarks+NDimensions+1) );
   m_LMatrix.fill( 0.0 );
 
@@ -202,7 +202,7 @@ ComputeK(void)
 
   this->ComputeD();
 
-  m_KMatrix.resize( NDimensions * numberOfLandmarks,
+  m_KMatrix.set_size( NDimensions * numberOfLandmarks,
                     NDimensions * numberOfLandmarks );
 
   m_KMatrix.fill( 0.0 );
@@ -255,7 +255,7 @@ ComputeP()
   InputPointType p;
 
   I.set_identity();
-  m_PMatrix.resize( NDimensions*numberOfLandmarks,
+  m_PMatrix.set_size( NDimensions*numberOfLandmarks,
                     NDimensions*(NDimensions+1) );
   m_PMatrix.fill( 0.0 );
   for (unsigned int i = 0; i < numberOfLandmarks; i++)
@@ -284,7 +284,7 @@ ComputeY(void)
   typename VectorSetType::ConstIterator displacement =
     m_Displacements->Begin();
 
-  m_YMatrix.resize( NDimensions*(numberOfLandmarks+NDimensions+1), 1);
+  m_YMatrix.set_size( NDimensions*(numberOfLandmarks+NDimensions+1), 1);
 
   m_YMatrix.fill( 0.0 );
     
@@ -315,7 +315,7 @@ KernelTransform<TScalarType, NDimensions>
   unsigned long numberOfLandmarks = m_SourceLandmarks->GetNumberOfPoints();
 
   // The deformable (non-affine) part of the registration goes here
-  m_DMatrix.resize(NDimensions,numberOfLandmarks);
+  m_DMatrix.set_size(NDimensions,numberOfLandmarks);
   unsigned int ci = 0;
   for(unsigned int lnd=0; lnd < numberOfLandmarks; lnd++ )
     {
