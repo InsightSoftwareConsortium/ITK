@@ -438,7 +438,7 @@ int main( int argc, char **argv )
   //
   //  The \doxygen{SigmoidImageFilter} requires two parameters that define the
   //  linear transformation to be applied to the sigmoid argument. This
-  //  parameters have been discussed in sections~\ref{sec:SigmoidImageFilter}
+  //  parameters have been discussed in sections~\ref{sec:IntensityNonLinearMapping}
   //  and \ref{sec:FastMarchingImageFilter}.
   //
 
@@ -721,7 +721,7 @@ int main( int argc, char **argv )
   //  Figure~\ref{fig:ShapeDetectionLevelSetFilterOutput}. Segmentations of the
   //  main brain structures are presented in Figure
   //  ~\ref{fig:GeodesicActiveContourImageFilterOutput2}. The Results are quite
-  //  similar to those obtained with the {ShapeDetectionLevelSetFilter} in
+  //  similar to those obtained with the \doxygen{ShapeDetectionLevelSetFilter} in
   //  section~\ref{sec:ShapeDetectionLevelSetFilter}.
   //
   //  An interesting trade-off exists between the number of iterations to run,

@@ -438,7 +438,7 @@ int main( int argc, char **argv )
   //
   //  The \doxygen{SigmoidImageFilter} requires two parameters that define the
   //  linear transformation to be applied to the sigmoid argument. This
-  //  parameters have been discussed in sections~\ref{sec:SigmoidImageFilter}
+  //  parameters have been discussed in sections~\ref{sec:IntensityNonLinearMapping}
   //  and \ref{sec:FastMarchingImageFilter}.
   //
   //  Software Guide : EndLatex 
