@@ -15,6 +15,7 @@
 #pragma warning(disable: 4101 4244 4554 4756 4723)
 #endif
 #endif
+#include <math.h>
 
 typedef int integer; /* awf changed from long */
 typedef char *address;
