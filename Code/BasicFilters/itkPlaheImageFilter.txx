@@ -209,7 +209,7 @@ PlaheImageFilter<TPixel, VImageDimension>
   it.Begin();
   itOut.Begin();
   float f;
-  int cnt = 0;
+
   while( !it.IsAtEnd() )
     {
     count.clear();
