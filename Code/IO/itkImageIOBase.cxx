@@ -68,21 +68,21 @@ void ImageIOBase::SetDimensions(unsigned int i, unsigned int dim)
 {
   if ( i > m_Dimensions.size() ) {return;}
   this->Modified();
-  m_Dimensions.insert(m_Dimensions.begin()+i,dim);
+  m_Dimensions[i] = dim;
 }
 
 void ImageIOBase::SetOrigin(unsigned int i, double origin)
 {
   if ( i > m_Origin.size() ) {return;}
   this->Modified();
-  m_Origin.insert(m_Origin.begin()+i,origin);
+  m_Origin[i] = origin;
 }
 
 void ImageIOBase::SetSpacing(unsigned int i, double spacing)
 {
   if (i > m_Spacing.size() ) {return;}
   this->Modified();
-  m_Spacing.insert(m_Spacing.begin()+i,spacing);
+  m_Spacing[i] = spacing;
 }
 
 const std::type_info& ImageIOBase::GetPixelType() const
