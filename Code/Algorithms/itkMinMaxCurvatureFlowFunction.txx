@@ -704,7 +704,7 @@ MinMaxCurvatureFlowFunction<TImage>
   PixelType threshold;
   threshold = this->ComputeThreshold( Dispatch<ImageDimension>(), it);
 
-  NeighborhoodInnerProduct<ImageType> innerProduct;
+  typename NeighborhoodInnerProduct<ImageType> innerProduct;
   PixelType avgValue = innerProduct( it, m_StencilOperator );
 
   if ( avgValue < threshold )
