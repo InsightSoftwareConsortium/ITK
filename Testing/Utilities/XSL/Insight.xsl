@@ -216,7 +216,7 @@ function getCurrState() {
 }
 
 // Add an entry to the database
-function dbAdd(mother,display,URL,indent,top,open) {
+function dbAdd(mother,display,URL,indent,top,open,author,mailto,comment) {
   db[total] = new Object;
   db[total].mother = mother
   db[total].display = display
@@ -225,6 +225,9 @@ function dbAdd(mother,display,URL,indent,top,open) {
   db[total].top = top
   db[total].open = open
   db[total].image = ""
+  db[total].author = author
+  db[total].mailto = mailto
+  db[total].comment = comment
   total++
   }
 
@@ -348,6 +351,21 @@ function tree_close() {
 		else {
 		  Outline += " <A HREF=\"" + db[i].URL + "\">" + db[i].display + "</A>"
 		  }
+                if ( db[i].author != "" && db[i].author != null )
+                {
+                  if ( db[i].mailto == "" || db[i].mailto == null )
+                  {
+                    Outline += " " + db[i].author
+                  }
+                  else
+                  {
+                    Outline += " <a href=\"mailto:" + db[i].mailto + "\">" + db[i].author + "</a>"
+                  }
+                }
+                if ( db[i].comment != null && db[i].comment != "" )
+                {
+                  Outline += "<br>" + pad(currIndent) + db[i].comment + "<br>"
+                }
 		// Bold if at level 0
 		if (currIndent == 0) { 
 		  Outline = "<B>" + Outline + "</B>"

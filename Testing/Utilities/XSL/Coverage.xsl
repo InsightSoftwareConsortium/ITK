@@ -66,6 +66,7 @@
         <th>Percentage <img border="0"><xsl:attribute name="src"><xsl:value-of select="$IconDir"/>/DownBlack.gif</xsl:attribute></img></th> 
       </tr>
       <xsl:for-each select="Site/Coverage/File">
+        <xsl:sort select="@Covered" order="ascending"/>
         <xsl:sort select="PercentCoverage" data-type="number" order="ascending"/>
         <xsl:call-template name="File"/>
       </xsl:for-each>
@@ -82,7 +83,18 @@
       
       <xsl:choose>
         <xsl:when test="@Covered='true'">
-          <td align="left"><xsl:value-of select="@FullPath"/></td>
+          <td align="left">
+            <a>
+              <xsl:attribute name="href">
+                <xsl:call-template name="TranslateTestName">
+                  <xsl:with-param name="Prefix"><xsl:value-of select="$TestDocDir"/>/../Coverage/</xsl:with-param>
+                  <xsl:with-param name="TestName" select="@FullPath"/>
+                  <xsl:with-param name="Postfix">.html</xsl:with-param>
+                </xsl:call-template>
+              </xsl:attribute>
+              <xsl:value-of select="@FullPath"/>
+            </a>
+          </td>
           <td align="center">
             <xsl:choose>
               <xsl:when test="PercentCoverage &lt; 50">

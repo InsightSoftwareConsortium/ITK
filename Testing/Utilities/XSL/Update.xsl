@@ -32,11 +32,11 @@
     <p/>
     <script LANGUAGE="JavaScript">
 
-      dbAdd (true, "Updated files  (<xsl:value-of select="count(/Update/Directory/Updated)"/>)", "", 0, "", "0")
+      dbAdd (true, "Updated files  (<xsl:value-of select="count(/Update/Directory/Updated)"/>)", "", 0, "", "0", "", "", "")
       <xsl:for-each select="Directory">
         <xsl:sort select="Name"/>
         <xsl:if test="count(Updated)">
-          dbAdd (true, "<b><xsl:value-of select="Name"/> (<xsl:value-of select="count(Updated)"/>)</b>", "", 1, "", "0")
+          dbAdd (true, "<b><xsl:value-of select="Name"/> (<xsl:value-of select="count(Updated)"/>)</b>", "", 1, "", "0", "", "", "")
           <xsl:for-each select="Updated">
             <xsl:sort select="Name"/>
             <xsl:call-template name="dbAdd">
@@ -46,11 +46,11 @@
         </xsl:if>
       </xsl:for-each>
 
-      dbAdd (true, "Modified files  (<xsl:value-of select="count(/Update/Directory/Modified)"/>)", "", 0, "", "0")
+      dbAdd (true, "Modified files  (<xsl:value-of select="count(/Update/Directory/Modified)"/>)", "", 0, "", "0", "", "", "")
       <xsl:for-each select="Directory">
         <xsl:sort select="Name"/>
         <xsl:if test="count(Modified)">
-          dbAdd (true, "<b><xsl:value-of select="Name"/> (<xsl:value-of select="count(Modified)"/>)</b>", "", 1, "", "0")
+          dbAdd (true, "<b><xsl:value-of select="Name"/> (<xsl:value-of select="count(Modified)"/>)</b>", "", 1, "", "0", "", "", "")
           <xsl:for-each select="Modified">
             <xsl:sort select="Name"/>
             <xsl:call-template name="dbAdd">
@@ -60,11 +60,11 @@
         </xsl:if>
       </xsl:for-each>
 
-      dbAdd (true, "Conflicting files  (<xsl:value-of select="count(/Update/Directory/Conflicting)"/>)", "", 0, "", "0")
+      dbAdd (true, "Conflicting files  (<xsl:value-of select="count(/Update/Directory/Conflicting)"/>)", "", 0, "", "0", "", "", "")
       <xsl:for-each select="Directory">
         <xsl:sort select="Name"/>
         <xsl:if test="count(Conflicting)">
-          dbAdd (true, "<b><xsl:value-of select="Name"/> (<xsl:value-of select="count(Conflicting)"/>)</b>", "", 1, "", "0")
+          dbAdd (true, "<b><xsl:value-of select="Name"/> (<xsl:value-of select="count(Conflicting)"/>)</b>", "", 1, "", "0", "", "", "")
           <xsl:for-each select="Conflicting">
             <xsl:sort select="Name"/>
             <xsl:call-template name="dbAdd">
@@ -89,14 +89,13 @@
 
     <xsl:choose>
       <xsl:when test="PriorRevision = Revision">
-        dbAdd (true, "<xsl:value-of select="File"/> Rev: <xsl:value-of select="Revision"/> by <xsl:value-of select="Author"/>", "<xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>?rev=<xsl:value-of select="Revision"/>&amp;content-type=text/x-cvsweb-markup", <xsl:value-of select="$Level"/>, "", "0")
+        dbAdd (false, "<xsl:value-of select="File"/> Rev: <xsl:value-of select="Revision"/> ", "<xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>?rev=<xsl:value-of select="Revision"/>&amp;content-type=text/x-cvsweb-markup", <xsl:value-of select="$Level"/>, "", "0", "by <xsl:value-of select="Author"/>", "<xsl:value-of select="Email"/>", "<xsl:value-of select="translate ( normalize-space ( Log ), '&quot;', ' ' )"/>")
       </xsl:when>
       <xsl:otherwise>
-        dbAdd (true, "<xsl:value-of select="File"/> Rev: <xsl:value-of select="Revision"/> by <xsl:value-of select="Author"/>", "<xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>.diff?r1=<xsl:value-of select="PriorRevision"/>&amp;r2=<xsl:value-of select="Revision"/>", <xsl:value-of select="$Level"/>, "", "0")
+      dbAdd (false, "<xsl:value-of select="File"/> Rev: <xsl:value-of select="Revision"/> ", "<xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>.diff?r1=<xsl:value-of select="PriorRevision"/>&amp;r2=<xsl:value-of select="Revision"/>", <xsl:value-of select="$Level"/>, "", "0", "by <xsl:value-of select="Author"/>", "<xsl:value-of select="Email"/>", "<xsl:value-of select="translate ( normalize-space ( Log ), '&quot;', ' ' )"/>")
       </xsl:otherwise>
     </xsl:choose>
 
-    dbAdd ( false, "<xsl:value-of select="translate ( normalize-space ( Log ), '&quot;', ' ' )"/>", "", <xsl:value-of select="$Level2"/>, "", "1" )
   </xsl:template>
 
 <xsl:template match="Updated|Conflicting|Modified">
