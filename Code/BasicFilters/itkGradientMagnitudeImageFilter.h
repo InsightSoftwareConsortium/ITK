@@ -25,8 +25,6 @@ namespace itk
 /** \class GradientMagnitudeImageFilter
  * \brief Computes the gradient magnitude of an image region at each pixel.
  *
- * \todo Add GenerateInputRequestedRegion method to buffer the image chunk
- * appropriately if possible.
  * 
  * \ingroup GradientFilters
  *
@@ -82,8 +80,26 @@ public:
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
+  /** Use the image spacing information in calculations. Use this option if you
+   *  want derivatives in physical space. Default is UseImageSpacingOn. */
+  void SetUseImageSpacingOn()
+  { this->SetUseImageSpacing(true); }
+  
+  /** Ignore the image spacing. Use this option if you want derivatives in
+      isotropic pixel space.  Default is UseImageSpacingOn. */
+  void SetUseImageSpacingOff()
+  { this->SetUseImageSpacing(false); }
+  
+  /** Set/Get whether or not the filter will use the spacing of the input
+      image in its calculations */
+  itkSetMacro(UseImageSpacing, bool);
+  itkGetMacro(UseImageSpacing, bool);
+
 protected:
-  GradientMagnitudeImageFilter() {}
+  GradientMagnitudeImageFilter()
+  {
+    m_UseImageSpacing = true;
+  }
   virtual ~GradientMagnitudeImageFilter() {}
 
   /** GradientMagnitudeImageFilter can be implemented as a
@@ -101,12 +117,16 @@ protected:
                             int threadId );
 
   void PrintSelf(std::ostream& os, Indent indent) const
-    {  Superclass::PrintSelf(os,indent);   }
+  {
+    Superclass::PrintSelf(os,indent);
+    os << indent << "UseImageSpacing = " << m_UseImageSpacing << std::endl;
+  }
   
 private:
   GradientMagnitudeImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  
+
+  bool m_UseImageSpacing;
 
 };
   

@@ -111,46 +111,65 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
   typename  InputImageType::ConstPointer  input  = this->GetInput();
 
   // Set up operators
-  DerivativeOperator<OutputPixelType, ImageDimension> op;
-   op.SetDirection(0);
-   op.SetOrder(1);
-   op.CreateDirectional();
+  DerivativeOperator<OutputPixelType, ImageDimension> op[ImageDimension];
 
+  for (i = 0; i< ImageDimension; i++)
+    {
+    op[i].SetDirection(0);
+    op[i].SetOrder(1);
+    op[i].CreateDirectional();
+    
+    if (m_UseImageSpacing == true)
+      {
+      if ( this->GetInput()->GetSpacing()[i] == 0.0 )
+        {
+        itkExceptionMacro(<< "Image spacing cannot be zero.");
+        }
+      else
+        {
+        op[i].ScaleCoefficients( 1.0 / this->GetInput()->GetSpacing()[i] );
+        }
+      }
+    }
+  
   // Calculate iterator radius
   Size<ImageDimension> radius;
-  for (i = 0; i < ImageDimension; ++i) radius[i]  = op.GetRadius()[0];
-
+  for (i = 0; i < ImageDimension; ++i)
+    {
+    radius[i]  = op[0].GetRadius()[0];
+    }
+  
   // Find the data-set boundary "faces"
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::
     FaceListType faceList;
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage> bC;
   faceList = bC(input, outputRegionForThread, radius);
-
+  
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::
     FaceListType::iterator fit;
   fit = faceList.begin();
-
+  
   // support progress methods/callbacks
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
-
+  
   // Process non-boundary face
   nit = ConstNeighborhoodIterator<TInputImage>(radius, input, *fit);
-
+  
   std::slice x_slice[ImageDimension];
   const unsigned long center = nit.Size() / 2;
   for (i = 0; i < ImageDimension; ++i)
     {
-      x_slice[i] = std::slice( center - nit.GetStride(i) * radius[i],
-                               op.GetSize()[0], nit.GetStride(i));
+    x_slice[i] = std::slice( center - nit.GetStride(i) * radius[i],
+                             op[i].GetSize()[0], nit.GetStride(i));
     }
-
-
+  
+  
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
   for (fit=faceList.begin(); fit != faceList.end(); ++fit)
     { 
     bit = ConstNeighborhoodIterator<InputImageType>(radius,
-                                                         input, *fit);
+                                                    input, *fit);
     it = ImageRegionIterator<OutputImageType>(output, *fit);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
@@ -160,7 +179,7 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
       RealType a = NumericTraits<RealType>::Zero;
       for (i = 0; i < ImageDimension; ++i)
         {
-        const RealType g = SIP(x_slice[i], bit, op);
+        const RealType g = SIP(x_slice[i], bit, op[i]);
         a += g * g;
         }
       it.Value() = static_cast<OutputPixelType>(::sqrt(a));
@@ -168,9 +187,7 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
       ++it;
       progress.CompletedPixel();
       }
-
     }
-
 }
 
 } // end namespace itk
