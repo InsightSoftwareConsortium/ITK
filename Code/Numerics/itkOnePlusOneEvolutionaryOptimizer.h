@@ -126,7 +126,7 @@ public:
 
   /** Return Current Value */
   itkGetConstMacro( CurrentCost, MeasureType );
-  MeasureType GetValue() const { this->GetCurrentCost(); }
+  MeasureType GetValue() const { return this->GetCurrentCost(); }
 
   /** Return Current Iteration */
   itkGetConstMacro( CurrentIteration, unsigned int) ;
