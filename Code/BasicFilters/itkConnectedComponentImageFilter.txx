@@ -252,6 +252,16 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage >
     }
 }
 
+template< class TInputImage, class TOutputImage >
+void
+ConnectedComponentImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
+}
+
 } // end namespace itk
 
 #endif

@@ -112,6 +112,7 @@ protected:
   ConnectedComponentImageFilter() : m_FullyConnected(false) {}
   virtual ~ConnectedComponentImageFilter() {}
   ConnectedComponentImageFilter(const Self&) {}
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
    * Standard pipeline method. 
