@@ -152,7 +152,7 @@ public:
   class Iterator
   {
   public:
-    Iterator(InstanceIdentifierHolder::iterator iter, Pointer classSample)
+    Iterator(typename InstanceIdentifierHolder::iterator iter, Pointer classSample)
       :m_Iter(iter), m_Subsample(classSample),
        m_Sample(classSample->GetSample())
     {}
@@ -190,7 +190,7 @@ public:
     
   private:
     // Iterator pointing to ImageListSampleAdaptor
-    InstanceIdentifierHolder::iterator m_Iter ;  
+    typename InstanceIdentifierHolder::iterator m_Iter ;  
     // Pointer to Subsample object
     Pointer m_Subsample ;
     SamplePointer m_Sample ;

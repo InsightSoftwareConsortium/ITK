@@ -175,7 +175,7 @@ public:
   class Iterator
   {
   public:
-    Iterator(ClassLabelHolder::iterator iter, Pointer membershipSample)
+    Iterator(typename ClassLabelHolder::iterator iter, Pointer membershipSample)
       :m_Iter(iter), m_MemebershipSample(membershipSample),
        m_Sample(membershipSample->GetSample())
     {}
@@ -216,7 +216,7 @@ public:
     
   private:
     // Iterator pointing to ImageListSampleAdaptor
-    ClassLabelHolder::iterator m_Iter ;  
+    typename ClassLabelHolder::iterator m_Iter ;  
     // Pointer to MemebershipSample object
     Pointer m_MemebershipSample ;
     SamplePointer m_Sample ;

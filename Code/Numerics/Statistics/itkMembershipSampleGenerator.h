@@ -96,7 +96,7 @@ public:
 
   /** Output: MembershipSample types */
   typedef MembershipSample< InputType > OutputType ;
-  typedef OutputType::Pointer OutputPointer ;
+  typedef typename OutputType::Pointer OutputPointer ;
 
   /** Stores the input sample */
   void SetInput(InputPointer sample) ;
