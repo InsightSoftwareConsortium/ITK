@@ -28,6 +28,8 @@
 #include <map>
 #include <string>
 #include <iostream>
+#include <fstream>
+#include "itkNumericTraits.h"
 #include "itkMultiThreader.h"
 #include "itkImage.h"
 #include "itkImageFileReader.h"
@@ -46,7 +48,9 @@ std::map<std::string, MainFuncPointer> StringToTestFunctionMap;
 extern int test(int, char* [] ); \
 StringToTestFunctionMap[#test] = test
 
-int RegressionTestImage (char *, char *);
+int RegressionTestImage (const char *, const char *, int);
+std::map<std::string,int> RegressionTestBaselines (char *);
+
 void RegisterTests();
 void PrintAvailableTests()
 {
@@ -121,9 +125,38 @@ int main(int ac, char* av[] )
       {
       // Invoke the test's "main" function.
       result = (*f)(ac-1, av+1);
+
+      // Make a list of possible baselines
       if (baselineFilename && testFilename)
         {
-        result += RegressionTestImage(testFilename, baselineFilename);
+        std::map<std::string,int> baselines = RegressionTestBaselines(baselineFilename);
+        std::map<std::string,int>::iterator baseline = baselines.begin();
+        std::string bestBaseline;
+        int bestBaselineStatus = itk::NumericTraits<int>::max();
+        while (baseline != baselines.end())
+          {
+          baseline->second = RegressionTestImage(testFilename,
+                                                 (baseline->first).c_str(),
+                                                 0);
+          if (baseline->second < bestBaselineStatus)
+            {
+            bestBaseline = baseline->first;
+            bestBaselineStatus = baseline->second;
+            }
+          if (baseline->second == 0)
+            {
+            break;
+            }
+          ++baseline;
+          }
+        // if the best we can do still has errors, generate the error images
+        if (bestBaselineStatus)
+          {
+          baseline->second = RegressionTestImage(testFilename,
+                                                 bestBaseline.c_str(),
+                                                 1);
+          }
+        result += bestBaselineStatus;
         }
       }
     catch(const itk::ExceptionObject& e)
@@ -153,7 +186,7 @@ int main(int ac, char* av[] )
 
 // Regression Testing Code
 
-int RegressionTestImage (char *testImageFilename, char *baselineImageFilename)
+int RegressionTestImage (const char *testImageFilename, const char *baselineImageFilename, int reportErrors)
 {
   // Use the factory mechanism to read the test and baseline files and convert them to double
   typedef itk::Image<double,10> ImageType;
@@ -214,7 +247,7 @@ int RegressionTestImage (char *testImageFilename, char *baselineImageFilename)
   double status = diff->GetTotalDifference();
 
   // if there are discrepencies, create an diff image
-  if (status)
+  if (status && reportErrors)
     {
     typedef itk::RescaleIntensityImageFilter<ImageType,OutputType> RescaleType;
     typedef itk::ExtractImageFilter<OutputType,DiffOutputType> ExtractType;
@@ -331,3 +364,40 @@ int RegressionTestImage (char *testImageFilename, char *baselineImageFilename)
   return (status != 0) ? 1 : 0;
 }
 
+//
+// Generate all of the possible baselines
+// The possible baselines are generated fromn the baselineFilename using the following algorithm:
+// 1) strip the suffix
+// 2) append a digit _x
+// 3) append the original suffix.
+// It the file exists, increment x and continue
+//
+std::map<std::string,int> RegressionTestBaselines (char *baselineFilename)
+{
+  std::map<std::string,int> baselines;
+  baselines[std::string(baselineFilename)] = 0;
+
+  std::string originalBaseline(baselineFilename);
+
+  int x = 0;
+  std::string::size_type suffixPos = originalBaseline.rfind(".");
+  std::string suffix;
+  if (suffixPos != std::string::npos)
+    {
+    suffix = originalBaseline.substr(suffixPos,originalBaseline.length());
+    originalBaseline.erase(suffixPos,originalBaseline.length());
+    }
+  while (++x)
+    {
+    ::itk::OStringStream filename;
+    filename << originalBaseline << "." << x << suffix;
+    std::ifstream filestream(filename.str().c_str());
+    if (!filestream)
+      {
+        break;
+      }
+    baselines[filename.str()] = 0;
+    filestream.close();
+    }
+  return baselines;
+}
