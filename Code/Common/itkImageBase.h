@@ -40,22 +40,15 @@ public:
    */
   void Initialize();
 
-  /** 
-   * Overload itkDataObject method. This method allocates memory
-   * for the size, spacing, and image origin.
-   */
-  virtual void SetDimension(int dim);
+  /** Overload itkDataObject method.*/
+  virtual void SetDimension(unsigned int dim);
 
-  /** 
-   * Set the size of the image. This method assumes that
-   * the dimension of the data has been set. 
-   */
-  void SetSize(int *size);
+  /** Set the size of the image. This method assumes that
+   *  the dimension of the data has been set. */
+  void SetSize(unsigned long *size);
 
-  /** 
-   * Get the size of the iamge. 
-   */
-  const int *GetSize() const {return m_Size;} ;
+  /** Get the size of the iamge. */
+  const unsigned long *GetSize() const {return m_Size;} ;
   
   /** 
    * Set the dimensions of the image. This method assumes that
@@ -76,9 +69,9 @@ protected:
   void operator=(const itkImageBase&) {};
 
 private:
-  int   *m_Size;
-  float *m_Spacing;
-  float *m_Origin;
+  unsigned long *m_Size;
+  float         *m_Spacing;
+  float         *m_Origin;
   
 };
 

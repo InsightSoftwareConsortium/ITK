@@ -147,7 +147,7 @@ private:
   // if the WholeExtent were updated.
   unsigned long m_EstimatedWholeMemorySize;
 
-  int m_Dimension; ///The dimension of the data (1, 2, 3, or n-D)
+  unsigned int m_Dimension; ///The dimension of the data (1, 2, 3, or n-D)
 
   // If the ExtentType is ITK_STRUCTURED_EXTENT, then these three extent variables
   // represent the whole extent, the extent currently in memory, and the

@@ -28,7 +28,7 @@ static bool itkDataObjectGlobalReleaseDataFlag = false;
 //----------------------------------------------------------------------------
 itkDataObject::itkDataObject()
 {
-  m_Dimension = -1; //unspecified
+  m_Dimension = 0; //unspecified
 
   m_Source = 0;
 

@@ -43,11 +43,11 @@ void itkImageBase::Initialize()
     delete [] m_Spacing;
     delete [] m_Origin;
     }
-  this->itkDataObject::SetDimension(-1);
+  this->itkDataObject::SetDimension(0);
 }
 
 //-------------------------------------------------------------------------
-void itkImageBase::SetDimension(int dim)
+void itkImageBase::SetDimension(unsigned int dim)
 {
   dim = (dim < 0 ? 0 : dim);
 
@@ -56,7 +56,7 @@ void itkImageBase::SetDimension(int dim)
     this->Initialize();
 
     this->itkDataObject::SetDimension(dim);
-    m_Size = new int [dim];
+    m_Size = new unsigned long [dim];
     m_Spacing = new float [dim];
     m_Origin = new float [dim];
     
@@ -65,7 +65,7 @@ void itkImageBase::SetDimension(int dim)
 }
 
 //-------------------------------------------------------------------------
-void itkImageBase::SetSize(int *size)
+void itkImageBase::SetSize(unsigned long *size)
 {
   bool modified;
 
