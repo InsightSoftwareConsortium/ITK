@@ -64,17 +64,6 @@ MinimumMaximumImageFilter<TInputImage>
                                         outputPtr->GetRequestedRegion());
 
  
-  // Get the origin and spacing from the input image
-  const double* origin;
-  const double* spacing;
-  origin = inputPtr->GetOrigin();
-  spacing = inputPtr->GetSpacing();
-
-  // Set the origin and spacing of the output image
-  outputPtr->SetOrigin(origin);
-  outputPtr->SetSpacing(spacing);
-
-  
   ImageRegionConstIteratorWithIndex< TInputImage >  it( this->GetInput(),  this->GetInput()->GetRequestedRegion() );
   m_Maximum = NumericTraits<InputPixelType>::min() ;
   m_Minimum = NumericTraits<InputPixelType>::max() ;
