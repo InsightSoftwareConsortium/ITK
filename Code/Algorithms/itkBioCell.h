@@ -49,7 +49,7 @@ public:
   typedef   GenomeType::GeneIdType              GeneIdType;
 
 public:
-  Cell();
+  Cell(); // Users should create cell with the CreateEgg() method
   virtual ~Cell();
   virtual void ClearForce(void);
   virtual void AddForce(const VectorType & force);

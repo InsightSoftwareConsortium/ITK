@@ -27,19 +27,19 @@ int itkBioCellTest( int, char * [] )
 {
    typedef itk::bio::Cell CellType;
     
-   CellType  egg;
+   CellType * egg = CellType::CreateEgg();
 
    CellType::VectorType forceVector;
 
    forceVector[0] = 10.5;
    forceVector[1] = 20.5;
 
-   egg.ClearForce();
-   egg.AddForce( forceVector );
-   egg.SecreteProducts();
-   egg.ComputeGeneNetwork();
+   egg->ClearForce();
+   egg->AddForce( forceVector );
+   egg->SecreteProducts();
+   egg->ComputeGeneNetwork();
 
-   const double radius = egg.GetRadius();
+   const double radius = egg->GetRadius();
 
    CellType::SetGrowthRadiusLimit( 2.0 );
    CellType::SetGrowthRadiusIncrement( 0.1 );
@@ -54,6 +54,8 @@ int itkBioCellTest( int, char * [] )
 
    std::cout << "Division Latency = " << 
      CellType::GetDivisionMaximumLatencyTime() << std::endl;
+
+   delete egg;
 
    std::cout << "Test Passed !" << std::endl;
    return EXIT_SUCCESS;
