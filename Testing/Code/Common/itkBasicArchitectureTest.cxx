@@ -152,20 +152,20 @@ int main()
   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
   command = itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch,
-                               ShowProgressObject::ShowProgress);
+                               &ShowProgressObject::ShowProgress);
   shrink->AddObserver(itk::Command::ProgressEvent, command);
   
   // Create a command to call StartEndEvent when start event is triggered
   StartEndEvent startEndWatch;
   itk::SimpleMemberCommand<StartEndEvent>::Pointer start;
   start = itk::SimpleMemberCommand<StartEndEvent>::New();
-  start->SetCallbackFunction(&startEndWatch, StartEndEvent::Start);
+  start->SetCallbackFunction(&startEndWatch, &StartEndEvent::Start);
   shrink->AddObserver(itk::Command::StartEvent, start);
   
   // Create a command to call StartEndEvent when end event is triggered
   itk::SimpleMemberCommand<StartEndEvent>::Pointer end;
   end = itk::SimpleMemberCommand<StartEndEvent>::New();
-  end->SetCallbackFunction(&startEndWatch, StartEndEvent::End);
+  end->SetCallbackFunction(&startEndWatch, &StartEndEvent::End);
   shrink->AddObserver(itk::Command::EndEvent, end);
   
   // Create a command that to call AnyEvent when event is fired
@@ -173,7 +173,7 @@ int main()
   itk::MemberCommand<AllEvents>::Pointer allEvents;
   allEvents = itk::MemberCommand<AllEvents>::New();
   allEvents->SetCallbackFunction(&allWatch,
-                                 AllEvents::WatchEvents);
+                                 &AllEvents::WatchEvents);
   shrink->AddObserver(itk::Command::AnyEvent, allEvents);
   
   // Create a mapper (in this case a writer). A mapper
