@@ -125,6 +125,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
   os << indent << "FixedImageRegion: " << m_FixedImageRegion << std::endl;
   os << indent << "Number of Pixels Counted: " << m_NumberOfPixelsCounted << std::endl;
+  os << indent << "ScaleGradient: " << m_ScaleGradient << std::endl;
 
 }
 
