@@ -20,6 +20,9 @@
  *
  */
 
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
 
 #include "itkCovariantVector.h"
 #include <vnl/vnl_vector_ref.h>
