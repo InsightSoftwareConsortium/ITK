@@ -287,7 +287,7 @@ SmartPointerForwardReference<ProcessObject>
 DataObject
 ::GetSource() const
 {
-  itkDebugMacro("returning Source address " << m_Source );
+  itkDebugMacro("returning Source address " << m_Source.GetPointer() );
   return m_Source.GetPointer();
 }
 
