@@ -95,11 +95,11 @@ public:
   typedef typename FrequencyContainerType::FrequencyType FrequencyType ;
 
   /** Index typedef support. An index is used to access pixel values. */
-  typedef Index< VMeasurementVectorSize >  IndexType;
+  typedef itk::Index< VMeasurementVectorSize >  IndexType;
   typedef typename IndexType::IndexValueType  IndexValueType;
 
   /** size array type */
-  typedef Size< VMeasurementVectorSize > SizeType ;
+  typedef itk::Size< VMeasurementVectorSize > SizeType ;
   typedef typename SizeType::SizeValueType SizeValueType ;
 
   /** bin min max value storage types */
