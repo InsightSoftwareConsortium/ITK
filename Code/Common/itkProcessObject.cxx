@@ -634,7 +634,7 @@ ProcessObject
 
   /**
    * Give the subclass a chance to indicate that it will provide
-   * more data then require for the output. This can happen, for
+   * more data then required for the output. This can happen, for
    * example, when a source can only produce the whole output.
    * Although this is being called for a specific output, the source
    * may need to enlarge all outputs.
@@ -780,7 +780,9 @@ ProcessObject
   m_Progress = 0.0;
   if (m_Inputs.size() < m_NumberOfRequiredInputs)
     {
-    itkErrorMacro(<< "At least " << m_NumberOfRequiredInputs << " inputs are required but only " << m_Inputs.size() << " are specified");
+    itkErrorMacro(<< "At least " << m_NumberOfRequiredInputs 
+                  << " inputs are required but only " << m_Inputs.size() 
+                  << " are specified");
     }
   else
     {
