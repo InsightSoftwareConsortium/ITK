@@ -41,7 +41,7 @@ FOREACH(Source ${WRAP_SOURCES})
    SET(INDEX_FILE_CONTENT "${INDEX_FILE_CONTENT}${WrapITK_BINARY_DIR}/Common/${Source}.idx\n")
 ENDFOREACH(Source)
 SET(WRAP_TCL_SOURCES ${WRAP_TCL_SOURCES} wrap_ITKCommonTclTcl.cxx wrap_ITKUtilsTcl.cxx)
-SET(WRAP_PYTHON_SOURCES ${WRAP_PYTHON_SOURCES} wrap_ITKCommonPythonPython.cxx)
+SET(WRAP_PYTHON_SOURCES ${WRAP_PYTHON_SOURCES} wrap_ITKCommonPythonPython.cxx wrap_ITKPyUtilsPython.cxx)
 
 CONFIGURE_FILE(
 ${WrapITK_SOURCE_DIR}/Master.mdx.in
@@ -72,9 +72,10 @@ IF(ITK_CSWIG_TCL)
 ENDIF(ITK_CSWIG_TCL)
 
 
-IF(ITK_CSWIG_PYTHON) 
+IF(ITK_CSWIG_PYTHON)
+  SET(SWIG_INC ${SWIG_INC} -I${PYTHON_INCLUDE_PATH})
   SET_SOURCE_FILES_PROPERTIES(SwigExtras_wrapPython.cxx GENERATED)
-  ADD_LIBRARY(_ITKCommonPython MODULE ${WRAP_PYTHON_SOURCES} itkStringStream.cxx SwigExtras_wrapPython.cxx )
+  ADD_LIBRARY(_ITKCommonPython MODULE ${WRAP_PYTHON_SOURCES} itkStringStream.cxx itkPyCommand.cxx SwigExtras_wrapPython.cxx )
   ADD_CUSTOM_COMMAND(
     COMMENT "run native swig on SwigExtras.i"
     SOURCE ${ITK_TOP}/Wrapping/CSwig/Common/SwigExtras.i
@@ -150,5 +151,7 @@ IF(ITK_CSWIG_PYTHON)
 # python
   WRAP_PYTHON_SOURCES(${ITK_TOP}/Wrapping/CSwig/Common ${WrapITK_BINARY_DIR}/Common
                       wrap_ITKCommonPython _ITKCommonPython "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+  WRAP_PYTHON_SOURCES(${ITK_TOP}/Wrapping/CSwig/Common ${WrapITK_BINARY_DIR}/Common
+                      wrap_ITKPyUtils _ITKCommonPython "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
 ENDIF(ITK_CSWIG_PYTHON)
 

@@ -49,6 +49,9 @@ namespace _cable_
 #ifdef ITK_TCL_WRAP
     ITK_WRAP_GROUP(ITKUtils),
 #endif
+#ifdef ITK_PYTHON_WRAP
+    ITK_WRAP_GROUP(ITKPyUtils),
+#endif
     "SwigExtras",
     ITK_WRAP_GROUP(itkVector),
     ITK_WRAP_GROUP(itkVersorTransform)
