@@ -37,7 +37,7 @@
   typedef ImageType1D::Pointer ImageTypePtr1D;
   typedef ImageType1D::SizeType SizeType1D;
   typedef itk::BSplineInterpolateImageFunction<ImageType1D,CoordRepType> InterpolatorType1D;
-  typedef InterpolatorType1D::IndexType                 IndexType1D;
+//  typedef InterpolatorType1D::IndexType                 IndexType1D;
   typedef InterpolatorType1D::PointType                 PointType1D;
   typedef InterpolatorType1D::ContinuousIndexType       ContinuousIndexType1D;
 
@@ -50,7 +50,7 @@
   typedef ImageType2D::Pointer ImageTypePtr2D;
   typedef ImageType2D::SizeType SizeType2D;
   typedef itk::BSplineInterpolateImageFunction<ImageType2D,CoordRepType> InterpolatorType2D;
-  typedef InterpolatorType2D::IndexType                 IndexType2D;
+//  typedef InterpolatorType2D::IndexType                 IndexType2D;
   typedef InterpolatorType2D::PointType                 PointType2D;
   typedef InterpolatorType2D::ContinuousIndexType       ContinuousIndexType2D;
 
@@ -221,7 +221,7 @@ int test1DCubicSpline()
 
   // Create and initialize the interpolator 
   InterpolatorType1D::Pointer interp = InterpolatorType1D::New();
-// interp->SetSplineOrder(1);
+//  interp->SetSplineOrder(1);
   interp->SetInputImage(image);
   interp->Print( std::cout );
 
@@ -277,7 +277,7 @@ int test2DSpline()
   image->SetSpacing(spacing);
 
   /* Create and initialize the interpolator */
-  for (int splineOrder = 0; splineOrder<=5; splineOrder++)
+  for (unsigned int splineOrder = 0; splineOrder<=5; splineOrder++)
     {
     InterpolatorType2D::Pointer interp = InterpolatorType2D::New();
     interp->SetSplineOrder(splineOrder);
