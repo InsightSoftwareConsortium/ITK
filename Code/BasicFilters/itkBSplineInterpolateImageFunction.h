@@ -157,7 +157,6 @@ public:
 protected:
   BSplineInterpolateImageFunction();
   virtual ~BSplineInterpolateImageFunction() {};
-  BSplineInterpolateImageFunction( const Self& ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
   void PrintSelf(std::ostream& os, Indent indent) const;
 
@@ -169,6 +168,7 @@ protected:
   typename CoefficientImageType::ConstPointer       m_Coefficients; // Spline coefficients  
 
 private:
+  BSplineInterpolateImageFunction( const Self& ); //purposely not implemented
   /** Determines the weights for interpolation of the value x */
   void SetInterpolationWeights( const ContinuousIndexType & x, 
                                 const vnl_matrix<long> & EvaluateIndex, 

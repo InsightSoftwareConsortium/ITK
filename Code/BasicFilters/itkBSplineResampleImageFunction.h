@@ -85,7 +85,7 @@ protected:
   }
 
 private:
-  
+  BSplineResampleImageFunction(const Self&);//purposely not implemented
 };
 
 } // namespace itk
