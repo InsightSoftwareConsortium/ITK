@@ -30,6 +30,10 @@ STAPLEImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
+  os << indent << "m_MaximumIterations = " << m_MaximumIterations << std::endl;
+  os << indent << "m_ForegroundValue = " << m_ForegroundValue << std::endl;
+  os << indent << "m_ConfidenceWeight = " << m_ConfidenceWeight << std::endl;
+  os << indent << "m_ElapsedIterations = " << m_ElapsedIterations << std::endl;
 }
 
 template< typename TInputImage, typename TOutputImage >
