@@ -18,7 +18,7 @@
 // Software Guide : BeginLatex
 //
 // The following example illustrates the use of the
-// \doxygen{itk::ConnectedThresholdImageFilter}. This filter is based on the use
+// \doxygen{ConnectedThresholdImageFilter}. This filter is based on the use
 // of the flood fill iterator. Most of the algorithmic complexity of a region
 // growing method comes from the strategy used for visiting the neighbor
 // pixels. The flood fill iterator assumes this responsibility and greatly
@@ -183,7 +183,7 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  We declare now the type of the region growing filter. In this case it is
-  //  the \doxygen{ConfidenceConectedImageFilter}. 
+  //  the \doxygen{ConfidenceConnectedImageFilter}. 
   //
   //  Software Guide : EndLatex 
 

@@ -183,7 +183,7 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  We declare now the type of the region growing filter. In this case it is
-  //  the \doxygen{ConfidenceConectedImageFilter}. 
+  //  the \doxygen{ConfidenceConnectedImageFilter}. 
   //
   //  Software Guide : EndLatex 
 
