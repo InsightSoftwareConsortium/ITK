@@ -130,7 +130,7 @@ void ImageSeriesReader<TOutputImage>
     }
   else
     {
-    itkExceptionMacro(<< "No FileNames provided." );
+    itkExceptionMacro(<< "At least two filenames are required." );
     }
 }
 
