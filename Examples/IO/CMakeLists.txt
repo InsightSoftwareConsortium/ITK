@@ -27,3 +27,6 @@ TARGET_LINK_LIBRARIES(CovariantVectorImageExtractComponent ITKCommon ITKIO)
 ADD_EXECUTABLE(ImageReadExportVTK ImageReadExportVTK.cxx )
 TARGET_LINK_LIBRARIES(ImageReadExportVTK ITKCommon ITKIO)
 
+ADD_EXECUTABLE(RGBImageSeriesReadWrite RGBImageSeriesReadWrite.cxx )
+TARGET_LINK_LIBRARIES(RGBImageSeriesReadWrite ITKCommon ITKIO)
+
