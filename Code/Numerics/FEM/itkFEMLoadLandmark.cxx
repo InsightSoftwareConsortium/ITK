@@ -36,6 +36,8 @@ void LoadLandmark::Read( std::istream& f, void* info )
   bool isFound = false;
   Element::ArrayType el;
 
+  std::cout << "loadlandmark\n";
+
   // Convert the info pointer to a usable objects
   ReadInfoType::ElementArrayPointer elements=static_cast<ReadInfoType*>(info)->m_el;
 
@@ -59,6 +61,7 @@ void LoadLandmark::Read( std::istream& f, void* info )
 
   // read the deformed point in global coordinates
   SkipWhiteSpace(f); f>>pd; if(!f) goto out;
+  m_target = pd;
 
   // read the square root of the variance associated with this landmark
   SkipWhiteSpace(f); f>>eta; if(!f) goto out;
@@ -69,12 +72,13 @@ void LoadLandmark::Read( std::istream& f, void* info )
   // Calculate and save the initial force imposed by this landmark
   this->F = ( (pd - pu) / (this->eta * this->eta) );
 
-  // Compute & store the local coordinates of the undeformed point
+  // Compute & store the local coordinates of the undeformed point and
+  // the pointer to the element
   el = ( *elements );
   for (Element::ArrayType::iterator n = el.begin(); n!=el.end() && !isFound; n++) {
     if ( (*n)->GetLocalFromGlobalCoordinates(pu, this->m_pt) ) { 
       isFound = true; 
-      this->m_element = ( *n );
+      this->el.push_back( ( *n ) );
     }
   }
 

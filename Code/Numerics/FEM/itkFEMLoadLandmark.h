@@ -46,6 +46,11 @@ public:
   vnl_vector<Float> m_pt;
 
   /**
+   * Point in __global coordinates__ in the deformed configuration
+   */
+  vnl_vector<Float> m_target;
+
+  /**
    * the actual load vector
    */
   vnl_vector<Float> F;
