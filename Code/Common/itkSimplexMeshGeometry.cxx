@@ -15,9 +15,6 @@
 
 =========================================================================*/
 
-#ifndef _SimplexMeshGeometry_cxx
-#define _SimplexMeshGeometry_cxx
-
 #include "itkSimplexMeshGeometry.h"
 #include "itkNumericTraits.h"
 
@@ -99,7 +96,10 @@ SimplexMeshGeometry
 
   // fix for points which lay on their neighbors plane
   // necessary ??
-  if (val == 0) val = 1; //  assert (val != 0 );
+  if (val == 0) 
+    {
+    val = 1; //  assert (val != 0 );
+    }
 
   sphereRadius = sphereTmp.GetNorm()/val;
 
@@ -112,4 +112,3 @@ SimplexMeshGeometry
 
 }  // end namespace itk
 
-#endif // _SimplexMeshGeometry_cxx
