@@ -96,20 +96,20 @@ public:
   
   /**  Method to transform a point. */
   virtual OutputPointType TransformPoint(const InputPointType  &point ) const
-    { OutputPointType result; result.CastFrom(point); return result; }
+    { return OutputPointType(); } 
 
   /**  Method to transform a vector. */
   virtual OutputVectorType    TransformVector(const InputVectorType &vector) const
-    { OutputVectorType result; result.CastFrom(vector); return result; }
+    { return OutputVectorType(); }
 
   /**  Method to transform a vnl_vector. */
   virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &vector) const
-    { return vector; }
+    { return OutputVnlVectorType(); }
 
   /**  Method to transform a CovariantVector. */
   virtual OutputCovariantVectorType TransformCovariantVector(
     const InputCovariantVectorType &vector) const
-    { OutputCovariantVectorType result; result.CastFrom(vector); return result; }
+    { return OutputCovariantVectorType(); } 
 
   /** Set the Transformation Parameters
    * and update the internal transformation. */
@@ -157,7 +157,6 @@ public:
 
 
 protected:
-  Transform(); // constructor for Identity Transforms
   Transform(unsigned int Dimension, unsigned int NumberOfParameters);
   virtual ~Transform() {};
 

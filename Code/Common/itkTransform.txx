@@ -23,21 +23,6 @@
 namespace itk
 {
 
-/**
- * Constructor
- */
-template < class TScalarType,
-           unsigned int NInputDimensions,
-           unsigned int NOutputDimensions >
-Transform< TScalarType,NInputDimensions,NOutputDimensions>
-::Transform():
-        m_Parameters(1),
-        m_Jacobian(NInputDimensions,1)
-{
-    // This particular constructor is provided for implementing
-    // an Identity Transform
-}
-
 
 /**
  * Constructor
