@@ -266,7 +266,9 @@ SET(SWIG_INC ${SWIG_INC} -I${ITK_TOP}/Wrapping/CSwig/IO)
 SET(SWIG_INC ${SWIG_INC} -I${ITK_TOP}/Wrapping/CSwig/Algorithms)
 ADD_DEFINITIONS(-DSWIG_GLOBAL)
 
-SET(ITK_KITS VXLNumerics Common Numerics BasicFilters IO Algorithms )
+SET(ITK_KITS VXLNumerics Common Numerics
+  BasicFilters BasicFiltersB IO Algorithms
+  )
 SUBDIRS(SwigRuntime ${ITK_KITS} Tests)
 IF(ITK_CSWIG_JAVA) 
   SUBDIRS(Java)

@@ -1,0 +1,19 @@
+SET(WRAP_SOURCES
+  wrap_itkExpImageFilter
+  wrap_itkExpNegativeImageFilter
+  wrap_itkMeanImageFilter
+  wrap_itkMedianImageFilter
+  wrap_itkNaryAddImageFilter
+  wrap_itkRandomImageSource
+  wrap_itkThresholdImageFilter
+  wrap_itkVTKImageExport
+  wrap_itkVTKImageImport
+)
+
+SET(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumerics.mdx"
+  "${WrapITK_BINARY_DIR}/Numerics/ITKNumerics.mdx"
+  "${WrapITK_BINARY_DIR}/Common/ITKCommon.mdx"
+  "${WrapITK_BINARY_DIR}/BasicFiltersB/ITKBasicFiltersB.mdx"
+  )
+
+ITK_WRAP_LIBRARY("${WRAP_SOURCES}" ITKBasicFiltersB BasicFiltersB "_ITKNumericsPython;_ITKCommonPython" "" "ITKBasicFilters")

@@ -11,8 +11,6 @@ SET(WRAP_SOURCES
   wrap_itkChangeInformationImageFilter
   wrap_itkConnectedThresholdImageFilter
   wrap_itkCurvatureAnisotropicDiffusionImageFilter
-  wrap_itkExpImageFilter
-  wrap_itkExpNegativeImageFilter
   wrap_itkExtractImageFilter
   wrap_itkFastMarchingImageFilter
   wrap_itkFlipImageFilter
@@ -26,14 +24,10 @@ SET(WRAP_SOURCES
   wrap_itkIsolatedConnectedImageFilter
   wrap_itkImportImageFilter
   wrap_itkLaplacianImageFilter
-  wrap_itkMeanImageFilter
-  wrap_itkMedianImageFilter
   wrap_itkMinimumMaximumImageCalculator
-  wrap_itkNaryAddImageFilter
   wrap_itkNeighborhoodConnectedImageFilter
   wrap_itkNormalizeImageFilter
   wrap_itkPermuteAxesImageFilter
-  wrap_itkRandomImageSource
   wrap_itkRecursiveGaussianImageFilter
   wrap_itkRecursiveSeparableImageFilter
   wrap_itkRegionOfInterestImageFilter
@@ -45,9 +39,6 @@ SET(WRAP_SOURCES
   wrap_itkSobelEdgeDetectionImageFilter
   wrap_itkSmoothingRecursiveGaussianImageFilter
   wrap_itkTernaryMagnitudeImageFilter
-  wrap_itkThresholdImageFilter
-  wrap_itkVTKImageExport
-  wrap_itkVTKImageImport
 )
 
 SET(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumerics.mdx"
