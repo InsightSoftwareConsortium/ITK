@@ -20,7 +20,8 @@
 #include "itkImageToImageMetric.h"
 #include "itkCovariantVector.h"
 #include "itkPoint.h"
-
+#include "itkMultiThreader.h"
+#include <vector>
 
 namespace itk
 {
@@ -91,6 +92,7 @@ public:
   typedef typename Superclass::MovingImageType          MovingImageType;
   typedef typename Superclass::FixedImageConstPointer   FixedImageConstPointer;
   typedef typename Superclass::MovingImageConstPointer  MovingImageConstPointer;
+  typedef typename Superclass::FixedImageRegionType     FixedImageRegionType;
 
 
   /** Get the derivatives of the match measure. */
@@ -119,17 +121,65 @@ public:
   itkBooleanMacro(MeasureMatches);
   itkGetMacro(MeasureMatches, bool);
   
+  /** Get/Set the number of threads to create when executing. */
+  itkSetClampMacro( NumberOfThreads, int, 1, ITK_MAX_THREADS );
+  itkGetConstReferenceMacro( NumberOfThreads, int );
+  
+  /** Return the multithreader used by this class. */
+  MultiThreader * GetMultiThreader()
+    {return m_Threader;}
+
 protected:
   MatchCardinalityImageToImageMetric();
   virtual ~MatchCardinalityImageToImageMetric() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
+
+  /**
+   * Non-const version of GetValue().  This is a hack around various
+   * const issues with trying to spawn threads from the const version
+   * of GetValue().
+   */
+  MeasureType GetNonconstValue( const TransformParametersType & parameters );
+
+  /**
+   * Thread worker routine to calculate the contribution of the a
+   * subregion to the overall metric.  Can only be called from
+   * GetValue(). */
+  virtual
+  void ThreadedGetValue(const FixedImageRegionType& outputRegionForThread,
+                        int threadId );
+
+  /** Split the FixedImageRegion into "num" pieces, returning
+   * region "i" as "splitRegion". This method is called "num" times. The
+   * regions must not overlap. The method returns the number of pieces that
+   * the routine is capable of splitting the FixedImageRegion,
+   * i.e. return value is less than or equal to "num". */
+  virtual
+  int SplitFixedRegion(int i,int num, FixedImageRegionType& splitRegion);
+
+  /** Static function used as a "callback" by the MultiThreader.  The threading
+   * library will call this routine for each thread, which will delegate the
+   * control to ThreadedGetValue(). */
+  static ITK_THREAD_RETURN_TYPE ThreaderCallback( void *arg );
+
+  /** Internal structure used for passing image data into the threading library */
+  struct ThreadStruct
+  {
+    Pointer Metric;
+  };
 
 private:
   MatchCardinalityImageToImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   bool m_MeasureMatches;
-
+  std::vector<MeasureType> m_ThreadMatches;
+  std::vector<unsigned long> m_ThreadCounts;
+  
+  /** Support processing data in multiple threads. Used by subclasses
+   * (e.g., ImageSource). */
+  MultiThreader::Pointer m_Threader;
+  int m_NumberOfThreads;
 };
 
 } // end namespace itk
