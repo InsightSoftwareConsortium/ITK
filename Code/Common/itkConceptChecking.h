@@ -311,10 +311,12 @@ struct MultiplicativeOperators
 template <typename T>
 struct Signed
 {
+  typedef Signed Self;
+  itkStaticConstMacro(IsSigned, bool, NumericTraits<T>::is_signed);
   struct Constraints
   {
     typedef Detail::UniqueType_bool<true> TrueT;
-    typedef Detail::UniqueType_bool<NumericTraits<T>::is_signed> SignedT;
+    typedef Detail::UniqueType_bool<itkGetStaticConstMacro(IsSigned)> SignedT;
     void constraints()
       {
         SignedT a = TrueT();
