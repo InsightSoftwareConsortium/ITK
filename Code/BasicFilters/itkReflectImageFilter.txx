@@ -95,8 +95,6 @@ ReflectImageFilter<TInputImage,TOutputImage>
   outputIt.GoToBegin();
   unsigned long visitCounter = 0;
 
-  typename TInputImage::SizeType size = inputPtr->GetRequestedRegion().GetSize();
-
   while( !inputIt.IsAtEnd() ) 
     {
 
