@@ -130,24 +130,22 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
     
     //use a const iterator to grab the points and compute
     //the bounding box.
-    const CoordRepType *coords;
+    Point< TCoordRep, VPointDimension>   point;
     for ( PointsContainerIterator ci = m_PointsContainer->Begin();
           ci != m_PointsContainer->End(); ++ci )
       {
-      coords = ci->Value().GetCoords();
-
-      coords = (*ci).Value().GetCoords(); //point value
-	  for (int i=0; i<PointDimension; i++)
-	    {
-		if ( coords[i] < m_Bounds[2*i] )
-		  {
-		  m_Bounds[2*i] = coords[i];
-		  }
-		if ( coords[i] > m_Bounds[2*i+1] )
-		  {
-		  m_Bounds[2*i+1] = coords[i];
-		  }
-		}
+      point = ci->Value();     //point value
+    for (int i=0; i<PointDimension; i++)
+      {
+    if ( point[i] < m_Bounds[2*i] )
+      {
+      m_Bounds[2*i] = point[i];
+      }
+    if ( point[i] > m_Bounds[2*i+1] )
+      {
+      m_Bounds[2*i+1] = point[i];
+      }
+    }
       }//for all points in container
 
     m_BoundsMTime.Modified();
