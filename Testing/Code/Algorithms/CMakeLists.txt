@@ -1,4 +1,3 @@
-
 IF (TCL_TCLSH)
 ADD_TEST(PrintSelf-Algorithms ${TCL_TCLSH}
          ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
