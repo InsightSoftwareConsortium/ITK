@@ -35,6 +35,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkImageIOBase.h"
 #include "itkIOCommon.h"
 #include "itkGEImageHeader.h"
+#include "itkIPLFileNameList.h"
 //#include "idbm_hdr_def.h"
 
 namespace itk
@@ -117,43 +118,21 @@ public:
   };
 
 
-  struct FILESORTINFOSTRUCT {
-    char imageFileName[itk::IOCommon::ITK_MAXPATHLEN+1];
-    float SliceLocation;
-    int  SliceOffset;
-    int echoNumber;
-    void * data;
-  };
-  typedef struct FILESORTINFOSTRUCT FILESORTINFO;
-protected:
+  protected:
   IPLCommonImageIO();
   ~IPLCommonImageIO();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-
-
-  struct FILENAMELISTSTRUCT
-  {
-    FILESORTINFO Info[itk::IOCommon::MAX_FILENAMELIST_SIZE];
-    int  XDim;
-    int  YDim;
-    int Key1;  /** Key that must be matched for image to be used, i.e. seriesNumber, extensionkey*/
-    int Key2;  /** Key that must be matched for image to be used, i.e. echoNumber*/
-    int numImageInfoStructs;
-    int maxImageFileNames;
-  };
-  typedef struct FILENAMELISTSTRUCT FILENAMELIST;
-  void InitializeFILENAMELIST( FILENAMELIST * const fnList );
-  int AddElementToList(FILENAMELIST * const fnList,char const * const filename, const float sliceLocation, const int offset, const int XDim, const int YDim, const int Key1, const int Key2 );
-  void sortImageListAscend (FILENAMELIST * const fnList);
-  void sortImageListDescend (FILENAMELIST * const fnList);
+  int AddElementToList(char const * const filename, const float sliceLocation, const int offset, const int XDim, const int YDim, const int Key1, const int Key2 );
+  void sortImageListAscend ();
+  void sortImageListDescend ();
   int statTimeToAscii (void *clock, char *timeString);
   virtual struct GEImageHeader *ReadHeader(const char *FileNameToRead);
   //
   // data members
   struct GEImageHeader *m_ImageHeader;
   ImageIOBase::ByteOrder m_system_byteOrder;
-  FILENAMELIST m_fnlist;
+  IPLFileNameList *m_fnlist;
   //
   // return 0 on success, -1 on failure
   int GetStringAt(std::ifstream &f,std::streamoff Offset,char *buf,

@@ -48,14 +48,15 @@ IPLCommonImageIO::IPLCommonImageIO()
 {
   m_system_byteOrder = ByteSwapper<int>::SystemIsBigEndian() ? ImageIOBase::BigEndian :
     ImageIOBase::LittleEndian;
-  memset(&m_fnlist,0,sizeof(m_fnlist));
   m_ImageHeader = 0;
+  m_fnlist = new IPLFileNameList;
 }
 
 IPLCommonImageIO::~IPLCommonImageIO()
 {
   if(m_ImageHeader != 0)
     delete m_ImageHeader;
+  delete m_fnlist;
 }
 
 void IPLCommonImageIO::PrintSelf(std::ostream& os, Indent indent) const
@@ -79,17 +80,20 @@ unsigned int IPLCommonImageIO::GetComponentSize() const
 }
 void IPLCommonImageIO::Read(void* buffer)
 {
-  int i;
   S16 *img_buffer = (S16 *)buffer;
-  for(i = 0; i < m_fnlist.numImageInfoStructs; i++) 
-    {
-    std::ifstream f(m_fnlist.Info[i].imageFileName,std::ios::binary | std::ios::in);
+  IPLFileNameList::IteratorType it = m_fnlist->begin();
+  IPLFileNameList::IteratorType itend = m_fnlist->end();
 
-    //std::cerr << m_fnlist.Info[i].imageFileName << std::endl; std::cerr.flush();
+  for(;it != itend; it++)
+    {
+    std::ifstream f((*it)->GetimageFileName().c_str(),
+                    std::ios::binary | std::ios::in);
+
+    //std::cerr << (*it)->imageFileName << std::endl; std::cerr.flush();
     if(!f.is_open())
       RAISE_EXCEPTION();
-    f.seekg (m_fnlist.Info[i].SliceOffset, std::ios::beg);
-    if(!this->ReadBufferAsBinary(f, img_buffer, m_fnlist.XDim * m_fnlist.YDim * sizeof(S16)))
+    f.seekg ((*it)->GetSliceOffset(), std::ios::beg);
+    if(!this->ReadBufferAsBinary(f, img_buffer, m_fnlist->GetXDim() * m_fnlist->GetYDim() * sizeof(S16)))
       {
       f.close();
       RAISE_EXCEPTION();
@@ -99,13 +103,13 @@ void IPLCommonImageIO::Read(void* buffer)
     // the FILE endian-ness, not as the name would lead you to believe.
     // So, on LittleEndian systems, SwapFromSystemToBigEndian will swap.
     // On BigEndian systems, SwapFromSystemToBigEndian will do nothing.
-    itk::ByteSwapper<S16>::SwapRangeFromSystemToBigEndian(img_buffer,m_fnlist.XDim*m_fnlist.YDim);
-    img_buffer += m_fnlist.XDim * m_fnlist.YDim;
+    itk::ByteSwapper<S16>::SwapRangeFromSystemToBigEndian(img_buffer,m_fnlist->GetXDim()*m_fnlist->GetYDim());
+    img_buffer += m_fnlist->GetXDim() * m_fnlist->GetYDim();
     }
 #if 0 // Debugging
   std::ofstream f2("test.img",std::ios::binary | std::ios::out);
-  f2.write(buffer,(m_fnlist.numImageInfoStructs *
-                   m_fnlist.XDim * m_fnlist.YDim * sizeof(S16)));
+  f2.write(buffer,(m_fnlist->numImageInfoStructs *
+                   m_fnlist->GetXDim() * m_fnlist->GetYDim() * sizeof(S16)));
   f2.close();
 #endif
 }
@@ -128,13 +132,12 @@ bool IPLCommonImageIO::CanReadFile( const char* )
 void IPLCommonImageIO::ReadImageInformation()
 {
   std::string FileNameToRead = this->GetFileName();
-  InitializeFILENAMELIST(&m_fnlist);
   this->m_ImageHeader = this->ReadHeader(FileNameToRead.c_str());
   //std::cerr << "HEADER SIZE " << m_ImageHeader->offset << std::endl;
   //
   // if anything fails in the header read, just let
   // exceptions propogate up.
-  AddElementToList(&m_fnlist,m_ImageHeader->filename,
+  AddElementToList(m_ImageHeader->filename,
                    m_ImageHeader->sliceLocation,
                    m_ImageHeader->offset,
                    m_ImageHeader->imageXsize,
@@ -230,10 +233,10 @@ void IPLCommonImageIO::ReadImageInformation()
       // throw an exception, and we'd just want to skip it.
       continue;
       }
-    if(curImageHeader->echoNumber == m_fnlist.Key2 &&
-       curImageHeader->seriesNumber == m_fnlist.Key1)
+    if(curImageHeader->echoNumber == m_fnlist->GetKey2() &&
+       curImageHeader->seriesNumber == m_fnlist->GetKey1())
       {
-      AddElementToList(&m_fnlist,curImageHeader->filename,
+      AddElementToList(curImageHeader->filename,
                        curImageHeader->sliceLocation,
                        curImageHeader->offset,
                        curImageHeader->imageXsize,
@@ -246,11 +249,11 @@ void IPLCommonImageIO::ReadImageInformation()
   switch(m_ImageHeader->imagePlane)
     {
     case AXIAL:  //Axial needs to descend
-      sortImageListDescend (&m_fnlist);
+      sortImageListDescend ();
       break;
     case CORONAL: //Fall through and ascend
     case SAGITTAL:
-      sortImageListAscend (&m_fnlist);
+      sortImageListAscend ();
       break;
     default:
       break;
@@ -261,7 +264,7 @@ void IPLCommonImageIO::ReadImageInformation()
   this->SetNumberOfDimensions(3);
   this->SetDimensions(0,m_ImageHeader->imageXsize);
   this->SetDimensions(1,m_ImageHeader->imageYsize);
-  this->SetDimensions(2,m_fnlist.numImageInfoStructs);
+  this->SetDimensions(2,m_fnlist->NumFiles());
   this->SetSpacing(0, m_ImageHeader->imageXres);
   this->SetSpacing(1, m_ImageHeader->imageYres);
   this->SetSpacing(2, m_ImageHeader->sliceThickness);
@@ -400,120 +403,39 @@ double IPLCommonImageIO
   return (doubleValue);
 }
 
-void IPLCommonImageIO
-::InitializeFILENAMELIST( FILENAMELIST * const fnList )
-{
-  memset(fnList,0,sizeof(FILENAMELIST));
-}
-
 int IPLCommonImageIO
-::AddElementToList(FILENAMELIST * const fnList,char const * const filename, const float sliceLocation, const int offset, const int XDim, const int YDim, const int Key1, const int Key2 )
+::AddElementToList(char const * const filename, const float sliceLocation, const int offset, const int XDim, const int YDim, const int Key1, const int Key2 )
 {
-  if(fnList->numImageInfoStructs == 0)
+  if(m_fnlist->NumFiles() == 0)
     {
-    fnList->XDim = XDim;
-    fnList->YDim = YDim;
-    fnList->Key1 = Key1;
-    fnList->Key2 = Key2;
+    m_fnlist->SetXDim(XDim);
+    m_fnlist->SetYDim(YDim);
+    m_fnlist->SetKey1(Key1);
+    m_fnlist->SetKey2(Key2);
     }
-  else if(XDim != fnList->XDim || YDim != fnList->YDim  )
+  else if(XDim != m_fnlist->GetXDim() || YDim != m_fnlist->GetYDim()  )
     {
     return 0;
     }
-  else if (fnList->Key1 != Key1 ||  fnList->Key2 != Key2)
+  else if (m_fnlist->GetKey1() != Key1 ||  m_fnlist->GetKey2() != Key2)
     {
     return 1;  //It is OK for keys to not match,  Just don't add.
     }
-  fnList->Info[fnList->numImageInfoStructs].SliceLocation = sliceLocation;
-  fnList->Info[fnList->numImageInfoStructs].echoNumber = 0;
-  fnList->Info[fnList->numImageInfoStructs].SliceOffset = offset;
-  strncpy ( fnList->Info[fnList->numImageInfoStructs].imageFileName,filename, IOCommon::ITK_MAXPATHLEN+1);
-  fnList->numImageInfoStructs++;
-  assert(fnList->numImageInfoStructs< itk::IOCommon::MAX_FILENAMELIST_SIZE);
+  m_fnlist->AddElementToList(filename,sliceLocation,
+                            0,XDim,YDim,0,Key1,Key2);
   return 1;
 }
-/**
-   * \author Hans J. Johnson
-   * \brief This function is the comparitor to qsort to determine if the slice is greater or less than
-   * the desired value, and returns so that the qsort call will sort in ascending order
-   * \return See qsort for valid return values.
-   */
-static int qsort_FILESORTINFO_ascend_compar( const void * item1, const void * item2 )
-{
-  float sliceGap;
-    
-  if (((IPLCommonImageIO::FILESORTINFO const * )item1)->echoNumber > ((IPLCommonImageIO::FILESORTINFO const * )item2)->echoNumber)
-    {
-    return 1;
-    }
-  else if (((IPLCommonImageIO::FILESORTINFO const * )item1)->echoNumber < ((IPLCommonImageIO::FILESORTINFO const * )item2)->echoNumber)
-    {
-    return -1;
-    }
-  else
-    {
-    sliceGap = ((IPLCommonImageIO::FILESORTINFO const * )item1)->SliceLocation - ((IPLCommonImageIO::FILESORTINFO const * )item2)->SliceLocation;
-    if (sliceGap < 0.0) 
-      {
-      return -1;
-      }
-    else if (sliceGap > 0.0) 
-      {
-      return 1;
-      }
-    else 
-      {
-      return 0;
-      }
-    }
-    
-}
 
-/**
-   * \author Hans J. Johnson
-   * \brief This function is the comparitor to qsort to determine if the slice is greater or less than
-   * the desired value, and returns so that the qsort call will sort in descending order
-   * \return See qsort for valid return values.
-   */
-static int qsort_FILESORTINFO_descend_compar( const void * item1, const void * item2 )
-{
-  float sliceGap;
-    
-  if (((IPLCommonImageIO::FILESORTINFO const * )item1)->echoNumber > ((IPLCommonImageIO::FILESORTINFO const * )item2)->echoNumber)
-    {
-    return 1;
-    }
-  else if (((IPLCommonImageIO::FILESORTINFO const * )item1)->echoNumber < ((IPLCommonImageIO::FILESORTINFO const * )item2)->echoNumber)
-    {
-    return -1;
-    }
-  else
-    {
-    sliceGap = ((IPLCommonImageIO::FILESORTINFO const * )item1)->SliceLocation - ((IPLCommonImageIO::FILESORTINFO const * )item2)->SliceLocation;
-    if (sliceGap < 0.0) 
-      {
-      return 1;
-      }
-    else if (sliceGap > 0.0) 
-      {
-      return -1;
-      }
-    else 
-      {
-      return 0;
-      }
-    }
-}
 void IPLCommonImageIO
-::sortImageListAscend (FILENAMELIST * const fnList)
+::sortImageListAscend ()
 {
-  qsort(fnList->Info,fnList->numImageInfoStructs,sizeof(FILESORTINFO),qsort_FILESORTINFO_ascend_compar);
+  m_fnlist->sortImageListAscend();
   return;
 }
 void IPLCommonImageIO
-::sortImageListDescend (FILENAMELIST * const fnList)
+::sortImageListDescend ()
 {
-  qsort(fnList->Info,fnList->numImageInfoStructs,sizeof(FILESORTINFO),qsort_FILESORTINFO_descend_compar);
+  m_fnlist->sortImageListDescend();
   return;
 }
 int IPLCommonImageIO
