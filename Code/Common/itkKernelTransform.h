@@ -29,6 +29,7 @@
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_vector_fixed.h"
 #include "vnl/algo/vnl_svd.h"
+#include "vnl/vnl_sample.h"
 
 namespace itk
 {
@@ -167,6 +168,10 @@ public:
   itkSetClampMacro(Stiffness, double, 0.0, NumericTraits<double>::max());
   itkGetMacro(Stiffness, double);
 
+  /* Supply a Reinitialize seed API */
+  static void ReinitializeSeed(int seed);
+  static void ReinitializeSeed();
+  
 
 protected:
   KernelTransform();
