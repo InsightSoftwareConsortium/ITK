@@ -77,7 +77,7 @@ public:
   /**
    * Method to get probability of an instance. The return value is the
    * value of the density function, not probability. */
-  double Evaluate(MeasurementVectorType measurement);
+  double Evaluate(MeasurementVectorType &measurement);
   
 protected:
   GaussianDensityFunction(void) ;
@@ -101,6 +101,8 @@ private:
   unsigned int m_VectorSize ;
 
   ColumnVectorType m_TempDifference ;
+  vnl_vector< double > m_TempVector ;
+  vnl_vector< double > m_TempVector2 ;
   ColumnVectorType m_TempExponential ;
 };
 
