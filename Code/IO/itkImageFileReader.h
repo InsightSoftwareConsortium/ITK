@@ -69,6 +69,9 @@ public:
  * A Pluggable factory pattern is used this allows different kinds of readers
  * to be registered (even at run time) without having to modify the
  * code in this class.
+ *
+ *  \ingroup IOFilters
+ *
  */
 template <class TOutputImage,
   class ConvertPixelTraits = 
