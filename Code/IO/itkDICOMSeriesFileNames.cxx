@@ -44,10 +44,10 @@ DICOMSeriesFileNames
 
 const std::vector<std::string> &
 DICOMSeriesFileNames
-::GetFileNames()
+::GetFileNames(bool recursive)
 {
   // make sure the SeriesUIDs are up to date
-  this->GetSeriesUIDs();
+  this->GetSeriesUIDs(recursive);
 
   if (m_SeriesUIDs.size() > 0)
     {
@@ -62,7 +62,7 @@ DICOMSeriesFileNames
 
 const std::vector<std::string> &
 DICOMSeriesFileNames
-::GetFileNames(const std::string &seriesUID)
+::GetFileNames(const std::string &seriesUID, bool recursive)
 {
   if ( m_Directory == "" )
     {
@@ -71,7 +71,7 @@ DICOMSeriesFileNames
 
   // Make sure the SeriesUIDs are up to date. This may require the
   // directory to be scanned.
-  this->GetSeriesUIDs();
+  this->GetSeriesUIDs(recursive);
   
   // Get the filenames, sorted by user selection. 
   m_FileNames.clear();
@@ -122,9 +122,45 @@ DICOMSeriesFileNames
   return m_FileNames;
 }
 
+void
+DICOMSeriesFileNames
+::RecurseDirectory( std::string directory, std::vector<std::string> &filenames)
+{
+  itksys::Directory dicomDir;
+  if (!dicomDir.Load (directory.c_str()))
+    {
+    itkExceptionMacro ( << "Directory " << directory.c_str() << " cannot be read!");
+    }
+  
+  for (unsigned long i = 0; i < dicomDir.GetNumberOfFiles(); i++)
+    {
+    // Only read files
+    if (itksys::SystemTools::FileIsDirectory( (directory + "/" + dicomDir.GetFile(i)).c_str() ))
+      {
+      if (strcmp(dicomDir.GetFile(i), ".")!=0 && strcmp(dicomDir.GetFile(i), "..")!=0)
+        {
+        this->RecurseDirectory((directory + "/" + dicomDir.GetFile(i)).c_str(), filenames);
+        }
+      continue;
+      }
+
+    // store the full filename
+    filenames.push_back(directory + "/" + dicomDir.GetFile(i));
+    }
+}
+
+
+std::string
+DICOMSeriesFileNames
+::GetFileName( const std::string& instanceUID )
+{
+  return m_AppHelper.GetFileName( instanceUID );
+}
+
+
 const std::vector<std::string> &
 DICOMSeriesFileNames
-::GetSeriesUIDs()
+::GetSeriesUIDs(bool recursive)
 {
   if ( m_Directory == "" )
     {
@@ -152,8 +188,13 @@ DICOMSeriesFileNames
   for (unsigned long i = 0; i < dicomDir.GetNumberOfFiles(); i++)
     {
     // Only read files
-    if (itksys::SystemTools::FileIsDirectory( (m_Directory + "/" + dicomDir.GetFile(i)).c_str() ))
+    if (itksys::SystemTools::FileIsDirectory( (m_Directory + "/" + dicomDir.GetFile(i)).c_str() ) && recursive)
       {
+      if (strcmp(dicomDir.GetFile(i), ".")!=0
+          && strcmp(dicomDir.GetFile(i), "..")!=0)
+        {
+        this->RecurseDirectory((m_Directory + "/" + dicomDir.GetFile(i)).c_str(), filenames);
+        }
       continue;
       }
 

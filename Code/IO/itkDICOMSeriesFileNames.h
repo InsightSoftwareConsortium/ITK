@@ -95,17 +95,21 @@ public:
   itkGetStringMacro(Directory);
 
   /** Returns a vector containing the UIDs for each series in the
-   * directory. */
-  const std::vector<std::string> &GetSeriesUIDs();
+   * directory. If parameter "recursive" is true, subdirectories will
+   * be scanned. */
+  const std::vector<std::string> &GetSeriesUIDs(bool recursive = false);
 
   /** Returns a vector containing the series' file names. The file
-   * names are sorted based on the current sorting mode. */
-  const std::vector<std::string> &GetFileNames ();
+   * names are sorted based on the current sorting mode. If parameter
+   * "recursive" is true, subdirectories will be scanned.*/
+  const std::vector<std::string> &GetFileNames (bool recursive = false);
 
   /** Returns a vector containing the file names for a specified
    * series UID. The file names are sorted based on the current
-   * sorting mode. */
-  const std::vector<std::string> &GetFileNames (const std::string& seriesUID);
+   * sorting mode. If parameter "recursive" is true, subdirectories
+   * will be scanned. */
+  const std::vector<std::string> &GetFileNames (const std::string& seriesUID,
+                                                bool recursive = false);
   
   /** Set the filename sorting order to sorting images based on the
    * DICOM field of slice number, the DICOM field of slice location,
@@ -121,6 +125,11 @@ public:
   void SetFileNameSortingOrderToSortByImagePositionPatient()
     { this->SetFileNameSortingOrder(SortByImagePositionPatient); }
 
+  /** Get the filename associated with a specific instance UID. This
+   * requires the internal database has already been built via a call
+   * to GetFileNames() */
+  std::string GetFileName(const std::string& instanceUID);
+  
 
 protected:
   DICOMSeriesFileNames();
@@ -132,6 +141,7 @@ private:
   void operator=(const Self&); //purposely not implemented
   
   int CanReadFile(const char* fname);
+  void RecurseDirectory( std::string directory, std::vector<std::string> &filenames);
 
   DICOMParser m_Parser;
   DICOMAppHelper m_AppHelper;
