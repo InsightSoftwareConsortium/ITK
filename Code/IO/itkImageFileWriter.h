@@ -124,7 +124,7 @@ public:
   /** Specify the region to write. If left NULL, then the whole image
    * is written. */
   void SetIORegion(const ImageIORegion & region);
-  const ImageIORegion & GetIORegion() const;
+  itkGetConstMacro( IORegion, ImageIORegion );
 
   /** Aliased to the Write() method to be consistent with the rest of the
    * pipeline. */
