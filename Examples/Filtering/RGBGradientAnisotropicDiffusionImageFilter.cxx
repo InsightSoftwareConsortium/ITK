@@ -224,11 +224,11 @@ int main( int argc, char ** argv )
   // \includegraphics[width=6cm]{RGBGradientAnisotropicDiffusionImageFilterOutput.eps}
   // \caption{Effect of the VectorGradientAnisotropicDiffusionImageFilter on
   // a RGB image from a cryogenic section of the Visible Woman data set.}
-  // \label{fig:VectorGradientAnisotropicDiffusionImageFilterInputOutput}
+  // \label{fig:RGBVectorGradientAnisotropicDiffusionImageFilterInputOutput}
   // \end{figure}
   //
   //  Figure
-  //  \ref{fig:VectorGradientAnisotropicDiffusionImageFilterInputOutput}
+  //  \ref{fig:RGBVectorGradientAnisotropicDiffusionImageFilterInputOutput}
   //  illustrates the effect of this filter on a RGB image from a cryogenic
   //  section of the Visible Woman data set.  In this example the filter was
   //  run with a time step of 0.25, and 20 iterations.  The input image has
