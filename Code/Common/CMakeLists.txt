@@ -39,9 +39,12 @@ SET(ITKCommon_SRCS
   itkTimeProbesCollectorBase.cxx 
   itkTimeStamp.cxx 
   itkTriangleCellTopology.cxx
-  itkVector.cxx 
-  itkVersion.cxx 
-  itkXMLFileOutputWindow.cxx 
+  itkVector.cxx
+  itkVersion.cxx
+  itkXMLFileOutputWindow.cxx
+  itkMetaDataObjectBase.cxx
+  itkMetaDataObject.cxx
+  itkMetaDataDictionary.cxx
 )
 
 IF (WIN32)

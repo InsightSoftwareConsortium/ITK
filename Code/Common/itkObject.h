@@ -23,6 +23,7 @@
 #include "itkLightObject.h"
 #include "itkEventObject.h"
 
+#include "itkMetaDataDictionary.h"
 namespace itk
 {
 class SubjectImplementation;
@@ -122,6 +123,18 @@ public:
   /** Return true if an observer is registered for this event. */
   bool HasObserver( const EventObject & event ) const;
   
+  /**
+   * \author Hans J. Johnson
+   * \return A reference to this objects MetaDataDictionary.
+   */
+  itk::MetaDataDictionary & GetMetaDataDictionary(void);
+
+  /**
+   * \author Hans J. Johnson
+   * \return A constant reference to this objects MetaDataDictionary.
+   */
+  const itk::MetaDataDictionary & GetMetaDataDictionary(void) const;
+
 protected:
   Object(); 
   virtual ~Object(); 
@@ -134,6 +147,11 @@ protected:
 
   bool PrintObservers(std::ostream& os, Indent indent) const;
 
+ /**
+  * \author Hans J. Johnson hans-johnson@uiowa.edu
+  * @see itk::MetaDataDictionary
+  */
+  itk::MetaDataDictionary m_MetaDataDictionary;
 private:
   Object(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

@@ -97,8 +97,8 @@ public:
   static bool NonpositiveMin() { return false; }
   static bool IsPositive(bool val) { return val; }
   static bool IsNonpositive(bool val) { return !val; }
-  static bool IsNegative(bool val) { return false; }
-  static bool IsNonnegative(bool val) {return true; }
+  static bool IsNegative(bool /* val */) { return false; }
+  static bool IsNonnegative(bool /*val*/) {return true; }
 };
 
 /** \class NumericTraits<char>
@@ -142,8 +142,8 @@ public:
   static unsigned char NonpositiveMin() { return min(); }
   static bool IsPositive(unsigned char val) { return val != Zero; }
   static bool IsNonpositive(unsigned char val) { return val == Zero; }
-  static bool IsNegative(unsigned char val) { return false; }
-  static bool IsNonnegative(unsigned char val) {return true; }
+  static bool IsNegative(unsigned char /* val */) { return false; }
+  static bool IsNonnegative(unsigned char /*val */) {return true; }
 };
 
 /** \class NumericTraits<short>
@@ -185,8 +185,8 @@ public:
   static unsigned short NonpositiveMin() { return min(); }
   static unsigned short IsPositive(unsigned short val) { return val != Zero; }
   static bool IsNonpositive(unsigned short val) { return val == Zero; }
-  static bool IsNegative(unsigned short val) { return false; }
-  static bool IsNonnegative(unsigned short val) {return true; }
+  static bool IsNegative(unsigned short/* val*/) { return false; }
+  static bool IsNonnegative(unsigned short /*val*/) {return true; }
 };
 
 /** \class NumericTraits<int>
@@ -230,8 +230,8 @@ public:
   static unsigned int NonpositiveMin() { return 0; }
   static bool IsPositive(unsigned int val) { return val != Zero; }
   static bool IsNonpositive(unsigned int val) { return  val == Zero; }
-  static bool IsNegative(unsigned int val) { return false; }
-  static bool IsNonnegative(unsigned int val) {return true; }
+  static bool IsNegative(unsigned int /*val*/) { return false; }
+  static bool IsNonnegative(unsigned int /*val*/) {return true; }
 };
 
 /** \class NumericTraits<long>

@@ -473,4 +473,20 @@ Object
  */
 bool Object::m_GlobalWarningDisplay = true;
 
+//Added By Hans J. Johnson
+itk::MetaDataDictionary &
+Object
+::GetMetaDataDictionary(void)
+{
+  return m_MetaDataDictionary;
+}
+
+//Added By Hans J. Johnson
+const itk::MetaDataDictionary &
+Object
+::GetMetaDataDictionary(void) const
+{
+  return m_MetaDataDictionary;
+}
+
 } // end namespace itk
