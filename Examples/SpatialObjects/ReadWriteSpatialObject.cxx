@@ -19,7 +19,7 @@
 //
 // \index{itk::ReadWriteSpatialObject}
 // Reading and writing SpatialObjects is a fairly simple task. The classes
-// \doxygen{SpatialObjectReader} and \doxygen(SpatialObjectWriter} are used
+// \doxygen{SpatialObjectReader} and \doxygen{SpatialObjectWriter} are used
 // to read and write these objects, respectively. (Note these classes
 // make use of the MetaIO auxiliary I/O routines and therefore have a 
 // \code{.meta} file suffix.)
