@@ -115,7 +115,7 @@ ImageToImageTranslationMeanSquaresRegistration<TReference, TTarget>
 ::StartRegistration( void )
 { 
   /* Initialize the Offset */ 
-  for (unsigned int k=0; k<TReference::ImageDimension; k++)
+  for (unsigned int k=0; k<ParametersDimension; k++)
   { 
     m_Parameters[ k ] = 0;
   }
