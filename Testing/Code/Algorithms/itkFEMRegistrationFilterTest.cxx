@@ -168,7 +168,7 @@ int itkFEMRegistrationFilterTest(int, char* [] )
   FillWithCircle<testImageType>( moving, center, radius, fgnd, bgnd );
 
   // fill fixed with circle
-  center[0] = 16; center[1] = 16; center[2] = 16; radius = 5;
+  center[0] = 16; center[1] = 16; center[2] = 16; radius = 8;
   FillWithCircle<testImageType>( fixed, center, radius, fgnd, bgnd );
 
   // fill initial deformation with zero vectors
@@ -200,6 +200,7 @@ int itkFEMRegistrationFilterTest(int, char* [] )
   registrator->SetMaxLevel(1); 
   registrator->SetMovingImage( moving );
   registrator->SetFixedImage( fixed );
+//  registrator->SetTemp(1.0);
   registrator->ChooseMetric((float)met);
   unsigned int maxiters=5;  
   float e=1.e6;
@@ -216,15 +217,23 @@ int itkFEMRegistrationFilterTest(int, char* [] )
     registrator->SetWidthOfMetricRegion(0 ,0);
   else 
     registrator->SetWidthOfMetricRegion(1 ,0);
-  registrator->SetNumberOfIntegrationPoints(1,0);
+  registrator->SetNumberOfIntegrationPoints(2,0);
   registrator->SetDescentDirectionMinimize();
   registrator->SetDescentDirectionMaximize();
   registrator->DoLineSearch(false);
   registrator->SetTimeStep(1.);
-  registrator->EmployRegridding(false);
+  if (met == 0)   
+  { 
+    registrator->DoLineSearch((int)2);
+    registrator->EmployRegridding(true);
+  }
+  else 
+  {
+    registrator->DoLineSearch((int)0);
+    registrator->EmployRegridding(false);
+  }
   registrator->UseLandmarks(false);
-//  registrator->SetTemp(1.0);
-
+  
   itk::fem::MaterialLinearElasticity::Pointer m;
   m=itk::fem::MaterialLinearElasticity::New();
   m->GN=0;       // Global number of the material ///
@@ -243,13 +252,11 @@ int itkFEMRegistrationFilterTest(int, char* [] )
 
   registrator->Print( std::cout );
 
-
+  
   try
     {
-    // Register the images
+    // Register the images 
     registrator->RunRegistration();
-//    registrator->EmployRegridding(2);
-//    registrator->RunRegistration();
     }
   catch(... )
     {
