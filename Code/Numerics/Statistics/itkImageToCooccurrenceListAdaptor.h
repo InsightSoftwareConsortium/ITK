@@ -61,7 +61,7 @@ public:
 
   typedef FixedArray< typename TImage::PixelType, 2 > MeasurementVectorType ;
 
-  typedef typename itk::Statistics::ListSample< MeasurementVectorType > SampleType ;
+  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType ;
 
   /** Standard class typedefs */
   typedef ImageToCooccurrenceListAdaptor Self;
@@ -77,7 +77,7 @@ public:
 
   /** Offset type used for Neighborhoods **/
   typedef typename ShapedNeighborhoodIteratorType::OffsetType OffsetType;
-  typedef typename std::vector<OffsetType> OffsetTable;
+  typedef std::vector<OffsetType> OffsetTable;
   
   void UseNeighbor(const OffsetType & offset);
 
