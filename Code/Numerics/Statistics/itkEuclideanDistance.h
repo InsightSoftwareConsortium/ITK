@@ -52,6 +52,9 @@ public:
 protected:
   EuclideanDistance() {}
   virtual ~EuclideanDistance() {} 
+  virtual void PrintSelf(std::ostream& os, Indent indent) const
+  { Superclass::PrintSelf(os, indent) ; }
+
 } ; // end of class
 
 } // end of namespace Statistics 
