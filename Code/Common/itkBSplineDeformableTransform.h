@@ -128,7 +128,8 @@ public:
    * coefficients on a sparse grid. 
    * 
    * The parameters are N number of N-D grid of coefficients. Each N-D grid 
-   * is represented as a flat array of doubles (in the same configuration as an itk::Image).
+   * is represented as a flat array of doubles 
+   * (in the same configuration as an itk::Image).
    * The N arrays are then concatenated to form one parameter array.
    *
    * For efficiency, this transform does not make a copy of the parameters.
@@ -145,12 +146,12 @@ public:
   /** Get the Transformation Parameters. */
   virtual const ParametersType& GetParameters(void) const;
 
-  /** Typedefs for specificing the extend to the grid. */
+  /** Typedefs for specifying the extend to the grid. */
   typedef ImageRegion<itkGetStaticConstMacro(SpaceDimension)>    RegionType;
   typedef typename RegionType::IndexType IndexType;
   typedef typename RegionType::SizeType  SizeType;
-  typedef FixedArray<double> SpacingType;
-  typedef FixedArray<double> OriginType;
+  typedef FixedArray<double,itkGetStaticConstMacro(SpaceDimension)> SpacingType;
+  typedef FixedArray<double,itkGetStaticConstMacro(SpaceDimension)> OriginType;
 
   /** This method specifies the region over which the grid resides. */
   virtual void SetGridRegion( const RegionType& region );
