@@ -53,17 +53,7 @@ void BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>
 ::InitializePyramidSplineFilter(int SplineOrder)
 {
   switch (SplineOrder) 
-    {
-  
-    case 0 :
-      m_gSize = 1;
-      m_hSize = 1;
-      m_g.resize(m_gSize);
-      m_h.resize(m_hSize);
-      m_g[0] = 1;
-      m_h[0] = 2;
-      break;
-    
+    {   
     case 1 :
       m_gSize = 21;
       m_hSize = 2;
@@ -225,7 +215,7 @@ void BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>
       m_h[19] = -0.0000562395;
       break;
     default :
-      // I don't feel well I think I'm going to throw up.
+      // Throw an execption for unsupported splines.
       ExceptionObject err(__FILE__, __LINE__);
       err.SetLocation( "BSplineCenteredResampleImageFilterBase" );
       err.SetDescription( "SplineOrder for Centered pyramid filter must be 0 through 4. Requested spline order has not been implemented." );

@@ -630,7 +630,68 @@ itkBSplineResampleImageFilterTest(
   flag += test2D_Centered_L2_NthOrderSpline_filter( 3 );  
   flag += test2D_Centered_L2_NthOrderSpline_filter( 2 );   
   flag += test2D_Centered_L2_NthOrderSpline_filter( 1 );   
-  
+
+  //Test for the exceptions for unsupported spline orders
+  bool passed = false;
+  try
+    {
+    std::cout << "Test when Standard_l2 spline order is unsupported" << std::endl;
+    dummyflag = test2D_Standard_l2_NthOrderSpline_filter( 6 ); 
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    std::cout << "Caught expected error." << std::endl;
+    std::cout << err << std::endl;
+    passed = true;
+    }
+  if (!passed)
+    std::cout << "*** " << flag << " expected exception was not caught." << std::endl;
+  passed = false;
+
+  try
+    {
+    std::cout << "Test when Centered_l2 spline order is unsupported" << std::endl;
+    dummyflag = test2D_Centered_l2_NthOrderSpline_filter( 6 ); 
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    std::cout << "Caught expected error." << std::endl;
+    std::cout << err << std::endl;
+    passed = true;
+    } 
+  if (!passed)
+    std::cout << "*** " << flag << " expected exception was not caught." << std::endl;
+  passed = false;
+
+  try
+    {
+    std::cout << "Test when Standard_L2 spline order is unsupported" << std::endl;
+    dummyflag = test2D_Standard_L2_NthOrderSpline_filter( 6 ); 
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    std::cout << "Caught expected error." << std::endl;
+    std::cout << err << std::endl;
+    passed = true;
+    }
+  if (!passed)
+    std::cout << "*** " << flag << " expected exception was not caught." << std::endl;
+  passed = false;
+
+  try
+    {
+    std::cout << "Test when Centered_L2 spline order is unsupported" << std::endl;
+    dummyflag = test2D_Centered_L2_NthOrderSpline_filter( 6 ); 
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    std::cout << "Caught expected error." << std::endl;
+    std::cout << err << std::endl;
+    passed = true;
+    } 
+  if (!passed)
+    std::cout << "*** " << flag << " expected exception was not caught." << std::endl;
+
   // Return results of test 
   if (flag != 0) {
     std::cout << "*** " << flag << " tests failed" << std::endl;
