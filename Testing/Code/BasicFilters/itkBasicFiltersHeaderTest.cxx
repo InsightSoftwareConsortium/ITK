@@ -165,6 +165,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkVectorCurvatureNDAnisotropicDiffusionFunction.txx"
 #include "itkVectorExpandImageFilter.txx"
 #include "itkVectorGradientAnisotropicDiffusionImageFilter.h"
+#include "itkVectorGradientMagnitudeImageFilter.txx"
 #include "itkVectorGradientNDAnisotropicDiffusionFunction.txx"
 #include "itkVectorIndexSelectionCastImageFilter.h"
 #include "itkVectorNeighborhoodOperatorImageFilter.txx"
