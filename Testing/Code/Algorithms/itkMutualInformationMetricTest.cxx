@@ -140,20 +140,20 @@ int main()
   enum{ ParametersDimension = ImageDimension * ( ImageDimension + 1 ) };
   typedef itk::Vector<double,ParametersDimension> ParametersType;
   typedef itk::AffineRegistrationTransform<
-    double, ImageDimension, ParametersType > TransformationType;
+    double, ImageDimension, ParametersType > TransformType;
 
-  TransformationType::Pointer transformer = TransformationType::New();
+  TransformType::Pointer transformer = TransformType::New();
 
 //------------------------------------------------------------
 // Set up a mapper
 //------------------------------------------------------------
-  typedef itk::ImageMapper< ReferenceType, TransformationType >
+  typedef itk::ImageMapper< ReferenceType, TransformType >
      MapperType;
 
   MapperType::Pointer mapper = MapperType::New();
 
   // connect the transformer to the mapper
-  mapper->SetTransformation( transformer );
+  mapper->SetTransform( transformer );
 
   // connect the reference image to the mapper
   mapper->SetDomain( imgReference );
