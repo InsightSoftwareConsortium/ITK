@@ -15,7 +15,7 @@
 =========================================================================*/
 
 #include "itkAffineTransform.h"
-#include "itkImage.h"
+#include "itkPhysicalImage.h"
 #include "itkImageMomentsCalculator.h"
 #include "itkIndex.h"
 #include "itkSize.h"
@@ -70,9 +70,9 @@ main(
     tpa.set((double *)pad);
 
     /* Allocate a simple test image */
-    itk::Image<unsigned short, 3>::Pointer
-      image = itk::Image<unsigned short,3>::New();
-    itk::Image<unsigned short, 3>::RegionType region;
+    itk::PhysicalImage<unsigned short, 3>::Pointer
+      image = itk::PhysicalImage<unsigned short,3>::New();
+    itk::PhysicalImage<unsigned short, 3>::RegionType region;
     region.SetSize(size);
     image->SetLargestPossibleRegion(region);
     image->SetBufferedRegion(region);
