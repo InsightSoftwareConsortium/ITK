@@ -131,7 +131,7 @@ public:
   typedef typename OutputMeshType::PointsContainer::Iterator
       OutputPointsContainerIterator;
 
-  typedef itk::Image<unsigned short, 3>		ImageType;
+  typedef itk::Image<unsigned short, 3>  ImageType;
   typedef typename InputMeshType::Pointer	InputMeshPointer;
   typedef typename OutputMeshType::Pointer	OutputMeshPointer;
   typedef typename ImageType::Pointer		ImagePointer;
