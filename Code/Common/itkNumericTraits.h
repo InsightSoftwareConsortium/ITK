@@ -67,6 +67,9 @@ public:
   static const bool One;
 };
 
+/** \class NumericTraits<char>
+ * \brief Define traits for type char.
+ */
 template <>
 class NumericTraits<char> : public ITK_NUMERIC_LIMITS<char> {
 public:
@@ -77,6 +80,9 @@ public:
   static const char One;
 };
 
+/** \class NumericTraits<unsigned char>
+ * \brief Define traits for type unsigned char.
+ */
 template <>
 class NumericTraits<unsigned char> : public ITK_NUMERIC_LIMITS<unsigned char> {
 public:
@@ -87,6 +93,9 @@ public:
   static const unsigned char One;
 };
 
+/** \class NumericTraits<short>
+ * \brief Define traits for type short.
+ */
 template <>
 class NumericTraits<short> : public ITK_NUMERIC_LIMITS<short> {
 public:
@@ -97,6 +106,9 @@ public:
   static const short One;
 };
 
+/** \class NumericTraits<unsigned short>
+ * \brief Define traits for type unsigned short.
+ */
 template <>
 class NumericTraits<unsigned short> : public ITK_NUMERIC_LIMITS<unsigned short> {
 public:
@@ -107,6 +119,9 @@ public:
   static const unsigned short One;
 };
 
+/** \class NumericTraits<int>
+ * \brief Define traits for type int.
+ */
 template <>
 class NumericTraits<int> : public ITK_NUMERIC_LIMITS<int> {
 public:
@@ -117,6 +132,9 @@ public:
   static const int One;
 };
 
+/** \class NumericTraits<unsigned int>
+ * \brief Define traits for type unsigned int.
+ */
 template <>
 class NumericTraits<unsigned int> : public ITK_NUMERIC_LIMITS<unsigned int> {
 public:
@@ -127,6 +145,9 @@ public:
   static const unsigned int One;
 };
 
+/** \class NumericTraits<long>
+ * \brief Define traits for type long.
+ */
 template <>
 class NumericTraits<long> : public ITK_NUMERIC_LIMITS<long> {
 public:
@@ -137,6 +158,9 @@ public:
   static const long One;
 };
 
+/** \class NumericTraits<unsigned long>
+ * \brief Define traits for type unsigned long.
+ */
 template <>
 class NumericTraits<unsigned long> : public ITK_NUMERIC_LIMITS<unsigned long> {
 public:
@@ -147,6 +171,9 @@ public:
   static const unsigned long One;
 };
 
+/** \class NumericTraits<float>
+ * \brief Define traits for type float.
+ */
 template <>
 class NumericTraits<float> : public ITK_NUMERIC_LIMITS<float> {
 public:
@@ -157,6 +184,9 @@ public:
   static const float One;
 };
 
+/** \class NumericTraits<double>
+ * \brief Define traits for type double.
+ */
 template <>
 class NumericTraits<double> : public ITK_NUMERIC_LIMITS<double> {
 public:
@@ -167,6 +197,9 @@ public:
   static const double One;
 };
 
+/** \class NumericTraits<long double>
+ * \brief Define traits for type long double.
+ */
 template <>
 class NumericTraits<long double> : public ITK_NUMERIC_LIMITS<long double> {
 public:
