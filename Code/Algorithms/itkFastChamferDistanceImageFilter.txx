@@ -38,7 +38,7 @@ template <class TInputImage,class TOutputImage>
 FastChamferDistanceImageFilter<TInputImage,TOutputImage>
 ::FastChamferDistanceImageFilter()
 {
-  int i;
+  int i, dim = ImageDimension;
 
   //cout << "Get Requested Region " << std::endl;
 
@@ -49,11 +49,11 @@ FastChamferDistanceImageFilter<TInputImage,TOutputImage>
   switch (ImageDimension)  
     {
     case 3:
-      m_Weights[2] = 1.65849;
+      m_Weights[dim] = 1.65849;
     case 2:
-      m_Weights[1] = 1.34065;
+      m_Weights[dim] = 1.34065;
     case 1:
-      m_Weights[0] = 0.92644;
+      m_Weights[dim] = 0.92644;
       break;
     default:
       itkWarningMacro(<< "Dimension " << ImageDimension << " with Default weights ");
@@ -85,11 +85,11 @@ void FastChamferDistanceImageFilter<TInputImage,TOutputImage>
 
   const unsigned int  center_voxel = it.Size()/2;
   //const int           num_neighbors = center_voxel; 
-  unsigned int        *neighbor_type; neighbor_type = new unsigned int[it.Size()];
+  int        *neighbor_type; neighbor_type = new int[it.Size()];
   unsigned int        i,n;
   register float      val[ImageDimension];
   register PixelType  center_value;
-  register unsigned   neighbor_start,neighbor_end;
+  register int  neighbor_start,neighbor_end;
   BandNodeType node;
 
   /** 1st Scan , using neighbors from center_voxel+1 to it.Size()-1 */
