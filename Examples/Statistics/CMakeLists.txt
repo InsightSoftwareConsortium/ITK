@@ -1,0 +1,72 @@
+PROJECT(StatisticsExamples)
+
+ADD_EXECUTABLE(BayesianPluginClassifier BayesianPluginClassifier.cxx )
+TARGET_LINK_LIBRARIES(BayesianPluginClassifier ITKCommon ITKStatistics)
+
+ADD_EXECUTABLE(EuclideanDistance EuclideanDistance.cxx )
+TARGET_LINK_LIBRARIES(EuclideanDistance ITKCommon)
+
+ADD_EXECUTABLE(ExpectationMaximizationMixtureModelEstimator ExpectationMaximizationMixtureModelEstimator.cxx )
+TARGET_LINK_LIBRARIES(ExpectationMaximizationMixtureModelEstimator
+ITKCommon ITKStatistics)
+
+ADD_EXECUTABLE(GaussianDensityFunction GaussianDensityFunction.cxx )
+TARGET_LINK_LIBRARIES(GaussianDensityFunction ITKCommon)
+
+ADD_EXECUTABLE(Histogram Histogram.cxx )
+TARGET_LINK_LIBRARIES(Histogram ITKCommon)
+
+ADD_EXECUTABLE(ImageToListAdaptor ImageToListAdaptor.cxx )
+TARGET_LINK_LIBRARIES(ImageToListAdaptor ITKCommon)
+
+ADD_EXECUTABLE(KdTree KdTree.cxx )
+TARGET_LINK_LIBRARIES(KdTree ITKCommon)
+
+ADD_EXECUTABLE(KdTreeBasedKMeansClustering KdTreeBasedKMeansClustering.cxx )
+TARGET_LINK_LIBRARIES(KdTreeBasedKMeansClustering ITKCommon ITKStatistics)
+
+ADD_EXECUTABLE(ListSample ListSample.cxx )
+TARGET_LINK_LIBRARIES(ListSample ITKCommon)
+
+ADD_EXECUTABLE(ListSampleToHistogramFilter ListSampleToHistogramFilter.cxx )
+TARGET_LINK_LIBRARIES(ListSampleToHistogramFilter ITKCommon)
+
+ADD_EXECUTABLE(ListSampleToHistogramGenerator ListSampleToHistogramGenerator.cxx )
+TARGET_LINK_LIBRARIES(ListSampleToHistogramGenerator ITKCommon)
+
+ADD_EXECUTABLE(MaximumDecisionRule MaximumDecisionRule.cxx )
+TARGET_LINK_LIBRARIES(MaximumDecisionRule ITKCommon)
+
+ADD_EXECUTABLE(MaximumRatioDecisionRule MaximumRatioDecisionRule.cxx )
+TARGET_LINK_LIBRARIES(MaximumRatioDecisionRule ITKCommon)
+
+ADD_EXECUTABLE(MembershipSample MembershipSample.cxx )
+TARGET_LINK_LIBRARIES(MembershipSample ITKCommon)
+
+ADD_EXECUTABLE(MinimumDecisionRule MinimumDecisionRule.cxx )
+TARGET_LINK_LIBRARIES(MinimumDecisionRule ITKCommon)
+
+ADD_EXECUTABLE(NeighborhoodSampler NeighborhoodSampler.cxx )
+TARGET_LINK_LIBRARIES(NeighborhoodSampler ITKCommon)
+
+ADD_EXECUTABLE(NormalVariateGenerator NormalVariateGenerator.cxx )
+TARGET_LINK_LIBRARIES(NormalVariateGenerator ITKCommon ITKStatistics)
+
+ADD_EXECUTABLE(PointSetToListAdaptor PointSetToListAdaptor.cxx )
+TARGET_LINK_LIBRARIES(PointSetToListAdaptor ITKCommon)
+
+ADD_EXECUTABLE(NormalVariateGenerator NormalVariateGenerator.cxx )
+TARGET_LINK_LIBRARIES(NormalVariateGenerator ITKCommon)
+
+ADD_EXECUTABLE(SampleStatistics SampleStatistics.cxx )
+TARGET_LINK_LIBRARIES(SampleStatistics ITKCommon)
+
+ADD_EXECUTABLE(SampleToHistogramProjectionFilter SampleToHistogramProjectionFilter.cxx )
+TARGET_LINK_LIBRARIES(SampleToHistogramProjectionFilter ITKCommon)
+
+ADD_EXECUTABLE(SampleSorting SampleSorting.cxx )
+TARGET_LINK_LIBRARIES(SampleSorting ITKCommon)
+
+ADD_EXECUTABLE(WeightedSampleStatistics WeightedSampleStatistics.cxx )
+TARGET_LINK_LIBRARIES(WeightedSampleStatistics ITKCommon)
+
