@@ -143,9 +143,8 @@ Directory
     return 0;
     }
   
-  dirent* d =0;
   dir = opendir(name);
-  for ( d = readdir(dir); d; d = readdir(dir) )
+  for (dirent* d = readdir(dir); d; d = readdir(dir) )
     {
     m_Files.push_back(d->d_name);
     }

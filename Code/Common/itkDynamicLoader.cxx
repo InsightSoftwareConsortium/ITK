@@ -222,7 +222,6 @@ const char*
 DynamicLoader
 ::LastError()
 {
-   DWORD errcode = GetLastError();
   LPVOID lpMsgBuf;
 
   FormatMessage( 
