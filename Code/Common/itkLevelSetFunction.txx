@@ -170,10 +170,9 @@ LevelSetFunction<TImageType>::ComputeMeanCurvature(
     {      
     for(j = 0; j < ImageDimension; j++)
       {      
-      curvature_term -= gd->m_dx[i] * gd->m_dx[j] * gd->m_dxy[i][j];
-
       if(j != i)
         {
+        curvature_term -= gd->m_dx[i] * gd->m_dx[j] * gd->m_dxy[i][j];
         curvature_term += gd->m_dxy[j][j] * gd->m_dx[i] * gd->m_dx[i];
         }
       }
