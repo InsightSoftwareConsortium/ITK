@@ -68,6 +68,7 @@ ImageMapper<TImage,TTransformation>
   Superclass::SetDomain( domain );
 
   m_Spacing  = domain->GetSpacing();
+  m_Origin = domain->GetOrigin();
   RegionType region = domain->GetRequestedRegion();
 
   m_Start  = region.GetIndex();
@@ -100,7 +101,7 @@ ImageMapper<TImage,TTransformation>
 
   for( unsigned int j = 0; j < TImage::ImageDimension; j++ )
   {
-    m_CurrentPoint[j] =  mappedPoint[j] / m_Spacing[j] ;
+    m_CurrentPoint[j] =  ( mappedPoint[j] - m_Origin[j] ) / m_Spacing[j] ;
   }
    
   bool value = true;
