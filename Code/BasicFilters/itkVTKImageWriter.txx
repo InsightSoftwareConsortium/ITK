@@ -252,7 +252,7 @@ static void WriteDataArray(std::ostream *fp, TInputImage *image, int fileType)
         {
         *fp << std::endl;
         }
-      *fp << inIt.Get() << " ";
+      *fp << inIt.Get().GetScalar() << " ";
       }
     }
   else
@@ -260,7 +260,7 @@ static void WriteDataArray(std::ostream *fp, TInputImage *image, int fileType)
     typedef typename TInputImage::ScalarValueType scalarType;
     for ( int i=0; !inIt.IsAtEnd(); ++inIt, i++ )
       {
-      scalarType foo = inIt.Get();
+      scalarType foo = inIt.Get().GetScalar();
       ByteSwapper<scalarType>::SwapBE(&foo);
       fp->write((char *)&foo, sizeof(scalarType));
       }
