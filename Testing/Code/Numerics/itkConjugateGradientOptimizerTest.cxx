@@ -161,13 +161,32 @@ int main()
   std::cout << "Number of evals = " << vnlOptimizer.get_num_evaluations() << std::endl;    
   std::cout << std::endl;
 
-  ParametersType finalValue = costFunction.GetParameters();
-
+  ParametersType finalPosition;
+  finalPosition = costFunction.GetParameters();
   std::cout << "Solution        = (";
-  std::cout << finalValue[0] << "," ;
-  std::cout << finalValue[1] << ")" << std::endl;  
+  std::cout << finalPosition[0] << "," ;
+  std::cout << finalPosition[1] << ")" << std::endl;  
 
-  return 0;
+  //
+  // check results to see if it is within range
+  //
+  bool pass = true;
+  double trueParameters[2] = { 2, -2 };
+  for( unsigned int j = 0; j < 2; j++ )
+    {
+    if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
+      pass = false;
+    }
+
+  if( !pass )
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "Test passed." << std::endl;
+  return EXIT_SUCCESS;
+
 
 }
 
