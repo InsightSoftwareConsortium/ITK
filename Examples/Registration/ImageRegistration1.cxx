@@ -453,7 +453,7 @@ int main( int argc, char **argv )
   //  \item \code{BrainProtonDensitySliceShifted13x17y.png}
   //  \end{itemize}
   //
-  //  The second image is the result of intentionally tranlating the first
+  //  The second image is the result of intentionally translating the first
   //  image by $(13,17)$ millimeters. Both images having unit-spacing. These
   //  images are shown in Figure \ref{fig:FixedMovingImageRegistration1}. The
   //  registration takes 18 iterations and produce as result the parameters:
