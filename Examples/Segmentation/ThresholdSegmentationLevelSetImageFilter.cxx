@@ -27,39 +27,42 @@
 // evolving surface can be constrained to prevent some of the ``leaking'' that
 // is common in connected-component schemes.
 //
-// The propagation term $f$ is calculated from the \code{FeatureImage} input
-// $g$ with \code{UpperThreshold} $U$ and \code{LowerThreshold} $L$ according
-// to the following formula.
+// The propagation term $P$ from equation~\ref{eqn:LevelSetEquation} is
+// calculated from the \code{FeatureImage} input $g$ with \code{UpperThreshold}
+// $U$ and \code{LowerThreshold} $L$ according to the following formula.
 //
-// \( f(l) = \left\{ \begin{array}{ll} g(l) - L & \mbox{if $g(l) < (U-L)/2 +
-// L$} \\ U - g(l) & \mbox{otherwise} \end{array} \right. \)
+// \begin{equation}
+// \label{eqn:ThresholdSegmentationLevelSetImageFilterPropagationTerm}
+// P(\mathbf{x}) = \left\{ \begin{array}{ll} g(\mathbf{x}) - L &
+// \mbox{if $g(\mathbf{x}) < (U-L)/2 + L$} \\ U - g(\mathbf{x}) &
+// \mbox{otherwise} \end{array} \right.  \end{equation}
 //
-// Figure~/ref{fig:ThresholdSegmentationSpeedTerm}
-// illustrates the speed term function.  Intensity values between $L$ and $H$
-// yield positive speed terms while outside values yield negative speed terms.
+// Figure~\ref{fig:ThresholdSegmentationSpeedTerm} illustrates the propagation
+// term function.  Intensity values in $g$ between $L$ and $H$ yield positive
+// values in $P$, while outside intensities yield negative values in $P$.
 //
 // \begin{figure} \center
-// \includegraphics[width=15cm]{ThresholdSegmentationLevelSetImageFilterFigure1.eps}
-// \caption[ThresholdSegmentationLevelSetImageFilter propagation term.]{ }
-// \label{fig:ThresholdSegmentationSpeedTerm}
+// \includegraphics[width=8cm]{ThresholdSegmentationLevelSetImageFilterFigure1.eps}
+// \caption[Propagation term for threshold-based level-set segmentation]{Propagation term for threshold-based level-set
+// segmentation. From
+// equation~\ref{eqn:ThresholdSegmentationLevelSetImageFilterPropagationTerm} }
+// \label{fig:ThresholdSegmentationSpeedTerm} 
 // \end{figure}
 //
 // \doxygen{ThresholdSegmentationLevelSetImageFilter} expects two inputs.  The
 // first is an initial Level Set in the form of an \doxygen{Image}. The second
-// input is the feature image $f$.  This filter requires little or no
-// preprocessing of its input.  Depending on the application, you may choose to
-// do some smoothing or morphological operations on your data, but the method
-// is much more robust to noise than feature-based level-set segmentation
-// filters.
+// input is the feature image $g$.  For many applications, this filter requires
+// little or no preprocessing of its input.  Smoothing the input image is not
+// usually require to produce reasonable solutions, though it may still be
+// warranted in some cases.
 // 
 // The following example illustrates the use of the
 // \doxygen{ThresholdSegmentationLevelSetImageFilter}.
-// Figure~/ref{fig:ThresholdSegmentationLevelSetImageFilterDiagram} shows how
+// Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilterDiagram} shows how
 // the image processing pipeline is constructed. The initial surface is
-// generated using the fast marching filter.  Notice that no preprocessing is
-// done on the image we are segmenting.  The output of the segmentation filter
-// is passed to a \doxygen{BinaryThresholdImageFilter} in order to produce a
-// binary mask representing the segmented object.
+// generated using the fast marching filter.  The output of the segmentation
+// filter is passed to a \doxygen{BinaryThresholdImageFilter} to create a
+// binary representation of the segmented object.
 //
 // \begin{figure} \center
 // \includegraphics[width=15cm]{ThresholdSegmentationLevelSetImageFilterCollaborationDiagram1.eps}
@@ -112,20 +115,12 @@ int main( int argc, char *argv[] )
   
   typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
   // Software Guide : EndCodeSnippet
-                                     
 
-  //  
-  //  The following lines instantiate the thresholding filter used to
-  //  estimate the position of the final level-set solution. 
-  //
   typedef unsigned char OutputPixelType;
-
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-
   typedef itk::BinaryThresholdImageFilter< 
                         InternalImageType, 
                         OutputImageType    >    ThresholdingFilterType;
-
   
   ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
                         
@@ -135,13 +130,8 @@ int main( int argc, char *argv[] )
   thresholder->SetOutsideValue(  0  );
   thresholder->SetInsideValue(  255 );
 
-  //  
-  // We instantiate reader and writer types in the following lines.
-  //
-
   typedef  itk::ImageFileReader< InternalImageType > ReaderType;
   typedef  itk::ImageFileWriter<  OutputImageType  > WriterType;
-
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -150,7 +140,7 @@ int main( int argc, char *argv[] )
   writer->SetFileName( argv[2] );
 
   //  
-  //  We declare now the type of the \doxygen{FastMarchingImageFilter} that
+  //  We now declare the type of the \doxygen{FastMarchingImageFilter} that
   //  will be used to generate the initial level set in the form of a distance
   //  map.
   //
@@ -158,15 +148,11 @@ int main( int argc, char *argv[] )
                               InternalImageType, 
                               InternalImageType >    FastMarchingFilterType;
 
-
-  //  
-  //  then, we  construct one filter of this class using the \code{New()} method. 
-  //
   FastMarchingFilterType::Pointer  fastMarching = FastMarchingFilterType::New();
   
   //  Software Guide : BeginLatex
   //  
-  //  In the following lines we instantiate the type of the
+  //  The following lines instantiate a
   //  \doxygen{ThresholdSegmentationLevelSetImageFilter} and create an object of this type
   //  using the \code{New()} method.
   //
@@ -185,12 +171,12 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  For the \doxygen{ThresholdSegmentationLevelSetImageFilter}, scaling
-  //  parameters are used to tradeoff between the propagation (inflation) and
-  //  the curvature (smoothing). The advection term is not used in this
-  //  filter. These parameters are set using methods
-  //  \code{SetPropagationScaling()} and \code{SetCurvatureScaling()}. In this
-  //  example, we will set both of these values to 1.0, a reasonable default
-  //  for many applications.
+  //  parameters are used to balance the influence of the propagation
+  //  (inflation) and the curvature (surface smoothing) terms from
+  //  equation~\ref{eqn:LevelSetEquation}. The advection term is not used in
+  //  this filter. Set the terms with methods \code{SetPropagationScaling()}
+  //  and \code{SetCurvatureScaling()}. Both terms are set to 1.0 in this
+  //  example.
   //
   //  \index{itk::ThresholdSegmentationLevelSetImageFilter!SetPropagationScaling()}
   //  \index{itk::SegmentationLevelSetImageFilter!SetPropagationScaling()}
@@ -212,27 +198,37 @@ int main( int argc, char *argv[] )
   thresholdSegmentation->SetMaximumRMSError( 0.02 );
   thresholdSegmentation->SetMaximumIterations( 1200 );
 
+  // Software Guide : BeginLatex
+  //
+  // The convergence criteria \code{MaximumRMSError} and
+  // \code{MaximumIterations} are set as in previous examples.  We now set the
+  // upper and lower threshold values $U$ and $L$, and the isosurface value to
+  // use in the initial model.
+  //
+  // Software Guide : EndLatex
 
+  // Software Guide : BeginCodeSnippet
+  thresholdSegmentation->SetUpperThreshold( ::atof(argv[7]) );
+  thresholdSegmentation->SetLowerThreshold( ::atof(argv[6]) );
+  thresholdSegmentation->SetIsoSurfaceValue(0.0);
+  thresholdSegmentation->SetUseNegativeFeaturesOn();
+  // Software Guide : EndCodeSnippet
+  
   //  Software Guide : BeginLatex
   //  
   //  The filters are now connected in a pipeline indicated in
-  //  Figure~\ref{fig:ThresholdLevelSetSegmentationCollaborationDiagram}.
-  //  Notice that there has been no processing done on the feature image.
+  //  Figure~\ref{fig:ThresholdLevelSetSegmentationCollaborationDiagram1}.
+  //  Remember that before calling \code{Update()} on the file writer object, the fast
+  //  marching filter must be initialized with the seed points and the output
+  //  from the reader object.  See previous examples and the source code for
+  //  this section for details.
   //
   //  Software Guide : EndLatex 
-
+  
   // Software Guide : BeginCodeSnippet
   thresholdSegmentation->SetInput( fastMarching->GetOutput() );
   thresholdSegmentation->SetFeatureImage( reader->GetOutput() );
-  thresholdSegmentation->SetIsoSurfaceValue(0.0);
-  thresholdSegmentation->SetLowerThreshold( ::atof(argv[6]) );
-  thresholdSegmentation->SetUpperThreshold( ::atof(argv[7]) );
-  thresholdSegmentation->SetUseNegativeFeaturesOn();
   thresholder->SetInput( thresholdSegmentation->GetOutput() );
-
-  //  zeroCrossing->SetInput( thresholdSegmentation->GetOutput());
-  //  caster->SetInput( zeroCrossing->GetOutput());
-  
   writer->SetInput( thresholder->GetOutput() );
   // Software Guide : EndCodeSnippet
 
@@ -320,9 +316,9 @@ int main( int argc, char *argv[] )
   
   //  Software Guide : BeginLatex
   //  
-  //  The invokation of the \code{Update()} method on the writer triggers the
+  //  Invoking the \code{Update()} method on the writer triggers the
   //  execution of the pipeline.  As usual, the call is placed in a
-  //  \code{try/catch} block should any errors ocurr and exceptions are thrown.
+  //  \code{try/catch} block should any errors ocurr or exceptions be thrown.
   //
   //  Software Guide : EndLatex 
 
@@ -371,12 +367,12 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Let's run this application using the same data and parameters as the
-  //  example given for \code{itk::ConnectedThreshold}
-  //  (section~\ref{sec:ConnectedThreshold}).
-  //  Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilter} shows the
-  //  results.  Compare these results with
-  //  figure~\ref{fig:ConnectedThresholdOutput}. Notice how the smoothness
+  //  Let's run this application with the same data and parameters as the
+  //  example given for \code{itk::ConnectedThreshold} in
+  //  section~\ref{sec:ConnectedThreshold}.
+  //  Compare the results in
+  //  figure~\ref{fig:ThresholdSegmentationLevelSetImageFilter} with those in
+  //  figure~\ref{fig:ConnectedThresholdOutput}. Notice how the smoothness 
   //  constraint on the surface prevents leakage of the segmentation into both
   //  ventricles, but also localizes the segmentation to a smaller portion of
   //  the gray matter.
