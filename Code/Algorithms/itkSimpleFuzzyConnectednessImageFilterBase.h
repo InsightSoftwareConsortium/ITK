@@ -138,7 +138,7 @@ protected:
   void GenerateData();
 
 private:
-  SimpleFuzzyConnectednessImageFilter(const Self&); //purposely not implemented
+  SimpleFuzzyConnectednessImageFilterBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   double m_Weight;
