@@ -49,8 +49,8 @@ class SpatialObjectTreeContainer : public TreeContainer<itk::SpatialObject<TDime
 public:
 
   /** Standard typedefs */
-  typedef SpatialObject<TDimension> SpatialObjectType;
-  typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
+  typedef SpatialObject<TDimension>           SpatialObjectType;
+  typedef SpatialObjectType*                  SpatialObjectPointer;
   typedef TreeContainer<SpatialObjectPointer> Superclass;
   typedef SpatialObjectTreeContainer<TDimension> Self;
   typedef SmartPointer<Self>  Pointer;
