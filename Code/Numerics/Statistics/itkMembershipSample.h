@@ -79,9 +79,13 @@ public:
   /** Smart pointer to the actual sample data holder */
   typedef typename TSample::Pointer SamplePointer ;
   
+  /** vector of unique class labels that will be used for mapping internal
+   * continuous class label with real class labels */
+  typedef std::vector< unsigned int > UniqueClassLabelsType ;
+
   /** Typedef for the storage that holds a class label for each instance.
    * The relationship between instances and class label is one-to-one */
-  typedef std::vector< unsigned int > ClassLabelHolder ;
+  typedef std::vector< unsigned int > ClassLabelHolderType ;
   
   /** Typedef for each subsample that stores instance identifers of instances
    * that belong to a class */
@@ -103,10 +107,15 @@ public:
   
   unsigned int GetClassLabel(const InstanceIdentifier &id) const ;
 
+  int GetInternalClassLabel(const unsigned int classLabel ) const ;
+
   unsigned int GetClassSampleSize(const unsigned int &classLabel) const ;
 
   ClassSamplePointer GetClassSample(const unsigned int &classLabel) ;
   
+  ClassLabelHolderType* GetClassLabels()
+  { return &m_ClassLabelHolder ; }
+
   /** returns the number of elements in each dimension */
   unsigned int Size(void) const ;
   
@@ -230,7 +239,8 @@ private:
 
   SamplePointer                   m_Sample ;
   unsigned int                    m_CurrentClassLabel ;
-  ClassLabelHolder                m_ClassLabelHolder ;
+  UniqueClassLabelsType           m_UniqueClassLabels ;
+  ClassLabelHolderType            m_ClassLabelHolder ;
   unsigned int                    m_NumberOfClasses ;
   std::vector< unsigned int >     m_ClassSampleSizes ;
   std::vector< ClassSamplePointer > m_ClassSamples ;
