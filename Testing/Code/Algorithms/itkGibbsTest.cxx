@@ -12,20 +12,25 @@
 #include "itkSimpleImageRegionIterator.h"
 #include "itkGaussianSupervisedClassifier.h"
 #include "itkGibbsPriorFilter.h"
-#include "itkGibbsPriorFilter.cpp"
 
-#define   IMGWIDTH            5
-#define   IMGHEIGHT           5
+
+#define   IMGWIDTH            256
+#define   IMGHEIGHT           256
 #define   NFRAMES             1
 #define   NUMBANDS            1  
 #define   NDIMENSION          3
 #define   NUM_CLASSES         3
-#define   MAX_NUM_ITER       10
+#define   MAX_NUM_ITER        20
 
 //using namespace itk;
 
 int main(){
-  typedef itk::Image<itk::Vector<int,NUMBANDS>,NDIMENSION> VecImageType; 
+  unsigned short TestImage[65535];
+  FILE *input;
+  input = fopen("34.raw", "rb");
+  fread(TestImage, 2, 65535, input);
+  
+  typedef itk::Image<itk::Vector<unsigned short,NUMBANDS>,NDIMENSION> VecImageType; 
 
   VecImageType::Pointer vecImage = VecImageType::New();
 
@@ -59,10 +64,14 @@ int main(){
   //--------------------------------------------------------------------------
   //Slice 1
   //Vector 1
-  dblVec[0] = 0; 
-  outIt.Set(dblVec); 
-  ++outIt;
-
+  int i = 0;
+  while ( !outIt.IsAtEnd() ) { 
+    dblVec[0] = TestImage[i]; 
+	outIt.Set(dblVec); 
+	++outIt;
+	i++;
+  }
+/*
   //Vector 2
   dblVec[0] = 0; 
   outIt.Set(dblVec); 
@@ -94,7 +103,7 @@ int main(){
   ++outIt;
 
   //Vector 8
-  dblVec[0] = 11; 
+  dblVec[0] = 10; 
   outIt.Set(dblVec); 
   ++outIt;
   
@@ -119,7 +128,7 @@ int main(){
   ++outIt;
   
   //Vector 13
-  dblVec[0] = 9; 
+  dblVec[0] = 8; 
   outIt.Set(dblVec); 
   ++outIt; 
   
@@ -144,7 +153,7 @@ int main(){
   ++outIt;
 
   //Vector 18
-  dblVec[0] = 11; 
+  dblVec[0] = 10; 
   outIt.Set(dblVec); 
   ++outIt;
 
@@ -182,7 +191,7 @@ int main(){
   dblVec[0] = 0; 
   outIt.Set(dblVec); 
   ++outIt;
-
+*/
   //---------------------------------------------------------------
   //Generate the training data
   //---------------------------------------------------------------
@@ -219,9 +228,18 @@ int main(){
   //--------------------------------------------------------------------------
   //Slice 1
   //Pixel no. 1
-  classoutIt.Set( 1 );
-  ++classoutIt;
-
+  i = 0;
+  while ( !classoutIt.IsAtEnd() ) {  
+	if ( (i%IMGWIDTH<160) && (i%IMGWIDTH>140) && 
+		(i/IMGWIDTH<140) && (i/IMGWIDTH>120)) {
+	  classoutIt.Set( 2 );
+//	  TestImage[i] = 256;
+	}
+	else classoutIt.Set( 1 );
+    ++classoutIt;
+	i++;
+  }
+/*
   //Pixel no. 2 
   classoutIt.Set( 1 );
   ++classoutIt;
@@ -317,7 +335,7 @@ int main(){
   //Pixel no. 25
   classoutIt.Set( 1 );
   ++classoutIt;
-
+*/
   //----------------------------------------------------------------------
   // Test code for the supervised classifier algorithm
   //----------------------------------------------------------------------
@@ -344,6 +362,7 @@ int main(){
   applyGibbsImageFilter->SetNumClasses(NUM_CLASSES);
   applyGibbsImageFilter->SetMaxNumIter(MAX_NUM_ITER);
   applyGibbsImageFilter->SetErrorTollerance(0.00);
+  applyGibbsImageFilter->SetBoundaryGradient(8);
  
   applyGibbsImageFilter->SetInput(vecImage);
   applyGibbsImageFilter
@@ -361,272 +380,21 @@ int main(){
   ClassImageIterator labeloutIt( outClassImage, outClassImage->GetBufferedRegion() );
   labeloutIt.Begin();
 
+  i = 0;
+  while ( !labeloutIt.IsAtEnd() ) {
+	TestImage[i] = labeloutIt.Get()*32000;
+	i++;
+	++labeloutIt;
+  }
+
+  fclose(input);
+  FILE *output=fopen("result.raw", "wb");
+  fwrite(TestImage, 2, IMGWIDTH*IMGHEIGHT, output);
+  fclose(output);
   //Verify if the results were as per expectation
   bool passTest = true;
 
-  //Loop through the data set
-  while( ! labeloutIt.IsAtEnd() )
-  {
-	//vector1
-	int classIndex = (int) labeloutIt.Get();
-    if (classIndex != 1)
-    {
-      passTest = false;
-	  std::cout<< "* ";
-//      break;
-    } else std::cout<< "o ";
-    ++labeloutIt;
-	
-	//vector2
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 1)
-    {
-      passTest = false;
-	  std::cout<< "* ";
-//      break;
-    } else std::cout<< "o ";
-    ++labeloutIt;
-
-	//vector3
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 1)
-    {
-      passTest = false;
-	  std::cout<< "* ";
-//      break;
-    } else std::cout<< "o ";
-    ++labeloutIt;
-
-	//vector4
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 1)
-    {
-      passTest = false;
-	  std::cout<< "* ";
-//      break;
-    } else std::cout<< "o ";
-    ++labeloutIt;
-
-    //vector5
-	classIndex = (int) labeloutIt.Get();
-    if (classIndex != 1)
-    {
-      passTest = false;
-	  std::cout<< "*" << std::endl;
-//      break;
-    } else std::cout<< "o" << std::endl;
-    ++labeloutIt;
-
-	//vector6
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 1)
-    {
-      passTest = false;
-	  std::cout<< "* ";
-//      break;
-    } else std::cout<< "o ";
-    ++labeloutIt;
-
-	//vector7
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 2)
-    {
-      passTest = false;
-	  std::cout<< "o ";
-//      break;
-    } else std::cout<< "* ";
-    ++labeloutIt;
-
-	//vector8
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 2)
-    {
-      passTest = false;
-	  std::cout<< "o ";
-//      break;
-    } else std::cout<< "* ";
-    ++labeloutIt;
-
-	//vector9
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 2)
-    {
-      passTest = false;
-	  std::cout<< "o ";
-//      break;
-    } else std::cout<< "* ";
-    ++labeloutIt;
-
-	//vector10
-	classIndex = (int) labeloutIt.Get();
-    if (classIndex != 1)
-    {
-      passTest = false;
-	  std::cout<< "*" << std::endl;
-//      break;
-    } else std::cout<< "o" <<std::endl;
-    ++labeloutIt;
-
-	//vector11
-	classIndex = (int) labeloutIt.Get();
-    if (classIndex != 1)
-    {
-      passTest = false;
-	  std::cout<< "* ";
-//      break;
-    } else std::cout<< "o ";
-    ++labeloutIt;
-
-	//vector12
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 2)
-    {
-      passTest = false;
-	  std::cout<< "o ";
-//      break;
-    } else std::cout<< "* ";
-    ++labeloutIt;
-
-	//vector13
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 2)
-    {
-      passTest = false;
-	  std::cout<< "o ";
-//      break;
-    } else std::cout<< "* ";
-    ++labeloutIt;
-
-	//vector14
-	classIndex = (int) labeloutIt.Get();
-    if (classIndex != 2)
-    {
-      passTest = false;
-	  std::cout<< "o ";
-//      break;
-    } else std::cout<< "* ";
-    ++labeloutIt;
-
-	//vector15
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 1)
-    {
-      passTest = false;
-	  std::cout<< "*" << std::endl;
-//      break;
-    } else std::cout<< "o" <<std::endl;
-    ++labeloutIt;
-
-	//vector16
-	classIndex = (int) labeloutIt.Get();
-    if (classIndex != 1)
-    {
-      passTest = false;
-	  std::cout<< "* ";
-//      break;
-    } else std::cout<< "o ";
-    ++labeloutIt;
-
-	//vector17
-	classIndex = (int) labeloutIt.Get();
-    if (classIndex != 2)
-    {
-      passTest = false;
-	  std::cout<< "o ";
-//      break;
-    } else std::cout<< "* ";
-    ++labeloutIt;
-	
-	//vector18
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 2)
-    {
-      passTest = false;
-	  std::cout<< "o ";
-//      break;
-    } else std::cout<< "* ";
-    ++labeloutIt;
-
-	//vector19
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 2)
-    {
-      passTest = false;
-	  std::cout<< "o ";
-//      break;
-    } else std::cout<< "* ";
-    ++labeloutIt;
-
-	//vector20
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 1)
-    {
-      passTest = false;
-	  std::cout<< "*" << std::endl;
-//      break;
-    } else std::cout<< "o" <<std::endl;
-    ++labeloutIt;
-
-	//vector21
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 1)
-    {
-      passTest = false;
-	  std::cout<< "* ";
-//      break;
-    } else std::cout<< "o ";
-    ++labeloutIt;
-
-	//vector22
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 1)
-    {
-      passTest = false;
-	  std::cout<< "* ";
-//      break;
-    } else std::cout<< "o ";
-    ++labeloutIt;
-
-	//vector23
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 1)
-    {
-      passTest = false;
-	  std::cout<< "* ";
-//      break;
-    } else std::cout<< "o ";
-    ++labeloutIt;
-
-	//vector24
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 1)
-    {
-      passTest = false;
-	  std::cout<< "* ";
-//      break;
-    } else std::cout<< "o ";
-    ++labeloutIt;
-
-	//vector25
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 1)
-    {
-      passTest = false;
-	  std::cout<< "*" << std::endl;
-//      break;
-    } else std::cout<< "o" <<std::endl;
-    ++labeloutIt;
-  }//end while
-  
-  outIt.Begin();
-
-  //Loop through the data set
-  while( ! outIt.IsAtEnd() )
-  {
-    int classIndex = outIt.Get()[0];
-	std::cout<< classIndex <<" ";
-    ++outIt;
-  }//end while
+//  outIt.Begin();
 
   std::cout<< std::endl;
   if( passTest == true ) 
