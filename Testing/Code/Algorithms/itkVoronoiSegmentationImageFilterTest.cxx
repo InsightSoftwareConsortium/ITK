@@ -34,7 +34,8 @@ int itkVoronoiSegmentationImageFilterTest(int, char* [] ){
   _control87(MCW_EM,MCW_EM);
 #endif
   typedef itk::Image<unsigned short,2> UShortImage;
-  typedef itk::VoronoiSegmentationImageFilter<UShortImage, UShortImage> VorSeg;
+  typedef itk::Image<unsigned char,2>  PriorImage;
+  typedef itk::VoronoiSegmentationImageFilter<UShortImage, UShortImage, PriorImage> VorSeg;
 
   VorSeg::Pointer testVorseg(VorSeg::New());
   UShortImage::Pointer inputIMG = UShortImage::New();
