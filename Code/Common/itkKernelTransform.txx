@@ -214,22 +214,21 @@ ComputeP()
   unsigned long numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
   IMatrixType I;
   IMatrixType temp;
-  int i, j;
   InputPointType p;
 
   I.set_identity();
   m_PMatrix.resize( NDimensions*numLandmarks,
                     NDimensions*(NDimensions+1) );
   m_PMatrix.fill( 0.0 );
-  for (i = 0; i < numLandmarks; i++)
+  for (unsigned int i = 0; i < numLandmarks; i++)
   {
     m_SourceLandmarks->GetPoint(i, &p);
-    for (j = 0; j < NDimensions; j++)
+    for (unsigned int j = 0; j < NDimensions; j++)
       {
       temp = I * p[j];
       m_PMatrix.update(temp, i*NDimensions, j*NDimensions);
       }
-    m_PMatrix.update(I, i*NDimensions, j*NDimensions);
+    m_PMatrix.update(I, i*NDimensions, NDimensions*NDimensions);
   }
 }
 
@@ -243,7 +242,6 @@ template <class TScalarType, int NDimensions,
 void KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 ComputeY(void)
 {
-  int i, j;
   unsigned long numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
 
   VectorSetType::ConstIterator displacement = m_Displacements->Begin();
@@ -252,16 +250,16 @@ ComputeY(void)
 
   m_YMatrix.fill( 0.0 );
     
-  for (i = 0; i < numLandmarks; i++)
+  for (unsigned int i = 0; i < numLandmarks; i++)
   {
-    for (j = 0; j < NDimensions; j++)
+    for (unsigned int j = 0; j < NDimensions; j++)
     {
       m_YMatrix.put(i*NDimensions+j, 0, displacement.Value()[j]);
     }
     displacement++;
   }
 
-  for (i = 0; i < NDimensions*(NDimensions+1); i++) 
+  for (unsigned int i = 0; i < NDimensions*(NDimensions+1); i++) 
   {
     m_YMatrix.put(numLandmarks*NDimensions+i, 0, 0);
   }
@@ -278,7 +276,6 @@ KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>
 ::TransformPoint(const InputPointType& thisPoint) const
 {
   unsigned long numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
-  int i, j;
   ColumnMatrixType b, c, d, Ax;
   vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> A;
   OutputPointType result;
@@ -291,14 +288,14 @@ KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>
   A.fill(0.0);
   Ax.fill(0.0);
 
-  for (i = 0; i < numLandmarks; i++)
+  for (unsigned int i = 0; i < numLandmarks; i++)
     {
     c.update(m_WMatrix.extract(NDimensions, 1, i*NDimensions, 0), 0, 0);
     m_SourceLandmarks->GetPoint(i, &p);
     argumentG = thisPoint - p;
     d = d + ComputeG(argumentG) * c;
     }
-  for (i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; i++)
     {
     A.update(m_WMatrix.extract(NDimensions, 1,
                                 (numLandmarks+i)*NDimensions, 0), 0, i);
@@ -306,13 +303,13 @@ KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>
   b.update(m_WMatrix.extract(NDimensions, 1,
                               (numLandmarks+NDimensions)*NDimensions, 0),
            0, 0);
-  for (j = 0; j < NDimensions; j++)
+  for (unsigned int j = 0; j < NDimensions; j++)
     {
     Ax.put(j, 0, thisPoint[j]);
     }
   Ax = A*Ax;
   d = d + Ax + b;
-  for (j = 0; j < NDimensions; j++)
+  for (unsigned int j = 0; j < NDimensions; j++)
     {
     result[j] = thisPoint[j] + d.get(j, 0);
     }
