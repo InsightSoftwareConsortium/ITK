@@ -25,6 +25,9 @@
 #include "itkSampleMeanShiftBlurringFilter.h"
 #include "itkSampleMeanShiftClusteringFilter.h"
 
+#include "itkImageFileWriter.h"
+
+
 int itkSampleMeanShiftClusteringFilterTest(int argc, char* argv[] ) 
 {
   std::cout << "SampleMeanShiftClusteringFilter Test \n \n"; 
@@ -36,6 +39,7 @@ int itkSampleMeanShiftClusteringFilterTest(int argc, char* argv[] )
       return EXIT_FAILURE;
     }
 
+  bool saveClusteredImage = false ;
   typedef unsigned char PixelType ;
   typedef itk::Image< PixelType, 2 > ImageType ;
   typedef itk::ImageFileReader< ImageType > ImageReaderType ;
@@ -56,7 +60,7 @@ int itkSampleMeanShiftClusteringFilterTest(int argc, char* argv[] )
     TreeGeneratorType ;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New() ;
   treeGenerator->SetSample( listSample ) ;
-  treeGenerator->SetBucketSize( 500 ) ;
+  treeGenerator->SetBucketSize( 200 ) ;
   treeGenerator->Update() ;
 
   typedef TreeGeneratorType::KdTreeType TreeType ;
@@ -66,6 +70,7 @@ int itkSampleMeanShiftClusteringFilterTest(int argc, char* argv[] )
     TreeType > ModeSeekerType ;
   ModeSeekerType::Pointer modeSeeker = ModeSeekerType::New() ;
   modeSeeker->SetInputSample( tree ) ;
+//  modeSeeker->SetInputSample( listSample ) ;
   modeSeeker->SetSearchRadius( 4.0 ) ;
 
   typedef itk::Statistics::MeanShiftModeCacheMethod< TreeType::MeasurementVectorType > CacheMethodType ;
@@ -89,6 +94,9 @@ int itkSampleMeanShiftClusteringFilterTest(int argc, char* argv[] )
     std::cout << "Test failed. - blurring proces" << std::endl;
     return EXIT_FAILURE;
     }
+
+  std::cout << "Cache statistics: " << std::endl ;
+  cacheMethod->Print(std::cout) ;
 
   typedef ImageType OutputImageType ;
   OutputImageType::Pointer outputImage = OutputImageType::New() ;
@@ -116,7 +124,7 @@ int itkSampleMeanShiftClusteringFilterTest(int argc, char* argv[] )
 
   TreeGeneratorType::Pointer treeGenerator2 = TreeGeneratorType::New() ;
   treeGenerator2->SetSample( listSample2 ) ;
-  treeGenerator2->SetBucketSize( 500 ) ;
+  treeGenerator2->SetBucketSize( 200 ) ;
   treeGenerator2->Update() ;
 
   typedef itk::Statistics::SampleMeanShiftClusteringFilter< TreeType >
@@ -127,6 +135,7 @@ int itkSampleMeanShiftClusteringFilterTest(int argc, char* argv[] )
   clusteringMethod->SetInputSample( treeGenerator2->GetOutput() ) ;
   clusteringMethod->SetThreshold( 0.5 ) ;
   clusteringMethod->SetMinimumClusterSize( 16 ) ;
+  clusteringMethod->DebugOn() ;
   try 
     {
     clusteringMethod->Update() ;
@@ -137,6 +146,35 @@ int itkSampleMeanShiftClusteringFilterTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
+  if ( saveClusteredImage )
+    {
+    OutputImageType::Pointer clusterMap = OutputImageType::New() ;
+    clusterMap->SetRegions( image->GetLargestPossibleRegion() ) ;
+    clusterMap->Allocate() ;
+    
+    ImageIteratorType m_iter( clusterMap, 
+                              clusterMap->GetLargestPossibleRegion() ) ;
+    m_iter.GoToBegin() ;
+    
+    ClusteringMethodType::ClusterLabelsType clusterLabels = 
+      clusteringMethod->GetOutput() ;
+    
+    ClusteringMethodType::ClusterLabelsType::iterator co_iter = 
+      clusterLabels.begin() ;
+    
+    while ( co_iter != clusterLabels.end() )
+      {
+      m_iter.Set( (PixelType) *co_iter ) ;
+      ++co_iter ;
+      ++m_iter ;
+      }
+    
+    typedef itk::ImageFileWriter< OutputImageType > ImageWriterType ;
+    ImageWriterType::Pointer map_writer = ImageWriterType::New() ;
+    map_writer->SetFileName("clustered_sf4.png") ;
+    map_writer->SetInput( clusterMap ) ;
+    map_writer->Update() ;
+    }
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 }
