@@ -69,13 +69,13 @@ class SimplexMesh : public Mesh<TPixelType, VDimension, TMeshTraits>
     typedef typename SimplexMeshGeometry::IndexArray            IndexArray;
 
     /** definition for a set of neighbor indices */
-    typedef typename std::set<unsigned long>                    NeighborSetType;
+    typedef std::set<unsigned long>                             NeighborSetType;
 
     /** */
     typedef typename NeighborSetType::iterator                  NeighborSetIterator;
 
     /** */
-    typedef typename std::vector<unsigned long>                 NeighborListType;
+    typedef std::vector<unsigned long>                          NeighborListType;
 
     /** */
     typedef typename TMeshTraits::PointType                     PointType;
@@ -92,10 +92,10 @@ class SimplexMesh : public Mesh<TPixelType, VDimension, TMeshTraits>
     /** */
     typedef typename CellType::CellAutoPointer                  CellAutoPointer;
     /** */
-    typedef typename itk::LineCell<CellType>                    LineType;
+    typedef itk::LineCell<CellType>                             LineType;
 
     /** map containing a SimplexMeshGeometry data object for each mesh point*/
-    typedef typename itk::MapContainer<unsigned long, SimplexMeshGeometry *>   GeometryMapType;
+    typedef itk::MapContainer<unsigned long, SimplexMeshGeometry *>   GeometryMapType;
 
     /** smartpointer def for the geometry map */
     typedef typename GeometryMapType::Pointer GeometryMapPointer;
@@ -111,8 +111,8 @@ class SimplexMesh : public Mesh<TPixelType, VDimension, TMeshTraits>
     itkTypeMacro(SimplexMesh, Mesh);
 
     /** Hold on to the type information specified by the template parameters. */
-    typedef TMeshTraits                                   MeshTraits;
-    typedef typename MeshTraits::PixelType                PixelType;  
+    typedef TMeshTraits                                          MeshTraits;
+    typedef typename MeshTraits::PixelType                       PixelType;  
     typedef typename MeshTraits::PointsContainer                 PointsContainer;
     typedef typename Superclass::PointsContainerPointer          PointsContainerPointer;
     typedef typename Superclass::PointsContainer::Iterator       PointsContainerIterator;
@@ -266,7 +266,7 @@ class SimplexMesh : public Mesh<TPixelType, VDimension, TMeshTraits>
     /** 
     * The map stores a SimplexMeshGeometry object for each mesh point
     */
-    GeometryMapType::Pointer m_GeometryData;
+    GeometryMapPointer m_GeometryData;
 
     /*  */
     /**
