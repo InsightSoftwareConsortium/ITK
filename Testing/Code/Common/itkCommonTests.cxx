@@ -28,6 +28,7 @@ REGISTER_TEST(itkCenteredAffineTransformTest );
 REGISTER_TEST(itkCentralDifferenceImageFunctionTest );
 REGISTER_TEST(itkChainCodePath2DTest );
 REGISTER_TEST(itkChainCodePathTest );
+REGISTER_TEST(itkConditionVariableTest );
 REGISTER_TEST(itkConstNeighborhoodIteratorTest );
 REGISTER_TEST(itkConstShapedNeighborhoodIteratorTest );
 REGISTER_TEST(itkCovariantVectorGeometryTest );

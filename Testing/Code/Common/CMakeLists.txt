@@ -13,6 +13,7 @@ SET(SYSTEM_INFORMATION_TEST ${CXX_TEST_PATH}/itkSystemInformationTest)
 ADD_TEST(itkChainCodePath2DTest ${COMMON_TESTS} itkChainCodePath2DTest)
 ADD_TEST(itkChainCodePathTest ${COMMON_TESTS} itkChainCodePathTest)
 ADD_TEST(itkCommonPrintTest ${COMMON_TESTS} itkCommonPrintTest)
+ADD_TEST(itkConditionVariableTest ${COMMON_TESTS} itkConditionVariableTest)
 ADD_TEST(itkModifiedTimeTest ${COMMON_TESTS} itkModifiedTimeTest)
 ADD_TEST(itkAdaptorComparisonTest ${COMMON_TESTS} itkAdaptorComparisonTest)
 ADD_TEST(itkAffineTransformTest ${COMMON_TESTS} itkAffineTransformTest)
@@ -164,6 +165,7 @@ WRITE_FILE(
 
 SET(BasicTests_SRCS
 itkCommonPrintTest.cxx
+itkConditionVariableTest.cxx
 itkModifiedTimeTest.cxx
 itkAdaptorComparisonTest.cxx
 itkAffineTransformTest.cxx
