@@ -150,6 +150,26 @@ DICOMAppHelper::DICOMAppHelper()
   this->ImageData = NULL;
   this->ImageDataLengthInBytes = 0;
 
+  // Initialize the arrays
+  m_NumberOfSeriesInStudy[0]='\0';
+  m_PatientName[0]='\0';
+  m_PatientID[0]='\0';
+  m_PatientDOB[0]='\0';
+  m_StudyID[0]='\0';
+  m_StudyDescription[0]='\0';
+  m_BodyPart[0]='\0';
+  m_NumberOfSeriesInStudy[0]='\0';
+  m_NumberOfStudyRelatedSeries[0]='\0';
+  m_PatientSex[0]='\0';
+  m_PatientAge[0]='\0';
+  m_StudyDate[0]='\0';
+  m_Modality[0]='\0';
+  m_Manufacturer[0]='\0';
+  m_Institution[0]='\0';
+  m_Model[0]='\0';
+  m_ScanOptions[0]='\0';
+
+
   this->SeriesUIDCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->SeriesDescriptionCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->InstanceUIDCB = new DICOMMemberCallback<DICOMAppHelper>;
@@ -1651,7 +1671,9 @@ void DICOMAppHelper::PatientNameCallback(DICOMParser *,
 {
   if (val)
     {
-    strncpy(m_PatientName, (const char*)val, len < 512 ? len : 511);
+    quadbyte len1 = (len<512) ? len : 511;
+    strncpy(m_PatientName, (const char*)val, len1);
+    m_PatientName[len1] = '\0';
     }
   else
     {
@@ -1668,7 +1690,9 @@ void DICOMAppHelper::PatientIDCallback(DICOMParser *,
 {
   if (val)
     {
-    strncpy(m_PatientID, (const char*)val, len < 512 ? len : 511);
+    quadbyte len1 = (len<512) ? len : 511;
+    strncpy(m_PatientID, (const char*)val, len1);
+    m_PatientID[len1] = '\0';
     }
   else
     {
@@ -1685,7 +1709,9 @@ void DICOMAppHelper::PatientSexCallback(DICOMParser *,
 {
   if (val)
     {
-    strncpy(m_PatientSex, (const char*)val, len < 512 ? len : 511);
+    quadbyte len1 = (len<512) ? len : 511;
+    strncpy(m_PatientSex, (const char*)val, len1);
+    m_PatientSex[len1] = '\0';
     }
   else
     {
@@ -1702,7 +1728,9 @@ void DICOMAppHelper::PatientAgeCallback(DICOMParser *,
 {
   if (val)
     {
-    strncpy(m_PatientAge, (const char*)val, len < 512 ? len : 511);
+    quadbyte len1 = (len<512) ? len : 511;
+    strncpy(m_PatientAge, (const char*)val, len1);
+    m_PatientAge[len1] = '\0';
     }
   else
     {
@@ -1719,7 +1747,9 @@ void DICOMAppHelper::PatientDOBCallback(DICOMParser *,
 {
   if (val)
     {
-    strncpy(m_PatientDOB, (const char*)val, len < 512 ? len : 511);
+    quadbyte len1 = (len<512) ? len : 511;
+    strncpy(m_PatientDOB, (const char*)val, len1);
+    m_PatientDOB[len1] = '\0';
     }
   else
     {
@@ -1737,7 +1767,9 @@ void DICOMAppHelper::StudyIDCallback(DICOMParser *,
 {
   if (val)
     {
-    strncpy(m_StudyID, (const char*)val, len < 512 ? len : 511);
+    quadbyte len1 = (len<512) ? len : 511;
+    strncpy(m_StudyID, (const char*)val, len1);
+    m_StudyID[len1] = '\0';
     }
   else
     {
@@ -1755,7 +1787,9 @@ void DICOMAppHelper::StudyDescriptionCallback(DICOMParser *,
 {
   if (val)
     {
-    strncpy(m_StudyDescription, (const char*)val, len < 512 ? len : 511);
+    quadbyte len1 = (len<512) ? len : 511;
+    strncpy(m_StudyDescription, (const char*)val, len1);
+    m_StudyDescription[len1] = '\0';
     }
   else
     {
@@ -1772,7 +1806,9 @@ void DICOMAppHelper::BodyPartCallback(DICOMParser *,
 {
   if (val)
     {
-    strncpy(m_BodyPart, (const char*)val, len < 512 ? len : 511);  
+    quadbyte len1 = (len<512) ? len : 511;
+    strncpy(m_BodyPart, (const char*)val, len1);
+    m_BodyPart[len1] = '\0';
     }
   else
     {
@@ -1806,7 +1842,9 @@ void DICOMAppHelper::NumberOfSeriesInStudyCallback(DICOMParser *,
 {
   if (val)
     {
-    strncpy(m_NumberOfSeriesInStudy, (const char*)val, len < 512 ? len : 511);
+    quadbyte len1 = (len<512) ? len : 511;
+    strncpy(m_NumberOfSeriesInStudy, (const char*)val, len1);
+    m_NumberOfSeriesInStudy[len1] = '\0';
     }
   else
     {
@@ -1823,7 +1861,9 @@ void DICOMAppHelper::NumberOfStudyRelatedSeriesCallback(DICOMParser *,
 {
   if (val)
     {
-    strncpy(m_NumberOfStudyRelatedSeries, (const char*)val, len < 512 ? len : 511);
+    quadbyte len1 = (len<512) ? len : 511;
+    strncpy(m_NumberOfStudyRelatedSeries, (const char*)val, len1);
+    m_NumberOfStudyRelatedSeries[len1] = '\0';
     }
   else
     {
@@ -1840,7 +1880,9 @@ void DICOMAppHelper::StudyDateCallback(DICOMParser *,
 {
   if (val)
     {
-    strncpy(m_StudyDate, (const char*)val, len < 512 ? len : 511);
+    quadbyte len1 = (len<512) ? len : 511;
+    strncpy(m_StudyDate, (const char*)val, len1);
+    m_StudyDate[len1] = '\0';
     }
   else
     {
@@ -1857,7 +1899,9 @@ void DICOMAppHelper::ModalityCallback(DICOMParser *,
 {
   if (val)
     {
-    strncpy(m_Modality, (const char*)val, len < 512 ? len : 511);
+    quadbyte len1 = (len<512) ? len : 511;
+    strncpy(m_Modality, (const char*)val, len1);
+    m_Modality[len1] = '\0';
     }
   else
     {
@@ -1874,7 +1918,9 @@ void DICOMAppHelper::ManufacturerCallback(DICOMParser *,
 {
   if (val)
     {
-    strncpy(m_Manufacturer, (const char*)val, len < 512 ? len : 511);
+    quadbyte len1 = (len<512) ? len : 511;
+    strncpy(m_Manufacturer, (const char*)val, len1);
+    m_Manufacturer[len1] = '\0';
     }
   else
     {
@@ -1891,7 +1937,9 @@ void DICOMAppHelper::InstitutionCallback(DICOMParser *,
 {
   if (val)
     {
-    strncpy(m_Institution, (const char*)val, len < 512 ? len : 511);
+    quadbyte len1 = (len<512) ? len : 511;
+    strncpy(m_Institution, (const char*)val, len1);
+    m_Institution[len1] = '\0';
     }
   else
     {
@@ -1908,7 +1956,9 @@ void DICOMAppHelper::ModelCallback(DICOMParser *,
 {
   if (val)
     {
-    strncpy(m_Model, (const char*)val, len < 512 ? len : 511);
+    quadbyte len1 = (len<512) ? len : 511;
+    strncpy(m_Model, (const char*)val, len1);
+    m_Model[len1] = '\0';
     }
   else
     {
@@ -1926,7 +1976,9 @@ void DICOMAppHelper::ScanOptionsCallback(DICOMParser *,
 {
   if (val)
     {
-    strncpy(m_ScanOptions, (const char*)val, len < 512 ? len : 511);
+    quadbyte len1 = (len<512) ? len : 511;
+    strncpy(m_ScanOptions, (const char*)val, len1);
+    m_ScanOptions[len1] = '\0';
     }
   else
     {
