@@ -380,6 +380,13 @@ fi
 ## Check thread support ##
 ##			##
 ##########################
+# initialize thread vars
+THREAD_LIBS=""
+THREAD_FLAGS=""
+use_sproc=no
+CMAKE_USE_SPROC=0
+CMAKE_USE_PTHREADS=0
+CMAKE_HP_PTHREADS=0
 
 ##########################
 ##                      ##
@@ -395,15 +402,12 @@ AC_ARG_WITH(sproc,
          fi,)
 
 
-THREAD_LIBS=""
-THREAD_FLAGS=""
-use_sproc=no
+
 AC_CHECK_HEADERS(sys/prctl.h, [use_sproc=yes])
 if test "$use_sproc" = "yes"; then
 case $system in
     Linux* | IRIX64-6.5 | IRIX-6.5) 
         if test "$force_sproc" = "yes"; then
-	  echo "**** force_sproc=yes $force_sproc" 
            CMAKE_USE_SPROC=1
         else
 	  use_sproc=no
