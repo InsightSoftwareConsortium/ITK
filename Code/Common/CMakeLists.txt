@@ -80,5 +80,5 @@ IF(UNIX)
   TARGET_LINK_LIBRARIES(ITKCommon ${CMAKE_THREAD_LIBS} ${CMAKE_DL_LIBS} -lm)
 ENDIF(UNIX)
 
-INSTALL_TARGETS(/lib/InsightToolkit ITKCommon)
+INSTALL_TARGETS(/lib/InsightToolkit ITKCommon itkvnl_inst)
 INSTALL_FILES(/include/InsightToolkit/Common "(\\.h|\\.txx)$")
