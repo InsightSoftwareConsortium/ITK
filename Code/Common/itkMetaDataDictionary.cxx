@@ -18,19 +18,28 @@
 
 void
 itk::MetaDataDictionary
-::PrintSelf(std::ostream& os, Indent indent) const
+::Print(std::ostream& os) const
 {
   for(itk::MetaDataDictionary::const_iterator it=this->begin();
       it != this->end();
       it++)
   {
-    os << indent << it->first <<  "  " ;
-    it->second->PrintSelf(os,indent);
+    os << it->first <<  "  " ;
+    it->second->Print(os);
   }
 }
 
 itk::MetaDataDictionary
 ::~MetaDataDictionary()
 {
-  //Nothing special to do here.
+  //Need to clean up all allocated memory
+  //std::cout << "         Deleteing: " << this << std::endl;
+  //for(itk::MetaDataDictionary::iterator it=this->begin();
+  //    it != this->end();
+  //    it++)
+  //{
+  //  delete (it->second);
+  //}
+  //Erase all elements
+  //this->erase(this->begin(),this->end());
 }

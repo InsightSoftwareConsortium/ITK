@@ -32,6 +32,7 @@ template<class MetaDataObjectType>
 itk::MetaDataObject<MetaDataObjectType>
 ::~MetaDataObject(void)
 {
+  //std::cout << "                            MetaDataObject Deleteing: " << this << std::endl;
   //Nothing to do here.
 }
 
@@ -87,8 +88,8 @@ itk::MetaDataObject<MetaDataObjectType>
 template<class MetaDataObjectType>
 void
 itk::MetaDataObject<MetaDataObjectType>
-::PrintSelf(std::ostream& os, Indent indent) const
+::Print(std::ostream& os) const
 {
-  os << indent << this->m_MetaDataObjectValue << std::endl;
+  os << "[UNKNOWN PRINT CHARACTERISTICS]" << std::endl;
 }
 #endif

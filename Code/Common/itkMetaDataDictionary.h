@@ -44,9 +44,8 @@ namespace itk
       /**
        * Defines the default behavior for printing out this element
        * \param os An output stream
-       * \param indent an indent value.
        */
-      virtual void PrintSelf(std::ostream& os, Indent indent) const;
+      virtual void Print(std::ostream& os) const;
       //NOTE: Currently this is blank, but it is here to allow the
       //implementation of future functionality that may become apparent
       //at a latter date.

@@ -39,15 +39,34 @@ namespace itk
    * implemented will have to implement those functions by deriving from MetaDataObject<MetaDataObjectType>
    * and redefining the copy constructor and initializing constructor and the Get/Set functions
    * to work around those deficiencies.
+   *
+   * The behavior of the MetaDataObject<Type>::Print() function has many plausible
+   * application dependant implementations.  The default implementation prints the
+   * a string "[UNKNOWN PRINT CHARACTERISTICS]" that is works for all possible
+   * MetaDataObject types.
+   *
+   * The application developer may overload the default implementation to provide
+   * a specialized Print() characteristics to produce results desirable for their applicaiton.
+   * A set of very crude Macros {NATIVE_TYPE_METADATAPRINT, ITK_OBJECT_TYPE_METADATAPRINT_1COMMA, ITK_IMAGE_TYPE_METADATAPRINT  }
+   * are provided to facilitate a very simple implementation, and as an example.
+
    */
   template <class MetaDataObjectType>
     class ITK_EXPORT MetaDataObject: public itk::MetaDataObjectBase
     {
       public:
-        typedef MetaDataObject Self;
-        typedef itk::MetaDataObjectBase Superclass;
-        typedef Self * Pointer;
-        typedef const Self * ConstPointer;
+        /** Smart pointer typedef support. */
+        typedef MetaDataObject  Self;
+        typedef MetaDataObjectBase  Superclass;
+        typedef SmartPointer<Self>  Pointer;
+        typedef SmartPointer<const Self>  ConstPointer;
+
+        /** Method for creation through the object factory. */
+        //itkNewMacro(Self);
+
+        /** Run-time type information (and related methods). */
+        itkTypeMacro(MetaDataObject, MetaDataObjectBase);
+
         /**
          * \author Hans J. Johnson
          * Default constructor with no initialization.
@@ -98,9 +117,8 @@ namespace itk
         /**
          * Defines the default behavior for printing out this element
          * \param os An output stream
-         * \param indent an indent value.
          */
-        virtual void PrintSelf(std::ostream& os, Indent indent) const;
+        virtual void Print(std::ostream& os) const;
       private:
         /**
          * \author Hans J. Johnson
@@ -109,6 +127,66 @@ namespace itk
         MetaDataObjectType m_MetaDataObjectValue;
     };
 } // end namespace itk
+
+/**
+ * \macro NATIVE_TYPE_METADATAPRINT
+ * An ungly macro to facilitate creating a simple implementation of
+ * the MetaDataObject<Type>::Print() function for types that
+ * have operator<< defined.
+ * \param TYPE_NAME the native type parameter type
+ */
+#define NATIVE_TYPE_METADATAPRINT(TYPE_NAME) \
+void \
+itk::MetaDataObject<TYPE_NAME> \
+::Print(std::ostream& os) const \
+{ \
+  os << this->m_MetaDataObjectValue << std::endl; \
+} \
+void \
+itk::MetaDataObject<const TYPE_NAME> \
+::Print(std::ostream& os) const \
+{ \
+  os << this->m_MetaDataObjectValue << std::endl; \
+}
+
+/**
+ * \macro ITK_OBJECT_TYPE_METADATAPRINT_1COMMA
+ * An ungly macro to facilitate creating a simple implementation of
+ * the MetaDataObject<Type>::Print() function for
+ * itk::Objects that have 1 comma in their type definition
+ * \param TYPE_NAME_PART1
+ * \param TYPE_NAME_PART2
+ */
+#define ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(TYPE_NAME_PART1,TYPE_NAME_PART2) \
+void \
+itk::MetaDataObject<TYPE_NAME_PART1,TYPE_NAME_PART2> \
+::Print(std::ostream& os) const \
+{ \
+     this->m_MetaDataObjectValue->Print(os); \
+} \
+void \
+itk::MetaDataObject<const TYPE_NAME_PART1,TYPE_NAME_PART2> \
+::Print(std::ostream& os) const \
+{ \
+     this->m_MetaDataObjectValue->Print(os); \
+}
+
+/**
+ * \macro ITK_IMAGE_TYPE_METADATAPRINT
+ * An ungly macro to facilitate creating a simple implementation of
+ * the MetaDataObject<Type>::Print() function for
+ * itk::Image<STORAGE_TYPE,[1-8]>::Pointer
+ * \param STORAGE_TYPE The storage type of the image type to print.
+ */
+#define ITK_IMAGE_TYPE_METADATAPRINT(STORAGE_TYPE) \
+ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,1>::Pointer) \
+ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,2>::Pointer) \
+ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,3>::Pointer) \
+ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,4>::Pointer) \
+ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,5>::Pointer) \
+ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,6>::Pointer) \
+ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,7>::Pointer) \
+ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,8>::Pointer) \
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMetaDataObject.txx"

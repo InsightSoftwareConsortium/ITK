@@ -43,7 +43,6 @@ SET(ITKCommon_SRCS
   itkVersion.cxx
   itkXMLFileOutputWindow.cxx
   itkMetaDataObjectBase.cxx
-  itkMetaDataObject.cxx
   itkMetaDataDictionary.cxx
 )
 

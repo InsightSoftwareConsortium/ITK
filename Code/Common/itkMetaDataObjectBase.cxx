@@ -18,8 +18,43 @@
 
 void
 itk::MetaDataObjectBase
-::PrintSelf(std::ostream& os, Indent indent) const
+::Print(std::ostream& os) const
 {
-  //Superclass::PrintSelf(os,indent);
-  os << indent << "Unknown Print Characteristics" << std::endl;
+  //Superclass::Print(os);
+  os <<  "Unknown Print Characteristics" << std::endl;
 }
+
+
+const char *
+itk::MetaDataObjectBase
+::GetMetaDataObjectTypeName(void) const
+{
+  return typeid(itk::MetaDataObjectBase).name();
+}
+
+const std::type_info &
+itk::MetaDataObjectBase
+::GetMetaDataObjectTypeInfo(void) const
+{
+  return typeid(itk::MetaDataObjectBase);
+}
+
+itk::MetaDataObjectBase
+::MetaDataObjectBase()
+{
+  //Nothing to do here
+}
+
+itk::MetaDataObjectBase
+::~MetaDataObjectBase()
+{
+  //std::cout << "              MetaDataObjectBase Deleteing: " << this << std::endl;
+  //Nothing to do here
+}
+
+//itk::MetaDataObjectBase
+//::New(void)
+//{
+//  return new Self;
+//}
+
