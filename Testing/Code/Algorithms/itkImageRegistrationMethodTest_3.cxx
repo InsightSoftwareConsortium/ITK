@@ -119,6 +119,8 @@ int itkImageRegistrationMethodTest_3(int argc, char** argv)
   OptimizerType::ScalesType scales( transform->GetNumberOfParameters() );
   scales.Fill( 1.0 );
 
+  std::cout << "Scales = " << scales << std::endl;
+
   
   unsigned long   numberOfIterations =   50;
   double          translationScale   =  1.0;
@@ -144,9 +146,9 @@ int itkImageRegistrationMethodTest_3(int argc, char** argv)
 
   for( unsigned int i=0; i<dimension; i++)
     {
-    scales[ i + dimension * dimension ] = translationScale;
+    scales[ i ] = translationScale;
     }
-
+  std::cout << "Before scales " << scales << std::endl;
   optimizer->SetScales( scales );
   optimizer->SetLearningRate( learningRate );
   optimizer->SetNumberOfIterations( numberOfIterations );
@@ -154,6 +156,7 @@ int itkImageRegistrationMethodTest_3(int argc, char** argv)
   // Start from an Identity transform (in a normal case, the user 
   // can probably provide a better guess than the identity...
   transform->SetIdentity();
+  std::cout << "SetInitial Transf Parameters " << transform->GetParameters() << std::endl;
   registration->SetInitialTransformParameters( transform->GetParameters() );
 
   // Initialize the internal connections of the registration method. 

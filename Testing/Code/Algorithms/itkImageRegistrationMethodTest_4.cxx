@@ -157,7 +157,7 @@ int itkImageRegistrationMethodTest_4(int argc, char** argv)
 
   for( unsigned int i=0; i<dimension; i++)
     {
-    scales[ i + dimension * dimension ] = translationScale;
+    scales[ i ] = translationScale;
     }
 
   optimizer->SetScales( scales );
