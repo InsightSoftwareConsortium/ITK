@@ -37,7 +37,7 @@ int itkMultiResolutionImageRegistrationMethodTest(int, char**)
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
-  bool pass = true;
+  bool pass;
 
   const unsigned int dimension = 3;
 

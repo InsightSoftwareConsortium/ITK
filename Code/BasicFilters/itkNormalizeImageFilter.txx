@@ -91,7 +91,7 @@ NormalizeImageFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void 
 NormalizeImageFilter<TInputImage, TOutputImage>
-::StatisticsCallBack (Object *o, const EventObject &e, void *self)
+::StatisticsCallBack (Object *o, const EventObject &, void *self)
 {
   reinterpret_cast<ProcessObject *>(self)->
     UpdateProgress(dynamic_cast<ProcessObject *>(o)->
@@ -101,7 +101,7 @@ NormalizeImageFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void 
 NormalizeImageFilter<TInputImage, TOutputImage>
-::ShiftScaleCallBack (Object *o, const EventObject &e, void *self)
+::ShiftScaleCallBack (Object *o, const EventObject &, void *self)
 {
   reinterpret_cast<ProcessObject *>(self)->
     UpdateProgress(dynamic_cast<ProcessObject *>(o)->

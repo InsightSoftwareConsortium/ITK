@@ -54,7 +54,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
   typename FixedImageType::IndexType index;
 
-  MeasureType measure = NumericTraits< MeasureType >::Zero;
+  MeasureType measure;
 
   m_NumberOfPixelsCounted = 0;
 

@@ -120,36 +120,12 @@ int itkImageRegistrationMethodTest_9(int argc, char** argv)
   scales.Fill( 1.0 );
 
   
-  unsigned long   numberOfIterations =   50;
   double          translationScale   =  1.0;
-  double          maximumStepLenght  =  10.0; // no step will be larger than this
-  double          minimumStepLenght  =   0.1; // convergence criterion
-  double          gradientTolerance  =   0.01; // convergence criterion
 
   if( argc > 1 )
     {
-    numberOfIterations = atol( argv[1] );
-    std::cout << "numberOfIterations = " << numberOfIterations << std::endl;
-    }
-  if( argc > 2 )
-    {
     translationScale = atof( argv[2] );
     std::cout << "translationScale = " << translationScale << std::endl;
-    }
-  if( argc > 3 )
-    {
-    maximumStepLenght = atof( argv[3] );
-    std::cout << "maximumStepLenght = " << maximumStepLenght << std::endl;
-    }
-  if( argc > 4 )
-    {
-    minimumStepLenght = atof( argv[4] );
-    std::cout << "minimumStepLenght = " << minimumStepLenght << std::endl;
-    }
-  if( argc > 5 )
-    {
-    gradientTolerance = atof( argv[5] );
-    std::cout << "gradientTolerance = " << gradientTolerance << std::endl;
     }
 
 

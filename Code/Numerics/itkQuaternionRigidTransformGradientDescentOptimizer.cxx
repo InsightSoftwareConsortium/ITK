@@ -49,7 +49,7 @@ QuaternionRigidTransformGradientDescentOptimizer
 ::AdvanceOneStep( void )
 { 
 
-  double direction = 1.0;
+  double direction;
   if( m_Maximize ) 
   {
     direction = 1.0;

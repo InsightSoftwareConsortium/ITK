@@ -160,7 +160,7 @@ GradientDescentOptimizer
 ::AdvanceOneStep( void )
 { 
 
-  double direction = 1.0;
+  double direction;
   if( this->m_Maximize ) 
   {
     direction = 1.0;
