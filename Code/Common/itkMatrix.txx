@@ -201,8 +201,7 @@ vnl_matrix_fixed<T,NColumns,NRows>
 Matrix<T, NRows, NColumns>
 ::GetInverse( void ) const
 {
-  vnl_matrix<T> temp = vnl_matrix_inverse<T>( m_Matrix );
-  return temp;
+  return vnl_matrix_inverse<T>( m_Matrix );
 }
 
 

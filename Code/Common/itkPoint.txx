@@ -146,8 +146,7 @@ vnl_vector_ref< T >
 Point<T, TPointDimension>
 ::Get_vnl_vector( void ) 
 {
-  vnl_vector_ref< T > vector_ref( TPointDimension, this->GetDataPointer());
-  return vector_ref;
+  return vnl_vector_ref< T >( TPointDimension, this->GetDataPointer());
 }
 
 template<class T, unsigned int TPointDimension >

@@ -287,8 +287,7 @@ vnl_vector_ref< T >
 CovariantVector<T, NVectorDimension>
 ::Get_vnl_vector( void ) 
 {
-  vnl_vector_ref< T > vector_ref( NVectorDimension, this->GetDataPointer() );
-  return vector_ref;
+  return vnl_vector_ref< T >( NVectorDimension, this->GetDataPointer() );
 }
 
 
