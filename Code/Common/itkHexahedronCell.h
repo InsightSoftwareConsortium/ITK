@@ -20,8 +20,7 @@
 #include "itkCellBoundary.h"
 #include "itkQuadrilateralCell.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class HexahedronCell
  * HexahedronCell represents a hexahedron for a Mesh.
@@ -166,7 +165,7 @@ public:
   itkTypeMacro(HexahedronBoundary, CellBoundary);
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkHexahedronCell.txx"

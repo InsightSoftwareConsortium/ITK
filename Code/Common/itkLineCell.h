@@ -20,8 +20,7 @@
 #include "itkCellBoundary.h"
 #include "itkVertexCell.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class LineCell
  * LineCell represents a line segment for a Mesh.
@@ -144,7 +143,7 @@ public:
   itkTypeMacro(LineBoundary, CellBoundary);
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkLineCell.txx"

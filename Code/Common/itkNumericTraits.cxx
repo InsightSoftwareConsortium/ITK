@@ -15,8 +15,7 @@
 =========================================================================*/
 #include "itkNumericTraits.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 const bool NumericTraits<bool>::Zero = false;
 const bool NumericTraits<bool>::One = true;
@@ -54,4 +53,4 @@ const double NumericTraits<double>::One = 1.0;
 const long double NumericTraits<long double>::Zero = 0.0;
 const long double NumericTraits<long double>::One = 1.0;
   
-} // namespace itk
+ITK_NAMESPACE_END

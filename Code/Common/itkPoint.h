@@ -21,8 +21,7 @@
 #ifndef __itkPoint_h
 #define __itkPoint_h
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /**
  * Template parameters for Point:
@@ -76,7 +75,7 @@ protected:
   CoordRep m_Coords[PointDimension];
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkPoint.txx"

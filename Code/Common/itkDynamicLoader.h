@@ -20,21 +20,29 @@
 // They are different on several different OS's
 #if defined(__hpux)
 # include <dl.h>
-namespace itk { typedef shl_t LibHandle; }
+ITK_NAMESPACE_BEGIN
+typedef shl_t LibHandle;
+ITK_NAMESPACE_END
 #elif defined(_WIN32)
 # include "windows.h"
-namespace itk { typedef HMODULE LibHandle; }
+ITK_NAMESPACE_BEGIN
+typedef HMODULE LibHandle;
+ITK_NAMESPACE_END
 #elif defined(__powerpc)
-namespace itk { typedef ConnectionID LibHandle; }
+ITK_NAMESPACE_BEGIN
+typedef ConnectionID LibHandle;
+ITK_NAMESPACE_END
 #else
-namespace itk { typedef void* LibHandle; }
+ITK_NAMESPACE_BEGIN
+typedef void* LibHandle;
+ITK_NAMESPAC_END
 #endif
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
+
 /** \class DynamicLoader
  * \brief Portable loading of dynamic libraries or dll's.
  *
@@ -107,6 +115,6 @@ protected:
 
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
   
 #endif

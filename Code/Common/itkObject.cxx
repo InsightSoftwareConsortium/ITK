@@ -16,8 +16,7 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /**
  * Instance creation.
@@ -262,4 +261,4 @@ Object
  */
 bool Object::m_GlobalWarningDisplay = true;
 
-} // namespace itk
+ITK_NAMESPACE_END

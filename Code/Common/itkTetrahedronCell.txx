@@ -15,8 +15,7 @@
 =========================================================================*/
 // #include "itkTetrahedronCell.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /**
  * Standard CellInterface:
@@ -321,4 +320,4 @@ TetrahedronCell< TPixelType , TCellType >
 ::m_Faces[4][3] = { {0,1,3}, {1,2,3}, {2,0,3}, {0,2,1} };
 
 
-} // namespace itk
+ITK_NAMESPACE_END

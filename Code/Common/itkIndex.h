@@ -19,8 +19,7 @@
 
 #include "itkExceptionObject.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class Index
  * \brief Represent a n-dimensional index in a n-dimensional image.
@@ -168,6 +167,6 @@ Index<TIndexDimension>
   return ind;
 }
 
-} // namespace itk
+ITK_NAMESPACE_END
 
 #endif 

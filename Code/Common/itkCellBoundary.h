@@ -18,8 +18,7 @@
 
 #include "itkCellInterface.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
   
 /** \class TCell
  * \brief Template parameter used to define superclass for CellBoundary.
@@ -103,7 +102,7 @@ protected:
   UsingCellsContainer m_UsingCells;
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkCellBoundary.txx"

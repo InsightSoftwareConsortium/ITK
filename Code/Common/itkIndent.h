@@ -19,8 +19,7 @@
 #include "itkWin32Header.h"
 #include <iostream>
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class Indent
  * \brief Control indentation during Print() invocation.
@@ -75,6 +74,6 @@ private:
   int m_Indent;
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
   
 #endif

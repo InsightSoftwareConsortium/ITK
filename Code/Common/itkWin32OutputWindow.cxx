@@ -16,8 +16,7 @@
 #include "itkWin32OutputWindow.h"
 #include "itkObjectFactory.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 
 /**
@@ -264,4 +263,4 @@ Win32OutputWindow
   msg.rdbuf()->freeze(0);
 }
 
-} // namespace itk
+ITK_NAMESPACE_END

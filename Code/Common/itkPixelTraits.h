@@ -18,8 +18,7 @@
 
 #include "itkNumericTraits.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class ScalarTraits
  * \brief Determine characterisitics of a scalar pixel type.
@@ -362,6 +361,6 @@ public:
   static void SetVector(double& data, VectorType const& v) {data = v;}
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
 
 #endif // __itkPixelTraits_h

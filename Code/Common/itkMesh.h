@@ -28,8 +28,7 @@
 #include "itkMapContainer.h"
 #include "itkPointLocator.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class Mesh
  * \brief Implements the N-dimensional mesh structure.
@@ -442,7 +441,7 @@ protected:
   Mesh();
 }; // End Class: Mesh
 
-} // namespace itk
+ITK_NAMESPACE_END
   
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMesh.txx"

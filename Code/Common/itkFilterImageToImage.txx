@@ -16,8 +16,7 @@
 #include "itkFilterImageToImage.h"
 
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
   
 /**
  *
@@ -84,4 +83,4 @@ FilterImageToImage<TInputImage,TOutputImage>
   ImageSource<TOutputImage>::PrintSelf(os,indent);
 }
 
-} // namespace itk
+ITK_NAMESPACE_END

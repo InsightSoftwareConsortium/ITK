@@ -15,8 +15,7 @@
 =========================================================================*/
 // #include "itkTriangleCell.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /**
  * Standard CellInterface:
@@ -274,4 +273,4 @@ const int
 TriangleCell< TPixelType , TCellType >
 ::m_Edges[3][2] = { {0,1}, {1,2}, {2,0} };
 
-} // namespace itk
+ITK_NAMESPACE_END

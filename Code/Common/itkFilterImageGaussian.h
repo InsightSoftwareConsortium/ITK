@@ -18,8 +18,7 @@
 
 #include "itkFilterImageToImage.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
   
 /** \class FilterImageGaussian
  * \brief Base class for recursive convolution with Gaussian kernel.
@@ -116,7 +115,7 @@ private:
 
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFilterImageGaussian.txx"

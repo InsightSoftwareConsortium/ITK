@@ -19,8 +19,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 class ProcessObject;
 
@@ -253,6 +252,6 @@ private:
   static bool m_GlobalReleaseDataFlag;
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
   
 #endif

@@ -16,8 +16,7 @@
 #include "itkExtractMeshConnectedRegions.h"
 #include "itkObjectFactory.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /**
  *
@@ -79,4 +78,4 @@ ExtractMeshConnectedRegions<TInputMesh,TOutputMesh>
   itkDebugMacro(<<"Actually executing");
 }
 
-} // namespace itk
+ITK_NAMESPACE_END

@@ -16,8 +16,7 @@
 #include "itkMesh.h"
 #include <algorithm>
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /**
  * Access routine to set the points container.
@@ -1164,4 +1163,4 @@ Mesh< TPixelType , TMeshType >
   m_PointLocator(NULL)
 {}
 
-} // namespace itk
+ITK_NAMESPACE_END

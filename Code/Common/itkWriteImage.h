@@ -18,8 +18,7 @@
 
 #include "itkWriter.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class WriteImage
  * \brief Base class for all writers that write images.
@@ -70,7 +69,7 @@ protected:
 private:
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
   
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkWriteImage.txx"

@@ -15,8 +15,7 @@
 =========================================================================*/
 // #include "itkImageSource.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /**
  *
@@ -100,4 +99,4 @@ ImageSource<TOutputImage>
   this->ProcessObject::PrintSelf(os,indent);
 }
 
-} // namespace itk
+ITK_NAMESPACE_END

@@ -18,8 +18,7 @@
 #include "itkImageIterator.h"
 #include "itkPixelTraits.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class ImageScalarIterator
  * \brief Iterator that invokes GetScalar() on an image.
@@ -69,6 +68,6 @@ public:
   
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
   
 #endif

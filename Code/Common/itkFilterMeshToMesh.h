@@ -18,8 +18,7 @@
 
 #include "itkMeshSource.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class FilterMeshToMesh
  * \brief 
@@ -72,7 +71,7 @@ protected:
   
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFilterMeshToMesh.txx"

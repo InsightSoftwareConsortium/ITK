@@ -1,7 +1,6 @@
 // #include "itkCellBoundary.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /**
  * This is the boundary wrapper, so of course we are a boundary!
@@ -86,4 +85,4 @@ CellBoundary<TCell>
   return m_UsingCells.end();
 }
 
-} // namespace itk
+ITK_NAMESPACE_END

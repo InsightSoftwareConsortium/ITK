@@ -17,8 +17,7 @@
 
 #include <memory.h>
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class ScalarVector
  * \brief A templated class holding bot scalar and vector values and
@@ -115,6 +114,6 @@ private:
 };
 
   
-} // namespace itk
+ITK_NAMESPACE_END
   
 #endif 

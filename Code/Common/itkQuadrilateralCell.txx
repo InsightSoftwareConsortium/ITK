@@ -15,8 +15,7 @@
 =========================================================================*/
 // #include "itkQuadrilateralCell.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /**
  * Standard CellInterface:
@@ -271,4 +270,4 @@ const int
 QuadrilateralCell< TPixelType , TCellType >
 ::m_Edges[4][2] = { {0,1}, {1,2}, {2,3}, {3,0} };
 
-} // namespace itk
+ITK_NAMESPACE_END

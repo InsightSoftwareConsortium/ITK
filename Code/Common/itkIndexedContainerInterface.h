@@ -19,8 +19,7 @@
 #include "itkObject.h"
 #include "itkSmartPointer.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class IndexedContainerInterface
  * This should only be used for reference when writing containers
@@ -29,7 +28,7 @@ namespace itk
  * use containers through this interface.  This means that a container
  * conforming to this interface need not be derived from it, and that
  * their methods should not be virtual.  However, the container must
- * derive from itk::Object in order to support the reference counting,
+ * derive from Object in order to support the reference counting,
  * modification time, and debug information required by this
  * interface.
  *
@@ -195,6 +194,6 @@ public:
   itkTypeMacro(IndexedContainerInterface, Object);
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
   
 #endif

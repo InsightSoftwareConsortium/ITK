@@ -19,7 +19,7 @@
 #include "vnl/algo/vnl_real_eigensystem.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
 
-namespace itk {
+ITK_NAMESPACE_BEGIN
 
     /** 
      * Construct an ImageMoments object.
@@ -98,7 +98,7 @@ namespace itk {
 	/* Loop over all rows and pixels to compute non-central moments */
 	/* FIXME:  Find or write an iterator that does this in n-D */
 	double pix;
-	itk::Index<3> index;
+	Index<3> index;
 	long coord[3];
 
 	for (unsigned long z = 0; z < nslices; z++) {
@@ -329,7 +329,8 @@ namespace itk {
 	abort();
     }
 
-}
+
+ITK_NAMESPACE_END
 
 
 

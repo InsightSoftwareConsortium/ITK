@@ -18,8 +18,7 @@
 
 #include "itkImageSource.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class RandomImageSource
  * \brief Generate an n-dimensional image of random image values.
@@ -100,7 +99,7 @@ private:
 
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkRandomImageSource.txx"

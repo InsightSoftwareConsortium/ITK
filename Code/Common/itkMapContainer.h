@@ -22,8 +22,7 @@
 #include "itkObjectFactory.h"
 #include "itkSmartPointer.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class MapContainer
  * Define a front-end to the STL "map" container that conforms to the
@@ -142,7 +141,7 @@ public:
   itkTypeMacro(MapContainer, Object);
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMapContainer.txx"

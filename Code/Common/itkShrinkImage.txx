@@ -16,8 +16,7 @@
 #include "itkShrinkImage.h"
 #include "itkObjectFactory.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /**
  *
@@ -55,4 +54,4 @@ ShrinkImage<TInputImage,TOutputImage>
   itkDebugMacro(<<"Actually executing");
 }
 
-} // namespace itk
+ITK_NAMESPACE_END

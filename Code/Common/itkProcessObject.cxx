@@ -17,8 +17,7 @@
 #include "itkDataObject.h"
 #include "itkObjectFactory.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /**
  * Instantiate object with no start, end, or progress methods.
@@ -1288,4 +1287,4 @@ ProcessObject
     }
 }
 
-} // namespace itk
+ITK_NAMESPACE_END

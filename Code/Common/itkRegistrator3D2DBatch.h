@@ -18,8 +18,7 @@
 
 #include <itkRegistrator3D2D.h>
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class Registrator3D2DBatch
  * \brief Rigid registration in batch mode.
@@ -108,6 +107,6 @@ private:
   void LeastSquareSolution(void);
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
 
 #endif

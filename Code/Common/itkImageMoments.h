@@ -21,8 +21,7 @@
 #include "vnl/vnl_matrix_fixed.h"
 #include "vnl/vnl_diag_matrix.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** 
  * Compute moments of an n-dimensional image.
@@ -121,7 +120,7 @@ private:
 
 };  // class ImageMoments
 
-}  // namespace itk
+ITK_NAMESPACE_END
 
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -15,8 +15,7 @@
 =========================================================================*/
 // #include "itkHexahedronCell.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /**
  * Standard CellInterface:
@@ -308,4 +307,4 @@ HexahedronCell< TPixelType , TCelltype >
                     {0,3,2,1}, {4,5,6,7} };
 
 
-} // namespace itk
+ITK_NAMESPACE_END

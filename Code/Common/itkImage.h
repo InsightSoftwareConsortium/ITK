@@ -22,8 +22,7 @@
 #include "itkPixelTraits.h"
 #include <vector>
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class Image
  * \brief Templated n-dimensional image class.
@@ -191,7 +190,7 @@ private:
 };
 
   
-} // namespace itk
+ITK_NAMESPACE_END
   
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImage.txx"

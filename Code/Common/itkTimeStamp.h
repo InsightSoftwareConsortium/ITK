@@ -18,8 +18,7 @@
 
 #include "itkWin32Header.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class TimeStamp
  * \brief Generate a unique, increasing time value.
@@ -100,6 +99,6 @@ private:
 };
 
   
-} // namespace itk
+ITK_NAMESPACE_END
   
 #endif

@@ -15,8 +15,7 @@
 =========================================================================*/
 #include "itkFilterImageGaussianFirstDerivative.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /**
  * Compute filter for Gaussian kernel
@@ -43,4 +42,4 @@ FilterImageGaussianFirstDerivative<TInputImage,TOutputImage, TComputation>
   ComputeFilterCoefficients(symmetric);
 }
 
-} // namespace itk
+ITK_NAMESPACE_END

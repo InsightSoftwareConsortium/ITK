@@ -23,10 +23,9 @@
 #define ITK_MAJOR_VERSION 0
 #define ITK_MINOR_VERSION 0
 #define ITK_BUILD_VERSION 2
-#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.3 $, $Date: 2000-07-03 09:41:20 $ (GMT)"
+#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.4 $, $Date: 2000-08-09 12:22:01 $ (GMT)"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 /** \class Version
  * \brief Track the current version of the software.
  *
@@ -82,6 +81,6 @@ protected:
 
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
 
 #endif 

@@ -19,8 +19,7 @@
 #endif
 #include "itkObjectFactory.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
   
 OutputWindow* OutputWindow::m_Instance = 0;
 
@@ -143,4 +142,4 @@ OutputWindow
 }
 
 
-} // namespace itk
+ITK_NAMESPACE_END

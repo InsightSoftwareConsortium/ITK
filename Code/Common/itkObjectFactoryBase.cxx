@@ -27,8 +27,7 @@
 #include <algorithm>
 #include <map>
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /**
  * Add this for the SGI compiler which does not seem
@@ -594,4 +593,4 @@ ObjectFactoryBase
   return ret;
 }
 
-} // namespace itk
+ITK_NAMESPACE_END

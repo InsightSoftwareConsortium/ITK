@@ -16,8 +16,7 @@
 #include "itkWriter.h"
 #include "itkDataObject.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /**
  *
@@ -86,4 +85,4 @@ Writer
 
 }
 
-} // namespace itk
+ITK_NAMESPACE_END

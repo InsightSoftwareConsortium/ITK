@@ -30,15 +30,22 @@
 #include <strstream>
 #include "itkWin32Header.h"
 
+#define ITK_NAMESPACE_BEGIN namespace itk {
+#define ITK_NAMESPACE_END   }
+
+/** \namespace itk
+ * \brief The "itk" namespace contains all classes defined for Insight.
+ */
+ITK_NAMESPACE_BEGIN
+ITK_NAMESPACE_END
 
 /**
  * Error codes for exceptions
  */
-namespace itk
-{
-  const int BoundsError=10;
-  const int InvalidDimension=11;
-} // namespace itk
+ITK_NAMESPACE_BEGIN
+const int BoundsError=10;
+const int InvalidDimension=11;
+ITK_NAMESPACE_END
 
 
 /**
@@ -394,10 +401,9 @@ virtual type *Get##name () const \
  * This is to avoid Object #include of OutputWindow
  * while OutputWindow #includes Object
  */
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 extern ITK_EXPORT void OutputWindowDisplayText(const char*);
-} // namespace itk
+ITK_NAMESPACE_END
 
 
 /**

@@ -21,8 +21,7 @@
 #include <list>
 #include <vector>
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 /** \class ObjectFactoryBase
  * \brief Create instances of classes using an object factory.
  *
@@ -229,6 +228,6 @@ private:
   std::string m_LibraryPath;
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
 
 #endif

@@ -17,8 +17,7 @@
 #include <vnl/algo/vnl_svd.h>
 #include <vnl/vnl_fastops.h>
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /*********************************************************************
  *
@@ -356,4 +355,4 @@ void Registrator3D2DBatch::Allocate(void)
     }
 }
 
-} // namespace itk
+ITK_NAMESPACE_END

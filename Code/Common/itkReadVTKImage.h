@@ -18,8 +18,7 @@
 
 #include "itkImageSource.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class ReadVTKImage
  * \brief Read VTK-formatted image files.
@@ -76,7 +75,7 @@ private:
 
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkReadVTKImage.txx"

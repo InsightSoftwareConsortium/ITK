@@ -15,8 +15,7 @@
 #ifndef __itkScalar_h
 #define __itkScalar_h
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class Scalar
  * \brief A templated class holding a single scalar value and responding to
@@ -90,6 +89,6 @@ private:
   T m_Scalar;
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
   
 #endif 

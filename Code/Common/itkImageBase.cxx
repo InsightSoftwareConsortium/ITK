@@ -15,8 +15,7 @@
 =========================================================================*/
 #include "itkImageBase.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
   
 /**
  *
@@ -168,4 +167,4 @@ ImageBase
   DataObject::PrintSelf(os,indent);
 }
 
-} // namespace itk
+ITK_NAMESPACE_END

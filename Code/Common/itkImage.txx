@@ -15,8 +15,7 @@
 =========================================================================*/
 #include "itkImage.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /**
  *
@@ -305,4 +304,4 @@ void Image<TPixel, VImageDimension>
   os << indent << "Data: " << m_Data << std::endl;
 }
 
-} // namespace itk
+ITK_NAMESPACE_END

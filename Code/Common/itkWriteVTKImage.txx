@@ -17,8 +17,7 @@
 #include "itkObjectFactory.h"
 #include <fstream>
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /**
  *
@@ -361,4 +360,4 @@ WriteVTKImage<TInputImage>
     }
 }
 
-} // namespace itk
+ITK_NAMESPACE_END

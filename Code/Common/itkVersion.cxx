@@ -15,7 +15,6 @@
 =========================================================================*/
 #include "itkVersion.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
   
-} // namespace itk
+ITK_NAMESPACE_END

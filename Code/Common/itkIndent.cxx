@@ -19,8 +19,7 @@
 #define ITK_STD_INDENT 2
 #define ITK_NUMBER_OF_BLANKS 40
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 static const char blanks[ITK_NUMBER_OF_BLANKS+1] =
     "                                        ";
@@ -62,4 +61,4 @@ operator<<(std::ostream& os, Indent& ind)
   return os;
 }
 
-} // namespace itk
+ITK_NAMESPACE_END

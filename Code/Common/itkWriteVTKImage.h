@@ -19,8 +19,7 @@
 #include "itkWriteImage.h"
 #include <vector>
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class WriteVTKImage
  * \brief Write an image (dimension 1-3D) in VTK format.
@@ -99,7 +98,7 @@ private:
   void CloseVTKFile(std::ostream *fp);  
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
   
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkWriteVTKImage.txx"

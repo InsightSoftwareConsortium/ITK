@@ -24,8 +24,7 @@
 #define ITK_NUMERIC_LIMITS vnl_numeric_limits
 #endif
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class NumericTraits
  * \brief Define additional traits for native types such as int or float.
@@ -210,6 +209,6 @@ public:
   static const long double One;
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
 
 #endif // __itkNumericTraits_h

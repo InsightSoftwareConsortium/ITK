@@ -18,8 +18,7 @@
 
 #include "itkFilterImageGaussian.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class FilterImageGaussianSecondDerivative
  * \brief Convolve an image with a kernel approximating the
@@ -63,7 +62,7 @@ protected:
   virtual void SetUp(TComputation dd);
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFilterImageGaussianSecondDerivative.txx"

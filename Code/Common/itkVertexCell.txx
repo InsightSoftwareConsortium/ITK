@@ -15,8 +15,7 @@
 =========================================================================*/
 #include "itkVertexCell.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
  
 /**
  * Standard CellInterface:
@@ -218,4 +217,4 @@ VertexCell< TPixelType , TCellType >
 }
 
 
-} // namespace itk
+ITK_NAMESPACE_END

@@ -16,8 +16,7 @@
 
 // #include "itkImageIterator.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /**
  * Add two indices and perform a bounds check. This method models a
@@ -134,4 +133,4 @@ ImageIterator<TPixel, TImageDimension>
   return *this;
 }
 
-} // namespace itk
+ITK_NAMESPACE_END

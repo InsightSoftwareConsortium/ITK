@@ -21,8 +21,7 @@
 #include "itkObjectFactory.h"
 #include "itkSmartPointer.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class CellInterface
  * Define an abstract interface for cells.  Actual cell types derive from
@@ -356,7 +355,7 @@ public:
                PointIdentifier, CellIdentifier, CellFeatureIdentifier, \
                Point, PointsContainer, UsingCellsContainer>
 
-} // namespace itk
+ITK_NAMESPACE_END
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkCellInterface.txx"

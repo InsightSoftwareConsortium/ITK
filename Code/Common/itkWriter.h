@@ -21,8 +21,7 @@
 #define ITK_ASCII 0
 #define ITK_BINARY 1
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class Writer
  * \brief The base class for all data writers.
@@ -83,7 +82,7 @@ private:
 };
 
   
-} // namespace itk
+ITK_NAMESPACE_END
   
 #endif
   

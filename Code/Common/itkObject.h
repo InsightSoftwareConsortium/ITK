@@ -24,8 +24,7 @@
 #include "itkTimeStamp.h"
 #include "itkIndent.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class Object
  * Object is the second-highest level base class for most itk objects.
@@ -154,7 +153,7 @@ private:
   static bool m_GlobalWarningDisplay;
 };
   
-} // namespace itk
+ITK_NAMESPACE_END
 
 #endif
 

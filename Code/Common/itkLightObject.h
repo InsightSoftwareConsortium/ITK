@@ -24,11 +24,7 @@
 #include "itkIndent.h"
 #include "itkMacro.h"
 
-/** \namespace itk
- * \brief The "itk" namespace contains all classes defined for Insight.
- */
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class LightObject
  * LightObject is the highest level base class for most itk objects. It
@@ -141,6 +137,6 @@ protected:
   void (*m_DeleteMethod)(void *);
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
   
 #endif

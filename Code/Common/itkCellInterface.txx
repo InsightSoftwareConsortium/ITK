@@ -15,8 +15,7 @@
 =========================================================================*/
 // #include "itkCellInterface.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 /**
  * Get the interpolation order of the cell.  Usually linear.
  */
@@ -125,4 +124,4 @@ CellInterface< TPixelType , TCellType >
   return UsingCellsContainerIterator();
 }
 
-} // namespace itk
+ITK_NAMESPACE_END

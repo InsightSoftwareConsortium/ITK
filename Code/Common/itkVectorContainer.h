@@ -23,8 +23,7 @@
 #include "itkObjectFactory.h"
 #include "itkSmartPointer.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class VectorContainer
  * Define a front-end to the STL "vector" container that conforms to the
@@ -181,7 +180,7 @@ public:
   itkTypeMacro(VectorContainer, Object);
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
   
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkVectorContainer.txx"

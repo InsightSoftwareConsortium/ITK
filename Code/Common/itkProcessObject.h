@@ -19,8 +19,7 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 class DataObject;
 
@@ -359,7 +358,7 @@ private:
 
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
 
 #endif
 

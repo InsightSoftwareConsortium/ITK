@@ -18,8 +18,7 @@
 #include <memory.h>
 #include "itkIndex.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class ImageIterator
  * \brief Multi-dimensional image iterator.
@@ -342,7 +341,7 @@ protected: //made protected so other iterators can access
   long           m_RegionIndexOrigin[TImageDimension];
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImageIterator.txx"

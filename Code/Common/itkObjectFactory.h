@@ -18,8 +18,7 @@
 
 #include "itkObjectFactoryBase.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class ObjectFactory
  * \brief Create instances of a class.
@@ -59,7 +58,7 @@ public:
     }
 };
 
-} // namespace itk
+ITK_NAMESPACE_END
 
 #endif
 

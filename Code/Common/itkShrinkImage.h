@@ -18,8 +18,7 @@
 
 #include "itkFilterImageToImage.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class ShrinkImage
  * \brief Reduce ths size of an image by an integer factor.
@@ -76,7 +75,7 @@ private:
 };
 
   
-} // namespace itk
+ITK_NAMESPACE_END
   
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkShrinkImage.txx"
