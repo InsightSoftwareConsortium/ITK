@@ -22,7 +22,7 @@
 namespace itk {
 
 /** \class GrayscaleErodeImageFilter
- * \brief gray scale dilation of an image
+ * \brief gray scale erosion of an image
  *
  * Erode an image using grayscale morphology. Erosion takes the
  * minimum of all the pixels identified by the structuring element.
