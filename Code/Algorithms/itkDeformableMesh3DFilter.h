@@ -240,7 +240,7 @@ private:
   int       m_NumCells;
   int       m_NumNewNodes;   // for adding new nodes, now disabled for further tests
   int       *m_GapLocations;
-  BOOL      m_NewNode;
+  bool      m_NewNode;
   int       m_NewNodesExisted;
   int       m_NewNodeLimit;
   int       m_imgWidth;      // input image size
