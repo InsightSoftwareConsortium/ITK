@@ -63,9 +63,7 @@ int main()
   region.SetSize( size );
 
   // Initialize Image
-  inputImage->SetLargestPossibleRegion( region );
-  inputImage->SetBufferedRegion( region );
-  inputImage->SetRequestedRegion( region );
+  inputImage->SetRegions( region );
   inputImage->Allocate();
 
   // Declare Iterator types apropriated for each image 
@@ -76,12 +74,8 @@ int main()
 
   // Initialize the content of Image
   std::cout << "Input image " << std::endl;
-  i = 0;
-  while( !it.IsAtEnd() ) 
-    {
-    it.Set( bgValue );
-    ++it;
-    }
+  inputImage->FillBuffer(bgValue);
+
   myImageType::IndexType ind;
   ind[0] = 10;
   ind[1] = 10;
@@ -117,8 +111,6 @@ int main()
       std::cout << std::endl;
       }
     }
-  
-  
   
   // Declare the type for the structuring element
   typedef itk::BinaryBallStructuringElement<unsigned short, myDimension>
