@@ -130,7 +130,7 @@ public:
     int GetAxis() const { return m_Axis; }
     void SetAxis( int axis ) { m_Axis = axis; }
     const AxisNodeType & operator=(const NodeType & node)
-                          { this->NodeType::operator=(node); }
+                          { return this->NodeType::operator=(node); }
   private:
     int m_Axis;
   };
