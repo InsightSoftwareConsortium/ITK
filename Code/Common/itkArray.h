@@ -75,15 +75,15 @@ public:
 template <typename TValueType >
 std::ostream & operator<<(std::ostream &os, const Array<TValueType> &arr)
 {
-  const unsigned int length = arr.size();
+  const unsigned int last = arr.size()-1;
   os << "[";
-  for (unsigned int i=0; i < length - 1; ++i)
+  for (unsigned int i=0; i < last; ++i)
     {
     os << arr[i] << ", ";
     }
   if (length >= 1)
     {
-    os << arr[length-1];
+    os << arr[last];
     }
   os << "]" << std::endl;
   return os;

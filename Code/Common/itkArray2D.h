@@ -67,17 +67,18 @@ std::ostream & operator<<(std::ostream &os, const Array2D<TValueType> &arr)
 {
   const unsigned int numberOfColumns = arr.cols();
   const unsigned int numberOfRows    = arr.rows();
+  const unsigned int lastColumn = numberOfColumns - 1;
 
   for (unsigned int r=0; r < numberOfRows; ++r)
     {
     os << "[";
-    for (unsigned int c=0; c < numberOfColumns-1; ++c)
+    for (unsigned int c=0; c < lastColumn; ++c)
       {
       os << arr(r,c) << ", ";
       }
     if (numberOfColumns >= 1)
       {
-      os << arr(r,numberOfColumns-1);
+      os << arr(r,lastColumn);
       }
     os << "]" << std::endl;
     }
