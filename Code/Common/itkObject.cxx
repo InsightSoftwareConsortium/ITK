@@ -7,13 +7,14 @@
   Version:   $Revision$
 
 
-Copyright (c) 2000 National Library of Medicine
-All rights reserved.
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
 
-See COPYRIGHT.txt for copyright details.
+  See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 #include "itkObject.h"
+#include "itkObjectFactory.h"
 
 // Initialize static member that controls warning display
 static bool itkObjectGlobalWarningDisplay = 1;
@@ -50,6 +51,11 @@ void itkObject::operator delete( void *p )
 
 itkObject::Pointer itkObject::New()
 {
+  itkObject *ret = itkObjectFactory<itkObject>::Create();
+  if ( ret )
+    {
+    return ret;
+    }
   return itkObject::Pointer(new itkObject);
 }
 

@@ -14,13 +14,21 @@
 
 =========================================================================*/
 #include "itkImageSource.h"
+#include "itkObjectFactory.h"
 
 //------------------------------------------------------------------------
 template<class TOutputImage>
 itkImageSource<TOutputImage>::Pointer itkImageSource<TOutputImage>
 ::New()
 {
-  return itkImageSource::Pointer(new itkImageSource<TOutputImage>);
+  itkImageSource<TOutputImage>* ret = 
+    itkObjectFactory< itkImageSource<TOutputImage> >::Create();
+  if ( ret )
+    {
+    return ret;
+    }
+  return
+    itkImageSource<TOutputImage>::Pointer(new itkImageSource<TOutputImage>);
 }
 
 //----------------------------------------------------------------------------

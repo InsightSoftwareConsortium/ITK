@@ -194,10 +194,12 @@ private:
    */
   static void LoadLibrariesInPath( const char*);
   
+  /** 
    * list of registered factories
    */
   static std::list<itkObjectFactoryBase*>* m_RegisteredFactories; 
   
+  /** 
    * member variables for a factory set by the base class
    * at load or register time
    */

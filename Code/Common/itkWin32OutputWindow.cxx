@@ -14,10 +14,16 @@
 
 =========================================================================*/
 #include "itkWin32OutputWindow.h"
+#include "itkObjectFactory.h"
 
 itkWin32OutputWindow* itkWin32OutputWindow::New()
 {
-  return new itkWin32OutputWindow;
+  itkWin32OutputWindow *ret = itkObjectFactory<itkWin32OutputWindow>::Create();
+  if ( ret )
+    {
+    return ret;
+    }
+  return itkWin32OutputWindow::Pointer(new itkWin32OutputWindow);
 }
 
 LRESULT APIENTRY itkWin32OutputWindow::WndProc(HWND hWnd, UINT message, 

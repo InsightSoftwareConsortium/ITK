@@ -14,13 +14,21 @@
 
 =========================================================================*/
 #include "itkVTKImageReader.h"
+#include "itkObjectFactory.h"
 
 //------------------------------------------------------------------------
 template <class TOutputImage>
 itkVTKImageReader<TOutputImage>::Pointer itkVTKImageReader<TOutputImage>
 ::New()
 {
-  return itkVTKImageReader::Pointer(new itkVTKImageReader<TOutputImage>);
+  itkVTKImageReader<TOutputImage>* ret = 
+    itkObjectFactory< itkVTKImageReader<TOutputImage> >::Create();
+  if ( ret )
+    {
+    return ret;
+    }
+  return itkVTKImageReader<TOutputImage>::Pointer(
+    new itkVTKImageReader<TOutputImage>);
 }
 
 //----------------------------------------------------------------------------

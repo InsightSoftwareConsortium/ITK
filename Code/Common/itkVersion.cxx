@@ -14,10 +14,16 @@
 
 =========================================================================*/
 #include "itkVersion.h"
+#include "itkObjectFactory.h"
 
 //------------------------------------------------------------------------
 itkVersion* itkVersion::New()
 {
+  itkVersion *ret = itkObjectFactory<itkVersion>::Create();
+  if ( ret )
+    {
+    return ret;
+    }
   return new itkVersion;
 }
 

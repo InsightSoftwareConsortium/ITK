@@ -17,6 +17,7 @@
 #ifdef _WIN32
 #include "itkWin32OutputWindow.h"
 #endif
+#include "itkObjectFactory.h"
 
 itkOutputWindow* itkOutputWindow::m_Instance = 0;
 

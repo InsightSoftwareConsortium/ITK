@@ -14,6 +14,7 @@
 
 =========================================================================*/
 #include "itkRandomImageSource.h"
+#include "itkObjectFactory.h"
 
 //------------------------------------------------------------------------
 template <class TOutputImage>
@@ -21,7 +22,15 @@ itkRandomImageSource<TOutputImage>::Pointer
 itkRandomImageSource<TOutputImage>
 ::New()
 {
-  return itkRandomImageSource::Pointer(new itkRandomImageSource<TOutputImage>);
+  itkRandomImageSource<TOutputImage>* ret = 
+    itkObjectFactory< itkRandomImageSource<TOutputImage> >::Create();
+  if ( ret )
+    {
+    return ret;
+    }
+  return 
+    itkRandomImageSource<TOutputImage>::Pointer(
+      new itkRandomImageSource<TOutputImage>);
 }
 
 //----------------------------------------------------------------------------

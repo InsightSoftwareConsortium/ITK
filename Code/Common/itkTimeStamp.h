@@ -39,17 +39,20 @@ public:
    * Constructor must remain public because classes instantiate
    * itkTimeStamps implicitly in their construction. 
    */
-  itkTimeStamp() {m_ModifiedTime = 0;}
+  itkTimeStamp() 
+    {m_ModifiedTime = 0;}
 
   /** 
    * Destoy this instance.
    */
-  void Delete() {delete this;}
+  void Delete() 
+    {delete this;}
 
   /** 
    * The class name as a string. 
    */
-  static const char *GetClassName() {return "itkTimeStamp";};
+  static const char *GetClassName() 
+    {return "itkTimeStamp";}
 
   /** 
    * Set this objects time to the current time. The current time is just a
@@ -65,20 +68,22 @@ public:
   /** 
    * Return this object's Modified time. 
    */
-  unsigned long int GetMTime() {return m_ModifiedTime;};
+  unsigned long int GetMTime() const
+    {return m_ModifiedTime;};
 
   /** 
    * Support comparisons of time stamp objects directly. 
    */
-  int operator>(itkTimeStamp& ts) {
-    return (m_ModifiedTime > ts.m_ModifiedTime);};
-  int operator<(itkTimeStamp& ts) {
-    return (m_ModifiedTime < ts.m_ModifiedTime);};
+  int operator>(itkTimeStamp& ts) 
+    {return (m_ModifiedTime > ts.m_ModifiedTime);}
+  int operator<(itkTimeStamp& ts) 
+    {return (m_ModifiedTime < ts.m_ModifiedTime);}
 
   /** 
    * Allow for typcasting to unsigned long. 
    */
-  operator unsigned long() {return m_ModifiedTime;};
+  operator unsigned long() 
+    {return m_ModifiedTime;}
 
 private:
   unsigned long m_ModifiedTime;

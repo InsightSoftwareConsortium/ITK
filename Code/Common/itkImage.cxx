@@ -18,7 +18,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkObjectFactory.h"
 
 template<class T, unsigned int TImageDimension>
-itkImage<T, TImageDimension>::Pointer itkImage<T, TImageDimension>::New()
+itkImage<T, TImageDimension>::Pointer itkImage<T, TImageDimension>
+::New()
 {
   itkImage<T, TImageDimension>* ret = 
     itkObjectFactory<itkImage<T, TImageDimension> >::Create();
@@ -31,14 +32,16 @@ itkImage<T, TImageDimension>::Pointer itkImage<T, TImageDimension>::New()
 }
 
 template<class T, unsigned int TImageDimension>
-itkImage<T, TImageDimension>::itkImage()
+itkImage<T, TImageDimension>
+::itkImage()
   : m_Data(0)
 {
    this->SetDimension( TImageDimension );
 }
 
 template<class T, unsigned int TImageDimension>
-itkImage<T, TImageDimension>::~itkImage()
+itkImage<T, TImageDimension>
+::~itkImage()
 {
   if (m_Data != 0)
     {
@@ -48,7 +51,8 @@ itkImage<T, TImageDimension>::~itkImage()
 }
 
 template<class T, unsigned int TImageDimension>
-void itkImage<T, TImageDimension>::Allocate()
+void itkImage<T, TImageDimension>
+::Allocate()
 {
   unsigned long num=1;
   const unsigned long *size = this->GetSize();
@@ -69,7 +73,8 @@ void itkImage<T, TImageDimension>::Allocate()
 }
 
 template<class T, unsigned int TImageDimension>
-void itkImage<T, TImageDimension>::SetPixel(const Index &ind, const T& value)
+void itkImage<T, TImageDimension>
+::SetPixel(const Index &ind, const T& value)
 {
   // add bounds checking for the region/image
   unsigned long offset=0;
@@ -91,7 +96,8 @@ void itkImage<T, TImageDimension>::SetPixel(const Index &ind, const T& value)
 }
 
 template<class T, unsigned int TImageDimension>
-const T& itkImage<T, TImageDimension>::GetPixel(const Index &ind)
+const T& itkImage<T, TImageDimension>
+::GetPixel(const Index &ind)
 {
   // add bounds checking for the region/image
   unsigned long offset=0;
@@ -113,7 +119,8 @@ const T& itkImage<T, TImageDimension>::GetPixel(const Index &ind)
 }
 
 template <class T, unsigned int TImageDimension>
-itkImageIterator<T, TImageDimension> itkImage<T, TImageDimension>::Begin()
+itkImageIterator<T, TImageDimension> itkImage<T, TImageDimension>
+::Begin()
 {
   Iterator ind;
   long indexOrigin[TImageDimension];
@@ -143,7 +150,8 @@ itkImageIterator<T, TImageDimension> itkImage<T, TImageDimension>::Begin()
 //           m_ImageSize[TImageDimension-2]-1, m_ImageSize[TImageDimension-1]]
 //
 template <class T, unsigned int TImageDimension>
-itkImageIterator<T, TImageDimension> itkImage<T, TImageDimension>::End()
+itkImageIterator<T, TImageDimension> itkImage<T, TImageDimension>
+::End()
 {
   Iterator ind;
   long indexOrigin[TImageDimension];

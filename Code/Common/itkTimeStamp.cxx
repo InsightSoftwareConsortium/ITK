@@ -7,17 +7,23 @@
   Version:   $Revision$
 
 
-Copyright (c) 2000 National Library of Medicine
-All rights reserved.
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
 
-See COPYRIGHT.txt for copyright details.
+  See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 #include "itkTimeStamp.h"
+#include "itkObjectFactory.h"
 
 //-------------------------------------------------------------------------
 itkTimeStamp *itkTimeStamp::New()
 {
+  itkTimeStamp *ret = itkObjectFactory<itkTimeStamp>::Create();
+  if ( ret )
+    {
+    return ret;
+    }
   return new itkTimeStamp;
 }
 

@@ -14,6 +14,7 @@
 
 =========================================================================*/
 #include "itkImageToImageFilter.h"
+#include "itkObjectFactory.h"
 
 //------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage>
@@ -21,8 +22,15 @@ itkImageToImageFilter<TInputImage,TOutputImage>::Pointer
 itkImageToImageFilter<TInputImage,TOutputImage>
 ::New()
 {
-  return itkImageToImageFilter::Pointer(
-    new itkImageToImageFilter<TInputImage,TOutputImage>);
+  itkImageToImageFilter<TInputImage,TOutputImage>* ret = 
+    itkObjectFactory< itkImageToImageFilter<TInputImage,TOutputImage> >::Create();
+  if ( ret )
+    {
+    return ret;
+    }
+  return
+    itkImageToImageFilter<TInputImage,TOutputImage>::Pointer(
+      new itkImageToImageFilter<TInputImage, TOutputImage>);
 }
 
 //----------------------------------------------------------------------------

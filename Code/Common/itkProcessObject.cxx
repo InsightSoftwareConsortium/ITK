@@ -7,18 +7,24 @@
   Version:   $Revision$
 
 
-Copyright (c) 2000 National Library of Medicine
-All rights reserved.
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
 
-See COPYRIGHT.txt for copyright details.
+  See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 #include "itkProcessObject.h"
 #include "itkDataObject.h"
+#include "itkObjectFactory.h"
 
 //------------------------------------------------------------------------
 itkProcessObject::Pointer itkProcessObject::New()
 {
+  itkProcessObject *ret = itkObjectFactory<itkProcessObject>::Create();
+  if ( ret )
+    {
+    return ret;
+    }
   return itkProcessObject::Pointer(new itkProcessObject);
 }
 

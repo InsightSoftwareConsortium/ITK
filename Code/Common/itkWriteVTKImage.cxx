@@ -14,13 +14,21 @@
 
 =========================================================================*/
 #include "itkVTKImageWriter.h"
+#include "itkObjectFactory.h"
 
 //------------------------------------------------------------------------
 template <class TInputImage>
 itkVTKImageWriter<TInputImage>::Pointer itkVTKImageWriter<TInputImage>
 ::New()
 {
-  return itkVTKImageWriter::Pointer(new itkVTKImageWriter<TInputImage>);
+  itkVTKImageWriter<TInputImage>* ret = 
+    itkObjectFactory< itkVTKImageWriter<TInputImage> >::Create();
+  if ( ret )
+    {
+    return ret;
+    }
+  return itkVTKImageWriter<TInputImage>::Pointer(
+    new itkVTKImageWriter<TInputImage>);
 }
 
 //----------------------------------------------------------------------------

@@ -16,7 +16,7 @@
 #include "itkDirectory.h"
 
 itkDirectory::itkDirectory() 
-  :m_NumberOfFiles(0), Files(0), Path(0)
+  :m_NumberOfFiles(0), m_Files(0), m_Path(0)
 {
 }
 

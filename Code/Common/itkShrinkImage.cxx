@@ -14,6 +14,7 @@
 
 =========================================================================*/
 #include "itkShrinkImage.h"
+#include "itkObjectFactory.h"
 
 //------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage>
@@ -21,8 +22,15 @@ itkShrinkImage<TInputImage,TOutputImage>::Pointer
 itkShrinkImage<TInputImage,TOutputImage>
 ::New()
 {
-  return itkShrinkImage::Pointer(
-    new itkShrinkImage<TInputImage,TOutputImage>);
+  itkShrinkImage<TInputImage,TOutputImage>* ret = 
+    itkObjectFactory< itkShrinkImage<TInputImage,TOutputImage> >::Create();
+  if ( ret )
+    {
+    return ret;
+    }
+  return 
+    itkShrinkImage<TInputImage,TOutputImage>::Pointer(
+      new itkShrinkImage<TInputImage,TOutputImage>);
 }
 
 //----------------------------------------------------------------------------

@@ -15,9 +15,15 @@ See COPYRIGHT.txt for copyright details.
 =========================================================================*/
 #include "itkDataObject.h"
 #include "itkProcessObject.h"
+#include "itkObjectFactory.h"
 
 itkDataObject::Pointer itkDataObject::New()
 {
+  itkDataObject *ret = itkObjectFactory<itkDataObject>::Create();
+  if ( ret )
+    {
+    return ret;
+    }
   return itkDataObject::Pointer(new itkDataObject);
 }
 

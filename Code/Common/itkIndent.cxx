@@ -7,17 +7,23 @@
   Version:   $Revision$
 
 
-Copyright (c) 2000 National Library of Medicine
-All rights reserved.
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
 
-See COPYRIGHT.txt for copyright details.
+  See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 #include "itkIndent.h"
+#include "itkObjectFactory.h"
 
 //------------------------------------------------------------------------
 itkIndent* itkIndent::New()
 {
+  itkIndent *ret = itkObjectFactory<itkIndent>::Create();
+  if ( ret )
+    {
+    return ret;
+    }
   return new itkIndent;
 }
 

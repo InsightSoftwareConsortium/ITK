@@ -7,16 +7,22 @@
   Version:   $Revision$
 
 
-Copyright (c) 2000 National Library of Medicine
-All rights reserved.
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
 
-See COPYRIGHT.txt for copyright details.
+  See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 #include "itkMeshBase.h"
+#include "itkObjectFactory.h"
 
 itkMeshBase::Pointer itkMeshBase::New()
 {
+  itkMeshBase *ret = itkObjectFactory<itkMeshBase>::Create();
+  if ( ret )
+    {
+    return ret;
+    }
   return itkMeshBase::Pointer(new itkMeshBase);
 }
 
