@@ -18,6 +18,7 @@
 
 =========================================================================*/
 #include "itkVTKImageIO.h"
+#include <cstdio>
 
 namespace itk
 {
