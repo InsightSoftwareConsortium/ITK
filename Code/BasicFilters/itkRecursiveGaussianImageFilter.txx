@@ -270,8 +270,8 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
            RealType W1, RealType L1, RealType W2, RealType L2,
            RealType& SD, RealType& DD, RealType& ED) 
 {
-  const RealType Sin1 = sin(W1 / sigmad);
-  const RealType Sin2 = sin(W2 / sigmad);
+  //  const RealType Sin1 = sin(W1 / sigmad);
+  //  const RealType Sin2 = sin(W2 / sigmad);
   const RealType Cos1 = cos(W1 / sigmad);
   const RealType Cos2 = cos(W2 / sigmad);
   const RealType Exp1 = exp(L1 / sigmad);
