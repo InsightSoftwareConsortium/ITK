@@ -130,42 +130,41 @@ public:
   /**
    * Connect the Target 
    */
-   void SetTarget( TargetType * );
+  void SetTarget( TargetType * );
 
   /**
    * Connect the Mapper
    */
-   void SetMapper( MapperType * );
+  void SetMapper( MapperType * );
 
   /**
    * Get the Derivatives of the Match Measure
    */
-   DerivativeType::Pointer GetDerivative( void );
+  DerivativeType::Pointer GetDerivative( void );
 
-   /**
-    *Get the Value for SingleValue Optimizers
-    */
+  /**
+   *  Get the Value for SingleValue Optimizers
+   */
    MeasureType    GetValue( void );
 
-   /**
-    *Get the Value for MultipleValuedOptimizers
-    */
+  /**
+   *  Get the Value for MultipleValuedOptimizers
+   */
    void  GetValue(VectorMeasureType::Pointer &);
 
-   /**
-    *Get Value and Derivatives for MultipleValuedOptimizers
-    */
-   void GetValueAndDerivative(const vnl_vector<double> & parameters, 
-	                             MeasureType & Value, DerivativeType  & Derivative );
+  /**
+   *  Get Value and Derivatives for MultipleValuedOptimizers
+   */
+   void GetValueAndDerivative(MeasureType & Value, DerivativeType  & Derivative );
 
-   /**
-    * Get Parameters
-    */
+  /**
+   * Get Parameters
+   */
    const ParametersType::Pointer & GetParameters( void ) const {return m_Parameters;}
   
-   /**
-    * Space dimension is the dimension of parameters space
-    */
+  /**
+   * Space dimension is the dimension of parameters space
+   */
    enum { SpaceDimension = TMapper::SpaceDimension };    
    enum { RangeDimension = 9};
 

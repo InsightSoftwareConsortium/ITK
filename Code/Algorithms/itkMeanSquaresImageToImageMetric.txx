@@ -318,13 +318,10 @@ MeanSquaresImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
 template < class TTarget, class TMapper, class TMeasure,  class TDerivative > 
 void
 MeanSquaresImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
-::GetValueAndDerivative(const vnl_vector<double> & parameters, 
-	                                                    MeasureType & Value, DerivativeType  & Derivative)
+::GetValueAndDerivative(MeasureType & Value, DerivativeType  & Derivative)
 {
-  std::cout << "Calling GetValueAndDerivative in the Metric" << std::endl; 
-  Value = GetValue( parameters );
-  Derivative = GetDerivative( parameters );
-  std::cout << parameters << " : " << "Value = " << Value << "   Derivative = " << Derivative << std::endl;
+  Value = GetValue();
+  Derivative = GetDerivative();
 }
 
 
