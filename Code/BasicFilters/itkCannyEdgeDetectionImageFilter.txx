@@ -440,42 +440,47 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   Size<ImageDimension> radius; radius.Fill(1);
 
   ConstNeighborhoodIterator<TOutputImage> oit(radius, output, output->GetRequestedRegion());
-  
   ImageRegionIteratorWithIndex<TOutputImage> uit(m_UpdateBuffer,
                                                  m_UpdateBuffer->GetRequestedRegion());
 
   uit.SetIndex(index);
-  if(uit.Get() == 1) return;
-                                        
-  int nSize = m_Center * 2 +1;
+  if(uit.Get() == 1)
+    {
+    return;
+    }
   
+  int nSize = m_Center * 2 +1;  
   while(!m_NodeList->Empty())
     {
-    node = m_NodeList->Front();
-    cIndex = node->m_Value;
+    // Pop the front node from the list and read its index value.
+    node = m_NodeList->Front(); // get a pointer to the first node
+    cIndex = node->m_Value;    // read the value of the first node
+    m_NodeList->PopFront();    // unlink the front node
+    m_NodeStore->Return(node); // return the memory for reuse
+
+    // Move iterators to the correct index position.
     oit.SetLocation(cIndex);
     uit.SetIndex(cIndex);
     uit.Value() = 1;
 
+    // Search the neighbors for new indicies to add to the list.
     for(int i = 0; i < nSize; i++)
       {
       nIndex = oit.GetIndex(i);
       uit.SetIndex(nIndex);
       if(InBounds(nIndex))
+        {
         if(oit.GetPixel(i) > m_LowerThreshold && uit.Value() != 1  )
           {
-          node = m_NodeStore->Borrow();
-          node->m_Value = nIndex;
-          m_NodeList->PushFront(node);
-                
+          node = m_NodeStore->Borrow();  // get a new node struct
+          node->m_Value = nIndex;        // set its value
+          m_NodeList->PushFront(node);   // add the new node to the list
+          
           uit.SetIndex(nIndex);
           uit.Value() = 1;
           }
+        }
       }
-
-    m_NodeList->PopFront();
-    m_NodeStore->Return(node);
-
     }
 }
 
