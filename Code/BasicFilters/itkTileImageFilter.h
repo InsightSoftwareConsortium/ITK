@@ -25,7 +25,21 @@ namespace itk {
 /** \class TileImageFilter 
  * \brief Tile multiple input images into a single output image.
  *
+ * This filter will tile multiple images using a user-specified
+ * layout. The tile sizes will be large enough to accommodate the
+ * largest image for each tile. The layout is specified with the
+ * SetLayout method. The layout has the same dimension as the output
+ * image. If all entries of the layout are positive, the tiled output
+ * will contain the exact number of tiles. If the layout contains a 0
+ * in the last dimension, the filter will compute a size that will
+ * accommodate all of the images. Empty tiles are filled with the
+ * value specified with the SetDefault value method. The input images
+ * must have a dimension less than or equal to the output image. The
+ * output image have a larger dimension than the input images. This
+ * filter can be used to create a volume from a series of inputs by
+ * specifying a layout of 1,1,0. 
  */
+
 template<class TInputImage, class TOutputImage>
 class ITK_EXPORT TileImageFilter : 
     public ImageToImageFilter<TInputImage, TOutputImage>
@@ -77,12 +91,14 @@ public:
   /** LayoutArray type. */
   typedef FixedArray<unsigned int, itkGetStaticConstMacro(OutputImageDimension)> LayoutArrayType;
 
-  /** Set/Get the layout of the tiles. */
+  /** Set/Get the layout of the tiles. If the last Layout value is 0,
+   * the filter will compute a value that will acoomodate all of the
+   * images. */
   itkSetMacro(Layout,LayoutArrayType);
   itkGetMacro(Layout,LayoutArrayType);
 
   /** Set the pixel value for locations that are not covered by an
-   * input image. The default default pixel value is 0. */
+   * input image. The default default pixel value is Zero. */
   itkSetMacro(DefaultPixelValue,OutputPixelType);
 
   /** Get the pixel value for locations that are not covered by an
