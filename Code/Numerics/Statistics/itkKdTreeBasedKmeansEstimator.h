@@ -78,16 +78,18 @@ public:
                       TKdTree::MeasurementVectorSize);
   /**  Parameters type.
    *  It defines a position in the optimization search space. */
+//   typedef FixedArray< double, itkGetStaticConstMacro(MeasurementVectorSize) > ParameterType ;
   typedef FixedArray< double, itkGetStaticConstMacro(MeasurementVectorSize) > ParameterType ;
-  typedef std::vector< ParameterType >        ParametersType;
+  typedef std::vector< ParameterType > InternalParametersType;
+  typedef Array< double > ParametersType;
 
   /**  Set the position to initialize the optimization. */
-  void SetInitialPosition(ParametersType position)
-  { m_InitialPosition = position ; }
+  void SetParameters(ParametersType& params)
+  { m_Parameters = params ; }
 
-  /** Get the position to initialize the optimization. */
-  ParametersType& GetInitialPosition()
-  { return m_InitialPosition ; }
+  /** Get current position of the optimization. */
+  ParametersType& GetParameters() 
+  { return m_Parameters ; }
 
   /** Set/Get maximum iteration limit. */
   itkSetMacro( MaximumIteration, int );
@@ -101,10 +103,6 @@ public:
   /** Set/Get the pointer to the KdTree */
   itkSetMacro( KdTree, KdTreePointer );   
   itkGetConstMacro( KdTree, KdTreePointer );   
-
-  /** Get current position of the optimization. */
-  ParametersType& GetCurrentPosition() 
-  { return m_CurrentPosition ; }
 
   itkGetConstMacro( CurrentIteration, int) ;
   itkGetConstMacro( CenteroidPositionChanges, double) ;
@@ -142,7 +140,7 @@ protected:
 
     /** Initialize the centeroids with the argument.
      * At each iteration, this should be called before filtering*/
-    void SetCenteroids(ParametersType& centeroids)
+    void SetCenteroids(InternalParametersType& centeroids)
     {
       m_Candidates.resize(centeroids.size()) ;
       for (int i = 0 ; i < centeroids.size() ; i++)
@@ -156,7 +154,7 @@ protected:
     }
 
     /** gets the centeroids (k-means) */
-    void GetCenteroids(ParametersType& centeroids)
+    void GetCenteroids(InternalParametersType& centeroids)
     {
       int i, j ;
       centeroids.resize(this->Size()) ;
@@ -200,8 +198,8 @@ protected:
    * condition for this algorithm. If the return value is less than
    * the value that was set by the SetCenteroidPositionChangesThreshold 
    * method.*/
-  double GetSumOfSquaredPositionChanges(ParametersType &previous, 
-                                        ParametersType &current) ;
+  double GetSumOfSquaredPositionChanges(InternalParametersType &previous, 
+                                        InternalParametersType &current) ;
 
   /** get the index of the closest candidate to the "measurements" 
    * measurement vector */
@@ -222,7 +220,13 @@ protected:
               MeasurementVectorType &upperBound) ;
 
   /** copies the source parameters (k-means) to the target */
-  void CopyParameters(ParametersType &source, ParametersType &target) ;
+  void CopyParameters(InternalParametersType &source, InternalParametersType &target) ;
+
+  /** copies the source parameters (k-means) to the target */
+  void CopyParameters(ParametersType &source, InternalParametersType &target) ;
+
+  /** copies the source parameters (k-means) to the target */
+  void CopyParameters(InternalParametersType &source, ParametersType &target) ;
 
   /** imports the "measurements" measurement vector data to the "point" */ 
   void GetPoint(ParameterType &point, 
@@ -259,10 +263,9 @@ private:
   /** pointer to the euclidean distance funtion */
   typename EuclideanDistance< ParameterType >::Pointer m_DistanceMetric ;
 
-  /** initial k-means */
-  ParametersType m_InitialPosition ;
-  /** k-means at the current iteration */
-  ParametersType m_CurrentPosition ;
+  /** k-means */
+  ParametersType m_Parameters ;
+
   CandidateVector m_CandidateVector ;
   
   ParameterType m_TempVertex ;

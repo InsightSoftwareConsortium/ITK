@@ -51,18 +51,8 @@ KdTreeBasedKmeansEstimator< TKdTree >
   os << indent << "Kd Tree:" << m_KdTree << std::endl ;
   os << indent << "Distance Metric: " << m_DistanceMetric << std::endl ;
   
-  os << indent << "Initial Centeroids: " << std::endl ;
-  int i ;
-  for (i = 0 ; i < m_InitialPosition.size() ; i++)
-    {
-      os << indent << m_InitialPosition[i] << std::endl ;
-    }
-
-  os << indent << "Current Centeroids: " << std::endl ;
-  for (i = 0 ; i < m_CurrentPosition.size() ; i++)
-    {
-      os << indent << m_CurrentPosition[i] << std::endl ;
-    }
+  os << indent << "Parameterss: " << std::endl ;
+  os << indent << m_Parameters << std::endl ;
 
   os << indent << "Temp Vertex: " << m_TempVertex << std::endl ;
 }
@@ -71,8 +61,8 @@ KdTreeBasedKmeansEstimator< TKdTree >
 template< class TKdTree >
 double 
 KdTreeBasedKmeansEstimator< TKdTree >
-::GetSumOfSquaredPositionChanges(ParametersType &previous, 
-                                 ParametersType &current) 
+::GetSumOfSquaredPositionChanges(InternalParametersType &previous, 
+                                 InternalParametersType &current) 
 {
   double temp ;
   double sum = 0.0 ;
@@ -244,7 +234,41 @@ KdTreeBasedKmeansEstimator< TKdTree >
 template< class TKdTree >
 void
 KdTreeBasedKmeansEstimator< TKdTree >
-::CopyParameters(ParametersType &source, ParametersType &target)
+::CopyParameters(ParametersType &source, InternalParametersType &target)
+{
+  int i, j ;
+  int index = 0 ;;
+  for (i = 0 ; i < source.size() / MeasurementVectorSize ; i++)
+    {
+      for (j = 0 ; j < MeasurementVectorSize ; j++)
+        {
+          target[i][j] = source[index] ;
+          ++index ;
+        }
+    }
+}
+
+template< class TKdTree >
+void
+KdTreeBasedKmeansEstimator< TKdTree >
+::CopyParameters(InternalParametersType &source, ParametersType &target)
+{
+  int i, j ;
+  int index = 0 ;;
+  for (i = 0 ; i < source.size() ; i++)
+    {
+      for (j = 0 ; j < MeasurementVectorSize ; j++)
+        {
+          target[index] = source[i][j] ;
+          ++index ;
+        }
+    }
+}
+
+template< class TKdTree >
+void
+KdTreeBasedKmeansEstimator< TKdTree >
+::CopyParameters(InternalParametersType &source, InternalParametersType &target)
 {
   int i, j ;
   for (i = 0 ; i < source.size() ; i++)
@@ -271,27 +295,28 @@ KdTreeBasedKmeansEstimator< TKdTree >
                   lowerBound,
                   upperBound) ;
 
-  ParametersType previousPosition ;
-  previousPosition.resize(m_InitialPosition.size()) ;
-  m_CurrentPosition.resize(m_InitialPosition.size()) ;
+  InternalParametersType previousPosition ;
+  previousPosition.resize(m_Parameters.size() / MeasurementVectorSize) ;
+  InternalParametersType currentPosition ;
+  currentPosition.resize(m_Parameters.size() / MeasurementVectorSize) ;
   m_DistanceMetric = EuclideanDistance< ParameterType >::New() ;
-  this->CopyParameters(m_InitialPosition, m_CurrentPosition) ;
+  this->CopyParameters(m_Parameters, currentPosition) ;
   m_CurrentIteration = 0 ;
   std::vector< int > validIndexes ;
 
-  for (i = 0 ; i < m_InitialPosition.size() ; i++)
+  for (i = 0 ; i < m_Parameters.size() / MeasurementVectorSize ; i++)
     {
       validIndexes.push_back(i) ;
     }
 
   while(true)
     {
-      this->CopyParameters(m_CurrentPosition, previousPosition) ;
-      m_CandidateVector.SetCenteroids(m_CurrentPosition) ;
+      this->CopyParameters(currentPosition, previousPosition) ;
+      m_CandidateVector.SetCenteroids(currentPosition) ;
       this->Filter(m_KdTree->GetRoot(), validIndexes,
                    lowerBound, upperBound) ;
       m_CandidateVector.UpdateCenteroids() ;
-      m_CandidateVector.GetCenteroids(m_CurrentPosition) ;
+      m_CandidateVector.GetCenteroids(currentPosition) ;
       
       if(m_CurrentIteration >= m_MaximumIteration) 
         {
@@ -300,7 +325,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
 
       m_CenteroidPositionChanges = 
         this->GetSumOfSquaredPositionChanges(previousPosition, 
-                                             m_CurrentPosition) ;
+                                             currentPosition) ;
       if (m_CenteroidPositionChanges <= m_CenteroidPositionChangesThreshold)
         {
           break ;
@@ -308,6 +333,8 @@ KdTreeBasedKmeansEstimator< TKdTree >
 
       m_CurrentIteration++ ;
     }
+  
+  this->CopyParameters(currentPosition, m_Parameters) ;
 }
 
 } // end of namespace Statistics
