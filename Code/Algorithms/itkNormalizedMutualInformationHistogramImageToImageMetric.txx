@@ -29,7 +29,6 @@ namespace itk
   TMovingImage>
   ::EvaluateMeasure(HistogramType& histogram) const
   {
-    MeasureType measure = NumericTraits<MeasureType>::Zero;
     MeasureType entropyX = NumericTraits<MeasureType>::Zero;
     MeasureType entropyY = NumericTraits<MeasureType>::Zero;
     MeasureType jointEntropy = NumericTraits<MeasureType>::Zero;

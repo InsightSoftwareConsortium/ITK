@@ -74,7 +74,7 @@ CumulativeGaussianCostFunction
 ::EvaluateCumulativeGaussian(double argument) const
 {
   // Evaluate the Cumulative Gaussian for a given argument.
-  double erfValue = 0;
+  double erfValue;
 
   // Tabulated error function evaluated for 0 to 299.
   double y[300] =
