@@ -21,20 +21,20 @@ namespace itk
 /**
  *
  */
-template<class TPixel, unsigned int TImageDimension>
-Image<TPixel, TImageDimension>
+template<class TPixel, unsigned int VImageDimension>
+Image<TPixel, VImageDimension>
 ::Image()
 {
   m_Data = 0;
-  this->SetDimension( TImageDimension );
+  this->SetDimension( VImageDimension );
 }
 
 
 /**
  *
  */
-template<class TPixel, unsigned int TImageDimension>
-Image<TPixel, TImageDimension>
+template<class TPixel, unsigned int VImageDimension>
+Image<TPixel, VImageDimension>
 ::~Image()
 {
   if (m_Data != 0)
@@ -48,9 +48,9 @@ Image<TPixel, TImageDimension>
 /**
  *
  */
-template<class TPixel, unsigned int TImageDimension>
+template<class TPixel, unsigned int VImageDimension>
 void 
-Image<TPixel, TImageDimension>
+Image<TPixel, VImageDimension>
 ::Allocate()
 {
   unsigned long num=1;
@@ -75,9 +75,9 @@ Image<TPixel, TImageDimension>
 /**
  *
  */
-template<class TPixel, unsigned int TImageDimension>
+template<class TPixel, unsigned int VImageDimension>
 void 
-Image<TPixel, TImageDimension>
+Image<TPixel, VImageDimension>
 ::SetPixel(const Index &ind, const TPixel& value)
 {
   // add bounds checking for the region/image
@@ -103,8 +103,8 @@ Image<TPixel, TImageDimension>
 /**
  *
  */
-template<class TPixel, unsigned int TImageDimension>
-const TPixel& Image<TPixel, TImageDimension>
+template<class TPixel, unsigned int VImageDimension>
+const TPixel& Image<TPixel, VImageDimension>
 ::GetPixel(const Index &ind)
 {
   /**
@@ -134,15 +134,15 @@ const TPixel& Image<TPixel, TImageDimension>
 /**
  *
  */
-template <class TPixel, unsigned int TImageDimension>
-ImageIterator<TPixel, TImageDimension> 
-Image<TPixel, TImageDimension>
+template <class TPixel, unsigned int VImageDimension>
+ImageIterator<TPixel, VImageDimension> 
+Image<TPixel, VImageDimension>
 ::Begin()
 {
   Iterator ind;
-  long indexOrigin[TImageDimension];
+  long indexOrigin[VImageDimension];
 
-  memset(indexOrigin, 0, TImageDimension*sizeof(long));
+  memset(indexOrigin, 0, VImageDimension*sizeof(long));
   
   /**
    * Set the BasePointer, Pointer, RegionBasePointer, RegionPointer,
@@ -168,18 +168,18 @@ Image<TPixel, TImageDimension>
 /**
  * The End() of the image is one pixel past the last pixel.  The index of this
  * pixel is [m_ImageSize[0]-1, m_ImageSize[1]-1, ...,
- *           m_ImageSize[TImageDimension-2]-1, m_ImageSize[TImageDimension-1]]
+ *           m_ImageSize[VImageDimension-2]-1, m_ImageSize[VImageDimension-1]]
  */
-template <class TPixel, unsigned int TImageDimension>
-ImageIterator<TPixel, TImageDimension> 
-Image<TPixel, TImageDimension>
+template <class TPixel, unsigned int VImageDimension>
+ImageIterator<TPixel, VImageDimension> 
+Image<TPixel, VImageDimension>
 ::End()
 {
   Iterator ind;
-  long indexOrigin[TImageDimension];
+  long indexOrigin[VImageDimension];
   const unsigned long *size = this->GetSize();
 
-  memset(indexOrigin, 0, TImageDimension*sizeof(long));
+  memset(indexOrigin, 0, VImageDimension*sizeof(long));
   
   /**
    * Set the BasePointer, Pointer, RegionBasePointer, RegionPointer,
@@ -195,11 +195,11 @@ Image<TPixel, TImageDimension>
    * set the default i,j,k of the index for the iterator
    */
   Iterator::Index index;
-  for (unsigned int i=0; i < TImageDimension; i++)
+  for (unsigned int i=0; i < VImageDimension; i++)
     {
     indexOrigin[i] = indexOrigin[i] + size[i] - 1;
     }
-  indexOrigin[TImageDimension-1]++;
+  indexOrigin[VImageDimension-1]++;
   index.SetIndex( indexOrigin );
   ind.SetIndex( index );
   
@@ -209,13 +209,13 @@ Image<TPixel, TImageDimension>
 /**
  *
  */
-template <class TPixel, unsigned int TImageDimension>
-ImageScalarIterator<TPixel, TImageDimension> 
-Image<TPixel, TImageDimension>
+template <class TPixel, unsigned int VImageDimension>
+ImageScalarIterator<TPixel, VImageDimension> 
+Image<TPixel, VImageDimension>
 ::ScalarBegin()
 {
   ScalarIterator ind;
-  long indexOrigin[TImageDimension];
+  long indexOrigin[VImageDimension];
   
   /**
    * Set the BasePointer, Pointer, RegionBasePointer, RegionPointer,
@@ -241,18 +241,18 @@ Image<TPixel, TImageDimension>
 /**
  * The End() of the image is one pixel past the last pixel.  The index of this
  * pixel is [m_ImageSize[0]-1, m_ImageSize[1]-1, ...,
- *           m_ImageSize[TImageDimension-2]-1, m_ImageSize[TImageDimension-1]]
+ *           m_ImageSize[VImageDimension-2]-1, m_ImageSize[VImageDimension-1]]
  */
-template <class TPixel, unsigned int TImageDimension>
-ImageScalarIterator<TPixel, TImageDimension> 
-Image<TPixel, TImageDimension>
+template <class TPixel, unsigned int VImageDimension>
+ImageScalarIterator<TPixel, VImageDimension> 
+Image<TPixel, VImageDimension>
 ::ScalarEnd()
 {
   ScalarIterator ind;
-  long indexOrigin[TImageDimension];
+  long indexOrigin[VImageDimension];
   const unsigned long *size = this->GetSize();
 
-  memset(indexOrigin, 0, TImageDimension*sizeof(long));
+  memset(indexOrigin, 0, VImageDimension*sizeof(long));
   
   /**
    * Set the BasePointer, Pointer, RegionBasePointer, RegionPointer,
@@ -268,11 +268,11 @@ Image<TPixel, TImageDimension>
    * set the default i,j,k of the index for the iterator
    */
   ScalarIterator::Index index;
-  for (int i=0; i < TImageDimension; i++)
+  for (int i=0; i < VImageDimension; i++)
     {
     indexOrigin[i] = indexOrigin[i] + size[i] - 1;
     }
-  indexOrigin[TImageDimension-1]++;
+  indexOrigin[VImageDimension-1]++;
   index.SetIndex( indexOrigin );
   ind.SetIndex( index );
   
@@ -283,8 +283,8 @@ Image<TPixel, TImageDimension>
 /**
  *
  */
-template<class TPixel, unsigned int TImageDimension>
-void Image<TPixel, TImageDimension>
+template<class TPixel, unsigned int VImageDimension>
+void Image<TPixel, VImageDimension>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
   ImageBase::PrintSelf(os,indent);

@@ -38,7 +38,7 @@
 namespace itk
 {
 
-template <class TPixel, unsigned int TImageDimension=2>
+template <class TPixel, unsigned int VImageDimension=2>
 class ITK_EXPORT Image : public ImageBase
 {
 public:
@@ -72,18 +72,18 @@ public:
    * Iterator typedef support. An iterator is used to traverse
    * the image.
    */
-  typedef ImageIterator<TPixel, TImageDimension> Iterator;
+  typedef ImageIterator<TPixel, VImageDimension> Iterator;
 
   /** 
    * Index typedef support. An index is used to access pixel values.
    */
-  typedef Index<TImageDimension>  Index;
+  typedef Index<VImageDimension>  Index;
   
   /** 
    * Scalar iterator typedef support. An iterator is used to traverse
    * the image using GetScalar().
    */
-  typedef ImageScalarIterator<TPixel,TImageDimension> ScalarIterator;
+  typedef ImageScalarIterator<TPixel,VImageDimension> ScalarIterator;
 
   /** 
    * Run-time type information (and related methods).
@@ -115,8 +115,15 @@ public:
    * or other operations.
    */
   static unsigned int GetImageDimension() 
-    { return TImageDimension; }
+    { return VImageDimension; }
   
+  /** 
+   * Set the size of the image. This method assumes that
+   * the dimension of the data has been set. This method
+   * allocates memory for the image (hence the virtual).
+   */
+  virtual void SetSize(unsigned long *size);
+
   /**
    * Return an Iterator for the beginning of the image. The index of this
    * iterator is set to m_ImageIndexOrigin.
@@ -128,7 +135,7 @@ public:
    * Return an Iterator for the end of the image.  The iterator points to
    * one pixel past the end of the image.  The index of this pixel is
    * [m_ImageSize[0]-1, m_ImageSize[1]-1, ...,
-   * m_ImageSize[TImageDimension-2]-1, m_ImageSize[TImageDimension-1]]
+   * m_ImageSize[VImageDimension-2]-1, m_ImageSize[VImageDimension-1]]
    * \sa Begin(), RegionBegin(), RegionEnd()
    */
   Iterator End();
@@ -144,8 +151,8 @@ public:
    * Return an Iterator for the end of the region.  The iterator points to
    * one pixel past the end of the region.  The index of this pixel is
    * [m_RegionOrigin[0] + m_RegionSize[0] - 1, ...,
-   * m_RegionOrigin[TImageDimension-2] + m_RegionSize[TImageDimension-1] - 1,
-   * m_RegionOrigin[TImageDimension-1] + m_RegionSize[TImageDimension-1]]
+   * m_RegionOrigin[VImageDimension-2] + m_RegionSize[VImageDimension-1] - 1,
+   * m_RegionOrigin[VImageDimension-1] + m_RegionSize[VImageDimension-1]]
    * \sa RegionBegin(), Begin(), End()
    */
   Iterator RegionEnd();
@@ -161,7 +168,7 @@ public:
    * Return a scalar iterator for the end of the image.  The iterator points to
    * one pixel past the end of the image.  The index of this pixel is
    * [m_ImageSize[0]-1, m_ImageSize[1]-1, ...,
-   * m_ImageSize[TImageDimension-2]-1, m_ImageSize[TImageDimension-1]]
+   * m_ImageSize[VImageDimension-2]-1, m_ImageSize[VImageDimension-1]]
    * \sa Begin(), RegionBegin(), RegionEnd()
    */
   ScalarIterator ScalarEnd();
