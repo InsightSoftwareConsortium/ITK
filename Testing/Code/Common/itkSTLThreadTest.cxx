@@ -14,6 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
 #include "itkMultiThreader.h"
 #include <list>
 
@@ -64,7 +67,8 @@ int itkSTLThreadTest(int argc, char* argv[])
   
   // Create result array.  Assume failure.
   int* results = new int[numThreads];
-  for(int i=0; i < numThreads; ++i)
+  int i;
+  for(i=0; i < numThreads; ++i)
     {
     results[i] = 0;
     }
@@ -77,7 +81,7 @@ int itkSTLThreadTest(int argc, char* argv[])
   
   // Report results.
   int result = 0;
-  for(int i=0; i < numThreads; ++i)
+  for(i=0; i < numThreads; ++i)
     {
     if(!results[i])
       {
@@ -123,7 +127,8 @@ int Thread(int tnum)
     std::cout << tnum << ": " << iteration << "\n";
     
     // Fill the list.
-    for(int j=0; j < count; ++j)
+    int j;
+    for(j=0; j < count; ++j)
       {
       l.push_back(j);
       }
@@ -131,7 +136,7 @@ int Thread(int tnum)
     // Empty the list while making sure values match.  Threading
     // errors can cause mismatches here, which is the purpose of the
     // test.
-    for(int j=0; j < count; ++j)
+    for(j=0; j < count; ++j)
       {
       if(l.front() != j)
         {
