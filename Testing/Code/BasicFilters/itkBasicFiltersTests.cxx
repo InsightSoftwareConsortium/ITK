@@ -57,6 +57,7 @@ void RegisterTests()
   REGISTER_TEST(itkReflectImageFilterTest );
   REGISTER_TEST(itkResampleImageTest );
   REGISTER_TEST(itkRecursiveGaussianImageFiltersTest );
+  REGISTER_TEST(itkSimilarityIndexImageFilterTest );
   REGISTER_TEST(itkShiftScaleImageFilterTest );
   REGISTER_TEST(itkShrinkImageTest );
   REGISTER_TEST(itkStatisticsImageFilterTest );
