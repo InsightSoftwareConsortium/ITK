@@ -154,8 +154,8 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
     
     upperThreshold = (*itNum);
-    filter->SetLowerThreshold( static_cast<OutputPixelType> lowerThreshold );
-    filter->SetUpperThreshold( static_cast<OutputPixelType> upperThreshold );
+    filter->SetLowerThreshold( static_cast<OutputPixelType> (lowerThreshold) );
+    filter->SetUpperThreshold( static_cast<OutputPixelType> (upperThreshold) );
     lowerThreshold = upperThreshold;
     std::string format = argv[2];
     
