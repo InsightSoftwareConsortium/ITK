@@ -18,6 +18,7 @@ ENDIF (TCL_TCLSH)
 
 ADD_TEST( itkTubeSpatialObjectTest itkSpatialObjectTests itkTubeSpatialObjectTest )
 ADD_TEST( itkImageSpatialObjectTest itkSpatialObjectTests itkImageSpatialObjectTest )
+ADD_TEST(itkSpatialObjectHeaderTest itkSpatialObjectHeaderTest)
 
 SOURCE_FILES(
   SpatialObject_SRCS
@@ -26,3 +27,4 @@ SOURCE_FILES(
 )
 
 ADD_EXECUTABLE( itkSpatialObjectTests itkSpatialObjectTests.cxx SpatialObject_SRCS)
+ADD_EXECUTABLE(itkSpatialObjectHeaderTest itkSpatialObjectHeaderTest)
