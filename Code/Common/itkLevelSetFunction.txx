@@ -245,10 +245,10 @@ LevelSetFunction<TImageType>
     }
   else
     {
+    std::cout<<"max change = "<<d->m_MaxAdvectionChange;
     if (d->m_MaxAdvectionChange > 0.0)
       {
-      dt = vnl_math_min(( m_WaveDT / d->m_MaxAdvectionChange ),
-                        ( m_WaveDT / vnl_math_abs(m_PropagationWeight) ));
+      dt = m_WaveDT / d->m_MaxAdvectionChange;
       }
     else 
       {
