@@ -55,7 +55,7 @@ class JPEGFileWrapper
   }
   virtual ~JPEGFileWrapper()
   {
-    if(m_FilePointer==NULL)
+    if(m_FilePointer!=NULL)
       {
       fclose(m_FilePointer);
       }
