@@ -30,30 +30,16 @@ RegistrationMapper<TDomain,TTransformation>
 {
 }
 
-
 /**
- * Set Domain 
+ * Set the Domain
  */
-template <class TDomain, class TTransformation>
+template <class TDomain, class TTransformation> 
 void
 RegistrationMapper<TDomain,TTransformation>
-::SetDomain( TDomain * domain ) 
+::SetDomain(DomainPointer & domain)
 {
-  this->m_Domain = domain;
-}
-
-
-
-
-/**
- * Set Transformation
- */
-template <class TDomain, class TTransformation>
-void
-RegistrationMapper<TDomain,TTransformation>
-::SetTransformation( TTransformation * transformation ) 
-{
-  this->m_Transformation = transformation;
+  m_Domain = DomainType::New();
+  m_Domain = domain;
 }
 
 

@@ -97,20 +97,25 @@ public:
    */
   itkNewMacro(Self);
   
-
-
   /**
    * Connect the Domain
    */
-   void SetDomain( DomainType * );
+  virtual void SetDomain(DomainPointer &);
 
+  /**
+   * Get the Domain
+   */
+  itkGetObjectMacro( Domain, DomainType);
 
   /**
    * Connect the Transformation
    */
-   void SetTransformation( TransformationType * );
+  itkSetObjectMacro( Transformation,TransformationType);
 
-
+  /**
+   * Get the Transformation
+   */
+  itkGetObjectMacro( Transformation,TransformationType);
   
 protected:
 
