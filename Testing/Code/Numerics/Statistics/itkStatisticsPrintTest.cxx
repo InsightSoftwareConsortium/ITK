@@ -18,8 +18,12 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#include "itkFixedArray.h"
 #include "itkCovarianceCalculator.h"
+// #include "itkDecisionRuleBase.h" // abstract class
 #include "itkDenseFrequencyContainer.h"
+// #include "itkDensityFunction.h" // abstract class
+#include "itkDistanceMetric.h"
 #include "itkDistanceToCentroidMembershipFunction.h"
 #include "itkEuclideanDistance.h"
 #include "itkExpectationMaximizationMixtureModelEstimator.h"
@@ -29,7 +33,9 @@
 #include "itkGoodnessOfFitFunctionBase.h"
 #include "itkGoodnessOfFitMixtureModelCostFunction.h"
 #include "itkHistogram.h"
+#include "itkHypersphereKernelMeanShiftModeSeeker.h"
 #include "itkImageToListAdaptor.h"
+#include "itkJointDomainImageToListAdaptor.h"
 #include "itkKdTree.h"
 #include "itkKdTreeBasedKmeansEstimator.h"
 #include "itkKdTreeGenerator.h"
@@ -39,15 +45,20 @@
 #include "itkLogLikelihoodGoodnessOfFitFunction.h"
 #include "itkMahalanobisDistanceMembershipFunction.h"
 #include "itkMeanCalculator.h"
+#include "itkMeanShiftModeCacheMethod.h"
 #include "itkMembershipSample.h"
 #include "itkMembershipSampleGenerator.h"
 #include "itkMixtureModelComponentBase.h"
 #include "itkNeighborhoodSampler.h"
 #include "itkNormalVariateGenerator.h"
 #include "itkPointSetToListAdaptor.h"
+// #include "itkRandomVariateGeneratorBase.h" // abstract class
 #include "itkSampleAlgorithmBase.h"
 #include "itkSampleClassifier.h"
 #include "itkSampleClassifierWithMask.h"
+#include "itkSampleMeanShiftBlurringFilter.h"
+#include "itkSampleMeanShiftClusteringFilter.h"
+#include "itkSampleSelectiveMeanShiftBlurringFilter.h"
 #include "itkSampleToHistogramProjectionFilter.h"
 #include "itkSelectiveSubsampleGenerator.h"
 #include "itkSparseFrequencyContainer.h"
@@ -59,164 +70,188 @@
 int itkStatisticsPrintTest(int , char* [])
 {
   typedef float MeasurementType ;
-  typedef itk::FixedArray< MeasurementType, 1 > 
-    MeasurementVectorType ;
+  typedef float FrequencyType ;
+  typedef itk::FixedArray< MeasurementType, 2 > MeasurementVectorType ;
   typedef itk::Image< MeasurementVectorType, 3 > ImageType ;
-  typedef  itk::Statistics::ImageToListAdaptor< ImageType >
-    ImageToListAdaptorType ;
+  typedef itk::PointSet< MeasurementType > PointSetType ;
+  typedef itk::Statistics::ListSample< MeasurementVectorType >
+    SampleType ;
+  typedef itk::Statistics::Histogram< MeasurementType, 2 > HistogramType ;
 
-  itk::Statistics::CovarianceCalculator<ImageToListAdaptorType>::Pointer CovarianceCalculatorObj=
-    itk::Statistics::CovarianceCalculator<ImageToListAdaptorType>::New();
+  itk::Statistics::CovarianceCalculator< SampleType >::Pointer CovarianceCalculatorObj=
+    itk::Statistics::CovarianceCalculator< SampleType >::New();
   std::cout << "----------CovarianceCalculator " << CovarianceCalculatorObj;
 
-#if 0
-  itk::Statistics::DenseFrequencyContainer<foo>::Pointer DenseFrequencyContainerObj=
-    itk::Statistics::DenseFrequencyContainer<foo>::New();
+  itk::Statistics::DenseFrequencyContainer< FrequencyType >::Pointer DenseFrequencyContainerObj=
+    itk::Statistics::DenseFrequencyContainer< FrequencyType >::New();
   std::cout << "----------DenseFrequencyContainer " << DenseFrequencyContainerObj;
 
-  itk::Statistics::DistanceToCentroidMembershipFunction<foo>::Pointer DistanceToCentroidMembershipFunctionObj=
-    itk::Statistics::DistanceToCentroidMembershipFunction<foo>::New();
+  itk::Statistics::DistanceToCentroidMembershipFunction< MeasurementVectorType >::Pointer
+    DistanceToCentroidMembershipFunctionObj= 
+    itk::Statistics::DistanceToCentroidMembershipFunction< MeasurementVectorType >::New();
   std::cout << "----------DistanceToCentroidMembershipFunction " << DistanceToCentroidMembershipFunctionObj;
 
-  itk::Statistics::EuclideanDistance<foo>::Pointer EuclideanDistanceObj=
-    itk::Statistics::EuclideanDistance<foo>::New();
+  itk::Statistics::EuclideanDistance< MeasurementVectorType >::Pointer EuclideanDistanceObj=
+    itk::Statistics::EuclideanDistance< MeasurementVectorType >::New();
   std::cout << "----------EuclideanDistance " << EuclideanDistanceObj;
 
-  itk::Statistics::ExpectationMaximizationMixtureModelEstimator<foo>::Pointer ExpectationMaximizationMixtureModelEstimatorObj=
-    itk::Statistics::ExpectationMaximizationMixtureModelEstimator<foo>::New();
+  itk::Statistics::ExpectationMaximizationMixtureModelEstimator< SampleType >::Pointer ExpectationMaximizationMixtureModelEstimatorObj=
+    itk::Statistics::ExpectationMaximizationMixtureModelEstimator< SampleType >::New();
   std::cout << "----------ExpectationMaximizationMixtureModelEstimator " << ExpectationMaximizationMixtureModelEstimatorObj;
 
-  itk::Statistics::GaussianDensityFunction<foo>::Pointer GaussianDensityFunctionObj=
-    itk::Statistics::GaussianDensityFunction<foo>::New();
+  itk::Statistics::GaussianDensityFunction< MeasurementVectorType >::Pointer GaussianDensityFunctionObj=
+    itk::Statistics::GaussianDensityFunction< MeasurementVectorType >::New();
   std::cout << "----------GaussianDensityFunction " << GaussianDensityFunctionObj;
 
-  itk::Statistics::GaussianGoodnessOfFitComponent<foo>::Pointer GaussianGoodnessOfFitComponentObj=
-    itk::Statistics::GaussianGoodnessOfFitComponent<foo>::New();
+  itk::Statistics::GaussianGoodnessOfFitComponent< SampleType >::Pointer GaussianGoodnessOfFitComponentObj=
+    itk::Statistics::GaussianGoodnessOfFitComponent< SampleType >::New();
   std::cout << "----------GaussianGoodnessOfFitComponent " << GaussianGoodnessOfFitComponentObj;
 
-  itk::Statistics::GaussianMixtureModelComponent<foo>::Pointer GaussianMixtureModelComponentObj=
-    itk::Statistics::GaussianMixtureModelComponent<foo>::New();
+  itk::Statistics::GaussianMixtureModelComponent< SampleType >::Pointer GaussianMixtureModelComponentObj=
+    itk::Statistics::GaussianMixtureModelComponent< SampleType >::New();
   std::cout << "----------GaussianMixtureModelComponent " << GaussianMixtureModelComponentObj;
 
-  itk::Statistics::GoodnessOfFitFunctionBase<foo>::Pointer GoodnessOfFitFunctionBaseObj=
-    itk::Statistics::GoodnessOfFitFunctionBase<foo>::New();
+  itk::Statistics::GoodnessOfFitFunctionBase< HistogramType >::Pointer GoodnessOfFitFunctionBaseObj=
+    itk::Statistics::GoodnessOfFitFunctionBase< HistogramType >::New();
   std::cout << "----------GoodnessOfFitFunctionBase " << GoodnessOfFitFunctionBaseObj;
 
-  itk::Statistics::GoodnessOfFitMixtureModelCostFunction<foo>::Pointer GoodnessOfFitMixtureModelCostFunctionObj=
-    itk::Statistics::GoodnessOfFitMixtureModelCostFunction<foo>::New();
+  itk::Statistics::GoodnessOfFitMixtureModelCostFunction< SampleType >::Pointer GoodnessOfFitMixtureModelCostFunctionObj=
+    itk::Statistics::GoodnessOfFitMixtureModelCostFunction< SampleType >::New();
   std::cout << "----------GoodnessOfFitMixtureModelCostFunction " << GoodnessOfFitMixtureModelCostFunctionObj;
 
-  itk::Statistics::Histogram<foo>::Pointer HistogramObj=
-    itk::Statistics::Histogram<foo>::New();
+  HistogramType::Pointer HistogramObj=
+    HistogramType::New();
   std::cout << "----------Histogram " << HistogramObj;
 
-  itk::Statistics::ImageToListAdaptor<foo>::Pointer ImageToListAdaptorObj=
-    itk::Statistics::ImageToListAdaptor<foo>::New();
+  itk::Statistics::HypersphereKernelMeanShiftModeSeeker< SampleType >::Pointer HypersphereKernelMeanShiftModeSeekerObj=
+    itk::Statistics::HypersphereKernelMeanShiftModeSeeker< SampleType >::New();
+  std::cout << "----------HypersphereKernelMeanShiftModeSeeker " << HypersphereKernelMeanShiftModeSeekerObj;
+
+   itk::Statistics::ImageToListAdaptor< ImageType >::Pointer ImageToListAdaptorObj=
+    itk::Statistics::ImageToListAdaptor< ImageType >::New();
   std::cout << "----------ImageToListAdaptor " << ImageToListAdaptorObj;
 
-  itk::Statistics::KdTree<foo>::Pointer KdTreeObj=
-    itk::Statistics::KdTree<foo>::New();
+   itk::Statistics::JointDomainImageToListAdaptor< ImageType >::Pointer JointDomainImageToListAdaptorObj=
+    itk::Statistics::JointDomainImageToListAdaptor< ImageType >::New();
+  std::cout << "----------JointDomainImageToListAdaptor " << JointDomainImageToListAdaptorObj;
+
+  itk::Statistics::KdTree< SampleType >::Pointer KdTreeObj=
+    itk::Statistics::KdTree< SampleType >::New();
   std::cout << "----------KdTree " << KdTreeObj;
 
-  itk::Statistics::KdTreeBasedKmeansEstimator<foo>::Pointer KdTreeBasedKmeansEstimatorObj=
-    itk::Statistics::KdTreeBasedKmeansEstimator<foo>::New();
+  typedef itk::Statistics::KdTree< SampleType > KdTreeType ;
+
+  itk::Statistics::KdTreeBasedKmeansEstimator< KdTreeType >::Pointer KdTreeBasedKmeansEstimatorObj=
+    itk::Statistics::KdTreeBasedKmeansEstimator< KdTreeType >::New();
   std::cout << "----------KdTreeBasedKmeansEstimator " << KdTreeBasedKmeansEstimatorObj;
 
-  itk::Statistics::KdTreeGenerator<foo>::Pointer KdTreeGeneratorObj=
-    itk::Statistics::KdTreeGenerator<foo>::New();
+  itk::Statistics::KdTreeGenerator< SampleType >::Pointer KdTreeGeneratorObj=
+    itk::Statistics::KdTreeGenerator< SampleType >::New();
   std::cout << "----------KdTreeGenerator " << KdTreeGeneratorObj;
 
-  itk::Statistics::ListSample<foo>::Pointer ListSampleObj=
-    itk::Statistics::ListSample<foo>::New();
+  itk::Statistics::ListSample< MeasurementVectorType >::Pointer ListSampleObj=
+    itk::Statistics::ListSample< MeasurementVectorType >::New();
   std::cout << "----------ListSample " << ListSampleObj;
 
-  itk::Statistics::ListSampleToHistogramFilter<foo>::Pointer ListSampleToHistogramFilterObj=
-    itk::Statistics::ListSampleToHistogramFilter<foo>::New();
+  itk::Statistics::ListSampleToHistogramFilter< SampleType, HistogramType >::Pointer ListSampleToHistogramFilterObj=
+    itk::Statistics::ListSampleToHistogramFilter< SampleType, HistogramType >::New();
   std::cout << "----------ListSampleToHistogramFilter " << ListSampleToHistogramFilterObj;
 
-  itk::Statistics::ListSampleToHistogramGenerator<foo>::Pointer ListSampleToHistogramGeneratorObj=
-    itk::Statistics::ListSampleToHistogramGenerator<foo>::New();
+  itk::Statistics::ListSampleToHistogramGenerator< SampleType, float >::Pointer ListSampleToHistogramGeneratorObj=
+    itk::Statistics::ListSampleToHistogramGenerator< SampleType, float >::New();
   std::cout << "----------ListSampleToHistogramGenerator " << ListSampleToHistogramGeneratorObj;
 
-  itk::Statistics::LogLikelihoodGoodnessOfFitFunction<foo>::Pointer LogLikelihoodGoodnessOfFitFunctionObj=
-    itk::Statistics::LogLikelihoodGoodnessOfFitFunction<foo>::New();
+  itk::Statistics::LogLikelihoodGoodnessOfFitFunction< HistogramType >::Pointer LogLikelihoodGoodnessOfFitFunctionObj=
+    itk::Statistics::LogLikelihoodGoodnessOfFitFunction< HistogramType >::New();
   std::cout << "----------LogLikelihoodGoodnessOfFitFunction " << LogLikelihoodGoodnessOfFitFunctionObj;
 
-  itk::Statistics::MahalanobisDistanceMembershipFunction<foo>::Pointer MahalanobisDistanceMembershipFunctionObj=
-    itk::Statistics::MahalanobisDistanceMembershipFunction<foo>::New();
+  itk::Statistics::MahalanobisDistanceMembershipFunction< MeasurementVectorType >::Pointer MahalanobisDistanceMembershipFunctionObj=
+    itk::Statistics::MahalanobisDistanceMembershipFunction< MeasurementVectorType >::New();
   std::cout << "----------MahalanobisDistanceMembershipFunction " << MahalanobisDistanceMembershipFunctionObj;
 
-  itk::Statistics::MeanCalculator<foo>::Pointer MeanCalculatorObj=
-    itk::Statistics::MeanCalculator<foo>::New();
+  itk::Statistics::MeanCalculator< SampleType >::Pointer MeanCalculatorObj=
+    itk::Statistics::MeanCalculator< SampleType >::New();
   std::cout << "----------MeanCalculator " << MeanCalculatorObj;
 
-  itk::Statistics::MembershipSample<foo>::Pointer MembershipSampleObj=
-    itk::Statistics::MembershipSample<foo>::New();
+  itk::Statistics::MeanShiftModeCacheMethod< MeasurementVectorType >::Pointer MeanShiftModeCacheMethodObj=
+    itk::Statistics::MeanShiftModeCacheMethod< MeasurementVectorType >::New();
+  std::cout << "----------MeanShiftModeCacheMethod " << MeanShiftModeCacheMethodObj;
+
+  itk::Statistics::MembershipSample< SampleType >::Pointer MembershipSampleObj=
+    itk::Statistics::MembershipSample< SampleType >::New();
   std::cout << "----------MembershipSample " << MembershipSampleObj;
 
-  itk::Statistics::MembershipSampleGenerator<foo>::Pointer MembershipSampleGeneratorObj=
-    itk::Statistics::MembershipSampleGenerator<foo>::New();
+  itk::Statistics::MembershipSampleGenerator< SampleType, SampleType >::Pointer MembershipSampleGeneratorObj=
+    itk::Statistics::MembershipSampleGenerator< SampleType, SampleType >::New();
   std::cout << "----------MembershipSampleGenerator " << MembershipSampleGeneratorObj;
 
-  itk::Statistics::MixtureModelComponentBase<foo>::Pointer MixtureModelComponentBaseObj=
-    itk::Statistics::MixtureModelComponentBase<foo>::New();
+  itk::Statistics::MixtureModelComponentBase< SampleType >::Pointer MixtureModelComponentBaseObj=
+    itk::Statistics::MixtureModelComponentBase< SampleType >::New();
   std::cout << "----------MixtureModelComponentBase " << MixtureModelComponentBaseObj;
 
-  itk::Statistics::NeighborhoodSampler<foo>::Pointer NeighborhoodSamplerObj=
-    itk::Statistics::NeighborhoodSampler<foo>::New();
+  itk::Statistics::NeighborhoodSampler< SampleType >::Pointer NeighborhoodSamplerObj=
+    itk::Statistics::NeighborhoodSampler< SampleType >::New();
   std::cout << "----------NeighborhoodSampler " << NeighborhoodSamplerObj;
 
-  itk::Statistics::NormalVariateGenerator<foo>::Pointer NormalVariateGeneratorObj=
-    itk::Statistics::NormalVariateGenerator<foo>::New();
+  itk::Statistics::NormalVariateGenerator::Pointer NormalVariateGeneratorObj=
+    itk::Statistics::NormalVariateGenerator::New();
   std::cout << "----------NormalVariateGenerator " << NormalVariateGeneratorObj;
 
-  itk::Statistics::PointSetToListAdaptor<foo>::Pointer PointSetToListAdaptorObj=
-    itk::Statistics::PointSetToListAdaptor<foo>::New();
+  itk::Statistics::PointSetToListAdaptor< PointSetType >::Pointer PointSetToListAdaptorObj=
+    itk::Statistics::PointSetToListAdaptor< PointSetType >::New();
   std::cout << "----------PointSetToListAdaptor " << PointSetToListAdaptorObj;
 
-  itk::Statistics::SampleAlgorithmBase<foo>::Pointer SampleAlgorithmBaseObj=
-    itk::Statistics::SampleAlgorithmBase<foo>::New();
+  itk::Statistics::SampleAlgorithmBase< SampleType >::Pointer SampleAlgorithmBaseObj=
+    itk::Statistics::SampleAlgorithmBase< SampleType >::New();
   std::cout << "----------SampleAlgorithmBase " << SampleAlgorithmBaseObj;
 
-  itk::Statistics::SampleClassifier<foo>::Pointer SampleClassifierObj=
-    itk::Statistics::SampleClassifier<foo>::New();
+  itk::Statistics::SampleClassifier< SampleType >::Pointer SampleClassifierObj=
+    itk::Statistics::SampleClassifier< SampleType >::New();
   std::cout << "----------SampleClassifier " << SampleClassifierObj;
 
-  itk::Statistics::SampleClassifierWithMask<foo>::Pointer SampleClassifierWithMaskObj=
-    itk::Statistics::SampleClassifierWithMask<foo>::New();
+  itk::Statistics::SampleClassifierWithMask< SampleType, SampleType >::Pointer SampleClassifierWithMaskObj=
+    itk::Statistics::SampleClassifierWithMask< SampleType, SampleType >::New();
   std::cout << "----------SampleClassifierWithMask " << SampleClassifierWithMaskObj;
 
-  itk::Statistics::SampleToHistogramProjectionFilter<foo>::Pointer SampleToHistogramProjectionFilterObj=
-    itk::Statistics::SampleToHistogramProjectionFilter<foo>::New();
+  itk::Statistics::SampleToHistogramProjectionFilter< SampleType, MeasurementType >::Pointer SampleToHistogramProjectionFilterObj=
+    itk::Statistics::SampleToHistogramProjectionFilter< SampleType, MeasurementType >::New();
   std::cout << "----------SampleToHistogramProjectionFilter " << SampleToHistogramProjectionFilterObj;
 
-  itk::Statistics::SelectiveSubsampleGenerator<foo>::Pointer SelectiveSubsampleGeneratorObj=
-    itk::Statistics::SelectiveSubsampleGenerator<foo>::New();
+  itk::Statistics::SampleMeanShiftBlurringFilter< SampleType >::Pointer SampleMeanShiftBlurringFilterObj=
+    itk::Statistics::SampleMeanShiftBlurringFilter< SampleType >::New();
+  std::cout << "----------SampleMeanShiftBlurringFilter " << SampleMeanShiftBlurringFilterObj;
+
+  itk::Statistics::SampleMeanShiftClusteringFilter< SampleType >::Pointer SampleMeanShiftClusteringFilterObj=
+    itk::Statistics::SampleMeanShiftClusteringFilter< SampleType >::New();
+  std::cout << "----------SampleMeanShiftClusteringFilter " << SampleMeanShiftClusteringFilterObj;
+
+  itk::Statistics::SampleSelectiveMeanShiftBlurringFilter< SampleType >::Pointer SampleSelectiveMeanShiftBlurringFilterObj=
+    itk::Statistics::SampleSelectiveMeanShiftBlurringFilter< SampleType >::New();
+  std::cout << "----------SampleSelectiveMeanShiftBlurringFilter " << SampleSelectiveMeanShiftBlurringFilterObj;
+
+  itk::Statistics::SelectiveSubsampleGenerator< SampleType, SampleType >::Pointer SelectiveSubsampleGeneratorObj=
+    itk::Statistics::SelectiveSubsampleGenerator< SampleType, SampleType >::New();
   std::cout << "----------SelectiveSubsampleGenerator " << SelectiveSubsampleGeneratorObj;
 
-  itk::Statistics::SparseFrequencyContainer<foo>::Pointer SparseFrequencyContainerObj=
-    itk::Statistics::SparseFrequencyContainer<foo>::New();
+  itk::Statistics::SparseFrequencyContainer< FrequencyType >::Pointer SparseFrequencyContainerObj=
+    itk::Statistics::SparseFrequencyContainer< FrequencyType >::New();
   std::cout << "----------SparseFrequencyContainer " << SparseFrequencyContainerObj;
 
-  itk::Statistics::Subsample<foo>::Pointer SubsampleObj=
-    itk::Statistics::Subsample<foo>::New();
+  itk::Statistics::Subsample< SampleType >::Pointer SubsampleObj=
+    itk::Statistics::Subsample< SampleType >::New();
   std::cout << "----------Subsample " << SubsampleObj;
 
-  itk::Statistics::TableLookupSampleClassifier<foo>::Pointer TableLookupSampleClassifierObj=
-    itk::Statistics::TableLookupSampleClassifier<foo>::New();
-  std::cout << "----------TableLookupSampleClassifier " << TableLookupSampleClassifierObj;
-
-  itk::Statistics::WeightedCentroidKdTreeGenerator<foo>::Pointer WeightedCentroidKdTreeGeneratorObj=
-    itk::Statistics::WeightedCentroidKdTreeGenerator<foo>::New();
+  itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType >::Pointer WeightedCentroidKdTreeGeneratorObj=
+    itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType >::New();
   std::cout << "----------WeightedCentroidKdTreeGenerator " << WeightedCentroidKdTreeGeneratorObj;
 
-  itk::Statistics::WeightedCovarianceCalculator<foo>::Pointer WeightedCovarianceCalculatorObj=
-    itk::Statistics::WeightedCovarianceCalculator<foo>::New();
+  itk::Statistics::WeightedCovarianceCalculator< SampleType >::Pointer WeightedCovarianceCalculatorObj=
+    itk::Statistics::WeightedCovarianceCalculator< SampleType >::New();
   std::cout << "----------WeightedCovarianceCalculator " << WeightedCovarianceCalculatorObj;
 
-  itk::Statistics::WeightedMeanCalculator<foo>::Pointer WeightedMeanCalculatorObj=
-    itk::Statistics::WeightedMeanCalculator<foo>::New();
+  itk::Statistics::WeightedMeanCalculator< SampleType >::Pointer WeightedMeanCalculatorObj=
+    itk::Statistics::WeightedMeanCalculator< SampleType >::New();
   std::cout << "----------WeightedMeanCalculator " << WeightedMeanCalculatorObj;
-#endif
+
   return 0;
 }
