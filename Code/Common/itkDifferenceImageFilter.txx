@@ -19,7 +19,7 @@
 
 #include "itkDifferenceImageFilter.h"
 
-#include "itkConstSmartNeighborhoodIterator.h"
+#include "itkConstNeighborhoodIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
@@ -106,7 +106,7 @@ void
 DifferenceImageFilter<TInputImage, TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType &threadRegion, int threadId)
 {
-  typedef ConstSmartNeighborhoodIterator<InputImageType> SmartIterator;
+  typedef ConstNeighborhoodIterator<InputImageType> SmartIterator;
   typedef ImageRegionConstIterator<OutputImageType> InputIterator;
   typedef ImageRegionIterator<OutputImageType> OutputIterator;
   typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType> FacesCalculator;

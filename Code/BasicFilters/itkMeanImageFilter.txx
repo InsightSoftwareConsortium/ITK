@@ -19,7 +19,6 @@
 #include "itkMeanImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
-#include "itkConstSmartNeighborhoodIterator.h"
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
@@ -99,7 +98,7 @@ MeanImageFilter< TInputImage, TOutputImage>
   unsigned int i;
   ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
 
-  ConstSmartNeighborhoodIterator<InputImageType> bit;
+  ConstNeighborhoodIterator<InputImageType> bit;
   ImageRegionIterator<OutputImageType> it;
   
   // Allocate output
@@ -122,7 +121,7 @@ MeanImageFilter< TInputImage, TOutputImage>
   // the edge of the buffer.
   for (fit=faceList.begin(); fit != faceList.end(); ++fit)
     { 
-    bit = ConstSmartNeighborhoodIterator<InputImageType>(m_Radius,
+    bit = ConstNeighborhoodIterator<InputImageType>(m_Radius,
                                                          input, *fit);
     unsigned int neighborhoodSize = bit.Size();
     it = ImageRegionIterator<OutputImageType>(output, *fit);

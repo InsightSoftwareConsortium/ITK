@@ -19,7 +19,6 @@
 #include "itkBinaryMedianImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
-#include "itkConstSmartNeighborhoodIterator.h"
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
@@ -104,7 +103,7 @@ BinaryMedianImageFilter< TInputImage, TOutputImage>
   
   ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
 
-  ConstSmartNeighborhoodIterator<InputImageType> bit;
+  ConstNeighborhoodIterator<InputImageType> bit;
   ImageRegionIterator<OutputImageType> it;
   
   // Allocate output
@@ -124,7 +123,7 @@ BinaryMedianImageFilter< TInputImage, TOutputImage>
   // the edge of the buffer.
   for (fit = faceList.begin(); fit != faceList.end(); ++fit)
     { 
-    bit = ConstSmartNeighborhoodIterator<InputImageType>(m_Radius, input, *fit);
+    bit = ConstNeighborhoodIterator<InputImageType>(m_Radius, input, *fit);
     it  = ImageRegionIterator<OutputImageType>(output, *fit);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();

@@ -54,8 +54,6 @@ public:
   typedef                      PixelType  ScalarValueType;
   typedef typename Superclass::RadiusType RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::BoundaryNeighborhoodType
-                                                BoundaryNeighborhoodType;
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
   
   /** The vector type that will be used in the calculations. */
@@ -67,10 +65,6 @@ public:
   virtual VectorType AdvectionField(const NeighborhoodType &,
                                     const FloatOffsetType &)  const
     { return m_ZeroVectorConstant; }
-  virtual VectorType AdvectionField(const BoundaryNeighborhoodType
-                                    &, const FloatOffsetType &
-                                    ) const
-    { return m_ZeroVectorConstant; }
 
   /** Propagation speed.  This term controls surface expansion/contraction.
    *  Default implementation returns zero. */ 
@@ -78,19 +72,10 @@ public:
     const NeighborhoodType& ,
     const FloatOffsetType & ) const
     { return NumericTraits<ScalarValueType>::Zero; }
-  virtual ScalarValueType PropagationSpeed(
-    const BoundaryNeighborhoodType
-    &, const FloatOffsetType &) const
-    { return NumericTraits<ScalarValueType>::Zero; }
 
   /** Curvature speed.  Can be used to spatially modify the effects of
       curvature . The default implementation returns one. */
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType &,
-                                         const FloatOffsetType &
-                                         ) const
-    { return NumericTraits<ScalarValueType>::One; }
-
-  virtual ScalarValueType CurvatureSpeed(const BoundaryNeighborhoodType &,
                                          const FloatOffsetType &
                                          ) const
     { return NumericTraits<ScalarValueType>::One; }

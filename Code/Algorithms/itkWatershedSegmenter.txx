@@ -21,8 +21,6 @@
 #include "itkImageRegionIterator.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodIterator.h"
-#include "itkConstRandomAccessNeighborhoodIterator.h"
-#include "itkRandomAccessNeighborhoodIterator.h"
 #include <stack>
 #include <list>
 
@@ -786,9 +784,9 @@ void Segmenter<TInputImage>
       rad[i] = 1;
       zeroRad[i] = 0;
     }
-  ConstRandomAccessNeighborhoodIterator<InputImageType>
+  ConstNeighborhoodIterator<InputImageType>
     valueIt(rad, img, region);
-  RandomAccessNeighborhoodIterator<OutputImageType>
+  NeighborhoodIterator<OutputImageType>
     labelIt(zeroRad, output, region);
   ImageRegionIterator<OutputImageType> it(output, region);
 

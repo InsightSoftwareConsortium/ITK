@@ -19,7 +19,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkNeighborhoodIterator.h"
-#include "itkConstSmartNeighborhoodIterator.h"
+#include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhood.h"
 #include "itkConstSliceIterator.h"
 #include "itkImageBoundaryCondition.h"
@@ -97,8 +97,6 @@ public:
   /** Neighborhood iterator type. */
   typedef ConstNeighborhoodIterator<TInputImage> 
     NeighborhoodIteratorType ;
-  typedef ConstSmartNeighborhoodIterator<TInputImage> 
-    SmartNeighborhoodIteratorType ;
 
   /** Kernel typedef. */
   typedef TKernel KernelType;
@@ -133,14 +131,7 @@ protected:
                               int threadId) ;
 
   /** Evaluate image neighborhood with kernel to find the new value 
-   * for the center pixel value. This version is used for non-boundary
-   * pixels. */
-  virtual PixelType Evaluate(const SmartNeighborhoodIteratorType &nit,
-                             const KernelType &kernel)=0;
-
-  /** Evaluate image neighborhood with kernel to find the new value 
-   * for the center pixel value. This version is used for boundary
-   * pixels. */
+   * for the center pixel value. */
   virtual PixelType Evaluate(const NeighborhoodIteratorType &nit,
                              const KernelType &kernel)=0;
 

@@ -18,7 +18,7 @@
 #include "itkNeighborhood.h"
 #include "itkSliceIterator.h"
 #include "itkImageRegionIterator.h"
-#include "itkSmartNeighborhoodIterator.h"
+#include "itkNeighborhoodIterator.h"
 #include <iostream>
 
 template< class T, unsigned int N >
@@ -159,7 +159,7 @@ int itkSliceIteratorTest(int, char**)
       FillRegionSequential<int, 2>(ip);
       PrintRegion<int,2>(ip);
       
-      itk::SmartNeighborhoodIterator<itk::Image<int,2> >
+      itk::NeighborhoodIterator<itk::Image<int,2> >
         it(hoodRadius, ip, reg);
       
       for (it.GoToBegin(); !it.IsAtEnd(); ++it)

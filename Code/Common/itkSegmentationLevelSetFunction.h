@@ -59,7 +59,6 @@ public:
   typedef typename Superclass::ImageType ImageType;
   typedef typename Superclass::RadiusType RadiusType;
   typedef TFeatureImageType FeatureImageType;
-  typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
   typedef typename Superclass::ScalarValueType ScalarValueType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
@@ -140,13 +139,9 @@ protected:
   /** Returns the propagation speed from the precalculated speed image.*/
   virtual ScalarValueType PropagationSpeed(const NeighborhoodType &,
                                            const FloatOffsetType &) const;
-  virtual ScalarValueType PropagationSpeed(const BoundaryNeighborhoodType&,
-                                           const FloatOffsetType &) const;
 
   /** Advection field.  Returns a vector from the computed advectionfield.*/
   virtual VectorType AdvectionField(const NeighborhoodType &,
-                                    const FloatOffsetType &) const;
-  virtual VectorType AdvectionField(const BoundaryNeighborhoodType &,
                                     const FloatOffsetType &) const;
   
   

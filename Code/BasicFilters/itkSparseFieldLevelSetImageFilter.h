@@ -22,7 +22,7 @@
 #include "itkSparseFieldLayer.h"
 #include "itkObjectStore.h"
 #include <vector>
-#include "itkSmartNeighborhoodIterator.h"
+#include "itkNeighborhoodIterator.h"
 
 namespace itk {
 
@@ -396,7 +396,7 @@ protected:
   void ProcessOutsideList(LayerType *OutsideList, StatusType ChangeToStatus);
   
   /** Connectivity information for examining neighbor pixels.   */
-  SparseFieldCityBlockNeighborList<SmartNeighborhoodIterator<OutputImageType> >
+  SparseFieldCityBlockNeighborList<NeighborhoodIterator<OutputImageType> >
     m_NeighborList;
   
   /** The constant gradient to maintain between isosurfaces in the

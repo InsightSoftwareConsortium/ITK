@@ -183,10 +183,10 @@ BilateralImageFilter<TInputImage, TOutputImage>
   // denominator (normalization factor) for Gaussian used for range
   rangeGaussianDenom = sqrt(2.0*3.1415927*m_RangeSigma);
 
-  // Process all the faces, the SmartNeighborhoodIterator will deteremine
+  // Process all the faces, the NeighborhoodIterator will deteremine
   // whether a specified region needs to use the boundary conditions or
   // not.
-  SmartNeighborhoodIteratorType b_iter;
+  NeighborhoodIteratorType b_iter;
   ImageRegionIterator<OutputImageType> o_iter;
   KernelConstIteratorType k_it;
   KernelConstIteratorType kernelEnd = m_GaussianKernel.End();
@@ -196,7 +196,7 @@ BilateralImageFilter<TInputImage, TOutputImage>
   for (fit = faceList.begin(); fit != faceList.end(); ++fit)
     { 
     // walk the boundary face and the corresponding section of the output
-    b_iter = SmartNeighborhoodIteratorType(m_GaussianKernel.GetRadius(),
+    b_iter = NeighborhoodIteratorType(m_GaussianKernel.GetRadius(),
                                            this->GetInput(), *fit);
     b_iter.OverrideBoundaryCondition(&BC);
     o_iter = ImageRegionIterator<OutputImageType>(this->GetOutput(), *fit);

@@ -27,37 +27,6 @@ GrayscaleFunctionErodeImageFilter<TInputImage, TOutputImage, TKernel>
 ::Evaluate(const NeighborhoodIteratorType &nit,
            const KernelType &kernel)
 {
-  PixelType min = NumericTraits<PixelType>::max();
-  PixelType temp = min ;
-  
-  typename NeighborhoodIteratorType::ConstIterator neigh_it;
-  KernelIteratorType kernel_it;
-  const KernelIteratorType kernelEnd = kernel.End();
-
-  neigh_it = nit.Begin();
-  for (kernel_it=kernel.Begin(); kernel_it<kernelEnd; ++kernel_it, ++neigh_it)
-    {
-    // if structuring element is positive, use the pixel under that element
-    // in the image minus the structuring element value
-    if (*kernel_it > 0)
-      {
-      // subtract the structuring element value to the pixel value
-      temp = **neigh_it - (PixelType) *kernel_it;
-
-      if (temp < min)
-        min = temp ;
-      }
-    }
-  
-  return min; 
-} 
-
-template<class TInputImage, class TOutputImage, class TKernel>
-typename GrayscaleFunctionErodeImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
-GrayscaleFunctionErodeImageFilter<TInputImage, TOutputImage, TKernel>
-::Evaluate(const SmartNeighborhoodIteratorType &nit,
-           const KernelType &kernel)
-{
   unsigned int i;
   PixelType min = NumericTraits<PixelType>::max();
   PixelType temp = min ;

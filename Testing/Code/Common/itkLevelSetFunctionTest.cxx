@@ -132,14 +132,6 @@ private:
       Index<2> idx = neighborhood.GetIndex();
       return m_DistanceTransform->GetPixel(idx);
     }
-
-  virtual ScalarValueType PropagationSpeed(const BoundaryNeighborhoodType
-                               &neighborhood, const FloatOffsetType &
-                                           ) const
-    {
-      Index<2> idx = neighborhood.GetIndex();
-      return m_DistanceTransform->GetPixel(idx);
-    }
 };
 
 

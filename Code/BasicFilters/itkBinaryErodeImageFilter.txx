@@ -34,87 +34,6 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
 ::Evaluate(const NeighborhoodIteratorType &nit,
            const KernelType &kernel)
 {
-  PixelType min = NumericTraits<PixelType>::max();
-
-  bool erode = false;               // do some sort of erosion
-  bool completelyBackground = true; // structuring element is completely
-                                    // over background pixels
-  
-  typename NeighborhoodIteratorType::ConstIterator neigh_it;
-  KernelIteratorType kernel_it;
-  const KernelIteratorType kernelEnd = kernel.End();
-
-  neigh_it = nit.Begin();
-  for (kernel_it=kernel.Begin(); kernel_it<kernelEnd; ++kernel_it, ++neigh_it)
-    {
-    // if structuring element is positive, use the pixel under that element
-    // in the image
-    if (*kernel_it > 0)
-      {
-      // if the image pixel is not the erode value, 
-      if (**neigh_it != m_ErodeValue)
-        {
-        erode = true;
-        
-        // if the image pixel is less than current min
-        if (min > **neigh_it)
-          {
-          min = **neigh_it;
-          }
-        }
-      else
-        {
-        // at least one pixel in structuring element is the foreground
-        completelyBackground = false;
-        }
-      }
-    }
-
-  // Four cases for the return value:
-  // 1) If nothing in structuring element is the ErodeValue (foreground)
-  //      then leave pixel unchanged
-  // 2) If all of structuring element is the ErodeValue (foreground)
-  //      then return ErodeValue
-  // 3) If part of the structuring elemene is over background, and the
-  //       center pixel of the structuring element is "on", then
-  //       return the minimum of all the background values visited
-  // 4) If part of the structuring element is over background, and the
-  //       center pixel of the structuring element is "off", then
-  //       leave pixel unchanged
-  if (completelyBackground)
-    {
-    // case #1
-    return nit.GetCenterPixel();
-    }
-  else
-    {
-    if (!erode)
-      {
-      // case #2, don't erode
-      return m_ErodeValue;
-      }
-    else
-      {
-      if (kernel.GetCenterValue() > 0)
-        {
-        // case #3, center pixel is "on"
-        return min;
-        }
-      else
-        {
-        // case #4, center pixel is "off"
-        return nit.GetCenterPixel();
-        }
-      }
-    }
-} 
-
-template<class TInputImage, class TOutputImage, class TKernel>
-typename BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
-BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
-::Evaluate(const SmartNeighborhoodIteratorType &nit,
-           const KernelType &kernel)
-{
   unsigned int i;
   PixelType min = NumericTraits<PixelType>::max();
 
@@ -139,7 +58,7 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
         erode = true;
         
         // if the image pixel is less than current min,  note we use GetPixel()
-        // on the SmartNeighborhoodIterator in order to respect boundary
+        // on the NeighborhoodIterator in order to respect boundary
         // conditions
         if (min > nit.GetPixel(i))
           {

@@ -46,7 +46,7 @@
 //
 //
 //  This filter will work on images of any dimension thanks to the internal use
-//  of SmartNeighborhoodIterators and NeighborhoodOperators. The size of the
+//  of NeighborhoodIterators and NeighborhoodOperators. The size of the
 //  neighborhood over which the median is computed can be set by the user.
 //
 //  \index{itk::MedianImageFilter|textbf}

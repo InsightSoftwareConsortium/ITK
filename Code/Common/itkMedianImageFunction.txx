@@ -19,7 +19,7 @@
 #include "itkMedianImageFunction.h"
 
 #include "itkNumericTraits.h"
-#include "itkConstSmartNeighborhoodIterator.h"
+#include "itkConstNeighborhoodIterator.h"
 #include <vector>
 #include <algorithm>
 
@@ -74,7 +74,7 @@ MedianImageFunction<TInputImage,TCoordRep>
   typename InputImageType::SizeType kernelSize;
   kernelSize.Fill( 1 );
   
-  ConstSmartNeighborhoodIterator<InputImageType>
+  ConstNeighborhoodIterator<InputImageType>
     it(kernelSize, m_Image, m_Image->GetBufferedRegion());
 
   // Set the iterator at the desired location

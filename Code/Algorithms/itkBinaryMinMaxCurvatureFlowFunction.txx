@@ -72,41 +72,6 @@ BinaryMinMaxCurvatureFlowFunction<TImage>
 
 }
 
-
-/*
- * Update the solution at pixels which lies on the data boundary.
- */
-template<class TImage>
-typename BinaryMinMaxCurvatureFlowFunction<TImage>::PixelType
-BinaryMinMaxCurvatureFlowFunction<TImage>
-::ComputeUpdate(const BoundaryNeighborhoodType &it, void * globalData,
-                const FloatOffsetType& offset) const
-{
-
-  typedef CurvatureFlowFunction<TImage> CurvatureFlowFunctionType;
-  PixelType update = this->CurvatureFlowFunctionType::ComputeUpdate(
-    it, globalData, offset );
-
-  if ( update == 0.0 )
-    {
-    return update;
-    }
-
-  SmartNeighborhoodInnerProduct<ImageType> innerProduct;
-  PixelType avgValue = innerProduct( it, m_StencilOperator );
-
-  if ( avgValue < m_Threshold )
-    {
-    return ( vnl_math_min( update, NumericTraits<PixelType>::Zero ) );
-    }
-  else
-    {
-    return ( vnl_math_max( update, NumericTraits<PixelType>::Zero ) );
-    }
-
-}
-
-
 } // end namespace itk
 
 #endif

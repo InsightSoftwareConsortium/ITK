@@ -19,7 +19,6 @@
 #include "itkGradientImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
-#include "itkConstSmartNeighborhoodIterator.h"
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkImageRegionIterator.h"
 #include "itkDerivativeOperator.h"
@@ -102,10 +101,10 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
   ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
 
   ConstNeighborhoodIterator<InputImageType> nit;
-  ConstSmartNeighborhoodIterator<InputImageType> bit;
+  ConstNeighborhoodIterator<InputImageType> bit;
   ImageRegionIterator<OutputImageType> it;
 
-  SmartNeighborhoodInnerProduct<InputImageType, OperatorValueType,
+  NeighborhoodInnerProduct<InputImageType, OperatorValueType,
     OutputValueType> SIP;
 
   // Allocate output
@@ -156,7 +155,7 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
   // These are N-d regions which border the edge of the buffer.
   for (fit=faceList.begin(); fit != faceList.end(); ++fit)
     { 
-    bit = ConstSmartNeighborhoodIterator<InputImageType>(radius,
+    bit = ConstNeighborhoodIterator<InputImageType>(radius,
                                                          input, *fit);
     it = ImageRegionIterator<OutputImageType>(output, *fit);
     bit.OverrideBoundaryCondition(&nbc);

@@ -187,6 +187,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 /*
  * Compute update at a boundary neighbourhood
  */
+/*
 template <class TFixedImage, class TMovingImage, class TDeformationField>
 typename DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::PixelType
@@ -206,7 +207,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   return update;
 
 }
-
+*/
 
 
 } // end namespace itk

@@ -20,7 +20,7 @@
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"
 #include "itkNeighborhoodIterator.h"
-#include "itkConstSmartNeighborhoodIterator.h"
+#include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhood.h"
 
 namespace itk
@@ -104,8 +104,6 @@ public:
   /** Neighborhood iterator types. */
   typedef ConstNeighborhoodIterator<TInputImage> 
     NeighborhoodIteratorType ;
-  typedef ConstSmartNeighborhoodIterator<TInputImage> 
-    SmartNeighborhoodIteratorType ;
   
   /** Kernel typedef. */
   typedef

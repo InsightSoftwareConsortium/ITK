@@ -67,7 +67,6 @@ public:
 
   /** Neighborhood iterator type. */
   typedef typename Superclass::NeighborhoodIteratorType NeighborhoodIteratorType ;
-  typedef typename Superclass::SmartNeighborhoodIteratorType SmartNeighborhoodIteratorType ;
 
   /** Kernel typedef. */
   typedef typename Superclass::KernelType KernelType;
@@ -85,14 +84,6 @@ protected:
   virtual PixelType Evaluate(const NeighborhoodIteratorType &nit,
                              const KernelType &kernel);
 
-  /** Evaluate image neighborhood with kernel to find the new value 
-   * for the center pixel value.
-   *
-   * It will return the minimum value of the image pixels whose corresponding
-   * element in the structuring element is positive. This version of
-   * Evaluate is used for boundary pixels. */
-  virtual PixelType Evaluate(const SmartNeighborhoodIteratorType &nit,
-                             const KernelType &kernel);
 private:
   GrayscaleErodeImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

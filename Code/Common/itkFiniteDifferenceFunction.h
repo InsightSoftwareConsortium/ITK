@@ -19,7 +19,6 @@
 
 #include "itkLightObject.h"
 #include "itkConstNeighborhoodIterator.h"
-#include "itkConstSmartNeighborhoodIterator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkVector.h"
 
@@ -94,12 +93,7 @@ public:
 
   /** The type of data structure that is passed to this function object
    * to evaluate at a pixel that does not lie on a data set boundary. */
-  typedef ConstNeighborhoodIterator<TImageType> NeighborhoodType;
-
-  /** The type of data structure that is passed to this function object
-   * to evaluate at a pixel that lies on a data set boundary. */
-  typedef ConstSmartNeighborhoodIterator<TImageType,
-    DefaultBoundaryConditionType> BoundaryNeighborhoodType;
+  typedef ConstNeighborhoodIterator<TImageType, DefaultBoundaryConditionType> NeighborhoodType;
 
   /** A floating point offset from an image grid location. Used for
    * interpolation among grid values in a neighborhood. */
@@ -134,14 +128,6 @@ public:
                                    const FloatOffsetType &offset = FloatOffsetType(0.0))
     const = 0;
 
-  /** This method is called by a finite difference solver image filter at
-   * each pixel that lies on the data set boundary.
-   *
-   * See its overloaded counterpart for more information. */
-  virtual PixelType  ComputeUpdate(const BoundaryNeighborhoodType
-                                   &neighborhood, void *globalData,
-                                   const FloatOffsetType &offset = FloatOffsetType(0.0))
-    const = 0;
 
   /** Sets the radius of the neighborhood this FiniteDifferenceFunction
    * needs to perform its calculations. */

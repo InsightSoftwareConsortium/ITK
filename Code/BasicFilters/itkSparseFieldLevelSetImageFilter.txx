@@ -235,7 +235,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   bool bounds_status;
   LayerNodeType *node;
   StatusType neighbor_status;
-  SmartNeighborhoodIterator<StatusImageType>
+  NeighborhoodIterator<StatusImageType>
     statusIt(m_NeighborList.GetRadius(), m_StatusImage,
              this->GetOutput()->GetRequestedRegion());
 
@@ -295,11 +295,11 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   typename LayerType::Iterator         layerIt;
   typename UpdateBufferType::const_iterator updateIt;
 
-  SmartNeighborhoodIterator<OutputImageType>
+  NeighborhoodIterator<OutputImageType>
     outputIt(m_NeighborList.GetRadius(), this->GetOutput(),
              this->GetOutput()->GetRequestedRegion());
 
-  SmartNeighborhoodIterator<StatusImageType>
+  NeighborhoodIterator<StatusImageType>
     statusIt(m_NeighborList.GetRadius(), m_StatusImage,
              this->GetOutput()->GetRequestedRegion());
 
@@ -606,13 +606,13 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // positive neighbors are assigned to the outside.
   //
   unsigned int i;
-  SmartNeighborhoodIterator<OutputImageType>
+  NeighborhoodIterator<OutputImageType>
     shiftedIt(m_NeighborList.GetRadius(), m_ShiftedImage,
               this->GetOutput()->GetRequestedRegion());
-  SmartNeighborhoodIterator<OutputImageType>
+  NeighborhoodIterator<OutputImageType>
     outputIt(m_NeighborList.GetRadius(), this->GetOutput(),
              this->GetOutput()->GetRequestedRegion());
-  SmartNeighborhoodIterator<StatusImageType>
+  NeighborhoodIterator<StatusImageType>
     statusIt(m_NeighborList.GetRadius(), m_StatusImage,
              this->GetOutput()->GetRequestedRegion());
   IndexType center_index, offset_index;
@@ -680,7 +680,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   LayerNodeType *node;
   bool boundary_status;
   typename LayerType::ConstIterator fromIt;
-  SmartNeighborhoodIterator<StatusImageType>
+  NeighborhoodIterator<StatusImageType>
     statusIt(m_NeighborList.GetRadius(), m_StatusImage,
              this->GetOutput()->GetRequestedRegion() );
 
@@ -722,7 +722,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   unsigned int i, center;
 
   typename LayerType::ConstIterator activeIt;
-  ConstSmartNeighborhoodIterator<OutputImageType>
+  ConstNeighborhoodIterator<OutputImageType>
     shiftedIt( m_NeighborList.GetRadius(), m_ShiftedImage,
                this->GetOutput()->GetRequestedRegion() );
   
@@ -791,7 +791,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   void *globalData = df->GetGlobalDataPointer();
   
   typename LayerType::ConstIterator layerIt;
-  SmartNeighborhoodIterator<OutputImageType> outputIt(df->GetRadius(),
+  NeighborhoodIterator<OutputImageType> outputIt(df->GetRadius(),
                 this->GetOutput(), this->GetOutput()->GetRequestedRegion());
   TimeStepType timeStep;
   center = outputIt.Size() /2;
@@ -897,10 +897,10 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   if (InOrOut == 1) delta = - m_ConstantGradientValue;
   else delta = m_ConstantGradientValue;
  
-  SmartNeighborhoodIterator<OutputImageType>
+  NeighborhoodIterator<OutputImageType>
     outputIt(m_NeighborList.GetRadius(), this->GetOutput(),
              this->GetOutput()->GetRequestedRegion() );
-  SmartNeighborhoodIterator<StatusImageType>
+  NeighborhoodIterator<StatusImageType>
     statusIt(m_NeighborList.GetRadius(), m_StatusImage,
              this->GetOutput()->GetRequestedRegion() );
 

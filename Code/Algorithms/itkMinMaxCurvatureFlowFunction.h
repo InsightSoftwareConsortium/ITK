@@ -60,7 +60,6 @@ public:
   typedef typename Superclass::PixelType PixelType;
   typedef typename Superclass::RadiusType RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
 
   /** Extract superclass dimension. */
@@ -79,13 +78,6 @@ public:
    * lie on a the data set boundary. */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
                                   void * globalData,
-                                  const FloatOffsetType& offset = FloatOffsetType(0.0)
-                                  ) const;
-
-  /** This method computes the solution update for each pixel that lies
-   * on the data set boundary. */
-  virtual PixelType ComputeUpdate(const BoundaryNeighborhoodType
-                                  &neighborhood, void * globalData,
                                   const FloatOffsetType& offset = FloatOffsetType(0.0)
                                   ) const;
 
@@ -116,18 +108,10 @@ private:
    *  in direction perpendicular to the image gradient. */
   virtual PixelType ComputeThreshold( const Dispatch<2> &,
     const NeighborhoodType & neighborhood ) const;
-  virtual PixelType ComputeThreshold( const Dispatch<2> &,
-    const BoundaryNeighborhoodType & neighborhood ) const;
   virtual PixelType ComputeThreshold( const Dispatch<3> &,
     const NeighborhoodType & neighborhood ) const;
-  virtual PixelType ComputeThreshold( const Dispatch<3> &,
-    const BoundaryNeighborhoodType & neighborhood ) const;
   virtual PixelType ComputeThreshold( const DispatchBase &,
     const NeighborhoodType & neighborhood ) const;
-  virtual PixelType ComputeThreshold( const DispatchBase &,
-    const BoundaryNeighborhoodType & neighborhood ) const;
-
-
 };
 
 }// end namespace itk

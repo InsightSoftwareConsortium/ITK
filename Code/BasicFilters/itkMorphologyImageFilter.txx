@@ -97,7 +97,7 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   BC.SetConstant( NumericTraits<PixelType>::Zero );
 
   // Neighborhood iterators
-  SmartNeighborhoodIteratorType b_iter;
+  NeighborhoodIteratorType b_iter;
 
   // Find the boundary "faces"
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
@@ -115,7 +115,7 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 
   for (fit = faceList.begin(); fit != faceList.end(); ++fit)
     { 
-    b_iter = SmartNeighborhoodIteratorType(m_Kernel.GetRadius(),
+    b_iter = NeighborhoodIteratorType(m_Kernel.GetRadius(),
                                            this->GetInput(), *fit);
     
     o_iter = ImageRegionIterator<OutputImageType>(this->GetOutput(), *fit);

@@ -19,7 +19,6 @@
 #include "itkMedianImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
-#include "itkConstSmartNeighborhoodIterator.h"
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
@@ -102,7 +101,7 @@ MedianImageFilter< TInputImage, TOutputImage>
   unsigned int i;
   ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
 
-  ConstSmartNeighborhoodIterator<InputImageType> bit;
+  ConstNeighborhoodIterator<InputImageType> bit;
   ImageRegionIterator<OutputImageType> it;
   
   std::vector<InputPixelType> pixels;
@@ -130,7 +129,7 @@ MedianImageFilter< TInputImage, TOutputImage>
   // the edge of the buffer.
   for (fit=faceList.begin(); fit != faceList.end(); ++fit)
     { 
-    bit = ConstSmartNeighborhoodIterator<InputImageType>(m_Radius,
+    bit = ConstNeighborhoodIterator<InputImageType>(m_Radius,
                                                          input, *fit);
 
     unsigned int medianPosition = bit.Size() / 2;

@@ -122,7 +122,6 @@ namespace itk
  *
  * \ingroup MRFFilters
  * \sa Neighborhood \sa ImageIterator \sa NeighborhoodIterator
- * \sa SmartNeighborhoodIterator \sa RandomAccessNeighborhoodIterator
  * \sa Classifier
  */
 template <class TInputImage, class TClassifiedImage>

@@ -47,7 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkNeighborhoodIterator.h"
-#include "itkSmartNeighborhoodIterator.h"
+#include "itkNeighborhoodIterator.h"
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkDerivativeOperator.h"
 #include "itkForwardDifferenceOperator.h"
@@ -111,13 +111,13 @@ public:
   typedef ImageRegionIteratorWithIndex<ReferenceType> RefRegionIteratorType; 
   typedef ImageRegionIteratorWithIndex<TargetType>    TarRegionIteratorType; 
   
-  typedef SmartNeighborhoodIterator<ReferenceType> 
+  typedef NeighborhoodIterator<ReferenceType> 
                                      ReferenceNeighborhoodIteratorType; 
   typedef typename ReferenceNeighborhoodIteratorType::IndexType  
                                      ReferenceNeighborhoodIndexType;
   typedef typename ReferenceNeighborhoodIteratorType::RadiusType 
                                      ReferenceRadiusType;
-  typedef SmartNeighborhoodIterator<TargetType> 
+  typedef NeighborhoodIterator<TargetType> 
                                      TargetNeighborhoodIteratorType; 
   typedef typename TargetNeighborhoodIteratorType::IndexType  
                                      TargetNeighborhoodIndexType;

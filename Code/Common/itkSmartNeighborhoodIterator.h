@@ -16,8 +16,8 @@
 =========================================================================*/
 #ifndef __itkSmartNeighborhoodIterator_h
 #define __itkSmartNeighborhoodIterator_h
-
-#include "itkConstSmartNeighborhoodIterator.h"
+#include "itkMacro.h"
+#include "itkNeighborhoodIterator.h"
 
 namespace itk {
 
@@ -96,12 +96,12 @@ namespace itk {
 template<class TImage,  class TBoundaryCondition
                        = ZeroFluxNeumannBoundaryCondition<TImage>  >
 class ITK_EXPORT SmartNeighborhoodIterator
-  :  public ConstSmartNeighborhoodIterator<TImage>
+  :  public NeighborhoodIterator<TImage>
 {
 public:
   /** Standard class typdefs. */
   typedef SmartNeighborhoodIterator Self;
-  typedef ConstSmartNeighborhoodIterator<TImage> Superclass;
+  typedef NeighborhoodIterator<TImage> Superclass;
   
   /** Extract some type information from the superclass. */
   typedef typename Superclass::InternalPixelType InternalPixelType;
@@ -124,11 +124,12 @@ public:
 
   /** Default constructor. */
   SmartNeighborhoodIterator()
-    : Superclass() {}
+    : Superclass() {
+    itkGenericOutputMacro(<< "SmartNeighborhoodIterator has been deprecated and will be removed.  Use NeighborhoodIterator instead.");}
 
   /** Copy constructor */
   SmartNeighborhoodIterator(const Self& orig)
-    : Superclass(orig) {}
+    : Superclass(orig) {itkGenericOutputMacro(<< "SmartNeighborhoodIterator has been deprecated and will be removed.  Use NeighborhoodIterator instead."); }
   
   /** Assignment operator */
   Self &operator=(const Self& orig)
@@ -142,31 +143,31 @@ public:
    * that image. */ 
   SmartNeighborhoodIterator(const SizeType& radius, ImageType *ptr,
                             const RegionType& region)
-    : Superclass(radius, ptr, region) {}
+    : Superclass(radius, ptr, region) {  itkGenericOutputMacro(<< "SmartNeighborhoodIterator has been deprecated and will be removed.  Use NeighborhoodIterator instead."); }
 
   /** Prints information about the neighborhood pointer structure to
    * std::cout for debugging purposes. */
-  virtual void PrintSelf(std::ostream &, Indent) const;
+  //  virtual void PrintSelf(std::ostream &, Indent) const;
 
   /** Returns the central memory pointer of the neighborhood. */
-  InternalPixelType *GetCenterPointer()
-    { return (this->operator[]((this->Size())>>1)); }
+  //  InternalPixelType *GetCenterPointer()
+  //    { return (this->operator[]((this->Size())>>1)); }
 
   /** Set the central pixel value of the neighborhood. */
-  virtual void SetCenterPixel(const PixelType &p)
-    { *( this->GetCenterPointer() ) = p; }
+  //  virtual void SetCenterPixel(const PixelType &p)
+  //    { *( this->GetCenterPointer() ) = p; }
 
   /** Sets the values in the itk::Image at the iterator location to the values
    * contained in a Neighborhood. */
-  virtual void SetNeighborhood(NeighborhoodType &);
+  //  virtual void SetNeighborhood(NeighborhoodType &);
 
   /** Set the pixel value at the ith location.  Out-of-bounds attempts will
    *  generate and exception.*/
-  virtual void SetPixel(const unsigned long i, const PixelType &v);
+  //  virtual void SetPixel(const unsigned long i, const PixelType &v);
 
   /** Special SetPixel method which quietly ignores out-of-bounds attempts.
    *  Sets status TRUE if pixel has been set, FALSE otherwise.  */
-  virtual void SetPixel(const unsigned long i, const PixelType &v, bool &status);
+  //  virtual void SetPixel(const unsigned long i, const PixelType &v, bool &status);
 
 };
 

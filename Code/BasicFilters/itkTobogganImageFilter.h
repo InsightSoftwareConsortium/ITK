@@ -19,7 +19,6 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkConstNeighborhoodIterator.h"
-#include "itkConstSmartNeighborhoodIterator.h"
 
 namespace itk {
 
@@ -91,8 +90,6 @@ public:
   /** Neighborhood iterator type */
   typedef ConstNeighborhoodIterator<TInputImage> 
     NeighborhoodIteratorType ;
-  typedef ConstSmartNeighborhoodIterator<TInputImage> 
-    SmartNeighborhoodIteratorType ;
 
 protected:
   TobogganImageFilter();

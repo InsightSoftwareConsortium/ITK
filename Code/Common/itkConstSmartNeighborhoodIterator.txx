@@ -19,7 +19,7 @@
 #include "itkConstSmartNeighborhoodIterator.h"
 
 namespace itk {
-
+  /*
 template<class TImage, class TBoundaryCondition>
 typename ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>::PixelType
 ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
@@ -83,12 +83,13 @@ ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
         }
     } 
 }
-  
-template<class TImage, class TBoundaryCondition>
-ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
-::ConstSmartNeighborhoodIterator(const Self& orig)
-  : ConstNeighborhoodIterator<TImage>(orig)
-{ 
+  */  
+  //template<class TImage, class TBoundaryCondition>
+  //ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
+  //::ConstSmartNeighborhoodIterator(const Self& orig)
+  //  : ConstNeighborhoodIterator<TImage>(orig)
+  //{
+  /*
   m_InternalBoundaryCondition = orig.m_InternalBoundaryCondition;
   m_NeedToUseBoundaryCondition = orig.m_NeedToUseBoundaryCondition;
   
@@ -108,8 +109,9 @@ ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
     this->ResetBoundaryCondition();
     }
   else 
-    { m_BoundaryCondition = orig.m_BoundaryCondition; }
-}
+  { m_BoundaryCondition = orig.m_BoundaryCondition; }
+  */
+  //}
 
 template<class TImage,class TBoundaryCondition>
 ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition> &  
@@ -117,7 +119,7 @@ ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
 ::operator=(const Self& orig)
 {
   Superclass::operator=(orig);
-  
+  /*
   m_InternalBoundaryCondition = orig.m_InternalBoundaryCondition;
   m_NeedToUseBoundaryCondition = orig.m_NeedToUseBoundaryCondition;
   
@@ -136,18 +138,19 @@ ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
     {
       this->ResetBoundaryCondition();
     }
-  else m_BoundaryCondition = orig.m_BoundaryCondition;
+    else m_BoundaryCondition = orig.m_BoundaryCondition;
+  */
   return *this;
 }
   
-template<class TImage, class TBoundaryCondition>
-void ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
-::Initialize(const SizeType &radius, const ImageType *ptr,
-             const RegionType &region)
-{
+//template<class TImage, class TBoundaryCondition>
+//void ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
+//::Initialize(const SizeType &radius, const ImageType *ptr,
+//             const RegionType &region)
+//{
   // call the superclass' version
-  Superclass::Initialize(radius, ptr, region);
-
+//  Superclass::Initialize(radius, ptr, region);
+  /*
   // now determine whether boundary conditions are going to be needed
   const IndexType bStart = ptr->GetBufferedRegion().GetIndex();
   const SizeType  bSize  = ptr->GetBufferedRegion().GetSize();
@@ -174,10 +177,12 @@ void ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
       break;
       }
     }
-  //  std::cout << "BoundaryConditions are " << (m_NeedToUseBoundaryCondition ? "needed" : "not needed") << std::endl;
-}
+    //  std::cout << "BoundaryConditions are " << (m_NeedToUseBoundaryCondition
+    //  ? "needed" : "not needed") << std::endl;
+    */
+//}
 
-
+/*
 template<class TImage, class TBoundaryCondition>
 bool
 ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
@@ -211,8 +216,14 @@ ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
   ConstIterator this_it;
 
   ans.SetRadius( this->GetRadius() );
-  
-  if (InBounds())
+
+  if (m_NeedToUseBoundaryCondition == false)
+    {
+      for (ans_it = ans.Begin(), this_it = this->Begin();
+           this_it < _end; ans_it++, this_it++)
+        { *ans_it = **this_it; }
+    }
+  else if (InBounds())
     {
       for (ans_it = ans.Begin(), this_it = this->Begin();
            this_it < _end; ans_it++, this_it++)
@@ -307,7 +318,7 @@ void ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
   m_WrapOffset[Dimension-1] = 0; // last offset is zero because there are no
                                  // higher dimensions
 }
-
+*/
 } // end namespace itk
 
 #endif

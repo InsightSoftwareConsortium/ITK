@@ -29,6 +29,7 @@
 #include "itkNeighborhood.h"
 #include "itkImageBoundaryCondition.h"
 #include "itkExceptionObject.h"
+#include "itkZeroFluxNeumannBoundaryCondition.h"
 
 namespace itk {
 
@@ -47,7 +48,8 @@ namespace itk {
  * \sa Neighborhood \sa ImageIterator \sa NeighborhoodIterator
  * \sa SmartNeighborhoodIterator \sa RandomAccessNeighborhoodIterator
  **/
-template<class TImage>
+template<class TImage,  class TBoundaryCondition
+                       = ZeroFluxNeumannBoundaryCondition<TImage> >
 class ITK_EXPORT ConstNeighborhoodIterator
   :  public Neighborhood<ITK_TYPENAME TImage::InternalPixelType *,
                          ::itk::GetImageDimension<TImage>::ImageDimension>
@@ -79,6 +81,9 @@ public:
   typedef Index<itkGetStaticConstMacro(Dimension)> IndexType;
   typedef typename IndexType::IndexValueType IndexValueType;
   typedef Neighborhood<PixelType, itkGetStaticConstMacro(Dimension)> NeighborhoodType;
+
+  /** Typedef for boundary condition type. */
+  typedef TBoundaryCondition BoundaryConditionType;
   
   /** Typedef for generic boundary condition pointer */
   typedef ImageBoundaryCondition<ImageType> *ImageBoundaryConditionPointerType;
@@ -98,7 +103,12 @@ public:
                        const ImageType * ptr,
                        const RegionType &region
                        )
-    {      this->Initialize(radius, ptr, region);  }
+  {
+    this->Initialize(radius, ptr, region);
+    for (unsigned int i=0; i < Dimension; i++)
+      { m_InBounds[i] = false; }
+    this->ResetBoundaryCondition();
+  }
 
   /** Assignment operator */
   Self &operator=(const Self& orig);
@@ -141,13 +151,14 @@ public:
   virtual NeighborhoodType GetNeighborhood() const;
 
   /** Returns the pixel value located at a linear array location i. */
-  virtual PixelType GetPixel(const unsigned i) const
-    {  return *(this->operator[](i));  }
+  virtual PixelType GetPixel(const unsigned i) const;
+    //    {  return *(this->operator[](i));  }
 
   /** Returns the pixel value located at the itk::Offset o from the center of
       the neighborhood. */
   virtual PixelType GetPixel(const OffsetType &o) const
-  { return *(this->operator[](o)); }
+  { return (this->GetPixel(this->GetNeighborhoodIndex(o))); }
+    //  { return *(this->operator[](o)); }
 
   /** Returns the pixel value located i pixels distant from the neighborhood center in
       the positive specified ``axis'' direction. No bounds checking is done on
@@ -297,17 +308,6 @@ public:
   bool operator>=(const Self &it) const
     {    return  this->GetCenterPointer() >= it.GetCenterPointer();  }
 
-  /** Allows a user to override the internal boundary condition. Care should be
-   * be taken to ensure that the overriding boundary condition is a persistent
-   * object during the time it is referenced.  The overriding condition
-   * can be of a different type than the default type as long as it is
-   * a subclass of ImageBoundaryCondition.
-   *
-   * This method is only relevant in iterators that have the capability
-   * to handle boundary conditions. */
-  virtual void OverrideBoundaryCondition(const ImageBoundaryConditionPointerType)
-    { /* default case is do nothing */ }
- 
   /** This method positions the iterator at an indexed location in the
    * image. SetLocation should _NOT_ be used to update the position of the
    * iterator during iteration, only for initializing it to a position
@@ -318,10 +318,6 @@ public:
       this->SetPixelPointers(position);
     }
   
-  /** Resets the boundary condition to the internal, default conditions
-   * specified by the template parameter. */
-  virtual void ResetBoundaryCondition()
-    { /* default case is do nothing */ }
 
   /** Addition of an itk::Offset.  Note that this method does not do any bounds
    * checking.  Adding an offset that moves the iterator out of its assigned
@@ -337,8 +333,31 @@ public:
   OffsetType operator-(const Self& b)
   {  return m_Loop - b.m_Loop;  }
 
+ /** Returns false if the iterator overlaps region boundaries, true
+   * otherwise.  Also updates an internal boolean array indicating
+   * which of the iterator's faces are out of bounds. */
+  bool InBounds() const;
+  
+  /** Allows a user to override the internal boundary condition. Care should
+   * be taken to ensure that the overriding boundary condition is a persistent
+   * object during the time it is referenced.  The overriding condition
+   * can be of a different type than the default type as long as it is
+   * a subclass of ImageBoundaryCondition. */
+  virtual void OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i)
+    { m_BoundaryCondition = i; }
 
+  /** Resets the boundary condition to the internal, default conditions
+   * specified by the template parameter. */
+  virtual void ResetBoundaryCondition()
+    { m_BoundaryCondition = &m_InternalBoundaryCondition;  }
 
+  /** Sets the internal, default boundary condition. */
+  void SetBoundaryCondition( const TBoundaryCondition &c )
+  { m_InternalBoundaryCondition = c; }
+
+   /** */
+  const BoundaryConditionType *GetBoundaryCondition() const
+  { return dynamic_cast<BoundaryConditionType *>(m_BoundaryCondition); }
   
 protected:
   
@@ -400,6 +419,29 @@ protected:
    * around region edges because region memory is not necessarily contiguous
    * within the buffer. */
   OffsetType m_WrapOffset;
+
+  /** Pointer to the actual boundary condition that will be used.
+   * By default this points to m_BoundaryCondition, but
+   * OverrideBoundaryCondition allows a user to point this variable an external
+   * boundary condition.  */
+  ImageBoundaryConditionPointerType m_BoundaryCondition;
+
+   /** Denotes which of the iterators dimensional sides spill outside
+   * region of interest boundaries. */
+  mutable bool m_InBounds[Dimension];
+  
+  /** Lower threshold of in-bounds loop counter values. */
+  IndexType m_InnerBoundsLow;
+  
+  /** Upper threshold of in-bounds loop counter values. */
+  IndexType m_InnerBoundsHigh;
+
+  /** Default boundary condition. */
+  TBoundaryCondition m_InternalBoundaryCondition;
+
+  /** Does the specified region need to worry about boundary conditions? **/
+  bool m_NeedToUseBoundaryCondition;
+
 };
 
 template<class TImage>

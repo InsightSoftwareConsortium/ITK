@@ -25,58 +25,11 @@ namespace itk {
 template<class TImage, class TOperator, class TComputation>
 typename NeighborhoodInnerProduct<TImage, TOperator, TComputation>::OutputPixelType
 NeighborhoodInnerProduct<TImage, TOperator, TComputation>
-::operator()(const ConstNeighborhoodIterator<TImage> &n,
-             const OperatorType &op) const
-{
-  typedef ConstNeighborhoodIterator<TImage> Neighborhood_t;
-  
-  OutputPixelType sum = NumericTraits<OutputPixelType>::Zero;
-  typename Neighborhood_t::ConstIterator n_it;
-  typename OperatorType::ConstIterator o_it;
-  
-  n_it = n.Begin();
-  const typename OperatorType::ConstIterator op_end = op.End();
-  for (o_it = op.Begin(); o_it < op_end; ++o_it, ++n_it)
-    {
-    sum += *o_it * **n_it;
-    }
-
-  return sum;
-}
-
-template<class TImage, class TOperator, class TComputation>
-typename NeighborhoodInnerProduct<TImage, TOperator, TComputation>::OutputPixelType
-NeighborhoodInnerProduct<TImage, TOperator, TComputation>
-::operator()(const std::slice &s,
-             const ConstNeighborhoodIterator<TImage> &n,
-             const OperatorType &op) const
-{
-  typedef ConstNeighborhoodIterator<TImage> Neighborhood_t;
-  
-  OutputPixelType sum = NumericTraits<OutputPixelType>::Zero;
-  ConstSliceIterator<ImagePixelType *, Neighborhood_t> s_it(&n, s);
-  typename OperatorType::ConstIterator o_it;
-
-  s_it = s_it.Begin();
-  const typename OperatorType::ConstIterator op_end = op.End();
-  for (o_it = op.Begin(); o_it < op_end; ++o_it, ++s_it)
-    {
-    sum += *o_it * **s_it;
-    }
-
-  return sum;
-}
-
-template<class TImage, class TOperator, class TComputation>
-typename SmartNeighborhoodInnerProduct<TImage, TOperator, TComputation>::OutputPixelType
-SmartNeighborhoodInnerProduct<TImage, TOperator, TComputation>
 ::operator()(const std::slice &s,
              /*           const ImageBoundaryCondition<TImage> *,*/
-             const ConstSmartNeighborhoodIterator<TImage> &it,
+             const ConstNeighborhoodIterator<TImage> &it,
              const OperatorType &op) const
 {
-  typedef ConstSmartNeighborhoodIterator<TImage> Neighborhood_t;
-
   typename OperatorType::ConstIterator o_it;
   OutputPixelType sum = NumericTraits<OutputPixelType>::Zero;
 

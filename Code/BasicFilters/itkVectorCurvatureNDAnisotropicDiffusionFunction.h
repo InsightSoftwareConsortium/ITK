@@ -55,8 +55,6 @@ public:
   typedef typename Superclass::TimeStepType     TimeStepType;
   typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::BoundaryNeighborhoodType
-    BoundaryNeighborhoodType;
   typedef typename Superclass::FloatOffsetType  FloatOffsetType;
   typedef typename PixelType::ValueType ScalarValueType;
   
@@ -69,10 +67,6 @@ public:
   /** Compute the equation value. */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
                                   void *globalData,
-                                  const FloatOffsetType& offset = FloatOffsetType(0.0)
-                                  ) const;
-  virtual PixelType ComputeUpdate(const BoundaryNeighborhoodType
-                                  &neighborhood, void *globalData,
                                   const FloatOffsetType& offset = FloatOffsetType(0.0)
                                   ) const;
 
@@ -95,9 +89,6 @@ private:
   
   /** Inner product function. */
   VectorNeighborhoodInnerProduct<ImageType> m_InnerProduct;
-
-  /** Boundary Inner product function. */
-  SmartVectorNeighborhoodInnerProduct<ImageType> m_SmartInnerProduct;
 
   /** Slices for the ND neighborhood. */
   std::slice  x_slice[ImageDimension];

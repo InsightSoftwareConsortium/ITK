@@ -88,17 +88,12 @@ public:
   typedef typename Superclass::ScalarValueType  ScalarValueType;
   typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::BoundaryNeighborhoodType
-                   BoundaryNeighborhoodType;
   typedef typename Superclass::VectorType VectorType;
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
 
   /** Compute the equation value. */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
                                   void *globalData,
-                                  const FloatOffsetType& = FloatOffsetType(0.0)) const;
-  virtual PixelType ComputeUpdate(const BoundaryNeighborhoodType
-                                  &neighborhood, void * globalData,
                                   const FloatOffsetType& = FloatOffsetType(0.0)) const;
 
  /** Computes the time step for an update given a global data structure.

@@ -20,7 +20,6 @@
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"
 #include "itkConstNeighborhoodIterator.h"
-#include "itkConstSmartNeighborhoodIterator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkMultiThreader.h"
 #include "itkDerivativeOperator.h"
@@ -96,12 +95,8 @@ public:
   /** The type of data structure that is passed to this function object
    * to evaluate at a pixel that does not lie on a data set boundary.
    */
-  typedef ConstNeighborhoodIterator<OutputImageType> NeighborhoodType;
-    
-  /** The type of data structure that is passed to this function object
-   * to evaluate at a pixel that lies on a data set boundary. */
-  typedef ConstSmartNeighborhoodIterator<OutputImageType,
-    DefaultBoundaryConditionType> BoundaryNeighborhoodType;
+  typedef ConstNeighborhoodIterator<OutputImageType,
+    DefaultBoundaryConditionType> NeighborhoodType;
 
   /** Method for creation through the object factory.  */
   itkNewMacro(Self);  
@@ -213,12 +208,6 @@ private:
   OutputImagePixelType ComputeCannyEdge(const NeighborhoodType &it,
                                         void *globalData );
 
-  /**This methos is used to calculate the 2nd derivative for 
-   * boundary pixels. It is called by the ThreadedCompute2ndDerivative 
-   * method.  */  
-  OutputImagePixelType ComputeCannyEdge(const BoundaryNeighborhoodType &bit,
-                                        void *globalData );
-  
   /** Calculate the gradient of the second derivative of the smoothed image, 
    *  it writes the result to m_UpdateBuffer1 using the 
    *  ThreadedCompute2ndDerivativePos() method and multithreading mechanism.

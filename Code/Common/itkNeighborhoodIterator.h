@@ -187,7 +187,8 @@ namespace itk {
  *
  *
  **/
-template<class TImage>
+template<class TImage, class TBoundaryCondition
+                       = ZeroFluxNeumannBoundaryCondition<TImage> >
 class ITK_EXPORT NeighborhoodIterator
   :  public ConstNeighborhoodIterator<TImage>
 {
@@ -248,13 +249,19 @@ public:
    * the pixel values contained in a Neighborhood. */
   virtual void SetNeighborhood(const NeighborhoodType &);
 
+  /** Special SetPixel method which quietly ignores out-of-bounds attempts.
+   *  Sets status TRUE if pixel has been set, FALSE otherwise.  */
+  virtual void SetPixel(const unsigned i, const PixelType &v,
+                        bool  &status);
+  
   /** Set the pixel at the ith location. */
-  virtual void SetPixel(const unsigned long i, const PixelType &v)
-  { *(this->operator[](i)) = v; }
+  virtual void SetPixel(const unsigned i, const PixelType &v);
+  //  { *(this->operator[](i)) = v; }
   
   /** Set the pixel at offset o from the neighborhood center */
   virtual void SetPixel(const OffsetType o, const PixelType &v)
-  { *(this->operator[](o)) = v; }
+  { this->SetPixel(this->GetNeighborhoodIndex(o), v); }
+    //  { *(this->operator[](o)) = v; }
 
   /** Sets the pixel value located i pixels distant from the neighborhood center in
       the positive specified ``axis'' direction. No bounds checking is done on

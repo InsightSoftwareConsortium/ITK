@@ -183,8 +183,6 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   typedef typename OutputImageType::SizeValueType   SizeValueType;
   typedef typename OutputImageType::IndexType  IndexType;
   typedef typename OutputImageType::IndexValueType  IndexValueType;
-  typedef typename FiniteDifferenceFunctionType::BoundaryNeighborhoodType
-    BoundaryIteratorType;
   typedef typename FiniteDifferenceFunctionType::NeighborhoodType
     NeighborhoodIteratorType;
   typedef ImageRegionIterator<UpdateBufferType> UpdateIteratorType;
@@ -230,11 +228,11 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
 
   // Process each of the boundary faces.
 
-  BoundaryIteratorType bD;
+  NeighborhoodIteratorType bD;
   UpdateIteratorType   bU;
   for (++fIt; fIt != faceList.end(); ++fIt)
     {
-      bD = BoundaryIteratorType(radius, output, *fIt);
+      bD = NeighborhoodIteratorType(radius, output, *fIt);
       bU = UpdateIteratorType  (m_UpdateBuffer, *fIt);
      
       bD.GoToBegin();

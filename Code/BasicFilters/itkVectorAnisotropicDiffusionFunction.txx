@@ -19,7 +19,7 @@
 #include "itkVectorAnisotropicDiffusionFunction.h"
 
 #include "itkZeroFluxNeumannBoundaryCondition.h"
-#include "itkConstSmartNeighborhoodIterator.h"
+#include "itkConstNeighborhoodIterator.h"
 #include "itkVectorNeighborhoodInnerProduct.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkDerivativeOperator.h"
@@ -32,7 +32,7 @@ VectorAnisotropicDiffusionFunction<TImage>
 ::CalculateAverageGradientMagnitudeSquared(TImage *ip)
 {
   typedef ConstNeighborhoodIterator<TImage>      RNI_type;
-  typedef ConstSmartNeighborhoodIterator<TImage> SNI_type;
+  typedef ConstNeighborhoodIterator<TImage> SNI_type;
   typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TImage> BFC_type;
 
   unsigned int i, j;
@@ -45,7 +45,7 @@ VectorAnisotropicDiffusionFunction<TImage>
   typename RNI_type::RadiusType             radius;
   typename BFC_type::FaceListType::iterator fit;
 
-  SmartVectorNeighborhoodInnerProduct<TImage> SIP;
+  VectorNeighborhoodInnerProduct<TImage> SIP;
   VectorNeighborhoodInnerProduct<TImage>      IP;
   RNI_type                                    iterator_list[ImageDimension];
   SNI_type                               face_iterator_list[ImageDimension];

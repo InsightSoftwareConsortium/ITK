@@ -19,7 +19,7 @@
 #include "itkNeighborhoodBinaryThresholdImageFunction.h"
 
 #include "itkNumericTraits.h"
-#include "itkConstSmartNeighborhoodIterator.h"
+#include "itkConstNeighborhoodIterator.h"
 
 namespace itk
 {
@@ -69,7 +69,7 @@ NeighborhoodBinaryThresholdImageFunction<TInputImage,TCoordRep>
     }
 
   // Create an N-d neighborhood kernel, using a zeroflux boundary condition
-  ConstSmartNeighborhoodIterator<InputImageType>
+  ConstNeighborhoodIterator<InputImageType>
     it(m_Radius, m_Image, m_Image->GetBufferedRegion());
 
   // Set the iterator at the desired location

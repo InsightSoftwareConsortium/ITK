@@ -91,8 +91,6 @@ public:
   typedef typename Superclass::TimeStepType     TimeStepType;
   typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::BoundaryNeighborhoodType
-    BoundaryNeighborhoodType;
   typedef typename Superclass::FloatOffsetType  FloatOffsetType;
 
   /** Inherit some parameters from the superclass type. */
@@ -101,10 +99,6 @@ public:
   /** Compute incremental update. */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
                                   void *globalData,
-                                  const FloatOffsetType& offset = FloatOffsetType(0.0)
-                                  ) const;
-  virtual PixelType ComputeUpdate(const BoundaryNeighborhoodType
-                                  &neighborhood, void *globalData,
                                   const FloatOffsetType& offset = FloatOffsetType(0.0)
                                   ) const;
 
@@ -129,9 +123,6 @@ private:
 
   /** Inner product function. */
   NeighborhoodInnerProduct<ImageType> m_InnerProduct;
-
-  /** Boundary Inner product function. */
-  SmartNeighborhoodInnerProduct<ImageType> m_SmartInnerProduct;
 
   /** Slices for the ND neighborhood. */
   std::slice  x_slice[ImageDimension];

@@ -19,7 +19,7 @@
 #include "itkSmartNeighborhoodIterator.h"
 
 namespace itk {
-
+  /*
 template<class TImage, class TBoundaryCondition>
 void
 SmartNeighborhoodIterator<TImage, TBoundaryCondition>
@@ -132,8 +132,16 @@ SmartNeighborhoodIterator<TImage, TBoundaryCondition>
   const Iterator _end = this->End();
   Iterator this_it;
   typename  NeighborhoodType::Iterator N_it;
-  
-  if (InBounds())
+
+  if (this->m_NeedToUseBoundaryCondition == false)
+    {
+      for (N_it = N.Begin(), this_it = Begin(); this_it < _end;
+           this_it++, N_it++)
+        {
+          **this_it = *N_it;
+        }
+    }
+  else if (InBounds())
     {
       for (N_it = N.Begin(), this_it = Begin(); this_it < _end;
            this_it++, N_it++)
@@ -193,7 +201,7 @@ void SmartNeighborhoodIterator<TImage, TBoundaryCondition>
 
   Superclass::PrintSelf(os, indent.GetNextIndent());
 }
-
+*/
 } // end namespace itk
 
 #endif

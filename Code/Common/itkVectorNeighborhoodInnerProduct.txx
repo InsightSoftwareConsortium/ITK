@@ -24,67 +24,11 @@ namespace itk {
 template<class TImage>
 typename VectorNeighborhoodInnerProduct<TImage>::PixelType
 VectorNeighborhoodInnerProduct<TImage>
-::operator()(const ConstNeighborhoodIterator<TImage> &n,
-             const OperatorType &op) const
-{
-  typedef ConstNeighborhoodIterator<TImage> Neighborhood_t;
-  PixelType sum;
-  unsigned int i;
-  
-  for (i = 0; i < VectorDimension; ++i)
-    { sum[i] = NumericTraits<ScalarValueType>::Zero; }
-  
-  typename Neighborhood_t::ConstIterator n_it;
-  typename OperatorType::ConstIterator o_it;
-  
-  n_it = n.Begin();
-  const typename OperatorType::ConstIterator op_end = op.End();
-  for (o_it = op.Begin(); o_it < op_end; ++o_it, ++n_it)
-    {
-      for (i = 0; i < VectorDimension; ++i)
-        {  sum[i] += *o_it * (**n_it)[i];  }
-    }
-  return sum;
-}
-
-template<class TImage>
-typename VectorNeighborhoodInnerProduct<TImage>::PixelType
-VectorNeighborhoodInnerProduct<TImage>
-::operator()(const std::slice &s,
-             const ConstNeighborhoodIterator<TImage> &n,
-             const OperatorType &op) const
-{
-  typedef ConstNeighborhoodIterator<TImage> Neighborhood_t;
-  PixelType sum;
-  unsigned int i;
-
-  for (i= 0; i < VectorDimension; ++i)
-    { sum[i] = NumericTraits<ScalarValueType>::Zero; }
-  
-  ConstSliceIterator<PixelType *, Neighborhood_t> s_it(&n, s);
-  typename OperatorType::ConstIterator o_it;
-
-  s_it = s_it.Begin();
-  const typename OperatorType::ConstIterator op_end = op.End();
-  for (o_it = op.Begin(); o_it < op_end; ++o_it, ++s_it)
-    {
-      for (i = 0; i < VectorDimension; ++i)
-        {  sum[i] += *o_it * (**s_it)[i]; }
-    }
-  
-  return sum;
-}
-
-template<class TImage>
-typename SmartVectorNeighborhoodInnerProduct<TImage>::PixelType
-SmartVectorNeighborhoodInnerProduct<TImage>
 ::operator()(const std::slice &s,
              /*           const ImageBoundaryCondition<TImage> *,*/
-             const ConstSmartNeighborhoodIterator<TImage> &it,
+             const ConstNeighborhoodIterator<TImage> &it,
              const OperatorType &op) const
 {
-  typedef ConstSmartNeighborhoodIterator<TImage> Neighborhood_t;
-
   PixelType sum;
   unsigned int j;
   

@@ -19,7 +19,7 @@
   #include "itkMeanImageFunction.h"
 
   #include "itkNumericTraits.h"
-  #include "itkConstSmartNeighborhoodIterator.h"
+  #include "itkConstNeighborhoodIterator.h"
 
   namespace itk
   {
@@ -75,7 +75,7 @@ MeanImageFunction<TInputImage,TCoordRep>
   typename InputImageType::SizeType kernelSize;
   kernelSize.Fill( m_NeighborhoodRadius );
   
-  ConstSmartNeighborhoodIterator<InputImageType>
+  ConstNeighborhoodIterator<InputImageType>
     it(kernelSize, m_Image, m_Image->GetBufferedRegion());
 
   // Set the iterator at the desired location

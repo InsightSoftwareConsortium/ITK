@@ -18,7 +18,6 @@
 #define _itkZeroCrossingImageFilter_txx
 
 #include "itkConstNeighborhoodIterator.h"
-#include "itkConstSmartNeighborhoodIterator.h"
 #include "itkZeroCrossingImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
@@ -96,7 +95,7 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
   unsigned int i;
   ZeroFluxNeumannBoundaryCondition<TInputImage> nbc;
 
-  ConstSmartNeighborhoodIterator<TInputImage> bit;
+  ConstNeighborhoodIterator<TInputImage> bit;
   ImageRegionIterator<TOutputImage> it;
   
   typename OutputImageType::Pointer      output = this->GetOutput();
@@ -124,7 +123,7 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
 
   FixedArray<long, 2 * ImageDimension> offset;
 
-  bit = ConstSmartNeighborhoodIterator<InputImageType>(radius,
+  bit = ConstNeighborhoodIterator<InputImageType>(radius,
                                                        input,
                                                        *faceList.begin());
   //Set the offset of the neighbors to the center pixel.
@@ -138,7 +137,7 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
   // the edge of the buffer.
   for (fit=faceList.begin(); fit != faceList.end(); ++fit)
     { 
-    bit = ConstSmartNeighborhoodIterator<InputImageType>(radius,
+    bit = ConstNeighborhoodIterator<InputImageType>(radius,
                                                          input, *fit);
     it = ImageRegionIterator<OutputImageType>(output, *fit);
     bit.OverrideBoundaryCondition(&nbc);

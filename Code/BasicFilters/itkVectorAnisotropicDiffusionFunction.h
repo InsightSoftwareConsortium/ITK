@@ -67,7 +67,6 @@ public:
   typedef typename Superclass::TimeStepType     TimeStepType;
   typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
 
   /** Inherit some parameters from the superclass type */
   itkStaticConstMacro(ImageDimension, unsigned int,

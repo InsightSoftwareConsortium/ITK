@@ -71,26 +71,6 @@ SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 }
 
 template <class TImageType, class TFeatureImageType>
-typename SegmentationLevelSetFunction<TImageType, TFeatureImageType>::ScalarValueType
-SegmentationLevelSetFunction<TImageType, TFeatureImageType>
-::PropagationSpeed(const BoundaryNeighborhoodType &neighborhood,
-                   const FloatOffsetType &offset) const
-{
-  IndexType idx = neighborhood.GetIndex();
-  ContinuousIndexType cdx;
-  for (unsigned i = 0; i < ImageDimension; ++i)
-    {
-      cdx[i] = static_cast<double>(idx[i]) - offset[i];
-    }
-  if ( m_Interpolator->IsInsideBuffer(cdx) )
-    {
-      return (static_cast<ScalarValueType>(
-                                           m_Interpolator->EvaluateAtContinuousIndex(cdx)));
-    }
-  else return ( static_cast<ScalarValueType>(m_SpeedImage->GetPixel(idx)) );
-}
-
-template <class TImageType, class TFeatureImageType>
 typename SegmentationLevelSetFunction<TImageType, TFeatureImageType>::VectorType
 SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 ::AdvectionField(const NeighborhoodType &neighborhood,
@@ -108,29 +88,6 @@ SegmentationLevelSetFunction<TImageType, TFeatureImageType>
     }
   else return ( m_AdvectionImage->GetPixel(idx) );  
 }
-
-template <class TImageType, class TFeatureImageType>
-typename SegmentationLevelSetFunction<TImageType, TFeatureImageType>::VectorType
-SegmentationLevelSetFunction<TImageType, TFeatureImageType>
-::AdvectionField(const BoundaryNeighborhoodType &neighborhood,
-                 const FloatOffsetType &offset) const
-{
-  IndexType idx = neighborhood.GetIndex();
-  ContinuousIndexType cdx;
-  for (unsigned i = 0; i < ImageDimension; ++i)
-    {
-      cdx[i] = static_cast<double>(idx[i]) - offset[i];
-    }
-
-  if ( m_VectorInterpolator->IsInsideBuffer(cdx) )
-    {
-      return ( m_VectorCast(m_VectorInterpolator->EvaluateAtContinuousIndex(cdx)));
-    }
-  else return ( m_AdvectionImage->GetPixel(idx) );   
-}
-
-
-
 
 } // end namespace itk
 

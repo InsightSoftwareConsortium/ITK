@@ -18,7 +18,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageBoundaryCondition.h"
 #include "itkConstantBoundaryCondition.h"
-#include "itkSmartNeighborhoodIterator.h"
+#include "itkNeighborhoodIterator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 namespace
 {
@@ -161,7 +161,7 @@ int itkBoundaryConditionTest(int, char**)
    szN[2] = 1;
    szN[3] = 1;
 
-   typedef itk::SmartNeighborhoodIterator<ImageType2D,
+   typedef itk::NeighborhoodIterator<ImageType2D,
      itk::ConstantBoundaryCondition<ImageType2D> > SmartIteratorType;
 
    SmartIteratorType it2d(sz2, image2D, image2D->GetRequestedRegion());

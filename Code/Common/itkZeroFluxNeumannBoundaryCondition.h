@@ -48,9 +48,7 @@ namespace itk
  *
  * The input to this function object is a neighborhood iterator.  This boundary
  * condition object is designed to be given as a template argument to a
- * SmartNeighborhoodIterator or any of the SmartNeighborhoodIterator
- * subclasses.  It can also be used to override a default boundary condition
- * type in a SmartNeighborhoodIterator or any of the SmartNeighborhoodIterator
+ * NeighborhoodIterator or any of the NeighborhoodIterator
  * subclasses.
  * 
  * \ingroup DataRepresentation

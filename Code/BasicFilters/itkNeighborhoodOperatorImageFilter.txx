@@ -21,7 +21,6 @@
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkImageRegionIterator.h"
 #include "itkConstNeighborhoodIterator.h"
-#include "itkConstSmartNeighborhoodIterator.h"
 #include "itkProgressReporter.h"
 
 namespace itk
@@ -90,7 +89,7 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
     BFC;
   typedef typename BFC::FaceListType FaceListType;
 
-  SmartNeighborhoodInnerProduct<InputImageType> smartInnerProduct;
+  NeighborhoodInnerProduct<InputImageType> smartInnerProduct;
   BFC faceCalculator;
   FaceListType faceList;
 
@@ -115,11 +114,11 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
     
   // Process non-boundary region and each of the boundary faces.
   // These are N-d regions which border the edge of the buffer.
-  ConstSmartNeighborhoodIterator<InputImageType> bit;
+  ConstNeighborhoodIterator<InputImageType> bit;
   for (fit=faceList.begin(); fit != faceList.end(); ++fit)
     {
     bit =
-      ConstSmartNeighborhoodIterator<InputImageType>(m_Operator.GetRadius(),
+      ConstNeighborhoodIterator<InputImageType>(m_Operator.GetRadius(),
                                                      input, *fit);
     it = ImageRegionIterator<OutputImageType>(output, *fit);
     bit.GoToBegin();

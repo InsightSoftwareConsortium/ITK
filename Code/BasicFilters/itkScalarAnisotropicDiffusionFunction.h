@@ -55,7 +55,6 @@ public:
   typedef typename Superclass::PixelType PixelType;
   typedef typename Superclass::RadiusType RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
   typedef typename Superclass::TimeStepType TimeStepType;
 
   /** Run-time type information (and related methods). */

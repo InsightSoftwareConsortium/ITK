@@ -59,7 +59,6 @@ public:
   typedef typename Superclass::PixelType PixelType;
   typedef typename Superclass::RadiusType RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
   typedef typename Superclass::ImageType  ImageType;
 
@@ -76,13 +75,6 @@ public:
    * lie on a the data set boundary. */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
                                   void * globalData,
-                                  const FloatOffsetType& offset = FloatOffsetType(0.0)
-                                  ) const;
-
-  /** This method computes the solution update for each pixel that lies
-   * on the data set boundary. */
-  virtual PixelType ComputeUpdate(const BoundaryNeighborhoodType
-                                  &neighborhood, void * globalData,
                                   const FloatOffsetType& offset = FloatOffsetType(0.0)
                                   ) const;
 
