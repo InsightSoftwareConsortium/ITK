@@ -60,9 +60,9 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
 
   // ImageSource
   typedef itk::testhelper::ImageRegistrationMethodImageSource<
-                                  PixelType,
-                                  PixelType,
-                                  ImageDimension >   ImageSourceType;
+    PixelType,
+    PixelType,
+    ImageDimension >   ImageSourceType;
 
   ImageSourceType::Pointer    imageSource   = ImageSourceType::New();
 
@@ -94,9 +94,9 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
   ImageIteratorType it( fixedImage, fixedImage->GetBufferedRegion() );
 
   const unsigned int skip = 
-      fixedImage->GetBufferedRegion().GetNumberOfPixels() / numberOfPoints;
+    fixedImage->GetBufferedRegion().GetNumberOfPixels() / numberOfPoints;
 
-  unsigned int counter = skip;
+  unsigned int counter = 0;
 
   FixedPointSetType::PointIdentifier pointId = 0;
   FixedPointSetType::PointType  point;
@@ -120,14 +120,13 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
     ++it;
     }
 
-
 //-----------------------------------------------------------
 // Set up  the Metric
 //-----------------------------------------------------------
   typedef itk::NormalizedCorrelationPointSetToImageMetric<  
-                                       FixedPointSetType, 
-                                       MovingImageType >   
-                                                    MetricType;
+    FixedPointSetType, 
+    MovingImageType >   
+    MetricType;
 
   typedef MetricType::TransformType                 TransformBaseType;
   typedef TransformBaseType::ParametersType         ParametersType;
@@ -144,8 +143,8 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
 //-----------------------------------------------------------
 
   typedef itk::TranslationTransform< 
-                        CoordinateRepresentationType, 
-                        ImageDimension >         TransformType;
+    CoordinateRepresentationType, 
+    ImageDimension >         TransformType;
 
   TransformType::Pointer transform = TransformType::New();
 
@@ -154,8 +153,8 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
 // Set up an Interpolator
 //------------------------------------------------------------
   typedef itk::LinearInterpolateImageFunction< 
-                    MovingImageType,
-                    double > InterpolatorType;
+    MovingImageType,
+    double > InterpolatorType;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
@@ -170,15 +169,15 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
 
   // Registration Method
   typedef itk::PointSetToImageRegistrationMethod< 
-                                    FixedPointSetType, 
-                                    MovingImageType >    RegistrationType;
+    FixedPointSetType, 
+    MovingImageType >    RegistrationType;
 
 
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
 
   typedef itk::CommandIterationUpdate<  
-                                  OptimizerType >    CommandIterationType;
+    OptimizerType >    CommandIterationType;
 
 
   // Instantiate an Observer to report the progress of the Optimization
