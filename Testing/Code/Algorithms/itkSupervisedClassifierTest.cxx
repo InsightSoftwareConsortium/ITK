@@ -319,7 +319,7 @@ int main()
 
   }//end while
 
-  if( passTest = true ) 
+  if( passTest == true ) 
     std::cout<< "Supervised Classifier Test Passed" << std::endl;
   else 
     std::cout<< "Supervised Classifier Test failed" << std::endl;
