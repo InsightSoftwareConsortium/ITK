@@ -20,7 +20,6 @@
 #include "itkIndex.h"
 #include "itkSize.h"
 #include "itkOffset.h"
-#include "itkImage.h"
 #include <memory>
 
 namespace itk
