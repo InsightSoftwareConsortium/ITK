@@ -308,14 +308,17 @@ WrapperBase
 ::ClassWrapperDispatch(int objc, Tcl_Obj* CONST objv[]) const
 {
   try{
-  // See if any wrapper in our class hierarchy knows about a static method
-  // with this name.
-  String methodName = Tcl_GetStringFromObj(objv[1], NULL);
-  const WrapperBase* wrapper = this->FindMethodWrapper(methodName);
-  if(wrapper)
+  // See if any wrapper in our class hierarchy knows about a static
+  // method with this name.
+  if(objc > 1)
     {
-    // We have found a wrapper that knows about the method.  Call it.
-    return wrapper->CallWrappedFunction(objc, objv, true);
+    String methodName = Tcl_GetStringFromObj(objv[1], NULL);
+    const WrapperBase* wrapper = this->FindMethodWrapper(methodName);
+    if(wrapper)
+      {
+      // We have found a wrapper that knows about the method.  Call it.
+      return wrapper->CallWrappedFunction(objc, objv, true);
+      }
     }
   
   // We must select our own constructor.
