@@ -61,8 +61,11 @@ namespace
 {
 /**
  * Every type invovled in a wrapper should have a specialization of this
- * class with the following member:
- * static CvQualifiedType name;
+ * class with the following members:
+ *   static CvQualifiedType type;
+ *   typedef T NoCv;  // Type T without any top-level cv-qualifiers.
+ * And if the type can be passed as an argument to a function:
+ *   typedef ArgumentAs...<T> ArgumentFor;
  */
 template <class T>
 struct CvType;
@@ -320,6 +323,83 @@ private:
    * The Wrapper for which this is handling an argument.
    */
   const WrapperBase* m_Wrapper;
+};
+
+
+/**
+ * Convert the given Argument to a pointer to T.  This version can optionally
+ * point to an array of T.
+ */
+template <typename T>
+class ArgumentAsPointerTo_array
+{
+public:
+  ArgumentAsPointerTo_array(const WrapperBase* wrapper):
+    m_Wrapper(wrapper), m_Array(NULL) {}
+  ~ArgumentAsPointerTo_array() { if(m_Array) { delete [] m_Array; } }
+
+  T* operator()(const Argument& argument)
+    {
+    // 8.3.5/3 Top level cv-qualifiers on target type never matter for
+    // conversions.  They only affect the parameter inside the function body.
+    const PointerType* to =
+      PointerType::SafeDownCast(CvType<T*>::type.GetType());
+    
+    // Get the argument's type from which we must convert.
+    CvQualifiedType from = argument.GetType();
+    
+    // A pointer to the conversion function.
+    ConversionFunction cf = NULL;
+    
+    // If the "from" type is a pointer and the conversion is a valid
+    // cv-qualifier adjustment, use the pointer identity conversion
+    // function.
+    if(from.GetType()->IsEitherPointerType()
+       && Conversions::IsValidQualificationConversion(PointerType::SafeDownCast(from.GetType()),
+                                                      PointerType::SafeDownCast(to)))
+      {
+      cf = Converter::PointerIdentity<T>::GetConversionFunction();
+      }
+    else if(from.IsArrayType()
+            && (ArrayType::SafeDownCast(from.GetType())->GetElementType() == CvType<T>::type))
+      {
+      const Argument* elements = reinterpret_cast<const Argument*>(argument.GetValue().object);
+      unsigned long length = ArrayType::SafeDownCast(from.GetType())->GetLength();
+      m_Array = new NoCvT[length];
+      for(unsigned int i = 0; i < length; ++i)
+        {
+        m_Array[i] = ElementFor(m_Wrapper)(elements[i]);
+        }
+      return m_Array;
+      }
+    else
+      {
+      // We don't have a trivial conversion.  Try to lookup the
+      // conversion function.
+      cf = m_Wrapper->GetConversionFunction(from, to);
+      // If not, we don't know how to do the conversion.
+      if(!cf)
+        {
+        throw _wrap_UnknownConversionException(from.GetName(), to->Name());
+        }
+      }
+    
+    // Perform the conversion and return the result.
+    return ConvertTo<T*>::From(argument.GetValue(), cf);
+    }
+private:
+  /**
+   * The Wrapper for which this is handling an argument.
+   */
+  const WrapperBase* m_Wrapper;
+  
+  typedef typename CvType<T>::NoCv NoCvT;
+  typedef typename CvType<T>::ArgumentFor ElementFor;
+  
+  /**
+   * If the pointer is to an array, this holds it.
+   */
+  NoCvT* m_Array;
 };
 
 
