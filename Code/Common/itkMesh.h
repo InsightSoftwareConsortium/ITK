@@ -429,6 +429,12 @@ protected:
       This is done based on information provided by the user through 
       the method SetBoundariesAllocationMethod()   */
   void ReleaseBoundariesMemory(void);
+
+  /** Release the memory allocated for the Bondary cells pointers
+      for a particular dimension of boundaries.
+      This is done based on information provided by the user through 
+      the method SetBoundariesAllocationMethod()   */
+  void ReleaseBoundariesMemory( unsigned int dimension );
   
 private:
   Mesh(const Self&); //purposely not implemented

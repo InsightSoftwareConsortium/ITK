@@ -128,6 +128,9 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   itkDebugMacro("setting CellData container to " << cellData);
   if(m_CellDataContainer != cellData)
     {
+    // Release current cells
+    this->ReleaseCellsMemory();
+    // Take new ones
     m_CellDataContainer = cellData;
     this->Modified();
     }
@@ -160,6 +163,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
                 << "] container to " << boundaries);
   if(m_BoundariesContainers[dimension] != boundaries)
     {
+    this->ReleaseBoundariesMemory(dimension);
     m_BoundariesContainers[dimension] = boundaries;
     this->Modified();
     }
@@ -1079,6 +1083,34 @@ void
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::ReleaseBoundariesMemory(void)
 {
+
+  const unsigned int numberOfBoundaryDimension = m_BoundariesContainers.size();
+
+  if( numberOfBoundaryDimension == 0 )
+    {
+    return; // there is nothing to be released
+    }
+
+  for(unsigned int dimension=0; dimension<numberOfBoundaryDimension; dimension++ )
+    {
+    this->ReleaseBoundariesMemory( dimension );
+    }
+
+}
+
+
+
+
+/**
+ * Releasing the memory of Boundary Cells objects for which normal pointers 
+ * are stored. The method used for memory release is based on information 
+ * provided by the user who is the only who know how the memory was allocated.
+ */
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+void
+Mesh<TPixelType, VDimension, TMeshTraits>
+::ReleaseBoundariesMemory(unsigned int dimension)
+{
   // Boundaries are stored as normal pointers in the CellContainer.
   //
   // The following cases are assumed here: 
@@ -1104,55 +1136,51 @@ Mesh<TPixelType, VDimension, TMeshTraits>
     return; // there is nothing to be released
     }
 
-  // boundaries are grouped by Dimension in a std::vector of BoundariesContainerPointer.
-  BoundariesContainerVector::iterator bcp = m_BoundariesContainers.begin();
-  BoundariesContainerVector::iterator end = m_BoundariesContainers.begin();
 
-  while( bcp != end )
+  BoundariesContainerPointer boundariesContainer 
+                                  = m_BoundariesContainers[ dimension ];
+
+
+  if( boundariesContainer && boundariesContainer->GetReferenceCount()==0 ) 
     {
-    BoundariesContainerPointer boundariesContainer = *bcp;
-    if( boundariesContainer && boundariesContainer->GetReferenceCount()==0 ) 
+    switch( m_BoundariesAllocationMethod )
+    {
+    case BoundariesAllocationMethodUndefined:
       {
-      switch( m_BoundariesAllocationMethod )
+      // The user forgot to tell the mesh about how he allocated 
+      // the cells. No responsible guess can be made here. Call for help.
+      itkGenericExceptionMacro(<<"Boundaries Allocation Method was not specified. See SetBoundariesAllocationMethod()");
+      break;
+      }
+    case BoundariesAllocatedAsStaticArray:
       {
-      case BoundariesAllocationMethodUndefined:
+      // The cells will be naturally destroyed when
+      // the original array goes out of scope.
+      break;
+      }
+    case BoundariesAllocatedAsADynamicArray:
+      {
+      // the pointer to the first Cell is assumed to be the 
+      // base pointer of the array
+      BoundariesContainerIterator first = boundariesContainer->Begin();
+      Cell * baseOfBoundariesArray = first->Value();
+      delete [] baseOfBoundariesArray;
+      }
+    case BoundariesAllocatedDynamicallyCellByCell:
+      {
+      // It is assumed that every cell was allocated independently.
+      // A Cell iterator is created for going through the cells 
+      // deleting one by one.
+      BoundariesContainerIterator cell  = boundariesContainer->Begin();
+      BoundariesContainerIterator end   = boundariesContainer->End();
+      while( cell != end )
         {
-        // The user forgot to tell the mesh about how he allocated 
-        // the cells. No responsible guess can be made here. Call for help.
-        itkGenericExceptionMacro(<<"Boundaries Allocation Method was not specified. See SetBoundariesAllocationMethod()");
-        break;
-        }
-      case BoundariesAllocatedAsStaticArray:
-        {
-        // The cells will be naturally destroyed when
-        // the original array goes out of scope.
-        break;
-        }
-      case BoundariesAllocatedAsADynamicArray:
-        {
-        // the pointer to the first Cell is assumed to be the 
-        // base pointer of the array
-        BoundariesContainerIterator first = boundariesContainer->Begin();
-        Cell * baseOfBoundariesArray = first->Value();
-        delete [] baseOfBoundariesArray;
-        }
-      case BoundariesAllocatedDynamicallyCellByCell:
-        {
-        // It is assumed that every cell was allocated independently.
-        // A Cell iterator is created for going through the cells 
-        // deleting one by one.
-        BoundariesContainerIterator cell  = boundariesContainer->Begin();
-        BoundariesContainerIterator end   = boundariesContainer->End();
-        while( cell != end )
-          {
-          const Cell * cellToBeDeleted = cell->Value();
-          delete cellToBeDeleted;
-          ++cell; 
-          }
+        const Cell * cellToBeDeleted = cell->Value();
+        delete cellToBeDeleted;
+        ++cell; 
         }
       }
-      }
-    ++bcp;
+    }
   }
 }
 
