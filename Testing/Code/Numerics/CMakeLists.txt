@@ -8,6 +8,7 @@ itkLevenbergMarquardtOptimizerTest
 itkLBFGSOptimizerTest
 itkNumericsHeaderTest
 itkNumericsTest
+itkRegularStepGradientDescentOptimizerTest
 )
 
 LINK_LIBRARIES (
