@@ -33,8 +33,8 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   : m_CirclePointsLoc(0),
     m_CirclePointsNum(0),
     m_SuppressBckgFlag(0),
-    m_NumberOfObjects(1),
-    m_Threshold(0.0)
+    m_Threshold(0.0),
+    m_NumberOfObjects(1)
 {
   m_HomoCovariance.SetIdentity();
   m_ObjectCovariances.resize(m_NumberOfObjects);
@@ -264,7 +264,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
       else
         {
           sum_vector.Fill(0);
-          for (int i = 0; i < neighborhoodSize; ++i)
+          for (unsigned int i = 0; i < neighborhoodSize; ++i)
             {
               value2 = iterN.GetPixel(i);
               for (unsigned int j = 0;j<VectorDimension; j++)
@@ -288,9 +288,9 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
                 {
                   int x = index1[0] + m_CirclePointsLoc[scale_value][i][0];
                   int y = index1[1] + m_CirclePointsLoc[scale_value][i][1];
-                  if (x < 0 || x >= m_Size[0])
+                  if (x < 0 || x >= static_cast<int>(m_Size[0]))
                     {x = index1[0];}
-                  if (y < 0 || y >= m_Size[1])
+                  if (y < 0 || y >= static_cast<int>(m_Size[1]))
                     {y = index1[1];}
                   index2 = index1;
                   index2[1] = y;
@@ -401,11 +401,12 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
           for (k = 0; k < iscale; k++)
             {
               tt1 = weight[iscale-1][k];
-              for (i = 0; i < m_CirclePointsNum[k]; i++)
+              for (int ii = 0; ii < m_CirclePointsNum[k]; ii++)
                 {
-                  x = index[0] + m_CirclePointsLoc[k][i][0];
-                  y = index[1] + m_CirclePointsLoc[k][i][1];
-                  if (x >= 0 && y >= 0 && x < m_Size[0] && y < m_Size[1]) 
+                  x = index[0] + m_CirclePointsLoc[k][ii][0];
+                  y = index[1] + m_CirclePointsLoc[k][ii][1];
+                  if (x >= 0 && y >= 0 && x < static_cast<int>(m_Size[0])  
+                      && y < static_cast<int>(m_Size[1])) 
                         {
                           index1 = index; 
                           index[1] = y;
@@ -747,7 +748,7 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
       fuzzyScene[i].resize(volume_size);
     }
   typedef ImageRegionIterator<UShortImageType> Iterator;
-  typename ListSeedType::iterator iterList;  
+  //typename ListSeedType::iterator iterList;  
 
   for (int i = 0;i<m_NumberOfObjects;i++)
     {
