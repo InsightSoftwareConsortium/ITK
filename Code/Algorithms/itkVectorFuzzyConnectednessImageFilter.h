@@ -6,36 +6,11 @@
   Date:      $Date$
   Version:   $Revision$
 
-Copyright (c) 2001 Insight Consortium
-All rights reserved.
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
 
- * Redistributions of source code must retain the above copyright notice,
-   this list of conditions and the following disclaimer.
-
- * Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
-
- * The name of the Insight Consortium, nor the names of any consortium members,
-   nor of any contributors, may be used to endorse or promote products derived
-   from this software without specific prior written permission.
-
-  * Modified source versions must be plainly marked as such, and must not be
-    misrepresented as being the original software.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS ``AS IS''
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHORS OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 #ifndef __itkVectorFuzzyConnectednessImageFilter_h
@@ -55,46 +30,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk{
 
 /** \class VectorFuzzyConnectednessImageFilter
- *
- * The basic concepts in our program are fuzzy affinity, fuzzy connectedness, 
- * scale and relative fuzzy connectedness.
- *
- * Fuzzy affinity is a local fuzzy relation which is defined on the whole image domain. 
- * It assigns to every pair of nearby voxels a strength of local hanging togetherness. 
- * A global fuzzy relation called fuzzy connectedness is defined on the whole image domain 
- * which assigns to every pair of voxels a strength of global hanging togetherness. 
- * The strength of hanging togetherness (connectedness) between two voxels is the largest 
- * of the strengths of all paths between them. Scale-based fuzzy affinity and fuzzy connectedness
- * can make our algorithms more robust and less sensitive to noise. "Scale" is a number assigned
- * to every voxel in the image. It represents the radius of the largest ball centered at the 
- * voxel, within which the intensity is homogeneous. In determining affinity between two voxels,
- * all voxels within the ball associated with both voxels are considered.
- *
- * In our program, fuzzy affinity, fuzzy connectedness and scale computation are done in vector
- * space comprised of R-, G-, B- components of a color image.
- *
- * The other important concept is relative fuzzy connectedness. An object gets defined in an 
- * image because of the presence of other co-objects. All co-objects of importance that are 
- * present in an image are let to compete among themselves in having voxels as their members. 
- * In this competition, every pair of voxels in the image will have a strength of connectedness
- * in each object. The object in which this strength is highest will claim membership of the 
- * voxels. 
  * 
- * Usage:
- *
- *1.	Use SetInput to import the input image.
- *2.	Use SetObjects to set the number of objects of importance in the image.
- *3.	Use SetSelectedObject to specify the particular object to be segmented.
- *4.	Use Initialization to allocate memory in terms of the number of objects.
- *5.	Use SetObjectsSeed to specify seed points of objects.
- *6.	Use SetObjectsMean to specify the mean value of objects.
- *7.	Use SetObjectsMatrix to specify the covariance matrix of objects.
- *      Note: parameters of function 6 and 7 can be computed via specified training region.
- *8.	Run DoFuzzySegment to perform the segmentation.
- *9.	Use GetOutput to obtain the resulting binary image.
- *
+ * 
  */
-
 template <class TInputImage, class TOutputImage>
 class VectorFuzzyConnectednessImageFilter:
   public ImageToImageFilter<TInputImage,TOutputImage>
@@ -198,7 +136,7 @@ private:
   OffsetType                     *m_SpherePointsLoc;
   int                            *m_SpherePointsNum;
 
-  double                         m_Mask[3][3][3];
+  double                         m_Mask[3][3];
   double                         m_MaskTotal;
   IntVector                      m_HomoMaxDiff;
   IntVector                      m_FeaturesThreshold;
@@ -222,6 +160,7 @@ private:
 
 
   typename InputImageType::Pointer   m_InputImage;
+  typename InputImageType::Pointer   m_FilterImage;	
   typename UShortImage::Pointer      m_ObjectFuzzyScene;
   typename UShortImage::Pointer      m_BackgroundFuzzyScene;
   typename OutputImageType::Pointer  m_SegmentObject; 
@@ -235,6 +174,7 @@ private:
   void ScalePrepare();
   void Compute_LookupTable();
   void Compute_Scale();
+  void Compute_Filter();
   void Compute_Affinity();
   void FastTracking(int);
 };
@@ -247,3 +187,5 @@ private:
 #endif
 
 #endif
+
+
