@@ -23,7 +23,7 @@ typedef std::string String;
 String GetValid_C_Identifier(const String& in_name);
 
 class Location;
-class CV_Qualifiers;
+class CvQualifiers;
 class Type;
 class Argument;
 class Function;
@@ -61,7 +61,7 @@ enum Access { Public, Protected, Private };
 enum TypeOfObject {
   Undefined_id=0,
   
-  Location_id, CV_Qualifiers_id,
+  Location_id, CvQualifiers_id,
   
   Namespace_id, Class_id, Struct_id, Union_id,
   
@@ -275,15 +275,15 @@ typedef BaseClassContainer::const_iterator  BaseClassesIterator;
 /**
  * Store cv-qualifiers for a type.
  */
-class CV_Qualifiers: public InternalObject
+class CvQualifiers: public InternalObject
 {
 public:
-  typedef CV_Qualifiers             Self;
+  typedef CvQualifiers             Self;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  virtual TypeOfObject GetTypeOfObject() const { return CV_Qualifiers_id; }
-  virtual const char* GetClassName() const { return "CV_Qualifiers"; }
+  virtual TypeOfObject GetTypeOfObject() const { return CvQualifiers_id; }
+  virtual const char* GetClassName() const { return "CvQualifiers"; }
   
   static Pointer New(bool is_const, bool is_volatile, bool is_restrict);
   
@@ -296,11 +296,11 @@ public:
   void Print(FILE*, unsigned long) const;
   
 protected:
-  CV_Qualifiers(bool is_const, bool is_volatile, bool is_restrict):
+  CvQualifiers(bool is_const, bool is_volatile, bool is_restrict):
     m_Const(is_const), m_Volatile(is_volatile), m_Restrict(is_restrict) {}
-  CV_Qualifiers(const Self&) {}
+  CvQualifiers(const Self&) {}
   void operator=(const Self&) {}
-  virtual ~CV_Qualifiers() {}
+  virtual ~CvQualifiers() {}
   
 private:
   bool m_Const;
@@ -335,7 +335,7 @@ public:
     }
   
   String GetName() const { return this->GetNameWithCV(); }  
-  String GetCV() const { return m_CV_Qualifiers? m_CV_Qualifiers->GetString() : ""; }
+  String GetCV() const { return m_CvQualifiers? m_CvQualifiers->GetString() : ""; }
   
   /**
    * Get the cv-qualified name of this type.
@@ -368,21 +368,21 @@ public:
   virtual String GetIndirectionWithoutCV() const
     { throw NotIndirectionException; }
   
-  void SetCV_Qualifiers(CV_Qualifiers* cv)
-    { m_CV_Qualifiers = cv; }
+  void SetCvQualifiers(CvQualifiers* cv)
+    { m_CvQualifiers = cv; }
 
-  CV_Qualifiers::Pointer GetCV_Qualifiers()
-    { return m_CV_Qualifiers; }
+  CvQualifiers::Pointer GetCvQualifiers()
+    { return m_CvQualifiers; }
 
-  CV_Qualifiers::ConstPointer GetCV_Qualifiers() const
-    { return m_CV_Qualifiers.RealPointer(); }
+  CvQualifiers::ConstPointer GetCvQualifiers() const
+    { return m_CvQualifiers.RealPointer(); }
 
-  bool IsConst() const   { return (m_CV_Qualifiers && m_CV_Qualifiers->IsConst()); }
-  bool IsVolatile() const { return (m_CV_Qualifiers && m_CV_Qualifiers->IsVolatile()); }
-  bool IsRestrict() const { return (m_CV_Qualifiers && m_CV_Qualifiers->IsRestrict()); }
+  bool IsConst() const   { return (m_CvQualifiers && m_CvQualifiers->IsConst()); }
+  bool IsVolatile() const { return (m_CvQualifiers && m_CvQualifiers->IsVolatile()); }
+  bool IsRestrict() const { return (m_CvQualifiers && m_CvQualifiers->IsRestrict()); }
 
   virtual void Print(FILE*, unsigned long) const =0;
-  void PrintCV_Qualifiers(FILE*, unsigned long) const;  
+  void PrintCvQualifiers(FILE*, unsigned long) const;  
   void PrintName(FILE*, unsigned long) const;  
   
 protected:
@@ -392,7 +392,7 @@ protected:
   virtual ~Type() {}
   
 private:
-  CV_Qualifiers::Pointer m_CV_Qualifiers;
+  CvQualifiers::Pointer m_CvQualifiers;
 };
 
 

@@ -1487,24 +1487,24 @@ Parser
 
 
 /**
- * Begin handler for CV_Qualifiers element.
+ * Begin handler for CvQualifiers element.
  */
 void
 Parser
-::begin_CV_Qualifiers(const Attributes& atts)
+::begin_CvQualifiers(const Attributes& atts)
 {
-  CV_Qualifiers::Pointer cv = CV_Qualifiers::New(atts.GetAsInteger("const"),
+  CvQualifiers::Pointer cv = CvQualifiers::New(atts.GetAsInteger("const"),
 						 atts.GetAsInteger("volatile"),
 						 atts.GetAsInteger("restrict"));
-  this->CurrentType()->SetCV_Qualifiers(cv);
+  this->CurrentType()->SetCvQualifiers(cv);
 }
 
 /**
- * End handler for CV_Qualifiers element.
+ * End handler for CvQualifiers element.
  */
 void
 Parser
-::end_CV_Qualifiers()
+::end_CvQualifiers()
 {
 }
 
@@ -1592,7 +1592,7 @@ Parser
   beginHandlers["External"]         = &Parser::begin_External;
   beginHandlers["IncompleteType"]   = &Parser::begin_IncompleteType;
   beginHandlers["Location"]         = &Parser::begin_Location;
-  beginHandlers["CV_Qualifiers"]    = &Parser::begin_CV_Qualifiers;
+  beginHandlers["CvQualifiers"]     = &Parser::begin_CvQualifiers;
   beginHandlers["Unimplemented"]    = &Parser::begin_Unimplemented;
   
   endHandlers["GlobalNamespace"]  = &Parser::end_GlobalNamespace;
@@ -1634,7 +1634,7 @@ Parser
   endHandlers["External"]         = &Parser::end_External;
   endHandlers["IncompleteType"]   = &Parser::end_IncompleteType;
   endHandlers["Location"]         = &Parser::end_Location;
-  endHandlers["CV_Qualifiers"]    = &Parser::end_CV_Qualifiers;
+  endHandlers["CvQualifiers"]     = &Parser::end_CvQualifiers;
   endHandlers["Unimplemented"]    = &Parser::end_Unimplemented;
   
   initialized = true;

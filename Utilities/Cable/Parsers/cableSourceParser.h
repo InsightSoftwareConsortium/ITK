@@ -115,7 +115,7 @@ private:
   void begin_External(const Attributes&);
   void begin_IncompleteType(const Attributes&);
   void begin_Location(const Attributes&);
-  void begin_CV_Qualifiers(const Attributes&);
+  void begin_CvQualifiers(const Attributes&);
   void begin_Unimplemented(const Attributes&);
 
   // The element end handlers.
@@ -158,7 +158,7 @@ private:
   void end_External();
   void end_IncompleteType();
   void end_Location();
-  void end_CV_Qualifiers();
+  void end_CvQualifiers();
   void end_Unimplemented();
   
   // Element map utilities.

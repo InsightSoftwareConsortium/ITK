@@ -70,13 +70,13 @@ Location
 
 
 /**
- * Construct a new CV_Qualifiers and return a smart pointer to it.
+ * Construct a new CvQualifiers and return a smart pointer to it.
  */
-CV_Qualifiers::Pointer
-CV_Qualifiers
+CvQualifiers::Pointer
+CvQualifiers
 ::New(bool is_const, bool is_volatile, bool is_restrict)
 {
-  return new CV_Qualifiers(is_const, is_volatile, is_restrict);
+  return new CvQualifiers(is_const, is_volatile, is_restrict);
 }
 
 
@@ -371,7 +371,7 @@ UnimplementedNameHolder
  * Get the string representation of the cv-qualifiers.
  */
 String
-CV_Qualifiers
+CvQualifiers
 ::GetString() const
 {
   String qualifiers = "";
@@ -1056,7 +1056,7 @@ Union
 /**
  * Print the CV qualifiers.
  */
-void CV_Qualifiers::Print(FILE* file, unsigned long indent) const
+void CvQualifiers::Print(FILE* file, unsigned long indent) const
 {
   int is_const = m_Const? 1:0;
   int is_volatile = m_Volatile? 1:0;
@@ -1064,7 +1064,7 @@ void CV_Qualifiers::Print(FILE* file, unsigned long indent) const
   
   PrintIndent(file, indent);
   fprintf(file,
-          "<CV_Qualifiers const=\"%d\" volatile=\"%d\" restrict=\"%d\"/>\n",
+          "<CvQualifiers const=\"%d\" volatile=\"%d\" restrict=\"%d\"/>\n",
           is_const, is_volatile, is_restrict);
 }
 
@@ -1072,11 +1072,11 @@ void CV_Qualifiers::Print(FILE* file, unsigned long indent) const
 /**
  * Print the CV qualifiers for this type.
  */
-void Type::PrintCV_Qualifiers(FILE* file, unsigned long indent) const
+void Type::PrintCvQualifiers(FILE* file, unsigned long indent) const
 {
-  if(m_CV_Qualifiers)
+  if(m_CvQualifiers)
     {
-    m_CV_Qualifiers->Print(file, indent);
+    m_CvQualifiers->Print(file, indent);
     }
 }
 
@@ -1100,7 +1100,7 @@ void NamedType::Print(FILE* file, unsigned long indent) const
   PrintIndent(file, indent);
   fprintf(file, "<Type name=\"%s\">\n",
           this->m_QualifiedName->Get().c_str());
-  this->PrintCV_Qualifiers(file, indent+XML_NESTED_INDENT);
+  this->PrintCvQualifiers(file, indent+XML_NESTED_INDENT);
   PrintIndent(file, indent);
   fprintf(file, "</Type>\n");
   this->PrintName(file, indent);
