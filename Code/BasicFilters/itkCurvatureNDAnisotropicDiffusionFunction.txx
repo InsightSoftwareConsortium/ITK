@@ -44,11 +44,11 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>
   m_Center =  it.Size() / 2;
 
   for (i = 0; i< ImageDimension; ++i)
-    { m_Stride[i] = it.GetStride(i); }
+    {
+    m_Stride[i] = it.GetStride(i);
+    x_slice[i]  = std::slice( m_Center - m_Stride[i], 3, m_Stride[i]);
+    }
 
-  for (i = 0; i< ImageDimension; ++i)
-    { x_slice[i]  = std::slice( m_Center - m_Stride[i], 3, m_Stride[i]); }
-  
   for (i = 0; i< ImageDimension; ++i)
     {
     for (j = 0; j < ImageDimension; ++j)
@@ -65,8 +65,10 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>
   // Allocate the derivative operator.
   dx_op.SetDirection(0);  // Not relevant, will be applied in a slice-based
                           // fashion.
+
   dx_op.SetOrder(1);
   dx_op.CreateDirectional();
+
 }
 
 template<class TImage>
@@ -91,11 +93,14 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>
     // ``Half'' derivatives
     dx_forward[i] = it.GetPixel(m_Center + m_Stride[i])
       - it.GetPixel(m_Center);
+    dx_forward[i] *= m_ScaleCoefficients[i];
     dx_backward[i]= it.GetPixel(m_Center)
       - it.GetPixel(m_Center - m_Stride[i]);
+    dx_backward[i]*= m_ScaleCoefficients[i];
 
     // Centralized differences
     dx[i]         = m_InnerProduct(x_slice[i], it, dx_op);
+    dx[i]         *= m_ScaleCoefficients[i];
     }
 
   speed = 0.0;
@@ -109,7 +114,9 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>
       if (j != i)
         {
         dx_aug     = m_InnerProduct(xa_slice[j][i], it, dx_op);
+        dx_aug     *= m_ScaleCoefficients[j];
         dx_dim     = m_InnerProduct(xd_slice[j][i], it, dx_op);
+        dx_dim     *= m_ScaleCoefficients[j];
         grad_mag_sq   += 0.25f * (dx[j]+dx_aug) * (dx[j]+dx_aug);
         grad_mag_sq_d += 0.25f * (dx[j]+dx_dim) * (dx[j]+dx_dim);
         }

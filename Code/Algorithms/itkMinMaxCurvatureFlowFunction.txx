@@ -158,6 +158,8 @@ MinMaxCurvatureFlowFunction<TImage>
     stride = it.GetStride( (unsigned long) j );
     gradient[j] = 0.5 * ( it.GetPixel( center + stride ) -
                           it.GetPixel( center - stride ) );
+    gradient[j] *= m_ScaleCoefficients[j];
+    
     gradMagnitude += vnl_math_sqr( gradient[j] );
     }
 
@@ -262,11 +264,13 @@ MinMaxCurvatureFlowFunction<TImage>
 
   gradient[0] = 0.5 * ( it.GetPixel( center + 1 ) -
                         it.GetPixel( center - 1) );
+  gradient[0] *= m_ScaleCoefficients[0];
   gradMagnitude = vnl_math_sqr( gradient[0] );
 
   stride = it.GetStride( 1 );
   gradient[1] = 0.5 * ( it.GetPixel( center + stride ) -
                         it.GetPixel( center - stride ) );
+  gradient[1] *= m_ScaleCoefficients[1];
   gradMagnitude += vnl_math_sqr( gradient[1] );
 
   if ( gradMagnitude == 0.0 ) { return threshold; }
@@ -328,14 +332,17 @@ MinMaxCurvatureFlowFunction<TImage>
 
   gradient[0] = 0.5 * ( it.GetPixel( center + 1 ) -
                         it.GetPixel( center - 1) );
+  gradient[0] *= m_ScaleCoefficients[0];
   gradMagnitude = vnl_math_sqr( gradient[0] );
 
   gradient[1] = 0.5 * ( it.GetPixel( center + strideY ) -
                         it.GetPixel( center - strideY ) );
+  gradient[1] *= m_ScaleCoefficients[1];
   gradMagnitude += vnl_math_sqr( gradient[1] );
 
   gradient[2] = 0.5 * ( it.GetPixel( center + strideZ ) -
                         it.GetPixel( center - strideZ ) );
+  gradient[0] *= m_ScaleCoefficients[2];
   gradMagnitude += vnl_math_sqr( gradient[2] );
 
   if ( gradMagnitude == 0.0 ) { return threshold; }

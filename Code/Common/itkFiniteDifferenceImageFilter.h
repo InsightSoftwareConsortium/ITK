@@ -170,6 +170,12 @@ public:
   itkSetMacro(NumberOfIterations, unsigned int);
   itkGetMacro(NumberOfIterations, unsigned int);
 
+  /** Use the image spacing information in calculations. Use this option if you
+   *  want derivatives in physical space. Default is UseImageSpacingOn. */
+  itkSetMacro(UseImageSpacing,bool);
+  itkBooleanMacro(UseImageSpacing);
+  itkGetMacro(UseImageSpacing, bool);
+
   /** Set/Get the maximum error allowed in the solution.  This may not be
       defined for all solvers and its meaning may change with the application. */
   itkSetMacro(MaximumRMSError, double);
@@ -205,6 +211,7 @@ public:
 protected:
   FiniteDifferenceImageFilter()
   {
+    m_UseImageSpacing    = false;
     m_ElapsedIterations  = 0;
     m_DifferenceFunction = 0;
     m_NumberOfIterations = NumericTraits<unsigned int>::max();
@@ -322,6 +329,10 @@ private:
   /** A counter for keeping track of the number of elapsed 
       iterations during filtering. */
   unsigned int m_ElapsedIterations;
+
+  /** Control whether derivatives use spacing of the input image in
+      its calculation. */
+  bool m_UseImageSpacing;
 
   /** Indicates whether the filter automatically resets to UNINITIALIZED state
       after completing, or whether filter must be manually reset */

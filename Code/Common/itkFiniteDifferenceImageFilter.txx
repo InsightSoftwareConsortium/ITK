@@ -31,6 +31,24 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 {
   if (this->GetState() == UNINITIALIZED)
     {
+    // Set the coefficients for the deriviatives
+    double coeffs[TInputImage::ImageDimension];
+    if (m_UseImageSpacing)
+      {
+      for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
+        {
+        coeffs[i] = 1.0 / this->GetInput()->GetSpacing()[i];
+        }
+      }
+    else
+      {
+      for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
+        {
+        coeffs[i] = 1.0;
+        }
+      }
+    m_DifferenceFunction->SetScaleCoefficients(coeffs);
+
     // Allocate the output image
     this->AllocateOutputs();
 
@@ -120,6 +138,8 @@ FiniteDifferenceImageFilter<TInputImage,TOutputImage>
   // pad the input requested region by the operator radius
   inputRequestedRegion.PadByRadius( radius );
 
+    std::cout << "inputRequestedRegion: " << inputRequestedRegion << std::endl;
+    std::cout << "largestPossibleRegion: " << inputPtr->GetLargestPossibleRegion() << std::endl;
   // crop the input requested region at the input's largest possible region
   if ( inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()) )
     {
@@ -218,6 +238,7 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
   Superclass::PrintSelf(os, indent);
 
   os << indent << "ElapsedIterations: " << m_ElapsedIterations << std::endl;
+  os << indent << "UseImageSpacing: " << (m_UseImageSpacing ? "On" : "Off") << std::endl;
   os << indent << "State: " << m_State << std::endl;
   os << indent << "MaximumRMSError: " << m_MaximumRMSError << std::endl;
   os << indent << "NumberOfIterations: " << m_NumberOfIterations << std::endl;

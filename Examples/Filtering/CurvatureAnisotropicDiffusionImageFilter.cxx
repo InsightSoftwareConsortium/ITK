@@ -76,7 +76,7 @@ int main( int argc, char * argv[] )
     { 
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile ";
-    std::cerr << "numberOfIterations  timeStep  conductance" << std::endl;
+    std::cerr << "numberOfIterations  timeStep  conductance useImageSpacingon/off" << std::endl;
     return 1;
     }
   
@@ -123,7 +123,6 @@ int main( int argc, char * argv[] )
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-
   //  Software Guide : BeginLatex
   //
   //  The input image can be obtained from the output of another filter. Here,
@@ -139,7 +138,7 @@ int main( int argc, char * argv[] )
   const unsigned int numberOfIterations = atoi( argv[3] );
   const double       timeStep = atof( argv[4] );
   const double       conductance = atof( argv[5] );
-
+  const bool         useImageSpacing = (argc != 6);
 
   //  Software Guide : BeginLatex
   //
@@ -164,6 +163,10 @@ int main( int argc, char * argv[] )
   filter->SetNumberOfIterations( numberOfIterations );
   filter->SetTimeStep( timeStep );
   filter->SetConductanceParameter( conductance );
+  if (useImageSpacing)
+    {
+    filter->UseImageSpacingOn();
+    }
   filter->Update();
   // Software Guide : EndCodeSnippet
 

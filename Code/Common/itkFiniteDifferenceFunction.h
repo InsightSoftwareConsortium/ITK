@@ -21,6 +21,7 @@
 #include "itkConstNeighborhoodIterator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkVector.h"
+#include "itkFixedArray.h"
 
 namespace itk {
 
@@ -77,6 +78,7 @@ public:
   /** Extract some parameters from the image type */
   typedef TImageType ImageType;
   typedef typename ImageType::PixelType       PixelType;
+  typedef double PixelRealType;
   
   /** Save image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
@@ -139,6 +141,17 @@ public:
   const RadiusType &GetRadius() const
     { return m_Radius; }
 
+  /** Set the ScaleCoefficients for the difference
+   * operators. The defaults a 1.0. These can be set to take the image
+   * spacing into account. */
+  void SetScaleCoefficients (PixelRealType vals[ImageDimension])
+    {
+      for (unsigned int i = 0; i < ImageDimension; i++)
+        {
+        m_ScaleCoefficients[i] = vals[i];
+        }
+    }
+
   /** Computes the time step for an update given a global data structure.
    * The data used in the computation may take different forms depending on
    * the nature of the equations.  This global data cannot be kept in the
@@ -168,12 +181,16 @@ protected:
   {
     // initialize variables
     m_Radius.Fill( 0 );
+    for (unsigned int i = 0; i < ImageDimension; i++)
+      {
+      m_ScaleCoefficients[i] = 1.0;
+      }
   }
-
   ~FiniteDifferenceFunction() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   RadiusType m_Radius;
+  PixelRealType m_ScaleCoefficients[ImageDimension];
 
 private:
   FiniteDifferenceFunction(const Self&); //purposely not implemented
