@@ -257,14 +257,13 @@ public:
  * \ingroup DataRepresentation
  * 
  */
-template <typename TCoordRepA, typename TCoordRepB, unsigned int N>
-void PointCast( const itk::Point<TCoordRepA,N> & pa, 
-                        itk::Point<TCoordRepB,N> & pb  ) 
-   {
-     for(unsigned int i=0; i<N; i++)
-       {
-       pb[i] = static_cast< TCoordRepB >( pa[i] );
-       }
+template <typename TPointA, typename TPointB >
+void PointCast( const TPointA & pa, TPointB & pb  ) 
+  {
+  for(unsigned int i=0; i<TPointA::PointDimension; i++)
+    {
+    pb[i] = static_cast< TPointB::ValueType >( pa[i] );
+    }
    }
 
  
