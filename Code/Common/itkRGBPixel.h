@@ -56,6 +56,20 @@ namespace itk
  *
  * This class is templated over the representation used for each
  * component. 
+ *
+ * For efficiency sake, RGBPixel does not define a
+ * copy constructor, or an operator=. We rely on the compiler to provide
+ * efficient bitwise copies.
+ *
+ * RGBPixl is an "aggregate" class.  Its data is public 
+ * (m_Red, m_Green, m_Blue)
+ * allowing for fast and convenient instantiations/assignments.
+ *
+ * The following syntax for assigning an index is allowed/suggested:
+ *
+ *    RGBPixl<float> pixel = {{1.0f, 0.0f, .5f}};
+ *    RGBPixl<char> pixelArray[2] = {{255, 255, 255}, {255, 255, 244}};
+ *
  * \ingroup ImageObjects
  *
  */
@@ -64,80 +78,43 @@ template < typename TComponent = unsigned short >
 class RGBPixel
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  ///! Standard "Self" typedef.
   typedef RGBPixel  Self;
-
-  /**
-   *  Define the component type
-   */
-  typedef   TComponent    ComponentType;
-
-  /**
-   * Constructors.
-   */
-  RGBPixel();
-  RGBPixel(const RGBPixel &);
-  RGBPixel( ComponentType red, ComponentType green, ComponentType blue );
- 
- 
-  /**
-   * Assignment Operator
-   */
-  const RGBPixel & operator=( const RGBPixel & );
-
-  /**
-   * Set the Red component
-   */
-  void SetRed( ComponentType red );
-
-  /**
-   * Set the Green component
-   */
-  void SetGreen( ComponentType green );
-
-  /**
-   * Set the Blue component
-   */
-  void SetBlue( ComponentType blue );
-
-  /**
-   * Set the three components
-   */
-  void Set( ComponentType red, ComponentType green, ComponentType blue );
-
-  /**
-   * Get the Red component
-   */
-  const ComponentType & GetRed( void ) const;
- 
-  /**
-   * Get the Green component
-   */
-  const ComponentType & GetGreen( void ) const;
-  
-  /**
-   * Get the Blue component
-   */
-  const ComponentType & GetBlue( void ) const;
-
-private:
-  /**
-   * Red component
-   */
-  ComponentType  m_Red;
-  
-  /**
-   * Green component
-   */
-  ComponentType  m_Green;
-  
-  /**
-   * Blue component
-   */
-  ComponentType  m_Blue;
-
+  ///!  Define the component type
+  typedef TComponent ComponentType;
+  ///! Return the number of components
+  static int GetNumberOfComponents(){ return 3;}
+  ///! Return the value for the Nth Component
+  ComponentType GetNthComponent(int c, const Self& s) 
+    { return s.m_Components[c]; }
+  ///! Return the value for the Nth Component
+  ComponentType GetScalarValue()  
+    {
+      return sqrt(m_Components[0] * m_Components[0] +
+                  m_Components[1] * m_Components[1] +
+                  m_Components[2] * m_Components[2]); 
+    }
+  ///! Set the Nth component to v
+  void SetNthComponent(int c, const ComponentType& v)  
+    {  m_Components[c] = v; }
+  ///! Set the Red component
+  void SetRed( ComponentType red ) { m_Components[0] = red;}
+  ///! Set the Green component
+  void SetGreen( ComponentType green ) {m_Components[1] = green;}
+  ///! Set the Blue component
+  void SetBlue( ComponentType blue ) {m_Components[2] = blue;}
+  ///! Set the three components
+  void Set( ComponentType red, ComponentType green, ComponentType blue )
+    { m_Components[0] = red; m_Components[1] = green, m_Components[2] = blue;}
+  ///! Get the Red component
+  const ComponentType & GetRed( void ) const { return m_Components[0];}
+  ///! Get the Green component
+  const ComponentType & GetGreen( void ) const { return m_Components[1];}
+  ///! Get the Blue component
+  const ComponentType & GetBlue( void ) const { return m_Components[2];}
+  // Data members
+  ///! Red, Green, Blue components
+  ComponentType  m_Components[3];
 };
 
 
