@@ -79,7 +79,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // 'identifier' : class 'type' needs to have dll-interface to be used by
 // clients of class 'type2'
-#pragma warning ( disable : 4251 )
+// #pragma warning ( disable : 4251 )
 
 // typename keyword in default template arguments is not accepted by
 // MSVC.  This macro should only be used in such places.
@@ -93,7 +93,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #  ifdef ITKDLL
 #   define ITK_EXPORT __declspec( dllexport ) 
 #  else
-#   define ITK_EXPORT __declspec( dllexport ) 
+#   define ITK_EXPORT 
 #  endif
 # else
 #  define ITK_EXPORT
