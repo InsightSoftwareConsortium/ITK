@@ -143,10 +143,10 @@ public:
   virtual void Write(const void* buffer);
 
 
-  virtual bool SetPixelType(const std::type_info& ptype)
+  virtual bool SetPixelType(const std::type_info& )
   { return true; }
 
-  virtual void SetPixelType(const IODataType ctype) {}
+  virtual void SetPixelType(const IODataType ) {}
 protected:
   RawImageIO();
   ~RawImageIO();
