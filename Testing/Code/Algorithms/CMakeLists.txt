@@ -243,7 +243,9 @@ IF(USE_FFTW)
         TARGET_LINK_LIBRARIES(itkAlgorithmsTests2 fftw3 fftw3f)
 ENDIF(USE_FFTW)
 
-
+IF(USE_SCSL)
+        TARGET_LINK_LIBRARIES(itkAlgorithmsTests2 scs )
+ENDIF(USE_SCSL)
 
 IF(ITK_DATA_ROOT)
 
