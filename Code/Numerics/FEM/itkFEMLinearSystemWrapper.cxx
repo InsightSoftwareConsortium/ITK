@@ -21,6 +21,8 @@
 #endif
 
 #include "itkFEMLinearSystemWrapper.h"
+#include <vector>
+
 
 namespace itk {
 namespace fem {
@@ -153,7 +155,7 @@ void LinearSystemWrapper::OptimizeMatrixStorage(unsigned int matrixIndex, unsign
     this->GetColumnsOfNonZeroMatrixElementsInRow(i, currentRow, tempMatrixIndex);
     for (j=0; j<currentRow.size(); j++)
     {
-      this->SetMatrixValue(i,j,this->GetMatrixValue(i, currentRow[j], tempMatrixIndex), matrixIndex);
+      this->SetMatrixValue(i,currentRow[j],this->GetMatrixValue(i, currentRow[j], tempMatrixIndex), matrixIndex);
     }
   }
       
@@ -164,47 +166,183 @@ void LinearSystemWrapper::OptimizeMatrixStorage(unsigned int matrixIndex, unsign
 
 
 /* FIXME - untested...do not use yet */
-void LinearSystemWrapper::ReverseCuthillMckeeDOFOrdering(unsigned int matrixIndex, ColumnArray& newDOF)
+void LinearSystemWrapper::ReverseCuthillMckeeOrdering(ColumnArray& newNumbering, unsigned int matrixIndex)
 {
-  /* vector for new DOF's */
-  newDOF = ColumnArray(this->m_Order);
-  //newDOF.fill(-1.0);
-
-  /* vector to hold degrees of nodes */
-  ColumnArray nodeDegrees(this->m_Order);
-  ColumnArray oldDOF(this->m_Order);
-  ColumnArray currentRow;
-  unsigned int i;
-  unsigned int startingNode = 0;
-  unsigned int startingNodeDegree = this->m_Order * this->m_Order;
-  for (i=0; i<this->m_Order; i++)
-  {
-    /* examine each row */
-    this->GetColumnsOfNonZeroMatrixElementsInRow(i, currentRow, matrixIndex);
-    nodeDegrees[i] = currentRow.size();
-
-    /* find degree to start re-ordering with */
-    if (nodeDegrees[i] < startingNodeDegree)
-    {
-      startingNode = i;
-      startingNodeDegree = nodeDegrees[i];
-    }
-
-  }
 
   /* find cuthill-mckee ordering */
-  //this->CuthillMckeeOrdering(matrixIndex, startingNode, oldDOF, newDOF);
+  this->CuthillMckeeOrdering(newNumbering, -1, matrixIndex);
 
-  /* reverse */
+}
+
+
+void LinearSystemWrapper::CuthillMckeeOrdering(ColumnArray& newNumbering, int startingRow, unsigned int matrixIndex)
+{
+
+
+  ColumnArray reverseMapping;                   /* temp storage for re-mapping of rows */
+  newNumbering = ColumnArray(this->m_Order);    /* new row numbering */
+  reverseMapping = ColumnArray (this->m_Order); /* allocate temp storage */
+  unsigned int i;                               /* loop counter */
+  
+  /* find degrees of each row in matrix & initialize newNumbering vector */
+  ColumnArray currentRow;                 /* column indices of nonzero in current row */
+  ColumnArray rowDegree(this->m_Order);   /* degrees in each row */
+  
+  /* initialize variables */
   for (i=0; i<this->m_Order; i++)
   {
-    oldDOF[i] = this->m_Order - newDOF[i];
+    this->GetColumnsOfNonZeroMatrixElementsInRow(i, currentRow, matrixIndex);
+    rowDegree[i] = currentRow.size() - 1;     /* assuming non-zero diagonal */
+    reverseMapping[i] = this->m_Order;        /* set to impossible value */
   }
 
-  /* redo cuthill-mckee to improve results */
-  //this->CuthillMckeeOrdering(matrixIndex, 0, oldDOF, newDOF);
+  /* choose starting row if not given - chooses row of lowest degree */
+  if (startingRow < 0) 
+  {
+    unsigned int lowestDegree = rowDegree[0];
+    startingRow = 0;
+    for (i=1; i<this->m_Order; i++) 
+    {
+      if (rowDegree[i] < lowestDegree)
+      {
+        startingRow = i;
+        lowestDegree = rowDegree[i];
+      }
+    }
+  }
 
-  /* reverse */
+  /* set first row */
+  unsigned int nextRowNumber = 0;
+  reverseMapping[startingRow] = nextRowNumber++;
+
+  /* follow connections and assign new row numbering */
+  this->FollowConnectionsCuthillMckeeOrdering(startingRow, rowDegree, reverseMapping, nextRowNumber, matrixIndex);
+
+  for (i=0; i<this->m_Order; i++)
+  {
+    newNumbering[ reverseMapping[i] ] = i;
+  }
+
+}
+
+  
+void LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int rowNumber, ColumnArray& rowDegree, ColumnArray& reverseMapping, unsigned int nextRowNumber, unsigned int matrixIndex)
+{
+
+  unsigned int i,j,k,temp;
+  ColumnArray::iterator rowBufferIt;
+  ColumnArray::iterator nextRowsIt;
+  ColumnArray bufferArray;
+  ColumnArray rowBuffer;
+
+  if (reverseMapping[rowNumber] > (this->m_Order-1) ) return;
+
+  /* temp vector of next rows to examine */
+  ColumnArray nextRows;
+  this->GetColumnsOfNonZeroMatrixElementsInRow(rowNumber, nextRows, matrixIndex);
+
+  /* remove diagonal element */
+  for (nextRowsIt = nextRows.begin(); nextRowsIt != nextRows.end(); ++nextRowsIt)
+  {
+    if ( *nextRowsIt == rowNumber )
+    {
+      nextRows.erase(nextRowsIt);
+      --nextRowsIt;
+    }
+  }
+
+  /* order by degree */
+  if (nextRows.size() > 1) 
+  {
+    for (i=0; i<nextRows.size()-1; i++)
+    {
+      for (j=0; j<nextRows.size()-1-i; j++)
+      {
+        if ( rowDegree[nextRows[j+1]] < rowDegree[nextRows[j]] )
+        {
+          temp = nextRows[j+1];
+          nextRows[j+1] = nextRows[j];
+          nextRows[j] = temp;
+        }
+      }
+    }
+  }
+
+  /* while there are more rows to examine */
+  while ( (nextRows.size() != 0 ) && (nextRowNumber < this->m_Order) ) 
+  {
+    
+
+    bufferArray.clear();
+
+    for (i=0; i<nextRows.size(); i++) 
+    {
+      reverseMapping[ nextRows[i] ] = nextRowNumber++;
+    }
+
+
+    /* renumber rows in nextRows */
+    for (i=0; i<nextRows.size(); i++) 
+    {
+
+      /* connections of current row */
+      this->GetColumnsOfNonZeroMatrixElementsInRow( nextRows[i], rowBuffer, matrixIndex );
+
+      /* remove previously renumbered rows */
+      for (rowBufferIt = rowBuffer.begin(); rowBufferIt != rowBuffer.end(); ++rowBufferIt)
+      {
+        if (reverseMapping[*rowBufferIt] < this->m_Order )
+        {
+          rowBuffer.erase(rowBufferIt);
+          --rowBufferIt;
+        }
+      }
+
+      /* order by degree */
+      if (rowBuffer.size() > 1)
+      {
+        for (k=0; k<rowBuffer.size()-1; k++)
+        {
+          for (j=0; j<rowBuffer.size()-1-k; j++)
+          {
+            if ( rowDegree[rowBuffer[j+1]] < rowDegree[rowBuffer[j]] )
+            {
+              temp = rowBuffer[j+1];
+              rowBuffer[j+1] = rowBuffer[j];
+              rowBuffer[j] = temp;
+            }
+          }
+        }
+      }
+
+      unsigned int repeatFlag = 0;
+      for (k=0; k<rowBuffer.size(); k++)
+      {
+        repeatFlag = 0;
+        for (j=0; j<bufferArray.size(); j++)
+        {
+          if (bufferArray[j] == rowBuffer[k])
+          {
+            repeatFlag = 1;
+          }
+        }
+
+        if (!repeatFlag)
+        {
+          bufferArray.push_back(rowBuffer[k]);
+        }
+      }
+
+
+    }
+
+    nextRows.clear();
+    nextRows = bufferArray;
+
+
+  }
+
+  return;
 
 
 }

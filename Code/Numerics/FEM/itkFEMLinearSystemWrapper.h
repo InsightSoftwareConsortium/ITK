@@ -351,6 +351,7 @@ public:
    * Remove all zeros from a matrix 
    * \param matrixIndex index of matrix to remove zeros from
    * \param tempMatrixIndex index of matrix to use for temp storage space
+   * \note an extra matrix must be allocated by the solver in order to use this method
    */
   void OptimizeMatrixStorage(unsigned int matrixIndex, unsigned int tempMatrixIndex); 
 
@@ -359,8 +360,7 @@ public:
    * \param matrixIndex index of matrix to examine
    * \param newDOF vector of new degree of freedom ordering
    */
-  void ReverseCuthillMckeeDOFOrdering(unsigned int matrixIndex, ColumnArray& newDOF);
-
+  void ReverseCuthillMckeeOrdering(ColumnArray& newNumbering, unsigned int matrixIndex = 0);
 
   /*
    * Sets the function used to prepare the primary system matrix for numerical solving
@@ -435,6 +435,13 @@ protected:
   /* void (*m_PrimarySolutionSetupFunction)(LinearSystemWrapper *lsw); */
 
 private:
+
+  /**
+   * matrix reordering utility
+   */
+  void CuthillMckeeOrdering(ColumnArray& newNumbering, int startingRow, unsigned int matrixIndex = 0);
+
+  void FollowConnectionsCuthillMckeeOrdering(unsigned int rowNumber, ColumnArray& rowDegree, ColumnArray& newNumbering, unsigned int nextRowNumber, unsigned int matrixIndex = 0);
 
   /** Copy constructor is not allowed. */
   LinearSystemWrapper(const LinearSystemWrapper&);
