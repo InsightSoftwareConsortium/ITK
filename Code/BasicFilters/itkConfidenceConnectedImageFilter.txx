@@ -120,7 +120,8 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   lower = mean - m_Multiplier * sqrt(variance);
   upper = mean + m_Multiplier * sqrt(variance);
   
-  function->ThresholdBetween(lower, upper);
+  function->ThresholdBetween(static_cast<InputImagePixelType>(lower),
+                             static_cast<InputImagePixelType>(upper));
 
   itkDebugMacro(<< "Lower intensity = " << lower);
   itkDebugMacro(<< "Upper intensity = " << upper);

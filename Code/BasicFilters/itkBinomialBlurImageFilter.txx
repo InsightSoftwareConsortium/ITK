@@ -137,7 +137,7 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   
   for ( inputIt.GoToBegin(), tempIt.GoToBegin(); !tempIt.IsAtEnd();++tempIt, ++inputIt)
     {
-    tempIt.Set( (double) inputIt.Get() );
+    tempIt.Set( static_cast<double>(inputIt.Get()) );
     }
 
   // Define a few indices that will be used to translate from an input pixel
@@ -266,7 +266,7 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   for ( outIt.GoToBegin(), tempIt2.GoToBegin(); !outIt.IsAtEnd();
         ++outIt, ++tempIt2)
     {
-    outIt.Set( tempIt2.Get() );
+    outIt.Set( static_cast<PixelType>(tempIt2.Get()) );
     }
 
   itkDebugMacro(<< "Binomial blur filter executed " << num_reps << " times");
