@@ -149,7 +149,6 @@ HistogramToImageFilter<THistogram, TFunction>
 
   // Generate the image
   double origin[ImageDimension];
-  SizeType size;
   
   // Set the image size to the number of bins along each dimension.
   for( i=0; i< ImageDimension; i++)
@@ -168,10 +167,8 @@ HistogramToImageFilter<THistogram, TFunction>
   // Set the TotalFrequency in the functor
   this->SetTotalFrequency( static_cast< unsigned long >(
         inputHistogram->GetTotalFrequency() ));
+ 
   // Fill image with frequencies from Histogram
-  typename HistogramType::IndexType index;
-  typename HistogramType::IndexValueType indexValue;
-  
   ImageIteratorType iter( outputImage, region );
   while( !iter.IsAtEnd() )
     {
@@ -180,8 +177,6 @@ HistogramToImageFilter<THistogram, TFunction>
     //Get histogram value at this idx and set it
     iter.Set( m_Functor( static_cast< unsigned long >(
             inputHistogram->GetFrequency( idx))));
-
-    //std::cout << "Idx: " << idx << " Freq: " << static_cast< unsigned long >( inputHistogram->GetFrequency( idx))   << std::endl;
     ++iter;
     }
 
@@ -197,6 +192,8 @@ HistogramToImageFilter<THistogram, TFunction>
   os << indent << "Size : " << m_Size << std::endl;
   os << indent << "Origin: " << m_Origin << std::endl;
   os << indent << "Spacing: " << m_Spacing << std::endl;
+  os << indent << "Sum of frequencies of measurement vectors of the histogram: " <<
+        m_Functor.GetTotalFrequency() << std::endl;
 }
 
 
