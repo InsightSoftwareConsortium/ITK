@@ -113,15 +113,15 @@ public:
 
 /**
  * \class ImageToImageRigidMutualInformationGradientDescentRegistration
- * \brief Register two images using mutual information.
+ * \brief Rigidly register two 3D images using mutual information.
  *
  * ImageToImageRigidMutualInformationGradientDescentRegistration performs an
  * rigid registration
- * between a target and reference image using mutual information.
+ * between a 3D target image and 3D reference image using mutual information.
  * It uses the optimization method of Viola and Wells to find the
  * best rigid transform to register the reference image onto the target
  * image. The two images are defined via methods SetTarget()
- * and SetReference().
+ * and SetReference(). 
  *
  * The mutual information value and its derivatives are estimated
  * using spatial sampling. The performance
