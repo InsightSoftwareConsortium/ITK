@@ -1,5 +1,6 @@
 /*=========================================================================
 
+
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkPNGImageIO.cxx
   Language:  C++
@@ -409,7 +410,7 @@ void PNGImageIO::Write(const void* buffer)
     else 
       {
       char fullName[1024];
-      sprintf (fullName, "%s%d.png", m_FilePrefix.c_str(), fileNum);
+      sprintf (fullName, "%s%03d.png", m_FilePrefix.c_str(), fileNum);
       fileName = fullName;
       }
     this->WriteSlice(fileName,buffer,fileNum*sliceSize);
@@ -420,7 +421,7 @@ void PNGImageIO::Write(const void* buffer)
 void PNGImageIO::WriteSlice(std::string& fileName, const void* buffer, 
                             unsigned long offset)
 {
-  const unsigned char *outPtr = (const unsigned char *) buffer;
+  const unsigned char *outPtr = ( (const unsigned char *) buffer) + offset;
 
   std::cout << "File: " << fileName.c_str() << std::endl;
   // use this class so return will call close
