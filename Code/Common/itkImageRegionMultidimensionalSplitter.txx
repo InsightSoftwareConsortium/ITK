@@ -41,6 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkImageRegionMultidimensionalSplitter_txx
 #define _itkImageRegionMultidimensionalSplitter_txx
 #include "itkImageRegionMultidimensionalSplitter.h"
+#include <math.h>
 
 namespace itk
 {
