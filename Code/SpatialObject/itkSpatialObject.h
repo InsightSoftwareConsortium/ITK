@@ -90,6 +90,11 @@ public:
 
   typedef std::list< Self * > ChildrenListType; 
 
+  /** Dimension of the object.  This constant is used by functions that are
+   * templated over spatialObject type when they need compile time access 
+   * to the dimension of the object. */
+  itkStaticConstMacro(ObjectDimension, unsigned int, NDimensions);
+
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
  
@@ -100,7 +105,7 @@ public:
   void SetBounds( BoundingBoxPointer bounds ); 
 
   /** Get the bounding box of the object. */
-  BoundingBoxType * GetBounds( void ); 
+  BoundingBoxType * GetBounds( void ) const; 
 
   void SetLocalToGlobalTransform( TransformType * transform ); 
   const TransformType * GetLocalToGlobalTransform( void ); 
@@ -154,6 +159,12 @@ public:
    *  every time one of the object component is changed.  */ 
   virtual void ComputeBounds( void ); // purposely not implemented 
 
+  /** Set the Spacing of the spatial object */
+  void SetSpacing( const double spacing[ObjectDimension] );
+
+  /** Get the spacing of the spatial object */
+  const double* GetSpacing() const {return m_Spacing;}
+
   /** Returns the latest modified time of the spatial object, and 
    * any of its components. */
   unsigned long GetMTime( void ) const;
@@ -190,15 +201,15 @@ public:
 
 protected: 
 
-  BoundingBoxPointer m_Bounds; 
-//  ConstPointer m_Parent; 
-  TimeStamp m_BoundsMTime;
+  BoundingBoxPointer  m_Bounds; 
+  TimeStamp           m_BoundsMTime;
+  double              m_Spacing[ObjectDimension]; 
 
-  TransformListType m_LocalToGlobalTransformList;
-  TransformListType m_GlobalToLocalTransformList;
+  TransformListType   m_LocalToGlobalTransformList;
+  TransformListType   m_GlobalToLocalTransformList;
 
-  TransformPointer m_LocalToGlobalTransform; 
-  TransformPointer m_GlobalToLocalTransform; 
+  TransformPointer    m_LocalToGlobalTransform; 
+  TransformPointer    m_GlobalToLocalTransform; 
 
   /** Constructor. */ 
   SpatialObject(); 

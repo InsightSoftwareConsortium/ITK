@@ -34,8 +34,13 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
   m_Property = PropertyType::New();
   m_LocalToGlobalTransform = TransformType::New();
   m_GlobalToLocalTransform = TransformType::New();
-  m_Spacing.resize(NDimensions);
-  m_Spacing.fill(1);
+  
+  // Initialize the spacing to 1 by default
+  for (unsigned int i=0; i<ObjectDimension; i++)
+  {
+    m_Spacing[i] = 1;
+  }
+  
   SetParent(NULL);
   BuildLocalToGlobalTransformList(m_LocalToGlobalTransformList,false);
   BuildGlobalToLocalTransformList(m_GlobalToLocalTransformList,false);
@@ -48,6 +53,28 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
 {
 }
 
+/** Set the spacing of the object */
+template< unsigned int NDimensions, typename TTransform, unsigned int PipelineDimension >
+void
+SpatialObject< NDimensions, TTransform, PipelineDimension>
+::SetSpacing(const double spacing[ObjectDimension] )
+{
+  unsigned int i; 
+  for (i=0; i<ObjectDimension; i++)
+  {
+    if ( spacing[i] != m_Spacing[i] )
+    {
+      break;
+    }
+  } 
+  if ( i < ObjectDimension ) 
+  { 
+    for (i=0; i<ObjectDimension; i++)
+    {
+      m_Spacing[i] = spacing[i];
+    }
+  }
+}
 
 /** Return the Derivative at a point given the order of the derivative */
 template< unsigned int NDimensions, typename TTransform, unsigned int PipelineDimension >
@@ -258,7 +285,7 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
 template< unsigned int NDimensions, typename TTransform, unsigned int PipelineDimension >
 typename SpatialObject< NDimensions, TTransform, PipelineDimension>::BoundingBoxType *
 SpatialObject< NDimensions, TTransform, PipelineDimension>
-::GetBounds( void )
+::GetBounds( void ) const
 { 
   return m_Bounds.GetPointer();
 }
@@ -284,6 +311,7 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
     //throw an exception object to let user know that he tried to add an object
     // which is already in the list of the children.
   }
+  this->Modified();
 }
 
 /** Remove a child to the object */
@@ -302,6 +330,7 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
     (*it)->SetParent(NULL);
     m_Children.erase( it );
     }
+    this->Modified();
   }
   else
   { 
@@ -320,12 +349,14 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
     (*it_NDim)->SetParent(NULL);
     m_NDimensionalChildrenList.erase( it_NDim );
     }
+    this->Modified();
   }
   else
   { 
     //throw an exception object to let user know that he tried to remove an object
     // which is not in the list of the children.
   }
+
 }
 
 /** Build the local to global transformation list */
