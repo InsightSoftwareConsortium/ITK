@@ -7,6 +7,7 @@
 
 int i_dnnt(const double *x)
 {
+  (void)x;
   abort();
   return 0;
 }

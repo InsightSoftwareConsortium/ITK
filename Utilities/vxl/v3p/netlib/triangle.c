@@ -2667,7 +2667,7 @@ int alignment;
   } else {
     pool->alignbytes = wordsize;
   }
-  if (sizeof(VOID *) > pool->alignbytes) {
+  if ((int)sizeof(VOID *) > pool->alignbytes) {
     pool->alignbytes = sizeof(VOID *);
   }
   pool->itemwords = ((bytecount + pool->alignbytes - 1) / pool->alignbytes)
@@ -3051,7 +3051,7 @@ void initializetrisegpools()
   /*   integer index can occupy the same space as the shell edges or       */
   /*   attributes or area constraint or extra nodes.                       */
   if ((voronoi || neighbors) &&
-      (trisize < 6 * sizeof(triangle) + sizeof(int))) {
+      (trisize < 6 * (int)sizeof(triangle) + (int)sizeof(int))) {
     trisize = 6 * sizeof(triangle) + sizeof(int);
   }
   /* Having determined the memory size of a triangle, initialize the pool. */

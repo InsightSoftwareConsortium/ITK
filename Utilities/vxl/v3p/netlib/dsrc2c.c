@@ -4083,6 +4083,7 @@ int dfault_(integer *iparm, doublereal *rparm)
 int echall_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
             integer *iparm, doublereal *rparm, integer *icall)
 {
+  (void)nn; (void)ia; (void)ja; (void)a; (void)rhs;
 /* ... THIS ROUTINE INITIALIZES THE ITPACK COMMON BLOCKS FROM THE */
 /* ... INFORMATION CONTAINED IN IPARM AND RPARM. ECHALL ALSO PRINTS THE */
 /* ... VALUES OF ALL THE PARAMETERS IN IPARM AND RPARM. */
@@ -4598,6 +4599,7 @@ int iterm_(integer *nn, doublereal *a, doublereal *u, doublereal *wk, integer *i
     /* Local variables */
     static integer i;
 
+    (void)imthdd;
 /*     THIS ROUTINE PRODUCES THE ITERATION SUMMARY LINE AT THE END */
 /*     OF EACH ITERATION. IF LEVEL = 5, THE LATEST APPROXIMATION */
 /*     TO THE SOLUTION WILL BE PRINTED. */
@@ -5450,6 +5452,7 @@ int permat_(integer *nn, integer *ia, integer *ja, doublereal *a, integer *p,
     static doublereal temp;
     static integer next;
 
+    (void)level; (void)nout;
 /* ********************************************************************* */
 
 /* ... SUBROUTINE PERMAT TAKES THE SPARSE MATRIX REPRESENTATION */
@@ -6022,6 +6025,7 @@ int prbndx_(integer *nn, integer *nblack, integer *ia, integer *ja, integer *p,
     /* Local variables */
     static integer i, j, k, n, old, ibgn, iend, nred, last, next, typ, first, young, curtyp, nxttyp;
 
+    (void)level; (void)nout;
 /* ************************************************************** */
 
 /*     THIS SUBROUTINE COMPUTES THE RED-BLACK PERMUTATION */
@@ -6570,6 +6574,7 @@ int sbagn_(integer *n, integer *nz, integer *ia, integer *ja, doublereal *a,
     /* Local variables */
     static integer i, j, ier, ntn, nto, now, nadd;
 
+    (void)levell; (void)noutt;
 /* ... THE ROUTINES SBINI, SBSIJ, AND SBEND CREATE A SPARSE */
 /*     MATRIX STRUCTURE BY MEANS OF A LINKED LIST WHICH IS */
 /*     DESTROYED BY SBEND. SBAGN CREATES A NEW LINKED LIST */
@@ -6659,6 +6664,7 @@ int sbelm_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs
     static doublereal di;
     static integer ii, jj, kk, ibgn, iend, jjdi, icnt;
 
+    (void)level; (void)nout;
 /* ... SBELM IS DESIGNED TO REMOVE ROWS AND COLUMNS OF THE MATRIX */
 /* ... WHERE DABS(A(I,J))/A(I,I) .LE. TOL FOR J = 1 TO N AND A(I,I) */
 /* ... .GT. 0. THIS IS TO TAKE CARE OF MATRICES ARISING */
@@ -7110,7 +7116,7 @@ int sbsij_(integer *n, integer *nz, integer *ia, integer *ja, doublereal *a,
     static doublereal temp;
     static integer next;
 
-    (void)nz;
+    (void)nz; (void)levell; (void)noutt;
 
 /* *********************************************************************** */
 
@@ -7273,6 +7279,7 @@ int scal_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
     static doublereal di;
     static integer ii, jj, im1, jadd, jajj, ibgn, iend, jjpi;
 
+    (void)level; (void)nout;
 /* ... ORIGINAL MATRIX IS SCALED TO A UNIT DIAGONAL MATRIX.  RHS */
 /* ... AND U ARE SCALED ACCORDINGLY.  THE MATRIX IS THEN SPLIT AND */
 /* ... IA, JA, AND A RESHUFFLED. */
@@ -7644,6 +7651,7 @@ int vout_(integer *n, doublereal *v, integer *iswt, integer *noutt)
 /*          NOUT OUTPUT DEVICE NUMBER (= NOUTT) */
 
 /*        IF (N .LE. 0) RETURN */
+  (void)n; (void)v; (void)iswt; (void)noutt;
 
     return 0;
 } /* vout_ */

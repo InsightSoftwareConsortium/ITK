@@ -51,6 +51,7 @@ int *n, *m;
 double *x, *f, *g, *stp;
 int *finish; /* logical*/
 {
+  (void)m;
   --iprint;
 /* C*/
 /*IF (ITER.EQ.0)THEN*/
