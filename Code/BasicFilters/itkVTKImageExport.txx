@@ -30,7 +30,8 @@ namespace itk
 template <class TInputImage>
 VTKImageExport<TInputImage>::VTKImageExport()
 {
-  typedef typename InputImageType::PixelType ScalarType;
+  typedef typename TInputImage::PixelType                 PixelType;
+  typedef typename PixelTraits< PixelType >::ValueType    ScalarType;
 
   if(typeid(ScalarType) == typeid(double))
     {
