@@ -61,7 +61,7 @@ public:
     typedef typename TubePointType::Pointer             TubePointPointer; 
     typedef std::list < TubePointPointer >              PointListType;
     typedef PointListType *                             PointListPointer;
-    typedef Superclass::PointType                       PointType;
+    typedef typename Superclass::PointType              PointType;
     typedef VectorContainer<unsigned long,PointType>    PointContainerType;
     typedef SmartPointer<PointContainerType>            PointContainerPointer;
 
