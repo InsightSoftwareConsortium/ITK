@@ -41,7 +41,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkBloxCoreAtomPixel_h
 #define __itkBloxCoreAtomPixel_h
 
+#include "vnl_vector_fixed.h"
+#include "vnl/algo/vnl_generalized_eigensystem.h"
 #include "itkBloxCoreAtomItem.h"
+#include "itkBloxBoundaryPointItem.h"
+#include "itkPoint.h"
+#include "itkCovariantVector.h"
 #include "itkBloxPixel.h"
 
 namespace itk
@@ -59,6 +64,36 @@ class BloxCoreAtomPixel : public BloxPixel< BloxCoreAtomItem<NDimensions> >
 {
 
 public:
+
+  /**
+   * The type of core atom item we process
+   * */
+  typedef BloxCoreAtomItem<NDimensions> TCoreAtomItemType;
+
+  /**
+   * The type of boundary point item we process
+   * */
+  typedef BloxBoundaryPointItem<NDimensions> TBPItemType;
+
+  /**
+   * The type used to store the position of the BoundaryPointItem
+   * */
+  typedef Point<double, NDimensions> TPositionType;
+  
+  /**
+   * The type of vector used to store the gradient of the BoundaryPointItem
+   * */
+  typedef CovariantVector<double, NDimensions> TGradientType;
+
+  /**
+   * VNL type used in eigenanalysis
+   * */
+  typedef vnl_vector_fixed<double, NDimensions> TVectorType;
+
+  /**
+   * Perform eigenanalysis on the population of core atoms stored in this pixel
+   */
+  bool DoCoreAtomEigenanalysis();
 
   BloxCoreAtomPixel();
   ~BloxCoreAtomPixel();

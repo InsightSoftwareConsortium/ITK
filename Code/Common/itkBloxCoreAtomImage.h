@@ -197,6 +197,11 @@ public:
   bool ConvertPhysicalToDataCoords(TPositionType physicalCoords,
                                    IndexType& dataCoords);
 
+  /**
+   * Do eigenanalysis on all pixels in the image
+   */
+  void DoEigenanalysis();
+
   /*@{
    * Gets and sets for member variables
    */

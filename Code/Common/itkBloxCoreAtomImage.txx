@@ -244,8 +244,8 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
 
 template<class TBoundaryPointImage, class TImageTraits>
 bool
-BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
-::ConvertPhysicalToDataCoords(TPositionType physicalCoords, IndexType& dataCoords)
+BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>::
+ConvertPhysicalToDataCoords(TPositionType physicalCoords, IndexType& dataCoords)
 {
   // How big is this blox image in pixels?
   SizeType bloxSizeObject = this->GetLargestPossibleRegion().GetSize();
@@ -270,6 +270,20 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
     }
   
   return true;
+}
+
+template<class TBoundaryPointImage, class TImageTraits>
+void
+BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>::
+DoEigenanalysis()
+{
+  itk::ImageRegionIterator<Self> bloxit = 
+    itk::ImageRegionIterator<Self>(this, this->GetLargestPossibleRegion() );
+
+  for(bloxit.GoToBegin(); !bloxit.IsAtEnd(); ++bloxit)
+    {
+      ( &bloxit.Value() )->DoCoreAtomEigenanalysis();
+    }
 }
 
 } // end namespace itk
