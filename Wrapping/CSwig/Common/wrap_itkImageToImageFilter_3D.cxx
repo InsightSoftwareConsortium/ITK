@@ -65,6 +65,8 @@ namespace _cable_
     // Image to Image of vectors
     ITK_WRAP_OBJECT2(ImageToImageFilter, image::F3 , image::VF3 ,itkImageToImageFilterF3VF3 );
     ITK_WRAP_OBJECT2(ImageToImageFilter, image::US3, image::VF3, itkImageToImageFilterUS3VF3);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::F3 , image::CVF3 ,itkImageToImageFilterF3CVF3 );
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::US3, image::CVF3, itkImageToImageFilterUS3CVF3);
   }
 }
 #endif
