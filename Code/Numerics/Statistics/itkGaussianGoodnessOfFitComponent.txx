@@ -49,6 +49,7 @@ GaussianGoodnessOfFitComponent< TInputSample >
   m_ProjectionAxisCalculator->SetMatrix(&m_Covariance) ;
 
   m_LargestEigenValue = 0.0 ;
+  m_LongestAxisIndex = 0;
 }
 
 template< class TInputSample >
