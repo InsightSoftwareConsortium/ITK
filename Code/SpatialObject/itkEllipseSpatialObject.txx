@@ -92,48 +92,35 @@ EllipseSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 EllipseSpatialObject< TDimension >
-::ComputeBoundingBox() const
+::ComputeLocalBoundingBox() const
 { 
   itkDebugMacro( "Computing ellipse bounding box" );
 
-  if( this->GetMTime() > m_BoundsMTime )
-    { 
-    bool ret = Superclass::ComputeBoundingBox();
-
-    if( m_BoundingBoxChildrenName.empty() 
-        || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
-      {
-      PointType pnt;
-      PointType pnt2;
-      for(unsigned int i=0; i<TDimension;i++) 
-        {   
-        if(m_Radius[i]>0)
-          {
-          pnt[i]=-m_Radius[i];
-          pnt2[i]=m_Radius[i];
-          }
-        else
-          {
-          pnt[i]=m_Radius[i];
-          pnt2[i]=-m_Radius[i];
-          }
-        } 
-    
-      if(!ret)
+  if( m_BoundingBoxChildrenName.empty() 
+      || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
+    {
+    PointType pnt;
+    PointType pnt2;
+    for(unsigned int i=0; i<TDimension;i++) 
+      {   
+      if(m_Radius[i]>0)
         {
-        m_Bounds->SetMinimum(pnt);
-        m_Bounds->SetMaximum(pnt2);
+        pnt[i]=-m_Radius[i];
+        pnt2[i]=m_Radius[i];
         }
       else
         {
-        m_Bounds->ConsiderPoint(pnt);
-        m_Bounds->ConsiderPoint(pnt2);
+        pnt[i]=m_Radius[i];
+        pnt2[i]=-m_Radius[i];
         }
-      }
-
-    m_BoundsMTime = this->GetMTime();
+      } 
+     
+      pnt = this->GetIndexToWorldTransform()->TransformPoint(pnt);
+      pnt2 = this->GetIndexToWorldTransform()->TransformPoint(pnt2);
+         
+      m_Bounds->SetMinimum(pnt);
+      m_Bounds->SetMaximum(pnt2);
     }
-
   return true;
 } 
 

@@ -97,7 +97,7 @@ public:
                  unsigned int depth=0, char * name=NULL ) const;
 
   /** Compute the boundaries of the Blob. */
-  bool ComputeBoundingBox() const;
+  bool ComputeLocalBoundingBox() const;
 
 protected:
 

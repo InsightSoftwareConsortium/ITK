@@ -96,7 +96,7 @@ public:
 
   /** This function needs to be called every time one of the object's
    *  components is changed. */ 
-  virtual bool ComputeBoundingBox() const;
+  virtual bool ComputeLocalBoundingBox() const;
 
   /** Returns the sigma=m_Radius level set of the Gaussian function, as an
    * EllipseSpatialObject.  */

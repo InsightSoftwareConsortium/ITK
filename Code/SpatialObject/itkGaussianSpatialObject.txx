@@ -87,38 +87,23 @@ GaussianSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 GaussianSpatialObject< TDimension >
-::ComputeBoundingBox() const
+::ComputeLocalBoundingBox() const
 { 
-  itkDebugMacro( "Computing Gaussian bounding box" );
-
-  if( this->GetMTime() > m_BoundsMTime )
-    { 
-    bool ret = Superclass::ComputeBoundingBox();
-
-    if( m_BoundingBoxChildrenName.empty() 
+  if( m_BoundingBoxChildrenName.empty() 
         || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
-      {
-      PointType pnt;
-      PointType pnt2;
-      for( unsigned int i=0; i<TDimension; i++ ) 
-        {   
-        pnt[i] = -m_Radius;
-        pnt2[i] = m_Radius;
-        }
-    
-      if(!ret)
-        {
-        m_Bounds->SetMinimum(pnt);
-        m_Bounds->SetMaximum(pnt2);
-        }
-      else
-        {
-        m_Bounds->ConsiderPoint(pnt);
-        m_Bounds->ConsiderPoint(pnt2);
-        }
+    {
+    PointType pnt;
+    PointType pnt2;
+    for( unsigned int i=0; i<TDimension; i++ ) 
+      {   
+      pnt[i] = -m_Radius;
+      pnt2[i] = m_Radius;
       }
-
-    m_BoundsMTime = this->GetMTime();
+    pnt = this->GetIndexToWorldTransform()->TransformPoint(pnt);
+    pnt2 = this->GetIndexToWorldTransform()->TransformPoint(pnt2);
+         
+    m_Bounds->SetMinimum(pnt);
+    m_Bounds->SetMaximum(pnt2);
     }
 
   return true;

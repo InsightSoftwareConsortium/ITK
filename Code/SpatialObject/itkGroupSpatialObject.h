@@ -47,12 +47,17 @@ public:
   typedef SmartPointer < Self >                        Pointer;
   typedef SmartPointer < const Self >                  ConstPointer;
   typedef double                                       ScalarType;
+  typedef typename Superclass::TreeNodeType            TreeNodeType;
+  typedef typename TreeNodeType::ChildrenListType      TreeNodeChildrenListType;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
 
   /** Method for creation through the object factory. */
   itkTypeMacro( Self, Superclass );
+
+  /**  */
+  bool ComputeLocalBoundingBox() const {return false;}
     
 protected:
 
