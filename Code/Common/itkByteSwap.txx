@@ -138,7 +138,7 @@ ByteSwap<T>
 template <class T>
 void 
 ByteSwap<T>
-::SwapLE(T *)
+::SwapLE(T *p)
 {
   switch ( sizeof(T) )
     {
@@ -199,7 +199,7 @@ ByteSwap<T>
 template <class T>
 void 
 ByteSwap<T>
-static void SwapWriteRangeLE(T *p, int num, std::ostream *fp)
+::SwapWriteRangeLE(T *p, int num, std::ostream *fp)
 {
   switch ( sizeof(T) )
     {
