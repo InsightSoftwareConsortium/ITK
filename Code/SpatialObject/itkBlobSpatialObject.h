@@ -28,11 +28,15 @@ namespace itk
 
 /** 
 * \class BlobSpatialObject
-* \brief Representation of a Blob based on the spatial object classes.
+* \brief Spatial object representing a potentially amorphous object.
 *
-* The Blob is basically defined by a set of points which are inside this blob
+* The BlobSpatialObject is a discretized representation of a ``blob'',
+* which can be taken to be an arbitrary, possibly amorphous shape.
+* The representation is a list of the points (voxel centers) contained
+* in the object.  This can be thought of as an alternate way to
+* represent a binary image.
 *
-* \also SpatialObjectPoint
+* \sa SpatialObjectPoint
 */
 
 template < unsigned int TDimension = 3 >
