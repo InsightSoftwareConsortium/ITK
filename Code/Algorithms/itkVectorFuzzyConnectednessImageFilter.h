@@ -63,8 +63,11 @@ public:
    */
   itkNewMacro(Self);
 
+  typedef typename TInputImage::PixelType InputPixelType;
+  typedef typename InputPixelType::VectorType InputVectorType;
+
   enum {ImageDimension = TInputImage::ImageDimension };
-  enum {VectorDimension = TInputImage::PixelType::VectorType::VectorDimension};
+  enum {VectorDimension = InputPixelType::VectorDimension};
 
   
   typedef   itk::Matrix<double,VectorDimension,VectorDimension>               MatrixType;
