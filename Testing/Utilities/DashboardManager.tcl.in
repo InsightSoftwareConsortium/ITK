@@ -168,20 +168,20 @@ foreach Command $Commands \
 
       # Make the images directory and copy things over
       # Icons need to go in BuildDir/Testing/HTML/TestingResults/Icons
-      # From $SourceDir/Testing/HTML/TestingResults/Images
-      set DashboardImagesDir [file join $TestingBaseDir Icons]
-      set ImagesSourceDir [file join $SourceDirectory Testing HTML TestingResults Images]
-      if { ![info exists $DashboardImagesDir] } \
+      # From $SourceDir/Testing/HTML/TestingResults/Icons
+      set DashboardIconsDir [file join $TestingBaseDir Icons]
+      set IconsSourceDir [file join $SourceDirectory Testing HTML TestingResults Icons]
+      if { ![info exists $DashboardIconsDir] } \
       {
-	file mkdir [file join $DashboardImagesDir]
-	set ImageList [glob -nocomplain [file join $ImagesSourceDir *]]
+	file mkdir [file join $DashboardIconsDir]
+	set ImageList [glob -nocomplain [file join $IconsSourceDir *]]
 	foreach Image $ImageList \
 	{
-	  if { ![file exists [file join $DashboardImagesDir [file tail $Image]]] } \
+	  if { ![file exists [file join $DashboardIconsDir [file tail $Image]]] } \
 	  {
-	    puts "Copy $Image to $DashboardImagesDir"
+	    puts "Copy $Image to $DashboardIconsDir"
 	    # Copy it over.
-	    file copy $Image $DashboardImagesDir
+	    file copy $Image $DashboardIconsDir
 	  }
 	}
       }
@@ -259,7 +259,9 @@ foreach Command $Commands \
 	  {
 	    continue
 	  }
-	  puts "Xalan on $XML: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl]} Result]"
+	  set XalanCmd " $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl]"
+	  puts "Xalan on $XML: [catch { eval exec $XalanCmd } Result]"
+	  puts $XalanCmd
 	  puts $Result
 	  puts "Xalan on ${XML}Summary: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT ${XML}Summary.xml -XSL [file join $XSLDir ${XML}Summary.xsl] } Result]"
 	  puts $Result
