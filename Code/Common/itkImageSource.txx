@@ -71,7 +71,7 @@ ImageSource<TOutputImage>
 template<class TOutputImage>
 void 
 ImageSource<TOutputImage>
-::SetOutput(TOutputImage *output)
+::SetOutput(OutputImage *output)
 {
   this->ProcessObject::SetNthOutput(0, output);
 }

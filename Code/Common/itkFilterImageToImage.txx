@@ -51,7 +51,7 @@ FilterImageToImage<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 void 
 FilterImageToImage<TInputImage,TOutputImage>
-::SetInput(TInputImage *input)
+::SetInput(InputImage *input)
 {
   this->ProcessObject::SetNthInput(0, input);
 }
