@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkRegistrationMapperProcrustes_h
 
 #include "itkRegistrationMapper.h"
+#include "itkVectorContainer.h"
 
 namespace itk
 {
