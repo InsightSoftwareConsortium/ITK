@@ -38,7 +38,7 @@ ImageAdaptor<TImage , TAccessor>
 {
   if( m_Image )
   {
-    m_Image->Unregister();
+    m_Image->UnRegister();
   }
 }
 
@@ -219,7 +219,7 @@ ImageAdaptor<TImage , TAccessor>
 template <class TImage, class TAccessor >
 void
 ImageAdaptor<TImage , TAccessor>
-::Modified() const
+::Modified() 
 {
   m_Image->Modified();
 }
