@@ -111,7 +111,7 @@ public:
 
   virtual DegreeOfFreedomIDType GetDegreeOfFreedom( unsigned int local_dof ) const
   { 
-    if(local_dof>NDOF) { return InvalidDegreeOfFreedomID; } // error checking
+    if(local_dof>NDOF) { return static_cast<DegreeOfFreedomIDType>(InvalidDegreeOfFreedomID); } // error checking
     return this->m_dof[local_dof];
   }
 
