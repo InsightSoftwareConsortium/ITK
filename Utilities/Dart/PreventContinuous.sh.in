@@ -1,6 +1,7 @@
 #!/bin/sh
-echo "Prevent Continuous to run"
+echo "Prevent Continuous from running"
 cd @ITK_BINARY_DIR@
 if [ -e continuous.lock ]
-then  del continuous.lock;
+then  exit
 fi
+echo "Locked by PreventContinuous.sh, probably for nightly" > continuous.lock
