@@ -23,6 +23,8 @@
 # undef ERROR_CHECKING
 #endif
 
+#include <vxl_config_itk.h>
+
 export template <class T> class vnl_vector;
 export template <class T> class vnl_matrix;
 
@@ -77,8 +79,21 @@ enum vnl_matrix_type
 //
 // Note: Use a vnl_vector<T> with these matrices.
 
+#ifdef VXL_CXX_SLICED_DESTRUCTOR_BUG
+class vnl_matrix_base_own
+{
+public:
+  vnl_matrix_base_own(): vnl_matrix_own_data(1) {}
+protected:
+  int vnl_matrix_own_data;
+};
+
+template<class T>
+class vnl_matrix: public vnl_matrix_base_own
+#else
 template<class T>
 class vnl_matrix
+#endif
 {
  public:
   //: Default constructor creates an empty matrix of size 0,0.
@@ -138,7 +153,11 @@ class vnl_matrix
   ~vnl_matrix()
   {
     // save some fcalls if data is 0 (i.e. in matrix_fixed)
+#ifdef VXL_CXX_SLICED_DESTRUCTOR_BUG
+    if (data && vnl_matrix_own_data) destroy();
+#else
     if (data) destroy();
+#endif
   }
 
 // Basic 2D-Array functionality-------------------------------------------

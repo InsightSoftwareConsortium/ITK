@@ -25,6 +25,22 @@ IF(WIN32)
   ENDIF(NOT CYGWIN)
 ENDIF(WIN32)
 
+# Check for "sliced destructor" bug in C++ compiler.
+IF(VXL_CXX_SLICED_DESTRUCTOR_BUG MATCHES "^VXL_CXX_SLICED_DESTRUCTOR_BUG$")
+  # Assume the bug does not exist unless the program compiles and
+  # returns non-zero.
+  SET(VXL_CXX_SLICED_DESTRUCTOR_BUG 0)
+  TRY_RUN(VXL_CXX_SLICED_DESTRUCTOR_BUG
+    VXL_CXX_SLICED_DESTRUCTOR_BUG_COMPILE_RESULT
+    ${CMAKE_BINARY_DIR}
+    ${vxl_SOURCE_DIR}/CheckCXXSlicedDestructorBug.cxx)
+  SET(VXL_CXX_SLICED_DESTRUCTOR_BUG
+    "${VXL_CXX_SLICED_DESTRUCTOR_BUG}" CACHE INTERNAL
+    "Whether the C++ compiler has the sliced destructor bug.")
+ENDIF(VXL_CXX_SLICED_DESTRUCTOR_BUG MATCHES "^VXL_CXX_SLICED_DESTRUCTOR_BUG$")
+
+CONFIGURE_FILE(${vxl_SOURCE_DIR}/vxl_config_itk.h.in
+               ${vxl_BINARY_DIR}/vxl_config_itk.h @ONLY IMMEDIATE)
 
 INCLUDE(${MODULE_PATH}/FindNetlib.cmake)
 # Build the core vxl + support libraries

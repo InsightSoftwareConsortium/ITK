@@ -29,6 +29,8 @@
 # undef ERROR_CHECKING
 #endif
 
+#include <vxl_config_itk.h>
+
 export template <class T> class vnl_vector;
 export template <class T> class vnl_matrix;
 
@@ -70,8 +72,21 @@ template <class T> void   swap(v &, v &);
 // time, use vnl_vector_fixed* or vnl_T_n (e.g. vnl_double_3).
 //
 // NOTE: Vectors are indexed from zero!  Thus valid elements are [0,size()-1].
+#ifdef VXL_CXX_SLICED_DESTRUCTOR_BUG
+class vnl_vector_base_own
+{
+public:
+  vnl_vector_base_own(): vnl_vector_own_data(1) {}
+protected:
+  int vnl_vector_own_data;
+};
+
+template<class T>
+class vnl_vector: public vnl_vector_base_own
+#else
 template<class T>
 class vnl_vector
+#endif
 {
  public:
   friend class vnl_matrix<T>;
