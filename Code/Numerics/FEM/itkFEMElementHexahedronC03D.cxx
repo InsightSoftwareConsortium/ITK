@@ -66,7 +66,6 @@ HexahedronC03D::HexahedronC03D(  Node::ConstPointer ns_[],
    * we were given the pointers to the right node class.
    * If the node class was incorrect a bad_cast exception is thrown
    */
-  std::cout << "TS: HexahedronC03D"<< std::endl;
 
   try
   {
@@ -94,9 +93,9 @@ vnl_matrix<HexahedronC03D::Float> HexahedronC03D::Ke() const
   vnl_matrix<Float> MatKe(24,24), I(3,3), shapeD(8,3), shapeINVD(8,3),
     J(3,3), D(6,6), B(6,24), DB(6,24);
 
-  std::cout << "TS: Ke"<< std::endl;
-
   Float detJ;
+  Float x[3];
+  int i, j;
   
   /**
    * Gaussian integration points
@@ -107,13 +106,25 @@ vnl_matrix<HexahedronC03D::Float> HexahedronC03D::Ke() const
 
   /**
    * Material properties matrix.  This should be acommodate the
-   * real situation, using E and ni.  However, I have no idea
-   * how to formulate a 6x6 matrix for a 3D hexahedral element!
+   * real situation, using E and ni.
    */
-  D.set_identity();
+  D.fill(0.0); 
+  Float fac = m_mat->E / ((1 + m_mat->ni) * (1 - 2 * m_mat->ni));
+  
+  /** Set the elements in the top left quadrant */
+  for (j=0; j < 3; j++) {
+    for (int k=0; k < 3; k++) {
+      D[j][k] = m_mat->ni;
+    }
+  }
 
-  Float x[3];
-  int i, j;
+  /** Set the diagonal elements */
+  for (int k=0; k < 3; k++) {
+    D[k][k] = 1 - m_mat->ni;
+  }
+  for (int k=3; k < 6; k++) {
+    D[k][k] = 1 - (2 * m_mat->ni) * 0.5;
+  }
 
   /** Initialize stiffness matrix */
   MatKe.fill(0.0);
@@ -199,8 +210,6 @@ HexahedronC03D::ComputePositionAt(Float x[]) const
 {
   vnl_vector<Float> p(3);
 
-  std::cout <<"TS: ComputePositionAt"<<std::endl;
-
   vnl_vector<Float> shapeF = ComputeShapeFunctionsAt(x); 
 
   p[0] = p[1] = p[2] = 0.0;
@@ -224,8 +233,6 @@ vnl_matrix<HexahedronC03D::Float>
 HexahedronC03D::ComputeJacobianMatrixAt(Float x[]) const
 {
   vnl_matrix<Float> J(3,3);
-
-  std::cout <<"TS: ComputeJacobianMatrixAt"<<std::endl;
 
   /** Get the derivatives of the shape functions at given point x */
   vnl_matrix<Float> shapeD = ComputeShapeFunctionDerivativesAt(x);
@@ -261,8 +268,6 @@ HexahedronC03D::ComputeShapeFunctionsAt(Float x[]) const
   /** Linear hexahedral element has 8 shape functions */
   vnl_vector<Float> shapeF(8);
   
-  std::cout <<"TS: ComputeShapeFunctionsAt"<<std::endl;
-
   /** 
    * Linear hexahedral element has local coordinates
    *  (-1,-1,-1), (1,-1,-1), (1,1,-1), (-1,1,-1), (-1,-1,1), (1,-1,1), (1,1,1), (-1,1,1)
@@ -309,8 +314,6 @@ HexahedronC03D::ComputeShapeFunctionDerivativesAt(Float x[]) const
 {
   /** functions at directions r, s, and t. */
   vnl_matrix<Float> shapeD(8,3);
-
-  std::cout <<"TS: ComputeShapeFunctionDerivativesAt" <<std::endl;
 
   // d(N_1) / d(r)
   shapeD[0][0] = (-1) * (1 - x[1]) * (1 - x[2]) * 0.125;
@@ -397,8 +400,6 @@ HexahedronC03D::ComputeShapeFunctionDerivativesAt(Float x[]) const
 HexahedronC03D::Float
 HexahedronC03D::JacobianMatrixDeterminant(const vnl_matrix<Float>& J) const
 {
-  std::cout <<"TS: JacobianMatrixDeterminant" <<std::endl;
-  
   /** Computes the determinant of the 3x3 Jacobian matrix */
         return (J[0][0] * (J[1][1] * J[2][2] - J[1][2] * J[2][1])
     - J[0][1] * (J[1][0] * J[2][2] - J[1][2] * J[2][0]) 
@@ -417,8 +418,6 @@ HexahedronC03D::ComputeJacobianInverse(const vnl_matrix<Float>& J, Float detJ) c
 {
   vnl_matrix<Float> I(3,3);
 
-  std::cout << "TS: ComputeJacobianInverse" << std::endl;
-
   I = vnl_matrix_inverse<Float>(J);
 
   return I;
@@ -434,8 +433,6 @@ HexahedronC03D::ComputeShapeFunctionCartDerivatives(const vnl_matrix<Float>& I,
         const vnl_matrix<Float>& shapeD) const
 {
   vnl_matrix<Float> shapeINVD(8,3);
-
-  std::cout << "TS: ComputeShapeFunctionCartDerivatives" << std::endl;
 
   shapeINVD = shapeD * I;
 
@@ -461,8 +458,6 @@ HexahedronC03D::ComputeBMatrix(const vnl_matrix<Float>& shapeINVD) const
 {
         vnl_matrix<Float> B(6,24);
   int p;
-
-  std::cout << "TS: ComputeBMatrix" << std::endl;
 
   /**
    * Initialize the B matrix to all zeros.  Later, only the
@@ -509,8 +504,6 @@ HexahedronC03D::ComputeDBMatrix(const vnl_matrix<Float>& D, const vnl_matrix<Flo
 {
   vnl_matrix<Float> DB(9,24);
 
-  std::cout << "TS: ComputeDBMatrix" << std::endl;
-
   DB = D * B;
 
   /*
@@ -535,7 +528,6 @@ HexahedronC03D::ComputeDBMatrix(const vnl_matrix<Float>& D, const vnl_matrix<Flo
  * Return the force vector for HexahedronC03D element.
  */
 vnl_vector<HexahedronC03D::Float> HexahedronC03D::Fe(LoadElementPointer l) const {
-  std::cout << "TS: Fe" << std::endl;
 
   /**
    * We can't handle this load, pass it over to the parent class
@@ -559,8 +551,6 @@ void HexahedronC03D::Read(std::istream& f, void* info)
    */
   Node::ArrayType::Pointer nodes=static_cast<ReadInfoType*>(info)->m_node;
   Material::ArrayType::Pointer mats=static_cast<ReadInfoType*>(info)->m_mat;
-
-  std::cout << "TS: Reading element" << std::endl;
 
   /** first call the parent's read function */
   Superclass::Read(f,info);
@@ -604,8 +594,6 @@ out:
  * Write the element to the output stream.
  */
 void HexahedronC03D::Write( std::ostream& f, int ofid ) const {
-
-  std::cout << "TS: Writing element" << std::endl;
 
   /** If not set already, se set the ofid */
   if (ofid<0) ofid=OFID;

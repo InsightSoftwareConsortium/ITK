@@ -105,10 +105,25 @@ vnl_matrix<TetrahedronC03D::Float> TetrahedronC03D::Ke() const
 
   /**
    * Material properties matrix.  This should be acommodate the
-   * real situation, using E and ni.  However, I have no idea
-   * how to formulate a 6x6 matrix for a 3D tetrahedral element!
+   * real situation, using E and ni.
    */
-  D.set_identity();
+  D.fill(0.0); 
+  Float fac = m_mat->E / ((1 + m_mat->ni) * (1 - 2 * m_mat->ni));
+  
+  /** Set the elements in the top left quadrant */
+  for (j=0; j < 3; j++) {
+    for (int k=0; k < 3; k++) {
+      D[j][k] = m_mat->ni;
+    }
+  }
+
+  /** Set the diagonal elements */
+  for (int k=0; k < 3; k++) {
+    D[k][k] = 1 - m_mat->ni;
+  }
+  for (int k=3; k < 6; k++) {
+    D[k][k] = 1 - (2 * m_mat->ni) * 0.5;
+  }
 
   /** Initialize stiffness matrix */
   MatKe.fill(0.0);
