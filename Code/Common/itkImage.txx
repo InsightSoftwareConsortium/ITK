@@ -27,7 +27,12 @@ Image<TPixel, VImageDimension>
 ::Image()
 {
   m_Buffer = 0;
-
+  Index nullIndex = {0
+  };
+  
+  m_BufferStartIndex = nullIndex;
+  m_RegionStartIndex = nullIndex;
+  
   memset( m_ImageSize, 0, VImageDimension*sizeof(unsigned long) );
   memset( m_BufferSize, 0, VImageDimension*sizeof(unsigned long) );
   memset( m_RegionSize, 0, VImageDimension*sizeof(unsigned long) );
