@@ -60,5 +60,6 @@ int main()
   TransformType::Pointer transform = TransformType::New();
     
 
+  return EXIT_SUCCESS
 
 }
