@@ -29,16 +29,12 @@ int itkBilateralImageFilterTest(int argc, char **argv)
     {
       typedef itk::Image<float, 2> ImageType;
 
-      double variance[2];
-      variance[0] = 2.0;
-      variance[1] = 2.0;
-      
       // Set up filter
       itk::BilateralImageFilter<ImageType, ImageType>::Pointer
         filter = itk::BilateralImageFilter<ImageType,
         ImageType>::New();
-      filter->SetDomainVariance(variance);
-      filter->SetRangeVariance(1.0f);
+      filter->SetDomainSigma(2.0);
+      filter->SetRangeSigma(35.0f);
 
       // Run Test
       itk::Size<2> sz;
