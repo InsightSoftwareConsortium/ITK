@@ -60,7 +60,7 @@ int itkBilateralImageFilterTest2(int ac, char* av[] )
   std::cout << "filter->GetDomainSigma(): " << domainSigma2 << std::endl;
 
   // Test itkSetMacro
-  double filterDimensionality = dimension;
+  unsigned int filterDimensionality = dimension;
   unsigned long  numberOfRangeGaussianSamples = 100;
   filter->SetFilterDimensionality(filterDimensionality); 
   filter->SetNumberOfRangeGaussianSamples(numberOfRangeGaussianSamples);
