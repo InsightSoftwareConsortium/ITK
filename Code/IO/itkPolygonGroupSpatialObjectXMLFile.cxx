@@ -144,7 +144,7 @@ EndElement(const char *name)
     }
   else if(itksys::SystemTools::Strucmp(name,"POINT") == 0)
     {
-    double pval[0];
+    double pval[3];
     const char *s = m_CurCharacterData.c_str();
     char *endptr;
     for(int i = 0; i < 3; i++)
