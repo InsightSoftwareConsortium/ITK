@@ -70,17 +70,44 @@ int itkNeighborhoodOperatorImageFunctionTest(int, char* [] )
 
   FunctionType::OutputType  Blur;
 
+  std::cout << "EvaluateAtIndex: ";
   Blur = function->EvaluateAtIndex( index );
 
   // since the input image is constant 
   // the should be equal to the initial value
   if( vnl_math_abs( initialValue - Blur ) > 10e-7 )
     {
-    std::cerr << "Error in Blur computation" << std::endl;
+    std::cerr << "[FAILED] : Error in Blur computation" << std::endl;
     return EXIT_FAILURE;
     }
+  std::cout << "[PASSED] " << std::endl;
+  
+
+
+  std::cout << "EvaluateAtContinuousIndex: ";
+
+  FunctionType::ContinuousIndexType continuousIndex;
+  continuousIndex.Fill(25);
+
+  Blur = function->EvaluateAtContinuousIndex( continuousIndex );
   
   std::cout << "[PASSED] " << std::endl;
+
+  std::cout << "EvaluateAtPoint: ";
+
+  FunctionType::PointType point;
+  point[0]=25;
+  point[1]=25;
+  point[2]=25;
+
+  Blur = function->Evaluate( point );
+  
+  std::cout << "[PASSED] " << std::endl;
+
+
+  std::cout << function << std::endl;
+  
+  std::cout << "[TEST DONE] " << std::endl;
   return EXIT_SUCCESS;
 
 }
