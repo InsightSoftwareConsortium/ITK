@@ -358,6 +358,25 @@ public:
    /** */
   const BoundaryConditionType *GetBoundaryCondition() const
   { return dynamic_cast<BoundaryConditionType *>(m_BoundaryCondition); }
+
+  /** */
+  void NeedToUseBoundaryConditionOn()
+  {
+    this->SetNeedToUseBoundaryCondition(true);
+  }
+  void NeedToUseBoundaryConditionOff()
+  {
+    this->SetNeedToUseBoundaryCondition(false);
+  }
+  void SetNeedToUseBoundaryCondition(bool b)
+  {
+    m_NeedToUseBoundaryCondition = b;
+  }
+  bool GetNeedToUseBoundaryCondition() const
+  {
+    return m_NeedToUseBoundaryCondition;
+  }
+  
   
 protected:
   
