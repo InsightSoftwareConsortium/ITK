@@ -192,7 +192,7 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
 
   
   unsigned long   numberOfIterations =   50;
-  double          translationScale   =  1.0;
+  //double          translationScale   =  1.0; // not used
   double          maximumStepLenght  =  1.0;  // no step will be larger than this
   double          minimumStepLenght  =  0.01; // convergence criterion
   double          gradientTolerance  =  1e-6; // convergence criterion
