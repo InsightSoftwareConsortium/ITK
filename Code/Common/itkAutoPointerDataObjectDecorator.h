@@ -20,6 +20,7 @@
 #ifndef __itkAutoPointerDataObjectDecorator_h
 #define __itkAutoPointerDataObjectDecorator_h
 
+#include <memory>
 #include "itkDataObject.h"
 
 namespace itk
