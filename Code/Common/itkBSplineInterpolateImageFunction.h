@@ -91,7 +91,7 @@ public:
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
   /** PointType typedef support */
-  typedef Superclass::PointType PointType;
+  typedef typename Superclass::PointType PointType;
 
   /** Iterator typedef support */
   typedef itk::ImageLinearIteratorWithIndex<TImageType> Iterator;
