@@ -44,7 +44,7 @@ public:
    { return m_PreviousValue; }  
   
   void SetPreviousValue( const PixelType & input)
-   { m_SetPreviousValue = input;}
+   { m_PreviousValue = input;}
 
   int GetStatus()
    { return m_Status; }
