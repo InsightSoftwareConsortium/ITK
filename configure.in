@@ -19,8 +19,9 @@ AC_PATH_XTRA
 # get byte swapping info
 AC_C_BIGENDIAN
 if test $ac_cv_c_bigendian = yes; then
-  AC_SUBST(CMAKE_WORDS_BIGENDIAN)
+  CMAKE_WORDS_BIGENDIAN=1
 fi
+AC_SUBST(CMAKE_WORDS_BIGENDIAN)
 
 
 # some stuff Tcl uses
