@@ -81,7 +81,7 @@ namespace itk
 
   unsigned int 
   TubePoint
-  ::GetId( void ) const 
+  ::GetId( void ) 
   {
     return m_ID;
   }
@@ -95,7 +95,7 @@ namespace itk
 
   float 
   TubePoint
-  ::GetRadius( void ) const 
+  ::GetRadius( void ) 
   {
     return m_R;
   }
@@ -109,7 +109,7 @@ namespace itk
 
   float 
   TubePoint
-  ::GetMedialness( void ) const 
+  ::GetMedialness( void ) 
   {
     return m_Medialness;
   }
@@ -123,7 +123,7 @@ namespace itk
 
   float 
   TubePoint
-  ::GetRidgeness( void ) const 
+  ::GetRidgeness( void ) 
   {
     return m_Ridgeness;
   }
@@ -137,7 +137,7 @@ namespace itk
 
   float 
   TubePoint
-  ::GetBranchness( void ) const 
+  ::GetBranchness( void ) 
   {
     return m_Branchness;
   }
@@ -151,7 +151,7 @@ namespace itk
 
   bool 
   TubePoint::
-  GetMark( void ) const 
+  GetMark( void ) 
   {
     return m_Mark;
   }
@@ -165,7 +165,7 @@ namespace itk
 
   unsigned short int 
   TubePoint
-  ::GetNumDimensions( void ) const 
+  ::GetNumDimensions( void ) 
   {
     return m_NumDimensions;
   }
@@ -187,7 +187,7 @@ namespace itk
   // n-D case
   void 
   TubePoint
-  ::SetCenterLinePoint( const TubePoint::PointType & newX ) 
+  ::SetCenterLinePoint( const PointType & newX ) 
   {
     *m_X = newX;
   }
@@ -221,7 +221,7 @@ namespace itk
   // n-D case
   void 
   TubePoint
-  ::SetTangent( const TubePoint::VectorType & newT ) 
+  ::SetTangent( const VectorType & newT ) 
   {
     *m_T = newT;
   }
@@ -254,7 +254,8 @@ namespace itk
   // n-D case
   void 
   TubePoint
-  ::SetV1( const TubePoint::VectorType & newV1 ) 
+  //::SetV1( const TubePoint::VectorType & newV1 ) 
+  ::SetV1( const VectorType & newV1 ) 
   {
     *m_V1 = newV1;
   }
@@ -288,7 +289,7 @@ namespace itk
   // n-D case
   void 
   TubePoint
-  ::SetV2( const TubePoint::VectorType & newV2 ) 
+  ::SetV2( const VectorType & newV2 ) 
   {
     *m_V2 = newV2;
   }
@@ -314,7 +315,7 @@ namespace itk
 
   float 
   TubePoint
-  ::GetAlpha1( void ) const 
+  ::GetAlpha1( void ) 
   {
     return m_Alpha1;
   }
@@ -328,7 +329,7 @@ namespace itk
 
   float 
   TubePoint
-  ::GetAlpha2( void ) const 
+  ::GetAlpha2( void ) 
   {
     return m_Alpha2;
   }
@@ -342,7 +343,7 @@ namespace itk
 
   float 
   TubePoint
-  ::GetAlpha3( void ) const 
+  ::GetAlpha3( void ) 
   {
     return m_Alpha3;
   }
@@ -373,7 +374,7 @@ namespace itk
 
   TubePoint::Self & 
   TubePoint
-  ::operator =(const TubePoint & rhs) 
+  ::operator=(const TubePoint & rhs) 
   {
     m_ID = rhs.m_ID;
     m_R = rhs.m_R;

@@ -45,15 +45,15 @@ public:
   ~TubePoint( void );
 
   typedef TubePoint Self;
-  typedef Self* Pointer;
-  typedef const Self* ConstPointer;
-  typedef itk::Point< double, 3 > PointType;
+  typedef Self * Pointer;
+  typedef const Self * ConstPointer;
+  typedef Point< double, 3 > PointType;
   typedef vnl_vector < double > VectorType;
 
   /** 
   * Get the tubePoint Id. 
   */
-  unsigned int GetId( void ) const;
+  unsigned int GetId( void );
 
   /** 
   * Set the tubePoint Id.
@@ -119,61 +119,61 @@ public:
   void SetV2(const double v20, const double v21, const double v22);
 
   /** Get R */
-  float GetRadius( void ) const;
+  float GetRadius( void );
 
   /** Set R */
   void SetRadius(const float newR);
 
   /** Get Medialness */
-  float GetMedialness( void ) const;
+  float GetMedialness( void );
 
   /** Set Medialness */
   void SetMedialness(const float newMedialness);
 
   /** Get Ridgeness */
-  float GetRidgeness( void ) const;
+  float GetRidgeness( void );
 
   /** Set Ridgeness */
   void SetRidgeness(const float newRidgeness);
 
   /** Get Branchness */
-  float GetBranchness( void ) const;
+  float GetBranchness( void );
 
   /** Set Branchness */
   void SetBranchness(const float newBranchness);
 
   /** Get Mark */
-  bool GetMark( void ) const;
+  bool GetMark( void );
 
   /** Set Mark */
   void SetMark(const bool newMark);
 
   /** Get Alpha1 */
-  float GetAlpha1( void ) const;
+  float GetAlpha1( void );
 
   /** Set Alpha1 */
   void SetAlpha1(const float newAlpha);
 
   /** Get Alpha2 */
-  float GetAlpha2( void ) const;
+  float GetAlpha2( void );
 
   /** Set Alpha2 */
   void SetAlpha2(const float newAlpha);
 
   /** Get Alpha3 */
-  float GetAlpha3( void ) const;
+  float GetAlpha3( void );
 
   /** Set Alpha3 */
   void SetAlpha3(const float newAlpha);
 
   /** Get # of dimensions */
-  unsigned short int GetNumDimensions( void ) const;
+  unsigned short int GetNumDimensions( void );
 
   /** Print info about this tubepoint */
   //std::ostream & operator << (std::ostream & os, TubePoint & tubePoint);
 
   /** Copy one tubepoint to another */
-  TubePoint & operator = (const TubePoint & rhs);
+  Self & operator=(const TubePoint & rhs);
 
 protected:
   /** A unique ID assigned to this tubepoint */
