@@ -26,6 +26,7 @@ mackelfr:Andrew MacKelfresh:mackelfr@rad.unc.edu
 montillo:Albert Montillo:montillo@gradient.cis.upenn.edu
 martink:Ken Martin:ken.martin@kitware.com
 millerjv:Jim Miller:millerjv@crd.ge.com
+noe:Aljaz Noe:noe@grasp.cis.upenn.edu
 parks:Sungwook Parks:parks@cs.unc.edu
 ratiu:Peter Ratiu:ratiu@bwh.harvard.edu
 rondot:Pascale Rondot:rondot@crd.ge.com
