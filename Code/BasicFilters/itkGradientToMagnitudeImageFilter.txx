@@ -35,7 +35,7 @@ GradientToMagnitudeImageFilter< TInputImage, TOutputImage >
   inputPtr->SetRequestedRegionToLargestPossibleRegion();
 
   // How big is the input image?
-  TInputImage::SizeType inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  typename TInputImage::SizeType inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
 
   // Create a region object native to the output image type
   OutputImageRegionType outputRegion;
