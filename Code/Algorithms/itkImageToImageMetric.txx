@@ -106,6 +106,12 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     m_FixedImage->GetSource()->Update();
     }
 
+  // Make sure the FixedImageRegion is within the FixedImage buffered region
+  if ( !m_FixedImageRegion.Crop( m_FixedImage->GetBufferedRegion() ) )
+    {
+    itkExceptionMacro(<<"FixedImageRegion does not overlap the fixed image buffered region" );
+    }
+
   m_Interpolator->SetInputImage( m_MovingImage );
  
   if ( m_ComputeGradient )
