@@ -160,8 +160,6 @@ private:
   
   SmoothingFilterPointer     m_SmoothingFilters[ImageDimension-1];
   DerivativeFilterPointer    m_DerivativeFilter;
-  OutputAdaptorPointer       m_OutputAdaptor;
-  OutputImagePointer         m_OutputImage;
 
 };
 
