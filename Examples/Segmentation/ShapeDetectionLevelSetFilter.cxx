@@ -123,13 +123,13 @@ int main( int argc, char **argv )
 {
 
 
-  if( argc < 9 )
+  if( argc < 10 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage  outputImage";
     std::cerr << " seedX seedY InitialDistance";
-    std::cerr << " Sigma SigmoidAlpha SigmoidBeta " << std::endl;
+    std::cerr << " Sigma SigmoidAlpha SigmoidBeta Iterations" << std::endl;
     return 1;
     }
 
@@ -194,19 +194,15 @@ int main( int argc, char **argv )
   //
   //  The upper threshold of the \doxygen{BinaryThresholdImageFilter} is set up
   //  to $0.0$ in order to make visible the zero set of the resulting level
-  //  set. The lower value is set to the minimum of the PixelType. Note the use
-  //  of the \code{NumericTraits} for specifying extrema values associated with
-  //  a particular type. This usage of traits is fundamental for the correct
-  //  implementation of Generic Programming.
-  //
-  //  \index{itk::NumericTraits!min()}
+  //  set. The lower threshold is set to a large negative number in order to
+  //  ensure that all the interior of the segmented object will appear in the
+  //  inside of the binary region.
   //
   //  Software Guide : EndLatex 
 
-  
   // Software Guide : BeginCodeSnippet
-  thresholder->SetLowerThreshold( itk::NumericTraits<InternalPixelType>::min() );
-  thresholder->SetUpperThreshold( 0.0  );
+  thresholder->SetLowerThreshold( -1000.0 );
+  thresholder->SetUpperThreshold(     0.0 );
 
   thresholder->SetOutsideValue(  0  );
   thresholder->SetInsideValue(  255 );
@@ -592,28 +588,28 @@ int main( int argc, char **argv )
 
   caster1->SetInput( smoothing->GetOutput() );
   writer1->SetInput( caster1->GetOutput() );
-  writer1->SetFileName("FastMarchingFilterOutput1.png");
+  writer1->SetFileName("ShapeDetectionLevelSetFilterOutput1.png");
   caster1->SetOutputMinimum(   0 );
   caster1->SetOutputMaximum( 255 );
   writer1->Update();
 
   caster2->SetInput( gradientMagnitude->GetOutput() );
   writer2->SetInput( caster2->GetOutput() );
-  writer2->SetFileName("FastMarchingFilterOutput2.png");
+  writer2->SetFileName("ShapeDetectionLevelSetFilterOutput2.png");
   caster2->SetOutputMinimum(   0 );
   caster2->SetOutputMaximum( 255 );
   writer2->Update();
 
   caster3->SetInput( sigmoid->GetOutput() );
   writer3->SetInput( caster3->GetOutput() );
-  writer3->SetFileName("FastMarchingFilterOutput3.png");
+  writer3->SetFileName("ShapeDetectionLevelSetFilterOutput3.png");
   caster3->SetOutputMinimum(   0 );
   caster3->SetOutputMaximum( 255 );
   writer3->Update();
 
   caster4->SetInput( fastMarching->GetOutput() );
   writer4->SetInput( caster4->GetOutput() );
-  writer4->SetFileName("FastMarchingFilterOutput4.png");
+  writer4->SetFileName("ShapeDetectionLevelSetFilterOutput4.png");
   caster4->SetOutputMinimum(   0 );
   caster4->SetOutputMaximum( 255 );
   
@@ -637,8 +633,56 @@ int main( int argc, char **argv )
   // Software Guide : EndCodeSnippet
 
 
+  //  Software Guide : BeginLatex
+  //  
+  //  Several parameters should be set in the
+  //  \doxygen{ShapeDetectionLevelSetFilter}. In particular, the number of
+  //  iterations to perform and the time step for solving the differential
+  //  equation. The time step should be choosed in such a way that the zero set
+  //  does not move more than one pixel at each iteration. A typical value in
+  //  $2D$ is $0.25$. The number of iterations is a critical value since
+  //  technically the level set will never converge. Instead the front keeps
+  //  moving continuously. It is expected though that it will slow down
+  //  considerably in the regions where the speed image has close to zero
+  //  values. In a real application is desirable to couple the evolution of the
+  //  zero set to a visualization module allowing the user to follow the
+  //  evolution of the zero set. With this feedback, the user may decide when
+  //  to stop the algorithm before the zero set leaks through the regions of
+  //  low gradient in the contour of the anatomical structure to be segmented.
+  //
+  //  \index{itk::ShapeDetectionLevelSetFilter!SetTimeStepSize()}
+  //  \index{itk::ShapeDetectionLevelSetFilter!SetNumberOfIterations()}
+  //  \index{itk::LevelSetImageFilter!SetTimeStepSize()}
+  //  \index{itk::LevelSetImageFilter!SetNumberOfIterations()}
+  //
+  //  Software Guide : EndLatex 
+
+  const unsigned int numberOfIterations = atoi( argv[ 9] ); 
+  //  Software Guide : BeginCodeSnippet
+  shapeDetection->SetNumberOfIterations(  numberOfIterations );
+
+  shapeDetection->SetTimeStepSize( 0.25 ); 
+  //  Software Guide : EndCodeSnippet 
 
 
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  In addition to that, we enable the option of using a narrow band
+  //  technique for computing th evolution of the contour.
+  //
+  //  \index{itk::ShapeDetectionLevelSetFilter!NarrowBandingOn()}
+  //  \index{itk::LevelSetImageFilter!NarrowBandingOn()}
+  //
+  //  Software Guide : EndLatex 
+
+  //  Software Guide : BeginCodeSnippet
+  shapeDetection->NarrowBandingOn();
+  //  Software Guide : EndCodeSnippet 
+
+
+  
   //  Software Guide : BeginLatex
   //  
   //  The invokation of the \code{Update()} method on the writer triggers the
@@ -677,18 +721,18 @@ int main( int argc, char **argv )
 
   InternalWriterType::Pointer mapWriter = InternalWriterType::New();
   mapWriter->SetInput( fastMarching->GetOutput() );
-  mapWriter->SetFileName("FastMarchingFilterOutput4.mha");
+  mapWriter->SetFileName("ShapeDetectionLevelSetFilterOutput4.mha");
   mapWriter->Update();
 
   InternalWriterType::Pointer speedWriter = InternalWriterType::New();
   speedWriter->SetInput( sigmoid->GetOutput() );
-  speedWriter->SetFileName("FastMarchingFilterOutput3.mha");
+  speedWriter->SetFileName("ShapeDetectionLevelSetFilterOutput3.mha");
   speedWriter->Update();
 
 
   InternalWriterType::Pointer gradientWriter = InternalWriterType::New();
   gradientWriter->SetInput( gradientMagnitude->GetOutput() );
-  gradientWriter->SetFileName("FastMarchingFilterOutput2.mha");
+  gradientWriter->SetFileName("ShapeDetectionLevelSetFilterOutput2.mha");
   gradientWriter->Update();
 
 
@@ -702,14 +746,14 @@ int main( int argc, char **argv )
   //  table presents the parameters used for some structures.
   //
   //  \begin{center}
-  //  \begin{tabular}{|l|c|c|c|c|c|c|}
+  //  \begin{tabular}{|l|c|c|c|c|c|c|c|}
   //  \hline
-  //  Structure    & Seed Index & $\sigma$ & $\alpha$ & $\beta$ & Threshold & Output Image \\
+  //  Structure    & Seed Index & Distance & $\sigma$ & $\alpha$ & $\beta$ & Iterations & Output Image \\
   //  \hline
-  //  Left Ventricle  & $(81,114)$ & 1.0 & -0.5 & 3.0  & 100 & First  in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\ 
-  //  Right Ventricle & $(99,114)$ & 1.0 & -0.5 & 3.0  & 100 & Second in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\ 
-  //  White matter    & $(56, 92)$ & 1.0 & -0.3 & 2.0  & 200 & Third  in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\ 
-  //  Gray matter     & $(40, 90)$ & 0.5 & -0.3 & 2.0  & 200 & Fourth in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\ 
+  //  Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 150 & First  in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\ 
+  //  Right Ventricle & $(99,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 150 & Second in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\ 
+  //  White matter    & $(56, 92)$ & 5.0 & 1.0 & -0.3 & 2.0  & 800 & Third  in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\ 
+  //  Gray matter     & $(40, 90)$ & 5.0 & 0.5 & -0.3 & 2.0  & 200 & Fourth in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\ 
   //  \hline
   //  \end{tabular}
   //  \end{center}
@@ -724,9 +768,9 @@ int main( int argc, char **argv )
   //
   // \begin{figure} \center
   // \includegraphics[width=6cm]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=6cm]{FastMarchingImageFilterOutput1.eps}
-  // \includegraphics[width=6cm]{FastMarchingImageFilterOutput2.eps}
-  // \includegraphics[width=6cm]{FastMarchingImageFilterOutput3.eps}
+  // \includegraphics[width=6cm]{ShapeDetectionLevelSetFilterOutput1.eps}
+  // \includegraphics[width=6cm]{ShapeDetectionLevelSetFilterOutput2.eps}
+  // \includegraphics[width=6cm]{ShapeDetectionLevelSetFilterOutput3.eps}
   // \caption[ShapeDetectionLevelSetFilter intermediate output]{Images generated by
   // the segmentation process based on the ShapeDetectionLevelSetFilter. From left
   // to right and top to bottom: Input image to be segmented, image smoothed with an
@@ -736,16 +780,22 @@ int main( int argc, char **argv )
   // \label{fig:ShapeDetectionLevelSetFilterOutput}
   // \end{figure}
   //
-  //  It can be noticed that the gray matter is not being completly segmented.
-  //  This was the same case with the \doxygen{FastMarchingImageFilter} in
-  //  section~\ref{sec:FastMarchingImageFilter}.
+  //  A larger number of iterations is reguired for segmenting large structures
+  //  since it takes longer for the front to propagate and cover the region to
+  //  be segmented.  It can be noticed that the gray matter is not being
+  //  completly segmented.  This drawback can be easily mitigated by setting
+  //  many seed points in the initialization of the
+  //  \doxygen{FastMarchingImageFilter}. This will generate an initial level
+  //  set much closer in shape to the object to be segmented and hence
+  //  requiring less iterations to fill in and reach out the edges of the
+  //  anatomical structure.
   //
   //
   // \begin{figure} \center
-  // \includegraphics[width=4cm]{FastMarchingImageFilterOutput5.eps}
-  // \includegraphics[width=4cm]{FastMarchingImageFilterOutput6.eps}
-  // \includegraphics[width=4cm]{FastMarchingImageFilterOutput7.eps}
-  // \includegraphics[width=4cm]{FastMarchingImageFilterOutput8.eps}
+  // \includegraphics[width=4cm]{ShapeDetectionLevelSetFilterOutput5.eps}
+  // \includegraphics[width=4cm]{ShapeDetectionLevelSetFilterOutput6.eps}
+  // \includegraphics[width=4cm]{ShapeDetectionLevelSetFilterOutput7.eps}
+  // \includegraphics[width=4cm]{ShapeDetectionLevelSetFilterOutput8.eps}
   // \caption[ShapeDetectionLevelSetFilter segmentations]{Images generated by the
   // segmentation process based on the ShapeDetectionLevelSetFilter. From left to
   // right: Segmentation of the left ventricle, segmentation of the right
