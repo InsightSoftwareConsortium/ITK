@@ -28,6 +28,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkBSplineDeformableTransform.txx"
 #include "itkBSplineDerivativeKernelFunction.h"
 #include "itkBSplineInterpolateImageFunction.txx"
+#include "itkBSplineInterpolationWeightFunction.txx"
 #include "itkBSplineKernelFunction.h"
 #include "itkBackwardDifferenceOperator.txx"
 #include "itkBinaryBallStructuringElement.txx"
