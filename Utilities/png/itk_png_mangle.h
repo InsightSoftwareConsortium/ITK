@@ -150,6 +150,7 @@ nm libitkpng.a |grep " T "
 #define png_info_init_3 itk_png_info_init_3
 #define png_init_io itk_png_init_io
 #define png_init_read_transformations itk_png_init_read_transformations
+#define png_libpng_ver itk_png_libpng_ver
 #define png_malloc itk_png_malloc
 #define png_memcpy_check itk_png_memcpy_check
 #define png_memset_check itk_png_memset_check
@@ -321,5 +322,28 @@ nm libitkpng.a |grep " T "
 #define png_write_zTXt itk_png_write_zTXt
 #define png_zalloc itk_png_zalloc
 #define png_zfree itk_png_zfree
+
+#define png_zTXt itk_png_zTXt
+#define png_tRNS itk_png_tRNS
+#define png_tIME itk_png_tIME
+#define png_tEXt itk_png_tEXt
+#define png_sRGB itk_png_sRGB
+#define png_sPLT itk_png_sPLT
+#define png_sBIT itk_png_sBIT
+#define png_pHYs itk_png_pHYs
+#define png_sCAL itk_png_sCAL
+#define png_pCAL itk_png_pCAL
+#define png_oFFs itk_png_oFFs
+#define png_iTXt itk_png_iTXt
+#define png_iCCP itk_png_iCCP
+#define png_hIST itk_png_hIST
+#define png_gAMA itk_png_gAMA
+#define png_cHRM itk_png_cHRM
+#define png_bKGD itk_png_bKGD
+#define png_PLTE itk_png_PLTE
+#define png_IEND itk_png_IEND
+#define png_IDAT itk_png_IDAT
+#define png_IHDR itk_png_IHDR
+#define png_sig  itk_png_sig 
 
 #endif
