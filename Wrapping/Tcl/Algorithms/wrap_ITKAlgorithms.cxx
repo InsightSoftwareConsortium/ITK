@@ -29,6 +29,7 @@ namespace _cable_
     ITK_WRAP_GROUP(itkMeanSquaresImageToImageMetric),
     ITK_WRAP_GROUP(itkMutualInformationImageToImageMetric),
     ITK_WRAP_GROUP(itkNormalizedCorrelationImageToImageMetric),
+    ITK_WRAP_GROUP(itkOtsuThresholdImageCalculator),
     ITK_WRAP_GROUP(itkPatternIntensityImageToImageMetric),
     ITK_WRAP_GROUP(itkSimpleFuzzyConnectednessImageFilterBase),
     ITK_WRAP_GROUP(itkSimpleFuzzyConnectednessScalarImageFilter)
