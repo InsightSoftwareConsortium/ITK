@@ -25,7 +25,11 @@ CriticalSection::CriticalSection() : owningThread(0)
 #ifdef HAVE_PTHREAD
   pthread_mutexattr_t attr;
   pthread_mutexattr_init(&attr);
-#ifndef __INTEL_COMPILER 
+#ifdef __INTEL_COMPILER
+  #if __INTEL_COMPILER > 700
+   pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
+  #endif
+#else
   pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
 #endif
   pthread_mutex_init(&mutex, &attr);
