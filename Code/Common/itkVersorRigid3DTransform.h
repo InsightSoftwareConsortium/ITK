@@ -101,6 +101,7 @@ public:
   /** Set the rotational part of the transform. */
   void SetRotation( const VersorType & versor );
   void SetRotation( const AxisType & axis, AngleType angle );
+  itkGetConstReferenceMacro(Versor, VersorType);
 
    /** Set and Get the center of rotation */
   void SetCenter( const InputPointType & center );
