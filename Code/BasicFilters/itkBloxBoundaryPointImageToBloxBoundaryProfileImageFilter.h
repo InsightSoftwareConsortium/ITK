@@ -21,7 +21,7 @@
 #include "itkBloxBoundaryProfileImage.h"
 #include "itkImageToImageFilter.h"
 #include "itkSize.h"
-
+  
 namespace itk
 {
 
@@ -127,9 +127,6 @@ public:
   /** Fit the boundary profile to a cumulative Gaussian */
   int FitProfile();
 
-  /** Set use gradient switch for optimizer */
-  void SetUseOptimizerGradient(bool useGradient);
-
   /** Parameters required to find boundary profiles */
   void Initialize(double setUniqueAxis, double setSymmetricAxes, unsigned int numberOfBins,
                   unsigned int splatMethod, unsigned int spaceDimension);
@@ -176,9 +173,6 @@ private:
 
   /** Number of parameters in cost function */
   unsigned int m_SpaceDimension;
-
-  /** Use Gradient with Levenberg Marquardt Optimizer */
-  bool m_UseGradient;
 };
 
 } // end namespace itk
