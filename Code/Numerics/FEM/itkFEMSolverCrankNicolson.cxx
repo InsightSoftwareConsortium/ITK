@@ -276,7 +276,7 @@ void SolverCrankNicolson::ZeroVector(int which)
 {
   for(unsigned int i=0;i<NGFN;i++)
   {  
-    m_ls->SetVectorValue(i,which,0.0);
+    m_ls->SetVectorValue(i,0.0,which);
   }
 }
 
