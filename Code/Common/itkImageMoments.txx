@@ -16,6 +16,7 @@
 
 #include <stdlib.h>            // For abort
 
+#include "vnl/algo/vnl_real_eigensystem.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
 
 namespace itk {
@@ -169,6 +170,22 @@ namespace itk {
 	for ( int i = 0; i < VRank; i++ )
 	    m_pm[i] = pm(i,i);
 	m_pa = eigen.V.transpose();
+
+        /* Add a final reflection if needed for a proper rotation,
+           by multiplying the last row by the determinant. */
+        /* FIXME:  This is a really klutzy implementation; the right
+           way would be to use an eigensystem solver in the step above
+           that either preserves parity, or that at least counts
+           the number of reflections that it does. */
+        vnl_real_eigensystem eigenrot(m_pa);
+        vnl_diag_matrix<vnl_double_complex> eigenval = eigenrot.D;
+        vnl_double_complex det(1.0, 0.0);
+        for ( int i = 0 ; i < VRank; ++i) {
+            det *= eigenval(i,i);
+        }
+        for ( int i = 0; i < VRank; ++i) {
+            m_pa[VRank-1][i] *= real(det);
+        }
 	
 	/* Remember that the moments are valid */
 	m_valid = 1;
@@ -280,11 +297,14 @@ namespace itk {
      * This method returns the principal axes of the image whose
      * moments were last computed by this object.  The moments are
      * returned as an orthogonal matrix, each row of which corresponds
-     * to one principal moment; that is, the principal moment
-     * correponding to the smallest principal moment is the vector
-     * m[0], where m is the value returned by this method.  The
-     * moments are computed in physical coordinates.
-     */
+     * to one principal moment; for example, the principal axis
+     * corresponding to the smallest principal moment is the vector
+     * m[0], where m is the value returned by this method.  The matrix
+     * of principal axes is guaranteed to be a proper rotation; that
+     * is, to have determinant +1 and to preserve parity.  (Unless you
+     * have foolishly made one or more of the spacing values negative;
+     * in that case, _you_ get to figure out the consequences.)  The
+     * moments are computed in physical coordinates.  */
     template<class TPixel, int VRank>
     ImageMoments<TPixel, VRank>::MatrixT
     ImageMoments<TPixel, VRank>::

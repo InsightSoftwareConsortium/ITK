@@ -24,6 +24,10 @@ main(
     int argc,
     char *argv[])
 {
+    /* Define acceptable (absolute) error in computed results */
+    /* FIXME:  There's no theory to back up this choice of limit. */
+    double maxerr = 1.0e-7;
+
     /* Define the image size and physical coordinates */
     unsigned long size[3] = {20, 40, 80};
     float origin [3] = { 0.5,   0.5,   0.5};
@@ -40,21 +44,21 @@ main(
 	{ 10-0, 20-0,  40-10},
     };
 
-    /* Define the expected results for comparison */
-    double tm = 6.0;                       // Total mass
-    double gcd[3] = {1.5,   1.5, 1.5 };    // Center of gravity
+    /* Define the expected (true) results for comparison */
+    double ttm = 6.0;                      // Total mass
+    double cgd[3] = {1.5,   1.5, 1.5 };    // Center of gravity
     double pmd[3] = {0.125, 0.5, 2.0 };    // Principal moments
     double pad[3][3] = {                   // Principal axes
 	{ 0.0,  0.0, 1.0},
 	{ 0.6, -0.8, 0.0},
 	{ 0.8,  0.6, 0.0},
     };
-    vnl_vector_fixed<double,3> gc;
-    gc.set(gcd);
-    vnl_vector_fixed<double,3> pm;
-    pm.set(pmd);
-    vnl_matrix_fixed<double,3,3> pa;
-    pa.set((double *)pad);
+    vnl_vector_fixed<double,3> tcg;
+    tcg.set(cgd);
+    vnl_vector_fixed<double,3> tpm;
+    tpm.set(pmd);
+    vnl_matrix_fixed<double,3,3> tpa;
+    tpa.set((double *)pad);
 
     /* Allocate a simple test image */
     itk::Image<unsigned short, 3>::Pointer
@@ -66,7 +70,7 @@ main(
     image->SetSpacing(spacing);
 
     /* Set a few mass points within the image */
-    /* FIXME: The method used here to set the points is rather klutzy,
+    /* FIXME: The method used here to set the points is klutzy,
        but appears to be the only method currently supported. */
     itk::Index<3> index;          /* Index over pixels */
     for ( int i = 0; i < 6; i++) {
@@ -77,11 +81,18 @@ main(
     /* Compute the moments */
     itk::ImageMoments<unsigned short, 3>
 	moments(image);
+    double ctm = moments.GetTotalMass();
+    vnl_vector_fixed<double,3>
+        ccg = moments.GetCenterOfGravity();
+    vnl_vector_fixed<double,3>
+        cpm = moments.GetPrincipalMoments();
+    vnl_matrix_fixed<double,3,3>
+        cpa = moments.GetPrincipalAxes();
 
     /* Report the various non-central moments */
     // FIXME:  Indentation is not handled correctly in matrix output
-    cout << "\nTotal mass = " << moments.GetTotalMass() << "\n";
-    cout << "Correct total mass = " << tm << "\n";
+    cout << "\nTotal mass = " << ctm << "\n";
+    cout << "True total mass = " << ttm << "\n";
     cout << "\nFirst moments about index origin =\n";
     cout << "   " << moments.GetFirstMoments() << "\n";
     cout << "\nSecond moments about index origin =\n";
@@ -89,22 +100,50 @@ main(
 
     /* Report the center of gravity and central moments */
     cout << "\nCenter of gravity =\n";
-    cout << "   " << moments.GetCenterOfGravity() << "\n";
-    cout << "Correct center of gravity =\n";
-    cout << "   " << gc << "\n";
+    cout << "   " << ccg << "\n";
+    cout << "True center of gravity =\n";
+    cout << "   " << tcg << "\n";
     cout << "\nSecond central moments =\n";
     cout << "   " << moments.GetCentralMoments() << "\n";
 
     /* Report principal moments and axes */
     cout << "\nPrincipal moments = \n";
-    cout << "   " << moments.GetPrincipalMoments() << "\n";
-    cout << "Correct principal moments = \n";
-    cout << "   " << pm << "\n";
+    cout << "   " << cpm << "\n";
+    cout << "True principal moments = \n";
+    cout << "   " << tpm << "\n";
     cout << "\nPrincipal axes = \n";
-    cout << "   " << moments.GetPrincipalAxes() << "\n";
-    cout << "Correct principal axes = \n";
-    cout << "   " << pa << "\n";
+    cout << "   " << cpa << "\n";
+    cout << "True principal axes = \n";
+    cout << "   " << tpa << "\n";
 
-    /* FIXME:  Automatically compare computed to expected values */
-    return 0;
+    /* Compute and report max abs error in computed */
+    double tmerr = abs(ttm - ctm);  // Error in total mass
+    double cgerr = 0.0;             // Error in center of gravity
+    double pmerr = 0.0;             // Error in moments
+    double paerr = 0.0;             // Error in axes
+    for ( int i = 0; i < 3; ++i) {
+        if ( abs(ccg[i] - tcg[i]) > cgerr )
+            cgerr = abs(ccg[i] - tcg[i]);
+        if ( abs(cpm[i] - tpm[i]) > pmerr )
+            pmerr = abs(cpm[i] - tpm[i]);
+        for (int j = 0; j < 3; ++j) {
+            if (abs(cpa[i][j] - tpa[i][j]) > paerr)
+                paerr = abs(cpa[i][j] - tpa[i][j]);
+        }
+    }
+    cout << "\nMaximum absolute errors in:\n";
+    cout << "   Total mass        = " << tmerr << "\n";
+    cout << "   Center of gravity = " << cgerr << "\n";
+    cout << "   Principal moments = " << pmerr << "\n";
+    cout << "   Principal axes    = " << paerr << "\n";
+
+    /* Return error if differences are too large */
+    int stat = 
+        tmerr > maxerr || cgerr > maxerr ||
+        pmerr > maxerr || paerr > maxerr;
+    if (stat)
+        cout << "\n*** Errors are larger than defined maximum value.\n";
+    else
+        cout << "\n*** Errors are acceptable.\n";
+    return stat;
 }
