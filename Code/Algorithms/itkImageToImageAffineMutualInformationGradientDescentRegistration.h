@@ -125,11 +125,14 @@ public:
  * those used in this framework:
  *
  * LearningRate = lambda_R
- *
  * TranslationScale = sqrt( lambda_T / lambda_R );
  *
- * Optimization performance can be improved by setting the image
- * origin to center of mass of the image.
+ * In the optimizer's scale transform set the scaling for
+ * all the translation parameters to TranslationScale^{-2}.
+ * Set the scale for all other parameters to 1.0.
+ *
+ * Note: the optimization performance can be improved by 
+ * setting the image origin to center of mass of the image.
  *
  * Implementaton of this class is based on:
  * Viola, P. and Wells III, W. (1997).
