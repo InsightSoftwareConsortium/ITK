@@ -67,7 +67,7 @@ public:
   itkTypeMacro(SpatialObjectTreeContainer, DataObject);
 
   /** Set the root */
-  bool SetRoot(SpatialObjectPointer element);
+  bool SetRoot(const SpatialObjectPointer element);
   bool SetRoot( TreeNode<SpatialObjectPointer>* node);
 
 protected:
