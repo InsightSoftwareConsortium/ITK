@@ -15,7 +15,7 @@
   =========================================================================*/
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkRegionNeighborhoodIterator.h"
-
+#include "vnl_math.h"
 namespace itk
 {
 template< class TPixel, unsigned int VDimension>
@@ -25,41 +25,48 @@ FilterImageSingleOperator<TPixel, VDimension>
 {
   long left;
   unsigned long right;
-  unsigned long inputRequestedRegionSize[InputImage::ImageDimension];
-  InputImage::Index inputRequestedStartIndex;
-  const unsigned long *outputRegionSize = outputPtr->GetRegionSize();
-  const OutputImage::Index outputRegionStartIndex
-    = outputPtr->GetRegionStartIndex();
-  const unsigned long *inputBufferSize = inputPtr->GetBufferSize();
-  const InputImage::Index inputBufferStartIndex =
-    inputPtr->GetBufferStartIndex();
-  InputImagePointer  inputPtr = this->GetInput();
-  OutputImagePointer outputPtr= this->GetOutput();
+  const typename OutputImage::Size outputRegionSize
+    = this->GetOutput()->GetRequestedRegion().GetSize();
+  const typename OutputImage::Index outputRegionStartIndex
+    = this->GetOutput()->GetRequestedRegion().GetIndex();
+  const typename InputImage::Size inputBufferSize
+    = this->GetInput()->GetBufferedRegion().GetSize();
+  const typename InputImage::Index inputBufferStartIndex
+    = this->GetInput()->GetBufferedRegion().GetIndex();;
 
+  Size<VDimension> operatorRadius = m_Operator.GetRadius();
+  
+  ImageRegion<VDimension> requestedRegion;
+  Size<VDimension> requestedSize;
+  Index<VDimension> requestedIndex;
+  
   // Call superclass' implementation of this method.
   Superclass::GenerateInputRequestedRegion();
 
   // Set the input region as close as possible to the ideal size.
   // Calculate the distance we can safely expand the input region up
-  // to the ideal size. [ASSUMES INPUT AND OUTPUT IMAGES ARE EQUAL
-  // SIZES AND REGION IS CONTAINED IN BUFFER]
+  // to the ideal size.
   m_CheckBounds = false;
   for (int i = 0; i < InputImage::ImageDimension; ++i)
     {
       left = outputRegionStartIndex[i] - inputBufferStartIndex[i];
-      inputRequestedRegionStartIndex[i] =
-        outputRegionStartIndex[i] - std::min(left, operatorRadius[i]);
+      requestedIndex[i] = outputRegionStartIndex[i]
+        - ::vnl_math_min((long)left,
+                         (long)operatorRadius[i]);
       if (left < operatorRadius[i]) m_CheckBounds = true;
       
       right = inputBufferStartIndex[i] + inputBufferSize[i] -
         outputRegionStartIndex[i] + outputRegionSize[i];
-      inputRequestedRegionSize[i] =
-        outputRegionSize[i] + std::min(right, operatorRadius[i]);
+      requestedSize[i] = outputRegionSize[i]
+                            + ::vnl_math_min((long)right,
+                                             (long)operatorRadius[i]); 
       if (right < operatorRadius[i]) m_CheckBounds = true;
     }
 
-  inputPtr->SetRegionSize( inputRequestedRegionSize );
-  inputPtr->SetRegionStartIndex( inputRequestedRegionStartIndex );
+  requestedRegion.SetSize( requestedSize );
+  requestedRegion.SetIndex( requestedIndex);
+  
+  this->GetInput()->SetRequestedRegion( requestedRegion );
 }
 
 template< class TPixel, unsigned int VDimension>
@@ -72,8 +79,7 @@ FilterImageSingleOperator<TPixel, VDimension>
   Image::Pointer input  = this->GetInput();
 
   // Need to allocate output buffer memory.
-  output->SetBufferSize(output->GetRegionSize());
-  output->SetBufferStartIndex(outputPtr->GetRegionStartIndex());
+  output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
   
   // Filter
@@ -82,7 +88,7 @@ FilterImageSingleOperator<TPixel, VDimension>
       // A two-pass filtering algorithm is required, since we have to
       // accommodate buffer boundaries.
       NeighborhoodAlgorithm::DoUnsynchedInnerProduct<TPixel, VDimension>
-        ( input, output, *m_Operator );
+        ( input, output, m_Operator );
     }
   else
     {
@@ -91,19 +97,16 @@ FilterImageSingleOperator<TPixel, VDimension>
       // (input and output region sizes are not the same!)
       RegionNeighborhoodIterator<TPixel, VDimension> rni
         (
-         m_Operator->GetRadius(),
+         m_Operator.GetRadius(),
          input,
-         output->GetStartIndex(),
-         output->GetRegionSize()
-         );
+         output->GetRequestedRegion());
       
       // One-pass filtering algorithm.
       NeighborhoodAlgorithm::DoUnsynchedInnerProduct<
         RegionNeighborhoodIterator<TPixel,VDimension>,
         TPixel *,
-        NeighborhoodOperator<TPixel, VDimension>
-        >
-        ( rni, output->GetBufferPointer(), *m_Operator );
+        Neighborhood<TPixel, VDimension>  >
+        ( rni, output->GetBufferPointer(), m_Operator );
     }
 
 }
