@@ -56,11 +56,9 @@ public:
   }
 
 
-  MeasureType  GetValue( const ParametersType & parameters )
+  MeasureType  GetValue( const ParametersType & parameters ) const
   { 
     
-    this->SetParameters( parameters );
-
     double x = parameters[0];
     double y = parameters[1];
 
@@ -76,10 +74,9 @@ public:
 
   }
 
-  DerivativeType GetDerivative( const ParametersType & parameters )
+  void GetDerivative( const ParametersType & parameters, 
+                            DerivativeType & derivative ) const
   {
-
-    this->SetParameters( parameters );
 
     double x = parameters[0];
     double y = parameters[1];
@@ -88,13 +85,12 @@ public:
     std::cout << x << " ";
     std::cout << y << ") = ";
 
-    DerivativeType derivative( SpaceDimension );
+    derivative = DerivativeType( SpaceDimension );
     derivative[0] = 3 * x + 2 * y -2;
     derivative[1] = 2 * x + 6 * y +8;
 
     std::cout << derivative << std::endl;
 
-    return derivative;
   }
  
 

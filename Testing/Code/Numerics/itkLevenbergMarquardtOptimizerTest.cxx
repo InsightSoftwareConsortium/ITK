@@ -97,9 +97,7 @@ public:
 
   MeasureType GetValue( const ParametersType & parameters ) const
   {
-
-    this->SetParameters( parameters );
-    
+  
     std::cout << "GetValue( ";
     double a = parameters[0];
     double b = parameters[1];
@@ -129,11 +127,9 @@ public:
     return m_Measure; 
  }
 
-  DerivativeType  GetDerivative( 
-                 const ParametersType & parameters ) const
+  void GetDerivative( const ParametersType & parameters,
+                            DerivativeType  & derivative ) const
   {
- 
-    this->SetParameters( parameters );
     
     std::cout << "GetDerivative( ";
     double a = parameters[0];
@@ -169,7 +165,7 @@ public:
     }
     std::cout << std::endl;
 
-    return m_Derivative;
+    derivative = m_Derivative;
   }
 
   unsigned int GetNumberOfParameters(void) const

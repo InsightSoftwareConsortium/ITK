@@ -64,10 +64,8 @@ public:
 
 
 
-  double GetValue( const ParametersType & position )
+  double GetValue( const ParametersType & position ) const
   { 
-
-    this->SetParameters( position );
 
     double x = position[0];
     double y = position[1];
@@ -83,10 +81,11 @@ public:
     return val;
   }
 
-  DerivativeType GetDerivative( const ParametersType & position )
-  {
 
-    this->SetParameters( position );
+
+  void GetDerivative( const ParametersType & position, 
+                            DerivativeType & derivative ) const
+  {
 
     double x = position[0];
     double y = position[1];
@@ -95,13 +94,12 @@ public:
     std::cout << x << " , " << y;
     std::cout << ") = ";
 
-    DerivativeType grad(SpaceDimension);
-    grad[0] = 3*x + 2*y -2;
-    grad[1] = 2*x + 6*y +8;
+    derivative = DerivativeType(SpaceDimension);
+    derivative[0] = 3*x + 2*y -2;
+    derivative[1] = 2*x + 6*y +8;
     std::cout << "(" ; 
-    std::cout << grad[0] <<" , ";
-    std::cout << grad[1] << ")" << std::endl;
-    return grad;
+    std::cout << derivative[0] <<" , ";
+    std::cout << derivative[1] << ")" << std::endl;
   }
 
   unsigned int GetNumberOfParameters(void) const

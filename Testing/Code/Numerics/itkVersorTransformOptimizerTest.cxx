@@ -74,7 +74,7 @@ public:
   }
 
 
-  MeasureType GetValue( const ParametersType & parameters )
+  MeasureType GetValue( const ParametersType & parameters ) const
   { 
     
     std::cout << "GetValue( " << parameters << " ) = ";
@@ -89,8 +89,6 @@ public:
     B[0] = 0;
     B[1] = 1;
     B[2] = 0;
-
-    this->SetParameters( parameters );
 
     VectorType rightPart;
     for(unsigned int i=0; i<3; i++)
@@ -113,11 +111,10 @@ public:
 
   }
 
-  DerivativeType  GetDerivative( 
-                     const ParametersType & parameters )
+  void GetDerivative( const ParametersType & parameters,
+                            DerivativeType & derivative  ) const
   {
 
-    this->SetParameters( parameters );
     VectorType rightPart;
     for(unsigned int i=0; i<3; i++)
       {
@@ -164,12 +161,11 @@ public:
     const MeasureType turnYValue = this->GetValue( parametersPlustDeltaY );
     const MeasureType turnZValue = this->GetValue( parametersPlustDeltaZ );
 
-    DerivativeType derivative( SpaceDimension );
+    derivative = DerivativeType( SpaceDimension );
     derivative[0] = ( turnXValue - baseValue ) / deltaAngle;
     derivative[1] = ( turnYValue - baseValue ) / deltaAngle;
     derivative[2] = ( turnZValue - baseValue ) / deltaAngle;
 
-    return derivative;
   }
 
   unsigned int GetNumberOfParameters(void) const 
@@ -258,7 +254,7 @@ int itkVersorTransformOptimizerTest(int, char**)
 
 
   ParametersType finalPosition( spaceDimensions );
-  finalPosition = costFunction->GetParameters();
+  finalPosition = itkOptimizer->GetCurrentPosition();
 
   VersorType finalRotation;
   VersorType::VectorType finalRightPart;

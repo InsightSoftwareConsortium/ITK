@@ -75,9 +75,9 @@ public:
     m_b[1]    = -8;
     }
 
-  double GetValue( const ParametersType & parameters )
+  double GetValue( const ParametersType & parameters ) const 
     {
-    this->SetParameters( parameters );
+
     VectorType v( parameters.Size() );
     for(unsigned int i=0; i<SpaceDimension; i++)
       {
@@ -91,9 +91,10 @@ public:
     return val;
     }
 
-  DerivativeType GetDerivative( const ParametersType & parameters )
+  void GetDerivative( const ParametersType & parameters,
+                            DerivativeType & derivative ) const
     {
-    this->SetParameters( parameters );
+
     VectorType v( parameters.Size() );
     for(unsigned int i=0; i<SpaceDimension; i++)
       {
@@ -102,13 +103,11 @@ public:
     std::cout << "GetDerivative( " << v << " ) = ";
     VectorType gradient = m_A * v  - m_b;
     std::cout << gradient << std::endl;
-    
-    DerivativeType derivative(SpaceDimension);
+    derivative = DerivativeType(SpaceDimension);
     for(unsigned int i=0; i<SpaceDimension; i++)
       {
       derivative[i] = gradient[i];
       }
-    return derivative;
     }
   
   unsigned int GetNumberOfParameters(void) const
