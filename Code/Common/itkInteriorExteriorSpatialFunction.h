@@ -82,9 +82,6 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(InteriorExteriorSpatialFunction, SpatialFunction);
 
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-
   /** Input type for the function */
   typedef typename Superclass::InputType InputType;
 
