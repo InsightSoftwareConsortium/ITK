@@ -81,7 +81,20 @@ namespace _cable_
                      double, 
                      itkBSplineInterpolateImageFunctionUS3D);
 
- 
+    ITK_WRAP_OBJECT3(BSplineInterpolateImageFunction, image::F2,
+                     double,float, 
+                     itkBSplineInterpolateImageFunctionF2DF);
+    ITK_WRAP_OBJECT3(BSplineInterpolateImageFunction, image::F3, 
+                     double,float, 
+                     itkBSplineInterpolateImageFunctionF3DF);
+    ITK_WRAP_OBJECT3(BSplineInterpolateImageFunction, image::US2,
+                     double,unsigned short, 
+                     itkBSplineInterpolateImageFunctionUS2DUS);
+    ITK_WRAP_OBJECT3(BSplineInterpolateImageFunction, image::US3,
+                     double,unsigned short, 
+                     itkBSplineInterpolateImageFunctionUS3DUS);
+
+
     // wrap BSplineResampleImageFunction 
     ITK_WRAP_OBJECT2(BSplineResampleImageFunction, image::F2,
                      double, 

@@ -49,6 +49,7 @@ namespace _cable_
     ITK_WRAP_OBJECT1(ImageSource, image::SI3, itkImageSourceSI3);
     ITK_WRAP_OBJECT1(ImageSource, image::VF3 , itkImageSourceVF3 );
     ITK_WRAP_OBJECT1(ImageSource, image::CVF3 , itkImageSourceCVF3 );
+    ITK_WRAP_OBJECT1(ImageSource, image::V2F3 , itkImageSourceV2F3 );
   }
 }
 #endif
