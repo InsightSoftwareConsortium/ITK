@@ -897,6 +897,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
                        << nSamples << " / " << m_NumberOfSpatialSamples << std::endl );
     }
 
+  this->m_NumberOfPixelsCounted = nSamples;
 
   /**
    * Normalize the PDFs, compute moving image marginal PDF

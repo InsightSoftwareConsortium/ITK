@@ -117,6 +117,8 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   bool allOutside = true;
 
+  m_NumberOfPixelsCounted = 0;
+
   for( iter = samples.begin(); iter != end; ++iter )
     {
 
@@ -136,6 +138,7 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     if( m_Interpolator->IsInsideBuffer( mappedPoint ) )
       {
       (*iter).MovingImageValue = m_Interpolator->Evaluate( mappedPoint );
+      m_NumberOfPixelsCounted++;
       allOutside = false;
       }
     else
@@ -147,7 +150,6 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     ++randIter;
 
     }
-
 
   if( allOutside )
     {
