@@ -677,9 +677,9 @@ std::string Util::GetMACAddress()
 
       // we fit on 15 bytes maximum < 256^6.
 #if defined(_MSC_VER) || defined(__BORLANDC__)
-      return Format("%I64u", d.n);
+      return Format("%I64u", n);
 #else
-      return Format("%llu", d.n);
+      return Format("%llu", n);
 #endif
    }
    else
