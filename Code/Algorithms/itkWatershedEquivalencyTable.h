@@ -75,7 +75,6 @@ public:
   typedef SmartPointer<const Self> ConstPointer;
   itkNewMacro(Self);
   itkTypeMacro(EquivalencyTable, DataObject);
-  //@}
 
   /** Define the container type for the table. */
   typedef itk::hash_map<unsigned long, unsigned long,
