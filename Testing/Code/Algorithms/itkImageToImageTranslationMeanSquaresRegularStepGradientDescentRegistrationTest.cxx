@@ -110,13 +110,46 @@ int main()
   registrationMethod->SetReference(imgReference);
   registrationMethod->SetTarget(imgTarget);
 
+  registrationMethod->GetOptimizer()->SetMaximumStepLength( 1.0  );
+  registrationMethod->GetOptimizer()->SetMinimumStepLength( 1e-3 );
+  registrationMethod->GetOptimizer()->SetGradientMagnitudeTolerance( 1e-8 );
+  registrationMethod->GetOptimizer()->SetMaximumNumberOfIterations( 200 );
+
   registrationMethod->StartRegistration();
 
 
-  std::cout << "The correct answer should be : " << std::endl;
-  std::cout << -displacement << std::endl;
-  
+  std::cout << std::endl << "After  " << 
+    registrationMethod->GetOptimizer()->GetCurrentNumberOfIterations()
+    << "  Iterations " << std::endl;
 
+  std::cout << std::endl << "Stop for condition  " << 
+    registrationMethod->GetOptimizer()->GetStopCondition() << std::endl;
+
+  // get the results
+  RegistrationType::ParametersType solution = 
+    registrationMethod->GetOptimizer()->GetCurrentPosition();
+
+  std::cout << "Solution is: " << solution << std::endl;
+
+  //
+  // check results to see if it is within range
+  //
+  bool pass = true;
+  double trueParameters[2] = { -7, -3 };
+  for( unsigned int j = 0; j < 2; j++ )
+    {
+    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.02 )
+      pass = false;
+    }
+  
+  if( !pass )
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
+
 
 }
