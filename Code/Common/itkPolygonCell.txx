@@ -221,7 +221,10 @@ PolygonCell< TCellInterface >
 {
   typename std::vector<PointIdentifier>::iterator position = 
     std::find(m_PointIds.begin(),m_PointIds.end(),ptID);
-  m_PointIds.erase(position);
+  if( position != m_PointIds.end() )
+    {
+    m_PointIds.erase(position);
+    }
 }
 
 /**
