@@ -132,6 +132,12 @@ public:
  
   /** Return the transposed matrix. */
   inline vnl_matrix<T> GetTranspose( void ) const;
+
+  /** Default constructor. */
+  Matrix() : m_Matrix(NumericTraits<T>::Zero) {};
+
+  /** Copy constructor. */
+  Matrix(const Self & matrix) : m_Matrix( matrix.m_Matrix ) {};
  
 private:
   InternalMatrixType     m_Matrix;
