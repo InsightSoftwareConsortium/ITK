@@ -92,6 +92,10 @@ ChangeInformationImageFilter<TInputImage>
       spacing[i] = m_ReferenceImage->GetSpacing()[i];
       }
     m_Shift = outputIndex - inputIndex;
+
+    // reset outputIndex to the input index since we add m_Shift to
+    // outputIndex latter on
+    outputIndex = input->GetLargestPossibleRegion().GetIndex();
     }
   else
     {
