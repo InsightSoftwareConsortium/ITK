@@ -39,10 +39,9 @@ namespace itk
  * and storing them in the correct blox location.
  * \ingroup ImageObjects
  */
-template <class TBoundaryPointImage>
+template <unsigned int dim>
 class ITK_EXPORT BloxCoreAtomImage :
-  public BloxImage<BloxCoreAtomPixel<ExtractImageDimension<TBoundaryPointImage>::ImageDimension>,
-                   ExtractImageDimension<TBoundaryPointImage>::ImageDimension>
+  public BloxImage<BloxCoreAtomPixel<dim>, dim>
 {
 public:
   /** Standard class typedefs. */
@@ -52,7 +51,7 @@ public:
    * templated over image type (as opposed to being templated over pixel
    * type and dimension) when they need compile time access to the dimension
    * of the image. */
-  enum { NDimensions = TBoundaryPointImage::ImageDimension };
+  enum { NDimensions = dim };
 
   typedef BloxImage<BloxCoreAtomPixel<NDimensions>, NDimensions>  Superclass;
   typedef SmartPointer<Self>  Pointer;
@@ -63,7 +62,6 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BloxCoreAtomImage, BloxImage);
-
 
   /** The type of boundary point item we process * */
   typedef BloxBoundaryPointItem<NDimensions> TBPItemType;
@@ -104,32 +102,11 @@ public:
   /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;
 
-  /** Set the boundary point image from which we derive core atoms. */
-  void SetBoundaryPointImage(typename TBoundaryPointImage::Pointer pSource)
-    {
-      m_BoundaryPointImage = pSource;
-      m_BPImageOrigin = m_BoundaryPointImage->GetOrigin();
-      m_BPImageSpacing = m_BoundaryPointImage->GetSpacing(); 
-    }
-
-  /** Walk the source image, find core atoms, store them.  */
-  void FindCoreAtoms();
-
-  /** Find core atoms given a specific boundary point. */
-  void FindCoreAtomsAtBoundaryPoint(BloxBoundaryPointItem<NDimensions>* pItem);
-
   /** Do eigenanalysis on all pixels in the image. */
   void DoEigenanalysis();
 
   /** Core atom voting routine. */
   void DoCoreAtomVoting();
-
-  /** Gets and sets for member variables. */
-  itkSetMacro(DistanceMin, double);
-  itkSetMacro(DistanceMax, double);
-  itkSetMacro(Epsilon, double);
-  itkSetMacro(Polarity, bool);
-  itkGetMacro(NumCoreAtoms, unsigned long int);
 
 protected:
   BloxCoreAtomImage();
@@ -139,26 +116,6 @@ protected:
 private:
   BloxCoreAtomImage(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  /** Pointer to the image that holds boundary points. */
-  typename TBoundaryPointImage::Pointer m_BoundaryPointImage;
-
-  /** The origin of the boundary point image. */
-  const double* m_BPImageOrigin;
-
-  /** The spacing of the boundary point image. */
-  const double* m_BPImageSpacing;
-  
-  /** Parameters used to establish conic shell iterator regions.
-   * See the documentation for itkConicShellInteriorExteriorSpatialFunction
-   * for how these affect the iterator. */
-  double m_DistanceMin;
-  double m_DistanceMax;
-  double m_Epsilon;
-  bool m_Polarity;
-  
-  /** Keep track of how many core atoms we found (for debugging) */
-  unsigned long int m_NumCoreAtoms;
 
 };
 

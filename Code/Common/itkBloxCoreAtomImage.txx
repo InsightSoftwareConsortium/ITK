@@ -28,205 +28,24 @@
 namespace itk
 {
 
-template<class TBoundaryPointImage>
-BloxCoreAtomImage<TBoundaryPointImage>
+template <unsigned int dim>
+BloxCoreAtomImage<dim>
 ::BloxCoreAtomImage()
 {
-  m_BoundaryPointImage = NULL;
 
-  m_NumCoreAtoms = 0;
-  m_DistanceMin = 8;
-  m_DistanceMax = 12;
-  m_Epsilon = 0;
-  m_Polarity = 0;
 }
 
-template<class TBoundaryPointImage>
-BloxCoreAtomImage<TBoundaryPointImage>
+template <unsigned int dim>
+BloxCoreAtomImage<dim>
 ::~BloxCoreAtomImage()
 {
 
 }
 
-template<class TBoundaryPointImage>
+template <unsigned int dim>
 void
-BloxCoreAtomImage<TBoundaryPointImage>
-::FindCoreAtoms()
-{
-  itkDebugMacro(<< "BloxCoreAtomImage::FindCoreAtoms() called");
-
-  // Make sure we're getting everything
-  m_BoundaryPointImage->SetRequestedRegionToLargestPossibleRegion();
-
-  // Create an iterator to walk the source image
-  typedef ImageRegionIterator<TBoundaryPointImage> TImageIteratorType;
-
-  TImageIteratorType imageIt = TImageIteratorType(m_BoundaryPointImage,
-                                                  m_BoundaryPointImage->GetRequestedRegion() );
-
-  // Iterate through the entire image (all pixels) and look for core atoms
-  for ( imageIt.GoToBegin(); !imageIt.IsAtEnd(); ++imageIt)
-    {
-    // The iterator for accessing linked list info
-    itk::BloxBoundaryPointPixel<NDimensions>::iterator bpiterator;
-
-    // Walk through all of the elements at the pixel
-    for (bpiterator = imageIt.Value().begin(); bpiterator != imageIt.Value().end(); ++bpiterator)
-      {
-      this->FindCoreAtomsAtBoundaryPoint( *bpiterator );
-      }
-    }
-
-  // Compute mean core atom diameter
-  itk::ImageRegionIterator<Self> bloxIt = 
-    itk::ImageRegionIterator<Self>(this, this->GetLargestPossibleRegion() );
-
-  for(bloxIt.GoToBegin(); !bloxIt.IsAtEnd(); ++bloxIt)
-    {
-    ( &bloxIt.Value() )->CalcMeanCoreAtomDiameter();
-    }
-
-  itkDebugMacro(<< "Finished looking for core atoms\n"
-                << "I found " << m_NumCoreAtoms << " core atoms\n");
-}
-
-template<class TBoundaryPointImage>
-void
-BloxCoreAtomImage<TBoundaryPointImage>
-::FindCoreAtomsAtBoundaryPoint(BloxBoundaryPointItem<NDimensions>* pBPOne)
-{
-  // When looking for core atoms at a boundary point, we want to examine
-  // all of the boundary points within blox that are part of a conical
-  // region extending out in the direction of the gradient of the boundary
-  // point.
-
-  //---------Create and initialize a conic shell spatial function-----------
-  typedef itk::ConicShellInteriorExteriorSpatialFunction<NDimensions> TFunctionType;
-  typedef TFunctionType::TGradientType TFunctionGradientType;
-
-  TFunctionType::Pointer spatialFunc = TFunctionType::New();
-
-  // Set the properties of the conic shell
-  spatialFunc->SetDistanceMin(m_DistanceMin);
-  spatialFunc->SetDistanceMax(m_DistanceMax);
-  spatialFunc->SetEpsilon(m_Epsilon);
-  spatialFunc->SetPolarity(m_Polarity);
-
-  // Set the origin of the conic shell to the current boundary point location
-  TPositionType spatialFunctionOrigin = pBPOne->GetPhysicalPosition();
-  spatialFunc->SetOrigin(spatialFunctionOrigin);
-
-  // Covert the origin position to a vector
-  //TVectorType spatialFunctionOriginVector = spatialFunctionOrigin.GetVectorFromOrigin();
-
-  TVectorType spatialFunctionOriginVector;
-  spatialFunctionOriginVector.Set_vnl_vector( spatialFunctionOrigin.Get_vnl_vector() );
-
-  // Set the gradient of the conic shell to the current boundary point gradient
-  TFunctionGradientType spatialFunctionGradient = pBPOne->GetGradient();
-  spatialFunc->SetOriginGradient(spatialFunctionGradient);
-
-  // Create a seed position for the spatial function iterator we'll use shortly
-  typename TBoundaryPointImage::IndexType seedIndex;
-
-  // Normalize the origin gradient
-  TVectorType seedVector;
-  seedVector.Set_vnl_vector(spatialFunctionGradient.Get_vnl_vector());
-  seedVector = seedVector / seedVector.GetNorm();
-  
-  // If the polarity is 1, the seed position is in the direction
-  // opposite the gradient
-  if(m_Polarity == 1)
-    seedVector = seedVector * -1;
-  
-  // A "safe" seed position is the closest point in the conical region
-  // along the axis of the cone
-  TPositionType seedPos = spatialFunctionOrigin + (seedVector * m_DistanceMin);
-
-  // If the seed position is inside the image, go ahead and process it
-  if( this->TransformPhysicalPointToIndex(seedPos, seedIndex) )
-    {
-    // Create and initialize a spatial function iterator
-    typedef itk::FloodFilledSpatialFunctionConditionalIterator<TBoundaryPointImage, TFunctionType> TSphereItType;
-    TSphereItType sfi = TSphereItType(m_BoundaryPointImage, spatialFunc, seedIndex);
-
-    // Walk the spatial function
-    for( ; !( sfi.IsAtEnd() ); ++sfi)
-      {
-      // The iterator for accessing linked list info
-      itk::BloxBoundaryPointPixel<NDimensions>::iterator bpiterator;
-
-      // Walk through all of the elements at the pixel
-      for (bpiterator = sfi.Get().begin(); bpiterator != sfi.Get().end(); ++bpiterator)
-        {
-        // Get the pointer of the blox
-        TBPItemType* pBPTwo = *bpiterator;
-
-        // Get the physical positions of the two boundary points
-        TPositionType P1 = pBPOne->GetPhysicalPosition();
-        TPositionType P2 = pBPTwo->GetPhysicalPosition();
-
-        // Form the two vectors between them
-        TVectorType C12 = P2 - P1;
-
-        // If we don't meet distance criteria, move on
-        if(!( (C12.GetNorm() > m_DistanceMin) && (C12.GetNorm() < m_DistanceMax) ) )
-          continue;
-
-        TVectorType C21 = P1 - P2;
-
-        C12 = C12 / C12.GetNorm();
-        C21 = C21 / C21.GetNorm();
-
-        // Get the gradients of the two boundary points
-        TGradientType G1 = pBPOne->GetGradient();
-        TGradientType G2 = pBPTwo->GetGradient();
-
-        G1 = G1 / G1.GetNorm();
-        G2 = G2 / G2.GetNorm();
-
-        // Calculate face-to-faceness
-        double faceToFaceness = dot_product(G1.Get_vnl_vector(), C12.Get_vnl_vector() ) *
-          dot_product(G2.Get_vnl_vector(), C21.Get_vnl_vector() );
-
-        // If face-to-faceness meets threshold criteria
-        if( faceToFaceness > (1.0 - m_Epsilon) )
-          {
-          // Figure out the center of the core atom
-          TPositionType coreAtomCenter = P1 + (P2 - P1) / 2;
-
-          // Figure out the diameter of the core atom
-          double coreAtomDiameter = (P2-P1).GetNorm();
-
-          // Create a new core atom
-          BloxCoreAtomItem<NDimensions>* pCoreAtom = new BloxCoreAtomItem<NDimensions>;
-          
-          // Set its boundary points, center, and diameter
-          pCoreAtom->SetBoundaryPointA(pBPOne);
-          pCoreAtom->SetBoundaryPointB(pBPTwo);
-          pCoreAtom->SetCenterPosition(coreAtomCenter);
-          pCoreAtom->SetDiameter(coreAtomDiameter);
-
-          // Figure out the data space coordinates of the center
-          IndexType coreAtomPos;
-          
-          this->TransformPhysicalPointToIndex(coreAtomCenter, coreAtomPos);
-         
-          // Store the new core atom in the correct spot
-          this->GetPixel(coreAtomPos).push_back(pCoreAtom);
-
-          m_NumCoreAtoms++;
-
-          } // end if face-to-faceness meets criteria
-        } // end iterate through boundary points in pixel
-      } // end iterate through the conic shell
-   } // end if the seed position for the conic shell is in the image
-}
-
-template<class TBoundaryPointImage>
-void
-BloxCoreAtomImage<TBoundaryPointImage>::
-DoEigenanalysis()
+BloxCoreAtomImage<dim>
+::DoEigenanalysis()
 {
   itk::ImageRegionIterator<Self> bloxIt = 
     itk::ImageRegionIterator<Self>(this, this->GetLargestPossibleRegion() );
@@ -237,10 +56,10 @@ DoEigenanalysis()
     }
 }
 
-template<class TBoundaryPointImage>
+template <unsigned int dim>
 void
-BloxCoreAtomImage<TBoundaryPointImage>::
-DoCoreAtomVoting()
+BloxCoreAtomImage<dim>
+::DoCoreAtomVoting()
 {
   // Iterator to access all pixels in the image
   ImageRegionIterator<Self> bloxIt = 
@@ -319,34 +138,12 @@ DoCoreAtomVoting()
     }
 }
 
-template<class TBoundaryPointImage>
+template <unsigned int dim>
 void
-BloxCoreAtomImage<TBoundaryPointImage>
+BloxCoreAtomImage<dim>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-
-  os << indent << "Number of core atoms: " << m_NumCoreAtoms << std::endl;
-
-  unsigned int i;
-  os << indent << "Boundary point image origin: [";
-  for (i=0; i < NDimensions - 1; i++)
-    {
-    os << m_BPImageOrigin[i] << ", ";
-    }
-  os << "]" << std::endl;
-
-  os << indent << "Boundary point image spacing: [";
-  for (i=0; i < NDimensions - 1; i++)
-    {
-    os << m_BPImageSpacing[i] << ", ";
-    }
-  os << "]" << std::endl;
-
-  os << indent << "Minimum core atom search distance: " << m_DistanceMin << std::endl;
-  os << indent << "Maximum core atom search distance: " << m_DistanceMax << std::endl;
-  os << indent << "Core atom search epsilon: " << m_Epsilon << std::endl;
-  os << indent << "Core atom search polarity: " << m_Polarity << std::endl;
 }
 
 } // end namespace itk

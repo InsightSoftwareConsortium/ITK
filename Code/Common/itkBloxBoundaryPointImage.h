@@ -24,8 +24,6 @@
 namespace itk
 {
 
-
-
 /**
  * \class BloxBoundaryPointImage
  * \brief Templated n-dimensional image class used to store linked lists.
@@ -33,23 +31,20 @@ namespace itk
  *
  * */
 
-template <class TSourceImage>
+template <unsigned int VImageDimension>
 class ITK_EXPORT BloxBoundaryPointImage :
-    public BloxImage<
-      BloxBoundaryPointPixel< ExtractImageDimension<TSourceImage>::ImageDimension  > ,
-                              ExtractImageDimension<TSourceImage>::ImageDimension  
-                    >
+  public BloxImage< BloxBoundaryPointPixel<VImageDimension >, VImageDimension >
 {
 public:
   /** Standard class typedefs. */
   typedef BloxBoundaryPointImage  Self;
+
   /** Dimension of the image.  This enum is used by functions that are
    * templated over image type (as opposed to being templated over pixel
    * type and dimension) when they need compile time access to the dimension
    * of the image. */
-  enum { NDimensions = TSourceImage::ImageDimension };
-  typedef BloxImage<BloxBoundaryPointPixel<NDimensions>,
-                    NDimensions >  Superclass;
+  typedef BloxImage<BloxBoundaryPointPixel<VImageDimension>,
+                    VImageDimension >  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -61,7 +56,7 @@ public:
 
   /** Pixel typedef support. Used to declare pixel type in filters
    * or other operations. */
-  typedef BloxBoundaryPointPixel<NDimensions> PixelType;
+  typedef BloxBoundaryPointPixel<VImageDimension> PixelType;
 
   /** Internal Pixel representation. Used to maintain a uniform API
    * with Image Adaptors and allow to keep a particular internal
@@ -73,9 +68,6 @@ public:
    *  representations. */
   typedef DefaultPixelAccessor< PixelType > AccessorType;
 
-  /** The type of vector used to convert between physical and blox space */
-  typedef Point<double, NDimensions> TPositionType;
-
   /** Convenient typedefs obtained from Superclass. */
   typedef typename Superclass::PixelContainer PixelContainer;
   typedef typename Superclass::SizeType SizeType;
@@ -86,22 +78,6 @@ public:
   /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;
 
-  /**
-   * Methods for getting/setting the physical image that this Blox-derived
-   * image stores information about.
-   */
-  void SetSourceImage(typename TSourceImage::Pointer pSource){m_SourceImage = pSource;};
-  
-  /** Update parameters of the source image (origin, spacing, etc.)
-   * Call me before finding boundary points!! */
-  void UpdateSourceParameters();
-
-  /** Walk the source image, find boundary points, store them.  */
-  void FindBoundaryPoints();
-
-  /** Method to set the threshold for detecting boundary points */
-  itkSetMacro(Threshold, double);
-
 protected:
   BloxBoundaryPointImage();
   virtual ~BloxBoundaryPointImage();
@@ -110,20 +86,6 @@ protected:
 private:
   BloxBoundaryPointImage(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  /** Pointer to the image that we store info. about */
-  typename TSourceImage::Pointer m_SourceImage;
-
-  /** The gradient-magnitude intensity threshold (minimum) for
-   * considering a pixel to be a boundary location */
-  double m_Threshold;
-
-  /** The origin of the source image */
-  const double* m_SourceOrigin;
-
-  /** The spacing of the source image */
-  const double* m_SourceSpacing;
-
 };
 
 } // end namespace itk
