@@ -197,7 +197,7 @@ void ImageSeriesReader<TOutputImage>
 
   int numberOfFiles = static_cast<int>(m_FileNames.size());
   for (int i = (m_ReverseOrder ? numberOfFiles - 1 : 0);
-       i != (m_ReverseOrder ? -1 : numberOfFiles - 1);
+       i != (m_ReverseOrder ? -1 : numberOfFiles);
        i += (m_ReverseOrder ? -1 : 1))
     {
     
