@@ -789,6 +789,19 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
     FileName(_headName);
     }
 
+  char pathName[255];
+  bool usePath = MET_GetFilePath(m_FileName, pathName);
+  if(usePath)
+    {
+    char elementPathName[255];
+    MET_GetFilePath(m_ElementDataFileName, elementPathName);
+    if(!strcmp(pathName, elementPathName))
+      {
+      strcpy(elementPathName, &m_ElementDataFileName[strlen(pathName)]);
+      strcpy(m_ElementDataFileName, elementPathName);
+      }
+    }
+
   M_SetupWriteFields();
 
   m_WriteStream->open(m_FileName, std::ios::binary | std::ios::out);
@@ -815,10 +828,7 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
       {
       m_WriteStream->close();
 
-      char pathName[255];
-      bool usePath = MET_GetFilePath(m_FileName, pathName);
       std::ofstream* writeStreamTemp = new std::ofstream;
-      m_WriteStream->close();
       char dataFileName[255];
       if(usePath)
         {
