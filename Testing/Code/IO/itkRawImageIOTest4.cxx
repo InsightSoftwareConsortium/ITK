@@ -205,7 +205,7 @@ int itkRawImageIOTest4(int, char**)
   RawImageIOReadFileTester<ImageType>  readTester;
 
 
-  int status = EXIT_FAILURE;
+  int status;
 
   std::cout << "Testing read of Big Endian File" << std::endl;
   bool fileIsBigEndian = true;
