@@ -7,6 +7,7 @@ ADD_LIBRARY(ITKAlgorithmsTcl)
 ITK_WRAP_TCL(ITKAlgorithmsTcl
   wrap_ITKAlgorithms.cxx
   wrap_itkCurvatureFlowImageFilter.cxx
+  wrap_itkHistogramMatchingImageFilter.cxx
   wrap_itkImageRegistrationMethod.cxx
   wrap_itkImageToImageMetric.cxx
   wrap_itkMeanSquaresImageToImageMetric.cxx
