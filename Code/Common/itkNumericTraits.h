@@ -126,6 +126,7 @@ public:
   typedef unsigned char ValueType;
   typedef unsigned char AbsType;
   typedef unsigned short AccumulateType;
+  typedef double RealType;
   static const unsigned char Zero;
   static const unsigned char One;
 
@@ -145,6 +146,7 @@ public:
   typedef short ValueType;
   typedef unsigned short AbsType;
   typedef int AccumulateType;
+  typedef double RealType;
   static const short Zero;
   static const short One;
 
@@ -165,6 +167,7 @@ public:
   typedef unsigned short ValueType;
   typedef unsigned short AbsType;
   typedef unsigned int AccumulateType;
+  typedef double RealType;
   static const unsigned short Zero;
   static const unsigned short One;
 
@@ -184,6 +187,7 @@ public:
   typedef int ValueType;
   typedef unsigned int AbsType;
   typedef long AccumulateType;
+  typedef double RealType;
   static const int Zero;
   static const int One;
 
@@ -204,6 +208,7 @@ public:
   typedef unsigned int ValueType;
   typedef unsigned int AbsType;
   typedef unsigned int AccumulateType;
+  typedef double RealType;
   static const unsigned int Zero;
   static const unsigned int One;
 
@@ -224,6 +229,7 @@ public:
   typedef long ValueType;
   typedef unsigned long AbsType;
   typedef long AccumulateType;
+  typedef double RealType;
   static const long Zero;
   static const long One;
 
@@ -244,6 +250,7 @@ public:
   typedef unsigned long ValueType;
   typedef unsigned long AbsType;
   typedef unsigned long AccumulateType;
+  typedef double RealType;
   static const unsigned long Zero;
   static const unsigned long One;
 
@@ -264,6 +271,7 @@ public:
   typedef float ValueType;
   typedef float AbsType;
   typedef double AccumulateType;
+  typedef double RealType;
   static const float Zero;
   static const float One;
 
@@ -284,6 +292,7 @@ public:
   typedef double ValueType;
   typedef double AbsType;
   typedef double AccumulateType;
+  typedef double RealType;
   static const double Zero;
   static const double One;
 
@@ -304,6 +313,7 @@ public:
   typedef long double ValueType;
   typedef long double AbsType;
   typedef long double AccumulateType;
+  typedef long double RealType;
   static const long double Zero;
   static const long double One;
 
