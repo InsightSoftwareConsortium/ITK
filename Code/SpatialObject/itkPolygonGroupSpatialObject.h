@@ -16,6 +16,11 @@
 =========================================================================*/
 #ifndef __itkPolygonGroupSpatialObject_h
 #define __itkPolygonGroupSpatialObject_h
+
+#ifdef _MSC_VER
+#pragma warning ( disable : 4786 )
+#endif
+
 #include "itkGroupSpatialObject.h"
 #include "itkPolygonGroupOrientation.h"
 #include "itkPolygonSpatialObject.h"
