@@ -31,6 +31,8 @@
 #include "DICOMTypes.h"
 #include "DICOMCallback.h"
 
+namespace DICOMPARSER_NAMESPACE
+{
 class DICOMParser;
 
 // Function object for sorting strings
@@ -718,7 +720,7 @@ public:
   void operator=(const DICOMAppHelper&); 
     
 };
-
+}
 #ifdef _MSC_VER
 #pragma warning ( pop )
 #endif

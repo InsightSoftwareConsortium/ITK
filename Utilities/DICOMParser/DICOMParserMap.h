@@ -33,6 +33,8 @@
 
 #include "DICOMConfig.h"
 
+namespace DICOMPARSER_NAMESPACE
+{
 class DICOMCallback;
 
 //
@@ -133,7 +135,7 @@ class  DICOMImplicitTypeMap :
 {
 
 };
-
+}
 #ifdef _MSC_VER
 #pragma warning ( pop )
 #endif 

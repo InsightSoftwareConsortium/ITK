@@ -28,6 +28,8 @@
 #include "DICOMConfig.h"
 #include "DICOMFile.h"
 
+namespace DICOMPARSER_NAMESPACE
+{
 DICOMFile::DICOMFile() : DICOMSource(), InputStream()
 {
 }
@@ -120,7 +122,7 @@ void DICOMFile::Read(void* ptr, long nbytes)
   InputStream.read((char*)ptr, nbytes);
   // dicom_stream::cout << "DICOMFile::Read " <<  (char*) ptr << dicom_stream::endl;
 }
-
+}
 #ifdef _MSC_VER
 #pragma warning ( pop )
 #endif

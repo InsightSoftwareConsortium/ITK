@@ -35,6 +35,8 @@
 #include <math.h>
 #include <algorithm>
 
+namespace DICOMPARSER_NAMESPACE
+{
 //#define DEBUG_DICOM_APP_HELPER
 
 class DICOMAppHelperImplementation
@@ -1919,7 +1921,7 @@ void DICOMAppHelper::Clear()
   this->CurrentSeriesUID = "";
   this->InstanceUID = "";
 }
-
+}
 #ifdef _MSC_VER
 #pragma warning ( pop )
 #endif

@@ -31,6 +31,8 @@
 #include "DICOMConfig.h"
 #include "DICOMParser.h"
 
+namespace DICOMPARSER_NAMESPACE
+{
 //
 // Pure virtual class that specifies the interface
 // for a DICOMCallback.  
@@ -101,7 +103,7 @@ class DICOMMemberCallback : public DICOMCallback
   TMemberFunctionPointer MemberFunction;
 
 };
-
+}
 #ifdef _MSC_VER
 #pragma warning ( pop )
 #endif

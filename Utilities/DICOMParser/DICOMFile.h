@@ -32,6 +32,8 @@
 #include "DICOMConfig.h"
 #include "DICOMSource.h"
 
+namespace DICOMPARSER_NAMESPACE
+{
 //
 // DICOM data source that is file.
 //
@@ -96,7 +98,7 @@ class DICOM_EXPORT DICOMFile : public DICOMSource
  private:
 
 };
-
+}
 #ifdef _MSC_VER
 #pragma warning ( pop )
 #endif

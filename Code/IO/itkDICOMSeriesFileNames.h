@@ -149,8 +149,8 @@ private:
   int CanReadFile(const char* fname);
   void RecurseDirectory( std::string directory, std::vector<std::string> &filenames);
 
-  DICOMParser m_Parser;
-  DICOMAppHelper m_AppHelper;
+  dicom::DICOMParser m_Parser;
+  dicom::DICOMAppHelper m_AppHelper;
 
   bool m_Ascending;
   std::string m_Directory;

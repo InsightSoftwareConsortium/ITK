@@ -92,12 +92,12 @@ protected:
   virtual ~DICOMImageIO2();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  DICOMParser    *      m_Parser;
-  DICOMAppHelper *      m_AppHelper; 
+  dicom::DICOMParser    *      m_Parser;
+  dicom::DICOMAppHelper *      m_AppHelper; 
 
   void ReadDataCallback(doublebyte group,
                         doublebyte element,
-                        DICOMParser::VRTypes type,
+                        dicom::DICOMParser::VRTypes type,
                         unsigned char* val,
                         quadbyte len);
 

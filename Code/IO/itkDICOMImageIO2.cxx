@@ -45,8 +45,8 @@ DICOMImageIO2::DICOMImageIO2()
   this->SetNumberOfDimensions(2);
   m_PixelType  = UCHAR;
   m_ByteOrder = BigEndian;
-  m_Parser = new DICOMParser();
-  m_AppHelper = new DICOMAppHelper();
+  m_Parser = new dicom::DICOMParser();
+  m_AppHelper = new dicom::DICOMAppHelper();
 }
 
 
@@ -71,7 +71,7 @@ bool DICOMImageIO2::CanReadFile( const char* filename )
 
 void DICOMImageIO2::ReadDataCallback( doublebyte,
                                       doublebyte,
-                                      DICOMParser::VRTypes,
+                                      dicom::DICOMParser::VRTypes,
                                       unsigned char* val,
                                       quadbyte len)
 {
@@ -113,7 +113,7 @@ void DICOMImageIO2::Read(void* buffer)
                                      imagePosition);
   
   void* newData;
-  DICOMParser::VRTypes newType;
+  dicom::DICOMParser::VRTypes newType;
   unsigned long imageDataLength = 0;
 
 

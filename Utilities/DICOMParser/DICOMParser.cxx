@@ -44,6 +44,9 @@
 #include "DICOMCallback.h"
 #include "DICOMBuffer.h"
 
+namespace DICOMPARSER_NAMESPACE
+{
+
 // Define DEBUG_DICOM to get debug messages sent to dicom_stream::cerr
 // #define DEBUG_DICOM
 
@@ -856,7 +859,7 @@ void DICOMParser::operator=(const DICOMParser&)
 {
   dicom_stream::cerr << "DICOMParser assignment operator should not be called!" << dicom_stream::endl;
 }
-
+}
 #ifdef _MSC_VER
 #pragma warning ( pop )
 #endif

@@ -34,6 +34,8 @@
 #include "DICOMConfig.h"
 #include "DICOMSource.h"
 
+namespace DICOMPARSER_NAMESPACE
+{
 //
 // DICOM data source that is a memory buffer.
 //
@@ -85,7 +87,7 @@ private:
   DICOMBuffer();
 
 };
-
+}
 #ifdef _MSC_VER
 #pragma warning ( pop )
 #endif

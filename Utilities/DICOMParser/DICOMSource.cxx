@@ -31,6 +31,8 @@
 #include "DICOMConfig.h"
 #include "DICOMSource.h"
 
+namespace DICOMPARSER_NAMESPACE
+{
 DICOMSource::DICOMSource() 
 {
   /* Are we little or big endian?  From Harbison&Steele.  */
@@ -208,7 +210,7 @@ char* DICOMSource::ReadAsciiCharArray(int len)
   val[len] = 0; // NULL terminate.
   return val;
 }
-
+}
 #ifdef _MSC_VER
 #pragma warning ( pop )
 #endif

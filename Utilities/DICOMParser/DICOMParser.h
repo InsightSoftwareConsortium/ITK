@@ -39,6 +39,8 @@
 #include "DICOMTypes.h"
 #include "DICOMParserMap.h"
 
+namespace DICOMPARSER_NAMESPACE
+{
 class DICOMBuffer;
 class DICOMCallback;
 template <class T> class DICOMMemberCallback;
@@ -269,7 +271,7 @@ class DICOM_EXPORT DICOMParser
   void operator=(const DICOMParser&); 
 };
 
-
+}
 #ifdef _MSC_VER
 #pragma warning ( pop )
 #endif

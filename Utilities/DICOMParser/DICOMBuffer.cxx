@@ -31,6 +31,8 @@
 #include "DICOMConfig.h"
 #include "DICOMBuffer.h"
 
+namespace DICOMPARSER_NAMESPACE
+{
 DICOMBuffer::DICOMBuffer(unsigned char *buffer, long length)
   : DICOMSource(),
     Buffer(buffer),
@@ -92,7 +94,7 @@ void DICOMBuffer::Read(void* ptr, long nbytes)
   Position += nbytes;
 }
 
-
+}
 #ifdef _MSC_VER
 #pragma warning ( pop )
 #endif
