@@ -1307,7 +1307,7 @@ void Document::ParseDES(DocEntrySet *set, long offset,
    
    while (true)
    { 
-      if ( !delim_mode && (Fp->tellg()-offset) >= l_max)
+      if ( !delim_mode && ((long)Fp->tellg()-offset) >= l_max)
       {
          break;
       }
@@ -1350,7 +1350,7 @@ void Document::ParseDES(DocEntrySet *set, long offset,
             {
                break;
             }
-            if ( !delim_mode && (Fp->tellg()-offset) >= l_max)
+            if ( !delim_mode && ((long)Fp->tellg()-offset) >= l_max)
             {
                break;
             }
@@ -1460,7 +1460,7 @@ void Document::ParseDES(DocEntrySet *set, long offset,
                      l, delim_mode);
          }
          set->AddEntry( newSeqEntry );
-         if ( !delim_mode && (Fp->tellg()-offset) >= l_max)
+         if ( !delim_mode && ((long)Fp->tellg()-offset) >= l_max)
          {
             break;
          }
@@ -1495,7 +1495,7 @@ void Document::ParseSQ( SeqEntry* seqEntry,
             break;
          }
       }
-      if ( !delim_mode && (Fp->tellg()-offset) >= l_max)
+      if ( !delim_mode && ((long)Fp->tellg()-offset) >= l_max)
       {
           break;
       }
@@ -1522,7 +1522,7 @@ void Document::ParseSQ( SeqEntry* seqEntry,
       
       seqEntry->AddEntry( itemSQ, SQItemNumber ); 
       SQItemNumber++;
-      if ( !delim_mode && ( Fp->tellg() - offset ) >= l_max )
+      if ( !delim_mode && ( (long)Fp->tellg() - offset ) >= l_max )
       {
          break;
       }
@@ -1743,7 +1743,7 @@ void Document::FindDocEntryLength( DocEntry *entry )
                // the length and proceed.
                long currentPosition = Fp->tellg();
                Fp->seekg(0L,std::ios_base::end);
-               long lengthUntilEOF = Fp->tellg() - currentPosition;
+               long lengthUntilEOF = (long)Fp->tellg() - currentPosition;
                Fp->seekg(currentPosition, std::ios_base::beg);
                entry->SetLength(lengthUntilEOF);
                return;
