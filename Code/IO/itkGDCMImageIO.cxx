@@ -420,7 +420,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
           int encodedLengthActual = itksysBase64_Encode(
             (const unsigned char *) b->GetBinArea(),
             b->GetLength(),
-            bin,
+            (unsigned char *) bin,
             0);
           std::string encodedValue(bin, encodedLengthActual);
           EncapsulateMetaData<std::string>(dico, b->GetName(), encodedValue); 
@@ -544,7 +544,7 @@ void GDCMImageIO::Write(const void* buffer)
         unsigned int decodedLengthActual = itksysBase64_Decode(
           (const unsigned char *) value.c_str(),
           0,
-          (char *) bin,
+          (unsigned char *) bin,
           value.size());
         if(dictEntry->GetGroup() != 0 || dictEntry->GetElement() != 0)
           {
