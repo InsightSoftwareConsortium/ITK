@@ -42,11 +42,3 @@ IF(RUN_CONFIGURE)
  ENDIF(RET)
 ENDIF(RUN_CONFIGURE)
 
-# Some types of path names can cause havoc with regular expressions,
-# so avoid those.
-IF( ${vxl_BINARY_DIR} MATCHES  \\+ )
-  MESSAGE(SEND_ERROR "You cannot have a + in your binary path")
-ENDIF( ${vxl_BINARY_DIR} MATCHES  \\+ )
-IF( ${vxl_SOURCE_DIR} MATCHES  \\+ )
-  MESSAGE(SEND_ERROR "You cannot have a + in your source path")
-ENDIF( ${vxl_SOURCE_DIR} MATCHES  \\+ )
