@@ -87,6 +87,47 @@ Image<TPixel, VImageDimension, TImageTraits>
  *
  */
 template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+const double * 
+Image<TPixel, VImageDimension, TImageTraits>
+::GetSpacing() const
+{
+  // Use a static local variable so the storage for the response is
+  // always available
+  static double spacing[VImageDimension];
+  static bool initialized = false;
+
+  if (!initialized)
+    {
+    initialized = true;
+    for (int i=0; i < VImageDimension; i++)
+      {
+      spacing[i] = 1.0;
+      }
+    }
+
+  return spacing;
+}
+
+
+/**
+ *
+ */
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+const double * 
+Image<TPixel, VImageDimension, TImageTraits>
+::GetOrigin() const
+{
+  // Use a static local variable so the storage for the response is
+  // always available
+  static const double origin[VImageDimension] = {0.0};
+
+  return origin;
+}
+
+/**
+ *
+ */
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
 void 
 Image<TPixel, VImageDimension, TImageTraits>
 ::PrintSelf(std::ostream& os, Indent indent) const
