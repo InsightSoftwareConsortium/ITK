@@ -805,9 +805,10 @@ namespace itk
 
   void AnalyzeImageIO::Read(void* buffer)
   {
+    unsigned int dim;
     const unsigned int dimensions = this->GetNumberOfDimensions();
     unsigned int numberOfPixels = 1;
-    for( unsigned int dim=0; dim< dimensions; dim++ )
+    for(dim=0; dim< dimensions; dim++ )
       {
         numberOfPixels *= m_Dimensions[ dim ];
       }
@@ -921,6 +922,7 @@ namespace itk
 
   void AnalyzeImageIO::ReadImageInformation()
   {
+    unsigned int dim;
     const std::string HeaderFileName = GetHeaderFileName( m_FileName );
     std::ifstream   local_InputStream;
     local_InputStream.open(HeaderFileName.c_str(),
@@ -947,12 +949,12 @@ namespace itk
 
     this->SetNumberOfDimensions(this->m_hdr.dime.dim[0]);
 #if 0
-    for( unsigned int dim=0; dim< this->GetNumberOfDimensions(); dim++ ) {
+    for( dim=0; dim< this->GetNumberOfDimensions(); dim++ ) {
       //NOTE: Analyze dim[0] are the number of dims, 
       //and dim[1..7] are the actual dims.
       m_Dimensions[ dim ] = this->m_hdr.dime.dim[dim+1];
     }
-    for( unsigned int dim=0; dim< this->GetNumberOfDimensions(); dim++ ) {
+    for( dim=0; dim< this->GetNumberOfDimensions(); dim++ ) {
       m_Spacing[ dim ]    = this->m_hdr.dime.pixdim[dim+1];;
     }
     unsigned long elmentNumberOfBits;
@@ -1037,6 +1039,8 @@ namespace itk
   AnalyzeImageIO
   ::WriteImageInformation(void)
   {
+    unsigned int dim;
+    
     const std::string HeaderFileName = GetHeaderFileName( m_FileName );
     std::ofstream   local_OutputStream;
     local_OutputStream.open( HeaderFileName.c_str(), 
@@ -1048,18 +1052,18 @@ namespace itk
       exception.SetDescription(ErrorMessage.c_str());
       throw exception;
     }
-    for( unsigned int dim=0; dim< this->GetNumberOfDimensions(); dim++ ) {
+    for( dim=0; dim< this->GetNumberOfDimensions(); dim++ ) {
       //NOTE: Analyze dim[0] are the number of dims, and dim[1..7] are the actual dims.
       this->m_hdr.dime.dim[dim+1]  = m_Dimensions[ dim ];
     }
     //DEBUG--HACK It seems that analyze 7.5 requires 4 dimensions.
     this->m_hdr.dime.dim[0]= 4;
-    for( int dim=this->GetNumberOfDimensions();dim < this->m_hdr.dime.dim[0]; 
+    for( dim=this->GetNumberOfDimensions();dim < this->m_hdr.dime.dim[0]; 
          dim++ ) {
       //NOTE: Analyze dim[0] are the number of dims, and dim[1..7] are the actual dims.
       this->m_hdr.dime.dim[dim+1]  = 1; //Hardcoded to be 1;
     }
-    for( unsigned int dim=0; dim< this->GetNumberOfDimensions(); dim++ ) {
+    for( dim=0; dim< this->GetNumberOfDimensions(); dim++ ) {
       //NOTE: Analyze pixdim[0] is ignored, and the number of dims are taken from dims[0], and pixdim[1..7] are the actual pixdims.
       this->m_hdr.dime.pixdim[dim+1]= m_Spacing[ dim ];
     }
@@ -1086,11 +1090,13 @@ namespace itk
   AnalyzeImageIO
   ::Write( const void* buffer)
   {
+    unsigned int dim;
+    
     //Write the image Information before writing data
     this->WriteImageInformation();
     const unsigned int dimensions = this->GetNumberOfDimensions();
     unsigned int numberOfPixels = 1;
-    for( unsigned int dim=0; dim< dimensions; dim++ ) {
+    for( dim=0; dim< dimensions; dim++ ) {
       numberOfPixels *= m_Dimensions[ dim ];
     }
 
