@@ -78,37 +78,37 @@ int main()
 
   //Vector no. 1
   VecPixelType vec;
-  vec = 21,9; outIt.Set( vec ); ++outIt;
+  vec[0] = 21; vec[1] = 9; outIt.Set( vec ); ++outIt;
   //Vector no. 2
-  vec = 10,20; outIt.Set( vec ); ++outIt;
+  vec[0] = 10; vec[1] = 20; outIt.Set( vec ); ++outIt;
   //Vector no. 3
-  vec = 8,21; outIt.Set( vec ); ++outIt;
+  vec[0] = 8; vec[1] = 21; outIt.Set( vec ); ++outIt;
   //Vector no. 4
-  vec = 10,23; outIt.Set( vec ); ++outIt;
+  vec[0] = 10; vec[1] = 23; outIt.Set( vec ); ++outIt;
   //Vector no. 5
-  vec = 12,21; outIt.Set( vec ); ++outIt;
+  vec[0] = 12; vec[1] = 21; outIt.Set( vec ); ++outIt;
   //Vector no. 6
-  vec = 11,12; outIt.Set( vec ); ++outIt;
+  vec[0] = 11; vec[1] = 12; outIt.Set( vec ); ++outIt;
   //Vector no. 7
-  vec = 15,22; outIt.Set( vec ); ++outIt;
+  vec[0] = 15; vec[1] = 22; outIt.Set( vec ); ++outIt;
   //Vector no. 8
-  vec = 9,10; outIt.Set( vec ); ++outIt;
+  vec[0] = 9; vec[1] = 10; outIt.Set( vec ); ++outIt;
   //Vector no. 9
-  vec = 19,10; outIt.Set( vec ); ++outIt;
+  vec[0] = 19; vec[1] = 10; outIt.Set( vec ); ++outIt;
   //Vector no. 10
-  vec = 19,10; outIt.Set( vec ); ++outIt;
+  vec[0] = 19; vec[1] = 10; outIt.Set( vec ); ++outIt;
   //Vector no. 11
-  vec = 21,21; outIt.Set( vec ); ++outIt;
+  vec[0] = 21; vec[1] = 21; outIt.Set( vec ); ++outIt;
   //Vector no. 12
-  vec = 11,20; outIt.Set( vec ); ++outIt;
+  vec[0] = 11; vec[1] = 20; outIt.Set( vec ); ++outIt;
   //Vector no. 13
-  vec = 8,18; outIt.Set( vec ); ++outIt;
+  vec[0] = 8; vec[1] = 18; outIt.Set( vec ); ++outIt;
   //Vector no. 14
-  vec = 18,10; outIt.Set( vec ); ++outIt;
+  vec[0] = 18; vec[1] = 10; outIt.Set( vec ); ++outIt;
   //Vector no. 15
-  vec = 22,10; outIt.Set( vec ); ++outIt;
+  vec[0] = 22; vec[1] = 10; outIt.Set( vec ); ++outIt;
   //Vector no. 16
-  vec = 24,23; outIt.Set( vec ); ++outIt;
+  vec[0] = 24; vec[1] = 23; outIt.Set( vec ); ++outIt;
 
   //---------------------------------------------------------------
   //Input the codebook
