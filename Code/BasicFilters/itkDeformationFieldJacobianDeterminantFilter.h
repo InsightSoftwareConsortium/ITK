@@ -228,12 +228,10 @@ protected:
   (const ConstNeighborhoodIteratorType &it) const
   {
     unsigned i, j;
-    TRealType dx, sum, accum;
     vnl_matrix_fixed<TRealType,ImageDimension,VectorDimension> J;
 
     for (i = 0; i < ImageDimension; ++i)
       {
-      sum = NumericTraits<TRealType>::Zero;
       for (j = 0; j < VectorDimension; ++j)
         {
         J[i][j] = m_DerivativeWeights[i]
