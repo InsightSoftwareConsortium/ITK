@@ -158,7 +158,7 @@ protected:
   /**
    * Array of pointers to point objects that define the element
    */
-  typename NodeIDType m_node[NumberOfNodes];
+  NodeIDType m_node[NumberOfNodes];
 
 };
 

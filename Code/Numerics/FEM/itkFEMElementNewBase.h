@@ -134,20 +134,20 @@ public:
    * ALWAYS first convert the argument to Element::LoadElementPointer. See
    * code of function Solver::AssembleF(...) for more info.
    */
-  typedef FEMLightObject LoadElementType;
-  typedef LoadElementType::Pointer LoadElementPointer;
+//  typedef FEMLightObject LoadElementType;
+//  typedef LoadElementType::Pointer LoadElementPointer;
 
   /**
    * Type that stores global ID's of degrees of freedom.
    */
-  typedef unsigned int DegreeOfFreedomIDType;
+//  typedef unsigned int DegreeOfFreedomIDType;
 
   /**
    * Constant that represents an invalid DegreeOfFreedomID object.
    * If a degree of freedom is assigned this value, this means that
    * that no specific value was (yet) assigned to this DOF.
    */ 
-  enum{ InvalidDegreeOfFreedomID = 0xffffffff };
+//  enum{ InvalidDegreeOfFreedomID = 0xffffffff };
 
   /**
    * \class ElementNew::Node
@@ -578,10 +578,10 @@ public:
    */
   class ReadInfoType {
   public:
-    Node::ArrayType::Pointer m_node;  /**< Pointer to an array nodes. */
+    ::itk::fem::Node::ArrayType::Pointer m_node;  /**< Pointer to an array nodes. */
     Material::ArrayType::Pointer m_mat;  /**< Pointer to an array of materials. */
     /** Constructor for simple object creation. */
-    ReadInfoType(Node::ArrayType::Pointer node_, Material::ArrayType::Pointer mat_) :
+    ReadInfoType(::itk::fem::Node::ArrayType::Pointer node_, Material::ArrayType::Pointer mat_) :
       m_node(node_), m_mat(mat_) {}
   };
 

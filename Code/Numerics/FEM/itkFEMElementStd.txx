@@ -45,7 +45,7 @@ ElementStd<VNumberOfPoints, VNumberOfDegreesOfFreedomPerNode, TBaseClass>
 {
   int n;
   // Convert the info pointer to a usable object
-  Node::ArrayType::Pointer nodes=static_cast<ReadInfoType*>(info)->m_node;
+  itk::fem::Node::ArrayType::Pointer nodes=static_cast<ReadInfoType*>(info)->m_node;
 
   // First call the parent's read function
   Superclass::Read(f,info);
