@@ -133,9 +133,8 @@ ADD_TEST(itkPointSetToPointSetRegistrationTest ${ALGORITHMS_TESTS2}  itkPointSet
 ADD_TEST(itkPointSetToSpatialObjectDemonsRegistrationTest ${ALGORITHMS_TESTS2}  itkPointSetToSpatialObjectDemonsRegistrationTest)
 
 
-SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 ADD_TEST(itkCurvatureFlowTest ${ALGORITHMS_TESTS}
-    itkCurvatureFlowTest ${TEMP}/itkCurvatureFlowTest.vtk)
+    itkCurvatureFlowTest ${ITK_TEST_OUTPUT_DIR}/itkCurvatureFlowTest.vtk)
 
 SET(AlgorithmsTest_SRCS
 itkAnisotropicFourthOrderLevelSetImageFilterTest.cxx
@@ -323,7 +322,27 @@ ENDIF(ITK_CSWIG_TCL)
 
 
 IF(ITK_CSWIG_PYTHON)
+
   ADD_TEST(itkCurvatureFlowTestPython2 ${PYTHON_EXECUTABLE}
            ${ITKTesting_SOURCE_DIR}/Code/Algorithms/itkCurvatureFlowTestPython2.py)
+
+  ADD_TEST(ImageRegistration3Python ${PYTHON_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Registration/ImageRegistration3.py
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
+           ${ITK_TEST_OUTPUT_DIR}/ImageRegistration3PythonTest.png )
+
+  ADD_TEST(ImageRegistration4Python ${PYTHON_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Registration/ImageRegistration4.py
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
+           ${ITK_TEST_OUTPUT_DIR}/ImageRegistration4PythonTest.png )
+
+  ADD_TEST(ImageRegistration5Python ${PYTHON_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Registration/ImageRegistration5.py
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
+           ${ITK_TEST_OUTPUT_DIR}/ImageRegistration5PythonTest.png )
+
 ENDIF(ITK_CSWIG_PYTHON)
 
