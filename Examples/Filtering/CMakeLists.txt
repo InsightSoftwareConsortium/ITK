@@ -13,5 +13,8 @@ TARGET_LINK_LIBRARIES(CastingImageFilters ITKCommon ITKIO ITKMetaIO itkzlib itkp
 ADD_EXECUTABLE(MathematicalMorphologyFilters MathematicalMorphologyFilters.cxx )
 TARGET_LINK_LIBRARIES(MathematicalMorphologyFilters ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
 
+ADD_EXECUTABLE(MedianImageFilter MedianImageFilter.cxx )
+TARGET_LINK_LIBRARIES(MedianImageFilter ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+
 
 
