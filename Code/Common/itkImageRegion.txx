@@ -25,10 +25,11 @@ template<unsigned int VImageDimension>
 ImageRegion<VImageDimension>
 ::ImageRegion()
 {
-  Index nullIndex = {0};
-  Size nullSize = {0};
-  m_Index = nullIndex;
-  m_Size = nullSize;
+  for(unsigned int i=0; i<VImageDimension; i++)
+  {
+    m_Index[i] = 0; 
+    m_Size[i]  = 0;
+  }
 }
 
 /**
