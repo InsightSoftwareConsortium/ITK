@@ -55,8 +55,8 @@ public:
     { return ( exp( -0.5 * vnl_math_sqr( u ) ) * m_Factor ); }
 
 protected:
-  GaussianKernelFunction(){};
-  ~GaussianKernelFunction(){};
+  GaussianKernelFunction();
+  ~GaussianKernelFunction();
   void PrintSelf(std::ostream& os, Indent indent) const
     { Superclass::PrintSelf( os, indent ); }  
 

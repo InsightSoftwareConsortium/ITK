@@ -57,6 +57,13 @@ public:
    * const Object */
   virtual void Execute(const Object *caller, const EventObject & event ) = 0;
 
+protected:
+  Command();
+  ~Command();
+
+private:
+  Command(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
  

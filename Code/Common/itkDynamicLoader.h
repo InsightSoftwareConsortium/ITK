@@ -94,8 +94,8 @@ public:
   static const char* LastError();
   
 protected:
-  DynamicLoader() {};
-  ~DynamicLoader() {};
+  DynamicLoader();
+  ~DynamicLoader();
 
 private:
   DynamicLoader(const Self&); //purposely not implemented

@@ -52,8 +52,8 @@ public:
   virtual double Evaluate (const double& u) const = 0;
 
 protected:  
-  KernelFunction(){};  
-  ~KernelFunction(){};
+  KernelFunction();
+  ~KernelFunction();
   void PrintSelf(std::ostream& os, Indent indent) const
     { Superclass::PrintSelf( os, indent ); }  
 

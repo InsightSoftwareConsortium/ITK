@@ -21,5 +21,13 @@
 
 namespace itk
 {
-  
+
+Version::Version()
+{
+}
+
+Version::~Version()
+{
+}
+
 } // end namespace itk

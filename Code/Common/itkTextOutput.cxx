@@ -18,3 +18,16 @@
 
 =========================================================================*/
 #include "itkTextOutput.h"
+
+namespace itk
+{
+
+TextOutput::TextOutput()
+{
+}
+
+TextOutput::~TextOutput()
+{
+}
+
+}

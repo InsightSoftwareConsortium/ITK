@@ -143,7 +143,7 @@ public:
 
 protected:
   ChainCodePath2D();
-  ~ChainCodePath2D() {}
+  ~ChainCodePath2D();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Encode and Decode between an offset and a Freeman code */

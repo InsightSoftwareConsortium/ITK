@@ -3,7 +3,7 @@ SET(ITKCommon_SRCS
   itkBarrier.cxx
   itkBloxItem.cxx
   itkChainCodePath2D.cxx
-  itkCommand.h
+  itkCommand.h itkCommand.cxx
   itkConditionVariable.cxx
   itkDataObject.cxx
   itkDecisionRuleBase.cxx
@@ -20,6 +20,7 @@ SET(ITKCommon_SRCS
   itkIterationReporter.cxx
   itkKLMSegmentationBorder.cxx
   itkKLMSegmentationRegion.cxx
+  itkKernelFunction.cxx
   itkLightObject.cxx
   itkLightProcessObject.cxx
   itkMaximumDecisionRule.cxx

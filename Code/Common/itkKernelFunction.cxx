@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkGaussianKernelFunction.cxx
+  Module:    itkKernelFunction.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,25 +14,17 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkGaussianKernelFunction.h"
-#include "vnl/vnl_math.h"
+#include "itkKernelFunction.h"
 
 namespace itk
 {
 
-/**
- * Initialize static const m_Factor
- */
-const double GaussianKernelFunction::m_Factor =
-1.0 / vcl_sqrt( 2.0 * vnl_math::pi );
-
-GaussianKernelFunction::GaussianKernelFunction()
+KernelFunction::KernelFunction()
 {
 }
 
-GaussianKernelFunction::~GaussianKernelFunction()
+KernelFunction::~KernelFunction()
 {
 }
 
-} // namespace itk
-
+}

@@ -142,7 +142,9 @@ ChainCodePath2D
   m_ReverseFreemanCode[ 8 ] = offset;
 }
 
-
+ChainCodePath2D::~ChainCodePath2D()
+{
+}
 
 /**
  * Standard "PrintSelf" method

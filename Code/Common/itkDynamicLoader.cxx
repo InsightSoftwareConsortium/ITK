@@ -24,6 +24,18 @@
 // Each part of the ifdef contains a complete implementation for
 // the static methods of DynamicLoader.  
 
+namespace itk
+{
+
+DynamicLoader::DynamicLoader()
+{
+}
+
+DynamicLoader::~DynamicLoader()
+{
+}
+
+}
 
 // ---------------------------------------------------------------
 // 1. Implementation for HPUX  machines
