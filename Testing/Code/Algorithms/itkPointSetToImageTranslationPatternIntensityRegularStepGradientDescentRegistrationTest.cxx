@@ -117,7 +117,7 @@ int main()
 
   /* Set the displacement */
   itk::Vector<double,2> displacement;
-  displacement[0] = 7;
+  displacement[0] =  7;
   displacement[1] =  3;
 
   ReferenceIteratorType ri(imgReference,region);
@@ -205,6 +205,7 @@ int main()
   registrationMethod->SetTarget(pointSetTarget);
 
   registrationMethod->GetOptimizer()->SetNumberOfIterations( 100 );
+  registrationMethod->GetMetric()->SetLambda( 15.0 );
 
   registrationMethod->StartRegistration();
 
@@ -218,7 +219,7 @@ int main()
   // check results to see if it is within range
   //
   bool pass = true;
-  double trueParameters[2] = { -7, -3 };
+  double trueParameters[2] = { -displacement[0], -displacement[1] };
   for( unsigned int j = 0; j < 2; j++ )
     {
     if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.02 )
