@@ -119,7 +119,7 @@ public:
   class Iterator
   {
 
-    friend ConstIterator;
+    friend class ConstIterator;
 
   public:
     
