@@ -51,7 +51,7 @@ double F( double x, double y, double z )
   return value;
 
 }
-}
+
 
 // The following three classes are used to support callbacks
 // on the filter in the pipeline that follows later
@@ -64,6 +64,7 @@ public:
     {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
   itk::ProcessObject::Pointer m_Process;
 };
+}
 
 int itkRecursiveMultiResolutionPyramidImageFilterTest(int, char**)
 {

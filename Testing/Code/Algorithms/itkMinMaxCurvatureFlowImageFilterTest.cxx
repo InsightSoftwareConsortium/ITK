@@ -23,7 +23,9 @@
 #include "vnl/vnl_math.h"
 #include "vnl/vnl_sample.h"
 
-
+namespace
+{
+  
 // The following class is used to support callbacks
 // on the filter in the pipeline that follows later
 class ShowProgressObject
@@ -35,6 +37,7 @@ public:
     {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
   itk::ProcessObject::Pointer m_Process;
 };
+}
 
 #define MAXRUNS 5 // maximum number of runs
 

@@ -30,7 +30,8 @@
 #define   NUM_CLASSES         3
 #define   MAX_NUM_ITER       50
 
-
+namespace
+{
 // class to support progress feeback
 class ShowProgressObject
 {
@@ -42,6 +43,7 @@ public:
   itk::LightProcessObject::Pointer m_Process;
 };
 
+}
 
 
 int itkSupervisedClassifierTest(int, char**)

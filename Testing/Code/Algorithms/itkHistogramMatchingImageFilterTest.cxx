@@ -44,7 +44,9 @@ double srcPattern( unsigned long offset )
   if ( offset < 320 ) { return 20.0 * 0.8; }
   return 0.0;
 }
-
+namespace
+{
+  
 // The following classe is used to support callbacks
 // on the filter in the pipeline that follows later
 class ShowProgressObject
@@ -56,6 +58,7 @@ public:
     {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
   itk::ProcessObject::Pointer m_Process;
 };
+}
 
 
 int itkHistogramMatchingImageFilterTest(int, char**)

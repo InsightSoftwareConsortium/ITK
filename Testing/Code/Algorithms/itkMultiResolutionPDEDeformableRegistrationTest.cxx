@@ -28,13 +28,15 @@
 #include <iostream>
 #include <string>
 
-
+namespace
+{
+  
 // The following class is used to support callbacks
 // on the filter in the pipeline that follows later
-class ShowProgressObject
+class ShowProgressPDEObject
 {
 public:
-  ShowProgressObject(itk::ProcessObject* o)
+  ShowProgressPDEObject(itk::ProcessObject* o)
     {m_Process = o; m_Prefix="";}
   void ShowProgress()
     {
@@ -44,6 +46,7 @@ public:
   itk::ProcessObject::Pointer m_Process;
   std::string m_Prefix;
 };
+}
 
 
 // Template function to fill in an image with a value
@@ -204,19 +207,19 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char**)
 
   registrator->Print(std::cout);
 
-  typedef itk::SimpleMemberCommand<ShowProgressObject> CommandType;
+  typedef itk::SimpleMemberCommand<ShowProgressPDEObject> CommandType;
 
-  ShowProgressObject progressWatch(registrator);
+  ShowProgressPDEObject progressWatch(registrator);
   CommandType::Pointer command = CommandType::New();
   command->SetCallbackFunction(&progressWatch,
-                               &ShowProgressObject::ShowProgress);
+                               &ShowProgressPDEObject::ShowProgress);
   registrator->AddObserver(itk::ProgressEvent(), command);
 
-  ShowProgressObject innerWatch(registrator->GetRegistrationFilter() );
+  ShowProgressPDEObject innerWatch(registrator->GetRegistrationFilter() );
   innerWatch.m_Prefix = "    ";
   CommandType::Pointer innerCommand = CommandType::New();
   innerCommand->SetCallbackFunction(&innerWatch,
-                               &ShowProgressObject::ShowProgress);
+                               &ShowProgressPDEObject::ShowProgress);
   registrator->GetRegistrationFilter()->
     AddObserver(itk::ProgressEvent(), innerCommand);
 
