@@ -127,7 +127,7 @@ protected:
       os << indent << "ConductanceScalingParameter: "
          << m_ConductanceScalingParameter << std::endl;
       os << indent << "Iterations: " << m_Iterations
-         << std:endl;
+         << std::endl;
       os << indent << "ConductanceScalingUpdateInterval: "
          << m_ConductanceScalingUpdateInterval << std::endl;
       os << indent << "FixedAverageGradientMagnitude: "
