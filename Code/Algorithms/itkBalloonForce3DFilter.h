@@ -167,7 +167,7 @@ protected:
   virtual void GenerateData();
 //  void PrintSelf(std::ostream& os, Indent indent);
 
-  /** These meshes are defined to hold the vectors as force, etc./
+  /** These meshes are defined to hold the vectors as force, etc. */
   InputMeshPointer  m_Forces; 
   InputMeshPointer  m_Normals;
   InputMeshPointer  m_Displacements;
