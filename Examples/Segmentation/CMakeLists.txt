@@ -46,9 +46,6 @@ GeodesicActiveContourShapePriorLevelSetImageFilter.cxx )
 TARGET_LINK_LIBRARIES(GeodesicActiveContourShapePriorLevelSetImageFilter 
 ITKNumerics ITKIO ITKStatistics)
 
-ADD_EXECUTABLE(WatershedSegmentation1 WatershedSegmentation1.cxx )
-TARGET_LINK_LIBRARIES(WatershedSegmentation1 ITKAlgorithms ITKNumerics ITKIO)
-
 ADD_EXECUTABLE(DeformableModel1 DeformableModel1.cxx )
 TARGET_LINK_LIBRARIES(DeformableModel1 ITKAlgorithms ITKNumerics ITKIO)
 
@@ -424,6 +421,10 @@ ITKBasicFilters
 ITKCommon
 ITKStatistics
 )
+
+ADD_EXECUTABLE(WatershedSegmentation1 WatershedSegmentation1.cxx )
+TARGET_LINK_LIBRARIES(WatershedSegmentation1 ITKAlgorithms ITKNumerics ITKIO)
+
 
 ADD_TEST(GeodesicActiveContourShapePriorCallosumTest ${SEGMENTATION_EXAMPLES3}
   --compare ${BASELINE}/GeodesicActiveContourShapePriorCallosumTest.png
