@@ -50,16 +50,16 @@ namespace itk
 template <class TInputImage, class TOutputImage>
 void 
 DerivativeImageFilter<TInputImage,TOutputImage>
-::GenerateInputRequestedRegion()
+::GenerateInputRequestedRegion() throw (InvalidRequestedRegionError)
 {
-  // call the superclass' implementation of this method
+  // call the superclass' implementation of this method. this should
+  // copy the output requested region to the input requested region
   Superclass::GenerateInputRequestedRegion();
   
   // get pointers to the input and output
   InputImagePointer  inputPtr = this->GetInput();
-  OutputImagePointer outputPtr = this->GetOutput();
   
-  if ( !inputPtr || !outputPtr )
+  if ( !inputPtr )
     {
     return;
     }
@@ -69,65 +69,39 @@ DerivativeImageFilter<TInputImage,TOutputImage>
    oper.SetDirection(m_Direction);
    oper.SetOrder(m_Order);
    oper.CreateDirectional();
-  
-  // we need to compute the input requested region (size and start index)
-  int i;
-  const typename TOutputImage::SizeType& outputRequestedRegionSize
-    = outputPtr->GetRequestedRegion().GetSize();
-  const typename TOutputImage::IndexType& outputRequestedRegionStartIndex
-    = outputPtr->GetRequestedRegion().GetIndex();
-  
-  typename TInputImage::SizeType  inputRequestedRegionSize;
-  typename TInputImage::IndexType inputRequestedRegionStartIndex;
 
-  const typename TInputImage::SizeType  inputLargestPossibleRegionSize
-    = inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename TInputImage::IndexType inputLargestPossibleRegionStartIndex
-    = inputPtr->GetLargestPossibleRegion().GetIndex();
-
-  long crop=0;
-  for (i = 0; i < TInputImage::ImageDimension; i++)
-    {
-    inputRequestedRegionSize[i]
-      = outputRequestedRegionSize[i] + 2 * oper.GetRadius(i);
-    inputRequestedRegionStartIndex[i]
-      = outputRequestedRegionStartIndex[i] - oper.GetRadius(i);
-
-    // crop the requested region to the largest possible region
-    //
-
-    // first check the start index
-    if (inputRequestedRegionStartIndex[i]
-        < inputLargestPossibleRegionStartIndex[i])
-      {
-      // how much do we need to adjust
-      crop = inputLargestPossibleRegionStartIndex[i]
-        - inputRequestedRegionStartIndex[i];
-
-      // adjust the start index and the size of the requested region
-      inputRequestedRegionStartIndex[i] += crop;
-      inputRequestedRegionSize[i] -= crop;
-      }
-    // now check the final size
-    if (inputRequestedRegionStartIndex[i] + inputRequestedRegionSize[i] 
-        > inputLargestPossibleRegionStartIndex[i]
-        + inputLargestPossibleRegionSize[i])
-      {
-      // how much do we need to adjust
-      crop = inputRequestedRegionStartIndex[i] + inputRequestedRegionSize[i] 
-        - inputLargestPossibleRegionStartIndex[i]
-        - inputLargestPossibleRegionSize[i];
-
-      // adjust the size
-      inputRequestedRegionSize[i] -= crop;
-      }
-    }
-  
+  // get a copy of the input requested region (should equal the output
+  // requested region)
   typename TInputImage::RegionType inputRequestedRegion;
-  inputRequestedRegion.SetSize( inputRequestedRegionSize );
-  inputRequestedRegion.SetIndex( inputRequestedRegionStartIndex );
-  
-  inputPtr->SetRequestedRegion( inputRequestedRegion );
+  inputRequestedRegion = inputPtr->GetRequestedRegion();
+
+  // pad the input requested region by the operator radius
+  inputRequestedRegion.PadByRadius( oper.GetRadius() );
+
+  // crop the input requested region at the input's largest possible region
+  if ( inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()) )
+    {
+    inputPtr->SetRequestedRegion( inputRequestedRegion );
+    return;
+    }
+  else
+    {
+    // Couldn't crop the region (requested region is outside the largest
+    // possible region).  Throw an exception.
+
+    // store what we tried to request (prior to trying to crop)
+    inputPtr->SetRequestedRegion( inputRequestedRegion );
+    
+    // build an exception
+    InvalidRequestedRegionError e(__FILE__, __LINE__);
+    std::ostrstream msg;
+    msg << (char *)this->GetNameOfClass()
+        << "::GenerateInputRequestedRegion()" << std::ends;
+    e.SetLocation(msg.str());
+    e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
+    e.SetDataObject(inputPtr);
+    throw e;
+    }
 }
 
 

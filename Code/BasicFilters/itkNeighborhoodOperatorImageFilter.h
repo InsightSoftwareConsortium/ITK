@@ -152,7 +152,7 @@ public:
    *
    * \sa ProcessObject::GenerateInputRequestedRegion()
    */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() throw (InvalidRequestedRegionError);
 
 protected:
   NeighborhoodOperatorImageFilter() {}

@@ -121,7 +121,7 @@ public:
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()
    */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
 protected:
   DerivativeImageFilter() {}
