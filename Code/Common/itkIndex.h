@@ -5,6 +5,7 @@
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
+
 Copyright (c) 2001 Insight Consortium
 All rights reserved.
 
@@ -189,8 +190,8 @@ public:
     }
 
   /**
-   * Multiply an index by a size (elementwise product). This method models a random
-   * access Index. 
+   * Multiply an index by a size (elementwise product). This method 
+   * models a random access Index. 
    */
   const Self
   operator*(const SizeType &vec)
@@ -267,7 +268,7 @@ public:
    * an offset to zero.
    */
   void Fill(long value)
-  { for(unsigned int i=0;i < VIndexDimension; ++i) m_Index[i] = value; }
+    { for(unsigned int i=0;i < VIndexDimension; ++i) m_Index[i] = value; }
 
   /**
    * Index is an "aggregate" class.  Its data is public (m_Index)
