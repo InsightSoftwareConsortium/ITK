@@ -204,7 +204,7 @@ int itkExtractOrthogonalSwath2DImageFilterTest(int argc, char* argv[])
   {
     index[0] = col;
     index[1] = 1;
-    if(outImage->GetPixel(index) < 254)  // interpolation may truncate down
+    if(outImage->GetPixel(index) != 255)
     {
       std::cout << "index "<<index<<" = "<<int(outImage->GetPixel(index))<<": [FAILURE]" << std::endl;
       return EXIT_FAILURE;

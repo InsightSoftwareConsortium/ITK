@@ -20,6 +20,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkProgressReporter.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -207,8 +208,18 @@ ExtractOrthogonalSwath2DImageFilter<TImage>
       itkExceptionMacro(<<"Requested input index ["<<continousIndex
                         <<"] is not in the input image" );
       }
-    outputIt.Set( static_cast<ImagePixelType>(
-        interpolator->EvaluateAtContinuousIndex( continousIndex ) ) );
+    
+    // prevent small interpolation error from rounding-down integer types
+    if( NumericTraits<ImagePixelType>::is_integer )
+      {
+      outputIt.Set( static_cast<ImagePixelType>( 0.5 +
+          interpolator->EvaluateAtContinuousIndex( continousIndex ) ) );
+      }
+    else
+      {
+      outputIt.Set( static_cast<ImagePixelType>(
+          interpolator->EvaluateAtContinuousIndex( continousIndex ) ) );
+      }
     
     progress.CompletedPixel();
     }
