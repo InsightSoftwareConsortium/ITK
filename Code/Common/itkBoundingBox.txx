@@ -57,7 +57,7 @@ BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
                 << "): setting Points container to " << points);
-  if(m_PointsContainer != points)
+  if(m_PointsContainer.GetPointer() != points)
     {
     m_PointsContainer = points;
     this->Modified();
