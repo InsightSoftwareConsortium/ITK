@@ -119,7 +119,7 @@ public:
   /** write a LoadBCMFC object to the output stream*/
   virtual void Write( std::ostream& f, int ofid ) const;
 
-private:
+//private:  FIXME
   /** used internally by the Solver class */
   int Index;    
   friend class Solver;
