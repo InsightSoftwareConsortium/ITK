@@ -109,7 +109,7 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
 
   meshSource->AddVertex( idArray[7] );
 
-//  meshSource->AddLine( idArray[6], idArray[7] );
+  meshSource->AddLine( idArray[6], idArray[7] );
 
   meshSource->AddTriangle( idArray[5], idArray[6], idArray[7] );
 
