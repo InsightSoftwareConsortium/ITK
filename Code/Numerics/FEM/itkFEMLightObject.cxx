@@ -84,7 +84,7 @@ void FEMLightObject::Write( std::ostream& f, int ofid ) const
   /** check for errors */
   if (!f)
   {
-    throw FEMExceptionIO(__FILE__,__LINE__,"FEMLightObject::Read","Error writing FEM object!");
+    throw FEMExceptionIO(__FILE__,__LINE__,"FEMLightObject::Write","Error writing FEM object!");
   }
 
 }

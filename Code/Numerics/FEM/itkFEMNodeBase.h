@@ -51,7 +51,7 @@ class Node : public FEMLightObject
 FEM_CLASS_SP(Node,FEMLightObject)
 public:
 
-   /**
+  /**
    * type that holds coordinates and displacements of nodes
    */
   typedef double Float;
@@ -61,32 +61,7 @@ public:
    */
   typedef FEMPArray<Self> ArrayType;
 
-  /**
-   * \class Displacement
-   * \brief Class that holds displacements of degrees of freedom (DOF).
-   */
-  class Displacement 
-  {
-  public:
 
-    /**
-     * Global freedom number of this DOF displacement (position in master stiffness matrix)
-     * this value can only be set within the function that enumerates global DOF (Solver class).
-     */
-    int GFN;      
-            
-    /**
-     * The actual value of a displacement (after the whole system is solved).
-     */
-    Float value;
-
-    /**
-     * Default constructor clears the memory used by Displacement class.
-     */
-    Displacement() :  
-      GFN(-1), value(0.0) {}
-  };
-  
   /* Windows visualization */
   #ifdef FEM_BUILD_VISUALIZATION
     /** Draws the node on the DC */

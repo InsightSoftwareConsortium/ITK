@@ -40,7 +40,7 @@ namespace fem {
  */
 class NodeXYrotZ : public NodeXY 
 {
-FEM_CLASS(NodeXYrotZ,Node)
+FEM_CLASS(NodeXYrotZ,NodeXY)
 public:
 
   /**
