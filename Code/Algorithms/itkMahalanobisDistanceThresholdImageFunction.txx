@@ -35,7 +35,7 @@ MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
 template <class TInputImage, class TCoordRep>
 void
 MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
-::SetMean(const vnl_vector< double > & mean)
+::SetMean(const MeanVectorType & mean)
 {
   m_MahalanobisDistanceMembershipFunction->SetMean( mean );
 }
@@ -45,7 +45,7 @@ MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
 template <class TInputImage, class TCoordRep>
 void
 MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
-::SetCovariance(const vnl_matrix< double > & covariance)
+::SetCovariance(const CovarianceMatrixType & covariance)
 {
   m_MahalanobisDistanceMembershipFunction->SetCovariance( covariance );
 }

@@ -78,6 +78,12 @@ public:
   /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
+  /** Type used to represent the Covariance matrix of the vector population */
+  typedef vnl_matrix<double> CovarianceMatrixType;
+  
+  /** Type used to represent the Mean Vector of the vector population */
+  typedef vnl_vector<double> MeanVectorType;
+  
   /** BinaryThreshold the image at a point position
    *
    * Returns true if the image intensity at the specified point position
@@ -132,13 +138,13 @@ public:
   itkSetMacro(Threshold,double);
 
   /** Method to set mean */
-  void SetMean(const vnl_vector<double> &mean) ;
+  void SetMean(const MeanVectorType &mean) ;
  
   /**
    * Method to set covariance matrix
    * Also, this function calculates inverse covariance and pre factor of 
    * MahalanobisDistance Distribution to speed up GetProbability */
-  void SetCovariance(const vnl_matrix<double> &cov); 
+  void SetCovariance(const CovarianceMatrixType &cov); 
   
 
 protected:
