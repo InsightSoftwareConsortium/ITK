@@ -14,11 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
 #include "itkImageToListAdaptor.h"
 #include "itkSubsample.h"
 #include "itkRandomImageSource.h"
 #include "itkImageRegionIterator.h"
+#include "itkScalarToArrayCastImageFilter.h"
+#include "itkFixedArray.h"
 
 int itkSubsampleTest(int, char**) 
 {
@@ -42,12 +43,21 @@ int itkSubsampleTest(int, char**)
   source->SetMax( static_cast< FloatImage::PixelType >( maxValue ) );
   source->Update() ;
 
-  typedef  itk::Statistics::ImageToListAdaptor< FloatImage,
-    itk::Statistics::ScalarImageAccessor< FloatImage > >
+
+  // creat a new image with array pixel type from the source
+  typedef itk::FixedArray< FloatImage::PixelType, 1 > ArrayPixelType ;
+  typedef itk::Image< ArrayPixelType, 3 > ArrayPixelImageType ;
+  typedef itk::ScalarToArrayCastImageFilter< FloatImage, ArrayPixelImageType >
+    ImageCastFilterType ;
+  ImageCastFilterType::Pointer castFilter = ImageCastFilterType::New() ;
+  castFilter->SetInput(source->GetOutput()) ;
+  castFilter->Update() ;
+
+  typedef  itk::Statistics::ImageToListAdaptor< ArrayPixelImageType >
     ImageToListAdaptorType ;
 
   ImageToListAdaptorType::Pointer sample = ImageToListAdaptorType::New() ;
-  sample->SetImage(source->GetOutput()) ;
+  sample->SetImage(castFilter->GetOutput()) ;
 
   typedef itk::Statistics::Subsample< ImageToListAdaptorType >
     SubsampleType ;
@@ -86,21 +96,21 @@ int itkSubsampleTest(int, char**)
       whereFail = "GetNumberOfInstances()" ;
     }
 
-  FloatImage::IndexType index ;
+  ArrayPixelImageType::IndexType index ;
   index.Fill(2) ;// index {2, 2, 2} = instance identifier (offset from image) 
-  FloatImage::PixelType pixel = sample->GetImage()->GetPixel(index) ;
+  ArrayPixelImageType::PixelType pixel = sample->GetImage()->GetPixel(index) ;
   ImageToListAdaptorType::InstanceIdentifier id = 
     static_cast< FloatImage::OffsetValueType >(sample->GetImage()
                                                ->ComputeOffset(index)) ;
 
-  if (pixel != subsample->GetMeasurementVector(id)[0])
+  if (pixel[0] != subsample->GetMeasurementVector(id)[0])
     {
       pass = false ;
       whereFail = "GetMeasurementVector()" ;
     }
 
   // iterator test
-  typedef itk::ImageRegionIterator< FloatImage > ImageIterator ;
+  typedef itk::ImageRegionIterator< ArrayPixelImageType > ImageIterator ;
   ImageIterator i_iter(sample->GetImage(),
                        sample->GetImage()->GetLargestPossibleRegion()) ;
 
@@ -108,7 +118,7 @@ int itkSubsampleTest(int, char**)
   unsigned int count = 0 ;
   while (count < subsample->Size())
     {
-      if (i_iter.Get() != s_iter.GetMeasurementVector()[0])
+      if (i_iter.Get()[0] != s_iter.GetMeasurementVector()[0])
         {
           pass = false ;
           whereFail = "Iterator: GetMeasurementVector()" ;
