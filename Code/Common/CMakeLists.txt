@@ -18,6 +18,8 @@ SET(ITKCommon_SRCS
   itkKLMSegmentationRegion.cxx 
   itkLightObject.cxx  
   itkLightProcessObject.cxx 
+  itkMaximumDecisionRule.cxx 
+  itkMaximumRatioDecisionRule.cxx 
   itkMeshRegion.cxx 
   itkMinimumDecisionRule.cxx 
   itkMultiThreader.cxx 
