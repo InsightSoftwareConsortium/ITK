@@ -1,11 +1,5 @@
 LIBRARY(ITKCommon)
 
-INCLUDE_DIRECTORIES(
-../..
-../Numerics/vxl
-../Numerics/vxl/vcl
-)
-
 SOURCE_FILES(
 itkCommand 
 itkDataObject 
@@ -30,6 +24,7 @@ itkVersion
 itkImageIOCommon
 itkImageIO
 )
+
 
 
 SOURCE_FILES_REQUIRE(WIN32 SOURCES_BEGIN itkWin32OutputWindow)

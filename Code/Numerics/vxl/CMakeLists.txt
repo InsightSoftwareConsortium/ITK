@@ -4,11 +4,6 @@ AUX_SOURCE_DIRECTORY(vnl/Templates)
 AUX_SOURCE_DIRECTORY(vnl/algo/Templates)
 AUX_SOURCE_DIRECTORY(v3p/netlib/Templates)
 
-INCLUDE_DIRECTORIES(
-.
-vcl
-)
-
 SOURCE_FILES(
 vnl/vnl_alloc
 vnl/vnl_binary
