@@ -101,10 +101,6 @@ protected:
 private:
   GDCMImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  /** Internal function to rescale pixel according to Slope/Intercept */
-  template<class TBuffer, class TSource>
-  void RescaleFunction(TBuffer* buffer, TSource *source, size_t size);
 };
 
 } // end namespace itk

@@ -171,14 +171,15 @@ bool GDCMImageIO::CanReadFile(const char* filename)
   return true;
 }
 
+// Internal function to rescale pixel according to Rescale Slope/Intercept
 template<class TBuffer, class TSource>
-void GDCMImageIO::RescaleFunction(TBuffer* buffer, TSource *source, 
-                                  size_t size)
+void RescaleFunction(TBuffer* buffer, TSource *source,
+                     double slope, double intercept, size_t size)
 {
   size /= sizeof(TSource);
   for(int i=0; i<size; i++)
    {
-   buffer[i] = (TBuffer)(source[i]*m_RescaleSlope + m_RescaleIntercept);
+   buffer[i] = (TBuffer)(source[i]*slope + intercept);
    }
 }
 
@@ -214,42 +215,42 @@ void GDCMImageIO::Read(void* buffer)
       {
       unsigned char *ucbuffer = (unsigned char*)buffer;
       unsigned char *ucsource = (unsigned char*)source;
-      this->RescaleFunction(ucbuffer, ucsource, size);
+      this->RescaleFunction(ucbuffer, ucsource, m_RescaleSlope, m_RescaleIntercept, size);
       }
       break;
     case CHAR:
       {
       char *cbuffer = (char*)buffer;
       char *csource = (char*)source;
-      this->RescaleFunction(cbuffer, csource, size);
+      this->RescaleFunction(cbuffer, csource, m_RescaleSlope, m_RescaleIntercept, size);
       }
       break;
     case USHORT:
       {
       unsigned short *usbuffer = (unsigned short*)buffer;
       unsigned short *ussource = (unsigned short*)source;
-      this->RescaleFunction(usbuffer, ussource, size);
+      this->RescaleFunction(usbuffer, ussource, m_RescaleSlope, m_RescaleIntercept, size);
       }
       break;
     case SHORT:
       {
       short *sbuffer = (short*)buffer;
       short *ssource = (short*)source;
-      this->RescaleFunction(sbuffer, ssource, size);
+      this->RescaleFunction(sbuffer, ssource, m_RescaleSlope, m_RescaleIntercept, size);
       }
       break;
     case UINT:
       {
       unsigned int *uibuffer = (unsigned int*)buffer;
       unsigned int *uisource = (unsigned int*)source;
-      this->RescaleFunction(uibuffer, uisource, size);
+      this->RescaleFunction(uibuffer, uisource, m_RescaleSlope, m_RescaleIntercept, size);
       }
       break;
     case INT:
       {
       int *ibuffer = (int*)buffer;
       int *isource = (int*)source;
-      this->RescaleFunction(ibuffer, isource, size);
+      this->RescaleFunction(ibuffer, isource, m_RescaleSlope, m_RescaleIntercept, size);
       }
       break;
     case FLOAT:
@@ -257,14 +258,14 @@ void GDCMImageIO::Read(void* buffer)
       // Particular case for PET image that need to be return as FLOAT image
       float *fbuffer = (float*)buffer;
       unsigned short *fsource = (unsigned short*)source;
-      this->RescaleFunction(fbuffer, fsource, size);
+      this->RescaleFunction(fbuffer, fsource, m_RescaleSlope, m_RescaleIntercept, size);
       }
       break;
     case DOUBLE:
       {
       double *dbuffer = (double*)buffer;
       double *dsource = (double*)source;
-      this->RescaleFunction(dbuffer, dsource, size);
+      this->RescaleFunction(dbuffer, dsource, m_RescaleSlope, m_RescaleIntercept, size);
       }
       break;
     }
