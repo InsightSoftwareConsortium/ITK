@@ -54,6 +54,9 @@ namespace itk
  * input image and the type of the output image. 
  * It is also parametrized by the operation to be applied,
  * using a Functor style.
+ * 
+ * \ingroup IntensityImageFilters
+ *
  */
 
 template <class TInputImage, class TOutputImage, class TFunction >

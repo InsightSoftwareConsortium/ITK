@@ -49,6 +49,9 @@ namespace itk {
 
 /**
  * \class VectorGradientAnisotropicDiffusionImageFilter
+ * 
+ * \ingroup ImageFilters
+ *
  *\todo Document.
  */
 template <class TInputImage, class TOutputImage>

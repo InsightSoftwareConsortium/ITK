@@ -50,6 +50,9 @@ namespace itk
 /** \class SqrtImageFilter
  * \brief Computes the sqrt(x) pixel-wise
  *
+ * 
+ * \ingroup IntensityImageFilters
+ *
  */
 
 namespace Function {  

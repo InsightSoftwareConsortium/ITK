@@ -59,6 +59,9 @@ namespace itk
  * Meshes that have added information like normal vector on the points, will
  * have to take care of transforming this data by other means.
  * 
+ * 
+ * \ingroup MeshFilters
+ *
  */
 template <class TInputMesh, class TOutputMesh>
 class ITK_EXPORT TransformMeshFilter : 

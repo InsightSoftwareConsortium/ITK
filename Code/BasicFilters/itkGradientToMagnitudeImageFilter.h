@@ -53,6 +53,9 @@ namespace itk
  * \class GradientToMagnitudeImageFilter
  * \brief Converts a gradient image to a magnitude of gradient image
  *
+ * 
+ * \ingroup ImageFilters
+ *
  * */
 
 template<class TInputImage, class TOutputImage>

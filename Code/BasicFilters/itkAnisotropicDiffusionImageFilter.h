@@ -48,6 +48,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
+/**
+ * AnisotropicDiffusionImageFilter
+ *
+ *
+ * \ingroup ImageFilters
+ *
+ *
+ *
+ *
+ */
+
+    
 template <class TInputImage, class TOutputImage>
 class AnisotropicDiffusionImageFilter
   : public DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>

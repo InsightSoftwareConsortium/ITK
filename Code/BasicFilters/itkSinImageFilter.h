@@ -50,6 +50,9 @@ namespace itk
 /** \class SinImageFilter
  * \brief Computes the sin(x) pixel-wise
  *
+ * 
+ * \ingroup IntensityImageFilters
+ *
  */
 
 namespace Function {  

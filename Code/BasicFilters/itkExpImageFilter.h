@@ -50,6 +50,9 @@ namespace itk
 /** \class ExpImageFilter
  * \brief Computes the exp(x) pixel-wise
  *
+ * 
+ * \ingroup IntensityImageFilters
+ *
  */
 
 namespace Function {  

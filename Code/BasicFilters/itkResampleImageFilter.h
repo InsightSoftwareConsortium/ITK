@@ -225,6 +225,9 @@ protected:
    * ThreadedGenerateData can only write to the portion of the output image
    * specified by the parameter "outputRegionForThread"
    *
+   * 
+   * \ingroup ImageFilters
+   *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()
    */

@@ -54,6 +54,9 @@ namespace itk
  * This filter is implemented using the recursive gaussian
  * filters
  *
+ * 
+ * \ingroup ImageFilters
+ *
  */
 template <class TInputImage, class TOutputImage, class TComputation>
 class ITK_EXPORT GradientRecursiveGaussianImageFilter:

@@ -53,6 +53,9 @@ namespace itk
  * "Adaptive Image Contrast Enhancement using Generalizations of Histogram 
  * Equalization."  J.Alex Stark. IEEE Transactions on Image Processing, 
  * May 2000.
+ * 
+ * \ingroup ImageFilters
+ *
  */
 
 template <class TPixel, unsigned int VImageDimension = 2>

@@ -49,6 +49,9 @@ namespace itk
   
 /** \class AcosImageFilter
  * \brief Computes the acos(x) pixel-wise
+ * 
+ * 
+ * \ingroup IntensityImageFilters
  *
  */
 

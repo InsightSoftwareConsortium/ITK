@@ -60,6 +60,9 @@ namespace itk
  * \sa Image
  * \sa Neighborhood
  * \sa NeighborhoodOperator
+ * 
+ * \ingroup ImageFilters
+ *
  */
 
 template <class TInputImage, class TOutputImage >

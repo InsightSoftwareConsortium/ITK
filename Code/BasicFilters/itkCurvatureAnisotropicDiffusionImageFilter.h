@@ -49,6 +49,9 @@ namespace itk {
 
 /**
  * \class CurvatureAnisotropicDiffusionImageFilter
+ *
+ *  \ingroup ImageFilters
+ *
  *\todo Document.
  */
 template <class TInputImage, class TOutputImage>

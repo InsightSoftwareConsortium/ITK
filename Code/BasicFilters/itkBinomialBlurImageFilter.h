@@ -56,6 +56,9 @@ namespace itk
  * The binomial blur consists of a nearest neighbor average along each
  * image dimension. The net result after n-iterations approaches
  * convultion with a gaussian.
+ * 
+ * \ingroup IntensityImageFilters
+ *
  * */
 
 template<class TInputImage, class TOutputImage>

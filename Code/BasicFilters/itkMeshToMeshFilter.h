@@ -52,6 +52,9 @@ namespace itk
  * MeshToMeshFilter is the base class for all process objects that output
  * mesh data, and require mesh data as input. Specifically, this class
  * defines the SetInput() method for defining the input to a filter.
+ * 
+ * \ingroup MeshFilters
+ *
  */
 template <class TInputMesh, class TOutputMesh>
 class ITK_EXPORT MeshToMeshFilter : public MeshSource<TOutputMesh>

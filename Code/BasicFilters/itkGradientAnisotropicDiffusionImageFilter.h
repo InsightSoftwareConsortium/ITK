@@ -51,6 +51,9 @@ namespace itk {
 /**
  * \class GradientAnisotropicDiffusionImageFilter
  *\todo Document.
+ * 
+ * \ingroup ImageFilters
+ *
  */
 template <class TInputImage, class TOutputImage>
 class GradientAnisotropicDiffusionImageFilter

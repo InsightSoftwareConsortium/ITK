@@ -61,6 +61,9 @@ namespace itk
  *
  * Like its parent ImageToImageFilter, this class functions in the filtering
  * pipeline and produces a unique output image.
+ * 
+ * \ingroup IntensityImageFilters
+ *
  * */
 
 template<class TSpatialFunction, class TInputImage, class TOutputImage>

@@ -54,6 +54,9 @@ namespace itk
 * This class returns the distance map of the input image 
 * and the Voronoi map.
 *
+* 
+* \ingroup ImageFilters
+*
 */
 
 template <class TInputImage,class TOutputImage>

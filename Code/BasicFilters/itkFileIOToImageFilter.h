@@ -76,6 +76,8 @@ public:
  *  can be registered (even at run time) without having to modify the
  *  code in this class.
  *
+ * \ingroup ImageFilters
+ *
  */
 template <class TOutputImage>
 class ITK_EXPORT FileIOToImageFilter : public ImageSource<TOutputImage>

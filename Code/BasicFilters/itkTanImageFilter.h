@@ -50,6 +50,9 @@ namespace itk
 /** \class TanImageFilter
  * \brief Computes the tan(x) pixel-wise
  *
+ * 
+ * \ingroup IntensityImageFilters
+ *
  */
 
 namespace Function {  

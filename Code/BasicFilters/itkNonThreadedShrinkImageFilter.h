@@ -57,6 +57,10 @@ namespace itk
  * In particular, this filter overrides
  * ProcessObject::GenerateInputRequestedRegion() and
  * ProcessObject::UpdateOutputInformation().
+ *
+ * 
+ * \ingroup ImageFilters
+ *
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT NonThreadedShrinkImageFilter:

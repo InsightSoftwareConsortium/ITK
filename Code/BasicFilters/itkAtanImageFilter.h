@@ -50,6 +50,9 @@ namespace itk
 /** \class AtanImageFilter
  * \brief Computes the atan(x) pixel-wise
  *
+ * 
+ * \ingroup IntensityImageFilters
+ *
  */
 
 namespace Function {  

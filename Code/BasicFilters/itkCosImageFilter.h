@@ -50,6 +50,9 @@ namespace itk
 /** \class CosImageFilter
  * \brief Computes the cos(x) pixel-wise
  *
+ * 
+ * \ingroup IntensityImageFilters
+ *
  */
 
 namespace Function {  

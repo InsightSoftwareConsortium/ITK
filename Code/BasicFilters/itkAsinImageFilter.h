@@ -50,6 +50,9 @@ namespace itk
 /** \class AsinImageFilter
  * \brief Computes the asin(x) pixel-wise
  *
+ * 
+ * \ingroup IntensityImageFilters
+ *
  */
 
 namespace Function {  

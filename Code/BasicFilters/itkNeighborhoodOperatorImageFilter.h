@@ -61,6 +61,9 @@ namespace itk
  *
  * The output of this filter is an image region equal in size and
  * dimension to the input.
+ * 
+ * \ingroup ImageFilters
+ *
  *
  * \todo Add method to request buffered (for convolution) input region to
  * support data streaming.

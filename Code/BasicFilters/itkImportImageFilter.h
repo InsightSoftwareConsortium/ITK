@@ -58,6 +58,9 @@ namespace itk
  * This class is templated over the pixel type and the image dimension of
  * the output image.  The filter prescribes a ImageImportContainer to be
  * be used as the pixel container for the output image.
+ * 
+ * \ingroup ImageFilters
+ *
  */
 
 template <typename TPixel, unsigned int VImageDimension=2>

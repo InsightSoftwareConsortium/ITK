@@ -50,6 +50,9 @@ namespace itk
 /** \class LogImageFilter
  * \brief Computes the log(x) pixel-wise
  *
+ * 
+ * \ingroup IntensityImageFilters
+ *
  */
 
 namespace Function {  
