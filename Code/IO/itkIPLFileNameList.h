@@ -96,6 +96,14 @@ namespace itk {
   public:
     typedef std::vector<IPLFileSortInfo *> ListType;
     typedef ListType::iterator IteratorType;
+    
+   enum { SortGlobalAscend = 0,
+          SortGlobalDescend = 1,
+          SortByNameAscend = 2,
+          SortByNameDescend = 3,   
+          };
+    
+    
     IPLFileNameList() 
       {
       m_XDim = 0;
@@ -103,6 +111,7 @@ namespace itk {
       m_Key1 = 0;  /** Key that must be matched for image to be used, 
                      i.e. seriesNumber, extensionkey*/
       m_Key2 = 0;  /** Key that must be matched for image to be used, i.e. echoNumber*/
+      m_SortOrder = SortGlobalAscend; 
       }
     virtual ~IPLFileNameList()
     {
@@ -181,11 +190,12 @@ namespace itk {
       if(it == itend)
         return;
       m_List.erase(it);
-      
-      }
-    
-    void sortImageListAscend ();
-    void sortImageListDescend ();
+   }
+
+         
+    void sortImageList();
+    void sortImageListAscend();
+    void sortImageListDescend();
 
     int GetnumImageInfoStructs() const
     {
@@ -199,6 +209,7 @@ namespace itk {
     IPLGetMacro(Key1,int );
     IPLSetMacro(Key2,int );
     IPLGetMacro(Key2,int );
+    IPLSetMacro(SortOrder,int );
   private:
     ListType m_List;
     int m_XDim;
@@ -206,6 +217,7 @@ namespace itk {
     int m_Key1;  /** Key that must be matched for image to be used, 
                      i.e. seriesNumber, extensionkey*/
     int m_Key2;  /** Key that must be matched for image to be used, i.e. echoNumber*/
+    int m_SortOrder;
   };
 
 }

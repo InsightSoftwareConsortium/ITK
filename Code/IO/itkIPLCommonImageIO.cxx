@@ -245,11 +245,23 @@ bool IPLCommonImageIO::CanReadFile( const char* )
 void IPLCommonImageIO::ReadImageInformation()
 {
   std::string FileNameToRead = this->GetFileName();
+  //
+  // GE images are stored in separate files per slice.
+  //char imagePath[IOCommon::ITK_MAXPATHLEN+1];
+  //TODO -- use std::string instead of C strings
+  char imageMask[IOCommon::ITK_MAXPATHLEN+1];
+  char imagePath[IOCommon::ITK_MAXPATHLEN+1];
+  std::string _imagePath =
+    itksys::SystemTools::CollapseFullPath(FileNameToRead.c_str());
+
+  FileNameToRead = _imagePath;
+
   this->m_ImageHeader = this->ReadHeader(FileNameToRead.c_str());
-  //std::cerr << "HEADER SIZE " << m_ImageHeader->offset << std::endl;
   //
   // if anything fails in the header read, just let
   // exceptions propogate up.
+
+
   AddElementToList(m_ImageHeader->filename,
                    m_ImageHeader->sliceLocation,
                    m_ImageHeader->offset,
@@ -271,16 +283,6 @@ void IPLCommonImageIO::ReadImageInformation()
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_ExperimentDate,std::string(m_ImageHeader->date));
 
 
-  //
-  // GE images are stored in separate files per slice.
-  //char imagePath[IOCommon::ITK_MAXPATHLEN+1];
-  //TODO -- use std::string instead of C strings
-  char imageMask[IOCommon::ITK_MAXPATHLEN+1];
-  char imagePath[IOCommon::ITK_MAXPATHLEN+1];
-  std::string _imagePath =
-    itksys::SystemTools::CollapseFullPath(FileNameToRead.c_str());
-
-  FileNameToRead = _imagePath;
   if(_imagePath == "")
     RAISE_EXCEPTION();
   strncpy(imagePath,_imagePath.c_str(),sizeof(imagePath));
@@ -310,6 +312,7 @@ void IPLCommonImageIO::ReadImageInformation()
     const char *curFname =  dir->GetFile(i);
     char fullPath[IOCommon::ITK_MAXPATHLEN+1];
     sprintf(fullPath,"%s/%s",imagePath,curFname);
+
     if(curFname == 0)
       {
       break;
@@ -341,9 +344,11 @@ void IPLCommonImageIO::ReadImageInformation()
                        curImageHeader->echoNumber);
       }
     delete curImageHeader;
-    }
-  //
-  sortImageListAscend ();
+  }
+  //sort image list
+  sortImageListAscend();
+
+
   //
   //
   // set the image properties
@@ -357,6 +362,16 @@ void IPLCommonImageIO::ReadImageInformation()
     
 }
 
+
+void IPLCommonImageIO::SortImageListByNameAscend()
+{
+  m_fnlist->SetSortOrder(IPLFileNameList::SortByNameAscend);
+}
+
+void IPLCommonImageIO::SortImageListByNameDescend()
+{
+  m_fnlist->SetSortOrder(IPLFileNameList::SortByNameDescend);
+}
 
 
 /**
@@ -448,8 +463,7 @@ int IPLCommonImageIO
   *ip = this->hdr2Double((char *)&tmp);
   return 0;
 }
-short IPLCommonImageIO
-::hdr2Short (char *hdr)
+short IPLCommonImageIO::hdr2Short (char *hdr)
 {
   short shortValue;
   memcpy (&shortValue, hdr, sizeof(short));

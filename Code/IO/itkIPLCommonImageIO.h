@@ -112,6 +112,12 @@ public:
        * that the IORegions has been set properly. */
   virtual void Write(const void* buffer);
 
+  /** Set sorting method by name ascending. */
+  virtual void SortImageListByNameAscend();
+
+  /** Set sorting method by name descending. */
+  virtual void SortImageListByNameDescend();
+
 
   protected:
   IPLCommonImageIO();
