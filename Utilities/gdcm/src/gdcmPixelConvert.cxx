@@ -174,8 +174,8 @@ bool PixelConvert::DecompressRLE16BitsFromRLE8Bits( int NumberOfFrames )
    {
       for ( unsigned int j = 0; j < PixelNumber; j++ )
       {
-         *(x++) = *(a++);
          *(x++) = *(b++);
+         *(x++) = *(a++);
       }
    }
 
@@ -425,7 +425,7 @@ bool PixelConvert::ReadAndDecompressJPEGFile( std::ifstream* fp )
             return false;
          }
       }
-      else if ( BitsStored == 12)
+      else if ( BitsStored <= 12)
       {
          // Reading Fragment pixels
          if ( ! gdcm_read_JPEG_file12 ( fp, localDecompressed ) )
@@ -433,7 +433,7 @@ bool PixelConvert::ReadAndDecompressJPEGFile( std::ifstream* fp )
             return false;
          }
       }
-      else if ( BitsStored == 16)
+      else if ( BitsStored <= 16)
       {
          // Reading Fragment pixels
          if ( ! gdcm_read_JPEG_file16 ( fp, localDecompressed ) )
