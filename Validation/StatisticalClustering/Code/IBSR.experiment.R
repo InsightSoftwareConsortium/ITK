@@ -1,7 +1,7 @@
 validationRoot <- "/share/work/src/Insight/Validation/StatisticalClustering" ;
 imagePath <- "/share/work/data/ibsr" ;
-paramPath <- paste(validationRoot, "/Inputs/ibsr", sep="") ;
 binPath <- "/share/bin-linux/insight/bin" ;
+paramPath <- paste(validationRoot, "/Inputs/ibsr", sep="") ;
 scriptPath <- getwd() ;
 iteration <- 4000 ;
 parametersMutationScales <- c(1, 2) ;
