@@ -68,7 +68,7 @@ public:
   /** Default constructor */
   ConstRandomAccessNeighborhoodIterator()
     : Superclass()
-  {  itkGenericOutputMacro("The ConstRandomAccessNeighborhood is deprecated and will be removed.  Use ConstNeighborhoodIterator instead"); }
+  {  itkGenericOutputMacro( << "The ConstRandomAccessNeighborhood is deprecated and will be removed.  Use ConstNeighborhoodIterator instead"); }
 
   /** Virtual destructor */
   virtual ~ConstRandomAccessNeighborhoodIterator() {}
@@ -78,7 +78,7 @@ public:
                                          ConstRandomAccessNeighborhoodIterator
                                          &orig )
     : Superclass(orig)
-    {}
+    { itkGenericOutputMacro( << "The ConstRandomAccessNeighborhood iterator is deprecated and will be removed.  Please use the ConstNeighborhoodIterator instead."); }
   
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */
@@ -87,7 +87,7 @@ public:
                        const RegionType &region
                                         )
     : Superclass(radius, ptr, region)
-    {}
+     { itkGenericOutputMacro( << "The ConstRandomAccessNeighborhood iterator is deprecated and will be removed.  Please use the NeighborhoodIterator instead."); }
 
   /** Assignment operator */
   Self &operator=(const Self& orig)
@@ -99,54 +99,7 @@ public:
   /** Standard itk print method */
   virtual void PrintSelf(std::ostream &, Indent) const;
 
-  /** Addition of an itk::Offset.  Note that this method does not do any bounds
-   * checking.  Adding an offset that moves the iterator out of its assigned
-   * region will produce undefined results. */
-  //  Self &operator+=(const OffsetType &);
-
-  /** Subtraction of an itk::Offset. Note that this method does not do any bounds
-   * checking.  Subtracting an offset that moves the iterator out of its
-   * assigned region will produce undefined results. */
-  //  Self &operator-=(const OffsetType &);
-
-  /** Distance between two iterators */
-  //  OffsetType operator-(const Self& b)
-  //  {  return m_Loop - b.m_Loop;  }
-  
 };
-  /*
-template<class TImage>
-inline ConstRandomAccessNeighborhoodIterator<TImage>
-operator+(const ConstRandomAccessNeighborhoodIterator<TImage> &it,
-          const typename ConstRandomAccessNeighborhoodIterator<TImage>
-          ::OffsetType &ind)
-{
-  ConstRandomAccessNeighborhoodIterator<TImage> ret;
-  ret = it;
-  ret += ind;
-  return ret;
-}
-
-template<class TImage>
-inline ConstRandomAccessNeighborhoodIterator<TImage>
-operator+(const typename ConstRandomAccessNeighborhoodIterator<TImage>
-          ::OffsetType &ind,
-          const ConstRandomAccessNeighborhoodIterator<TImage> &it)
-{  return (it + ind); }
-
-template<class TImage>
-inline ConstRandomAccessNeighborhoodIterator<TImage>
-operator-(const ConstRandomAccessNeighborhoodIterator<TImage> &it,
-          const typename ConstRandomAccessNeighborhoodIterator<TImage>
-          ::OffsetType &ind)
-{
-  ConstRandomAccessNeighborhoodIterator<TImage> ret;
-  ret = it;
-  ret -= ind;
-  return ret;
-}
-*/
-
   
 } // namespace itk
 

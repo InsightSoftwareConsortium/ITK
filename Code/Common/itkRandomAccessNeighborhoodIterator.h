@@ -70,7 +70,7 @@ public:
   
   /** Copy constructor */
   RandomAccessNeighborhoodIterator( const RandomAccessNeighborhoodIterator &n )
-    : Superclass(n) {}
+    : Superclass(n) { itkGenericOutputMacro( << "The RandomAccessNeighborhood iterator is deprecated and will be removed.  Please use the NeighborhoodIterator instead."); }
   
   /** Assignment operator */
   Self &operator=(const Self& orig)
@@ -85,7 +85,7 @@ public:
                        ImageType * ptr,
                        const RegionType &region
                        )
-    : Superclass(radius, ptr, region) { }
+    : Superclass(radius, ptr, region) {  itkGenericOutputMacro( << "The RandomAccessNeighborhood iterator is deprecated and will be removed.  Please use the NeighborhoodIterator instead.");  }
 
   /** Standard print method */
   virtual void PrintSelf(std::ostream &, Indent) const;
