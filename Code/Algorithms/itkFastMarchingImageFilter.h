@@ -51,7 +51,9 @@ namespace itk
  * This class is templated over the level set image type and the speed image
  * image type. The initial front is specified by two containers: one containing
  * the known points and one containing the trial points. The speed function
- * can be specified as a speed image or a speed constant.
+ * can be specified as a speed image or a speed constant. The speed image
+ * is set using method SetInput(). If the speed image is NULL, a constant
+ * speed function is used and is specified using method SetSpeedConstant().
  *
  * If the speed function is constant and of value one, fast marching results
  * in a approximate distance function from the initial alive points.
@@ -154,13 +156,6 @@ public:
   /** Get the container of Trial Points representing the initial front. */
   NodeContainerPointer GetTrialPoints( )
     { return m_TrialPoints; };
-
-  /** Set the input Speed Image. If the Speed Image is NULL, 
-   * the SpeedConstant value is used for the whole level set. */
-  void SetSpeedImage( const SpeedImageType * ptr );
-
-  /** Get the input Speed Image. */
-  const SpeedImageType * GetSpeedImage(void);
 
   /** Get the point type label image. */
   LabelImagePointer GetLabelImage() const

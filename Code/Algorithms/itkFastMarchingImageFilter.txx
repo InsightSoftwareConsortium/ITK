@@ -74,33 +74,6 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   os << indent << "Output size: " << m_OutputSize << std::endl;
 }
 
-
-/*
- *
- */
-template <class TLevelSet, class TSpeedImage>
-void
-FastMarchingImageFilter<TLevelSet,TSpeedImage>
-::SetSpeedImage(
-const SpeedImageType * ptr )
-{
-  this->SetInput( ptr );
-}
-
-
-/*
- *
- */
-template <class TLevelSet, class TSpeedImage>
-const typename FastMarchingImageFilter<TLevelSet,TSpeedImage>
-::SpeedImageType *
-FastMarchingImageFilter<TLevelSet,TSpeedImage>
-::GetSpeedImage()
-{
-  return this->GetInput();
-}
-
-
 /*
  *
  */

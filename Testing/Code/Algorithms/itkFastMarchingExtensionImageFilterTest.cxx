@@ -68,7 +68,7 @@ int itkFastMarchingExtensionImageFilterTest(int, char**)
     speedIter.Set( 1.0 );
     }
 
-  marcher->SetSpeedImage( speedImage );
+  marcher->SetInput( speedImage );
 
   // deliberately cause an exception by not setting AuxTrialValues
   passed = false;

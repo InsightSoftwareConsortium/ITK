@@ -383,7 +383,7 @@ int main( int argc, char **argv )
 
   sigmoid->SetInput( gradientMagnitude->GetOutput() );
 
-  fastMarching->SetSpeedImage( sigmoid->GetOutput() );
+  fastMarching->SetInput( sigmoid->GetOutput() );
   
   thresholder->SetInput( fastMarching->GetOutput() );
 

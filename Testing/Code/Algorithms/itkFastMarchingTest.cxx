@@ -71,7 +71,7 @@ int itkFastMarchingTest(int, char**)
     }
 
   speedImage->Print( std::cout );
-  marcher->SetSpeedImage( speedImage );
+  marcher->SetInput( speedImage );
 
   // turn on debugging
   marcher->DebugOn();
@@ -123,7 +123,7 @@ int itkFastMarchingTest(int, char**)
   std::cout << "StoppingValue: " << marcher->GetStoppingValue() << std::endl;
   std::cout << "CollectPoints: " << marcher->GetCollectPoints() << std::endl;
 
-  std::cout << "SpeedImage: " << marcher->GetSpeedImage();
+  std::cout << "SpeedImage: " << marcher->GetInput();
   std::cout << std::endl;
 
   marcher->Print( std::cout );
