@@ -74,7 +74,6 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     list.push_back(p);
   }
   
-/*
   for( unsigned int i=0; i<5; i++)
   {
     TubePointType p;
@@ -154,7 +153,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     p.SetNormal(normal2,1);
     list6.push_back(p);
   }
-*/
+
   // Landmark point list
   for( unsigned int i=0; i<3; i++)
   {
@@ -170,7 +169,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   tube1->SetId(1);
   tube1->SetPoints(list);
   tube1->ComputeBoundingBox();
-/*
+
   TubePointer tube2 = TubeType::New();
   tube2->GetProperty()->SetName("Tube 2");
   tube2->SetId(2);
@@ -182,12 +181,12 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   tube3->SetId(3);
   tube3->SetPoints(list3);
   tube3->ComputeBoundingBox();
-*/ 
+
   GroupPointer tubeN1 = GroupType::New();
   tubeN1->GetProperty()->SetName("tube network 1");
   tubeN1->SetId(0);
   tubeN1->AddSpatialObject( tube1 );
-/*  tubeN1->AddSpatialObject( tube2 );
+  tubeN1->AddSpatialObject( tube2 );
 
 
   GroupPointer tubeN2 = GroupType::New();
@@ -211,11 +210,11 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   LinePointer line = LineType::New();
   line->SetPoints(list6);
   line->GetProperty()->SetName("Line 1");
-*/
+
   LandmarkPointer landmark = LandmarkType::New();
   landmark->SetPoints(list7);
   landmark->GetProperty()->SetName("Landmark 1");
-/*
+
   typedef ImageType::ImageType itkImageType;
   typedef itkImageType::Pointer     ImagePointer;
   typedef itkImageType::SizeType    SizeType;
@@ -262,10 +261,9 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   tubeN1->AddSpatialObject( tubeN2 );
   tubeN1->AddSpatialObject( blob );
   tubeN1->AddSpatialObject( line );
-  tubeN1->AddSpatialObject( surface );*/
-
+  tubeN1->AddSpatialObject( surface );
   tubeN1->AddSpatialObject( landmark );
-/*
+
   std::cout<<"Testing Number of children: ";
   
   if( tubeN1->GetNumberOfChildren() != 7 )
@@ -277,12 +275,11 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   {
     std::cout<<"[PASSED]"<<std::endl;
   }
-*/
+
   std::cout<<"Testing Writing SceneSpatialObject: ";
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(tubeN1);
-  //writer->SetInput(landmark);
   writer->SetFullFileName("Objects.meta");
   writer->Update();
 
@@ -305,10 +302,11 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   {
     std::cout<<" [PASSED]"<<std::endl;
   }
-/*  std::cout<<"Testing Number of children:";
-  if(myScene->GetNumberOfObjects(1) != 9)
+
+  std::cout<<"Testing Number of children:";
+  if(myScene->GetNumberOfObjects(1) != 8)
   {
-    std::cout << "found " << myScene->GetNumberOfObjects(1) << "instead of 9" << std::endl;
+    std::cout << "found " << myScene->GetNumberOfObjects(1) << " instead of 8" << std::endl;
     std::cout<<" [FAILED]"<<std::endl;
     return EXIT_FAILURE;
   }
@@ -649,7 +647,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     }
 
   std::cout<<" [PASSED]"<<std::endl; 
-*/
+
   std::cout << " [TEST DONE]" << std::endl;
 
   return EXIT_SUCCESS;
