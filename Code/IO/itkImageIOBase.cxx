@@ -288,7 +288,10 @@ void ImageIOBase::SetNumberOfDimensions(unsigned int dim)
 {
   if(dim != m_NumberOfDimensions)
     {
-    m_Dimensions.resize(dim);
+    m_Dimensions.resize( dim );
+    m_Origin.resize( dim );
+    m_Spacing.resize( dim );
+    m_Strides.resize( dim+2 );
     m_NumberOfDimensions = dim;
     this->Modified();
     }
