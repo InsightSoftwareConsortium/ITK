@@ -31,11 +31,12 @@ String PointerToMemberType::GenerateName(const String& indirection,
                                          bool isConst, bool isVolatile) const
 {
   String cv = this->GetRightCvString(isConst, isVolatile);
-  String indirect = m_ClassType->GetName() + "::*" + cv;
-  if(indirection != "")
+  String indirect = indirection;
+  if(indirect != "")
     {
-    indirect += " "+indirection;
+    indirect += " ";
     }
+  indirect += m_ClassType->GetName() + "::*" + cv;
   return m_ReferencedType.GenerateName(indirect);
 }
 
