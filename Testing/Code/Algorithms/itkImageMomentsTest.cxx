@@ -90,7 +90,8 @@ main( int argc, char *argv[] )
     /* FIXME: The method used here to set the points is klutzy,
        but appears to be the only method currently supported. */
     itk::Index<3> index;          /* Index over pixels */
-    for ( int i = 0; i < 6; i++) {
+    for ( int i = 0; i < 6; i++) 
+    {
       index.SetIndex(point[i]);
       image->SetPixel(index, mass);
     }
@@ -151,21 +152,32 @@ main( int argc, char *argv[] )
     std::cout << "Distance from composition to identity = ";
     std::cout << trerr << std::endl;
 
+
     /* Compute and report max abs error in computed */
     double tmerr = abs(ttm - ctm);  // Error in total mass
     double cgerr = 0.0;             // Error in center of gravity
     double pmerr = 0.0;             // Error in moments
     double paerr = 0.0;             // Error in axes
-    for ( int i = 0; i < 3; ++i) {
-        if ( abs(ccg[i] - tcg[i]) > cgerr )
-            cgerr = abs(ccg[i] - tcg[i]);
-        if ( abs(cpm[i] - tpm[i]) > pmerr )
-            pmerr = abs(cpm[i] - tpm[i]);
-        for (int j = 0; j < 3; ++j) {
-            if (abs(cpa[i][j] - tpa[i][j]) > paerr)
-                paerr = abs(cpa[i][j] - tpa[i][j]);
+
+    for ( int i = 0; i < 3; ++i) 
+    {
+      if ( fabs(ccg[i] - tcg[i]) > cgerr ) 
+      {
+        cgerr = fabs(ccg[i] - tcg[i]);
+      }
+      if ( fabs(cpm[i] - tpm[i]) > pmerr ) 
+      {
+        pmerr = fabs(cpm[i] - tpm[i]);
+      }
+      for (int j = 0; j < 3; ++j) 
+      {
+        if ( fabs(cpa[i][j] - tpa[i][j]) > paerr)
+        {
+          paerr = fabs(cpa[i][j] - tpa[i][j]);
         }
+      }
     }
+
     std::cout << "\nErrors found in:\n";
     std::cout << "   Total mass        = " << tmerr << std::endl;
     std::cout << "   Center of gravity = " << cgerr << std::endl;
