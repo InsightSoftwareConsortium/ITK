@@ -114,7 +114,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
   m_ImageIO->SetFileName(m_FileName.c_str());
   m_ImageIO->ReadImageInformation();
 
-  if( m_ImageIO->GetNumberOfDimensions() != TOutputImage::ImageDimension )
+  if( m_ImageIO->GetNumberOfDimensions() < TOutputImage::ImageDimension )
   {
     throw ImageFileReaderException(__FILE__, __LINE__, "Wrong image dimension");
   }
