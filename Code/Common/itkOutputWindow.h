@@ -47,6 +47,11 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(Image, ImageBase);
+
+  /** 
    * This is a singleton pattern New.  There will only be ONE
    * reference to a OutputWindow object per process.  Clients that
    * call this must call Delete on the object so that the reference
