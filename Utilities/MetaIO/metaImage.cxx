@@ -920,7 +920,6 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
     z.next_out = output_buffer;
     z.avail_out = buffer_size;
    
-    int status;
     int count;
 
     unsigned long j=0;
@@ -929,7 +928,7 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
       {
       if ( z.avail_in == 0 ) 
         {
-        status = deflate( &z, Z_FINISH );
+        deflate( &z, Z_FINISH );
         count = buffer_size - z.avail_out;
         if ( count ) 
           {
@@ -937,7 +936,7 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
           }
         break;
         }
-        status = deflate( &z, Z_NO_FLUSH );
+        deflate( &z, Z_NO_FLUSH );
         count = buffer_size - z.avail_out;
         memcpy((char*)m_CompressedElementData+j,(char*)output_buffer,count);
         j += count;
@@ -1364,14 +1363,13 @@ M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity)
     std::cout << "m_CompressedDataSize = " << m_CompressedDataSize << std::endl;
     std::cout << "readSize =  " << readSize << std::endl;
  
-    int err = 0;
     z_stream d_stream;
  
     d_stream.zalloc = (alloc_func)0;
     d_stream.zfree = (free_func)0;
     d_stream.opaque = (voidpf)0;
     
-    err = inflateInit(&d_stream);
+    inflateInit(&d_stream);
     d_stream.next_in  = compr;
     d_stream.avail_in = (unsigned int)(m_CompressedDataSize);
  
@@ -1379,14 +1377,14 @@ M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity)
       {
       d_stream.next_out = (unsigned char *)_data; 
       d_stream.avail_out = readSize;
-      err = inflate(&d_stream, Z_NO_FLUSH);
+      int err = inflate(&d_stream, Z_NO_FLUSH);
       if((err == Z_STREAM_END))
         {
         break;
         }
       }
     std::cout << "Done" << d_stream.total_out <<  std::endl;
-    err = inflateEnd(&d_stream);
+    inflateEnd(&d_stream);
     }
   else // if not compressed
     {
