@@ -90,7 +90,7 @@ MeanSquaresPointSetToImageMetric<TTarget,TMapper>
   typename  PointsContainerType::Iterator       pt;
   typename  PointsDataContainerType::Iterator   vl;
 
-  TargetPointer target = Superclass::GetTarget();
+  TargetConstPointer target = Superclass::GetTarget();
 
   PointsContainerPointerType       points = target->GetPoints();
   PointsDataContainerPointerType   data   = target->GetPointData();
