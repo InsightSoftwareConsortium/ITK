@@ -9,7 +9,7 @@ ENDIF(ITK_BINARY_DIR)
 SET(BASIC_FILTERS_TESTS ${CXX_TEST_PATH}/itkBasicFiltersTests)
 SET(BASIC_FILTERS_HEADER_TEST ${CXX_TEST_PATH}/itkBasicFiltersHeaderTest)
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/BasicFilters)
-SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
+SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 
 ADD_TEST(itkBasicFiltersPrintTest ${BASIC_FILTERS_TESTS} itkBasicFiltersPrintTest)
 ADD_TEST(itkBasicFiltersPrintTest2 ${BASIC_FILTERS_TESTS} itkBasicFiltersPrintTest2)

@@ -113,7 +113,7 @@ ADD_TEST(itkVoronoiSegmentationImageFilterTest ${ALGORITHMS_TESTS2} itkVoronoiSe
 ADD_TEST(itkWatershedImageFilterTest ${ALGORITHMS_TESTS2} itkWatershedImageFilterTest)
 
 
-SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
+SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 ADD_TEST(itkCurvatureFlowTest ${ALGORITHMS_TESTS}
     itkCurvatureFlowTest ${TEMP}/itkCurvatureFlowTest.vtk)
 
