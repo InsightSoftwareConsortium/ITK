@@ -49,6 +49,7 @@ extern "C"
 {
   int Vxlnumericstcl_Init(Tcl_Interp*);
   int Itkcommontcl_Init(Tcl_Interp*);
+  int Itkiotcl_Init(Tcl_Interp*);
 }
 
 /** Main application initialization function.  */
@@ -74,6 +75,7 @@ int itkTclAppInit(Tcl_Interp* interp)
   // Initialize the built-in packages.
   if(Vxlnumericstcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
   if(Itkcommontcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
+  if(Itkiotcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
   
   // Initialize all ITK Tcl packages.
   static char initScript[] = "package require itk 0.7";

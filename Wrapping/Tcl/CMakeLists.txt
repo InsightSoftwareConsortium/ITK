@@ -5,7 +5,7 @@ INCLUDE_DIRECTORIES(${TCL_INCLUDE_PATH}
                     ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/doc
                     ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vnl)
 
-SUBDIRS(Numerics Common Executable)
+SUBDIRS(Numerics Common IO Executable)
 #SUBDIRS(Numerics Common BasicFilters Algorithms)
 
 INCLUDE(${ITK_SOURCE_DIR}/Wrapping/Tcl/itkConfigureTclPackages.cmake)

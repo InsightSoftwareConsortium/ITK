@@ -8,8 +8,12 @@ ADD_EXECUTABLE(itktcl itkTclAppInit.cxx)
 TARGET_LINK_LIBRARIES(itktcl
   VXLNumericsTcl
   ITKCommonTcl
+  ITKIOTcl
+  ITKIO
   ITKCommon
   VXLNumerics
+  itkpng
+  itkzlib
   ${CABLE_TCL_LIBRARY}
   ${TCL_LIBRARY}
   ${TK_LIBRARY}

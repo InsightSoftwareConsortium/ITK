@@ -35,10 +35,12 @@ namespace eval itk {
     # Configure ITK Tcl packages.
     ConfigureTclPackage VXLNumericsTcl $version Numerics
     ConfigureTclPackage ITKCommonTcl   $version Common
+    ConfigureTclPackage ITKIOTcl   $version IO
     
     package ifneeded itk $version "
-      package require VXLNumericsTcl $version
-      package require ITKCommonTcl $version
+      package require itknumerics $version
+      package require itkcommon $version
+      package require itkio $version
       package provide itk $version
     "
 
@@ -50,6 +52,11 @@ namespace eval itk {
     package ifneeded itkcommon $version "
       package require ITKCommonTcl $version
       package provide itkcommon $version
+    "
+
+    package ifneeded itkio $version "
+      package require ITKIOTcl $version
+      package provide itkio $version
     "
 
   }
