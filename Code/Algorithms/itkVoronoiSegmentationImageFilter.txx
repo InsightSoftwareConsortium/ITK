@@ -95,16 +95,9 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
   double addpp=0;
   for(i=0;i<num;i++)
     {
-    if (this->GetInput()->GetRequestedRegion().IsInside( Plist[i] ) )
-      {
-      getp = (double)(this->GetInput()->GetPixel(Plist[i]));
-      addp=addp+getp;
-      addpp=addpp+getp*getp;
-      }
-    else
-      {
-      std::cout << "Point is not in image!!!! " << Plist[i] << std::endl;
-      }
+    getp = (double)(this->GetInput()->GetPixel(Plist[i]));
+    addp=addp+getp;
+    addpp=addpp+getp*getp;
     }
 
   double savemean,savevar;
