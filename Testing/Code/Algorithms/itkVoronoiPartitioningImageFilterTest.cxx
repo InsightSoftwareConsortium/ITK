@@ -22,7 +22,7 @@
 #include "itkVoronoiPartitioningImageFilter.h"
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkFixedArray.h"
-#include "../Insight/Testing/Code/BasicFilters/itkFilterWatcher.h"
+#include "../BasicFilters/itkFilterWatcher.h"
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkScalarToRGBPixelFunctor.h"
 
