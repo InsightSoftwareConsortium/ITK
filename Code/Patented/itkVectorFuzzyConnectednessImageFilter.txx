@@ -195,7 +195,8 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
         if (ppptti1[(MAX_SCALE+5) + i][(MAX_SCALE+5) + j] == 2)
           {
           ppptti1[(MAX_SCALE+5) + i][(MAX_SCALE+5) + j] = 1;
-          location = j,i;
+          location[0] = j
+          location[1] = i;
           m_CirclePointsLoc[k][tti2] = location;
           tti2 = tti2+1;
           }
