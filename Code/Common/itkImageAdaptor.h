@@ -88,6 +88,30 @@ public:
    */
   typedef   TAccessor   AccessorType;
 
+  /** 
+   * Index typedef support. An index is used to access pixel values.
+   */
+  typedef Index<ImageDimension>  IndexType;
+
+  /** 
+   * Size typedef support. A size is used to define region bounds.
+   */
+  typedef Size<ImageDimension>  SizeType;
+
+  /** 
+   * Region typedef support. A region is used to specify a subset of an image.
+   */
+  typedef ImageRegion<ImageDimension>  RegionType;
+
+  /** 
+   * Typedef for associated AffineTransform
+   *
+   * This is used specifically as the type of the index-to-physical and
+   * physical-to-index transforms associated with the origin and spacing
+   * for the image, and more generally as any affine transformation of
+   * the image.
+   */
+  typedef AffineTransform<double, ImageDimension> AffineTransformType;
 
   /** 
    * Run-time type information (and related methods).
@@ -241,13 +265,13 @@ public:
   /**
    * Delegate Modified to the Internal Image
    */
-  virtual void Modified();
+  virtual void Modified() const;
 
 
   /**
    * Delegate GetMTime to the Internal Image
    */
-  virtual unsigned long GetMTime();
+  virtual unsigned long GetMTime() const;
 
 
   virtual void Update();
