@@ -26,13 +26,6 @@ template <class TPixel, unsigned int VImageDimension>
 ImportImageFilter<TPixel, VImageDimension>
 ::ImportImageFilter()
 {
-  unsigned int idx;
-  
-  for (idx = 0; idx < VImageDimension; ++idx)
-    {
-    m_Spacing[idx] = 1.0;
-    m_Origin[idx] = 0.0;
-    }
 }
 
 /**
@@ -129,8 +122,6 @@ ImportImageFilter<TPixel, VImageDimension>
 
   // we need to compute the output spacing, the output origin, the
   // output image size, and the output image start index
-  outputPtr->SetSpacing( m_Spacing );
-  outputPtr->SetOrigin( m_Origin );
   outputPtr->SetLargestPossibleRegion( m_Region );
 }
 
