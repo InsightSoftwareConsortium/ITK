@@ -70,6 +70,9 @@ int itkBinaryThresholdImageFilterTest2(int ac, char* av[] )
   statistics->SetInput( reader2->GetOutput() );
   threshold->SetInput( reader->GetOutput() );
 
+  // print before assigning thresholds
+  threshold->Print(std::cout);
+
   // now connect the inputs and outputs that are decorated scalars
   threshold->SetUpperThresholdInput( statistics->GetMeanOutput() );
   threshold->SetLowerThresholdInput( statistics->GetMinimumOutput() );
