@@ -136,14 +136,6 @@ protected:
   /** Allocate the internal buffers for internal interations. */
   virtual void AllocateBuffers(bool outputOnly = false);
 
-
-  /* */
-  virtual void InitializeIteration()
-  {
-    // Estimate the progress of the filter
-    //    this->SetProgress( (float)this->GetElapsedIterations()
-    //                       / (float)this->GetMaximumIterations() );
-  }
   /** Swap the pointers to the two internal pointers. Useful
    * when the output of one iteration is the input to the next
    * iteration. */
