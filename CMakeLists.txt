@@ -127,7 +127,7 @@ ${ITK_BINARY_DIR}/Testing/Utilities/Doxygen.tcl COPYONLY)
 
 
 ADD_CUSTOM_TARGET(Nightly 
-"${TCLSHCOMMAND} Testing/Utilities/DashboardManager.tcl Nightly Start")
+"${TCLSHCOMMAND} Testing/Utilities/DashboardManager.tcl Nightly Start Build Test Submit")
 ADD_CUSTOM_TARGET(NightlyBuild 
 "${TCLSHCOMMAND} Testing/Utilities/DashboardManager.tcl Nightly Start Build")
 ADD_CUSTOM_TARGET(NightlyTest 
