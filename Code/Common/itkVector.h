@@ -68,6 +68,9 @@ namespace itk
  * plus an array of vector values. (The scalar and vectors can be of
  * different data type.)
  * 
+ *
+ * \ingroup Geometry
+ * 
  * \sa Image
  * \sa Mesh
  * \sa Point

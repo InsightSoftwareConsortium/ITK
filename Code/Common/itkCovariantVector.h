@@ -72,6 +72,9 @@ namespace itk
  * to surfaces and gradients of functions. AffineTransform transform
  * covariant vectors different than vectors.
  *
+ *
+ * \ingroup Geometry
+ * 
  * \sa Image
  * \sa Mesh
  * \sa Point

@@ -58,6 +58,7 @@ namespace itk
  * short, float, complex).  The TPointDimension defines the number of
  * components in the point array. 
  *
+ * \ingroup Geometry
  * 
  * \sa Image
  * \sa Mesh
