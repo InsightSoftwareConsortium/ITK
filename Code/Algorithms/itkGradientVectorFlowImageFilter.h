@@ -98,7 +98,7 @@ private:
   double m_NoiseLevel;
 
   LaplacianFilterPointer m_LaplacianFilter;
-  InputImagePointer m_IntermediateImage;
+  typename Superclass::InputImagePointer m_IntermediateImage;
   InternalImagePointer m_InternalImages[ImageDimension];
   
 };
