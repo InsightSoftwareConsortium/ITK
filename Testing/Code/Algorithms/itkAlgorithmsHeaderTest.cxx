@@ -111,17 +111,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkVoronoiSegmentationImageFilter.h"
 #include "itkVoronoiSegmentationImageFilterBase.h"
 #include "itkVoronoiSegmentationRGBImageFilter.h"
-#include "itkWatershedBoundary.h"
-#include "itkWatershedBoundaryResolver.h"
-#include "itkWatershedEquivalenceRelabeler.h"
-#include "itkWatershedEquivalencyTable.h"
-#include "itkWatershedImageFilter.h"
-#include "itkWatershedOneWayEquivalencyTable.h"
-#include "itkWatershedRelabeler.h"
-#include "itkWatershedSegmentTable.h"
-#include "itkWatershedSegmentTree.h"
-#include "itkWatershedSegmentTreeGenerator.h"
-#include "itkWatershedSegmenter.h"
 
 int main ( int argc, char* argv )
 {

@@ -20,6 +20,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkConvertPixelBuffer.h"
 #include "itkDefaultConvertPixelTraits.h"
 #include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 #include "itkImageIOBase.h"
 #include "itkImageIOFactory.h"
 #include "itkImageIORegion.h"
@@ -30,6 +31,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkRawImageIO.h"
 #include "itkVOLImageIO.h"
 #include "itkVOLImageIOFactory.h"
+#include "itkVTKImageIO.h"
+#include "itkVTKImageIOFactory.h"
 
 int main ( int argc, char* argv )
 {
