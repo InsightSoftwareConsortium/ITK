@@ -145,7 +145,7 @@ MembershipSample< TSample >
 }
 
 template< class TSample >
-inline typename MembershipSample< TSample >::MeasurementType&
+inline typename MembershipSample< TSample >::MeasurementType
 MembershipSample< TSample >
 ::GetMeasurement(const InstanceIdentifier &id,
                  const unsigned int &dimension)

@@ -133,7 +133,7 @@ public:
   
   /** returns the measurement element which is the 'n'-th element 
    * in the 'd' dimension of the measurement vector */
-  MeasurementType& GetMeasurement(const InstanceIdentifier &id, 
+  MeasurementType GetMeasurement(const InstanceIdentifier &id, 
                                   const unsigned int &dimension) ;
 
   /** returns the frequency of the instance which is identified by the 'id' */
