@@ -251,6 +251,30 @@ QuadraticEdgeCell< TCellInterface >
   return true;  
 }
 
+
+template <typename TCellInterface>
+void 
+QuadraticEdgeCell< TCellInterface >
+::EvaluateShapeFunctions( 
+          const Array<CoordRepType> & parametricCoordinates,
+                Array<InterpolationWeightType> & weights )
+{
+
+  CoordRepType x = parametricCoordinates[0]; // one-dimensional cell
+  
+  if( weights.Size() != this->GetNumberOfPoints() )
+    {
+    weights = Array<InterpolationWeightType>( this->GetNumberOfPoints() );
+    }
+
+  weights[0] =     ( 2*x - 1.0 ) * ( x-1.0 );
+  weights[1] =     ( 2*x - 1.0 ) * ( x     );
+  weights[2] = 4 * ( 1.0 -   x ) * ( x     );
+
+}
+
+
 } // end namespace itk
 
 #endif
+

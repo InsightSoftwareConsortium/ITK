@@ -88,11 +88,18 @@ public:
   QuadraticEdgeCell() {}
   ~QuadraticEdgeCell() {}
 
+  /** Given the parametric coordinates of a point in the cell
+   * returned the values of its ShapeFunctions */
+  virtual void EvaluateShapeFunctions( 
+                          const Array<CoordRepType> & parametricCoordinates,
+                                Array<InterpolationWeightType> & weights);
+
+
 protected:
   /** Store number of points needed for a line segment. */
   PointIdentifier m_PointIds[NumberOfPoints];
 
- private:
+private:
   QuadraticEdgeCell(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 };
