@@ -99,12 +99,7 @@ public:
   typedef typename CastingFilterType::Pointer             CastingFilterPointer;
 
  /**  Pointer to the Output Image */
-  typedef typename TOutputImage::Pointer                  OutputImagePointer;                                  
-
-
-  /** Type of the output Image */
-  typedef typename          OutputImageType::PixelType      OutputPixelType;
-  typedef typename PixelTraits<OutputPixelType>::ValueType  OutputComponentType;
+  typedef typename OutputImageType::Pointer                  OutputImagePointer;                                  
 
   /**  Command for observing progress of internal pipeline filters */
   typedef          MemberCommand< Self >     CommandType;  
