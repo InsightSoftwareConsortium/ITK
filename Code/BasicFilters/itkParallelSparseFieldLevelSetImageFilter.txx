@@ -174,7 +174,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   this->Iterate();
   
   // Clean up
-  if (m_ManualReinitialization == false)
+  if (this->GetManualReinitialization() == false)
     {
     this->DeallocateData();
     this->SetStateToUninitialized(); // Reset the state once execution is
