@@ -27,7 +27,8 @@
 #include <stdio.h>
 
 extern "C" {
-#include <jpeglib.h>
+// The regular jpeg lossy lib is the 8bits one:
+#include <itkjpeg/8/jpeglib.h>
 #include <setjmp.h>
 }
 

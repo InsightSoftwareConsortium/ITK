@@ -48,8 +48,8 @@
 #undef FAR
 #endif
 
-#include "jpeglib.h"
-#include "jerror.h"
+#include "itkjpeg/8/jpeglib.h"
+#include "itkjpeg/8/jerror.h"
 
 /*
  * On some machines it may be worthwhile to use _setjmp or sigsetjmp
@@ -549,7 +549,7 @@ alloc_downsampled_buffers(TIFF* tif, jpeg_component_info* comp_info,
                 samples_per_clump += compptr->h_samp_factor *
                         compptr->v_samp_factor;
                 buf = TIFFjpeg_alloc_sarray(sp, JPOOL_IMAGE,
-                                compptr->width_in_blocks * DCTSIZE,
+                                compptr->width_in_data_units * DCTSIZE,
                                 (JDIMENSION) (compptr->v_samp_factor*DCTSIZE));
                 if (buf == NULL)
                         return (0);
@@ -1189,7 +1189,7 @@ JPEGEncodeRaw(TIFF* tif, tidata_t buf, tsize_t cc, tsample_t s)
                      ci++, compptr++) {
                     int hsamp = compptr->h_samp_factor;
                     int vsamp = compptr->v_samp_factor;
-                    int padding = (int) (compptr->width_in_blocks * DCTSIZE -
+                    int padding = (int) (compptr->width_in_data_units * DCTSIZE -
                                          clumps_per_line * hsamp);
                     for (ypos = 0; ypos < vsamp; ypos++) {
                         inptr = ((JSAMPLE*) buf) + clumpoffset;
@@ -1250,7 +1250,7 @@ JPEGPostEncode(TIFF* tif)
                      ci < sp->cinfo.c.num_components;
                      ci++, compptr++) {
                         int vsamp = compptr->v_samp_factor;
-                        tsize_t row_width = compptr->width_in_blocks * DCTSIZE
+                        tsize_t row_width = compptr->width_in_data_units * DCTSIZE
                                 * sizeof(JSAMPLE);
                         for (ypos = sp->scancount * vsamp;
                              ypos < DCTSIZE * vsamp; ypos++) {

@@ -1,0 +1,9 @@
+# JPEG 12 bits project
+
+INCLUDE_DIRECTORIES(
+  "${CMAKE_CURRENT_BINARY_DIR}"
+  "${ITKJPEG_SOURCE_DIR}")
+ADD_LIBRARY(itkjpeg12 ${JPEG_SOURCES})
+INSTALL_TARGETS(/lib/InsightToolkit itkjpeg12)
+
+

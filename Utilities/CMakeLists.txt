@@ -8,14 +8,13 @@ SET(DART_EXPERIMENTAL_USE_PROJECT_NAME 1)
 # Build third-party utilities.
 ITK_THIRD_PARTY_SUBDIR(ZLIB zlib)
 ITK_THIRD_PARTY_SUBDIR(PNG  png)
-ITK_THIRD_PARTY_SUBDIR(JPEG jpeg)
 ITK_THIRD_PARTY_SUBDIR(TIFF tiff)
-
 #------------------------------------------------------------------------------
 # Other utilities libraries
 SUBDIRS(MetaIO)
 SUBDIRS(NrrdIO)
 SUBDIRS(expat)
+SUBDIRS(itkjpeg)
 
 #------------------------------------------------------------------------------
 # Create the DICOMParse library for ITK
