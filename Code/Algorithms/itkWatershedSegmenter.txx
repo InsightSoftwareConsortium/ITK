@@ -839,12 +839,12 @@ void Segmenter<TInputImage>
               labelIt += moveIndex;
               newLabel = labelIt.GetPixel(0);
             }
-        }
-      
-      while( ! updateStack.empty() ) // Update all the pixels we've traversed
-        {
-          *(updateStack.top()) = newLabel;
-          updateStack.pop();
+        
+          while( ! updateStack.empty() ) // Update all the pixels we've traversed
+            {
+              *(updateStack.top()) = newLabel;
+              updateStack.pop();
+            }
         }
     }
   
