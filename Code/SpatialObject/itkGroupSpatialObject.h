@@ -54,7 +54,7 @@ public:
   itkNewMacro( Self );
 
   /** Method for creation through the object factory. */
-  itkTypeMacro( Self, Superclass );
+  itkTypeMacro( GroupSpatialObject, SpatialObject );
 
   /**  */
   bool ComputeLocalBoundingBox() const {return false;}

@@ -60,7 +60,7 @@ public:
   itkNewMacro( Self );
 
   /** Method for creation through the object factory. */
-  itkTypeMacro( Self, Superclass );
+  itkTypeMacro( LandmarkSpatialObject, PointBasedSpatialObject );
   
   /** Returns a reference to the list of the Landmark points. */
   PointListType & GetPoints( void );

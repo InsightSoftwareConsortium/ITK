@@ -60,7 +60,7 @@ public:
   itkNewMacro( Self );
 
   /** Method for creation through the object factory. */
-  itkTypeMacro( Self, Superclass );
+  itkTypeMacro( LineSpatialObject, PointBasedSpatialObject );
   
   /** Returns a reference to the list of the Line points.*/
   PointListType & GetPoints( void );

@@ -68,7 +68,7 @@ public:
   itkNewMacro( Self );
 
   /** Method for creation through the object factory. */
-  itkTypeMacro( Self, Superclass );
+  itkTypeMacro( TubeSpatialObject, PointBasedSpatialObject );
     
   /** Returns a reference to the list of the tube points.*/
   virtual PointListType & GetPoints( void );

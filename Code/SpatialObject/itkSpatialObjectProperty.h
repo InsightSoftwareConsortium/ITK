@@ -46,7 +46,7 @@ public:
   typedef SmartPointer<const Self> ConstPointer;
 
   itkNewMacro( Self );
-  itkTypeMacro( Self, Superclass );
+  itkTypeMacro( SpatialObjectProperty, LightObject );
 
   const PixelType & GetColor( void ) const;
   void SetColor(const PixelType & color );

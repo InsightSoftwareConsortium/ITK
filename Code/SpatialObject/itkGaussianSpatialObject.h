@@ -63,7 +63,7 @@ public:
                       TDimension);
 
   itkNewMacro( Self );
-  itkTypeMacro( Self, Superclass );
+  itkTypeMacro( GaussianSpatialObject, SpatialObject );
 
   /** The Radius determines the bounding box, and which points are
    * considered to be inside the SpatialObject.  All points with

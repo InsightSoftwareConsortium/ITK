@@ -60,7 +60,7 @@ public:
   itkNewMacro( Self );
 
   /** Method for creation through the object factory. */
-  itkTypeMacro( Self, Superclass );
+  itkTypeMacro( SurfaceSpatialObject, PointBasedSpatialObject );
   
   /** Returns a reference to the list of the Surface points. */
   PointListType & GetPoints( void );

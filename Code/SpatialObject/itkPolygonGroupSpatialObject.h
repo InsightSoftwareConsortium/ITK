@@ -70,7 +70,7 @@ public:
   itkNewMacro( Self );
 
   /** Method for creation through the object factory. */
-  itkTypeMacro( Self, Superclass );
+  itkTypeMacro( PolygonGroupSpatialObject, GroupSpatialObject );
   
   /** Return true if the given PolygonSpatialObject is successfully
    *  added to the PolygonGroup. */

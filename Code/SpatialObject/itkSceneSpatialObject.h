@@ -58,7 +58,7 @@ public:
 
   /** Method for creation through the object factory */ 
   itkNewMacro(Self); 
-  itkTypeMacro(Self, Superclass); 
+  itkTypeMacro(SceneSpatialObject, Object); 
 
   /** Add an object to the list of children. */ 
   void AddSpatialObject( SpatialObject<SpaceDimension> * pointer ); 

@@ -55,7 +55,7 @@ public:
                       TDimension);
 
   itkNewMacro( Self );
-  itkTypeMacro( Self, Superclass );
+  itkTypeMacro( PlaneSpatialObject, SpatialObject );
 
   /** Returns a degree of membership to the object. 
    *  That's useful for fuzzy objects. */ 

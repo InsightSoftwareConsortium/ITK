@@ -49,7 +49,7 @@ public:
   itkNewMacro( Self );
  
   /** Run-time type information (and related methods). */ 
-  itkTypeMacro( Self, Superclass );
+  itkTypeMacro( SpatialObjectTreeNode, TreeNode );
 
   /** Set the SpatialObject pointer */
   virtual void SetData(SpatialObjectType* data);

@@ -55,7 +55,7 @@ public:
   itkNewMacro( Self );
 
   /** Method for creation through the object factory. */
-  itkTypeMacro( Self, Superclass );
+  itkTypeMacro( PointBasedSpatialObject, SpatialObject );
 
   /** Return a SpatialObjectPoint given its position in the list */
   virtual const SpatialObjectPointType* 

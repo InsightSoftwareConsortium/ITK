@@ -150,7 +150,7 @@ public:
   itkNewMacro( Self );
  
   /** Run-time type information (and related methods). */ 
-  itkTypeMacro( Self, Superclass );
+  itkTypeMacro( SpatialObject, DataObject );
 
   /** Set/Get the AffineGeometryFrame */
   itkGetConstObjectMacro(AffineGeometryFrame,AffineGeometryFrameType);

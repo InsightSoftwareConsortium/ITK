@@ -51,7 +51,7 @@ public:
                       3);
 
   itkNewMacro( Self );
-  itkTypeMacro( Self, Superclass );
+  itkTypeMacro( CylinderSpatialObject, SpatialObject );
 
 
   /** Set/Get the radius */

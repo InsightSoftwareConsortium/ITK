@@ -64,7 +64,7 @@ public:
   itkNewMacro( Self );
 
   /** Method for creation through the object factory. */
-  itkTypeMacro( Self, Superclass );
+  itkTypeMacro( DTITubeSpatialObject, TubeSpatialObject );
     
 protected:
 

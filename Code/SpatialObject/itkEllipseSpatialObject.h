@@ -54,7 +54,7 @@ public:
                       TDimension);
 
   itkNewMacro( Self );
-  itkTypeMacro( Self, Superclass );
+  itkTypeMacro( EllipseSpatialObject, SpatialObject );
 
   /** Set all radii to the same radius value.  Each radius is
    *  half the length of one axis of the ellipse.  */
