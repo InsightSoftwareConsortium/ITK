@@ -150,41 +150,6 @@ bool TIFFImageIO::CanReadFile(const char* file)
     return false;
     }
 
-  bool extensionFound = false;
-  std::string::size_type TIFFPos = filename.rfind(".TIFF");
-  if ((TIFFPos != std::string::npos)
-      && (TIFFPos == filename.length() - 5))
-    {
-    extensionFound = true;
-    }
-
-  TIFFPos = filename.rfind(".tiff");
-  if ((TIFFPos != std::string::npos)
-      && (TIFFPos == filename.length() - 5))
-    {
-    extensionFound = true;
-    }
-
-  TIFFPos = filename.rfind(".tif");
-  if ((TIFFPos != std::string::npos)
-      && (TIFFPos == filename.length() - 4))
-    {
-    extensionFound = true;
-    }
-
-  TIFFPos = filename.rfind(".TIF");
-  if ((TIFFPos != std::string::npos)
-      && (TIFFPos == filename.length() - 4))
-    {
-    extensionFound = true;
-    }
-
-  if( !extensionFound )
-    {
-    itkDebugMacro(<<"The filename extension is not recognized");
-    return false;
-    }
-
   // Now check if this is a valid TIFF image
   int res = m_InternalImage->Open(file);
   if (res)
