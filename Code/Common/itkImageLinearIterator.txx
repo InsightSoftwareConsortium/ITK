@@ -46,7 +46,7 @@ ImageLinearIterator<TPixel, VImageDimension>
     }
     
     m_PositionIndex[ n  ]++;
-    if( m_PositionIndex[n] < m_Size[n] )
+    if( m_PositionIndex[n] < (int)( m_Size[n] ))
     {
       m_Position += m_OffsetTable[ n ];
       m_Remaining = true;
@@ -71,7 +71,7 @@ bool
 ImageLinearIterator<TPixel, VImageDimension>
 ::IsAtEndOfLine(void) 
 {
-  return m_PositionIndex[m_Direction] >= m_Size[m_Direction];
+  return m_PositionIndex[m_Direction] >= (int)m_Size[m_Direction];
 }
 
 
