@@ -53,7 +53,7 @@ namespace itk {
  *     or the ErodeValue.
  *   - Replace the original value with the specified value
  *
- * \sa MorphologyImageFilter, BinaryFunctionErodeImageFilter, BinaryErodeImageFilter
+ * \sa MorphologyImageFilter, BinaryDilateImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
 template<class TInputImage, class TOutputImage, class TKernel>
