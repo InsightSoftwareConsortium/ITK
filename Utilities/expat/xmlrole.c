@@ -5,7 +5,7 @@ See the file COPYING for copying permission.
 
 static char RCSId[]
   = "Header";
-const char* GetVTKEXpatXMLRole_RCSId()
+const char* GetVTKEXpatXMLRole_RCSId(void)
 {
   return RCSId;
 }
