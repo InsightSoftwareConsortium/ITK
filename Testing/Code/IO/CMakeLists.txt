@@ -163,6 +163,9 @@ ADD_TEST(itkNumericSeriesFileNamesTest ${IO_TESTS}
 		  Siemens 
 		  ${ITK_DATA_ROOT}/Input/test_geadw/I.001)
 
+ADD_TEST(itkGiplImageIOTest2 ${IO_TESTS} itkGiplImageIOTest
+         ${ITK_DATA_ROOT}/Input/ramp.gipl ${TEMP}/ramp.gipl)
+
 ENDIF(ITK_DATA_ROOT)
 
 IF(ITK_BINARY_DIR)
