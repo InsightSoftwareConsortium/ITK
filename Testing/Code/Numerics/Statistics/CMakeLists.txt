@@ -8,6 +8,7 @@ ENDIF(ITK_BINARY_DIR)
 
 SET(STATISTICS_TESTS ${CXX_TEST_PATH}/itkStatisticsTests)
 
+ADD_TEST(itkStatisticsPrintTest ${STATISTICS_TESTS} itkStatisticsPrintTest)
 ADD_TEST(itkStatisticsAlgorithmTest ${STATISTICS_TESTS} itkStatisticsAlgorithmTest)
 ADD_TEST(itkCovarianceCalculatorTest ${STATISTICS_TESTS} itkCovarianceCalculatorTest)
 ADD_TEST(itkMeanCalculatorTest ${STATISTICS_TESTS} itkMeanCalculatorTest)
@@ -35,6 +36,7 @@ ADD_TEST(itkSampleClassifierTest ${STATISTICS_TESTS}
 ADD_TEST(itkNeighborhoodSamplerTest ${STATISTICS_TESTS} itkNeighborhoodSamplerTest)
 
 SET(Statistics_SRCS
+itkStatisticsPrintTest.cxx
 itkStatisticsAlgorithmTest.cxx
 itkCovarianceCalculatorTest.cxx
 itkMeanCalculatorTest.cxx

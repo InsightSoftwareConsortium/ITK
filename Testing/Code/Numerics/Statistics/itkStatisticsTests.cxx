@@ -6,6 +6,7 @@
 
 void RegisterTests()
 {
+  REGISTER_TEST(itkStatisticsPrintTest);
   REGISTER_TEST(itkDenseFrequencyContainerTest);
   REGISTER_TEST(itkNormalVariateGeneratorTest);
   REGISTER_TEST(itkHistogramTest);
