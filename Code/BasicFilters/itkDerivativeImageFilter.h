@@ -106,7 +106,7 @@ public:
   virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
 protected:
-  DerivativeImageFilter() {}
+  DerivativeImageFilter() {m_Order = 0; m_Direction = 0;}
   virtual ~DerivativeImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
