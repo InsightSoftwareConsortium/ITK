@@ -116,12 +116,12 @@ ImageRegionSplitter<VImageDimension>
   int maxPieceUsed = (int)ceil(range/(double)valuesPerPiece) - 1;
 
   // Split the region
-  if (i < maxPieceUsed)
+  if ((int) i < maxPieceUsed)
     {
     splitIndex[splitAxis] += i*valuesPerPiece;
     splitSize[splitAxis] = valuesPerPiece;
     }
-  if (i == maxPieceUsed)
+  if ((int) i == maxPieceUsed)
     {
     splitIndex[splitAxis] += i*valuesPerPiece;
     // last piece needs to process the "rest" dimension being split
