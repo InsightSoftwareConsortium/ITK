@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkAtanImageFilter_h
 #define __itkAtanImageFilter_h
 
-#include "itkUnaryImageFilter.h"
+#include "itkUnaryFunctorImageFilter.h"
 #include "vnl/vnl_math.h"
 
 namespace itk
@@ -90,7 +90,7 @@ namespace Functor {
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT AtanImageFilter :
     public
-    UnaryImageFilter<TInputImage,TOutputImage, 
+    UnaryFunctorImageFilter<TInputImage,TOutputImage, 
     Functor::Atan< 
               typename TInputImage::PixelType, 
               typename TOutputImage::PixelType>   >
@@ -106,7 +106,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef UnaryImageFilter<TInputImage,TOutputImage, 
+  typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
     Functor::Atan< 
               typename TInputImage::PixelType, 
               typename TOutputImage::PixelType>   

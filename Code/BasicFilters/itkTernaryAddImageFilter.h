@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkTernaryAddImageFilter_h
 #define __itkTernaryAddImageFilter_h
 
-#include "itkTernaryImageFilter.h"
+#include "itkTernaryFunctorImageFilter.h"
 
 namespace itk
 {
@@ -78,7 +78,7 @@ template <class TInputImage1, class TInputImage2,
           class TInputImage3, class TOutputImage>
 class ITK_EXPORT TernaryAddImageFilter :
     public
-    TernaryImageFilter<TInputImage1,TInputImage2,
+    TernaryFunctorImageFilter<TInputImage1,TInputImage2,
                       TInputImage3,TOutputImage, 
             Function::Add3< 
                       typename TInputImage1::PixelType, 
@@ -97,7 +97,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef TernaryImageFilter<TInputImage1,TInputImage2,
+  typedef TernaryFunctorImageFilter<TInputImage1,TInputImage2,
                       TInputImage3,TOutputImage, 
                       Function::Add3< 
                       typename TInputImage1::PixelType,

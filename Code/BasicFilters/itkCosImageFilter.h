@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkCosImageFilter_h
 #define __itkCosImageFilter_h
 
-#include "itkUnaryImageFilter.h"
+#include "itkUnaryFunctorImageFilter.h"
 #include "vnl/vnl_math.h"
 
 namespace itk
@@ -91,7 +91,7 @@ namespace Functor {
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT CosImageFilter :
     public
-    UnaryImageFilter<TInputImage,TOutputImage, 
+    UnaryFunctorImageFilter<TInputImage,TOutputImage, 
     Functor::Cos< 
               typename TInputImage::PixelType, 
               typename TOutputImage::PixelType>   >
@@ -107,7 +107,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef UnaryImageFilter<TInputImage,TOutputImage, 
+  typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
     Functor::Cos< 
               typename TInputImage::PixelType, 
               typename TOutputImage::PixelType>   

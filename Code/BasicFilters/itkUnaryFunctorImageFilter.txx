@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSubtractImageFilter.h
+  Module:    itkUnaryFunctorImageFilter.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,90 +38,73 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkSubtractImageFilter_h
-#define __itkSubtractImageFilter_h
+#ifndef _itkUnaryFunctorImageFilter_txx
+#define _itkUnaryFunctorImageFilter_txx
 
-#include "itkBinaryFunctorImageFilter.h"
+#include "itkUnaryFunctorImageFilter.h"
+#include <itkImageRegionIterator.h>
 
 namespace itk
 {
-  
-/** \class SubtractImageFilter
- * \brief Implements an operator for pixel-wise substraction of two images.
- *
- * This class is parametrized over the types of the two 
- * input images and the type of the output image. 
- * Numeric conversions (castings) are done by the C++ defaults.
- *
- * \ingroup IntensityImageFilters Multithreaded
+
+/**
+ * Constructor
  */
-
-namespace Function {  
-  
-  template< class TInput1, class TInput2, class TOutput>
-  class Sub2
-  {
-  public:
-    Sub2() {};
-    ~Sub2() {};
-    inline TOutput operator()( const TInput1 & A, const TInput2 & B)
-    {
-      return (TOutput)(A - B);
-    }
-  }; 
-
+template <class TInputImage, class TOutputImage, class TFunction  >
+UnaryFunctorImageFilter<TInputImage,TOutputImage,TFunction>
+::UnaryFunctorImageFilter()
+{
+  this->SetNumberOfRequiredInputs( 1 );
 }
 
-template <class TInputImage1, class TInputImage2, class TOutputImage>
-class ITK_EXPORT SubtractImageFilter :
-    public
-    BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-    Function::Sub2< 
-              typename TInputImage1::PixelType, 
-              typename TInputImage2::PixelType,
-              typename TOutputImage::PixelType>   >
 
-
+/**
+ * ThreadedGenerateData Performs the pixel-wise addition
+ */
+template <class TInputImage, class TOutputImage, class TFunction  >
+void
+UnaryFunctorImageFilter<TInputImage,TOutputImage,TFunction>
+::ThreadedGenerateData( const OutputImageRegionType &outputRegionForThread,
+                        int threadId)
 {
-public:
-  /**
-   * Standard "Self" typedef.
-   */
-  typedef SubtractImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
-  typedef BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-    Function::Sub2< 
-              typename TInputImage1::PixelType, 
-              typename TInputImage2::PixelType,
-              typename TOutputImage::PixelType>   
-                >  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-
-
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
+  InputImagePointer  inputPtr = this->GetInput();
+  OutputImagePointer outputPtr = this->GetOutput(0);
   
-protected:
+  ImageRegionIterator<TInputImage>  inputIt(inputPtr, outputRegionForThread);
+  ImageRegionIterator<TOutputImage> outputIt(outputPtr, outputRegionForThread);
 
-  SubtractImageFilter() {}
-  virtual ~SubtractImageFilter() {}
-  SubtractImageFilter(const Self&) {}
-  void operator=(const Self&) {}
+  // support progress methods/callbacks
+  unsigned long updateVisits = 0, i=0;
+  if ( threadId == 0 )
+    {
+    updateVisits = 
+      outputPtr->GetRequestedRegion().GetNumberOfPixels()/10;
+    if ( updateVisits < 1 ) updateVisits = 1;
+    }
+        
+  TFunction function;
+
+  inputIt.GoToBegin();
+  outputIt.GoToBegin();
+  i = 0;
+  while( !inputIt.IsAtEnd() ) 
+    {
+    if ( threadId == 0 && !(i % updateVisits ) )
+      {
+      this->UpdateProgress((float)i/(float(updateVisits)*10.0));
+      }
+
+    outputIt.Set( function( inputIt.Get() ) );
+    ++inputIt;
+    ++outputIt;
+    ++i;
+    }
+}
 
 
-};
+
+
 
 } // end namespace itk
-
 
 #endif

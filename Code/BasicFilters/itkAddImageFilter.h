@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAtan2ImageFilter.h
+  Module:    itkAddImageFilter.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,57 +38,71 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkAtan2ImageFilter_h
-#define __itkAtan2ImageFilter_h
+#ifndef __itkAddImageFilter_h
+#define __itkAddImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
-#include "vnl/vnl_math.h"
+#include "itkNumericTraits.h"
+
 
 namespace itk
 {
   
-/** \class Atan2ImageFilter
- * \brief Computes arctangent pixel-wise from two images.
+/** \class AddImageFilter
+ * \brief Implements an operator for pixel-wise addition of two images.
  *
  * This class is parametrized over the types of the two 
  * input images and the type of the output image. 
  * Numeric conversions (castings) are done by the C++ defaults.
- * 
- * Both pixel input types are casted to \c double in order to be 
- * used as parameters of \c atan2(). The resulting \c double value
- * is casted to the output pixel type.
  *
- * \ingroup IntensityImageFilters Multithreaded
+ * The pixel type of the input 1 image must have a valid defintion of
+ * the operator+ with a pixel type of the image 2. This condition is 
+ * required because internally this filter will perform the operation
+ *
+ *        pixel_from_image_1 + pixel_from_image_2
+ *
+ * Additionally the type resulting from the sum, will be cast to
+ * the pixel type of the output image.
+ * 
+ * The total operation over one pixel will be
+ *
+ *  output_pixel = static_cast<OutputPixelType>( input1_pixel + input2_pixel )
+ *
+ * For example, this filter could be used directly for adding images whose
+ * pixels are vectors of the same dimension, and to store the resulting vector
+ * in an output image of vector pixels.
+ *
+ * \warning No numeric overflow checking is performed in this filter.
+ *
+ * \ingroup IntensityImageFilters  Multithreaded
  *
  */
 
 namespace Functor {  
   
-  template< class TInput1, class TInput2, class TOutput>
-  class Atan2
+  template< class TInput1, class TInput2, class TOutput >
+  class Add2
   {
   public:
-    Atan2() {};
-    ~Atan2() {};
+    typedef typename NumericTraits< TInput1 >::AccumulateType AccumulatorType;
+    Add2() {};
+    ~Add2() {};
     inline TOutput operator()( const TInput1 & A, const TInput2 & B)
     {
-      return static_cast<TOutput>( 
-          atan2(
-            static_cast<double>(A),
-            static_cast<double>(B)  )
-          );
+      const AccumulatorType sum = A;
+      return static_cast<TOutput>( sum + B );
     }
   }; 
-}
 
-// Wrap: Atan2ImageFilter<$Image,$Image,$Image,$Function>
+}
+// Wrap: AddImageFilter<$Image,$Image,$Image,$Function>
 // Wrap: <XML code for Function....>
-// Wrap: Atan2ImageFilter<Image<$BasicPixel,$BasicDimension>,$Image,$Image,$Function>
+// Wrap: AddImageFilter<Image<$BasicPixel,$BasicDimension>,$Image,$Image,$Function>
 template <class TInputImage1, class TInputImage2, class TOutputImage>
-class ITK_EXPORT Atan2ImageFilter :
+class ITK_EXPORT AddImageFilter :
     public
     BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-    Functor::Atan2< 
+    Functor::Add2< 
               typename TInputImage1::PixelType, 
               typename TInputImage2::PixelType,
               typename TOutputImage::PixelType>   >
@@ -99,13 +113,13 @@ public:
   /**
    * Standard "Self" typedef.
    */
-  typedef Atan2ImageFilter  Self;
+  typedef AddImageFilter  Self;
 
   /**
    * Standard "Superclass" typedef.
    */
   typedef BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-    Functor::Atan2< 
+    Functor::Add2< 
               typename TInputImage1::PixelType, 
               typename TInputImage2::PixelType,
               typename TOutputImage::PixelType>   
@@ -124,9 +138,10 @@ public:
   itkNewMacro(Self);
   
 protected:
-  Atan2ImageFilter() {}
-  virtual ~Atan2ImageFilter() {}
-  Atan2ImageFilter(const Self&) {}
+
+  AddImageFilter() {}
+  virtual ~AddImageFilter() {}
+  AddImageFilter(const Self&) {}
   void operator=(const Self&) {}
 
 

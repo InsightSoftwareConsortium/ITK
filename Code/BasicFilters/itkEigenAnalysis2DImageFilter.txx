@@ -44,6 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkEigenAnalysis2DImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
+
 namespace itk
 {
 
@@ -158,6 +159,7 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 ::ThreadedGenerateData( const OutputImageRegionType &outputRegionForThread,
                         int threadId)
 {
+
   typename TInputImage::Pointer inputPtr1(
                      dynamic_cast<TInputImage *>(
                            (ProcessObject::GetInput(0)).GetPointer()));
@@ -239,8 +241,6 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
       {
       outputIt3.Set( nullVector );
       }
-
-
 
     ++inputIt1;
     ++inputIt2;

@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkExpImageFilter_h
 #define __itkExpImageFilter_h
 
-#include "itkUnaryImageFilter.h"
+#include "itkUnaryFunctorImageFilter.h"
 #include "vnl/vnl_math.h"
 
 namespace itk
@@ -76,7 +76,7 @@ namespace Function {
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT ExpImageFilter :
     public
-    UnaryImageFilter<TInputImage,TOutputImage, 
+    UnaryFunctorImageFilter<TInputImage,TOutputImage, 
     Function::Exp< 
               typename TInputImage::PixelType, 
               typename TOutputImage::PixelType>   >
@@ -92,7 +92,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef UnaryImageFilter<TInputImage,TOutputImage, 
+  typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
     Function::Exp< 
               typename TInputImage::PixelType, 
               typename TOutputImage::PixelType>   

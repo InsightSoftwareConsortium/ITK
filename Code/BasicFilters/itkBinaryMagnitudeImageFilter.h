@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkBinaryMagnitudeImageFilter_h
 #define __itkBinaryMagnitudeImageFilter_h
 
-#include "itkBinaryImageFilter.h"
+#include "itkBinaryFunctorImageFilter.h"
 
 namespace itk
 {
@@ -95,7 +95,7 @@ namespace Functor {
 template <class TInputImage1, class TInputImage2, class TOutputImage>
 class ITK_EXPORT BinaryMagnitudeImageFilter :
     public
-    BinaryImageFilter<TInputImage1,TInputImage2,TOutputImage, 
+    BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
             Functor::Modulus2< 
                       typename TInputImage1::PixelType, 
                       typename TInputImage2::PixelType,
@@ -112,7 +112,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef BinaryImageFilter<TInputImage1,TInputImage2,TOutputImage, 
+  typedef BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
                       Functor::Modulus2< 
                       typename TInputImage1::PixelType, 
                       typename TInputImage2::PixelType,
