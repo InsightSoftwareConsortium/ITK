@@ -53,11 +53,11 @@ DoUnsynchedInnerProduct(Image<TPixel, VDimension> *ip,
 
   RegionNeighborhoodIterator<TPixel, VDimension>
     nbi(hoodRadius, ip, iterRegion);
-  ImageRegionSimpleIterator<TPixel, VDimension> rsi(op, iterRegion);
+  ImageRegionSimpleIterator<Image> rsi(op, iterRegion);
   rsi.Begin();
  
   DoUnsynchedInnerProduct< RegionNeighborhoodIterator<TPixel, VDimension>,
-    ImageRegionSimpleIterator<TPixel, VDimension>, 
+    ImageRegionSimpleIterator<Image>, 
     Neighborhood<TPixel, VDimension> >( nbi, rsi, oper );
 
   // Apply operator to boundary pixels using bounds checking boundary iterators
