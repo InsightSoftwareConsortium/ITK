@@ -7,6 +7,7 @@ SET(WRAP_SOURCES
   wrap_itkConfidenceConnectedImageFilter
   wrap_itkConnectedThresholdImageFilter
   wrap_itkCurvatureAnisotropicDiffusionImageFilter
+  wrap_itkCurvatureFlowImageFilter
   wrap_itkExpImageFilter
   wrap_itkExpNegativeImageFilter
   wrap_itkExtractImageFilter
