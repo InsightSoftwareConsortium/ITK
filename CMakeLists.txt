@@ -60,6 +60,13 @@ IF(BUILD_APPLICATIONS)
   SUBDIRS(Applications)
 ENDIF(BUILD_APPLICATIONS)
 
+# Add an option to build or not build the Examples
+OPTION(BUILD_EXAMPLES "Build the Examples directory" 1)
+IF(BUILD_EXAMPLES)
+  SUBDIRS(Examples)
+ENDIF(BUILD_EXAMPLES)
+
+
 # Configure files
 CONFIGURE_FILE(
 ${ITK_SOURCE_DIR}/itkConfigure.h.in 
