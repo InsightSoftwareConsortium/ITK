@@ -135,9 +135,15 @@ OtsuThresholdImageCalculator<TInputImage>
     freqLeft += relativeFrequency[j];
     meanLeft = ( meanLeftOld * freqLeftOld + 
                  (j+1) * relativeFrequency[j] ) / freqLeft;
-    meanRight = ( totalMean - meanLeft * freqLeft ) / 
-      ( 1.0 - freqLeft );
-
+    if (freqLeft == 1.0)
+      {
+      meanRight = 0.0;
+      }
+    else
+      {
+      meanRight = ( totalMean - meanLeft * freqLeft ) / 
+        ( 1.0 - freqLeft );
+      }
     double varBetween = freqLeft * ( 1.0 - freqLeft ) *
       vnl_math_sqr( meanLeft - meanRight );
    
@@ -155,9 +161,7 @@ OtsuThresholdImageCalculator<TInputImage>
 
   m_Threshold = static_cast<PixelType>( imageMin + 
                                         ( maxBinNumber + 1 ) / binMultiplier );
-
 }
-
 
 template<class TInputImage>
 void
