@@ -27,7 +27,7 @@ file mkdir $HTMLDir $SiteDir $BuildNameDir $BuildStampDir $TempDir $XMLDir
 set Out [open [file join $XMLDir Test.xml] w]
 
 puts $Out {<?xml version="1.0" encoding="UTF-8"?>}
-puts $Out {<!DOCTYPE Insight>}
+# puts $Out {<!DOCTYPE Insight>}
 puts $Out {<Testing>}
 puts $Out "\t<StartDateTime>[clock format [clock seconds]]</StartDateTime>"
 
@@ -56,9 +56,8 @@ while { [llength $Queue] != 0 } \
     {
       set Status failed
     }
-    puts $Out "\t<Test>"
+    puts $Out "\t<Test Status=\"$Status\">"
     puts $Out "\t\t<Name>[XMLSafeString $Filename]</Name>"
-    puts $Out "\t\t<Status>$Status</Status>"
     puts $Out "\t\t<Results>"
     puts $Out "\t\t\t<Measurement>"
     puts $Out "\t\t\t\t<Value>[XMLSafeString $Result]</Value>"
