@@ -74,9 +74,9 @@ CxxTypes::GetArrayType(const cxx::CvQualifiedType& elementType,
 cxx::CvQualifiedType
 CxxTypes::GetClassType(const String& name,
                        bool isConst, bool isVolatile,
-                       const cxx::ClassTypes& parents)
+                       bool isAbstract, const cxx::ClassTypes& parents)
 {
-  return typeSystem.GetClassType(name, parents)
+  return typeSystem.GetClassType(name, isAbstract, parents)
     ->GetCvQualifiedType(isConst, isVolatile);
 }
 
@@ -359,9 +359,11 @@ Namespace
  */
 Method::Pointer
 Method
-::New(const String& name, Access access, bool is_static, bool is_const)
+::New(const String& name, Access access, bool is_static, bool is_const,
+      bool is_virtual, bool is_pure_virtual)
 {
-  return new Method(name, access, is_static, is_const);
+  return new Method(name, access, is_static, is_const, is_virtual,
+                    is_pure_virtual);
 }
 
 
@@ -381,9 +383,9 @@ Constructor
  */
 Destructor::Pointer
 Destructor
-::New(Access access)
+::New(Access access, bool is_virtual)
 {
-  return new Destructor(access);
+  return new Destructor(access, is_virtual);
 }
 
 
@@ -392,9 +394,9 @@ Destructor
  */
 Converter::Pointer
 Converter
-::New(Access access, bool is_const)
+::New(Access access, bool is_const, bool is_virtual, bool is_pure_virtual)
 {
-  return new Converter(access, is_const);
+  return new Converter(access, is_const, is_virtual, is_pure_virtual);
 }
 
 
@@ -403,9 +405,11 @@ Converter
  */
 OperatorMethod::Pointer
 OperatorMethod
-::New(const String& name, Access access, bool is_const)
+::New(const String& name, Access access, bool is_const, bool is_virtual,
+      bool is_pure_virtual)
 {
-  return new OperatorMethod(name, access, is_const);
+  return new OperatorMethod(name, access, is_const, is_virtual,
+                            is_pure_virtual);
 }
 
 
@@ -425,9 +429,9 @@ OperatorFunction
  */
 Class::Pointer
 Class
-::New(const String& name, Access access)
+::New(const String& name, Access access, bool is_abstract)
 {
-  return new Class(name, access);
+  return new Class(name, access, is_abstract);
 }
 
 
@@ -436,9 +440,9 @@ Class
  */
 Struct::Pointer
 Struct
-::New(const String& name, Access access)
+::New(const String& name, Access access, bool is_abstract)
 {
-  return new Struct(name, access);
+  return new Struct(name, access, is_abstract);
 }
 
 
@@ -447,9 +451,9 @@ Struct
  */
 Union::Pointer
 Union
-::New(const String& name, Access access)
+::New(const String& name, Access access, bool is_abstract)
 {
-  return new Union(name, access);
+  return new Union(name, access, is_abstract);
 }
 
 
@@ -737,7 +741,9 @@ const cxx::ClassType* Class::GetCxxClassType(const Namespace* gns) const
       baseTypes.push_back(c->GetCxxClassType(gns));
       }
     }
-  return CxxTypes::typeSystem.GetClassType(this->GetQualifiedName(), baseTypes);
+  return CxxTypes::typeSystem.GetClassType(this->GetQualifiedName(),
+                                           this->IsAbstract(),
+                                           baseTypes);
 }
 
 /**
@@ -893,7 +899,7 @@ Context
   QualifiersConstIterator second = first; ++second;
   
   // Try looking up a class with that name.
-  Class::Pointer classKey = Class::New(*first, Public);
+  Class::Pointer classKey = Class::New(*first, Public, false);
   ClassContainer::const_iterator classIter = m_Classes.find(classKey);
   if(classIter != m_Classes.end())
     {

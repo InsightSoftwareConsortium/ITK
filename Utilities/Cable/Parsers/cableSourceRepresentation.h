@@ -328,6 +328,7 @@ public:
                                            unsigned long size);
   static cxx::CvQualifiedType GetClassType(const String& name,
                                            bool isConst, bool isVolatile,
+                                           bool isAbstract = false,
                                            const cxx::ClassTypes& parents = cxx::ClassTypes());
   static cxx::CvQualifiedType GetFunctionType(const cxx::CvQualifiedType& returnType,
                                               const cxx::CvQualifiedTypes& argumentTypes,
@@ -952,18 +953,23 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
 
   static Pointer New(const String& name, Access access,
-                     bool is_static, bool is_const);
+                     bool is_static, bool is_const, bool is_virtual,
+                     bool is_pure_virtual);
 
   virtual TypeOfObject GetTypeOfObject() const { return Method_id; }
   virtual const char* GetClassName() const { return "Method"; }
   
   bool IsStatic() const { return m_Static; }
   bool IsConst() const { return m_Const; }
+  bool IsVirtual() const { return m_Virtual; }
+  bool IsPureVirtual() const { return m_PureVirtual; }
   Access GetAccess() const  { return m_Access; }
 
 protected:
-  Method(const String& in_name, Access access, bool is_static, bool is_const):
-    Function(in_name), m_Access(access), m_Static(is_static), m_Const(is_const) {}
+  Method(const String& in_name, Access access, bool is_static, bool is_const,
+         bool is_virtual, bool is_pure_virtual):
+    Function(in_name), m_Access(access), m_Static(is_static), m_Const(is_const),
+    m_Virtual(is_virtual), m_PureVirtual(is_pure_virtual) {}
   Method(const Self&): Function("") {}
   void operator=(const Self&) {}
   virtual ~Method() {}
@@ -972,6 +978,8 @@ private:
   Access m_Access;
   bool m_Static;
   bool m_Const;
+  bool m_Virtual;
+  bool m_PureVirtual;
 };
 
 
@@ -992,8 +1000,8 @@ public:
   
 protected:
   Constructor(Access access):
-    Method("", access, false, false) {}
-  Constructor(const Self&): Method("", Public, false, false) {}
+    Method("", access, false, false, false, false) {}
+  Constructor(const Self&): Method("", Public, false, false, false, false) {}
   void operator=(const Self&) {}
   virtual ~Constructor() {}
 };
@@ -1009,15 +1017,15 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  static Pointer New(Access access);
+  static Pointer New(Access access, bool is_virtual);
 
   virtual TypeOfObject GetTypeOfObject() const { return Destructor_id; }
   virtual const char* GetClassName() const { return "Destructor"; }
   
 protected:
-  Destructor(Access access):
-    Method("", access, false, false) {}
-  Destructor(const Self&): Method("", Public, false, false) {}
+  Destructor(Access access, bool is_virtual):
+    Method("", access, false, false, is_virtual, false) {}
+  Destructor(const Self&): Method("", Public, false, false, false, false) {}
   void operator=(const Self&) {}
   virtual ~Destructor() {}
 };
@@ -1034,15 +1042,16 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  static Pointer New(Access access, bool is_const);
+  static Pointer New(Access access, bool is_const, bool is_virtual,
+                     bool is_pure_virtual);
 
   virtual TypeOfObject GetTypeOfObject() const { return Converter_id; }
   virtual const char* GetClassName() const { return "Converter"; }
   
 protected:
-  Converter(Access access, bool is_const):
-    Method("", access, false, is_const) {}
-  Converter(const Self&): Method("", Public, false, false) {}
+  Converter(Access access, bool is_const, bool is_virtual, bool is_pure_virtual):
+    Method("", access, false, is_const, is_virtual, is_pure_virtual) {}
+  Converter(const Self&): Method("", Public, false, false, false, false) {}
   void operator=(const Self&) {}
   virtual ~Converter() {}
 };
@@ -1058,7 +1067,8 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  static Pointer New(const String& name, Access access, bool is_const);
+  static Pointer New(const String& name, Access access, bool is_const,
+                     bool is_virtual, bool is_pure_virtual);
 
   virtual TypeOfObject GetTypeOfObject() const { return OperatorMethod_id; }
   virtual const char* GetClassName() const { return "OperatorMethod"; }
@@ -1066,9 +1076,10 @@ public:
   virtual String GetCallName() const { return "operator"+this->GetName(); }
   
 protected:
-  OperatorMethod(const String& name, Access access, bool is_const):
-    Method(name, access, false, is_const) {}
-  OperatorMethod(const Self&): Method("", Public, false, false) {}
+  OperatorMethod(const String& name, Access access, bool is_const,
+                 bool is_virtual, bool is_pure_virtual):
+    Method(name, access, false, is_const, is_virtual, is_pure_virtual) {}
+  OperatorMethod(const Self&): Method("", Public, false, false, false, false) {}
   void operator=(const Self&) {}
   virtual ~OperatorMethod() {}
 };
@@ -1111,7 +1122,7 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  static Pointer New(const String& name, Access access);
+  static Pointer New(const String& name, Access access, bool is_abstract);
 
   virtual TypeOfObject GetTypeOfObject() const { return Class_id; }
   virtual const char* GetClassName() const { return "Class"; }
@@ -1131,9 +1142,11 @@ public:
   typedef Context::QualifiersConstIterator QualifiersConstIterator;
   typedef Context::QualifiersInserter QualifiersInserter;  
   
+  bool IsAbstract() const { return m_Abstract; }
   const cxx::ClassType* GetCxxClassType(const Namespace* gns) const;
 protected:  
-  Class(const String& name, Access access): Context(name), m_Access(access) {}
+  Class(const String& name, Access access, bool is_abstract):
+    Context(name), m_Access(access), m_Abstract(is_abstract) {}
   Class(const Self&): Context("") {}
   void operator=(const Self&) {}
   virtual ~Class() {}
@@ -1142,6 +1155,7 @@ private:
   MethodContainer     m_Methods;
   BaseClassContainer  m_BaseClasses;
   Access              m_Access;
+  bool                m_Abstract;
 };
 
 
@@ -1156,14 +1170,15 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  static Pointer New(const String& name, Access access);
+  static Pointer New(const String& name, Access access, bool is_abstract);
   
   virtual TypeOfObject GetTypeOfObject() const { return Struct_id; }
   virtual const char* GetClassName() const { return "Struct"; }
   
 protected:
-  Struct(const String& name, Access access): Class(name, access) {}
-  Struct(const Self&): Class("", Public) {}
+  Struct(const String& name, Access access, bool is_abstract):
+    Class(name, access, is_abstract) {}
+  Struct(const Self&): Class("", Public, false) {}
   void operator=(const Self&) {}
   virtual ~Struct() {}
 };
@@ -1180,14 +1195,15 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  static Pointer New(const String& name, Access access);
+  static Pointer New(const String& name, Access access, bool is_abstract);
   
   virtual TypeOfObject GetTypeOfObject() const { return Union_id; }
   virtual const char* GetClassName() const { return "Union"; }
   
 protected:
-  Union(const String& name, Access access): Class(name, access) {}
-  Union(const Self&): Class("", Public) {}
+  Union(const String& name, Access access, bool is_abstract):
+    Class(name, access, is_abstract) {}
+  Union(const Self&): Class("", Public, false) {}
   void operator=(const Self&) {}
   virtual ~Union() {}
 };

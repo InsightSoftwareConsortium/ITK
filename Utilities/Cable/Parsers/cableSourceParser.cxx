@@ -601,13 +601,14 @@ Parser
 {
   String name = atts.Get("name");
   String accessStr = atts.Get("access");
+  bool is_abstract = atts.GetAsBoolean("abstract");
   Access access;
 
   if(accessStr == access_public)         access = Public;
   else if(accessStr == access_protected) access = Protected;
   else                                   access = Private;
   
-  Class::Pointer newClass = Class::New(name, access);
+  Class::Pointer newClass = Class::New(name, access, is_abstract);
   
   this->CurrentContext()->AddClass(newClass);
   this->PushElement(newClass);
@@ -635,13 +636,14 @@ Parser
 {
   String name = atts.Get("name");
   String accessStr = atts.Get("access");
+  bool is_abstract = atts.GetAsBoolean("abstract");
   Access access;
 
   if(accessStr == access_public)         access = Public;
   else if(accessStr == access_protected) access = Protected;
   else                                   access = Private;
   
-  Struct::Pointer newStruct = Struct::New(name, access);
+  Struct::Pointer newStruct = Struct::New(name, access, is_abstract);
 
   this->CurrentContext()->AddClass(newStruct);
   this->PushElement(newStruct);
@@ -669,13 +671,14 @@ Parser
 {
   String name = atts.Get("name");
   String accessStr = atts.Get("access");
+  bool is_abstract = atts.GetAsBoolean("abstract");
   Access access;
 
   if(accessStr == access_public)         access = Public;
   else if(accessStr == access_protected) access = Protected;
   else                                   access = Private;
 
-  Union::Pointer newUnion = Union::New(name, access);
+  Union::Pointer newUnion = Union::New(name, access, is_abstract);
   
   this->CurrentContext()->AddClass(newUnion);
   this->PushElement(newUnion);
@@ -733,13 +736,14 @@ Parser
 ::begin_Destructor(const Attributes& atts)
 {
   String accessStr = atts.Get("access");
+  bool is_virtual = atts.GetAsBoolean("virtual");
   Access access;
   
   if(accessStr == access_public)         access = Public;
   else if(accessStr == access_protected) access = Protected;
   else                                   access = Private;
   
-  Destructor::Pointer newDestructor = Destructor::New(access);
+  Destructor::Pointer newDestructor = Destructor::New(access, is_virtual);
   
   this->CurrentClass()->AddMethod(newDestructor);
   this->PushElement(newDestructor);
@@ -766,13 +770,16 @@ Parser
 {
   String accessStr = atts.Get("access");
   bool is_const = atts.GetAsBoolean("const");
+  bool is_virtual = atts.GetAsBoolean("virtual");
+  bool is_pure_virtual = atts.GetAsBoolean("pure_virtual");
   Access access;
   
   if(accessStr == access_public)         access = Public;
   else if(accessStr == access_protected) access = Protected;
   else                                   access = Private;
   
-  Converter::Pointer newConverter = Converter::New(access, is_const);
+  Converter::Pointer newConverter =
+    Converter::New(access, is_const, is_virtual, is_pure_virtual);
   
   this->CurrentClass()->AddMethod(newConverter);
   this->PushElement(newConverter);
@@ -826,13 +833,16 @@ Parser
   String name = atts.Get("name");  
   String accessStr = atts.Get("access");
   bool is_const = atts.GetAsBoolean("const");
+  bool is_virtual = atts.GetAsBoolean("virtual");
+  bool is_pure_virtual = atts.GetAsBoolean("pure_virtual");
   Access access;
   
   if(accessStr == access_public)         access = Public;
   else if(accessStr == access_protected) access = Protected;
   else                                   access = Private;
   
-  OperatorMethod::Pointer newOperatorMethod = OperatorMethod::New(name, access, is_const);
+  OperatorMethod::Pointer newOperatorMethod =
+    OperatorMethod::New(name, access, is_const, is_virtual, is_pure_virtual);
   
   this->CurrentClass()->AddMethod(newOperatorMethod);
   this->PushElement(newOperatorMethod);
@@ -861,13 +871,16 @@ Parser
   String accessStr = atts.Get("access");
   bool is_static = atts.GetAsBoolean("static");
   bool is_const = atts.GetAsBoolean("const");
+  bool is_virtual = atts.GetAsBoolean("virtual");
+  bool is_pure_virtual = atts.GetAsBoolean("pure_virtual");
   Access access;
   
   if(accessStr == access_public)         access = Public;
   else if(accessStr == access_protected) access = Protected;
   else                                   access = Private;
   
-  Method::Pointer newMethod = Method::New(name, access, is_static, is_const);
+  Method::Pointer newMethod = Method::New(name, access, is_static, is_const,
+                                          is_virtual, is_pure_virtual);
   
   this->CurrentClass()->AddMethod(newMethod);
   this->PushElement(newMethod);
