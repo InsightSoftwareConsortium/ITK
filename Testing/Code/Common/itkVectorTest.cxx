@@ -176,6 +176,26 @@ int itkVectorTest(int, char* [] )
     passed = false;
     }
 
+
+  typedef itk::Vector<float, 3> RealVector3;
+  RealVector3 a, b, c;
+  a[0] = 1.0; a[1] = 0.0; a[2] = 0.0;
+  b[0] = 0.0; b[1] = 1.0; b[2] = 0.0;
+  c = itk::CrossProduct(a,b);
+  std::cout << "(" << a << ") cross (" << b << ") : (" << c << ")" << std::endl;
+
+  typedef itk::Vector<double, 3> DoubleVector3;
+  DoubleVector3 aa, bb, cc;
+  aa[0] = 1.0; aa[1] = 0.0; aa[2] = 0.0;
+  bb[0] = 0.0; bb[1] = 1.0; bb[2] = 0.0;
+  cc = itk::CrossProduct(aa,bb);
+  std::cout << "(" << aa << ") cross (" << bb << ") : (" << cc << ")" << std::endl;
+  typedef itk::Vector<int, 3> IntVector3;
+  DoubleVector3 ia, ib, ic;
+  ia[0] = 1; ia[1] = 0; ia[2] = 0;
+  ib[0] = 0; ib[1] = 1; ib[2] = 0;
+  ic = itk::CrossProduct(ia,ib);
+  std::cout << "(" << ia << ") cross (" << ib << ") : (" << ic << ")" << std::endl;
   if (passed)
     {
     std::cout << "Vector test passed." << std::endl;
@@ -187,4 +207,6 @@ int itkVectorTest(int, char* [] )
     return EXIT_FAILURE;
     }
   
+
+
 }
