@@ -236,6 +236,20 @@ ADD_TEST(itkConnectedComponentImageFilterTest ${BASIC_FILTERS_TESTS}
             ${ITK_DATA_ROOT}/Input/cthead1.png
             ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest.png 130 145)
 
+ADD_TEST(itkConnectedComponentImageFilterTest2 ${BASIC_FILTERS_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedComponentImageFilterTest2.png
+            ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest2.png
+  itkConnectedComponentImageFilterTest
+            ${ITK_DATA_ROOT}/Input/Shapes.png
+            ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest2.png 128 255 0)
+
+ADD_TEST(itkConnectedComponentImageFilterTest3 ${BASIC_FILTERS_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedComponentImageFilterTest3.png
+            ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest3.png
+  itkConnectedComponentImageFilterTest
+            ${ITK_DATA_ROOT}/Input/Shapes.png
+            ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest3.png 128 255 1)
+
 ADD_TEST(itkConnectedThresholdImageFilterTest ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedThresholdImageFilterTest.png
             ${ITK_TEST_OUTPUT_DIR}/ConnectedThresholdImageFilterTest.png
