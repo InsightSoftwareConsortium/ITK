@@ -210,10 +210,12 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
 
   // Estimate total work for progress methods/callbacks
   unsigned long updateVisits = 0;
+  const unsigned long totalVisits = 100L;
   if ( threadId == 0 )
     {
     updateVisits = 
-      outputPtr->GetRequestedRegion().GetNumberOfPixels()/10;
+      outputPtr->GetRequestedRegion().GetNumberOfPixels() /
+                                static_cast<float>( totalVisits );
     }
         
   // Walk the output region
@@ -223,7 +225,8 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
     {
     if ( threadId == 0 && !(i % updateVisits ) )
       {
-      this->UpdateProgress((float)i/(float(updateVisits)*10.0));
+      this->UpdateProgress( static_cast<float>( i ) /
+                            static_cast<float>( updateVisits * totalVisits ) );
       }
     
     // Determine the index of the current output pixel
