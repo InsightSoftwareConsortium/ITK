@@ -95,9 +95,9 @@ Returns
  */
 NamedType::Pointer
 NamedType
-::New(const String& name)
+::New(void)
 {
-  return new NamedType(name);
+  return new NamedType;
 }
 
 
@@ -140,9 +140,9 @@ FunctionType
  */
 MethodType::Pointer
 MethodType
-::New(Context* context)
+::New(void)
 {
-  return new MethodType(context);
+  return new MethodType;
 }
 
 
@@ -151,9 +151,9 @@ MethodType
  */
 OffsetType::Pointer
 OffsetType
-::New(Context* context)
+::New(void)
 {
-  return new OffsetType(context);
+  return new OffsetType;
 }
 
 
@@ -290,24 +290,68 @@ Union
 
 
 /**
- * Construct a new BaseClass and return a smart pointer to it.
+ * Construct a new QualifiedName and return a smart pointer to it.
  */
-BaseClass::Pointer
-BaseClass
+QualifiedName::Pointer
+QualifiedName
 ::New(const String& name)
 {
-  return new BaseClass(name);
+  return new QualifiedName(name);
 }
 
 
 /**
- * Construct a new UnimplementedTypeholder and return a smart pointer to it.
+ * Construct a new NameQualifier and return a smart pointer to it.
  */
-UnimplementedTypeholder::Pointer
-UnimplementedTypeholder
+NameQualifier::Pointer
+NameQualifier
 ::New(const String& name)
 {
-  return new UnimplementedTypeholder(name);
+  return new NameQualifier(name);
+}
+
+
+/**
+ * Construct a new BaseClass and return a smart pointer to it.
+ */
+BaseClass::Pointer
+BaseClass
+::New(Access access)
+{
+  return new BaseClass(access);
+}
+
+
+/**
+ * Construct a new BaseType and return a smart pointer to it.
+ */
+BaseType::Pointer
+BaseType
+::New(void)
+{
+  return new BaseType;
+}
+
+
+/**
+ * Construct a new UnimplementedTypeHolder and return a smart pointer to it.
+ */
+UnimplementedTypeHolder::Pointer
+UnimplementedTypeHolder
+::New(void)
+{
+  return new UnimplementedTypeHolder;
+}
+
+
+/**
+ * Construct a new UnimplementedNameHolder and return a smart pointer to it.
+ */
+UnimplementedNameHolder::Pointer
+UnimplementedNameHolder
+::New(void)
+{
+  return new UnimplementedNameHolder;
 }
 
 
@@ -345,11 +389,7 @@ String
 Argument
 ::GetStringWithCV(void) const
 {
-  if(!m_Type)
-    {
-    throw UntypedArgumentException;
-    }
-  
+  this->AssertComplete(__FILE__, __LINE__);  
   String defaultArg = "";
   if(m_Default.length() > 0)
     {
@@ -374,11 +414,7 @@ String
 Argument
 ::GetStringWithoutCV(void) const
 {
-  if(!m_Type)
-    {
-    throw UntypedArgumentException;
-    }
-  
+  this->AssertComplete(__FILE__, __LINE__);  
   String defaultArg = "";
   if(m_Default.length() > 0)
     {
@@ -403,6 +439,7 @@ String
 NamedType
 ::GetNameWithCV(const Type* indirect) const
 {
+  this->AssertComplete(__FILE__, __LINE__);
   String indirectStr = "";
   if(indirect)
     {
@@ -410,11 +447,11 @@ NamedType
     }
   if(this->GetCV().length() > 0)
     {
-    return (this->GetCV()+" "+m_Name+indirectStr);
+    return (this->GetCV()+" "+m_QualifiedName->Get()+indirectStr);
     }
   else
     {
-    return (m_Name+indirectStr);
+    return (m_QualifiedName->Get()+indirectStr);
     }
 }
 
@@ -426,13 +463,14 @@ String
 NamedType
 ::GetNameWithoutCV(const Type* indirect) const
 {
+  this->AssertComplete(__FILE__, __LINE__);
   if(indirect)
     {
-    return (m_Name+indirect->GetIndirectionWithoutCV());
+    return (m_QualifiedName->Get()+indirect->GetIndirectionWithoutCV());
     }
   else
     {
-    return (m_Name);
+    return (m_QualifiedName->Get());
     }
 }
 
@@ -444,6 +482,7 @@ String
 PointerType
 ::GetNameWithCV(const Type* indirect) const
 {
+  this->AssertComplete(__FILE__, __LINE__);
   if(indirect)
     {
     return (m_PointedToType->GetNameWithCV(this)
@@ -463,6 +502,7 @@ String
 PointerType
 ::GetNameWithoutCV(const Type* indirect) const
 {
+  this->AssertComplete(__FILE__, __LINE__);
   if(indirect)
     {
     return (m_PointedToType->GetNameWithoutCV(this));
@@ -504,6 +544,7 @@ String
 ReferenceType
 ::GetNameWithCV(const Type* indirect) const
 {
+  this->AssertComplete(__FILE__, __LINE__);
   if(indirect)
     {
     throw IndirectionOnReferenceException;
@@ -523,6 +564,7 @@ String
 ReferenceType
 ::GetNameWithoutCV(const Type* indirect) const
 {
+  this->AssertComplete(__FILE__, __LINE__);
   if(indirect)
     {
     throw IndirectionOnReferenceException;
@@ -565,6 +607,7 @@ String
 FunctionType
 ::GetNameWithCV(const Type* indirect) const
 {
+  this->AssertComplete(__FILE__, __LINE__);
   String indirectionString = "";
   if(indirect) indirectionString = indirect->GetIndirectionWithCV();
   
@@ -598,6 +641,7 @@ String
 FunctionType
 ::GetNameWithoutCV(const Type* indirect) const
 {
+  this->AssertComplete(__FILE__, __LINE__);
   String indirectionString = "";
   if(indirect) indirectionString = indirect->GetIndirectionWithoutCV();
   
@@ -631,6 +675,7 @@ String
 MethodType
 ::GetNameWithCV(const Type* indirect) const
 {
+  this->AssertComplete(__FILE__, __LINE__);
   String indirectionString = "";
   if(indirect) indirectionString = indirect->GetIndirectionWithCV();
   
@@ -651,7 +696,7 @@ MethodType
     arguments += this->GetArgument(numArgs-1)->GetStringWithCV();
     }
   
-  return (returns + "(" + m_Context->GetName() + "::" + indirectionString
+  return (returns + "(" + m_BaseType->GetQualifiedName() + "::" + indirectionString
           + ")( " + arguments + " )" + this->GetCV());
 }
 
@@ -664,6 +709,7 @@ String
 MethodType
 ::GetNameWithoutCV(const Type* indirect) const
 {
+  this->AssertComplete(__FILE__, __LINE__);
   String indirectionString = "";
   if(indirect) indirectionString = indirect->GetIndirectionWithoutCV();
   
@@ -684,7 +730,7 @@ MethodType
     arguments += this->GetArgument(numArgs-1)->GetStringWithoutCV();
     }
   
-  return (returns + "(" + m_Context->GetName() + "::" + indirectionString
+  return (returns + "(" + m_BaseType->GetQualifiedName() + "::" + indirectionString
           + ")( " + arguments + " )");
 }
 
@@ -697,14 +743,15 @@ String
 OffsetType
 ::GetNameWithCV(const Type* indirect) const
 {
+  this->AssertComplete(__FILE__, __LINE__);
   if(indirect)
     {
-    return (m_MemberType->GetNameWithCV()+" "+m_Context->GetName()+"::"
+    return (m_MemberType->GetNameWithCV()+" "+m_BaseType->GetQualifiedName()+"::"
             +indirect->GetIndirectionWithCV());
     }
   else
     {
-    return (m_MemberType->GetNameWithCV()+" "+m_Context->GetName()+"::");
+    return (m_MemberType->GetNameWithCV()+" "+m_BaseType->GetQualifiedName()+"::");
     }
 }
 
@@ -716,14 +763,15 @@ String
 OffsetType
 ::GetNameWithoutCV(const Type* indirect) const
 {
+  this->AssertComplete(__FILE__, __LINE__);
   if(indirect)
     {
-    return (m_MemberType->GetNameWithoutCV()+" "+m_Context->GetName()+"::"
+    return (m_MemberType->GetNameWithoutCV()+" "+m_BaseType->GetQualifiedName()+"::"
             +indirect->GetIndirectionWithoutCV());
     }
   else
     {
-    return (m_MemberType->GetNameWithoutCV()+" "+m_Context->GetName()+"::");
+    return (m_MemberType->GetNameWithoutCV()+" "+m_BaseType->GetQualifiedName()+"::");
     }
 }
 
@@ -735,6 +783,7 @@ String
 ArrayType
 ::GetNameWithCV(const Type* indirect) const
 {
+  this->AssertComplete(__FILE__, __LINE__);
   char sizeStr[sizeof(m_Size)*3+2];
   
   sprintf(sizeStr,"%d", m_Size);
@@ -758,6 +807,7 @@ String
 ArrayType
 ::GetNameWithoutCV(const Type* indirect) const
 {
+  this->AssertComplete(__FILE__, __LINE__);
   char sizeStr[sizeof(m_Size)*3+2];
   
   sprintf(sizeStr,"%d", m_Size);
@@ -821,7 +871,6 @@ void
 Location
 ::Print(FILE* file, unsigned long indent) const
 {
-  if(!this) return;
   PrintIndent(file, indent);
   fprintf(file, "<Location file=\"%s\" line=\"%d\"/>\n",
           m_File.c_str(), m_Line);
@@ -871,6 +920,21 @@ Namespace
 
 
 /**
+ * Print the base classes for this class.
+ */
+void
+Class
+::PrintBaseClasses(FILE* file, unsigned long indent) const
+{
+  for(BaseClassesIterator bc = m_BaseClasses.begin();
+      bc != m_BaseClasses.end(); ++bc)
+    {
+    (*bc)->Print(file, indent);
+    }
+}
+
+
+/**
  * Print the class.
  */
 void
@@ -893,6 +957,7 @@ Class
   this->GetLocation()->Print(file, indent+XML_NESTED_INDENT);
   this->PrintClasses(file, indent+XML_NESTED_INDENT);
   this->PrintMethods(file, indent+XML_NESTED_INDENT);
+  this->PrintBaseClasses(file, indent+XML_NESTED_INDENT);
   
   PrintIndent(file, indent);
   fprintf(file,
@@ -937,6 +1002,7 @@ Struct
   this->GetLocation()->Print(file, indent+XML_NESTED_INDENT);
   this->PrintClasses(file, indent+XML_NESTED_INDENT);  
   this->PrintMethods(file, indent+XML_NESTED_INDENT);
+  this->PrintBaseClasses(file, indent+XML_NESTED_INDENT);
   
   PrintIndent(file, indent);
   fprintf(file,
@@ -967,6 +1033,7 @@ Union
   this->GetLocation()->Print(file, indent+XML_NESTED_INDENT);
   this->PrintClasses(file, indent+XML_NESTED_INDENT);
   this->PrintMethods(file, indent+XML_NESTED_INDENT);
+  this->PrintBaseClasses(file, indent+XML_NESTED_INDENT);
   
   PrintIndent(file, indent);
   fprintf(file,
@@ -1017,9 +1084,10 @@ void Type::PrintName(FILE* file, unsigned long indent) const
  */
 void NamedType::Print(FILE* file, unsigned long indent) const
 {
+  this->AssertComplete(__FILE__, __LINE__);
   PrintIndent(file, indent);
   fprintf(file, "<Type name=\"%s\">\n",
-          this->m_Name.c_str());
+          this->m_QualifiedName->Get().c_str());
   this->PrintCV_Qualifiers(file, indent+XML_NESTED_INDENT);
   PrintIndent(file, indent);
   fprintf(file, "</Type>\n");
@@ -1032,8 +1100,9 @@ void NamedType::Print(FILE* file, unsigned long indent) const
  */
 void PointerType::Print(FILE* file, unsigned long indent) const
 {
+  this->AssertComplete(__FILE__, __LINE__);
   PrintIndent(file, indent);
-  fprintf(file, "<PointerType>\n");
+  fprintf(file, "<PointerType>\n");  
   m_PointedToType->Print(file, indent+XML_NESTED_INDENT);
   PrintIndent(file, indent);
   fprintf(file, "</PointerType>\n");
@@ -1046,6 +1115,7 @@ void PointerType::Print(FILE* file, unsigned long indent) const
  */
 void ReferenceType::Print(FILE* file, unsigned long indent) const
 {
+  this->AssertComplete(__FILE__, __LINE__);
   PrintIndent(file, indent);
   fprintf(file, "<ReferenceType>\n");
   m_ReferencedType->Print(file, indent+XML_NESTED_INDENT);
@@ -1060,6 +1130,7 @@ void ReferenceType::Print(FILE* file, unsigned long indent) const
  */
 void FunctionType::Print(FILE* file, unsigned long indent) const
 {
+  this->AssertComplete(__FILE__, __LINE__);
   PrintIndent(file, indent);
   fprintf(file, "<FunctionType>\n");
 
@@ -1088,6 +1159,7 @@ void FunctionType::Print(FILE* file, unsigned long indent) const
  */
 void MethodType::Print(FILE* file, unsigned long indent) const
 {
+  this->AssertComplete(__FILE__, __LINE__);
   PrintIndent(file, indent);
   fprintf(file, "<MethodType basetype=\"??\">\n");
 
@@ -1115,6 +1187,7 @@ void MethodType::Print(FILE* file, unsigned long indent) const
  */
 void OffsetType::Print(FILE* file, unsigned long indent) const
 {
+  this->AssertComplete(__FILE__, __LINE__);
   PrintIndent(file, indent);
   fprintf(file, "<OffsetType>\n");
   m_MemberType->Print(file, indent+XML_NESTED_INDENT);
@@ -1129,6 +1202,7 @@ void OffsetType::Print(FILE* file, unsigned long indent) const
  */
 void ArrayType::Print(FILE* file, unsigned long indent) const
 {
+  this->AssertComplete(__FILE__, __LINE__);
   PrintIndent(file, indent);
   fprintf(file, "<ArrayType>\n");
   m_ElementType->Print(file, indent+XML_NESTED_INDENT);
@@ -1143,6 +1217,7 @@ void ArrayType::Print(FILE* file, unsigned long indent) const
  */
 void Argument::Print(FILE* file, unsigned long indent) const
 {
+  this->AssertComplete(__FILE__, __LINE__);
   PrintIndent(file, indent);
   fprintf(file, "<Argument>\n");
   m_Type->Print(file, indent+XML_NESTED_INDENT);
@@ -1156,7 +1231,7 @@ void Argument::Print(FILE* file, unsigned long indent) const
  */
 void Returns::Print(FILE* file, unsigned long indent) const
 {
-  if(!this) return;
+  this->AssertComplete(__FILE__, __LINE__);
   PrintIndent(file, indent);
   fprintf(file, "<Returns>\n");
   m_Type->Print(file, indent+XML_NESTED_INDENT);
@@ -1346,12 +1421,38 @@ OperatorFunction
 
 
 /**
+ * Print the information for this base class.
+ */
+void
+BaseClass
+::Print(FILE* file, unsigned long indent) const
+{
+  String access;
+  
+  if(m_Access == Private) access = "private";
+  else if(m_Access == Protected) access = "protected";
+  else access = "public";
+  
+  PrintIndent(file, indent);
+  fprintf(file,
+          "<BaseClass access=\"%s\">\n",
+          access.c_str());
+
+  // TODO: Print qualified name.
+  
+  PrintIndent(file, indent);
+  fprintf(file,
+          "</BaseClass>\n");
+}
+
+
+/**
  * Attempt to find the given qualified name starting at this namespace.
  * Returns NULL if not found, or a pointer to the object if it is found.
  */
 InternalObject::Pointer
 Namespace
-::LookupName(const String& name)
+::LookupName(QualifiedName*) const
 {
   
 }
@@ -1363,7 +1464,7 @@ Namespace
  */
 InternalObject::Pointer
 Class
-::LookupName(const String& name)
+::LookupName(QualifiedName*) const
 {
   
 }
@@ -1377,7 +1478,7 @@ Class
  */
 ClassPointer
 Namespace
-::LookupClass(const String& name)
+::LookupClass(QualifiedName* name) const
 {
   InternalObject::Pointer result = this->LookupName(name);
   

@@ -7,15 +7,14 @@
 #include <set>
 #include <strstream>
 
-#include "referenceCount.h"
-
 typedef std::string String;
+
+#include "referenceCount.h"
 
 #define NoPointedToTypeException  ("PointerType has no pointed-to type.")
 #define NoReferencedTypeException  ("ReferenceType has no referenced type.")
 #define NotIndirectionException ("Indirection operation on non-indirection type.")
 #define IndirectionOnReferenceException ("Attempt to form type with indirection to reference.")
-#define UntypedArgumentException ("Function argument has no type.")
 #define NameIsNotClassException ("Name looked up as class, but is not Class, Struct, or Union.")
 
 String GetValid_C_Identifier(const String& in_name);
@@ -43,9 +42,12 @@ class OperatorFunction;
 class Class;
 class Struct;
 class Union;
-class BaseClass;
 class Instantiation;
 class TemplateArgument;
+class QualifiedName;
+class NameQualifier;
+class BaseClass;
+class BaseType;
 
 enum Access { Public, Protected, Private };
 
@@ -55,6 +57,8 @@ enum Access { Public, Protected, Private };
  */
 enum TypeOfObject {
   Undefined_id=0,
+  
+  Location_id, CV_Qualifiers_id,
   
   Namespace_id, Class_id, Struct_id, Union_id,
   
@@ -66,7 +70,10 @@ enum TypeOfObject {
   
   Argument_id, Returns_id,
   
-  UnimplementedTypeholder_id
+  QualifiedName_id, NameQualifier_id,
+  
+  UnimplementedTypeHolder_id,
+  UnimplementedNameHolder_id
 };
 
 
@@ -102,11 +109,47 @@ public:
     }
   
   /**
+   * Many of the object have an internal qualified name that must be set.
+   * Examples include NamespaceAlias, NamedType, BaseType, and BaseClass.
+   */
+  virtual void SetInternalQualifiedName(QualifiedName*)
+    {
+      strstream e;
+      e << "Object not expecting internal name setting: "
+        << int(this->GetTypeOfObject()) << std::ends;
+      throw String(e.str());
+    }
+  
+  /**
    * Many of the objects have a name with a location that must be set.
    */
   virtual void SetLocation(Location* location)
     {
       throw String("Object not expecting location setting.");
+    }
+
+  /**
+   * Checks if the object has what it needs to be complete.
+   * If an object type needs certain conditions to consider itself complete,
+   * it should re-implement this to do the test before returning true.
+   */
+  virtual bool CheckComplete(void) const 
+    {
+      return true;
+    }
+  
+protected:
+  /**
+   * Called to ensure that the object pointed to by "this" considers
+   * itself complete accodring to CheckComplete().
+   */
+  void AssertComplete(const char* source_file, unsigned long source_line) const
+    {
+      if(this->CheckComplete()) return;
+      strstream e;
+      e << "Incomplete object encountered at:" << std::endl
+        << source_file << ": " << source_line << std::ends;
+      throw String(e.str());
     }
   
 protected:
@@ -126,6 +169,8 @@ public:
   typedef Location                  Self;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+  
+  virtual TypeOfObject GetTypeOfObject(void) const { return Location_id; }
   
   static Pointer New(const String& file, unsigned long line);
 
@@ -194,27 +239,31 @@ struct NamedCompare
 
 typedef SmartPointer<Context>        ContextPointer;
 typedef SmartPointer<const Context>  ContextConstPointer;
+typedef SmartPointer<QualifiedName>        QualifiedNamePointer;
+typedef SmartPointer<const QualifiedName>  QualifiedNameConstPointer;
+typedef SmartPointer<BaseType>        BaseTypePointer;
+typedef SmartPointer<const BaseType>  BaseTypeConstPointer;
 
-typedef SmartPointer<Argument>            ArgumentPointer;
-typedef SmartPointer<Class>               ClassPointer;
-typedef SmartPointer<Namespace>           NamespacePointer;
-typedef SmartPointer<Function>            FunctionPointer;
-typedef SmartPointer<Method>              MethodPointer;
-typedef SmartPointer<BaseClass>           BaseClassPointer;
+typedef SmartPointer<Argument>   ArgumentPointer;
+typedef SmartPointer<Class>      ClassPointer;
+typedef SmartPointer<Namespace>  NamespacePointer;
+typedef SmartPointer<Function>   FunctionPointer;
+typedef SmartPointer<Method>     MethodPointer;
+typedef SmartPointer<BaseClass>  BaseClassPointer;
 
-typedef vector<ArgumentPointer>                     ArgumentContainer;
-typedef set<ClassPointer, NamedCompare>             ClassContainer;
-typedef set<NamespacePointer, NamedCompare>         NamespaceContainer;
-typedef multiset<FunctionPointer, NamedCompare>     FunctionContainer;
-typedef multiset<MethodPointer, NamedCompare>       MethodContainer;
-typedef set<BaseClassPointer, NamedCompare>         BaseClassContainer;
+typedef vector<ArgumentPointer>                  ArgumentContainer;
+typedef set<ClassPointer, NamedCompare>          ClassContainer;
+typedef set<NamespacePointer, NamedCompare>      NamespaceContainer;
+typedef multiset<FunctionPointer, NamedCompare>  FunctionContainer;
+typedef multiset<MethodPointer, NamedCompare>    MethodContainer;
+typedef vector<BaseClassPointer>                 BaseClassContainer;
 
-typedef ArgumentContainer::const_iterator     ArgumentsIterator;
-typedef ClassContainer::const_iterator        ClassesIterator;
-typedef FunctionContainer::const_iterator     FunctionsIterator;
-typedef NamespaceContainer::const_iterator    NamespacesIterator;
-typedef MethodContainer::const_iterator       MethodsIterator;
-typedef BaseClassContainer::const_iterator    BaseClassesIterator;
+typedef ArgumentContainer::const_iterator   ArgumentsIterator;
+typedef ClassContainer::const_iterator      ClassesIterator;
+typedef FunctionContainer::const_iterator   FunctionsIterator;
+typedef NamespaceContainer::const_iterator  NamespacesIterator;
+typedef MethodContainer::const_iterator     MethodsIterator;
+typedef BaseClassContainer::const_iterator  BaseClassesIterator;
 
 
 /**
@@ -227,6 +276,8 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
+  virtual TypeOfObject GetTypeOfObject(void) const { return CV_Qualifiers_id; }
+  
   static Pointer New(bool is_const, bool is_volatile, bool is_restrict);
   
   String GetString(void) const;
@@ -362,6 +413,8 @@ public:
 
   void Print(FILE*, unsigned long) const;
   
+  virtual bool CheckComplete(void) const { return (m_Type != NULL); }
+  
 protected:
   Argument(const String& name): Named(name) {}
   Argument(const Self&): Named("") {}
@@ -397,6 +450,8 @@ public:
   String GetStringWithoutCV(void) const;
 
   void Print(FILE*, unsigned long) const;
+  
+  virtual bool CheckComplete(void) const { return (m_Type != NULL); }
   
 protected:
   Returns() {}
@@ -494,9 +549,9 @@ public:
   
   virtual void Print(FILE*, unsigned long) const =0;
 
-  String GetQualifiedName(void) const;
-  
   void PrintClasses(FILE*, unsigned long) const;
+  
+  String GetQualifiedName(void) const;
   
 protected:
   Context(const string& name): Named(name) {}
@@ -522,22 +577,25 @@ public:
 
   virtual TypeOfObject GetTypeOfObject(void) const { return NamedType_id; }
 
-  static Pointer New(const String& name);
+  static Pointer New(void);
                      
+  virtual void SetInternalQualifiedName(QualifiedName* n) { m_QualifiedName = n; }
+  
   virtual String GetNameWithCV(const Type* =NULL) const;
   virtual String GetNameWithoutCV(const Type* =NULL) const;
   
   virtual void Print(FILE*, unsigned long) const;
   
-protected:
-  NamedType(const String& name): m_Name(name) {}
+  virtual bool CheckComplete(void) const { return (m_QualifiedName != NULL); }
   
+protected:
+  NamedType() {}
   NamedType(const Self&) {}
   void operator=(const Self&) {}
   virtual ~NamedType() {}
   
 private:
-  String m_Name;
+  QualifiedNamePointer m_QualifiedName;
 };
 
 
@@ -566,6 +624,8 @@ public:
   Type::Pointer GetPointedToType(void) { return m_PointedToType; }
   
   virtual void Print(FILE*, unsigned long) const;
+
+  virtual bool CheckComplete(void) const { return (m_PointedToType != NULL); }
 
 protected:
   PointerType() {}
@@ -604,6 +664,8 @@ public:
   
   virtual void Print(FILE*, unsigned long) const;
 
+  virtual bool CheckComplete(void) const { return (m_ReferencedType != NULL); }
+  
 protected:
   ReferenceType() {}
   ReferenceType(const Self&) {}
@@ -674,23 +736,27 @@ class MethodType: public FunctionType
 
   virtual TypeOfObject GetTypeOfObject(void) const { return MethodType_id; }
 
-  static Pointer New(Context* context);
+  static Pointer New(void);
 
   virtual String GetNameWithCV(const Type* =NULL) const;
   virtual String GetNameWithoutCV(const Type* =NULL) const;
-
-  Context::Pointer GetContext(void) { return m_Context; }
+  
+  void SetBaseType(BaseType* t) { m_BaseType = t; }
+  BaseTypePointer GetBaseType(void) { return m_BaseType; }
+  BaseTypeConstPointer GetBaseType(void) const { return m_BaseType.RealPointer(); }
   
   virtual void Print(FILE*, unsigned long) const;
 
+  virtual bool CheckComplete(void) const { return (m_BaseType != NULL); }
+  
 protected:
-  MethodType(Context* c): m_Context(c) {}
+  MethodType() {}
   MethodType(const Self&) {}
   void operator=(const Self&) {}
   virtual ~MethodType() {}
   
 private:
-  Context::Pointer m_Context;
+  BaseTypePointer m_BaseType;
 };
 
 
@@ -708,28 +774,33 @@ class OffsetType: public Type
 
   virtual TypeOfObject GetTypeOfObject(void) const { return OffsetType_id; }
 
-  static Pointer New(Context* context);
+  static Pointer New(void);
 
   virtual String GetNameWithCV(const Type* =NULL) const;
   virtual String GetNameWithoutCV(const Type* =NULL) const;
+  
+  void SetBaseType(BaseType* t) { m_BaseType = t; }
+  BaseTypePointer GetBaseType(void) { return m_BaseType; }
+  BaseTypeConstPointer GetBaseType(void) const { return m_BaseType.RealPointer(); }
   
   virtual void SetInternalType(Type* t) { this->SetMemberType(t); }
   
   void SetMemberType(Type* t)       { m_MemberType = t; }
   Type::Pointer GetMemberType(void) { return m_MemberType; }
 
-  Context::Pointer GetContext(void) { return m_Context; }
-  
   virtual void Print(FILE*, unsigned long) const;
 
+  virtual bool CheckComplete(void) const
+    { return ((m_BaseType != NULL) && (m_MemberType != NULL)); }
+  
 protected:
-  OffsetType(Context* c): m_Context(c) {}
+  OffsetType() {}
   OffsetType(const Self&) {}
   void operator=(const Self&) {}
   virtual ~OffsetType() {}
   
 private:
-  Context::Pointer m_Context;
+  BaseTypePointer m_BaseType;
   Type::Pointer m_MemberType;
 };
 
@@ -759,6 +830,8 @@ public:
   
   virtual void Print(FILE*, unsigned long) const;
 
+  virtual bool CheckComplete(void) const { return (m_ElementType != NULL); }
+  
 protected:
   ArrayType(int min, int max): m_Size(max-min+1) {}
   ArrayType(const Self&) {}
@@ -794,8 +867,8 @@ public:
     { function->SetContext(this); m_Functions.insert(function); }
   const FunctionContainer& GetFunctions(void) const { return m_Functions; }
   
-  InternalObject::Pointer LookupName(const String& name);
-  ClassPointer LookupClass(const String& name);
+  InternalObject::Pointer LookupName(QualifiedName*) const;
+  ClassPointer LookupClass(QualifiedName*) const;
   
   virtual void Print(FILE*, unsigned long) const;
   
@@ -992,11 +1065,14 @@ public:
     { x->SetContext(this); m_Methods.insert(x); }
   const MethodContainer& GetMethods(void) const { return m_Methods; }
 
-  void AddBaseClass(BaseClass* b) { m_BaseClasses.insert(b); }
+  void AddBaseClass(BaseClass* b) { m_BaseClasses.push_back(b); }
   const BaseClassContainer& GetBaseClasses(void) const { return m_BaseClasses; }
+
+  InternalObject::Pointer LookupName(QualifiedName*) const;
   
   virtual void Print(FILE*, unsigned long) const;
   void PrintMethods(FILE*, unsigned long) const;
+  void PrintBaseClasses(FILE*, unsigned long) const;
   
 protected:  
   Class(const string& name): Context(name) {}
@@ -1061,32 +1137,136 @@ protected:
 
 
 /**
+ * Provide the interface to a qualified name.
+ * Also stores the innermost qualified name.
+ */
+class QualifiedName: public Named
+{
+public:
+  typedef QualifiedName             Self;
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
+  
+  virtual TypeOfObject GetTypeOfObject(void) const { return QualifiedName_id; }
+
+  static Pointer New(const String& name);
+  
+  virtual String Get(void) const { return this->GetName(); }
+  
+protected:
+  QualifiedName(const String& name): Named(name) {}
+  QualifiedName(const Self&): Named("") {}
+  void operator=(const Self&) {}
+  virtual ~QualifiedName() {}
+};
+
+
+/**
+ * Stores a non-innermost name qualifier, and the inner QualifiedName.
+ */
+class NameQualifier: public QualifiedName
+{
+public:
+  typedef NameQualifier             Self;
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
+  
+  virtual TypeOfObject GetTypeOfObject(void) const { return NameQualifier_id; }
+
+  static Pointer New(const String& name);
+  
+  virtual void SetInternalQualifiedName(QualifiedName* n) { m_QualifiedName = n; }
+
+  virtual String Get(void) const
+    { return this->GetName()+"::"+m_QualifiedName->Get(); }
+  
+  virtual bool CheckComplete(void) const { return (m_QualifiedName != NULL); }
+  
+protected:
+  NameQualifier(const String& name): QualifiedName(name) {}
+  NameQualifier(const Self&): QualifiedName("") {}
+  void operator=(const Self&) {}
+  virtual ~NameQualifier() {}
+  
+private:
+  QualifiedName::Pointer m_QualifiedName;
+};
+
+
+/**
  * Store the name of a base class, and support looking up the actual
  * Class, Struct, or Union.
  */
-class BaseClass: public Named
+class BaseClass: public InternalObject
 {
 public:
   typedef BaseClass                 Self;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  static Pointer New(const String& name);
+  static Pointer New(Access access);
 
-  void FindClass(Namespace* ns) { m_Class = ns->LookupClass(this->GetName()); }
-  bool HaveClass(void) const { return m_Class; }
+  virtual void SetInternalQualifiedName(QualifiedName* n) { m_QualifiedName = n; }
+
+  String GetQualifiedName(void) const { return m_QualifiedName->Get(); }
+  
+  void FindClass(Namespace* ns) { m_Class = ns->LookupClass(m_QualifiedName); }
+  bool HaveClass(void) const { return (m_Class != NULL); }
   
   Class::Pointer GetClass(void) { return m_Class; }
-  Class::ConstPointer GetClass(void) const { return m_Class; }
+  Class::ConstPointer GetClass(void) const { return m_Class.RealPointer(); }
+
+  Access GetAccess(void) const { return m_Access; }
+  
+  void Print(FILE*, unsigned long) const;
+  
+  virtual bool CheckComplete(void) const { return (m_QualifiedName != NULL); }
   
 protected:
-  BaseClass(const String& name): Named(name) {}
-  BaseClass(const Self&): Named("") {}
+  BaseClass(Access access): m_Access(access) {}
+  BaseClass(const Self&) {}
   void operator=(const Self&) {}
   virtual ~BaseClass() {}
   
 private:
-  Class::Pointer  m_Class;
+  QualifiedName::Pointer m_QualifiedName;
+  Class::Pointer         m_Class;
+  Access                 m_Access;
+};
+
+
+/**
+ * Store the name of a base type for an MethodType or OffsetType.
+ */
+class BaseType: public InternalObject
+{
+public:
+  typedef BaseType                  Self;
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
+  
+  static Pointer New(void);
+
+  virtual void SetInternalQualifiedName(QualifiedName* n) { m_QualifiedName = n; }
+  String GetQualifiedName(void) const { return m_QualifiedName->Get(); }
+  
+  void FindClass(Namespace* ns) { m_Class = ns->LookupClass(m_QualifiedName); }
+  bool HaveClass(void) const { return (m_Class != NULL); }
+  
+  Class::Pointer GetClass(void) { return m_Class; }
+  Class::ConstPointer GetClass(void) const { return m_Class.RealPointer(); }
+  
+  virtual bool CheckComplete(void) const { return (m_QualifiedName != NULL); }
+  
+protected:
+  BaseType() {}
+  BaseType(const Self&) {}
+  void operator=(const Self&) {}
+  virtual ~BaseType() {}
+  
+private:
+  QualifiedName::Pointer m_QualifiedName;
+  Class::Pointer         m_Class;
 };
 
 
@@ -1094,30 +1274,59 @@ private:
  * For unimplemented parts of a parser, this will allow it to absorb
  * any definition which has one internal type to be set.
  */
-class UnimplementedTypeholder: public Named
+class UnimplementedTypeHolder: public Named
 {
 public:
-  typedef UnimplementedTypeholder   Self;
+  typedef UnimplementedTypeHolder   Self;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  virtual TypeOfObject GetTypeOfObject(void) const { return UnimplementedTypeholder_id; }
+  virtual TypeOfObject GetTypeOfObject(void) const { return UnimplementedTypeHolder_id; }
   
-  static Pointer New(const String& name);
+  static Pointer New(void);
   
   virtual void SetInternalType(Type* t) { this->SetType(t); }
   
   void SetType(Type* t) { m_Type = t; }
-  Type::Pointer GetType(void) { return m_Type; }
-  Type::ConstPointer GetType(void) const { return m_Type.RealPointer(); }
   
 protected:
-  UnimplementedTypeholder(const String& name): Named(name) {}
-  UnimplementedTypeholder(const Self&): Named("") {}
+  UnimplementedTypeHolder(): Named("") {}
+  UnimplementedTypeHolder(const Self&): Named("") {}
   void operator=(const Self&) {}
-  virtual ~UnimplementedTypeholder() {}
+  virtual ~UnimplementedTypeHolder() {}
 private:
   Type::Pointer m_Type;
+};
+
+
+/**
+ * For unimplemented parts of a parser, this will allow it to absorb
+ * any definition which has one internal name to be set.
+ */
+class UnimplementedNameHolder: public Named
+{
+public:
+  typedef UnimplementedNameHolder   Self;
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
+
+  virtual TypeOfObject GetTypeOfObject(void) const
+    { return UnimplementedNameHolder_id; }
+  
+  static Pointer New(void);
+  
+  virtual void SetInternalQualifiedName(QualifiedName* n)
+    { this->SetQualifiedName(n); }
+  
+  void SetQualifiedName(QualifiedName* n) { m_QualifiedName = n; }
+  
+protected:
+  UnimplementedNameHolder(): Named("") {}
+  UnimplementedNameHolder(const Self&): Named("") {}
+  void operator=(const Self&) {}
+  virtual ~UnimplementedNameHolder() {}
+private:
+  QualifiedName::Pointer m_QualifiedName;
 };
 
 

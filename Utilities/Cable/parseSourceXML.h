@@ -3,6 +3,7 @@
 
 #include <cstdio>
 
+#include "parseUtils.h"
 #include "internalRep.h"
 
 extern Namespace::Pointer ParseSourceXML(FILE*);

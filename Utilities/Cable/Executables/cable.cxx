@@ -35,6 +35,11 @@ WrapperGenerator wrapperGenerators[] =
  */
 FILE* inputFile = NULL;
 
+/**
+ * The configuration file to be used (default none).
+ */
+FILE* configFile = NULL;
+
 void processCommandLine(int argc, char* argv[]);
 
 /**
@@ -43,9 +48,14 @@ void processCommandLine(int argc, char* argv[]);
 int main(int argc, char* argv[]) try
 {
   processCommandLine(argc, argv);
- 
+  
   /**
-   * Parse the XML input.
+   * Parse the configuration XML input.
+   */
+  Configuration::Pointer configuration = ParseConfigXML(configFile);
+  
+  /**
+   * Parse the source XML input.
    */
   Namespace::Pointer globalNamespace = ParseSourceXML(inputFile);
   
@@ -64,6 +74,9 @@ int main(int argc, char* argv[]) try
     }
        
   printf("Done.\n");
+  
+  if(inputFile) fclose(inputFile);
+  if(configFile) fclose(configFile);
 
 return 0;
 }
@@ -105,10 +118,26 @@ void processCommandLine(int argc, char* argv[])
       {
       if(strcmp(wrapperGenerator->commandLineFlag, argv[curArg]) == 0)
         {
-        wrapperGenerator->flag = true;
         found = true;
+        wrapperGenerator->flag = true;
         break;
         }
+      }
+
+    /**
+     * Check if this option specifies a wrapper configuration file.
+     */
+    if(!found && (strcmp("-config", argv[curArg]) == 0))
+      {
+      found = true;
+      if(++curArg >= argc) break;
+      configFile = fopen(argv[curArg], "rt");
+      if(!configFile)
+        {
+        fprintf(stderr, "Error opening config file: %s\n", argv[curArg]);
+        exit(1);
+        }
+      printf("Using configuration file: %s\n", argv[curArg]);
       }
     
     /**
@@ -116,10 +145,10 @@ void processCommandLine(int argc, char* argv[])
      */
     if(!found)
       {
-      inputFile = fopen(argv[1], "rt");
+      inputFile = fopen(argv[curArg], "rt");
       if(!inputFile)
         {
-        fprintf(stderr, "Error opening input file: %s\n", argv[1]);
+        fprintf(stderr, "Error opening input file: %s\n", argv[curArg]);
         exit(1);
         }
       }

@@ -1,6 +1,7 @@
 CXX = /home/kingb2/Programs/MyGCC/inst/bin/g++
 INSIGHT_INCLUDES = -I/home/kingb2/Insight/Code/Common \
-		   -I/home/kingb2/Insight/Insight3DParty/vxl
+		   -I/home/kingb2/Insight/Insight3DParty/vxl \
+                   -I/home/kingb2/Insight
 
 vect3Test: vect3Test.C
 	$(CXX) -fxml -o junk -c vect3Test.C ; rm junk

@@ -1,230 +1,18 @@
-#include <cstdio>
-#include <cstdlib>
-#include <assert.h>
-
 #include <stack>
 #include <map>
 #include <string>
 
-#include "xmlparse.h"
-
 #include "parseSourceXML.h"
 
-
-/*@{
- * The name of an XML element tag.
+/**
+ * Begin handlers map.
  */
-static const String tag_GlobalNamespace("GlobalNamespace");
-static const String tag_Namespace("Namespace");
-static const String tag_NamespaceAlias("NamespaceAlias");
-static const String tag_Typedef("Typedef");
-static const String tag_Class("Class");
-static const String tag_Struct("Struct");
-static const String tag_Union("Union");
-static const String tag_Constructor("Constructor");
-static const String tag_Destructor("Destructor");
-static const String tag_Converter("Converter");
-static const String tag_OperatorFunction("OperatorFunction");
-static const String tag_OperatorMethod("OperatorMethod");
-static const String tag_Method("Method");
-static const String tag_Function("Function");
-static const String tag_Argument("Argument");
-static const String tag_Returns("Returns");
-static const String tag_DefaultArgument("DefaultArgument");
-static const String tag_Ellipsis("Ellipsis");
-static const String tag_Variable("Variable");
-static const String tag_Initializer("Initializer");
-static const String tag_Field("Field");
-static const String tag_Enum("Enum");
-static const String tag_Type("Type");
-static const String tag_PointerType("PointerType");
-static const String tag_ReferenceType("ReferenceType");
-static const String tag_FunctionType("FunctionType");
-static const String tag_MethodType("MethodType");
-static const String tag_OffsetType("OffsetType");
-static const String tag_ArrayType("ArrayType");
-static const String tag_BaseClass("BaseClass");
-static const String tag_Instantiation("Instantiation");
-static const String tag_TemplateArgument("TemplateArgument");
-static const String tag_External("External");
-static const String tag_IncompleteType("IncompleteType");
-static const String tag_Location("Location");
-static const String tag_CV_Qualifiers("CV_Qualifiers");
-static const String tag_Unimplemented("Unimplemented");
-//@}
-
-
-/*@{
- * String containing a common attribute value.
- */
-static const String access_public("public");
-static const String access_protected("protected");
-static const String access_private("private");
-//@}
-
+static BeginHandlers beginHandlers;
 
 /**
- * Define the interface to exceptions thrown during parsing.
+ * End handlers map.
  */
-class ParseException: public Object
-{
-public:
-  ParseException(const char* file, int line): m_File(file), m_Line(line) {}
-
-  virtual void Print(FILE* f) const
-    {
-      fprintf(f, "Unknown parse error.\n");
-    }
-  void PrintLocation(FILE* f) const
-    {
-      fprintf(f, "An error occured in source file \"%s\", line %d:\n",
-              m_File.c_str(), m_Line);
-    }
-private:
-  String m_File;
-  int m_Line;
-};
-
-/**
- * An unexpected element type is on top of the stack.
- */
-class ElementStackTypeException: public ParseException
-{
-public:
-  ElementStackTypeException(const char* file, int line,
-                            const char* e, TypeOfObject t):
-    ParseException(file, line), m_Expected(e), m_Got(t) {}
-  void Print(FILE* f) const
-    {
-      fprintf(f, "Expected \"%s\" on top of element stack, but got %d.\n",
-              m_Expected.c_str(), m_Got);
-    }
-private:
-  String m_Expected;
-  TypeOfObject m_Got;
-};
-
-/**
- * An attribute requested from an element begin tag is not known.
- */
-class UnknownAttributeException: public ParseException
-{
-public:
-  UnknownAttributeException(const char* file, int line,
-                            const char* unknown):
-    ParseException(file, line), m_Unknown(unknown) {}
-  
-  void Print(FILE* f) const
-    {
-      fprintf(f, "Unknown element attribute: %s\n",
-              m_Unknown.c_str());
-    }
-private:
-  String m_Unknown;
-};
-
-/**
- * An unknown element tag was encountered.
- */
-class UnknownElementTagException: public ParseException
-{
-public:
-  UnknownElementTagException(const char* file, int line,
-                             const char* unknown):
-    ParseException(file, line), m_Unknown(unknown) {}
-
-  void Print(FILE* f) const
-    {
-      fprintf(f, "Unknown element tag: %s\n",
-              m_Unknown.c_str());
-    }
-private:
-  String m_Unknown;
-};
-
-/**
- * Store the set of attributes provided to an element tag, and their values.
- */
-class Attributes
-{
-public:
-  /**
-   * Setup default values for certain attributes.
-   */
-  static void Initialize(void)
-    {
-      Defaults["name"] = "";
-      Defaults["static"] = "0";
-      Defaults["restrict"] = "0";
-      Defaults["volatile"] = "0";
-      Defaults["const"] = "0";
-      Defaults["min"] = "0";
-    }
-
-  /**
-   * Set the value of a given attribute.
-   */
-  void Set(String a, const String& v)
-    {
-      m_Attrs[a] = v;
-    }
-
-  /**
-   * Get the string representation of an attribute.
-   */
-  const char* Get(String a) const
-    {
-      if(m_Attrs.count(a) > 0)
-        {
-        return m_Attrs.find(a)->second.c_str();
-        }
-      else if(Defaults.count(a) > 0)
-        {
-        return Defaults.find(a)->second.c_str();
-        }
-      else
-        {
-        throw UnknownAttributeException(__FILE__, __LINE__, a.c_str());
-        }
-    }
-
-  
-  /**
-   * Get an attribute with conversion to integer.
-   */
-  int GetAsInteger(String a) const
-    {
-      return atoi(this->Get(a));
-    }
-  
-  /**
-   * Get an attribute with conversion to boolean.
-   */
-  bool GetAsBoolean(String a) const
-    {
-      return (this->GetAsInteger(a) != 0);
-    }
-  
-private:
-  map<String, String>  m_Attrs;
-  
-  static map<String, String>  Defaults;
-};
-
-/**
- * The default attribute information.
- */
-map<String, String> Attributes::Defaults;
-
-/**
- * Map from element name to its beginning handler.
- */
-map<String, void (*)(const Attributes&)>  beginHandlers;
-
-/**
- * Map from element name to its ending handler, if any.
- */
-map<String, void (*)(void)>  endHandlers;
+static EndHandlers endHandlers;
 
 /**
  * A stack of XML elements used during parsing of the XML source.
@@ -245,6 +33,26 @@ InternalObject::Pointer CurrentElement(void)
 {
   return elementStack.top();
 }
+
+
+/**
+ * An unexpected element type is on top of the stack.
+ */
+class ElementStackTypeException: public ParseException
+{
+public:
+  ElementStackTypeException(const char* file, int line,
+                            const char* e, TypeOfObject t):
+    ParseException(file, line), m_Expected(e), m_Got(t) {}
+  void Print(FILE* f) const
+    {
+      fprintf(f, "Expected \"%s\" on top of element stack, but got %d.\n",
+              m_Expected.c_str(), m_Got);
+    }
+private:
+  String m_Expected;
+  TypeOfObject m_Got;
+};
 
 
 /**
@@ -383,6 +191,19 @@ FunctionType::Pointer CurrentFunctionType(void)
 
 
 /**
+ * Get the current type off the top of the stack as a MethodType.
+ */
+MethodType::Pointer CurrentMethodType(void)
+{
+  TypeOfObject t = elementStack.top()->GetTypeOfObject();
+  if(t != MethodType_id)
+    throw ElementStackTypeException(__FILE__, __LINE__, "MethodType", t);
+  
+  return (MethodType*)elementStack.top().RealPointer();
+}
+
+
+/**
  * Get the current type off the top of the stack as a OffsetType.
  */
 OffsetType::Pointer CurrentOffsetType(void)
@@ -432,69 +253,7 @@ void PopElement(void)
 }
 
 
-/**
- * Called when a new element is opened in the XML source.
- * Checks the tag name, and calls the appropriate handler with an
- * Attributes container.
- */
-void StartElement(void *, const char *name, const char **atts) try
-{
-  if(beginHandlers.count(name) > 0)
-    {
-    Attributes attributes;
-    for(int i=0; atts[i] && atts[i+1] ; i += 2)
-      {
-      attributes.Set(atts[i], atts[i+1]);
-      }
-    beginHandlers[name](attributes);
-    }
-  else
-    {
-    throw UnknownElementTagException(__FILE__, __LINE__, name);
-    }
-}
-catch (const ParseException& e)
-{
-  e.PrintLocation(stderr);
-  e.Print(stderr);
-  exit(1);
-}
-catch (const String& e)
-{
-  fprintf(stderr, "Error: %s\n", e.c_str());
-  exit(1);
-}
-
-
-/**
- * Called at the end of an element in the XML source opened when
- * StartElement was called.
- */
-void EndElement(void *userData, const char *name) try
-{
-  // If there is an ending handler for this tag, call it.
-  if(endHandlers.count(name) > 0)
-    {
-    endHandlers[name]();
-    }
-  else
-    {
-    throw UnknownElementTagException(__FILE__, __LINE__, name);
-    }
-}
-catch (const ParseException& e)
-{
-  e.PrintLocation(stderr);
-  e.Print(stderr);
-  exit(1);
-}
-catch (const String& e)
-{
-  fprintf(stderr, "Error: %s\n", e.c_str());
-  exit(1);
-}
-
-void Initialize(void);
+static void Initialize(void);
 
 /**
  * Parse XML source from the given input.  Return a pointer to the
@@ -508,11 +267,12 @@ Namespace::Pointer ParseSourceXML(FILE* inFile)
   char buf[BUFSIZ];
   XML_Parser parser = XML_ParserCreate(NULL);
   bool done = false;
-  int depth = 0;
   
   Initialize();
 
-  XML_SetUserData(parser, &depth);
+  HandlersPair hp(&beginHandlers, &endHandlers);
+  
+  XML_SetUserData(parser, &hp);
   XML_SetElementHandler(parser, StartElement, EndElement);
 
   /**
@@ -552,6 +312,15 @@ Namespace::Pointer ParseSourceXML(FILE* inFile)
    */
   return GlobalNamespace;
 }
+
+
+/*@{
+ * String containing a common attribute value.
+ */
+static const String access_public("public");
+static const String access_protected("protected");
+static const String access_private("private");
+//@}
 
 
 /**
@@ -605,6 +374,10 @@ void end_Namespace(void)
  */
 void begin_NamespaceAlias(const Attributes& atts)
 {
+  UnimplementedNameHolder::Pointer newUnimplementedNameHolder
+    = UnimplementedNameHolder::New();
+  
+  PushElement(newUnimplementedNameHolder);
 }
 
 /**
@@ -612,6 +385,7 @@ void begin_NamespaceAlias(const Attributes& atts)
  */
 void end_NamespaceAlias(void)
 {
+  PopElement();
 }
 
 
@@ -620,13 +394,12 @@ void end_NamespaceAlias(void)
  */
 void begin_Typedef(const Attributes& atts)
 {
-  String name = atts.Get("name");
-  UnimplementedTypeholder::Pointer newUnimplementedTypeholder =
-    UnimplementedTypeholder::New(name);
+  UnimplementedTypeHolder::Pointer newUnimplementedTypeHolder =
+    UnimplementedTypeHolder::New();
   
   // Only need typedef to absorb its internal information.  It will be
   // lost when it is popped off the stack by end_Typedef().
-  PushElement(newUnimplementedTypeholder);
+  PushElement(newUnimplementedTypeHolder);
 }
 
 /**
@@ -1005,13 +778,12 @@ void end_Ellipsis(void)
  */
 void begin_Variable(const Attributes& atts)
 {
-  String name = atts.Get("name");
-  UnimplementedTypeholder::Pointer newUnimplementedTypeholder =
-    UnimplementedTypeholder::New(name);
+  UnimplementedTypeHolder::Pointer newUnimplementedTypeHolder =
+    UnimplementedTypeHolder::New();
   
   // Only need typedef to absorb its internal information.  It will be
   // lost when it is popped off the stack by end_Variable().
-  PushElement(newUnimplementedTypeholder);
+  PushElement(newUnimplementedTypeHolder);
 }
 
 /**
@@ -1043,13 +815,12 @@ void end_Initializer(void)
  */
 void begin_Field(const Attributes& atts)
 {
-  String name = atts.Get("name");
-  UnimplementedTypeholder::Pointer newUnimplementedTypeholder =
-    UnimplementedTypeholder::New(name);
+  UnimplementedTypeHolder::Pointer newUnimplementedTypeHolder =
+    UnimplementedTypeHolder::New();
   
   // Only need typedef to absorb its internal information.  It will be
   // lost when it is popped off the stack by end_Field().
-  PushElement(newUnimplementedTypeholder);
+  PushElement(newUnimplementedTypeHolder);
 }
 
 /**
@@ -1066,13 +837,12 @@ void end_Field(void)
  */
 void begin_Enum(const Attributes& atts)
 {
-  String name = atts.Get("name");
-  UnimplementedTypeholder::Pointer newUnimplementedTypeholder =
-    UnimplementedTypeholder::New(name);
+  UnimplementedTypeHolder::Pointer newUnimplementedTypeHolder =
+    UnimplementedTypeHolder::New();
   
   // Only need typedef to absorb its internal information.  It will be
   // lost when it is popped off the stack by end_Enum().
-  PushElement(newUnimplementedTypeholder);
+  PushElement(newUnimplementedTypeHolder);
 }
 
 /**
@@ -1085,21 +855,20 @@ void end_Enum(void)
 
 
 /**
- * Begin handler for Type element.
+ * Begin handler for NamedType element.
  */
-void begin_Type(const Attributes& atts)
+void begin_NamedType(const Attributes& atts)
 {
-  String name = atts.Get("name");  
-  NamedType::Pointer newNamedType = NamedType::New(name);
+  NamedType::Pointer newNamedType = NamedType::New();
 
   CurrentElement()->SetInternalType(newNamedType);
   PushElement(newNamedType);
 }
 
 /**
- * End handler for Type element.
+ * End handler for NamedType element.
  */
-void end_Type(void)
+void end_NamedType(void)
 {
   PopElement();  
 }
@@ -1170,8 +939,7 @@ void end_FunctionType(void)
  */
 void begin_MethodType(const Attributes& atts)
 {
-  // TODO: Lookup base type of method type.
-  MethodType::Pointer newMethodType = MethodType::New(NULL);
+  MethodType::Pointer newMethodType = MethodType::New();
   
   CurrentElement()->SetInternalType(newMethodType);
   PushElement(newMethodType);
@@ -1191,8 +959,7 @@ void end_MethodType(void)
  */
 void begin_OffsetType(const Attributes& atts)
 {
-  // TODO: Lookup base type of offset type.
-  OffsetType::Pointer newOffsetType = OffsetType::New(NULL);
+  OffsetType::Pointer newOffsetType = OffsetType::New();
   
   CurrentElement()->SetInternalType(newOffsetType);
   PushElement(newOffsetType);
@@ -1230,10 +997,61 @@ void end_ArrayType(void)
 
 
 /**
+ * Begin handler for QualifiedName element.
+ */
+void begin_QualifiedName(const Attributes& atts)
+{
+  String name = atts.Get("name");
+  QualifiedName::Pointer newQualifiedName = QualifiedName::New(name);
+
+  CurrentElement()->SetInternalQualifiedName(newQualifiedName);
+}
+
+/**
+ * End handler for QualifiedName element.
+ */
+void end_QualifiedName(void)
+{
+}
+
+
+/**
+ * Begin handler for NameQualifier element.
+ */
+void begin_NameQualifier(const Attributes& atts)
+{
+  String name = atts.Get("name");
+  NameQualifier::Pointer newNameQualifier = NameQualifier::New(name);
+
+  CurrentElement()->SetInternalQualifiedName(newNameQualifier);
+  PushElement(newNameQualifier);
+}
+
+/**
+ * End handler for NameQualifier element.
+ */
+void end_NameQualifier(void)
+{
+  PopElement();
+}
+
+
+/**
  * Begin handler for BaseClass element.
  */
 void begin_BaseClass(const Attributes& atts)
 {
+  String accessStr = atts.Get("access");
+  Access access;
+  
+  if(accessStr == access_public)         access = Public;
+  else if(accessStr == access_protected) access = Protected;
+  else                                   access = Private;
+  
+  BaseClass::Pointer newBaseClass = BaseClass::New(access);
+
+  CurrentClass()->AddBaseClass(newBaseClass);
+  PushElement(newBaseClass);
 }
 
 /**
@@ -1241,6 +1059,37 @@ void begin_BaseClass(const Attributes& atts)
  */
 void end_BaseClass(void)
 {
+  PopElement();
+}
+
+
+/**
+ * Begin handler for BaseType element.
+ */
+void begin_BaseType(const Attributes& atts)
+{
+  BaseType::Pointer newBaseType = BaseType::New();
+
+  TypeOfObject t = CurrentElement()->GetTypeOfObject();
+  
+  if(t == MethodType_id)
+    {
+    CurrentMethodType()->SetBaseType(newBaseType);
+    }
+  else
+    {
+    CurrentOffsetType()->SetBaseType(newBaseType);
+    }
+  
+  PushElement(newBaseType);
+}
+
+/**
+ * End handler for BaseType element.
+ */
+void end_BaseType(void)
+{
+  PopElement();
 }
 
 
@@ -1355,6 +1204,51 @@ void end_Unimplemented(void)
 }
 
 
+/*@{
+ * The name of an XML element tag.
+ */
+static const String tag_GlobalNamespace("GlobalNamespace");
+static const String tag_Namespace("Namespace");
+static const String tag_NamespaceAlias("NamespaceAlias");
+static const String tag_Typedef("Typedef");
+static const String tag_Class("Class");
+static const String tag_Struct("Struct");
+static const String tag_Union("Union");
+static const String tag_Constructor("Constructor");
+static const String tag_Destructor("Destructor");
+static const String tag_Converter("Converter");
+static const String tag_OperatorFunction("OperatorFunction");
+static const String tag_OperatorMethod("OperatorMethod");
+static const String tag_Method("Method");
+static const String tag_Function("Function");
+static const String tag_Argument("Argument");
+static const String tag_Returns("Returns");
+static const String tag_DefaultArgument("DefaultArgument");
+static const String tag_Ellipsis("Ellipsis");
+static const String tag_Variable("Variable");
+static const String tag_Initializer("Initializer");
+static const String tag_Field("Field");
+static const String tag_Enum("Enum");
+static const String tag_NamedType("NamedType");
+static const String tag_PointerType("PointerType");
+static const String tag_ReferenceType("ReferenceType");
+static const String tag_FunctionType("FunctionType");
+static const String tag_MethodType("MethodType");
+static const String tag_OffsetType("OffsetType");
+static const String tag_ArrayType("ArrayType");
+static const String tag_QualifiedName("QualifiedName");
+static const String tag_NameQualifier("NameQualifier");
+static const String tag_BaseClass("BaseClass");
+static const String tag_BaseType("BaseType");
+static const String tag_Instantiation("Instantiation");
+static const String tag_TemplateArgument("TemplateArgument");
+static const String tag_External("External");
+static const String tag_IncompleteType("IncompleteType");
+static const String tag_Location("Location");
+static const String tag_CV_Qualifiers("CV_Qualifiers");
+static const String tag_Unimplemented("Unimplemented");
+//@}
+
 
 /**
  * Setup the element handler mappings for each xml tag type.
@@ -1362,8 +1256,6 @@ void end_Unimplemented(void)
  */
 void Initialize(void)
 {
-  Attributes::Initialize();
-
   beginHandlers[tag_GlobalNamespace]         = begin_GlobalNamespace;
   beginHandlers[tag_Namespace]               = begin_Namespace;
   beginHandlers[tag_NamespaceAlias]          = begin_NamespaceAlias;
@@ -1386,14 +1278,17 @@ void Initialize(void)
   beginHandlers[tag_Initializer]             = begin_Initializer;
   beginHandlers[tag_Field]                   = begin_Field;
   beginHandlers[tag_Enum]                    = begin_Enum;
-  beginHandlers[tag_Type]                    = begin_Type;
+  beginHandlers[tag_NamedType]               = begin_NamedType;
   beginHandlers[tag_PointerType]             = begin_PointerType;
   beginHandlers[tag_ReferenceType]           = begin_ReferenceType;
   beginHandlers[tag_FunctionType]            = begin_FunctionType;
   beginHandlers[tag_MethodType]              = begin_MethodType;
   beginHandlers[tag_OffsetType]              = begin_OffsetType;
   beginHandlers[tag_ArrayType]               = begin_ArrayType;
+  beginHandlers[tag_QualifiedName]           = begin_QualifiedName;
+  beginHandlers[tag_NameQualifier]           = begin_NameQualifier;
   beginHandlers[tag_BaseClass]               = begin_BaseClass;
+  beginHandlers[tag_BaseType]                = begin_BaseType;
   beginHandlers[tag_Instantiation]           = begin_Instantiation;
   beginHandlers[tag_TemplateArgument]        = begin_TemplateArgument;
   beginHandlers[tag_External]                = begin_External;
@@ -1424,14 +1319,17 @@ void Initialize(void)
   endHandlers[tag_Initializer]             = end_Initializer;
   endHandlers[tag_Field]                   = end_Field;
   endHandlers[tag_Enum]                    = end_Enum;
-  endHandlers[tag_Type]                    = end_Type;
+  endHandlers[tag_NamedType]               = end_NamedType;
   endHandlers[tag_PointerType]             = end_PointerType;
   endHandlers[tag_ReferenceType]           = end_ReferenceType;
   endHandlers[tag_FunctionType]            = end_FunctionType;
   endHandlers[tag_MethodType]              = end_MethodType;
   endHandlers[tag_OffsetType]              = end_OffsetType;
   endHandlers[tag_ArrayType]               = end_ArrayType;
+  endHandlers[tag_QualifiedName]           = end_QualifiedName;
+  endHandlers[tag_NameQualifier]           = end_NameQualifier;
   endHandlers[tag_BaseClass]               = end_BaseClass;
+  endHandlers[tag_BaseType]                = end_BaseType;
   endHandlers[tag_Instantiation]           = end_Instantiation;
   endHandlers[tag_TemplateArgument]        = end_TemplateArgument;
   endHandlers[tag_External]                = end_External;
