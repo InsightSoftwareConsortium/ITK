@@ -92,8 +92,10 @@ int IterateOverImage( itkImageIterator<T, TImageDimension> it, unsigned int dim 
       // increment the iterator
       try
 	{
-	it += basisIndex;
-	//it.Increment( it.GetIndex().GetBasisIndex(dim) );
+	++it; // fastest
+	//it++; // fast
+	//it += basisIndex; // slow
+	//it.Increment( it.GetIndex().GetBasisIndex(dim) ); // slowest
 	}
       catch (const int error)
 	{
