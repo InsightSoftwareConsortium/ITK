@@ -102,7 +102,8 @@ int main( int argc, char *argv[] )
     std::cerr << " CannyVariance ";
     std::cerr << " AdvectionWeight";
     std::cerr << " InitialModelIsovalue";
-    std::cerr << " MaximumIterations" << std::endl;
+    std::cerr << " MaximumIterations";
+    std::cerr << " [OutputSpeedImage]" << std::endl;
     return 1;
     }
 
@@ -194,7 +195,8 @@ int main( int argc, char *argv[] )
   cannySegmentation->SetCurvatureScaling( 1.0 );
   cannySegmentation->SetPropagationScaling( 0.0 );
   //  Software Guide : EndCodeSnippet
-  
+ 
+
   //  Software Guide : BeginLatex
   //
   //  The maximum number of iterations is specified from the command line.
@@ -324,5 +326,54 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex 
 
+
+
+  if( argc > 9 )
+    {
+    const char * speedImageFileName = argv[9];
+
+  //  Software Guide : BeginLatex
+  //  
+  // In some cases it is interesting to take a direct look at the speed image
+  // used internally by this filter. This may help for setting the correct
+  // parameters for driving the segmentation. In order to obtain such speed
+  // image, the method \code{GenerateSpeedImage()} should be invoked first.
+  // Then we can recover the speed image with the \code{GetSpeedImage()} method
+  // as illustrated in the following lines.
+  //
+  //  \index{itk::Canny\-Segmentation\-LevelSet\-Image\-Filter!GenerateSpeedImage()}
+  //  \index{itk::Segmentation\-LevelSet\-ImageFilter!GenerateSpeedImage()}
+  //  \index{itk::Canny\-Segmentation\-LevelSet\-Image\-Filter!GetSpeedImage()}
+  //  \index{itk::Segmentation\-LevelSet\-ImageFilter!GetSpeedImage()}
+  //
+  //  Software Guide : EndLatex 
+
+  //  Software Guide : BeginCodeSnippet
+    cannySegmentation->GenerateSpeedImage();
+
+    typedef CannySegmentationLevelSetImageFilterType::SpeedImageType SpeedImageType;
+    typedef itk::ImageFileWriter<SpeedImageType>   SpeedWriterType;
+    SpeedWriterType::Pointer speedWriter = SpeedWriterType::New();
+
+    speedWriter->SetInput( cannySegmentation->GetSpeedImage() );
+  //  Software Guide : EndCodeSnippet
+
+
+    speedWriter->SetFileName( speedImageFileName );
+
+    try
+      {
+      speedWriter->Update();
+      }
+    catch( itk::ExceptionObject & excep )
+      {
+      std::cerr << "Exception caught ! while writing the speed image" << std::endl;
+      std::cerr << "Filename : " << speedImageFileName << std::endl;
+      std::cerr << excep << std::endl;
+      }
+
+    }
+
+  
   return 0;
 }
