@@ -89,11 +89,6 @@ void
 SupervisedClassifier<TInputImage, TClassifiedImage>
 ::Allocate()
 {
-  if(m_NumClasses < NULL)
-  {
-    throw ExceptionObject();
-  }
-
   InputImageType inputImage = this->GetInputImage();
   
   InputImageSizeType inputImageSize = inputImage->GetBufferedRegion().GetSize();
