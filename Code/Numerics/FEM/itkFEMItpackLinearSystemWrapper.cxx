@@ -369,10 +369,8 @@ void ItpackLinearSystemWrapper::Solve(void)
 
 
   /* Initialize solution values (set to zero) */
-  double val = 0.0;
-
   this->InitializeSolution(0);
-  integer order = m_Order;
+
 
  /* Set up itpack workspace variables
   *
