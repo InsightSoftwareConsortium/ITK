@@ -714,12 +714,18 @@ IF(ITK_CSWIG_JAVA)
     ${ITK_SOURCE_DIR}/Examples/Filtering/${javatestfile}.java
     COMMENT "Java Class")
 
-  ADD_TEST(${javatestfile}Java ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
-           ${javatestfile}
-           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-           ${ITK_TEST_OUTPUT_DIR}/${javatestfile}JavaTest.png )
-
   ENDFOREACH( javatestfile )
+
+  ADD_TEST(MeanImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
+           MeanImageFilter
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/MeanImageFilterJavaTest.png  1 )  
+
+  ADD_TEST(CurvatureFlowImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
+           CurvatureFlowImageFilter
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/CurvatureFlowImageFilterJavaTest.png )  
+
 ENDIF(ITK_CSWIG_JAVA)
 
 
