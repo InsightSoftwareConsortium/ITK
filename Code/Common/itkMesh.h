@@ -108,7 +108,7 @@ public:
   int GetMaximumNumberOfRegions() const
     {return m_MaximumNumberOfRegions;}
       
-  /** \typedef PixelType
+  /** 
    * Hold on to the type information specified by the template parameters.
    */
   typedef TMeshType   MeshType;

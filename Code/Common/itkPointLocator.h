@@ -80,7 +80,7 @@ public:
    */
   itkTypeMacro(PointLocator, Object);
 
-  /** \typedef PointIdentifier
+  /** 
    * Hold on to the type information specified by the template parameters.
    * PointIdentifier is the type that the point handles are represented by.
    */
