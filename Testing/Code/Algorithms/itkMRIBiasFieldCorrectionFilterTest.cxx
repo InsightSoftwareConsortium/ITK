@@ -176,7 +176,7 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   filter->SetVolumeCorrectionMaximumIteration( 1000 ) ;
   filter->SetUsingInterSliceIntensityCorrection( false ) ;
   filter->SetInterSliceCorrectionMaximumIteration( 200 ) ;
-  filter->SetUsingSlabIdentification( false ) ;
+  filter->SetUsingSlabIdentification( true ) ;
   filter->SetSlicingDirection( 2 ) ;
   filter->Update() ;
 
