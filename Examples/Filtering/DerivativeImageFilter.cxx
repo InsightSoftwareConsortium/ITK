@@ -16,7 +16,7 @@
 =========================================================================*/
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS:  {BrainProtonDensitySlice.png}
-//    OUTPUTS: {DerivativeImageFilterFloatOutput.png}
+//    OUTPUTS: {DerivativeImageFilterFloatOutput.mhd}
 //    OUTPUTS: {DerivativeImageFilterOutput.png}
 //    1 0
 //  Software Guide : EndCommandLineArgs

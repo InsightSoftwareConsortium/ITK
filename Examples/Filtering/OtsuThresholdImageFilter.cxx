@@ -13,6 +13,11 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySlice.png}
+//    OUTPUTS: {OtsuThresholdImageFilterOutput.png}
+//    255 0
+//  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex
 //
