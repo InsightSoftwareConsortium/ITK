@@ -19,7 +19,7 @@
 
 #include <itkObject.h>
 #include <itkMacro.h>
-#include <itkFixedCenterOfRotationAffineTransform.h>
+#include <itkScalableAffineTransform.h>
 #include <itkBoundingBox.h>
 
 namespace itk 
@@ -37,7 +37,7 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  typedef FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>  TransformType;
+  typedef ScalableAffineTransform<TScalarType, NDimensions>  TransformType;
   typedef BoundingBox<unsigned long, NDimensions, TScalarType> BoundingBoxType;
   typedef typename BoundingBoxType::BoundsArrayType BoundsArrayType;
   typedef typename BoundingBoxType::Pointer BoundingBoxPointer;

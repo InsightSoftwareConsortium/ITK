@@ -119,8 +119,7 @@ SpatialObject< TDimension >
       p2=point;
       
       // should get the spacing from the transform
-      const double* spacing = this->GetIndexToObjectTransform()
-                                  ->GetScaleComponent();
+      const double * spacing = this->GetIndexToObjectTransform()->GetScale();
       p1[i]-=spacing[i];
       p2[i]+=spacing[i];
 
@@ -293,7 +292,7 @@ SpatialObject< TDimension >
     }
   else
     {
-    std::cout << "Cannot RemoveSpatialObject" << std::endl;
+    std::cerr << "Cannot RemoveSpatialObject" << std::endl;
     }
 }
 
@@ -437,15 +436,16 @@ SpatialObject< TDimension >
 ::ComputeObjectToParentTransform()
 {
 
-  m_ObjectToParentTransform->SetMatrixComponent(m_ObjectToWorldTransform->GetMatrixComponent());
-  m_ObjectToParentTransform->SetOffsetComponent(m_ObjectToWorldTransform->GetOffsetComponent());
-  m_ObjectToParentTransform->SetCenterOfRotationComponent(m_ObjectToWorldTransform->GetCenterOfRotationComponent());
-  m_ObjectToParentTransform->SetScaleComponent(m_ObjectToWorldTransform->GetScaleComponent());
+  m_ObjectToParentTransform->SetScale(m_ObjectToWorldTransform->GetScale());
+  m_ObjectToParentTransform->SetCenter(m_ObjectToWorldTransform->GetCenter());
+  m_ObjectToParentTransform->SetMatrix(m_ObjectToWorldTransform->GetMatrix());
+  m_ObjectToParentTransform->SetOffset(m_ObjectToWorldTransform->GetOffset());
 
   if(m_TreeNode->HasParent())
     {
     typename TransformType::Pointer inverse = TransformType::New();
-    if(static_cast<TreeNodeType*>(m_TreeNode->GetParent())->GetNodeToParentNodeTransform()->GetInverse(inverse))
+    if(static_cast<TreeNodeType*>(m_TreeNode->GetParent())
+       ->GetNodeToParentNodeTransform()->GetInverse(inverse))
       {
       m_ObjectToParentTransform->Compose(inverse,true);
       }
@@ -453,11 +453,25 @@ SpatialObject< TDimension >
     }
 
   m_AffineGeometryFrame->GetObjectToNodeTransform()->SetIdentity();
-  static_cast<TreeNodeType*>(m_TreeNode.GetPointer())->GetNodeToParentNodeTransform()->SetMatrix(m_ObjectToParentTransform->GetMatrix());
-  static_cast<TreeNodeType*>(m_TreeNode.GetPointer())->GetNodeToParentNodeTransform()->SetOffset(m_ObjectToParentTransform->GetOffset());
+  static_cast<TreeNodeType*>(m_TreeNode.GetPointer())
+    ->GetNodeToParentNodeTransform()
+    ->SetCenter(m_ObjectToParentTransform->GetCenter());
+  static_cast<TreeNodeType*>(m_TreeNode.GetPointer())
+    ->GetNodeToParentNodeTransform()
+    ->SetMatrix(m_ObjectToParentTransform->GetMatrix());
+  static_cast<TreeNodeType*>(m_TreeNode.GetPointer())
+    ->GetNodeToParentNodeTransform()
+    ->SetOffset(m_ObjectToParentTransform->GetOffset());
 
-  m_IndexToWorldTransform->SetMatrix(m_AffineGeometryFrame->GetIndexToObjectTransform()->GetMatrix());
-  m_IndexToWorldTransform->SetOffset(m_AffineGeometryFrame->GetIndexToObjectTransform()->GetOffset());
+  m_IndexToWorldTransform->SetCenter(m_AffineGeometryFrame
+                                       ->GetIndexToObjectTransform()
+                                       ->GetCenter());
+  m_IndexToWorldTransform->SetMatrix(m_AffineGeometryFrame
+                                       ->GetIndexToObjectTransform()
+                                       ->GetMatrix());
+  m_IndexToWorldTransform->SetOffset(m_AffineGeometryFrame
+                                       ->GetIndexToObjectTransform()
+                                       ->GetOffset());
   m_IndexToWorldTransform->Compose(m_ObjectToWorldTransform,false);
 }
 
@@ -777,7 +791,8 @@ SpatialObject< TDimension >
     {
     if ( (requestedRegionIndex[i] < bufferedRegionIndex[i]) ||
          ((requestedRegionIndex[i] + static_cast<long>(requestedRegionSize[i]))
-          > (bufferedRegionIndex[i] + static_cast<long>(bufferedRegionSize[i]))) )
+          > (bufferedRegionIndex[i] 
+             + static_cast<long>(bufferedRegionSize[i]))) )
       {
       return true;
       }
@@ -823,7 +838,8 @@ SpatialObject< TDimension >
     {
     if ( (requestedRegionIndex[i] < largestPossibleRegionIndex[i]) ||
          ((requestedRegionIndex[i] + static_cast<long>(requestedRegionSize[i]))
-          > (largestPossibleRegionIndex[i]+static_cast<long>(largestPossibleRegionSize[i]))))
+          > (largestPossibleRegionIndex[i]
+             + static_cast<long>(largestPossibleRegionSize[i]))))
       {
       retval = false;
       }
@@ -906,19 +922,6 @@ SpatialObject< TDimension >
 ::Update(void)
 {
   this->Modified();
-}
-
-template< unsigned int TDimension >
-void
-SpatialObject< TDimension >
-::SetSpacing( const SpacingType & spacing )
-{
-   double spacingValues[ TDimension ];
-   for(unsigned int i=0; i<TDimension; i++)
-      {
-      spacingValues[i] = spacing[i];
-      }  
-   this->SetSpacing( spacingValues );
 }
 
 template< unsigned int TDimension >

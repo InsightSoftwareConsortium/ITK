@@ -159,7 +159,8 @@ MetaSurfaceConverter<NDimensions>
 
  for(unsigned int i=0;i<NDimensions;i++)
   {
-    Surface->ElementSpacing(i,spatialObject->GetIndexToObjectTransform()->GetScaleComponent()[i]);
+    Surface->ElementSpacing(i, spatialObject->GetIndexToObjectTransform()
+                                            ->GetScaleComponent()[i]);
   }
 
   return Surface;

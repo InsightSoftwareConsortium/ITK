@@ -86,14 +86,14 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // First we define an index scaling factor of 2 for the object2.
-// This is done by setting the ScaleComponent of the IndexToObjectTransform.
+// This is done by setting the Scale of the IndexToObjectTransform.
 //
 // Software Guide : EndLatex 
 // Software Guide : BeginCodeSnippet
   double scale[2];
   scale[0]=2;
   scale[1]=2;
-  object2->GetIndexToObjectTransform()->SetScaleComponent(scale);
+  object2->GetIndexToObjectTransform()->SetScale(scale);
 // Software Guide : EndCodeSnippet
 
 
@@ -133,7 +133,7 @@ int main( int , char *[] )
 // should notice that the FixedCenterOfRotationAffineTransform derives from
 // \doxygen{AffineTransform} and therefore the only valid members of the
 // transformation are a Matrix and an Offset. For instance, when we invoke the
-// \code{ScaleComponent()} method the internal Matrix is recomputed to
+// \code{Scale()} method the internal Matrix is recomputed to
 // reflect this change.
 // 
 // The FixedCenterOfRotationAffineTransform performs the following
@@ -154,8 +154,8 @@ int main( int , char *[] )
 // T = C + V - R \cdot C
 // \end{equation}
 //
-// This means that \code{GetScaleComponent()} and \code{GetOffsetComponent()}
-// as well as the \code{GetMatrixComponent()} might not be set to the
+// This means that \code{GetScale()} and \code{GetOffset()}
+// as well as the \code{GetMatrix()} might not be set to the
 // expected value, especially if the transformation results from a
 // composition with another transformation since the composition is done
 // using the Matrix and the Offset of the affine transformation.

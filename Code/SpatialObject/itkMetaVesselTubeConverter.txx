@@ -208,7 +208,8 @@ MetaVesselTubeConverter<NDimensions>
 
   for(unsigned int i=0;i<NDimensions;i++)
   {
-    tube->ElementSpacing(i,spatialObject->GetIndexToObjectTransform()->GetScaleComponent()[i]);
+    tube->ElementSpacing(i, spatialObject->GetIndexToObjectTransform()
+                                         ->GetScaleComponent()[i]);
   }
   return tube;
 }

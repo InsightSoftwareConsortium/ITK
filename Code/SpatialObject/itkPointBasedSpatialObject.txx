@@ -29,7 +29,8 @@ namespace itk
 /** Constructor */
 template< unsigned int TDimension >
 PointBasedSpatialObject< TDimension > 
-::PointBasedSpatialObject()  
+::PointBasedSpatialObject() :
+  SpatialObject<TDimension>()
 { 
   this->SetTypeName("PointBasedSpatialObject");
 } 

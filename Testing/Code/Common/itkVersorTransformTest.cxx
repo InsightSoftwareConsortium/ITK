@@ -99,9 +99,6 @@ int itkVersorTransformTest(int, char* [] )
     parameters[0] = versor.GetX();
     parameters[1] = versor.GetY();
     parameters[2] = versor.GetZ();
-    parameters[3] = 0.0;             // Translation
-    parameters[4] = 0.0;
-    parameters[5] = 0.0;
 
     transform->SetParameters( parameters );
 

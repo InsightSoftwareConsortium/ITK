@@ -18,9 +18,8 @@
 #define __itkRigid3DTransform_h
 
 #include <iostream>
-#include "itkTransform.h"
+#include "itkMatrixOffsetTransformBase.h"
 #include "itkExceptionObject.h"
-#include "vnl/vnl_quaternion.h"
 #include "itkMatrix.h"
 #include "itkVersor.h"
 
@@ -33,101 +32,58 @@ namespace itk
  *
  * \ingroup Transforms
  */
-template < class TScalarType=double >    // Data type for scalars (float or double)
-class ITK_EXPORT Rigid3DTransform : 
-        public Transform< TScalarType, 3, 3> // Dimensions of input and output spaces
+template < class TScalarType=double >    // type for scalars (float or double)
+class ITK_EXPORT Rigid3DTransform :
+   public MatrixOffsetTransformBase< TScalarType, 3, 3> 
 {
 public:
   /** Standard class typedefs. */
-  typedef Rigid3DTransform Self;
-  typedef Transform< TScalarType, 3, 3 > Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef Rigid3DTransform                                 Self;
+  typedef MatrixOffsetTransformBase< TScalarType, 3, 3 >   Superclass;
+  typedef SmartPointer<Self>                               Pointer;
+  typedef SmartPointer<const Self>                         ConstPointer;
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro( Rigid3DTransform, Transform );
+  itkTypeMacro( Rigid3DTransform, MatrixOffsetTransformBase );
 
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro( Self );
 
   /** Dimension of the space. */
+  itkStaticConstMacro(SpaceDimension, unsigned int, 3);
   itkStaticConstMacro(InputSpaceDimension, unsigned int, 3);
   itkStaticConstMacro(OutputSpaceDimension, unsigned int, 3);
-  itkStaticConstMacro(ParametersDimension, unsigned int, 6);
+  itkStaticConstMacro(ParametersDimension, unsigned int, 12);
 
-  /** Scalar type. */
-  typedef typename Superclass::ScalarType  ScalarType;
-
-  /** Parameters type. */
-  typedef typename Superclass::ParametersType  ParametersType;
-
-  /** Jacobian type. */
-  typedef typename Superclass::JacobianType  JacobianType;
-
-  /// Standard matrix type for this class
-  typedef Matrix<ScalarType, itkGetStaticConstMacro(InputSpaceDimension), itkGetStaticConstMacro(InputSpaceDimension)> MatrixType;
-
-  /// Standard vector type for this class
-  typedef Vector<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)> OffsetType;
-
-  /// Standard vector type for this class
-  typedef Vector<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)> InputVectorType;
-  typedef Vector<TScalarType, itkGetStaticConstMacro(OutputSpaceDimension)> OutputVectorType;
-
-  /// Standard covariant vector type for this class
-  typedef CovariantVector<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)> InputCovariantVectorType;
-  typedef CovariantVector<TScalarType, itkGetStaticConstMacro(OutputSpaceDimension)> OutputCovariantVectorType;
-
-  /// Standard vnl_vector type for this class
-  typedef vnl_vector_fixed<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)> InputVnlVectorType;
-  typedef vnl_vector_fixed<TScalarType, itkGetStaticConstMacro(OutputSpaceDimension)> OutputVnlVectorType;
-
-  /// Standard coordinate point type for this class
-  typedef Point<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)>    InputPointType;
-  typedef Point<TScalarType, itkGetStaticConstMacro(OutputSpaceDimension)>    OutputPointType;
-
-  /// Standard vnl_quaternion type
-  typedef vnl_quaternion<TScalarType>           VnlQuaternionType;
-
-  /// Standard Versor type
-  typedef Versor<TScalarType>           VersorType;
-
-
-  /**
-   * Get offset of an Rigid3DTransform
-   *
-   * This method returns the value of the offset of the
-   * Rigid3DTransform.
-   **/
-   itkGetConstReferenceMacro( Offset, OffsetType );
-
-  /**
-   * Get rotation MAtrix from an Rigid3DTransform
-   *
-   * This method returns the value of the rotation of the
-   * Rigid3DTransform.
-   **/
-   itkGetConstReferenceMacro( RotationMatrix, MatrixType );
+  typedef typename Superclass::ParametersType             ParametersType;
+  typedef typename Superclass::JacobianType               JacobianType;
+  typedef typename Superclass::ScalarType                 ScalarType;
+  typedef typename Superclass::InputVectorType            InputVectorType;
+  typedef typename Superclass::OutputVectorType           OutputVectorType;
+  typedef typename Superclass::InputCovariantVectorType  
+                                                     InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType  
+                                                     OutputCovariantVectorType;
+  typedef typename Superclass::InputVnlVectorType         InputVnlVectorType;
+  typedef typename Superclass::OutputVnlVectorType        OutputVnlVectorType;
+  typedef typename Superclass::InputPointType             InputPointType;
+  typedef typename Superclass::OutputPointType            OutputPointType;
+  typedef typename Superclass::MatrixType                 MatrixType;
+  typedef typename Superclass::InverseMatrixType          InverseMatrixType;
+  typedef typename Superclass::CenterType                 CenterType;
+  typedef typename Superclass::TranslationType            TranslationType;
+  typedef typename Superclass::OffsetType                 OffsetType;
 
   /**
    * Get rotation Matrix from an Rigid3DTransform
    *
    * This method returns the value of the rotation of the
    * Rigid3DTransform.
-   **/
-   const MatrixType & GetMatrix( ) const
-     {
-     return this->GetRotationMatrix();
-     }
-
-  /**
-   * Set offset of a Rigid3D Transform
    *
-   * This method sets the offset of an Rigid3DTransform to a
-   * value specified by the user.
+   * \deprecated Use GetMatrix instead
    **/
-  itkSetMacro( Offset, OffsetType );
-
+   const MatrixType & GetRotationMatrix()
+     { return this->GetMatrix(); }
 
   /**
    * Set the rotation Matrix of a Rigid3D Transform
@@ -135,23 +91,12 @@ public:
    * This method sets the 3x3 matrix representing a rotation
    * in the transform.  The Matrix is expected to be orthogonal
    * with a certain tolerance.
-   * \warning This method will throw an exception is the matrix
-   * provided as argument is not orthogonal.
-   **/
-  virtual void SetRotationMatrix(const MatrixType &matrix);
-
-  virtual void SetMatrix(const MatrixType &matrix)
-    {
-    this->SetRotationMatrix(matrix);
-    }
-
-
-  /**
-   * Compose with another Rigid3DTransform
    *
+   * \deprecated Use SetMatrix instead
+   * 
    **/
-  virtual void Compose(const Self *other, bool pre=false);
-
+  virtual void SetRotationMatrix(const MatrixType & matrix)
+      { this->SetMatrix(matrix); }
 
   /**
    * Compose the transformation with a translation
@@ -160,22 +105,16 @@ public:
    * origin.  The translation is precomposed with self if pre is
    * true, and postcomposed otherwise.
    **/
-  void Translate(const OffsetType &offset, bool pre=false);
-
+  void Translate(const OffsetType & offset, bool pre=false);
 
   /**
-   * Transform by an affine transformation
+   * TransformCovariantVector can be simplified if the matrix is orthogonal
+   * as is the case for rigid transforms.
    *
-   * This method applies the affine transform given by self to a
-   * given point or vector, returning the transformed point or
-   * vector.
+   * This function call is specialization for rigid transforms.
    **/
-  OutputPointType     TransformPoint(const InputPointType  &point ) const;
-  OutputVectorType    TransformVector(const InputVectorType &vector) const;
-  OutputVnlVectorType    TransformVector(const InputVnlVectorType &vector) const;
-
   OutputCovariantVectorType TransformCovariantVector(
-                                 const InputCovariantVectorType &vector) const;
+                                const InputCovariantVectorType &vector) const;
 
   /**
    * Back transform by an affine transformation
@@ -183,30 +122,25 @@ public:
    * This method finds the point or vector that maps to a given
    * point or vector under the affine transformation defined by
    * self.  If no such point exists, an exception is thrown.
-   **/
-  inline InputPointType      BackTransform(const OutputPointType  &point ) const;
-  inline InputVectorType     BackTransform(const OutputVectorType &vector) const;
-  inline InputVnlVectorType  BackTransform(const OutputVnlVectorType &vector) const;
-
-  inline InputCovariantVectorType BackTransform(
-                                     const OutputCovariantVectorType &vector) const;
-
-  /**
-   * Find inverse of an affine transformation
    *
-   * This method creates and returns a new Rigid3DTransform object
-   * which is the inverse of self.  If self is not invertible,
-   * an exception is thrown.
+   * \deprecated Please use GetInverseTransform and then call the forward
+   *   transform using the result.
+   *
    **/
-  bool GetInverse(Self* inverse) const;
-
-  /** Set the parameters to the IdentityTransform */
-  virtual void SetIdentity(void);
-
-  /** Compute the Jacobian Matrix of the transformation at one point */
-  virtual const JacobianType & GetJacobian(const InputPointType  &point ) const;
+  inline InputPointType      BackTransform(const OutputPointType 
+                                                   &point ) const;
+  inline InputVectorType     BackTransform(const OutputVectorType 
+                                                   &vector) const;
+  inline InputVnlVectorType  BackTransform( const OutputVnlVectorType
+                                                   &vector) const;
+  inline InputCovariantVectorType BackTransform(const OutputCovariantVectorType
+                                                   &vector) const;
 
 protected:
+  Rigid3DTransform(unsigned int spaceDim,
+                   unsigned int paramDim);
+  Rigid3DTransform(const MatrixType & matrix,
+                   const OutputVectorType & offset);
   Rigid3DTransform();
   ~Rigid3DTransform();
   
@@ -215,30 +149,9 @@ protected:
    **/
   void PrintSelf(std::ostream &os, Indent indent) const;
 
-  Rigid3DTransform(unsigned int SpaceDimension, unsigned int ParametersDimension);
-  // matrix representation of the rotation
-  // Should be protected in order to be modified 
-  // by derived classes that instantiate an interface
-  // to rotation computation
-  MatrixType          m_RotationMatrix;
-  
-  // Return the inverse matrix and recompute it only if necessary
-  virtual MatrixType GetInverseMatrix() const;
-
-  // To avoid recomputation of the inverse if not needed
-  mutable TimeStamp   m_InverseMatrixMTime;
-  TimeStamp           m_RotationMatrixMTime;
-
-  // Offset of the transformation
-  OffsetType          m_Offset;  
-
-  // representation of the inverse rottion
-  mutable MatrixType          m_InverseMatrix;
-
 private:
   Rigid3DTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
- 
   
 }; //class Rigid3DTransform
 

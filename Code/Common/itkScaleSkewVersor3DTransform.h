@@ -37,10 +37,10 @@ class ITK_EXPORT ScaleSkewVersor3DTransform :
 {
 public:
   /** Standard class typedefs. */
-  typedef ScaleSkewVersor3DTransform Self;
+  typedef ScaleSkewVersor3DTransform              Self;
   typedef VersorRigid3DTransform< TScalarType >   Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                      Pointer;
+  typedef SmartPointer<const Self>                ConstPointer;
       
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro( Self );
@@ -49,56 +49,40 @@ public:
   itkTypeMacro( ScaleSkewVersor3DTransform, VersorRigid3DTransform );
 
   /** Dimension of parameters. */
+  itkStaticConstMacro(InputSpaceDimension, unsigned int, 3);
+  itkStaticConstMacro(OutputSpaceDimension, unsigned int, 3);
   itkStaticConstMacro(SpaceDimension, unsigned int, 3);
   itkStaticConstMacro(ParametersDimension, unsigned int, 15);
 
-  /** Scalar type. */
-  typedef typename Superclass::ScalarType  ScalarType;
+  /** Parameters Type   */
+  typedef typename Superclass::ParametersType         ParametersType;
+  typedef typename Superclass::JacobianType           JacobianType;
+  typedef typename Superclass::ScalarType             ScalarType;
+  typedef typename Superclass::InputPointType         InputPointType;
+  typedef typename Superclass::OutputPointType        OutputPointType;
+  typedef typename Superclass::InputVectorType        InputVectorType;
+  typedef typename Superclass::OutputVectorType       OutputVectorType;
+  typedef typename Superclass::InputVnlVectorType     InputVnlVectorType;
+  typedef typename Superclass::OutputVnlVectorType    OutputVnlVectorType;
+  typedef typename Superclass::InputCovariantVectorType 
+                                                      InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType      
+                                                      OutputCovariantVectorType;
+  typedef typename Superclass::MatrixType             MatrixType;
+  typedef typename Superclass::InverseMatrixType      InverseMatrixType;
+  typedef typename Superclass::CenterType             CenterType;
+  typedef typename Superclass::OffsetType             OffsetType;
+  typedef typename Superclass::TranslationType        TranslationType;
 
-  /** Parameters type. */
-  typedef typename Superclass::ParametersType  ParametersType;
-
-  /** Matrix type. */
-  typedef typename Superclass::MatrixType      MatrixType;
-
-  /** Jacobian type. */
-  typedef typename Superclass::JacobianType  JacobianType;
-
-  /** VnlQuaternion type. */
-  typedef typename Superclass::VnlQuaternionType  VnlQuaternionType;
+  typedef typename Superclass::VersorType             VersorType;
+  typedef typename Superclass::AxisType               AxisType;
+  typedef typename Superclass::AngleType              AngleType;
 
   /** Scale & Skew Vector Type. */
   typedef Vector<TScalarType, itkGetStaticConstMacro(SpaceDimension)> 
-          ScaleVectorType;
-  typedef Vector<TScalarType, 6 >                                           
-          SkewVectorType;
+                                                      ScaleVectorType;
+  typedef Vector<TScalarType, 6 >                     SkewVectorType;
 
-  /** Versor type. */
-  typedef typename Superclass::VersorType  VersorType;
-  typedef typename VersorType::VectorType  AxisType;
-  typedef typename VersorType::ValueType   AngleType;
-  
-  /** Offset type. */
-  typedef typename Superclass::OffsetType  OffsetType;
-
-  /** Point type. */
-  typedef typename Superclass::InputPointType   InputPointType;
-  typedef typename Superclass::OutputPointType  OutputPointType;
-  
-  /** Vector type. */
-  typedef typename Superclass::InputVectorType   InputVectorType;
-  typedef typename Superclass::OutputVectorType  OutputVectorType;
-  
-  /** CovariantVector type. */
-  typedef typename Superclass::InputCovariantVectorType   
-          InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType  
-          OutputCovariantVectorType;
-  
-  /** VnlVector type. */
-  typedef typename Superclass::InputVnlVectorType   InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType  OutputVnlVectorType;
-  
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
    * There are 15 parameters:
@@ -110,8 +94,6 @@ public:
   void SetParameters( const ParametersType & parameters );
   virtual const ParametersType& GetParameters(void) const;
 
-  virtual const MatrixType & GetMatrix(void) const;
-
   void SetScale( const ScaleVectorType & scale );
   itkGetConstReferenceMacro( Scale, ScaleVectorType );
 
@@ -122,14 +104,23 @@ public:
 
 protected:
   ScaleSkewVersor3DTransform();
+  ScaleSkewVersor3DTransform(const MatrixType &matrix,
+                             const OutputVectorType &offset);
+  ScaleSkewVersor3DTransform(unsigned int outputDims,
+                             unsigned int paramDims);
   ~ScaleSkewVersor3DTransform(){};
+
   void PrintSelf(std::ostream &os, Indent indent) const;
 
-  ScaleSkewVersor3DTransform(unsigned int outputSpaceDimension,
-                             unsigned int parametersDimension);
+  void Set_M_Scale(const ScaleVectorType & scale)
+    { m_Scale = scale; };
+
+  void Set_M_Skew(const SkewVectorType & skew)
+    { m_Skew = skew; };
 
   /** Compute the components of the rotation matrix in the superclass. */
-  void ComputeMatrixAndOffset(void);
+  void ComputeMatrix(void);
+  void ComputeMatrixParameters(void);
 
 private:
   ScaleSkewVersor3DTransform(const Self&); //purposely not implemented
@@ -139,7 +130,7 @@ private:
   ScaleVectorType          m_Scale;
 
   /**  Vector containing the skew */
-  SkewVectorType      m_Skew;
+  SkewVectorType           m_Skew;
 
 }; //class ScaleSkewVersor3DTransform
 

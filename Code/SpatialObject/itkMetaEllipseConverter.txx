@@ -88,7 +88,8 @@ MetaEllipseConverter<NDimensions>
   
   for(unsigned int i=0;i<NDimensions;i++)
     {
-    ellipse->ElementSpacing(i,spatialObject->GetIndexToObjectTransform()->GetScaleComponent()[i]);
+    ellipse->ElementSpacing(i, spatialObject->GetIndexToObjectTransform()
+                                            ->GetScaleComponent()[i]);
     }
 
 

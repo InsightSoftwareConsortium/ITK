@@ -26,12 +26,30 @@ namespace itk
 // Constructor with default arguments
 template<class TScalarType>
 CenteredEuler3DTransform<TScalarType>::
-CenteredEuler3DTransform()
+CenteredEuler3DTransform() :
+  Superclass(OutputSpaceDimension, ParametersDimension)
 {
-  this->m_Center.Fill( 0 );
-  this->m_Translation.Fill( 0 );
 }
  
+// Constructor with default arguments
+template<class TScalarType>
+CenteredEuler3DTransform<TScalarType>::
+CenteredEuler3DTransform(unsigned int spaceDimension, 
+                         unsigned int parametersDimension) :
+  Superclass(spaceDimension,parametersDimension)
+{
+}
+
+// Constructor with default arguments
+template<class TScalarType>
+CenteredEuler3DTransform<TScalarType>::
+CenteredEuler3DTransform(const MatrixType & matrix,
+                         const OutputVectorType & offset) :
+  Superclass(matrix, offset)
+{
+}
+
+
 // Destructor
 template<class TScalarType>
 CenteredEuler3DTransform<TScalarType>::
@@ -40,38 +58,14 @@ CenteredEuler3DTransform<TScalarType>::
 }
 
 
-// Set the center of rotation and recompute the matrix (and the offset
-// or translation relative to [0,0,0]).
-template <class TScalarType>
-void
-CenteredEuler3DTransform<TScalarType>
-::SetCenter( const InputPointType & center )
-{
-  this->m_Center = center;
-  this->ComputeMatrix();
-}
-
-
-// Set the translation of the centre of rotation and recompute the
-// matrix and the corresponding offset or translation relative to [0,0,0].
-template <class TScalarType>
-void
-CenteredEuler3DTransform<TScalarType>
-::SetTranslation( const OutputVectorType & translation )
-{
-  this->m_Translation = translation;
-  this->ComputeMatrix();
-}
-
-
-
 //
 // Set Parameters
 // 
 // Parameters are ordered as:
 //
 // p[0:2] = rotations about x, y and z axes
-// p[3:5} = translation components
+// p[3:5} = center of rotation
+// p[6:8] = translation
 //
 //
 template <class TScalarType>
@@ -81,14 +75,21 @@ CenteredEuler3DTransform<TScalarType>
 {
   itkDebugMacro( << "Setting paramaters " << parameters );
 
-  // Set the translations
-  this->m_Translation[0] = parameters[3];
-  this->m_Translation[1] = parameters[4];
-  this->m_Translation[2] = parameters[5];
+  this->Set_M_Rotation(parameters[0], parameters[1], parameters[2]);
 
-  // Set the rotations (NB. This function will call the over-ridden
-  // ComputeMatrix() function)
-  this->SetRotation(parameters[0], parameters[1], parameters[2]);
+  CenterType newCenter;
+  newCenter[0] = parameters[3];
+  newCenter[1] = parameters[4];
+  newCenter[2] = parameters[5];
+  this->Set_M_Center(newCenter);
+  this->ComputeMatrix();
+
+  TranslationType newTranslation;
+  newTranslation[0] = parameters[6];
+  newTranslation[1] = parameters[7];
+  newTranslation[2] = parameters[8];
+  this->Set_M_Translation(newTranslation);
+  this->ComputeOffset();
 
   itkDebugMacro(<<"After setting parameters ");
 }
@@ -99,7 +100,8 @@ CenteredEuler3DTransform<TScalarType>
 // Parameters are ordered as:
 //
 // p[0:2] = rotations about x, y and z axes
-// p[3:5} = translation components
+// p[3:5} = center of rotation
+// p[6:8] = translation
 //
 
 template <class TScalarType>
@@ -107,18 +109,92 @@ const typename CenteredEuler3DTransform<TScalarType>::ParametersType &
 CenteredEuler3DTransform<TScalarType>
 ::GetParameters( void ) const
 {
-  ParametersType parameters = Superclass::GetParameters();
+  ParametersType parameters;
 
-  this->m_Parameters[0] = parameters[0];
-  this->m_Parameters[1] = parameters[1];
-  this->m_Parameters[2] = parameters[2];
+  this->m_Parameters[0] = this->GetAngleX();
+  this->m_Parameters[1] = this->GetAngleY();
+  this->m_Parameters[2] = this->GetAngleZ();
 
-  for( unsigned int i=0; i < SpaceDimension; i++ )
-    {
-    this->m_Parameters[i+3] = this->m_Translation[i];
-    }
+  this->m_Parameters[3] = this->GetCenter()[0];
+  this->m_Parameters[4] = this->GetCenter()[1];
+  this->m_Parameters[5] = this->GetCenter()[2];
+
+  this->m_Parameters[6] = this->GetTranslation()[0];
+  this->m_Parameters[7] = this->GetTranslation()[1];
+  this->m_Parameters[8] = this->GetTranslation()[2];
 
   return this->m_Parameters;
+}
+
+
+// Get jacobian
+template<class TScalarType>
+const typename Euler3DTransform<TScalarType>::JacobianType &
+CenteredEuler3DTransform<TScalarType>::
+GetJacobian( const InputPointType & p ) const
+{
+  // need to check if angles are in the right order
+  const double cx = cos(this->GetAngleX());
+  const double sx = sin(this->GetAngleX());
+  const double cy = cos(this->GetAngleY());
+  const double sy = sin(this->GetAngleY()); 
+  const double cz = cos(this->GetAngleZ());
+  const double sz = sin(this->GetAngleZ());
+
+  this->m_Jacobian.Fill(0.0);
+
+  const double px = p[0] - this->GetCenter()[0];
+  const double py = p[1] - this->GetCenter()[1];
+  const double pz = p[2] - this->GetCenter()[2];
+
+
+  if ( this->GetComputeZYX() )
+    {
+    this->m_Jacobian[0][0] = (cz*sy*cx+sz*sx)*py+(-cz*sy*sx+sz*cx)*pz;
+    this->m_Jacobian[1][0] = (sz*sy*cx-cz*sx)*py+(-sz*sy*sx-cz*cx)*pz;
+    this->m_Jacobian[2][0] = (cy*cx)*py+(-cy*sx)*pz;  
+    
+    this->m_Jacobian[0][1] = (-cz*sy)*px+(cz*cy*sx)*py+(cz*cy*cx)*pz;
+    this->m_Jacobian[1][1] = (-sz*sy)*px+(sz*cy*sx)*py+(sz*cy*cx)*pz;
+    this->m_Jacobian[2][1] = (-cy)*px+(-sy*sx)*py+(-sy*cx)*pz;
+    
+    this->m_Jacobian[0][2] = (-sz*cy)*px+(-sz*sy*sx-cz*cx)*py
+                                        +(-sz*sy*cx+cz*sx)*pz;
+    this->m_Jacobian[1][2] = (cz*cy)*px+(cz*sy*sx-sz*cx)*py+(cz*sy*cx+sz*sx)*pz;  
+    this->m_Jacobian[2][2] = 0;
+    }
+  else
+    {
+    this->m_Jacobian[0][0] = (-sz*cx*sy)*px + (sz*sx)*py + (sz*cx*cy)*pz;
+    this->m_Jacobian[1][0] = (cz*cx*sy)*px + (-cz*sx)*py + (-cz*cx*cy)*pz;
+    this->m_Jacobian[2][0] = (sx*sy)*px + (cx)*py + (-sx*cy)*pz;  
+    
+    this->m_Jacobian[0][1] = (-cz*sy-sz*sx*cy)*px + (cz*cy-sz*sx*sy)*pz;
+    this->m_Jacobian[1][1] = (-sz*sy+cz*sx*cy)*px + (sz*cy+cz*sx*sy)*pz;
+    this->m_Jacobian[2][1] = (-cx*cy)*px + (-cx*sy)*pz;
+    
+    this->m_Jacobian[0][2] = (-sz*cy-cz*sx*sy)*px + (-cz*cx)*py 
+                                                  + (-sz*sy+cz*sx*cy)*pz;
+    this->m_Jacobian[1][2] = (cz*cy-sz*sx*sy)*px + (-sz*cx)*py 
+                                                 + (cz*sy+sz*sx*cy)*pz;
+    this->m_Jacobian[2][2] = 0;
+    }
+ 
+  // compute derivatives for the center of rotation part
+  unsigned int blockOffset = 3;  
+  for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
+    {
+    this->m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
+    }
+  blockOffset += SpaceDimension;
+
+  // compute derivatives for the translation part
+  for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
+    {
+    this->m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
+    }
+
+  return this->m_Jacobian;
 }
 
 
@@ -130,90 +206,6 @@ PrintSelf(std::ostream &os, Indent indent) const
 {
 
   Superclass::PrintSelf(os,indent);
-  
-  os << indent << "Center of Rotation: " << this->m_Center        << std::endl;
-  os << indent << "Translation: "        << this->m_Translation   << std::endl;
-}
-
-// return an inverse transformation
-template<class TScalarType>
-bool
-CenteredEuler3DTransform<TScalarType>::
-GetInverse( Self* inverse) const
-{
-  if(!Superclass::GetInverse(inverse))
-    {
-    return false;
-    }
-
-  inverse->m_Center      =   this->m_Center;
-  inverse->m_Translation =  -this->m_Translation;
-  inverse->ComputeMatrix();
-
-  return true;  
-
-}
-
-
-  
-// Compute the Jacobian in one position 
-template<class TScalarType >
-void
-CenteredEuler3DTransform< TScalarType >::
-SetIdentity( void ) 
-{
-  this->Superclass::SetIdentity();
-  this->m_Center.Fill( 0.0 );
-  this->m_Translation.Fill( 0.0 );
-  this->ComputeMatrix();
-  this->Modified();  
-}
- 
-
-// Compute the matrix
-template <class TScalarType>
-void
-CenteredEuler3DTransform<TScalarType>
-::ComputeMatrix( void )
-{
-  Superclass::ComputeMatrixAndOffset();
-
-  ParametersType parameters = this->GetParameters();
-
-  const double cx = cos(parameters[0]);
-  const double sx = sin(parameters[0]);
-  const double cy = cos(parameters[1]);
-  const double sy = sin(parameters[1]); 
-  const double cz = cos(parameters[2]);
-  const double sz = sin(parameters[2]);
-
-  const double ox = this->m_Center[0];
-  const double oy = this->m_Center[1];
-  const double oz = this->m_Center[2];
-
-  const double tx = this->m_Translation[0];
-  const double ty = this->m_Translation[1];
-  const double tz = this->m_Translation[2];
-
-  OffsetType          offset;   
-
-  /** Recompute the offset according to the centre of rotation and
-    * translation */
-  if(this->GetComputeZYX())
-    {
-    offset[0] = cz*cy*(tx - ox) + (-sz*cx + cz*sy*sx)*(ty - oy) + ( sz*sx + cz*sy*cx)*(tz - oz) + ox;
-    offset[1] = sz*cy*(tx - ox) + ( cz*cx + sz*sy*sx)*(ty - oy) + (-cz*sx + sz*sy*cx)*(tz - oz) + oy;
-    offset[2] =                               -sy*(tx - ox) + cy*sx*(ty - oy) + cy*cx*(tz - oz) + oz;
-    }
-  else
-    {
-    offset[0] = (cz*cy - sz*sy*sx)*(tx - ox) - sz*cx*(ty - oy) + (cz*sy + sz*sx*cy)*(tz - oz) + ox;
-    offset[1] = (sz*cy + cz*sy*sx)*(tx - ox) + cz*cx*(ty - oy) + (sz*sy - cz*sx*cy)*(tz - oz) + oy;
-    offset[2] =                             -cx*sy*(tx - ox) + sx*(ty - oy) + cy*cx*(tz - oz) + oz;
-    }
-
-  this->SetOffset( offset );
-  this->Modified();
 }
 
 } // namespace

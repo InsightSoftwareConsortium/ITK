@@ -19,7 +19,7 @@
 
 #include <itkTreeNode.h>
 #include <itkSpatialObject.h>
-#include <itkFixedCenterOfRotationAffineTransform.h>
+#include <itkScalableAffineTransform.h>
 
 namespace itk
 {
@@ -39,7 +39,7 @@ public:
   typedef SpatialObjectTreeNode<TDimension>        Self;
   typedef SmartPointer<Self>                       Pointer;
   typedef SmartPointer<const Self>                 ConstPointer;
-  typedef FixedCenterOfRotationAffineTransform< double, TDimension>   
+  typedef ScalableAffineTransform< double, TDimension>   
                                                    TransformType;
   typedef typename TransformType::Pointer          TransformPointer;
   typedef const TransformType*                     TransformConstPointer;

@@ -148,7 +148,8 @@ MetaBlobConverter<NDimensions>
   
   for(unsigned int i=0;i<NDimensions;i++)
   {
-    Blob->ElementSpacing(i,spatialObject->GetIndexToObjectTransform()->GetScaleComponent()[i]);
+    Blob->ElementSpacing(i, spatialObject->GetIndexToObjectTransform()
+                                         ->GetScaleComponent()[i]);
   }
 
   return Blob;

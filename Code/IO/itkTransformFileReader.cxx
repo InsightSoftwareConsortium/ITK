@@ -37,6 +37,7 @@
 #include "itkScaleSkewVersor3DTransform.h"
 
 #include "itkCenteredAffineTransform.h"
+#include "itkScalableAffineTransform.h"
 #include "itkFixedCenterOfRotationAffineTransform.h"
 #include "itkQuaternionRigidTransform.h"
 #include "itkScaleLogarithmicTransform.h"
@@ -133,6 +134,7 @@ bool TransformFileReader
   TransformPointer transform;
   ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(AffineTransform,double,3);
   ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(CenteredAffineTransform,double,3);
+  ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(ScalableAffineTransform,double,3);
   ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(FixedCenterOfRotationAffineTransform,double,3);
   ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(ScaleLogarithmicTransform,double,3);
   ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(ScaleTransform,double,3);
@@ -146,6 +148,7 @@ bool TransformFileReader
   ITK_CONVERTMETATOITKTRANSFORM_2(VolumeSplineKernelTransform,double,3);
 
   ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(AffineTransform,double,2);
+  ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(ScalableAffineTransform,double,2);
   ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(FixedCenterOfRotationAffineTransform,double,2);
   ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(CenteredAffineTransform,double,2);
   ITK_CONVERTMETATOITKTRANSFORM_2_WITH_CENTER(ScaleLogarithmicTransform,double,2);

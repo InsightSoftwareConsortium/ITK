@@ -20,7 +20,6 @@
 #include <iostream>
 #include "itkEuler3DTransform.h"
 #include "itkExceptionObject.h"
-#include "vnl/vnl_quaternion.h"
 #include "itkMatrix.h"
 #include "itkVersor.h"
 
@@ -34,7 +33,7 @@ namespace itk
  *
  * \ingroup Transforms
  */
-template < class TScalarType=double >    // Data type for scalars (float or double)
+template < class TScalarType=double >    // Data type for scalars 
 class ITK_EXPORT CenteredEuler3DTransform : 
         public Euler3DTransform< TScalarType >
 {
@@ -51,46 +50,31 @@ public:
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro( Self );
 
-  /** Dimension of parameters. */
-  enum { SpaceDimension = 3, 
-         ParametersDimension = 6 };
+  /** Dimension of the space. */
+  itkStaticConstMacro(SpaceDimension, unsigned int, 3);
+  itkStaticConstMacro(InputSpaceDimension, unsigned int, 3);
+  itkStaticConstMacro(OutputSpaceDimension, unsigned int, 3);
+  itkStaticConstMacro(ParametersDimension, unsigned int, 9);
 
-  /** Scalar type. */
-  typedef typename Superclass::ScalarType  ScalarType;
+  typedef typename Superclass::ParametersType             ParametersType;
+  typedef typename Superclass::JacobianType               JacobianType;
+  typedef typename Superclass::ScalarType                 ScalarType;
+  typedef typename Superclass::InputVectorType            InputVectorType;
+  typedef typename Superclass::OutputVectorType           OutputVectorType;
+  typedef typename Superclass::InputCovariantVectorType  
+                                                     InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType  
+                                                     OutputCovariantVectorType;
+  typedef typename Superclass::InputVnlVectorType         InputVnlVectorType;
+  typedef typename Superclass::OutputVnlVectorType        OutputVnlVectorType;
+  typedef typename Superclass::InputPointType             InputPointType;
+  typedef typename Superclass::OutputPointType            OutputPointType;
+  typedef typename Superclass::MatrixType                 MatrixType;
+  typedef typename Superclass::InverseMatrixType          InverseMatrixType;
+  typedef typename Superclass::CenterType                 CenterType;
+  typedef typename Superclass::TranslationType            TranslationType;
+  typedef typename Superclass::OffsetType                 OffsetType;
 
-  /** Parameters type. */
-  typedef typename Superclass::ParametersType  ParametersType;
-
-  /** Jacobian type. */
-  typedef typename Superclass::JacobianType  JacobianType;
-
-  /** VnlQuaternion type. */
-  typedef typename Superclass::VnlQuaternionType  VnlQuaternionType;
-
-  /** Versor type. */
-  typedef typename Superclass::VersorType  VersorType;
-  typedef typename VersorType::VectorType  AxisType;
-  typedef typename VersorType::ValueType   AngleType;
-  
-  /** Offset type. */
-  typedef typename Superclass::OffsetType  OffsetType;
-
-  /** Point type. */
-  typedef typename Superclass::InputPointType   InputPointType;
-  typedef typename Superclass::OutputPointType  OutputPointType;
-  
-  /** Vector type. */
-  typedef typename Superclass::InputVectorType   InputVectorType;
-  typedef typename Superclass::OutputVectorType  OutputVectorType;
-  
-  /** CovariantVector type. */
-  typedef typename Superclass::InputCovariantVectorType   InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType  OutputCovariantVectorType;
-  
-  /** VnlVector type. */
-  typedef typename Superclass::InputVnlVectorType   InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType  OutputVnlVectorType;
-  
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
    * There are six parameters. The first three represent the
@@ -103,57 +87,29 @@ public:
    * rotation and the last three represent the translation. */
   const ParametersType & GetParameters( void ) const;
 
-  /** Set and Get the center of rotation */
-  void SetCenter( const InputPointType & center );
-  itkGetConstReferenceMacro( Center, InputPointType );
-
-  /** Set and Get the Translation to be applied after rotation */
-  void SetTranslation( const OutputVectorType & translation );
-  itkGetConstReferenceMacro( Translation, OutputVectorType );
-
-  /**
-   * Back transform by an affine transformation
-   *
-   * This method finds the point or vector that maps to a given
-   * point or vector under the affine transformation defined by
-   * self.  If no such point exists, an exception is thrown.
-   **/
-  inline InputPointType      BackTransform(const OutputPointType  &point ) const;
-  inline InputVectorType     BackTransform(const OutputVectorType &vector) const;
-  inline InputVnlVectorType  BackTransform(const OutputVnlVectorType &vector) const;
-
-  inline InputCovariantVectorType BackTransform(
-                                     const OutputCovariantVectorType &vector) const;
-
-  /**
-   * Find inverse of an affine transformation
-   *
-   * This method creates and returns a new CenteredEuler3DTransform object
-   * which is the inverse of self.  If self is not invertible,
-   * false is returned.
-   **/
-  bool GetInverse(Self* inverse) const;
-
-  /** Set the parameters to the IdentityTransform */
-  virtual void SetIdentity(void);
+  /** This method computes the Jacobian matrix of the transformation.
+   * given point or vector, returning the transformed point or
+   * vector. The rank of the Jacobian will also indicate if the 
+   * transform is invertible at this point. */
+  const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
 protected:
   CenteredEuler3DTransform();
+  CenteredEuler3DTransform(unsigned int SpaceDimension,
+                           unsigned int ParametersDimension);
+  CenteredEuler3DTransform(const MatrixType & matrix,
+                           const OutputVectorType & offset);
   ~CenteredEuler3DTransform();
 
-  
   /**
    * Print contents of an CenteredEuler3DTransform
    **/
   void PrintSelf(std::ostream &os, Indent indent) const;
 
-
-  /** Compute the components of the rotation matrix in the superclass. */
-  virtual void ComputeMatrix(void);
-
 private:
   CenteredEuler3DTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
 }; //class CenteredEuler3DTransform
 
 

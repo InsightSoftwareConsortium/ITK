@@ -84,7 +84,8 @@ MetaArrowConverter<NDimensions>
   
   for(unsigned int i=0;i<NDimensions;i++)
     {
-    arrow->ElementSpacing(i,spatialObject->GetIndexToObjectTransform()->GetScaleComponent()[i]);
+    arrow->ElementSpacing(i,spatialObject->GetIndexToObjectTransform()
+                                         ->GetScaleComponent()[i]);
     }
 
   return arrow;

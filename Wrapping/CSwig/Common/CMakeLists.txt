@@ -32,6 +32,7 @@ SET(WRAP_SOURCES
   wrap_itkImageToImageFilter_3D
   wrap_itkInPlaceImageFilter
   wrap_itkIndex
+  wrap_itkMatrixOffsetTransformBase
   wrap_itkLevelSet
   wrap_itkNeighborhood
   wrap_itkPoint

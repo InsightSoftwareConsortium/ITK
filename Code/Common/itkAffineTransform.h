@@ -21,7 +21,7 @@
 #include <iostream>
 
 #include "itkMatrix.h"
-#include "itkTransform.h"
+#include "itkMatrixOffsetTransformBase.h"
 #include "itkExceptionObject.h"
 #include "itkMacro.h"
 
@@ -99,211 +99,57 @@ namespace itk
  *
  * \ingroup Transforms
  *
- *
- * \todo Is there any real value in allowing the user to template
- * over the scalar type?  Perhaps it should always be double, unless
- * there's a compatibility problem with the Point class.
- *
- * \todo Add methods to transform (or back transform)
- *   many points or vectors at once?
- *
- * \todo  Add reflection?  **/
+ **/
 
 template <
  class TScalarType=double,         // Data type for scalars 
                                    //    (e.g. float or double)
  unsigned int NDimensions=3>       // Number of dimensions in the input space
-class AffineTransform : public Transform< TScalarType,
-                                          NDimensions, 
-                                          NDimensions >
+class AffineTransform 
+: public MatrixOffsetTransformBase< TScalarType, NDimensions, NDimensions >
 {
 public:
   /** Standard typedefs   */
-  typedef AffineTransform  Self;
-  typedef Transform< TScalarType, NDimensions, NDimensions >  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef AffineTransform                           Self;
+  typedef MatrixOffsetTransformBase< TScalarType,
+                                     NDimensions,
+                                     NDimensions >  Superclass;
+  typedef SmartPointer<Self>                        Pointer;
+  typedef SmartPointer<const Self>                  ConstPointer;
   
   /** Run-time type information (and related methods).   */
-  itkTypeMacro( AffineTransform, Transform );
+  itkTypeMacro( AffineTransform, MatrixOffsetTransformBase );
 
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro( Self );
 
   /** Dimension of the domain space. */
+  itkStaticConstMacro(InputSpaceDimension, unsigned int, NDimensions);
+  itkStaticConstMacro(OutputSpaceDimension, unsigned int, NDimensions);
   itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
   itkStaticConstMacro(ParametersDimension, unsigned int,
-                      NDimensions*(NDimensions+1));
+                                           NDimensions*(NDimensions+1));
 
   
   /** Parameters Type   */
-  typedef typename Superclass::ParametersType  ParametersType;
-
-  /** Jacobian Type   */
-  typedef typename Superclass::JacobianType  JacobianType;
-
-  /** Standard scalar type for this class */
-  typedef typename Superclass::ScalarType ScalarType;
-
-  /** Standard vector type for this class   */
-  typedef Vector<TScalarType,
-                 itkGetStaticConstMacro(SpaceDimension)>  InputVectorType;
-  typedef Vector<TScalarType,
-                 itkGetStaticConstMacro(SpaceDimension)>  OutputVectorType;
-  
-  /** Standard covariant vector type for this class   */
-  typedef CovariantVector<TScalarType,
-                          itkGetStaticConstMacro(SpaceDimension)>  
-                                                    InputCovariantVectorType;
-  typedef CovariantVector<TScalarType,
-                          itkGetStaticConstMacro(SpaceDimension)>  
-                                                    OutputCovariantVectorType;
-  
-  /** Standard vnl_vector type for this class   */
-  typedef vnl_vector_fixed<TScalarType,
-                           itkGetStaticConstMacro(SpaceDimension)> 
-                                                     InputVnlVectorType;
-  typedef vnl_vector_fixed<TScalarType,
-                           itkGetStaticConstMacro(SpaceDimension)> 
-                                                     OutputVnlVectorType;
-  
-  /** Standard coordinate point type for this class   */
-  typedef Point<TScalarType,
-                itkGetStaticConstMacro(SpaceDimension)> InputPointType;
-  typedef Point<TScalarType,
-                itkGetStaticConstMacro(SpaceDimension)> OutputPointType;
-  
-  /** Standard matrix type for this class   */
-  typedef Matrix<TScalarType, itkGetStaticConstMacro(SpaceDimension),
-                 itkGetStaticConstMacro(SpaceDimension)> MatrixType;
-
-  /** Standard offset type for this class   */
-  typedef     OutputVectorType    OffsetType;
-
-  /** Get offset of an AffineTransform
-   *
-   * This method returns the offset value of the AffineTransform.
-   * To define an affine transform, you must set the matrix,
-   * center, and translation OR the matrix and offset */
-  const OffsetType & GetOffset(void) const
-      { return m_Offset; }
-
-  /** Get matrix of an AffineTransform
-   *
-   * This method returns the value of the matrix of the
-   * AffineTransform. 
-   * To define an affine transform, you must set the matrix,
-   * center, and translation OR the matrix and offset */
-  const MatrixType & GetMatrix() const
-      { return m_Matrix; }
-
-  /** Get center of rotation of the AffineTransform
-   *
-   * This method returns the point used as the fixed
-   * center of rotation for the AffineTransform. 
-   * To define an affine transform, you must set the matrix,
-   * center, and translation OR the matrix and offset */
-  const InputPointType & GetCenter() const
-      { return m_Center; }
-
-  /** Get translation component of the AffineTransform
-   *
-   * This method returns the translation used after rotation
-   * about the center point. 
-   * To define an affine transform, you must set the matrix,
-   * center, and translation OR the matrix and offset */
-  const OutputVectorType & GetTranslation(void) const
-      { return m_Translation; }
-
-  /** Set the transformation to an Identity
-   *
-   * This sets the matrix to identity and the Offset to null. */
-  void SetIdentity( void )
-    { m_Matrix.SetIdentity();
-      m_Offset.Fill( 0.0 );
-      m_Translation.Fill( 0.0 );
-      m_Center.Fill( 0.0 );
-      m_MatrixMTime.Modified();
-      this->Modified();  
-    }
-
- /** Create inverse of an affine transformation   
-    *   
-    * This populates the parameters an affine transform such that
-    * the transform is the inverse of self. If self is not invertible,   
-    * an exception is thrown.
-    * Note that by default the inverese transform is centered at 
-    * the origin.   
-    * \deprecated Use GetInverse() instead. */   
- bool GetInverse(Self* inverse) const;
-
-  /** Set offset (origin) of an Affine Transform.
-   *
-   * This method sets the offset of an AffineTransform to a
-   * value specified by the user.
-   * This updates Translation wrt current center.
-   * To define an affine transform, you must set the matrix,
-   * center, and translation OR the matrix and offset */
-  void SetOffset(const OffsetType &offset)
-      { m_Offset = offset; this->ComputeTranslation(); 
-        this->Modified(); return; }
-
-  /** Set matrix of an AffineTransform
-   *
-   * This method sets the matrix of an AffineTransform to a
-   * value specified by the user. 
-   * This updates the Offset wrt to current translation
-   * and center.
-   * To define an affine transform, you must set the matrix,
-   * center, and translation OR the matrix and offset */
-  void SetMatrix(const MatrixType &matrix)
-    { m_Matrix = matrix; this->ComputeOffset(); 
-      m_MatrixMTime.Modified(); this->Modified(); return; }
-
-  /** Set center of rotation of an AffineTransform
-   *
-   * This method sets the center of rotation of an AffineTransform 
-   * to a fixed point - this point is not a "parameter" of the transform.
-   * This updates translation wrt to current offset and matrix.
-   * That is, changing the center does not change the transform.
-   * To define an affine transform, you must set the matrix,
-   * center, and translation OR the matrix and offset */
-  void SetCenter(const InputPointType & center)
-      { m_Center = center; this->ComputeTranslation();
-        this->Modified(); return; }
-
-  /** Set translation of an AffineTransform
-   *
-   * This method sets the translation of an AffineTransform.
-   * This updates Offset to reflect current translation.
-   * To define an affine transform, you must set the matrix,
-   * center, and translation OR the matrix and offset */
-  void SetTranslation(const OutputVectorType & translation)
-      { m_Translation = translation; this->ComputeOffset();
-        this->Modified(); return; }
-
-
-  /** Set the transformation from a container of parameters.
-   * The first (NDimension x NDimension) parameters define the
-   * matrix and the last NDimension parameters the translation. 
-   * Offset is updated based on current center. */
-  void SetParameters( const ParametersType & parameters );
-
-  /** Get the Transformation Parameters. */
-  const ParametersType& GetParameters(void) const;
-
-  /** Compose with another AffineTransform
-   *
-   * This method composes self with another AffineTransform of the
-   * same dimension, modifying self to be the composition of self
-   * and other.  If the argument pre is true, then other is
-   * precomposed with self; that is, the resulting transformation
-   * consists of first applying other to the source, followed by
-   * self.  If pre is false or omitted, then other is post-composed
-   * with self; that is the resulting transformation consists of
-   * first applying self to the source, followed by other. 
-   * This updates the Translation based on current center. */
-  void Compose(const Self * other, bool pre=0);
+  typedef typename Superclass::ParametersType         ParametersType;
+  typedef typename Superclass::JacobianType           JacobianType;
+  typedef typename Superclass::ScalarType             ScalarType;
+  typedef typename Superclass::InputPointType         InputPointType;
+  typedef typename Superclass::OutputPointType        OutputPointType;
+  typedef typename Superclass::InputVectorType        InputVectorType;
+  typedef typename Superclass::OutputVectorType       OutputVectorType;
+  typedef typename Superclass::InputVnlVectorType     InputVnlVectorType;
+  typedef typename Superclass::OutputVnlVectorType    OutputVnlVectorType;
+  typedef typename Superclass::InputCovariantVectorType 
+                                                      InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType      
+                                                      OutputCovariantVectorType;
+  typedef typename Superclass::MatrixType             MatrixType;
+  typedef typename Superclass::InverseMatrixType      InverseMatrixType;
+  typedef typename Superclass::CenterType             CenterType;
+  typedef typename Superclass::OffsetType             OffsetType;
+  typedef typename Superclass::TranslationType        TranslationType;
 
   /** Compose affine transformation with a translation
    *
@@ -387,29 +233,18 @@ public:
    * Note that the shear is applied centered at the origin. */
   void Shear(int axis1, int axis2, TScalarType coef, bool pre=0);
 
-  /** Transform by an affine transformation
-   *
-   * This method applies the affine transform given by self to a
-   * given point or vector, returning the transformed point or
-   * vector.  The TransformPoint method transforms its argument as
-   * an affine point, whereas the TransformVector method transforms
-   * its argument as a vector. */
-  OutputPointType     TransformPoint (const InputPointType  &point ) const;
-  OutputVectorType    TransformVector(const InputVectorType &vector) const;
-  OutputVnlVectorType TransformVector(const InputVnlVectorType &vector) const;
-  OutputCovariantVectorType TransformCovariantVector(
-                             const InputCovariantVectorType &vector) const;
-  
   /** Back transform by an affine transformation
    *
    * This method finds the point or vector that maps to a given
    * point or vector under the affine transformation defined by
-   * self.  If no such point exists, an exception is thrown.   **/
+   * self.  If no such point exists, an exception is thrown.   
+   *
+   * \deprecated Please use GetInverseTransform and then call the
+   *   forward transform function **/
   inline InputPointType   BackTransform(const OutputPointType  &point ) const;
   inline InputVectorType  BackTransform(const OutputVectorType &vector) const;
   inline InputVnlVectorType BackTransform(
                                      const OutputVnlVectorType &vector) const;
-
   inline InputCovariantVectorType BackTransform(
                               const OutputCovariantVectorType &vector) const;
 
@@ -418,7 +253,10 @@ public:
    * This method finds the point that maps to a given point under
    * the affine transformation defined by self.  If no such point
    * exists, an exception is thrown.  The returned value is (a
-   * pointer to) a brand new point created with new. */
+   * pointer to) a brand new point created with new. 
+   *
+   * \deprecated Please use GetInverseTransform and then call the
+   *   forward transform function **/
   InputPointType  BackTransformPoint(const OutputPointType  &point) const;
 
   /** Compute distance between two affine transformations
@@ -439,29 +277,6 @@ public:
    * of the Metric() method. **/
   ScalarType Metric(void) const;
 
-  /** Compute the Jacobian of the transformation
-   *
-   * This method computes the Jacobian matrix of the transformation.
-   * given point or vector, returning the transformed point or
-   * vector. The rank of the Jacobian will also indicate if the transform
-   * is invertible at this point. */
-  const JacobianType & GetJacobian(const InputPointType  &point ) const;
-
-  /** Get the inverse matrix. 
-   *  m_Singular is set to true if the inverse cannot be computed */
-  MatrixType GetInverseMatrix() const;
-
-  /** Find inverse of an affine transformation   
-    *   
-    * This method creates and returns a new AffineTransform object   
-    * which is the inverse of self.  If self is not invertible,   
-    * an exception is thrown.
-    * Note that by default the inverese transform is centered at 
-    * the origin.   
-    * \deprecated Use GetInverse() instead. */   
-   typename AffineTransform::Pointer Inverse(void) const; 
-
-
 protected:
   /** Construct an AffineTransform object
    *
@@ -470,9 +285,10 @@ protected:
    * to values specified by the caller.  If the arguments are
    * omitted, then the AffineTransform is initialized to an identity
    * transformation in the appropriate number of dimensions.   **/
-  AffineTransform(const MatrixType &matrix, const OutputVectorType &offset);
-  AffineTransform(unsigned int outputSpaceDimension,
-                  unsigned int parametersDimension);
+  AffineTransform(const MatrixType &matrix,
+                  const OutputVectorType &offset);
+  AffineTransform(unsigned int outputDims,
+                  unsigned int paramDims);
   AffineTransform();      
   
   /** Destroy an AffineTransform object   **/
@@ -481,27 +297,10 @@ protected:
   /** Print contents of an AffineTransform */
   void PrintSelf(std::ostream &s, Indent indent) const;
 
-  virtual void ComputeTranslation(void);
-
-  virtual void ComputeOffset(void);
-
-  /** To avoid recomputation of the inverse if not needed */
-  mutable TimeStamp   m_InverseMatrixMTime;
-  TimeStamp           m_MatrixMTime;
-
 private:
 
   AffineTransform(const Self & other);
   const Self & operator=( const Self & );
-
- 
-  MatrixType           m_Matrix;       // Matrix of the transformation
-  OffsetType           m_Offset;       // Offset of the transformation
-  mutable MatrixType   m_InverseMatrix;      // Inverse of the matrix
-  mutable bool         m_Singular;     // Is m_Inverse singular?
-
-  InputPointType       m_Center;
-  OutputVectorType     m_Translation;
 
 }; //class AffineTransform
 

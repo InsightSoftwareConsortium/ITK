@@ -35,6 +35,7 @@ Transform< TScalarType,NInputDimensions,NOutputDimensions>
   m_Parameters(1),
   m_Jacobian(NOutputDimensions,1)
 {
+  itkWarningMacro(<< "Using default transform constructor.  Should specify NOutputDims and NParameters as args to constructor.");
 }
 
 

@@ -159,21 +159,27 @@ int itkCenteredEuler3DTransformTest(int,char *[] )
 
    // Testing Parameters
   std::cout << "Testing Set/Get Parameters: " ;
-  EulerTransformType::ParametersType parameters(6);
-  for(unsigned int i=0;i<6;i++)
-  {
+  EulerTransformType::ParametersType parameters(9);
+  parameters.Fill(0);
+  for(unsigned int i=0;i<3;i++)
+    {
     parameters[i]=i;
-  }
+    }
+  for(unsigned int i=0;i<3;i++)
+    {
+    parameters[i+6]=i+3;
+    }
     
   eulerTransform->SetParameters(parameters);
-  EulerTransformType::ParametersType parameters_result = eulerTransform->GetParameters();
+  EulerTransformType::ParametersType parameters_result =
+                                         eulerTransform->GetParameters();
   
   if( parameters_result[0] != 0.0
       || parameters_result[1] != 1.0
       || parameters_result[2] != 2.0
-      || parameters_result[3] != 3.0
-      || parameters_result[4] != 4.0
-      || parameters_result[5] != 5.0
+      || parameters_result[6] != 3.0
+      || parameters_result[7] != 4.0
+      || parameters_result[8] != 5.0
     )
   {
     std::cout << " [ FAILED ] " << std::endl;
@@ -189,7 +195,8 @@ int itkCenteredEuler3DTransformTest(int,char *[] )
     pInit[i]=0;
   }
 
-  EulerTransformType::JacobianType  jacobian = eulerTransform->GetJacobian(pInit);
+  EulerTransformType::JacobianType  jacobian = 
+                                        eulerTransform->GetJacobian(pInit);
   
   if( jacobian[0][0] != 0.0 || jacobian[0][1] != 0.0 
       || jacobian[0][2] != 0.0 ||jacobian[0][3] != 1.0
@@ -199,12 +206,11 @@ int itkCenteredEuler3DTransformTest(int,char *[] )
       || jacobian[1][4] != 1.0 ||jacobian[1][5] != 0.0
       || jacobian[2][0] != 0.0 || jacobian[2][1] != 0.0 
       || jacobian[2][2] != 0.0 ||jacobian[2][3] != 0.0
-      || jacobian[2][4] != 0.0 ||jacobian[2][5] != 1.0
-    )
-  {
+      || jacobian[2][4] != 0.0 ||jacobian[2][5] != 1.0 )
+    {
     std::cout << " [ FAILED ] " << std::endl;
     return EXIT_FAILURE; 
-  }
+    }
   std::cout << " [ PASSED ] " << std::endl;
 
   // Really test the Jacobian
@@ -234,9 +240,12 @@ int itkCenteredEuler3DTransformTest(int,char *[] )
     parameters[0] = 0.2 / 180.0 * vnl_math::pi;
     parameters[1] = -1.0 / 180.0 * vnl_math::pi;
     parameters[2] = 2.4 / 180.0 * vnl_math::pi;
-    parameters[3] = 5.0;
-    parameters[4] = 6.0;
-    parameters[5] = 8.0;
+    parameters[3] = 0;
+    parameters[4] = 0;
+    parameters[5] = 0;
+    parameters[6] = 5.0;
+    parameters[7] = 6.0;
+    parameters[8] = 8.0;
 
     eulerTransform->SetParameters( parameters );
     
@@ -268,18 +277,24 @@ int itkCenteredEuler3DTransformTest(int,char *[] )
       eulerTransform->SetParameters( minusParameters );
       minusPoint = eulerTransform->TransformPoint( pInit );
 
-      for( unsigned int j = 0; j < 3; j++ )
+      if(k<3 && k>5) // Jacobian is approx as identity for center of rotation
         {
-        double approxDerivative = ( plusPoint[j] - minusPoint[j] ) / ( 2.0 * delta );
-        double computedDerivative = jacobian[j][k];
-        approxJacobian[j][k] = approxDerivative;
-        if ( vnl_math_abs( approxDerivative - computedDerivative ) > 1e-5 )
+        for( unsigned int j = 0; j < 3; j++ )
           {
-          std::cerr << "Error computing Jacobian [" << j << "][" << k << "]" << std::endl;
-          std::cerr << "Result should be: " << approxDerivative << std::endl;
-          std::cerr << "Reported result is: " << computedDerivative << std::endl;
-          std::cerr << " [ FAILED ] " << std::endl;
-          return EXIT_FAILURE;
+          double approxDerivative = ( plusPoint[j] - minusPoint[j] ) 
+                                    / ( 2.0 * delta );
+          double computedDerivative = jacobian[j][k];
+          approxJacobian[j][k] = approxDerivative;
+          if ( vnl_math_abs( approxDerivative - computedDerivative ) > 1e-5 )
+            {
+            std::cerr << "Error computing Jacobian [" << j << "][" 
+                                                      << k << "]" << std::endl;
+            std::cerr << "Result should be: " << approxDerivative << std::endl;
+            std::cerr << "Reported result is: " << computedDerivative 
+                                                << std::endl;
+            std::cerr << " [ FAILED ] " << std::endl;
+            return EXIT_FAILURE;
+            }
           }
         }
       }

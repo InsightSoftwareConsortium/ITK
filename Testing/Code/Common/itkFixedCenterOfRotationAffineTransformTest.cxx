@@ -134,8 +134,8 @@ int itkFixedCenterOfRotationAffineTransformTest(int, char *[])
     vector2[1] != 6 ||
     point2[0] != 1 ||
     point2[1] != 1 ||
-    resultingScale[0] !=1 ||
-    resultingScale[1] !=1 
+    resultingScale[0] !=2 ||
+    resultingScale[1] !=4 
     )
   { 
     std::cout << "[FAILURE]" << std::endl;

@@ -19,7 +19,7 @@
 #define __itkVersorRigid3DTransform_h
 
 #include <iostream>
-#include "itkRigid3DTransform.h"
+#include "itkVersorTransform.h"
 
 namespace itk
 {
@@ -32,63 +32,51 @@ namespace itk
  */
 template < class TScalarType=double >    // Data type for scalars (float or double)
 class ITK_EXPORT VersorRigid3DTransform : 
-            public Rigid3DTransform< TScalarType > 
+      public VersorTransform< TScalarType > 
 {
 public:
   /** Standard class typedefs. */
-  typedef VersorRigid3DTransform Self;
-  typedef Rigid3DTransform< TScalarType >   Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef VersorRigid3DTransform            Self;
+  typedef VersorTransform< TScalarType >    Superclass;
+  typedef SmartPointer<Self>                Pointer;
+  typedef SmartPointer<const Self>          ConstPointer;
     
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro( Self );
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( VersorRigid3DTransform, Rigid3DTransform );
+  itkTypeMacro( VersorRigid3DTransform, VersorTransform );
 
   /** Dimension of parameters. */
   itkStaticConstMacro(SpaceDimension, unsigned int, 3);
+  itkStaticConstMacro(InputSpaceDimension, unsigned int, 3);
+  itkStaticConstMacro(OutputSpaceDimension, unsigned int, 3);
   itkStaticConstMacro(ParametersDimension, unsigned int, 6);
 
-  /** Scalar type. */
-  typedef typename Superclass::ScalarType  ScalarType;
-
-  /** Parameters type. */
-  typedef typename Superclass::ParametersType  ParametersType;
-
-  /** Matrix type. */
-  typedef typename Superclass::MatrixType      MatrixType;
-
-  /** Jacobian type. */
-  typedef typename Superclass::JacobianType  JacobianType;
-
-  /** VnlQuaternion type. */
-  typedef typename Superclass::VnlQuaternionType  VnlQuaternionType;
+    /** Parameters Type   */
+  typedef typename Superclass::ParametersType         ParametersType;
+  typedef typename Superclass::JacobianType           JacobianType;
+  typedef typename Superclass::ScalarType             ScalarType;
+  typedef typename Superclass::InputPointType         InputPointType;
+  typedef typename Superclass::OutputPointType        OutputPointType;
+  typedef typename Superclass::InputVectorType        InputVectorType;
+  typedef typename Superclass::OutputVectorType       OutputVectorType;
+  typedef typename Superclass::InputVnlVectorType     InputVnlVectorType;
+  typedef typename Superclass::OutputVnlVectorType    OutputVnlVectorType;
+  typedef typename Superclass::InputCovariantVectorType 
+                                                      InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType      
+                                                      OutputCovariantVectorType;
+  typedef typename Superclass::MatrixType             MatrixType;
+  typedef typename Superclass::InverseMatrixType      InverseMatrixType;
+  typedef typename Superclass::CenterType             CenterType;
+  typedef typename Superclass::OffsetType             OffsetType;
+  typedef typename Superclass::TranslationType        TranslationType;
 
   /** Versor type. */
-  typedef typename Superclass::VersorType  VersorType;
-  typedef typename VersorType::VectorType  AxisType;
-  typedef typename VersorType::ValueType   AngleType;
-  
-  /** Offset type. */
-  typedef typename Superclass::OffsetType  OffsetType;
-
-  /** Point type. */
-  typedef typename Superclass::InputPointType   InputPointType;
-  typedef typename Superclass::OutputPointType  OutputPointType;
-  
-  /** Vector type. */
-  typedef typename Superclass::InputVectorType   InputVectorType;
-  typedef typename Superclass::OutputVectorType  OutputVectorType;
-  
-  /** CovariantVector type. */
-  typedef typename Superclass::InputCovariantVectorType   InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType  OutputCovariantVectorType;
-  
-  /** VnlVector type. */
-  typedef typename Superclass::InputVnlVectorType   InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType  OutputVnlVectorType;
+  typedef typename Superclass::VersorType             VersorType;
+  typedef typename Superclass::AxisType               AxisType;
+  typedef typename Superclass::AngleType              AngleType;
   
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
@@ -97,22 +85,6 @@ public:
   void SetParameters( const ParametersType & parameters );
   virtual const ParametersType& GetParameters(void) const;
 
-  /** Set the rotational part of the transform. */
-  void SetRotation( const VersorType & versor );
-  void SetRotation( const AxisType & axis, AngleType angle );
-  itkGetConstReferenceMacro(Versor, VersorType);
-
-   /** Set and Get the center of rotation */
-  void SetCenter( const InputPointType & center );
-  itkGetConstReferenceMacro( Center, InputPointType );
- 
-  /** Set and Get the Translation to be applied after rotation */
-  void SetTranslation( const OutputVectorType & translation );
-  itkGetConstReferenceMacro( Translation, OutputVectorType );
-  
-  /** Set the parameters to the IdentityTransform */
-  virtual void SetIdentity(void);
-
   /** This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the 
@@ -120,29 +92,18 @@ public:
   const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
 protected:
+  VersorRigid3DTransform(unsigned int outputSpaceDim,
+                         unsigned int paramDim);
+  VersorRigid3DTransform(const MatrixType & matrix,
+                         const OutputVectorType & offset);
   VersorRigid3DTransform();
   ~VersorRigid3DTransform(){};
+
   void PrintSelf(std::ostream &os, Indent indent) const;
-
-  VersorRigid3DTransform(unsigned int outputSpaceDimension,
-                         unsigned int parametersDimension);
-
-  /** Compute the components of the rotation matrix in the superclass. */
-  void ComputeMatrixAndOffset(void);
 
 private:
   VersorRigid3DTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  /**  Versor containing the rotation. */
-  VersorType          m_Versor;
-
-  /**  Center of rotation */
-  InputPointType      m_Center;
-
-  /**  Translation defined in addittion to the rotation around the center. */
-  OutputVectorType    m_Translation;
-
 
 }; //class VersorRigid3DTransform
 

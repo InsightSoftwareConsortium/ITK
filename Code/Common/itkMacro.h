@@ -514,6 +514,55 @@ private:
 }
 #endif
 
+//----------------------------------------------------------------------------
+// Setup legacy code policy.
+
+// Define itkLegacy macro to mark legacy methods where they are
+// declared in their class.  Example usage:
+//
+//   // @deprecated Replaced by MyOtherMethod() as of ITK 2.0.
+//   itkLegacy(void MyMethod());
+#if defined(ITK_LEGACY_REMOVE)
+  // Remove legacy methods completely.
+# define itkLegacy(method)
+#elif defined(ITK_LEGACY_SILENT) || defined(ITK_WRAPPING_CXX)
+  // Provide legacy methods with no warnings.
+# define itkLegacy(method) method
+#else
+  // Setup compile-time warnings for uses of deprecated methods if
+  // possible on this compiler.
+# if defined(__GNUC__) && !defined(__INTEL_COMPILER) && (__GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 1))
+#  define itkLegacy(method) method __attribute__((deprecated))
+# elif defined(_MSC_VER) && _MSC_VER >= 1300
+#  define itkLegacy(method) __declspec(deprecated) method
+# else
+#  define itkLegacy(method) method
+# endif
+#endif
+
+// Macros to create runtime deprecation warning messages in function
+// bodies.  Example usage:
+//
+//   void itkMyClass::MyOldMethod()
+//   {
+//     itkLegacyBody(itkMyClass::MyOldMethod, 2.0);
+//   }
+//
+//   void itkMyClass::MyMethod()
+//   {
+//     itkLegacyReplaceBody(itkMyClass::MyMethod, 2.0,
+//                          itkMyClass::MyOtherMethod);
+//   }
+#if defined(ITK_LEGACY_REMOVE) || defined(ITK_LEGACY_SILENT)
+# define itkLegacyBody(method, version)
+# define itkLegacyReplaceBody(method, version, replace)
+#else
+# define itkLegacyBody(method, version) \
+  itkWarningMacro(#method " was deprecated for ITK " #version " and will be removed in a future version.")
+# define itkLegacyReplaceBody(method, version, replace) \
+  itkWarningMacro(#method " was deprecated for ITK " #version " and will be removed in a future version.  Use " #replace " instead.")
+#endif
+
 
 #endif //end of itkMacro.h
 

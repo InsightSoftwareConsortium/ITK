@@ -26,37 +26,35 @@ namespace itk
 // Constructor with default arguments
 template <class TScalarType>
 ScaleSkewVersor3DTransform<TScalarType>
-::ScaleSkewVersor3DTransform():Superclass(Superclass::OutputSpaceDimension, ParametersDimension)
-  {
+::ScaleSkewVersor3DTransform() :
+  Superclass(OutputSpaceDimension, ParametersDimension)
+{
   m_Scale.Fill( 1.0 );
   m_Skew.Fill( 0.0 );
-  this->ComputeMatrixAndOffset();
-  }
+}
 
 
 // Constructor with arguments
 template<class TScalarType>
 ScaleSkewVersor3DTransform<TScalarType>::
 ScaleSkewVersor3DTransform( unsigned int spaceDimension, 
-                        unsigned int parametersDimension):
-  Superclass(spaceDimension,parametersDimension)
-  {
-  // note: this virtual function will only
-  // call the one defined in this class because 
-  // we are in a constructor
-  this->ComputeMatrixAndOffset(); 
-  }
+                            unsigned int parametersDimension):
+  Superclass(spaceDimension, parametersDimension)
+{
+  m_Scale.Fill( 1.0 );
+  m_Skew.Fill( 0.0 );
+}
+
+// Constructor with arguments
+template<class TScalarType>
+ScaleSkewVersor3DTransform<TScalarType>::
+ScaleSkewVersor3DTransform( const MatrixType & matrix,
+                            const OutputVectorType & offset):
+  Superclass(matrix, offset)
+{
+  this->ComputeMatrixParameters();
+}
  
-
-
-// Copy Constructor
-template <class TScalarType>
-ScaleSkewVersor3DTransform<TScalarType>
-::ScaleSkewVersor3DTransform( const Self & other )
-  {
-  // call the superclass copy constructor
-  this->ComputeMatrixAndOffset();
-  }
 
 // Set Parameters
 template <class TScalarType>
@@ -72,36 +70,49 @@ ScaleSkewVersor3DTransform<TScalarType>
   
   AxisType axis;
 
+  double norm = parameters[0]*parameters[0];
   axis[0] = parameters[0];
+  norm += parameters[1]*parameters[1];
   axis[1] = parameters[1];
+  norm += parameters[2]*parameters[2];
   axis[2] = parameters[2];
+  if( norm > 0)
+    {
+    norm = sqrt(norm);
+    }
 
-  VersorType versor;
-  versor.Set( axis );
-  
-  Superclass::SetRotation( versor );
+  double epsilon = 1e-10;
+  if(norm >= 1.0-epsilon)
+    {
+    axis = axis / (norm+epsilon*norm);
+    }
+  VersorType newVersor;
+  newVersor.Set(axis);
+  this->Set_M_Versor( newVersor );
 
-  itkDebugMacro( <<"Versor is now " << versor );
+  itkDebugMacro( <<"Versor is now " << newVersor );
   
-  OutputVectorType translation;
+  // Matrix must be defined before translation so that offset can be computed
+  // from translation
+  m_Scale[0] = parameters[6];
+  m_Scale[1] = parameters[7];
+  m_Scale[2] = parameters[8];
+
+  m_Skew[0] = parameters[9];
+  m_Skew[1] = parameters[10];
+  m_Skew[2] = parameters[11];
+  m_Skew[3] = parameters[12];
+  m_Skew[4] = parameters[13];
+  m_Skew[6] = parameters[14];
+  this->ComputeMatrix();
+
   // Transfer the translation part
-  for(unsigned int j=0; j < SpaceDimension; j++) 
-    {
-    translation[j] = parameters[j+SpaceDimension];
-    }
-  Superclass::SetTranslation( translation );
-  
-  for(unsigned int k=0; k < SpaceDimension; k++) 
-    {
-    m_Scale[k] = parameters[k+2*SpaceDimension];
-    }
-
-  for(unsigned int l=0; l < 6; l++) 
-    {
-    m_Skew[l] = parameters[l+3*SpaceDimension];
-    }
-
-  this->ComputeMatrixAndOffset();
+  TranslationType newTranslation;
+  newTranslation[0] = parameters[3];
+  newTranslation[1] = parameters[4];
+  newTranslation[2] = parameters[5];
+  this->Set_M_Translation(newTranslation);
+  this->ComputeOffset();
 
   itkDebugMacro(<<"After setting paramaters ");
   }
@@ -126,29 +137,24 @@ ScaleSkewVersor3DTransform<TScalarType>
   {
   itkDebugMacro( << "Getting parameters ");
 
-  VersorType versor = Superclass::GetVersor();
-  InputPointType center = Superclass::GetCenter();
-  OutputVectorType translation = Superclass::GetTranslation();
+  this->m_Parameters[0] = this->GetVersor().GetX();
+  this->m_Parameters[1] = this->GetVersor().GetY();
+  this->m_Parameters[2] = this->GetVersor().GetZ();
 
-  this->m_Parameters[0] = versor.GetX();
-  this->m_Parameters[1] = versor.GetY();
-  this->m_Parameters[2] = versor.GetZ();
+  this->m_Parameters[3] = this->GetTranslation()[0];
+  this->m_Parameters[4] = this->GetTranslation()[1];
+  this->m_Parameters[5] = this->GetTranslation()[2];
 
-  // Transfer the translation
-  for(unsigned int j=0; j < SpaceDimension; j++) 
-    {
-    this->m_Parameters[j+SpaceDimension] = translation[j];
-    }
+  this->m_Parameters[6] = this->GetScale()[0];
+  this->m_Parameters[7] = this->GetScale()[1];
+  this->m_Parameters[8] = this->GetScale()[2];
 
-  for(unsigned int k=0; k < SpaceDimension; k++) 
-    {
-    this->m_Parameters[k+2*SpaceDimension] = m_Scale[k];
-    }
-
-  for(unsigned int l=0; l < 6; l++) 
-    {
-    this->m_Parameters[l+3*SpaceDimension] = m_Skew[l];  
-    }
+  this->m_Parameters[9] = this->GetSkew()[0];  
+  this->m_Parameters[10] = this->GetSkew()[1];  
+  this->m_Parameters[11] = this->GetSkew()[2];  
+  this->m_Parameters[12] = this->GetSkew()[3];  
+  this->m_Parameters[13] = this->GetSkew()[4];  
+  this->m_Parameters[14] = this->GetSkew()[5];  
 
   itkDebugMacro(<<"After getting parameters " << this->m_Parameters );
 
@@ -171,8 +177,8 @@ void
 ScaleSkewVersor3DTransform<TScalarType>
 ::SetScale( const ScaleVectorType & scale )
 {
-  m_Scale = m_Scale;
-  this->ComputeMatrixAndOffset();
+  m_Scale = scale;
+  this->ComputeMatrix();
 }
 
 template <class TScalarType>
@@ -180,23 +186,15 @@ void
 ScaleSkewVersor3DTransform<TScalarType>
 ::SetSkew( const SkewVectorType & skew )
 {
-  m_Skew = m_Skew;
-  this->ComputeMatrixAndOffset();
-}
-
-template <class TScalarType>
-const typename ScaleSkewVersor3DTransform<TScalarType>::MatrixType &
-ScaleSkewVersor3DTransform<TScalarType>
-::GetMatrix( void ) const
-{
-  return this->m_RotationMatrix;
+  m_Skew = skew;
+  this->ComputeMatrix();
 }
 
 // Compute the matrix
 template <class TScalarType>
 void
 ScaleSkewVersor3DTransform<TScalarType>
-::ComputeMatrixAndOffset( void )
+::ComputeMatrix( void )
 {
 
   VersorType versor = Superclass::GetVersor();
@@ -216,31 +214,25 @@ ScaleSkewVersor3DTransform<TScalarType>
   const TScalarType yw = vy * vw;
   const TScalarType zw = vz * vw;
 
-  this->m_RotationMatrix[0][0] = m_Scale[0] - 2.0 * ( yy + zz );
-  this->m_RotationMatrix[1][1] = m_Scale[1] - 2.0 * ( xx + zz );
-  this->m_RotationMatrix[2][2] = m_Scale[2] - 2.0 * ( xx + yy );
-  this->m_RotationMatrix[0][1] = 2.0 * ( xy - zw )  + ( m_Skew[0] );
-  this->m_RotationMatrix[0][2] = 2.0 * ( xz + yw )  + ( m_Skew[1] );
-  this->m_RotationMatrix[1][0] = 2.0 * ( xy + zw )  + ( m_Skew[2] );
-  this->m_RotationMatrix[1][2] = 2.0 * ( yz - xw )  + ( m_Skew[3] );
-  this->m_RotationMatrix[2][0] = 2.0 * ( xz - yw )  + ( m_Skew[4] );
-  this->m_RotationMatrix[2][1] = 2.0 * ( yz + xw )  + ( m_Skew[5] );
- 
-  this->m_RotationMatrixMTime.Modified();
+  MatrixType newMatrix;
+  newMatrix[0][0] = m_Scale[0] - 2.0 * ( yy + zz );
+  newMatrix[1][1] = m_Scale[1] - 2.0 * ( xx + zz );
+  newMatrix[2][2] = m_Scale[2] - 2.0 * ( xx + yy );
+  newMatrix[0][1] = 2.0 * ( xy - zw )  + ( m_Skew[0] );
+  newMatrix[0][2] = 2.0 * ( xz + yw )  + ( m_Skew[1] );
+  newMatrix[1][0] = 2.0 * ( xy + zw )  + ( m_Skew[2] );
+  newMatrix[1][2] = 2.0 * ( yz - xw )  + ( m_Skew[3] );
+  newMatrix[2][0] = 2.0 * ( xz - yw )  + ( m_Skew[4] );
+  newMatrix[2][1] = 2.0 * ( yz + xw )  + ( m_Skew[5] );
+  this->Set_M_Matrix(newMatrix);
+}
 
-  InputPointType center = Superclass::GetCenter();
-  OutputVectorType translation = Superclass::GetTranslation();
-  OffsetType offset; 
-  for(unsigned int i=0; i<3; i++)
-    {
-    offset[i] = translation[i] + center[i];  
-    for(unsigned int j=0; j<3; j++)
-      {
-      offset[i] -= this->m_RotationMatrix[i][j] * center[j];
-      }
-    }
-
-  this->SetOffset( offset );
+template <class TScalarType>
+void
+ScaleSkewVersor3DTransform<TScalarType>
+::ComputeMatrixParameters( void )
+{
+    itkExceptionMacro( << "Setting the matrix of a ScaleSkewVersor3D transform is not supported at this time." );
 }
 
  

@@ -36,10 +36,10 @@ class ITK_EXPORT Euler3DTransform :
 {
 public:
   /** Standard class typedefs. */
-  typedef Euler3DTransform Self;
+  typedef Euler3DTransform                  Self;
   typedef Rigid3DTransform< TScalarType >   Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                Pointer;
+  typedef SmartPointer<const Self>          ConstPointer;
     
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro( Self );
@@ -47,41 +47,33 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( Euler3DTransform, Rigid3DTransform );
 
-  /** Dimension of parameters. */
-  itkStaticConstMacro( SpaceDimension, unsigned int, 3 ); 
-  itkStaticConstMacro( ParametersDimension, unsigned int, 6 ); 
+  /** Dimension of the space. */
+  itkStaticConstMacro(SpaceDimension, unsigned int, 3);
+  itkStaticConstMacro(InputSpaceDimension, unsigned int, 3);
+  itkStaticConstMacro(OutputSpaceDimension, unsigned int, 3);
+  itkStaticConstMacro(ParametersDimension, unsigned int, 6);
 
-  /** Scalar type. */
-  typedef typename Superclass::ScalarType  ScalarType;
+  typedef typename Superclass::ParametersType             ParametersType;
+  typedef typename Superclass::JacobianType               JacobianType;
+  typedef typename Superclass::ScalarType                 ScalarType;
+  typedef typename Superclass::InputVectorType            InputVectorType;
+  typedef typename Superclass::OutputVectorType           OutputVectorType;
+  typedef typename Superclass::InputCovariantVectorType  
+                                                     InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType  
+                                                     OutputCovariantVectorType;
+  typedef typename Superclass::InputVnlVectorType         InputVnlVectorType;
+  typedef typename Superclass::OutputVnlVectorType        OutputVnlVectorType;
+  typedef typename Superclass::InputPointType             InputPointType;
+  typedef typename Superclass::OutputPointType            OutputPointType;
+  typedef typename Superclass::MatrixType                 MatrixType;
+  typedef typename Superclass::InverseMatrixType          InverseMatrixType;
+  typedef typename Superclass::CenterType                 CenterType;
+  typedef typename Superclass::TranslationType            TranslationType;
+  typedef typename Superclass::OffsetType                 OffsetType;
 
-  /** Parameters type. */
-  typedef typename Superclass::ParametersType  ParametersType;
-
-  /** Jacobian type. */
-  typedef typename Superclass::JacobianType  JacobianType;
-
-  typedef typename Superclass::ScalarType   AngleType;
+  typedef typename Superclass::ScalarType                 AngleType;
   
-  /** Offset type. */
-  typedef typename Superclass::OffsetType  OffsetType;
-
-  /** Point type. */
-  typedef typename Superclass::InputPointType   InputPointType;
-  typedef typename Superclass::OutputPointType  OutputPointType;
-  
-  /** Vector type. */
-  typedef typename Superclass::InputVectorType   InputVectorType;
-  typedef typename Superclass::OutputVectorType  OutputVectorType;
-  
-  /** CovariantVector type. */
-  typedef typename Superclass::InputCovariantVectorType   InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType  OutputCovariantVectorType;
-  
-  /** VnlVector type. */
-  typedef typename Superclass::InputVnlVectorType   InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType  OutputVnlVectorType;
-  typedef typename Superclass::MatrixType           MatrixType;
-
   /** Set/Get the transformation from a container of parameters
    * This is typically used by optimizers.  There are 6 parameters. The first
    * three represent the angles to rotate around the coordinate axis, and the
@@ -91,23 +83,10 @@ public:
 
   /** Set the rotational part of the transform. */
   void SetRotation(ScalarType angleX,ScalarType angleY,ScalarType angleZ);
-  itkGetMacro(AngleX, ScalarType);
-  itkGetMacro(AngleY, ScalarType);
-  itkGetMacro(AngleZ, ScalarType);
+  itkGetConstMacro(AngleX, ScalarType);
+  itkGetConstMacro(AngleY, ScalarType);
+  itkGetConstMacro(AngleZ, ScalarType);
 
-/** Set the about which the rotation will be applied. */
-  void SetCenter( const InputPointType & center );
-  itkGetConstReferenceMacro( Center, InputPointType );
-
-  /** Set the transformation translation. This is applied after rotation.
-   * Not to be confused with member m_Offset in base class
-   * Rigid3DTransform. m_Offset is recomputed to take into account
-   * translation to the centre of rotation pre- (negative) and post-
-   * (positive) rotation, and the subsequent translation m_Translation.
-   **/
-  void SetTranslation( const OutputVectorType & translation );
-  itkGetConstReferenceMacro( Translation, OutputVectorType );
-  
   /** This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the 
@@ -116,30 +95,28 @@ public:
 
   /** Set/Get the order of the computation. Default ZXY */
   itkSetMacro(ComputeZYX,bool);
-  itkGetMacro(ComputeZYX,bool);
+  itkGetConstMacro(ComputeZYX,bool);
 
-  virtual void SetRotationMatrix(const MatrixType &matrix);
-
-  virtual void Compose(const Superclass *other, bool pre=false);
-  
   virtual void SetIdentity(void);
 
 
 protected:
   Euler3DTransform();
-  Euler3DTransform(unsigned int OutputSpaceDimension,
-                   unsigned int ParametersDimension);
+  Euler3DTransform(const MatrixType & matrix,
+                   const OutputPointType & offset);
+  Euler3DTransform(unsigned int outputSpaceDims,
+                   unsigned int paramsSpaceDims);
+
   ~Euler3DTransform(){};
+
   void PrintSelf(std::ostream &os, Indent indent) const;
 
+  void Set_M_Rotation(ScalarType angleX, ScalarType angleY, ScalarType angleZ)
+    { m_AngleX = angleX; m_AngleY = angleY; m_AngleZ = angleZ; };
+
   /** Compute the components of the rotation matrix in the superclass. */
-  void ComputeMatrixAndOffset(void);
-
- void ComputeAnglesFromMatrix(void);
-
-protected:
-  InputPointType m_Center;
-  OutputVectorType m_Translation;
+  void ComputeMatrix(void);
+ void ComputeMatrixParameters(void);
 
 private:
   Euler3DTransform(const Self&); //purposely not implemented
@@ -149,7 +126,6 @@ private:
   ScalarType  m_AngleY; 
   ScalarType  m_AngleZ;
   bool        m_ComputeZYX;
-
 
 }; //class Euler3DTransform
 

@@ -26,21 +26,31 @@ namespace itk
 // Constructor with default arguments
 template <class TScalarType>
 VersorTransform<TScalarType>
-::VersorTransform()
+::VersorTransform() :
+  Superclass(OutputSpaceDimension, ParametersDimension)
 {
   m_Versor.SetIdentity();
-  this->ComputeMatrix();
-  this->m_Jacobian = JacobianType( SpaceDimension, ParametersDimension );
 }
 
-// Copy Constructor
-template <class TScalarType>
-VersorTransform<TScalarType>
-::VersorTransform( const Self & other ):Superclass( other )
+// Constructor with default arguments
+template<class TScalarType>
+VersorTransform<TScalarType>::
+VersorTransform(unsigned int spaceDimension, 
+                unsigned int parametersDimension) :
+  Superclass(spaceDimension,parametersDimension)
 {
-  this->ComputeMatrix();
+  m_Versor.SetIdentity();
 }
 
+// Constructor with default arguments
+template<class TScalarType>
+VersorTransform<TScalarType>::
+VersorTransform(const MatrixType & matrix,
+                const OutputVectorType & offset) :
+  Superclass(matrix, offset)
+{
+  this->ComputeMatrixParameters();  // called in MatrixOffset baseclass
+}
 
 // Set Parameters
 template <class TScalarType>
@@ -67,6 +77,19 @@ VersorTransform<TScalarType>
   itkDebugMacro(<<"After setting paramaters ");
 }
 
+// Set Parameters
+template <class TScalarType>
+const typename VersorTransform<TScalarType>::ParametersType & 
+VersorTransform<TScalarType>
+::GetParameters( void ) const
+{
+  this->m_Parameters[0] = this->m_Versor.GetRight()[0];
+  this->m_Parameters[1] = this->m_Versor.GetRight()[1];
+  this->m_Parameters[2] = this->m_Versor.GetRight()[2];
+
+  return this->m_Parameters;
+}
+
 
 // Set Rotational Part
 template <class TScalarType>
@@ -76,6 +99,7 @@ VersorTransform<TScalarType>
 {
   m_Versor = versor;
   this->ComputeMatrix();
+  this->ComputeOffset();
 }
 
 
@@ -88,6 +112,18 @@ VersorTransform<TScalarType>
 {
   m_Versor.Set( axis, angle );
   this->ComputeMatrix();
+  this->ComputeOffset();
+}
+
+// Set Identity 
+template <class TScalarType>
+void
+VersorTransform<TScalarType>
+::SetIdentity( )
+{
+  Superclass::SetIdentity();
+
+  m_Versor.SetIdentity();
 }
 
 
@@ -113,19 +149,27 @@ VersorTransform<TScalarType>
   const TScalarType yw = vy * vw;
   const TScalarType zw = vz * vw;
 
-  this->m_RotationMatrix[0][0] = 1.0 - 2.0 * ( yy + zz );
-  this->m_RotationMatrix[1][1] = 1.0 - 2.0 * ( xx + zz );
-  this->m_RotationMatrix[2][2] = 1.0 - 2.0 * ( xx + yy );
-  this->m_RotationMatrix[0][1] = 2.0 * ( xy - zw );
-  this->m_RotationMatrix[0][2] = 2.0 * ( xz + yw );
-  this->m_RotationMatrix[1][0] = 2.0 * ( xy + zw );
-  this->m_RotationMatrix[2][0] = 2.0 * ( xz - yw );
-  this->m_RotationMatrix[2][1] = 2.0 * ( yz + xw );
-  this->m_RotationMatrix[1][2] = 2.0 * ( yz - xw );
- 
-  this->m_RotationMatrixMTime.Modified();
+  MatrixType newMatrix;
+  newMatrix[0][0] = 1.0 - 2.0 * ( yy + zz );
+  newMatrix[1][1] = 1.0 - 2.0 * ( xx + zz );
+  newMatrix[2][2] = 1.0 - 2.0 * ( xx + yy );
+  newMatrix[0][1] = 2.0 * ( xy - zw );
+  newMatrix[0][2] = 2.0 * ( xz + yw );
+  newMatrix[1][0] = 2.0 * ( xy + zw );
+  newMatrix[2][0] = 2.0 * ( xz - yw );
+  newMatrix[2][1] = 2.0 * ( yz + xw );
+  newMatrix[1][2] = 2.0 * ( yz - xw );
+  this->Set_M_Matrix(newMatrix);
 }
 
+// Compute the matrix
+template <class TScalarType>
+void
+VersorTransform<TScalarType>
+::ComputeMatrixParameters( void )
+{
+  m_Versor.Set( this->GetMatrix() );
+}
 
 // Set parameters
 template<class TScalarType>
@@ -163,18 +207,26 @@ GetJacobian( const InputPointType & p ) const
 
 
   // compute Jacobian with respect to quaternion parameters
-  this->m_Jacobian[0][0] = 2.0 * (                  (vyw+vxz) * py + (vzw-vxy) * pz ) / vw;
-  this->m_Jacobian[1][0] = 2.0 * ( (vyw-vxz) * px   -2*vxw    * py + (vxx-vww) * pz ) / vw;
-  this->m_Jacobian[2][0] = 2.0 * ( (vzw+vxy) * px + (vww-vxx) * py   -2*vxw    * pz ) / vw;
+  this->m_Jacobian[0][0] = 2.0 * (               (vyw+vxz)*py + (vzw-vxy)*pz)
+                         / vw;
+  this->m_Jacobian[1][0] = 2.0 * ((vyw-vxz)*px   -2*vxw   *py + (vxx-vww)*pz) 
+                         / vw;
+  this->m_Jacobian[2][0] = 2.0 * ((vzw+vxy)*px + (vww-vxx)*py   -2*vxw   *pz) 
+                         / vw;
 
-  this->m_Jacobian[0][1] = 2.0 * (  -2*vyw   * px + (vxw+vyz) * py + (vww-vyy) * pz ) / vw;
-  this->m_Jacobian[1][1] = 2.0 * ( (vxw-vyz) * px                  + (vzw+vxy) * pz ) / vw;
-  this->m_Jacobian[2][1] = 2.0 * ( (vyy-vww) * px + (vzw-vxy) * py   -2*vyw    * pz ) / vw;
+  this->m_Jacobian[0][1] = 2.0 * ( -2*vyw  *px + (vxw+vyz)*py + (vww-vyy)*pz) 
+                         / vw;
+  this->m_Jacobian[1][1] = 2.0 * ((vxw-vyz)*px                + (vzw+vxy)*pz) 
+                         / vw;
+  this->m_Jacobian[2][1] = 2.0 * ((vyy-vww)*px + (vzw-vxy)*py   -2*vyw   *pz) 
+                         / vw;
 
-  this->m_Jacobian[0][2] = 2.0 * (  -2*vzw   * px + (vzz-vww) * py + (vxw-vyz) * pz ) / vw;
-  this->m_Jacobian[1][2] = 2.0 * ( (vww-vzz) * px   -2*vzw    * py + (vyw+vxz) * pz ) / vw;
-  this->m_Jacobian[2][2] = 2.0 * ( (vxw+vyz) * px + (vyw-vxz) * py                  ) / vw;
-
+  this->m_Jacobian[0][2] = 2.0 * ( -2*vzw  *px + (vzz-vww)*py + (vxw-vyz)*pz) 
+                         / vw;
+  this->m_Jacobian[1][2] = 2.0 * ((vww-vzz)*px   -2*vzw   *py + (vyw+vxz)*pz) 
+                         / vw;
+  this->m_Jacobian[2][2] = 2.0 * ((vxw+vyz)*px + (vyw-vxz)*py               ) 
+                         / vw;
   return this->m_Jacobian;
 
 }

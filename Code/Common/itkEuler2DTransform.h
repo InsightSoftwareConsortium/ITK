@@ -31,7 +31,7 @@ namespace itk
  *
  * \ingroup Transforms
  */
-template < class TScalarType=double >    // Data type for scalars (float or double)
+template < class TScalarType=double >    // Data type for scalars 
 class ITK_EXPORT Euler2DTransform : 
             public Rigid2DTransform< TScalarType > 
 {

@@ -27,7 +27,7 @@
 #include "itkDataObject.h"
 #include "itkBoundingBox.h"
 #include "itkPoint.h"
-#include "itkFixedCenterOfRotationAffineTransform.h"
+#include "itkScalableAffineTransform.h"
 #include "itkSmartPointer.h" 
 #include "itkVector.h"
 #include "itkCovariantVector.h"
@@ -95,15 +95,14 @@ public:
   typedef CovariantVector<ScalarType, TDimension > CovariantVectorType; 
   typedef VectorType * VectorPointer;
 
-  typedef Vector<double, TDimension > SpacingType;
+  typedef double *                              SpacingType;
 
   typedef CovariantVector< double, TDimension > OutputVectorType; 
-  typedef OutputVectorType * OutputVectorPointer;
+  typedef OutputVectorType *                    OutputVectorPointer;
 
-  typedef FixedCenterOfRotationAffineTransform< double, TDimension >
-                                           TransformType;
-  typedef typename TransformType::Pointer  TransformPointer;
-  typedef const TransformType*             TransformConstPointer;
+  typedef ScalableAffineTransform< double, TDimension > TransformType;
+  typedef typename TransformType::Pointer       TransformPointer;
+  typedef const TransformType*                  TransformConstPointer;
   
   typedef VectorContainer< unsigned long int, PointType > VectorContainerType;
   
@@ -395,13 +394,12 @@ public:
 
   /** Theses functions are just calling the AffineGeometryFrame functions */
   /** Set the spacing of the spatial object. */
-  void SetSpacing( const double spacing[itkGetStaticConstMacro(ObjectDimension)] )
-  { this->GetIndexToObjectTransform()->SetScaleComponent(spacing);}
+  void SetSpacing( const double 
+                   spacing[itkGetStaticConstMacro(ObjectDimension)] )
+    { this->GetIndexToObjectTransform()->SetScale(spacing);}
   /** Get the spacing of the spatial object. */
-  virtual const double* GetSpacing() const 
-  {return this->GetIndexToObjectTransform()->GetScaleComponent();}
-  /** Set the spacing of the spatial object using the type from the image. */
-  void SetSpacing( const SpacingType & spacing );
+  virtual const double * GetSpacing() const 
+    {return this->GetIndexToObjectTransform()->GetScale();}
 
 
  /** Transform points from the internal data coordinate system

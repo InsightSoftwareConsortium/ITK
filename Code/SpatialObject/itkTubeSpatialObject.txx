@@ -394,9 +394,9 @@ TubeSpatialObject< TDimension, TTubePointType >
     l = sqrt(l);
     if(l == 0)
       {
-      std::cout << "TubeSpatialObject::ComputeTangentAndNormals() : "; 
-      std::cout << "length between two consecutive points is 0";
-      std::cout << " (use RemoveDuplicatePoints())" << std::endl;
+      std::cerr << "TubeSpatialObject::ComputeTangentAndNormals() : "; 
+      std::cerr << "length between two consecutive points is 0";
+      std::cerr << " (use RemoveDuplicatePoints())" << std::endl;
       return false;
       }
     for(unsigned int i=0; i<TDimension; i++)

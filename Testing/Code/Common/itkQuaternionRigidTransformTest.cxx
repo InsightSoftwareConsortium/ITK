@@ -234,7 +234,7 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
     TransformType::OffsetType ioffset;
     ioffset.Fill( 0.0f );
 
-    rotation->ComputeOffset();
+    //rotation->ComputeOffset();
 
     std::cout << "rotation: " << rotation;
 
@@ -555,7 +555,7 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
     rotation->SetTranslation( itranslation );
     rotation->SetCenter( center );
 
-    rotation->ComputeOffset();
+    //rotation->ComputeOffset();
 
     std::cout << "rotation: " << rotation;
 

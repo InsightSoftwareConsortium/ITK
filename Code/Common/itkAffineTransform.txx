@@ -28,14 +28,9 @@ namespace itk
 // Constructor with default arguments
 template<class TScalarType, unsigned int NDimensions>
 AffineTransform<TScalarType, NDimensions>::
-AffineTransform():Superclass(SpaceDimension,ParametersDimension)
+AffineTransform():
+  Superclass(SpaceDimension,ParametersDimension)
 {
-  m_Matrix.SetIdentity();
-  m_Offset.Fill( 0 );
-  m_Center.Fill( 0 );
-  m_Translation.Fill( 0 );
-  m_Singular = false;
-  m_InverseMatrix.SetIdentity();
 }
 
 
@@ -46,11 +41,6 @@ AffineTransform( unsigned int outputSpaceDimension,
                  unsigned int parametersDimension   ):
   Superclass(outputSpaceDimension,parametersDimension)
 {
-  m_Matrix.SetIdentity();
-  m_Offset.Fill( 0 );
-  m_Center.Fill( 0 );
-  m_Translation.Fill( 0 );
-  m_Singular = false;
 }
 
 
@@ -58,14 +48,10 @@ AffineTransform( unsigned int outputSpaceDimension,
 // Constructor with explicit arguments
 template<class TScalarType, unsigned int NDimensions>
 AffineTransform<TScalarType, NDimensions>::
-AffineTransform(const MatrixType &matrix, const OutputVectorType &offset)
+AffineTransform(const MatrixType & matrix,
+               const OutputVectorType & offset):
+  Superclass(matrix, offset)
 {
-  m_Matrix = matrix;
-  m_Offset = offset;
-  m_Center.Fill( 0 );
-  m_Translation = offset;
-  m_MatrixMTime.Modified();
-  this->Modified();
 }
 
 
@@ -88,59 +74,6 @@ AffineTransform<TScalarType, NDimensions>::
 PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-
-  unsigned int i, j;
-  
-  os << indent << "Matrix: " << std::endl;
-  for (i = 0; i < NDimensions; i++) 
-    {
-    os << indent.GetNextIndent();
-    for (j = 0; j < NDimensions; j++)
-      {
-      os << m_Matrix[i][j] << " ";
-      }
-    os << std::endl;
-    }
-
-  os << indent << "Offset: " << m_Offset << std::endl;
-  os << indent << "Center: " << m_Center << std::endl;
-  os << indent << "Translation: " << m_Translation << std::endl;
-
-  os << indent << "Inverse: " << std::endl;
-  for (i = 0; i < NDimensions; i++) 
-    {
-    os << indent.GetNextIndent();
-    for (j = 0; j < NDimensions; j++)
-      {
-      os << this->GetInverseMatrix()[i][j] << " ";
-      }
-    os << std::endl;
-    }
-  os << indent << "Singular: " << m_Singular << std::endl;
-
-}
-
-
-// Compose with another affine transformation
-template<class TScalarType, unsigned int NDimensions>
-void
-AffineTransform<TScalarType, NDimensions>::
-Compose(const Self * other, bool pre)
-{
-  if (pre) 
-    {
-    m_Offset = m_Matrix * other->m_Offset + m_Offset;
-    m_Matrix = m_Matrix * other->m_Matrix;
-    }
-  else 
-    {
-    m_Offset = other->m_Matrix * m_Offset + other->m_Offset;
-    m_Matrix = other->m_Matrix * m_Matrix;
-    }
-  this->ComputeTranslation();
-  m_MatrixMTime.Modified();
-  this->Modified();
-  return;
 }
 
 
@@ -148,17 +81,19 @@ Compose(const Self * other, bool pre)
 template<class TScalarType, unsigned int NDimensions>
 void
 AffineTransform<TScalarType, NDimensions>::
-Translate(const OutputVectorType &offset, bool pre)
+Translate(const OutputVectorType &trans, bool pre)
 {
+  OutputVectorType newTranslation = this->GetTranslation();
   if (pre) 
     {
-    m_Offset += m_Matrix * offset;
+    newTranslation += this->GetMatrix() * trans;
     }
   else 
     {
-    m_Offset += offset;
+    newTranslation += trans;
     }
-  this->ComputeTranslation();
+  this->Set_M_Translation(newTranslation);
+  this->ComputeOffset();
   this->Modified();
   return;
 }
@@ -167,20 +102,27 @@ Translate(const OutputVectorType &offset, bool pre)
 // Compose with isotropic scaling
 template<class TScalarType, unsigned int NDimensions>
 void
-AffineTransform<TScalarType, NDimensions>::
-Scale(const TScalarType &factor, bool pre) 
+AffineTransform<TScalarType, NDimensions>
+::Scale(const TScalarType &factor, bool pre) 
 {
   if (pre) 
     {
-    m_Matrix *= factor;
+    MatrixType newMatrix = this->GetMatrix();
+    newMatrix *= factor;
+    this->Set_M_Matrix(newMatrix);
     }
   else 
     {
-    m_Matrix *= factor;
-    m_Offset *= factor;
+    MatrixType newMatrix = this->GetMatrix();
+    newMatrix *= factor;
+    this->Set_M_Matrix(newMatrix);
+
+    OutputVectorType newTranslation = this->GetTranslation();
+    newTranslation *= factor;
+    this->Set_M_Translation(newTranslation);
     }
-  this->ComputeTranslation();
-  m_MatrixMTime.Modified();
+  this->ComputeMatrixParameters();
+  this->ComputeOffset();
   this->Modified();
   return;
 }
@@ -190,8 +132,8 @@ Scale(const TScalarType &factor, bool pre)
 // Compose with anisotropic scaling
 template<class TScalarType, unsigned int NDimensions>
 void
-AffineTransform<TScalarType, NDimensions>::
-Scale(const OutputVectorType &factor, bool pre) 
+AffineTransform<TScalarType, NDimensions>
+::Scale(const OutputVectorType &factor, bool pre) 
 {
   MatrixType trans;
   unsigned int i, j;
@@ -206,15 +148,15 @@ Scale(const OutputVectorType &factor, bool pre)
     }
   if (pre) 
     {
-    m_Matrix = m_Matrix * trans;
+    this->Set_M_Matrix( this->GetMatrix() * trans );
     }
   else 
     {
-    m_Matrix = trans * m_Matrix;
-    m_Offset = trans * m_Offset;
+    this->Set_M_Matrix( trans * this->GetMatrix() );
+    this->Set_M_Translation( trans * this->GetTranslation() );
     }
-  this->ComputeTranslation();
-  m_MatrixMTime.Modified();
+  this->ComputeMatrixParameters();
+  this->ComputeOffset();
   this->Modified();
   return;
 }
@@ -224,8 +166,8 @@ Scale(const OutputVectorType &factor, bool pre)
 // Compose with elementary rotation
 template<class TScalarType, unsigned int NDimensions>
 void
-AffineTransform<TScalarType, NDimensions>::
-Rotate(int axis1, int axis2, TScalarType angle, bool pre) 
+AffineTransform<TScalarType, NDimensions>
+::Rotate(int axis1, int axis2, TScalarType angle, bool pre) 
 {
   MatrixType trans;
   unsigned int i, j;
@@ -244,15 +186,15 @@ Rotate(int axis1, int axis2, TScalarType angle, bool pre)
   trans[axis2][axis2] =  cos(angle);
   if (pre) 
     {
-    m_Matrix = m_Matrix * trans;
+    this->Set_M_Matrix( this->GetMatrix() * trans );
     }
   else 
     {
-    m_Matrix = trans * m_Matrix;
-    m_Offset = trans * m_Offset;
+    this->Set_M_Matrix( trans * this->GetMatrix() );
+    this->Set_M_Translation( trans * this->GetTranslation() );
     }
-  this->ComputeTranslation();
-  m_MatrixMTime.Modified();
+  this->ComputeMatrixParameters();
+  this->ComputeOffset();
   this->Modified();
   return;
 }
@@ -263,8 +205,8 @@ Rotate(int axis1, int axis2, TScalarType angle, bool pre)
 // is this is used with NDimensions != 2.
 template<class TScalarType, unsigned int NDimensions>
 void
-AffineTransform<TScalarType, NDimensions>::
-Rotate2D(TScalarType angle, bool pre)
+AffineTransform<TScalarType, NDimensions>
+::Rotate2D(TScalarType angle, bool pre)
 {
   MatrixType trans;
 
@@ -274,15 +216,15 @@ Rotate2D(TScalarType angle, bool pre)
   trans[1][1] =  cos(angle);
   if (pre) 
     {
-    m_Matrix = m_Matrix * trans;
+    this->Set_M_Matrix( this->GetMatrix() * trans );
     }
   else 
     {
-    m_Matrix = trans * m_Matrix;
-    m_Offset = trans * m_Offset;
+    this->Set_M_Matrix( trans * this->GetMatrix() );
+    this->Set_M_Translation( trans * this->GetTranslation() );
     }
-  this->ComputeTranslation();
-  m_MatrixMTime.Modified();
+  this->ComputeMatrixParameters();
+  this->ComputeOffset();
   this->Modified();
   return;
 }
@@ -294,8 +236,8 @@ Rotate2D(TScalarType angle, bool pre)
 // is this is used with NDimensions != 3.
 template<class TScalarType, unsigned int NDimensions>
 void
-AffineTransform<TScalarType, NDimensions>::
-Rotate3D(const OutputVectorType &axis, TScalarType angle, bool pre)
+AffineTransform<TScalarType, NDimensions>
+::Rotate3D(const OutputVectorType &axis, TScalarType angle, bool pre)
 {
   MatrixType trans;
   ScalarType r, x1, x2, x3;
@@ -327,15 +269,15 @@ Rotate3D(const OutputVectorType &axis, TScalarType angle, bool pre)
   // Compose rotation matrix with the existing matrix
   if (pre) 
     {
-    m_Matrix = m_Matrix * trans;
+    this->Set_M_Matrix( this->GetMatrix() * trans );
     }
   else 
     {
-    m_Matrix = trans * m_Matrix;
-    m_Offset = trans * m_Offset;
+    this->Set_M_Matrix( trans * this->GetMatrix() );
+    this->Set_M_Translation( trans * this->GetTranslation() );
     }
-  this->ComputeTranslation();
-  m_MatrixMTime.Modified();
+  this->ComputeMatrixParameters();
+  this->ComputeOffset();
   this->Modified();
   return;
 }
@@ -344,8 +286,8 @@ Rotate3D(const OutputVectorType &axis, TScalarType angle, bool pre)
 // Compose with elementary rotation
 template<class TScalarType, unsigned int NDimensions>
 void
-AffineTransform<TScalarType, NDimensions>::
-Shear(int axis1, int axis2, TScalarType coef, bool pre)
+AffineTransform<TScalarType, NDimensions>
+::Shear(int axis1, int axis2, TScalarType coef, bool pre)
 {
   MatrixType trans;
   unsigned int i, j;
@@ -361,68 +303,71 @@ Shear(int axis1, int axis2, TScalarType coef, bool pre)
   trans[axis1][axis2] =  coef;
   if (pre) 
     {
-    m_Matrix = m_Matrix * trans;
+    this->Set_M_Matrix( this->GetMatrix() * trans );
     }
   else 
     {
-    m_Matrix = trans * m_Matrix;
-    m_Offset = trans * m_Offset;
+    this->Set_M_Matrix( trans * this->GetMatrix() );
+    this->Set_M_Translation( trans * this->GetTranslation() );
     }
-  this->ComputeTranslation();
-  m_MatrixMTime.Modified();
+  this->ComputeMatrixParameters();
+  this->ComputeOffset();
   this->Modified();
   return;
 }
 
 
-// Transform a point
+// Compute a distance between two affine transforms
 template<class TScalarType, unsigned int NDimensions>
-typename AffineTransform<TScalarType, NDimensions>::OutputPointType
-AffineTransform<TScalarType, NDimensions>::
-TransformPoint(const InputPointType &point) const 
+typename AffineTransform<TScalarType, NDimensions>::ScalarType
+AffineTransform<TScalarType, NDimensions>
+::Metric(const Self * other) const
 {
-  return m_Matrix * point + m_Offset;
-}
-
-
-// Transform a vector
-template<class TScalarType, unsigned int NDimensions>
-typename AffineTransform<TScalarType, NDimensions>::OutputVectorType
-AffineTransform<TScalarType, NDimensions>::
-TransformVector(const InputVectorType &vect) const 
-{
-  return m_Matrix * vect;
-}
-
-
-// Transform a vnl_vector_fixed
-template<class TScalarType, unsigned int NDimensions>
-typename AffineTransform<TScalarType, NDimensions>::OutputVnlVectorType
-AffineTransform<TScalarType, NDimensions>::
-TransformVector(const InputVnlVectorType &vect) const {
-  return m_Matrix * vect;
-}
-
-
-// Transform a CovariantVector
-template<class TScalarType, unsigned int NDimensions>
-typename AffineTransform<TScalarType, NDimensions>::OutputCovariantVectorType
-AffineTransform<TScalarType, NDimensions>::
-TransformCovariantVector(const InputCovariantVectorType &vec) const 
-{
-  OutputCovariantVectorType  result;    // Converted vector
+  ScalarType result = 0.0, term;
 
   for (unsigned int i = 0; i < NDimensions; i++) 
     {
-    result[i] = NumericTraits<ScalarType>::Zero;
     for (unsigned int j = 0; j < NDimensions; j++) 
       {
-      result[i] += this->GetInverseMatrix()[j][i]*vec[j]; // Inverse transposed
+      term = this->GetMatrix()[i][j] - other->GetMatrix()[i][j];
+      result += term * term;
       }
+    term = this->GetOffset()[i] - other->GetOffset()[i];
+    result += term * term;
     }
-  return result;
+  return sqrt(result);
 }
 
+
+
+// Compute a distance between self and the identity transform
+template<class TScalarType, unsigned int NDimensions>
+typename AffineTransform<TScalarType, NDimensions>::ScalarType
+AffineTransform<TScalarType, NDimensions>
+::Metric(void) const
+{
+  ScalarType result = 0.0, term;
+
+  for (unsigned int i = 0; i < NDimensions; i++) 
+    {
+    for (unsigned int j = 0; j < NDimensions; j++) 
+      {
+      if (i == j)
+        {
+        term = this->GetMatrix()[i][j] - 1.0;
+        }
+      else
+        {
+        term = this->GetMatrix()[i][j];
+        }
+      result += term * term;
+      }
+    term = this->GetOffset()[i];
+    result += term * term;
+    }
+
+  return sqrt(result);
+}
 
 // Back transform a point
 template<class TScalarType, unsigned int NDimensions>
@@ -430,13 +375,14 @@ typename AffineTransform<TScalarType, NDimensions>::InputPointType
 AffineTransform<TScalarType, NDimensions>::
 BackTransform(const OutputPointType &point) const 
 {
+  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
   InputPointType result;       // Converted point
   ScalarType temp[NDimensions];
   unsigned int i, j;
 
   for (j = 0; j < NDimensions; j++) 
     {
-    temp[j] = point[j] - m_Offset[j];
+    temp[j] = point[j] - this->GetOffset()[j];
     }
 
   for (i = 0; i < NDimensions; i++) 
@@ -451,14 +397,13 @@ BackTransform(const OutputPointType &point) const
 }
 
 
-
-
 // Back transform a vector
 template<class TScalarType, unsigned int NDimensions>
 typename AffineTransform<TScalarType, NDimensions>::InputVectorType
 AffineTransform<TScalarType, NDimensions>::
 BackTransform(const OutputVectorType &vect ) const 
 {
+  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
   return this->GetInverseMatrix() * vect;
 }
 
@@ -471,6 +416,7 @@ typename AffineTransform<TScalarType, NDimensions>::InputVnlVectorType
 AffineTransform<TScalarType, NDimensions>::
 BackTransform(const OutputVnlVectorType &vect ) const 
 {
+  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
   return this->GetInverseMatrix() * vect;
 }
 
@@ -482,6 +428,7 @@ typename AffineTransform<TScalarType, NDimensions>::InputCovariantVectorType
 AffineTransform<TScalarType, NDimensions>::
 BackTransform(const OutputCovariantVectorType &vec) const 
 {
+  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
 
   InputCovariantVectorType result;    // Converted vector
 
@@ -490,7 +437,7 @@ BackTransform(const OutputCovariantVectorType &vec) const
     result[i] = NumericTraits<ScalarType>::Zero;
     for (unsigned int j = 0; j < NDimensions; j++) 
       {
-      result[i] += m_Matrix[j][i]*vec[j]; // Direct matrix transposed
+      result[i] += this->GetMatrix()[j][i]*vec[j]; // Direct matrix transposed
       }
     }
   return result;
@@ -505,299 +452,8 @@ typename AffineTransform<TScalarType, NDimensions>::InputPointType
 AffineTransform<TScalarType, NDimensions>::
 BackTransformPoint(const OutputPointType &point) const
 {
-  InputPointType result;       // Converted point
-  ScalarType temp[NDimensions];
-  unsigned int i, j;
-  
-  for (j = 0; j < NDimensions; j++) 
-    {
-    temp[j] = point[j] - m_Offset[j];
-    }
-
-  for (i = 0; i < NDimensions; i++) 
-    {
-    result[i] = 0.0;
-    for (j = 0; j < NDimensions; j++) 
-      {
-      result[i] += this->GetInverseMatrix()[i][j]*temp[j];
-      }
-    }
-  return result;
+  return this->BackTransform(point);
 }
-
-
-// return an inverse transformation
-template<class TScalarType, unsigned int NDimensions>
-bool
-AffineTransform<TScalarType, NDimensions>::
-GetInverse( Self* inverse) const
-{
-  if(!inverse)
-    {
-    return false;
-    }
-
-  this->GetInverseMatrix();
-  if(m_Singular)
-    {
-    return false;
-    }
-
-  inverse->m_Matrix         = this->GetInverseMatrix();
-  inverse->m_InverseMatrix  = m_Matrix;
-  inverse->m_Offset         = -(this->GetInverseMatrix() * m_Offset);
-  inverse->ComputeTranslation();
-  return true;
-}
-
-// Compute a distance between two affine transforms
-template<class TScalarType, unsigned int NDimensions>
-typename AffineTransform<TScalarType, NDimensions>::ScalarType
-AffineTransform<TScalarType, NDimensions>::
-Metric(const Self * other) const
-{
-  ScalarType result = 0.0, term;
-
-  for (unsigned int i = 0; i < NDimensions; i++) 
-    {
-    for (unsigned int j = 0; j < NDimensions; j++) 
-      {
-      term = m_Matrix[i][j] - other->m_Matrix[i][j];
-      result += term * term;
-      }
-    term = m_Offset[i] - other->m_Offset[i];
-    result += term * term;
-    }
-  return sqrt(result);
-}
-
-
-
-// Compute a distance between self and the identity transform
-template<class TScalarType, unsigned int NDimensions>
-typename AffineTransform<TScalarType, NDimensions>::ScalarType
-AffineTransform<TScalarType, NDimensions>::
-Metric(void) const
-{
-  ScalarType result = 0.0, term;
-
-  for (unsigned int i = 0; i < NDimensions; i++) 
-    {
-    for (unsigned int j = 0; j < NDimensions; j++) 
-      {
-      if (i == j)
-        {
-        term = m_Matrix[i][j] - 1.0;
-        }
-      else
-        {
-        term = m_Matrix[i][j];
-        }
-      result += term * term;
-      }
-    term = m_Offset[i];
-    result += term * term;
-    }
-
-  return sqrt(result);
-}
-
-
-
-
-
-// Recompute the inverse matrix (internal)
-template<class TScalarType, unsigned int NDimensions>
-typename AffineTransform<TScalarType, NDimensions>::MatrixType
-AffineTransform<TScalarType, NDimensions>::
-GetInverseMatrix( void ) const
-{
-  // If the transform has been modified we recompute the inverse
-  if(m_InverseMatrixMTime != m_MatrixMTime)
-    {
-    m_Singular = false;
-    try 
-      {
-      m_InverseMatrix  = m_Matrix.GetInverse();
-      }
-    catch(...) 
-      {
-      m_Singular = true;
-      }
-     m_InverseMatrixMTime = m_MatrixMTime;
-    }
-
-  return m_InverseMatrix;
-}
-
-
-
-
-
-// Get parameters
-template<class TScalarType, unsigned int NDimensions>
-const typename AffineTransform<TScalarType, NDimensions>::ParametersType &
-AffineTransform<TScalarType, NDimensions>::
-GetParameters( void ) const
-{
-
-  // Transfer the linear part
-  unsigned int par = 0;
-
-  for(unsigned int row=0; row<NDimensions; row++) 
-    {
-    for(unsigned int col=0; col<NDimensions; col++) 
-      {
-      this->m_Parameters[par] = m_Matrix[row][col];
-      ++par;
-      }
-    }
-
-  // Transfer the constant part
-  for(unsigned int i=0; i<NDimensions; i++) 
-    {
-    this->m_Parameters[par] = m_Translation[i];
-    ++par;
-    }
-
-  return this->m_Parameters;
-
-}
-
-
-
-
-// Set parameters
-template<class TScalarType, unsigned int NDimensions>
-void
-AffineTransform<TScalarType, NDimensions>::
-SetParameters( const ParametersType & parameters )
-{
-
-  // Transfer the linear part
-  unsigned int par = 0;
-
-  this->m_Parameters = parameters;
-
-  for(unsigned int row=0; row<NDimensions; row++) 
-    {
-    for(unsigned int col=0; col<NDimensions; col++) 
-      {
-      m_Matrix[row][col] = this->m_Parameters[par];
-      ++par;
-      }
-    }
-
-  // Transfer the constant part
-  for(unsigned int i=0; i<NDimensions; i++) 
-    {
-    m_Translation[i] = this->m_Parameters[par];
-    ++par;
-    }
-  this->ComputeOffset();
- 
-  // Recompute the inverse
-  m_MatrixMTime.Modified();
-  this->Modified();
-}
-
-
-// Compute the Jacobian in one position 
-template<class TScalarType, unsigned int NDimensions>
-const typename AffineTransform<TScalarType, NDimensions>::JacobianType & 
-AffineTransform<TScalarType, NDimensions>::
-GetJacobian( const InputPointType & p ) const
-{
-  
-  // The Jacobian of the affine transform is composed of
-  // subblocks of diagonal matrices, each one of them having
-  // a constant value in the diagonal.
-
-  this->m_Jacobian.Fill( 0.0 );
-
-  unsigned int blockOffset = 0;
-  
-  for(unsigned int block=0; block < SpaceDimension; block++) 
-    {
-    for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
-      {
-      this->m_Jacobian( block , blockOffset + dim ) = p[dim];
-      }
-
-    blockOffset += SpaceDimension;
-
-    }
-
-  for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
-    {
-// Should a "translation scale be provided ?
-//     m_Jacobian[ dim ][ blockOffset + dim ] = m_TranslationScale;
-    this->m_Jacobian( dim , blockOffset + dim ) = 1.0;
-    }
-
-  return this->m_Jacobian;
-
-}
-
-// Create and return an inverse transformation
-template<class TScalarType, unsigned int NDimensions>
-typename AffineTransform<TScalarType, NDimensions>::Pointer
-AffineTransform<TScalarType, NDimensions>::
-Inverse( void ) const
-{
-  itkWarningMacro("Inverse() is deprecated.  Please use GetInverse() instead.");
-  Pointer result           = New();
-  result->m_Matrix         = this->GetInverseMatrix();
-  result->m_InverseMatrix  = m_Matrix;
-  result->m_Offset         = -(this->GetInverseMatrix() * m_Offset);
-  result->ComputeTranslation();
-  result->m_Singular       = false;
-  return result;
-}
-
-// Create and return an inverse transformation
-template<class TScalarType, unsigned int NDimensions>
-void
-AffineTransform<TScalarType, NDimensions>::
-ComputeOffset( void ) 
-  {
-  const MatrixType & matrix = this->GetMatrix();
-  
-  OffsetType offset;
-  for(unsigned int i=0; i<SpaceDimension; i++)
-    {
-    offset[i] = m_Translation[i] + m_Center[i];
-    for(unsigned int j=0; j<SpaceDimension; j++)
-      {
-      offset[i] -= matrix[i][j] * m_Center[j];
-      }
-    }
-
-  m_Offset = offset ;
-  }
-
-// Create and return an inverse transformation
-template<class TScalarType, unsigned int NDimensions>
-void
-AffineTransform<TScalarType, NDimensions>::
-ComputeTranslation( void ) 
-  {
-  const MatrixType & matrix = this->GetMatrix();
-  
-  OffsetType translation;
-  for(unsigned int i=0; i<SpaceDimension; i++)
-    {
-    translation[i] = m_Offset[i] - m_Center[i];
-    for(unsigned int j=0; j<SpaceDimension; j++)
-      {
-      translation[i] += matrix[i][j] * m_Center[j];
-      }
-    }
-
-  m_Translation = translation ;
-  }
-
- 
 
 } // namespace
 

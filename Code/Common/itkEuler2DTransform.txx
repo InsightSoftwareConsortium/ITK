@@ -32,14 +32,6 @@ Euler2DTransform<TScalarType>
   m_Angle = 0.0;
 }
 
-// Copy Constructor
-template <class TScalarType>
-Euler2DTransform<TScalarType>
-::Euler2DTransform( const Self & other )
-{
-  // call the superclass copy constructor
-}
-
 // Set Parameters
 template <class TScalarType>
 void
