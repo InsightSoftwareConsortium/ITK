@@ -1,0 +1,142 @@
+Overview:
+---------
+
+The testing system is designed to allow for distributed testing across
+the internet.  The dashboard mechanism runs on a 24 hour clock, where
+each day a new dashboard is opened and closed. While a dashboard is
+open, the system accepts submission of nightly and experimental
+builds.  Nightly builds are timestamped to a cvs repository at 3am
+EST. Since nightly builds are locked to a timestamp, they can actually
+be performed at any time during which that day's dashboard is open for
+submissions.  Experimental builds represent any other build/test
+sequence that is not locked to the nightly build cycle.  These may
+included continuous builds that are triggered whenever something in
+the repository changes or may be experimental builds reporting on a
+user's locally modified version of the software.
+
+The testing framework consists of a client and server.  The client
+machine performs a build and runs a series of tests.  The client then
+generates an XML report which is shipped over to the server.  The
+server places these XML files into a predefined directory structure
+which is based on the site name, the build name, and the timestamp of
+the build.  A second process on the server then converts any new XML
+files on the server to HTML documents. Furthermore, the server
+summarizes information across all sites and builds.
+
+The architecture consists of:
+
+1) Tcl scripts that run on the client
+2) Perl script that runs on the server as a cgi-bin.
+3) Java program that runs on the server to translated XML to HTML.
+4) Cron jobs for the server that open and close dashboards each day
+and periodically summarize submissions.
+
+
+Configuring the client:
+-----------------------
+
+The client requires the "Testing" subtree be present under the root of
+the source tree. The tcl scripts to control testing and XML submission
+are in Testing/Utilities.  Local copies of XML reports are stored
+under Testing/HTML.
+
+The client is controlled via CMake and a series of CMakeList.txt
+files.  Suitable CMakeLists to configure the testing system are
+currenly populated in the Testing subtree. (NOTE: currently the
+Testing subtree has a Code directory to contain all the
+tests. However, tests can be placed anywhere in your source
+distribution.)
+
+A toplevel CMakeList file for your project will configure the
+variables needed for testing.  These include determining the paths to
+make, msdev, cvs, tclsh, etc.  Also, these variables include
+information about the server to which the client will submit its XML
+reports.  A sample toplevel CMakeLists.txt snippet is below:
+
+#
+# This toplevel snippet from a CMakeLists.txt configures the testing system.
+#
+
+# Include standard Testing module
+INCLUDE (${CMAKE_ROOT}/Modules/Testing.cmake)
+
+#
+# Variables used for submitting testing results. These will change from
+# project to project. Most likely, you will change DROP_SITE, 
+# DROP_SITE_PASSWORD and TRIGGER_SITE.
+# 
+IF (BUILD_TESTING)
+  SUBDIRS(Testing)
+
+  SET (DROP_SITE "public.kitware.com")
+  SET (DROP_LOCATION "/incoming")
+  SET (DROP_SITE_USER "anonymous")
+  SET (DROP_SITE_PASSWORD "insight-tester@somewhere.com")
+  SET (TRIGGER_SITE "http://${DROP_SITE}/cgi-bin/Submit-Insight-TestingResults.pl")
+ENDIF (BUILD_TESTING)
+
+#
+# End of toplevel CMakeLists.txt snippet
+#
+
+
+Configuring the server:
+-----------------------
+
+The server consists of three parts:
+
+1) An ftp site for the client to drop build and test XML reports. The
+recommended procedure to allow anonymous access to the /incoming
+directory. If you are worried about opening up your ftp site for
+anyone to store files on, most ftp servers can be configured so a
+client cannot view /incoming.  Hence it is of no use to the casual
+hacker. If you want to use a directory other than /incoming, you'll need to change the client's toplevel CMakeLists.txt DROP_LOCATION variable.
+
+2) The server needs to have a checkout of your project's software and
+the Testing subtree.  This checkout needs to be configured to perform
+a build.  The build tree is only used for gathering the testingresults from the clients and for generating the dashboards.  Since
+this dashboard mechanism is driven by CMake, we need to have a build
+tree available. This checkout and build tree must be accessible
+(writable) from the web server since the web server will move XML
+files to this build tree.
+
+3) A web server with a cgi-bin script.  The perl script under
+Testing/Utilities/www/cgi-bin can be copied onto your web server.  The
+name of the script should match the TRIGGER_SITE variable that is
+specified in the client's toplevel CMakeLists.txt file.  There are two
+variables in the perl script to modify. "dropLocation" is the
+directory where the client submitted their XML reports. This must
+match the DROP_LOCATION variable in the client's toplevel
+CMakeLists.txt file. "destination" is where these XML files should be
+moved. The XML reports encode their site name and build name into the
+filename that is placed on the ftp server.  This information is
+decoded as the XML files are moved from "dropLocation" to a
+subdirectory under "destination". "destination" should be set to the
+Testing/HTML/TestingResults/Sites directory of the build tree on the
+server setup in step 2 above.
+
+4) A series of cron jobs control the opening and closing of dashboards
+and periodically converting the XML submissions into HTML reports. The
+conversion to HTML uses a Java XSLT engine which is included in the
+Testing/Utilities subtree. These cron jobs need to be run as the same
+user as the web server (typically "nobody"). Below is a snippet of a
+crontab:
+
+MAILTO=root@localhost
+SHELL=/bin/tcsh
+
+# Open the insight dashboard at 3am
+5 3 * * * cd /insight/TestingTree/Insight-TestingResults;  make NightlyDashboardStart ; ./myconfig > /dev/null; make NightlyDashboardEnd
+
+# Roll up each hour on the half hour
+0 0-2,4-23 * * * cd /insight/TestingTree/Insight-TestingResults; /usr/bin/tclsh Testing/Utilities/DashboardManager.tcl Nightly DashboardEnd >>& Log.txt
+
+#
+# End of cron tab
+#
+
+5) XSLT modifications.  The conversion of XML to HTML uses a series of
+XSLT files and files under "Testing/HTML/TestingResults/Icons".  The
+images under "Icons" can be modified to reflect your project's name
+and needs. The XSLT file need to configured for your project (THIS HAS
+YET TO BE DONE).
