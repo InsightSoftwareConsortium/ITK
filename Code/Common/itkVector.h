@@ -17,7 +17,7 @@
 #ifndef __itkVector_h
 #define __itkVector_h
 
-#include "itkArray.h"
+#include "itkFixedArray.h"
 #include "vnl/vnl_vector_ref.h"
 #include "itkIndent.h"
 

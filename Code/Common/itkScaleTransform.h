@@ -109,7 +109,7 @@ public:
   /** Set offset of an Scale Transform
    * This method sets the offset of an ScaleTransform to a
    * value specified by the user. 
-   * This method cannot be done with SetMacro because itkArray has not
+   * This method cannot be done with SetMacro because itk::Array has not
    * an operator== defined. */
   void SetScale( const ScaleType & scale )
     { this->Modified(); m_Scale = scale; }

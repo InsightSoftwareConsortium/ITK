@@ -23,7 +23,7 @@
 #endif
 
 #include <itkIndent.h>
-#include <itkArray.h>
+#include <itkFixedArray.h>
 #include "vnl/vnl_math.h"
 
 namespace itk

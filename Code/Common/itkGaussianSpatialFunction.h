@@ -18,7 +18,7 @@
 #define __itkGaussianSpatialFunction_h
 
 #include "itkSpatialFunction.h"
-#include "itkArray.h"
+#include "itkFixedArray.h"
 #include "itkPoint.h"
 
 namespace itk
