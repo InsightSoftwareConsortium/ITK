@@ -85,6 +85,9 @@
           <td align="left"><xsl:value-of select="@FullPath"/></td>
           <td align="center">
             <xsl:choose>
+              <xsl:when test="PercentCoverage &lt; 50">
+                <xsl:attribute name="bgcolor"><xsl:value-of select="$ErrorColor"/></xsl:attribute>
+              </xsl:when> 
               <xsl:when test="PercentCoverage &gt;= 70.0">
                 <xsl:attribute name="bgcolor"><xsl:value-of select="$NormalColor"/></xsl:attribute>
               </xsl:when>
