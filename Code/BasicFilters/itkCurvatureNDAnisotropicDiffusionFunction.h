@@ -55,7 +55,7 @@ namespace itk {
  * image diffusion equation as described in
  * itkGradientNDAnisotropicDiffusionFunction.  This object is a level-set
  * analog of that equation and will be referred to below as the \em modified
- * \em curvature \em diffusion \em equation ( \MCDE ).  MCDE does not exhibit
+ * \em curvature \em diffusion \em equation (MCDE).  MCDE does not exhibit
  * the edge enhancing properties of classic anisotropic diffusion, which can under 
  * certain conditions undergo a ``negative'' diffusion,which enhances the
  * contrast of edges.  Equations of the form of MCDE always undergo positive
