@@ -67,7 +67,8 @@ int main( int argc, char * argv [] )
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0];
     std::cerr << " inputScalarImage inputLabeledImage";
-    std::cerr << " outputLabeledImage numberOfClasses" << std::endl;
+    std::cerr << " outputLabeledImage numberOfClasses";
+    std::cerr << " mean1 mean2 ... meanN " << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -76,6 +77,18 @@ int main( int argc, char * argv [] )
   const char * outputImageFileName     = argv[3];
 
   const unsigned int numberOfClasses   = atoi( argv[4] );
+
+  const unsigned int numberOfArgumentsBeforeMeans = 5;
+
+  if( argc < numberOfClasses + numberOfArgumentsBeforeMeans )
+    {
+    std::cerr << "Error: " << std::endl;
+    std::cerr << numberOfClasses << " classes has been specified ";
+    std::cerr << "but no enough means have been provided in the command ";
+    std::cerr << "line arguments " << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
 
 // Software Guide : BeginLatex
@@ -256,6 +269,39 @@ int main( int argc, char * argv [] )
   classifier->SetDecisionRule( classifierDecisionRule.GetPointer() );
 // Software Guide : EndCodeSnippet
 
+
+// Software Guide : BeginLatex
+//
+// We now instantiate the membership functions. In this case we use the
+// \subdoxygen{Statistics}{DistanceToCentroidMembershipFunction} class
+// templated over the pixel type of the vector image, that in our example
+// happens to be a vector of dimension 1.
+// 
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+  typedef itk::Statistics::DistanceToCentroidMembershipFunction< 
+                                                    ArrayPixelType > 
+                                                       MembershipFunctionType;
+
+  typedef MembershipFunctionType::Pointer MembershipFunctionPointer;
+
+
+  vnl_vector<double> centroid(1); 
+  for( unsigned int i=0; i < numberOfClasses; i++ )
+    {
+    MembershipFunctionPointer membershipFunction = 
+                                         MembershipFunctionType::New();
+
+    // we only care about one component of the centroid because it is indeed a
+    // one-dimensional vector.
+    centroid[0] = atof( argv[i+numberOfArgumentsBeforeMeans] ); 
+
+    membershipFunction->SetCentroid( centroid );
+
+    classifier->AddMembershipFunction( membershipFunction );
+    }
+// Software Guide : EndCodeSnippet
 
 
 
