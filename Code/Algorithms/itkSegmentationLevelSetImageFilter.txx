@@ -32,7 +32,7 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TO
   os << indent << "m_UseNegativeFeatures = " << m_UseNegativeFeatures << std::endl;
   os << indent << "m_PropagationScaling = "  << m_PropagationScaling  << std::endl;
   os << indent << "m_AdvectionScaling = "      << m_AdvectionScaling  << std::endl;
-  os << indent << "m_CurvatureScaling = "    << m_CurvatureScaling  << std::endl;  
+  os << indent << "m_CurvatureScaling = "    << m_CurvatureScaling  << std::endl;
 }
 
 template <class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage>

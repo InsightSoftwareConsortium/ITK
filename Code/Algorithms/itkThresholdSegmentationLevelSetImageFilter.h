@@ -107,10 +107,24 @@ public:
   itkNewMacro(Self);
   
   /** Get/Set the threshold values that will be used to calculate the speed function. */
-  void SetUpperThreshold(ValueType v);
-  void SetLowerThreshold(ValueType v);
-  ValueType GetUpperThreshold() const;
-  ValueType GetLowerThreshold() const;
+  void SetUpperThreshold(ValueType v)
+  {
+      this->m_ThresholdFunction->SetUpperThreshold(v);
+      this->Modified();
+  }
+  void SetLowerThreshold(ValueType v)
+  {
+    this->m_ThresholdFunction->SetLowerThreshold(v);
+    this->Modified();
+  }
+  ValueType GetUpperThreshold() const
+  {
+    return m_ThresholdFunction->GetUpperThreshold();
+  }
+  ValueType GetLowerThreshold() const
+  {
+    return m_ThresholdFunction->GetLowerThreshold();
+  }
     
 protected:
   ~ThresholdSegmentationLevelSetImageFilter() {}
