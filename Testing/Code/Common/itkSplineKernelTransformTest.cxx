@@ -240,6 +240,23 @@ int itkSplineKernelTransformTest(int argc, char** argv)
   }
   std::cout << std::endl;
 
+  std::cout << "Get/Set Parameters test " << std::endl;
+  TPSTransform3DType::ParametersType parameters1 = tps3D->GetParameters();
+  tps3D->SetParameters( parameters1 );
+  TPSTransform3DType::ParametersType parameters2 = tps3D->GetParameters();
+  const unsigned int numberOfParameters = parameters1.Size();
+  const double tolerance = 1e-7;
+  for(unsigned int pr = 0; pr < numberOfParameters; pr++)
+    {
+    if( vnl_math_abs( parameters1[pr] - parameters2[pr] ) > tolerance )
+      {
+      std::cout << "Parameters were not correctly recovered " << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+  std::cout << "Get/Set Parameters Passed" << std::endl << std::endl;
+
+
   // 4-D case
   int l;
   typedef ElasticBodySplineKernelTransform<double, 4> EBSTransform4DType;
