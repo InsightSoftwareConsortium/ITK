@@ -95,8 +95,8 @@ public:
   /**
    * Typedef to describe the type of pixel.
    */
-  typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef typename TInputImage::PixelType InputPixelType;
+  typedef typename TOutputImage::PixelType OutputImagePixelType;
+  typedef typename TInputImage::PixelType InputImagePixelType;
 
   /**
    * Typedef to describe the output and input image index and size types.

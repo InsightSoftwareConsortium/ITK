@@ -55,7 +55,7 @@ template <class TInputImage, class TOutputImage>
 ConstantPadImageFilter<TInputImage,TOutputImage>
 ::ConstantPadImageFilter()
 {
-  m_Constant = NumericTraits<OutputPixelType>::Zero;
+  m_Constant = NumericTraits<OutputImagePixelType>::Zero;
 }
 
 

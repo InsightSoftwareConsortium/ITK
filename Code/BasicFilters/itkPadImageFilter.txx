@@ -138,7 +138,7 @@ PadImageFilter<TInputImage,TOutputImage>
  *
  */
 template<class TInputImage, class TOutputImage>
-const unsigned int 
+unsigned int 
 PadImageFilter<TInputImage, TOutputImage>
 ::GetPadLowerBound(unsigned int dimension) const
 {
@@ -156,7 +156,7 @@ PadImageFilter<TInputImage, TOutputImage>
  *
  */
 template<class TInputImage, class TOutputImage>
-const unsigned int 
+unsigned int 
 PadImageFilter<TInputImage, TOutputImage>
 ::GetPadUpperBound(unsigned int dimension) const
 {

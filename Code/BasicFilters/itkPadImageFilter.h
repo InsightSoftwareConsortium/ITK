@@ -124,10 +124,10 @@ public:
    */
   const unsigned int * GetPadLowerBound() const
 		{ return m_PadLowerBound; }
-  const unsigned int GetPadLowerBound(unsigned int dimension) const;
+  unsigned int GetPadLowerBound(unsigned int dimension) const;
   const unsigned int * GetPadUpperBound() const
 		{ return m_PadUpperBound; }
-  const unsigned int GetPadUpperBound(unsigned int dimension) const;
+  unsigned int GetPadUpperBound(unsigned int dimension) const;
                  
   /** 
    * PadImageFilter produces an image which is a different resolution
