@@ -23,3 +23,5 @@ $filter SetRadius  sizeRadius
 $writer Update
 
 
+exit
+

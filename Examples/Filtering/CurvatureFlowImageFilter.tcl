@@ -34,3 +34,5 @@ $filter SetTimeStep            $timeStep
 $writer Update
 
 
+exit
+

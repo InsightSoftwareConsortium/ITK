@@ -16,12 +16,14 @@ $writer SetFileName [lindex $argv 1]
 
 itkBinaryBallStructuringElementUC2  element 
 
-$element  SetRadius 1
-$element  CreateStructuringElement
+element  SetRadius 1
+element  CreateStructuringElement
 
 $filter SetKernel  element 
 $filter SetDilateValue 255
 
 $writer Update
 
+
+exit
 

@@ -20,3 +20,5 @@ $filter ThresholdAbove  [expr [lindex $argv 3]]
 $writer Update
 
 
+exit
+

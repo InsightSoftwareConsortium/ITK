@@ -23,3 +23,5 @@ $filter SetInsideValue  [expr [lindex $argv 5]]
 $writer Update
 
 
+exit
+

@@ -33,3 +33,5 @@ $filter SetThreshold    $threshold
 $writer Update
 
 
+exit
+
