@@ -40,7 +40,8 @@ WeightedCenteroidKdTreeGenerator< TSample >
 ::GenerateNonterminalNode(int beginIndex,
                           int endIndex,
                           MeasurementVectorType &lowerBound,
-                          MeasurementVectorType &upperBound)
+                          MeasurementVectorType &upperBound,
+                          int level)
 {
   MeasurementType dimensionLowerBound ;
   MeasurementType dimensionUpperBound ;
@@ -98,11 +99,11 @@ WeightedCenteroidKdTreeGenerator< TSample >
   dimensionUpperBound = upperBound[partitionDimension] ;
 
   upperBound[partitionDimension] = partitionValue ;
-  left = GenerateTreeLoop(beginIndex, medianIndex, lowerBound, upperBound);
+  left = GenerateTreeLoop(beginIndex, medianIndex, lowerBound, upperBound, level + 1);
   upperBound[partitionDimension] = dimensionUpperBound ;
 
   lowerBound[partitionDimension] = partitionValue ;
-  right = GenerateTreeLoop(medianIndex, endIndex, lowerBound, upperBound ) ;
+  right = GenerateTreeLoop(medianIndex, endIndex, lowerBound, upperBound, level + 1) ;
   lowerBound[partitionDimension] = dimensionLowerBound ;
 
   return new KdTreeWeightedCenteroidNonterminalNode< TSample >

@@ -67,7 +67,8 @@ protected:
                                                   MeasurementVectorType 
                                                   &lowerBound,
                                                   MeasurementVectorType 
-                                                  &upperBound) ;
+                                                  &upperBound,
+                                                  int level) ;
 
 private:
   WeightedCenteroidKdTreeGenerator(const Self&) ; //purposely not implemented
