@@ -84,7 +84,6 @@ public:
                       TKdTree::MeasurementVectorSize);
   /**  Parameters type.
    *  It defines a position in the optimization search space. */
-//   typedef FixedArray< double, itkGetStaticConstMacro(MeasurementVectorSize) > ParameterType ;
   typedef FixedArray< double, itkGetStaticConstMacro(MeasurementVectorSize) > ParameterType ;
   typedef std::vector< ParameterType > InternalParametersType;
   typedef Array< double > ParametersType;
@@ -111,7 +110,7 @@ public:
   { m_KdTree = tree ; }
 
   TKdTree* GetKdTree() 
-  { return m_KdTree ; }
+  { return m_KdTree.GetPointer() ; }
 
   itkGetConstMacro( CurrentIteration, int) ;
   itkGetConstMacro( CentroidPositionChanges, double) ;
@@ -278,7 +277,7 @@ private:
    * termination criterion */
   double m_CentroidPositionChangesThreshold ;
   /** pointer to the k-d tree */
-  TKdTree* m_KdTree ;
+  typename TKdTree::Pointer m_KdTree ;
   /** pointer to the euclidean distance funtion */
   typename EuclideanDistance< ParameterType >::Pointer m_DistanceMetric ;
 

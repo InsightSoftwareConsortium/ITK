@@ -31,6 +31,10 @@ KdTreeBasedKmeansEstimator< TKdTree >
   m_KdTree = 0 ;
   m_UseClusterLabels = false ;
   m_MaximumIteration = 100 ;
+  m_DistanceMetric = EuclideanDistance< ParameterType >::New() ;
+
+  m_CentroidPositionChanges = 0.0 ;
+  m_TempVertex.Fill( 0.0 ) ;
 }
 
 template< class TKdTree >
@@ -48,15 +52,21 @@ KdTreeBasedKmeansEstimator< TKdTree >
 
   os << indent << "Sum of Centroid Position Changes: "
      << m_CentroidPositionChanges << std::endl;
-  os << indent << "Threshold for theSum of Centroid Position Changes: "
+  os << indent << "Threshold for the Sum of Centroid Position Changes: "
      << m_CentroidPositionChangesThreshold << std::endl;
 
-  os << indent << "Kd Tree:" << m_KdTree << std::endl ;
-  os << indent << "Distance Metric: " << m_DistanceMetric << std::endl ;
-  
-  os << indent << "Parameterss: " << std::endl ;
-  os << indent << m_Parameters << std::endl ;
+  os << indent << "Kd Tree:" ;
+  if ( m_KdTree != 0 )
+    {
+    os << m_KdTree << std::endl ;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
 
+  os << indent << "Distance Metric: " << m_DistanceMetric << std::endl ;
+  os << indent << "Parameters: " << m_Parameters << std::endl ;
   os << indent << "Temp Vertex: " << m_TempVertex << std::endl ;
 }
 
@@ -338,7 +348,6 @@ KdTreeBasedKmeansEstimator< TKdTree >
   previousPosition.resize(m_Parameters.size() / MeasurementVectorSize) ;
   InternalParametersType currentPosition ;
   currentPosition.resize(m_Parameters.size() / MeasurementVectorSize) ;
-  m_DistanceMetric = EuclideanDistance< ParameterType >::New() ;
   this->CopyParameters(m_Parameters, currentPosition) ;
   m_CurrentIteration = 0 ;
   std::vector< int > validIndexes ;
