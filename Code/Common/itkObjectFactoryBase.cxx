@@ -47,6 +47,26 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <algorithm>
 #include <map>
 
+namespace
+{
+  
+class CleanUpObjectFactory
+{
+public:
+  inline void Use() 
+    {
+    }
+  ~CleanUpObjectFactory()
+    {
+      itk::ObjectFactoryBase::UnRegisterAllFactories();
+    }  
+};
+static CleanUpObjectFactory CleanUpObjectFactoryGlobal;
+}
+
+
+
+
 namespace itk
 {
 
@@ -156,6 +176,7 @@ void
 ObjectFactoryBase
 ::Initialize()
 {
+  CleanUpObjectFactoryGlobal.Use();
   /**
    * Don't do anything if we are already initialized
    */
