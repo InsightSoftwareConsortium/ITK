@@ -144,15 +144,33 @@ public:
     m_Offset = m_Image->ComputeOffset( m_Region.GetIndex() );
     m_BeginOffset = m_Offset;
     
-    // Compute the end offset
+    // Compute the end offset. If any component of m_Region.GetSize()
+    // is zero, the region is not valid and we set the EndOffset
+    // to be same as BeginOffset so that iterator end condition is met
+    // immediately.
     IndexType ind(m_Region.GetIndex());
     SizeType size(m_Region.GetSize());
+    bool validRegion = true;
     for (unsigned int i=0; i < ImageIteratorDimension; ++i)
       {
-      ind[i] += (size[i] - 1);
+      if (size[i] > 0)
+        {
+        ind[i] += (static_cast<IndexType::IndexValueType>(size[i]) - 1);
+        }
+      else
+        {
+        validRegion = false;
+        }
       }
-    m_EndOffset = m_Image->ComputeOffset( ind );
-    m_EndOffset++;
+    if (validRegion)
+      {
+      m_EndOffset = m_Image->ComputeOffset( ind );
+      m_EndOffset++;
+      }
+    else
+      {
+      m_EndOffset = m_BeginOffset;
+      }
 
     m_PixelAccessor = ptr->GetPixelAccessor();
   }
