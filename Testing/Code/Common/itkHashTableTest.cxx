@@ -13,11 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "vcl_hash.txx"
-#include "vcl_hashtable.h"
-#include "vcl_hash_set.h"
-#include "vcl_hash_map.h"
-#include "vcl_hash_map.txx"
+#include "itk_hashtable.h"
+#include "itk_hash_set.h"
+#include "itk_hash_map.h"
 #include <iostream>
 
 /**
@@ -40,10 +38,10 @@ struct eqstr
   }
 };
 
-void lookup(const vcl_hash_set<const char*, vcl_hash<const char*>, eqstr>& Set,
+void lookup(const itk::hash_set<const char*, itk::hash<const char*>, eqstr>& Set,
             const char* word)
 {
-  vcl_hash_set<const char*, vcl_hash<const char*>, eqstr>::const_iterator it
+  itk::hash_set<const char*, itk::hash<const char*>, eqstr>::const_iterator it
     = Set.find(word);
   std::cout << word << ": "
        << (it != Set.end() ? "present" : "not present")
@@ -55,19 +53,19 @@ inline void println(const char *s)
 
 int main()
 {
-  println("Testing vcl_hash");
-  vcl_hash<const char*> H;
+  println("Testing itk::hash");
+  itk::hash<const char*> H;
   std::cout << "foo -> " << H("foo") << std::endl;
   std::cout << "bar -> " << H("bar") << std::endl;
-  vcl_hash<int> H1;
+  itk::hash<int> H1;
   std::cout << "1 -> " << H1(1) << std::endl;
   std::cout << "234 -> " << H1(234) << std::endl;
-  vcl_hash<char> H2;
+  itk::hash<char> H2;
   std::cout << "a -> " << H2('a') << std::endl;
   std::cout << "Z -> " << H2('Z') << std::endl;
   
-  println("Testing vcl_hash_set");
-  typedef vcl_hash_set<const char*, vcl_hash<const char*>, eqstr> HashSetType;
+  println("Testing itk::hash_set");
+  typedef itk::hash_set<const char*, itk::hash<const char*>, eqstr> HashSetType;
   HashSetType Set;
   Set.insert("kiwi");
   Set.insert("plum");
@@ -99,8 +97,8 @@ int main()
   //                     does not find this during link phase. cates 3/20/01
   
   
-  println("Testing vcl_hash_map");
-  typedef vcl_hash_map<const char*, int, vcl_hash<const char*>, eqstr>
+  println("Testing itk::hash_map");
+  typedef itk::hash_map<const char*, int, itk::hash<const char*>, eqstr>
     HashMapType;
   
   HashMapType months;

@@ -1,13 +1,12 @@
 #include <vcl_compiler.h>
-#if !VCL_USE_NATIVE_STL
-
-#include "vcl_hashtable.h"
-
+#include "itk_hashtable.h"
+namespace itk
+{
+  
 #if ( __STL_STATIC_TEMPLATE_DATA > 0 ) && ! defined (VCL_WIN32)
 
-//template struct __stl_prime<false>;
 
-const unsigned long VCL_prime<false>::list_[] =
+const unsigned long prime<false>::list_[] =
 {
   53,         97,         193,       389,       769,
   1543,       3079,       6151,      12289,     24593,
@@ -16,6 +15,8 @@ const unsigned long VCL_prime<false>::list_[] =
   50331653,   100663319,  201326611, 402653189, 805306457, 
   1610612741, 3221225473U, 4294967291U
 };
+  
+}// end namespace itk
 
-#endif
-#endif // VCL_USE_NATIVE_STL
+#endif 
+

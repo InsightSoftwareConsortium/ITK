@@ -23,7 +23,7 @@
 #include <utility>
 #include <stack>
 #include <algorithm>
-#include "vcl_hash_map.h"
+#include "itk_hash_map.h"
 #include <deque>
 #include <functional>
 
@@ -263,19 +263,19 @@ protected:
   /**
    * Hashing function for hash tables with OutputScalarType keys.
    */
-  class strhash : public vcl_hash<int>
+  class strhash : public itk::hash<int>
   {
   public:
     ::size_t operator()(const OutputScalarType &s) const
     {
-      return vcl_hash<int>::operator()(static_cast<int>(s));
+      return itk::hash<int>::operator()(static_cast<int>(s));
     }
   };
 
   /**
    * Table storing information about edges between segments.
    */
-  typedef vcl_hash_map<OutputScalarType, InputScalarType, strhash>
+  typedef itk::hash_map<OutputScalarType, InputScalarType, strhash>
   EdgeTableType; 
 
   /**
@@ -324,19 +324,19 @@ protected:
   /**
    * Table for storing segment information.
    */
-  typedef vcl_hash_map<OutputScalarType, SegmentType, strhash>
+  typedef itk::hash_map<OutputScalarType, SegmentType, strhash>
   SegmentTableType;
 
   /**
    * Table for storing flat region information.
    */
-  typedef vcl_hash_map<OutputScalarType, FlatRegion, strhash>
+  typedef itk::hash_map<OutputScalarType, FlatRegion, strhash>
   FlatRegionTableType;
 
   /**
    * Table for storing correspondences between segment and region labels.
    */
-  typedef vcl_hash_map<OutputScalarType, OutputScalarType, strhash>
+  typedef itk::hash_map<OutputScalarType, OutputScalarType, strhash>
   LabelTableType;
 
   /**
