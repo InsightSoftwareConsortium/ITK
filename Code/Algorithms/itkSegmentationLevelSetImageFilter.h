@@ -80,8 +80,8 @@ namespace itk {
  * The output of any subclass of this filter is a level set embedding as
  * described in SparseFieldLevelSetImageFilter.  The zero crossings of the output
  * image give the pixels closest to the level set boundary.  By ITK convention,
- * positive values are pixels inside the segmented region and negative values are
- * pixels outside the segmented region.
+ * NEGATIVE values are pixels INSIDE the segmented region and POSITIVE values are
+ * pixels OUTSIDE the segmented region.
  *
  * \par PARAMETERS
  * The MaximumRMSChange parameter is used to determine when the solution has
@@ -96,9 +96,15 @@ namespace itk {
  * criteria.
  *
  * \par
- * The UseNegativeFeatures parameter tells the function object to reverse the
- * sign of the feature image, resulting in surface movement in the opposite
- * direction.
+ * The standard convention for ITK level-set segmentation filters is that
+ * POSITIVE propagation (speed) and advection terms cause the surface to EXPAND
+ * while negative terms cause the surface to CONTRACT.  When the
+ * ReverseExpansionDirection parameter is set to TRUE (on), it tells the
+ * function object to reverse the standard ITK convention so that NEGATIVE
+ * terms cause EXPANSION and positive terms cause CONTRACTION.
+ *
+ * This parameter can be safely changed as appropriate for a particular
+ * application or data set to achieve the desired behavior.
  *
  * \par
  * The FeatureScaling parameter controls the magnitude of the features calculated
@@ -106,7 +112,6 @@ namespace itk {
  * sets both parameters to equal values at once.  Some filters may only use on of
  * these two terms and this method is a generic way to set either or both without
  * having to know which is in use.
- *
  *
  * \par
  * The CurvatureScaling parameter controls the magnitude of the curvature values
@@ -197,49 +202,117 @@ public:
   virtual const typename SegmentationFunctionType::VectorImageType *GetAdvectionImage() const
   { return m_SegmentationFunction->GetAdvectionImage(); }
 
-  /** This method reverses the speed function direction, effectively changing
-   *  inside feature values to outside feature values and vice versa */
+  /** THIS METHOD IS DEPRECATED AND SHOULD NOT BE USED.  This method reverses
+   * the speed function direction, effectively changing inside feature values to
+   * outside feature values and vice versa. */
   void SetUseNegativeFeaturesOn()
   {
-    this->SetUseNegativeFeatures(true);
+    itkWarningMacro( << "SetUseNegativeFeaturesOn has been deprecated.  Please use ReverseExpansionDirectionOn() instead" );
+    this->ReverseExpansionDirectionOn();
   }
   void SetUseNegativeFeaturesOff()
   {
-    this->SetUseNegativeFeatures(false);
+    itkWarningMacro( << "SetUseNegativeFeaturesOff has been deprecated.  Please use ReverseExpansionDirectionOff() instead" );
+    this->ReverseExpansionDirectionOff();
   }
 
-  /** Set/Get the value of the UseNegativeFeatures flag.  This flag controls
-   * whether (true) or not (false) the direction of the speed function is
-   * reversed.  By default, level set segmentation filters take ``inside''
-   * values as positive, and ``outside'' values as negative.*/
-  itkSetMacro(UseNegativeFeatures, bool);
-  itkGetMacro(UseNegativeFeatures, bool);
+  /** Set/Get the value of the UseNegativeFeatures flag.  This method is
+   * deprecated.  Use Set/Get ReverseExpansionDirection instead.*/
+  void SetUseNegativeFeatures( bool u )
+  {
+    itkWarningMacro( << "SetUseNegativeFeatures has been deprecated.  Please use SetReverseExpansionDirection instead" );
+    if (u == true)
+      {
+      this->SetReverseExpansionDirection(false);
+      }
+    else
+      {
+      this->SetReverseExpansionDirection(true);
+      }
+  }
+  bool GetUseNegativeFeatures() const
+  {
+    itkWarningMacro( << "GetUseNegativeFeatures has been deprecated.  Please use GetReverseExpansionDirection() instead" );
+    if ( this->GetUseNegativeFeatures() == false)
+      {
+      return true;
+      }
+    else
+      {
+      return false;
+      }
+  }
 
+  /** Turn On/Off the flag which determines whether Positive or Negative speed
+   * terms will cause surface expansion.  If set to TRUE then negative speed
+   * terms will cause the surface to expand and positive speed terms will cause
+   * the surface to contract.  If set to FALSE (default) then positive speed terms will
+   * cause the surface to expand and negative speed terms will cause the
+   * surface to contract.  This method can be safely used to reverse the
+   * expansion/contraction as appropriate to a particular application or data
+   * set. */
+  itkSetMacro(ReverseExpansionDirection, bool);
+  itkGetMacro(ReverseExpansionDirection, bool);
+  itkBooleanMacro(ReverseExpansionDirection);
+  
   /** Combined scaling of the propagation and advection speed
       terms. You should use either this -or- Get/SetPropagationScaling and
       Get/SetAdvectionScaling (if appropriate).  See subclasses for details
       on when and whether to set these parameters.*/
   void SetFeatureScaling(ValueType v)
   {
-    this->SetPropagationScaling(v);
-    this->SetAdvectionScaling(v);
+    if (v != m_SegmentationFunction->GetPropagationWeight())
+      {        
+      this->SetPropagationScaling(v);
+      }
+    if (v != m_SegmentationFunction->GetAdvectionWeight())
+      {
+      this->SetAdvectionScalaing(v);
+      }
   }
 
   /** Set/Get the scaling of the propagation speed.  Setting the FeatureScaling
       parameter overrides any previous values set for PropagationScaling. */
-  itkSetMacro(PropagationScaling, ValueType);
-  itkGetMacro(PropagationScaling, ValueType);
+  void SetPropagationScaling(ValueType v)
+  {
+    if (v != m_SegmentationFunction->GetPropagationWeight())
+      {        
+      m_SegmentationFunction->SetPropagationWeight(v);
+      }
+  }
+  ValueType GetPropagationScaling() const
+  {
+    return m_SegmentationFunction->GetPropagationWeight();
+  }
 
   /** Set/Get the scaling of the advection field.  Setting the FeatureScaling
       parameter will override any existing value for AdvectionScaling. */
-  itkSetMacro(AdvectionScaling, ValueType);
-  itkGetMacro(AdvectionScaling, ValueType);
+  void SetAdvectionScaling(ValueType v)
+  {
+    if (v != m_SegmentationFunction->GetAdvectionWeight())
+      {        
+      m_SegmentationFunction->SetAdvectionWeight(v);
+      }
+  }
+  ValueType GetAdvectionScaling() const
+  {
+    return m_SegmentationFunction->GetAdvectionWeight();
+  }
 
   /** Set/Get the scaling of the curvature. Use this parameter to increase the
       influence of curvature on the movement of the surface.  Higher values
       relative to Advection and Propagation values will give smoother surfaces. */
-  itkSetMacro(CurvatureScaling, ValueType);
-  itkGetMacro(CurvatureScaling, ValueType);
+  void SetCurvatureScaling(ValueType v)
+  {
+    if (v != m_SegmentationFunction->GetCurvatureWeight())
+      {        
+      m_SegmentationFunction->SetCurvatureWeight(v);
+      }
+  }
+  ValueType GetCurvatureScaling() const
+  {
+    return m_SegmentationFunction->GetCurvatureWeight();
+  }
 
   /** Set the segmentation function.  In general, this should only be called by a subclass
    *  of this object. It is made public to allow itk::Command objects access. */
@@ -270,23 +343,14 @@ protected:
    * parameters. */
   bool Halt();
 
-  /** Flag which sets the inward/outward direction of positive propagation speed.*/
-  bool m_UseNegativeFeatures;
+  /** Flag which sets the inward/outward direction of propagation speed. See
+      SetReverseExpansionDirection for more information. */
+  bool m_ReverseExpansionDirection;
 
-  /** Scalar parameter for curvature.*/
-  ValueType m_CurvatureScaling;
-
-  /** Scalar parameter for curvature.*/
-  ValueType m_PropagationScaling;
-
-  /** Scalar parameter for curvature.*/
-  ValueType m_AdvectionScaling;
-  
 private:
   unsigned int m_MaximumIterations;
   SegmentationFunctionType *m_SegmentationFunction;
   ValueType m_MaximumRMSError;
-
 };
 
 } // end namespace itk
