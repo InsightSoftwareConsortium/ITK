@@ -77,8 +77,6 @@ public:
      */
     typedef Rigid3DTransform Self;
 
-    /// Standard scalar type for this class
-    typedef TScalarType ScalarType;
 
     /// Dimension of the space
     enum { SpaceDimension = 3 };
@@ -90,6 +88,24 @@ public:
     typedef Transform< TScalarType, 3, 3,
                        Point< double, 7 >, 
                        Matrix< double, 3, 7 > >   Superclass;
+
+
+    /**
+     * Scalar Type
+     */
+    typedef Superclass::ScalarType  ScalarType;
+
+
+    /**
+     * Parameters Type
+     */
+    typedef Superclass::ParametersType  ParametersType;
+
+
+    /**
+     * Jacobian Type
+     */
+    typedef Superclass::JacobianType  JacobianType;
 
 
     /** 

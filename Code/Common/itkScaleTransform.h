@@ -81,21 +81,34 @@ public:
      */
     typedef ScaleTransform Self;
 
-    /// Standard scalar type for this class
-    typedef TScalarType ScalarType;
 
     /// Dimension of the domain space
     enum { SpaceDimension      = NDimensions,
            ParametersDimension = NDimensions };
-
-    /// Standard parameters container
-    typedef TParameters ParametersType;
 
 
     /// Standard "Superclass" typedef.
     typedef Transform< TScalarType, NDimensions,
                        NDimensions, TParameters, 
                        TJacobianType >             Superclass;
+
+    /**
+     * Scalar Type
+     */
+    typedef Superclass::ScalarType  ScalarType;
+
+
+    /**
+     * Parameters Type
+     */
+    typedef Superclass::ParametersType  ParametersType;
+
+
+    /**
+     * Jacobian Type
+     */
+    typedef Superclass::JacobianType  JacobianType;
+
 
 
     /// Smart pointer typedef support 

@@ -88,6 +88,7 @@ public:
   typedef KernelTransform Self;
 
 
+
   /// Dimension of the domain space
   enum { SpaceDimension = NDimensions };
 
@@ -99,6 +100,25 @@ public:
                     NDimensions, TParameters,
                     TJacobianType>              Superclass;
   
+
+  /**
+   * Scalar Type
+   */
+  typedef Superclass::ScalarType  ScalarType;
+
+
+  /**
+   * Parameters Type
+   */
+  typedef Superclass::ParametersType  ParametersType;
+
+
+  /**
+   * Jacobian Type
+   */
+  typedef Superclass::JacobianType  JacobianType;
+
+
 
   /** 
    * Smart pointer typedef support 

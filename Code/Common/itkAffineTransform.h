@@ -144,9 +144,6 @@ public:
      */
     typedef AffineTransform  Self;
 
-    /// Standard scalar type for this class
-    typedef TScalarType ScalarType;
-
     /// Dimension of the domain space
     enum { SpaceDimension = NDimensions,
            ParametersDimension = NDimensions * (NDimensions+1) };
@@ -178,6 +175,22 @@ public:
      */
     itkNewMacro( Self );
 
+
+
+    /**
+     * Parameters Type
+     */
+    typedef Superclass::ParametersType  ParametersType;
+
+
+    /**
+     * Jacobian Type
+     */
+    typedef Superclass::JacobianType  JacobianType;
+
+
+    /// Standard scalar type for this class
+    typedef Superclass::ScalarType ScalarType;
 
 
     /**

@@ -114,6 +114,11 @@ public:
   itkNewMacro(Self);
 
 
+  /** 
+   * Type of the input parameters
+   */
+  typedef  TScalarType     ScalarType;
+
 
   /** 
    * Type of the input parameters
@@ -203,15 +208,15 @@ public:
    *
 
       J=\left[ \begin{array}{cccc}
-      \frac{\partial x_{1}}{\partial p_{1}} & \\
-      \frac{\partial x_{2}}{\partial p_{1}} & \\
+      \frac{\partial x_{1}}{\partial p_{1}} & 
+      \frac{\partial x_{2}}{\partial p_{1}} & 
       \cdots  & \frac{\partial x_{n}}{\partial p_{1}}\\
-      \frac{\partial x_{1}}{\partial p_{2}} & \\
-      \frac{\partial x_{2}}{\partial p_{2}} & \\
+      \frac{\partial x_{1}}{\partial p_{2}} & 
+      \frac{\partial x_{2}}{\partial p_{2}} & 
       \cdots  & \frac{\partial x_{n}}{\partial p_{2}}\\
       \vdots  & \vdots  & \ddots  & \vdots \\
-      \frac{\partial x_{1}}{\partial p_{m}} & \\
-      \frac{\partial x_{2}}{\partial p_{m}} & \\
+      \frac{\partial x_{1}}{\partial p_{m}} & 
+      \frac{\partial x_{2}}{\partial p_{m}} & 
       \cdots  & \frac{\partial x_{n}}{\partial p_{m}}
       \end{array}\right] 
       

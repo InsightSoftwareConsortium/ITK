@@ -78,6 +78,25 @@ public:
 
 
   /**
+   * Scalar Type
+   */
+  typedef Superclass::ScalarType  ScalarType;
+
+
+  /**
+   * Parameters Type
+   */
+  typedef Superclass::ParametersType  ParametersType;
+
+
+  /**
+   * Jacobian Type
+   */
+  typedef Superclass::JacobianType  JacobianType;
+
+
+
+  /**
    * Standard Superclass typedef
    */
   typedef KernelTransform<  TScalarType, 

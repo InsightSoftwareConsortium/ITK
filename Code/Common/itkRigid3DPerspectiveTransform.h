@@ -45,6 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkExceptionObject.h"
 #include "vnl/vnl_quaternion.h"
 #include <iostream>
+#include "itkMatrix.h"
 
 
 
@@ -64,7 +65,12 @@ namespace itk
 
 template <
     class TScalarType=double>    // Data type for scalars (float or double)
-class ITK_EXPORT Rigid3DPerspectiveTransform  
+class ITK_EXPORT Rigid3DPerspectiveTransform : 
+        public Transform<  TScalarType, 3,
+                           2, Point<TScalarType,7>, 
+                           Matrix<TScalarType,2,7>   > 
+
+
 
 {
 public:
@@ -74,8 +80,6 @@ public:
      */
     typedef Rigid3DPerspectiveTransform Self;
 
-    /// Standard scalar type for this class
-    typedef TScalarType ScalarType;
 
     /// Dimension of the domain space
     enum 
@@ -83,6 +87,37 @@ public:
       InputSpaceDimension      = 3,
       OutputSpaceDimension     = 2
     };
+
+
+    /**
+     * Standard "Superclass" typedef.
+     */
+    typedef Transform< TScalarType, 3,
+                       2, Point<TScalarType,7>, 
+                       Matrix<TScalarType,2,7>   >             Superclass;
+
+
+
+    /**
+     * Scalar Type
+     */
+    typedef Superclass::ScalarType  ScalarType;
+
+
+    /**
+     * Parameters Type
+     */
+    typedef Superclass::ParametersType  ParametersType;
+
+
+    /**
+     * Jacobian Type
+     */
+    typedef Superclass::JacobianType  JacobianType;
+
+
+
+
 
     /// Standard matrix type for this class
     typedef Matrix<TScalarType, InputSpaceDimension, InputSpaceDimension> MatrixType;
