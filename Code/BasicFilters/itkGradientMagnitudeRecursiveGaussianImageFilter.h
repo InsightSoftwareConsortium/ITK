@@ -76,7 +76,8 @@ public:
   typedef typename          OutputImageType::PixelType      OutputPixelType;
 
   /**  Auxiliary image for holding the values of the squared gradient components */
-  typedef Image< RealType, ImageDimension >      CumulativeImageType;
+  typedef Image< RealType, 
+                  itkGetStaticConstMacro(ImageDimension) >      CumulativeImageType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
