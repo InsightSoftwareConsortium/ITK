@@ -40,8 +40,8 @@ _nrrdEncodingGzip_read(FILE *file, void *_data, size_t elNum,
                        Nrrd *nrrd, NrrdIoState *nio) {
   char me[]="_nrrdEncodingGzip_read", err[AIR_STRLEN_MED];
 #if TEEM_ZLIB
-  size_t bsize, total_read;
-  int block_size, i, error=0;
+  size_t bsize, total_read, block_size;
+  int i, error=0;
   unsigned int read;
   char *data;
   gzFile gzfin;
@@ -73,7 +73,7 @@ _nrrdEncodingGzip_read(FILE *file, void *_data, size_t elNum,
      unsigned int.  Therefore it must be read in chunks 
      if the size is larger than UINT_MAX. */
   if (bsize <= UINT_MAX) {
-    block_size = (unsigned int)bsize;
+    block_size = bsize;
   } else {
     block_size = UINT_MAX;
   }
@@ -95,8 +95,10 @@ _nrrdEncodingGzip_read(FILE *file, void *_data, size_t elNum,
        we don't want.  This will reduce block_size when we get to the last
        block (which may be smaller than block_size).
     */
-    if (bsize - total_read < block_size)
-      block_size = (unsigned int)(bsize - total_read);
+    if (bsize >= total_read 
+        && bsize - total_read < block_size) {
+      block_size = bsize - total_read;
+    }
   }
 
   /* Check if we stopped because of an error. */
@@ -136,8 +138,8 @@ _nrrdEncodingGzip_write(FILE *file, const void *_data, size_t elNum,
                         const Nrrd *nrrd, NrrdIoState *nio) {
   char me[]="_nrrdEncodingGzip_write", err[AIR_STRLEN_MED];
 #if TEEM_ZLIB
-  size_t bsize, total_written;
-  int block_size, fmt_i=0, error=0;
+  size_t bsize, total_written, block_size;
+  int fmt_i=0, error=0;
   char *data, fmt[4];
   gzFile gzfout;
   unsigned int wrote;
@@ -174,7 +176,7 @@ _nrrdEncodingGzip_write(FILE *file, const void *_data, size_t elNum,
      unsigned int.  Therefore it must be read in chunks 
      if the bsize is larger than UINT_MAX. */
   if (bsize <= UINT_MAX) {
-    block_size = (unsigned int)bsize;
+    block_size = bsize;
   } else {
     block_size = UINT_MAX;
   }
@@ -196,8 +198,9 @@ _nrrdEncodingGzip_write(FILE *file, const void *_data, size_t elNum,
        will reduce block_size when we get to the last block (which may
        be smaller than block_size).
     */
-    if (bsize - total_written < block_size)
-      block_size = (unsigned int)(bsize - total_written);
+    if (bsize >= total_written
+        && (unsigned int)(bsize - total_written) < block_size)
+      block_size = bsize - total_written;
   }
   
   /* Check if we stopped because of an error. */

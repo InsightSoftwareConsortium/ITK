@@ -1033,9 +1033,10 @@ _nrrdContainsPercentDAndMore(char *str) {
   return !!hh;
 }
 
-int
+unsigned int
 _nrrdDataFNNumber(NrrdIoState *nio) {
-  int ret, ii;
+  int ii;
+  unsigned int ret;
 
   if (nio->dataFNFormat) {
     /* datafiles given in iterator form; count number of values */
@@ -1050,7 +1051,7 @@ _nrrdDataFNNumber(NrrdIoState *nio) {
     /* datafiles given as an explicit list, or as a single file name,
        and in either case, nrrdDataFNAdd() is used to add them to
        the dataFNArr */
-    ret = nio->dataFNArr->len;
+    ret = (unsigned int)nio->dataFNArr->len;
   } else {
     /* datafile is same as (attached) header file */
     ret = 1;
@@ -1067,16 +1068,17 @@ _nrrdDataFNCheck(NrrdIoState *nio, Nrrd *nrrd, int useBiff) {
     _nrrdSplitSizes(&pieceSize, &pieceNum, nrrd, nio->dataFileDim);
     if (pieceNum != _nrrdDataFNNumber(nio)) {
       sprintf(err, "%s: expected %d filenames (of %d-D pieces) but got %d",
-              me, (int)pieceNum, nio->dataFileDim, _nrrdDataFNNumber(nio));
+              me, (int)pieceNum, nio->dataFileDim,
+              (int)_nrrdDataFNNumber(nio));
       biffMaybeAdd(NRRD, err, useBiff); return 1;
     }
   } else {
     /* we're getting data in "slabs" with the same dimension as the
        nrrd, so for simplicity we assume that they're all equal size */
-    if (_nrrdDataFNNumber(nio) > nrrd->axis[nrrd->dim-1].size) {
+    if ((int)_nrrdDataFNNumber(nio) > nrrd->axis[nrrd->dim-1].size) {
       sprintf(err, "%s: can't have more pieces (%d) than axis %d "
               "slices (%d) when nrrd dimension and datafile dimension "
-              "are both %d", me, _nrrdDataFNNumber(nio),
+              "are both %d", me, (int)_nrrdDataFNNumber(nio),
               nrrd->dim-1, nrrd->axis[nrrd->dim-1].size,
               nrrd->dim);
       biffMaybeAdd(NRRD, err, useBiff); return 1;
@@ -1085,7 +1087,7 @@ _nrrdDataFNCheck(NrrdIoState *nio, Nrrd *nrrd, int useBiff) {
         != nrrd->axis[nrrd->dim-1].size/_nrrdDataFNNumber(nio)) {
       sprintf(err, "%s: number of datafiles (%d) doesn't divide into "
               "number of axis %d slices (%d)", me, 
-              _nrrdDataFNNumber(nio), 
+              (int)_nrrdDataFNNumber(nio), 
               nrrd->dim-1, nrrd->axis[nrrd->dim-1].size);
       biffMaybeAdd(NRRD, err, useBiff); return 1;
     }

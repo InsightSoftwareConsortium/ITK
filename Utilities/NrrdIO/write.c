@@ -652,7 +652,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
     } else if (nio->dataFNArr->len > 1) {
       maxl = 0;
       for (i=0; i<nio->dataFNArr->len; i++) {
-        maxl = AIR_MAX(maxl, strlen(nio->dataFN[i]));
+        maxl = AIR_MAX(maxl, (int)strlen(nio->dataFN[i]));
       }
       *strP = malloc(fslen + strlen(NRRD_LIST_FLAG) + 10 
                      + nio->dataFNArr->len*maxl);

@@ -51,7 +51,8 @@ int
 nrrdIoStateDataFileIterNext(FILE **fileP, NrrdIoState *nio, int reading) {
   char me[]="nrrdIoStateDataFileIterNext", *err;
   char *fname=NULL;
-  int ii, num, needPath, maxl;
+  int ii, num, needPath;
+  size_t maxl;
   airArray *mop;
 
   mop = airMopNew();
@@ -73,7 +74,7 @@ nrrdIoStateDataFileIterNext(FILE **fileP, NrrdIoState *nio, int reading) {
   }
 
   nio->dataFNIndex++;
-  if (nio->dataFNIndex > _nrrdDataFNNumber(nio)-1) {
+  if (nio->dataFNIndex >= (int)_nrrdDataFNNumber(nio)) {
     /* there is no next data file, but we don't make that an error */
     nio->dataFNIndex = _nrrdDataFNNumber(nio);
     airMopOkay(mop);
@@ -151,7 +152,7 @@ nrrdIoStateDataFileIterNext(FILE **fileP, NrrdIoState *nio, int reading) {
     if (!(*fileP)) {
       if ((err = (char*)malloc(strlen(fname) + AIR_STRLEN_MED))) {
         sprintf(err, "%s: couldn't open \"%s\" (data file %d of %d) for %s",
-                me, fname, nio->dataFNIndex+1, _nrrdDataFNNumber(nio),
+                me, fname, nio->dataFNIndex+1, (int)_nrrdDataFNNumber(nio),
                 reading ? "reading" : "writing");
         biffAdd(NRRD, err); free(err);
       }
@@ -297,9 +298,9 @@ _nrrdHeaderCheck (Nrrd *nrrd, NrrdIoState *nio, int checkSeen) {
 int
 _nrrdFormatNRRD_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
   char me[]="_nrrdFormatNRRD_read", 
-    *err=NULL; /* NOTE: err really does have to be dynamically 
-                  allocated because of the arbitrary-sized input lines
-                  that it may have to copy */
+    *err; /* NOTE: err really does have to be dynamically 
+             allocated because of the arbitrary-sized input lines
+             that it may have to copy */
   int ret, len;
   size_t valsPerPiece;
   char *data;
@@ -474,7 +475,6 @@ _nrrdFormatNRRD_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
       return 1;
     }
   } while (dataFile);
-  data = NULL;
 
   if (airEndianUnknown != nio->endian) {
     /* we positively know the endianness of data just read */
@@ -609,7 +609,6 @@ _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
         biffAdd(NRRD, err); airMopError(mop); return 1;
       }
     } while (dataFile);
-    data = NULL;
   }
 
   airMopOkay(mop); 
