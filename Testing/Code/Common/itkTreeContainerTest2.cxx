@@ -1,13 +1,13 @@
 /*=========================================================================
 
-  Program:   itkUNC
+  Program:   Insight Segmentation & Registration Toolkit
   Module:    itkTreeContainerTest2.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 CADDLab @ UNC. All rights reserved.
-  See itkUNCCopyright.txt for details.
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
      This software is distributed WITHOUT ANY WARRANTY; without even 
      the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
