@@ -55,6 +55,6 @@ int main()
   writer->SetFileName("CurvatureFlowImage.vtk");
   writer->Write();
   
-  exit( EXIT_SUCCESS );
+  return EXIT_SUCCESS;
 
 }

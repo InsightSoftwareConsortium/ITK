@@ -127,6 +127,6 @@ int main()
   std::cout << registrator->GetLastAffineMatrix() << std::endl;
   std::cout << registrator->GetLastAffineVector() << std::endl;
 
-  exit( EXIT_SUCCESS );
+  return EXIT_SUCCESS;
 
 }

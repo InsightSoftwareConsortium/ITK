@@ -103,6 +103,6 @@ int main()
 
   detector->Update();
 
-  exit( EXIT_SUCCESS );
+  return EXIT_SUCCESS;
 
 }
