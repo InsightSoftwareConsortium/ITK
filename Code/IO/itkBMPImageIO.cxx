@@ -203,7 +203,7 @@ void BMPImageIO::Read(void* buffer)
 
   char * p = static_cast<char *>(buffer);
   unsigned long l=0;
-  unsigned long step = 3;
+  unsigned long step = this->GetNumberOfComponents();
   long streamRead = m_Dimensions[0]*m_Depth/8;
 
   long paddedStreamRead = streamRead;
@@ -222,9 +222,16 @@ void BMPImageIO::Read(void* buffer)
 
       for(long i=0;i<streamRead;i+=step)
         {
-        p[l++]=value[i+2];
-        p[l++]=value[i+1];
-        p[l++]=value[i];
+        if(this->GetNumberOfComponents() == 1)
+          {
+          p[l++]=value[i];
+          }
+        else
+          {
+          p[l++]=value[i+2];
+          p[l++]=value[i+1];
+          p[l++]=value[i];
+          }
         }
       }
     }
@@ -237,9 +244,16 @@ void BMPImageIO::Read(void* buffer)
 
       for(long i=0;i<streamRead;i+=step)
         { 
-        p[l++]=value[i+2];
-        p[l++]=value[i+1];
-        p[l++]=value[i];  
+        if(this->GetNumberOfComponents() == 1)
+          {
+          p[l++]=value[i];
+          }
+        else
+          {
+          p[l++]=value[i+2];
+          p[l++]=value[i+1];
+          p[l++]=value[i];
+          }
         }
       }
     }
