@@ -23,7 +23,16 @@ namespace itk
 
 namespace Functor {  
   
-  template< class TInput, class TAccessor>
+  /**
+   * \class AccessorFunctor
+   * \brief Convert an accessor to a functor so that it can be used in a UnaryFunctorImageFilter.
+   *
+   * AccessorFunctor converts a data accessor to a functor object.  This
+   * allows an accessor to be used as functor in a UnaryFunctorImageFilter,
+   * BinaryFunctorImageFilter, TernaryFunctorImageFilter, or
+   * NaryFunctionImageFilter.
+   */
+  template <class TInput, class TAccessor>
   class AccessorFunctor
   {
   public:
@@ -32,7 +41,10 @@ namespace Functor {
 
     typedef AccessorFunctor Self;
     typedef TAccessor AccessorType;
-    
+
+    /**
+     * operator().  This is the "call" method of the functor.
+     */
     typedef typename TAccessor::ExternalType OutputType;
     inline OutputType operator()( const TInput & A )
     {
@@ -67,7 +79,7 @@ namespace Functor {
   private:
     AccessorType m_Accessor;
   }; 
-}
+};
 
 /** \class AdaptImageFilter
  * \brief Convert an image to another pixel type using the specified data accessor.
