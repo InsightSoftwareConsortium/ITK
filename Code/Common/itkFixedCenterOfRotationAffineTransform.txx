@@ -19,6 +19,7 @@
 
 #include "itkNumericTraits.h"
 #include "itkFixedCenterOfRotationAffineTransform.h"
+#include "itkAffineTransform.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
 
 
@@ -167,13 +168,6 @@ TransformPoint(const InputPointType & point) const
     point2[i] = vect2[i] + m_CenterOfRotation[i] + offset[i];
     }
   return point2;
-  }
-
-template<class TScalarType, unsigned int NDimensions>
-typename AffineTransform<TScalarType, NDimensions> &
-FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::
-GetAffineTransform(void) const
-  {
   }
 
 } // namespace

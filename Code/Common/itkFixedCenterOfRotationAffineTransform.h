@@ -107,8 +107,6 @@ class ITK_EXPORT FixedCenterOfRotationAffineTransform
     //void SetCenterOfRotation( const InputPointType & centerOfRotation );
     itkGetConstReferenceMacro( CenterOfRotation, InputPointType );
   
-    AffineTransform<TScalarType, NDimensions> & GetAffineTransform(void) const;
-  
     OutputPointType TransformPoint( const InputPointType & point ) const;
   
   protected:
