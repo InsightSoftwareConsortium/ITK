@@ -107,9 +107,6 @@ public:
   /** Run-time type information (and related methods).*/
   itkTypeMacro(ImageToSpatialObjectMetric, Object);
 
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-
   /** Connect the FixedImage. */
   itkSetConstObjectMacro( FixedImage, FixedImageType );
   
