@@ -1,0 +1,30 @@
+srcdir        = @srcdir@
+VPATH         = @srcdir@
+
+COMPILE_CLASSES =\
+itkDataObject \
+itkDirectory \
+itkDynamicLoader \
+itkExceptionObject \
+itkImageBase \
+itkIndent \
+itkNumericTraits \
+itkObject \
+itkObjectFactoryBase \
+itkOutputWindow \
+itkProcessObject \
+itkTimeStamp \
+itkVersion \
+itkWriter 
+
+WIN32_CLASSES =\
+itkWin32OutputWindow 
+
+
+ME = Common
+
+KIT_OBJ = ${SRC_OBJ}
+
+VTK_LIB_FILE  = libITK${ME}${VTK_LIB_EXT}
+
+@MAKEINCLUDE@ @MAKEQUOTE@@fullSrcDir@/config/Insight.make@MAKEQUOTE@
