@@ -30,8 +30,8 @@ void LinearSystemWrapper::ScaleMatrix(Float scale, unsigned int matrixIndex)
     return;
   }
 
-  int i;
-  int j;
+  unsigned int i;
+  unsigned int j;
   for (i=0; i<m_Order; i++)
   {
     for (j=0; j<m_Order; j++)
@@ -53,7 +53,7 @@ void LinearSystemWrapper::ScaleVector(Float scale, unsigned int vectorIndex)
     return;
   }
 
-  int i;
+  unsigned int i;
   for (i=0; i<m_Order; i++)
   {
     this->SetVectorValue(i, scale * GetVectorValue(i, vectorIndex), vectorIndex);
@@ -73,7 +73,7 @@ void LinearSystemWrapper::ScaleSolution(Float scale, unsigned int solutionIndex)
     return;
   }
 
-  int i;
+  unsigned int i;
   for (i=0; i<m_Order; i++)
   {
     this->SetSolutionValue(i, scale * GetSolutionValue(i, solutionIndex), solutionIndex);
@@ -102,8 +102,8 @@ void LinearSystemWrapper::MultiplyMatrixVector(unsigned int resultVector, unsign
 {
   /* FIX ME: error checking */
 
-  int i;
-  int j;
+  unsigned int i;
+  unsigned int j;
 
   this->InitializeVector(resultVector);
 

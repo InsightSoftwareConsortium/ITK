@@ -370,7 +370,7 @@ public:
 protected:
 
   /** Order of linear system */
-  int m_Order;
+  unsigned int m_Order;
 
   /**
    * Number of matrices used by system 
