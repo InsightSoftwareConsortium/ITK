@@ -212,6 +212,17 @@ CenteredRigid2DTransform<TScalarType>
 }
 
 
+// Set Rotational Part
+template <class TScalarType>
+void
+CenteredRigid2DTransform<TScalarType>
+::SetAngleInDegrees(TScalarType angle)
+{
+  const TScalarType angleInRadians = angle * atan(1.0) / 45.0;
+  this->SetAngle( angleInRadians );
+}
+
+
 // Compute the matrix
 template <class TScalarType>
 void
