@@ -27,6 +27,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkLineSpatialObject.txx"
 #include "itkLineSpatialObjectPoint.txx"
 #include "itkNDimensionalSpatialObject.txx"
+#include "itkPlaneSpatialObject.txx"
 #include "itkScene.txx"
 #include "itkSpatialObject.txx"
 #include "itkSpatialObjectPoint.txx"
@@ -37,7 +38,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkTubeSpatialObject.txx"
 #include "itkTubeSpatialObjectPoint.txx"
 
-int main ( int argc, char* argv )
+int main ( int , char*  )
 {
   
   return 0;
