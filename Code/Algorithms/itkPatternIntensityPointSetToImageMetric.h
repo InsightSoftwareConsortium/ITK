@@ -179,6 +179,17 @@ public:
    void GetValueAndDerivative( const ParametersType & parameters,
        MeasureType & Value, DerivativeType  & Derivative );
 
+   /**
+    *  Get lambda distance
+    */
+   double GetLambda( void )
+               {  return m_Lambda;  }
+ 
+   /**
+    *  Set lambda distance
+    */
+   void SetLambda(  double lambda )
+                { m_Lambda = lambda; }
  
 protected:
 
@@ -187,6 +198,11 @@ protected:
   PatternIntensityPointSetToImageMetric(const Self&) {}
   void operator=(const Self&) {}
 
+  
+private:
+  double          m_Lambda;
+
+    
 };
 
 } // end namespace itk

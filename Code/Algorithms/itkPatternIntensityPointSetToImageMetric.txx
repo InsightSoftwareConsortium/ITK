@@ -67,7 +67,6 @@ PatternIntensityPointSetToImageMetric<TTarget,TMapper>
 ::GetValue( const ParametersType & parameters )
 {
 
-  typename TargetType::PointType point;  
 
   double ReferenceValue;
   double TargetValue;
@@ -103,21 +102,17 @@ PatternIntensityPointSetToImageMetric<TTarget,TMapper>
   MapperPointer mapper = Superclass::GetMapper();
   mapper->GetTransform()->SetParameters( parameters );
 
-  double sab = 0.0;
-  double saa = 0.0;
-  double sbb = 0.0;
-
   while( pt != points->End()  || vl != data->End() )
   {
-    point       = pt.Value();
     TargetValue = vl.Value();
 
-    if( mapper->IsInside( point ) )
+    if( mapper->IsInside( pt.Value() ) )
     {
       ReferenceValue = mapper->Evaluate();
       count++;
       const double diff = ReferenceValue - TargetValue; 
-      m_MatchMeasure += 1.0 / ( 1.0 + diff * diff ); 
+      const double diffnorm = diff / m_Lambda;
+      m_MatchMeasure += 1.0 / ( 1.0 + diffnorm * diffnorm ); 
     }  
   
    ++pt;
