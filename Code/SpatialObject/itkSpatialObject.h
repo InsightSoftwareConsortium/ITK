@@ -49,9 +49,6 @@ namespace itk
 */ 
  
 template< unsigned int NDimensions = 3, 
-          typename TTransform = AffineTransform< double, 
-                                                 NDimensions
-          > ,
           unsigned int PipelineDimension = 3 
         > 
 class SpatialObject 
@@ -62,7 +59,7 @@ public:
 
   typedef double ScalarType;
 
-  typedef SpatialObject<NDimensions,TTransform,PipelineDimension> Self;
+  typedef SpatialObject<NDimensions,PipelineDimension> Self;
   typedef NDimensionalSpatialObject<PipelineDimension> Superclass; 
   
   typedef SmartPointer< Self > Pointer;
@@ -77,7 +74,7 @@ public:
   typedef CovariantVector< double, NDimensions > OutputVectorType; 
   typedef OutputVectorType * OutputVectorPointer;
 
-  typedef TTransform            TransformType;
+  typedef AffineTransform< double, NDimensions>   TransformType;
   typedef typename TransformType::Pointer  TransformPointer;
   typedef const TransformType*             TransformConstPointer;
   
@@ -108,10 +105,10 @@ public:
   BoundingBoxType * GetBounds( void ) const; 
 
   void SetLocalToGlobalTransform( TransformType * transform ); 
-  const TransformType * GetLocalToGlobalTransform( void ); 
-  
+  TransformType * GetLocalToGlobalTransform( void ); 
+
   void SetGlobalToLocalTransform( TransformType * transform ); 
-  const TransformType * GetGlobalToLocalTransform( void );
+  TransformType * GetGlobalToLocalTransform( void );
 
   /** Returns a degree of membership to the object. 
    *  That's useful for fuzzy objects. */ 
@@ -198,6 +195,10 @@ public:
 
   /** Set the list of pointers to children to the list passed as argument. */ 
   void SetChildren( ChildrenListType & children ); 
+
+  /** Clear the spatial object by deleting all lists of children and subchildren */
+  virtual void Clear(void);
+
 
 protected: 
 
