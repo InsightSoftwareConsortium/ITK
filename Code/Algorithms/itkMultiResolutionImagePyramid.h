@@ -165,6 +165,14 @@ public:
   enum{ ImageDimension = TInputImage::ImageDimension };
 
   /**
+   * Inherit types from Superclass
+   */
+  typedef typename Superclass::InputImageType InputImageType;
+  typedef typename Superclass::OutputImageType OutputImageType;
+  typedef typename Superclass::InputImagePointer InputImagePointer;
+  typedef typename Superclass::OutputImagePointer OutputImagePointer;
+
+  /**
    * Set the number of multi-resolution levels. The matrix 
    * containing the schedule will be resized accordingly.
    * The schedule is populated with default values. 
@@ -208,6 +216,37 @@ public:
   void SetStartingShrinkFactors( unsigned int factor );
   void SetStartingShrinkFactors( unsigned int* factors );
 
+  /**
+   * MultiResolutionPyramid produces an image which is a different resolution and
+   * with a different pixel spacing than its input image.  As such,
+   * MultiResolutionPyramid needs to provide an implementation for
+   * UpdateOutputInformation() in order to inform the pipeline execution model.
+   * The original documentation of this method is below.
+   *
+   * \sa ProcessObject::UpdateOutputInformaton()
+   */
+  virtual void UpdateOutputInformation();
+
+  /**
+   * MultiResolutionPyramid requires all of the input to be in the
+   * buffer. As such, MultiResolutionPyramid needs to provide an
+   * implemenation for GenerateInputRequestedRegion().
+   * The original documenation of this method is below.
+   *
+   * \sa ProcessObject::GenerateInputRequestedRegion()
+   */
+  virtual void GenerateInputRequestedRegion();
+
+  /**
+   * MultiResolutionPyramid requires all of the output to be in the
+   * buffer. As such, MultiResolutionPyramid needs to provide an
+   * implemenation for EnlargeOutputRequestedRegion();
+   * The original documenation of this method is below.
+   *
+   * \sa ProcessObject::EnlargeOutputRequestedRegion();
+   */
+  virtual void EnlargeOutputRequestedRegion(DataObject * output);
+
 
 protected:
   MultiResolutionImagePyramid();
@@ -222,6 +261,14 @@ private:
   unsigned int    m_NumberOfLevels;
   unsigned int    m_CurrentLevel;
   ScheduleType    m_Schedule;
+
+  /**
+   * Copies the input image region to output image region.
+   * Useful for copying the output of the internal mini-pipeline to the
+   * actual output of this filter
+   */
+  static void ImageRegionCopy(InputImageType *, OutputImageType *);
+  static void ImageRegionCopy2(OutputImageType *, OutputImageType * );
 
 };
 

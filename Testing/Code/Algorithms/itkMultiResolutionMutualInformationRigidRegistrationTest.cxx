@@ -46,8 +46,28 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkMultiThreader.h"
 
+#include "itkOutputWindow.h"
+// this class is used to send output to stdout and not the itk window
+class TextOutput : public itk::OutputWindow
+{
+public: 
+  typedef TextOutput              Self;
+  typedef itk::SmartPointer<Self>  Pointer;
+  typedef itk::SmartPointer<const Self>  ConstPointer;
+  itkNewMacro(TextOutput);
+  virtual void DisplayText(const char* s)
+    {
+      std::cout << s << std::endl;
+    }
+};
+
+
+
 int main()
 {
+
+   itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());
+
 
 std::cout << "GlobalDefault: ";
 std::cout << itk::MultiThreader::GetGlobalDefaultNumberOfThreads();
@@ -191,6 +211,13 @@ std::cout << std::endl;
     }
 
   method->GetOptimizer()->GetTransform()->SetScale( scales );
+
+
+  /**
+   * Output some debugging information
+   */
+  registrator->GetTargetPyramid()->DebugOn();
+  registrator->GetReferencePyramid()->DebugOn();
 
   /**
    * Do the registration
