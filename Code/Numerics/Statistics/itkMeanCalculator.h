@@ -65,16 +65,22 @@ public:
   /** Returns the sample pointer */
   SamplePointer GetSample() ;
 
-  /** Calculates the mean and save it */
-  void GenerateData() ;
-
   /** Returns the mean vector */
   OutputType GetOutput() ;
 
+  /** dummy function that calls the GenerateData() function to generate
+   * output. It exists for future compatibility with ProcessObject 
+   * without streaming */
+  void Update()
+  { this->GenerateData() ; }
+    
 protected:
   MeanCalculator() ;
   virtual ~MeanCalculator() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
+
+  /** Calculates the mean and save it */
+  void GenerateData() ;
 
 private:
   /** Target sample data pointer */
