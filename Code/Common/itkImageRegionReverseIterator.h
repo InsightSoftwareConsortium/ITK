@@ -286,13 +286,13 @@ public:
         while ( (dim < ImageIteratorDimension - 1)
                 && (ind[dim] < startIndex[dim]) )
           {
-          ind[dim] = startIndex[dim] + size[dim] - 1;
+          ind[dim] = startIndex[dim] + static_cast<long>(size[dim]) - 1;
           ind[++dim]--;
           }
         }
       m_Offset = m_Image->ComputeOffset( ind );
       m_SpanBeginOffset = m_Offset;
-      m_SpanEndOffset = m_SpanBeginOffset - size[0];
+      m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(size[0]);
       }
     return *this;
   }
@@ -332,10 +332,10 @@ public:
 
       // Check to see if we are past the last pixel in the region
       // Note that ++ind[0] moves to the next pixel along the row.
-      done = (++ind[0] == startIndex[0] + size[0]);
+      done = (++ind[0] == startIndex[0] + static_cast<long>(size[0]));
       for (unsigned int i=1; done && i < ImageIteratorDimension; i++)
         {
-        done = (ind[i] == startIndex[i] + size[i] - 1);
+        done = (ind[i] == startIndex[i] + static_cast<long>(size[i]) - 1);
         }
       
       // if the iterator is outside the region (but not past region end) then
@@ -344,7 +344,7 @@ public:
       if (!done)
         {
         while ( (dim < ImageIteratorDimension - 1)
-                && (ind[dim] > startIndex[dim] + size[dim] - 1) )
+                && (ind[dim] > startIndex[dim] + static_cast<long>(size[dim]) - 1) )
           {
           ind[dim] = startIndex[dim];
           ind[++dim]++;
@@ -352,7 +352,7 @@ public:
         }
       m_Offset = m_Image->ComputeOffset( ind );
       m_SpanBeginOffset = m_Offset;
-      m_SpanEndOffset = m_Offset - size[0];
+      m_SpanEndOffset = m_Offset - static_cast<long>(size[0]);
       }
     return *this;
   }
