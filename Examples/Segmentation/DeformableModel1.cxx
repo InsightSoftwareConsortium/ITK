@@ -35,7 +35,7 @@
 // surface described by an \doxygen{Mesh} and deform it in order to adapt it to
 // the shape of an anatomical structure in an image.
 // Figure~\ref{fig:DeformableModelCollaborationDiagram} illustrates a typical
-// setup for a segmentation method based on deformable models. First an initial
+// setup for a segmentation method based on deformable models. First, an initial
 // mesh is generated using a binary mask and the marching cubes method. The
 // binary mask used here contains a simple shape which vaguely resembles the
 // anatomical structure that we want to segment. The application of the
@@ -45,26 +45,26 @@
 // surface until make it fit to the anatomical structures in the image.
 //
 // The forces to be applied on the surface are computed from an approximate
-// physical model that simulates and elastic deformation. Among the forces to
+// physical model that simulates an elastic deformation. Among the forces to
 // be applied we need one that will pull the surface to the position of the
 // edges in the anatomical structure. This force component is represented here
-// in the form of a vector field and it is computed as illustrated in the lower
+// in the form of a vector field and is computed as illustrated in the lower
 // left of Figure~\ref{fig:DeformableModelCollaborationDiagram}. The input
-// image is passed to a \doxygen{GradientMagnitudeRecursiveGaussianImageFilter}
+// image is passed to a \doxygen{GradientMagnitudeRecursiveGaussianImageFilter},
 // which computes the magnitude of the image gradient. This scalar image is
 // then passed to another gradient filter. The output of this second gradient
-// filter results to be a vector field in which every vector points to the
+// filter is a vector field in which every vector points to the
 // closest edge in the image and has a magnitude proportional to the second
 // derivative of the image intensity along the direction of the gradient. Since
 // this vector field is computed here using Gaussian derivatives, it is
 // possible to regulate the smoothness of the vector field by playing with the
-// value of Sigma assigned to the Gaussian. Large values of Sigma will result
-// in large capture radius but will have the drawback of low precision in the
+// value of sigma assigned to the Gaussian. Large values of sigma will result
+// in a large capture radius, but will have poor precision in the
 // location of the edges. A reasonable strategy may involve the use of large
-// Sigmas for the initial interations of the model, followed by small sigmas
-// used for refining the model when it is close to the edges. A similar effect
-// could be achieved using multiresolution and taking advantage of the Image
-// Pyramid structures already illustrated in the registration framework.
+// sigmas for the initial interations of the model and small sigmas
+// to refine the model when it is close to the edges. A similar effect
+// could be achieved using multiresolution and taking advantage of the image
+// pyramid structures already illustrated in the registration framework.
 //
 // \index{Deformable Models}
 // \index{DeformableMesh3DFilter}
@@ -103,7 +103,7 @@
 //  Software Guide : BeginLatex
 //  
 //  Then we include the header of the \doxygen{DeformableMesh3DFilter} that
-//  implementes the Deformable Model algorithm.
+//  implementes the deformable model algorithm.
 //
 //  \index{itk::DeformableMesh3DFilter!Header}
 //
@@ -154,7 +154,7 @@
 
 //  Software Guide : BeginLatex
 //  
-//  The PixelType of the image derivatives is represented with a
+//  The \code{PixelType} of the image derivatives is represented with a
 //  \doxygen{CovariantVector}. We include its header in the following line.
 //
 //  Software Guide : EndLatex 
@@ -169,7 +169,7 @@
 
 //  Software Guide : BeginLatex
 //  
-//  In order to read both the input image and the mask image we need the
+//  In order to read both the input image and the mask image, we need the
 //  \doxygen{ImageFileReader} class too.
 //
 //  Software Guide : EndLatex 
@@ -195,8 +195,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  We declare here the type of the image to be processed. This implies to
-  //  make a decision about the PixelType and the dimension. The
+  //  Here we declare the type of the image to be processed. This implies a
+  //  decision about the \code{PixelType} and the dimension. The
   //  \doxygen{DeformableMesh3DFilter} is specialized for $3D$, so the choice
   //  is clear in our case.
   //
@@ -214,8 +214,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The input of \doxygen{BinaryMask3DMeshSource} is a binary mask that we
-  //  will read from a file. This mask may be the result of a rough
+  //  The input to \doxygen{BinaryMask3DMeshSource} is a binary mask that we
+  //  will read from a file. This mask could be the result of a rough
   //  segmentation algorithm applied previously to the same anatomical
   //  structure. We declare below the type of the binary mask image.
   //
@@ -246,7 +246,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The following lines declare the type of the gradient image.
+  //  The following lines declare the type of the gradient image:
   //
   //  Software Guide : EndLatex 
 
@@ -262,7 +262,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  With it we can declare the type of the gradient filter and the gradient
-  //  magnitude filter.
+  //  magnitude filter:
   //
   //  Software Guide : EndLatex 
 
@@ -300,7 +300,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  We instantiate now the type of the \doxygen{DeformableMesh3DFilter} that
+  //  Now we instantiate the type of the \doxygen{DeformableMesh3DFilter} that
   //  implements the deformable model algorithm. Note that both the input and
   //  output types of this filter are \doxygen{Mesh} classes.
   //
@@ -373,8 +373,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The output of the image reader is connected as input of the gradient
-  //  magnitude filter. Then the value of Sigma used to blurr the image is
+  //  The output of the image reader is connected as input to the gradient
+  //  magnitude filter. Then the value of sigma used to blurr the image is
   //  selected using the method \code{SetSigma()}. 
   //
   //  \index{itk::GradientMagnitudeRecursiveGaussianImageFilter!SetInput()}
@@ -394,11 +394,10 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  In the following line, We construct the Gradient filter that will take
+  //  In the following line, we construct the gradient filter that will take
   //  the gradient magnitude of the input image and compute with it the vector
   //  field to be passed to the deformable model algorithm.
   //
-  //  \index
   //  Software Guide : EndLatex 
 
   //  Software Guide : BeginCodeSnippet
@@ -410,12 +409,12 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The magnitude of the gradient is passed now to another step of gradient
-  //  computation. This allows to obtain a second derivative of the initial
+  //  The magnitude of the gradient is now passed to another step of gradient
+  //  computation. This allows us to obtain a second derivative of the initial
   //  image with the gradient vector pointing to the maxima of the input image
-  //  gradient. This gradient map will have the desirable properties for
+  //  gradient. This gradient map will have the properties desirable for
   //  attracting the deformable model to the edges of the anatomical structure
-  //  on the image. Once again we must select the value of Sigma to be used in
+  //  on the image. Once again we must select the value of sigma to be used in
   //  the blurring process.
   //
   //  Software Guide : EndLatex 
@@ -468,7 +467,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Then we create the filter implementing deformable model and set its input
+  //  Then we create the filter implementing the deformable model and set its input
   //  as the output of the binary mask mesh source. We also set the vector
   //  field using the \code{SetGradient()} method.
   //  
@@ -514,10 +513,10 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  It is time now for setting the parameters of the deformable model
-  //  computation.  Stiffness defines the model stiffness in the vertical and
-  //  horizontal directions on the deformable surface. Scale help to accommodate
-  //  the deformable mesh to the gradient map of different size.
+  //  Next, we set the parameters of the deformable model
+  //  computation.  \code{Stiffness} defines the model stiffness in the vertical and
+  //  horizontal directions on the deformable surface. \code{Scale} helps to accommodate
+  //  the deformable mesh to gradient maps of different size.
   //
   //  \index{itk::DeformableMesh3DFilter!SetStiffness()}
   //  \index{itk::DeformableMesh3DFilter!SetScale()}
@@ -548,8 +547,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   // Other parameters to be set are the gradient magnitude, the time step and
-  // the step threshold.  The Gradient magnitude control the magnitude of the
-  // external force.  The time step control the length of each step during
+  // the step threshold.  The gradient magnitude controls the magnitude of the
+  // external force.  The time step controls the length of each step during
   // deformation.  Step threshold is the number of the steps the model will
   // deform.
   //
@@ -577,7 +576,7 @@ int main( int argc, char *argv[] )
   //  
   //  Finally, we trigger the execution of the deformable model computation
   //  using the \code{Update()} method of the \doxygen{DeformableMesh3DFilter}.
-  //  As usual, the call to \code{Update()}, must be placed in a
+  //  As usual, the call to \code{Update()} must be placed in a
   //  \code{try/catch} block in case any exceptions are thrown.
   //  
   //  \index{DeformableMesh3DFilter!Update()}
@@ -601,8 +600,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  These tests are using synthetic data, however, users can use brainweb 3D
-  //  image volume to test the hybrid framework.
+  //  These tests use synthetic data.  However, users can use BrainWeb 3D
+  //  image volumes to test the hybrid framework.
   //  
   //  Software Guide : EndLatex 
  
@@ -614,17 +613,19 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  We execute this program on the images \code{BrainProtonDensitySlice.png}
-  //  The following parameters are passed to the command line:
+  //  We execute this program on the image
+  //  \code{BrainProtonDensitySlice.png} found under
+  //  \code{Insight/Examples/Data}.  The following parameters are
+  //  passed to the command line:
   // 
   //  \begin{verbatim}
   //  DeformableModel1  BrainProtonDensitySlice.png ConfidenceConnectedOutput1.png
   //  \end{verbatim}
   //
-  //  Note that in order to segment successfully other images, one has to play
-  //  with setting proper parameters that are best chosen for a new data. The
-  //  output of the filter is itk::Mesh, user can use their own visualization
-  //  pack to visualize the segmentation results
+  //  Note that in order to successfully segment other images, one has to play
+  //  with proper parameters settings that are best for that data. The
+  //  output of the filter is an \code{itk::Mesh}.  Users can use their own visualization
+  //  packages to see the segmentation results.
   //  
   //
   //  Software Guide : EndLatex 
