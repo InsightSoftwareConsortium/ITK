@@ -32,11 +32,7 @@ template <class TInputImage, class TOutputImage>
 MeanImageFilter<TInputImage, TOutputImage>
 ::MeanImageFilter()
 {
-  // use a 3x3x3... neighborhood
-  for (unsigned int i=0; i < m_Radius.GetSizeDimension(); ++i)
-    {
-    m_Radius[i] = 1;
-    }
+  m_Radius.Fill(1);
 }
 
 template <class TInputImage, class TOutputImage>
