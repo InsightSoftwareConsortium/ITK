@@ -52,7 +52,7 @@ EllipseSpatialObject<NDimensions, PipelineDimension >
 
 template< unsigned int NDimensions , unsigned int PipelineDimension >
 void 
-EllipseSpatialObject< NDimensions >
+EllipseSpatialObject< NDimensions, PipelineDimension >
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
 
