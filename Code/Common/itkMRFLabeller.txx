@@ -370,7 +370,8 @@ MRFLabeller<TInputImage, TClassifiedImage>
   //--------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the input image
   //-------------------------------------------------------------------
-  InputImageIterator  inputImageIt(m_InputImage, m_InputImage->GetBufferedRegion() );
+  InputImageIterator  inputImageIt(m_InputImage, 
+                                   m_InputImage->GetBufferedRegion() );
 
   inputImageIt.Begin();
  
@@ -403,8 +404,8 @@ MRFLabeller<TInputImage, TClassifiedImage>
   //the MRF classification
   LabelledImagePixelType outLabelledPix;
 
-  //Variable for temporary labelled image pixel
-  LabelledImagePixelType tempLabelled;
+  //Set a variable to store the offset index
+  LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
 
   int imageFrame = m_imgWidth * m_imgHeight;
 
@@ -438,17 +439,15 @@ MRFLabeller<TInputImage, TClassifiedImage>
               ( heightOffset >= 0 ) && ( heightOffset < m_imgHeight ) &&
               ( depthOffset >= 0) && ( depthOffset <m_imgDepth ) )
           {
+            //More elegant solution would be to use neighborhood
+            //operators but it is currently unstable for VC++
 
-            offset = m_WidthOffset[k] +
-                     m_HeightOffset[k] * m_imgWidth +
-                     m_DepthOffset[k] * imageFrame;
+            offsetIndex3D[0] = m_WidthOffset[k] ;
+            offsetIndex3D[1] = m_HeightOffset[k] ;
+            offsetIndex3D[2] = m_DepthOffset[k]  ;
+            offsetIndex3D += labelledImageIt.GetIndex();
 
-            //Read the classified pixels from the labelled image
-            tempLabelled = labelledImageIt.Get();
-            tempLabelled += offset;
-            labelledImageIt.Set( tempLabelled );
-
-            labelledPixel = tempLabelled;
+            labelledPixel = m_LabelledImage->GetPixel( offsetIndex3D );
                 
             //Assuems that the MRF label is an image with 1 value
             //per pixel and is treated as a vector with 1 entry pervector
