@@ -498,7 +498,7 @@ M_Read(void)
     char* _data = new char[parametersDimension*sizeof(double)];
     m_ReadStream->read((char *)_data, parametersDimension*sizeof(double));
 
-    int gc = m_ReadStream->gcount();
+    unsigned int gc = m_ReadStream->gcount();
     if(gc != parametersDimension*sizeof(double))
       {
       std::cout << "MetaTransform: m_Read: data not read completely" 
