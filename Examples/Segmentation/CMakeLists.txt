@@ -76,6 +76,7 @@ SET(SEGMENTATION_EXAMPLES3 ${CXX_TEST_PATH}/SegmentationExamples3)
 SET(SEGMENTATION_EXAMPLES4 ${CXX_TEST_PATH}/SegmentationExamples4)
 SET(SEGMENTATION_EXAMPLES5 ${CXX_TEST_PATH}/SegmentationExamples5)
 SET(SEGMENTATION_EXAMPLES6 ${CXX_TEST_PATH}/SegmentationExamples6)
+SET(SEGMENTATION_EXAMPLES7 ${CXX_TEST_PATH}/SegmentationExamples7)
 
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Segmentation)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
@@ -377,7 +378,7 @@ ADD_TEST(RelabelComponentImageFilterTest ${SEGMENTATION_EXAMPLES5}
         ${TEMP}/RelabelComponentImageFilter.png
 )
 
-ADD_TEST(LaplacianSegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES5}
+ADD_TEST(LaplacianSegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES7}
   --compare ${BASELINE}/LaplacianSegmentationLevelSetImageFilter.png
             ${TEMP}/LaplacianSegmentationLevelSetImageFilter.png
   LaplacianSegmentationLevelSetImageFilterTest
@@ -387,7 +388,7 @@ ADD_TEST(LaplacianSegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES5}
         10 2.0 1 127.5 15
 )
 
-ADD_TEST(VectorConfidenceConnectedTest1 ${SEGMENTATION_EXAMPLES5}
+ADD_TEST(VectorConfidenceConnectedTest1 ${SEGMENTATION_EXAMPLES7}
   --compare ${BASELINE}/VectorConfidenceConnected1.png
             ${TEMP}/VectorConfidenceConnected1.png
   VectorConfidenceConnectedTest
@@ -396,7 +397,7 @@ ADD_TEST(VectorConfidenceConnectedTest1 ${SEGMENTATION_EXAMPLES5}
         70 120 7 1
 )
 
-ADD_TEST(VectorConfidenceConnectedTest2 ${SEGMENTATION_EXAMPLES5}
+ADD_TEST(VectorConfidenceConnectedTest2 ${SEGMENTATION_EXAMPLES7}
   --compare ${BASELINE}/VectorConfidenceConnected2.png
             ${TEMP}/VectorConfidenceConnected2.png
   VectorConfidenceConnectedTest
@@ -405,7 +406,7 @@ ADD_TEST(VectorConfidenceConnectedTest2 ${SEGMENTATION_EXAMPLES5}
         23 93 7 1
 )
 
-ADD_TEST(VectorConfidenceConnectedTest3 ${SEGMENTATION_EXAMPLES5}
+ADD_TEST(VectorConfidenceConnectedTest3 ${SEGMENTATION_EXAMPLES7}
   --compare ${BASELINE}/VectorConfidenceConnected3.png
             ${TEMP}/VectorConfidenceConnected3.png
   VectorConfidenceConnectedTest
@@ -475,6 +476,15 @@ ITKStatistics
 
 ADD_EXECUTABLE(SegmentationExamples6 SegmentationExamples6.cxx )
 TARGET_LINK_LIBRARIES(SegmentationExamples6
+ITKAlgorithms 
+ITKIO 
+ITKBasicFilters 
+ITKCommon
+ITKStatistics
+)
+
+ADD_EXECUTABLE(SegmentationExamples7 SegmentationExamples7.cxx )
+TARGET_LINK_LIBRARIES(SegmentationExamples7
 ITKAlgorithms 
 ITKIO 
 ITKBasicFilters 

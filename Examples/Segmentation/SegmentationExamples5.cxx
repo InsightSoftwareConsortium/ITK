@@ -11,8 +11,6 @@ void RegisterTests()
 {
 REGISTER_TEST(WatershedSegmentation1Test);
 REGISTER_TEST(RelabelComponentImageFilterTest);
-REGISTER_TEST(LaplacianSegmentationLevelSetImageFilterTest);
-REGISTER_TEST(VectorConfidenceConnectedTest);
 }
 
 #undef main
@@ -22,11 +20,3 @@ REGISTER_TEST(VectorConfidenceConnectedTest);
 #undef main
 #define main RelabelComponentImageFilterTest
 #include "RelabelComponentImageFilter.cxx"
-
-#undef main
-#define main LaplacianSegmentationLevelSetImageFilterTest
-#include "LaplacianSegmentationLevelSetImageFilter.cxx"
-
-#undef main
-#define main VectorConfidenceConnectedTest
-#include "VectorConfidenceConnected.cxx"
