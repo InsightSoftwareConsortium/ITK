@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -28,18 +28,18 @@
  *
  * References:
  *
- * [1] R. H. Byrd, P. Lu and J. Nocedal. 
- * A Limited Memory Algorithm for Bound Constrained Optimization, (1995), 
- * SIAM Journal on Scientific and Statistical Computing , 
- * 16, 5, pp. 1190-1208. 
+ * [1] R. H. Byrd, P. Lu and J. Nocedal.
+ * A Limited Memory Algorithm for Bound Constrained Optimization, (1995),
+ * SIAM Journal on Scientific and Statistical Computing ,
+ * 16, 5, pp. 1190-1208.
  *
- * [2] C. Zhu, R. H. Byrd and J. Nocedal. 
- * L-BFGS-B: Algorithm 778: L-BFGS-B, FORTRAN routines for large scale 
- * bound constrained optimization (1997), 
- * ACM Transactions on Mathematical Software, 
- * Vol 23, Num. 4, pp. 550 - 560. 
+ * [2] C. Zhu, R. H. Byrd and J. Nocedal.
+ * L-BFGS-B: Algorithm 778: L-BFGS-B, FORTRAN routines for large scale
+ * bound constrained optimization (1997),
+ * ACM Transactions on Mathematical Software,
+ * Vol 23, Num. 4, pp. 550 - 560.
  *
- * 
+ *
  */
 
 #include "f2c.h"
@@ -57,10 +57,10 @@ static doublereal c_b277 = .1;
 /* static integer c__5 = 5; */
 
 /* ================    L-BFGS-B (version 2.1)   ========================== */
-/* Subroutine */ 
+/* Subroutine */
 int setulb_(integer *n,
       integer *m,
-      const doublereal *x, 
+      const doublereal *x,
       doublereal *l,
       doublereal *u,
       integer *nbd,
@@ -87,36 +87,37 @@ int setulb_(integer *n,
 
     /* Local variables */
     static integer lsnd, lsgo, lygo, /* l1,  l2, l3, */ ld, lr, lt;
-    //    extern /* Subroutine */ int mainlb_();
-    static int mainlb_(integer *n, 
+    static integer lz, lwa, lsg, lyg, lwn, lss, lws, lwt, lsy, lwy, lyy;
+
+    static int mainlb_(integer *n,
     integer *m,
-    doublereal *x, 
-    doublereal *l, 
+    doublereal *x,
+    doublereal *l,
     doublereal *u,
     integer *nbd,
-    doublereal *f, 
-    doublereal *g, 
-    doublereal *factr, 
-    doublereal *pgtol, 
-    doublereal *ws, 
-    doublereal *wy, 
-    doublereal *sy, 
-    doublereal *ss, 
-    doublereal *yy, 
-    doublereal *wt, 
-    doublereal *wn, 
-    doublereal *snd, 
-    doublereal *z__, 
-    doublereal *r__, 
-    doublereal *d__, 
+    doublereal *f,
+    doublereal *g,
+    doublereal *factr,
+    doublereal *pgtol,
+    doublereal *ws,
+    doublereal *wy,
+    doublereal *sy,
+    doublereal *ss,
+    doublereal *yy,
+    doublereal *wt,
+    doublereal *wn,
+    doublereal *snd,
+    doublereal *z__,
+    doublereal *r__,
+    doublereal *d__,
     doublereal *t,
     doublereal *wa,
-    doublereal *sg, 
-    doublereal *sgo, 
+    doublereal *sg,
+    doublereal *sgo,
     doublereal *yg,
     doublereal *ygo,
-    integer *index, 
-    integer *iwhere, 
+    integer *index,
+    integer *iwhere,
     integer *indx2,
     char *task,
     integer *iprint,
@@ -126,7 +127,6 @@ int setulb_(integer *n,
     doublereal *dsave,
     ftnlen task_len,
     ftnlen csave_len);
-    static integer lz, lwa, lsg, lyg, lwn, lss, lws, lwt, lsy, lwy, lyy;
 
 /*     ************ */
 
@@ -367,50 +367,46 @@ int setulb_(integer *n,
     lyg = isave[19];
     lygo = isave[20];
     mainlb_(n, m, (doublereal *)&x[1], &l[1], &u[1], &nbd[1], f, &g[1], factr, pgtol, &wa[
-        lws], &wa[lwy], &wa[lsy], &wa[lss], &wa[lyy], &wa[lwt], &wa[lwn], 
+        lws], &wa[lwy], &wa[lsy], &wa[lss], &wa[lyy], &wa[lwt], &wa[lwn],
         &wa[lsnd], &wa[lz], &wa[lr], &wa[ld], &wa[lt], &wa[lwa], &wa[lsg],
-         &wa[lsgo], &wa[lyg], &wa[lygo], &iwa[1], &iwa[*n + 1], &iwa[(*n 
+         &wa[lsgo], &wa[lyg], &wa[lygo], &iwa[1], &iwa[*n + 1], &iwa[(*n
         << 1) + 1], task, iprint, csave, &lsave[1], &isave[22], &dsave[1],
          (ftnlen)60, (ftnlen)60);
     return 0;
 } /* setulb_ */
 
 /* ======================= The end of setulb ============================= */
-/* Subroutine */ 
-static int mainlb_ 
-//(n, m, x, l, u, nbd, f, g, factr, pgtol, ws, wy, 
-// sy, ss, yy, wt, wn, snd, z__, r__, d__, t, wa, sg, sgo, yg, ygo, 
-// index, iwhere, indx2, task, iprint, csave, lsave, isave, dsave, 
-//    task_len, csave_len)
-     (integer *n, 
+/* Subroutine */
+static int mainlb_
+     (integer *n,
       integer *m,
-      doublereal *x, 
-      doublereal *l, 
+      doublereal *x,
+      doublereal *l,
       doublereal *u,
       integer *nbd,
-      doublereal *f, 
-      doublereal *g, 
-      doublereal *factr, 
-      doublereal *pgtol, 
-      doublereal *ws, 
-      doublereal *wy, 
-      doublereal *sy, 
-      doublereal *ss, 
-      doublereal *yy, 
-      doublereal *wt, 
-      doublereal *wn, 
-      doublereal *snd, 
-      doublereal *z__, 
-      doublereal *r__, 
-      doublereal *d__, 
+      doublereal *f,
+      doublereal *g,
+      doublereal *factr,
+      doublereal *pgtol,
+      doublereal *ws,
+      doublereal *wy,
+      doublereal *sy,
+      doublereal *ss,
+      doublereal *yy,
+      doublereal *wt,
+      doublereal *wn,
+      doublereal *snd,
+      doublereal *z__,
+      doublereal *r__,
+      doublereal *d__,
       doublereal *t,
       doublereal *wa,
-      doublereal *sg, 
-      doublereal *sgo, 
+      doublereal *sg,
+      doublereal *sgo,
       doublereal *yg,
       doublereal *ygo,
-      integer *index, 
-      integer *iwhere, 
+      integer *index,
+      integer *iwhere,
       integer *indx2,
       char *task,
       integer *iprint,
@@ -443,8 +439,8 @@ actorization in formt;\002,/,\002   refresh the lbfgs memory and restart the\
 */
 
     /* System generated locals */
-    integer ws_dim1, ws_offset, wy_dim1, wy_offset, sy_dim1, sy_offset, 
-        ss_dim1, ss_offset, yy_dim1, yy_offset, wt_dim1, wt_offset, 
+    integer ws_dim1, ws_offset, wy_dim1, wy_offset, sy_dim1, sy_offset,
+        ss_dim1, ss_offset, yy_dim1, yy_offset, wt_dim1, wt_offset,
         wn_dim1, wn_offset, snd_dim1, snd_offset, i__1;
     doublereal d__1, d__2;
 /*    olist o__1; */
@@ -798,7 +794,7 @@ actorization in formt;\002,/,\002   refresh the lbfgs memory and restart the\
     }
     prn1lb_(n, m, &l[1], &u[1], &x[1], iprint, &itfile, &epsmch);
 /*        Initialize iwhere & project x onto the feasible set. */
-    active_(n, &l[1], &u[1], &nbd[1], &x[1], &iwhere[1], iprint, &prjctd, 
+    active_(n, &l[1], &u[1], &nbd[1], &x[1], &iwhere[1], iprint, &prjctd,
         &cnstnd, &boxed);
 /*        The end of the initialization. */
     } else {
@@ -919,7 +915,7 @@ L222:
     timer_(&cpu1);
     cauchy_(n, &x[1], &l[1], &u[1], &nbd[1], &g[1], &indx2[1], &iwhere[1], &t[
         1], &d__[1], &z__[1], m, &wy[wy_offset], &ws[ws_offset], &sy[
-        sy_offset], &wt[wt_offset], &theta, &col, &head, &wa[1], &wa[(*m 
+        sy_offset], &wt[wt_offset], &theta, &col, &head, &wa[1], &wa[(*m
         << 1) + 1], &wa[(*m << 2) + 1], &wa[*m * 6 + 1], &nint, &sg[1], &
         yg[1], iprint, &sbgnrm, &info, &epsmch);
     if (info != 0) {
@@ -1039,7 +1035,7 @@ L555:
 L666:
     lnsrlb_(n, &l[1], &u[1], &nbd[1], &x[1], f, &fold, &gd, &gdold, &g[1], &
         d__[1], &r__[1], &t[1], &z__[1], &stp, &dnorm, &dtd, &xstep, &
-        stpmx, &iter, &ifun, &iback, &nfgv, &info, task, &boxed, &cnstnd, 
+        stpmx, &iter, &ifun, &iback, &nfgv, &info, task, &boxed, &cnstnd,
         csave, &isave[22], &dsave[17], (ftnlen)60, (ftnlen)60);
     if (info != 0 || iback >= 20) {
 /*          restore the previous iterate. */
@@ -1189,8 +1185,8 @@ L888:
 L999:
     timer_(&time2);
     time = time2 - time1;
-    prn3lb_(n, &x[1], f, task, iprint, &info, &itfile, &iter, &nfgv, &nintol, 
-        &nskip, &nact, &sbgnrm, &time, &nint, word, &iback, &stp, &xstep, 
+    prn3lb_(n, &x[1], f, task, iprint, &info, &itfile, &iter, &nfgv, &nintol,
+        &nskip, &nact, &sbgnrm, &time, &nint, word, &iback, &stp, &xstep,
         &k, &cachyt, &sbtime, &lnscht, (ftnlen)60, (ftnlen)3);
 L1000:
 /*     Save local variables. */
@@ -1236,7 +1232,7 @@ L1000:
 } /* mainlb_ */
 
 /* ======================= The end of mainlb ============================= */
-/* Subroutine */ int active_(n, l, u, nbd, x, iwhere, iprint, prjctd, cnstnd, 
+/* Subroutine */ int active_(n, l, u, nbd, x, iwhere, iprint, prjctd, cnstnd,
     boxed)
 integer *n;
 doublereal *l, *u;
@@ -1264,7 +1260,7 @@ y at the bounds\002)";
 /*
     static cilist io___81 = { 0, 6, 0, 0, 0 };
     static cilist io___82 = { 0, 6, 0, 0, 0 };
-    static cilist io___83 = { 0, 6, 0, fmt_1001, 0 
+    static cilist io___83 = { 0, 6, 0, fmt_1001, 0
 */
 
 
@@ -1513,7 +1509,7 @@ integer *info;
     sum = 0.;
     i__2 = *col;
     for (k = i__ + 1; k <= i__2; ++k) {
-        sum += sy[k + i__ * sy_dim1] * p[*col + k] / sy[i__ + i__ * 
+        sum += sy[k + i__ * sy_dim1] * p[*col + k] / sy[i__ + i__ *
             sy_dim1];
 /* L50: */
     }
@@ -1524,8 +1520,8 @@ integer *info;
 } /* bmv_ */
 
 /* ======================== The end of bmv =============================== */
-/* Subroutine */ int cauchy_(n, x, l, u, nbd, g, iorder, iwhere, t, d__, xcp, 
-    m, wy, ws, sy, wt, theta, col, head, p, c__, wbp, v, nint, sg, yg, 
+/* Subroutine */ int cauchy_(n, x, l, u, nbd, g, iorder, iwhere, t, d__, xcp,
+    m, wy, ws, sy, wt, theta, col, head, p, c__, wbp, v, nint, sg, yg,
     iprint, sbgnrm, info, epsmch)
 integer *n;
 doublereal *x, *l, *u;
@@ -1562,7 +1558,7 @@ oint \002,1p,2(1x,d11.4))";
 */
 
     /* System generated locals */
-    integer wy_dim1, wy_offset, ws_dim1, ws_offset, sy_dim1, sy_offset, 
+    integer wy_dim1, wy_offset, ws_dim1, ws_offset, sy_dim1, sy_offset,
         wt_dim1, wt_offset, i__1, i__2;
     doublereal d__1;
 
@@ -2171,7 +2167,7 @@ L999:
 } /* cauchy_ */
 
 /* ====================== The end of cauchy ============================== */
-/* Subroutine */ int cmprlb_(n, m, x, g, ws, wy, sy, wt, z__, r__, wa, index, 
+/* Subroutine */ int cmprlb_(n, m, x, g, ws, wy, sy, wt, z__, r__, wa, index,
     theta, col, head, nfree, cnstnd, info)
 integer *n, *m;
 doublereal *x, *g, *ws, *wy, *sy, *wt, *z__, *r__, *wa;
@@ -2182,7 +2178,7 @@ logical *cnstnd;
 integer *info;
 {
     /* System generated locals */
-    integer ws_dim1, ws_offset, wy_dim1, wy_offset, sy_dim1, sy_offset, 
+    integer ws_dim1, ws_offset, wy_dim1, wy_offset, sy_dim1, sy_offset,
         wt_dim1, wt_offset, i__1, i__2;
 
     /* Local variables */
@@ -2262,7 +2258,7 @@ integer *info;
         i__2 = *nfree;
         for (i__ = 1; i__ <= i__2; ++i__) {
         k = index[i__];
-        r__[i__] = r__[i__] + wy[k + pointr * wy_dim1] * a1 + ws[k + 
+        r__[i__] = r__[i__] + wy[k + pointr * wy_dim1] * a1 + ws[k +
             pointr * ws_dim1] * a2;
 /* L32: */
         }
@@ -2349,7 +2345,7 @@ ftnlen task_len;
 } /* errclb_ */
 
 /* ======================= The end of errclb ============================= */
-/* Subroutine */ int formk_(n, nsub, ind, nenter, ileave, indx2, iupdat, 
+/* Subroutine */ int formk_(n, nsub, ind, nenter, ileave, indx2, iupdat,
     updatd, wn, wn1, m, ws, wy, sy, theta, col, head, info)
 integer *n, *nsub, *ind, *nenter, *ileave, *indx2, *iupdat;
 logical *updatd;
@@ -2359,7 +2355,7 @@ doublereal *ws, *wy, *sy, *theta;
 integer *col, *head, *info;
 {
     /* System generated locals */
-    integer wn_dim1, wn_offset, wn1_dim1, wn1_offset, ws_dim1, ws_offset, 
+    integer wn_dim1, wn_offset, wn1_dim1, wn1_offset, ws_dim1, ws_offset,
         wy_dim1, wy_offset, sy_dim1, sy_offset, i__1, i__2, i__3;
 
     /* Local variables */
@@ -2369,7 +2365,7 @@ integer *col, *head, *info;
     static doublereal temp1, temp2, temp3, temp4;
     static integer i__, k;
     extern /* Subroutine */ int dpofa_(), dcopy_(), dtrsl_();
-    static integer ipntr, jpntr, k1, m2, dbegin, is, js, iy, jy, pbegin, is1, 
+    static integer ipntr, jpntr, k1, m2, dbegin, is, js, iy, jy, pbegin, is1,
         js1, col2;
 
 /*     ************ */
@@ -2660,10 +2656,10 @@ integer *col, *head, *info;
 /* L51: */
         }
         if (is <= jy + *m) {
-        wn1[is + jy * wn1_dim1] = wn1[is + jy * wn1_dim1] + temp1 - 
+        wn1[is + jy * wn1_dim1] = wn1[is + jy * wn1_dim1] + temp1 -
             temp3;
         } else {
-        wn1[is + jy * wn1_dim1] = wn1[is + jy * wn1_dim1] - temp1 + 
+        wn1[is + jy * wn1_dim1] = wn1[is + jy * wn1_dim1] - temp1 +
             temp3;
         }
         jpntr = jpntr % *m + 1;
@@ -2722,7 +2718,7 @@ integer *col, *head, *info;
     for (is = *col + 1; is <= i__1; ++is) {
     i__2 = col2;
     for (js = is; js <= i__2; ++js) {
-        wn[is + js * wn_dim1] += ddot_(col, &wn[is * wn_dim1 + 1], &c__1, 
+        wn[is + js * wn_dim1] += ddot_(col, &wn[is * wn_dim1 + 1], &c__1,
             &wn[js * wn_dim1 + 1], &c__1);
 /* L74: */
     }
@@ -2746,7 +2742,7 @@ doublereal *theta;
 integer *info;
 {
     /* System generated locals */
-    integer wt_dim1, wt_offset, sy_dim1, sy_offset, ss_dim1, ss_offset, i__1, 
+    integer wt_dim1, wt_offset, sy_dim1, sy_offset, ss_dim1, ss_offset, i__1,
         i__2, i__3;
 
     /* Local variables */
@@ -2807,7 +2803,7 @@ integer *info;
         ddum = 0.;
         i__3 = k1;
         for (k = 1; k <= i__3; ++k) {
-        ddum += sy[i__ + k * sy_dim1] * sy[j + k * sy_dim1] / sy[k + 
+        ddum += sy[i__ + k * sy_dim1] * sy[j + k * sy_dim1] / sy[k +
             k * sy_dim1];
 /* L53: */
         }
@@ -2826,7 +2822,7 @@ integer *info;
 } /* formt_ */
 
 /* ======================= The end of formt ============================== */
-/* Subroutine */ int freev_(n, nfree, index, nenter, ileave, indx2, iwhere, 
+/* Subroutine */ int freev_(n, nfree, index, nenter, ileave, indx2, iwhere,
     wrk, updatd, cnstnd, iprint, iter)
 integer *n, *nfree, *index, *nenter, *ileave, *indx2, *iwhere;
 logical *wrk, *updatd, *cnstnd;
@@ -2908,7 +2904,7 @@ integer *iprint, *iter;
             s_wsle(&io___169);
             do_lio(&c__9, &c__1, "Variable ", (ftnlen)9);
             do_lio(&c__3, &c__1, (char *)&k, (ftnlen)sizeof(integer));
-            do_lio(&c__9, &c__1, " leaves the set of free variables", 
+            do_lio(&c__9, &c__1, " leaves the set of free variables",
                 (ftnlen)33);
             e_wsle();
 */
@@ -2927,7 +2923,7 @@ integer *iprint, *iter;
             s_wsle(&io___170);
             do_lio(&c__9, &c__1, "Variable ", (ftnlen)9);
             do_lio(&c__3, &c__1, (char *)&k, (ftnlen)sizeof(integer));
-            do_lio(&c__9, &c__1, " enters the set of free variables", 
+            do_lio(&c__9, &c__1, " enters the set of free variables",
                 (ftnlen)33);
             e_wsle();
 */
@@ -3248,7 +3244,7 @@ L556:
 } /* lnsrlb_ */
 
 /* ======================= The end of lnsrlb ============================= */
-/* Subroutine */ int matupd_(n, m, ws, wy, sy, ss, d__, r__, itail, iupdat, 
+/* Subroutine */ int matupd_(n, m, ws, wy, sy, ss, d__, r__, itail, iupdat,
     col, head, theta, rr, dr, stp, dtd)
 integer *n, *m;
 doublereal *ws, *wy, *sy, *ss, *d__, *r__;
@@ -3256,7 +3252,7 @@ integer *itail, *iupdat, *col, *head;
 doublereal *theta, *rr, *dr, *stp, *dtd;
 {
     /* System generated locals */
-    integer ws_dim1, ws_offset, wy_dim1, wy_offset, sy_dim1, sy_offset, 
+    integer ws_dim1, ws_offset, wy_dim1, wy_offset, sy_dim1, sy_offset,
         ss_dim1, ss_offset, i__1, i__2;
 
     /* Local variables */
@@ -3328,7 +3324,7 @@ doublereal *theta, *rr, *dr, *stp, *dtd;
         dcopy_(&j, &ss[(j + 1) * ss_dim1 + 2], &c__1, &ss[j * ss_dim1 + 1]
             , &c__1);
         i__2 = *col - j;
-        dcopy_(&i__2, &sy[j + 1 + (j + 1) * sy_dim1], &c__1, &sy[j + j * 
+        dcopy_(&i__2, &sy[j + 1 + (j + 1) * sy_dim1], &c__1, &sy[j + j *
             sy_dim1], &c__1);
 /* L50: */
     }
@@ -3338,7 +3334,7 @@ doublereal *theta, *rr, *dr, *stp, *dtd;
     pointr = *head;
     i__1 = *col - 1;
     for (j = 1; j <= i__1; ++j) {
-    sy[*col + j * sy_dim1] = ddot_(n, &d__[1], &c__1, &wy[pointr * 
+    sy[*col + j * sy_dim1] = ddot_(n, &d__[1], &c__1, &wy[pointr *
         wy_dim1 + 1], &c__1);
     ss[j + *col * ss_dim1] = ddot_(n, &ws[pointr * ws_dim1 + 1], &c__1, &
         d__[1], &c__1);
@@ -3493,7 +3489,7 @@ the projected gradient\002,/,\002f     = function value\002,/,/,\002        \
 } /* prn1lb_ */
 
 /* ======================= The end of prn1lb ============================= */
-/* Subroutine */ int prn2lb_(n, x, f, g, iprint, itfile, iter, nfgv, nact, 
+/* Subroutine */ int prn2lb_(n, x, f, g, iprint, itfile, iter, nfgv, nact,
     sbgnrm, nint, word, iword, iback, stp, xstep, word_len)
 integer *n;
 doublereal *x, *f, *g;
@@ -3627,8 +3623,8 @@ p,2(1x,d10.3))";
 } /* prn2lb_ */
 
 /* ======================= The end of prn2lb ============================= */
-/* Subroutine */ int prn3lb_(n, x, f, task, iprint, info, itfile, iter, nfgv, 
-    nintol, nskip, nact, sbgnrm, time, nint, word, iback, stp, xstep, k, 
+/* Subroutine */ int prn3lb_(n, x, f, task, iprint, info, itfile, iter, nfgv,
+    nintol, nskip, nact, sbgnrm, time, nint, word, iback, stp, xstep, k,
     cachyt, sbtime, lnscht, task_len, word_len)
 integer *n;
 doublereal *x, *f;
@@ -4006,7 +4002,7 @@ OX\002)";
 */
 
     /* System generated locals */
-    integer ws_dim1, ws_offset, wy_dim1, wy_offset, wn_dim1, wn_offset, i__1, 
+    integer ws_dim1, ws_offset, wy_dim1, wy_offset, wn_dim1, wn_offset, i__1,
         i__2;
 
     /* Builtin functions */
@@ -4248,7 +4244,7 @@ OX\002)";
     i__2 = *nsub;
     for (i__ = 1; i__ <= i__2; ++i__) {
         k = ind[i__];
-        d__[i__] = d__[i__] + wy[k + pointr * wy_dim1] * wv[jy] / *theta 
+        d__[i__] = d__[i__] + wy[k + pointr * wy_dim1] * wv[jy] / *theta
             + ws[k + pointr * ws_dim1] * wv[js];
 /* L30: */
     }
@@ -4347,7 +4343,7 @@ OX\002)";
 } /* subsm_ */
 
 /* ====================== The end of subsm =============================== */
-/* Subroutine */ int dcsrch_(f, g, stp, ftol, gtol, xtol, stpmin, stpmax, 
+/* Subroutine */ int dcsrch_(f, g, stp, ftol, gtol, xtol, stpmin, stpmax,
     task, isave, dsave, task_len)
 doublereal *f, *g, *stp, *ftol, *gtol, *xtol, *stpmin, *stpmax;
 char *task;
@@ -4609,7 +4605,7 @@ ftnlen task_len;
     s_copy(task, "CONVERGENCE", task_len, (ftnlen)11);
     }
 /*     Test for termination. */
-    if (s_cmp(task, "WARN", (ftnlen)4, (ftnlen)4) == 0 || s_cmp(task, "CONV", 
+    if (s_cmp(task, "WARN", (ftnlen)4, (ftnlen)4) == 0 || s_cmp(task, "CONV",
         (ftnlen)4, (ftnlen)4) == 0) {
     goto L1000;
     }
@@ -4658,7 +4654,7 @@ ftnlen task_len;
     *stp = min(*stp,*stpmax);
 /*     If further progress is not possible, let stp be the best */
 /*     point obtained during the search. */
-    if (brackt && (*stp <= stmin || *stp >= stmax) || brackt && stmax - stmin 
+    if (brackt && (*stp <= stmin || *stp >= stmax) || brackt && stmax - stmin
         <= *xtol * stmax) {
     *stp = stx;
     }
@@ -4691,7 +4687,7 @@ L1000:
 } /* dcsrch_ */
 
 /* ====================== The end of dcsrch ============================== */
-/* Subroutine */ int dcstep_(stx, fx, dx, sty, fy, dy, stp, fp, dp, brackt, 
+/* Subroutine */ int dcstep_(stx, fx, dx, sty, fy, dy, stp, fp, dp, brackt,
     stpmin, stpmax)
 doublereal *stx, *fx, *dx, *sty, *fy, *dy, *stp, *fp, *dp;
 logical *brackt;
@@ -4819,7 +4815,7 @@ doublereal *stpmin, *stpmax;
     q = gamma - *dx + gamma + *dp;
     r__ = p / q;
     stpc = *stx + r__ * (*stp - *stx);
-    stpq = *stx + *dx / ((*fx - *fp) / (*stp - *stx) + *dx) / 2. * (*stp 
+    stpq = *stx + *dx / ((*fx - *fp) / (*stp - *stx) + *dx) / 2. * (*stp
         - *stx);
     if ((d__1 = stpc - *stx, abs(d__1)) < (d__2 = stpq - *stx, abs(d__2)))
          {
@@ -4929,7 +4925,7 @@ doublereal *stpmin, *stpmax;
     if (*brackt) {
         theta = (*fp - *fy) * 3. / (*sty - *stp) + *dy + *dp;
 /* Computing MAX */
-        d__1 = abs(theta), d__2 = abs(*dy), d__1 = max(d__1,d__2), d__2 = 
+        d__1 = abs(theta), d__2 = abs(*dy), d__1 = max(d__1,d__2), d__2 =
             abs(*dp);
         s = max(d__1,d__2);
 /* Computing 2nd power */
