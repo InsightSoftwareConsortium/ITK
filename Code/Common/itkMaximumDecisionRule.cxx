@@ -18,7 +18,6 @@
 
 namespace itk{ 
 
-
 void MaximumDecisionRule::PrintSelf(std::ostream& os, Indent indent) const 
 { 
   Superclass::PrintSelf(os, indent) ; 
