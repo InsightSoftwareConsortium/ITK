@@ -35,11 +35,11 @@ int testMetaSurface(int , char * [])
   {
     pnt = new SurfacePnt(3);
     pnt->m_X[0]=(float)0.2;
-    pnt->m_X[1]=i;
-    pnt->m_X[2]=i;
+    pnt->m_X[1]=static_cast<float>(i);
+    pnt->m_X[2]=static_cast<float>(i);
     pnt->m_V[0]=(float)0.8;
-    pnt->m_V[1]=i;
-    pnt->m_V[2]=i;
+    pnt->m_V[1]=static_cast<float>(i);
+    pnt->m_V[2]=static_cast<float>(i);
     surface->GetPoints().push_back(pnt);
   }
   

@@ -35,9 +35,15 @@ int testMetaLine(int , char * [])
   for(i=0;i<10;i++)
   {
     pnt = new LinePnt(3);
-    pnt->m_X[0]=(float)0.2;pnt->m_X[1]=i;pnt->m_X[2]=i;
-    pnt->m_V[0][0]=(float)0.3;pnt->m_V[0][1]=i;pnt->m_V[0][2]=i;
-    pnt->m_V[1][0]=(float)0.4;pnt->m_V[1][1]=i+1;pnt->m_V[1][2]=i+1;
+    pnt->m_X[0]=(float)0.2;
+    pnt->m_X[1]=static_cast<float>(i);
+    pnt->m_X[2]=static_cast<float>(i);
+    pnt->m_V[0][0]=(float)0.3;
+    pnt->m_V[0][1]=static_cast<float>(i);
+    pnt->m_V[0][2]=static_cast<float>(i);
+    pnt->m_V[1][0]=(float)0.4;
+    pnt->m_V[1][1]=static_cast<float>(i+1);
+    pnt->m_V[1][2]=static_cast<float>(i+1);
     Line->GetPoints().push_back(pnt);
   }
   

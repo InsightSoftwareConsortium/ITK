@@ -45,8 +45,8 @@ int testMetaTube(int , char * [])
   for(i=0;i<10;i++)
   {
     pnt = new TubePnt(3);
-    pnt->m_X[0]=i;pnt->m_X[1]=i;pnt->m_X[2]=i;
-    pnt->m_R=i;
+    pnt->m_X[0]=pnt->m_X[1]=pnt->m_X[2]=static_cast<float>(i);
+    pnt->m_R=static_cast<float>(i);
     tube1->GetPoints().push_back(pnt);
   }
   
@@ -56,8 +56,8 @@ int testMetaTube(int , char * [])
   for(i=0;i<5;i++)
   {
     pnt = new TubePnt(3);
-    pnt->m_X[0]=i;pnt->m_X[1]=i;pnt->m_X[2]=i;
-    pnt->m_R=i;
+    pnt->m_X[0]=pnt->m_X[1]=pnt->m_X[2]=static_cast<float>(i);
+    pnt->m_R=static_cast<float>(i);
     tube2->GetPoints().push_back(pnt);
   }
 

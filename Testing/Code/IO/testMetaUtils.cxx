@@ -222,7 +222,7 @@ int testMetaUtils(int , char * [])
   else
     std::cout << "nDims not defined" << std::endl;
 
-  float eSize[2];
+  double eSize[2];
   fieldIter++;
   if((*fieldIter)->defined)
     {
