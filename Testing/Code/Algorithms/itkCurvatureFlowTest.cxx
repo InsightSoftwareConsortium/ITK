@@ -157,10 +157,14 @@ int main()
     return EXIT_FAILURE;
     }
  
+  itk::VTKImageIO::Pointer vtkIO;
+  vtkIO = itk::VTKImageIO::New();
   typedef itk::ImageFileWriter<ImageType> WriterType;
+
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( streamer->GetOutput() );
   writer->SetFileName("CurvatureFlowImageFilterImage.vtk");
+  writer->SetImageIO(vtkIO);
   writer->Write();
 
 
