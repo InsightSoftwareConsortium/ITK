@@ -10,6 +10,12 @@
 # include <valarray> // 2.95
 # define vcl_valarray valarray
 
+#elif defined(VCL_VC60)
+# include "win32-vc60/vcl_valarray.h"
+
+#elif defined(VCL_VC70)
+# include "win32-vc70/vcl_valarray.h"
+
 #else
 # include "iso/vcl_valarray.h"
 #endif

@@ -29,6 +29,10 @@
 #elif defined(VCL_VC60)
 # include "win32-vc60/vcl_complex.h"
 
+// ---------- Visual Studio 7.0
+#elif defined(VCL_VC70)
+# include "win32-vc70/vcl_complex.h"
+
 // ---------- SunPro compiler
 #elif defined(VCL_SUNPRO_CC)
 # include "sunpro/vcl_complex.h"
