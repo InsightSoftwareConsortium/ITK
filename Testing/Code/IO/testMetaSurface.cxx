@@ -58,7 +58,7 @@ int testMetaSurface(int , char * [])
   MetaSurface::PointListType list =  surface->GetPoints();
   MetaSurface::PointListType::const_iterator it = list.begin();
   
-  unsigned int d=0;
+  unsigned int d;
   while(it != list.end())
   {
     

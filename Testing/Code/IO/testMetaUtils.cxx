@@ -210,7 +210,7 @@ int testMetaUtils(int , char * [])
     std::cout << "PASSED" << std::endl;
 
   fieldIter = mFields.begin();
-  int nDims = 0;
+  int nDims;
   if((*fieldIter)->defined)
     {
     nDims = (int)((*fieldIter)->value[0]);
