@@ -136,5 +136,6 @@ CABLE_OPEN_NAMESPACE(itk)
     "PhysicalImage<$PixelType, $Dimension>"
     "$(cellTopology)$(cellOrBoundary)<$PixelType, $CellTraitsType>"
     "$(iaFunc)ImageAdaptor<$ImageType, $PixelType>"
+    "ImageToImageFilter<$ImageType, $ImageType >"
   )
 CABLE_CLOSE_NAMESPACE(itk)
