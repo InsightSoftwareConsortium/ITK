@@ -53,6 +53,8 @@ int main()
     }
   */
 
+  
+
   VectorType va;
   va[0] = 1.0;
   va[1] = 2.0;
@@ -145,7 +147,53 @@ int main()
   }
 
 
-  return 0;
+  // Test for operator== and operator!=
+  {
+    VectorType vv;
+    vv[0] = 1;
+    vv[1] = 3;
+    vv[2] = 5;
+
+    VectorType vw;
+    vw.Fill( 0 );
+
+    if( vv == vw ) 
+      {
+      std::cout << std::endl;
+      std::cout << "Problem with operator==() " << std::endl;
+      std::cout << "Vector " << vv;
+      std::cout << " is reported as being equal to " << std::endl;
+      std::cout << "Vector " << vw << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    VectorType ww;
+    ww = vv;
+    
+    if( vv != ww ) 
+    {
+      std::cout << std::endl;
+      std::cout << "Problem with operator!=() " << std::endl;
+      std::cout << "Vector " << vv;
+      std::cout << " is reported as being different from " << std::endl;
+      std::cout << "Vector " << ww << std::endl;
+      return EXIT_FAILURE;
+    }
+
+    if( !( vv == ww ) ) 
+    {
+      std::cout << std::endl;
+      std::cout << "Problem with operator==() " << std::endl;
+      std::cout << "Vector " << vv;
+      std::cout << " is reported as not being equal to " << std::endl;
+      std::cout << "Vector " << ww << std::endl;
+      return EXIT_FAILURE;
+    }
+       
+  }
+
+  return EXIT_SUCCESS;
+
 }
 
 
