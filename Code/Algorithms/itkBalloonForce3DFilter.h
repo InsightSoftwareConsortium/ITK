@@ -85,7 +85,7 @@ public:
   typedef typename InputMeshType::PointDataContainer::Iterator
       InputPointDataContainerIterator;
   typedef typename InputMeshType::CellsContainerPointer
-      InputCellsxContainerPointer;
+      InputCellsContainerPointer;
   typedef typename InputMeshType::CellsContainer::Iterator
       InputCellsContainerIterator;
   typedef typename InputMeshType::CellDataContainerPointer
