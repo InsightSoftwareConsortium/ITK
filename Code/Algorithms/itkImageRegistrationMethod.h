@@ -129,11 +129,11 @@ public:
 
   /** Set/Get the initial transformation parameters. */
   itkSetMacro( InitialTransformParameters, ParametersType );
-  itkGetMacro( InitialTransformParameters, ParametersType );
+  itkGetConstReferenceMacro( InitialTransformParameters, ParametersType );
 
   /** Get the last transformation parameters visited by 
    * the optimizer. */
-  itkGetMacro( LastTransformParameters, ParametersType );
+  itkGetConstReferenceMacro( LastTransformParameters, ParametersType );
 
 protected:
   ImageRegistrationMethod();
