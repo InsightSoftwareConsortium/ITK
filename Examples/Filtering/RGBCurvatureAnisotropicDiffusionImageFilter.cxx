@@ -22,7 +22,7 @@
 //  independently. The following example illustrates the use of the Vector
 //  curvature anisotropic diffusion filter on an image with RGB pixel type.
 //
-//  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter|RGB Images}
+//  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter!RGB Images}
 //
 //  Software Guide : EndLatex 
 
@@ -231,7 +231,7 @@ int main( int argc, char ** argv )
   //  \ref{fig:VectorCurvatureAnisotropicDiffusionImageFilterInputOutput}
   //  illustrates the effect of this filter on a RGB image from a cryogenic
   //  section of the Visible Woman data set.  In this example the filter was
-  //  run with a time step of 0.25, and 5 iterations.  The input image has
+  //  run with a time step of 0.25, and 20 iterations.  The input image has
   //  570x670 pixels and the processing took 4 minutes on a Pentium 4 2Ghz. 
   //
   //  Software Guide : EndLatex 
