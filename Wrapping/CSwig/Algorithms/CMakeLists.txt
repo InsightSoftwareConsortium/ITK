@@ -9,7 +9,7 @@ SET(WRAP_SOURCES
     wrap_itkMutualInformationImageToImageMetric
     wrap_itkNormalizedCorrelationImageToImageMetric
     wrap_itkOtsuThresholdImageCalculator
-    wrap_itkPatternIntensityImageToImageMetric
+    wrap_itkMeanReciprocalSquareDifferenceImageToImageMetric
     wrap_itkSimpleFuzzyConnectednessImageFilterBase
     wrap_itkSimpleFuzzyConnectednessScalarImageFilter
 )
