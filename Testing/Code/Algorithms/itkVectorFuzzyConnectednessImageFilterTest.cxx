@@ -191,5 +191,5 @@ int main()
 			++ot;
 		}
 
-	return 1;
+	return 0;
 }
