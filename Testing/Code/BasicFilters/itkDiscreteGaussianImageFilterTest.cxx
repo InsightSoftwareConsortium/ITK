@@ -37,8 +37,8 @@ int itkDiscreteGaussianImageFilterTest(int , char * [] )
         itk::DiscreteGaussianImageFilter<ImageType, ImageType>::New();
       FilterWatcher watcher(filter);
 
-      filter->SetVariance(1.0f);
-      filter->SetMaximumError(.01f);
+      filter->SetVariance(1.0);
+      filter->SetMaximumError(.01);
       
       // Run Test
       itk::Size<3> sz;

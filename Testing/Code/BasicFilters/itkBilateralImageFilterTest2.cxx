@@ -54,16 +54,15 @@ int itkBilateralImageFilterTest2(int ac, char* av[] )
   
   
   // Test itkSetVectorMacro
-  float domainSigma[dimension];
+  double domainSigma[dimension];
   for (unsigned int i = 0; i < dimension; i++)
     {
-      domainSigma[i] = 4.0f;
+      domainSigma[i] = 4.0;
     }
   filter->SetDomainSigma(domainSigma);
 
   // Test itkGetVectorMacro
-  const double * domainSigma2 = filter->GetDomainSigma();
-  std::cout << "filter->GetDomainSigma(): " << domainSigma2 << std::endl;
+  std::cout << "filter->GetDomainSigma(): " << filter->GetDomainSigma() << std::endl;
 
   // Test itkSetMacro
   unsigned int filterDimensionality = dimension;
