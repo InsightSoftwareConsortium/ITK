@@ -42,6 +42,19 @@ HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
 }
 
 /**
+ * Set the gibbs prior filter input
+ */
+template <class TInputImage, class TOutputImage, 
+	class TInputMesh, class TOutputMesh>
+void
+HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
+::SetGibbsInput()
+{
+  const typename TInputImage::Pointer   inputImage(    GetInput()   );
+  m_GibbsPriorFilter->SetInput(inputImage);
+}
+
+/**
  * Send balloon force filter a new potential from the gibbs prior model
  */
 template <class TInputImage, class TOutputImage, 
@@ -120,9 +133,9 @@ HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
   gpit.Begin();
 
   while( !gpit.IsAtEnd() ) {
-	outit.Set(gpit.Get());
+//	outit.Set(gpit.Get());
 	++outit;
-	gpit;
+	++gpit;
   }
 }
 
