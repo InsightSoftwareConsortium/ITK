@@ -80,8 +80,11 @@ void
 ObjectStore<TObjectType>
 ::Return(ObjectType *p)
 {
-  if ( m_FreeList.size() != m_Size )
-    {  m_FreeList.push_back(p); }
+  // For speed, does no checking.
+  m_FreeList.push_back(p);
+  
+  //  if ( m_FreeList.size() != m_Size )
+  //    {  m_FreeList.push_back(p); }
   // else object has been used incorrectly
 
   // To do:
