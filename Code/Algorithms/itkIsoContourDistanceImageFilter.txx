@@ -74,8 +74,9 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>
 {
   Superclass::PrintSelf(os,indent);
   os << indent << "Narrowbanding: " << m_NarrowBanding << std::endl;
+  os << indent << "LevelSetValue: " << m_LevelSetValue << std::endl;
+  os << indent << "FarValue: " << m_FarValue << std::endl;
   os << std::endl;
-
 }
 
 
