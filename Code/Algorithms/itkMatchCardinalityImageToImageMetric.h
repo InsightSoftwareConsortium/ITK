@@ -94,11 +94,11 @@ public:
 
 
   /** Get the derivatives of the match measure. */
-  void GetDerivative( const TransformParametersType & parameters,
+  void GetDerivative( const TransformParametersType &,
                       DerivativeType & derivative ) const
     {
       itkWarningMacro(<< "This metric does not provide metric derivatives.");
-      derivative.Fill( NumericTraits<DerivativeType::ValueType>::Zero );
+      derivative.Fill( NumericTraits<typename DerivativeType::ValueType>::Zero );
     }
 
   /**  Get the value of the metric at a particular parameter
