@@ -19,25 +19,6 @@
   typedef    itk::Point<  ValueType, N >    PointType;
 
 
-// Functions for printing
-void Print(const VectorType & vector )
-{
-    for( unsigned int i=0; i<VectorType::VectorDimension; i++ )
-    {
-      std::cout << vector[i] << ", ";
-    }
-    std::cout << std::endl;
-}
-
-void Print(const PointType & point )
-{
-    for( unsigned int i=0; i<PointType::PointDimension; i++ )
-    {
-      std::cout << point[i] << ", ";
-    }
-    std::cout << std::endl;
-}
-
 
 //-------------------------
 //
@@ -54,7 +35,7 @@ int main()
   va[2] = 5.0;
 
   std::cout << "initial vector va = ";
-  Print( va );
+  std::cout << va << std::endl;
 
   // Tests for Point Type
 
@@ -64,35 +45,35 @@ int main()
   pa[2] = 11.0;
 
   std::cout << "initial point pa = ";
-  Print( pa );
+  std::cout << pa << std::endl;
 
   PointType   pb( pa );
   std::cout << "copy constructor pb(pa) = ";
-  Print( pb );
+  std::cout << pb << std::endl;
 
   PointType   pc = pa;
   std::cout << "copy constructor pc=pa  = ";
-  Print( pc );
+  std::cout << pc << std::endl;
 
   PointType   pd = pa + va;
   std::cout << "vector sum pd = pa + va = ";
-  Print( pd );
+  std::cout << pd << std::endl;
 
   pb = pd + va;
   std::cout << "vector sum pb = pd + va = ";
-  Print( pb );
+  std::cout << pb << std::endl;
   
   VectorType  diff = pa - pb;
   std::cout << "diff = pa - pb = ";
-  Print( diff );
+  std::cout << diff << std::endl;
 
   pc -= va;
   std::cout << "pc -= va = ";
-  Print( pc );
+  std::cout << pc << std::endl;
 
   pc += va;
   std::cout << "pc += va = ";
-  Print( pc );
+  std::cout << pc << std::endl;
 
   ValueType distance = pc.EuclideanDistanceTo( pb );
   std::cout << "Euclidean distance between pc and pb = ";

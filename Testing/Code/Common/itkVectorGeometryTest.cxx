@@ -17,16 +17,6 @@
   typedef    itk::Vector< ValueType, N >    VectorType;
 
 
-// Function for printing
-void Print(const VectorType & vector )
-{
-    for( unsigned int i=0; i<VectorType::VectorDimension; i++ )
-    {
-      std::cout << vector[i] << ", ";
-    }
-    std::cout << std::endl;
-}
-
 
 //-------------------------
 //
@@ -42,7 +32,7 @@ int main()
   va[2] = 7.0;
 
   std::cout << "va = { 1.0, 2.0, 7.0 } = ";
-  Print( va );
+  std::cout << va << std::endl;
 
   VectorType vb;
   
@@ -51,36 +41,36 @@ int main()
   vb[2] = 5.0;
 
   std::cout << "vb = (1,3,5)   = ";
-  Print( vb );
+  std::cout << vb << std::endl;
 
   VectorType   vc  =  vb - va;
   std::cout << "vc  =  vb - va  = ";
-  Print( vc );
+  std::cout << vc << std::endl;
 
   VectorType   vd  =  va * 5.0;
   std::cout << "vd  =  va * 5.0 = ";
-  Print( vd );
+  std::cout << vd << std::endl;
 
   VectorType   ve  =  vd / 5.0;
   std::cout << "ve  =  vd * 5.0 = ";
-  Print( ve );
+  std::cout << ve << std::endl;
 
   vd += va;
   std::cout << "vd  +=  va      = ";
-  Print( vd );
+  std::cout << vd << std::endl;
 
   ve -= vb;
   std::cout << "ve  -=  vb      = ";
-  Print( ve );
+  std::cout << ve << std::endl;
 
   VectorType   vh  =  vb;
   std::cout << "vh   =  vb      = ";
-  Print( vh );
+  std::cout << vh << std::endl;
 
 
   VectorType   vg( va );
   std::cout << "vg( va )        = ";
-  Print( vg );
+  std::cout << vg << std::endl;
 
 
   ValueType norm2 = vg.GetSquaredNorm();
