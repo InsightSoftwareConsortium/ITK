@@ -31,12 +31,13 @@
 //
 //  \begin{equation}
 //  F = \left\{ \begin{array} {r@{\quad:\quad}l}
-//         \min(\kappa,0) & \mbox{Average} < 0 \\ \max(\kappa,0) & \mbox{Average} \ge 0 
+//         \min(\kappa,0) & \mbox{Average} < Threshold \\ \max(\kappa,0) & \mbox{Average} \ge Threshold 
 //             \end{array} \right.
 //  \end{equation}
 //
-// The average is computed over a neighborhood of the pixel. The integer radius
-// of this neighborhood is selected by the user.
+// The average is computed over a neighborhood of the pixel and the threshold
+// is calculated by the algorithm as some average pixel value in the gradient
+// direction. The integer radius of this neighborhood is selected by the user.
 //
 //  \index{itk::MinMaxCurvatureFlowImageFilter|textbf}
 //

@@ -17,11 +17,12 @@
 
 //  Software Guide : BeginLatex
 //
-//  The CurvatureFlow image filter performs anisotropic diffusion on the
-//  image. Diffusion is controled by a factor dependent on the image gradient.
-//  This prevents diffusion from happening in regions of high gradients that are
+//  The CurvatureFlow image filter performs anisotropic diffusion on the image.
+//  Diffusion is controled by a factor dependent on the image gradient.  This
+//  limits diffusion from happening in regions of high gradients that are
 //  typically associated with edges on the image. The result is to smooth pixel
-//  values on the homogeneous regions while leaving the contours unmodified.
+//  values on the homogeneous regions while leaving the contours almost
+//  unmodified.
 //
 //  This filter assimilates each iso-contour of the graylevel image as a level
 //  set. The level sets evolved under the control of a diffusion equation where
