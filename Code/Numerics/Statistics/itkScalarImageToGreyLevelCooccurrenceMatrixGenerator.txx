@@ -21,6 +21,8 @@ namespace itk {
       {
       m_LowerBound.Fill(NumericTraits<PixelType>::min());
       m_UpperBound.Fill(NumericTraits<PixelType>::max() + 1);
+      m_Min = NumericTraits<PixelType>::min();
+      m_Max = NumericTraits<PixelType>::max();
       }
     
     
@@ -56,55 +58,18 @@ namespace itk {
       typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>
         FaceCalculatorType;
      
-      typedef ConstShapedNeighborhoodIterator<ImageType>
-        ShapedNeighborhoodIteratorType;
-      typename ShapedNeighborhoodIteratorType::RadiusType radius;
+      RadiusType radius;
       radius.Fill(minRadius);
       FaceCalculatorType faceCalculator;
       typename FaceCalculatorType::FaceListType faceList;
       faceList = faceCalculator(m_Image, m_Image->GetRequestedRegion(),
                                  radius);
-      typename ImageType::RegionType nonBoundaryRegion = faceList.front();
+      RegionType nonBoundaryRegion = faceList.front();
       
-      // Now, iterate over all of those pixels and offsets, adding each 
-      // co-occurrence pair to the histogram
-      typedef ImageRegionConstIterator<ImageType>
-        RegionIteratorType;
+      // Now fill in the histogram
+      this->FillHistogram(radius, nonBoundaryRegion);
       
-      ShapedNeighborhoodIteratorType shapedIt;
-      RegionIteratorType regionIt;
-      
-      shapedIt = ShapedNeighborhoodIteratorType(radius, m_Image, nonBoundaryRegion);
-      regionIt = RegionIteratorType(m_Image, nonBoundaryRegion);
-      
-      MeasurementVectorType cooccur;
-      for(offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); offsets++)
-        {
-        shapedIt.ActivateOffset(offsets.Value());
-        }
-      
-      for (shapedIt.GoToBegin(), regionIt.GoToBegin(); !shapedIt.IsAtEnd(); 
-            ++shapedIt, ++regionIt) 
-        {
-        const PixelType center_pixel_intensity = regionIt.Get();
-        
-        typename ShapedNeighborhoodIteratorType::ConstIterator neighborhoodIt;
-        for (neighborhoodIt = shapedIt.Begin(); !neighborhoodIt.IsAtEnd(); 
-             ++neighborhoodIt)
-          {
-          const PixelType pixel_intensity = neighborhoodIt.Get();
-          
-          // Now make both possible co-occurrence combinations and increment the
-          // histogram with them.
-          cooccur[0] = center_pixel_intensity;
-          cooccur[1] = pixel_intensity;
-          m_Histogram->IncreaseFrequency(cooccur, 1);
-          cooccur[1] = center_pixel_intensity;
-          cooccur[0] = pixel_intensity;
-          m_Histogram->IncreaseFrequency(cooccur, 1);
-          }
-        }
-      
+      // Normalizse the histogram if requested
       if(m_Normalize)
         {
         this->NormalizeHistogram();
@@ -116,8 +81,68 @@ namespace itk {
     void
     ScalarImageToGreyLevelCooccurrenceMatrixGenerator< TImageType,
     THistogramFrequencyContainer >::
+    FillHistogram(RadiusType radius, RegionType region)
+      {
+      // Iterate over all of those pixels and offsets, adding each 
+      // co-occurrence pair to the histogram
+      typedef ImageRegionConstIterator<ImageType>
+      RegionIteratorType;
+      
+      typedef ConstShapedNeighborhoodIterator<ImageType>
+        ShapedNeighborhoodIteratorType;
+      
+      ShapedNeighborhoodIteratorType shapedIt;
+      RegionIteratorType regionIt;
+      
+      shapedIt = ShapedNeighborhoodIteratorType(radius, m_Image, region);
+      regionIt = RegionIteratorType(m_Image, region);
+      
+      MeasurementVectorType cooccur;
+      typename OffsetVector::ConstIterator offsets;
+      for(offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); offsets++)
+        {
+        shapedIt.ActivateOffset(offsets.Value());
+        }
+      
+      for (shapedIt.GoToBegin(), regionIt.GoToBegin(); !shapedIt.IsAtEnd(); 
+           ++shapedIt, ++regionIt) 
+        {
+        const PixelType center_pixel_intensity = regionIt.Get();
+        if (center_pixel_intensity < m_Min || 
+            center_pixel_intensity > m_Max)
+          {
+          continue; // don't put a pixel in the histogram if it's out-of-bounds.
+          }
+        
+        typename ShapedNeighborhoodIteratorType::ConstIterator neighborhoodIt;
+        for (neighborhoodIt = shapedIt.Begin(); !neighborhoodIt.IsAtEnd(); 
+             ++neighborhoodIt)
+          {
+          const PixelType pixel_intensity = neighborhoodIt.Get();
+          if (pixel_intensity < m_Min || 
+              pixel_intensity > m_Max)
+            {
+            continue; // don't put a pixel in the histogram if it's out-of-bounds.
+            }
+          
+          // Now make both possible co-occurrence combinations and increment the
+          // histogram with them.
+          cooccur[0] = center_pixel_intensity;
+          cooccur[1] = pixel_intensity;
+          m_Histogram->IncreaseFrequency(cooccur, 1);
+          cooccur[1] = center_pixel_intensity;
+          cooccur[0] = pixel_intensity;
+          m_Histogram->IncreaseFrequency(cooccur, 1);
+          }
+        }
+      }
+    
+    template< class TImageType, class THistogramFrequencyContainer >
+    void
+    ScalarImageToGreyLevelCooccurrenceMatrixGenerator< TImageType,
+    THistogramFrequencyContainer >::
     NormalizeHistogram( void )
-    {
+      {
       typename HistogramType::Iterator hit;
       typename HistogramType::FrequencyType totalFrequency = 
         m_Histogram->GetTotalFrequency();
@@ -126,7 +151,7 @@ namespace itk {
         {
         hit.SetFrequency(hit.GetFrequency() / totalFrequency);
         }
-    }
+      }
     
     template< class TImageType, class THistogramFrequencyContainer >
     void
@@ -183,6 +208,8 @@ namespace itk {
     THistogramFrequencyContainer >::
     SetPixelValueMinMax( PixelType min, PixelType max )
       {
+      m_Min = min;
+      m_Max = max;
       m_LowerBound.Fill(min);
       m_UpperBound.Fill(max + 1);
       }

@@ -53,9 +53,7 @@ namespace itk {
 * by default the histogram min and max corresponds to the largest and smallest
 * possible pixel value of that pixel type. To customize the histogram bounds
 * for a given image, the max and min pixel values that will be placed in the
-* histogram can be set manually. NB: The min and max are INCLUSIVE. Note also
-* that no bounds-checking is performed, so if the given image has pixel values
-* outside this range, errors will result.
+* histogram can be set manually. NB: The min and max are INCLUSIVE.
 *
 * Further, the type of histogram frequency container used is an optional template 
 * parameter. By default, a dense container is used, but for images with little
@@ -69,6 +67,10 @@ namespace itk {
 * NumericTraits class is the same, and thus cannot hold any larger values,
 * this would cause a float overflow.
 * 
+* \sa MaskedScalarImageToGreyLevelCooccurrenceMatrixGenerator
+* \sa GreyLevelCooccurrenceMatrixTextureCoefficientsCalculator
+* \sa ScalarImageTextureCalculator
+*
 * Authors: Zachary Pincus and Glenn Pierce
 */
     
@@ -84,7 +86,7 @@ class ScalarImageToGreyLevelCooccurrenceMatrixGenerator : public Object
     typedef SmartPointer<const Self> ConstPointer;
     
     /** Run-time type information (and related methods). */
-    itkTypeMacro(itkScalarImageToGreyLevelCooccurrenceMatrixGenerator, Object);
+    itkTypeMacro(ScalarImageToGreyLevelCooccurrenceMatrixGenerator, Object);
     
     /** standard New() method support */
     itkNewMacro(Self) ;
@@ -93,6 +95,8 @@ class ScalarImageToGreyLevelCooccurrenceMatrixGenerator : public Object
     typedef typename ImageType::Pointer                     ImagePointer;
     typedef typename ImageType::ConstPointer                ImageConstPointer;
     typedef typename ImageType::PixelType                   PixelType;
+    typedef typename ImageType::RegionType                  RegionType;
+    typedef typename ImageType::SizeType                    RadiusType;
     typedef typename ImageType::OffsetType                  OffsetType;
     typedef VectorContainer<unsigned char, OffsetType>      OffsetVector;
     typedef typename OffsetVector::Pointer                  OffsetVectorPointer;
@@ -128,9 +132,7 @@ class ScalarImageToGreyLevelCooccurrenceMatrixGenerator : public Object
     /** Set number of histogram bins along each axis */
     void SetNumberOfBinsPerAxis( unsigned int numberOfBins );
     
-    /** Set the min and max (inclusive) pixel value that will be placed in the histogram
-      WARNING: no bounds checking is performed, so if the image has pixel values
-      outside this range, errors will occur. */
+    /** Set the min and max (inclusive) pixel value that will be placed in the histogram */
     void SetPixelValueMinMax( PixelType min, PixelType max );
     
     /** Set the calculator to normalize the histogram (divide all bins by the 
@@ -143,16 +145,22 @@ class ScalarImageToGreyLevelCooccurrenceMatrixGenerator : public Object
     ScalarImageToGreyLevelCooccurrenceMatrixGenerator();
     virtual ~ScalarImageToGreyLevelCooccurrenceMatrixGenerator() {};
     void PrintSelf(std::ostream& os, Indent indent) const;
-    void NormalizeHistogram( void );
+    virtual void FillHistogram( RadiusType radius, RegionType region );
     
-    
-  private:
+    // Leave these protected so that derived classes can access them.
     ImagePointer           m_Image;
     HistogramPointer       m_Histogram;
     OffsetVectorPointer    m_Offsets;
+    
+    
+   private:
+    void NormalizeHistogram( void );
+    
     unsigned int           m_BinsPerAxis;
     MeasurementVectorType  m_LowerBound, m_UpperBound;
     bool                   m_Normalize;
+    PixelType              m_Min, m_Max;
+
   };
     
     
