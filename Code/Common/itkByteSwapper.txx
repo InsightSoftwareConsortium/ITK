@@ -88,7 +88,7 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapRangeBE(T *, unsigned long num) {}
+::SwapRangeBE(T *p, unsigned long num) {}
 #else
 template <class T>
 void 
@@ -185,7 +185,7 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapRangeLE(T *, unsigned long num) 
+::SwapRangeLE(T *p, unsigned long num) 
 {
   switch ( sizeof(T) )
     {
@@ -314,7 +314,7 @@ ByteSwapper<T>
       pos = pos + 2;
       }
     fp->write((char *)cpy, 2*chunkSize);
-    ptr += chunkSize * 2;
+    ptr = (char *) ptr + chunkSize * 2;
     num -= chunkSize;
     if (num < chunkSize)
       {
@@ -402,7 +402,7 @@ ByteSwapper<T>
       pos = pos + 4;
       }
     fp->write((char *)cpy, 4*chunkSize);
-    ptr += chunkSize*4;
+    ptr  = (char *) ptr + chunkSize*4;
     num -= chunkSize;
     if (num < chunkSize)
       {
