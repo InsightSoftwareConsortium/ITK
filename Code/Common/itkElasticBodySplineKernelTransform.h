@@ -111,10 +111,7 @@ public:
   typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
     
 protected:
-  /** Default constructor */
   ElasticBodySplineKernelTransform();
-  
-  /** Destructor */
   virtual ~ElasticBodySplineKernelTransform();
   
   /** These (rather redundant) typedefs are needed because on SGI, typedefs
@@ -132,6 +129,10 @@ protected:
 
   /** alpha, Poisson's ratio */
   TScalarType m_Alpha;
+
+  private:
+  ElasticBodySplineKernelTransform(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
 

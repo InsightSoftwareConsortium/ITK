@@ -158,12 +158,8 @@ public:
   typedef vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> IMatrixType;
 
 protected:
-  /** Default constructor. */
   KernelTransform();
-
-  /** Destructor. */
   virtual ~KernelTransform();
-
   void PrintSelf(std::ostream& os, Indent indent) const;
   
   /** 'G' matrix typedef. */
@@ -243,6 +239,11 @@ protected:
 
   /** Identity matrix. */
   IMatrixType m_I;
+
+ private:
+  KernelTransform(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
 };
 
 } // end namespace itk
