@@ -709,7 +709,14 @@ void ImageIOBase::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "ByteOrder: " << m_ByteOrder << std::endl;
   os << indent << "IORegion: " << m_IORegion << std::endl;
   os << indent << "Number of Components/Pixel: " << m_NumberOfComponents << "\n";
-  os << indent << "Pixel Type: " << this->GetPixelType().name() << std::endl;
+  if (m_PixelType)
+    {
+    os << indent << "Pixel Type: " << this->GetPixelType().name() << std::endl;
+    }
+  else
+    {
+    os << indent << "(none)" << std::endl; 
+    }
   if (m_ComponentType)
     {
     os << indent << "Component Type: " 
