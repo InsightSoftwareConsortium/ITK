@@ -280,6 +280,7 @@ ADD_TEST(itkVectorThresholdSegmentationLevelSetImageFilterTest ${ALGORITHMS_TEST
             ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSliceInitialLevelSet.png
             ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png
             ${ITK_TEST_OUTPUT_DIR}/VectorThresholdSegmentationLevelSetImageFilterTest.png 
+            5.0
             )
 
 
