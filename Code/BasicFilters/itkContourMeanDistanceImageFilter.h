@@ -27,8 +27,8 @@ namespace itk {
  * non-zero regions of two images.
  *
  *
- * ContourMeanDistanceImageFilter computes the distance between the set
- * non-zero pixels of two images using the following formula:
+ * ContourMeanDistanceImageFilter computes the distance between the
+ * set non-zero pixels of two images using the following formula:
  * \f[ H(A,B) = \max(h(A,B),h(B,A)) \f]
  * where
  * \f[ h(A,B) = \max_{a \in A} \min_{b \in B} \| a - b\| \f] is the directed
@@ -36,11 +36,12 @@ namespace itk {
  * and \f$A\f$ and \f$B\f$ are respectively the set of non-zero pixels
  * in the first and second input images.
  *
- * In particular, this filter uses the ContourDirectedMeanImageFilter inside to 
- * compute the two directed distances and then select the largest of the two.
+ * In particular, this filter uses the ContourDirectedMeanImageFilter
+ * inside to  compute the two directed distances and then select the
+ * largest of the two.
  *
- * The Mean distance measures the degree of mismatch between two sets and
- * behaves like a metric over the set of all closedm bounded sets - 
+ * The Mean distance measures the degree of mismatch between two sets
+ * and behaves like a metric over the set of all closed bounded sets -
  * with properties of identity, symmetry and triangle inequality.
  *
  * This filter requires the largest possible region of the first image
@@ -100,14 +101,14 @@ public:
 
   /** Set the first input. */
   void SetInput1( const InputImage1Type * image )
-  { this->SetInput( image ); }
+    { this->SetInput( image ); }
 
   /** Set the second input. */
   void SetInput2( const InputImage2Type * image );
 
   /** Get the first input. */
   const InputImage1Type * GetInput1(void)
-  { return this->GetInput(); }
+    { return this->GetInput(); }
   
   /** Get the second input. */
   const InputImage2Type * GetInput2(void);
