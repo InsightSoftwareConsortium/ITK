@@ -85,7 +85,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
 
   Self::ImageRegionCopy(imgT, input);
 
-  GaussianOperator<double, ImageDimension> *oper;
+  GaussianOperator<OutputPixelType, ImageDimension> *oper;
   NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>::Pointer filter;
 
   swapPtrA = imgT;
@@ -93,7 +93,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
   for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       // Filter
-      oper = new GaussianOperator<double,ImageDimension>;
+      oper = new GaussianOperator<OutputPixelType,ImageDimension>;
       oper->SetDirection(i);
       oper->SetVariance(m_Variance[i]);
       oper->SetMaximumError(m_MaximumError[i]);
