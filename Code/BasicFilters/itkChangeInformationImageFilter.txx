@@ -63,8 +63,8 @@ ChangeInformationImageFilter<TInputImage>
   typename TInputImage::SizeType  outputSize;
   typename TInputImage::IndexType outputIndex;
   typename TInputImage::IndexType inputIndex;
-  double origin[ImageDimension];
-  double spacing[ImageDimension];
+  PointType origin;
+  SpacingType spacing;
 
   itkDebugMacro("GenerateOutputInformation Start");
 
@@ -86,11 +86,8 @@ ChangeInformationImageFilter<TInputImage>
   if (m_UseReferenceImage && m_ReferenceImage)
     {
     outputIndex = m_ReferenceImage->GetLargestPossibleRegion().GetIndex();
-    for (i = 0; i < ImageDimension; i++)
-      {
-      origin[i] = m_ReferenceImage->GetOrigin()[i];
-      spacing[i] = m_ReferenceImage->GetSpacing()[i];
-      }
+    origin = m_ReferenceImage->GetOrigin();
+    spacing = m_ReferenceImage->GetSpacing();
     m_Shift = outputIndex - inputIndex;
 
     // reset outputIndex to the input index since we add m_Shift to
@@ -100,10 +97,10 @@ ChangeInformationImageFilter<TInputImage>
   else
     {
     outputIndex = input->GetLargestPossibleRegion().GetIndex();
+    origin = m_OutputOrigin;
+    spacing = m_OutputSpacing;
     for (i = 0; i < ImageDimension; i++)
       {
-      origin[i] = m_OutputOrigin[i];
-      spacing[i] = m_OutputSpacing[i];
       m_Shift[i] = m_OutputOffset[i];
       }
     }

@@ -80,8 +80,9 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  /** Typedef of double containers */
-  typedef FixedArray<double, itkGetStaticConstMacro(ImageDimension)> ArrayType;
+  /** Image spacing and origin typedefs */
+  typedef typename TInputImage::SpacingType SpacingType;
+  typedef typename TInputImage::PointType   PointType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ChangeInformationImageFilter, ImageToImageFilter);
@@ -106,14 +107,14 @@ public:
   /** Specify a new data spacing explicitly.  The default is to
    * use the spacing of the Input, or of the ReferenceImage
    * if UseReferenceImage is set. */
-  itkSetMacro(OutputSpacing, ArrayType);
-  itkGetMacro(OutputSpacing, const ArrayType);
+  itkSetMacro(OutputSpacing, SpacingType);
+  itkGetConstReferenceMacro(OutputSpacing, SpacingType);
 
   /** Specify a new data origin explicitly.  The default is to
    *  use the origin of the Input, or of the ReferenceImage
    *  if UseReferenceImage is true. */
-  itkSetMacro(OutputOrigin, ArrayType);
-  itkGetMacro(OutputOrigin, const ArrayType);
+  itkSetMacro(OutputOrigin, PointType);
+  itkGetConstReferenceMacro(OutputOrigin, PointType);
 
   /** Specify an offset for the buffered region. The default is to
    *  use the same buffered region as the input or an Offset computed from
@@ -202,8 +203,8 @@ private:
   bool m_ChangeRegion;
   bool m_UseReferenceImage;
   
-  ArrayType m_OutputSpacing;
-  ArrayType m_OutputOrigin;
+  SpacingType m_OutputSpacing;
+  PointType m_OutputOrigin;
 
   long m_OutputOffset[ImageDimension];
   OutputImageOffsetType m_Shift;

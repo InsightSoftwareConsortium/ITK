@@ -30,13 +30,8 @@ PointSetToImageFilter<TInputPointSet,TOutputImage>
 {
   this->SetNumberOfRequiredInputs(1);
   m_Size.Fill(0);
-  
-  for (unsigned int i = 0; i < OutputImageDimension; i++)
-    {
-    m_Spacing[i] = 1.0;
-    m_Origin[i] = 0;
-    }
-
+  m_Spacing.Fill(1.0);
+  m_Origin.Fill(0.0);
   m_InsideValue = 1;
   m_OutsideValue = 0;
 }
@@ -103,110 +98,44 @@ PointSetToImageFilter<TInputPointSet,TOutputImage>
     (this->ProcessObject::GetInput(idx));
 }
 
-//----------------------------------------------------------------------------
 template <class TInputPointSet, class TOutputImage>
 void 
 PointSetToImageFilter<TInputPointSet,TOutputImage>
-::SetSpacing(const double spacing[OutputImageDimension] )
+::SetSpacing(const float v[OutputImageDimension] )
 {
-  unsigned int i; 
-  for (i=0; i<OutputImageDimension; i++)
-    {
-    if ( spacing[i] != m_Spacing[i] )
-      {
-      break;
-      }
-    } 
-  if ( i < OutputImageDimension ) 
-    { 
-    for (i=0; i<OutputImageDimension; i++)
-      {
-      m_Spacing[i] = spacing[i];
-      }
-    }
+  Vector<float, OutputImageDimension> vf(v);
+  SpacingType spacing;
+  spacing.CastFrom(vf);
+  this->SetSpacing(spacing);
 }
 
 template <class TInputPointSet, class TOutputImage>
 void 
 PointSetToImageFilter<TInputPointSet,TOutputImage>
-::SetSpacing(const float spacing[OutputImageDimension] )
+::SetSpacing(const double v[OutputImageDimension] )
 {
-  unsigned int i; 
-  for (i=0; i<OutputImageDimension; i++)
-    {
-    if ( (double)spacing[i] != m_Spacing[i] )
-      {
-      break;
-      }
-    } 
-  if ( i < OutputImageDimension ) 
-    { 
-    for (i=0; i<OutputImageDimension; i++)
-      {
-      m_Spacing[i] = spacing[i];
-      }
-    }
-}
-
-template <class TInputPointSet, class TOutputImage>
-const double * 
-PointSetToImageFilter<TInputPointSet,TOutputImage>
-::GetSpacing() const
-{
-  return m_Spacing;
-}
-
-//----------------------------------------------------------------------------
-template <class TInputPointSet, class TOutputImage>
-void 
-PointSetToImageFilter<TInputPointSet,TOutputImage>
-::SetOrigin(const double origin[OutputImageDimension] )
-{
-  unsigned int i; 
-  for (i=0; i<OutputImageDimension; i++)
-    {
-    if ( origin[i] != m_Origin[i] )
-      {
-      break;
-      }
-    } 
-  if ( i < OutputImageDimension ) 
-    { 
-    for (i=0; i<OutputImageDimension; i++)
-      {
-      m_Origin[i] = origin[i];
-      }
-    }
+  SpacingType spacing(v);
+  this->SetSpacing(spacing);
 }
 
 template <class TInputPointSet, class TOutputImage>
 void 
 PointSetToImageFilter<TInputPointSet,TOutputImage>
-::SetOrigin(const float origin[OutputImageDimension] )
+::SetOrigin(const float v[OutputImageDimension] )
 {
-  unsigned int i; 
-  for (i=0; i<OutputImageDimension; i++)
-    {
-    if ( (double)origin[i] != m_Origin[i] )
-      {
-      break;
-      }
-    } 
-  if ( i < OutputImageDimension ) 
-    { 
-    for (i=0; i<OutputImageDimension; i++)
-      {
-      m_Origin[i] = origin[i];
-      }
-    }
+  Point<float,OutputImageDimension> pf(v);
+  PointType origin;
+  origin.CastFrom(pf);
+  this->SetOrigin(origin);
 }
 
 template <class TInputPointSet, class TOutputImage>
-const double * 
+void 
 PointSetToImageFilter<TInputPointSet,TOutputImage>
-::GetOrigin() const
+::SetOrigin(const double v[OutputImageDimension] )
 {
-  return m_Origin;
+  PointType origin(v);
+  this->SetOrigin(origin);
 }
 
 //----------------------------------------------------------------------------
@@ -313,21 +242,10 @@ void
 PointSetToImageFilter<TInputPointSet,TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  unsigned int i;
   Superclass::PrintSelf(os, indent);
   os << indent << "Size : " << m_Size << std::endl;
-  std::cout << "Origin : " ;  
-  for(i=0;i<InputPointSetDimension;i++)
-    {
-    std::cout << m_Origin[i] << " ";
-    }
-  std::cout << std::endl;
-  std::cout << "Spacing : " ;  
-  for(i=0;i<InputPointSetDimension;i++)
-    {
-    std::cout << m_Spacing[i] << " ";
-    }
-  std::cout << std::endl;
+  os << indent << "Origin: " << m_Origin << std::endl;
+  os << indent << "Spacing: " << m_Spacing << std::endl;
   os << indent << "Inside Value : " << m_InsideValue << std::endl;
   os << indent << "Outside Value : " << m_OutsideValue << std::endl;
 }

@@ -63,19 +63,43 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
+  /** Image spacing and origin typedefs */
+  typedef typename TOutputImage::SpacingType SpacingType;
+  typedef typename TOutputImage::PointType   PointType;
+
   /** Set/Get the input point-set of this process object.  */
   virtual void SetInput( const InputPointSetType *pointset);
   virtual void SetInput( unsigned int, const InputPointSetType * pointset);
   const InputPointSetType * GetInput(void);
   const InputPointSetType * GetInput(unsigned int idx);
 
-  /** Spacing (size of a pixel) of the output image. The
+  /** Set the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples.
    * It is stored internally as double, but may be set from
    * float. \sa GetSpacing() */
+  itkSetMacro(Spacing,SpacingType);
   virtual void SetSpacing( const double spacing[OutputImageDimension] );
   virtual void SetSpacing( const float spacing[OutputImageDimension] );
-  virtual const double* GetSpacing() const;
+
+  /** Get the spacing (size of a pixel) of the image. The
+   * spacing is the geometric distance between image samples.
+   * The value returned is a pointer to a double array.
+   * For ImageBase and Image, the default data spacing is unity. */
+  itkGetConstReferenceMacro(Spacing,SpacingType);
+
+  /** Set the origin of the image. The origin is the geometric
+   * coordinates of the image origin.  It is stored internally
+   * as double but may be set from float.
+   * \sa GetOrigin() */
+  itkSetMacro(Origin,PointType);
+  virtual void SetOrigin( const double origin[OutputImageDimension] );
+  virtual void SetOrigin( const float origin[OutputImageDimension] );
+ 
+ /** Get the origin of the image. The origin is the geometric
+   * coordinates of the index (0,0).  The value returned is a pointer
+   * to a double array.  For ImageBase and Image, the default origin is 
+   * 0. */
+  itkGetConstReferenceMacro(Origin,PointType);
 
   /** Set/Get the value for pixels in the point-set. 
   * By default, this filter will return an image
@@ -95,14 +119,6 @@ public:
   itkSetMacro(OutsideValue, ValueType);
   itkGetMacro(OutsideValue, ValueType);
 
-  /** The origin of the output image. The origin is the geometric
-   * coordinates of the index (0,0,...,0).  It is stored internally
-   * as double but may be set from float.
-   * \sa GetOrigin() */
-  virtual void SetOrigin( const double origin[OutputImageDimension] );
-  virtual void SetOrigin( const float origin[OutputImageDimension] );
-  virtual const double * GetOrigin() const;
-
   /** Set/Get Size */
   itkSetMacro(Size,SizeType);
   itkGetMacro(Size,SizeType);
@@ -115,8 +131,8 @@ protected:
   virtual void GenerateData();
 
   SizeType     m_Size;
-  double       m_Spacing[OutputImageDimension];
-  double       m_Origin[OutputImageDimension];
+  SpacingType  m_Spacing;
+  PointType    m_Origin;
   ValueType    m_InsideValue;
   ValueType    m_OutsideValue;
 
