@@ -459,7 +459,7 @@ Mesh<TPixelType,TMeshType>
   /**
    * If the cells container doesn't exist, then the cell doesn't exist.
    */
-  if( !m_CellsContainer )
+  if( m_CellsContainer == 0 )
     return false;
   
   /**
