@@ -17,10 +17,10 @@
 set Header {/*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit (ITK)
-  Module:    BuildHeaderTest.tcl
+  Module:
   Language:  C++
-  Date:      $$
-  Version:   $$
+  Date:
+  Version:
 
 
 Copyright (c) 2000 National Library of Medicine
@@ -58,7 +58,7 @@ foreach Directory $Directories \
   {
     continue
   }
-  set f [open [file join Testing Code $Directory itkHeaderTest.cxx] w]
+  set f [open [file join Testing Code $Directory itk${Directory}HeaderTest.cxx] w]
   puts $f $Header
   foreach File [lsort [glob [file join Code $Directory *.h]]] \
   {
