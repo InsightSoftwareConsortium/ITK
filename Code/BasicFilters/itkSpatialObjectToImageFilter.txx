@@ -398,6 +398,14 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
   os << indent << "Children depth : " << m_ChildrenDepth << std::endl;
   os << indent << "Inside Value : " << m_InsideValue << std::endl;
   os << indent << "Outside Value : " << m_OutsideValue << std::endl;
+  if(m_UseObjectValue)
+    {
+    os << indent << "Using Object Value : ON" << std::endl;
+    }
+  else
+    {
+    os << indent << "Using Object Value : OFF" << std::endl;
+    }
 }
 
 
