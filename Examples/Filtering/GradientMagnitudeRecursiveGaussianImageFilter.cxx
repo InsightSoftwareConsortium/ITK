@@ -14,6 +14,16 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySlice.png}
+//    OUTPUTS: {GradientMagnitudeRecursiveGaussianImageFilterOutput3.png}
+//    3
+//  Software Guide : EndCommandLineArgs
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySlice.png}
+//    OUTPUTS: {GradientMagnitudeRecursiveGaussianImageFilterOutput5.png}
+//    5
+//  Software Guide : EndCommandLineArgs
 
 //  Software Guide : BeginLatex
 //
