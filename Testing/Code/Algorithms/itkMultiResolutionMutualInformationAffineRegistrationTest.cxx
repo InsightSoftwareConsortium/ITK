@@ -55,9 +55,10 @@ double F( double x, double y, double z )
   const double s = 50;
   double value = 200.0 * exp( - ( x*x + y*y + z*z )/(s*s) );
   x -= 8; y += 3; z += 0;
-  if( vnl_math_sqrt( x*x + y*y + z*z ) > 25 )
-  value = vnl_math_abs( x ) + 0.8 * vnl_math_abs( y ) +
-    0.5 * vnl_math_abs( z );
+  if( vnl_math_sqrt( x*x + y*y + z*z ) > 35 )
+  value = 2 * ( vnl_math_abs( x ) + 
+    0.8 * vnl_math_abs( y ) +
+    0.5 * vnl_math_abs( z ) );
 
   return value;
 
@@ -118,10 +119,10 @@ int main()
   displacement[0] = 7;
   displacement[1] = 3;
   displacement[2] = 2;
-// Ten percent dilation
-//  double scale[3] = { 0.90, 1.0, 1.0};
-// Four percent dilation - use this so system test don't run for too long
-  double scale[3] = { 0.96, 1.0, 1.0 };
+// Thirty percent dilation
+//  double scale[3] = { 0.70, 1.0, 1.0};
+// Twenty percent dilation - use this so system test don't run for too long
+  double scale[3] = { 0.80, 1.0, 1.0 };
 
   ReferenceIteratorType ri(imgReference,region);
   TargetIteratorType ti(imgTarget,region);
@@ -177,14 +178,14 @@ int main()
   registrator->SetReference( imgReference );
   registrator->SetNumberOfLevels( 3 );
 
-// This set of parameters can recover ten percent dilation
+// This set of parameters can recover thirty percent dilation
 //  unsigned int niter[4] = { 500, 3000, 3000 };
-//  double rates[4] = { 2e-5, 1e-5, 5e-6 };
+//  double rates[4] = { 5e-4, 1e-4, 2e-5 };
 //  double scales[4] = { 100, 100, 100 };
 
-// This set of parameters can recover four percent dilation
+// This set of parameters can recover twenty percent dilation
   unsigned int niter[4] = { 100, 300, 550 };
-  double rates[4] = { 2e-5, 1e-5, 1e-5 };
+  double rates[4] = { 5e-4, 1e-4, 5e-5 };
   double scales[4] = { 100, 100, 100 };
 
   registrator->SetNumberOfIterations( niter );
