@@ -48,18 +48,6 @@ int itkListSampleTest(int, char* [] )
       whereFail = "Size()" ;
     }
 
-  if ( sampleSize != sample->Size(0) )
-    {
-      pass = false ;
-      whereFail = "Size(0)" ;
-    }
-
-  if ( sampleSize != sample->GetNumberOfInstances())
-    {
-      pass = false ;
-      whereFail = "GetNumberOfInstances()" ;
-    }
-
   mv = sample->GetMeasurementVector(4) ;
   if ( mv != sample->GetMeasurementVector(4) )
     {

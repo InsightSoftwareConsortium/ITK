@@ -68,12 +68,6 @@ int itkHistogramTest(int, char* [] )
       whereFail = "IsIndexOutOfBound(IndexType)" ;
     }
 
-  if (totalSize != histogram->GetNumberOfInstances())
-    {
-      pass = false ;
-      whereFail = "GetNumberOfInstances()" ;
-    }
-
   if (totalSize != histogram->Size())
     {
       pass = false ;

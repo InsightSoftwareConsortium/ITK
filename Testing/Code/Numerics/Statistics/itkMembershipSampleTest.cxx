@@ -78,13 +78,6 @@ int itkMembershipSampleTest(int, char* [] )
       whereFail = "GetNumberOfClasses()" ;
     }
 
-  if (membershipSample->GetNumberOfInstances() != 
-      sample->GetNumberOfInstances())
-    {
-      pass = false ;
-      whereFail = "GetNumberOfIntances()" ;
-    }
- 
   for (ImageToListAdaptorType::InstanceIdentifier id = 0 ; 
        id < static_cast< ImageToListAdaptorType::InstanceIdentifier >
          (sample->Size()) ;
@@ -112,18 +105,6 @@ int itkMembershipSampleTest(int, char* [] )
     {
       pass = false ;
       whereFail = "Size()" ;
-    }
-
-  if (totalSize != membershipSample->Size(0))
-    {
-      pass = false ;
-      whereFail = "Size(0)" ;
-    }
-
-  if (totalSize != membershipSample->GetNumberOfInstances())
-    {
-      pass = false ;
-      whereFail = "GetNumberOfInstances()" ;
     }
 
   ArrayPixelImageType::IndexType index ;

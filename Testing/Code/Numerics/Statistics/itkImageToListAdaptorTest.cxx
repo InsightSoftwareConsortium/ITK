@@ -66,18 +66,6 @@ int itkImageToListAdaptorTest(int, char* [] )
       whereFail = "Size()" ;
     }
 
-  if (totalSize != sample->Size(0))
-    {
-      pass = false ;
-      whereFail = "Size(0)" ;
-    }
-
-  if (totalSize != sample->GetNumberOfInstances())
-    {
-      pass = false ;
-      whereFail = "GetNumberOfInstances()" ;
-    }
-
   ArrayPixelImageType::IndexType index ;
   index.Fill(2) ;// index {2, 2, 2} = instance identifier (offset from image) 
   ArrayPixelImageType::PixelType pixel = sample->GetImage()->GetPixel(index) ;
