@@ -229,6 +229,7 @@ itkMatchCardinalityImageToImageMetricTest.cxx
 itkNarrowBandCurvesLevelSetImageFilterTest.cxx
 itkNarrowBandThresholdSegmentationLevelSetImageFilterTest.cxx
 itkOtsuMultipleThresholdsCalculatorTest.cxx
+itkOtsuMultipleThresholdsImageFilterTest.cxx        
 itkPointSetToPointSetRegistrationTest.cxx
 itkPointSetToSpatialObjectDemonsRegistrationTest.cxx
 itkRayCastInterpolateImageFunctionTest.cxx
@@ -345,6 +346,14 @@ ADD_TEST(itkOtsuThresholdImageFilterTest ${ALGORITHMS_TESTS3}
             ${ITK_DATA_ROOT}/Input/cthead1.png
             ${ITK_TEST_OUTPUT_DIR}/OtsuThresholdImageFilterTest.png
             64)
+
+ADD_TEST(itkOtsuMultipleThresholdsImageFilterTest ${ALGORITHMS_TESTS2}
+  --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/OtsuMultipleThresholdsImageFilterTest.png
+            ${ITK_TEST_OUTPUT_DIR}/OtsuMultipleThresholdsImageFilterTest.png
+  itkOtsuMultipleThresholdsImageFilterTest
+            ${ITK_DATA_ROOT}/Input/peppers.png
+            ${ITK_TEST_OUTPUT_DIR}/OtsuMultipleThresholdsImageFilterTest.png
+            64 3 2)
 
 ADD_TEST(itkVoronoiPartitioningImageFilterTest1 ${ALGORITHMS_TESTS2}
   --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/VoronoiPartioningImageFilterTest1.png

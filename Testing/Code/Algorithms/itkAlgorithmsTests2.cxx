@@ -23,6 +23,7 @@ void RegisterTests()
   REGISTER_TEST(itkMIRegistrationFunctionTest );
   REGISTER_TEST(itkMatchCardinalityImageToImageMetricTest );
   REGISTER_TEST(itkOtsuMultipleThresholdsCalculatorTest );
+  REGISTER_TEST(itkOtsuMultipleThresholdsImageFilterTest );
   REGISTER_TEST(itkPointSetToPointSetRegistrationTest );
   REGISTER_TEST(itkPointSetToSpatialObjectDemonsRegistrationTest );
   REGISTER_TEST(itkRegularSphereMeshSourceTest );
