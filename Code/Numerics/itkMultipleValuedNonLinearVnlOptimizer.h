@@ -50,7 +50,10 @@ public:
   /**
    * Dimension of the search space
    */
-  enum { SpaceDimension = TCostFunction::SpaceDimension };
+  enum { 
+    SpaceDimension = TCostFunction::SpaceDimension,
+    RangeDimension = TCostFunction::RangeDimension
+    };
 
 
   /** 
@@ -120,8 +123,9 @@ public:
   {
   public:
     VnlCostFunctionAdaptor():
-        vnl_least_squares_function(TCostFunction::SpaceDimension,
-                                   TCostFunction::RangeDimension) 
+        vnl_least_squares_function(SpaceDimension,
+                                   RangeDimension,
+                                   no_gradient) 
       { m_CostFunction = 0; }    
 
       void SetCostFunction( TCostFunction * costFunction ) 
@@ -134,7 +138,6 @@ public:
       virtual void f( const InternalParametersType & parameters, 
                             InternalMeasureType    & output      )
       {
-
         if( !m_CostFunction )
         {
           throw ExceptionObject();
@@ -150,7 +153,8 @@ public:
        *  Delegate computation of the gradient to the CostFunction
        */
       virtual void gradf(const InternalParametersType & parameters,
-                               InternalDerivativeType & derivative ) {
+                               InternalDerivativeType & derivative ) 
+      {
         if( !m_CostFunction )
         {
           throw ExceptionObject();
@@ -161,14 +165,15 @@ public:
 
         ConvertGradient( m_CostFunction->GetDerivative( externalParameters ),
                          derivative );
+
       }
-      
       /** 
        *  Delegate computation of value and gradient to the CostFunction
        */
       virtual void compute(const InternalParametersType & x,
                                  InternalMeasureType * f, 
-                                 InternalDerivativeType * g ) {
+                                 InternalDerivativeType * g ) 
+      {
         // delegate the computation to the CostFunction
 
         ParametersType externalParameters; 
@@ -181,8 +186,8 @@ public:
         ConvertGradient( 
             m_CostFunction->GetDerivative( externalParameters ), 
             *g ); 
+
       }
-     
 
       /**
        *  Convert internal Parameters (vnl_Vector) 
@@ -232,7 +237,7 @@ public:
                   const MeasureType         & input,
                         InternalMeasureType & output )
       {
-        for( unsigned int i=0; i<SpaceDimension; i++ )
+        for( unsigned int i=0; i<RangeDimension; i++ )
         {
           output[i] = input[i];
         }
@@ -246,7 +251,7 @@ public:
                     const InternalMeasureType & input,
                           MeasureType         & output )
       {
-        for( unsigned int i=0; i<SpaceDimension; i++ )
+        for( unsigned int i=0; i<RangeDimension; i++ )
         {
           output[i] = input[i];
         }
