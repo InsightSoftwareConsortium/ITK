@@ -283,7 +283,7 @@ GetJacobian( const InputPointType & p ) const
 
 
   // compute derivatives for the rotation center 
-  unsigned int blockOffset = 4;  
+  unsigned int blockOffset = 3;  
   for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
     {
     for(unsigned int j=0; j < SpaceDimension; j++ ) 
