@@ -148,7 +148,7 @@ public:
  * Caveat: this class only work for 3D reference and target images
  *
  * \sa MutualInformationImageToImageMetric
- * \sa QuaternionRigidRegistrationTransform
+ * \sa QuaternionRigidTransform
  *
  * \ingroup RigidImageRegistration
  */

@@ -102,7 +102,24 @@ SimilarityRegistrationMetric<TTarget,TMapper,TMeasure,TDerivative>
 }
 
 
+/**
+ * PrintSelf
+ */
+template <class TTarget, class TMapper, 
+          class TMeasure, class TDerivative>
+void
+SimilarityRegistrationMetric<TTarget,TMapper,TMeasure,TDerivative>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf( os, indent );
+  os << indent << "Target: " << m_Target.GetPointer() << std::endl;
+  os << indent << "Mapper: " << m_Mapper.GetPointer() << std::endl;
 
+  os << indent << "MatchMeasure: " << m_MatchMeasure << std::endl;
+  os << indent << "MatchMeasureDerivatives: ";
+  os << m_MatchMeasureDerivatives << std::endl;
+
+}
 
 
 } // end namespace itk

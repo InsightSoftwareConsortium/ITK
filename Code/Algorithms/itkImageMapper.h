@@ -145,6 +145,8 @@ protected:
 
   ImageMapper();
   ~ImageMapper(){};
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
 
 private:
   ImageMapper(const Self&); //purposely not implemented

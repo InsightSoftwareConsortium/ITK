@@ -106,6 +106,23 @@ ImageMapper<TImage,TTransformation>
 }
 
 
+/**
+ * PrintSelf
+ */
+template <class TImage, class TTransformation> 
+void
+ImageMapper<TImage,TTransformation>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf( os, indent );
+  os << indent << "Interpolator: ";
+  os << m_Interpolator.GetPointer() << std::endl;
+  os << indent << "CurrentPoint: ";
+  os << m_CurrentPoint << std::endl;
+
+}
+
+
 } // end namespace itk
 
 #endif

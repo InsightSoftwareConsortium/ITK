@@ -135,6 +135,22 @@ RegistrationMethod<TTraits>
 }
 
 
+/**
+ * PrintSelf
+ */
+template <class TTraits>
+void
+RegistrationMethod<TTraits>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf( os, indent );
+  os << indent << "Metric: " << m_Metric.GetPointer() << std::endl;
+  os << indent << "Optimizer: ";
+  os << m_Optimizer.GetPointer() << std::endl;
+}
+
+
+
 
 } // end namespace itk
 

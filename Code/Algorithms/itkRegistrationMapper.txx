@@ -58,6 +58,19 @@ RegistrationMapper<TDomain,TTransform>
 }
 
 
+/**
+ * PrintSelf
+ */
+template <class TDomain, class TTransform> 
+void
+RegistrationMapper<TDomain,TTransform>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf( os, indent );
+  os << indent << "Domain: " << m_Domain.GetPointer() << std::endl;
+  os << indent << "Transform: " << m_Transform.GetPointer() << std::endl;
+}
+
 
 } // end namespace itk
 

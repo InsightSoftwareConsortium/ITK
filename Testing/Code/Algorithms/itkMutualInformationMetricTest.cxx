@@ -158,6 +158,8 @@ int main()
   // connect the reference image to the mapper
   mapper->SetDomain( imgReference );
 
+  mapper->Print( std::cout );
+
 //------------------------------------------------------------
 // Set up the metric
 //------------------------------------------------------------

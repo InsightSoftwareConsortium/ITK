@@ -125,6 +125,7 @@ public:
 protected:
   RegistrationMethod();
   virtual ~RegistrationMethod();
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   RegistrationMethod(const Self&); //purposely not implemented

@@ -102,6 +102,8 @@ public:
 protected:
   RegistrationMapper();
   virtual ~RegistrationMapper() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
 
 private:
   RegistrationMapper(const Self&); //purposely not implemented

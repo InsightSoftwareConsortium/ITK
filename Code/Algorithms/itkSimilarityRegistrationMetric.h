@@ -134,6 +134,8 @@ public:
 protected:
   SimilarityRegistrationMetric();
   virtual ~SimilarityRegistrationMetric() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
 
   MeasureType                 m_MatchMeasure;
   DerivativeType              m_MatchMeasureDerivatives;
