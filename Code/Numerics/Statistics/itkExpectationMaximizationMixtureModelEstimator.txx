@@ -89,10 +89,10 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 template< class TSample >
 int
 ExpectationMaximizationMixtureModelEstimator< TSample >
-::AddComponent(ComponentPointer component)
+::AddComponent(ComponentType* component)
 {
   m_ComponentVector.push_back(component) ;
-  //component->SetSample(m_Sample) ;
+  return m_ComponentVector.size() ;
 }
 
 template< class TSample >
@@ -235,7 +235,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 {
   int componentIndex ;
   bool updated = false ;
-  ComponentPointer component ;
+  ComponentType* component ;
 
   for (componentIndex = 0 ; componentIndex < m_ComponentVector.size() ;
        componentIndex++)
