@@ -22,6 +22,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkClassifier.h"
 #include "itkConnectedRegionsMeshFilter.h"
 #include "itkCurvatureFlowImageFilter.h"
+#include "itkDeformableMesh.h"
+#include "itkDynamicPolygonCell.h"
 #include "itkExtensionVelocitiesImageFilter.h"
 #include "itkFastMarchingExtensionImageFilter.h"
 #include "itkFastMarchingImageFilter.h"
@@ -29,7 +31,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkGaussianSupervisedClassifier.h"
 #include "itkGeodesicActiveContourImageFilter.h"
 #include "itkGibbsPriorFilter.h"
-#include "itkGradientAnisotropicDiffusionImageFilter.h"
 #include "itkImageMomentsCalculator.h"
 #include "itkKLMRegionGrowImageFilter.h"
 #include "itkKLMSegmentationBorder.h"
@@ -60,6 +61,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSimilarityRegistrationMetric.h"
 #include "itkSupervisedClassifier.h"
 #include "itkUnsupervisedClassifier.h"
+#include "itkVoronoi2DDiagram.h"
 #include "itkWatershedImageFilter.h"
 
 int main ( int argc, char* argv )
