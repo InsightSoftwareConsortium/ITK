@@ -25,6 +25,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkEllipseSpatialObject.txx"
 #include "itkGroupSpatialObject.txx"
 #include "itkImageSpatialObject.txx"
+#include "itkLandmarkSpatialObject.txx"
 #include "itkLineSpatialObject.txx"
 #include "itkLineSpatialObjectPoint.txx"
 #include "itkNDimensionalSpatialObject.txx"
