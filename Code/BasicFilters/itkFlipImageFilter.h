@@ -117,7 +117,9 @@ protected:
                             int threadId );  
 
 private:
-  
+  FlipImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   FlipAxesArrayType       m_FlipAxes;
 
 };
