@@ -101,6 +101,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
   m_Optimizer->SetCostFunction( m_Metric );
   m_Optimizer->SetInitialPosition( m_InitialTransformParametersOfNextLevel );
 
+
 }
 
 

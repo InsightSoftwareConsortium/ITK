@@ -446,50 +446,73 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
     itkExceptionMacro( << "Could not cast refOutput to TOutputImage*." );
     }
 
-  // compute requested regions for the other outputs
   unsigned int ilevel, idim;
-  IndexType outputIndex;
-  SizeType  outputSize;
-  RegionType outputRegion;
 
-  IndexType  baseIndex = ptr->GetRequestedRegion().GetIndex();
-  SizeType   baseSize  = ptr->GetRequestedRegion().GetSize();
-
-
-  for( idim = 0; idim < TOutputImage::ImageDimension; idim++ )
+  if ( ptr->GetRequestedRegion() == ptr->GetLargestPossibleRegion() )
     {
-    unsigned int factor = m_Schedule[refLevel][idim];
-    baseIndex[idim] *= static_cast<IndexValueType>( factor );
-    baseSize[idim]  *= static_cast<SizeValueType>( factor );
+
+    // set the requested regions for the other outputs to their 
+    // requested region
+
+    for( ilevel = 0; ilevel < m_NumberOfLevels; ilevel++ )
+      {
+      if( ilevel == refLevel ) { continue; }
+      if( !this->GetOutput(ilevel) ) { continue; }
+    
+      this->GetOutput(ilevel)->SetRequestedRegionToLargestPossibleRegion();      
+      }
+
     }
-
-  for( ilevel = 0; ilevel < m_NumberOfLevels; ilevel++ )
+  else
     {
-    if( ilevel == refLevel ) { continue; }
-    if( !this->GetOutput(ilevel) ) { continue; }
+
+    // compute requested regions for the other outputs based on
+    // the requested region of the reference output
+
+    IndexType outputIndex;
+    SizeType  outputSize;
+    RegionType outputRegion;
+
+    IndexType  baseIndex = ptr->GetRequestedRegion().GetIndex();
+    SizeType   baseSize  = ptr->GetRequestedRegion().GetSize();
+
 
     for( idim = 0; idim < TOutputImage::ImageDimension; idim++ )
       {
-
-      double factor = static_cast<double>( m_Schedule[ilevel][idim] );
-
-      outputSize[idim] = static_cast<SizeValueType>(
-        floor( static_cast<double>(baseSize[idim]) / factor ) );
-      if( outputSize[idim] < 1 ) { outputSize[idim] = 1; } 
-
-      outputIndex[idim] = static_cast<IndexValueType>(
-        ceil( static_cast<double>(baseIndex[idim]) / factor ) );      
-
+      unsigned int factor = m_Schedule[refLevel][idim];
+      baseIndex[idim] *= static_cast<IndexValueType>( factor );
+      baseSize[idim]  *= static_cast<SizeValueType>( factor );
       }
 
-      outputRegion.SetIndex( outputIndex );
-      outputRegion.SetSize( outputSize );
+    for( ilevel = 0; ilevel < m_NumberOfLevels; ilevel++ )
+      {
+      if( ilevel == refLevel ) { continue; }
+      if( !this->GetOutput(ilevel) ) { continue; }
 
-      // make sure the region is within the largest possible region
-      outputRegion.Crop( this->GetOutput( ilevel )->
-        GetLargestPossibleRegion() );
-      // set the requested region
-      this->GetOutput( ilevel )->SetRequestedRegion( outputRegion );
+      for( idim = 0; idim < TOutputImage::ImageDimension; idim++ )
+        {
+
+        double factor = static_cast<double>( m_Schedule[ilevel][idim] );
+
+        outputSize[idim] = static_cast<SizeValueType>(
+          floor( static_cast<double>(baseSize[idim]) / factor ) );
+        if( outputSize[idim] < 1 ) { outputSize[idim] = 1; } 
+
+        outputIndex[idim] = static_cast<IndexValueType>(
+          ceil( static_cast<double>(baseIndex[idim]) / factor ) );      
+
+        }
+
+        outputRegion.SetIndex( outputIndex );
+        outputRegion.SetSize( outputSize );
+
+        // make sure the region is within the largest possible region
+        outputRegion.Crop( this->GetOutput( ilevel )->
+          GetLargestPossibleRegion() );
+        // set the requested region
+        this->GetOutput( ilevel )->SetRequestedRegion( outputRegion );
+      }
+
     }
 
 

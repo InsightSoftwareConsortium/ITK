@@ -80,7 +80,7 @@ int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
   typedef itk::Image<float,3>               OutputImageType;
   enum { ImageDimension = InputImageType::ImageDimension };
 
-  InputImageType::SizeType size = {{100,100,40}};
+  InputImageType::SizeType size = {{101,101,41}};
   InputImageType::IndexType index = {{0,0,0}};
   InputImageType::RegionType region;
   region.SetSize( size );
@@ -173,6 +173,7 @@ int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
     std::cout << schedule << std::endl;
     std::cout << "instead of: " << std::endl;
     std::cout << pyramid->GetSchedule();
+    return EXIT_FAILURE;
     }
 
   // set schedule by specifying the starting shrink factors
@@ -205,6 +206,7 @@ int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
     std::cout << schedule << std::endl;
     std::cout << "instead of: " << std::endl;
     std::cout << pyramid->GetSchedule();
+    return EXIT_FAILURE;
     }
 
   // test start factors
@@ -215,7 +217,7 @@ int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
       {
       pass = false;
       std::cout << "Returned starting factors incorrect" << std::endl;
-      break;
+      return EXIT_FAILURE;
       }
     }
 
@@ -224,6 +226,7 @@ int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
     {
     pass = false;
     std::cout << "Schedule should be downward divisible" << std::endl;
+    return EXIT_FAILURE;
     }
 
   // generate output at a level with progress
@@ -283,10 +286,21 @@ int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
   if( j != ImageDimension )
     {
     pass = false;
+    std::cout << "Output meta information incorrect." << std::endl;
     pyramid->GetInput()->Print(std::cout);
     pyramid->GetOutput( testLevel )->Print(std::cout);
+    return EXIT_FAILURE;
     }
 
+  // check that the buffered region is equivalent the largestpossible
+  if( pyramid->GetOutput(numLevels-1)->GetBufferedRegion() !=
+    pyramid->GetOutput(numLevels-1)->GetLargestPossibleRegion() )
+    {
+    pass = false;
+    std::cout << "Output buffered region incorrect. " << std::endl;
+    pyramid->GetOutput(numLevels-1)->Print(std::cout);
+    return EXIT_FAILURE;
+    }
 
   // run in streamed mode
   std::cout << "Run ImagePyramid with streamer";
