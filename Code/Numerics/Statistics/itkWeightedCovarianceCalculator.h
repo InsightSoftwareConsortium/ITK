@@ -45,6 +45,8 @@ public:
   itkTypeMacro(WeightedCovarianceCalculator, SampleAlgorithmBase);
   itkNewMacro(Self) ;
   
+  typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
+  typedef FunctionBase< MeasurementVectorType, double > WeightFunctionType ;
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       TSample::MeasurementVectorSize);
 
@@ -63,11 +65,22 @@ public:
 
   WeightArrayType* GetWeights() ;
 
+  void SetWeightFunction(WeightFunctionType* func) ;
+  
+  double GetWeight(MeasurementVectorType measurementVector) ;
+  
   /** Stores the sample pointer */
-  void SetMean(MeanType* mean) ;
+  void SetMean(MeanType* mean)
+  {
+    if ( m_Mean != mean )
+      {
+        m_Mean = mean ;
+        this->Modified() ;
+      }
+  }
 
-  /** Returns the sample pointer */
-  MeanType* GetMean() ;
+  void GetMean()
+  { return m_Mean ; }
 
   /** Returns the covariance matrix of the target sample data */ 
   OutputType* GetOutput() ;
@@ -84,6 +97,7 @@ private:
   OutputType* m_Output ;
   MeanType* m_Mean ;
   WeightArrayType* m_Weights ;
+  WeightFunctionType* m_WeightFunction ;
 } ; // end of class
     
   } // end of namespace Statistics 
