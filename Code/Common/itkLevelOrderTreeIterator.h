@@ -38,6 +38,8 @@ public:
   LevelOrderTreeIterator( TreeType* tree, int endLevel = INT_MAX, const TreeNodeType* start = NULL);
   LevelOrderTreeIterator( TreeType* tree, int startLevel, int endLevel, const TreeNodeType* start = NULL);
 
+  virtual ~LevelOrderTreeIterator() {};
+
   /** Get the type of the iterator */
   int GetType() const ;
 
@@ -63,6 +65,7 @@ public:
     m_Queue = it.m_Queue;
     return *this;
     }
+
 
 protected:
 

@@ -40,7 +40,7 @@ public:
   LeafTreeIterator( TreeType* tree );
 
   /** Destructor */
-  ~LeafTreeIterator();
+  virtual ~LeafTreeIterator();
 
   /** Return the type of iterator */
   int GetType() const;
