@@ -146,6 +146,7 @@ public:
       return !same;
     }
   
+  
   /** Test if an index is inside */
   bool
   IsInside(const IndexType &index) const
@@ -160,6 +161,28 @@ public:
           {
           return false;
           }
+        }
+      return true;
+    }
+ 
+  /** Test if a region (the argument) is completly inside of this region */
+  bool
+  IsInside(const Self &region) const
+    {
+      IndexType beginCorner = region.GetIndex();
+      if( ! this->IsInside( beginCorner ) )
+        {
+        return false;
+        }
+      IndexType endCorner;
+      SizeType  size = region.GetSize();
+      for(unsigned int i=0; i<ImageDimension; i++) 
+        {
+        endCorner[i] = beginCorner[i] + size[i];
+        }
+      if( ! this->IsInside( endCorner ) )
+        {
+        return false;
         }
       return true;
     }
