@@ -72,7 +72,7 @@ int main()
   // \]
   // We get the probability density for the measurement vector: [0, 0]
   // using the \code{Evaluate(measurement vector)} method and print it out.
- `//
+  //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
