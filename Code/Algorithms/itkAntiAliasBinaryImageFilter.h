@@ -159,17 +159,27 @@ protected:
    * less than a user-specified threshold. */
   bool Halt()
   {
+
+    this->UpdateProgress( static_cast<float>( this->GetElapsedIterations() ) /
+                          static_cast<float>( m_MaximumIterations ) );
+
     if (this->GetElapsedIterations() >= m_MaximumIterations)
       {
       itkWarningMacro("This filter has passed the maximum number of iterations allowed and will be halted.  This means that the solution did not converge to the MaximumRMSError you specified.  Try setting m_MaximumRMSError to a higher value, or set m_MaxmimumIterations to a higher value.");
       return true;
       }
     else if ( this->GetElapsedIterations() == 0)
-      { return false; }
+      { 
+      return false;
+      }
     else if ( this->GetRMSChange() <= m_MaximumRMSError )
-      { return true; }
+      { 
+      return true; 
+      }
     else
-      { return false; }
+      { 
+      return false;
+      }
   }
 
   /** Overridden from ProcessObject to set certain values before starting the

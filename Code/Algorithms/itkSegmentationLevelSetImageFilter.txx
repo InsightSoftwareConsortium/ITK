@@ -114,14 +114,26 @@ bool
 SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>
 ::Halt()
 {
+
+  this->UpdateProgress( static_cast<float>( this->GetElapsedIterations() ) /
+                        static_cast<float>( m_MaximumIterations ) );
+
   if (this->GetElapsedIterations() >= m_MaximumIterations)
-    {      return true;    }
+    {
+    return true;
+    }
   else if ( this->GetElapsedIterations() == 0)
-    { return false; }
+    {
+    return false; 
+    }
   else if ( this->GetRMSChange() <= m_MaximumRMSError )
-    { return true; }
+    {
+    return true; 
+    }
   else
-    { return false; }
+    { 
+    return false; 
+    }
 }
 
 } // end namespace itk
