@@ -540,7 +540,7 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
   
   bool found;
   
-  char c;
+  unsigned char c;
   while(!fp.eof())
     {
     i = 0;
