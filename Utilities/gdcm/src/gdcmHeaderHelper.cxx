@@ -248,7 +248,7 @@ bool SerieHeader::ImagePositionPatientOrdering()
 bool SerieHeader::ImageNumberOrdering() 
 {
    int min, max, pos;
-   int n = 0;//CoherentGdcmFileList.size() is a O(N) operation !!
+   int n = 0;//CoherentGdcmFileList.size() is a O(N) operation
    unsigned char *partition;
   
    GdcmHeaderList::const_iterator it = CoherentGdcmFileList.begin();
@@ -262,7 +262,10 @@ bool SerieHeader::ImageNumberOrdering()
       min = (min < pos) ? min : pos;
    }
 
-   //bzeros(partition, n); //Cette fonction est déconseillée, utilisez plutôt memset.
+   // Find out if sorting worked:
+   if( min == max || max == 0 ) return false;
+
+   //bzeros(partition, n); //This function is deprecated, better use memset.
    partition = new unsigned char[n];
    memset(partition, 0, n);
 

@@ -58,10 +58,15 @@ const std::vector<std::string> &GDCMSeriesFileNames::GetInputFileNames()
 #endif
         if( !header )
           {
-          std::cerr << "GDCMSeriesFileNames got NULL header " << std::endl;
+          std::cerr << "GDCMSeriesFileNames got NULL header, this is a serious bug" << std::endl;
           continue;
           }
-      m_InputFileNames.push_back( header->GetFileName() );
+        if( !header->IsReadable() )
+          {
+          std::cerr << "GDCMSeriesFileNames got a non DICOM file:" << header->GetFileName() << std::endl;
+          continue;
+          }
+        m_InputFileNames.push_back( header->GetFileName() );
       }
     }
   else
