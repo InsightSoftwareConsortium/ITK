@@ -68,20 +68,33 @@ namespace _cable_
                      itkNearestNeighborInterpolateImageFunctionUS3D);
     
     // wrap BSplineInterpolateImageFunction 
-    ITK_WRAP_OBJECT2(BSplineInterpolateImageFunction, image::F2,
-                     double, 
-                     itkBSplineInterpolateImageFunctionF2D);
-    ITK_WRAP_OBJECT2(BSplineInterpolateImageFunction, image::F3, 
-                     double, 
-                     itkBSplineInterpolateImageFunctionF3D);
-    ITK_WRAP_OBJECT2(BSplineInterpolateImageFunction, image::US2,
-                     double, 
-                     itkBSplineInterpolateImageFunctionUS2D);
-    ITK_WRAP_OBJECT2(BSplineInterpolateImageFunction, image::US3,
-                     double, 
-                     itkBSplineInterpolateImageFunctionUS3D);
+    ITK_WRAP_OBJECT3(BSplineInterpolateImageFunction, image::F2,
+                     double,float, 
+                     itkBSplineInterpolateImageFunctionF2DF);
+    ITK_WRAP_OBJECT3(BSplineInterpolateImageFunction, image::F3, 
+                     double,float, 
+                     itkBSplineInterpolateImageFunctionF3DF);
+    ITK_WRAP_OBJECT3(BSplineInterpolateImageFunction, image::US2,
+                     double,float, 
+                     itkBSplineInterpolateImageFunctionUS2DF);
+    ITK_WRAP_OBJECT3(BSplineInterpolateImageFunction, image::US3,
+                     double,float, 
+                     itkBSplineInterpolateImageFunctionUS3DF);
 
- 
+     ITK_WRAP_OBJECT3(BSplineInterpolateImageFunction, image::F2,
+                     double, double, 
+                     itkBSplineInterpolateImageFunctionF2DD);
+    ITK_WRAP_OBJECT3(BSplineInterpolateImageFunction, image::F3, 
+                     double, double, 
+                     itkBSplineInterpolateImageFunctionF3DD);
+    ITK_WRAP_OBJECT3(BSplineInterpolateImageFunction, image::US2,
+                     double, double, 
+                     itkBSplineInterpolateImageFunctionUS2DD);
+    ITK_WRAP_OBJECT3(BSplineInterpolateImageFunction, image::US3,
+                     double, double, 
+                     itkBSplineInterpolateImageFunctionUS3DD);
+
+
     // wrap BSplineResampleImageFunction 
     ITK_WRAP_OBJECT2(BSplineResampleImageFunction, image::F2,
                      double, 
