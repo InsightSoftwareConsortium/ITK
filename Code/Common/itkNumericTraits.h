@@ -13,13 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * NumericTraits is used to extend the traits associated with native types
- * such as float, char, int, and so on. These traits are extensions of the
- * standard <numeric_limits> defined by the C++ compilers. Some of the added
- * traits include minimum and maximum value; accumulation type; etc.  
- */
-
 #ifndef __itkNumericTraits_h
 #define __itkNumericTraits_h
 
@@ -34,10 +27,18 @@
 namespace itk
 {
 
+/** \class NumericTraits
+ * \brief Define additional traits for native types such as int or float.
+ *
+ * NumericTraits is used to extend the traits associated with native types
+ * such as float, char, int, and so on. These traits are extensions of the
+ * standard <numeric_limits> defined by the C++ compilers. Some of the added
+ * traits include minimum and maximum value; accumulation type; etc.  
+ */
 template <class T>
 class NumericTraits : public ITK_NUMERIC_LIMITS<T> {
 public:
-  /* Return the type of this native type */
+  /** Return the type of this native type */
   typedef T ValueType; 
 
   /* Return value of abs() */
