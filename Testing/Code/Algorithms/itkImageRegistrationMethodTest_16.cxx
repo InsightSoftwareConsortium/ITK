@@ -46,20 +46,20 @@ bool DoRegistration ()
   typedef itk::Image<DataType,dimension>               MovingImageType;
 
   // Size Type
-  typedef MovingImageType::SizeType                 SizeType;
+  typedef typename MovingImageType::SizeType                 SizeType;
 
   // Transform Type
   typedef itk::AffineTransform< double, dimension > TransformType;
-  typedef TransformType::ParametersType             ParametersType;
+  typedef typename TransformType::ParametersType             ParametersType;
 
   // ImageSource
   typedef itk::testhelper::ImageRegistrationMethodImageSource<
-                                  FixedImageType::PixelType,
-                                  MovingImageType::PixelType,
+                                  typename FixedImageType::PixelType,
+                                  typename MovingImageType::PixelType,
                                   dimension >         ImageSourceType;
   // Transform Type
   typedef itk::AffineTransform< double, dimension > TransformType;
-  typedef TransformType::ParametersType             ParametersType;
+  typedef typename TransformType::ParametersType             ParametersType;
 
   // Optimizer Type
   typedef itk::GradientDescentOptimizer                  OptimizerType;
@@ -83,12 +83,12 @@ bool DoRegistration ()
                                   OptimizerType >    CommandIterationType;
 
 
-  MetricType::Pointer         metric        = MetricType::New();
-  TransformType::Pointer      transform     = TransformType::New();
-  OptimizerType::Pointer      optimizer     = OptimizerType::New();
-  TransformType::Pointer      trasform      = TransformType::New();
-  InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
-  RegistrationType::Pointer   registration  = RegistrationType::New();
+  typename MetricType::Pointer         metric        = MetricType::New();
+  typename TransformType::Pointer      transform     = TransformType::New();
+  typename OptimizerType::Pointer      optimizer     = OptimizerType::New();
+  typename TransformType::Pointer      trasform      = TransformType::New();
+  typename InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
+  typename RegistrationType::Pointer   registration  = RegistrationType::New();
 
   ImageSourceType::Pointer    imageSource   = ImageSourceType::New();
 
@@ -184,7 +184,7 @@ bool DoRegistration ()
   return pass;
 
 }
-int itkImageRegistrationMethodTest_16(int argc, char* argv[] )
+int itkImageRegistrationMethodTest_16(int itkNotUsed(argc), char*[] itkNotUsed(argv) )
 {
   bool result_uc, result_c, result_us, result_s,
     result_ui, result_i, result_ul, result_l,
