@@ -118,7 +118,7 @@ public:
    * instance that is created. Or you can directly specify the ImageIO
    * to use to read a particular file in case the factory mechanism will
    * not work properly (e.g., unknown or unusual extension). */
-  itkSetObjectMacro(ImageIO,ImageIOBase);
+  void  SetImageIO( ImageIOBase * imageIO );
   itkGetObjectMacro(ImageIO,ImageIOBase);
   
   /** Prepare the allocation of the output image during the first back

@@ -59,7 +59,23 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::PrintSelf(std::ostream& 
 
 
 template <class TOutputImage, class ConvertPixelTraits>
-void ImageFileReader<TOutputImage, ConvertPixelTraits>
+void 
+ImageFileReader<TOutputImage, ConvertPixelTraits>
+::SetImageIO( ImageIOBase * imageIO)
+{
+    itkDebugMacro("setting ImageIO to " << imageIO ); 
+    if (this->m_ImageIO != imageIO ) 
+      {
+      this->m_ImageIO = imageIO;
+      this->Modified(); 
+      } 
+    m_UserSpecifiedImageIO = true;
+}
+
+
+template <class TOutputImage, class ConvertPixelTraits>
+void 
+ImageFileReader<TOutputImage, ConvertPixelTraits>
 ::GenerateOutputInformation(void)
 {
 
@@ -78,10 +94,6 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
     {
     m_UserSpecifiedImageIO = false;
     m_ImageIO = ImageIOFactory::CreateImageIO( m_FileName.c_str(), ImageIOFactory::ReadMode );
-    }
-  else
-    {
-    m_UserSpecifiedImageIO = true;
     }
   
   if ( m_ImageIO.IsNull() )
