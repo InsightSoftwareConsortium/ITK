@@ -351,7 +351,7 @@ private:
   /** Memory for the current buffer. */
   PixelContainerPointer m_Buffer;
 };
-#ifndef ITK_NOEXPLICIT_INSTANTIATION
+#ifdef ITK_EXPLICIT_INSTANTIATION
    extern template class Image<float         ,2>;
    extern template class Image<double        ,2>;
    extern template class Image<unsigned char ,2>;

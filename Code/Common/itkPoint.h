@@ -255,7 +255,7 @@ public:
     const WeightContainerType & weights );
 };
 
-#ifndef ITK_NOEXPLICIT_INSTANTIATION
+#ifdef ITK_EXPLICIT_INSTANTIATION
    extern template class Point<float         ,2>;
    extern template class Point<double        ,2>;
    extern template class Point<float         ,3>;

@@ -272,7 +272,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
 };
-#ifndef ITK_NOEXPLICIT_INSTANTIATION
+#ifdef ITK_EXPLICIT_INSTANTIATION
    extern template class ImageSource<Image<float         ,2> >;
    extern template class ImageSource<Image<double        ,2> >;
    extern template class ImageSource<Image<unsigned char ,2> >;
