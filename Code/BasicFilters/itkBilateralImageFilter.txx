@@ -52,7 +52,8 @@ BilateralImageFilter<TInputImage,TOutputImage>
   for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
     {
     radius[i] =
-      (typename TInputImage::SizeType::SizeValueType) ceil(mu*m_DomainSigma[i]);
+      (typename TInputImage::SizeType::SizeValueType)
+      ceil(mu*m_DomainSigma[i]/this->GetInput()->GetSpacing()[i]);
     }
 
   // get a copy of the input requested region (should equal the output
@@ -104,7 +105,8 @@ BilateralImageFilter<TInputImage, TOutputImage>
   for (i = 0; i < ImageDimension; i++)
     {
     radius[i] =
-      (typename TInputImage::SizeType::SizeValueType) ceil(mu*m_DomainSigma[i]);
+      (typename TInputImage::SizeType::SizeValueType)
+      ceil(mu*m_DomainSigma[i]/this->GetInput()->GetSpacing()[i]);
     domainKernelSize[i] = 2*radius[i] + 1;
     }
 
