@@ -93,7 +93,7 @@ Indent indent) const
  * Compute weights for interpolation at continous index position
  */
 template <class TCoordRep, unsigned int VSpaceDimension, unsigned int VSplineOrder>
-BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>
+typename BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>
 ::WeightsType
 BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>
 ::Evaluate(
