@@ -237,7 +237,7 @@ public:
    * Returns the offsets used to wrap across dimensional boundaries.
    */
   OffsetType GetWrapOffset() const
-    {  return m_WrapOffsets;  }
+    {  return m_WrapOffset;  }
 
   /**
    * Returns the internal offset associated with wrapping around a single
