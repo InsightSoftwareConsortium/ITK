@@ -21,7 +21,6 @@
 #define __itkGDCMImageIO_h
 
 #include "itkImageIOBase.h"
-#include "gdcm/src/gdcmHeader.h"
 
 namespace itk
 {
@@ -31,7 +30,7 @@ namespace itk
  *  
  *  http://creatis-www.insa-lyon.fr/Public/Gdcm/
  *
- *  CREATIS INSA - Lyon 2003-2004
+ *  CREATIS INSA - Lyon 2003-2005
  *    http://www.creatis.insa-lyon.fr
  *
  *  \warning There are several restrictions to this current writer:
@@ -41,8 +40,8 @@ namespace itk
  *              The output file may not contains ALL DICOM field from the input file.
  *              In particular:
  *                             - The SeQuence DICOM field (SQ).
- *                             - The Binary DICOM field (a non human readable string)
  *                             - Fields from Private Dictionary with unresolved Name (= unknown at runtime)
+ *           *  As of 01/15 the binary fields are properly passed.
  *
  *  \ingroup IOFilters
  *
@@ -123,10 +122,6 @@ protected:
   std::string m_SeriesInstanceUID;
   std::string m_FrameOfReferenceInstanceUID;
   bool m_KeepOriginalUID;
-
-#if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
-  ::gdcmHeader *m_GdcmHeader;
-#endif
 
 private:
   GDCMImageIO(const Self&); //purposely not implemented
