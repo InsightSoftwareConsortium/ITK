@@ -69,6 +69,18 @@ $optimizer  SetNumberOfIterations  200
 $registration StartRegistration 
 
 
+# Get the final parameters of the transformation
+set finalParameters [$registration GetLastTransformParameters]
+
+
+# Print them out
+puts "Final Registration Parameters "
+puts "Angle in radians  =  [$finalParameters () 0]"
+puts "Rotation Center X =  [$finalParameters () 1]"
+puts "Rotation Center Y =  [$finalParameters () 2]"
+puts "Translation in  X =  [$finalParameters () 3]"
+puts "Translation in  Y =  [$finalParameters () 4]"
+
 
 # Now, 
 # we use the final transform for resampling the
