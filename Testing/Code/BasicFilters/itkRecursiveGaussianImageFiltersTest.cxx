@@ -176,6 +176,8 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
   typedef ImageType::RegionType         RegionType;
   typedef ImageType::SpacingType        SpacingType;
 
+  typedef itk::NumericTraits< PixelType >::RealType    PixelRealType;
+
   SizeType size;
   size[0] = 21;
 
@@ -204,21 +206,160 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
                             ImageType, ImageType > FilterType;
 
   FilterType::Pointer filter = FilterType::New();
-  filter->SetSigma( 2.0 );
 
   filter->SetInput( inputImage );
 
-  filter->SetNormalizeAcrossScale( false );
+  std::cout << "Testing normalization across scales...  ";
+  { // begin of test for normalization across scales
+    
+    filter->SetNormalizeAcrossScale( true );
 
-  filter->SetZeroOrder();
-  filter->Update();
+    const double sigmaA = 2.0;
+    filter->SetSigma( sigmaA );
+    filter->Update();
+
+    const PixelType valueA = filter->GetOutput()->GetPixel( index );
+
+    const double sigmaB = 4.0;
+    filter->SetSigma( sigmaB );
+
+    filter->Update();
+
+    const PixelType valueB = filter->GetOutput()->GetPixel( index );
+
+    if( fabs( valueB - valueA ) > 1e-5 )
+      {
+      std::cout << "FAILED !" << std::endl;
+      std::cerr << "Error, Normalization across scales is failing" << std::endl;
+      std::cerr << "Central pixel at sigma = " << sigmaA << " = " << valueA << std::endl;
+      std::cerr << "Central pixel at sigma = " << sigmaB << " = " << valueB << std::endl;
+      return EXIT_FAILURE;
+      }
+    else
+      {
+      std::cout << "PASSED !" << std::endl;
+      }
+
+    } // end of test for normalization across scales
+
+    std::cout << "Testing derivatives normalization " << std::endl;
+
+    { // begin of test for normalization among derivatives
+    filter->SetNormalizeAcrossScale( false );
+
+    // Since one side of the Gaussian is monotonic we can 
+    // use the middle-value theorem: The value of the derivative at
+    // index[0] - 2 must be bounded by the estimation of the derivative
+    // at index[0] -1 and index[0] -3. In the following we compute an
+    // estimation of derivatives by partial differences at this two 
+    // positions and use them as bounds for the value of the first order
+    // derivative returned by the filter.
+    
+    const double sigmaC = 3.0;
+    filter->SetSigma( sigmaC );
+
+    filter->SetZeroOrder();
+    filter->Update();
+
+    index[0] = ( size[0] - 1 ) / 2;  // the middle pixel
+    const PixelRealType valueA = filter->GetOutput()->GetPixel( index ); 
+
+    index[0] -= 2;
+    const PixelRealType valueB = filter->GetOutput()->GetPixel( index ); 
+
+    index[0] -= 2;
+    const PixelRealType valueC = filter->GetOutput()->GetPixel( index ); 
+
+    const PixelRealType derivativeLowerBound = ( valueA - valueB ) / 2.0;
+    const PixelRealType derivativeUpperBound = ( valueB - valueC ) / 2.0;
+
+    // Now let's get the first derivative value computed by the filter
+    filter->SetFirstOrder();
+    filter->Update();
+
+
+    index[0] = ( size[0] - 1 ) / 2;  // the middle pixel
+    index[0] -= 2;
+
+    const PixelRealType derivativeValue = filter->GetOutput()->GetPixel( index ); 
+
+    std::cout << "   first derivative normalization...  ";
+    if( ( derivativeLowerBound > derivativeValue ) || 
+        ( derivativeUpperBound < derivativeValue )  )
+      {
+      std::cout << "FAILED !" << std::endl;
+      std::cerr << "The value of the first derivative at index " << index[0] << std::endl;
+      std::cerr << "is = " << derivativeValue << std::endl;
+      std::cerr << "which is outside the bounds = [ " << derivativeLowerBound;
+      std::cerr << " : " << derivativeUpperBound << " ] " << std::endl;
+      return EXIT_FAILURE;
+      }
+    else 
+      {
+      std::cout << "PASSED !" << std::endl;
+      }
+
+
+    // Now do the similar testing between First Derivative and Second 
+    // derivative.
+    filter->SetFirstOrder();
+    filter->Update();
+
+    index[0] = ( size[0] - 1 ) / 2;  // the middle pixel 
+    const PixelRealType value1A = filter->GetOutput()->GetPixel( index ); 
+
+    index[0] -= 2;
+    const PixelRealType value1B = filter->GetOutput()->GetPixel( index ); 
+
+    index[0] -= 2;
+    const PixelRealType value1C = filter->GetOutput()->GetPixel( index ); 
+
+    // NOTE that the second derivative in this region is monotonic but decreasing.
+    const PixelRealType secondDerivativeLowerBound = ( value1A - value1B ) / 2.0;
+    const PixelRealType secondDerivativeUpperBound = ( value1B - value1C ) / 2.0;
+
+    // Now let's get the second derivative value computed by the filter
+    filter->SetSecondOrder();
+    filter->Update();
+
+
+    index[0] = (( size[0] - 1 ) / 2) - 2; // where to sample the second derivative
+
+    const PixelRealType secondDerivativeValue = filter->GetOutput()->GetPixel( index ); 
+
+    std::cout << "   second derivative normalization...  ";
+    if( ( secondDerivativeLowerBound > secondDerivativeValue ) || 
+        ( secondDerivativeUpperBound < secondDerivativeValue )  )
+      {
+      std::cout << "FAILED !" << std::endl;
+      std::cerr << "The value of the second derivative at index " << index[0] << std::endl;
+      std::cerr << "is = " << secondDerivativeValue << std::endl;
+      std::cerr << "which is outside the bounds = [ " << secondDerivativeLowerBound;
+      std::cerr << " : " << secondDerivativeUpperBound << " ] " << std::endl;
+      return EXIT_FAILURE;
+      }
+    else 
+      {
+      std::cout << "PASSED !" << std::endl;
+      }
+
+
+    } // end of test for normalization among derivatives
+  
+
+    
+  // Print out all the values for the zero, first and second order
+  filter->SetNormalizeAcrossScale( false );
+  filter->SetSigma( 2.0 );
 
   ImageType::ConstPointer outputImage = filter->GetOutput();
-
   typedef itk::ImageRegionConstIterator< ImageType > IteratorType;
-
-  std::cout << "Smoothed image " << std::endl;
   IteratorType  it( outputImage, outputImage->GetBufferedRegion() );
+
+  std::cout << std::endl << std::endl;
+  std::cout << "Smoothed image " << std::endl;
+  filter->SetZeroOrder();
+  filter->Update();
   it.GoToBegin();
   while( ! it.IsAtEnd() )
     {
@@ -256,7 +397,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
 
   
   // All objects should be automatically destroyed at this point
-  return 0;
+  return EXIT_SUCCESS;
 
 }
 
