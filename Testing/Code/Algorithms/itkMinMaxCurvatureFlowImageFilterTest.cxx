@@ -285,17 +285,42 @@ int testMinMaxCurvatureFlow(
     passed = false;
     }
 
+  if ( !passed )
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
 
   /**
    * Exercise other member functions here
    */
   denoiser->Print( std::cout );
 
+ /**
+  * Exercise error handling
+  */
+  typedef itk::CurvatureFlowFunction<ImageType> WrongFunctionType;
+  typename WrongFunctionType::Pointer wrongFunction = WrongFunctionType::New();
+
+  passed = false;
+  try
+    {
+    denoiser->SetDifferenceFunction( wrongFunction );
+    denoiser->Update();
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    passed = true;
+    std::cout << "Caught expected exception." << std::endl;
+    std::cout << err << std::endl;
+    }
+
   if ( !passed )
     {
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
     }
+
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

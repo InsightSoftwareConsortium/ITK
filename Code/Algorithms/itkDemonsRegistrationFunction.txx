@@ -92,7 +92,6 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   if( !m_MovingImage || !m_FixedImage || !m_MovingImageInterpolator )
     {
     itkExceptionMacro( << "MovingImage, FixedImage and/or Interpolator not set" );
-    throw ExceptionObject(__FILE__,__LINE__);
     }
 
   // cache fixed image information
@@ -181,33 +180,6 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   return update;
 
 }
-
-
-
-/*
- * Compute update at a boundary neighbourhood
- */
-/*
-template <class TFixedImage, class TMovingImage, class TDeformationField>
-typename DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
-::PixelType
-DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
-::ComputeUpdate(const BoundaryNeighborhoodType &it, void * itkNotUsed(globalData),
-                const FloatOffsetType& itkNotUsed(offset)) const
-{
-
-  PixelType update;
-  unsigned int  j;
-
-  for( j = 0; j < ImageDimension; j++ )
-    {
-    update[j] = 0.0;
-    }
-
-  return update;
-
-}
-*/
 
 
 } // end namespace itk

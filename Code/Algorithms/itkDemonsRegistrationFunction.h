@@ -142,12 +142,6 @@ public:
                      void *globalData,
                      const FloatOffsetType &offset = FloatOffsetType(0.0)) const;
 
-  /** This method is called by a finite difference solver image filter at
-    * each pixel that lies on the data set boundary. */
-  /* virtual PixelType  ComputeUpdate(const BoundaryNeighborhoodType
-                     &neighborhood, void *globalData,
-                     const FloatOffsetType &offset = FloatOffsetType(0.0)) const;
-  */
 protected:
   DemonsRegistrationFunction();
   ~DemonsRegistrationFunction() {}

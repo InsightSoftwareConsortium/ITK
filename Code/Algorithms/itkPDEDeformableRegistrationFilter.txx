@@ -175,35 +175,33 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
   if( !movingPtr || !fixedPtr )
     {
     itkExceptionMacro( << "Fixed and/or moving image not set" );
-    throw ExceptionObject(__FILE__,__LINE__);
     }
 
   // update variables in the equation object
-  try
-    {
-    PDEDeformableRegistrationFunctionType *f = 
-      dynamic_cast<PDEDeformableRegistrationFunctionType *>
-      (this->GetDifferenceFunction().GetPointer());
-    f->SetFixedImage( fixedPtr );
-    f->SetMovingImage( movingPtr );
-    this->Superclass::InitializeIteration();           
-    }
-  catch( ... )
+  PDEDeformableRegistrationFunctionType *f = 
+    dynamic_cast<PDEDeformableRegistrationFunctionType *>
+    (this->GetDifferenceFunction().GetPointer());
+
+  if ( !f )
     {
     itkExceptionMacro(<<"FiniteDifferenceFunction not of type PDEDeformableRegistrationFilterFunction");
-    throw ExceptionObject( __FILE__, __LINE__ );
     }
 
+  f->SetFixedImage( fixedPtr );
+  f->SetMovingImage( movingPtr );
+
+  this->Superclass::InitializeIteration();           
+
   // progress feedback
-  if( m_NumberOfIterations <= 0 )
+  if ( m_NumberOfIterations != 0 )
     {
-      this->UpdateProgress( 1.0 );
+    this->UpdateProgress(((float)(this->GetElapsedIterations()))
+                         /((float)(m_NumberOfIterations)));
     }
-  else if ( m_NumberOfIterations < 100 || !(this->GetElapsedIterations() % 10) )
+  else 
     {
-      this->UpdateProgress( (float) this->GetElapsedIterations() /
-        (float) m_NumberOfIterations );
-    } 
+    this->UpdateProgress(0);
+    }
 
 }
 

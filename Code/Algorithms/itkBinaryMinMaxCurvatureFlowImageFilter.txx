@@ -65,21 +65,20 @@ BinaryMinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>
 {
 
   // update variables in the equation object
-  try
-    {
-    BinaryMinMaxCurvatureFlowFunctionType *f = 
-      dynamic_cast<BinaryMinMaxCurvatureFlowFunctionType *>
-      (this->GetDifferenceFunction().GetPointer());
+ 
+  BinaryMinMaxCurvatureFlowFunctionType *f = 
+    dynamic_cast<BinaryMinMaxCurvatureFlowFunctionType *>
+    (this->GetDifferenceFunction().GetPointer());
 
-    f->SetThreshold( m_Threshold );
-
-    this->Superclass::InitializeIteration();           
-    }
-  catch( ... )
+  if ( !f )
     {
     itkExceptionMacro(<<"DifferenceFunction not of type BinaryMinMaxCurvatureFlowFunction");
-    throw ExceptionObject( __FILE__, __LINE__ );
     }
+
+  f->SetThreshold( m_Threshold );
+
+  this->Superclass::InitializeIteration();           
+
   
 }
 

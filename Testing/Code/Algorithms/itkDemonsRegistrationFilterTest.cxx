@@ -38,26 +38,6 @@ public:
 };
 }
 
-// Template function to fill in an image with a value
-template <class TImage>
-void
-FillImage(
-TImage * image,
-typename TImage::PixelType value )
-{
-
- typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
- Iterator it( image, image->GetBufferedRegion() );
- it.Begin();
-    
- for( ; !it.IsAtEnd(); ++it )
-  {
-   it.Set( value );
-  }
-
-}
-
-
 // Template function to fill in an image with a circle.
 template <class TImage>
 void
@@ -168,7 +148,7 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
   // fill initial deformation with zero vectors
   VectorType zeroVec;
   zeroVec.Fill( 0.0 );
-  FillImage<FieldType>( initField, zeroVec );
+  initField->FillBuffer( zeroVec );
 
   //-------------------------------------------------------------
   std::cout << "Run registration and warp moving" << std::endl;
@@ -181,6 +161,7 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
   registrator->SetMovingImage( moving );
   registrator->SetFixedImage( fixed );
   registrator->SetNumberOfIterations( 150 );
+  registrator->SetStandardDeviations( 2.0 );
   registrator->SetStandardDeviations( 1.0 );
   registrator->Print( std::cout );
 
@@ -190,6 +171,16 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
     registrator->GetDifferenceFunction().GetPointer() );
   fptr->Print( std::cout );
 
+  // exercise other member variables
+  std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << std::endl;
+  
+  double v[ImageDimension];
+  for ( unsigned int j = 0; j < ImageDimension; j++ )
+    {
+    v[j] = registrator->GetStandardDeviations()[j];
+    }
+  registrator->SetStandardDeviations( v );
+
   ShowProgressObject progressWatch(registrator);
   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
   command = itk::SimpleMemberCommand<ShowProgressObject>::New();
@@ -197,8 +188,6 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
                                &ShowProgressObject::ShowProgress);
   registrator->AddObserver( itk::ProgressEvent(), command);
  
-  registrator->Update();
-
   // warp moving image
   typedef itk::WarpImageFilter<ImageType,ImageType,FieldType> WarperType;
   WarperType::Pointer warper = WarperType::New();
@@ -248,15 +237,73 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-
   // -----------------------------------------------------------
-  std::cout << "Test running registrator with initial deformation field.";
+  std::cout << "Test running registrator without initial deformation field.";
   std::cout << std::endl;
 
-  registrator->SetInput( NULL );
-  registrator->SetNumberOfIterations( 2 );
-  registrator->Update();
+  bool passed = true;
+  try
+    {
+    registrator->SetInput( NULL );
+    registrator->SetNumberOfIterations( 2 );
+    registrator->Update();
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    std::cout << "Unexpected error." << std::endl;
+    std::cout << err << std::endl;
+    passed = false;
+    }
+
+  //--------------------------------------------------------------
+  std::cout << "Test exception handling." << std::endl;
+
+  std::cout << "Test NULL moving image. " << std::endl;
+  passed = false;
+  try
+    {
+    registrator->SetInput( initField );
+    registrator->SetMovingImage( NULL );
+    registrator->Update();
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "Caught expected error." << std::endl;
+    std::cout << err << std::endl;
+    passed = true;
+    }
   
+  if ( !passed )
+    {
+    std::cout << "Test failed" << std::endl;
+    return EXIT_FAILURE;
+    }
+  registrator->SetMovingImage( moving );
+  registrator->ResetPipeline();
+
+  std::cout << "Test NULL moving image interpolator. " << std::endl;
+  passed = false;
+  try
+    {
+    fptr = dynamic_cast<FunctionType *>(
+      registrator->GetDifferenceFunction().GetPointer() );
+    fptr->SetMovingImageInterpolator( NULL );
+    registrator->SetInput( initField );
+    registrator->Update();
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "Caught expected error." << std::endl;
+    std::cout << err << std::endl;
+    passed = true;
+    }
+  
+  if ( !passed )
+    {
+    std::cout << "Test failed" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;
   

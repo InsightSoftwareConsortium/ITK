@@ -31,6 +31,11 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 {
   typename TInputImage::ConstPointer  input  = this->GetInput();
   typename TOutputImage::Pointer      output = this->GetOutput();
+
+  if ( !input || !output )
+    {
+    itkExceptionMacro(<< "Either input and/or output is NULL.");
+    }
   
   ImageRegionConstIterator<TInputImage>  in(input, output->GetRequestedRegion());
   ImageRegionIterator<TOutputImage> out(output, output->GetRequestedRegion());

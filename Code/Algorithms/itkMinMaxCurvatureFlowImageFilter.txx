@@ -66,21 +66,18 @@ MinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>
 {
 
   // update variables in the equation object
-  try
-    {
-    MinMaxCurvatureFlowFunctionType *f = 
-      dynamic_cast<MinMaxCurvatureFlowFunctionType *>
-      (this->GetDifferenceFunction().GetPointer());
+  MinMaxCurvatureFlowFunctionType *f = 
+    dynamic_cast<MinMaxCurvatureFlowFunctionType *>
+    (this->GetDifferenceFunction().GetPointer());
 
-    f->SetStencilRadius( m_StencilRadius );
-
-    this->Superclass::InitializeIteration();           
-    }
-  catch( ... )
+  if ( !f )
     {
     itkExceptionMacro(<<"DifferenceFunction not of type MinMaxCurvatureFlowFunction");
-    throw ExceptionObject( __FILE__, __LINE__ );
     }
+
+  f->SetStencilRadius( m_StencilRadius );
+
+  this->Superclass::InitializeIteration();           
   
 }
 

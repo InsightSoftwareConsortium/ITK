@@ -69,30 +69,30 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
 {
 
   // update variables in the equation object
-  try
-    {
-    CurvatureFlowFunctionType *f = 
-      dynamic_cast<CurvatureFlowFunctionType *>
-      (this->GetDifferenceFunction().GetPointer());
-    f->SetTimeStep( m_TimeStep );
-    this->Superclass::InitializeIteration();           
-    }
-  catch( ... )
+  CurvatureFlowFunctionType *f = 
+    dynamic_cast<CurvatureFlowFunctionType *>
+    (this->GetDifferenceFunction().GetPointer());
+
+  if ( !f )
     {
     itkExceptionMacro(<<"DifferenceFunction not of type CurvatureFlowFunction");
-    throw ExceptionObject( __FILE__, __LINE__ );
     }
 
+  f->SetTimeStep( m_TimeStep );
+
+  // call superclass's version
+  this->Superclass::InitializeIteration();           
+
   // progress feedback
-  if( m_NumberOfIterations <= 0 )
+  if ( m_NumberOfIterations != 0 )
     {
-    this->UpdateProgress( 1.0 );
+    this->UpdateProgress(((float)(this->GetElapsedIterations()))
+                         /((float)(m_NumberOfIterations)));
     }
-  else if ( m_NumberOfIterations < 100 || !(this->GetElapsedIterations() % 10) )
+  else 
     {
-    this->UpdateProgress( (float) this->GetElapsedIterations() /
-                          (float) m_NumberOfIterations );
-    } 
+    this->UpdateProgress(0);
+    }
   
 }
 
