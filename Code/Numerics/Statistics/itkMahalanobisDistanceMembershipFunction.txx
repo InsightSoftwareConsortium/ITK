@@ -39,13 +39,14 @@ MahalanobisDistanceMembershipFunction< TVector >
 template < class TVector >
 void 
 MahalanobisDistanceMembershipFunction< TVector >
-::SetMean(const vnl_vector< double > & mean)
+::SetMean(const MeanVectorType & mean)
 {
   m_Mean = mean ;
 }
 
 template < class TVector >
-const vnl_vector< double > &
+const typename
+MahalanobisDistanceMembershipFunction< TVector >::MeanVectorType &
 MahalanobisDistanceMembershipFunction< TVector >
 ::GetMean() const
 {
@@ -55,14 +56,15 @@ MahalanobisDistanceMembershipFunction< TVector >
 template < class TVector >
 void 
 MahalanobisDistanceMembershipFunction< TVector >
-::SetCovariance(const vnl_matrix<double> &cov)
+::SetCovariance(const CovarianceMatrixType &cov)
 {
   m_Covariance = cov; 
   if( !m_ValidInverseCovarianceFlag ) CalculateInverseCovariance();
 }
 
 template < class TVector >
-const vnl_matrix< double > &
+const typename
+MahalanobisDistanceMembershipFunction< TVector >::CovarianceMatrixType &
 MahalanobisDistanceMembershipFunction< TVector >
 ::GetCovariance() const
 {
@@ -72,14 +74,15 @@ MahalanobisDistanceMembershipFunction< TVector >
 template < class TVector >
 void 
 MahalanobisDistanceMembershipFunction< TVector >
-::SetInverseCovariance(const vnl_matrix<double> &invcov)
+::SetInverseCovariance(const CovarianceMatrixType &invcov)
 {
   m_InverseCovariance = invcov; 
   m_ValidInverseCovarianceFlag = true;
 }
 
 template < class TVector >
-const vnl_matrix< double > &
+const typename
+MahalanobisDistanceMembershipFunction< TVector >::CovarianceMatrixType &
 MahalanobisDistanceMembershipFunction< TVector >
 ::GetInverseCovariance() const
 {

@@ -56,29 +56,35 @@ public:
   /** Typedef alias for the measurement vectors */
   typedef TVector MeasurementVectorType ;
 
+  /** Type used for representing the mean vector */
+  typedef vnl_vector<double>  MeanVectorType;
+
+  /** Type used for representing the covariance matrix */
+  typedef vnl_matrix<double>  CovarianceMatrixType;
+
   /** Method to set mean */
-  void SetMean(const vnl_vector<double> &mean) ;
+  void SetMean(const MeanVectorType &mean) ;
   
   /** Method to get mean */
-  const vnl_vector<double> & GetMean() const;
+  const MeanVectorType & GetMean() const;
 
   /**
    * Method to set covariance matrix
    * Also, this function calculates inverse covariance and pre factor of 
    * MahalanobisDistance Distribution to speed up GetProbability */
-  void SetCovariance(const vnl_matrix<double> &cov); 
+  void SetCovariance(const CovarianceMatrixType &cov); 
   
   /** Method to get covariance matrix */
-  const vnl_matrix<double> & GetCovariance() const;
+  const CovarianceMatrixType & GetCovariance() const;
 
   /**
    * Method to set covariance matrix
    * Also, this function calculates inverse covariance and pre factor of 
    * MahalanobisDistance Distribution to speed up GetProbability */
-  void SetInverseCovariance(const vnl_matrix<double> &invcov); 
+  void SetInverseCovariance(const CovarianceMatrixType &invcov); 
   
   /** Method to get covariance matrix */
-  const vnl_matrix<double> & GetInverseCovariance() const;
+  const CovarianceMatrixType & GetInverseCovariance() const;
 
   /** Method to set the number of samples */
   itkSetMacro( NumberOfSamples, double );
@@ -97,12 +103,12 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  vnl_vector< double >  m_Mean;              // mean
-  vnl_matrix< double >  m_Covariance;         // covariance matrix
+  MeanVectorType        m_Mean;              // mean
+  CovarianceMatrixType  m_Covariance;        // covariance matrix
 
   // inverse covariance matrix which is automatically calculated 
   // when covariace matirx is set.  This speed up the GetProbability()
-  vnl_matrix< double >  m_InverseCovariance; 
+  CovarianceMatrixType  m_InverseCovariance; 
 
   // Number of samples defining this density
   double m_NumberOfSamples;
