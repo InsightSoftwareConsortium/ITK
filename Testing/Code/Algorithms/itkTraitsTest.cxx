@@ -3,6 +3,14 @@
 #include "itkScalar.h"
 #include "itkVector.h"
 
+/**
+ * Helper function to prevent compiler's unused variable warning.
+ */
+template <typename T>
+void IgnoreUnusedVariable(const T&)
+{
+}
+
 // Important note: many compilers define macros like min() and max(). This
 // program will fail if that's the case. (For example, the 
 // std::numeric_limits<>::min() collides with the min() macro.)
@@ -47,6 +55,11 @@ int main ()
   itk::Vector<long>::ValueType vectorMax = fooLong;
   
   itk::Image<unsigned char,2>::Pointer i2 = itk::Image<unsigned char,2>::New();
+  
+  IgnoreUnusedVariable(vectorMax);
+  IgnoreUnusedVariable(scalarMin);
+  IgnoreUnusedVariable(foo);
+  
   return EXIT_SUCCESS;
 }
 
