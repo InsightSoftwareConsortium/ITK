@@ -325,6 +325,18 @@ int main( int argc, char **argv )
   typedef itk::MultiResolutionPyramidImageFilter<
                                     InternalImageType,
                                     InternalImageType >   FixedImagePyramidType;
+  // Software Guide: EndCodeSnippet
+
+  //  Software Guide : BeginLatex
+  //
+  // In the multi-resolution framework, a \code{MultiResolutionPyramidImageFilter}
+  // is used to create a pyramid of downsampled images. The size of each downsample image
+  // is specified by a user in the form of schedule of shrink factors. A description of
+  // the filter and multi-resolution schedules are described in detail in section
+  // \ref{sec:ImagePyramids}. For this example, we will simply use the default schedule. 
+  // 
+  //  Software Guide : EndLatex 
+  // Software Guide : BeginCodeSnippet
   typedef itk::MultiResolutionPyramidImageFilter<
                                     InternalImageType,
                                     InternalImageType >   MovingImagePyramidType;
