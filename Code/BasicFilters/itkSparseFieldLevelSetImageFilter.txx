@@ -509,7 +509,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     }
   
   // Allocate the layers for the sparse field.
-  m_Layers.clear;
+  m_Layers.clear();
   m_Layers.reserve(2*m_NumberOfLayers + 1);
 
   while ( m_Layers.size() < (2*m_NumberOfLayers+1) )
