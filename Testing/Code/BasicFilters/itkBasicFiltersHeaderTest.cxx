@@ -99,6 +99,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkVectorGradient2DAnisotropicDiffusionEquation.h"
 #include "itkVectorGradientAnisotropicDiffusionImageFilter.h"
 #include "itkVectorGradientNDAnisotropicDiffusionEquation.h"
+#include "itkWrapPadImageFilter.h"
 #include "itkWriter.h"
 
 int main ( int argc, char* argv )

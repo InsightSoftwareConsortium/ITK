@@ -21,6 +21,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkBalloonForceFilter.h"
 #include "itkClassifier.h"
 #include "itkConnectedRegionsMeshFilter.h"
+#include "itkCurvatureFlowFunction.h"
 #include "itkCurvatureFlowImageFilter.h"
 #include "itkDeformableMesh.h"
 #include "itkExtensionVelocitiesImageFilter.h"
