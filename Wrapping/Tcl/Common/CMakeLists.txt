@@ -9,6 +9,7 @@ CABLE_WRAP_TCL(ITKCommonTcl
   wrap_ITKCommon.cxx
   wrap_ITKUtils.cxx
   wrap_ITKBase.cxx
+  wrap_ITKFilterBase.cxx
   wrap_ITKRegions.cxx
   wrap_itkEventObject.cxx
   wrap_itkImage.cxx

@@ -24,6 +24,7 @@ namespace _cable_
   {
     ITK_WRAP_GROUP(ITKUtils),
     ITK_WRAP_GROUP(ITKBase),
+    ITK_WRAP_GROUP(ITKFilterBase),
     ITK_WRAP_GROUP(ITKRegions),
     ITK_WRAP_GROUP(itkEventObject),
     ITK_WRAP_GROUP(itkImage)
