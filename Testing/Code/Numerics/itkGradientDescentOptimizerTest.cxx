@@ -180,7 +180,7 @@ int main()
   parametersScale[0] = 1.0;
   parametersScale[1] = 1.0;
 
-  itkOptimizer->SetMinimize();
+  itkOptimizer->MinimizeOn();
   itkOptimizer->GetTransform()->SetScale( parametersScale );
   itkOptimizer->SetLearningRate( 0.1 );
   itkOptimizer->SetNumberOfIterations( 50 );

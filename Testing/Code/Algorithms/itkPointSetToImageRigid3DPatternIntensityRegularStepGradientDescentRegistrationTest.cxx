@@ -233,7 +233,7 @@ int main()
                                   registrationMethod->GetOptimizer();
 
   optimizer->GetTransform()->SetParameters( parametersScale );
-  optimizer->SetMinimize();
+  optimizer->MinimizeOn();
   optimizer->SetGradientMagnitudeTolerance( 1e-6 );
   optimizer->SetMaximumStepLength( 10.0 );
   optimizer->SetMinimumStepLength( 1e-10 );
