@@ -76,6 +76,16 @@ int main()
   mv[1] = 8.0 ;
   mv[2] = 6.0 ;
   sample->PushBack( mv ) ;
+
+  mv[0] = 2.0 ;
+  mv[1] = 7.0 ;
+  mv[2] = 4.0 ;
+  sample->PushBack( mv ) ;
+
+  mv[0] = 3.0 ;
+  mv[1] = 2.0 ;
+  mv[2] = 7.0 ;
+  sample->PushBack( mv ) ;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -121,5 +131,14 @@ int main()
   std::cout << *(covarianceAlgorithm->GetOutput()) << std::endl ;
   // Software Guide : EndCodeSnippet
 
+  covarianceAlgorithm->SetMean( 0 ) ;
+  covarianceAlgorithm->Update() ;
+
+  std::cout << "Results using the updating algorithm:" << std::endl ;
+  std::cout << "Mean = " << std::endl ; 
+  std::cout << *(covarianceAlgorithm->GetMean()) << std::endl ;
+
+  std::cout << "Covariance = " << std::endl ; 
+  std::cout << *(covarianceAlgorithm->GetOutput()) << std::endl ;
   return 0 ;
 }
