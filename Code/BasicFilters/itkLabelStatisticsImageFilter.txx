@@ -49,7 +49,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
   if ( this->GetLabelInput() )
     {
     LabelImagePointer label =
-      const_cast< typename TLabelImage * >( this->GetLabelInput() );
+      const_cast< TLabelImage * >( this->GetLabelInput() );
     label->SetRequestedRegionToLargestPossibleRegion();
     }
 }

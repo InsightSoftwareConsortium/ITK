@@ -68,7 +68,7 @@ public:
   typedef typename TInputImage::PixelType PixelType ;
 
   /** Label image related typedefs. */
-  typedef typename TLabelImage LabelImageType;
+  typedef TLabelImage LabelImageType;
   typedef typename TLabelImage::Pointer LabelImagePointer;
   typedef typename TLabelImage::RegionType LabelRegionType ;
   typedef typename TLabelImage::SizeType LabelSizeType ;
