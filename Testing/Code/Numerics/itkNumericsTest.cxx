@@ -75,7 +75,7 @@ int main()
     std::cout << std::endl;
     }
 
-  return 1;
+  return 0;
 }
 
 
