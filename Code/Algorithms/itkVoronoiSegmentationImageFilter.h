@@ -79,20 +79,20 @@ public:
   typedef typename TInputImage::IndexType IndexType;
   typedef typename TInputImage::SizeType SizeType;
   typedef typename TInputImage::RegionType RegionType;
-	typedef Voronoi2DDiagram<double> VoronoiDiagram;
+  typedef Voronoi2DDiagram<double> VoronoiDiagram;
   
- 	typedef typename VoronoiDiagram::PointType PointType;
- 	typedef typename VoronoiDiagram::Cell Cell;
- 	typedef typename VoronoiDiagram::CellPointer CellPointer;
- 	typedef typename Cell::PointIdIterator PointIdIterator;
+  typedef typename VoronoiDiagram::PointType PointType;
+  typedef typename VoronoiDiagram::Cell Cell;
+  typedef typename VoronoiDiagram::CellPointer CellPointer;
+  typedef typename Cell::PointIdIterator PointIdIterator;
 
- 	typedef typename VoronoiDiagram::SeedsType SeedsType;
-	typedef typename VoronoiDiagram::SeedsIterator SeedsIterator;
-	typedef typename VoronoiDiagram::NeighborIdIterator NeighborIdIterator;
-	typedef typename VoronoiDiagram::EdgeIterator EdgeIterator;
-	typedef typename VoronoiDiagram::FortuneEdgeInfo EdgeInfo;
-	typedef std::vector<PointType> PointTypeVector;
-	typedef std::deque<PointType> PointTypeDeque;
+  typedef typename VoronoiDiagram::SeedsType SeedsType;
+  typedef typename VoronoiDiagram::SeedsIterator SeedsIterator;
+  typedef typename VoronoiDiagram::NeighborIdIterator NeighborIdIterator;
+  typedef typename VoronoiDiagram::EdgeIterator EdgeIterator;
+  typedef typename VoronoiDiagram::FortuneEdgeInfo EdgeInfo;
+  typedef std::vector<PointType> PointTypeVector;
+  typedef std::deque<PointType> PointTypeDeque;
   typedef itk::Image<bool,2>  BinaryObjectImage;
   typedef typename BinaryObjectImage::Pointer  BinaryObjectImagePointer;
 
@@ -168,13 +168,12 @@ public:
    */
   itkGetMacro(LastStepSeeds, int);
 
-	/**
-	 * another way to set the tolerance. 
-	 * MeanTolerance = Mean*MeanPercentError;
-	 * VarTolerance = Var*VarPercentError;
-	 */
   itkGetMacro(MeanPercentError, double);
-  itkSetMacro(VarPercentError, double);
+  itkGetMacro(VarPercentError, double);
+
+  void SetMeanPercentError(double x);
+  void SetVarPercentError(double x);
+
 
 	/**
 	 * stuff need to be take care of before segmentation
@@ -211,37 +210,37 @@ private:
   double m_Var;
   double m_MeanTolerance;
   double m_VarTolerance;
-	double m_MeanPercentError;
-	double m_VarPercentError;
-	SizeType m_Size;
-	int m_NumberOfSeeds;
-	int m_MinRegion;
-	int m_Steps;
-	int m_LastStepSeeds;
-	int m_NumberOfSeedsToAdded;
-	int m_NumberOfBoundary;
-	std::vector<int> m_NumberOfPixels;
-	std::vector<unsigned char> m_Label;
-	int m_StepsRuned;
+  double m_MeanPercentError;
+  double m_VarPercentError;
+  SizeType m_Size;
+  int m_NumberOfSeeds;
+  int m_MinRegion;
+  int m_Steps;
+  int m_LastStepSeeds;
+  int m_NumberOfSeedsToAdded;
+  int m_NumberOfBoundary;
+  std::vector<int> m_NumberOfPixels;
+  std::vector<unsigned char> m_Label;
+  int m_StepsRuned;
 
   typename InputImageType::Pointer m_InputImage;
   typename OutputImageType::Pointer m_OutputImage;
   typename VoronoiDiagram::Pointer m_WorkingVD;
 
-	std::vector<PointType> m_SeedsToAdded;
+  std::vector<PointType> m_SeedsToAdded;
 
 	// private methods:
 	// classify all the voronoi cells as interior or exterior or boundary
-	void ClassifyDiagram(void);
+  void ClassifyDiagram(void);
 
 	// generate the seeds to be added. (by divide the boundary cells)
   void GenerateAddingSeeds(void);
 
 	// compute the statistics of the pixels inside the polygon.
-	void GetStats(PointTypeDeque vertlist, double *savemean, double *savevar, int *num, int index);
+  void GetStats(PointTypeDeque vertlist, double *savemean, double *savevar, int *num);
 
 	// draw a straight line to the output image.
-	void drawLine(PointType p1,PointType p2);
+  void drawLine(PointType p1,PointType p2);
 };
 
 }//end namespace

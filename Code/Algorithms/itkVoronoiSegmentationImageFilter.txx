@@ -37,6 +37,24 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage>::
 ~VoronoiSegmentationImageFilter(){
 }
 
+template <class TInputImage, class TOutputImage>
+void
+VoronoiSegmentationImageFilter <TInputImage,TOutputImage>::
+SetMeanPercentError(double x){
+  m_MeanPercentError = x;
+  m_MeanTolerance = x*m_Mean;
+}
+
+
+template <class TInputImage, class TOutputImage>
+void
+VoronoiSegmentationImageFilter <TInputImage,TOutputImage>::
+SetVarPercentError(double x){
+  m_VarPercentError = x;
+  m_VarTolerance = x*m_Var;
+}
+
+
 /* initialization for the segmentation */
 template <class TInputImage, class TOutputImage>
 void
@@ -67,7 +85,7 @@ InitializeSegment(void){
 template <class TInputImage, class TOutputImage>
 void
 VoronoiSegmentationImageFilter <TInputImage,TOutputImage>::
-GetStats(PointTypeDeque vertlist, double *savemean, double *savevar, int *nump, int index)
+GetStats(PointTypeDeque vertlist, double *savemean, double *savevar, int *nump)
 {
 
   int num=0;
@@ -298,7 +316,7 @@ ClassifyDiagram(void)
 	  m_WorkingVD->GetPointId((*currPit),&(currP));
 	  VertList.push_back(currP);
 	}
-	GetStats(VertList,&currMean,&currVar,&totalnum,i);
+	GetStats(VertList,&currMean,&currVar,&totalnum);
 	m_NumberOfPixels[i] = totalnum;
     savem = currMean - m_Mean;
 	savev = currVar - m_Var;
@@ -450,7 +468,7 @@ drawLine(PointType p1,PointType p2){
 	for(int i=x1;i<=x2;i++){
 	  idx[0]=i;
 	  idx[1]=y1;
-	  m_OutputImage->SetPixel(idx,65535);
+	  m_OutputImage->SetPixel(idx,1);
 	  curr += offset;
   	  y1=(int)(curr+0.5);
     }
@@ -465,7 +483,7 @@ drawLine(PointType p1,PointType p2){
 	for(int i=y1;i<=y2;i++){
 	  idx[0]=x1;
 	  idx[1]=i;
-	  m_OutputImage->SetPixel(idx,65535);
+	  m_OutputImage->SetPixel(idx,1);
 	  curr += offset;
 	  x1=(int)(curr+0.5);
     }
