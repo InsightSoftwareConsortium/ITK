@@ -50,7 +50,7 @@ MeanImageFunction<TInputImage,TCoordRep>
  *
  */
 template <class TInputImage, class TCoordRep>
-MeanImageFunction<TInputImage,TCoordRep>
+typename MeanImageFunction<TInputImage,TCoordRep>
 ::RealType
 MeanImageFunction<TInputImage,TCoordRep>
 ::EvaluateAtIndex(const IndexType& index) const

@@ -123,7 +123,7 @@ public:
     m_IndexStack.push(m_StartIndex);
 
     // Initialize the temporary image
-    tempPtr->FillBuffer(NumericTraits<TTempImage::PixelType>::Zero);
+    tempPtr->FillBuffer(NumericTraits<ITK_TYPENAME TTempImage::PixelType>::Zero);
     
     m_IsAtEnd = false;
     };
