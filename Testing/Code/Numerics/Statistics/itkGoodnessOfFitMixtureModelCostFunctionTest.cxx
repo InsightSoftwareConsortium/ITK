@@ -133,6 +133,7 @@ int itkGoodnessOfFitMixtureModelCostFunctionTest(int argc, char** argv)
       components[i] = ComponentType::New() ;
       components[i]->SetHistogramNumberOfBins(6) ;
       components[i]->SetHistogramExtent(histogramExtent) ;
+      components[i]->SetHistogramBinOverlap(histogramOverlap) ;
       components[i]->SetInputSample(sample) ;
 
       costFunction->AddComponent(components[i].GetPointer()) ;
