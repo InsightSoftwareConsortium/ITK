@@ -40,10 +40,8 @@ namespace itk {
  * calculated from the original image.
  *
  * \par TEMPLATE PARAMETERS
- * There are two required and two optional template parameter for these
- * filters. Of the optional parameters, the last, TOutputImage, should not be
- * changed from its default.  It is only there to instantiate the parent class
- * correctly.
+ * There are two required and one optional template parameter for these
+ * filters. 
  *
  * TInputImage is the image type of the initial model you will input to the
  * filter using SetInput() or SetInitialImage().
@@ -141,16 +139,18 @@ namespace itk {
  *  See LevelSetFunction for more information.*/
 template <class TInputImage,
           class TFeatureImage,
-          class TOutputPixelType = float,
-          class TOutputImage = Image<TOutputPixelType,
-                                     ::itk::GetImageDimension<TInputImage>::ImageDimension> >
+          class TOutputPixelType = float >
 class ITK_EXPORT SegmentationLevelSetImageFilter
-  : public SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+  : public SparseFieldLevelSetImageFilter<TInputImage, Image<TOutputPixelType,
+                                     ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 {
 public:
+  /** Output image type typedefs */
+  typedef Image<TOutputPixelType, TInputImage::ImageDimension> OutputImageType;
+  
   /** Standard class typedefs */
   typedef SegmentationLevelSetImageFilter Self;
-  typedef SparseFieldLevelSetImageFilter<TInputImage, TOutputImage> Superclass;
+  typedef SparseFieldLevelSetImageFilter<TInputImage, OutputImageType> Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -161,7 +161,6 @@ public:
   typedef typename Superclass::InputImageType  InputImageType;
 
   /** Local image typedefs */
-  typedef TOutputImage   OutputImageType;
   typedef TFeatureImage FeatureImageType;
 
   /** The generic level set function type */
@@ -374,9 +373,23 @@ public:
   }
   
   
-  /** Set the segmentation function.  In general, this should only be called by a subclass
-   *  of this object. It is made public to allow itk::Command objects access. */
-  virtual void SetSegmentationFunction(SegmentationFunctionType *s);
+  /** Set the segmentation function.  In general, this should only be
+   *  called by a subclass of this object. It is made public to allow
+   *  itk::Command objects access. The method is inline to avoid a
+   *  problem with the gcc 2.95 compiler matching the declaration with 
+   *  the definition. */
+  virtual void SetSegmentationFunction(SegmentationFunctionType *s)
+  {
+    m_SegmentationFunction = s; 
+  
+    typename SegmentationFunctionType::RadiusType r;
+    r.Fill( 1 );
+  
+    m_SegmentationFunction->Initialize(r);
+    this->SetDifferenceFunction(m_SegmentationFunction);
+    this->Modified();
+  }
+
   virtual SegmentationFunctionType *GetSegmentationFunction()
   { return m_SegmentationFunction; }
 
