@@ -855,15 +855,44 @@ M_SetupWriteFields(void)
     }
 
   valSet = false;
+  
+  // check for identity matrix
+  bool isIdentity = true ;
   for(i=0; i<m_NDims*m_NDims; i++)
     {
-    if(m_Orientation[i] != 0)
+    if( (i % m_NDims) == (int) (i / m_NDims) )
       {
-      valSet = true;
-      break;
+        if ( m_Orientation[i] != 1 )
+          {
+            isIdentity = false ;
+            break;
+          }
+      }
+    else
+      {
+        if ( m_Orientation[i] != 0 )
+          {
+            isIdentity = false ;
+            break ;
+          }
       }
     }
+
+  // check for zero matrix
+  bool isAllZero = true ;
   if(valSet)
+    {
+      for(i=0; i<m_NDims*m_NDims; i++)
+        {
+          if ( m_Orientation[i] != 0 )
+            {
+              isAllZero = false ;
+              break;
+            }
+        }
+    }
+
+  if(!isIdentity && !isAllZero)
     {
     mF = new MET_FieldRecordType;
     MET_InitWriteField(mF, "Orientation", MET_FLOAT_MATRIX, m_NDims,
