@@ -46,7 +46,7 @@ FloodFilledFunctionConditionalIterator<TImage, TFunction>
   tempPtr->SetBufferedRegion( tempRegion );
   tempPtr->SetRequestedRegion( tempRegion );
   tempPtr->Allocate();
-  tempPtr->FillBuffer(NumericTraits<typename TTempImage::PixelType>::Zero);
+  tempPtr->FillBuffer(NumericTraits<ITK_TYPENAME TTempImage::PixelType>::Zero);
   m_IsAtEnd = false;
 
   // Initialize the stack by adding the start index assuming startIndex
