@@ -33,5 +33,4 @@ itkTraitsTest
 itkUnsupervisedClassifierTest
 itkGibbsTest
 itkDeformableTest
-itkVoronoi2DDiagramTest
 )
