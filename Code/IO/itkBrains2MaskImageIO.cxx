@@ -1,6 +1,6 @@
 /*=========================================================================
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkB2MaskImageIO.cxx
+  Module:    itkBrains2MaskImageIO.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,7 +14,7 @@
 
   =========================================================================*/
 
-#include "itkB2MaskImageIO.h"
+#include "itkBrains2MaskImageIO.h"
 #include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
 #include "itkIOCommon.h"
@@ -25,16 +25,19 @@
 static const unsigned char DEF_WHITE_MASK=255;
 namespace itk
 {
+#define Brains2_MASKFILE_WHITE  0
+#define Brains2_MASKFILE_BLACK  1
+#define Brains2_MASKFILE_GRAY  2
+
 
 template <class TPixel> 
-class B2MaskMappingFunction
-{
+class Brains2MaskMappingFunction {
 public:
   unsigned int Evaluate(const TPixel *pixel) ;
 };
 template <class TPixel>
 unsigned int
-B2MaskMappingFunction<TPixel>::
+Brains2MaskMappingFunction<TPixel>::
 Evaluate(const TPixel *pixel)
 {
   return *pixel == 0 ? 0 : 1;
@@ -42,7 +45,7 @@ Evaluate(const TPixel *pixel)
     
 
 // Default constructor
-B2MaskImageIO::B2MaskImageIO()
+Brains2MaskImageIO::Brains2MaskImageIO()
 {
   //by default, only have 3 dimensions
   this->SetNumberOfDimensions(3);
@@ -52,18 +55,18 @@ B2MaskImageIO::B2MaskImageIO()
     LittleEndian : BigEndian ;
 }
 
-B2MaskImageIO::~B2MaskImageIO()
+Brains2MaskImageIO::~Brains2MaskImageIO()
 {
   //Purposefully left blank
 }
 
-void B2MaskImageIO::PrintSelf(std::ostream& os, Indent indent) const
+void Brains2MaskImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "PixelType " << m_PixelType << "\n";
 }
 
-bool B2MaskImageIO::CanWriteFile(const char * FileNameToWrite)
+bool Brains2MaskImageIO::CanWriteFile(const char * FileNameToWrite)
 {
   m_FileName=FileNameToWrite;
   if( ( m_FileName != "" ) &&
@@ -75,18 +78,18 @@ bool B2MaskImageIO::CanWriteFile(const char * FileNameToWrite)
   return false;
 }
 
-const std::type_info& B2MaskImageIO::GetPixelType() const
+const std::type_info& Brains2MaskImageIO::GetPixelType() const
 {
   return typeid(unsigned char);
 }
 
-unsigned int B2MaskImageIO::GetComponentSize() const
+unsigned int Brains2MaskImageIO::GetComponentSize() const
 {
   return sizeof(unsigned char);
 }
 
 //The function that is used to read the octree stream to an octree.
-itk::OctreeNodeBranch * B2MaskImageIO::
+itk::OctreeNodeBranch * Brains2MaskImageIO::
 readOctree (std::ifstream & octreestream,
             const ImageIOBase::ByteOrder machineByteOrder,
             const ImageIOBase::ByteOrder fileByteOrder)
@@ -119,13 +122,13 @@ readOctree (std::ifstream & octreestream,
 
     switch ((colorCode >> (i << 1)) & 3)  //(colorCode/pow(2,i*2) ) & 00000011b
       {
-      case B2_MASKFILE_WHITE: // 0
-        curnode->SetColor(B2_MASKFILE_WHITE);
+      case Brains2_MASKFILE_WHITE: // 0
+        curnode->SetColor(Brains2_MASKFILE_WHITE);
         break;
-      case B2_MASKFILE_BLACK: // 1
-        curnode->SetColor(B2_MASKFILE_BLACK);
+      case Brains2_MASKFILE_BLACK: // 1
+        curnode->SetColor(Brains2_MASKFILE_BLACK);
         break;
-      case B2_MASKFILE_GRAY:  // 2
+      case Brains2_MASKFILE_GRAY:  // 2
         //NOTE recursive call on all children to set them.
         curnode->SetBranch(
           readOctree(octreestream,machineByteOrder,
@@ -137,13 +140,13 @@ readOctree (std::ifstream & octreestream,
   return CurrentNodeBranch;
 }
 
-void B2MaskImageIO::Read(void* buffer)
+void Brains2MaskImageIO::Read(void* buffer)
 {
   const unsigned int dimensions = this->GetNumberOfDimensions();
 
   std::ifstream   local_InputStream;
   { //Just fast forward throuth the file header
-  itk::B2IPLHeaderInfo DummyHeader;
+  itk::Brains2IPLHeaderInfo DummyHeader;
   local_InputStream.open( this->m_FileName.c_str(), std::ios::in | std::ios::binary );
   if( local_InputStream.fail() )
     {
@@ -151,7 +154,7 @@ void B2MaskImageIO::Read(void* buffer)
     exception.SetDescription("File cannot be read");
     throw exception;
     }
-  DummyHeader.ReadB2Header(local_InputStream);
+  DummyHeader.ReadBrains2Header(local_InputStream);
   }
   //Actually start reading the octree
   unsigned int octreeHdr[6];
@@ -171,23 +174,23 @@ void B2MaskImageIO::Read(void* buffer)
         SwapRangeFromSystemToLittleEndian( octreeHdr,6 );
       }
     }
-  Octree<unsigned char,2,B2MaskMappingFunction<unsigned char> >::Pointer octree = 
-    Octree<unsigned char,2,B2MaskMappingFunction<unsigned char> >::New();
+  Octree<unsigned char,2,Brains2MaskMappingFunction<unsigned char> >::Pointer octree = 
+    Octree<unsigned char,2,Brains2MaskMappingFunction<unsigned char> >::New();
   octree->SetDepth(octreeHdr[0]);
   octree->SetWidth(octreeHdr[1]);
   octree->SetTrueDims(octreeHdr[2],octreeHdr[3],octreeHdr[4]);
   this->m_Octree = octree;
   switch (octreeHdr[5])
     {
-    case B2_MASKFILE_WHITE:
+    case Brains2_MASKFILE_WHITE:
       //NOTE: THIS ALMOST NEVER HAPPENS!! All white image
       octree->SetColor(DEF_WHITE_MASK);
       break;
-    case B2_MASKFILE_BLACK:
+    case Brains2_MASKFILE_BLACK:
       //NOTE: THIS ALMOST NEVER HAPPENS!! All black image
       octree->SetColor(0);
       break;
-    case B2_MASKFILE_GRAY:
+    case Brains2_MASKFILE_GRAY:
       octree->SetTree(readOctree(local_InputStream,this->m_MachineByteOrder,this->m_ByteOrder ));
     }
   local_InputStream.close();
@@ -213,9 +216,9 @@ void B2MaskImageIO::Read(void* buffer)
   return;
 }
 // This method will only test if the header looks like an
-// B2Mask Header.  Some code is redundant with ReadImageInformation
+// Brains2Mask Header.  Some code is redundant with ReadImageInformation
 // a StateMachine could provide a better implementation
-bool B2MaskImageIO::CanReadFile( const char* FileNameToRead )
+bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
 {
   m_FileName=FileNameToRead;
   std::ifstream   local_InputStream;
@@ -227,7 +230,7 @@ bool B2MaskImageIO::CanReadFile( const char* FileNameToRead )
   try
     {
     this->m_IPLHeaderInfo.ClearHeader();
-    this->m_IPLHeaderInfo.ReadB2Header(local_InputStream);
+    this->m_IPLHeaderInfo.ReadBrains2Header(local_InputStream);
     }
   catch (itk::ExceptionObject & e)
     {
@@ -248,7 +251,7 @@ bool B2MaskImageIO::CanReadFile( const char* FileNameToRead )
   //this->m_IPLHeaderInfo.PrintSelf(std::cout);
   const int TempNumDims=this->m_IPLHeaderInfo.getInt("MASK_NUM_DIMS:");
   this->SetNumberOfDimensions(TempNumDims);
-  //NOTE: B2MaskImage dim[0] are the number of dims, and dim[1..7] are the
+  //NOTE: Brains2MaskImage dim[0] are the number of dims, and dim[1..7] are the
   // actual dims.
   m_Dimensions[ 0 ] = this->m_IPLHeaderInfo.getInt("MASK_X_SIZE:");
   m_Dimensions[ 1 ] = this->m_IPLHeaderInfo.getInt("MASK_Y_SIZE:");
@@ -261,7 +264,7 @@ bool B2MaskImageIO::CanReadFile( const char* FileNameToRead )
   return true;
 }
 
-void B2MaskImageIO::ReadImageInformation()
+void Brains2MaskImageIO::ReadImageInformation()
 {
   this->CanReadFile(this->m_FileName.c_str());
 }
@@ -298,7 +301,7 @@ static const char mask_header_format[] =
    *
    */
 void
-B2MaskImageIO
+Brains2MaskImageIO
 ::WriteImageInformation(void)
 {
   return;
@@ -315,18 +318,18 @@ writeOctree (OctreeNode *branch,std::ofstream &output)
       branch->GetChild(static_cast<enum LeafIdentifier>(i));
     if (subnode.IsNodeColored())
       {
-      if(subnode.GetColor() == B2_MASKFILE_BLACK)
+      if(subnode.GetColor() == Brains2_MASKFILE_BLACK)
         {
-        colorCode |= B2_MASKFILE_BLACK << (i << 1);
+        colorCode |= Brains2_MASKFILE_BLACK << (i << 1);
         }
       else
         {
-        colorCode |= B2_MASKFILE_WHITE << (i << 1);
+        colorCode |= Brains2_MASKFILE_WHITE << (i << 1);
         }
       }
     else
       {
-      colorCode |= B2_MASKFILE_GRAY << (i << 1);
+      colorCode |= Brains2_MASKFILE_GRAY << (i << 1);
       }
     }
   itk::ByteSwapper<unsigned short>::SwapFromSystemToBigEndian(&colorCode);
@@ -348,7 +351,7 @@ writeOctree (OctreeNode *branch,std::ofstream &output)
    *
    */
 void
-B2MaskImageIO
+Brains2MaskImageIO
 ::Write( const void* buffer)
 {
   if(this->m_FileName == "") 
@@ -404,43 +407,43 @@ B2MaskImageIO
   OctreeBase::Pointer octBasePtr;
   if(m_PixelType == CHAR)
     {
-    octBasePtr =  Octree<char,2,B2MaskMappingFunction<char> >::New();
+    octBasePtr =  Octree<char,2,Brains2MaskMappingFunction<char> >::New();
     }
   else if(m_PixelType == UCHAR)
     {
-    octBasePtr =  Octree<unsigned char,2,B2MaskMappingFunction<unsigned char> >::New();
+    octBasePtr =  Octree<unsigned char,2,Brains2MaskMappingFunction<unsigned char> >::New();
     }
   else if(m_PixelType == SHORT)
     {
-    octBasePtr =  Octree<short,2,B2MaskMappingFunction<short> >::New();
+    octBasePtr =  Octree<short,2,Brains2MaskMappingFunction<short> >::New();
     }
   else if(m_PixelType == USHORT)
     {
-    octBasePtr =  Octree<unsigned short,2,B2MaskMappingFunction<unsigned short> >::New();
+    octBasePtr =  Octree<unsigned short,2,Brains2MaskMappingFunction<unsigned short> >::New();
     }
   else if(m_PixelType == INT)
     {
-    octBasePtr =  Octree<int,2,B2MaskMappingFunction<int> >::New();
+    octBasePtr =  Octree<int,2,Brains2MaskMappingFunction<int> >::New();
     }
   else if(m_PixelType == UINT)
     {
-    octBasePtr =  Octree<unsigned int,2,B2MaskMappingFunction<unsigned int> >::New();
+    octBasePtr =  Octree<unsigned int,2,Brains2MaskMappingFunction<unsigned int> >::New();
     }
   else if(m_PixelType == LONG)
     {
-    octBasePtr =  Octree<long,2,B2MaskMappingFunction<long> >::New();
+    octBasePtr =  Octree<long,2,Brains2MaskMappingFunction<long> >::New();
     }
   else if(m_PixelType == ULONG)
     {
-    octBasePtr =  Octree<unsigned long,2,B2MaskMappingFunction<unsigned long> >::New();
+    octBasePtr =  Octree<unsigned long,2,Brains2MaskMappingFunction<unsigned long> >::New();
     }
   else if(m_PixelType == FLOAT)
     {
-    octBasePtr =  Octree<float,2,B2MaskMappingFunction<float> >::New();
+    octBasePtr =  Octree<float,2,Brains2MaskMappingFunction<float> >::New();
     }
   else if(m_PixelType == DOUBLE)
     {
-    octBasePtr =  Octree<double,2,B2MaskMappingFunction<double> >::New();
+    octBasePtr =  Octree<double,2,Brains2MaskMappingFunction<double> >::New();
     }
   else
     {
@@ -462,7 +465,7 @@ B2MaskImageIO
     }
   else
     {
-    octreeHdr[5] = B2_MASKFILE_GRAY;
+    octreeHdr[5] = Brains2_MASKFILE_GRAY;
     }
   itk::ByteSwapper<unsigned>::SwapRangeFromSystemToBigEndian(octreeHdr,
                                                              6);

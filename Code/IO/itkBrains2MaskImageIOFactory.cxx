@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkB2MaskImageIOFactory.cxx
+  Module:    itkBrains2MaskImageIOFactory.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,35 +14,35 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkB2MaskImageIOFactory.h"
+#include "itkBrains2MaskImageIOFactory.h"
 #include "itkCreateObjectFunction.h"
-#include "itkB2MaskImageIO.h"
+#include "itkBrains2MaskImageIO.h"
 #include "itkVersion.h"
 
   
 namespace itk
 {
-B2MaskImageIOFactory::B2MaskImageIOFactory()
+Brains2MaskImageIOFactory::Brains2MaskImageIOFactory()
 {
   this->RegisterOverride("itkImageIOBase",
-                         "itkB2MaskImageIO",
+                         "itkBrains2MaskImageIO",
                          "Brains2 Mask Image IO",
                          1,
-                         CreateObjectFunction<B2MaskImageIO>::New());
+                         CreateObjectFunction<Brains2MaskImageIO>::New());
 }
   
-B2MaskImageIOFactory::~B2MaskImageIOFactory()
+Brains2MaskImageIOFactory::~Brains2MaskImageIOFactory()
 {
 }
 
 const char* 
-B2MaskImageIOFactory::GetITKSourceVersion(void) const
+Brains2MaskImageIOFactory::GetITKSourceVersion(void) const
 {
   return ITK_SOURCE_VERSION;
 }
 
 const char* 
-B2MaskImageIOFactory::GetDescription() const
+Brains2MaskImageIOFactory::GetDescription() const
 {
   return "Brains2 Mask ImageIO Factory, allows the loading of Brains2 binary mask as images into insight";
 }

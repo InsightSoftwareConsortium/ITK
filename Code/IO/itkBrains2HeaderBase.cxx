@@ -1,20 +1,20 @@
 #include "itkExceptionObject.h"
-#include "itkB2HeaderBase.h"
-#include "itkB2HeaderFactory.h"
+#include "itkBrains2HeaderBase.h"
+#include "itkBrains2HeaderFactory.h"
 
 //#include "itkMacro.h"
 
 namespace itk {
-B2HeaderBase::B2HeaderBase()
+Brains2HeaderBase::Brains2HeaderBase()
 {
   //Nothing to be done here.
 }
-B2HeaderBase::~B2HeaderBase()
+Brains2HeaderBase::~Brains2HeaderBase()
 {
   this->ClearHeader();
 }
 
-void B2HeaderBase::ReadB2Header(std::string filename)
+void Brains2HeaderBase::ReadBrains2Header(std::string filename)
 {
   std::ifstream   local_InputStream;
   local_InputStream.open( filename.c_str(), std::ios::in | std::ios::binary );
@@ -22,17 +22,17 @@ void B2HeaderBase::ReadB2Header(std::string filename)
     {
     //               itk::itkExceptionMacro("Error opening image data file for reading.");
     }
-  ReadB2Header(local_InputStream);
+  ReadBrains2Header(local_InputStream);
   local_InputStream.close();
 }
 
-void B2HeaderBase::ClearHeader(void)
+void Brains2HeaderBase::ClearHeader(void)
 {
   //Clear out all children, While children exist do
   while(m_child.size() != 0)
     {
     //Get value of front of list
-    B2HeaderBase * pi=m_child.front();
+    Brains2HeaderBase * pi=m_child.front();
     //remove value from list
     m_child.pop_front();
     //delte value
@@ -42,7 +42,7 @@ void B2HeaderBase::ClearHeader(void)
 }
 
 
-void B2HeaderBase::WriteB2Header(std::string filename) const
+void Brains2HeaderBase::WriteBrains2Header(std::string filename) const
 {
   std::ofstream   local_OutputStream;
   local_OutputStream.open( filename.c_str(), std::ios::out | std::ios::binary );
@@ -50,11 +50,11 @@ void B2HeaderBase::WriteB2Header(std::string filename) const
     {
     //              itk::itkExceptionMacro("Error opening image data file for reading.");
     }
-  WriteB2Header(local_OutputStream);
+  WriteBrains2Header(local_OutputStream);
   local_OutputStream.close();
 }
 
-std::ifstream & B2HeaderBase::ReadB2Header(std::ifstream  & inputstream)
+std::ifstream & Brains2HeaderBase::ReadBrains2Header(std::ifstream  & inputstream)
 {
   std::string Key;
   //NOTE: tellg returns the position in number of bytes from the begining of the stream.
@@ -72,7 +72,7 @@ std::ifstream & B2HeaderBase::ReadB2Header(std::ifstream  & inputstream)
     {
     this->push_back(std::list< std::pair<std::string,std::string> >::value_type(Key,""));
     }
-  itk::B2HeaderFactory MyB2HdrFac;
+  itk::Brains2HeaderFactory MyBrains2HdrFac;
   long int PreKeyReadPosition=inputstream.tellg();
   inputstream >> Key; //Read key that follows "IPL_HEADER_BEGIN"
   while(Key != this->GetHeaderEndTag() )  //If key = "IPL_HEADER_END", then there is no value
@@ -91,13 +91,13 @@ std::ifstream & B2HeaderBase::ReadB2Header(std::ifstream  & inputstream)
       //Rewind to befor the key.
       inputstream.seekg(PreKeyReadPosition);
       //Need Factory Here to produce proper factory based on Key.
-      this->m_child.push_back(MyB2HdrFac.CreateB2HeaderReader(Key));
+      this->m_child.push_back(MyBrains2HdrFac.CreateBrains2HeaderReader(Key));
       if(this->m_child.back() == NULL)
         {
         //DEBUG: Throw error
         return inputstream;
         }
-      this->m_child.back()->ReadB2Header(inputstream);
+      this->m_child.back()->ReadBrains2Header(inputstream);
       PreKeyReadPosition=inputstream.tellg();
       inputstream >> Key;
       continue;
@@ -113,13 +113,13 @@ std::ifstream & B2HeaderBase::ReadB2Header(std::ifstream  & inputstream)
   this->push_back(std::list< std::pair<std::string,std::string> >::value_type(Key,""));
   return inputstream;
 }
-std::ofstream & B2HeaderBase::WriteB2Header(std::ofstream & outputstream) const
+std::ofstream & Brains2HeaderBase::WriteBrains2Header(std::ofstream & outputstream) const
 {
   return outputstream;
 }
-void B2HeaderBase::PrintSelf(std::ostream &os) const
+void Brains2HeaderBase::PrintSelf(std::ostream &os) const
 {
-  std::list<B2HeaderBase *>::const_iterator childiterator=this->m_child.begin();
+  std::list<Brains2HeaderBase *>::const_iterator childiterator=this->m_child.begin();
   //For each element in internal list
   for(std::list< std::pair<std::string,std::string> >::const_iterator pi=this->begin();
       pi != this->end(); pi++)
@@ -136,9 +136,9 @@ void B2HeaderBase::PrintSelf(std::ostream &os) const
     }
 }
 
-bool B2HeaderBase::DoesKeyExist(const std::string &KeyID) const
+bool Brains2HeaderBase::DoesKeyExist(const std::string &KeyID) const
 {
-  std::list<B2HeaderBase *>::const_iterator childiterator=this->m_child.begin();
+  std::list<Brains2HeaderBase *>::const_iterator childiterator=this->m_child.begin();
   //For each element in internal list
   for(std::list< std::pair<std::string,std::string> >::const_iterator pi=this->begin();
       pi != this->end(); pi++)
@@ -163,10 +163,10 @@ bool B2HeaderBase::DoesKeyExist(const std::string &KeyID) const
 }
 
 
-std::string B2HeaderBase::getString(const std::string &KeyID) const
+std::string Brains2HeaderBase::getString(const std::string &KeyID) const
 {
   //this->PrintSelf(std::cout);
-  std::list<B2HeaderBase *>::const_iterator childiterator=this->m_child.begin();
+  std::list<Brains2HeaderBase *>::const_iterator childiterator=this->m_child.begin();
   //For each element in internal list
   for(std::list< std::pair<std::string,std::string> >::const_iterator pi=this->begin();
       pi != this->end(); pi++)
@@ -191,7 +191,7 @@ std::string B2HeaderBase::getString(const std::string &KeyID) const
   return std::string("");
 }
 
-float B2HeaderBase::getFloat(const std::string &KeyID) const
+float Brains2HeaderBase::getFloat(const std::string &KeyID) const
 {
   std::string TempStringValue=this->getString(KeyID);
   if(TempStringValue.length() != 0)
@@ -201,7 +201,7 @@ float B2HeaderBase::getFloat(const std::string &KeyID) const
   return 0.0F;
 }
 
-int B2HeaderBase::getInt(const std::string &KeyID) const
+int Brains2HeaderBase::getInt(const std::string &KeyID) const
 {
   std::string TempStringValue=this->getString(KeyID);
   if(TempStringValue.length() != 0)

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkB2MaskImageIOFactory.h
+  Module:    itkBrains2MaskImageIOFactory.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,22 +14,22 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkB2MaskImageIOFactory_h
-#define __itkB2MaskImageIOFactory_h
+#ifndef __itkBrains2MaskImageIOFactory_h
+#define __itkBrains2MaskImageIOFactory_h
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
 
 namespace itk
 {
-/** \class B2MaskImageIOFactory
- * \brief Create instances of B2MaskImageIO objects using an object factory.
+/** \class Brains2MaskImageIOFactory
+ * \brief Create instances of Brains2MaskImageIO objects using an object factory.
  */
-class ITK_EXPORT B2MaskImageIOFactory : public ObjectFactoryBase
+class ITK_EXPORT Brains2MaskImageIOFactory : public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
-  typedef B2MaskImageIOFactory   Self;
+  typedef Brains2MaskImageIOFactory   Self;
   typedef ObjectFactoryBase  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -42,21 +42,21 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(B2MaskImageIOFactory, ObjectFactoryBase);
+  itkTypeMacro(Brains2MaskImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
   {
-    B2MaskImageIOFactory::Pointer metaFactory = B2MaskImageIOFactory::New();
+    Brains2MaskImageIOFactory::Pointer metaFactory = Brains2MaskImageIOFactory::New();
     ObjectFactoryBase::RegisterFactory(metaFactory);
   }
 
 protected:
-  B2MaskImageIOFactory();
-  ~B2MaskImageIOFactory();
+  Brains2MaskImageIOFactory();
+  ~Brains2MaskImageIOFactory();
 
 private:
-  B2MaskImageIOFactory(const Self&); //purposely not implemented
+  Brains2MaskImageIOFactory(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
 };

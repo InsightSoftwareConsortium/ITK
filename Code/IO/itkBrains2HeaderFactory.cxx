@@ -1,7 +1,7 @@
 /*=========================================================================
 
 Program:   Insight Segmentation & Registration Toolkit
-Module:    itkB2HeaderFactory.cxx
+Module:    itkBrains2HeaderFactory.cxx
 Language:  C++
 Date:      $Date$
 Version:   $Revision$
@@ -14,24 +14,24 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkB2HeaderFactory.h"
-#include "itkB2IPLHeaderInfo.h"
-#include "itkB2MaskHeaderInfo.h"
+#include "itkBrains2HeaderFactory.h"
+#include "itkBrains2IPLHeaderInfo.h"
+#include "itkBrains2MaskHeaderInfo.h"
 //#include "itkROIHeaderInfo.h"
-//#include "itkB2TalairachParametersHeaderInfo.h"
+//#include "itkBrains2TalairachParametersHeaderInfo.h"
 
 namespace itk
 {
-B2HeaderBase::Pointer
-B2HeaderFactory::CreateB2HeaderReader(const std::string & TypeID)
+Brains2HeaderBase::Pointer
+Brains2HeaderFactory::CreateBrains2HeaderReader(const std::string & TypeID)
 {
-  if( TypeID == B2IPLHeaderInfo().GetHeaderBeginTag() )
+  if( TypeID == Brains2IPLHeaderInfo().GetHeaderBeginTag() )
     {
-    return new B2IPLHeaderInfo;
+    return new Brains2IPLHeaderInfo;
     }
-  else if( TypeID == B2MaskHeaderInfo().GetHeaderBeginTag() )
+  else if( TypeID == Brains2MaskHeaderInfo().GetHeaderBeginTag() )
     {
-    return new B2MaskHeaderInfo;
+    return new Brains2MaskHeaderInfo;
     }
 #if 0 //_itkROIHeaderInfo_h
   else if( TypeID == ROIHeaderInfo().GetHeaderBeginTag() )
@@ -40,26 +40,26 @@ B2HeaderFactory::CreateB2HeaderReader(const std::string & TypeID)
     }
 #endif
 #if 0
-  else if( TypeID == B2TalairachParametersHeaderInfo().GetHeaderBeginTag() )
+  else if( TypeID == Brains2TalairachParametersHeaderInfo().GetHeaderBeginTag() )
     {
-    return new B2TalairachParametersHeaderInfo;
+    return new Brains2TalairachParametersHeaderInfo;
     }
   assert(0==1);
 #endif
   return NULL;
 }
 
-B2HeaderBase::Pointer
-B2HeaderFactory::CreateB2HeaderWriter(const std::string & TypeID)
+Brains2HeaderBase::Pointer
+Brains2HeaderFactory::CreateBrains2HeaderWriter(const std::string & TypeID)
 {
-  return B2HeaderFactory::CreateB2HeaderReader(TypeID);
+  return Brains2HeaderFactory::CreateBrains2HeaderReader(TypeID);
 }
 
-B2HeaderFactory::B2HeaderFactory()
+Brains2HeaderFactory::Brains2HeaderFactory()
 {
   //Do nothing
 }
-B2HeaderFactory::~B2HeaderFactory()
+Brains2HeaderFactory::~Brains2HeaderFactory()
 {
   //Do nothing
 }

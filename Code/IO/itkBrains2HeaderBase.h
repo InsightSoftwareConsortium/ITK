@@ -1,5 +1,5 @@
-#ifndef __B2_HEADERBASE_H__
-#define __B2_HEADERBASE_H__
+#ifndef __Brains2_HEADERBASE_H__
+#define __Brains2_HEADERBASE_H__
 
 #include <string>
 #include <list>
@@ -10,11 +10,11 @@ namespace itk {
       * An abstract class to define b2 header information.  This just adds file reading and writing
       * routines to the standard STL std::list< std::pair<std::string, std::string> >
       */
-class B2HeaderBase: public std::list< std::pair<std::string, std::string> >
+class Brains2HeaderBase: public std::list< std::pair<std::string, std::string> >
 {
 public:
   /** Standard class typedefs. */
-  typedef B2HeaderBase Self;
+  typedef Brains2HeaderBase Self;
   typedef std::list< std::pair<std::string, std::string> >  Superclass;
   typedef Self * Pointer;
   typedef const Self *  ConstPointer;
@@ -22,45 +22,45 @@ public:
          * Default constructor
          * \author Hans J. Johnson
          */
-  B2HeaderBase();
+  Brains2HeaderBase();
   /**
          * Default destructor
          * \author Hans J. Johnson
          */
-  virtual ~B2HeaderBase();
+  virtual ~Brains2HeaderBase();
   /**
-          * A routine for reading B2 header information from a file
+          * A routine for reading Brains2 header information from a file
           * \author Hans J. Johnson
           * \param filename The name of the file to read header information from
           */
-  virtual void ReadB2Header(std::string filename);
+  virtual void ReadBrains2Header(std::string filename);
   /**
-          * A routine for writing B2 header information from a file
+          * A routine for writing Brains2 header information from a file
           * \author Hans J. Johnson
           * \param filename The name of the file to write header information to
           */
-  virtual void WriteB2Header(std::string filename) const;
+  virtual void WriteBrains2Header(std::string filename) const;
   /**
-          * A routine for reading B2 header information from a file
+          * A routine for reading Brains2 header information from a file
           * \author Hans J. Johnson
           * \param inputstream The file stream to read from.
           * \return the current location in the input stream
           * \pre The file must already have been opened and be prepared to reading
           * \post The file stream is left open.
           */
-  virtual std::ifstream & ReadB2Header(std::ifstream & inputstream);
+  virtual std::ifstream & ReadBrains2Header(std::ifstream & inputstream);
   /**
-          * A routine for writing B2 header information from a file
+          * A routine for writing Brains2 header information from a file
           * \author Hans J. Johnson
           * \param outputstream The file stream to write to.
           * \return the current location in the input stream
           * \pre The file must already have been opened and be prepared to reading
           * \post The file stream is left open.
           */
-  virtual std::ofstream & WriteB2Header(std::ofstream & outputstream) const;
+  virtual std::ofstream & WriteBrains2Header(std::ofstream & outputstream) const;
 
   /**
-          * A routine for printing B2 header information to a standard stream
+          * A routine for printing Brains2 header information to a standard stream
           * \author Hans J. Johnson
           * \param os The stream to print to
           */
@@ -102,8 +102,8 @@ public:
 protected:
   virtual std::string GetHeaderBeginTag(void) const= 0;
   virtual std::string GetHeaderEndTag(void) const = 0;
-  std::list<B2HeaderBase *> m_child;
+  std::list<Brains2HeaderBase *> m_child;
 private:
 };
 } //End of namespace itk
-#endif // __B2_HEADERINFO_H__
+#endif // __Brains2_HEADERINFO_H__

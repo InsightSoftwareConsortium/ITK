@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkB2MaskImageIO.h
+  Module:    itkBrains2MaskImageIO.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -22,8 +22,8 @@
  * \author Hans J. Johnson
  *         The University of Iowa 2002
  * \brief This file was written as a modification to the itkMetaImageIO
- *        as a new method for reading in files from the B2Mask specification.
- *        B2Masks are specified as a single file.  The first part of the file
+ *        as a new method for reading in files from the Brains2Mask specification.
+ *        Brains2Masks are specified as a single file.  The first part of the file
  *        begins with an "IPL_HEADER_BEGIN" followed by ascii text describing the
  *        dimensions, and other important information about the data.  The header
  *        information concludes with  the "IPL_HEADER_END\n" identifier, and is immediatly followed by
@@ -37,25 +37,25 @@
   *  \par Everything still needs to be done.
  */
 
-#ifndef __itkB2MaskImageIO_h
-#define __itkB2MaskImageIO_h
+#ifndef __itkBrains2MaskImageIO_h
+#define __itkBrains2MaskImageIO_h
 
 #include <fstream>
 #include "itkImageIOBase.h"
-#include "itkB2IPLHeaderInfo.h"
+#include "itkBrains2IPLHeaderInfo.h"
 #include "itkOctree.h"
 
 namespace itk
 {
 /**
  * \author Hans J. Johnson
- * \brief Class that defines how to read B2Mask file format. 
+ * \brief Class that defines how to read Brains2Mask file format. 
  * */
-class ITK_EXPORT B2MaskImageIO : public ImageIOBase
+class ITK_EXPORT Brains2MaskImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef B2MaskImageIO            Self;
+  typedef Brains2MaskImageIO            Self;
   typedef ImageIOBase  Superclass;
   typedef SmartPointer<Self>  Pointer;
 
@@ -63,7 +63,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(B2MaskImageIO, Superclass);
+  itkTypeMacro(Brains2MaskImageIO, Superclass);
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 
@@ -108,11 +108,11 @@ public:
 
 
 protected:
-  B2MaskImageIO();
-  ~B2MaskImageIO();
+  Brains2MaskImageIO();
+  ~Brains2MaskImageIO();
   void PrintSelf(std::ostream& os, Indent indent) const;
 private:
-  B2MaskImageIO(const Self&); //purposely not implemented
+  Brains2MaskImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   itk::OctreeNodeBranch *  readOctree (
     std::ifstream & octreestream,
@@ -120,10 +120,10 @@ private:
     const ImageIOBase::ByteOrder fileByteOrder);
   ImageIOBase::ByteOrder m_MachineByteOrder;
 
-  itk::B2IPLHeaderInfo m_IPLHeaderInfo;
+  itk::Brains2IPLHeaderInfo m_IPLHeaderInfo;
   OctreeBase *m_Octree;
 };
 
 } // end namespace itk
 
-#endif // __itkB2MaskImageIO_h
+#endif // __itkBrains2MaskImageIO_h
