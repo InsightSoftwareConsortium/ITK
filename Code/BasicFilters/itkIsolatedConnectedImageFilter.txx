@@ -115,8 +115,10 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
   IteratorType it = IteratorType ( outputImage, function, m_Seed1 );
 
   const unsigned int estimatedNumberOfIterations =
-                         log( static_cast<double>(( upper - lower ) / m_IsolatedValueTolerance )) / 
-                         log ( 2.0 );
+    static_cast<unsigned int>(
+      log( static_cast<double>(( upper - lower ) / m_IsolatedValueTolerance )) / 
+       log ( 2.0 )
+    );
 
   // Worst-case scenario for the estimation of time to be completed.
   ProgressReporter progress( this, 0, region.GetNumberOfPixels() * 
