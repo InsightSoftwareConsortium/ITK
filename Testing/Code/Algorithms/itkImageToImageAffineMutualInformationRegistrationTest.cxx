@@ -25,6 +25,7 @@ int main()
 
 //------------------------------------------------------------
 // Create two simple images
+// Two Gaussians with one translated 5 pixels from another
 //------------------------------------------------------------
 
   //Allocate Images
@@ -51,9 +52,9 @@ int main()
   imgTarget->Allocate();
 
   // Fill images with a 2D gaussian
-  typedef  itk::SimpleImageRegionIterator<ReferenceType> 
+  typedef  itk::SimpleImageRegionIterator<ReferenceType>
     ReferenceIteratorType;
-  typedef  itk::SimpleImageRegionIterator<TargetType> 
+  typedef  itk::SimpleImageRegionIterator<TargetType>
     TargetIteratorType;
 
   itk::Point<double,2> center;
@@ -101,8 +102,8 @@ int main()
 //-----------------------------------------------------------
 // Set up a the registrator
 //-----------------------------------------------------------
-  typedef itk::ImageToImageAffineMutualInformationRegistration<ReferenceType,TargetType> 
-    RegistrationType;
+  typedef itk::ImageToImageAffineMutualInformationRegistration<
+    ReferenceType,TargetType> RegistrationType;
 
   RegistrationType::Pointer registrationMethod = RegistrationType::New();
 
@@ -124,7 +125,7 @@ int main()
   registrationMethod->SetNumberOfIterations( 250 );
   registrationMethod->SetLearningRate( 0.1 );
   registrationMethod->ScreenDumpOn();
-  
+
   //
   // only allow translation - since the metric will allow any
   // rotation without penalty as image is circular
@@ -148,7 +149,7 @@ int main()
   registrationMethod->GetMetric()->SetNumberOfSpatialSamples( 50 );
 
   registrationMethod->StartRegistration();
-  
+
   //
   // check results to see if it is within range
   //
@@ -156,22 +157,23 @@ int main()
   double trueParameters[6] = { 1, 0, 0, 1, -5, 0 };
   for( unsigned int j = 0; j < 4; j++ )
     {
-    if( vnl_math_abs( registrationMethod->GetParameters()[j] - trueParameters[j] ) > 0.01 ) 
+    if( vnl_math_abs(
+      registrationMethod->GetParameters()[j] - trueParameters[j] ) > 0.01 )
       pass = false;
     }
   for( unsigned int j = 4; j < 6; j++ )
     {
-    if( vnl_math_abs( registrationMethod->GetParameters()[j] - trueParameters[j] ) > 0.5 ) 
+    if( vnl_math_abs(
+      registrationMethod->GetParameters()[j] - trueParameters[j] ) > 0.5 )
       pass = false;
     }
-
 
   if( !pass )
     {
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 
