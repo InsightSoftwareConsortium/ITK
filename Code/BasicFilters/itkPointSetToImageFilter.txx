@@ -228,7 +228,8 @@ PointSetToImageFilter<TInputPointSet,TOutputImage>
   double origin[InputPointSetDimension];
   SizeType size;
 
-  const InputPointSetType::BoundingBoxType* bb = InputPointSet->GetBoundingBox();
+  typedef typename InputPointSetType::BoundingBoxType  BoundingBoxType;
+  const BoundingBoxType * bb = InputPointSet->GetBoundingBox();
 
   for(i=0;i<InputPointSetDimension;i++)
     {
