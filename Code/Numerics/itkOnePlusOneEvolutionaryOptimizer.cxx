@@ -228,7 +228,14 @@ OnePlusOneEvolutionaryOptimizer
 
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Random Generator  " << m_RandomGenerator  << std::endl;
+  if (m_RandomGenerator)
+    {
+    os << indent << "Random Generator  " << m_RandomGenerator.GetPointer()  << std::endl;
+    }
+  else
+    {
+    os << indent << "Random Generator  " << "(none)" << std::endl;
+    }
   os << indent << "Maximum Iteration " << m_MaximumIteration << std::endl;
   os << indent << "Epsilon           " << m_Epsilon          << std::endl;
   os << indent << "Initial Radius    " << m_InitialRadius    << std::endl;
