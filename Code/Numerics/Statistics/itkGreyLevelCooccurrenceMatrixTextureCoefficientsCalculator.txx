@@ -127,7 +127,7 @@ namespace itk {
       */
       marginalMean = marginalSums[0];
       marginalDevSquared = 0;
-      for (int arrayIndex = 1 ; arrayIndex < binsPerAxis; arrayIndex++)
+      for (unsigned int arrayIndex = 1 ; arrayIndex < binsPerAxis; arrayIndex++)
         {
         int k = arrayIndex + 1;
         double M_k_minus_1 = marginalMean;

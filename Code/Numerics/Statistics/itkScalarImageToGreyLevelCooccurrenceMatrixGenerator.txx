@@ -40,11 +40,11 @@ namespace itk {
       m_Histogram->Initialize(size, m_LowerBound, m_UpperBound);
       
       // Next, find the minimum radius that encloses all the offsets.
-      unsigned int minRadius = 0;
+      int minRadius = 0;
       typename OffsetVector::ConstIterator offsets;
       for(offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); offsets++)
         {
-        for(int i = 0; i < offsets.Value().GetOffsetDimension(); i++)
+        for(unsigned int i = 0; i < offsets.Value().GetOffsetDimension(); i++)
           {
           if(offsets.Value()[i] > minRadius)
             {

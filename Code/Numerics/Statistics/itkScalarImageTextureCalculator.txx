@@ -39,7 +39,7 @@ namespace itk {
       // connected to the current pixel. do not include the center pixel.
       unsigned int centerIndex = hood.GetCenterNeighborhoodIndex();
       OffsetType offset;
-      for (int d=0; d < centerIndex; d++)
+      for (unsigned int d=0; d < centerIndex; d++)
         {
         offset = hood.GetOffset(d);
         m_Offsets->push_back(offset);
@@ -56,7 +56,7 @@ namespace itk {
       double **features;
 
       features = new double *[numOffsets];
-      for (unsigned int i = 0; i < numOffsets; i++)
+      for (int i = 0; i < numOffsets; i++)
         {
         features[i] = new double [numFeatures];
         }
@@ -130,7 +130,7 @@ namespace itk {
         }
       delete [] tempFeatureMeans;
       delete [] tempFeatureDevs;
-      for(unsigned int i=0; i < numOffsets; i++)
+      for(int i=0; i < numOffsets; i++)
         {
         delete [] features;
         }
