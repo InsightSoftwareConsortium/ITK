@@ -292,73 +292,75 @@ int itkAnalyzeImageIOTest(int ac, char* av[])
       }
     }
   }
-  int rval = 0;
-  int cur_return;
-  cur_return = MakeImage<char>();
-  if(cur_return != 0)
+  else //This is the mechanism for doing internal testing of all data types.
   {
-    std::cerr << "Error writing Analyze file type char" << std::endl;
+    int rval = 0;
+    int cur_return;
+    cur_return = MakeImage<char>();
+    if(cur_return != 0)
+    {
+      std::cerr << "Error writing Analyze file type char" << std::endl;
+    }
+    else
+    {
+      rval += cur_return;
+    }
+    cur_return = MakeImage<unsigned char>();
+    if(cur_return != 0)
+    {
+      std::cerr << "Error writing Analyze file type unsigned char" << std::endl;
+    }
+    else
+    {
+      rval += cur_return;
+    }
+    cur_return = MakeImage<short>();
+    if(cur_return != 0)
+    {
+      std::cerr << "Error writing Analyze file type short" << std::endl;
+    }
+    else
+    {
+      rval += cur_return;
+    }
+    cur_return = MakeImage<unsigned short>();
+    if(cur_return != 0)
+    {
+      std::cerr << "Error writing Analyze file type unsigned short" << std::endl;
+    }
+    else
+    {
+      rval += cur_return;
+    }
+    cur_return = MakeImage<int>();
+    if(cur_return != 0)
+    {
+      std::cerr << "Error writing Analyze file type int" << std::endl;
+    }
+    else
+    {
+      rval += cur_return;
+    }
+    cur_return = MakeImage<float>();
+    if(cur_return != 0)
+    {
+      std::cerr << "Error writing Analyze file type float" << std::endl;
+    }
+    else
+    {
+      rval += cur_return;
+    }
+    // awaiting a double precision byte swapper
+    cur_return = MakeImage<double>();
+    if(cur_return != 0)
+    {
+      std::cerr << "Error writing Analyze file type double" << std::endl;
+    }
+    else
+    {
+      rval += cur_return;
+    }
+    rval += TestByteSwap();
+    return rval;
   }
-  else
-  {
-    rval += cur_return;
-  }
-  cur_return = MakeImage<unsigned char>();
-  if(cur_return != 0)
-  {
-    std::cerr << "Error writing Analyze file type unsigned char" << std::endl;
-  }
-  else
-  {
-    rval += cur_return;
-  }
-  cur_return = MakeImage<short>();
-  if(cur_return != 0)
-  {
-    std::cerr << "Error writing Analyze file type short" << std::endl;
-  }
-  else
-  {
-    rval += cur_return;
-  }
-  cur_return = MakeImage<unsigned short>();
-  if(cur_return != 0)
-  {
-    std::cerr << "Error writing Analyze file type unsigned short" << std::endl;
-  }
-  else
-  {
-    rval += cur_return;
-  }
-  cur_return = MakeImage<int>();
-  if(cur_return != 0)
-  {
-    std::cerr << "Error writing Analyze file type int" << std::endl;
-  }
-  else
-  {
-    rval += cur_return;
-  }
-  cur_return = MakeImage<float>();
-  if(cur_return != 0)
-  {
-    std::cerr << "Error writing Analyze file type float" << std::endl;
-  }
-  else
-  {
-    rval += cur_return;
-  }
-  // awaiting a double precision byte swapper
-  cur_return = MakeImage<double>();
-  if(cur_return != 0)
-  {
-    std::cerr << "Error writing Analyze file type double" << std::endl;
-  }
-  else
-  {
-    rval += cur_return;
-  }
-  rval += TestByteSwap();
-  return rval;
-
 }
