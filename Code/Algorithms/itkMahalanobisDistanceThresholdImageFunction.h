@@ -130,7 +130,7 @@ public:
     double mahalanobisDistance = 
       m_MahalanobisDistanceMembershipFunction->Evaluate( 
                                         m_Image->GetPixel( index ) );
-    return ( mahalanobisDistance <= m_Threshold );
+    return ( sqrt( mahalanobisDistance ) <= m_Threshold );
     }
 
   /** Get the lower threshold value. */
