@@ -27,6 +27,7 @@ namespace itk
 OnePlusOneEvolutionaryOptimizer
 ::OnePlusOneEvolutionaryOptimizer()
 {
+  m_Maximize = false;
   m_Initialized = false ;
   m_Epsilon = (double) 1.5e-4  ; 
   m_RandomGenerator = 0 ;
@@ -78,6 +79,7 @@ OnePlusOneEvolutionaryOptimizer
       return ;
     }
 
+  this->InvokeEvent( StartEvent() );
   m_Stop = false ;
   double pvalue, cvalue, adjust ;
   double fro_norm ;
@@ -135,7 +137,9 @@ OnePlusOneEvolutionaryOptimizer
       itkDebugMacro(<< iter << ": parent: " << pvalue 
                     << " child: "<< cvalue );
 
-      if (cvalue < pvalue) 
+      if(m_Maximize)
+      {
+        if (cvalue > pvalue) 
         {
           pvalue = cvalue ;
           
@@ -149,10 +153,33 @@ OnePlusOneEvolutionaryOptimizer
           this->SetCurrentPosition(parentPosition) ;
           
         } 
-      else 
+        else 
         {
           adjust = m_ShrinkFactor ;
         }
+      }
+      else
+      {
+        if (cvalue < pvalue) 
+        {
+          pvalue = cvalue ;
+          
+          parent.swap(child) ;                  
+          
+          adjust = m_GrowthFactor ; 
+          for( unsigned int i=0; i<spaceDimension; i++)
+            {
+              parentPosition[i] = parent[i];
+            }
+          this->SetCurrentPosition(parentPosition) ;
+          
+        } 
+        else 
+        {
+          adjust = m_ShrinkFactor ;
+        }
+      }
+     
 
       m_CurrentCost = pvalue ;
       // convergence criterion: f-norm of A < epsilon_A
@@ -178,7 +205,10 @@ OnePlusOneEvolutionaryOptimizer
       // x = A * f_norm , y = f_norm, alpha = (adjust - 1) / Blas_Dot_Prod(
       // f_norm, f_norm)
       A = A + (adjust - 1.0) * A ;
-    }
+    this->InvokeEvent( IterationEvent() );   
+  }
+  this->InvokeEvent( EndEvent() );
+  
 }
  
 

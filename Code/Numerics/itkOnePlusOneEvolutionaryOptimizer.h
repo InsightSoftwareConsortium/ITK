@@ -88,6 +88,9 @@ public:
   /** Normal random variate generator type. */
   typedef Statistics::RandomVariateGeneratorBase NormalVariateGeneratorType ;
   
+  /** Set if the Optimizer should Maximize the metric */
+  void MaximizeOn() {m_Maximize=true;}
+
   /** Set/Get maximum iteration limit. */
   itkSetMacro( MaximumIteration, unsigned int );
   itkGetConstMacro( MaximumIteration, unsigned int );
@@ -146,6 +149,9 @@ private:
 
   /** Current iteration */
   unsigned int m_CurrentIteration ;
+
+  /** Set if the Metric should be maximized: Default = False */
+  bool m_Maximize;
 
   /** The minimal size of search radius 
    * (frobenius_norm of covariance matrix). */ 
