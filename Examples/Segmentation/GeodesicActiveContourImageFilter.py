@@ -1,5 +1,5 @@
 # GeodesicActiveContourImageFilter.py
-# Translated from the cxx original by Charl P. Botha <http://cpbotha.net/>
+# Translated by Charl P. Botha <http://cpbotha.net/> from the cxx original.
 # Id
 
 # NOTE: This example won't work if your ITK is older that 2004-02-26
@@ -34,11 +34,12 @@ def main():
         print >> sys.stderr, errMsg
         return
 
-    thresholder = itk.itkBinaryThresholdImageFilterF2US2_New()
-    thresholder.SetLowerThreshold( -1000.0 );
-    thresholder.SetUpperThreshold( 0.0 );
-    thresholder.SetOutsideValue( 0  );
-    thresholder.SetInsideValue( 65535 );
+    # We're going to build the following pipelines:
+    # 1. reader -> smoothing -> gradientMagnitude -> sigmoid -> FI
+    # 2. fastMarching -> geodesicActiveContour(FI) -> thresholder -> writer
+    # The output of pipeline 1 is a feature image that is used by the
+    # geodesicActiveContour object.  Also see figure 9.18 in the ITK
+    # Software Guide.
 
     reader = itk.itkImageFileReaderF2_New()
     reader.SetFileName(sys.argv[1])
@@ -74,6 +75,12 @@ def main():
 
     geodesicActiveContour.SetInput(  fastMarching.GetOutput() );
     geodesicActiveContour.SetFeatureImage( sigmoid.GetOutput() );
+
+    thresholder = itk.itkBinaryThresholdImageFilterF2US2_New()
+    thresholder.SetLowerThreshold( -1000.0 );
+    thresholder.SetUpperThreshold( 0.0 );
+    thresholder.SetOutsideValue( 0  );
+    thresholder.SetInsideValue( 65535 );
 
     thresholder.SetInput( geodesicActiveContour.GetOutput() );
     writer.SetInput( thresholder.GetOutput() );
