@@ -46,6 +46,7 @@ struct DiffusionStrategy
 {
   DiffusionStrategy(float c) : m_ConductanceTerm(c) {}
   DiffusionStrategy() : m_ConductanceTerm(0.0f) {}
+  virtual ~DiffusionStrategy () {};
   virtual void operator()(void *, void *) = 0;
   float m_ConductanceTerm;
 };
