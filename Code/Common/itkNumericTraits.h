@@ -58,7 +58,7 @@ public:
   static const T One;
 
   /** Smallest (most nonpositive) value **/
-  static T NonpositiveMin() { return min() }
+  static T NonpositiveMin() { return min(); }
 
   /** Is a given value positive? **/
   static bool IsPositive(T val) { return val > Zero; }
@@ -85,11 +85,11 @@ public:
   static const bool Zero;
   static const bool One;
 
-  static T NonpositiveMin() { return false; }
-  static bool IsPositive(T val) { return val; }
-  static bool IsNonpositive(T val) { return !val; }
-  static bool IsNegative(T val) { return false; }
-  static bool IsNonnegative(T val) {return true; }
+  static bool NonpositiveMin() { return false; }
+  static bool IsPositive(bool val) { return val; }
+  static bool IsNonpositive(bool val) { return !val; }
+  static bool IsNegative(bool val) { return false; }
+  static bool IsNonnegative(bool val) {return true; }
 };
 
 /** \class NumericTraits<char>
@@ -104,11 +104,11 @@ public:
   static const char Zero;
   static const char One;
 
-  static T NonpositiveMin() { return min(); }
-  static bool IsPositive(T val) { return val > Zero; }
-  static bool IsNonpositive(T val) { return val <= Zero; }
-  static bool IsNegative(T val) { return val < Zero; }
-  static bool IsNonnegative(T val) {return val >= Zero; }
+  static char NonpositiveMin() { return min(); }
+  static bool IsPositive(char val) { return val > Zero; }
+  static bool IsNonpositive(char val) { return val <= Zero; }
+  static bool IsNegative(char val) { return val < Zero; }
+  static bool IsNonnegative(char val) {return val >= Zero; }
 };
 
 /** \class NumericTraits<unsigned char>
@@ -123,11 +123,11 @@ public:
   static const unsigned char Zero;
   static const unsigned char One;
 
-  static T NonpositiveMin() { return min(); }
-  static bool IsPositive(T val) { return val != Zero; }
-  static bool IsNonpositive(T val) { return val == Zero; }
-  static bool IsNegative(T val) { return false; }
-  static bool IsNonnegative(T val) {return true; }
+  static unsigned char NonpositiveMin() { return min(); }
+  static bool IsPositive(unsigned char val) { return val != Zero; }
+  static bool IsNonpositive(unsigned char val) { return val == Zero; }
+  static bool IsNegative(unsigned char val) { return false; }
+  static bool IsNonnegative(unsigned char val) {return true; }
 };
 
 /** \class NumericTraits<short>
@@ -142,11 +142,11 @@ public:
   static const short Zero;
   static const short One;
 
-  static T NonpositiveMin() { return min(); }
-  static bool IsPositive(T val) { return val > Zero; }
-  static bool IsNonpositive(T val) { return val <= Zero; }
-  static bool IsNegative(T val) { return val < Zero; }
-  static bool IsNonnegative(T val) {return val >= Zero; }
+  static short NonpositiveMin() { return min(); }
+  static bool IsPositive(short val) { return val > Zero; }
+  static bool IsNonpositive(short val) { return val <= Zero; }
+  static bool IsNegative(short val) { return val < Zero; }
+  static bool IsNonnegative(short val) {return val >= Zero; }
 };
 
 /** \class NumericTraits<unsigned short>
@@ -161,11 +161,11 @@ public:
   static const unsigned short Zero;
   static const unsigned short One;
 
-  static T NonpositiveMin() { return min(); }
-  static bool IsPositive(T val) { return val != Zero; }
-  static bool IsNonpositive(T val) { return val == Zero; }
-  static bool IsNegative(T val) { return false; }
-  static bool IsNonnegative(T val) {return true; }
+  static unsigned short NonpositiveMin() { return min(); }
+  static unsigned short IsPositive(unsigned short val) { return val != Zero; }
+  static bool IsNonpositive(unsigned short val) { return val == Zero; }
+  static bool IsNegative(unsigned short val) { return false; }
+  static bool IsNonnegative(unsigned short val) {return true; }
 };
 
 /** \class NumericTraits<int>
@@ -180,11 +180,11 @@ public:
   static const int Zero;
   static const int One;
 
-  static T NonpositiveMin() { return min(); }
-  static bool IsPositive(T val) { return val > Zero; }
-  static bool IsNonpositive(T val) { return val <= Zero; }
-  static bool IsNegative(T val) { return val < Zero; }
-  static bool IsNonnegative(T val) {return val >= Zero; }
+  static int NonpositiveMin() { return min(); }
+  static bool IsPositive(int val) { return val > Zero; }
+  static bool IsNonpositive(int val) { return val <= Zero; }
+  static bool IsNegative(int val) { return val < Zero; }
+  static bool IsNonnegative(int val) {return val >= Zero; }
 };
 
 /** \class NumericTraits<unsigned int>
@@ -199,11 +199,11 @@ public:
   static const unsigned int Zero;
   static const unsigned int One;
 
-  static T NonpositiveMin() { return min(); }
-  static bool IsPositive(T val) { return val != Zero; }
-  static bool IsNonpositive(T val) { return  val == Zero; }
-  static bool IsNegative(T val) { return false; }
-  static bool IsNonnegative(T val) {return true; }
+  static unsigned int NonpositiveMin() { return min(); }
+  static bool IsPositive(unsigned int val) { return val != Zero; }
+  static bool IsNonpositive(unsigned int val) { return  val == Zero; }
+  static bool IsNegative(unsigned int val) { return false; }
+  static bool IsNonnegative(unsigned int val) {return true; }
 };
 
 /** \class NumericTraits<long>
@@ -218,11 +218,11 @@ public:
   static const long Zero;
   static const long One;
 
-  static T NonpositiveMin() { return min(); }
-  static bool IsPositive(T val) { return val > Zero; }
-  static bool IsNonpositive(T val) { return val <= Zero; }
-  static bool IsNegative(T val) { return val < Zero; }
-  static bool IsNonnegative(T val) {return val >= Zero; }
+  static long NonpositiveMin() { return min(); }
+  static bool IsPositive(long val) { return val > Zero; }
+  static bool IsNonpositive(long val) { return val <= Zero; }
+  static bool IsNegative(long val) { return val < Zero; }
+  static bool IsNonnegative(long val) {return val >= Zero; }
 };
 
 /** \class NumericTraits<unsigned long>
@@ -237,11 +237,11 @@ public:
   static const unsigned long Zero;
   static const unsigned long One;
 
-  static T NonpositiveMin() { return min(); }
-  static bool IsPositive(T val) { return val != Zero; }
-  static bool IsNonpositive(T val) { return val == Zero; }
-  static bool IsNegative(T val) { return false; }
-  static bool IsNonnegative(T val) {return true; }
+  static unsigned long NonpositiveMin() { return min(); }
+  static bool IsPositive(unsigned long val) { return val != Zero; }
+  static bool IsNonpositive(unsigned long val) { return val == Zero; }
+  static bool IsNegative(unsigned long val) { return false; }
+  static bool IsNonnegative(unsigned long val) {return true; }
 };
 
 /** \class NumericTraits<float>
@@ -256,11 +256,11 @@ public:
   static const float Zero;
   static const float One;
 
-  static T NonpositiveMin() { return -max(); }
-  static bool IsPositive(T val) { return val > Zero; }
-  static bool IsNonpositive(T val) { return val <= Zero; }
-  static bool IsNegative(T val) { return val < Zero; }
-  static bool IsNonnegative(T val) {return val >= Zero; }
+  static float NonpositiveMin() { return -max(); }
+  static bool IsPositive(float val) { return val > Zero; }
+  static bool IsNonpositive(float val) { return val <= Zero; }
+  static bool IsNegative(float val) { return val < Zero; }
+  static bool IsNonnegative(float val) {return val >= Zero; }
 };
 
 /** \class NumericTraits<double>
@@ -275,11 +275,11 @@ public:
   static const double Zero;
   static const double One;
 
-  static T NonpositiveMin() { return -max(); }
-  static bool IsPositive(T val) { return val > Zero; }
-  static bool IsNonpositive(T val) { return val <= Zero; }
-  static bool IsNegative(T val) { return val < Zero; }
-  static bool IsNonnegative(T val) {return val >= Zero; }
+  static double NonpositiveMin() { return -max(); }
+  static bool IsPositive(double val) { return val > Zero; }
+  static bool IsNonpositive(double val) { return val <= Zero; }
+  static bool IsNegative(double val) { return val < Zero; }
+  static bool IsNonnegative(double val) {return val >= Zero; }
 };
 
 /** \class NumericTraits<long double>
@@ -294,11 +294,11 @@ public:
   static const long double Zero;
   static const long double One;
 
-  static T NonpositiveMin() { return -max(); }
-  static bool IsPositive(T val) { return val > Zero; }
-  static bool IsNonpositive(T val) { return val <= Zero; }
-  static bool IsNegative(T val) { return val < Zero; }
-  static bool IsNonnegative(T val) {return val >= Zero; }
+  static long double NonpositiveMin() { return -max(); }
+  static bool IsPositive(long double val) { return val > Zero; }
+  static bool IsNonpositive(long double val) { return val <= Zero; }
+  static bool IsNegative(long double val) { return val < Zero; }
+  static bool IsNonnegative(long double val) {return val >= Zero; }
 };
 
 } // end namespace itk
