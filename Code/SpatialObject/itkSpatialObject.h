@@ -233,6 +233,13 @@ public:
    * any of its components. */
   unsigned long GetMTime( void ) const;
 
+  /** Returns the latest modified time of the spatial object, but not 
+   *  the modification time of the children */
+  unsigned long GetObjectMTime( void ) const
+    {
+    Object::GetMTime();
+    }
+
   /** Set the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This
    * is used in determining how much memory would be needed to load an
