@@ -67,5 +67,9 @@ ENDFOREACH(line)
 SET(DICOM_DIR_DICTIONARY "${DICOM_DIR_DICTIONARY} \n 0,0,0,0")
 
 # See above
+FOREACH(file dicomV3.dic  dicomTS.dic dicomVR.dic DicomDir.dic)
+  CONFIGURE_FILE("${GDCM_SOURCE_DIR}/Dicts/${file}"
+    "${GDCM_BINARY_DIR}/Dicts/${file}.out")
+ENDFOREACH(file)
 CONFIGURE_FILE("${GDCM_SOURCE_DIR}/src/gdcmDefaultDicts.cxx.in" "${GDCM_BINARY_DIR}/src/gdcmDefaultDicts.cxx" IMMEDIATE)
 
