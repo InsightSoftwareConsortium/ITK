@@ -160,7 +160,7 @@ protected:
   void GenerateData();
 
 private:
-  Self(const Self&); //purposely not implemented
+  RecursiveMultiResolutionPyramidImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
 };

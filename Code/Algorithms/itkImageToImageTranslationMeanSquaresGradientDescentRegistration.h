@@ -251,7 +251,7 @@ protected:
   virtual ~ImageToImageTranslationMeanSquaresGradientDescentRegistration();
 
 private:
-  Self(const Self&); //purposely not implemented
+  ImageToImageTranslationMeanSquaresGradientDescentRegistration(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   ParametersType             m_Parameters;

@@ -196,7 +196,7 @@ protected:
   virtual ~RegularStepGradientDescentOptimizer() {};
 
 private:
-  Self(const Self&); //purposely not implemented
+  RegularStepGradientDescentOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   DerivativeType                m_Gradient; 

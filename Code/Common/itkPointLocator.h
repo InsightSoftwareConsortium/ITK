@@ -249,7 +249,7 @@ protected:
 #endif
 
 private:
-  Self(const Self&); //purposely not implemented
+  PointLocator(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   unsigned long *m_Divisions;

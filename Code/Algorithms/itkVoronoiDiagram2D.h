@@ -292,7 +292,7 @@ protected:
   
   
 private:
-  Self(const Self&); //purposely not implemented
+  VoronoiDiagram2D(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   SeedsType m_Seeds;

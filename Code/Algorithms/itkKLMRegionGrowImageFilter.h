@@ -408,7 +408,7 @@ protected:
     LabelImageType *labelImagePtr );
 
 private:
-  Self(const Self&); //purposely not implemented
+  KLMRegionGrowImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   typedef typename TInputImage::SizeType InputImageSize;

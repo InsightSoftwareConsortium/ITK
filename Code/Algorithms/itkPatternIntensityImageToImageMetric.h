@@ -185,7 +185,7 @@ protected:
   virtual ~PatternIntensityImageToImageMetric() {};
 
 private:
-  Self(const Self&); //purposely not implemented
+  PatternIntensityImageToImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
 };

@@ -146,7 +146,7 @@ protected:
   virtual void EnlargeOutputRequestedRegion( DataObject * );
 
 private:
-  Self(const Self&); //purposely not implemented
+  ExtensionVelocitiesImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   typedef LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension> 

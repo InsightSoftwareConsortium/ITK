@@ -234,7 +234,7 @@ protected:
   double                        m_LearningRate;
 
 private:
-  Self(const Self&); //purposely not implemented
+  GradientDescentOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   bool                          m_Stop;

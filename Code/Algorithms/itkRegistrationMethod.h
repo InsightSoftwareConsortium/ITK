@@ -195,7 +195,7 @@ protected:
  
 
 private:
-  Self(const Self&); //purposely not implemented
+  RegistrationMethod(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   typename MetricType::Pointer              m_Metric;

@@ -186,7 +186,7 @@ protected:
   mutable double          m_Derivative;
 
 private:
-  Self(const Self&); //purposely not implemented
+  UpwindDerivativeImageFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   signed long             m_ImageSize[ImageDimension];

@@ -227,7 +227,7 @@ protected:
 
 
 private:
-  Self(const Self&); //purposely not implemented
+  VOLImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   /**

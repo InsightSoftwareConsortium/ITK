@@ -157,7 +157,7 @@ protected:
   void ComputeMatrix(void);
 
 private:
-  Self(const Self&); //purposely not implemented
+  VersorRigid3DTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   ///  Versor containing the rotation

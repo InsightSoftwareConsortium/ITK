@@ -185,7 +185,7 @@ protected:
   virtual ~NormalizedCorrelationPointSetToImageMetric() {};
 
 private:
-  Self(const Self&); //purposely not implemented
+  NormalizedCorrelationPointSetToImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
 };

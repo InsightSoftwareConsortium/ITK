@@ -107,7 +107,7 @@ protected:
   ~FunctionBase(){};
 
 private:
-  Self(const Self& ); //purposely not implemented
+  FunctionBase(const Self& ); //purposely not implemented
   void operator=(const Self& ); //purposely not implemented
 
 };

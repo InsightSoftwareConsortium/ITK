@@ -136,7 +136,7 @@ protected:
   virtual void DisplayXML(const char*, const char*);
 
 private:
-  Self(const Self&); //purposely not implemented
+  XMLFileOutputWindow(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
 };

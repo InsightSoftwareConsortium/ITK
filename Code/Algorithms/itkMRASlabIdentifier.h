@@ -183,7 +183,7 @@ protected:
   virtual ~MRASlabIdentifier() {} 
   
 private:
-  Self(const Self&); //purposely not implemented
+  MRASlabIdentifier(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   /**

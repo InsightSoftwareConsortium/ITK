@@ -276,7 +276,7 @@ protected:
   virtual void GenerateInputRequestedRegion();
 
 private:
-  Self(const Self&); //purposely not implemented
+  PDEDeformableRegistrationFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   /**

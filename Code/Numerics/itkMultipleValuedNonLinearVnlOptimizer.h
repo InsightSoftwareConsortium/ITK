@@ -304,7 +304,7 @@ protected:
   VnlCostFunctionAdaptor            m_CostFunctionAdaptor;
 
 private:
-  Self(const Self&); //purposely not implemented
+  MultipleValuedNonLinearVnlOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
 };

@@ -101,7 +101,7 @@ protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  Self(const Self&); //purposely not implemented
+  PNGImageIOFactory(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
 };

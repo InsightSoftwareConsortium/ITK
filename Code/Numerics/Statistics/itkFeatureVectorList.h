@@ -132,7 +132,7 @@ protected:
   void GenerateSortedDimensionData(unsigned int dimension) ;
 
 private:
-  Self(const Self&); //purposely not implemented
+  FeatureVectorList(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   typedef std::vector< FeatureElementType > SortedDimensionData ;

@@ -193,7 +193,7 @@ protected:
   ~TranslationTransform();
 
 private:
-  Self(const Self&); //purposely not implemented
+  TranslationTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   OutputVectorType   m_Offset;       // Offset of the transformation

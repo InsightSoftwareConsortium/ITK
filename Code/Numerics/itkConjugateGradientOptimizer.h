@@ -135,7 +135,7 @@ protected:
   virtual ~ConjugateGradientOptimizer() {};
 
 private:
-  Self(const Self&); //purposely not implemented
+  ConjugateGradientOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   /**

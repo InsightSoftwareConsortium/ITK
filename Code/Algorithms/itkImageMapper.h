@@ -201,7 +201,7 @@ protected:
   ~ImageMapper(){};
 
 private:
-  Self(const Self&); //purposely not implemented
+  ImageMapper(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
 

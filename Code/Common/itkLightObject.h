@@ -170,7 +170,7 @@ protected:
   mutable SimpleFastMutexLock m_ReferenceCountLock;
 
 private:
-  Self(const Self&); //purposely not implemented
+  LightObject(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   

@@ -239,7 +239,7 @@ protected:
     MatrixType          m_DirectMatrix;
 
 private:
-  Self(const Self&); //purposely not implemented
+  QuaternionRigidTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   // Offset of the transformation

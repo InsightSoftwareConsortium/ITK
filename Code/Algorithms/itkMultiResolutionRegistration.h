@@ -250,7 +250,7 @@ protected:
   virtual void OneLevelRegistration(unsigned int level);
 
 private:
-  Self(const Self&); //purposely not implemented
+  MultiResolutionRegistration(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   unsigned int               m_NumberOfLevels;

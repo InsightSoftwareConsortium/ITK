@@ -244,7 +244,7 @@ protected:
 
 
 private:
-  Self(const Self&); //purposely not implemented
+  DemonsRegistrationFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   /**

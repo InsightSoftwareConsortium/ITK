@@ -247,7 +247,7 @@ protected:
 
 
 private:
-  Self(const Self & other); //purposely not implemented
+  ScaleTransform(const Self & other); //purposely not implemented
   const Self & operator=( const Self & ); //purposely not implemented
 
   ScaleType   m_Scale;  // Scales of the transformation

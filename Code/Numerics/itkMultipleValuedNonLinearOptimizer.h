@@ -117,7 +117,7 @@ protected:
   virtual ~MultipleValuedNonLinearOptimizer() {};
 
 private:
-  Self(const Self&); //purposely not implemented
+  MultipleValuedNonLinearOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
 };

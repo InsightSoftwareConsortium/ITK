@@ -123,7 +123,7 @@ protected:
   virtual ~SphereSpatialFunction();
 
 private:
-  Self(const Self&); //purposely not implemented
+  SphereSpatialFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   /**

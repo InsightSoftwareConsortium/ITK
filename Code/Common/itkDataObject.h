@@ -430,7 +430,7 @@ protected:
   bool m_RequestedRegionInitialized;  
 
 private:
-  Self(const Self&); //purposely not implemented
+  DataObject(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   //Who generated this data?

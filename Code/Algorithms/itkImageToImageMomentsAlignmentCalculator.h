@@ -148,7 +148,7 @@ protected:
   virtual ~ImageToImageMomentsAlignmentCalculator();
   
 private:
-  Self(const Self&); //purposely not implemented
+  ImageToImageMomentsAlignmentCalculator(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   ReferenceConstPointer     m_Reference;

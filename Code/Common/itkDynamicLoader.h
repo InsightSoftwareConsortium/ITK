@@ -153,7 +153,7 @@ protected:
   ~DynamicLoader() {};
 
 private:
-  Self(const Self&); //purposely not implemented
+  DynamicLoader(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
 };

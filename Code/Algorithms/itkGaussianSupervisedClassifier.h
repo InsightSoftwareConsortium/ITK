@@ -245,7 +245,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  Self(const Self&); //purposely not implemented
+  GaussianSupervisedClassifier(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   typedef vnl_matrix<double> MatrixType; 

@@ -147,7 +147,7 @@ protected:
   virtual ~RegistrationMapper() {};
 
 private:
-  Self(const Self&); //purposely not implemented
+  RegistrationMapper(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   DomainConstPointer       m_Domain;

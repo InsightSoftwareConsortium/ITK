@@ -214,7 +214,7 @@ protected:
   void PropagateConnectedWave();
 
 private:  
-  Self(const Self&); //purposely not implemented
+  ConnectedRegionsMeshFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   int                        m_ExtractionMode;

@@ -454,7 +454,7 @@ protected:
   TimeStamp m_InformationTime;
 
 private:
-  Self(const Self&); //purposely not implemented
+  ProcessObject(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   /**

@@ -131,7 +131,7 @@ protected:
   bool m_Append;
 
 private:
-  Self(const Self&); //purposely not implemented
+  FileOutputWindow(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
 };

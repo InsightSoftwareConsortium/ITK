@@ -230,7 +230,7 @@ protected:
   unsigned int        m_NumberOfClasses;
 
 private:
-  Self(const Self&); //purposely not implemented
+  Classifier(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   InputImageType      m_InputImage;

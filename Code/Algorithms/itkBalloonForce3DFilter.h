@@ -238,7 +238,7 @@ protected:
   typedef ImageType::SizeType PotentialSizeType;
 
 private:
-  Self(const Self&); //purposely not implemented
+  BalloonForce3DFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
 

@@ -164,7 +164,7 @@ protected:
   std::string m_FilePattern;
   
 private:
-  Self(const Self&); //purposely not implemented
+  ImageFileReader(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
 };

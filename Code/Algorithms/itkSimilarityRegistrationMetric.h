@@ -204,7 +204,7 @@ protected:
   DerivativeType              m_MatchMeasureDerivatives;
 
 private:
-  Self(const Self&); //purposely not implemented
+  SimilarityRegistrationMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   TargetConstPointer          m_Target;

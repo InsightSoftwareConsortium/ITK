@@ -460,7 +460,7 @@ protected:
   std::vector< std::vector<float> > m_Max ;
   
 private:
-  Self(const Self&); //purposely not implemented
+  Histogram(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   InstanceIdentifier  m_OffsetTable[FeatureDimension + 1] ;

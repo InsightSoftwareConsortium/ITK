@@ -116,7 +116,7 @@ protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  Self(const Self&); //purposely not implemented
+  Directory(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   std::vector<std::string> m_Files; // Array of Files

@@ -171,7 +171,7 @@ protected:
   virtual ~BloxBoundaryPointImage();
 
 private:
-  Self(const Self&); //purposely not implemented
+  BloxBoundaryPointImage(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   /**

@@ -241,7 +241,7 @@ protected:
   itkSetMacro(ElapsedIterations, unsigned int);
 
 private:
-  Self(const Self&); //purposely not implemented
+  FiniteDifferenceImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   /** A counter for keeping track of the number of elapsed 

@@ -125,7 +125,7 @@ protected:
   virtual ~RelabelWatershedImageFilter() {}
 
 private:
-  Self(const Self&); //purposely not implemented
+  RelabelWatershedImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   float m_Level;

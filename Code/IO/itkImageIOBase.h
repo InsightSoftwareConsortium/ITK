@@ -295,7 +295,7 @@ protected:
   unsigned int GetSliceStride () const;
 
 private:
-  Self(const Self&); //purposely not implemented
+  ImageIOBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
 };

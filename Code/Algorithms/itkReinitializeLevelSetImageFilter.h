@@ -208,7 +208,7 @@ protected:
     { m_OutputNarrowBand = ptr; }
 
 private:
-  Self(const Self&); //purposely not implemented
+  ReinitializeLevelSetImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   double                                m_LevelSetValue;

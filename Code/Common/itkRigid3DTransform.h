@@ -261,7 +261,7 @@ protected:
     MatrixType          m_InverseMatrix; 
     
 private:
-  Self(const Self&); //purposely not implemented
+  Rigid3DTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   // Offset of the transformation

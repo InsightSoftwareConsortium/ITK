@@ -190,7 +190,7 @@ protected:
   static double m_DT;
 
 private:
-  Self(const Self&); //purposely not implemented
+  LevelSet2DEquation(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   /**

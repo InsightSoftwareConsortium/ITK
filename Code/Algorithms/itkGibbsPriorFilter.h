@@ -300,7 +300,7 @@ protected:
 
 //  void Execute();
 private:
-  Self(const Self&); //purposely not implemented
+  GibbsPriorFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   typedef typename TInputImage::SizeType InputImageSizeType;

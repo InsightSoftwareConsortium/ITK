@@ -203,7 +203,7 @@ protected:
   virtual void GenerateInputRequestedRegion();
 
 private:
-  Self(const Self&); //purposely not implemented
+  GeodesicActiveContourImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   typedef ReinitializeLevelSetImageFilter<TLevelSet> ExtenderType;

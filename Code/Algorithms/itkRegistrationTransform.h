@@ -228,7 +228,7 @@ protected:
   virtual ~RegistrationTransform();
 
 private:
-  Self(const Self&); //purposely not implemented
+  RegistrationTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   TargetConstPointer         m_Target;

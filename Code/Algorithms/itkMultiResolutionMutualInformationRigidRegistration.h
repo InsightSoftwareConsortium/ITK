@@ -248,7 +248,7 @@ protected:
   virtual void OneLevelPostRegistration(unsigned int level);
 
 private:
-  Self(const Self&); //purposely not implemented
+  MultiResolutionMutualInformationRigidRegistration(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   std::vector<double>           m_LearningRates;

@@ -249,7 +249,7 @@ protected:
  
 
 private:
-  Self(const Self&); //purposely not implemented
+  ImageToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   ParametersType             m_Parameters;

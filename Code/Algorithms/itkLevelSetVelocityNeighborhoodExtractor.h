@@ -162,7 +162,7 @@ protected:
   virtual double CalculateDistance( Index & index );
 
 private:
-  Self(const Self&); //purposely not implemented
+  LevelSetVelocityNeighborhoodExtractor(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   typename AuxValueContainer::Pointer    m_AuxInsideValues;

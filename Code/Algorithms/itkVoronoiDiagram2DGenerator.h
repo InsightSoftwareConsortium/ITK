@@ -168,7 +168,7 @@ protected:
   void GenerateData(void);
 
 private:
-  Self(const Self&); //purposely not implemented
+  VoronoiDiagram2DGenerator(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   unsigned int m_NumberOfSeeds;

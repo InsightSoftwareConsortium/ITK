@@ -259,7 +259,7 @@ protected:
   virtual ~SingleValuedNonLinearVnlOptimizer() {};
 
 protected:
-  Self(const Self&); //purposely not implemented
+  SingleValuedNonLinearVnlOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   VnlCostFunctionAdaptor            m_CostFunctionAdaptor;

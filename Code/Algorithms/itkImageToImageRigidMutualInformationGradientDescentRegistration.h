@@ -346,7 +346,7 @@ protected:
   virtual ~ImageToImageRigidMutualInformationGradientDescentRegistration();
 
 private:
-  Self(const Self&); //purposely not implemented
+  ImageToImageRigidMutualInformationGradientDescentRegistration(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   ParametersType             m_Parameters;

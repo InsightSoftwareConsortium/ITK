@@ -219,7 +219,7 @@ protected:
 
   
 private:
-  Self(const Self&); //purposely not implemented
+  CurvatureFlowImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   unsigned int    m_NumberOfIterations;

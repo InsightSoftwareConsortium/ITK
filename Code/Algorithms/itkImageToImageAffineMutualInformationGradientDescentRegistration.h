@@ -340,7 +340,7 @@ protected:
   virtual ~ImageToImageAffineMutualInformationGradientDescentRegistration();
 
 private:
-  Self(const Self&); //purposely not implemented
+  ImageToImageAffineMutualInformationGradientDescentRegistration(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   ParametersType             m_Parameters;

@@ -259,7 +259,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  Self(const Self&); //purposely not implemented
+  KLMSegmentationRegion(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   RegionBorderVecType    m_RegionBorderVec;

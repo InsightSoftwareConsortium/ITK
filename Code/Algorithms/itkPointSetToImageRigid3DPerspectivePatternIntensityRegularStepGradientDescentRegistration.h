@@ -213,7 +213,7 @@ protected:
   virtual ~PointSetToImageRigid3DPerspectivePatternIntensityRegularStepGradientDescentRegistration();
 
 private:
-  Self(const Self&); //purposely not implemented
+  PointSetToImageRigid3DPerspectivePatternIntensityRegularStepGradientDescentRegistration(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   ParametersType             m_Parameters;

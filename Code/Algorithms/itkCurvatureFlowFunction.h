@@ -161,7 +161,7 @@ protected:
   ~CurvatureFlowFunction() {}
 
 private:
-  Self(const Self&); //purposely not implemented
+  CurvatureFlowFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   TimeStepType       m_TimeStep;

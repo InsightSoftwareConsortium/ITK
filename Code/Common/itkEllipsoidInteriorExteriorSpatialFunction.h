@@ -133,7 +133,7 @@ protected:
   virtual ~EllipsoidInteriorExteriorSpatialFunction();
 
 private:
-  Self(const Self&); //purposely not implemented
+  EllipsoidInteriorExteriorSpatialFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   /**

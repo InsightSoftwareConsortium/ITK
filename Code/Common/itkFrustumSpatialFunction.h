@@ -146,7 +146,7 @@ protected:
   virtual ~FrustumSpatialFunction();
 
 private:
-  Self(const Self&); //purposely not implemented
+  FrustumSpatialFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   /**

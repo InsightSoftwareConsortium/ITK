@@ -215,7 +215,7 @@ protected:
   virtual ~FeatureVectorContainer() {}
   
 private:
-  Self(const Self&); //purposely not implemented
+  FeatureVectorContainer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   bool m_Sorted ;

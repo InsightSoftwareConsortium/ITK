@@ -114,7 +114,7 @@ protected:
   virtual ~NonLinearOptimizer() {};
 
 private:
-  Self(const Self&); //purposely not implemented
+  NonLinearOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
 };

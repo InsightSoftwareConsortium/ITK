@@ -150,7 +150,7 @@ protected:
   virtual ~LevenbergMarquardtOptimizer() {};
 
 private:
-  Self(const Self&); //purposely not implemented
+  LevenbergMarquardtOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   InternalOptimizerType     m_LevenbergMarquardt;

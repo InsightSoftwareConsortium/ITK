@@ -115,7 +115,7 @@ protected:
   double m_Origin[2];
 
 private:
-  Self(const Self&); //purposely not implemented
+  PNGImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
 };

@@ -129,7 +129,7 @@ protected:
   virtual ~QuaternionRigidTransformGradientDescentOptimizer() {};
 
 private:
-  Self(const Self&); //purposely not implemented
+  QuaternionRigidTransformGradientDescentOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
 };

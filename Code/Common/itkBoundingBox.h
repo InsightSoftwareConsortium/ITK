@@ -196,7 +196,7 @@ protected:
   typedef typename PointsContainer::ConstIterator  ConstIterator; 
 
 private:
-  Self(const Self&); //purposely not implemented
+  BoundingBox(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   PointsContainerPointer m_PointsContainer;

@@ -332,7 +332,7 @@ protected:
   virtual void GenerateOutputInformation();
 
 private:            
-  Self(const Self&); //purposely not implemented
+  MRFImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   typedef typename TInputImage::SizeType InputImageSizeType;

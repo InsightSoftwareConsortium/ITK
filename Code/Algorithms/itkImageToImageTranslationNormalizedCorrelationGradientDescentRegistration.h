@@ -250,7 +250,7 @@ protected:
   virtual ~ImageToImageTranslationNormalizedCorrelationGradientDescentRegistration();
 
 private:
-  Self(const Self&); //purposely not implemented
+  ImageToImageTranslationNormalizedCorrelationGradientDescentRegistration(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   ParametersType             m_Parameters;

@@ -277,7 +277,7 @@ protected:
   void drawVDline(VDImagePointer result,PointType p1,PointType p2, unsigned char color);
   
 private:
-  Self(const Self&); //purposely not implemented
+  VoronoiSegmentationImageFilterBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
 };

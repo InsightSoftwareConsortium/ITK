@@ -207,7 +207,7 @@ protected:
   void GenerateData();
 
 private:
-  Self(const Self&); //purposely not implemented
+  LevelSetNeighborhoodExtractor(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   void      GenerateDataFull();

@@ -558,7 +558,7 @@ protected:
   static void CopyOutputToOutput(OutputImageType *,OutputImageType *);
   
 private:
-  Self(const Self&); //purposely not implemented
+  WatershedImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   friend class RelabelWatershedImageFilter<InputImageType,OutputImageType>;

@@ -289,7 +289,7 @@ protected:
   int m_RequestedRegion;
 
 private:
-  Self(const Self&); //purposely not implemented
+  PointSet(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
 }; // End Class: PointSet

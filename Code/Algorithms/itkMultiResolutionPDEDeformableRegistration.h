@@ -314,7 +314,7 @@ protected:
   virtual void EnlargeOutputRequestedRegion( DataObject *ptr );
 
 private:
-  Self(const Self&); //purposely not implemented
+  MultiResolutionPDEDeformableRegistration(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   RegistrationPointer        m_RegistrationFilter;

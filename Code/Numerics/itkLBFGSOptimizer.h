@@ -128,7 +128,7 @@ protected:
   virtual ~LBFGSOptimizer() {};
 
 private:
-  Self(const Self&); //purposely not implemented
+  LBFGSOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   InternalOptimizerType     m_LBFGS;

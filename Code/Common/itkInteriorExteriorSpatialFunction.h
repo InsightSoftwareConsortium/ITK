@@ -124,7 +124,7 @@ protected:
   virtual ~InteriorExteriorSpatialFunction();
 
 private:
-  Self(const Self&); //purposely not implemented
+  InteriorExteriorSpatialFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
 };

@@ -173,7 +173,7 @@ protected:
   virtual void EnlargeOutputRequestedRegion( DataObject *output );
 
 private:
-  Self(const Self&); //purposely not implemented
+  FastMarchingExtensionImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   typename AuxValueContainer::Pointer    m_AuxAliveValues;

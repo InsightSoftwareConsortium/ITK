@@ -244,7 +244,7 @@ protected:
   virtual ~ImageToImageAffineMeanSquaresGradientDescentRegistration();
 
 private:
-  Self(const Self&); //purposely not implemented
+  ImageToImageAffineMeanSquaresGradientDescentRegistration(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   ParametersType             m_Parameters;

@@ -282,7 +282,7 @@ protected:
   ScheduleType    m_Schedule;
 
 private:
-  Self(const Self&); //purposely not implemented
+  MultiResolutionPyramidImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
 };

@@ -108,7 +108,7 @@ protected:
   static int Initialize();
 
 private:
-  Self(const Self&); //purposely not implemented
+  Win32OutputWindow(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   static HWND m_OutputWindow;

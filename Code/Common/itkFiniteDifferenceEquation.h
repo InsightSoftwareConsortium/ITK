@@ -248,7 +248,7 @@ protected:
   static FloatOffsetType m_ZeroOffset;
 
 private:
-  Self(const Self&); //purposely not implemented
+  FiniteDifferenceEquation(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   /**

@@ -234,7 +234,7 @@ protected:
   OverRideMap* m_OverrideMap;
 
 private:
-  Self(const Self&); //purposely not implemented
+  ObjectFactoryBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   /**

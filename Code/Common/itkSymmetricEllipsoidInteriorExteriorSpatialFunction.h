@@ -126,7 +126,7 @@ protected:
   virtual ~SymmetricEllipsoidInteriorExteriorSpatialFunction();
 
 private:
-  Self(const Self&); //purposely not implemented
+  SymmetricEllipsoidInteriorExteriorSpatialFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   /**

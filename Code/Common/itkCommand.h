@@ -181,7 +181,7 @@ protected:
   virtual ~MemberCommand(){}
 
 private:
-  Self(const Self&); //purposely not implemented
+  MemberCommand(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
 };

@@ -135,7 +135,7 @@ protected:
   ~RegistrationMapperImage() {}
 
 private:
-  Self(const Self&); //purposely not implemented
+  RegistrationMapperImage(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   mutable IndexType         m_CurrentIndex;

@@ -171,7 +171,7 @@ protected:
   virtual ~ProcrustesRegistrationMetric() {};
 
 private:
-  Self(const Self&); //purposely not implemented
+  ProcrustesRegistrationMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
 };

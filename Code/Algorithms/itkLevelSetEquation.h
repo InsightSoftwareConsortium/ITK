@@ -228,7 +228,7 @@ protected:
   ScalarValueType m_CurvatureWeight;
 
 private:
-  Self(const Self&); //purposely not implemented
+  LevelSetEquation(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
 

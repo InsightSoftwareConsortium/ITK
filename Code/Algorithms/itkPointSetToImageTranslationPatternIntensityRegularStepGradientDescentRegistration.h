@@ -241,7 +241,7 @@ protected:
   virtual ~PointSetToImageTranslationPatternIntensityRegularStepGradientDescentRegistration();
 
 private:
-  Self(const Self&); //purposely not implemented
+  PointSetToImageTranslationPatternIntensityRegularStepGradientDescentRegistration(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   ParametersType             m_Parameters;

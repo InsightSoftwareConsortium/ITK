@@ -132,7 +132,7 @@ protected:
    { Superclass::PrintSelf( os, indent ); }
 
 private:
-  Self(const Self&); //purposely not implemented
+  NearestNeighborInterpolateImageFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
 };

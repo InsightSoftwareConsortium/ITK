@@ -162,7 +162,7 @@ protected:
   virtual ~AmoebaOptimizer() {};
 
 private:
-  Self(const Self&); //purposely not implemented
+  AmoebaOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   InternalOptimizerType             m_Amoeba;

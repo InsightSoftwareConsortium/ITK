@@ -170,7 +170,7 @@ protected:
   virtual ~MeanSquaresPointSetToImageMetric() {};
 
 private:  
-  Self(const Self&); //purposely not implemented
+  MeanSquaresPointSetToImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
 

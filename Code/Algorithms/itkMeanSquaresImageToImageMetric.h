@@ -171,7 +171,7 @@ protected:
   virtual ~MeanSquaresImageToImageMetric() {};
 
 private:
-  Self(const Self&); //purposely not implemented
+  MeanSquaresImageToImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
 };

@@ -144,7 +144,7 @@ protected:
   virtual ~MinimumMaximumImageCalculator() {};
 
 private:
-  Self(const Self&); //purposely not implemented
+  MinimumMaximumImageCalculator(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
    PixelType            m_Minimum;

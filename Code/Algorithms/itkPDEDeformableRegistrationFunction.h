@@ -167,7 +167,7 @@ protected:
   TargetPointer                   m_Target;
 
 private:
-  Self(const Self&); //purposely not implemented
+  PDEDeformableRegistrationFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
 };

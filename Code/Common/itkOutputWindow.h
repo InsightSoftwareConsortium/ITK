@@ -147,7 +147,7 @@ protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  Self(const Self&); //purposely not implemented
+  OutputWindow(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   bool m_PromptUser;

@@ -306,7 +306,7 @@ protected:
   virtual ~MutualInformationImageToImageMetric() {};
 
 private:
-  Self(const Self&); //purposely not implemented
+  MutualInformationImageToImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   /**
