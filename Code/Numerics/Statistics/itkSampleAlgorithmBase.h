@@ -68,7 +68,7 @@ public:
   }
 
   TInputSample* GetInputSample()
-  { return m_InputSample ; }
+  { return m_InputSample.GetPointer() ; }
 
   /** dummy function that calls the GenerateData() function to generate
    * output. It exists for future compatibility with ProcessObject 
@@ -86,7 +86,7 @@ protected:
 
 private:
   /** Target sample data pointer */
-  TInputSample* m_InputSample ;
+  typename TInputSample::Pointer m_InputSample ;
 } ; // end of class
     
   } // end of namespace Statistics 
