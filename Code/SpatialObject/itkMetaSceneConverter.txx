@@ -75,12 +75,12 @@ void
 MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
 ::SetTransform(MetaObject* obj, TransformType* transform)
 {
+  typename SpatialObjectType::TransformType::InputPointType center = 
+                                     transform->GetCenter();
   typename SpatialObjectType::TransformType::MatrixType matrix =
                                      transform->GetMatrix();
   typename SpatialObjectType::TransformType::OffsetType offset =
                                      transform->GetOffset();
-  typename SpatialObjectType::TransformType::InputPointType center = 
-                                     transform->GetCenter();
 
   unsigned int p = 0;
   for ( unsigned int row = 0 ; row<NDimensions; row++)
@@ -111,9 +111,9 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
   typename SpatialObjectType::TransformType::Pointer transform = 
     SpatialObjectType::TransformType::New() ;
 
+  typename SpatialObjectType::TransformType::InputPointType center;
   typename SpatialObjectType::TransformType::MatrixType matrix;
   typename SpatialObjectType::TransformType::OffsetType offset;
-  typename SpatialObjectType::TransformType::InputPointType center;
 
   unsigned int p = 0;
   for ( unsigned int row = 0 ; row<NDimensions; row++)
@@ -130,9 +130,9 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
     center[i] = (meta->CenterOfRotation())[i];
     }
 
+  so->GetObjectToParentTransform()->SetCenter(center);
   so->GetObjectToParentTransform()->SetMatrix(matrix);
   so->GetObjectToParentTransform()->SetOffset(offset);
-  so->GetObjectToParentTransform()->SetCenter(center);
 }
 
 /** Convert a metaScene into a Composite Spatial Object 
