@@ -206,13 +206,19 @@ void BMPImageIO::Read(void* buffer)
   unsigned long step = 3;
   long streamRead = m_Dimensions[0]*m_Depth/8;
 
-  char* value = new char[streamRead+1];
+  long paddedStreamRead = streamRead;
+  if( streamRead % 4 )
+    {
+    paddedStreamRead = ( ( streamRead / 4 ) + 1 ) * 4;
+    }
+
+  char* value = new char[paddedStreamRead+1];
   if (m_FileLowerLeft)
     {
     for(unsigned int id=0;id<m_Dimensions[1];id++)
       {
-      m_Ifstream.seekg(m_BitMapOffset + streamRead*(m_Dimensions[1] - id - 1),std::ios::beg);
-      m_Ifstream.read((char *)value, streamRead);
+      m_Ifstream.seekg(m_BitMapOffset + paddedStreamRead*(m_Dimensions[1] - id - 1),std::ios::beg);
+      m_Ifstream.read((char *)value, paddedStreamRead);
 
       for(long i=0;i<streamRead;i+=step)
         {
@@ -537,7 +543,14 @@ BMPImageIO
   tmp = 77;
   m_Ofstream.write(&tmp,sizeof(char));
 
-  long temp = (long)(m_Dimensions[0]*m_Dimensions[1]) + 54L;
+  long bytesPerRow = m_Dimensions[0]*3;  //always writing 24bpp
+  if ( bytesPerRow % 4 )
+    {
+    bytesPerRow = ( ( bytesPerRow / 4 ) + 1 ) * 4;
+    }
+  long paddedBytes = bytesPerRow - (m_Dimensions[0]*3);
+
+  long temp = (long)( bytesPerRow * m_Dimensions[1]) + 54L;
 
   tmp = temp%256;
   m_Ofstream.write(&tmp,sizeof(char));
@@ -600,6 +613,7 @@ BMPImageIO
   unsigned int i;
   for (unsigned int h = 0; h < m_Dimensions[1]; h++)
     {  
+      const char paddingValue = 0;
       const char * ptr = static_cast<const char*>(buffer);
       ptr += (m_Dimensions[1]-(h+1))*m_Dimensions[0]*bpp;
       if (bpp == 1)
@@ -610,6 +624,10 @@ BMPImageIO
           m_Ofstream.write(ptr,sizeof(char));
           m_Ofstream.write(ptr,sizeof(char));
           ptr++;
+          }
+        for (i = 0; i < paddedBytes; i++)
+          {
+          m_Ofstream.write(&paddingValue,sizeof(char));
           }
         }
       if (bpp == 3)
@@ -624,6 +642,10 @@ BMPImageIO
            m_Ofstream.write(ptr,sizeof(char));
            ptr+=3;
           }
+        for (i = 0; i < paddedBytes; i++)
+          {
+          m_Ofstream.write(&paddingValue,sizeof(char));
+          }
         }
       if (bpp == 4)
         {
@@ -636,6 +658,10 @@ BMPImageIO
            ptr--;
            m_Ofstream.write(ptr,sizeof(char));
            ptr+=4;
+          }
+        for (i = 0; i < paddedBytes; i++)
+          {
+          m_Ofstream.write(&paddingValue,sizeof(char));
           }
         }
       }
