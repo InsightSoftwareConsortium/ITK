@@ -19,6 +19,7 @@
 #include "itkNumericTraits.h"
 #include "itkRGBPixel.h"
 #include "itkIndex.h"
+#include "itkOffset.h"
 
 namespace itk
 {
