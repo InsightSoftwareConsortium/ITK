@@ -106,13 +106,13 @@ FiniteDifferenceImageFilter<TInputImage,TOutputImage>
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
+  // copy the output requested region to the input requested region
   Superclass::GenerateInputRequestedRegion();
 
-  // get pointers to the input and output
+  // get pointers to the input
   InputImagePointer  inputPtr  = this->GetInput();
-  OutputImagePointer outputPtr = this->GetOutput();
 
-  if ( !inputPtr || !outputPtr )
+  if ( !inputPtr )
     {
     return;
     }
@@ -122,50 +122,45 @@ FiniteDifferenceImageFilter<TInputImage,TOutputImage>
   typename FiniteDifferenceEquationType::RadiusType radius
     = this->GetDifferenceEquation()->GetRadius();
 
-  // we need to compute the input requested region (size and start index)
-  int i;
-  const typename TOutputImage::SizeType& outputSz
-    = outputPtr->GetRequestedRegion().GetSize();
-  const typename TOutputImage::IndexType& outputStartIdx
-    = outputPtr->GetRequestedRegion().GetIndex();
-
-  // Get the largest possible dimensions we can ask of the input.
-  typename TInputImage::IndexType largestEndIdx;
-  typename TInputImage::IndexType largestStartIdx
-    = inputPtr->GetLargestPossibleRegion().GetIndex();
-  typename TInputImage::SizeType  largestSz =
-    inputPtr->GetLargestPossibleRegion().GetSize();
-  largestEndIdx = largestStartIdx + largestSz;
-
-  typename TInputImage::SizeType  requestedSz;
-  typename TInputImage::IndexType requestedStartIdx;
-
   // Try to set up a buffered region that will accommodate our
   // neighborhood operations.  This may not be possible and we
   // need to be careful not to request a region outside the largest
   // possible region, because the pipeline will give us whatever we
   // ask for.
-  for (i = 0; i < TInputImage::ImageDimension; i++)
+
+  // get a copy of the input requested region (should equal the output
+  // requested region)
+  typename TInputImage::RegionType inputRequestedRegion;
+  inputRequestedRegion = inputPtr->GetRequestedRegion();
+
+  // pad the input requested region by the operator radius
+  inputRequestedRegion.PadByRadius( radius );
+
+  // crop the input requested region at the input's largest possible region
+  if ( inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()) )
     {
-      requestedStartIdx[i] = static_cast<typename TInputImage::IndexType::IndexValueType>(outputStartIdx[i] - radius[i]);
-      requestedSz[i] = static_cast<typename TInputImage::IndexType::IndexValueType>(outputSz[i] + (2*radius[i]));
-      if (requestedStartIdx[i] < largestStartIdx[i])
-        {
-          requestedSz[i] -= largestStartIdx[i] - requestedStartIdx[i];
-          requestedStartIdx[i] = largestStartIdx[i];
-        }
-      if ((requestedStartIdx[i] + requestedSz[i]) > largestEndIdx[i])
-        {
-          requestedSz[i] -= ((requestedStartIdx[i] + requestedSz[i])
-                             - largestEndIdx[i]);
-        }
+    inputPtr->SetRequestedRegion( inputRequestedRegion );
+    return;
+    }
+  else
+    {
+    // Couldn't crop the region (requested region is outside the largest
+    // possible region).  Throw an exception.
+
+    // store what we tried to request (prior to trying to crop)
+    inputPtr->SetRequestedRegion( inputRequestedRegion );
+    
+    // build an exception
+    InvalidRequestedRegionError e(__FILE__, __LINE__);
+    std::ostrstream msg;
+    msg << (char *)this->GetNameOfClass()
+        << "::GenerateInputRequestedRegion()" << std::ends;
+    e.SetLocation(msg.str());
+    e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
+    e.SetDataObject(inputPtr);
+    throw e;
     }
 
-  typename TInputImage::RegionType inputRequestedRegion;
-  inputRequestedRegion.SetSize( requestedSz );
-  inputRequestedRegion.SetIndex( requestedStartIdx );
-
-  inputPtr->SetRequestedRegion( inputRequestedRegion );
 }
 
 template <class TInputImage, class TOutputImage>
