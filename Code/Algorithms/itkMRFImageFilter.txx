@@ -34,7 +34,8 @@ MRFImageFilter<TInputImage,TClassifiedImage>
   m_SmoothingFactor(1),
   m_ClassProbability(0),
   m_ClassifierPtr(0),
-  m_StopCondition(MaximumNumberOfIterations)
+  m_StopCondition(MaximumNumberOfIterations),
+  m_NumberOfIterations(0)
 {
 
   if( (int)InputImageDimension != (int)ClassifiedImageDimension )
@@ -449,13 +450,13 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   int maxNumPixelError = (int) ( vnl_math_rnd (m_ErrorTolerance * 
                                                m_TotalNumberOfValidPixelsInOutputImage) );
 
-  m_NumIter = 0;
+  m_NumberOfIterations = 0;
   do
     {
-    itkDebugMacro(<< "Iteration No." << m_NumIter);
+    itkDebugMacro(<< "Iteration No." << m_NumberOfIterations);
  
     MinimizeFunctional();
-    m_NumIter += 1;
+    m_NumberOfIterations += 1;
     m_ErrorCounter = m_TotalNumberOfValidPixelsInOutputImage - 
       totalNumberOfPixelsInInputImage;  
  
@@ -469,11 +470,11 @@ MRFImageFilter<TInputImage, TClassifiedImage>
       ++rIter;
       }  
     }    
-  while(( m_NumIter < m_MaximumNumberOfIterations ) && 
+  while(( m_NumberOfIterations < m_MaximumNumberOfIterations ) && 
         ( m_ErrorCounter > maxNumPixelError ) ); 
 
   //Determine stop condition
-  if( m_NumIter >= m_MaximumNumberOfIterations )
+  if( m_NumberOfIterations >= m_MaximumNumberOfIterations )
     {
     m_StopCondition = MaximumNumberOfIterations;
     }

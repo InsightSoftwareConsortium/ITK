@@ -336,7 +336,7 @@ protected:
   virtual void EnlargeOutputRequestedRegion( DataObject * );
   virtual void GenerateOutputInformation();
 
-  unsigned long                 m_NumIter;
+  unsigned long                 m_NumberOfIterations;
   StopConditionType             m_StopCondition;
   
 private:            
