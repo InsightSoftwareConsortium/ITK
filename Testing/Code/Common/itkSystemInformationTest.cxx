@@ -83,7 +83,7 @@ void itkSystemInformationPrintFile(const char* name, std::ostream& os,
     // error occurred.  Therefore, the loop should be safe everywhere.
     while(fin)
       {
-      fin.read(bufferIn, bufferSize);
+      fin.read(bufferIn, bufferSize-1);
       if(fin.gcount())
         {
         // convert buffer to an XML safe form
@@ -116,7 +116,7 @@ void itkSystemInformationPrintFile(const char* name, std::ostream& os,
             }
           s++;
           }
-        os.write(bufferOut, fin.gcount());
+        os.write(bufferOut, x - bufferOut + 1);
         }
       }
     os.flush();
@@ -171,6 +171,7 @@ int main(int,char *[])
     
     outf << "</BuildNameNotes>" << std::endl;
     outf << "</Site>" << std::endl;
+    outf.close();
     }
   else
     {
