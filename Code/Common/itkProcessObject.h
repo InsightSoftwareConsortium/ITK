@@ -74,8 +74,10 @@ public:
    * This is useful for tracing back in the pipeline to construct
    * graphs etc. 
    */
-  itkDataObject **GetInputs() {return m_Inputs;};
-  int GetNumberOfInputs() {return m_NumberOfInputs;}
+  itkDataObject **GetInputs() 
+    {return m_Inputs;};
+  int GetNumberOfInputs() const
+    {return m_NumberOfInputs;}
 
   /** 
    * Return an array with all the inputs of this process object.
@@ -83,7 +85,8 @@ public:
    * graphs etc. 
    */
   itkDataObject **GetOutputs();
-  int GetNumberOfOutputs() {return m_NumberOfOutputs;}
+  int GetNumberOfOutputs() const
+    {return m_NumberOfOutputs;}
     
   /** 
    * Specify function to be called before object executes. 
@@ -119,10 +122,14 @@ public:
    * Set/Get the AbortExecute flag for the process object. Process objects
    *  may handle premature termination of execution in different ways. 
    */
-  void SetAbortExecute(bool flag) {itkSetMacro(m_AbortExecute,flag);}
-  bool GetAbortExecute(bool flag) {itkGetMacro(flag);}
-  void AbortExecuteOn() {this->SetAbortExecute(true);}
-  void AbortExecuteOff() {this->SetAbortExecute(false);}
+  void SetAbortExecute(bool flag) 
+    {itkSetMacro(m_AbortExecute,flag);}
+  bool GetAbortExecute(bool flag) const
+    {itkGetMacro(flag);}
+  void AbortExecuteOn() 
+    {this->SetAbortExecute(true);}
+  void AbortExecuteOff() 
+    {this->SetAbortExecute(false);}
   
   /** 
    * Set/Get the execution progress of a process object. The progress is
@@ -131,7 +138,8 @@ public:
    */
   void SetProgress(float progress) 
     {itkSetClampMacro(m_Progress,progress,0.0,1.0);}
-  float GetProgress() {itkGetMacro(m_Progress);}
+  float GetProgress() const
+    {itkGetMacro(m_Progress);}
 
   /** 
    * Update the progress of the process object. If a ProgressMethod exists,
@@ -147,6 +155,70 @@ public:
    * in order to bring this filter up-to-date.
    */
   virtual void Update();
+
+  /** 
+   * Like update, but make sure the update extent is the whole extent in
+   * the output.
+   */
+  virtual void UpdateWholeExtent();
+
+  /** 
+   * Updates any global information about the data 
+   * (like spacing for images). */
+  virtual void UpdateInformation();
+
+  /** 
+   * Send the update extent down the pipeline 
+   */
+  virtual void PropagateUpdateExtent(itkDataObject *output);
+
+  /** 
+   * Start any asynchronous processing, if any. 
+   */
+  virtual void TriggerAsynchronousUpdate();
+
+  /** 
+   * Actually generate new output 
+   */
+  virtual void UpdateData(itkDataObject *output);
+
+  /** 
+   * Propagate the computation of the size of the pipeline. The first
+   * size is the size of the pipeline after this source has finished
+   * executing (and potentially freeing some input data). The second
+   * size is the size of the specified output. The third size is the
+   * maximum pipeline size encountered so far during this propagation.
+   * All sizes are in kilobytes. 
+   */
+  void ComputeEstimatedPipelineMemorySize( itkDataObject *output,
+					   unsigned long size[3] );
+
+  /** 
+   * The estimated size of the specified output after execution of
+   * this source is stored in the first size entry. The second size
+   * is the sum of all estimated output memory. The size of all inputs
+   * is given to help this filter in the estimation.
+   * All sizes are in kilobytes.
+   */
+  virtual void ComputeEstimatedOutputMemorySize( itkDataObject *output,
+						 unsigned long *inputSize,
+						 unsigned long size[2] );
+
+  /** 
+   * Give the source a chance to say that it will produce more output
+   * than it was asked to produce. For example, FFT always produces the
+   * whole thing, and many imaging filters must produce the output in
+   * whole slices (whole extent in two dimensions). By default we do not
+   * modify the output update extent. 
+   */
+  virtual void EnlargeOutputUpdateExtents(itkDataObject *itkNotUsed(output)){};
+  
+  /** 
+   * What is the input update extent that is required to produce the
+   * desired output? By default, the whole input is always required but
+   * this is overridden in many subclasses. 
+   */
+  virtual void ComputeInputUpdateExtents( itkDataObject *output );
 
   /** 
    * Turn on/off flag to control whether this object's data is released
@@ -203,7 +275,22 @@ protected:
   // method used internally for getting an output.
   itkDataObject *GetOutput(int idx);
 
+  // By default, UpdateInformation calls this method to copy information
+  // unmodified from the input to the output.
+  virtual void ExecuteInformation();
+
 private:
+  // Callbacks to be called during pipeline execution
+  void (*m_StartMethod)(void *);
+  void (*m_StartMethodArgDelete)(void *);
+  void *m_StartMethodArg;
+  void (*m_ProgressMethod)(void *);
+  void *m_ProgressMethodArg;
+  void (*m_ProgressMethodArgDelete)(void *);
+  void (*m_EndMethod)(void *);
+  void (*m_EndMethodArgDelete)(void *);
+  void *m_EndMethodArg;
+
   itkDataObject **m_Inputs;     // An Array of the inputs to the filter
   int m_NumberOfInputs;
   unsigned int m_NumberOfRequiredInputs;
@@ -217,17 +304,8 @@ private:
   // Time when ExecuteInformation was last called.
   itkTimeStamp m_InformationTime;
 
-  void (*m_StartMethod)(void *);
-  void (*m_StartMethodArgDelete)(void *);
-  void *m_StartMethodArg;
-  void (*m_ProgressMethod)(void *);
-  void *m_ProgressMethodArg;
-  void (*m_ProgressMethodArgDelete)(void *);
-  void (*m_EndMethod)(void *);
-  void (*m_EndMethodArgDelete)(void *);
-  void *m_EndMethodArg;
-
-  bool m_AbortExecute;
+  // These support the progress method and aborting filter execution
+  bool  m_AbortExecute;
   float m_Progress;
 
 };

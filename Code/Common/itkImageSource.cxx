@@ -15,7 +15,6 @@
 =========================================================================*/
 #include "itkImageSource.h"
 
-
 //------------------------------------------------------------------------
 template<class TOutputImage>
 itkImageSource<TOutputImage>::Pointer itkImageSource<TOutputImage>

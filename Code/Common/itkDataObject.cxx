@@ -145,7 +145,6 @@ void itkDataObject::UnRegister()
 }
 
 //----------------------------------------------------------------------------
-
 void itkDataObject::PrintSelf(std::ostream& os, itkIndent indent)
 {
   int i;
@@ -194,3 +193,75 @@ void itkDataObject::PrintSelf(std::ostream& os, itkIndent indent)
   os << " )";
 
 }
+
+// The follwing methods are used for updating the data processing pipeline.
+//
+
+//----------------------------------------------------------------------------
+void itkDataObject::Update()
+{
+  this->UpdateInformation();
+  this->PropogateUpdateExtent();
+  this->TriggerAsynchronousUpdate();
+  this->UpdateData();
+}
+
+//----------------------------------------------------------------------------
+void itkDataObject::UpdateInformation()
+{
+}
+
+//----------------------------------------------------------------------------
+void itkDataObject::PropogateUpdateExtent()
+{
+}
+
+//----------------------------------------------------------------------------
+void itkDataObject::TriggerAsynchronousUpdate()
+{
+}
+
+//----------------------------------------------------------------------------
+void itkDataObject::UpdateData()
+{
+}
+
+//----------------------------------------------------------------------------
+void itkDataObject::PropagateUpdateExtent()
+{
+}
+
+//----------------------------------------------------------------------------
+void itkDataObject::SetUpdateExtentToWholeExtent()
+{
+}
+
+//----------------------------------------------------------------------------
+void itkDataObject::DataHasBeenGenerated()
+{
+}
+
+//----------------------------------------------------------------------------
+void itkDataObject::ComputeEstimatedPipelineMemorySize(unsigned long sizes[3])
+{
+}
+
+//----------------------------------------------------------------------------
+unsigned long itkDataObject::GetEstimatedPipelineMemorySize()
+{
+  return 0;
+}
+
+
+//----------------------------------------------------------------------------
+unsigned long itkDataObject::GetEstimatedMemorySize()
+{
+  return 0;
+}
+
+//----------------------------------------------------------------------------
+void itkDataObject::CopyInformation(itkDataObject *data)
+{
+}
+
+

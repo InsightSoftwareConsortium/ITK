@@ -78,9 +78,12 @@ public:
    */
   void SetReleaseDataFlag(const bool flag) 
     {itkSetMacro(m_ReleaseDataFlag,flag);};
-  bool GetReleaseDataFlag() const {itkGetMacro(m_ReleaseDataFlag);}
-  void ReleaseDataFlagOn() {this->SetReleaseDataFlag(true);}
-  void ReleaseDataFlagOff() {this->SetReleaseDataFlag(false);}
+  bool GetReleaseDataFlag() const 
+    {itkGetMacro(m_ReleaseDataFlag);}
+  void ReleaseDataFlagOn() 
+    {this->SetReleaseDataFlag(true);}
+  void ReleaseDataFlagOff() 
+    {this->SetReleaseDataFlag(false);}
 
   /** 
    * Turn on/off a flag to control whether every object releases its data
@@ -109,8 +112,40 @@ public:
   /** 
    * Get the flag indicating the data has been released. 
    */
-  bool GetDataReleased() const {return m_DataReleased;}
+  bool GetDataReleased() const 
+    {return m_DataReleased;}
   
+  /**
+   * Provides opportunity for the data object to insure internal 
+   * consistency before access. Also causes owning source/filter 
+   * (if any) to update itself. The Update() method is composed of 
+   * UpdateInformation(), PropagateUpdateExtent(), 
+   * TriggerAsynchronousUpdate(), and UpdateData().
+   */
+  virtual void Update();
+
+  // Methods to update the pipeline.
+  virtual void UpdateInformation();
+  virtual void PropogateUpdateExtent();
+  virtual void TriggerAsynchronousUpdate();
+  virtual void UpdateData();
+
+  // More internal methods to update the pipeline.
+  void SetPipelineMTime(unsigned long time) 
+    {m_PipelineMTime = time; }
+  unsigned long GetPipelineMTime() const
+    {itkGetMacro(m_PipelineMTime);}
+
+  virtual void PropagateUpdateExtent();
+  void SetUpdateExtentToWholeExtent();
+  virtual void PrepareForNewData() 
+    {this->Initialize();};
+  void DataHasBeenGenerated();
+  void ComputeEstimatedPipelineMemorySize(unsigned long sizes[3]);
+  unsigned long GetEstimatedPipelineMemorySize();
+  virtual unsigned long GetEstimatedMemorySize();
+  void CopyInformation(itkDataObject *data);
+
   /** 
    * Handle the source/data loop. 
    */
