@@ -24,11 +24,15 @@ namespace itk
 {
   
 /** \class ExtractOrthogonalSwath2DImageFilter
- * \brief Extracts a rectangular "swath" image from the input image along the path.
+ * \brief Extracts into rectangular form a "swath" image from the input image along the parametric path.
  *
- * Extracts a rectangular "swath" image from the input image by interpolating
+ * Extracts a rectangular "swath" image from the 2D input image by interpolating
  * image pixels orthogonal to the parametric path while walking along the
- * path.  The input and output images must be of the same type.
+ * path.  The top half of the swath image corresponds to pixels to the left of
+ * the path when walking along the path, and the bottom half of the swath image
+ * likewise corresponds to pixels to the right of the path when walking along
+ * the path.  The center row of the swath image corresponds to pixels laying
+ * directly on the path.  The input and output images must be of the same type.
  * 
  * \ingroup   ImageFilters
  * \ingroup   PathFilters
@@ -55,25 +59,97 @@ public:
   typedef typename  ImageType::Pointer            ImagePointer;
   typedef typename  ImageType::ConstPointer       ImageConstPointer;
   typedef typename  ImageType::RegionType         ImageRegionType; 
+  typedef typename  ImageType::IndexType          ImageIndexType; 
   typedef typename  ImageType::PixelType          ImagePixelType;
   typedef           ParametricPath<2>             PathType;
   typedef typename  PathType::ConstPointer        PathConstPointer;
   typedef typename  PathType::InputType           PathInputType;
   typedef typename  PathType::OutputType          PathOutputType;
   typedef typename  PathType::IndexType           PathIndexType;
+  typedef typename  PathType::ContinuousIndexType PathContinuousIndexType;
   typedef typename  PathType::OffsetType          PathOffsetType;
+  typedef typename  PathType::VectorType          PathVectorType;
+  typedef typename  ImageType::SizeType           SizeType;
 
 
+  /** ImageDimension constants */
+  itkStaticConstMacro(PathDimension, unsigned int,
+                      2);
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TImage::ImageDimension);
+
+  /** Spacing (size of a pixel) of the output image. The
+   * spacing is normally the geometric distance between image samples,
+   * but in the case of a swath image it is meaningless since the size
+   * of each pixel varies depending on the curvature of the input path.
+   * It is stored internally as double, but may be set from
+   * float. \sa GetSpacing() */
+  virtual void SetSpacing( const double spacing[ImageDimension] );
+  virtual void SetSpacing( const float spacing[ImageDimension] );
+  virtual const double* GetSpacing() const;
+
+  /** The origin of the output image. The origin is the geometric
+   * coordinates of the index (0,0,...,0).  It is stored internally
+   * as double but may be set from float.
+   * \sa GetOrigin() */
+  virtual void SetOrigin( const double origin[ImageDimension] );
+  virtual void SetOrigin( const float origin[ImageDimension] );
+  virtual const double * GetOrigin() const;
+
+  /** Set the size of the swath image.  The # of rows (size[1]) MUST be odd */
+  itkSetMacro( Size, SizeType )
+
+  //--------------------------------------------------------------------------
+  //
+  
+  /** Request the largest possible region on all outputs. */
+  virtual void EnlargeOutputRequestedRegion(DataObject *output)
+    {
+    output->SetRequestedRegionToLargestPossibleRegion();
+    }
+  
+  //
+  //--------------------------------------------------------------------------
+  
 protected:
-  ExtractOrthogonalSwath2DImageFilter() {};
+  ExtractOrthogonalSwath2DImageFilter()
+    {
+    m_Size[0] = 512;
+    m_Size[1] = 16*2+1; // must be odd
+    m_Origin[0]  = m_Origin[1]  = 0.0;
+    m_Spacing[0] = m_Spacing[1] = 1.0;
+    };
   virtual ~ExtractOrthogonalSwath2DImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
-
-  void GenerateData(void);
-
+  
+  //--------------------------------------------------------------------------
+  //
+  
+  /** GenerateOutputInformation does not rely on input information */
+  virtual void GenerateOutputInformation(void);
+  
+  /** Request the largest possible region on all inputs. */
+  virtual void GenerateInputRequestedRegion()
+    {
+    Superclass::GenerateInputRequestedRegion();
+    ( const_cast< ImageType * > (GetImageInput()) ) ->
+        SetRequestedRegionToLargestPossibleRegion();
+    ( const_cast< PathType * > (GetPathInput()) ) ->
+        SetRequestedRegionToLargestPossibleRegion();
+    }
+  
+  virtual void GenerateData(void);
+  
+  //
+  //--------------------------------------------------------------------------
+  
 private:
   ExtractOrthogonalSwath2DImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+  
+  SizeType  m_Size;
+  double m_Origin[ImageDimension];
+  double m_Spacing[ImageDimension];
 };
 
 } // end namespace itk
