@@ -128,21 +128,27 @@ int TIFFReaderInternal::Initialize()
       {
       return 0;
       }
-
-    if ( !TIFFGetField(this->Image,TIFFTAG_PAGENUMBER,&this->CurrentPage, &this->NumberOfPages))
+   
+    // Check the number of pages. First by looking at the number of directories 
+    this->NumberOfPages=TIFFNumberOfDirectories(this->Image);
+            
+    if(this->NumberOfPages == 0)
       {
-      // Check the Image Description tag to know the number of images
-      // This is used by ImageJ
-      char** description = new char*[255];
-      if (TIFFGetField(this->Image,TIFFTAG_IMAGEDESCRIPTION,description))
+      if ( !TIFFGetField(this->Image,TIFFTAG_PAGENUMBER,&this->CurrentPage, &this->NumberOfPages))
         {
-        // look for the number of images
-        std::string desc = description[0];
-        int pos = desc.find("images=");
-        int pos2 = desc.find("\n");
-        if( (pos != -1) && (pos2 != -1))
+        // Check the Image Description tag to know the number of images
+        // This is used by ImageJ
+        char** description = new char*[255];
+        if (TIFFGetField(this->Image,TIFFTAG_IMAGEDESCRIPTION,description))
           {
-          this->NumberOfPages = atoi(desc.substr(pos+7,pos2-pos-7).c_str());
+          // look for the number of images
+          std::string desc = description[0];
+          int pos = desc.find("images=");
+          int pos2 = desc.find("\n");
+          if( (pos != -1) && (pos2 != -1))
+            {
+            this->NumberOfPages = atoi(desc.substr(pos+7,pos2-pos-7).c_str());
+            }
           }
         }
       }
@@ -518,8 +524,6 @@ void TIFFImageIO::ReadVolume(void* buffer)
   int width  = m_InternalImage->Width;
   int height = m_InternalImage->Height;
 
-  unsigned char* volume = reinterpret_cast<unsigned char*>(buffer);
-
   for(unsigned int page = 0;page<m_InternalImage->NumberOfPages;page++)
     {
     if ( !m_InternalImage->CanRead() )
@@ -541,29 +545,52 @@ void TIFFImageIO::ReadVolume(void* buffer)
         }
       int xx, yy;
       uint32* ssimage;
-      unsigned char *fimage = (unsigned char *)volume;
-
-      for ( yy = 0; yy < height; yy ++ )
+      
+      if(m_ComponentType == USHORT)
         {
-        ssimage = tempImage + (height - yy - 1) * width;
-        for ( xx = 0; xx < width; xx++ )
-          {
-          unsigned char red   = static_cast<unsigned char>(TIFFGetR(*ssimage));
-          unsigned char green = static_cast<unsigned char>(TIFFGetG(*ssimage));
-          unsigned char blue  = static_cast<unsigned char>(TIFFGetB(*ssimage));
-          unsigned char alpha = static_cast<unsigned char>(TIFFGetA(*ssimage));
+         unsigned short *fimage = (unsigned short *)buffer;
+         for ( yy = 0; yy < height; yy ++ )
+           {
+           ssimage = tempImage + (height - yy - 1) * width;
+           for ( xx = 0; xx < width; xx++ )
+             {
+             unsigned short red   = static_cast<unsigned short>(TIFFGetR(*ssimage));
+             unsigned short green = static_cast<unsigned short>(TIFFGetG(*ssimage));
+             unsigned short blue  = static_cast<unsigned short>(TIFFGetB(*ssimage));
+             unsigned short alpha = static_cast<unsigned short>(TIFFGetA(*ssimage));
           
-          *(fimage  ) = red;
-          *(fimage+1) = green;
-          *(fimage+2) = blue;
-          *(fimage+3) = alpha;
-          fimage += 4;
-
-          ssimage ++;
-          }
-        }
-    
-      if ( tempImage != 0 && tempImage != buffer )
+             *(fimage  ) = red;
+             *(fimage+1) = green;
+             *(fimage+2) = blue;
+             *(fimage+3) = alpha;
+             fimage += 4;
+             ssimage ++;
+             }
+           }
+         }
+       else
+         {
+         unsigned char *fimage = (unsigned char *)buffer;
+         for ( yy = 0; yy < height; yy ++ )
+           {
+           ssimage = tempImage + (height - yy - 1) * width;
+           for ( xx = 0; xx < width; xx++ )
+             {
+             unsigned char red   = static_cast<unsigned char>(TIFFGetR(*ssimage));
+             unsigned char green = static_cast<unsigned char>(TIFFGetG(*ssimage));
+             unsigned char blue  = static_cast<unsigned char>(TIFFGetB(*ssimage));
+             unsigned char alpha = static_cast<unsigned char>(TIFFGetA(*ssimage));
+          
+             *(fimage  ) = red;
+             *(fimage+1) = green;
+             *(fimage+2) = blue;
+             *(fimage+3) = alpha;
+             fimage += 4;
+             ssimage ++;
+             }
+           }
+         }
+       if ( tempImage != 0 && tempImage != buffer )
         {
         delete [] tempImage;
         }
@@ -571,21 +598,30 @@ void TIFFImageIO::ReadVolume(void* buffer)
       }
 
     unsigned int format = this->GetFormat();  
-
-
+     
     switch ( format )
       {
       case TIFFImageIO::GRAYSCALE:
       case TIFFImageIO::RGB_: 
       case TIFFImageIO::PALETTE_RGB:
       case TIFFImageIO::PALETTE_GRAYSCALE:
-        this->ReadGenericImage( volume, width, height );
+        if(m_ComponentType == USHORT)
+          {
+          unsigned short* volume = reinterpret_cast<unsigned short*>(buffer);
+          volume += width*height*m_InternalImage->SamplesPerPixel*page;
+          this->ReadGenericImage( volume, width, height );
+          }
+        else
+          {
+          unsigned char* volume = reinterpret_cast<unsigned char*>(buffer);
+          volume += width*height*m_InternalImage->SamplesPerPixel*page;
+          this->ReadGenericImage( volume, width, height );
+          }
+        
         break;
       default:
         return;
-      }
-
-    volume += width*height*m_InternalImage->SamplesPerPixel;
+      } 
     TIFFReadDirectory(m_InternalImage->Image);
     }
 }
