@@ -10,6 +10,15 @@ itkGiplImageIOFactory.cxx
 itkGiplImageIO.cxx
 itkImageIOBase.cxx
 itkImageIOFactory.cxx
+itkAnalyzeImageIO.cxx
+itkAnalyzeImageIOFactory.cxx
+itkIPLCommonImageIO.cxx
+itkGEAdwImageIO.cxx
+itkGEAdwImageIOFactory.cxx
+itkGE4ImageIO.cxx
+itkGE4ImageIOFactory.cxx
+itkGE5ImageIO.cxx
+itkGE5ImageIOFactory.cxx
 itkIOCommon.cxx
 itkMetaImageIOFactory.cxx
 itkMetaImageIO.cxx
