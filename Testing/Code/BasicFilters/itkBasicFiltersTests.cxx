@@ -64,6 +64,7 @@ void RegisterTests()
   REGISTER_TEST(itkMedianImageFilterTest );
   REGISTER_TEST(itkMultiplyImageFilterTest );
   REGISTER_TEST(itkMinimumMaximumImageFilterTest );
+  REGISTER_TEST(itkMinimumMaximumImageCalculatorTest );
   REGISTER_TEST(itkNeighborhoodConnectedImageFilterTest  );
   REGISTER_TEST(itkNormalizeImageFilterTest  );
   REGISTER_TEST(itkPermuteAxesImageFilterTest );
