@@ -74,11 +74,7 @@ LevenbergMarquardtOptimizer
   this->SetCostFunctionAdaptor( adaptor );
 
   m_VnlOptimizer = new vnl_levenberg_marquardt( *adaptor );
-
-  ScalesType scales( numberOfParameters );
-  scales.Fill( 1.0f );
-  SetScales( scales );
-
+ 
   this->SetNumberOfIterations(m_NumberOfIterations);
   this->SetValueTolerance(m_ValueTolerance);
   this->SetGradientTolerance(m_GradientTolerance);
@@ -100,11 +96,14 @@ LevenbergMarquardtOptimizer
   
   ParametersType initialPosition = GetInitialPosition();
 
-  InternalParametersType parameters( initialPosition.Size() );
+  ParametersType parameters( initialPosition );
 
-  CostFunctionAdaptorType::ConvertExternalToInternalParameters( 
-    GetInitialPosition(), 
-    parameters     );
+  // If the user provides the scales then we set otherwise we don't
+  // for computation speed
+  if(m_ScalesInitialized)
+    {
+    this->GetCostFunctionAdaptor()->SetScales(this->GetScales());
+    }
 
   if( this->GetCostFunctionAdaptor()->GetUseGradient() )
     {
@@ -115,15 +114,18 @@ LevenbergMarquardtOptimizer
     m_VnlOptimizer->minimize_without_gradient( parameters );
     }
 
-  // InternalParametersType is different than ParametersType....
-  ParametersType p(parameters.size());
-  for(unsigned int i=0; i < parameters.size(); ++i)
+  // we scale the parameters down if scales are defined
+  if(m_ScalesInitialized)
     {
-    p[i] = parameters[i];
+    ScalesType scales = this->GetScales();
+    for(unsigned int i=0;i<parameters.size();i++)
+      {
+      parameters[i] /= scales[i]; 
+      }
     }
-  this->SetCurrentPosition( p );
-      
 
+  this->SetCurrentPosition(parameters);
+      
 }
 
 /** Set the maximum number of iterations */
@@ -138,9 +140,6 @@ LevenbergMarquardtOptimizer
 
   m_NumberOfIterations = iterations;
 }
-
-
-
 
 
 /** Set the maximum number of iterations */
@@ -187,9 +186,7 @@ LevenbergMarquardtOptimizer
 }
 
 
-/**
- * Get the Optimizer
- */
+/** Get the Optimizer */
 vnl_levenberg_marquardt * 
 LevenbergMarquardtOptimizer
 ::GetOptimizer()
