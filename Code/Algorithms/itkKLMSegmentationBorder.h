@@ -90,7 +90,7 @@ public:
  * \ingroup RegionGrowingSegmentation 
  */
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT KLMSegmentationBorder : public SegmentationBorder<TInputImage,TOutputImage>
+class ITK_EXPORT KLMSegmentationBorder : public SegmentationBorder
 {
 private:
   /** Type definition for an double vector. */
@@ -99,7 +99,7 @@ private:
 public:
   /** Standard class typedefs. */
   typedef KLMSegmentationBorder   Self;
-  typedef SegmentationBorder<TInputImage,TOutputImage> Superclass;
+  typedef SegmentationBorder Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

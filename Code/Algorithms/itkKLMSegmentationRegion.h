@@ -117,7 +117,7 @@ template <class TInputImage, class TOutputImage>
 class KLMSegmentationBorder;
 
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT KLMSegmentationRegion : public SegmentationRegion<TInputImage,TOutputImage>
+class ITK_EXPORT KLMSegmentationRegion : public SegmentationRegion
 {
 private:
   /** Type definition for an double vector. */
@@ -126,7 +126,7 @@ private:
 public:
   /** Standard class typedefs. */
   typedef KLMSegmentationRegion   Self;
-  typedef SegmentationRegion<TInputImage,TOutputImage> Superclass;
+  typedef SegmentationRegion Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 

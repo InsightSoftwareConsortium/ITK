@@ -350,7 +350,7 @@ private:
   unsigned int     m_NumRegions;
   unsigned int     m_InitRegionArea;
   SegmentationBorderPtr *m_BordersCandidateDynamicPointer;
-  SegmentationBorder<TInputImage,TOutputImage> *m_BordersCandidatePointer;
+  SegmentationBorder *m_BordersCandidatePointer;
   unsigned int     m_ImgWidth;
   unsigned int     m_ImgHeight;
   unsigned int     m_ImgDepth;
