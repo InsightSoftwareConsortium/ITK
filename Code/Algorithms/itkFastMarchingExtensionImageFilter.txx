@@ -123,9 +123,9 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
   // This filter requires all of the output images in the buffer.
   for ( unsigned int j = 0; j < this->GetNumberOfOutputs(); j++ )
     {
-    if ( this->GetOutput(j) )
+    if ( this->ProcessObject::GetOutput(j) )
       {
-      this->GetOutput(j)->SetRequestedRegionToLargestPossibleRegion();
+      this->ProcessObject::GetOutput(j)->SetRequestedRegionToLargestPossibleRegion();
       }
     }
 }
