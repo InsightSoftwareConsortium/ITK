@@ -2,6 +2,9 @@ PROJECT (CABLE)
 INCLUDE_REGULAR_EXPRESSION ("^(cxx|cable|xml|gen|wrap).*$")
 
 SUBDIRS (Expat CxxTypes Parsers Generators Executables)
+SUBDIR_DEPENDS(Parsers Expat CxxTypes)
+SUBDIR_DEPENDS(Generators Parsers)
+SUBDIR_DEPENDS(Executables Generators)
 
 IF (CABLE_TCL_FACILITY_FORCE_ON)
   SET (CABLE_TCL_FACILITY ON)
