@@ -192,8 +192,8 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 
   static const unsigned int s =
-    (unsigned int)pow((unsigned int)(3),
-                      (unsigned int)(ImageDimension));
+    (unsigned int)pow((float)3.0,
+                      (int)(ImageDimension));
 
   unsigned int i;
   for(i=0; i<s; i++)
