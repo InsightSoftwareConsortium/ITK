@@ -64,6 +64,7 @@ ADD_TEST(itkPointGeometryTest ${COMMON_TESTS} itkPointGeometryTest)
 ADD_TEST(itkPointSetTest ${COMMON_TESTS} itkPointSetTest)
 ADD_TEST(itkRGBPixelTest ${COMMON_TESTS} itkRGBPixelTest)
 ADD_TEST(itkRGBInterpolateImageFunctionTest ${COMMON_TESTS} itkRGBInterpolateImageFunctionTest)
+ADD_TEST(itkRGBToVectorImageAdaptorTest ${COMMON_TESTS} itkRGBToVectorImageAdaptorTest)
 ADD_TEST(itkRigid2DTransformTest ${COMMON_TESTS} itkRigid2DTransformTest)
 ADD_TEST(itkRigid3DTransformTest ${COMMON_TESTS} itkRigid3DTransformTest)
 ADD_TEST(itkRigid3DPerspectiveTransformTest ${COMMON_TESTS} itkRigid3DPerspectiveTransformTest)
@@ -83,6 +84,7 @@ ADD_TEST(itkVersorTest ${COMMON_TESTS} itkVersorTest)
 ADD_TEST(itkVersorRigid3DTransformTest ${COMMON_TESTS} itkVersorRigid3DTransformTest)
 ADD_TEST(itkVectorTest ${COMMON_TESTS} itkVectorTest)
 ADD_TEST(itkVectorInterpolateImageFunctionTest ${COMMON_TESTS} itkVectorInterpolateImageFunctionTest)
+ADD_TEST(itkVectorToRGBImageAdaptorTest ${COMMON_TESTS} itkVectorToRGBImageAdaptorTest)
 ADD_TEST(itkScaleTransformTest ${COMMON_TESTS} itkScaleTransformTest)
 ADD_TEST(itkSplineKernelTransformTest ${COMMON_TESTS} itkSplineKernelTransformTest)
 ADD_TEST(itkEllipsoidInteriorExteriorSpatialFunctionTest ${COMMON_TESTS} itkEllipsoidInteriorExteriorSpatialFunctionTest)
@@ -143,6 +145,7 @@ itkRigid3DTransformTest.cxx
 itkRigid3DPerspectiveTransformTest.cxx
 itkRGBPixelTest.cxx
 itkRGBInterpolateImageFunctionTest.cxx
+itkRGBToVectorImageAdaptorTest.cxx
 itkScaleTransformTest.cxx
 itkShapedNeighborhoodIteratorTest.cxx
 itkSimilarity2DTransformTest.cxx
@@ -161,6 +164,7 @@ itkVersorTest.cxx
 itkVersorRigid3DTransformTest.cxx
 itkVectorTest.cxx
 itkVectorInterpolateImageFunctionTest.cxx
+itkVectorToRGBImageAdaptorTest.cxx
 itkEllipsoidInteriorExteriorSpatialFunctionTest.cxx
 itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest.cxx
 )
