@@ -2,7 +2,7 @@
 #include "itkVectorContainer.h"
 
 template class itk::Mesh<int>;
-template class itk::VectorContainer<int, float>;
+template class itk::VectorContainer<unsigned int, float>;
 
 int main(void)
 {
