@@ -141,6 +141,12 @@ public:
 };
 
 
+/**
+ * Short alias for FEMObjectFactory<FEMLightObject>
+ */
+typedef FEMObjectFactory<FEMLightObject> FEMOF;
+
+
 }} // end namespace itk::fem
 
 #endif // #ifndef __itkFEMLightObject_h
