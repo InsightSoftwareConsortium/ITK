@@ -58,6 +58,25 @@
 
 */
 
+/**
+\defgroup ImageAdaptors Image Adaptors 
+Image Adaptors are an implementation of the <EM>Adaptor Design Pattern</EM>. They are 
+designed to present an image of a particular type as being an image of a different type.
+Adaptors perform simple operations on pixel values for which is not easy to justify the
+us of an image filter.
+
+One of the pricipal tasks of ImageAdaptors is to perform casting. 
+
+For example: you have an image whose pixels are of type <TT>unsigned char</TT> and you need to feed this image in a process that expects pixels of type <TT>double</TT>. 
+
+You have the option of using and ImageFilter (see \ref ImageFiltersPage) that convert the input <TT>unsigned char </TT> image into another of pixel type <TT>double</TT>. However this filter will allocate memory for this second image and will need to be executed.
+
+Image Adaptors allow to simulate that you have made the conversion but will avoid the overhead in memory. There is however a penalty in performance. 
+
+The mechanism used by image adaptors is to provide a simple function that will be used by ImageIterator (see \ref ImageIteratorsPage) to convert the value of a pixel, in a pixel by pixel basis.
+
+*/
+
 
 
 /**
@@ -305,6 +324,7 @@ They allow to define paths and directions along which the data should be walked 
 \defgroup ImageIterators Image Iterators
 \ingroup Iterators
 Image Iterators allow to go through the content of an image in a predefined way.
+For a detailed description of iterators rationale see \ref ImageIteratorsPage
 */
 
 
