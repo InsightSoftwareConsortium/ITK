@@ -13,4 +13,5 @@ void RegisterTests()
   REGISTER_TEST(itkLineSpatialObjectTest);
   REGISTER_TEST(itkEllipseSpatialObjectTest);
   REGISTER_TEST(itkSurfaceSpatialObjectTest);
+  REGISTER_TEST(itkPolygonGroupSpatialObjectTest);
 }
