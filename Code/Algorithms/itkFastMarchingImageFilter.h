@@ -40,7 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkFastMarchingImageFilter_h
 #define _itkFastMarchingImageFilter_h
 
-#include "itkImageSource.h"
+#include "itkImageToImageFilter.h"
 #include "itkLevelSet.h"
 #include "itkIndex.h"
 #include "vnl/vnl_math.h"
@@ -105,7 +105,7 @@ template <
   class TSpeedImage = Image<float,TLevelSet::ImageDimension>
 >
 class ITK_EXPORT FastMarchingImageFilter :
-  public ImageSource<TLevelSet>
+  public ImageToImageFilter<TSpeedImage,TLevelSet>
 {
 public:
   /** Standard class typdedefs. */
@@ -157,8 +157,8 @@ public:
    * Alive points are represented as a VectorContainer of LevelSetNodes. */
   void SetAlivePoints( NodeContainer * points )
     { 
-      m_AlivePoints = points; 
-      this->Modified(); 
+    m_AlivePoints = points; 
+    this->Modified(); 
     };
 
   /** Get the container of Alive Points representing the initial front. */
@@ -169,8 +169,8 @@ public:
    * Trial points are represented as a VectorContainer of LevelSetNodes. */
   void SetTrialPoints( NodeContainer * points )
     { 
-      m_TrialPoints = points;
-      this->Modified();
+    m_TrialPoints = points;
+    this->Modified();
     };
 
   /** Get the container of Trial Points representing the initial front. */
@@ -182,8 +182,7 @@ public:
   void SetSpeedImage( SpeedImageType * ptr );
 
   /** Get the input Speed Image. */
-  SpeedImagePointer GetSpeedImage() const
-    { return m_SpeedImage; };
+  SpeedImagePointer GetSpeedImage();
 
   /** Get the point type label image. */
   LabelImagePointer GetLabelImage() const
@@ -241,9 +240,11 @@ protected:
   ~FastMarchingImageFilter(){};
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
-  virtual void Initialize();
-  virtual void UpdateNeighbors( IndexType& index );
-  virtual double UpdateValue( IndexType& index );
+  virtual void Initialize( LevelSetImageType * );
+  virtual void UpdateNeighbors( IndexType& index, 
+    SpeedImageType *, LevelSetImageType * );
+  virtual double UpdateValue( IndexType& index, 
+    SpeedImageType *, LevelSetImageType * );
 
   typename LevelSetImageType::PixelType GetLargeValue() const
     { return m_LargeValue; }
@@ -266,21 +267,16 @@ private:
 
   LabelImagePointer                             m_LabelImage;
   
-  SpeedImagePointer                             m_SpeedImage;
   double                                        m_SpeedConstant;
   double                                        m_InverseSpeed;
   double                                        m_StoppingValue;
     
-  LevelSetPointer                               m_OutputLevelSet;
-
   bool                                          m_CollectPoints;
   NodeContainerPointer                          m_ProcessedPoints;
 
   typename LevelSetImageType::SizeType          m_OutputSize;
-
   typename LevelSetImageType::PixelType         m_LargeValue;
-
-  std::vector<NodeType>                         m_NodesUsed;
+  NodeType                                      m_NodesUsed[SetDimension];
 
   /** Trial points are stored in a min-heap. This allow efficient access
    * to the trial point with minimum value which is the next grid point

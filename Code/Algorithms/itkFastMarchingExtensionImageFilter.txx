@@ -47,20 +47,22 @@ namespace itk
 /**
  *
  */
-template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
-FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
+template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
+  class TSpeedImage>
+FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 ::FastMarchingExtensionImageFilter()
 {
 
   m_AuxAliveValues = NULL;
   m_AuxTrialValues = NULL;
 
+  this->ProcessObject::SetNumberOfRequiredOutputs( 1 + AuxDimension );
+
   AuxImagePointer ptr;
-  for( unsigned int k = 0; k < VAuxDimension; k++ )
+  for ( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     ptr = AuxImageType::New();
-    m_AuxImage[k] = ptr;
-    this->ProcessObject::AddOutput( ptr.GetPointer() );
+    this->ProcessObject::SetNthOutput( k+1, ptr.GetPointer() );
     }
 }
 
@@ -68,19 +70,13 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 /**
  *
  */
-template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
+template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
+  class TSpeedImage>
 void
-FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
+FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  unsigned int j;
-  os << indent << "Aux Images: [";
-  for ( j = 0; j < VAuxDimension; j++ )
-    {
-    os << m_AuxImage[j].GetPointer() << ", " << std::endl;
-    }
-  os << m_AuxImage[j].GetPointer() << "]" << std::endl;
   os << indent << "Aux alive values: ";
   os << m_AuxAliveValues.GetPointer() << std::endl;
   os << indent << "Aux trail values: ";
@@ -91,9 +87,32 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 /**
  *
  */
-template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
+template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
+  class TSpeedImage>
+FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
+::AuxImagePointer
+FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
+::GetAuxiliaryImage( unsigned int idx )
+{
+
+ if ( idx >= AuxDimension || this->GetNumberOfOutputs() < idx  )
+   {
+   return NULL;
+   }
+
+ return static_cast<AuxImageType *>(
+   this->ProcessObject::GetOutput(idx + 1).GetPointer() );
+
+}
+
+
+/**
+ *
+ */
+template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
+  class TSpeedImage>
 void
-FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
+FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 ::GenerateOutputInformation()
 {
 
@@ -102,10 +121,11 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 
   // set the size of all the auxiliary outputs
   // to be the same as the primary output
-  LevelSetPointer primaryOutput = this->GetOutput(0);
-  for( unsigned int k = 0; k < VAuxDimension; k++ )
+  LevelSetPointer primaryOutput = this->GetOutput();
+  for ( unsigned int k = 0; k < VAuxDimension; k++ )
     {
-    m_AuxImage[k]->SetLargestPossibleRegion( 
+    AuxImagePointer ptr = this->GetAuxiliaryImage(k);
+    ptr->SetLargestPossibleRegion( 
       primaryOutput->GetLargestPossibleRegion() );
     }
 
@@ -115,9 +135,10 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 /**
  *
  */
-template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
+template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
+  class TSpeedImage>
 void
-FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
+FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 ::EnlargeOutputRequestedRegion(
 DataObject *output )
 {
@@ -127,10 +148,11 @@ DataObject *output )
 
   // set the requested region for all auxiliary outputs
   // to be the same as the primary output
-  LevelSetPointer primaryOutput = this->GetOutput(0);
-  for( unsigned int k = 0; k < VAuxDimension; k++ )
+  LevelSetPointer primaryOutput = this->GetOutput();
+  for ( unsigned int k = 0; k < VAuxDimension; k++ )
     {
-    m_AuxImage[k]->SetRequestedRegion(
+    AuxImagePointer ptr = this->GetAuxiliaryImage( k );
+    ptr->SetRequestedRegion(
       primaryOutput->GetRequestedRegion() );
     }
 }
@@ -139,45 +161,60 @@ DataObject *output )
 /**
  *
  */
-template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
+template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
+  class TSpeedImage>
 void
-FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
-::Initialize()
+FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
+::Initialize( LevelSetImageType * output )
 {
 
-  this->Superclass::Initialize();
+  this->Superclass::Initialize( output );
 
-  LevelSetPointer output = this->GetOutput();
   const typename LevelSetImageType::SizeType size = this->GetOutputSize();
 
+  AuxImagePointer auxImages[AuxDimension];
+  
   // allocate memory for the auxiliary outputs
-  for( unsigned int k = 0; k < VAuxDimension; k++ )
+  for ( unsigned int k = 0; k < VAuxDimension; k++ )
     {
-    m_AuxImage[k]->SetBufferedRegion( 
-      m_AuxImage[k]->GetRequestedRegion() );
-    m_AuxImage[k]->Allocate();
+    AuxImagePointer ptr = this->GetAuxiliaryImage( k );
+    ptr->SetBufferedRegion( ptr->GetRequestedRegion() );
+    ptr->Allocate();
+    auxImages[k] = ptr;
     }
 
-  if( this->GetAlivePoints() && !m_AuxAliveValues )
+  if ( this->GetAlivePoints() && !m_AuxAliveValues )
     {
-    throw ExceptionObject(__FILE__, __LINE__);
+    ExceptionObject err(__FILE__, __LINE__);
+    err.SetLocation( "Initialize" );
+    err.SetDescription( "Null pointer for AuxAliveValues" );
+    throw err;
     }  
 
-  if( m_AuxAliveValues &&
+  if ( m_AuxAliveValues &&
       m_AuxAliveValues->Size() != (this->GetAlivePoints())->Size() )
     {
-    throw ExceptionObject(__FILE__, __LINE__);
+    ExceptionObject err(__FILE__, __LINE__);
+    err.SetLocation( "Initialize" );
+    err.SetDescription( "AuxAliveValues is the wrong size" );
+    throw err;
     }
 
-  if( this->GetTrialPoints() && !m_AuxTrialValues )
+  if ( this->GetTrialPoints() && !m_AuxTrialValues )
     {
-    throw ExceptionObject(__FILE__, __LINE__);
+    ExceptionObject err(__FILE__, __LINE__);
+    err.SetLocation( "Initialize" );
+    err.SetDescription( "Null pointer for AuxTrialValues" );
+    throw err;
     } 
 
-  if( m_AuxTrialValues &&
+  if ( m_AuxTrialValues &&
       m_AuxTrialValues->Size() != (this->GetTrialPoints())->Size() )
     {
-    throw ExceptionObject(__FILE__, __LINE__);
+    ExceptionObject err(__FILE__, __LINE__);
+    err.SetLocation( "Initialize" );
+    err.SetDescription( "AuxTrialValues is the wrong size" );
+    throw err;
     } 
   
   // set all alive points to alive
@@ -189,65 +226,65 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 
   AuxValueVectorType auxVec;
 
-  if( m_AuxAliveValues )
+  if ( m_AuxAliveValues )
     { 
     auxIter = m_AuxAliveValues->Begin();
 
     pointsIter = (this->GetAlivePoints())->Begin();
     pointsEnd = (this->GetAlivePoints())->End();
 
-    for( ; pointsIter != pointsEnd; ++pointsIter, ++auxIter )
+    for ( ; pointsIter != pointsEnd; ++pointsIter, ++auxIter )
       {
       node = pointsIter.Value();
       auxVec = auxIter.Value();
 
       // check if node index is within the output level set
       bool inRange = true;
-      for( unsigned int j = 0; j < SetDimension; j++ )
+      for ( unsigned int j = 0; j < SetDimension; j++ )
         {
-        if( node.index[j] > (signed long) size[j] )
+        if ( node.index[j] > (signed long) size[j] )
           {
           inRange = false;
           break;
           }
         }
-      if( !inRange ) continue;
+      if ( !inRange ) continue;
     
-      for( unsigned int k = 0; k < VAuxDimension; k++ )
-      {
-        m_AuxImage[k]->SetPixel( node.index, auxVec[k] );
-      }
+      for ( unsigned int k = 0; k < VAuxDimension; k++ )
+        {
+        auxImages[k]->SetPixel( node.index, auxVec[k] );
+        }
     
       } // end container loop
     } // if AuxAliveValues set
 
-  if( m_AuxTrialValues )
+  if ( m_AuxTrialValues )
     { 
     auxIter = m_AuxTrialValues->Begin();
     pointsIter = (this->GetTrialPoints())->Begin();
     pointsEnd = (this->GetTrialPoints())->End();
 
-    for( ; pointsIter != pointsEnd; ++pointsIter, ++auxIter )
+    for ( ; pointsIter != pointsEnd; ++pointsIter, ++auxIter )
       {
       node = pointsIter.Value();
       auxVec = auxIter.Value();
 
       // check if node index is within the output level set
       bool inRange = true;
-      for( unsigned int j = 0; j < SetDimension; j++ )
+      for ( unsigned int j = 0; j < SetDimension; j++ )
         {
-        if( node.index[j] > (signed long) size[j] )
+        if ( node.index[j] > (signed long) size[j] )
           {
           inRange = false;
           break;
           }
         }
-      if( !inRange ) continue;
+      if ( !inRange ) continue;
 
-      for( unsigned int k = 0; k < VAuxDimension; k++ )
-      {
-        m_AuxImage[k]->SetPixel( node.index, auxVec[k] );
-      }
+      for ( unsigned int k = 0; k < VAuxDimension; k++ )
+        {
+        auxImages[k]->SetPixel( node.index, auxVec[k] );
+        }
 
       } // end container loop
 
@@ -259,11 +296,14 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 /**
  *
  */
-template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
+template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension, 
+  class TSpeedImage>
 double
-FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
+FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 ::UpdateValue(
-IndexType& index )
+IndexType& index,
+SpeedImageType * speed,
+LevelSetImageType * output )
 {
 
  // A extension value at node is choosen such that 
@@ -279,46 +319,46 @@ IndexType& index )
  // "Level Set Methods and Fast Marching Methods", J.A. Sethian,
  // Cambridge Press, Second edition, 1999.
 
-  double solution = this->Superclass::UpdateValue( index );
+  double solution = this->Superclass::UpdateValue( index, speed, output );
 
   NodeType node;
 
-  if( solution < this->GetLargeValue() )
-  {
-    // update auxiliary values
-    for( unsigned int k = 0; k < VAuxDimension; k++ )
+  if ( solution < this->GetLargeValue() )
     {
+    // update auxiliary values
+    for ( unsigned int k = 0; k < VAuxDimension; k++ )
+      {
       double numer = 0.0;
       double denom = 0. ;
       AuxValueType auxVal;
 
       for( unsigned int j = 0; j < SetDimension; j++ )
-      {
+        {
         node = this->GetNodeUsedInCalculation(j);
 
         if( solution < node.value )
-        {
+          {
           break;
-        }
+          }
 
-        auxVal = m_AuxImage[k]->GetPixel( node.index );
+        auxVal = this->GetAuxiliaryImage(k)->GetPixel( node.index );
         numer +=  auxVal  *  ( solution - node.value );
         denom += solution - node.value;
 
-      }
+        }
 
       if( denom > 0 )
         {
-        auxVal = numer / denom;
+        auxVal = static_cast<AuxValueType>( numer / denom );
         }
       else 
         {
-      auxVal = 0.0;
+        auxVal = NumericTraits<AuxValueType>::Zero;
         }
         
-      m_AuxImage[k]->SetPixel( index, auxVal );
+      this->GetAuxiliaryImage(k)->SetPixel( index, auxVal );
+      }
     }
-  }
 
   return solution;
 

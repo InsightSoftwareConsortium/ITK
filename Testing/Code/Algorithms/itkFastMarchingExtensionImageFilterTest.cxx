@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit (ITK)
-  Module:    itkFastMarchingTest.cxx
+  Module:    itkFastMarchingExtensionImageFilterTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,41 +38,26 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#include "itkFastMarchingImageFilter.h"
+#include "itkFastMarchingExtensionImageFilter.h"
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
-#include "itkOutputWindow.h"
 
 #include "vnl/vnl_math.h"
 
-// this class is used to send output to stdout and not the itk window
-class TextOutput : public itk::OutputWindow
-{
-public:
-  typedef TextOutput              Self;
-  typedef itk::SmartPointer<Self>  Pointer;
-  typedef itk::SmartPointer<const Self>  ConstPointer;
-  itkNewMacro(TextOutput);
-  virtual void DisplayText(const char* s)
-    { std::cout << s << std::endl; }
-};
-
-
 int main()
 {
-
-  itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());
-
   // create a fastmarching object
   typedef float PixelType;
   typedef itk::Image<PixelType,2> FloatImage;
-  typedef itk::FastMarchingImageFilter<FloatImage,FloatImage> FloatFMType;
+  typedef itk::FastMarchingExtensionImageFilter<FloatImage,unsigned char,1,
+    FloatImage> MarcherType;
 
-  FloatFMType::Pointer marcher = FloatFMType::New();
+  MarcherType::Pointer marcher = MarcherType::New();
+  bool passed;
   
   // setup trial points
-  typedef FloatFMType::NodeType NodeType;
-  typedef FloatFMType::NodeContainer NodeContainer;
+  typedef MarcherType::NodeType NodeType;
+  typedef MarcherType::NodeContainer NodeContainer;
 
   NodeContainer::Pointer trialPoints = NodeContainer::New();
 
@@ -106,21 +91,67 @@ int main()
     speedIter.Set( 1.0 );
     }
 
-  speedImage->Print( std::cout );
   marcher->SetSpeedImage( speedImage );
 
-  // turn on debugging
-  marcher->DebugOn();
+  // deliberately cause an exception by not setting AuxTrialValues
+  passed = false;
+  try
+    {
+    marcher->Update();
+    }
+  catch ( itk::ExceptionObject err )
+    {
+    passed = true;
+    std::cout << err << std::endl;
+    }
+  if ( !passed ) { return EXIT_FAILURE; }
 
-  // update the marcher
-  marcher->Update();
+  typedef MarcherType::AuxValueVectorType VectorType;
+  typedef MarcherType::AuxValueContainer AuxValueContainer;
+
+  AuxValueContainer::Pointer auxTrialValues = AuxValueContainer::New();
+
+  // deliberately cause an exception setting AuxTrialValues of the wrong size
+  marcher->SetAuxiliaryTrialValues( auxTrialValues );
+
+  passed = false;
+  try
+    {
+    marcher->Update();
+    }
+  catch ( itk::ExceptionObject err )
+    {
+    passed = true;
+    std::cout << err << std::endl;
+    }
+  if ( !passed ) { return EXIT_FAILURE; }
+
+
+  VectorType vector;
+  vector[0] = 48;
+
+  auxTrialValues->InsertElement(0,vector);
+
+  // run the algorithm
+  passed = true;
+  try
+    {
+    marcher->Update();
+    }
+  catch ( itk::ExceptionObject err )
+    {
+    passed = false;
+    std::cout << err << std::endl;
+    }
+  if ( !passed ) { return EXIT_FAILURE; }
+
 
   // check the results
+  passed = true;
   FloatImage::Pointer output = marcher->GetOutput();
   itk::ImageRegionIterator<FloatImage>
     iterator( output, output->GetBufferedRegion() );
 
-  bool passed = true;
 
   for ( ; !iterator.IsAtEnd(); ++iterator )
     {
@@ -134,7 +165,7 @@ int main()
     distance = 0.0;
     for ( int j = 0; j < 2; j++ )
       {
-        distance += tempIndex[j] * tempIndex[j];
+      distance += tempIndex[j] * tempIndex[j];
       }
     distance = vnl_math_sqrt( distance );
 
@@ -142,20 +173,19 @@ int main()
 
     if ( vnl_math_abs( output ) / distance > 1.42 )
       {
-        std::cout << iterator.GetIndex() << " ";
-        std::cout << vnl_math_abs( output ) / distance << " ";
-        std::cout << vnl_math_abs( output ) << " " << distance << std::endl;
-        passed = false;
+      std::cout << iterator.GetIndex() << " ";
+      std::cout << vnl_math_abs( output ) / distance << " ";
+      std::cout << vnl_math_abs( output ) << " " << distance << std::endl;
+      passed = false;
       }
     
     }
 
   // Exercise other member functions
-  std::cout << "SpeedConstant: " << marcher->GetSpeedConstant() << std::endl;
-  std::cout << "StoppingValue: " << marcher->GetStoppingValue() << std::endl;
-  std::cout << "CollectPoints: " << marcher->GetCollectPoints() << std::endl;
+  std::cout << "Auxiliary alive values: " << marcher->GetAuxiliaryAliveValues().GetPointer();
+  std::cout << std::endl;
 
-  std::cout << "SpeedImage: " << marcher->GetSpeedImage().GetPointer();
+  std::cout << "Auxiliary trial values: " << marcher->GetAuxiliaryTrialValues().GetPointer();
   std::cout << std::endl;
 
   marcher->Print( std::cout );
@@ -171,4 +201,8 @@ int main()
     return EXIT_FAILURE;
     }
 
+
+return EXIT_SUCCESS;
+
 }
+

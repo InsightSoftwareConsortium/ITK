@@ -75,15 +75,16 @@ namespace itk
 template <
   class TLevelSet, 
   class TAuxValue,
-  unsigned int VAuxDimension = 1 
+  unsigned int VAuxDimension = 1,
+  class TSpeedImage = Image<float,TLevelSet::ImageDimension>
 >
 class ITK_EXPORT FastMarchingExtensionImageFilter :
-  public FastMarchingImageFilter<TLevelSet>
+  public FastMarchingImageFilter<TLevelSet,TSpeedImage>
 {
 public:
   /** Standard class typdedefs. */
   typedef FastMarchingExtensionImageFilter Self;
-  typedef FastMarchingImageFilter<TLevelSet> Superclass;
+  typedef FastMarchingImageFilter<TLevelSet,TSpeedImage> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -93,14 +94,18 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(FastMarchingExtensionImageFilter, FastMarchingImageFilter);
 
-  /** The type of level set. */
-  typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
+  /** Inherited typedefs. */
+  typedef typename Superclass::LevelSetType  LevelSetType;
+  typedef typename Superclass::SpeedImageType SpeedImageType;
 
   /** The dimension of the level set. */
-  enum { SetDimension = LevelSetType::SetDimension};
+  enum { SetDimension = Superclass::SetDimension};
+
+  /** Number of auxiliary variables to be extended. */
+  enum { AuxDimension = VAuxDimension };
 
   /** AuxVarType typedef support. */
-  typedef AuxVarTypeDefault<TAuxValue,VAuxDimension,SetDimension> AuxVarType;
+  typedef AuxVarTypeDefault<TAuxValue,AuxDimension,SetDimension> AuxVarType;
   typedef typename AuxVarType::AuxValueType AuxValueType;
   typedef typename AuxVarType::AuxValueVectorType AuxValueVectorType;
   typedef typename AuxVarType::AuxValueContainer AuxValueContainer;
@@ -111,8 +116,7 @@ public:
   typedef Index<SetDimension> IndexType;
 
   /** Get one of the extended auxiliary variable image. */
-  AuxImagePointer GetAuxiliaryImage( unsigned int idx ) const
-    { return m_AuxImage[idx]; }
+  AuxImagePointer GetAuxiliaryImage( unsigned int idx );
 
   /** Set the container auxiliary values at the initial alive points. */
   void SetAuxiliaryAliveValues( AuxValueContainer * values )
@@ -135,8 +139,11 @@ protected:
   ~FastMarchingExtensionImageFilter(){};
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
-  virtual void Initialize();
-  virtual double UpdateValue( IndexType & index );
+  virtual void Initialize( LevelSetImageType * );
+  virtual double UpdateValue( IndexType & index,
+    SpeedImageType * speed, LevelSetImageType * output);
+
+  /** Generate the output image meta information */
   virtual void GenerateOutputInformation();
   virtual void EnlargeOutputRequestedRegion( DataObject *output );
 
@@ -146,7 +153,6 @@ private:
   
   typename AuxValueContainer::Pointer    m_AuxAliveValues;
   typename AuxValueContainer::Pointer    m_AuxTrialValues;
-  AuxImagePointer                        m_AuxImage[VAuxDimension] ;
   
 };
 
