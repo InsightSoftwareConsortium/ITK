@@ -178,6 +178,9 @@ public:
 
 	itkGetMacro(NumberOfSeedsToAdded, int);
 
+  itkSetMacro(UseBackgroundInAPrior, bool);
+  itkGetMacro(UseBackgroundInAPrior, bool);
+
   void SetMeanPercentError(double x);
   void SetVarPercentError(double x);
 
@@ -248,6 +251,7 @@ private:
   std::vector<int> m_NumberOfPixels;
   std::vector<unsigned char> m_Label;
   int m_StepsRuned;
+  bool m_UseBackgroundInAPrior;
 
   typename InputImageType::Pointer m_InputImage;
   typename OutputImageType::Pointer m_OutputImage;
