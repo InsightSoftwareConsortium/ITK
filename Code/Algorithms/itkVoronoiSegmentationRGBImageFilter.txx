@@ -19,6 +19,7 @@
 #include "itkVoronoiSegmentationRGBImageFilter.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 #include <math.h>
 
 namespace itk
@@ -78,7 +79,7 @@ SetVarPercentError(double x[6]){
 template <class TInputImage, class TOutputImage>
 void
 VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>
-::SetInput(InputImagePointer input)
+::SetInput(const InputImageType *input)
 {
 //  m_InputImage = this->GetInput();
 //  m_OutputImage = this->GetOutput(); 
@@ -98,7 +99,7 @@ VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>
   m_WorkingImage->Allocate();  
 
   itk::ImageRegionIteratorWithIndex <RGBHCVImage> wit(m_WorkingImage, region);
-  itk::ImageRegionIteratorWithIndex <InputImageType> iit(this->GetInput(), region);
+  itk::ImageRegionConstIteratorWithIndex <InputImageType> iit(this->GetInput(), region);
   PixelType ipixel;
   RGBHCVPixel wpixel;
 

@@ -115,7 +115,7 @@ public:
   }
   void TakeAPrior(BinaryObjectImage* aprior);
 
-  void SetInput(InputImagePointer input); 
+  void SetInput(const InputImageType *input); 
 
 protected:
   VoronoiSegmentationRGBImageFilter();
