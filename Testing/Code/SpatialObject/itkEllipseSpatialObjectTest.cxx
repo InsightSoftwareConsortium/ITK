@@ -81,6 +81,39 @@ int itkEllipseSpatialObjectTest(int, char* [])
   }
 
   std::cout<<"[PASSED]"<<std::endl;
+
+
+   std::cout << "ObjectToWorldTransform : ";
+ 
+  // Create myEllipse2 as a child of myEllipse
+  EllipseType::Pointer myEllipse2 = EllipseType::New();
+  myEllipse2->SetRadius(1);
+  myEllipse->AddSpatialObject(myEllipse2);
+
+  EllipseType::TransformType::OffsetType offset;
+  offset.Fill(10);
+
+  myEllipse->GetObjectToWorldTransform()->SetOffset(offset);
+
+  EllipseType::TransformType::OffsetType offset2;
+  offset2.Fill(15);
+  myEllipse2->GetObjectToWorldTransform()->SetOffset(offset2);
+  myEllipse2->ComputeObjectToParentTransform();\
+
+  EllipseType::TransformType::OffsetType offset3;
+  offset3 = myEllipse2->GetObjectToParentTransform()->GetOffset();
+
+  if( (offset3[0]!=5) || (offset3[1]!=5) 
+     ||(offset3[2]!=5) ||(offset3[3]!=5) 
+     )
+  {
+    std::cout<<"[FAILED]"<<std::endl;
+    return EXIT_FAILURE;
+  }
+
+
+  std::cout<<"[PASSED]"<<std::endl;
+
   return EXIT_SUCCESS;
 
 }
