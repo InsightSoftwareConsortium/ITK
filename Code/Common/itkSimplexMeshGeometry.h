@@ -25,6 +25,7 @@
 #include "itkFixedArray.h"
 #include "itkPoint.h"
 #include "itkVector.h"
+#include "itkCovariantVector.h"
 #include <set>
 
 namespace itk
@@ -45,6 +46,7 @@ namespace itk
 
       typedef itk::Point<double,3>                PointType;
       typedef itk::Vector<double,3>               VectorType;
+      typedef itk::CovariantVector<double,3>      CovariantVectorType;
       typedef itk::FixedArray<unsigned long,3>    IndexArray;
       typedef itk::FixedArray<PointType,3>        PointArray;
       typedef std::set<unsigned long>             NeighborSetType;
@@ -85,17 +87,17 @@ namespace itk
       PointType referenceMetrics;
 
       /* normal vector of corresponding point */
-      PointType normal;
+      CovariantVectorType normal;
 
       /* stores external force component for 
       * current deformable model iteration
       */
-      PointType externalForce;
+      VectorType externalForce;
 
       /* stores internal force component for 
       * current deformable model iteration
       */
-      PointType internalForce;
+      VectorType internalForce;
 
       /*
       * store the location of the closest attractor to this point
