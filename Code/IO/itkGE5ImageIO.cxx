@@ -160,7 +160,7 @@ static const char GE_PROD_STR[]="SIGNA";
   struct GEImageHeader *
   GE5ImageIO::ReadHeader (const char  *FileNameToRead)
   {
-#define VERBOSE_DEBUGGING
+    //#define VERBOSE_DEBUGGING
 #if defined(VERBOSE_DEBUGGING)
 #define RGEDEBUG(x) x
 #else
