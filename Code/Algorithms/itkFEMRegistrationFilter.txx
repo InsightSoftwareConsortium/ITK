@@ -341,7 +341,7 @@ bool FEMRegistrationFilter<TMovingImage,TFixedImage>::ReadConfigFile(const char*
   // false if no configuration file is found
 {
   std::ifstream f;
-  char buffer[80] = {'\0'};
+  char buffer[4096] = {'\0'};
   Float fbuf = 0.0;
   unsigned int ibuf = 0;
   unsigned int jj;
