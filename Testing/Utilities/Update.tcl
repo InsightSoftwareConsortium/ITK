@@ -135,7 +135,14 @@ proc LoadCVSInformation { File } \
 # Update to a particular time, but to do later.
 # clock format [clock scan today] -format "%Y-%m-%d 23:00 %Z" -gmt 1
 
-set UpdateCommand "$cvs update -d -P -A"
+if { [info exists env(NOUPDATE)] } \
+{
+  set UpdateCommand "$cvs -n update -d -P -A"
+} \
+else \
+{
+  set UpdateCommand "$cvs update -d -P -A"
+}
 
 set UseDates 0
 if { $Model == "Nightly" } \
