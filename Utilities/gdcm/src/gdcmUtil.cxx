@@ -25,6 +25,12 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+#ifdef _MSC_VER
+#include <sys/timeb.h>
+#else
+#include <sys/time.h>
+#endif
+
 #include <stdarg.h>  //only included in implementation file
 #include <stdio.h>   //only included in implementation file
 
@@ -79,6 +85,15 @@
 //#if defined(CMAKE_HAVE_NET_IF_ARP_H) && defined(__sun)
 // This is absolutely necesseray on SunOS
 #include <net/if_arp.h>
+#endif
+
+// For GetCurrentThreadID()
+#ifdef __linux__
+#include <sys/types.h>
+#include <linux/unistd.h>
+#endif
+#ifdef __sun
+#include <thread.h>
 #endif
 
 namespace gdcm 
@@ -277,6 +292,37 @@ std::string Util::GetCurrentTime()
     time (&tloc);
     strftime(tmp,512,"%H%M%S", localtime(&tloc) );
     return tmp;  
+}
+
+std::string Util::GetCurrentDateTime()
+{
+   char tmp[40];
+   long milliseconds;
+   time_t *timep;
+  
+   // We need implementation specific functions to obtain millisecond precision
+#if defined(_MSC_VER) || defined(__BORLANDC__) || defined(__MINGW32__)
+   struct timeb tb;
+   ::ftime(&tb);
+   timep = &tb.time;
+   milliseconds = tb.millitm;
+#else
+   struct timeval tv;
+   gettimeofday (&tv, NULL);
+   timep = &tv.tv_sec;
+   // Compute milliseconds from microseconds.
+   milliseconds = tv.tv_usec / 1000;
+#endif
+   // Obtain the time of day, and convert it to a tm struct.
+   struct tm *ptm = localtime (timep);
+   // Format the date and time, down to a single second.
+   strftime (tmp, sizeof (tmp), "%Y%m%d%H%M%S", ptm);
+
+   // Add milliseconds
+   std::string r = tmp;
+   r += Format("%03ld", milliseconds);
+
+   return r;
 }
 
 /**
@@ -622,6 +668,10 @@ int GetMacAddrSys ( unsigned char *addr )
 #endif //__sun
 }
 
+/**
+ * \brief Encode the mac address on a fixed lenght string of 10 characters.
+ * we save space this way.
+ */
 std::string Util::GetMACAddress()
 {
    // This code is the result of a long internet search to find something
@@ -629,19 +679,14 @@ std::string Util::GetMACAddress()
    // 3 OS: Win32, SunOS and 'real' POSIX
    // http://groups-beta.google.com/group/comp.unix.solaris/msg/ad36929d783d63be
    // http://bdn.borland.com/article/0,1410,26040,00.html
-   unsigned char addr[6];
-   std::string macaddr;
+   union dual { uint64_t n; unsigned char addr[6];  };
  
-   int stat = GetMacAddrSys(addr);
-   if (0 == stat)
+  // zero-initialize the whole thing first:
+   dual d = { 0 };
+   int stat = GetMacAddrSys(d.addr);
+   if (stat == 0)
    {
-      for (int i=0; i<6; ++i) 
-      {
-         //macaddr += Format("%2.2x", addr[i]);
-         if(i) macaddr += ".";
-         macaddr += Format("%i", (int)addr[i]);
-      }
-      return macaddr;
+      return Format("%015llu", d.n);
    }
    else
    {
@@ -717,26 +762,69 @@ std::string Util::GetIPAddress()
  * \brief Creates a new UID. As stipulate in the DICOM ref
  *        each time a DICOM image is create it should have 
  *        a unique identifier (URI)
+ * @param root is the DICOM prefix assigned by IOS group
+ * @param is a string you want to append to the UID.
  */
 std::string Util::CreateUniqueUID(const std::string &root)
 {
-   std::string radical = root;
-   if( !root.size() )
+   std::string prefix = root;
+   std::string append;
+   if( root.empty() )
    {
       // No root was specified use "GDCM" then
       // echo "gdcm" | od -b
       // 0000000 147 144 143 155 012
-      radical = "147.144.143.155"; // special easter egg 
+      prefix = "147.144.143.155"; // special easter egg 
    }
    // else
    // A root was specified use it to forge our new UID:
-   radical += Util::GetMACAddress();
-   radical += ".";
-   radical += Util::GetCurrentDate();
-   radical += ".";
-   radical += Util::GetCurrentTime();
+   append += ".";
+   append += Util::GetMACAddress();
+   append += ".";
+   append += Util::GetCurrentDateTime();
 
-   return radical;
+   //Also add a mini random number just in case:
+   int r = (int) (100.0*rand()/RAND_MAX);
+   append += Format("%02d", r);
+
+   // If append is too long we need to rehash it
+   if( (prefix + append).size() > 64 )
+   {
+      dbg.Error( "Size of UID is too long:", (prefix + append).c_str());
+      // we need a hash function to truncate this number
+      // if only md5 was cross plateform
+      // MD5(append);
+   }
+
+   return prefix + append;
+}
+
+unsigned int Util::GetCurrentThreadID()
+{
+// FIXME the implementation is far from complete
+#if defined(_MSC_VER) || defined(__BORLANDC__) || defined(__MINGW32__)
+  return (unsigned int)GetCurrentThreadId();
+#endif
+#ifdef __linux__
+   return 0;
+   //doesn't work on fedora:
+   //return (unsigned int)gettid();
+#endif
+#ifdef __sun
+   return (unsigned int)thr_self();
+#endif
+}
+
+unsigned int Util::GetCurrentProcessID()
+{
+#if defined(_MSC_VER) || defined(__BORLANDC__) || defined(__MINGW32__)
+  // NOTE: There is also a _getpid()...
+  return (unsigned int)GetCurrentProcessId();
+#else
+  // get process identification, POSIX
+  return (unsigned int)getpid();
+#endif
+
 }
 
 template <class T>
