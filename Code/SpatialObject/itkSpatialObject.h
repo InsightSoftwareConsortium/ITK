@@ -196,7 +196,7 @@ public:
   void SetParent(const Self * parent);
 
   /** Return the n-th order derivative value at the specified point. */
-  void DerivativeAt( const PointType & point,
+  virtual void DerivativeAt( const PointType & point,
                      short unsigned int order,
                      OutputVectorType & value,
                      unsigned int depth=0,
