@@ -354,7 +354,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
       // The index of the pixel
       VectorType indexPosition;
 
-      for(int i = 0; i < m_NumberOfBins; ++i)
+      for(unsigned int i = 0; i < m_NumberOfBins; ++i)
         { 
         m_Accumulator[i] = 0;
         m_Normalizer[i] = 0;
@@ -632,14 +632,17 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 {  
    m_NormalizedAccumulator = new double[m_NumberOfBins];
 
-  for(int i = 0; i < m_NumberOfBins; ++i)
+  for(unsigned int i = 0; i < m_NumberOfBins; ++i)
+    {
     m_NormalizedAccumulator[i] = 0;
+    }
 
-  for(int i = 0; i < m_NumberOfBins; ++i)
+  for(unsigned int i = 0; i < m_NumberOfBins; ++i)
     {      
     if(m_Normalizer[i] == 0)
+      {
       m_NormalizedAccumulator[i] = 0;
-
+      }
     m_NormalizedAccumulator[i] = m_Accumulator[i] / m_Normalizer[i];
     }   
 
