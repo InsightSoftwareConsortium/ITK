@@ -17,12 +17,12 @@
 #ifndef __itkAffineTransform_h
 #define __itkAffineTransform_h
 
+#include "itkMatrix.h"
 #include "itkPoint.h"
 #include "itkVector.h"
 #include "itkCovariantVector.h"
 
 #include "vnl/vnl_vector_fixed.h"
-#include "vnl/vnl_matrix_fixed.h"
 
 
 namespace itk
@@ -114,7 +114,7 @@ public:
     typedef vnl_vector_fixed<TScalarType, NDimensions> VectorType;
 
     /// Standard matrix type for this class
-    typedef vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> MatrixType;
+    typedef Matrix<TScalarType, NDimensions, NDimensions> MatrixType;
 
 
     /// Standard coordinate point type for this class
