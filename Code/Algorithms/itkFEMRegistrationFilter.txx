@@ -1338,11 +1338,11 @@ void FEMRegistrationFilter<TReference,TTarget>::FindBracketingTriplet(SolverType
   Float Glimit=100.0;
   Float Tiny=1.e-20;
   
-  Float ax, bx, cx;
-  ax=0.0; bx=1.; cx;
-  Float fc;
-  Float fa=fabs(EvaluateResidual(mySolver, ax));
-  Float fb=fabs(EvaluateResidual(mySolver, bx));
+  Float ax = 0.0;
+  Float bx = 1.0;
+ 
+  Float fa = fabs( EvaluateResidual(mySolver, ax) );
+  Float fb = fabs( EvaluateResidual(mySolver, bx) );
   
   Float ulim,u,r,q,fu,dum;
 
@@ -1352,8 +1352,8 @@ void FEMRegistrationFilter<TReference,TTarget>::FindBracketingTriplet(SolverType
     dum=fb; fb=fa; fa=dum;
     }
 
-  cx=bx+Gold*(bx-ax);  // first guess for c - the 3rd pt needed to bracket the min
-  fc=fabs(EvaluateResidual(mySolver, cx));
+  Float cx = bx+Gold*(bx-ax);  // first guess for c - the 3rd pt needed to bracket the min
+  Float fc = fabs( EvaluateResidual(mySolver, cx) );
 
   
   while (fb > fc  /*&& fabs(ax) < 3. && fabs(bx) < 3. && fabs(cx) < 3.*/)
