@@ -89,10 +89,10 @@ Curvature2DAnisotropicDiffusionEquation<TImage>
   PixelType speed, propagation_gradient;
 
   // Centralized differences
-  dx_forward = it.GetPixel(6)  - it.GetPixel(7);
-  dx_backward= it.GetPixel(8)  - it.GetPixel(7);
+  dx_forward = it.GetPixel(8)  - it.GetPixel(7);
+  dx_backward= it.GetPixel(7)  - it.GetPixel(6);
   dy_forward = it.GetPixel(12) - it.GetPixel(7);
-  dy_backward= it.GetPixel(2)  - it.GetPixel(7);
+  dy_backward= it.GetPixel(7)  - it.GetPixel(2);
 
   dx         = m_InnerProduct(x_slice, it, dx_op);
   dy         = m_InnerProduct(y_slice, it, dy_op);
@@ -128,22 +128,22 @@ Curvature2DAnisotropicDiffusionEquation<TImage>
     { dy_backward_Cn = (dy_backward/ grad_mag_yd)* Cyd;  }
 
   // Conductance-modified curvature (2nd order, speed_x + speed_y)
-  speed = dx_forward_Cn + dx_backward_Cn + dy_forward_Cn + dy_backward_Cn;
+  speed = (dx_forward_Cn - dx_backward_Cn) + (dy_forward_Cn - dy_backward_Cn);
 
   // ``Upwind'' gradient magnitude term
   if (speed > 0)
-    {
-      propagation_gradient = vnl_math_sqr( vnl_math_max(dx_backward, Zero) )
-        + vnl_math_sqr( vnl_math_min(dx_forward,  Zero) )
-        + vnl_math_sqr( vnl_math_max(dy_backward, Zero) )
-        + vnl_math_sqr( vnl_math_min(dy_forward,  Zero) );
-    }
-  else
     {
       propagation_gradient = vnl_math_sqr( vnl_math_min(dx_backward, Zero) )
         + vnl_math_sqr( vnl_math_max(dx_forward,  Zero) )
         + vnl_math_sqr( vnl_math_min(dy_backward, Zero) )
         + vnl_math_sqr( vnl_math_max(dy_forward,  Zero) );
+    }
+  else
+    {
+      propagation_gradient = vnl_math_sqr( vnl_math_max(dx_backward, Zero) )
+        + vnl_math_sqr( vnl_math_min(dx_forward,  Zero) )
+        + vnl_math_sqr( vnl_math_max(dy_backward, Zero) )
+        + vnl_math_sqr( vnl_math_min(dy_forward,  Zero) );
     }
   
     
@@ -172,10 +172,10 @@ Curvature2DAnisotropicDiffusionEquation<TImage>
   PixelType speed, propagation_gradient;
 
   // Centralized differences
-  dx_forward = it.GetPixel(6)  - it.GetPixel(7);
-  dx_backward= it.GetPixel(8)  - it.GetPixel(7);
+  dx_forward = it.GetPixel(8)  - it.GetPixel(7);
+  dx_backward= it.GetPixel(7)  - it.GetPixel(6);
   dy_forward = it.GetPixel(12) - it.GetPixel(7);
-  dy_backward= it.GetPixel(2)  - it.GetPixel(7);
+  dy_backward= it.GetPixel(7)  - it.GetPixel(2);
 
   dx         = m_SmartInnerProduct(x_slice, it, dx_op);
   dy         = m_SmartInnerProduct(y_slice, it, dy_op);
@@ -211,27 +211,27 @@ Curvature2DAnisotropicDiffusionEquation<TImage>
     { dy_backward_Cn = (dy_backward/ grad_mag_yd)* Cyd;  }
 
   // Conductance-modified curvature (2nd order, speed_x + speed_y)
-  speed = dx_forward_Cn + dx_backward_Cn + dy_forward_Cn + dy_backward_Cn;
-  
-  // Upwind first derivatives
- // ``Upwind'' gradient magnitude term
+  speed = (dx_forward_Cn - dx_backward_Cn) + (dy_forward_Cn - dy_backward_Cn);
+
+  // ``Upwind'' gradient magnitude term
   if (speed > 0)
-    {
-      propagation_gradient = vnl_math_sqr( vnl_math_max(dx_backward, Zero) )
-        + vnl_math_sqr( vnl_math_min(dx_forward,  Zero) )
-        + vnl_math_sqr( vnl_math_max(dy_backward, Zero) )
-        + vnl_math_sqr( vnl_math_min(dy_forward,  Zero) );
-    }
-  else
     {
       propagation_gradient = vnl_math_sqr( vnl_math_min(dx_backward, Zero) )
         + vnl_math_sqr( vnl_math_max(dx_forward,  Zero) )
         + vnl_math_sqr( vnl_math_min(dy_backward, Zero) )
         + vnl_math_sqr( vnl_math_max(dy_forward,  Zero) );
     }
+  else
+    {
+      propagation_gradient = vnl_math_sqr( vnl_math_max(dx_backward, Zero) )
+        + vnl_math_sqr( vnl_math_min(dx_forward,  Zero) )
+        + vnl_math_sqr( vnl_math_max(dy_backward, Zero) )
+        + vnl_math_sqr( vnl_math_min(dy_forward,  Zero) );
+    }
+  
     
   // Final product
-  return ( vnl_math_sqrt(propagation_gradient) * speed);
+  return ( vnl_math_sqrt(propagation_gradient) * speed );
 }
 
 } // end namespace itk
