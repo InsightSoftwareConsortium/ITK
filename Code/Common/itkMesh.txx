@@ -1261,7 +1261,7 @@ Mesh<TPixelType,TMeshType>
   if (mesh)
     {
     m_RequestedRegion = mesh->m_RequestedRegion;
-    m_RequestedNumberOfRegions = mesh->m_NumberOfRequestedRegions;
+    m_RequestedNumberOfRegions = mesh->m_RequestedNumberOfRegions;
     }
   else
     {
