@@ -124,7 +124,7 @@ CABLE_OPEN_NAMESPACE(itk)
   CABLE_DEFINE_SET(iaFunc Acos Asin Cos Exp Log10 Log Sin Sqrt Tan)
 
   # Define the set of CellTraits corresponding to our Mesh types.
-  CABLE_DEFINE_SET(CellTraitsType "$(MeshType)::CellTraits")
+  CABLE_DEFINE_SET(CellTraitsType "Mesh<float>::CellTraits")
 
   # List the instantiations for this package.
   CABLE_INSTANTIATE_CLASS(
@@ -134,12 +134,16 @@ CABLE_OPEN_NAMESPACE(itk)
     $ImageType
     $MeshType
     "PhysicalImage<$PixelType, $Dimension>"
+    "ImageRegion<$Dimension>"
     "ImageSource<$ImageType >"
     "ImageIterator<$PixelType, $Dimension >"
     "ImageIteratorWithIndex<$ImageType >"
+    "ImageIteratorWithIndex<$PhysicalImageType >"
+    "ImageLinearIterator<$PhysicalImageType >"
     "SimpleImageRegionIterator<$ImageType >"
     "$(cellTopology)$(cellOrBoundary)<$PixelType, $CellTraitsType>"
     "$(iaFunc)ImageAdaptor<$ImageType, $PixelType>"
     "ImageToImageFilter<$ImageType, $ImageType >"
+    "ImageToImageFilter<$PhysicalImageType, $PhysicalImageType >"
   )
 CABLE_CLOSE_NAMESPACE(itk)

@@ -83,6 +83,9 @@ CABLE_OPEN_NAMESPACE(itk)
   # List the instantiations for this package.
   CABLE_INSTANTIATE_CLASS(
     "$(ifFunc)ImageFilter<$ImageType, $ImageType >"
+    "ThresholdImageFilter<$ImageType >"
+    "ShrinkImageFilter<$PhysicalImageType, $PhysicalImageType >"
+    "RecursiveGaussianImageFilter<$PhysicalImageType, $PhysicalImageType, double >"
   )
 CABLE_CLOSE_NAMESPACE(itk)
 
