@@ -526,8 +526,8 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
 ::MakeSegmentBoundary(void)
 {
 
-  RegionType region = m_InputImage->GetRequestedRegion(); 
-  itk::ImageRegionIteratorWithIndex <OutputImageType> oit(m_OutputImage, region); 
+  RegionType region = this->GetInput()->GetRequestedRegion(); 
+  itk::ImageRegionIteratorWithIndex <OutputImageType> oit(this->GetOutput(), region); 
   while( !oit.IsAtEnd())
     {     
     oit.Set(0); 
@@ -558,8 +558,8 @@ void
 VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
 ::MakeSegmentObject(void)
 {
-  RegionType region = m_InputImage->GetRequestedRegion(); 
-  itk::ImageRegionIteratorWithIndex <OutputImageType> oit(m_OutputImage, region); 
+  RegionType region = this->GetInput()->GetRequestedRegion(); 
+  itk::ImageRegionIteratorWithIndex <OutputImageType> oit(this->GetOutput(), region); 
   while( !oit.IsAtEnd())
     {     
     oit.Set(0); 
@@ -693,7 +693,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
     for(i=ceil(beginx);i<=floor(endx);i++)
       {
       idx[0]=i;
-      m_OutputImage->SetPixel(idx,1);  
+      this->GetOutput()->SetPixel(idx,1);  
       }
     idx[1]=idx[1]+1;
     }
@@ -707,7 +707,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
       for(i=ceil(beginx);i<=floor(endx);i++)
         {
         idx[0]=i;
-        m_OutputImage->SetPixel(idx,1);  
+        this->GetOutput()->SetPixel(idx,1);  
         }
       endx+=rightDx;
       beginx+=leftDx;        
@@ -784,7 +784,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
         for(i=ceil(beginx);i<=floor(endx);i++)
           {
           idx[0]=i;
-          m_OutputImage->SetPixel(idx,1);  
+          this->GetOutput()->SetPixel(idx,1);  
           }
         endx+=rightDx;
         beginx+=leftDx;        
@@ -829,7 +829,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
       for(i=ceil(beginx);i<=floor(endx);i++)
         {
         idx[0]=i;
-        m_OutputImage->SetPixel(idx,1);  
+        this->GetOutput()->SetPixel(idx,1);  
         }
       endx+=rightDx;
       beginx+=leftDx;        
@@ -874,7 +874,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
       {
       idx[0]=i;
       idx[1]=y1;
-      m_OutputImage->SetPixel(idx,1);
+      this->GetOutput()->SetPixel(idx,1);
       curr += offset;
       y1=(int)(curr+0.5);
       }
@@ -892,7 +892,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
       {
       idx[0]=x1;
       idx[1]=i;
-      m_OutputImage->SetPixel(idx,1);
+      this->GetOutput()->SetPixel(idx,1);
       curr += offset;
       x1=(int)(curr+0.5);
       }
@@ -907,7 +907,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
               unsigned char outcolor,unsigned char boundcolor) 
 { 
   
-  RegionType region = m_InputImage->GetRequestedRegion(); 
+  RegionType region = this->GetInput()->GetRequestedRegion(); 
   itk::ImageRegionIteratorWithIndex <VDImage> vdit(result, region); 
   while( !vdit.IsAtEnd())
     {     

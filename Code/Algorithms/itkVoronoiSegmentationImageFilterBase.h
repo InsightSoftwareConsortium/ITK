@@ -254,8 +254,6 @@ protected:
   bool m_UseBackgroundInAPrior;
   bool m_OutputBoundary; //1: output boundary, 0: output object.
 
-  typename InputImageType::Pointer m_InputImage;
-  typename OutputImageType::Pointer m_OutputImage;
   typename VoronoiDiagram::Pointer m_WorkingVD;
   typename VoronoiDiagramGenerator::Pointer m_VDGenerator;
 

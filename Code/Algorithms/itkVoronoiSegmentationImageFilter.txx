@@ -95,9 +95,16 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
   double addpp=0;
   for(i=0;i<num;i++)
     {
-    getp = (double)(m_InputImage->GetPixel(Plist[i]));
-    addp=addp+getp;
-    addpp=addpp+getp*getp;
+    if (this->GetInput()->GetRequestedRegion().IsInside( Plist[i] ) )
+      {
+      getp = (double)(this->GetInput()->GetPixel(Plist[i]));
+      addp=addp+getp;
+      addpp=addpp+getp*getp;
+      }
+    else
+      {
+      std::cout << "Point is not in image!!!! " << Plist[i] << std::endl;
+      }
     }
 
   double savemean,savevar;
@@ -133,9 +140,9 @@ void
 VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
 ::TakeAPrior(BinaryObjectImage* aprior)
 {
-  RegionType region = m_InputImage->GetRequestedRegion();
+  RegionType region = this->GetInput()->GetRequestedRegion();
   itk::ImageRegionIteratorWithIndex <BinaryObjectImage> ait(aprior, region);
-  itk::ImageRegionIteratorWithIndex <InputImageType> iit(m_InputImage, region);
+  itk::ImageRegionIteratorWithIndex <InputImageType> iit(this->GetInput(), region);
 
   int num=0;
   float addp=0;
