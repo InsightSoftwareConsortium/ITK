@@ -150,7 +150,6 @@ public:
 protected:
 
   CommandIterationUpdate() {};
-
 // Software Guide : EndCodeSnippet
  
 
@@ -250,7 +249,7 @@ public:
 
   //  Software Guide : BeginLatex
   //
-  //  But if the event type matches what we are looking for, we are ready for
+  //  If the event type matches what we are looking for, we are ready for
   //  querying data from the optimizer. Here, for example, we got the current
   //  number of iterations, the current value of the cost function and the
   //  current position on the parameter space. All of these values are printed
@@ -270,7 +269,7 @@ public:
   //  Software Guide : BeginLatex
   //
   //  This concludes our revision of the minimal \code{Command} class capable
-  //  of observing our registration method. We can now move on to configure a
+  //  of observing our registration method.  We can now move on and configure a
   //  registration process.
   //
   //  Software Guide : EndLatex 
@@ -377,10 +376,50 @@ int main( int argc, char **argv )
 
   optimizer->MaximizeOn();
 
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  Once all the registration components are in place we can create one
+  //  instance of our observer. This is done with the standard \code{New()}
+  //  method and assignment to a \code{SmartPointer}.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  // Software Guide : EndCodeSnippet
 
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The newly command is registered as observer on the Optimizer. The method
+  //  \code{AddObserver()} is used to that end. Note that the event type is
+  //  provided as the first argument to this method. In order for the RTTI
+  //  mechanism to work correctly a newly created event of the desired type can
+  //  be passes as first argument. The second argument being simply the smart
+  //  pointer to the optimizer.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
   optimizer->AddObserver( itk::IterationEvent(), observer );
+  // Software Guide : EndCodeSnippet
 
+
+  //  Software Guide : BeginLatex
+  //
+  //  At that point, we are ready for executing the registration process. The
+  //  typical call to \code{StartRegistration()} will do it. Note again the use
+  //  of the \code{try/catch} block around the \code{StartRegistration} method
+  //  in case any exception is thrown.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
   try 
     { 
     registration->StartRegistration(); 
@@ -391,6 +430,56 @@ int main( int argc, char **argv )
     std::cout << err << std::endl; 
     return -1;
     } 
+  // Software Guide : EndCodeSnippet
+
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The execution of the registration process on the images 
+  //  
+  //  \begin{itemize}
+  //  \item \code{BrainProtonDensitySliceBorder20.png} 
+  //  \item \code{BrainProtonDensitySliceShifted13x17y.png}
+  //  \end{itemize}
+  //
+  //  provided in \code{Insight/Examples/Data} produces the following output.
+  //
+  //  \begin{verbatim}
+  //    0 = 4499.45  : [2.84491, 2.81184]
+  //    1 = 3855.31  : [5.80824, 5.49861]
+  //    2 = 3463.08  : [9.52926, 6.96627]
+  //    3 = 3165.19  : [12.4121, 9.73921]
+  //    4 = 2423.17  : [12.2638, 13.7365]
+  //    5 = 1339.12  : [12.6916, 17.7135]
+  //    6 = 204.726  : [13.5056, 15.8867]
+  //    7 = 423.652  : [13.0907, 16.7965]
+  //    8 = 19.5469  : [12.6522, 17.6952]
+  //    9 = 204.941  : [12.8805, 17.2504]
+  //   10 = 29.9593  : [13.1064, 16.8043]
+  //   11 = 19.8864  : [12.9778, 17.0188]
+  //   12 = 0.39351  : [13.0765, 16.9421]
+  //   13 = 4.21649  : [13.0244, 16.9765]
+  //   14 = 0.529203 : [12.9768, 17.017]
+  //   15 = 0.3895   : [13.0027, 16.9996]
+  //   16 = 0.003495 : [12.9872, 17.0012]
+  //  \end{verbatim}
+  //
+  //  As you can verify from the code in the \code{Execute()} method, the first
+  //  column is the iteration number, the second column is the metric value and
+  //  the third and fourth columns are the parameters of the transform which is
+  //  a $2D$ translation transform in this case. By tracking these values as the
+  //  registration progress you will be able to determine if the optimizer is
+  //  advancing in the right direction and if the step-length is of reasonable
+  //  size.  That will allow you to interrupt the registration process and fine
+  //  tune parameters without having to wait until the optimizer stops by
+  //  itself.
+  //
+  //  Software Guide : EndLatex 
+
+
+
 
   ParametersType finalParameters = registration->GetLastTransformParameters();
   
