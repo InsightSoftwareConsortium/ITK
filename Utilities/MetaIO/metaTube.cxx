@@ -428,7 +428,12 @@ M_Read(void)
     }
   }
 
+  for(i=0;i<pntDim;i++)
+    {
+      delete [] pntVal[i];
+    }
   delete [] pntVal;
+
   float v[30];
   
 

@@ -248,7 +248,8 @@ M_Read(void)
   }
 
   int* posDim= new int[m_NDims];
-  for(int i= 0; i < m_NDims; i++)
+  int i;
+  for(i= 0; i < m_NDims; i++)
   {
     posDim[i] = -1;
   }
@@ -275,8 +276,13 @@ M_Read(void)
     }
   }
 
+  for(i=0;i<pntDim;i++)
+    {
+      delete [] pntVal[i];
+    }
+ 
   delete [] pntVal;
-
+   
   float v[16];
   
   if(m_BinaryData)

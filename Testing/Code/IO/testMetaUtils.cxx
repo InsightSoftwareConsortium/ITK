@@ -83,6 +83,11 @@ int testMetaUtils(int , char * [])
   else
     std::cout << "PASSED" << std::endl;
 
+  int i;
+  for(i=0;i<n;i++)
+    {
+      delete [] wordArray[i];
+    }
   delete [] wordArray;
 
   char fName[80];
@@ -228,6 +233,10 @@ int testMetaUtils(int , char * [])
   else
     std::cout << "DirNames not defined" << std::endl;
 
+  for(i=0;i<nNames;i++)
+    {
+      delete [] names[i];
+    }
   delete [] names;
 
   for(fieldIter=mFields.begin(); fieldIter!=mFields.end(); fieldIter++)

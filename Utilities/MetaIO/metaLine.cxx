@@ -245,6 +245,11 @@ M_Read(void)
   char** pntVal = NULL;
   MET_StringToWordArray(m_PointDim, &pntDim, &pntVal);
   
+  int i;
+  for(i=0;i<pntDim;i++)
+    {
+      delete [] pntVal[i];
+    }
   delete [] pntVal;
 
   float v[16];
