@@ -65,14 +65,13 @@ ShrinkImage<TInputImage,TOutputImage>
     ImageRegionIterator<OutputImagePixelType, OutputImage::ImageDimension>
     OutputIterator;
 
-  OutputIterator outIt = OutputIterator(outputPtr,
-                                        outputRegionForThread);
+  OutputIterator outIt(outputPtr, outputRegionForThread);
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
   typename OutputImage::Index outputIndex;
   typename InputImage::Index inputIndex;
-  typename InputImage::Index factorIndex;
+  typename OutputImage::Index factorIndex;
 
   for (int i=0; i < InputImage::ImageDimension; i++)
     {
