@@ -1260,7 +1260,7 @@ void
 DeformableMeshFilter<TInputMesh, TOutputMesh>
 ::NodeAddition() 
 {
-  m_NewNode = TRUE;
+  m_NewNode = true;
 }
 
 /**
@@ -1973,7 +1973,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
     m_Locations->SetPointData(i, 0);
     m_Forces->SetPointData(i, 0);
   }
-  m_NewNode = FALSE;
+  m_NewNode = false;
   Reset();
   SetStiffnessMatrix();
   }
