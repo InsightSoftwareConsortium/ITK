@@ -6,11 +6,9 @@ ${ITK_SOURCE_DIR}/Code/Algorithms
 
 LINK_DIRECTORIES(
 ${ITK_BINARY_DIR}/Code/BasicFilters
-${ITK_BINARY_DIR}/Code/Algorithms
 )
 
 LINK_LIBRARIES (
-ITKAlgorithms
 ITKBasicFilters
 ITKCommon
 VXLNumerics
@@ -76,5 +74,97 @@ ADD_EXECUTABLE(itkVectorFuzzyConnectednessImageFilterTest itkVectorFuzzyConnecte
 ADD_EXECUTABLE(itkVoronoi2DDiagramTest itkVoronoi2DDiagramTest)
 ADD_EXECUTABLE(itkVoronoiSegmentationImageFilterTest itkVoronoiSegmentationImageFilterTest)
 
+# This library has no non-templated code, so no source files are listed
+ADD_LIBRARY(ITKAlgorithmsTest)
 
+# Put everything in the "Algorithms" package (related to CABLE, everything
+# will still be put in the ITKAlgorithmsTest library).
+CABLE_PACKAGE(Algorithms ITKAlgorithmsTest)
+
+# Sources of templated classes.
+CABLE_SOURCE_FILES(
+itkBalloonForceFilter
+itkClassifier
+itkConnectedRegionsMeshFilter
+itkCurvatureFlowImageFilter
+itkDeformableMesh
+itkDynamicPolygonCell
+itkExtensionVelocitiesImageFilter
+itkFastMarchingExtensionImageFilter
+itkFastMarchingImageFilter
+itkFuzzyConnectednessImageFilter
+itkFuzzyConnectednessRGBImageFilter
+itkGaussianSupervisedClassifier
+itkGeodesicActiveContourImageFilter
+itkGibbsPriorFilter
+itkHybridFilter
+itkImageMapper
+itkImageMomentsCalculator
+itkImageToImageAffineMeanSquaresGradientDescentRegistration
+itkImageToImageAffineMeanSquaresRegularStepGradientDescentRegistration
+itkImageToImageAffineMutualInformationGradientDescentRegistration
+itkImageToImageAffineNormalizedCorrelationGradientDescentRegistration
+itkImageToImageAffineNormalizedCorrelationRegularStepGradientDescentRegistration
+itkImageToImageAffinePatternIntensityGradientDescentRegistration
+itkImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration
+itkImageToImageMomentsAlignmentCalculator
+itkImageToImageTranslationMeanSquaresGradientDescentRegistration
+itkImageToImageTranslationMeanSquaresRegularStepGradientDescentRegistration
+itkImageToImageTranslationNormalizedCorrelationGradientDescentRegistration
+itkImageToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration
+itkKalmanLinearEstimator
+itkKernelFunction
+itkKLMRegionGrowImageFilter
+itkKLMSegmentationBorder
+itkKLMSegmentationRegion
+itkKMeansUnsupervisedClassifier
+itkLevelSet
+itkLevelSetImageFilter
+itkLevelSetNeighborhoodExtractor
+itkLevelSetVelocityNeighborhoodExtractor
+itkMeanSquaresImageToImageMetric
+itkMRFImageFilter
+itkMutualInformationImageToImageMetric
+itkNormalizedCorrelationImageToImageMetric
+itkNormalizedCorrelationPointSetToImageMetric
+itkPatternIntensityImageToImageMetric
+itkPointSetToImageTranslationNormalizedCorrelationGradientDescentRegistration
+itkPointSetToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration
+itkProcrustesRegistrationMetric
+itkRegionGrowImageFilter
+itkRegistrationMapper
+itkRegistrationMapperImage
+itkRegistrationMapperProcrustes
+itkRegistrationMethod
+itkRegistrationTransform
+itkReinitializeLevelSetImageFilter
+itkRelabelWatershedImageFilter
+itkSegmentationBorder
+itkSegmentationRegion
+itkShapeDetectionLevelSetFilter
+itkSimilarityRegistrationMetric
+itkSupervisedClassifier
+itkUnsupervisedClassifier
+itkVectorFuzzyConnectednessImageFilter
+itkVoronoi2DDiagram
+itkVoronoiSegmentationImageFilter
+itkVoronoiSegmentationRGBImageFilter
+itkWatershedImageFilter
+)
+
+# Sources from other directories whose .txx files are needed for
+# instantiations of classes here.
+CABLE_SOURCE_FILES(
+itkImageToImageFilter
+itkImageIteratorWithIndex
+itkSimpleImageRegionIterator
+)
+
+# All our classes are in the "itk" namespace.
+CABLE_OPEN_NAMESPACE(itk)
+  # List the instantiations for this package.
+  CABLE_INSTANTIATE_CLASS(
+    "MRFImageFilter<Image<$VectorType, $Dimension>, Image<$ScalarType, $Dimension> >"
+  )
+CABLE_CLOSE_NAMESPACE(itk)
 
