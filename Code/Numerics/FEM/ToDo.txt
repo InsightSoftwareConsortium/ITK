@@ -19,12 +19,8 @@
  */
 
 1. - Make modifications to all FEM classes so that they use the (new) itk::Mesh to represent geometry
-      a. DOFs are maintained automatically by elements
-      b. Node objects have to be created by user and must contain displacement objects
-   - Create the LinearSystemWrapper class for use with the ITPACK
 
 2. - 2D registration example
-   - Create new LoadBC class for boundary conditions that preserve positive definitness of master stiffness matrix.
    - Determine the way dynamic elements will be handled
    - Restructure class inheritance of elements to reduce code duplication
 
