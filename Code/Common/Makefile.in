@@ -8,8 +8,8 @@ itkDynamicLoader \
 itkExceptionObject \
 itkImageBase \
 itkIndent \
-itkNumericTraits \
 itkLightObject \
+itkNumericTraits \
 itkObject \
 itkObjectFactoryBase \
 itkOutputWindow \
