@@ -257,9 +257,7 @@ int test3DInterpolateImagePointsFilter()
 }
 
 int 
-itkInterpolateImagePointsFilterTest(
-    int argc,
-    char **argv)
+itkInterpolateImagePointsFilterTest( int, char ** )
 {
   int flag = 0;           /* Did this test program work? */
 
@@ -273,10 +271,10 @@ itkInterpolateImagePointsFilterTest(
   if (flag != 0) {
     std::cout << "\n*** " << flag << " tests failed" << std::endl;
   
-    return 1; }
+    return EXIT_FAILURE; }
   else {
     std::cout << "\nAll tests successfully passed\n" << std::endl;
-    return 0; }
+    return EXIT_SUCCESS; }
 
 }
 
