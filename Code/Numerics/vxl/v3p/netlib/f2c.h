@@ -7,6 +7,11 @@
 #ifndef F2C_INCLUDE
 #define F2C_INCLUDE
 
+/* JVM - turned off warnings in f2c generated code */
+#if defined(_MSC_VER)
+#pragma warning(disable)
+#endif
+
 typedef int integer; /* awf changed from long */
 typedef char *address;
 typedef short int shortint;
