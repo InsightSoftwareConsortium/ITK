@@ -3,6 +3,12 @@ LIBRARY(WrapTclFacility)
 SOURCE_FILES(
 wrapPointer
 wrapReference
+wrapUtils
 )
 
 SOURCE_FILES_REQUIRE(WIN32 SOURCES_BEGIN wrapDllAllocator)
+
+LINK_LIBRARIES(
+CxxTypes
+)
+

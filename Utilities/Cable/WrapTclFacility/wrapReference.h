@@ -18,8 +18,6 @@
 
 #include "wrapUtils.h"
 
-#include <cstdio>
-
 namespace _wrap_
 {
 
@@ -29,43 +27,22 @@ namespace _wrap_
 class Reference
 {
 public:
-  Reference(): m_Object(NULL), m_Type("<null object reference>") {}
-  Reference(void* object, const String& type):
+  Reference(): m_Object(NULL), m_Type(NULL) {}
+  Reference(void* object, Type* type):
     m_Object(object), m_Type(type) {}
   
   /**
    * Get a pointer to the object.
    */
-  void* Object(void) { return m_Object; }
+  void* GetObject() const { return m_Object; }
   
   /**
    * Get the type of the object.
    */
-  const String& Type(void) { return m_Type; }
+  const Type* GetType() const { return m_Type; }
 
-  /**
-   * Convert the reference to a string representation.
-   */
-  String StringRep(void)
-    {
-    char addrBuf[(sizeof(m_Object)*2)+5];
-    sprintf(addrBuf, "_ref%p_", m_Object);
-    return (String(addrBuf)+m_Type);
-    }
-  
-  /**
-   * Try to set the reference by converting from a string representation.
-   * Return whether the conversion succeeded.
-   */
-  bool SetFromStringRep(const String& ptrStr)
-    {
-    char type[256]="";
-    m_Object = NULL;
-    m_Type = "";
-    sscanf(ptrStr.c_str(), "_ref%p_%s",&m_Object, type);
-    m_Type = type;
-    return ((m_Object != NULL) && (m_Type != ""));
-    }
+  String GetStringRep() const;
+  bool SetFromStringRep(const String&);
   
 private:
   /**
@@ -76,21 +53,20 @@ private:
   /**
    * The type of the object.
    */
-  String m_Type;
+  Type* m_Type;
 };
 
-/**
- * Standard Tcl interface for its object types.
- * This one is for the Reference object.
- */
+
+// Standard Tcl interface for its object types.
+// This one is for the Reference object.
 _wrap_EXPORT int Tcl_GetReferenceFromObj(Tcl_Interp*, Tcl_Obj*, Reference*);
 _wrap_EXPORT void Tcl_SetReferenceObj(Tcl_Obj*, const Reference&);
 _wrap_EXPORT Tcl_Obj* Tcl_NewReferenceObj(const Reference&);
-  
-#define ObjectTypeIsReference(o)  (((o)->typePtr != NULL) \
-                                   && (strcmp("Reference", (o)->typePtr->name)==0))
-#define StringRepIsReference(s)    (((s).substr(0, 4)) == "_ref")
 
+// A couple useful utility functions for the type.
+_wrap_EXPORT bool TclObjectTypeIsReference(Tcl_Obj*);
+_wrap_EXPORT bool StringRepIsReference(const String&);
+  
 } // namespace _wrap_
 
 #endif

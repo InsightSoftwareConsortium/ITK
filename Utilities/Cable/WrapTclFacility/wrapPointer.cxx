@@ -15,13 +15,36 @@
 =========================================================================*/
 #include "wrapPointer.h"
 
+#include <stdio.h>
+#include <string.h>
+
 namespace _wrap_
 {
 
 /**
- * Implement a new object type for Tcl.
- * It is just a Pointer object.
+ * Convert the pointer to a string representation.
  */
+String Pointer::GetStringRep() const
+{
+  char addrBuf[(sizeof(m_Object)*2+sizeof(m_Type)*2)+6];
+  sprintf(addrBuf, "_ptr%p_%p", m_Object, m_Type);
+  return String(addrBuf);
+}
+
+
+/**
+ * Try to set the pointer by converting from a string representation.
+ * Return whether the conversion succeeded.
+ */
+bool Pointer::SetFromStringRep(const String& ptrStr)
+{
+  m_Object = NULL;
+  m_Type = NULL;
+  sscanf(ptrStr.c_str(), "_ptr%p_%p",&m_Object, &m_Type);
+  return ((m_Object != NULL) && (m_Type != NULL));
+}  
+
+// Implement a new object type for Tcl.  It is just a Pointer object.
 
 /**
  * The object type interface functions for Tcl.
@@ -35,7 +58,8 @@ static int SetPointerFromAny(Tcl_Interp* interp, Tcl_Obj* objPtr);
  * A "Pointer" type defined for Tcl scripts.
  * It can store any pointer type defined for the "Pointer" class.
  */
-Tcl_ObjType PointerType = {
+Tcl_ObjType TclPointerType =
+{
   "Pointer",                        /* name */
   FreePointerInternalRep,           /* freeIntRepProc */
   DupPointerInternalRep,            /* dupIntRepProc */
@@ -58,7 +82,7 @@ inline Pointer& ToPointer(Tcl_Obj* objPtr)
 inline void SetPointer(Pointer* ptr, Tcl_Obj* objPtr)
 {
   objPtr->internalRep.otherValuePtr = (VOID*)ptr;
-  objPtr->typePtr = &PointerType;
+  objPtr->typePtr = &TclPointerType;
   UpdateStringOfPointer(objPtr);
 }
 
@@ -90,7 +114,7 @@ static void DupPointerInternalRep(Tcl_Obj* srcPtr, Tcl_Obj* destPtr)
  */
 static void UpdateStringOfPointer(Tcl_Obj *objPtr)
 {
-  String stringRep = ToPointer(objPtr).StringRep();
+  String stringRep = ToPointer(objPtr).GetStringRep();
   objPtr->bytes = Tcl_Alloc(stringRep.length()+1);
   objPtr->length = stringRep.length();
   
@@ -161,7 +185,7 @@ int Tcl_GetPointerFromObj(Tcl_Interp* interp, Tcl_Obj* objPtr, Pointer* ptr)
   /**
    * If conversion is needed, try it.
    */
-  if(objPtr->typePtr != &PointerType)
+  if(objPtr->typePtr != &TclPointerType)
     {
     int error;
     if((error = SetPointerFromAny(interp, objPtr)) != TCL_OK) { return error; }
@@ -198,5 +222,26 @@ Tcl_Obj* Tcl_NewPointerObj(const Pointer& ptr)
   Tcl_SetPointerObj(objPtr, ptr);
   return objPtr;
 }
+
+
+
+/**
+ * Check whether the given object's type is "Pointer".
+ */
+bool TclObjectTypeIsPointer(Tcl_Obj* o)
+{
+  return (!TclObjectTypeIsNULL(o)
+          && (strcmp("Pointer", (o)->typePtr->name)==0));
+}
+
+
+/**
+ * Check whether the given string representation is that of a Pointer.
+ */
+bool StringRepIsPointer(const String& s)
+{
+  return (((s).substr(0, 4)) == "_ptr");
+}
+
 
 } // namespace _wrap_

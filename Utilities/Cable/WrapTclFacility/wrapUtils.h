@@ -64,21 +64,40 @@ typedef std::string  String;
 
 #endif
 
-/**
- * Include Tcl headers.
- */
+// Include Tcl headers.
 #include <tcl.h>
 
-#define ObjectTypeIsNULL(o)  ((o)->typePtr == NULL)
-#define ObjectTypeIsBoolean(o)  (((o)->typePtr != NULL) \
-                                 && (strcmp("boolean", (o)->typePtr->name)==0))
-#define ObjectTypeIsInt(o)  (((o)->typePtr != NULL) \
-                             && (strcmp("int", (o)->typePtr->name)==0))
-#define ObjectTypeIsDouble(o)  (((o)->typePtr != NULL) \
-                                && (strcmp("double", (o)->typePtr->name)==0))
-#define ObjectTypeIsString(o)  (((o)->typePtr != NULL) \
-                                && (strcmp("string", (o)->typePtr->name)==0))
-#define ObjectTypeIsCmdName(o)  (((o)->typePtr != NULL) \
-                                 && (strcmp("cmdName", (o)->typePtr->name)==0))
+// Include the C++ type representation classes.
+#include "cxxTypes.h"
+
+namespace _wrap_
+{
+// Some functions to make Tcl type checking easy.
+_wrap_EXPORT bool TclObjectTypeIsNULL(Tcl_Obj*);
+_wrap_EXPORT bool TclObjectTypeIsBoolean(Tcl_Obj*);
+_wrap_EXPORT bool TclObjectTypeIsInt(Tcl_Obj*);
+_wrap_EXPORT bool TclObjectTypeIsDouble(Tcl_Obj*);
+_wrap_EXPORT bool TclObjectTypeIsString(Tcl_Obj*);
+_wrap_EXPORT bool TclObjectTypeIsCmdName(Tcl_Obj*);
+
+/*@{
+ * Pull this representation type out of _cxx_ namespace into _wrap_ namespace.
+ */
+typedef ::_cxx_::Type                 Type;
+  
+typedef ::_cxx_::ArrayType            ArrayType;
+typedef ::_cxx_::ClassType            ClassType;
+typedef ::_cxx_::FunctionType         FunctionType;
+typedef ::_cxx_::FundamentalType      FundamentalType;
+typedef ::_cxx_::PointerType          PointerType;
+typedef ::_cxx_::PointerToMemberType  PointerToMemberType;
+typedef ::_cxx_::ReferenceType        ReferenceType;
+
+typedef ::_cxx_::CvQualifiedType      CvQualifiedType;
+typedef ::_cxx_::TypeSystem           TypeSystem;
+//@}
+  
+} // namespace _wrap_
+
 
 #endif

@@ -15,13 +15,36 @@
 =========================================================================*/
 #include "wrapReference.h"
 
+#include <stdio.h>
+#include <string.h>
+
 namespace _wrap_
 {
 
 /**
- * Implement a new object type for Tcl.
- * It is just a Reference object.
+ * Convert the reference to a string representation.
  */
+String Reference::GetStringRep() const
+{
+  char addrBuf[(sizeof(m_Object)*2+sizeof(m_Type)*2)+6];
+  sprintf(addrBuf, "_ref%p_%p", m_Object, m_Type);
+  return String(addrBuf);
+}
+
+
+/**
+ * Try to set the reference by converting from a string representation.
+ * Return whether the conversion succeeded.
+ */
+bool Reference::SetFromStringRep(const String& refStr)
+{
+  m_Object = NULL;
+  m_Type = NULL;
+  sscanf(refStr.c_str(), "_ref%p_%p",&m_Object, &m_Type);
+  return ((m_Object != NULL) && (m_Type != NULL));
+}
+
+// Implement a new object type for Tcl.  It is just a Reference object.
 
 /**
  * The object type interface functions for Tcl.
@@ -35,7 +58,8 @@ static int SetReferenceFromAny(Tcl_Interp* interp, Tcl_Obj* objPtr);
  * A "Reference" type defined for Tcl scripts.
  * It can store any reference type defined for the "Reference" class.
  */
-Tcl_ObjType ReferenceType = {
+Tcl_ObjType TclReferenceType =
+{
   "Reference",                        /* name */
   FreeReferenceInternalRep,           /* freeIntRepProc */
   DupReferenceInternalRep,            /* dupIntRepProc */
@@ -58,7 +82,7 @@ inline Reference& ToReference(Tcl_Obj* objPtr)
 inline void SetReference(Reference* ptr, Tcl_Obj* objPtr)
 {
   objPtr->internalRep.otherValuePtr = (VOID*)ptr;
-  objPtr->typePtr = &ReferenceType;
+  objPtr->typePtr = &TclReferenceType;
   UpdateStringOfReference(objPtr);
 }
 
@@ -90,7 +114,7 @@ static void DupReferenceInternalRep(Tcl_Obj* srcPtr, Tcl_Obj* destPtr)
  */
 static void UpdateStringOfReference(Tcl_Obj *objPtr)
 {
-  String stringRep = ToReference(objPtr).StringRep();
+  String stringRep = ToReference(objPtr).GetStringRep();
   objPtr->bytes = Tcl_Alloc(stringRep.length()+1);
   objPtr->length = stringRep.length();
   
@@ -158,7 +182,7 @@ int Tcl_GetReferenceFromObj(Tcl_Interp* interp, Tcl_Obj* objPtr, Reference* ptr)
   /**
    * If conversion is needed, try it.
    */
-  if(objPtr->typePtr != &ReferenceType)
+  if(objPtr->typePtr != &TclReferenceType)
     {
     int error;
     if((error = SetReferenceFromAny(interp, objPtr)) != TCL_OK) { return error; }
@@ -195,6 +219,26 @@ Tcl_Obj* Tcl_NewReferenceObj(const Reference& ptr)
   Tcl_SetReferenceObj(objPtr, ptr);
   return objPtr;
 }
+
+
+/**
+ * Check whether the given object's type is "Reference".
+ */
+bool TclObjectTypeIsReference(Tcl_Obj* o)
+{
+  return (!TclObjectTypeIsNULL(o)
+          && (strcmp("Reference", (o)->typePtr->name)==0));
+}
+
+
+/**
+ * Check whether the given string representation is that of a Reference.
+ */
+bool StringRepIsReference(const String& s)
+{
+  return (((s).substr(0, 4)) == "_ref");
+}
+
 
 } // namespace _wrap_
 
