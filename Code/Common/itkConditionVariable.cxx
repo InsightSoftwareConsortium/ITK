@@ -27,6 +27,7 @@ ConditionVariable::ConditionVariable()
   pthread_mutex_init(&m_Mutex, NULL);
   pthread_cond_init(&m_ConditionVariable, NULL);
 #else
+#ifdef WIN32
   m_NumberOfWaiters = 0;
   m_WasBroadcast = 0;
   m_Semaphore = CreateSemaphore(NULL,         // no security
@@ -39,6 +40,7 @@ ConditionVariable::ConditionVariable()
                                   FALSE,          // non-signaled initially
                                   NULL );         // unnamed
 #endif
+#endif
 }
 
 ConditionVariable::~ConditionVariable()
@@ -47,9 +49,11 @@ ConditionVariable::~ConditionVariable()
   pthread_mutex_destroy(&m_Mutex);
   pthread_cond_destroy(&m_ConditionVariable);
 #else
+#ifdef WIN32
   CloseHandle( m_Semaphore );
   CloseHandle( m_WaitersAreDone );
   DeleteCriticalSection( &m_NumberOfWaitersLock );
+#endif
 #endif
   
 }
@@ -59,6 +63,7 @@ void ConditionVariable::Signal()
 #ifdef ITK_USE_PTHREADS
   pthread_cond_signal(&m_ConditionVariable);
 #else
+#ifdef WIN32
   EnterCriticalSection( &m_NumberOfWaitersLock );
   int haveWaiters = m_NumberOfWaiters > 0;
   LeaveCriticalSection( &m_NumberOfWaitersLock );
@@ -69,6 +74,7 @@ void ConditionVariable::Signal()
     ReleaseSemaphore(m_Semaphore, 1, 0);
     }
 #endif
+#endif
 }
 
 void ConditionVariable::Broadcast()
@@ -76,6 +82,7 @@ void ConditionVariable::Broadcast()
 #ifdef ITK_USE_PTHREADS
   pthread_cond_broadcast(&m_ConditionVariable);
 #else
+#ifdef WIN32
   // This is needed to ensure that m_NumberOfWaiters and m_WasBroadcast are
   // consistent
   EnterCriticalSection( &m_NumberOfWaitersLock );
@@ -109,6 +116,7 @@ void ConditionVariable::Broadcast()
     LeaveCriticalSection( &m_NumberOfWaitersLock );
     }
 #endif
+#endif
 }
 
 void ConditionVariable::Wait(SimpleMutexLock *mutex)
@@ -116,6 +124,7 @@ void ConditionVariable::Wait(SimpleMutexLock *mutex)
 #ifdef ITK_USE_PTHREADS
   pthread_cond_wait(&m_ConditionVariable, &mutex->GetMutexLock() );
 #else
+#ifdef WIN32
   // Avoid race conditions
   EnterCriticalSection( &m_NumberOfWaitersLock );
   m_NumberOfWaiters++;
@@ -151,6 +160,7 @@ void ConditionVariable::Wait(SimpleMutexLock *mutex)
     // give to our callers
     WaitForSingleObject( mutex->GetMutexLock(), INFINITE );
     }
+#endif
 #endif
 }
 

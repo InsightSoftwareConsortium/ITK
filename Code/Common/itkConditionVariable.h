@@ -101,6 +101,7 @@ private:
   MutexType m_Mutex;
 #else
   int m_NumberOfWaiters;                   // number of waiting threads
+#ifdef WIN32
   CRITICAL_SECTION m_NumberOfWaitersLock;  // Serialize access to m_NumberOfWaiters
 
   HANDLE m_Semaphore;                      // Semaphore to queue threads 
@@ -112,6 +113,7 @@ private:
 
   size_t m_WasBroadcast;                   // Keeps track of whether we
                                            // were broadcasting or signaling
+#endif
 #endif
 };
 
