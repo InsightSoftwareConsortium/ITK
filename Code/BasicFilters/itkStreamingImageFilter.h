@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkStreamingImageFilter_h
 
 #include "itkImageSource.h"
+#include "itkImageToImageFilter.h"
 #include "itkImageRegionSplitter.h"
 
 namespace itk
