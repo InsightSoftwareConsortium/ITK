@@ -6,6 +6,7 @@
 
 void RegisterTests()
 {
+REGISTER_TEST(LaplacianSharpeningImageFilterTest);
 REGISTER_TEST(SigmoidImageFilterTest);
 REGISTER_TEST(SmoothingRecursiveGaussianImageFilterTest);
 REGISTER_TEST(SmoothingRecursiveGaussianImageFilter2Test);
@@ -15,6 +16,10 @@ REGISTER_TEST(VectorGradientAnisotropicDiffusionImageFilterTest);
 REGISTER_TEST(VectorIndexSelectionTest);
 REGISTER_TEST(ResampleVolumesToBeIsotropicTest);
 }
+#undef main
+#define main LaplacianSharpeningImageFilterTest
+#include "LaplacianSharpeningImageFilter.cxx"
+
 #undef main
 #define main SigmoidImageFilterTest
 #include "SigmoidImageFilter.cxx"
