@@ -25,6 +25,7 @@
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
+#include "itkGradientMagnitudeImageFilter.h"
 
 namespace itk
 {
@@ -41,8 +42,9 @@ CannyEdgeDetectionImageFilter()
     m_MaximumError[i] = 0.01;
     }
   m_OutsideValue = NumericTraits<OutputImagePixelType>::Zero;
-  m_Threshold = NumericTraits<OutputImagePixelType>::Zero;
-  m_OutputEdgeValue = static_cast<OutputImagePixelType>( 1.0 );
+  m_UpperThreshold = NumericTraits<OutputImagePixelType>::Zero;
+  m_LowerThreshold = NumericTraits<OutputImagePixelType>::Zero;
+
   m_UpdateBuffer = OutputImageType::New();
   m_UpdateBuffer1 = OutputImageType::New();
 
@@ -75,6 +77,10 @@ CannyEdgeDetectionImageFilter()
   m_ComputeCannyEdge2ndDerivativeOper.SetDirection(0);
   m_ComputeCannyEdge2ndDerivativeOper.SetOrder(2);
   m_ComputeCannyEdge2ndDerivativeOper.CreateDirectional();
+
+  //Initialize the list
+  m_NodeStore = ListNodeStorageType::New();
+  m_NodeList = ListType::New();
 }
  
 template <class TInputImage, class TOutputImage>
@@ -143,7 +149,7 @@ return;
     // build an exception
     InvalidRequestedRegionError e(__FILE__, __LINE__);
     OStringStream msg;
-    msg << static_cast<const char *>(this->GetNameOfClass())
+    msg << (char *)this->GetNameOfClass()
         << "::GenerateInputRequestedRegion()";
     e.SetLocation(msg.str().c_str());
     e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
@@ -314,6 +320,11 @@ void
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
+
+  //First need to assign upper/lower threshold      
+  m_UpperThreshold = m_Threshold;
+  m_LowerThreshold = m_Threshold/2.0;
+
   // Need to allocate output buffer
   typename OutputImageType::Pointer output = this->GetOutput();
   output->SetBufferedRegion(output->GetRequestedRegion());
@@ -321,17 +332,16 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
   typename  InputImageType::ConstPointer  input  = this->GetInput();
   typename  OutputImageType::Pointer zeroCross;
-  typename  OutputImageType::Pointer edge;
 
   // Create the filters that are needed.
-  typename DiscreteGaussianImageFilter<TInputImage, TOutputImage>::Pointer gaussianFilter
-    = DiscreteGaussianImageFilter<TInputImage, TOutputImage>::New();
+  typename DiscreteGaussianImageFilter<TInputImage, TOutputImage>::Pointer 
+    gaussianFilter = DiscreteGaussianImageFilter<TInputImage, TOutputImage>::New();
 
-  typename ZeroCrossingImageFilter<TOutputImage, TOutputImage>::Pointer zeroCrossFilter
-    = ZeroCrossingImageFilter<TOutputImage, TOutputImage>::New();
+  typename ZeroCrossingImageFilter<TOutputImage, TOutputImage>::Pointer 
+    zeroCrossFilter = ZeroCrossingImageFilter<TOutputImage, TOutputImage>::New();
 
-  //ThresholdImageFilter<TOutputImage>::Pointer threshFilter
-  //  = ThresholdImageFilter<TOutputImage>::New();
+  typename GradientMagnitudeImageFilter<TOutputImage, TOutputImage>::Pointer
+    gradMag = GradientMagnitudeImageFilter<TOutputImage, TOutputImage>::New();
 
   typename MultiplyImageFilter<TOutputImage, TOutputImage,TOutputImage>::Pointer multFilter 
     = MultiplyImageFilter<TOutputImage, TOutputImage,TOutputImage>::New();
@@ -339,52 +349,217 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   this->AllocateUpdateBuffer();
 
 
-  // Apply the Gaussian Filter to the input image.
+  // 1.Apply the Gaussian Filter to the input image.
   gaussianFilter->SetVariance(m_Variance);
   gaussianFilter->SetMaximumError(m_MaximumError);
   gaussianFilter->SetInput(input);
   gaussianFilter->Update();
 
-  // Write the gaussian smoothed image to the output.
+  // Write the gaussian smoothed image to output
   this->GraftOutput(gaussianFilter->GetOutput());
-  
-  // Calculate the 2nd derivative of the smoothed image and write the result to
-  // the m_UpdateBuffer image.
+
+
+  //2. Calculate 2nd order directional derivative
+  // Calculate the 2nd order directional derivative of the smoothed image and write
+  //the result to  the m_UpdateBuffer image.
   this->Compute2ndDerivative();
 
-  // Calculate the zero crossings of the zeroCrossing and write the result to
-  // output buffer.
+  //3. Non-maximum suppression
+  // Calculate the zero crossings of the 2nd directional derivative and write 
+  //the result to output buffer.
   zeroCrossFilter->SetInput(m_UpdateBuffer);
   zeroCrossFilter->Update();
   zeroCross = zeroCrossFilter->GetOutput();
+ 
+  cout<<"zerocrossing finished"<<endl;
+  this->Compute2ndDerivativePos();      
+  cout<<"derivative pos finished"<<endl;
 
-  // Calculate the 2nd derivative gradient here.  This result is written to
-  // the m_UpdateBuffer1 image.
-  this->Compute2ndDerivativePos();
-
-  // Multiply the output of the last step (m_UpdateBuffer1) with the Zero
-  // Crossings image (zeroCross).
+  //4 Hysteresis Thresholding
+  //First get all the edges corresponding to zerocrossings
   multFilter->SetInput1(m_UpdateBuffer1);
   multFilter->SetInput2(zeroCross);
   multFilter->Update();
 
-  edge = multFilter->GetOutput();
+  cout<<"multiplication done"<<endl;
 
-  //The thresholding was done in the step of compute2ndDerivativePos()
-  //Do the Thresholding of the final output.
-  //Note: Here we need connected-components to implement the classical
-  //       canny edge.
-  //threshFilter->SetOutsideValue(m_OutsideValue);
-  //threshFilter->ThresholdBelow(m_Threshold);
-  //threshFilter->SetInput(edge);
-  //threshFilter->Update();
+  this->GraftOutput(multFilter->GetOutput());
 
-  // Graft the output of the mini-pipeline back onto the filter's output.
-  // this copies back the region ivars and meta-data.
-
-  //this->GraftOutput(threshFilter->GetOutput());
-  this->GraftOutput(edge);
+  //Then do the double threshoulding upon the edge reponses
+  this->HysteresisThresholding();
   
+  cout<<"thresholding done"<<endl;
+
+  this->GraftOutput(m_UpdateBuffer);
+  
+}
+
+template< class TInputImage, class TOutputImage >
+void
+CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
+::HysteresisThresholding()
+{
+  typename OutputImageType::Pointer output = this->GetOutput();
+  float value;
+
+  ListNodeType *node;
+  //m_UpperThreshold = m_UpperThreshold * (m_GradMax-m_GradMin) + m_GradMin;
+  //m_LowerThreshold = m_LowerThreshold * (m_GradMax-m_GradMin) + m_GradMin;
+
+  ImageRegionIterator<TOutputImage> oit(output, output->GetRequestedRegion());
+  
+  oit.GoToBegin();
+  
+  ImageRegionIterator<TOutputImage> uit(m_UpdateBuffer,
+                                        m_UpdateBuffer->GetRequestedRegion());
+  uit.GoToBegin();
+  while(!uit.IsAtEnd())
+    {
+      uit.Value() = 0;
+      ++uit;
+    }
+
+  while(!oit.IsAtEnd())
+    {
+      value = oit.Value();
+
+      if(value > m_UpperThreshold){
+        node = m_NodeStore->Borrow();
+        node->m_Value = oit.GetIndex();
+        m_NodeList->PushFront(node);
+        FollowEdge(oit.GetIndex());
+      }
+
+      //FollowEdge(oit.GetIndex());
+
+      ++oit;
+    }
+
+}
+
+template< class TInputImage, class TOutputImage >
+void
+CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
+::FollowEdge(IndexType index)
+{
+  
+  typename OutputImageType::Pointer output = this->GetOutput();
+  float value;
+  IndexType nIndex;
+  IndexType cIndex;
+  ListNodeType * node;
+
+  //assign iterator radius
+  Size<ImageDimension> radius;
+  for (int i = 0; i < ImageDimension; ++i)
+    { radius[i]  = 1; }
+
+  ConstNeighborhoodIterator<TOutputImage> oit(radius, output, output->GetRequestedRegion());
+  
+  ImageRegionIteratorWithIndex<TOutputImage> uit(m_UpdateBuffer,
+                                        m_UpdateBuffer->GetRequestedRegion());
+
+  uit.SetIndex(index);
+  if(uit.Get() == 1) return;
+                                        
+  int nSize = m_Center * 2 +1;
+  
+  while(!m_NodeList->Empty())
+    {
+      node = m_NodeList->Front();
+      cIndex = node->m_Value;
+      oit.SetLocation(cIndex);
+      uit.SetIndex(cIndex);
+      uit.Value() = 1;
+
+      for(int i = 0; i < nSize; i++)
+        {
+          nIndex = oit.GetIndex(i);
+          uit.SetIndex(nIndex);
+          if(InBounds(nIndex))
+            if(oit.GetPixel(i) > m_LowerThreshold && uit.Value() != 1  )
+              {
+                node = m_NodeStore->Borrow();
+                node->m_Value = nIndex;
+                m_NodeList->PushFront(node);
+                
+                uit.SetIndex(nIndex);
+                uit.Value() = 1;
+              }
+        }
+
+      m_NodeList->PopFront();
+      m_NodeStore->Return(node);
+
+    }
+}
+
+/*
+  
+template< class TInputImage, class TOutputImage >
+void
+CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
+::FollowEdge(IndexType index)
+{
+
+  typename OutputImageType::Pointer output = this->GetOutput();
+  float value;
+  IndexType nIndex;
+
+  
+  //assign iterator radius
+  Size<ImageDimension> radius;
+  for (int i = 0; i < ImageDimension; ++i)
+    { radius[i]  = 1; }
+
+  ConstNeighborhoodIterator<TOutputImage> oit(radius, output, output->GetRequestedRegion());
+  
+  ImageRegionIteratorWithIndex<TOutputImage> uit(m_UpdateBuffer,
+                                        m_UpdateBuffer->GetRequestedRegion());
+
+  uit.SetIndex(index);
+
+  if(uit.Get() ==1) return;
+
+  uit.Value() = 1;
+  
+  int nSize = m_Center * 2 +1;
+
+  oit.SetLocation(index);
+
+  for(int i = 0; i < nSize; i++)
+    {
+      nIndex = oit.GetIndex(i);
+      uit.SetIndex(nIndex);
+      if(InBounds(nIndex))
+      if(oit.GetPixel(i) > m_LowerThreshold && uit.Value() != 1  )
+        {
+          uit.Value() = 1;
+          oit.SetLocation(nIndex);
+          i = -1;
+        }
+    }
+
+}
+
+*/
+
+template< class TInputImage, class TOutputImage >
+bool
+CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
+::InBounds(IndexType index)
+{
+  typename InputImageType::ConstPointer input = this->GetInput();
+  typename InputImageType::SizeType sz;
+  sz = (input->GetRequestedRegion()).GetSize();
+  
+  for(int i = 0; i < ImageDimension; i++)
+    {
+      if(index[i] < 0 || index[i] >= sz[i])
+        return false;
+    }
+  return true;
+
 }
 
 template< class TInputImage, class TOutputImage >
@@ -484,11 +659,8 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
               derivPos += dx1[i] * directional[i];
             }
           
-          //it.Value() = derivPos;
-          if( (derivPos <= zero) && (gradMag > m_Threshold) )
-            {
-            it.Set( m_OutputEdgeValue );
-            }
+          it.Value() = ((derivPos <= zero)) ;
+          it.Value() = it.Get() * gradMag;
           ++bit;
           ++bit1;
           ++it;
@@ -554,14 +726,16 @@ CannyEdgeDetectionImageFilter<TInputImage,TOutputImage>
             << m_Variance << std::endl;
   os << "MaximumError: "
             << m_MaximumError << std::endl;
-  os << indent << "Threshold: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_Threshold)
+  os << indent << "UpperThreshold: "
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>
+    (m_UpperThreshold)
+     << std::endl;
+  os << indent << "LowerThreshold: "
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>
+    (m_LowerThreshold)
      << std::endl;
   os << indent << "OutsideValue: "
      << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_OutsideValue)
-     << std::endl;
-  os << indent << "OutputEdgeValue: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_OutputEdgeValue)
      << std::endl;
   os << "Center: "
             << m_Center << std::endl;

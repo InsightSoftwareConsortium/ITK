@@ -23,9 +23,24 @@
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkMultiThreader.h"
 #include "itkDerivativeOperator.h"
+#include "itkSparseFieldLayer.h"
+#include "itkObjectStore.h"
+
 
 namespace itk
 {
+
+
+template <class TValueType>
+class Node
+{
+public:
+  TValueType m_Value;
+  Node *Next;
+  Node *Previous;
+};
+
+
 /** \class CannyEdgeDetectionImageFilter
  *
  * This filter is an implementation of a Canny edge detector for scalar-valued
@@ -33,12 +48,13 @@ namespace itk
  * Detection"(IEEE Transactions on Pattern Analysis and Machine Intelligence, 
  * Vol. PAMI-8, No.6, November 1986),  there are four major steps used in the 
  * edge-detection scheme:
- * (1) The input image is smoothed using a Gaussian filter.
- * (2) The zero-crossings of the second derivative of the smoothed image are
- *     found.
- * (3) The zero-crossing image is multiplied (pixel-wise) with the
- *     second-derivative gradient image of the smoothed image. 
- * (4) The resulting image is thresholded to eliminate uninteresting edges.
+ * (1) Smoothe the input image with Gaussian filter.
+ * (2) Calculate the second directional derivatives of the smoothed image. 
+ * (3) Non-Maximum Suppression: the zero-crossings of 2nd derivative are found,
+ *     and the sign of third derivative is used to find the correct extrema. 
+ * (4) The hysteresis thresholding is applied to the gradient magnitude
+ *      (multiplied with zero-crossings) of the smoothed image to find and 
+ *      link edges.
  *
  * \par Inputs and Outputs
  * The input to this filter should be a scalar, real-valued Itk image of
@@ -86,6 +102,7 @@ public:
   /** Define pixel types. */
   typedef typename TInputImage::PixelType  InputImagePixelType;
   typedef typename TOutputImage::PixelType  OutputImagePixelType;
+  typedef typename TInputImage::IndexType   IndexType;
 
   /** The default boundary condition is used unless overridden 
    *in the Evaluate() method. */
@@ -97,6 +114,11 @@ public:
    */
   typedef ConstNeighborhoodIterator<OutputImageType,
     DefaultBoundaryConditionType> NeighborhoodType;
+
+  typedef Node<IndexType> ListNodeType;
+  typedef ObjectStore<ListNodeType> ListNodeStorageType;
+  typedef SparseFieldLayer<ListNodeType> ListType;
+  typedef typename ListType::Pointer ListPointerType;
 
   /** Method for creation through the object factory.  */
   itkNewMacro(Self);  
@@ -139,13 +161,16 @@ public:
   itkSetMacro(Threshold, OutputImagePixelType );
   itkGetMacro(Threshold, OutputImagePixelType);
 
+  ///* Set the Threshold value for detected edges. */
+  //itkSetMacro(UpperThreshold, OutputImagePixelType );
+  //itkGetMacro(UpperThreshold, OutputImagePixelType);
+
+  //itkSetMacro(LowerThreshold, OutputImagePixelType );
+  //itkGetMacro(LowerThreshold, OutputImagePixelType);
+
     /* Set the Thresholdvalue for detected edges. */
   itkSetMacro(OutsideValue, OutputImagePixelType);
   itkGetMacro(OutsideValue, OutputImagePixelType);
-  
-    /* Set the value to be assigned to the detected edges. */
-  itkSetMacro(OutputEdgeValue, OutputImagePixelType);
-  itkGetMacro(OutputEdgeValue, OutputImagePixelType);
   
   /** CannyEdgeDetectionImageFilter needs a larger input requested
    * region than the output requested region ( derivative operators, etc).  
@@ -175,6 +200,15 @@ private:
   /** This allocate storage for m_UpdateBuffer, m_UpdateBuffer1 */
   void AllocateUpdateBuffer();
 
+  /** Implement hysteresis thresholding */
+  void HysteresisThresholding();
+
+  /** Edge linking funciton */
+  void FollowEdge(IndexType index);
+
+  /** Check if the index is in bounds or not */
+  bool InBounds(IndexType index);
+  
 
   /** Calculate the second derivative of the smoothed image, it writes the 
    *  result to m_UpdateBuffer using the ThreadedCompute2ndDerivative() method
@@ -239,20 +273,23 @@ private:
    * direction.  */
   double m_MaximumError[ImageDimension];  
 
+  /** Upper threshold value for identifying edges. */
+  OutputImagePixelType m_UpperThreshold;  //should be float here?
+  
+  /** Lower threshold value for identifying edges. */
+  OutputImagePixelType m_LowerThreshold; //should be float here?
+
   /** Threshold value for identifying edges. */
   OutputImagePixelType m_Threshold;
 
   /** "Background" value for use in thresholding. */
   OutputImagePixelType m_OutsideValue;
 
-  /** Value to assign to the edges. */
-  OutputImagePixelType m_OutputEdgeValue;
-
   /** Update buffers used during calculation of multiple steps */
   typename OutputImageType::Pointer  m_UpdateBuffer;
   typename OutputImageType::Pointer  m_UpdateBuffer1;
 
-  /** Function objects that are used in the inner loops of derivative
+  /** Function objects that are used in the inner loops of derivatiVex
       calculations. */
   DerivativeOperator<OutputImagePixelType,itkGetStaticConstMacro(ImageDimension)>
     m_ComputeCannyEdge1stDerivativeOper;
@@ -263,6 +300,10 @@ private:
 
   unsigned long m_Stride[ImageDimension];
   unsigned long m_Center;
+
+  typename ListNodeStorageType::Pointer m_NodeStore;
+  ListPointerType m_NodeList;
+
 };
 
 } //end of namespace itk
