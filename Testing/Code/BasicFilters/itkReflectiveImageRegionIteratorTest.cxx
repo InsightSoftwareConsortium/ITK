@@ -25,7 +25,13 @@
 int main()
 {
   std::cout << "Creating an image" << std::endl;
-  typedef itk::Image<unsigned short,4> ImageType;
+  const unsigned int Dimension = 4;
+  typedef itk::Index<Dimension>             PixelType;
+  typedef itk::Image<PixelType,Dimension>   ImageType;
+  typedef itk::Image<int,Dimension>         ImageVisitsType;
+
+  typedef itk::ImageRegionIteratorWithIndex<ImageType>       IteratorType;
+  typedef itk::ImageRegionIteratorWithIndex<ImageVisitsType> IteratorVisitsType;
 
   ImageType::Pointer myImage = ImageType::New();
   
@@ -43,48 +49,79 @@ int main()
   myImage->SetRequestedRegion( region );
   myImage->Allocate();
 
-  typedef itk::ImageRegionIteratorWithIndex<ImageType> IteratorType;
-  IteratorType nit(myImage, region );
+  ImageVisitsType::Pointer visitImage = ImageVisitsType::New();
 
-  ImageType::PixelType value = itk::NumericTraits<ImageType::PixelType>::Zero;
+  visitImage->SetLargestPossibleRegion( region );
+  visitImage->SetRequestedRegion( region );
+  visitImage->SetBufferedRegion( region );
+  visitImage->Allocate();
+
+  IteratorType        nit( myImage,    region );
+  IteratorVisitsType  vit( visitImage, region );
 
   // Store information on the Image
   std::cout << "Storing data in the image ... " << std::endl;
+  nit.GoToBegin();
+  vit.GoToBegin();
   while( !nit.IsAtEnd() )
     {
-    nit.Set( 0 );
+    // set the pixel index as value
+    nit.Set( nit.GetIndex() );      
+    // Set the number of visits to zero
+    vit.Set( itk::NumericTraits< ImageVisitsType::PixelType >::Zero );
     ++nit;
+    ++vit;
     } 
   
-  typedef itk::ReflectiveImageRegionIterator< ImageType > ReflectiveIteratorType;
+
+
+  typedef itk::ReflectiveImageRegionIterator< ImageType > 
+                                                  ReflectiveIteratorType;
   ReflectiveIteratorType rit( myImage, region );
+
+  typedef itk::ReflectiveImageRegionIterator< ImageVisitsType > 
+                                                  ReflectiveVisitsIteratorType;
+
+  ReflectiveVisitsIteratorType rvt( visitImage, region );
 
   // Verification 
   std::cout << "Verifying the reflective iterator... " << std::endl;;
 
-  value = itk::NumericTraits< ImageType::PixelType >::Zero;
+  rit.GoToBegin();
+  rvt.GoToBegin();
   while( !rit.IsAtEnd() )
     {
-    value = rit.Get();
-    value++;
-    rit.Set(value);
-    std::cout << rit.GetIndex() << std::endl;
+    PixelType value = rit.Get();
+    ImageType::IndexType index = rit.GetIndex();
+
+    std::cout << "value= " << value << " index= " << index << std::endl;
+    rvt.Set( rvt.Get() + 1 );
+    if( value != index ) 
+      {
+      std::cerr << "Error :  at Index " << index << std::endl;
+      std::cerr << "It is pointing to " << value << std::endl;
+      }
     ++rit;
+    ++rvt;
     }
+
+
+
 
   // Each element should be visited 2 * # of dimensions
   int visits = ImageType::ImageDimension * 2;
   int failed = 0;
 
-  nit.GoToBegin();
-  while( !nit.IsAtEnd() )
+  // Verify the number of visits
+  vit.GoToBegin();
+  while( !vit.IsAtEnd() )
     {
-    if (nit.Get() != visits)
+    if (vit.Get() != visits)
       {
-      std::cout << nit.GetIndex() << " should not = " << nit.Get() << std::endl;
+      std::cout << vit.GetIndex() << " should not = " << vit.Get() << std::endl;
       failed++;
       }
-    ++nit;
+    ++vit;
     }
 
   std::cout << std::endl;
