@@ -414,8 +414,9 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 bool
 Mesh<TPixelType, VDimension, TMeshTraits>
-::GetBoundary(int dimension, BoundaryIdentifier boundaryId,
-                             BoundaryAutoPointer & boundaryPointer) const
+::GetBoundary(int dimension,
+              BoundaryIdentifier boundaryId,
+              BoundaryAutoPointer& boundaryPointer) const
 {
   /**
    * If the boundaries container doesn't exist, then the boundary
@@ -430,16 +431,16 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   /**
    * Ask the container if the boundary identifier exists.
    */
-  CellType * boundaryptr; 
+  CellType* boundaryptr; 
   const bool found = m_BoundariesContainers[dimension]
                         ->GetElementIfIndexExists(boundaryId, &boundaryptr);
   if( found ) 
     {
-    boundaryPointer = boundaryptr; // Don't take ownership
+    boundaryPointer.TakeNoOwnership( boundaryptr );
     return true;
     }
 
-  boundaryptr.Reset();
+  // boundaryptr.Reset();
   return false;
 }
 
@@ -1043,10 +1044,12 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   m_CellsContainer(0),
   m_CellDataContainer(0),
   m_CellLinksContainer(0),
-  m_BoundariesContainers(BoundariesContainerVector(MaxTopologicalDimension)),
-  m_BoundaryDataContainers(BoundaryDataContainerVector(MaxTopologicalDimension)),
+  m_BoundariesContainers(
+    BoundariesContainerVector( MaxTopologicalDimension + 1 ) ),
+  m_BoundaryDataContainers(
+    BoundaryDataContainerVector( MaxTopologicalDimension + 1 ) ),
   m_BoundaryAssignmentsContainers(
-    BoundaryAssignmentsContainerVector(MaxTopologicalDimension)),
+    BoundaryAssignmentsContainerVector( MaxTopologicalDimension + 1 ) ),
   m_CellsAllocationMethod(CellsAllocatedDynamicallyCellByCell),
   m_BoundariesAllocationMethod(BoundariesAllocationMethodUndefined)
 {

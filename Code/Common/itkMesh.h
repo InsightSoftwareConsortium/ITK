@@ -131,7 +131,7 @@ public:
                       CellsAllocatedDynamicallyCellByCell
                                                 } CellsAllocationMethodType;
  
-  /** Enum defining the possible methods used to allocate memory for Boundary Boundaries */
+  /** Enum defining possible methods used to allocate memory for Boundaries */
   typedef  enum {     BoundariesAllocationMethodUndefined,
                       BoundariesAllocatedAsStaticArray, 
                       BoundariesAllocatedAsADynamicArray,
@@ -334,11 +334,11 @@ public:
   BoundaryAssignmentsContainerPointer
   GetBoundaryAssignments(int dimension);
     
-  /** Access routines to fill the Cells container, and get information from
-   *  it.  If SetCell is used to overwrite a cell currently in the
-   *  mesh, it the caller's responsibility to release the memory
-   *  for the cell currently at the CellIdentifier position prior to
-   *  calling SetCell. */
+  /** Access routines to fill the Cells container (m_CellsContainer),
+   *  and get information from it.  If SetCell is used to overwrite a
+   *  cell currently in the mesh, it is the caller's responsibility to
+   *  release the memory for the cell currently at the CellIdentifier
+   *  position prior to calling SetCell. */
   void SetCell(CellIdentifier, CellAutoPointer & );
   bool GetCell(CellIdentifier, CellAutoPointer & ) const;
   
@@ -347,21 +347,52 @@ public:
   void SetCellData(CellIdentifier, CellPixelType);
   bool GetCellData(CellIdentifier, CellPixelType*) const;
     
-  /** Access routines to fill the Boundaries container, and get information
-   *  from it. */
+  /** Insert a boundary element of the given dimension with the given
+   *  BoundaryIdentifier.  Geometrically, each boundary is also a
+   *  cell, and in fact the Boundary type is a subclass of the Cell
+   *  type.  Not every cell is a boundary, however, which is one
+   *  reason that the boundaries are stored separately.
+   *
+   *  Inserting a boundary element B does not automatically establish
+   *  the relationship between B and the cells that use it as a part
+   *  of their respective boundaries.  B contains a UsingCells list
+   *  that is meant to list the cells having B as a part of their
+   *  boundary.  Conversely, the mesh has a BoundaryAssignments
+   *  container that is meant to store, for each cell C, the
+   *  identifiers of its boundary elements at each dimension.  The
+   *  UsingCells lists can be updated with Cell::AddUsingCell(), and
+   *  the BoundaryAssignments list by Mesh::SetBoundaryAssignment().  */
   void SetBoundary(int dimension, BoundaryIdentifier, BoundaryAutoPointer & );
   bool GetBoundary(int dimension, BoundaryIdentifier, BoundaryAutoPointer & ) const;
     
-  /** Access routines to fill the BoundaryData container, and get information
-   *  from it. */
+  /** Access routines to fill the BoundaryData container
+   *  (m_BoundaryDataContainers), and get information from it. */
   void SetBoundaryData(int dimension, BoundaryIdentifier, CellPixelType);
   bool GetBoundaryData(int dimension, BoundaryIdentifier, CellPixelType*) const;
   
-  /** Access routines to fill the BoundaryAssignments container, and get
-   *  information from it. */
+  /** Register the fact that one of the boundary features of the cell
+   *  'cellId' is to be identified by boundaryId.  The dimensionality of
+   *  the given feature is specified by 'dimension', and the
+   *  CellFeatureIdentifier 'featureId' is assigned to distinguish this
+   *  particular boundary from others of the same dimension in the
+   *  same cell.  
+   *
+   *  For this assignment to be useful, a BoundaryType object must be
+   *  created and given the appropriate ID using SetBoundary().  Also,
+   *  the BoundaryType object needs to be told what it is a boundary
+   *  of, using BoundaryType::AddUsingCell(cellId). */
   void SetBoundaryAssignment(int dimension, CellIdentifier cellId,
                              CellFeatureIdentifier featureId,
-                             BoundaryIdentifier);
+                             BoundaryIdentifier boundaryId);
+
+  /** For the given cellId, get the identifier of a particular
+   * boundary feature of the given dimension.  The featureId
+   * determines which boundary feature of the specified dimension is
+   * returned.  For instance, if dimension is 1 and featureId is 0,
+   * then GetBoundaryAssignment finds the 0th edge of the given cell.
+   * The return value indicates whether a feature of the appropriate
+   * dimension and featureId exists.  If it does not, the
+   * BoundaryIdentifier pointer is left unchanged. */
   bool GetBoundaryAssignment(int dimension, CellIdentifier cellId,
                              CellFeatureIdentifier featureId,
                              BoundaryIdentifier*) const;
@@ -404,7 +435,7 @@ public:
    *  the user-supplied bounding box as a convenience. */
   BoundingBoxPointer GetCellBoundingBox(CellIdentifier cellId, 
                                         BoundingBoxPointer bbox);
-  
+
   /** This method iterates over all the cells in the mesh and has
    *  each cell Accept the MultiVisitor. See MultiVisitor for more 
    *  information.  (Note, this follows the Visitor Design Pattern.) */
