@@ -146,18 +146,27 @@ public:
    please avoid to set the region in both places since this can lead
    to inconsistent configurations.  */
   void SetFixedImageRegion( const  FixedImageRegionType & region ); 
+  /** Get the region of the fixed image to be considered as region of
+   interest during the registration. This region will be passed to 
+   the ImageMetric in order to restrict the metric computation to 
+   consider only this region.  */
+  itkGetConstReferenceMacro( FixedImageRegion, FixedImageRegionType );
+  /** True if a region has been defined for the fixed image to which
+   the ImageMetric will limit its computation */
+  itkGetMacro( FixedImageRegionDefined, bool );
+  /** Turn on/off the use of a fixed image region to which
+   the ImageMetric will limit its computation.
+   \warning The region must have been previously defined using the
+   SetFixedImageRegion member function */
+  itkSetMacro( FixedImageRegionDefined, bool );
 
   /** Initialize by setting the interconnects between the components. */
-  void Initialize() throw (ExceptionObject);
+  virtual void Initialize() throw (ExceptionObject);
 
 protected:
   ImageRegistrationMethod();
   virtual ~ImageRegistrationMethod() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
-
-  /** Allow subclass to access information on FixedImageRegion. */
-  itkGetMacro( FixedImageRegionDefined, bool );
-  itkGetConstReferenceMacro( FixedImageRegion, FixedImageRegionType );
 
 private:
   ImageRegistrationMethod(const Self&); //purposely not implemented
