@@ -36,7 +36,7 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
 {
   unsigned int i;
   PixelType min = NumericTraits<PixelType>::max();
-  PixelType nitValue = NumericTraits<PixelType>::min();
+  PixelType nitValue;
   
   bool erode = false;               // do some sort of erosion
   bool completelyBackground = true; // structuring element is completely

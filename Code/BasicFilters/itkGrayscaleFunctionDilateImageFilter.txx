@@ -29,7 +29,7 @@ GrayscaleFunctionDilateImageFilter<TInputImage, TOutputImage, TKernel>
 {
   unsigned int i;
   PixelType max = NumericTraits<PixelType>::NonpositiveMin();
-  PixelType temp = max ;
+  PixelType temp;
   
   KernelIteratorType kernel_it;
   const KernelIteratorType kernelEnd = kernel.End();
