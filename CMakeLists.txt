@@ -24,4 +24,10 @@ UNIX_LIBRARIES = \
 $(DL_LIBS) \
 -lm
 
+BEGIN MAKE VERBATIM
+
+Dashboard:
+	$(MAKE) -C Testing/HTML/TestingResults/Dashboard Dashboard
+
+END MAKE VERBATIM
 

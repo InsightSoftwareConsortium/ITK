@@ -28,30 +28,30 @@
 	<xsl:for-each select="Instance">
 	
 	<xsl:variable name="URLBase">
-		../Sites/<xsl:value-of select="Site/@Name"/>/<xsl:value-of select="Site/@BuildName"/>/<xsl:value-of select="Site/@BuildStamp"/>
+		../Sites/<xsl:value-of select="Site/SiteName"/>/<xsl:value-of select="Site/BuildName"/>/<xsl:value-of select="Site/BuildStamp"/>
 	</xsl:variable>
 	<tr>
-	<td><xsl:value-of select="Site/@Name"/></td>
-	<td><xsl:value-of select="Site/@BuildName"/></td>
+	<td><xsl:value-of select="Site/SiteName"/></td>
+	<td><xsl:value-of select="Site/BuildName"/></td>
 	<td>
 	<a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Build.html</xsl:attribute>
 
-	<xsl:value-of select="count(Site/Build/Error)"/>
+	<xsl:value-of select="Site/Build/ErrorCount"/>
 	</a></td>
 	<td>
 		<a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Build.html</xsl:attribute>
 
-	<xsl:value-of select="count(Site/Build/Warning)"/>
+	<xsl:value-of select="Site/Build/WarningCount"/>
 	</a>
 	</td>
 	<td>
 		<a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html</xsl:attribute>
-		<xsl:value-of select="count(Site/Testing/Test[@Status='passed'])"/>
+		<xsl:value-of select="Site/Testing/PassedCount"/>
 	 	</a>
 	</td>
 	<td>
 		<a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html</xsl:attribute>
-		<xsl:value-of select="count(Site/Testing/Test[@Status='failed'])"/>
+		<xsl:value-of select="count(Site/Testing/FailedCount)"/>
 		</a>
 	</td>
 	</tr>
