@@ -212,6 +212,13 @@ ADD_TEST(itkBilateralImageFilterTest3 ${BASIC_FILTERS_TESTS}
             ${ITK_DATA_ROOT}/Input/cake_easy.png
             ${ITK_TEST_OUTPUT_DIR}/BilateralImageFilterTest3.png)
 
+ADD_TEST(itkBinaryThresholdImageFilterTest2 ${BASIC_FILTERS_TESTS}
+   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/BinaryThresholdImageFilterTest2.png
+             ${ITK_TEST_OUTPUT_DIR}/BinaryThresholdImageFilterTest2.png
+  itkBinaryThresholdImageFilterTest2
+             ${ITK_DATA_ROOT}/Input/cthead1.png  ${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm
+             ${ITK_TEST_OUTPUT_DIR}/BinaryThresholdImageFilterTest2.png )
+
 ADD_TEST(itkConfidenceConnectedImageFilterTest ${BASIC_FILTERS_TESTS}
    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConfidenceConnectedImageFilterTest.png
              ${ITK_TEST_OUTPUT_DIR}/ConfidenceConnectedImageFilterTest.png
@@ -436,6 +443,7 @@ itkBinaryMagnitudeImageFilterTest.cxx
 itkBinaryMaskToNarrowBandPointSetFilterTest.cxx
 itkBinaryMedianImageFilterTest.cxx
 itkBinaryThresholdImageFilterTest.cxx
+itkBinaryThresholdImageFilterTest2.cxx
 itkBloxBoundaryPointImageTest.cxx
 itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest.cxx
 itkBloxBoundaryProfileImageToBloxCoreAtomImageFilterTest.cxx
