@@ -386,11 +386,11 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.44\textwidth]{DeformableRegistration2CheckerboardAfter.eps}
   // \itkcaption[Demon's deformable registration output]{Checkerboard comparisons
   // before and after demons-based deformable registration.}
-  // \label{fig:DeformableRegistration2Output}
+  // \label{fig:DeformableRegistration5Output}
   // \end{figure}
   // 
   // The result of the demons-based deformable registration is presented in
-  // Figure \ref{fig:DeformableRegistration2Output}. The checkerboard
+  // Figure \ref{fig:DeformableRegistration5Output}. The checkerboard
   // comparision shows that the algorithm was able to recover the misalignment
   // due to expiration.
   //
