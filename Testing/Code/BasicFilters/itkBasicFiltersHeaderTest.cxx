@@ -50,6 +50,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkBinomialBlurImageFilter.txx"
 #include "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter.txx"
 #include "itkBloxBoundaryPointToCoreAtomImageFilter.txx"
+#include "itkBloxBoundaryProfileImageToBloxCoreAtomImageFilter.txx"
 #include "itkCannyEdgeDetectionImageFilter.txx"
 #include "itkCastImageFilter.h"
 #include "itkChainCodeToFourierSeriesPathFilter.txx"
