@@ -83,7 +83,7 @@ public:
 protected:
   NormalVectorFunctionBase();
   ~NormalVectorFunctionBase() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   /** The time step for normal vector finite difference computations. */

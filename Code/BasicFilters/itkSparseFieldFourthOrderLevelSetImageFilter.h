@@ -209,7 +209,7 @@ public:
     ValueType rmschange = this->GetRMSChange();
 
     // debugging line -- will remove later
-    //std::cout<<" , rmschange = "<<rmschange<<" ("<<(this->GetElapsedIterations())<<")\n";
+    std::cout<<"rmschange = "<<rmschange<<" ("<<(this->GetElapsedIterations())<<")\n";
     
     if ( ( this->GetElapsedIterations()==0 ) ||
          ( m_RefitIteration == m_MaxRefitIteration ) ||
@@ -224,6 +224,7 @@ public:
         }
 
       m_RefitIteration = 0;
+      std::cout<<"calling ProcessNormals\n";
       ProcessNormals();
       }
     
