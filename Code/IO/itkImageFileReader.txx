@@ -19,7 +19,6 @@
 #include "itkImageFileReader.h"
 
 #include "itkObjectFactory.h"
-#include "itkSimpleImageRegionIterator.h"
 #include "itkImageIOFactory.h"
 #include "itkConvertPixelBuffer.h"
 #include "itkImageRegion.h"
