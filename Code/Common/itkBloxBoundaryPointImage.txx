@@ -41,23 +41,128 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkBloxBoundaryPointImage_txx
 #define __itkBloxBoundaryPointImage_txx
 
+#include <iostream>
+#include "VNL/vnl_vector_fixed.h"
+#include "itkScalarVector.h"
 #include "itkBloxBoundaryPointImage.h"
 
 namespace itk
 {
 
-template<unsigned int VImageDimension, class TImageTraits>
-BloxBoundaryPointImage<VImageDimension, TImageTraits>
+template<class TSourceImage, class TImageTraits>
+BloxBoundaryPointImage<TSourceImage, TImageTraits>
 ::BloxBoundaryPointImage()
+{
+  m_Threshold = 0;
+}
+
+template<class TSourceImage, class TImageTraits>
+BloxBoundaryPointImage<TSourceImage, TImageTraits>
+::~BloxBoundaryPointImage()
 {
 
 }
 
-template<unsigned int VImageDimension, class TImageTraits>
-BloxBoundaryPointImage<VImageDimension, TImageTraits>
-::~BloxBoundaryPointImage()
+template<class TSourceImage, class TImageTraits>
+void
+BloxBoundaryPointImage<TSourceImage, TImageTraits>
+::UpdateSourceParameters()
 {
 
+  m_SourceOrigin = m_SourceImage->GetOrigin();
+  m_SourceSpacing = m_SourceImage->GetSpacing();
+}
+
+template<class TSourceImage, class TImageTraits>
+void
+BloxBoundaryPointImage<TSourceImage, TImageTraits>
+::FindBoundaryPoints()
+{
+  std::cout << "BloxBoundaryPointImage::FindBoundaryPoints() called\n";
+
+  // Update origin and spacing of the source image
+  this->UpdateSourceParameters();
+
+  // Make sure we're getting everything
+  m_SourceImage->SetRequestedRegionToLargestPossibleRegion();
+
+  // Vector to figure out pixel location
+  TVectorType sourceVector;
+
+  // Create an iterator to walk the source image
+  typedef ImageRegionIterator<TSourceImage> sourceIterator;
+
+  sourceIterator sourceIt = sourceIterator(m_SourceImage,
+                                           m_SourceImage->GetRequestedRegion() );
+
+  // Keep track of how many boundary points we found (for debugging)
+  unsigned long int numBP = 0;
+  unsigned long int numBPadded = 0;
+
+  // Get the index of the pixel
+  TSourceImage::IndexType sourceIndex;
+  IndexType bloxIndex;
+  
+  for ( sourceIt.Begin(); !sourceIt.IsAtEnd(); ++sourceIt)
+    {
+    // If the pixel meets threshold requirements, add it to the image
+    if( (double)(sourceIt.Get().GetScalar() ) >= m_Threshold)
+      {
+      numBP++;
+
+      sourceIndex = sourceIt.GetIndex();
+
+      // Figure out the location of the pixel is
+      // IMPORTANT: We deduce pixel location by the following
+      // For an origin of 0 along any axis, and a spacing of 1.0, pixel 0 spans
+      // the distance from 0 to 1.0 along that axis, and has a center of 0.5
+      for (int ii = 0; ii < NDimensions; ++ii)
+        sourceVector[ii] = sourceIndex[ii] * m_SourceSpacing[ii] + m_SourceOrigin[ii] - (m_SourceSpacing[ii]/2);
+
+      // Figure out which blox it belongs in
+      if( this->ConvertPhysicalToDataCoords(sourceVector, bloxIndex) )
+        {
+        // Create a new boundary point item and set its parameters
+        BloxBoundaryPointItem<NDimensions>* pItem = new BloxBoundaryPointItem<NDimensions>;
+        pItem->SetPhysicalPosition(sourceVector);
+        pItem->SetGradient( sourceIt.Get().GetVector() );
+
+        this->GetPixel(bloxIndex).push_back(pItem);
+        numBPadded++;
+        }
+      }
+    }
+ 
+  std::cout << "Finished looking for boundary points\n";
+  std::cout << "I found " << numBP << " points\n";
+  std::cout << "I added " << numBPadded << " points\n";
+}
+
+template<class TSourceImage, class TImageTraits>
+bool
+BloxBoundaryPointImage<TSourceImage, TImageTraits>
+::ConvertPhysicalToDataCoords(TVectorType physicalCoords, IndexType& dataCoords)
+{
+  // How big is this blox image in pixels?
+  SizeType bloxSizeObject = this->GetLargestPossibleRegion().GetSize();
+  const unsigned long* mySize = bloxSizeObject.GetSize();
+  const double* myOrigin = this->GetOrigin();
+  const double* mySpacing = this->GetSpacing();
+
+  // Position in data space along the dimension of interest
+  long int dimPosition;
+
+  // Convert to data coordinates, abort if it's outside allowed data space bounds
+  for (int ii = 0; ii < NDimensions; ++ii)
+    {
+    dimPosition = (long int) ( (physicalCoords[ii]/mySpacing[ii]) - myOrigin[ii]);
+    if( (dimPosition < 0)||(dimPosition>=mySize[ii]) )
+      return FALSE;
+    else
+      dataCoords.m_Index[ii] = dimPosition;
+    }
+  
+  return true;
 }
 
 } // end namespace itk

@@ -53,7 +53,16 @@ BloxPixel::BloxPixel()
 
 BloxPixel::~BloxPixel()
 {
-
+  // We need to clean up memory used by linked list entries
+  // Walk through all of the elements at the pixel and delete what we find
+  
+  // The iterator for accessing linked list info
+  BloxPixel::iterator bpiterator;
+  
+  for (bpiterator = this->begin(); bpiterator != this->end(); ++bpiterator)
+    {
+    delete (*bpiterator);
+    }
 }
 
 } // end namespace itk

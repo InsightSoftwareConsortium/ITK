@@ -41,9 +41,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkBloxBoundaryPointImage_h
 #define __itkBloxBoundaryPointImage_h
 
+#include "vnl/vnl_vector_fixed.h"
 #include "itkBloxPixel.h"
 #include "itkBloxBoundaryPointItem.h"
-#include "itkPhysicalImage.h"
 #include "itkBloxImage.h"
 
 namespace itk
@@ -55,9 +55,10 @@ namespace itk
  *
  * */
 
-template <unsigned int VImageDimension = 3,
-  class TImageTraits = DefaultImageTraits<BloxPixel,VImageDimension> >
-class ITK_EXPORT BloxBoundaryPointImage : public BloxImage<VImageDimension, TImageTraits>
+template <class TSourceImage,
+  class TImageTraits = DefaultImageTraits<BloxPixel, TSourceImage::ImageDimension> >
+class ITK_EXPORT BloxBoundaryPointImage :
+  public BloxImage<TSourceImage::ImageDimension, TImageTraits>
 {
 public:
   /**
@@ -68,13 +69,21 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef BloxImage<VImageDimension, TImageTraits>  Superclass;
+  typedef BloxImage<TSourceImage::ImageDimension, TImageTraits>  Superclass;
   
   /** 
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+
+  /**
+   * Dimension of the image.  This enum is used by functions that are
+   * templated over image type (as opposed to being templated over pixel
+   * type and dimension) when they need compile time access to the dimension
+   * of the image.
+   */
+  enum { NDimensions = TSourceImage::ImageDimension };
 
   /** 
    * Pixel typedef support. Used to declare pixel type in filters
@@ -96,19 +105,16 @@ public:
    */
   typedef DefaultDataAccessor< PixelType > AccessorType;
 
+  /**
+   * The type of vector used to convert between physical and blox space
+   */
+  typedef vnl_vector_fixed<double, NDimensions> TVectorType;
+
   /** 
    * Note: Unlike "normal" images BloxBoundaryPointImages support neither Scalar nor
    * Vector calls!!! Scalar and vector traits are not defined and do not
    * make sense for linked lists (at the present time).
    */
-
-  /**
-   * Dimension of the image.  This enum is used by functions that are
-   * templated over image type (as opposed to being templated over pixel
-   * type and dimension) when they need compile time access to the dimension
-   * of the image.
-   */
-  enum { ImageDimension = VImageDimension };
 
   /**
    * The ImageTraits for this image.
@@ -140,17 +146,36 @@ public:
    */
   itkNewMacro(Self);
 
-  /**
-   * Method for setting the physical image that this Blox-derived
+  /*@{
+   * Methods for getting/setting the physical image that this Blox-derived
    * image stores information about.
    */
-  itkSetMacro(pSourceImage, const PhysicalImage*);
-  itkGetMacro(pSourceImage, const PhysicalImage*);
+  void SetSourceImage(TSourceImage::Pointer pSource){m_SourceImage = pSource;};
+  //@}
+
+  /**
+   * Update parameters of the source image (origin, spacing, etc.)
+   * Call me before finding boundary points!!
+   */
+  void UpdateSourceParameters();
 
   /**
    * Walk the source image, find boundary points, store them 
    */
   void FindBoundaryPoints();
+
+  /**
+   * Method to convert physical coordinates to Blox coordinates
+   * Returns TRUE if the specified location lies within the image,
+   * otherwise FALSE. If FALSE, the index value is unmodified
+   */
+  bool ConvertPhysicalToDataCoords(TVectorType physicalCoords,
+                                   IndexType& dataCoords);
+
+  /**
+   * Method to set the threshold for detecting boundary points
+   */
+  itkSetMacro(Threshold, double);
 
 protected:
   BloxBoundaryPointImage();
@@ -159,12 +184,26 @@ protected:
   void operator=(const Self&) {}
 
 private:
-  // Pointer to the image that we store info. about
-  const PhysicalImage* m_pSourceImage;
+  /**
+   * Pointer to the image that we store info. about
+   */
+  TSourceImage::Pointer m_SourceImage;
 
-  // The gradient-magnitude intensity threshold (minimum) for
-  // considering a pixel to be a boundary location
+  /**
+   * The gradient-magnitude intensity threshold (minimum) for
+   * considering a pixel to be a boundary location
+   */
   double m_Threshold;
+
+  /**
+   * The origin of the source image
+   */
+  const double* m_SourceOrigin;
+
+  /**
+   * The spacing of the source image
+   */
+  const double* m_SourceSpacing;
 
 };
 

@@ -68,6 +68,26 @@ public:
    * The type of vector used to store the gradient of the BoundaryPointItem
    * */
   typedef vnl_vector_fixed<double, VImageDimension> TGradientType;
+
+  /**
+   * Set the position of the boundary point in physical space
+   * */
+  void SetPhysicalPosition(TPositionType physPos){m_PhysicalPosition = physPos;};
+
+  /**
+   * Get the position of the boundary point in physical space
+   * */
+  void GetPhysicalPosition(TPositionType& physPos){physPos = m_PhysicalPosition;};
+
+  /**
+   * Set the gradient of the boundary point
+   * */
+  void SetGradient(TPositionType grad){m_Gradient = grad;};
+
+  /**
+   * Get the gradient of the boundary point
+   * */
+  void GetGradient(TPositionType& grad){grad = m_Gradient;};
   
   BloxBoundaryPointItem();
   ~BloxBoundaryPointItem();
@@ -75,18 +95,23 @@ public:
 private:
 
   /**
-   * The gradient of the boundary point (non-normalized)
-   * */
-  TGradientType m_Gradient;
-  
-  /**
    * The position of the boundary point in the coordinate system of the
    * physical image in which the boundary pixel was located
    * */
-  TPositionType m_Position;
+  TPositionType m_PhysicalPosition;
+
+  /**
+   * The gradient of the boundary point (non-normalized)
+   * */
+  TGradientType m_Gradient;
 
 };
 
 } // end namespace itk
+
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkBloxBoundaryPointItem.txx"
+#endif
 
 #endif
