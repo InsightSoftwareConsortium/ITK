@@ -194,10 +194,11 @@ public:
           {
           return false;
           }
+        // bound is the last valid pixel location
         const TCoordRepType bound = static_cast<TCoordRepType>(
-                              m_Index[i] + static_cast<long>(m_Size[i]) );
+                              m_Index[i] + static_cast<long>(m_Size[i]) - 1);
 
-        if( index[i] >= bound )
+        if( index[i] > bound )
           {
           return false;
           }
