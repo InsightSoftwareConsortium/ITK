@@ -69,7 +69,7 @@ int main() {
   myIteratorType  it1( myImage, myImage->GetRequestedRegion() );
   
   // Value to initialize the pixels
-  myImageType::PixelType  color( 1.0, 0.5, 0.5 );
+  myImageType::PixelType color = { 1.0f, 0.5f, 0.5f };
   
   // Initializing all the pixel in the image
   it1.GoToBegin();
