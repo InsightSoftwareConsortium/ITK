@@ -22,6 +22,8 @@ See COPYRIGHT.txt for copyright details.
 // Test to include each header file for Insight
 
 #include "itkAcosImageAdaptor.h"
+#include "itkAddImageAdaptor.h"
+#include "itkAddPixelAccessor.h"
 #include "itkAffineTransform.txx"
 #include "itkArray.txx"
 #include "itkArray2D.txx"
