@@ -27,8 +27,8 @@
 // point/pixel is considered to be a separate entity even if they share the
 // same graylevel value.
 //
-// \index{itk::DanielssonDistanceMapImageFilter!Instantiation|textbf}
-// \index{itk::DanielssonDistanceMapImageFilter!Header|textbf}
+// \index{itk::Danielsson\-Distance\-Map\-Image\-Filter!Instantiation}
+// \index{itk::Danielsson\-Distance\-Map\-Image\-Filter!Header}
 //
 // The first step required to use this filter is to include its header file. 
 //
@@ -81,9 +81,9 @@ int main( int argc, char * argv[] )
   //  types defined above. A filter object is created with the \code{New()}
   //  method.
   //
-  //  \index{itk::DanielssonDistanceMapImageFilter!instantiation}
-  //  \index{itk::DanielssonDistanceMapImageFilter!New()}
-  //  \index{itk::DanielssonDistanceMapImageFilter!Pointer}
+  //  \index{itk::Danielsson\-Distance\-Map\-Image\-Filter!instantiation}
+  //  \index{itk::Danielsson\-Distance\-Map\-Image\-Filter!New()}
+  //  \index{itk::Danielsson\-Distance\-Map\-Image\-Filter!Pointer}
   //
   //  Software Guide : EndLatex 
 
@@ -116,8 +116,8 @@ int main( int argc, char * argv[] )
   //  The input to the filter is taken from a reader and its output is passed
   //  to a \doxygen{RescaleIntensityImageFilter} and then to a writer.
   //
-  //  \index{itk::DanielssonDistanceMapImageFilter!SetInput()}
-  //  \index{itk::DanielssonDistanceMapImageFilter!GetOutput()}
+  //  \index{itk::Danielsson\-Distance\-Map\-Image\-Filter!SetInput()}
+  //  \index{itk::Danielsson\-Distance\-Map\-Image\-Filter!GetOutput()}
   //
   //  Software Guide : EndLatex 
 
@@ -137,7 +137,7 @@ int main( int argc, char * argv[] )
   //  The type of input image has to be specified. In this case, a binary
   //  image is selected.
   //
-  //  \index{itk::DanielssonDistanceMapImageFilter!InputIsBinaryOn()}
+  //  \index{itk::Danielsson\-Distance\-MapImage\-Filter!InputIsBinaryOn()}
   //
   //  Software Guide : EndLatex 
 
@@ -166,8 +166,8 @@ int main( int argc, char * argv[] )
   //  N-dimensions and is therefore capable of producing $N-D$ Voronoi
   //  partitions.
   //
-  //  \index{Voronoi partitions|textbf}
-  //  \index{Voronoi partitions!itk::DanielssonDistanceMapImageFilter}
+  //  \index{Voronoi partitions}
+  //  \index{Voronoi partitions!itk::Danielsson\-Distance\-Map\-Image\-Filter}
   //
   //  Software Guide : EndLatex 
 
@@ -182,7 +182,7 @@ int main( int argc, char * argv[] )
   //  the lines below we connect this output to the intensity rescaler and
   //  save the result in a file.
   //
-  //  \index{itk::DanielssonDistanceMapImageFilter!GetVoronoiMap()}
+  //  \index{itk::Danielsson\-Distance\-Map\-Image\-Filter!GetVoronoiMap()}
   //
   //  Software Guide : EndLatex 
 
