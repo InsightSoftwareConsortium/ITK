@@ -56,7 +56,7 @@ namespace eval itk {
     "
 
     package ifneeded itkbasicfilters $version "
-      package require itkbasicfilterstcl $version
+      package require itkbasicfiltersatcl $version
       package require itkbasicfiltersbtcl $version
       package provide itkbasicfilters $version
     "
