@@ -226,6 +226,7 @@ SpatialObjectPoint< TPointDimension >
   m_ID = rhs.m_ID;
   m_NumDimensions = rhs.m_NumDimensions;
   m_X = rhs.m_X;
+  m_Color = rhs.m_Color ;
   return * this;
 }
 
