@@ -128,6 +128,7 @@ int main()
 
   ot.GoToEnd();
   --ot;
+  --value;
   while( !ot.IsAtBegin() )
   {
 
@@ -181,6 +182,7 @@ int main()
 
   cot.GoToEnd();
   --cot;
+  --value;
   while( !cot.IsAtBegin() )
   {
 
