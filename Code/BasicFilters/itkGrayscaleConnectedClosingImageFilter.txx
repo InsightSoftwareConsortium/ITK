@@ -30,7 +30,7 @@ GrayscaleConnectedClosingImageFilter<TInputImage, TOutputImage>
 ::GrayscaleConnectedClosingImageFilter()
   : m_NumberOfIterationsUsed( 0 )
 {
-  m_Seed.Fill( NumericTraits<typename InputImageIndexType::OffsetValueType>::Zero );
+  m_Seed.Fill( NumericTraits<ITK_TYPENAME InputImageIndexType::OffsetValueType>::Zero );
 }
 
 template <class TInputImage, class TOutputImage>
