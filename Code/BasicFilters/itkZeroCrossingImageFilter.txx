@@ -138,10 +138,10 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
   FixedArray<long, 2 * ImageDimension> offset;
 
   //Set the offset of the neighbors to the center pixel.
-  for ( i = 0 ; i < 2 * ImageDimension; i+= 2)
+  for ( i = 0 ; i < ImageDimension; i++)
     {
-    offset[i] = -nit.GetStride(i/2);
-    offset[i+1] = nit.GetStride(i/2);
+      offset[i] = - nit.GetStride(i);
+      offset[i+ImageDimension] =  nit.GetStride(i);
     }
 
   // Now Process the non-boundary region.
@@ -171,6 +171,12 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
                   it.Set(m_ForegroundValue);
                   break;
                 }
+              else if(abs_this_one == abs_that && i >= ImageDimension)
+                {
+                  it.Set(m_ForegroundValue);
+                  break;
+                }
+
             }
         }
       ++nit;
@@ -208,6 +214,11 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
                   abs_this_one =  vnl_math_abs(this_one);
                   abs_that = vnl_math_abs(that);
                   if(abs_this_one < abs_that)
+                    {
+                      it.Set(m_ForegroundValue);
+                      break;
+                    }
+                  else if(abs_this_one == abs_that && i >= ImageDimension)
                     {
                       it.Set(m_ForegroundValue);
                       break;
