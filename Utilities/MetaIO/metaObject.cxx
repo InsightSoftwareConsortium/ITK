@@ -46,6 +46,7 @@ MetaObject(unsigned int dim)
   MetaObject::Clear();
   m_ReadStream = NULL;
   m_WriteStream = NULL;
+  m_FileName[0] = '\0';
   InitializeEssential(dim);
   }
 
