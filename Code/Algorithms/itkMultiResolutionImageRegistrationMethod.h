@@ -31,22 +31,30 @@ namespace itk
  *
  * This class provides a generic interface for multi-resolution 
  * registration using components of the registration framework.
- *
- * At each resolution level, the user specified registration components
- * are used to register two images by computing the transform parameters
- * that will map a moving image onto the fixed image.
- *
- * See documentation for ImageRegistrationMethod for description
+ * See documentation for ImageRegistrationMethod for a description
  * of the registration framework components.
  *
- * The input fixed and moving images are set via methods SetFixedImage
- * SetMovingImage respectively. Initial transform parameters are set via
- * SetInitialTransformParameters. MultiResolutionPyramidImageFilters are used to 
- * downsample the fixed and moving images.
+ * The registration process is initiated by method StartRegistration().
+ * The user must set the parameters of each component before calling
+ * this method.
+ *
+ * The number of resolution level to process can be set via
+ * SetNumberOfLevels(). At each resolution level, the user specified 
+ * registration components are used to register downsampled version of the 
+ * images by computing the transform parameters that will map one image onto 
+ * the other image.
+ *
+ * The downsampled images are provided by user specified
+ * MultiResolutionPyramidImageFilters. User must specify the schedule
+ * for each pyramid externally prior to calling StartRegistration().
+ *
+ * \warning If there is discrepancy between the number of level requested
+ * and a pyramid schedule. The pyramid schedule will be overriden
+ * with a default one.
  *
  * Before each resolution level an IterationEvent is invoked providing an
- * opportunity for a user interface to change any of the components or
- * component parameters.
+ * opportunity for a user interface to change any of the components,
+ * change component parameters, or stop the registration.
  *
  * This class is templated over the fixed image type and the moving image
  * type.

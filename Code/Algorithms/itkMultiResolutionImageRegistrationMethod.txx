@@ -169,14 +169,20 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
 
   m_Stop = false;
 
-  for ( m_CurrentLevel = 0; m_CurrentLevel < m_NumberOfLevels &&
-   !m_Stop; m_CurrentLevel++ )
+  for ( m_CurrentLevel = 0; m_CurrentLevel < m_NumberOfLevels;
+    m_CurrentLevel++ )
     {
 
     // Invoke an iteration event.
     // This allows a UI to reset any of the components between
     // resolution level.
     this->InvokeEvent( IterationEvent() );
+
+    // Check if there has been a stop request
+    if ( m_Stop ) 
+      {
+      break;
+      }
 
     try
       {

@@ -60,6 +60,19 @@ double F( itk::Vector<double,3> & v );
  *  The test image pattern consists of a 3D gaussian in the middle
  *  with some directional pattern on the outside.
  *  One image is rotated and shifted relative to the other.
+ *
+ * Notes:
+ * =====
+ * This example performs an rigid
+ * registration between a 3D moving image and a 3D fixed image using
+ * mutual information and a multi-resolution strategy.
+ *
+ * See notes for itkImageRegistrationMethodTest_14.cxx for more
+ * detailed information on the algorithm.
+ *
+ * A simple user-interface, allows the user to define the number 
+ * of iteration and learning rate at each resolution level.
+ *
  */ 
 
 int main()
