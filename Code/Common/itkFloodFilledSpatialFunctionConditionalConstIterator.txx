@@ -105,8 +105,8 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>
       // means of determining index inclusion.
 
       // To reiterate... DO NOT use this on images higher than 16D
-      unsigned int counter = 0;
-      unsigned int counterCopy = 0;
+      unsigned int counter;
+      unsigned int counterCopy;
       unsigned int dim = TImage::ImageDimension;
       unsigned int numReps = static_cast<unsigned int>( pow(
                                             static_cast<double>( 2.0 ),
@@ -150,8 +150,8 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>
     // generated indices are true
 
     // To reiterate... DO NOT use this on images higher than 16D
-    unsigned int counter = 0;
-    unsigned int counterCopy = 0;
+    unsigned int counter;
+    unsigned int counterCopy;
     unsigned int dim = TImage::ImageDimension;
     unsigned int numReps = static_cast<unsigned int>( pow(
                                           static_cast<double>( 2.0 ),
