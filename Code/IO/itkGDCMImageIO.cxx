@@ -334,7 +334,6 @@ void GDCMImageIO::Write(const void* buffer)
 
   MetaDataDictionary & dico = this->GetMetaDataDictionary();
   std::vector<std::string> keys = dico.GetKeys();
-  //std::cerr << keys.size() << std::endl;
 
   for( std::vector<std::string>::const_iterator it = keys.begin();
       it != keys.end(); ++it )
