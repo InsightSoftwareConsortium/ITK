@@ -220,7 +220,7 @@ void GiplImageIO::Read(void* buffer)
     m_Ifstream.read( p, this->GetImageSizeInBytes() );
     }
 
-  bool success = false;
+  bool success;
   if (m_IsCompressed)
     {
     if (p != NULL)

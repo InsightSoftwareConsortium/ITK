@@ -185,7 +185,7 @@ void TIFFImageIO::ReadGenericImage( void *out,
 
   if(m_ComponentType == UCHAR)
     {
-    unsigned char* image = reinterpret_cast<unsigned char*>(out);
+    unsigned char* image;
     for ( row = 0; row < (int)height; row ++ )
       {
       if (TIFFReadScanline(m_InternalImage->Image, buf, row, 0) <= 0)
@@ -457,7 +457,7 @@ void TIFFImageIO::Read(void* buffer)
       return;
       }
     int xx, yy;
-    uint32* ssimage = tempImage;
+    uint32* ssimage;
     unsigned char *fimage = (unsigned char *)buffer;
 
     for ( yy = 0; yy < height; yy ++ )
