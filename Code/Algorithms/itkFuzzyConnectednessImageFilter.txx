@@ -111,7 +111,7 @@ FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 	   (exp(-0.5 * tmp1 * tmp1 / m_Var)));
   }
   else{
-    double tmp2 = fabs(f1 - f2) - m_Diff_Mean;
+    double tmp2 = fabs(static_cast<double>(f1) - static_cast<double>(f2)) - m_Diff_Mean;
 	return( (NumericTraits<unsigned short>::max()) *
 	  (m_Weight * exp(-0.5 * tmp1 * tmp1 / m_Var) + 
 	   (1 - m_Weight) * exp(-0.5 * tmp2 * tmp2 / m_Diff_Var)));
