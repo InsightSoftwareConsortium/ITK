@@ -1,3 +1,24 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkNarrowBandTest.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
 #include "itkNarrowBand.h"
 #include <vector>
 
@@ -34,7 +55,7 @@ int itkNarrowBandTest (int, char*[])
   itType itend = band->End();
   
   i= 0;
-  BandNodeType *tmp;
+//  BandNodeType *tmp;
   for( ; it != itend ; it++)
   {
   std::cout <<"Node "<<i<<std::endl<<"Index: "<<it->m_Index<<" Data: "<<it->m_Data<<std::endl;
@@ -44,7 +65,7 @@ int itkNarrowBandTest (int, char*[])
   //Split the band
   std::vector<RegionType> regions;
   regions = band->SplitBand(10);
-  RegionType region;
+//  RegionType region;
   typedef std::vector<RegionType>::const_iterator regionitType;
   regionitType regionsit = regions.begin();
   regionitType regionsitend = regions.end();

@@ -14,8 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
-
 #include <itkImage.h>
 #include <itkLog10ImageFilter.h>
 #include <itkLog10ImageAdaptor.h>

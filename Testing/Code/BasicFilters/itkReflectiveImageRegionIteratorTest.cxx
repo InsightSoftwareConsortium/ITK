@@ -14,9 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include <iostream>
 
 #include "itkImage.h"
+#include <iostream>
 #include "itkNumericTraits.h"
 #include "itkReflectiveImageRegionIterator.h"
 #include "itkReflectiveImageRegionConstIterator.h"

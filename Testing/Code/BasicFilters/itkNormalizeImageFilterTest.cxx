@@ -14,9 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include <iostream>
+
 
 #include "itkImage.h"
+#include <iostream>
 #include "itkImageRegionIterator.h"
 
 #include "itkNormalizeImageFilter.h"
