@@ -211,6 +211,7 @@ SET(ITK_INCLUDE_DIRS
   "${ITK_BINARY_DIR}/Auxiliary/FltkImageViewer"
   "${ITK_SOURCE_DIR}/Auxiliary/VtkFltk"
   "${ITK_BINARY_DIR}/Auxiliary/VtkFltk"
+  "${ITK_SOURCE_DIR}/Auxiliary/vtk"
 )
 IF(NOT ITK_USE_SYSTEM_STDLIB)
   SET(ITK_INCLUDE_DIRS ${ITK_INCLUDE_DIRS} "${ITK_SOURCE_DIR}/Utilities/stdlib")
@@ -245,6 +246,7 @@ SET(ITK_INCLUDE_DIRS
   "${ITK_INSTALL_INCLUDE_DIR}/Utilities/zlib"
   "${ITK_INSTALL_INCLUDE_DIR}/Auxiliary/FltkImageViewer"
   "${ITK_INSTALL_INCLUDE_DIR}/Auxiliary/VtkFltk"
+  "${ITK_INSTALL_INCLUDE_DIR}/Auxiliary/vtk"
 )
 IF(NOT ITK_USE_SYSTEM_STDLIB)
   SET(ITK_INCLUDE_DIRS ${ITK_INCLUDE_DIRS} "${ITK_INSTALL_INCLUDE_DIR}/Utilities/stdlib")
