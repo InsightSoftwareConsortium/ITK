@@ -235,8 +235,8 @@ CovariantVector<T, TCovariantVectorDimension>
  *
  */
 template<class T, unsigned int TCovariantVectorDimension>
-typename Vector<T, TCovariantVectorDimension>::ValueType
-Vector<T, TCovariantVectorDimension>
+typename CovariantVector<T, TCovariantVectorDimension>::ValueType
+CovariantVector<T, TCovariantVectorDimension>
 ::operator*( const Self & other ) const
 {
   T value = NumericTraits<T>::Zero;
