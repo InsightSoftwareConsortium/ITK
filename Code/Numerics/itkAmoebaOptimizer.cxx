@@ -27,12 +27,15 @@ namespace itk
  */
 AmoebaOptimizer
 ::AmoebaOptimizer()
+  : m_InitialSimplexDelta(1)  // initial size
 {
   m_OptimizerInitialized           = false;
   m_VnlOptimizer                   = 0;
   m_MaximumNumberOfIterations      = 500;
   m_ParametersConvergenceTolerance = 1e-8;
   m_FunctionConvergenceTolerance   = 1e-4;
+  m_AutomaticInitialSimplex        = true;
+  m_InitialSimplexDelta.Fill(NumericTraits<typename ParametersType::ValueType>::One);
 }
 
 
@@ -60,6 +63,11 @@ AmoebaOptimizer
      << m_ParametersConvergenceTolerance << std::endl;
   os << indent << "FunctionConvergenceTolerance: "
      << m_FunctionConvergenceTolerance << std::endl;
+  os << indent << "AutomaticInitialSimplex: "
+     << (m_AutomaticInitialSimplex ? "On" : "Off") << std::endl;
+  os << indent << "InitialSimplexDelta: "
+     << m_InitialSimplexDelta << std::endl;
+  
 }
 
 
@@ -181,12 +189,24 @@ AmoebaOptimizer
   InternalParametersType parameters( initialPosition.Size() );
 
   CostFunctionAdaptorType::ConvertExternalToInternalParameters( 
-    GetInitialPosition(), 
+    initialPosition, 
     parameters     );
 
   // vnl optimizers return the solution by reference 
   // in the variable provided as initial position
-  m_VnlOptimizer->minimize( parameters );
+  if (m_AutomaticInitialSimplex)
+    {
+    m_VnlOptimizer->minimize( parameters );
+    }
+  else
+    {
+    InternalParametersType delta( m_InitialSimplexDelta.Size() );
+    CostFunctionAdaptorType::ConvertExternalToInternalParameters(
+      m_InitialSimplexDelta, delta);
+
+    // m_VnlOptimizer->verbose = 1;
+    m_VnlOptimizer->minimize( parameters, delta );
+    }
   
   ParametersType solution;
 
