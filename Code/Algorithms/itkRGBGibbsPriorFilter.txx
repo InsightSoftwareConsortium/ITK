@@ -60,8 +60,8 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     m_MaximumNumberOfIterations(10),
     m_ClassifierPtr(0),
     m_BoundaryGradient(7),
-    m_BoundaryWt(1),
-    m_GibbsPriorWt(1),
+    m_BoundaryWeight(1),
+    m_GibbsPriorWeight(1),
     m_StartRadius(10),
     m_RecursiveNum(0),
     m_LabelStatus(0)
