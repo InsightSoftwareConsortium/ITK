@@ -15,7 +15,7 @@ int main()
 
   v = 1,2,3,4;
   std::cout << "Vector value = ";
-  for (int i=0; i < v.GetVectorDimension(); i++)
+  for (unsigned int i=0; i < v.GetVectorDimension(); i++)
     {
     std::cout << v[i];
     if (i < v.GetVectorDimension() - 1)
