@@ -17,11 +17,12 @@
 #ifndef _itkFastMarchingImageFilter_txx
 #define _itkFastMarchingImageFilter_txx
 
-
+#include "itkFastMarchingImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "vnl/vnl_math.h"
 #include <algorithm>
+
 
 namespace itk
 {
@@ -32,17 +33,16 @@ namespace itk
 template <class TLevelSet, class TSpeedImage>
 FastMarchingImageFilter<TLevelSet,TSpeedImage>
 ::FastMarchingImageFilter()
+  : m_TrialHeap( )
 {
 
   this->ProcessObject::SetNumberOfRequiredInputs(0);
 
-  for ( int j = 0; j < SetDimension; j++ )
-    {
-    m_OutputSize[j] = 16;
-    }
+  m_OutputSize.Fill( 16 ); 
 
   m_AlivePoints = NULL;
   m_TrialPoints = NULL;
+  m_ProcessedPoints = NULL;
 
   m_SpeedConstant = 1.0;
   m_InverseSpeed = -1.0;
