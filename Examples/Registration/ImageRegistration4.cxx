@@ -94,12 +94,12 @@ public:
 
 int main( int argc, char *argv[] )
 {
-  if( argc < 3 )
+  if( argc < 4 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
-    std::cerr << "outputImagefile [differenceImage]" << std::endl;
+    std::cerr << "outputImagefile [defaultPixelValue]" << std::endl;
     return 1;
     }
   
@@ -222,7 +222,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   optimizer->SetMaximumStepLength( 4.00 );  
-  optimizer->SetMinimumStepLength( 0.005 );
+  optimizer->SetMinimumStepLength( 0.001 );
   optimizer->SetNumberOfIterations( 200 );
   // Software Guide : EndCodeSnippet
 
@@ -249,6 +249,8 @@ int main( int argc, char *argv[] )
   double TranslationAlongX = finalParameters[0];
   double TranslationAlongY = finalParameters[1];
   
+  // For stability reasons it may be desirable to round up the values of translation
+  // 
   unsigned int numberOfIterations = optimizer->GetCurrentIteration();
   
   double bestValue = optimizer->GetValue();
@@ -295,10 +297,17 @@ int main( int argc, char *argv[] )
 
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
+  PixelType defaultPixelValue = 100;
+
+  if( argc > 4 )
+    {
+    defaultPixelValue = atoi( argv[4] );
+    }
+  
   resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
   resample->SetOutputOrigin(  fixedImage->GetOrigin() );
   resample->SetOutputSpacing( fixedImage->GetSpacing() );
-  resample->SetDefaultPixelValue( 100 );
+  resample->SetDefaultPixelValue( defaultPixelValue );
 
 
   typedef  unsigned char  OutputPixelType;
