@@ -53,7 +53,7 @@ ProcessObject
   // when the process object is deleted.  However, the data object's source
   // will still point back to the now nonexistent process object if we do not
   // clean things up now.
-  int idx;
+  unsigned int idx;
   for (idx = 0; idx < m_Outputs.size(); ++idx)
     {
     if (m_Outputs[idx])

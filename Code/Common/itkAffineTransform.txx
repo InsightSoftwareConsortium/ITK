@@ -88,7 +88,7 @@ namespace itk
     AffineTransform<ScalarType, NDimensions>::
     PrintSelf(std::ostream &s) const
     {
-        int i, j;
+        unsigned int i, j;
         for (i = 0; i < NDimensions; i++) {
             for (j = 0; j < NDimensions; j++)
                 s << m_Matrix[i][j] << " ";
@@ -159,7 +159,7 @@ namespace itk
     AffineTransform<ScalarType, NDimensions>::
     Scale(const VectorType &factor, bool pre) {
         MatrixType trans;
-        int i, j;
+        unsigned int i, j;
 
         for (i = 0; i < NDimensions; i++) {
             for (j = 0; j < NDimensions; j++) {
@@ -184,7 +184,7 @@ namespace itk
     AffineTransform<ScalarType, NDimensions>::
     Rotate(int axis1, int axis2, double angle, bool pre) {
         MatrixType trans;
-        int i, j;
+        unsigned int i, j;
 
         for (i = 0; i < NDimensions; i++) {
             for (j = 0; j < NDimensions; j++) {
@@ -289,7 +289,7 @@ namespace itk
     Shear(int axis1, int axis2, double coef, bool pre)
     {
         MatrixType trans;
-        int i, j;
+        unsigned int i, j;
 
         for (i = 0; i < NDimensions; i++) {
             for (j = 0; j < NDimensions; j++) {
@@ -384,7 +384,7 @@ namespace itk
     BackTransform(const PointType &point) const {
         PointType result;       // Converted point
         ScalarType temp[NDimensions];
-        int i, j;
+        unsigned int i, j;
 
         for (j = 0; j < NDimensions; j++) {
             temp[j] = point[j] - m_Offset[j];
@@ -452,7 +452,7 @@ namespace itk
     BackTransformPoint(const PointType &point) {
         PointType result;       // Converted point
         ScalarType temp[NDimensions];
-        int i, j;
+        unsigned int i, j;
 
         for (j = 0; j < NDimensions; j++) {
             temp[j] = point[j] - m_Offset[j];
@@ -491,8 +491,8 @@ namespace itk
     {
         double result = 0.0, term;
 
-        for (int i = 0; i < NDimensions; i++) {
-            for (int j = 0; j < NDimensions; j++) {
+        for (unsigned int i = 0; i < NDimensions; i++) {
+            for (unsigned int j = 0; j < NDimensions; j++) {
                 term = m_Matrix[i][j] - other.m_Matrix[i][j];
                 result += term * term;
             }
@@ -510,8 +510,8 @@ namespace itk
     {
         double result = 0.0, term;
 
-        for (int i = 0; i < NDimensions; i++) {
-            for (int j = 0; j < NDimensions; j++) {
+        for (unsigned int i = 0; i < NDimensions; i++) {
+            for (unsigned int j = 0; j < NDimensions; j++) {
                 if (i == j)
                     term = m_Matrix[i][j] - 1.0;
                 else
