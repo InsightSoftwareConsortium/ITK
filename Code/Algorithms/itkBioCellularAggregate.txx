@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBioCellularAggregate.cxx
+  Module:    itkBioCellularAggregate.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -15,13 +15,11 @@
 
 =========================================================================*/
 
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#pragma warning ( disable : 4503 )
-#endif
-#include <fstream>
-#include "itkBioCellularAggregate.h"
+#ifndef __itk_Bio_Cellular_Aggregate_Txx
+#define __itk_Bio_Cellular_Aggregate_Txx
 
+
+#include "itkBioCellularAggregate.h"
 
 
 namespace itk {
@@ -30,15 +28,16 @@ namespace itk {
 namespace bio {
 
 
-CellularAggregate
+template<unsigned int NSpaceDimension>
+CellularAggregate<NSpaceDimension>
 ::CellularAggregate()
 {
 
-    Cell::ColorType color;
-    color.SetRed(1.0);
-    color.SetGreen(1.0);
-    color.SetBlue(1.0);
-  Cell::SetDefaultColor( color );
+  typename BioCellType::ColorType color;
+  color.SetRed(1.0);
+  color.SetGreen(1.0);
+  color.SetBlue(1.0);
+  BioCellType::SetDefaultColor( color );
 
   m_Mesh = MeshType::New();
 
@@ -57,7 +56,8 @@ CellularAggregate
 
 
 
-CellularAggregate
+template<unsigned int NSpaceDimension>
+CellularAggregate<NSpaceDimension>
 ::~CellularAggregate()
 {
   this->KillAll();
@@ -65,129 +65,41 @@ CellularAggregate
 
 
 
+template<unsigned int NSpaceDimension>
 unsigned int
-CellularAggregate
+CellularAggregate<NSpaceDimension>
 ::GetNumberOfCells(void) const
 {
   return m_Mesh->GetPointData()->Size();
 }
 
 
+
+template<unsigned int NSpaceDimension>
 void
-CellularAggregate
-::ExportXFIG(const char *) const
-{
-
-  /*
-  std::ofstream output;
-  output.open( filename );
-
-  if(output.fail() )
-    {
-    return;
-    }
-  
-  output << "#FIG 3.2"  << std::endl;
-  output << "Landscape" << std::endl;
-  output << "Center"    << std::endl;
-  output << "Metric"    << std::endl;
-  output << "A4"        << std::endl;      
-  output << "100.00"    << std::endl;
-  output << "Single"    << std::endl;
-  output << "-2"        << std::endl;
-  output << "1200 2"    << std::endl;
-
-  PointType position;
-
-  CellsIterator cellIt = m_Mesh->GetPointData()->Begin();
-  CellsIterator end    = m_Mesh->GetPointData()->End();
-
-  while( cellIt != end )
-    {
-    Cell * cell = cellIt.Value();
-    const IdentifierType id = cell->GetSelfIdentifier();
-    m_Mesh->GetPoint( id, &position );
-    output << "1 3 0 1 0 7 50 0 -1 0.000 1 0.0000 ";  // properties
-    const float scale = 100.0;
-    unsigned int radius = static_cast<unsigned int>( cell->GetRadius()    * scale );
-    unsigned int x      = static_cast<unsigned int>( 5000.0 + position[0] * scale );
-    unsigned int y      = static_cast<unsigned int>( 5000.0 + position[1] * scale );
-    unsigned int x2     = static_cast<unsigned int>( x + radius * 0.5000 );
-    unsigned int y2     = static_cast<unsigned int>( y + radius * 0.8660 );
-    output <<    x   << " " <<    y   << " ";
-    output << radius << " " << radius << " ";
-    output <<    x   << " " <<    y   << " ";
-    output <<    x2  << " " <<    y2  << std::endl;
-    cellIt++;
-    }
-
-  output.close();
-  */
-}
-
-
-
-
-
-void
-CellularAggregate
-::ExportDrawing(const char *) const
-{
-  /*
-  std::ofstream output;
-  output.open( filename );
-
-  if(output.fail() )
-    {
-    return;
-    }
-  
-  PointType position;
-
-  CellsIterator cellIt = m_Mesh->GetPointData()->Begin();
-  CellsIterator end    = m_Mesh->GetPointData()->End();
-
-  while( cellIt != end )
-    {
-    Cell * cell = cellIt.Value();
-    const IdentifierType id = cell->GetSelfIdentifier();
-    m_Mesh->GetPoint( id, &position );
-    output << position << "   " << cell->GetRadius() << std::endl;
-    cellIt++;
-    }
-
-  output.close();
-  */
-}
-
-
-
-
-
-void
-CellularAggregate
+CellularAggregate<NSpaceDimension>
 ::SetGrowthRadiusLimit( double value ) 
 {
-  Cell::SetGrowthRadiusLimit( value );
+  BioCellType::SetGrowthRadiusLimit( value );
 }
 
 
 
 
+template<unsigned int NSpaceDimension>
 void
-CellularAggregate
+CellularAggregate<NSpaceDimension>
 ::SetGrowthRadiusIncrement( double value ) 
 {
-  Cell::SetGrowthRadiusIncrement( value );
+  BioCellType::SetGrowthRadiusIncrement( value );
 }
 
 
 
 
-
-
+template<unsigned int NSpaceDimension>
 void
-CellularAggregate
+CellularAggregate<NSpaceDimension>
 ::PrintSelf(std::ostream& os, itk::Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
@@ -198,21 +110,23 @@ CellularAggregate
 
 
 
+template<unsigned int NSpaceDimension>
 void
-CellularAggregate
-::Remove( Cell * cell )
+CellularAggregate<NSpaceDimension>
+::Remove( CellBase * cellbase )
 {
+  BioCellType * cell = dynamic_cast<BioCellType *>( cellbase );
   if( !cell )
   {
     itk::ExceptionObject exception;
     exception.SetDescription("Trying to remove a null pointer to cell");
-    exception.SetLocation("CellularAggregate::Remove(Cell*)");
+    exception.SetLocation("CellularAggregate::Remove(BioCellType*)");
     throw exception;
   }
   
   IdentifierType id = cell->GetSelfIdentifier();
 
-  MeshType::CellAutoPointer   region;
+  typename MeshType::CellAutoPointer   region;
   bool regionExist = m_Mesh->GetCell( id, region );
   if( regionExist )
     {
@@ -225,8 +139,8 @@ CellularAggregate
       }
     else
       {
-      VoronoiRegionType::PointIdIterator neighbor = realRegion->PointIdsBegin();
-      VoronoiRegionType::PointIdIterator end      = realRegion->PointIdsEnd();
+      typename VoronoiRegionType::PointIdIterator neighbor = realRegion->PointIdsBegin();
+      typename VoronoiRegionType::PointIdIterator end      = realRegion->PointIdsEnd();
       while( neighbor != end )
         {
         neighbor++;
@@ -247,12 +161,13 @@ CellularAggregate
 
 
 
+template<unsigned int NSpaceDimension>
 void
-CellularAggregate
-::GetVoronoi( IdentifierType cellId, VoronoiRegionAutoPointer & voronoiPointer ) const
+CellularAggregate<NSpaceDimension>
+::GetVoronoi( unsigned long int cellId, VoronoiRegionAutoPointer & voronoiPointer ) const
 {
-
-  MeshType::CellAutoPointer cellPointer;
+  
+  typename MeshType::CellAutoPointer cellPointer;
 
   bool voronoiExists = m_Mesh->GetCell( cellId, cellPointer );
   if( !voronoiExists ) 
@@ -277,9 +192,10 @@ CellularAggregate
 
 
 
+template<unsigned int NSpaceDimension>
 void
-CellularAggregate
-::SetEgg( Cell * cell, const PointType & position )
+CellularAggregate<NSpaceDimension>
+::SetEgg( BioCellType * cell, const PointType & position )
 {
   VectorType perturbation = position.GetVectorFromOrigin();
   this->Add( cell, perturbation );
@@ -288,9 +204,10 @@ CellularAggregate
 
 
 
+template<unsigned int NSpaceDimension>
 void
-CellularAggregate
-::Add( Cell * cell )
+CellularAggregate<NSpaceDimension>
+::Add( CellBase * cell )
 {
   VectorType perturbation;
   perturbation.Fill( 0.0 );
@@ -301,13 +218,31 @@ CellularAggregate
 
 
 
+template<unsigned int NSpaceDimension>
 void
-CellularAggregate
-::Add( Cell * cellA, Cell * cellB, const VectorType & perturbation )
+CellularAggregate<NSpaceDimension>
+::Add( CellBase * cellA, CellBase * cellB, double perturbationLength )
 {
+  // Create a perturbation for separating the daugther cells
+  typename BioCellType::VectorType perturbationVector;
+  for(unsigned int d=0; d<NSpaceDimension; d++)
+    {
+    perturbationVector[d] = vnl_sample_uniform( -1.0f, 1.0f ); 
+    }
 
-  this->Add( cellA,  perturbation );
-  this->Add( cellB, -perturbation );
+  const double norm = perturbationVector.GetNorm();
+  if( vnl_math_abs( norm ) > 1e-10 ) 
+    {
+    perturbationVector *= perturbationLength / norm;
+    }
+  else
+    {
+    // this event should rarely happen... very rarely
+    perturbationVector[0] = perturbationLength;
+    }
+
+  this->Add( cellA,  perturbationVector );
+  this->Add( cellB, -perturbationVector );
 
   const IdentifierType cellAId = cellA->GetSelfIdentifier();
   const IdentifierType cellBId = cellB->GetSelfIdentifier();
@@ -326,11 +261,12 @@ CellularAggregate
 
 
 
+template<unsigned int NSpaceDimension>
 void
-CellularAggregate
-::Add( Cell * cell, const VectorType & perturbation )
+CellularAggregate<NSpaceDimension>
+::Add( CellBase * cellBase, const VectorType & perturbation )
 {
-
+  BioCellType * cell = dynamic_cast<BioCellType *>( cellBase );
   IdentifierType  newcellId       = cell->GetSelfIdentifier();
   IdentifierType  newcellparentId = cell->GetParentIdentifier();
     
@@ -372,13 +308,13 @@ CellularAggregate
 
   // Add this new cell as neighbor to cells in its neighborhood
 
-  VoronoiRegionType::PointIdIterator neighbor = selfVoronoi->PointIdsBegin();
-  VoronoiRegionType::PointIdIterator end      = selfVoronoi->PointIdsEnd();
+  typename VoronoiRegionType::PointIdIterator neighbor = selfVoronoi->PointIdsBegin();
+  typename VoronoiRegionType::PointIdIterator end      = selfVoronoi->PointIdsEnd();
 
   while( neighbor != end )
     {
     const IdentifierType neighborId = (*neighbor);
-    MeshType::CellAutoPointer cellPointer;
+    typename MeshType::CellAutoPointer cellPointer;
     bool neighborVoronoiExist = m_Mesh->GetCell( neighborId, cellPointer );
     if( neighborVoronoiExist ) 
       {
@@ -401,11 +337,11 @@ CellularAggregate
 
 
 
+template<unsigned int NSpaceDimension>
 void
-CellularAggregate
+CellularAggregate<NSpaceDimension>
 ::AdvanceTimeStep(void)
 {
-  
   if( m_Iteration % m_ClosestPointComputationInterval == 0 ) 
   {
     this->ComputeClosestPoints();
@@ -421,7 +357,7 @@ CellularAggregate
 
   while( cell != end )
     {
-    Cell * theCell = cell.Value();
+    BioCellType * theCell = cell.Value();
     theCell->AdvanceTimeStep();
     ++cell;
     if( theCell->MarkedForRemoval() )
@@ -441,8 +377,9 @@ CellularAggregate
 
 
 
+template<unsigned int NSpaceDimension>
 void
-CellularAggregate
+CellularAggregate<NSpaceDimension>
 ::KillAll(void)
 {
     
@@ -460,13 +397,14 @@ CellularAggregate
     ++cell;
     }
 
-  Cell::ResetCounter();
+  BioCellType::ResetCounter();
 }
 
 
 
+template<unsigned int NSpaceDimension>
 void
-CellularAggregate
+CellularAggregate<NSpaceDimension>
 ::ClearForces(void)
 {
 
@@ -484,8 +422,9 @@ CellularAggregate
 
 
 
+template<unsigned int NSpaceDimension>
 void
-CellularAggregate
+CellularAggregate<NSpaceDimension>
 ::UpdatePositions(void)
 {
  
@@ -496,7 +435,7 @@ CellularAggregate
 
   while( cellIt != end )
     {
-    Cell * cell = cellIt.Value();
+    BioCellType * cell = cellIt.Value();
     IdentifierType cellId = cell->GetSelfIdentifier();
     m_Mesh->GetPoint( cellId, &position );
     const VectorType force = cell->GetForce(); 
@@ -512,8 +451,9 @@ CellularAggregate
   
 
 
+template<unsigned int NSpaceDimension>
 void
-CellularAggregate
+CellularAggregate<NSpaceDimension>
 ::ComputeForces(void)
 {
 
@@ -531,7 +471,7 @@ CellularAggregate
 
     const IdentifierType cell1Id = cell1It.Index();
 
-    Cell     * cell1      =  cell1It.Value();
+    BioCellType     * cell1      =  cell1It.Value();
 
     PointType  position1;
     m_Mesh->GetPoint( cell1Id, &position1 );
@@ -541,15 +481,15 @@ CellularAggregate
     VoronoiRegionAutoPointer voronoiRegion;
     this->GetVoronoi( cell1Id, voronoiRegion );
               
-    VoronoiRegionType::PointIdIterator neighbor = voronoiRegion->PointIdsBegin();
-    VoronoiRegionType::PointIdIterator end      = voronoiRegion->PointIdsEnd();
+    typename VoronoiRegionType::PointIdIterator neighbor = voronoiRegion->PointIdsBegin();
+    typename VoronoiRegionType::PointIdIterator end      = voronoiRegion->PointIdsEnd();
 
     while( neighbor != end )
       {
 
       const IdentifierType cell2Id = (*neighbor);  
 
-      Cell     * cell2;
+      BioCellType     * cell2;
       PointType  position2;
       
       if( !m_Mesh->GetPoint(      cell2Id, &position2 ) )
@@ -561,20 +501,20 @@ CellularAggregate
       
       const double rB      = cell2->GetRadius();
 
-      Cell::VectorType relativePosition = position1 - position2;
+      typename BioCellType::VectorType relativePosition = position1 - position2;
 
       const double distance = relativePosition.GetNorm();
 
       if( distance < (rA + rB) / 2.0 )
         {
-          const double factor = 2.0 * Cell::GetGrowthRadiusLimit() / distance;
-        Cell::VectorType force = relativePosition * factor ;
+        const double factor = 2.0 * BioCellType::GetGrowthRadiusLimit() / distance;
+        typename BioCellType::VectorType force = relativePosition * factor ;
         cell1->AddForce(  force );
         cell2->AddForce( -force );
         }
       else if( distance < rA + rB )
         {
-        Cell::VectorType force = relativePosition;
+        typename BioCellType::VectorType force = relativePosition;
         cell1->AddForce(  force );
         cell2->AddForce( -force );
         }
@@ -590,8 +530,9 @@ CellularAggregate
 
 
 
+template<unsigned int NSpaceDimension>
 void
-CellularAggregate
+CellularAggregate<NSpaceDimension>
 ::ComputeClosestPoints(void)
 {
 
@@ -607,7 +548,7 @@ CellularAggregate
 
     PointsConstIterator   point2It   = beginPoints;
 
-    Cell  * cell1;
+    BioCellType  * cell1;
 
     IdentifierType cell1Id = point1It.Index();
     m_Mesh->GetPointData( cell1Id, &cell1 );
@@ -630,7 +571,7 @@ CellularAggregate
 
       PointType  position2 = point2It.Value();
 
-      Cell::VectorType relativePosition = position1 - position2;
+      typename BioCellType::VectorType relativePosition = position1 - position2;
 
       const double distance = relativePosition.GetNorm();
       if( distance < limitDistance )
@@ -649,8 +590,9 @@ CellularAggregate
 
 
 
+template<unsigned int NSpaceDimension>
 void
-CellularAggregate
+CellularAggregate<NSpaceDimension>
 ::DumpContent( std::ostream & os ) const
 {
   CellsConstIterator   beginCell   = m_Mesh->GetPointData()->Begin();
@@ -684,8 +626,8 @@ CellularAggregate
     {
     VoronoiRegionAutoPointer voronoiRegion;
     this->GetVoronoi( cell1It.Index(), voronoiRegion );
-    VoronoiRegionType::PointIdIterator neighbor = voronoiRegion->PointIdsBegin();
-    VoronoiRegionType::PointIdIterator end      = voronoiRegion->PointIdsEnd();
+    typename VoronoiRegionType::PointIdIterator neighbor = voronoiRegion->PointIdsBegin();
+    typename VoronoiRegionType::PointIdIterator end      = voronoiRegion->PointIdsEnd();
 
     while( neighbor != end )
       {
@@ -701,8 +643,9 @@ CellularAggregate
 
 
 
+template<unsigned int NSpaceDimension>
 void
-CellularAggregate
+CellularAggregate<NSpaceDimension>
 ::AddSubstrate( SubstrateType * substrate )
 {
   SubstratePointer smartPointer( substrate );
@@ -712,8 +655,9 @@ CellularAggregate
 
 
 
-CellularAggregate::SubstratesVector &
-CellularAggregate
+template<unsigned int NSpaceDimension>
+typename CellularAggregate<NSpaceDimension>::SubstratesVector &
+CellularAggregate<NSpaceDimension>
 ::GetSubstrates( void )
 {
   return m_Substrates;
@@ -721,10 +665,10 @@ CellularAggregate
 
 
 
-
-CellularAggregate::SubstrateValueType 
-CellularAggregate
-::GetSubstrateValue( Cell::IdentifierType cellId, unsigned int substrateId )
+template<unsigned int NSpaceDimension>
+typename CellularAggregate<NSpaceDimension>::SubstrateValueType 
+CellularAggregate<NSpaceDimension>
+::GetSubstrateValue( unsigned long int cellId, unsigned int substrateId ) const
 {
 
   PointType cellPosition;
@@ -738,20 +682,18 @@ CellularAggregate
 
   SubstratePointer    substrate = m_Substrates[ substrateId ];
 
-  SubstrateType::IndexType index;
-  typedef SubstrateType::IndexType::IndexValueType IndexValueType;
+  typename SubstrateType::IndexType index;
+  typedef typename SubstrateType::IndexType::IndexValueType IndexValueType;
 
-  SubstrateType::SizeType  substrateSize = 
+  typename SubstrateType::SizeType  substrateSize = 
                     substrate->GetBufferedRegion().GetSize();
-
-  const double * spacing = substrate->GetSpacing().GetDataPointer();
 
   substrate->TransformPhysicalPointToIndex( cellPosition, index );
 
   SubstrateValueType  value = 0;
   if( substrate->GetBufferedRegion().IsInside( index ) )
     {
-    value     = substrate->GetPixel( index );
+    value = substrate->GetPixel( index );
     }
 
   return value;
@@ -763,4 +705,6 @@ CellularAggregate
 } // end namespace bio
 
 } // end namespace itk
+
+#endif
 

@@ -25,7 +25,10 @@
 
 int itkBioCellTest( int, char * [] )
 {
-   typedef itk::bio::Cell CellType;
+   // Test for 2D 
+   {
+   std::cout << "Testing 2D " << std::endl;
+   typedef itk::bio::Cell<2> CellType;
     
    CellType * egg = CellType::CreateEgg();
 
@@ -36,8 +39,6 @@ int itkBioCellTest( int, char * [] )
 
    egg->ClearForce();
    egg->AddForce( forceVector );
-   egg->SecreteProducts();
-   egg->ComputeGeneNetwork();
 
    const double radius = egg->GetRadius();
 
@@ -56,6 +57,47 @@ int itkBioCellTest( int, char * [] )
      CellType::GetDivisionMaximumLatencyTime() << std::endl;
 
    delete egg;
+
+   }
+
+   // Test for 2D 
+   {
+   std::cout << "Testing 3D " << std::endl;
+   typedef itk::bio::Cell<3> CellType;
+    
+   CellType * egg = CellType::CreateEgg();
+
+   CellType::VectorType forceVector;
+
+   forceVector[0] = 10.5;
+   forceVector[1] = 20.5;
+   forceVector[2] = 30.5;
+
+   egg->ClearForce();
+   egg->AddForce( forceVector );
+
+   const double radius = egg->GetRadius();
+
+   CellType::SetGrowthRadiusLimit( 2.0 );
+   CellType::SetGrowthRadiusIncrement( 0.1 );
+   CellType::SetEnergySelfRepairLevel( 1.0 );
+   CellType::SetNutrientSelfRepairLevel( 1.0 );
+
+   CellType::SetGrowthMaximumLatencyTime( 10 );
+   CellType::SetDivisionMaximumLatencyTime( 10 );
+
+   std::cout << "Growth Latency = " << 
+     CellType::GetGrowthMaximumLatencyTime() << std::endl;
+
+   std::cout << "Division Latency = " << 
+     CellType::GetDivisionMaximumLatencyTime() << std::endl;
+
+   delete egg;
+
+   }
+
+
+
 
    std::cout << "Test Passed !" << std::endl;
    return EXIT_SUCCESS;

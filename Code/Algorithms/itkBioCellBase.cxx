@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBioCell.cxx
+  Module:    itkBioCellBase.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -16,13 +16,11 @@
 =========================================================================*/
 
 
-
-#include "itkBioCell.h"
-#include "itkBioCellularAggregate.h"
-#include "vnl/vnl_math.h"
-#include "vnl/vnl_sample.h"
+#include "itkBioCellBase.h"
 #include <new>
 
+#include "vnl/vnl_math.h"
+#include "vnl/vnl_sample.h"
 
 namespace itk {
 
@@ -30,57 +28,56 @@ namespace bio {
 
 
   
-Cell::ColorType    Cell::DefaultColor;
+CellBase::ColorType    CellBase::DefaultColor;
 
-double             Cell::DefaultRadius         =        1.00; // microns
+double             CellBase::DefaultRadius         =        1.00; // microns
 
 
-double             Cell::GrowthRadiusIncrement =        0.01; // microns
-double             Cell::GrowthRadiusLimit     =        2.00; // microns
-unsigned long      Cell::MaximumGenerationLimit =        30L; // 30th generation 
+double             CellBase::GrowthRadiusIncrement =        0.01; // microns
+double             CellBase::GrowthRadiusLimit     =        2.00; // microns
+unsigned long      CellBase::MaximumGenerationLimit =        30L; // 30th generation 
 
-unsigned long      Cell::GrowthMaximumLatencyTime    =   50; 
-unsigned long      Cell::DivisionMaximumLatencyTime  =   50; 
+unsigned long      CellBase::GrowthMaximumLatencyTime    =   50; 
+unsigned long      CellBase::DivisionMaximumLatencyTime  =   50; 
 
-double             Cell::NutrientSelfRepairLevel  =       0; 
-double             Cell::EnergySelfRepairLevel    =       0; 
+double             CellBase::NutrientSelfRepairLevel  =       0; 
+double             CellBase::EnergySelfRepairLevel    =       0; 
 
-double             Cell::DefaultEnergyIntake      =       1; 
-double             Cell::DefaultNutrientsIntake   =       1; 
+double             CellBase::DefaultEnergyIntake      =       1; 
+double             CellBase::DefaultNutrientsIntake   =       1; 
 
-unsigned long      Cell::Counter = 0; // number of cells created
+unsigned long      CellBase::Counter = 0; // number of cells created
 
-Cell::GeneIdType   Cell::RedGene   = "Red";
-Cell::GeneIdType   Cell::GreenGene = "Green";
-Cell::GeneIdType   Cell::BlueGene  = "Blue";
-Cell::GeneIdType   Cell::Cdk2E     = "Cdk2E";
-Cell::GeneIdType   Cell::Caspase   = "Caspase";
-Cell::GeneIdType   Cell::Pressurin = "Pressurin";
+CellBase::GeneIdType   CellBase::RedGene   = "Red";
+CellBase::GeneIdType   CellBase::GreenGene = "Green";
+CellBase::GeneIdType   CellBase::BlueGene  = "Blue";
+CellBase::GeneIdType   CellBase::Cdk2E     = "Cdk2E";
+CellBase::GeneIdType   CellBase::Caspase   = "Caspase";
+CellBase::GeneIdType   CellBase::Pressurin = "Pressurin";
 
-double             Cell::ChemoAttractantLowThreshold  = 200.0f;
-double             Cell::ChemoAttractantHighThreshold = 255.0f;
+double             CellBase::ChemoAttractantLowThreshold  = 200.0f;
+double             CellBase::ChemoAttractantHighThreshold = 255.0f;
 
-Cell::ColorType    Cell::WellNourishedColor;
-Cell::ColorType    Cell::HopefullColor;
-Cell::ColorType    Cell::StarvingColor;
+CellBase::ColorType    CellBase::WellNourishedColor;
+CellBase::ColorType    CellBase::HopefullColor;
+CellBase::ColorType    CellBase::StarvingColor;
 
 
 
 /**
  *    Constructor Lonely Cell
  */ 
-Cell
-::Cell()
+CellBase
+::CellBase()
 {
 
-  m_Genome      = 0;
-  m_GenomeCopy  = 0;
+  m_Genome      = NULL;
+  m_GenomeCopy  = NULL;
   
   m_Radius      = DefaultRadius;
   m_Color       = DefaultColor;
   
   m_Pressure  = 0.0f;
-  m_Force.Fill( 0.0f );
 
   m_ParentIdentifier = 0;    // Parent cell has to write here
 
@@ -117,66 +114,12 @@ Cell
 /**
  *    Destructor   
  */ 
-Cell
-::~Cell()
+CellBase
+::~CellBase()
 {
 }
 
 
-
-/**
- *    Cell Division
- */ 
-void
-Cell
-::Mitosis(void) 
-{
-
-  Cell * siblingA = dynamic_cast<Cell*>( this->CreateNew() );
-  Cell * siblingB = dynamic_cast<Cell*>( this->CreateNew() );
-
-  siblingA->m_Radius   = m_Radius / sqrt( 2.0f );
-  siblingB->m_Radius   = m_Radius / sqrt( 2.0f );
-
-  siblingA->m_Generation = m_Generation + 1;
-  siblingB->m_Generation = m_Generation + 1;
-
-  // Pass the genome to each daughter cell
-  siblingA->m_Genome = m_Genome;
-  siblingB->m_Genome = m_GenomeCopy;
-
-  // Create a perturbation for separating the daugther cells
-  Cell::VectorType perturbationVector;
-  for(unsigned int d=0; d<PointDimension; d++)
-    {
-    perturbationVector[d] = 
-           vnl_sample_uniform( -1.0f, 1.0f ); 
-    }
-
-  const double perturbationLength = m_Radius * 0.75;
-
-  const double norm = perturbationVector.GetNorm();
-  if( vnl_math_abs( norm ) > 1e-10 ) 
-    {
-    perturbationVector *= perturbationLength / norm;
-    }
-  else
-    {
-    // this event should rarely happen... very rarely
-    std::cout << "Cell:: unlikely event happend" << std::endl;
-    perturbationVector[0] = perturbationLength;
-    }
-
-  CellularAggregate * aggregate = GetCellularAggregate();
-
-  siblingA->m_ParentIdentifier = m_SelfIdentifier;
-  siblingB->m_ParentIdentifier = m_SelfIdentifier;
-
-  aggregate->Add( siblingA, siblingB, perturbationVector );
-
-  this->MarkForRemoval();
-
-}
 
 
 
@@ -184,7 +127,7 @@ Cell
  *    DNA Replication 
  */ 
 void
-Cell
+CellBase
 ::DNAReplication(void) 
 {
   m_GenomeCopy = new GenomeType;
@@ -199,19 +142,14 @@ Cell
  *    This is the cellular equivalent of suicide.
  */ 
 void
-Cell
+CellBase
 ::Apoptosis(void) 
 {
-
   delete m_Genome;
   delete m_GenomeCopy;
 
   m_Genome     = 0;
   m_GenomeCopy = 0;
-
-  CellularAggregate * aggregate = GetCellularAggregate();
-  // "this" cell will be destroyed here
-  aggregate->Remove( this ); 
 
 }
 
@@ -225,7 +163,7 @@ Cell
  *    required for growth are satisfied.
  */ 
 bool
-Cell
+CellBase
 ::CheckPointGrowth(void) 
 {
   return true;
@@ -241,7 +179,7 @@ Cell
  *    for DNA replication are satisfied.
  */ 
 bool
-Cell
+CellBase
 ::CheckPointDNAReplication(void) 
 {
   // radius & teleomerasa counting should be removed from here
@@ -249,6 +187,7 @@ Cell
   // The radius should be estimated by a cytoskeleton-related protein.
   const bool fatality = (m_Generation < MaximumGenerationLimit );
   const bool radius   = (m_Radius >= GrowthRadiusLimit);
+
 
   bool isOkToReplicate = true;
   const double cdk2E = m_Genome->GetExpressionLevel( Cdk2E );
@@ -292,7 +231,7 @@ Cell
  *    genomes satisfy the quality standards of a living cell. 
  */
 bool
-Cell
+CellBase
 ::CheckPointMitosis(void) 
 {
   const bool DNAProofRead = ( m_GenomeCopy && m_Genome );
@@ -315,7 +254,7 @@ Cell
  *    The cell will die in apoptosis.
  */ 
 bool
-Cell
+CellBase
 ::CheckPointApoptosis(void) 
 {
   bool executeApoptosis = false;
@@ -335,36 +274,18 @@ Cell
 
 
 /**
- *    Create a New cell
- *    this method behave like a factory, it is 
- *    intended to be overloaded in any class 
- *    deriving from Cell.
+ *    Initialize common variables
+ *    All this should go away once we setup Gene Networks for controlling the cell.
  */ 
-Cell *
-Cell 
-::CreateNew(void) 
+void
+CellBase
+::Initialize(void) 
 {
-  Cell * cell = new Cell;
-  cell->m_ParentIdentifier = m_SelfIdentifier;
-  return cell;
-}
+  CellBase::SetGrowthMaximumLatencyTime( 100 );
+  CellBase::SetDivisionMaximumLatencyTime( 100 );
 
-
-/**
- *    Create a New Egg Cell
- *    this method behave like a factory, it is 
- *    intended to be overloaded in any class 
- *    deriving from Cell.
- */ 
-Cell *
-Cell 
-::CreateEgg(void) 
-{
-  Cell::SetGrowthMaximumLatencyTime( 100 );
-  Cell::SetDivisionMaximumLatencyTime( 100 );
-
-  Cell::GrowthRadiusIncrement = 0.01;
-  Cell::GrowthRadiusLimit     = 2.00;
+  CellBase::GrowthRadiusIncrement = 0.01;
+  CellBase::GrowthRadiusLimit     = 2.00;
  
   SetMaximumGenerationLimit( 40 ); // it should use Teleomeres for implementing this
 
@@ -374,17 +295,6 @@ Cell
 
   SetDefaultColor( HopefullColor );
 
-  Cell * cell = new Cell;
-  cell->m_ParentIdentifier = 0;
-  cell->m_SelfIdentifier = 1;
-  cell->m_Generation = 0;
-
-  cell->m_Genome = new GenomeType;
-
-  cell->ComputeGeneNetwork();
-  cell->SecreteProducts();
-
-  return cell;
 }
 
 
@@ -396,7 +306,7 @@ Cell
  *  this cell from its list at the earliest occasion
  */ 
 void
-Cell 
+CellBase
 ::MarkForRemoval(void) 
 {
   m_MarkedForRemoval = true;
@@ -410,7 +320,7 @@ Cell
  *  this cell from its list at the earliest occasion
  */ 
 bool
-Cell 
+CellBase
 ::MarkedForRemoval(void) const
 {
   return m_MarkedForRemoval;
@@ -429,7 +339,7 @@ Cell
  *   of cell's radius
  */ 
 void
-Cell
+CellBase
 ::Grow(void) 
 {
   if( m_GrowthLatencyTime )
@@ -455,10 +365,10 @@ Cell
  *    Set Growth Latency Time
  */ 
 void
-Cell
+CellBase
 ::SetGrowthMaximumLatencyTime( unsigned long latency )
 {
-  Cell::GrowthMaximumLatencyTime = latency;
+  CellBase::GrowthMaximumLatencyTime = latency;
 }
 
 
@@ -468,45 +378,21 @@ Cell
  *    Get Growth Latency Time
  */ 
 unsigned long 
-Cell
+CellBase
 ::GetGrowthMaximumLatencyTime( void ) 
 {
-  return Cell::GrowthMaximumLatencyTime;
+  return CellBase::GrowthMaximumLatencyTime;
 }
 
 
-
-
-
-/**
- *    Clear the cumulator for applied forces
- */ 
-void
-Cell
-::ClearForce(void) 
-{
-  m_Force.Fill( 0.0f );
-  m_Pressure  = 0.0f;
-}
-
-
-/**
- *    Return the cumulated force
- */ 
-const Cell::VectorType &
-Cell
-::GetForce(void) const
-{
-  return m_Force;
-}
 
 
 
 /**
  *    Return the ID  of this cell
  */ 
-Cell::IdentifierType
-Cell
+CellBase::IdentifierType
+CellBase
 ::GetSelfIdentifier(void) const
 {
   return m_SelfIdentifier;
@@ -517,50 +403,11 @@ Cell
 /**
  *    Return the ID  of the parent cell
  */ 
-Cell::IdentifierType
-Cell
+CellBase::IdentifierType
+CellBase
 ::GetParentIdentifier(void) const
 {
   return m_ParentIdentifier;
-}
-
-
-
-
-/**
- *    Return a const pointer to the Cellular Aggregate
- */ 
-const CellularAggregate *
-Cell
-::GetCellularAggregate(void) const
-{
-  return m_Aggregate;
-}
-
-
-
-/**
- *    Return a pointer to the Cellular Aggregate
- */ 
-CellularAggregate *
-Cell
-::GetCellularAggregate(void) 
-{
-  return m_Aggregate;
-}
-
-
-
-
-
-/**
- *   Set Cellular Aggregate
- */ 
-void
-Cell
-::SetCellularAggregate( CellularAggregate * cells ) 
-{
-  m_Aggregate = cells;
 }
 
 
@@ -569,7 +416,7 @@ Cell
  *    Return the radius 
  */ 
 double
-Cell
+CellBase
 ::GetRadius(void) const
 {
   return m_Radius;
@@ -579,34 +426,11 @@ Cell
 /**
  *    Return the Color 
  */ 
-Cell::ColorType
-Cell
+CellBase::ColorType
+CellBase
 ::GetColor(void) const
 {
   return m_Color;
-}
-
-
-
-
-/**
- *    Add a force to the cumulator
- */ 
-void
-Cell
-::AddForce( const VectorType & force )
-{
-  if( m_ChemoAttractantLevel > ChemoAttractantLowThreshold &&
-      m_ChemoAttractantLevel < ChemoAttractantHighThreshold   )
-    {
-    double factor = 1.0 / pow( m_Radius, Cell::Dimension );
-    m_Force    += force;
-    m_Pressure += force.GetNorm() * factor;
-    }
-  else
-    {
-    // no force so it is fixed in place....
-    }
 }
 
 
@@ -618,7 +442,7 @@ Cell
  *    cellular aggregate
  */ 
 void
-Cell
+CellBase
 ::SetGrowthRadiusLimit( double value ) 
 {
   GrowthRadiusLimit = value;
@@ -631,7 +455,7 @@ Cell
  *    termination stage.
  */ 
 void
-Cell
+CellBase
 ::SetEnergySelfRepairLevel( double value ) 
 {
   EnergySelfRepairLevel = value;
@@ -644,7 +468,7 @@ Cell
  *    termination stage.
  */ 
 void
-Cell
+CellBase
 ::SetNutrientSelfRepairLevel( double value ) 
 {
   NutrientSelfRepairLevel = value;
@@ -659,7 +483,7 @@ Cell
  *    that the genome can be replicated.
  */ 
 void
-Cell
+CellBase
 ::SetMaximumGenerationLimit( unsigned long generationLimit )
 {
   MaximumGenerationLimit = generationLimit;
@@ -673,7 +497,7 @@ Cell
  *    cellular aggregate
  */ 
 double
-Cell
+CellBase
 ::GetGrowthRadiusLimit( void ) 
 {
   return GrowthRadiusLimit;
@@ -687,7 +511,7 @@ Cell
  *    cellular aggregate
  */ 
 void
-Cell
+CellBase
 ::SetGrowthRadiusIncrement( double value ) 
 {
   GrowthRadiusIncrement = value;
@@ -697,112 +521,10 @@ Cell
 
 
 /**
- *    Execute a time step in the life of the cell.
- *    This is one step in the cell cycle.
- *
- *    Nutrients are acquired
- *    Energy is acquired
- *    If conditions allow it, the cell will grow
- *    The position will be updated according to
- *    applied forces
- */ 
-void
-Cell
-::AdvanceTimeStep(void) 
-{
-
-  // get input from the environment
-  this->ReceptorsReading(); 
-
-  // update the level of expression of all the
-  // genes in the gene network
-  this->ComputeGeneNetwork();
-
-  // this methods produce the effects of gene
-  // activation and protein synthesis. It is
-  // mostly used for secreting proteins already
-  // synthetized in the ComputeGeneNetwork method.
-  this->SecreteProducts();
-
-  // If this happens, it is an
-  // emergency situation: Do it first.
-  if( this->CheckPointApoptosis() )
-    {
-    m_CycleState = Apop;
-    }
-
-
-  switch( m_CycleState )
-  {
-  case M: // Mitosis
-    m_CycleState = Gap1;
-    break;
-  case Gap1: // Gap 1 : growing
-    {
-    if( this->CheckPointDNAReplication() )
-      {
-      m_CycleState = S;
-      }
-
-    break;
-    }
-  case S:
-    m_CycleState = Gap2;
-    break;
-  case Gap2:
-    if( this->CheckPointMitosis() )
-      {
-      m_CycleState = M;
-      }
-    break;
-  case Gap0:
-    // The cell is in cell cycle arrest
-    m_CycleState = Gap0;
-    break;
-  case Apop:
-    m_CycleState = Apop;
-    break;
-  }
-
-
-
-  // Atomaton : Execute action
-  switch( m_CycleState )
-  {
-  case M:  // Mitosis
-    // This is a terminal action. The implementation of the cell 
-    // is destroyed after division. Our abstraction assumes that 
-    // the cell disapears and two new cell are created.
-    this->Mitosis();
-    break;
-  case Gap1:
-    // Eat and grow
-    this->NutrientsIntake();
-    this->EnergyIntake();
-    this->Grow();
-    break;
-  case Gap0:
-    this->NutrientsIntake();
-    this->EnergyIntake();
-    break;
-  case S:
-    this->DNAReplication();
-    break; 
-  case Gap2:
-    break;
-  case Apop:
-    this->Apoptosis();
-    break;
-  }
-}
-
-
-
-/**
  *    Ingestion of nutrients
  */
 void
-Cell
+CellBase
 ::NutrientsIntake(void) 
 {
   m_NutrientsReserveLevel += DefaultNutrientsIntake;
@@ -814,29 +536,10 @@ Cell
  *    Acquisition of energy
  */
 void
-Cell
+CellBase
 ::EnergyIntake(void) 
 {
   m_EnergyReserveLevel += DefaultEnergyIntake;
-}
-
-
-
-/**
- *    Reading substrate using receptors
- */
-void
-Cell
-::ReceptorsReading(void) 
-{
-  m_Genome->SetExpressionLevel( Pressurin, m_Pressure );
-  
-  CellularAggregate::SubstrateType::PixelType substrate0 =
-              m_Aggregate->GetSubstrateValue( m_SelfIdentifier, 0 );
-  
-  m_ChemoAttractantLevel = substrate0;
-
-
 }
 
 
@@ -847,14 +550,14 @@ Cell
  *   all the genes in the cell's genome.
  *   see: http://www.ingeneue.org  for details
  */ 
-void
-Cell
+void 
+CellBase
 ::ComputeGeneNetwork(void) 
 {
   // Default level of pigments
-  m_Genome->SetExpressionLevel( Cell::RedGene,   1.0 );
-  m_Genome->SetExpressionLevel( Cell::GreenGene, 1.0 );
-  m_Genome->SetExpressionLevel( Cell::BlueGene,  1.0 );
+  m_Genome->SetExpressionLevel( CellBase::RedGene,   1.0 );
+  m_Genome->SetExpressionLevel( CellBase::GreenGene, 1.0 );
+  m_Genome->SetExpressionLevel( CellBase::BlueGene,  1.0 );
 
 
   // Color the cell acording to pressure.
@@ -910,7 +613,7 @@ Cell
  *   the gene network update
  */ 
 void
-Cell
+CellBase
 ::SecreteProducts(void) 
 {
   m_Color.SetRed(    m_Genome->GetExpressionLevel( RedGene   ) );
@@ -925,7 +628,7 @@ Cell
  *    Set default Color
  */
 void
-Cell
+CellBase
 ::SetDefaultColor( const ColorType & color )
 {
   DefaultColor = color;
@@ -937,7 +640,7 @@ Cell
  *    Reset the counter 
  */
 void
-Cell
+CellBase
 ::ResetCounter( void )
 {
   Counter = 0;
@@ -949,10 +652,10 @@ Cell
  *    Set Division Latency Time
  */ 
 void
-Cell
+CellBase
 ::SetDivisionMaximumLatencyTime( unsigned long latency )
 {
-  Cell::DivisionMaximumLatencyTime = latency;
+  CellBase::DivisionMaximumLatencyTime = latency;
 }
 
 
@@ -962,11 +665,12 @@ Cell
  *    Get Division Latency Time
  */ 
 unsigned long 
-Cell
+CellBase
 ::GetDivisionMaximumLatencyTime( void )
 {
-  return Cell::DivisionMaximumLatencyTime;
+  return CellBase::DivisionMaximumLatencyTime;
 }
+
 
 
 
@@ -974,4 +678,5 @@ Cell
 }  // end namespace bio
 
 }  // end namespace itk
+
 

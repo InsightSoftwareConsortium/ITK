@@ -17,12 +17,8 @@
 #ifndef __Bio_Cellular_Aggregate_H
 #define __Bio_Cellular_Aggregate_H
 
-// Disable warning for long symbol names in this file only
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
-
+#include "itkBioCellularAggregateBase.h"
 #include "itkDefaultDynamicMeshTraits.h"
 #include "itkMesh.h"
 #include "itkImage.h"
@@ -43,77 +39,81 @@ namespace bio {
  * This class is the base for different types of cellular groups
  * including bacterial colonies and pluricellular organisms 
  */
-class CellularAggregate : public itk::Object
+template<unsigned int NSpaceDimension=3>
+class CellularAggregate : public CellularAggregateBase
 {
 public:
   /** Standard class typedefs. */
   typedef CellularAggregate      Self;
-  typedef itk::Object  Superclass;
+  typedef CellularAggregateBase  Superclass;
   typedef itk::SmartPointer<Self>        Pointer;
   typedef itk::SmartPointer<const Self>  ConstPointer;
 
   /*** Run-time type information (and related methods). */
-  itkTypeMacro(CellularAggregate, itk::Object);
+  itkTypeMacro(CellularAggregate, CellularAggregateBase);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
+  itkStaticConstMacro( SpaceDimension, unsigned int, NSpaceDimension);
+
   /*** Type to be used for data associated with each point in the mesh. */
-  typedef    Cell *    PointPixelType;
-  typedef    double    CellPixelType;
+  typedef    Cell<NSpaceDimension>      BioCellType;
+  typedef    BioCellType *              PointPixelType;
+  typedef    double                     CellPixelType;
+
 
   /** Mesh Traits */
   typedef itk::DefaultDynamicMeshTraits<  
               PointPixelType,           // PixelType
-              Cell::PointDimension,     // Points Dimension
-              Cell::PointDimension,     // Max.Topological Dimension
+              NSpaceDimension,           // Points Dimension
+              NSpaceDimension,           // Max.Topological Dimension
               double,                   // Type for coordinates
               double,                   // Type for interpolation 
               CellPixelType             // Type for values in the cells  
               >  MeshTraits;
   
   /** Mesh Traits */
-  typedef itk::Mesh<  MeshTraits::PixelType,
+  typedef itk::Mesh<  typename MeshTraits::PixelType,
                       MeshTraits::PointDimension,
                       MeshTraits  >               MeshType;
 
   /** Mesh Associated types */
-  typedef MeshType::Pointer                       MeshPointer;
-  typedef MeshType::ConstPointer                  MeshConstPointer;
-  typedef MeshType::PointType                     PointType;
-  typedef Cell::VectorType                        VectorType;
+  typedef typename MeshType::Pointer                       MeshPointer;
+  typedef typename MeshType::ConstPointer                  MeshConstPointer;
+  typedef typename MeshType::PointType                     PointType;
+  typedef typename BioCellType::VectorType                 VectorType;
 
 
-  typedef MeshType::PointsContainer               PointsContainer;
-  typedef MeshType::PointDataContainer            PointDataContainer;
-  typedef MeshType::CellsContainer                VoronoiRegionsContainer;
-  typedef PointsContainer::Iterator               PointsIterator;
-  typedef PointDataContainer::Iterator            CellsIterator;
-  typedef VoronoiRegionsContainer::Iterator       VoronoiIterator;
-  typedef PointsContainer::ConstIterator          PointsConstIterator;
-  typedef PointDataContainer::ConstIterator       CellsConstIterator;
-  typedef VoronoiRegionsContainer::ConstIterator  VoronoiConstIterator;
-  typedef MeshType::PointIdentifier               IdentifierType;
-  typedef MeshType::CellAutoPointer               CellAutoPointer;
+  typedef typename MeshType::PointsContainer               PointsContainer;
+  typedef typename MeshType::PointDataContainer            PointDataContainer;
+  typedef typename MeshType::CellsContainer                VoronoiRegionsContainer;
+  typedef typename PointsContainer::Iterator               PointsIterator;
+  typedef typename PointDataContainer::Iterator            CellsIterator;
+  typedef typename VoronoiRegionsContainer::Iterator       VoronoiIterator;
+  typedef typename PointsContainer::ConstIterator          PointsConstIterator;
+  typedef typename PointDataContainer::ConstIterator       CellsConstIterator;
+  typedef typename VoronoiRegionsContainer::ConstIterator  VoronoiConstIterator;
+  typedef typename MeshType::PointIdentifier               IdentifierType;
+  typedef typename MeshType::CellAutoPointer               CellAutoPointer;
 
   /**   Voronoi region around a bio::Cell */
-  typedef itk::CellInterface<  MeshType::CellPixelType, 
-                               MeshType::CellTraits >     CellInterfaceType;
+  typedef itk::CellInterface<  
+                     typename MeshType::CellPixelType, 
+                     typename MeshType::CellTraits >      CellInterfaceType;
   typedef itk::PolygonCell<  CellInterfaceType >          VoronoiRegionType;
-  typedef VoronoiRegionType::SelfAutoPointer              VoronoiRegionAutoPointer;
+  typedef typename VoronoiRegionType::SelfAutoPointer     VoronoiRegionAutoPointer;
 
   /** Convenient typedefs. */
-  typedef float                                           ImagePixelType;
-  typedef itk::Image<ImagePixelType, Cell::Dimension >    SubstrateType;
-  typedef SubstrateType::Pointer                          SubstratePointer;
-  typedef ImagePixelType                                  SubstrateValueType;
-  typedef std::vector< SubstratePointer >                 SubstratesVector;
+  typedef float                                        ImagePixelType;
+  typedef itk::Image<ImagePixelType, NSpaceDimension > SubstrateType;
+  typedef typename SubstrateType::Pointer              SubstratePointer;
+  typedef ImagePixelType                               SubstrateValueType;
+  typedef std::vector< SubstratePointer >              SubstratesVector;
 
 public:
   unsigned int GetNumberOfCells(void) const;
  
-  void ExportDrawing(const char * filename) const;
-  void ExportXFIG(const char * filename) const;
   void SetGrowthRadiusLimit( double value );
   void SetGrowthRadiusIncrement( double value );
   
@@ -122,21 +122,20 @@ public:
 
   virtual void AdvanceTimeStep(void);
 
-  virtual void SetEgg( Cell * cell, const PointType & position );
-  virtual void Add( Cell * cell );
-  virtual void Add( Cell * cell, const VectorType & perturbation );
-  virtual void Add( Cell * cellA, Cell *cellB, const VectorType & perturbation );
+  virtual void SetEgg( BioCellType * cell, const PointType & position );
+  virtual void Add( CellBase * cell );
+  virtual void Add( CellBase * cell, const VectorType & perturbation );
+  virtual void Add( CellBase * cellA, CellBase * cellB, double perturbationLength );
+  virtual void Remove( CellBase * cell );
   
-  virtual void Remove( Cell * cell );
-  
-  virtual void GetVoronoi( IdentifierType cellId, VoronoiRegionAutoPointer & ) const;
+  virtual void GetVoronoi( unsigned long int cellId, VoronoiRegionAutoPointer & ) const;
 
   void DumpContent( std::ostream & os ) const;
 
   virtual void AddSubstrate( SubstrateType * substrate );
   virtual SubstratesVector & GetSubstrates( void );
-  virtual SubstrateValueType GetSubstrateValue( Cell::IdentifierType cellId,
-                                                unsigned int substrateId );
+  virtual SubstrateValueType GetSubstrateValue( unsigned long int cellId,
+                                                unsigned int substrateId ) const;
 
   virtual void KillAll(void);
 
@@ -167,4 +166,10 @@ private:
 
 } // end namespace itk
 
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkBioCellularAggregate.txx"
 #endif
+
+#endif
+
