@@ -48,7 +48,7 @@ class MetaEllipse : public MetaObject
 
     void PrintInfo(void) const;
 
-    virtual void CopyInfo(const MetaEllipse * _ellipse);
+    void CopyInfo(const MetaEllipse * _ellipse);
 
     //
     //

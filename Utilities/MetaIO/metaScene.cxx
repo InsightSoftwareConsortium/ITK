@@ -124,7 +124,7 @@ Read(const char *_headerName)
   }
 
   /** Objects should be added here */
-  for(unsigned int i=0;i<m_NObjects;i++)
+  for(int i=0;i<m_NObjects;i++)
   {
     
     if(!strncmp(MET_ReadType(*m_ReadStream),"Tube",4))
@@ -190,7 +190,7 @@ Write(const char *_headName)
   }
 
   // Set the number of objects based on the net list
-  ObjectListType::const_iterator itNet = m_ObjectList.begin();
+  //ObjectListType::const_iterator itNet = m_ObjectList.begin();
   m_NObjects = m_ObjectList.size();
 
   M_SetupWriteFields();
@@ -201,7 +201,7 @@ Write(const char *_headName)
     return false;
     }
 
-  bool result = M_Write();
+  M_Write();
 
   m_WriteStream->close();
 
@@ -241,7 +241,7 @@ M_SetupReadFields(void)
 
   MET_FieldRecordType * mF;
 
-  int nDimsRecNum = MET_GetFieldRecordNumber("NDims",m_Fields);
+  //int nDimsRecNum = MET_GetFieldRecordNumber("NDims",m_Fields);
 
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "NObjects", MET_INT, false);

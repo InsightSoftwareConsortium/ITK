@@ -79,7 +79,7 @@ class MetaBlob : public MetaObject
 
     void PrintInfo(void) const;
 
-    virtual void CopyInfo(const MetaBlob * _tube);
+    void CopyInfo(const MetaBlob * _tube);
 
     //
     //

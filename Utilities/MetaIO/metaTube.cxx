@@ -512,7 +512,7 @@ M_Read(void)
     for(int k=0; k<pntDim; k++)
     {
       *m_ReadStream >> v[k];
-      char c = m_ReadStream->get();
+      m_ReadStream->get();
     }
 
     float* x = new float[m_NDims];

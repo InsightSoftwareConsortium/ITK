@@ -187,7 +187,7 @@ Write(const char *_headName)
     return false;
     }
 
-  bool result = M_Write();
+  M_Write();
       
   m_WriteStream->close();
 
@@ -215,7 +215,7 @@ bool MetaLine
     return false;
   }
 
-  bool result = M_Write();
+  M_Write();
       
   return true;
 
@@ -253,7 +253,7 @@ M_SetupReadFields(void)
 
   MET_FieldRecordType * mF;
 
-  int nDimsRecNum = MET_GetFieldRecordNumber("NDims",m_Fields);
+  //int nDimsRecNum = MET_GetFieldRecordNumber("NDims",m_Fields);
 
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "PointDim", MET_STRING, true);
@@ -353,7 +353,7 @@ M_Read(void)
   }
 
   int* posDim= new int[m_NDims];
-  for(unsigned int i= 0; i < m_NDims; i++)
+  for(int i= 0; i < m_NDims; i++)
   {
     posDim[i] = -1;
   }
@@ -383,23 +383,23 @@ M_Read(void)
       return false;
     }
 
-    unsigned int i=0;
+    int i=0;
     double td;
-    for(unsigned int j=0; j<m_NPoints; j++) 
+    for(int j=0; j<m_NPoints; j++) 
     {
       pnt = new LinePnt(m_NDims);
       float* x = new float[m_NDims];
       
-      for(unsigned int d=0; d<m_NDims; d++)
+      for(int d=0; d<m_NDims; d++)
       {
         MET_ValueToDouble(m_ElementType, _data, i++, &td);
         x[d] = (float)td;
       }
 
-      for(unsigned int l=0;l<m_NDims-1;l++)
+      for(int l=0;l<m_NDims-1;l++)
       {
         float* n = new float[m_NDims];
-        for(unsigned int d=0; d<m_NDims; d++)
+        for(int d=0; d<m_NDims; d++)
         {
           MET_ValueToDouble(m_ElementType, _data, i++, &td);
           n[d] = (float)td;
@@ -412,12 +412,12 @@ M_Read(void)
   }
   else
   {
-    for(unsigned int j=0; j<m_NPoints; j++) 
+    for(int j=0; j<m_NPoints; j++) 
     {
       pnt = new LinePnt(m_NDims);
 
-      unsigned int k=0;
-      unsigned int d=0;
+      int k=0;
+      int d=0;
       for(k=0; k<m_NDims; k++)
       {
         *m_ReadStream >> v[k];
@@ -435,7 +435,7 @@ M_Read(void)
 
       for(k=0; k<m_NDims-1; k++)
       {
-        for(unsigned int j=0; j<m_NDims; j++)
+        for(int j=0; j<m_NDims; j++)
         {
           *m_ReadStream >> v[j];
           char c = m_ReadStream->get();
@@ -490,8 +490,8 @@ M_Write(void)
     MET_SizeOfType(m_ElementType, &elementSize);
 
     char* data = new char[m_NDims*m_NPoints*elementSize*m_NDims];
-    unsigned int i=0;
-    unsigned int d=0;
+    int i=0;
+    int d=0;
     while(it != m_PointList.end())
     {
       for(d = 0; d < m_NDims; d++)
@@ -500,7 +500,7 @@ M_Write(void)
         
       }
 
-      for(unsigned int j=0;j<m_NDims-1;j++)
+      for(int j=0;j<m_NDims-1;j++)
       {
         for(d=0; d<m_NDims; d++)
         {
@@ -523,7 +523,7 @@ M_Write(void)
   {
     PointListType::const_iterator it = m_PointList.begin();
   
-    unsigned int d;
+    int d;
     while(it != m_PointList.end())
     {
       for(d = 0; d < m_NDims; d++)
@@ -533,7 +533,7 @@ M_Write(void)
 
       for(d = 0; d < m_NDims-1; d++)
       {
-        for(unsigned int i = 0; i < m_NDims; i++)
+        for(int i = 0; i < m_NDims; i++)
         {
           *m_WriteStream << (*it)->m_V[d][i] << " ";
         }

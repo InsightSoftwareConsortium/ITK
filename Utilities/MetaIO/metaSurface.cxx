@@ -187,7 +187,7 @@ Write(const char *_headName)
     return false;
     }
 
-  bool result = M_Write();
+  M_Write();
       
   m_WriteStream->close();
 
@@ -215,7 +215,7 @@ bool MetaSurface
     return false;
   }
 
-  bool result = M_Write();
+  M_Write();
       
   return true;
 
@@ -253,7 +253,7 @@ M_SetupReadFields(void)
 
   MET_FieldRecordType * mF;
 
-  int nDimsRecNum = MET_GetFieldRecordNumber("NDims",m_Fields);
+  // int nDimsRecNum = MET_GetFieldRecordNumber("NDims",m_Fields);
 
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "PointDim", MET_STRING, true);
@@ -353,7 +353,7 @@ M_Read(void)
   }
 
   int* posDim= new int[m_NDims];
-  for(unsigned int i= 0; i < m_NDims; i++)
+  for(int i= 0; i < m_NDims; i++)
   {
     posDim[i] = -1;
   }
@@ -383,10 +383,10 @@ M_Read(void)
       return false;
     }
 
-    unsigned int i=0;
-    unsigned int d;
+    int i=0;
+    int d;
     double td;
-    for(unsigned int j=0; j<m_NPoints; j++) 
+    for(int j=0; j<m_NPoints; j++) 
     {
       pnt = new SurfacePnt(m_NDims);
       float* x = new float[m_NDims];
@@ -417,17 +417,17 @@ M_Read(void)
   }
   else
   {
-    for(unsigned int j=0; j<m_NPoints; j++) 
+    for(int j=0; j<m_NPoints; j++) 
     {
       pnt = new SurfacePnt(m_NDims);
 
-      for(unsigned int k=0; k<pntDim; k++)
+      for(int k=0; k<pntDim; k++)
       {
         *m_ReadStream >> v[k];
-        char c = m_ReadStream->get();
+        m_ReadStream->get(); // char c =
       }
 
-      unsigned int d=0;
+      int d=0;
       float* x = new float[m_NDims];
       for(d=0; d<m_NDims; d++)
       {
@@ -437,7 +437,7 @@ M_Read(void)
 
       pnt->m_X = x;
       
-       float* n = new float[m_NDims];
+      float* n = new float[m_NDims];
       for(d=m_NDims; d<m_NDims*2; d++)
       {
         n[d-m_NDims] = v[d];
@@ -484,8 +484,8 @@ M_Write(void)
     MET_SizeOfType(m_ElementType, &elementSize);
 
     char* data = new char[m_NDims*2*m_NPoints*elementSize];
-    unsigned int i=0;
-    unsigned int d=0;
+    int i=0;
+    int d=0;
     while(it != m_PointList.end())
     {
       for(d = 0; d < m_NDims; d++)
@@ -513,7 +513,7 @@ M_Write(void)
   {
     PointListType::const_iterator it = m_PointList.begin();
   
-    unsigned int d;
+    int d;
     while(it != m_PointList.end())
     {
       for(d = 0; d < m_NDims; d++)

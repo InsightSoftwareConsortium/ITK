@@ -81,7 +81,7 @@ class MetaSurface : public MetaObject
 
     void PrintInfo(void) const;
 
-    virtual void CopyInfo(const MetaSurface * _tube);
+    void CopyInfo(const MetaSurface * _tube);
 
     //
     //

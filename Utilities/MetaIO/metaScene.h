@@ -50,7 +50,7 @@ class MetaScene : public MetaObject
 
     void PrintInfo(void) const;
 
-    virtual void CopyInfo(const MetaScene * _scene);
+    void CopyInfo(const MetaScene * _scene);
 
     void AddObject(MetaObject* object);
 

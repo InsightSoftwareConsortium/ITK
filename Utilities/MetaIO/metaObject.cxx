@@ -35,7 +35,7 @@ MetaObject(const char * _fileName)
   {
   m_NDims = 0;
   m_Fields.clear();
-  Read(_fileName);
+  this->Read(_fileName);
   }
 
 MetaObject::
@@ -155,7 +155,6 @@ ReadStream(int _nDims, std::ifstream * _stream)
   bool result = M_Read();
 
   return result;
-  return true;
 }
 
 
@@ -590,7 +589,7 @@ M_SetupReadFields(void)
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "ElementSpacing", MET_FLOAT_ARRAY, false,
                      nDimsRecordNumber);
-  mF->required = true;
+  mF->required = false;
   m_Fields.push_back(mF);
   }
 
@@ -823,6 +822,16 @@ M_Read(void)
     for(i=0; i<mF->length; i++)
       {
       m_ElementSpacing[i] = mF->value[i];
+      if (DEBUG) 
+        std::cout << "metaObject: M_Read: elementSpacing[" << i << "] = " 
+                  << m_ElementSpacing[i] << std::endl;
+      }
+    }
+  else
+    {
+    for(i=0; i<mF->length; i++)
+      {
+      m_ElementSpacing[i] = 1;
       if (DEBUG) 
         std::cout << "metaObject: M_Read: elementSpacing[" << i << "] = " 
                   << m_ElementSpacing[i] << std::endl;

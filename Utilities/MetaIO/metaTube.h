@@ -99,7 +99,7 @@ class MetaTube : public MetaObject
 
     void PrintInfo(void) const;
 
-    virtual void CopyInfo(const MetaTube * _tube);
+    void CopyInfo(const MetaTube * _tube);
 
     //
     //

@@ -81,15 +81,15 @@ class MetaObject
       void  FileName(const char *_fileName);
       const char  * FileName(void) const;
 
-      virtual void  CopyInfo(const MetaObject * _object);
+      void  CopyInfo(const MetaObject * _object);
 
-      virtual bool  Read(const char * _fileName=NULL);
+      bool  Read(const char * _fileName=NULL);
 
-      virtual bool  ReadStream(int _nDims, std::ifstream * _stream);
+      bool  ReadStream(int _nDims, std::ifstream * _stream);
 
-      virtual bool  Write(const char * _fileName=NULL);
+      bool  Write(const char * _fileName=NULL);
 
-      virtual bool Append(const char *_headName=NULL) {std::cout << "Not Implemented !" << std::endl; return true;}
+      bool Append(const char *_headName=NULL) {std::cout << "Not Implemented !" << std::endl; return true;}
 
       ////
       //

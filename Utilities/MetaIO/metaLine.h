@@ -88,7 +88,7 @@ class MetaLine : public MetaObject
 
     void PrintInfo(void) const;
 
-    virtual void CopyInfo(const MetaLine * _tube);
+    void CopyInfo(const MetaLine * _tube);
 
     //
     //

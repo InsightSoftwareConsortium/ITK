@@ -1098,7 +1098,7 @@ M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity)
   if(m_HeaderSize>(int)0)
     {
     _fstream->seekg(m_HeaderSize, std::ios::cur);
-    if(_fstream->gcount() != m_HeaderSize)
+    if((int)_fstream->gcount() != m_HeaderSize)
       {
       std::cout << "MetaImage: Read: header not read correctly" << std::endl;
       return false;

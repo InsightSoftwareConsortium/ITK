@@ -53,7 +53,7 @@ PrintInfo() const
 {
   MetaObject::PrintInfo();
   std::cout << "Radius = ";
-  for(unsigned int i=0;i<m_NDims;i++)
+  for(int i=0;i<m_NDims;i++)
   {
     std::cout << m_Radius[i] << " ";
   }
@@ -69,7 +69,7 @@ CopyInfo(const MetaEllipse * _ellipse)
 void  MetaEllipse::
 Radius(const float* radius)
 {
-  for(unsigned int i=0; i<m_NDims; i++)
+  for(int i=0; i<m_NDims; i++)
   {
     m_Radius[i] = radius[i];
   }
@@ -79,7 +79,7 @@ Radius(const float* radius)
 void  MetaEllipse::
 Radius(float radius)
 {
-  for(unsigned int i=0;i<m_NDims;i++)
+  for(int i=0;i<m_NDims;i++)
   {
     m_Radius[i] = radius;
   }
@@ -190,7 +190,7 @@ Write(const char *_headName)
     return false;
     }
 
-  bool result = M_Write();
+  M_Write();
 
   m_WriteStream->close();
       
@@ -215,7 +215,7 @@ Append(const char *_headName)
     return false;
   }
 
-  bool result = M_Write();
+  M_Write();
       
   return true;
 }
@@ -230,7 +230,7 @@ Clear(void)
   MetaObject::Clear();
   memset(m_Radius, 0, 100*sizeof(float));
   
-  for(unsigned int i=0; i<m_NDims; i++)
+  for(int i=0; i<m_NDims; i++)
   {
     m_Radius[i] = 1;
   }
@@ -294,7 +294,7 @@ M_Read(void)
   mF = MET_GetFieldRecord("Radius",m_Fields);
   if(mF->defined)
   {
-    for(unsigned int i=0;i<m_NDims;i++)
+    for(int i=0;i<m_NDims;i++)
     {
       m_Radius[i]= (float)mF->value[i];
     }

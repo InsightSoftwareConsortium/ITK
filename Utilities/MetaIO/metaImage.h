@@ -128,7 +128,7 @@ class MetaImage : public MetaObject
 
     void PrintInfo(void) const;
 
-    virtual void CopyInfo(const MetaImage * _im);
+    void CopyInfo(const MetaImage * _im);
 
     int  HeaderSize(void) const;
     void HeaderSize(int _headerSize);
