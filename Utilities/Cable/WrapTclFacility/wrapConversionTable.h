@@ -63,8 +63,7 @@ public:
   static ConversionTable* GetForInterpreter(Tcl_Interp*);
   
 private:
-  typedef std::map<const Tcl_Interp*, ConversionTable*,
-                   PointerCompare<const Tcl_Interp> >  InterpreterConversionTableMap;
+  typedef std::map<const Tcl_Interp*, ConversionTable*>  InterpreterConversionTableMap;
   static InterpreterConversionTableMap interpreterConversionTableMap;  
 };
 

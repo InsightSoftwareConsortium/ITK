@@ -44,8 +44,7 @@ private:
    */
   Tcl_Interp* m_Interpreter;
 
-  typedef std::map<const Type*, WrapperBase*,
-                   PointerCompare<const Type> >  WrapperMap;
+  typedef std::map<const Type*, WrapperBase*>  WrapperMap;
   /**
    * Map from type to wrapper function.
    */
@@ -55,8 +54,7 @@ public:
   static WrapperTable* GetForInterpreter(Tcl_Interp*);
   
 private:
-  typedef std::map<const Tcl_Interp*, WrapperTable*,
-                   PointerCompare<const Tcl_Interp> >  InterpreterWrapperTableMap;
+  typedef std::map<const Tcl_Interp*, WrapperTable*>  InterpreterWrapperTableMap;
   static InterpreterWrapperTableMap interpreterWrapperTableMap;
 };
 

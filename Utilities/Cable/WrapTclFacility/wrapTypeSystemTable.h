@@ -31,8 +31,7 @@ public:
   static TypeSystem* GetForInterpreter(Tcl_Interp*);
   
 private:
-  typedef std::map<const Tcl_Interp*, TypeSystem*,
-                   PointerCompare<const Tcl_Interp> >  InterpreterTypeSystemMap;
+  typedef std::map<const Tcl_Interp*, TypeSystem*>  InterpreterTypeSystemMap;
   static InterpreterTypeSystemMap interpreterTypeSystemMap;
 };
 

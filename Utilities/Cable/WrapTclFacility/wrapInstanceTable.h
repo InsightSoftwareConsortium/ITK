@@ -69,8 +69,7 @@ private:
   typedef std::map<const Type*, DeleteFunction>  DeleteFunctionMap;
   DeleteFunctionMap m_DeleteFunctionMap;
   
-  typedef std::map<const void*, String,
-                   PointerCompare<const void> >  AddressToNameMap;
+  typedef std::map<const void*, String, VoidPointerCompare>  AddressToNameMap;
   
   /** 
    * Map from object address to object name.
@@ -89,8 +88,7 @@ public:
   static InstanceTable* GetForInterpreter(Tcl_Interp*);
   
 private:
-  typedef std::map<const Tcl_Interp*, InstanceTable*,
-                   PointerCompare<const Tcl_Interp> >  InterpreterInstanceTableMap;
+  typedef std::map<const Tcl_Interp*, InstanceTable*>  InterpreterInstanceTableMap;
   static InterpreterInstanceTableMap interpreterInstanceTableMap;
 };
 

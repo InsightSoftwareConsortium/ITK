@@ -80,12 +80,11 @@ typedef ::_cxx_::Conversions          Conversions;
 
   
 /**
- * Comparison function object for sorting based on pointer type.
+ * Comparison function object for sorting based on void pointer type.
  */
-template <typename T>
-struct PointerCompare
+struct VoidPointerCompare
 {
-  bool operator()(T* l, T* r) const
+  bool operator()(const void* l, const void* r) const
     {
     return (reinterpret_cast<unsigned long>(l)
             < reinterpret_cast<unsigned long>(r));
