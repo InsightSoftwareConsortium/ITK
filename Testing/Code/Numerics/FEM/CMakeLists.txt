@@ -4,6 +4,12 @@ ADD_TEST(PrintSelf-Statistics ${TCL_TCLSH}
          ${ITK_SOURCE_DIR}/Code/Numerics/Statistics)
 ENDIF (TCL_TCLSH)
 
+IF( CXX_TEST_PATH )
+  SET(FEM_TESTS ${CXX_TEST_PATH}/itkFEMTests)
+ELSE( CXX_TEST_PATH )
+  SET(FEM_TESTS itkFEMTests)
+ENDIF( CXX_TEST_PATH )
+
 SET(FEM_SRCS
 itkFEMElementTest.cxx
 itkFEMLinearSystemWrapperItpackTest.cxx
@@ -16,30 +22,30 @@ IF(FEM_VISUALIZATION)
 ADD_DEFINITIONS( -DFEM_BUILD_VISUALIZATION /D "_AFXDLL" )
 ENDIF(FEM_VISUALIZATION)
 
-#ADD_TEST(itkFEMElementTestMenu itkFEMTests itkFEMElementTestMenu)
+#ADD_TEST(itkFEMElementTestMenu ${FEM_TESTS} itkFEMElementTestMenu)
 
-ADD_TEST(itkFEMC0HexahedralElement-NodalLoads-BCs itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/hexa2.fem)
-ADD_TEST(itkFEMC0HexahedralElement-NoLoads itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/hexa3.fem)
-ADD_TEST(itkFEMC0HexahedralElement-GravityLoad-BCs itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/hexa4-grav.fem)
-ADD_TEST(itkFEMC0QuadElement-NodalLoads-BCs itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/quad2-small.fem)
-ADD_TEST(itkFEMC0QuadElement-NoLoads itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/quad4.fem)
-ADD_TEST(itkFEMC0QuadElement-GravityLoad-BCs itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/quad6-grav.fem)
+ADD_TEST(itkFEMC0HexahedralElement-NodalLoads-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/hexa2.fem)
+ADD_TEST(itkFEMC0HexahedralElement-NoLoads ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/hexa3.fem)
+ADD_TEST(itkFEMC0HexahedralElement-GravityLoad-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/hexa4-grav.fem)
+ADD_TEST(itkFEMC0QuadElement-NodalLoads-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/quad2-small.fem)
+ADD_TEST(itkFEMC0QuadElement-NoLoads ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/quad4.fem)
+ADD_TEST(itkFEMC0QuadElement-GravityLoad-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/quad6-grav.fem)
 
 # Edge loads are not re-implemented yet
-#ADD_TEST(itkFEMC0QuadElement-EdgeLoad-BCs itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/quad_1_edge.fem)
+#ADD_TEST(itkFEMC0QuadElement-EdgeLoad-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/quad_1_edge.fem)
 
-ADD_TEST(itkFEMC0TetrahedralElement-NodalLoads-BCs itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/tetra2.fem)
-ADD_TEST(itkFEMC0TetrahedralElement-NoLoads itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/tetra3.fem)
-ADD_TEST(itkFEMC0TetrahedralElement-GravityLoad-BCs itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/tetra4-grav.fem)
-ADD_TEST(itkFEMC0QuadElementTrapezoidalGeometry-NoLoads itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/trapezoid.fem)
-ADD_TEST(itkFEMC0TriangularElement-NodalLoads-BCs itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/tri2.fem)
-ADD_TEST(itkFEMC0TriangularElement-NoLoads itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/tri3.fem)
-ADD_TEST(itkFEMTruss itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/truss.fem)
-ADD_TEST(itkFEMLinearSystemWrapperItpackTest  itkFEMTests itkFEMLinearSystemWrapperItpackTest)
-ADD_TEST(itkFEMLinearSystemWrapperVNLTest  itkFEMTests itkFEMLinearSystemWrapperVNLTest)
-ADD_TEST(itkFEMLinearSystemWrapperDenseVNLTest  itkFEMTests itkFEMLinearSystemWrapperDenseVNLTest)
+ADD_TEST(itkFEMC0TetrahedralElement-NodalLoads-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/tetra2.fem)
+ADD_TEST(itkFEMC0TetrahedralElement-NoLoads ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/tetra3.fem)
+ADD_TEST(itkFEMC0TetrahedralElement-GravityLoad-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/tetra4-grav.fem)
+ADD_TEST(itkFEMC0QuadElementTrapezoidalGeometry-NoLoads ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/trapezoid.fem)
+ADD_TEST(itkFEMC0TriangularElement-NodalLoads-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/tri2.fem)
+ADD_TEST(itkFEMC0TriangularElement-NoLoads ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/tri3.fem)
+ADD_TEST(itkFEMTruss ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/truss.fem)
+ADD_TEST(itkFEMLinearSystemWrapperItpackTest  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest)
+ADD_TEST(itkFEMLinearSystemWrapperVNLTest  ${FEM_TESTS} itkFEMLinearSystemWrapperVNLTest)
+ADD_TEST(itkFEMLinearSystemWrapperDenseVNLTest  ${FEM_TESTS} itkFEMLinearSystemWrapperDenseVNLTest)
 
-#ADD_TEST(itkFEMBar2DTest itkFEMTests itkFEMBar2DTest)
+#ADD_TEST(itkFEMBar2DTest ${FEM_TESTS} itkFEMBar2DTest)
 
 # NOTE: the two commands below are mutually exclusive!  Do not
 # uncomment both at the same time!
