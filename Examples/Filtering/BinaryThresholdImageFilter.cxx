@@ -22,22 +22,23 @@
 // \label{fig:BinaryThresholdTransferFunction}}
 // \parpic(8cm,5cm)[r]{\includegraphics[width=7cm]{BinaryThresholdTransferFunction.eps}}
 //
-// This example illustrates the use of the \doxygen{BinaryThresholdImageFilter}.
-// This filter is used to transform an image into a binary image by changing
-// the pixel values according to the rule illustrated in figure
-// \ref{fig:BinaryThresholdTransferFunction}. The user defines two 
-// thresholds---Upper and Lower---and two intensity values---Inside 
-// and Outside. For each pixel in the input image, the value of the pixel 
-// is compared with the lower and upper thresholds. If the pixel value is 
-// inside the range defined by $[Lower,Upper]$ the output pixel is 
-// assigned the InsideValue. Otherwise the output pixels are assigned to 
-// the OutsideValue. Thresholding is commonly applied as the last operation 
-// of a segmentation pipeline.
+// This example illustrates the use of the binary threhold image filter.  This
+// filter is used to transform an image into a binary image by changing the
+// pixel values according to the rule illustrated in figure
+// \ref{fig:BinaryThresholdTransferFunction}. The user defines two
+// thresholds---Upper and Lower---and two intensity values---Inside and
+// Outside. For each pixel in the input image, the value of the pixel is
+// compared with the lower and upper thresholds. If the pixel value is inside
+// the range defined by $[Lower,Upper]$ the output pixel is assigned the
+// InsideValue. Otherwise the output pixels are assigned to the OutsideValue.
+// Thresholding is commonly applied as the last operation of a segmentation
+// pipeline.
 //
 // \index{itk::BinaryThresholdImageFilter!Instantiation|textbf}
 // \index{itk::BinaryThresholdImageFilter!Header|textbf}
 //
-// The first step required to use this filter is to include its header file. 
+// The first step required to use the \doxygen{BinaryThresholdImageFilter} is
+// to include its header file. 
 //
 // Software Guide : EndLatex 
 
