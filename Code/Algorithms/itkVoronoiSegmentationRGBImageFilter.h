@@ -52,6 +52,14 @@ namespace itk
  * 
  * Perform the segmentation of 2D images (RGB image) by Voronoi Diagram.
  * Used as a node of the segmentation toolkits.
+ * This is not a standard 3 channel image filter, it also investigates the 
+ * HSV color space information. from RGBHSV, the user can specify or by giving
+ * a prior binary mask, the algorithm will decide which 3 channels out of the
+ * 6 channels will be used for homogeneity testing.
+ * the homogeneity testing requires all the three testing channels to have the 
+ * similar mean and variance value from the gold-standard in the sense that the
+ * difference will be under the tolerance value.
+ *
  * The parameters here are: 
  * 1. the estimation of the statistics of the object. (mean and std.)
  * 2. the tolerance for the classification. (around the mean ans
