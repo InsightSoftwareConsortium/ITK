@@ -48,9 +48,9 @@ namespace itk
 {
 
 // Constructor with default arguments
-template<class ScalarType, unsigned int NDimensions,
+template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
-TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 TranslationTransform()
 {
   m_Offset.Fill( 0 );
@@ -59,11 +59,11 @@ TranslationTransform()
 
 
 // Copy Constructor
-template <class ScalarType, unsigned int NDimensions,
+template <class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
-TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>
+TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>
 ::TranslationTransform( const 
-    TranslationTransform<ScalarType, NDimensions, 
+    TranslationTransform<TScalarType, NDimensions, 
                          TParameters, TJacobianType > & other )
 {
   m_Offset    = other.m_Offset;
@@ -72,9 +72,9 @@ TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>
 
 
 // Destructor
-template<class ScalarType, unsigned int NDimensions,
+template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
-TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 ~TranslationTransform()
 {
  return;
@@ -82,11 +82,11 @@ TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
 
 
 // Assignment Operator
-template <class ScalarType, unsigned int NDimensions,
+template <class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
-const TranslationTransform<ScalarType, NDimensions,
+const TranslationTransform<TScalarType, NDimensions,
                            TParameters,TJacobianType> &
-TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>
+TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>
 ::operator=( const Self & other )
 {
   m_Offset   = other.m_Offset;
@@ -96,10 +96,10 @@ TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>
 
 
 // Set the parameters
-template <class ScalarType, unsigned int NDimensions,
+template <class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
 void
-TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>
+TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>
 ::SetParameters( const ParametersType & parameters )
 {
   for( unsigned int i=0; i<SpaceDimension; i++ )
@@ -111,10 +111,10 @@ TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>
 
 
 // Print self
-template<class ScalarType, unsigned int NDimensions,
+template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
 std::ostream &
-TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 PrintSelf(std::ostream &s) const
 {
   s << m_Offset << std::endl;
@@ -123,10 +123,10 @@ PrintSelf(std::ostream &s) const
 
 
 // Compose with another affine transformation
-template<class ScalarType, unsigned int NDimensions,
+template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
 void
-TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 Compose(const Self * other, bool )
 {
   m_Offset += other->m_Offset;
@@ -135,10 +135,10 @@ Compose(const Self * other, bool )
 
 
 // Compose with a translation
-template<class ScalarType, unsigned int NDimensions,
+template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
 void
-TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 Translate(const OutputVectorType &offset, bool )
 {
   m_Offset += offset;
@@ -148,11 +148,11 @@ Translate(const OutputVectorType &offset, bool )
 
 
 // Transform a point
-template<class ScalarType, unsigned int NDimensions,
+template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
-TranslationTransform<ScalarType, NDimensions,
+TranslationTransform<TScalarType, NDimensions,
               TParameters,TJacobianType>::OutputPointType
-TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 TransformPoint(const InputPointType &point) const 
 {
   return point + m_Offset;
@@ -160,11 +160,11 @@ TransformPoint(const InputPointType &point) const
 
 
 // Transform a vector
-template<class ScalarType, unsigned int NDimensions,
+template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
-TranslationTransform<ScalarType, NDimensions,
+TranslationTransform<TScalarType, NDimensions,
                      TParameters,TJacobianType>::OutputVectorType
-TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 TransformVector(const InputVectorType &vect) const 
 {
   return  vect;
@@ -172,11 +172,11 @@ TransformVector(const InputVectorType &vect) const
 
 
 // Transform a vnl_vector_fixed
-template<class ScalarType, unsigned int NDimensions,
+template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
-TranslationTransform<ScalarType, NDimensions,
+TranslationTransform<TScalarType, NDimensions,
                      TParameters,TJacobianType>::OutputVnlVectorType
-TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 TransformVnlVector(const InputVnlVectorType &vect) const 
 {
   return  vect;
@@ -184,11 +184,11 @@ TransformVnlVector(const InputVnlVectorType &vect) const
 
 
 // Transform a CovariantVector
-template<class ScalarType, unsigned int NDimensions,
+template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
-TranslationTransform<ScalarType, NDimensions,
+TranslationTransform<TScalarType, NDimensions,
                       TParameters,TJacobianType>::OutputCovariantVectorType
-TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 TransformCovariantVector(const InputCovariantVectorType &vect) const 
 {
   return  vect;
@@ -197,11 +197,11 @@ TransformCovariantVector(const InputCovariantVectorType &vect) const
 
 
 // Back transform a point
-template<class ScalarType, unsigned int NDimensions,
+template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
-TranslationTransform<ScalarType, NDimensions,
+TranslationTransform<TScalarType, NDimensions,
                      TParameters,TJacobianType>::InputPointType
-TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 BackTransform(const OutputPointType &point) const {
   return point - m_Offset;
 }
@@ -210,11 +210,11 @@ BackTransform(const OutputPointType &point) const {
 
 
 // Back transform a vector
-template<class ScalarType, unsigned int NDimensions,
+template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
-TranslationTransform<ScalarType, NDimensions,
+TranslationTransform<TScalarType, NDimensions,
                       TParameters,TJacobianType>::InputVectorType
-TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 BackTransform(const OutputVectorType &vect ) const 
 {
     return  vect;
@@ -224,11 +224,11 @@ BackTransform(const OutputVectorType &vect ) const
 
 
 // Back transform a vnl_vector
-template<class ScalarType, unsigned int NDimensions,
+template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
-TranslationTransform<ScalarType, NDimensions,
+TranslationTransform<TScalarType, NDimensions,
                      TParameters,TJacobianType>::InputVnlVectorType
-TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 BackTransform(const OutputVnlVectorType &vect ) const 
 {
     return  vect;
@@ -236,11 +236,11 @@ BackTransform(const OutputVnlVectorType &vect ) const
 
 
 // Back Transform a CovariantVector
-template<class ScalarType, unsigned int NDimensions,
+template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
-TranslationTransform<ScalarType, NDimensions,
+TranslationTransform<TScalarType, NDimensions,
                     TParameters,TJacobianType>::InputCovariantVectorType
-TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 BackTransform(const OutputCovariantVectorType &vect) const 
 {
   return vect;
@@ -249,10 +249,10 @@ BackTransform(const OutputCovariantVectorType &vect) const
 
 
 // Create and return an inverse transformation
-template<class ScalarType, unsigned int NDimensions,
+template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
-TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>::Pointer
-TranslationTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>::Pointer
+TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 Inverse(void) const
 {
   Pointer result = New();
