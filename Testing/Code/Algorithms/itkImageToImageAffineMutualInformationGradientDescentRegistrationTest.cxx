@@ -128,14 +128,14 @@ int main()
   displacement[0] = 7;
   displacement[1] = 3;
   displacement[2] = 2;
-// Twenty percent dilation
+ // Twenty percent dilation
   double scale[3] = { 0.80, 1.0, 1.0 };
 
   ReferenceIteratorType ri(imgReference,region);
   TargetIteratorType ti(imgTarget,region);
 
   while(!ri.IsAtEnd())
-  {
+    {
     p[0] = ri.GetIndex()[0];
     p[1] = ri.GetIndex()[1];
     p[2] = ri.GetIndex()[2];
@@ -145,11 +145,11 @@ int main()
     const double z = d[2] * scale[2] + displacement[2];
     ri.Set( (PixelType) F(x,y,z) );
     ++ri;
-  }
+    }
 
 
   while(!ti.IsAtEnd())
-  {
+    {
     p[0] = ti.GetIndex()[0];
     p[1] = ti.GetIndex()[1];
     p[2] = ti.GetIndex()[2];
@@ -159,7 +159,7 @@ int main()
     const double z = d[2];
     ti.Set( (PixelType) F(x,y,z) );
     ++ti;
-  }
+    }
 
   // set image origin to be center of the image
   double transCenter[3];
@@ -208,19 +208,18 @@ int main()
 
   // Define the type for the observer command to monitor progress
   typedef itk::CommandIterationUpdate<  RegistrationType::OptimizerType  >
-                                                           CommandIterationType;
+    CommandIterationType;
 
-  CommandIterationType::Pointer iterationCommand = CommandIterationType::New();
+  CommandIterationType::Pointer iterationCommand = 
+    CommandIterationType::New();
 
   iterationCommand->SetOptimizer(  registrationMethod->GetOptimizer() );
-
   registrationMethod->GetOptimizer()->AddObserver( itk::IterationEvent(),
                                                    iterationCommand );
 
 
   // do the registration
   // reduce learning rate as we go
-
   unsigned int iter[3]  = {300,300,350};
   double       rates[3] = {1e-3, 5e-4, 1e-4};
 
@@ -292,7 +291,6 @@ int main()
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
     }
-
 
   // check for parzen window exception
   double oldValue = registrationMethod->GetMetric()->GetReferenceStandardDeviation();
