@@ -16,6 +16,8 @@
 #define __itkVector_h
 
 #include "itkMacro.h"
+#include "vnl/vnl_vector.txx"
+#include "vnl/vnl_vector_fixed.txx"
 
 #include <memory.h>
 
@@ -59,9 +61,15 @@ class Vector {
   
   /**
    * ValueType can be used to declare a variable that is the same type
-   * as the data held in an Vector.  
+   * as a data element held in an Vector.  
    */
   typedef T ValueType;
+
+  /**
+   * VectorType can be used to declare a variable that is the same type
+   * as the internal vector.  
+   */
+  typedef vnl_vector_fixed<T, TVectorDimension> VectorType;
 
   /**
    * Get the dimension (size) of the vector.
@@ -73,64 +81,25 @@ class Vector {
    * Get the vector. This provides a read only reference to the vector.
    * \sa SetVector
    */
-  const T *GetVector() const 
+  const VectorType &GetVector() const 
     { return m_Vector; }
 
   /**
-   * Set the vector.
+   * Get the vector. This provides a read/write reference to the vector.
+   * \sa SetVector
+   */
+  VectorType &GetVector()  
+    { return m_Vector; }
+  
+  /**
+   * Set the vector. 
    * \sa GetVector
    */
-  void SetVector(const T *val)
-    { memcpy(m_Vector, val, sizeof(T)*TVectorDimension); };
-
-  /**
-   * Add a vector to this vector and return a new vector.
-   */
-  const Self
-  operator+(const Self &vec)
-    {
-    Self result;
-    for (unsigned int i=0; i < TVectorDimension; i++)
-      { result[i] = m_Vector[i] + vec.m_Vector[i]; }
-    return result;
-    }
-
-  /**
-   * Add a vector to this vector, modifying the value of this vector.
-   */
-  const Self &
-  operator+=(const Self &vec)
-    {
-    for (unsigned int i=0; i < TVectorDimension; i++)
-      { m_Vector[i] += vec.m_Vector[i]; }
-    return *this;
-    }
-
-  /**
-   * Subtract a vector from this vector and return a new vector.
-   */
-  const Self
-  operator-(const Self &vec)
-    {
-    Self result;
-    for (unsigned int i=0; i < TVectorDimension; i++)
-      { result[i] = m_Vector[i] - vec.m_Vector[i]; }
-    return result;
-    }
-
-  /**
-   * Subtract a vector from this vector, modifying the value of this vector.
-   */
-  const Self &
-  operator-=(const Self &vec)
-    {
-    for (unsigned int i=0; i < TVectorDimension; i++)
-      { m_Vector[i] -= vec.m_Vector[i]; }
-    return *this;
-    }
+  void SetVector(const VectorType &vec)
+    { m_Vector = vec; }
 
  private:
-  T m_Vector[TVectorDimension];
+  vnl_vector_fixed<T, TVectorDimension> m_Vector;
 };
 
   
