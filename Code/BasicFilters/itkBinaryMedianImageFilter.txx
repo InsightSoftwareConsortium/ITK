@@ -179,12 +179,13 @@ BinaryMedianImageFilter< TInputImage, TOutputImage>
   // the edge of the buffer.
   for (++fit; fit != faceList.end(); ++fit)
     { 
-    bit = ConstSmartNeighborhoodIterator<InputImageType>(m_Radius,
-                                                         input, *fit);
-    it = ImageRegionIterator<OutputImageType>(output, *fit);
+    bit = ConstSmartNeighborhoodIterator<InputImageType>(m_Radius, input, *fit);
+    it  = ImageRegionIterator<OutputImageType>(output, *fit);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
     
+    unsigned int neighborhoodSize = bit.Size();
+
     while ( ! bit.IsAtEnd() )
       {
       if ( threadId == 0 && !(++ii % updateVisits ) )
@@ -194,10 +195,10 @@ BinaryMedianImageFilter< TInputImage, TOutputImage>
 
        // count the pixels in the neighborhood
       unsigned int count = 0;
-      innerEnd_it = nit.End();
-      for (inner_it = nit.Begin(); inner_it != innerEnd_it; ++inner_it)
+      for (unsigned int i = 0; i < neighborhoodSize; ++i)
         {
-        if( **inner_it == m_ForegroundValue )
+        InputPixelType value = bit.GetPixel(i);
+        if( value == m_ForegroundValue )
           {
           count++;
           }
