@@ -92,6 +92,11 @@ main(
     }
 
     /* Return results of test */
-    return flag;
+    if (flag != 0) {
+        std::cerr << "*** Some test failed" << std::endl;
+        return flag; }
+    else {
+        std::cerr << "All tests successfully passed" << std::endl;
+        return 0; }
 }
 
