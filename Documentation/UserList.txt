@@ -7,7 +7,7 @@ blezek
 blue
 bruno
 burgiss
-cates
+cates:Josh Cates:cates@cs.utah.edu
 celina
 chandra
 chenting
