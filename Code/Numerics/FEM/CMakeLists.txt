@@ -156,12 +156,18 @@ SOURCE_FILES(FEM_SRCS
 
   itkFEMImageMetricLoad.txx
 
-  ReadMe.txt
-  ToDo.txt
-
 )
 ENDIF(WIN32)
 ENDIF(NOT UNIX)
+
+
+IF(CMAKE_MAKE_PROGRAM MATCHES ".*dev")
+  SET(FEM_SRCS ${FEM_SRCS};ReadMe.txt;ToDo.txt)
+ENDIF(CMAKE_MAKE_PROGRAM MATCHES ".*dev")
+
+  
+
+
 
 
 LINK_LIBRARIES (

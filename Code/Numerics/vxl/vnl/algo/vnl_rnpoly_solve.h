@@ -32,7 +32,7 @@
 
 class vnl_rnpoly_solve {
 public:
-#ifndef WIN32
+#ifndef _WIN32
   static const unsigned int M = 11;   // Maximum dimension of problem
   static const unsigned int T = 2500; // Max. number of terms in a polynomial
 #else

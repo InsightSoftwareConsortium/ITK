@@ -62,16 +62,16 @@ public:
   typedef Array2D<double>               DerivativeType;
 
   
-  /** Return the number of values that are computed by the
-   *  multivalued cost function.     
-   *  This method MUST be overloaded by derived classes */
-  virtual unsigned int GetNumberOfValues(void) const  = 0;
-
 
   /** This method returns the value of the cost function corresponding
     * to the specified parameters     
     * This method MUST be overloaded by derived classes   */
   virtual MeasureType GetValue( const ParametersType & parameters ) const = 0;
+
+  /** Return the number of values that are computed by the
+   *  multivalued cost function.     
+   *  This method MUST be overloaded by derived classes */
+  virtual unsigned int GetNumberOfValues(void) const  = 0;
 
 
   /** This method returns the derivative of the cost function corresponding
