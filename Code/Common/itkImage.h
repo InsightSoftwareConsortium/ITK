@@ -13,19 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * Image is the templated image class. The class is templated over the
- * pixel type and the image dimension (i.e., the image class is
- * n-dimensional). The pixel type may be one of the native types; or it can
- * be a Insight-defined class type such as Scalar or Vector; or a
- * user-defined type. Note that depending on the type of pixel that you use,
- * the process objects (i.e., those filters processing data objects), may not
- * operate on the image and/or pixel type. This becomes apparant at run-time
- * either because operator overloading (for the pixel type) is not supported;
- * or the filter may only process scalars (meaning it supports the
- * GetScalar() method), or vectors (supports GetVector()).  
- */
-
 #ifndef __itkImage_h
 #define __itkImage_h
 
@@ -38,14 +25,33 @@
 namespace itk
 {
 
+/** \class Image
+ * \brief Templated n-dimensional image class.
+ *
+ * Image is the templated image class. The class is templated over the
+ * pixel type and the image dimension (i.e., the image class is
+ * n-dimensional). The pixel type may be one of the native types; or it can
+ * be a Insight-defined class type such as Scalar or Vector; or a
+ * user-defined type. Note that depending on the type of pixel that you use,
+ * the process objects (i.e., those filters processing data objects), may not
+ * operate on the image and/or pixel type. This becomes apparant at run-time
+ * either because operator overloading (for the pixel type) is not supported;
+ * or the filter may only process scalars (meaning it supports the
+ * GetScalar() method), or vectors (supports GetVector()).  
+ */
+
 template <class TPixel, unsigned int VImageDimension=2>
 class ITK_EXPORT Image : public ImageBase
 {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
+  typedef Image               Self;
+
   /** 
    * Smart pointer typedef support.
    */
-  typedef Image               Self;
   typedef SmartPointer<Self>  Pointer;
 
   /** 

@@ -13,10 +13,6 @@ All rights reserved.
 See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * ImageBase is the base class for the templated Image base classes.
- */
-
 #ifndef __itkImageBase_h
 #define __itkImageBase_h
 
@@ -25,13 +21,27 @@ See COPYRIGHT.txt for copyright details.
 namespace itk
 {
 
+/** \class ImageBase
+ * \brief Base class for templated image classes.
+ *
+ * ImageBase is the base class for the templated Image base classes.
+ * The class maintains the size (the i-j-k dimensions of the image),
+ * the image origin coordinates, and the spacing (pixel/voxel width,
+ * height, etc.) The interface assumes that the image is of arbitrary
+ * dimension.
+ */
+
 class ITK_EXPORT ImageBase : public DataObject
 {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
+  typedef ImageBase           Self;
+
   /** 
    * Smart pointer typedef support. 
    */
-  typedef ImageBase           Self;
   typedef SmartPointer<Self>  Pointer;
 
   /**
