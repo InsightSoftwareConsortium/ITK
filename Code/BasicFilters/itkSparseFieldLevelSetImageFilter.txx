@@ -168,7 +168,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   down_search     = 4;
   j = 1;
   k = 0;
-  while( down_search < m_Layers.size() )
+  while( down_search < static_cast<StatusType>( m_Layers.size() ) )
     {
       this->ProcessStatusList(UpList[j], UpList[k], up_to, up_search);
       this->ProcessStatusList(DownList[j], DownList[k], down_to, down_search);
@@ -832,7 +832,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   bool found_neighbor_flag;
   typename LayerType::Iterator toIt;
   LayerNodeType *node;
-  unsigned int past_end = m_Layers.size() - 1;
+  StatusType past_end = static_cast<StatusType>( m_Layers.size() ) - 1;
   
   // Are we propagating values inward (more negative) or outward (more
   // positive)?
