@@ -1,9 +1,13 @@
 INCLUDE_DIRECTORIES(
-${CMAKE_BINARY_DIR}/Code/BasicFilters
+${CMAKE_SOURCE_DIR}/Code/BasicFilters
 )
 
 LINK_DIRECTORIES(
 ${CMAKE_BINARY_DIR}/Code/BasicFilters
+)
+
+LINK_LIBRARIES (
+ITKBasicFilters 
 )
 
 TESTS(
