@@ -66,6 +66,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkNormalizedCorrelationPointSetToImageMetric.h"
 #include "itkPatternIntensityImageToImageMetric.h"
 #include "itkPatternIntensityPointSetToImageMetric.h"
+#include "itkPointSetToImageRigid3DPatternIntensityRegularStepGradientDescentRegistration.h"
+#include "itkPointSetToImageRigid3DPerspectivePatternIntensityRegularStepGradientDescentRegistration.h"
 #include "itkPointSetToImageTranslationMeanSquaresGradientDescentRegistration.h"
 #include "itkPointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistration.h"
 #include "itkPointSetToImageTranslationNormalizedCorrelationGradientDescentRegistration.h"
