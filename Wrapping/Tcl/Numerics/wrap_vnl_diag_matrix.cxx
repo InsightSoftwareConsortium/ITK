@@ -1,5 +1,5 @@
 #include "vcl_complex.h"
-#include "vnl_diag_matrix.h"
+#include "vnl/vnl_diag_matrix.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "wrap_VXLNumerics.h"

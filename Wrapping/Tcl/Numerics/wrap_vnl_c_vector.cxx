@@ -15,7 +15,7 @@
 
 =========================================================================*/
 #include "vcl_complex.h"
-#include "vnl_c_vector.h"
+#include "vnl/vnl_c_vector.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "wrap_VXLNumerics.h"

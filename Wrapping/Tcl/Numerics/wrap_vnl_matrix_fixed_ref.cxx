@@ -14,7 +14,7 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "vnl_matrix_fixed_ref.h"
+#include "vnl/vnl_matrix_fixed_ref.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "wrap_VXLNumerics.h"
