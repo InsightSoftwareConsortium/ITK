@@ -18,6 +18,7 @@
 
 #include "wrapUtils.h"
 #include "wrapTypeSystemTable.h"
+#include "wrapConversionTable.h"
 #include "wrapPointer.h"
 #include "wrapReference.h"
 #include "wrapInstanceTable.h"
@@ -57,7 +58,10 @@ public:
   CvQualifiedType GetType(TypeKey typeKey) const;
   void SetType(TypeKey typeKey, const CvQualifiedType&);
   void CreateResultCommand(const String& name, const Type* type) const;
-  String CreateTemporary(void* object, const CvQualifiedType&);
+  String CreateTemporary(void* object, const CvQualifiedType&) const;
+  CvQualifiedType GetObjectType(Tcl_Obj* obj) const;
+  ConversionFunction GetConversionFunction(const CvQualifiedType& from,
+                                           const Type* to) const;
   
   /**
    * The type of a wrapper function for a Tcl interpreter call-back.
@@ -90,7 +94,6 @@ protected:
   void UnknownInstance(const String& objectName) const;
   void ReportErrorMessage(const String& errorMessage) const;
   void FreeTemporaries(int objc, Tcl_Obj*CONST objv[]) const;
-  CvQualifiedType GetObjectType(Tcl_Obj* obj) const;
 
   typedef std::vector<TypeKey> TypeKeys;
   CvQualifiedType GetArrayType(TypeKey elementType, unsigned long size) const;
@@ -127,6 +130,11 @@ protected:
   TypeSystem*    m_TypeSystem;
   
   /**
+   * The table of conversion functions for this wrapper's interpreter.
+   */
+  ConversionTable* m_ConversionTable;
+  
+  /**
    * The table of object instances for this wrapper's interpreter.
    */
   InstanceTable* m_InstanceTable;
@@ -141,8 +149,7 @@ protected:
    */
   const Type*    m_WrappedTypeRepresentation;
   
-  typedef std::map<const char*, CvQualifiedType,
-                   PointerCompare<const char> >  TypeMap;
+  typedef std::map<const char*, CvQualifiedType>  TypeMap;
 private:
   /**
    * Map from const char* to CvQualifiedType.  This allows

@@ -19,6 +19,7 @@
 // Include the C++ type representation classes.
 // This also includes cxxUtils.h which does some work for us.
 #include "cxxTypeSystem.h"
+#include "cxxConversions.h"
 
 /**
  * Setup a few utilities used by almost all source files.  There are some
@@ -73,6 +74,8 @@ typedef ::_cxx_::TypeSystem           TypeSystem;
 
 typedef ::_cxx_::CvQualifiedTypes     CvQualifiedTypes;
 typedef ::_cxx_::ClassTypes           ClassTypes;
+  
+typedef ::_cxx_::Conversions          Conversions;
 //@}
 
   

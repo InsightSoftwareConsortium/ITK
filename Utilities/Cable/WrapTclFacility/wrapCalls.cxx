@@ -20,66 +20,72 @@
 namespace _wrap_
 {
 
-void Return<bool>::From(bool result, WrapperBase* wrapper)
+void Return<void>::From(const WrapperBase* wrapper)
+{
+  Tcl_SetStringObj(Tcl_GetObjResult(wrapper->GetInterpreter()),
+                   "", -1);
+}
+
+void Return<bool>::From(bool result, const WrapperBase* wrapper)
 {
   int boolValue = result;
   Tcl_SetBooleanObj(Tcl_GetObjResult(wrapper->GetInterpreter()),
                     boolValue);
 }
 
-void Return<short>::From(short result, WrapperBase* wrapper)
+void Return<short>::From(short result, const WrapperBase* wrapper)
 {
   int intValue = result;
   Tcl_SetIntObj(Tcl_GetObjResult(wrapper->GetInterpreter()), intValue);
 }
 
-void Return<unsigned short>::From(unsigned short result, WrapperBase* wrapper)
+void Return<unsigned short>::From(unsigned short result, const WrapperBase* wrapper)
 {
   int intValue = result;
   Tcl_SetIntObj(Tcl_GetObjResult(wrapper->GetInterpreter()), intValue);
 }
 
-void Return<int>::From(int result, WrapperBase* wrapper)
+void Return<int>::From(int result, const WrapperBase* wrapper)
 {
   Tcl_SetIntObj(Tcl_GetObjResult(wrapper->GetInterpreter()), result);
 }
 
-void Return<unsigned int>::From(unsigned int result, WrapperBase* wrapper)
+void Return<unsigned int>::From(unsigned int result, const WrapperBase* wrapper)
 {
   int intValue = result;
   Tcl_SetIntObj(Tcl_GetObjResult(wrapper->GetInterpreter()), intValue);
 }
 
-void Return<long>::From(long result, WrapperBase* wrapper)
+void Return<long>::From(long result, const WrapperBase* wrapper)
 {
   Tcl_SetLongObj(Tcl_GetObjResult(wrapper->GetInterpreter()), result);
 }
 
-void Return<unsigned long>::From(unsigned long result, WrapperBase* wrapper)
+void Return<unsigned long>::From(unsigned long result, const WrapperBase* wrapper)
 {
   long longValue = result;
   Tcl_SetLongObj(Tcl_GetObjResult(wrapper->GetInterpreter()), longValue);
 }
 
-void Return<float>::From(float result, WrapperBase* wrapper)
+void Return<float>::From(float result, const WrapperBase* wrapper)
 {
   double doubleValue = result;
   Tcl_SetDoubleObj(Tcl_GetObjResult(wrapper->GetInterpreter()), doubleValue);
 }  
 
-void Return<double>::From(double result, WrapperBase* wrapper)
+void Return<double>::From(double result, const WrapperBase* wrapper)
 {
   Tcl_SetDoubleObj(Tcl_GetObjResult(wrapper->GetInterpreter()), result);
 }
   
 
-void ReturnPointerTo<char>::From(char* result, WrapperBase* wrapper)
+void ReturnPointerTo<char>::From(char* result, const WrapperBase* wrapper)
 {
   Tcl_SetStringObj(Tcl_GetObjResult(wrapper->GetInterpreter()), result, -1);
 }
 
 void ReturnPointerTo<const char>::From(const char* result,
-                                       WrapperBase* wrapper)
+                                       const WrapperBase* wrapper)
 {
   Tcl_SetStringObj(Tcl_GetObjResult(wrapper->GetInterpreter()),
                    const_cast<char*>(result), -1);
