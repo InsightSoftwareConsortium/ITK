@@ -14,7 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySlice.png}
+//    OUTPUTS: {DiscreteGaussianImageFilterOutput.png}
+//    4 9
+//  Software Guide : EndCommandLineArgs
+//  
 //  Software Guide : BeginLatex
 //
 //  \itkpiccaption[DiscreteGaussianImageFilter gaussian diagram.]{Discretized
