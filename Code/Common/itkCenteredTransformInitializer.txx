@@ -133,14 +133,37 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "Transform   = " << m_Transform   << std::endl;
-  os << indent << "FixedImage  = " << m_FixedImage  << std::endl;
-  os << indent << "MovingImage = " << m_MovingImage << std::endl;
+     
+  os << indent << "Transform   = " << std::endl;
+  if (m_Transform)
+    { 
+    os << indent << m_Transform  << std::endl;
+    }
+  else
+    {
+    os << indent << "None" << std::endl;
+    }      
 
+  os << indent << "FixedImage   = " << std::endl;
+  if (m_FixedImage)
+    { 
+    os << indent << m_FixedImage  << std::endl;
+    }
+  else
+    {
+    os << indent << "None" << std::endl;
+    }      
+
+  os << indent << "MovingImage   = " << std::endl;
+  if (m_MovingImage)
+    { 
+    os << indent << m_MovingImage  << std::endl;
+    }
+  else
+    {
+    os << indent << "None" << std::endl;
+    }      
 }
-
-
-
  
 }  // namespace itk
 
