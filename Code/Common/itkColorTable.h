@@ -31,7 +31,7 @@ class ITK_EXPORT ColorTable : public Object
 {
 public:
 
-	/**
+  /**
    * Standard "Self" typedef.
    */
   typedef ColorTable   Self;
@@ -46,7 +46,7 @@ public:
    */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
+  
 
   /** 
    * Run-time type information (and related methods).
@@ -73,22 +73,18 @@ public:
    * returns the value
    */
   TPixel                     color(int c, char rgb);
-  
   char *                     colorName(int c);
    
-
-	protected:
+ protected:
 
   int                  m_NumberOfColors;
   RGBPixel<TPixel> *   m_Color;
-	char **              m_ColorName;
+  char **              m_ColorName;
 
   ColorTable();
   virtual ~ColorTable();
   ColorTable(const Self&) {}
   void operator=(const Self&) {}
-
-
 };
 
 
