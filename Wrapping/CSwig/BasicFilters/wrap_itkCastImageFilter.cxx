@@ -27,19 +27,19 @@ namespace _cable_
   namespace wrappers
   {
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(CastImageFilter, image::F2, image::US2, 
-                                     CastImageFilterF2US2);
+                                     itkCastImageFilterF2US2);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(CastImageFilter, image::US2, image::F2, 
-                                     CastImageFilterUS2F2);
+                                     itkCastImageFilterUS2F2);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(CastImageFilter, image::F2, image::F2, 
-                                     CastImageFilterF2F2);
+                                     itkCastImageFilterF2F2);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(CastImageFilter, image::US2, image::US2, 
-                                     CastImageFilterUS2US2);
+                                     itkCastImageFilterUS2US2);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(CastImageFilter, image::F3, image::US3, 
-                                     CastImageFilterF3US3);
+                                     itkCastImageFilterF3US3);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(CastImageFilter, image::F3, image::F3, 
-                                     CastImageFilterF3F3);
+                                     itkCastImageFilterF3F3);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(CastImageFilter, image::US3, image::US3, 
-                                     CastImageFilterUS3US3);
+                                     itkCastImageFilterUS3US3);
   }
 }
 #endif

@@ -27,9 +27,9 @@ namespace _cable_
   namespace wrappers
   {
     ITK_WRAP_OBJECT2(CurvatureFlowImageFilter, image::F2, image::F2,
-                     CurvatureFlowImageFilterF2F2);
+                     itkCurvatureFlowImageFilterF2F2);
     ITK_WRAP_OBJECT2(CurvatureFlowImageFilter, image::F3, image::F3,
-                     CurvatureFlowImageFilterF3F3);
+                     itkCurvatureFlowImageFilterF3F3);
   }
 }
 

@@ -27,13 +27,13 @@ namespace _cable_
   namespace wrappers
   {
     ITK_WRAP_OBJECT2(AnisotropicDiffusionImageFilter, image::F2, image::F2,
-                                     AnisotropicDiffusionImageFilterF2);
+                                     itkAnisotropicDiffusionImageFilterF2);
     ITK_WRAP_OBJECT2(AnisotropicDiffusionImageFilter, image::F3, image::F3,
-                                     AnisotropicDiffusionImageFilterF3);
+                                     itkAnisotropicDiffusionImageFilterF3);
     ITK_WRAP_OBJECT2(AnisotropicDiffusionImageFilter, image::US2, image::US2,
-                                     AnisotropicDiffusionImageFilterUS2);
+                                     itkAnisotropicDiffusionImageFilterUS2);
     ITK_WRAP_OBJECT2(AnisotropicDiffusionImageFilter, image::US3, image::US3,
-                                     AnisotropicDiffusionImageFilterUS3);
+                                     itkAnisotropicDiffusionImageFilterUS3);
     
   }
 }

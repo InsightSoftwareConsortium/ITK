@@ -28,16 +28,16 @@ namespace _cable_
   {
     ITK_WRAP_OBJECT2(SimpleFuzzyConnectednessScalarImageFilter, image::F2,
                      image::F2,
-                     SimpleFuzzyConnectednessScalarImageFilterF2F2);
+                     itkSimpleFuzzyConnectednessScalarImageFilterF2F2);
     ITK_WRAP_OBJECT2(SimpleFuzzyConnectednessScalarImageFilter, image::F3, 
                      image::F3,
-                     SimpleFuzzyConnectednessScalarImageFilterF3F3);
+                     itkSimpleFuzzyConnectednessScalarImageFilterF3F3);
     ITK_WRAP_OBJECT2(SimpleFuzzyConnectednessScalarImageFilter, image::US2,
                      image::US2,
-                     SimpleFuzzyConnectednessScalarImageFilterUS2US2);
+                     itkSimpleFuzzyConnectednessScalarImageFilterUS2US2);
     ITK_WRAP_OBJECT2(SimpleFuzzyConnectednessScalarImageFilter, image::US3,
                      image::US3,
-                     SimpleFuzzyConnectednessScalarImageFilterUS3US3);
+                     itkSimpleFuzzyConnectednessScalarImageFilterUS3US3);
   }
 }
 

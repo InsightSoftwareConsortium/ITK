@@ -27,13 +27,13 @@ namespace _cable_
   namespace wrappers
   {
     ITK_WRAP_OBJECT2(SimpleFuzzyConnectednessImageFilterBase, image::F2, image::F2,
-                     SimpleFuzzyConnectednessImageFilterBaseF2F2);
+                     itkSimpleFuzzyConnectednessImageFilterBaseF2F2);
     ITK_WRAP_OBJECT2(SimpleFuzzyConnectednessImageFilterBase, image::F3, image::F3,
-                     SimpleFuzzyConnectednessImageFilterBaseF3F3);
+                     itkSimpleFuzzyConnectednessImageFilterBaseF3F3);
     ITK_WRAP_OBJECT2(SimpleFuzzyConnectednessImageFilterBase, image::US2, image::US2,
-                     SimpleFuzzyConnectednessImageFilterBaseUS2US2);
+                     itkSimpleFuzzyConnectednessImageFilterBaseUS2US2);
     ITK_WRAP_OBJECT2(SimpleFuzzyConnectednessImageFilterBase, image::US3, image::US3,
-                     SimpleFuzzyConnectednessImageFilterBaseUS3US3);
+                     itkSimpleFuzzyConnectednessImageFilterBaseUS3US3);
   }
 }
 

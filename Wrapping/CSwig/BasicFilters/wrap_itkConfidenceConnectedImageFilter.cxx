@@ -27,13 +27,13 @@ namespace _cable_
   namespace wrappers
   {
     ITK_WRAP_OBJECT2(ConfidenceConnectedImageFilter, image::F2, image::F2,
-                     ConfidenceConnectedImageFilterF2F2);
+                     itkConfidenceConnectedImageFilterF2F2);
     ITK_WRAP_OBJECT2(ConfidenceConnectedImageFilter, image::F3, image::F3,
-                     ConfidenceConnectedImageFilterF3F3);
+                     itkConfidenceConnectedImageFilterF3F3);
     ITK_WRAP_OBJECT2(ConfidenceConnectedImageFilter, image::US2, image::US2,
-                     ConfidenceConnectedImageFilterUS2US2);
+                     itkConfidenceConnectedImageFilterUS2US2);
     ITK_WRAP_OBJECT2(ConfidenceConnectedImageFilter, image::US3, image::US3,
-                     ConfidenceConnectedImageFilterUS3US3);
+                     itkConfidenceConnectedImageFilterUS3US3);
   }
 }
 

@@ -26,10 +26,10 @@ namespace _cable_
   const char* const group = ITK_WRAP_GROUP(itkMinimumMaximumImageCalculator);
   namespace wrappers
   {
-    ITK_WRAP_OBJECT1(MinimumMaximumImageCalculator, image::F2, MinimumMaximumImageCalculatorF2);
-    ITK_WRAP_OBJECT1(MinimumMaximumImageCalculator, image::F3, MinimumMaximumImageCalculatorF3);
-    ITK_WRAP_OBJECT1(MinimumMaximumImageCalculator, image::US2, MinimumMaximumImageCalculatorUS2);
-    ITK_WRAP_OBJECT1(MinimumMaximumImageCalculator, image::US3, MinimumMaximumImageCalculatorUS3);
+    ITK_WRAP_OBJECT1(MinimumMaximumImageCalculator, image::F2, itkMinimumMaximumImageCalculatorF2);
+    ITK_WRAP_OBJECT1(MinimumMaximumImageCalculator, image::F3, itkMinimumMaximumImageCalculatorF3);
+    ITK_WRAP_OBJECT1(MinimumMaximumImageCalculator, image::US2, itkMinimumMaximumImageCalculatorUS2);
+    ITK_WRAP_OBJECT1(MinimumMaximumImageCalculator, image::US3, itkMinimumMaximumImageCalculatorUS3);
   }
 }
 

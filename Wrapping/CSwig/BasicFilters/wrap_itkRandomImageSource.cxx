@@ -26,10 +26,10 @@ namespace _cable_
   const char* const group = ITK_WRAP_GROUP(itkRandomImageSource);
   namespace wrappers
   {
-    ITK_WRAP_OBJECT1(RandomImageSource, image::F2, RandomImageSourceF2);
-    ITK_WRAP_OBJECT1(RandomImageSource, image::F3, RandomImageSourceF3);
-    ITK_WRAP_OBJECT1(RandomImageSource, image::US2, RandomImageSourceUS2);
-    ITK_WRAP_OBJECT1(RandomImageSource, image::US3, RandomImageSourceUS3);
+    ITK_WRAP_OBJECT1(RandomImageSource, image::F2, itkRandomImageSourceF2);
+    ITK_WRAP_OBJECT1(RandomImageSource, image::F3, itkRandomImageSourceF3);
+    ITK_WRAP_OBJECT1(RandomImageSource, image::US2, itkRandomImageSourceUS2);
+    ITK_WRAP_OBJECT1(RandomImageSource, image::US3, itkRandomImageSourceUS3);
   }
 }
 

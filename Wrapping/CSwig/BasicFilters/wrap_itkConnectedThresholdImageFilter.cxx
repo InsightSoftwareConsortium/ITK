@@ -27,13 +27,13 @@ namespace _cable_
   namespace wrappers
   {
     ITK_WRAP_OBJECT2(ConnectedThresholdImageFilter, image::F2, image::F2,
-                     ConnectedThresholdImageFilterF2F2);
+                     itkConnectedThresholdImageFilterF2F2);
     ITK_WRAP_OBJECT2(ConnectedThresholdImageFilter, image::F3, image::F3,
-                     ConnectedThresholdImageFilterF3F3);
+                     itkConnectedThresholdImageFilterF3F3);
     ITK_WRAP_OBJECT2(ConnectedThresholdImageFilter, image::US2, image::US2,
-                     ConnectedThresholdImageFilterUS2US2);
+                     itkConnectedThresholdImageFilterUS2US2);
     ITK_WRAP_OBJECT2(ConnectedThresholdImageFilter, image::US3, image::US3,
-                     ConnectedThresholdImageFilterUS3US3);
+                     itkConnectedThresholdImageFilterUS3US3);
   }
 }
 

@@ -31,25 +31,25 @@ namespace _cable_
                                      image::F2, 
                                      image::F2, 
                                      image::F2, 
-                                     TernaryMagnitudeImageFilterF2F2);
+                                     itkTernaryMagnitudeImageFilterF2F2);
     ITK_WRAP_OBJECT4_WITH_SUPERCLASS(TernaryMagnitudeImageFilter,
                                      image::F3,
                                      image::F3,
                                      image::F3,
                                      image::F3, 
-                                     TernaryMagnitudeImageFilterF3F3);
+                                     itkTernaryMagnitudeImageFilterF3F3);
     ITK_WRAP_OBJECT4_WITH_SUPERCLASS(TernaryMagnitudeImageFilter,
                                      image::US2, 
                                      image::US2, 
                                      image::US2, 
                                      image::US2, 
-                                     TernaryMagnitudeImageFilterUS2US2);
+                                     itkTernaryMagnitudeImageFilterUS2US2);
     ITK_WRAP_OBJECT4_WITH_SUPERCLASS(TernaryMagnitudeImageFilter,
                                      image::US3,
                                      image::US3,
                                      image::US3,
                                      image::US3, 
-                                     TernaryMagnitudeImageFilterUS3US3);
+                                     itkTernaryMagnitudeImageFilterUS3US3);
     
   }
 }

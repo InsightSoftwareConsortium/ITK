@@ -27,13 +27,13 @@ namespace _cable_
   namespace wrappers
   {
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(BinaryThresholdImageFilter, image::F2, image::US2, 
-                                     BinaryThresholdImageFilterF2US2);
+                                     itkBinaryThresholdImageFilterF2US2);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(BinaryThresholdImageFilter, image::US2, image::US2, 
-                                     BinaryThresholdImageFilterUS2US2);
+                                     itkBinaryThresholdImageFilterUS2US2);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(BinaryThresholdImageFilter, image::F3, image::US3, 
-                                     BinaryThresholdImageFilterF3US3);
+                                     itkBinaryThresholdImageFilterF3US3);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(BinaryThresholdImageFilter, image::US3, image::US3, 
-                                     BinaryThresholdImageFilterUS3US3);
+                                     itkBinaryThresholdImageFilterUS3US3);
   }
 }
 

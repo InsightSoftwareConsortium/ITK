@@ -27,13 +27,13 @@ namespace _cable_
   namespace wrappers
   {
     ITK_WRAP_OBJECT2(ImageToImageMetric, image::F2, image::F2,
-                     ImageToImageMetricF2F2);
+                     itkImageToImageMetricF2F2);
     ITK_WRAP_OBJECT2(ImageToImageMetric, image::F3, image::F3,
-                     ImageToImageMetricF3F3);
+                     itkImageToImageMetricF3F3);
     ITK_WRAP_OBJECT2(ImageToImageMetric, image::US2, image::US2,
-                     ImageToImageMetricUS2US2);
+                     itkImageToImageMetricUS2US2);
     ITK_WRAP_OBJECT2(ImageToImageMetric, image::US3, image::US3,
-                     ImageToImageMetricUS3US3);
+                     itkImageToImageMetricUS3US3);
   }
 }
 

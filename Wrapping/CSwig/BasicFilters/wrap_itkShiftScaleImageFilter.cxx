@@ -27,23 +27,23 @@ namespace _cable_
   namespace wrappers
   {
     ITK_WRAP_OBJECT2(ShiftScaleImageFilter, image::F2, image::US2, 
-                     ShiftScaleImageFilterF2US2);
+                     itkShiftScaleImageFilterF2US2);
     ITK_WRAP_OBJECT2(ShiftScaleImageFilter, image::US2, image::F2, 
-                     ShiftScaleImageFilterUS2F2);
+                     itkShiftScaleImageFilterUS2F2);
     ITK_WRAP_OBJECT2(ShiftScaleImageFilter, image::F2, image::F2, 
-                     ShiftScaleImageFilterF2);
+                     itkShiftScaleImageFilterF2);
     ITK_WRAP_OBJECT2(ShiftScaleImageFilter, image::F2, image::US2, 
-                     ShiftScaleImageFilterF2US2);
+                     itkShiftScaleImageFilterF2US2);
     ITK_WRAP_OBJECT2(ShiftScaleImageFilter, image::US2, image::US2, 
-                     ShiftScaleImageFilterUS2US2);
+                     itkShiftScaleImageFilterUS2US2);
     ITK_WRAP_OBJECT2(ShiftScaleImageFilter, image::F3, image::US3, 
-                     ShiftScaleImageFilterF3US3);
+                     itkShiftScaleImageFilterF3US3);
     ITK_WRAP_OBJECT2(ShiftScaleImageFilter, image::F3, image::F3, 
-                     ShiftScaleImageFilterF3F3);
+                     itkShiftScaleImageFilterF3F3);
     ITK_WRAP_OBJECT2(ShiftScaleImageFilter, image::US3, image::US3, 
-                     ShiftScaleImageFilterUS3US3);
+                     itkShiftScaleImageFilterUS3US3);
     ITK_WRAP_OBJECT2(ShiftScaleImageFilter, image::US3, image::F3, 
-                     ShiftScaleImageFilterUS3F3);
+                     itkShiftScaleImageFilterUS3F3);
   }
 }
 

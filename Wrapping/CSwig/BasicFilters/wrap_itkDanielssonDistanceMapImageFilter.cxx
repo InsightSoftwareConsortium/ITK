@@ -27,21 +27,21 @@ namespace _cable_
   namespace wrappers
   {
     ITK_WRAP_OBJECT2(DanielssonDistanceMapImageFilter, image::F2, image::F2,
-                     DanielssonDistanceMapImageFilterF2F2);
+                     itkDanielssonDistanceMapImageFilterF2F2);
     ITK_WRAP_OBJECT2(DanielssonDistanceMapImageFilter, image::F2, image::US2,
-                     DanielssonDistanceMapImageFilterF2US2);
+                     itkDanielssonDistanceMapImageFilterF2US2);
     ITK_WRAP_OBJECT2(DanielssonDistanceMapImageFilter, image::US2, image::F2,
-                     DanielssonDistanceMapImageFilterUS2F2);
+                     itkDanielssonDistanceMapImageFilterUS2F2);
     ITK_WRAP_OBJECT2(DanielssonDistanceMapImageFilter, image::F3, image::F3,
-                     DanielssonDistanceMapImageFilterF3F3);
+                     itkDanielssonDistanceMapImageFilterF3F3);
     ITK_WRAP_OBJECT2(DanielssonDistanceMapImageFilter, image::F3, image::US3,
-                     DanielssonDistanceMapImageFilterF3US3);
+                     itkDanielssonDistanceMapImageFilterF3US3);
     ITK_WRAP_OBJECT2(DanielssonDistanceMapImageFilter, image::US2, image::US2,
-                     DanielssonDistanceMapImageFilterUS2US2);
+                     itkDanielssonDistanceMapImageFilterUS2US2);
     ITK_WRAP_OBJECT2(DanielssonDistanceMapImageFilter, image::US3, image::US3,
-                     DanielssonDistanceMapImageFilterUS3US3);
+                     itkDanielssonDistanceMapImageFilterUS3US3);
     ITK_WRAP_OBJECT2(DanielssonDistanceMapImageFilter, image::US3, image::F3,
-                     DanielssonDistanceMapImageFilterUS3F3);
+                     itkDanielssonDistanceMapImageFilterUS3F3);
   }
 }
 #endif

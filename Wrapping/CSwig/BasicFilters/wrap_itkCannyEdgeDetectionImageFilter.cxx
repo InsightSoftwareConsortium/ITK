@@ -27,9 +27,9 @@ namespace _cable_
   namespace wrappers
   {
     ITK_WRAP_OBJECT2(CannyEdgeDetectionImageFilter, image::F2, image::F2,
-                     CannyEdgeDetectionImageFilterF2F2);
+                     itkCannyEdgeDetectionImageFilterF2F2);
     ITK_WRAP_OBJECT2(CannyEdgeDetectionImageFilter, image::F3, image::F3,
-                     CannyEdgeDetectionImageFilterF3F3);
+                     itkCannyEdgeDetectionImageFilterF3F3);
   }
 }
 

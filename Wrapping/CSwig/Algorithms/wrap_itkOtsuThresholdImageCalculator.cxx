@@ -27,13 +27,13 @@ namespace _cable_
   namespace wrappers
   {
     ITK_WRAP_OBJECT1(OtsuThresholdImageCalculator, image::F2,
-                     OtsuThresholdImageCalculatorF2);
+                     itkOtsuThresholdImageCalculatorF2);
     ITK_WRAP_OBJECT1(OtsuThresholdImageCalculator, image::F3,
-                     OtsuThresholdImageCalculatorF3);
+                     itkOtsuThresholdImageCalculatorF3);
     ITK_WRAP_OBJECT1(OtsuThresholdImageCalculator, image::US2,
-                     OtsuThresholdImageCalculatorUS2);
+                     itkOtsuThresholdImageCalculatorUS2);
     ITK_WRAP_OBJECT1(OtsuThresholdImageCalculator, image::US3,
-                     OtsuThresholdImageCalculatorUS3);
+                     itkOtsuThresholdImageCalculatorUS3);
   }
 }
 

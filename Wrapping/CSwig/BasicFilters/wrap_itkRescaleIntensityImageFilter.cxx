@@ -27,23 +27,23 @@ namespace _cable_
   namespace wrappers
   {
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(RescaleIntensityImageFilter, image::F2, image::US2, 
-                                     RescaleIntensityImageFilterF2US2);
+                                     itkRescaleIntensityImageFilterF2US2);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(RescaleIntensityImageFilter, image::US2, image::F2, 
-                                     RescaleIntensityImageFilterUS2F2);
+                                     itkRescaleIntensityImageFilterUS2F2);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(RescaleIntensityImageFilter, image::F2, image::F2, 
-                                     RescaleIntensityImageFilterF2F2);
+                                     itkRescaleIntensityImageFilterF2F2);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(RescaleIntensityImageFilter, image::F2, image::US2, 
-                                     RescaleIntensityImageFilterF2US2);
+                                     itkRescaleIntensityImageFilterF2US2);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(RescaleIntensityImageFilter, image::US2, image::US2, 
-                                     RescaleIntensityImageFilterUS2US2);
+                                     itkRescaleIntensityImageFilterUS2US2);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(RescaleIntensityImageFilter, image::F3, image::US3, 
-                                     RescaleIntensityImageFilterF3US3);
+                                     itkRescaleIntensityImageFilterF3US3);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(RescaleIntensityImageFilter, image::F3, image::F3, 
-                                     RescaleIntensityImageFilterF3F3);
+                                     itkRescaleIntensityImageFilterF3F3);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(RescaleIntensityImageFilter, image::US3, image::US3, 
-                                     RescaleIntensityImageFilterUS3US3);
+                                     itkRescaleIntensityImageFilterUS3US3);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(RescaleIntensityImageFilter, image::US3, image::F3, 
-                                     RescaleIntensityImageFilterUS3F3);
+                                     itkRescaleIntensityImageFilterUS3F3);
   }
 }
 

@@ -27,9 +27,9 @@ namespace _cable_
   namespace wrappers
   {
     ITK_WRAP_OBJECT2(HistogramMatchingImageFilter, image::F2, image::F2,
-                     HistogramMatchingImageFilterF2F2);
+                     itkHistogramMatchingImageFilterF2F2);
     ITK_WRAP_OBJECT2(HistogramMatchingImageFilter, image::F3, image::F3,
-                     HistogramMatchingImageFilterF3F3);
+                     itkHistogramMatchingImageFilterF3F3);
   }
 }
 

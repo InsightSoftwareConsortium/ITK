@@ -27,13 +27,13 @@ namespace _cable_
   namespace wrappers
   {
     ITK_WRAP_OBJECT2(RecursiveGaussianImageFilter, image::F2, image::F2,
-                     RecursiveGaussianImageFilterF2F2);
+                     itkRecursiveGaussianImageFilterF2F2);
     ITK_WRAP_OBJECT2(RecursiveGaussianImageFilter, image::F3, image::F3,
-                     RecursiveGaussianImageFilterF3F3);
+                     itkRecursiveGaussianImageFilterF3F3);
     ITK_WRAP_OBJECT2(RecursiveGaussianImageFilter, image::US2, image::US2,
-                     RecursiveGaussianImageFilterUS2US2);
+                     itkRecursiveGaussianImageFilterUS2US2);
     ITK_WRAP_OBJECT2(RecursiveGaussianImageFilter, image::US3, image::US3,
-                     RecursiveGaussianImageFilterUS3US3);
+                     itkRecursiveGaussianImageFilterUS3US3);
   }
 }
 

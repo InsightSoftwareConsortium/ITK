@@ -27,13 +27,13 @@ namespace _cable_
   namespace wrappers
   {
     ITK_WRAP_OBJECT2(ResampleImageFilter, image::F2, image::F2,
-                     ResampleImageFilterF2F2);
+                     itkResampleImageFilterF2F2);
     ITK_WRAP_OBJECT2(ResampleImageFilter, image::F3, image::F3,
-                     ResampleImageFilterF3F3);
+                     itkResampleImageFilterF3F3);
     ITK_WRAP_OBJECT2(ResampleImageFilter, image::US2, image::US2,
-                     ResampleImageFilterUS2US2);
+                     itkResampleImageFilterUS2US2);
     ITK_WRAP_OBJECT2(ResampleImageFilter, image::US3, image::US3,
-                     ResampleImageFilterUS3US3);
+                     itkResampleImageFilterUS3US3);
   }
 }
 
