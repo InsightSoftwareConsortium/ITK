@@ -129,8 +129,9 @@ int main( int argc, char *argv[] )
 
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageAdaptor<  ImageType, ThresholdingPixelAccessor > 
-    ImageAdaptorType;
+  typedef itk::ImageAdaptor<  ImageType, 
+                              ThresholdingPixelAccessor > ImageAdaptorType;
+
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
 // Software Guide : EndCodeSnippet
 
@@ -169,8 +170,9 @@ int main( int argc, char *argv[] )
 //  Software Guide : EndCodeSnippet 
 
 
-  typedef itk::RescaleIntensityImageFilter< ImageAdaptorType, ImageType > 
-    RescalerType;
+  typedef itk::RescaleIntensityImageFilter< ImageAdaptorType, 
+                                            ImageType > RescalerType;
+
   RescalerType::Pointer rescaler = RescalerType::New();
   typedef itk::ImageFileWriter< ImageType >   WriterType;
   WriterType::Pointer writer = WriterType::New();
