@@ -251,9 +251,9 @@ ImageAdaptor<TImage , TAccessor>
 template <class TImage, class TAccessor >
 void
 ImageAdaptor<TImage , TAccessor>
-::Modified() 
+::Modified() const
 {
-  Object::Modified();
+  Superclass::Modified();
   
   m_Image->Modified();
 }
@@ -264,11 +264,11 @@ ImageAdaptor<TImage , TAccessor>
 template <class TImage, class TAccessor >
 unsigned long
 ImageAdaptor<TImage , TAccessor>
-::GetMTime() 
+::GetMTime() const
 {
   unsigned long mtime1, mtime2;
 
-  mtime1 = this->GetMTime();
+  mtime1 = Superclass::GetMTime();
   mtime2 = m_Image->GetMTime();
   
   return (mtime1 >= mtime2 ? mtime1 : mtime2);
