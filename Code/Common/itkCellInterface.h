@@ -85,7 +85,7 @@
   typedef typename Superclass::CellGeometry            CellGeometry;  \
   typedef typename Superclass::ParametricCoordArrayType  ParametricCoordArrayType;  \
   typedef typename Superclass::ShapeFunctionsArrayType   ShapeFunctionsArrayType;  \
-  enum { PointDimension = Superclass::PointDimension };
+  enum { PointDimension = Superclass::PointDimension }
  
 
 
