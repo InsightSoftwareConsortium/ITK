@@ -50,9 +50,11 @@ int main()
   point[1] = 7.21;
   point[2] = 9.28;
 
-  ImageType::IndexType index;
+  ImageType::IndexType pixelIndex;
 
-  image->TransformPhysicalPointToIndex( point, index ); 
+  image->TransformPhysicalPointToIndex( point, pixelIndex ); 
+
+  ImageType::PixelType value = image->GetPixel( pixelIndex );
 
   return 0;
 

@@ -25,15 +25,15 @@ int main()
 
   image->FillBuffer( 0 );
 
-  ImageType::IndexType index;
+  ImageType::IndexType pixelIndex;
  
-  index[0] = 27;
-  index[1] = 29;
-  index[2] = 37;
+  pixelIndex[0] = 27;
+  pixelIndex[1] = 29;
+  pixelIndex[2] = 37;
 
-  image->SetPixel( index, 41 );
+  image->SetPixel( pixelIndex, 41 );
 
-  ImageType::PixelType value = image->GetPixel( index );
+  ImageType::PixelType value = image->GetPixel( pixelIndex );
 
   return 0;
 
