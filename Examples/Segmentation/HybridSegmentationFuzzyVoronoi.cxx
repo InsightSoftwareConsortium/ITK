@@ -47,9 +47,9 @@ int main( int argc, char **argv )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImage  outputImage seedX seedY ";
-    std::cerr << " estimateMean estimateStandardDeviation ";
-    std::cerr << "  meanTolerance stdTolerance" << std::endl;
+    std::cerr << " inputImage  outputImage seedX seedY " << std::endl;
+    std::cerr << " estimateMean estimateVariance (used by FuzzySegmentation) " << std::endl;
+    std::cerr << " meanTolerance standardDeviationTolerance (used by VoronoiSegmentation) " << std::endl;
     return 1;
     }
 
@@ -227,7 +227,7 @@ int main( int argc, char **argv )
 
 
   const float  mean              = atof(argv[5]);
-  const float  standardDeviation = atof(argv[6]);
+  const float  variance          = atof(argv[6]);
 
   const float  meanTolerance     = atof( argv[7] );
   const float  stdTolerance      = atof( argv[8] );
@@ -253,8 +253,8 @@ int main( int argc, char **argv )
   // Software Guide : BeginCodeSnippet
   fuzzysegmenter->SetObjectsSeed( index );
   fuzzysegmenter->SetMean( mean );
-  fuzzysegmenter->SetVariance( standardDeviation * standardDeviation );
-  fuzzysegmenter->SetThreshold(0.5);
+  fuzzysegmenter->SetVariance( variance );
+  fuzzysegmenter->SetThreshold( 0.5 );
   // Software Guide : EndCodeSnippet
 
 
@@ -327,7 +327,7 @@ int main( int argc, char **argv )
 
   
   // Software Guide : BeginCodeSnippet
-  voronoisegmenter->SetMinRegion(5);
+  voronoisegmenter->SetMinRegion( 5 );
   // Software Guide : EndCodeSnippet
 
 
