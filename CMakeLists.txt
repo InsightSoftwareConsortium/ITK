@@ -74,8 +74,7 @@ IF( USE_SCSL )
 ENDIF( USE_SCSL )
 
 # Deal with GDCM library Options
-OPTION(USE_GDCM "Use the GDCM dicom library " OFF)
-SET(USE_GDCM ON CACHE BOOL "Use the GDCM dicom library " FORCE)
+OPTION(USE_GDCM "Use the GDCM dicom library " ON)
 MARK_AS_ADVANCED(USE_GDCM)
 
 # Put "." in the rpath of all ITK shared libraries.
