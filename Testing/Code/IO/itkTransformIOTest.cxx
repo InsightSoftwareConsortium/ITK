@@ -50,6 +50,13 @@ int itkTransformIOTest(int itkNotUsed(ac), char* itkNotUsed(av)[])
   size.Fill(10);
   region.SetSize(size);
   bspline->SetGridRegion( region );
+  BSplineTransformType::OriginType origin;
+  origin.Fill ( 100 );
+  bspline->SetGridOrigin ( origin );
+  BSplineTransformType::SpacingType spacing;
+  spacing.Fill ( 1.5 );
+  bspline->SetGridSpacing ( spacing );
+  
   BSplineTransformType::ParametersType parameters( bspline->GetNumberOfParameters() );
   bspline->SetParameters( parameters );
   bspline->SetIdentity();
