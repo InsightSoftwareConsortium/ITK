@@ -33,7 +33,7 @@ namespace itk
   VnlFFTComplexConjugateToRealImageFilter<TPixel,Dimension>::
   GenerateData()
   {
-    unsigned int i,j,k;
+    unsigned int i;
     // get pointers to the input and output
     typename TInputImageType::ConstPointer  inputPtr  = this->GetInput();
     typename TOutputImageType::Pointer      outputPtr = this->GetOutput();

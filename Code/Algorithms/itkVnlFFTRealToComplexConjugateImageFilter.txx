@@ -30,8 +30,11 @@ VNL_FFT_BASE_INSTANTIATE(3,double);
 VNL_FFT_BASE_INSTANTIATE(3,float);
 //#define DEBUG_PRINT(x) /* */
 //#define DEBUG_PRINT(x) x
+
 namespace itk
 {
+//#define DEBUG_PRINT(x) /* */
+#define DEBUG_PRINT(x) x
 
   template <class TPixel, unsigned int Dimension>
   bool
@@ -67,7 +70,7 @@ namespace itk
   VnlFFTRealToComplexConjugateImageFilter<TPixel,Dimension>::
   GenerateData()
   {
-    unsigned int i,j,k;
+    unsigned int i;
     // get pointers to the input and output
     typename TInputImageType::ConstPointer  inputPtr  = this->GetInput();
     typename TOutputImageType::Pointer      outputPtr = this->GetOutput();
