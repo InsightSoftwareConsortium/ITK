@@ -19,6 +19,7 @@ ADD_TEST(itkBioGeneTest ${ALGORITHMS_TESTS} itkBioGeneTest )
 ADD_TEST(itkBioGeneNetworkTest ${ALGORITHMS_TESTS} itkBioGeneNetworkTest )
 ADD_TEST(itkCannySegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkCannySegmentationLevelSetImageFilterTest)
 ADD_TEST(itkDemonsRegistrationFilterTest ${ALGORITHMS_TESTS} itkDemonsRegistrationFilterTest)
+ADD_TEST(itkExtensionVelocitiesImageFilterTest ${ALGORITHMS_TESTS} itkExtensionVelocitiesImageFilterTest)
 ADD_TEST(itkExtractMeshConnectedRegionsTest ${ALGORITHMS_TESTS} itkExtractMeshConnectedRegionsTest)
 ADD_TEST(itkFastMarchingTest ${ALGORITHMS_TESTS} itkFastMarchingTest)
 ADD_TEST(itkFastMarchingExtensionImageFilterTest ${ALGORITHMS_TESTS} itkFastMarchingExtensionImageFilterTest)
@@ -103,6 +104,7 @@ itkBioGeneNetworkTest.cxx
 itkCannySegmentationLevelSetImageFilterTest.cxx
 itkCurvatureFlowTest.cxx
 itkDemonsRegistrationFilterTest.cxx
+itkExtensionVelocitiesImageFilterTest.cxx
 itkExtractMeshConnectedRegionsTest.cxx
 itkFastMarchingTest.cxx
 itkFastMarchingExtensionImageFilterTest.cxx

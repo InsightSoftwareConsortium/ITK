@@ -18,6 +18,7 @@ REGISTER_TEST(itkBioGeneNetworkTest  );
 REGISTER_TEST(itkCannySegmentationLevelSetImageFilterTest );
 REGISTER_TEST(itkCurvatureFlowTest );
 REGISTER_TEST(itkDemonsRegistrationFilterTest );
+REGISTER_TEST(itkExtensionVelocitiesImageFilterTest );
 REGISTER_TEST(itkExtractMeshConnectedRegionsTest );
 REGISTER_TEST(itkFastMarchingTest );
 REGISTER_TEST(itkFastMarchingExtensionImageFilterTest );
