@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "parseConfigXML.h"
 #include "parseSourceXML.h"
 
 extern void generateTcl(Namespace* globalNamespace);
