@@ -317,22 +317,14 @@ private:
   
 };
 #ifdef ITK_EXPLICIT_INSTANTIATION
-   extern template class PhasedArray3DSpecialCoordinatesImage<float         ,2>;
-   extern template class PhasedArray3DSpecialCoordinatesImage<double        ,2>;
-   extern template class PhasedArray3DSpecialCoordinatesImage<unsigned char ,2>;
-   extern template class PhasedArray3DSpecialCoordinatesImage<unsigned short,2>;
-   extern template class PhasedArray3DSpecialCoordinatesImage<unsigned int  ,2>;
-   extern template class PhasedArray3DSpecialCoordinatesImage<signed char   ,2>;
-   extern template class PhasedArray3DSpecialCoordinatesImage<signed short  ,2>;
-   extern template class PhasedArray3DSpecialCoordinatesImage<signed int    ,2>;
-   extern template class PhasedArray3DSpecialCoordinatesImage<float         ,3>;
-   extern template class PhasedArray3DSpecialCoordinatesImage<double        ,3>;
-   extern template class PhasedArray3DSpecialCoordinatesImage<unsigned char ,3>;
-   extern template class PhasedArray3DSpecialCoordinatesImage<unsigned short,3>;
-   extern template class PhasedArray3DSpecialCoordinatesImage<unsigned int  ,3>;
-   extern template class PhasedArray3DSpecialCoordinatesImage<signed char   ,3>;
-   extern template class PhasedArray3DSpecialCoordinatesImage<signed short  ,3>;
-   extern template class PhasedArray3DSpecialCoordinatesImage<signed int    ,3>;
+   extern template class PhasedArray3DSpecialCoordinatesImage<float         >;
+   extern template class PhasedArray3DSpecialCoordinatesImage<double        >;
+   extern template class PhasedArray3DSpecialCoordinatesImage<unsigned char >;
+   extern template class PhasedArray3DSpecialCoordinatesImage<unsigned short>;
+   extern template class PhasedArray3DSpecialCoordinatesImage<unsigned int  >;
+   extern template class PhasedArray3DSpecialCoordinatesImage<signed char   >;
+   extern template class PhasedArray3DSpecialCoordinatesImage<signed short  >;
+   extern template class PhasedArray3DSpecialCoordinatesImage<signed int    >;
 #endif
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
