@@ -15,6 +15,7 @@ REGISTER_TEST(ConnectedThresholdImageFilterTest);
 REGISTER_TEST(FastMarchingImageFilterTest);
 REGISTER_TEST(GeodesicActiveContourImageFilterTest);
 REGISTER_TEST(GibbsPriorImageFilter1Test);
+REGISTER_TEST(HoughTransform2DLinesImageFilter);
 REGISTER_TEST(IsolatedConnectedImageFilterTest);
 REGISTER_TEST(NeighborhoodConnectedImageFilterTest);
 REGISTER_TEST(ShapeDetectionLevelSetFilterTest);
@@ -45,6 +46,10 @@ REGISTER_TEST(WatershedSegmentation1Test);
 #undef main
 #define main GibbsPriorImageFilter1Test
 #include "GibbsPriorImageFilter1.cxx"
+
+#undef main
+#define main HoughTransform2DLinesImageFilter
+#include "HoughTransform2DLinesImageFilter.cxx"
 
 #undef main
 #define main IsolatedConnectedImageFilterTest
