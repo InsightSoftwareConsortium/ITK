@@ -18,6 +18,7 @@
 #define _itkColorTable_txx
 
 #include "itkColorTable.h"
+#include <stdio.h>
 
 namespace itk
 {
