@@ -299,6 +299,7 @@ CumulativeGaussianOptimizer
 
   delete sampledGaussianArray;
   delete cumGaussianArrayCopy;
+  delete derivative;
 }
 
 void CumulativeGaussianOptimizer::PrintArray(MeasureType * array)
