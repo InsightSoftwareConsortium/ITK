@@ -64,6 +64,12 @@ namespace itk
  * types, and its position in the pipeline), ImageRegion or MeshRegion
  * will be used to describe the region.
  *
+ * Region is a light-weight object and not reference counted. This 
+ * means that is behaves differently than ITK classes that are
+ * reference counted. For example, smart pointer access is not
+ * provided, and the (subclasses') constructor, destructor, 
+ * copy constructor and operator= are all public.
+ *
  * \sa ImageRegion
  * \sa MeshRegion
  */
@@ -78,13 +84,13 @@ public:
   /**
    * Enums used to describe the extent types.
    */
-  typedef enum {ITK_UNSTRUCTURED_REGION,ITK_STRUCTURED_REGION} RegionType;
+  enum RegionType {ITK_UNSTRUCTURED_REGION,ITK_STRUCTURED_REGION};
   
   /**
    * Subclasses must return a region type describing whether the region
    * is structured or unstructured.
    */
-  virtual int GetRegionType() const = 0;
+  virtual RegionType GetRegionType() const = 0;
 
 protected:
 

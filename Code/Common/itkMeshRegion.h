@@ -91,34 +91,34 @@ public:
   /** 
    * Return the region type. Meshes are described with unstructured regions.
    */
-  virtual int GetRegionType() const
+  virtual typename Superclass::RegionType GetRegionType() const
     {return Superclass::ITK_UNSTRUCTURED_REGION;}
 
   /** 
    * Get the number of regions.
    */
   unsigned long GetNumberOfRegions() const
-  { return m_NumberOfRegions; };
+    { return m_NumberOfRegions; };
 
   /** 
    * Set the number of regions.
    */
   void SetNumberOfRegions(unsigned long num)
-  { if ((num >= 1) && (num <= NumericTraits<unsigned long>::max()))
-    { m_NumberOfRegions = num; } };
+    { if ((num >= 1) && (num <= NumericTraits<unsigned long>::max()))
+      { m_NumberOfRegions = num; } };
 
   /** 
    * Get the current region.
    */
   unsigned long GetRegion() const
-  { return m_Region; };
+    { return m_Region; };
 
   /** 
    * Set the number of regions.
    */
   void SetRegion(unsigned long region)
-  { if ((region >= 1) && (region <= NumericTraits<unsigned long>::max()))
-    { m_Region = region; } };
+    { if ((region >= 1) && (region <= NumericTraits<unsigned long>::max()))
+      { m_Region = region; } };
 
 protected:
 
