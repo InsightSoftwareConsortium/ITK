@@ -34,7 +34,7 @@ namespace itk
  * of values).  CovariantVector can be used as the data type held at each pixel in
  * an Image or at each vertex of an Mesh. The template parameter T can
  * be any data type that behaves like a primitive (or atomic) data type (int,
- * short, float, complex).  The NCovariantVectorDimension defines the number of
+ * short, float, complex).  The NVectorDimension defines the number of
  * components in the vector array. 
  *
  * CovariantVector is not a dynamically extendible array like std::vector. It is
@@ -60,30 +60,30 @@ namespace itk
  * \sa Matrix
  */
 
-template<class T, unsigned int NCovariantVectorDimension=3>
-class CovariantVector : public FixedArray<T,NCovariantVectorDimension> {
+template<class T, unsigned int NVectorDimension=3>
+class CovariantVector : public FixedArray<T,NVectorDimension> {
  public:
   /** Standard class typedefs. */
   typedef CovariantVector  Self;
-  typedef FixedArray<T,NCovariantVectorDimension>  Superclass;
+  typedef FixedArray<T,NVectorDimension>  Superclass;
     
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an CovariantVector.   */
   typedef T ValueType;
 
   /** Dimension of the Space */
-  itkStaticConstMacro(CovariantVectorDimension, unsigned int,
-                      NCovariantVectorDimension);
+  itkStaticConstMacro(VectorDimension, unsigned int,
+                      NVectorDimension);
 
   /** I am a covariant vector. */
   typedef Self CovariantVectorType;
   
   /** The Array type from which this CovariantVector is derived. */
-  typedef FixedArray<T, NCovariantVectorDimension>                BaseArray;
+  typedef FixedArray<T, NVectorDimension>                BaseArray;
     
   /** Get the dimension (size) of the vector. */
   static unsigned int GetCovariantVectorDimension() 
-    { return NCovariantVectorDimension; }  
+    { return NVectorDimension; }  
 
   /** Set a vnl_vector_ref referencing the same memory block */
   void Set_vnl_vector( const vnl_vector<T> & );
@@ -99,11 +99,11 @@ class CovariantVector : public FixedArray<T,NCovariantVectorDimension> {
 
   /** Pass-through constructor for the Array base class. */
   CovariantVector(const Self& r): BaseArray(r) {}
-  CovariantVector(const ValueType r[CovariantVectorDimension]): BaseArray(r) {}  
+  CovariantVector(const ValueType r[VectorDimension]): BaseArray(r) {}  
     
   /** Pass-through assignment operator for the Array base class. */
   CovariantVector& operator= (const Self& r);
-  CovariantVector& operator= (const ValueType r[CovariantVectorDimension]);
+  CovariantVector& operator= (const ValueType r[VectorDimension]);
     
   /** Scalar operator*=.  Scales elements by a scalar. */
   const Self& operator*=(const ValueType &value);
@@ -137,7 +137,7 @@ class CovariantVector : public FixedArray<T,NCovariantVectorDimension> {
 
   /** operator*.  Performs the scalar product with a vector (contravariant).
    * This scalar product is invariant under affine transformations */
-  ValueType operator*(const Vector<T,NCovariantVectorDimension> &vec) const;
+  ValueType operator*(const Vector<T,NVectorDimension> &vec) const;
 
   /** Scalar operator/. Scale (divide) the elements of a vector by a scalar.
    * Return a new vector. */
@@ -155,9 +155,9 @@ class CovariantVector : public FixedArray<T,NCovariantVectorDimension> {
   /** Copy from another CovariantVector with a different representation type. 
    *  Casting is done with C-Like rules  */
   template < typename TCoordRepB >
-  void CastFrom( const CovariantVector<TCoordRepB,NCovariantVectorDimension> & pa )
+  void CastFrom( const CovariantVector<TCoordRepB,NVectorDimension> & pa )
   {
-    for(unsigned int i=0; i<NCovariantVectorDimension; i++ )
+    for(unsigned int i=0; i<NVectorDimension; i++ )
       {
       (*this)[i] = static_cast<T>( pa[i] );
       }
