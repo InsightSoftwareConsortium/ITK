@@ -62,6 +62,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMeanSquaresPointSetToImageMetric.h"
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkMultiResolutionImagePyramid.h"
+#include "itkMultiResolutionMutualInformationAffineRegistration.h"
 #include "itkMultiResolutionMutualInformationRigidRegistration.h"
 #include "itkMultiResolutionRegistration.h"
 #include "itkMutualInformationImageToImageMetric.h"
