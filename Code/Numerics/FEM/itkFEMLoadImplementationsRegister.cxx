@@ -45,14 +45,14 @@ namespace fem {
 
 /* This macro makes registering Load implementations easier. */
 #define REGISTER_LOAD(ElementClass,LoadClass,FunctionName) \
-  extern Element::LoadVectorType FunctionName(ElementClass::ConstPointer, Element::LoadElementPointer); \
-  VisitorDispatcher<ElementClass, Element::LoadElementType, Element::LoadVectorType>::RegisterVisitor((LoadClass*)0, &FunctionName);
+  extern ElementClass::LoadVectorType FunctionName(ElementClass::ConstPointer, ElementClass::LoadElementPointer); \
+  VisitorDispatcher<ElementClass, ElementClass::LoadElementType, ElementClass::LoadVectorType>::RegisterVisitor((LoadClass*)0, &FunctionName);
 
 
 
 /**
  * Registers all Load classes in the FEM library with VisitorDispatcher.
- * This function must be calles before the FEM library is functional!.
+ * This function must be called before the FEM library is functional!.
  */
 void LoadImplementationsRegister(void)
 {
