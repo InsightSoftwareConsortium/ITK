@@ -59,7 +59,9 @@
 #ifdef GDCM_HAVE_STDINT_H
 #include <stdint.h>   // For uint8_t uint16_t and uint32_t
 #else
-//typedef    signed char   int8_t;
+#if defined(_MSC_VER) || defined(__BORLANDC__)
+typedef    signed char   int8_t;
+#endif
 typedef  unsigned char  uint8_t;
 typedef  unsigned short uint16_t;
 typedef  unsigned int   uint32_t;
