@@ -44,7 +44,8 @@ int itkMeshSpatialObjectTest(int, char * [] )
   
   unsigned long tetraPoints[4] = {0,1,2,4};
  
-  for(int i=0; i < 4 ; ++i)
+  int i;
+  for(i=0; i < 4 ; ++i)
     {
     mesh->SetPoint(i, PointType(testPointCoords[i]));
     }
@@ -121,6 +122,56 @@ int itkMeshSpatialObjectTest(int, char * [] )
     return EXIT_FAILURE;
     }
 
+  std::cout<<"[PASSED]"<<std::endl;
+
+
+  // Testing IsInside() for triangle mesh
+  std::cout << "Testing IsInside() Triangle: ";
+  typedef itk::TriangleCell<CellInterfaceType>          TriangleCellType;
+
+  // Create an itkMesh
+  MeshType::Pointer meshTriangle = MeshType::New();
+
+  MeshType::CoordRepType testTrianglePointCoords[4][3]
+    = { {50,50,64}, {50,100,64}, {100,50,64} , {100,100,64}};
+  
+  unsigned long trianglePoint1[3] = {0,1,2};
+ 
+  for(i=0; i < 4 ; ++i)
+    {
+    meshTriangle->SetPoint(i, PointType(testTrianglePointCoords[i]));
+    }
+ 
+  unsigned long trianglePoint2[] = {1,2,3};
+
+  meshTriangle->SetCellsAllocationMethod( MeshType::CellsAllocatedDynamicallyCellByCell );
+  CellAutoPointer testCell3; 
+  testCell3.TakeOwnership(  new TriangleCellType ); 
+  testCell3->SetPointIds(trianglePoint1);
+  meshTriangle->SetCell(0, testCell3 );
+ 
+  CellAutoPointer testCell4; 
+  testCell4.TakeOwnership(  new TriangleCellType ); 
+  testCell4->SetPointIds(trianglePoint2);
+  meshTriangle->SetCell(1, testCell4 );
+
+  // Create the mesh Spatial Object
+  MeshSpatialObjectType::Pointer meshTriangleSO = MeshSpatialObjectType::New();
+  meshTriangleSO->SetMesh(meshTriangle);
+
+  itk::Point<double,3> pIn;
+  pIn[0] = 60;
+  pIn[1] = 60;
+  pIn[2] = 64;
+  itk::Point<double,3> pOut;
+  pOut[0] = 60;
+  pOut[1] = 102;
+  pOut[2] = 64;
+  if(!meshTriangleSO->IsInside(pIn) || meshTriangleSO->IsInside(pOut))
+    {
+    std::cout<<"[FAILED]"<<std::endl;
+    return EXIT_FAILURE;
+    }
   std::cout<<"[PASSED]"<<std::endl;
 
   std::cout<<"[TEST DONE]"<<std::endl;
