@@ -21,8 +21,7 @@
 #include "wrap_ITKBasicFilters.h"
 
 #define ITK_WRAP_CEDIF(x, y) \
-  ITK_WRAP_IMAGE_TO_IMAGE(CannyEdgeDetectionImageFilter, x, y) \
-  ITK_WRAP_IMAGE_TO_IMAGE_SUPERCLASS(CannyEdgeDetectionImageFilter, x, y)
+  ITK_WRAP_IMAGE_TO_IMAGE(CannyEdgeDetectionImageFilter, x, y) 
 
 ITK_WRAP_CONFIG_GROUP(itkCannyEdgeDetectionImageFilter);
 ITK_WRAP_DEFINE_IMAGE_TYPES();

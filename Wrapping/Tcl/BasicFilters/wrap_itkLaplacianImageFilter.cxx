@@ -21,8 +21,7 @@
 #include "wrap_ITKBasicFilters.h"
 
 #define ITK_WRAP_LIF(x, y) \
-  ITK_WRAP_IMAGE_TO_IMAGE(LaplacianImageFilter, x, y) \
-  ITK_WRAP_IMAGE_TO_IMAGE_SUPERCLASS(LaplacianImageFilter, x, y)
+  ITK_WRAP_IMAGE_TO_IMAGE(LaplacianImageFilter, x, y) 
 
 ITK_WRAP_CONFIG_GROUP(itkLaplacianImageFilter);
 ITK_WRAP_DEFINE_IMAGE_TYPES();
