@@ -12,14 +12,14 @@ $source SetSize {300 300}
 
 # Connect the smoothing filter.
 set filter [itk::create RecursiveGaussianImageFilterUS2]
-$filter SetInput [[$source GetOutput] ->]
+$filter SetInput [$source GetOutput] 
 $filter SetSigma $sigma
 $filter SetNormalizeAcrossScale 1
 $filter SetDirection 0
 
 # Create the display windows.
-set randomV [itk::createImageViewer2D .random [[$source GetOutput] ->]]
-set smoothedV [itk::createImageViewer2D .smoothed [[$filter GetOutput] ->]]
+set randomV [itk::createImageViewer2D .random [$source GetOutput] ]
+set smoothedV [itk::createImageViewer2D .smoothed [$filter GetOutput] ]
 $randomV Draw
 $smoothedV Draw
 
