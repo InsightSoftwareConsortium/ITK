@@ -169,7 +169,7 @@ void PNGImageIO::ReadVolume(void* buffer)
   
 void PNGImageIO::Read(void* buffer)
 {
-  std::cout << "Read: file dimensions = " << this->GetNumberOfDimensions() << std::endl;
+  //std::cout << "Read: file dimensions = " << this->GetNumberOfDimensions() << std::endl;
   // use this class so return will call close
   PNGFileWrapper pngfp(this->GetFileName(),"rb"); 
   FILE* fp = pngfp.m_FilePointer;
@@ -279,6 +279,11 @@ PNGImageIO::PNGImageIO()
   m_PixelType = UCHAR;
   m_UseCompression = false;
   m_CompressionLevel = 4; // Range 0-9; 0 = no file compression, 9 = maximum file compression
+  m_Spacing[0] = 1.0;
+  m_Spacing[1] = 1.0;
+  
+  m_Origin[0] = 0.0;
+  m_Origin[1] = 0.0;
 }
 
 PNGImageIO::~PNGImageIO()
@@ -297,6 +302,12 @@ void PNGImageIO::PrintSelf(std::ostream& os, Indent indent) const
   
 void PNGImageIO::ReadImageInformation()
 {
+  m_Spacing[0] = 1.0;  // Is there any spacing information
+  m_Spacing[1] = 1.0;  // in PNG ?
+
+  m_Origin[0] = 0.0;
+  m_Origin[1] = 0.0;
+
   // use this class so return will call close
   PNGFileWrapper pngfp(m_FileName.c_str(),"rb");
   FILE* fp = pngfp.m_FilePointer;
@@ -383,11 +394,6 @@ void PNGImageIO::ReadImageInformation()
   png_destroy_read_struct(&png_ptr, &info_ptr,
                           &end_info);
 
-  m_Spacing[0] = 1.0;  // Is there any spacing information
-  m_Spacing[1] = 1.0;  // in PNG ?
-
-  m_Origin[0] = 0.0;
-  m_Origin[1] = 0.0;
   return;
 }
 
