@@ -16,8 +16,14 @@
 =========================================================================*/
 #include "itkLightObject.h"
 #include "itkTclConfigure.h"
-#include <tcl.h>
 
+#ifndef ITK_TCL_NO_TK
+#  include <tk.h>
+#else
+#  include <tcl.h>
+#endif
+
+// Define the location of the pkgIndex.tcl file for ITK.
 #ifdef CMAKE_INTDIR
 #define ITK_TCL_LIB_DIR ITK_BINARY_DIR "/Wrapping/Tcl/" CMAKE_INTDIR
 #else
@@ -26,24 +32,36 @@
 
 int itkTclAppInit(Tcl_Interp* interp);
 
+/** Program entry point.  */
 int main(int argc, char** argv)
 {
   std::ios::sync_with_stdio();
+#ifndef ITK_TCL_NO_TK
+  Tk_Main(argc, argv, &itkTclAppInit);
+#else
   Tcl_Main(argc, argv, &itkTclAppInit);
+#endif
   return 0;
 }
 
+// Get the Tcl package initialization functions to call directly.
 extern "C"
 {
   int Vxlnumericstcl_Init(Tcl_Interp*);
   int Itkcommontcl_Init(Tcl_Interp*);
 }
 
+/** Main application initialization function.  */
 int itkTclAppInit(Tcl_Interp* interp)
 {
   // Initialize Tcl.
   if(Tcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
   
+#ifndef ITK_TCL_NO_TK
+  // Initialize Tk.
+  if(Tk_Init(interp) != TCL_OK) { return TCL_ERROR; }
+#endif
+
   // Prefix tcl package directory onto the load path.
   static char pathScript[] =
     "foreach dir [list \"" ITK_TCL_LIB_DIR "\"] {\n"
@@ -52,7 +70,7 @@ int itkTclAppInit(Tcl_Interp* interp)
     "  }\n"
     "}\n";
   if(Tcl_GlobalEval(interp, pathScript) != TCL_OK) { return TCL_ERROR; }
-  
+
   // Initialize the built-in packages.
   if(Vxlnumericstcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
   if(Itkcommontcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
