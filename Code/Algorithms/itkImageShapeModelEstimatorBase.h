@@ -43,9 +43,9 @@ namespace itk
  *  \ingroup ImageFeatureExtraction */
 
 template <class TInputImage,
-class TOutputImage = Image<double, itk::GetImageDimension<TInputImage>::ImageDimension> >
+          class TOutputImage = Image<double, ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 class ITK_EXPORT ImageShapeModelEstimatorBase: 
-  public ImageToImageFilter<TInputImage, TOutputImage>
+    public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   /** Standard class typedefs. */
@@ -107,19 +107,3 @@ private:
 
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
