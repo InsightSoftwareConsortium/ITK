@@ -52,11 +52,11 @@ namespace itk{
  *  \brief Imports data from FeatureVectorList object to Histogram object
  *
  * Before beginning import process, users should prepare the Histogram object
- * by calling SetSize(Size), SetBinMin(dimension, n), 
+ * by calling histogram object's Initialize(Size), SetBinMin(dimension, n), 
  * and SetBinMax(dimension, n) methods.
  *
  * To do: selective importing for subset of feature vector dimensions
- * /
+ */
 template< class TFeatureVectorList, class THistogram >
 class ITK_EXPORT ImportFeatureVectorListToHistogram :
       public Object
