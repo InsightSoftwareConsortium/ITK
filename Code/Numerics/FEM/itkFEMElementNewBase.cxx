@@ -182,15 +182,10 @@ void ElementNew::Node::Write( std::ostream& f, int clid ) const
  */
 void ElementNew::GetStiffnessMatrix(MatrixType& Ke) const
 {
-  // Number of DOFs
-  const unsigned int N = GetNumberOfDegreesOfFreedom();
-
   // B and D matrices
   MatrixType B,D;
   this->GetMaterialMatrix( D );
 
-  Ke.resize(N,N); // resize the target matrix object
-  Ke.fill(0.0);
   unsigned int Nip=this->GetNumberOfIntegrationPoints();
 
   VectorType ip;
@@ -199,7 +194,19 @@ void ElementNew::GetStiffnessMatrix(MatrixType& Ke) const
   MatrixType shapeDgl;
   MatrixType shapeD;
 
-  for(unsigned int i=0; i<Nip; i++)
+  // Calculate the contribution of 1st int. point to initialize
+  // the Ke matrix to proper number of elements.
+  this->GetIntegrationPointAndWeight(0,ip,w);
+  this->ShapeFunctionDerivatives(ip,shapeD);
+  this->Jacobian(ip,J,&shapeD);
+  this->ShapeFunctionGlobalDerivatives(ip,shapeDgl,&J,&shapeD);
+
+  this->GetStrainDisplacementMatrix( B, shapeDgl );
+  Float detJ=this->JacobianDeterminant( ip, &J );
+  Ke=detJ*w*B.transpose()*D*B; // FIXME: write a more efficient way of computing this.
+
+  // Add contributions of other int. points to the Ke
+  for(unsigned int i=1; i<Nip; i++)
   {
     this->GetIntegrationPointAndWeight(i,ip,w);
     this->ShapeFunctionDerivatives(ip,shapeD);
