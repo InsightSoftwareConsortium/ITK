@@ -34,17 +34,22 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
   m_NormalizeAcrossScale = false;
 
+  m_ProgressCommand = CommandType::New();
+  m_ProgressCommand->SetCallbackFunction( this, & Self::ReportProgress );
+  m_Progress  = 0.0;
+
   for( unsigned int i = 0; i<ImageDimension-1; i++ )
   {
     m_SmoothingFilters[ i ] = GaussianFilterType::New();
     m_SmoothingFilters[ i ]->SetOrder( GaussianFilterType::ZeroOrder );
     m_SmoothingFilters[ i ]->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
+    m_SmoothingFilters[ i ]->AddObserver( ProgressEvent(), m_ProgressCommand );
   }
 
   m_DerivativeFilter = DerivativeFilterType::New();
   m_DerivativeFilter->SetOrder( DerivativeFilterType::FirstOrder );
   m_DerivativeFilter->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
-  
+  m_DerivativeFilter->AddObserver( ProgressEvent(), m_ProgressCommand );
 
   m_DerivativeFilter->SetInput( this->GetInput() );
 
@@ -60,6 +65,28 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
   this->SetSigma( 1.0 );
 
+}
+
+
+
+/**
+ *  Report progress by weigthing contributions of internal filters
+ */
+template <typename TInputImage, typename TOutputImage>
+void 
+GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>
+::ReportProgress(const Object * object, const EventObject & event )
+{
+   const ProcessObject * internalFilter = 
+            dynamic_cast<const ProcessObject *>( object );
+
+   if( typeid( event ) == typeid( ProgressEvent() ) )
+     {
+     const float filterProgress    = internalFilter->GetProgress();
+     const float weightedProgress  = filterProgress / ImageDimension;
+     m_Progress += weightedProgress;
+     this->UpdateProgress( m_Progress );
+     }
 }
 
 
@@ -118,6 +145,8 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage >
 {
 
   itkDebugMacro(<< "GradientMagnitudeRecursiveGaussianImageFilter generating data ");
+
+  m_Progress = 0.0f;
 
   const typename TInputImage::ConstPointer   inputImage( this->GetInput() );
 

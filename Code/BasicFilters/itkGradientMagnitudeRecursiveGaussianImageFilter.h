@@ -21,6 +21,7 @@
 #include "itkNthElementImageAdaptor.h"
 #include "itkImage.h"
 #include "itkPixelTraits.h"
+#include "itkCommand.h"
 
 
 namespace itk
@@ -100,6 +101,11 @@ public:
   /**  Auxiliary image for holding the values of the squared gradient components */
   typedef Image< InternalRealType, 
                  itkGetStaticConstMacro(ImageDimension) >      CumulativeImageType;
+  typedef typename CumulativeImageType::Pointer                CumulativeImagePointer;
+
+  /**  Command for observing progress of internal pipeline filters */
+  typedef          MemberCommand< Self >     CommandType;  
+  typedef typename CommandType::Pointer      CommandPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -119,6 +125,9 @@ protected:
   /** Generate Data */
   void GenerateData( void );
 
+  /** Compute progress by weighting the contributions of the internal filters */
+  void ReportProgress(const Object * object, const EventObject & event );
+
 private:
   GradientMagnitudeRecursiveGaussianImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
@@ -126,10 +135,14 @@ private:
   GaussianFilterPointer         m_SmoothingFilters[ImageDimension-1];
   DerivativeFilterPointer       m_DerivativeFilter;
 
-  typename CumulativeImageType::Pointer  m_CumulativeImage;
+  CumulativeImagePointer        m_CumulativeImage;
+
+  CommandPointer                m_ProgressCommand;
+  float                         m_Progress;
 
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale; 
+
 
 };
 
