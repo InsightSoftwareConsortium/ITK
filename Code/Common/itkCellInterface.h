@@ -290,7 +290,7 @@ public:
    * (pCoords[CellDimension]), get the closest cell boundary feature of
    * topological dimension CellDimension-1.  If the "inside" pointer is not
    * NULL, the flag is set to indicate whether the point is inside the cell. */
-  virtual bool GetClosestBoundary(CoordRepType pCoords[], bool* inside, CellAutoPointer &) 
+  virtual bool GetClosestBoundary(CoordRepType [], bool* , CellAutoPointer &) 
     {return false;}
 
   /** Given the geometric coordinates of a point (coord[PointDimension]),
@@ -309,19 +309,19 @@ public:
    *
    *  - Get the interpolation weights for the cell
    *     (Returns through pointer to array: weights[NumberOfPoints]). */
-  virtual bool EvaluatePosition(CoordRepType coords[PointDimension],
-                                CoordRepType closestPoint[PointDimension],
-                                CoordRepType pCoords[],
-                                CoordRepType* dist2,
-                                InterpolationWeightType weights[]) 
+  virtual bool EvaluatePosition(CoordRepType [PointDimension],
+                                CoordRepType [PointDimension],
+                                CoordRepType [],
+                                CoordRepType* ,
+                                InterpolationWeightType []) 
     {return bool();}
   
   /** Given the parametric coordinates of a point in the cell
    *  determine the value of its Shape Functions
    *  returned through an itkArray<InterpolationWeightType>).  */
   virtual void EvaluateShapeFunctions( 
-                          const ParametricCoordArrayType & parametricCoordinates,
-                                ShapeFunctionsArrayType  & weights) const {}
+                          const ParametricCoordArrayType &,
+                                ShapeFunctionsArrayType  &) const {}
 
   /** Intersect the cell with a line given by an origin (origin[PointDimension])
    * and direction (direction[PointDimension]).  The intersection point
@@ -338,18 +338,18 @@ public:
    *     (returned through pointer to array: pCoords[CellDimension]).
    *
    * Returns whether an intersection exists within the given tolerance. */
-  virtual bool IntersectWithLine(CoordRepType origin[PointDimension],
-                                 CoordRepType direction[PointDimension],
-                                 CoordRepType tolerance,
-                                 CoordRepType coords[PointDimension],
-                                 CoordRepType* t,
-                                 CoordRepType pCoords[]) {return bool();}
+  virtual bool IntersectWithLine(CoordRepType [PointDimension],
+                                 CoordRepType [PointDimension],
+                                 CoordRepType ,
+                                 CoordRepType [PointDimension],
+                                 CoordRepType*,
+                                 CoordRepType []) {return bool();}
   
   /** Compute cell bounding box and store in the user-provided array.
    * Array is ordered (xmin, xmax,  ymin, ymax, ....).  A pointer to the
    * array is returned for convenience.  This allows code like:
    * "CoordRep* bounds = cell->GetBoundingBox(new CoordRep[6]);". */
-  CoordRepType* GetBoundingBox(CoordRepType bounds[PointDimension*2]) {return NULL;}
+  CoordRepType* GetBoundingBox(CoordRepType [PointDimension*2]) {return NULL;}
 
   /** Compute the square of the diagonal length of the bounding box. */
   CoordRepType GetBoundingBoxDiagonalLength2(void) {return NULL;}
@@ -366,11 +366,11 @@ public:
    *     (returned through "t" pointer).
    *
    * Returns whether an intersection exists. */
-  virtual bool IntersectBoundingBoxWithLine(CoordRepType bounds[PointDimension*2],
-                                            CoordRepType origin[PointDimension],
-                                            CoordRepType direction[PointDimension],
-                                            CoordRepType coords[PointDimension],
-                                            CoordRepType* t) {return bool();}
+  virtual bool IntersectBoundingBoxWithLine(CoordRepType [PointDimension*2],
+                                            CoordRepType [PointDimension],
+                                            CoordRepType [PointDimension],
+                                            CoordRepType [PointDimension],
+                                            CoordRepType* ) {return bool();}
   
   /** Interface to the boundary form of the cell to set/get UsingCells.
    * See the boundary wrapper source for more information. */
