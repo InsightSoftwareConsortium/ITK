@@ -43,7 +43,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkExceptionObject.h"
 #include "itkAnisotropicDiffusionImageFilter.h"
-#include "itkVectorCurvature2DAnisotropicDiffusionEquation.h"
 #include "itkVectorCurvatureNDAnisotropicDiffusionEquation.h"
 
 namespace itk {
