@@ -60,6 +60,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkLevelSetVelocityNeighborhoodExtractor.h"
 #include "itkMRASlabIdentifier.h"
 #include "itkMRFImageFilter.h"
+#include "itkMRIBiasFieldCorrectionFilter.h"
 #include "itkMeanSquaresImageToImageMetric.h"
 #include "itkMeanSquaresPointSetToImageMetric.h"
 #include "itkMinimumMaximumImageCalculator.h"
