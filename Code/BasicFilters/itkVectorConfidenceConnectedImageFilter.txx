@@ -303,7 +303,7 @@ VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>::CovarianceMatrix
 VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>
 ::GetCovariance() const
 {
-  m_ThresholdFunction->GetCovariance();
+  return m_ThresholdFunction->GetCovariance();
 }
 
 
@@ -315,7 +315,7 @@ VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>::MeanVectorType &
 VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>
 ::GetMean() const
 {
-  m_ThresholdFunction->GetMean();
+  return m_ThresholdFunction->GetMean();
 }
 
 
