@@ -275,7 +275,7 @@ ADD_TEST(ThresholdSegmentationLevelSetWhiteMatterTest ${SEGMENTATION_EXAMPLES}
   ThresholdSegmentationLevelSetImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ThresholdSegmentationLevelSetWhiteMatterTest.png
-        60 116 5 150 180
+        60 116 5 150 180 10.0
 )
 
 ADD_TEST(ThresholdSegmentationLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES}

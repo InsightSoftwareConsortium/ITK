@@ -98,7 +98,9 @@ int main( int argc, char *argv[] )
     std::cerr << " inputImage  outputImage";
     std::cerr << " seedX seedY InitialDistance";
     std::cerr << " LowerThreshold";
-    std::cerr << " UpperThreshold" << std::endl;
+    std::cerr << " UpperThreshold";
+    std::cerr << " [CurvatureScaling == 1.0]";
+    std::cerr << std::endl;
     return 1;
     }
 
@@ -187,7 +189,15 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginCodeSnippet
   thresholdSegmentation->SetPropagationScaling( 1.0 );
-  thresholdSegmentation->SetCurvatureScaling( 1.0 );
+  if ( argc > 8 )
+    {
+    thresholdSegmentation->SetCurvatureScaling( atof(argv[8]) );
+    }
+  else
+    {
+    thresholdSegmentation->SetCurvatureScaling( 1.0 );
+    }
+  
   //  Software Guide : EndCodeSnippet 
 
   //  The level-set solver will stop if the convergence criteria has
@@ -195,8 +205,11 @@ int main( int argc, char *argv[] )
   //  The convergence criteria is defined in terms of the root mean squared (RMS)
   //  change in the level set function. When RMS change for an iteration is
   //  below a user-specified threshold, the solution is considered to have converged.
-  thresholdSegmentation->SetMaximumRMSError( 0.02 );
-  thresholdSegmentation->SetMaximumIterations( 1200 );
+    thresholdSegmentation->SetMaximumRMSError( 0.02 );
+    thresholdSegmentation->SetMaximumIterations( 1200 );
+
+  //    thresholdSegmentation->SetMaximumRMSError( atof(argv[8]) );
+  //    thresholdSegmentation->SetMaximumIterations( atoi(argv[9]) );
 
   // Software Guide : BeginLatex
   //
