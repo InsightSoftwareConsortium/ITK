@@ -25,6 +25,7 @@
 #include "itkFEMObjectFactory.h"
 #include "itkFEMUtility.h"
 #include "vnl/vnl_math.h"
+#include "vnl/algo/vnl_determinant.h"
 
 namespace itk {
 namespace fem {
@@ -98,11 +99,15 @@ vnl_matrix<TetrahedronC03D::Float> TetrahedronC03D::Ke() const
     D[k][k] = 1 - m_mat->ni;
   }
   for (int k=3; k < 6; k++) {
-    D[k][k] = 1 - (2 * m_mat->ni) * 0.5;
+    D[k][k] = (1 - (2 * m_mat->ni)) * 0.5;
   }
 
   /** Multiply by the factor */
   D = D * fac;
+
+  // Added TS
+  // cout << "D:\n" << D << endl;
+  // End
 
   /** Initialize stiffness matrix */
   MatKe.fill(0.0);
@@ -133,33 +138,49 @@ vnl_matrix<TetrahedronC03D::Float> TetrahedronC03D::Ke() const
   /** Computes the strain (B) matrix */
   B = ComputeBMatrix(shapeINVD);
   
+  // Added TS
+  // B = B / detJ;
+  // End
+
   /** Computes the matrix multiplication DB */
   DB = ComputeDBMatrix(D,B);
   
   /**
-   * Add the contribution of k-th integration point to
-   * the stiffness matrix
+   * Add the contribution of k-th integration point to the stiffness
+   * matrix - since there's only one integration point in this case,
+   * simply assign the stiffness matrix to {|J| * (B^T)DB}
    */
 
-  /** For each row of the stiffness matrix */
-  for (i=0; i<12; i++) {
+  // Added TS
+  // cout << "detJ = " << detJ << endl;
+  // End
+
+  /* Gaussian quadrature in the tetrahedron dictates that we divide by
+     6 - see Hughes p. 174? */
+  MatKe = detJ/6 * (B.transpose() * DB);
+
+
+//   /** For each row of the stiffness matrix */
+//   for (i=0; i<12; i++) {
     
-    /** For each column of the stiffness matrix */
-    for (j=0; j<12; j++) {
+//     /** For each column of the stiffness matrix */
+//     for (j=0; j<12; j++) {
       
-      /**
-     * Computes MatKe(i,j) - implies that W = 1 for the
-     * Gaussian quadrature
-     */
-      Float temp = 0;
-      for (int k=0; k<6; k++) {
-        temp += B[k][i] * DB[k][j];
-      }
+//       /**
+//      * Computes MatKe(i,j) - implies that W = 1 for the
+//      * Gaussian quadrature
+//      */
+//       Float temp = 0;
+//       for (int k=0; k<6; k++) {
+//         temp += B[k][i] * DB[k][j];
+//       }
       
-      MatKe[i][j] += (detJ * temp);
-    }
-  }
+//       MatKe[i][j] += (detJ * temp);
+//     }
+//   }
   
+
+  // cout << "Ke:\n" << MatKe << endl;
 
   return MatKe;
 }
@@ -308,9 +329,9 @@ TetrahedronC03D::Float
 TetrahedronC03D::JacobianMatrixDeterminant(const vnl_matrix<Float>& J) const
 {
   /** Computes the determinant of the 3x3 Jacobian matrix */
-        return (J[0][0] * (J[1][1] * J[2][2] - J[1][2] * J[2][1])
-    - J[0][1] * (J[1][0] * J[2][2] - J[1][2] * J[2][0]) 
-    + J[0][2] * (J[1][0] * J[2][1] - J[1][1] * J[2][0]));
+//   return (J[0][0] * (J[1][1] * J[2][2] - J[1][2] * J[2][1]) - J[0][1] * (J[1][0] * J[2][2] - J[1][2] * J[2][0]) + J[0][2] * (J[1][0] * J[2][1] - J[1][1] * J[2][0]));
+
+  return vnl_determinant<Float>(J);
 }
 
 
@@ -363,6 +384,8 @@ TetrahedronC03D::ComputeBMatrix(const vnl_matrix<Float>& shapeINVD) const
    */
   B.fill(0.0);
 
+
+  // Compute the entries of the B matrix
   for (int i=0; i<12; i++) {  
     p = i / 3;
     
@@ -386,6 +409,26 @@ TetrahedronC03D::ComputeBMatrix(const vnl_matrix<Float>& shapeINVD) const
         break;    
     }
   }
+
+//   // Compute the volume of the tetrahedron used to scale the B matrix
+//   vnl_matrix<Float> V(4,4);
+//   V.fill(1.0);
+
+//   for (int j=0; j<4; j++)
+//   {
+//     V[j][0] = m_nodes[j]->X;
+//     V[j][1] = m_nodes[j]->Y;
+//     V[j][2] = m_nodes[j]->Z;
+//   }
+  
+//   float detV = vnl_determinant<Float>(V);
+//   detV = fabs(detV);
+
+//   B = B / detV;
+
+  // Added TS
+  // cout << "B:\n" <<  B << endl;
+  // End
 
   return B;
 }
