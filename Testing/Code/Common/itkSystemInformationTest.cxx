@@ -90,7 +90,7 @@ void itkSystemInformationPrintFile(const char* name, std::ostream& os,
         const char *s = bufferIn;
         char *x = bufferOut;
         *x = '\0';
-        for (unsigned int i = 0; i < fin.gcount(); i++)
+        for (int i = 0; i < static_cast<int>(fin.gcount()); i++)
           {
           // replace all special characters
           switch (*s)
