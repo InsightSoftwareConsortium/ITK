@@ -68,7 +68,7 @@ DynamicPolygonCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 int
 DynamicPolygonCell< TPixelType , TCellTraits >
-::GetDimension(void)
+::GetDimension(void) const
 {
   return Self::CellDimension;
 }
@@ -81,7 +81,7 @@ DynamicPolygonCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 int
 DynamicPolygonCell< TPixelType , TCellTraits >
-::GetNumberOfPoints(void)
+::GetNumberOfPoints(void) const
 {
   return m_PointIds.size();
 }  
@@ -94,7 +94,7 @@ DynamicPolygonCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 DynamicPolygonCell< TPixelType , TCellTraits >::CellFeatureCount
 DynamicPolygonCell< TPixelType , TCellTraits >
-::GetNumberOfBoundaryFeatures(int dimension)
+::GetNumberOfBoundaryFeatures(int dimension) const
 {
   switch (dimension)
     {
@@ -299,7 +299,7 @@ DynamicPolygonCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 DynamicPolygonCell< TPixelType , TCellTraits >::CellFeatureCount
 DynamicPolygonCell< TPixelType , TCellTraits >
-::GetNumberOfVertices(void)
+::GetNumberOfVertices(void) const
 {
   return m_PointIds.size();
 }
@@ -311,7 +311,7 @@ DynamicPolygonCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 DynamicPolygonCell< TPixelType , TCellTraits >::CellFeatureCount
 DynamicPolygonCell< TPixelType , TCellTraits >
-::GetNumberOfEdges(void)
+::GetNumberOfEdges(void) const
 {
   return m_Edges.size();
 }

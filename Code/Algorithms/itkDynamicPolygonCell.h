@@ -153,9 +153,9 @@ public:
    * Implement the standard CellInterface.
    */
   virtual CellPointer MakeCopy(void);
-  virtual int GetDimension(void);
-  virtual int GetNumberOfPoints(void);
-  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
+  virtual int GetDimension(void) const;
+  virtual int GetNumberOfPoints(void) const;
+  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const;
   virtual CellPointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
   
   virtual void SetPointIds(PointIdConstIterator first); 
@@ -176,8 +176,8 @@ public:
   /**
    * Polygon-specific interface.
    */
-  virtual CellFeatureCount GetNumberOfVertices(void);
-  virtual CellFeatureCount GetNumberOfEdges(void);
+  virtual CellFeatureCount GetNumberOfVertices(void) const;
+  virtual CellFeatureCount GetNumberOfEdges(void) const;
   virtual VertexPointer GetVertex(CellFeatureIdentifier);
   virtual EdgePointer GetEdge(CellFeatureIdentifier);
 
