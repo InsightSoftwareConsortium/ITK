@@ -36,7 +36,6 @@ void LoadLandmark::Read( std::istream& f, void*)
 
   // first call the parent's read function
   //Superclass::Read(f,info);
-  f>>n1;
 
   // read the dimensions of the undeformed point and set the size of the point accordingly
   SkipWhiteSpace(f); f>>n1; if(!f) goto out;
