@@ -320,7 +320,7 @@ public:
    *  returned through an itkArray<InterpolationWeightType>).  */
   virtual void EvaluateShapeFunctions( 
                           const ParametricCoordArrayType & parametricCoordinates,
-                                ShapeFunctionsArrayType  & weights) {}
+                                ShapeFunctionsArrayType  & weights) const {}
 
   /** Intersect the cell with a line given by an origin (origin[PointDimension])
    * and direction (direction[PointDimension]).  The intersection point

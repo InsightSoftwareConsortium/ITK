@@ -309,6 +309,42 @@ const int
 QuadraticTriangleCell< TCellInterface >
 ::m_Edges[3][3] = { {0,4,1}, {1,5,2}, {2,3,0} };
 
+
+/** Given the parametric coordinates of a point in the cell
+ *  determine the value of its Shape Functions
+ *  returned through an itkArray<InterpolationWeightType>).  */
+template <typename TCellInterface>
+void 
+QuadraticTriangleCell< TCellInterface >
+::EvaluateShapeFunctions( 
+     const ParametricCoordArrayType & parametricCoordinates,
+           ShapeFunctionsArrayType  & weights) const
+{
+
+  if( parametricCoordinates.size() != 3 )
+    {
+    itkGenericExceptionMacro(<<"QuadraticTriangleCell expect three coordinates"); 
+    }
+    
+  const double L1 = parametricCoordinates[0];
+  const double L2 = parametricCoordinates[1];
+  const double L3 = parametricCoordinates[2];
+
+  weights = ShapeFunctionsArrayType(6);
+
+  weights[0] = L1 * ( 2.0 * L1 - 1.0 );
+  weights[1] = L2 * ( 2.0 * L2 - 1.0 );
+  weights[2] = L3 * ( 2.0 * L3 - 1.0 );
+  weights[3] = 4.0 * L1 * L3;
+  weights[4] = 4.0 * L1 * L2;
+  weights[5] = 4.0 * L2 * L3;
+
+}
+
+
+
+
+
 } // end namespace itk
 
 #endif

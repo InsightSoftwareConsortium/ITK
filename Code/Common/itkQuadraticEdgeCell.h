@@ -92,7 +92,7 @@ public:
    * returned the values of its ShapeFunctions */
   virtual void EvaluateShapeFunctions( 
                           const ParametricCoordArrayType & parametricCoordinates,
-                                ShapeFunctionsArrayType  & weights);
+                                ShapeFunctionsArrayType  & weights) const;
 
 
 protected:

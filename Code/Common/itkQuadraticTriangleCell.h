@@ -92,6 +92,16 @@ public:
   /** Cell visitor interface. */
   itkCellVisitMacro(QUADRATIC_TRIANGLE_CELL);
 
+
+  /** Given the parametric coordinates of a point in the cell
+   *  determine the value of its Shape Functions
+   *  returned through an itkArray<InterpolationWeightType>).  */
+  virtual void EvaluateShapeFunctions( 
+                          const ParametricCoordArrayType & parametricCoordinates,
+                                ShapeFunctionsArrayType  & weights) const;
+
+
+
  public:
   QuadraticTriangleCell() {}
   ~QuadraticTriangleCell() {}
