@@ -31,7 +31,7 @@ namespace itk
  * of values).  Vector can be used as the data type held at each pixel in
  * an Image or at each vertex of an Mesh. The template parameter T can
  * be any data type that behaves like a primitive (or atomic) data type (int,
- * short, float, complex).  The TVectorDimension defines the number of
+ * short, float, complex).  The NVectorDimension defines the number of
  * components in the vector array. 
  *
  * Vector is not a dynamically extendible array like std::vector. It is
@@ -52,30 +52,30 @@ namespace itk
  * \sa CovariantVector
  * \sa Matrix
  */
-template<class T, unsigned int TVectorDimension=3>
-class Vector : public Array<T,TVectorDimension>
+template<class T, unsigned int NVectorDimension=3>
+class Vector : public Array<T,NVectorDimension>
 {
 public:
   /** Standard class typedefs. */
   typedef Vector  Self;
-  typedef Array<T,TVectorDimension>  Superclass;
+  typedef Array<T,NVectorDimension>  Superclass;
   
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an Vector.   */
   typedef T ValueType;
 
   /** Dimension of the vector space. */
-  enum { VectorDimension = TVectorDimension };
+  enum { VectorDimension = NVectorDimension };
 
   /** I am a vector type. */
   typedef Self VectorType;
   
   /** The Array type from which this vector is derived. */
-  typedef Array<T, TVectorDimension>                BaseArray;
+  typedef Array<T, NVectorDimension>                BaseArray;
     
   /** Get the dimension (size) of the vector. */
   static unsigned int GetVectorDimension() 
-    { return TVectorDimension; }  
+    { return NVectorDimension; }  
 
   /** Set a vnl_vector_ref referencing the same memory block. */
   void Set_vnl_vector( const vnl_vector<T> & );
@@ -154,15 +154,26 @@ public:
   /** Divides the vector componets by the vector norm */
   void Normalize(void);
 
+  /** Copy from another Vector with a different representation type. 
+   *  Casting is done with C-Like rules  */
+  template < typename TCoordRepB >
+  void CastFrom( const Vector<TCoordRepB,NVectorDimension> & pa )
+  {
+    for(unsigned int i=0; i<NVectorDimension; i++ )
+      {
+      (*this)[i] = static_cast<T>( pa[i] );
+      }
+  }
+
 };
 
-template< class T, unsigned int TVectorDimension >  
+template< class T, unsigned int NVectorDimension >  
 ITK_EXPORT std::ostream& operator<<(std::ostream& os, 
-                                    const Vector<T,TVectorDimension> & v); 
+                                    const Vector<T,NVectorDimension> & v); 
 
-template< class T, unsigned int TVectorDimension >  
+template< class T, unsigned int NVectorDimension >  
 ITK_EXPORT std::istream& operator>>(std::istream& is, 
-                                    Vector<T,TVectorDimension> & v); 
+                                    Vector<T,NVectorDimension> & v); 
 
 ITK_EXPORT Vector<double,3> operator^( const Vector<double,3> &,
                                        const Vector<double,3> &  );
@@ -172,24 +183,6 @@ ITK_EXPORT Vector<float,3> operator^( const Vector<float,3> &,
 
 ITK_EXPORT Vector<int,3> operator^( const Vector<int,3> &,
                                     const Vector<int,3> &  );
-
-/** \function VectorCast
- * \brief A templated function for casting Vectors from one representation type to another.
- *
- * \warning This function does not test if the two vectors are of equal dimension. 
- * \ingroup Geometry
- * \ingroup DataRepresentation
- * 
- */
-template <typename TVectorA, typename TVectorB >
-ITK_EXPORT void VectorCast( const TVectorA & pa, TVectorB & pb  ) 
-{
-for(unsigned int i=0; i<TVectorA::VectorDimension; i++)
-  {
-  pb[i] = static_cast< typename TVectorB::ValueType >( pa[i] );
-  }
- }
-
 
 } // end namespace itk
   

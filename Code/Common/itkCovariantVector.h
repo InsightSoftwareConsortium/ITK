@@ -34,7 +34,7 @@ namespace itk
  * of values).  CovariantVector can be used as the data type held at each pixel in
  * an Image or at each vertex of an Mesh. The template parameter T can
  * be any data type that behaves like a primitive (or atomic) data type (int,
- * short, float, complex).  The TCovariantVectorDimension defines the number of
+ * short, float, complex).  The NCovariantVectorDimension defines the number of
  * components in the vector array. 
  *
  * CovariantVector is not a dynamically extendible array like std::vector. It is
@@ -60,29 +60,29 @@ namespace itk
  * \sa Matrix
  */
 
-template<class T, unsigned int TCovariantVectorDimension=3>
-class CovariantVector : public Array<T,TCovariantVectorDimension> {
+template<class T, unsigned int NCovariantVectorDimension=3>
+class CovariantVector : public Array<T,NCovariantVectorDimension> {
  public:
   /** Standard class typedefs. */
   typedef CovariantVector  Self;
-  typedef Array<T,TCovariantVectorDimension>  Superclass;
+  typedef Array<T,NCovariantVectorDimension>  Superclass;
     
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an CovariantVector.   */
   typedef T ValueType;
 
   /** Dimension of the Space */
-  enum { CovariantVectorDimension = TCovariantVectorDimension };
+  enum { CovariantVectorDimension = NCovariantVectorDimension };
 
   /** I am a covariant vector. */
   typedef Self CovariantVectorType;
   
   /** The Array type from which this CovariantVector is derived. */
-  typedef Array<T, TCovariantVectorDimension>                BaseArray;
+  typedef Array<T, NCovariantVectorDimension>                BaseArray;
     
   /** Get the dimension (size) of the vector. */
   static unsigned int GetCovariantVectorDimension() 
-    { return TCovariantVectorDimension; }  
+    { return NCovariantVectorDimension; }  
 
   /** Set a vnl_vector_ref referencing the same memory block */
   void Set_vnl_vector( const vnl_vector<T> & );
@@ -140,7 +140,7 @@ class CovariantVector : public Array<T,TCovariantVectorDimension> {
 
   /** operator*.  Performs the scalar product with a vector (contravariant).
    * This scalar product is invariant under affine transformations */
-  ValueType operator*(const Vector<T,TCovariantVectorDimension> &vec) const;
+  ValueType operator*(const Vector<T,NCovariantVectorDimension> &vec) const;
 
   /** Scalar operator/. Scale (divide) the elements of a vector by a scalar.
    * Return a new vector. */
@@ -155,25 +155,19 @@ class CovariantVector : public Array<T,TCovariantVectorDimension> {
   /** Print content */
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-};
-
-/** \function CovariantVectorCast
- * \brief A templated function for casting CovariantVectors from one representation type to another.
- *
- * \warning This function does not test if the two covariant vectors are of equal dimension. 
- * \ingroup Geometry
- * \ingroup DataRepresentation
- * 
- */
-template <typename TCovariantVectorA, typename TCovariantVectorB >
-ITK_EXPORT void CovariantVectorCast( const TCovariantVectorA & pa, TCovariantVectorB & pb  ) 
-{
-for(unsigned int i=0; i<TCovariantVectorA::CovariantVectorDimension; i++)
+  /** Copy from another CovariantVector with a different representation type. 
+   *  Casting is done with C-Like rules  */
+  template < typename TCoordRepB >
+  void CastFrom( const CovariantVector<TCoordRepB,NCovariantVectorDimension> & pa )
   {
-  pb[i] = static_cast< typename TCovariantVectorB::ValueType >( pa[i] );
+    for(unsigned int i=0; i<NCovariantVectorDimension; i++ )
+      {
+      (*this)[i] = static_cast<T>( pa[i] );
+      }
   }
- }
 
+
+};
 
 
 } // end namespace itk

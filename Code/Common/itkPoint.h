@@ -199,6 +199,9 @@ public:
    */
   void SetToBarycentricCombination( const Self * P, const double * weights, unsigned int N);
 
+
+  /** Copy from another Point with a different representation type. 
+   *  Casting is done with C-Like rules  */
   template < typename TCoordRepB >
   void CastFrom( const Point<TCoordRepB,NPointDimension> & pa )
   {
@@ -256,23 +259,6 @@ public:
     const WeightContainerType & weights );
 };
 
-
-/** \function PointCast
- * \brief A templated function for casting Points from one representation type to another.
- *
- * \warning This function does not test if the two points are of equal dimension. 
- * \ingroup Geometry
- * \ingroup DataRepresentation
- * 
- */
-template <typename TPointA, typename TPointB >
-ITK_EXPORT void PointCast( const TPointA & pa, TPointB & pb  ) 
-  {
-  for(unsigned int i=0; i<TPointA::PointDimension; i++)
-    {
-    pb[i] = static_cast< typename TPointB::ValueType >( pa[i] );
-    }
-   }
 
  
 }  // end namespace itk
