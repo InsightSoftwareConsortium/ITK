@@ -207,6 +207,7 @@ itkDeformableTest.cxx
 itk2DDeformableTest.cxx
 itkVectorFuzzyConnectednessImageFilterTest.cxx
 itkVoronoiDiagram2DTest.cxx
+itkVoronoiPartitioningImageFilterTest.cxx
 itkVoronoiSegmentationImageFilterTest.cxx
 itkWatershedImageFilterTest.cxx
 itkIsoContourDistanceImageFilterTest.cxx
@@ -222,6 +223,25 @@ ADD_TEST(itkAlgorithmsHeaderTest ${ALGORITHMS_HEADER_TESTS})
 
 ADD_EXECUTABLE(itkAlgorithmsTests itkAlgorithmsTests.cxx ${AlgorithmsTest_SRCS})
 TARGET_LINK_LIBRARIES(itkAlgorithmsTests ITKAlgorithms ITKIO ITKBasicFilters ITKFEM ITKStatistics)
+
+
+IF(ITK_DATA_ROOT)
+
+ADD_TEST(itkVoronoiPartitioningImageFilterTest1 ${ALGORITHMS_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/VoronoiPartioningImageFilterTest1.png
+            ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest1.png
+  itkVoronoiPartitioningImageFilterTest
+            ${ITK_DATA_ROOT}/Input/sf4.png
+            ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest1.png 1)
+
+ADD_TEST(itkVoronoiPartitioningImageFilterTest2 ${ALGORITHMS_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/VoronoiPartioningImageFilterTest2.png
+            ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest2.png
+  itkVoronoiPartitioningImageFilterTest
+            ${ITK_DATA_ROOT}/Input/sf4.png
+            ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest2.png 0)
+
+ENDIF(ITK_DATA_ROOT)
 
 
 IF(ITK_CSWIG_TCL)
