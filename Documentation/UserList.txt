@@ -1,6 +1,6 @@
 aborning:Andrea Borning:aborning@insightful.com
 alyassin:Majeid Alyassin:alyassin@crd.ge.com
-anonymous
+anonymous:noone:nowhere@nowhere.com
 avants
 aylward:Stephen Stephen:aylward@unc.edu
 blezek:Dan Blezek:blezek@crd.ge.com
@@ -29,10 +29,8 @@ millerjv:Jim Miller:millerjv@crd.ge.com
 parks:Sungwook Parks:parks@cs.unc.edu
 ratiu:Peter Ratiu:ratiu@bwh.harvard.edu
 rondot:Pascale Rondot:rondot@crd.ge.com
-Rystrom
 shelton:Damion Shelton:dmsst59@pitt.edu
 siqueira
-sisler
 spathak:Sayan Pathak:spathak@insightful.com
 stetten:George Stetten:george@stetten.com
 tamburo:Robert Tamburo:rjtst21@pitt.edu
