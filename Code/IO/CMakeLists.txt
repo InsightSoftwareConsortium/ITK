@@ -37,8 +37,6 @@ SET(ITKIO_SRCS
   itkXMLFile.cxx
   itkStimulateImageIO.cxx
   itkStimulateImageIOFactory.cxx
-  itkVOLImageIO.cxx
-  itkVOLImageIOFactory.cxx
   itkVTKImageIO.cxx
   itkVTKImageIOFactory.cxx
 )
