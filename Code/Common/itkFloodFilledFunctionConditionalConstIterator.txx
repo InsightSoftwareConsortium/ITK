@@ -74,7 +74,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
   // Get the origin and spacing from the image in simple arrays
   m_ImageOrigin  = m_Image->GetOrigin();
   m_ImageSpacing = m_Image->GetSpacing();
-  m_ImageRegion  =  m_Image->GetBufferedRegion();
+  m_ImageRegion  = m_Image->GetBufferedRegion();
 
   // Build a temporary image of chars for use in the flood algorithm
   {
@@ -82,7 +82,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
   image->SetRequestedRegionToLargestPossibleRegion();
   }
   tempPtr = TTempImage::New();
-  typename TTempImage::RegionType tempRegion = m_Image->GetLargestPossibleRegion();
+  typename TTempImage::RegionType tempRegion = m_Image->GetBufferedRegion();
 
   tempPtr->SetLargestPossibleRegion( tempRegion );
   tempPtr->SetBufferedRegion( tempRegion );
@@ -98,7 +98,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
   m_IsAtEnd = true;
   for ( unsigned int i = 0; i < m_StartIndices.size(); i++ )
     {
-    if ( m_Image->GetBufferedRegion().IsInside ( m_StartIndices[i] ) )
+    if ( m_ImageRegion.IsInside ( m_StartIndices[i] ) )
       {
       m_IndexStack.push(m_StartIndices[i]);
       m_IsAtEnd = false;
@@ -113,7 +113,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
 {
   // Create an iterator that will walk the input image
   typedef typename itk::ImageRegionConstIterator<TImage> IRIType;
-  IRIType it = IRIType(m_Image, m_Image->GetLargestPossibleRegion() );
+  IRIType it = IRIType(m_Image, m_Image->GetBufferedRegion() );
   
   // Now we search the input image for the first pixel which is inside
   // the function of interest
@@ -139,7 +139,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
 {
   // Create an iterator that will walk the input image
   typedef typename itk::ImageRegionConstIterator<TImage> IRIType;
-  IRIType it = IRIType(m_Image, m_Image->GetLargestPossibleRegion() );
+  IRIType it = IRIType(m_Image, m_Image->GetBufferedRegion() );
   
   // Now we search the input image for the first pixel which is inside
   // the function of interest
@@ -182,7 +182,6 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
     for(int j=-1; j<=1; j+=2)
       {
       IndexType tempIndex;
-      m_IsValidIndex = true;
 
       // build the index of a neighbor
       for(unsigned int k=0; k<NDimensions; k++)
@@ -194,28 +193,26 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
         else
           {
           tempIndex.m_Index[k] = topIndex[k] + j;
-          if( !m_ImageRegion.IsInside( tempIndex ) )
-            {
-            m_IsValidIndex = false;
-            continue;
-            }
           }
         } // end build the index of a neighbor
 
       // If this is a valid index and have not been tested,
       // then test it.
-      if( m_IsValidIndex && tempPtr->GetPixel( tempIndex )==0 )
+      if( m_ImageRegion.IsInside( tempIndex ) )
         {
-        // if it is inside, push it into the queue  
-        if(  this->IsPixelIncluded( tempIndex ) )
+        if( tempPtr->GetPixel( tempIndex )==0 )
           {
-          m_IndexStack.push( tempIndex );
-          tempPtr->SetPixel( tempIndex, 2); 
-          }
-        else  // If the pixel is outside
-          {
-          // Mark the pixel as outside and remove it from the queue.
-          tempPtr->SetPixel( tempIndex, 1);
+          // if it is inside, push it into the queue  
+          if(  this->IsPixelIncluded( tempIndex ) )
+            {
+            m_IndexStack.push( tempIndex );
+            tempPtr->SetPixel( tempIndex, 2); 
+            }
+          else  // If the pixel is outside
+            {
+            // Mark the pixel as outside and remove it from the queue.
+            tempPtr->SetPixel( tempIndex, 1);
+            }
           }
         }
       } // end left/right neighbor loop
