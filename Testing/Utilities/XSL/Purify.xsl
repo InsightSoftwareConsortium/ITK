@@ -169,7 +169,7 @@
       <BuildStamp><xsl:value-of select="Site/@BuildStamp"/></BuildStamp>
       <StartDateTime><xsl:value-of select="Site/Purify/StartDateTime"/></StartDateTime>
 
-      <DefectCount><xsl:value-of select="count(Site/Purify/Test/Results/MLK)+count(Site/Purify/Test/Results/ABR)+count(Site/Purify/Test/Results/ABW)+count(Site/Purify/Test/Results/COR)+count(Site/Purify/Test/Results/FMM)+count(Site/Purify/Test/Results/FUM)+count(Site/Purify/Test/Results/FUM)+count(Site/Purify/Test/Results/FMR)+count(Site/Purify/Test/Results/FMW)+count(Site/Purify/Test/Results/MAF)+count(Site/Purify/Test/Results/UMC)+count(Site/Purify/Test/Results/UMR)"/></DefectCount>
+      <DefectCount><xsl:value-of select="sum(Site/Purify/Test/Results/MLK)+sum(Site/Purify/Test/Results/ABR)+sum(Site/Purify/Test/Results/ABW)+sum(Site/Purify/Test/Results/COR)+sum(Site/Purify/Test/Results/FMM)+sum(Site/Purify/Test/Results/FUM)+sum(Site/Purify/Test/Results/FUM)+sum(Site/Purify/Test/Results/FMR)+sum(Site/Purify/Test/Results/FMW)+sum(Site/Purify/Test/Results/MAF)+sum(Site/Purify/Test/Results/UMC)+sum(Site/Purify/Test/Results/UMR)"/></DefectCount>
       <EndDateTime><xsl:value-of select="Site/Purify/EndDateTime"/></EndDateTime>
     </Purify>
   </redirect:write>
