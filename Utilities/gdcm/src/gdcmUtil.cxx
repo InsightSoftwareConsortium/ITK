@@ -711,6 +711,8 @@ std::string Util::GetMACAddress()
    // 3 OS: Win32, SunOS and 'real' POSIX
    // http://groups-beta.google.com/group/comp.unix.solaris/msg/ad36929d783d63be
    // http://bdn.borland.com/article/0,1410,26040,00.html
+   
+#if defined( ITK_SIZEOF___INT64 ) || defined( ITK_SIZEOF_LONG_LONG )
    unsigned char addr[6];
    uint64_t n = 0;
  
@@ -736,6 +738,10 @@ std::string Util::GetMACAddress()
       dbg.Verbose(0, "Problem in finding the MAC Address");
       return "";
    }
+#else
+  dbg.Verbose(0, "Problem in finding the MAC Address. This platform doesn't support 64bit integers.");
+  return "";
+#endif
 }
 
 /**
