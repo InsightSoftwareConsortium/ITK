@@ -49,12 +49,12 @@ public:
   typedef SmartPointer<Self>  Pointer;
 
   /**
-   * typename typedef for the output image PixelType
+   * Typedef for the output image PixelType
    */
   typedef typename TOutputImage::PixelType OutputImagePixelType;
 
   /**
-   * typename typedef for the output image ScalarValueType
+   * Typedef for the output image ScalarValueType.
    */
   typedef typename TOutputImage::ScalarValueType OutputImageScalarValueType;
 
