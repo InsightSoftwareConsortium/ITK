@@ -169,6 +169,7 @@ Histogram<TBin, HistogramDimension, TFeature>
   return pnt;
 }
 
+/*
 template<class TBin, unsigned int HistogramDimension, class TFeature>
 void
 Histogram<TBin, HistogramDimension, TFeature>
@@ -192,6 +193,7 @@ Histogram<TBin, HistogramDimension, TFeature>
     m_Max[dim].resize(m_Size[dim]);
     } 
 }
+*/
 
 template<class TBin, unsigned int HistogramDimension, class TFeature>
 TFeature

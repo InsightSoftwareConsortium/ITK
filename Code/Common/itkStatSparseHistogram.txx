@@ -60,6 +60,27 @@ SparseHistogram<TBin, HistogramDimension, TFeature>
 template<class TBin, unsigned int HistogramDimension, class TFeature>
 void
 SparseHistogram<TBin, HistogramDimension, TFeature>
+::Allocate() 
+{   
+  int dim;
+  m_Min.resize(HistogramDimension);
+  for ( dim = 0; dim < HistogramDimension; dim++)
+    {
+    m_Min[dim].resize(m_Size[dim]);
+    } 
+
+  m_Max.resize(HistogramDimension);
+  for ( dim = 0; dim < HistogramDimension; dim++)
+    {
+    m_Max[dim].resize(m_Size[dim]);
+    } 
+  this->ComputeOffsetTable(); 
+}
+
+
+template<class TBin, unsigned int HistogramDimension, class TFeature>
+void
+SparseHistogram<TBin, HistogramDimension, TFeature>
 ::ComputeOffsetTable()
 {
   unsigned long num = 1;

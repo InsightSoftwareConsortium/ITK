@@ -41,13 +41,24 @@ DenseHistogram<TBin, HistogramDimension, TFeature>
   m_Histogram->SetPixel(index, value);
 }
 
-
-
 template<class TBin, unsigned int HistogramDimension, class TFeature>
 void
 DenseHistogram<TBin, HistogramDimension, TFeature>
-::AllocateHistogram()
+::Allocate()
 {
+  int dim;
+  m_Min.resize(HistogramDimension);
+  for ( dim = 0; dim < HistogramDimension; dim++)
+    {
+    m_Min[dim].resize(m_Size[dim]);
+    } 
+
+  m_Max.resize(HistogramDimension);
+  for ( dim = 0; dim < HistogramDimension; dim++)
+    {
+    m_Max[dim].resize(m_Size[dim]);
+    } 
+
   int i;
 
   IndexType   start;
@@ -57,10 +68,8 @@ DenseHistogram<TBin, HistogramDimension, TFeature>
     }
 
   SizeType    size;
-  for ( i = 0; i < HistogramDimension; i++)
-    {
-    size[i]  = GetDimensionSize(i); // the size of the HistogramDimension image
-    }
+  size  = GetSize(); // the size of the HistogramDimension image
+   
   HistogramType::RegionType  region;
   region.SetSize( size );
   region.SetIndex( start );

@@ -80,19 +80,14 @@ public:
   itkTypeMacro(Histogram, LightObject);
 
  /**
-  * Method for creation through the object factory.
-  */
-  //itkNewMacro(Self);
-
- /**
-  * Method to return index corresponding to gray levels point
+  * Method to return the index of histogram corresponding to feature
   */
   IndexType GetIndex(PointType point); 
 
  /**
   * Method to return dimension of histogram
   */
-  static unsigned int GetHistogramDimension() { return HistogramDimension; }
+  //static unsigned int GetHistogramDimension() { return HistogramDimension; }
  
  /**
   * Method to get the number of bins of dimension d
@@ -198,34 +193,29 @@ public:
   PointType GetHistogramMaxFromIndex(const IndexType index); 
 
  /**
-  * Method to allocate m_Min. The m_Size must be set a priori
+  * Method to allocate histogram. The m_Size must be set a priori
   */
-  void AllocateMins();
-
- /**
-  * Method to allocate m_Min. The m_Size must be set a priori
-  */
-  void AllocateMaxs();
+  virtual void Allocate() = 0;
 
  /**
   * Method to get the frequency of a bin from the histogram
   */
-  virtual const TBin GetFrequency(const IndexType index) = 0; 
+  virtual const TBin GetFrequency(const IndexType index)=0; 
 
  /**
   * Method to get the frequency corresponding to gray levels point
   */
-  virtual const TBin GetFrequency(const PointType point) = 0;
+  virtual const TBin GetFrequency(const PointType point)=0;
 
  /**
   * Method to set the frequency of histogram
   */
-  virtual void SetFrequency(const IndexType index, const TBin value) = 0;
+  virtual void SetFrequency(const IndexType index, const TBin value)=0;
  
  /**
   * Method to set the frequency corresponding to gray levels point
   */
-  virtual void SetFrequency(const PointType point, const TBin value) = 0;
+  virtual void SetFrequency(const PointType point, const TBin value)=0;
                            
  /**
   * Method to get the feature of histogram
@@ -254,7 +244,7 @@ protected:
   Histogram(const Self&) {};
   void operator=(const Self&) {};
 
-  // The number of bins for each image
+  // The number of bins for each each dimension
   SizeType m_Size;
 
   // lower bound of each bin

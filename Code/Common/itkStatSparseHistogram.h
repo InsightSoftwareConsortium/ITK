@@ -24,10 +24,11 @@ namespace itk{
 
 /** \class SparseHistogram 
  *  \brief his class is a container for an histogram.
- *  This class uses an map to store histogram
+ *  This class uses an map to store histogram. If your histogram is dense
+ *  use DenseHistogram.  You can access each bin by index or feature vector.
  */
 
-template <class TBin, unsigned int HistogramDimension = 1, class TFeature = double>
+template <class TBin, unsigned int HistogramDimension = 1, class TFeature = float>
 class ITK_EXPORT SparseHistogram :
     public Histogram < TBin, HistogramDimension >
 {
@@ -95,7 +96,7 @@ public:
   * Method to create the histogram. It has to be called after 
   * m_Size is set.
   */
-  void AllocateHistogram()  { this->ComputeOffsetTable(); }
+  void Allocate();  
 
   class Iterator;
   friend class Iterator;
@@ -103,12 +104,17 @@ public:
   class Iterator
   {
   public:
+    Iterator(){}
+
     Iterator(Pointer h)
     { m_Iter = h->m_Histogram.begin();
       m_Pos = (*m_Iter).first;
       m_SparseHistogram = h; } 
 
-    Iterator(long l, HistogramIterator i):m_Pos(l), m_Iter(i){}
+    Iterator(long l, HistogramIterator i, Pointer h):m_Pos(l), m_Iter(i),
+      m_SparseHistogram(h){}
+
+    Pointer GetHistogram() { return m_SparseHistogram; }
      
     const  TBin GetFrequency() 
     { IndexType index = m_SparseHistogram->ComputeIndex(m_Pos);
@@ -125,44 +131,51 @@ public:
     PointType GetFeature()
     { IndexType index = m_SparseHistogram->ComputeIndex(m_Pos);
       return m_SparseHistogram->GetFeature(index); } 
+
+    IndexType GetIndex() 
+    { return m_SparseHistogram->ComputeIndex(m_Pos); }
+
+    void SetIndex(IndexType i) 
+    { m_Pos = m_SparseHistogram->ComputeOffset(index); }  
       
-    IndexType GetOffset()   { return m_Pos;  }
-    void SetOffset(long l) { m_Pos = l; }  
     Iterator  Begin()
-    {
-      HistogramIterator it = m_SparseHistogram->m_Histogram.begin();                          
-      return Iterator((*it).first, it); 
-    }
+    { HistogramIterator it = m_SparseHistogram->m_Histogram.begin();                          
+      Iterator iter((*it).first, it, m_SparseHistogram); 
+      return iter; }
            
     Iterator  End()        
-    {
-      HistogramIterator it = m_SparseHistogram->m_Histogram.end();
-      return Iterator(-1, it);     
-    }
+    { HistogramIterator it = m_SparseHistogram->m_Histogram.end();
+      return Iterator(-1, it, m_SparseHistogram); }
+
     Iterator& operator++() 
-    { 
-      ++m_Iter; 
+    { ++m_Iter; 
       if ( m_Iter == m_SparseHistogram->m_Histogram.end() )
         m_Pos = -1;
       else
         m_Pos = (*m_Iter).first; 
-      return *this;
-    }
-    bool      IsAtBegin()  
+      return *this; }
+    
+    bool IsAtBegin()  
     { HistogramIterator it = m_SparseHistogram->m_Histogram.begin();
       return ( m_Pos == (*it).first ); } 
-    bool      IsAtEnd()    
+    
+    bool IsAtEnd()    
     { HistogramIterator it = m_SparseHistogram->m_Histogram.end();
-      return ( m_Pos == -1 );   }
-    Iterator& operator=(const Iterator& iter){ }
-     
+      return ( m_Pos == -1 ); }
+    
+    Iterator& operator=(const Iterator& iter)
+    { m_Pos = iter.m_Pos;
+      m_Iter = iter.m_Iter;
+      m_SparseHistogram = iter.m_SparseHistogram;}
+   
   private:
     // Current position of iterator
     long m_Pos;
-    // Iterator pointing DenseHistogram
+
+    // Iterator pointing SparseHistogram
     HistogramIterator m_Iter;
 
-    // Pointer of DenseHistogram
+    // Pointer of SparseHistogram
     Pointer m_SparseHistogram;
   };
 

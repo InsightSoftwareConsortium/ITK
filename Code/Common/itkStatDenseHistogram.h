@@ -25,8 +25,8 @@ namespace itk{
 
 /** \class DenseHistogram 
  *  \brief This class is a container for an histogram.
- *  This class uses an image to store histogram
- *
+ *  This class uses an image to store histogram.  If your histogram is sparse
+ *  use SparseHistogram.  You can access each bin by index or feature vector.
  */
 
 template <class TBin, unsigned int HistogramDimension = 1, class TFeature = float >
@@ -100,7 +100,7 @@ public:
   * Method to create the histogram. It has to be called after 
   * m_Size is set.
   */
-  void AllocateHistogram();
+  void Allocate();
   
   class Iterator;
   friend class Iterator;
@@ -108,15 +108,16 @@ public:
   class Iterator
   {
   public:
-    Iterator(){};
+    Iterator(){}
+
     Iterator(Pointer h)
-    { 
-      HistogramIterator it(h->m_Histogram, h->m_Histogram->GetBufferedRegion());
+    { HistogramIterator it(h->m_Histogram, h->m_Histogram->GetBufferedRegion());
       m_Iter = it.Begin();
       m_Pos = IndexType::ZeroIndex;
       m_DenseHistogram = h; } 
 
-    Iterator(IndexType d, HistogramIterator i):m_Pos(d), m_Iter(i){}
+    Iterator(IndexType d, HistogramIterator i, Pointer h):m_Pos(d), m_Iter(i),
+      m_DenseHistogram(h){}
      
     const  TBin GetFrequency() 
     { return  m_DenseHistogram->GetFrequency(m_Pos); }
@@ -131,31 +132,31 @@ public:
     { return m_DenseHistogram->GetFeature(m_Pos); } 
       
     IndexType GetIndex()   { return m_Pos;  }
+
     void SetIndex(IndexType i) { m_Pos = i; }  
  
-
     Iterator Begin()
-    { 
-      HistogramIterator it(m_DenseHistogram->m_Histogram, m_DenseHistogram->m_Histogram->GetBufferedRegion());
-      //m_Iter = it.Begin();
-      //m_Pos = IndexType::ZeroIndex;
-      Iterator iter(IndexType::ZeroIndex, it.Begin());
-      return iter;
-    }
+    { HistogramIterator it(m_DenseHistogram->m_Histogram, 
+                           m_DenseHistogram->m_Histogram->GetBufferedRegion());
+      Iterator iter(IndexType::ZeroIndex, it.Begin(), m_DenseHistogram);
+      return iter; }
        
     Iterator  End()        
-    {
-      HistogramIterator it(m_DenseHistogram->m_Histogram, 
+    { HistogramIterator it(m_DenseHistogram->m_Histogram, 
                            m_DenseHistogram->m_Histogram->GetBufferedRegion());
-      //m_Iter = m_Iter.End();
-      //m_Pos = m_Iter.End().GetIndex();
-      Iterator iter(it.End().GetIndex(), it.End()); 
-      return iter;
-    }
+      Iterator iter(it.End().GetIndex(), it.End(), m_DenseHistogram); 
+      return iter; }
+    
     Iterator& operator++() { ++m_Iter; m_Pos = m_Iter.GetIndex(); return *this;}
+    
     bool      IsAtBegin()  { return ( m_Pos == m_Iter.Begin().GetIndex() ); } 
+    
     bool      IsAtEnd()    { return ( m_Pos == m_Iter.End().GetIndex() ); }
-    Iterator& operator=(const Iterator& iter){ }
+    
+    Iterator& operator=(const Iterator& iter)
+    { m_Pos = iter.m_Pos;
+      m_Iter = iter.m_Iter;
+      m_DenseHistogram = iter.m_DenseHistogram; }
      
   private:
     // Current position of iterator
@@ -166,8 +167,7 @@ public:
 
     // Pointer of DenseHistogram
     Pointer m_DenseHistogram;
- 
-  };
+ };
 
 protected:
 
