@@ -18,35 +18,39 @@
 #define _itkImageSeriesWriter_txx
 
 #include "itkImageSeriesWriter.h"
+#include "itkImageFileWriter.h"
 #include "itkDataObject.h"
 #include "itkImageIOFactory.h"
 #include "itkCommand.h"
+#include "itkIOCOmmon.h"
+#include "itkProgressReporter.h"
 
+#include <stdio.h>
 namespace itk
 {
 
 //---------------------------------------------------------
-template <class TInputImage>
-ImageSeriesWriter<TInputImage>
+template <class TInputImage,class TOutputImage>
+ImageSeriesWriter<TInputImage,TOutputImage>
 ::ImageSeriesWriter():
-  m_FileIterator(0),
-  m_ImageIO(0), m_UserSpecifiedImageIO(false),
-  m_UserSpecifiedIORegion(false)
+  m_StartIndex(1), m_IncrementIndex(1),
+  m_SeriesFormat("%d"),
+  m_ImageIO(0), m_UserSpecifiedImageIO(false)
 {
 }
 
 
 //---------------------------------------------------------
-template <class TInputImage>
-ImageSeriesWriter<TInputImage>
+template <class TInputImage,class TOutputImage>
+ImageSeriesWriter<TInputImage,TOutputImage>
 ::~ImageSeriesWriter()
 {
 }
 
 //---------------------------------------------------------
-template <class TInputImage>
+template <class TInputImage,class TOutputImage>
 void 
-ImageSeriesWriter<TInputImage>
+ImageSeriesWriter<TInputImage,TOutputImage>
 ::SetInput(const InputImageType *input)
 {
   // ProcessObject is not const_correct so this cast is required here.
@@ -56,9 +60,9 @@ ImageSeriesWriter<TInputImage>
 
 
 //---------------------------------------------------------
-template <class TInputImage>
-const typename ImageSeriesWriter<TInputImage>::InputImageType *
-ImageSeriesWriter<TInputImage>
+template <class TInputImage,class TOutputImage>
+const typename ImageSeriesWriter<TInputImage,TOutputImage>::InputImageType *
+ImageSeriesWriter<TInputImage,TOutputImage>
 ::GetInput(void)
 {
   if (this->GetNumberOfInputs() < 1)
@@ -71,9 +75,9 @@ ImageSeriesWriter<TInputImage>
 }
   
 //---------------------------------------------------------
-template <class TInputImage>
-const typename ImageSeriesWriter<TInputImage>::InputImageType *
-ImageSeriesWriter<TInputImage>
+template <class TInputImage,class TOutputImage>
+const typename ImageSeriesWriter<TInputImage,TOutputImage>::InputImageType *
+ImageSeriesWriter<TInputImage,TOutputImage>
 ::GetInput(unsigned int idx)
 {
   return static_cast<TInputImage*>
@@ -81,112 +85,26 @@ ImageSeriesWriter<TInputImage>
 }
 
 //---------------------------------------------------------
-template <class TInputImage>
+template <class TInputImage,class TOutputImage>
 void 
-ImageSeriesWriter<TInputImage>
-::SetIORegion (const ImageIORegion & region) 
-{
-  itkDebugMacro("setting IORegion to " << region );
-  if ( m_IORegion != region)
-    {
-    m_IORegion = region;
-    this->Modified();
-    m_UserSpecifiedIORegion = true;
-    }
-} 
-
-//---------------------------------------------------------
-template <class TInputImage>
-void 
-ImageSeriesWriter<TInputImage>
+ImageSeriesWriter<TInputImage,TOutputImage>
 ::Write(void)
 {
-  const InputImageType * input = this->GetInput();
+  const InputImageType * inputImage = this->GetInput();
 
   itkDebugMacro( <<"Writing an image file" );
 
   // Make sure input is available
-  if ( input == 0 )
+  if ( inputImage == 0 )
     {
     itkExceptionMacro(<< "No input to writer!");
-    }
-
-  // Okay, set up the FileIterator and ImageIO
-  //
-  if ( m_FileIterator.IsNull() )
-    {
-    if ( m_ImageIO.IsNull() )
-      {
-      itkExceptionMacro(<< "Either a file iterator or ImageIO must be set");
-      }
-    else
-      {
-      m_FileIterator = m_ImageIO->NewFileIterator();
-      }
-    }
-  else //have a FileIterator, may have to create ImageIO
-    {
-    const char *format = m_FileIterator->GetSeriesFormat();
-    if ( m_ImageIO.IsNull() ) //try creating via factory
-      {
-      itkDebugMacro(<<"Attempting factory creation of ImageIO" << format);
-      m_ImageIO = ImageIOFactory::CreateImageIO( format,
-                                                 ImageIOFactory::WriteMode );
-      }
-    else
-      {
-      if( !m_ImageIO->CanWriteFile( format ) )
-        {
-        itkDebugMacro(<<"ImageIO exists but doesn't know how to write: "
-                      << format );
-        itkDebugMacro(<<"Attempting factory creation of ImageIO:" << format);
-        m_ImageIO = ImageIOFactory::CreateImageIO( format,
-                                                   ImageIOFactory::WriteMode );
-        }
-      }
-    }
-
-  if ( m_ImageIO.IsNull() || m_FileIterator.IsNull() )
-    {
-    itkExceptionMacro(<<"Cannot determine what type of files to create.");
     }
 
   // Make sure the data is up-to-date.
   // NOTE: this const_cast<> is due to the lack of const-correctness
   // of the ProcessObject.
-  InputImageType * nonConstImage = const_cast<InputImageType *>(input);
+  InputImageType * nonConstImage = const_cast<InputImageType *>(inputImage);
   nonConstImage->Update();
-
-  if ( ! m_UserSpecifiedIORegion )
-    {
-    // Write the whole image
-    ImageIORegion ioRegion(TInputImage::ImageDimension);
-    ImageRegion<TInputImage::ImageDimension> region = 
-      input->GetLargestPossibleRegion();
-
-    for(unsigned int i=0; i<TInputImage::ImageDimension; i++)
-      {
-      ioRegion.SetSize(i,region.GetSize(i));
-      ioRegion.SetIndex(i,region.GetIndex(i));
-      }
-    m_IORegion = ioRegion;
-    }
-
-  // Setup the ImageIO
-  //
-  m_ImageIO->SetNumberOfDimensions(TInputImage::ImageDimension);
-  ImageRegion<TInputImage::ImageDimension> region = 
-    input->GetLargestPossibleRegion();
-  const double *spacing = input->GetSpacing();
-  const double *origin = input->GetOrigin();
-
-  for(unsigned int i=0; i<TInputImage::ImageDimension; i++)
-    {
-    m_ImageIO->SetDimensions(i,region.GetSize(i));
-    m_ImageIO->SetSpacing(i,spacing[i]);
-    m_ImageIO->SetOrigin(i,origin[i]);
-    }
-  m_ImageIO->SetIORegion(m_IORegion);
 
   // Notify start event observers
   this->InvokeEvent( StartEvent() );
@@ -198,94 +116,112 @@ ImageSeriesWriter<TInputImage>
   this->InvokeEvent( EndEvent() );
 
   // Release upstream data if requested
-  if ( input->ShouldIReleaseData() )
+  if ( inputImage->ShouldIReleaseData() )
     {
     nonConstImage->ReleaseData();
     }
 }
 
 //---------------------------------------------------------
-template <class TInputImage>
+template <class TInputImage,class TOutputImage>
 void 
-ImageSeriesWriter<TInputImage>
+ImageSeriesWriter<TInputImage,TOutputImage>
 ::GenerateData(void)
 {
-  const InputImageType * input = this->GetInput();
+  const InputImageType * inputImage = this->GetInput();
 
   itkDebugMacro(<<"Writing a series of files");
   
-  // The dimension of the input will likely not match the supported
-  // dimensionality of the file format (why else use the image series
-  // writer?) Files are written in the supported dimension; the total
-  // number of files written are dims[M]*dims[M-1]...dims[M-N] where M
-  // is the dimension of the imput image, and N is the dimension of the
-  // supported file format (note M > N and dims[i] is the dimension of
-  // the image in the ith direction).
-  const unsigned long imageDimension = TInputImage::ImageDimension;
-  unsigned long supportedDimension = imageDimension;
-  while ( supportedDimension > 0 &&
-          ! m_ImageIO->SupportsDimension(supportedDimension) )
+  // We need two regions. One for the input, one for the output.
+  ImageRegion<TInputImage::ImageDimension> inRegion = inputImage->GetRequestedRegion();
+  ImageRegion<TOutputImage::ImageDimension> outRegion;
+
+  // The size of the output will match the input sizes, up to the
+  // dimension of the input.
+  for ( int i=0; i < TOutputImage::ImageDimension; i++ )
     {
-    supportedDimension--;
-    }
-  if ( supportedDimension <= 0 )
-    {
-    itkExceptionMacro(<< "File format does not support series!");
+    outRegion.SetSize(i,inputImage->GetRequestedRegion().GetSize()[i]);
     }
 
-  // Okay, the number of slices to write is computed here. Also create
-  // and begin setting up the image IO object. Note: the lower dimensions 
-  // of the IO region do not change, it is the upper dimensions that 
-  // change as slices are written.
-  //
-  unsigned long i;
-  unsigned long numberOfSlices=1;
-  ImageIORegion ioRegion(TInputImage::ImageDimension);
-  for ( i=0; i < TInputImage::ImageDimension; i++ )
+  // Allocate an image for output and create an iterator for it
+  typename OutputImageType::Pointer outputImage = OutputImageType::New();
+    outputImage->SetRegions(outRegion);
+    outputImage->Allocate();
+  ImageRegionIterator<OutputImageType> ot (outputImage, outRegion );
+
+  // Set the origin and spacing of the output
+  double spacing[TOutputImage::ImageDimension];
+  double origin[TOutputImage::ImageDimension];
+  for ( int i=0; i < TOutputImage::ImageDimension; i++ )
     {
-    if ( i >= supportedDimension )
-      {
-      numberOfSlices *= m_IORegion.GetSize(i);
-      ioRegion.SetSize(i,1);
-      }
-    else
-      {
-      ioRegion.SetSize(i,m_IORegion.GetSize(i));
-      }
+    origin[i] = inputImage->GetOrigin()[i];
+    spacing[i] = inputImage->GetSpacing()[i];
+    outRegion.SetSize(i,inputImage->GetRequestedRegion().GetSize()[i]);
     }
+  outputImage->SetOrigin(origin);
+  outputImage->SetSpacing(spacing);
 
-  // Make sure that the image is the right type and no more than 
-  // four components.
-  typedef typename InputImageType::PixelType ScalarType;
-
-  // Set the pixel and component type; the number of components.
-  const int ret =  m_ImageIO->SetPixelType(typeid(ScalarType));  
-  itkDebugMacro(<<" PixelType is supported: " << ret );
-
-  // Get the pointer to the image
-  const void* dataPtr = (const void*) input->GetBufferPointer();
   
-  // Loop over the image adjusting the IO Region as appropriate
-  //
-  m_FileIterator->WriteModeOn();
-  m_FileIterator->Begin();
-  for (int slice=0; slice < m_IORegion.GetSize(2); slice++)
+  typedef ImageFileWriter<TOutputImage> WriterType;
+
+  unsigned long fileNumber = m_StartIndex;
+  char fileName[IOCommon::ITK_MAXPATHLEN+1];
+  Index<TInputImage::ImageDimension> inIndex;
+  unsigned long pixelsPerFile = outputImage->GetRequestedRegion().GetNumberOfPixels();
+
+  // Compute the number of files to be generated
+  unsigned int numberOfFiles = 1;
+  for (int n = TOutputImage::ImageDimension;
+       n < TInputImage::ImageDimension;
+       n++)
     {
-    m_ImageIO->SetFileName((*(*m_FileIterator)).c_str());
-    ioRegion.SetIndex(2,slice);
-    m_ImageIO->SetIORegion(ioRegion);
-    m_ImageIO->Write(dataPtr);
-    ++(*m_FileIterator);
+    numberOfFiles *= inRegion.GetSize(n);
     }
 
-  itkDebugMacro(<<"Wrote " << numberOfSlices << " slices.");
+  ProgressReporter progress(this, 0, 
+                            numberOfFiles,
+                            numberOfFiles);
+
+  // For each "slice" in the input, copy the region to the output,
+  // build a filename and write the file.
+
+  typename InputImageType::OffsetValueType offset = 0;
+  for (int slice=0; slice < numberOfFiles; slice++)
+    {
+    // Select a "slice" of the image. 
+    inIndex = inputImage->ComputeIndex(offset);
+    inRegion.SetIndex(inIndex);
+    ImageRegionConstIterator<InputImageType> it (inputImage,
+                                                 inRegion);
+
+    // Copy the selected "slice" into the output image.
+    ot.GoToBegin();
+    while (!ot.IsAtEnd())
+      {
+      ot.Set(it.Get());
+      ++it;
+      ++ot;
+      }
+
+    typename WriterType::Pointer writer = WriterType::New();
+    writer->SetInput(outputImage);
+    if (m_ImageIO)
+      {
+      writer->SetImageIO(m_ImageIO);
+      }
+    sprintf (fileName, m_SeriesFormat.c_str(), fileNumber);
+    writer->SetFileName(fileName);
+    writer->Update();
+    progress.CompletedPixel();
+    fileNumber += m_IncrementIndex;
+    offset += pixelsPerFile;
+    }
 }
 
-
 //---------------------------------------------------------
-template <class TInputImage>
+template <class TInputImage,class TOutputImage>
 void 
-ImageSeriesWriter<TInputImage>
+ImageSeriesWriter<TInputImage,TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
@@ -300,15 +236,6 @@ ImageSeriesWriter<TInputImage>
     os << m_ImageIO << "\n";
     }
   
-  os << indent << "File Iterator: ";
-  if ( m_FileIterator.IsNull() )
-    {
-    os << "(none)\n";
-    }
-  else
-    {
-    os << m_FileIterator << "\n";
-    }
 }
 
 } // end namespace itk
