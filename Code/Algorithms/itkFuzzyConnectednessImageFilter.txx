@@ -165,7 +165,7 @@ FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 ::FindStrongPath(const IndexType &center)
 {
   IndexType current = center;
-  double tmp;
+  double tmp=0;
   double tmp1;
   double tmp2;
 
