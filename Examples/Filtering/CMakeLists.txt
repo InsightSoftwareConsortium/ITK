@@ -15,6 +15,9 @@ TARGET_LINK_LIBRARIES(ThresholdImageFilter ITKCommon ITKIO)
 ADD_EXECUTABLE(CastingImageFilters CastingImageFilters.cxx )
 TARGET_LINK_LIBRARIES(CastingImageFilters ITKCommon ITKIO)
 
+ADD_EXECUTABLE(DerivativeImageFilter DerivativeImageFilter.cxx )
+TARGET_LINK_LIBRARIES(DerivativeImageFilter ITKCommon ITKIO)
+
 ADD_EXECUTABLE(SigmoidImageFilter SigmoidImageFilter.cxx )
 TARGET_LINK_LIBRARIES(SigmoidImageFilter ITKCommon ITKIO)
 
@@ -179,6 +182,13 @@ ADD_TEST( GradientMagnitudeRecursiveGaussianImageFilterTest ${FILTERING_EXAMPLES
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_BINARY_DIR}/Testing/Temporary/GradientMagnitudeRecursiveGaussianImageFilter.png
         5
+)
+ADD_TEST( DerivativeImageFilterTest ${FILTERING_EXAMPLES}
+  --compare ${ITK_DATA_ROOT}/Baseline/Filtering/DerivativeImageFilter.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/DerivativeImageFilter.png
+  DerivativeImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/DerivativeImageFilter.mha 1 1
 )
 ADD_TEST( LaplacianImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${ITK_DATA_ROOT}/Baseline/Filtering/LaplacianImageFilter.png
