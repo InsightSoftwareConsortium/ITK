@@ -106,7 +106,6 @@ bool JPEGImageIO::CanReadFile(const char* file)
   int n = static_cast<int>(fread(magic, sizeof(magic), 1, fp));
   if (n != 1) 
     {
-    fclose(fp);
     return 0;
     }
   
@@ -115,7 +114,6 @@ bool JPEGImageIO::CanReadFile(const char* file)
   if( ( (static_cast<unsigned char>(magic[0]) != 0xFF) || 
         (static_cast<unsigned char>(magic[1]) != 0xD8) ) )
     {
-    fclose(fp);
     return 0;
     }
   // go back to the start of the file
@@ -130,8 +128,6 @@ bool JPEGImageIO::CanReadFile(const char* file)
     {
     // clean up
     jpeg_destroy_decompress(&cinfo);
-    // close the file
-    fclose(fp);
     // this is not a valid jpeg file
     return false;
     }
@@ -144,7 +140,6 @@ bool JPEGImageIO::CanReadFile(const char* file)
   
   // if no errors have occurred yet, then it must be jpeg
   jpeg_destroy_decompress(&cinfo);
-  fclose(fp);
 
   return true;
 }
@@ -248,7 +243,7 @@ void JPEGImageIO::Read(void* buffer)
                       << this->GetFileName());
     return;
     }
-
+ 
   // create jpeg decompression object and error handler
   struct jpeg_decompress_struct cinfo;
   struct itk_jpeg_error_mgr jerr;
@@ -258,13 +253,12 @@ void JPEGImageIO::Read(void* buffer)
     {
     // clean up
     jpeg_destroy_decompress(&cinfo);
-    // close the file
-    fclose(fp);
     itkExceptionMacro("libjpeg could not read file: "
                             << this->GetFileName());
     // this is not a valid jpeg file
     return;
     }
+  
   jpeg_create_decompress(&cinfo);
 
   // set the source file
@@ -278,6 +272,7 @@ void JPEGImageIO::Read(void* buffer)
 
   unsigned long rowbytes = cinfo.output_components * cinfo.output_width;
   unsigned char *tempImage = static_cast<unsigned char*>(buffer);
+
 
   JSAMPROW *row_pointers = new JSAMPROW [cinfo.output_height];
   for (ui = 0; ui < cinfo.output_height; ++ui)
@@ -294,6 +289,7 @@ void JPEGImageIO::Read(void* buffer)
                         remainingRows);
     }
 
+
   // finish the decompression step
   jpeg_finish_decompress(&cinfo);
 
@@ -302,8 +298,6 @@ void JPEGImageIO::Read(void* buffer)
 
   delete [] row_pointers;
 
-  // close the file
-  fclose(fp);
 }
 
 
@@ -363,8 +357,6 @@ void JPEGImageIO::ReadImageInformation()
     {
     // clean up
     jpeg_destroy_decompress(&cinfo);
-    // close the file
-    fclose(fp);
     // this is not a valid jpeg file 
     itkExceptionMacro("Error JPEGImageIO could not open file: " 
                       << this->GetFileName());
@@ -393,7 +385,6 @@ void JPEGImageIO::ReadImageInformation()
 
   // close the file
   jpeg_destroy_decompress(&cinfo);
-  fclose(fp);
 
   return;
 }
@@ -487,7 +478,6 @@ void JPEGImageIO::WriteSlice(std::string& fileName, const void* buffer)
   if (setjmp(jerr.setjmp_buffer))
     {
     jpeg_destroy_compress(&cinfo);
-    fclose(fp);
     itkExceptionMacro(<<"JPEG : Out of disk space");
     return;
     }
@@ -550,7 +540,6 @@ void JPEGImageIO::WriteSlice(std::string& fileName, const void* buffer)
   if (fflush(fp) == EOF)
     {
     itkExceptionMacro(<<"JPEG : Out of disk space"); 
-    fclose(fp);
     return;
     }
 
@@ -560,7 +549,6 @@ void JPEGImageIO::WriteSlice(std::string& fileName, const void* buffer)
   // clean up and close the file
   delete [] row_pointers;
   jpeg_destroy_compress(&cinfo); 
-  fclose(fp);
 }
 
 
