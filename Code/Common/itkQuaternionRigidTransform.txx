@@ -52,7 +52,9 @@ template <class TScalarType>
 QuaternionRigidTransform<TScalarType>
 ::QuaternionRigidTransform()
 {
-
+  m_Offset.Fill( 0 );
+  m_Rotation = VnlQuaternionType(0,0,0,1); // axis * sin(t/2), cos(t/2)
+  m_DirectMatrix = m_Rotation.rotation_matrix();
 }
 
 // Copy Constructor
@@ -60,8 +62,59 @@ template <class TScalarType>
 QuaternionRigidTransform<TScalarType>
 ::QuaternionRigidTransform( const Self & other )
 {
-  // call the superclass copy constructor
+  m_Offset    = other.m_Offset;
+  m_Rotation  = other.m_Rotation;
+  m_DirectMatrix    = m_Rotation.rotation_matrix();
 }
+
+// Assignment Operator
+template <class TScalarType>
+const QuaternionRigidTransform<TScalarType> &
+QuaternionRigidTransform<TScalarType>
+::operator=( const Self & other )
+{
+  m_Offset    = other.m_Offset;
+  m_Rotation  = other.m_Rotation;
+  m_DirectMatrix    = m_Rotation.rotation_matrix();
+  return *this;
+}
+
+// Print self
+template<class TScalarType>
+void
+QuaternionRigidTransform<TScalarType>::
+PrintSelf(std::ostream &os, Indent indent ) const
+{
+
+  Superclass::PrintSelf(os,indent);
+  os << m_Offset   << std::endl;
+  os << m_Rotation << std::endl;
+  os << m_DirectMatrix   << std::endl;
+
+}
+
+// Set rotation
+template<class TScalarType>
+void
+QuaternionRigidTransform<TScalarType>::
+SetRotation(const VnlQuaternionType &rotation )
+{
+  m_Rotation      = rotation;
+  m_DirectMatrix  = m_Rotation.rotation_matrix();
+  return;
+}
+
+// Transform a point
+template<class TScalarType>
+QuaternionRigidTransform<TScalarType>::OutputPointType
+QuaternionRigidTransform<TScalarType>::
+TransformPoint(const InputPointType &point) const 
+{
+
+  return m_DirectMatrix * point + m_Offset;
+
+}
+
 
 // Set Parameters
 template <class TScalarType>

@@ -43,7 +43,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkQuaternionRigidTransform_h
 
 #include <iostream>
-#include "itkRigid3DTransform.h"
+#include "itkTransform.h"
+#include "vnl/vnl_quaternion.h"
 
 namespace itk
 {
@@ -59,7 +60,10 @@ namespace itk
  **/
 template < class TScalarType=double >    // Data type for scalars (float or double)
 class ITK_EXPORT QuaternionRigidTransform : 
-            public Rigid3DTransform< TScalarType > 
+            public Transform< TScalarType, 
+                              3, 3,       // Dimensions of input and output spaces
+                              Point< double, 7 >, // a versor plus a vector
+                              Matrix<double, 3, 7 > >
 {
 public:
 
@@ -76,7 +80,9 @@ public:
     /**
      * Standard "Superclass" typedef.
      */
-    typedef Rigid3DTransform< TScalarType >   Superclass;
+    typedef Transform< TScalarType, 3, 3,
+                       Point< double, 7 >, 
+                       Matrix< double, 3, 7 > >   Superclass;
 
 
     /**
@@ -99,12 +105,7 @@ public:
     /**
      * VnlQuaternion Type
      */
-    typedef typename Superclass::VnlQuaternionType  VnlQuaternionType;
-
-    /**
-     * Offset Type
-     */
-    typedef typename Superclass::OffsetType  OffsetType;
+    typedef vnl_quaternion<TScalarType>           VnlQuaternionType;
 
     /**
      * InputPoint Type
@@ -121,13 +122,95 @@ public:
     /** 
      * Run-time type information (and related methods).
      */
-    itkTypeMacro( QuaternionRigidTransform, Rigid3DTransform );
+    itkTypeMacro( QuaternionRigidTransform, Transform );
 
 
     /** 
      * New macro for creation of through a Smart Pointer
      */
     itkNewMacro( Self );
+
+
+    /// Standard matrix type for this class
+    typedef Matrix<ScalarType, InputSpaceDimension, InputSpaceDimension> MatrixType;
+
+    /// Standard vector type for this class
+    typedef Vector<TScalarType, InputSpaceDimension> OffsetType;
+
+    /// Standard vector type for this class
+    typedef Vector<TScalarType, InputSpaceDimension> InputVectorType;
+    typedef Vector<TScalarType, OutputSpaceDimension> OutputVectorType;
+
+    /// Standard covariant vector type for this class
+    typedef CovariantVector<TScalarType, InputSpaceDimension> InputCovariantVectorType;
+    typedef CovariantVector<TScalarType, OutputSpaceDimension> OutputCovariantVectorType;
+
+    /// Standard vnl_vector type for this class
+    typedef vnl_vector_fixed<TScalarType, InputSpaceDimension> InputVnlVectorType;
+    typedef vnl_vector_fixed<TScalarType, OutputSpaceDimension> OutputVnlVectorType;
+
+    /// Standard coordinate point type for this class
+    typedef Point<TScalarType, InputSpaceDimension>    InputPointType;
+    typedef Point<TScalarType, OutputSpaceDimension>    OutputPointType;
+
+    /// Standard vnl_quaternion type
+    typedef vnl_quaternion<TScalarType>           VnlQuaternionType;
+
+    /**
+     * Get offset of an QuaternionRigidTransform
+     *
+     * This method returns the value of the offset of the
+     * QuaternionRigidTransform.
+     **/
+    const OffsetType & GetOffset(void) const
+        { return m_Offset; }
+
+    /**
+     * Get rotation from an QuaternionRigidTransform
+     *
+     * This method returns the value of the rotation of the
+     * QuaternionRigidTransform.
+     **/
+    const VnlQuaternionType & GetRotation(void) const
+        { return m_Rotation; }
+
+
+    /**
+     * Get rotation MAtrix from an QuaternionRigidTransform
+     *
+     * This method returns the value of the rotation of the
+     * QuaternionRigidTransform.
+     **/
+    const MatrixType & GetRotationMatrix(void) const
+      { return m_DirectMatrix; }
+
+
+    /**
+     * Set offset of a QuaternionRigidTransform
+     *
+     * This method sets the offset of a QuaternionRigidTransform to a
+     * value specified by the user.
+     **/
+    void SetOffset(const OffsetType &offset)
+        { m_Offset = offset; return; }
+
+    /**
+     * Set Rotation of the Rigid transform
+     *
+     * This method sets the rotation of a QuaternionRigidTransform to a
+     * value specified by the user.
+     **/
+    void SetRotation(const VnlQuaternionType &rotation);
+
+
+    /**
+     * Transform by rigid transformation
+     *
+     * This method applies the affine transform given by self to a
+     * given point or vector, returning the transformed point or
+     * vector.
+     **/
+    OutputPointType     TransformPoint(const InputPointType  &point ) const;
 
 
     /**
@@ -173,31 +256,33 @@ protected:
      **/
     ~QuaternionRigidTransform(){};
 
+    /**
+     * Print contents of an QuaternionRigidTransform
+     **/
+    void PrintSelf(std::ostream &os, Indent indent) const;
 
     /**
      * Assignment operator
      **/
     const Self & operator=( const Self & );
 
+    // matrix representation of the rotation
+    // Should be protected in order to be modified 
+    // by derived classes that instantiate an interface
+    // to rotation computation
+    MatrixType          m_DirectMatrix;   
+
+
+private:
+  
+    // Offset of the transformation
+    OffsetType          m_Offset;   
+
+    // Rotation of the transformation
+    VnlQuaternionType   m_Rotation;
+    
 
 }; //class QuaternionRigidTransform
-
-
-/**
- * Print the offset of a QuaternionRigidTransform
- * This method prints the offset of the
- * QuaternionRigidTransform as n vector.
- **/
-                                                              
- template<class ScalarType >
- inline
- std::ostream &
- operator<< (std::ostream &s, QuaternionRigidTransform<ScalarType > &rigid)
- {
-   //s << rigid.m_Offset << std::endl;
-   //s << rigid.m_Rotation << std::endl;
-   return s;
- }
 
 
 }  // namespace itk
