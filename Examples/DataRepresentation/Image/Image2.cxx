@@ -89,7 +89,11 @@ int main( int , char * argv[])
   //
   // The minimum information required by the reader is the filename
   // of the image to be loaded in memory. This is provided through
-  // the \code{SetFileName()} method.
+  // the \code{SetFileName()} method. The file format here is inferred
+  // from the filename extension. The user may also explicitly specify the
+  // data format explicitly using the \doxygen{ImageIO} (See
+  // Chapter~\ref{sec:ImagReadWrite} \pageref{sec:ImagReadWrite} for more
+  // information
   //
   // \index{itk::ImageFileReader!SetFileName()}
   //
