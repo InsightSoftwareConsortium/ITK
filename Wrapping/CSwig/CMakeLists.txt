@@ -43,6 +43,7 @@ MACRO(GCCXML_CREATE_XML_FILE Source Bin Input Output Library)
 # the depend file in a way that will make cmake 
 # re-run if it changes
    SET(CABLE_SWIG_DEPEND)
+   SET(CABLE_SWIG_DEPEND_REGENERATE)
    IF(${CMAKE_MAKE_PROGRAM} MATCHES "make")
      IF(EXISTS ${Bin}/${Output}.depend)
      ELSE(EXISTS ${Bin}/${Output}.depend)
@@ -63,7 +64,6 @@ MACRO(GCCXML_CREATE_XML_FILE Source Bin Input Output Library)
    IF(CABLE_SWIG_DEPEND)
      # There are dependencies.  Make sure all the files are present.
      # If not, force the rule to re-run to update the dependencies.
-     SET(CABLE_SWIG_DEPEND_REGENERATE)
      FOREACH(f ${CABLE_SWIG_DEPEND})
        IF(EXISTS ${f})
        ELSE(EXISTS ${f})
@@ -71,9 +71,8 @@ MACRO(GCCXML_CREATE_XML_FILE Source Bin Input Output Library)
        ENDIF(EXISTS ${f})
      ENDFOREACH(f)
    ELSE(CABLE_SWIG_DEPEND)
-     # No dependencies, make the output depend on the dependency file
-     # itself, which should cause the rule to re-run.
-     SET(CABLE_SWIG_DEPEND ${Bin}/${Output}.depend)
+     # No dependencies.  Force the rule to re-run to update the dependencies.
+     SET(CABLE_SWIG_DEPEND_REGENERATE 1)
    ENDIF(CABLE_SWIG_DEPEND)
    IF(CABLE_SWIG_DEPEND_REGENERATE)
      SET(CABLE_SWIG_DEPEND ${Bin}/${Output}.depend)
