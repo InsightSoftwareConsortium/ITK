@@ -21,31 +21,26 @@
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"
 #include "itkCSwigImages.h"
+#include "itkCSwigBinaryBallStructuringElement.h"
 
 namespace _cable_
 {
   const char* const group = ITK_WRAP_GROUP(itkGrayscaleErodeImageFilter);
   namespace wrappers
   {
-    namespace structuringElement 
-    {
-      typedef itk::BinaryBallStructuringElement<float, 2 >::Self             F2;
-      typedef itk::BinaryBallStructuringElement<float, 3 >::Self             F3;
-      typedef itk::BinaryBallStructuringElement<unsigned char, 2 >::Self     UC2;
-      typedef itk::BinaryBallStructuringElement<unsigned char, 3 >::Self     UC3;
-      typedef itk::BinaryBallStructuringElement<unsigned short, 2 >::Self    US2;
-      typedef itk::BinaryBallStructuringElement<unsigned short, 3 >::Self    US3;
-    }
 
+    // NOTE: since both the GrayscaleDilateImageFilter and GrayscaleErodeImageFilter derive from the same superclass, only one of
+    //       them should do the wrapping WITH_SUPERCLASS.
+    //
     //===========2D Wrapped Filters==============
-    ITK_WRAP_OBJECT3_WITH_SUPERCLASS(GrayscaleErodeImageFilter, image::F2 , image::F2 , structuringElement::F2,   itkGrayscaleErodeImageFilterF2F2  );
-    ITK_WRAP_OBJECT3_WITH_SUPERCLASS(GrayscaleErodeImageFilter, image::UC2, image::UC2, structuringElement::UC2,  itkGrayscaleErodeImageFilterUC2UC2);
-    ITK_WRAP_OBJECT3_WITH_SUPERCLASS(GrayscaleErodeImageFilter, image::US2, image::US2, structuringElement::US2,  itkGrayscaleErodeImageFilterUS2US2);
+    ITK_WRAP_OBJECT3(GrayscaleErodeImageFilter, image::F2 , image::F2 , structuringElement::F2,   itkGrayscaleErodeImageFilterF2F2  );
+    ITK_WRAP_OBJECT3(GrayscaleErodeImageFilter, image::UC2, image::UC2, structuringElement::UC2,  itkGrayscaleErodeImageFilterUC2UC2);
+    ITK_WRAP_OBJECT3(GrayscaleErodeImageFilter, image::US2, image::US2, structuringElement::US2,  itkGrayscaleErodeImageFilterUS2US2);
 
     //===========3D Wrapped Filters==============
-    ITK_WRAP_OBJECT3_WITH_SUPERCLASS(GrayscaleErodeImageFilter, image::F3 , image::F3 , structuringElement::F3,   itkGrayscaleErodeImageFilterF3F3  );
-    ITK_WRAP_OBJECT3_WITH_SUPERCLASS(GrayscaleErodeImageFilter, image::UC3, image::UC3, structuringElement::UC3,  itkGrayscaleErodeImageFilterUC3UC3);
-    ITK_WRAP_OBJECT3_WITH_SUPERCLASS(GrayscaleErodeImageFilter, image::US3, image::US3, structuringElement::US3,  itkGrayscaleErodeImageFilterUS3US3);
+    ITK_WRAP_OBJECT3(GrayscaleErodeImageFilter, image::F3 , image::F3 , structuringElement::F3,   itkGrayscaleErodeImageFilterF3F3  );
+    ITK_WRAP_OBJECT3(GrayscaleErodeImageFilter, image::UC3, image::UC3, structuringElement::UC3,  itkGrayscaleErodeImageFilterUC3UC3);
+    ITK_WRAP_OBJECT3(GrayscaleErodeImageFilter, image::US3, image::US3, structuringElement::US3,  itkGrayscaleErodeImageFilterUS3US3);
   }
 }
 
