@@ -10,6 +10,7 @@ CABLE_CLASS_SET(CovariantVector "itk::CovariantVector<$Float,$Dimension>")
 CABLE_CLASS_SET(CovariantVector3 "itk::CovariantVector<$Float,$Dimension3>")
 CABLE_CLASS_SET(GradientImage3 "itk::Image<$CovariantVector3,$Dimension3>")
 CABLE_CLASS_SET(Mesh "itk::Mesh<$Float,$Dimension>")
+CABLE_CLASS_SET(Mesh3D "itk::Mesh<$Float,$Dimension3>")
 CABLE_CLASS_SET(Point3D "itk::Point<$Float,$Dimension3>")
 CABLE_CLASS_SET(MeshI "itk::Mesh<$Index,$Dimension3>")
 CABLE_CLASS_SET(MeshP3D2D "itk::Mesh<$Point3D,$Dimension>")
@@ -135,7 +136,7 @@ ADD_LIBRARY(ITKBasicFiltersTestTcl4)
 
 CABLE_WRAP_TCL(ITKBasicFiltersTestTcl4
   "itk::ThresholdImageFilter<$Image>"
-  "itk::TransformMeshFilter<$Mesh,$Mesh,$Transform>"
+  "itk::TransformMeshFilter<$Mesh3D,$Mesh3D,$Transform>"
   "itk::TwoOutputExampleImageFilter<$Image>"
   # "itk::UnaryFunctorImageFilter<$Image,$Image>"
   "itk::VTKImageExport<$Image>"
