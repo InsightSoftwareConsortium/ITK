@@ -1001,16 +1001,13 @@ int main( int argc, char *argv[] )
   // \begin{figure}
   // \center
   // \begin{tabular}{cccc}
-  // & $-3\sigma$ & mean & $+3\sigma$ \\
-  // mode 0: &
+  // & $-3\sigma$ & mean & $+3\sigma$ \\ mode 0: &
   // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus0.eps} & 
   // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape.eps} & 
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus0.eps} \\
-  // mode 1: &
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus0.eps} \\ mode 1: &
   // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus1.eps} & 
   // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape.eps} & 
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus1.eps} \\
-  // mode 2: &
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus1.eps} \\ mode 2: &
   // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus2.eps} & 
   // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape.eps} & 
   // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus2.eps} \\
