@@ -129,7 +129,7 @@ public:
    * Codes of stopping conditions
    */
   typedef enum {
-    GradientMagnitudeTolerance,
+    GradientMagnitudeTolerance=1,
     StepTooSmall,
     ImageNotAvailable,
     SamplesNotAvailable,
