@@ -207,7 +207,11 @@ TubeSpatialObject< TDimension >
 
         double lambda = A/B;
 
-        if( (lambda <= 1.0) && (lambda >= 0.0))
+        if( ((it != m_Points.begin()) && 
+            (lambda>-((*it).GetRadius()/(2*sqrt(B))))
+            && (lambda<0))
+            || ((lambda <= 1.0) && (lambda >= 0.0))       
+          )
           {
           PointType p;
 
