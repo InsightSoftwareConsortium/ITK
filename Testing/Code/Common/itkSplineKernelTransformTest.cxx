@@ -72,7 +72,6 @@ int itkSplineKernelTransformTest(int , char* [] )
   Points2DIteratorType target2Dit = targetLandmarks2D->GetPoints()->Begin();
   
   Points2DIteratorType source2Dend = sourceLandmarks2D->GetPoints()->End();
-  Points2DIteratorType target2Dend = targetLandmarks2D->GetPoints()->End();
   
   for (i = 0; i < 2; i++)
     {

@@ -57,8 +57,6 @@ int itkListSampleToHistogramGeneratorTest(int, char* [] )
 
   GeneratorType::HistogramType::Pointer histogram = generator->GetOutput() ;
 
-  GeneratorType::HistogramType::Iterator iter = histogram->Begin() ;
-
   GeneratorType::HistogramType::IndexType index ;
   
   index.Fill(0) ;
