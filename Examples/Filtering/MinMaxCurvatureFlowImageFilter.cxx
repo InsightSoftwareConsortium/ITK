@@ -18,10 +18,25 @@
 //  Software Guide : BeginLatex
 //
 //  The MinMaxCurvatureFlow image filter applies a variant of the CurvatureFlow
-//  algorithm. The speed function controlling the level set evolution is
-//  selected to be the min/max of the curvature depending on a voting evaluated
-//  over a neighborhood of the pixel. The user selects the radius of the
-//  neighborhood to be evaluated.
+//  algorithm. The basic difference is that the term speed is choosen as
+//  $\min(\kappa,0)$ or $\max(\kappa,0)$ depending on the average intensity
+//  of the pixel neighborhood. This prevents small oscilations from happening
+//  on regions of the contour containing wiggeling sections. The speed is given by
+//
+//  \begin{equation}
+//  I_t = F |\nabla I|
+//  \end{equation}
+//
+//  where $F$ is defined as
+//
+//  \begin{equation}
+//  F = \left\{ \begin{array} {r@{\quad:\quad}l}
+//         \min(\kappa,0) & \mbox{Average} < 0 \\ \max(\kappa,0) & \mbox{Average} \ge 0 
+//             \end{array} \right.
+//  \end{equation}
+//
+// The average is computed over a neighborhood of the pixel. The integer radius
+// of this neighborhood is selected by the user.
 //
 //  \index{itk::MinMaxCurvatureFlowImageFilter|textbf}
 //
@@ -132,10 +147,10 @@ int main( int argc, char ** argv )
   //  CurvatureFlow image, the number of iterations to be performed and the
   //  time step used in the computation of the level set evolution. In addition
   //  the them, the radius of the neighborhood is also required. This last
-  //  parameter is passes using the \code{SetRadius()} method. Note that the
-  //  radius is provided as an integer number since it is refering to a number
-  //  of pixels from the center to the border of the neighborhood. Then the
-  //  filter can be executed by invoking \code{Update()}.
+  //  parameter is passes using the \code{SetStencilRadius()} method. Note that
+  //  the radius is provided as an integer number since it is refering to a
+  //  number of pixels from the center to the border of the neighborhood. Then
+  //  the filter can be executed by invoking \code{Update()}.
   //
   //  \index{itk::MinMaxCurvatureFlowImageFilter!Update()}
   //  \index{itk::MinMaxCurvatureFlowImageFilter!SetTimeStep()}

@@ -23,6 +23,17 @@
 //  typically associated with edges on the image. The result is to smooth pixel
 //  values on the homogeneous regions while leaving the contours unmodified.
 //
+//  This filter assimilates each iso-contour of the graylevel image as a level
+//  set. The level sets evolved under the control of a diffusion equation where
+//  the speed is proportional to the curvature of the contour. The speed term
+//  is given by 
+//
+//  \begin{equation}
+//  I_t = \kappa |\nabla I|
+//  \end{equation}
+//
+//  where $ \kappa $ is the curvature.
+//
 //  \index{itk::CurvatureFlowImageFilter|textbf}
 //
 //  Software Guide : EndLatex 
@@ -177,7 +188,7 @@ int main( int argc, char ** argv )
   //  iterations will result in further smoothing and will increase linearly
   //  the computing time. The edge-preserving is not an absolute on this
   //  filter, some degradation will ocurr on the edges and will accentuate as
-  //  the number of iterations are increased. 
+  //  the number of iterations is increased. 
   //
   //  Software Guide : EndLatex 
 

@@ -18,9 +18,21 @@
 //  Software Guide : BeginLatex
 //
 //  The BinaryMinMaxCurvatureFlow image filter applies a variant of the
-//  MinMaxCurvatureFlow algorithm. The basic difference is the the average of
-//  the neighborhood is not compared against zero but against a user provided
-//  threshold.
+//  MinMaxCurvatureFlow algorithm. The basic difference is that the
+//  neighborhood average is not compared against zero but against a user
+//  provided threshold. The diffusion speed is given by
+//
+//  \begin{equation}
+//  I_t = F |\nabla I|
+//  \end{equation}
+//
+//  where $F$ is defined as
+//
+//  \begin{equation}
+//  F = \left\{ \begin{array} {r@{\quad:\quad}l}
+//         \min(\kappa,0) & \mbox{Average} < \mbox{Threshold} \\ \max(\kappa,0) & \mbox{Average} \ge \mbox{Threshold} 
+//             \end{array} \right.
+//  \end{equation}
 //
 //  \index{itk::BinaryMinMaxCurvatureFlowImageFilter|textbf}
 //
