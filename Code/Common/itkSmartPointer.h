@@ -81,6 +81,13 @@ public:
      { 
      return m_Pointer; 
      }
+  /** 
+    * Return pointer to object.
+    */
+   operator T * ()  
+     { 
+     return m_Pointer; 
+     }
 
   /** 
    * Access funtion to pointer 
