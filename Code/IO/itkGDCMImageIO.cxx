@@ -328,6 +328,8 @@ void GDCMImageIO::Write(const void* buffer)
 void GDCMImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+  os << indent << "RescaleSlope: " << m_RescaleSlope << "\n";
+  os << indent << "RescaleIntercept: " << m_RescaleIntercept << "\n";
 }
 
 
