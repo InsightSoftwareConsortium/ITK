@@ -60,7 +60,7 @@
 //  also be included.
 //
 //  \index{itk::AffineTransform!header}
-//  \index{itk::NearestNeighborInterpolateImageFunction!header}
+//  \index{itk::Nearest\-Neighbor\-Interpolate\-Image\-Function!header}
 //
 //  Software Guide : EndLatex 
 
@@ -169,7 +169,7 @@ int main( int argc, char * argv[] )
   //  The interpolator type is defined using the full image type and the type
   //  used for representing space coordinates.
   //
-  //  \index{itk::NearestNeighborInterpolateImageFunction!instantiation}
+  //  \index{itk::Nearest\-Neighbor\-Interpolate\-Image\-Function!instantiation}
   //
   //  Software Guide : EndLatex 
   
