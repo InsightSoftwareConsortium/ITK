@@ -311,7 +311,7 @@ public:
     * an exception is thrown.
     * Note that by default the inverese transform is centered at 
     * the origin.   */
-  bool GetInverse( Self * inverse) const;
+  virtual bool GetInverse(Self * inverse) const;
 
   /** \deprecated Use GetInverse instead.
    *
