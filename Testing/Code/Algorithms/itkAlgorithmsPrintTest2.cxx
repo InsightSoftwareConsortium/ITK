@@ -44,7 +44,6 @@
 #include "itkRGBGibbsPriorFilter.h"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 #include "itkRegionGrowImageFilter.h"
-#include "itkRegistrationMethod.h"
 #include "itkReinitializeLevelSetImageFilter.h"
 
 #include "itkDistanceToCentroidMembershipFunction.h"
@@ -155,11 +154,6 @@ int itkAlgorithmsPrintTest2(int , char* [])
   itk::RegionGrowImageFilter<InputType,OutputType>::Pointer RegionGrowImageFilterObj =
     itk::RegionGrowImageFilter<InputType,OutputType>::New();
   std:: cout << "-------------RegionGrowImageFilter " << RegionGrowImageFilterObj;
-#if 0
-  itk::RegistrationMethod<InputType,OutputType>::Pointer RegistrationMethodObj =
-    itk::RegistrationMethod<InputType,OutputType>::New();
-  std:: cout << "-------------RegistrationMethod " << RegistrationMethodObj;
-#endif
   itk::ReinitializeLevelSetImageFilter<InputType>::Pointer ReinitializeLevelSetImageFilterObj =
     itk::ReinitializeLevelSetImageFilter<InputType>::New();
   std:: cout << "-------------ReinitializeLevelSetImageFilter " << ReinitializeLevelSetImageFilterObj;
