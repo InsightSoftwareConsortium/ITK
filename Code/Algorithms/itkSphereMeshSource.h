@@ -74,7 +74,7 @@ public:
    * and will be used in FEM application. */
   typedef CellInterface<OPixelType, CellTraits>   CellInterfaceType;
   typedef TriangleCell<CellInterfaceType>         TriCellType;
-  typedef typename TriCellType::Pointer           TriCellPointer;
+  typedef typename TriCellType::CellAutoPointer   TriCellPointer;
 
   itkSetMacro(ResolutionX, unsigned int);
   itkSetMacro(ResolutionY, unsigned int);

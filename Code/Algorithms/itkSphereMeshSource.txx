@@ -33,7 +33,7 @@ SphereMeshSource<TOutputMesh>
   m_Squareness1 = 1.0;
   m_Squareness2 = 1.0;
   m_Center.Fill(0);
-  m_Scale.Fill(1.0);
+  m_Scale.Fill(10.0);
   m_ResolutionX = 4;
   m_ResolutionY = 4;
 }
@@ -47,7 +47,7 @@ SphereMeshSource<TOutputMesh>
   double ustep, vstep, ubeg, vbeg, u, v; 
   int signu, signv; 
 
-  /* Compute the number of cells and points. */
+  /* Compute the number of this->GetOutput() and points. */
   numpts = m_ResolutionX*m_ResolutionY + 2; 
   numcells = 2 * (m_ResolutionX-1) *m_ResolutionY + 2*m_ResolutionY; 
 
@@ -62,10 +62,10 @@ SphereMeshSource<TOutputMesh>
   /* The temporary container of nodes connectedness. */
   unsigned long tripoints[3] = {0,1,2};
   
-  OutputMeshPointer outputMesh = this->GetOutput().GetPointer();
+  OutputMeshPointer outputMesh = this->GetOutput();
 
-  outputMesh->SetCellsAllocationMethod( 
-                OutputMeshType::CellsAllocatedDynamicallyCellByCell );
+//  outputMesh->CellsAllocationMethod( 
+//                OutputMeshType::CellAllocatedDynamicallyCellByCell );
 
   /* Memory allocation for nodes. */
   PointsContainerPointer  myPoints = outputMesh->GetPoints();
@@ -121,21 +121,11 @@ SphereMeshSource<TOutputMesh>
     ++point;
   }
 
-  /* Cells container allocation. */
-  CellsContainerPointer cells = CellsContainer::New();
-  cells->Reserve( numcells );
-  outputMesh->SetCells( cells );
-
-  /* Cell data container allocation. */
-  CellDataContainerPointer celldata = CellDataContainer::New();
-  celldata->Reserve( numcells );
-  outputMesh->SetCellData( celldata );
-
   p = 0;
-  TriCellPointer testCell;
+  TriCellPointer  testCell;
   testCell.TakeOwnership( new TriCellType );
 
-  /* Store all regular cells. */
+  /* Store all regular this->GetOutput(). */
   for(unsigned int i=0; i+1 < m_ResolutionX ; i++) {
     for (unsigned int j=0; j<m_ResolutionY; j++) {
       jn = (j+1)%m_ResolutionY; 
@@ -143,42 +133,42 @@ SphereMeshSource<TOutputMesh>
       tripoints[1] = tripoints[0]-j+jn; 
       tripoints[2] = tripoints[0]+m_ResolutionY; 
       testCell->SetPointIds(tripoints);
-      cells->SetElement(p, testCell);
-      celldata->SetElement(p, (OPixelType)3.0);
+      this->GetOutput()->SetCell(p, testCell);
+      this->GetOutput()->SetCellData(p, (OPixelType)3.0);
       p++;
       testCell.TakeOwnership( new TriCellType );
       tripoints[0] = tripoints[1]; 
       tripoints[1] = tripoints[0]+m_ResolutionY; 
       testCell->SetPointIds(tripoints);
-      cells->SetElement(p, testCell);
-      celldata->SetElement(p, (OPixelType)3.0);
+      this->GetOutput()->SetCell(p, testCell);
+      this->GetOutput()->SetCellData(p, (OPixelType)3.0);
       p++;
       testCell.TakeOwnership( new TriCellType );
     }
   }
  
-  /* Store cells containing the south pole nodes. */
+  /* Store this->GetOutput() containing the south pole nodes. */
   for (unsigned int j=0; j<m_ResolutionY; j++) {
     jn = (j+1)%m_ResolutionY; 
     tripoints[0] = numpts-2; 
     tripoints[1] = jn; 
     tripoints[2] = j; 
     testCell->SetPointIds(tripoints);
-    cells->SetElement(p, testCell);
-    celldata->SetElement(p, (OPixelType)1.0);
+    this->GetOutput()->SetCell(p, testCell);
+    this->GetOutput()->SetCellData(p, (OPixelType)1.0);
     p++;
     testCell.TakeOwnership( new TriCellType );
   }
 
-  /* Store cells containing the north pole nodes. */
+  /* Store this->GetOutput() containing the north pole nodes. */
   for (unsigned int j=0; j<m_ResolutionY; j++) {
     jn = (j+1)%m_ResolutionY; 
     tripoints[2] = (m_ResolutionX-1)*m_ResolutionY+j; 
     tripoints[1] = numpts-1; 
     tripoints[0] = tripoints[2]-j+jn; 
     testCell->SetPointIds(tripoints);
-    cells->SetElement(p, testCell);
-    celldata->SetElement(p, (OPixelType)2.0);
+    this->GetOutput()->SetCell(p, testCell);
+    this->GetOutput()->SetCellData(p, (OPixelType)2.0);
     p++;
     testCell.TakeOwnership( new TriCellType );
   }
