@@ -83,6 +83,15 @@ int main()
   Print( vg );
 
 
+  ValueType norm2 = vg.GetSquaredNorm();
+  std::cout << "vg squared norm = ";
+  std::cout << norm2 << std::endl;
+
+  ValueType norm  = vg.GetNorm();
+  std::cout << "vg norm = ";
+  std::cout << norm << std::endl;
+
+
   // Test for vnl interface
   vnl_vector_ref< ValueType > vnlVector = va.Get_vnl_vector();
   {
