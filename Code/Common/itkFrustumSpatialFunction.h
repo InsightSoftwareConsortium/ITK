@@ -93,6 +93,10 @@ public:
   itkGetMacro( AngleZ, double);
   itkSetMacro( AngleZ, double);
        
+  /** Get and set the aperture angle in X */
+  itkGetMacro( ApertureAngleX, double);
+  itkSetMacro( ApertureAngleX, double);
+       
   /** Get and set the aperture angle in Y */
   itkGetMacro( ApertureAngleY, double);
   itkSetMacro( ApertureAngleY, double);
