@@ -39,10 +39,11 @@ namespace itk
  *
  *      ftp://ftp.cmrr.umn.edu/pub/stimulate/data/
  *
- *  This class was contributed by Mathieu Malaterre
- *  member of the CREATIS team at INSA - Lyon
+ *  \warning Beware of the scalar range of some files (See GetDisplayRange).
  *
- *    http://www.insa-lyon.fr/Laboratoires/creatis.html
+ * \author Mathieu Malaterre
+ *  CREATIS team at INSA - Lyon 2002
+ *    http://www.creatis.insa-lyon.fr
  *
  * \ingroup IOFilters
  *
@@ -105,13 +106,11 @@ protected:
   void InternalReadImageInformation(std::ifstream& file);
 
 private:
-
-  float   m_DisplayRange[2];
-
-  float   m_DisplayThresh;
-  float   m_Extent[4];
-  char    m_FidName[256];
+  std::string m_DataFileName;
   char    m_SdtOrient[256];
+  float   m_DisplayRange[2];
+  float   m_DisplayThresh;
+  char    m_FidName[256];
 
   StimulateImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
