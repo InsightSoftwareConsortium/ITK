@@ -18,7 +18,7 @@
 // Software Guide : BeginLatex
 //
 // \index{itk::SurfaceSpatialObject}
-/
+//
 // \doxygen{SurfaceSpatialObject} defines a surface in n-dimensional space.
 // A SurfaceSpatialObject is defined by a list of points which lie on the
 // surface. Each point has a position and a unique normal. The example begins
