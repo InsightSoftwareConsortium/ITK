@@ -6,7 +6,6 @@ CABLE_CLASS_SET(ItkCommonBase
   itk::ImageIO
   itk::LightObject
   itk::LightProcessObject
-  itk::MultiThreader
   itk::Object
   itk::OutputWindow
   itk::ProcessObject
