@@ -18,6 +18,7 @@
 
 #include "itkNeighborhoodIterator.h"
 
+
 namespace itk {
 
 /**
@@ -62,13 +63,23 @@ public:
   typedef itk::Index<VDimension>                Index;
   typedef itk::Neighborhood<TPixel, VDimension> Neighborhood;
   typedef itk::Size<VDimension>                 Size;
-  typedef itk::ImageRegion<VDimension>               Region;
+  typedef itk::ImageRegion<VDimension>          Region;
+
+  /**
+   * Standard Superclass typedef
+   */
+  typedef NeighborhoodIterator<TPixel, VDimension> Superclass;
   
   /** 
    * Run-time type information (and related methods).
    */
   itkTypeMacro(RegionNeighborhoodIterator, NeighborhoodIterator);
 
+  /**
+   * Default constructor
+   */
+  RegionNeighborhoodIterator() : NeighborhoodIterator<TPixel, VDimension>() {};
+  
   /**
   * Constructor establishes a neighborhood of iterators of a specified
   * dimension to walk a particular image and a particular region of
@@ -125,7 +136,16 @@ public:
    * \sa SlicedInnerProduct
    */
   TPixel InnerProduct(std::valarray<TPixel> &);
-  
+  TPixel SlicedInnerProduct(const std::slice &s, std::valarray<TPixel> &v);
+
+  /**
+   * Assignment operator
+   */
+  Self &operator=(const Self& orig)
+  {
+    Superclass::operator=(orig);
+    return *this;
+  }
 protected:
   /**
    * Sets the loop upper boundaries for iteration.
