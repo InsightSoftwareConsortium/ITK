@@ -248,7 +248,26 @@ public:
     const PointContainerPointer & points, 
     const WeightContainerType & weights );
 };
-  
+
+
+/** \function PointCast
+ * \brief A templated function for casting Points from one representation type to another
+ * 
+ * \ingroup Geometry
+ * \ingroup DataRepresentation
+ * 
+ */
+template <typename TCoordRepA, typename TCoordRepB, unsigned int N>
+void PointCast( const itk::Point<TCoordRepA,N> & pa, 
+                        itk::Point<TCoordRepB,N> & pb  ) 
+   {
+     for(unsigned int i=0; i<N; i++)
+       {
+       pb[i] = static_cast< TCoordRepB >( pa[i] );
+       }
+   }
+
+ 
 }  // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
