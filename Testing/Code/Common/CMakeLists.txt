@@ -105,6 +105,7 @@ ADD_TEST(itkVectorTest ${COMMON_TESTS} itkVectorTest)
 ADD_TEST(itkVectorInterpolateImageFunctionTest ${COMMON_TESTS} itkVectorInterpolateImageFunctionTest)
 ADD_TEST(itkVectorToRGBImageAdaptorTest ${COMMON_TESTS} itkVectorToRGBImageAdaptorTest)
 ADD_TEST(itkScaleTransformTest ${COMMON_TESTS} itkScaleTransformTest)
+ADD_TEST(itkScaleLogarithmicTransformTest ${COMMON_TESTS} itkScaleLogarithmicTransformTest)
 ADD_TEST(itkSplineKernelTransformTest ${COMMON_TESTS} itkSplineKernelTransformTest)
 ADD_TEST(itkEllipsoidInteriorExteriorSpatialFunctionTest ${COMMON_TESTS} itkEllipsoidInteriorExteriorSpatialFunctionTest)
 ADD_TEST(itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest ${COMMON_TESTS} itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest)
@@ -231,6 +232,7 @@ itkRGBInterpolateImageFunctionTest.cxx
 itkRGBToVectorImageAdaptorTest.cxx
 itkScalarToRGBPixelFunctorTest.cxx
 itkScaleTransformTest.cxx
+itkScaleLogarithmicTransformTest.cxx
 itkShapedNeighborhoodIteratorTest.cxx
 itkSimilarity2DTransformTest.cxx
 itkSliceIteratorTest.cxx

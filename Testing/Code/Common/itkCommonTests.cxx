@@ -104,6 +104,7 @@ REGISTER_TEST(itkVectorTest );
 REGISTER_TEST(itkVectorInterpolateImageFunctionTest );
 REGISTER_TEST(itkVectorToRGBImageAdaptorTest );
 REGISTER_TEST(itkScaleTransformTest );
+REGISTER_TEST(itkScaleLogarithmicTransformTest );
 REGISTER_TEST(itkSplineKernelTransformTest );
 REGISTER_TEST(itkEllipsoidInteriorExteriorSpatialFunctionTest );
 REGISTER_TEST(itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest );
