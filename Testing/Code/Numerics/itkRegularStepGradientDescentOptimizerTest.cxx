@@ -172,7 +172,7 @@ int main()
   parametersScale[0] = 1.0;
   parametersScale[1] = 1.0;
 
-  itkOptimizer->SetMinimize();
+  itkOptimizer->MinimizeOn();
   itkOptimizer->GetTransform()->SetScale( parametersScale );
   itkOptimizer->SetGradientMagnitudeTolerance( 1e-6 );
   itkOptimizer->SetMaximumStepLength( 30.0 );
