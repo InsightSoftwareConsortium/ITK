@@ -22,17 +22,18 @@
 
 #include "itkFEM.h"
 #include "itkFEMSolver.h"
-#include "itkFEMLinearSystemWrapper.h"
-#include "itkFEMLinearSystemWrapperItpack.h"
-#include "itkFEMLinearSystemWrapperVNL.h"
-#include "itkFEMLinearSystemWrapperDenseVNL.h"
+
+#include "itkFEMLinearSystemWrappers.h"
+
+#include "itkFEMNodes.h"
+
 #include "itkExceptionObject.h"
 
 #include <iostream>
 #include <fstream>
 #include <exception>
 
-#define DEBUG_FEM_TESTS     1
+#define DEBUG_FEM_TESTS     0
 
 using namespace std;
 using namespace itk;
@@ -66,9 +67,6 @@ int itkFEMElementTest(int ac, char** av)
   int numsolvers = 3;
   int currsolver = -1;
   int s = 0;
-  LinearSystemWrapperDenseVNL lsw_dvnl;
-  LinearSystemWrapperItpack lsw_itpack;
-  LinearSystemWrapperVNL lsw_vnl;
 
   if (ac < 2)
   // Display the menu
@@ -155,6 +153,10 @@ int itkFEMElementTest(int ac, char** av)
     std::cout << "GenerateGFN()" << std::endl;
     S.GenerateGFN();          // Generate global freedom numbers for system DOFs
 
+    LinearSystemWrapperDenseVNL lsw_dvnl;
+    LinearSystemWrapperItpack lsw_itpack;
+    LinearSystemWrapperVNL lsw_vnl;
+
     for (s=0; s < numsolvers; s++) {
  
       if (s == 2) {
@@ -216,11 +218,24 @@ int itkFEMElementTest(int ac, char** av)
       
       // Print the nodal coordinates and displacements
       
+#if DEBUG_FEM_TESTS
+
+      NodeXY::Pointer nxy;
+      NodeXYZ::Pointer nxyz;
+      NodeXYrotZ::Pointer nxyrz;
+      
       std::cout << "Print nodal coordinates: " << std::endl;
       std::cout << "xyz" << s << "=[" << std::endl;
       for (Solver::NodeArray::iterator n = S.node.begin(); n != S.node.end(); n++) {
-  
-  ;
+        if ( ( nxyz = &dynamic_cast<NodeXYZ&>(*(*n)) ) ) {
+          std::cout << nxyz->X << ", " << nxyz->Y << ", " << nxyz->Z << std::endl;
+        }
+        else if ( ( nxy = &dynamic_cast<NodeXY&>(*(*n)) ) ) {
+          std::cout << nxy->X << ", " << nxy->Y << std::endl;
+        }
+        else if ( ( nxyrz =  &dynamic_cast<NodeXYrotZ&>(*(*n)) ) ) {
+          std::cout << nxyrz->X << ", " << nxyrz->Y << std::endl;
+        }
       }
       std::cout << "];" << std::endl;
 
@@ -236,15 +251,19 @@ int itkFEMElementTest(int ac, char** av)
         std::cout << std::endl;
       }
       std::cout << "];" << std::endl;
-
+      
+#endif    
+      
       std::cout << "Test PASSED" << std::endl;
     }
   }
   catch (::itk::ExceptionObject &err) {
     std::cerr << "ITK exception detected: "  << err;
     std::cout << "Test FAILED" << std::endl;
+
     return EXIT_FAILURE;
   }
-  
+
   return EXIT_SUCCESS;
 }
+
