@@ -134,7 +134,58 @@ int main()
   }
 
 
-  return 0;
+  // Test for CovariantVectorCast() function
+  {
+  std::cout << "Test for CovariantVectorCast function " << std::endl;
+
+  // Dimension & Type
+  const     unsigned int    N = 3;
+
+  //  CovariantVector Classes
+  typedef    itk::CovariantVector<  double, N >    DoubleCovariantVectorType;
+  typedef    itk::CovariantVector<  float , N >    FloatCovariantVectorType;
+
+  DoubleCovariantVectorType dp;
+  dp[0] = 1.0;
+  dp[1] = 1.7;
+  dp[2] = 1.9;
+
+  FloatCovariantVectorType fp;
+  fp[0] = 0.0;
+  fp[1] = 0.0;
+  fp[2] = 0.0;
+
+
+  std::cout << "Initial values dp = ";
+  std::cout << dp << std::endl;
+
+  std::cout << "Initial values fp = ";
+  std::cout << fp << std::endl;
+
+  
+  itk::CovariantVectorCast( dp, fp ); 
+
+  std::cout << "Final values fp = ";
+  std::cout << fp << std::endl;
+
+  
+  for(unsigned int i=0; i<N; i++)
+    {
+    FloatCovariantVectorType::ValueType val = 
+        static_cast< FloatCovariantVectorType::ValueType >( dp[i] );
+    if( val != fp[i] )
+      {
+        std::cout << "Test failed at component " << i << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+
+
+  std::cout << " PASSED ! " << std::endl;
+
+  }
+
+  return EXIT_SUCCESS;
 }
 
 

@@ -192,6 +192,56 @@ int main()
        
   }
 
+  // Test for VectorCast() function
+  {
+  std::cout << "Test for VectorCast function " << std::endl;
+
+  // Dimension & Type
+  const     unsigned int    N = 3;
+
+  //  Vector Classes
+  typedef    itk::Vector<  double, N >    DoubleVectorType;
+  typedef    itk::Vector<  float , N >    FloatVectorType;
+
+  DoubleVectorType dp;
+  dp[0] = 1.0;
+  dp[1] = 1.7;
+  dp[2] = 1.9;
+
+  FloatVectorType fp;
+  fp[0] = 0.0;
+  fp[1] = 0.0;
+  fp[2] = 0.0;
+
+
+  std::cout << "Initial values dp = ";
+  std::cout << dp << std::endl;
+
+  std::cout << "Initial values fp = ";
+  std::cout << fp << std::endl;
+
+  
+  itk::VectorCast( dp, fp ); 
+
+  std::cout << "Final values fp = ";
+  std::cout << fp << std::endl;
+
+  
+  for(unsigned int i=0; i<N; i++)
+    {
+    FloatVectorType::ValueType val = 
+        static_cast< FloatVectorType::ValueType >( dp[i] );
+    if( val != fp[i] )
+      {
+        std::cout << "Test failed at component " << i << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+
+
+  std::cout << " PASSED ! " << std::endl;
+
+  }
   return EXIT_SUCCESS;
 
 }
