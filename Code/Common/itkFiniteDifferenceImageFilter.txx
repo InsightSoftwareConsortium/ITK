@@ -178,7 +178,7 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
     {
       if (valid[i])
         {
-          min = list[i];
+          min = timeStepList[i];
           flag = true;
           break;
         }
@@ -191,7 +191,7 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 
   // find minimum value
   for (int i = 0; i < size; ++i)
-    {      if ( valid[i] && (list[i] < min) )   min = list[i];      }
+    {      if ( valid[i] && (timeStepList[i] < min) )   min = timeStepList[i];      }
 
   return min;
 }
