@@ -101,7 +101,7 @@ ITK_THREAD_RETURN_TYPE ConditionVariableTestCallback( void *ptr )
   return ITK_THREAD_RETURN_VALUE;
 } 
 
-int itkConditionVariableTest(int , char**)
+int itkConditionVariableTest(int , char*[])
 {
   ConditionVariableTestUserData cond;
   

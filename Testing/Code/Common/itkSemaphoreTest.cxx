@@ -45,7 +45,7 @@ ITK_THREAD_RETURN_TYPE print_message_function( void *ptr )
   return ITK_THREAD_RETURN_VALUE;
 }
 
-int itkSemaphoreTest(int, char**)
+int itkSemaphoreTest(int, char*[])
 {
   
   SemaphoreTestUserData sem;
