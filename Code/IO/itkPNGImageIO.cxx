@@ -243,11 +243,6 @@ void PNGImageIO::Read(void* buffer)
   png_read_end(png_ptr, NULL);
   png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 
-  m_Spacing[0] = 1.0;  // Is there any spacing information
-  m_Spacing[1] = 1.0;  // in PNG ?
-
-  m_Origin[0] = 0.0;
-  m_Origin[1] = 0.0;
 }
 
 
@@ -356,6 +351,12 @@ void PNGImageIO::ReadImageInformation()
   this->SetNumberOfComponents(png_get_channels(png_ptr, info_ptr));
   png_destroy_read_struct(&png_ptr, &info_ptr,
                           (png_infopp)NULL);
+
+  m_Spacing[0] = 1.0;  // Is there any spacing information
+  m_Spacing[1] = 1.0;  // in PNG ?
+
+  m_Origin[0] = 0.0;
+  m_Origin[1] = 0.0;
   return;
 }
 

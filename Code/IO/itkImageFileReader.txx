@@ -61,13 +61,13 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
 {
   typename TOutputImage::Pointer output = this->GetOutput();
 
-  itkDebugMacro(<<"Reading file" << m_FileName);
+  itkDebugMacro(<<"Reading file " << m_FileName);
   
   // Check to see if we can read the file given the name or prefix
   //
   if ( m_FileName == "" && m_FilePrefix == "" )
     {
-    throw ImageFileReaderException(__FILE__, __LINE__, "Bad File Name");
+    throw ImageFileReaderException(__FILE__, __LINE__, "One of FilePath or FileName must be non-empty");
     }
 
   if ( m_ImageIO == 0 ) //try creating via factory
@@ -94,7 +94,15 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
 
   if( m_ImageIO->GetNumberOfDimensions() < TOutputImage::ImageDimension )
     {
-    throw ImageFileReaderException(__FILE__, __LINE__, "Wrong image dimension");
+    ImageFileReaderException e(__FILE__, __LINE__);
+    std::ostrstream msg;
+    msg << "Number of dimensions in file ("
+        << m_ImageIO->GetNumberOfDimensions()
+        << ") does not match number of dimensions in output ("
+        << TOutputImage::ImageDimension
+        << ")" << std::ends;
+    e.SetDescription(msg.str());
+    throw e;
     }
   
   Size dimSize;
@@ -135,7 +143,8 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
     }
   ioRegion.SetSize(ioSize);
   ioRegion.SetIndex(ioStart);
-  
+
+  itkDebugMacro (<< "ioRegion: " << ioRegion);
   
   output->SetLargestPossibleRegion(region);
   output->SetRequestedRegion(region);
@@ -153,6 +162,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
        (m_ImageIO->GetNumberOfComponents() == 
         ConvertPixelTraits::GetNumberOfComponents()))
     {
+    itkDebugMacro(<< "No buffer conversion required.");
     // allocate a buffer and have the ImageIO read directly into it
     m_ImageIO->Read(buffer);
     return;
@@ -162,6 +172,9 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
     OutputImagePixelType* loadBuffer = 
       new OutputImagePixelType[m_ImageIO->GetImageSizeInBytes()];
     m_ImageIO->Read(loadBuffer);
+    itkDebugMacro(<< "Buffer conversion required from: "
+                 << m_ImageIO->GetPixelType().name()
+                 << " to: " << typeid(TOutputImage::PixelType).name());
     this->DoConvertBuffer(loadBuffer, region.GetNumberOfPixels());
     delete [] loadBuffer;
     }
@@ -209,7 +222,22 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   ITK_CONVERT_BUFFER_IF_BLOCK( double)
   else
     {
-    itkErrorMacro(<<"Couldn't convert pixel type");
+    ImageFileReaderException e(__FILE__, __LINE__);
+    std::ostrstream msg;
+    msg <<"Couldn't convert pixel type: "
+        << std::ends << "    " << m_ImageIO->GetPixelType().name()
+        << std::ends << "to one of: "
+        << std::ends << "    " << typeid(unsigned char).name()
+        << std::ends << "    " << typeid(char).name()
+        << std::ends << "    " << typeid(unsigned short).name()
+        << std::ends << "    " << typeid(short).name()
+        << std::ends << "    " << typeid(unsigned int).name()
+        << std::ends << "    " << typeid(int).name()
+        << std::ends << "    " << typeid(float).name()
+        << std::ends << "    " << typeid(double).name()
+        << std::ends;
+    e.SetDescription(msg.str());
+    throw e;
     return;
     }
 #undef ITK_CONVERT_BUFFER_IF_BLOCK

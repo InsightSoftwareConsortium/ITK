@@ -55,11 +55,12 @@ RawImageIO<TPixel,VImageDimension>::RawImageIO()
   m_FilePattern = "%s.%d";
   
   this->SetNumberOfComponents(1);
+  this->SetNumberOfDimensions(VImageDimension);
   
   for (int idx = 0; idx < VImageDimension; ++idx)
     {
     m_Spacing.insert(m_Spacing.begin()+idx,1.0);
-    m_Origin.insert(m_Spacing.begin(+ids),0.0);
+    m_Origin.insert(m_Origin.begin()+idx,0.0);
     }
   
   m_HeaderSize = 0;
@@ -82,6 +83,7 @@ void RawImageIO<TPixel,VImageDimension>::PrintSelf(std::ostream& os, Indent inde
   Superclass::PrintSelf(os, indent);
 
   os << indent << "ImageMask: " << m_ImageMask << std::endl;
+  os << indent << "FileDimensionality: " << m_FileDimensionality << std::endl;
 }
 
 template <class TPixel, unsigned int VImageDimension>
@@ -105,7 +107,7 @@ unsigned long RawImageIO<TPixel,VImageDimension>::GetHeaderSize()
     m_File.seekg(0,std::ios::end);
     
     return (unsigned long)((unsigned long)m_File.tellg() - 
-      (unsigned long)m_Strides[VImageDimension]);
+      (unsigned long)m_Strides[m_FileDimensionality + 1]);
     }
 
   return m_HeaderSize;
@@ -188,17 +190,14 @@ void RawImageIO<TPixel,VImageDimension>
 
 template <class TPixel, unsigned int VImageDimension>
 void RawImageIO<TPixel,VImageDimension>
-::Read()
+::Read(void *buffer)
 {
   // Open the file
   this->OpenFile();
   
-  // Set the dimensions and related
-  this->SetNumberOfDimensions(VImageDimension);
   this->ComputeStrides();
   
   // Offset into file
-  m_RequestedRegionData = (void*)new char[m_Strides[3]];
   unsigned long streamStart = this->GetHeaderSize();
   m_File.seekg((long)streamStart, std::ios::beg);
   if ( m_File.fail() )
@@ -207,20 +206,44 @@ void RawImageIO<TPixel,VImageDimension>
     return;
     }
 
-  // Read the image
-  m_File.read((char *)m_RequestedRegionData, m_Strides[3]);
+  itkDebugMacro(<< "Reading " << m_Strides[m_FileDimensionality + 1] << " bytes");
   
+  // Read the image
+  m_File.read((char *)buffer, m_Strides[m_FileDimensionality + 1]);
+  if ( m_File.fail() )
+    {
+    itkErrorMacro(<<"Read failed: Wanted " << m_Strides[m_FileDimensionality + 1] << " bytes, but read " << m_File.gcount() << " bytes.");
+    return;
+    }
+  
+  itkDebugMacro(<< "Reading Done");
+
   // Swap bytes if necessary
   if ( m_ByteOrder == LittleEndian &&
     ByteSwapper<PixelType>::IsBigEndian() )
     {
-    ByteSwapper<PixelType>::SwapRangeBE((PixelType *)m_RequestedRegionData, m_Strides[3]);
+    ByteSwapper<PixelType>::SwapRangeBE((PixelType *)buffer, m_Strides[VImageDimension+1]);
     }
   else if ( m_ByteOrder == BigEndian &&
     ByteSwapper<PixelType>::IsLittleEndian() )
     {
-    ByteSwapper<PixelType>::SwapRangeLE((PixelType *)m_RequestedRegionData, m_Strides[3]);
+    ByteSwapper<PixelType>::SwapRangeLE((PixelType *)buffer, m_Strides[VImageDimension+1]);
     }
+}
+
+template <class TPixel, unsigned int VImageDimension>
+void RawImageIO<TPixel,VImageDimension>
+::Read()
+{
+
+  this->ComputeStrides();
+  
+  // Generate the buffer internally
+  m_RequestedRegionData = (void*)new char[m_Strides[VImageDimension+2]];
+  
+  // Read the image
+  this->Read (m_RequestedRegionData);
+  
 }
 
 
