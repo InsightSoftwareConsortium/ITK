@@ -28,6 +28,8 @@ namespace itk
     this->ProcessObject::SetNumberOfRequiredOutputs(1);
     this->ProcessObject::SetNthOutput(0, m_Output.GetPointer());
     m_ModifiedCount = 0;
+    m_SelectionMethod = 0;
+    m_Threshold = 0.5;
     }
 
   template <typename TInputMesh, typename TOutputMesh>
@@ -81,11 +83,6 @@ namespace itk
 
     while ( curvatureIt != curvatures->End())
       {
-      //std::cout << "curvatureIt.Value(): " << curvatureIt.Value() << std::endl;
-      //std::cout << "average curv: " << averageCurvature << std::endl;
-      //std::cout << "rangeCellSize: " << rangeCellSize << std::endl;
-      //std::cout << "rangeCurvature: " << rangeCurvature << std::endl;
-
       bool doRefinement = false;
       if ( (m_SelectionMethod == 0) && 
         (curvatureIt.Value() > averageCurvature 
@@ -93,19 +90,14 @@ namespace itk
         || areaIt.Value() > (m_Threshold * rangeCellSize + simplexVisitor->GetMinimumCellSize())
         )
         {
-        //std::cout << " met criteria one" <<std::endl;
         doRefinement = true;
         }
       else if ((m_SelectionMethod == 1) &&
         ((curvatureIt.Value() > m_Threshold * rangeCurvature &&  areaIt.Value() > 0.05 * rangeCellSize )
         || areaIt.Value() > m_Threshold * rangeCellSize  ) )
         {
-        //std::cout << " met criteria two" <<std::endl;
         doRefinement = true;
         }
-
-      //std::cout <<"cell index: " << curvatureIt.Index() <<" refine? " 
-      //<< doRefinement << std::endl;
 
       if (doRefinement)
         {
@@ -136,17 +128,6 @@ namespace itk
         unsigned long newPointId = inputMesh->GetNumberOfPoints();
         unsigned long firstNewIndex = newPointId;
         unsigned long secondNewIndex = newPointId+1;
-
-        if( !inputMesh->GetPoints()->IndexExists(firstNewIndex)  )
-          {
-          itkExceptionMacro("First index does not exist");
-          }
-
-        if( !inputMesh->GetPoints()->IndexExists(secondNewIndex)  )
-          {
-          itkExceptionMacro("Second index does not exist");
-          }
-
 
         //create first new point
         InputPointType newMidPoint, helperPoint;
