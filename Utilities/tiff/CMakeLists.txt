@@ -1,5 +1,5 @@
 PROJECT(ITKTIFF)
-INCLUDE_REGULAR_EXPRESSION("^(tif|fax|port|uv|tconf|t4|mk|itkjpeg|jpeg|mangle|jconfig|jmorecfg).*$")
+INCLUDE_REGULAR_EXPRESSION("^(itk_tiff_mangle|tif|fax|port|uv|tconf|t4|mk|itkjpeg|jpeg|mangle|jconfig|jmorecfg).*$")
 
 
 INCLUDE_DIRECTORIES(BEFORE ${ITKTIFF_SOURCE_DIR})
