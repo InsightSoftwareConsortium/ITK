@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrap_ITKTransforms.cxx
+  Module:    wrap_ITKKernelDeformableTransforms.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,10 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkAzimuthElevationToCartesianTransform.h"
+#include "itkKernelTransform.h"
 #include "itkElasticBodyReciprocalSplineKernelTransform.h"
 #include "itkElasticBodySplineKernelTransform.h"
-#include "itkKernelTransform.h"
 #include "itkThinPlateR2LogRSplineKernelTransform.h"
 #include "itkThinPlateSplineKernelTransform.h"
 #include "itkVolumeSplineKernelTransform.h"
@@ -25,22 +24,14 @@
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"
 
-#define ITK_WRAP_TRANSFORM_1(x) \
-  ITK_WRAP_OBJECT1(x, double, itk##x)
-    
 #define ITK_WRAP_TRANSFORM_2(x, d1) \
   ITK_WRAP_OBJECT2(x, double, d1, itk##x##d1)
     
-#define ITK_WRAP_TRANSFORM_3(x, d1, d2) \
-  ITK_WRAP_OBJECT3(x, double, d1, d2, itk##x##d1##d2)
-    
 namespace _cable_
 {
-  const char* const group = ITK_WRAP_GROUP(ITKTransforms);
+  const char* const group = ITK_WRAP_GROUP(ITKKernelDeformableTransforms);
   namespace wrappers
   {
-    ITK_WRAP_TRANSFORM_2(AzimuthElevationToCartesianTransform, 2);
-    ITK_WRAP_TRANSFORM_2(AzimuthElevationToCartesianTransform, 3);
     ITK_WRAP_TRANSFORM_2(ElasticBodyReciprocalSplineKernelTransform, 2);
     ITK_WRAP_TRANSFORM_2(ElasticBodyReciprocalSplineKernelTransform, 3);
     ITK_WRAP_TRANSFORM_2(ElasticBodySplineKernelTransform, 2);

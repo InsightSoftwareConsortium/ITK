@@ -3,12 +3,13 @@ SET(WRAP_SOURCES
   wrap_ITKBase
   wrap_ITKFilterBase
   wrap_ITKInterpolators
+  wrap_ITKKernelDeformableTransforms
   wrap_ITKRegions
   wrap_ITKRigidTransforms
   wrap_ITKSimilarityTransforms
-  wrap_ITKTransforms
   wrap_itkArray
   wrap_itkAffineTransform
+  wrap_itkAzimuthElevationToCartesianTransform
   wrap_itkBSplineDeformableTransform
   wrap_itkContinuousIndex
   wrap_itkDenseFiniteDifferenceImageFilter
