@@ -386,7 +386,14 @@ private:
 
   /** Function to resolve the region labels.  Once region labels are
    * resolved, the unique labels are sorted and recorded. */
-  void ResolveRegionLabels();
+  void ResolveRegionLabels(unsigned int imgWidth, 
+                           unsigned int imgHeight);
+
+  /** Function to resolve the region labels.  Once region labels are
+   * resolved, the unique labels are sorted and recorded. */
+  void ResolveRegionLabels(unsigned int imgWidth, 
+                           unsigned int imgHeight,
+                           unsigned int imgDepth);
                                     
 }; // class KLMRegionGrowImageFilter
 

@@ -753,7 +753,20 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
     }// end while
 
-  this->ResolveRegionLabels();
+  if( ( imageDimension == 2 ) || ( m_ImgDepth == 1 ) ) 
+    {
+
+    // 2D initialization routine for the region grwoing algorithm 
+    this->ResolveRegionLabels( m_ImgWidth, m_ImgHeight );
+
+    }
+
+  if( ( imageDimension > 2 ) && ( m_ImgDepth > 1 ) ) 
+    {
+    // 3D initialization routine for the region growing algorithm
+    this->ResolveRegionLabels( m_ImgWidth, m_ImgHeight, m_ImgDepth );
+
+    }
 
 }// end ApplyKLM()
 
@@ -2074,7 +2087,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 template<class TInputImage, class TOutputImage>
 void
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
-::ResolveRegionLabels()
+::ResolveRegionLabels(unsigned int imgWidth, 
+                      unsigned int imgHeight)
 {
   //---------------------------------------------------------------------
   //Calculate the initial number of regions 
@@ -2204,6 +2218,142 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 }//end resolve_region_labels()
 
 //----------------------------------------------------------------------
+
+template<class TInputImage, class TOutputImage>
+void
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
+::ResolveRegionLabels(unsigned int imgWidth, 
+                      unsigned int imgHeight,
+                      unsigned int imgDepth)
+{
+  //---------------------------------------------------------------------
+  //Calculate the initial number of regions 
+  //--------------------------------------------------------------------- 
+  unsigned int nRowSquareBlocks = m_ImgWidth/( this->GetRowGridSize() );
+  unsigned int nColSquareBlocks = m_ImgHeight/( this->GetColGridSize() ); 
+
+  unsigned int numBlocks = nRowSquareBlocks * nColSquareBlocks;
+
+  // Scan through the region labels to establish the correspondence
+  // between the final region( and label ) and the initial regions.
+
+  // Resolve region labels to contain only unique labels
+  int endOfChain;
+  for ( int i = numBlocks - 1; i >= 0; i-- ) // faster when going backward
+    {
+    unsigned int ncurrBlock = (unsigned int)(i + 1);
+    unsigned int nequivBlock = m_RegionsPointer[ ncurrBlock - 1 ]->GetRegionLabel(); 
+
+    // Bounds checking 
+    if( nequivBlock > numBlocks || nequivBlock == 0 )
+      {
+      throw ExceptionObject(__FILE__, __LINE__);
+      }
+
+    // unresolved chain 
+    if ( nequivBlock != ncurrBlock )  
+      {
+      // resolve a chain of equivalences by first finding the end of the chain
+      while ( nequivBlock != ncurrBlock ) 
+        {
+        ncurrBlock = nequivBlock;        
+                
+        //in memory the regions go from 0 to label-1. Hence the -1 offset
+        nequivBlock = m_RegionsPointer[ ncurrBlock - 1 ]->GetRegionLabel(); 
+        
+        // bounds checking 
+        if( nequivBlock > numBlocks || nequivBlock == 0 )
+          {
+          throw ExceptionObject(__FILE__, __LINE__);
+          }
+
+        } // end of chain is ncurrBlock (while loop)
+
+      endOfChain = ncurrBlock;
+
+      // Then re-walk the chain to change the label of each chain
+      // member to be the last one just retrieved (end_of_chain) 
+      ncurrBlock = (unsigned int)(i + 1);
+      nequivBlock = m_RegionsPointer[ ncurrBlock - 1 ]->GetRegionLabel(); 
+
+      while ( nequivBlock != ncurrBlock ) 
+        {
+        m_RegionsPointer[ ncurrBlock - 1 ]->SetRegionLabel( endOfChain );        
+        ncurrBlock  = nequivBlock;
+        nequivBlock = m_RegionsPointer[ ncurrBlock - 1 ]->GetRegionLabel(); 
+        } // end of while ( nequivBlock != ncurrBlock ) 
+
+      }//end of the if condition for detecting unresolved chain
+
+    } // end of all blocks 
+
+  //Reorder the labels for unique representation 
+  //Set up the unique label container class
+
+  typedef std::vector<unsigned short> ShortIntVectorType;
+  ShortIntVectorType                  uniqueLabelsVec;
+  ShortIntVectorType::iterator        uniqueLabelsVecIterator;
+
+  numBlocks =  nRowSquareBlocks * nColSquareBlocks;
+
+  // Scan through the region labels to identify the resolved region labels.
+  // Resolve region labels to contain only unique labels
+ 
+  int labelvalue = m_RegionsPointer[ 0 ]->GetRegionLabel(); //Get the first region value
+  uniqueLabelsVec.push_back( labelvalue );
+  uniqueLabelsVecIterator = uniqueLabelsVec.begin();  
+
+
+  for ( unsigned int i = 1; i < numBlocks; i++ )
+    {
+    int labelvalue = m_RegionsPointer[ i ]->GetRegionLabel();
+    bool uniqueLabelsFlag = false;
+    uniqueLabelsVecIterator = uniqueLabelsVec.begin();
+    
+    while (uniqueLabelsVecIterator != uniqueLabelsVec.end())        
+      {
+      if( ( *uniqueLabelsVecIterator ) == labelvalue) 
+        {
+        uniqueLabelsFlag = false;
+        break;
+        }
+      else
+        {
+        uniqueLabelsFlag = true;
+        uniqueLabelsVecIterator++;
+        }                                      
+      }//end while
+
+    if(uniqueLabelsFlag == true) uniqueLabelsVec.push_back( labelvalue );
+    }
+
+  //Unique labels have been identified now remap them
+  for ( unsigned int i = 0; i < numBlocks; i++ )
+    {
+    int labelvalue = m_RegionsPointer[ i ]->GetRegionLabel();
+    int newLabelValue = 1;
+    uniqueLabelsVecIterator = uniqueLabelsVec.begin();
+
+    while ( uniqueLabelsVecIterator != uniqueLabelsVec.end() )        
+      {
+      if( ( *uniqueLabelsVecIterator ) != labelvalue ) 
+        {
+        uniqueLabelsVecIterator++;
+        newLabelValue++;
+        }
+      else
+        {
+        break;
+        }                                      
+      }//end while
+
+    m_RegionsPointer[i]->SetRegionLabel(newLabelValue);
+
+    }//end looping through the blocks
+
+}//end resolve_region_labels()
+
+//--------------------------------------------------------------------
 
 template<class TInputImage, class TOutputImage>
 void

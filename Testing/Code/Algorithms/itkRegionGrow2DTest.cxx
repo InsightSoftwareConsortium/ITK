@@ -58,7 +58,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define   NUM_BYTES_PER_PIXEL 1
 
 #define   REGIONGROW_NUMREGIONS      4
-#define   REGIONGROW_NUMREGIONS3D    4
+#define   REGIONGROW_NUMREGIONS3D    17
 #define   REGIONGROW_LAMBDA       1000
 #define   REGIONGROW_ROW_GRIDSIZE    2
 #define   REGIONGROW_COL_GRIDSIZE    2
@@ -586,6 +586,5 @@ unsigned int test_regiongrowKLM3D()
 
   return 0;
 } // End test_regiongrow3D()
-
 
 */
