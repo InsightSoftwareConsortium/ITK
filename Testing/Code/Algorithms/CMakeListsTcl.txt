@@ -100,7 +100,6 @@ CABLE_WRAP_TCL(ITKAlgorithmsTestTcl3
   "itk::RecursiveMultiResolutionPyramidImageFilter<$Image,$Image>"
   "itk::RegionGrowImageFilter<$Image,$Image>"
   "itk::RegistrationMapper<$Image,$Transform>"
-  "itk::RegistrationMapperImage<$Image,$Transform>"
   "itk::RegistrationMapperProcrustes<$Transform,$Dimension>"
 ##  itkRegistrationMethod
   "itk::ReinitializeLevelSetImageFilter<$Image>"
