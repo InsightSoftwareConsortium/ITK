@@ -195,7 +195,6 @@ private:
     int m_int;
     long m_long;
     double m_double;
-    void* m_Pointer;
   } m_Temp;
 };
 

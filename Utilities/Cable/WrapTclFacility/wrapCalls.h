@@ -195,7 +195,15 @@ struct ArgumentAs
     if(to->Id() == from.GetType()->Id())
       {
       cf = Converter::ObjectIdentity<T>::GetConversionFunction();
-      }    
+      }
+    // If the types are pointers and the conversion is a valid cv-qualifier
+    // adjustment, use the pointer identity conversion function.
+    else if((to->IsEitherPointerType() && from.GetType()->IsEitherPointerType())
+            && Conversions::IsValidQualificationConversion(PointerType::SafeDownCast(from.GetType()),
+                                                           PointerType::SafeDownCast(to)))
+      {
+      cf = Converter::PointerIdentity<T>::GetConversionFunction();
+      }
     else
       {
       // We don't have a trivial conversion.  Try to lookup the

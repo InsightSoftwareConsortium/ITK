@@ -196,8 +196,6 @@ WrapperBase::Argument WrapperBase::GetObjectArgument(Tcl_Obj* obj) const
     {
     Pointer p;
     Tcl_GetPointerFromObj(m_Interpreter, obj, &p);
-    // When the conversion function dereferences its pointer, it must
-    // get a pointer, not the object.
     argument.SetToPointer(p.GetObject(),
                           TypeInfo::GetPointerType(p.GetPointedToType(),
                                                    false, false));
@@ -206,8 +204,6 @@ WrapperBase::Argument WrapperBase::GetObjectArgument(Tcl_Obj* obj) const
     {
     Reference r;
     Tcl_GetReferenceFromObj(m_Interpreter, obj, &r);
-    // When the conversion function dereferences its pointer, it must
-    // get the object referenced.
     argument.SetToObject(r.GetObject(), r.GetReferencedType());
     }
   else if(TclObjectTypeIsBoolean(obj))
@@ -246,16 +242,12 @@ WrapperBase::Argument WrapperBase::GetObjectArgument(Tcl_Obj* obj) const
     String objectName = Tcl_GetString(obj);
     if(m_InstanceTable->Exists(objectName))
       {        
-      // When the conversion function dereferences its pointer, it must
-      // get the object.
       argument.SetToObject(m_InstanceTable->GetObject(objectName),
                            m_InstanceTable->GetType(objectName));
       }
     else if(StringRepIsPointer(objectName)
             && (Tcl_GetPointerFromObj(m_Interpreter, obj, &p) == TCL_OK))
       {
-      // When the conversion function dereferences its pointer, it must
-      // get a pointer, not the object.
       argument.SetToPointer(p.GetObject(),
                             TypeInfo::GetPointerType(p.GetPointedToType(),
                                                      false, false));
@@ -363,6 +355,9 @@ WrapperBase::ResolveOverload(const CvQualifiedType& objectType,
         {
         const ReferenceType* toRef = dynamic_cast<const ReferenceType*>(to);
         if((toRef->GetReferencedType() == from)
+           || (toRef->GetReferencedType() == from.GetMoreQualifiedType(true, false))
+           || (toRef->GetReferencedType() == from.GetMoreQualifiedType(false, true))
+           || (toRef->GetReferencedType() == from.GetMoreQualifiedType(true, true))
            || (this->GetConversionFunction(from, to) != NULL))
           {
           // This conversion can be done, move on to the next
@@ -374,6 +369,14 @@ WrapperBase::ResolveOverload(const CvQualifiedType& objectType,
         }
       // If the types are identical, the argument/parameter pair is valid.
       else if(to->Id() == from.GetType()->Id())
+        {
+        // This conversion can be done, move on to the next
+        // argument/parameter pair.
+        continue;
+        }
+      else if((to->IsEitherPointerType() && from.GetType()->IsEitherPointerType())
+              && Conversions::IsValidQualificationConversion(PointerType::SafeDownCast(from.GetType()),
+                                                             PointerType::SafeDownCast(to)))
         {
         // This conversion can be done, move on to the next
         // argument/parameter pair.
@@ -621,7 +624,7 @@ WrapperBase::Argument::Argument(const Argument& a):
     case int_id:     m_Object = &m_Temp.m_int; break;
     case long_id:    m_Object = &m_Temp.m_long; break;
     case double_id:  m_Object = &m_Temp.m_double; break;
-    case Pointer_id: m_Object = &m_Temp.m_Pointer; break;
+    case Pointer_id:
     case Object_id:
     case Uninitialized_id:
     default: break;
@@ -647,7 +650,7 @@ WrapperBase::Argument& WrapperBase::Argument::operator=(const Argument& a)
     case int_id:     m_Object = &m_Temp.m_int; break;
     case long_id:    m_Object = &m_Temp.m_long; break;
     case double_id:  m_Object = &m_Temp.m_double; break;
-    case Pointer_id: m_Object = &m_Temp.m_Pointer; break;
+    case Pointer_id:
     case Object_id:
     case Uninitialized_id:
     default: break;
@@ -743,8 +746,7 @@ void WrapperBase::Argument::SetToDouble(double d)
 void WrapperBase::Argument::SetToPointer(void* v,
                                          const CvQualifiedType& pointerType)
 {
-  m_Temp.m_Pointer = v;
-  m_Object = &m_Temp.m_Pointer;
+  m_Object = v;
   m_Type = pointerType;
   m_ArgumentId = Pointer_id;
 }
