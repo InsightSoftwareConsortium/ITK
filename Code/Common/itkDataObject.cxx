@@ -18,9 +18,12 @@ See COPYRIGHT.txt for copyright details.
 #include "itkObjectFactory.h"
 #include "itkSmartPointerForwardReference.txx"
 
+// Manual instantiation is necessary to prevent link errors
+template class itk::SmartPointerForwardReference<itk::ProcessObject>;
+
 namespace itk
 {
-
+  
 // after use by filter
 bool DataObject::m_GlobalReleaseDataFlag = false;
 
