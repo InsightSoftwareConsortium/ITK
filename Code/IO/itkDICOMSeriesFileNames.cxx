@@ -37,7 +37,8 @@ namespace itk
 
 DICOMSeriesFileNames
 ::DICOMSeriesFileNames() :
-  m_Directory("")
+  m_Directory(""),
+  m_FileNameSortingOrder( SortByImagePositionPatient )
 {
 }
 
@@ -59,7 +60,7 @@ DICOMSeriesFileNames
 
   // clear the file names
   m_AppHelper.ClearSeriesUIDMap();
-  m_AppHelper.ClearSliceNumberMap();
+  m_AppHelper.ClearSliceOrderingMap();
 
   // Scan directory for files
   m_FileNames.clear();
@@ -95,28 +96,50 @@ DICOMSeriesFileNames
     m_AppHelper.OutputSeries();
     }
 
-  // Get the filenames, sorted by slice number
-  std::vector<std::pair<int, std::string> > sortedFileNames;
-  m_AppHelper.GetSliceNumberFilenamePairs(sortedFileNames);
-
-  // Now, store the sorted names in a vector
-  if (sortedFileNames.size() > 0)
+  // Get the filenames, sorted by user selection
+  m_FileNames.clear();
+  switch (m_FileNameSortingOrder)
     {
-    m_FileNames.clear();
-    std::vector<std::pair<int, std::string> >::iterator siter;
-    for (siter = sortedFileNames.begin();
-         siter != sortedFileNames.end();
-         siter++)
+    case SortByImageNumber:
+    {
+    std::vector<std::pair<int, std::string> > iSortedFileNames;
+    m_AppHelper.GetSliceNumberFilenamePairs(iSortedFileNames);
+    for (std::vector<std::pair<int, std::string> >::iterator it =
+           iSortedFileNames.begin(); it != iSortedFileNames.end(); ++it)
       {
-      m_FileNames.push_back((*siter).second);
+      m_FileNames.push_back( (*it).second );
       }
     }
-  else
+    break;
+    
+    case SortBySliceLocation:
     {
-    itkWarningMacro( << "Couldn't get sorted files. Slices may be in wrong order!");
+    std::vector<std::pair<float, std::string> > fSortedFileNames;
+    m_AppHelper.GetSliceLocationFilenamePairs(fSortedFileNames);
+    for (std::vector<std::pair<float, std::string> >::iterator it =
+           fSortedFileNames.begin(); it != fSortedFileNames.end(); ++it)
+      {
+      m_FileNames.push_back( (*it).second );
+      }
     }
+    break;
+    
+    case SortByImagePositionPatient:
+    {
+    std::vector<std::pair<float, std::string> > fSortedFileNames;
+    m_AppHelper.GetImagePositionPatientFilenamePairs(fSortedFileNames);
+    for (std::vector<std::pair<float, std::string> >::iterator it =
+           fSortedFileNames.begin(); it != fSortedFileNames.end(); ++it)
+      {
+      m_FileNames.push_back( (*it).second );
+      }
+    }
+    break;
+    }
+  
   return m_FileNames;
 }
+
 int
 DICOMSeriesFileNames
 ::CanReadFile(const char* fname)
@@ -145,9 +168,21 @@ DICOMSeriesFileNames
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Directory: " << m_Directory << std::endl;
+  os << indent << "File name sorting order: ";
+  switch (m_FileNameSortingOrder)
+    {
+    case SortByImageNumber: os << "SortByImageNumber" << std::endl;
+      break;
+    case SortBySliceLocation: os << "SortBySliceLocation" << std::endl;
+      break;
+    case SortByImagePositionPatient: os << "SortByImagePositionPatient"
+                                        << std::endl;
+      break;
+    }
+      
   for (unsigned int i = 0; i < m_FileNames.size(); i++)
     {
-    os << indent << "Filenames[" << i << "]: " << m_FileNames[i] << std::endl;
+    os << indent << "FileNames[" << i << "]: " << m_FileNames[i] << std::endl;
     }
 }
 

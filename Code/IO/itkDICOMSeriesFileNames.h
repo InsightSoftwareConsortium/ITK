@@ -72,6 +72,21 @@ public:
     * names are sorted by image number. */
   const std::vector<std::string> &GetFileNames ();
 
+  /** Set the filename sorting order to sorting images based on the
+   * DICOM field of slice number, the DICOM field of slice location,
+   * or the position of the image computed using the
+   * ImagePositionPatient and ImageOrientationPatient DICOM fields. */
+  typedef enum {SortByImageNumber, SortBySliceLocation, SortByImagePositionPatient} FileNameSortingOrderType;
+  itkSetMacro(FileNameSortingOrder, FileNameSortingOrderType);
+  itkGetMacro(FileNameSortingOrder, FileNameSortingOrderType);
+  void SetFileNameSortingOrderToSortByImageNumber()
+    { this->SetFileNameSortingOrder(SortByImageNumber); }
+  void SetFileNameSortingOrderToSortBySliceLocation()
+    { this->SetFileNameSortingOrder(SortBySliceLocation); }
+  void SetFileNameSortingOrderToSortByImagePositionPatient()
+    { this->SetFileNameSortingOrder(SortByImagePositionPatient); }
+
+
 protected:
   DICOMSeriesFileNames();
   ~DICOMSeriesFileNames() {};
@@ -88,6 +103,8 @@ private:
 
   std::string m_Directory;
   std::vector<std::string>  m_FileNames;
+
+  FileNameSortingOrderType m_FileNameSortingOrder;
 };
 
 } //namespace ITK

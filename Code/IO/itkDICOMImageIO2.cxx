@@ -85,9 +85,26 @@ void DICOMImageIO2::ReadDataCallback( doublebyte,
 
 void DICOMImageIO2::Read(void* buffer)
 {
+  // We tell the Parser to clear the callbacks then we tell the
+  // AppHelper to register the callbacks with the parser.
+  //
+  // Maybe we can put the Parser->ClearAll....() inside the
+  // AppHelper->RegisterCallbacks( Parser );
+  //
+  // or maybe it should be
+  //
+  // AppHelper->SetParser( Parser );
+  // AppHelper->RegisterCallbacks();
   Parser->ClearAllDICOMTagCallbacks();
   AppHelper->RegisterCallbacks(Parser);
 
+  // These next 3 steps seem repetetive:
+  //    1) We tell the AppHelper the filename
+  //    2) We tell the Parser to open the file
+  //    3) We tell the AppHelper who the Parser is
+  //    4) We tell the AppHelper to register callbacks with the Parser
+  //
+  //
   AppHelper->SetFileName(m_FileName.c_str());
     
   bool open = Parser->OpenFile(m_FileName.c_str());
@@ -100,7 +117,8 @@ void DICOMImageIO2::Read(void* buffer)
   AppHelper->SetDICOMDataFile(Parser->GetDICOMFile());
 
   AppHelper->RegisterPixelDataCallback();
-  
+
+  // Should ReadHeader() be Read() since more than just a header is read?
   Parser->ReadHeader();
 
   void* newData;
@@ -112,7 +130,8 @@ void DICOMImageIO2::Read(void* buffer)
 
   memcpy(buffer, newData, imageDataLength);
 
-  AppHelper->ClearSliceNumberMap();
+  // why do have to tell the AppHelper to clear the maps?
+  AppHelper->ClearSliceOrderingMap();
   AppHelper->ClearSeriesUIDMap();
 
 }
@@ -211,7 +230,7 @@ void DICOMImageIO2::ReadImageInformation()
     }
 
   this->SetNumberOfComponents(num_comp);
-  AppHelper->ClearSliceNumberMap();
+  AppHelper->ClearSliceOrderingMap();
   AppHelper->ClearSeriesUIDMap();
 
 }
