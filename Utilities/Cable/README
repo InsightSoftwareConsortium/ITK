@@ -1,0 +1,5 @@
+The Cable repository is no longer part of the Insight directory structure.
+The tool must be obtained and built separately.  To check out a copy, use:
+
+cvs -d :pserver:<user>@public.kitware.com:/cvsroot/Insight checkout Cable
+
