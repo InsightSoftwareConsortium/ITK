@@ -154,7 +154,7 @@ VectorResampleImageFilter<TInputImage,TOutputImage>
 
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
-  typedef VectorLinearInterpolateImageFunction<InputImageType, double>::OutputType OutputType;
+  typedef typename VectorLinearInterpolateImageFunction<InputImageType, double>::OutputType OutputType;
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
@@ -162,7 +162,7 @@ VectorResampleImageFilter<TInputImage,TOutputImage>
   PointType outputPoint;         // Coordinates of current output pixel
   PointType inputPoint;          // Coordinates of current input pixel
 
-  const int numberOfComponents = PixelType::Dimension;
+  const unsigned int numberOfComponents = PixelType::Dimension;
 
   // Support for progress methods/callbacks
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels(), 10);
