@@ -107,8 +107,8 @@ public:
   /** The radius type for the neighborhoods. */
   typedef typename FunctionType::RadiusType RadiusType;
 
-  itkGetMacro(MaxFilterIteration,int);
-  itkSetMacro(MaxFilterIteration,int);
+  itkGetMacro(MaxFilterIteration,unsigned int);
+  itkSetMacro(MaxFilterIteration,unsigned int);
   
 protected:
   AnisotropicFourthOrderLevelSetImageFilter();
@@ -119,7 +119,7 @@ protected:
   typename FunctionType::Pointer m_Function;
 
   /** The number of iterations for which this filter will run. */
-  int m_MaxFilterIteration;
+  unsigned int m_MaxFilterIteration;
 
   /** This filter halts when the iteration count reaches the specified count. */
   virtual bool Halt()
