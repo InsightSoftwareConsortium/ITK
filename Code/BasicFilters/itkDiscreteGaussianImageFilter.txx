@@ -82,7 +82,7 @@ DiscreteGaussianImageFilter<TInputImage,TOutputImage>
 
   // Build an operator so that we can determine the kernel size
   GaussianOperator<OutputPixelType, ImageDimension> oper;
-  TInputImage::SizeType radius;
+  typename TInputImage::SizeType radius;
   
   for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
     {
