@@ -95,46 +95,35 @@ SurfaceSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool 
 SurfaceSpatialObject< TDimension >  
-::ComputeBoundingBox() const
+::ComputeLocalBoundingBox() const
 { 
   itkDebugMacro( "Computing surface bounding box" );
-  bool ret = false;
 
-  if( this->GetMTime() > m_BoundsMTime )
-    {
-    ret = Superclass::ComputeBoundingBox();
-
-    if( m_BoundingBoxChildrenName.empty() 
+  if( m_BoundingBoxChildrenName.empty() 
         || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
-      {
-      typename PointListType::const_iterator it  = m_Points.begin();
-      typename PointListType::const_iterator end = m_Points.end();
+    {
+    typename PointListType::const_iterator it  = m_Points.begin();
+    typename PointListType::const_iterator end = m_Points.end();
   
-      if(it == end)
+    if(it == end)
+      {
+      return false;
+      }
+    else
+      {
+      PointType pt = this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
+      m_Bounds->SetMinimum(pt);
+      m_Bounds->SetMaximum(pt);
+      it++;
+      while(it!= end) 
         {
-        return ret;
-        }
-      else
-        {
-        if(!ret)
-          {
-          m_Bounds->SetMinimum((*it).GetPosition());
-          m_Bounds->SetMaximum((*it).GetPosition());
-          it++;
-          }
-        while(it!= end) 
-          {     
-          m_Bounds->ConsiderPoint((*it).GetPosition());
-          it++;
-          }
-        ret = true;
+        PointType pt = this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
+        m_Bounds->ConsiderPoint(pt);
+        it++;
         }
       }
-
-    m_BoundsMTime = this->GetMTime();
     }
-
-  return ret;
+  return true;
 } 
 
 /** Return true is the given point is on the surface */
