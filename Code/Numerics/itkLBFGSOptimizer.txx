@@ -52,7 +52,14 @@ void
 LBFGSOptimizer<TCostFunction>
 ::StartOptimization( void )
 {
-  m_LBFGS.minimize( initialValue );
+  InternalParametersType initialParameters( SpaceDimension );
+  
+  VnlCostFunctionAdaptor::ConvertExternalToInternalParameters( 
+                            GetInitialPosition(), 
+                            initialParameters     );
+
+  m_LBFGS.minimize( initialParameters );
+
 }
 
 

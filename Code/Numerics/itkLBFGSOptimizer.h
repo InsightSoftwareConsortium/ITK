@@ -29,7 +29,7 @@ namespace itk
 
 template <class TCostFunction>
 class ITK_EXPORT LBFGSOptimizer : 
-    public SingleValuedNonLinearOptimizer<TCostFunction> 
+    public SingleValuedNonLinearVnlOptimizer<TCostFunction> 
 
 {
 public:
