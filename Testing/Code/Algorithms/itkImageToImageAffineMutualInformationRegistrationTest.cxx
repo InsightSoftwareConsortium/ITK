@@ -13,12 +13,13 @@ All rights reserved.
 See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include <iostream>
 #include "itkPhysicalImage.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIterator.h"
 
 #include "itkImageToImageAffineMutualInformationRegistration.h"
 #include "vnl/vnl_math.h"
+
+#include <iostream>
 
 int main()
 {
@@ -52,9 +53,9 @@ int main()
   imgTarget->Allocate();
 
   // Fill images with a 2D gaussian
-  typedef  itk::SimpleImageRegionIterator<ReferenceType>
+  typedef  itk::ImageRegionIterator<ReferenceType::PixelType,2>
     ReferenceIteratorType;
-  typedef  itk::SimpleImageRegionIterator<TargetType>
+  typedef  itk::ImageRegionIterator<TargetType::PixelType,2>
     TargetIteratorType;
 
   itk::Point<double,2> center;
@@ -82,7 +83,7 @@ int main()
 	  d += displacement;
 	  const double x = d[0];
 	  const double y = d[1];
-    ri.Set( 200.0 * exp( - ( x*x + y*y )/(s*s) ) );
+    *ri = (unsigned char)( 200.0 * exp( - ( x*x + y*y )/(s*s) ) );
     ++ri;
   }
 
@@ -95,7 +96,7 @@ int main()
 	d = p-center;
 	const double x = d[0];
 	const double y = d[1];
-    ti.Set( 200.0 * exp( - ( x*x + y*y )/(s*s) ) );
+    *ti = (unsigned char)( 200.0 * exp( - ( x*x + y*y )/(s*s) ) );
     ++ti;
   }
 
