@@ -27,6 +27,5 @@ itkSliceIteratorTest
 itkSmartPointerTest
 itkVectorGeometryTest
 itkVectorTest
-itkHashTableTest
 )
 
