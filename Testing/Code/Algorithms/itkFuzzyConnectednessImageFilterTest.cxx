@@ -119,7 +119,7 @@ int main(){
   testFuzzy->SetInput(inputimg);
   index[0] = 5;
   index[1] = 5;
-  testFuzzy->SetSeed(index);
+  testFuzzy->SetObjectsSeed(index);
 
 /* set the parameters */
   testFuzzy->SetParameters(270.0,2500.0,1.0,1.0,1.0);
