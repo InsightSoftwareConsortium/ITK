@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAnisotropicDiffusionImageFilter.h
+  Module:    $RCSfile: itkAcosImageAdaptor.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,205 +38,110 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkAnisotropicDiffusionImageFilter_h
-#define __itkAnisotropicDiffusionImageFilter_h
+#ifndef __itkAnisotropicDiffusionImageFilter_h_
+#define __itkAnisotropicDiffusionImageFilter_h_
 
-#include "itkImageToImageFilter.h"
 
-namespace itk
-{
-/**
- *  \class AvgGradMagSquared
- * Function object that returns the average gradient magnitude squared
- * of scalar pixel values in an image region.  This is a helper class for
- * AnisotropicDiffusionImageFilter.
- *
- */
-template <class TImageType>
-struct ITK_EXPORT AvgGradMagSquared
-{
-  typedef typename TImageType::PixelType PixelType;
-  typedef typename TImageType::RegionType RegionType;
-  enum { ImageDimension = TImageType::ImageDimension };
-  AvgGradMagSquared() {}
-  PixelType operator() (TImageType *, const RegionType &) const;
-};
-
-struct ITK_EXPORT CopyStrategy
-{
-  CopyStrategy() {}
-  virtual void operator()(void *, void *) const = 0;
-};
+#include "itkDenseFiniteDifferenceImageFilter.h"
+#include "itkAnisotropicDiffusionEquation.h"
+namespace itk {
 
 template <class TInputImage, class TOutputImage>
-struct ITK_EXPORT CopyStrategyScalar : public CopyStrategy
-{
-  CopyStrategyScalar() {}
-  virtual void operator()(void*, void *) const;
-};
-  
-struct ITK_EXPORT DiffusionStrategy
-{
-  DiffusionStrategy(float c) : m_ConductanceTerm(c) {}
-  DiffusionStrategy() : m_ConductanceTerm(0.0f) {}
-  virtual ~DiffusionStrategy () {};
-  virtual void operator()(void *, void *) = 0;
-  float m_ConductanceTerm;
-};
-
-struct ITK_EXPORT CompositeDiffusionStrategy : public DiffusionStrategy
-{
-  CompositeDiffusionStrategy(float c) : DiffusionStrategy(c) {}
-  CompositeDiffusionStrategy(DiffusionStrategy *first,
-                             DiffusionStrategy *second, float c)
-    : DiffusionStrategy(c), a(first), b(second)
-  {
-    a->m_ConductanceTerm = c;
-    b->m_ConductanceTerm = c;
-  }
-  CompositeDiffusionStrategy() {}
-  ~CompositeDiffusionStrategy()
-  {
-    delete a;
-    delete b;
-  }  
-  virtual void operator()(void *d1, void *d2)
-  {
-    a->operator()(d1, d2);
-    b->operator()(d1, d2);
-  }
-  DiffusionStrategy *a;
-  DiffusionStrategy *b;
-};
-
-struct ITK_EXPORT UpdateStrategy
-{
-  UpdateStrategy() : m_Multiplier(1.0f) {}
-  virtual void operator()(void *, void *) const = 0;
-  float m_Multiplier;
-};
-
-template<class TInputImage, class TOutputImage>
-struct ITK_EXPORT UpdateStrategyScalar : public UpdateStrategy
-{
-  UpdateStrategyScalar() {} 
-  virtual void operator()(void *, void *) const;
-};
-
-/**
- * \class AnisotropicDiffusionImageFilter
- * This class is the base class for a set of non-linear diffusion filters
- * that perform anisotropic diffusion.  It defines a common interface and
- * several default method implementations.
- */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT AnisotropicDiffusionImageFilter :
-    public ImageToImageFilter< TInputImage, TOutputImage > 
+class AnisotropicDiffusionImageFilter
+  : public DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
 {
 public:
   /**
-   * Standard "Self" & Superclass typedef.
+   * Standard itk Self & Superclass typedefs
    */
   typedef AnisotropicDiffusionImageFilter Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
+   Superclass;
+
+  typedef typename Superclass::InputImageType   InputImageType;
+  typedef typename Superclass::OutputImageType  OutputImageType;
+  typedef typename Superclass::UpdateBufferType UpdateBufferType;
 
   /**
-   * Extract some information from the image types.  Dimensionality
-   * of the two images is assumed to be the same.
+   * Dimensionality of input and output data is assumed to be the same.
+   * It is inherited from the superclass.
    */
-  typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
-  typedef typename  TInputImage::PixelType InputPixelType;
-  typedef typename  TInputImage::InternalPixelType InputInternalPixelType;
-  enum { ImageDimension = TOutputImage::ImageDimension };
-  
-  /**
-   * Image typedef support
-   */
-  typedef TInputImage InputImageType;
-  typedef TOutputImage OutputImageType;
+  enum { ImageDimension = Superclass::ImageDimension };
 
-  /** 
-   * Smart pointer typedef support 
+  /**
+   * The pixel type of the output image will be used in computations.
+   * Inherited from the superclass.
+   */
+  typedef typename Superclass::PixelType PixelType;
+  typedef typename Superclass::TimeStepType TimeStepType;
+
+  /**
+   * Define what a scalar value is.
+   */
+  typedef typename OutputImageType::ScalarValueType ScalarValueType;
+
+ /** 
+   * Smart pointer support for this class.
    */
   typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   * Run-time type information (and related methods)
-   */
-  itkTypeMacro(AnisotropicDiffusionImageFilter, ImageToImageFilter);
-  
-  /**
-   * Method for creation through the object factory.
-   */
+  typedef SmartPointer<const Self> ConstPointer;
   itkNewMacro(Self);
 
-  /**
-   * Computes the output.
-   */
-  void GenerateData();
-  
-  /**
-   * Sets the total number of times the filter will cycle on the image.
-   */
-  itkSetMacro(Iterations, unsigned long);
-
-  /**
-   * Returns the total number of times the filter will cycle on the image.
-   */
-  itkGetMacro(Iterations, unsigned long);
-
-  /**
-   * Sets the free conductance parameter used in the conductance function.
-   */
-  itkSetMacro(ConductanceParameter, float);
-
-  /**
-   * Returns the free conductance parameter used in the conductance function.
-   */
-  itkGetMacro(ConductanceParameter, float);
-
-  /**
-   * Sets the size of the time step for each iteration.
-   */
-  itkSetMacro(TimeStep, float);
-
-  /**
-   * Returns the size of the time step for each iteration.
-   */
-  itkGetMacro(TimeStep, float);
+  itkTypeMacro(AnisotropicDiffusionImageFilter,
+               DenseFiniteDifferenceImageFilter);
+  itkSetMacro(Iterations, unsigned int);
+  itkGetMacro(Iterations, unsigned int);
+  itkSetMacro(TimeStep, TimeStepType);
+  itkGetMacro(TimeStep, TimeStepType);
+  itkSetMacro(ConductanceParameter, ScalarValueType);
+  itkGetMacro(ConductanceParameter, ScalarValueType);
   
 protected:
-  AnisotropicDiffusionImageFilter() {}
-  virtual ~AnisotropicDiffusionImageFilter() {}
+  AnisotropicDiffusionImageFilter()
+    {
+      m_Iterations = 0;
+      m_ConductanceParameter = NumericTraits<ScalarValueType>::One;
+      m_TimeStep = 0.125f;
+    }
+  ~AnisotropicDiffusionImageFilter() {}
   AnisotropicDiffusionImageFilter(const Self&) {}
-  void operator=(const Self&) {}
-
-  virtual DiffusionStrategy *GetDiffusionStrategy() = 0;
-  virtual UpdateStrategy *GetUpdateStrategy() = 0;
-  virtual CopyStrategy *GetCopyStrategy() = 0;
-private:
-  /**
-   * Free parameter in the conductance function.
-   */
-  float m_ConductanceParameter;
-
-  /**
-   * Total number of times the filter will cycle on the image.
-   */
-  unsigned int m_Iterations;
-
-  /**
-   * The size of the time step for each iteration. 
-   */
-  float m_TimeStep;
-};
   
-} // end namespace itk
+  void operator=(const Self&) {}
+  void PrintSelf(std::ostream& os, Indent indent)
+    {
+      os << indent << "AnisotropicDiffusionImageFilter";
+      Superclass::PrintSelf(os, indent.GetNextIndent());
+    }
+  
+  /**
+   * Supplies the halting criteria for this class of filters.  The
+   * algorithm will stop after a user-specified number of iterations.
+   */
+  virtual bool Halt()
+    {
+      if (this->GetElapsedIterations() == m_Iterations) return true;
+      else return false;
+    }
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAnisotropicDiffusionImageFilter.txx"
-#endif
+  /**
+   *
+   */
+  virtual void InitializeIteration()
+    {
+      AnisotropicDiffusionEquation<UpdateBufferType> *f = 
+        dynamic_cast<AnisotropicDiffusionEquation<UpdateBufferType> *>
+        (this->GetDifferenceEquation().GetPointer());
+      f->SetConductanceParameter(m_ConductanceParameter);
+      f->CalculateAverageGradientMagnitudeSquared(this->GetOutput());
+      f->InitializeIteration();
+    }
+  
+private:
+  ScalarValueType  m_ConductanceParameter;
+  unsigned int     m_Iterations;
+  TimeStepType     m_TimeStep;
+};
+
+} // end namspace itk
 
 #endif
