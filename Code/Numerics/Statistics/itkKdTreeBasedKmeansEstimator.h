@@ -156,7 +156,7 @@ protected:
     /** gets the centeroids (k-means) */
     void GetCenteroids(InternalParametersType& centeroids)
     {
-      int i, j ;
+      int i ;
       centeroids.resize(this->Size()) ;
       for (i = 0 ; i < this->Size() ; i++)
         {

@@ -35,8 +35,6 @@ void
 LogLikelihoodGoodnessOfFitFunction< TInputHistogram >
 ::GenerateData()
 {
-  int i;
-
   TInputHistogram* observedHistogram = this->GetObservedHistogram() ;
   TInputHistogram* expectedHistogram = this->GetExpectedHistogram() ;
 

@@ -66,7 +66,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
 {
   double temp ;
   double sum = 0.0 ;
-  int i, j ;
+  int i ;
   
 
   for (i = 0 ; i < previous.size() ; i++)
