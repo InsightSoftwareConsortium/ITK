@@ -87,7 +87,7 @@ do { \
  
 //: a simplified version of the main test, just in one line
 #define TESTMAIN( testname ) \
-  MAIN( testname ) { START( #testname ); testname(); SUMMARY(); }
+  MAIN( testname ) { (void)argc; (void)argv;START( #testname ); testname(); SUMMARY(); }
 
 //: Another simplified main test.
 #undef TESTLIB_DEFINE_MAIN
