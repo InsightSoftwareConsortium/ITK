@@ -34,7 +34,9 @@ namespace itk {
   
 template<class TInputImage>
 class ITK_EXPORT TobogganImageFilter : 
-    public ImageToImageFilter<TInputImage, Image<unsigned long, TInputImage::ImageDimension> >
+    public ImageToImageFilter<
+            TInputImage,
+            Image<unsigned long, ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 {
 public:
   /** Standard "Self" typedef.   */
@@ -43,8 +45,11 @@ public:
   /** The type of input image.   */
   typedef TInputImage InputImageType;
 
+  /** Number of dimensions. */
+  itkStaticConstMacro(NDimensions, unsigned int, TInputImage::ImageDimension);
+
   /** The type of output image.   */
-  typedef Image<unsigned long, TInputImage::ImageDimension> OutputImageType;
+  typedef Image<unsigned long, itkGetStaticConstMacro(NDimensions)> OutputImageType;
 
   /** Output image pixel type. */
   typedef typename OutputImageType::PixelType OutputImagePixelType;
