@@ -312,7 +312,7 @@ protected:
   
 public:
   /** Mesh-level operation interface. */
-  unsigned long GetNumberOfCells(void);
+  unsigned long GetNumberOfCells(void) const;
   void PassStructure(Self* inputMesh);
   virtual void Initialize(void);
   

@@ -625,7 +625,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 unsigned long
 Mesh<TPixelType, VDimension, TMeshTraits>
-::GetNumberOfCells(void)
+::GetNumberOfCells(void) const
 {  
   if ( ! m_CellsContainer )
     {
