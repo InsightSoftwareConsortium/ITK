@@ -53,6 +53,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   m_StoppingValue =  static_cast<double>( m_LargeValue );
   m_CollectPoints = false;
 
+  m_NormalizationFactor = 1.0;
 }
 
 
@@ -463,7 +464,7 @@ LevelSetImageType * output )
   if ( speedImage )
   {
     typedef typename SpeedImageType::PixelType SpeedPixelType;
-    cc = (double) speedImage->GetPixel( index ) ;
+    cc = (double) speedImage->GetPixel( index ) / m_NormalizationFactor;
     cc = -1.0 * vnl_math_sqr( 1.0 / cc );
   }
   else 

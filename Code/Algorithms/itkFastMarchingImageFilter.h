@@ -174,6 +174,13 @@ public:
   /** Get the Speed Constant. */
   itkGetMacro( SpeedConstant, double );
 
+  /** Set the normalization factor for the speed image.
+      the speed taken from the pixels of the speed image 
+      is dividided by this factor. This allows to use
+      images of integer pixel type for representing the 
+      speed */
+  itkSetMacro( NormalizationFactor, double );
+
   /** Set the Fast Marching algorithm Stopping Value. The Fast Marching
    * algorithm is terminated when the value of the smallest trial point
    * is greater than the stopping value. */
@@ -260,6 +267,7 @@ private:
 
   HeapType    m_TrialHeap;
 
+  double    m_NormalizationFactor;
 };
 
 } // namespace itk
