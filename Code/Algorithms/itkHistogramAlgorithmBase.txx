@@ -37,7 +37,7 @@ HistogramAlgorithmBase< TInputHistogram >
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Input Histogram: " ;
-  if ( m_InputHistogram != 0 )
+  if ( m_InputHistogram.IsNotNull() )
     {
     os << m_InputHistogram << std::endl;
     }
