@@ -50,10 +50,15 @@ int itkCompositeValleyFunctionTest(int , char* [] )
   double interval1 = function.GetInterval() ;
   double interval2 = 
     ( function.GetUpperBound() - function.GetLowerBound() )
-    / double(1000000 - 1) ;
-  if (  interval1 != interval2 )
+    / (1000000.0 - 1.0) ;
+  if (  vnl_math_abs( interval1 - interval2 ) > 
+        itk::NumericTraits< double >::epsilon() )
     {
     std::cout << "Test fails: GetInterval()" << std::endl ;
+    std::cout << "Interval from the GetInterval() = " << interval1
+              << std::endl ;
+    std::cout << "Interval value using the calculation = " << interval2
+              << std::endl ;
     return EXIT_FAILURE ;
     }
 
