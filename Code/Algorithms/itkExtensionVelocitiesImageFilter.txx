@@ -74,7 +74,7 @@ unsigned int idx )
  * 
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
-typename const ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
+const typename ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::AuxImageType *
 ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::GetInputVelocityImage( unsigned int idx )
