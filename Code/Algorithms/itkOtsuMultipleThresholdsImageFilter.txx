@@ -91,11 +91,11 @@ OtsuMultipleThresholdsImageFilter<TInputImage,TOutputImage>
   os << indent << "NumberOfHistogramBins: " << m_NumberOfHistogramBins << std::endl;
   os << indent << "NumberOfThresholds: " << m_NumberOfThresholds << std::endl;
   os << indent << "LabelOffset: " << m_LabelOffset << std::endl;;
-  os << indent << "Thresholds: ";
+  os << indent << "Thresholds: " << std::endl;
   for (unsigned long j=0; j<m_Thresholds.size(); j++)
     {
     os << "\tThreshold #" << j << ": " 
-       << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_Thresholds[j]) 
+       << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Thresholds[j]) 
        << std::endl;
     }
 }
