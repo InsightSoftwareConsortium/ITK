@@ -85,6 +85,16 @@ GiplImageIO::~GiplImageIO()
 
 bool GiplImageIO::CanReadFile( const char* filename ) 
 { 
+
+  // First check the filename extension
+  std::string fname = filename;
+  if( fname  == ""  || 
+       !(fname.find(".gipl") < fname.length() ) )
+    {
+    return false;
+    }
+
+  // Now check the content
   std::ifstream inputStream;
   inputStream.open( filename, std::ios::in | std::ios::binary );
   if( inputStream.fail() )

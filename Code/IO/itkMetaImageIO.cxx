@@ -57,7 +57,18 @@ void MetaImageIO::SetDataFileName( const char* filename )
 // a StateMachine could provide a better implementation
 bool MetaImageIO::CanReadFile( const char* filename ) 
   { 
-  
+
+  // First check the extension
+  std::string fname = filename;
+  if(  fname == ""  || 
+       !( fname.find(".mha") < fname.length() || 
+          fname.find(".mhd") < fname.length()    ) )
+    {
+    itkDebugMacro(<<"The filename extension is not recognized");
+    return false;
+    }
+
+  // Now check the file content
   std::ifstream inputStream;
 
   inputStream.open( filename, std::ios::in | std::ios::binary );

@@ -44,6 +44,16 @@ struct PNGFileWrapper
 
 bool PNGImageIO::CanReadFile(const char* file) 
 { 
+  // First check the extension
+  std::string filename = file;
+  if ( !( filename != "" &&
+          filename.find(".png") < filename.length() ) )
+    {
+    itkDebugMacro(<<"The filename extension is not recognized");
+    return false;
+    }
+
+  // Now check the file header
   PNGFileWrapper pngfp(file,"rb");
   FILE* fp = pngfp.m_FilePointer;
   if(!fp)
