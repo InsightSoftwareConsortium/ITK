@@ -54,6 +54,11 @@ public:
   SmartPointerForwardReference (const SmartPointerForwardReference<T> &p);
   
   /** 
+   * Construct from a WeakPointer
+   */
+  SmartPointerForwardReference (const WeakPointer<T> &p);
+  
+  /** 
    * Constructor to pointer p 
    */
   SmartPointerForwardReference (T *p);
@@ -102,6 +107,11 @@ public:
    * Overload operator assignment. 
    */
   SmartPointerForwardReference &operator = (const SmartPointerForwardReference &r);
+  
+  /** 
+   * Overload operator assignment. 
+   */
+  SmartPointerForwardReference &operator = (const WeakPointer<T> &r);
   
   /** 
    * Overload operator assignment. 

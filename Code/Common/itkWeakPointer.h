@@ -57,7 +57,7 @@ public:
     m_Pointer(p.m_Pointer)
     { 
     }
-  
+
   /** 
    * Constructor to pointer p 
    */
@@ -152,6 +152,7 @@ public:
     return this->operator = (r.GetPointer()); 
     }
   
+
   /** 
    * Overload operator assignment. 
    */

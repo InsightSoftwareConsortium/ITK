@@ -32,6 +32,15 @@ SmartPointerForwardReference<T>
 //----------------------------------------------------------------------------
 template <class T>
 SmartPointerForwardReference<T>
+::SmartPointerForwardReference (const WeakPointer<T> &p)
+{ 
+  m_Pointer = p.GetPointer(); 
+  this->Register(); 
+}
+  
+//----------------------------------------------------------------------------
+template <class T>
+SmartPointerForwardReference<T>
 ::SmartPointerForwardReference (T *p)
 { 
   m_Pointer = p; 
@@ -113,6 +122,15 @@ template <class T>
 SmartPointerForwardReference<T> &
 SmartPointerForwardReference<T>
 ::operator = (const SmartPointerForwardReference &r)
+{ 
+  return this->operator = (r.GetPointer()); 
+}
+  
+//----------------------------------------------------------------------------
+template <class T>
+SmartPointerForwardReference<T> &
+SmartPointerForwardReference<T>
+::operator = (const WeakPointer<T> &r)
 { 
   return this->operator = (r.GetPointer()); 
 }

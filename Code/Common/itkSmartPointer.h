@@ -71,9 +71,9 @@ public:
   /** 
    * Construct from a WeakPointer
    */
-  SmartPointer (const WeakPointer<ObjectType> &p):
-    m_Pointer(p.m_Pointer)
-    { 
+  SmartPointer (const WeakPointer<ObjectType> &p)
+    {
+    m_Pointer = p.GetPointer();
     this->Register(); 
     }
   
