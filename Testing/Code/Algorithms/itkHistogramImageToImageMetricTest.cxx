@@ -19,7 +19,6 @@
 #endif
 
 #include "itkGaussianImageSource.h"
-#include "itkHistogramImageToImageMetric.h"
 #include "itkImage.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkMeanSquaresHistogramImageToImageMetric.h"
