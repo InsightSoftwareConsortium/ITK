@@ -25,7 +25,6 @@
 #include "itkExceptionObject.h"
 #include "itkNumericTraits.h"
 #include "itkIndex.h"
-#include <strstream>
 namespace itk
 {
 
