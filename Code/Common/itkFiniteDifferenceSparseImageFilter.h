@@ -109,17 +109,8 @@ protected:
   virtual NodeDataType DataConstraint (const NodeDataType &data) const 
   { return data; }
 
-  /** This method can be used to set/unset the precomputing flag.*/
-  void SetPrecomputeFlag (bool flag)
-  {
-    m_PrecomputeFlag = flag;
-  }
-
-  /** This method retrieves the precomputation flag */
-  bool GetPrecomputeFlag () const 
-  {
-    return m_PrecomputeFlag;
-  }
+  itkSetMacro(PrecomputeFlag, bool);
+  itkGetMacro(PrecomputeFlag, bool);
 
 private:
   /** The type of region used in multithreading. */
