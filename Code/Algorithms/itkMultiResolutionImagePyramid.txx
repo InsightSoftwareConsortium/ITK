@@ -44,6 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkMultiResolutionImagePyramid.h"
 #include "itkShrinkImageFilter.h"
+#include "vnl/vnl_math.h"
 
 namespace itk
 {
@@ -148,30 +149,20 @@ void
 MultiResolutionImagePyramid<TInputImage, TOutputImage>
 ::GenerateData()
 {
-  // setup a mini-pipeline to downsample to image for
-  // this level
 
-  typedef ShrinkImageFilter<TInputImage,TOutputImage> FilterType;
-  typename FilterType::Pointer shrinker = FilterType::New();
+  // Set up a mini-pipeline.
+  typedef ShrinkImageFilter<TInputImage,TOutputImage> 
+		DownSamplerType;
+  typename DownSamplerType::Pointer downsampler = DownSamplerType::New();
 
-  shrinker->SetInput( this->GetInput() );
+  downsampler->SetInput( this->GetInput() );
+  downsampler->SetShrinkFactors( m_Schedule[m_CurrentLevel] );
 
-  //
-  // FIXME: convert ShrinkImageFilter to take in different
-  // factors for each dimension
-  //
-  // FIXME: change ShrinkImageFilter to return more sensible
-  // image sizes
-  //
-//  shrinker->SetShrinkFactor( m_Schedule[m_CurrentLevel] );
-  shrinker->SetShrinkFactor( m_Schedule[m_CurrentLevel][0] );
+  // update the pipeline
+  downsampler->Update();
 
-  shrinker->Update();
-
-  //
   // connect it to the output of this filter
-  //
-  this->SetOutput( shrinker->GetOutput() );
+  this->SetOutput( downsampler->GetOutput() );
 
 }
 
