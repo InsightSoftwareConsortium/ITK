@@ -76,6 +76,7 @@ SpatialObject< NDimensions, SpaceDimension>
     }
     it++;
   }
+  m_Children.clear();
 }
 
 
