@@ -59,9 +59,8 @@ namespace itk
     Superclass::PrintSelf(os, indent);
   }
 
-  bool IPLCommonImageIO::CanWriteFile(const char * FileNameToWrite)
+  bool IPLCommonImageIO::CanWriteFile(const char * )
   {
-    
     return false;
   }
 
@@ -103,17 +102,19 @@ namespace itk
       f2.close();
 #endif
   }
-  struct GEImageHeader *IPLCommonImageIO::ReadHeader(const char *FileNameToRead)
+  struct GEImageHeader *IPLCommonImageIO::ReadHeader(const char * )
   {
     //
     // must be redefined in a child class
+    //
     return 0;
   }
 
-  bool IPLCommonImageIO::CanReadFile( const char* FileNameToRead )
+  bool IPLCommonImageIO::CanReadFile( const char* )
   {
     //
     // must be redefined in child class or you'll never read anything ;-)
+    //
     return false;
   }
 
@@ -279,7 +280,7 @@ namespace itk
    */
   void
   IPLCommonImageIO
-  ::Write( const void* buffer)
+  ::Write( const void * )
   {
     RAISE_EXCEPTION();
   }
@@ -319,7 +320,7 @@ namespace itk
   }
   int IPLCommonImageIO
   ::GetIntAt(std::ifstream &f,std::streamoff Offset,int *ip,
-       bool throw_exception)
+       bool )
   {
     int tmp;
     this->GetStringAt(f,Offset,(char *)&tmp,sizeof(int));
@@ -328,7 +329,7 @@ namespace itk
   }
   int IPLCommonImageIO
   ::GetShortAt(std::ifstream &f,std::streamoff Offset,short *ip,
-       bool throw_exception )
+       bool )
   {
     short tmp;
     this->GetStringAt(f,Offset,(char *)&tmp,sizeof(short));
@@ -337,7 +338,7 @@ namespace itk
   }
   int IPLCommonImageIO
   ::GetFloatAt(std::ifstream &f,std::streamoff Offset,float *ip,
-       bool throw_exception )
+       bool )
   {
     float tmp;
     this->GetStringAt(f,Offset,(char *)&tmp,sizeof(float));
@@ -346,7 +347,7 @@ namespace itk
   }
   int IPLCommonImageIO
   ::GetDoubleAt(std::ifstream &f,std::streamoff Offset,double *ip,
-       bool throw_exception )
+       bool )
   {
     double tmp;
     this->GetStringAt(f,Offset,(char *)&tmp,sizeof(double));
