@@ -73,6 +73,7 @@ public:
 
       // print out info on the neighborhood
       std::cout << "------" << std::endl;
+      std::cout << "Inside ComputeUpdate()" << std::endl;
       std::cout << "Index: " << it.GetIndex() << std::endl;
       std::cout << "Values: ";
       for( unsigned int j = 0; j < it.Size(); j++ )
@@ -343,6 +344,54 @@ protected:
   virtual void PrintSelf( std::ostream &os, Indent indent ) const
     { Superclass::PrintSelf( os, indent ); }
 
+  virtual void GenerateData()
+    {
+      Superclass::GenerateData();
+    }
+
+  virtual void PrintOutput()
+    {
+
+      typedef itk::ImageLinearIteratorWithIndex<OutputImageType> LinearIterator;
+      LinearIterator liter( this->GetOutput(), this->GetOutput()->GetBufferedRegion() );
+ 
+      liter.SetDirection( 0 );
+      liter.GoToBegin();
+
+      while ( !liter.IsAtEnd() )
+        {
+        while( !liter.IsAtEndOfLine() )
+          {
+          std::cout << liter.Get() << " ";
+          ++liter;
+          }
+        std::cout << std::endl;
+        liter.NextLine();
+        }
+
+    }
+
+  virtual void CopyInputToOutput()
+    {
+      Superclass::CopyInputToOutput();
+
+      std::cout << "------------" << std::endl;
+      std::cout << "Printout output after CopyInputToOutput()" << std::endl;
+      this->PrintOutput();
+
+    }
+
+  virtual void Initialize()
+    {
+      Superclass::Initialize();
+
+      std::cout << "------------" << std::endl;
+      std::cout << "Printout output after Initialize()" << std::endl;
+      this->PrintOutput();
+
+    }
+
+
 private:
   TestFunctionPointer m_TestFunction;
 
@@ -453,6 +502,8 @@ int itkShapeDetectionLevelSetImageFilterTest_2(int, char* [] )
   fastMarching->Update();
 
   // print out initial level set
+  std::cout << "------------" << std::endl;
+  std::cout << "Printout input" << std::endl;
   typedef itk::ImageLinearIteratorWithIndex<InternalImageType> LinearIterator;
   LinearIterator liter( fastMarching->GetOutput(), fastMarching->GetOutput()->GetBufferedRegion() );
  
