@@ -32,7 +32,8 @@ namespace itk
   
 template <class TCostFunction>
 class ITK_EXPORT MultipleValuedNonLinearOptimizer : 
-      public NonLinearOptimizer< typename TCostFunction::ParametersType > 
+        public NonLinearOptimizer <
+              typename TCostFunction::ParametersType >
 {
 public:
   /**
@@ -43,7 +44,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef   NonLinearOptimizer<typename TCostFunction::ParametersType> Superclass;
+  typedef   NonLinearOptimizer Superclass;
 
   /** 
    * Smart pointer typedef support 

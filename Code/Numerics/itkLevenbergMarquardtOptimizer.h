@@ -62,13 +62,12 @@ public:
    */
   itkNewMacro(Self);
   
+
   /**
    * ParametersType typedef.
    */
   typedef typename TCostFunction::ParametersType    ParametersType;
 
-
-  typedef typename ParametersType::Pointer    ParametersPointer;
 
   /**
    * Internal Optimizer Type
@@ -83,7 +82,7 @@ public:
   /**
    * Start optimization with an initial value
    */
-  void StartOptimization( ParametersPointer &);
+  void StartOptimization( const ParametersType &);
  
 
 protected:

@@ -38,7 +38,7 @@ GradientDescentOptimizer<TCostFunction>
 template <class TCostFunction>
 void
 GradientDescentOptimizer<TCostFunction>
-::StartOptimization(ParametersPointer &  initialValue )
+::StartOptimization( void )
 {
   m_CurrentStepLength         = m_MaximumStepLength;
   m_CurrentNumberIterations   = 0;
@@ -62,23 +62,16 @@ GradientDescentOptimizer<TCostFunction>
 
   while( !m_Stop ) 
   {
-    m_Value = m_CostFunction->GetValue();
+    m_Value = m_CostFunction->GetValue( GetCurrentPosition() );
 
     if( m_Stop )
     {
       break;
     }
 
-	typename ParametersType::Iterator grad  = m_Gradient->Begin();
-	typename ParametersType::Iterator pgrad = m_PreviousGradient->Begin();
-    while( grad != m_Gradient->End() )
-    {
-	   pgrad.Value() = grad.Value();
-	   ++grad;
-	   ++pgrad;
-	}
-
-    m_Gradient = m_CostFunction->GetDerivative();
+    m_PreviousGradient = m_Gradient;
+  
+    m_Gradient = m_CostFunction->GetDerivative( GetCurrentPosition() );
 
     if( m_Stop )
     {
@@ -126,85 +119,65 @@ GradientDescentOptimizer<TCostFunction>
 ::AdvanceOneStep( void )
 { 
 
-    double magnitudeSquare = 0;
-
-	typename ParametersType::Iterator grad  = m_Gradient->Begin();
-	typename ParametersType::Iterator step  = m_StepSize->Begin();
-	typename ParametersType::Iterator pgrad = m_PreviousGradient->Begin();
-
-    while( grad != m_Gradient->End() )
-    {
-      const double weighted = grad.Value() * step.Value();
-      magnitudeSquare += weighted * weighted;
-	  ++grad;
-	  ++step;
-    }
+  double magnitudeSquare = 0;
+  for(unsigned int i=0; i<SpaceDimension; i++)
+  {
+    const double weighted = m_Gradient[i] * m_StepSize[i];
+    magnitudeSquare += weighted * weighted;
+  }
     
-    const double gradientMagnitude = sqrt( magnitudeSquare );
+  const double gradientMagnitude = sqrt( magnitudeSquare );
 
-    if( gradientMagnitude < m_GradientMagnitudeTolerance ) 
-    {
-       m_StopCondition = GradientMagnitudeTolerance;
-       StopOptimization();
-       return;
-    }
+  if( gradientMagnitude < m_GradientMagnitudeTolerance ) 
+  {
+    m_StopCondition = GradientMagnitudeTolerance;
+    StopOptimization();
+    return;
+  }
     
-    double scalarProduct = 0;
+  double scalarProduct = 0;
 
-	grad  = m_Gradient->Begin();
-	pgrad = m_Gradient->Begin();
-	step  = m_StepSize->Begin();
-
-    while( grad != m_Gradient->End() )    
-    {
-      const double weight1 =  grad.Value()  * step.Value();
-      const double weight2 = pgrad.Value()  * step.Value();
-      scalarProduct += weight1 * weight2;
-	  ++grad;
-	  ++step;
-	  ++pgrad;
-    }
-
+  for(unsigned int i=0; i<SpaceDimension; i++)
+  {
+    const double weight1 = m_Gradient[i]         * m_StepSize[i]; 
+    const double weight2 = m_PreviousGradient[i] * m_StepSize[i]; 
+    scalarProduct += weight1 * weight2;
+  }
    
-    if( scalarProduct < 0 ) 
-    {
-      m_CurrentStepLength /= 2.0;
-    }
+  // If there is a direction change 
+  if( scalarProduct < 0 ) 
+  {
+    m_CurrentStepLength /= 2.0;
+  }
 
-    if( m_CurrentStepLength < m_MinimumStepLength )
-    {
-      m_StopCondition = StepTooSmall;
-      StopOptimization();
-      return;
-    }
+  if( m_CurrentStepLength < m_MinimumStepLength )
+  {
+    m_StopCondition = StepTooSmall;
+    StopOptimization();
+    return;
+  }
 
-    double direction = 1.0;
-    if( this->m_Maximize ) 
-    {
-      direction = 1.0;
-    }
-    else 
-    {
-      direction = -1.0;
-    }
+  double direction = 1.0;
+  if( this->m_Maximize ) 
+  {
+    direction = 1.0;
+  }
+  else 
+  {
+    direction = -1.0;
+  }
 
-    ParametersPointer positionChange = ParametersType::New();
-	positionChange->Reserve( m_Gradient->Size() );
-	typename ParametersType::Iterator post  = positionChange->Begin();
+  ParametersType newPosition;
+  const ParametersType & currentPosition = GetCurrentPosition();
+  const double factor = 
+    (direction * m_CurrentStepLength / gradientMagnitude);
 
-	grad  = m_Gradient->Begin();
-	post  = positionChange->Begin();
+  for(unsigned int i=0; i<SpaceDimension; i++)
+  {
+    newPosition[i] = currentPosition[i] + m_Gradient[i] * factor;
+  }
 
-    while( grad != m_Gradient->End() )    
-    {
-      post.Value() = grad.Value() * (direction * m_CurrentStepLength / gradientMagnitude);
-	  ++grad;
-	  ++post;
-    }
-
-
-
-
+  SetCurrentPosition( newPosition );
 
 }
 

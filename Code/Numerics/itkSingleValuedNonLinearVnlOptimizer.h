@@ -31,7 +31,8 @@ namespace itk
 
   
 template <class TCostFunction>
-class ITK_EXPORT SingleValuedNonLinearVnlOptimizer : public SingleValuedNonLinearOptimizer<TCostFunction> 
+class ITK_EXPORT SingleValuedNonLinearVnlOptimizer : 
+          public SingleValuedNonLinearOptimizer<TCostFunction> 
 
 {
 public:
@@ -51,6 +52,11 @@ public:
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
+  /**
+   * Dimension of the Search Space
+   */
+  enum { SpaceDimension = TCostFunction::SpaceDimension };
+    
  /** 
    * Run-time type information (and related methods).
    */
@@ -87,12 +93,6 @@ public:
 
 
   /**
-   * Parameters Pointer
-   */
-  typedef typename ParametersType::Pointer ParametersPointer;
-
-
-  /**
    * MeasureType typedef.
    */
   typedef typename TCostFunction::MeasureType         MeasureType;
@@ -112,7 +112,7 @@ public:
   class VnlCostFunctionAdaptor : public vnl_cost_function
   {
   public:
-    VnlCostFunctionAdaptor():vnl_cost_function(TCostFunction::SpaceDimension) 
+    VnlCostFunctionAdaptor():vnl_cost_function(SpaceDimension) 
       { m_CostFunction = 0; }    
 
       void SetCostFunction( TCostFunction * costFunction ) 
@@ -122,46 +122,49 @@ public:
       /** 
        *  Delegate computation of the value to the CostFunction
        */
-      virtual InternalMeasureType f( const InternalParametersType & parameters ) {
+      virtual InternalMeasureType f( const InternalParametersType & inparameters ) {
         if( !m_CostFunction )
         {
           throw ExceptionObject();
         }
-        ConvertParameters( parameters);
+        ParametersType parameters;
+        ConvertParameters( inparameters, parameters );
         const InternalMeasureType value = 
-          (InternalMeasureType)m_CostFunction->GetValue();
+          (InternalMeasureType)m_CostFunction->GetValue( parameters );
         return value;
       }
       
       /** 
        *  Delegate computation of the gradient to the CostFunction
        */
-      virtual void gradf(const InternalParametersType & parameters,
+      virtual void gradf(const InternalParametersType   & inparameters,
                                InternalDerivativeType   & gradient ) {
         if( !m_CostFunction )
         {
           throw ExceptionObject();
         }
-        ConvertParameters( parameters);
+        ParametersType parameters;
+        ConvertParameters( inparameters, parameters );
         typename DerivativeType::Pointer externalGradient = 
-                      m_CostFunction->GetDerivative();
+                      m_CostFunction->GetDerivative( parameters );
         ConvertGradient( externalGradient, gradient);
       }
       
       /** 
        *  Delegate computation of value and gradient to the CostFunction
        */
-      virtual void compute(const InternalParametersType & x,
+      virtual void compute(const InternalParametersType   & x,
                                  InternalMeasureType      * f, 
                                  InternalDerivativeType   * g   ) {
         // delegate the computation to the CostFunction
 
-        ConvertParameters( x );
+        ParametersType parameters;
+        ConvertParameters( x, parameters );
 
-        *f =           (InternalMeasureType)m_CostFunction->GetValue();
+        *f = (InternalMeasureType)m_CostFunction->GetValue( parameters );
 
         typename DerivativeType::Pointer externalGradient = 
-                                      m_CostFunction->GetDerivative();
+                                      m_CostFunction->GetDerivative( parameters );
 
         ConvertGradient( externalGradient, *g );    
       }
@@ -170,16 +173,12 @@ public:
        *  Convert internal Parameters (vnl_Vector) 
        *  into VectorContainer type
        */
-      void ConvertParameters( const InternalParametersType & input )
+      static void ConvertParameters( const InternalParametersType & input,
+                                           ParametersType         & output )
       {
-        typename ParametersType::Pointer output = m_CostFunction->GetParameters();
-        typename ParametersType::Iterator it = output->Begin(); 
-        unsigned int i=0;
-        while( it != output->End() )
+        for( unsigned int i=0; i<SpaceDimension; i++)
         {
-          it.Value() = input[i]; 
-          it++;
-          i++;
+          output[i] = input[i]; 
         }
       }
 
@@ -187,21 +186,12 @@ public:
        *  Convert external Parameters VectorContainer 
        *  into internal type (vnl_Vector)
        */
-      static void ConvertParameters(typename ParametersType::Pointer & input,
-                                    InternalParametersType & output )
+      static void ConvertParameters(const  ParametersType         & input,
+                                           InternalParametersType & output )
       {
-        const unsigned size = input->Size();
-        if( output.size() != size ) 
+        for( unsigned int i=0; i<SpaceDimension; i++ ) 
         {
-          output.resize( size );
-        }
-
-        typename ParametersType::ConstIterator it;
-        it = input->Begin(); 
-        for(unsigned int i=0; i< size; i++)
-        {
-          output[i] = it.Value();
-          it++;
+          output[i] = input[i];
         }
       }
       
@@ -209,25 +199,17 @@ public:
        *  Convert external derviative measures (VectorContainer) 
        *  into internal type (vnl_Vector)
        */
-      void ConvertGradient(const typename DerivativeType::Pointer & input,
+      void ConvertGradient(const DerivativeType & input,
                            InternalDerivativeType & output )
       {
-        const unsigned size = input->Size();
-        if( output.size() != size ) 
+        for( unsigned int i=0; i<SpaceDimension; i++ ) 
         {
-          output.resize( size );
-        }
-        unsigned int i=0;
-        typename DerivativeType::Iterator it = input->Begin();
-        while( it != input->End() )
-        {
-          output[i] = it.Value();
-          i++;
-          it++;
+          output[i] = input[i];
         }
       }
 
   private:
+
     typename TCostFunction::Pointer   m_CostFunction;
 
   };  // end of Class CostFunction

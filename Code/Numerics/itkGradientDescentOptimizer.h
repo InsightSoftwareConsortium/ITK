@@ -56,13 +56,15 @@ public:
   typedef          TCostFunction                CostFunctionType;
   typedef typename CostFunctionType::Pointer    CostFunctionPointer;
 
-
+  /**
+   * Dimension of the Search Space
+   */
+  enum { SpaceDimension = TCostFunction::ParametersDimension };
+ 
   /**
    * ParametersType typedef.
    */
   typedef typename TCostFunction::ParametersType    ParametersType;
-  typedef typename ParametersType::Pointer          ParametersPointer;
-
 
 
  /** 
@@ -77,12 +79,6 @@ public:
    */
   itkNewMacro(Self);
   
-
-
-  /**
-   * Start optimization with an initial value
-   */
-  void StartOptimization( ParametersPointer &);
 
 
   /**
@@ -166,9 +162,9 @@ protected:
 
 private:
 
-  ParametersPointer             m_Gradient; 
-  ParametersPointer             m_PreviousGradient; 
-  ParametersPointer             m_StepSize;
+  ParametersType                m_Gradient; 
+  ParametersType                m_PreviousGradient; 
+  ParametersType                m_StepSize;
 
   bool                          m_Stop;
   bool                          m_Maximize;

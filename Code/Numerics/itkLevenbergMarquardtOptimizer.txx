@@ -50,7 +50,7 @@ LevenbergMarquardtOptimizer<TCostFunction>
 template <class TCostFunction>
 void
 LevenbergMarquardtOptimizer<TCostFunction>
-::StartOptimization( ParametersPointer & initialValue )
+::StartOptimization( const ParametersType & initialValue )
 {
   InternalParametersType initialParameters;
   VnlCostFunctionAdaptor::ConvertParameters( initialValue, initialParameters );

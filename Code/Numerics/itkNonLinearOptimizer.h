@@ -26,8 +26,8 @@ namespace itk
  * \brief Wrap of the vnl_nonlinear_minimizer to be adapted 
  *
  */
-template <class TParameters>
-class ITK_EXPORT NonLinearOptimizer : public Optimizer<TParameters>
+template <class TPoint>
+class ITK_EXPORT NonLinearOptimizer : public Optimizer<TPoint>
 
 {
 public:
@@ -39,7 +39,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef   Optimizer<TParameters> Superclass;
+  typedef  Optimizer<TPoint>   Superclass;
 
   /** 
    * Smart pointer typedef support 

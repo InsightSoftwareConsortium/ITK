@@ -27,9 +27,8 @@ namespace itk
 /** \class Optimizer
  * \brief Generic representation for an optimization method 
  */
-template <class TParameters>
+template <class TPoint>
 class ITK_EXPORT Optimizer : public Object 
-
 {
 public:
   /**
@@ -62,43 +61,49 @@ public:
 
 
   /**
-   * ParametersType typedef
-   * This is the type used to pass points in the
-   * search space to the optimizer
+   *  Point type.
+   *  it defines a position in the optimization search space
    */
-  typedef   TParameters    ParametersType;
-
+  typedef TPoint  PointType;
 
   /**
-   * ParametersPointer typedef
-   * This is the type used to pass points in the
-   * search space to the optimizer
+   *   Set the position to initialize the optimization  
    */
-  typedef   typename ParametersType::Pointer ParametersPointer;
-
+  void SetInitialPosition( const PointType & initialPosition ) 
+    { m_InitialPosition = initialPosition; }
 
   /**
-   * Set the vector of parameters
+   *   Get the position to initialize the optimization  
    */
-  itkSetObjectMacro( Parameters, ParametersType );
+  const PointType & GetInitialPosition( void ) const 
+    { return m_InitialPosition; }
 
   /**
-   * Get the vector of parameters
+   *   Get current position of the optimization  
    */
-  itkGetConstReferenceObjectMacro( Parameters, ParametersType );
+  const PointType & GetCurrentPosition( void ) const 
+    { return m_CurrentPosition; }
 
 
 protected:
 
-  Optimizer() { m_Parameters = ParametersType::New();  };
+  Optimizer() { };
   virtual ~Optimizer() {};
   Optimizer(const Self&) {}
   void operator=(const Self&) {}
 
+  /**
+   *   Set the current position 
+   */
+  void SetCurrentPosition( const PointType & currentPosition ) 
+    { m_CurrentPosition = currentPosition; }
+
+
 private:
-
-  ParametersPointer     m_Parameters;
-
+  
+  PointType     m_InitialPosition;
+  PointType     m_CurrentPosition;
+  
 };
 
 } // end namespace itk

@@ -13,17 +13,18 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef __itkMultipleValuedNonLinearOptimizer_h
-#define __itkMultipleValuedNonLinearOptimizer_h
+#ifndef __itkMultipleValuedNonLinearVnlOptimizer_h
+#define __itkMultipleValuedNonLinearVnlOptimizer_h
 
-#include "itkNonLinearOptimizer.h"
+
 #include "vnl/vnl_least_squares_function.h"
+#include "itkMultipleValuedNonLinearOptimizer.h"
 #include "itkExceptionObject.h"
 
 namespace itk
 {
   
-/** \class MultipleValuedNonLinearOptimizer
+/** \class MultipleValuedNonLinearVnlOptimizer
  * \brief This class is a base for the Optimization methods that 
  * optimize a single valued function.
  *
@@ -32,7 +33,8 @@ namespace itk
   
 template <class TCostFunction>
 class ITK_EXPORT MultipleValuedNonLinearVnlOptimizer : 
-      public NonLinearOptimizer< typename TCostFunction::ParametersType > 
+          public MultipleValuedNonLinearOptimizer< 
+                typename TCostFunction::ParametersType > 
 {
 public:
   /**
@@ -43,7 +45,8 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef   NonLinearOptimizer<typename TCostFunction::ParametersType> Superclass;
+  typedef   MultipleValuedNonLinearOptimizer<
+                typename TCostFunction::ParametersType> Superclass;
 
   /** 
    * Smart pointer typedef support 
@@ -74,10 +77,6 @@ public:
    */
   typedef typename TCostFunction::ParametersType    ParametersType;
 
-  /**
-   * Parameters Pointer
-   */
-  typedef typename ParametersType::Pointer ParametersPointer;
 
  /** 
    * Run-time type information (and related methods).
@@ -90,17 +89,12 @@ public:
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
-  
 
-  /** \class VnlCostFunction
-   * \brief Adaptor between the CostFunction and the
-   * vnl_least_squares_function classes
-   *
-   */
-    /**
+  
+  /**
    * MeasureType typedef.
    */
-  typedef typename TCostFunction::VectorMeasureType       MeasureType;
+  typedef typename TCostFunction::MeasureType       MeasureType;
 
 
   /**
@@ -109,6 +103,12 @@ public:
   typedef typename TCostFunction::DerivativeType      DerivativeType;
 
 
+
+  /** \class VnlCostFunction
+   * \brief Adaptor between the CostFunction and the
+   * vnl_least_squares_function classes
+   *
+   */
   class VnlCostFunctionAdaptor : public vnl_least_squares_function 
   {
   public:
@@ -129,11 +129,10 @@ public:
         {
           throw ExceptionObject();
         }
-        ConvertParameters( parameters); // should be transfertparameters
-        typename MeasureType::Pointer externalOutput = MeasureType::New();
-        externalOutput->Reserve(output.size());
+        ConvertParameters( parameters ); // should be transfertparameters
+        MeasureType externalOutput;
         ConvertMeasure(output,externalOutput);
-        m_CostFunction->GetValue( externalOutput);
+        externalOutput = m_CostFunction->GetValue( parameters );
         ConvertMeasure(externalOutput,output);
       }
       
@@ -194,58 +193,36 @@ public:
 
 
       /**
-       *  Convert external Parameters (VectorContainer) 
+       *  Convert external Parameters (itkPoint) 
        *  into internal parameters type (vnl_Vector)
        */
-      static void ConvertParameters(typename ParametersType::Pointer & input,
-                                    InternalParametersType & output )
+      static void ConvertParameters(const ParametersType & input,
+                                   InternalParametersType & output )
       {
-        const unsigned size = input->Size();
-        if( output.size() != size ) 
+        for(unsigned int i=0; i< ParametersDimension; i++)
         {
-          output.resize( size );
-        }
-
-        typename ParametersType::ConstIterator it;
-        it = input->Begin(); 
-        for(unsigned int i=0; i< size; i++)
-        {
-          output[i] = it.Value();
-          it++;
+          output[i] = input[i];
         }
 
       }
       
       /**
-       *  Convert external Gradient (VectorContainer) 
+       *  Convert external Gradient (itkMatrix) 
        *  into internal gradient type (vnl_Matrix)
        */
-      void ConvertGradient(const typename DerivativeType::Pointer & input,
+      void ConvertGradient(const DerivativeType & input,
                            InternalDerivativeType & output )
-      {
-        const unsigned size = input->Size();
-        if( output.size() != size ) 
-        {
-          output.resize( size , size);
-        }
-        unsigned int i=0;
-
-        typename DerivativeType::Iterator it = input->Begin();
-        for(unsigned int i=0; i<(size/2); i++)
-          for(unsigned int j=0; j<(size/2); j++)
-            {
-              output[i][j] = it.Value();
-              it++;
-            }
-          
+      {       
+        output = input;         
       }
 
+
      /**
-      *  Convert external Measure (VectorContainer) 
+      *  Convert external Measure (itkPoint) 
       *  into internal Measure type (vnl_Vector)
       */
-     void ConvertMeasure(const typename MeasureType::Pointer & input,
-                           InternalMeasureType & output )
+     void ConvertMeasure(const MeasureType         & input,
+                               InternalMeasureType & output )
       {
         const unsigned size = input->Size();
         if( output.size() != size ) 
@@ -264,10 +241,10 @@ public:
 
      /**
       *  Convert internal Measure (vnl_vector) 
-      *  into external Measure type (VectorContainer)
+      *  into external Measure type (itkPoint)
       */
        void ConvertMeasure(const InternalMeasureType & input,
-                           typename MeasureType::Pointer & output )
+                                 MeasureType         & output )
       {
         const unsigned size = input.size();
         if( output->Size() != size ) 
