@@ -49,7 +49,7 @@
 // Software Guide : EndCodeSnippet
 
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
   if( argc < 3 )
     {
@@ -68,7 +68,7 @@ int main(int argc, char** argv)
     maximumRMSError = atof( argv[3] );
     }
 
-  if( numberOfIterations > 4 )
+  if( argc > 4 )
     {
     numberOfIterations = atoi( argv[4] );
     }
@@ -147,10 +147,10 @@ int main(int argc, char** argv)
   
   rescale->SetInput( antiAliasFilter->GetOutput() );
   writer->SetInput( rescale->GetOutput() );
-
   try 
     {
     writer->Update();
+    std::cout << "Completed in " << antiAliasFilter->GetNumberOfIterations() << std::endl;
     }
   catch( itk::ExceptionObject & err ) 
     { 
