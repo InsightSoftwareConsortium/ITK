@@ -197,11 +197,6 @@ public:
    * center, and translation OR the matrix and offset */
   void SetOffset(const OutputVectorType &offset)
       { m_Offset = offset; this->ComputeTranslation();
-        this->m_FixedParameters.SetSize ( NInputDimensions );
-        for ( unsigned int i = 0; i < NInputDimensions; i++ )
-          {
-          this->m_FixedParameters[i] = this->m_Center[i];
-          }
         this->Modified(); return; }
 
   /** Get offset of an MatrixOffsetTransformBase
@@ -235,7 +230,6 @@ public:
    * center, and translation OR the matrix and offset */
   void SetCenter(const InputPointType & center)
       { m_Center = center; this->ComputeOffset();
-        UpdateFixedParameters();
         this->Modified(); return; }
 
   /** Get center of rotation of the MatrixOffsetTransformBase
@@ -347,9 +341,6 @@ protected:
   
   /** Destroy an MatrixOffsetTransformBase object   **/
   virtual ~MatrixOffsetTransformBase();
-
-  virtual void UpdateFixedParameters();
-
 
   /** Print contents of an MatrixOffsetTransformBase */
   void PrintSelf(std::ostream &s, Indent indent) const;
