@@ -82,6 +82,10 @@ CxxGenerator
   ofstream instantiationStream(instantiationFile.c_str());
   if(!instantiationStream) { return; }
   
+  // Write the standard #ifndef/#define pair in the header file.
+  wrapperStream << "#ifndef _" << package->GetName() << "_cxx_h" << std::endl;
+  wrapperStream << "#define _" << package->GetName() << "_cxx_h" << std::endl;
+  
   // Be sure to include needed headers.
   this->GenerateIncludes(wrapperStream, instantiationStream,
                          package->GetHeaders());
@@ -89,6 +93,9 @@ CxxGenerator
   // Begin the recursive generation at the global namespace.
   this->GenerateNamespace(wrapperStream, instantiationStream, Indent(-2),
                           package->GetGlobalNamespace());
+
+  // Write the standard #endif at the end of the header file.
+  wrapperStream << "#endif" << std::endl;
   
   instantiationStream.close();
   wrapperStream.close();
