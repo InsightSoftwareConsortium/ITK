@@ -3,7 +3,31 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
+Project: "DataTypeTest"=.\DataTypeTest\DataTypeTest.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "ExceptionObjectTest"=.\ExceptionObjectTest.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "SmartPointerTest"=.\SmartPointerTest.dsp - Package Owner=<4>
 
 Package=<5>
 {{{

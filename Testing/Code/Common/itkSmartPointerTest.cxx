@@ -72,24 +72,24 @@ int main()
   std::cout <<"second test" << std::endl;
   {
   itkTestObject::Pointer o1 = itkTestObject::New();
-  std::cout << "o1 " << o1 << std::endl;
+  std::cout << "o1 " << &o1 << std::endl;
   itkTestObject::Pointer o2 = itkTestObject::New();
-  std::cout << "o2 " << o2 << std::endl;
+  std::cout << "o2 " << &o2 << std::endl;
   itkTestObject::Pointer o3 = itkTestObject::New();
-  std::cout << "o3 " << o3 << std::endl;
+  std::cout << "o3 " << &o3 << std::endl;
   itkTestObject::Pointer o4 = itkTestObject::New();
-  std::cout << "o4 " << o4 << std::endl;
+  std::cout << "o4 " << &o4 << std::endl;
   
   o1 = o2;
   o2 = o3;
   o4 = o1;
   if ( o1 < o2 )
     {
-    std::cout << "o1 is < o2 " << o1 << " " << o2 << std::endl;
+    std::cout << "o1 is < o2 " << &o1 << " " << &o2 << std::endl;
     }
   else
     {
-    std::cout << "o1 is not < o2 " << o1 << " " << o2 << std::endl;
+    std::cout << "o1 is not < o2 " << &o1 << " " << &o2 << std::endl;
     }
   }
   std::cout <<"end second test" << std::endl << std::endl;

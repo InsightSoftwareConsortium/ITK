@@ -1,4 +1,4 @@
-#include "iostream.h"
+#include <iostream>
 #include "itkScalar.h"
 #include "itkVector.h"
 
@@ -7,26 +7,26 @@
 
 int main()
 {
-  itk::itkScalar<double> s;
-  itk::itkVector<int, 4> v;
+  itkScalar<double> s;
+  itkVector<int, 4> v;
 
   int vec[4];
   vec[0] = 1; vec[1] = 3; vec[2] = 2; vec[3] = 4;
   
   s.SetScalar( 5.1 );
-  cout << "Scalar value = " << s.GetScalar() << std::endl;
+  std::cout << "Scalar value = " << s.GetScalar() << std::endl;
 
   v.SetVector( vec );
-  cout << "Vector value = ";
+  std::cout << "Vector value = ";
   for (int i=0; i < v.GetVectorDimension(); i++)
     {
-    cout << v.GetVector()[i];
+    std::cout << v.GetVector()[i];
     if (i < v.GetVectorDimension() - 1)
       {
-      cout << ", ";
+      std::cout << ", ";
       }
     }
-  cout << std::endl;
+  std::cout << std::endl;
   
   return 0;
 }
