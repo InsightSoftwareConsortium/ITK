@@ -65,7 +65,7 @@ FilterImageSingleOperator<TPixel, VDimension>
 
   requestedRegion.SetSize( requestedSize );
   requestedRegion.SetIndex( requestedIndex);
-  
+
   this->GetInput()->SetRequestedRegion( requestedRegion );
 }
 
@@ -77,11 +77,11 @@ FilterImageSingleOperator<TPixel, VDimension>
   // Allocate output
   Image::Pointer output = this->GetOutput();
   Image::Pointer input  = this->GetInput();
-
+ 
   // Need to allocate output buffer memory.
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
-  
+
   // Filter
   if (m_CheckBounds)
     {
