@@ -22,6 +22,7 @@ ADD_TEST(itkBioGeneTest ${ALGORITHMS_TESTS} itkBioGeneTest )
 ADD_TEST(itkBioGeneNetworkTest ${ALGORITHMS_TESTS} itkBioGeneNetworkTest )
 ADD_TEST(itkCannySegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkCannySegmentationLevelSetImageFilterTest)
 ADD_TEST(itkCorrelationCoefficientHistogramImageToImageMetricTest ${ALGORITHMS_TESTS} itkCorrelationCoefficientHistogramImageToImageMetricTest)
+ADD_TEST(itkCompareHistogramImageToImageMetricTest ${ALGORITHMS_TESTS2} itkCompareHistogramImageToImageMetricTest)
 ADD_TEST(itkCurvesLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkCurvesLevelSetImageFilterTest)
 ADD_TEST(itkDemonsRegistrationFilterTest ${ALGORITHMS_TESTS} itkDemonsRegistrationFilterTest)
 ADD_TEST(itkExtensionVelocitiesImageFilterTest ${ALGORITHMS_TESTS} itkExtensionVelocitiesImageFilterTest)
@@ -61,6 +62,7 @@ ADD_TEST(itkIsoContourDistanceImageFilterTest ${ALGORITHMS_TESTS} itkIsoContourD
 ADD_TEST(itkIsotropicFourthOrderLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkIsotropicFourthOrderLevelSetImageFilterTest)
 ADD_TEST(itkKalmanLinearEstimatorTest ${ALGORITHMS_TESTS} itkKalmanLinearEstimatorTest)
 ADD_TEST(itkKmeansModelEstimatorTest ${ALGORITHMS_TESTS} itkKmeansModelEstimatorTest)
+ADD_TEST(itkKullbackLieblerCompareHistogramImageToImageMetricTest ${ALGORITHMS_TESTS2} itkKullbackLieblerCompareHistogramImageToImageMetricTest)
 ADD_TEST(itkLaplacianSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkLaplacianSegmentationLevelSetImageFilterTest)
 ADD_TEST(itkLevelSetNeighborhoodExtractorTest ${ALGORITHMS_TESTS} itkLevelSetNeighborhoodExtractorTest)
 ADD_TEST(itkLevelSetVelocityNeighborhoodExtractorTest ${ALGORITHMS_TESTS} itkLevelSetVelocityNeighborhoodExtractorTest)
@@ -137,6 +139,7 @@ itkBinaryMask3DMeshSourceTest.cxx
 itkBioGeneTest.cxx
 itkBioGeneNetworkTest.cxx
 itkCannySegmentationLevelSetImageFilterTest.cxx
+itkCompareHistogramImageToImageMetricTest.cxx
 itkCorrelationCoefficientHistogramImageToImageMetricTest.cxx
 itkCurvatureFlowTest.cxx
 itkDemonsRegistrationFilterTest.cxx
@@ -153,6 +156,7 @@ itkSimpleFuzzyConnectednessScalarImageFilterTest.cxx
 itkHistogramMatchingImageFilterTest.cxx
 itkHistogramImageToImageMetricTest.cxx
 itkImageMomentsTest.cxx
+itkKullbackLieblerCompareHistogramImageToImageMetricTest.cxx
 itkSphereMeshSourceTest.cxx
 itkImagePCAShapeModelEstimatorTest.cxx
 itkImageRegistrationMethodTest.cxx
@@ -226,6 +230,8 @@ SET(AlgorithmsTest2_SRCS
 itkAlgorithmsPrintTest.cxx
 itkAlgorithmsPrintTest2.cxx
 itkAlgorithmsPrintTest3.cxx
+itkCompareHistogramImageToImageMetricTest
+itkKullbackLieblerCompareHistogramImageToImageMetricTest.cxx
 itkMIRegistrationFunctionTest.cxx
 itkPointSetToPointSetRegistrationTest.cxx
 itkVectorFuzzyConnectednessImageFilterTest.cxx
@@ -280,7 +286,7 @@ ADD_TEST(itkVectorThresholdSegmentationLevelSetImageFilterTest ${ALGORITHMS_TEST
             ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSliceInitialLevelSet.png
             ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png
             ${ITK_TEST_OUTPUT_DIR}/VectorThresholdSegmentationLevelSetImageFilterTest.png 
-            8.0 80
+            5.0 50
             )
 
 

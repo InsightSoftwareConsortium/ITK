@@ -34,6 +34,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkCannySegmentationLevelSetFunction.txx"
 #include "itkCannySegmentationLevelSetImageFilter.txx"
 #include "itkClassifierBase.txx"
+#include "itkCompareHistogramImageToImageMetric.txx"
 #include "itkConnectedRegionsMeshFilter.txx"
 #include "itkCoreAtomImageToUnaryCorrespondenceMatrixProcess.txx"
 #include "itkCorrelationCoefficientHistogramImageToImageMetric.txx"
@@ -70,6 +71,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageToSpatialObjectRegistrationMethod.txx"
 #include "itkIsoContourDistanceImageFilter.txx"
 #include "itkIsotropicFourthOrderLevelSetImageFilter.txx"
+#include "itkKLCompareHistogramImageToImageMetric.txx"
 #include "itkKLMRegionGrowImageFilter.txx"
 #include "itkKalmanLinearEstimator.h"
 #include "itkLaplacianSegmentationLevelSetFunction.txx"
@@ -154,4 +156,3 @@ int main ( int , char*  )
   
   return 0;
 }
-
