@@ -25,6 +25,10 @@ itkImageIO
 itkLightProcessObject
 )
 
+LINK_LIBRARIES (
+VXLNumerics
+)
+
 IF (WIN32)
   SOURCE_FILES(ITKCommon_SRCS itkWin32OutputWindow)
 ENDIF (WIN32)
