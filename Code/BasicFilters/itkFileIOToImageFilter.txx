@@ -138,7 +138,7 @@ void FileIOToImageFilter<TOutputImage>::GenerateData()
 
   OutputPixelType* source = (OutputPixelType*) m_IO->GetFileData();
 
-  for ( it.Begin(); !it.IsAtEnd(); ++it, ++source )
+  for ( it.GoToBegin(); !it.IsAtEnd(); ++it, ++source )
     {
     it.Set(*source);
     }

@@ -231,8 +231,8 @@ PlaheImageFilter<TPixel, VImageDimension>
   MapType::iterator itMap;
   
   // Plahe algorithm
-  it.Begin();
-  itOut.Begin();
+  it.GoToBegin();
+  itOut.GoToBegin();
   float f;
 
   while( !it.IsAtEnd() )
@@ -247,7 +247,7 @@ PlaheImageFilter<TPixel, VImageDimension>
     region.SetSize(size);
     ImageRegionIterator<Image<float, VImageDimension> >
       itWin(inputFloat, region);
-    itWin.Begin();
+    itWin.GoToBegin();
 
     while ( !itWin.IsAtEnd() )
       {

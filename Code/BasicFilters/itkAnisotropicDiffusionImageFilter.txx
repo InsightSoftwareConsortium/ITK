@@ -57,8 +57,8 @@ void UpdateStrategyScalar<TInputImage, TOutputImage>
   TOutputImage *op = static_cast<TOutputImage *>(d2);
   ImageRegionIteratorWithIndex<TInputImage> in(ip, op->GetRequestedRegion());
   ImageRegionIteratorWithIndex<TOutputImage> out(op, op->GetRequestedRegion());
-  in.Begin();
-  out.Begin();
+  in.GoToBegin();
+  out.GoToBegin();
 
   while (! in.IsAtEnd() )
     { // *out += *in * m_Multiplier
@@ -76,8 +76,8 @@ void CopyStrategyScalar<TInputImage, TOutputImage>
   TOutputImage *op = static_cast<TOutputImage *>(d2);
   ImageRegionIteratorWithIndex<TInputImage>  in(ip, op->GetRequestedRegion());
   ImageRegionIteratorWithIndex<TOutputImage> out(op, op->GetRequestedRegion());
-  in.Begin();
-  out.Begin();
+  in.GoToBegin();
+  out.GoToBegin();
 
   while (! in.IsAtEnd() )
     {

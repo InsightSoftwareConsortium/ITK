@@ -187,8 +187,8 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   ImageRegionIteratorWithIndex< TInputImage >  it( inputImage,  region );
   ImageRegionIteratorWithIndex< TOutputImage > ot( voronoiMap,  region );
 
-  it.Begin();
-  ot.Begin();
+  it.GoToBegin();
+  ot.GoToBegin();
 
   if( m_InputIsBinary ) 
   {
@@ -242,8 +242,8 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
     minValue[j] =              0;
   }
 
-  ot.Begin();
-  ct.Begin();
+  ot.GoToBegin();
+  ct.GoToBegin();
   while( !ot.IsAtEnd() )
   {
     if( ot.Get() )
@@ -282,9 +282,9 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   ImageRegionIteratorWithIndex< VectorImageType >  ct( distanceComponents,  region );
   ImageRegionIteratorWithIndex< OutputImageType >  dt( distanceMap,         region );
 
-  ot.Begin();
-  ct.Begin();
-  dt.Begin();
+  ot.GoToBegin();
+  ct.GoToBegin();
+  dt.GoToBegin();
   while( ! ot.IsAtEnd() )
   {
     IndexType index = ct.GetIndex() + ct.Get();
@@ -375,7 +375,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
   ReflectiveImageRegionIterator< VectorImageType > 
                                 it( distanceComponents, region );
-  it.Begin();
+  it.GoToBegin();
 
   while( !it.IsAtEnd() )
   {

@@ -272,8 +272,8 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
   }
 
 
-  inputIterator.Begin();
-  outputIterator.Begin();
+  inputIterator.GoToBegin();
+  outputIterator.GoToBegin();
 
   const unsigned long * offsetTable = inputImage->GetOffsetTable();
   

@@ -121,7 +121,7 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
                                      tempPtr->GetRequestedRegion());
   InputIterator inputIt = InputIterator(inputPtr, inputPtr->GetRequestedRegion());
   
-  for ( inputIt.Begin(), tempIt.Begin(); !tempIt.IsAtEnd();++tempIt, ++inputIt)
+  for ( inputIt.GoToBegin(), tempIt.GoToBegin(); !tempIt.IsAtEnd();++tempIt, ++inputIt)
     {
     tempIt.Set( (double) inputIt.Get() );
     }
