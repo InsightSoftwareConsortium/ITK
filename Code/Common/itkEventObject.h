@@ -198,7 +198,7 @@ inline std::ostream& operator<<(std::ostream& os, EventObject &e)
      virtual ~classname() {} \
      virtual const char * GetName(void) { \
       return "classname"; } \
-     virtual EventObject * New(void) const { \
+     virtual ::itk::EventObject * New(void) const { \
         return new classname; } \
  }
 
