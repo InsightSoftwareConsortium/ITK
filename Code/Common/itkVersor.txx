@@ -332,14 +332,27 @@ typename Versor<T>::VectorType
 Versor<T>
 ::GetAxis( void ) const
 {
+
   VectorType axis;
   
-  const ValueType vectorNorm = 
-    sqrt( m_X*m_X + m_Y*m_Y + m_Z*m_Z );
+  const RealType ax = static_cast<RealType>( m_X );
+  const RealType ay = static_cast<RealType>( m_Y );
+  const RealType az = static_cast<RealType>( m_Z );
+  
+  const RealType vectorNorm = sqrt( ax * ax  +  ay * ay  +  az * az  );
 
-  axis[0] = m_X / vectorNorm;
-  axis[1] = m_Y / vectorNorm;
-  axis[2] = m_Z / vectorNorm;
+  if( vectorNorm == NumericTraits<RealType>::Zero )
+    {
+    axis[0] = NumericTraits<T>::Zero;
+    axis[1] = NumericTraits<T>::Zero;
+    axis[2] = NumericTraits<T>::Zero;
+    }
+  else 
+    {
+    axis[0] = m_X / vectorNorm;
+    axis[1] = m_Y / vectorNorm;
+    axis[2] = m_Z / vectorNorm;
+    }
 
   return axis;
 }
@@ -387,9 +400,11 @@ typename Versor<T>::ValueType
 Versor<T>
 ::GetAngle( void ) const
 {
-
-  const ValueType vectorNorm = 
-    sqrt( m_X*m_X + m_Y*m_Y + m_Z*m_Z );
+  const RealType ax = static_cast<RealType>( m_X );
+  const RealType ay = static_cast<RealType>( m_Y );
+  const RealType az = static_cast<RealType>( m_Z );
+  
+  const RealType vectorNorm = sqrt( ax * ax  +  ay * ay  +  az * az  );
 
   const ValueType angle = 2.0 * atan2( vectorNorm, m_W );
   
@@ -454,12 +469,12 @@ Versor<T>
 ::Set( const VectorType & axis, ValueType angle )
 {
 
-  const ValueType vectorNorm = axis.GetNorm();
+  const RealType vectorNorm = axis.GetNorm();
 
-  const ValueType cosangle2 = cos( angle / 2.0 );
-  const ValueType sinangle2 = sin( angle / 2.0 );
+  const RealType cosangle2 = cos( angle / 2.0 );
+  const RealType sinangle2 = sin( angle / 2.0 );
   
-  const ValueType factor = sinangle2 / vectorNorm;
+  const RealType factor = sinangle2 / vectorNorm;
   
   m_X = axis[0] * factor;
   m_Y = axis[1] * factor;

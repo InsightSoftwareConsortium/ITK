@@ -59,6 +59,9 @@ public:
    * as a data element held in a Versor.   */
   typedef T ValueType;
 
+  /** Type used for computations on the versor components */
+  typedef typename NumericTraits<ValueType>::RealType    RealType;
+  
   /** Vector type used to represent the axis. */
   typedef  Vector<T,3>   VectorType;
 
