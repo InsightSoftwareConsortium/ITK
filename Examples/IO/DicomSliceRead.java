@@ -22,7 +22,7 @@ public class DicomSliceRead
 
     itkDicomImageIO_Pointer dicomIO = itkDicomImageIO.itkDicomImageIO_New();
     
-    filter.SetImageIO( dicomIO.GetPointer() );
+    reader.SetImageIO( dicomIO.GetPointer() );
     
     filter.SetOutputMinimum( 0 );
     filter.SetOutputMaximum(255);
