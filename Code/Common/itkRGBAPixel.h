@@ -122,6 +122,9 @@ public:
 
   /** Get the Alpha component. */
   const ComponentType & GetAlpha( void ) const { return this->operator[](3);}
+
+  /** Get Luminance out of RGB */
+  ComponentType GetLuminance( void ) const;
 };
 
 

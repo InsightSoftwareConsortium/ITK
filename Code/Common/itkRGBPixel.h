@@ -126,6 +126,9 @@ public:
 
   /** Get the Blue component. */
   const ComponentType & GetBlue( void ) const { return this->operator[](2);}
+
+  /** Get Luminance out of RGB */
+  ComponentType GetLuminance( void ) const;
 };
 
 
