@@ -52,10 +52,10 @@ IF(NOT BORLAND)
 
   ADD_EXECUTABLE(ImageRegistration13 ImageRegistration13.cxx )
   TARGET_LINK_LIBRARIES(ImageRegistration13 ITKStatistics ITKNumerics ITKIO)
-ENDIF(NOT BORLAND)
 
-ADD_EXECUTABLE(ImageRegistration14 ImageRegistration14.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration14 ITKStatistics ITKNumerics ITKIO)
+  ADD_EXECUTABLE(ImageRegistration14 ImageRegistration14.cxx )
+  TARGET_LINK_LIBRARIES(ImageRegistration14 ITKStatistics ITKNumerics ITKIO)
+ENDIF(NOT BORLAND)
 
 ADD_EXECUTABLE(MultiResImageRegistration1 MultiResImageRegistration1.cxx )
 TARGET_LINK_LIBRARIES(MultiResImageRegistration1 ITKNumerics ITKIO)
