@@ -56,6 +56,10 @@ int main(int argc,char *argv[])
 
   const double epsilon = 1e-10;
   const unsigned int N = 3;
+  
+  const double focal   = 100.0;
+  const double width   = 100.0;
+  const double height  = 100.0;
 
 
   bool Ok = true;
@@ -64,6 +68,10 @@ int main(int argc,char *argv[])
   /* Create a 3D identity transformation and show its parameters */
   {
     TransformType::Pointer  identityTransform = TransformType::New();
+    identityTransform->SetFocalDistance(  focal );
+    identityTransform->SetHeight( height );
+    identityTransform->SetWidth(  width );
+
     TransformType::OffsetType offset = identityTransform->GetOffset();
     std::cout << "Vector from instantiating an identity transform:  ";
     std::cout << offset << std::endl;
@@ -88,8 +96,12 @@ int main(int argc,char *argv[])
   /* Create a Rigid 3D transform with translation */
   {
     TransformType::Pointer  translation = TransformType::New();
+    translation->SetFocalDistance( focal );
+    translation->SetHeight( height );
+    translation->SetWidth(  width );
+
     TransformType::OffsetType ioffset;
-    ioffset = 1,4,9;
+    ioffset.Fill(0.0);
 
     translation->SetOffset( ioffset );
 
@@ -112,16 +124,20 @@ int main(int argc,char *argv[])
     }
 
     {
-      // Translate an itk::Point
+      // Project an itk::Point
       TransformType::InputPointType p;
-      p = 10,10,10;
+      p.Fill(0.0);
       TransformType::InputPointType q;
       q = p + ioffset;
+      TransformType::OutputPointType s;
+      const double factor = height/(q[2]+focal);
+      s[0] = q[0] * factor + width/2.0;
+      s[1] = q[1] * factor + height/2.0;
       TransformType::OutputPointType r;
       r = translation->TransformPoint( p );
-      for(unsigned int i=0; i<N; i++)
+      for(unsigned int i=0; i<N-1; i++)
       {
-        if( fabs( q[i]- r[i] ) > epsilon )
+        if( fabs( s[i]- r[i] ) > epsilon )
         {
           Ok = false;
           break;    
@@ -130,7 +146,7 @@ int main(int argc,char *argv[])
       if( !Ok )
       { 
         std::cerr << "Error translating point: " << p << std::endl;
-        std::cerr << "Result should be       : " << q << std::endl;
+        std::cerr << "Result should be       : " << s << std::endl;
         std::cerr << "Reported Result is     : " << r << std::endl;
         return EXIT_FAILURE;
       }
@@ -141,136 +157,22 @@ int main(int argc,char *argv[])
     }
 
     {
-      // Translate an itk::Vector
-      TransformType::InputVectorType p;
-      p = 10,10,10;
-      TransformType::OutputVectorType q;
-      q = translation->TransformVector( p );
-      for(unsigned int i=0; i<N; i++)
-      {
-        if( fabs( q[i]- p[i] ) > epsilon )
-        {
-          Ok = false;
-          break;    
-        }
-      }
-      if( !Ok )
-      { 
-        std::cerr << "Error translating vector: " << p << std::endl;
-        std::cerr << "Reported Result is      : " << q << std::endl;
-        return EXIT_FAILURE;
-      }
-      else
-      {
-        std::cout << "Ok translating an itk::Vector " << std::endl;
-      }
-    }
-
-    {
-      // Translate an itk::CovariantVector
-      TransformType::InputCovariantVectorType p;
-      p = 10,10,10;
-      TransformType::OutputCovariantVectorType q;
-      q = translation->TransformCovariantVector( p );
-      for(unsigned int i=0; i<N; i++)
-      {
-        if( fabs( q[i]- p[i] ) > epsilon )
-        {
-          Ok = false;
-          break;    
-        }
-      }
-      if( !Ok )
-      { 
-        std::cerr << "Error translating covariant vector: " << p << std::endl;
-        std::cerr << "Reported Result is      : " << q << std::endl;
-        return EXIT_FAILURE;
-      }
-      else
-      {
-        std::cout << "Ok translating an itk::CovariantVector " << std::endl;
-      }
-    }
-
-    
-    {
-      // Translate a vnl_vector
-      TransformType::InputVnlVectorType p;
-      p[0] = 11;
-      p[1] =  7;
-      p[2] = 15;
-      TransformType::OutputVnlVectorType q;
-      q = translation->TransformVnlVector( p );
-      for(unsigned int i=0; i<N; i++)
-      {
-        if( fabs( q[i] - p[i] ) > epsilon )
-        {
-          Ok = false;
-          break;    
-        }
-      }
-      if( !Ok )
-      { 
-        std::cerr << "Error translating vnl_vector: " << p << std::endl;
-        std::cerr << "Reported Result is      : " << q << std::endl;
-        return EXIT_FAILURE;
-      }
-      else
-      {
-        std::cout << "Ok translating an vnl_Vector " << std::endl;
-      }
-    }
-
-
-
-
-  }
-
- 
-  /* Create a Rigid 3D transform with rotation */
-  {
-    TransformType::Pointer  rotation = TransformType::New();
-
-    itk::Vector<double,3> axis;
-    axis = 1,1,1;
-
-    const double angle = (atan(1.0)/45.0)*120.0; // turn 120 degrees
-
-    // this rotation will permute the axis x->y, y->z, z->x
-    rotation->SetRotation( axis, angle );
-
-    TransformType::OffsetType offset = rotation->GetOffset();
-    std::cout << "pure Rotation test:  ";
-    std::cout << offset << std::endl;
-
-    for(unsigned int i=0; i<N; i++)
-    {
-      if( fabs( offset[i] - 0.0 ) > epsilon )
-      {
-        Ok = false;
-        break;    
-      }
-    }
-    if( !Ok )
-    { 
-      std::cerr << "Get Offset  differs from null in rotation " << std::endl;
-      return EXIT_FAILURE;
-    }
-
-    {
-      // Rotate an itk::Point
+      // Projecting  an itk::Point
       TransformType::InputPointType p;
-      p = 1,4,9;
-      TransformType::OutputPointType q;
-      q[0] = p[1];
-      q[1] = p[2];
-      q[2] = p[0];
-
+      p[0] = 10;
+      p[1] = 10;
+      p[2] = 10;
+      TransformType::InputPointType q;
+      q = p + ioffset;
+      TransformType::OutputPointType s;
+      const double factor = height/(q[2]+focal);
+      s[0] = q[0] * factor + width/2.0;
+      s[1] = q[1] * factor + height/2.0;
       TransformType::OutputPointType r;
-      r = rotation->TransformPoint( p );
-      for(unsigned int i=0; i<N; i++)
+      r = translation->TransformPoint( p );
+      for(unsigned int i=0; i<N-1; i++)
       {
-        if( fabs( q[i]- r[i] ) > epsilon )
+        if( fabs( s[i]- r[i] ) > epsilon )
         {
           Ok = false;
           break;    
@@ -278,120 +180,16 @@ int main(int argc,char *argv[])
       }
       if( !Ok )
       { 
-        std::cerr << "Error rotating point : " << p << std::endl;
-        std::cerr << "Result should be     : " << q << std::endl;
-        std::cerr << "Reported Result is   : " << r << std::endl;
+        std::cerr << "Error translating point: " << p << std::endl;
+        std::cerr << "Result should be       : " << s << std::endl;
+        std::cerr << "Reported Result is     : " << r << std::endl;
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Ok rotating an itk::Point " << std::endl;
+        std::cout << "Ok translating an itk::Point " << std::endl;
       }
     }
-
-    {
-      // Translate an itk::Vector
-      TransformType::InputVectorType p;
-      p = 1,4,9;
-      TransformType::OutputVectorType q;
-      q[0] = p[1];
-      q[1] = p[2];
-      q[2] = p[0];
-
-      TransformType::OutputVectorType r;
-      r = rotation->TransformVector( p );
-      for(unsigned int i=0; i<N; i++)
-      {
-        if( fabs( q[i] - r[i] ) > epsilon )
-        {
-          Ok = false;
-          break;    
-        }
-      }
-      if( !Ok )
-      { 
-        std::cerr << "Error rotating vector : " << p << std::endl;
-        std::cerr << "Result should be      : " << q << std::endl;
-        std::cerr << "Reported Result is    : " << r << std::endl;
-        return EXIT_FAILURE;
-      }
-      else
-      {
-        std::cout << "Ok rotating an itk::Vector " << std::endl;
-      }
-    }
-
-
-    {
-      // Translate an itk::CovariantVector
-      TransformType::InputCovariantVectorType p;
-      p = 1,4,9;
-      TransformType::OutputCovariantVectorType q;
-      q[0] = p[1];
-      q[1] = p[2];
-      q[2] = p[0];
-
-      TransformType::OutputCovariantVectorType r;
-      r = rotation->TransformCovariantVector( p );
-      for(unsigned int i=0; i<N; i++)
-      {
-        if( fabs( q[i] - r[i] ) > epsilon )
-        {
-          Ok = false;
-          break;    
-        }
-      }
-      if( !Ok )
-      { 
-        std::cerr << "Error rotating covariant vector : " << p << std::endl;
-        std::cerr << "Result should be                : " << q << std::endl;
-        std::cerr << "Reported Result is              : " << r << std::endl;
-        return EXIT_FAILURE;
-      }
-      else
-      {
-        std::cout << "Ok rotating an itk::CovariantVector " << std::endl;
-      }
-    }
-
-    
-    {
-      // Translate a vnl_vector
-      TransformType::InputVnlVectorType p;
-      p[0] = 1;
-      p[1] = 4;
-      p[2] = 9;
-
-      TransformType::OutputVnlVectorType q;
-
-      q[0] = p[1];
-      q[1] = p[2];
-      q[2] = p[0];
-
-      TransformType::OutputVnlVectorType r;
-      r = rotation->TransformVnlVector( p );
-      for(unsigned int i=0; i<N; i++)
-      {
-        if( fabs( q[i] - r[i] ) > epsilon )
-        {
-          Ok = false;
-          break;    
-        }
-      }
-      if( !Ok )
-      { 
-        std::cerr << "Error rotating vnl_vector : " << p << std::endl;
-        std::cerr << "Result should be          : " << q << std::endl;
-        std::cerr << "Reported Result is        : " << r << std::endl;
-        return EXIT_FAILURE;
-      }
-      else
-      {
-        std::cout << "Ok rotating an vnl_Vector " << std::endl;
-      }
-    }
-
-
 
 
   }
