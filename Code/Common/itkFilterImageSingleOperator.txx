@@ -18,6 +18,8 @@
 #include "vnl_math.h"
 namespace itk
 {
+
+  /*
 template< class TPixel, unsigned int VDimension>
 void
 FilterImageSingleOperator<TPixel, VDimension>
@@ -68,7 +70,7 @@ FilterImageSingleOperator<TPixel, VDimension>
 
   this->GetInput()->SetRequestedRegion( requestedRegion );
 }
-
+*/
 template< class TPixel, unsigned int VDimension>
 void
 FilterImageSingleOperator<TPixel, VDimension>

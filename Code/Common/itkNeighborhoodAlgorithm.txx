@@ -13,7 +13,7 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "itkImageRegionSimpleIterator.h"
+#include "itkImageRegionIterator.h"
 #include "itkImageRegion.h"
 
 namespace itk
@@ -53,11 +53,11 @@ DoUnsynchedInnerProduct(Image<TPixel, VDimension> *ip,
 
   RegionNeighborhoodIterator<TPixel, VDimension>
     nbi(hoodRadius, ip, iterRegion);
-  ImageRegionSimpleIterator<Image> rsi(op, iterRegion);
+  ImageRegionIterator<TPixel, VDimension> rsi(op, iterRegion);
   rsi.Begin();
  
   DoUnsynchedInnerProduct< RegionNeighborhoodIterator<TPixel, VDimension>,
-    ImageRegionSimpleIterator<Image>, 
+    ImageRegionIterator<TPixel, VDimension>, 
     Neighborhood<TPixel, VDimension> >( nbi, rsi, oper );
 
   // Apply operator to boundary pixels using bounds checking boundary iterators

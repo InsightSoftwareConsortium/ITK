@@ -66,7 +66,6 @@ public:
    */
   typedef typename ScalarTraits<TPixel>::ScalarValueType TPixelScalarValueType;
 
-  
   /**
    * Run-time type information (and related methods)
    */

@@ -96,7 +96,7 @@ public:
    * boundary conditions. We must overload GenerateInputRequestedRegion to
    * manipulate the input region size. 
    */
-  virtual void GenerateInputRequestedRegion();
+  //  virtual void GenerateInputRequestedRegion();
 
   void GenerateData();
 

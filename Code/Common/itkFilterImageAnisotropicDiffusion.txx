@@ -18,7 +18,7 @@
 #include "itkDerivativeHalfForwardOperator.h"
 #include "itkDerivativeHalfBackwardOperator.h"
 #include "itkDerivativeOperator.h"
-#include "itkImageRegionSimpleIterator.h"
+#include "itkImageRegionIterator.h"
 namespace itk
 {
   
@@ -28,9 +28,9 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
 ::UpdateOutput(ImageType *ip, const TPixelScalarValueType multiplier)
 {
   // Update the scalar portion of the output only.
-  ImageRegionSimpleIterator<ImageType>
+  ImageRegionIterator<TPixel, VDimension>
     update(ip, ip->GetRequestedRegion());
-  ImageRegionSimpleIterator<ImageType>
+  ImageRegionIterator<TPixel, VDimension>
     output(this->GetOutput(), ip->GetRequestedRegion());
   
   update.Begin();
@@ -54,7 +54,7 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
 ::CopyInputToOutput()
 {
   // Copies the entire pixel, not just the scalar part.
-  ImageRegionSimpleIterator<ImageType>
+  ImageRegionIterator<TPixel, VDimension>
     it(this->GetInput(), this->GetOutput()->GetRequestedRegion());
   TPixel *out = this->GetOutput()->GetBufferPointer();
 
