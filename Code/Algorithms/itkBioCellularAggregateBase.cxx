@@ -44,6 +44,7 @@ CellularAggregateBase::SubstrateValueType
 CellularAggregateBase
 ::GetSubstrateValue( unsigned long int cellId, unsigned int substrateId ) const
 {
+  return 0;
 }
 
 
