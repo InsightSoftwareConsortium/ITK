@@ -168,7 +168,7 @@ ADD_TEST( CurvatureAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
   CurvatureAnisotropicDiffusionImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/CurvatureAnisotropicDiffusionImageFilter.png
-        5 0.125 3.0
+        5 0.125 1.0
 )
 ADD_TEST( CurvatureFlowImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${BASELINE}/CurvatureFlowImageFilter.png
@@ -176,7 +176,7 @@ ADD_TEST( CurvatureFlowImageFilterTest ${FILTERING_EXAMPLES}
   CurvatureFlowImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/CurvatureFlowImageFilter.png
-        5 0.125 3.0
+        5 0.125 1.0
 )
 ADD_TEST( DanielssonDistanceMapImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${BASELINE}/DanielssonDistanceMapImageFilter.png
@@ -201,7 +201,7 @@ ADD_TEST( GradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
   GradientAnisotropicDiffusionImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/GradientAnisotropicDiffusionImageFilter.png
-        5 0.125 3.0
+        5 0.125 1.0
 )
 ADD_TEST( GradientMagnitudeImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${BASELINE}/GradientMagnitudeImageFilter.png

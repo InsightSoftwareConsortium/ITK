@@ -153,6 +153,7 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   filter->SetNumberOfIterations( numberOfIterations );
   filter->SetTimeStep( timeStep );
+  filter->SetConductanceParameter(1.0);
   filter->Update();
   // Software Guide : EndCodeSnippet
 
