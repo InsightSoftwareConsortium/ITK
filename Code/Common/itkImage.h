@@ -31,12 +31,13 @@ namespace itk
  *
  * Images are templated over a pixel type (modeling the dependent
  * variables), a dimension (number of independent variables) and a
- * container type for the pixel data. The container for the pixel data
- * must satisfy the ImageContainerInterface.  The default pixel container
- * uses a valarray to store pixel values (ValarrayImageContainer).  An
- * alternative pixel container is ImportImageFilterContainer, which allows an
- * application to pass a block of memory to the Image class to use as its
- * initial storage.
+ * traits class.  The container for the pixel data is specified as a
+ * "PixelContainer" member of the image traits, and must satisfy the
+ * ImageContainerInterface.  The default pixel container uses a
+ * valarray to store pixel values (ValarrayImageContainer).  An
+ * alternative pixel container is ImportImageFilterContainer, which
+ * allows an application to pass a block of memory to the Image class
+ * to use as its initial storage.
  *
  * Within, the pixel container, images are modeled as arrays, defined by a
  * start index and a size.
