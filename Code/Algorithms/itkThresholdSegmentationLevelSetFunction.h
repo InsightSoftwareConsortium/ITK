@@ -33,6 +33,13 @@ namespace itk {
  * outside that intensity window.  The evolving level set front will lock onto
  * regions that are at the edges of the intensity window.
  *
+ *  You may optionally add a Laplacian calculation on the image to the
+ *  threshold-based speed term by setting the EdgeWeight parameter to a
+ *  non-zero value.  The Laplacian term will cause the evolving surface to
+ *  be more strongly attracted to image edges.   Several parameters control a
+ *  preprocessing FeatureImage smoothing stage applied only to the Laplacian
+ *  calculation.
+ *
  *  \par
  *  Image $f$ is thresholded pixel by pixel using upper threshold
  *  $U$ and lower threshold $L$ according to the following formula.
@@ -91,6 +98,8 @@ public:
     this->SetCurvatureWeight(NumericTraits<ScalarValueType>::One);
   }
 
+  /** Set/Get the weight applied to the edge (Laplacian) attractor in the speed
+   *  term function. Zero will turn this term off. */
   void SetEdgeWeight(const ScalarValueType p)
   {
     m_EdgeWeight = p;
@@ -99,7 +108,10 @@ public:
   {
     return m_EdgeWeight;
   }
-
+  
+  /** Anisotropic diffusion is applied to the FeatureImage before calculatign
+   * the Laplacian (edge) term. This method sets/gets the smoothing
+   * conductance. */
   void SetSmoothingConductance(const ScalarValueType p)
   {
     m_SmoothingConductance = p;
@@ -109,7 +121,9 @@ public:
     return m_SmoothingConductance;
   }
   
-
+  /** Anisotropic diffusion is applied to the FeatureImage before calculating
+   * the Laplacian (edge) term. This method sets/gets the number of diffusion
+   * iterations. */ 
   void SetSmoothingIterations(const int p)
   {
     m_SmoothingIterations = p;
@@ -118,7 +132,10 @@ public:
   {
     return m_SmoothingIterations;
   }
-  
+
+  /** Anisotropic diffusion is applied to the FeatureImage before calculating
+   * the Laplacian (edge) term. This method sets/gets the diffusion time
+   * step. */
   void SetSmoothingTimeStep(const ScalarValueType i)
   {
     m_SmoothingTimeStep = i;

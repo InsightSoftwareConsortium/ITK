@@ -126,6 +126,8 @@ public:
     return m_ThresholdFunction->GetLowerThreshold();
   }
 
+  /** Set/Get the weight applied to the edge (Laplacian) attractor in the speed
+   *  term function. Zero will turn this term off. */
   void SetEdgeWeight(ValueType v)
   {
     this->m_ThresholdFunction->SetEdgeWeight(v);
@@ -136,6 +138,9 @@ public:
     return m_ThresholdFunction->GetEdgeWeight();
   }
 
+  /** Anisotropic diffusion is applied to the FeatureImage before calculating
+   * the Laplacian (edge) term. This method sets/gets the number of diffusion
+   * iterations. */
   void SetSmoothingIterations(int v)
   {
     this->m_ThresholdFunction->SetSmoothingIterations(v);
@@ -146,6 +151,9 @@ public:
     return m_ThresholdFunction->GetSmoothingIterations();
   }
 
+  /** Anisotropic diffusion is applied to the FeatureImage before calculating
+   * the Laplacian (edge) term. This method sets/gets the diffusion time
+   * step. */
   void SetSmoothingTimeStep(ValueType v)
   {
     this->m_ThresholdFunction->SetSmoothingTimeStep(v);
@@ -155,7 +163,10 @@ public:
   {
     return m_ThresholdFunction->GetSmoothingTimeStep();
   }
-  
+
+  /** Anisotropic diffusion is applied to the FeatureImage before calculatign
+   * the Laplacian (edge) term. This method sets/gets the smoothing
+   * conductance. */
   void SetSmoothingConductance(ValueType v)
   {
     this->m_ThresholdFunction->SetSmoothingConductance(v);
