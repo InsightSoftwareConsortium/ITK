@@ -32,6 +32,11 @@ namespace itk
  * Scale-Space Theory and the Scale-Space Primal Sketch.  Dissertation. Royal
  * Institute of Technology, Stockholm, Sweden. May 1991.)
  *
+ * As compared to itk::RecursiveGaussianImageFilter, this tends to be
+ * faster when the kernel is small.  Another difference is that the
+ * variance of the kernel is measured in pixels, but can be set
+ * independently in each dimension.  
+ *
  * \sa GaussianOperator
  * \sa Image
  * \sa Neighborhood
@@ -74,15 +79,25 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
   
-  /** Standard get/set macros for filter parameters. */
+  /** The variance, in terms of pixels, for the discrete Gaussian
+   * kernel.  Sets the variance independently for each dimension, but
+   * see also SetVariance(const double v). */
   itkSetVectorMacro(Variance, double, ImageDimension);
   itkSetVectorMacro(Variance, float, ImageDimension);
   itkGetVectorMacro(Variance, const double, ImageDimension);
+
+  /** The algorithm will size the discrete kernel so that the error
+   * resulting from truncation of the kernel is no greater than
+   * MaximumError. */
   itkSetVectorMacro(MaximumError, double, ImageDimension);
   itkSetVectorMacro(MaximumError, float, ImageDimension);
   itkGetVectorMacro(MaximumError, const double, ImageDimension);
+
+  /** Set the kernel to be no wider than MaximumKernelWidth pixels,
+   *  even if MaximumError demands it. */
   itkGetMacro(MaximumKernelWidth, int);
   itkSetMacro(MaximumKernelWidth, int);
+
   itkGetMacro(FilterDimensionality, unsigned int);
   itkSetMacro(FilterDimensionality, unsigned int);
   

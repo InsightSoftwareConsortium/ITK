@@ -31,7 +31,13 @@ namespace itk
  * method proposed by R.Deriche in IEEE-PAMI
  * Vol.12, No.1, January 1990, pp 78-87.
  * 
- * \ingroup ImageEnhancement  Singlethreaded
+ * As compared to itk::DiscreteGaussianImageFilter, this filter tends
+ * to be faster for large kernels, and it can take the derivative
+ * of the blurred image in one step.  Also, note that we have
+ * itk::RecursiveGaussianImageFilter::SetSigma(), but
+ * itk::DiscreteGaussianImageFilter::SetVariance().
+ * 
+ * \ingroup ImageEnhancement Singlethreaded
  */
 template <typename TInputImage, typename TOutputImage=TInputImage>
 class ITK_EXPORT RecursiveGaussianImageFilter :
@@ -52,7 +58,8 @@ public:
   /** Type macro that defines a name for this class */
   itkTypeMacro( RecursiveGaussianImageFilter, RecursiveSeparableImageFilter );
 
-  /** Set/Get the Sigma of the Gaussian kernel. */   
+  /** Set/Get the Sigma, measured in world coordinates, of the Gaussian
+   * kernel. */   
   itkGetMacro( Sigma, RealType );
   itkSetMacro( Sigma, RealType );
 
