@@ -49,7 +49,7 @@ struct ImageJointDomainTraits
                       TImage::ImageDimension +
                       PixelTraitsType::Dimension ) ;
   typedef float CoordinateRepType ;
-  typedef Point< CoordinateRepType, ImageDimension > PointType ;
+  typedef Point< CoordinateRepType, itkGetStaticConstMacro(ImageDimension) > PointType ;
   typedef JoinTraits< RangeDomainMeasurementType, CoordinateRepType > 
   JoinTraitsType ;
   typedef typename JoinTraitsType::ValueType MeasurementType ;
