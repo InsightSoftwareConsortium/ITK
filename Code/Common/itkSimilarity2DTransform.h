@@ -52,7 +52,7 @@ public:
   itkStaticConstMacro(SpaceDimension,           unsigned int, 2);
   itkStaticConstMacro(InputSpaceDimension,      unsigned int, 2);
   itkStaticConstMacro(OutputSpaceDimension,     unsigned int, 2);
-  itkStaticConstMacro(ParametersSpaceDimension, unsigned int, 6);
+  itkStaticConstMacro(ParametersDimension,      unsigned int, 6);
 
   /** Scalar type. */
   typedef typename Superclass::ScalarType  ScalarType;
