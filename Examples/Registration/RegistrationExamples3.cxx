@@ -11,6 +11,7 @@
 void RegisterTests()
 {
   vnl_sample_reseed(8775070);
+  REGISTER_TEST(DeformableRegistration5);
   REGISTER_TEST(ImageRegistration8Test);
   REGISTER_TEST(ImageRegistration9Test);
   REGISTER_TEST(IterativeClosestPoint1Test);
@@ -19,6 +20,12 @@ void RegisterTests()
   REGISTER_TEST(DeformableRegistration4Test);
   REGISTER_TEST(BSplineWarping1Test);
 }
+
+#undef main
+#define main  DeformableRegistration5Test
+#undef CommandIterationUpdate
+#define CommandIterationUpdate CommandIterationUpdate15
+#include "DeformableRegistration5.cxx"
 
 #undef main
 #define main  ImageRegistration8Test
