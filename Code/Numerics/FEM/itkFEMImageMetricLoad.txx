@@ -148,7 +148,7 @@ ImageMetricLoad<TReference , TTarget>::ImageMetricLoad(const ImageMetricLoad& LM
 }*/
 
 template<class TReference,class TTarget>
-ImageMetricLoad<TReference , TTarget>::Float 
+typename ImageMetricLoad<TReference , TTarget>::Float 
 ImageMetricLoad<TReference , TTarget>::EvaluateMetricGivenSolution( Element::ArrayType* el,Float step)
 {
   Float energy=0.0; 
@@ -198,7 +198,7 @@ ImageMetricLoad<TReference , TTarget>::EvaluateMetricGivenSolution( Element::Arr
 
 
 template<class TReference,class TTarget>
-ImageMetricLoad<TReference , TTarget>::VectorType 
+typename ImageMetricLoad<TReference , TTarget>::VectorType 
 ImageMetricLoad<TReference , TTarget>::Fe
 (ImageMetricLoad<TReference , TTarget>::VectorType  Gpos,ImageMetricLoad<TReference , TTarget>::VectorType  Gsol) 
 {
@@ -239,8 +239,8 @@ ImageMetricLoad<TReference , TTarget>::Fe
 //--------------------------------------------------------
 // Get metric values
 
-  MetricBaseType::MeasureType     measure;
-  MetricBaseType::DerivativeType  derivative;
+  typename MetricBaseType::MeasureType     measure;
+  typename MetricBaseType::DerivativeType  derivative;
 
   try
   { 
@@ -265,7 +265,7 @@ ImageMetricLoad<TReference , TTarget>::Fe
 
 
 template<class TReference,class TTarget>
-ImageMetricLoad<TReference , TTarget>::Float 
+typename ImageMetricLoad<TReference , TTarget>::Float 
 ImageMetricLoad<TReference , TTarget>::GetMetric
 (ImageMetricLoad<TReference , TTarget>::VectorType  InVec) 
 {
@@ -306,7 +306,7 @@ ImageMetricLoad<TReference , TTarget>::GetMetric
 //--------------------------------------------------------
 // Get metric values
 
-  MetricBaseType::MeasureType     measure=0.0;
+  typename MetricBaseType::MeasureType     measure=0.0;
   try
   { 
   measure=m_Metric->GetValue( parameters);
