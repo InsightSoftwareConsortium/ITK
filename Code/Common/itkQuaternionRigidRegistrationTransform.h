@@ -40,7 +40,7 @@ namespace itk
  */
 
 template <class TScalarType, class TParameters>
-class ITK_EXPORT  QuaternionRigidRegistrationTransform : public Object 
+class ITK_EXPORT  QuaternionRigidRegistrationTransform : public Object
 {
 public:
 
@@ -88,7 +88,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(QuaternionRigidRegistrationTransform, Transform);
+  itkTypeMacro(QuaternionRigidRegistrationTransform, Object);
 
   /** 
    * Jacobian matrix type.
