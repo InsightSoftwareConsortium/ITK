@@ -30,7 +30,7 @@ template <class TImage>
 ThresholdImageFilter<TImage>
 ::ThresholdImageFilter()
 {
-  m_OutsideValue = NumericTraits<typename TImage::PixelType>::Zero;
+  m_OutsideValue = NumericTraits<PixelType>::Zero;
   m_Lower = NumericTraits<PixelType>::NonpositiveMin();
   m_Upper = NumericTraits<PixelType>::max();
 
