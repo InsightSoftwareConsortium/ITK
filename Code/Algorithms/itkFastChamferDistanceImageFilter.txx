@@ -85,8 +85,8 @@ void FastChamferDistanceImageFilter<TInputImage,TOutputImage>
 
   const unsigned int  center_voxel = it.Size()/2;
   const int           num_neighbors = center_voxel; 
-  unsigned            neighbor_type[it.Size()];
-  unsigned            i,n;
+  unsigned int        *neighbor_type; neighbor_type = new unsigned int[it.Size()];
+  unsigned int        i,n;
   register float      val[ImageDimension];
   register PixelType  center_value;
   register unsigned   neighbor_start,neighbor_end;
@@ -257,7 +257,7 @@ void FastChamferDistanceImageFilter<TInputImage,TOutputImage>
             }
         }
     }
-
+  delete neighbor_type;
 }
 
 
