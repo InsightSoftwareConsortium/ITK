@@ -77,7 +77,7 @@
 //  Noise present in the image can reduce the capacity of this filter to grow
 //  large regions. When faced with noisy images, it is usually convenient to
 //  pre-process the image by using an edge-preserving smoothing filter. Any of
-//  the filters discussed in section \ref{sec:EdgePreservingSmoothingFilers}
+//  the filters discussed in section \ref{sec:EdgePreservingSmoothingFilters}
 //  could be used to this end. In this particular example we use the
 //  \code{CurvatureFlowImageFilter}, henceforth we need to include its header
 //  file.

@@ -224,11 +224,11 @@ int main( int argc, char ** argv )
   // \includegraphics[width=6cm]{RGBCurvatureAnisotropicDiffusionImageFilterOutput.eps}
   // \caption{Effect of the VectorCurvatureAnisotropicDiffusionImageFilter on
   // a RGB image from a cryogenic section of the Visible Woman data set.}
-  // \label{fig:VectorCurvatureAnisotropicDiffusionImageFilterInputOutput}
+  // \label{fig:RGBVectorCurvatureAnisotropicDiffusionImageFilterInputOutput}
   // \end{figure}
   //
   //  Figure
-  //  \ref{fig:VectorCurvatureAnisotropicDiffusionImageFilterInputOutput}
+  //  \ref{fig:RGBVectorCurvatureAnisotropicDiffusionImageFilterInputOutput}
   //  illustrates the effect of this filter on a RGB image from a cryogenic
   //  section of the Visible Woman data set.  In this example the filter was
   //  run with a time step of 0.25, and 20 iterations.  The input image has
@@ -250,7 +250,7 @@ int main( int argc, char ** argv )
   //  Figure \ref{fig:ComparisionGradientCurvatureRGBAnisotropicDiffusion}
   //  Compares the effect of the Gradient and Curvature anisotropic diffusion
   //  filters on a small region of the same cryogenic slice used in figure
-  //  \ref{fig:VectorCurvatureAnisotropicDiffusionImageFilterInputOutput}. The
+  //  \ref{fig:RGBVectorCurvatureAnisotropicDiffusionImageFilterInputOutput}. The
   //  region used in this figure is only  127x162 pixels and took 14 seconds to
   //  compute on the same platform.
   //
