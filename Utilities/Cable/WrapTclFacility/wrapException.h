@@ -34,18 +34,10 @@ private:
 
 #define _wrap_UndefinedInstanceNameException(x) \
   TclException("Undefined instance name", x)  
-#define _wrap_UndefinedReferenceNameException(x) \
-  TclException("Undefined reference name", x)
 #define _wrap_UndefinedObjectTypeException(x) \
   TclException("Undefined object type", x)
 #define _wrap_UnknownConversionException(x, y) \
   TclException("Don't know how to convert "+String(x)+" to "+String(y))
-#define _wrap_UnknownObjectTypeException(x) \
-  TclException("Can't determine object type", x)
-#define _wrap_UnknownCommandNameException(x) \
-  TclException("Unknown command name", x)
-#define _wrap_NoWrapperFunctionException(x) \
-  TclException("No wrapper function for type", x)
 
 } // namespace _wrap_
 
