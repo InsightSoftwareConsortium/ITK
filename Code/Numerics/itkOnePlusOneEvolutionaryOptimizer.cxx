@@ -135,6 +135,10 @@ OnePlusOneEvolutionaryOptimizer
 
     for (unsigned int i=0 ; i < spaceDimension ; i++) 
       {
+      if(!m_RandomGenerator)
+        {
+        itkExceptionMacro(<< "Random Generator is not set!");
+        }
       f_norm[i] = m_RandomGenerator->GetVariate() ;
       }
 
