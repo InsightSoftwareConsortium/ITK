@@ -37,7 +37,6 @@ BlobSpatialObject< TDimension, PipelineDimension >
   m_Property->SetGreen(0); 
   m_Property->SetBlue(0); 
   m_Property->SetAlpha(1); 
-  m_Points = new PointListType();
   ComputeBounds();
 } 
 
@@ -46,14 +45,13 @@ template< unsigned int TDimension , unsigned int PipelineDimension >
 BlobSpatialObject< TDimension, PipelineDimension >  
 ::~BlobSpatialObject()
 { 
-  delete m_Points;
 } 
  
 /** Get the list of points which are defining the blob */
 template< unsigned int TDimension , unsigned int PipelineDimension >
-BlobSpatialObject< TDimension, PipelineDimension > ::PointListPointer  
+BlobSpatialObject< TDimension, PipelineDimension > ::PointListType &  
 BlobSpatialObject< TDimension, PipelineDimension > 
-::GetPoints() const 
+::GetPoints() 
 { 
   itkDebugMacro( "Getting BlobPoint list" );
   return m_Points;
@@ -63,23 +61,20 @@ BlobSpatialObject< TDimension, PipelineDimension >
 template< unsigned int TDimension , unsigned int PipelineDimension >
 void  
 BlobSpatialObject< TDimension, PipelineDimension >  
-::SetPoints( PointListPointer points )  
+::SetPoints( PointListType & points )  
 {
   // in this function, passing a null pointer as argument will
   // just clear the list...
-  itkDebugMacro( "Setting TubePoint list to " << points );
-  m_Points->clear();
-         
-  if( points )
+  m_Points.clear();
+        
+  PointListType::iterator it,end;
+  it = points.begin();    
+  end = points.end();
+  for(; it != end; it++ )
   {
-    PointListType::iterator it,end;
-    it = points->begin();    
-    end = points->end();
-    for(; it != end; it++ )
-    {
-      m_Points->push_back(*it);
-    }
-  }  
+    m_Points.push_back(*it);
+  }
+  
   this->Modified();
 } 
  
@@ -91,7 +86,7 @@ BlobSpatialObject< TDimension, PipelineDimension >
 { 
   os << indent << "BlobSpatialObject(" << this << ")" << std::endl; 
   os << indent << "ID: " << m_Id << std::endl; 
-  os << indent << "nb of points: "<< m_Points->size() << std::endl;
+  os << indent << "nb of points: "<< m_Points.size() << std::endl;
   Superclass::PrintSelf( os, indent ); 
 } 
   
@@ -106,8 +101,8 @@ BlobSpatialObject< TDimension, PipelineDimension >
   {
     PointType pointLow, pointHigh; 
     PointType tempPointLow, tempPointHigh;
-    PointListType::iterator it  = m_Points->begin();
-    PointListType::iterator end = m_Points->end();
+    PointListType::iterator it  = m_Points.begin();
+    PointListType::iterator end = m_Points.end();
 
     PointContainerPointer points = PointContainerType::New();
     points->Initialize();
@@ -131,14 +126,14 @@ BlobSpatialObject< TDimension, PipelineDimension >
 ::IsInside( const PointType & point )  
 {
   itkDebugMacro( "Checking the point [" << point << "is inside the blob" );
-  PointListType::iterator it = m_Points->begin();
+  PointListType::iterator it = m_Points.begin();
     
   PointType transformedPoint = point;
   TransformPointToLocalCoordinate(transformedPoint);
 
   if( m_Bounds->IsInside(transformedPoint) )
   {
-    while(it != m_Points->end())
+    while(it != m_Points.end())
     {
       if((*it)->GetPosition() == transformedPoint)
       {

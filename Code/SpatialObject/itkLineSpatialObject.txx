@@ -37,7 +37,6 @@ LineSpatialObject< TDimension, PipelineDimension >
   m_Property->SetGreen(0); 
   m_Property->SetBlue(0); 
   m_Property->SetAlpha(1); 
-  m_Points = new PointListType();
   ComputeBounds();
 } 
  
@@ -46,14 +45,13 @@ template< unsigned int TDimension , unsigned int PipelineDimension >
 LineSpatialObject< TDimension, PipelineDimension >  
 ::~LineSpatialObject()
 { 
-  delete m_Points;
 } 
  
 /** Returns a reference to the list of the Line points.*/ 
 template< unsigned int TDimension , unsigned int PipelineDimension >
-LineSpatialObject< TDimension, PipelineDimension > ::PointListPointer  
+LineSpatialObject< TDimension, PipelineDimension > ::PointListType &  
 LineSpatialObject< TDimension, PipelineDimension > 
-::GetPoints() const 
+::GetPoints()
 { 
   itkDebugMacro( "Getting LinePoint list" );
   return m_Points;
@@ -63,23 +61,20 @@ LineSpatialObject< TDimension, PipelineDimension >
 template< unsigned int TDimension , unsigned int PipelineDimension >
 void  
 LineSpatialObject< TDimension, PipelineDimension >  
-::SetPoints( PointListPointer points )  
+::SetPoints( PointListType & points )  
 {
   // in this function, passing a null pointer as argument will
   // just clear the list...
-  itkDebugMacro( "Setting TubePoint list to " << points );
-  m_Points->clear();
-         
-  if( points )
+  m_Points.clear();
+       
+  PointListType::iterator it,end;
+  it = points.begin();    
+  end = points.end();
+  for(; it != end; it++ )
   {
-    PointListType::iterator it,end;
-    it = points->begin();    
-    end = points->end();
-    for(; it != end; it++ )
-    {
-      m_Points->push_back(*it);
-    }
-  }  
+    m_Points.push_back(*it);
+  }
+   
   this->Modified();
 }
  
@@ -91,7 +86,7 @@ LineSpatialObject< TDimension, PipelineDimension >
 { 
   os << indent << "LineSpatialObject(" << this << ")" << std::endl; 
   os << indent << "ID: " << m_Id << std::endl; 
-  os << indent << "nb of points: "<< m_Points->size() << std::endl;
+  os << indent << "nb of points: "<< m_Points.size() << std::endl;
   Superclass::PrintSelf( os, indent ); 
 } 
    
@@ -106,8 +101,8 @@ LineSpatialObject< TDimension, PipelineDimension >
   {
     PointType pointLow, pointHigh; 
     PointType tempPointLow, tempPointHigh;
-    PointListType::iterator it  = m_Points->begin();
-    PointListType::iterator end = m_Points->end();
+    PointListType::iterator it  = m_Points.begin();
+    PointListType::iterator end = m_Points.end();
     PointContainerPointer points = PointContainerType::New();
     points->Initialize();
 
@@ -130,14 +125,14 @@ LineSpatialObject< TDimension, PipelineDimension >
 ::IsInside( const PointType & point )  
 {
   itkDebugMacro( "Checking the point [" << point << "is on the Line" );
-  PointListType::iterator it = m_Points->begin();
+  PointListType::iterator it = m_Points.begin();
   
   PointType transformedPoint = point;
   TransformPointToLocalCoordinate(transformedPoint);
 
   if( m_Bounds->IsInside(transformedPoint) )
   {
-    while(it != m_Points->end())
+    while(it != m_Points.end())
     {
       if((*it)->GetPosition() == transformedPoint)
       {

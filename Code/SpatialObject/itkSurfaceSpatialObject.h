@@ -56,7 +56,6 @@ public:
   typedef SurfaceSpatialObjectPoint< TDimension >  SurfacePointType;
   typedef typename SurfacePointType::Pointer       SurfacePointPointer; 
   typedef std::list < SurfacePointPointer >        PointListType;
-  typedef PointListType *                          PointListPointer;
   typedef typename Superclass::PointType           PointType;
   typedef VectorContainer<unsigned long,PointType> PointContainerType;
   typedef SmartPointer<PointContainerType>         PointContainerPointer;
@@ -68,10 +67,10 @@ public:
   itkTypeMacro( Self, Superclass );
   
   /** Returns a reference to the list of the Surface points. */
-  PointListPointer GetPoints( void ) const;
+  PointListType & GetPoints( void );
 
   /** Set the list of Surface points. */
-  void SetPoints( PointListPointer newPoints );
+  void SetPoints( PointListType & newPoints );
 
   /** Returns true if the Surface is evaluable at the requested point, 
    * false otherwise. */
@@ -95,8 +94,8 @@ public:
 
 protected:
 
-  PointListPointer  m_Points;
-  TimeStamp     m_BoundsMTime; 
+  PointListType  m_Points;
+  TimeStamp      m_BoundsMTime; 
 
   SurfaceSpatialObject();
   virtual ~SurfaceSpatialObject();
