@@ -101,7 +101,19 @@ int main(int argc, char * argv [] )
   ImagePointType origin = image->GetOrigin(); 
 
 
+  ImageType::SpacingType spacing = image->GetSpacing();
+  ImageType::SizeType    size    = image->GetBufferedRegion().GetSize();
+
+  ImagePointType point;
+
+  point[0] = origin[0] + spacing[0] * size[0];
+  point[1] = origin[1] + spacing[1] * size[1];
+ 
   image->TransformPhysicalPointToContinuousIndex( origin, cindex );
+
+  path->AddVertex( cindex );
+
+  image->TransformPhysicalPointToContinuousIndex( point, cindex );
 
   path->AddVertex( cindex );
 
