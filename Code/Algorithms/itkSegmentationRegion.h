@@ -180,7 +180,7 @@ protected:
   /**
    * Print self identity
    */      
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   unsigned int    m_RegionLabel;

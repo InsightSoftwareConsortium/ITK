@@ -195,7 +195,7 @@ protected:
   ~LevelSetImageFilter(){};
   LevelSetImageFilter(const Self&){};
   void operator=(const Self&) {};
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
    * Allocate the internal buffers for internal interations.

@@ -76,7 +76,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 template <class TLevelSet, class TEdgeImage, class TDerivImage>
 void
 GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
-::PrintSelf(std::ostream& os, Indent indent)
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 

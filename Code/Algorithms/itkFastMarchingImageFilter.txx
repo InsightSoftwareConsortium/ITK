@@ -91,7 +91,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 template <class TLevelSet, class TSpeedImage>
 void
 FastMarchingImageFilter<TLevelSet,TSpeedImage>
-::PrintSelf(std::ostream& os, Indent indent)
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
   os << indent << "Fast Marching" << std::endl;

@@ -365,7 +365,7 @@ protected:
   /**
    * Print self identity
    */      
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   virtual void GenerateData();
   virtual void GenerateInputRequestedRegion();

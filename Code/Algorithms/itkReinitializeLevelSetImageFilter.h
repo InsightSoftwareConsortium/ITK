@@ -191,7 +191,7 @@ protected:
   ~ReinitializeLevelSetImageFilter(){};
   ReinitializeLevelSetImageFilter(const Self&){};
   void operator=(const Self&) {};
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   typedef LevelSetNeighborhoodExtractor<TLevelSet> LocatorType;
   typedef FastMarchingImageFilter<TLevelSet> FastMarchingImageFilterType;

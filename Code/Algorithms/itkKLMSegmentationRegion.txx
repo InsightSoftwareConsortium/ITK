@@ -64,7 +64,7 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 KLMSegmentationRegion<TInputImage,TOutputImage>
-::PrintSelf( std::ostream& os, Indent indent )
+::PrintSelf( std::ostream& os, Indent indent ) const
 {
 
   Superclass::PrintSelf(os,indent);

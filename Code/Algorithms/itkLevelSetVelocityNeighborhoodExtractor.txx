@@ -63,7 +63,7 @@ template <class TLevelSet, class TAuxValue,
   unsigned int VAuxDimension>
 void
 LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension>
-::PrintSelf(std::ostream &os, Indent indent)
+::PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Locate level set with auxiliary variable extension" 

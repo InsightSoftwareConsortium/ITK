@@ -78,7 +78,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension >
 void
 ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
-::PrintSelf(std::ostream& os, Indent indent)
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 

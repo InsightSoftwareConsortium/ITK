@@ -218,7 +218,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 template<class TInputImage, class TClassifiedImage>
 void
 MRFImageFilter<TInputImage, TClassifiedImage>
-::PrintSelf( std::ostream& os, Indent indent )
+::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf(os,indent);
   os << indent << "MRF labeller" << std::endl;

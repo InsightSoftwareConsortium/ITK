@@ -78,7 +78,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 template <class TLevelSet>
 void
 LevelSetNeighborhoodExtractor<TLevelSet>
-::PrintSelf(std::ostream& os, Indent indent)
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Locate level set " << m_LevelSetValue << std::endl;

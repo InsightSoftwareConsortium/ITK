@@ -196,7 +196,7 @@ unsigned int level )
 template <class TRegistrationMethod>
 void
 MultiResolutionRegistration<TRegistrationMethod>
-::PrintSelf(std::ostream& os, Indent indent)
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 

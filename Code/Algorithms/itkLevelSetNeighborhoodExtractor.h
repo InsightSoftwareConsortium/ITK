@@ -199,7 +199,7 @@ protected:
   ~LevelSetNeighborhoodExtractor(){};
   LevelSetNeighborhoodExtractor( const Self& ) {};
   void operator= ( const Self& ) {};
-  void PrintSelf( std::ostream& os, Indent indent );
+  void PrintSelf( std::ostream& os, Indent indent ) const;
 
   typename LevelSetImageType::ScalarValueType GetLargeValue() const
     { return m_LargeValue; }
