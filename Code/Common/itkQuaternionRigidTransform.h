@@ -79,7 +79,7 @@ public:
                       Superclass::OutputSpaceDimension);
 
   /** Standard matrix type for this class. */
-  typedef Superclass::MatrixType MatrixType;
+  typedef typename Superclass::MatrixType MatrixType;
 
   /** Standard vector type for this class. */
   typedef Vector<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)> OffsetType;

@@ -47,6 +47,10 @@ int itkGEImageIOFactoryTest(int ac, char * av[])
     itk::ObjectFactoryBase::RegisterFactory(itk::SiemensVisionImageIOFactory::New() );
     firstTime = false;
     }
+  if(ac < 2)
+    {
+    return 1;
+    }
   char *filename = *++av;
 
   ImagePointer input ;
