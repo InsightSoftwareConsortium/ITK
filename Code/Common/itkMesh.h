@@ -206,7 +206,6 @@ public:
   /** Visiting cells. */
   typedef typename CellType::MultiVisitor CellMultiVisitorType;
 
-protected:
 
 
   /** An explicit cell boundary assignment can be accessed through the cell
@@ -252,6 +251,23 @@ protected:
   }; // End Class: Mesh::BoundaryAssignmentIdentifier
 
 
+  /** Used for manipulating boundaries and boundary attributes.  A
+   * BoundaryAssignmentsContainerVector is indexed by dimension.  For
+   * each dimension, it points to a MapContainer indexed by a
+   * BoundaryAssignmentIdentifier, which encapsulates a cell
+   * identifier and a boundary feature identifier.  The boundary
+   * feature identifier distinguishes different boundary features for
+   * a given cell at a given dimension.  */
+  typedef MapContainer< BoundaryAssignmentIdentifier , CellIdentifier >
+        BoundaryAssignmentsContainer;
+  typedef typename BoundaryAssignmentsContainer::Pointer
+        BoundaryAssignmentsContainerPointer;
+  typedef std::vector< BoundaryAssignmentsContainerPointer >
+        BoundaryAssignmentsContainerVector;
+
+
+protected:
+
   /** Holds cells used by the mesh.  Individual cells are accessed
    *  through cell identifiers.  */
   CellsContainerPointer  m_CellsContainer;
@@ -266,20 +282,6 @@ protected:
    *  can be used by multiple cells, each point identifier accesses another
    *  container which holds the cell identifiers */
   CellLinksContainerPointer  m_CellLinksContainer;
-
-  /** Used for manipulating boundaries and boundary attributes.  A
-   * BoundaryAssignmentsContainerVector is indexed by dimension.  For
-   * each dimension, it points to a MapContainer indexed by a
-   * BoundaryAssignmentIdentifier, which encapsulates a cell
-   * identifier and a boundary feature identifier.  The boundary
-   * feature identifier distinguishes different boundary features for
-   * a given cell at a given dimension.  */
-  typedef MapContainer< BoundaryAssignmentIdentifier , CellIdentifier >
-        BoundaryAssignmentsContainer;
-  typedef typename BoundaryAssignmentsContainer::Pointer
-        BoundaryAssignmentsContainerPointer;
-  typedef std::vector< BoundaryAssignmentsContainerPointer >
-        BoundaryAssignmentsContainerVector;
 
   /** A vector of objects containing explicit cell boundary assignments.
    *  The vector is indexed by the topological dimension of the cell
