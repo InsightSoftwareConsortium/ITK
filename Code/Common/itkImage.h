@@ -287,6 +287,8 @@ public:
 
   /** \brief Get the continuous index from a physical point
    *
+   * Returns true if the resulting index is within the image, false otherwise
+   *
    * Since this function internally uses AffineTranform, it is
    * templated over coordinate value type (TCoordRep); using float or
    * double for the coordinate value type is recommended.
@@ -296,15 +298,81 @@ public:
    * move function definition to itkImage.txx file.
    * \sa AffineTransform */
   template<class TCoordRep> 
-  void TransformPhysicalPointToContinuousIndex(Point<TCoordRep, VImageDimension>& point, 
+  bool TransformPhysicalPointToContinuousIndex(Point<TCoordRep, VImageDimension>& point, 
     ContinuousIndex<TCoordRep, VImageDimension>& index)
     {
     if ( !m_PhysicalToIndexTransform ) {this->RebuildTransforms();}
+    
     AffineTransformType::InputPointType inputPoint = 
       m_PhysicalToIndexTransform->TransformPoint(point) ;
 
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
       {index[i] = inputPoint[i];}
+
+    // Now, check to see if the index is within allowed bounds
+
+    // Get the image size
+    SizeType sizeObject = this->GetLargestPossibleRegion().GetSize();
+    const unsigned long* mySize = sizeObject.GetSize();
+
+    // Check to see if the index is valid
+    for (int ii = 0; ii < VImageDimension; ++ii)
+      {
+      if( (index[ii] < 0) || (index[ii] >= mySize[ii]) )
+        return false;
+      }
+    
+    // If we make it to here, then the the index is a valid one
+    return true;
+    }
+
+  /**
+   * Get the index (discrete) from a physical point
+   * Floating point index results are truncated to integers
+   *
+   * Returns true if the resulting index is within the image, false otherwise
+   *
+   * Since this function internally uses AffineTranform, it is
+   * templated over coordinate value type (TCoordRep); using float or
+   * double for the coordinate value type is recommended.
+   *
+   * \todo
+   * In future, when MS Visual C++ supports out-of-class member templates,
+   * move function definition to itkImage.txx file.
+   *
+   * \sa AffineTransform */
+  template<class TCoordRep> 
+  bool TransformPhysicalPointToIndex(Point<TCoordRep, VImageDimension>& point, 
+    Index<VImageDimension>& index)
+    {
+
+    // If no current transforms exist, rebuild them using the origin and spacing
+    if ( !m_PhysicalToIndexTransform ) { this->RebuildTransforms(); }
+
+    // Transform the point
+    AffineTransformType::InputPointType inputPoint =
+      m_PhysicalToIndexTransform->TransformPoint(point) ;
+
+    // Update the output index
+    for (unsigned int i = 0 ; i < VImageDimension ; i++)
+      index[i] = inputPoint[i] ;
+
+    // Now, check to see if the index is within allowed bounds
+
+    // Get the image size
+    SizeType sizeObject = this->GetLargestPossibleRegion().GetSize();
+    const unsigned long* mySize = sizeObject.GetSize();
+
+    // Check to see if the index is valid
+    for (int ii = 0; ii < VImageDimension; ++ii)
+      {
+      if( (index[ii] < 0) || (index[ii] >= mySize[ii]) )
+        return false;
+      }
+    
+    // If we make it to here, then the the index is a valid one
+    return true;
+
     }
 
   /** Get a physical point (in the space which 
@@ -322,13 +390,54 @@ public:
   void TransformContinuousIndexToPhysicalPoint(ContinuousIndex<TCoordRep, VImageDimension>& index, 
     Point<TCoordRep, VImageDimension>& point)
     {
-    if ( !m_IndexToPhysicalTransform ) {this->RebuildTransforms();}
+    // If no current transforms exist, rebuild them using the origin and spacing
+    if ( !m_IndexToPhysicalTransform ) { this->RebuildTransforms(); }
+    
     AffineTransformType::InputPointType inputPoint;
-    for (unsigned int i = 0 ; i < VImageDimension ; i++)
-      {inputPoint[i] = index[i];}
 
-    AffineTransformType::OutputPointType outputPoint = 
+    // Update the input index
+    for (unsigned int i = 0 ; i < VImageDimension ; i++)
+      inputPoint[i] = index[i] ;
+
+    // Transform the point
+    AffineTransformType::OutputPointType outputPoint =
       m_IndexToPhysicalTransform->TransformPoint(inputPoint) ;
+  
+    // Update the output point
+    point = outputPoint;
+    }
+
+  /**
+   * Get a physical point (in the space which 
+   * the origin and spacing infomation comes from) 
+   * from a discrete index (in the index space) 
+   *
+   * Since this function internally uses AffineTranform, it is
+   * templated over coordinate value type (TCoordRep); using float or
+   * double for the coorinate value type is recommended.
+   *
+   * \todo In future, when MS Visual C++ supports out-of-class member 
+   * templates, move function definition to itkImage.txx file.
+   *
+   * \sa AffineTransform */
+  template<class TCoordRep> 
+  void TransformIndexToPhysicalPoint(Index<VImageDimension>& index, 
+    Point<TCoordRep, VImageDimension>& point)
+    {
+    // If no current transforms exist, rebuild them using the origin and spacing
+    if ( !m_IndexToPhysicalTransform ) { this->RebuildTransforms(); }
+    
+    AffineTransformType::InputPointType inputPoint;
+
+    // Update the input index
+    for (unsigned int i = 0 ; i < VImageDimension ; i++)
+      inputPoint[i] = index[i] ;
+
+    // Transform the point
+    AffineTransformType::OutputPointType outputPoint =
+      m_IndexToPhysicalTransform->TransformPoint(inputPoint) ;
+  
+    // Update the output point
     point = outputPoint;
     }
 
