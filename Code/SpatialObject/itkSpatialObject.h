@@ -100,7 +100,8 @@ public:
   typedef CovariantVector< double, TDimension > OutputVectorType; 
   typedef OutputVectorType * OutputVectorPointer;
 
-  typedef FixedCenterOfRotationAffineTransform< double, TDimension>   TransformType;
+  typedef FixedCenterOfRotationAffineTransform< double, TDimension >
+                                           TransformType;
   typedef typename TransformType::Pointer  TransformPointer;
   typedef const TransformType*             TransformConstPointer;
   
