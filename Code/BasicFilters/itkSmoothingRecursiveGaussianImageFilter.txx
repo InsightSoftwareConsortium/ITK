@@ -190,6 +190,7 @@ SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage >
 
   m_FirstSmoothingFilter->SetInput( inputImage );
   m_CastingFilter->Update();
+  this->GraftOutput(m_CastingFilter->GetOutput());
 
 }
 
@@ -200,6 +201,7 @@ SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
+
   os << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
 }
 
