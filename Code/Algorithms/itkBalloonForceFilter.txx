@@ -57,7 +57,10 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     {
     for (i = 0; i < m_NewNodeLimit; i++)
       {
-      free(m_NewNodes[i]);
+      if (m_NewNodes[i])
+        {
+        free(m_NewNodes[i]);
+        }
       }
     free(m_NewNodes);
     }
@@ -199,6 +202,10 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   m_NewNodeLimit = 200;
   m_ObjectLabel = m_Potential->GetPixel(m_Center);
   m_NewNodes = (float**) malloc(sizeof(float *)*m_NewNodeLimit);
+  for (unsigned int i = 0; i < m_NewNodeLimit; i++)
+    {
+    m_NewNodes[i] = 0;
+    }
 
   //---------------------------------------------------------------------
   //Get the image width/height and dePixelTypeh
