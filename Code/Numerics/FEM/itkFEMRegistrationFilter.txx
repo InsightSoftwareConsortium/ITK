@@ -691,18 +691,18 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
   
   
    Float mint=1.0; //,ImageSimilarity=0.0;
-   if (DLS > 0 && (iters > 0 || m_CurrentLevel !=0) && (iters % LSF) == 0) 
+   if (DLS > 0 && (iters > 0 || m_CurrentLevel !=0) && (iters % LSF) != 0) 
    {
      std::cout << " line search ";
      if (DLS == 1 ) LastE=mySolver.GoldenSection(1.e-1,1000);
      else  LastE=mySolver.BrentsMethod(1.e-1,200);
      std::cout << " line search done " << std::endl;
-   } else if (DLS >0 && iters == 0) LastE=mySolver.EvaluateResidual(mint);
+   } else  LastE=mySolver.EvaluateResidual(mint);
 
    //ImageSimilarity=0.0;//m_Load->EvaluateMetricGivenSolution(&(mySolver.el), mint);
    deltE=(LastE-m_MinE);
    mySolver.AddToDisplacements(mint); 
-   if ((LastE <= m_EnergyReductionFactor  || deltE == 0.0 )
+   if ((LastE <= m_EnergyReductionFactor  /*|| deltE == 0.0 */) || iters > m_Maxiters[m_CurrentLevel] 
         /*|| ImageSimilarity > LastISim*/) 
    {
      Done=true;
@@ -908,7 +908,7 @@ void FEMRegistrationFilter<TReference,TTarget>::SampleVectorFieldAtNodes(SolverT
     coord=(*node)->GetCoordinates();
     for (ii=0; ii < ImageDimension; ii++)
     { 
-      if (coord[ii] != 0) rindex[ii]=((long int) ((Float)coord[ii]*(Float)m_ImageScaling[ii]+0.5)-1.);
+      if (coord[ii] != 0) rindex[ii]=(long int) ((Float)coord[ii]*(Float)m_ImageScaling[ii]+0.5)-1;
      else rindex[ii]=0;
     }
     SolutionAtNode=m_Field->GetPixel(rindex);
