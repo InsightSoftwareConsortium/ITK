@@ -40,9 +40,9 @@ struct houghPoint
   double radius;
   double angle;
 };
-  
+
 /** Main program */
-int itkHoughTransform2DLinesImageFilterTest(int, char* [])
+int itkHoughTransform2DLinesImageTest(int, char* [])
 {
   /** Typedefs */
   typedef   unsigned char                            PixelType;
