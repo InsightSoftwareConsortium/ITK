@@ -25,11 +25,11 @@ namespace itk
 /** \class Size
  * \brief Represent the size (bounds) of a n-dimensional image.
  *
- * Size is a templated class to represent multi-dimensional array bounds
- * Size is templated over the dimension. itk assumes the first element of
- * Size is the fastest moving index.
+ * Size is a class to represent multi-dimensional array bounds,
+ * templated over the dimension.  Insight assumes that the first
+ * element of Size is the fastest moving index.
  *
- * For efficiency sake, Size does not define a default constructor, a
+ * For the sake of efficiency, Size does not define a default constructor, a
  * copy constructor, or an operator=. We rely on the compiler to provide
  * efficient bitwise copies.
  *
