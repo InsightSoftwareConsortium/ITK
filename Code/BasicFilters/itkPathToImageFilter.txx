@@ -20,6 +20,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkPathToImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkPathIterator.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -39,8 +40,8 @@ PathToImageFilter<TInputPath,TOutputImage>
     m_Origin[i] = 0;
     }
 
-  m_PathValue = 0;
-  m_BackgroundValue = 0;
+  m_PathValue = NumericTraits<ValueType>::One;
+  m_BackgroundValue = NumericTraits<ValueType>::Zero;
 }
 
 /** Destructor */
@@ -226,7 +227,7 @@ PathToImageFilter<TInputPath,TOutputImage>
   // Generate the image
   double origin[OutputImageDimension];
   SizeType size;
-
+  
   for(i=0;i<OutputImageDimension;i++)
     {
     // Set Image size to the size of the path's bounding box
@@ -243,7 +244,7 @@ PathToImageFilter<TInputPath,TOutputImage>
   // If the size of the output has been explicitly specified, the filter
   // will set the output size to the explicit size, otherwise the size from the spatial
   // paths's bounding box will be used as default.
-
+  
   bool specified = false;
   for (i = 0; i < OutputImageDimension; i++)
     {
@@ -253,7 +254,7 @@ PathToImageFilter<TInputPath,TOutputImage>
       break;
       }
     }
-
+  
   if (specified)
     {
     region.SetSize( m_Size );
@@ -264,7 +265,7 @@ PathToImageFilter<TInputPath,TOutputImage>
     //region.SetSize( size );
     }
   region.SetIndex( index );
-
+  
   OutputImage->SetLargestPossibleRegion( region);     // 
   OutputImage->SetBufferedRegion( region );           // set the region 
   OutputImage->SetRequestedRegion( region );          //                                                                       
@@ -282,7 +283,7 @@ PathToImageFilter<TInputPath,TOutputImage>
       break;
       }
     }
-
+  
   if (specified)
     {
     OutputImage->SetSpacing(this->m_Spacing);         // set spacing
@@ -294,7 +295,7 @@ PathToImageFilter<TInputPath,TOutputImage>
     }
   OutputImage->SetOrigin(origin);   //   and origin
   OutputImage->Allocate();   // allocate the image                            
-
+  
   ImageRegionIteratorWithIndex<OutputImageType> imageIt(OutputImage,region);
   for( imageIt.GoToBegin(); !imageIt.IsAtEnd(); ++imageIt )
     {
