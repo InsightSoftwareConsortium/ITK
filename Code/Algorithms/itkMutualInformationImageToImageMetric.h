@@ -183,7 +183,7 @@ public:
   /**
    * Type of the Transform
    */
-  typedef typename MapperType::TransformationType TransformationType;
+  typedef typename MapperType::TransformType TransformType;
 
   /**
    *  Parameters type
