@@ -32,13 +32,17 @@ int itkBilateralImageFilterTest2(int ac, char** av)
     }
 
   // Register one Factory of PNG readers
-  itk::PNGImageIOFactory::RegisterOneFactory();
+  //itk::PNGImageIOFactory::RegisterOneFactory();
   
   typedef unsigned char PixelType;
   typedef itk::Image<PixelType, 2> myImage;
   itk::ImageFileReader<myImage>::Pointer input 
     = itk::ImageFileReader<myImage>::New();
   input->SetFileName(av[1]);
+//     itk::PNGImageIO::Pointer io1;
+//       io1 = itk::PNGImageIO::New();
+//  input->SetImageIO(io1);
+    
   
   // Create a filter
   typedef itk::BilateralImageFilter<myImage,myImage> FilterType;
@@ -61,6 +65,11 @@ int itkBilateralImageFilterTest2(int ac, char** av)
     std::cerr << "Exception detected: "  << e.GetDescription();
     return -1;
     }
+  catch (...)
+    {
+    std::cerr << "Some other exception occurred" << std::endl;
+    return -2;
+    }
 
   // Code used to generate the baseline image, commented out when run in
   // regression test mode.
@@ -74,12 +83,15 @@ int itkBilateralImageFilterTest2(int ac, char** av)
   // writer->SetFileName( av[2] );
   // writer->SetImageIO( io );
   // writer->Update();
-  
+
   // now read the regression image
   itk::ImageFileReader<myImage>::Pointer baseline 
     = itk::ImageFileReader<myImage>::New();
     baseline->SetFileName(av[2]);
-
+//     itk::PNGImageIO::Pointer io2;
+//       io2 = itk::PNGImageIO::New();
+//     baseline->SetImageIO(io2);
+    
   try
     {
     baseline->Update();
@@ -87,8 +99,14 @@ int itkBilateralImageFilterTest2(int ac, char** av)
   catch (itk::ImageFileReaderException& e)
     {
     std::cerr << "Exception in file reader: "  << e.GetDescription() << std::endl;
-    return -1;
+    return -3;
     }
+  catch (...)
+    {
+    std::cerr << "Some other exception occurred" << std::endl;
+    return -4;
+    }
+
   
   // compare the two images
   itk::ImageRegionIterator<myImage> it(filter->GetOutput(),filter->GetOutput()->GetBufferedRegion());
