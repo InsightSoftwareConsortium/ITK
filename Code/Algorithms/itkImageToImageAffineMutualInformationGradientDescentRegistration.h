@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkMutualInformationImageToImageMetric.h"
 #include "itkGradientDescentOptimizer.h"
 #include "itkImageMapper.h"
-#include "itkAffineRegistrationTransform.h"
+#include "itkAffineTransform.h"
 #include "itkPoint.h"
 
 namespace itk
@@ -72,25 +72,28 @@ public:
    */
    typedef TTarget TargetType;
 
-  /**
-   * Image Dimensions
-   */
-   enum {ImageDimension = ReferenceType::ImageDimension,
-         ParametersDimension = ImageDimension*(ImageDimension+1) };
-
-  /**
-   *  Type of the parameters
-   */
-   typedef Point<double,ParametersDimension>   ParametersType;
 
   /**
    *  Type of the Transformation
    */
 
-   typedef AffineRegistrationTransform<
-                double, 
-                ImageDimension, 
-                ParametersType >  TransformationType;
+   typedef AffineTransform<
+                            double, 
+                            ReferenceType::ImageDimension 
+                                            >  TransformationType;
+
+	/**
+   *  Type of the parameters
+   */
+   typedef TransformationType::ParametersType  ParametersType;
+
+
+  /**
+   * Image Dimensions
+   */
+   enum {ImageDimension = ReferenceType::ImageDimension,
+         ParametersDimension = TransformationType::ParametersDimension };
+
 
   /**
    *  Type of the Mapper
@@ -165,7 +168,7 @@ public:
  * the target image type.
  *
  * \sa MutualInformationImageToImageMetric
- * \sa AffineRegistrationTransform
+ * \sa AffineTransform
  *
  *  \ingroup AffineImageRegistration
  */

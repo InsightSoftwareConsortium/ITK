@@ -47,7 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkGradientDescentOptimizer.h"
 #include "itkImage.h"
 #include "itkImageMapper.h"
-#include "itkAffineRegistrationTransform.h"
+#include "itkAffineTransform.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkPoint.h"
 
@@ -75,24 +75,25 @@ public:
    typedef TTarget TargetType;
 
   /**
+   *  Type of the Transformation
+   */
+   typedef AffineTransform<
+                            double, 
+                            ReferenceType::ImageDimension 
+                                        > TransformationType;
+	/**
+   *  Type of the parameters
+   */
+   typedef TransformationType::ParametersType  ParametersType;
+
+
+  /**
    * Image Dimensions
    */
    enum {ImageDimension = ReferenceType::ImageDimension,
-         ParametersDimension = ImageDimension*(ImageDimension+1) };
+         ParametersDimension = TransformationType::ParametersDimension }; 
 
-  /**
-   *  Type of the parameters
-   */
-   typedef Point<double,ParametersDimension>   ParametersType;
-
-  /**
-   *  Type of the Transformation
-   */
-   typedef AffineRegistrationTransform<
-                double, 
-                ImageDimension, 
-                ParametersType > TransformationType;
-	  
+ 
   /**
    *  Type of the Mapper
    */
