@@ -32,12 +32,18 @@ namespace _cable_
                                      itkVTKImageExportUC2);
     ITK_WRAP_OBJECT1(VTKImageExport, image::US2,
                                      itkVTKImageExportUS2);
+    ITK_WRAP_OBJECT1(VTKImageExport, image::UL2,
+                                     itkVTKImageExportUL2);
+  
     ITK_WRAP_OBJECT1(VTKImageExport, image::F3, 
                                      itkVTKImageExportF3);
     ITK_WRAP_OBJECT1(VTKImageExport, image::UC3, 
                                      itkVTKImageExportUC3);
     ITK_WRAP_OBJECT1(VTKImageExport, image::US3, 
                                      itkVTKImageExportUS3);
+    ITK_WRAP_OBJECT1(VTKImageExport, image::UL3, 
+                                     itkVTKImageExportUL3);
+  
   }
 }
 
