@@ -383,7 +383,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
 }
 
 template<class TImage, class TBoundaryCondition>
-const ConstNeighborhoodIterator<TImage, TBoundaryCondition> &
+ConstNeighborhoodIterator<TImage, TBoundaryCondition> &
 ConstNeighborhoodIterator<TImage, TBoundaryCondition>
 ::operator++()
 {
@@ -415,7 +415,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
 }
 
 template<class TImage, class TBoundaryCondition>
-const ConstNeighborhoodIterator<TImage, TBoundaryCondition> &
+ConstNeighborhoodIterator<TImage, TBoundaryCondition> &
 ConstNeighborhoodIterator<TImage, TBoundaryCondition>
 ::operator--()
 {

@@ -169,7 +169,7 @@ void Neighborhood<TPixel, VDimension, TContainer>
   os << "]" << std::endl;
 
   os << indent << "m_OffsetTable: [ ";
-  for (i=0; i<VDimension; ++i) os << m_OffsetTable[i] << " ";
+  for (i=0; i< m_OffsetTable.size(); ++i) os << m_OffsetTable[i] << " ";
   os << "]" << std::endl;  
 }
 

@@ -264,13 +264,13 @@ public:
    * wraps across boundaries automatically, accounting for
    * the disparity in the buffer size and the region size of the
    * image. */
-  virtual const Self &operator++();
+  Self &operator++();
   
   /** Decrements the pointers in the ConstNeighborhoodIterator,
    * wraps across boundaries automatically, accounting for
    * the disparity in the buffer size and the region size of the
    * image. */
-  virtual const Self &operator--();  
+  Self &operator--();  
  
   /** Returns a boolean == comparison of the memory addresses of the center
    * elements of two ConstNeighborhoodIterators of like pixel type and
