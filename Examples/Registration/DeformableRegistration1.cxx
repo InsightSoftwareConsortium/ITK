@@ -160,7 +160,7 @@ int main(int argc, char *argv[])
 //  Software Guide : BeginLatex
 //  
 //  In order to begin the registration, we declare an instance of the
-//  \doxygen{FEMRegistrationFilter}.  For simplicity, we will call
+//  FEMRegistrationFilter.  For simplicity, we will call
 //  it \code{X}.
 // 
 //  Software Guide : EndLatex
@@ -334,11 +334,6 @@ int main(int argc, char *argv[])
   //
   //  ../Data/FiniteElementRegistrationParameters1.txt
   //
-
-  // Clean up and exit. TODO: THIS IS REALLY BAD. NEEDS TO BE FIXED!!!!
-  // Instantiated as ::Pointer and the delete is used.
-  delete m;
-  delete e1;
 
   return 0;
 }
