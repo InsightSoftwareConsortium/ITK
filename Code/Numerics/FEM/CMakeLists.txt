@@ -45,7 +45,7 @@ SOURCE_FILES(FEM_SRCS
  
   itkFEMLoadImplementationsRegister.cxx
   itkFEMLoadImplementationGenericBodyLoad.cxx
-  itkFEMLoadImplementationLandmarkLoadOnElement2DC0LinearQuadrilateralStress.cxx 
+  itkFEMLoadImplementationGenericLandmarkLoad.cxx
 
   itkFEMSolver.cxx
   itkFEMSolverHyperbolic.cxx
@@ -114,6 +114,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMImageMetricLoad.h
 
   itkFEMLoadImplementationGenericBodyLoad.h
+  itkFEMLoadImplementationGenericLandmarkLoad.h
   itkFEMLoadImplementationTest.h
   itkFEMImageMetricLoadImplementation.h
 

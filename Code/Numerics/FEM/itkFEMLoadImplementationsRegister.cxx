@@ -28,6 +28,7 @@
 #include "itkFEMLoadLandmark.h"
 
 #include "itkFEMLoadImplementationGenericBodyLoad.h"
+#include "itkFEMLoadImplementationGenericLandmarkLoad.h"
 
 #include "itkFEMElement2DC0LinearLineStress.h"
 #include "itkFEMElement2DC1Beam.h"
@@ -69,19 +70,20 @@ void LoadImplementationsRegister(void)
 
   // Loads acting on QuadrilateralStress element
   REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStress,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
-
-  // Landmark loads acting on QuadrilateralStress elements
-  REGISTER_LOAD(Element2DC0LinearQuadrilateralStress,LoadLandmark,LoadImplementationLandmarkLoadOnElement2DC0LinearQuadrilateralStress);
+  REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStress,LoadLandmark,LoadImplementationGenericLandmarkLoad::HandleLoad);
 
   // Loads acting on TriangularStress element
   REGISTER_LOAD_EX(Element2DC0LinearTriangularStress,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
+  REGISTER_LOAD_EX(Element2DC0LinearTriangularStress,LoadLandmark,LoadImplementationGenericLandmarkLoad::HandleLoad);
 
   // Loads acting on HexahedronStrain element
   REGISTER_LOAD_EX(Element3DC0LinearHexahedronStrain,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
+  REGISTER_LOAD_EX(Element3DC0LinearHexahedronStrain,LoadLandmark,LoadImplementationGenericLandmarkLoad::HandleLoad);
 
   // Loads acting on TetrahedronStrain element
   REGISTER_LOAD_EX(Element3DC0LinearTetrahedronStrain,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
-  
+  REGISTER_LOAD_EX(Element3DC0LinearTetrahedronStrain,LoadLandmark,LoadImplementationGenericLandmarkLoad::HandleLoad);
+
 
   // Add any additional loads here in a similar fashion...
   // Make sure that the pointer to the visit function is the correct one!!!

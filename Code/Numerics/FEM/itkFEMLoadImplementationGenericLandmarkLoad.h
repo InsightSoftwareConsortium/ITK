@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMLoadImplementationGenericBodyLoad.h
+  Module:    itkFEMLoadImplementationGenericLandmarkLoad.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -15,11 +15,11 @@
 
 =========================================================================*/
 
-#ifndef __itkFEMLoadImplementationGenericBodyLoad_h
-#define __itkFEMLoadImplementationGenericBodyLoad_h
+#ifndef __itkFEMLoadImplementationGenericLandmarkLoad_h
+#define __itkFEMLoadImplementationGenericLandmarkLoad_h
 
 #include "itkFEMElementBase.h"
-#include "itkFEMLoadGrav.h"
+#include "itkFEMLoadLandmark.h"
 
 namespace itk {
 namespace fem {
@@ -27,41 +27,22 @@ namespace fem {
 
 
 /**
- * \class LoadImplementationGenericBodyLoad
- * \brief Class that holds a templated generic body load implementation.
+ * \class LoadImplementationGenericLandmarkLoad
+ * \brief Class that holds a templated generic landmark load implementation.
  *
- * The only accessable part of this class is a static function HandleLoad.
- * This is the function that should be passed to the VisitorDispatcher
- * when registering a load with the element class. The function is templated
- * over the a pointer to an element class, and can therefore be registered
- * with any element class.
- *
- * Function HandleLoad is declared within a class only to avoid problems with
- * MS compiler. The real gravity load implementation is in static member
- * function Implementation, which is automatically called within HandleLoad
- * function.
- *
- * \note Declare any additional general implementations of loads in a\
- *       similar way as here.
+ * For more info see class LoadImplementationGenericBodyLoad.
  */
-class LoadImplementationGenericBodyLoad
+class LoadImplementationGenericLandmarkLoad
 {
 public:
-  /**
-   * Template parameter should be a const pointer type pointing to a class
-   * that is derived from the Element base class. The template parameter
-   * is normally automatically determined.
-   *
-   * FIXME: Add concept checking.
-   */
   template<class TElementClassConstPointer>
   inline static Element::VectorType HandleLoad(TElementClassConstPointer e, Element::LoadElementPointer l)
   {
-    // Check if we really got a LoadGrav object
-    LoadGrav::Pointer l0=dynamic_cast<LoadGrav*>(&*l);
+    // Check if we really got an object of correct class
+    LoadLandmark::Pointer l0=dynamic_cast<LoadLandmark*>(&*l);
     if ( !l0 )
     {
-      // Passed load object was not of class LoadGrav!
+      // Class of passed load object was not compatible!
       throw FEMException(__FILE__, __LINE__, "FEM error");
     }
 
@@ -73,19 +54,19 @@ public:
 
 private:
   /**
-   * Handle LoadGrav in element by integrating over the element domain.
+   * Handle LoadLandmark in element by integrating over the element domain.
    * This implementation requires that the element has the shape functions
    * and integration routines defined.
    *
    * It is also assumed, that element's local DOFs are numbered with respect
    * to node ID. If this is not the case, you should not use this function.
    */
-  static Element::VectorType Implementation(Element::ConstPointer element, LoadGrav::Pointer load);
+  static Element::VectorType Implementation(Element::ConstPointer element, LoadLandmark::Pointer load);
 
   /**
    * Private constructor prohibits creation of objects of this class
    */
-  LoadImplementationGenericBodyLoad();
+  LoadImplementationGenericLandmarkLoad();
 };
 
 
@@ -101,4 +82,4 @@ static void Dummy( void );
 
 }} // end namespace itk::fem
 
-#endif // #ifndef __itkFEMLoadImplementationGenericBodyLoad_h
+#endif // #ifndef __itkFEMLoadImplementationGenericLandmarkLoad_h
