@@ -40,13 +40,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 
 #include "itkAffineTransform.h"
-#include "itkPhysicalImage.h"
+#include "itkImage.h"
 #include "itkImageMomentsCalculator.h"
 
 
 typedef itk::Vector<double,3>  VectorType;
 typedef itk::Matrix<double,3>  MatrixType;
-typedef itk::PhysicalImage<unsigned short, 3> ImageType;
+typedef itk::Image<unsigned short, 3> ImageType;
 typedef itk::ImageMomentsCalculator<ImageType> CalculatorType;
 typedef CalculatorType::AffineTransformType AffineTransformType;
 
