@@ -47,6 +47,7 @@ void
 SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSampleDimension>
 ::Update(void)
 {
+  std::cout << "SpatialObjectToImageStatisticsCalculator::Update()" << std::endl;
   if(!m_Image || !m_SpatialObject)
   {
     std::cout << "SpatialObjectToImageStatisticsCalculator: "; 
@@ -63,10 +64,14 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
     return; // No need to update
   }
 
+  std::cout << "Setting internal times" << std::endl;
+
   m_InternalImageTime = m_Image->GetMTime();
   m_InternalSpatialObjectTime = m_SpatialObject->GetMTime();
 
   // Get the bounding box
+  std::cout << "Getting bounding box" << std::endl;
+
   typename SpatialObjectType::BoundingBoxType::Pointer boundingBox;
   boundingBox = m_SpatialObject->GetBoundingBox();
   
@@ -76,12 +81,16 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
     pt[i]=boundingBox->GetBounds()[i*2]+(boundingBox->GetBounds()[i*2+1]-boundingBox->GetBounds()[i*2])/2;
   }
 
+  std::cout << "Transforming Point" << std::endl;
+
   IndexType index;
   pt = m_SpatialObject->GetIndexToWorldTransform()->TransformPoint(pt);
   for(unsigned int i=0;i<itkGetStaticConstMacro(ObjectDimension);i++)
   {
     index[i]=pt[i];
   }
+
+  std::cout << "Defining FloodFilledIterator" << std::endl;
 
   IteratorType it = IteratorType(m_Image,m_SpatialObject,index);
   it.SetOriginInclusionStrategy();
