@@ -85,14 +85,27 @@ void
 LaplacianImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
+  double s[ImageDimension];
   typename TOutputImage::Pointer output = this->GetOutput();
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
 
   ZeroFluxNeumannBoundaryCondition<TOutputImage> nbc;
   
-  // Create the Laplaican operator
+  // Create the Laplacian operator
   LaplacianOperator<OutputPixelType, ImageDimension> oper;
+  for (unsigned i = 0; i < ImageDimension; i++)
+    {
+    if (this->GetInput()->GetSpacing()[i] == 0.0 )
+      {
+      itkExceptionMacro( << "Image spacing cannot be zero" );
+      }
+    else
+      {
+      s[i] = 1.0 / this->GetInput()->GetSpacing()[i];
+      }
+    }
+  oper.SetDerivativeScalings( s );
   oper.CreateOperator();
 
   

@@ -32,6 +32,8 @@ namespace itk
  * an image that has first been smoothed with a Gaussian filter in order to
  * reduce its sensitivity to noise.
  *
+ * 
+ * 
  * \par
  * The Laplacian at each pixel location is computed by convolution with the
  * itk::LaplacianOperator.
@@ -88,9 +90,28 @@ public:
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()  */
   virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
+ /** Use the image spacing information in calculations. Use this option if you
+   *  want derivatives in physical space. Default is UseImageSpacingOn. */
+  void SetUseImageSpacingOn()
+  { this->SetUseImageSpacing(true); }
+  
+  /** Ignore the image spacing. Use this option if you want derivatives in
+      isotropic pixel space.  Default is UseImageSpacingOn. */
+  void SetUseImageSpacingOff()
+  { this->SetUseImageSpacing(false); }
+  
+  /** Set/Get whether or not the filter will use the spacing of the input
+      image in its calculations */
+  itkSetMacro(UseImageSpacing, bool);
+  itkGetMacro(UseImageSpacing, bool);
+  
+  
 protected:
-  LaplacianImageFilter() {}
-  virtual ~LaplacianImageFilter() {}
+  LaplacianImageFilter()
+  {
+    m_UseImageSpacing = true;
+  }
+  virtual ~LaplacianImageFilter()  {}
 
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all
@@ -99,11 +120,15 @@ protected:
    * multithreaded by default.   */
   void GenerateData();
   void PrintSelf(std::ostream& os, Indent indent) const
-    { Superclass::PrintSelf(os,indent);   }
+  {
+    Superclass::PrintSelf(os,indent);
+    os << indent << "UseImageSpacing = " << m_UseImageSpacing << std::endl;
+  }
 
 private:
   LaplacianImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+  bool m_UseImageSpacing;
   
 };
   
