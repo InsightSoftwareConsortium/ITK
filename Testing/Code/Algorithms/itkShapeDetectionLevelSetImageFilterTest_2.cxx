@@ -51,6 +51,8 @@ public:
   typedef typename Superclass::RadiusType RadiusType;
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
   typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
+  typedef typename Superclass::PixelType PixelType;
+  typedef typename Superclass::VectorType VectorType;
   itkStaticConstMacro(ImageDimension, unsigned int,
                       Superclass::ImageDimension);
 
