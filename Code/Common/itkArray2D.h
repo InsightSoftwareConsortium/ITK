@@ -49,7 +49,10 @@ public:
   typedef TValueType  ValueType;
   
 public:
+
   Array2D(unsigned int rows,unsigned int cols);
+
+  void Fill (TValueType const& v) { fill(v); }
 
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
@@ -62,16 +65,23 @@ public:
 template <typename TValueType >
 std::ostream & operator<<(std::ostream &os, const Array2D<TValueType> &arr)
 {
-  os << "[";
-  for (unsigned int i=0; i < arr.size() - 1; ++i)
+  const unsigned int numberOfColumns = arr.cols();
+  const unsigned int numberOfRows    = arr.rows();
+
+  for (unsigned int r=0; r < numberOfRows; ++r)
     {
-    os << arr[i] << ", ";
+    os << "[";
+    for (unsigned int c=0; c < numberOfColumns-1; ++c)
+      {
+      os << arr(r,c) << ", ";
+      }
+    if (numberOfColumns >= 1)
+      {
+      os << arr(r,numberOfColumns-1);
+      }
+    os << "]" << std::endl;
     }
-  if (VLength >= 1)
-    {
-    os << arr[VLength-1];
-    }
-  os << "]" << std::endl;
+
   return os;
 }
 
