@@ -67,17 +67,17 @@ public:
   /**
    * Connect one of the operands for pixel-wise addition
    */
-   void SetInput1( Image1Pointer image1);
+   void SetInput1( TInputImage1 *image1);
 
   /**
    * Connect one of the operands for pixel-wise addition
    */
-  void SetInput2( Image2Pointer image2);
+  void SetInput2( TInputImage2 *image2);
 
   /**
    * Connect one of the operands for pixel-wise addition
    */
-  void SetInput3( Image3Pointer image3);
+  void SetInput3( TInputImage3 *image3);
 
 
 protected:
