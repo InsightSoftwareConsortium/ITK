@@ -71,6 +71,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMinMaxCurvatureFlowFunction.h"
 #include "itkMinMaxCurvatureFlowImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
+#include "itkMultiResolutionImageRegistrationMethod.h"
 #include "itkMultiResolutionMutualInformationAffineRegistration.h"
 #include "itkMultiResolutionMutualInformationRigidRegistration.h"
 #include "itkMultiResolutionPDEDeformableRegistration.h"
