@@ -24,7 +24,6 @@
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodIterator.h"
 
-
 namespace itk
 {
 
@@ -59,6 +58,8 @@ BinaryThinningImageFilter<TInputImage,TOutputImage>
 
 /**
  *  Prepare data for computation
+ *  Copy the input image to the output image, changing from the input
+ *  type to the output type.
  */
 template <class TInputImage,class TOutputImage>
 void 
@@ -86,9 +87,18 @@ BinaryThinningImageFilter<TInputImage,TOutputImage>
 
   itkDebugMacro(<< "PrepareData: Copy input to output");
  
+  // Copy the input to the output, changing all foreground pixels to
+  // have value 1 in the process.
   while( !ot.IsAtEnd() )
       {
-      ot.Set( static_cast< typename OutputImageType::PixelType >( it.Get() ) );
+      if ( it.Get() )
+        {
+        ot.Set( NumericTraits<OutputImageType::PixelType>::One );
+        }
+      else
+        {
+        ot.Set( NumericTraits<OutputImageType::PixelType>::Zero );
+        }
       ++it;
       ++ot;
       }
@@ -103,7 +113,6 @@ void
 BinaryThinningImageFilter<TInputImage,TOutputImage>
 ::ComputeThinImage() 
 {
-
   itkDebugMacro( << "ComputeThinImage Start");
   OutputImagePointer    thinImage          =  GetThinning();
 
@@ -113,64 +122,178 @@ BinaryThinningImageFilter<TInputImage,TOutputImage>
   radius.Fill(1);
   NeighborhoodIteratorType ot( radius, thinImage, region );
 
-
-  typename NeighborhoodIteratorType::OffsetType offset1 = {{-1,-1}};
-  typename NeighborhoodIteratorType::OffsetType offset2 = {{-1,0}};
-  typename NeighborhoodIteratorType::OffsetType offset3 = {{-1,1 }};
-  typename NeighborhoodIteratorType::OffsetType offset4 = {{0,1}};
-  typename NeighborhoodIteratorType::OffsetType offset5 = {{1,1}};
-  typename NeighborhoodIteratorType::OffsetType offset6 = {{1,0}};
-  typename NeighborhoodIteratorType::OffsetType offset7 = {{1,-1}};
-  typename NeighborhoodIteratorType::OffsetType offset8 = {{0,-1}};
-
-
+  // Create a set of offsets from the center.
+  // This numbering follows that of Gonzalez and Woods.
+  typedef typename NeighborhoodIteratorType::OffsetType OffsetType;
+  OffsetType o2 = {{0,-1}};
+  OffsetType o3 = {{1,-1}};
+  OffsetType o4 = {{1,0}};
+  OffsetType o5 = {{1,1}};
+  OffsetType o6 = {{0,1}};
+  OffsetType o7 = {{-1,1 }};
+  OffsetType o8 = {{-1,0}};
+  OffsetType o9 = {{-1,-1}};
   
-  int count = 1;
-  while(count)
-    {   
-    count = 0;
-    ot.GoToBegin();
-    while( ! ot.IsAtEnd() )
+  PixelType p2;
+  PixelType p3;
+  PixelType p4;
+  PixelType p5;
+  PixelType p6;
+  PixelType p7;
+  PixelType p8;
+  PixelType p9;
+    
+  // These tests correspond to the conditions listed in Gonzalez and Woods
+  bool testA;
+  bool testB;
+  bool testC;
+  bool testD;
+
+  std::vector < IndexType > pixelsToDelete;
+  std::vector < IndexType >::iterator pixelsToDeleteIt;
+
+  // Loop through the image several times until there is no change.
+  bool noChange = false;
+  while(!noChange)
+    {
+    noChange = true;
+    // Loop through the thinning steps.
+    for (int step = 1; step <= 4; step++)
       {
-      if (ot.GetCenterPixel())
-       {
-         PixelType genus;
-         genus  = ot.GetPixel(offset1) + ot.GetPixel(offset2);
-         genus += ot.GetPixel(offset3) + ot.GetPixel(offset4);
-         genus += ot.GetPixel(offset5) + ot.GetPixel(offset6);
-         genus += ot.GetPixel(offset7) + ot.GetPixel(offset8);
-         if (genus != 1)
+      pixelsToDelete.clear();
+      // Loop through the image.
+      for ( ot.GoToBegin(); !ot.IsAtEnd(); ++ot )
+        {
+        // Each iteration over the image, set all tests to false.
+        testA = false;
+        testB = false;
+        testC = false;
+        testD = false;
+
+        p2 = ot.GetPixel(o2);
+        p3 = ot.GetPixel(o3);
+        p4 = ot.GetPixel(o4);
+        p5 = ot.GetPixel(o5);
+        p6 = ot.GetPixel(o6);
+        p7 = ot.GetPixel(o7);
+        p8 = ot.GetPixel(o8);
+        p9 = ot.GetPixel(o9);
+        
+        // Determine whether the pixel should be deleted in the
+        // following if statements.
+        if ( ot.GetCenterPixel() )
           {
-            genus += ot.GetPixel(offset8) * ot.GetPixel(offset1) * ot.GetPixel(offset2);
-            genus += ot.GetPixel(offset2) * ot.GetPixel(offset3) * ot.GetPixel(offset4);
-            genus += ot.GetPixel(offset4) * ot.GetPixel(offset5) * ot.GetPixel(offset6);
-            genus += ot.GetPixel(offset6) * ot.GetPixel(offset7) * ot.GetPixel(offset8);
-            genus -= ot.GetPixel(offset1) * ot.GetPixel(offset2);
-            genus -= ot.GetPixel(offset2) * ot.GetPixel(offset3);
-            genus -= ot.GetPixel(offset3) * ot.GetPixel(offset4);
-            genus -= ot.GetPixel(offset4) * ot.GetPixel(offset5);
-            genus -= ot.GetPixel(offset5) * ot.GetPixel(offset6);
-            genus -= ot.GetPixel(offset6) * ot.GetPixel(offset7);
-            genus -= ot.GetPixel(offset7) * ot.GetPixel(offset8);
-            genus -= ot.GetPixel(offset8) * ot.GetPixel(offset1);
-            genus -= ot.GetPixel(offset8) * ot.GetPixel(offset2);
-            genus -= ot.GetPixel(offset2) * ot.GetPixel(offset4);
-            genus -= ot.GetPixel(offset4) * ot.GetPixel(offset6);
-            genus -= ot.GetPixel(offset6) * ot.GetPixel(offset8);
-            --genus;
+          
+          // TestA
+          // Count the number of neighbors that are on.
+          // TestA is violated when contour point p1 has only one or
+          // seven 8-neighbors valued 1.  Having only one such
+          // neighbor implies that p1 is the end point of a skeleton
+          // stroke and obviously should not be deleted.  Deleting p1
+          // if it has seven such neighbos would cause erosion into a region.
+          PixelType numberOfOnNeighbors = p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9;
+          
+          if ( numberOfOnNeighbors > 1 && numberOfOnNeighbors < 7)
+            {
+            testA = true;
+            }
 
-            if ( genus == 0 )
-             {
-                ot.SetCenterPixel( genus );
-                ++count;
+          // TestB
+          // Count the number of 0-1 transitions in the ordered
+          // sequence.
+          // TestB is violated when it is applied to points on a
+          // stroke 1 pixel thick.  Hence this test prevents
+          // disconnetion of segments of a skeleton during the
+          // thinning operation.
+          // First find the total number of transitions, and then
+          // divide by 2.
+          PixelType transitions = 
+            abs(p3 - p2) + abs(p4 - p3) + abs(p5 - p4) + abs(p6 - p5) + 
+            abs(p7 - p6) + abs(p8 - p7) + abs(p9 - p8) + abs(p2 - p9);
+          transitions /= 2;
+          
+          if (transitions == 1)
+            {
+            testB = true;
+            }
+
+          // TestC and TestD
+          // Step 1 in Gonzalez and Woods is broken up here into two
+          // steps; step 1 and step 2.
+          // Steps 1 and 2 are the first two passes over the image for each
+          // iteration of the algorithm.
+          // A point that satisfies these tests as well as TestA
+          // and TestB is an east or south boundary point or a
+          // northwest corner point in the boundary.
+          // Note that northeast and southwest corner points are
+          // satisfied in both the combination of steps 1 and 2 and
+          // the combination of steps 3 and 4.
+          if (step == 1)
+            {
+            if (p4 == 0 || p6 == 0)
+              {
+              testC = true;
+              testD = true;
               }
+            }
+
+
+          else if (step == 2)
+            {
+            if (p2 == 0 && p8 == 0)
+              {
+              testC = true;
+              testD = true;
+              }
+            }
+
+          // Step 2 in Gonzalez and Woods is broken up here into two
+          // steps; step 3 and step 4.
+          // Steps 3 and 4 are the second passes over the image for each
+          // iteration of the algorithm.
+          // A point that satisfies these tests as well as TestA
+          // and TestB is a west or north boundary point or a
+          // southeast corner point in the boundary.          
+          // Note that northeast and southwest corner points are
+          // satisfied in both the combination of steps 1 and 2 and
+          // the combination of steps 3 and 4.
+          else if (step == 3)
+            {
+            if (p2 == 0 || p8 == 0)
+              {
+              testC = true;
+              testD = true;
+              }
+            }
+          else if (step == 4)
+            {
+            if (p4 == 0 && p6 == 0)
+              {
+              testC = true;
+              testD = true;
+              }
+            }
+
+          // If all tests pass, mark the pixel for removal
+          if (testA && testB && testC && testD)
+            {
+            pixelsToDelete.push_back( ot.GetIndex() );
+            noChange = false;
+            }
           }
-       }
+        } // end image iteration loop
 
-      ++ot;
-      }
+      //Loop through the vector of pixels to delete and set these pixels to 0 in the image.
+      for (pixelsToDeleteIt=pixelsToDelete.begin(); pixelsToDeleteIt!=pixelsToDelete.end(); pixelsToDeleteIt++)
+        {
+        thinImage->SetPixel(*pixelsToDeleteIt,0);
+        }
 
-    }  
+      } // end step loop
+    
+    } // end noChange while loop
+  
+  
     itkDebugMacro( << "ComputeThinImage End");
 }
 
