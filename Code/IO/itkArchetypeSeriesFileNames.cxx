@@ -97,14 +97,17 @@ ArchetypeSeriesFileNames
 
   m_Groupings.clear();
 
-  if (itksys::SystemTools::FileIsDirectory( m_Archetype.c_str() ))
+  std::string unixArchetype = m_Archetype;
+  itksys::SystemTools::ConvertToUnixSlashes(unixArchetype);
+
+  if (itksys::SystemTools::FileIsDirectory( unixArchetype.c_str() ))
     {
     return;
     }
 
   // Parse the fileNameName and fileNamePath
-  std::string fileName = itksys::SystemTools::GetFilenameName( m_Archetype.c_str() );
-  std::string fileNamePath = itksys::SystemTools::GetFilenamePath( m_Archetype.c_str() );
+  std::string fileName = itksys::SystemTools::GetFilenameName( unixArchetype.c_str() );
+  std::string fileNamePath = itksys::SystemTools::GetFilenamePath( unixArchetype.c_str() );
   std::string pathPrefix;
 
   // If there is no "/" in the name, the directory is not specified.
@@ -171,7 +174,7 @@ ArchetypeSeriesFileNames
     names = fit->GetFileNames();
     
     std::vector<std::string>::iterator ait;
-    ait = std::find(names.begin(), names.end(), pathPrefix + m_Archetype);
+    ait = std::find(names.begin(), names.end(), pathPrefix + unixArchetype);
 
     // Accept the list if it contains the archetype and is not the
     // "trivial" list (containing only the archetype)
@@ -183,11 +186,11 @@ ArchetypeSeriesFileNames
 
   // if the group list is empty, create a single group containing the
   // archetype
-  if ( m_Groupings.size() == 0 && itksys::SystemTools::FileExists(m_Archetype.c_str()))
+  if ( m_Groupings.size() == 0 && itksys::SystemTools::FileExists(unixArchetype.c_str()))
     {
     std::vector<std::string> tlist;
 
-    tlist.push_back( m_Archetype );
+    tlist.push_back( unixArchetype );
     m_Groupings.push_back( tlist );
     }
 
