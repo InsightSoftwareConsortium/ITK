@@ -77,6 +77,7 @@ ADD_TEST(itkNeighborhoodOperatorTest ${COMMON_TESTS} itkNeighborhoodOperatorTest
 ADD_TEST(itkNumericTraitsTest ${COMMON_TESTS} itkNumericTraitsTest)
 ADD_TEST(itkPathFunctionsTest ${COMMON_TESTS} itkPathFunctionsTest)
 ADD_TEST(itkPathIteratorTest ${COMMON_TESTS} itkPathIteratorTest)
+ADD_TEST(itkPCAShapeSignedDistanceFunctionTest ${COMMON_TESTS} itkPCAShapeSignedDistanceFunctionTest)
 ADD_TEST(itkPeriodicBoundaryConditionTest ${COMMON_TESTS} itkPeriodicBoundaryConditionTest)
 ADD_TEST(itkPixelAccessTest ${COMMON_TESTS} itkPixelAccessTest)
 ADD_TEST(itkPointGeometryTest ${COMMON_TESTS} itkPointGeometryTest)
@@ -224,6 +225,7 @@ itkNumericTraitsTest.cxx
 itkObjectStoreTest.cxx
 itkPathFunctionsTest.cxx
 itkPathIteratorTest.cxx
+itkPCAShapeSignedDistanceFunctionTest.cxx
 itkPeriodicBoundaryConditionTest.cxx
 itkPixelAccessTest.cxx
 itkPointGeometryTest.cxx

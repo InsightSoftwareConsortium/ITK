@@ -92,7 +92,7 @@ public:
 
   /** Initialize must be called before the first call of SetParameters() or 
    Evaluate() to allow the class to validate any inputs. */
-  virtual void Initialize() {};
+  virtual void Initialize() throw ( ExceptionObject ) {};
 
 protected:
 

@@ -76,6 +76,7 @@ REGISTER_TEST(itkNumericTraitsTest );
 REGISTER_TEST(itkObjectStoreTest );
 REGISTER_TEST(itkPathFunctionsTest );
 REGISTER_TEST(itkPathIteratorTest );
+REGISTER_TEST(itkPCAShapeSignedDistanceFunctionTest );
 REGISTER_TEST(itkPeriodicBoundaryConditionTest );
 REGISTER_TEST(itkPixelAccessTest );
 REGISTER_TEST(itkPointGeometryTest );
