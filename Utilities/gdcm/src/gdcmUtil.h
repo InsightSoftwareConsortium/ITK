@@ -50,7 +50,6 @@ public:
    static std::string GetName(std::string const &fullName);
    static std::string GetCurrentDate();
    static std::string GetCurrentTime();
-   static double      GetTimeAsDouble();
    static std::string GetCurrentDateTime();
    static unsigned int GetCurrentThreadID();
    static unsigned int GetCurrentProcessID();

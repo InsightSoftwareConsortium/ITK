@@ -21,26 +21,15 @@
 #include <iostream>
 
 // For GetCurrentDate, GetCurrentTime
+#include <time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <time.h>
 
-#if defined( _WIN32 ) && !defined( __CYGWIN__ )
-#  include <sys/timeb.h>
-#  define HAVE_FTIME
-#  if defined( __BORLANDC__)
-#    define FTIME ftime
-#    define TIMEB timeb
-#  else // Visual studio?
-#    define FTIME _ftime
-#    define TIMEB _timeb
-#  endif
-#elif defined( __CYGWIN__ ) || defined( __linux__ )
-#  include <sys/time.h>
-#  include <time.h>
-#  define HAVE_GETTIMEOFDAY
+#if defined(_MSC_VER) || defined(__BORLANDC__) || defined(__MINGW32__)
+#include <sys/timeb.h>
+#else
+#include <sys/time.h>
 #endif
-
 
 #include <stdarg.h>  //only included in implementation file
 #include <stdio.h>   //only included in implementation file
@@ -276,44 +265,6 @@ std::string Util::GetCurrentDate()
 }
 
 /**
- * \brief  Get the time as a float. Taken from kwsys/SystemTools.cxx
- */
-double Util::GetTimeAsDouble(void) 
-{
-  /* There are three ways to get the time:
-     (1) gettimeofday() -- resolution in microseconds
-     (2) ftime() -- resolution in milliseconds
-     (3) time() -- resolution in seconds
-     In all cases the return value is a float in seconds.
-     Since on some systems (e.g. SCO ODT 3.0) gettimeofday() may
-     fail, so we fall back on ftime() or time().
-     Note: clock resolution does not imply clock accuracy! */
-#ifdef HAVE_GETTIMEOFDAY
-  {
-  struct timeval t;
-#ifdef GETTIMEOFDAY_NO_TZ
-  if (gettimeofday(&t) == 0)
-    return (double)t.tv_sec + t.tv_usec*0.000001;
-#else /* !GETTIMEOFDAY_NO_TZ */
-  if (gettimeofday(&t, (struct timezone *)NULL) == 0)
-    return (double)t.tv_sec + t.tv_usec*0.000001;
-#endif /* !GETTIMEOFDAY_NO_TZ */
-  }
-#endif /* !HAVE_GETTIMEOFDAY */
-  {
-#if defined(HAVE_FTIME)
-  struct TIMEB t;
-  ::FTIME(&t);
-  return (double)t.time + (double)t.millitm * (double)0.001;
-#else /* !HAVE_FTIME */
-  time_t secs;
-  time(&secs);
-  return (double)secs;
-#endif /* !HAVE_FTIME */
-  }
-}
-
-/**
  * \brief   Get the current time of the system in a dicom string
  */
 std::string Util::GetCurrentTime()
@@ -333,23 +284,23 @@ std::string Util::GetCurrentDateTime()
 {
    char tmp[40];
    long milliseconds;
-   time_t *timep;
+   time_t timep;
   
    // We need implementation specific functions to obtain millisecond precision
 #if defined(_MSC_VER) || defined(__BORLANDC__) || defined(__MINGW32__)
    struct timeb tb;
    ::ftime(&tb);
-   timep = &tb.time;
+   timep = tb.time;
    milliseconds = tb.millitm;
 #else
    struct timeval tv;
    gettimeofday (&tv, NULL);
-   timep = &tv.tv_sec;
+   timep = tv.tv_sec;
    // Compute milliseconds from microseconds.
    milliseconds = tv.tv_usec / 1000;
 #endif
    // Obtain the time of day, and convert it to a tm struct.
-   struct tm *ptm = localtime (timep);
+   struct tm *ptm = localtime (&timep);
    // Format the date and time, down to a single second.
    strftime (tmp, sizeof (tmp), "%Y%m%d%H%M%S", ptm);
 
