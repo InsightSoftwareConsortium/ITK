@@ -151,6 +151,9 @@ SET(FEM_SRCS ${FEM_SRCS}
   itkVisitorDispatcher.h
 
   itkFEMImageMetricLoad.txx
+  
+  itkFEMRegistrationFilter.h
+  itkFEMRegistrationFilter.txx
 
 )
 ENDIF(WIN32)
