@@ -53,6 +53,29 @@ MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
 
 
 template <class TInputImage, class TCoordRep>
+const typename 
+MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>::MeanVectorType &
+MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
+::GetMean() const
+{
+  return m_MahalanobisDistanceMembershipFunction->GetMean();
+}
+
+
+template <class TInputImage, class TCoordRep>
+const typename 
+MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>::CovarianceMatrixType &
+MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
+::GetCovariance() const
+{
+  return m_MahalanobisDistanceMembershipFunction->GetCovariance();
+}
+
+
+
+
+
+template <class TInputImage, class TCoordRep>
 void 
 MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
 ::PrintSelf(std::ostream& os, Indent indent) const

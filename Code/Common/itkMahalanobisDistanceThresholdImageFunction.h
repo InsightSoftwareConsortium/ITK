@@ -138,13 +138,15 @@ public:
   itkSetMacro(Threshold,double);
 
   /** Method to set mean */
-  void SetMean(const MeanVectorType &mean) ;
+  void SetMean(const MeanVectorType &mean);
+  const MeanVectorType & GetMean() const;
  
   /**
    * Method to set covariance matrix
    * Also, this function calculates inverse covariance and pre factor of 
    * MahalanobisDistance Distribution to speed up GetProbability */
   void SetCovariance(const CovarianceMatrixType &cov); 
+  const CovarianceMatrixType & GetCovariance() const;
   
 
 protected:
