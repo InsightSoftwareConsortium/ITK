@@ -5,17 +5,19 @@ ADD_LIBRARY(ITKBasicFiltersTcl)
 
 ITK_WRAP_TCL(ITKBasicFiltersTcl
   wrap_ITKBasicFilters.cxx
-  wrap_itkRandomImageSource.cxx
-  wrap_itkRecursiveSeparableImageFilter.cxx
-  wrap_itkRecursiveGaussianImageFilter.cxx
-  wrap_itkRescaleIntensityImageFilter.cxx
   wrap_itkBinaryThresholdImageFilter.cxx
+  wrap_itkCastImageFilter.cxx
+  wrap_itkConfidenceConnectedImageFilter.cxx
+  wrap_itkConnectedThresholdImageFilter.cxx
+  wrap_itkCurvatureAnisotropicDiffusionImageFilter.cxx
+  wrap_itkGradientAnisotropicDiffusionImageFilter.cxx
+  wrap_itkNaryAddImageFilter.cxx
+  wrap_itkRandomImageSource.cxx
+  wrap_itkRecursiveGaussianImageFilter.cxx
+  wrap_itkRecursiveSeparableImageFilter.cxx
+  wrap_itkResampleImageFilter.cxx
+  wrap_itkRescaleIntensityImageFilter.cxx
+  wrap_itkTernaryMagnitudeImageFilter.cxx
 )
 
-TARGET_LINK_LIBRARIES(ITKBasicFiltersTcl
-  ITKBasicFilters
-  ITKCommon
-  ITKNumerics
-  VXLNumerics
-  ${CABLE_TCL_LIBRARY}
-)
+TARGET_LINK_LIBRARIES(ITKBasicFiltersTcl ITKBasicFilters ${CABLE_TCL_LIBRARY})
