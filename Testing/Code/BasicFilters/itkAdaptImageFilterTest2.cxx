@@ -182,6 +182,9 @@ int itkAdaptImageFilterTest2(int, char**) {
   ++it;
   ++it1;
   }
+  
+  // Test access to Accessor 
+  std::cout << adaptImage->GetAccessor().GetElementNumber() << std::endl;
 
   std::cout << std::endl;
   if (passed)
