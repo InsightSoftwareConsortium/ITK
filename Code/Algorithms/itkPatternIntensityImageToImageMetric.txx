@@ -87,7 +87,9 @@ PatternIntensityImageToImageMetric<TTarget,TMapper>
 
   unsigned int  count = 0;
 
-  GetMapper()->GetTransform()->SetParameters( parameters );
+  // cache the mapper so we do not have to make a Get() in the inner loop
+  MapperPointer mapper = this->GetMapper();
+  mapper->GetTransform()->SetParameters( parameters );
 
   while(!ti.IsAtEnd())
     {
@@ -97,9 +99,9 @@ PatternIntensityImageToImageMetric<TTarget,TMapper>
       Point[i]=index[i];
       }
 
-    if( GetMapper()->IsInside( Point ) )
+    if( mapper->IsInside( Point ) )
       {
-      ReferenceValue = GetMapper()->Evaluate();
+      ReferenceValue = mapper->Evaluate();
       TargetValue = ti.Get();
       count++;
       const double diff = ReferenceValue - TargetValue; 

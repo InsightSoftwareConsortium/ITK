@@ -104,13 +104,17 @@ protected:
   virtual ~RegistrationMapper() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
+  // This is protected as opposed to private because it needs to accessed
+  // by subclasses in methods that are called by algorithm inner loops.
+  // The overhead of the GetTransform() method is too high in this case
+  // since it needs to construct a SmartPointer.
+  TransformPointer         m_Transform;
 
 private:
   RegistrationMapper(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   DomainConstPointer       m_Domain;
-  TransformPointer         m_Transform;
 
 };
 

@@ -85,7 +85,9 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
 
   unsigned int  count = 0;
 
-  GetMapper()->GetTransform()->SetParameters( parameters );
+  // cache the mapper so we do not have to make a Get() in the inner loop
+  MapperPointer mapper = this->GetMapper();
+  mapper->GetTransform()->SetParameters( parameters );
 
   while(!ti.IsAtEnd())
     {
@@ -96,9 +98,9 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
       }
 
 
-    if( GetMapper()->IsInside( Point ) )
+    if( mapper->IsInside( Point ) )
       {
-      ReferenceValue = GetMapper()->Evaluate();
+      ReferenceValue = mapper->Evaluate();
       TargetValue = ti.Get();
       count++;
       const double diff = ReferenceValue - TargetValue; 
@@ -139,9 +141,9 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
   for( unsigned int i=0; i<SpaceDimension; i++) 
     {
     testPoint[i] -= delta;
-    const MeasureType valuep0 = GetValue( testPoint );
+    const MeasureType valuep0 = this->GetValue( testPoint );
     testPoint[i] += 2*delta;
-    const MeasureType valuep1 = GetValue( testPoint );
+    const MeasureType valuep1 = this->GetValue( testPoint );
     m_MatchMeasureDerivatives[i] = (valuep1 - valuep0 ) / ( 2 * delta );
     testPoint[i] = parameters[i];
     }
@@ -160,8 +162,8 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
 ::GetValueAndDerivative(const ParametersType & parameters, 
                         MeasureType & Value, DerivativeType  & Derivative)
 {
-  Value      = GetValue( parameters );
-  Derivative = GetDerivative( parameters );
+  Value      = this->GetValue( parameters );
+  Derivative = this->GetDerivative( parameters );
 }
 
 } // end namespace itk

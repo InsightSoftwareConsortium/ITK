@@ -85,7 +85,7 @@ ImageMapper<TImage,TTransformation>
 ::IsInside( const InputPointType & point ) 
 { 
 
-  m_CurrentPoint = this->GetTransform()->TransformPoint( point );
+  m_CurrentPoint = m_Transform->TransformPoint( point );
   return ( m_Interpolator->IsInsideBuffer( m_CurrentPoint ) );
 
 }

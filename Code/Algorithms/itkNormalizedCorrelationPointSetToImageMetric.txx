@@ -95,6 +95,7 @@ NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>
 
   unsigned int  count = 0;
 
+  // cache the mapper so we do not have to make a Get() in the inner loop
   MapperPointer mapper = Superclass::GetMapper();
   mapper->GetTransform()->SetParameters( parameters );
 
