@@ -25,12 +25,13 @@ namespace itk{
 /** /class IsolatedConnectedImageFilter
  * \brief Label pixels that are connected to one seed but not another
  *
- * IsolatedConnectedImageFilter labels pixels with ReplaceValue that are
- * connected to Seed1 AND NOT connected to Seed2. The filter adjusts the
- * upper threshold until the two seeds are not connected. The user
- * supplies a Lower threshold. The algorithm uses a binary search to
- * adjust the upper threshold, starting at the largest possible value for
- * the InputImagePixelType.
+ * IsolatedConnectedImageFilter labels pixels with ReplaceValue that
+ * are connected to Seed1 AND NOT connected to Seed2. The filter
+ * adjusts the upper threshold until the two seeds are not
+ * connected. The user supplies a Lower threshold. The algorithm uses
+ * a binary search to adjust the upper threshold, starting at
+ * UpperValueLimit. UpperValueLimit defaults to the largest possible
+ * value for the InputImagePixelType.
  *
  * \ingroup RegionGrowingSegmentation 
  */
@@ -83,6 +84,10 @@ public:
   itkSetMacro(IsolatedValueTolerance, InputImagePixelType);
   itkGetMacro(IsolatedValueTolerance, InputImagePixelType);
 
+  /** Set/Get the limit on the upper threshold value. The default is the max() for the InputPixelType. */
+  itkSetMacro(UpperValueLimit, InputImagePixelType);
+  itkGetMacro(UpperValueLimit, InputImagePixelType);
+
 
   /** Set/Get value to replace thresholded pixels. Pixels that lie *
    *  within Lower and Upper (inclusive) will be replaced with this
@@ -102,6 +107,7 @@ protected:
   OutputImagePixelType m_ReplaceValue;
   InputImagePixelType m_IsolatedValue;
   InputImagePixelType m_IsolatedValueTolerance;
+  InputImagePixelType m_UpperValueLimit;
 
   // Override since the filter needs all the data for the algorithm
   void GenerateInputRequestedRegion();

@@ -36,6 +36,7 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>
   m_Seed2.Fill(0);
   m_ReplaceValue = NumericTraits<OutputImagePixelType>::One;
   m_IsolatedValueTolerance = NumericTraits<InputImagePixelType >::One;
+  m_UpperValueLimit = NumericTraits<InputImagePixelType>::max();
 }
 
 /**
@@ -48,13 +49,16 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>
 {
   this->Superclass::PrintSelf(os, indent);
   os << indent << "Lower: " << m_Lower << std::endl;
+  os << indent << "UpperValueLimit: "
+     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_UpperValueLimit)
+     << std::endl;
   os << indent << "ReplaceValue: "
      << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
      << std::endl;
   os << indent << "Seed1: " << m_Seed1 << std::endl;
   os << indent << "Seed2: " << m_Seed2 << std::endl;
   os << indent << "IsolatedValue: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_IsolatedValue)
+     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_IsolatedValue)
      << std::endl;
 }
 
@@ -101,8 +105,7 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
     function->SetInputImage ( inputImage );
 
   InputImagePixelType lower = m_Lower;
-//  InputImagePixelType upper = NumericTraits<InputImagePixelType>::max();
-  InputImagePixelType upper = inputImage->GetPixel( m_Seed2 );
+  InputImagePixelType upper = m_UpperValueLimit;
   InputImagePixelType guess = upper;
   IteratorType it = IteratorType ( outputImage, function, m_Seed1 );
 
