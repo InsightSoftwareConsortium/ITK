@@ -17,23 +17,19 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSimpleImageRegionIterator.h"
 #include "itkImageToImageTranslationMeanSquaresRegistration.h"
 
-
 /** 
  *  This test uses two 2D-Gaussians (standard deviation RegionSize/2)
  *  One is shifted by 10 pixels from the other.
- *  therefore the solution of the registration is |-10 0|
+ *  therefore the solution of the registration is |-5 0|
  *  This test uses LevenbergMarquart Optimizer but
  *  conjugate gradient optimizer tolerances are also defined
- *  in the itkImageToImageAffineMeanSquaresRegistration.txx file
+ *  in the itkImageToImageTranslationMeanSquaresRegistration.txx file
  *  (you need to change the type of the optimizer in the header file
- *  ie itkImageToImageAffineMeanSquaresRegistration.h)
+ *  ie itkImageToImageTranslationMeanSquaresRegistration.h)
  */ 
- 
+
 int main()
 {
-  
-  
-  std::cout << "ImageToImageTranslationMeanSquares Registration Test \n \n";
 
   /*Allocate Images*/
   typedef itk::PhysicalImage<unsigned char,2>           ReferenceType;
@@ -76,7 +72,7 @@ int main()
 
   /* Set the displacement */
   itk::Vector<double,2> displacement;
-  displacement[0] = 10;
+  displacement[0] = 5;
   displacement[1] =	0;
 
   ReferenceIteratorType ri(imgReference,region);
