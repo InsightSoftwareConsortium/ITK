@@ -125,21 +125,17 @@ std::cout << "Begin Assembly." << std::endl;
                     lhsval, SumMatrixIndex );
           // right hand side matrix
           Float rhsval=(Me(j,k) - (1.-m_alpha)*m_deltaT*Ke(j,k));
-          rhsval=1.0; // BUG FIXME
           m_ls->AddMatrixValue( (*e)->GetDegreeOfFreedom(j) , 
                     (*e)->GetDegreeOfFreedom(k), 
                     rhsval, DifferenceMatrixIndex );
 
-          if (k == 0 && j == 0) std::cout << " ke " << Ke(j,k) << " me " << Me(j,k) << std::endl;
+         // if (k == 0 && j == 0) std::cout << " ke " << Ke(j,k) << " me " << Me(j,k) << std::endl;
         }
       }
 
     }
 
   }
-
-//  BUG SHOULD DO THIS ABOVE! FIXME
-//  M=rho*M;
 
   /* step over all types of BCs */
   this->ApplyBC();  // BUG  -- are BCs applied appropriately to the problem?
