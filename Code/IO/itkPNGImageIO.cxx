@@ -51,20 +51,6 @@ bool PNGImageIO::CanReadFile(const char* file)
     return false;
     }
 
-  bool extensionFound = false;
-  std::string::size_type pngPos = filename.rfind(".png");
-  if ((pngPos != std::string::npos)
-      && (pngPos == filename.length() - 4))
-    {
-    extensionFound = true;
-    }
-
-  if( !extensionFound )
-    {
-    itkDebugMacro(<<"The filename extension is not recognized");
-    return false;
-    }
-
   // Now check the file header
   PNGFileWrapper pngfp(file,"rb");
   FILE* fp = pngfp.m_FilePointer;
@@ -452,6 +438,14 @@ bool PNGImageIO::CanWriteFile( const char * name )
     {
     return true;
     }
+
+  pngPos = filename.rfind(".PNG");
+  if ( (pngPos != std::string::npos)
+       && (pngPos == filename.length() - 4) )
+    {
+    return true;
+    }
+
 
   return false;
 }
