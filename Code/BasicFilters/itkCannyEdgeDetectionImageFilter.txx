@@ -304,7 +304,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
         }
     }
   
-  gradMag = 0.001; // alpha * alpha;
+  gradMag = 0.0001; // alpha * alpha;
   for (i = 0; i < ImageDimension; i++)
     { 
       deriv += dx[i] * dx[i] * dxx[i];
@@ -361,7 +361,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
         }
     }
   
-  gradMag = 0.001; // alpha * alpha;
+  gradMag = 0.0001; // alpha * alpha;
   for (i = 0; i < ImageDimension; i++)
     { 
       deriv += dx[i] * dx[i] * dxx[i];
@@ -441,28 +441,27 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
   this->AllocateUpdateBuffer();
 
-  //Apply Gaussian Filter
+  // Apply the Gaussian Filter to the input image.
   gaussianFilter->SetVariance(m_Variance);
   gaussianFilter->SetMaximumError(m_MaximumError);
   gaussianFilter->SetInput(input);
   gaussianFilter->Update();
 
-
-  //write the gaussian smoothed image to output
+  // Write the gaussian smoothed image to the output.
   this->GraftOutput(gaussianFilter->GetOutput());
   
-  //Calculate the 2nd Derivative and write the output to m_UpdateBuffer
-
+  // Calculate the 2nd derivative of the smoothed image and write the result to
+  // the m_UpdateBuffer image.
   this->Compute2ndDerivative();
 
-
-  //calculate zeroCrossing and write the result to output buffer
+  // Calculate the zero crossings of the zeroCrossing and write the result to
+  // output buffer 
   zeroCrossFilter->SetInput(m_UpdateBuffer);
   zeroCrossFilter->Update();
   zeroCross = zeroCrossFilter->GetOutput();
 
-  // Calculate the 2nd derivative gradient here, and write result to m_UpdateBuffer1
-
+  // Calculate the 2nd derivative gradient here.  This result is written to
+  // the m_UpdateBuffer1 image.
   this->Compute2ndDerivativePos();
 
   // multiply the edge with the zerocrossing
