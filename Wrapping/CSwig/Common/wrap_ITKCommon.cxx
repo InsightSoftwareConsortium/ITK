@@ -43,6 +43,7 @@ namespace _cable_
     ITK_WRAP_GROUP(itkImage_2D),
     ITK_WRAP_GROUP(itkImage_3D),
     ITK_WRAP_GROUP(itkImageSource),
+    ITK_WRAP_GROUP(itkImageRegionIterator),
     ITK_WRAP_GROUP(itkImageFunction),
     ITK_WRAP_GROUP(itkImageToImageFilter_2D),
     ITK_WRAP_GROUP(itkImageToImageFilter_3D),
