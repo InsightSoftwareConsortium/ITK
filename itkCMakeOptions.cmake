@@ -26,6 +26,7 @@ OPTION(VXL_FROM_UTILITIES "Use new vxl from utilities" 0)
 IF(VXL_FROM_UTILITIES)
  INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/vxl/vcl
                       ${ITK_BINARY_DIR}/Utilities/vxl/vcl
+                      ${ITK_BINARY_DIR}/Utilities/vxl
                       ${ITK_SOURCE_DIR}/Utilities/vxl)
   IF(WIN32)
     IF(NOT CYGWIN)

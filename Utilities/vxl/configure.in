@@ -459,11 +459,11 @@ AC_OUTPUT(
 vcl/vcl_config_manual.h~:vcl/vcl_config_manual.h.in
 vcl/vcl_config_compiler.h~:vcl/vcl_config_compiler.h.in
 vcl/vcl_config_headers.h~:vcl/vcl_config_headers.h.in
-core/vxl_config.h~:core/vxl_config.h.in
+vxl_config.h~:vxl_config.h.in
 )
 
 # only touch files that actually change.
-for f in "vcl/vcl_config_manual.h" "vcl/vcl_config_compiler.h" "vcl/vcl_config_headers.h" "core/vxl_config.h"; do
+for f in "vcl/vcl_config_manual.h" "vcl/vcl_config_compiler.h" "vcl/vcl_config_headers.h" "vxl_config.h"; do
 # This hangs on my machine (fsm).
 # In any case, the inclusion guard should not be derived
 # from the pwd. This configure script is for vcl only; it
