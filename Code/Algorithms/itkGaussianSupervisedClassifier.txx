@@ -340,7 +340,6 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
 
   double *pixProbability = GetPixelDistance( inPixelVec );
   double minDist = pixProbability[0];
-  double dist    = pixProbability[0];
   m_ClassifiedPixelIndex = 1;
 
   //Loop through the probabilities to get the best index
