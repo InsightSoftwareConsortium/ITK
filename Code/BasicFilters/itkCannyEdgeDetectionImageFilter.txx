@@ -184,7 +184,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   nit.GoToBegin();
   it.GoToBegin();
 
-  InputImagePixelType zero = NumericTraits<InputImagePixelType>::Zero;
+
 
 
   // Now Process the non-boundary region.
@@ -577,7 +577,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
 
   InputImagePixelType zero = NumericTraits<InputImagePixelType>::Zero;
-  OutputImagePixelType one = NumericTraits<OutputImagePixelType>::One;
+
 
 
   OutputImagePixelType dx[ImageDimension]; 
@@ -592,7 +592,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   DerivativeOperator<OutputImagePixelType,ImageDimension> oper;
   NeighborhoodInnerProduct<OutputImageType>  innerProduct;
 
-  int s = 0;
+
   // Now Process the non-boundary region.
   while( ! nit.IsAtEnd() )
     {
