@@ -73,11 +73,6 @@ protected:
 
   typename StatisticsImageFilter<TInputImage>::Pointer m_StatisticsFilter;
   typename ShiftScaleImageFilter<TInputImage,TOutputImage>::Pointer m_ShiftScaleFilter;
-  bool m_ProgressDone;
-
-  void SetupProgressMethods(ProcessObject *statistic, ProcessObject *shiftScale);
-  static void StatisticsCallBack (Object *o, const EventObject &e, void *self);
-  static void ShiftScaleCallBack (Object *o, const EventObject &e, void *self);
 } ; // end of class
 
 } // end namespace itk

@@ -21,6 +21,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkStatisticsImageFilter.h"
 #include "itkShiftScaleImageFilter.h"
+#include "itkProgressAccumulator.h"
 #include "itkCommand.h"
 
 namespace itk
@@ -33,11 +34,6 @@ NormalizeImageFilter<TInputImage, TOutputImage>
   m_StatisticsFilter = 0;
   m_StatisticsFilter = StatisticsImageFilter<TInputImage>::New();
   m_ShiftScaleFilter = ShiftScaleImageFilter<TInputImage,TOutputImage>::New();
-
-  // Progress is a bit complicated for mini pipelines
-  this->SetupProgressMethods(m_StatisticsFilter, m_ShiftScaleFilter);
-
-  m_ProgressDone = false;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -59,69 +55,29 @@ void
 NormalizeImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
-  // See if we need to compute statistics
-  if (!m_ProgressDone ||
-      this->GetInput()->GetPipelineMTime() > m_ShiftScaleFilter->GetMTime())
-    {
-    // Gather statistics
+  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  progress->SetMiniPipelineFilter(this);
 
-    m_StatisticsFilter->SetInput(this->GetInput());
-    m_StatisticsFilter->GetOutput()->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
-    m_StatisticsFilter->Update();
+  progress->RegisterInternalFilter(m_StatisticsFilter,.5f);
+  progress->RegisterInternalFilter(m_ShiftScaleFilter,.5f);
 
-    // Set the parameters for Shift
-    m_ShiftScaleFilter->SetShift(-m_StatisticsFilter->GetMean());
-    m_ShiftScaleFilter->SetScale(NumericTraits<ITK_TYPENAME StatisticsImageFilter<TInputImage>::RealType>::One
-                                 / m_StatisticsFilter->GetSigma());
-    m_ShiftScaleFilter->SetInput(this->GetInput());
-    m_ProgressDone = true;
-    }
+  // Gather statistics
+  
+  m_StatisticsFilter->SetInput(this->GetInput());
+  m_StatisticsFilter->GetOutput()->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
+  m_StatisticsFilter->Update();
 
+  // Set the parameters for Shift
+  m_ShiftScaleFilter->SetShift(-m_StatisticsFilter->GetMean());
+  m_ShiftScaleFilter->SetScale(NumericTraits<ITK_TYPENAME StatisticsImageFilter<TInputImage>::RealType>::One
+                               / m_StatisticsFilter->GetSigma());
+  m_ShiftScaleFilter->SetInput(this->GetInput());
+  
   m_ShiftScaleFilter->GetOutput()->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
   m_ShiftScaleFilter->Update();
 
   // Graft the mini pipeline output to this filters output
   this->GraftOutput(m_ShiftScaleFilter->GetOutput());
-}
-
-// The following methods create callbacks for the progress method of each
-// element of the mini pipeline. The callbacks scale each filter's
-// progress to create a combined progress for this filter.
-
-template <class TInputImage, class TOutputImage>
-void 
-NormalizeImageFilter<TInputImage, TOutputImage>
-::StatisticsCallBack (Object *o, const EventObject &, void *self)
-{
-  reinterpret_cast<ProcessObject *>(self)->
-    UpdateProgress(dynamic_cast<ProcessObject *>(o)->
-                   GetProgress()/2.0);
-}
-
-template <class TInputImage, class TOutputImage>
-void 
-NormalizeImageFilter<TInputImage, TOutputImage>
-::ShiftScaleCallBack (Object *o, const EventObject &, void *self)
-{
-  reinterpret_cast<ProcessObject *>(self)->
-    UpdateProgress(dynamic_cast<ProcessObject *>(o)->
-                   GetProgress()/2.0 + .5);
-}
-
-template <class TInputImage, class TOutputImage>
-void 
-NormalizeImageFilter<TInputImage, TOutputImage>
-::SetupProgressMethods(ProcessObject *statistics, ProcessObject *shiftScale)
-{
-  CStyleCommand::Pointer statisticsProgress = CStyleCommand::New();
-  statisticsProgress->SetCallback(&Self::StatisticsCallBack);
-  statisticsProgress->SetClientData(static_cast<void *>(this));
-  statistics->AddObserver (itk::ProgressEvent(), statisticsProgress);
-
-  CStyleCommand::Pointer shiftScaleProgress = CStyleCommand::New();
-  shiftScaleProgress->SetCallback(&Self::ShiftScaleCallBack);
-  shiftScaleProgress->SetClientData(static_cast<void *>(this));
-  shiftScale->AddObserver (itk::ProgressEvent(), shiftScaleProgress);
 }
 
 } // end namespace itk
