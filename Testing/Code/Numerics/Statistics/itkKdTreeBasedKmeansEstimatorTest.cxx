@@ -14,6 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#include "itkWin32Header.h"
+
 #include <fstream>
 
 #include "itkFixedArray.h"
