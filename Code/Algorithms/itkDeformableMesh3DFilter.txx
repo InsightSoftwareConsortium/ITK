@@ -1388,11 +1388,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   InputPointType v, v1, v2, v3, v4, v_southpole, v_northpole;
 //  InputPointType v, v1, v2, v3, n1, n2, n3, northpole, southpole;
   InputPointType* v1_pt;
-  InputPointType* v2_pt;
-  InputPointType* v3_pt;
   v1_pt = &v1;
-  v2_pt = &v2;
-  v3_pt = &v3;
 
   typename TInputMesh::PointType s, s1, d1, d2;
 
