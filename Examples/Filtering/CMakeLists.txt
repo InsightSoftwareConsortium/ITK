@@ -25,6 +25,9 @@ TARGET_LINK_LIBRARIES(SecondDerivativeRecursiveGaussianImageFilter ITKCommon ITK
 ADD_EXECUTABLE(BinaryThresholdImageFilter BinaryThresholdImageFilter.cxx )
 TARGET_LINK_LIBRARIES(BinaryThresholdImageFilter ITKCommon ITKIO)
 
+ADD_EXECUTABLE(OtsuThresholdImageFilter OtsuThresholdImageFilter.cxx )
+TARGET_LINK_LIBRARIES(OtsuThresholdImageFilter ITKCommon ITKIO)
+
 ADD_EXECUTABLE(ThresholdImageFilter ThresholdImageFilter.cxx )
 TARGET_LINK_LIBRARIES(ThresholdImageFilter ITKCommon ITKIO)
 
