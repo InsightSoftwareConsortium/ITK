@@ -69,7 +69,10 @@ class DICOMFile
   // Read a double byte of data.
   //
   doublebyte ReadDoubleByte();
+
   
+  doublebyte ReadDoubleByteNoSwap();
+
   //
   // Read a quadbyte of data.
   //
@@ -182,11 +185,21 @@ class DICOMFile
     return val;
   }
   
+  static float ReturnAsFloat(unsigned char* data, bool)
+    {
+    return atof((const char*) data);
+    }
+
   bool GetByteSwap()
-  {
+    {
     return ByteSwap;
-  }
-  
+    }
+
+  void SetByteSwap(bool v)
+    {
+    this->ByteSwap = v;
+    }
+
   //
   // Swap the bytes in an array of unsigned shorts.
   //
@@ -211,7 +224,6 @@ class DICOMFile
       }
   }
   
- protected:
   
   //
   // Swap the bytes in an unsigned short.
@@ -226,14 +238,14 @@ class DICOMFile
   // Swap the bytes in an unsigned long.
   //
   static ulong swapLong(ulong v)
-  {
+    {
     return (v << 24) 
       | (v << 8) & 0x00ff0000
       | (v >> 8) & 0x0000ff00
       | (v >> 24);
-  }
-  
-  
+    }
+
+ protected:
   //
   // Internal storage for the filename.
   //

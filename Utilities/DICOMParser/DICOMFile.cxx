@@ -102,13 +102,21 @@ void DICOMFile::Read(void* ptr, long nbytes)
 
 doublebyte DICOMFile::ReadDoubleByte() 
 {
-  doublebyte sh;
+  doublebyte sh = 0;
   int sz = sizeof(doublebyte);
   this->Read((char*)&(sh),sz); 
   if (ByteSwap) 
     {
     sh = swapShort(sh);
     }
+  return(sh);
+}
+
+doublebyte DICOMFile::ReadDoubleByteNoSwap() 
+{
+  doublebyte sh = 0;
+  int sz = sizeof(doublebyte);
+  this->Read((char*)&(sh),sz); 
   return(sh);
 }
 
