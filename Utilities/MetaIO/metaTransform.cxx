@@ -6,7 +6,7 @@
 
 #include <metaUtils.h>
 #include <metaObject.h>
-#include <MetaTransform.h>
+#include <metaTransform.h>
 
 /** MetaTransform constructors */
 MetaTransform::
@@ -439,7 +439,7 @@ M_Read(void)
   mF = MET_GetFieldRecord("NParameters", &m_Fields);
   if(mF->defined)
     {
-    parametersDimension = mF->value[0]; 
+    parametersDimension = (unsigned int)mF->value[0]; 
     }
 
   mF = MET_GetFieldRecord("GridSpacing", &m_Fields);
