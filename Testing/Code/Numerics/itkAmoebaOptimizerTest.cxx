@@ -45,6 +45,8 @@
  *
  *   the solution is the vector | 2 -2 |
  *
+ *   and the expected final value of the function is 10.0
+ *
  */ 
 class amoebaCostFunction : public itk::SingleValuedCostFunction 
 {
@@ -76,6 +78,7 @@ public:
 
     m_b[0]    =  2;
     m_b[1]    = -8;
+    m_Negate = false;
     }
 
   double GetValue( const ParametersType & parameters ) const 
@@ -91,6 +94,10 @@ public:
     double val = ( inner_product<double>( Av , v ) )/2.0;
     val -= inner_product< double >( m_b , v );
     std::cout << val << std::endl;
+    if( m_Negate )
+      {
+      val *= -1.0;
+      }
     return val;
     }
 
@@ -109,7 +116,14 @@ public:
     derivative = DerivativeType(SpaceDimension);
     for(unsigned int i=0; i<SpaceDimension; i++)
       {
-      derivative[i] = gradient[i];
+      if( !m_Negate )
+        {
+        derivative[i] = gradient[i];
+        }
+      else
+        {
+        derivative[i] = -gradient[i];
+        }
       }
     }
   
@@ -118,10 +132,16 @@ public:
     return SpaceDimension;
     }
 
+  // Used to switch between maximization and minimization.
+  void SetNegate(bool flag )
+    {
+    m_Negate = flag;
+    }
+
 private:
   MatrixType        m_A;
   VectorType        m_b;
-
+  bool              m_Negate;
 };
 
 
@@ -240,6 +260,82 @@ int itkAmoebaOptimizerTest(int, char* [] )
     std::cout << "[SUCCESS]" << std::endl;
     }
 
+
+  // Set now the function to maximize
+  // 
+  { // add a block-scope to have local variables
+
+  std::cout << "Testing Maximization " << std::endl;
+
+  currentValue = initialValue;
+
+  itkOptimizer->SetInitialPosition( currentValue );
+  
+
+  try 
+    {
+    // These two following statement should compensate each other
+    // and allow us to get to the same result as the test above.
+    costFunction->SetNegate(true);
+    itkOptimizer->MaximizeOn();
+        
+    vnlOptimizer->verbose = true;
+ 
+    std::cout << "Run for " << itkOptimizer->GetMaximumNumberOfIterations();
+    std::cout << " iterations." << std::endl;
+
+    itkOptimizer->StartOptimization();
+
+    std::cout << "Continue for " << itkOptimizer->GetMaximumNumberOfIterations();
+    std::cout << " iterations." << std::endl;
+
+    itkOptimizer->SetMaximumNumberOfIterations( 100 );
+    itkOptimizer->SetInitialPosition( itkOptimizer->GetCurrentPosition() );
+    itkOptimizer->StartOptimization();
+
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cout << "Exception thrown ! " << std::endl;
+    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << "Location    = " << e.GetLocation()    << std::endl;
+    std::cout << "Description = " << e.GetDescription() << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  finalPosition = itkOptimizer->GetCurrentPosition();
+  std::cout << "Right answer   = " << trueParameters[0] << " , " << trueParameters[1] << std::endl; 
+  std::cout << "Final position = " << finalPosition     << std::endl;
+  
+  for( unsigned int j = 0; j < 2; j++ )
+    {
+    if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > xTolerance )
+      pass = false;
+    }
+
+  if( !pass )
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Get the final value of the optimizer
+  std::cout << "Testing GetValue() : ";
+  OptimizerType::MeasureType finalValue = itkOptimizer->GetValue();
+  if(fabs(finalValue+9.99998)>0.01)
+    {
+    std::cout << "[FAILURE]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  else
+    {
+    std::cout << "[SUCCESS]" << std::endl;
+    }
+  }
+
+
+
+  
   std::cout << "Test done." << std::endl;
   return EXIT_SUCCESS;
 }
