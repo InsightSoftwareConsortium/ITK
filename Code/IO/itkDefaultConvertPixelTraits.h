@@ -19,6 +19,9 @@
 #define __itkDefaultConvertPixelTraits_h
 
 #include "itkOffset.h"
+#include "itkCovariantVector.h"
+#include "itkVector.h"
+#include "itkPoint.h"
 
 namespace itk
 {
@@ -128,6 +131,94 @@ ITK_DEFAULTCONVERTTRAITS_OFFSET_TYPE(4)
 ITK_DEFAULTCONVERTTRAITS_OFFSET_TYPE(5)
 
 
+
+
+//
+//  Default traits for the pixel types deriving from FixedArray<>
+//
+
+#define ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(type,componenttype, dimension) \
+template<>                                                               \
+class DefaultConvertPixelTraits< type< componenttype, dimension> >       \
+{                                                                        \
+public:                                                                  \
+  typedef type< componenttype, dimension >  TargetType;                  \
+  typedef componenttype                     ComponentType;               \
+  static unsigned int GetNumberOfComponents()                            \
+    {                                                                    \
+      return dimension;                                                  \
+    }                                                                    \
+  static void SetNthComponent(int i, TargetType & pixel, const ComponentType& v)   \
+    {                                                                    \
+      pixel[i] = v;                                                      \
+    }                                                                    \
+  static ComponentType GetScalarValue(const TargetType& pixel)           \
+    {                                                                    \
+      return pixel[0];                                                   \
+    }                                                                    \
+};                                                                       \
+
+
+
+
+
+//
+//
+// Define traits for Classed deriving from FixedArray from dimensions 1 to 6
+// These classes include: Vector, CovariantVector and Point.
+//
+//
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Vector,float,2)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Vector,float,3)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Vector,float,4)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Vector,float,5)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Vector,float,6)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Vector,double,2)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Vector,double,3)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Vector,double,4)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Vector,double,5)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Vector,double,6)
+
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Point,float,2)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Point,float,3)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Point,float,4)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Point,float,5)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Point,float,6)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Point,double,2)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Point,double,3)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Point,double,4)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Point,double,5)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Point,double,6)
+
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(CovariantVector,float,2)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(CovariantVector,float,3)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(CovariantVector,float,4)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(CovariantVector,float,5)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(CovariantVector,float,6)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(CovariantVector,double,2)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(CovariantVector,double,3)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(CovariantVector,double,4)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(CovariantVector,double,5)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(CovariantVector,double,6)
+
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(FixedArray,float,2)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(FixedArray,float,3)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(FixedArray,float,4)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(FixedArray,float,5)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(FixedArray,float,6)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(FixedArray,double,2)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(FixedArray,double,3)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(FixedArray,double,4)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(FixedArray,double,5)
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(FixedArray,double,6)
+
+//
+//  End of Traits for the classes deriving from FixedArray.
+//
+//
+
+
+  
 } // end namespace itk
 
 

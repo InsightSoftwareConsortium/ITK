@@ -18,6 +18,9 @@
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
 #include "itkOffset.h"
+#include "itkVector.h"
+#include "itkPoint.h"
+#include "itkCovariantVector.h"
 
 
 namespace itk
@@ -217,6 +220,12 @@ bool ImageIOBase::SetPixelType(const std::type_info& ptype)
     this->SetNumberOfComponents(4);
     this->SetPixelType(ImageIOBase::OFFSET);
     this->SetComponentType(ImageIOBase::LONG);
+    }
+  else if ( ptype == typeid(CovariantVector<float,2>) )
+    {
+    this->SetNumberOfComponents(2);
+    this->SetPixelType(ImageIOBase::FLOAT);
+    this->SetComponentType(ImageIOBase::FLOAT);
     }
   else
     {
