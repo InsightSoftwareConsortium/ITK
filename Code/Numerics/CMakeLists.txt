@@ -6,11 +6,12 @@ ADD_LIBRARY(ITKNumerics
   itkCompositeValleyFunction.cxx
   itkConjugateGradientOptimizer.cxx
   itkCostFunction.cxx
-  itkGradientDescentOptimizer.cxx
+  itkCumulativeGaussianCostFunction.cxx
+  itkCumulativeGaussianOptimizer.cxx
   itkFRPROptimizer.cxx
-  itkLBFGSOptimizer.cxx
+  itkGradientDescentOptimizer.cxx
   itkLBFGSBOptimizer.cxx
-  lbfgsb.c
+  itkLBFGSOptimizer.cxx
   itkLevenbergMarquardtOptimizer.cxx
   itkMultipleValuedNonLinearOptimizer.cxx
   itkMultipleValuedNonLinearVnlOptimizer.cxx
@@ -22,13 +23,13 @@ ADD_LIBRARY(ITKNumerics
   itkQuaternionRigidTransformGradientDescentOptimizer.cxx
   itkRegularStepGradientDescentBaseOptimizer.cxx
   itkRegularStepGradientDescentOptimizer.cxx
+  itkSPSAOptimizer.cxx
   itkSingleValuedNonLinearOptimizer.cxx
   itkSingleValuedNonLinearVnlOptimizer.cxx
   itkSingleValuedVnlCostFunctionAdaptor.cxx
-  itkVersorTransformOptimizer.cxx
   itkVersorRigid3DTransformOptimizer.cxx
-  itkCumulativeGaussianOptimizer.cxx
-  itkCumulativeGaussianCostFunction.cxx
+  itkVersorTransformOptimizer.cxx
+  lbfgsb.c
 )
 
 TARGET_LINK_LIBRARIES (ITKNumerics ITKCommon)
