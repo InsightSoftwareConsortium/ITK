@@ -18,12 +18,28 @@ itkRawImageIOTest3.cxx
 itkRawImageIOTest4.cxx
 itkVOLImageIOTest.cxx
 itkVTKImageIOTest.cxx
+testMetaUtils.cxx
+testMetaObject.cxx
+testMetaImage.cxx
+testMetaTube.cxx
+testMetaBlob.cxx
+testMetaSurface.cxx
+testMetaLine.cxx
+testMetaScene.cxx
 )
 
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 ADD_TEST(itkIOPrintTest ${IO_TESTS} itkIOPrintTest)
 ADD_TEST(itkConvertBufferTest ${IO_TESTS} itkConvertBufferTest)
+ADD_TEST(testMetaUtils ${IO_TESTS} testMetaUtils)
+ADD_TEST(testMetaObject ${IO_TESTS} testMetaObject)
+ADD_TEST(testMetaImage ${IO_TESTS} testMetaImage)
+ADD_TEST(testMetaTube ${IO_TESTS} testMetaTube)
+ADD_TEST(testMetaBlob ${IO_TESTS} testMetaBlob)
+ADD_TEST(testMetaSurface ${IO_TESTS} testMetaSurface)
+ADD_TEST(testMetaLine ${IO_TESTS} testMetaLine)
+ADD_TEST(testMetaScene ${IO_TESTS} testMetaScene)
 ADD_TEST(itkVTKImageIOTest ${IO_TESTS} itkVTKImageIOTest
                            ${TEMP}/test1.vtk ${TEMP}/test2.vtk)
 ADD_TEST(itkRawImageIOTest ${IO_TESTS} itkRawImageIOTest

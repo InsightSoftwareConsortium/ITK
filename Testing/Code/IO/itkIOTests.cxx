@@ -23,4 +23,12 @@ void RegisterTests()
   REGISTER_TEST(itkImageSeriesIOTest);
   REGISTER_TEST(itkGEImageIOTest);
   REGISTER_TEST(itkAnalyzeImageIOTest2);
+  REGISTER_TEST(testMetaUtils);
+  REGISTER_TEST(testMetaBlob);
+  REGISTER_TEST(testMetaImage);
+  REGISTER_TEST(testMetaLine);
+  REGISTER_TEST(testMetaObject);
+  REGISTER_TEST(testMetaScene);
+  REGISTER_TEST(testMetaSurface);
+  REGISTER_TEST(testMetaTube);
 }
