@@ -164,8 +164,8 @@ public:
 
   /** Define the data type and the vector of data type used in calculations. */
   typedef TRealType RealType;
-  typedef Vector<TRealType, VectorDimension> RealVectorType;
-  typedef Image<RealVectorType, ImageDimension> RealVectorImageType;
+  typedef Vector<TRealType, ::itk::GetVectorDimension<InputPixelType>::VectorDimension> RealVectorType;
+  typedef Image<RealVectorType, ::itk::GetImageDimension<TInputImage>::ImageDimension>  RealVectorImageType;
   
 
   /** Type of the iterator that will be used to move through the image.  Also
