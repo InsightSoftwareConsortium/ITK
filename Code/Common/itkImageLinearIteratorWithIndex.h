@@ -58,7 +58,7 @@ namespace itk
  * ImageLinearIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
  * 
  * it.SetDirection(2);
- * it.Begin();
+ * it.GoToBegin();
  * while( !it.IsAtEnd() )
  * {
  *   while( !it.IsAtEndOfLine() )
