@@ -4,6 +4,7 @@ PROJECT(ITKTesting)
 # normal ITK build or as a stand-alone project.  This design is useful
 # for testing the installation tree of ITK.
 
+MAKE_DIRECTORY(${ITKTesting_BINARY_DIR}/Temporary)
 IF(ITK_BINARY_DIR)
   # We are building inside the tree.
   SUBDIRS(Code)
