@@ -231,8 +231,8 @@ protected:
 
 private:
 
-  TargetPointer              m_Target;
-  ReferencePointer           m_Reference;
+  TargetConstPointer         m_Target;
+  ReferenceConstPointer      m_Reference;
   TransformationPointer      m_Transformation;
   MapperPointer              m_Mapper;  
   MetricPointer              m_Metric;
