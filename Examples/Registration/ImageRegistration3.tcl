@@ -48,8 +48,7 @@ set fixedImage  [ $fixedImageReader GetOutput  ]
 set movingImage [ $movingImageReader GetOutput ]
 
 set fixedImageRegion  [ $fixedImage  GetBufferedRegion ]
-
-$registration  SetFixedImageRegion  $fixedImageRegion` 
+$registration  SetFixedImageRegion  $fixedImageRegion
 
 $transform SetIdentity
 set initialParameters [ $transform GetParameters ]
@@ -62,11 +61,14 @@ $optimizer  SetMaximumStepLength  4.00
 $optimizer  SetMinimumStepLength  0.01
 $optimizer  SetNumberOfIterations  200
 
+set command [itkTclCommand_New]
+$command SetInterpreter [GetInterp]
+$command SetCommandString {  puts [$transform GetParameters]}
+#  set currentParameters [$transform GetParameters]
+#  puts "X= [$currentParameters () 0]   Y=[$currentParameters () 1]"
+#}
+$optimizer AddObserver [itkIterationEvent] [$command GetPointer]
 
-$optimizer AddObserver [itk::IterationEvent] [itk::createTclCommand {
-  set currentParameters [$transform GetParameters]
-  puts "X= [$currentParameters () 0]   Y=[$currentParameters () 1]"
-}]
 
 # Here the registration is done
 $registration StartRegistration 
@@ -75,19 +77,19 @@ $registration StartRegistration
 # Get the final parameters of the transformation
 set finalParameters [$registration GetLastTransformParameters]
 
-
 # Print them out
 puts "Final Registration Parameters "
-puts "Translation X =  [$finalParameters () 0]"
-puts "Translation Y =  [$finalParameters () 1]"
+puts $finalParameters
+#puts "Translation X =  [$finalParameters () 0]"
+#puts "Translation Y =  [$finalParameters () 1]"
 
 
 # Now, 
 # we use the final transform for resampling the
 # moving image.
 set resampler [itkResampleImageFilterF2F2_New ]
-
-$resampler SetTransform $transform
+puts $transform
+$resampler SetTransform [$transform GetPointer]
 $resampler SetInput     $movingImage
 
 set region [ $fixedImage GetLargestPossibleRegion ]
@@ -99,6 +101,7 @@ $resampler SetOutputOrigin  [ $fixedImage GetOrigin  ]
 $resampler SetDefaultPixelValue 100
 
 set writer [ itkImageFileWriterF2_New ]
+
 
 $writer SetFileName [lindex $argv 2]
 $writer SetInput [ $resampler GetOutput ]
