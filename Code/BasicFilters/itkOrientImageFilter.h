@@ -1,7 +1,7 @@
 /*=========================================================================
 
 Program:   Insight Segmentation & Registration Toolkit
-Module:    itkOrienterImageFilter.h
+Module:    itkOrientImageFilter.h
 Language:  C++
 Date:      $Date$
 Version:   $Revision$
@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkOrienterImageFilter_h
-#define __itkOrienterImageFilter_h
+#ifndef __itkOrientImageFilter_h
+#define __itkOrientImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkIOCommon.h"
@@ -25,7 +25,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk {
 
-/** \class OrienterImageFilter
+/** \class OrientImageFilter
  * \brief Permute axes and then flip images as needed to obtain
  *  agreement in coordinateOrientation codes.
  *
@@ -35,7 +35,7 @@ namespace itk {
  * of human anatomy, and the even wider variety of image processing software,
  * it is often necessary to re-orient image volume data.  
  *
- * OrienterImageFilter depends on a set of constants that describe all possible
+ * OrientImageFilter depends on a set of constants that describe all possible
  * permutations of Axes. These reside in itkSpatialOrientation.h. These are
  * labeled according to the following scheme:
  * Directions are labeled in terms of following pairs:
@@ -75,7 +75,7 @@ namespace itk {
  * #include "itkMetaDataObject.h"
  * #include "itkImage.h"
  * #include "itkSpatialOrientation.h"
- * #include "itkOrienterImageFilter.h"
+ * #include "itkOrientImageFilter.h"
  * #include "itkIOCommon.h"
  * typedef itk::Image<unsigned char,3> ImageType;
  * typedef itk::ImageFileReader< TstImageType > ImageReaderType ;
@@ -91,8 +91,8 @@ namespace itk {
  *   itk::SpatialOrientation::ValidCoordinateOrientationFlags fileOrientation;
  *   itk::ExposeMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>
  *     (rval->GetMetaDataDictionary(),itk::ITK_CoordinateOrientation,fileOrientation);
- *   itk::OrienterImageFilter<ImageType,ImageType>::Pointer orienter =
- *     itk::OrienterImageFilter<ImageType,ImageType>::New();
+ *   itk::OrientImageFilter<ImageType,ImageType>::Pointer orienter =
+ *     itk::OrientImageFilter<ImageType,ImageType>::New();
  *   orienter->SetGivenCoordinateOrientation(fileOrientation);
  *   orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
  *   orienter->SetInput(rval);
@@ -103,12 +103,12 @@ namespace itk {
  * \endcode
  */
 template<class TInputImage, class TOutputImage>
-class ITK_EXPORT OrienterImageFilter :
+class ITK_EXPORT OrientImageFilter :
     public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef OrienterImageFilter Self;
+  typedef OrientImageFilter Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage>
   Superclass;
   typedef SmartPointer<Self>        Pointer;
@@ -145,7 +145,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(OrienterImageFilter, ImageToImageFilter);
+  itkTypeMacro(OrientImageFilter, ImageToImageFilter);
 
   /** Set/Get the orienttion codes to define the coordinate transform. */
   itkGetMacro(GivenCoordinateOrientation, CoordinateOrientationCode);
@@ -159,9 +159,9 @@ public:
   /** Get flip axes. */
   itkGetConstReferenceMacro( FlipAxes, FlipAxesArrayType );
 
-  /** OrienterImageFilter produces an image which is a different
+  /** OrientImageFilter produces an image which is a different
    * dimensionality than its input image, in general.
-   *As such, OrienterImageFilter needs to provide an
+   *As such, OrientImageFilter needs to provide an
    * implementation for GenerateOutputInformation() in order to inform
    * the pipeline execution model.  The original documentation of this
    * method is below.
@@ -169,16 +169,16 @@ public:
   virtual void GenerateOutputInformation();
 
 protected:
-  OrienterImageFilter();
-  ~OrienterImageFilter() {};
+  OrientImageFilter();
+  ~OrientImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** OrienterImageFilter needs the entire input be
+  /** OrientImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
   void GenerateInputRequestedRegion() ;
 
-  /** OrienterImageFilter will produce the entire output. */
+  /** OrientImageFilter will produce the entire output. */
   void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
 
   /*** Member functions used by GenerateData: */
@@ -193,7 +193,7 @@ protected:
 
 
 private:
-  OrienterImageFilter(const Self&); //purposely not implemented
+  OrientImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   CoordinateOrientationCode     m_GivenCoordinateOrientation;
@@ -206,7 +206,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkOrienterImageFilter.txx"
+#include "itkOrientImageFilter.txx"
 #endif
 
 #endif

@@ -1,7 +1,7 @@
 /*=========================================================================
 
 Program:   Insight Segmentation & Registration Toolkit
-Module:    itkOrienterImageFilter.txx
+Module:    itkOrientImageFilter.txx
 Language:  C++
 Date:      $Date$
 Version:   $Revision$
@@ -14,12 +14,12 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkOrienterImageFilter_txx
-#define __itkOrienterImageFilter_txx
+#ifndef __itkOrientImageFilter_txx
+#define __itkOrientImageFilter_txx
 
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
-#include "itkOrienterImageFilter.h"
+#include "itkOrientImageFilter.h"
 #include <itkIOCommon.h>
 #include <itkCastImageFilter.h>
 #include <itkConstantPadImageFilter.h>
@@ -31,8 +31,8 @@ namespace itk
 {
 
 template <class TInputImage, class TOutputImage>
-OrienterImageFilter<TInputImage, TOutputImage>
-::OrienterImageFilter()
+OrientImageFilter<TInputImage, TOutputImage>
+::OrientImageFilter()
   : m_GivenCoordinateOrientation  ( SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP ),
     m_DesiredCoordinateOrientation( SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP )
 
@@ -41,7 +41,7 @@ OrienterImageFilter<TInputImage, TOutputImage>
 
 template <class TInputImage, class TOutputImage>
 void
-OrienterImageFilter<TInputImage, TOutputImage>
+OrientImageFilter<TInputImage, TOutputImage>
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
@@ -80,7 +80,7 @@ OrienterImageFilter<TInputImage, TOutputImage>
 
 template <class TInputImage, class TOutputImage>
 void
-OrienterImageFilter<TInputImage, TOutputImage>
+OrientImageFilter<TInputImage, TOutputImage>
 ::EnlargeOutputRequestedRegion(DataObject *)
 {
   this->GetOutput()
@@ -90,7 +90,7 @@ OrienterImageFilter<TInputImage, TOutputImage>
 
 template <class TInputImage, class TOutputImage>
 void
-OrienterImageFilter<TInputImage, TOutputImage>
+OrientImageFilter<TInputImage, TOutputImage>
 ::DeterminePermutationsAndFlips(const SpatialOrientation::ValidCoordinateOrientationFlags fixed_orient, const SpatialOrientation::ValidCoordinateOrientationFlags moving_orient)
 {
   //std::cout <<"DEBUG Received Codes " <<fixed_orient <<"  and  " <<moving_orient <<std::endl;
@@ -174,7 +174,7 @@ OrienterImageFilter<TInputImage, TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void
-OrienterImageFilter<TInputImage,TOutputImage>
+OrientImageFilter<TInputImage,TOutputImage>
 ::SetGivenCoordinateOrientation(CoordinateOrientationCode newCode)
 {
   m_GivenCoordinateOrientation = newCode;
@@ -196,7 +196,7 @@ OrienterImageFilter<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void
-OrienterImageFilter<TInputImage,TOutputImage>
+OrientImageFilter<TInputImage,TOutputImage>
 ::SetDesiredCoordinateOrientation(CoordinateOrientationCode newCode)
 {
   m_DesiredCoordinateOrientation = newCode;
@@ -215,7 +215,7 @@ OrienterImageFilter<TInputImage,TOutputImage>
 /** Returns true if a permute is required. Return false otherwise */
 template<class TInputImage, class TOutputImage>
 bool
-OrienterImageFilter<TInputImage, TOutputImage>
+OrientImageFilter<TInputImage, TOutputImage>
 ::NeedToPermute()
 {
   for ( unsigned int j = 0; j < InputImageDimension; j++ )
@@ -229,7 +229,7 @@ OrienterImageFilter<TInputImage, TOutputImage>
 /** Returns true if flipping is required. Return false otherwise */
 template<class TInputImage, class TOutputImage>
 bool
-OrienterImageFilter<TInputImage, TOutputImage>
+OrientImageFilter<TInputImage, TOutputImage>
 ::NeedToFlip()
 {
   for ( unsigned int j = 0; j < InputImageDimension; j++ )
@@ -242,7 +242,7 @@ OrienterImageFilter<TInputImage, TOutputImage>
 
 template<class TInputImage, class TOutputImage>
 void
-OrienterImageFilter<TInputImage, TOutputImage>
+OrientImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
 
@@ -301,7 +301,7 @@ OrienterImageFilter<TInputImage, TOutputImage>
 
 
   permuteAxesFilter->SetOrder( m_PermuteOrder );
-
+  permuteAxesFilter->ReleaseDataFlagOn();
 
   /* Set the ITK image size based on the size of the BRAINS2 image */
   typename InputImageType::SizeType  xsize;
@@ -317,9 +317,10 @@ OrienterImageFilter<TInputImage, TOutputImage>
   xregion.SetSize( xsize );
 
   from_cube->SetExtractionRegion( xregion );
-
+  from_cube->ReleaseDataFlagOn();
 
   flipAxesFilter->SetFlipAxes( m_FlipAxes );
+  flipAxesFilter->ReleaseDataFlagOn();
   //std::cout <<"DEBUG: FlipAxes are " <<flipAxesFilter->GetFlipAxes() <<std::endl;
 
   // Connect the pipeline
@@ -328,7 +329,7 @@ OrienterImageFilter<TInputImage, TOutputImage>
   from_cube->SetInput( permuteAxesFilter->GetOutput() );
   flipAxesFilter->SetInput( from_cube->GetOutput() );
   to_output->SetInput( flipAxesFilter->GetOutput() );
-
+  to_output->ReleaseDataFlagOn();
 
   //std::cout <<"DEBUG: before to_output->GraftOutput( this->GetOutput() );" <<std::endl;
   // graft our output to the subtract filter to force the proper regions
@@ -359,7 +360,7 @@ OrienterImageFilter<TInputImage, TOutputImage>
   //std::cout <<"DEBUG: before this->GraftOutput( to_output->GetOutput() );" <<std::endl;
   {
   typename CastToOutputFilterType::OutputImageType::Pointer tempImage = to_output->GetOutput();
-  std::cout <<(tempImage) <<std::endl;
+  //  std::cout <<(tempImage) <<std::endl;
   }
   this->GraftOutput( to_output->GetOutput() );
   this->GetOutput()->SetMetaDataDictionary( this->GetInput()->GetMetaDataDictionary() );
@@ -372,7 +373,7 @@ OrienterImageFilter<TInputImage, TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void
-OrienterImageFilter<TInputImage,TOutputImage>
+OrientImageFilter<TInputImage,TOutputImage>
 ::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
@@ -416,7 +417,7 @@ OrienterImageFilter<TInputImage,TOutputImage>
 
 template<class TInputImage, class TOutputImage>
 void
-OrienterImageFilter<TInputImage, TOutputImage>
+OrientImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
