@@ -21,7 +21,7 @@
 namespace itk
 {
   
-/** \class FilterTernaryAdd
+/** \class FilterImageTernaryAdd
  * \brief Implements pixel-wise addition of three images.
  *
  * This class is parametrized over the types of the three 
