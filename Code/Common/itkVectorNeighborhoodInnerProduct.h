@@ -18,7 +18,6 @@
 #define __itkVectorNeighborhoodInnerProduct_h
 
 #include "itkNeighborhoodIterator.h"
-#include "itkSmartNeighborhoodIterator.h"
 #include "itkVector.h"
 #include "itkNeighborhood.h"
 #include "itkConstSliceIterator.h"
