@@ -221,7 +221,7 @@ TubeSpatialObject< TDimension, PipelineDimension >
     j++; 
     k = i; 
     k--; 
-    t = ((*j)->GetCenterLinePoint().Get_vnl_vector()) - ((*k)->GetCenterLinePoint().Get_vnl_vector()); 
+    t = ((*j)->GetPosition().Get_vnl_vector()) - ((*k)->GetPosition().Get_vnl_vector()); 
     t(1) /= 2; 
     t(2) /= 2; 
     t(3) /= 2; 
