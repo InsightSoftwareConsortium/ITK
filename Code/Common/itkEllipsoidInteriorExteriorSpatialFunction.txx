@@ -48,7 +48,7 @@ EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>
 }
 
 template <unsigned int VDimension, typename TInput>
-EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::OutputType
+typename EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::OutputType
 EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>
 ::Evaluate(const InputType& position) const
 {  

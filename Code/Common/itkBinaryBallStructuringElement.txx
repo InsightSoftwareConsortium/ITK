@@ -39,8 +39,8 @@ BinaryBallStructuringElement<TPixel, VDimension, TAllocator>
 
   // Create an image to hold the ellipsoid
   //
-  ImageType::Pointer sourceImage = ImageType::New();
-  ImageType::RegionType region;
+  typename ImageType::Pointer sourceImage = ImageType::New();
+  typename ImageType::RegionType region;
   region.SetSize( this->GetSize() );
 
   sourceImage->SetLargestPossibleRegion( region );
@@ -67,10 +67,10 @@ BinaryBallStructuringElement<TPixel, VDimension, TAllocator>
     EllipsoidType;
   
   // Create an ellipsoid spatial function for the source image
-  EllipsoidType::Pointer spatialFunction = EllipsoidType::New();
+  typename EllipsoidType::Pointer spatialFunction = EllipsoidType::New();
 
   // Define and set the axes lengths for the ellipsoid
-  EllipsoidType::InputType axes;
+  typename EllipsoidType::InputType axes;
   for (i=0; i < VDimension; i++)
     {
     axes[i] = this->GetSize(i);
@@ -78,7 +78,7 @@ BinaryBallStructuringElement<TPixel, VDimension, TAllocator>
   spatialFunction->SetAxes( axes );
 
   // Define and set the center of the ellipsoid in physical space
-  EllipsoidType::InputType center;
+  typename EllipsoidType::InputType center;
   for (i=0; i < VDimension; i++)
     {
     center[i] = this->GetRadius(i);
@@ -90,7 +90,7 @@ BinaryBallStructuringElement<TPixel, VDimension, TAllocator>
   vnl_matrix<double> orientations(3, 3, vnl_matrix_identity);  
   spatialFunction->SetOrientations(orientations);
 
-  ImageType::IndexType seed;
+  typename ImageType::IndexType seed;
   for (i=0; i < VDimension; i++)
     {
     seed[i] = this->GetRadius(i);

@@ -21,7 +21,7 @@
 namespace itk {
 
 template<class TImage, class TBoundaryCondition>
-ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>::PixelType
+typename ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>::PixelType
 ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
 ::GetPixel(const unsigned long n) const
 {
