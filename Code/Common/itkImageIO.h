@@ -89,8 +89,7 @@ public:
    * so that a whole list of strings is returned.
    */
   typedef std::deque<std::string> FileExtensionsListType;
-  //virtual std::string GetSupportedFileExtensions() const = 0;
-  virtual FileExtensionsListType GetSupportedFileExtensions() const = 0;
+  virtual FileExtensionsListType& GetSupportedFileExtensions() const = 0;
 
   /**
    * Set the filename
