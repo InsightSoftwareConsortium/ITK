@@ -259,37 +259,27 @@ int main()
   cellpointer->SetPointId( 0, 0 );
   cellpointer->SetPointId( 1, 1 );
   mesh->SetCell( 5, cellpointer );
-  // Software Guide : EndCodeSnippet
 
-  // Software Guide : BeginCodeSnippet
   cellpointer.TakeOwnership( new LineType );
   cellpointer->SetPointId( 0, 1 );
   cellpointer->SetPointId( 1, 2 );
   mesh->SetCell( 6, cellpointer );
-  // Software Guide : EndCodeSnippet
 
-  // Software Guide : BeginCodeSnippet
   cellpointer.TakeOwnership( new LineType );
   cellpointer->SetPointId( 0, 2 );
   cellpointer->SetPointId( 1, 0 );
   mesh->SetCell( 7, cellpointer );
-  // Software Guide : EndCodeSnippet
 
-  // Software Guide : BeginCodeSnippet
   cellpointer.TakeOwnership( new LineType );
   cellpointer->SetPointId( 0, 1 );
   cellpointer->SetPointId( 1, 3 );
   mesh->SetCell( 8, cellpointer );
-  // Software Guide : EndCodeSnippet
 
-  // Software Guide : BeginCodeSnippet
   cellpointer.TakeOwnership( new LineType );
   cellpointer->SetPointId( 0, 3 );
   cellpointer->SetPointId( 1, 2 );
   mesh->SetCell( 9, cellpointer );
-  // Software Guide : EndCodeSnippet
 
-  // Software Guide : BeginCodeSnippet
   cellpointer.TakeOwnership( new LineType );
   cellpointer->SetPointId( 0, 3 );
   cellpointer->SetPointId( 1, 0 );
@@ -308,23 +298,15 @@ int main()
   cellpointer.TakeOwnership( new VertexType );
   cellpointer->SetPointId( 0, 0 );
   mesh->SetCell( 11, cellpointer );
-  // Software Guide : EndCodeSnippet
 
-  // Software Guide : BeginCodeSnippet
   cellpointer.TakeOwnership( new VertexType );
   cellpointer->SetPointId( 0, 1 );
   mesh->SetCell( 12, cellpointer );
-  // Software Guide : EndCodeSnippet
 
-
-  // Software Guide : BeginCodeSnippet
   cellpointer.TakeOwnership( new VertexType );
   cellpointer->SetPointId( 0, 2 );
   mesh->SetCell( 13, cellpointer );
-  // Software Guide : EndCodeSnippet
 
-
-  // Software Guide : BeginCodeSnippet
   cellpointer.TakeOwnership( new VertexType );
   cellpointer->SetPointId( 0, 3 );
   mesh->SetCell( 14, cellpointer );
