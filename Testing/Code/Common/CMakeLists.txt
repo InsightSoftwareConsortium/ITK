@@ -29,6 +29,7 @@ ADD_TEST(itkConstRandomAccessNeighborhoodIteratorTest itkCommonTests itkConstRan
 ADD_TEST(itkCovariantVectorGeometryTest itkCommonTests itkCovariantVectorGeometryTest)
 ADD_TEST(itkDataTypeTest itkCommonTests itkDataTypeTest)
 ADD_TEST(itkDynamicMeshTest itkCommonTests itkDynamicMeshTest)
+ADD_TEST(itkEuler2DTransformTest itkCommonTests itkEuler2DTransformTest)
 ADD_TEST(itkExceptionObjectTest itkCommonTests itkExceptionObjectTest)
 ADD_TEST(itkCommonHeaderTest itkCommonHeaderTest)
 ADD_TEST(itkHashTableTest itkCommonTests itkHashTableTest)
@@ -56,6 +57,7 @@ ADD_TEST(itkPointGeometryTest itkCommonTests itkPointGeometryTest)
 ADD_TEST(itkPointSetTest itkCommonTests itkPointSetTest)
 ADD_TEST(itkRandomAccessNeighborhoodIteratorTest itkCommonTests itkRandomAccessNeighborhoodIteratorTest)
 ADD_TEST(itkRGBPixelTest itkCommonTests itkRGBPixelTest)
+ADD_TEST(itkRigid2DTransformTest itkCommonTests itkRigid2DTransformTest)
 ADD_TEST(itkRigid3DTransformTest itkCommonTests itkRigid3DTransformTest)
 ADD_TEST(itkRigid3DPerspectiveTransformTest itkCommonTests itkRigid3DPerspectiveTransformTest)
 ADD_TEST(itkSliceIteratorTest itkCommonTests itkSliceIteratorTest)
@@ -93,6 +95,7 @@ itkConstSmartNeighborhoodIteratorTest
 itkCovariantVectorGeometryTest 
 itkDataTypeTest 
 itkDynamicMeshTest 
+itkEuler2DTransformTest
 itkExceptionObjectTest 
 itkHashTableTest 
 itkImageAdaptorTest 
@@ -117,6 +120,7 @@ itkObjectStoreTest
 itkPixelAccessTest 
 itkPointGeometryTest 
 itkPointSetTest 
+itkRigid2DTransformTest 
 itkRigid3DTransformTest 
 itkRigid3DPerspectiveTransformTest 
 itkRandomAccessNeighborhoodIteratorTest 
