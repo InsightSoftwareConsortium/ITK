@@ -319,6 +319,25 @@ IF(WIN32)
 ENDIF(WIN32)
 
 #-----------------------------------------------------------------------------
+# Find platform-specific differences in the handling of IEEE floating point 
+# special values.
+INCLUDE(${ITK_SOURCE_DIR}/CMake/CheckBigBitfield.cmake)
+CHECK_BIG_BITFIELD(BIGBITFIELD_VALUE ${ITK_SOURCE_DIR}/CMake)
+IF(BIGBITFIELD_VALUE)
+   SET(BIGBITFIELD 1 CACHE INTERNAL "System handles bit-fields larger than 32 bits.")
+ELSE(BIGBITFIELD_VALUE)
+   SET(BIGBITFIELD 0 CACHE INTERNAL "System handles bit-fields larger than 32 bits.")
+ENDIF(BIGBITFIELD_VALUE)
+
+INCLUDE(${ITK_SOURCE_DIR}/CMake/TestQnanhibit.cmake)
+TEST_QNANHIBIT(QNANHIBIT_VALUE ${ITK_SOURCE_DIR}/CMake)
+IF(QNANHIBIT_VALUE)
+   SET(QNANHIBIT 1 CACHE INTERNAL "The 22nd bit of 32-bit floating-point quiet NaN.")
+ELSE(QNANHIBIT_VALUE)
+   SET(QNANHIBIT 0 CACHE INTERNAL "The 22nd bit of 32-bit floating-point quiet NaN.")
+ENDIF(QNANHIBIT_VALUE)
+
+#-----------------------------------------------------------------------------
 # Configure the default ITK_DATA_ROOT for the location of ITK Data.
 FIND_PATH(ITK_DATA_ROOT ITKData.readme ${ITK_SOURCE_DIR}/Testing/Data $ENV{ITK_DATA_ROOT})
 MARK_AS_ADVANCED(ITK_DATA_ROOT)
