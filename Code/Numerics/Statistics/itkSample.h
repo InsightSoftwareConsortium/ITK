@@ -77,6 +77,8 @@ class ITK_EXPORT Sample : public Object
 public:
   /** Standard class typedefs */
   typedef Sample  Self;
+  typedef Object Superclass ;
+  typedef SmartPointer< Self > Pointer ;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(Sample, Object);
