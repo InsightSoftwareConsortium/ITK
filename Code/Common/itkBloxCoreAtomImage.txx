@@ -43,7 +43,7 @@ template <unsigned int dim>
 BloxCoreAtomImage<dim>
 ::~BloxCoreAtomImage()
 {
-
+  delete m_NodePointerList;
 }
 
 template <unsigned int dim>
