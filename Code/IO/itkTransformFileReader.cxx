@@ -21,6 +21,31 @@
 #include "itkTransformBase.h"
 #include "itkTransformFactoryBase.h"
 
+/**
+ * itk::IStringStream wrapper to hide differences between
+ * std::istringstream and the old istrstream.  Necessary for
+ * portability.
+ */
+#if !defined(ITK_NO_ANSI_STRING_STREAM)
+class IStringStream: public std::istringstream
+{
+public:
+  IStringStream() {}
+private:
+  IStringStream(const IStringStream&);
+  void operator=(const IStringStream&);
+};
+#else
+class IStringStream: public std::istrstream
+{
+public:
+  IStringStream(std::string &s) : istrstream(s.c_str()) {}
+private:
+  IStringStream(const IStringStream&);
+  void operator=(const IStringStream&);
+};
+#endif
+
 namespace itk
 {
 
@@ -106,7 +131,7 @@ void TransformFileReader
     // Push back 
     itkDebugMacro ( "Name: \"" << Name << "\"" );
     itkDebugMacro ( "Value: \"" << Value << "\"" );
-    std::istringstream parse ( Value );
+    IStringStream parse ( Value );
     VectorBuffer.clear();
     if ( Name == "Transform" )
       {
@@ -128,7 +153,7 @@ void TransformFileReader
       Array<double> TmpArray;
       TmpArray.clear();
       VectorBuffer.clear();
-      parse.str ( parse.str() + " " );
+
       // Read them
       parse >> VectorBuffer;
       itkDebugMacro ( "Parsed: " << VectorBuffer );
