@@ -1,6 +1,5 @@
 LIBRARY(ITKCommon)
 
-FIND_INCLUDE( FLTK_INCLUDE_DIR fltk.h H:/usr/local/fltk )
 
 # Sources of non-templated classes.
 SOURCE_FILES(
