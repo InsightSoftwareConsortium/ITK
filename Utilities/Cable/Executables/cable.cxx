@@ -5,9 +5,11 @@
 #include "parseSourceXML.h"
 
 extern void GenerateTcl(const Namespace* globalNamespace,
-                        const WrapperConfiguration*);
+                        const WrapperConfiguration*,
+                        const char* outputDirectory);
 extern void DisplayTree(const Namespace* globalNamespace,
-                        const WrapperConfiguration*);
+                        const WrapperConfiguration*,
+                        const char* outputDirectory);
 
 
 /**
@@ -19,7 +21,9 @@ struct WrapperGenerator
   char* commandLineFlag;         // Command line flag's text.
   bool  flag;                    // Was command line flag given?
   void (*generate)(const Namespace*,
-                   const WrapperConfiguration*);  // Generation function.
+                   const WrapperConfiguration*,
+                   const char*); // Generation function.
+  char* outputDirectory;         // Name of subdirectory where wrappers go.
 };
 
 
@@ -28,8 +32,8 @@ struct WrapperGenerator
  */
 WrapperGenerator wrapperGenerators[] =
 {
-  { "TCL", "-tcl", false, GenerateTcl},
-  { "(display tree)", "-display", false, DisplayTree},
+  { "TCL", "-tcl", false, GenerateTcl, "Tcl"},
+  { "(display tree)", "-display", false, DisplayTree, ""},
   { 0, 0, 0, 0 }
 };
 
@@ -43,7 +47,7 @@ FILE* inputFile = NULL;
  * If the command line override's the configuration file's output name,
  * this is set to the new file name.
  */
-char* outputFile = NULL;
+char* outputName = NULL;
 
 void processCommandLine(int argc, char* argv[]);
 
@@ -60,9 +64,9 @@ int main(int argc, char* argv[])
     ParseConfigXML(inputFile);
 
   // If needed, override output file name.
-  if(outputFile)
+  if(outputName)
     {
-    configuration->SetOutputFile(outputFile);
+    configuration->SetOutputName(outputName);
     }
   
   // Parse the source XML input.
@@ -86,7 +90,8 @@ int main(int argc, char* argv[])
       {
       fprintf(stderr, "Generating %s wrappers...\n",
               wrapperGenerator->languageName);
-      wrapperGenerator->generate(globalNamespace, configuration);
+      wrapperGenerator->generate(globalNamespace, configuration,
+                                 wrapperGenerator->outputDirectory);
       }
     }
   fprintf(stderr, "Done.\n");
@@ -141,7 +146,7 @@ void processCommandLine(int argc, char* argv[])
     if(strcmp("-o", argv[curArg]) == 0)
       {
       found = true;
-      outputFile = argv[++curArg];
+      outputName = argv[++curArg];
       }
     
     /**

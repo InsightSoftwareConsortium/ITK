@@ -155,8 +155,9 @@ public:
 
   FILE* GetSourceXML(void) const;
   
-  void SetOutputFile(const String& dest) { m_Dest = dest; }
-  FILE* GetOutputFile(void) const;
+  void SetOutputName(const String& dest) { m_Dest = dest; }
+  FILE* GetOutputFile(const String& outputDirectory) const;
+  String GetOutputName(void) const { return m_Dest; }
   
   void SetDefaultCreate(Create* c) { m_DefaultCreate = c; }
   Create::Pointer GetDefaultCreate(void) { return m_DefaultCreate; }

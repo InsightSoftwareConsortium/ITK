@@ -152,10 +152,12 @@ WrapperConfiguration
 
 /**
  * Return a FILE pointer to the output file specified in the configuration.
+ *
+ * TODO: Make the directory name construction platform independent!!!
  */
 FILE*
 WrapperConfiguration
-::GetOutputFile(void) const
+::GetOutputFile(const String& outputDirectory) const
 {
   if(m_Dest.length() == 0)
     {
@@ -163,10 +165,12 @@ WrapperConfiguration
     }
   else
     {
-    FILE* f = fopen(m_Dest.c_str(), "rt");
+    String fullName = m_Dest+".cxx";
+    if(outputDirectory.length() > 0) fullName = outputDirectory+"/"+fullName;
+    FILE* f = fopen(fullName.c_str(), "wt");
     if(!f)
       {
-      throw String("Error opening output file: ")+m_Dest+"\n";
+      throw String("Error opening output file: ")+fullName+"\n";
       }
     
     return f;

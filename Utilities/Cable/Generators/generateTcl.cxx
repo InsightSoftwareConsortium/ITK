@@ -14,11 +14,6 @@
    - Add similar support for public constructor calls.
    - Add support for prefix operator registration.
 
-  TODO: Create wrapper initializing function for this file.
-
-  Note:  All generated functions should be "static" so that they are not
-         available outside the object file.
-  
  */
 
 
@@ -573,7 +568,7 @@ void WrapClass(FILE* outFile, const WrapType* wrapType)
           aClass->GetQualifiedName().c_str());
   
   fprintf(outFile,
-          "void InitWrapper_%s(Tcl_Interp* interp)\n"
+          "static void InitWrapper_%s(Tcl_Interp* interp)\n"
           "{\n",
           GetWrapName(aClass).c_str());
   
@@ -607,12 +602,42 @@ void WrapClass(FILE* outFile, const WrapType* wrapType)
 
 
 /**
+ * Generate the initialization function to call all the individual
+ * wrapper initalizers.
+ */
+void OutputInitializer(FILE* outFile, const String& fileName,
+                       WrapTypesIterator first,
+                       WrapTypesIterator last)
+{
+  fprintf(outFile,
+          "/**\n"
+          " * Initialize all the wrappers in this file.\n"
+          " */\n"
+          "void %s_Initializer(Tcl_Interp* interp)\n"
+          "{\n",
+          fileName.c_str());
+  
+  for(WrapTypesIterator w = first; w != last; ++w)
+    {
+    fprintf(outFile,
+            "  InitWrapper_%s(interp);\n",
+            GetWrapName(w->second->GetClass()).c_str());
+    }
+  
+  fprintf(outFile,
+          "}\n"
+          "\n");
+}                      
+
+
+/**
  * Generate TCL wrappers for the types specified by the configuration.
  */
 void GenerateTcl(const Namespace* globalNamespace,
-                 const WrapperConfiguration* configuration)
+                 const WrapperConfiguration* configuration,
+                 const char* outputDirectory)
 {
-  FILE* outFile = configuration->GetOutputFile();
+  FILE* outFile = configuration->GetOutputFile(outputDirectory);
   WrapTypesIterator first = configuration->GetWrapTypes().begin();
   WrapTypesIterator last = configuration->GetWrapTypes().end();
 
@@ -634,8 +659,13 @@ void GenerateTcl(const Namespace* globalNamespace,
     WrapClass(outFile, t->second);
     }  
 
+  // Output the wrapper initialization function for this file.
+  OutputInitializer(outFile, configuration->GetOutputName(),
+                    first, last);
+  
   // Output the footer comments and wrap namespace closing.
   OutputFileFooter(outFile);
   
   fclose(outFile);
 }
+
