@@ -57,9 +57,9 @@ SymmetricEllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>
     pointVector[i] = position[i] - m_Center[i];
     }
 
-  uniqueTerm = pow(((pointVector * m_Orientation)/(.5*m_UniqueAxis)),2);
+  uniqueTerm = pow(static_cast<double>(((pointVector * m_Orientation)/(.5*m_UniqueAxis))),static_cast<double>(2));
   symmetricVector = pointVector - (m_Orientation * (pointVector * m_Orientation));
-  symmetricTerm = pow(((symmetricVector.GetNorm())/(.5*m_SymmetricAxes)),2);
+  symmetricTerm = pow(static_cast<double>(((symmetricVector.GetNorm())/(.5*m_SymmetricAxes))),static_cast<double>(2));
 
   if((uniqueTerm + symmetricTerm) >= 0 && (uniqueTerm + symmetricTerm) <= 1)
     {    
