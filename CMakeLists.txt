@@ -1,6 +1,13 @@
 # This is the root ITK CMakeLists file.
 CMAKE_MINIMUM_REQUIRED(VERSION 1.4)
 PROJECT(ITK)
+
+IF(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 1.4)
+  # test for some required system info
+  INCLUDE (${CMAKE_ROOT}/Modules/CMakeBackwardCompatibilityC.cmake)
+  INCLUDE (${CMAKE_ROOT}/Modules/CMakeBackwardCompatibilityCXX.cmake)
+ENDIF(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 1.4)
+
 INCLUDE_REGULAR_EXPRESSION("^(itk|vtk|vnl|vcl|f2c|ce).*$")
 
 SET(ITK_VERSION_MAJOR "1")
@@ -86,10 +93,12 @@ MAKE_DIRECTORY(${ITK_BINARY_DIR}/Documentation/Doxygen)
 
 # run VXL configure scripts
 IF(RUN_CONFIGURE)
-  EXEC_PROGRAM(${ITK_SOURCE_DIR}/Code/Numerics/vxl/configure 
-               ${ITK_BINARY_DIR}/Code/Numerics/vxl)
-  EXEC_PROGRAM(${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/configure 
-               ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl)
+  IF(UNIX)
+    EXEC_PROGRAM(${ITK_SOURCE_DIR}/Code/Numerics/vxl/configure 
+                 ${ITK_BINARY_DIR}/Code/Numerics/vxl)
+    EXEC_PROGRAM(${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/configure 
+                 ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl)
+  ENDIF(UNIX)
 ENDIF(RUN_CONFIGURE)
 
 # for win32 vc60, just copy files
