@@ -115,7 +115,7 @@ int itkPointGeometryTest(int, char**)
   {
   std::cout << "Test for CastFrom() method... ";
 
-  const float tolerance = 1e-5;
+  const float tolerance = 1e-38;
 
   // Dimension & Type
   const     unsigned int    N = 3;
