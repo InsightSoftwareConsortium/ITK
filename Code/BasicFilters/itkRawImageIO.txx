@@ -40,6 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 #include "itkRawImageIO.h"
 
+
 namespace itk
 {
 
@@ -81,8 +82,6 @@ RawImageIO<TPixel,VImageDimension>::RawImageIO()
   
   for (int idx = 0; idx < VImageDimension; ++idx)
     {
-    m_ImageExtent[idx*2] = m_ImageExtent[idx*2 + 1] = 0;
-    m_ImageVOI[idx*2] = m_ImageVOI[idx*2 + 1] = 0;
     m_Spacing[idx] = 1.0;
     m_Origin[idx] = 0.0;
     }
@@ -110,12 +109,6 @@ void RawImageIO<TPixel,VImageDimension>::PrintSelf(std::ostream& os, Indent inde
 template <class TPixel, unsigned int VImageDimension>
 unsigned long RawImageIO<TPixel,VImageDimension>::GetHeaderSize()
 {
-  return this->GetHeaderSize(m_ImageExtent[4]); //first z-slice
-}
-
-template <class TPixel, unsigned int VImageDimension>
-unsigned long RawImageIO<TPixel,VImageDimension>::GetHeaderSize(unsigned long idx)
-{
   if ( m_FileName == "" && m_FilePattern == "" )
     {
     itkErrorMacro(<<"Either a FileName or FilePattern must be specified.");
@@ -128,7 +121,6 @@ unsigned long RawImageIO<TPixel,VImageDimension>::GetHeaderSize(unsigned long id
     this->ComputeStrides();
 
     // make sure we figure out a filename to open
-    this->ComputeInternalFileName(idx);
     this->OpenFile();
     
     // Get the size of the header from the size of the image
@@ -141,6 +133,7 @@ unsigned long RawImageIO<TPixel,VImageDimension>::GetHeaderSize(unsigned long id
   return m_HeaderSize;
 }
 
+/**
 template <class TPixel, unsigned int VImageDimension>
 void RawImageIO<TPixel,VImageDimension>::ComputeInternalFileName(unsigned long slice)
 {
@@ -171,6 +164,7 @@ void RawImageIO<TPixel,VImageDimension>::ComputeInternalFileName(unsigned long s
     m_InternalFileName = buf;
     }
 }
+*/
 
 template <class TPixel, unsigned int VImageDimension>
 void RawImageIO<TPixel,VImageDimension>::OpenFile()
@@ -188,21 +182,22 @@ void RawImageIO<TPixel,VImageDimension>::OpenFile()
     }
   
   // Open the new file
-  itkDebugMacro(<< "Initialize: opening file " << m_InternalFileName);
+  itkDebugMacro(<< "Initialize: opening file " << m_FileName);
 #ifdef _WIN32
-  m_File.open(m_InternalFileName.c_str(), std::ios::in | std::ios::binary);
+  m_File.open(m_FileName.c_str(), std::ios::in | std::ios::binary);
 #else
-  m_File.open(m_InternalFileName.c_str(), std::ios::in);
+  m_File.open(m_FileName.c_str(), std::ios::in);
 #endif
   if ( m_File.fail() )
     {
-    itkErrorMacro(<< "Could not open file: " << m_InternalFileName);
+    itkErrorMacro(<< "Could not open file: " << m_FileName);
     return;
     }
 }
 
 template <class TPixel, unsigned int VImageDimension>
-void RawImageIO<TPixel,VImageDimension>::SetHeaderSize(unsigned long size)
+void RawImageIO<TPixel,VImageDimension>
+::SetHeaderSize(unsigned long size)
 {
   if ( size != m_HeaderSize)
     {
@@ -212,19 +207,44 @@ void RawImageIO<TPixel,VImageDimension>::SetHeaderSize(unsigned long size)
   m_ManualHeaderSize = true;
 }
 
+//#include "itkByteSwapper.h"
+
 template <class TPixel, unsigned int VImageDimension>
-void RawImageIO<TPixel,VImageDimension>::Load()
+void RawImageIO<TPixel,VImageDimension>::Update()
 {
+  // Open the file
   this->OpenFile();
   
-  //Grab the first slice
+  // Set the dimensions and related
+  this->SetNumberOfDimensions(VImageDimension);
+  this->ComputeStrides();
+  
+  // Offset into file
   m_FileData = (void*)0;
+  unsigned long streamStart = this->GetHeaderSize();
+  m_File.seekg((long)streamStart, std::ios::beg);
+  if ( m_File.fail() )
+    {
+    itkErrorMacro(<<"File seek failed");
+    return;
+    }
+
+  // Read the image
+  m_File.read((char *)m_FileData, m_Strides[3]);
+  
+  // Swap bytes
+  if ( m_ImageByteOrder == Superclass::LittleEndian )
+    {
+//    ByteSwapper::SwapRangeLE(PixelType, m_Strides[3]);
+    }
+
 }
 
 
 template <class TPixel, unsigned int VImageDimension>
 RawImageIO<TPixel,VImageDimension>::FileExtensionsListType& 
-RawImageIO<TPixel,VImageDimension>::GetSupportedFileExtensions() const
+RawImageIO<TPixel,VImageDimension>
+::GetSupportedFileExtensions() const
 {
   static FileExtensionsListType fileExtensionsList;
 

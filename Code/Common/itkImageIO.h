@@ -73,11 +73,6 @@ public:
   itkTypeMacro(ImageIO, Superclass);
 
   /**
-   * Default load; do whatever is appropriate for the filetype.
-   */
-  virtual void Load() = 0;
-
-  /**
    * Read a file's header to determine image dimensions, etc.
    * fileName is file to read from. default="", which uses m_FileName instead
    */
@@ -132,7 +127,7 @@ public:
   
   /**  /**
    * The guts of this class. Returns FileData, which holds the raw
-   * pixels of the image loaded from disk.
+   * pixels of the image read from disk.
    */
   void* GetFileData();
 
@@ -144,15 +139,22 @@ public:
   itkGetMacro(NumberOfDimensions, unsigned int);
 
   /**
-   * Return the size in x, y, z, etc. dimension.
+   * Return and set the size in x, y, z, etc. dimensions.
    */
-  unsigned int GetDimensions(unsigned int i) const;
+  virtual unsigned int GetDimensions(unsigned int i) const;
+
+  /**
+   * Set/Get the type of the pixel. Often this is set during the read
+   * operation and does not always need to be set.
+   */
+  itkSetMacro(PixelType, AtomicPixelType);
+  itkGetMacro(PixelType, AtomicPixelType);
 
   /**
    * Convenient method for accessing the number of bytes to get to 
    * the next pixel. Returns m_Strides[1];
    */
-  unsigned int GetPixelStride () const;
+  virtual unsigned int GetPixelStride () const;
 
   /**
    * Convenient enum for specifyin byte order.
@@ -172,16 +174,16 @@ protected:
   bool m_Initialized;
 
   /**
-   * Full filename: pathname + filename + file extension.
+   * Filename: pathname + filename + file extension.
    */
   std::string m_FileName;
   std::string m_FilePrefix;
   std::string m_FilePattern;
 
   /**
-   * Atomic pixel type being stored.
+   * Type of the pixel.
    */
-  AtomicPixelType m_PixelType;
+  AtomicPixelType  m_PixelType;
 
   /**
    * Stores the number of components per pixel. This will be 1 for 
@@ -216,7 +218,7 @@ protected:
   virtual void Reset(const bool freeDynamic = true);
 
   /**
-   * Resize the ImageIO object to new dimensions
+   * Resize the ImageIO object to new dimensions.
    */
   void Resize(const unsigned int numDimensions, 
               const unsigned int* dimensions);

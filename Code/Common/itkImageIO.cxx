@@ -113,7 +113,7 @@ void ImageIO::ComputeStrides()
 
   m_Strides[0] = ComputeSizeOfAtomicPixelType(m_PixelType);
   m_Strides[1] = m_NumberOfComponents * m_Strides[0];
-  for (i = 2; i <= m_NumberOfDimensions; i++)
+  for (i = 2; i <= (m_NumberOfDimensions+1); i++)
     {
     m_Strides[i] = m_Dimensions[i-2] * m_Strides[i-1];
     }

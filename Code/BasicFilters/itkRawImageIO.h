@@ -121,6 +121,13 @@ public:
    * Set the spacing (size of a pixel) of the image.
    * \sa GetSpacing()
    */
+  itkSetVectorMacro(Dimensions, const unsigned int, VImageDimension);
+  itkGetVectorMacro(Dimensions, const unsigned int, VImageDimension);
+  
+  /** 
+   * Set the spacing (size of a pixel) of the image.
+   * \sa GetSpacing()
+   */
   itkSetVectorMacro(Spacing, const double, VImageDimension);
   itkGetVectorMacro(Spacing, const double, VImageDimension);
   
@@ -142,7 +149,6 @@ public:
    * Get the size of the header computed by this object.
    */
   unsigned long GetHeaderSize();
-  unsigned long GetHeaderSize(unsigned long slice);
 
   /**
    * If there is a tail on the file, you want to explicitly set the
@@ -183,7 +189,7 @@ public:
   /**
    * Default load; do whatever is appropriate for the filetype.
    */
-  virtual void Load ();
+  virtual void Update();
 
   /**
    * Read a file's header to determine image dimensions, etc.
@@ -205,7 +211,7 @@ protected:
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  void ComputeInternalFileName(unsigned long slice);
+  //void ComputeInternalFileName(unsigned long slice);
   void OpenFile();
   
 private:
@@ -218,8 +224,6 @@ private:
   double      m_Spacing[VImageDimension];
   double      m_Origin[VImageDimension];
 
-  unsigned long m_ImageExtent[6];
-  unsigned long m_ImageVOI[6];
   unsigned long m_FileDimensionality;
   bool m_ManualHeaderSize;
   unsigned long m_HeaderSize;

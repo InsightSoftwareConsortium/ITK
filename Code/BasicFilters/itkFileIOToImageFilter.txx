@@ -48,21 +48,18 @@ namespace itk
 {
 
 template <class TOutputImage>
-FileIOToImageFilter<TOutputImage>::FileIOToImageFilter(std::string fileName)
+FileIOToImageFilter<TOutputImage>
+::FileIOToImageFilter(std::string fileName)
 {
-  m_LightObjectIO = ObjectFactoryBase::CreateInstance(ExtractFileExtension(fileName.c_str()));
-  m_IO = dynamic_cast<ImageIO*>((LightObject*) m_LightObjectIO);
-  if (m_IO == NULL)
-    {
-    return;
-    }
-
-  m_IO->SetFullFileName(fileName.c_str());
-  m_IO->Load();
+  m_IO = NULL;
+  m_FileName = fileName.c_str();
+  m_FilePrefix = "";
+  m_FilePattern = "";
 }
 
 template <class TOutputImage>
-FileIOToImageFilter<TOutputImage>::FileIOToImageFilter()
+FileIOToImageFilter<TOutputImage>
+::FileIOToImageFilter()
 {
   m_IO = NULL;
   m_FileName = "";
@@ -83,9 +80,12 @@ void FileIOToImageFilter<TOutputImage>::Update()
     throw FileIOException();
     }
 
-  m_LightObjectIO = ObjectFactoryBase::
-    CreateInstance(ExtractFileExtension(m_FileName.c_str()));
-  m_IO = dynamic_cast<ImageIO*>((LightObject*) m_LightObjectIO);
+  if ( m_IO == 0 ) //try creating via factory
+    {
+    m_LightObjectIO = ObjectFactoryBase::
+      CreateInstance(ExtractFileExtension(m_FileName.c_str()));
+    m_IO = dynamic_cast<ImageIO*>((LightObject*) m_LightObjectIO);
+    }
 
   if ( m_IO == 0 )
     {

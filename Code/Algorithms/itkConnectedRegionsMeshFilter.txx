@@ -167,7 +167,7 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
   unsigned long numPts = input->GetNumberOfPoints();
   if ( numPts < 1 || numCells < 1 )
     {
-    itkWarningMacro(<<"No data to connect!");
+    itkDebugMacro(<<"No data to connect!");
     return;
     }
 
