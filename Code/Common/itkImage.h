@@ -23,6 +23,7 @@
 #include "itkDefaultPixelAccessor.h"
 #include "itkPoint.h"
 #include "itkContinuousIndex.h"
+#include "itkFixedArray.h"
 
 namespace itk
 {
@@ -113,6 +114,9 @@ public:
    * and dimension) when they need compile time access to the dimension of
    * the image. */
   itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
+
+  /** Typedef of double containers */
+  typedef FixedArray<double, itkGetStaticConstMacro(ImageDimension)> ArrayType;
 
   /** Container used to store pixels in the image. */
   typedef ImportImageContainer<unsigned long, PixelType> PixelContainer;
@@ -240,6 +244,13 @@ public:
    * float. \sa GetSpacing() */
   virtual void SetSpacing( const double spacing[VImageDimension] );
   virtual void SetSpacing( const float spacing[VImageDimension] );
+  void SetSpacing( ArrayType spacing )
+    {
+      for (unsigned int i = 0; i < VImageDimension; i++)
+        {
+        m_Spacing[i] = spacing[i];
+        }
+    };
 
   /** Set the origin of the image. The origin is the geometric
    * coordinates of the image origin.  It is stored internally
@@ -247,6 +258,13 @@ public:
    * \sa GetOrigin() */
   virtual void SetOrigin( const double origin[VImageDimension] );
   virtual void SetOrigin( const float origin[VImageDimension] );
+  void SetOrigin ( ArrayType origin )
+    {
+      for (unsigned int i = 0; i < VImageDimension; i++)
+        {
+        m_Origin[i] = origin[i];
+        }
+    };
 
   /** \brief Get the continuous index from a physical point
    *
