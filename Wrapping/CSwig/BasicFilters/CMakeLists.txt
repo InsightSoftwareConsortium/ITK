@@ -15,6 +15,8 @@ SET(WRAP_SOURCES
   wrap_itkGradientMagnitudeRecursiveGaussianImageFilter
   wrap_itkDanielssonDistanceMapImageFilter
   wrap_itkLaplacianImageFilter
+  wrap_itkMeanImageFilter
+  wrap_itkMedianImageFilter
   wrap_itkMinimumMaximumImageCalculator
   wrap_itkNaryAddImageFilter
   wrap_itkRandomImageSource
@@ -23,6 +25,7 @@ SET(WRAP_SOURCES
   wrap_itkResampleImageFilter
   wrap_itkRescaleIntensityImageFilter
   wrap_itkShiftScaleImageFilter
+  wrap_itkSigmoidImageFilter
   wrap_itkStatisticsImageFilter
   wrap_itkSobelEdgeDetectionImageFilter
   wrap_itkTernaryMagnitudeImageFilter
