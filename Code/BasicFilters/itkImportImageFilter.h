@@ -221,6 +221,8 @@ protected:
 
 private:  
   RegionType  m_Region;
+  double   m_Spacing[VImageDimension];
+  double   m_Origin[VImageDimension];
 };
 
 } // end namespace itk
