@@ -30,16 +30,16 @@ RepresentationType FunctionType::GetRepresentationType() const
 String FunctionType::GenerateName(const String& indirection,
                                   bool isConst, bool) const
 {
-  String returns = m_ReturnType.GenerateName("");
+  String returns = m_ReturnType.GetName();
   
   String arguments = "";
   CvQualifiedTypes::const_iterator arg = m_Arguments.begin();
   if(arg != m_Arguments.end())
     {    
-    arguments += arg->GenerateName("");
+    arguments += arg->GetName();
     for(;arg != m_Arguments.end(); ++arg)
       {
-      arguments += ", "+arg->GenerateName("");
+      arguments += ", "+arg->GetName();
       }
     }
   String cv = this->GetRightCvString(isConst, false);

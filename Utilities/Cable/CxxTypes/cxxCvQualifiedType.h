@@ -40,6 +40,7 @@ public:
   bool IsConst() const    { return m_Const; }
   bool IsVolatile() const { return m_Volatile; }
   
+  String GetName() const { return this->GenerateName(""); }
   const Type* GetType() const { return m_Type; }
   String GenerateName(const String& indirection,
                       bool isConst = false, bool isVolatile = false) const;
