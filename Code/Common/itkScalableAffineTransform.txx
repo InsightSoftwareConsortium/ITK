@@ -32,7 +32,6 @@ ScalableAffineTransform<TScalarType, NDimensions>
 ::ScalableAffineTransform()
   : Superclass(Self::OutputSpaceDimension, Self::ParametersDimension)
 {
-  std::cout << "ScalableAffine1" << std::endl;
   for (unsigned int i=0; i<NDimensions; i++)
     {
     m_Scale[i] = 1;
@@ -47,7 +46,6 @@ ScalableAffineTransform<TScalarType, NDimensions>
                            unsigned int parametersDimension )
   : Superclass(outputSpaceDimension, parametersDimension)
 {
-  std::cout << "ScalableAffine2" << std::endl;
   for (unsigned int i=0; i<NDimensions; i++)
     {
     m_Scale[i] = 1;
