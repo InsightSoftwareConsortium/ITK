@@ -63,7 +63,7 @@ class DefaultConvertPixelTraits<type>                                    \
 {                                                                        \
 public:                                                                  \
   typedef type ComponentType;                                            \
-  static unsigned int GetNumberOfComponents()                                     \
+  static unsigned int GetNumberOfComponents()                            \
     {                                                                    \
       return 1;                                                          \
     }                                                                    \
@@ -97,32 +97,38 @@ ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(unsigned long)
 //
 //  Default traits for the Offset<> pixel type
 //
-//  Dimension has to be preprocessed on windows
 
-#if 0
-template<unsigned int NDimension>
-class DefaultConvertPixelTraits< Offset<NDimension> >
-{
-public:
-  typedef Offset<NDimension>  TargetType;
-  typedef typename TargetType::OffsetValueType  ComponentType;   
-  static unsigned int GetNumberOfComponents()
-    {
-      return NDimension;
-    }
-  static void SetNthComponent(int i, TargetType & pixel, const ComponentType& v)
-    {
-      pixel[i] = v;
-    }             
-  static ComponentType GetScalarValue(const TargetType& pixel) 
-    {                                          
-      return pixel[0];  // this operation lacks sense on the Offset                          
-    }                                        
-};
-#endif
- 
+#define ITK_DEFAULTCONVERTTRAITS_OFFSET_TYPE(dimension)                  \
+template<>                                                               \
+class DefaultConvertPixelTraits< Offset<dimension> >                     \
+{                                                                        \
+public:                                                                  \
+  typedef Offset<dimension>  TargetType;                                 \
+  typedef TargetType::OffsetValueType  ComponentType;                    \
+  static unsigned int GetNumberOfComponents()                            \
+    {                                                                    \
+      return dimension;                                                  \
+    }                                                                    \
+  static void SetNthComponent(int i, TargetType & pixel, const ComponentType& v)   \
+    {                                                                    \
+      pixel[i] = v;                                                      \
+    }                                                                    \
+  static ComponentType GetScalarValue(const TargetType& pixel)           \
+    {                                                                    \
+      return pixel[0];                                                   \
+    }                                                                    \
+};                                                                       \
+
+
+// Define traits for Offset<> from dimensions 1 to 5
+ITK_DEFAULTCONVERTTRAITS_OFFSET_TYPE(1)
+ITK_DEFAULTCONVERTTRAITS_OFFSET_TYPE(2)
+ITK_DEFAULTCONVERTTRAITS_OFFSET_TYPE(3)
+ITK_DEFAULTCONVERTTRAITS_OFFSET_TYPE(4)
+ITK_DEFAULTCONVERTTRAITS_OFFSET_TYPE(5)
+
+
 } // end namespace itk
-
 
 
 #endif
