@@ -49,7 +49,7 @@ int itkNormalizeImageFilterTest(int, char* [] )
 
   typedef itk::NormalizeImageFilter<ShortImage,FloatImage> NormalizeType;
   NormalizeType::Pointer normalize = NormalizeType::New();
-  FilterWatcher watch(normalize);
+  FilterWatcher watch(normalize, "Streaming");
 
   normalize->SetInput(source->GetOutput());
 
