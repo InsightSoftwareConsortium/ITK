@@ -98,7 +98,8 @@ BinaryBallStructuringElement<TPixel, VDimension, TAllocator>
   itk::FloodFilledSpatialFunctionConditionalIterator<ImageType, EllipsoidType> 
     sfi = itk::FloodFilledSpatialFunctionConditionalIterator<ImageType,
      EllipsoidType>(sourceImage, spatialFunction, seed);
-   
+  sfi.SetOriginInclusionStrategy();
+  
   // Iterate through the entire image and set interior pixels to 1
   for(; !sfi.IsAtEnd(); ++sfi)
     {
