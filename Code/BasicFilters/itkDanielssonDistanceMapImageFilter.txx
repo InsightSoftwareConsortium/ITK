@@ -282,7 +282,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
       {
       distance += distanceVector[i] * distanceVector[i];
       }
-    dt.Set( sqrt( distance ) );
+    dt.Set( static_cast<typename OutputImageType::PixelType>(sqrt( distance )) );
     ++ot;
     ++ct;
     ++dt;
