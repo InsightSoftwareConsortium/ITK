@@ -14,6 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+// itkExceptionObject.h is normally included through itkMacro.h, but
+// some code includes it directly.
+#ifndef __itkMacro_h
+#include "itkMacro.h"
+#else
+
 #ifndef __itkExceptionObject_h
 #define __itkExceptionObject_h
 
@@ -57,6 +63,7 @@ public:
     m_Description = desc;
     m_File = file;
     m_Line = lineNumber;
+    this->UpdateWhat();
   };
   ExceptionObject(const std::string& file, unsigned int lineNumber,
                   const std::string& desc="None",
@@ -66,6 +73,7 @@ public:
     m_Description = desc;
     m_File = file;
     m_Line = lineNumber;
+    this->UpdateWhat();
   };
   ExceptionObject( const ExceptionObject &orig ): Superclass()
   {
@@ -73,6 +81,7 @@ public:
     m_Description = orig.m_Description;
     m_File = orig.m_File;
     m_Line = orig.m_Line;
+    this->UpdateWhat();
   }
   
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
@@ -85,6 +94,7 @@ public:
     m_Description = orig.m_Description;
     m_File = orig.m_File;
     m_Line = orig.m_Line;
+    this->UpdateWhat();
     return *this;
   }
   
@@ -117,13 +127,13 @@ public:
    * methods are overloaded to support both std::string and const char 
    * array types. Get methods return const char arrays. */
   virtual void SetLocation(const std::string& s)    
-    { m_Location = s;    }
+    { m_Location = s; this->UpdateWhat(); }
   virtual void SetDescription(const std::string& s) 
-    { m_Description = s; }
+    { m_Description = s; this->UpdateWhat(); }
   virtual void SetLocation(const char * s)          
-    { m_Location = s;    }
+    { m_Location = s; this->UpdateWhat(); }
   virtual void SetDescription (const char *s)       
-    { m_Description = s; }
+    { m_Description = s; this->UpdateWhat(); }
   virtual const char *GetLocation()    const 
     { return m_Location.c_str();    }
   virtual const char *GetDescription() const 
@@ -139,12 +149,22 @@ public:
   
   /** Provide std::exception::what() implementation. */
   virtual const char* what() const throw()
-    { return m_Description.c_str(); }
+    { return m_What.c_str(); }
   
+protected:
+  void UpdateWhat()
+    {
+    OStringStream loc;
+    loc << ":" << m_Line << ":\n";
+    m_What = m_File;
+    m_What += loc.str();
+    m_What += m_Description;
+    }
 private:
   /** Exception data.  Location of the error and description of the error. */
   std::string  m_Location;
   std::string  m_Description;
+  std::string  m_What;
   std::string  m_File;
   unsigned int m_Line;
  
@@ -274,3 +294,4 @@ public:
 
 #endif
 
+#endif

@@ -54,11 +54,6 @@ namespace itk
 {
 } // end namespace itk - this is here for documentation purposes
 
-// Include after initial itk namespace declaration.  We want the
-// documentation to use the above comment as the itk namespace
-// documentation.
-#include "itkExceptionObject.h"
-
 /** A convenience macro marks variables as not being used by a method,
  * avoiding compile-time warnings. */
 #define itkNotUsed(x)
@@ -421,6 +416,8 @@ private:
 #endif
 
 }//namespace itk
+
+#include "itkExceptionObject.h"
   
 /** The exception macro is used to print error information (i.e., usually 
  * a condition that results in program failure). Example usage looks like:
