@@ -48,7 +48,7 @@ public:
   enum 
   { 
     SpaceDimension = NDimensions,
-    ParametersDimension = NDimensions * (NDimensions + 1)
+    ParametersDimension = NDimensions
   };
 
 
