@@ -44,6 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkExceptionObject.h"
+#include "itkScaleTransform.h"
 
 
 namespace itk
@@ -95,6 +96,22 @@ public:
 
 
   /**
+   * Dimension of the Search Space
+   */
+  enum { SpaceDimension = TCostFunction::SpaceDimension };
+ 
+  /**
+   *  Transform type.
+   *  it defines a transform to be applied to points before 
+   *  being evaluated in the cost function. This allows to 
+   *  map to a more convenient space. In particular this is
+   *  used to normalize parameter spaces in which some parameters
+   *  have a different dynamic range.  
+   */
+  typedef     ScaleTransform<double,SpaceDimension>      TransformType;
+
+
+  /**
    *  Measure type.
    *  it defines a type used to return the cost function value 
    */
@@ -127,9 +144,23 @@ public:
     { return m_CurrentPosition; }
 
 
+  /**
+   *   Set current transform
+   */
+  itkSetObjectMacro( Transform, TransformType );
+
+
+  /**
+   *   Get current transform
+   */
+  itkGetObjectMacro( Transform, TransformType );
+
+
 protected:
 
-  Optimizer() { };
+  Optimizer() {
+     m_Transform = TransformType::New();
+     };
   virtual ~Optimizer() {};
   Optimizer(const Self&) {}
   void operator=(const Self&) {}
@@ -143,9 +174,9 @@ protected:
 
 private:
   
-  ParametersType     m_InitialPosition;
-  ParametersType     m_CurrentPosition;
-  
+  ParametersType          m_InitialPosition;
+  ParametersType          m_CurrentPosition;
+  TransformType::Pointer  m_Transform; 
 };
 
 } // end namespace itk
