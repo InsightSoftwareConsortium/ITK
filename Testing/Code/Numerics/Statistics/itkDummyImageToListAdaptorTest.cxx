@@ -186,14 +186,15 @@ public:
                       unsigned int, 
                       itk::PixelTraits< 
                       typename TImage::PixelType >::Dimension) ;
-  typedef typename itk::FixedArray< 
+  typedef itk::FixedArray< 
     MeasurementType, 
     itkGetStaticConstMacro( RangeDomainDimension ) > 
   RangeDomainMeasurementVectorType ;
   
   MeasurementVectorType GetMeasurementVector(const unsigned long& id)
   {
-    typename itk::Point<MeasurementType, TImage::ImageDimension> point ;
+
+    itk::Point<MeasurementType, TImage::ImageDimension> point ;
     typename TImage::IndexType index = m_Image->ComputeIndex( id ) ;
     m_Image->TransformIndexToPhysicalPoint( index, point ) ;
     
