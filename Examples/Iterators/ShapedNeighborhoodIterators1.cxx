@@ -67,7 +67,11 @@ int main( int argc, char ** argv )
   // Software Guide : BeginCodeSnippet
   typedef unsigned char PixelType;
   typedef itk::Image< PixelType, 2 >  ImageType;
-  typedef itk::ConstShapedNeighborhoodIterator< ImageType > ShapedNeighborhoodIteratorType;
+
+  typedef itk::ConstShapedNeighborhoodIterator< 
+                                          ImageType 
+                                            > ShapedNeighborhoodIteratorType;
+
   typedef itk::ImageRegionIterator< ImageType> IteratorType;
   // Software Guide : EndCodeSnippet
   
@@ -118,13 +122,16 @@ int main( int argc, char ** argv )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType> FaceCalculatorType;
+  typedef itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<
+                                                ImageType > FaceCalculatorType;
   
   FaceCalculatorType faceCalculator;
   FaceCalculatorType::FaceListType faceList;
   FaceCalculatorType::FaceListType::iterator fit;
   
-  faceList = faceCalculator(reader->GetOutput(), output->GetRequestedRegion(), radius);
+  faceList = faceCalculator( reader->GetOutput(), 
+                             output->GetRequestedRegion(), 
+                             radius );
 // Software Guide : EndCodeSnippet 
 
 // Software Guide : BeginLatex

@@ -74,7 +74,7 @@ int main( int argc, char *argv[] )
   typedef itk::RGBPixel< unsigned char > RGBPixelType;
   typedef itk::Image< RGBPixelType, Dimension >  ImageType;
   
-  typedef itk::ImageRegionIteratorWithIndex< ImageType >       IteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
 // Software Guide : EndCodeSnippet
   
   typedef itk::ImageFileReader< ImageType > ReaderType;
@@ -168,9 +168,9 @@ int main( int argc, char *argv[] )
 // \begin{figure} \center
 // \includegraphics[width=0.44\textwidth]{VisibleWomanEyeSlice.eps}
 // \includegraphics[width=0.44\textwidth]{ImageRegionIteratorWithIndexOutput.eps}
-// \itkcaption[Using the ImageRegionIteratorWithIndex]{Results of using ImageRegionIteratorWithIndex to mirror an image
-// across an axis. The original image is shown at left.  The mirrored output is
-// shown at right.}
+// \itkcaption[Using the ImageRegionIteratorWithIndex]{Results of using
+// ImageRegionIteratorWithIndex to mirror an image across an axis. The original
+// image is shown at left.  The mirrored output is shown at right.}
 // \label{fig:ImageRegionIteratorWithIndexExample}
 // \end{figure}
 //

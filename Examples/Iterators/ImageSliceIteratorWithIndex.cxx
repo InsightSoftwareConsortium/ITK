@@ -198,15 +198,18 @@ int main( int argc, char *argv[] )
   ImageType2D::RegionType::SizeType size;
   ImageType2D::RegionType::IndexType index;
   
-  index[ direction[0] ] = inputImage->GetRequestedRegion().GetIndex()[ direction[0] ];
-  index[ 1- direction[0] ] = inputImage->GetRequestedRegion().GetIndex()[ direction[1] ];
-  size[ direction[0] ] = inputImage->GetRequestedRegion().GetSize()[ direction[0] ];
-  size[ 1- direction[0] ] = inputImage->GetRequestedRegion().GetSize()[ direction[1] ];
+  ImageType3D::RegionType requestedRegion = inputImage->GetRequestedRegion();
+
+  index[ direction[0] ]    = requestedRegion.GetIndex()[ direction[0] ];
+  index[ 1- direction[0] ] = requestedRegion.GetIndex()[ direction[1] ];
+  size[ direction[0] ]     = requestedRegion.GetSize()[  direction[0] ];
+  size[ 1- direction[0] ]  = requestedRegion.GetSize()[  direction[1] ];
 
   region.SetSize( size );
   region.SetIndex( index );
 
   ImageType2D::Pointer outputImage = ImageType2D::New();
+
   outputImage->SetRegions( region );
   outputImage->Allocate();
 // Software Guide : EndCodeSnippet
