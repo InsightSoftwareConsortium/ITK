@@ -162,7 +162,7 @@ namespace itk
        * \param dim - structure to fill in
        * \return nothing
        */
-      void AnalyzeImageIO::GetAllDimensions(ipl_dimensions &dim);
+      void GetAllDimensions(ipl_dimensions &dim);
 
       /**
        * \author Hans J. Johnson
