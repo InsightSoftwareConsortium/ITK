@@ -1,3 +1,9 @@
+# If any utility projects have their own testing targets,
+# tell Dart.cmake to generate the Experimental test target with the
+# project name.  This avoids the conflict in msdev between the
+# Experimental testing targets for main ITK and nested projects.
+SET(DART_EXPERIMENTAL_USE_PROJECT_NAME 1)
+
 # Build third-party utilities.
 ITK_THIRD_PARTY_SUBDIR(ZLIB zlib)
 ITK_THIRD_PARTY_SUBDIR(PNG  png)
