@@ -47,6 +47,7 @@ template <class TScalarType, int NDimensions>
 ElasticBodySplineKernelTransform<TScalarType, NDimensions>::
 ElasticBodySplineKernelTransform() 
 {
+  m_Alpha = .25;
 }
 
 template <class TScalarType, int NDimensions>
