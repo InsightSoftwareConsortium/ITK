@@ -17,6 +17,8 @@
 #ifndef __itkImageToImageAffineMutualInformationGradientDescentRegistration_h
 #define __itkImageToImageAffineMutualInformationGradientDescentRegistration_h
 
+#ifdef COMPILE_LONG_NAME_CLASSES
+
 #include "itkRegistrationMethod.h"
 #include "itkMutualInformationImageToImageMetric.h"
 #include "itkGradientDescentOptimizer.h"
@@ -256,6 +258,7 @@ private:
 #include "itkImageToImageAffineMutualInformationGradientDescentRegistration.txx"
 #endif
 
+#endif
 #endif
 
 

@@ -17,6 +17,8 @@
 #ifndef _itkImageToImageAffineMutualInformationGradientDescentRegistration_txx
 #define _itkImageToImageAffineMutualInformationGradientDescentRegistration_txx
 
+#ifdef COMPILE_LONG_NAME_CLASSES
+
 #include "itkImageToImageAffineMutualInformationGradientDescentRegistration.h"
 
 
@@ -130,4 +132,5 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarg
 } // end namespace itk
 
 
+#endif
 #endif
