@@ -152,8 +152,7 @@ void TclGenerator::GenerateWrappers()
     "}\n"
     "void InitializeConversions(Tcl_Interp* interp)\n"
     "{\n"
-    "  WrapperFacility* wrapperFacility = WrapperFacility::GetForInterpreter(interp);\n"
-    "  ConversionTable* conversionTable = wrapperFacility->GetConversionTable();\n";
+    "  WrapperFacility* wrapperFacility = WrapperFacility::GetForInterpreter(interp);\n";
   this->WriteConversionInititialization();
   m_Output <<
     "}\n"
@@ -526,7 +525,7 @@ TclGenerator
     sourceType = "const "+sourceType;
     }
   m_Output <<
-    "  m_WrapperFacility->GetConversionTable()->SetConversion(\n"
+    "  m_WrapperFacility->SetConversion(\n"
     "    CvType< " << sourceType.c_str() << " >::type,\n"
     "    CvType< " << returnTypeName.c_str() << " >::type.GetType(),\n"
     "    Converter::ConversionOperator< " << sourceType.c_str() << ", \n" <<
@@ -913,7 +912,7 @@ void TclGenerator::WriteConversionInititialization() const
       cxx::CvQualifiedType baseType = base->GetCvQualifiedType(false, false);
       cxx::CvQualifiedType baseRef = source::CxxTypes::GetReferenceType(baseType);
       m_Output <<
-        "  conversionTable->SetConversion(\n"
+        "  wrapperFacility->SetConversion(\n"
         "    CvType< " << derivedType.GetName().c_str() << " >::type,\n"
         "    CvType< " << baseRef.GetName().c_str() << " >::type.GetType(),\n"
         "    Converter::ReferenceDerivedToBase< " << derivedType.GetName().c_str() << ", \n" <<
@@ -924,7 +923,7 @@ void TclGenerator::WriteConversionInititialization() const
       cxx::CvQualifiedType baseType = base->GetCvQualifiedType(true, false);
       cxx::CvQualifiedType baseRef = source::CxxTypes::GetReferenceType(baseType);
       m_Output <<
-        "  conversionTable->SetConversion(\n"
+        "  wrapperFacility->SetConversion(\n"
         "    CvType< " << derivedType.GetName().c_str() << " >::type,\n"
         "    CvType< " << baseRef.GetName().c_str() << " >::type.GetType(),\n"
         "    Converter::ReferenceDerivedToBase< " << derivedType.GetName().c_str() << ", \n" <<
@@ -936,7 +935,7 @@ void TclGenerator::WriteConversionInititialization() const
       cxx::CvQualifiedType baseType = base->GetCvQualifiedType(false, false);
       cxx::CvQualifiedType basePtr = source::CxxTypes::GetPointerType(baseType, false, false);
       m_Output <<
-        "  conversionTable->SetConversion(\n"
+        "  wrapperFacility->SetConversion(\n"
         "    CvType< " << derivedPtr.GetName().c_str() << " >::type,\n"
         "    CvType< " << basePtr.GetName().c_str() << " >::type.GetType(),\n"
         "    Converter::PointerDerivedToBase< " << derivedType.GetName().c_str() << ", \n" <<
@@ -948,7 +947,7 @@ void TclGenerator::WriteConversionInititialization() const
       cxx::CvQualifiedType baseType = base->GetCvQualifiedType(true, false);
       cxx::CvQualifiedType basePtr = source::CxxTypes::GetPointerType(baseType, false, false);
       m_Output <<
-        "  conversionTable->SetConversion(\n"
+        "  wrapperFacility->SetConversion(\n"
         "    CvType< " << derivedPtr.GetName().c_str() << " >::type,\n"
         "    CvType< " << basePtr.GetName().c_str() << " >::type.GetType(),\n"
         "    Converter::PointerDerivedToBase< " << derivedType.GetName().c_str() << ", \n" <<

@@ -38,10 +38,17 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
+
+#ifdef _MSC_VER
+// Get rid of warnings about bool conversions for the registered
+// fundamental type conversions defined below.
+#pragma warning (disable: 4800)
+#endif
+
 #include "wrapWrapperFacility.h"
 #include "wrapTclCxxObject.h"
-#include "wrapConversionTable.h"
 #include "wrapTypeInfo.h"
+#include "wrapConverters.h"
 #include "wrapWrapperBase.h"
 
 #include <map>
@@ -125,6 +132,16 @@ struct WrapperFacility::CxxFunctionMap: public CxxFunctionMapBase
   typedef CxxFunctionMapBase::value_type value_type;
 };
 
+// Map from conversion to conversion function.
+typedef std::pair<CvQualifiedType, const Type*> ConversionKey;
+typedef std::map<ConversionKey, ConversionFunction> ConversionMapBase;
+struct WrapperFacility::ConversionMap: public ConversionMapBase
+{
+  typedef ConversionMapBase::iterator iterator;
+  typedef ConversionMapBase::const_iterator const_iterator;
+  typedef ConversionMapBase::value_type value_type;  
+};
+
 
 /**
  * Get a WrapperFacility object set up to deal with the given Tcl
@@ -159,15 +176,6 @@ Tcl_Interp* WrapperFacility::GetInterpreter() const
 
 
 /**
- * Get the conversion table for this WrapperFacility.
- */
-ConversionTable* WrapperFacility::GetConversionTable() const
-{
-  return m_ConversionTable;
-}
-
-
-/**
  * The constructor initializes the facility to work with the given
  * interpreter.
  */
@@ -177,13 +185,14 @@ WrapperFacility::WrapperFacility(Tcl_Interp* interp):
   m_WrapperMap(new WrapperMap),
   m_DeleteFunctionMap(new DeleteFunctionMap),
   m_CxxObjectMap(new CxxObjectMap),
-  m_CxxFunctionMap(new CxxFunctionMap)
+  m_CxxFunctionMap(new CxxFunctionMap),
+  m_ConversionMap(new ConversionMap)
 {
   // Make sure the class has been initialized globally.
   WrapperFacility::ClassInitialize();
   
-  // Conversion table must be constructed after the global initialization.
-  m_ConversionTable = new ConversionTable;
+  // Initialize the predefined conversions.
+  this->InitializePredefinedConversions();
 
   this->InitializeForInterpreter();
 #ifdef _wrap_DEBUG_SUPPORT
@@ -231,12 +240,12 @@ WrapperFacility::~WrapperFacility()
     delete w->second;
     }
   
-  delete m_ConversionTable;
   delete m_WrapperMap;
   delete m_EnumMap;
   delete m_DeleteFunctionMap;
   delete m_CxxObjectMap;
   delete m_CxxFunctionMap;
+  delete m_ConversionMap;
 }
 
 
@@ -644,18 +653,6 @@ Argument WrapperFacility::GetObjectArgument(Tcl_Obj* obj) const
   return argument;
 }
 
-/**
- * Get the conversion function from the wrapper's ConversionTable for
- * the specified conversion.  The table will automatically try to add
- * cv-qualifiers to the "from" type to find a conversion.
- */
-ConversionFunction
-WrapperFacility::GetConversionFunction(const CvQualifiedType& from,
-                                       const Type* to) const
-{
-  return m_ConversionTable->GetConversion(from, to);
-}
-
 
 /**
  * Return whether a wrapper for the given type exists.
@@ -812,7 +809,170 @@ void WrapperFacility::DeleteCxxObjectFor(const Anything& anything,
       }
     }
 }
+
+
+/**
+ * Set the conversion function for the given conversion.
+ */
+void WrapperFacility::SetConversion(const CvQualifiedType& from,
+                                    const Type* to, ConversionFunction f) const
+{
+  ConversionKey conversionKey(from, to);
+  m_ConversionMap->insert(ConversionMap::value_type(conversionKey, f));
+}
+
+
+namespace
+{
+void* ConvertToPointerToVoid(Anything anything)
+{
+  return anything.object;
+}
+
+const void* ConvertToPointerToConstVoid(Anything anything)
+{
+  return anything.object;
+}
+}
+
+/**
+ * Retrieve the function for the given conversion.  If an exact match for
+ * the "from" type is not found, an attempt is made to find one that is
+ * more cv-qualified.  If none exists, NULL is returned.
+ */
+ConversionFunction
+WrapperFacility::GetConversion(const CvQualifiedType& from,
+                               const Type* to) const
+{
+  // Try to find exact match for "from" type.
+  ConversionKey conversionKey(from, to);
+  ConversionMap::const_iterator i = m_ConversionMap->find(conversionKey);
+  if(i != m_ConversionMap->end())
+    {
+    return i->second;
+    }
   
+  // If the "from" type is a reference type, we can try adding
+  // qualifiers to the type it references.
+  if(from.GetType()->IsReferenceType())
+    {
+    CvQualifiedType referencedType =
+      ReferenceType::SafeDownCast(from.GetType())->GetReferencedType();
+    conversionKey = ConversionKey(TypeInfo::GetReferenceType(referencedType.GetMoreQualifiedType(true, false)), to);
+    i = m_ConversionMap->find(conversionKey);
+    if(i != m_ConversionMap->end())
+      {
+      return i->second;
+      }
+    conversionKey = ConversionKey(TypeInfo::GetReferenceType(referencedType.GetMoreQualifiedType(false, true)), to);
+    i = m_ConversionMap->find(conversionKey);
+    if(i != m_ConversionMap->end())
+      {
+      return i->second;
+      }
+    conversionKey = ConversionKey(TypeInfo::GetReferenceType(referencedType.GetMoreQualifiedType(true, true)), to);
+    i = m_ConversionMap->find(conversionKey);
+    if(i != m_ConversionMap->end())
+      {
+      return i->second;
+      }
+    }
+  // If the "from" type is not a reference type, we can try adding
+  // qualifiers to it.
+  else
+    {
+    // Try adding a const qualifier to the "from" type.
+    conversionKey = ConversionKey(from.GetMoreQualifiedType(true, false), to);
+    i = m_ConversionMap->find(conversionKey);
+    if(i != m_ConversionMap->end())
+      {
+      return i->second;
+      }
+    // Try adding a volatile qualifier to the "from" type.
+    conversionKey = ConversionKey(from.GetMoreQualifiedType(false, true), to);
+    i = m_ConversionMap->find(conversionKey);
+    if(i != m_ConversionMap->end())
+      {
+      return i->second;
+      }
+    // Try adding both const and volatile qualifiers to the "from" type.
+    conversionKey = ConversionKey(from.GetMoreQualifiedType(true, true), to);
+    i = m_ConversionMap->find(conversionKey);
+    if(i != m_ConversionMap->end())
+      {
+      return i->second;
+      }
+    }
+  
+  // A special hack for conversion of any pointer type to pointer to
+  // void.
+  if(to->IsPointerType() && from.IsPointerType())
+    {
+    CvQualifiedType toType = PointerType::SafeDownCast(to)->GetPointedToType();
+    if(toType.IsFundamentalType()
+       && FundamentalType::SafeDownCast(toType.GetType())->IsVoid())
+      {
+      CvQualifiedType fromType = PointerType::SafeDownCast(from.GetType())->GetPointedToType();
+      if(!fromType.IsFunctionType())
+        {
+        if(!fromType.IsConst() && !fromType.IsVolatile())
+          {
+          return reinterpret_cast<ConversionFunction>(&ConvertToPointerToVoid);
+          }
+        if(fromType.IsConst() && !fromType.IsVolatile())
+          {
+          return reinterpret_cast<ConversionFunction>(&ConvertToPointerToConstVoid);
+          }
+        }
+      }
+    }
+  
+  // Couldn't find a conversion.
+  return NULL;
+}
+
+// Macro to shorten InitializePredefinedConversions function body.
+#define _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(T1, T2) \
+this->SetConversion(CvPredefinedType<const T1>::type, \
+                    CvPredefinedType<T2>::type.GetType(), \
+                    Converter::ConversionByConstructor<T1, T2>::GetConversionFunction()); \
+this->SetConversion(CvPredefinedType<const T2>::type, \
+                    CvPredefinedType<T1>::type.GetType(), \
+                    Converter::ConversionByConstructor<T2, T1>::GetConversionFunction())
+
+/**
+ * Register basic type conversion functions for this WrapperFacility.
+ * Only called from the constructor.
+ *
+ * The "from" type for any conversion added here should be
+ * const-friendly, if possible.  This way, conversion from a non-const
+ * type can still chain up to the conversion from the const type, thus
+ * avoiding duplication of the conversion function.
+ */
+void WrapperFacility::InitializePredefinedConversions() const
+{
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(bool, char);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(bool, short);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(bool, int);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(bool, long);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(int, unsigned char);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(int, unsigned short);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(int, unsigned int);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(int, unsigned long);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(long, unsigned char);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(long, unsigned short);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(long, unsigned int);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(long, unsigned long);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(long, char);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(long, short);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(long, int);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(int, float);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(long, float);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(int, double);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(long, double);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(float, double);
+}
+
 
 /**
  * This is called by the constructor of WrapperFacility to make sure

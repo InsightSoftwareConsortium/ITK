@@ -156,7 +156,7 @@ ConversionFunction
 WrapperBase::GetConversionFunction(const CvQualifiedType& from,
                                    const Type* to) const
 {
-  return m_WrapperFacility->GetConversionFunction(from, to);
+  return m_WrapperFacility->GetConversion(from, to);
 }
 
 

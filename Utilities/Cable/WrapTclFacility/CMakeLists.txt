@@ -20,7 +20,6 @@ SOURCE_FILES(WrapTclFacility_SRCS
 wrapArgument
 wrapCalls
 wrapConstructor
-wrapConversionTable
 wrapCxxObject
 wrapFunctionBase
 wrapFunctionSelector

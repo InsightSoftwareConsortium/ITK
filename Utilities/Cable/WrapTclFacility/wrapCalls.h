@@ -46,7 +46,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "wrapMethod.h"
 #include "wrapStaticMethod.h"
 #include "wrapTclCxxObject.h"
-#include "wrapConversionTable.h"
 #include "wrapWrapperFacility.h"
 #include "wrapConverters.h"
 #include "wrapException.h"

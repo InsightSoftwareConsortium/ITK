@@ -236,7 +236,7 @@ bool FunctionSelector::CxxConversionPossible(const CvQualifiedType& from,
     const ReferenceType* toRef = ReferenceType::SafeDownCast(to);
     if(Conversions::ReferenceCanBindAsIdentity(from, toRef)
        || Conversions::ReferenceCanBindAsDerivedToBase(from, toRef)
-       || (m_WrapperFacility->GetConversionFunction(from, to) != NULL))
+       || (m_WrapperFacility->GetConversion(from, to) != NULL))
       {
       return true;
       }
@@ -245,7 +245,7 @@ bool FunctionSelector::CxxConversionPossible(const CvQualifiedType& from,
     // the referenced type is available.
     CvQualifiedType toCvType = toRef->GetReferencedType();
     if(toCvType.IsConst() && !toCvType.IsVolatile()
-       && m_WrapperFacility->GetConversionFunction(from, toCvType.GetType()))
+       && m_WrapperFacility->GetConversion(from, toCvType.GetType()))
       {
       return true;
       }
@@ -277,7 +277,7 @@ bool FunctionSelector::CxxConversionPossible(const CvQualifiedType& from,
     {
     return true;
     }
-  else if(m_WrapperFacility->GetConversionFunction(from, to) != NULL)
+  else if(m_WrapperFacility->GetConversion(from, to) != NULL)
     {
     return true;
     }

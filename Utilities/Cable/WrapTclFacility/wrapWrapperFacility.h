@@ -84,6 +84,8 @@ public:
   
   CxxObject* GetCxxObjectFor(const Anything&, const Type*) const;
   void DeleteCxxObjectFor(const Anything&, const Type*) const;
+  void SetConversion(const CvQualifiedType&, const Type*, ConversionFunction) const;
+  ConversionFunction GetConversion(const CvQualifiedType&, const Type*) const;
   
 private:
   WrapperFacility(Tcl_Interp*);
@@ -109,9 +111,6 @@ private:
 
   ///! The Tcl interpreter to which this facility is attached.
   Tcl_Interp* m_Interpreter;
-  
-  ///! The conversion table setup for this facility.
-  ConversionTable* m_ConversionTable;  
 
   struct EnumMap;
   ///! The table of enumeration values that have been registered.
@@ -133,7 +132,12 @@ private:
   ///! Map from function pointer value to CxxObject instance for it.
   CxxFunctionMap* m_CxxFunctionMap;
   
+  struct ConversionMap;
+  ///! Map from conversion from/to pair to a conversion function.
+  ConversionMap* m_ConversionMap;
+  
 public:
+  void InitializePredefinedConversions() const;
   static void ClassInitialize();
 private:
   
