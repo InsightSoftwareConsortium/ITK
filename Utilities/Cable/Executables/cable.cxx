@@ -87,6 +87,7 @@ private:
 class Cable
 {
 public:
+  Cable(): m_GeneratingCxx(true) {}
   void Add(const WrapperGenerator&);
   bool ProcessCommandLine(int argc, char* argv[]);
   bool ParseConfiguration();
