@@ -116,7 +116,7 @@ MeasureVolume()
 
 template <unsigned int TDimension >
 bool PolygonGroupSpatialObject<TDimension>::
-IsInside( const PointType & point,unsigned int depth,char * name) const
+IsInside( const PointType & point,unsigned int ,char * name) const
 {
   // want to encompass all children, at least 2 levels, but to be
   // safe say 4;
