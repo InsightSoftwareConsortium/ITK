@@ -349,29 +349,26 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream& file)
     {
     sscanf(line, "%*s %s", pixelType);
     text = pixelType;
+    SetPixelType(SCALAR);
     if ( text.find("BYTE") < text.length() )
       {
-      SetPixelType(CHAR);
       SetComponentType(CHAR);
       }
     else if ( text.find("WORD") < text.length() )
       {
-      SetPixelType(SHORT);
       SetComponentType(SHORT);
       }
     else if ( text.find("LWORD") < text.length() )
       {
-      SetPixelType(INT);
       SetComponentType(INT);
       }
     else if ( text.find("REAL") < text.length() )
       {
-      SetPixelType(FLOAT);
       SetComponentType(FLOAT);
       }
     else if ( text.find("COMPLEX") < text.length() )
       {
-      SetPixelType(DOUBLE);
+      SetPixelType(VECTOR);
       SetComponentType(DOUBLE);
       }
     else

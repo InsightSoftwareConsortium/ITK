@@ -22,6 +22,7 @@
 #include "itkImageIOFactory.h"
 #include "itkConvertPixelBuffer.h"
 #include "itkImageRegion.h"
+#include "itkPixelTraits.h"
 
 #include <itksys/SystemTools.hxx>
 
@@ -293,9 +294,10 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
  
   m_ImageIO->SetIORegion(ioRegion);
 
-  if ( m_ImageIO->GetPixelType() == typeid(TOutputImage::PixelType) &&
-       (m_ImageIO->GetNumberOfComponents() == 
-        ConvertPixelTraits::GetNumberOfComponents()))
+  if ( m_ImageIO->GetComponentTypeInfo()
+       == typeid(PixelTraits<TOutputImage::PixelType>::ValueType)
+       && (m_ImageIO->GetNumberOfComponents()
+           == ConvertPixelTraits::GetNumberOfComponents()))
     {
     itkDebugMacro(<< "No buffer conversion required.");
     // allocate a buffer and have the ImageIO read directly into it
@@ -314,8 +316,9 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
     m_ImageIO->Read(loadBuffer);
     
     itkDebugMacro(<< "Buffer conversion required from: "
-                  << m_ImageIO->GetPixelType().name()
-                  << " to: " << typeid(TOutputImage::PixelType).name());
+                  << m_ImageIO->GetComponentTypeInfo().name()
+                  << " to: "
+                  << typeid(PixelTraits<TOutputImage::PixelType>::ValueType).name());
 
     this->DoConvertBuffer(loadBuffer, region.GetNumberOfPixels());
     delete [] loadBuffer;
@@ -335,12 +338,20 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   OutputImagePixelType *outputData =
     this->GetOutput()->GetPixelContainer()->GetBufferPointer();
 
+
+  // TODO:
+  // Pass down the PixelType (RGB, VECTOR, etc.) so that any vector to
+  // scalar conversion be type specific. i.e. RGB to scalar would use
+  // a formula to convert to luminance, VECTOR to scalar would use
+  // vector magnitude.
+  
+  
 // Create a macro as this code is a bit lengthy and repetitive
 // if the ImageIO pixel type is typeid(type) then use the ConvertPixelBuffer
 // class to convert the data block to TOutputImage's pixel type
 // see DefaultConvertPixelTraits and ConvertPixelBuffer
 #define ITK_CONVERT_BUFFER_IF_BLOCK(type)               \
- else if( m_ImageIO->GetPixelType() == typeid(type) )   \
+ else if( m_ImageIO->GetComponentTypeInfo() == typeid(type) )   \
     {                                                   \
     ConvertPixelBuffer<                                 \
       type,                                             \
@@ -370,8 +381,9 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
       {
       ImageFileReaderException e(__FILE__, __LINE__);
       OStringStream msg;
-      msg <<"Couldn't convert pixel type: "
-          << std::endl << "    " << m_ImageIO->GetPixelType().name()
+      msg <<"Couldn't convert component type: "
+          << std::endl << "    "
+          << m_ImageIO->GetComponentTypeAsString(m_ImageIO->GetComponentType())
           << std::endl << "to one of: "
           << std::endl << "    " << typeid(unsigned char).name()
           << std::endl << "    " << typeid(char).name()

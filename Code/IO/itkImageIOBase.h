@@ -70,11 +70,18 @@ public:
   /** Used to return information when types are unknown. */
   class UnknownType {};
 
-  /** Enums used to manipulate the pixel and component type. (Typically a 
-   * pixel is assumed to be made up of one or more components.) */
-  typedef  enum {UNKNOWN,UCHAR,CHAR,USHORT,SHORT,UINT,INT,
-                 ULONG,LONG, FLOAT,DOUBLE,
-                 RGB,RGBA,OFFSET,VECTOR,POINT,COVARIANTVECTOR} IODataType;
+  /** Enums used to manipulate the pixel type. The pixel type provides
+   * context for automatic data conversions (for instance, RGB to
+   * SCALAR, VECTOR to SCALAR). */
+  typedef  enum {UNKNOWNPIXELTYPE,SCALAR,RGB,RGBA,OFFSET,VECTOR,
+                 POINT,COVARIANTVECTOR}  IOPixelType;
+
+  /** Enums used to manipulate the component type. The component type
+   * refers to the actual storage class associated with either a
+   * SCALAR pixel type or elements of a compound pixel.
+   */
+  typedef  enum {UNKNOWNCOMPONENTTYPE,UCHAR,CHAR,USHORT,SHORT,UINT,INT,
+                 ULONG,LONG, FLOAT,DOUBLE} IOComponentType;
 
   /** Set/Get the number of independent variables (dimensions) in the
    * image being read or written. Note this is not necessarily what
@@ -110,37 +117,47 @@ public:
   itkSetMacro(IORegion, ImageIORegion);
   itkGetMacro(IORegion, ImageIORegion);
 
-  /** Set/Get the type of the pixel. The pixel type and component type may
-   * be different. By default, they are assumed to be the same. The pixel
-   * type may be determined by the reader (from the file) or from the
-   * writer (the writer's input type). */
-  virtual const std::type_info& GetPixelType() const;
-  virtual void SetPixelType(const IODataType ctype);
+  /** Set/Get the type of the pixel. The PixelTypes provides context
+   * to the IO mechanisms for data conversions.  PixelTypes can be
+   * SCALAR, RGB, RGBA, VECTOR, COVARIANTVECTOR, POINT, INDEX. If
+   * the PIXELTYPE is SCALAR, then the NumberOfComponents should be 1.
+   * Anyother of PIXELTYPE will have more than one component.*/
+  itkSetMacro(PixelType, IOPixelType);
+  itkGetConstMacro(PixelType, IOPixelType);
 
-  /** This special, convenience version of SetPixelType() also sets
-   * the number of components and the component type. The function
-   * returns false if the pixel type is unsupported. */
-  virtual bool SetPixelType(const std::type_info& ptype);
-
-  /** Set/Get the component type of the image. The readering and writing
-   * process typically only supports the native types, with special
-   * case support like RGBPixel. */
-  itkSetMacro(ComponentType,IODataType);
-  itkGetMacro(ComponentType,IODataType);
-
+  /** SetPixelTypeInfo is used by writers to convert from an ITK
+   * strongly typed pixel to a ImageIO (weaker) typed pixel. This
+   * function sets these PixelType, ComponentType, and
+   * NumberOfComponents based on RTTI type_info structure passed
+   * in. The function returns false if the pixel type is not
+   * supported. */
+  virtual bool SetPixelTypeInfo(const std::type_info& ptype);
+  
+  /** Set/Get the component type of the image. This is always a native
+   * type. */
+  itkSetMacro(ComponentType,IOComponentType);
+  itkGetConstMacro(ComponentType,IOComponentType);
+  virtual const std::type_info& GetComponentTypeInfo() const;
+  
   /** Set/Get the number of components per pixel in the image. This may
-   * be set by the reading process. */
+   * be set by the reading process. For SCALAR pixel types,
+   * NumberOfComponents will be 1.  For other pixel types,
+   * NumberOfComponents will be greater than or equal to one. */
   itkSetMacro(NumberOfComponents,unsigned int);
-  itkGetMacro(NumberOfComponents,unsigned int);
+  itkGetConstMacro(NumberOfComponents,unsigned int);
 
   /** Set/Get a boolean to use the compression or not. */
   itkSetMacro(UseCompression,bool);
-  itkGetMacro(UseCompression,bool);
+  itkGetConstMacro(UseCompression,bool);
 
-  /** Convenience method returns the IODataType as a string. This can be
+  /** Convenience method returns the IOComponentType as a string. This can be
    * used for writing output files. */
-  std::string ReturnTypeAsString(IODataType) const;
+  std::string GetComponentTypeAsString(IOComponentType) const;
 
+  /** Convenience method returns the IOPixelType as a string. This can be
+   * used for writing output files. */
+  std::string GetPixelTypeAsString(IOPixelType) const;
+  
   /** Enums used to specify write style: whether binary or ASCII. Some
    * subclasses use this, some ignore it. */
   typedef  enum {ASCII,Binary,TypeNotApplicable} FileType;
@@ -242,16 +259,12 @@ protected:
   ~ImageIOBase();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** Utility methods for working with IODataType. */
-  const std::type_info& ConvertToTypeInfo(IODataType ) const;
-  unsigned int GetSizeOfType(IODataType ) const;
-    
   /** Used internally to keep track of the type of the pixel. */
-  IODataType m_PixelType;
+  IOPixelType m_PixelType;
 
   /** Used internally to keep track of the type of the component. It is set
    * when ComputeStrides() is invoked. */
-  IODataType m_ComponentType;
+  IOComponentType m_ComponentType;
 
   /** Big or Little Endian, and the type of the file. (May be ignored.) */
   ByteOrder      m_ByteOrder;
@@ -329,16 +342,19 @@ protected:
   unsigned int GetSliceStride () const;
 
   /** Convenient method to write a buffer as ASCII text. */
-  void WriteBufferAsASCII(std::ostream& os, const void *buffer, IODataType ctype,
+  void WriteBufferAsASCII(std::ostream& os, const void *buffer,
+                          IOComponentType ctype,
                           unsigned int numComp);
 
   /** Convenient method to read a buffer as ASCII text. */
-  void ReadBufferAsASCII(std::istream& os, void *buffer, IODataType ctype,
+  void ReadBufferAsASCII(std::istream& os, void *buffer,
+                         IOComponentType ctype,
                          unsigned int numComp);
 
   /** Convenient method to read a buffer as binary. Return true on success. */
-  bool ReadBufferAsBinary(std::istream& os, void *buffer, unsigned int numComp);
+  bool ReadBufferAsBinary(std::istream& os, void *buffer,unsigned int numComp);
 
+  
 private:
   ImageIOBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

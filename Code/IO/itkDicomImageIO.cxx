@@ -38,7 +38,8 @@ namespace itk
 DicomImageIO::DicomImageIO()
 {
   this->SetNumberOfDimensions(2);
-  m_PixelType  = UCHAR;
+  m_PixelType  = SCALAR;
+  m_ComponentType = UCHAR;
   m_ByteOrder = LittleEndian;
 }
 
@@ -345,45 +346,6 @@ bool DicomImageIO::CanWriteFile(const char*)
 
 
 
-const std::type_info& DicomImageIO::GetPixelType() const
-{
-  switch(m_PixelType)
-    {
-    case SHORT:
-      return typeid(short);
-    case USHORT:
-      return typeid(unsigned short);
-    case CHAR:
-      return typeid(char);
-    case UCHAR:
-      return typeid(unsigned char);
-    default:
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("Pixel Type Unknown");
-      throw exception;
-    }
-}
-
-unsigned int DicomImageIO::GetComponentSize() const
-{
-  switch(m_PixelType)
-    {
-    case SHORT:
-      return sizeof(short);
-    case USHORT:
-      return sizeof(unsigned short);
-    case CHAR:
-      return sizeof(char);
-    case UCHAR:
-      return sizeof(unsigned char);
-    default:
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("Pixel Type Unknown");
-      throw exception;
-    }
-  return 1;
-}
- 
  
 void DicomImageIO::Read(void* buffer)
 {
@@ -684,28 +646,28 @@ void DicomImageIO::ReadImageInformation()
   if ( allocatedbits == 8 && representation == 0)
     {      
     m_ComponentType = UCHAR;
-    m_PixelType = UCHAR;
+    m_PixelType = SCALAR;
     }
   else
     {
     if( allocatedbits == 8 && representation == 1)
       {
       m_ComponentType = CHAR;
-      m_PixelType = CHAR;
+      m_PixelType = SCALAR;
       }
     else
       {
       if( allocatedbits == 16 && representation == 0)
         {
         m_ComponentType = USHORT;
-        m_PixelType = USHORT;
+        m_PixelType = SCALAR;
         }
       else
         {
         if( allocatedbits == 16 && representation == 1)
           {
           m_ComponentType = SHORT;
-          m_PixelType = SHORT; 
+          m_PixelType = SCALAR; 
           }
         else
           {
@@ -746,7 +708,7 @@ void
 DicomImageIO
 ::SwapBytesIfNecessary( void* buffer, unsigned long numberOfPixels )
 {
-  switch(m_PixelType)
+  switch(m_ComponentType)
     {
     case CHAR:
     {

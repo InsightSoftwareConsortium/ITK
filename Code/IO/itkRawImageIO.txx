@@ -236,7 +236,7 @@ void RawImageIO<TPixel,VImageDimension>
   this->OpenFileForWriting(file);
 
   // Set up for reading
-  this->SetPixelType(typeid(PixelType));
+  this->SetPixelTypeInfo(typeid(PixelType));
   this->ComputeStrides();
   
   // Actually do the writing

@@ -117,16 +117,8 @@ public:
   /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
 
-  /** Get the type of the pixel.  */
-  virtual const std::type_info& GetPixelType() const;
-
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void* buffer);
-
-  /** Compute the size (in bytes) of the components of a pixel. For
-       * example, and RGB pixel of unsigned char would have a
-       * component size of 1 byte. */
-  virtual unsigned int GetComponentSize() const;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 

@@ -215,38 +215,38 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   std::string type = GdcmHeader.GetPixelType();
   if( type == "8U")
     {
-    SetPixelType(UCHAR);
+    SetPixelType(SCALAR);
     SetComponentType(UCHAR);
     }
   else if( type == "8S")
     {
-    SetPixelType(CHAR);
+    SetPixelType(SCALAR);
     SetComponentType(CHAR);
     }
   else if( type == "16U")
     {
-    SetPixelType(USHORT);
+    SetPixelType(SCALAR);
     SetComponentType(USHORT);
     }
   else if( type == "16S")
     {
-    SetPixelType(SHORT);
+    SetPixelType(SCALAR);
     SetComponentType(SHORT);
     }
   else if( type == "32U")
     {
-    SetPixelType(UINT);
+    SetPixelType(SCALAR);
     SetComponentType(UINT);
     }
   else if( type == "32S")
     {
-    SetPixelType(INT);
+    SetPixelType(SCALAR);
     SetComponentType(INT);
     }
   else if ( type == "FD" )
     {
     //64 bits Double image
-    SetPixelType(DOUBLE);
+    SetPixelType(SCALAR);
     SetComponentType(DOUBLE);
     }
   else

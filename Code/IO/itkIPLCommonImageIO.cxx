@@ -71,7 +71,12 @@ bool IPLCommonImageIO::CanWriteFile(const char * )
   return false;
 }
 
-const std::type_info& IPLCommonImageIO::GetPixelType() const
+const std::type_info& IPLCommonImageIO::GetPixelTypeInfo() const
+{
+  return typeid(short int);
+}
+
+const std::type_info& IPLCommonImageIO::GetComponentTypeInfo() const
 {
   return typeid(short int);
 }

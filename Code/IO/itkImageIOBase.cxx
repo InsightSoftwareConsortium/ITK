@@ -29,8 +29,8 @@ namespace itk
 {
 
 ImageIOBase::ImageIOBase() :
-  m_PixelType(UNKNOWN),
-  m_ComponentType(UNKNOWN),
+  m_PixelType(SCALAR),
+  m_ComponentType(UNKNOWNCOMPONENTTYPE),
   m_ByteOrder(OrderNotApplicable),
   m_FileType(TypeNotApplicable),
   m_NumberOfDimensions(0)
@@ -92,9 +92,9 @@ void ImageIOBase::SetSpacing(unsigned int i, double spacing)
   m_Spacing[i] = spacing;
 }
 
-const std::type_info& ImageIOBase::GetPixelType() const
+const std::type_info& ImageIOBase::GetComponentTypeInfo() const
 {
-  switch(m_PixelType)
+  switch(m_ComponentType)
     {
     case UCHAR:
       return typeid(unsigned char);
@@ -116,95 +116,83 @@ const std::type_info& ImageIOBase::GetPixelType() const
       return typeid(float);
     case DOUBLE:
       return typeid(double);
-    case RGB:
-      return typeid(RGBPixel<unsigned char>);
-    case RGBA:
-      return typeid(RGBAPixel<unsigned char>);
-    case UNKNOWN:
+    case UNKNOWNCOMPONENTTYPE:
     default:
-      itkExceptionMacro ("Unknown pixel type: " << m_PixelType);
+      itkExceptionMacro ("Unknown component type: " << m_ComponentType);
     }
   return typeid(ImageIOBase::UnknownType);
 }
 
-void ImageIOBase::SetPixelType(const IODataType ctype)
-{
-  if ( m_PixelType != ctype )
-    {
-    this->Modified();
-    m_PixelType = ctype;
-    }
-}
 
-bool ImageIOBase::SetPixelType(const std::type_info& ptype)
+bool ImageIOBase::SetPixelTypeInfo(const std::type_info& ptype)
 {
   this->SetNumberOfComponents(1);
   if ( ptype == typeid(double) )
     {
-    this->SetPixelType(ImageIOBase::DOUBLE);
+    this->SetPixelType(ImageIOBase::SCALAR);
     this->SetComponentType(ImageIOBase::DOUBLE);
     }
   else if ( ptype == typeid(float) )
     {
-    this->SetPixelType(ImageIOBase::FLOAT);
+    this->SetPixelType(ImageIOBase::SCALAR);
     this->SetComponentType(ImageIOBase::FLOAT);
     }
   else if ( ptype == typeid(long) )
     {
-    this->SetPixelType(ImageIOBase::LONG);
+    this->SetPixelType(ImageIOBase::SCALAR);
     this->SetComponentType(ImageIOBase::LONG);
     }
   else if ( ptype == typeid(unsigned long) )
     {
-    this->SetPixelType(ImageIOBase::ULONG);
+    this->SetPixelType(ImageIOBase::SCALAR);
     this->SetComponentType(ImageIOBase::ULONG);
     }
   else if ( ptype == typeid(int) )
     {
-    this->SetPixelType(ImageIOBase::INT);
+    this->SetPixelType(ImageIOBase::SCALAR);
     this->SetComponentType(ImageIOBase::INT);
     }
   else if ( ptype == typeid(unsigned int) )
     {
-    this->SetPixelType(ImageIOBase::UINT);
+    this->SetPixelType(ImageIOBase::SCALAR);
     this->SetComponentType(ImageIOBase::UINT);
     }
   else if ( ptype == typeid(short) )
     {
-    this->SetPixelType(ImageIOBase::SHORT);
+    this->SetPixelType(ImageIOBase::SCALAR);
     this->SetComponentType(ImageIOBase::SHORT);
     }
   else if ( ptype == typeid(unsigned short) )
     {
-    this->SetPixelType(ImageIOBase::USHORT);
+    this->SetPixelType(ImageIOBase::SCALAR);
     this->SetComponentType(ImageIOBase::USHORT);
     }
   else if ( ptype == typeid(char) )
     {
-    this->SetPixelType(ImageIOBase::CHAR);
+    this->SetPixelType(ImageIOBase::SCALAR);
     this->SetComponentType(ImageIOBase::CHAR);
     }
   else if ( ptype == typeid(unsigned char) )
     {
-    this->SetPixelType(ImageIOBase::UCHAR);
+    this->SetPixelType(ImageIOBase::SCALAR);
     this->SetComponentType(ImageIOBase::UCHAR);
     }
   else if ( ptype == typeid(RGBPixel<unsigned char>) )
     {
     this->SetNumberOfComponents(3);
-    this->SetPixelType(ImageIOBase::UCHAR);
+    this->SetPixelType(ImageIOBase::RGB);
     this->SetComponentType(ImageIOBase::UCHAR);
     }
   else if ( ptype == typeid(RGBPixel<float>) )
     {
     this->SetNumberOfComponents(3);
-    this->SetPixelType(ImageIOBase::FLOAT);
+    this->SetPixelType(ImageIOBase::RGB);
     this->SetComponentType(ImageIOBase::FLOAT);
     }
   else if ( ptype == typeid(RGBAPixel<unsigned char>) )
     {
     this->SetNumberOfComponents(4);
-    this->SetPixelType(ImageIOBase::UCHAR);
+    this->SetPixelType(ImageIOBase::RGBA);
     this->SetComponentType(ImageIOBase::UCHAR);
     }
   else if ( ptype == typeid(Offset<2>) )
@@ -228,44 +216,44 @@ bool ImageIOBase::SetPixelType(const std::type_info& ptype)
   else if ( ptype == typeid(CovariantVector<float,2>) )
     {
     this->SetNumberOfComponents(2);
-    this->SetPixelType(ImageIOBase::FLOAT);
+    this->SetPixelType(ImageIOBase::COVARIANTVECTOR);
     this->SetComponentType(ImageIOBase::FLOAT);
     }
   else if ( ptype == typeid(CovariantVector<float,3>) )
     {
     this->SetNumberOfComponents(3);
-    this->SetPixelType(ImageIOBase::FLOAT);
+    this->SetPixelType(ImageIOBase::COVARIANTVECTOR);
     this->SetComponentType(ImageIOBase::FLOAT);
     }
   else if ( ptype == typeid(CovariantVector<float,4>) )
     {
     this->SetNumberOfComponents(4);
-    this->SetPixelType(ImageIOBase::FLOAT);
+    this->SetPixelType(ImageIOBase::COVARIANTVECTOR);
     this->SetComponentType(ImageIOBase::FLOAT);
     }
   else if ( ptype == typeid(Vector<float,2>))
     {
     this->SetNumberOfComponents(2);
-    this->SetPixelType(ImageIOBase::FLOAT);
+    this->SetPixelType(ImageIOBase::VECTOR);
     this->SetComponentType(ImageIOBase::FLOAT);
     }
   else if ( ptype == typeid(Vector<float,3>))
     {
     this->SetNumberOfComponents(3);
-    this->SetPixelType(ImageIOBase::FLOAT);
+    this->SetPixelType(ImageIOBase::VECTOR);
     this->SetComponentType(ImageIOBase::FLOAT);
     }
   else if ( ptype == typeid(Vector<float,4>))
     {
     this->SetNumberOfComponents(4);
-    this->SetPixelType(ImageIOBase::FLOAT);
+    this->SetPixelType(ImageIOBase::VECTOR);
     this->SetComponentType(ImageIOBase::FLOAT);
     }
   else
     {
     itkExceptionMacro("Pixel type currently not supported.");
-    this->SetPixelType(ImageIOBase::UNKNOWN);
-    this->SetComponentType(ImageIOBase::UNKNOWN);
+    this->SetPixelType(ImageIOBase::UNKNOWNPIXELTYPE);
+    this->SetComponentType(ImageIOBase::UNKNOWNCOMPONENTTYPE);
     return false;
     }
   return true;
@@ -299,7 +287,7 @@ unsigned int ImageIOBase::GetImageSizeInPixels() const
 
 unsigned int ImageIOBase::GetImageSizeInComponents() const
 {
-  return GetImageSizeInPixels() * m_NumberOfComponents;
+  return (this->GetImageSizeInPixels() * m_NumberOfComponents);
 }
 
 unsigned int ImageIOBase::GetImageSizeInBytes () const
@@ -367,112 +355,19 @@ ImageIOBase ::ReadBufferAsBinary(std::istream& is, void *buffer, unsigned int nu
 }
 
 
-const std::type_info& 
-ImageIOBase::ConvertToTypeInfo(IODataType t ) const
-{
-  switch(t)
-    {
-    case UCHAR:
-      return typeid(unsigned char);
-    case CHAR:
-      return typeid(char);
-    case USHORT:
-      return typeid(unsigned short);
-    case SHORT:
-      return typeid(short);
-    case UINT:
-      return typeid(unsigned int);
-    case INT:
-      return typeid(int);
-    case ULONG:
-      return typeid(unsigned long);
-    case LONG:
-      return typeid(long);
-    case FLOAT:
-      return typeid(float);
-    case DOUBLE:
-      return typeid(double);
-    case RGB:
-      return typeid(RGBPixel<unsigned char>);
-    case RGBA:
-      return typeid(RGBAPixel<unsigned char>);
-    default:
-      itkExceptionMacro ("Invalid type: " << m_PixelType );
-    }
-  return typeid(ImageIOBase::UnknownType);
-}
-
-unsigned int 
-ImageIOBase::GetSizeOfType(IODataType t) const
-{
-  switch(t)
-    {
-    case UCHAR:
-      return sizeof(unsigned char);
-    case CHAR:
-      return sizeof(char);
-    case USHORT:
-      return sizeof(unsigned short);
-    case SHORT:
-      return sizeof(short);
-    case UINT:
-      return sizeof(unsigned int);
-    case INT:
-      return sizeof(int);
-    case ULONG:
-      return sizeof(unsigned long);
-    case LONG:
-      return sizeof(long);
-    case FLOAT:
-      return sizeof(float);
-    case DOUBLE:
-      return sizeof(double);
-    case RGB:
-      return sizeof(RGBPixel<unsigned char>);
-    case RGBA:
-      return sizeof(RGBAPixel<unsigned char>);
-    case UNKNOWN:
-    default:
-      itkExceptionMacro ("Unknown pixel type: " << t);
-    }
-  return 0;
-}
-
 unsigned int ImageIOBase::GetPixelSize() const
 {
-  switch(m_ComponentType)
+  if (m_ComponentType == UNKNOWNCOMPONENTTYPE
+      || m_PixelType == UNKNOWNPIXELTYPE)
     {
-    case UCHAR:
-      return sizeof(unsigned char);
-    case CHAR:
-      return sizeof(char);
-    case USHORT:
-      return sizeof(unsigned short);
-    case SHORT:
-      return sizeof(short);
-    case UINT:
-      return sizeof(unsigned int);
-    case INT:
-      return sizeof(int);
-    case ULONG:
-      return sizeof(unsigned long);
-    case LONG:
-      return sizeof(long);
-    case FLOAT:
-      return sizeof(float);
-    case DOUBLE:
-      return sizeof(double);
-    case RGB:
-      return sizeof(RGBPixel<unsigned char>);
-    case RGBA:
-      return sizeof(RGBAPixel<unsigned char>);
-    case UNKNOWN:
-    default:
-      itkExceptionMacro ("Unknown pixel type: " << m_ComponentType);
+    itkExceptionMacro ("Unknown pixel or component type: ("
+                       << m_PixelType << ", " << m_ComponentType << ")");
+    return 0;
     }
-
-  return 0;
+  
+  return this->GetComponentSize() * this->GetNumberOfComponents();
 }
+
 
 unsigned int ImageIOBase::GetComponentSize() const
 {
@@ -498,19 +393,16 @@ unsigned int ImageIOBase::GetComponentSize() const
       return sizeof(float);
     case DOUBLE:
       return sizeof(double);
-    case RGB:
-      return sizeof(RGBPixel<unsigned char>);
-    case RGBA:
-      return sizeof(RGBAPixel<unsigned char>);
-    case UNKNOWN:
+    case UNKNOWNCOMPONENTTYPE:
     default:
-      itkExceptionMacro ("Unknown pixel type: " << m_ComponentType);
+      itkExceptionMacro ("Unknown component type: " << m_ComponentType);
     }
 
   return 0;
 }
 
-std::string ImageIOBase::ReturnTypeAsString(IODataType t) const
+
+std::string ImageIOBase::GetComponentTypeAsString(IOComponentType t) const
 {
   std::string s;
   switch(t)
@@ -535,11 +427,34 @@ std::string ImageIOBase::ReturnTypeAsString(IODataType t) const
       return (s = "float");
     case DOUBLE:
       return (s = "double");
+    case UNKNOWNCOMPONENTTYPE:
+    default:
+      return (s = "unknown");
+    }
+  return (s="unknown");
+
+}
+
+std::string ImageIOBase::GetPixelTypeAsString(IOPixelType t) const
+{
+  std::string s;
+  switch(t)
+    {
+    case SCALAR:
+      return (s = "scalar");
+    case VECTOR:
+      return (s = "vector");
+    case COVARIANTVECTOR:
+      return (s = "covariant_vector");
+    case POINT:
+      return (s = "point");
+    case OFFSET:
+      return (s = "offset");
     case RGB:
       return (s = "rgb");
     case RGBA:
       return (s = "rgba");
-    case UNKNOWN:
+    case UNKNOWNPIXELTYPE:
     default:
       itkExceptionMacro ("Unknown pixel type: " << t);
     }
@@ -559,7 +474,8 @@ static void WriteBuffer(std::ostream& os, const TComponent *buffer, unsigned int
 }
 
 void ImageIOBase::WriteBufferAsASCII(std::ostream& os, const void *buffer, 
-                                     IODataType ctype, unsigned int numComp)
+                                     IOComponentType ctype,
+                                     unsigned int numComp)
 {
   switch (ctype)
     {
@@ -660,7 +576,8 @@ static void ReadBuffer(std::istream& is, TComponent *buffer, unsigned int num)
 }
 
 void ImageIOBase::ReadBufferAsASCII(std::istream& is, void *buffer, 
-                                    IODataType ctype, unsigned int numComp)
+                                    IOComponentType ctype,
+                                    unsigned int numComp)
 {
   switch (ctype)
     {
@@ -749,23 +666,9 @@ void ImageIOBase::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "IORegion: " << std::endl;
   m_IORegion.Print(os, indent.GetNextIndent());
   os << indent << "Number of Components/Pixel: " << m_NumberOfComponents << "\n";
-  if (m_PixelType)
-    {
-    os << indent << "Pixel Type: " << this->GetPixelType().name() << std::endl;
-    }
-  else
-    {
-    os << indent << "(none)" << std::endl; 
-    }
-  if (m_ComponentType)
-    {
-    os << indent << "Component Type: " 
-       << this->ReturnTypeAsString(m_ComponentType) << std::endl;
-    }
-  else
-    {
-    os << indent << "(none)" << std::endl; 
-    }
+  os << indent << "Pixel Type: " << this->GetPixelTypeAsString(m_PixelType) << std::endl;
+  os << indent << "Component Type: " << this->GetComponentTypeAsString(m_ComponentType)
+     << std::endl;
   os << indent << "Dimensions: ( ";
   for (unsigned int i=0; i < m_NumberOfDimensions; i++)
     {

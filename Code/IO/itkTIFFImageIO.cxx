@@ -180,7 +180,7 @@ void TIFFImageIO::ReadGenericImage( void *out,
     return;
     }
 
-  if(m_PixelType == UCHAR)
+  if(m_ComponentType == UCHAR)
     {
     unsigned char* image = reinterpret_cast<unsigned char*>(out);
     for ( row = 0; row < (int)height; row ++ )
@@ -201,7 +201,7 @@ void TIFFImageIO::ReadGenericImage( void *out,
         }
       }
     }
-  else if(m_PixelType == USHORT)
+  else if(m_ComponentType == USHORT)
     {
     isize /= 2;
     unsigned short* image = reinterpret_cast<unsigned short*>(out);
@@ -240,7 +240,7 @@ int TIFFImageIO::EvaluateImageAt( void* out, void* in )
       if ( m_InternalImage->Photometrics == 
            PHOTOMETRIC_MINISBLACK )
         {
-        if(m_PixelType == USHORT)
+        if(m_ComponentType == USHORT)
           {
           unsigned short *image = (unsigned short*)out;
           unsigned short *source = (unsigned short*)in;
@@ -406,84 +406,6 @@ unsigned int TIFFImageIO::GetFormat( )
 
 
 
-const std::type_info& TIFFImageIO::GetPixelType() const
-{
-  switch(m_PixelType)
-    {
-    case UCHAR:
-      return typeid(unsigned char);
-    case USHORT:
-      return typeid(unsigned short);
-    case CHAR:
-      return typeid(char);
-    case SHORT:
-      return typeid(short);
-    case UINT:
-      return typeid(unsigned int);
-    case INT:
-      return typeid(int);
-    case ULONG:
-      return typeid(unsigned long);
-    case LONG:
-      return typeid(long);
-    case FLOAT:
-      return typeid(float);
-    case DOUBLE:
-      return typeid(double);
-    case RGB:
-      return typeid(RGBPixel<unsigned char>);
-    case RGBA:
-      return typeid(RGBAPixel<unsigned char>);
-    default:
-    {
-    itkExceptionMacro ("Invalid type: " << m_PixelType << ", only unsigned char, unsigned short, RGB<unsigned char> are allowed.");
-    return this->ConvertToTypeInfo(m_PixelType);      
-    }
-    case UNKNOWN:
-      itkExceptionMacro ("Unknown pixel type: " << m_PixelType);
-    }
-  return typeid(ImageIOBase::UnknownType);
-}
-
-  
-unsigned int TIFFImageIO::GetComponentSize() const
-{
-  switch(m_PixelType)
-    {
-    case UCHAR:
-      return sizeof(unsigned char);
-    case USHORT:
-      return sizeof(unsigned short);
-    case CHAR:
-      return sizeof(char);
-    case SHORT:
-      return sizeof(short);
-    case UINT:
-      return sizeof(unsigned int);
-    case INT:
-      return sizeof(int);
-    case ULONG:
-      return sizeof(unsigned long);
-    case LONG:
-      return sizeof(long);
-    case FLOAT:
-      return sizeof(float);
-    case DOUBLE:
-      return sizeof(double);
-    case RGB:
-      return sizeof(unsigned char);
-    case RGBA:
-      return sizeof(unsigned char);
-    case UNKNOWN:
-    default:
-    {
-    itkExceptionMacro ("Invalid type: " << m_PixelType 
-                       << ", only unsigned char and unsigned short are allowed.");
-    return 0;
-    }
-    }
-  return 1;
-}
 
   
 void TIFFImageIO::ReadVolume(void*)
@@ -574,7 +496,8 @@ void TIFFImageIO::Read(void* buffer)
 TIFFImageIO::TIFFImageIO()
 {
   this->SetNumberOfDimensions(2);
-  m_PixelType = UCHAR;
+  m_PixelType = SCALAR;
+  m_ComponentType = UCHAR;
   
   this->InitializeColors();
   m_InternalImage = new TIFFReaderInternal;
@@ -597,7 +520,6 @@ TIFFImageIO::~TIFFImageIO()
 void TIFFImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "PixelType: " << m_PixelType << "\n";
   os << indent << "Compression: " << m_Compression << "\n";
 }
 
@@ -630,30 +552,34 @@ void TIFFImageIO::ReadImageInformation()
     case TIFFImageIO::GRAYSCALE:
     case TIFFImageIO::PALETTE_GRAYSCALE:
       this->SetNumberOfComponents( 1 );
+      this->SetPixelType(SCALAR);
       break;
     case TIFFImageIO::RGB_:      
-      this->SetNumberOfComponents( 
-        m_InternalImage->SamplesPerPixel );
+      this->SetNumberOfComponents( m_InternalImage->SamplesPerPixel );
+      this->SetPixelType(RGB);
       break;
     case TIFFImageIO::PALETTE_RGB:      
       this->SetNumberOfComponents( 3 );
+      this->SetPixelType(RGB);
       break;
     default:
       this->SetNumberOfComponents( 4 );
+      this->SetPixelType(RGBA);
     }
 
   if ( !m_InternalImage->CanRead() )
     {
     this->SetNumberOfComponents( 4 );
+    this->SetPixelType(RGBA);
     }
 
   if (m_InternalImage->BitsPerSample <= 8)
     {
-    m_PixelType = UCHAR;
+    m_ComponentType = UCHAR;
     }
   else
     {
-    m_PixelType = USHORT;
+    m_ComponentType = USHORT;
     }
 
   return;

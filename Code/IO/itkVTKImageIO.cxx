@@ -267,16 +267,22 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
 
       int numComp = 1;
       sscanf(line, "%*s %*s %d", &numComp);
+      if (numComp == 1)
+        {
+        SetPixelType(SCALAR);
+        }
+      else
+        {
+        SetPixelType(VECTOR);
+        }
       if ( this->GetFileType() == ASCII )
         {
         SetNumberOfComponents(numComp);
-        SetPixelType(FLOAT);
         SetComponentType(FLOAT);
         }
       else
         {
         SetNumberOfComponents(numComp);
-        SetPixelType(UCHAR);
         SetComponentType(UCHAR);
         }
       }
@@ -290,64 +296,62 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
       int numComp = 1;
       sscanf(line, "%*s %*s %s %d", pixelType, &numComp);
       text = pixelType;
+      if (numComp == 1)
+        {
+        SetPixelType(SCALAR);
+        }
+      else
+        {
+        SetPixelType(VECTOR);
+        }
       if ( text.find("float") < text.length() )
         {
         SetNumberOfComponents(numComp);
-        SetPixelType(FLOAT);
         SetComponentType(FLOAT);
         }
       else if ( text.find("double") < text.length() )
         {
         SetNumberOfComponents(numComp);
-        SetPixelType(DOUBLE);
         SetComponentType(DOUBLE);
         }
       else if ( text.find("unsigned_char") < text.length() )
         {
         SetNumberOfComponents(numComp);
-        SetPixelType(UCHAR);
         SetComponentType(UCHAR);
         }
       else if ( text.find("char") < text.length() )
         {
         SetNumberOfComponents(numComp);
-        SetPixelType(CHAR);
         SetComponentType(CHAR);
         }
       else if ( text.find("unsigned_short") < text.length() )
         {
         SetNumberOfComponents(numComp);
-        SetPixelType(USHORT);
         SetComponentType(USHORT);
         }
       else if ( text.find("short") < text.length() )
         {
         SetNumberOfComponents(numComp);
-        SetPixelType(SHORT);
         SetComponentType(SHORT);
         }
       else if ( text.find("unsigned_int") < text.length() )
         {
         SetNumberOfComponents(numComp);
-        SetPixelType(UINT);
         SetComponentType(UINT);
         }
       else if ( text.find("int") < text.length() )
         {
         SetNumberOfComponents(numComp);
-        SetPixelType(INT);
         SetComponentType(INT);
         }
       else if ( text.find("unsigned_long") < text.length() )
         {
         SetNumberOfComponents(numComp);
-        SetPixelType(ULONG);
         SetComponentType(ULONG);
         }
       else if ( text.find("long") < text.length() )
         {
         SetNumberOfComponents(numComp);
-        SetPixelType(LONG);
         SetComponentType(LONG);
         }
       else
@@ -387,7 +391,7 @@ void VTKImageIO::Read(void* buffer)
       case 4:
         ByteSwapper<float>::SwapRangeFromSystemToBigEndian((float *)buffer, this->GetImageSizeInComponents() );
         break;
-      case 6:
+      case 8:
         ByteSwapper<double>::SwapRangeFromSystemToBigEndian((double *)buffer, this->GetImageSizeInComponents() );
         break;
       }
@@ -456,7 +460,7 @@ void VTKImageIO::Write(const void* buffer)
 
   file << "POINT_DATA " << this->GetImageSizeInPixels() << "\n";
   file << "SCALARS scalars " 
-       << this->ReturnTypeAsString(this->GetComponentType()) << " "
+       << this->GetComponentTypeAsString(m_ComponentType) << " "
        << this->GetNumberOfComponents() << "\n";
   file << "LOOKUP_TABLE default\n";
 

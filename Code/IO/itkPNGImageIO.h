@@ -45,9 +45,6 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(PNGImageIO, ImageIOBase);
 
-  /** Set if the compression should be used for writing */
-  itkSetMacro(UseCompression, bool);
-
   /** Set/Get the level of compression for the output images.
    *  0-9; 0 = none, 9 = maximum. */
   itkSetMacro(CompressionLevel, int);
@@ -62,19 +59,11 @@ public:
   /** Set the spacing and diemention information for the set filename. */
   virtual void ReadImageInformation();
   
-  /** Get the type of the pixel.  */
-  virtual const std::type_info& GetPixelType() const;
-
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void* buffer);
 
   /** Reads 3D data from multiple files assuming one slice per file. */
   virtual void ReadVolume(void* buffer);
-
-  /** Compute the size (in bytes) of the components of a pixel. For
-   * example, and RGB pixel of unsigned char would have a 
-   * component size of 1 byte. */
-  virtual unsigned int GetComponentSize() const;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
@@ -97,9 +86,6 @@ protected:
 
   void WriteSlice(std::string& fileName, const void* buffer);
 
-  /** Set if the compression should be used for writing 
-   *  the value is false by default */
-  bool m_UseCompression;
   /** Determines the level of compression for written files. 
    *  Range 0-9; 0 = none, 9 = maximum , default = 4 */
   int m_CompressionLevel;

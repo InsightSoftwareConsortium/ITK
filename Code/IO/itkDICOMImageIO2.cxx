@@ -50,7 +50,8 @@ DICOMImageIO2::DICOMImageIO2()
   // the user only asks for a 2D image.
   this->SetNumberOfDimensions(3);  
 
-  m_PixelType  = UCHAR;
+  m_PixelType  = SCALAR;
+  m_ComponentType  = UCHAR;
   m_ByteOrder = BigEndian;
   m_Parser = new itkdicomparser::DICOMParser();
   m_AppHelper = new itkdicomparser::DICOMAppHelper();
@@ -185,7 +186,7 @@ void DICOMImageIO2::ReadImageInformation()
       
   if (isFloat)  // Float
     {
-    this->SetPixelType(ImageIOBase::FLOAT);
+    this->SetPixelType(ImageIOBase::SCALAR);
     this->SetComponentType(ImageIOBase::FLOAT);
     }
   else if (num_comp == 3) //RGB
@@ -193,12 +194,12 @@ void DICOMImageIO2::ReadImageInformation()
     if (numBits == 8)
       {
       this->SetComponentType(ImageIOBase::UCHAR);
-      this->SetPixelType(ImageIOBase::UCHAR);
+      this->SetPixelType(ImageIOBase::RGB);
       }
     else
       {
       this->SetComponentType(ImageIOBase::USHORT);
-      this->SetPixelType(ImageIOBase::USHORT);
+      this->SetPixelType(ImageIOBase::RGB);
       }
     }
   else // Everything else
@@ -207,12 +208,12 @@ void DICOMImageIO2::ReadImageInformation()
       {
       if (sign)
         {
-        this->SetPixelType(ImageIOBase::CHAR);
+        this->SetPixelType(ImageIOBase::SCALAR);
         this->SetComponentType(ImageIOBase::CHAR);
         }
       else
         {
-        this->SetPixelType(ImageIOBase::UCHAR);
+        this->SetPixelType(ImageIOBase::SCALAR);
         this->SetComponentType(ImageIOBase::UCHAR);
         }
       }
@@ -220,18 +221,18 @@ void DICOMImageIO2::ReadImageInformation()
       {
       if (sign)
         {
-        this->SetPixelType(ImageIOBase::SHORT);
+        this->SetPixelType(ImageIOBase::SCALAR);
         this->SetComponentType(ImageIOBase::SHORT);
         }
       else
         {
-        this->SetPixelType(ImageIOBase::USHORT);
+        this->SetPixelType(ImageIOBase::SCALAR);
         this->SetComponentType(ImageIOBase::USHORT);
         }
       }
     else
       {
-      this->SetPixelType(ImageIOBase::USHORT);
+      this->SetPixelType(ImageIOBase::SCALAR);
       this->SetComponentType(ImageIOBase::USHORT);
       }
     }

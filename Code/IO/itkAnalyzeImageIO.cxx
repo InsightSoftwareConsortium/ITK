@@ -154,7 +154,7 @@ AnalyzeImageIO::SwapBytesIfNecessary( void* buffer,
 {
   if ( m_ByteOrder == LittleEndian )
     {
-    switch(m_PixelType)
+    switch(m_ComponentType)
       {
       case CHAR:
         ByteSwapper<char>::SwapRangeFromSystemToLittleEndian((char*)buffer,
@@ -204,7 +204,7 @@ AnalyzeImageIO::SwapBytesIfNecessary( void* buffer,
     }
   else
     {
-    switch(m_PixelType)
+    switch(m_ComponentType)
       {
       case CHAR:
         ByteSwapper<char>::SwapRangeFromSystemToBigEndian((char *)buffer,
@@ -407,7 +407,8 @@ AnalyzeImageIO::AnalyzeImageIO()
 {
   //by default, only have 3 dimensions
   this->SetNumberOfDimensions(3);
-  m_PixelType         = UCHAR;
+  m_PixelType         = SCALAR;
+  m_ComponentType     = UCHAR;
   // Set m_MachineByteOrder to the ByteOrder of the machine
   // Start out with file byte order == system byte order
   // this will be changed if we're reading a file to whatever
@@ -525,7 +526,6 @@ AnalyzeImageIO::~AnalyzeImageIO()
 void AnalyzeImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "PixelType " << m_PixelType << "\n";
 }
 
 bool AnalyzeImageIO::CanWriteFile(const char * FileNameToWrite)
@@ -558,68 +558,6 @@ bool AnalyzeImageIO::CanWriteFile(const char * FileNameToWrite)
   return false;
 }
 
-const std::type_info& AnalyzeImageIO::GetPixelType() const
-{
-  switch(m_PixelType)
-    {
-    case CHAR:
-      return typeid(char);
-    case UCHAR:
-      return typeid(unsigned char);
-    case SHORT:
-      return typeid(short);
-    case USHORT:
-      return typeid(unsigned short);
-    case INT:
-      return typeid(int);
-    case UINT:
-      return typeid(unsigned int);
-    case LONG:
-      return typeid(long);
-    case ULONG:
-      return typeid(unsigned long);
-    case FLOAT:
-      return typeid(float);
-    case DOUBLE:
-      return typeid(double);
-    default:
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("Pixel Type Unknown");
-      throw exception;
-    }
-}
-
-unsigned int AnalyzeImageIO::GetComponentSize() const
-{
-  switch(m_PixelType)
-    {
-    case CHAR:
-      return sizeof(char);
-    case UCHAR:
-      return sizeof(unsigned char);
-    case SHORT:
-      return sizeof(short);
-    case USHORT:
-      return sizeof(unsigned short);
-    case INT:
-      return sizeof(int);
-    case UINT:
-      return sizeof(unsigned int);
-    case LONG:
-      return sizeof(long);
-    case ULONG:
-      return sizeof(unsigned long);
-    case FLOAT:
-      return sizeof(float);
-    case DOUBLE:
-      return sizeof(double);
-    default:
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("Pixel Type Unknown");
-      throw exception;
-    }
-  return 1;
-}
 
 //Set Data Type Values and min/max values
 //////////////////////////////////////////////////////////////////////////
@@ -639,7 +577,7 @@ unsigned int AnalyzeImageIO::GetComponentSize() const
 void  AnalyzeImageIO::DefineHeaderObjectDataType()
 {
   enum DataTypeIndex eNewType;
-  switch(m_PixelType)
+  switch(m_ComponentType)
     {
     case CHAR:
     case UCHAR:
@@ -867,35 +805,35 @@ void AnalyzeImageIO::ReadImageInformation()
     {
     case ANALYZE_DT_BINARY:
       m_ComponentType = CHAR;
-      m_PixelType = CHAR;
+      m_PixelType = SCALAR;
       break;
     case ANALYZE_DT_UNSIGNED_CHAR:
       m_ComponentType = UCHAR;
-      m_PixelType = UCHAR;
+      m_PixelType = SCALAR;
       break;
     case ANALYZE_DT_SIGNED_SHORT:
       m_ComponentType = SHORT;
-      m_PixelType = SHORT;
+      m_PixelType = SCALAR;
       break;
     case SPMANALYZE_DT_UNSIGNED_SHORT:
       m_ComponentType = USHORT;
-      m_PixelType = USHORT;
+      m_PixelType = SCALAR;
       break;
     case ANALYZE_DT_SIGNED_INT:
       m_ComponentType = INT;
-      m_PixelType = INT;
+      m_PixelType = SCALAR;
       break;
     case SPMANALYZE_DT_UNSIGNED_INT:
       m_ComponentType = UINT;
-      m_PixelType = UINT;
+      m_PixelType = SCALAR;
       break;
     case ANALYZE_DT_FLOAT:
       m_ComponentType = FLOAT;
-      m_PixelType = FLOAT;
+      m_PixelType = SCALAR;
       break;
     case ANALYZE_DT_DOUBLE:
       m_ComponentType = DOUBLE;
-      m_PixelType = DOUBLE;
+      m_PixelType = SCALAR;
       break;
     case ANALYZE_DT_RGB:
       // DEBUG -- Assuming this is a triple, not quad

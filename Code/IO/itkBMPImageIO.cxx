@@ -17,6 +17,8 @@
 #include "itkBMPImageIO.h"
 #include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
+#include "itkRGBPixel.h"
+#include "itkRGBAPixel.h"
 #include <iostream>
 #include <list>
 #include <string>
@@ -31,7 +33,8 @@ BMPImageIO::BMPImageIO()
   m_ByteOrder = BigEndian;
   m_BitMapOffset = 0;
   this->SetNumberOfDimensions(2);
-  m_PixelType = UCHAR;
+  m_PixelType = SCALAR;
+  m_ComponentType = UCHAR;
   m_Spacing[0] = 1.0;
   m_Spacing[1] = 1.0;
   
@@ -194,45 +197,6 @@ bool BMPImageIO::CanWriteFile( const char * name )
 }
 
 
-const std::type_info& BMPImageIO::GetPixelType() const
-{
-  switch(m_PixelType)
-    {
-    case SHORT:
-      return typeid(short);
-    case USHORT:
-      return typeid(unsigned short);
-    case CHAR:
-      return typeid(char);
-    case UCHAR:
-      return typeid(unsigned char);
-    default:
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("Pixel Type Unknown");
-      throw exception;
-    }
-}
-
-unsigned int BMPImageIO::GetComponentSize() const
-{
-  switch(m_PixelType)
-    {
-    case SHORT:
-      return sizeof(short);
-    case USHORT:
-      return sizeof(unsigned short);
-    case CHAR:
-      return sizeof(char);
-    case UCHAR:
-      return sizeof(unsigned char);
-    default:
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("Pixel Type Unknown");
-      throw exception;
-    }
-  return 1;
-}
- 
  
 void BMPImageIO::Read(void* buffer)
 {
@@ -453,7 +417,7 @@ void
 BMPImageIO
 ::SwapBytesIfNecessary( void* buffer, unsigned long numberOfPixels )
 {
-  switch(m_PixelType)
+  switch(m_ComponentType)
     {
     case CHAR:
     {
@@ -671,7 +635,6 @@ BMPImageIO
 void BMPImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "PixelType " << m_PixelType << "\n";
   os << indent << "Depth " << m_Depth << "\n";
   os << indent << "FileLowerLeft " << m_FileLowerLeft << "\n";
   os << indent << "BitMapOffset " << m_BitMapOffset << "\n";

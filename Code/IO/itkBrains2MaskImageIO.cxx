@@ -51,7 +51,8 @@ Brains2MaskImageIO::Brains2MaskImageIO()
 {
   //by default, only have 3 dimensions
   this->SetNumberOfDimensions(3);
-  m_PixelType         = UCHAR;
+  m_PixelType         = SCALAR;
+  m_ComponentType     = UCHAR;
   //The file byte order
   m_MachineByteOrder  = ( ByteSwapper<int>::SystemIsBigEndian() == true ) ? 
     LittleEndian : BigEndian ;
@@ -65,7 +66,6 @@ Brains2MaskImageIO::~Brains2MaskImageIO()
 void Brains2MaskImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "PixelType " << m_PixelType << "\n";
 }
 
 bool Brains2MaskImageIO::CanWriteFile(const char * FileNameToWrite)
@@ -78,16 +78,6 @@ bool Brains2MaskImageIO::CanWriteFile(const char * FileNameToWrite)
     return true;
     }
   return false;
-}
-
-const std::type_info& Brains2MaskImageIO::GetPixelType() const
-{
-  return typeid(unsigned char);
-}
-
-unsigned int Brains2MaskImageIO::GetComponentSize() const
-{
-  return sizeof(unsigned char);
 }
 
 //The function that is used to read the octree stream to an octree.
@@ -265,7 +255,7 @@ bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
   m_Spacing[ 1 ]  = this->m_IPLHeaderInfo.getFloat("MASK_Y_RESOLUTION:");
   m_Spacing[ 2 ]  = this->m_IPLHeaderInfo.getFloat("MASK_Z_RESOLUTION:");
 
-  m_ComponentType = CHAR;
+  m_ComponentType = UCHAR;
   return true;
 }
 
@@ -410,43 +400,43 @@ Brains2MaskImageIO
   unsigned octreeHdr[6];
   OctreeNode *tree;
   OctreeBase::Pointer octBasePtr;
-  if(m_PixelType == CHAR)
+  if(m_ComponentType == CHAR)
     {
     octBasePtr =  Octree<char,2,Brains2MaskMappingFunction<char> >::New();
     }
-  else if(m_PixelType == UCHAR)
+  else if(m_ComponentType == UCHAR)
     {
     octBasePtr =  Octree<unsigned char,2,Brains2MaskMappingFunction<unsigned char> >::New();
     }
-  else if(m_PixelType == SHORT)
+  else if(m_ComponentType == SHORT)
     {
     octBasePtr =  Octree<short,2,Brains2MaskMappingFunction<short> >::New();
     }
-  else if(m_PixelType == USHORT)
+  else if(m_ComponentType == USHORT)
     {
     octBasePtr =  Octree<unsigned short,2,Brains2MaskMappingFunction<unsigned short> >::New();
     }
-  else if(m_PixelType == INT)
+  else if(m_ComponentType == INT)
     {
     octBasePtr =  Octree<int,2,Brains2MaskMappingFunction<int> >::New();
     }
-  else if(m_PixelType == UINT)
+  else if(m_ComponentType == UINT)
     {
     octBasePtr =  Octree<unsigned int,2,Brains2MaskMappingFunction<unsigned int> >::New();
     }
-  else if(m_PixelType == LONG)
+  else if(m_ComponentType == LONG)
     {
     octBasePtr =  Octree<long,2,Brains2MaskMappingFunction<long> >::New();
     }
-  else if(m_PixelType == ULONG)
+  else if(m_ComponentType == ULONG)
     {
     octBasePtr =  Octree<unsigned long,2,Brains2MaskMappingFunction<unsigned long> >::New();
     }
-  else if(m_PixelType == FLOAT)
+  else if(m_ComponentType == FLOAT)
     {
     octBasePtr =  Octree<float,2,Brains2MaskMappingFunction<float> >::New();
     }
-  else if(m_PixelType == DOUBLE)
+  else if(m_ComponentType == DOUBLE)
     {
     octBasePtr =  Octree<double,2,Brains2MaskMappingFunction<double> >::New();
     }

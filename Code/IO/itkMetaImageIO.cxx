@@ -186,55 +186,93 @@ void MetaImageIO::ReadImageInformation()
     default:
     case MET_OTHER:
     case MET_NONE:
-      this->SetPixelType( UNKNOWN );
-      this->SetComponentType( UNKNOWN );
+      this->SetPixelType( UNKNOWNPIXELTYPE );
+      this->SetComponentType( UNKNOWNCOMPONENTTYPE);
       break;
     case MET_CHAR:
+    case MET_ASCII_CHAR:
+      this->SetPixelType( SCALAR );
+      this->SetComponentType( CHAR );
+      break;
     case MET_CHAR_ARRAY:
     case MET_STRING:
-    case MET_ASCII_CHAR:
-      this->SetPixelType( CHAR );
+      this->SetPixelType( VECTOR );
       this->SetComponentType( CHAR );
       break;
     case MET_UCHAR:
+      this->SetPixelType( SCALAR );
+      this->SetComponentType( UCHAR );
+      break;
     case MET_UCHAR_ARRAY:
-      this->SetPixelType( UCHAR );
+      this->SetPixelType( VECTOR );
       this->SetComponentType( UCHAR );
       break;
     case MET_SHORT:
+      this->SetPixelType( SCALAR );
+      this->SetComponentType( SHORT );
+      break;
     case MET_SHORT_ARRAY:
-      this->SetPixelType( SHORT );
+      this->SetPixelType( VECTOR );
       this->SetComponentType( SHORT );
       break;
     case MET_USHORT:
+      this->SetPixelType( SCALAR );
+      this->SetComponentType( USHORT );
+      break;
     case MET_USHORT_ARRAY:
-      this->SetPixelType( USHORT );
+      this->SetPixelType( VECTOR );
       this->SetComponentType( USHORT );
       break;
     case MET_LONG:
+      this->SetPixelType( SCALAR );
+      this->SetComponentType( LONG );
+      break;
+    case MET_LONG_ARRAY:
+      this->SetPixelType( VECTOR );
+      this->SetComponentType( LONG );
+      break;
     case MET_ULONG:
+      this->SetPixelType( SCALAR );
+      this->SetComponentType( ULONG );
+      break;
+    case MET_ULONG_ARRAY:
+      this->SetPixelType( VECTOR );
+      this->SetComponentType( ULONG );
+      break;
     case MET_INT:
+      this->SetPixelType( SCALAR );
+      this->SetComponentType( INT );
+      break;
     case MET_INT_ARRAY:
-      this->SetPixelType( INT );
+      this->SetPixelType( VECTOR );
       this->SetComponentType( INT );
       break;
     case MET_UINT:
+      this->SetPixelType( SCALAR );
+      this->SetComponentType( UINT );
+      break;
     case MET_UINT_ARRAY: 
-      this->SetPixelType( UINT );
+      this->SetPixelType( VECTOR );
       this->SetComponentType( UINT );
       break;
     case MET_FLOAT:
+      this->SetPixelType( SCALAR );
+      this->SetComponentType( FLOAT );
+      break;
     case MET_FLOAT_ARRAY: 
-      this->SetPixelType( FLOAT );
+      this->SetPixelType( VECTOR );
       this->SetComponentType( FLOAT );
       break;
     case MET_DOUBLE:
+      this->SetPixelType( SCALAR );
+      this->SetComponentType( DOUBLE );
+      break;
     case MET_DOUBLE_ARRAY:
-      this->SetPixelType( DOUBLE );
+      this->SetPixelType( VECTOR );
       this->SetComponentType( DOUBLE );
       break;
     case MET_FLOAT_MATRIX:
-      this->SetPixelType( FLOAT );
+      this->SetPixelType( VECTOR );
       this->SetComponentType( FLOAT );
       this->SetNumberOfComponents(m_NumberOfComponents * m_NumberOfComponents);
       break;
@@ -321,10 +359,10 @@ MetaImageIO
   int nChannels = this->GetNumberOfComponents();
 
   MET_ValueEnumType eType;
-  switch(m_PixelType)
+  switch(m_ComponentType)
     {
     default:
-    case UNKNOWN:
+    case UNKNOWNCOMPONENTTYPE:
       eType = MET_OTHER;
       break;
     case CHAR:
@@ -357,9 +395,6 @@ MetaImageIO
     case DOUBLE:
       eType = MET_DOUBLE;
       break;
-    case OFFSET:
-      eType = MET_INT_ARRAY;
-      break;      
     }
   
   int i;

@@ -158,84 +158,6 @@ bool JPEGImageIO::CanReadFile(const char* file)
   return true;
 }
   
-const std::type_info& JPEGImageIO::GetPixelType() const
-{
-  switch(m_PixelType)
-    {
-    case UCHAR:
-      return typeid(unsigned char);
-    case USHORT:
-      return typeid(unsigned short);
-    case CHAR:
-      return typeid(char);
-    case SHORT:
-      return typeid(short);
-    case UINT:
-      return typeid(unsigned int);
-    case INT:
-      return typeid(int);
-    case ULONG:
-      return typeid(unsigned long);
-    case LONG:
-      return typeid(long);
-    case FLOAT:
-      return typeid(float);
-    case DOUBLE:
-      return typeid(double);
-    case RGB:
-      return typeid(RGBPixel<unsigned char>);
-    case RGBA:
-      return typeid(RGBAPixel<unsigned char>);
-    default:
-    {
-    itkExceptionMacro ("Invalid type: " << m_PixelType << ", only unsigned char, unsigned short, RGB<unsigned char> are allowed.");
-    return this->ConvertToTypeInfo(m_PixelType);      
-    }
-    case UNKNOWN:
-      itkExceptionMacro ("Unknown pixel type: " << m_PixelType);
-    }
-  return typeid(ImageIOBase::UnknownType);
-}
-
-  
-unsigned int JPEGImageIO::GetComponentSize() const
-{
-  switch(m_PixelType)
-    {
-    case UCHAR:
-      return sizeof(unsigned char);
-    case USHORT:
-      return sizeof(unsigned short);
-    case CHAR:
-      return sizeof(char);
-    case SHORT:
-      return sizeof(short);
-    case UINT:
-      return sizeof(unsigned int);
-    case INT:
-      return sizeof(int);
-    case ULONG:
-      return sizeof(unsigned long);
-    case LONG:
-      return sizeof(long);
-    case FLOAT:
-      return sizeof(float);
-    case DOUBLE:
-      return sizeof(double);
-    case RGB:
-      return sizeof(unsigned char);
-    case RGBA:
-      return sizeof(unsigned char);
-    case UNKNOWN:
-    default:
-    {
-    itkExceptionMacro ("Invalid type: " << m_PixelType 
-                       << ", only unsigned char and unsigned short are allowed.");
-    return 0;
-    }
-    }
-  return 1;
-}
 
   
 void JPEGImageIO::ReadVolume(void*)
@@ -317,7 +239,8 @@ void JPEGImageIO::Read(void* buffer)
 JPEGImageIO::JPEGImageIO()
 {
   this->SetNumberOfDimensions(2);
-  m_PixelType = UCHAR;
+  m_PixelType = SCALAR;
+  m_ComponentType = UCHAR;
   m_UseCompression = false;
   m_Quality = 95;
   m_Progressive = true;
@@ -335,8 +258,6 @@ JPEGImageIO::~JPEGImageIO()
 void JPEGImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "PixelType " << m_PixelType << "\n";
-  os << indent << "Use Compression : " << m_UseCompression << "\n";
   os << indent << "Quality : " << m_Quality << "\n";
   os << indent << "Progressive : " << m_Progressive << "\n";
 }
@@ -395,6 +316,18 @@ void JPEGImageIO::ReadImageInformation()
 
   this->SetNumberOfComponents(cinfo.output_components);
 
+  switch (this->GetNumberOfComponents())
+    {
+    case 1: m_PixelType = SCALAR;
+      break;
+    case 2: m_PixelType = VECTOR;
+      break;
+    case 3: m_PixelType = RGB;
+      break;
+    case 4: m_PixelType = RGBA;
+      break;
+    }
+      
 
   // close the file
   jpeg_destroy_decompress(&cinfo);

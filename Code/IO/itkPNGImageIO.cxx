@@ -94,85 +94,6 @@ bool PNGImageIO::CanReadFile(const char* file)
   return true;
 }
   
-const std::type_info& PNGImageIO::GetPixelType() const
-{
-  switch(m_PixelType)
-    {
-    case UCHAR:
-      return typeid(unsigned char);
-    case USHORT:
-      return typeid(unsigned short);
-    case CHAR:
-      return typeid(char);
-    case SHORT:
-      return typeid(short);
-    case UINT:
-      return typeid(unsigned int);
-    case INT:
-      return typeid(int);
-    case ULONG:
-      return typeid(unsigned long);
-    case LONG:
-      return typeid(long);
-    case FLOAT:
-      return typeid(float);
-    case DOUBLE:
-      return typeid(double);
-    case RGB:
-      return typeid(RGBPixel<unsigned char>);
-    case RGBA:
-      return typeid(RGBAPixel<unsigned char>);
-    default:
-    {
-    itkExceptionMacro ("Invalid type: " << m_PixelType << ", only unsigned char, unsigned short, RGB<unsigned char> are allowed.");
-    return this->ConvertToTypeInfo(m_PixelType);      
-    }
-    case UNKNOWN:
-      itkExceptionMacro ("Unknown pixel type: " << m_PixelType);
-    }
-  return typeid(ImageIOBase::UnknownType);
-}
-
-  
-unsigned int PNGImageIO::GetComponentSize() const
-{
-  switch(m_PixelType)
-    {
-    case UCHAR:
-      return sizeof(unsigned char);
-    case USHORT:
-      return sizeof(unsigned short);
-    case CHAR:
-      return sizeof(char);
-    case SHORT:
-      return sizeof(short);
-    case UINT:
-      return sizeof(unsigned int);
-    case INT:
-      return sizeof(int);
-    case ULONG:
-      return sizeof(unsigned long);
-    case LONG:
-      return sizeof(long);
-    case FLOAT:
-      return sizeof(float);
-    case DOUBLE:
-      return sizeof(double);
-    case RGB:
-      return sizeof(unsigned char);
-    case RGBA:
-      return sizeof(unsigned char);
-    case UNKNOWN:
-    default:
-    {
-    itkExceptionMacro ("Invalid type: " << m_PixelType 
-                       << ", only unsigned char and unsigned short are allowed.");
-    return 0;
-    }
-    }
-  return 1;
-}
-
   
 void PNGImageIO::ReadVolume(void*)
 {
@@ -289,7 +210,8 @@ void PNGImageIO::Read(void* buffer)
 PNGImageIO::PNGImageIO()
 {
   this->SetNumberOfDimensions(2);
-  m_PixelType = UCHAR;
+  m_PixelType = SCALAR;
+  m_ComponentType = UCHAR;
   m_UseCompression = false;
   m_CompressionLevel = 4; // Range 0-9; 0 = no file compression, 9 = maximum file compression
   m_Spacing[0] = 1.0;
@@ -306,8 +228,6 @@ PNGImageIO::~PNGImageIO()
 void PNGImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "PixelType " << m_PixelType << "\n";
-  os << indent << "Use Compression : " << m_UseCompression << "\n";
   os << indent << "Compression Level : " << m_CompressionLevel << "\n";
 }
 
@@ -397,14 +317,24 @@ void PNGImageIO::ReadImageInformation()
   m_Dimensions[1] = height;
   if (bitDepth <= 8)
     {
-    m_PixelType = UCHAR;
+    m_PixelType = SCALAR;
+    m_ComponentType = UCHAR;
     }
   else
     {
-    m_PixelType = USHORT;
+    m_PixelType = SCALAR;
+    m_ComponentType = USHORT;
     }
   this->SetNumberOfComponents(png_get_channels(png_ptr, info_ptr));
 
+  if (this->GetNumberOfComponents() == 3)
+    {
+    m_PixelType = RGB;
+    }
+  else if (this->GetNumberOfComponents() == 4)
+    {
+    m_PixelType = RGBA;
+    }
 
   // see if the PNG file stored spacing information,
   // ignore the units (for now).

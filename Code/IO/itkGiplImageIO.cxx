@@ -174,45 +174,6 @@ bool GiplImageIO::CanWriteFile( const char * name )
 }
 
 
-const std::type_info& GiplImageIO::GetPixelType() const
-{
-  switch(m_PixelType)
-    {
-    case SHORT:
-      return typeid(short);
-    case USHORT:
-      return typeid(unsigned short);
-    case CHAR:
-      return typeid(char);
-    case UCHAR:
-      return typeid(unsigned char);
-    default:
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("Pixel Type Unknown");
-      throw exception;
-    }
-}
-
-unsigned int GiplImageIO::GetComponentSize() const
-{
-  switch(m_PixelType)
-    {
-    case SHORT:
-      return sizeof(short);
-    case USHORT:
-      return sizeof(unsigned short);
-    case CHAR:
-      return sizeof(char);
-    case UCHAR:
-      return sizeof(unsigned char);
-    default:
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("Pixel Type Unknown");
-      throw exception;
-    }
-  return 1;
-}
- 
  
 void GiplImageIO::Read(void* buffer)
 {
@@ -307,17 +268,18 @@ void GiplImageIO::ReadImageInformation()
     }
 
 
+  m_PixelType = SCALAR;
   switch(image_type)
     {
-    case  GIPL_BINARY : m_ComponentType = UCHAR; m_PixelType = UCHAR;break;
-    case  GIPL_CHAR :  m_ComponentType = CHAR; m_PixelType = CHAR;break;
-    case  GIPL_U_CHAR :  m_ComponentType = UCHAR; m_PixelType = UCHAR;break;
-    case  GIPL_SHORT :  m_ComponentType = SHORT; m_PixelType = SHORT;break;
-    case  GIPL_U_SHORT :  m_ComponentType = USHORT; m_PixelType = USHORT;break;
-    case  GIPL_U_INT :  m_ComponentType = UINT; m_PixelType = UINT;break;
-    case  GIPL_INT :  m_ComponentType = INT; m_PixelType = INT;break;
-    case  GIPL_FLOAT :  m_ComponentType = FLOAT; m_PixelType = FLOAT;break;
-    case  GIPL_DOUBLE :  m_ComponentType = DOUBLE; m_PixelType = DOUBLE;break;
+    case  GIPL_BINARY : m_ComponentType = UCHAR; break;
+    case  GIPL_CHAR :  m_ComponentType = CHAR; break;
+    case  GIPL_U_CHAR :  m_ComponentType = UCHAR; break;
+    case  GIPL_SHORT :  m_ComponentType = SHORT; break;
+    case  GIPL_U_SHORT :  m_ComponentType = USHORT; break;
+    case  GIPL_U_INT :  m_ComponentType = UINT; break;
+    case  GIPL_INT :  m_ComponentType = INT; break;
+    case  GIPL_FLOAT :  m_ComponentType = FLOAT; break;
+    case  GIPL_DOUBLE :  m_ComponentType = DOUBLE; break;
     }
 
 
@@ -469,7 +431,7 @@ void
 GiplImageIO
 ::SwapBytesIfNecessary( void* buffer, unsigned long numberOfPixels )
 {
-  switch(m_PixelType)
+  switch(m_ComponentType)
     {
     case CHAR:
     {
@@ -602,7 +564,7 @@ GiplImageIO
 
 
   unsigned short   image_type;
-  switch(m_PixelType)
+  switch(m_ComponentType)
     {
     case  CHAR : image_type = GIPL_CHAR;break;
     case  UCHAR :  image_type = GIPL_U_CHAR;break;
@@ -613,7 +575,7 @@ GiplImageIO
     case  FLOAT :  image_type = GIPL_FLOAT;break;
     case  DOUBLE : image_type = GIPL_DOUBLE;break;
     default:
-      itkExceptionMacro ("Invalid type: " << m_PixelType );
+      itkExceptionMacro ("Invalid type: " << m_ComponentType );
     }
 
   if(m_ByteOrder == BigEndian)
@@ -772,7 +734,6 @@ GiplImageIO
 void GiplImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "PixelType " << m_PixelType << "\n";
 }
 
 

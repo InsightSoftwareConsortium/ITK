@@ -82,9 +82,13 @@ public:
   itkGetMacro(FileDimensionality, unsigned long);
   
   /** Get the type of the pixel.  */
-  virtual const std::type_info& GetPixelType() const
+  virtual const std::type_info& GetPixelTypeInfo() const
   {return typeid(PixelType);}
 
+  /** Get the component type of the pixel.  */
+  virtual const std::type_info& GetComponentTypeInfo() const
+  {return typeid(ComponentType);}
+  
   /** Compute the size (in bytes) of the components of a pixel. For
    * example, and RGB pixel of unsigned char would have a 
    * component size of 1 byte. */
