@@ -411,6 +411,17 @@ Neighborhood iterators in order to walk over an image.
 
 
 /**
+  \defgroup Optimizers Optimizers
+  \ingroup Numerics RegistrationComponents
+  \sa RegistrationComponents
+ 
+  Set of Optimization methods. Some of these methods are adaptors for 
+  classes already defined in the VNL library. These methods have been
+  particularly tailored to be used as modular components in the 
+  registration framework.
+ */
+
+/**
 \defgroup SystemObjects System Objects
 */
 
