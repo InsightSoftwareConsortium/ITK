@@ -71,35 +71,6 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
   
 }
 
-/**
- * Set the output image spacing.
- *
- */
-template <class TInputImage,class TOutputImage,class TDeformationField>
-void
-WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
-::SetOutputSpacing(
-  const SpacingType& spacing )
-{
-
-  unsigned int j; 
-  for ( j = 0; j < ImageDimension; j++)
-    {
-    if ( spacing[j] != m_OutputSpacing[j] )
-      {
-      break;
-      }
-    } 
-  if ( j < ImageDimension ) 
-    { 
-    this->Modified(); 
-    for ( j = 0; j < ImageDimension; j++)
-      {
-      m_OutputSpacing[j] = spacing[j];
-      }
-    } 
-
-}
 
 /**
  * Set the output image spacing.
@@ -111,24 +82,8 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
 ::SetOutputSpacing(
   const double spacing[ImageDimension] )
 {
-
-  unsigned int j; 
-  for ( j = 0; j < ImageDimension; j++)
-    {
-    if ( spacing[j] != m_OutputSpacing[j] )
-      {
-      break;
-      }
-    } 
-  if ( j < ImageDimension ) 
-    { 
-    this->Modified(); 
-    for ( j = 0; j < ImageDimension; j++)
-      {
-      m_OutputSpacing[j] = spacing[j];
-      }
-    } 
-
+  SpacingType s(spacing);
+  this->SetOutputSpacing( s );
 }
 
 
@@ -142,56 +97,11 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
 ::SetOutputOrigin(
   const double origin[ImageDimension] )
 {
-
-  unsigned int j; 
-  for ( j = 0; j < ImageDimension; j++)
-    {
-    if ( origin[j] != m_OutputOrigin[j] )
-      {
-      break;
-      }
-    } 
-  if ( j < ImageDimension ) 
-    { 
-    this->Modified(); 
-    for ( j = 0; j < ImageDimension; j++)
-      {
-      m_OutputOrigin[j] = origin[j];
-      }
-    } 
-
+  PointType p(origin);
+  this->SetOutputOrigin(p);
 }
 
 
-/**
- * Set the output image origin.
- *
- */
-template <class TInputImage,class TOutputImage,class TDeformationField>
-void
-WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
-::SetOutputOrigin(
-  const PointType& origin )
-{
-
-  unsigned int j; 
-  for ( j = 0; j < ImageDimension; j++)
-    {
-    if ( origin[j] != m_OutputOrigin[j] )
-      {
-      break;
-      }
-    } 
-  if ( j < ImageDimension ) 
-    { 
-    this->Modified(); 
-    for ( j = 0; j < ImageDimension; j++)
-      {
-      m_OutputOrigin[j] = origin[j];
-      }
-    } 
-
-}
 
 /**
  * Set deformation field as Inputs[1] for this ProcessObject.

@@ -143,20 +143,18 @@ public:
   itkGetObjectMacro( Interpolator, InterpolatorType );
 
   /** Set the output image spacing. */
-  virtual void SetOutputSpacing( const SpacingType& values );
+  itkSetMacro(OutputSpacing, SpacingType);
   virtual void SetOutputSpacing( const double values[ImageDimension] );
 
   /** Get the output image spacing. */
-  const SpacingType& GetOutputSpacing()
-  { return m_OutputSpacing; }
+  itkGetConstReferenceMacro(OutputSpacing, SpacingType);
 
   /** Set the output image origin. */
-  virtual void SetOutputOrigin( const PointType& values );
+  itkSetMacro(OutputOrigin, PointType);
   virtual void SetOutputOrigin( const double values[ImageDimension] );
 
   /** Get the output image origin. */
-  const PointType& GetOutputOrigin()
-  { return m_OutputSpacing; }
+  itkGetConstReferenceMacro(OutputOrigin, PointType);
 
   /** Set the edge padding value */
   itkSetMacro( EdgePaddingValue, PixelType );

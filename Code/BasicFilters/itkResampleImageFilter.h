@@ -150,14 +150,14 @@ public:
   itkGetMacro(DefaultPixelValue,PixelType);
 
   /** Set the output image spacing. */
-  virtual void SetOutputSpacing( const SpacingType& values );
+  itkSetMacro(OutputSpacing, SpacingType);
   virtual void SetOutputSpacing( const double values[ImageDimension] );
 
   /** Get the output image spacing. */
   itkGetConstReferenceMacro( OutputSpacing, SpacingType );
 
   /** Set the output image origin. */
-  virtual void SetOutputOrigin( const PointType& values );
+  itkSetMacro(OutputOrigin, PointType);
   virtual void SetOutputOrigin( const double values[ImageDimension] );
 
   /** Get the output image origin. */
