@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    $RCSfile: 
+  Module:    itkTranslationRegistrationTransform.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,7 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-
 #ifndef _itkTranslationRegistrationTransform_txx
 #define _itkTranslationRegistrationTransform_txx
 
@@ -27,20 +26,19 @@ namespace itk
 /**
  * Constructor
  */
-template <class TScalarType,unsigned int NDimensions>
-TranslationRegistrationTransform<TScalarType,NDimensions>
+template <class TScalarType,unsigned int NDimensions, class TParameters>
+TranslationRegistrationTransform<TScalarType,NDimensions,TParameters>
 ::TranslationRegistrationTransform()
 { 
-  m_Parameters = ParametersType::New();
-  m_Parameters->Reserve(ParametersDimension);
+
 }
 
 
 /**
  * Constructor
  */
-template <class TScalarType,unsigned int NDimensions>
-TranslationRegistrationTransform<TScalarType,NDimensions>
+template <class TScalarType,unsigned int NDimensions, class TParameters>
+TranslationRegistrationTransform<TScalarType,NDimensions,TParameters>
 ::TranslationRegistrationTransform( const Self & other )
 {
   m_TranslationTransform = other.m_TranslationTransform;
@@ -50,12 +48,12 @@ TranslationRegistrationTransform<TScalarType,NDimensions>
 /**
  * Assignment Operator
  */
-template <class TScalarType,unsigned int NDimensions>
-const TranslationRegistrationTransform<TScalarType,NDimensions> &
-TranslationRegistrationTransform<TScalarType,NDimensions>
+template <class TScalarType,unsigned int NDimensions, class TParameters>
+const TranslationRegistrationTransform<TScalarType,NDimensions,TParameters> &
+TranslationRegistrationTransform<TScalarType,NDimensions,TParameters>
 ::operator=( const Self & other )
 {
-  m_TranslationTransform = other.m_TranslationTransform;
+  m_TranslationTransformation = other.m_TranslationTransformation;
   return *this;
 }
 
@@ -63,56 +61,59 @@ TranslationRegistrationTransform<TScalarType,NDimensions>
 /**
  * Transform a Point
  */
-template <class TScalarType,unsigned int NDimensions>
-TranslationRegistrationTransform<TScalarType,NDimensions>::PointType
-TranslationRegistrationTransform<TScalarType,NDimensions>
-::Transform( PointType & point )
+template <class TScalarType,unsigned int NDimensions, class TParameters>
+TranslationRegistrationTransform<TScalarType,NDimensions,TParameters>::PointType
+TranslationRegistrationTransform<TScalarType,NDimensions,TParameters>
+::Transform( const PointType & point ) const
 {
   return m_TranslationTransform.Transform( point );
 }
 
 
+
 /**
  * Set the transformation parameters
  */
-template <class TScalarType,unsigned int NDimensions>
+template <class TScalarType,unsigned int NDimensions, class TParameters>
 void
-TranslationRegistrationTransform<TScalarType,NDimensions>
-::SetParameters(const ParametersPointer & parameters )
+TranslationRegistrationTransform<TScalarType,NDimensions,TParameters>
+::SetParameters(const ParametersType & parameters )
 {
-  if( parameters->Size() != m_Parameters->Size() )
-  {
-    throw ExceptionObject();
-  }
-  
-  // Copy Parameters Vector
-  ParametersType::ConstIterator it = parameters->Begin();
-  ParametersType::Iterator      ot = m_Parameters->Begin();
-  while( it != parameters->End() )
-  {
-    ot.Value() = it.Value();
-    ++it;
-    ++ot;
-  }
 
+  m_Parameters = parameters;
   
+  typename TranslationTransformType::VectorType  constant;
   
-  typename TranslationTransformType::VectorType constant;
-  
-  ParametersType::ConstIterator pit = m_Parameters->Begin();
-
   // Transfer the constant part
+  unsgined int par = 0;
   for(unsigned int i=0; i<NDimensions; i++) 
   {
-    constant[i] = pit.Value();
-    ++pit;
+    constant[i] = m_Parameters[par];
+    ++par;
   }
 
   m_TranslationTransform.SetOffset( constant );
 
 }
- 
+
+
+// Compute the Jacobian of the transformation
+// It follows the same order of Parameters vector 
+template<class ScalarType, unsigned int NDimensions, class TParameters>
+const TranslationRegistrationTransform<ScalarType, NDimensions,TParameters>::JacobianType &
+TranslationRegistrationTransform<ScalarType, NDimensions,TParameters>::
+GetJacobian( const PointType & p ) const
+{
+  
+  // The Jacobian of the Translation transform is an identity matrix
+  m_Jacobian.SetIdentity();
+  return m_Jacobian;
+
+}
+
+
 
 } // end namespace itk
 
 #endif
+
