@@ -31,7 +31,7 @@ using namespace itk;
 using namespace fem;
 
 //
-int itkFEMGenerateMeshTest()
+int itkFEMGenerateMeshTest(int, char*[])
 {
   // Generate2DRectilinearMesh(m_Element,mySolver,MeshOriginV,MeshSizeV,ElementsPerDim);
   // Generate3DRectilinearMesh(m_Element,mySolver,MeshOriginV,MeshSizeV,ElementsPerDim);
