@@ -83,34 +83,13 @@ public:
   itkGetConstObjectMacro( Function, FunctionType );
 
   /** Evaluate the function at a given position. */
-  virtual OutputType Evaluate( const InputType& point ) const
-    {
-    FunctionOutputType value = m_Function->Evaluate( point );
-    if ( m_LowerThreshold <= value && value <= m_UpperThreshold )
-      {
-      return true;
-      }
-    return false;
-    };
+  virtual OutputType Evaluate( const InputType& point ) const;
 
 protected:
 
-  BinaryThresholdSpatialFunction()
-    {
-    m_LowerThreshold = NumericTraits<FunctionOutputType>::NonpositiveMin();
-    m_UpperThreshold = NumericTraits<FunctionOutputType>::max();
-    m_Function = NULL;
-    };
-
-  ~BinaryThresholdSpatialFunction(){};
-
-  void PrintSelf(std::ostream& os, Indent indent) const
-    { 
-    Superclass::PrintSelf( os, indent );
-    os << indent << " m_LowerThreshold: " << m_LowerThreshold << std::endl;
-    os << indent << " m_UpperThreshold: " << m_UpperThreshold << std::endl;
-    os << indent << " m_Function: " << m_Function.GetPointer() << std::endl;
-    }
+  BinaryThresholdSpatialFunction();
+  ~BinaryThresholdSpatialFunction();
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   FunctionOutputType                m_LowerThreshold;
   FunctionOutputType                m_UpperThreshold;
@@ -123,5 +102,9 @@ private:
 };
 
 } // namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkBinaryThresholdSpatialFunction.txx"
+#endif
 
 #endif
