@@ -86,8 +86,8 @@ public:
   /** Get a vnl_vector with a copy of the internal memory block. */
   vnl_vector<T> Get_vnl_vector( void ) const;
 
-  /** Default constructor has nothing to do. */
-  Vector() {}
+  /** Default constructor and copy constructors. */
+  Vector(): BaseArray() { }
   Vector(const ValueType& r);
   
   /** Pass-through constructor for the Array base class. */
