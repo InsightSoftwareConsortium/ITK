@@ -23,11 +23,12 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 
-#define ITK_VERSION "0.0.1"
-#define ITK_MAJOR_VERSION 0
-#define ITK_MINOR_VERSION 0
-#define ITK_BUILD_VERSION 2
-#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.868 $, $Date: 2003-03-11 06:10:08 $ (GMT)"
+#define ITK_VERSION_TO_STRING(x) ITK_VERSION_TO_STRING0(x)
+#define ITK_VERSION_TO_STRING0(x) #x
+#define ITK_VERSION ITK_VERSION_TO_STRING(ITK_VERSION_MAJOR) \
+                    ITK_VERSION_TO_STRING(ITK_VERSION_MINOR) \
+                    ITK_VERSION_TO_STRING(ITK_VERSION_PATCH)
+#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.869 $, $Date: 2003-03-11 14:48:21 $ (GMT)"
 
 namespace itk
 {
@@ -62,9 +63,9 @@ public:
    * A variety of methods are included. GetITKSourceVersion returns a string
    * with an identifier which timestamps a particular source tree.  */
   static const char *GetITKVersion() { return ITK_VERSION; };
-  static int GetITKMajorVersion() { return ITK_MAJOR_VERSION; };
-  static int GetITKMinorVersion() { return ITK_MINOR_VERSION; };
-  static int GetITKBuildVersion() { return ITK_BUILD_VERSION; };
+  static int GetITKMajorVersion() { return ITK_VERSION_MAJOR; };
+  static int GetITKMinorVersion() { return ITK_VERSION_MINOR; };
+  static int GetITKBuildVersion() { return ITK_VERSION_PATCH; };
   static const char *GetITKSourceVersion() { return ITK_SOURCE_VERSION; };
     
 protected:
