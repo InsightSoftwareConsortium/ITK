@@ -180,7 +180,9 @@ public:
    * This sets the matrix to identity and the Offset to null. */
   void SetIdentity( void )
     { m_Matrix.SetIdentity();
-    m_Offset.Fill( 0.0 ); }
+      m_Offset.Fill( 0.0 );
+      this->Modified();  
+    }
 
   /** Get inverse matrix of an AffineTransform
    *
@@ -200,14 +202,14 @@ public:
    * value specified by the user.  The offset is ...?
    */
   void SetOffset(const OffsetType &offset)
-      { m_Offset = offset; return; }
+      { m_Offset = offset; this->Modified(); return; }
 
   /** Set matrix of an AffineTransform
    *
    * This method sets the matrix of an AffineTransform to a
    * value specified by the user. */
   void SetMatrix(const MatrixType &matrix)
-      { m_Matrix = matrix; RecomputeInverse(); return; }
+      { m_Matrix = matrix; RecomputeInverse(); this->Modified(); return; }
 
   /** Set the transformation from a container of parameters
    *

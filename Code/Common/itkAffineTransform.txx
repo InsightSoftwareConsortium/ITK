@@ -565,6 +565,8 @@ RecomputeInverse( void )
     {
     m_Singular = true;
     }
+
+  this->Modified();
   return;
 }
 
@@ -632,7 +634,7 @@ SetParameters( const ParametersType & parameters )
     ++par;
   }
 
-
+  this->Modified();
 }
 
 
