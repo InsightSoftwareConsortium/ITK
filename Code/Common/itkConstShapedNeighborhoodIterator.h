@@ -81,7 +81,7 @@ public:
   /** A const iterator for the ShapedNeighborhood classes.*/
   struct ConstIterator
   {
-    ConstIterator() { m_NeighborhoodIterator = 0; m_ListIterator = 0; }
+    ConstIterator() { m_NeighborhoodIterator = 0; }
     ConstIterator(Self *s)
     {
       m_NeighborhoodIterator = s;
@@ -276,13 +276,15 @@ public:
    * assigned region will produce undefined results. */
   Self &operator-=(const OffsetType &);
 
-  
+  // Should be protected, but Borland compiler will not allow it.  A workaround
+  // must be found.
+  Superclass::SetPixel;
 protected:
   friend struct ConstIterator;
   
   /** Class is protected here so that it is not publicly accessible, but can be
    * accessed by subclasses.. */
-  Superclass::SetPixel;
+  //  Superclass::SetPixel;
     
   /** Add/Remove a neighborhood index to/from the active.  Locations in the
       active list are the only accessible elements in the neighborhood. The
