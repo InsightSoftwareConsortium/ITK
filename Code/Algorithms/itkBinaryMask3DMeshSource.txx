@@ -1,17 +1,17 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBinaryMask3DMeshSource.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkBinaryMask3DMeshSource.txx
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) 2002 Insight Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even 
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef _itkBinaryMask3DMeshSource_txx
@@ -117,46 +117,48 @@ BinaryMask3DMeshSource<TOutputMesh>
   
   int i=0; 
 
-  while ( i < 3 ) {
-  nodeindex = x[i];
-  switch ( (int)nodeindex ) {
-  case 1:
-    break;
-  case 2:
-    x[i] = 4;
-    break;        
-  case 3:
-    break;
-  case 4:
-    x[i] = 2;
-    break;
-  case 5:
-    break;
-  case 6:
-    x[i] = 8;
-    break;
-  case 7:
-    break;
-  case 8:
-    x[i] = 6;
-    break;
-  case 9:
-    x[i] = 10;
-    break;
-  case 10:
-    x[i] = 9;
-    break;
-  case 11:
-    x[i] = 12;
-    break;
-  case 12:
-    x[i] = 11;
-    break;
-  case 13:
-    break;
-  }
-  i++;
-  }
+  while ( i < 3 )
+    {
+    nodeindex = x[i];
+    switch ( (int)nodeindex )
+      {
+      case 1:
+        break;
+      case 2:
+        x[i] = 4;
+        break;        
+      case 3:
+        break;
+      case 4:
+        x[i] = 2;
+        break;
+      case 5:
+        break;
+      case 6:
+        x[i] = 8;
+        break;
+      case 7:
+        break;
+      case 8:
+        x[i] = 6;
+        break;
+      case 9:
+        x[i] = 10;
+        break;
+      case 10:
+        x[i] = 9;
+        break;
+      case 11:
+        x[i] = 12;
+        break;
+      case 12:
+        x[i] = 11;
+        break;
+      case 13:
+        break;
+      }
+    i++;
+    }
 }
 
 template<class TOutputMesh>
@@ -168,46 +170,48 @@ BinaryMask3DMeshSource<TOutputMesh>
   
   int i=0; 
 
-  while ( i < 3 ) {
-  nodeindex = x[i];
-  switch ( (int)nodeindex ) {
-  case 1:
-    x[i] = 3;
-    break;
-  case 2:
-    break;        
-  case 3:
-    x[i] = 1;
-    break;
-  case 4:
-    break;
-  case 5:
-    x[i] = 7;
-    break;
-  case 6:
-    break;
-  case 7:
-    x[i] = 5;
-    break;
-  case 8:
-    break;
-  case 9:
-    x[i] = 12;
-    break;
-  case 10:
-    x[i] = 11;
-    break;
-  case 11:
-    x[i] = 10;
-    break;
-  case 12:
-    x[i] = 9;
-    break;
-  case 13:
-    break;
-  }
-  i++;
-  }
+  while ( i < 3 )
+    {
+    nodeindex = x[i];
+    switch ( (int)nodeindex )
+      {
+      case 1:
+        x[i] = 3;
+        break;
+      case 2:
+        break;        
+      case 3:
+        x[i] = 1;
+        break;
+      case 4:
+        break;
+      case 5:
+        x[i] = 7;
+        break;
+      case 6:
+        break;
+      case 7:
+        x[i] = 5;
+        break;
+      case 8:
+        break;
+      case 9:
+        x[i] = 12;
+        break;
+      case 10:
+        x[i] = 11;
+        break;
+      case 11:
+        x[i] = 10;
+        break;
+      case 12:
+        x[i] = 9;
+        break;
+      case 13:
+        break;
+      }
+    i++;
+    }
 }
 
 template<class TOutputMesh>
@@ -219,46 +223,48 @@ BinaryMask3DMeshSource<TOutputMesh>
   
   int i=0; 
 
-  while ( i < 3 ) {
-  nodeindex = x[i];
-  switch ( (int)nodeindex ) {
-  case 1:
-    x[i] = 5;
-    break;
-  case 2:
-    x[i] = 6;
-    break;        
-  case 3:
-    x[i] = 7;
-    break;
-  case 4:
-    x[i] = 8;
-    break;
-  case 5:
-    x[i] = 1;
-    break;
-  case 6:
-    x[i] = 2;
-    break;
-  case 7:
-    x[i] = 3;
-    break;
-  case 8:
-    x[i] = 4;
-    break;
-  case 9:
-    break;
-  case 10:
-    break;
-  case 11:
-    break;
-  case 12:
-    break;
-  case 13:
-    break;
-  }
-  i++;
-  }
+  while ( i < 3 )
+    {
+    nodeindex = x[i];
+    switch ( (int)nodeindex )
+      {
+      case 1:
+        x[i] = 5;
+        break;
+      case 2:
+        x[i] = 6;
+        break;        
+      case 3:
+        x[i] = 7;
+        break;
+      case 4:
+        x[i] = 8;
+        break;
+      case 5:
+        x[i] = 1;
+        break;
+      case 6:
+        x[i] = 2;
+        break;
+      case 7:
+        x[i] = 3;
+        break;
+      case 8:
+        x[i] = 4;
+        break;
+      case 9:
+        break;
+      case 10:
+        break;
+      case 11:
+        break;
+      case 12:
+        break;
+      case 13:
+        break;
+      }
+    i++;
+    }
 }
 
 template<class TOutputMesh>
@@ -270,50 +276,52 @@ BinaryMask3DMeshSource<TOutputMesh>
   
   int i=0; 
 
-  while ( i<3 ) {
-  nodeindex = x[i];
-  switch ( (int)nodeindex ) {
-  case 1:
-    x[i] = 4;
-    break;
-  case 2:
-    x[i] = 1;
-    break;        
-  case 3:
-    x[i] = 2;
-    break;
-  case 4:
-    x[i] = 3;
-    break;
-  case 5:
-    x[i] = 8;
-    break;
-  case 6:
-    x[i] = 5;
-    break;
-  case 7:
-    x[i] = 6;
-    break;
-  case 8:
-    x[i] = 7;
-    break;
-  case 9:
-    x[i] = 12;
-    break;
-  case 10:
-    x[i] = 9;
-    break;
-  case 11:
-    x[i] = 10;
-    break;
-  case 12:
-    x[i] = 11;
-    break;
-  case 13:
-    break;
-  }
-  i++;
-  }
+  while ( i<3 )
+    {
+    nodeindex = x[i];
+    switch ( (int)nodeindex )
+      {
+      case 1:
+        x[i] = 4;
+        break;
+      case 2:
+        x[i] = 1;
+        break;        
+      case 3:
+        x[i] = 2;
+        break;
+      case 4:
+        x[i] = 3;
+        break;
+      case 5:
+        x[i] = 8;
+        break;
+      case 6:
+        x[i] = 5;
+        break;
+      case 7:
+        x[i] = 6;
+        break;
+      case 8:
+        x[i] = 7;
+        break;
+      case 9:
+        x[i] = 12;
+        break;
+      case 10:
+        x[i] = 9;
+        break;
+      case 11:
+        x[i] = 10;
+        break;
+      case 12:
+        x[i] = 11;
+        break;
+      case 13:
+        break;
+      }
+    i++;
+    }
 }
 
 template<class TOutputMesh>
@@ -325,50 +333,52 @@ BinaryMask3DMeshSource<TOutputMesh>
   
   int i=0; 
 
-  while ( i<3 ) {
-  nodeindex = x[i];
-  switch ( (int)nodeindex ) {
-  case 1:
-    x[i] = 9;
-    break;
-  case 2:
-    x[i] = 4;
-    break;        
-  case 3:
-    x[i] = 12;
-    break;
-  case 4:
-    x[i] = 8;
-    break;
-  case 5:
-    x[i] = 10;
-    break;
-  case 6:
-    x[i] = 2;
-    break;
-  case 7:
-    x[i] = 11;
-    break;
-  case 8:
-    x[i] = 6;
-    break;
-  case 9:
-    x[i] = 5;
-    break;
-  case 10:
-    x[i] = 1;
-    break;
-  case 11:
-    x[i] = 3;
-    break;
-  case 12:
-    x[i] = 7;
-    break;
-  case 13:
-    break;
-  }
-  i++;
-  }
+  while ( i<3 )
+    {
+    nodeindex = x[i];
+    switch ( (int)nodeindex )
+      {
+      case 1:
+        x[i] = 9;
+        break;
+      case 2:
+        x[i] = 4;
+        break;        
+      case 3:
+        x[i] = 12;
+        break;
+      case 4:
+        x[i] = 8;
+        break;
+      case 5:
+        x[i] = 10;
+        break;
+      case 6:
+        x[i] = 2;
+        break;
+      case 7:
+        x[i] = 11;
+        break;
+      case 8:
+        x[i] = 6;
+        break;
+      case 9:
+        x[i] = 5;
+        break;
+      case 10:
+        x[i] = 1;
+        break;
+      case 11:
+        x[i] = 3;
+        break;
+      case 12:
+        x[i] = 7;
+        break;
+      case 13:
+        break;
+      }
+    i++;
+    }
 }
 
 template<class TOutputMesh>
@@ -380,50 +390,52 @@ BinaryMask3DMeshSource<TOutputMesh>
   
   int i=0; 
 
-  while ( i<3 ) {
-  nodeindex = x[i];
-  switch ( (int)nodeindex ) {
-  case 1:
-    x[i] = 3;
-    break;
-  case 2:
-    x[i] = 11;
-    break;        
-  case 3:
-    x[i] = 7;
-    break;
-  case 4:
-    x[i] = 12;
-    break;
-  case 5:
-    x[i] = 1;
-    break;
-  case 6:
-    x[i] = 10;
-    break;
-  case 7:
-    x[i] = 5;
-    break;
-  case 8:
-    x[i] = 9;
-    break;
-  case 9:
-    x[i] = 4;
-    break;
-  case 10:
-    x[i] = 2;
-    break;
-  case 11:
-    x[i] = 6;
-    break;
-  case 12:
-    x[i] = 8;
-    break;
-  case 13:
-    break;
-  }
-  i++;
-  }
+  while ( i<3 )
+    {
+    nodeindex = x[i];
+    switch ( (int)nodeindex )
+      {
+      case 1:
+        x[i] = 3;
+        break;
+      case 2:
+        x[i] = 11;
+        break;        
+      case 3:
+        x[i] = 7;
+        break;
+      case 4:
+        x[i] = 12;
+        break;
+      case 5:
+        x[i] = 1;
+        break;
+      case 6:
+        x[i] = 10;
+        break;
+      case 7:
+        x[i] = 5;
+        break;
+      case 8:
+        x[i] = 9;
+        break;
+      case 9:
+        x[i] = 4;
+        break;
+      case 10:
+        x[i] = 2;
+        break;
+      case 11:
+        x[i] = 6;
+        break;
+      case 12:
+        x[i] = 8;
+        break;
+      case 13:
+        break;
+      }
+    i++;
+    }
 }
 
 template<class TOutputMesh>
@@ -1022,19 +1034,21 @@ BinaryMask3DMeshSource<TOutputMesh>
   int i = 0;
   int j;
 
-  while ( i < frame ) {
-  ++it3;
-  ++it4;
-  i++;
-  }
+  while ( i < frame )
+    {
+    ++it3;
+    ++it4;
+    i++;
+    }
 
   i = 0;
 
-  while ( i < row ) {
-  ++it2;
-  ++it4;
-  i++;
-  }
+  while ( i < row )
+    {
+    ++it2;
+    ++it4;
+    i++;
+    }
 
   unsigned char vertexindex;
 
@@ -1100,11 +1114,14 @@ BinaryMask3DMeshSource<TOutputMesh>
 
     for ( j=0; j<14; j++ ) m_CurrentVoxel[j] = 0;
    
-    if ( ( vertexindex == 0 ) || (vertexindex == 255 ) ) {
+    if ( ( vertexindex == 0 ) || (vertexindex == 255 ) )
+      {
 //      for ( j=0; j<13; j++ ) m_LastVoxel[j] = 0;
-    } else {
-    this->AddCells( m_LUT[vertexindex][0], m_LUT[vertexindex][1], i );
-    }
+      }
+    else
+      {
+      this->AddCells( m_LUT[vertexindex][0], m_LUT[vertexindex][1], i );
+      }
     i++;    
     }
   
@@ -1119,26 +1136,32 @@ BinaryMask3DMeshSource<TOutputMesh>
   unsigned long **currentrowtmp;
   unsigned long **currentframetmp;
   currentrowtmp = ( unsigned long ** ) malloc( 4*sizeof(unsigned long *) );  
-  for ( i=0; i<4; i++ ) {
-  currentrowtmp[i] = ( unsigned long * ) malloc( 2*sizeof( unsigned long ) );
-  currentrowtmp[i][0] = 0;
-  currentrowtmp[i][1] = 0;
-  } 
+  for ( i=0; i<4; i++ )
+    {
+    currentrowtmp[i] = ( unsigned long * ) malloc( 2*sizeof( unsigned long ) );
+    currentrowtmp[i][0] = 0;
+    currentrowtmp[i][1] = 0;
+    } 
   currentframetmp = ( unsigned long ** ) malloc( 4*sizeof(unsigned long *) );  
-  for ( i=0; i<4; i++ ) {
-  currentframetmp[i] = ( unsigned long * ) malloc( 2*sizeof( unsigned long ) );
-  currentframetmp[i][0] = 0;
-  currentframetmp[i][1] = 0;
-  } 
+  for ( i=0; i<4; i++ )
+    {
+    currentframetmp[i] = ( unsigned long * ) malloc( 2*sizeof( unsigned long ) );
+    currentframetmp[i][0] = 0;
+    currentframetmp[i][1] = 0;
+    } 
 
-//  if (m_NumberOfCells > 1365)
-//    std::cout << "stop" << std::endl;
-
-  if ( (index % m_ImageWidth == 0) || (index > m_LastVoxelIndex + 1) ) {
-  m_ColFlag = 0; 
-  for (i=0; i<14; i++) m_LastVoxel[i] = 0;
-  }
-  else m_ColFlag = 1;
+  if ( (index % m_ImageWidth == 0) || (index > m_LastVoxelIndex + 1) )
+    {
+    m_ColFlag = 0; 
+    for (i=0; i<14; i++)
+      {
+      m_LastVoxel[i] = 0;
+      }
+    }
+  else
+    {
+    m_ColFlag = 1;
+    }
    
   if ( ((index % (m_ImageWidth*m_ImageHeight)) < m_ImageWidth) || 
        ((index /  m_ImageWidth) > m_LastRowIndex + 1) )
@@ -1161,49 +1184,83 @@ BinaryMask3DMeshSource<TOutputMesh>
     }
 
   /** allocate memory */
-  if ( m_RowFlag == 1 ) {
-  if ( (index / m_ImageWidth) != m_LastRowIndex ) {
-  if ( m_LastRowNum == 0 ) m_LastRow = ( unsigned long ** ) malloc( m_CurrentRowIndex*sizeof(unsigned long *) );
-  else m_LastRow = ( unsigned long ** ) realloc( m_LastRow, m_CurrentRowIndex*sizeof(unsigned long *) );  
-  for ( i=0; i<m_CurrentRowIndex; i++ ) {
-  if ( i > m_LastRowNum-1 ) m_LastRow[i] = ( unsigned long * ) malloc( 2*sizeof( unsigned long ) );
-  m_LastRow[i][0] = m_CurrentRow[i][0];
-  m_LastRow[i][1] = m_CurrentRow[i][1];
-  } 
-  m_LastRowNum = m_CurrentRowIndex;
-  m_CurrentRowIndex = 0;
-  }
-  } else {
-  if ( m_ColFlag == 0 ) {
-  if ( m_LastRowNum > 0 ) {
-  for ( i=0; i<m_LastRowNum; i++ ) free (m_LastRow[i]);
-  free (m_LastRow);
-  m_LastRow = NULL;
-  }
-  m_LastRowNum = 0;
-  }
-  } 
+  if ( m_RowFlag == 1 )
+    {
+    if ( (index / m_ImageWidth) != m_LastRowIndex )
+      {
+      if ( m_LastRowNum == 0 )
+        {
+        m_LastRow = ( unsigned long ** ) malloc( m_CurrentRowIndex*sizeof(unsigned long *) );
+        }
+      else
+        {
+        m_LastRow = ( unsigned long ** ) realloc( m_LastRow, m_CurrentRowIndex*sizeof(unsigned long *) );
+        }
+      for ( i=0; i<m_CurrentRowIndex; i++ )
+        {
+        if ( i > m_LastRowNum-1 )
+          {
+          m_LastRow[i] = (unsigned long *) malloc( 2*sizeof( unsigned long ) );
+          }
+        m_LastRow[i][0] = m_CurrentRow[i][0];
+        m_LastRow[i][1] = m_CurrentRow[i][1];
+        } 
+      m_LastRowNum = m_CurrentRowIndex;
+      m_CurrentRowIndex = 0;
+      }
+    }
+  else
+    {
+    if ( m_ColFlag == 0 )
+      {
+      if ( m_LastRowNum > 0 )
+        {
+        for ( i=0; i<m_LastRowNum; i++ )
+          {
+          free (m_LastRow[i]);
+          }
+        free (m_LastRow);
+        m_LastRow = NULL;
+        }
+      m_LastRowNum = 0;
+      }
+    } 
   
-  if ( m_FrameFlag == 1 ) {
-  if ( (index / (m_ImageWidth * m_ImageHeight)) != m_LastFrameIndex ) {
-  if ( m_LastFrameNum == 0 ) m_LastFrame = ( unsigned long ** ) malloc( m_CurrentFrameIndex*sizeof(unsigned long *) );
-  else m_LastFrame = ( unsigned long ** ) realloc( m_LastFrame, m_CurrentFrameIndex*sizeof(unsigned long *) );
-  for ( i=0; i<m_CurrentFrameIndex; i++ ) {
-  if ( i > m_LastFrameNum-1 ) m_LastFrame[i] = ( unsigned long * ) malloc( 2*sizeof( unsigned long ) ); 
-  m_LastFrame[i][0] = m_CurrentFrame[i][0];
-  m_LastFrame[i][1] = m_CurrentFrame[i][1];  
-  }
-  m_LastFrameNum = m_CurrentFrameIndex;
-  m_CurrentFrameIndex = 0;
-  }
-  } else {
-  if ( index % (m_ImageWidth * m_ImageHeight) == 0 ) {
-  for ( i=0; i<m_LastFrameNum; i++ ) 
-    free (m_LastFrame[i]);
-  free (m_LastFrame);
-  m_LastFrame = 0;
-  }
-  } 
+  if ( m_FrameFlag == 1 )
+    {
+    if ( (index / (m_ImageWidth * m_ImageHeight)) != m_LastFrameIndex )
+      {
+      if ( m_LastFrameNum == 0 )
+        {
+        m_LastFrame = ( unsigned long ** ) malloc( m_CurrentFrameIndex*sizeof(unsigned long *) );
+        }
+      else
+        {
+        m_LastFrame = ( unsigned long ** ) realloc( m_LastFrame, m_CurrentFrameIndex*sizeof(unsigned long *) );
+        }
+      for ( i=0; i<m_CurrentFrameIndex; i++ )
+        {
+        if ( i > m_LastFrameNum-1 )
+          {
+          m_LastFrame[i] = ( unsigned long * ) malloc( 2*sizeof( unsigned long ) );
+          }
+        m_LastFrame[i][0] = m_CurrentFrame[i][0];
+        m_LastFrame[i][1] = m_CurrentFrame[i][1];  
+        }
+      m_LastFrameNum = m_CurrentFrameIndex;
+      m_CurrentFrameIndex = 0;
+      }
+    }
+  else
+    {
+    if ( index % (m_ImageWidth * m_ImageHeight) == 0 )
+      {
+      for ( i=0; i<m_LastFrameNum; i++ ) 
+        free (m_LastFrame[i]);
+      free (m_LastFrame);
+      m_LastFrame = 0;
+      }
+    } 
 
   m_LastVoxelIndex = index;
   m_LastRowIndex = index / m_ImageWidth;  
@@ -1223,27 +1280,30 @@ BinaryMask3DMeshSource<TOutputMesh>
   m_AvailableNodes[12] = 0;
   m_AvailableNodes[13] = 1;
   
-  if ( m_ColFlag == 0 ) {
-  m_AvailableNodes[4] = 1;
-  m_AvailableNodes[8] = 1;
-  m_AvailableNodes[9] = 1;
-  m_AvailableNodes[12] = 1;
-  } 
+  if ( m_ColFlag == 0 )
+    {
+    m_AvailableNodes[4] = 1;
+    m_AvailableNodes[8] = 1;
+    m_AvailableNodes[9] = 1;
+    m_AvailableNodes[12] = 1;
+    } 
   
-  if ( m_RowFlag == 0 ) {
-  m_AvailableNodes[1] = 1;
-  m_AvailableNodes[5] = 1;
-  m_AvailableNodes[9] = 1;
-  m_AvailableNodes[10] = 1;
-  } 
+  if ( m_RowFlag == 0 )
+    {
+    m_AvailableNodes[1] = 1;
+    m_AvailableNodes[5] = 1;
+    m_AvailableNodes[9] = 1;
+    m_AvailableNodes[10] = 1;
+    } 
 
   
-  if ( m_FrameFlag == 0 ) {
-  m_AvailableNodes[1] = 1;
-  m_AvailableNodes[2] = 1;
-  m_AvailableNodes[3] = 1;
-  m_AvailableNodes[4] = 1;
-  } 
+  if ( m_FrameFlag == 0 )
+    {
+    m_AvailableNodes[1] = 1;
+    m_AvailableNodes[2] = 1;
+    m_AvailableNodes[3] = 1;
+    m_AvailableNodes[4] = 1;
+    } 
 
   typename TriCell::CellAutoPointer insertCell;
   unsigned long tripoints[3];
@@ -1253,953 +1313,959 @@ BinaryMask3DMeshSource<TOutputMesh>
   unsigned long *tpl;
   tpl = (unsigned long *) malloc( 3*sizeof( unsigned long ) );
 
-  switch ( (int) celltype ) {
-  case 1:
-    tp[0] = 1;
-    tp[1] = 9;
-    tp[2] = 4;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    break;
-  case 2:
-    tp[0] = 4;
-    tp[1] = 2;
-    tp[2] = 9;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 10;
-    tp[1] = 9;
-    tp[2] = 2;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    break;
-  case 3:
-    tp[0] = 1;
-    tp[1] = 9;
-    tp[2] = 4;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 2;
-    tp[1] = 3;
-    tp[2] = 11;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    break;
-  case 4:
-    tp[0] = 1;
-    tp[1] = 9;
-    tp[2] = 4;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 6;
-    tp[1] = 11;
-    tp[2] = 7;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    break;
-  case 5:
-    tp[0] = 1;
-    tp[1] = 2;
-    tp[2] = 13;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 1;
-    tp[1] = 13;
-    tp[2] = 9;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 9;
-    tp[1] = 13;
-    tp[2] = 8;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 13;
-    tp[1] = 2;
-    tp[2] = 6;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 13;
-    tp[1] = 6;
-    tp[2] = 8;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    break;
-  case 6:
-    tp[0] = 10;
-    tp[1] = 9;
-    tp[2] = 2;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 4;
-    tp[1] = 2;
-    tp[2] = 9;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 6;
-    tp[1] = 11;
-    tp[2] = 7;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    break;
-  case 7:
-    tp[0] = 1;
-    tp[1] = 2;
-    tp[2] = 10;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 6;
-    tp[1] = 11;
-    tp[2] = 7;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 3;
-    tp[1] = 4;
-    tp[2] = 12;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    break;
-  case 8:
-    tp[0] = 13;
-    tp[1] = 2;
-    tp[2] = 6;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 13;
-    tp[1] = 6;
-    tp[2] = 8;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 13;
-    tp[1] = 8;
-    tp[2] = 4;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 13;
-    tp[1] = 4;
-    tp[2] = 2;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    break;
-  case 9:
-    tp[0] = 1;
-    tp[1] = 10;
-    tp[2] = 13;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 10;
-    tp[1] = 6;
-    tp[2] = 13;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 6;
-    tp[1] = 7;
-    tp[2] = 13;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 7;
-    tp[1] = 12;
-    tp[2] = 13;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 12;
-    tp[1] = 4;
-    tp[2] = 13;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 1;
-    tp[1] = 13;
-    tp[2] = 4;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    break;
-  case 10:
-    tp[0] = 1;
-    tp[1] = 9;
-    tp[2] = 3;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 9;
-    tp[1] = 12;
-    tp[2] = 3;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 5;
-    tp[1] = 10;
-    tp[2] = 7;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 10;
-    tp[1] = 11;
-    tp[2] = 7;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    break;
-  case 11:
-    tp[0] = 1;
-    tp[1] = 10;
-    tp[2] = 13;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 13;
-    tp[1] = 10;
-    tp[2] = 11;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 7;
-    tp[1] = 13;
-    tp[2] = 11;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 7;
-    tp[1] = 8;
-    tp[2] = 13;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 13;
-    tp[1] = 8;
-    tp[2] = 4;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 1;
-    tp[1] = 13;
-    tp[2] = 4;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    break;
-  case 12:
-    tp[0] = 1;
-    tp[1] = 2;
-    tp[2] = 13;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 1;
-    tp[1] = 13;
-    tp[2] = 9;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 9;
-    tp[1] = 13;
-    tp[2] = 8;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 13;
-    tp[1] = 2;
-    tp[2] = 6;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 13;
-    tp[1] = 6;
-    tp[2] = 8;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 3;
-    tp[1] = 4;
-    tp[2] = 12;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    break;
-  case 13:
-    tp[0] = 1;
-    tp[1] = 9;
-    tp[2] = 4;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 5;
-    tp[1] = 10;
-    tp[2] = 6;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 2;
-    tp[1] = 3;
-    tp[2] = 11;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 8;
-    tp[1] = 7;
-    tp[2] = 12;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    break;
-  case 14:
-    tp[0] = 1;
-    tp[1] = 10;
-    tp[2] = 13;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 10;
-    tp[1] = 6;
-    tp[2] = 13;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 6;
-    tp[1] = 7;
-    tp[2] = 13;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 7;
-    tp[1] = 12;
-    tp[2] = 13;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 12;
-    tp[1] = 4;
-    tp[2] = 13;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 1;
-    tp[1] = 13;
-    tp[2] = 4;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 2;
-    tp[1] = 3;
-    tp[2] = 11;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    break;
-  case 15:
-    tp[0] = 1;
-    tp[1] = 10;
-    tp[2] = 13;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 2;
-    tp[1] = 13;
-    tp[2] = 10;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 2;
-    tp[1] = 3;
-    tp[2] = 13;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 3;
-    tp[1] = 12;
-    tp[2] = 13;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 4;
-    tp[1] = 13;
-    tp[2] = 12;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 1;
-    tp[1] = 13;
-    tp[2] = 4;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    break;
-  case 16:
-    tp[0] = 13;
-    tp[1] = 1;
-    tp[2] = 5;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 5;
-    tp[1] = 6;
-    tp[2] = 13;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 13;
-    tp[1] = 6;
-    tp[2] = 2;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 2;
-    tp[1] = 3;
-    tp[2] = 13;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 3;
-    tp[1] = 12;
-    tp[2] = 13;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 4;
-    tp[1] = 13;
-    tp[2] = 12;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    tp[0] = 1;
-    tp[1] = 13;
-    tp[2] = 4;
-    CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
-    tripoints[0] = tpl[0];
-    tripoints[1] = tpl[2];
-    tripoints[2] = tpl[1];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
-    this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
-    m_NumberOfCells++;
-    break; 
-  }
+  switch ( (int) celltype )
+    {
+    case 1:
+      tp[0] = 1;
+      tp[1] = 9;
+      tp[2] = 4;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      break;
+    case 2:
+      tp[0] = 4;
+      tp[1] = 2;
+      tp[2] = 9;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 10;
+      tp[1] = 9;
+      tp[2] = 2;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      break;
+    case 3:
+      tp[0] = 1;
+      tp[1] = 9;
+      tp[2] = 4;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 2;
+      tp[1] = 3;
+      tp[2] = 11;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      break;
+    case 4:
+      tp[0] = 1;
+      tp[1] = 9;
+      tp[2] = 4;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 6;
+      tp[1] = 11;
+      tp[2] = 7;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      break;
+    case 5:
+      tp[0] = 1;
+      tp[1] = 2;
+      tp[2] = 13;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 1;
+      tp[1] = 13;
+      tp[2] = 9;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 9;
+      tp[1] = 13;
+      tp[2] = 8;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 13;
+      tp[1] = 2;
+      tp[2] = 6;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 13;
+      tp[1] = 6;
+      tp[2] = 8;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      break;
+    case 6:
+      tp[0] = 10;
+      tp[1] = 9;
+      tp[2] = 2;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 4;
+      tp[1] = 2;
+      tp[2] = 9;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 6;
+      tp[1] = 11;
+      tp[2] = 7;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      break;
+    case 7:
+      tp[0] = 1;
+      tp[1] = 2;
+      tp[2] = 10;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 6;
+      tp[1] = 11;
+      tp[2] = 7;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 3;
+      tp[1] = 4;
+      tp[2] = 12;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      break;
+    case 8:
+      tp[0] = 13;
+      tp[1] = 2;
+      tp[2] = 6;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 13;
+      tp[1] = 6;
+      tp[2] = 8;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 13;
+      tp[1] = 8;
+      tp[2] = 4;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 13;
+      tp[1] = 4;
+      tp[2] = 2;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      break;
+    case 9:
+      tp[0] = 1;
+      tp[1] = 10;
+      tp[2] = 13;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 10;
+      tp[1] = 6;
+      tp[2] = 13;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 6;
+      tp[1] = 7;
+      tp[2] = 13;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 7;
+      tp[1] = 12;
+      tp[2] = 13;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 12;
+      tp[1] = 4;
+      tp[2] = 13;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 1;
+      tp[1] = 13;
+      tp[2] = 4;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      break;
+    case 10:
+      tp[0] = 1;
+      tp[1] = 9;
+      tp[2] = 3;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 9;
+      tp[1] = 12;
+      tp[2] = 3;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 5;
+      tp[1] = 10;
+      tp[2] = 7;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 10;
+      tp[1] = 11;
+      tp[2] = 7;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      break;
+    case 11:
+      tp[0] = 1;
+      tp[1] = 10;
+      tp[2] = 13;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 13;
+      tp[1] = 10;
+      tp[2] = 11;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 7;
+      tp[1] = 13;
+      tp[2] = 11;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 7;
+      tp[1] = 8;
+      tp[2] = 13;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 13;
+      tp[1] = 8;
+      tp[2] = 4;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 1;
+      tp[1] = 13;
+      tp[2] = 4;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      break;
+    case 12:
+      tp[0] = 1;
+      tp[1] = 2;
+      tp[2] = 13;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 1;
+      tp[1] = 13;
+      tp[2] = 9;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 9;
+      tp[1] = 13;
+      tp[2] = 8;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 13;
+      tp[1] = 2;
+      tp[2] = 6;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 13;
+      tp[1] = 6;
+      tp[2] = 8;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 3;
+      tp[1] = 4;
+      tp[2] = 12;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      break;
+    case 13:
+      tp[0] = 1;
+      tp[1] = 9;
+      tp[2] = 4;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 5;
+      tp[1] = 10;
+      tp[2] = 6;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 2;
+      tp[1] = 3;
+      tp[2] = 11;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 8;
+      tp[1] = 7;
+      tp[2] = 12;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      break;
+    case 14:
+      tp[0] = 1;
+      tp[1] = 10;
+      tp[2] = 13;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 10;
+      tp[1] = 6;
+      tp[2] = 13;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 6;
+      tp[1] = 7;
+      tp[2] = 13;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 7;
+      tp[1] = 12;
+      tp[2] = 13;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 12;
+      tp[1] = 4;
+      tp[2] = 13;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 1;
+      tp[1] = 13;
+      tp[2] = 4;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 2;
+      tp[1] = 3;
+      tp[2] = 11;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      break;
+    case 15:
+      tp[0] = 1;
+      tp[1] = 10;
+      tp[2] = 13;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 2;
+      tp[1] = 13;
+      tp[2] = 10;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 2;
+      tp[1] = 3;
+      tp[2] = 13;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 3;
+      tp[1] = 12;
+      tp[2] = 13;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 4;
+      tp[1] = 13;
+      tp[2] = 12;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 1;
+      tp[1] = 13;
+      tp[2] = 4;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      break;
+    case 16:
+      tp[0] = 13;
+      tp[1] = 1;
+      tp[2] = 5;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 5;
+      tp[1] = 6;
+      tp[2] = 13;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 13;
+      tp[1] = 6;
+      tp[2] = 2;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 2;
+      tp[1] = 3;
+      tp[2] = 13;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 3;
+      tp[1] = 12;
+      tp[2] = 13;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 4;
+      tp[1] = 13;
+      tp[2] = 12;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      tp[0] = 1;
+      tp[1] = 13;
+      tp[2] = 4;
+      CellTransfer( tp, celltran ); 
+      AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
+      tripoints[0] = tpl[0];
+      tripoints[1] = tpl[2];
+      tripoints[2] = tpl[1];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
+      this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
+      m_NumberOfCells++;
+      break; 
+    }
 
   i = 0;
   int j;
-  while (i < 4) {
-  if ( currentrowtmp[i][0] != 0 ) {
-  m_CurrentRow[m_CurrentRowIndex][1] = currentrowtmp[i][1];
-  m_CurrentRow[m_CurrentRowIndex++][0] = currentrowtmp[i][0]; 
-  if ( m_CurrentRowIndex == m_CurrentRowNum ) {
-  m_CurrentRowNum += 100;
-  m_CurrentRow = (unsigned long **) realloc(m_CurrentRow, sizeof(unsigned long *) * m_CurrentRowNum);
-  for ( j = m_CurrentRowIndex; j < m_CurrentRowNum; j++ ) m_CurrentRow[j] = (unsigned long *) malloc(sizeof(unsigned long) * 2);
-  }
-  }
+  while (i < 4)
+    {
+    if ( currentrowtmp[i][0] != 0 )
+      {
+      m_CurrentRow[m_CurrentRowIndex][1] = currentrowtmp[i][1];
+      m_CurrentRow[m_CurrentRowIndex++][0] = currentrowtmp[i][0]; 
+      if ( m_CurrentRowIndex == m_CurrentRowNum )
+        {
+        m_CurrentRowNum += 100;
+        m_CurrentRow = (unsigned long **) realloc(m_CurrentRow, sizeof(unsigned long *) * m_CurrentRowNum);
+        for ( j = m_CurrentRowIndex; j < m_CurrentRowNum; j++ ) m_CurrentRow[j] = (unsigned long *) malloc(sizeof(unsigned long) * 2);
+        }
+      }
 
 //    if ( (m_CurrentRowIndex > 2) && (m_CurrentRow[m_CurrentRowIndex-1][0] < m_CurrentRow[m_CurrentRowIndex-2][0]) )
 //      std::cout << "disorder" << std::endl;
 
-  if ( currentframetmp[i][0] != 0 ) {
-  m_CurrentFrame[m_CurrentFrameIndex][1] = currentframetmp[i][1];
-  m_CurrentFrame[m_CurrentFrameIndex++][0] = currentframetmp[i][0]; 
-  if ( m_CurrentFrameIndex == m_CurrentFrameNum ) {
-  m_CurrentFrameNum += 1000;
-  m_CurrentFrame = (unsigned long **) realloc(m_CurrentFrame, sizeof(unsigned long *) * m_CurrentFrameNum);
-  for ( j = m_CurrentFrameIndex; j < m_CurrentFrameNum; j++ ) m_CurrentFrame[j] = (unsigned long *) malloc(sizeof(unsigned long) * 2);
-  }
-  }
+    if ( currentframetmp[i][0] != 0 )
+      {
+      m_CurrentFrame[m_CurrentFrameIndex][1] = currentframetmp[i][1];
+      m_CurrentFrame[m_CurrentFrameIndex++][0] = currentframetmp[i][0]; 
+      if ( m_CurrentFrameIndex == m_CurrentFrameNum )
+        {
+        m_CurrentFrameNum += 1000;
+        m_CurrentFrame = (unsigned long **) realloc(m_CurrentFrame, sizeof(unsigned long *) * m_CurrentFrameNum);
+        for ( j = m_CurrentFrameIndex; j < m_CurrentFrameNum; j++ ) m_CurrentFrame[j] = (unsigned long *) malloc(sizeof(unsigned long) * 2);
+        }
+      }
 
-  i++;
-  }
+    i++;
+    }
  
   for ( i=0; i<4; i++ ) free (currentrowtmp[i]); 
   free (currentrowtmp);
@@ -2225,181 +2291,193 @@ BinaryMask3DMeshSource<TOutputMesh>
 //  unsigned long currentrowtmp[4][2] = {{0,0},{0,0},{0,0},{0,0}};
 //  unsigned long currentframetmp[4][2] = {{0,0},{0,0},{0,0},{0,0}};
 
-  for ( i=0; i<3; i++ ) {
-  m_PointFound = 0;
-  if ( m_AvailableNodes[nodesid[i]] != 0 ) {
-  m_PointFound = 1;
+  for ( i=0; i<3; i++ )
+    {
+    m_PointFound = 0;
+    if ( m_AvailableNodes[nodesid[i]] != 0 )
+      {
+      m_PointFound = 1;
 
-  new_p[0] = m_LocationOffset[nodesid[i]][0] + ( index % m_ImageWidth );
-  new_p[1] = m_LocationOffset[nodesid[i]][1] + ( (index % (m_ImageWidth*m_ImageHeight)) / m_ImageWidth );
-  new_p[2] = m_LocationOffset[nodesid[i]][2] + ( index / (m_ImageWidth*m_ImageHeight) );
-  this->GetOutput()->SetPoint( m_NumberOfNodes, new_p );
+      new_p[0] = m_LocationOffset[nodesid[i]][0] + ( index % m_ImageWidth );
+      new_p[1] = m_LocationOffset[nodesid[i]][1] + ( (index % (m_ImageWidth*m_ImageHeight)) / m_ImageWidth );
+      new_p[2] = m_LocationOffset[nodesid[i]][2] + ( index / (m_ImageWidth*m_ImageHeight) );
+      this->GetOutput()->SetPoint( m_NumberOfNodes, new_p );
 
-  switch ( nodesid[i] ) {
-  case 2:
-    m_CurrentVoxel[2] = m_NumberOfNodes;
-    break;
-  case 6:
-    m_CurrentVoxel[6] = m_NumberOfNodes;
-    currentframetmp[1][1] = m_NumberOfNodes;
-    currentframetmp[1][0] = (index%(m_ImageWidth*m_ImageHeight))*13+2;
+      switch ( nodesid[i] )
+        {
+        case 2:
+          m_CurrentVoxel[2] = m_NumberOfNodes;
+          break;
+        case 6:
+          m_CurrentVoxel[6] = m_NumberOfNodes;
+          currentframetmp[1][1] = m_NumberOfNodes;
+          currentframetmp[1][0] = (index%(m_ImageWidth*m_ImageHeight))*13+2;
 //        m_CurrentFrame[m_CurrentFrameIndex][0] = (index%(m_ImageWidth*m_ImageHeight))*13+2;  
 //        m_CurrentFrame[m_CurrentFrameIndex++][1] = m_NumberOfNodes;
-    break;
-  case 10:
-    m_CurrentVoxel[10] = m_NumberOfNodes;
-    break;
-  case 11:
-    m_CurrentVoxel[11] = m_NumberOfNodes;
-    currentrowtmp[3][1] = m_NumberOfNodes;
-    currentrowtmp[3][0] = (index%m_ImageWidth)*13+10;
+          break;
+        case 10:
+          m_CurrentVoxel[10] = m_NumberOfNodes;
+          break;
+        case 11:
+          m_CurrentVoxel[11] = m_NumberOfNodes;
+          currentrowtmp[3][1] = m_NumberOfNodes;
+          currentrowtmp[3][0] = (index%m_ImageWidth)*13+10;
 //        m_CurrentRow[m_CurrentRowIndex][1] = m_NumberOfNodes;
 //        m_CurrentRow[m_CurrentRowIndex++][0] = (index%m_ImageWidth)*13+10;
-    break;
-  case 3:
-    currentrowtmp[0][1] = m_NumberOfNodes;
-    currentrowtmp[0][0] = (index%m_ImageWidth)*13+1;
+          break;
+        case 3:
+          currentrowtmp[0][1] = m_NumberOfNodes;
+          currentrowtmp[0][0] = (index%m_ImageWidth)*13+1;
 //        m_CurrentRow[m_CurrentRowIndex][1] = m_NumberOfNodes;
 //        m_CurrentRow[m_CurrentRowIndex++][0] = (index%m_ImageWidth)*13+1;
-    break;
-  case 7:
-    currentrowtmp[1][1] = m_NumberOfNodes;
-    currentrowtmp[1][0] = (index%m_ImageWidth)*13+5;
-    currentframetmp[2][1] = m_NumberOfNodes;
-    currentframetmp[2][0] = (index%(m_ImageWidth*m_ImageHeight))*13+3;
+          break;
+        case 7:
+          currentrowtmp[1][1] = m_NumberOfNodes;
+          currentrowtmp[1][0] = (index%m_ImageWidth)*13+5;
+          currentframetmp[2][1] = m_NumberOfNodes;
+          currentframetmp[2][0] = (index%(m_ImageWidth*m_ImageHeight))*13+3;
 //        m_CurrentRow[m_CurrentRowIndex][0] = (index%m_ImageWidth)*13+5;
 //        m_CurrentRow[m_CurrentRowIndex++][1] = m_NumberOfNodes;
 //        m_CurrentFrame[m_CurrentFrameIndex][0] = (index%(m_ImageWidth*m_ImageHeight))*13+3;
 //        m_CurrentFrame[m_CurrentFrameIndex++][1] = m_NumberOfNodes;
-    break;
-  case 12:
-    currentrowtmp[2][1] = m_NumberOfNodes;
-    currentrowtmp[2][0] = (index%m_ImageWidth)*13+9;
+          break;
+        case 12:
+          currentrowtmp[2][1] = m_NumberOfNodes;
+          currentrowtmp[2][0] = (index%m_ImageWidth)*13+9;
 //        m_CurrentRow[m_CurrentRowIndex][0] = (index%m_ImageWidth)*13+9;
 //        m_CurrentRow[m_CurrentRowIndex++][1] = m_NumberOfNodes;
-    break;
-  case 5:
-    currentframetmp[0][1] = m_NumberOfNodes;
-    currentframetmp[0][0] = (index%(m_ImageWidth*m_ImageHeight))*13+1;
+          break;
+        case 5:
+          currentframetmp[0][1] = m_NumberOfNodes;
+          currentframetmp[0][0] = (index%(m_ImageWidth*m_ImageHeight))*13+1;
 //        m_CurrentFrame[m_CurrentFrameIndex][0] = (index%(m_ImageWidth*m_ImageHeight))*13+1;
 //        m_CurrentFrame[m_CurrentFrameIndex++][1] = m_NumberOfNodes;
-    break;
-  case 8:
-    currentframetmp[3][1] = m_NumberOfNodes;
-    currentframetmp[3][0] = (index%(m_ImageWidth*m_ImageHeight))*13+4;
+          break;
+        case 8:
+          currentframetmp[3][1] = m_NumberOfNodes;
+          currentframetmp[3][0] = (index%(m_ImageWidth*m_ImageHeight))*13+4;
 //        m_CurrentFrame[m_CurrentFrameIndex][0] = (index%(m_ImageWidth*m_ImageHeight))*13+4;
 //        m_CurrentFrame[m_CurrentFrameIndex++][1] = m_NumberOfNodes;
-    break;
-  case 1:
-    m_CurrentVoxel[1] = m_NumberOfNodes;
-    break;
-  case 4:
-    m_CurrentVoxel[4] = m_NumberOfNodes;
-    break;
-  case 9:
-    m_CurrentVoxel[9] = m_NumberOfNodes;
-    break;
-  case 13:
-    m_CurrentVoxel[13] = m_NumberOfNodes;
-    break;
-  }
+          break;
+        case 1:
+          m_CurrentVoxel[1] = m_NumberOfNodes;
+          break;
+        case 4:
+          m_CurrentVoxel[4] = m_NumberOfNodes;
+          break;
+        case 9:
+          m_CurrentVoxel[9] = m_NumberOfNodes;
+          break;
+        case 13:
+          m_CurrentVoxel[13] = m_NumberOfNodes;
+          break;
+        }
 
 //      if ( (m_CurrentRowIndex > 1) && (m_CurrentRow[m_CurrentRowIndex][0] < m_CurrentRow[m_CurrentRowIndex-1][0]) )
 //      std::cout << "disorder" << std::endl;
 /*
-      if ( m_CurrentRowIndex == m_CurrentRowNum ) {
-        m_CurrentRowNum += 100;
-        m_CurrentRow = (unsigned long **) realloc(m_CurrentRow, sizeof(unsigned long *) * m_CurrentRowNum);
-        for ( j = m_CurrentRowIndex; j < m_CurrentRowNum; j++ ) m_CurrentRow[j] = (unsigned long *) malloc(sizeof(unsigned long) * 2);
-      }
+  if ( m_CurrentRowIndex == m_CurrentRowNum ) {
+  m_CurrentRowNum += 100;
+  m_CurrentRow = (unsigned long **) realloc(m_CurrentRow, sizeof(unsigned long *) * m_CurrentRowNum);
+  for ( j = m_CurrentRowIndex; j < m_CurrentRowNum; j++ ) m_CurrentRow[j] = (unsigned long *) malloc(sizeof(unsigned long) * 2);
+  }
 
-      if ( m_CurrentFrameIndex == m_CurrentFrameNum ) {
-        m_CurrentFrameNum += 1000;
-        m_CurrentFrame = (unsigned long **) realloc(m_CurrentFrame, sizeof(unsigned long *) * m_CurrentFrameNum);
-        for ( j = m_CurrentFrameIndex; j < m_CurrentFrameNum; j++ ) m_CurrentFrame[j] = (unsigned long *) malloc(sizeof(unsigned long) * 2);
-      }
+  if ( m_CurrentFrameIndex == m_CurrentFrameNum ) {
+  m_CurrentFrameNum += 1000;
+  m_CurrentFrame = (unsigned long **) realloc(m_CurrentFrame, sizeof(unsigned long *) * m_CurrentFrameNum);
+  for ( j = m_CurrentFrameIndex; j < m_CurrentFrameNum; j++ ) m_CurrentFrame[j] = (unsigned long *) malloc(sizeof(unsigned long) * 2);
+  }
 */
-  globalnodesid[i] = m_NumberOfNodes;
-  m_AvailableNodes[ nodesid[i] ] = 0;
-  m_CurrentVoxel[ nodesid[i] ] = m_NumberOfNodes;
-  m_NumberOfNodes++;
+      globalnodesid[i] = m_NumberOfNodes;
+      m_AvailableNodes[ nodesid[i] ] = 0;
+      m_CurrentVoxel[ nodesid[i] ] = m_NumberOfNodes;
+      m_NumberOfNodes++;
 /*
-      if ( m_NumberOfNodes == m_NodeLimit ) {
-        m_NodeLimit += 1000;
-        this->GetOutput()->GetPoints()->Reserve(m_NodeLimit);
-      } 
+  if ( m_NumberOfNodes == m_NodeLimit ) {
+  m_NodeLimit += 1000;
+  this->GetOutput()->GetPoints()->Reserve(m_NodeLimit);
+  } 
 */
-  } else {
-  if ( m_CurrentVoxel[ nodesid[i] ] != 0 ) {
-  globalnodesid[i] = m_CurrentVoxel[ nodesid[i] ];
-  m_PointFound = 1;
+      }
+    else
+      {
+      if ( m_CurrentVoxel[ nodesid[i] ] != 0 )
+        {
+        globalnodesid[i] = m_CurrentVoxel[ nodesid[i] ];
+        m_PointFound = 1;
 
-  continue;
-  }
-  if ( m_LastVoxel[ nodesid[i] ] != 0 ) {
-  globalnodesid[i] = m_LastVoxel[ nodesid[i] ];
-  m_PointFound = 1;
+        continue;
+        }
+      if ( m_LastVoxel[ nodesid[i] ] != 0 )
+        {
+        globalnodesid[i] = m_LastVoxel[ nodesid[i] ];
+        m_PointFound = 1;
 
-  continue;
-  }
-  if ( (m_LastRowNum != 0) && ( (nodesid[i] == 1) || (nodesid[i] == 5) || (nodesid[i] == 9) || (nodesid[i] == 10) ) ) {
+        continue;
+        }
+      if ( (m_LastRowNum != 0) && ( (nodesid[i] == 1) || (nodesid[i] == 5) || (nodesid[i] == 9) || (nodesid[i] == 10) ) )
+        {
 
-  globalnodesid[i] = this->SearchThroughLastRow((index % m_ImageWidth)*13+nodesid[i], 0, m_LastRowNum-1);
-  if ( m_PointFound != 0 ) continue;
-  else {
-  if (nodesid[i] == 9) globalnodesid[i] = this->SearchThroughLastRow((index % m_ImageWidth)*13-3, 0, m_LastRowNum-1);
-  if (nodesid[i] == 10) globalnodesid[i] = this->SearchThroughLastRow((index % m_ImageWidth)*13+22, 0, m_LastRowNum-1);
-  if ( m_PointFound != 0 ) continue;
-  }
-  }
-  if ( (m_LastFrameNum != 0) && ( (nodesid[i] == 1) || (nodesid[i] == 2) || (nodesid[i] == 3) || (nodesid[i] == 4) ) ) {
+        globalnodesid[i] = this->SearchThroughLastRow((index % m_ImageWidth)*13+nodesid[i], 0, m_LastRowNum-1);
+        if ( m_PointFound != 0 ) continue;
+        else
+          {
+          if (nodesid[i] == 9) globalnodesid[i] = this->SearchThroughLastRow((index % m_ImageWidth)*13-3, 0, m_LastRowNum-1);
+          if (nodesid[i] == 10) globalnodesid[i] = this->SearchThroughLastRow((index % m_ImageWidth)*13+22, 0, m_LastRowNum-1);
+          if ( m_PointFound != 0 ) continue;
+          }
+        }
+      if ( (m_LastFrameNum != 0) && ( (nodesid[i] == 1) || (nodesid[i] == 2) || (nodesid[i] == 3) || (nodesid[i] == 4) ) )
+        {
 
-  globalnodesid[i] = this->SearchThroughLastFrame((index % (m_ImageWidth*m_ImageHeight))*13+nodesid[i], 0, m_LastFrameNum-1);
-  if ( m_PointFound != 0 ) continue;
-  else {
-  if (nodesid[i] == 4) globalnodesid[i] = this->SearchThroughLastFrame((index % (m_ImageWidth*m_ImageHeight))*13-11, 0, m_LastFrameNum-1);
-  if (nodesid[i] == 1) globalnodesid[i] = this->SearchThroughLastFrame((index % (m_ImageWidth*m_ImageHeight) - m_ImageWidth)*13+3, 0, m_LastFrameNum-1);
-  if ( m_PointFound != 0 ) continue;
-  }
-  }
-  }
+        globalnodesid[i] = this->SearchThroughLastFrame((index % (m_ImageWidth*m_ImageHeight))*13+nodesid[i], 0, m_LastFrameNum-1);
+        if ( m_PointFound != 0 ) continue;
+        else
+          {
+          if (nodesid[i] == 4) globalnodesid[i] = this->SearchThroughLastFrame((index % (m_ImageWidth*m_ImageHeight))*13-11, 0, m_LastFrameNum-1);
+          if (nodesid[i] == 1) globalnodesid[i] = this->SearchThroughLastFrame((index % (m_ImageWidth*m_ImageHeight) - m_ImageWidth)*13+3, 0, m_LastFrameNum-1);
+          if ( m_PointFound != 0 ) continue;
+          }
+        }
+      }
 
-  if (m_PointFound == 0) {
-  m_AvailableNodes[nodesid[i]] = 1;
-  i--;
-  }
-  }
+    if (m_PointFound == 0)
+      {
+      m_AvailableNodes[nodesid[i]] = 1;
+      i--;
+      }
+    }
 
 //  if ((globalnodesid[0] > 10000) || (globalnodesid[1] > 10000) || (globalnodesid[2] > 10000))
 //    std::cout << " abnormal " << std::endl;
 /*
   i = 0;
   while (i < 4) {
-    if ( currentrowtmp[i][0] != 0 ) {
-      m_CurrentRow[m_CurrentRowIndex][1] = currentrowtmp[i][1];
-      m_CurrentRow[m_CurrentRowIndex++][0] = currentrowtmp[i][0]; 
-      if ( m_CurrentRowIndex == m_CurrentRowNum ) {
-        m_CurrentRowNum += 100;
-        m_CurrentRow = (unsigned long **) realloc(m_CurrentRow, sizeof(unsigned long *) * m_CurrentRowNum);
-        for ( j = m_CurrentRowIndex; j < m_CurrentRowNum; j++ ) m_CurrentRow[j] = (unsigned long *) malloc(sizeof(unsigned long) * 2);
-      }
-    }
+  if ( currentrowtmp[i][0] != 0 ) {
+  m_CurrentRow[m_CurrentRowIndex][1] = currentrowtmp[i][1];
+  m_CurrentRow[m_CurrentRowIndex++][0] = currentrowtmp[i][0]; 
+  if ( m_CurrentRowIndex == m_CurrentRowNum ) {
+  m_CurrentRowNum += 100;
+  m_CurrentRow = (unsigned long **) realloc(m_CurrentRow, sizeof(unsigned long *) * m_CurrentRowNum);
+  for ( j = m_CurrentRowIndex; j < m_CurrentRowNum; j++ ) m_CurrentRow[j] = (unsigned long *) malloc(sizeof(unsigned long) * 2);
+  }
+  }
 
 //    if ( (m_CurrentRowIndex > 2) && (m_CurrentRow[m_CurrentRowIndex-1][0] < m_CurrentRow[m_CurrentRowIndex-2][0]) )
 //      std::cout << "disorder" << std::endl;
 
-    if ( currentframetmp[i][0] != 0 ) {
-      m_CurrentFrame[m_CurrentFrameIndex][1] = currentframetmp[i][1];
-      m_CurrentFrame[m_CurrentFrameIndex++][0] = currentframetmp[i][0]; 
-      if ( m_CurrentFrameIndex == m_CurrentFrameNum ) {
-        m_CurrentFrameNum += 1000;
-        m_CurrentFrame = (unsigned long **) realloc(m_CurrentFrame, sizeof(unsigned long *) * m_CurrentFrameNum);
-        for ( j = m_CurrentFrameIndex; j < m_CurrentFrameNum; j++ ) m_CurrentFrame[j] = (unsigned long *) malloc(sizeof(unsigned long) * 2);
-      }
-    }
+if ( currentframetmp[i][0] != 0 ) {
+m_CurrentFrame[m_CurrentFrameIndex][1] = currentframetmp[i][1];
+m_CurrentFrame[m_CurrentFrameIndex++][0] = currentframetmp[i][0]; 
+if ( m_CurrentFrameIndex == m_CurrentFrameNum ) {
+m_CurrentFrameNum += 1000;
+m_CurrentFrame = (unsigned long **) realloc(m_CurrentFrame, sizeof(unsigned long *) * m_CurrentFrameNum);
+for ( j = m_CurrentFrameIndex; j < m_CurrentFrameNum; j++ ) m_CurrentFrame[j] = (unsigned long *) malloc(sizeof(unsigned long) * 2);
+}
+}
 
-    i++;
-  }
+i++;
+}
 */
 }
 
@@ -2408,21 +2486,24 @@ void
 BinaryMask3DMeshSource<TOutputMesh>
 ::CellTransfer( unsigned char *nodesid, unsigned char celltran )
 {
-  if ( (celltran & 1) != 0 ) {
-  this->ZFlip(nodesid);
-  if ( celltran > 64 ) celltran -= 64;
-  else celltran += 64;
-  }
-  if ( (celltran & 2) != 0 ) {
-  this->YFlip(nodesid);
-  if ( celltran > 64 ) celltran -= 64;
-  else celltran += 64;
-  }
-  if ( (celltran & 4) != 0 ) {
-  this->XFlip(nodesid);
-  if ( celltran > 64 ) celltran -= 64;
-  else celltran += 64;
-  }
+  if ( (celltran & 1) != 0 )
+    {
+    this->ZFlip(nodesid);
+    if ( celltran > 64 ) celltran -= 64;
+    else celltran += 64;
+    }
+  if ( (celltran & 2) != 0 )
+    {
+    this->YFlip(nodesid);
+    if ( celltran > 64 ) celltran -= 64;
+    else celltran += 64;
+    }
+  if ( (celltran & 4) != 0 )
+    {
+    this->XFlip(nodesid);
+    if ( celltran > 64 ) celltran -= 64;
+    else celltran += 64;
+    }
   if ( (celltran & 8) != 0 ) this->ZRotation(nodesid);
   if ( (celltran & 16) != 0 ) this->YRotation(nodesid);
   if ( (celltran & 32) != 0 ) this->XRotation(nodesid);
