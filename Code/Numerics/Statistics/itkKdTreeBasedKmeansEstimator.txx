@@ -28,6 +28,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
 ::KdTreeBasedKmeansEstimator()
 {
   m_CenteroidPositionChangesThreshold = 0.0 ;
+  m_KdTree = 0 ;
   m_UseClusterLabels = false ;
 }
 

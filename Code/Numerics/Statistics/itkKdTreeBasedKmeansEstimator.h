@@ -69,8 +69,6 @@ public:
   itkTypeMacro(KdTreeBasedKmeansEstimator, Obeject);
  
   /** Types for the KdTree data structure */
-  typedef TKdTree KdTreeType ;
-  typedef typename TKdTree::Pointer KdTreePointer ;
   typedef typename TKdTree::KdTreeNodeType KdTreeNodeType ;
   typedef typename TKdTree::MeasurementType MeasurementType ;
   typedef typename TKdTree::MeasurementVectorType MeasurementVectorType ;
@@ -104,8 +102,13 @@ public:
   itkGetConstMacro( CenteroidPositionChangesThreshold, double );   
   
   /** Set/Get the pointer to the KdTree */
-  itkSetMacro( KdTree, KdTreePointer );   
-  itkGetConstMacro( KdTree, KdTreePointer );   
+  void SetKdTree(TKdTree* tree) 
+  { 
+    std::cout << "DEBUG: tree = " << tree << std::endl ;
+    m_KdTree = tree ; }
+
+  TKdTree* GetKdTree() 
+  { return m_KdTree ; }
 
   itkGetConstMacro( CurrentIteration, int) ;
   itkGetConstMacro( CenteroidPositionChanges, double) ;
@@ -272,7 +275,7 @@ private:
    * termination criterion */
   double m_CenteroidPositionChangesThreshold ;
   /** pointer to the k-d tree */
-  KdTreePointer m_KdTree ;
+  TKdTree* m_KdTree ;
   /** pointer to the euclidean distance funtion */
   typename EuclideanDistance< ParameterType >::Pointer m_DistanceMetric ;
 
