@@ -200,7 +200,7 @@ itkObject
 // Get the value of the debug flag.
 bool 
 itkObject
-::GetDebug()
+::GetDebug() const
 {
   return m_Debug;
 }
