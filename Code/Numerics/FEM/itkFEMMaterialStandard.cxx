@@ -53,7 +53,9 @@ std::string::size_type b,e;
    * a system. This makes creating input files a bit easier.
    */
   while(f) {
+#ifndef __sgi
     l=f.tellg();            // remember the stream position
+#endif
     SkipWhiteSpace(f);      // skip comments and whitespaces
 
     /**
@@ -114,9 +116,10 @@ std::string::size_type b,e;
      * If we got here an unknown constant was reached.
      * We reset the stream position and set the stream error.
      */
+#ifdef __sgi
     f.seekg(l);
     f.clear(std::ios::failbit);
-
+#endif
   }
 
 out:
