@@ -103,7 +103,6 @@ CumulativeGaussianOptimizer
   extendedArrayCopy->resize(extendedArraySize);
 
   double averageSumOfSquaredDifferences = m_DifferenceTolerance;
-  double temp = 0;
   
   extendedArray = ExtendGaussian(sampledGaussianArray, extendedArray, sampledGaussianArraySize);
   
@@ -121,7 +120,7 @@ CumulativeGaussianOptimizer
     if(m_Verbose) 
       PrintComputedParameters();
     
-    temp = averageSumOfSquaredDifferences;
+    double temp = averageSumOfSquaredDifferences;
     averageSumOfSquaredDifferences = FindAverageSumOfSquaredDifferences(extendedArray, extendedArrayCopy);
 
     // Stop if there is a very very very small change between iterations.
@@ -227,7 +226,7 @@ CumulativeGaussianOptimizer
   // Declare arrays.
   int cumGaussianArraySize = m_CumulativeGaussianArray->GetNumberOfElements();
   int sampledGaussianArraySize = cumGaussianArraySize;
-  int cumGaussianArrayCopySize = cumGaussianArraySize;
+//  int cumGaussianArrayCopySize = cumGaussianArraySize;
   
   MeasureType * sampledGaussianArray = new MeasureType();
   sampledGaussianArray->resize(sampledGaussianArraySize);
