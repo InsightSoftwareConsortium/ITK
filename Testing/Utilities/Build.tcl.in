@@ -79,7 +79,8 @@ set BufferLength 5
 set ErrorMatches [list \
 		  {([^ :]+):([0-9]+): } \
 		  {^cc[^C]*CC: ERROR File = ([^,]+), Line = ([0-9]+)} \
-		  {([^ :]+) : (error|fatal error)}
+		  {([^ :]+) : (error|fatal error)} \
+		  {([^:]+)\(([^\)]+)\) : (error|fatal error)}
 		 ]
 set ErrorExceptions [list "instantiated from "]
 
