@@ -121,9 +121,6 @@ public:
   /** ValueType of the input binary image */
   typedef typename TInputImage::ValueType  BinaryValueType;
   
-  /** SmartPointer to the input image  */
-  typedef typename TInputImage::ConstPointer  InputImagePointer;
-  
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -166,7 +163,7 @@ private:
   BinaryValueType m_UpperBinaryValue;
   BinaryValueType m_LowerBinaryValue;
   typename CurvatureFunctionType::Pointer m_CurvatureFunction;
-  InputImagePointer  m_InputImage;
+  const TInputImage *  m_InputImage;
   
 };
 

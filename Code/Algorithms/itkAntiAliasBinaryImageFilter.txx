@@ -60,6 +60,7 @@ template <class TInputImage, class TOutputImage>
 AntiAliasBinaryImageFilter<TInputImage, TOutputImage>
 ::AntiAliasBinaryImageFilter()
 {
+  m_InputImage = NULL;
   m_CurvatureFunction = CurvatureFunctionType::New();
   this->SetDifferenceFunction(m_CurvatureFunction);
 
