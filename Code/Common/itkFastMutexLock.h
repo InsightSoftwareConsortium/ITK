@@ -19,6 +19,18 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 
+#ifdef ITK_USE_SPROC
+#include <abi_mutex.h>
+#endif
+
+#ifdef ITK_USE_PTHREADS
+#include <pthread.h>
+#endif
+ 
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
+#include <winbase.h>
+#endif
+
 namespace itk
 {
 
@@ -162,6 +174,6 @@ inline void FastMutexLock::Unlock( void )
 }
 
 
+}//end itk namespace
 #endif
 
-}//end itk namespace

@@ -19,21 +19,30 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 
-namespace itk
-{
-
 #ifdef ITK_USE_SPROC
 #include <abi_mutex.h>
-typedef abilock_t MutexType;
 #endif
 
 #ifdef ITK_USE_PTHREADS
 #include <pthread.h>
-typedef pthread_mutex_t MutexType;
 #endif
  
 #if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
 #include <winbase.h>
+#endif
+
+namespace itk
+{
+
+#ifdef ITK_USE_SPROC
+typedef abilock_t MutexType;
+#endif
+
+#ifdef ITK_USE_PTHREADS
+typedef pthread_mutex_t MutexType;
+#endif
+ 
+#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
 typedef HANDLE MutexType;
 #endif
 
@@ -145,6 +154,6 @@ inline void MutexLock::Unlock( void )
   m_SimpleMutexLock.Unlock();
 }
 
-#endif
 
 }//end itk namespace
+#endif
