@@ -4,6 +4,7 @@ SUBDIRS(Code Testing Examples)
 
 INCLUDE_DIRECTORIES(
 ${CMAKE_BINARY_DIR} 
+${CMAKE_SOURCE_DIR}/Code/Numerics
 ${CMAKE_SOURCE_DIR}/Code/Common 
 ${CMAKE_BINARY_DIR}/Code/Numerics/vxl 
 ${CMAKE_SOURCE_DIR}/Code/Numerics/vxl 
