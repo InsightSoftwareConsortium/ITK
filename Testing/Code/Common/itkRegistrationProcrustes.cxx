@@ -26,7 +26,6 @@ int main()
   typedef vnl_matrix< double >                   DerivativeType;
                                  
   typedef itk::RegistrationTransformationAffine< 
-                          ParameterType,
                           Dimension      >       TransformationType;
   
 
