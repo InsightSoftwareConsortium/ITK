@@ -52,6 +52,7 @@ REGISTER_TEST(itkOtsuThresholdImageCalculatorTest );
 REGISTER_TEST(itkPatternIntensityImageMetricTest  );
 REGISTER_TEST(itkRegionGrow2DTest );
 REGISTER_TEST(itkSupervisedClassifierTest );
+REGISTER_TEST(itkSupervisedImageClassifierTest);
 REGISTER_TEST(itkUnsupervisedClassifierTest );
 REGISTER_TEST(itkGibbsTest );
 REGISTER_TEST(itkDeformableTest );
