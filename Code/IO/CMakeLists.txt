@@ -1,7 +1,6 @@
 INCLUDE_DIRECTORIES(
     ${ITK_SOURCE_DIR}/Utilities/GlutMaster
     ${GLUT_INCLUDE_DIR}
-	${ITK_SOURCE_DIR}/Utilities/DICOMParser
     )
 
 SET(ITKIO_SRCS
