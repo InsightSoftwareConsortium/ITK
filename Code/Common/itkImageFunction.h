@@ -103,15 +103,15 @@ public:
     { return m_Image.GetPointer(); }
 
   /** Evaluate the function at specified Point position.
-   * Subclasses should override this method. */
+   * Subclasses must provide this method. */
   virtual TOutput Evaluate( const PointType& point ) const = 0;
 
   /** Evaluate the function at specified Index position.
-   * Subclasses should override this method. */
+   * Subclasses must provide this method. */
   virtual TOutput EvaluateAtIndex( const IndexType & index ) const = 0;
 
   /** Evaluate the function at specified ContinousIndex position.
-   * Subclasses should override this method. */
+   * Subclasses must provide this method. */
   virtual TOutput EvaluateAtContinuousIndex( 
     const ContinuousIndexType & index ) const = 0;
     
