@@ -19,7 +19,7 @@ char MET_SeperatorChar = '=';
 bool MET_SystemByteOrderMSB(void)
   {
   const int l = 1;
-  const char * u = (char *) & l;
+  const char * u = (const char *) & l;
   if (u[0])
     {
     return false;
@@ -83,7 +83,7 @@ const char* MET_ReadType(std::istream &_fp)
     return (char *)(mF->value);
   }
 
-  sprintf((char *)(mF->value), "");
+  ((char *)(mF->value))[0] = '\0';
 
   return (char *)(mF->value);
 }
@@ -144,39 +144,39 @@ bool MET_ValueToDouble(MET_ValueEnumType _type, const void *_data, int _index,
     case MET_ASCII_CHAR:
     case MET_CHAR:
     case MET_CHAR_ARRAY:
-      *_value = (double)(((char *)_data)[_index]);
+      *_value = (double)(((const char *)_data)[_index]);
       return true;
     case MET_UCHAR:
     case MET_UCHAR_ARRAY:
-      *_value = (double)(((unsigned char *)_data)[_index]);
+      *_value = (double)(((const unsigned char *)_data)[_index]);
       return true;
     case MET_SHORT:
     case MET_SHORT_ARRAY:
-      *_value = (double)(((short *)_data)[_index]);
+      *_value = (double)(((const short *)_data)[_index]);
       return true;
     case MET_USHORT:
     case MET_USHORT_ARRAY:
-      *_value = (double)(((unsigned short *)_data)[_index]);
+      *_value = (double)(((const unsigned short *)_data)[_index]);
       return true;
     case MET_INT:
     case MET_INT_ARRAY:
-      *_value = (double)(((int *)_data)[_index]);
+      *_value = (double)(((const int *)_data)[_index]);
       return true;
     case MET_UINT:
     case MET_UINT_ARRAY:
-      *_value = (double)(((unsigned int *)_data)[_index]);
+      *_value = (double)(((const unsigned int *)_data)[_index]);
       return true;
     case MET_FLOAT:
     case MET_FLOAT_ARRAY:
     case MET_FLOAT_MATRIX:
-      *_value = (double)(((float *)_data)[_index]);
+      *_value = (double)(((const float *)_data)[_index]);
       return true;
     case MET_DOUBLE:
     case MET_DOUBLE_ARRAY:
-      *_value = (double)(((double *)_data)[_index]);
+      *_value = (double)(((const double *)_data)[_index]);
       return true;
     case MET_STRING:
-      *_value = atof(&(((char *)_data)[_index]));
+      *_value = atof(&(((const char *)_data)[_index]));
       return true;
     default:
       *_value = 0;
@@ -882,65 +882,65 @@ bool MET_WriteFieldToFile(std::ostream & _fp, const char *_fieldName,
     case MET_CHAR_ARRAY:
       for(i = 0; i < _n; i++)
         {
-        f.value[i] = (double)(((char *)_v)[i]);
+        f.value[i] = (double)(((const char *)_v)[i]);
         }
       break;
     case MET_UCHAR:
     case MET_UCHAR_ARRAY:
       for(i = 0; i < _n; i++)
         {
-        f.value[i] = (double)(((unsigned char *)_v)[i]);
+        f.value[i] = (double)(((const unsigned char *)_v)[i]);
         }
       break;
     case MET_SHORT:
     case MET_SHORT_ARRAY:
       for(i=0; i<_n; i++)
         {
-        f.value[i] = (double)(((short *)_v)[i]);
+        f.value[i] = (double)(((const short *)_v)[i]);
         }
       break;
     case MET_USHORT:
     case MET_USHORT_ARRAY:
       for(i=0; i<_n; i++)
         {
-        f.value[i] = (double)(((unsigned short *)_v)[i]);
+        f.value[i] = (double)(((const unsigned short *)_v)[i]);
         }
       break;
     case MET_INT:
     case MET_INT_ARRAY:
       for(i=0; i<_n; i++)
         {
-        f.value[i] = (double)(((int *)_v)[i]);
+        f.value[i] = (double)(((const int *)_v)[i]);
         }
       break;
     case MET_UINT:
     case MET_UINT_ARRAY:
       for(i=0; i<_n; i++)
         {
-        f.value[i] = (double)(((unsigned int *)_v)[i]);
+        f.value[i] = (double)(((const unsigned int *)_v)[i]);
         }
       break;
     case MET_FLOAT:
     case MET_FLOAT_ARRAY:
       for(i=0; i<_n; i++)
         {
-        f.value[i] = (double)((float *)_v)[i];
+        f.value[i] = (double)((const float *)_v)[i];
         }
       break;
     case MET_DOUBLE:
     case MET_DOUBLE_ARRAY:
       for(i=0; i<_n; i++)
         {
-        f.value[i] = (double)(((double *)_v)[i]);
+        f.value[i] = (double)(((const double *)_v)[i]);
         }
       break;
     case MET_STRING:
-      strcpy((char *)(f.value),(char *)_v);
+      strcpy((char *)(f.value),(const char *)_v);
       break;
     case MET_FLOAT_MATRIX:
       for(i=0; i<_n*_n; i++)
         {
-        f.value[i] = (double)((float *)_v)[i];
+        f.value[i] = (double)((const float *)_v)[i];
         }
       break;
     default:

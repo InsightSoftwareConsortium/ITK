@@ -135,7 +135,7 @@ bool MET_InitWriteField(MET_FieldRecordType * _mf,
     }
   else
     {
-    strcpy((char *)(_mf->value), (char *)_v);
+    strcpy((char *)(_mf->value), (const char *)_v);
     }
   return true;
   }
