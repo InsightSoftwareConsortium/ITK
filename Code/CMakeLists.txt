@@ -20,7 +20,7 @@ CABLE_OPEN_NAMESPACE(itk)
                    SOURCE_FILES itkMesh)
 
   CABLE_DEFINE_SET(ImageType "Image<$PixelType, $Dimension>"
-                   SOURCE_FILES itkImage)
+                   SOURCE_FILES itkImage itkRGBPixel)
 
 CABLE_CLOSE_NAMESPACE(itk)
 
