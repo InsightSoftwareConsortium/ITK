@@ -41,19 +41,20 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>
     m_SmoothingFilters[ i ]->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
   }
 
-  m_DerivativeFilter = GaussianFilterType::New();
-  m_DerivativeFilter->SetOrder( GaussianFilterType::FirstOrder );
+  m_DerivativeFilter = DerivativeFilterType::New();
+  m_DerivativeFilter->SetOrder( DerivativeFilterType::FirstOrder );
   m_DerivativeFilter->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
   
 
-  m_SmoothingFilters[0]->SetInput( this->GetInput() );
+  m_DerivativeFilter->SetInput( this->GetInput() );
+
+  m_SmoothingFilters[0]->SetInput( m_DerivativeFilter->GetOutput() );
+
   for( unsigned int i = 1; i<ImageDimension-1; i++ )
   {
     m_SmoothingFilters[ i ]->SetInput( 
                               m_SmoothingFilters[i-1]->GetOutput() );
   }
-  m_DerivativeFilter->SetInput( 
-                       m_SmoothingFilters[ImageDimension-2]->GetOutput() );
   
   m_CumulativeImage = CumulativeImageType::New();
 
@@ -108,34 +109,36 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage >
 
   m_CumulativeImage->SetRegions( inputImage->GetBufferedRegion() );
   m_CumulativeImage->Allocate();
-  m_CumulativeImage->FillBuffer( NumericTraits< RealType >::Zero );
+  m_CumulativeImage->FillBuffer( NumericTraits< InternalRealType >::Zero );
 
-  m_SmoothingFilters[0]->SetInput( inputImage );
+  m_DerivativeFilter->SetInput( inputImage );
 
   for( unsigned int dim=0; dim < ImageDimension; dim++ )
   {
     unsigned int i=0; 
     unsigned int j=0;
     while(  i< ImageDimension)
-    {
-      if( i == dim ) 
       {
+      if( i == dim ) 
+        {
         j++;
-      }
+        }
       m_SmoothingFilters[ i ]->SetDirection( j );
-    i++;
-    j++;
-    }
+      i++;
+      j++;
+      }
     m_DerivativeFilter->SetDirection( dim );
-    m_DerivativeFilter->Update();
+
+    GaussianFilterPointer lastFilter = m_SmoothingFilters[ImageDimension-2];
+
+    lastFilter->Update();
     
 
     // Cummulate the results on the output image
 
-    typename TInputImage::Pointer derivativeImage = 
-                                    m_DerivativeFilter->GetOutput(); 
+    typename RealImageType::Pointer derivativeImage = lastFilter->GetOutput(); 
 
-    ImageRegionIteratorWithIndex< TInputImage > it( 
+    ImageRegionIteratorWithIndex< RealImageType > it( 
                                       derivativeImage, 
                                       derivativeImage->GetRequestedRegion() );
 

@@ -54,30 +54,52 @@ public:
   
   
   /** Pixel Type of the input image */
-  typedef typename TInputImage::PixelType                PixelType;
-  typedef typename NumericTraits<PixelType>::RealType    RealType;
+  typedef TInputImage                                    InputImageType;
+  typedef typename InputImageType::PixelType             PixelType;
 
-  /**  Smoothing filter type */
-  typedef RecursiveGaussianImageFilter<
-                                  TInputImage,
-                                  TInputImage
-                                  >    GaussianFilterType;
 
-  /**  Pointer to a gaussian filter.  */
-  typedef typename GaussianFilterType::Pointer   GaussianFilterPointer;
-  /**  Pointer to the Output Image */
-  typedef typename TOutputImage::Pointer          OutputImagePointer;                                  
   /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
+
+  typedef typename NumericTraits<PixelType>::RealType      RealType;
+
+  /** Define the image type for internal computations 
+      RealType is usually 'double' in NumericTraits. 
+      Here we prefer float in order to save memory.  */
+
+  typedef float                                            InternalRealType;
+  typedef Image<InternalRealType, 
+                itkGetStaticConstMacro(ImageDimension) >   RealImageType;
+
+  /**  Smoothing filter type */
+  typedef RecursiveGaussianImageFilter<
+                                  RealImageType,
+                                  RealImageType
+                                  >    GaussianFilterType;
+
+  /**  Derivative filter type, it will be the first in the pipeline  */
+  typedef RecursiveGaussianImageFilter<
+                                  InputImageType,
+                                  RealImageType
+                                  >    DerivativeFilterType;
+
+  /**  Pointer to a gaussian filter.  */
+  typedef typename GaussianFilterType::Pointer     GaussianFilterPointer;
+
+  /**  Pointer to a derivative filter.  */
+  typedef typename DerivativeFilterType::Pointer   DerivativeFilterPointer;
+
+  /**  Pointer to the Output Image */
+  typedef typename TOutputImage::Pointer           OutputImagePointer;
 
   /** Type of the output Image */
   typedef TOutputImage      OutputImageType;
   typedef typename          OutputImageType::PixelType      OutputPixelType;
 
   /**  Auxiliary image for holding the values of the squared gradient components */
-  typedef Image< RealType, 
-                  itkGetStaticConstMacro(ImageDimension) >      CumulativeImageType;
+  typedef Image< InternalRealType, 
+                 itkGetStaticConstMacro(ImageDimension) >      CumulativeImageType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -102,7 +124,7 @@ private:
   void operator=(const Self&); //purposely not implemented
   
   GaussianFilterPointer         m_SmoothingFilters[ImageDimension-1];
-  GaussianFilterPointer         m_DerivativeFilter;
+  DerivativeFilterPointer       m_DerivativeFilter;
 
   typename CumulativeImageType::Pointer  m_CumulativeImage;
 
