@@ -1,0 +1,10 @@
+#!/bin/sh
+echo "Do a Build Continuously"
+cd @ITK_BINARY_DIR@
+if [ -e continuous.lock ]
+then exit;
+else
+date >continuous.lock
+@TCL_TCLSH@ @DART_ROOT@/Source/Client/DashboardManager.tcl DartConfiguration.tcl Continuous Start Update Configure Build Test Submit
+rm continuous.lock
+fi
