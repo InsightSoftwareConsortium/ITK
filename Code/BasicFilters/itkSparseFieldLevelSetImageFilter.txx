@@ -132,7 +132,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   m_LayerNodeStore = LayerNodeStorageType::New();
   m_LayerNodeStore->SetGrowthStrategyToExponential();
   this->SetRMSChange(static_cast<double>(m_ValueZero));
-  m_InterpolateSurfaceLocation = true;
+  this->SetInterpolateSurfaceLocation(true);
   m_BoundsCheckingActive = false;
 }
 
@@ -304,7 +304,9 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // for the next iteration (i.e. their values will be raised or lowered into
   // the active range).
   const ValueType LOWER_ACTIVE_THRESHOLD = - (m_ConstantGradientValue / 2.0);
-  const ValueType UPPER_ACTIVE_THRESHOLD =    m_ConstantGradientValue / 2.0 ;
+  const ValueType UPPER_ACTIVE_THRESHOLD =    m_ConstantGradientValue / 2.0;
+  //   const ValueType LOWER_ACTIVE_THRESHOLD = - 0.7;
+  //   const ValueType UPPER_ACTIVE_THRESHOLD =   0.7;
   ValueType new_value, temp_value, rms_change_accumulator;
   LayerNodeType *node, *release_node;
   StatusType neighbor_status;
@@ -353,7 +355,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     // to avoid the creation of holes in the active layer.  The fix is simply
     // to not change this value and leave the index in the active set.
 
-    if (new_value > UPPER_ACTIVE_THRESHOLD)
+    if (new_value >= UPPER_ACTIVE_THRESHOLD)
       { // This index will move UP into a positive (outside) layer.
 
       // First check for active layer neighbors moving in the opposite
@@ -376,22 +378,19 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
         }
 
       rms_change_accumulator += vnl_math_sqr(new_value-outputIt.GetCenterPixel());
-       //rms_change_accumulator += (*updateIt) * (*updateIt);
-
-      outputIt.SetCenterPixel( new_value );
 
       // Search the neighborhood for inside indicies.
+      temp_value = new_value - m_ConstantGradientValue;
       for (i = 0; i < m_NeighborList.GetSize(); ++i)
         {
         idx = m_NeighborList.GetArrayIndex(i);
         neighbor_status = statusIt.GetPixel( idx );
         if (neighbor_status == 1)
           {
-          temp_value = new_value - m_ConstantGradientValue;
-
           // Keep the smallest possible value for the new active node.  This
           // places the new active layer node closest to the zero level-set.
-          if ( temp_value < outputIt.GetPixel(idx) )
+          if ( outputIt.GetPixel(idx) < LOWER_ACTIVE_THRESHOLD ||
+               ::vnl_math_abs(temp_value) < ::vnl_math_abs(outputIt.GetPixel(idx)) )
             {
             outputIt.SetPixel(idx, temp_value, bounds_status);
             }
@@ -409,7 +408,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       m_LayerNodeStore->Return( release_node );
       }
 
-    else if (new_value <= LOWER_ACTIVE_THRESHOLD)
+    else if (new_value < LOWER_ACTIVE_THRESHOLD)
       { // This index will move DOWN into a negative (inside) layer.
 
       // First check for active layer neighbors moving in the opposite
@@ -432,22 +431,19 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
         }
       
       rms_change_accumulator += vnl_math_sqr(new_value - outputIt.GetCenterPixel());
-      //rms_change_accumulator += (*updateIt) * (*updateIt);
-      
-      outputIt.SetCenterPixel( new_value );
           
       // Search the neighborhood for outside indicies.
+      temp_value = new_value + m_ConstantGradientValue;
       for (i = 0; i < m_NeighborList.GetSize(); ++i)
         {
         idx = m_NeighborList.GetArrayIndex(i);
         neighbor_status = statusIt.GetPixel( idx );
         if (neighbor_status == 2)
           {
-          temp_value = new_value + m_ConstantGradientValue;
-
-          // Keep the largest possible value for this active set node.  This
+          // Keep the smallest magnitude value for this active set node.  This
           // places the node closest to the active layer.
-          if ( temp_value > outputIt.GetPixel(idx) )
+          if ( outputIt.GetPixel(idx) >= UPPER_ACTIVE_THRESHOLD ||
+               ::vnl_math_abs(temp_value) < ::vnl_math_abs(outputIt.GetPixel(idx)) )
             {
             outputIt.SetPixel(idx, temp_value, bounds_status);
             }
@@ -792,6 +788,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::InitializeActiveLayerValues()
 {
   const ValueType CHANGE_FACTOR = m_ConstantGradientValue / 2.0;
+  //  const ValueType CHANGE_FACTOR = 0.7;
   const ValueType MIN_NORM      = 1.0e-6;
   unsigned int i, center;
 
@@ -859,16 +856,17 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   const typename FiniteDifferenceFunctionType::Pointer df
     = this->GetDifferenceFunction();
   typename FiniteDifferenceFunctionType::FloatOffsetType offset;
-  float norm_grad_phi_squared, dx_forward, dx_backward;
+  ValueType norm_grad_phi_squared, dx_forward, dx_backward, forwardValue,
+    backwardValue, centerValue;
   unsigned i, center;
-  const float MIN_NORM      = 1.0e-6; 
+  const ValueType MIN_NORM      = 1.0e-6; 
   void *globalData = df->GetGlobalDataPointer();
   
   typename LayerType::ConstIterator layerIt;
   NeighborhoodIterator<OutputImageType> outputIt(df->GetRadius(),
-                                                 this->GetOutput(), this->GetOutput()->GetRequestedRegion());
+                    this->GetOutput(), this->GetOutput()->GetRequestedRegion());
   TimeStepType timeStep;
-  center = outputIt.Size() /2;
+  center = outputIt.Size() / 2;
 
   if ( m_BoundsCheckingActive == false )
     {
@@ -889,36 +887,57 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     // Calculate the offset to the surface from the center of this
     // neighborhood.  This is used by some level set functions in sampling a
     // speed, advection, or curvature term.
-    if (this->m_InterpolateSurfaceLocation)
+    if (this->GetInterpolateSurfaceLocation()
+                   && (centerValue = outputIt.GetCenterPixel()) != 0.0 )
       {
       // Surface is at the zero crossing, so distance to surface is:
       // phi(x) / norm(grad(phi)), where phi(x) is the center of the
       // neighborhood.  The location is therefore
-      // (i,j,k) + ( phi(x) * grad(phi(x)) ) / norm(grad(phi))^2           
+      // (i,j,k) - ( phi(x) * grad(phi(x)) ) / norm(grad(phi))^2
       norm_grad_phi_squared = 0.0;
       for (i = 0; i < ImageDimension; ++i)
         {
-        dx_forward = outputIt.GetPixel(center + m_NeighborList.GetStride(i))
-          - outputIt.GetCenterPixel();
-        dx_backward = outputIt.GetCenterPixel()
-          - outputIt.GetPixel(center - m_NeighborList.GetStride(i));
-              
-        if (::vnl_math_abs(dx_forward) > ::vnl_math_abs(dx_backward) )
-          {
-          offset[i] = dx_forward;
+        forwardValue  = outputIt.GetNext(i);
+        backwardValue = outputIt.GetPrevious(i);
+            
+        if (forwardValue * backwardValue >= 0)
+          { //  Neighbors are same sign OR at least one neighbor is zero.
+          dx_forward  = forwardValue - centerValue;
+          dx_backward = centerValue - backwardValue;
+          
+          // Pick the larger magnitude derivative.
+          if (::vnl_math_abs(dx_forward) > ::vnl_math_abs(dx_backward) )
+            {
+            offset[i] = dx_forward;
+            }
+          else
+            {
+            offset[i] = dx_backward;
+            }
           }
-        else
+        else //Neighbors are opposite sign, pick the direction of the 0 surface.
           {
-          offset[i] = dx_backward;
+          if (forwardValue * centerValue < 0)
+            {
+            offset[i] = forwardValue - centerValue;
+            }
+          else
+            {
+            offset[i] = centerValue - backwardValue;
+            }
           }
-
+        
         norm_grad_phi_squared += offset[i] * offset[i];
         }
-
+      
       for (i = 0; i < ImageDimension; ++i)
-        {
-        offset[i] = ( offset[i] * outputIt.GetCenterPixel() )
-          / (norm_grad_phi_squared + MIN_NORM);
+        {// Adding sqrt imagedimension "extends the reach" of the interpolation
+         // to surfaces that pass close to the center of cells.  This is a
+         // heuristic fudge factor that improves interpolation and reduces
+         // "wiggling" at convergence.
+                offset[i] = (offset[i] * centerValue) * sqrt(ImageDimension +0.5)
+                  / (norm_grad_phi_squared + MIN_NORM);
+        //        offset[i] = (offset[i] * centerValue) / (sqrt(norm_grad_phi_squared) + MIN_NORM);
         }
           
       m_UpdateBuffer.push_back( df->ComputeUpdate(outputIt, globalData, offset) );
@@ -1018,7 +1037,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       if ( statusIt.GetPixel( m_NeighborList.GetArrayIndex(i) ) == from )
         {
         value_temp = outputIt.GetPixel( m_NeighborList.GetArrayIndex(i) );
-        
+
         if (found_neighbor_flag == false)
           {
           value = value_temp;
@@ -1043,7 +1062,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       }
     if (found_neighbor_flag == true)
       {
-      // Set the new value using the largest magnitude
+      // Set the new value using the smallest distance
       // found in our "from" neighbors.
       outputIt.SetCenterPixel( value + delta );
       ++toIt;
