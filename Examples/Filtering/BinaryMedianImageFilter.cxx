@@ -18,7 +18,7 @@
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {BrainProtonDensitySlice.png}
 //    OUTPUTS: {BinaryMedianImageFilterOutput.png}
-//    2
+//    2 2
 //  Software Guide : EndCommandLineArgs
 
 //  Software Guide : BeginLatex
