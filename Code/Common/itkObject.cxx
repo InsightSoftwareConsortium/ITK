@@ -435,7 +435,8 @@ Object
 ::Object():
   LightObject(),
   m_Debug(false),
-  m_SubjectImplementation(0)
+  m_SubjectImplementation(NULL),
+  m_MetaDataDictionary(NULL)
 {
   this->Modified();
 }
@@ -446,6 +447,7 @@ Object
 {
   itkDebugMacro(<< "Destructing!");
   delete m_SubjectImplementation;
+  delete m_MetaDataDictionary;//Deleteing a NULL pointer does nothing.
 }
 
 
@@ -473,20 +475,26 @@ Object
  */
 bool Object::m_GlobalWarningDisplay = true;
 
-//Added By Hans J. Johnson
 itk::MetaDataDictionary &
 Object
 ::GetMetaDataDictionary(void)
 {
-  return m_MetaDataDictionary;
+  if(m_MetaDataDictionary==NULL)
+  {
+    m_MetaDataDictionary=new itk::MetaDataDictionary;
+  }
+  return *m_MetaDataDictionary;
 }
 
-//Added By Hans J. Johnson
 const itk::MetaDataDictionary &
 Object
 ::GetMetaDataDictionary(void) const
 {
-  return m_MetaDataDictionary;
+  if(m_MetaDataDictionary==NULL)
+  {
+    m_MetaDataDictionary=new itk::MetaDataDictionary;
+  }
+  return *m_MetaDataDictionary;
 }
 
 } // end namespace itk

@@ -147,11 +147,6 @@ protected:
 
   bool PrintObservers(std::ostream& os, Indent indent) const;
 
- /**
-  * \author Hans J. Johnson hans-johnson@uiowa.edu
-  * @see itk::MetaDataDictionary
-  */
-  MetaDataDictionary m_MetaDataDictionary;
 private:
   Object(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
@@ -168,8 +163,16 @@ private:
   /** Implementation class for Subject/Observer Pattern.
    * This is only allocated if used. */
   SubjectImplementation* m_SubjectImplementation;
+ /**
+  * Implementation for holding Object MetaData
+  * @see itk::MetaDataDictionary
+  * @see itk::MetaDataObjectBase
+  * @see itk::MetaDataObject
+  * This is only allocated if used.
+  */
+  mutable MetaDataDictionary * m_MetaDataDictionary;
 };
-  
+
 } // end namespace itk
 
 #endif
