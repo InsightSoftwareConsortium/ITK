@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrap_ITKBase.cxx
+  Module:    wrap_ITKCommonBase.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -36,7 +36,7 @@
 
 namespace _cable_
 {
-  const char* const group = ITK_WRAP_GROUP(ITKBase);
+  const char* const group = ITK_WRAP_GROUP(ITKCommonBase);
   namespace wrappers
   {
     ITK_WRAP_OBJECT(Command);
