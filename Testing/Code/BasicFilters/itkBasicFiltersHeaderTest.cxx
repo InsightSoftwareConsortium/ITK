@@ -44,6 +44,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkBinaryErodeImageFilter.txx"
 #include "itkBinaryFunctorImageFilter.txx"
 #include "itkBinaryMagnitudeImageFilter.h"
+#include "itkBinaryMaskToNarrowBandPointSetFilter.txx"
 #include "itkBinaryMedianImageFilter.txx"
 #include "itkBinaryThresholdImageFilter.txx"
 #include "itkBinomialBlurImageFilter.txx"
