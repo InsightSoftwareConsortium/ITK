@@ -108,7 +108,7 @@ AdaptiveHistogramEqualizationImageFilter<TImageType>
   // Normalize input image to [-0.5 0.5] gray level and store in
   // inputFloat. AdaptiveHistogramEqualization only use float type
   // image which has gray range [-0.5 0.5]
-  ImageRegionIterator<ImageType> itFloat(inputFloat,
+  ImageRegionIterator<ImageFloatType> itFloat(inputFloat,
                                          input->GetRequestedRegion()); 
 
   itInput.GoToBegin(); // rewind the previous input iterator
