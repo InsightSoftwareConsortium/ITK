@@ -49,10 +49,14 @@ BinaryThresholdImageFilter<TInputImage, TOutputImage>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "OutsideValue: " << m_OutsideValue << std::endl;
-  os << indent << "InsideValue: " << m_InsideValue << std::endl;
-  os << indent << "LowerThreshold: " << m_LowerThreshold << std::endl;
-  os << indent << "UpperThreshold: " << m_UpperThreshold << std::endl;
+  os << indent << "OutsideValue: "
+     << static_cast<NumericTraits<OutputPixelType>::PrintType>(m_OutsideValue) << std::endl;
+  os << indent << "InsideValue: "
+     << static_cast<NumericTraits<OutputPixelType>::PrintType>(m_InsideValue) << std::endl;
+  os << indent << "LowerThreshold: "
+     << static_cast<NumericTraits<InputPixelType>::PrintType>(m_LowerThreshold) << std::endl;
+  os << indent << "UpperThreshold: "
+     << static_cast<NumericTraits<InputPixelType>::PrintType>(m_UpperThreshold) << std::endl;
 }
 
 /**
