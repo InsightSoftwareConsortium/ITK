@@ -45,7 +45,7 @@ DICOMParser::DICOMParser() : ParserOutputFile()
   this->InitTypeMap();
 }
 
-bool DICOMParser::OpenFile(char* filename)
+bool DICOMParser::OpenFile(const char* filename)
 {
   if (this->DataFile)
     {
