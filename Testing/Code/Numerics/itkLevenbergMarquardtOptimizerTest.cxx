@@ -85,10 +85,10 @@ public:
     unsigned valueindex = 0;
     for( int y = -YRange; y<=YRange; y++ ) 
     {
-      const double yp = y*y*b;
+      const double yp = ( y * y ) * ( b - 2.0 );
       for( int x = -XRange; x<=XRange; x++ ) 
       {
-        m_Measure[valueindex] = a * x*x + yp - (3.0 * x*x + 2 * y*y );
+        m_Measure[valueindex] = ( a - 3.0 ) * ( x * x )  + yp;
         std::cout << m_Measure[valueindex] << "  ";
         valueindex++;
       }
@@ -102,7 +102,30 @@ public:
   const DerivativeType &  GetDerivative( 
                  const ParametersType & parameters ) const
   {
-   
+ 
+    m_Parameters = parameters;
+    
+    std::cout << "GetDerivative( ";
+    double a = m_Parameters[0];
+    double b = m_Parameters[1];
+
+    std::cout << a << " , ";
+    std::cout << b << ") = ";
+
+    // Compute points of the function over a square domain
+    unsigned valueindex = 0;
+    for( int y = -YRange; y<=YRange; y++ ) 
+    {
+      for( int x = -XRange; x<=XRange; x++ ) 
+      {
+        m_Derivative[valueindex][0] = 2.0 * x * ( a - 3.0 );
+        m_Derivative[valueindex][1] = 2.0 * y * ( b - 2.0 );
+        valueindex++;
+      }
+    }
+
+    std::cout << std::endl;
+  
     return m_Derivative;
   }
 
