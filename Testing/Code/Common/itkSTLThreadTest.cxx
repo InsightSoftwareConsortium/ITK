@@ -17,6 +17,12 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
+
+// On some old sgi compilers, this test gets into an infinite loop without the following
+#if defined(__sgi) && COMPILER_VERSION <= 730
+#define _PTHREADS
+#endif
+
 #include "itkMultiThreader.h"
 #include <list>
 
