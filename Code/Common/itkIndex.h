@@ -89,7 +89,7 @@ public:
    * Access an element of the index. Elements are numbered
    * 0, ..., TIndexDimension-1. No bounds checking is performed.
    */
-  long & operator[](unsigned int dim)
+  unsigned long & operator[](unsigned int dim)
     { return m_Index[dim]; }
   
 
@@ -97,7 +97,7 @@ public:
    * Get the index. This provides a read only reference to the index.
    * \sa SetIndex
    */
-  const long *GetIndex() const { return m_Index; };
+  const unsigned long *GetIndex() const { return m_Index; };
 
   /**
    * Set the index.
@@ -122,7 +122,7 @@ public:
 friend  std::ostream& operator<< <> (std::ostream& os, 
               const itkIndex<TIndexDimension> &ind);
 private:
-  long m_Index[TIndexDimension];
+  unsigned long m_Index[TIndexDimension];
 };
 
 template<unsigned int TIndexDimension>
