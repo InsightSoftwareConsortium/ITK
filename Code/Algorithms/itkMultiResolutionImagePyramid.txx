@@ -417,32 +417,6 @@ MultiResolutionImagePyramid<TInputImage, TOutputImage>
 }
 
 
-/** 
- * GenerateInputRequestedRegion
- */
-template <class TInputImage, class TOutputImage>
-void
-MultiResolutionImagePyramid<TInputImage, TOutputImage>
-::EnlargeOutputRequestedRegion(
-DataObject * output )
-{
-  // this filter requires all of the output image to be in
-  // the buffer
-  try 
-    {
-    OutputImageType *imgData;
-    imgData = dynamic_cast<OutputImageType *>( output );
-    imgData->SetRequestedRegionToLargestPossibleRegion();
-    }
-  catch(...)
-    {
-    throw ExceptionObject(__FILE__,__LINE__ );
-    }
-
-}
-
-
-
 } // namespace itk
 
 #endif

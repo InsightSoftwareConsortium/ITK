@@ -178,11 +178,17 @@ unsigned int level )
   std::cout << "Registering level: " << level << std::endl;
 
   m_TargetPyramid->SetCurrentLevel( level );
+  m_TargetPyramid->UpdateOutputInformation();
+  m_TargetPyramid->GetOutput()->SetRequestedRegionToLargestPossibleRegion();
   m_TargetPyramid->Update();
+
   m_InternalRegistrationMethod->SetTarget( m_TargetPyramid->GetOutput() );
 
   m_ReferencePyramid->SetCurrentLevel( level );
+  m_ReferencePyramid->UpdateOutputInformation();
+  m_ReferencePyramid->GetOutput()->SetRequestedRegionToLargestPossibleRegion();
   m_ReferencePyramid->Update();
+
   m_InternalRegistrationMethod->SetReference( m_ReferencePyramid->GetOutput() );
 
   m_InternalRegistrationMethod->StartRegistration();

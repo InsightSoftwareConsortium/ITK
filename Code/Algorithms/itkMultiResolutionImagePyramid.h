@@ -233,17 +233,6 @@ public:
    */
   virtual void GenerateInputRequestedRegion();
 
-  /**
-   * MultiResolutionPyramid requires all of the output to be in the
-   * buffer. As such, MultiResolutionPyramid needs to provide an
-   * implemenation for EnlargeOutputRequestedRegion();
-   * The original documenation of this method is below.
-   *
-   * \sa ProcessObject::EnlargeOutputRequestedRegion();
-   */
-  virtual void EnlargeOutputRequestedRegion(DataObject * output);
-
-
 protected:
   MultiResolutionImagePyramid();
   ~MultiResolutionImagePyramid() {};
