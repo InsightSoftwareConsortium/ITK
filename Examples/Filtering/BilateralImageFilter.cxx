@@ -15,6 +15,12 @@
 
 =========================================================================*/
 
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySlice.png}
+//    OUTPUTS: {BilateralImageFilterOutput.png}
+//    6 5
+//  Software Guide : EndCommandLineArgs
+
 //  Software Guide : BeginLatex
 //
 //  The \doxygen{BilateralImageFilter} performs smoothing by using both
