@@ -113,7 +113,7 @@ int main()
   command = itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch,
                                &ShowProgressObject::ShowProgress);
-  denoiser->AddObserver(itk::Command::ProgressEvent, command);
+  denoiser->AddObserver( itk::ProgressEvent(), command);
 
   denoiser->Update();
 
