@@ -1,4 +1,4 @@
-/*=========================================================================
+ /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkMinimumMaximumImageCalculator.txx
@@ -32,6 +32,10 @@ MinimumMaximumImageCalculator<TInputImage>
 ::MinimumMaximumImageCalculator()
 {
   m_Image = TInputImage::New();
+  m_Maximum = NumericTraits<PixelType>::NonpositiveMin() ;
+  m_Minimum = NumericTraits<PixelType>::max() ;
+  m_IndexOfMinimum.Fill(0);
+  m_IndexOfMaximum.Fill(0);
 }
 
 

@@ -73,6 +73,19 @@ VTKImageImport<TOutputImage>
     {
     itkExceptionMacro(<<"Type currently not supported");
     }
+  m_DataExtentCallback = 0;
+  m_WholeExtentCallback = 0;
+  m_BufferPointerCallback = 0;
+  m_UpdateDataCallback = 0;
+  m_PipelineModifiedCallback = 0;
+  m_NumberOfComponentsCallback = 0;
+  m_SpacingCallback = 0;
+  m_OriginCallback = 0;
+  m_UpdateInformationCallback = 0;
+  m_ScalarTypeCallback = 0;
+  m_DataExtentCallback = 0;
+  m_PropagateUpdateExtentCallback = 0;
+  m_CallbackUserData = 0;
 }
 
 /**
