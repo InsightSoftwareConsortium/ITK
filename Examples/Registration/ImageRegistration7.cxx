@@ -22,18 +22,18 @@
 // part identical to the one presented in
 // \ref{sec:InitializingRegistrationWithMoments}.  The main difference is the
 // use of the \code{Similarity2DTransform} here instead of the
-// \code{TranslationTransform}.
+// \code{CenteredRigid2DTransform}.
 //
 // A similarity transform can be seen as a composition of rotations,
-// translations and uniform scaling. It preseve angles and map lines into
-// lines. This transform is implemented in the toolkit as a rigid $2D$
-// transform with a scale parameter added.
+// translations and uniform scaling. It preseves angles and map lines into
+// lines. This transform is implemented in the toolkit as deriving from a rigid
+// $2D$ transform and with a scale parameter added.
 //
 // When using this transform, attention should be paid to the fact that scaling
 // and translations are not independent.  In the same way that rotations can
 // locally be seen as translations, scaling also result in local displacements.
 // Scaling is performed in general with respect to the origin of coordinates.
-// However, we already saw how ambiguios that could be in the case of
+// However, we already saw how ambiguous that could be in the case of
 // rotations. For this reason, this transform also allows users to setup a
 // specific center. This center is use both for rotation and scaling.
 //
@@ -291,8 +291,9 @@ int main( int argc, char **argv )
   //  functionality provided by the optimizers. We know that the first element
   //  of the parameters array corresponds to the scale factor, the second
   //  corresponds to the angle, third and forth are the center of rotation and
-  //  fifth and sixth are the remaining translation. We use then, small factors
-  //  in the scales associated with translations and the rotation center. 
+  //  fifth and sixth are the remaining translation. We use henceforth small
+  //  factors in the scales associated with translations and the rotation
+  //  center. 
   //
   //  Software Guide : EndLatex 
 
@@ -592,7 +593,7 @@ int main( int argc, char **argv )
   // \begin{figure}
   // \center
   // \includegraphics[width=6cm]{BrainProtonDensitySliceBorder20.eps}
-  // \includegraphics[width=6cm]{BrainProtonDensitySliceR10X13Y17.eps}
+  // \includegraphics[width=6cm]{BrainProtonDensitySliceR10X13Y17S12.eps}
   // \caption{Fixed and Moving image provided as input to the registration
   // method using Similarity2D transform.}
   // \label{fig:FixedMovingImageRegistration5b}
