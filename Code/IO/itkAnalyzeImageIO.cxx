@@ -824,7 +824,7 @@ namespace itk
       return false;
     }
     if( ! this->ReadBufferAsBinary( local_InputStream, 
-                                    (char *)&(this->m_hdr), 
+                                    (void *)&(this->m_hdr), 
                                     sizeof(struct dsr) ) )
     {
       return false;
@@ -861,7 +861,7 @@ namespace itk
       throw exception;
     }
     if( ! this->ReadBufferAsBinary( local_InputStream, 
-                                    (char *)&(this->m_hdr), 
+                                    (void *)&(this->m_hdr), 
                                     sizeof(struct dsr) ) )
     {
       ExceptionObject exception(__FILE__, __LINE__);
