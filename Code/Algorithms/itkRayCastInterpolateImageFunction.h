@@ -153,7 +153,7 @@ public:
   /** Check if a point is inside the image buffer.
    * \warning For efficiency, no validity checking of
    * the input image pointer is done. */
-  inline bool IsInsideBuffer( const PointType & point ) const
+  inline bool IsInsideBuffer( const PointType & ) const
     { 
       return true;
     }
