@@ -31,5 +31,6 @@ itkSmartPointerTest
 itkTranslationTransformTest
 itkVectorGeometryTest
 itkVectorTest
+itkSplineKernelTransformTest
 )
 
