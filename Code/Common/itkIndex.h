@@ -237,6 +237,13 @@ public:
    */
   static Self GetBasisIndex(unsigned int dim); 
 
+ /**
+   * Set one value for the index in all dimensions.  Useful for initializing
+   * an offset to zero.
+   */
+  void Fill(long value)
+  { for(unsigned int i=0;i < VIndexDimension; ++i) m_Index[i] = value; }
+
   /**
    * Index is an "aggregate" class.  Its data is public (m_Index)
    * allowing for fast and convienent instantiations/assignments.
