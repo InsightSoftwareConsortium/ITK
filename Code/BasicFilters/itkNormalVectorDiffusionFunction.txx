@@ -35,9 +35,10 @@ NormalVectorDiffusionFunction <TSparseImageType>
     } 
   
   this->SetRadius(r);
-  this->SetNormalProcessType(0);
-  this->SetConductanceParameter(NumericTraits<NodeValueType>::Zero);
   this->SetTimeStep(static_cast<TimeStepType> (0.5/ImageDimension));
+  m_NormalProcessType = 0;
+  m_ConductanceParameter = NumericTraits<NodeValueType>::Zero;
+  m_FluxStopConstant = NumericTraits<NodeValueType>::Zero;
 }
 
 template <class TSparseImageType>

@@ -47,14 +47,22 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
   m_ConvergenceFlag = false;
 
   this->SetIsoSurfaceValue(0);
-  this->SetMaxRefitIteration(100);
-  this->SetMaxNormalIteration(25);
-  this->SetRMSChangeNormalProcessTrigger (0);
-  this->SetCurvatureBandWidth (static_cast<ValueType>(ImageDimension) + 0.5);
-  this->SetNormalProcessType (0);
-  this->SetNormalProcessConductance (0);
-  this->SetNormalProcessUnsharpFlag (false);
-  this->SetNormalProcessUnsharpWeight (0);
+  m_MaxRefitIteration = 100;
+  m_MaxNormalIteration = 25;
+  m_RMSChangeNormalProcessTrigger = NumericTraits<ValueType>::Zero;
+  m_CurvatureBandWidth = static_cast<ValueType>(ImageDimension) + 0.5;
+  m_NormalProcessType = 0;
+  m_NormalProcessConductance = NumericTraits<ValueType>::Zero;
+  m_NormalProcessUnsharpFlag = false;
+  m_NormalProcessUnsharpWeight = NumericTraits<ValueType>::Zero;
+  //this->SetMaxRefitIteration(100);
+  //this->SetMaxNormalIteration(25);
+  //this->SetRMSChangeNormalProcessTrigger (0);
+  //this->SetCurvatureBandWidth (static_cast<ValueType>(ImageDimension) + 0.5);
+  //this->SetNormalProcessType (0);
+  //this->SetNormalProcessConductance (0);
+  //this->SetNormalProcessUnsharpFlag (false);
+  //this->SetNormalProcessUnsharpWeight (0);
 }
 
 template<class TInputImage, class TOutputImage>

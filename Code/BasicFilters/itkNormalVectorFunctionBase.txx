@@ -26,7 +26,7 @@ template <class TSparseImageType>
 NormalVectorFunctionBase <TSparseImageType>
 ::NormalVectorFunctionBase()
 {
-  this->SetTimeStep (NumericTraits<TimeStepType>::One);
+  m_TimeStep = NumericTraits<TimeStepType>::One;
 }
 
 template <class TSparseImageType>
