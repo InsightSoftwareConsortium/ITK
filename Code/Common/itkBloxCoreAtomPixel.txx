@@ -50,7 +50,8 @@ template <unsigned int NDimensions>
 BloxCoreAtomPixel<NDimensions>
 ::BloxCoreAtomPixel()
 {
-
+  m_Eigenvalues.fill(0.0);
+  m_Eigenvectors.fill(0.0);
 }
 
 template <unsigned int NDimensions>
@@ -133,11 +134,18 @@ BloxCoreAtomPixel<NDimensions>
   // Do eigen analysis
   vnl_generalized_eigensystem* pEigenSys = new vnl_generalized_eigensystem(cMatrix, identMatrix);
 
-  // Print the eigen values
-  std::cout << "Number of items in blox was " << numItems << "\n";
+  // Now, store the results
+  
+  // First the eigenvectors
+  m_Eigenvectors = pEigenSys->V;
+
+
+  // Now the eigenvalues (stored as a vector to save space)
   for(int i = 0; i < NDimensions; i++)
     {
-    std::cout << "Eigenvalue " << i << "=" << pEigenSys->D(i,i) << "\n";
+    m_Eigenvalues[i] = pEigenSys->D(i,i);
+    // Print the eigen values
+    std::cout << "Eigenvalue " << i << "=" << m_Eigenvalues[i] << "\n";
     }
 
   delete pEigenSys;

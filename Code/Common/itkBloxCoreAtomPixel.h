@@ -41,8 +41,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkBloxCoreAtomPixel_h
 #define __itkBloxCoreAtomPixel_h
 
+#include "vnl/vnl_matrix_fixed.h"
 #include "vnl/vnl_vector_fixed.h"
 #include "vnl/algo/vnl_generalized_eigensystem.h"
+
 #include "itkBloxCoreAtomItem.h"
 #include "itkBloxBoundaryPointItem.h"
 #include "itkPoint.h"
@@ -97,6 +99,21 @@ public:
 
   BloxCoreAtomPixel();
   ~BloxCoreAtomPixel();
+
+private:
+
+  /*
+   * The eigenvalues of the core atom population in this pixel
+   * These are stored in increasing order of value (not absolute value) from
+   * indices 0 to n, where n is the number of dimensions in the source image
+   */
+  vnl_vector_fixed<double, NDimensions> m_Eigenvalues;
+
+  /*
+   * The eigenvectors of the core atom population in this pixel
+   * Each eigenvector is a row? of this matrix
+   */
+  vnl_matrix_fixed<double, NDimensions, NDimensions> m_Eigenvectors;
 };
 
 
