@@ -22,256 +22,168 @@
 #include <iostream>
 #include <time.h>
 
-#include <itkImage.h>
-#include <itkImageRegionIterator.h>
-#include <itkDeformableMesh3DFilter.h>
-#include <itkMesh.h>
-#include <itkGradientRecursiveGaussianImageFilter.h>
-#include <itkCovariantVector.h>
-#include <itkGradientImageFilter.h>
-#include <itkGradientToMagnitudeImageFilter.h>
-#include <itkDerivativeImageFilter.h>
-#include <itkGradientVectorFlowImageFilter.h>
-#include <itkLaplacianImageFilter.h>
+#include "itkImage.h"
 #include "itkImageRegionIterator.h"
-#include "itkShrinkImageFilter.h"
-#include "itkBinaryMask3DMeshSource.h"
+#include "itkMesh.h"
+#include "itkDeformableMesh3DFilter.h"
+#include "itkSphereSource.h"
+#include "itkGradientRecursiveGaussianImageFilter.h"
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
 
 int itkDeformableTest(int, char**)
 {
-  int WIDTH = 32;
-  int HEIGHT = 32;
-  int DEPTH = 32;
+  const int WIDTH  = 200;
+  const int HEIGHT = 200;
+  const int DEPTH  = 200;
 
   
   // Define the dimension of the images
-  const unsigned int myDimension = 3;
-
-  // Declare the types of the images
-  typedef itk::Image<double, myDimension>           myImageType;
+  const unsigned int Dimension = 3;
 
   // Declare the types of the output images
-  typedef itk::Image<unsigned short, myDimension>   binaryImageType;
+  typedef itk::Image<unsigned short,   Dimension>   ImageType;
 
-  // Declare the type of the index to access images
-  typedef itk::Index<myDimension>       myIndexType;
-
-  // Declare the type of the size 
-  typedef itk::Size<myDimension>        mySizeType;
-
-  // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension> myRegionType;
+  // Declare the type of the index,size and region to initialize images
+  typedef itk::Index<Dimension>                     IndexType;
+  typedef itk::Size<Dimension>                      SizeType;
+  typedef itk::ImageRegion<Dimension>               RegionType;
+  typedef itk::ImageRegionIterator<ImageType>       IteratorType;
+  typedef ImageType::PixelType                      PixelType;
 
   // Declare the type of the Mesh
-  typedef itk::Mesh<double>   DMesh;
+  typedef itk::Mesh<double>                         MeshType;
+  typedef MeshType::PointType                       PointType;
 
-  typedef DMesh::PointType   OPointType;
+  typedef itk::DeformableMesh3DFilter< 
+                                  MeshType,
+                                  MeshType >        MeshFilterType;
 
-  // Declare the type of the gradient image
-  typedef itk::CovariantVector<double, myDimension> myGradientType;
-  typedef itk::Image<myGradientType, myDimension>   myGradientImageType;
-  typedef itk::CovariantVector<double, 2>           double2DVector;
-  typedef itk::CovariantVector<int, 3>              int3DVector;
-  typedef itk::CovariantVector<double, 3>           double3DVector;
-  typedef itk::CovariantVector<int, 2>              int2DVector;
+                                  
+  typedef MeshFilterType::GradientImageType         GradientImageType;
 
-  typedef itk::BinaryMask3DMeshSource<DMesh>  myMeshSource;
-  typedef itk::LaplacianImageFilter<myImageType, myImageType> myLaplacianFilterType;
-  typedef itk::GradientVectorFlowImageFilter<myGradientImageType, myGradientImageType>
-                                              myGVFFilterType;
+  typedef itk::SphereSource< MeshType >             SphereSourceType;
 
-  typedef itk::GradientImageFilter<myImageType, double, double>
-                                              myGFilterType;
+  typedef itk::GradientRecursiveGaussianImageFilter< 
+                              ImageType,
+                              GradientImageType >   GradientFilterType;
 
-  typedef itk::GradientToMagnitudeImageFilter<myGradientImageType, myImageType>
-                                              myGToMFilterType;
-
-  typedef itk::DeformableMesh3DFilter<DMesh, DMesh>  DFilter;
-
-  binaryImageType::Pointer       biimg=binaryImageType::New();
-  myGradientImageType::Pointer   gdimg=myGradientImageType::New();
-
-  typedef itk::ImageRegionIterator<myImageType>         myIteratorType;
-  typedef itk::ImageRegionIterator<myGradientImageType> myGradientIteratorType;
-
-  binaryImageType::SizeType      bisize={{WIDTH,HEIGHT,DEPTH}};
-  binaryImageType::IndexType     biindex;
-  binaryImageType::RegionType    biregion;
-  biindex.Fill(0);
-  biregion.SetSize(bisize);
-  biregion.SetIndex(biindex);
-
-  myGradientImageType::SizeType   gdsize={{WIDTH,HEIGHT,DEPTH}};
-  myGradientImageType::IndexType  gdindex;
-  myGradientImageType::RegionType gdregion;
-  gdindex.Fill(0);
-  gdregion.SetSize(gdsize);
-  gdregion.SetIndex(gdindex);
+  PixelType backgroundValue = 0;
+  PixelType internalValue   = 0;
   
-  biimg->SetLargestPossibleRegion( biregion );
-  biimg->SetBufferedRegion( biregion );
-  biimg->SetRequestedRegion( biregion );
-  biimg->Allocate();
+  SizeType size;
+  size[0] = WIDTH;  
+  size[1] = HEIGHT;  
+  size[2] = DEPTH;  
 
-  gdimg->SetLargestPossibleRegion( gdregion );
-  gdimg->SetBufferedRegion( gdregion );
-  gdimg->SetRequestedRegion( gdregion );
-  gdimg->Allocate();
-
-  // Create the image
-  myImageType::Pointer inputImage  = myImageType::New();
-
-  mySizeType size={{WIDTH,HEIGHT,DEPTH}};
-  myIndexType start;
+  IndexType start;
   start.Fill(0);
 
-  myRegionType region;
-  region.SetIndex( start );
+  RegionType region;
   region.SetSize( size );
+  region.SetIndex( start );
+    
+  ImageType::Pointer image = ImageType::New();
 
-  // Initialize Image A
-  inputImage->SetLargestPossibleRegion( region );
-  inputImage->SetBufferedRegion( region );
-  inputImage->SetRequestedRegion( region );
-  inputImage->Allocate();
+  image->SetRegions( region );
+  image->Allocate();
 
-  itk::ImageRegionIterator<myImageType> it(inputImage, region);
+
+  IteratorType it( image, region );
   it.GoToBegin();
-  itk::ImageRegionIterator<binaryImageType> bit(biimg, biregion);
-  bit.GoToBegin();
-
-
-//  for local testing on image files (256*256*1 RGB)
-//  unsigned short outImage[WIDTH*HEIGHT*DEPTH];
 
   while( !it.IsAtEnd() ) 
-  {
-    it.Set( 0.0 );
-    bit.Set( 0 );
+    {
+    it.Set( backgroundValue );
     ++it;
-    ++bit;
-  }
+    }
 
-  size[0] = 16;
-  size[1] = 16;
-  size[2] = 16;
+  SizeType smallerSize;
+  smallerSize[0] = 100;
+  smallerSize[1] = 100;
+  smallerSize[2] = 100;
 
-  start[0] = 8;
-  start[1] = 8;
-  start[2] = 8;
+  IndexType internalStart;
+  internalStart[0] = 50;
+  internalStart[1] = 50;
+  internalStart[2] = 50;
 
   // Create one iterator for an internal region
-  region.SetSize( size );
-  region.SetIndex( start );
-  biregion.SetSize( size );
-  biregion.SetIndex( start );
-  itk::ImageRegionIterator<myImageType> itb( inputImage, region );
-  itk::ImageRegionIterator<binaryImageType> bitb( biimg, biregion );
+  RegionType internalRegion;
+  internalRegion.SetSize( smallerSize );
+  internalRegion.SetIndex( internalStart );
 
-  // Initialize the content the internal region
-  while( !itb.IsAtEnd() ) 
-  {
-    itb.Set( 100.0 );
-    bitb.Set ( 255 );
-    ++itb;
-    ++bitb;
-  }
+  IteratorType ir( image, internalRegion );
+  ir.GoToBegin();
+  while( !ir.IsAtEnd() )
+    {
+    ir.Set( internalValue );  
+    ++ir;
+    }
 
-  itk::ShrinkImageFilter< myImageType, myImageType >::Pointer dshrink;
-  dshrink = itk::ShrinkImageFilter< myImageType, myImageType >::New();
-  dshrink->SetInput( inputImage );
-  dshrink->SetNumberOfThreads(4);
+  GradientFilterType::Pointer gradientFilter = 
+                                GradientFilterType::New();
 
-  unsigned int dfactors[3] = { 1, 1, 1 };
-  dshrink->SetShrinkFactors(dfactors);
-  dshrink->UpdateLargestPossibleRegion();
+  gradientFilter->SetInput( image );
+  gradientFilter->SetSigma( 3.0 );
 
-  myImageType::RegionType drequestedRegion;
-  drequestedRegion = dshrink->GetOutput()->GetRequestedRegion();
+  try
+    {
+    gradientFilter->Update();
+    }
+  catch( itk::ExceptionObject & exp )
+    {
+    std::cerr << "Exception thrown during gradient filter Update() " << std::endl;
+    std::cerr << exp << std::endl;
+    return EXIT_FAILURE;
+    }
 
-  typedef itk::GradientRecursiveGaussianImageFilter<
-                                            myImageType,
-                                            myGradientImageType
-                                            >  myFilterType;
-            
+  SphereSourceType::Pointer sphereSource = SphereSourceType::New();
+  
+  typedef itk::Point<float,3>  FloatPointType;
+  
+  FloatPointType center;
+  center[0] = WIDTH  / 2.0;
+  center[1] = HEIGHT / 2.0;
+  center[2] = DEPTH  / 2.0;
+  
+  FloatPointType  scale;
+  scale[0]  = WIDTH  / 8.0;
+  scale[1]  = HEIGHT / 8.0;
+  scale[2]  = DEPTH  / 8.0;
 
-  // Create a  Filter                                
-  myFilterType::Pointer grfilter = myFilterType::New();
-  myGFilterType::Pointer gfilter = myGFilterType::New();
-  myGToMFilterType::Pointer gtomfilter = myGToMFilterType::New();
+  sphereSource->SetCenter(center);
+  sphereSource->SetResolutionX(10);
+  sphereSource->SetResolutionY(10);
+  sphereSource->SetScale(scale);
 
-  // Connect the input images
-  grfilter->SetInput( dshrink->GetOutput() ); 
-
-  // Set sigma
-  grfilter->SetSigma( 2.0 );
-
-  myLaplacianFilterType::Pointer m_LFilter = myLaplacianFilterType::New();
-  myGVFFilterType::Pointer m_GVFFilter = myGVFFilterType::New();
-
-  m_GVFFilter->SetInput(gfilter->GetOutput());
-  m_GVFFilter->SetLaplacianFilter(m_LFilter);
-  m_GVFFilter->SetNoiseLevel(500);
-
-  gtomfilter->SetInput(grfilter->GetOutput());
-
-  gfilter->SetInput(gtomfilter->GetOutput());
-  gfilter->Update();
-
-//  the gvf is temproraily disabled since the problem related with gradientimagefilter
-//  m_GVFFilter->Update();
-
-//  std::cout << "GVF created! " << std::endl;
-
-////////////////////////////////////////////////////////////////////////////////////////
-// construct the deformable mesh
-
-  itk::ShrinkImageFilter< binaryImageType, binaryImageType >::Pointer shrink;
-  shrink = itk::ShrinkImageFilter< binaryImageType, binaryImageType >::New();
-  shrink->SetInput( biimg );
-  shrink->SetNumberOfThreads(4);
-
-  unsigned int factors[3] = { 2, 2, 2 };
-  shrink->SetShrinkFactors(factors);
-  shrink->UpdateLargestPossibleRegion();
-
-  binaryImageType::RegionType requestedRegion;
-  requestedRegion = shrink->GetOutput()->GetRequestedRegion();
-
-  myMeshSource::Pointer m_bmmeshsource = myMeshSource::New();
-
-  DFilter::Pointer m_dfilter = DFilter::New();
-  m_dfilter->SetInput(m_bmmeshsource->GetOutput());
-//  m_dfilter->SetGradient(m_GVFFilter->GetOutput());
-  m_dfilter->SetGradient(gfilter->GetOutput());
-
-  m_bmmeshsource->SetBinaryImage( shrink->GetOutput() );
-  m_bmmeshsource->SetObjectValue( 255 );
-
-  std::cout << "Deformable mesh created using Marching Cube!" << std::endl;
-
-  double2DVector m_stiff;
-  m_stiff[0] = 0.00001;
-  m_stiff[1] = 0.04;
-
-  double3DVector m_scale;
-  m_scale[0] = 2;
-  m_scale[1] = 2;
-  m_scale[2] = 2;
-  m_dfilter->SetStiffness(m_stiff);
-  m_dfilter->SetTimeStep(0.2);
-  m_dfilter->SetStepThreshold(1);
-  m_dfilter->SetScale(m_scale);
-
-  m_dfilter->Update();
+  try
+    {
+    }
+  catch( itk::ExceptionObject & exp )
+    {
+    std::cerr << "Exception thrown during sphere source filter Update() " << std::endl;
+    std::cerr << exp << std::endl;
+    return EXIT_FAILURE;
+    }
+    
  
-  std::cout << "Mesh Source: " << m_bmmeshsource;
+  MeshFilterType::Pointer meshFilter = MeshFilterType::New();
 
-// All objects should be automatically destroyed at this point
+  meshFilter->SetGradient( gradientFilter->GetOutput() );
+  meshFilter->SetInput( sphereSource->GetOutput() );
+
+  try
+    {
+    meshFilter->Update();
+    }
+  catch( itk::ExceptionObject & exp )
+    {
+    std::cerr << "Exception thrown during mesh filter Update() " << std::endl;
+    std::cerr << exp << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
   return EXIT_SUCCESS;
 
 }
