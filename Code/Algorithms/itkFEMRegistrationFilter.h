@@ -199,6 +199,9 @@ public:
   /** Writes the displacement field to a file. */
   int       WriteDisplacementField(unsigned int index);
 
+  /** Writes the displacement field to a file as a single volume with multiple components. */
+  int       WriteDisplacementFieldMultiComponent();
+
   /** One can set the reference file names to read images from files */
   void      SetMovingFile(const char* r) {m_MovingFileName=r;}
 

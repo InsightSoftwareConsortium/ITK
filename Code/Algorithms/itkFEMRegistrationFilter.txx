@@ -544,6 +544,34 @@ bool FEMRegistrationFilter<TMovingImage,TFixedImage>::ReadConfigFile(const char*
 
 
 template<class TMovingImage,class TFixedImage>
+int FEMRegistrationFilter<TMovingImage,TFixedImage>::WriteDisplacementFieldMultiComponent()
+  // Outputs the displacement field as a multicomponent image  XYZXYZXYZ...
+{
+
+  std::cout << "Writing multi-component displacement vector field...";
+
+  typedef itk::ImageFileWriter< FieldType >  FieldWriterType;
+  FieldWriterType::Pointer  fieldWriter = FieldWriterType::New();
+
+  fieldWriter->SetInput( m_Field );
+  fieldWriter->SetFileName("VectorDeformationField.mhd");
+  try
+   {
+   fieldWriter->Update();
+   }
+  catch( itk::ExceptionObject & excp )
+   {
+   std::cerr << "Error while saving the displacement vector field" << std::endl;
+   std::cerr << excp << std::endl;
+   }
+
+  std::cout << "done" << std::endl;
+  return 0;
+}
+
+
+
+template<class TMovingImage,class TFixedImage>
 int FEMRegistrationFilter<TMovingImage,TFixedImage>::WriteDisplacementField(unsigned int index)
   // Outputs the displacement field for the index provided (0=x,1=y,2=z)
 {
@@ -568,7 +596,7 @@ int FEMRegistrationFilter<TMovingImage,TFixedImage>::WriteDisplacementField(unsi
   writer->SetFileName(outfile.c_str());
   writer->Write();
 
-  std::cout << "...done" << std::endl;
+  std::cout << "  ...done" << std::endl;
   return 0;
 }
 
@@ -1034,6 +1062,8 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>
   m_Field = FieldType::New();
 
   m_FieldRegion.SetSize(m_CurrentLevelImageSize );
+  m_Field->SetSpacing( m_FixedImage->GetSpacing() );
+  m_Field->SetOrigin( m_FixedImage->GetOrigin() );
   m_Field->SetLargestPossibleRegion( m_FieldRegion );
   m_Field->SetBufferedRegion( m_FieldRegion );
   m_Field->SetLargestPossibleRegion( m_FieldRegion );
