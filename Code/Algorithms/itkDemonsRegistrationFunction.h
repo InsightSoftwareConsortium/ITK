@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,38 +27,40 @@
 namespace itk {
 
 /**
- * \class DemonsRegistrationFunction
- *
- * This class encapsulate the PDE which drives the demons registration 
- * algorithm. It is used by DemonsRegistrationFilter to compute the 
- * output deformation field which will map a moving image onto a
- * a fixed image.
- *
- * Non-integer moving image values are obtained by using
- * interpolation. The default interpolator is of type
- * LinearInterpolateImageFunction. The user may set other
- * interpolators via method SetMovingImageInterpolator. Note that the input
- * interpolator must derive from baseclass InterpolateImageFunction.
- *
- * This class is templated over the fixed image type, moving image type,
- * and the deformation field type.
- *
- * \warning This filter assumes that the fixed image type, moving image type
- * and deformation field type all have the same number of dimensions.
- *
- * \sa DemonsRegistrationFilter
- * \ingroup FiniteDifferenceFunctions
- */
+* \class DemonsRegistrationFunction
+*
+* This class encapsulate the PDE which drives the demons registration
+* algorithm. It is used by DemonsRegistrationFilter to compute the
+* output deformation field which will map a moving image onto a
+* a fixed image.
+*
+* Non-integer moving image values are obtained by using
+* interpolation. The default interpolator is of type
+* LinearInterpolateImageFunction. The user may set other
+* interpolators via method SetMovingImageInterpolator. Note that the input
+* interpolator must derive from baseclass InterpolateImageFunction.
+*
+* This class is templated over the fixed image type, moving image type,
+* and the deformation field type.
+*
+* \warning This filter assumes that the fixed image type, moving image type
+* and deformation field type all have the same number of dimensions.
+*
+* \sa DemonsRegistrationFilter
+* \ingroup FiniteDifferenceFunctions
+*/
 template<class TFixedImage, class TMovingImage, class TDeformationField>
-class ITK_EXPORT DemonsRegistrationFunction : 
+class ITK_EXPORT DemonsRegistrationFunction :
     public PDEDeformableRegistrationFunction< TFixedImage,
-                                              TMovingImage, TDeformationField>
+                                              TMovingImage, 
+TDeformationField>
 {
 public:
   /** Standard class typedefs. */
   typedef DemonsRegistrationFunction    Self;
   typedef PDEDeformableRegistrationFunction< TFixedImage,
-                                             TMovingImage, TDeformationField >    Superclass;
+                                             TMovingImage, TDeformationField 
+ >    Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
@@ -66,7 +68,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( DemonsRegistrationFunction, 
+  itkTypeMacro( DemonsRegistrationFunction,
                 PDEDeformableRegistrationFunction );
 
   /** MovingImage image type. */
@@ -79,14 +81,15 @@ public:
   typedef typename FixedImageType::IndexType      IndexType;
   typedef typename FixedImageType::SizeType       SizeType;
   typedef typename FixedImageType::SpacingType    SpacingType;
-  
+
   /** Deformation field type. */
   typedef typename Superclass::DeformationFieldType    DeformationFieldType;
-  typedef typename Superclass::DeformationFieldTypePointer   
+  typedef typename Superclass::DeformationFieldTypePointer
   DeformationFieldTypePointer;
 
   /** Inherit some enums from the superclass. */
-  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned 
+int,Superclass::ImageDimension);
 
   /** Inherit some enums from the superclass. */
   typedef typename Superclass::PixelType     PixelType;
@@ -97,18 +100,22 @@ public:
 
   /** Interpolator type. */
   typedef double CoordRepType;
-  typedef InterpolateImageFunction<MovingImageType,CoordRepType> InterpolatorType;
+  typedef InterpolateImageFunction<MovingImageType,CoordRepType> 
+InterpolatorType;
   typedef typename InterpolatorType::Pointer         InterpolatorPointer;
   typedef typename InterpolatorType::PointType       PointType;
   typedef LinearInterpolateImageFunction<MovingImageType,CoordRepType>
   DefaultInterpolatorType;
 
   /** Covariant vector type. */
-  typedef CovariantVector<double,itkGetStaticConstMacro(ImageDimension)> CovariantVectorType;
+  typedef CovariantVector<double,itkGetStaticConstMacro(ImageDimension)> 
+CovariantVectorType;
 
   /** Gradient calculator type. */
-  typedef CentralDifferenceImageFunction<FixedImageType> GradientCalculatorType;
-  typedef typename GradientCalculatorType::Pointer   GradientCalculatorPointer;
+  typedef CentralDifferenceImageFunction<FixedImageType> 
+GradientCalculatorType;
+  typedef typename GradientCalculatorType::Pointer   
+GradientCalculatorPointer;
 
   /** Set the moving image interpolator. */
   void SetMovingImageInterpolator( InterpolatorType * ptr )
@@ -119,7 +126,8 @@ public:
   { return m_MovingImageInterpolator; }
 
   /** This class uses a constant timestep of 1. */
-  virtual TimeStepType ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const
+  virtual TimeStepType ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) 
+const
   { return m_TimeStep; }
 
   /** Return a pointer to a global data structure that is passed to
@@ -141,7 +149,8 @@ public:
    * each pixel that does not lie on a data set boundary */
   virtual PixelType  ComputeUpdate(const NeighborhoodType &neighborhood,
                                    void *globalData,
-                                   const FloatOffsetType &offset = FloatOffsetType(0.0));
+                                   const FloatOffsetType &offset = 
+FloatOffsetType(0.0));
 
 protected:
   DemonsRegistrationFunction();
@@ -149,7 +158,8 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** FixedImage image neighborhood iterator type. */
-  typedef ConstNeighborhoodIterator<FixedImageType> FixedImageNeighborhoodIteratorType;
+  typedef ConstNeighborhoodIterator<FixedImageType> 
+FixedImageNeighborhoodIteratorType;
 
   /** A global data type for this class of equation. Used to store
    * iterators for the fixed image. */
@@ -161,10 +171,11 @@ protected:
 private:
   DemonsRegistrationFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  
+
   /** Cache fixed image information. */
   SpacingType                     m_FixedImageSpacing;
   PointType                       m_FixedImageOrigin;
+  double                          m_Normalizer;
 
   /** Function to compute derivatives of the fixed image. */
   GradientCalculatorPointer       m_FixedImageGradientCalculator;
@@ -191,3 +202,4 @@ private:
 #endif
 
 #endif
+

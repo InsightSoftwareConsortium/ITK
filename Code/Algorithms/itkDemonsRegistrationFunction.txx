@@ -46,6 +46,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   m_FixedImage = NULL;
   m_FixedImageSpacing.Fill( 1.0 );
   m_FixedImageOrigin.Fill( 0.0 );
+  m_Normalizer = 1.0;
   m_FixedImageGradientCalculator = GradientCalculatorType::New();
 
 
@@ -98,6 +99,15 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   m_FixedImageSpacing    = m_FixedImage->GetSpacing();
   m_FixedImageOrigin     = m_FixedImage->GetOrigin();
 
+  // compute the normalizer
+  m_Normalizer      = 1.0;
+  for( unsigned int k = 0; k < ImageDimension; k++ )
+    {
+    m_Normalizer += m_FixedImageSpacing[k] * m_FixedImageSpacing[k];
+    }
+  m_Normalizer /= static_cast<double>( ImageDimension );
+
+
   // setup gradient calculator
   m_FixedImageGradientCalculator->SetInputImage( m_FixedImage );
 
@@ -134,7 +144,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
   for( unsigned int j = 0; j < ImageDimension; j++ )
     {
-    fixedGradientSquaredMagnitude += vnl_math_sqr( fixedGradient[j] ) * m_FixedImageSpacing[j];
+    fixedGradientSquaredMagnitude += vnl_math_sqr( fixedGradient[j] );
     } 
 
   // Get moving image related information
@@ -156,9 +166,19 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     movingValue = 0.0;
     }
 
-  // Compute update
+  /**
+   * Compute Update.
+   * In the original equation the denominator is defined as (g-f)^2 + grad_mag^2.
+   * However there is a mismatch in units between the two terms. 
+   * The units for the second term is intensity^2/mm^2 while the
+   * units for the first term is intensity^2. This mismatch is particularly
+   * problematic when the fixed image does not have unit spacing.
+   * In this implemenation, we normalize the first term by a factor K,
+   * such that denominator = (g-f)^2/K + grad_mag^2
+   * where K = mean square spacing to compensate for the mismatch in units.
+   */
   double speedValue = fixedValue - movingValue;
-  double denominator = vnl_math_sqr( speedValue ) + 
+  double denominator = vnl_math_sqr( speedValue ) / m_Normalizer + 
     fixedGradientSquaredMagnitude;
 
   if ( vnl_math_abs(speedValue) < m_IntensityDifferenceThreshold || 
@@ -173,8 +193,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   for( j = 0; j < ImageDimension; j++ )
     {
-    update[j] = speedValue * fixedGradient[j] * vnl_math_sqr(m_FixedImageSpacing[j]) / 
-      denominator;
+    update[j] = speedValue * fixedGradient[j] / denominator;
     }
 
   return update;
