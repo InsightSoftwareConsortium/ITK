@@ -24,14 +24,15 @@
 // sample set is used for the whole registration process instead of using new
 // samples every iteration. The use of a single sample set results in a much
 // smoother cost function and hence allows the use of more intelligent
-// optimizers. In this example, we will use
-// \doxygen{RegularStepGradientDescentOptimizer}.  Another noticeable
+// optimizers. In this example, we will use the 
+// RegularStepGradientDescentOptimizer.  Another noticeable
 // difference is that pre-normalization of the images is not necessary as the
 // metric rescales internally when building up the discrete density
 // functions.  Other differences between the two mutual information
-// implementation are described in detail in section
-// \ref{sec:MutualInformationMetric}. First, we include the header files of
-// the components used in this example:
+// implementations are described in detail in Section
+// \ref{sec:MutualInformationMetric}. 
+//
+// First, we include the header files of the components used in this example.
 //
 // \index{itk::ImageRegistrationMethod!Multi-Modality}
 // Software Guide : EndLatex 
@@ -153,7 +154,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  MetricType::Pointer         metric        = MetricType::New();
+  MetricType::Pointer metric = MetricType::New();
   registration->SetMetric( metric  );
   // Software Guide : EndCodeSnippet
 
@@ -166,10 +167,10 @@ int main( int argc, char *argv[] )
   //  histogram bins are sufficient and the metric is relatively insensitive
   //  to changes in the number of bins. The number of spatial samples
   //  to be used depends on the content of the image. If the images are
-  //  smooth and do not contain much detail, then using approximatedly
-  //  one percent of the pixels will do. On the other hand, if the images
+  //  smooth and do not contain much detail, then using approximately
+  //  $1$ percent of the pixels will do. On the other hand, if the images
   //  are detailed, it may be necessary to use a much higher proportion,
-  //  say $20$ percent.
+  //  such as $20$ percent.
   //
   //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfHistogramBins()}
   //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfSpatialSamples()}
@@ -266,7 +267,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  This example is executed using the same multi-modality images as
-  //  before.  The registration converged after $24$ iterations and produced
+  //  in the previous one.  The registration converges after $24$ iterations and produces
   //  the following results:
   //
   //  \begin{verbatim}
@@ -324,14 +325,14 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.32\textwidth]{ImageRegistration4Output.eps}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration4CheckerboardBefore.eps}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration4CheckerboardAfter.eps}
-  // \itkcaption[MattesMutualInformationImageToImageMetric output images]{Mapped
-  // moving image (left) and composition of fixed and moving images before
-  // (center) and after (right) registration.}
+  // \itkcaption[MattesMutualInformationImageToImageMetric output images]{The mapped
+  // moving image (left) and the composition of fixed and moving images before
+  // (center) and after (right) registration with Mattes mutual information.}
   // \label{fig:ImageRegistration4Output}
   // \end{figure}
   //
-  //  The result of resampling the moving image is presented on the left
-  //  side of Figure \ref{fig:ImageRegistration4Output}. The center and right
+  //  The result of resampling the moving image is presented at the top
+  //  of Figure \ref{fig:ImageRegistration4Output}. The center and right
   //  parts of the figure present a checkerboard composite of the fixed and
   //  moving images before and after registration.
   //
@@ -348,16 +349,16 @@ int main( int argc, char *argv[] )
   // \label{fig:ImageRegistration4TraceTranslations}
   // \end{figure}
   //
-  //  Figure \ref{fig:ImageRegistration4TraceTranslations} (left) shows the
+  //  Figure \ref{fig:ImageRegistration4TraceTranslations} (top) shows the
   //  sequence of translations followed by the optimizer as it searched the
-  //  parameter space. The right side of the same figure shows the sequence
+  //  parameter space. The bottom of the same figure shows the sequence
   //  of metric values computed as the optimizer searched the parameter
-  //  space.  Comparing these trace plot with Figures
+  //  space.  Comparing these trace plots with Figures
   //  \ref{fig:ImageRegistration2TraceTranslations} and
-  //  \ref{fig:ImageRegistration2TraceMetric} we can see that the measures
-  //  produced by \doxygen{MattesMutualInformationImageToImageMetric} is
-  //  smoother than that of
-  //  \doxygen{MutualInformationImageToImageMetric}. This smoothness allows
+  //  \ref{fig:ImageRegistration2TraceMetric}, we can see that the measures
+  //  produced by MattesMutualInformationImageToImageMetric are
+  //  smoother than those of
+  //  the MutualInformationImageToImageMetric. This smoothness allows
   //  the use of more sophisticated optimizers such as the
   //  \doxygen{RegularStepGradientDescentOptimizer} which efficiently locks
   //  onto the optimal value.
