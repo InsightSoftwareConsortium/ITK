@@ -68,6 +68,7 @@ ADD_TEST(itkNormalizedCorrelationImageMetricTest ${ALGORITHMS_TESTS} itkNormaliz
 ADD_TEST(itkOtsuThresholdImageCalculatorTest ${ALGORITHMS_TESTS} itkOtsuThresholdImageCalculatorTest)
 ADD_TEST(itkPatternIntensityImageMetricTest ${ALGORITHMS_TESTS}  itkPatternIntensityImageMetricTest)
 ADD_TEST(itkRegionGrow2DTest ${ALGORITHMS_TESTS} itkRegionGrow2DTest)
+ADD_TEST(itkSpatialObjectToImageRegistrationTest ${ALGORITHMS_TESTS} itkSpatialObjectToImageRegistrationTest)
 ADD_TEST(itkSupervisedImageClassifierTest ${ALGORITHMS_TESTS} itkSupervisedImageClassifierTest)
 ADD_TEST(itkThresholdSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkThresholdSegmentationLevelSetImageFilterTest)
 ADD_TEST(itkGibbsTest ${ALGORITHMS_TESTS} itkGibbsTest)
@@ -134,6 +135,7 @@ itkNormalizedCorrelationImageMetricTest.cxx
 itkOtsuThresholdImageCalculatorTest.cxx
 itkPatternIntensityImageMetricTest.cxx
 itkRegionGrow2DTest.cxx
+itkSpatialObjectToImageRegistrationTest.cxx
 itkSupervisedImageClassifierTest.cxx
 itkThresholdSegmentationLevelSetImageFilterTest.cxx
 itkGibbsTest.cxx
@@ -150,7 +152,7 @@ TARGET_LINK_LIBRARIES(itkAlgorithmsHeaderTest ITKAlgorithms ITKIO ITKBasicFilter
 ADD_TEST(itkAlgorithmsHeaderTest ${ALGORITHMS_HEADER_TESTS})
 
 ADD_EXECUTABLE(itkAlgorithmsTests itkAlgorithmsTests.cxx ${AlgorithmsTest_SRCS})
-TARGET_LINK_LIBRARIES(itkAlgorithmsTests ITKAlgorithms ITKIO ITKBasicFilters ITKFEM)
+TARGET_LINK_LIBRARIES(itkAlgorithmsTests ITKAlgorithms ITKIO ITKBasicFilters ITKFEM ITKStatistics)
 
 
 IF(ITK_WRAP_TCL)
