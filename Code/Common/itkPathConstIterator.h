@@ -73,6 +73,12 @@ public:
   /** Region typedef support */
   typedef typename TImage::RegionType         RegionType;
 
+  /** Spacing typedef support */
+  typedef typename TImage::SpacingType        SpacingType;
+
+  /** Origin typedef support */
+  typedef typename TImage::PointType          PointType;
+  
   /** Image typedef support. */
   typedef TImage                              ImageType;
 
@@ -179,10 +185,10 @@ protected: //made protected so other iterators can access
   RegionType m_Region;
 
   /** The origin of the source image */
-  const double* m_ImageOrigin;
+  PointType m_ImageOrigin;
   
   /** The spacing of the source image */
-  const double* m_ImageSpacing;
+  SpacingType m_ImageSpacing;
 
   /** Size of the source image */
   const unsigned long int* m_ImageSize;

@@ -176,8 +176,8 @@ ImageFileWriter<TInputImage>
   //
   m_ImageIO->SetNumberOfDimensions(TInputImage::ImageDimension);
   RegionType region = input->GetLargestPossibleRegion();
-  const double *spacing = input->GetSpacing();
-  const double *origin = input->GetOrigin();
+  const typename TInputImage::SpacingType& spacing = input->GetSpacing();
+  const typename TInputImage::PointType& origin = input->GetOrigin();
 
   for(unsigned int i=0; i<TInputImage::ImageDimension; i++)
     {
