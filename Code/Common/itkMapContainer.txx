@@ -29,7 +29,7 @@ namespace itk
  * reference.
  */
 template <typename TElementIdentifier, typename TElement>
-MapContainer< TElementIdentifier , TElement >::Element&
+typename MapContainer< TElementIdentifier , TElement >::Element&
 MapContainer< TElementIdentifier , TElement >
 ::ElementAt(ElementIdentifier id)
 {
@@ -42,7 +42,7 @@ MapContainer< TElementIdentifier , TElement >
  *
  */
 template <typename TElementIdentifier, typename TElement>
-const MapContainer< TElementIdentifier , TElement >::Element&
+const typename MapContainer< TElementIdentifier , TElement >::Element&
 MapContainer< TElementIdentifier , TElement >
 ::ElementAt(ElementIdentifier id) const
 {
@@ -59,7 +59,7 @@ MapContainer< TElementIdentifier , TElement >
  * reference.
  */
 template <typename TElementIdentifier, typename TElement>
-MapContainer< TElementIdentifier , TElement >::Element&
+typename MapContainer< TElementIdentifier , TElement >::Element&
 MapContainer< TElementIdentifier , TElement >
 ::CreateElementAt(ElementIdentifier id)
 {
@@ -73,7 +73,7 @@ MapContainer< TElementIdentifier , TElement >
  * existence performed.
  */
 template <typename TElementIdentifier, typename TElement>
-MapContainer< TElementIdentifier , TElement >::Element
+typename MapContainer< TElementIdentifier , TElement >::Element
 MapContainer< TElementIdentifier , TElement >
 ::GetElement(ElementIdentifier id) const
 {
@@ -177,7 +177,7 @@ MapContainer< TElementIdentifier , TElement >
  * Get a begin const iterator for the map.
  */
 template <typename TElementIdentifier, typename TElement>
-MapContainer< TElementIdentifier , TElement >::ConstIterator
+typename MapContainer< TElementIdentifier , TElement >::ConstIterator
 MapContainer< TElementIdentifier , TElement >
 ::Begin(void) const
 {
@@ -189,7 +189,7 @@ MapContainer< TElementIdentifier , TElement >
  * Get an end const iterator for the map.
  */
 template <typename TElementIdentifier, typename TElement>
-MapContainer< TElementIdentifier , TElement >::ConstIterator
+typename MapContainer< TElementIdentifier , TElement >::ConstIterator
 MapContainer< TElementIdentifier , TElement >
 ::End(void) const
 {
@@ -201,7 +201,7 @@ MapContainer< TElementIdentifier , TElement >
  * Get a begin const iterator for the map.
  */
 template <typename TElementIdentifier, typename TElement>
-MapContainer< TElementIdentifier , TElement >::Iterator
+typename MapContainer< TElementIdentifier , TElement >::Iterator
 MapContainer< TElementIdentifier , TElement >
 ::Begin(void) 
 {
@@ -213,7 +213,7 @@ MapContainer< TElementIdentifier , TElement >
  * Get an end const iterator for the map.
  */
 template <typename TElementIdentifier, typename TElement>
-MapContainer< TElementIdentifier , TElement >::Iterator
+typename MapContainer< TElementIdentifier , TElement >::Iterator
 MapContainer< TElementIdentifier , TElement >
 ::End(void) 
 {

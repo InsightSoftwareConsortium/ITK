@@ -38,7 +38,7 @@ CellInterface< TPixelType , TCellTraits >
  * PointIdsBegin() const.
  */
 template <typename TPixelType, typename TCellTraits>
-CellInterface< TPixelType , TCellTraits >::PointIdConstIterator
+typename CellInterface< TPixelType , TCellTraits >::PointIdConstIterator
 CellInterface< TPixelType , TCellTraits >
 ::GetPointIds(void) const
 {
@@ -109,7 +109,7 @@ CellInterface< TPixelType , TCellTraits >
  * This is only part of the boundary interface.  The call is ignored.
  */
 template <typename TPixelType, typename TCellTraits>
-CellInterface< TPixelType , TCellTraits >::UsingCellsContainerIterator
+typename CellInterface< TPixelType , TCellTraits >::UsingCellsContainerIterator
 CellInterface< TPixelType , TCellTraits >
 ::UsingCellsBegin(void)
 {
@@ -121,7 +121,7 @@ CellInterface< TPixelType , TCellTraits >
  * This is only part of the boundary interface.  The call is ignored.
  */
 template <typename TPixelType, typename TCellTraits>
-CellInterface< TPixelType , TCellTraits >::UsingCellsContainerIterator
+typename CellInterface< TPixelType , TCellTraits >::UsingCellsContainerIterator
 CellInterface< TPixelType , TCellTraits >
 ::UsingCellsEnd(void)
 {

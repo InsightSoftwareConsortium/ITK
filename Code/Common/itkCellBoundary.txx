@@ -85,7 +85,7 @@ CellBoundary<TCell>
  * Get a begin iterator for the UsingCellsContainer.
  */
 template <typename TCell>
-CellBoundary<TCell>::UsingCellsContainerIterator
+typename CellBoundary<TCell>::UsingCellsContainerIterator
 CellBoundary<TCell>
 ::UsingCellsBegin(void)
 {
@@ -97,7 +97,7 @@ CellBoundary<TCell>
  * Get an end iterator for the UsingCellsContainer.
  */
 template <typename TCell>
-CellBoundary<TCell>::UsingCellsContainerIterator
+typename CellBoundary<TCell>::UsingCellsContainerIterator
 CellBoundary<TCell>
 ::UsingCellsEnd(void)
 {
