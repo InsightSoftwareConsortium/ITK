@@ -9,7 +9,7 @@ source [file join Testing Utilities Utility.tcl.in]
 
 set Model Experimental
 set DateStamp ""
-if { $argc == 1 } \
+if { $argc >= 1 } \
 {
   set Model [lindex $argv 0]
   # set DateStamp [lindex $argv 1]
