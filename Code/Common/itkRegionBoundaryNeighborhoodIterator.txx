@@ -18,9 +18,9 @@ namespace itk {
 template<class TPixel, unsigned int VDimension>
 void
 RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
-::SetBound(const unsigned long bound[VDimension])
+::SetBound(const Size& size)
 {
-  SmartRegionNeighborhoodIterator<TPixel, VDimension>::SetBound(bound);
+  SmartRegionNeighborhoodIterator<TPixel, VDimension>::SetBound(size);
   m_InnerStride = (m_Bound[0] - m_StartIndex[0]) - 2*this->GetRadius(0);
 }
 
@@ -105,10 +105,10 @@ RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
   Self it( *this );
 
   // Calculate the end index
-  endIndex.m_Index[0] = m_StartIndex[0] + m_Bound[0];
+  endIndex.m_Index[0] = m_Bound[0];
   for (int i = 1; i< VDimension; ++i)
     {
-      endIndex.m_Index[i] = m_StartIndex[i] + m_Bound[i] -1;
+      endIndex.m_Index[i] = m_Bound[i] -1;
     }
   
   // Set the position to the m_BeginOffset
