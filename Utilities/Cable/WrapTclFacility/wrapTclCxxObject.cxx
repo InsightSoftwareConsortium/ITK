@@ -208,18 +208,24 @@ int TclCxxObject::SetFromAny(Tcl_Interp* interp, Tcl_Obj* objPtr)
   
   if(!cxxObject)
     {
-    if(interp)
-      {
-      Tcl_ResetResult(interp);
-      Tcl_AppendResult(interp,
-                       "Expected CxxObject, but got \"",
-                       const_cast<char*>(stringRep), "\"", 0);
-      }
+    Tcl_ResetResult(interp);
+    Tcl_AppendResult(interp,
+                     "Expected CxxObject, but got \"",
+                     const_cast<char*>(stringRep), "\"", 0);
     return TCL_ERROR;
     }
   else
     {
-    _wrap_DEBUG_OUTPUT(cxxObject->GetWrapperFacility(),
+    WrapperFacility* wrapperFacility = WrapperFacility::GetForInterpreter(interp);
+    if(!wrapperFacility->CxxObjectExists(cxxObject))
+      {
+      Tcl_ResetResult(interp);
+      Tcl_AppendResult(interp,
+                       "No object exists at address given by \"",
+                       const_cast<char*>(stringRep), "\"", 0);
+      return TCL_ERROR;
+      }
+    _wrap_DEBUG_OUTPUT(wrapperFacility,
                        "Setting rep for Tcl_Obj at " << objPtr
                        << " (refCount=" << objPtr->refCount << ")"
                        << " from \"" << stringRep << "\"" << std::endl);

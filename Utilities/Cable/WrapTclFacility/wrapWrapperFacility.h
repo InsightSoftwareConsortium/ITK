@@ -84,6 +84,7 @@ public:
   
   CxxObject* GetCxxObjectFor(const Anything&, const Type*) const;
   void DeleteCxxObjectFor(const Anything&, const Type*) const;
+  bool CxxObjectExists(const CxxObject*) const;
   void SetConversion(const CvQualifiedType&, const Type*, ConversionFunction) const;
   ConversionFunction GetConversion(const CvQualifiedType&, const Type*) const;
   
@@ -131,6 +132,10 @@ private:
   struct CxxFunctionMap;
   ///! Map from function pointer value to CxxObject instance for it.
   CxxFunctionMap* m_CxxFunctionMap;
+  
+  struct CxxObjectSet;
+  ///! A set of all CxxObject instances known by this WrapperFacility.
+  CxxObjectSet* m_CxxObjectSet;
   
   struct ConversionMap;
   ///! Map from conversion from/to pair to a conversion function.

@@ -132,6 +132,14 @@ struct WrapperFacility::CxxFunctionMap: public CxxFunctionMapBase
   typedef CxxFunctionMapBase::value_type value_type;
 };
 
+// A set of all CxxObject instances in the CxxObjectMap and CxxFunctionMap.
+typedef std::set<const CxxObject*> CxxObjectSetBase;
+struct WrapperFacility::CxxObjectSet: public CxxObjectSetBase
+{
+  typedef CxxObjectSetBase::iterator iterator;
+  typedef CxxObjectSetBase::const_iterator const_iterator;
+};
+
 // Map from conversion to conversion function.
 typedef std::pair<CvQualifiedType, const Type*> ConversionKey;
 typedef std::map<ConversionKey, ConversionFunction> ConversionMapBase;
@@ -186,6 +194,7 @@ WrapperFacility::WrapperFacility(Tcl_Interp* interp):
   m_DeleteFunctionMap(new DeleteFunctionMap),
   m_CxxObjectMap(new CxxObjectMap),
   m_CxxFunctionMap(new CxxFunctionMap),
+  m_CxxObjectSet(new CxxObjectSet),
   m_ConversionMap(new ConversionMap)
 {
   // Make sure the class has been initialized globally.
@@ -215,15 +224,10 @@ WrapperFacility::~WrapperFacility()
   // facility for something.  Loop over the maps and explicitly delete
   // every instance left.  Do not call CxxObject::Delete because that
   // will try to remove its instance of from this map!
-  for(CxxFunctionMap::const_iterator f = m_CxxFunctionMap->begin();
-      f != m_CxxFunctionMap->end(); ++f)
+  for(CxxObjectSet::const_iterator o = m_CxxObjectSet->begin();
+      o != m_CxxObjectSet->end(); ++o)
     {
-    delete f->second;
-    }
-  for(CxxObjectMap::const_iterator o = m_CxxObjectMap->begin();
-      o != m_CxxObjectMap->end(); ++o)
-    {
-    delete o->second;
+    delete *o;
     }
 
   // Delete enumeration object values.
@@ -245,6 +249,7 @@ WrapperFacility::~WrapperFacility()
   delete m_DeleteFunctionMap;
   delete m_CxxObjectMap;
   delete m_CxxFunctionMap;
+  delete m_CxxObjectSet;
   delete m_ConversionMap;
 }
 
@@ -761,6 +766,7 @@ CxxObject* WrapperFacility::GetCxxObjectFor(const Anything& anything,
       {
       CxxObject* cxxObject = new CxxObject(anything, type, this);
       m_CxxFunctionMap->insert(CxxFunctionMap::value_type(key, cxxObject));
+      m_CxxObjectSet->insert(cxxObject);
       return cxxObject;
       }
     }
@@ -776,6 +782,7 @@ CxxObject* WrapperFacility::GetCxxObjectFor(const Anything& anything,
       {
       CxxObject* cxxObject = new CxxObject(anything, type, this);
       m_CxxObjectMap->insert(CxxObjectMap::value_type(key, cxxObject));
+      m_CxxObjectSet->insert(cxxObject);
       return cxxObject;
       }
     }
@@ -794,8 +801,10 @@ void WrapperFacility::DeleteCxxObjectFor(const Anything& anything,
     CxxFunctionMap::const_iterator f = m_CxxFunctionMap->find(key);
     if(f != m_CxxFunctionMap->end())
       {
-      delete f->second;
+      const CxxObject* cxxObject = f->second;
       m_CxxFunctionMap->erase(key);
+      m_CxxObjectSet->erase(cxxObject);
+      delete cxxObject;
       }
     }
   else
@@ -804,10 +813,21 @@ void WrapperFacility::DeleteCxxObjectFor(const Anything& anything,
     CxxObjectMap::const_iterator o = m_CxxObjectMap->find(key);
     if(o != m_CxxObjectMap->end())
       {
-      delete o->second;
+      const CxxObject* cxxObject = o->second;
       m_CxxObjectMap->erase(key);
+      m_CxxObjectSet->erase(cxxObject);
+      delete cxxObject;
       }
     }
+}
+
+
+/**
+ * Check whether the given CxxObject instance exists.
+ */
+bool WrapperFacility::CxxObjectExists(const CxxObject* cxxObject) const
+{
+  return (m_CxxObjectSet->count(cxxObject) > 0);
 }
 
 
