@@ -34,7 +34,7 @@ namespace itk
      */    
     template<class TPixel, int VRank>
     ImageMoments<TPixel, VRank>::ImageMoments(void) {
-	valid = 0;
+	m_valid = 0;
     }
 
     /**
