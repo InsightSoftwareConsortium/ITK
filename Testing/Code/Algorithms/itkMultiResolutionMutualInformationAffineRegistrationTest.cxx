@@ -73,7 +73,7 @@ int main()
 // Translate and dilate one of the image
 //------------------------------------------------------------
 
-  //Allocate Images
+  // Allocate Images
   typedef float PixelType;
   typedef itk::Image<PixelType,3>           ReferenceType;
   typedef itk::Image<PixelType,3>           TargetType;
@@ -132,9 +132,9 @@ int main()
     p[0] = ri.GetIndex()[0];
     p[1] = ri.GetIndex()[1];
     p[2] = ri.GetIndex()[2];
-	  d = p-center;
-	  const double x = d[0] * scale[0] + displacement[0];
-	  const double y = d[1] * scale[1] + displacement[1];
+    d = p-center;
+    const double x = d[0] * scale[0] + displacement[0];
+    const double y = d[1] * scale[1] + displacement[1];
     const double z = d[2] * scale[2] + displacement[2];
     ri.Set( (PixelType) F(x,y,z) );
     ++ri;
@@ -146,9 +146,9 @@ int main()
     p[0] = ti.GetIndex()[0];
     p[1] = ti.GetIndex()[1];
     p[2] = ti.GetIndex()[2];
-	  d = p-center;
-	  const double x = d[0];
-	  const double y = d[1];
+    d = p-center;
+    const double x = d[0];
+    const double y = d[1];
     const double z = d[2];
     ti.Set( (PixelType) F(x,y,z) );
     ++ti;
