@@ -122,8 +122,9 @@ void SignedDanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   filter2->SetSquaredDistance( m_SquaredDistance );
     
   //Invert input image for second Danielsson filter
-  typedef itk::UnaryFunctorImageFilter< InputImageType, InputImageType,
-    itk::InvertIntensityFunctor<typename InputImageType::PixelType> > 
+  typedef typename InputImageType::PixelType InputPixelType;
+  typedef UnaryFunctorImageFilter< InputImageType, InputImageType,
+    InvertIntensityFunctor<InputPixelType> > 
       InverterType;
   typename InverterType::Pointer inverter = InverterType::New();
   inverter->SetInput(this->GetInput());
@@ -131,7 +132,7 @@ void SignedDanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   //Dilate the inverted image by 1 pixel to give it the same boundary
   //as the univerted input.
   
-  typedef BinaryBallStructuringElement< typename InputImageType::PixelType, 
+  typedef BinaryBallStructuringElement< InputPixelType, 
         2  > StructuringElementType;  
   typedef BinaryDilateImageFilter< InputImageType, InputImageType, 
         StructuringElementType > DilatorType; 
