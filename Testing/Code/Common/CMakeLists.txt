@@ -44,6 +44,7 @@ ADD_TEST(itkImageLinearIteratorTest ${COMMON_TESTS} itkImageLinearIteratorTest)
 ADD_TEST(itkImageRandomIteratorTest ${COMMON_TESTS} itkImageRandomIteratorTest)
 ADD_TEST(itkImageRegionTest ${COMMON_TESTS} itkImageRegionTest)
 ADD_TEST(itkImageRegionExclusionIteratorWithIndexTest ${COMMON_TESTS} itkImageRegionExclusionIteratorWithIndexTest)
+ADD_TEST(itkImageReverseIteratorTest ${COMMON_TESTS} itkImageReverseIteratorTest)
 ADD_TEST(itkImageSliceIteratorTest ${COMMON_TESTS} itkImageSliceIteratorTest)
 ADD_TEST(itkIteratorTests ${COMMON_TESTS} itkIteratorTests)
 ADD_TEST(itkLightObjectTest ${COMMON_TESTS} itkLightObjectTest)
@@ -112,6 +113,7 @@ itkImageLinearIteratorTest.cxx
 itkImageRandomIteratorTest.cxx
 itkImageRegionTest.cxx
 itkImageRegionExclusionIteratorWithIndexTest.cxx
+itkImageReverseIteratorTest.cxx
 itkImageSliceIteratorTest.cxx
 itkIteratorTests.cxx
 itkLevelSetFunctionTest.cxx

@@ -36,6 +36,7 @@ REGISTER_TEST(itkImageLinearIteratorTest );
 REGISTER_TEST(itkImageRandomIteratorTest );
 REGISTER_TEST(itkImageRegionTest );
 REGISTER_TEST(itkImageRegionExclusionIteratorWithIndexTest );
+REGISTER_TEST(itkImageReverseIteratorTest );
 REGISTER_TEST(itkImageSliceIteratorTest );
 REGISTER_TEST(itkIteratorTests );
 REGISTER_TEST(itkLightObjectTest );
