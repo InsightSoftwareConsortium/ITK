@@ -112,8 +112,6 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
   // PROBLEM LINE
   meshSource->AddLine( idArray[6], idArray[7] );
 
-#if 0
-
   meshSource->AddTriangle( idArray[5], idArray[6], idArray[7] );
 
   meshSource->AddQuadrilateral( idArray[4], idArray[5],
@@ -131,13 +129,11 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
 
   meshSource->AddVertex( meshSource->AddPoint( 3, 1, 1 ) );
 
-#if 0
   // PROBLEM LINES
   meshSource->AddLine(
     meshSource->AddPoint( 2, 1, 1 ),
     meshSource->AddPoint( 3, 1, 1 )
     );
-#endif
 
   meshSource->AddTriangle(
     meshSource->AddPoint( 3, 0, 1 ),
@@ -191,12 +187,8 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
   meshSource->AddHexahedron( points[0], points[1], points[2], points[3],
                              points[4], points[5], points[6], points[7] );
 
-#endif // 0
-
   // Print out the resulting mesh data.
   std::cout << MeshType::Pointer(meshSource->GetOutput()) << std::endl;
-
-#if 0
 
   // Now do a sanity check.  Create a mesh consisting of a pair of
   // tetrahedra sharing a face and a pair of cubes sharing a face, and
@@ -354,8 +346,6 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
               << " cells, but 68 were added." << std::endl;
     return EXIT_FAILURE;
     }
-
-#endif
 
   return EXIT_SUCCESS;
 
