@@ -27,6 +27,7 @@
 // Blox stuff
 #include "itkBloxBoundaryPointPixel.h"
 #include "itkBloxBoundaryPointImage.h"
+#include "itkGradientImageToBloxBoundaryPointImageFilter.h"
 
 // Spatial function stuff
 #include "itkSphereSpatialFunction.h"
@@ -158,53 +159,26 @@ int itkBloxBoundaryPointImageTest(int, char**)
 
   //------------------------Blox Boundary Point Analysis-------------------------
 
-  // Image size and spacing parameters
-  unsigned long bloxImageSize[]  = {1,1,1};
-  double bloxImageSpacing[] = {20,20,20};
-  double bloxImageOrigin[] = { 0,0,0 };
+  typedef itk::GradientImageToBloxBoundaryPointImageFilter<TDOGFilterType::TOutputImage> TBPFilter;
+  typedef TBPFilter::TOutputImage TBloxBPImageType;
 
-  typedef itk::BloxBoundaryPointImage<TDOGFilterType::TOutputImage> TBloxImageType;
+  TBPFilter::Pointer bpFilter= TBPFilter::New();
+  bpFilter->SetInput( DOGFilter->GetOutput() );
 
-  // Creates the bloxPointImage (but doesn't set the size or allocate memory)
-  TBloxImageType::Pointer bloxBoundaryPointImage = TBloxImageType::New();
-  bloxBoundaryPointImage->SetOrigin(bloxImageOrigin);
-  bloxBoundaryPointImage->SetSpacing(bloxImageSpacing);
+  TBloxBPImageType::Pointer bloxBoundaryPointImage = bpFilter->GetOutput();
 
-  // Create a size object native to the TBloxImageType bloxBoundaryPointImage type
-  TBloxImageType::SizeType size = {{0}};
-
-  // Set the size object to the array defined earlier
-  size.SetSize( bloxImageSize );
-
-  // Create a region object native to the TBloxImageType bloxBoundaryPointImage type
-  TBloxImageType::RegionType theregion;
-
-  // Resize the region
-  theregion.SetSize( size );
-
-  // Set the largest legal region size (i.e. the size of the whole bloxBoundaryPointImage) to what we just defined
-  bloxBoundaryPointImage->SetLargestPossibleRegion( theregion );
-  bloxBoundaryPointImage->SetBufferedRegion( theregion );
-  bloxBoundaryPointImage->SetRequestedRegion( theregion );
-
-  // Now allocate memory for the bloxBoundaryPointImage
-  bloxBoundaryPointImage->Allocate();
-  
-  // Fill the BloxBoundaryPointImage with boundary points
-  bloxBoundaryPointImage->SetThreshold(128);
-  bloxBoundaryPointImage->SetSourceImage(gradientImage);
-  bloxBoundaryPointImage->FindBoundaryPoints();
+  bpFilter->Update();
 
   //-------------------Pull boundary points out of the image----------------------
 
   // Create an iterator that will walk the blox image
-  typedef itk::ImageRegionIterator<TBloxImageType> BloxIterator;
+  typedef itk::ImageRegionIterator<TBloxBPImageType> BloxIterator;
 
   BloxIterator bloxIt = BloxIterator(bloxBoundaryPointImage,
                                      bloxBoundaryPointImage->GetRequestedRegion() );
 
   // Used for obtaining the index of a pixel
-  TBloxImageType::IndexType bloxindex;
+  TBloxBPImageType::IndexType bloxindex;
 
   // Used for obtaining position data from a BloxPoint
   itk::Point<double, 3> position;

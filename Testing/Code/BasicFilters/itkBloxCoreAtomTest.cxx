@@ -27,6 +27,8 @@
 // Blox stuff
 #include "itkBloxBoundaryPointImage.h"
 #include "itkBloxCoreAtomImage.h"
+#include "itkGradientImageToBloxBoundaryPointImageFilter.h"
+#include "itkBloxBoundaryPointToCoreAtomImageFilter.h"
 
 // Spatial function stuff
 #include "itkSphereSpatialFunction.h"
@@ -138,10 +140,6 @@ int itkBloxCoreAtomTest(int, char**)
   // Set up the output of the filter
   TImageType::Pointer blurredImage = binfilter->GetOutput();
 
-  // Execute the filter
-  binfilter->Update();
-  std::cout << "Binomial blur filter updated\n";
-
   // Create a differennce of gaussians gradient filter
   typedef itk::DifferenceOfGaussiansGradientImageFilter<TOutputType,
     double> TDOGFilterType;
@@ -153,86 +151,42 @@ int itkBloxCoreAtomTest(int, char**)
   // Get the output of the gradient filter
   TDOGFilterType::TOutputImage::Pointer gradientImage = DOGFilter->GetOutput();
 
-  // Go!
-  DOGFilter->Update();
-
   //------------------------Blox Boundary Point Analysis-------------------------
 
-  // Image size and spacing parameters
-  unsigned long bloxImageSize[]  = {1,1,1};
-  double bloxImageSpacing[] = {20,20,20};
-  double bloxImageOrigin[] = { 0,0,0 };
+  typedef itk::GradientImageToBloxBoundaryPointImageFilter<TDOGFilterType::TOutputImage> TBPFilter;
+  typedef TBPFilter::TOutputImage TBloxBPImageType;
 
-  typedef itk::BloxBoundaryPointImage<TDOGFilterType::TOutputImage> TBloxImageType;
+  TBPFilter::Pointer bpFilter= TBPFilter::New();
+  bpFilter->SetInput( DOGFilter->GetOutput() );
 
-  // Creates the bloxPointImage (but doesn't set the size or allocate memory)
-  TBloxImageType::Pointer bloxBoundaryPointImage = TBloxImageType::New();
-  bloxBoundaryPointImage->SetOrigin(bloxImageOrigin);
-  bloxBoundaryPointImage->SetSpacing(bloxImageSpacing);
+  TBloxBPImageType::Pointer bloxBoundaryPointImage = bpFilter->GetOutput();
 
-  // Create a size object native to the TBloxImageType bloxBoundaryPointImage type
-  TBloxImageType::SizeType size = {{0}};
-
-  // Set the size object to the array defined earlier
-  size.SetSize( bloxImageSize );
-
-  // Create a region object native to the TBloxImageType bloxBoundaryPointImage type
-  TBloxImageType::RegionType theregion;
-
-  // Resize the region
-  theregion.SetSize( size );
-
-  // Set the largest legal region size (i.e. the size of the whole bloxBoundaryPointImage) to what we just defined
-  bloxBoundaryPointImage->SetLargestPossibleRegion( theregion );
-  bloxBoundaryPointImage->SetBufferedRegion( theregion );
-  bloxBoundaryPointImage->SetRequestedRegion( theregion );
-
-  // Now allocate memory for the bloxBoundaryPointImage
-  bloxBoundaryPointImage->Allocate();
-
-  std::cout << "Finding boundary points\n";
-  
-  // Fill the BloxBoundaryPointImage with boundary points
-  bloxBoundaryPointImage->SetThreshold(128);
-  bloxBoundaryPointImage->SetSourceImage(gradientImage);
-  bloxBoundaryPointImage->FindBoundaryPoints();
+  bpFilter->Update();
 
   //----------------------Find core atoms-------------------------
 
-  typedef itk::BloxCoreAtomImage<TBloxImageType> TCoreAtomType;
+  typedef itk::BloxCoreAtomImage<dim> TCoreAtomType;
   TCoreAtomType::Pointer coreAtomImage = TCoreAtomType::New();
 
-  // Set the core atom parameters
-  coreAtomImage->SetBoundaryPointImage(bloxBoundaryPointImage);
-  coreAtomImage->SetDistanceMin(8.0);
-  coreAtomImage->SetDistanceMax(12.0);
-  coreAtomImage->SetEpsilon(0.05);
-  coreAtomImage->SetPolarity(0);
+  typedef itk::BloxBoundaryPointToCoreAtomImageFilter<dim> TCAFilter;
+  typedef TCAFilter::TOutputImage TBloxCAImageType;
 
-  coreAtomImage->SetOrigin(bloxImageOrigin);
-  coreAtomImage->SetSpacing(bloxImageSpacing);
+  TCAFilter::Pointer caFilter = TCAFilter::New();
+  caFilter->SetInput(bloxBoundaryPointImage);
+  caFilter->SetDistanceMin(8.0);
+  caFilter->SetDistanceMax(12.0);
+  caFilter->SetEpsilon(0.05);
+  caFilter->SetPolarity(0);
 
-  // Create a region object
-  TCoreAtomType::RegionType coreatomregion;
+  TBloxCAImageType::Pointer bloxCoreAtomImage = caFilter->GetOutput();
 
-  // Resize the region
-  coreatomregion.SetSize( size );
-
-  // Allocate the core atom image
-  coreAtomImage->SetLargestPossibleRegion( coreatomregion );
-  coreAtomImage->SetBufferedRegion( coreatomregion );
-  coreAtomImage->SetRequestedRegion( coreatomregion );
-  coreAtomImage->Allocate();
-
-  std::cout << "Finding core atoms\n";
-
-  coreAtomImage->FindCoreAtoms();
+  caFilter->Update();
 
   //--------------------Analyze core atom population---------------------
 
   std::cout << "Performing Eigenanalysis\n";
   
-  coreAtomImage->DoEigenanalysis();
+  bloxCoreAtomImage->DoEigenanalysis();
 
   return EXIT_SUCCESS;
 }
