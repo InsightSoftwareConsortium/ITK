@@ -146,7 +146,7 @@ public:
     {
       if (obj > 0 && obj <= m_NumberOfObjects)
         {
-        return m_SizeOfObjectsInPixels[obj];
+        return m_SizeOfObjectsInPixels[obj-1];
         }
       else
         {
@@ -161,7 +161,7 @@ public:
     { 
       if (obj > 0 && obj <= m_NumberOfObjects)
         {
-        return m_SizeOfObjectsInPhysicalUnits[obj];
+        return m_SizeOfObjectsInPhysicalUnits[obj-1];
         }
       else
         {
