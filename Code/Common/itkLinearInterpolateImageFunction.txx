@@ -97,8 +97,8 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
     }
   
   /**
-   * Interpolated value is the weight some of each of the surrounding
-   * neighbors. The weight for each neighbour is the fraction overlap
+   * Interpolated value is the weighted sum of each of the surrounding
+   * neighbors. The weight for each neighbor is the fraction overlap
    * of the neighbor pixel with respect to a pixel centered on point.
    */
   RealType value = NumericTraits<RealType>::Zero;
