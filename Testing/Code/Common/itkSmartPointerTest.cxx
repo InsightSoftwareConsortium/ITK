@@ -57,7 +57,7 @@ protected:
     m_ReferenceCount = 0;
     std::cout << "construct itkTestObject " << *this << std::endl; 
     }
-  ~itkTestObject() 
+  virtual ~itkTestObject() 
     {
     std::cout << "destruct itkTestObject " << *this << std::endl; 
     }
