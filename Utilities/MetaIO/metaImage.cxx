@@ -623,14 +623,28 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
       {
       M_ReadElements(m_ReadStream, m_ElementData, m_Quantity);
       }
-    else if(!strcmp("LIST", m_ElementDataFileName))
+    else if(!strncmp("LIST", m_ElementDataFileName,4))
       {
+      unsigned int fileImageDim = 0;
+      char junk[255];
+      sscanf( m_ElementDataFileName,"%s %d",junk, &fileImageDim);
+      if ( (fileImageDim == 0) || (fileImageDim > m_NDims) )
+        {
+        // if optional file dimension size is not give or is larger than
+        // overall dimension then default to a size of m_NDims - 1.
+        fileImageDim = m_NDims-1;
+        }
       char s[255];
       std::ifstream* readStreamTemp = new std::ifstream;
       int elementSize;
       MET_SizeOfType(m_ElementType, &elementSize);
       elementSize *= m_ElementNumberOfChannels;
-      for(i=0; i<m_DimSize[m_NDims-1] && !m_ReadStream->eof(); i++)
+      unsigned int totalFiles = 1;
+      for (i = m_NDims; i > fileImageDim; i--)
+        {
+          totalFiles *= m_DimSize[i-1];
+        }
+      for(i=0; i< totalFiles && !m_ReadStream->eof(); i++)
         {
         m_ReadStream->getline(s, 255);
         if(!m_ReadStream->eof())
@@ -657,9 +671,9 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
             }
 
           M_ReadElements(readStreamTemp,
-                         &(((char *)m_ElementData)[i*m_SubQuantity[m_NDims-1]*
+                         &(((char *)m_ElementData)[i*m_SubQuantity[fileImageDim]*
                                                    elementSize]),
-                         m_SubQuantity[m_NDims-1]);
+                         m_SubQuantity[fileImageDim]);
 
           readStreamTemp->close();
           }
