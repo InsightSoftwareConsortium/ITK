@@ -41,9 +41,11 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadGrav.cxx
   itkFEMLoadEdge.cxx
   itkFEMLoadPoint.cxx
+  itkFEMLoadLandmark.cxx
  
   itkFEMLoadImplementationsRegister.cxx
   itkFEMLoadImplementationGenericBodyLoad.cxx
+  itkFEMLoadImplementationLandmarkLoadOnElement2DC0LinearQuadrilateralStress.cxx 
 
   itkFEMSolver.cxx
   itkFEMSolverHyperbolic.cxx
@@ -108,6 +110,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadGrav.h
   itkFEMLoadEdge.h
   itkFEMLoadPoint.h
+  itkFEMLoadLandmark.h
   itkFEMImageMetricLoad.h
 
   itkFEMLoadImplementationTest.h
