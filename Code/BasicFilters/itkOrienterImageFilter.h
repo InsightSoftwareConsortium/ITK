@@ -120,7 +120,7 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
 
   /*** Member functions used by GenerateData: */
-  void determinePermutationsAndFlips(const itk::IOCommon::ValidCoordinateOrientationFlags fixed_orient, const itk::IOCommon::ValidCoordinateOrientationFlags moving_orient);
+  void DeterminePermutationsAndFlips(const itk::IOCommon::ValidCoordinateOrientationFlags fixed_orient, const itk::IOCommon::ValidCoordinateOrientationFlags moving_orient);
   bool NeedToPermute();
   bool NeedToFlip();
 

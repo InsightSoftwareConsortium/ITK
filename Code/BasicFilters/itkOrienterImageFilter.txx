@@ -20,9 +20,11 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkOrienterImageFilter.h"
+#include <itkIOCommon.h>
 #include <itkCastImageFilter.h>
 #include <itkConstantPadImageFilter.h>
 #include <itkExtractImageFilter.h>
+#include "itkMetaDataObject.h"
 #include "itkProgressAccumulator.h"
 
 namespace itk
@@ -31,8 +33,8 @@ namespace itk
 template <class TInputImage, class TOutputImage>
 OrienterImageFilter<TInputImage, TOutputImage>
 ::OrienterImageFilter()
-  : m_GivenCoordinateOrientation  ( itk::IOCommon::ITK_COORDINATE_ORIENTATION_RIP ),
-    m_DesiredCoordinateOrientation( itk::IOCommon::ITK_COORDINATE_ORIENTATION_RIP )
+  : m_GivenCoordinateOrientation  ( IOCommon::ITK_COORDINATE_ORIENTATION_RIP ),
+    m_DesiredCoordinateOrientation( IOCommon::ITK_COORDINATE_ORIENTATION_RIP )
 
 {
 }
@@ -89,7 +91,7 @@ OrienterImageFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 OrienterImageFilter<TInputImage, TOutputImage>
-::determinePermutationsAndFlips(const itk::IOCommon::ValidCoordinateOrientationFlags fixed_orient, const itk::IOCommon::ValidCoordinateOrientationFlags moving_orient)
+::DeterminePermutationsAndFlips(const IOCommon::ValidCoordinateOrientationFlags fixed_orient, const IOCommon::ValidCoordinateOrientationFlags moving_orient)
 {
   //std::cout <<"DEBUG Received Codes " <<fixed_orient <<"  and  " <<moving_orient <<std::endl;
   //3-dimensional version of code system only.  The 3-axis testing is unrolled.
@@ -99,12 +101,12 @@ OrienterImageFilter<TInputImage, TOutputImage>
   const unsigned int CodeAxisIncreasingField = 1;
   unsigned int fixed_codes[NumDims];
   unsigned int moving_codes[NumDims];
-  fixed_codes[0]  = (fixed_orient  >> itk::IOCommon::ITK_COORDINATE_PrimaryMinor) & CodeField;
-  fixed_codes[1]  = (fixed_orient  >> itk::IOCommon::ITK_COORDINATE_SecondaryMinor) & CodeField;
-  fixed_codes[2]  = (fixed_orient  >> itk::IOCommon::ITK_COORDINATE_TertiaryMinor) & CodeField;
-  moving_codes[0] = (moving_orient >> itk::IOCommon::ITK_COORDINATE_PrimaryMinor) & CodeField;
-  moving_codes[1] = (moving_orient >> itk::IOCommon::ITK_COORDINATE_SecondaryMinor) & CodeField;
-  moving_codes[2] = (moving_orient >> itk::IOCommon::ITK_COORDINATE_TertiaryMinor) & CodeField;
+  fixed_codes[0]  = (fixed_orient  >> IOCommon::ITK_COORDINATE_PrimaryMinor) & CodeField;
+  fixed_codes[1]  = (fixed_orient  >> IOCommon::ITK_COORDINATE_SecondaryMinor) & CodeField;
+  fixed_codes[2]  = (fixed_orient  >> IOCommon::ITK_COORDINATE_TertiaryMinor) & CodeField;
+  moving_codes[0] = (moving_orient >> IOCommon::ITK_COORDINATE_PrimaryMinor) & CodeField;
+  moving_codes[1] = (moving_orient >> IOCommon::ITK_COORDINATE_SecondaryMinor) & CodeField;
+  moving_codes[2] = (moving_orient >> IOCommon::ITK_COORDINATE_TertiaryMinor) & CodeField;
   //std::cout <<"DEBUG Fixed Codes " <<fixed_codes[0]  <<",  " <<fixed_codes[1]  <<"  and  " <<fixed_codes[2]  <<std::endl;
   //std::cout <<"DEBUG Moving Codes " <<moving_codes[0]  <<",  " <<moving_codes[1]  <<"  and  " <<moving_codes[2]  <<std::endl;
 
@@ -129,7 +131,7 @@ OrienterImageFilter<TInputImage, TOutputImage>
             { //The cyclic permutation (i j) applies.  Therefore the remainder is (k), i.e., stationary.
             m_PermuteOrder[i] = j;
             m_PermuteOrder[j] = i;
-            //std::cout <<"DEBUG determinePermutationsAndFlips: coded the swap of axes " <<i <<" and " <<j <<std::endl;
+            //std::cout <<"DEBUG DeterminePermutationsAndFlips: coded the swap of axes " <<i <<" and " <<j <<std::endl;
             }
           else
             { //Need to work out an (i j k) cyclic permutation:
@@ -141,7 +143,7 @@ OrienterImageFilter<TInputImage, TOutputImage>
                 m_PermuteOrder[i] = j;
                 m_PermuteOrder[j] = k;
                 m_PermuteOrder[k] = i;
-                //std::cout <<"DEBUG determinePermutationsAndFlips: coded the swap of axes " <<i <<", " <<j <<" and " <<k <<std::endl;
+                //std::cout <<"DEBUG DeterminePermutationsAndFlips: coded the swap of axes " <<i <<", " <<j <<" and " <<k <<std::endl;
                 break;
                 }
               }
@@ -161,7 +163,7 @@ OrienterImageFilter<TInputImage, TOutputImage>
     if ((moving_codes[j] & CodeAxisIncreasingField) != (fixed_codes[i] & CodeAxisIncreasingField))
       {
       m_FlipAxes[i] = true;
-      //std::cout <<"DEBUG determinePermutationsAndFlips: coded the flip of axis " <<i <<std::endl;
+      //std::cout <<"DEBUG DeterminePermutationsAndFlips: coded the flip of axis " <<i <<std::endl;
       }
     }
 }
@@ -185,7 +187,7 @@ OrienterImageFilter<TInputImage,TOutputImage>
 
   m_FlipAxes.Fill( false );
 
-  determinePermutationsAndFlips (m_DesiredCoordinateOrientation, m_GivenCoordinateOrientation);
+  this->DeterminePermutationsAndFlips (m_DesiredCoordinateOrientation, m_GivenCoordinateOrientation);
 }
 
 
@@ -206,7 +208,7 @@ OrienterImageFilter<TInputImage,TOutputImage>
 
   m_FlipAxes.Fill( false );
 
-  determinePermutationsAndFlips (m_DesiredCoordinateOrientation, m_GivenCoordinateOrientation);
+  this->DeterminePermutationsAndFlips (m_DesiredCoordinateOrientation, m_GivenCoordinateOrientation);
 }
 
 
@@ -245,7 +247,7 @@ OrienterImageFilter<TInputImage, TOutputImage>
 {
 
   // Create a process accumulator for tracking the progress of this minipipeline
-  typename itk::ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  typename ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
 
@@ -256,7 +258,7 @@ OrienterImageFilter<TInputImage, TOutputImage>
 
   const unsigned int Dimension = 3;
 
-  typedef itk::Image< typename InputImageType::PixelType, Dimension > CubeImageType;
+  typedef Image< typename InputImageType::PixelType, Dimension > CubeImageType;
 
   typename InputImageType::SizeType originalSize;
   originalSize = this->GetInput()->GetLargestPossibleRegion().GetSize();
@@ -269,10 +271,10 @@ OrienterImageFilter<TInputImage, TOutputImage>
   /* Now we are going to build up the ITK pipeline for processing */
 
   // Convenient typedefs
-  typedef itk::ConstantPadImageFilter < InputImageType, CubeImageType > PadInputFilterType;
-  typedef itk::ExtractImageFilter < CubeImageType, CubeImageType > ExtractFilterType;
-  typedef itk::FlipImageFilter < CubeImageType > FlipFilterType;
-  typedef itk::CastImageFilter < CubeImageType, OutputImageType > CastToOutputFilterType;
+  typedef ConstantPadImageFilter < InputImageType, CubeImageType > PadInputFilterType;
+  typedef ExtractImageFilter < CubeImageType, CubeImageType > ExtractFilterType;
+  typedef FlipImageFilter < CubeImageType > FlipFilterType;
+  typedef CastImageFilter < CubeImageType, OutputImageType > CastToOutputFilterType;
 
   // Create the casting filters
   typename PadInputFilterType::Pointer to_cube_padded = PadInputFilterType::New();
@@ -292,7 +294,7 @@ OrienterImageFilter<TInputImage, TOutputImage>
   to_cube_padded->SetConstant( 0 );
 
 
-  typedef itk::PermuteAxesImageFilter< CubeImageType >  PermuteFilterType;
+  typedef PermuteAxesImageFilter< CubeImageType >  PermuteFilterType;
 
   typename PermuteFilterType::Pointer permuteAxesFilter = PermuteFilterType::New();
   typename  FlipFilterType::Pointer  flipAxesFilter  = FlipFilterType::New();
@@ -357,11 +359,11 @@ OrienterImageFilter<TInputImage, TOutputImage>
   //std::cout <<"DEBUG: before this->GraftOutput( to_output->GetOutput() );" <<std::endl;
   {
   typename CastToOutputFilterType::OutputImageType::Pointer tempImage = to_output->GetOutput();
-  std::cout <<(tempImage) <<std::endl;
+  stdto::cout <<(tempImage) <<std::endl;
   }
   this->GraftOutput( to_output->GetOutput() );
   this->GetOutput()->SetMetaDataDictionary( this->GetInput()->GetMetaDataDictionary() );
-  EncapsulateMetaData < itk::IOCommon::ValidCoordinateOrientationFlags > ( this->GetOutput()->GetMetaDataDictionary(), ITK_CoordinateOrientation, m_DesiredCoordinateOrientation );
+  itk::EncapsulateMetaData<IOCommon::ValidCoordinateOrientationFlags>( this->GetOutput()->GetMetaDataDictionary(), ITK_CoordinateOrientation, m_DesiredCoordinateOrientation );
 
 }
 
