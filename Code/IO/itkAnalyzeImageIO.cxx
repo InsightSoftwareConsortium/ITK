@@ -20,6 +20,8 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkByteSwapper.h"
 #include "itkMetaDataObject.h"
 
+#include <itksys/SystemTools.hxx>
+
 #include <zlib.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -64,27 +66,6 @@ const short int DataTypeKey[12]={
   SPMANALYZE_DT_UNSIGNED_INT
 };
 
-
-//The following was inserted based on Bill Hoffman's CMake
-//implementation.
-#if defined(_WIN32) && (defined(_MSC_VER) || defined(__BORLANDC__))
-#include <stdlib.h>
-#define _unlink unlink
-#else
-#include <unistd.h>
-#endif
-/**
-   * \author Kent Williams <Bill Hoffman>
-   * Remove file with name fname from the file system
-   * \param fname  The name of the file to remove
-   * \return true if successful, false if not successful.
-   */
-//NOTE: After further testing, this should probably be added to the
-//Directory manipulation section of ITK.
-static inline bool RemoveFile(const char *fname)
-{
-  return (unlink(fname) != 0)? false: true;
-}
 
 //GetExtension from uiig library.
 static std::string
@@ -1261,7 +1242,7 @@ AnalyzeImageIO
     //DEBUG -- Will this work under windows?
     std::string unusedbaseimgname= GetRootName(GetHeaderFileName(m_FileName));
     unusedbaseimgname+=".img";
-    RemoveFile(unusedbaseimgname.c_str());
+    itksys::SystemTools::RemoveFile(unusedbaseimgname.c_str());
     }
   else
     {
@@ -1294,7 +1275,7 @@ AnalyzeImageIO
     //DEBUG -- Will this work under windows?
     std::string unusedbaseimgname= GetRootName(GetHeaderFileName(m_FileName));
     unusedbaseimgname+=".img.gz";
-    RemoveFile(unusedbaseimgname.c_str());
+    itksys::SystemTools::RemoveFile(unusedbaseimgname.c_str());
     }
 }
 } // end namespace itk
