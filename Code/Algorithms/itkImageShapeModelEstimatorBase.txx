@@ -42,7 +42,6 @@ void
 ImageShapeModelEstimatorBase<TInputImage, TOutputImage>
 ::GenerateData()
 {
-
   this->EstimateShapeModels();
 }
 

@@ -62,27 +62,12 @@ public:
   typedef          TInputImage          InputImageType;
   typedef typename TInputImage::Pointer InputImagePointer;
 
-  /** Set the input image. */
-  itkSetObjectMacro(InputImage,InputImageType);
-
-  /** Get the input image. */
-  itkGetObjectMacro(InputImage,InputImageType);
-
-
-  /** Function that initiates the shape model computation. This function 
-   *  eventually calls a virtual private function that estimates the shape
-   *  model.
-   */
-  //void Update();
-
-
 protected:
   ImageShapeModelEstimatorBase();
   ~ImageShapeModelEstimatorBase();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   virtual void GenerateData();
-
 
 private:
 
