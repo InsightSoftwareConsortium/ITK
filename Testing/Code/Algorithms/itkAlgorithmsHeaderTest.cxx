@@ -27,6 +27,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkBinaryMask3DMeshSource.txx"
 #include "itkBinaryMinMaxCurvatureFlowFunction.txx"
 #include "itkBinaryMinMaxCurvatureFlowImageFilter.txx"
+#include "itkBioGene.h"
 #include "itkCannySegmentationLevelSetFunction.txx"
 #include "itkCannySegmentationLevelSetImageFilter.txx"
 #include "itkClassifierBase.txx"
