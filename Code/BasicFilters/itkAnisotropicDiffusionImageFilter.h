@@ -87,7 +87,6 @@ public:
   typedef typename Superclass::PixelType PixelType;
   typedef typename Superclass::TimeStepType TimeStepType;
 
-
   /** 
    * Smart pointer support for this class.
    */
@@ -103,6 +102,10 @@ public:
   itkGetMacro(TimeStep, TimeStepType);
   itkSetMacro(ConductanceParameter, double);
   itkGetMacro(ConductanceParameter, double);
+  itkSetMacro(ConductanceScalingUpdateInterval, unsigned int);
+  itkGetMacro(ConductanceScalingUpdateInterval, unsigned int);
+  itkSetMacro(ConductanceScalingParameter, double);
+  itkGetMacro(ConductanceScalingParameter, double);
   
 protected:
   AnisotropicDiffusionImageFilter()
@@ -142,11 +145,20 @@ protected:
       f->SetConductanceParameter(m_ConductanceParameter);
       f->CalculateAverageGradientMagnitudeSquared(this->GetOutput());
       f->InitializeIteration();
+
+      if (m_Iterations != 0)
+          this->UpdateProgress(((float)(this->GetElapsedIterations()))
+                               /((float)(m_Iterations)));
+      else this->UpdateProgress(0);
     }
   
 private:
   double           m_ConductanceParameter;
+  double           m_ConductanceScalingParameter;
   unsigned int     m_Iterations;
+  unsigned int     m_ConductanceScalingUpdateInterval;
+  
+
   TimeStepType     m_TimeStep;
 };
 
