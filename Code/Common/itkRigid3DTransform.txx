@@ -287,7 +287,7 @@ TransformVnlVector(const InputVnlVectorType &vect) const
 template<class ScalarType>
 Rigid3DTransform<ScalarType>::OutputCovariantVectorType
 Rigid3DTransform<ScalarType>::
-TransformVector(const InputCovariantVectorType &vect) const 
+TransformCovariantVector(const InputCovariantVectorType &vect) const 
 {
   // Covariant vectors are transformed like contravariant
   // vectors under orthogonal transformations.

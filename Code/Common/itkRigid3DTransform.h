@@ -241,7 +241,7 @@ public:
     OutputVectorType    TransformVector(const InputVectorType &vector) const;
     OutputVnlVectorType TransformVnlVector(const InputVnlVectorType &vector) const;
 
-    OutputCovariantVectorType TransformVector(
+    OutputCovariantVectorType TransformCovariantVector(
                                    const InputCovariantVectorType &vector) const;
 
     /**
