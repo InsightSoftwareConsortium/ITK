@@ -56,41 +56,23 @@ template <class TInputImage>
 class ITK_EXPORT ImageWriter : public Writer
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef ImageWriter          Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Writer   Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Some typedefs
-   */
+  /** Some convenience typedefs. */
   typedef TInputImage InputImageType;
   typedef typename InputImageType::Pointer InputImagePointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(ImageWriter,Writer);
 
-  /** 
-   * Set the input image of this writer. 
-   */
+  /** Set the input image of this writer.  */
   void SetInput(TInputImage *input);
 
-  /** 
-   * Get the input image of this writer.
-   */
+  /** Get the input image of this writer. */
   InputImagePointer GetInput();
 
 protected:

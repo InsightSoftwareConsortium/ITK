@@ -46,8 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk
 {
-/**
- * \class GradientMagnitudeImageFilter
+/** \class GradientMagnitudeImageFilter
  * \brief Computes the gradient magnitude of an image region at each pixel.
  *
  * \todo Add GenerateInputRequestedRegion method to buffer the image chunk
@@ -68,65 +67,49 @@ class ITK_EXPORT GradientMagnitudeImageFilter :
     public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /**
-   * Standard "Self" & Superclass typedef.
-   */
+  /** Standard class typedefs. */
   typedef GradientMagnitudeImageFilter Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-
- /**
-   * Extract some information from the image types.  Dimensionality
-   * of the two images is assumed to be the same.
-   */
-  typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef typename TInputImage::PixelType InputPixelType;
-  enum { ImageDimension = TOutputImage::ImageDimension };
-  
-  /**
-   * Image typedef support
-   */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
-  
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Run-time type information (and related methods)
-   */
-  itkTypeMacro(GradientMagnitudeImageFilter, ImageToImageFilter);
-  
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Superclass typedefs.
-   */
+  /** Run-time type information (and related methods) */
+  itkTypeMacro(GradientMagnitudeImageFilter, ImageToImageFilter);
+  
+  /** Extract some information from the image types.  Dimensionality
+   * of the two images is assumed to be the same. */
+  typedef typename TOutputImage::PixelType OutputPixelType;
+  typedef typename TInputImage::PixelType InputPixelType;
+
+  /** Extract some information from the image types.  Dimensionality
+   * of the two images is assumed to be the same. */
+  enum { ImageDimension = TOutputImage::ImageDimension };
+  
+  /** Image typedef support */
+  typedef TInputImage  InputImageType;
+  typedef TOutputImage OutputImageType;
+  
+  /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
-  /**
-   * GradientMagnitudeImageFilter needs a larger input requested
+  /** GradientMagnitudeImageFilter needs a larger input requested
    * region than the output requested region (larger by the kernel
    * size to calculate derivatives).  As such,
    * GradientMagnitudeImageFilter needs to provide an implementation
    * for GenerateInputRequestedRegion() in order to inform the
    * pipeline execution model.
    *
-   * \sa ImageToImageFilter::GenerateInputRequestedRegion()
-   */
+   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
 protected:
   GradientMagnitudeImageFilter() {}
   virtual ~GradientMagnitudeImageFilter() {}
 
-  /**
-   * GradientMagnitudeImageFilter can be implemented as a
+  /** GradientMagnitudeImageFilter can be implemented as a
    * multithreaded filter.  Therefore, this implementation provides a
    * ThreadedGenerateData() routine which is called for each
    * processing thread. The output image data is allocated
@@ -136,8 +119,7 @@ protected:
    * "outputRegionForThread"
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData()
-   */
+   *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 

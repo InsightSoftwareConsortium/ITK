@@ -45,8 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
-/**
- * \class GrayscaleErodeImageFilter
+/** \class GrayscaleErodeImageFilter
  * \brief gray scale dilation of an image
  *
  * Erode an image using grayscale morphology. Erosion takes the
@@ -65,74 +64,46 @@ namespace itk {
  * \sa MorphologyImageFilter, GrayscaleFunctionErodeImageFilter, BinaryErodeImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-
 template<class TInputImage, class TOutputImage, class TKernel>
 class ITK_EXPORT GrayscaleErodeImageFilter : 
   public MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  /**
-   * Standard Self typedef
-   */
+  /** Standard class typedefs. */
   typedef GrayscaleErodeImageFilter Self;
-
-  /**
-   * Standard Superclass typedef
-   */
   typedef MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
     Superclass;
-
-  /**
-   * Standard smart pointer support
-   */ 
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  /**
-   * Runtime information support
-   */
+  /** Standard New method. */
+  itkNewMacro(Self);  
+
+  /** Runtime information support. */
   itkTypeMacro(GrayscaleErodeImageFilter, 
                MorphologyImageFilter);
   
-  /**
-   * Standard New method
-   */
-  itkNewMacro(Self);  
-
-  /**
-   * Declaration of Pixel Type
-   */
+  /** Declaration of pixel type. */
   typedef typename Superclass::PixelType PixelType;
 
-  /**
-   * Declaration of ImageKernelIteratorType
-   */
+  /** Declaration of image kernel iterator type. */
   typedef typename Superclass::ImageKernelIteratorType ImageKernelIteratorType;
 
-  /**
-   * Kernel (structuring element) iterator
-   */
+  /** Kernel (structuring element) iterator. */
   typedef typename Superclass::KernelIteratorType  KernelIteratorType;
 
-  /**
-   * Neighborhood iterator type
-   */
+  /** Neighborhood iterator type. */
   typedef typename Superclass::SmartNeighborhoodIteratorType SmartNeighborhoodIteratorType ;
 
-
-  /**
-   * Kernel typedef
-   */
+  /** Kernel typedef. */
   typedef typename Superclass::KernelType KernelType;
 
- protected:
-  /**
-   * Evaluate image neighborhood with kernel to find the new value 
-   * for the center pixel value
+protected:
+  /** Evaluate image neighborhood with kernel to find the new value 
+   * for the center pixel value.
    *
    * It will return the minimum value of the image pixels whose corresponding
-   * element in the structuring element is positive.
-   */
+   * element in the structuring element is positive. */
   virtual PixelType Evaluate(const SmartNeighborhoodIteratorType &nit,
                              const KernelType &kernel)=0;
 

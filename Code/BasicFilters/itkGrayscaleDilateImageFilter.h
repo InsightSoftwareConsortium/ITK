@@ -71,64 +71,38 @@ class ITK_EXPORT GrayscaleDilateImageFilter :
   public MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  /**
-   * Standard Self typedef
-   */
+  /** Standard class typedefs. */
   typedef GrayscaleDilateImageFilter Self;
-
-  /**
-   * Standard Superclass typedef
-   */
   typedef MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
     Superclass;
-
-  /**
-   * Standard smart pointer support
-   */ 
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  /**
-   * Runtime information support
-   */
+  /** Standard New method. */
+  itkNewMacro(Self);  
+
+  /** Runtime information support. */
   itkTypeMacro(GrayscaleDilateImageFilter, 
                MorphologyImageFilter);
   
-  /**
-   * Standard New method
-   */
-  itkNewMacro(Self);  
-
-  /**
-   * Declaration of Pixel Type
-   */
+  /** Declaration of pixel type. */
   typedef typename Superclass::PixelType PixelType;
 
-  /**
-   * Kernel (structuring element) iterator
-   */
+  /** Kernel (structuring element) iterator. */
   typedef typename Superclass::KernelIteratorType  KernelIteratorType;
 
-  /**
-   * Neighborhood iterator type
-   */
+  /** Neighborhood iterator type. */
   typedef typename Superclass::SmartNeighborhoodIteratorType SmartNeighborhoodIteratorType ;
 
-
-  /**
-   * Kernel typedef
-   */
+  /** Kernel typedef. */
   typedef typename Superclass::KernelType KernelType;
 
- protected:
-
-  /**
-   * Evaluate image neighborhood with kernel to find the new value 
+protected:
+  /** Evaluate image neighborhood with kernel to find the new value 
    * for the center pixel value
    *
    * It will return the maximum value of the image pixels whose corresponding
-   * element in the structuring element is positive.
-   */
+   * element in the structuring element is positive. */
   PixelType Evaluate(const SmartNeighborhoodIteratorType &nit,
                      const KernelType &kernel);
   

@@ -65,57 +65,34 @@ namespace itk
  * imposed by the spatial function.
  * 
  * \ingroup MeshFilters
- *
  */
 template <class TInputMesh, class TOutputMesh, class TSpatialFunction >
 class ITK_EXPORT InteriorExteriorMeshFilter : 
     public MeshToMeshFilter<TInputMesh,TOutputMesh>
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef InteriorExteriorMeshFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef MeshToMeshFilter<TInputMesh,TOutputMesh> Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Type for representing coordinates
-   */
+  /** Type for representing coordinates. */
   typedef typename TInputMesh::CoordRepType  CoordRepType;
 
-  /** 
-   * Type of the  Transform
-   */
+  /** Type of the  transform. */
   typedef TSpatialFunction  SpatialFunctionType;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(InteriorExteriorMeshFilter,MeshToMeshFilter);
 
-  /** 
-   * Set Spatial Function.
-   */
+  /** Set the spatial function. */
   itkSetObjectMacro( SpatialFunction, SpatialFunctionType ); 
 
-  /** 
-   * Get Spatial Function.
-   */
+  /** Get the spatial function. */
   itkGetObjectMacro( SpatialFunction, SpatialFunctionType ); 
 
 protected:
@@ -123,14 +100,10 @@ protected:
   ~InteriorExteriorMeshFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
   
-  /** 
-   * Generate Requested Data
-   */
+  /** Generate requested data. */
   virtual void GenerateData( void );
 
- /**
-  *   transform to apply to all the mesh points
-  */
+ /** Transform applied to all the mesh points. */
   typename SpatialFunctionType::Pointer   m_SpatialFunction;
 
 private:

@@ -60,133 +60,86 @@ namespace itk
  * be used as the pixel container for the output image.
  * 
  * \ingroup IOFilters
- *
  */
-
 template <typename TPixel, unsigned int VImageDimension=2>
 class ITK_EXPORT ImportImageFilter:
-    public ImageSource<Image<TPixel,
-                             VImageDimension,
-                             DefaultImageTraits< TPixel,
-                                                 VImageDimension,
-                                                 ImportImageContainer<unsigned long, TPixel> > > >
+    public ImageSource<Image<TPixel,VImageDimension,
+                             DefaultImageTraits< TPixel, VImageDimension,
+                             ImportImageContainer<unsigned long, TPixel> > > >
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
-  typedef ImportImageFilter   Self;
-
-  /**
-   * Typedef for the output image.  
-   */
-  typedef Image<TPixel,
-                VImageDimension,
-                DefaultImageTraits< TPixel,
-                                    VImageDimension,
-                                    ImportImageContainer<unsigned long, TPixel> > > OutputImageType;
+  /** Typedef for the output image.   */
+  typedef Image<TPixel,VImageDimension,
+               DefaultImageTraits< TPixel,VImageDimension,
+               ImportImageContainer<unsigned long, TPixel> > > OutputImageType;
   
-  /** 
-   * Index typedef support. An index is used to access pixel values.
-   */
-  typedef Index<VImageDimension>  IndexType;
-
-  /** 
-   * Size typedef support. A size is used to define region bounds.
-   */
-  typedef Size<VImageDimension>  SizeType;
-
-  /** 
-   * Region typedef support. A region is used to specify a subset of an image.
-   */
-  typedef ImageRegion<VImageDimension>  RegionType;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
+  /** Standard class typedefs. */
+  typedef ImportImageFilter   Self;
   typedef ImageSource<OutputImageType>  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * typename typedef for the output image PixelType
-   */
-  typedef TPixel OutputImagePixelType;
-  
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(ImportImageFilter,ImageSource);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ImportImageFilter,ImageSource);
+
+  /** Index typedef support. An index is used to access pixel values. */
+  typedef Index<VImageDimension>  IndexType;
+
+  /** Size typedef support. A size is used to define region bounds. */
+  typedef Size<VImageDimension>  SizeType;
+
+  /** Region typedef support. A region is used to specify a 
+   * subset of an image. */
+  typedef ImageRegion<VImageDimension>  RegionType;
+
+  /** Type of the output image pixel type. */
+  typedef TPixel OutputImagePixelType;
   
-  /**
-   * Get the pointer from which the image data is imported.
-   */
+  /** Get the pointer from which the image data is imported. */
   TPixel *GetImportPointer();
 
-  /**
-   * Set the pointer from which the image data is imported.  "num" is
+  /** Set the pointer from which the image data is imported.  "num" is
    * the number of pixels in the block of memory. If
    * "LetSourceManageMemory" is false, then the application retains
    * the responsibility of freeing the memory for this image data.  If
    * "LetSourceManageMemory" is true, then this class will free the
-   * memory when this object is destroyed.
-   */
+   * memory when this object is destroyed. */
   void SetImportPointer(TPixel *ptr, unsigned long num,
                         bool LetSourceManageMemory);
-  
 
-  /**
-   * Set the region object that defines the size and starting index
+  /** Set the region object that defines the size and starting index
    * for the imported image. This will serve as the LargestPossibleRegion,
    * the BufferedRegion, and the RequestedRegion.
-   * \sa ImageRegion
-   */
+   * \sa ImageRegion */
   void SetRegion(const RegionType &region)
     { if (m_Region != region) {m_Region = region; this->Modified();} };
   
-  /**
-   * Get the region object that defines the size and starting index
+  /** Get the region object that defines the size and starting index
    * for the imported image. This will serve as the LargestPossibleRegion,
    * the BufferedRegion, and the RequestedRegion.
-   * \sa ImageRegion
-   */
+   * \sa ImageRegion */
   const RegionType& GetRegion() const
     { return m_Region;};
   
-  /** 
-   * Set the spacing (size of a pixel) of the image.
-   * \sa GetSpacing()
-   */
+  /** Set the spacing (size of a pixel) of the image.
+   * \sa GetSpacing() */
   itkSetVectorMacro(Spacing, const double, VImageDimension);
   itkSetVectorMacro(Spacing, const float, VImageDimension);
 
-  /** 
-   * Get the spacing (size of a pixel) of the image.
-   * \sa SetSpacing()
-   */
+  /** Get the spacing (size of a pixel) of the image.
+   * \sa SetSpacing() */
   itkGetVectorMacro(Spacing, const double, VImageDimension);
   
-  /** 
-   * Set the origin of the image.
-   * \sa GetOrigin()
-   */
+  /** Set the origin of the image.
+   * \sa GetOrigin() */
   itkSetVectorMacro(Origin, const double, VImageDimension);
   itkSetVectorMacro(Origin, const float, VImageDimension);
 
-  /** 
-   * Get the origin of the image.
-   * \sa SetOrigin()
-   */
+  /** Get the origin of the image.
+   * \sa SetOrigin() */
   itkGetVectorMacro(Origin, const double, VImageDimension);
 
 protected:
@@ -194,28 +147,22 @@ protected:
   ~ImportImageFilter();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * This filter does not actually "produce" any data, rather it "wraps"
-   * the user supplied data into an itk::Image. 
-   */
+  /** This filter does not actually "produce" any data, rather it "wraps"
+   * the user supplied data into an itk::Image.  */
   virtual void GenerateData();
 
-  /**
-   * This is a source, so it must set the spacing, size, and largest possible
+  /** This is a source, so it must set the spacing, size, and largest possible
    * region for the output image that it will produce.
-   * \sa ProcessObject::GenerateOutputInformation()
-   */
+   * \sa ProcessObject::GenerateOutputInformation() */
   virtual void GenerateOutputInformation();
 
-  /**
-   * This filter can only produce the amount of data that it is given,
+  /** This filter can only produce the amount of data that it is given,
    * so we must override ProcessObject::EnlargeOutputRequestedRegion()
    * (The default implementation of a source produces the amount of
    * data requested.  This source, however, can only produce what it is
    * given.)
    *
-   * \sa ProcessObject::EnlargeOutputRequestedRegion()
-   */
+   * \sa ProcessObject::EnlargeOutputRequestedRegion() */
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
 
 private:  

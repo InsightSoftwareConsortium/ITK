@@ -49,77 +49,45 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class GradientToMagnitudeImageFilter
+/** \class GradientToMagnitudeImageFilter
  * \brief Converts a gradient image to a magnitude of gradient image
- *
  * 
  * \ingroup GradientFilters
- *
- * */
-
+ */
 template<class TInputImage, class TOutputImage>
 class ITK_EXPORT GradientToMagnitudeImageFilter :
    public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-   
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef GradientToMagnitudeImageFilter Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Number of dimensions
-   */
-  enum {NDimensions = TInputImage::ImageDimension};
-
-  /**
-   * Image size typedef
-   */
-  typedef Size<TOutputImage::ImageDimension> SizeType;
-
-  /**
-   * Image index typedef
-   */
-  typedef typename TOutputImage::IndexType IndexType;
-
-  /**
-   * Image pixel value typedef
-   */
-  typedef typename TOutputImage::PixelType PixelType;
-
-  /**
-   * Typedef to describe the output image region type.
-   */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro( GradientToMagnitudeImageFilter, ImageToImageFilter );
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
-protected:
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( GradientToMagnitudeImageFilter, ImageToImageFilter );
 
-  /**
-   * Method for evaluating the implicit function over the image.
-   */
+  /** Number of dimensions, */
+  enum {NDimensions = TInputImage::ImageDimension};
+
+  /** Image size typedef. */
+  typedef Size<TOutputImage::ImageDimension> SizeType;
+
+  /** Image index typedef. */
+  typedef typename TOutputImage::IndexType IndexType;
+
+  /** Image pixel value typedef. */
+  typedef typename TOutputImage::PixelType PixelType;
+
+  /** Typedef to describe the output image region type. */
+  typedef typename TOutputImage::RegionType OutputImageRegionType;
+
+protected:
+  /** Method for evaluating the implicit function over the image. */
   void GenerateData();
 
   GradientToMagnitudeImageFilter();
