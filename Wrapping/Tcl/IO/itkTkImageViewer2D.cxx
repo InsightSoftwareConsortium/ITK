@@ -139,7 +139,12 @@ void TkImageViewer2D::Draw()
   block.offset[1] = 0;
   block.offset[2] = 0;
   block.offset[3] = 0;
+#if (TK_MAJOR_VERSION == 8) && (TK_MINOR_VERSION < 4)
   Tk_PhotoPutBlock(photo, &block, 0, 0, size[0], size[1]);
+#else
+  Tk_PhotoPutBlock(photo, &block, 0, 0, size[0], size[1],
+                   TK_PHOTO_COMPOSITE_SET);
+#endif
 }
 
 } // namespace itk
