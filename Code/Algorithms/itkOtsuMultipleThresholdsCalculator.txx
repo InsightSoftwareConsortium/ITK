@@ -170,7 +170,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>
   unsigned long j;
   for(j=0; j<m_NumberOfThresholds; j++)
     {
-    thresholdIndexes[j] = j+1;
+    thresholdIndexes[j] = j;
     }
 
   InstanceIdentifierVectorType maxVarThresholdIndexes = thresholdIndexes;
