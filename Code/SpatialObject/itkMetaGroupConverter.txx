@@ -72,13 +72,14 @@ MetaGroupConverter<NDimensions>
 
   for(unsigned int i=0;i<NDimensions;i++)
     {
-    group->ElementSpacing(i,spatialObject->GetIndexToObjectTransform()->GetScaleComponent()[i]);
+    group->ElementSpacing(i,spatialObject->GetIndexToObjectTransform()
+                                         ->GetScaleComponent()[i]);
     }
 
   if(spatialObject->GetParent())
-  {
+    {
     group->ParentID(spatialObject->GetParent()->GetId());
-  }
+    }
   group->ID(spatialObject->GetId());
 
   return group;
@@ -94,7 +95,7 @@ MetaGroupConverter<NDimensions>
   SpatialObjectPointer spatialObject;
   MetaGroup* group = new MetaGroup();
   group->Read(name);
-  spatialObject = MetaGroupToGroupSpatialObject(group);
+  spatialObject = this->MetaGroupToGroupSpatialObject(group);
 
   return spatialObject;
 }
@@ -106,7 +107,7 @@ bool
 MetaGroupConverter<NDimensions>
 ::WriteMeta(SpatialObjectType* spatialObject,const char* name)
 {
-  MetaGroup* group = GroupSpatialObjectToMetaGroup(spatialObject);
+  MetaGroup* group = this->GroupSpatialObjectToMetaGroup(spatialObject);
   group->Write(name);
   return true;
 }
