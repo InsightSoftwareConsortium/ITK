@@ -14,25 +14,24 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
 // Software Guide : BeginLatex
 //
 // Even though \href{http://www.itk.org}{ITK} can be used for performing
-// general image processing tasks, the main target of the toolkit is the
+// general image processing tasks, the primary purpose of the toolkit is the
 // processing of medical image data.  In that perspective, additional
 // information about the images is considered mandatory. In particular the
 // information associated with the physical spacing between pixels and the
-// position of the image in space with respect to some world coordinates
-// reference system are considered to be extremely important.
+// position of the image in space with respect to some world coordinate
+// system are extremely important.
 //
-// The values assiged to origin and spacing are fundamental in many
-// applications. Registration, for example, is entirely performed in
-// physical coordinates. Poorly defined spacing and origins will result
-// in inconsistent results in such processes. Medical images lacking 
-// spatial information should not be used for purposes like medical
-// diagnosis, image analysis, feature extraction, assisted radiation
-// therapy or image guided surgery. In other words, medical images
-// lacking spacing are not only useless but rather hazardous. 
+// Image origin and spacing are fundamental to many
+// applications. Registration, for example, is performed in physical
+// coordinates. Improperly defined spacing and origins will result in
+// inconsistent results in such processes. Medical images with no spatial
+// information should not be used for medical diagnosis, image analysis,
+// feature extraction, assisted radiation therapy or image guided surgery. In
+// other words, medical images lacking spatial information are not only
+// useless but rather hazardous.
 //
 // \begin{figure} \center
 // \includegraphics[width=15cm]{ImageOriginAndSpacing.eps}
@@ -42,18 +41,18 @@
 //
 // Figure \ref{fig:ImageOriginAndSpacing} illustrates the main geometrical
 // concepts associated with the \doxygen{Image}. In this figure, circles are
-// used to represent the center of pixels. The value of the pixel is assumed to
-// exist as a dirac delta located at the pixel center. Pixel spacing is measured
-// between the pixel centers and can be different along each dimension. The
-// image origin is associated with the coordinates of the first pixel in the
-// image. A \emph{Pixel} is considered to be the rectangular region surrounding
-// the dirac delta holding the data value. This can be seen as the Voronoi
-// region of the image grid, as illustrated in the right side of the figure.
-// Linear interpolation of image values will be performed inside the Delaunay
-// region whose corners are pixel centers.
+// used to represent the center of pixels. The value of the pixel is assumed
+// to exist as a Dirac Delta Function located at the pixel center. Pixel
+// spacing is measured between the pixel centers and can be different along
+// each dimension. The image origin is associated with the coordinates of the
+// first pixel in the image. A \emph{Pixel} is considered to be the
+// rectangular region surrounding the pixel center holding the data
+// value. This can be viewed as the Voronoi region of the image grid, as
+// illustrated in the right side of the figure.  Linear interpolation of
+// image values is performed inside the Delaunay region whose corners
+// are pixel centers.
 //
 // Software Guide : EndLatex 
-
 
 
 #include "itkImage.h"
@@ -61,7 +60,6 @@
 
 int main()
 {
-
   typedef itk::Image< unsigned short, 3 > ImageType;
 
   ImageType::Pointer image = ImageType::New();
@@ -78,6 +76,8 @@ int main()
   start[2] =   0;  // first index on Z
 
   ImageType::RegionType region;
+  region.SetSize( size );
+  region.SetIndex( start );
   
   image->SetRegions( region );
   image->Allocate();
@@ -86,7 +86,7 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // Image spacing is represented in an \code{C-like} array of \code{double}
+  // Image spacing is represented in a \code{C-like} array of \code{double}
   // whose size matches the dimension of the image. In order to manually set
   // the spacing of the image, an array of the corresponding type must be
   // created.  The elements of the array should then be initialized with the
@@ -107,8 +107,6 @@ int main()
   // Software Guide : EndCodeSnippet 
 
 
-
-
   // Software Guide : BeginLatex
   //
   // The array can be assigned to the image using 
@@ -121,9 +119,6 @@ int main()
   // Software Guide : BeginCodeSnippet 
   image->SetSpacing( spacing );
   // Software Guide : EndCodeSnippet 
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -144,18 +139,17 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
   //
-  // Image origin is managed in a similar way to the spacing.  A \code{C-like}
-  // array of \code{double} matching the dimension of the image must be allocated
-  // first.  The coordinates of the origin can then be assigned to every
-  // component.  These coordinates correspond to the position of the first
-  // pixel of the image with respect to an arbitrary reference system in
-  // physical space. It is the user's responsibility to make sure that multiple
-  // images used in the same application are using a consistent reference
-  // system. This is extremly important in image registration applications.
+  // The image origin is managed in a similar way to the spacing.  A
+  // \code{C-like} array of \code{double} matching the dimension of the image
+  // must be allocated first.  The coordinates of the origin can then be
+  // assigned to every component.  These coordinates correspond to the
+  // position of the first pixel of the image with respect to an arbitrary
+  // reference system in physical space. It is the user's responsibility to
+  // make sure that multiple images used in the same application are using a
+  // consistent reference system. This is extremly important in image
+  // registration applications.
   // 
   // The following code illustrates the creation and assignment of a variable
   // suitable for initializing the image origin.
@@ -176,8 +170,6 @@ int main()
   // Software Guide : EndCodeSnippet 
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  The origin can also be retrieved from an image by using the
@@ -196,14 +188,13 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
   // Software Guide : BeginLatex
   //
   // Once the spacing and origin of the image have been initialized the image
-  // is in condition to map pixel indices to physical space coordinates and
-  // back. The following code illustrates how a point in physical space can be
-  // mapped into an image index for the purpose of reading the content of the
-  // closest pixel.
+  // will correctly map pixel indices to and from physical space
+  // coordinates. The following code illustrates how a point in physical
+  // space can be mapped into an image index for the purpose of reading the
+  // content of the closest pixel.
   //
   // First, a \doxygen{Point} type must be declared. The point type is
   // templated over the type used to represent coordinates and over the
@@ -217,19 +208,18 @@ int main()
   // Software Guide : EndCodeSnippet 
 
 
-
   // Software Guide : BeginLatex
   //
   // An \doxygen{Point}, like an \doxygen{Index}, is a relatively small and
-  // simple object.  For this reason it is not reference counted like the large
-  // data objects in ITK and as a consequence it is not managed by
-  // \doxygen{SmartPointer}s.  Point objects are simply declared as instances
-  // of any other C++ class.  Once the point is declared, its components can be
-  // accessed using traditional array notation. In particular the \code{[]}
-  // operator is available. For efficiency reasons, no bound checking is
-  // performed on the index used to access a particular point component. It is
-  // the user's responsibility to make sure that the index is in the range
-  // $\{0,Dimension-1\}$
+  // simple object.  for this reason it is not reference counted like the
+  // large data objects in ITK---as a consequence it is not manipulated
+  // with \doxygen{SmartPointer}s.  Point objects are simply declared as
+  // instances of any other C++ class.  Once the point is declared, its
+  // components can be accessed using traditional array notation. In
+  // particular the \code{[]} operator is available. For efficiency reasons,
+  // no bounds checking is performed on the index used to access a particular
+  // point component. It is the user's responsibility to make sure that the
+  // index is in the range $\{0,Dimension-1\}$
   //
   // Software Guide : EndLatex
 
@@ -241,11 +231,10 @@ int main()
   point[2] = 9.28;    // z coordinate  
   // Software Guide : EndCodeSnippet 
 
-  
 
   // Software Guide : BeginLatex
   // 
-  // The image can map this point to an index using the values of the
+  // The image will map the point to an index using the values of the
   // current spacing and origin. An index object must be provided to
   // receive the results of the mapping. The index object can be 
   // instantiated by using the \code{IndexType} defined in the Image
@@ -262,37 +251,37 @@ int main()
   // 
   // The \code{TransformPhysicalPointToIndex()} method of the image class
   // will compute the pixel index closest to the point provided. The method
-  // checks for this index to be contained inside the current buffered pixel 
-  // data. The method returns a boolean indicating whether the resulting 
-  // index falls inside the buffered region or not. The output index should 
+  // checks for this index to be contained inside the current buffered pixel
+  // data. The method returns a boolean indicating whether the resulting
+  // index falls inside the buffered region or not. The output index should
   // not be used when the returned value of the method is \code{false}.
   //
-  // The following lines illustrate the point to index mapping and the subsequent
-  // use of the pixel index for accessing pixel data from the image. 
+  // The following lines illustrate the point to index mapping and the
+  // subsequent use of the pixel index for accessing pixel data from the
+  // image.
   //
   // \index{itk::Image!TransformPhysicalPointToIndex()}
   //
   // Software Guide : EndLatex
 
+  // Software Guide : BeginCodeSnippet 
+  bool isInside = image->TransformPhysicalPointToIndex( point, pixelIndex ); 
 
-  // Software Guide : BeginCodeSnippet
-  const bool isValidPixel=image->TransformPhysicalPointToIndex( point, pixelIndex ); 
-  if(isValidPixel==true)
-  {
-     ImageType::PixelType pixelValue = image->GetPixel( pixelIndex );
-  }
+  if ( isInside )
+    {
+    ImageType::PixelType pixelValue = image->GetPixel( pixelIndex );
+    }
   // Software Guide : EndCodeSnippet 
 
 
   // Software Guide : BeginLatex
   // 
-  // Remember that \code{GetPixel()} and \code{SetPixel()} are very inefficient
-  // methods for accessing pixel data. Image iterators should be used when
-  // massive access to pixel data is required.
+  // Remember that \code{GetPixel()} and \code{SetPixel()} are very
+  // inefficient methods for accessing pixel data. Image iterators should be
+  // used when massive access to pixel data is required.
   //
   // Software Guide : EndLatex
 
   return 0;
-
 }
 
