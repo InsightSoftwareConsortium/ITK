@@ -110,7 +110,9 @@ int itkAdaptImageFilterTest2(int, char**) {
   bool passed = true;
 
   // Get the first element
-  itk::AdaptImageFilter<myVectorImageType, myImageType, myAccessorType>::Pointer  adaptImage = itk::AdaptImageFilter<myVectorImageType, myImageType, myAccessorType>::New();
+  typedef itk::AdaptImageFilter<myVectorImageType, myImageType, myAccessorType> AdaptFilterType;
+    
+  AdaptFilterType::Pointer adaptImage = AdaptFilterType::New();
 
   myAccessorType accessor;
   accessor.SetElementNumber(0);
