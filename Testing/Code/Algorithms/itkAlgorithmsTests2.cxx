@@ -13,6 +13,7 @@ void RegisterTests()
   REGISTER_TEST(itkAlgorithmsPrintTest3  );
   REGISTER_TEST(itkMIRegistrationFunctionTest );
   REGISTER_TEST(itkPointSetToPointSetRegistrationTest );
+  REGISTER_TEST(itkVectorThresholdSegmentationLevelSetImageFilterTest );
   REGISTER_TEST(itkVectorFuzzyConnectednessImageFilterTest );
   REGISTER_TEST(itkVoronoiDiagram2DTest );
   REGISTER_TEST(itkVoronoiSegmentationImageFilterTest );
