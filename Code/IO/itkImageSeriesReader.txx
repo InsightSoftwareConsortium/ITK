@@ -48,7 +48,7 @@ void ImageSeriesReader<TOutputImage>
   // Read the first (or last) file and use its size.
   if (m_FileNames.size() > 0)
     {
-    ReaderType::Pointer reader = ReaderType::New();
+    typename ReaderType::Pointer reader = ReaderType::New();
     try
       {
       reader->SetFileName (m_FileNames[(m_ReverseOrder ? (m_FileNames.size()-1): 0)].c_str());
@@ -123,7 +123,7 @@ void ImageSeriesReader<TOutputImage>
        i += (m_ReverseOrder ? -1 : 1))
     {
     
-    ReaderType::Pointer reader = ReaderType::New();
+    typename ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName(m_FileNames[i].c_str());
     reader->UpdateLargestPossibleRegion();
 
