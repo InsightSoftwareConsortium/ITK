@@ -65,9 +65,14 @@ ActiveShapeModelCalculator<TImage>
   distanceFilter->SetInput( binaryFilter->GetOutput() );
   distanceFilter->Update();
 
-  typename Image2DType::RegionType region;
-  typename Image2DType::RegionType::SizeType size;
-  typename Image2DType::RegionType::IndexType index;
+  typedef typename Image2DType::RegionType Region2DType;
+  typedef typename Region2DType::SizeType  Size2DType;
+  typedef typename Region2DType::IndexType Index2DType;
+
+  Region2DType  region;
+  Size2DType    size;
+  Index2DType   index;
+
   typename Image3DType::ConstPointer inputImage;    
   typename Image2DType::Pointer outputImage = Image2DType::New();
 
