@@ -37,8 +37,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   m_K = 0;
   m_ObjectLabel = 0;
   m_Scale.Fill( 1.0 );
-  m_Center.Fill( 0 );
-  m_Resolution.Fill( 1 );
   m_Stiffness.Fill( 0.1 );
   m_TimeStep = 0.01;
   m_PotentialMagnitude = NumericTraits<PixelType>::One;
@@ -74,10 +72,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
      << static_cast<typename NumericTraits<PixelType>::PrintType>(m_GradientMagnitude)
      << std::endl;
   os << indent << "Scale = " << m_Scale;
-  os << indent << "Resolution = " << m_Resolution;
   os << indent << "TimeStep = " << m_TimeStep << std::endl;
   os << indent << "PotentialOn = " << m_PotentialOn << std::endl;
-  os << indent << "Center = " << m_Center << std::endl;
   os << indent << "ObjectLabel = "
      << static_cast<typename NumericTraits<unsigned char>::PrintType>(m_ObjectLabel)
       << std::endl;

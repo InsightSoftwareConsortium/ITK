@@ -132,16 +132,11 @@ public:
   itkSetMacro(StepThreshold, int);
   itkGetMacro(StepThreshold, int);
 
-  itkSetMacro(Resolution, int3DVector);
-  itkGetMacro(Resolution, int3DVector);
-
   itkSetMacro(Stiffness, double2DVector);
   itkGetMacro(Stiffness, double2DVector);
 
   itkSetMacro(TimeStep, double);
   itkGetMacro(TimeStep, double);
-
-  itkSetMacro(Center, ImageIndexType);
 
   itkSetMacro(Scale, double3DVector);
 
@@ -149,6 +144,8 @@ public:
   itkSetMacro(GradientMagnitude, PixelType);
   itkSetMacro(PotentialOn, unsigned short);
   itkSetMacro(ObjectLabel, unsigned char);
+
+  itkGetMacro(Normals, InputMeshPointer);
 
 protected:
   DeformableMesh3DFilter();
@@ -184,8 +181,6 @@ private:
   /** Parameters definitions. */
   double2DVector    m_Stiffness;
   double            m_TimeStep;      /** Time step of each iteration */
-  int3DVector       m_Resolution;
-  ImageIndexType    m_Center;
   double3DVector    m_Scale;
   int       m_Step;          /** Number of iterations */
   int       m_NumberOfNodes;

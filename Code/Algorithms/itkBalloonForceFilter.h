@@ -141,7 +141,6 @@ public:
   itkSetMacro(Gradient, GradientImagePointer);
 
   /** Set/Get information for the algorithm. */
-  itkSetMacro(NeighborRadius, int);
   itkSetMacro(Stiffness, Double2Vector);
   itkSetMacro(TimeStep, double);
   itkSetMacro(GradientBegin, int);
@@ -207,7 +206,6 @@ private:
   int   m_GradientBegin;
   Int2Vector   m_StepThreshold;   // the threshold decide when to transfer from potential fit to gradient fit
                            // and the threshold decide when to stop the model
-  int   m_NeighborRadius;   // the gradient fit range
   float m_DistanceToBoundary;
   float m_DistanceToStop;
   float m_DistanceForGradient;

@@ -104,6 +104,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   os << indent << "DistanceForGradient = " << m_DistanceForGradient << std::endl;
   os << indent << "GradientBegin = " << m_GradientBegin << std::endl;
   os << indent << "Resolution = " << m_Resolution << std::endl;
+
   if (!m_ImageOutput.IsNull())
     {
     os << indent << "ImageOutput = " << m_ImageOutput << std::endl;
@@ -133,6 +134,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     os << indent << "Locations = (None)" << std::endl;
     }
   os << indent << "DistanceToStop = " << m_DistanceToStop << std::endl;
+
   if (m_Derives)
     {
     os << indent << "Derives = " << m_Derives << std::endl;
@@ -582,8 +584,8 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     ++i;
     }
 
-  m_DistanceToBoundary = dist/((float)(m_NumberOfNodes-2));
-  if (m_DistanceToBoundary < m_DistanceForGradient) m_GradientBegin = 1;
+//  m_DistanceToBoundary = dist/((float)(m_NumberOfNodes-2));
+//  if (m_DistanceToBoundary < m_DistanceForGradient) m_GradientBegin = 1;
 }
 
 /*
@@ -1038,6 +1040,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   this->Initialize();
   this->SetStiffnessMatrix();
 //  while ( m_DistanceToBoundary > m_DistanceToStop ) {
+
   while (m_Step < 300)
     {
     this->ComputeNormals();
@@ -1049,7 +1052,6 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     this->NodesRearrange();
     m_Step++;
     }
-
   this->ComputeOutput();
 }
 
