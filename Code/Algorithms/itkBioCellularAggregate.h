@@ -75,7 +75,7 @@ public:
   
   /** Mesh Traits */
   typedef itk::Mesh<  typename MeshTraits::PixelType,
-                      MeshTraits::PointDimension,
+                      NSpaceDimension,
                       MeshTraits  >               MeshType;
 
   /** Mesh Associated types */
@@ -114,6 +114,8 @@ public:
 public:
   unsigned int GetNumberOfCells(void) const;
  
+  static unsigned int GetDimension() { return SpaceDimension; }
+    
   void SetGrowthRadiusLimit( double value );
   void SetGrowthRadiusIncrement( double value );
   
