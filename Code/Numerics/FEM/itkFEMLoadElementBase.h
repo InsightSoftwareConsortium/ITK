@@ -59,6 +59,7 @@ public:
   virtual void Read( std::istream& f, void* info );
   void Write( std::ostream& f ) const;
 
+  // FIXME: should clear vector, not zero it
   LoadElement() : el(0) {}
 
 };
