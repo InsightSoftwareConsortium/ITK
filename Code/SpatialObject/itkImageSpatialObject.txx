@@ -172,18 +172,32 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, class PixelType >
 void
 ImageSpatialObject< TDimension,  PixelType >
-::SetImage( ImageType * image )
+::SetImage( const ImageType * image )
 {
   m_Image = image;
-  m_Image->Modified();
-  ComputeBoundingBox();
+  typename TransformType::OffsetType offset;
+  typename TransformType::OutputVectorType scaling;
+  typename ImageType::PointType      origin;
+  typename ImageType::SpacingType    spacing;
+  origin = m_Image->GetOrigin();
+  spacing = m_Image->GetSpacing();
+  for( unsigned int d=0; d<TDimension; d++)
+    {
+    scaling[d] = spacing[d];
+    offset[d]  = origin[d];
+    }
+  this->GetIndexToObjectTransform()->Scale( scaling );
+  this->GetIndexToObjectTransform()->SetOffset( offset );
+  this->ComputeObjectToParentTransform();
+  this->Modified();
+  this->ComputeBoundingBox();
 }
 
 /** Get the image inside the spatial object */
 template< unsigned int TDimension, class PixelType >
-typename ImageSpatialObject< TDimension,  PixelType >::ImageType *
+const typename ImageSpatialObject< TDimension,  PixelType >::ImageType *
 ImageSpatialObject< TDimension,  PixelType >
-::GetImage( void )
+::GetImage( void ) const
 {
   return m_Image.GetPointer();
 }
