@@ -206,7 +206,7 @@ int itkMutualInformationMetricTest(int, char**)
 
     // exercise the other functions
     metric->GetValue( parameters );
-    metric->GetDerivative( parameters );
+    metric->GetDerivative( parameters, derivative );
 
     }
 
