@@ -23,7 +23,8 @@ SET(WRAP_SOURCES
   wrap_itkImageSource
   wrap_itkImageToImageFilter_2D
   wrap_itkImageToImageFilter_3D
-  wrap_itkInPlaceImageFilter
+  wrap_itkInPlaceImageFilter_A
+  wrap_itkInPlaceImageFilter_B
   wrap_itkIndex
   wrap_itkLevelSet
   wrap_itkNeighborhood
