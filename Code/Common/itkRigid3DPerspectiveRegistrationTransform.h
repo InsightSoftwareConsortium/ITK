@@ -17,7 +17,7 @@
 #define __itkRigid3DPerspectiveRegistrationTransform_h
 
 #include "itkObject.h"
-#include "itkTransformation.h"
+#include "itkTransform.h"
 #include "itkPoint.h"
 #include "itkVector.h"
 #include "itkRigid3DPerspectiveTransform.h"

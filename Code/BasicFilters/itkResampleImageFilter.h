@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkResampleImageFilter_h
 #define __itkResampleImageFilter_h
 
-#include "itkTransformation.h"
+#include "itkTransform.h"
 #include "itkAffineTransform.h"
 #include "itkImageFunction.h"
 #include "itkImageRegionIterator.h"

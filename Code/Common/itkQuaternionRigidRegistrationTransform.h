@@ -17,7 +17,7 @@
 #define __itkQuaternionRigidRegistrationTransform_h
 
 #include "itkObject.h"
-#include "itkTransformation.h"
+#include "itkTransform.h"
 #include "itkPoint.h"
 #include "itkVector.h"
 #include "itkRigid3DTransform.h"
@@ -61,7 +61,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef Transformation<TScalarType,SpaceDimension>  Superclass;
+  typedef Transform<TScalarType,SpaceDimension>  Superclass;
 
   /** 
    * Smart pointer typedef support 

@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkAffineRegistrationTransform_h
 
 #include "itkObject.h"
-#include "itkTransformation.h"
+#include "itkTransform.h"
 #include "itkPoint.h"
 #include "itkVector.h"
 #include "itkAffineTransform.h"
@@ -80,7 +80,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef Transformation<TScalarType,NDimensions> Superclass;
+  typedef Transform<TScalarType,NDimensions> Superclass;
 
 
   /** 

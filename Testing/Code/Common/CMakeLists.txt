@@ -158,7 +158,7 @@ itkStatSparseHistogram
 itkTanImageAdaptor
 itkTetrahedronCell
 itkTriangleCell
-itkTransformation
+itkTransform
 itkUpwindDerivativeImageFunction
 itkVector
 itkVectorContainer

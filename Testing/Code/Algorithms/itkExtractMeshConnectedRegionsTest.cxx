@@ -75,6 +75,8 @@ int main(void)
   connect->AddSeed(1);
   connect->AddSeed(2);
   connect->DeleteSeed(1);
+  connect->Update();
+  
 
   return 0;  
 }

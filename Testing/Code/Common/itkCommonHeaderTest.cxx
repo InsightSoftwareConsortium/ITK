@@ -152,7 +152,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkTetrahedronCell.h"
 #include "itkThinPlateSplineKernelTransform.h"
 #include "itkTimeStamp.h"
-#include "itkTransformation.h"
+#include "itkTransform.h"
 #include "itkTranslationRegistrationTransform.h"
 #include "itkTranslationTransform.h"
 #include "itkTriangleCell.h"
