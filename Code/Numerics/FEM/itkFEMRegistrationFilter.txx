@@ -538,7 +538,7 @@ void FEMRegistrationFilter<TReference,TTarget>::CreateMesh(double ElementsPerSid
   { 
     MeshSizeV[i]=(double)m_ImageSize[i]/(double)m_ImageScaling[i]; // FIX ME  make more general
     MeshOriginV[i]=(double)m_ImageOrigin[i];// FIX ME make more general
-    ImageSizeV[i]=(double) m_ImageSize[i];
+    ImageSizeV[i]=(double) m_ImageSize[i]+1;//to make sure all elts are inside the interpolation mesh
     ElementsPerDimension[i]=(double)ElementsPerSide;
   }
 
@@ -820,13 +820,15 @@ void FEMRegistrationFilter<TReference,TTarget>::GetVectorField(SolverType& mySol
 {
   std::cout << " computing vector field " << std::endl;
   Element::ArrayType* el = &(mySolver.el);
-  vnl_vector_fixed<double,ImageDimension> Pos(0.0);  // solution at the point
-  vnl_vector_fixed<double,ImageDimension> Sol(0.0);  // solution at the local point
-  vnl_vector_fixed<double,ImageDimension> Gpt(0.0);  // global position given by local point
+  vnl_vector<double> Pos(0.0);  // solution at the point
+  vnl_vector<double> Sol(0.0);  // solution at the local point
+  vnl_vector<double> Gpt(0.0);  // global position given by local point
   FieldIterator m_FieldIter( m_Field, m_FieldRegion );
   m_FieldIter.GoToBegin();
   typename ImageType::IndexType rindex = m_FieldIter.GetIndex();
 
+  Sol.resize(ImageDimension);
+  Gpt.resize(ImageDimension);
   if (ImageDimension == 2){
   Element::ConstPointer eltp;
 
@@ -865,6 +867,7 @@ void FEMRegistrationFilter<TReference,TTarget>::GetVectorField(SolverType& mySol
   }
   } else if (ImageDimension==3){
 
+  Pos.resize(ImageDimension);
   for(  Element::ArrayType::iterator elt=el->begin(); elt!=el->end(); elt++) 
   {
   
