@@ -15,7 +15,7 @@
 
 =========================================================================*/
 
-#include <stdio.h>
+#include <iostream>
 
 // Native ITK stuff
 #include "itkSize.h"
@@ -39,14 +39,14 @@ int main()
   double sourceImageOrigin[] = { 0,0,0 };
 
   // Image typedef
-  typedef itk::Image< unsigned char, dim > TImageType;
+  typedef itk::Image< int, dim > TImageType;
 
   // Creates the sourceImage (but doesn't set the size or allocate memory)
   TImageType::Pointer sourceImage = TImageType::New();
   sourceImage->SetOrigin(sourceImageOrigin);
   sourceImage->SetSpacing(sourceImageSpacing);
 
-  printf("New sourceImage created\n");
+  std::cout << "New sourceImage created" << std::endl;
 
   //-----The following block allocates the sourceImage-----
 
@@ -67,7 +67,7 @@ int main()
   // Now allocate memory for the sourceImage
   sourceImage->Allocate();
 
-  printf("New sourceImage allocated\n");
+  std::cout << "New sourceImage allocated" << std::endl;
 
   // Initialize the image to hold all 0's
   itk::ImageRegionIterator<TImageType> it = 
@@ -94,7 +94,7 @@ int main()
   center[2]=10;
   spatialFunc->SetCenter(center);
 
-  printf("Sphere spatial function created\n");
+  std::cout << "Sphere spatial function created" << std::endl;
 
   //---------Create and initialize a spatial function iterator-----------
   TImageType::IndexType seedPos;
@@ -108,10 +108,12 @@ int main()
   // Iterate through the entire image and set interior pixels to 255
   for( ; !( sfi.IsAtEnd() ); ++sfi)
     {
+    
+    std::cout << sfi.GetIndex() << ": " << sfi.Get() << std::endl;
     sfi.Set(255);
     }
 
-  printf("Spatial function iterator created, sphere drawn\n");
+  std::cout << "Spatial function iterator created, sphere drawn" << std::endl;
 
   return EXIT_SUCCESS;
 }
