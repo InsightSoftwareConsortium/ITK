@@ -44,6 +44,7 @@ public:
   typedef Object                                Superclass;
   typedef SmartPointer<Self>                    Pointer;
   typedef SmartPointer<const Self>              ConstPointer;
+  typedef Array<double>                         ParametersType;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -57,15 +58,20 @@ public:
 
 
 
-typename MovingImageType::ConstPointer GetMovingImage(void) const
+const MovingImageType * GetMovingImage(void) const
   {
   return m_MovingImage.GetPointer();
   }
 
-typename FixedImageType::ConstPointer GetFixedImage(void) const
+const FixedImageType * GetFixedImage(void) const
   {
   return m_FixedImage.GetPointer();
   }
+
+const ParametersType & GetActualParameters(void) const
+{
+  return m_Parameters;
+}
 
 
 void GenerateImages( const typename MovingImageType::SizeType & size )
@@ -102,8 +108,8 @@ void GenerateImages( const typename MovingImageType::SizeType & size )
 
   /* Set the displacement */
   itk::Vector<double,2> displacement;
-  displacement[0] = 7;
-  displacement[1] = 3;
+  displacement[0] = m_Parameters[0];
+  displacement[1] = m_Parameters[1];
 
 
   MovingImageIteratorType ri(m_MovingImage,region);
@@ -143,6 +149,9 @@ ImageRegistrationMethodImageSource()
 {
   m_MovingImage = MovingImageType::New();
   m_FixedImage  = FixedImageType::New();
+  m_Parameters  = ParametersType(2);
+  m_Parameters[0] = 7.0;
+  m_Parameters[1] = 3.0;
 }
 
 
@@ -150,6 +159,8 @@ private:
   
   typename FixedImageType::Pointer     m_FixedImage;
   typename MovingImageType::Pointer    m_MovingImage;
+
+  ParametersType                       m_Parameters;
 
 };
 
