@@ -25,11 +25,11 @@ CacheableScalarFunction
 
 void 
 CacheableScalarFunction
-::CreateCache(double lowerBound, double higherBound, long sampleSize) 
+::CreateCache(double lowerBound, double upperBound, long sampleSize) 
 {
   m_NumberOfSamples = sampleSize ;
   m_CacheLowerBound = lowerBound ;
-  m_CacheHigherBound = higherBound ;
+  m_CacheUpperBound = upperBound ;
 
   long i ;
   MeasureType d ;
@@ -37,7 +37,7 @@ CacheableScalarFunction
   m_CacheTable = MeasureArrayType(m_NumberOfSamples) ;
   
   m_TableInc = static_cast<MeasureType>( 
-                              (m_CacheHigherBound - m_CacheLowerBound) / 
+                              (m_CacheUpperBound - m_CacheLowerBound) / 
                               (m_NumberOfSamples - 1)
                                        );
 
