@@ -508,8 +508,11 @@ void GDCMImageIO::Write(const void* buffer)
       myGdcmHeader->GetPubDict()->GetDictEntryByName(key);
     // Anything that has been change in the MetaData Dict will be pushed
     // into the DICOM header:
-    myGdcmHeader->ReplaceOrCreateByNumber( value, dictEntry->GetGroup(), 
-                                                  dictEntry->GetElement());
+    if (dictEntry)
+      {
+      myGdcmHeader->ReplaceOrCreateByNumber( value, dictEntry->GetGroup(), 
+                                             dictEntry->GetElement());
+      }
     ++itr;
     }
 
