@@ -22,6 +22,7 @@
 #include "itkBoundingBox.h"
 #include "itkPoint.h"
 #include "itkAffineTransform.h"
+#include "itkFixedCenterOfRotationAffineTransform.h"
 #include "itkSmartPointer.h" 
 #include "itkVector.h"
 #include "itkCovariantVector.h"
@@ -41,10 +42,11 @@ namespace itk
 * \class SpatialObject
 * \brief Implementation of the composite pattern
 *
-* The purpose of this class is to implement the composite pattern
-* within itk, so that it becomes easy to create an environment, and to
-* manipulate the environment as a whole or any of its components.  An
-* object has a list of transformations to transform local coordinates
+* The purpose of this class is to implement the composite pattern [Design 
+* Patterns, Gamma, 1995] within itk, so that it becomes easy to create an 
+* environment containing objects within a scene, and to manipulate the 
+* environment as a whole or any of its component objects.  An
+* object has a list of transformations to transform index coordinates
 * to the corresponding coordinates in the real world coordinate
 * system, and a list of inverse transformation to go backward.  Any
 * spatial objects can be plugged to a spatial object as children.  To
@@ -81,11 +83,9 @@ public:
   typedef CovariantVector< double, TDimension > OutputVectorType; 
   typedef OutputVectorType * OutputVectorPointer;
 
-  typedef AffineTransform< double, TDimension>   TransformType;
+  typedef FixedCenterOfRotationAffineTransform< double, TDimension>   TransformType;
   typedef typename TransformType::Pointer  TransformPointer;
   typedef const TransformType*             TransformConstPointer;
-  
-  typedef std::list< TransformType * > TransformListType;
   
   typedef VectorContainer< unsigned long int, PointType > VectorContainerType;
   
@@ -114,7 +114,7 @@ public:
   virtual bool HasParent( void ) const;
 
   /** Get the typename of the SpatialObject */
-  virtual const char* GetTypeName(void) const {return m_TypeName;}
+  virtual const char* GetTypeName(void) const {return m_TypeName.c_str();}
 
   /** Dimension of the object.  This constant is used by functions that are
    * templated over spatialObject type when they need compile time access 
@@ -127,56 +127,62 @@ public:
   /** Run-time type information (and related methods). */ 
   itkTypeMacro( Self, Superclass );
 
-  /** Set the bounding box of the object. */
-  void SetBoundingBox( BoundingBoxPointer bounds ); 
 
-  /** Get the bounding box of the object. */
-  virtual BoundingBoxType * GetBoundingBox( void ) const; 
+  /** Transform points from the internal data coordinate system
+   * of the object (typically the indices of the image from which
+   * the object was defined) to "physical" space (which accounts
+   * for the spacing, orientation, and offset of the indices)
+   */ 
+  void SetIndexToObjectTransform( TransformType * transform ); 
+  TransformType * GetIndexToObjectTransform( void ); 
+  const TransformType * GetIndexToObjectTransform( void ) const; 
 
-  /** This is the transform applied from the origin of the parent
-   *  if the origin of the child is different from the origin of the parent
-   *  (i.e. m_Origin) then the transformation is applied from this origin
-   *  this origin is transformed by the parent's transform before applying
-   *  any transformation */
-  void SetTransform( TransformType * transform ); 
-  TransformType * GetTransform( void ); 
-  const TransformType * GetTransform( void ) const; 
-
-  TransformType * GetIndexTransform( void );
-  const TransformType * GetIndexTransform( void ) const;
+  /** Transforms points from the object-specific "physical" space
+   * to the "physical" space of its parent object.   
+   */
+  TransformType * GetObjectToParentTransform( void );
+  const TransformType * GetObjectToParentTransform( void ) const;
 
   /** This defines the transformation from the global coordinate frame.
    *  By setting this transform, the local transform is computed */
-  void SetGlobalTransform( TransformType * transform );
-  TransformType * GetGlobalTransform( void );
-  const TransformType * GetGlobalTransform( void ) const;
+  void SetObjectToWorldTransform( TransformType * transform );
+  TransformType * GetObjectToWorldTransform( void );
+  const TransformType * GetObjectToWorldTransform( void ) const;
 
-  TransformType * GetIndexGlobalTransform( void );
-  const TransformType * GetIndexGlobalTransform( void ) const;
+  TransformType * GetIndexToWorldTransform( void );
+  const TransformType * GetIndexToWorldTransform( void ) const;
 
-  TransformType * GetGlobalIndexTransform( void );
-  const TransformType * GetGlobalIndexTransform( void ) const;
+  TransformType * GetWorldToIndexTransform( void );
+  const TransformType * GetWorldToIndexTransform( void ) const;
 
-  /** Set the center of the rotation */
-  itkSetMacro(CenterOfRotation,PointType);
-  itkGetConstMacro(CenterOfRotation,PointType);
-
-  /** Returns a degree of membership to the object. 
-   *  That's useful for fuzzy objects. */ 
+  /** Returns the value at a point */
   virtual bool ValueAt( const PointType & point, double & value,
                         unsigned int depth=0,
                         char * name = NULL) const;
-     
-  /** Return tru if the object provides a method to evaluate the value 
-   *  at the specified point, else otherwise. */
+
+  /** Returns true if the object can provide a "meaningful" value at
+   * a point.   Often defaults to returning same answer as IsInside, but
+   * certain objects influence space beyond their spatial extent, 
+   * e.g., an RFA Needle Spatial Object can cause a burn
+   * that extends beyond the tip of the needle.
+   */
   virtual bool IsEvaluableAt( const PointType & point,
                               unsigned int depth=0,
                               char * name = NULL) const;
 
-  /** Test whether a point is inside or outside the object. */ 
+  /** Returns true if a point is inside the object. */ 
   virtual bool IsInside( const PointType & point,
                          unsigned int depth=0,
                          char * name = NULL) const;
+
+  /** Returns true if a point is inside the object - provided
+   * to make spatial objects compatible with spatial functions
+   * and conditional iterators for defining regions of interest.
+   */
+  bool Evaluate( const PointType & point ) const
+    {
+    return this->IsInside( point );
+    };
 
   /** Set the pointer to the parent object in the tree hierarchy
    *  used for the spatial object patter. */
@@ -188,9 +194,6 @@ public:
                      OutputVectorType & value,
                      unsigned int depth=0,
                      char * name = NULL);
-
-  /** Returns the list of local to global transforms */
-  TransformListType & GetGlobalTransformList( void );
 
   /** 
    * Compute an axis-aligned bounding box for the object and its
@@ -212,32 +215,23 @@ public:
    * still in an initial state.  The return value can be ignored; it
    * is used internally when the function recurses.
    */ 
-  virtual bool ComputeBoundingBox( unsigned int depth=0,
-                                   char * name = NULL);
-
-  /** Set the Spacing of the spatial object */
-  void SetSpacing( const double spacing[ObjectDimension] );
-
-  /** Get the spacing of the spatial object */
-  const double* GetSpacing() const {return m_Spacing;}
+  virtual bool ComputeBoundingBox() const;
   
-  /** Set the Scale of the spatial object */
-  void SetScale( const double scale[ObjectDimension] );
-
-  /** Get the spacing of the spatial object */
-  const double* GetScale() const {return m_Scale;}
+  /** Get the bounding box of the object.
+   *  This function calls ComputeBoundingBox() */
+  virtual BoundingBoxType * GetBoundingBox() const; 
 
   /** Returns the latest modified time of the spatial object, and 
    * any of its components. */
   unsigned long GetMTime( void ) const;
 
-  /** Compute the Global transform when the local transform is set
+  /** Compute the World transform when the local transform is set
    *  This function should be called each time the local transform
    *  has been modified */
-  void ComputeGlobalTransform(void);
+  void ComputeObjectToWorldTransform(void);
 
   /** Compute the Local transform when the global transform is set */
-  void ComputeTransform(void);
+  void ComputeObjectToParentTransform(void);
 
   /** Add an object to the list of children. */ 
   void AddSpatialObject( Self * pointer ); 
@@ -254,25 +248,25 @@ public:
   /** Returns a list of pointer to the children affiliated to this object. 
    * A depth of 0 returns the immediate childred. A depth of 1 returns the
    * children and those children's children. */ 
-  virtual ChildrenListType * GetChildren( unsigned int depth=0,
-                                          char * name = NULL) const;
+  virtual ChildrenListType * GetChildren( unsigned int depth=0, 
+                                          char * name=NULL ) const;
 
   /** Returns the number of children currently assigned to the object. */ 
-  unsigned int GetNumberOfChildren( unsigned int depth=0,
-                                    char * name = NULL);
+  unsigned int GetNumberOfChildren( unsigned int depth=0, 
+                                    char * name=NULL  ) const;
 
   /** Set the list of pointers to children to the list passed as argument. */ 
   void SetChildren( ChildrenListType & children ); 
 
   /** Clear the spatial object by deleting all lists of children
    * and subchildren */
-  virtual void Clear(void);
+  virtual void Clear( void );
 
-  /** Return the Modified time of the LocalToGlobalTransform */
-  unsigned long GetTransformMTime(void);
+  /** Return the Modified time of the LocalToWorldTransform */
+  unsigned long GetTransformMTime( void );
 
-  /** Return the Modified time of the GlobalToLocalTransform */
-  unsigned long GetGlobalTransformMTime(void);
+  /** Return the Modified time of the WorldToLocalTransform */
+  unsigned long GetWorldTransformMTime( void );
 
    /** Set the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This
@@ -369,9 +363,6 @@ public:
     return index;
   }
 
-  /** Copy Spacing, Scale, CenterOfRotation, and Transform */
-  virtual void CopySpatialObjectInformation(const SpatialObject * obj);
-
   /** Copy information from the specified data set.  This method is
    * part of the pipeline execution model. By default, a ProcessObject
    * will copy meta-data from the first input to all of its
@@ -425,10 +416,6 @@ public:
   /** Set the property applied to the object. */
   void SetProperty( const PropertyType * property ); 
 
-  /** Get/Set the ParentID */
-  void SetParentId(int parentid) {m_ParentId=parentid;}
-  int  GetParentId(void) {return m_ParentId;}
-
   /** Get/Set the ID */
   itkGetConstMacro(Id,int);
   itkSetMacro(Id,int);
@@ -437,21 +424,25 @@ public:
   virtual void Update(void);
 
 
+  itkSetMacro(BoundingBoxChildrenDepth, unsigned int);
+  itkGetMacro(BoundingBoxChildrenDepth, unsigned int);
+
+  itkSetMacro(BoundingBoxChildrenName, std::string);
+  itkGetMacro(BoundingBoxChildrenName, std::string);
+  
+  itkSetMacro(ParentId, int);
+  itkGetMacro(ParentId, int);
+
 protected: 
   
   BoundingBoxPointer  m_Bounds; 
-  unsigned long       m_BoundsMTime;
-  double              m_Spacing[ObjectDimension];
-  double              m_Scale[ObjectDimension];
-  PointType           m_CenterOfRotation;
+  mutable unsigned long       m_BoundsMTime;
 
-  TransformListType   m_GlobalTransformList;
-
-  TransformPointer    m_Transform;
-  TransformPointer    m_IndexTransform;
-  TransformPointer    m_GlobalTransform; 
-  TransformPointer    m_IndexGlobalTransform; 
-  TransformPointer    m_GlobalIndexTransform; 
+  TransformPointer    m_IndexToObjectTransform;
+  TransformPointer    m_ObjectToParentTransform;
+  TransformPointer    m_ObjectToWorldTransform; 
+  TransformPointer    m_IndexToWorldTransform; 
+  TransformPointer    m_WorldToIndexTransform; 
 
   /** Constructor. */ 
   SpatialObject(); 
@@ -473,7 +464,7 @@ protected:
 
   const Self* m_Parent;
 
-  char m_TypeName[255];
+  std::string m_TypeName;
 
   unsigned int m_Dimension;
 
@@ -483,15 +474,13 @@ protected:
   RegionType          m_RequestedRegion;
   RegionType          m_BufferedRegion;
     
-
+  std::string  m_BoundingBoxChildrenName;
+  unsigned int m_BoundingBoxChildrenDepth;
   PropertyPointer m_Property; 
-
-  /** Parent ID : default = -1 */
-  int m_ParentId;
 
   /** Object Identification Number */
   int m_Id;
-
+  int m_ParentId;
 }; 
 
 } // end of namespace itk

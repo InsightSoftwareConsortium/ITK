@@ -31,34 +31,27 @@ template< unsigned int TDimension >
 SpatialObject< TDimension >
 ::SpatialObject( void )
 {
-  strcpy(m_TypeName,"SpatialObject");
+  m_TypeName = "SpatialObject";
   m_Dimension = TDimension;
   m_Bounds = BoundingBoxType::New();
   m_BoundsMTime = 0;
   m_Property = PropertyType::New();
 
-  m_Transform = TransformType::New();
-  m_Transform->SetIdentity();
-  m_IndexTransform = TransformType::New();
-  m_IndexTransform->SetIdentity();
-  m_GlobalTransform = TransformType::New();
-  m_GlobalTransform->SetIdentity();
-  m_IndexGlobalTransform = TransformType::New();
-  m_IndexGlobalTransform->SetIdentity();
-  m_GlobalIndexTransform = TransformType::New();
-  m_GlobalIndexTransform->SetIdentity();
+  m_IndexToObjectTransform = TransformType::New();
+  m_IndexToObjectTransform->SetIdentity();
+  m_ObjectToParentTransform = TransformType::New();
+  m_ObjectToParentTransform->SetIdentity();
+  m_ObjectToWorldTransform = TransformType::New();
+  m_ObjectToWorldTransform->SetIdentity();
+  m_IndexToWorldTransform = TransformType::New();
+  m_IndexToWorldTransform->SetIdentity();
+  m_WorldToIndexTransform = TransformType::New();
+  m_WorldToIndexTransform->SetIdentity();
 
-  // Initialize the spacing to 1 by default
-  for (unsigned int i=0; i<ObjectDimension; i++)
-  {
-    m_Scale[i] = 1;
-    m_Spacing[i] = 1;
-    m_CenterOfRotation[i] = 0;
-  }
-  
+  m_BoundingBoxChildrenDepth=0;
   SetParent(NULL);
   m_Id = -1;
-  m_ParentId=-1; // by default
+  m_ParentId = -1;
 }
 
 /** Destructor */
@@ -92,7 +85,7 @@ SpatialObject< TDimension >
 
 
 /** Set the spacing of the object */
-template< unsigned int TDimension >
+/*template< unsigned int TDimension >
 void
 SpatialObject< TDimension >
 ::SetSpacing(const double spacing[ObjectDimension] )
@@ -115,9 +108,9 @@ SpatialObject< TDimension >
 
   ComputeGlobalTransform();
 }
-
+*/
 /** Set the Scale of the spatial object */
-template< unsigned int TDimension >
+/*template< unsigned int TDimension >
 void
 SpatialObject< TDimension >
 ::SetScale(const double scale[ObjectDimension] )
@@ -138,7 +131,7 @@ SpatialObject< TDimension >
     }
   }
 }
-
+*/
 /** Return the Derivative at a point given the order of the derivative */
 template< unsigned int TDimension >
 void
@@ -174,8 +167,11 @@ SpatialObject< TDimension >
       {
       p1=point;
       p2=point;
-      p1[i]-=m_Spacing[i];
-      p2[i]+=m_Spacing[i];
+      
+      // should get the spacing from the transform
+      const double* spacing = m_IndexToObjectTransform->GetScaleComponent();
+      p1[i]-=spacing[i];
+      p2[i]+=spacing[i];
 
       try
         {
@@ -285,9 +281,14 @@ SpatialObject< TDimension >
   os << "Bounding Box:" << std::endl;
   os << indent << m_Bounds << std::endl;
   os << "Geometric properties:" << std::endl;
-  os << indent << "(local to global ) " << m_Transform << std::endl;
-  os << indent << "(global to local ) " << m_GlobalTransform << std::endl;
+  os << indent << "Index to Object Transform: " << m_IndexToObjectTransform << std::endl;
+  os << indent << "Object to Parent Transform: " << m_ObjectToParentTransform << std::endl;
+  os << indent << "Object to World Transform: " << m_ObjectToWorldTransform << std::endl;
+  os << indent << "Index to World Transform: " << m_IndexToWorldTransform << std::endl;
+  os << indent << "World to Index Transform: " << m_WorldToIndexTransform << std::endl;
   os << std::endl << std::endl;
+  os << indent << "Bounding Box Children Depth: " << m_BoundingBoxChildrenDepth << std::endl;
+  os << indent << "Bounding Box Children Name: " << m_BoundingBoxChildrenName << std::endl;
   os << "Object properties: " << std::endl;
   os << m_Property << std::endl;
   os << indent << "Number of children: " 
@@ -305,21 +306,13 @@ SpatialObject< TDimension >
   os << std::endl;
 }
   
-/** Set the bounds of the object */
-template< unsigned int TDimension >
-void
-SpatialObject< TDimension >
-::SetBoundingBox( BoundingBoxPointer bounds )
-{ 
-  m_Bounds = bounds; 
-}
-
 /** Get the bounds of the object */
 template< unsigned int TDimension >
 typename SpatialObject< TDimension >::BoundingBoxType *
 SpatialObject< TDimension >
-::GetBoundingBox( void ) const
+::GetBoundingBox() const
 { 
+  this->ComputeBoundingBox();
   return m_Bounds.GetPointer();
 }
 
@@ -338,7 +331,6 @@ SpatialObject< TDimension >
   if( it == m_Children.end() )
   {
     pointer->SetParent( this );
-    pointer->SetParentId( this->GetId() );
     m_Children.push_back( pointer );
   }
   else
@@ -365,7 +357,6 @@ SpatialObject< TDimension >
     if( *it == pointer )
     {
       (*it)->SetParent(NULL);
-      (*it)->SetParentId(-1);
       m_Children.erase( it );
       found =true;
     }
@@ -385,131 +376,104 @@ SpatialObject< TDimension >
 }
 
 /** Set the local to global transformation */
-template< unsigned int TDimension >
+/*template< unsigned int TDimension >
 void 
 SpatialObject< TDimension >
 ::SetTransform(TransformType * transform )
 {
   m_Transform = transform;
   ComputeGlobalTransform();
-}
+}*/
 
 /** Compute the Global Transform */
 template< unsigned int TDimension >
 void 
 SpatialObject< TDimension >
-::ComputeGlobalTransform( )
+::ComputeObjectToWorldTransform( )
 {
+  typename TransformType::MatrixType matrix  = m_ObjectToParentTransform->GetMatrix();
+  typename TransformType::OffsetType offset  = m_ObjectToParentTransform->GetOffset();
 
-  typename TransformType::MatrixType matrix = m_Transform->GetMatrix();
-  typename TransformType::MatrixType imatrix = m_Transform->GetMatrix();
-  typename TransformType::OffsetType offset = m_Transform->GetOffset();
+  m_ObjectToWorldTransform->SetMatrix(matrix);
+  m_ObjectToWorldTransform->SetOffset(offset);
 
-  // matrix is changed to include the scaling
-  for(unsigned int i=0;i<TDimension;i++)
-    {
-    for(unsigned int j=0;j<TDimension;j++)
-      {
-      imatrix.GetVnlMatrix().put(i, j,
-          imatrix.GetVnlMatrix().get(i,j)*m_Spacing[i]);
-      }
-    }
+  m_IndexToWorldTransform->SetMatrix(m_IndexToObjectTransform->GetMatrix());
+  m_IndexToWorldTransform->SetOffset(m_IndexToObjectTransform->GetOffset());
 
-  PointType point;
-  point = matrix*m_CenterOfRotation;
-
-  for(unsigned i=0;i<TDimension;i++)
-    {
-    offset[i] += m_CenterOfRotation[i]-point[i];
-    }
-
-  m_IndexTransform->SetMatrix(imatrix);
-  m_IndexTransform->SetOffset(offset);
-
-  m_GlobalTransform->SetMatrix(matrix);
-  m_GlobalTransform->SetOffset(offset);
-
-  m_IndexGlobalTransform->SetMatrix(imatrix);
-  m_IndexGlobalTransform->SetOffset(offset);
 
   if(m_Parent)
     {
-    m_GlobalTransform->Compose(dynamic_cast<const SpatialObject<TDimension>*>
-                               (m_Parent)->GetGlobalTransform(),false);
-    m_IndexGlobalTransform->Compose(
-                               dynamic_cast<const SpatialObject<TDimension>*>
-                               (m_Parent)->GetGlobalTransform(),false);
+    m_ObjectToWorldTransform->Compose(dynamic_cast<const SpatialObject<TDimension>*>
+                               (m_Parent)->GetObjectToWorldTransform(),false);
     }
 
-  m_GlobalIndexTransform->SetMatrix(
-                              m_IndexGlobalTransform->Inverse()->GetMatrix());
-  m_GlobalIndexTransform->SetOffset(
-                              m_IndexGlobalTransform->Inverse()->GetOffset());
+  m_IndexToWorldTransform->Compose(this->GetObjectToWorldTransform(),false);
+
+  m_WorldToIndexTransform->SetMatrix(
+                              m_IndexToWorldTransform->Inverse()->GetMatrix());
+  m_WorldToIndexTransform->SetOffset(
+                              m_IndexToWorldTransform->Inverse()->GetOffset());
   
   // Propagate the changes to the children
   typename ChildrenListType::iterator it = m_Children.begin();
   while(it!=m_Children.end())
   {
-    (*it)->ComputeGlobalTransform();
+    (*it)->ComputeObjectToWorldTransform();
     it++;
   }
 }
 
-
-
 /** Get the local transformation */
 template< unsigned int TDimension >
 typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
-::GetTransform( void )
+::GetObjectToParentTransform( void )
 {
-  return m_Transform.GetPointer();
+  return m_ObjectToParentTransform.GetPointer();
 }
 
 /** Get the local transformation (const)*/
 template< unsigned int TDimension >
 const typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
-::GetTransform( void ) const
+::GetObjectToParentTransform( void ) const
 {
-  return m_Transform.GetPointer();
+  return m_ObjectToParentTransform.GetPointer();
 }
 
 /** Get the local transformation */
 template< unsigned int TDimension >
 typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
-::GetIndexTransform( void )
+::GetIndexToObjectTransform( void )
 {
-  return m_IndexTransform.GetPointer();
+  return m_IndexToObjectTransform.GetPointer();
 }
 
 /** Get the local transformation (const)*/
 template< unsigned int TDimension >
 const typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
-::GetIndexTransform( void ) const
+::GetIndexToObjectTransform( void ) const
 {
-  return m_IndexTransform.GetPointer();
+  return m_IndexToObjectTransform.GetPointer();
 }
-
 
 /** Set the global to local transformation */
 template< unsigned int TDimension >
 void 
 SpatialObject< TDimension >
-::SetGlobalTransform(TransformType * transform )
+::SetObjectToWorldTransform(TransformType * transform )
 {
-  m_GlobalTransform = transform;
-  ComputeTransform();
+  m_ObjectToWorldTransform = transform;
+  //ComputeWorldToObjectTransform();
 }
 
-
 /** Compute the Transform when the global tranform as been set*/
-template< unsigned int TDimension >
+/*template< unsigned int TDimension >
 void 
 SpatialObject< TDimension >
-::ComputeTransform( )
+::ComputeWorldToObjectTransform( )
 {
   m_Transform = m_GlobalTransform;
 
@@ -545,73 +509,63 @@ SpatialObject< TDimension >
   m_GlobalIndexTransform->SetMatrix(
                               m_IndexGlobalTransform->Inverse()->GetMatrix());
   m_GlobalIndexTransform->SetOffset(goffset);
-  
-
-}
+}*/
 
 
 /** Get the global transformation */
 template< unsigned int TDimension >
 typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
-::GetGlobalTransform( void )
+::GetObjectToWorldTransform( void )
 {
-  return m_GlobalTransform.GetPointer();
+  return m_ObjectToWorldTransform.GetPointer();
 }
 
 /** Get the global transformation (const)*/
 template< unsigned int TDimension >
 const typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
-::GetGlobalTransform( void ) const
+::GetObjectToWorldTransform( void ) const
 {
-  return m_GlobalTransform.GetPointer();
+  return m_ObjectToWorldTransform.GetPointer();
 }
 
 /** Get the global transformation */
 template< unsigned int TDimension >
 typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
-::GetIndexGlobalTransform( void )
+::GetIndexToWorldTransform( void )
 {
-  return m_IndexGlobalTransform.GetPointer();
+  return m_IndexToWorldTransform.GetPointer();
 }
 
 /** Get the global transformation (const)*/
 template< unsigned int TDimension >
 const typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
-::GetIndexGlobalTransform( void ) const
+::GetIndexToWorldTransform( void ) const
 {
-  return m_IndexGlobalTransform.GetPointer();
+  return m_IndexToWorldTransform.GetPointer();
 }
 
 /** Get the global transformation */
 template< unsigned int TDimension >
 typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
-::GetGlobalIndexTransform( void )
+::GetWorldToIndexTransform( void )
 {
-  return m_GlobalIndexTransform.GetPointer();
+  return m_WorldToIndexTransform.GetPointer();
 }
 
 /** Get the global transformation (const)*/
 template< unsigned int TDimension >
 const typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
-::GetGlobalIndexTransform( void ) const
+::GetWorldToIndexTransform( void ) const
 {
-  return m_GlobalIndexTransform.GetPointer();
+  return m_WorldToIndexTransform.GetPointer();
 }
 
-/** Get the Global to Local transformation list */
-template< unsigned int TDimension >
-typename SpatialObject< TDimension >::TransformListType &
-SpatialObject< TDimension >
-::GetGlobalTransformList( void )
-{
-  return m_GlobalTransformList;
-}
 
 /** Get the modification time  */
 template< unsigned int TDimension >
@@ -665,26 +619,30 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
-::ComputeBoundingBox( unsigned int depth, char * name )
+::ComputeBoundingBox() const
   {
   itkDebugMacro( "Computing Bounding Box" );
 
   if( this->GetMTime() > m_BoundsMTime )
     {
-    if( depth > 0 )
+    if( m_BoundingBoxChildrenDepth > 0 )
       {
-      typename ChildrenListType::iterator it = m_Children.begin();
-      typename ChildrenListType::iterator itEnd = m_Children.end();
+      typename ChildrenListType::const_iterator it = m_Children.begin();
+      typename ChildrenListType::const_iterator itEnd = m_Children.end();
       if(it != itEnd)
         {
-        (*it)->ComputeBoundingBox(depth-1, name);
+        (*it)->SetBoundingBoxChildrenDepth(m_BoundingBoxChildrenDepth-1);
+        (*it)->SetBoundingBoxChildrenName(m_BoundingBoxChildrenName);
+        (*it)->ComputeBoundingBox();
         m_Bounds->SetMinimum((*it)->GetBoundingBox()->GetMinimum());
         m_Bounds->SetMaximum((*it)->GetBoundingBox()->GetMaximum());
         it++;
 
         while(it!=itEnd)
           {
-          (*it)->ComputeBoundingBox(depth-1, name);
+          (*it)->SetBoundingBoxChildrenDepth(m_BoundingBoxChildrenDepth-1);
+          (*it)->SetBoundingBoxChildrenName(m_BoundingBoxChildrenName);
+          (*it)->ComputeBoundingBox();
           m_Bounds->ConsiderPoint((*it)->GetBoundingBox()->GetMinimum());
           m_Bounds->ConsiderPoint((*it)->GetBoundingBox()->GetMaximum());
           it++;
@@ -774,7 +732,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 unsigned int
 SpatialObject< TDimension >
-::GetNumberOfChildren( unsigned int depth, char * name )
+::GetNumberOfChildren( unsigned int depth, char * name ) const
 {
   typename ChildrenListType::const_iterator it = m_Children.begin();
   typename ChildrenListType::const_iterator itEnd = m_Children.end();
@@ -816,9 +774,9 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 unsigned long
 SpatialObject< TDimension >
-::GetGlobalTransformMTime(void)
+::GetWorldTransformMTime(void)
 {
-  return m_GlobalTransform->GetMTime();
+  return m_IndexToWorldTransform->GetMTime();
 }
 
 
@@ -909,18 +867,6 @@ SpatialObject< TDimension >
   m_RequestedRegion = m_LargestPossibleRegion;
   m_RequestedRegionInitialized = true;
 }
-
-
-template< unsigned int TDimension >
-void
-SpatialObject< TDimension >
-::CopySpatialObjectInformation(const SpatialObject *obj)
-  {
-  this->SetSpacing(obj->GetSpacing());
-  this->SetCenterOfRotation(obj->GetCenterOfRotation());
-  m_Transform->SetParameters(obj->GetTransform()->GetParameters());
-  ComputeGlobalTransform();
-  }
 
 template< unsigned int TDimension >
 void
@@ -1098,16 +1044,6 @@ SpatialObject< TDimension >
 {
   this->Modified();
 }
-
-
-
-
-
-
-
-
-
-
 
 } // end of namespace itk
 
