@@ -67,6 +67,14 @@ ImageMomentsCalculator<TInputImage>
 {
   Superclass::PrintSelf(os,indent);
   os << indent << "Image: " << m_Image.GetPointer() << std::endl;
+  os << indent << "Valid: " << m_Valid << std::endl;
+  os << indent << "Zeroth Moment about origin: " << m_M0 << std::endl;
+  os << indent << "First Moment about origin: " << m_M1 << std::endl;
+  os << indent << "Second Moment about origin: " << m_M2 << std::endl;
+  os << indent << "Center of Gravity: " << m_Cg << std::endl;
+  os << indent << "Second central moments: " << m_Cm << std::endl;
+  os << indent << "Principal Moments: " << m_Pm << std::endl;
+  os << indent << "Principal axes: " << m_Pa << std::endl;
 }
 
 //----------------------------------------------------------------------
