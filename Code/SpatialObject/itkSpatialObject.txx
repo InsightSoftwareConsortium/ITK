@@ -19,7 +19,9 @@
 #define __SpatialObject_txx
 
 #include "itkSpatialObject.h"
+#include <itkNumericTraits.h>
 #include <algorithm>
+#include <string>
 
 namespace itk 
 {
@@ -32,6 +34,7 @@ SpatialObject< NDimensions, PipelineDimension>
   m_ParentId=-1;
   m_Dimension = NDimensions;
   m_Bounds = BoundingBoxType::New();
+  m_BoundsMTime = 0;
   m_Property = PropertyType::New();
   m_Transform = TransformType::New();
   m_GlobalTransform = TransformType::New();
@@ -66,12 +69,13 @@ SpatialObject< NDimensions, PipelineDimension>
   typename ChildrenListType::iterator it = m_Children.begin();
   typename ChildrenListType::iterator end = m_Children.end();
 
-  for(; it!=end; it++)
+  while(it!=end)
   {
     if((*it))
     {
       (*it)->Delete();
     }
+    it++;
   }
 }
 
@@ -128,26 +132,27 @@ SpatialObject< NDimensions, PipelineDimension>
 template< unsigned int NDimensions, unsigned int PipelineDimension >
 void
 SpatialObject< NDimensions, PipelineDimension>
-::DerivativeAt( const PointType & point, short unsigned int order, OutputVectorType & value )
-{
-  if( !IsEvaluableAt(point) )
+::DerivativeAt( const PointType & point, short unsigned int order,
+                OutputVectorType & value, bool includeChildren )
   {
+  if( !IsEvaluableAt(point, includeChildren) )
+    {
     itk::ExceptionObject e("SpatialObject.txx");
     e.SetLocation("SpatialObject< NDimensions, PipelineDimension>::DerivateAt(\
-    const PointType, unsigned short, OutputVectorType & )");
-    e.SetDescription("This spatial object is not derivable at the requested point");
+                   const PointType, unsigned short, OutputVectorType & )");
+    e.SetDescription("This spatial object is not evaluable at the point");
     throw e;
-  }
+    }
 
   double r;
 
   if( order == 0 )
-  {
-    ValueAt(point,r);
+    {
+    ValueAt(point,r, includeChildren);
     value.Fill(r);
-  }
+    }
   else
-  {
+    {
     PointType p1,p2;
     OutputVectorType v1,v2;
     typename OutputVectorType::Iterator it = value.Begin();
@@ -155,63 +160,48 @@ SpatialObject< NDimensions, PipelineDimension>
     typename OutputVectorType::Iterator it_v2 = v2.Begin();
 
     for( unsigned short i=0; i<NDimensions; i++, it++, it_v1++, it_v2++ )
-    {
+      {
       p1=point;
       p2=point;
       p1[i]-=m_Spacing[i];
       p2[i]+=m_Spacing[i];
 
       try
-      {
-        DerivativeAt(p1,order-1,v1);
-        DerivativeAt(p2,order-1,v2);
-      } 
+        {
+        DerivativeAt(p1,order-1,v1, includeChildren);
+        DerivativeAt(p2,order-1,v2, includeChildren);
+        } 
       catch( itk::ExceptionObject e )
-      {
-      
-        throw;
-      }
+        {
+        throw e;
+        }
 
       (*it) = ((*it_v2)-(*it_v1))/2;
       }
     }
-
-    /** Compute parent derivatives */
-    typename ChildrenListType::iterator it = m_Children.begin();
-    typename ChildrenListType::iterator end = m_Children.end();
-  
-    for(; it!=end; it++)
-    {
-      if( (*it)->IsInside(point) )
-      {
-      try
-      {
-        (*it)->DerivativeAt(point,order,value);
-      }
-      catch(...)
-      {
-        throw;
-      }
-    }
-  } 
-}
+  }
 
 /** Return if a point is inside the object or its children */
 template< unsigned int NDimensions, unsigned int PipelineDimension >
 bool
 SpatialObject< NDimensions, PipelineDimension>
-::IsInside( const PointType &  point ) const
+::IsInside( const PointType &  point, bool includeChildren) const
 {
-  typename ChildrenListType::const_iterator it = m_Children.begin();
-  typename ChildrenListType::const_iterator end = m_Children.end();
-  
-  for(; it!=end; it++)
-  {
-    if( (*it)->IsInside(point) ) 
+  if(includeChildren)
     {
-    return true;
+    typename ChildrenListType::const_iterator it = m_Children.begin();
+    typename ChildrenListType::const_iterator end = m_Children.end();
+    
+    while(it!=end)
+      {
+      if( (*it)->IsInside(point) ) 
+        {
+        return true;
+        }
+      it++;
+      }  
     }
-  }  
+
   return false;
 }
 
@@ -219,18 +209,23 @@ SpatialObject< NDimensions, PipelineDimension>
 template< unsigned int NDimensions, unsigned int PipelineDimension >
 bool
 SpatialObject< NDimensions, PipelineDimension>
-::IsEvaluableAt( const PointType & point )
+::IsEvaluableAt( const PointType & point, bool includeChildren )
 {
-  typename ChildrenListType::iterator it = m_Children.begin();
-  typename ChildrenListType::iterator end = m_Children.end();
-  
-  for(; it!=end; it++)
-  {
-    if( (*it)->IsEvaluableAt(point) ) 
+  if(includeChildren)
     {
-    return true;
+    typename ChildrenListType::iterator it = m_Children.begin();
+    typename ChildrenListType::iterator end = m_Children.end();
+    
+    while(it!=end)
+      {
+      if( (*it)->IsEvaluableAt(point) ) 
+        {
+        return true;
+        }
+      it++;
+      }  
     }
-  }  
+
   return false;
 }
 
@@ -238,28 +233,33 @@ SpatialObject< NDimensions, PipelineDimension>
 template< unsigned int NDimensions, unsigned int PipelineDimension >
 void
 SpatialObject< NDimensions, PipelineDimension>
-::ValueAt( const PointType & point, double & value )
+::ValueAt( const PointType & point, double & value, bool includeChildren )
 {
   bool evaluable = false;
-  typename ChildrenListType::iterator it = m_Children.begin();
-  typename ChildrenListType::iterator end = m_Children.end();
-
-  for(; it!=end; it++)
-  {
-    if( (*it)->IsEvaluableAt(point) )
+  if(includeChildren)
     {
-    (*it)->ValueAt(point,value); 
-    evaluable = true;
+    typename ChildrenListType::iterator it = m_Children.begin();
+    typename ChildrenListType::iterator end = m_Children.end();
+  
+    while(it!=end)
+      {
+      if( (*it)->IsEvaluableAt(point) )
+        {
+        (*it)->ValueAt(point,value); 
+        evaluable = true;
+        break;
+        }
+      it++;
+      } 
     }
-  } 
 
   if(!evaluable)
-  {
-    itk::ExceptionObject e("CompositeSpatialObject.txx");
-    e.SetLocation("CompositeSpatialObject< NDimensions, TransformType, OutputType, PipelineDimension >::ValueAt( const PointType & )");
-    e.SetDescription("This composite spatial object is not evaluable at the requested point");
+    {
+    itk::ExceptionObject e("SpatialObject.txx");
+    e.SetLocation("SpatialObject<>::ValueAt( const PointType & )");
+    e.SetDescription("This spatial object is not evaluable at the point");
     throw e;
-  }
+    }
 }
 
 /** Set the parent of the object */
@@ -295,9 +295,10 @@ SpatialObject< NDimensions, PipelineDimension>
   typename ChildrenListType::const_iterator it_children = m_Children.begin();
   typename ChildrenListType::const_iterator children_end = m_Children.end();
 
-  for(; it_children != children_end; it_children++ )
+  while(it_children != children_end)
     {
     os << "[" << (*it_children) << "] ";
+    it_children++;
     }
   os << std::endl;
 }
@@ -306,7 +307,7 @@ SpatialObject< NDimensions, PipelineDimension>
 template< unsigned int NDimensions, unsigned int PipelineDimension >
 void
 SpatialObject< NDimensions, PipelineDimension>
-::SetBounds( BoundingBoxPointer bounds )
+::SetBoundingBox( BoundingBoxPointer bounds )
 { 
   m_Bounds = bounds; 
 }
@@ -315,7 +316,7 @@ SpatialObject< NDimensions, PipelineDimension>
 template< unsigned int NDimensions, unsigned int PipelineDimension >
 typename SpatialObject< NDimensions, PipelineDimension>::BoundingBoxType *
 SpatialObject< NDimensions, PipelineDimension>
-::GetBounds( void ) const
+::GetBoundingBox( void ) const
 { 
   return m_Bounds.GetPointer();
 }
@@ -375,7 +376,8 @@ SpatialObject< NDimensions, PipelineDimension>
 
   // remove the child from the NDimensional list also
   typename NDimensionalChildrenListType::iterator it_NDim;
-  it_NDim = std::find(m_NDimensionalChildrenList.begin(),m_NDimensionalChildrenList.end(),pointer);
+  it_NDim = std::find(m_NDimensionalChildrenList.begin(),
+                      m_NDimensionalChildrenList.end(), pointer);
 
   if( it_NDim != m_NDimensionalChildrenList.end() )
   {
@@ -457,9 +459,10 @@ SpatialObject< NDimensions, PipelineDimension>
   
   // Propagate the changes to the children
   typename ChildrenListType::iterator it = m_Children.begin();
-  for(; it!=m_Children.end(); it++)
+  while(it!=m_Children.end())
   {
     (*it)->ComputeGlobalTransform();
+    it++;
   }
 }
 
@@ -562,11 +565,10 @@ SpatialObject< NDimensions, PipelineDimension>
 ::GetMTime( void ) const
 {
   unsigned long latestTime = Object::GetMTime();
-  unsigned long boundingBoxMTime = m_Bounds->GetMTime();
 
-  if( latestTime < boundingBoxMTime )
+  if( latestTime < m_BoundsMTime )
   {
-    latestTime = boundingBoxMTime;
+    latestTime = m_BoundsMTime;
   }
 
   typename ChildrenListType::const_iterator it = m_Children.begin();
@@ -574,7 +576,7 @@ SpatialObject< NDimensions, PipelineDimension>
  
   unsigned long localTime;
 
-  for(; it!=end; it++ )
+  while(it!=end)
   {
     localTime = (*it)->GetMTime();
 
@@ -582,50 +584,99 @@ SpatialObject< NDimensions, PipelineDimension>
     {
     latestTime = localTime;
     }
+    it++;
   } 
   return latestTime;  
 }
 
 /** Compute boundary of the object */
 template< unsigned int NDimensions, unsigned int PipelineDimension >
-void
+bool
 SpatialObject< NDimensions, PipelineDimension>
-::ComputeBounds( void )
-{
-  typename ChildrenListType::iterator it = m_Children.begin();
-  typename ChildrenListType::iterator end = m_Children.end();
-  PointType pointLow,pointHigh;
-  typename BoundingBoxType::PointsContainerPointer points = BoundingBoxType::PointsContainer::New() ;
+::ComputeBoundingBox( bool includeChildren )
+  {
+  itkDebugMacro( "Computing Bounding Box" );
 
   if( this->GetMTime() > m_BoundsMTime )
-  {
-    unsigned int i = 0;
-    for(; it!=end; it++)
     {
-      typename BoundingBoxType::PointsContainerConstPointer  childrenPoints  = (*it)->GetBounds()->GetPoints();
-      typename BoundingBoxType::PointsContainerConstIterator childrenPointsIt  = childrenPoints->Begin();
-      typename BoundingBoxType::PointsContainerConstIterator childrenPointsEnd = childrenPoints->End();
-
-      for(; childrenPointsIt != childrenPointsEnd; childrenPointsIt++,i++ )
+    if(includeChildren)
       {
-        points->InsertElement( i, childrenPointsIt.Value() );
+      typename ChildrenListType::iterator it = m_Children.begin();
+      typename ChildrenListType::iterator end = m_Children.end();
+      if(it != end)
+        {
+        (*it)->ComputeBoundingBox();
+        m_Bounds->SetMinimum((*it)->GetBoundingBox()->GetMinimum());
+        m_Bounds->SetMaximum((*it)->GetBoundingBox()->GetMaximum());
+        it++;
+
+        while(it!=end)
+          {
+          (*it)->ComputeBoundingBox();
+          m_Bounds->ConsiderPoint((*it)->GetBoundingBox()->GetMinimum());
+          m_Bounds->ConsiderPoint((*it)->GetBoundingBox()->GetMaximum());
+          it++;
+          }
+        m_BoundsMTime = this->GetMTime();
+        return true;
+        }
+      }
+
+    typename BoundingBoxType::PointType pnt;
+    pnt.Fill( itk::NumericTraits< ITK_TYPENAME 
+              BoundingBoxType::PointType::ValueType>::Zero );
+    m_Bounds->SetMinimum(pnt);
+    m_Bounds->SetMaximum(pnt);
+    m_BoundsMTime = this->GetMTime();
+    return false;
+    }
+  else
+    {
+    typename BoundingBoxType::PointType pnt;
+    pnt.Fill( itk::NumericTraits< ITK_TYPENAME 
+              BoundingBoxType::PointType::ValueType>::Zero );
+    if(m_Bounds->GetMinimum() == pnt &&
+       m_Bounds->GetMaximum() == pnt)
+      {
+      return false;
+      }
+    else
+      {
+      return true;
       }
     }
-   
-    points->Modified();
-    m_Bounds->SetPoints(points);
-    m_Bounds->ComputeBoundingBox();
-    m_BoundsMTime.Modified();
   }
-}
   
 /** Get the children list*/
 template< unsigned int NDimensions, unsigned int PipelineDimension >
 typename SpatialObject< NDimensions, PipelineDimension>::ChildrenListType &
 SpatialObject< NDimensions, PipelineDimension>
-::GetChildren( void )
+::GetChildren( unsigned int depth, 
+               char * name)
 {
-  return m_Children;
+  if( depth == 0 && name == NULL )
+    {
+    return m_Children;
+    }
+
+  ChildrenListType * children = new ChildrenListType;
+
+  typename ChildrenListType::const_iterator childrenListIt =
+           m_Children.begin();
+  while( childrenListIt != m_Children.end() )
+    {
+    if( name == NULL || strstr(typeid(**childrenListIt).name(), name) )
+      {
+      children->push_back(*childrenListIt);
+      }
+    if( depth > 1 || depth == 0)
+      {
+      children->merge((**childrenListIt).GetChildren(depth--, name));
+      }
+    childrenListIt++;
+    }
+
+  return * children;
 }
 
 /** Set children list*/
@@ -639,11 +690,12 @@ SpatialObject< NDimensions, PipelineDimension>
   typename ChildrenListType::const_iterator it = m_Children.begin();
   typename ChildrenListType::const_iterator end = m_Children.end();
   
-  for(; it != end; it++ )
+  while(it != end)
   {
     (*it)->Register(); // increase the reference count
     m_NDimensionalChildrenList.push_back(*it);
     (*it)->SetParent( this );  
+    it++;
   }
 }
 
@@ -651,9 +703,28 @@ SpatialObject< NDimensions, PipelineDimension>
 template< unsigned int NDimensions, unsigned int PipelineDimension >
 unsigned int
 SpatialObject< NDimensions, PipelineDimension>
-::GetNumberOfChildren( void )
+::GetNumberOfChildren( bool includeChildren )
 {
-  return m_Children.size();
+  if(!includeChildren)
+    {
+    return m_Children.size();
+    }
+  else
+    {
+    unsigned int cnt = m_Children.size();
+
+    typename ChildrenListType::const_iterator it = m_Children.begin();
+    typename ChildrenListType::const_iterator end = m_Children.end();
+    
+    while(it != end)
+      {
+      cnt += (*it)->GetNumberOfChildren( true );
+      it++;
+      }
+
+    return cnt;
+    }
+
 } 
 
 /** Return the Modified time of the LocalToGlobalTransform */

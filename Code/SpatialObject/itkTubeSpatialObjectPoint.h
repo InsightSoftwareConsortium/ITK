@@ -30,7 +30,7 @@ namespace itk
 * This class contains all the functions necessary to define a point
 * that can be used to build tubes.
 *
-* \also TubeSpatialObject TubeNetworkSpatialObject
+* \also TubeSpatialObject 
 */ 
 template < unsigned int TPointDimension = 3 >
 class TubeSpatialObjectPoint 

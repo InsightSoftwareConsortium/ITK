@@ -37,7 +37,7 @@ ImageSpatialObject< NDimensions,  PixelType, PipelineDimension >
     m_SlicePosition[i]=0;
   }
 
-  ComputeBounds();
+  ComputeBoundingBox();
 }
 
 /** Destructor */
@@ -52,31 +52,27 @@ ImageSpatialObject< NDimensions,  PixelType, PipelineDimension >
 template< unsigned int NDimensions, class PixelType, unsigned int PipelineDimension >
 bool
 ImageSpatialObject< NDimensions,  PixelType, PipelineDimension >
-::IsEvaluableAt( const PointType & point )
+::IsEvaluableAt( const PointType & point, bool includeChildren )
 {
-  if( !IsInside( point ) )
-  {
-    return false;
-  }
-  return true; 
+  return IsInside(point, includeChildren);
 }
 
 /** Return true if the given point is inside the image */
 template< unsigned int NDimensions, class PixelType, unsigned int PipelineDimension >
 bool
 ImageSpatialObject< NDimensions,  PixelType, PipelineDimension >
-::IsInside( const PointType & point ) const
+::IsInside( const PointType & point, bool includeChildren ) const
 {
   PointType p = point;
   TransformPointToLocalCoordinate( p );
-  if(m_Bounds->IsInside( p ))
-  {
+  if(m_Bounds->IsInside( p))
+    {
     return true;
-  }
+    }
   else
-  {
-    return Superclass::IsInside(p);
-  }
+    {
+    return Superclass::IsInside(p, includeChildren);
+    }
 }
 
 /** Return the value of the image at a specified point 
@@ -84,53 +80,78 @@ ImageSpatialObject< NDimensions,  PixelType, PipelineDimension >
 template< unsigned int NDimensions, class PixelType, unsigned int PipelineDimension >
 void 
 ImageSpatialObject< NDimensions,  PixelType, PipelineDimension >
-::ValueAt( const PointType & point, double & value )
+::ValueAt( const PointType & point, double & value, bool includeChildren )
 {
-  IndexType index;
-
-  if( !IsEvaluableAt( point ) )
-  {
-    ExceptionObject e;
-    e.SetLocation("ImageSpatialObject< NDimensions,  PixelType, PipelineDimension >::ValueAt( const PointType & )");
-    e.SetDescription("the image value cannot be evaluated at the requested point");
-    throw e;
-  }
-
-  PointType p = point;
-  TransformPointToLocalCoordinate(p);
-  if( m_Image->TransformPhysicalPointToIndex( p, index ) )
-  {
+  if( IsEvaluableAt( point, false ) )
+    {
+    PointType p = point;
+    TransformPointToLocalCoordinate(p);
+    IndexType index;
+    for(int i=0; i<NDimensions; i++)
+      {
+      index[i] = (int)p[i];
+      }
     value = m_Image->GetPixel(index);
-  }
+    return;
+    }
+  else
+    {
+    if( Superclass::IsEvaluableAt(point, includeChildren) )
+      {
+      Superclass::ValueAt(point, value, includeChildren);
+      return;
+      }
+    else
+      {
+      value = 0;
+      ExceptionObject e;
+      e.SetLocation("ImageSpatialObject< NDimensions,  PixelType, \
+                     PipelineDimension >::ValueAt( const PointType & )");
+      e.SetDescription("the image value cannot be evaluated at the point");
+      throw e;
+      }
+    }
 }
 
 /** Compute the bounds of the image */
 template< unsigned int NDimensions, class PixelType, unsigned int PipelineDimension >
-void
+bool
 ImageSpatialObject< NDimensions,  PixelType, PipelineDimension >
-::ComputeBounds( void )
+::ComputeBoundingBox( bool includeChildren )
 {
+
   if( this->GetMTime() > m_BoundsMTime )
-  { 
+    { 
+    bool ret = false;
+    ret = Superclass::ComputeBoundingBox(includeChildren);
+
     typename ImageType::RegionType region = m_Image->GetLargestPossibleRegion();
     itk::Size<NDimensions> size = region.GetSize();
     PointType pointLow,pointHigh;
-    typename VectorContainerType::Pointer points = VectorContainerType::New();
-    points->Initialize(); 
 
     for( unsigned int i=0; i<NDimensions; i++ )
-    {
+      {
       pointLow[i] = 0;
       pointHigh[i] = size[i];
-    }
+      }
    
-    points->InsertElement(0,pointLow);
-    points->InsertElement(1,pointHigh);
+    if(!ret)
+      {
+      m_Bounds->SetMinimum(pointLow);
+      m_Bounds->SetMaximum(pointHigh);
+      }
+    else
+      {
+      m_Bounds->ConsiderPoint(pointLow);
+      m_Bounds->ConsiderPoint(pointHigh);
+      }
 
-    m_Bounds->SetPoints(points);
-    m_Bounds->ComputeBoundingBox();
-    m_BoundsMTime.Modified();
-  }
+    m_BoundsMTime = this->GetMTime();
+
+    return true;
+    }
+
+  return false;
 }
 
 /** Set the image in the spatial object */
@@ -141,7 +162,7 @@ ImageSpatialObject< NDimensions,  PixelType, PipelineDimension >
 {
   m_Image = image;
   m_Image->Modified();
-  ComputeBounds();
+  ComputeBoundingBox();
 }
 
 /** Get the image inside the spatial object */
@@ -170,15 +191,10 @@ unsigned long
 ImageSpatialObject< NDimensions,  PixelType, PipelineDimension >
 ::GetMTime( void ) const
 {
-  unsigned long latestMTime = Object::GetMTime();
-  unsigned long boundsMTime,imageMTime;
+  unsigned long latestMTime = Superclass::GetMTime();
+  unsigned long imageMTime = m_Image->GetMTime();
     
-  if( (boundsMTime = m_Bounds->GetMTime()) > latestMTime )
-  { 
-    latestMTime = boundsMTime;
-  }
-
-  if( (imageMTime = m_Image->GetMTime()) > latestMTime )
+  if( imageMTime > latestMTime )
   {
     latestMTime = imageMTime;
   }

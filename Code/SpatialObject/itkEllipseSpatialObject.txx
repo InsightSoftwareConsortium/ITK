@@ -83,7 +83,7 @@ EllipseSpatialObject<NDimensions, PipelineDimension >
 template< unsigned int NDimensions , unsigned int PipelineDimension >
 bool 
 EllipseSpatialObject< NDimensions, PipelineDimension > 
-::IsInside( const PointType & point ) const 
+::IsInside( const PointType & point, bool includeChildren ) const 
 {
   itkDebugMacro( "Checking the point [" << point << "is inside the tube" );
     
@@ -92,55 +92,66 @@ EllipseSpatialObject< NDimensions, PipelineDimension >
 
   bool inside = true;
   
+  double r = 0;
   for(unsigned int i=0;i<NDimensions-1;i++)
-  {
-    if(!this->IsInsideProjection(transformedPoint[i],transformedPoint[i+1],i))
     {
-      inside=false;
-      break;
+    r += (transformedPoint[i]*transformedPoint[i])/(m_Radius[i]*m_Radius[i]);
     }
-  }
 
-  if(inside)
-  {
+  if(r<1)
+    {
     return true;
-  }
+    }
   else
-  {
-    return Superclass::IsInside(transformedPoint);
-  }
+    {
+    return Superclass::IsInside(point, includeChildren);
+    }
 } 
 
 /** Compute the bounds of the ellipse */
 template< unsigned int NDimensions , unsigned int PipelineDimension >
-void
+bool
 EllipseSpatialObject<NDimensions, PipelineDimension >
-::ComputeBounds( void ) 
+::ComputeBoundingBox( bool includeChildren ) 
 { 
   itkDebugMacro( "Computing tube bounding box" );
+  bool ret = false;
 
   if( this->GetMTime() > m_BoundsMTime )
-  { 
-    PointContainerPointer points = PointContainerType::New();
-    points->Initialize();
+    { 
+    ret = Superclass::ComputeBoundingBox(includeChildren);
 
     PointType pnt;
-    pnt.Fill(0);
     PointType pnt2;
-    pnt2.Fill(0);
-    unsigned int j=0;
     for(unsigned int i=0; i<NDimensions;i++) 
-    {   
-      pnt[i]=m_Radius[i];
-      pnt2[i]=-m_Radius[i];
-    } 
+      {   
+      if(m_Radius[i]>0)
+        {
+        pnt[i]=m_Radius[i];
+        pnt2[i]=-m_Radius[i];
+        }
+      else
+        {
+        pnt[i]=-m_Radius[i];
+        pnt2[i]=m_Radius[i];
+        }
+      } 
 
-    points->InsertElement(j++,pnt); 
-    points->InsertElement(j++,pnt2);
-    m_Bounds->SetPoints(points);
-    m_Bounds->ComputeBoundingBox();
-    m_BoundsMTime.Modified();
-  }
+    if(!ret)
+      {
+      m_Bounds->SetMinimum(pnt);
+      m_Bounds->SetMaximum(pnt2);
+      }
+    else
+      {
+      m_Bounds->ConsiderPoint(pnt);
+      m_Bounds->ConsiderPoint(pnt2);
+      }
+
+    m_BoundsMTime = this->GetMTime();
+    }
+
+  return true;
 } 
 
 
@@ -148,30 +159,40 @@ EllipseSpatialObject<NDimensions, PipelineDimension >
 template< unsigned int NDimensions , unsigned int PipelineDimension >
 bool
 EllipseSpatialObject<NDimensions, PipelineDimension >
-::IsEvaluableAt( const PointType & point )
+::IsEvaluableAt( const PointType & point, bool includeChildren )
 {
   itkDebugMacro( "Checking if the ellipse is evaluable at " << point );
-  return IsInside(point);
+  return IsInside(point, includeChildren);
 }
 
 /** Returns the value at one point */
 template< unsigned int NDimensions , unsigned int PipelineDimension >
 void
 EllipseSpatialObject<NDimensions, PipelineDimension >
-::ValueAt( const PointType & point, double & value )
+::ValueAt( const PointType & point, double & value, bool includeChildren )
 {
   itkDebugMacro( "Getting the value of the tube at " << point );
-
-  if( !IsEvaluableAt(point) )
-  {
-    value = 0;
-    itk::ExceptionObject e("BlobSpatialObject.txx");
-    e.SetLocation("BlobSpatialObject::ValueAt( const PointType & )");
-    e.SetDescription("this object cannot provide a value at the requested point");
-    throw e;
-  }
-
-  value = 1;
+  if( IsInside(point, false) )
+    {
+    value = 1;
+    return;
+    }
+  else
+    {
+    if( Superclass::IsEvaluableAt(point, includeChildren) )
+      {
+      Superclass::ValueAt(point, value, includeChildren);
+      return;
+      }
+    else
+      {
+      value = 0;
+      itk::ExceptionObject e("BlobSpatialObject.txx");
+      e.SetLocation("BlobSpatialObject::ValueAt( const PointType & )");
+      e.SetDescription("this object cannot provide a value at the point");
+      throw e;
+      }
+    }
 }
 
 /** Print Self function */
@@ -185,23 +206,6 @@ EllipseSpatialObject< NDimensions, PipelineDimension >
   os << "Radius: " << m_Radius << std::endl;
 
 }
-
-/** Return the modification time */
-template< unsigned int NDimensions , unsigned int PipelineDimension >
-unsigned long
-EllipseSpatialObject< NDimensions, PipelineDimension >
-::GetMTime( void ) const
-{
-  unsigned long latestMTime = Object::GetMTime();
-  unsigned long boundsMTime;
-
-  if( (boundsMTime = m_Bounds->GetMTime()) > latestMTime )
-  {
-    latestMTime = boundsMTime;
-  }
-  return latestMTime;
-}
-
 
 } // end namespace itk
 

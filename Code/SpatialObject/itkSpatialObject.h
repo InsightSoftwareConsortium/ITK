@@ -99,15 +99,16 @@ public:
   itkTypeMacro( Self, Superclass );
 
   /** Set the bounding box of the object. */
-  void SetBounds( BoundingBoxPointer bounds ); 
+  void SetBoundingBox( BoundingBoxPointer bounds ); 
 
   /** Get the bounding box of the object. */
-  BoundingBoxType * GetBounds( void ) const; 
+  virtual BoundingBoxType * GetBoundingBox( void ) const; 
 
   /** This is the transform applied from the origin of the parent
    *  if the origin of the child is different from the origin of the parent
    *  (i.e. m_Origin) then the transformation is applied from this origin
-   *  this origin is transformed by the parent's transform before applying any transformation */
+   *  this origin is transformed by the parent's transform before applying
+   *  any transformation */
   void SetTransform( TransformType * transform ); 
   TransformType * GetTransform( void ); 
   const TransformType * GetTransform( void ) const; 
@@ -124,21 +125,27 @@ public:
 
   /** Returns a degree of membership to the object. 
    *  That's useful for fuzzy objects. */ 
-  virtual void ValueAt( const PointType & point, double & value ); //purposely not implemented
+  virtual void ValueAt( const PointType & point, double & value,
+                        bool includeChildren=true ); 
      
   /** Return tru if the object provides a method to evaluate the value 
    *  at the specified point, else otherwise. */
-  virtual bool IsEvaluableAt( const PointType & point ); // purposely not implemented
+  virtual bool IsEvaluableAt( const PointType & point,
+                              bool includeChildren=true );
 
   /** Test whether a point is inside or outside the object. */ 
-  virtual bool IsInside( const PointType & point ) const; // purposely not implemented
+  virtual bool IsInside( const PointType & point,
+                         bool includeChildren=true ) const; 
 
   /** Set the pointer to the parent object in the tree hierarchy
    *  used for the spatial object patter. */
   void SetParent( const Superclass * parent );
 
   /** Return the n-th order derivative value at the specified point. */
-  virtual void DerivativeAt( const PointType & point, short unsigned int order, OutputVectorType & value );
+  void DerivativeAt( const PointType & point,
+                             short unsigned int order,
+                             OutputVectorType & value,
+                             bool includeChildren=true );
 
   /** Returns the coordinates of the point passed as argument in the object
    * local coordinate system. */
@@ -155,7 +162,7 @@ public:
    *  It should provide a method to get the boundaries of 
    *  a specific object. Basically, this function need to be called
    *  every time one of the object component is changed.  */ 
-  virtual void ComputeBounds( void ); // purposely not implemented 
+  virtual bool ComputeBoundingBox( bool includeChildren=true ); 
 
   /** Set the Spacing of the spatial object */
   void SetSpacing( const double spacing[ObjectDimension] );
@@ -193,16 +200,21 @@ public:
    * not found in the list. */ 
   void RemoveSpatialObject( Self * object ); 
 
-  /** Returns a list of pointer to the children affiliated to this object. */ 
-  ChildrenListType & GetChildren( void );
+  /** Returns a list of pointer to the children affiliated to this object. 
+   * A depth of 0 recurses to return children of children, etc.   A depth
+   * of 1 returns the immediate childred. A depth of 2 returns the children
+   * and those children's children. */ 
+  virtual ChildrenListType & GetChildren( unsigned int depth=0,
+                                          char * name = NULL);
 
-  /** Returns the number of children currently assigned to the composite object. */ 
-  unsigned int GetNumberOfChildren( void ); 
+  /** Returns the number of children currently assigned to the object. */ 
+  unsigned int GetNumberOfChildren( bool includeChildren=true ); 
 
   /** Set the list of pointers to children to the list passed as argument. */ 
   void SetChildren( ChildrenListType & children ); 
 
-  /** Clear the spatial object by deleting all lists of children and subchildren */
+  /** Clear the spatial object by deleting all lists of children
+   * and subchildren */
   virtual void Clear(void);
 
   /** Return the Modified time of the LocalToGlobalTransform */
@@ -214,7 +226,7 @@ public:
 protected: 
   
   BoundingBoxPointer  m_Bounds; 
-  TimeStamp           m_BoundsMTime;
+  unsigned long       m_BoundsMTime;
   double              m_Spacing[ObjectDimension];
   double              m_Scale[ObjectDimension];
   double              m_GlobalScale[ObjectDimension];

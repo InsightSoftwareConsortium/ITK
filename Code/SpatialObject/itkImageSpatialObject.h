@@ -76,27 +76,29 @@ public:
 
   /** Return true if the object is evaluable at the requested point, 
    *  and else otherwise. */
-  bool IsEvaluableAt( const PointType & point );
+  bool IsEvaluableAt( const PointType & point, bool includeChildren=false );
 
   /** Returns the value of the image at the requested point. 
    *  If the point is not inside the object, then an exception is thrown.
    * \also ExceptionObject */
-  void ValueAt( const PointType & point, double & value );
+  void ValueAt( const PointType & point, double & value, 
+                bool includeChildren=false );
   
   /** Returns true if the point is inside, false otherwise. */
-  bool IsInside( const PointType & point ) const;
+  bool IsInside( const PointType & point, bool includeChildren=false ) const;
  
   /** Compute the boundaries of the iamge spatial object. */
-  void ComputeBounds( void );
+  bool ComputeBoundingBox( bool includeChildren=false );
 
-  /** Returns the latest modified time of the object, and all of its component. */
+  /** Returns the latest modified time of the object and its component. */
   unsigned long GetMTime( void ) const;
 
   /** Set the slice position */
   void SetSlicePosition(unsigned int dimension, int position);
 
   /** Get the slice position */
-  int GetSlicePosition(unsigned int dimension) {return m_SlicePosition[dimension];}
+  int GetSlicePosition(unsigned int dimension) 
+      {return m_SlicePosition[dimension];}
 
 protected:
 

@@ -37,7 +37,7 @@ LineSpatialObject< TDimension, PipelineDimension >
   m_Property->SetGreen(0); 
   m_Property->SetBlue(0); 
   m_Property->SetAlpha(1); 
-  ComputeBounds();
+  ComputeBoundingBox();
 } 
  
 /** Destructor */
@@ -70,9 +70,10 @@ LineSpatialObject< TDimension, PipelineDimension >
   typename PointListType::iterator it,end;
   it = points.begin();    
   end = points.end();
-  for(; it != end; it++ )
+  while(it != end)
   {
     m_Points.push_back(*it);
+    it++;
   }
    
   this->Modified();
@@ -92,29 +93,44 @@ LineSpatialObject< TDimension, PipelineDimension >
    
 /** Compute the boundaries of the line.*/
 template< unsigned int TDimension , unsigned int PipelineDimension >
-void 
+bool 
 LineSpatialObject< TDimension, PipelineDimension >  
-::ComputeBounds( void ) 
+::ComputeBoundingBox( bool includeChildren ) 
 { 
   itkDebugMacro( "Computing tube bounding box" );
+  bool ret = false;
+
   if( this->GetMTime() > m_BoundsMTime )
-  {
-    PointType pointLow, pointHigh; 
-    PointType tempPointLow, tempPointHigh;
+    {
+    ret = Superclass::ComputeBoundingBox(includeChildren);
+
     typename PointListType::iterator it  = m_Points.begin();
     typename PointListType::iterator end = m_Points.end();
-    PointContainerPointer points = PointContainerType::New();
-    points->Initialize();
 
-    for(unsigned int i=0; it!= end; it++, i++ ) 
-    {     
-      points->InsertElement(i,(*it).GetPosition());
-    } 
+    if(it == end)
+      {
+      return ret;
+      }
+    else
+      {
+      if(!ret)
+        {
+        m_Bounds->SetMinimum((*it).GetPosition());
+        m_Bounds->SetMaximum((*it).GetPosition());
+        it++;
+        }
+      while(it!= end)
+        {     
+        m_Bounds->ConsiderPoint((*it).GetPosition());
+        it++;
+        }
+      ret = true;
+      }
 
-    m_Bounds->SetPoints(points);
-    m_Bounds->ComputeBoundingBox();
-    m_BoundsMTime.Modified();
-  }
+    m_BoundsMTime = this->GetMTime();
+    }
+
+  return ret;
 } 
 
 /** Check if a given point is inside a line
@@ -122,26 +138,27 @@ LineSpatialObject< TDimension, PipelineDimension >
 template< unsigned int TDimension , unsigned int PipelineDimension >
 bool 
 LineSpatialObject< TDimension, PipelineDimension >  
-::IsInside( const PointType & point )   const
+::IsInside( const PointType & point, bool includeChildren )   const
 {
-  itkDebugMacro( "Checking the point [" << point << "is on the Line" );
+  itkDebugMacro( "Checking the point [" << point << "] is on the Line" );
   typename PointListType::const_iterator it = m_Points.begin();
   
   PointType transformedPoint = point;
   TransformPointToLocalCoordinate(transformedPoint);
 
   if( m_Bounds->IsInside(transformedPoint) )
-  {
-    while(it != m_Points.end())
     {
-      if((*it).GetPosition() == transformedPoint)
+    while(it != m_Points.end())
       {
+      if((*it).GetPosition() == transformedPoint)
+        {
         return true;
-      }
+        }
       it++;
+      }
     }
-  }
-  return Superclass::IsInside(transformedPoint);
+
+  return Superclass::IsInside(point, includeChildren);
 } 
 
 /** Returns true if the line is evaluable at the requested point, 
@@ -149,10 +166,10 @@ LineSpatialObject< TDimension, PipelineDimension >
 template< unsigned int TDimension , unsigned int PipelineDimension >
 bool
 LineSpatialObject< TDimension, PipelineDimension > 
-::IsEvaluableAt( const PointType & point )
+::IsEvaluableAt( const PointType & point, bool includeChildren )
 {
   itkDebugMacro( "Checking if the tube is evaluable at " << point );
-  return IsInside(point);
+  return IsInside(point, includeChildren);
 }
 
 /** Returns the value of the line at that point.
@@ -162,35 +179,31 @@ LineSpatialObject< TDimension, PipelineDimension >
 template< unsigned int TDimension , unsigned int PipelineDimension >
 void
 LineSpatialObject< TDimension, PipelineDimension > 
-::ValueAt( const PointType & point, double & value )
+::ValueAt( const PointType & point, double & value, bool includeChildren )
 {
   itkDebugMacro( "Getting the value of the tube at " << point );
 
-  if( !IsEvaluableAt(point) )
-  {
-    value = 0;
-    itk::ExceptionObject e("LineSpatialObject.txx");
-    e.SetLocation("LineSpatialObject::ValueAt( const PointType & )");
-    e.SetDescription("this object cannot provide a value at the requested point");
-    throw e;
-  }
-  value = 1;
-}
-
-/** Return the last modified time of the object, and all of its components */
-template< unsigned int TDimension , unsigned int PipelineDimension >
-unsigned long
-LineSpatialObject< TDimension, PipelineDimension > 
-::GetMTime( void ) const
-{
-  unsigned long latestMTime = Object::GetMTime();
-  unsigned long boundsMTime;
-
-  if( (boundsMTime = m_Bounds->GetMTime()) > latestMTime )
-  {
-    latestMTime = boundsMTime;
-  }
-  return latestMTime;
+  if( IsInside(point, false) )
+    {
+    value = 1;
+    return;
+    }
+  else
+    {
+    if( Superclass::IsEvaluableAt(point, includeChildren) )
+      {
+      Superclass::ValueAt(point, value, includeChildren);
+      return;
+      }
+    else
+      {
+      value = 0;
+      itk::ExceptionObject e("LineSpatialObject.txx");
+      e.SetLocation("LineSpatialObject::ValueAt( const PointType & )");
+      e.SetDescription("this object cannot provide a value at the point");
+      throw e;
+      }
+    }
 }
 
 } // end namespace itk 

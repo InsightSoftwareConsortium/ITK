@@ -74,27 +74,24 @@ public:
 
   /** Returns true if the Blob is evaluable at the requested point, 
    *  false otherwise. */
-  bool IsEvaluableAt( const PointType & point );
+  bool IsEvaluableAt( const PointType & point, bool includeChildren=false );
 
   /** Returns the value of the Blob at that point.
    *  Currently this function returns a binary value,
    *  but it might want to return a degree of membership
    *  in case of fuzzy Blobs. */
-  void ValueAt( const PointType & point, double & value );
+  void ValueAt( const PointType & point, double & value,
+                bool includeChildren=false );
 
   /** Returns true if the point is inside the Blob, false otherwise. */
-  bool IsInside( const PointType & point ) const;
+  bool IsInside( const PointType & point, bool includeChildren=false ) const;
 
   /** Compute the boundaries of the Blob. */
-  void ComputeBounds( void );
-
-  /** Return the last modified time of the object, and all of its components */
-  unsigned long GetMTime( void ) const;
+  bool ComputeBoundingBox( bool includeChildren = false );
 
 protected:
 
   PointListType   m_Points;
-  TimeStamp       m_BoundsMTime; 
 
   BlobSpatialObject();
   virtual ~BlobSpatialObject();

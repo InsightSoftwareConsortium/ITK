@@ -56,22 +56,22 @@ public:
 
   /** Returns a degree of membership to the object. 
    *  That's useful for fuzzy objects. */ 
-  virtual void ValueAt( const PointType & point, double & value );
+  virtual void ValueAt( const PointType & point, double & value,
+                        bool includeChildren=false );
      
   /** return ture if the object provides a method to evaluate the value 
    * at the specified point, else otherwise.*/
-  virtual bool IsEvaluableAt( const PointType & point );
+  virtual bool IsEvaluableAt( const PointType & point,
+                              bool includeChildren=false );
 
   /** Test whether a point is inside or outside the object */ 
-  virtual bool IsInside( const PointType & point ) const;
+  virtual bool IsInside( const PointType & point,
+                         bool includeChildren=false ) const;
 
  /** provide a method to get the boundaries of 
   *  a specific object. Basically, this function need to be called
   *  every time one of the object component is changed. */ 
-  virtual void ComputeBounds( void ); 
-
-  /** Return the last modified time of the object, and all of its components*/
-  unsigned long GetMTime( void ) const;
+  virtual bool ComputeBoundingBox( bool includeChildren=false ); 
 
   itkSetMacro(LowerPoint,PointType);
   itkSetMacro(UpperPoint,PointType);

@@ -84,13 +84,14 @@ Scene<PipelineDimension>
  
   unsigned long latestTime = Superclass::GetMTime();
   unsigned long localTime;
-  for(; it!=end; it++ )
+  while(it!=end)
   {
     localTime = (*it)->GetMTime();
     if( localTime > latestTime )
     {
       latestTime = localTime;
     }
+  it++;
   } 
   return latestTime;
 }
@@ -135,9 +136,10 @@ Scene<PipelineDimension>
   ObjectListType::const_iterator it = m_Objects.begin();
   ObjectListType::const_iterator end = m_Objects.end();
 
-  for(; it != end; it++ )
+  while(it != end)
   {
     os << "[" << (*it) << "] ";
+    it++;
   }
   os << std::endl;
 

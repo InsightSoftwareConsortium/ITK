@@ -32,10 +32,10 @@ namespace itk
 *
 * The tube is basically defined by a set of points. Each tube can
 * be connected to a tube network, by using the AddSpatialObject() methods
-* of a TubeSpatialObjectNet Object. A tube is also identified by an id number when connected
+* of a TubeSpatialObject Object. A tube is also identified by an id number when connected
 * to a network.
 *
-* \also TubeSpatialObjectPoint TubeNetworkSpatialObject 
+* \also TubeSpatialObjectPoint 
 */
 
 template < unsigned int TDimension = 3 , unsigned int PipelineDimension = 3 >
@@ -51,7 +51,6 @@ public:
   typedef SmartPointer < const Self >                  ConstPointer;
   typedef double                                       ScalarType;
   typedef itk::TubeSpatialObjectPoint< TDimension >    TubePointType;
-  typedef std::list<Pointer>                           TubeListType;
   typedef std::list < TubePointType >                  PointListType;
   typedef PointListType *                              PointListPointer;
   typedef typename Superclass::PointType               PointType;
@@ -86,35 +85,31 @@ public:
 
   /** Returns true if the tube is evaluable at the requested point, 
    *  false otherwise. */
-  bool IsEvaluableAt( const PointType & point );
+  bool IsEvaluableAt( const PointType & point,
+                      bool includeChildren=false );
 
   /** Returns the value of the tube at that point.
    *  Currently this function returns a binary value,
    *  but it might want to return a degree of membership
    *  in case of fuzzy tubes. */
-  void ValueAt( const PointType & point, double & value );
+  void ValueAt( const PointType & point, double & value,
+                bool includeChildren=false );
 
   /** Returns true if the point is inside the tube, false otherwise. */
-  bool IsInside( const PointType & point ) const;
+  bool IsInside( const PointType & point,
+                 bool includeChildren=false ) const;
 
   /** Compute the boundaries of the tube. */
-  void ComputeBounds( void );
-
-  /** Return the last modified time of the object, 
-   *  and all of its components */
-  unsigned long GetMTime( void ) const;
+  bool ComputeBoundingBox( bool includeChildren=false );
 
   /** Set/Get the parent point which corresponds to the 
    *  position of the point in the parent's points list */
   itkSetMacro(ParentPoint,int);
   itkGetMacro(ParentPoint,int);
 
-  TubeListType * GetTubes( unsigned int maximumDepth , unsigned int currentDepth ) const;
-
 protected:
 
   PointListType     m_Points;
-  TimeStamp         m_BoundsMTime; 
   int               m_ParentPoint;
 
   TubeSpatialObject();

@@ -37,7 +37,7 @@ TubeSpatialObject< TDimension, PipelineDimension >
   m_Property->SetGreen(0); 
   m_Property->SetBlue(0); 
   m_Property->SetAlpha(1); 
-  ComputeBounds();
+  ComputeBoundingBox();
 } 
  
 /** Destructor */
@@ -82,9 +82,10 @@ TubeSpatialObject< TDimension, PipelineDimension >
   typename PointListType::iterator it,end;
   it = points.begin();    
   end = points.end();
-  for(; it != end; it++ )
+  while(it != end)
   {
     m_Points.push_back(*it);
+    it++;
   }
       
   this->Modified();
@@ -113,39 +114,53 @@ TubeSpatialObject< TDimension, PipelineDimension >
  
 /** Compute the bounds of the tube */  
 template< unsigned int TDimension , unsigned int PipelineDimension >
-void 
+bool 
 TubeSpatialObject< TDimension, PipelineDimension >  
-::ComputeBounds( void ) 
+::ComputeBoundingBox( bool includeChildren ) 
 { 
   itkDebugMacro( "Computing tube bounding box" );
+  bool ret = false;
+
   if( this->GetMTime() > m_BoundsMTime )
-  {
-    PointType pointLow, pointHigh; 
-    PointType tempPointLow, tempPointHigh;
+    {
+    ret = Superclass::ComputeBoundingBox(includeChildren);
+
     typename PointListType::iterator it  = m_Points.begin();
     typename PointListType::iterator end = m_Points.end();
 
-    PointContainerPointer points = PointContainerType::New();
-    points->Initialize();
+    if(it == end)
+      {
+      return ret;
+      }
+    else
+      {
+      if(!ret)
+        {
+        m_Bounds->SetMinimum((*it).GetPosition());
+        m_Bounds->SetMaximum((*it).GetPosition());
+        it++;
+        }
+      while(it!= end) 
+        {     
+        m_Bounds->ConsiderPoint((*it).GetPosition());
+        it++;
+        }
+      ret = true;
+      }
 
-    for(unsigned int i=0; it!= end; it++, i++ ) 
-    {     
-      points->InsertElement(i,(*it).GetPosition());
-    } 
+    m_BoundsMTime = this->GetMTime();
+    }
 
-    m_Bounds->SetPoints(points);
-    m_Bounds->ComputeBoundingBox();
-    m_BoundsMTime.Modified();
-  }
+  return ret;
 } 
 
 /** Return true if the given point is inside the tube */
 template< unsigned int TDimension , unsigned int PipelineDimension >
 bool 
 TubeSpatialObject< TDimension, PipelineDimension >  
-::IsInside( const PointType & point ) const
+::IsInside( const PointType & point, bool includeChildren) const
 {
-  itkDebugMacro( "Checking the point [" << point << "is inside the tube" );
+  itkDebugMacro( "Checking the point [" << point << "] is inside the tube" );
 
   // find the closest point, and get the radius at that point...
   // if the distance is shorter than the radius, then the point is
@@ -159,43 +174,33 @@ TubeSpatialObject< TDimension, PipelineDimension >
   typename PointListType::const_iterator it = m_Points.begin();
   typename PointListType::const_iterator end = m_Points.end(); 
   typename PointListType::const_iterator min;  
+
   PointType transformedPoint = point;
   TransformPointToLocalCoordinate(transformedPoint);
 
-  bool inside;
-  if( !m_Bounds->IsInside(transformedPoint) )
-  {
-    inside = false;
-  }
-  else
-  {
-    for(unsigned int i=0; it!= end; it++,i++)
-    {  
-      if( (tempSquareDist=transformedPoint.SquaredEuclideanDistanceTo((*it).GetPosition())) < minSquareDist)
-      {
+  if( m_Bounds->IsInside(transformedPoint) )
+    {
+    while(it!= end)
+      {  
+      tempSquareDist=transformedPoint.SquaredEuclideanDistanceTo(
+                                       (*it).GetPosition());
+      if(tempSquareDist <= minSquareDist)
+        {
         minSquareDist = tempSquareDist;
         min = it; 
+        }
+      it++;
       }
-    }
+
     double dist = sqrt(minSquareDist);
     if( dist <= ((*min).GetRadius()) )
-    {
+      {
       return true;
+      }
     }
-    else
-    {
-      inside = false;
-    }
-  }
 
-  if(inside)
-  {
-    return true;
-  }
-  else
-  {
-    return Superclass::IsInside(transformedPoint);
-  }
+  return Superclass::IsInside(point, includeChildren);
+
 } 
 
 /** Compute the tangent of the centerline of the tube */ 
@@ -335,76 +340,40 @@ TubeSpatialObject< TDimension, PipelineDimension >
 template< unsigned int TDimension , unsigned int PipelineDimension >
 bool
 TubeSpatialObject< TDimension, PipelineDimension > 
-::IsEvaluableAt( const PointType & point )
+::IsEvaluableAt( const PointType & point, bool includeChildren )
 {
   itkDebugMacro( "Checking if the tube is evaluable at " << point );
-  return IsInside(point);
+  return IsInside(point, includeChildren);
 }
 
 /** Return the value of the tube at a specified point */
 template< unsigned int TDimension , unsigned int PipelineDimension >
 void
 TubeSpatialObject< TDimension, PipelineDimension > 
-::ValueAt( const PointType & point, double & value )
+::ValueAt( const PointType & point, double & value, bool includeChildren )
 {
   itkDebugMacro( "Getting the value of the tube at " << point );
-  if( !IsEvaluableAt(point) )
-  {
-    value = 0;
-    itk::ExceptionObject e("TubeSpatialObject.txx");
-    e.SetLocation("TubeSpatialObject::ValueAt( const PointType & )");
-    e.SetDescription("this object cannot provide a value at the requested point");
-    throw e;
-  }
-
-  value = 1;
-}
-
-/** Get the modification time */
-template< unsigned int TDimension , unsigned int PipelineDimension >
-unsigned long
-TubeSpatialObject< TDimension, PipelineDimension > 
-::GetMTime( void ) const
-{
-  unsigned long latestMTime = Object::GetMTime();
-  unsigned long boundsMTime;
-
-  if( (boundsMTime = m_Bounds->GetMTime()) > latestMTime )
-  {
-    latestMTime = boundsMTime;
-  }
-  return latestMTime;
-}
-
-
-/** Return a list of tubes given a certain depth.
- *  maximumDepth = 0 corresponds to an infinite depth.
- *  maximumDepth = 1 returns tubes children.
- *  currentDepth variable doesn't have to be changed/provided. */
-template< unsigned int TDimension, unsigned int PipelineDimension >
-TubeSpatialObject< TDimension, PipelineDimension > ::TubeListType *
-TubeSpatialObject< TDimension, PipelineDimension > 
-::GetTubes( unsigned int maximumDepth , unsigned int currentDepth ) const
-{
-  TubeListType * tubes = new TubeListType;
-
-  typename ChildrenListType::const_iterator childrenListIt = m_Children.begin();
-  while(childrenListIt != m_Children.end())
-  {    
-    // Check if the child is really a tube
-    if( (!strncmp(typeid(**childrenListIt).name(),"class itk::TubeSpatialObject",26)))
+  if( IsInside(point, false) )
     {
-      tubes->push_back(dynamic_cast<TubeSpatialObject<TDimension>*>(*childrenListIt)); // add the tube 
-      if( (currentDepth < maximumDepth-1) || (maximumDepth == 0) ) // check for other possible children
+    value = 1;
+    return;
+    }
+  else
+    {
+    if( Superclass::IsEvaluableAt(point, includeChildren) )
       {
-        currentDepth++;
-        tubes->merge(*dynamic_cast<TubeSpatialObject<TDimension>*>((*childrenListIt))->GetTubes(maximumDepth,currentDepth));
+      Superclass::ValueAt(point, value, includeChildren);
+      return;
+      }
+    else
+      {
+      value = 0;
+      itk::ExceptionObject e("TubeSpatialObject.txx");
+      e.SetLocation("TubeSpatialObject::ValueAt( const PointType & )");
+      e.SetDescription("this object cannot provide a value at the point");
+      throw e;
       }
     }
-    childrenListIt++;
-  }
-    
-  return tubes;
 }
 
 } // end namespace itk 
