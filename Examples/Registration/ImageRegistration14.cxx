@@ -55,7 +55,7 @@ public:
   typedef itk::SmartPointer<Self>  Pointer;
   itkNewMacro( Self );
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() {m_LastMetricValue = 0;}
 public:
   typedef itk::OnePlusOneEvolutionaryOptimizer     OptimizerType;
   typedef   const OptimizerType   *    OptimizerPointer;
