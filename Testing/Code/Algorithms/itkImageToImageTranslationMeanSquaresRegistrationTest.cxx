@@ -72,8 +72,8 @@ int main()
 
   /* Set the displacement */
   itk::Vector<double,2> displacement;
-  displacement[0] = 5;
-  displacement[1] =	0;
+  displacement[0] = 7;
+  displacement[1] =	3;
 
   ReferenceIteratorType ri(imgReference,region);
   TargetIteratorType ti(imgTarget,region);
@@ -114,7 +114,7 @@ int main()
 
 
   std::cout << "The correct answer should be : " << std::endl;
-  std::cout << displacement << std::endl;
+  std::cout << -displacement << std::endl;
   
 
   return EXIT_SUCCESS;
