@@ -45,9 +45,6 @@ namespace itk
  *
  * The difference between two points is a vector and transforms
  * linearly, using the matrix only.  That is, (y1-y2) = A*(x1-x2).
- * FIXME: There are also convariant (and contravariant) vectors
- * which transform in still other fashions, but there have not yet
- * been implemented (and won't be until someone needs them.
  *
  * The AffineTransform class determines whether to transform an object
  * as a point or a vector by examining its type.  An object of type
@@ -97,8 +94,8 @@ namespace itk
  **/
 
 template <
-    class TScalarType,         // Data type for scalars (float or double)
-    int NDimensions >          // Number of dimensions
+    class TScalarType,          // Data type for scalars (float or double)
+    unsigned int NDimensions >  // Number of dimensions
 class AffineTransform
 {
 public:
@@ -111,21 +108,24 @@ public:
     /// Standard scalar type for this class
     typedef TScalarType ScalarType;
 
+    /// Dimension of the domain space
+    enum { SpaceDimension     = NDimensions };
+
     /// Standard vector type for this class
-    typedef Vector<TScalarType, NDimensions> VectorType;
+    typedef Vector<TScalarType, SpaceDimension> VectorType;
 
     /// Standard covariant vector type for this class
-    typedef CovariantVector<TScalarType, NDimensions> CovariantVectorType;
+    typedef CovariantVector<TScalarType, SpaceDimension> CovariantVectorType;
 
     /// Standard vnl_vector type for this class
-    typedef vnl_vector_fixed<TScalarType, NDimensions> VnlVectorType;
+    typedef vnl_vector_fixed<TScalarType, SpaceDimension> VnlVectorType;
 
     /// Standard matrix type for this class
-    typedef Matrix<TScalarType, NDimensions, NDimensions> MatrixType;
-
+    typedef Matrix<TScalarType, SpaceDimension, SpaceDimension> MatrixType;
 
     /// Standard coordinate point type for this class
-    typedef itk::Point<TScalarType, NDimensions> PointType;
+    typedef Point<TScalarType, SpaceDimension> PointType;
+
 
     /**
      * Construct an AffineTransform object
@@ -423,6 +423,9 @@ public:
      **/
     double Metric(void) const;
 
+
+
+
     /**
      * Print contents of an AffineTransform
      **/
@@ -438,10 +441,11 @@ protected:
 
 
 private:
-    MatrixType m_Matrix;       // Matrix of the transformation
-    VectorType m_Offset;       // Offset of the transformation
-    MatrixType m_Inverse;      // Inverse of the matrix
-    bool       m_Singular;     // Is m_Inverse singular?
+    MatrixType   m_Matrix;       // Matrix of the transformation
+    VectorType   m_Offset;       // Offset of the transformation
+    MatrixType   m_Inverse;      // Inverse of the matrix
+    bool         m_Singular;     // Is m_Inverse singular?
+
 
 }; //class AffineTransform
 

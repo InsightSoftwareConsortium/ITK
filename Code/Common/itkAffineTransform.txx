@@ -533,8 +533,6 @@ namespace itk
     AffineTransform<ScalarType, NDimensions>::
     RecomputeInverse()
     {
-        // FIXME: the matrix inversion function appears not
-        // to give any useful indication of a singular matrix
         m_Singular = false;
         try {
           m_Inverse  = m_Matrix.GetInverse();
@@ -545,8 +543,6 @@ namespace itk
         }
         return;
     }
-
-
 
 
 } // namespace
