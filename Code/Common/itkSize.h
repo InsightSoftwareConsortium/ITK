@@ -25,7 +25,7 @@ namespace itk
 {
 
 /** 
- * \class Size (Bounds)
+ * \class Size
  * \brief Represent the size (bounds) of a n-dimensional image.
  *
  * Size is a templated class to represent multi-dimensional array bounds
