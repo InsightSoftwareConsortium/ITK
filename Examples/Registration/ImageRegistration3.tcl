@@ -19,8 +19,8 @@
 package require InsightToolkit
 package require itkinteraction
 
-set inputFixedImageFileName  "BrainProtonDensitySliceR10X13Y17.png"
-set inputMovingImageFileName  "BrainProtonDensitySliceBorder20.png"
+set inputFixedImageFileName  "BrainProtonDensitySliceShifted13x17y.png"
+set inputMovingImageFileName "BrainProtonDensitySliceBorder20.png"
 
 set registration       [ itk::create ImageRegistrationMethodF2 ]
 set imageMetric        [ itk::create MeanSquaresImageToImageMetricF2 ]
