@@ -17,6 +17,7 @@ PURPOSE.  See the above copyright notices for more information.
 #ifndef __itkDeformableSimplexMesh3DBalloonForceFilter_TXX
 #define __itkDeformableSimplexMesh3DBalloonForceFilter_TXX
 
+#include "itkDeformableSimplexMesh3DBalloonForceFilter.h"
 #include "itkNumericTraits.h"
 //#include "itkMapContainer.h"
 
