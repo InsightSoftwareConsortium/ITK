@@ -315,7 +315,8 @@ protected:
    * output values are applied during each iteration.  The default simply
    * follows the standard finite difference scheme of scaling the change by the
    * timestep and adding to the value of the previous iteration.*/
-  inline virtual ValueType CalculateUpdateValue(const IndexType &idx,
+  inline virtual ValueType CalculateUpdateValue(
+                                         const IndexType &itkNotUsed(idx),
                                          const TimeStepType &dt,
                                          const ValueType &value,
                                          const ValueType &change)

@@ -31,16 +31,6 @@ CannySegmentationLevelSetImageFilter<TInputImage, TFeatureImage,
   this->SetSegmentationFunction(m_CannyFunction.GetPointer());
 }
   
-template <class TInputImage, class TFeatureImage, class TOutputPixelType>
-void
-CannySegmentationLevelSetImageFilter<TInputImage, TFeatureImage,
-                                         TOutputPixelType>
-::PrintSelf(std::ostream &os, Indent indent) const
-{
-  //   Superclass::PrintSelf(os, indent);
-}
-
-
 }// end namespace itk
 
 

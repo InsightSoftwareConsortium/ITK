@@ -38,7 +38,8 @@ void
 ThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
-  //   Superclass::PrintSelf(os, indent);
+  Superclass::PrintSelf(os, indent);
+  os << "ThresholdFunction: " << m_ThresholdFunction;
 }
 
 

@@ -212,7 +212,7 @@ typename CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::OutputImagePixelType
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::ComputeCannyEdge(const NeighborhoodType &it,
-                   void *globalData ) 
+                   void * itkNotUsed(globalData) ) 
 {
   unsigned int i, j;
   SmartNeighborhoodInnerProduct<OutputImageType> innerProduct;
@@ -269,7 +269,7 @@ template< class TInputImage, class TOutputImage >
 typename CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >::OutputImagePixelType
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::ComputeCannyEdge(const BoundaryNeighborhoodType &it,
-                   void *globalData )
+                   void * itkNotUsed(globalData) )
 {
   unsigned int i, j;
   SmartNeighborhoodInnerProduct<OutputImageType> innerProduct;

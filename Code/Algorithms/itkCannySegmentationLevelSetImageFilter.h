@@ -175,9 +175,6 @@ protected:
   ~CannySegmentationLevelSetImageFilter() {}
   CannySegmentationLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream &os, Indent indent) const; 
-
-  
 private:
   typename CannyFunctionType::Pointer m_CannyFunction;  
 };

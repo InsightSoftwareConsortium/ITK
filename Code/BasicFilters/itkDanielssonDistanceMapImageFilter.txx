@@ -365,7 +365,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   it.GoToBegin();
 
   // support progress methods/callbacks
-  unsigned long updateVisits = 0, i=0;
+  unsigned long updateVisits, i=0;
   updateVisits = internalRegion.GetNumberOfPixels()/10;
   if ( updateVisits < 1 ) 
     {
