@@ -48,6 +48,7 @@ public:
   typedef Point< double, TPointDimension >  PointType;
   typedef vnl_vector< double >              VectorType;
   typedef RGBAPixel< float >                PixelType;
+  typedef PixelType                         ColorType;
 
   /** Get the SpatialObjectPoint Id. */
   int GetID( void ) const;
