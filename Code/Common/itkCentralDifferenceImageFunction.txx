@@ -48,6 +48,7 @@ CentralDifferenceImageFunction<TInputImage,TCoordRep,TOutputType>
  *
  */
 template <class TInputImage, class TCoordRep, class TOutputType>
+typename
 CentralDifferenceImageFunction<TInputImage,TCoordRep,TOutputType>
 ::OutputType
 CentralDifferenceImageFunction<TInputImage,TCoordRep,TOutputType>
