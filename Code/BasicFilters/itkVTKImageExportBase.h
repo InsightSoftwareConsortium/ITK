@@ -17,10 +17,6 @@
 #ifndef __itkVTKImageExportBase_h
 #define __itkVTKImageExportBase_h
 
-#ifndef vtkFloatingPointType
-#define vtkFloatingPointType float
-#endif
-
 #include "itkProcessObject.h"
 
 namespace itk
