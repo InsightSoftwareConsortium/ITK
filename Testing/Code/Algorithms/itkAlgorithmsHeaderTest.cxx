@@ -113,7 +113,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkRayCastInterpolateImageFunction.txx"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.txx"
 #include "itkRegionGrowImageFilter.txx"
-#include "itkRegistrationMethod.txx"
 #include "itkReinitializeLevelSetImageFilter.txx"
 #include "itkSegmentationLevelSetImageFilter.txx"
 #include "itkShapeDetectionLevelSetFunction.txx"
