@@ -1,5 +1,5 @@
 #include "itkNarrowBand.h"
-#include <vector.h>
+#include <vector>
 
 
 int itkNarrowBandTest (int, char*[])
