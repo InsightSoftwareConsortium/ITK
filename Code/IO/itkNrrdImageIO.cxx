@@ -175,12 +175,23 @@ void NrrdImageIO::ReadImageInformation()
    // For now we only support scalar reads/writes
    this->SetPixelType( SCALAR );
    this->SetComponentType( this->NrrdToITKComponentType(nrrd->type) );
-   
+
    // Set axis information
+   double spacing;
+   int sdim;
+   double axis[NRRD_SPACE_DIM_MAX];
    for (i=0; i < static_cast<int>(this->GetNumberOfDimensions()); i++)
      {
      this->SetDimensions(i, nrrd->axis[i].size);
-     this->SetSpacing(i, nrrd->axis[i].spacing);
+     nrrdSpacingCalculate(nrrd, i, &spacing, &sdim, axis);
+     if (AIR_EXISTS(spacing)) // is the spacing NaN?
+       {
+       this->SetSpacing(i, spacing);
+       }
+     else
+       {
+       this->SetSpacing(i, 1.0);
+       }
      if ( AIR_EXISTS(nrrd->axis[i].min) ) // is the min NaN?
        {
        this->SetOrigin(i, nrrd->axis[i].min);
@@ -477,8 +488,10 @@ NrrdImageIO
       it != keys.end(); it++ )
     {
     std::string temp;
-    ExposeMetaData<std::string>(thisDic, *it, temp);
-    nrrdKeyValueAdd(nrrd, (*it).c_str(), temp.c_str());
+    if (ExposeMetaData<std::string>(thisDic, *it, temp))
+      {
+      nrrdKeyValueAdd(nrrd, (*it).c_str(), temp.c_str());
+      }
     }
 
   // Write the nrrd to file.
