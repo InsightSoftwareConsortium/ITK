@@ -235,7 +235,7 @@ void
 VectorContainer< TElementIdentifier , TElement >
 ::Reserve(ElementIdentifier size)
 {
-  this->Vector::size(size);
+  this->CreateIndex(size-1);
 }
 
 
