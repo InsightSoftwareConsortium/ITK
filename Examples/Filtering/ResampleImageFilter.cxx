@@ -309,15 +309,15 @@ int main( int argc, char * argv[] )
   // 
   // \begin{figure}
   // \center
-  // \includegraphics[height=6cm]{BrainProtonDensitySlice.eps}
-  // \includegraphics[height=6cm]{ResampleImageFilterOutput1.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
+  // \includegraphics[width=0.44\textwidth]{ResampleImageFilterOutput1.eps}
   // \caption{Effect of the Resample filter}
   // \label{fig:ResampleImageFilterOutput1}
   // \end{figure}
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=12cm]{ResampleImageFilterOutput1Analysis.eps}
+  // \includegraphics[width=\textwidth]{ResampleImageFilterOutput1Analysis.eps}
   // \caption{Analysis of the resample image done in a common coordinate system.}
   // \label{fig:ResampleImageFilterOutput1Analysis}
   // \end{figure}
@@ -376,15 +376,15 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[height=6cm]{BrainProtonDensitySlice.eps}
-  // \includegraphics[height=6cm]{ResampleImageFilterOutput2.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
+  // \includegraphics[width=0.44\textwidth]{ResampleImageFilterOutput2.eps}
   // \caption{ResampleImageFilter with a translation by $(-30,-50)$}
   // \label{fig:ResampleImageFilterOutput2}
   // \end{figure}
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=12cm]{ResampleImageFilterOutput2Analysis.eps}
+  // \includegraphics[width=\textwidth]{ResampleImageFilterOutput2Analysis.eps}
   // \caption{ResampleImageFilter. Analysis of a translation by $(-30,-50)$.}
   // \label{fig:ResampleImageFilterOutput2Analysis}
   // \end{figure}
@@ -434,7 +434,7 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=12cm]{ResampleImageFilterOutput3Analysis.eps}
+  // \includegraphics[width=\textwidth]{ResampleImageFilterOutput3Analysis.eps}
   // \caption{ResampleImageFilter highlighting image borders with SetDefaultPixelValue().}
   // \label{fig:ResampleImageFilterOutput3Analysis}
   // \end{figure}

@@ -227,9 +227,9 @@ int main( int argc, char * argv[] )
   // 
   // \begin{figure}
   // \center
-  // \includegraphics[width=4cm]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=4cm]{MathematicalMorphologyGrayscaleErosionOutput.eps}
-  // \includegraphics[width=4cm]{MathematicalMorphologyGrayscaleDilationOutput.eps}
+  // \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice.eps}
+  // \includegraphics[width=0.32\textwidth]{MathematicalMorphologyGrayscaleErosionOutput.eps}
+  // \includegraphics[width=0.32\textwidth]{MathematicalMorphologyGrayscaleDilationOutput.eps}
   // \caption{Effect of Erosion and Dilation in a grayscale image.}
   // \label{fig:MathematicalMorphologyGrayscaleFilters}
   // \end{figure}

@@ -154,9 +154,9 @@ int main( int argc, char * argv[] )
   //  
   // \begin{figure}
   // \center
-  // \includegraphics[width=4cm]{FivePoints.eps}
-  // \includegraphics[width=4cm]{DanielssonDistanceMapImageFilterOutput1.eps}
-  // \includegraphics[width=4cm]{DanielssonDistanceMapImageFilterOutput2.eps}
+  // \includegraphics[width=0.32\textwidth]{FivePoints.eps}
+  // \includegraphics[width=0.32\textwidth]{DanielssonDistanceMapImageFilterOutput1.eps}
+  // \includegraphics[width=0.32\textwidth]{DanielssonDistanceMapImageFilterOutput2.eps}
   // \caption[DanielssonDistanceMapImageFilter
   // output]{DanielssonDistanceMapImageFilter output. Set of pixels, distance
   // map and Voronoi partition}

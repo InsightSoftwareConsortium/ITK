@@ -221,8 +221,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //  
   // \begin{figure} \center
-  // \includegraphics[width=6cm]{VisibleWomanHeadSlice.eps}
-  // \includegraphics[width=6cm]{RGBGradientAnisotropicDiffusionImageFilterOutput.eps}
+  // \includegraphics[width=0.44\textwidth]{VisibleWomanHeadSlice.eps}
+  // \includegraphics[width=0.44\textwidth]{RGBGradientAnisotropicDiffusionImageFilterOutput.eps}
   // \caption[VectorGradientAnisotropicDiffusionImageFilter on RGB
   // images]{Effect of the VectorGradientAnisotropicDiffusionImageFilter on a
   // RGB image from a cryogenic section of the Visible Woman data set.}

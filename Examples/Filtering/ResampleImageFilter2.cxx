@@ -206,7 +206,7 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=14cm]{ResampleImageFilterTransformComposition1.eps}
+  // \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition1.eps}
   // \caption{ResampleImageFilter selecting the origin of the output image}
   // \label{fig:ResampleImageFilterTransformComposition1}
   // \end{figure}
@@ -273,7 +273,7 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=14cm]{ResampleImageFilterTransformComposition2.eps}
+  // \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition2.eps}
   // \caption{ResampleImageFilter selecting the origin of the output image}
   // \label{fig:ResampleImageFilterTransformComposition2}
   // \end{figure}
@@ -299,7 +299,7 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=14cm]{ResampleImageFilterTransformComposition3.eps}
+  // \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition3.eps}
   // \caption{ResampleImageFilter. Effect of selecting the origin of the input image}
   // \label{fig:ResampleImageFilterTransformComposition3}
   // \end{figure}
@@ -397,9 +397,9 @@ int main( int argc, char * argv[] )
   // 
   // \begin{figure}
   // \center
-  // \includegraphics[width=4cm]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=4cm]{ResampleImageFilterOutput7.eps}
-  // \includegraphics[width=4cm]{ResampleImageFilterOutput7b.eps}
+  // \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice.eps}
+  // \includegraphics[width=0.32\textwidth]{ResampleImageFilterOutput7.eps}
+  // \includegraphics[width=0.32\textwidth]{ResampleImageFilterOutput7b.eps}
   // \caption[ResampleImageFilter use of naive viewers]{Resampling with
   // different spacing seen by naive viewer (center) and a correct viewer
   // (right), input image (left)}
@@ -409,7 +409,7 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=14cm]{ResampleImageFilterTransformComposition4.eps}
+  // \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition4.eps}
   // \caption[ResampleImageFilter and output image spacing]{Effect of selecting
   // the spacing on the output image}
   // \label{fig:ResampleImageFilterTransformComposition4}
@@ -530,7 +530,7 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=14cm]{ResampleImageFilterTransformComposition5.eps}
+  // \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition5.eps}
   // \caption[ResampleImageFilter with non-unit spacing]{Effect non-unit
   // spacing on the input and output images.}
   // \label{fig:ResampleImageFilterTransformComposition5}

@@ -242,8 +242,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //  
   // \begin{figure} \center
-  // \includegraphics[width=6cm]{VectorCurvatureAnisotropicDiffusionImageFilterInput.eps}
-  // \includegraphics[width=6cm]{VectorCurvatureAnisotropicDiffusionImageFilterOutput.eps}
+  // \includegraphics[width=0.44\textwidth]{VectorCurvatureAnisotropicDiffusionImageFilterInput.eps}
+  // \includegraphics[width=0.44\textwidth]{VectorCurvatureAnisotropicDiffusionImageFilterOutput.eps}
   // \caption[VectorCurvatureAnisotropicDiffusionImageFilter output $X$
   // component]{Effect of the VectorCurvatureAnisotropicDiffusionImageFilter on
   // the $X$ component of the gradient from a MRI-PD brain image.}

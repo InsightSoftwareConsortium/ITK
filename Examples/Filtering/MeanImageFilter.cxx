@@ -179,8 +179,8 @@ int main( int argc, char * argv[] )
   // 
   // \begin{figure}
   // \center
-  // \includegraphics[width=6cm]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=6cm]{MeanImageFilterOutput.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
+  // \includegraphics[width=0.44\textwidth]{MeanImageFilterOutput.eps}
   // \caption{Effect of the Mean filter on a slice from a MRI
   // Proton Density brain image.}
   // \label{fig:MeanImageFilterOutput}

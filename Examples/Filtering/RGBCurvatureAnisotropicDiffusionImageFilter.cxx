@@ -221,8 +221,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //  
   // \begin{figure} \center
-  // \includegraphics[width=6cm]{VisibleWomanHeadSlice.eps}
-  // \includegraphics[width=6cm]{RGBCurvatureAnisotropicDiffusionImageFilterOutput.eps}
+  // \includegraphics[width=0.44\textwidth]{VisibleWomanHeadSlice.eps}
+  // \includegraphics[width=0.44\textwidth]{RGBCurvatureAnisotropicDiffusionImageFilterOutput.eps}
   // \caption[VectorCurvatureAnisotropicDiffusionImageFilter output on RGB
   // image]{Effect of the VectorCurvatureAnisotropicDiffusionImageFilter on a
   // RGB image from a cryogenic section of the Visible Woman data set.}
@@ -242,9 +242,9 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //  
   // \begin{figure} \center
-  // \includegraphics[width=4cm]{VisibleWomanEyeSlice.eps}
-  // \includegraphics[width=4cm]{RGBGradientAnisotropicDiffusionImageFilterOutput2.eps}
-  // \includegraphics[width=4cm]{RGBCurvatureAnisotropicDiffusionImageFilterOutput2.eps}
+  // \includegraphics[width=0.32\textwidth]{VisibleWomanEyeSlice.eps}
+  // \includegraphics[width=0.32\textwidth]{RGBGradientAnisotropicDiffusionImageFilterOutput2.eps}
+  // \includegraphics[width=0.32\textwidth]{RGBCurvatureAnisotropicDiffusionImageFilterOutput2.eps}
   // \caption[Comparison between Gradient and Curvature Anistropic Diffusion
   // filters]{Comparison between Gradient(center) and Curvature(right)
   // Anistropic Diffusion filters. Original image at left.}

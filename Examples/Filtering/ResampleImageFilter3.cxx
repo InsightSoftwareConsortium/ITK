@@ -53,7 +53,7 @@
 //
 // \begin{figure}
 // \center
-// \includegraphics[width=12cm]{ResampleImageFilterTransformComposition6.eps}
+// \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition6.eps}
 // \caption{Input and output image placed in a common reference system.}
 // \label{fig:ResampleImageFilterTransformComposition6}
 // \end{figure}

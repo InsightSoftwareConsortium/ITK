@@ -215,8 +215,8 @@ int main( int argc, char * argv[] )
   //  
   // \begin{figure}
   // \center
-  // \includegraphics[width=6cm]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=6cm]{GradientMagnitudeImageFilterOutput.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
+  // \includegraphics[width=0.44\textwidth]{GradientMagnitudeImageFilterOutput.eps}
   // \caption[GradientMagnitudeImageFilter output]{Effect of the
   // GradientMagnitudeImageFilter on a slice from a MRI Proton Density image
   // of the brain.}
