@@ -93,8 +93,6 @@ int itkMultiResolutionImageRegistrationMethodTest(int, char**)
     MovingImagePyramidType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
   
-  metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
-
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
   registration->SetTransform(     transform     );
@@ -103,6 +101,7 @@ int itkMultiResolutionImageRegistrationMethodTest(int, char**)
   registration->SetInterpolator(  interpolator  );
   registration->SetFixedImagePyramid( fixedImagePyramid );
   registration->SetMovingImagePyramid( movingImagePyramid );
+  registration->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
 
   typedef RegistrationType::ParametersType ParametersType;
   ParametersType initialParameters( transform->GetNumberOfParameters() );
@@ -145,7 +144,7 @@ int itkMultiResolutionImageRegistrationMethodTest(int, char**)
   TEST_INITIALIZATION_ERROR( FixedImagePyramid, NULL, fixedImagePyramid );
   TEST_INITIALIZATION_ERROR( MovingImagePyramid, NULL, movingImagePyramid );
   TEST_INITIALIZATION_ERROR( InitialTransformParameters, ParametersType(1),
-    initialParameters );
+                                                         initialParameters );
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

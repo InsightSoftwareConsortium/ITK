@@ -81,6 +81,7 @@ public:
   /**  Type of the Fixed image. */
   typedef          TFixedImage                     FixedImageType;
   typedef typename FixedImageType::Pointer         FixedImageConstPointer;
+  typedef typename FixedImageType::RegionType      FixedImageRegionType;
 
   /**  Type of the Moving image. */
   typedef          TMovingImage                    MovingImageType;
@@ -140,6 +141,10 @@ public:
   itkSetObjectMacro( Metric, MetricType );
   itkGetObjectMacro( Metric, MetricType );
 
+  /** Set/Get the Metric. */
+  itkSetMacro( FixedImageRegion, FixedImageRegionType );
+  itkGetConstReferenceMacro( FixedImageRegion, FixedImageRegionType );
+
   /** Set/Get the Transfrom. */
   itkSetObjectMacro( Transform, TransformType );
   itkGetObjectMacro( Transform, TransformType );
@@ -182,9 +187,15 @@ protected:
   virtual ~MultiResolutionImageRegistrationMethod() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** Initialize by setting the interconnects between the components. */
+  /** Initialize by setting the interconnects between the components.
+      This method is executed at every level of the pyramid with the
+      values corresponding to this resolution
+   */
   void Initialize() throw (ExceptionObject);
 
+  /** Compute the size of the fixed region for each level of the pyramid. */
+  void PreparePyramids( void );
+  
 private:
   MultiResolutionImageRegistrationMethod(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
@@ -204,6 +215,9 @@ private:
   ParametersType                   m_InitialTransformParameters;
   ParametersType                   m_InitialTransformParametersOfNextLevel;
   ParametersType                   m_LastTransformParameters;
+
+  FixedImageRegionType               m_FixedImageRegion;
+  std::vector<FixedImageRegionType>  m_FixedImageRegionPyramid;
 
   unsigned long                    m_NumberOfLevels;
   unsigned long                    m_CurrentLevel;

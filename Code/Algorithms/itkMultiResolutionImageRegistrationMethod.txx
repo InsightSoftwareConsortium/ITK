@@ -69,16 +69,6 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
 {
 
   // Sanity checks
-  if( !m_FixedImage )
-    {
-    itkExceptionMacro(<<"FixedImage is not present");
-    }
-
-  if( !m_MovingImage )
-    {
-    itkExceptionMacro(<<"MovingImage is not present");
-    }
-
   if ( !m_Metric )
     {
     itkExceptionMacro(<<"Metric is not present" );
@@ -99,46 +89,12 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
     itkExceptionMacro(<<"Interpolator is not present");
     }
 
-  if( !m_FixedImagePyramid )
-    {
-    itkExceptionMacro(<<"Fixed image pyramid is not present");
-    }
-
-  if( !m_MovingImagePyramid )
-    {
-    itkExceptionMacro(<<"Moving image pyramid is not present");
-    }
-
-  if ( m_CurrentLevel == 0 )
-    {
-    m_InitialTransformParametersOfNextLevel = 
-      m_InitialTransformParameters;
-    }
-
-  if ( m_InitialTransformParametersOfNextLevel.Size() != 
-    m_Transform->GetNumberOfParameters() )
-    {
-    itkExceptionMacro(<<"Size mismatch between initial parameter and transform"); 
-    }
-
-
-  // Setup the fixed image pyramid
-  m_FixedImagePyramid->SetNumberOfLevels( m_NumberOfLevels );
-  m_FixedImagePyramid->SetInput( m_FixedImage );
-  m_FixedImagePyramid->UpdateLargestPossibleRegion();
-
-  // Setup the moving image pyramid
-  m_MovingImagePyramid->SetNumberOfLevels( m_NumberOfLevels );
-  m_MovingImagePyramid->SetInput( m_MovingImage );
-  m_MovingImagePyramid->UpdateLargestPossibleRegion();
-
   // Setup the metric
   m_Metric->SetMovingImage( m_MovingImagePyramid->GetOutput(m_CurrentLevel) );
   m_Metric->SetFixedImage( m_FixedImagePyramid->GetOutput(m_CurrentLevel) );
   m_Metric->SetTransform( m_Transform );
   m_Metric->SetInterpolator( m_Interpolator );
-  m_Metric->SetFixedImageRegion( m_FixedImagePyramid->GetOutput(m_CurrentLevel)->
-    GetBufferedRegion() );
+  m_Metric->SetFixedImageRegion( m_FixedImageRegionPyramid[ m_CurrentLevel ] );
   m_Metric->Initialize();
 
   // Setup the optimizer
@@ -160,6 +116,104 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
+
+
+
+/*
+ * Stop the Registration Process
+ */
+template < typename TFixedImage, typename TMovingImage >
+void
+MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
+::PreparePyramids( void )
+{
+
+  if( !m_Transform )
+    {
+    itkExceptionMacro(<<"Transform is not present");
+    }
+
+  m_InitialTransformParametersOfNextLevel = m_InitialTransformParameters;
+
+  if ( m_InitialTransformParametersOfNextLevel.Size() != 
+    m_Transform->GetNumberOfParameters() )
+    {
+    itkExceptionMacro(<<"Size mismatch between initial parameter and transform"); 
+    }
+
+  // Sanity checks
+  if( !m_FixedImage )
+    {
+    itkExceptionMacro(<<"FixedImage is not present");
+    }
+
+  if( !m_MovingImage )
+    {
+    itkExceptionMacro(<<"MovingImage is not present");
+    }
+
+  if( !m_FixedImagePyramid )
+    {
+    itkExceptionMacro(<<"Fixed image pyramid is not present");
+    }
+
+  if( !m_MovingImagePyramid )
+    {
+    itkExceptionMacro(<<"Moving image pyramid is not present");
+    }
+
+  // Setup the fixed image pyramid
+  m_FixedImagePyramid->SetNumberOfLevels( m_NumberOfLevels );
+  m_FixedImagePyramid->SetInput( m_FixedImage );
+  m_FixedImagePyramid->UpdateLargestPossibleRegion();
+
+  // Setup the moving image pyramid
+  m_MovingImagePyramid->SetNumberOfLevels( m_NumberOfLevels );
+  m_MovingImagePyramid->SetInput( m_MovingImage );
+  m_MovingImagePyramid->UpdateLargestPossibleRegion();
+
+  typedef typename FixedImageRegionType::SizeType         SizeType;
+  typedef typename FixedImageRegionType::IndexType        IndexType;
+  typedef typename FixedImagePyramidType::ScheduleType    ScheduleType;
+
+  ScheduleType schedule = m_FixedImagePyramid->GetSchedule();
+
+  SizeType  inputSize  = m_FixedImageRegion.GetSize();
+  IndexType inputStart = m_FixedImageRegion.GetIndex();
+
+  m_FixedImageRegionPyramid.reserve( m_NumberOfLevels );
+
+  // Compute the FixedImageRegion corresponding to each level of the 
+  // pyramid. This uses the same algorithm of the ShrinkImageFilter 
+  // since the regions should be compatible. 
+  for ( unsigned int level=0; level < m_NumberOfLevels; level++ )
+    {
+    SizeType  size;
+    IndexType start;
+    for ( unsigned int dim = 0; dim < TFixedImage::ImageDimension; dim++)
+      {
+      const float scaleFactor = static_cast<float>( schedule[ level ][ dim ] );
+
+      size[ dim ] = static_cast<typename SizeType::SizeValueType>(
+         floor( static_cast<float>( inputSize[ dim ] ) / scaleFactor ) );
+      if( size[ dim ] < 1 )
+        {
+        size[ dim ] = 1;
+        }
+      
+      start[ dim ] = static_cast<typename IndexType::IndexValueType>(
+          ceil(  static_cast<float>( inputStart[ dim ] ) / scaleFactor ) ); 
+      }
+    m_FixedImageRegionPyramid[ level ].SetSize( size );
+    m_FixedImageRegionPyramid[ level ].SetIndex( start );
+    }
+
+}
+
+
+
+
+
 /*
  * Starts the Registration Process
  */
@@ -170,6 +224,8 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
 { 
 
   m_Stop = false;
+
+  this->PreparePyramids();
 
   for ( m_CurrentLevel = 0; m_CurrentLevel < m_NumberOfLevels;
     m_CurrentLevel++ )
@@ -207,12 +263,12 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
       }
     catch( ExceptionObject& err )
       {
-        // An error has occurred in the optimization.
-        // Update the parameters
-        m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
+      // An error has occurred in the optimization.
+      // Update the parameters
+      m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
 
-        // Pass exception to caller
-        throw err;
+      // Pass exception to caller
+      throw err;
       }
 
     // get the results
@@ -224,7 +280,6 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
       m_InitialTransformParametersOfNextLevel =
         m_LastTransformParameters;
       }
-
     }
 
 }
@@ -262,6 +317,13 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
   os << m_InitialTransformParametersOfNextLevel << std::endl;
   os << indent << "LastTransformParameters: ";
   os << m_LastTransformParameters << std::endl;
+  os << indent << "FixedImageRegion: ";
+  os << m_FixedImageRegion << std::endl;
+  for(unsigned int level=0; level< m_FixedImageRegionPyramid.size(); level++)
+    {
+    os << indent << "FixedImageRegion at level " << level << ": ";
+    os << m_FixedImageRegionPyramid[level] << std::endl;
+    }
 
 }
 
