@@ -14,8 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include <iostream>
-#include <strstream>
 #include "itkImage.h"
 #include "itkRandomImageSource.h"
 #include "itkThresholdImageFilter.h"
@@ -57,7 +55,7 @@ int itkThresholdImageFilterTest(int, char**)
   float origin[2] = {15, 400};
   random->SetOrigin( origin );
     
-  std::ostrstream *os;
+  itk::OStringStream *os;
 
   // Test #1, filter goes out of scope
   itk::OutputWindow::GetInstance()->DisplayText( "Test #1: Filter goes out of scope -----------------" );
@@ -84,15 +82,13 @@ int itkThresholdImageFilterTest(int, char**)
             << ", "
             << threshold->GetOutput()->GetSpacing()[1] << std::endl;
 
-  os = new std::ostrstream();
-  *os << "Filter: " << threshold.GetPointer() << std::ends;
-  itk::OutputWindow::GetInstance()->DisplayText( os->str() );
-  os->rdbuf()->freeze(0);
+  os = new itk::OStringStream();
+  *os << "Filter: " << threshold.GetPointer();
+  itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
   delete os;
-  os = new std::ostrstream();
-  *os << "Output #0: " << threshold->GetOutput(0) << std::ends;
-  itk::OutputWindow::GetInstance()->DisplayText( os->str() );
-  os->rdbuf()->freeze(0);
+  os = new itk::OStringStream();
+  *os << "Output #0: " << threshold->GetOutput(0);
+  itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
   delete os;
 
   threshold->GetOutput(0)->DebugOn();
@@ -112,15 +108,13 @@ int itkThresholdImageFilterTest(int, char**)
   threshold->SetInput(random->GetOutput());
   threshold->Update();
 
-  os = new std::ostrstream();
-  *os << "Filter: " << threshold.GetPointer() << std::ends;
-  itk::OutputWindow::GetInstance()->DisplayText( os->str() );
-  os->rdbuf()->freeze(0);
+  os = new itk::OStringStream();
+  *os << "Filter: " << threshold.GetPointer();
+  itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
   delete os;
-  os = new std::ostrstream();
-  *os << "Output #0: " << threshold->GetOutput(0) << std::ends;
-  itk::OutputWindow::GetInstance()->DisplayText( os->str() );
-  os->rdbuf()->freeze(0);
+  os = new itk::OStringStream();
+  *os << "Output #0: " << threshold->GetOutput(0);
+  itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
   delete os;
 
   threshold->GetOutput(0)->DebugOn();
@@ -142,15 +136,13 @@ int itkThresholdImageFilterTest(int, char**)
   threshold->SetInput(random->GetOutput());
   threshold->Update();
 
-  os = new std::ostrstream();
-  *os << "Filter: " << threshold.GetPointer() << std::ends;
-  itk::OutputWindow::GetInstance()->DisplayText( os->str() );
-  os->rdbuf()->freeze(0);
+  os = new itk::OStringStream();
+  *os << "Filter: " << threshold.GetPointer();
+  itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
   delete os;
-  os = new std::ostrstream();
-  *os << "Output #0: " << threshold->GetOutput(0) << std::ends;
-  itk::OutputWindow::GetInstance()->DisplayText( os->str() );
-  os->rdbuf()->freeze(0);
+  os = new itk::OStringStream();
+  *os << "Output #0: " << threshold->GetOutput(0);
+  itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
   delete os;
 
   threshold->GetOutput(0)->DebugOn();

@@ -258,14 +258,13 @@ void
 Win32OutputWindow
 ::PromptText(const char* text)
 {
-  std::ostrstream msg;
-  msg << text << "\nPress Cancel to supress any further messages." << std::ends;
-  if (MessageBox(NULL, msg.str(), "Error",
+  OStringStream msg;
+  msg << text << "\nPress Cancel to supress any further messages.";
+  if (MessageBox(NULL, msg.str().c_str(), "Error",
                  MB_ICONERROR | MB_OKCANCEL) == IDCANCEL) 
     { 
     Object::GlobalWarningDisplayOff(); 
     }
-  msg.rdbuf()->freeze(0);
 }
 
 } // end namespace itk

@@ -140,10 +140,10 @@ return;
     
     // build an exception
     InvalidRequestedRegionError e(__FILE__, __LINE__);
-    std::ostrstream msg;
+    OStringStream msg;
     msg << (char *)this->GetNameOfClass()
-        << "::GenerateInputRequestedRegion()" << std::ends;
-    e.SetLocation(msg.str());
+        << "::GenerateInputRequestedRegion()";
+    e.SetLocation(msg.str().c_str());
     e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
     e.SetDataObject(inputPtr);
     throw e;

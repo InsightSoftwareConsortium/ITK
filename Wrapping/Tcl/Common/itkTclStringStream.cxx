@@ -23,7 +23,6 @@ namespace itk
  * Default constructor.  Use this to create a re-usable instance.
  */
 TclStringStream::TclStringStream():
-  m_Terminated(false),
   m_Interpreter(0)
 {
 }
@@ -34,7 +33,6 @@ TclStringStream::TclStringStream():
  * the string to the Tcl result upon destruction.
  */
 TclStringStream::TclStringStream(Tcl_Interp* interp):
-  m_Terminated(false),
   m_Interpreter(interp)
 {
 }
@@ -47,13 +45,12 @@ TclStringStream::TclStringStream(Tcl_Interp* interp):
  */
 TclStringStream::~TclStringStream() 
 {
-  this->TerminateStream();
   if(m_Interpreter)
     {
     Tcl_ResetResult(m_Interpreter);
-    Tcl_AppendResult(m_Interpreter, this->str(), 0);
+    Tcl_AppendResult(m_Interpreter,
+                     const_cast<char*>(this->str().c_str()), 0);
     }
-  this->rdbuf()->freeze(0);
 }
 
 
@@ -64,8 +61,7 @@ TclStringStream::~TclStringStream()
 const char* TclStringStream::GetString()
 {
   m_Interpreter = 0;
-  this->TerminateStream();
-  return this->str();
+  return this->str().c_str();
 }
 
 
@@ -75,22 +71,7 @@ const char* TclStringStream::GetString()
 void TclStringStream::Reset()
 {
   m_Interpreter = 0;
-  m_Terminated = false;
   this->seekp(0, std::ios::beg);    
-}
-
-
-/**
- * Internal method used to make sure the stream has been terminated
- * with std::ends before the string is obtained.
- */
-void TclStringStream::TerminateStream()
-{
-  if(!m_Terminated)
-    {
-    m_Terminated = true;
-    (*this) << std::ends;
-    }
 }
 
 } // namespace itk

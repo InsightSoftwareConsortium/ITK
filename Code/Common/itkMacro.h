@@ -34,9 +34,31 @@
 #include "itkConfigure.h"
 
 #include <string>
-#include <strstream>
 
-#include "itkExceptionObject.h"
+// First version is correct, but requires CMake 1.4.
+#if 0
+#  if !defined(CMAKE_NO_ANSI_STRING_STREAM)
+#    include <sstream>
+#  elif !defined(CMAKE_NO_ANSI_STREAM_HEADERS)
+#    include <strstream>
+#    define ITK_NO_ANSI_STRING_STREAM
+#  else
+#    include <strstream.h>
+#    define ITK_NO_ANSI_STRING_STREAM
+#  endif
+#else
+#  if !defined(__GNUC__) || !((__GNUC__==3) && (__GNUC_MINOR__>=1))
+#    if !defined(CMAKE_NO_ANSI_STREAM_HEADERS)
+#      include <strstream>
+#      define ITK_NO_ANSI_STRING_STREAM
+#    else
+#      include <strstream.h>
+#      define ITK_NO_ANSI_STRING_STREAM
+#    endif
+#  else
+#      include <sstream>
+#  endif
+#endif
 
 /** \namespace itk
  * \brief The "itk" namespace contains all Insight Segmentation and
@@ -45,6 +67,11 @@
 namespace itk
 {
 } // end namespace itk - this is here for documentation purposes
+
+// Include after initial itk namespace declaration.  We want the
+// documentation to use the above comment as the itk namespace
+// documentation.
+#include "itkExceptionObject.h"
 
 /** A convenience macro marks variables as not being used by a method,
  * avoiding compile-time warnings. */
@@ -291,13 +318,11 @@ extern ITK_EXPORT void OutputWindowDisplayDebugText(const char*);
 #else
 #define itkDebugMacro(x) \
 { if (this->GetDebug() && itk::Object::GetGlobalWarningDisplay()) \
-    { char *itkmsgbuff; std::ostrstream itkmsg; \
+    { ::itk::OStringStream itkmsg; \
       itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << "\n" \
              << this->GetNameOfClass() << " (" << this << "): " x  \
-             << "\n\n" << std::ends; \
-      itkmsgbuff = itkmsg.str(); \
-      itk::OutputWindowDisplayDebugText(itkmsgbuff); \
-      itkmsg.rdbuf()->freeze(0);} \
+             << "\n\n"; \
+      ::itk::OutputWindowDisplayDebugText(itkmsg.str().c_str());} \
 }
 #endif
 
@@ -310,63 +335,93 @@ extern ITK_EXPORT void OutputWindowDisplayDebugText(const char*);
 #else
 #define itkWarningMacro(x) \
 { if (itk::Object::GetGlobalWarningDisplay()) \
-    { char *itkmsgbuff; std::ostrstream itkmsg; \
+    { ::itk::OStringStream itkmsg; \
       itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n" \
              << this->GetNameOfClass() << " (" << this << "): " x  \
-             << "\n\n" << std::ends; \
-      itkmsgbuff = itkmsg.str(); \
-      itk::OutputWindowDisplayWarningText(itkmsgbuff); \
-      itkmsg.rdbuf()->freeze(0);} \
+             << "\n\n"; \
+      itk::OutputWindowDisplayWarningText(itkmsg.str().c_str());} \
 }
 #endif
 
-/** The exception macro support is defined here */
-/** The ewxception macro is used to print error information (i.e., usually 
- * a condition that results in program failure). Example usage looks like:
- * itkExceptionMacro(<< "this is error info" << this->SomeVariable); */
 namespace itk
 {
-namespace ExceptionMacroDetail
+
+/**
+ * itk::OStringStream wrapper to hide differences between
+ * std::ostringstream and the old ostrstream.  Necessary for
+ * portability.
+ */
+#if !defined(ITK_NO_ANSI_STRING_STREAM)
+class OStringStream: public std::ostringstream
 {
-  class OStrStreamCleanup
+public:
+  OStringStream() {}
+private:
+  OStringStream(const OStringStream&);
+  void operator=(const OStringStream&);
+};
+#else
+namespace OStringStreamDetail
+{
+  class Cleanup
   {
   public:
-    OStrStreamCleanup(std::ostrstream& ostr): m_OStrStream(ostr) {}
-    ~OStrStreamCleanup() { m_OStrStream.rdbuf()->freeze(0); }
+    Cleanup(std::ostrstream& ostr): m_OStrStream(ostr) {}
+    ~Cleanup() { m_OStrStream.rdbuf()->freeze(0); }
+    static void IgnoreUnusedVariable(const Cleanup&) {}
   protected:
     std::ostrstream& m_OStrStream;
   };
-}//namespace ExceptionMacroDetail
+}//namespace OStringStreamDetail
+
+class OStringStream: public std::ostrstream
+{
+public:
+  typedef std::ostrstream Superclass;
+  OStringStream() {}
+  std::string str()
+    {
+      OStringStreamDetail::Cleanup cleanup(*this);
+      OStringStreamDetail::Cleanup::IgnoreUnusedVariable(cleanup);
+      int pcount = this->pcount();
+      const char* ptr = this->Superclass::str();
+      return std::string(ptr?ptr:"", pcount);
+    }
+private:
+  OStringStream(const OStringStream&);
+  void operator=(const OStringStream&);
+};
+#endif
+
 }//namespace itk
   
+/** The exception macro is used to print error information (i.e., usually 
+ * a condition that results in program failure). Example usage looks like:
+ * itkExceptionMacro(<< "this is error info" << this->SomeVariable); */
 #define itkExceptionMacro(x) \
   { \
-  std::ostrstream message; \
-  itk::ExceptionMacroDetail::OStrStreamCleanup messageCleanup(message); \
+  ::itk::OStringStream message; \
   message << "itk::ERROR: " << this->GetNameOfClass() \
-          << "(" << this << "): " x << std::ends; \
-  throw itk::ExceptionObject(__FILE__, __LINE__, message.str()); \
+          << "(" << this << "): " x; \
+  throw ::itk::ExceptionObject(__FILE__, __LINE__, message.str().c_str()); \
   }
 
 #define itkGenericExceptionMacro(x) \
   { \
-  std::ostrstream message; \
-  itk::ExceptionMacroDetail::OStrStreamCleanup messageCleanup(message); \
-  message << "itk::ERROR: " x << std::ends; \
-  throw itk::ExceptionObject(__FILE__, __LINE__, message.str()); \
+  ::itk::OStringStream message; \
+  message << "itk::ERROR: " x; \
+  throw ::itk::ExceptionObject(__FILE__, __LINE__, message.str().c_str()); \
   }
 
 #ifdef ITK_LEAN_AND_MEAN
 #define itkGenericOutputMacro(x)
 #else
 #define itkGenericOutputMacro(x) \
-{ if (itk::Object::GetGlobalWarningDisplay()) \
-    { char *itkmsgbuff; std::ostrstream itkmsg; \
+{ if (::itk::Object::GetGlobalWarningDisplay()) \
+    { ::itk::OStringStream itkmsg; \
       itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n" \
-             x << "\n\n" << std::ends; \
-      itkmsgbuff = itkmsg.str(); \
-      itk::OutputWindowDisplayGenericOutputText(itkmsgbuff); \
-      itkmsg.rdbuf()->freeze(0);} \
+             x << "\n\n"; \
+      itk::OutputWindowDisplayGenericOutputText(itkmsg.str().c_str());} \
 }
 #endif
 

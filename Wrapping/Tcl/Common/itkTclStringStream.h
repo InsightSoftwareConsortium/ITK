@@ -20,7 +20,6 @@
 // Need to include at least one ITK header.
 #include "itkMacro.h"
 
-#include <strstream>
 #include <tcl.h>
 
 namespace itk
@@ -63,11 +62,11 @@ namespace itk
  *    $obj Print [itkTclResultStream]
  *    
  */
-class TclStringStream: public std::ostrstream
+class TclStringStream: public itk::OStringStream
 {
 public:
   typedef TclStringStream Self;
-  typedef std::ostrstream Superclass;
+  typedef itk::OStringStream Superclass;
   
   TclStringStream();
   TclStringStream(Tcl_Interp*);
@@ -79,9 +78,6 @@ private:
   TclStringStream(const TclStringStream&); // Not implemented.
   void operator=(const TclStringStream&); // Not implemented.
   
-  void TerminateStream();
-  
-  bool m_Terminated;
   Tcl_Interp* m_Interpreter;
 };
 

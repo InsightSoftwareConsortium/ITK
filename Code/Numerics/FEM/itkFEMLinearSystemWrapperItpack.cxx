@@ -961,12 +961,10 @@ FEMExceptionItpackSolver::FEMExceptionItpackSolver(const char *file, unsigned in
       solverError = "Unknown error code returned";
     }
 
-  std::ostrstream buf;
-  buf.clear();
-  buf << "Error: " << solverError << '\0';
+  OStringStream buf;
+  buf << "Error: " << solverError;
 
-  SetDescription(buf.str());
-  buf.freeze(false);
+  SetDescription(buf.str().c_str());
 
   SetLocation(location);
 

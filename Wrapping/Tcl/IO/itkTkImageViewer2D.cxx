@@ -116,11 +116,14 @@ void TkImageViewer2D::Draw()
     Tk_FindPhoto(m_Interpreter, const_cast<char*>(m_ImageName.c_str()));
   Tk_PhotoSetSize(photo, width, height);
   
-  std::ostrstream command;
+  OStringStream command;
   command << m_CanvasName.c_str() << " configure -scrollregion \"1 1 "
-          << width << " " << height << "\"" << std::ends;
-  Tcl_GlobalEval(m_Interpreter, command.str());
-  command.rdbuf()->freeze(0);
+          << width << " " << height << "\"";
+  std::string cmdstr = command.str();
+  char* cmd = new char[cmdstr.length()+1];
+  strcpy(cmd, cmdstr.c_str());
+  Tcl_GlobalEval(m_Interpreter, cmd);
+  delete [] cmd;
   
   // Copy the image data to the Tk photo.
   unsigned char* buffer =

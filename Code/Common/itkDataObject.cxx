@@ -375,10 +375,10 @@ DataObject
     {
     // invalid requested region, throw an exception
     InvalidRequestedRegionError e(__FILE__, __LINE__);
-    std::ostrstream msg;
+    OStringStream msg;
     msg << (char *)this->GetNameOfClass()
-        << "::PropagateRequestedRegion()" << std::ends;
-    e.SetLocation(msg.str());
+        << "::PropagateRequestedRegion()";
+    e.SetLocation(msg.str().c_str());
     e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
     e.SetDataObject(this);
     

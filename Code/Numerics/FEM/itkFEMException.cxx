@@ -21,7 +21,6 @@
 #endif
 
 #include "itkFEMException.h"
-#include <strstream>
 
 namespace itk {
 namespace fem {
@@ -63,11 +62,9 @@ FEMExceptionObjectNotFound::FEMExceptionObjectNotFound(const char *file, unsigne
 {
   m_baseClassName=baseClassName;
   m_GN=GN;
-  std::ostrstream buf;
-  buf.clear();
-  buf<<"Object not found ("<<m_baseClassName<<", GN="<<m_GN<<")!"<<'\0';
-  SetDescription(buf.str());
-  buf.freeze(false);
+  OStringStream buf;
+  buf<<"Object not found ("<<m_baseClassName<<", GN="<<m_GN<<")!";
+  SetDescription(buf.str().c_str());
 }
 
 

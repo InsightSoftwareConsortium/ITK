@@ -37,9 +37,6 @@
  * filter instantiation.
  */
 
-#include <iostream>
-#include <strstream>
-
 #include <itkImage.h>
 #include <itkImageToImageFilter.h>
 
@@ -132,12 +129,12 @@ void ExampleImageFilter<TInputImage, TOutputImage>
   // Make sure the correct Execute() method has been called.
   if((ImageDimension == 2) || (ImageDimension == 3))
     {
-    std::strstream err;
+    itk::OStringStream err;
     err << "Error: N-d filter implementation called for "
         << ImageDimension
         << "-d filter, even though specific implementation exists."
         << std::endl;
-    throw std::string(err.str());
+    throw std::string(err.str().c_str());
     }
 }  
 
@@ -156,11 +153,11 @@ void ExampleImageFilter<TInputImage, TOutputImage>
   // Make sure the correct Execute() method has been called.
   if(ImageDimension != 2)
     {
-    std::strstream err;
+    itk::OStringStream err;
     err << "Error: 2-d filter implementation called for "
         << ImageDimension
         << "-d filter." << std::endl;
-    throw std::string(err.str());
+    throw std::string(err.str().c_str());
     }
 }
 
@@ -179,11 +176,11 @@ void ExampleImageFilter<TInputImage, TOutputImage>
   // Make sure the correct Execute() method has been called.
   if(ImageDimension != 3)
     {
-    std::strstream err;
+    itk::OStringStream err;
     err << "Error: 3-d filter implementation called for "
         << ImageDimension
         << "-d filter." << std::endl;
-    throw std::string(err.str());    
+    throw std::string(err.str().c_str());
     }
 }
 

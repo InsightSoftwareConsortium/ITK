@@ -508,10 +508,10 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   if (m_Layers.size() < 3)
     {
       ExceptionObject e(__FILE__, __LINE__);
-      std::ostrstream msg;
+      OStringStream msg;
       msg << (char *) this->GetNameOfClass()
-          << "::Initialize()" << std::ends;
-      e.SetLocation(msg.str());
+          << "::Initialize()";
+      e.SetLocation(msg.str().c_str());
       e.SetDescription("Not enough layers have been allocated for the sparse field.  Requires at least one layer.");
       throw e;      
     }
