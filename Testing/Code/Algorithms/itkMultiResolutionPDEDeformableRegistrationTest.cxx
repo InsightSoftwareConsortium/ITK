@@ -215,7 +215,7 @@ int main()
   registrator->SetTarget( target );
  
   unsigned int numLevel = 5;
-  std::vector<unsigned int> numIterations( numLevel );
+  unsigned int numIterations[10];
   numIterations[0] = 512;
 
   unsigned int ilevel;
@@ -225,7 +225,7 @@ int main()
     }
   
   registrator->SetNumberOfLevels( numLevel );
-  registrator->SetNumberOfIterations( &(numIterations[0]) );
+  registrator->SetNumberOfIterations( numIterations );
 
   registrator->Print(std::cout);
 
