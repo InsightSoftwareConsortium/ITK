@@ -27,6 +27,7 @@
 #define __itkMacro_h
 
 #include "itkWin32Header.h"
+#include "itkConfigure.h"
 
 #include <string>
 #include <strstream>

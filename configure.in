@@ -1,6 +1,8 @@
 # Process this file with autoconf to produce a configure script.
 AC_INIT()
 
+AC_CONFIG_HEADER(itkConfigure.h)
+
 ITK_OBJ=`pwd`
 AC_SUBST(ITK_OBJ)
 
@@ -16,9 +18,9 @@ AC_PATH_XTRA
 # get byte swapping info
 AC_C_BIGENDIAN
 if test $ac_cv_c_bigendian = yes; then
-  BIGENDIAN="-DITK_WORDS_BIGENDIAN"
+  AC_DEFINE(ITK_WORDS_BIGENDIAN)
 fi
-AC_SUBST(BIGENDIAN)
+
 
 # some stuff Tcl uses
 #
@@ -60,7 +62,6 @@ AC_ARG_WITH(shared,
 
 INSTALL_TARGET="install"
 
-USE_TOOLKIT_FLAGS=""
 
 
 AC_SUBST(INSTALL_TARGET)
@@ -334,7 +335,6 @@ AC_SUBST(ITK_TCL_SHLIB_TARGET)
 
 
 AC_SUBST(TOOLKIT_DEPENDS)
-AC_SUBST(USE_TOOLKIT_FLAGS)
 
 AC_SUBST(ITK_SHLIB_LINK_FLAGS)
 AC_SUBST(ITK_SHLIB_BUILD_FLAGS)
@@ -382,11 +382,15 @@ use_sproc=no
 AC_CHECK_HEADERS(sys/prctl.h, [use_sproc=yes])
 if test "$use_sproc" = "yes"; then
 case $system in
-    Linux* | IRIX64-6.5 | IRIX-6.5)
-	use_sproc=no
+    Linux* | IRIX64-6.5 | IRIX-6.5) 
+        if test "$force_sproc" = "yes"; then
+           ITK_USE_SPROC=1
+        else
+	  use_sproc=no
+    	fi
 	;;
     IRIX*)
-	THREAD_FLAGS="-DITK_USE_SPROC"
+	ITK_USE_SPROC=1
 	;;
 esac
 fi
@@ -404,7 +408,7 @@ if test "$use_pthreads" = "yes"; then
     if test "`uname -s -r`" = "SunOS 5.7"; then
       AC_CHECK_LIB(thread, thr_create, THREAD_LIBS="$THREAD_LIBS -lthread")
     fi
-	THREAD_FLAGS="-DITK_USE_PTHREADS"
+	ITK_USE_PTHREADS=1
   fi
 fi
 
@@ -414,21 +418,20 @@ if test "$use_pthreads" = "yes"; then
 case $system in
     HP-UX-*.10.*)
 	THREAD_LIBS="-lcma"
-	THREAD_FLAGS="-DITK_USE_PTHREADS -DITK_HP_PTHREADS"
+	ITK_USE_PTHREADS=1 
+	ITK_HP_PTHREADS=1
 	;;
     OSF1-V*)
-        THREAD_FLAGS=""
+	ITK_USE_PTHREADS=0
         THREAD_LIBS=""
         ;;
     FreeBSD*)
-	THREAD_FLAGS=""
+	ITK_USE_PTHREADS=0
 	THREAD_LIBS=""
 	;;
 esac
 fi
 
-AC_SUBST(THREAD_FLAGS)
-AC_SUBST(THREAD_LIBS)
 
 # on hp use -Aa for ansi
 if test $ac_cv_prog_gxx = no; then
@@ -461,30 +464,13 @@ if test $ac_cv_prog_gxx = no; then
     echo "$ac_t""no" 1>&6
   fi
   rm -f conftest*
-  echo $ac_n "checking whether ${CXX} accepts -instances=static""... $ac_c" 1>&6
+  echo $ac_n "checking whether ${CXX} accepts -instances=semiexplicit""... $ac_c" 1>&6
   echo 'void f(){}' > conftest.cc
   if test -z "`${CXX} -instances=static -c conftest.cc 2>&1`"; then
     echo "$ac_t""yes" 1>&6
     ITK_TEMPLATE_FLAGS="-instances=static"
   else
     echo "$ac_t""no" 1>&6
-  fi
-  rm -f conftest*
-  echo $ac_n "checking whether ${CXX} accepts -pto""... $ac_c" 1>&6
-  echo 'void f(){}' > conftest.cc
-  if test -z "`${CXX} -pto -c conftest.cc 2>&1`"; then
-    echo "$ac_t""yes" 1>&6
-    ITK_TEMPLATE_FLAGS="-pto"
-  else
-    echo "$ac_t""no" 1>&6
-  fi
-  rm -f conftest*
-  echo $ac_n "checking whether ${CXX} accepts -LANG:std""... $ac_c" 1>&6
-  echo 'void f(){}' > conftest.cc
-  if test -z "`${CXX} -LANG:std -c conftest.cc 2>&1`"; then
-    EXTRA_GCC_FLAG=${EXTRA_GCC_FLAG}" -LANG:std"
-  else
-   echo "$ac_t""no" 1>&6
   fi
 fi
 AC_SUBST(ITK_TEMPLATE_FLAGS)
