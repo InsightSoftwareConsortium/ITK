@@ -14,9 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBinaryMedianImageFilter_txx
-#define _itkBinaryMedianImageFilter_txx
-#include "itkBinaryMedianImageFilter.h"
+#ifndef _itkVotingBinaryImageFilter_txx
+#define _itkVotingBinaryImageFilter_txx
+#include "itkVotingBinaryImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodInnerProduct.h"
@@ -33,8 +33,8 @@ namespace itk
 {
 
 template <class TInputImage, class TOutputImage>
-BinaryMedianImageFilter<TInputImage, TOutputImage>
-::BinaryMedianImageFilter()
+VotingBinaryImageFilter<TInputImage, TOutputImage>
+::VotingBinaryImageFilter()
 {
   m_Radius.Fill(1);
   m_ForegroundValue = NumericTraits<InputPixelType>::max();
@@ -43,7 +43,7 @@ BinaryMedianImageFilter<TInputImage, TOutputImage>
 
 template <class TInputImage, class TOutputImage>
 void 
-BinaryMedianImageFilter<TInputImage, TOutputImage>
+VotingBinaryImageFilter<TInputImage, TOutputImage>
 ::GenerateInputRequestedRegion() throw (InvalidRequestedRegionError)
 {
   // call the superclass' implementation of this method
@@ -96,7 +96,7 @@ BinaryMedianImageFilter<TInputImage, TOutputImage>
 
 template< class TInputImage, class TOutputImage>
 void
-BinaryMedianImageFilter< TInputImage, TOutputImage>
+VotingBinaryImageFilter< TInputImage, TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId)
 {
@@ -145,7 +145,7 @@ BinaryMedianImageFilter< TInputImage, TOutputImage>
             }
           }
 
-        if( count > medianPosition )
+        if( count >= m_BornThreshold )
           {
           it.Set( static_cast<OutputPixelType>( m_ForegroundValue ) );
           }
@@ -167,7 +167,7 @@ BinaryMedianImageFilter< TInputImage, TOutputImage>
  */
 template <class TInputImage, class TOutput>
 void
-BinaryMedianImageFilter<TInputImage, TOutput>
+VotingBinaryImageFilter<TInputImage, TOutput>
 ::PrintSelf(
   std::ostream& os, 
   Indent indent) const
