@@ -132,7 +132,7 @@ public:
 protected:
 
   SingleValuedNonLinearOptimizer();
-  virtual ~SingleValuedNonLinearOptimizer() {};
+  virtual ~SingleValuedNonLinearOptimizer() {}
   SingleValuedNonLinearOptimizer(const Self&) {}
   void operator=(const Self&) {}
 
