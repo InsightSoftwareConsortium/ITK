@@ -81,10 +81,9 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
   SmartPointer<  TImage > image = const_cast< TImage * >( m_Image.GetPointer() );
   image->SetRequestedRegionToLargestPossibleRegion();
   }
-  SizeType imageSize = m_Image->GetLargestPossibleRegion().GetSize();
   tempPtr = TTempImage::New();
-  typename TTempImage::RegionType tempRegion;
-  tempRegion.SetSize( imageSize );
+  typename TTempImage::RegionType tempRegion = m_Image->GetLargestPossibleRegion();
+
   tempPtr->SetLargestPossibleRegion( tempRegion );
   tempPtr->SetBufferedRegion( tempRegion );
   tempPtr->SetRequestedRegion( tempRegion );
