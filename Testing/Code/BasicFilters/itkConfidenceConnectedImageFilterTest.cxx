@@ -49,7 +49,7 @@ int itkConfidenceConnectedImageFilterTest(int ac, char* av[] )
   typedef itk::ConfidenceConnectedImageFilter<myImage,myImage> FilterType;
 
   FilterType::Pointer filter = FilterType::New();
-  SimpleFilterWatcher filterWatch(filter);
+  itk::SimpleFilterWatcher filterWatch(filter);
 
   filter->SetInput(input->GetOutput());
   filter->SetInitialNeighborhoodRadius( 3 ); // measured in pixels
