@@ -143,18 +143,39 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 DataObject *output )
 {
 
-  // call the superclass implementation of this function
-  this->Superclass::EnlargeOutputRequestedRegion(output);
-
-  // set the requested region for all auxiliary outputs
-  // to be the same as the primary output
-  LevelSetPointer primaryOutput = this->GetOutput();
-  for ( unsigned int k = 0; k < VAuxDimension; k++ )
+  for ( int j = 0; j < this->GetNumberOfOutputs(); j++ )
     {
-    AuxImagePointer ptr = this->GetAuxiliaryImage( k );
-    ptr->SetRequestedRegion(
-      primaryOutput->GetRequestedRegion() );
+    // Check which index this output refers to
+    if ( output == this->ProcessObject::GetOutput( j ) )
+      {
+      if ( j == 0 ) 
+        {
+        this->Superclass::EnlargeOutputRequestedRegion( output );
+        }
+      else if ( j < VAuxDimension )
+        {
+        AuxImageType * imgData;
+        imgData = dynamic_cast<AuxImageType*>( output );
+        if (imgData)
+          {
+          imgData->SetRequestedRegionToLargestPossibleRegion();
+          }
+        else
+          {
+          // Pointer could not be cast to AuxImageType *
+          itkWarningMacro(<< "itk::FastMarchingExtensionImageFilter" <<
+                    "::EnlargeOutputRequestedRegion cannot cast "
+                    << typeid(output).name() << " to "
+                    << typeid(AuxImageType*).name() );    
+
+          }
+        }
+
+      break;
+
+      }
     }
+
 }
 
 

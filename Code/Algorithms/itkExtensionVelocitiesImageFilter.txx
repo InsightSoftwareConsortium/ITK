@@ -143,14 +143,6 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
   // call the superclass implemenation of this method
   this->Superclass::GenerateInputRequestedRegion();
 
-  // this filter requires all of the input images to be
-  // in the buffer
-  for( unsigned int k = 0; k < VAuxDimension; k++ )
-    {
-    this->GetInputVelocityImage(k)->
-      SetRequestedRegionToLargestPossibleRegion();
-    }
-
 }
 
 
@@ -162,16 +154,38 @@ void
 ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::EnlargeOutputRequestedRegion( DataObject * output )
 {
-  // call the superclass implemenation of this method
-  this->Superclass::EnlargeOutputRequestedRegion( output );
 
-  // set the requested region for all output to be the
-  // same as the primary input
-  LevelSetPointer primaryOutput = this->GetOutput(0);
-  for( unsigned int k = 0; k < VAuxDimension; k++ )
+  for ( int j = 0; j < this->GetNumberOfOutputs(); j++ )
     {
-    this->GetOutputVelocityImage(k)->SetRequestedRegion(
-      primaryOutput->GetRequestedRegion() );
+    // Check which index this output refers to
+    if ( output == this->ProcessObject::GetOutput( j ) )
+      {
+      if ( j == 0 ) 
+        {
+        this->Superclass::EnlargeOutputRequestedRegion( output );
+        }
+      else if ( j < VAuxDimension )
+        {
+        AuxImageType * imgData;
+        imgData = dynamic_cast<AuxImageType*>( output );
+        if (imgData)
+          {
+          imgData->SetRequestedRegionToLargestPossibleRegion();
+          }
+        else
+          {
+          // Pointer could not be cast to AuxImageType *
+          itkWarningMacro(<< "itk::FastMarchingExtensionImageFilter" <<
+                    "::EnlargeOutputRequestedRegion cannot cast "
+                    << typeid(output).name() << " to "
+                    << typeid(AuxImageType*).name() );    
+
+          }
+        }
+
+      break;
+
+      }
     }
 
 }

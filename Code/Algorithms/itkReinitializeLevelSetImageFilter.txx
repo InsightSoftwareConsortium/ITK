@@ -117,11 +117,8 @@ void
 ReinitializeLevelSetImageFilter<TLevelSet>
 ::GenerateInputRequestedRegion()
 {
-
-  // this filter requires the all of the input image to be in
-  // the buffer
-  LevelSetPointer inputPtr = this->GetInput();
-  inputPtr->SetRequestedRegionToLargestPossibleRegion();
+  // use the default implementation.
+  this->Superclass::GenerateInputRequestedRegion();
 }
 
 

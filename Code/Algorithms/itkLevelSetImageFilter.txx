@@ -110,10 +110,8 @@ LevelSetImageFilter<TLevelSet>
 ::GenerateInputRequestedRegion()
 {
 
-  // this filter requires all of the input image to be in
-  // the buffer
-  LevelSetPointer inputPtr = this->GetInput();
-  inputPtr->SetRequestedRegionToLargestPossibleRegion();
+  // use the default implementation.
+  this->Superclass::GenerateInputRequestedRegion();
 
 }
 
@@ -131,7 +129,20 @@ LevelSetImageFilter<TLevelSet>
   // the buffer
   TLevelSet *imgData;
   imgData = dynamic_cast<TLevelSet*>( output );
-  imgData->SetRequestedRegionToLargestPossibleRegion();
+
+  if ( imgData )
+    {
+    imgData->SetRequestedRegionToLargestPossibleRegion();
+    }
+  else
+    {
+    // Pointer could not be cast to TLevelSet *
+    itkWarningMacro(<< "itk::FastMarchingImageFilter" <<
+              "::EnlargeOutputRequestedRegion cannot cast "
+              << typeid(output).name() << " to "
+              << typeid(TLevelSet*).name() );    
+
+    }
 
 }
 
