@@ -30,29 +30,39 @@
 //
 //  The transform applied is a rotation of $30$ degrees. It is important to
 //  note here that the transform supplied to the \code{ResampleImageFilter} is
-//  a \emph{counter-clockwise} rotation. This transform rotates the
-//  \emph{coordinate system} of the output image 30 degrees counter-clockwise.
-//  When the two images are relocated in a common coordinate system --- as in
-//  figure \ref{fig:ResampleImageFilterTransformComposition6} --- the result is
-//  that the frame of the output image appears rotated 30 degrees
-//  \emph{clockwise}.  If the output image is seen with its coordinate system
-//  straighten up, the image content appears rotated 30 degrees
-//  \emph{counter-clockwise}. Before continue reading this section, you may
-//  want to meditate a bit on this fact while enjoying a cup of coffee.
+//  a \emph{clockwise} rotation. This transform rotates the \emph{coordinate
+//  system} of the output image 30 degrees clockwise.  When the two images are
+//  relocated in a common coordinate system --- as in figure
+//  \ref{fig:ResampleImageFilterTransformComposition6} --- the result is that
+//  the frame of the output image appears rotated 30 degrees \emph{clockwise}.
+//  If the output image is seen with its coordinate system straighten up --- as
+//  in figure \ref{fig:ResampleImageFilterOutput9} --- the image content
+//  appears rotated 30 degrees \emph{counter-clockwise}. Before continue
+//  reading this section, you may want to meditate a bit on this fact while
+//  enjoying a cup of coffee.
 //
 // \begin{figure}
 // \center
 // \includegraphics[width=12cm]{ResampleImageFilterTransformComposition6.eps}
-// \caption{Effect of selecting the origin of the output image}
+// \caption{Input and output image placed in a common reference system.}
 // \label{fig:ResampleImageFilterTransformComposition6}
 // \end{figure}
 //
-//  The following code implements these condition with the only difference of
-//  selecting a spacing 40 times smaller and a number of pixels 40 times larger
-//  in both dimensions. Without these change, few detail will be recognizable
-//  on the images.  Note that the spacing and origin of the input image should
-//  be prepared in advance by using other means since this filter cannot alter
-//  in any way the actual content of the input image.
+// \begin{figure}
+// \center
+// \includegraphics[height=6cm]{ResampleImageFilterInput2x3.eps}
+// \includegraphics[height=4cm]{ResampleImageFilterOutput9.eps}
+// \caption{Effect of a rotation on the resampling filter. Input image at left, Output image at right.}
+// \label{fig:ResampleImageFilterOutput9}
+// \end{figure}
+//
+//  The following code implements the conditions illustrated in figure
+//  \ref{fig:ResampleImageFilterTransformComposition6} with the only difference
+//  of selecting a spacing 40 times smaller and a number of pixels 40 times
+//  larger in both dimensions. Without these changes, few detail will be
+//  recognizable on the images.  Note that the spacing and origin of the input
+//  image should be prepared in advance by using other means since this filter
+//  cannot alter in any way the actual content of the input image.
 //
 //  Software Guide : EndLatex 
 
@@ -127,6 +137,8 @@ int main( int argc, char ** argv )
   //  In order to facilitate the interpretation of the transform we set the
   //  default pixel value to a distintly visible gray level.
   //
+  //  \index{itk::ResampleImageFilter!SetDefaultPixelValue()}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -140,6 +152,8 @@ int main( int argc, char ** argv )
   //
   //  The spacing is selected here to be 40 times smaller than the one
   //  illustrated in figure \ref{fig:ResampleImageFilterTransformComposition6}.
+  //
+  //  \index{itk::ResampleImageFilter!SetOutputSpacing()}
   //
   //  Software Guide : EndLatex 
 
@@ -157,8 +171,10 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Let us now set up the origin of the output image. Note that the values
-  //  provided here will be those of the space coordinates for the pixel of
-  //  index $(0,0)$.
+  //  provided here will be those of the space coordinates for the output image
+  //  pixel of index $(0,0)$.
+  //
+  //  \index{itk::ResampleImageFilter!SetOutputOrigin()}
   //
   //  Software Guide : EndLatex 
 
@@ -177,7 +193,9 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //  
   //  The output image size is defined to be 40 times the one illustrated on
-  //  the figure.
+  //  the figure \ref{fig:ResampleImageFilterTransformComposition6}.
+  //
+  //  \index{itk::ResampleImageFilter!SetSize()}
   //
   //  Software Guide : EndLatex 
   
@@ -202,46 +220,73 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Rotations are performed around the origin of coordinates. The process of
-  //  positioning the output image frame as it is shown in the figure reguires
-  //  three steps. First, the image origin must be moved to the origin of the
-  //  coordinate system, this is done by applying a translationof
-  //  $(-50,-130.0))$. In a second step, a rotation of 30 degrees is performed.
-  //  The third and final step implies to translate back the origing to the
-  //  previous location, which can be done with a translation of $(50.0,130)$.
-  //  Note that the AffineTransform uses a second boolean argument to specify
-  //  if the current modification of the transform should be pre-composed or
-  //  post-composed with the current transform content.
+  //  Rotations are performed around the origin of physical coordinates --- not
+  //  the image origin nor the image center. Hence, the process of positioning
+  //  the output image frame as it is shown in figure
+  //  \ref{fig:ResampleImageFilterTransformComposition6} reguires three steps.
+  //  First, the image origin must be moved to the origin of the coordinate
+  //  system, this is done by applying a translation equal to the negative
+  //  values of the image origin.
   //
-  //  Angles are specified in Radians to the Affine transform.
+  //  \index{itk::AffineTransform!Translate()}
   //
   //  Software Guide : EndLatex 
-  
+
   // Software Guide : BeginCodeSnippet
   TransformType::OutputVectorType translation1;
 
-  translation1[0] =   -50.0;
-  translation1[1] =  -130.0;
+  translation1[0] =   -origin[0];
+  translation1[1] =   -origin[1];
   
   transform->Translate( translation1 );
   // Software Guide : EndCodeSnippet
 
 
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  In a second step, a rotation of 30 degrees is performed.  Note that
+  //  angles are specified in \emph{radians} to the Affine transform. Also, the
+  //  AffineTransform uses a second boolean argument to specify if the current
+  //  modification of the transform should be pre-composed or post-composed
+  //  with the current transform content. In this case the argument is set to
+  //  \code{false} to indicate that the rotation should be applied \emph{after}
+  //  the current transform content.
+  //
+  //  \index{itk::AffineTransform!Rotate2D()}
+  //  \index{itk::AffineTransform!Composition}
+  //  
+  //  Software Guide : EndLatex 
+  
   // Software Guide : BeginCodeSnippet
   const double degreesToRadians = atan(1.0) / 45.0;
   transform->Rotate2D( 30.0 * degreesToRadians, false );
-
-  filter->SetTransform( transform );
   // Software Guide : EndCodeSnippet
 
+
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The third and final step implies to translate the image origin back to
+  //  its previous location. This is be done by applying a translation equal to
+  //  the origin values. 
+  //
+  //  \index{itk::AffineTransform!Translate()}
+  //
+  //  Software Guide : EndLatex 
   
-   // Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   TransformType::OutputVectorType translation2;
 
-  translation2[0] =    50.0;
-  translation2[1] =   130.0;
+  translation2[0] =   origin[0];
+  translation2[1] =   origin[1];
   
   transform->Translate( translation2, false );
+
+  filter->SetTransform( transform );
   // Software Guide : EndCodeSnippet
 
  
@@ -263,14 +308,6 @@ int main( int argc, char ** argv )
 
  
   //  Software Guide : BeginLatex
-  // 
-  // \begin{figure}
-  // \center
-  // \includegraphics[height=6cm]{ResampleImageFilterInput2x3.eps}
-  // \includegraphics[height=4cm]{ResampleImageFilterOutput9.eps}
-  // \caption{Effect of a rotation on the resampling filter. Input image at left), Output image at right.}
-  // \label{fig:ResampleImageFilterOutput9}
-  // \end{figure}
   //
   //  Figure \ref{fig:ResampleImageFilterOutput9} presents the actual input and
   //  outpu images of this example as shown by a correct viewer which takes
@@ -283,6 +320,47 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex 
 
  
+  //  Software Guide : BeginLatex
+  //
+  //  As a final excercise, let's track the mapping of an individual pixel.
+  //  Keep in mind that the transformation is initiated by walking through the
+  //  pixels of the \emph{output} image. This is the only way to ensure that
+  //  the image will be generated without holes or redundant values. When you
+  //  think about transformation it is always useful to analyze things from the
+  //  output image towards the input image.
+  //
+  //  Let's take the pixel with index $I=(1,2)$ from the ouptut image. The
+  //  physical coordinates of this point in the output image reference system
+  //  are $P=( 1 \times 40.0 + 50.0, 2 \times 30.0 + 130.0 )$ which corresponds
+  //  to $P=(90.0,190.0)$ millimeters.
+  //  
+  //  This point $P$ is now mapped through the Affine transform into the input
+  //  image space.  The operation requires to subtract the origin, apply a $30$
+  //  degrees rotation and add the origin back. Let's follow those steps.
+  //  Subtracting the origin from $P$ leads to $P1=(40.0,60.0)$, the rotation
+  //  maps $P1$ to $p2=( 40.0 \times cos (30.0) + 60.0 \times sin (30.0), 40.0
+  //  \times sin(30.0) - 60.0 \times cos(30.0))$ which results in
+  //  $P2=(64.64,31.96)$. Finally this point is translated back by the amount
+  //  of the image origin. This moves $P2$ to $P3=(114.64,161.96)$.
+  //
+  //  The point $P3$ is now in the coordinate system of the input image. The
+  //  pixel of the input image associated with this physical position is
+  //  computed using the origin and spacing of the input image. $I=( ( 114.64 -
+  //  60.0 )/ 20.0 , ( 161 - 70.0 ) / 30.0 )$ which results in $I=(2.7,3.0)$.
+  //  Note that this is a non-grid position since the values are non-integers.
+  //  This means that the gray value to be assigned to the output image pixel
+  //  $I=(1,2)$ must be computed by interpolation of the input image values.
+  //  
+  //  In this particular code the interpolator used is simply a
+  //  \code{NearestNeighborInterpolateImageFunction} which will assign the
+  //  value of the closest pixel. This ends up being the pixel of index
+  //  $I=(3,3)$ and can be seen from figure
+  //  \ref{fig:ResampleImageFilterTransformComposition6}.
+  //
+  //  Well, if you read this section up to here, you certainly deserve a break.
+  //
+  //  Software Guide : EndLatex 
+
 
   return 0;
 
