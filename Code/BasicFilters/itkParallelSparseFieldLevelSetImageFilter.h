@@ -496,7 +496,7 @@ protected:
    * output values are applied during each iteration.  The default simply
    * follows the standard finite difference scheme of scaling the change by the
    * timestep and adding to the value of the previous iteration.*/
-  inline virtual ValueType CalculateUpdateValue(const IndexType &idx,
+  inline virtual ValueType CalculateUpdateValue(const IndexType,
                                                 const TimeStepType &dt,
                                                 const ValueType &value,
                                                 const ValueType &change)
@@ -505,7 +505,7 @@ protected:
     }
   
   /** This method is not implemented or necessary for this solver */
-  void ApplyUpdate(TimeStepType dt) {}
+  void ApplyUpdate(TimeStepType) {}
 
   /** Does the actual work of updating the output from the UpdateContainer over
    *  an output region supplied by the multithreading mechanism.  */
