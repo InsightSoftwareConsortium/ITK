@@ -21,6 +21,7 @@ typedef Mesh::CellType           CellType;
  * use the defaults for the other parameters.  Note that a cell's template
  * parameters must match those of the mesh into which it is inserted.
  */
+typedef itkLineBoundary<int, CellType>       LineBoundary;
 typedef itkTetrahedronCell<int, CellType>    TetraCell;
 typedef itkHexahedronCell<int, CellType>     HexaCell;
 
@@ -29,6 +30,7 @@ typedef itkHexahedronCell<int, CellType>     HexaCell;
  * so we can only use information from it, like get its pointer type.
  */
 typedef Mesh::Cell               Cell;
+typedef Cell                     Boundary;
 
 /**
  * The type of point stored in the mesh.
@@ -107,8 +109,31 @@ int main(void)
   std::cout << testCell->GetClassName() << std::endl;
 
   /**
+   * Allocate an explicity boundary line.
+   */
+  Boundary::Pointer boundLine(LineBoundary::New());
+  
+  /**
+   * We don't want the hexahedron to consider the tetrahedron a neighbor
+   * across its first edge, so don't add the tetrahedron as a using cell.
+   */
+  boundLine->AddUsingCell(1);
+  boundLine->SetCellPoint(0,0);
+  boundLine->SetCellPoint(1,1);
+  
+  mesh->SetBoundary(1,   	 // Topological dimension of boundary.
+		    0,     	 // Boundary identifier.
+		    boundLine);  // Pointer to explicit boundary.
+  
+  mesh->SetBoundaryAssignment(1,   // Topologoical dimension.
+			      1,   // CellIdentifier
+			      0,   // CellFeatureIdentifier
+			      0);  // Boundary identifier.  
+  
+  /**
    * Try getting the hexahedron's neighbor through its first edge.
-   * This should be the test tetrahedron.
+   * This should be the test tetrahedron, except that we have done an
+   * explicit assignment which removes this.
    */
   std::list<Mesh::CellIdentifier>  neighborList;
   mesh->GetBoundaryFeatureNeighbors(
