@@ -147,7 +147,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   // allocate memory for the output buffer
   output->SetBufferedRegion( output->GetRequestedRegion() );
   output->Allocate();
-
+  output->CopyInformation( this->GetInput() );
 
   // allocate memory for the PointTypeImage
   m_LabelImage->SetLargestPossibleRegion( 
@@ -155,6 +155,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   m_LabelImage->SetBufferedRegion( 
     output->GetBufferedRegion() );
   m_LabelImage->Allocate();
+  m_LabelImage->CopyInformation( this->GetInput() );
 
 
   // set all output value to infinity
