@@ -64,9 +64,9 @@ public:
    *  class because we need to work with neighborhoods of pointers to data
    *  variables instead of neighborhoods of data directly. This function is
    *  replaced by the ComputeSparseUpdate function. */
-  virtual PixelType ComputeUpdate (const NeighborhoodType &neighborhood,
-                                   void *globalData,
-                                   const FloatOffsetType &offset) {};
+  virtual PixelType ComputeUpdate (const NeighborhoodType&,
+                                   void*,
+                                   const FloatOffsetType&) {};
 
   /** The update called from the FiniteDifferenceSparseImageFilter. This
       function replaces the ComputeUpdate function. */
@@ -85,7 +85,7 @@ public:
    *  the above examples are stored in the nodes of the SparseImage
    *  itself. Therefore, this function will have to know about the NodeType it
    *  is dealing with. This function does nothing by default. */
-  virtual void PrecomputeSparseUpdate (NeighborhoodType &neighborhood) const {};
+  virtual void PrecomputeSparseUpdate (NeighborhoodType&) const {};
 
 protected:
   FiniteDifferenceSparseImageFunction() {};
