@@ -121,14 +121,20 @@ BilateralImageFilter<TInputImage, TOutputImage>
   //
   // Gaussian image size will be (2*ceil(2.5*sigma)+1) x (2*ceil(2.5*sigma)+1)
   unsigned int i;
-  typename TInputImage::SizeType radius, domainKernelSize;
+  typename InputImageType::SizeType radius;
+  typename InputImageType::SizeType domainKernelSize;
+
+  const InputImageType * inputImage = this->GetInput();
+
+  const typename InputImageType::SpacingType inputSpacing = inputImage->GetSpacing();
+  const typename InputImageType::PointType   inputOrigin  = inputImage->GetOrigin();
 
   for (i = 0; i < ImageDimension; i++)
     {
     radius[i] =
       (typename TInputImage::SizeType::SizeValueType)
-      ceil(m_DomainMu*m_DomainSigma[i]/this->GetInput()->GetSpacing()[i]);
-    domainKernelSize[i] = 2*radius[i] + 1;
+      ceil( m_DomainMu * m_DomainSigma[i] / inputSpacing[i] );
+    domainKernelSize[i] = 2 * radius[i] + 1;
     }
 
   typename GaussianImageSource<GaussianImageType>::Pointer gaussianImage;
@@ -137,14 +143,14 @@ BilateralImageFilter<TInputImage, TOutputImage>
   
   gaussianImage = GaussianImageSource<GaussianImageType>::New();
   gaussianImage->SetSize(domainKernelSize.GetSize());
-  gaussianImage->SetSpacing( this->GetInput()->GetSpacing() );
-  gaussianImage->SetOrigin( this->GetInput()->GetOrigin() );
+  gaussianImage->SetSpacing( inputSpacing );
+  gaussianImage->SetOrigin( inputOrigin );
   gaussianImage->SetScale( 1.0 );
   gaussianImage->SetNormalized( true );
 
   for (i=0; i < ImageDimension; i++)
     {
-    mean[i] = this->GetInput()->GetSpacing()[i]*radius[i]; // center pixel pos
+    mean[i] = inputSpacing[i] * radius[i] + inputOrigin[i]; // center pixel pos
     sigma[i] = m_DomainSigma[i];
     }
   gaussianImage->SetSigma( sigma );
@@ -173,7 +179,8 @@ BilateralImageFilter<TInputImage, TOutputImage>
   // First, determine the min and max intensity range
   typename StatisticsImageFilter<TInputImage>::Pointer statistics
     = StatisticsImageFilter<TInputImage>::New();
-  statistics->SetInput( this->GetInput() );
+
+  statistics->SetInput( inputImage );
   statistics->GetOutput()
     ->SetRequestedRegion( this->GetOutput()->GetRequestedRegion() );
   statistics->Update();
