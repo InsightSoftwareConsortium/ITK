@@ -35,7 +35,7 @@ template<class T, unsigned int TVectorDimension>
 Vector<T, TVectorDimension>
 ::Vector(const ValueType& r)
 {
-  for(BaseArray::Iterator i = BaseArray::Begin(); i != BaseArray::End(); ++i)
+  for(typename BaseArray::Iterator i = BaseArray::Begin(); i != BaseArray::End(); ++i)
     {
     *i = r;
     }

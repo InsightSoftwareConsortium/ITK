@@ -173,8 +173,8 @@ PhysicalImage<TPixel, VImageDimension, TPixelContainer>::AffineTransformType
 PhysicalImage<TPixel, VImageDimension, TPixelContainer>::
 GetIndexToPhysicalTransform(void) const
 {
-  AffineTransformType::MatrixType matrix;
-  AffineTransformType::VectorType offset;
+  typename AffineTransformType::MatrixType matrix;
+  typename AffineTransformType::VectorType offset;
   for (unsigned int i = 0; i < VImageDimension; i++)
     {
     for (unsigned int j = 0; j < VImageDimension; j++)
@@ -199,8 +199,8 @@ PhysicalImage<TPixel, VImageDimension, TPixelContainer>::AffineTransformType
 PhysicalImage<TPixel, VImageDimension, TPixelContainer>::
 GetPhysicalToIndexTransform(void) const
 {
-  AffineTransformType::MatrixType matrix;
-  AffineTransformType::VectorType offset;
+  typename AffineTransformType::MatrixType matrix;
+  typename AffineTransformType::VectorType offset;
 
   for (unsigned int i = 0; i < VImageDimension; i++)
     {
