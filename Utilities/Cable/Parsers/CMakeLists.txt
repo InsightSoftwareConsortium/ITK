@@ -1,3 +1,7 @@
+INCLUDE_DIRECTORIES(
+${CABLE_SOURCE_DIR}/CxxTypes
+)
+
 ADD_LIBRARY(CableParsers STATIC
 cableConfigurationRepresentation
 cableConfigurationParser

@@ -43,8 +43,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // Include the C++ type representation classes.
 // This also includes cxxUtils.h which does some work for us.
-#include "cxxTypeSystem.h"
-#include "cxxConversions.h"
+#include "CxxTypes/cxxTypeSystem.h"
+#include "CxxTypes/cxxConversions.h"
 
 // Force debug support on for now.
 #define _wrap_DEBUG_SUPPORT

@@ -36,8 +36,8 @@ wrapWrapperFacility
 )
 
 IF (NOT CABLE_NO_INSTALL)
-  INSTALL_FILES(/share/Cable/include ^wrap.*\\.h$)
-  INSTALL_FILES(/share/Cable/include ^wrap.*\\.txx$)
+  INSTALL_FILES(/share/Cable/include/WrapTclFacility ^wrap.*\\.h$)
+  INSTALL_FILES(/share/Cable/include/WrapTclFacility ^wrap.*\\.txx$)
   INSTALL_TARGETS(/share/Cable/lib WrapTclFacility)
   SET (CABLE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
   CONFIGURE_FILE(${CABLE_SOURCE_DIR}/WrapTclFacility/pkgIndex.tcl.in
