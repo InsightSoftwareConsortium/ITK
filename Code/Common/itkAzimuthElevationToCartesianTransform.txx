@@ -179,12 +179,12 @@ SetAzimuthElevationToCartesianParameters(const double sampleSize,
                                          const double azimuthAngleSeparation,
                                          const double elevationAngleSeparation)
 {
-  m_MaxAzimuth = static_cast<long>(static_cast<double>(maxAzimuth) * azimuthAngleSeparation);
-  m_MaxElevation = static_cast<long>(static_cast<double>(maxElevation) * elevationAngleSeparation);
-  m_RadiusSampleSize = sampleSize;
-  m_AzimuthAngularSeparation = azimuthAngleSeparation;
-  m_ElevationAngularSeparation = elevationAngleSeparation;
-  m_FirstSampleDistance = firstSampleDistance / sampleSize;
+  SetMaxAzimuth(static_cast<long>(static_cast<double>(maxAzimuth) * azimuthAngleSeparation));
+  SetMaxElevation(static_cast<long>(static_cast<double>(maxElevation) * elevationAngleSeparation));
+  SetRadiusSampleSize(sampleSize);
+  SetAzimuthAngularSeparation(azimuthAngleSeparation);
+  SetElevationAngularSeparation(elevationAngleSeparation);
+  SetFirstSampleDistance(firstSampleDistance / sampleSize);
 }
 
 template<class TScalarType, unsigned int NDimensions>
