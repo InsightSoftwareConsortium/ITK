@@ -5,6 +5,8 @@ namespace _cxx_
 
 
 /**
+ * Don't call this.  CvQualifiedType instances should be obtained from
+ * Type::GetCvQualifiedType().
  * Constructor takes a pointer to the type to which these qualifiers
  * refer.  It defaults all qualifier flags to false.
  */
@@ -18,6 +20,8 @@ CvQualifiedType
 
 
 /**
+ * Don't call this.  CvQualifiedType instances should be obtained from
+ * Type::GetCvQualifiedType().
  * This constructor takes a pointer to the type to which these qualifiers
  * refer, and settings for the const and volatile cv-qualifier flags.
  */

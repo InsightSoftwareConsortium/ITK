@@ -18,6 +18,19 @@ TypedefType
 
 
 /**
+ * Test whether this is a TypedefType.  This is a special test because
+ * TypedefType's GetRepresentationType() passes the call through to the
+ * real type.  This call is not passed through.
+ */
+bool
+TypedefType
+::IsTypedefType() const
+{
+  return true;
+}
+
+
+/**
  * Given cv-qualifiers, construct the CvQualifiedType referring to
  * this type.  The result may be more cv-qualified than that given if
  * this is a typedef type.

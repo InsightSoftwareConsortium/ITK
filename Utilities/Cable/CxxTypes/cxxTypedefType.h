@@ -15,6 +15,8 @@ public:
   typedef TypedefType Self;
   
   virtual RepresentationType GetRepresentationType() const;
+  virtual bool IsTypedefType() const;
+  
   virtual CvQualifiedType GetCvQualifiedType(bool, bool) const;
   
 protected:

@@ -70,7 +70,7 @@ PointerType
   
   // Element types must match exactly.
   return (sourceType->GetElementType()
-          == CvQualifiedType(this, isConst, isVolatile));
+          == this->GetCvQualifiedType(isConst, isVolatile));
 }
 
 
