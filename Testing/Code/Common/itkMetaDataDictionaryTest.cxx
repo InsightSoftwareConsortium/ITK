@@ -163,39 +163,10 @@ int itkMetaDataDictionaryTest(int , char * [])
     std::cout << "Memory After Change: "<<temp <<std::endl;
   }
 
-  //------- An ITK  Image
-  itk::EncapsulateMetaData<itk::Image<float,3> * >(MyDictionary,"AnITKImage",itk::Image<float,3>::New());
-
-  {
-    std::map<std::string, itk::MetaDataObjectBase::Pointer>::iterator it;
-    for(it=MyDictionary.begin();
-        it != MyDictionary.end();
-        it++)
-    {
-      std::cout << "Type name for "<<it->first <<" is " << it->second->GetMetaDataObjectTypeName() << std::endl;
-    }
-  }
-  //
-  //------Test copying of Dictionary
-  //itk::MetaDataDictionary NewDictionary(MyDictionary);
-  itk::MetaDataDictionary NewDictionary;
-  NewDictionary=MyDictionary;
-
-
-  {
-    std::map<std::string, itk::MetaDataObjectBase::Pointer>::iterator it;
-    for(it=NewDictionary.begin();
-        it != NewDictionary.end();
-        it++)
-    {
-      std::cout << "Type name for "<<it->first <<" is " << it->second->GetMetaDataObjectTypeInfo().name() << std::endl;
-    }
-  }
-
   //Print functionality Test
   std::cout << "===========================================================" << std::endl;
   std::cout << "Printing Dictionary" << std::endl;
-  NewDictionary.Print(std::cout);
+  MyDictionary.Print(std::cout);
 
 
   //NOTE: Must clean up memory allocated with char * StrandedMemory=new char[2345];
