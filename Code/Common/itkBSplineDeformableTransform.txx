@@ -276,12 +276,16 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 
 // Transform a point
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+void 
 BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
-::OutputPointType
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
-::TransformPoint(const InputPointType &point) const 
+::TransformPoint( 
+const InputPointType & point, 
+OutputPointType & outputPoint, 
+WeightsType & weights, 
+IndexType & supportIndex,
+bool& inside ) const
 {
-  
+
   unsigned int j;
 
   InputPointType transformedPoint;
@@ -303,13 +307,14 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 
   // NOTE: if the support region does not lie totally within the grid
   // we assume zero displacement and return the input point
+
+  inside = true;
   if ( !m_ValidRegion.IsInside( index ) )
     {
-    return transformedPoint;
+    outputPoint = transformedPoint;
+    inside = false;
+    return;
     }
-
-  WeightsType weights( m_WeightsFunction->GetNumberOfWeights() );
-  IndexType supportIndex;
 
   // Compute interpolation weights
   m_WeightsFunction->Evaluate( index, weights, supportIndex );
@@ -319,7 +324,6 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   supportRegion.SetSize( m_SupportSize );
   supportRegion.SetIndex( supportIndex );
 
-  OutputPointType outputPoint;
   outputPoint.Fill( NumericTraits<ScalarType>::Zero );
 
   typedef ImageRegionConstIterator<ImageType> IteratorType;
@@ -354,6 +358,26 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     {
     outputPoint[j] += transformedPoint[j];
     }
+
+
+}
+
+
+
+// Transform a point
+template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+::OutputPointType
+BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+::TransformPoint(const InputPointType &point) const 
+{
+  
+  WeightsType weights( m_WeightsFunction->GetNumberOfWeights() );
+  IndexType supportIndex;
+  OutputPointType outputPoint;
+  bool inside;
+
+  this->TransformPoint( point, outputPoint, weights, supportIndex, inside );
 
   return outputPoint;
 

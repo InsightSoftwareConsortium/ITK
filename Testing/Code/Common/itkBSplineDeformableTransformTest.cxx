@@ -184,6 +184,23 @@ int itkBSplineDeformableTransformTest(int, char **)
   std::cout << "Output Point: " << outputPoint << std::endl;
   std::cout << std::endl;
 
+  // use the other version of TransformPoint
+  typedef TransformType::WeightsType WeightsType;
+  typedef TransformType::IndexType IndexType;
+
+  WeightsType weights( transform->GetNumberOfWeights() );
+  IndexType startIndex;
+  bool inside;
+
+  inputPoint.Fill( 8.3 );
+  transform->TransformPoint( inputPoint, outputPoint, weights, startIndex, inside );
+
+  std::cout << "Input Point: " << inputPoint << std::endl;
+  std::cout << "Output Point: " << outputPoint << std::endl;
+  std::cout << "Start Index: " << startIndex << std::endl;
+  std::cout << "Weights: " << weights << std::endl;
+  std::cout << "Inside: " << inside << std::endl;
+  std::cout << std::endl;
 
 
   /**

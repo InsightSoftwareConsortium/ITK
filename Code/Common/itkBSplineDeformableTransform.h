@@ -166,8 +166,26 @@ public:
   itkSetConstObjectMacro( BulkTransform, BulkTransformType );
   itkGetConstObjectMacro( BulkTransform, BulkTransformType );
 
-  /** Transform points by an BSpline deformable transformation. */
+  /** Transform points by a BSpline deformable transformation. */
   OutputPointType  TransformPoint(const InputPointType  &point ) const;
+
+  /** Interpolation weights function type. */
+  typedef BSplineInterpolationWeightFunction<ScalarType,SpaceDimension,SplineOrder> 
+    WeightsFunctionType;
+  typedef typename WeightsFunctionType::WeightsType WeightsType;
+  typedef typename WeightsFunctionType::ContinuousIndexType ContinuousIndexType;
+
+  /** Transform points by a BSpline deformable transformation. 
+   * On return, weights contains the interpolation weights used to compute the 
+   * deformation and startIndex contains the support region of coefficient
+   * used to compute the deformation.
+   */
+  void TransformPoint( const InputPointType & inputPoint, OutputPointType &
+    outputPoint, WeightsType & weights, IndexType & startIndex, bool & inside ) const;
+
+  /** Get number of weights. */
+  unsigned long GetNumberOfWeights() const
+    { return m_WeightsFunction->GetNumberOfWeights(); }
 
   /**  Method to transform a vector - not applicable for this type of transform. */
   virtual OutputVectorType    TransformVector(const InputVectorType &vector) const
@@ -242,12 +260,7 @@ private:
   /** Keep a pointer to the input parameters. */
   const ParametersType *  m_InputParametersPointer;
 
-  /** Interpolation weights function type. */
-  typedef BSplineInterpolationWeightFunction<ScalarType,SpaceDimension,SplineOrder> 
-    WeightsFunctionType;
-  typedef typename WeightsFunctionType::WeightsType WeightsType;
-  typedef typename WeightsFunctionType::ContinuousIndexType ContinuousIndexType;
-
+  /** Pointer to function used to compute Bspline interpolation weights. */
   typename WeightsFunctionType::Pointer  m_WeightsFunction;
 
 
