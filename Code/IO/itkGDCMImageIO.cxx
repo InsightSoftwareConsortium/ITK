@@ -192,6 +192,7 @@ void GDCMImageIO::Read(void* buffer)
   //== this->GetImageSizeInComponents()
   unsigned char *Source = (unsigned char*)GdcmFile.GetImageData();
   memcpy((void*)buffer, (void*)Source, size);
+  delete[] Source;
 
   //closing files:
   file.close();
@@ -259,13 +260,13 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   m_Dimensions[0] = GdcmHeader.GetXSize();
   m_Dimensions[1] = GdcmHeader.GetYSize();
   //m_Dimensions[2] = GdcmHeader.GetZSize();
-  m_Dimensions[2] = 0;
+  //m_Dimensions[2] = 0;
 
   m_Spacing[0] = GdcmHeader.GetXSpacing();
   m_Spacing[1] = GdcmHeader.GetYSpacing();
   // I have to figure out how to find the dimension (2 or 3) of the DICOM image:
   // m_Spacing[2] = GdcmHeader.GetZSpacing();
-  m_Spacing[2] = 0;
+  //m_Spacing[2] = 0;
 
   m_Origin.resize(3); //very important
   // Since SetNumberOfDimensions only reallocate for dim == 2
