@@ -95,9 +95,8 @@ public:
    * particular region of that image.
    */
   ImageLinearIterator(const SmartPointer<Image> &ptr,
-                      const Index &start,
-                      const unsigned long size[VImageDimension])
-    : ImageIteratorWithIndex<TPixel, VImageDimension>(ptr, start, size) {}
+                            const Region& region)
+    : ImageIteratorWithIndex<TPixel, VImageDimension>( ptr, region ) {}
 
   /**
    * Constructor that can be used to cast from an ImageIterator to an

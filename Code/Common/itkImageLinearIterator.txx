@@ -46,7 +46,7 @@ ImageLinearIterator<TPixel, VImageDimension>
     }
     
     m_PositionIndex[ n  ]++;
-    if( m_PositionIndex[n] < (int)( m_Size[n] ))
+    if( m_PositionIndex[n] < (int)( m_Region.GetSize()[n] ))
     {
       m_Position += m_OffsetTable[ n ];
       m_Remaining = true;
@@ -54,7 +54,7 @@ ImageLinearIterator<TPixel, VImageDimension>
     }
     else 
     {
-      m_Position -= m_OffsetTable[ n ] * ( m_Size[n]-1 );
+      m_Position -= m_OffsetTable[ n ] * ( m_Region.GetSize()[n]-1 );
       m_PositionIndex[ n ] = m_BeginIndex[ n ]; 
     }
   }
@@ -71,7 +71,7 @@ bool
 ImageLinearIterator<TPixel, VImageDimension>
 ::IsAtEndOfLine(void) 
 {
-  return m_PositionIndex[m_Direction] >= (int)m_Size[m_Direction];
+  return m_PositionIndex[m_Direction] >= (int)m_Region.GetSize()[m_Direction];
 }
 
 
