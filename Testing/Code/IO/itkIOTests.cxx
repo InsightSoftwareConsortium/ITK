@@ -13,6 +13,7 @@ void RegisterTests()
   REGISTER_TEST(itkVOLImageIOTest);
   REGISTER_TEST(itkVTKImageIOTest);
   REGISTER_TEST(itkRawImageIOTest);
+  REGISTER_TEST(itkRawImageIOTest2);
   REGISTER_TEST(itkRawImageIOTest3);
   REGISTER_TEST(itkRawImageIOTest4);
 }

@@ -10,6 +10,7 @@ itkPNGImageIOTest.cxx
 itkVOLImageIOTest.cxx
 itkVTKImageIOTest.cxx
 itkRawImageIOTest.cxx
+itkRawImageIOTest2.cxx
 itkRawImageIOTest3.cxx
 itkRawImageIOTest4.cxx
 )
@@ -25,7 +26,6 @@ ${ITK_SOURCE_DIR}/../InsightData/VisibleWomanHead/CROPraw)
 
 IF(VW_RAW_DATA_PATH)
 ADD_TEST(itkRawImageIOTest2 itkIOTests itkRawImageIOTest2 ${VW_RAW_DATA_PATH}/avfCROP.1023c.raw)
-ADD_EXECUTABLE(itkRawImageIOTest2 itkRawImageIOTest2.cxx)
 ENDIF(VW_RAW_DATA_PATH)
 
 # Add VTK code if we found VTK

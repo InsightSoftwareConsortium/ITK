@@ -15,39 +15,24 @@
 
 =========================================================================*/
 #include <iostream>
-#include "itkOutputWindow.h"
-//#include "itkRawImageIO.h"
-#include "itkFileIOToImageFilter.h"
+#include "itkTextOutput.h"
+#include "itkRawImageIO.h"
+#include "itkImageFileReader.h"
 #include "itkRGBPixel.h"
 #include "itkImage.h"
 
-// this class is used to send output to stdout and not the itk window
-class IoTextOutput : public itk::OutputWindow
+
+int itkRawImageIOTest2(int argc, char **argv)
 {
-public:
-  typedef itk::SmartPointer<IoTextOutput> Pointer;
-  itkNewMacro(IoTextOutput);
-  virtual void DisplayText(const char* s)
-    {
-      std::cout << s << std::endl;
-    }
-};
-
-
-int main(int argc, char **argv)
-{
-
-
 
   if ( argc < 2 )
     {
     itkGenericOutputMacro(<<"Need a file to process");
     return 1;
     }
-#if 0
 
   // Comment the following if you want to use the itk text output window
-  itk::OutputWindow::SetInstance(TextOutput::New());
+  itk::OutputWindow::SetInstance(itk::TextOutput::New());
   // Uncomment the following if you want to see each message independently
   // itk::OutputWindow::GetInstance()->PromptUserOn();
 
@@ -59,24 +44,31 @@ int main(int argc, char **argv)
   io = itk::RawImageIO<RGBPixelType>::New();
   io->SetFilePrefix(argv[1]);
   unsigned int dim[3] = {570,670,1};
-  io->SetDimensions(dim);
   double spacing[3] = {0.8, 0.8, 1.5};
-  io->SetSpacing(spacing);
   double origin[3] = {0.0,0.0,0.0};
-  io->SetOrigin(origin);
+  for(unsigned int i=0; i<3; i++)
+    {
+    io->SetDimensions(i,dim[i]);
+    io->SetSpacing(i,spacing[i]);
+    io->SetOrigin(i,origin[i]);
+    }
   io->SetHeaderSize(0);
   io->SetImageMask(0x7fff);
-  io->SetImageByteOrderToLittleEndian();
-  io->SetPixelType(itk::ITK_UCHAR);
+  io->SetByteOrderToLittleEndian();
+  io->SetPixelType(itk::ImageIOBase::RGB);
+  io->SetComponentType(itk::ImageIOBase::UCHAR);
   io->SetNumberOfComponents(3);
+
   std::cout << "IO: " << io << std::endl;
+
   typedef itk::Image<RGBPixelType,2> RGBImage2DType;
-  itk::FileIOToImageFilter<RGBImage2DType>::Pointer reader;
-  reader = itk::FileIOToImageFilter<RGBImage2DType>::New();
+  itk::ImageFileReader<RGBImage2DType>::Pointer reader;
+  reader = itk::ImageFileReader<RGBImage2DType>::New();
   reader->SetFileName(argv[1]);
-  reader->SetIO(io);
+  reader->SetImageIO(io);
   reader->Update();
-#endif
+
+  reader->GetOutput()->Print( std::cout );
 
   return EXIT_SUCCESS;
 }
