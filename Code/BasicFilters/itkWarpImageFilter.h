@@ -136,6 +136,11 @@ public:
   itkNewMacro(Self);
 
   /**
+   * Typedef to describe the output image region type.
+   */
+  typedef typename TOutputImage::RegionType OutputImageRegionType;
+
+  /**
    * Inherit some types from the superclass.
    */
   typedef typename Superclass::InputImageType        InputImageType;
