@@ -54,8 +54,9 @@ LoadImplementationGenericLandmarkLoad
   disp = element->InterpolateSolution( pt, (*sol) );
 
   // Convert the source to global coordinates
-  new_source = element->GetGlobalFromLocalCoordinates( (pt + disp) );
-
+  new_source = element->GetGlobalFromLocalCoordinates(pt);
+  new_source += disp;
+  
   // Calculate the new force
   force = ( (load->m_target - new_source) / (load->eta * load->eta) );
   
