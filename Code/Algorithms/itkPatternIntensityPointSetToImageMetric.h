@@ -99,10 +99,8 @@ public:
                                MeasureType& Value, DerivativeType& Derivative);
 
   /**  Set/Get the lambda distance.  */
-  double GetLambda( void )
-    {  return m_Lambda;  }
-  void SetLambda(  double lambda )
-    { m_Lambda = lambda; }
+  itkSetMacro( Lambda, double );
+  itkGetReferenceConstMacro( Lambda, double );
  
 protected:
   PatternIntensityPointSetToImageMetric();

@@ -77,7 +77,7 @@ unsigned int dim )
  */
 template <class TLevelSet, class TEdgeImage, class TDerivImage>
 GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
-::DerivImagePointer
+::DerivImageType *
 GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 ::GetDerivativeImage( unsigned int dim )
 {
@@ -87,7 +87,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
     }
 
   return static_cast<TDerivImage *>(
-    this->ProcessObject::GetInput( dim+2 ).GetPointer() );
+    this->ProcessObject::GetInput( dim+2 ) );
 
 }
 

@@ -184,7 +184,7 @@ PermuteAxesImageFilter<TImage>
 
   // get pointers to the input and output
   InputImagePointer inputPtr = 
-      const_cast< TImage * >( this->GetInput().GetPointer() );
+      const_cast< TImage * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
 
   const typename TImage::SizeType& outputSize =

@@ -74,7 +74,7 @@ BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
  */
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
-BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >::PointsContainerPointer
+BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >::PointsContainer *
 BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
 ::GetPoints(void)
 {

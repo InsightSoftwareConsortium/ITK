@@ -58,8 +58,8 @@ public:
   typedef typename OutputMeshType::Pointer OutputMeshPointer;
   
   /** Get the mesh output of this process object.  */
-  OutputMeshPointer GetOutput();
-  OutputMeshPointer GetOutput(unsigned int idx);
+  OutputMeshType * GetOutput(void);
+  OutputMeshType * GetOutput(unsigned int idx);
   
   /** Set the mesh output of this process object. This call is slated
    * to be removed from ITK. You should GraftOutput() and possible

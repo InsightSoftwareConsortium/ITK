@@ -81,7 +81,7 @@ protected:
   typedef typename InputRegionType::IndexType InputIndexType;
   enum { InputImageDimension = InputImageType::ImageDimension };
   
-  InputImagePointer GetInput();
+  InputImageType * GetInput(void);
   
   int* WholeExtentCallback();
   float* SpacingCallback();

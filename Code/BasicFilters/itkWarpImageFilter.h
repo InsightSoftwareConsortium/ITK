@@ -130,7 +130,7 @@ public:
   void SetDeformationField( DeformationFieldType * field );
 
   /** Get a pointer the deformation field. */
-  DeformationFieldPointer GetDeformationField();
+  DeformationFieldType * GetDeformationField(void);
 
   /** Set the interpolator function. */
   itkSetObjectMacro( Interpolator, InterpolatorType );

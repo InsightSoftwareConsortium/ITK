@@ -125,7 +125,7 @@ public:
    * Each object should be labeled by a number (larger than 0), 
    * so the map has a value for each pixel corresponding to the label 
    * of the closest object.  */
-  OutputImagePointer GetVoronoiMap();
+  OutputImageType * GetVoronoiMap(void);
 
   /** Get Distance map image.
    * The distance map is shown as a gray value image depending on 
@@ -135,10 +135,10 @@ public:
    * The minimal distance is calculated on the object frontier, 
    * and the output image gives for each pixel its minimal distance from the object 
    * (if there is more than one object the closest object is considered). */
-  OutputImagePointer GetDistanceMap();
+  OutputImageType * GetDistanceMap(void);
 
   /** Get vector field of distances. */
-  VectorImagePointer GetVectorDistanceMap();
+  VectorImageType * GetVectorDistanceMap(void);
 
 protected:
   DanielssonDistanceMapImageFilter();

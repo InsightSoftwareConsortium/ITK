@@ -125,7 +125,7 @@ public:
     }
 
   /** Set the pointer to the classifer being used. */
-  typename DecisionRuleType::Pointer GetDecisionRule()
+  DecisionRuleType * GetDecisionRule(void)
     {
     return m_DecisionRulePointer;
     }

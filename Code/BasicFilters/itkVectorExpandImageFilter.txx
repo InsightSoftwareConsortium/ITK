@@ -44,8 +44,8 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
   typename DefaultInterpolatorType::Pointer interp =
     DefaultInterpolatorType::New();
 
-  m_Interpolator = static_cast<InterpolatorType*>(
-    interp.GetPointer() );
+  m_Interpolator = 
+        static_cast<InterpolatorType*>( interp.GetPointer() );
 
   // Set default padding value to zero
   for( int k = 0; k < VectorDimension; k++ )
@@ -284,7 +284,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
 
   // Get pointers to the input and output
   InputImagePointer inputPtr = 
-      const_cast< TInputImage * >( this->GetInput().GetPointer() );
+      const_cast< TInputImage * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )
@@ -345,7 +345,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
 
   // Get pointers to the input and output
   InputImagePointer inputPtr = 
-      const_cast< TInputImage * >( this->GetInput().GetPointer() );
+      const_cast< TInputImage * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )

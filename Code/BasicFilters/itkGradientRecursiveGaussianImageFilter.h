@@ -20,6 +20,8 @@
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkNthElementImageAdaptor.h"
 #include "itkImage.h"
+#include "itkPixelTraits.h"
+
 
 namespace itk
 {
@@ -54,13 +56,16 @@ public:
   typedef SmartPointer<const Self>        ConstPointer;
   
   
+  /** Pixel Type of the input image */
+  typedef typename TInputImage::PixelType                PixelType;
+  typedef typename NumericTraits<PixelType>::RealType    RealType;
+
   /**  Output Image Nth Element Adaptor
    *  This adaptor allows to use conventional scalar 
    *  smoothing filters to compute each one of the 
    *  components of the gradient image pixels. */
   typedef NthElementImageAdaptor< TOutputImage,
-                                  typename TInputImage::PixelType >  
-                                                OutputImageAdaptorType;
+                                  RealType >  OutputImageAdaptorType;
   typedef typename OutputImageAdaptorType::Pointer OutputImageAdaptorPointer;
 
   /**  Smoothing filter type */
@@ -76,12 +81,10 @@ public:
   /** Image dimension. */
   enum { ImageDimension = TInputImage::ImageDimension };
 
-  /** Pixel Type of the input image */
-  typedef typename TInputImage::PixelType                PixelType;
-  typedef typename NumericTraits<PixelType>::RealType    RealType;
-
   /** Type of the output Image */
   typedef TOutputImage      OutputImageType;
+  typedef typename          OutputImageType::PixelType      OutputPixelType;
+  typedef typename PixelTraits<OutputPixelType>::ValueType  OutputComponentType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

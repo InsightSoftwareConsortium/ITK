@@ -101,7 +101,7 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
 
   //-------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the training image
-  TrainingImageType  trainingImage = this->GetTrainingImage();
+  typename TrainingImageType::Pointer  trainingImage = this->GetTrainingImage();
 
   TrainingImageIterator 
           trainingImageIt( trainingImage, trainingImage->GetBufferedRegion() );

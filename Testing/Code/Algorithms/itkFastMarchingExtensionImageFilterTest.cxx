@@ -157,10 +157,10 @@ int itkFastMarchingExtensionImageFilterTest(int, char**)
     }
 
   // Exercise other member functions
-  std::cout << "Auxiliary alive values: " << marcher->GetAuxiliaryAliveValues().GetPointer();
+  std::cout << "Auxiliary alive values: " << marcher->GetAuxiliaryAliveValues();
   std::cout << std::endl;
 
-  std::cout << "Auxiliary trial values: " << marcher->GetAuxiliaryTrialValues().GetPointer();
+  std::cout << "Auxiliary trial values: " << marcher->GetAuxiliaryTrialValues();
   std::cout << std::endl;
 
   marcher->Print( std::cout );

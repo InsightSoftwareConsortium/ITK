@@ -260,17 +260,15 @@ public:
   /** Set/Get the input mask image pointer
    * Without this mask, this filter calculates the energy value using
    * all pixels in the input image.  */
-  void SetInputMask(ImageMaskPointer inputMask) ;
-  ImageMaskPointer GetInputMask()
-    { return m_InputMask ; }
+  void SetInputMask(ImageMaskPointer inputMask);
+  itkGetObjectMacro( InputMask, ImageMaskType );
 
   /** Sets the out mask image pointer.
    * Without this mask, this filter corrects every pixel in the input image. */
   void SetOutputMask(ImageMaskPointer outputMask) ;
 
   /** Gets the output mask image pointer. */ 
-  ImageMaskPointer GetOutputMask()
-    { return m_OutputMask ; }
+  itkGetObjectMacro( OutputMask, ImageMaskType );
 
   /** If you set this true, this filter assumes the bias field is
    * multiplicative and internally uses log intensity values for
@@ -285,48 +283,39 @@ public:
   /** Sets the intensity correction flag. if the flag is true, inter-slice
    * intensity correction will be applied before bias field
    * correction. default - true (3D input image), false (2D input image). */
-  void SetUsingInterSliceIntensityCorrection(bool flag)
-    { m_UsingInterSliceIntensityCorrection = flag ; }
+  itkSetMacro( UsingInterSliceIntensityCorrection, bool );
 
   /** Sets the slab correction flag. If the flag is true, inter-slice
    * intensity correction and bias field correction will be performed slab by
    * slab which is identified by the slab identifier. default - false
    * NOTE: if users want to slab identification, all the input image data
    * should be buffered. */
-  void SetUsingSlabIdentification(bool flag)
-    { m_UsingSlabIdentification = flag ; }
+   itkSetMacro( UsingSlabIdentification, bool );
 
   /** Set the bias correction flag. If the flag is true, bias field
    * correction runs.  This flag sounds odd. But if users want to use only
    * the inter-slice intensity correction without actual bias correction,
    * disabling bias field correction would be an useful option. default -
    * true. */
-  void SetUsingBiasFieldCorrection(bool flag)
-    { m_UsingBiasFieldCorrection = flag ; }
+  itkSetMacro( UsingBiasFieldCorrection, bool );
 
   /** Sets the flag, If the flag is true, the output image (corrected image)
    * will be created when this filter is updated. default - true */
-  void SetGeneratingOutput(bool flag)
-    { m_GeneratingOutput = flag ; }
+  itkSetMacro( GeneratingOutput, bool );
 
   /** Sets the direction of slicing.
    * 0 - x axis, 1 - y axis, 2 - z axis */
-  void SetSlicingDirection(int dimension)
-    { m_SlicingDirection = dimension ; }
+  itkSetMacro( SlicingDirection , bool );
 
   /** Set/Get the degree of the bias field estimate. */
-  void SetBiasFieldDegree(int degree) 
-    { m_BiasFieldDegree = degree ; }
-  int GetBiasFieldDegree() 
-    { return m_BiasFieldDegree ; } 
+  itkSetMacro( BiasFieldDegree, int );
+  itkGetMacro( BiasFieldDegree, int );
 
   /** Gets the number of the bias field coefficients. */
-  int GetNoOfBiasFieldCoefficients()
-    { return m_NoOfBiasFieldCoefficients ; }
+  itkGetMacro( NoOfBiasFieldCoefficients, int );
 
   /** Get the bias field domain size. */
-  BiasFieldType::DomainSizeType GetBiasFieldDomainSize()
-    { return m_BiasFieldDomainSize ; }
+  itkGetMacro( BiasFieldDomainSize, BiasFieldType::DomainSizeType );
 
   /** Sets the initial 3D bias field estimate coefficients that will be
    * used for correcting each slab. */
@@ -337,8 +326,7 @@ public:
   /** Get the result bias field coefficients after the bias field
    * estimation (does not apply to the inter-slice intensity
    * correction) */
-  BiasFieldType::CoefficientVectorType GetEstimatedBiasFieldCoefficients() 
-    { return m_EstimatedBiasFieldCoefficients ; }
+  itkGetMacro( EstimatedBiasFieldCoefficients, BiasFieldType::CoefficientVectorType );
 
   /** Set the tissue class statistics for energy function initialization
    * If the numbers of elements in the means and the sigmas are not equal
@@ -348,10 +336,8 @@ public:
     throw (ExceptionObject) ;
 
   /** Set/Get the maximum iteration termination condition parameter. */
-  void SetOptimizerMaximumIteration(int max) 
-    { m_OptimizerMaximumIteration = max ; }
-  int GetOptimizerMaximumIteration()
-    { return m_OptimizerMaximumIteration ; } 
+  itkSetMacro( OptimizerMaximumIteration, int );
+  itkGetMacro( OptimizerMaximumIteration, int );
 
   /** Set/Get the initial search radius. */
   void SetOptimizerInitialRadius(double initRadius) 
@@ -360,16 +346,13 @@ public:
     { return m_OptimizerInitialRadius ; }
 
   /** Set/Get the search radius grow factor. */
-  void SetOptimizerGrowthFactor(double grow) 
-    { m_OptimizerGrowthFactor = grow ; }
-  double GetOptimizerGrowthFactor()
-    { return m_OptimizerGrowthFactor ; }
+  itkSetMacro( OptimizerGrowthFactor, double );
+  itkGetMacro( OptimizerGrowthFactor, double );
 
   /** Set/Get the search radius shrink factor. */
-  void SetOptimizerShrinkFactor(double shrink) 
-    { m_OptimizerShrinkFactor = shrink ; }
-  double GetOptimizerShrinkFactor()
-    { return m_OptimizerShrinkFactor ; }
+  
+  itkSetMacro( OptimizerShrinkFactor, double );
+  itkGetMacro( OptimizerShrinkFactor, double );
 
   /** Initializes the energy function object and optimizer objects and
    * creates the internal image object copying the input image data to it.

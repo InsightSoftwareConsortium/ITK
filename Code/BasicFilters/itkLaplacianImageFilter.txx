@@ -35,7 +35,7 @@ LaplacianImageFilter<TInputImage,TOutputImage>
   
   // get pointers to the input and output
   InputImagePointer  inputPtr = 
-    const_cast< TInputImage * > ( this->GetInput().GetPointer() );
+    const_cast< TInputImage * > ( this->GetInput() );
   
   if ( !inputPtr )
     {

@@ -167,7 +167,7 @@ public:
   itkGetMacro(Codebook,CodebookMatrixOfDoubleType);
 
   /** Get the optimized codebook or the centroids of the clusters. */
-  CodebookMatrixOfDoubleType GetOutCodebook()
+  CodebookMatrixOfDoubleType GetOutCodebook(void)
     { return m_Codebook; }
 
   /** Set the threshold parameter. */

@@ -49,10 +49,10 @@ public:
   itkTypeMacro(ImageWriter,Writer);
 
   /** Set the input image of this writer.  */
-  void SetInput(TInputImage *input);
+  void SetInput(const TInputImage *input);
 
   /** Get the input image of this writer. */
-  InputImagePointer GetInput();
+  const InputImageType * GetInput(void);
 
 protected:
   ImageWriter() {}

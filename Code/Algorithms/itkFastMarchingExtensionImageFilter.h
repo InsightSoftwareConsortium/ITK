@@ -94,15 +94,15 @@ public:
   typedef Index<SetDimension> IndexType;
 
   /** Get one of the extended auxiliary variable image. */
-  AuxImagePointer GetAuxiliaryImage( unsigned int idx );
+  AuxImageType * GetAuxiliaryImage( unsigned int idx );
 
   /** Set the container auxiliary values at the initial alive points. */
   void SetAuxiliaryAliveValues( AuxValueContainer * values )
     { m_AuxAliveValues = values; }
 
   /** Get the container of auxiliary values at the initial alive points. */
-  typename AuxValueContainer::Pointer GetAuxiliaryAliveValues()
-    { return m_AuxAliveValues; }
+  AuxValueContainer * GetAuxiliaryAliveValues(void)
+    { return m_AuxAliveValues.GetPointer(); }
 
   /** Set the container of auxiliary values at the initial trial points. */
   void SetAuxiliaryTrialValues( AuxValueContainer * values )

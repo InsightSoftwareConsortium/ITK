@@ -68,7 +68,7 @@ public:
     { m_MovingImage = ptr; }
 
   /** Get the moving image. */
-  MovingImagePointer GetMovingImage()
+  MovingImageType * GetMovingImage(void)
     { return m_MovingImage; }
 
   /** Set the fixed image. */
@@ -76,7 +76,7 @@ public:
     { m_FixedImage = ptr; }
 
   /** Get the fixed image. */
-  FixedImagePointer GetFixedImage()
+  FixedImageType * GetFixedImage(void)
     { return m_FixedImage; }
 
 protected:

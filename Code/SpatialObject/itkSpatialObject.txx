@@ -22,23 +22,23 @@
 
 namespace itk 
 {
-  template< unsigned int NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
   unsigned int 
-  SpatialObject< NDimensions, TransformType, OutputType >
-  ::GetDimension( void )
+  SpatialObject< NDimensions, TTransform, TOutputType >
+  ::GetDimension( void ) const
   { 
     return NDimensions; 
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
   void
-  SpatialObject< NDimensions, TransformType, OutputType >
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::DerivativeAt( const PointType & point, short unsigned int order, OutputVectorType & value )
   {
     if( !IsEvaluableAt(point) )
       {
       itk::ExceptionObject e("SpatialObject.txx");
-      e.SetLocation("SpatialObject< NDimensions, TransformType, OutputType >::DerivateAt(\
+      e.SetLocation("SpatialObject< NDimensions, TTransform, TOutputType >::DerivateAt(\
       const PointType, unsigned short, OutputVectorType & )");
       e.SetDescription("This spatial object is not derivable at the requested point");
       throw e;
@@ -81,42 +81,42 @@ namespace itk
       }
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
-  SpatialObject< NDimensions, TransformType, OutputType >::PropertyPointer
-  SpatialObject< NDimensions, TransformType, OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
+  SpatialObject< NDimensions, TTransform, TOutputType >::PropertyType *
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::GetProperty( void )
   { 
     return m_Property; 
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
   void 
-  SpatialObject< NDimensions, TransformType, OutputType >
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::SetProperty( const PropertyType * property)
   { 
     m_Property = property; 
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
-  SpatialObject< NDimensions, TransformType, OutputType >::ConstPointer 
-  SpatialObject< NDimensions, TransformType, OutputType >
-  ::GetParent( void )
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
+  const SpatialObject< NDimensions, TTransform, TOutputType > *
+  SpatialObject< NDimensions, TTransform, TOutputType >
+  ::GetParent( void ) const
   {
-    return m_Parent;
+    return m_Parent.GetPointer();
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >  
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >  
   void 
-  SpatialObject< NDimensions, TransformType, OutputType >
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::SetParent( const Self * parent )
   {
     m_Parent = parent;
     RebuildAllTransformLists();
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
   bool
-  SpatialObject< NDimensions, TransformType, OutputType >
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::HasParent( void ) const
   {
     if( m_Parent )
@@ -125,8 +125,8 @@ namespace itk
       return false;
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
-  SpatialObject< NDimensions, TransformType, OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::SpatialObject( void )
   {
     m_Bounds = BoundingBoxType::New();
@@ -141,16 +141,16 @@ namespace itk
     BuildGlobalToLocalTransformList(m_GlobalToLocalTransformList,false);
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
-  SpatialObject< NDimensions, TransformType, OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::~SpatialObject( void )
   {
   }
 
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
   void 
-  SpatialObject< NDimensions, TransformType, OutputType >
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::PrintSelf( std::ostream& os, Indent indent ) const
   {
     TransformListType::iterator it;
@@ -183,25 +183,25 @@ namespace itk
     os << m_Property << std::endl;
   }
   
-  template< unsigned int NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
   void
-  SpatialObject< NDimensions, TransformType, OutputType >
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::SetBounds( BoundingBoxPointer bounds )
   { 
     m_Bounds = bounds; 
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
-  SpatialObject< NDimensions, TransformType, OutputType >::BoundingBoxPointer
-  SpatialObject< NDimensions, TransformType, OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
+  SpatialObject< NDimensions, TTransform, TOutputType >::BoundingBoxType *
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::GetBounds( void )
   { 
-    return m_Bounds;
+    return m_Bounds.GetPointer();
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
   void
-  SpatialObject< NDimensions, TransformType, OutputType >
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::BuildLocalToGlobalTransformList( TransformListPointer list, bool init ) const
   {
     list->push_back(m_LocalToGlobalTransform);
@@ -212,9 +212,9 @@ namespace itk
       }
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
   void
-  SpatialObject< NDimensions, TransformType, OutputType >
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::BuildGlobalToLocalTransformList( TransformListPointer list, bool init ) const
   {
     list->push_back(m_GlobalToLocalTransform);
@@ -225,86 +225,86 @@ namespace itk
       }
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
   void 
-  SpatialObject< NDimensions, TransformType, OutputType >
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::RebuildLocalToGlobalTransformList( void ) const
   {
     m_LocalToGlobalTransformList->clear();
     BuildLocalToGlobalTransformList(m_LocalToGlobalTransformList,false);
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
   void 
-  SpatialObject< NDimensions, TransformType, OutputType >
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::RebuildGlobalToLocalTransformList( void ) const
   {
     m_GlobalToLocalTransformList->clear();
     BuildGlobalToLocalTransformList(m_GlobalToLocalTransformList,false);
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
   void 
-  SpatialObject< NDimensions, TransformType, OutputType >
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::RebuildAllTransformLists( void ) const
   {
     RebuildLocalToGlobalTransformList();
     RebuildGlobalToLocalTransformList();
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
   void 
-  SpatialObject< NDimensions, TransformType, OutputType >
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::SetLocalToGlobalTransform( const TransformType * transform )
   {
     m_LocalToGlobalTransform = transform;
     RebuildLocalToGlobalTransformList();
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
-  const SpatialObject< NDimensions, TransformType, OutputType >::TransformPointer
-  SpatialObject< NDimensions, TransformType, OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
+  const SpatialObject< NDimensions, TTransform, TOutputType >::TransformType *
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::GetLocalToGlobalTransform( void )
   {
-    return m_LocalToGlobalTransform;
+    return m_LocalToGlobalTransform.GetPointer();
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
   void 
-  SpatialObject< NDimensions, TransformType, OutputType >
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::SetGlobalToLocalTransform( const TransformType * transform )
   {
     m_GlobalToLocalTransform = transform;
     RebuildGlobalToLocalTransformList();
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
-  const SpatialObject< NDimensions, TransformType, OutputType >::TransformPointer
-  SpatialObject< NDimensions, TransformType, OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
+  const SpatialObject< NDimensions, TTransform, TOutputType >::TransformType *
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::GetGlobalToLocalTransform( void )
   {
-    return m_GlobalToLocalTransform;
+    return m_GlobalToLocalTransform.GetPointer();
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
-  SpatialObject< NDimensions, TransformType, OutputType >::TransformListPointer
-  SpatialObject< NDimensions, TransformType, OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
+  SpatialObject< NDimensions, TTransform, TOutputType >::TransformListPointer
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::GetLocalToGlobalTransformList( void )
   {
     return m_LocalToGlobalTransformList;
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
-  SpatialObject< NDimensions, TransformType, OutputType >::TransformListPointer
-  SpatialObject< NDimensions, TransformType, OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
+  SpatialObject< NDimensions, TTransform, TOutputType >::TransformListPointer
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::GetGlobalToLocalTransformList( void )
   {
     return m_GlobalToLocalTransformList;
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
   void
-  SpatialObject< NDimensions, TransformType, OutputType >
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::TransformPointToLocalCoordinate( PointType & p ) const
   {
     TransformListType::reverse_iterator it = m_GlobalToLocalTransformList->rbegin();
@@ -322,9 +322,9 @@ namespace itk
     p = p2;
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
   void
-  SpatialObject< NDimensions, TransformType, OutputType >
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::TransformPointToGlobalCoordinate( PointType & p ) const
   {
     TransformListType::reverse_iterator it = m_LocalToGlobalTransformList->rbegin();
@@ -342,9 +342,9 @@ namespace itk
     p = p2;
   }
 
-  template< unsigned int NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, typename TTransform, typename TOutputType >
   unsigned long 
-  SpatialObject< NDimensions, TransformType, OutputType >
+  SpatialObject< NDimensions, TTransform, TOutputType >
   ::GetMTime( void ) const
   {
     unsigned long latestTime = Object::GetMTime();

@@ -160,7 +160,7 @@ public:
   void SetSpeedImage( const SpeedImageType * ptr );
 
   /** Get the input Speed Image. */
-  SpeedImageConstPointer GetSpeedImage(void);
+  const SpeedImageType * GetSpeedImage(void);
 
   /** Get the point type label image. */
   LabelImagePointer GetLabelImage() const

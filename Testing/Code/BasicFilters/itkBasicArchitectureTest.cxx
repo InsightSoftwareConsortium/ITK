@@ -111,7 +111,7 @@ public:
 int itkBasicArchitectureTest(int, char**)
 {
   // Comment the following if you want to use the itk text output window
-  itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());
+  itk::OutputWindow::SetInstance( TextOutput::New().GetPointer() );
   // Uncomment the following if you want to see each message independently
   // itk::OutputWindow::GetInstance()->PromptUserOn();
 

@@ -120,33 +120,33 @@ public:
   static short NULL_FLOW;
  
   /** Get/Set the input image.   */
-  InputImageTypePointer GetInputImage()
+  InputImageType * GetInputImage(void)
     { return static_cast<InputImageType *>
-        (this->ProcessObject::GetInput(0).GetPointer());    }
+        (this->ProcessObject::GetInput(0));    }
   void SetInputImage(InputImageType *img)
     {  this->ProcessObject::SetNthInput(0, img); }
 
   /** Get/Set the labeled output image.  The output image is always of
     unsigned long integers. */
-  OutputImageTypePointer GetOutputImage()
+  OutputImageType * GetOutputImage(void)
     { return static_cast<OutputImageType *>
-        (this->ProcessObject::GetOutput(0).GetPointer()); }
+        (this->ProcessObject::GetOutput(0)); }
   void SetOutputImage(OutputImageType *img)
     { this->ProcessObject::SetNthOutput(0, img);    }
   
   /** Get/Set the segment table.  The segment table is a table of segmentation
    * information identifying each region produced by the labeling algorithm. */ 
-  SegmentTableTypePointer GetSegmentTable()
+  SegmentTableType * GetSegmentTable(void)
     { return static_cast<SegmentTableType *>
-        (this->ProcessObject::GetOutput(1).GetPointer()); }
+        (this->ProcessObject::GetOutput(1)); }
   void SetSegmentTable(SegmentTableType *s)
     { this->ProcessObject::SetNthOutput(1, s); }
   
   /** Returns the boundary information data necessary only for data streaming
     applications.  */
-  BoundaryTypePointer GetBoundary()
+  BoundaryType * GetBoundary(void)
     { return static_cast<BoundaryType *>
-        (this->ProcessObject::GetOutput(2).GetPointer()); }
+        (this->ProcessObject::GetOutput(2)); }
   void SetBoundary(BoundaryType *b)
     { this->ProcessObject::SetNthOutput(2,b); }
   

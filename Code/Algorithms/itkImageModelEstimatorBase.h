@@ -87,16 +87,17 @@ public:
     MembershipFunctionPointerVector;
 
   /** Type definitions for the training image. */
+  typedef          TInputImage          InputImageType;
   typedef typename TInputImage::Pointer InputImagePointer;
 
   /** Type definitions for the training image. */
   //typedef typename TTrainingImage::Pointer TrainingImagePointer;
 
   /** Set the input image. */
-  itkSetMacro(InputImage,InputImagePointer);
+  itkSetObjectMacro(InputImage,InputImageType);
 
   /** Get the input image. */
-  itkGetMacro(InputImage,InputImagePointer);
+  itkGetObjectMacro(InputImage,InputImageType);
 
   /** Set the classified image. */
   void SetMembershipFunctions(MembershipFunctionPointerVector 

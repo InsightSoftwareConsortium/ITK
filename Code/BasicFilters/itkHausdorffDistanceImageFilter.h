@@ -100,11 +100,11 @@ public:
   void SetInput2( const InputImage2Type * image );
 
   /** Get the first input. */
-  InputImage1ConstPointer GetInput1()
+  const InputImage1Type * GetInput1(void)
     { return this->GetInput(); }
   
   /** Get the second input. */
-  InputImage2ConstPointer GetInput2();
+  const InputImage2Type * GetInput2(void);
   
   /** Return the computed Hausdorff distance. */
   itkGetMacro(HausdorffDistance,RealType);

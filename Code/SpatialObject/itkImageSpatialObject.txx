@@ -120,7 +120,7 @@ namespace itk
   template< unsigned int NDimensions, class TransformType, class PixelType >
   void
   ImageSpatialObject< NDimensions, TransformType, PixelType >
-  ::SetImage( ImageSpatialObject< NDimensions, TransformType, PixelType >::ImagePointer image )
+  ::SetImage( ImageSpatialObject< NDimensions, TransformType, PixelType >::ImageType * image )
   {
     m_Image = image;
     m_Image->Modified();
@@ -128,11 +128,11 @@ namespace itk
   }
 
   template< unsigned int NDimensions, class TransformType, class PixelType >
-  ImageSpatialObject< NDimensions, TransformType, PixelType >::ImagePointer
+  ImageSpatialObject< NDimensions, TransformType, PixelType >::ImageType *
   ImageSpatialObject< NDimensions, TransformType, PixelType >
   ::GetImage( void )
   {
-    return m_Image;
+    return m_Image.GetPointer();
   }
 
   template< unsigned int NDimensions, class TransformType, class PixelType >

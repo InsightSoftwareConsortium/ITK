@@ -47,13 +47,13 @@ SimilarityIndexImageFilter<TInputImage1, TInputImage2>
 
 
 template<class TInputImage1, class TInputImage2>
-SimilarityIndexImageFilter<TInputImage1, TInputImage2>
-::InputImage2ConstPointer
+const SimilarityIndexImageFilter<TInputImage1, TInputImage2>
+::InputImage2Type *
 SimilarityIndexImageFilter<TInputImage1, TInputImage2>
 ::GetInput2()
 {
   return static_cast< const TInputImage2 * >
-                     (this->ProcessObject::GetInput(1).GetPointer());
+                     (this->ProcessObject::GetInput(1));
 }
 
 
@@ -69,13 +69,13 @@ SimilarityIndexImageFilter<TInputImage1, TInputImage2>
   if ( this->GetInput1() )
     {
     InputImage1Pointer image =
-        const_cast< InputImage1Type * >( this->GetInput1().GetPointer() );
+        const_cast< InputImage1Type * >( this->GetInput1() );
     image->SetRequestedRegionToLargestPossibleRegion();
     }
   if ( this->GetInput2() )
     {
     InputImage2Pointer image =
-        const_cast< InputImage2Type * >( this->GetInput2().GetPointer() );
+        const_cast< InputImage2Type * >( this->GetInput2() );
     image->SetRequestedRegionToLargestPossibleRegion();
     }
 }
@@ -98,7 +98,7 @@ SimilarityIndexImageFilter<TInputImage1, TInputImage2>
 {
   // Pass the first input through as the output
   InputImage1Pointer image =
-      const_cast< TInputImage1 * >( this->GetInput1().GetPointer() );
+      const_cast< TInputImage1 * >( this->GetInput1() );
   this->GraftOutput( image );
 }
 

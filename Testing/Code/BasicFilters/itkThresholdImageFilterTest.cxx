@@ -90,7 +90,7 @@ int itkThresholdImageFilterTest(int, char**)
   os->rdbuf()->freeze(0);
   delete os;
   os = new std::ostrstream();
-  *os << "Output #0: " << threshold->GetOutput(0).GetPointer() << std::ends;
+  *os << "Output #0: " << threshold->GetOutput(0) << std::ends;
   itk::OutputWindow::GetInstance()->DisplayText( os->str() );
   os->rdbuf()->freeze(0);
   delete os;
@@ -118,7 +118,7 @@ int itkThresholdImageFilterTest(int, char**)
   os->rdbuf()->freeze(0);
   delete os;
   os = new std::ostrstream();
-  *os << "Output #0: " << threshold->GetOutput(0).GetPointer() << std::ends;
+  *os << "Output #0: " << threshold->GetOutput(0) << std::ends;
   itk::OutputWindow::GetInstance()->DisplayText( os->str() );
   os->rdbuf()->freeze(0);
   delete os;
@@ -148,7 +148,7 @@ int itkThresholdImageFilterTest(int, char**)
   os->rdbuf()->freeze(0);
   delete os;
   os = new std::ostrstream();
-  *os << "Output #0: " << threshold->GetOutput(0).GetPointer() << std::ends;
+  *os << "Output #0: " << threshold->GetOutput(0) << std::ends;
   itk::OutputWindow::GetInstance()->DisplayText( os->str() );
   os->rdbuf()->freeze(0);
   delete os;

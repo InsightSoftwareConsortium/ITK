@@ -85,13 +85,13 @@ public:
   void SetBoundaryA(BoundaryType *bd)
     { this->ProcessObject::SetNthInput(0, bd); }
   typename BoundaryType::Pointer GetBoundaryA()
-    { return static_cast<BoundaryType *>(this->GetInput(0).GetPointer());  }
+    { return static_cast<BoundaryType *>(this->GetInput(0));  }
   
   /** Set/Get the second of two boundaries that are to be resolved.  */
   void SetBoundaryB(BoundaryType *bd)
     { this->ProcessObject::SetNthInput(1, bd); }
   typename BoundaryType::Pointer GetBoundaryB()
-    { return static_cast<BoundaryType *>(this->GetInput(1).GetPointer());  }
+    { return static_cast<BoundaryType *>(this->GetInput(1));  }
   
   /**  Set/Get the face of the boundary object that we are going to
        resolve. */
@@ -105,7 +105,7 @@ public:
     { this->ProcessObject::SetNthOutput(0, a.GetPointer()); }
   EquivalencyTableType::Pointer GetEquivalencyTable()
     { return static_cast<EquivalencyTableType *>
-        (this->ProcessObject::GetOutput(0).GetPointer()); }
+        (this->ProcessObject::GetOutput(0)); }
 
   /** Standard non-threaded pipeline method */
   void GenerateData();

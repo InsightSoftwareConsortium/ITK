@@ -89,7 +89,7 @@ namespace itk
 
   float 
   TubePoint
-  ::GetRadius( void ) 
+  ::GetRadius( void ) const 
   {
     return m_R;
   }
@@ -103,7 +103,7 @@ namespace itk
 
   float 
   TubePoint
-  ::GetMedialness( void ) 
+  ::GetMedialness( void ) const 
   {
     return m_Medialness;
   }
@@ -117,7 +117,7 @@ namespace itk
 
   float 
   TubePoint
-  ::GetRidgeness( void ) 
+  ::GetRidgeness( void ) const
   {
     return m_Ridgeness;
   }
@@ -131,7 +131,7 @@ namespace itk
 
   float 
   TubePoint
-  ::GetBranchness( void ) 
+  ::GetBranchness( void ) const
   {
     return m_Branchness;
   }
@@ -145,7 +145,7 @@ namespace itk
 
   bool 
   TubePoint::
-  GetMark( void ) 
+  GetMark( void ) const
   {
     return m_Mark;
   }
@@ -159,14 +159,14 @@ namespace itk
 
   unsigned short int 
   TubePoint
-  ::GetNumDimensions( void ) 
+  ::GetNumDimensions( void ) const
   {
     return m_NumDimensions;
   }
 
   TubePoint::PointType 
   TubePoint
-  ::GetCenterLinePoint( void ) 
+  ::GetCenterLinePoint( void ) const
   {
     return m_X;
   }
@@ -302,7 +302,7 @@ namespace itk
 
   float 
   TubePoint
-  ::GetAlpha1( void ) 
+  ::GetAlpha1( void ) const
   {
     return m_Alpha1;
   }
@@ -316,7 +316,7 @@ namespace itk
 
   float 
   TubePoint
-  ::GetAlpha2( void ) 
+  ::GetAlpha2( void ) const
   {
     return m_Alpha2;
   }
@@ -330,7 +330,7 @@ namespace itk
 
   float 
   TubePoint
-  ::GetAlpha3( void ) 
+  ::GetAlpha3( void ) const
   {
     return m_Alpha3;
   }

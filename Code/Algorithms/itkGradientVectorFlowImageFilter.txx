@@ -191,9 +191,11 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage>
   
   PixelType m_vec, c_vec;
 
-  int i, j;
+  int i;
+  int j;
 
-  double b, c[ImageDimension], r;
+  double b; 
+  double r;
 
   outputIt.GoToBegin();
   intermediateIt.GoToBegin();

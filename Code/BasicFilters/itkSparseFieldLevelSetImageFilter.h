@@ -122,7 +122,7 @@ public:
   /**
    * Get the number of inside/outside layers
    */
-  int GetNumberOfLayers()
+  int GetNumberOfLayers(void)
     {
       return this->m_NumberOfLayers;
     }

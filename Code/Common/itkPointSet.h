@@ -155,11 +155,11 @@ public:
    * Methods also exist to add points, cells, etc. one at a time
    * rather than through an entire container. */
   void SetPoints(PointsContainer*);
-  PointsContainerPointer GetPoints(void);
-  PointsContainerConstPointer GetPoints(void) const;
+  PointsContainer * GetPoints(void);
+  const PointsContainer * GetPoints(void) const;
   void SetPointData(PointDataContainer*);
-  PointDataContainerPointer GetPointData(void);
-  PointDataContainerConstPointer GetPointData(void) const;
+  PointDataContainer * GetPointData(void);
+  const PointDataContainer * GetPointData(void) const;
   
   /** Access routines to fill the Points container, and get information
    * from it. */

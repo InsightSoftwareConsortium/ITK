@@ -78,7 +78,7 @@ public:
   /** 
   * Return a pointer to the point object.
   */
-  PointType GetCenterLinePoint( void );
+  PointType GetCenterLinePoint( void ) const;
 
   /** 
   * Set the point object. Couldn't use macros for these methods.
@@ -114,55 +114,55 @@ public:
   void SetV2(const double v20, const double v21, const double v22);
 
   /** Get R */
-  float GetRadius( void );
+  float GetRadius( void ) const;
 
   /** Set R */
   void SetRadius(const float newR);
 
   /** Get Medialness */
-  float GetMedialness( void );
+  float GetMedialness( void ) const;
 
   /** Set Medialness */
   void SetMedialness(const float newMedialness);
 
   /** Get Ridgeness */
-  float GetRidgeness( void );
+  float GetRidgeness( void ) const;
 
   /** Set Ridgeness */
   void SetRidgeness(const float newRidgeness);
 
   /** Get Branchness */
-  float GetBranchness( void );
+  float GetBranchness( void ) const;
 
   /** Set Branchness */
   void SetBranchness(const float newBranchness);
 
   /** Get Mark */
-  bool GetMark( void );
+  bool GetMark( void ) const;
 
   /** Set Mark */
   void SetMark(const bool newMark);
 
   /** Get Alpha1 */
-  float GetAlpha1( void );
+  float GetAlpha1( void ) const;
 
   /** Set Alpha1 */
   void SetAlpha1(const float newAlpha);
 
   /** Get Alpha2 */
-  float GetAlpha2( void );
+  float GetAlpha2( void ) const;
 
   /** Set Alpha2 */
   void SetAlpha2(const float newAlpha);
 
   /** Get Alpha3 */
-  float GetAlpha3( void );
+  float GetAlpha3( void ) const;
 
   /** Set Alpha3 */
   void SetAlpha3(const float newAlpha);
 
   /** Get # of dimensions */
-  unsigned short int GetNumDimensions( void );
+  unsigned short int GetNumDimensions( void ) const;
 
   /** Print info about this tubepoint */
   //std::ostream & operator << (std::ostream & os, TubePoint & tubePoint);

@@ -17,7 +17,7 @@
 #ifndef __itkImageToMeshFilter_h
 #define __itkImageToMeshFilter_h
 
-#include "itkProcessObject.h"
+#include "itkMeshSource.h"
 
 namespace itk
 {
@@ -32,20 +32,18 @@ namespace itk
  * \ingroup ImageFilters
  */
 template <class TInputImage, class TOutputMesh>
-class ITK_EXPORT ImageToMeshFilter : public ProcessObject
+class ITK_EXPORT ImageToMeshFilter : public MeshSource<TOutputMesh>
 {
 public:
   /** Standard class typedefs. */
   typedef ImageToMeshFilter  Self;
-  typedef  ProcessObject  Superclass;
+  typedef MeshSource<TOutputMesh>  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToMeshFilter, ProcessObject);
+  itkTypeMacro(ImageToMeshFilter, MeshSource);
 
   /** Create a valid output. */
   DataObject::Pointer  MakeOutput(unsigned int idx);
@@ -65,10 +63,10 @@ public:
   void SetInput(unsigned int idx, const InputImageType *input);
 
   /** Get the input image of this process object.  */
-  InputImageConstPointer GetInput(unsigned int idx);
+  const InputImageType * GetInput(unsigned int idx);
 
   /** Get the output Mesh of this process object.  */
-  OutputMeshPointer GetOutput(void);
+  OutputMeshType * GetOutput(void);
 
   /** Prepare the output */
   void GenerateOutputInformation(void);

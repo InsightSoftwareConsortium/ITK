@@ -49,13 +49,13 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
 
 
 template<class TInputImage1, class TInputImage2>
-DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
-::InputImage2ConstPointer
+const DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
+::InputImage2Type *
 DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
 ::GetInput2()
 {
   return static_cast< const TInputImage2 * >
-                     (this->ProcessObject::GetInput(1).GetPointer());
+                     (this->ProcessObject::GetInput(1));
 }
 
 
@@ -71,13 +71,13 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
   if ( this->GetInput1() )
     {
     InputImage1Pointer image =
-        const_cast< InputImage1Type * >( this->GetInput1().GetPointer() );
+        const_cast< InputImage1Type * >( this->GetInput1() );
     image->SetRequestedRegionToLargestPossibleRegion();
     }
   if ( this->GetInput2() )
     {
     InputImage2Pointer image =
-        const_cast< InputImage2Type * >( this->GetInput2().GetPointer() );
+        const_cast< InputImage2Type * >( this->GetInput2() );
     image->SetRequestedRegionToLargestPossibleRegion();
     }
 }
@@ -100,7 +100,7 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
 {
   // Pass the first input through as the output
   InputImage1Pointer image =
-      const_cast< TInputImage1 * >( this->GetInput1().GetPointer() );
+      const_cast< TInputImage1 * >( this->GetInput1() );
   this->GraftOutput( image );
 }
 
@@ -166,7 +166,7 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
                        int threadId) 
 {
 
-  ImageRegionConstIterator<TInputImage1> it1 (this->GetInput1().GetPointer(), regionForThread);
+  ImageRegionConstIterator<TInputImage1> it1 (this->GetInput1(), regionForThread);
   ImageRegionConstIterator<DistanceMapType> it2 (m_DistanceMap, regionForThread);
   
   // support progress methods/callbacks

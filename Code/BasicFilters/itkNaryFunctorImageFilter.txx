@@ -79,8 +79,8 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>
       inputNumber < numberOfInputImages; inputNumber++ )
     {
     // We use dynamic_cast since inputs are stored as DataObjects.  
-    InputImagePointer inputPtr = dynamic_cast<TInputImage*>(
-                      (ProcessObject::GetInput( inputNumber )).GetPointer());
+    InputImagePointer inputPtr = 
+          dynamic_cast<TInputImage*>( ProcessObject::GetInput( inputNumber ) );
 
     ImageRegionIterator<TInputImage> inputIt(inputPtr, outputRegionForThread);
 

@@ -83,7 +83,7 @@ ImageToImageFilter<TInputImage,TOutputImage>
  *
  */
 template <class TInputImage, class TOutputImage>
-ImageToImageFilter<TInputImage,TOutputImage>::InputImageConstPointer
+const ImageToImageFilter<TInputImage,TOutputImage>::InputImageType *
 ImageToImageFilter<TInputImage,TOutputImage>
 ::GetInput(void) 
 {
@@ -93,19 +93,19 @@ ImageToImageFilter<TInputImage,TOutputImage>
     }
   
   return static_cast<const TInputImage * >
-                     (this->ProcessObject::GetInput(0).GetPointer());
+                     (this->ProcessObject::GetInput(0) );
 }
   
 /**
  *
  */
 template <class TInputImage, class TOutputImage>
-ImageToImageFilter<TInputImage,TOutputImage>::InputImageConstPointer
+const ImageToImageFilter<TInputImage,TOutputImage>::InputImageType *
 ImageToImageFilter<TInputImage,TOutputImage>
 ::GetInput(unsigned int idx)
 {
   return static_cast< const TInputImage * >
-                     (this->ProcessObject::GetInput(idx).GetPointer());
+                     (this->ProcessObject::GetInput(idx));
 }
 
 
@@ -124,7 +124,7 @@ ImageToImageFilter<TInputImage,TOutputImage>
     if (this->GetInput(idx))
       {
       InputImagePointer input =
-        const_cast< TInputImage * > ( this->GetInput(idx).GetPointer() );
+        const_cast< TInputImage * > ( this->GetInput(idx) );
 
       // Use the function object RegionCopier to copy the output region
       // to the input.  The default region copier has default implementations

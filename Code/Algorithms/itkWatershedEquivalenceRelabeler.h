@@ -74,10 +74,10 @@ public:
   /** Set/Get the image to relabel.   */
   void SetInputImage(ImageType *img)
     {      this->ProcessObject::SetNthInput(0, img);    }
-  typename ImageType::Pointer GetInputImage()
+  const ImageType * GetInputImage(void)
     {
       return static_cast<ImageType *>
-        (this->ProcessObject::GetInput(0).GetPointer());
+        (this->ProcessObject::GetInput(0));
     }
 
   /** Set/Get the output image */
@@ -87,7 +87,7 @@ public:
     }
   typename ImageType::Pointer GetOutputImage()
     { return static_cast<ImageType *>
-        (this->ProcessObject::GetOutput(0).GetPointer()); }
+        (this->ProcessObject::GetOutput(0)); }
   
   /** Set/Get the table to use in relabeling the input image.   */
   void SetEquivalencyTable(EquivalencyTableType *et)
@@ -97,7 +97,7 @@ public:
   EquivalencyTableType::Pointer GetEquivalencyTable()
     {
       return static_cast<EquivalencyTableType *>
-        (this->ProcessObject::GetInput(1).GetPointer());
+        (this->ProcessObject::GetInput(1));
     }
 
   /** Standard non-threaded pipeline method */

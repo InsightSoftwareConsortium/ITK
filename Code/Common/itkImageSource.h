@@ -62,8 +62,8 @@ public:
   typedef typename OutputImageType::PixelType OutputImagePixelType;
     
   /** Get the image output of this process object.  */
-  OutputImagePointer GetOutput();
-  OutputImagePointer GetOutput(unsigned int idx);
+  OutputImageType * GetOutput(void);
+  OutputImageType * GetOutput(unsigned int idx);
   
   /** Set the image output of this process object. This call is slated
    * to be removed from ITK. You should GraftOutput() and possible

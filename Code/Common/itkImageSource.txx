@@ -56,7 +56,7 @@ ImageSource<TOutputImage>
  *
  */
 template<class TOutputImage>
-ImageSource<TOutputImage>::OutputImagePointer 
+ImageSource<TOutputImage>::OutputImageType * 
 ImageSource<TOutputImage>
 ::GetOutput()
 {
@@ -66,7 +66,7 @@ ImageSource<TOutputImage>
     }
   
   return static_cast<TOutputImage*>
-                     (this->ProcessObject::GetOutput(0).GetPointer());
+                     (this->ProcessObject::GetOutput(0));
 }
 
   
@@ -74,12 +74,12 @@ ImageSource<TOutputImage>
  *
  */
 template<class TOutputImage>
-ImageSource<TOutputImage>::OutputImagePointer 
+ImageSource<TOutputImage>::OutputImageType *
 ImageSource<TOutputImage>
 ::GetOutput(unsigned int idx)
 {
   return static_cast<TOutputImage*>
-                     (this->ProcessObject::GetOutput(idx).GetPointer());
+                     (this->ProcessObject::GetOutput(idx));
 }
 
 
@@ -118,7 +118,7 @@ ImageSource<TOutputImage>
 {
   if (idx < this->GetNumberOfOutputs())
     {
-    OutputImagePointer output = this->GetOutput(idx);
+    OutputImageType * output = this->GetOutput(idx);
 
     if (output && graft)
       {
@@ -143,7 +143,7 @@ ImageSource<TOutputImage>
 ::SplitRequestedRegion(int i, int num, OutputImageRegionType& splitRegion)
 {
   // Get the output pointer
-  OutputImagePointer outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
   const typename TOutputImage::SizeType& requestedRegionSize 
     = outputPtr->GetRequestedRegion().GetSize();
 

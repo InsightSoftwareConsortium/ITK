@@ -198,7 +198,7 @@ public:
   itkGetMacro(MaxSplitAttempts,int);
 
   /** Return the codebook/cluster centers. */
-  CodebookMatrixOfDoubleType GetKmeansResults()
+  CodebookMatrixOfDoubleType GetKmeansResults(void)
     { return m_Centroid; }
 
 protected: 

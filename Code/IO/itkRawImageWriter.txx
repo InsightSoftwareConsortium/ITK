@@ -101,9 +101,15 @@ RawImageWriter<TInputImage>
   
   // Update the input
   //
-  typename TInputImage::Pointer input=this->GetInput();
-  input->SetRequestedRegionToLargestPossibleRegion();
-  input->Update();
+  const TInputImage * input=this->GetInput();
+
+  {
+  // This is neede because of the lack of const-correctness 
+  // of the ProcessObject/DataObject
+  TInputImage * nonConstInput = const_cast<TInputImage*>( input );
+  nonConstInput->SetRequestedRegionToLargestPossibleRegion();
+  nonConstInput->Update();
+  }
 
   // Open the file
   //

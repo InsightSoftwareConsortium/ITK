@@ -989,7 +989,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   // set the input requested region to the LargestPossibleRegion
   {
   InputImagePointer input =
-            const_cast< InputImageType * >( this->GetInput().GetPointer() );
+            const_cast< InputImageType * >( this->GetInput() );
   input->SetRequestedRegion( this->GetInput()->GetLargestPossibleRegion() );
   }
 }

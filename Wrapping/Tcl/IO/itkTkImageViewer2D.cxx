@@ -32,7 +32,7 @@ TkImageViewer2D::TkImageViewer2D()
   axes[1] = true;
   m_FlipFilter->SetFlipAxes(axes);
   m_RescaleFilter = RescaleFilter::New();
-  m_RescaleFilter->SetInput(m_FlipFilter->GetOutput().GetPointer());
+  m_RescaleFilter->SetInput(m_FlipFilter->GetOutput());
   m_RescaleFilter->SetOutputMinimum(0);
   m_RescaleFilter->SetOutputMaximum(255);
 }
@@ -86,7 +86,7 @@ void TkImageViewer2D::SetInput(InputImageType* image)
 //----------------------------------------------------------------------------
 TkImageViewer2D::InputImageType* TkImageViewer2D::GetInput()
 {
-  DataObject* input = this->Superclass::GetInput(0).GetPointer();
+  DataObject* input = this->Superclass::GetInput(0);
   return dynamic_cast<InputImageType*>(input);
 }
 

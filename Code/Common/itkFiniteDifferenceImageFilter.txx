@@ -28,7 +28,7 @@ void
 FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 ::CopyInputToOutput()
 {
-  typename TInputImage::ConstPointer  input  = this->GetInput().GetPointer();
+  typename TInputImage::ConstPointer  input  = this->GetInput();
   typename TOutputImage::Pointer      output = this->GetOutput();
   
   ImageRegionConstIterator<TInputImage>  in(input, output->GetRequestedRegion());
@@ -94,7 +94,7 @@ FiniteDifferenceImageFilter<TInputImage,TOutputImage>
 
   // get pointers to the input
   InputImagePointer  inputPtr  = 
-    const_cast< TInputImage * >( this->GetInput().GetPointer() );
+    const_cast< TInputImage * >( this->GetInput());
 
   if ( !inputPtr )
     {

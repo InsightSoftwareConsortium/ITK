@@ -207,14 +207,14 @@ public:
   itkGetMacro(Level, double);
 
   /** Get the basic segmentation from the Segmenter member filter. */
-  typename watershed::Segmenter<InputImageType>::OutputImageTypePointer
+  typename watershed::Segmenter<InputImageType>::OutputImageType *
   GetBasicSegmentation()
     {
       return m_Segmenter->GetOutputImage();
     }
 
   /** Get the segmentation tree from from the TreeGenerator member filter. */
-  typename watershed::SegmentTreeGenerator<ScalarType>::SegmentTreeTypePointer
+  typename watershed::SegmentTreeGenerator<ScalarType>::SegmentTreeType *
   GetSegmentTree()
     {
       return m_TreeGenerator->GetOutputSegmentTree();

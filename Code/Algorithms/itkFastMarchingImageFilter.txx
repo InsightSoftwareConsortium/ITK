@@ -91,12 +91,12 @@ const SpeedImageType * ptr )
  *
  */
 template <class TLevelSet, class TSpeedImage>
-FastMarchingImageFilter<TLevelSet,TSpeedImage>
-::SpeedImageConstPointer
+const FastMarchingImageFilter<TLevelSet,TSpeedImage>
+::SpeedImageType *
 FastMarchingImageFilter<TLevelSet,TSpeedImage>
 ::GetSpeedImage()
 {
-  return this->GetInput().GetPointer();
+  return this->GetInput();
 }
 
 

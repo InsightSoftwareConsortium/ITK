@@ -973,7 +973,8 @@ BinaryMask3DMeshSource<TOutputMesh>
   int frame = m_ImageWidth * m_ImageHeight;
   int row = m_ImageWidth;
 
-  int i = 0, j, k;
+  int i = 0;
+  int j;
 
   while ( i < frame ) {
     ++it3;
@@ -1045,7 +1046,6 @@ void
 BinaryMask3DMeshSource<TOutputMesh>
 ::AddCells( unsigned char celltype, unsigned char celltran, int index )
 {
-  unsigned char activenodes[14];
   int i;  
 
 //  if (m_NumberOfCells > 1365)
@@ -2303,26 +2303,40 @@ BinaryMask3DMeshSource<TOutputMesh>
 ::SearchThroughLastRow( int index, int start, int end )
 {
   int mid;
-  if ( (end - start) > 1 ) {
-    mid = floor(static_cast<float>((start + end)/2));
-    if ( index == m_LastRow[mid][0] ) {
+  unsigned long lindex = static_cast<unsigned long>( index );
+  if ( (end - start) > 1 ) 
+    {
+    mid = static_cast<int>( floor(static_cast<float>((start + end)/2)) );
+    if ( lindex == m_LastRow[mid][0] ) 
+      {
       m_PointFound = 1;
       return m_LastRow[mid][1];
+      }
+    else 
+      {
+      if( lindex > m_LastRow[mid][0] )
+         {
+         return this->SearchThroughLastRow(index, mid+1, end);
+         }
+      else 
+         {
+         return this->SearchThroughLastRow(index, start, mid);
+         }
+      }
     }
-    else {
-      if ( index > m_LastRow[mid][0] ) return this->SearchThroughLastRow(index, mid+1, end);
-      else return this->SearchThroughLastRow(index, start, mid);
-    }
-  } else {
-    if ( index == m_LastRow[start][0] ) {
+   else 
+    {
+    if ( lindex == m_LastRow[start][0] ) 
+      {
       m_PointFound = 1;
       return m_LastRow[start][1];
-    }
-    if ( index == m_LastRow[end][0] ) {
+      }
+    if ( lindex == m_LastRow[end][0] )
+      {
       m_PointFound = 1;  
       return m_LastRow[end][1];
-    }
-  } 
+      }
+    } 
   return 0;
 }
 
@@ -2332,27 +2346,43 @@ BinaryMask3DMeshSource<TOutputMesh>
 ::SearchThroughLastFrame( int index, int start, int end )
 {
   int mid;
-  if ( (end - start) > 1 ) {
-    mid = floor(static_cast<float>((start + end)/2));
-    if ( index == m_LastFrame[mid][0] ) {
+  unsigned long lindex = static_cast<unsigned long>( index );
+  unsigned long result = 0;
+  if ( (end - start) > 1 ) 
+    {
+    mid = static_cast<int>( floor(static_cast<float>((start + end)/2)) );
+    if ( lindex == m_LastFrame[mid][0] ) 
+      {
       m_PointFound = 1;
-      return m_LastFrame[mid][1];
-    }
-    else {
-      if ( index > m_LastFrame[mid][0] ) return this->SearchThroughLastFrame(index, mid+1, end);
-      else return this->SearchThroughLastFrame(index, start, mid);
-    }
-  } else {
-    if ( index == m_LastFrame[start][0] ) {
+      result = m_LastFrame[mid][1];
+      }
+    else 
+      {
+      if ( lindex > m_LastFrame[mid][0] ) 
+        {
+        result = this->SearchThroughLastFrame(index, mid+1, end);
+        }
+      else 
+        {
+        result = this->SearchThroughLastFrame(index, start, mid);
+        }
+      }
+    } 
+  else 
+    {
+    if ( lindex == m_LastFrame[start][0] ) 
+      {
       m_PointFound = 1;
-      return m_LastFrame[start][1];
-    }
-    if ( index == m_LastFrame[end][0] ) {
+      result = m_LastFrame[start][1];
+      }
+    if ( lindex == m_LastFrame[end][0] ) 
+      {
       m_PointFound = 1;      
-      return m_LastFrame[end][1];
-    }
-  } 
-}
+      result = m_LastFrame[end][1];
+      }
+    } 
+  return result;
+  }
 
 template<class TOutputMesh>
 void

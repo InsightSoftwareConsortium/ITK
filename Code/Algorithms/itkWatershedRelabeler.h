@@ -91,10 +91,10 @@ public:
     {
       this->ProcessObject::SetNthInput(0, img);
     }
-  typename ImageType::Pointer GetInputImage()
+  ImageType * GetInputImage(void)
     {
       return static_cast<ImageType *>
-        (this->ProcessObject::GetInput(0).GetPointer());
+        (this->ProcessObject::GetInput(0) );
     }
 
   /** Set/Get the output image */
@@ -102,19 +102,19 @@ public:
     {
       this->ProcessObject::SetNthOutput(0,img);
     }
-  typename ImageType::Pointer GetOutputImage()
+  ImageType * GetOutputImage(void)
     { return static_cast<ImageType *>
-        (this->ProcessObject::GetOutput(0).GetPointer()); }
+        (this->ProcessObject::GetOutput(0) ); }
 
   /** Set/Get the input tree that defines segment merges */
   void SetInputSegmentTree(SegmentTreeType *et)
     {
       this->ProcessObject::SetNthInput(1, et);
     }
-  typename SegmentTreeType::Pointer GetInputSegmentTree()
+  SegmentTreeType * GetInputSegmentTree(void)
     {
       return static_cast<SegmentTreeType *>
-        (this->ProcessObject::GetInput(1).GetPointer());
+        (this->ProcessObject::GetInput(1));
     }
 
   /** Standard non-threaded pipeline method */

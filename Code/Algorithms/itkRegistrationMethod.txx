@@ -51,7 +51,7 @@ RegistrationMethod<TTraits>
 
 
 template <class TTraits>
-typename RegistrationMethod<TTraits>::ReferenceConstPointer
+const typename RegistrationMethod<TTraits>::ReferenceType *
 RegistrationMethod<TTraits>
 ::GetReference( void )
 {
@@ -63,7 +63,7 @@ RegistrationMethod<TTraits>
  * Get Target 
  */
 template <class TTraits>
-typename RegistrationMethod<TTraits>::TargetConstPointer
+const typename RegistrationMethod<TTraits>::TargetType *
 RegistrationMethod< TTraits >
 ::GetTarget( void )
 {

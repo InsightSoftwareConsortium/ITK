@@ -139,13 +139,13 @@ public:
   virtual void SetFixedImage( const FixedImageType * ptr );
 
   /** Get the fixed image. */
-  FixedImageConstPointer GetFixedImage(void);
+  const FixedImageType * GetFixedImage(void);
 
   /** Set the moving image. */
   virtual void SetMovingImage( const MovingImageType * ptr );
 
   /** Get the moving image. */
-  MovingImageConstPointer GetMovingImage(void);
+  const MovingImageType * GetMovingImage(void);
 
   /** Set initial deformation field. */
   virtual void SetInitialDeformationField( DeformationFieldType * ptr )
@@ -155,7 +155,7 @@ public:
     }
 
   /** Get output deformation field. */
-  DeformationFieldPointer GetDeformationField()
+  const DeformationFieldType * GetDeformationField(void)
     { return this->GetOutput(); }
 
   /** Set the internal registrator. */

@@ -87,10 +87,10 @@ public:
   itkSetObjectMacro( Metric, MetricType );
 
   /** Get the reference. */
-  ReferenceConstPointer GetReference( void );
+  const ReferenceType * GetReference( void );
 
   /** Get the target. */
-  TargetConstPointer     GetTarget( void );
+  const TargetType *  GetTarget( void );
 
   /** Get the optimizer. */
   itkGetObjectMacro( Optimizer, OptimizerType );

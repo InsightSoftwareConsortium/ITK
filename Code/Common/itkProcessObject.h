@@ -294,7 +294,7 @@ public:
   itkGetConstReferenceMacro( NumberOfThreads, int );
   
   /** Return the multithreader used by this class. */
-  MultiThreader::Pointer GetMultiThreader()
+  MultiThreader * GetMultiThreader()
     {return m_Threader;}
 
 protected:
@@ -325,13 +325,13 @@ protected:
   void SetNumberOfInputs(unsigned int num);
 
   /** Method used internally for getting an input. */
-  DataObjectPointer GetInput(unsigned int idx);
+  DataObject * GetInput(unsigned int idx);
 
   /** Called to allocate the output array.  Copies old outputs. */
   void SetNumberOfOutputs(unsigned int num);
 
   /** Method used internally for getting an output. */
-  DataObjectPointer GetOutput(unsigned int idx);
+  DataObject * GetOutput(unsigned int idx);
 
   /** Propagate a call to ResetPipeline() up the pipeline. Called only from
    * DataObject. */

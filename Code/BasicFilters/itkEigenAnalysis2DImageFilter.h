@@ -87,14 +87,14 @@ public:
   void SetInput3( TInputImage * image3);
 
   /** Get the Output image with the greatest eigenvalue */
-  EigenValueImagePointer GetMaxEigenValue( void );
+  EigenValueImageType * GetMaxEigenValue( void );
 
   /** Get the Output image with the smallest eigenvalue */
-  EigenValueImagePointer GetMinEigenValue( void );
+  EigenValueImageType * GetMinEigenValue( void );
 
   /** Get the Output image with the eigen vector associated with
    * the greatest eigen value */
-  EigenVectorImagePointer GetMaxEigenVector( void );
+  EigenVectorImageType * GetMaxEigenVector( void );
 
   /**  Create the Output */
   DataObject::Pointer MakeOutput(unsigned int idx);

@@ -70,15 +70,15 @@ public:
   bool DoCoreAtomEigenanalysis();
 
   /** Get the mean core atom diameter. */
-  double GetMeanCoreAtomDiameter() 
+  double GetMeanCoreAtomDiameter(void) 
     { return m_MeanCoreAtomDiameter; }
 
   /** Get eigenvalues. */
-  TEigenvalueType GetEigenvalues() 
+  TEigenvalueType GetEigenvalues(void) 
     { return m_Eigenvalues; }
 
   /** Get eigenvectors. */
-  TEigenvectorType GetEigenvectors() 
+  TEigenvectorType GetEigenvectors(void) 
     { return m_Eigenvectors; }
 
   BloxCoreAtomPixel();

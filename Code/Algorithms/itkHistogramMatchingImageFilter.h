@@ -97,12 +97,12 @@ public:
   /** Set/Get the source image. */
   void SetSourceImage( const InputImageType * source )
     { this->SetInput( source ); }
-  InputImageConstPointer GetSourceImage(void)
+  const InputImageType * GetSourceImage(void)
     { return this->GetInput(); }
 
   /** Set/Get the reference image. */
   void SetReferenceImage( const InputImageType * reference );
-  InputImageConstPointer GetReferenceImage(void);
+  const InputImageType * GetReferenceImage(void);
 
   /** Set/Get the number of histogram levels used. */
   itkSetMacro( NumberOfHistogramLevels, unsigned long );

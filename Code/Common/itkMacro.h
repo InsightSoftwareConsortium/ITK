@@ -151,10 +151,10 @@ namespace itk
 /** Get a smart pointer to an object.  Creates the member 
  * Get"name"() (e.g., GetPoints()). */
 #define itkGetObjectMacro(name,type) \
-  virtual typename type::Pointer Get##name () \
+  virtual type * Get##name () \
   { \
     itkDebugMacro("returning " #name " address " << this->m_##name ); \
-    return this->m_##name; \
+    return this->m_##name.GetPointer(); \
   } 
 
 /** Set const pointer to object; uses Object reference counting methodology.
@@ -176,10 +176,10 @@ namespace itk
 /** Get a smart const pointer to an object.  Creates the member 
  * Get"name"() (e.g., GetPoints()). */
 #define itkGetConstObjectMacro(name,type) \
-  virtual typename type::ConstPointer Get##name () const \
+  virtual const type * Get##name () const \
   { \
     itkDebugMacro("returning " #name " address " << this->m_##name ); \
-    return this->m_##name; \
+    return this->m_##name.GetPointer(); \
   } 
 
 /** Get a const reference to a smart pointer to an object.  

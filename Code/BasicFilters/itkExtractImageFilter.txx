@@ -134,7 +134,7 @@ ExtractImageFilter<TInputImage,TOutputImage>
   const ImageBase<InputImageDimension> *phyData;
 
   phyData
-    = dynamic_cast<const ImageBase<InputImageDimension>*>(this->GetInput().GetPointer());
+    = dynamic_cast<const ImageBase<InputImageDimension>*>(this->GetInput());
 
   if (phyData)
     {
@@ -148,7 +148,8 @@ ExtractImageFilter<TInputImage,TOutputImage>
     double outputSpacing[OutputImageDimension];
     double outputOrigin[OutputImageDimension];
 
-    if (OutputImageDimension > InputImageDimension)
+    if ( static_cast<unsigned int>(OutputImageDimension) > 
+         static_cast<unsigned int>(InputImageDimension )    )
       {
       // copy the input to the output and fill the rest of the
       // output with zeros.

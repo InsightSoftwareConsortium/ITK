@@ -110,20 +110,20 @@ public:
   void SetFixedImage( const FixedImageType * ptr );
 
   /** Get the fixed image. */
-  FixedImageConstPointer GetFixedImage(void);
+  const FixedImageType * GetFixedImage(void);
 
   /** Set the moving image. */
   void SetMovingImage( const MovingImageType * ptr );
 
   /** Get the moving image. */
-  MovingImageConstPointer GetMovingImage(void);
+  const MovingImageType * GetMovingImage(void);
 
   /** Set initial deformation field. */
   void SetInitialDeformationField( DeformationFieldType * ptr )
     { this->SetInput( ptr ); }
 
   /** Get output deformation field. */
-  DeformationFieldPointer GetDeformationField()
+  DeformationFieldType * GetDeformationField()
     { return this->GetOutput(); }
 
   /** Set the number of iterations to be performed. */
@@ -138,7 +138,7 @@ public:
   virtual void SetStandardDeviations( double value );
 
   /** Get the Gaussian smoothing standard deviations. */
-  const double * GetStandardDeviations() 
+  const double * GetStandardDeviations(void) 
     { return (double *) m_StandardDeviations; }
 
 protected:

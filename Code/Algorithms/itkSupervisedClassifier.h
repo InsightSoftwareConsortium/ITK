@@ -76,26 +76,28 @@ public:
   itkTypeMacro(SupervisedClassifier,Classifier);
 
   /** Type definition for the input image. */
-  typedef typename TInputImage::Pointer   InputImageType;
+  typedef          TInputImage              InputImageType;
+  typedef typename InputImageType::Pointer  InputImagePointer;
  
   /** Type definition for the vector associated with
    * input image pixel type. */     
   typedef typename TInputImage::PixelType InputImageVectorType;
 
   /** Type definitions for the training image. */
-  typedef typename TClassifiedImage::Pointer TrainingImageType;
+  typedef          TClassifiedImage             TrainingImageType;
+  typedef typename TrainingImageType::Pointer   TrainingImagePointer;
 
   /** Type definitions for the training image pixel type. */
-  typedef typename TClassifiedImage::Pointer ClassifiedImageType;      
+  typedef          TClassifiedImage              ClassifiedImageType;      
+  typedef typename ClassifiedImageType::Pointer  ClassifiedImagePointer;      
         
   /** Type definitions for the vector holding
    * training image pixel type. */
   typedef typename TClassifiedImage::PixelType TrainingImagePixelType;
 
   /** Set/Get the training image.  */
-  void SetTrainingImage ( TrainingImageType image );
-  TrainingImageType GetTrainingImage()
-    { return m_TrainingImage; }
+  void SetTrainingImage ( TrainingImageType * image );
+  itkGetObjectMacro( TrainingImage, TrainingImageType );
 
   /** A virtual function that generates the 
    * model based on the training input data
@@ -127,7 +129,7 @@ private:
   void operator=(const Self&); //purposely not implemented
   
   typedef typename TInputImage::SizeType InputImageSizeType;
-  TrainingImageType   m_TrainingImage;
+  TrainingImagePointer   m_TrainingImage;
 
 }; // class SupervisedClassifier
 

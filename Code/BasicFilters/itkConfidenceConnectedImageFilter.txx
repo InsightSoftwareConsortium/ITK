@@ -68,7 +68,7 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   if ( this->GetInput() )
     {
     InputImagePointer input =
-        const_cast< TInputImage * >( this->GetInput().GetPointer() );
+        const_cast< TInputImage * >( this->GetInput() );
     input->SetRequestedRegionToLargestPossibleRegion();
     }
 }

@@ -128,12 +128,12 @@ public:
     {    return *( this->GetCenterPointer() );  }
 
   /** Returns a smartpointer to the image on which this iterator operates. */
-  typename ImageType::ConstPointer GetImagePointer()
+  const ImageType * GetImagePointer(void)
     { return m_ConstImage; }
  
   /** Returns the N-dimensional index of the iterator's position in
    * the image. */
-  virtual IndexType GetIndex() const
+  virtual IndexType GetIndex(void) const
     { return m_Loop;  }
   
   /** Virtual function that "dereferences" a ConstNeighborhoodIterator,

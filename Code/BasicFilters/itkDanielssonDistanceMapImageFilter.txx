@@ -59,12 +59,12 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
  */
 template <class TInputImage,class TOutputImage>
 DanielssonDistanceMapImageFilter<
-              TInputImage,TOutputImage>::OutputImagePointer 
+              TInputImage,TOutputImage>::OutputImageType * 
 DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
-::GetDistanceMap()
+::GetDistanceMap(void)
 {
   return  dynamic_cast< OutputImageType * >(
-                  this->ProcessObject::GetOutput(0).GetPointer() );
+                  this->ProcessObject::GetOutput(0) );
 }
 
 
@@ -76,12 +76,12 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
  */
 template <class TInputImage,class TOutputImage>
 DanielssonDistanceMapImageFilter<
-         TInputImage,TOutputImage>::OutputImagePointer 
+         TInputImage,TOutputImage>::OutputImageType * 
 DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
-::GetVoronoiMap()
+::GetVoronoiMap(void)
 {
   return  dynamic_cast< OutputImageType * >(
-                  this->ProcessObject::GetOutput(1).GetPointer() );
+                  this->ProcessObject::GetOutput(1) );
 }
 
 
@@ -94,12 +94,12 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
  */
 template <class TInputImage,class TOutputImage>
 DanielssonDistanceMapImageFilter<
-           TInputImage,TOutputImage>::VectorImagePointer 
+           TInputImage,TOutputImage>::VectorImageType * 
 DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
-::GetVectorDistanceMap()
+::GetVectorDistanceMap(void)
 {
   return  dynamic_cast< VectorImageType * >(
-                  this->ProcessObject::GetOutput(2).GetPointer() );
+                  this->ProcessObject::GetOutput(2) );
 }
 
 
@@ -113,14 +113,14 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 template <class TInputImage,class TOutputImage>
 void 
 DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
-::PrepareData() 
+::PrepareData(void) 
 {
   
   itkDebugMacro(<< "PrepareData Start");
   OutputImagePointer voronoiMap = GetVoronoiMap();
 
-  InputImagePointer  inputImage  = dynamic_cast<const TInputImage  *>(
-                                (ProcessObject::GetInput(  0 )).GetPointer());
+  InputImagePointer  inputImage  = 
+        dynamic_cast<const TInputImage  *>( ProcessObject::GetInput(0) );
 
   voronoiMap->SetLargestPossibleRegion( 
                   inputImage->GetLargestPossibleRegion() );

@@ -49,7 +49,7 @@ MedianImageFilter<TInputImage, TOutputImage>
   
   // get pointers to the input and output
   InputImagePointer inputPtr = 
-      const_cast< TInputImage * >( this->GetInput().GetPointer() );
+      const_cast< TInputImage * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
   
   if ( !inputPtr || !outputPtr )

@@ -104,7 +104,7 @@ public:
   virtual void SetInputImage( const InputImageType * ptr );
 
   /** Get the input image. */
-  InputImageConstPointer GetInputImage() const
+  const InputImageType * GetInputImage() const
     { return m_Image.GetPointer(); }
 
   /** Evaluate the function at specified Point position.

@@ -57,9 +57,9 @@ ImageFileWriter<TInputImage>
 
 //---------------------------------------------------------
 template <class TInputImage>
-ImageFileWriter<TInputImage>::InputImagePointer
+const ImageFileWriter<TInputImage>::InputImageType *
 ImageFileWriter<TInputImage>
-::GetInput()
+::GetInput(void)
 {
   if (this->GetNumberOfInputs() < 1)
     {
@@ -67,32 +67,37 @@ ImageFileWriter<TInputImage>
     }
   
   return static_cast<TInputImage*>
-                     (this->ProcessObject::GetInput(0).GetPointer());
+                     (this->ProcessObject::GetInput(0));
 }
   
 //---------------------------------------------------------
 template <class TInputImage>
-ImageFileWriter<TInputImage>::InputImagePointer
+const ImageFileWriter<TInputImage>::InputImageType *
 ImageFileWriter<TInputImage>
 ::GetInput(unsigned int idx)
 {
   return static_cast<TInputImage*>
-                     (this->ProcessObject::GetInput(idx).GetPointer());
+                     (this->ProcessObject::GetInput(idx));
 }
 
 //---------------------------------------------------------
 template <class TInputImage>
 void 
 ImageFileWriter<TInputImage>
-::Write()
+::Write(void)
 {
-  InputImagePointer input = this->GetInput();
+  const InputImageType * input = this->GetInput();
   if ( input == 0 )
     {
     itkExceptionMacro(<<"No input to writer!");
     return;
     }
-  input->Update();
+
+  
+  // This is required due to the lack of const-correctness of 
+  // the ProcessObject
+  InputImageType * nonConstInput = const_cast<InputImageType*>( input );
+  nonConstInput->Update();
 
   if ( m_ImageIO == 0 ) //try creating via factory
     {
@@ -131,7 +136,7 @@ void
 ImageFileWriter<TInputImage>
 ::Write(const ImageIORegion &ioRegion)
 {
-  InputImagePointer input = this->GetInput();
+  const InputImageType * input = this->GetInput();
 
   // make sure input is available
   if ( input == 0 )
@@ -157,7 +162,10 @@ ImageFileWriter<TInputImage>
   m_ImageIO->SetIORegion(ioRegion);
 
   // make sure the data is up-to-date
-  input->Update();
+  // NOTE: this const_cast<> is due to the lack of const-correctness
+  // of the ProcessObject.
+  InputImageType * nonConstImage = const_cast<InputImageType *>(input);
+  nonConstImage->Update();
 
   // Notify start event observers
   this->InvokeEvent( StartEvent() );
@@ -169,9 +177,9 @@ ImageFileWriter<TInputImage>
   this->InvokeEvent( EndEvent() );
 
   // Release upstream data if requested
-  if ( this->GetInput(0)->ShouldIReleaseData() )
+  if ( input->ShouldIReleaseData() )
     {
-    this->GetInput(0)->ReleaseData();
+    nonConstImage->ReleaseData();
     }
 }
 
@@ -180,7 +188,7 @@ ImageFileWriter<TInputImage>
 template <class TInputImage>
 void 
 ImageFileWriter<TInputImage>
-::GenerateOutputInformation()
+::GenerateOutputInformation(void)
 {
 
 }
@@ -190,9 +198,9 @@ ImageFileWriter<TInputImage>
 template <class TInputImage>
 void 
 ImageFileWriter<TInputImage>
-::GenerateData()
+::GenerateData(void)
 {
-  InputImagePointer input = this->GetInput();
+  const InputImageType * input = this->GetInput();
 
   itkDebugMacro(<<"Writing file" << m_FileName);
   
@@ -209,7 +217,7 @@ ImageFileWriter<TInputImage>
   m_ImageIO->SetFilePrefix(m_FilePrefix.c_str());
 
   //okay, now extract the data as a raw buffer pointer
-  void* dataPtr = (void*) input->GetBufferPointer();
+  const void* dataPtr = (const void*) input->GetBufferPointer();
   m_ImageIO->Write(dataPtr);
 
 }

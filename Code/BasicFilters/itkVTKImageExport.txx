@@ -98,11 +98,11 @@ void VTKImageExport<TInputImage>::SetInput(InputImageType* input)
  * Get the current input image.
  */
 template <class TInputImage>
-typename VTKImageExport<TInputImage>::InputImagePointer
-VTKImageExport<TInputImage>::GetInput()
+typename VTKImageExport<TInputImage>::InputImageType *
+VTKImageExport<TInputImage>::GetInput(void)
 {
   return static_cast<TInputImage*>(
-    this->ProcessObject::GetInput(0).GetPointer());
+    this->ProcessObject::GetInput(0));
 }
 
 

@@ -96,8 +96,8 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
  *
  */
 template <class TInputImage, class TOutputImage>
-HistogramMatchingImageFilter<TInputImage,TOutputImage>
-::InputImageConstPointer
+const HistogramMatchingImageFilter<TInputImage,TOutputImage>
+::InputImageType *
 HistogramMatchingImageFilter<TInputImage,TOutputImage>
 ::GetReferenceImage()
 {
@@ -107,7 +107,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
     }
 
   return dynamic_cast<TInputImage*>(
-    this->ProcessObject::GetInput(1).GetPointer() );
+    this->ProcessObject::GetInput(1) );
 }
 
 
@@ -127,7 +127,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
     if ( this->GetInput(idx) )
       {
       InputImagePointer image = 
-           const_cast< InputImageType * >( this->GetInput(idx).GetPointer() );
+           const_cast< InputImageType * >( this->GetInput(idx) );
       image->SetRequestedRegionToLargestPossibleRegion();
       }
     }

@@ -92,7 +92,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   InputCellsContainerIterator      cells = myCells->Begin(); 
   
   InputCellDataContainerPointer    myCellData = this->GetInput(0)->GetCellData();
-  InputCellDataContainerIterator   celldata = myCellData->Begin(); 
 
   ImageSizeType ImageSize = m_Gradient->GetBufferedRegion().GetSize();
 
@@ -441,7 +440,6 @@ void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::GenerateData() 
 {
-  int i, j;
   this->Initialize();
   this->SetMeshStiffness();
   
@@ -462,6 +460,8 @@ void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::GradientFit() 
 {
+  typedef typename ImageIndexType::IndexValueType   IndexValueType;
+
   ImageIndexType coord, coord2, tmp_co_1, tmp_co_2, tmp_co_3;
   InputPointType v1, v2;
   PixelType mag, num_for;
@@ -486,13 +486,13 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     vec_nor = normals.Value();
     num_for = 1/forcedata.Value();
 
-    coord[0] = (int) (vec_loc[0]);
-    coord[1] = (int) (vec_loc[1]);
-    coord[2] = (int) (vec_loc[2]);
+    coord[0] = static_cast<IndexValueType>(vec_loc[0]);
+    coord[1] = static_cast<IndexValueType>(vec_loc[1]);
+    coord[2] = static_cast<IndexValueType>(vec_loc[2]);
 
-    coord2[0] = (ceil) (vec_loc[0]);
-    coord2[1] = (ceil) (vec_loc[1]);
-    coord2[2] = (ceil) (vec_loc[2]);
+    coord2[0] = static_cast<IndexValueType>( (ceil) (vec_loc[0]) );
+    coord2[1] = static_cast<IndexValueType>( (ceil) (vec_loc[1]) );
+    coord2[2] = static_cast<IndexValueType>( (ceil) (vec_loc[2]) );
 
     tmp_co_1[0] = coord2[0];
     tmp_co_1[1] = coord[1];

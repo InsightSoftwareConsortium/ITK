@@ -92,8 +92,8 @@ public:
   /** Set/Get the image input of this process object.  */
   virtual void SetInput( const InputImageType *image);
   virtual void SetInput( unsigned int, const TInputImage * image);
-  InputImageConstPointer GetInput(void);
-  InputImageConstPointer GetInput(unsigned int idx);
+  const InputImageType * GetInput(void);
+  const InputImageType * GetInput(unsigned int idx);
 
 
  protected:

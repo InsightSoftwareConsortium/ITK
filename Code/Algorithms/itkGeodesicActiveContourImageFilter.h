@@ -142,7 +142,7 @@ public:
   void SetDerivativeImage( TDerivImage *ptr, unsigned int idx=0 );
 
   /** Get the input derivative images. */
-  DerivImagePointer GetDerivativeImage( unsigned int idx );
+  DerivImageType * GetDerivativeImage( unsigned int idx );
 
 protected:
   GeodesicActiveContourImageFilter();

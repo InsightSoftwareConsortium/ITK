@@ -280,7 +280,7 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
 
   // get pointers to the input and output
   InputImagePointer  inputPtr  = 
-      const_cast< TInputImage *>( this->GetInput().GetPointer() );
+      const_cast< TInputImage *>( this->GetInput() );
 
   // Request the entire input image
   InputImageRegionType inputRegion;

@@ -44,7 +44,7 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,TFunction>
 ::ThreadedGenerateData( const OutputImageRegionType &outputRegionForThread,
                         int threadId)
 {
-  InputImagePointer  inputPtr = this->GetInput().GetPointer();
+  InputImagePointer  inputPtr = this->GetInput();
   OutputImagePointer outputPtr = this->GetOutput(0);
   
   ImageRegionConstIterator<TInputImage>  inputIt(inputPtr, outputRegionForThread);

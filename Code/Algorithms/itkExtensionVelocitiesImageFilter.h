@@ -86,10 +86,10 @@ public:
 
   /** Set/Get one of the input velocity images to be extended. */
   void SetInputVelocityImage(const AuxImageType * ptr, unsigned int idx = 0);
-  AuxImageConstPointer GetInputVelocityImage(unsigned int idx = 0);
+  const AuxImageType * GetInputVelocityImage(unsigned int idx = 0);
 
   /** Get one of the extended velocity images. */
-  AuxImagePointer GetOutputVelocityImage( unsigned int idx = 0 );
+  AuxImageType * GetOutputVelocityImage( unsigned int idx = 0 );
 
 protected:
   ExtensionVelocitiesImageFilter();

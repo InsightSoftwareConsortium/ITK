@@ -62,7 +62,7 @@ NeighborhoodConnectedImageFilter<TInputImage,TOutputImage>
   if ( this->GetInput() )
     {
     InputImagePointer image =
-        const_cast< InputImageType * >( this->GetInput().GetPointer() );
+        const_cast< InputImageType * >( this->GetInput() );
     image->SetRequestedRegionToLargestPossibleRegion();
     }
 }

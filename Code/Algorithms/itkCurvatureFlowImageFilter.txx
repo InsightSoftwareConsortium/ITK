@@ -110,7 +110,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
 
   // get pointers to the input and output
   InputImagePointer  inputPtr  = 
-    const_cast< InputImageType * >( this->GetInput().GetPointer() );
+    const_cast< InputImageType * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )
@@ -142,7 +142,7 @@ DataObject * ptr )
 
   // get input image pointer
   InputImagePointer  inputPtr  = 
-    const_cast< InputImageType * >( this->GetInput().GetPointer() );
+    const_cast< InputImageType * >( this->GetInput() );
   if ( !inputPtr || !outputPtr )
     {
     return;

@@ -59,8 +59,8 @@ public:
   void SetInput(InputMeshType *input);
 
   /** Get the mesh input of this process object.  */
-  InputMeshPointer GetInput();
-  InputMeshPointer GetInput(unsigned int idx);
+  InputMeshType * GetInput(void);
+  InputMeshType * GetInput(unsigned int idx);
   
 protected:
   MeshToMeshFilter();

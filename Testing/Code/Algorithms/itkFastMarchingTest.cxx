@@ -116,7 +116,7 @@ int itkFastMarchingTest(int, char**)
   std::cout << "StoppingValue: " << marcher->GetStoppingValue() << std::endl;
   std::cout << "CollectPoints: " << marcher->GetCollectPoints() << std::endl;
 
-  std::cout << "SpeedImage: " << marcher->GetSpeedImage().GetPointer();
+  std::cout << "SpeedImage: " << marcher->GetSpeedImage();
   std::cout << std::endl;
 
   marcher->Print( std::cout );

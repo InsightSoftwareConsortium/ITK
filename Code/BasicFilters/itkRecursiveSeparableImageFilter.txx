@@ -62,7 +62,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 ::GetInputImage( void )
 {
   return dynamic_cast<const TInputImage *>(
-          (ProcessObject::GetInput(0)).GetPointer());
+          (ProcessObject::GetInput(0)));
 }
 
 

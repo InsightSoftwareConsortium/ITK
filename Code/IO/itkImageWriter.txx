@@ -31,15 +31,17 @@ namespace itk
 template <class TInputImage>
 void 
 ImageWriter<TInputImage>
-::SetInput(InputImageType *input)
+::SetInput(const InputImageType *input)
 {
-  this->ProcessObject::SetNthInput(0, input);
+  this->ProcessObject::SetNthInput(0, 
+              const_cast<InputImageType *>(input) );
 }
 
+
 template <class TInputImage>
-ImageWriter<TInputImage>::InputImagePointer 
+const ImageWriter<TInputImage>::InputImageType * 
 ImageWriter<TInputImage>
-::GetInput()
+::GetInput(void)
 {
   if (this->GetNumberOfInputs() < 1)
     {
@@ -47,7 +49,7 @@ ImageWriter<TInputImage>
     }
   
   return static_cast<TInputImage*>
-                     (this->ProcessObject::GetInput(0).GetPointer());
+                     (this->ProcessObject::GetInput(0));
 }
 
 

@@ -49,7 +49,7 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   Superclass::GenerateInputRequestedRegion();
 
   InputImagePointer inputPtr = 
-    const_cast< TInputImage * >( this->GetInput(0).GetPointer() );
+    const_cast< TInputImage * >( this->GetInput(0));
   OutputImagePointer outputPtr = this->GetOutput(0);
 
   typename TOutputImage::RegionType outputRegion;

@@ -96,10 +96,7 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
 
   const typename TInputImage::ConstPointer   inputImage( this->GetInput() );
 
-  //OutputImagePointer    outputImage   = TOutputImage::New();
-  OutputImagePointer    outputImage   = this->GetOutput();
-  
-  m_ImageAdaptor->SetImage( outputImage.GetPointer() );
+  m_ImageAdaptor->SetImage( this->GetOutput() );
 
   m_ImageAdaptor->SetLargestPossibleRegion( 
                     inputImage->GetLargestPossibleRegion() );
@@ -146,12 +143,14 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
     ImageRegionIteratorWithIndex< OutputImageAdaptorType > ot( 
                                       m_ImageAdaptor, 
                                       m_ImageAdaptor->GetRequestedRegion() );
+  
+    const RealType spacing = inputImage->GetSpacing()[ dim ];
 
     it.GoToBegin();
     ot.GoToBegin();
     while( !it.IsAtEnd() )
       {
-      ot.Set( it.Get() );
+      ot.Set( it.Get() / spacing );
       ++it;
       ++ot;
       }

@@ -93,4 +93,5 @@ private:
 
 } // namespace itk
 
-#endif _itkTkImageViewer2D_h
+#endif // _itkTkImageViewer2D_h
+

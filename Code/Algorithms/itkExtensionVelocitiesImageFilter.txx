@@ -74,8 +74,8 @@ unsigned int idx )
  * 
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
-ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
-::AuxImageConstPointer
+const ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
+::AuxImageType *
 ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::GetInputVelocityImage( unsigned int idx )
 {
@@ -85,8 +85,8 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
     return NULL;
     }
 
-  return dynamic_cast<AuxImageType*>(
-                this->ProcessObject::GetInput(idx+1).GetPointer() );
+  return dynamic_cast<AuxImageType *>(
+                this->ProcessObject::GetInput(idx+1) );
 
 }
 
@@ -96,7 +96,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
 ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
-::AuxImagePointer
+::AuxImageType *
 ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::GetOutputVelocityImage( unsigned int idx )
 {
@@ -107,7 +107,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
     }
 
   return static_cast<AuxImageType*>(
-    this->ProcessObject::GetOutput(idx+1).GetPointer() );
+    this->ProcessObject::GetOutput(idx+1) );
 
 }
 

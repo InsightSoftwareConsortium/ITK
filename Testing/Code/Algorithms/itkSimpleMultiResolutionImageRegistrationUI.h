@@ -102,7 +102,7 @@ public:
     // return if casting didn't work.
     itk::GradientDescentOptimizer::Pointer optimizer;
     optimizer = dynamic_cast< itk::GradientDescentOptimizer * >(
-      m_Registrator->GetOptimizer().GetPointer() );
+      m_Registrator->GetOptimizer() );
     if ( !optimizer ) return;
 
     unsigned int level = m_Registrator->GetCurrentLevel();

@@ -249,13 +249,13 @@ public:
 
 
   /** Generate labelled image. */
-  LabelImagePointer GetLabelledImage();
+  LabelImagePointer GetLabelledImage(void);
 
   /** Function that prints all the region information.  */
-  void PrintAlgorithmRegionStats();
+  void PrintAlgorithmRegionStats(void);
 
   /** Function that prints all the border information.  */
-  void PrintAlgorithmBorderStats();
+  void PrintAlgorithmBorderStats(void);
 
   /** Function that prints all the border information.  */
   void PrintAlgorithmBorderStats(bool smartBorderPointerUseFlag);

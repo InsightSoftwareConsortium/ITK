@@ -136,7 +136,7 @@ public:
     typedef typename VisitorType::Pointer VisitorPointer;
 
   public:
-    VisitorPointer GetVisitor(int id)
+    VisitorType * GetVisitor(int id)
       {
         if(id <= LAST_ITK_CELL)
           {

@@ -75,13 +75,13 @@ const MovingImageType * ptr )
  * Get the moving image image.
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
-MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
-::MovingImageConstPointer
+const MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
+::MovingImageType *
 MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
 ::GetMovingImage(void)
 {
   return dynamic_cast< const MovingImageType * >
-    ( this->ProcessObject::GetInput( 2 ).GetPointer() );
+    ( this->ProcessObject::GetInput( 2 ) );
 }
 
 
@@ -102,13 +102,13 @@ const FixedImageType * ptr )
  * Get the fixed image.
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
-MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
-::FixedImageConstPointer
+const MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
+::FixedImageType *
 MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
 ::GetFixedImage(void)
 {
   return dynamic_cast< const FixedImageType * >
-    ( this->ProcessObject::GetInput( 1 ).GetPointer() );
+    ( this->ProcessObject::GetInput( 1 ) );
 }
 
 
@@ -382,7 +382,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
 
   // request the largest possible region for the moving image
   MovingImagePointer movingPtr = 
-    const_cast< MovingImageType * >( this->GetMovingImage().GetPointer() );
+    const_cast< MovingImageType * >( this->GetMovingImage() );
   if( movingPtr )
     {
     movingPtr->SetRequestedRegionToLargestPossibleRegion();
@@ -391,10 +391,10 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
   // just propagate up the output requested region for
   // the fixed image and initial deformation field.
   DeformationFieldPointer inputPtr = 
-      const_cast< DeformationFieldType * >( this->GetInput().GetPointer() );
+      const_cast< DeformationFieldType * >( this->GetInput() );
   DeformationFieldPointer outputPtr = this->GetOutput();
   FixedImagePointer fixedPtr = 
-        const_cast< FixedImageType *>( this->GetFixedImage().GetPointer() );
+        const_cast< FixedImageType *>( this->GetFixedImage() );
 
   if( inputPtr )
     {

@@ -123,7 +123,7 @@ public:
 
   /** Set/Get the edge image. */
   void SetEdgeImage( const EdgeImageType * ptr );
-  EdgeImageConstPointer GetEdgeImage();
+  const EdgeImageType * GetEdgeImage(void);
 
   /** Set/Get the length penalty strength. This parameter can be viewed as
    * the weighting given to length of the front in an energy functional. The

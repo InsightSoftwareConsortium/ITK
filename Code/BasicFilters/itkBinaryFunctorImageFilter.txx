@@ -78,9 +78,9 @@ BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage, TFunction>
   // ImageToImageFilter::GetInput(int) always returns a pointer to a
   // TInputImage1 so it cannot be used for the second input.
   Input1ImagePointer inputPtr1
-    = dynamic_cast<const TInputImage1*>((ProcessObject::GetInput(0)).GetPointer());
+    = dynamic_cast<const TInputImage1*>(ProcessObject::GetInput(0));
   Input2ImagePointer inputPtr2
-    = dynamic_cast<const TInputImage2*>((ProcessObject::GetInput(1)).GetPointer());
+    = dynamic_cast<const TInputImage2*>(ProcessObject::GetInput(1));
   OutputImagePointer outputPtr = this->GetOutput(0);
   
   ImageRegionConstIterator<TInputImage1> inputIt1(inputPtr1, outputRegionForThread);

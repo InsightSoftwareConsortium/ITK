@@ -101,12 +101,12 @@ public:
   
 
   /** Get/Set the input table of segments to process */
-  SegmentTableTypePointer GetInputSegmentTable()
+  SegmentTableType * GetInputSegmentTable()
     { return static_cast<SegmentTableType *>
-        (this->ProcessObject::GetInput(0).GetPointer()); }
-  typename EquivalencyTableType::Pointer GetInputEquivalencyTable()
+        (this->ProcessObject::GetInput(0)); }
+  EquivalencyTableType * GetInputEquivalencyTable()
     { return static_cast<EquivalencyTableType *>
-        (this->ProcessObject::GetInput(1).GetPointer()); }
+        (this->ProcessObject::GetInput(1)); }
 
   /** Get/Set input table of equivalencies to pre-merge before
    * running the tree generator algorithm.  Only useful for
@@ -117,9 +117,9 @@ public:
     { this->ProcessObject::SetNthInput(0, st); }
 
   /** Get/Set the output data */
-  SegmentTreeTypePointer GetOutputSegmentTree()
+  SegmentTreeType * GetOutputSegmentTree()
     { return static_cast<SegmentTreeType *>
-        (this->ProcessObject::GetOutput(0).GetPointer()); }
+        (this->ProcessObject::GetOutput(0)); }
 
   /** Standard non-threaded itk pipeline method */
   void GenerateData();

@@ -62,7 +62,7 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
   if ( this->GetInput() )
     {
     InputImagePointer image = 
-       const_cast< TInputImage * >( this->GetInput().GetPointer() );
+       const_cast< TInputImage * >( this->GetInput() );
     image->SetRequestedRegionToLargestPossibleRegion();
     }
 }

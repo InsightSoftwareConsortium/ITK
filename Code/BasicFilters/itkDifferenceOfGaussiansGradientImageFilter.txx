@@ -42,7 +42,7 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
 
   // Get the input and output pointers
   InputImagePointer  inputPtr = 
-      const_cast< TInputImage * >( this->GetInput(0).GetPointer() );
+      const_cast< TInputImage * >( this->GetInput(0));
   OutputImagePointer outputPtr = this->GetOutput(0);
 
   // Make sure we're getting everything

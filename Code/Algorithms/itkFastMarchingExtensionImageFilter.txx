@@ -68,7 +68,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
   class TSpeedImage>
 FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
-::AuxImagePointer
+::AuxImageType *
 FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 ::GetAuxiliaryImage( unsigned int idx )
 {
@@ -78,8 +78,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
    return NULL;
    }
 
- return static_cast<AuxImageType *>(
-   this->ProcessObject::GetOutput(idx + 1).GetPointer() );
+ return static_cast<AuxImageType *>( this->ProcessObject::GetOutput(idx + 1) );
 
 }
 
@@ -102,7 +101,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
   LevelSetPointer primaryOutput = this->GetOutput();
   for ( unsigned int k = 0; k < VAuxDimension; k++ )
     {
-    AuxImagePointer ptr = this->GetAuxiliaryImage(k);
+    AuxImageType * ptr = this->GetAuxiliaryImage(k);
     ptr->SetLargestPossibleRegion( 
       primaryOutput->GetLargestPossibleRegion() );
     }
@@ -176,7 +175,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
   // allocate memory for the auxiliary outputs
   for ( unsigned int k = 0; k < VAuxDimension; k++ )
     {
-    AuxImagePointer ptr = this->GetAuxiliaryImage( k );
+    AuxImageType * ptr = this->GetAuxiliaryImage( k );
     ptr->SetBufferedRegion( ptr->GetRequestedRegion() );
     ptr->Allocate();
     auxImages[k] = ptr;

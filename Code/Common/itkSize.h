@@ -53,7 +53,7 @@ public:
   typedef   unsigned long  SizeValueType;
   
   /** Get the dimension of the size object. */
-  static unsigned int GetSizeDimension() { return VDimension; }
+  static unsigned int GetSizeDimension(void) { return VDimension; }
 
   /** Add two sizes.  */
   const Self
@@ -168,7 +168,7 @@ public:
    * from Tcl and Python where C++ notation is not very convenient.
    * \warning No bound checking is performed
    * \sa GetSize() \sa SetElement() */
-  SizeValueType GetElement( unsigned long element )
+  SizeValueType GetElement( unsigned long element ) const
     { return m_Size[ element ]; }
 
   /** Set one value for the index in all dimensions.  Useful for initializing

@@ -38,7 +38,7 @@ ZeroCrossingImageFilter<TInputImage,TOutputImage>
   
   // get pointers to the input and output
   InputImagePointer  inputPtr = 
-    const_cast<TInputImage *>( this->GetInput().GetPointer() );
+    const_cast<TInputImage *>( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
   
   if ( !inputPtr || !outputPtr )
@@ -96,8 +96,8 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
   ConstSmartNeighborhoodIterator<TInputImage> bit;
   ImageRegionIterator<TOutputImage> it;
   
-  typename OutputImageType::Pointer output = this->GetOutput();
-  typename  InputImageType::ConstPointer input  = this->GetInput().GetPointer();
+  typename OutputImageType::Pointer      output = this->GetOutput();
+  typename  InputImageType::ConstPointer input  = this->GetInput();
   
   // Calculate iterator radius
   Size<ImageDimension> radius;

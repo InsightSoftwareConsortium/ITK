@@ -90,8 +90,8 @@ public:
   
   /** Set/Get the image input of this writer.  */
   void SetInput(const InputImageType *input);
-  InputImagePointer GetInput();
-  InputImagePointer GetInput(unsigned int idx);
+  const InputImageType * GetInput(void);
+  const InputImageType * GetInput(unsigned int idx);
   
   /** Specify the name of the output file. */
   itkSetStringMacro(FileName);

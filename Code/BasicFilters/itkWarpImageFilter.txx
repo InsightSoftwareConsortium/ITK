@@ -48,8 +48,8 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
   typename DefaultInterpolatorType::Pointer interp =
     DefaultInterpolatorType::New();
 
-  m_Interpolator = static_cast<InterpolatorType*>(
-    interp.GetPointer() );
+  m_Interpolator = 
+      static_cast<InterpolatorType*>( interp.GetPointer() );
 
 }
 
@@ -169,12 +169,12 @@ DeformationFieldType * field )
  */
 template <class TInputImage,class TOutputImage,class TDeformationField>
 WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
-::DeformationFieldPointer
+::DeformationFieldType *
 WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
-::GetDeformationField()
+::GetDeformationField(void)
 {
   return static_cast<DeformationFieldType *>
-    ( this->ProcessObject::GetInput( 1 ).GetPointer() );
+    ( this->ProcessObject::GetInput( 1 ));
 }
 
 
@@ -289,7 +289,7 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
 
   // request the largest possible region for the input image
   InputImagePointer inputPtr = 
-    const_cast< InputImageType * >( this->GetInput().GetPointer() );
+    const_cast< InputImageType * >( this->GetInput() );
 
   if( inputPtr )
     {

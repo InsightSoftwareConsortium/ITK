@@ -60,10 +60,12 @@ public:
   itkTypeMacro(UnsupervisedClassifier,Classifier);
 
   /** Type definition for the input image. */
-  typedef typename TInputImage::Pointer   InputImageType;
+  typedef          TInputImage            InputImageType;
+  typedef typename TInputImage::Pointer   InputImagePointer;
 
   /** Type definitions for the classified image. */
-  typedef typename TInputImage::Pointer ClassifiedImageType;
+  typedef          TInputImage          ClassifiedImageType;
+  typedef typename TInputImage::Pointer ClassifiedImagePointer;
 
   /** Type definition for the vector associated with
    * input image pixel type. */     

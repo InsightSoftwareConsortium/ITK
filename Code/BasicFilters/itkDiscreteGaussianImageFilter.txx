@@ -34,7 +34,7 @@ DiscreteGaussianImageFilter<TInputImage,TOutputImage>
   
   // get pointers to the input and output
   InputImagePointer  inputPtr = 
-    const_cast< TInputImage *>( this->GetInput().GetPointer() );
+    const_cast< TInputImage *>( this->GetInput() );
   
   if ( !inputPtr )
     {
@@ -115,8 +115,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
   // has the correct region ivars and will write to this filters bulk data
   // output.
   filter->GraftOutput( output );
-  swapPtrA = 
-    const_cast< TInputImage * >( this->GetInput().GetPointer() );
+  swapPtrA = const_cast< TInputImage * >( this->GetInput() );
   for (unsigned int i = 0; i < ImageDimension; ++i)
     {
     // Set up the operator for this dimension

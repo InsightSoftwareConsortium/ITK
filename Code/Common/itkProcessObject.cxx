@@ -340,7 +340,7 @@ ProcessObject
 /**
  *
  */
-DataObject::Pointer
+DataObject *
 ProcessObject
 ::GetOutput(unsigned int i)
 {
@@ -349,14 +349,14 @@ ProcessObject
     return NULL;
     }
   
-  return m_Outputs[i];
+  return m_Outputs[i].GetPointer();
 }
 
 
 /**
  *
  */
-DataObject::Pointer
+DataObject *
 ProcessObject
 ::GetInput(unsigned int i)
 {
@@ -365,7 +365,7 @@ ProcessObject
     return NULL;
     }
   
-  return m_Inputs[i];
+  return m_Inputs[i].GetPointer();
 }
 
 

@@ -95,7 +95,7 @@ public:
    * bounding box is cached and is not recomputed if the points are not 
    * changed. */
   void SetPoints(PointsContainer *);
-  PointsContainerPointer GetPoints(void);
+  PointsContainer * GetPoints(void);
   
   /** Method that actually computes bounding box. */
   bool ComputeBoundingBox(void);

@@ -510,7 +510,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   
   // get pointers to the input and output
   InputImagePointer  inputPtr = 
-        const_cast< InputImageType * >( this->GetInput().GetPointer() );
+        const_cast< InputImageType * >( this->GetInput() );
   if ( !inputPtr )
     {
     itkExceptionMacro( << "Input has not been set." );

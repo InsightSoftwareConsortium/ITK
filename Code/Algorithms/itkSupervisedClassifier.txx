@@ -51,7 +51,7 @@ SupervisedClassifier<TInputImage, TClassifiedImage>
 template<class TInputImage, class TClassifiedImage>
 void
 SupervisedClassifier<TInputImage, TClassifiedImage>
-::SetTrainingImage(TrainingImageType image)
+::SetTrainingImage(TrainingImageType * image)
 {
   m_TrainingImage = image;
   
@@ -96,7 +96,8 @@ SupervisedClassifier<TInputImage, TClassifiedImage>
   
   InputImageSizeType inputImageSize = inputImage->GetBufferedRegion().GetSize();
   
-  ClassifiedImageType classifiedImage =  TClassifiedImage::New();   
+  typename ClassifiedImageType::Pointer classifiedImage =  
+                                            TClassifiedImage::New();   
   this->SetClassifiedImage(classifiedImage);
 
   typedef typename TClassifiedImage::IndexType myIndex;

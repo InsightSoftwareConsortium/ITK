@@ -84,12 +84,12 @@ ImageToMeshFilter<TInputImage,TOutputMesh>
  *
  */
 template <class TInputImage, class TOutputMesh>
-ImageToMeshFilter<TInputImage,TOutputMesh>::InputImageConstPointer
+const ImageToMeshFilter<TInputImage,TOutputMesh>::InputImageType *
 ImageToMeshFilter<TInputImage,TOutputMesh>
 ::GetInput(unsigned int idx) 
 {
   return dynamic_cast<const InputImageType*>
-                     (this->ProcessObject::GetInput(idx).GetPointer());
+                     (this->ProcessObject::GetInput(idx));
 }
 
  
@@ -97,12 +97,12 @@ ImageToMeshFilter<TInputImage,TOutputMesh>
  *
  */
 template <class TInputImage, class TOutputMesh>
-ImageToMeshFilter<TInputImage,TOutputMesh>::OutputMeshPointer
+ImageToMeshFilter<TInputImage,TOutputMesh>::OutputMeshType *
 ImageToMeshFilter<TInputImage,TOutputMesh>
 ::GetOutput(void) 
 {
   return dynamic_cast<OutputMeshType*>
-                     (this->ProcessObject::GetOutput(0).GetPointer());
+                     (this->ProcessObject::GetOutput(0));
 }
 
 

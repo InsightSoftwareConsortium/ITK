@@ -76,10 +76,10 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
  *
  */
 template <class TLevelSet, class TEdgeImage>
+const ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
+::EdgeImageType *
 ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
-::EdgeImageConstPointer
-ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
-::GetEdgeImage()
+::GetEdgeImage(void)
 {
   if ( this->GetNumberOfInputs() < 2 )
     {
@@ -87,7 +87,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
     }
 
   return dynamic_cast<const TEdgeImage *>(
-    this->ProcessObject::GetInput(1).GetPointer() );
+                        this->ProcessObject::GetInput(1) );
 
 }
 
@@ -124,7 +124,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
   // be in the buffer
   {
   EdgeImagePointer edgeImage = 
-      const_cast< EdgeImageType * >( this->GetEdgeImage().GetPointer() );
+      const_cast< EdgeImageType * >( this->GetEdgeImage() );
       edgeImage->SetRequestedRegionToLargestPossibleRegion();
   }
 
@@ -188,7 +188,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
     m_Extender->SetInputVelocityImage( this->GetEdgeImage() );
     m_Extender->SetInput( inputBuffer );
     m_Extender->Update();
-    typename TEdgeImage::Pointer extVelPtr = m_Extender->GetOutputVelocityImage();
+    TEdgeImage * extVelPtr = m_Extender->GetOutputVelocityImage();
 
     // Define a level set curvature calculator
     typedef

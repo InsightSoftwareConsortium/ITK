@@ -51,10 +51,10 @@ namespace itk
 */ 
  
 template< unsigned int NDimensions = 3, 
-          class TransformType = AffineTransform< double, 
+          typename TTransform = AffineTransform< double, 
                                                  NDimensions
                                                >,
-          class OutputType = double 
+          typename TOutputType = double 
         > 
 class SpatialObject 
 :public Object
@@ -64,7 +64,7 @@ public:
 
   typedef double ScalarType;
 
-  typedef SpatialObject<NDimensions,TransformType,OutputType> Self;
+  typedef SpatialObject<NDimensions,TTransform,TOutputType> Self;
   typedef Object Superclass; 
   
   typedef SmartPointer< Self > Pointer;
@@ -79,9 +79,12 @@ public:
   typedef Vector< ScalarType, NDimensions > VectorType; 
   typedef VectorType * VectorPointer;
   
+  typedef TOutputType         OutputType;
+
   typedef CovariantVector< OutputType, NDimensions > OutputVectorType; 
   typedef OutputVectorType * OutputVectorPointer;
 
+  typedef TTransform            TransformType;
   typedef typename TransformType::Pointer  TransformPointer;
   //typedef typename TransformType::ConstPointer  TransformConstPointer;
   typedef const TransformType *  TransformConstPointer;
@@ -108,13 +111,13 @@ public:
   /**
   * Get the bounding box of the object. 
   */
-  BoundingBoxPointer GetBounds( void ); 
+  BoundingBoxType * GetBounds( void ); 
 
   /*
   * Returns a pointer to the property object applied
   * to this class.
   */
-  PropertyPointer GetProperty( void );
+  PropertyType * GetProperty( void );
 
   /*
   * Set the property applied to the object.
@@ -124,13 +127,13 @@ public:
   /** 
   * Returns the dimension of the object. 
   */ 
-  unsigned int GetDimension( void );
+  unsigned int GetDimension( void ) const;
 
   void SetLocalToGlobalTransform( const TransformType * transform ); 
-  const TransformPointer GetLocalToGlobalTransform( void ); 
+  const TransformType * GetLocalToGlobalTransform( void ); 
   
   void SetGlobalToLocalTransform( const TransformType * transform ); 
-  const TransformPointer GetGlobalToLocalTransform( void ); 
+  const TransformType * GetGlobalToLocalTransform( void ); 
 
   /*
   * Set the resolution step to use while iterating through an object.
@@ -164,7 +167,7 @@ public:
   /**
   * Return a pointer to the parent object in the hierarchy tree
   */ 
-  ConstPointer GetParent( void ); 
+  const Self * GetParent( void ) const; 
 
   /**
   * Return true if the object has a parent object. Basically, only

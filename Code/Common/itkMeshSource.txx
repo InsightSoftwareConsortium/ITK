@@ -56,9 +56,9 @@ MeshSource<TOutputMesh>
  *
  */
 template<class TOutputMesh>
-MeshSource<TOutputMesh>::OutputMeshPointer
+MeshSource<TOutputMesh>::OutputMeshType *
 MeshSource<TOutputMesh>
-::GetOutput()
+::GetOutput(void)
 {
   if (this->GetNumberOfOutputs() < 1)
     {
@@ -66,7 +66,7 @@ MeshSource<TOutputMesh>
     }
   
   return static_cast<TOutputMesh*>
-                     (this->ProcessObject::GetOutput(0).GetPointer());
+                     (this->ProcessObject::GetOutput(0));
 }
 
   
@@ -74,12 +74,12 @@ MeshSource<TOutputMesh>
  *
  */
 template<class TOutputMesh>
-MeshSource<TOutputMesh>::OutputMeshPointer
+MeshSource<TOutputMesh>::OutputMeshType *
 MeshSource<TOutputMesh>
 ::GetOutput(unsigned int idx)
 {
   return static_cast<TOutputMesh*>
-                     (this->ProcessObject::GetOutput(idx).GetPointer());
+                     (this->ProcessObject::GetOutput(idx));
 }
 
 
@@ -89,7 +89,7 @@ MeshSource<TOutputMesh>
 template<class TOutputMesh>
 void 
 MeshSource<TOutputMesh>
-::SetOutput(TOutputMesh *output)
+::SetOutput(OutputMeshType *output)
 {
   itkWarningMacro(<< "SetOutput(): This method is slated to be removed from ITK.  Please use GraftOutput() in possible combination with DisconnectPipeline() instead." );
   this->ProcessObject::SetNthOutput(0, output);
@@ -114,9 +114,9 @@ MeshSource<TOutputMesh>
 template<class TOutputMesh>
 void
 MeshSource<TOutputMesh>
-::GraftOutput(TOutputMesh *graft)
+::GraftOutput(OutputMeshType *graft)
 {
-  OutputMeshPointer output = this->GetOutput();
+  OutputMeshType * output = this->GetOutput();
 
   if (output && graft)
     {

@@ -150,11 +150,11 @@ protected:
   virtual void CopyOutputBufferToOutput();
 
   /** Get a pointer to the internal input buffer. */
-  LevelSetPointer GetInputBuffer()
+  LevelSetPointer GetInputBuffer(void)
     { return m_InputBuffer; }
 
   /** Get a pointer to the internal output buffer. */
-  LevelSetPointer GetOutputBuffer()
+  LevelSetPointer GetOutputBuffer(void)
     { return m_OutputBuffer; }
 
   /** Specify the required input region to satisfiy the output

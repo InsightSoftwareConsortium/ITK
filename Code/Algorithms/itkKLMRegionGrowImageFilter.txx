@@ -78,7 +78,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   // this filter requires the all of the input image to be in
   // the buffer
   InputImagePointer inputPtr = 
-      const_cast< InputImageType * >( this->GetInput().GetPointer() );
+      const_cast< InputImageType * >( this->GetInput() );
   inputPtr->SetRequestedRegionToLargestPossibleRegion();
 }
 

@@ -70,10 +70,10 @@ public:
   itkTypeMacro( Self, Superclass );
 
   /** Set the image. */
-  void SetImage( ImagePointer image );
+  void SetImage( ImageType * image );
 
   /** Get a pointer to the image currently attached to the object. */
-  ImagePointer GetImage( void );
+  ImageType * GetImage( void );
 
   /** Return true if the object is evaluable at the requested point, and else otherwise. */
   bool IsEvaluableAt( const PointType & point );

@@ -102,12 +102,12 @@ public:
   /** This method returns the vector of estimated parameters
    * \sa Estimator */ 
   const VectorType & GetEstimator(void) const
-    { return m_Estimator; }
+                          { return m_Estimator; }
 
   /** This method returns the covariance matrix of the estimated parameters
    * \sa Variance */
-  const MatrixType  & GetVariance(void) const
-    { return m_Variance; }
+  const MatrixType & GetVariance(void) const
+                          { return m_Variance; }
 
 private:  
   /** This methods performs the update of the parameter's covariance matrix.

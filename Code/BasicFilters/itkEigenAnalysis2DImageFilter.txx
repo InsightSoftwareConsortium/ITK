@@ -87,12 +87,12 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
  * Get the greatest eigenvalue considering the sign
  */
 template <class TInputImage, class TEigenValueImage, class TEigenVectorImage> 
-EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>::EigenValueImagePointer
+EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>::EigenValueImageType *
 EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 ::GetMaxEigenValue( void )
 {
   return dynamic_cast<EigenValueImageType *>(
-                    this->GetOutput( 0 ).GetPointer() );
+                    this->GetOutput( 0 ) );
 }
 
 
@@ -102,12 +102,12 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
  * Get the smallest eigenvalue considering the sign
  */
 template <class TInputImage, class TEigenValueImage, class TEigenVectorImage>
-EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>::EigenValueImagePointer
+EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>::EigenValueImageType *
 EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 ::GetMinEigenValue( void )
 {
   return dynamic_cast<EigenValueImageType *>(
-                    this->GetOutput( 1 ).GetPointer() );
+                    this->GetOutput( 1 ) );
 }
 
 
@@ -116,12 +116,12 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
  * Get the smallest eigenvalue considering the sign
  */
 template <class TInputImage, class TEigenValueImage, class TEigenVectorImage> 
-EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>::EigenVectorImagePointer
+EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>::EigenVectorImageType *
 EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 ::GetMaxEigenVector( void )
 {
   EigenVectorImageType *eigenVector = dynamic_cast<EigenVectorImageType *>(
-                    this->GetOutput( 2 ).GetPointer() );
+                    this->GetOutput( 2 ) );
 
   if (eigenVector)
     {
@@ -129,9 +129,9 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
     }
   else
     {
-    itkWarningMacro(<<"EigenAnalysis2DImageFilter::GetMaxEigenVector(): dynamic_cast has failed. A reinterpret_cast is being attempted." << std::endl << "Type name is: " << typeid( *this->GetOutput( 2 ).GetPointer()).name());
+    itkWarningMacro(<<"EigenAnalysis2DImageFilter::GetMaxEigenVector(): dynamic_cast has failed. A reinterpret_cast is being attempted." << std::endl << "Type name is: " << typeid( *this->GetOutput( 2 )).name());
     return  reinterpret_cast<EigenVectorImageType *>(
-                    this->GetOutput( 2 ).GetPointer() );
+                    this->GetOutput( 2 ) );
     }
 }
 
@@ -139,6 +139,8 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 
 /**
  *   Make Ouput
+ * \todo Verify that MakeOutput is createing the right type of objects
+ *  this could be the cause of the reinterpret_cast bug in this class
  */
 template <class TInputImage, class TEigenValueImage, class TEigenVectorImage> 
 DataObject::Pointer
@@ -174,15 +176,15 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 
   typename TInputImage::ConstPointer inputPtr1(
                      dynamic_cast<const TInputImage *>(
-                           (ProcessObject::GetInput(0)).GetPointer()));
+                           (ProcessObject::GetInput(0))));
 
   typename TInputImage::ConstPointer inputPtr2(
                      dynamic_cast<const TInputImage *>(
-                           (ProcessObject::GetInput(1)).GetPointer()));
+                           (ProcessObject::GetInput(1))));
 
   typename TInputImage::ConstPointer inputPtr3(
                      dynamic_cast<const TInputImage *>(
-                           (ProcessObject::GetInput(2)).GetPointer()));
+                           (ProcessObject::GetInput(2))));
 
   EigenValueImagePointer   outputPtr1 = this->GetMaxEigenValue();
   EigenValueImagePointer   outputPtr2 = this->GetMinEigenValue();
