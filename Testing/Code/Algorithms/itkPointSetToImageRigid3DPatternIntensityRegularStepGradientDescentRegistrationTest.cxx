@@ -83,8 +83,8 @@ int main()
                                                                  CommandIterationType;
 
 
-  ReferenceType::SizeType size = {{100,100}};
-  ReferenceType::IndexType index = {{0,0}};
+  ReferenceType::SizeType size = {{100,100,100}};
+  ReferenceType::IndexType index = {{0,0,0}};
   ReferenceType::RegionType region;
   region.SetSize( size );
   region.SetIndex( index );
@@ -102,23 +102,25 @@ int main()
   imgTarget->SetRequestedRegion( region );
   imgTarget->Allocate();
 
-  /* Fill images with a 2D gaussian*/
+  /* Fill images with a 3D gaussian*/
   typedef  itk::ImageRegionIteratorWithIndex<ReferenceType> ReferenceIteratorType;
 
 
-  itk::Point<double,2> center;
+  itk::Point<double,ImageDimension> center;
   center[0] = (double)region.GetSize()[0]/2.0;
   center[1] = (double)region.GetSize()[1]/2.0;
+  center[2] = (double)region.GetSize()[2]/2.0;
 
   const double s = (double)region.GetSize()[0]/2.0;
 
-  itk::Point<double,2>  p;
-  itk::Vector<double,2> d;
+  itk::Point<double,ImageDimension>  p;
+  itk::Vector<double,ImageDimension> d;
 
   /* Set the displacement */
-  itk::Vector<double,2> displacement;
+  itk::Vector<double,ImageDimension> displacement;
   displacement[0] = 7;
-  displacement[1] =  3;
+  displacement[1] = 3;
+  displacement[2] = 3;
 
   ReferenceIteratorType ri(imgReference,region);
   ReferenceIteratorType ti(imgTarget,region);
@@ -128,11 +130,13 @@ int main()
   {
     p[0] = ri.GetIndex()[0];
     p[1] = ri.GetIndex()[1];
+    p[2] = ri.GetIndex()[2];
     d = p-center;
     d += displacement;
     const double x = d[0];
     const double y = d[1];
-    const double value = 200.0 * exp( - ( x*x + y*y )/(s*s) );
+    const double z = d[2];
+    const double value = 200.0 * exp( - ( x*x + y*y + z*z )/(s*s) );
     ri.Set( static_cast<ReferenceType::PixelType>( value ) );
     ++ri;
   }
@@ -142,10 +146,12 @@ int main()
   {
     p[0] = ti.GetIndex()[0];
     p[1] = ti.GetIndex()[1];
+    p[2] = ti.GetIndex()[2];
     d = p-center;
     const double x = d[0];
     const double y = d[1];
-    const double value = 200.0 * exp( - ( x*x + y*y )/(s*s) );
+    const double z = d[2];
+    const double value = 200.0 * exp( - ( x*x + y*y * z*z )/(s*s) );
     ti.Set( static_cast<TargetType::PixelType>( value ) ); 
     ++ti;
   }
@@ -175,6 +181,7 @@ int main()
       PointSetType::PointType point;
       point[0] = ti.GetIndex()[0];
       point[1] = ti.GetIndex()[1];
+      point[2] = ti.GetIndex()[2];
       points->SetElement( numPoints, point    );
       data->SetElement(   numPoints, ti.Get() );
       counter = 0;
@@ -218,8 +225,8 @@ int main()
   // check results to see if it is within range
   //
   bool pass = true;
-  double trueParameters[2] = { -7, -3 };
-  for( unsigned int j = 0; j < 2; j++ )
+  double trueParameters[ImageDimension] = { -7, -3, -3 };
+  for( unsigned int j = 0; j < ImageDimension; j++ )
     {
     if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.02 )
       pass = false;
