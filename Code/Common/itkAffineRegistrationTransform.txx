@@ -112,7 +112,7 @@ AffineRegistrationTransform<TScalarType,NDimensions,TParameters>
 
 // Compute the Jacobian of the transformation
 // It follows the same order of Parameters vector 
-template<class ScalarType, int NDimensions, class TParameters>
+template<class ScalarType, unsigned int NDimensions, class TParameters>
 const AffineRegistrationTransform<ScalarType, NDimensions,TParameters>::JacobianType &
 AffineRegistrationTransform<ScalarType, NDimensions,TParameters>::
 GetJacobian( const PointType & p ) const

@@ -25,7 +25,7 @@ namespace itk
 /**
  * Constructor
  */
-template <class TScalarType,int NDimensions>
+template <class TScalarType,unsigned int NDimensions>
 Transformation<TScalarType,NDimensions>
 ::Transformation()
 {
@@ -36,7 +36,7 @@ Transformation<TScalarType,NDimensions>
 /**
  * Constructor
  */
-template <class TScalarType,int NDimensions>
+template <class TScalarType,unsigned int NDimensions>
 Transformation<TScalarType,NDimensions>
 ::Transformation( const Self & other )
 {
@@ -46,7 +46,7 @@ Transformation<TScalarType,NDimensions>
 /**
  * Assignment Operator
  */
-template <class TScalarType,int NDimensions>
+template <class TScalarType,unsigned int NDimensions>
 const Transformation<TScalarType,NDimensions> &
 Transformation<TScalarType,NDimensions>
 ::operator=( const Self & other )

@@ -27,9 +27,9 @@ namespace itk
 {
 
     // Constructor with default arguments
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     AffineTransform<ScalarType, NDimensions>::
-    AffineTransform(void)
+    AffineTransform()
     {
       m_Matrix.SetIdentity();
       m_Inverse.SetIdentity();
@@ -38,7 +38,7 @@ namespace itk
     }
  
     // Constructor with explicit arguments
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     AffineTransform<ScalarType, NDimensions>::
     AffineTransform(const MatrixType &matrix, const VectorType &offset)
     {
@@ -49,7 +49,7 @@ namespace itk
 
     
     // Copy Constructor
-    template <class ScalarType, int NDimensions>
+    template <class ScalarType, unsigned int NDimensions>
     AffineTransform<ScalarType, NDimensions>
     ::AffineTransform( const AffineTransform<ScalarType, NDimensions> & other )
     {
@@ -60,7 +60,7 @@ namespace itk
     }
 
     // Destructor
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     AffineTransform<ScalarType, NDimensions>::
     ~AffineTransform()
     {
@@ -69,7 +69,7 @@ namespace itk
 
 
     // Assignment Operator
-    template <class ScalarType, int NDimensions>
+    template <class ScalarType, unsigned int NDimensions>
     const AffineTransform<ScalarType, NDimensions> &
     AffineTransform<ScalarType, NDimensions>
     ::operator=( const Self & other )
@@ -83,7 +83,7 @@ namespace itk
 
 
     // Print self
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     std::ostream &
     AffineTransform<ScalarType, NDimensions>::
     PrintSelf(std::ostream &s) const
@@ -99,7 +99,7 @@ namespace itk
 
 
     // Compose with another affine transformation
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     void
     AffineTransform<ScalarType, NDimensions>::
     Compose(const Self &other, bool pre)
@@ -119,7 +119,7 @@ namespace itk
 
 
     // Compose with a translation
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     void
     AffineTransform<ScalarType, NDimensions>::
     Translate(const VectorType &offset, bool pre)
@@ -137,7 +137,7 @@ namespace itk
 
 
     // Compose with isotropic scaling
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     void
     AffineTransform<ScalarType, NDimensions>::
     Scale(const ScalarType &factor, bool pre) {
@@ -154,7 +154,7 @@ namespace itk
 
 
     // Compose with anisotropic scaling
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     void
     AffineTransform<ScalarType, NDimensions>::
     Scale(const VectorType &factor, bool pre) {
@@ -179,7 +179,7 @@ namespace itk
     }
 
     // Compose with elementary rotation
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     void
     AffineTransform<ScalarType, NDimensions>::
     Rotate(int axis1, int axis2, double angle, bool pre) {
@@ -211,7 +211,7 @@ namespace itk
     // Compose with 2D rotation
     // FIXME: Find a way to generate a compile-time error
     // is this is used with NDimensions != 2.
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     void
     AffineTransform<ScalarType, NDimensions>::
     Rotate2D(double angle, bool pre)
@@ -237,7 +237,7 @@ namespace itk
     // Compose with 3D rotation
     // FIXME: Find a way to generate a compile-time error
     // is this is used with NDimensions != 3.
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     void
     AffineTransform<ScalarType, NDimensions>::
     Rotate3D(const VectorType &axis, double angle, bool pre)
@@ -283,7 +283,7 @@ namespace itk
 
 
     // Compose with elementary rotation
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     void
     AffineTransform<ScalarType, NDimensions>::
     Shear(int axis1, int axis2, double coef, bool pre)
@@ -311,7 +311,7 @@ namespace itk
 
 
     // Transform a point
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     AffineTransform<ScalarType, NDimensions>::PointType
     AffineTransform<ScalarType, NDimensions>::
     Transform(const PointType &point) const {
@@ -320,7 +320,7 @@ namespace itk
 
 
     // Transform a vector
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     AffineTransform<ScalarType, NDimensions>::VectorType
     AffineTransform<ScalarType, NDimensions>::
     Transform(const VectorType &vect) const {
@@ -329,7 +329,7 @@ namespace itk
 
 
     // Transform a vnl_vector_fixed
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     AffineTransform<ScalarType, NDimensions>::VnlVectorType
     AffineTransform<ScalarType, NDimensions>::
     Transform(const VnlVectorType &vect) const {
@@ -338,7 +338,7 @@ namespace itk
 
 
    // Transform a CovariantVector
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     AffineTransform<ScalarType, NDimensions>::CovariantVectorType
     AffineTransform<ScalarType, NDimensions>::
     Transform(const CovariantVectorType &vec) const {
@@ -358,7 +358,7 @@ namespace itk
 
     // Transform a given point which is represented as type VectorType
     // FIXME: Deprecated on 2001-01-02
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     AffineTransform<ScalarType, NDimensions>::VectorType
     AffineTransform<ScalarType, NDimensions>::
     TransformPoint(const VectorType &point) {
@@ -368,7 +368,7 @@ namespace itk
 
     // Transform a given point which is represented as type PointType
     // FIXME: Deprecated on 2001-01-02
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     AffineTransform<ScalarType, NDimensions>::PointType
     AffineTransform<ScalarType, NDimensions>::
     TransformPoint(const PointType &point) {
@@ -378,7 +378,7 @@ namespace itk
 
 
     // Back transform a point
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     AffineTransform<ScalarType, NDimensions>::PointType
     AffineTransform<ScalarType, NDimensions>::
     BackTransform(const PointType &point) const {
@@ -400,7 +400,7 @@ namespace itk
     }
 
     // Back transform a vector
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     AffineTransform<ScalarType, NDimensions>::VectorType
     AffineTransform<ScalarType, NDimensions>::
     BackTransform(const VectorType &vect ) const {
@@ -408,7 +408,7 @@ namespace itk
     }
 
     // Back transform a vnl_vector
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     AffineTransform<ScalarType, NDimensions>::VnlVectorType
     AffineTransform<ScalarType, NDimensions>::
     BackTransform(const VnlVectorType &vect ) const {
@@ -418,7 +418,7 @@ namespace itk
 
     // Back transform a given point which is represented as type VectorType
     // FIXME: deprecated on 2001-01-02
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     AffineTransform<ScalarType, NDimensions>::VectorType
     AffineTransform<ScalarType, NDimensions>::
     BackTransformPoint(const VectorType &point) {
@@ -427,7 +427,7 @@ namespace itk
 
 
     // Back Transform a CovariantVector
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     AffineTransform<ScalarType, NDimensions>::CovariantVectorType
     AffineTransform<ScalarType, NDimensions>::
     BackTransform(const CovariantVectorType &vec) const {
@@ -446,7 +446,7 @@ namespace itk
 
     // Back transform a given point which is represented as type PointType
     // FIXME: deprecated on 2001-01-02
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     AffineTransform<ScalarType, NDimensions>::PointType
     AffineTransform<ScalarType, NDimensions>::
     BackTransformPoint(const PointType &point) {
@@ -469,7 +469,7 @@ namespace itk
 
 
     // Create and return an inverse transformation
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     AffineTransform<ScalarType, NDimensions>
     AffineTransform<ScalarType, NDimensions>::
     Inverse()
@@ -484,7 +484,7 @@ namespace itk
 
 
     // Compute a distance between two affine transforms
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     double
     AffineTransform<ScalarType, NDimensions>::
     Metric(const Self &other) const
@@ -503,7 +503,7 @@ namespace itk
     }
 
     // Compute a distance between self and the identity transform
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     double
     AffineTransform<ScalarType, NDimensions>::
     Metric(void) const
@@ -528,7 +528,7 @@ namespace itk
 
 
     // Recompute the inverse matrix (internal)
-    template<class ScalarType, int NDimensions>
+    template<class ScalarType, unsigned int NDimensions>
     void
     AffineTransform<ScalarType, NDimensions>::
     RecomputeInverse()
