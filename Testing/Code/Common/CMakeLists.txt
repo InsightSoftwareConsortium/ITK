@@ -39,6 +39,7 @@ ADD_TEST(itkImageRegionTest itkCommonTests itkImageRegionTest)
 ADD_TEST(itkImageRegionExclusionIteratorWithIndexTest itkCommonTests itkImageRegionExclusionIteratorWithIndexTest)
 ADD_TEST(itkImageSliceIteratorTest itkCommonTests itkImageSliceIteratorTest)
 ADD_TEST(itkIteratorTests itkCommonTests itkIteratorTests)
+ADD_TEST(itkLightObjectTest itkCommonTests itkLightObjectTest)
 ADD_TEST(itkMatrixTest itkCommonTests itkMatrixTest)
 ADD_TEST(itkMapContainerTest itkCommonTests itkMapContainerTest)
 ADD_TEST(itkMemoryLeakTest itkCommonTests itkMemoryLeakTest)
@@ -98,6 +99,7 @@ itkImageRegionTest
 itkImageRegionExclusionIteratorWithIndexTest 
 itkImageSliceIteratorTest 
 itkIteratorTests 
+itkLightObjectTest 
 itkMatrixTest 
 itkMapContainerTest 
 itkMemoryLeakTest 
