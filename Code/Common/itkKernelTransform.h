@@ -5,6 +5,7 @@
 #include "itkPoint.h"
 #include "itkVector.h"
 #include "itkMatrix.h"
+#include "itkPointSet.h"
 #include <deque>
 #include <math.h>
 #include "vnl/vnl_matrix_fixed.h"
@@ -56,7 +57,14 @@ public:
    * PointList typedef. This type is used for maintaining lists of points,
    * specifically, the source and target landmark lists.
    */
-  typedef std::deque<PointType*> PointListType;
+  typedef DefaultStaticMeshTraits<TScalarType,
+                                  NDimensions,
+                                  NDimensions,
+                                  TScalarType,
+                                  TScalarType> PointSetTraitsType;
+
+	typedef PointSet<PointType, PointSetTraitsType> PointSetType;
+	typedef PointSetType::Pointer PointSetPointer;
   /**
    * VectorList typedef
    */
@@ -64,11 +72,11 @@ public:
   /**
    * Get the source landmarks list, which we will denote p
    */
-	PointListType* Getp();
+	PointSetPointer Getp();
   /**
    * Get the target landmarks list, which we will denote q
    */
-	PointListType* Getq();
+	PointSetPointer Getq();
   /**
    * Get the displacements list, which we will denote d,
    * where d_i = q_i - p_i
@@ -165,11 +173,11 @@ protected:
   /**
    * The list of source landmarks, denoted 'p'
    */
-  PointListType* m_p;
+  PointSetPointer m_p;
   /**
    * The list of target landmarks, denoted 'q'
    */
-  PointListType* m_q;
+  PointSetPointer m_q;
   /**
    * The list of displacements.
    * d[i] = q[i] - p[i];

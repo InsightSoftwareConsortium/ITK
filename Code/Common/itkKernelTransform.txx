@@ -24,8 +24,8 @@ Transformation<TScalarType, NDimensions>()
     m_I.set_identity();
     IMatrixInitialized = true;
   }
-  m_p = new PointListType;
-  m_q = new PointListType;
+	m_p = PointSetType::New();
+	m_q = PointSetType::New();
   m_d = new VectorListType;
   m_LMatrix = NULL;
   m_KMatrix = NULL;
@@ -41,14 +41,6 @@ Transformation<TScalarType, NDimensions>()
 template <class TScalarType, int NDimensions>
 KernelTransform<TScalarType, NDimensions>::~KernelTransform()
 {
-  if (m_p != NULL)
-  {
-    delete m_p;
-  }
-  if (m_q != NULL)
-  {
-    delete m_q;
-  }
   if (m_d != NULL)
   {
     delete m_d;
@@ -79,7 +71,7 @@ KernelTransform<TScalarType, NDimensions>::~KernelTransform()
  *
  */
 template <class TScalarType, int NDimensions>
-KernelTransform<TScalarType, NDimensions>::PointListType*
+KernelTransform<TScalarType, NDimensions>::PointSetPointer
 KernelTransform<TScalarType, NDimensions>::Getp()
 {
 	return m_p;
@@ -89,7 +81,7 @@ KernelTransform<TScalarType, NDimensions>::Getp()
  *
  */
 template <class TScalarType, int NDimensions>
-KernelTransform<TScalarType, NDimensions>::PointListType*
+KernelTransform<TScalarType, NDimensions>::PointSetPointer
 KernelTransform<TScalarType, NDimensions>::Getq()
 {
 	return m_q;
@@ -111,17 +103,17 @@ KernelTransform<TScalarType, NDimensions>::Getd()
 template <class TScalarType, int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::ComputeD()
 {
-  int numLandmarks = m_p->size();
+	int numLandmarks = m_p->GetNumberOfPoints();
   int i;
-  PointType* q;
-  PointType* p;
+	PointType p;
+	PointType q;
   VectorType* d;
 
   m_d->clear();
   for (i = 0; i < numLandmarks; i++) {
-    q = (*m_q)[i];
-    p = (*m_p)[i];
-    d = new VectorType(*q - *p);
+		m_p->GetPoint(i, &p);
+		m_q->GetPoint(i, &q);
+		d = new VectorType(q - p);
     m_d->push_back(d);
   }
 }
@@ -132,7 +124,7 @@ void KernelTransform<TScalarType, NDimensions>::ComputeD()
 template <class TScalarType, int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::ComputeW()
 {
-  int numLandmarks = m_p->size();
+	int numLandmarks = m_p->GetNumberOfPoints();
   vnl_svd<TScalarType>* svd;
 
   ComputeL();
@@ -144,7 +136,6 @@ void KernelTransform<TScalarType, NDimensions>::ComputeW()
   m_WMatrix = new WMatrixType(NDimensions*(numLandmarks+NDimensions+1), 1);
   svd = new vnl_svd<TScalarType>(*m_LMatrix, 1e-8);
   *m_WMatrix = svd->solve(*m_YMatrix);
-	//std::cout << *m_WMatrix << std::endl;
 }
 
 /**
@@ -153,7 +144,7 @@ void KernelTransform<TScalarType, NDimensions>::ComputeW()
 template <class TScalarType, int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::ComputeL()
 {
-  int numLandmarks = m_p->size();
+	int numLandmarks = m_p->GetNumberOfPoints();
   vnl_matrix<TScalarType> O2(NDimensions*(NDimensions+1),
                              NDimensions*(NDimensions+1), 0);
 
@@ -177,10 +168,12 @@ void KernelTransform<TScalarType, NDimensions>::ComputeL()
 template <class TScalarType, int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::ComputeK()
 {
-  int numLandmarks = m_p->size();
+	int numLandmarks = m_p->GetNumberOfPoints();
   GMatrixType G;
   VectorType s;
   int i, j;
+	PointType p1;
+	PointType p2;
 
   ComputeD();
   if (m_KMatrix != NULL)
@@ -193,7 +186,9 @@ void KernelTransform<TScalarType, NDimensions>::ComputeK()
   {
     for (j = 0; j < numLandmarks; j++)
     {
-      s = *((*m_p)[i]) - *((*m_p)[j]);
+			m_p->GetPoint(i, &p1);
+			m_p->GetPoint(j, &p2);
+			s = p1 - p2;
       G = ComputeG(s);
       m_KMatrix->update(G, i*NDimensions, j*NDimensions);
     }
@@ -206,10 +201,11 @@ void KernelTransform<TScalarType, NDimensions>::ComputeK()
 template <class TScalarType, int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::ComputeP()
 {
-  int numLandmarks = m_p->size();
+	int numLandmarks = m_p->GetNumberOfPoints();
   IMatrixType I;
   IMatrixType temp;
   int i, j;
+	PointType p;
 
   I.set_identity();
   if (m_PMatrix != NULL)
@@ -220,9 +216,10 @@ void KernelTransform<TScalarType, NDimensions>::ComputeP()
                               NDimensions*(NDimensions+1));
   for (i = 0; i < numLandmarks; i++)
   {
+		m_p->GetPoint(i, &p);
     for (j = 0; j < NDimensions; j++)
     {
-      temp = I * (*m_p)[i]->Get_vnl_vector()[j];
+			temp = I * p.Get_vnl_vector()[j];
       m_PMatrix->update(temp, i*NDimensions, j*NDimensions);
     }
     m_PMatrix->update(I, i*NDimensions, j*NDimensions);
@@ -236,7 +233,7 @@ template <class TScalarType, int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::ComputeY()
 {
   int i, j;
-  int numLandmarks = m_p->size();
+	int numLandmarks = m_p->GetNumberOfPoints();
 
   if (m_YMatrix != NULL)
   {
@@ -263,18 +260,20 @@ template <class TScalarType, int NDimensions>
 KernelTransform<TScalarType, NDimensions>::PointType
 KernelTransform<TScalarType, NDimensions>::Transform(const PointType& thisPoint) const
 {
-  int numLandmarks = m_p->size();
+	int numLandmarks = m_p->GetNumberOfPoints();
   int i, j;
   ColumnMatrixType b, c, d, Ax;
   vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> A;
   PointType result;
   VectorType argumentG;
+	PointType p;
 
   d = d*0;
   for (i = 0; i < numLandmarks; i++)
   {
     c.update(m_WMatrix->extract(NDimensions, 1, i*NDimensions, 0), 0, 0);
-    argumentG = thisPoint - *((*m_p)[i]);
+		m_p->GetPoint(i, &p);
+		argumentG = thisPoint - p;
     d = d + ComputeG(argumentG) * c;
   }
   for (i = 0; i < NDimensions; i++)
@@ -305,22 +304,24 @@ template <class TScalarType, int NDimensions>
 KernelTransform<TScalarType, NDimensions>::VectorType
 KernelTransform<TScalarType, NDimensions>::Transform(const VectorType& thisVector) const
 {
-  int numLandmarks = m_p->size();
+	int numLandmarks = m_p->GetNumberOfPoints();
   int i, j;
   ColumnMatrixType c, d, Ax;
   VectorType result;
   VectorType GArgument;
   vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> A;
   VectorType thisVectorCopy = thisVector;
+	PointType p;
 
   d = d*0;
   for (i = 0; i < numLandmarks; i++)
   {
+		m_p->GetPoint(i, &p);
     c.update(m_WMatrix->extract(NDimensions, 1, i*NDimensions, 0), 0, 0);
     for (j = 0; j < NDimensions; j++)
     {
-      GArgument[j] = thisVectorCopy.Get_vnl_vector()[j] -
-                     (*m_p)[i]->Get_vnl_vector()[j];
+			GArgument[j] = thisVectorCopy.Get_vnl_vector()[j] -
+										 p.Get_vnl_vector()[j];
     }
     d = d + ComputeG(GArgument) * c;
   }
