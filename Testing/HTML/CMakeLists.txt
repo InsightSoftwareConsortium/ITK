@@ -1,3 +1,3 @@
-SUBDIRS = \
-TestingResults 
+SUBDIRS(TestingResults)
+
 

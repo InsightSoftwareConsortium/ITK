@@ -143,9 +143,9 @@ int main()
   //
   itk::ShrinkImage<FloatImage2DType,FloatImage2DType>::Pointer shrink;
   shrink = itk::ShrinkImage<FloatImage2DType,FloatImage2DType>::New();
+  shrink->DebugOn();
   shrink->SetInput(random->GetOutput());
   shrink->SetShrinkFactor(2);
-  shrink->DebugOn();
   
   // Create a command to call ShowProgress when progress event is triggered
   ShowProgressObject progressWatch(shrink);

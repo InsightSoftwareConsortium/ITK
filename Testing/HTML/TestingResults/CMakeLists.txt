@@ -1,3 +1,1 @@
-SUBDIRS = \
-Dashboard \
-Sites
+SUBDIRS(Dashboard Sites)

@@ -553,7 +553,7 @@ while $dirHasListsFile; do
 	# look for a CMakeLists.txt file in the current directory
 	if test -e$currentDir/CMakeLists.txt; then
 	    # extract the SUBDIRS varible from the CMakeLists.txt file
-	    dirsInListsFile=`cat $currentDir/CMakeLists.txt | sed -e :a -e '/SUBDIRS.*\\\\$/N; s/\\\\\\n//; ta' | grep SUBDIRS | sed -e "s/SUBDIRS//g; s/=//g" `
+	    dirsInListsFile=`cat $currentDir/CMakeLists.txt | sed -e :a -e '/SUBDIRS.*\\\\$/N; s/\\\\\\n//; ta' | grep SUBDIRS | sed -e "s/SUBDIRS//g; s/(//g;s/)//g" `
 	    # add the current directory to any sub dirs found
 	    # in the above search of CMakeLists.txt
 	    for subdir in $dirsInListsFile;do
@@ -634,7 +634,7 @@ AC_PATH_PROGS(MAKECOMMAND, gmake make)
 AC_PATH_PROGS(CVSCOMMAND, cvs )
 AC_PATH_PROGS(GREPCOMMAND, grep )
 AC_PATH_PROGS(COMPRESSIONCOMMAND, gzip compress zip )
-AC_PATH_PROGS(TCLSHCOMMAND, tclsh tclsh82 tclsh8.2 tclsh80 tclsh8.2 )
+AC_PATH_PROGS(TCLSHCOMMAND, cygtclsh80, tclsh tclsh82 tclsh8.2 tclsh80 tclsh8.2 )
 AC_PATH_PROGS(GUNZIPCOMMAND, gunzip )
 
 AC_SUBST(MAKECOMMAND)
