@@ -23,29 +23,29 @@
 
 // Software Guide : BeginLatex
 //
-// In this example, the Sobel edge-detection routine is reimplemented using
+// In this example, the Sobel edge-detection routine is rewritten using
 // convolution filtering.  Convolution filtering is a standard image processing
-// technique that is implemented numerically by successive inner product
-// operations between an image neighborhood and a convolution kernel
-// \cite{Gonzalez1993} \cite{Castleman1993}.
+// technique that can be implemented numerically as the inner product of all
+// image neighborhoods with a convolution kernel \cite{Gonzalez1993}
+// \cite{Castleman1993}.  In ITK, we use a class of objects called
+// \emph{neighborhood operators} as convolution kernels and a special function
+// object called \doxygen{NeighborhoodInnerProduct} to calculate inner
+// products.
 //
-// ITK has an implementation of the Sobel convolution kernel in 2D and 3D
-// called the \doxygen{SobelOperator}, which is a member of a general
-// class of objects known as neighborhood operators.  Other neighborhood operators
-// include derivative and Gaussian convolution kernels as well as morphological
-// operators.
-// 
-// In this example, convolution filtering is done by taking the inner product
-// of the Sobel operator with the neighborhood iterator at each image pixel
-// index. The resulting values are written to an output image buffer as before.
-// Many image processing algorithms in ITK are implemented using the basic
-// procedure illustrated here. \doxygen{NeighborhoodOperatorImageFilter} is
-// a generalization of this example to ND and arbitrary convolution kernels.
+// The basic ITK convolution filtering routine is to step through the image
+// with a neighborhood iterator and use \doxygen{NeighborhoodInnerProduct} to
+// find the inner product of each neighborhood with the desired kernel. The
+// resulting values are written to an output image.  This example uses a
+// neighborhood operator called the \doxygen{SobelOperator}, but all
+// neighborhood operators can be convolved with images using this basic
+// routine.  Other examples of neighborhood operators include derivative
+// kernels, Gaussian kernels, and morphological
+// operators. \doxygen{NeighborhoodOperatorImageFilter} is a generalization of
+// the code in this section to ND images and arbitrary convolution kernels.
 //
-// A few additional header files are necessary for this example.  The
-// \doxygen{NeighborhoodInnerProduct} object is a function object that takes the
-// inner product between a neighborhood operator and an image neighborhood.
-// 
+// We start writing this example by including the header files for the Sobel
+// kernel and the inner product function.
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -100,13 +100,10 @@ int main( int argc, char ** argv )
 // Refer to the previous example for a description of reading the input image and
 // setting up the output image and iterator.
 //
-// The following code creates a Sobel operator.  Our Sobel operator requires a
-// direction that corresponds to the derivative direcion.  This direction is
-// read from the command line.  Changing the direction of the derivatives
-// changes the bias of the edge detection, i.e. maximally vertical or maximally
-// horizontal.  A complete Sobel edge detection routine such as
-// \doxygen{SobelEdgeDetectionImageFilter} uses the square-root sum-of-squares
-// of all of the partial derivatives.
+// The following code creates a Sobel operator.  The Sobel operator requires
+// a direction for its partial derivatives.  This direction is read from the command line.
+// Changing the direction of the derivatives changes the bias of the edge
+// detection, i.e. maximally vertical or maximally horizontal.
 //
 // Software Guide : EndLatex
 
@@ -152,7 +149,7 @@ int main( int argc, char ** argv )
 // Software Guide : BeginLatex
 //
 // The output is rescaled and written as in the previous example.  Applying
-// this example in the $x$ and $y$-directions produces the images at the center
+// this example in the $x$ and $y$ directions produces the images at the center
 // and right of Figure~\ref{fig:NeighborhoodExamples1}.
 // 
 // Software Guide : EndLatex
