@@ -60,10 +60,7 @@ public:
   virtual void ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const;
 
   // FIXME: Write a proper implementation
-  virtual bool GetLocalFromGlobalCoordinates( const VectorType& globalPt , VectorType& localPt) const
-  {
-    throw; return false;
-  }
+  virtual bool GetLocalFromGlobalCoordinates( const VectorType& globalPt , VectorType& localPt) const;
 
   // Since the Jacobian is not quadratic, we need to provide our
   // own implementation of calculating the determinant and inverse.

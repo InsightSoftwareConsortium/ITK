@@ -163,6 +163,42 @@ Element2DC0LinearTriangular
 
 
 
+bool
+Element2DC0LinearTriangular
+::GetLocalFromGlobalCoordinates( const VectorType& globalPt , VectorType& localPt) const
+{
+
+  Float x, x1, x2, x3, 
+        y, y1, y2, y3,
+        A;
+
+  localPt.resize(3);
+
+  x=globalPt[0]; y=globalPt[1];
+  x1 = this->m_node[0]->GetCoordinates()[0];   y1 = this->m_node[0]->GetCoordinates()[1];
+  x2 = this->m_node[1]->GetCoordinates()[0];   y2 = this->m_node[1]->GetCoordinates()[1];
+  x3 = this->m_node[2]->GetCoordinates()[0];   y3 = this->m_node[2]->GetCoordinates()[1];
+
+  A=x1*y2 - x2*y1 + x3*y1 - x1*y3 + x2*y3 - x3*y2;
+  localPt[0]=((y2 - y3)*x + (x3 - x2)*y + x2*y3 - x3*y2)/A;
+  localPt[1]=((y3 - y1)*x + (x1 - x3)*y + x3*y1 - x1*y3)/A;
+  localPt[2]=((y1 - y2)*x + (x2 - x1)*y + x1*y2 - x2*y1)/A;
+
+  bool isInside=true;
+
+  if (localPt[0] < 0.0 || localPt[0] > 1.0 || localPt[1] < 0.0 || localPt[1] > 1.0 || localPt[2] < 0.0 || localPt[2] > 1.0 )
+  {
+    return false;
+  }
+  else
+  {
+    return true;
+  }
+}
+
+
+
+
 Element2DC0LinearTriangular::Float
 Element2DC0LinearTriangular
 ::JacobianDeterminant( const VectorType& pt, const MatrixType* pJ ) const
