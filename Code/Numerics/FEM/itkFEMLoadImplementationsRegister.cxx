@@ -86,7 +86,8 @@ public:
 
 /* This macro makes registering Load implementations easier. */
 #define REGISTER_LOAD_EX(ElementClass,LoadClass,FunctionName) \
-  VisitorDispatcher<ElementClass, ElementClass::LoadElementType, ElementClass::LoadVectorType>::RegisterVisitor((LoadClass*)0, &FunctionName);
+  VisitorDispatcher<ElementClass, ElementClass::LoadElementType, ElementClass::LoadVectorType (*)(ElementClass::ConstPointer,ElementClass::LoadElementPointer)> \
+  ::RegisterVisitor((LoadClass*)0, &FunctionName);
 /* Use this macro to also automatically declare load implementation function. */
 #define REGISTER_LOAD(ElementClass,LoadClass,FunctionName) \
   extern ElementClass::LoadVectorType FunctionName(ElementClass::ConstPointer, ElementClass::LoadElementPointer); \

@@ -15,10 +15,8 @@
 
 =========================================================================*/
 
-// disable debug warnings in MS compiler
-#ifdef _MSC_VER
-#pragma warning(disable: 4786)
-#endif
+#ifndef __itkFEMLoadImplementationTestBar2D_h
+#define __itkFEMLoadImplementationTestBar2D_h
 
 #include "itkFEMElementBar2D.h"
 #include "itkFEMLoadTest.h"
@@ -74,10 +72,12 @@ private:
 // corresponding Load class.
 template<class TLoadClass>
 const bool LoadTestImplementationBar2D<TLoadClass>::registered=
-  VisitorDispatcher<Bar2D,Element::LoadElementType,Bar2D::VectorType>
+  VisitorDispatcher<Bar2D,Element::LoadElementType,Bar2D::VectorType (*)(Bar2D::ConstPointer,ElementNew::LoadElementPointer)>
   ::RegisterVisitor((TLoadClass*)0, &LoadTestImplementationBar2D<TLoadClass>::impl);
 
 
 
 
 }} // end namespace itk::fem
+
+#endif // #ifndef __itkFEMLoadImplementationTestBar2D_h

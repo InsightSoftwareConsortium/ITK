@@ -15,10 +15,8 @@
 
 =========================================================================*/
 
-// disable debug warnings in MS compiler
-#ifdef _MSC_VER
-#pragma warning(disable: 4786)
-#endif
+#ifndef __itkFEMImageMetricLoadImplementation_h
+#define __itkFEMImageMetricLoadImplementation_h
 
 #include "itkFEMImageMetricLoad.h"
 #include "itkFEMElement2DC0LinearQuadrilateralStress.h"
@@ -121,10 +119,12 @@ private:
 // corresponding Load class.
 template<class TLoadClass>
 const bool ImageMetricLoadImplementation<TLoadClass>::registered=
-  VisitorDispatcher<Element2DC0LinearQuadrilateralStress,Element::LoadElementType,Element::VectorType>
+VisitorDispatcher<Element2DC0LinearQuadrilateralStress,Element::LoadElementType, Element::VectorType (*)(Element2DC0LinearQuadrilateralStress::ConstPointer,ElementNew::LoadElementPointer)>
   ::RegisterVisitor((TLoadClass*)0, &ImageMetricLoadImplementation<TLoadClass>::ImplementImageMetricLoad);
 
 
 
 
 }} // end namespace itk::fem
+
+#endif // #ifndef __itkFEMImageMetricLoadImplementation_h

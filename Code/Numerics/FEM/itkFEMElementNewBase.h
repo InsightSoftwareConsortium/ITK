@@ -70,7 +70,7 @@ namespace fem {
  */
 #define HANDLE_ELEMENT_LOADS() \
   virtual VectorType GetLoadVector( LoadElementPointer l ) const \
-  { return VisitorDispatcher<Self,LoadElementType,VectorType>::Visit(this,l); }
+  { return VisitorDispatcher<Self,LoadElementType,VectorType (*)(Self::ConstPointer,LoadElementPointer)>::Visit(l)(this,l); }
 
 
 

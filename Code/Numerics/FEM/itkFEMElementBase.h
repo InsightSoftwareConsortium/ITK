@@ -66,9 +66,9 @@ namespace fem {
  */
 #define LOAD_FUNCTION() \
   virtual LoadVectorType Fe( LoadElementPointer l ) const \
-  { return VisitorDispatcher<Self,LoadElementType,LoadVectorType>::Visit(this,l); } \
+  { return VisitorDispatcher<Self,LoadElementType,LoadVectorType (*)(Self::ConstPointer,LoadElementPointer)>::Visit(l)(this,l); } \
   virtual VectorType GetLoadVector( LoadElementPointer l ) const \
-  { return VisitorDispatcher<Self,LoadElementType,VectorType>::Visit(this,l); }
+  { return VisitorDispatcher<Self,LoadElementType,LoadVectorType (*)(Self::ConstPointer,LoadElementPointer)>::Visit(l)(this,l); }
 
 
 
