@@ -50,8 +50,8 @@ template <
   typename TPixelType,
   int VPointDimension = 3,
   int VMaxTopologicalDimension = 3,
-  typename TCoordRep = double,
-  typename TInterpolationWeight = double
+  typename TCoordRep = float,
+  typename TInterpolationWeight = float
   >
 class MeshTypeDefault
 {

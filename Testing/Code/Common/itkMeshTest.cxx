@@ -68,7 +68,7 @@ int main(void)
   /**
    * Define the 3d geometric positions for 8 points in a cube.
    */
-  double testPointCoords[8][3]
+  float testPointCoords[8][3]
     = { {0,0,0}, {9,0,0}, {9,0,9}, {0,0,9},
         {0,9,0}, {9,9,0}, {9,9,9}, {0,9,9} };
   
