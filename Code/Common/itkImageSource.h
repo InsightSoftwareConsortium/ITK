@@ -31,7 +31,7 @@ namespace itk
  * ImageSource is the base class for all process objects that output
  * image data. Specifically, this class defines the GetOutput() method
  * that returns a pointer to the output image. The class also defines
- * some internal private data memebers that are used to manage streaming
+ * some internal private data members that are used to manage streaming
  * of data.
  *
  * \ingroup DataSources
@@ -155,7 +155,7 @@ protected:
    * algorithm, the filter will provide an implementation of
    * ThreadedGenerateData().  This superclass will automatically split
    * the output image into a number of pieces, spawn multiple threads,
-   * and call ThreadedGenerateData() in each thread. Prior to spawing
+   * and call ThreadedGenerateData() in each thread. Prior to spawning
    * threads, the BeforeThreadedGenerateData() method is called. After
    * all the threads have completed, the AfterThreadedGenerateData()
    * method is called. If an image processing filter cannot support
@@ -186,8 +186,8 @@ protected:
   virtual void PrepareOutputs() {};
 
   /** The GenerateData method normally allocates the buffers for all of the
-   * outputs of a filter. Some filters may want to iverride this default
-   * behavior. Foer example, a filter may have multiple outptus with
+   * outputs of a filter. Some filters may want to override this default
+   * behavior. For example, a filter may have multiple outputs with
    * varying resolution. Or a filter may want to process data in place by
    * grafting its input to its output.*/
   virtual void AllocateOutputs();
