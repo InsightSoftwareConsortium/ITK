@@ -14,7 +14,7 @@
 # 
 # =========================================================================*/
 
-puts {/*=========================================================================
+set Header {/*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit (ITK)
   Module:    BuildHeaderTest.tcl
@@ -34,16 +34,37 @@ See COPYRIGHT.txt for copyright details.
 // Test to include each header file for Insight
 }
 
-set Files [lsort [glob Code/Common/*.h]]
-foreach File $Files \
-{
-  puts "#include \"[file tail $File]\""
-}
-
-puts "
+set Trailer "
 int main ( int argc, char* argv[] )
 {
   
   return 0;
 }
 "
+
+set D [lsort [glob Code/*]]
+set Directories ""
+foreach d $D \
+{
+  if { [file tail $d] != "CVS" && [file isdirectory $d]} \
+  {
+    lappend Directories [file tail $d]
+  }
+}
+
+foreach Directory $Directories \
+{
+  if { ![file exists [file join Testing Code $Directory]] } \
+  {
+    continue
+  }
+  set f [open [file join Testing Code $Directory itkHeaderTest.cxx] w]
+  puts $f $Header
+  foreach File [lsort [glob [file join Code $Directory *.h]]] \
+  {
+    puts $f "#include \"[file tail $File]\""
+  }
+  puts $f $Trailer
+  close $f
+}
+
