@@ -42,6 +42,11 @@ ChangeInformationImageFilter<TInputImage>
   
   m_OutputSpacing.Fill(1.0);
   m_OutputOrigin.Fill(0.0);
+
+  for (int i = 0; i < ImageDimension; i++)
+    {
+    m_OutputOffset[i] = 0;
+    }
 }
 
 template <class TInputImage>

@@ -56,8 +56,13 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
   ot.GoToBegin();
   for(;!it.IsAtEnd(); ++it,++ot)
     if(it.Get() != 0)
+      {
       ot.Set(65535);
-
+      }
+    else
+      {
+      ot.Set(0);
+      }
   eq_tab[0] = 0;
   ot.GoToBegin();
   for(;!ot.IsAtEnd(); ++ot)
