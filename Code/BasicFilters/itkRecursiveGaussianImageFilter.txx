@@ -115,8 +115,8 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
   const TComputation SumOfNCoefficients = m_N00 + m_N11 + m_N22 + m_N33;
   const TComputation SumOfMCoefficients = m_M11 + m_M22 + m_M33 + m_M44;
   const TComputation SumOfDCoefficients = m_D11 + m_D22 + m_D33 + m_D44;
-  const TComputation CoefficientNormN    = SumOfNCoefficients / SumOfDCoefficients;
-  const TComputation CoefficientNormM    = SumOfMCoefficients / SumOfDCoefficients;
+  const TComputation CoefficientNormN    = SumOfNCoefficients / ( 1.0 + SumOfDCoefficients );
+  const TComputation CoefficientNormM    = SumOfMCoefficients / ( 1.0 + SumOfDCoefficients );
 
   m_BN1 = m_D11 * CoefficientNormN;
   m_BN2 = m_D22 * CoefficientNormN;
