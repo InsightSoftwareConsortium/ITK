@@ -38,11 +38,16 @@ MetaEllipseConverter<NDimensions>
 ::MetaEllipseToEllipseSpatialObject(MetaEllipse * ellipse)
 { 
   SpatialObjectPointer spatialObject = SpatialObjectType::New();
+
+  double spacing[NDimensions];
   typename SpatialObjectType::ArrayType radius;
   for(unsigned int i=0;i<NDimensions;i++)
-  {
+    {
     radius[i]=ellipse->Radius()[i];
-  }
+    spacing[i]=ellipse->ElementSpacing()[i];
+    }
+
+  spatialObject->GetIndexToObjectTransform()->SetScaleComponent(spacing);
   spatialObject->SetRadius(radius);
   spatialObject->GetProperty()->SetName(ellipse->Name());
   spatialObject->SetId(ellipse->ID());
@@ -75,6 +80,18 @@ MetaEllipseConverter<NDimensions>
   }
   ellipse->Radius(radius);
   ellipse->ID(spatialObject->GetId());
+
+  ellipse->Color(spatialObject->GetProperty()->GetRed(),
+                 spatialObject->GetProperty()->GetGreen(),
+                 spatialObject->GetProperty()->GetBlue(),
+                 spatialObject->GetProperty()->GetAlpha());
+  
+  for(unsigned int i=0;i<NDimensions;i++)
+    {
+    ellipse->ElementSpacing(i,spatialObject->GetIndexToObjectTransform()->GetScaleComponent()[i]);
+    }
+
+
   return ellipse;
 }
 
