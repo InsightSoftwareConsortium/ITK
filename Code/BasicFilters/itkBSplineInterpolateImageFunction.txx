@@ -65,9 +65,6 @@ void
 BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
 ::SetInputImage(const TImageType * inputData)
 {
-  Superclass::SetInputImage(inputData);
-
-  m_DataLength = inputData->GetLargestPossibleRegion().GetSize();
 
   m_CoefficientFilter->SetInput(inputData);
 
@@ -78,6 +75,12 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
 
   m_CoefficientFilter->Update();
   m_Coefficients = m_CoefficientFilter->GetOutput();
+
+  // Call the Superclass implementation after, in case the filter
+  // pulls in  more of the input image
+  Superclass::SetInputImage(inputData);
+
+  m_DataLength = inputData->GetBufferedRegion().GetSize();
 
 }
 

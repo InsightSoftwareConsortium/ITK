@@ -63,7 +63,7 @@ namespace itk
  *
  * \sa BSplineDecompositionImageFilter
  *
- * \ingroup 
+ * \ingroup ImageFunctions
  */
 template <
 class TImageType, 
