@@ -42,6 +42,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkFastMarchingExtensionImageFilter.txx"
 #include "itkFastMarchingImageFilter.txx"
 #include "itkGeodesicActiveContourImageFilter.txx"
+#include "itkGeodesicActiveContourLevelSetFunction.txx"
+#include "itkGeodesicActiveContourLevelSetImageFilter.txx"
 #include "itkGibbsPriorFilter.txx"
 #include "itkGradientVectorFlowImageFilter.txx"
 #include "itkHistogramMatchingImageFilter.txx"
