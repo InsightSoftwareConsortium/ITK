@@ -60,9 +60,6 @@ LevelSetFunction<TImageType>
 
   GlobalDataStruct *d = (GlobalDataStruct *)GlobalData;
 
-  std::cout << "MaxAdvectionChange" << d->m_MaxAdvectionChange << std::endl;
-  std::cout << "MaxPropagationChange" << d->m_MaxPropagationChange << std::endl;
-    
   d->m_MaxAdvectionChange += d->m_MaxPropagationChange;
   
   if (vnl_math_abs(m_CurvatureWeight) > 0.0)
@@ -89,7 +86,6 @@ LevelSetFunction<TImageType>
       }
     }
 
-  std::cout << "dt = " << dt << std::endl;
   return dt;
 }
  
