@@ -99,7 +99,7 @@ protected:
   virtual ~MeanShiftModeSeekerBase() ;
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  virtual void ComputeMode(MeasurementVectorType queryPoint,
+  virtual bool ComputeMode(MeasurementVectorType queryPoint,
                            MeasurementVectorType& newPoint) = 0 ;
 
   

@@ -99,7 +99,8 @@ MeanShiftModeSeekerBase< TSample >
   MeasurementVectorType previousPoint = queryPoint ;
 
   unsigned int currentIteration = 0 ;
-  
+  bool retCode ;
+
   while ( true )
     {
     if ( m_MaximumIteration > 0 && currentIteration > m_MaximumIteration )
@@ -116,15 +117,23 @@ MeanShiftModeSeekerBase< TSample >
       {
       if ( !m_CacheMethod->GetMeasurementVector(queryPoint, newPoint) )
         {
-        this->ComputeMode( queryPoint, newPoint ) ;
-        m_CacheMethod->SetMeasurementVector( queryPoint, newPoint ) ;
+        retCode = this->ComputeMode( queryPoint, newPoint ) ;
+        if ( retCode )
+          {
+          m_CacheMethod->SetMeasurementVector( queryPoint, newPoint ) ;
+          }
         }
       }
     else
       {
-      this->ComputeMode( queryPoint, newPoint ) ;
+      retCode = this->ComputeMode( queryPoint, newPoint ) ;
       }
     
+    if ( !retCode )
+      {
+      return queryPoint ;
+      }
+
     if ( queryPoint != newPoint && newPoint != previousPoint )
       {
       previousPoint = queryPoint ;
