@@ -53,11 +53,11 @@ namespace itk
  * \brief identifies slab in MR images comparing minimum intensity averages
  *
  * This class is templated over the type of image. 
- * In many cases, a 3D MR image is constructed by merging  smaller 3D 
+ * In many cases, a 3D MR image is constructed by merging smaller 3D 
  * blocks (slabs) which were acquired with different settings such as magnetic
  * settings and patient positions. Therefore, stripe like patterns with slabs 
  * can be present in the resulting image. Such artifacts are called "slab 
- * boundardy" artifacts or "venetian blind" artifacts.
+ * boundary" artifacts or "venetian blind" artifacts.
  *
  * With the slab boundary artifacts in an image, even a same tissue class's
  * intensity values might vary significantly along the borders of slabs.
@@ -68,15 +68,14 @@ namespace itk
  * So, the MRIBiasFieldCorrectionFilter creates regions for slabs using the 
  * MRASlabIdentifier and then apply its bias correction scheme to each slab. 
  *
- * For this identifier, a slice means 2D image data which are extract from
+ * For this identifier, a slice means 2D image data which is extracted from
  * the input image along one of three axes (x, y, z). Users can specify
  * the slicing axis using the SetSlicingDirection(int dimension) member.
  * (0 - x, 1 - y, 2 - z).
  *
- *
  * The identification scheme used here is very simple.  
  * 1) Users should specify how many pixels per slice the identifier
- *     will sample. 
+ *    will sample. 
  * 2) For each slice, the identifier searches the specified number of pixels 
  *    of which intensity values are greater than 0 and less than those 
  *    of the other pixels in the slice
@@ -137,13 +136,9 @@ public:
    * Type definition for the input image pixel type.
    */
   typedef typename TInputImage::PixelType ImagePixelType;
-
   typedef typename TInputImage::IndexType ImageIndexType;
-
   typedef typename TInputImage::SizeType ImageSizeType;
-
   typedef typename TInputImage::RegionType ImageRegionType ;
-
   typedef std::vector<ImageRegionType> SlabRegionVectorType ; 
 
   /**
@@ -160,20 +155,17 @@ public:
    * Get the number of minimum intensity pixels per slice 
    */
   int GetNumberOfMinimumsPerSlice(void) 
-  {
-    return m_NumberOfMinimumsPerSlice ;
-  }
-
+    {return m_NumberOfMinimumsPerSlice;}
   /**
    * Sets the direction of slicing
    * 0 - x axis, 1 - y axis, 2 - z axis
    */
 
   void SetSlicingDirection(int dimension)
-  { m_SlicingDirection = dimension ; }
+    { m_SlicingDirection = dimension ; }
     
   int GetSlicingDirection()
-  { return m_SlicingDirection ; }
+    { return m_SlicingDirection ; }
 
   /**
    * compute the average values of miminum intensity pixels for each slice and
@@ -187,7 +179,6 @@ public:
   SlabRegionVectorType GetSlabRegionVector(void) ;
 
 protected:
-  
   MRASlabIdentifier() ;
   virtual ~MRASlabIdentifier() {} 
   MRASlabIdentifier(const Self&) {}

@@ -53,9 +53,10 @@ namespace itk
 /** \class KLMSegmentationRegion
  * \brief Base class for KLMSegmentationRegion object
  * 
- * itkKLMSegmentationRegion is the base class for the KLMSegmentationRegion objects. It provides
- * the basic function definitons that are inherent to a KLMSegmentationRegion objects.
- * It is templated over the type of input and output image.
+ * itkKLMSegmentationRegion is the base class for the KLMSegmentationRegion
+ * objects. It provides the basic function definitons that are inherent to a
+ * KLMSegmentationRegion objects.  It is templated over the type of input and
+ * output image.
 
  * This object supports data handling of multiband images. The object
  * accepts images in vector format, where each pixel is a vector and each 
@@ -111,7 +112,7 @@ namespace itk
  *  \end{center}
  *
  * \ingroup RegionGrowingSegmentation 
- *
+ * 
  */
 template <class TInputImage, class TOutputImage>
 class KLMSegmentationBorder;

@@ -58,13 +58,14 @@ namespace itk
  * feture/object segmentation by merging regions (parts of the image) that 
  * are similar in nature based on some metric. As a result parts of the image
  * which belong to the same object gets merged and the region grows. 
- 
+ * 
  * As an example regarding using this class to implementation of advanced
- * region growing algorithm, itkRegionGrowImageFilterKLM class has been derived from
- * this class. The virtual function ApplyRegionGrowImageFilter() provides the interface
- * to the outside world to extend/enhance the scope of the current algorithm
- * or write other region growing algorithms. The function MergeRegions is
- * interface for the operation that merges two regions. 
+ * region growing algorithm, itkRegionGrowImageFilterKLM class has been
+ * derived from this class. The virtual function ApplyRegionGrowImageFilter()
+ * provides the interface to the outside world to extend/enhance the scope of
+ * the current algorithm or write other region growing algorithms. The
+ * function MergeRegions is interface for the operation that merges two
+ * regions.
  * 
  * The local variables m_RowGridSize and m_ColGridSize are used to define
  * the inital small regions that the image is fragmented (atomic regions). 
@@ -94,8 +95,7 @@ namespace itk
  * for every vector.
  *
  * \ingroup RegionGrowingSegmentation 
- *
- */
+ * */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT RegionGrowImageFilter : 
   public ImageToImageFilter<TInputImage,TOutputImage>

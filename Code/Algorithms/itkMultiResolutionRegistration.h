@@ -200,19 +200,19 @@ public:
    * Get the target pyramid
    */
   TargetPyramidPointer  GetTargetPyramid(void)
-  { return m_TargetPyramid; }
+    { return m_TargetPyramid; }
 
   /**
    * Get the reference pyramid
    */
   ReferencePyramidPointer GetReferencePyramid(void)
-  { return m_ReferencePyramid; }
+    { return m_ReferencePyramid; }
 
   /**
    * Get the internal registrator
    */
   RegistrationPointer GetInternalRegistrationMethod(void)
-  { return m_InternalRegistrationMethod; }
+    { return m_InternalRegistrationMethod; }
 
   /**
    * Start the registration

@@ -88,8 +88,7 @@ LevelSetImageFilter<TLevelSet>
 template <class TLevelSet>
 void
 LevelSetImageFilter<TLevelSet>
-::SetInputNarrowBand(
-NodeContainer * ptr )
+::SetInputNarrowBand(NodeContainer * ptr )
 {
   if( m_InputNarrowBand != ptr )
     {
@@ -123,8 +122,7 @@ LevelSetImageFilter<TLevelSet>
 template <class TLevelSet>
 void
 LevelSetImageFilter<TLevelSet>
-::EnlargeOutputRequestedRegion(
-DataObject *output )
+::EnlargeOutputRequestedRegion(DataObject *output )
 {
 
   // this filter requires the all of the output image to be in
@@ -142,16 +140,10 @@ DataObject *output )
 template <class TLevelSet>
 void
 LevelSetImageFilter<TLevelSet>
-::AllocateBuffers(
-bool outputOnly)
+::AllocateBuffers(bool outputOnly)
 {
   LevelSetPointer inputPtr = this->GetInput();
  
-  if( !inputPtr )
-    { 
-    throw ExceptionObject(__FILE__, __LINE__);  
-    }
-
   if( !m_InputBuffer && !outputOnly) 
     { 
     m_InputBuffer = TLevelSet::New();

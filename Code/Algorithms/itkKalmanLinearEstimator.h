@@ -52,15 +52,15 @@ namespace itk
 /** \class KalmanLinearEstimator
  * \brief Implement a linear recursive estimator.
  *
- * KalmanLinearEstimator class implements a linear recursive estimator.  The class is
- * templated over the type of the parameters to be estimated and over the
- * number of parameters. Recursive estimation is a fast mechanism for getting
- * information about a system for which we only have access to measures that
- * are linearly related with the parameters we want to estimate.  
+ * KalmanLinearEstimator class implements a linear recursive estimator.  The
+ * class is templated over the type of the parameters to be estimated and
+ * over the number of parameters. Recursive estimation is a fast mechanism
+ * for getting information about a system for which we only have access to
+ * measures that are linearly related with the parameters we want to
+ * estimate.
  *
  * \ingroup Numerics
- *
- */
+ * */
 template <class T, unsigned int VEstimatorDimension>
 class KalmanLinearEstimator 
 {

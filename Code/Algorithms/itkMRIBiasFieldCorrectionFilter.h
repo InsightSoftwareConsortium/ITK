@@ -53,8 +53,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk
 {
-
-
   /** \class MRIBiasEnergyFunction
    * \brief a cost function for optimization
    *
@@ -201,8 +199,8 @@ namespace itk
    * is eleminated.
    *
    * There are three major processes in the whole bias correction scheme: 
-   *  slab identification, inter-slice intensity correction, and 
-   *  actual bias correction process.
+   * slab identification, inter-slice intensity correction, and 
+   * actual bias correction process.
    * Users can turn on and off each process within the whole bias
    * correction scheme using SetUsingSlabIdentification(bool),
    * SetUsingInterSliceIntensityCorrection(bool), and 

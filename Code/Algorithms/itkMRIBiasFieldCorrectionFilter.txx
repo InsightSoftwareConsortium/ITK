@@ -395,32 +395,30 @@ namespace itk
       (this->GetInput(), m_InternalInput, 
        this->GetOutput()->GetRequestedRegion()) ;
 
-    if (m_VerboseMode)
-      std::cout << "Initializing filter..." << std::endl ;
+    itkDebugMacro(<< "Initializing filter...");
     this->Initialize() ;
-    if (m_VerboseMode)
-      std::cout << "Filter initialized." << std::endl ;
+    itkDebugMacro(<< "Filter initialized." );
 
     if (m_UsingSlabIdentification)
       {
-        if (m_VerboseMode)
-          std::cout << "Searching slabs..." << std::endl ;
-        // find slabs
-        MRASlabIdentifier<InputImageType>::Pointer identifier = 
-          MRASlabIdentifier<InputImageType>::New() ;
-        identifier->SetImage(this->GetInput()) ;
-        identifier->SetNumberOfMinimumsPerSlice(100) ;
-        identifier->GenerateSlabRegions() ;
-        m_Slabs = identifier->GetSlabRegionVector() ;
+      if (m_VerboseMode)
+        std::cout << "Searching slabs..." << std::endl ;
+      // find slabs
+      MRASlabIdentifier<InputImageType>::Pointer identifier = 
+        MRASlabIdentifier<InputImageType>::New() ;
+      identifier->SetImage(this->GetInput()) ;
+      identifier->SetNumberOfMinimumsPerSlice(100) ;
+      identifier->GenerateSlabRegions() ;
+      m_Slabs = identifier->GetSlabRegionVector() ;
 
-        if (m_VerboseMode)
-          std::cout << m_Slabs.size() << " slabs found." << std::endl ;
+      if (m_VerboseMode)
+        std::cout << m_Slabs.size() << " slabs found." << std::endl ;
       }
     else
       {
-        // creates a single region which is the largest possible region of
-        // the input image.
-        m_Slabs.push_back(this->GetInput()->GetLargestPossibleRegion()) ;
+      // creates a single region which is the largest possible region of
+      // the input image.
+      m_Slabs.push_back(this->GetInput()->GetLargestPossibleRegion()) ;
       }
 
     this->AdjustSlabRegions(m_Slabs, this->GetOutput()->GetRequestedRegion()) ;
@@ -435,55 +433,55 @@ namespace itk
     int count = 0 ;
     while (iter != m_Slabs.end())
       {
-        if (m_VerboseMode && m_UsingSlabIdentification)
-          std::cout << "## Slab :" << count << std::endl ;
+      if (m_VerboseMode && m_UsingSlabIdentification)
+        std::cout << "## Slab :" << count << std::endl ;
 
         // correct inter-slice intensity inhomogeniety
         // using 0th degree Legendre polynomial
 
-        if (m_UsingInterSliceIntensityCorrection)
-          {
-            // turn off optimizer's verbose mode 
-            m_Optimizer->SetVerboseMode(false) ;
+      if (m_UsingInterSliceIntensityCorrection)
+        {
+        // turn off optimizer's verbose mode 
+        m_Optimizer->SetVerboseMode(false) ;
 
-            if (m_VerboseMode)
-              std::cout << "  Correcting inter-slice intensity..." 
-                        << std::endl ;
-            this->CorrectInterSliceIntensityInhomogeneity(*iter) ;
-            if (m_VerboseMode)
-              std::cout << "  Inter-slice intensity corrected." << std::endl ;
+        if (m_VerboseMode)
+          std::cout << "  Correcting inter-slice intensity..." 
+                    << std::endl ;
+        this->CorrectInterSliceIntensityInhomogeneity(*iter) ;
+        if (m_VerboseMode)
+          std::cout << "  Inter-slice intensity corrected." << std::endl ;
             
             // restore optimizer's verbose mode setting
-            m_Optimizer->SetVerboseMode(m_VerboseMode) ;
-          }
+        m_Optimizer->SetVerboseMode(m_VerboseMode) ;
+        }
 
-        // correct 3D bias
-        if (m_UsingBiasFieldCorrection)
+      // correct 3D bias
+      if (m_UsingBiasFieldCorrection)
+        {
+        if (m_VerboseMode)
+          std::cout << "  Correcting bias..." << std::endl ;
+
+        this->GetBiasFieldSize(*iter, biasSize) ;
+        BiasField* bias = 
+          new BiasField(biasSize.size(), m_BiasFieldDegree, biasSize) ;
+        if (bias->GetNoOfCoefficients() 
+            == m_BiasFieldCoefficients.size())
           {
-            if (m_VerboseMode)
-              std::cout << "  Correcting bias..." << std::endl ;
-
-            this->GetBiasFieldSize(*iter, biasSize) ;
-            BiasField* bias = 
-              new BiasField(biasSize.size(), m_BiasFieldDegree, biasSize) ;
-            if (bias->GetNoOfCoefficients() 
-                == m_BiasFieldCoefficients.size())
-              {
-                bias->SetCoefficients(m_BiasFieldCoefficients) ;
-              }
-            
-            this->EstimateBiasField(bias, *iter) ;
-            m_EstimatedBiasFieldCoefficients = bias->GetCoefficients() ;
-            m_BiasFieldDimension = bias->GetDimension() ;
-            m_NoOfBiasFieldCoefficients = bias->GetNoOfCoefficients() ;
-            m_BiasFieldDomainSize = bias->GetDomainSize() ;
-            this->CorrectImage(bias, *iter) ;
-            delete bias ;
-            if (m_VerboseMode)
-              std::cout << "  Bias corrected." << std::endl ;
+          bias->SetCoefficients(m_BiasFieldCoefficients) ;
           }
-        iter++ ;
-        count++ ;
+            
+        this->EstimateBiasField(bias, *iter) ;
+        m_EstimatedBiasFieldCoefficients = bias->GetCoefficients() ;
+        m_BiasFieldDimension = bias->GetDimension() ;
+        m_NoOfBiasFieldCoefficients = bias->GetNoOfCoefficients() ;
+        m_BiasFieldDomainSize = bias->GetDomainSize() ;
+        this->CorrectImage(bias, *iter) ;
+        delete bias ;
+        if (m_VerboseMode)
+          std::cout << "  Bias corrected." << std::endl ;
+        }
+      iter++ ;
+      count++ ;
       }
     
     OutputImagePointer output = this->GetOutput() ;
@@ -503,10 +501,7 @@ namespace itk
       }
   }
 
-    
-    
   // energy function related members
-
   template<class TInputImage, class TOutputImage>
   void 
   MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
@@ -528,7 +523,6 @@ namespace itk
   }
 
   // protected members
-
   template<class TInputImage, class TOutputImage>
   bool 
   MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
@@ -566,15 +560,15 @@ namespace itk
 
     while (!s_iter.IsAtEnd())
       {
-        pixel = s_iter.Get() ;
+      pixel = s_iter.Get() ;
         
-        if (pixel < 0)
-          t_iter.Set( 0.0 ) ;
-        else
-          t_iter.Set( log( pixel + 1 ) ) ;
+      if (pixel < 0)
+        t_iter.Set( 0.0 ) ;
+      else
+        t_iter.Set( log( pixel + 1 ) ) ;
         
-        ++s_iter ;
-        ++t_iter ;
+      ++s_iter ;
+      ++t_iter ;
       }
   }
 

@@ -49,13 +49,12 @@ namespace itk
 /** \class LevelSetNeighborhoodExtractor
  * \brief Locate pixels of a particular level set.
  *
- * LevelSetNeighborhoodExtractor locates a particular level set in the input level
- * set. Specifically, the method Locate() fills 
- * two containers: one containing pixels immediately 
- * inside the contour defined by the level set and the other
- * containing pixels immediately outside.
- * For each located pixel, an estimated distance to the
- * particular level set is also calculated.
+ * LevelSetNeighborhoodExtractor locates a particular level set in the input
+ * level set. Specifically, the method Locate() fills two containers: one
+ * containing pixels immediately inside the contour defined by the level set
+ * and the other containing pixels immediately outside.  For each located
+ * pixel, an estimated distance to the particular level set is also
+ * calculated.
  *
  * This class is templated over the image type representing
  * the level set.
@@ -69,7 +68,7 @@ namespace itk
  * Cambridge Press, Second edition, 1999.
  *
  * \ingroup LevelSetSegmentation 
- *
+ * 
  */
 template <class TLevelSet>
 class ITK_EXPORT LevelSetNeighborhoodExtractor :
@@ -191,11 +190,6 @@ public:
    */
   void Locate();
 
-  /**
-   * Set the debugging mode
-   */
-  itkSetMacro( DebugOn, bool );
-   
 protected:
   LevelSetNeighborhoodExtractor();
   ~LevelSetNeighborhoodExtractor(){};
@@ -234,8 +228,6 @@ private:
   typename LevelSetImageType::PixelType         m_LargeValue;
 
   std::vector<NodeType>                         m_NodesUsed;
-
-  bool                                          m_DebugOn;
 
 };
 

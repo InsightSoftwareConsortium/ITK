@@ -103,13 +103,13 @@ public:
  * \class MultiResolutionMutualInformationAffineRegistration
  * \brief Affinely register two 3D volumes using a multi-resolution mutual information algorithm
  *
- * MultiResolutionMutualInformationAffineRegistration performs an
- * affine registration between a 3D target image and 3D reference image using 
- * a multi-resolution version of 
- * ImageToImageAffineMutualInformationGradientDescentRegistration.
- * Refer to the documentation of
- * ImageToImageAffineMutualInformationGradientDescentRegistration for
- * details on the underlying algorithm.
+ * MultiResolutionMutualInformationAffineRegistration performs an affine
+ * registration between a 3D target image and 3D reference image using a
+ * multi-resolution version of
+ * ImageToImageAffineMutualInformationGradientDescentRegistration.  Refer to
+ * the documentation of
+ * ImageToImageAffineMutualInformationGradientDescentRegistration for details
+ * on the underlying algorithm.
  *
  * The two input images are defined using the methods SetTarget()
  * and SetReference().  The number of resolution levels is specified by
@@ -146,7 +146,7 @@ public:
  * \sa ImageToImageAffineMutualInformationGradientDescentRegistration
  * \sa MultiResolutionImagePyramid
  *
- * \ingroup AffineImageRegistration
+ * \ingroup AffineImageRegistration 
  */
 template <class TReference, class TTarget>
 class ITK_EXPORT

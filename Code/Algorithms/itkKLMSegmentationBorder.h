@@ -84,25 +84,26 @@ public:
 /** \class KLMSegmentationBorder
  * \brief Base class for KLMSegmentationBorder object
  * 
- * itkKLMSegmentationBorder is the base class for the KLMSegmentationBorder objects. It provides
- * the basic function definitons that are inherent to a KLMSegmentationBorder objects.
+ * itkKLMSegmentationBorder is the base class for the KLMSegmentationBorder
+ * objects. It provides the basic function definitons that are inherent to a
+ * KLMSegmentationBorder objects.
  *
- * This class implements the border object that is used in particular with 
- * the KLM algorithm (see also itkRegionGrowImageFilterKLM). The border is defined by 
- * the adjacency of two regions. The parameter Lambda acertains the importance
- * of the border in defining the regions. The higher the values of lambda
- * the more dominant is its presence in the a region. In case of removal
- * of a border during the region growing process the one with least lambda
- * value is eliminated.
+ * This class implements the border object that is used in particular with
+ * the KLM algorithm (see also KLMRegionGrowImageFilter). The border is
+ * defined by the adjacency of two regions. The parameter Lambda acertains
+ * the importance of the border in defining the regions. The higher the
+ * values of lambda the more dominant is its presence in the a region. In
+ * case of removal of a border during the region growing process the one with
+ * least lambda value is eliminated.
  *
  * \ingroup RegionGrowingSegmentation 
- * 
+ *  
  */
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT KLMSegmentationBorder : public SegmentationBorder<TInputImage,TOutputImage>
 {
- private:
+private:
   /**
    * Type definition for an double vector.
    */

@@ -55,9 +55,9 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   m_DoubleMax        = NumericTraits<double>::max();
   m_Threshold        = 0.01;
   m_OffsetAdd        = 0.01;
-  m_OffsetMul        = 0.01;
+  m_OffsetMultiply        = 0.01;
   m_MaxSplitAttempts = 10;
-  m_NumClasses       = 0;
+  m_NumberOfClasses       = 0;
 }
 
 template<class TInputImage, class TClassifiedImage>
@@ -108,12 +108,12 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 
   unsigned long initCodebookSize, finalCodebookSize;;
 
-  m_VecDim = InputImagePixelType::GetVectorDimension();
+  m_VectorDimension = InputImagePixelType::GetVectorDimension();
 
   if( m_ValidInCodebook )
   {
     m_Ncodewords = m_Codebook.rows();
-    m_VecDim     = m_Codebook.cols();
+    m_VectorDimension     = m_Codebook.cols();
     // Set the initial and final codebook size
     initCodebookSize  = m_Ncodewords;
     finalCodebookSize = m_Ncodewords;
@@ -130,14 +130,14 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
     }
 
     m_Ncodewords      = this->GetNumberOfClasses();
-    m_VecDim          = InputImagePixelType::GetVectorDimension();
+    m_VectorDimension          = InputImagePixelType::GetVectorDimension();
 
     // Set the initial and final codebook size
         
     initCodebookSize = (unsigned long) 1;
     finalCodebookSize= (unsigned long)m_Ncodewords;
         
-    m_Codebook.resize( initCodebookSize, m_VecDim );
+    m_Codebook.resize( initCodebookSize, m_VectorDimension );
 
     // initialize m_Codebook to 0 (it now has only one row) 
     m_Codebook.fill(NULL);
@@ -148,7 +148,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   //Allocate scratch memory for the centroid, codebook histogram
   //and the codebook distorsion
 
-  m_Centroid.resize( finalCodebookSize, m_VecDim );
+  m_Centroid.resize( finalCodebookSize, m_VectorDimension );
   m_Centroid.fill( NULL );
  
   m_CodewordHist.resize( m_Ncodewords, 1 ); 
@@ -167,30 +167,30 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 {
 
   //Set up a temporary codebook
-  CodebookMatDblType tmpCodebook( oldSize, m_VecDim ); 
+  CodebookMatDblType tmpCodebook( oldSize, m_VectorDimension ); 
 
   //Save the contents of m_Codebook in the tmpCodebook
 
   tmpCodebook = m_Codebook;
-  m_Codebook.resize( newSize, m_VecDim );
+  m_Codebook.resize( newSize, m_VectorDimension );
 
   // Copy back the saved data into the codebook
 
   if( oldSize < newSize )
   {
     for( int r = 0; r < oldSize; r++ )
-      for( unsigned int c = 0; c < m_VecDim; c++ )
+      for( unsigned int c = 0; c < m_VectorDimension; c++ )
         m_Codebook[r][c] = tmpCodebook[r][c]; 
       
     for( int r = oldSize; r < newSize; r++ )
-      for(unsigned int c = 0; c < m_VecDim; c++ )
+      for(unsigned int c = 0; c < m_VectorDimension; c++ )
         m_Codebook[r][c] = 0; 
 
   } // if oldsize is smaller than the new size
   else
   {
     for( int r = 0; r < newSize; r++ )
-      for( unsigned int c = 0; c < m_VecDim; c++ )
+      for( unsigned int c = 0; c < m_VectorDimension; c++ )
         m_Codebook[r][c] = tmpCodebook[r][c]; 
 
   }// else oldsize is greater than the new size
@@ -243,7 +243,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   //If a codebook is provided by the user then call the 
   //Kmenas algorithm directly that is based on the 
   //Generalized Lloyn algorithm (GLA) if a valid codebook
-  //is provided or m_NumClasses is set to 0, else 
+  //is provided or m_NumberOfClasses is set to 0, else 
   //Linde-Buzo-Gray algorithm is used for clustering
   if(m_ValidInCodebook)
   {
@@ -322,7 +322,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
     if ( emptycells == 0 ) 
     {
       for ( unsigned int i = 0; i < m_CurrentNcodewords; i++ ) 
-        for( unsigned int j = 0; j < m_VecDim; j++ ) 
+        for( unsigned int j = 0; j < m_VectorDimension; j++ ) 
           m_Codebook[i][j] = m_Centroid[i][j];
 
       olddistortion = distortion;
@@ -371,7 +371,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
                 
         // find centroid, reinitialize 
 
-        for(unsigned int j = 0; j < m_VecDim; j++ )
+        for(unsigned int j = 0; j < m_VectorDimension; j++ )
           m_Codebook[n][j] = m_Centroid[bestcodeword][j];
 
         m_CodewordHist[bestcodeword][0] = 0;
@@ -400,9 +400,9 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 
   double bestdistortion, tempdistortion, diff;
   int    bestcodeword;
-  double *tempVec = ( double * ) new double[m_VecDim];
+  double *tempVec = ( double * ) new double[m_VectorDimension];
 
-  // unused: double *centroidVecTemp = ( double * ) new double[m_VecDim];
+  // unused: double *centroidVecTemp = ( double * ) new double[m_VectorDimension];
 
   // initialize codeword histogram and distortion 
   for ( unsigned int i = 0; i < m_CurrentNcodewords; i++ ) 
@@ -466,7 +466,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
       tempdistortion = 0.0;
       inImgVec = *tempImgIt;
 
-      for ( unsigned int j = 0; j < m_VecDim; j++ ) 
+      for ( unsigned int j = 0; j < m_VectorDimension; j++ ) 
       {
         diff = ( double ) ( inImgVec[j] - m_Codebook[i][j] ); 
         tempdistortion += diff*diff;
@@ -490,7 +490,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 
     inImgVec = *tempImgIt;
 
-    for (unsigned int j = 0; j < m_VecDim; j++ ) 
+    for (unsigned int j = 0; j < m_VectorDimension; j++ ) 
       m_Centroid[bestcodeword][j] += inImgVec[j];
 
   } // all training vectors have been encoded 
@@ -508,7 +508,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   {
     if ( m_CodewordHist[i][0] > 0 ) 
     {
-      for ( unsigned int j = 0; j < m_VecDim; j++ ) 
+      for ( unsigned int j = 0; j < m_VectorDimension; j++ ) 
         m_Centroid[i][j] /= (double) m_CodewordHist[i][0];
     }
   }
@@ -534,17 +534,17 @@ void
 KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 ::splitcodewords( int currentSize, int numDesired, int scale )
 {
-  double *newCodebookData = ( double * ) new double[m_VecDim];
-  double *inCodebookData  = ( double * ) new double[m_VecDim];
+  double *newCodebookData = ( double * ) new double[m_VectorDimension];
+  double *inCodebookData  = ( double * ) new double[m_VectorDimension];
 
   for ( int i = 0; i < numDesired; i++ ) 
   {
-    for(unsigned int j = 0; j < m_VecDim; j++ )
+    for(unsigned int j = 0; j < m_VectorDimension; j++ )
       inCodebookData[j] = m_Codebook[i][j];
 
     perturb(inCodebookData, scale, newCodebookData);
 
-    for(unsigned int j=0; j< m_VecDim; j++)
+    for(unsigned int j=0; j< m_VectorDimension; j++)
       m_Codebook[i+currentSize][j] = newCodebookData[j];
   }
 
@@ -566,9 +566,9 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   double        rand_num ;
  
   addoffset = m_OffsetAdd / pow( 2.0, ( double ) scale );
-  muloffset = m_OffsetMul / pow( 2.0, ( double ) scale );
+  muloffset = m_OffsetMultiply / pow( 2.0, ( double ) scale );
 
-  for ( i = 0; i < m_VecDim; i++ ) 
+  for ( i = 0; i < m_VectorDimension; i++ ) 
   {
     srand( (unsigned)time( NULL ) );
     rand_num = (rand())/((double)RAND_MAX);

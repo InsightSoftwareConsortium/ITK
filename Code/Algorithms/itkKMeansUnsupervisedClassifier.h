@@ -73,7 +73,7 @@ namespace itk
 /** \class KMeansUnsupervisedClassifier
  * \brief Implementation KMeansUnsupervisedClassifier object
  *
- * This object performs clusterring of data sets into different clusters
+ * This object performs clustering of data sets into different clusters
  * either using a user provided seed points as initial guess or generates
  * the clusters using a recursive approach when the user provides the
  * number of desired clusters. Each cluster is represented by its cluster
@@ -85,7 +85,7 @@ namespace itk
  * As required by the GLA algorithm, the initial seed cluster should contain 
  * approximate centers of clusters.  The GLA algorithm genrates an updated
  * cluster centers that result in a lower distortion than the input seed 
- * clusterwhen the input vectors are mapped/classified/labelled using the 
+ * cluster when the input vectors are mapped/classified/labelled using the 
  * given codebooks.
  *
  * If no codebook is provided, the Linde-Buzo-Gray algorithm is used.
@@ -110,11 +110,11 @@ namespace itk
  * complete. A reasonable threshold value is 0.01.
  *
  * If, during the operation of the algorithm, there are any unused
- * clusters or cells, the m_OffsetAdd and m_OffsetMul parameters is
+ * clusters or cells, the m_OffsetAdd and m_OffsetMultiply parameters is
  * used to split the cells with the highest distortion.  This
  * functions will attempt to fill empty cells up to 10 times (unless
  * the overall distortion is zero). Using 0.01 is a reasonable default  
- * values for the m_OffsetAdd and m_OffsetMul parameters.
+ * values for the m_OffsetAdd and m_OffsetMultiply parameters.
  *
  * If the GLA is unable to resolve the data into the desired number of
  * clusters or cells, only the codewords which were used will be
@@ -239,12 +239,12 @@ public:
   /**
    * Set the offset multiplication parameter
    */
-  itkSetMacro(OffsetMul,double);
+  itkSetMacro(OffsetMultiply,double);
 
   /**
    * Get the offset multiplication parameter
    */
-  itkGetMacro(OffsetMul,double);
+  itkGetMacro(OffsetMultiply,double);
 
   /**
    * Set the maximum number of attempts to split a codeword  
@@ -350,16 +350,16 @@ private:
 
   double              m_Threshold;
   double              m_OffsetAdd;
-  double              m_OffsetMul;
+  double              m_OffsetMultiply;
   int                 m_MaxSplitAttempts;
 
-  unsigned long       m_NumClasses;
+  unsigned long       m_NumberOfClasses;
   bool                m_ValidInCodebook;
   double              m_DoubleMax;
   double              m_OutDist;
   int                 m_OutNEmptyCells;
 
-  unsigned long       m_VecDim;
+  unsigned long       m_VectorDimension;
   unsigned long       m_Ncodewords;
   unsigned long       m_CurrentNcodewords;
   

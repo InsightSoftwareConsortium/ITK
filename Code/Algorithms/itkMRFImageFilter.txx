@@ -120,7 +120,6 @@ void
 MRFImageFilter<TInputImage, TClassifiedImage>
 ::GenerateOutputInformation()
 {
-
   typename TInputImage::Pointer input = this->GetInput();
   typename TClassifiedImage::Pointer output = this->GetOutput();
   output->SetLargestPossibleRegion( input->GetLargestPossibleRegion() );
@@ -236,7 +235,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
   InputImageSizeType inputImageSize = m_InputImage->GetBufferedRegion().GetSize();
 
-  //Ensure that the data provided is three dimensional data set
+  //Ensure that the data provided is three dimensional or higher data set
   if(TInputImage::ImageDimension <= 2 )
     {
     throw ExceptionObject(__FILE__, __LINE__);
@@ -364,7 +363,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   unsigned int numIter = 0;
   do
     {
-    std::cout << "Iteration No." << numIter << std::endl;
+    itkDebugMacro(<< "Iteration No." << numIter);
 
     m_ErrorCounter = 0;
     MinimizeFunctional();
@@ -376,7 +375,9 @@ MRFImageFilter<TInputImage, TClassifiedImage>
       if(m_LabelStatus[index] == 1) m_ErrorCounter +=1;
       }
     } 
-  while(( numIter < m_MaximumNumberOfIterations ) && ( m_ErrorCounter >maxNumPixelError ) ); 
+  while(( numIter < m_MaximumNumberOfIterations ) && 
+        ( m_ErrorCounter >maxNumPixelError ) )
+    ; 
 
 }// ApplyMRFImageFilter
 

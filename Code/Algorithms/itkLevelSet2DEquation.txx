@@ -63,16 +63,26 @@ LevelSet2DEquation<TImageType>
   
   if (m_CurvatureWeight > 0.0)
     {
-      if (d->m_MaxAdvectionChange > 0.0)
-        dt = vnl_math_min((m_WaveDT/d->m_MaxAdvectionChange),
-                          (m_DT/m_CurvatureWeight));
-      else dt = m_DT / m_CurvatureWeight;
+    if (d->m_MaxAdvectionChange > 0.0)
+      {
+      dt = vnl_math_min((m_WaveDT/d->m_MaxAdvectionChange),
+                        (m_DT/m_CurvatureWeight));
+      }
+    else
+      {
+      dt = m_DT / m_CurvatureWeight;
+      }
     }
   else
     {
-      if (d->m_MaxAdvectionChange > 0.0)
-        dt = m_WaveDT / d->m_MaxAdvectionChange;
-      else dt = 0.0;
+    if (d->m_MaxAdvectionChange > 0.0)
+      {
+      dt = m_WaveDT / d->m_MaxAdvectionChange;
+      }
+    else 
+      {
+      dt = 0.0;
+      }
     }
   
   return dt;
@@ -107,7 +117,7 @@ LevelSet2DEquation< TImageType>
   // SANITY CHECK !
   if (dxx_op.Size() != 3)
     {
-      throw ExceptionObject(__FILE__, __LINE__);
+    throw ExceptionObject(__FILE__, __LINE__);
     }
   
   //

@@ -141,7 +141,7 @@ public:
   itkBooleanMacro( NarrowBanding );
 
   /**
-   * Get the narrowbading flag.
+   * Get the narrowbanding flag.
    */
   itkGetMacro( NarrowBanding, bool );
 
@@ -152,7 +152,7 @@ public:
     NumericTraits<double>::max());
 
   /**
-   * Get the narrow bandwidth
+   * Get the narrow bandwidth.
    */
   itkGetMacro( NarrowBandwidth, double );
 

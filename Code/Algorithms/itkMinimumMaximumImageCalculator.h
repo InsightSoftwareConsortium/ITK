@@ -66,7 +66,7 @@ public:
   /** 
    * Standard self typedef
    */
-  typedef MinimumMaximumImageCalculator      Self;
+  typedef MinimumMaximumImageCalculator Self;
 
   /**
    * Standard "Superclass" typedef.
@@ -139,9 +139,7 @@ public:
    */
   itkGetMacro(Maximum,PixelType);
 
- 
 protected:
-  
   MinimumMaximumImageCalculator();
   virtual ~MinimumMaximumImageCalculator() {};
   MinimumMaximumImageCalculator(const Self&) {}

@@ -180,11 +180,14 @@ MultiResolutionRegistration<TRegistrationMethod>
 template <class TRegistrationMethod>
 void
 MultiResolutionRegistration<TRegistrationMethod>
-::OneLevelRegistration(
-unsigned int level )
+::OneLevelRegistration(unsigned int level )
 {
+<<<<<<< itkMultiResolutionRegistration.txx
+  std::cout << "Registering level: " << level << std::endl;
+=======
 
   itkDebugMacro( << "Registering level " << level  );
+>>>>>>> 1.7
 
   unsigned int targetLevel = vnl_math_min( 
     level, m_TargetPyramid->GetNumberOfLevels() );
@@ -195,8 +198,12 @@ unsigned int level )
   m_InternalRegistrationMethod->SetTarget( 
     m_TargetPyramid->GetOutput(targetLevel) );
 
+<<<<<<< itkMultiResolutionRegistration.txx
+  m_InternalRegistrationMethod->SetReference(m_ReferencePyramid->GetOutput());
+=======
   m_InternalRegistrationMethod->SetReference( 
     m_ReferencePyramid->GetOutput(referenceLevel) );
+>>>>>>> 1.7
 
   m_InternalRegistrationMethod->StartRegistration();
 
@@ -213,9 +220,13 @@ MultiResolutionRegistration<TRegistrationMethod>
 {
   Superclass::PrintSelf(os,indent);
 
+<<<<<<< itkMultiResolutionRegistration.txx
+  os << indent << "Number Of Levels: " << m_NumberOfLevels << std::endl;
+=======
   os << indent << "No. levels: " << m_NumberOfLevels << std::endl;
   os << indent << "Target pyramid: " << m_TargetPyramid << std::endl;
   os << indent << "Reference pyramid: " << m_ReferencePyramid << std::endl;
+>>>>>>> 1.7
 
 }
 

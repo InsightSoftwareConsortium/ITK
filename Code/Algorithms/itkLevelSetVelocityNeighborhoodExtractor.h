@@ -50,13 +50,12 @@ namespace itk
 /** \class LevelSetVelocityNeighborhoodExtractor
  * \brief Locate pixels of a particular level set.
  *
- * LevelSetNeighborhoodExtractor locates a particular level set in the input level
- * set. Specifically, the method Locate() fills 
- * two containers: one containing pixels immediately 
- * inside the contour defined by the level set and the other
- * containing pixels immediately outside.
- * For each located pixel, an estimated distance to the
- * particular level set is also calculated.
+ * LevelSetNeighborhoodExtractor locates a particular level set in the input
+ * level set. Specifically, the method Locate() fills two containers: one
+ * containing pixels immediately inside the contour defined by the level set
+ * and the other containing pixels immediately outside.  For each located
+ * pixel, an estimated distance to the particular level set is also
+ * calculated.
  *
  * This class also calculates the values of auxiliary variables
  * at located pixel.
@@ -70,7 +69,7 @@ namespace itk
  * Cambridge Press, Second edition, 1999.
  *
  * \ingroup LevelSetSegmentation 
- *
+ * 
  */
 template <
   class TLevelSet,
@@ -163,8 +162,6 @@ protected:
 
   virtual void Initialize();
   virtual double CalculateDistance( Index & index );
-
-  void GenerateDate();
 
 private:
 

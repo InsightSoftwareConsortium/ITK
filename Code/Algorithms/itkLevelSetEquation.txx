@@ -49,7 +49,9 @@ LevelSetEquation<TImageType>::InitializeZeroVectorConstant()
 {
   VectorType ans;
   for (unsigned int i = 0; i < ImageDimension; ++i)
-    { ans[i] = NumericTraits<ScalarValueType>::Zero; }
+    { 
+    ans[i] = NumericTraits<ScalarValueType>::Zero; 
+    }
 
   return ans;
 }

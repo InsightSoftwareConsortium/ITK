@@ -67,8 +67,6 @@ LevelSetNeighborhoodExtractor<TLevelSet>
   m_NarrowBandwidth = 12.0;
   m_InputNarrowBand = NULL;
 
-  m_DebugOn = false;
-
 }
 
 /**
@@ -185,11 +183,8 @@ LevelSetNeighborhoodExtractor<TLevelSet>
     this->GenerateDataFull();
     }
 
-  if( m_DebugOn )
-    {
-    std::cout << "No. inside points: " << m_InsidePoints->Size() << std::endl;
-    std::cout << "No. outside points: " << m_OutsidePoints->Size() << std::endl;
-    }
+  itkDebugMacro(<< "No. inside points: " << m_InsidePoints->Size());
+  itkDebugMacro(<< "No. outside points: " << m_OutsidePoints->Size());
 
 }
 

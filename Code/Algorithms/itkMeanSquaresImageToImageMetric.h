@@ -81,19 +81,16 @@ public:
   enum { SpaceDimension = TMapper::SpaceDimension };
   enum { RangeDimension = 9};
 
-
   /**
    *  Type of the match measure
    */
-  typedef double			        MeasureType;
+  typedef double MeasureType;
  
-
   /**
    *  Type of the derivative of the match measure
    */
   typedef CovariantVector<MeasureType,
                           SpaceDimension >  DerivativeType;
-
 
   /**
    * Standard "Superclass" typedef.
@@ -108,53 +105,45 @@ public:
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
   /**
    *  Type of the Mapper
    */
-  typedef TMapper							MapperType;
+  typedef TMapper MapperType;
   
   /**
    *  Type of the Reference
    */
-  typedef typename MapperType::DomainType     ReferenceType;
-
+  typedef typename MapperType::DomainType ReferenceType;
  
   /**
    *  Type of the Target
    */
-  typedef TTarget							TargetType;
- 
+  typedef TTarget TargetType;
 
   /**
    *  Pointer type for the Reference 
    */
-  typedef typename ReferenceType::ConstPointer         ReferenceConstPointer;
-
+  typedef typename ReferenceType::ConstPointer ReferenceConstPointer;
 
   /**
    *  Pointer type for the Target 
    */
-  typedef typename TargetType::ConstPointer            TargetConstPointer;
-
+  typedef typename TargetType::ConstPointer TargetConstPointer;
 
   /**
    *  Pointer type for the Mapper
    */
-  typedef typename MapperType::Pointer            MapperPointer;
-
+  typedef typename MapperType::Pointer MapperPointer;
 
   /**
    *  Parameters type
    */
-  typedef typename  TMapper::ParametersType       ParametersType;
-
+  typedef typename  TMapper::ParametersType ParametersType;
 
   /** 
    * Run-time type information (and related methods).
    */
   itkTypeMacro(MeanSquaresImageToImageMetric, Object);
-
 
   /**
    * Method for creation through the object factory.
@@ -169,8 +158,7 @@ public:
   /**
    *  Get the Value for SingleValue Optimizers
    */
-  MeasureType    GetValue( const ParametersType & parameters );
-
+  MeasureType GetValue( const ParametersType & parameters );
 
   /**
    *  Get Value and Derivatives for MultipleValuedOptimizers
@@ -178,7 +166,6 @@ public:
    void GetValueAndDerivative( const ParametersType & parameters,
        MeasureType & Value, DerivativeType  & Derivative );
 
- 
 protected:
 
   MeanSquaresImageToImageMetric();
