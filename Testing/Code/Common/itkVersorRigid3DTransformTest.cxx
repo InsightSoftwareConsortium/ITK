@@ -74,6 +74,10 @@ int itkVersorRigid3DTransformTest(int, char* [] )
   typedef    TransformType::ParametersType      ParametersType;
 
 
+  //  Jacobian type
+  typedef    TransformType::JacobianType      JacobianType;
+
+
   //  Rotation Matrix type
   typedef    TransformType::MatrixType           MatrixType;
 
@@ -363,9 +367,17 @@ int itkVersorRigid3DTransformTest(int, char* [] )
         }
       }
      std::cout << "Input/Output parameter check Passed !"  << std::endl;
+
+     // Try the GetJacobian method
+     TransformType::InputPointType  aPoint;
+     aPoint[0] = 10.0;
+     aPoint[1] = 20.0;
+     aPoint[2] = -10.0;
+     JacobianType   jacobian = transform->GetJacobian(aPoint);
+     std::cout << "jacobian: " << jacobian << std::endl;
+
   }
 
-  
   return EXIT_SUCCESS;
 
 }
