@@ -115,7 +115,46 @@ private:
 
 };
 
+class CommandIterationUpdateConjugateGradient : public itk::Command 
+{
+public:
+  typedef  CommandIterationUpdateConjugateGradient   Self;
+  typedef  itk::Command             Superclass;
+  typedef itk::SmartPointer<Self>  Pointer;
+  itkNewMacro( Self );
+protected:
+  CommandIterationUpdateConjugateGradient() 
+  {
+    m_IterationNumber=0;
+  }
+public:
+  typedef itk::ConjugateGradientOptimizer   OptimizerType;
+  typedef   const OptimizerType   *    OptimizerPointer;
 
+  void Execute(itk::Object *caller, const itk::EventObject & event)
+    {
+      Execute( (const itk::Object *)caller, event);
+    }
+
+  void Execute(const itk::Object * object, const itk::EventObject & event)
+    {
+      OptimizerPointer optimizer = 
+        dynamic_cast< OptimizerPointer >( object );
+      if( typeid( event ) == typeid( itk::FunctionEvaluationIterationEvent() ) )
+        {
+        std::cout << m_IterationNumber++ << "   ";
+        std::cout << optimizer->GetCachedValue() << "   ";
+        std::cout << optimizer->GetCachedCurrentPosition() << std::endl;
+        }
+      else if( typeid( event ) == typeid( itk::GradientEvaluationIterationEvent() ) )
+        {
+        std::cout << "Gradient " << optimizer->GetCachedDerivative() << "   ";
+        }
+
+    }
+private:
+  unsigned long m_IterationNumber;
+};
 
 int itkConjugateGradientOptimizerTest(int, char* [] ) 
 {
@@ -166,6 +205,12 @@ int itkConjugateGradientOptimizerTest(int, char* [] )
   currentValue = initialValue;
 
   itkOptimizer->SetInitialPosition( currentValue );
+
+  CommandIterationUpdateConjugateGradient::Pointer observer = 
+    CommandIterationUpdateConjugateGradient::New();
+  itkOptimizer->AddObserver( itk::IterationEvent(), observer );
+  itkOptimizer->AddObserver( itk::FunctionEvaluationIterationEvent(), observer );
+
 
   try 
     {
