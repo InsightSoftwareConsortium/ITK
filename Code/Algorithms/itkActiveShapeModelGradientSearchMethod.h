@@ -156,42 +156,10 @@ public:
   VectorOfDoubleType  GetNewShape();
 
 protected:
+  ActiveShapeModelGradientSearchMethod();
+ ~ActiveShapeModelGradientSearchMethod() {};
 
-  ActiveShapeModelGradientSearchMethod(): m_LenghtOfProfile(3)
-  {
-    m_NumberOfIteration = 1;     // default value
-    m_EigenVectors.set_size(0,0);
-    m_EigenValues.set_size(0);
-    m_MeanShape.set_size(0);
-    m_NewShape.set_size( 0);
-    m_DiffVector.set_size( 0 );
-    m_Db.set_size( 0 );
-    m_Blimit.set_size( 0 );
-    m_Valid = false;
-    m_Image = NULL;
-  }
-
-  ~ActiveShapeModelGradientSearchMethod() {}
-
-  void PrintSelf(std::ostream& os, Indent indent) const
-  {
-    Superclass::PrintSelf(os,indent);
-    os << indent << "Lenght of Profile: " << m_LenghtOfProfile << std::endl;
-    os << indent << "Number of Iteration: " << m_NumberOfIteration << std::endl;
-    itkDebugMacro(<<"                                    ");
-    itkDebugMacro(<<"Results of the shape model");
-    itkDebugMacro(<<"====================================");
-
-    itkDebugMacro(<< " ");
-    itkDebugMacro(<< "==================   ");
-
-    itkDebugMacro(<< "The new shape: ");
-    
-    itkDebugMacro(<< m_NewShape);
-
-    itkDebugMacro(<< " ");
-    itkDebugMacro(<< "+++++++++++++++++++++++++");
-  }// end PrintSelf
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 
 private:

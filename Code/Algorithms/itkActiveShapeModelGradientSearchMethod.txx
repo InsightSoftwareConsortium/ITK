@@ -16,10 +16,31 @@
 =========================================================================*/
 #ifndef _itkActiveShapeModelGradientSearchMethod_txx
 #define _itkActiveShapeModelGradientSearchMethod_txx
+
 #include "itkActiveShapeModelGradientSearchMethod.h"
 
 namespace itk
 { 
+
+
+/**
+ * Constructor
+ */
+template<class TImage>
+ActiveShapeModelGradientSearchMethod<TImage>
+::ActiveShapeModelGradientSearchMethod( ):m_LenghtOfProfile(3)
+  {
+    m_NumberOfIteration = 1;     // default value
+    m_EigenVectors.set_size(0,0);
+    m_EigenValues.set_size(0);
+    m_MeanShape.set_size(0);
+    m_NewShape.set_size( 0);
+    m_DiffVector.set_size( 0 );
+    m_Db.set_size( 0 );
+    m_Blimit.set_size( 0 );
+    m_Valid = false;
+    m_Image = NULL;
+  }
 
 
 /**
@@ -288,8 +309,48 @@ GetNewShape()
   return m_NewShape;
 }
 
+
+/**
+  * Print the current status
+  */
+template<class TImage>
+void
+ActiveShapeModelGradientSearchMethod<TImage>::
+PrintSelf(std::ostream& os, Indent indent) const
+{
+  this->Superclass::PrintSelf(os,indent);
+  os << indent << "Valid : " << m_Valid << std::endl;
+  os << indent << "Mean Shape : " << m_MeanShape << std::endl;
+  os << indent << "Eigen Vectors: " << m_EigenVectors << std::endl;
+  os << indent << "Eigen Values: " << m_EigenValues << std::endl;
+  os << indent << "Lenght of Profile: " << m_LenghtOfProfile << std::endl;
+  os << indent << "Number of Iteration: " << m_NumberOfIteration << std::endl;
+  os << indent << "Diff Vector: " << m_DiffVector << std::endl;
+  os << indent << "Db Vector: " << m_Db << std::endl;
+  os << indent << "Blimit Vector: " << m_Blimit << std::endl;
+  os << indent << "New Shape: " << m_NewShape << std::endl;
+  os << indent << "Image: " << m_Image.GetPointer() << std::endl;
+
+  itkDebugMacro(<<"                                    ");
+  itkDebugMacro(<<"Results of the shape model");
+  itkDebugMacro(<<"====================================");
+
+  itkDebugMacro(<< " ");
+  itkDebugMacro(<< "==================   ");
+
+  itkDebugMacro(<< "The new shape: ");
+  
+  itkDebugMacro(<< m_NewShape);
+
+  itkDebugMacro(<< " ");
+  itkDebugMacro(<< "+++++++++++++++++++++++++");
+}// end PrintSelf
+
+
+
 } // end namespace itk
 
 
 
 #endif
+
