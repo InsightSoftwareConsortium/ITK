@@ -60,17 +60,23 @@ TInterpolator * interpolator )
   region.SetSize( size );
   region.SetIndex( index );
 
+  double spacing[ImageDimension];
+  spacing[0] = 3.0;
+  spacing[1] = 2.0;
+
   typename MovingImageType::Pointer imgMoving = MovingImageType::New();
   imgMoving->SetLargestPossibleRegion( region );
   imgMoving->SetBufferedRegion( region );
   imgMoving->SetRequestedRegion( region );
   imgMoving->Allocate();
+  imgMoving->SetSpacing( spacing );
 
   typename FixedImageType::Pointer imgFixed = FixedImageType::New();
   imgFixed->SetLargestPossibleRegion( region );
   imgFixed->SetBufferedRegion( region );
   imgFixed->SetRequestedRegion( region );
   imgFixed->Allocate();
+  imgFixed->SetSpacing( spacing );
 
   // Fill images with a 2D gaussian
   typedef  itk::ImageRegionIterator<MovingImageType>
@@ -322,17 +328,23 @@ TInterpolator * interpolator )
   region.SetSize( size );
   region.SetIndex( index );
 
+  double imgSpacing[ImageDimension];
+  imgSpacing[0] = 1.5;
+  imgSpacing[1] = 1.5;
+
   typename MovingImageType::Pointer imgMoving = MovingImageType::New();
   imgMoving->SetLargestPossibleRegion( region );
   imgMoving->SetBufferedRegion( region );
   imgMoving->SetRequestedRegion( region );
   imgMoving->Allocate();
+  imgMoving->SetSpacing( imgSpacing );
 
   typename FixedImageType::Pointer imgFixed = FixedImageType::New();
   imgFixed->SetLargestPossibleRegion( region );
   imgFixed->SetBufferedRegion( region );
   imgFixed->SetRequestedRegion( region );
   imgFixed->Allocate();
+  imgFixed->SetSpacing( imgSpacing );
 
   // Fill images with a 2D gaussian
   typedef  itk::ImageRegionIterator<MovingImageType>
@@ -494,7 +506,7 @@ TInterpolator * interpolator )
 //---------------------------------------------------------
 // Check output gradients for numerical accuracy
 //---------------------------------------------------------
-  parameters.Fill( 4.5 );
+  parameters.Fill( 4.5 * imgSpacing[0] );
   metric->GetValueAndDerivative( parameters, measure, derivative );
 
   ParametersType parametersPlus( numberOfParameters );
@@ -502,7 +514,7 @@ TInterpolator * interpolator )
   typename MetricType::MeasureType measurePlus;
   typename MetricType::MeasureType measureMinus;
 
-  double delta = 0.01;
+  double delta = 0.01 * imgSpacing[0];
 
   for( unsigned int i = 0; i < numberOfParameters; ++i )
     {
