@@ -17,8 +17,8 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \code{itk::SimpleFuzzyConnectednessScalarImageFilter}
-// and \code{itk::VoronoiSegmentationImageFilter} to build a hybrid segmentation framework.
+// This example illustrates the use of the \doxygen{SimpleFuzzyConnectednessScalarImageFilter}
+// and \doxygen{VoronoiSegmentationImageFilter} to build a hybrid segmentation framework.
 //
 // First, the header files of the filters must be included.
 //
@@ -75,7 +75,7 @@ int main( int argc, char **argv )
   //  
   //  A Fuzzy Connectedness segmentation will be performed first to generate a
   //  rough segmentation, and the binary result will be used as a prior for the
-  //  next step.  The \code{SimpleFuzzyConnectednessScalarImageFilter} is used
+  //  next step.  The \doxygen{SimpleFuzzyConnectednessScalarImageFilter} is used
   //  here, but any of the image segmentation filters could do it.  The result
   //  of the segmentation produced by the fuzzy segmentation filter will be
   //  stored in a binary image.  Here we declare the type of this image using a
@@ -130,9 +130,9 @@ int main( int argc, char **argv )
   //  
   //  The second step of this hybrid method involve using the prior generated
   //  from the fuzzy segmentation to build a homogeneity measurement for the
-  //  object.  A \code{VoronoiSegmentationImageFilter} is applied based on this
+  //  object.  A \doxygen{VoronoiSegmentationImageFilter} is applied based on this
   //  measurement to give the final segmentation result.  In this example, the
-  //  result of the \code{VoronoiSegmentationImageFilter} will be sent to a
+  //  result of the \doxygen{VoronoiSegmentationImageFilter} will be sent to a
   //  writer. It is convenient to declare its output type as one compatible with the
   //  writers.  
   //
@@ -301,9 +301,9 @@ int main( int argc, char **argv )
   //  
   //  The tolerance levels for testing the mean and standard deviation are set
   //  with the methods \code{SetMeanPercentError()} and
-  //  \code{SetSTDPercentError()}. Note that the \code{FuzzySegmentationFilter}
+  //  \code{SetSTDPercentError()}. Note that the \doxygen{FuzzySegmentationFilter}
   //  uses \emph{variance} as parameter while the
-  //  \code{VoronoiSegmentationImageFilter} uses the tolerance of the
+  //  \doxygen{VoronoiSegmentationImageFilter} uses the tolerance of the
   //  \emph{standard deviation}.
   //  
   //  \index{itk::VoronoiSegmentationImageFilter!SetMeanPercentError()}
@@ -359,7 +359,7 @@ int main( int argc, char **argv )
   //  The output of the voronoi segmentation is an image mask with zeros
   //  everywhere an $1$s inside the segmented object. This image will appear
   //  black in many image viewers since they usually do not stretch the
-  //  graylevels. We add here then a \code{RescaleIntensityImageFilter} in
+  //  graylevels. We add here then a \doxygen{RescaleIntensityImageFilter} in
   //  order to expand the dynamic range to more typical values. 
   //
   //  Software Guide : EndLatex 

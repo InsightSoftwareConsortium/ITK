@@ -18,7 +18,7 @@
 // Software Guide : BeginLatex
 //
 // The following example illustrates the use of the
-// \code{itk::ConfidenceConnectedImageFilter}. This filter is based on the use
+// \doxygen{itk::ConfidenceConnectedImageFilter}. This filter is based on the use
 // of the flood fill iterator. Most of the algorithmic complexity of a region
 // growing method comes from the strategy used for visiting the neighbor
 // pixels. The flood fill iterator assumes this responsibility and greatly
@@ -30,7 +30,7 @@
 // \index{itk::ConfidenceConnectedImageFilter|textbf}
 // \index{itk::ConfidenceConnectedImageFilter!header}
 //
-// The criterion used by the \code{ConfidenceConnectedImageFilter} is based on
+// The criterion used by the \doxygen{ConfidenceConnectedImageFilter} is based on
 // simple statistics of the current region. First, the algorithm computes the
 // mean and standard deviation of intensity values for all the pixels currently
 // included in the region. A user-provided factor is used to multiply the
@@ -56,7 +56,7 @@
 // considered for inclusion in the region.
 //
 // Let's look at the minimal code required to use this algorithm. First, the
-// following header defining the \code{ConfidenceConnectedImageFilter} class
+// following header defining the \doxygen{ConfidenceConnectedImageFilter} class
 // must be included.
 //
 // Software Guide : EndLatex 
@@ -79,7 +79,7 @@
 //  pre-process the image by using an edge-preserving smoothing filter. Any of
 //  the filters discussed in section \ref{sec:EdgePreservingSmoothingFilters}
 //  could be used to this end. In this particular example we use the
-//  \code{CurvatureFlowImageFilter}, henceforth we need to include its header
+//  \doxygen{CurvatureFlowImageFilter}, henceforth we need to include its header
 //  file.
 //
 //  Software Guide : EndLatex 
@@ -169,7 +169,7 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  Then, the filter is created by invoking the \code{New()} method and
-  //  assigning the result to a \code{SmartPointer}.
+  //  assigning the result to a \doxygen{SmartPointer}.
   //
   //  Software Guide : EndLatex 
 
@@ -183,7 +183,7 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  We declare now the type of the region growing filter. In this case it is
-  //  the \code{itk::ConfidenceConectedImageFilter}. 
+  //  the \doxygen{ConfidenceConectedImageFilter}. 
   //
   //  Software Guide : EndLatex 
 
@@ -229,10 +229,10 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The \code{CurvatureFlowImageFilter} requires a couple of parameter to be
-  //  defined. The following are typical values for $2D$ images. However they
-  //  may have to be adjusted depending on the amount of noise present in the
-  //  input image.
+  //  The \doxygen{CurvatureFlowImageFilter} requires a couple of parameter to
+  //  be defined. The following are typical values for $2D$ images. However
+  //  they may have to be adjusted depending on the amount of noise present in
+  //  the input image.
   //
   //  Software Guide : EndLatex 
 
@@ -247,7 +247,7 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The \code{ConfidenceConnectedImageFilter} has two parameters to be
+  //  The \doxygen{ConfidenceConnectedImageFilter} has two parameters to be
   //  defined. First, the factor $f$ that the defines how large the range of
   //  intensities will be. Small values of the multiplier will restrict the
   //  inclusion of pixels to those having very similar intensities to those in
@@ -314,7 +314,7 @@ int main( int argc, char **argv )
   //  \emph{typical} region of the anatomical structure to be segmented. A
   //  small neighborhood around the seed point will be used to compute the
   //  initial mean and standard deviation for the inclusion criterion. The seed
-  //  is passed in the form of a \code{Index} to the \code{SetSeed()} method.
+  //  is passed in the form of a \doxygen{Index} to the \code{SetSeed()} method.
   //
   //  \index{itk::ConfidenceConnectedImageFilter!SetSeed()}
   //  \index{itk::ConfidenceConnectedImageFilter!SetInitialNeighborhoodRadius()}
