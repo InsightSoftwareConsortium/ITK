@@ -187,7 +187,9 @@ public:
 
   /**
    * Evaluate the pixel value for the point previously 
-   * specified in the IsInside() method
+   * specified in the IsInside() method.
+   * \warning This method uses the point cached by IsInside() and
+   * cannot  be safely used in more than one thread at a time.
    *
    * \sa IsInside()
    *
@@ -195,9 +197,11 @@ public:
    double Evaluate( void ) const; 
 
    /**
-    * Test whether the specified point is inside of
-    * the Image Domain. Point coordinates are stored
-    * in internal memory to be used by the Evaluate() method.
+    * Test whether the specified point is inside
+    * the Image Domain and caches that point for later use by the Evaluate() 
+    * method. 
+    * \warning This method cannot be safely used in more than one thread at
+    * a time.
     *
     * \sa Evaluate();
     *
