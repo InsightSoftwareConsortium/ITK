@@ -47,6 +47,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadImplementationGravBar2D.cxx
   itkFEMLoadImplementationGravBeam2D.cxx
   itkFEMLoadImplementationGravMembraneC02D.cxx
+  itkFEMLoadImplementationImageMetricMembraneC02D.cxx
   itkFEMLoadImplementationGravQuadC02D.cxx
   itkFEMLoadImplementationGravTriC02D.cxx
   itkFEMLoadImplementationGravTetrahedronC03D.cxx
@@ -62,6 +63,7 @@ SOURCE_FILES(FEM_SRCS
 
 
   itkFEMSolver.cxx
+  itkFEMSolverCrankNicolson.cxx
   itkFEMLinearSystemWrapper.cxx
   itkFEMLinearSystemWrapperVNL.cxx
   itkFEMLinearSystemWrapperDenseVNL.cxx
@@ -118,6 +120,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadImageMetric.h
 
   itkFEMSolver.h
+  itkFEMSolverCrankNicolson.h
 
   itkFEMSolution.h
 
