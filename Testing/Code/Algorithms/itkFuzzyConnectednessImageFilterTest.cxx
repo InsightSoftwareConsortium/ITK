@@ -15,7 +15,6 @@
 =========================================================================*/
 #include "itkFuzzyConnectednessImageFilter.h"
 #include "itkSimpleImageRegionIterator.h"
-#include <cstdlib>
 
 const int WIDTH = 20;
 const int HEIGHT = 20;
