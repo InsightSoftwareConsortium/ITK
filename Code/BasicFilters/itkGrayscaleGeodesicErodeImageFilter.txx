@@ -314,7 +314,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
   // Find the boundary "faces". Structuring element is elementary
   // (face connected neighbors within a radius of 1).
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>::FaceListType faceList;
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType> fC;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType> fC;
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>::RadiusType kernelRadius;
   kernelRadius.Fill(1);
   faceList = fC(this->GetMarkerImage(), outputRegionForThread, kernelRadius);
