@@ -47,73 +47,49 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
+/** \brief Read MetaImage file format. */
 class ITK_EXPORT MetaImageIO : public ImageIOBase
 {
 public:
-  /**
-   * Smart pointer typedef support.
-   */
+  /** Standard class typedefs. */
   typedef MetaImageIO            Self;
-  typedef SmartPointer<Self>  Pointer;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageIOBase  Superclass;
-
-  /**
-   * Method for creation through the object factory.
-   */
+  typedef SmartPointer<Self>  Pointer;
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(MetaImageIO, Superclass);
 
-  /**
-   * Determine the file type. Returns true if this ImageIO can read the
-   * file specified.
-   */
+  /** Determine the file type. Returns true if this ImageIO can read the
+   * file specified. */
   virtual bool CanReadFile(const char*) ;
 
-  ///! Set the spacing and dimention information for the set filename.
+  /** Set the spacing and dimention information for the set filename. */
   virtual void ReadImageInformation();
   
-  /**
-   * Get the type of the pixel. 
-   */
+  /** Get the type of the pixel.  */
   virtual const std::type_info& GetPixelType() const;
 
-  /**
-   * Loads the data from disk into the memory buffer provided.
-   */
+  /** Loads the data from disk into the memory buffer provided. */
   virtual void Load(void* buffer);
 
-  /**
-   * Get the image origin.
-   */
+  /** Get the image origin. */
   virtual const double* GetOrigin() const;
 
-  /**
-   * Get the image spacing.
-   */
+  /** Get the image spacing. */
   virtual const double* GetSpacing() const;
 
-  /**
-   * Compute the size (in bytes) of the components of a pixel. For
+  /** Compute the size (in bytes) of the components of a pixel. For
    * example, and RGB pixel of unsigned char would have a 
-   * component size of 1 byte.
-   */
+   * component size of 1 byte. */
   virtual unsigned int GetComponentSize() const;
 
-  /**
-   * Enums used to specify byte order; whether Big Endian or Little Endian.
-   */
+  /** Enums used to specify byte order; whether Big Endian or Little Endian. */
   typedef  enum {BigEndian,LittleEndian} ByteOrder;
   
-  /**
-   * These methods indicate the byte ordering of the file you are trying
+  /** These methods indicate the byte ordering of the file you are trying
    * to read in. These methods will then either swap or not swap
    * the bytes depending on the byte ordering of the machine it is
    * being run on. For example, reading in a BigEndian file on a
@@ -122,18 +98,16 @@ public:
    * Note: most UNIX machines are BigEndian while PC's
    * and VAX's are LittleEndian. So if the file you are reading
    * in was generated on a VAX or PC, SetImageByteOrderToLittleEndian 
-   * otherwise SetImageByteOrderToBigEndian. 
-   */
+   * otherwise SetImageByteOrderToBigEndian.  */
   itkSetMacro(ImageByteOrder,ByteOrder);
   itkGetConstMacro(ImageByteOrder,ByteOrder);
-  
+    
+  /** Specify the byet ordering of the file. */
   void SetImageByteOrderToBigEndian()
     { this->SetImageByteOrder(BigEndian); }
-  
   void SetImageByteOrderToLittleEndian()
     { this->SetImageByteOrder(LittleEndian); }
-
-
+  
 protected:
   MetaImageIO();
   ~MetaImageIO();

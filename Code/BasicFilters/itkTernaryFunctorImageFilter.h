@@ -65,7 +65,7 @@ class ITK_EXPORT TernaryFunctorImageFilter :
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef TernaryFunctorImageFilter  Self;
 

@@ -51,64 +51,43 @@ namespace itk
  *  itkColorTable Class define a Color table for image visualisation
  * 
  * \ingroup DataRepresentation
- *
  */
 
 template<class TPixel>
 class ITK_EXPORT ColorTable : public Object
 {
 public:
-
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ColorTable   Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef Object Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
 
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(ColorTable,Object);
 
-  /**
-   * Method for creation through the object factory.
-   */
-     itkNewMacro(Self);
-
+  /** Badly named methods that require renaming and documentation. */ 
   void    useDiscrete(void);
   void    useGray(int n=256);
   void    useHeat(int n=256);
-
   int     size(void);
-
-  /*Given the position in the table returns an RGB Pixel corresponding*/ 
   RGBPixel<TPixel>*          color(int c);
-
-  /**
-   * Given the position in the table and the color 
-   * returns the value
-   */
-  TPixel                     color(int c, char rgb);
-  char *                     colorName(int c);
+  
+  /** Given the position in the table and the color 
+   * returns the value. \todo Needs renaming. */
+  TPixel  color(int c, char rgb);
+  char *  colorName(int c);
    
 protected:
+  ColorTable();
+  virtual ~ColorTable();
+
   int                  m_NumberOfColors;
   RGBPixel<TPixel> *   m_Color;
   char **              m_ColorName;
-
-  ColorTable();
-  virtual ~ColorTable();
 
 private:
   ColorTable(const Self&); //purposely not implemented

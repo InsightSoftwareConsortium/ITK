@@ -45,8 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk
 {
-/**
- * \brief Class to convert blocks of data from one type to another.
+/** \brief Class to convert blocks of data from one type to another.
  *
  * ConvertPixelBuffer has on static method Convert().  It is used by
  * itkImageFileReader to convert from an unknown type at run-time to the
@@ -63,13 +62,15 @@ template <
 class ConvertPixelBuffer
 {
 public:
+  /** Determine the output data type. */
   typedef typename OutputConvertTraits::ComponentType OutputComponentType;
 
+  /** General method converts from one type to another. */
   static void Convert(InputPixelType* inputData, 
                       int inputNumberOfComponents, 
                       OutputPixelType* outputData , int size);
 protected:
-  // Convert to Gray output
+  /** Convert to Gray output. */
   static void ConvertGrayToGray(InputPixelType* inputData, 
                                 OutputPixelType* outputData , int size);
   static void ConvertRGBToGray(InputPixelType* inputData, 
@@ -80,7 +81,8 @@ protected:
                                           int inputNumberOfComponents,
                                           OutputPixelType* outputData , 
                                           int size);
-  // convert to RGB output
+  
+  /** Convert to RGB output. */
   static void ConvertGrayToRGB(InputPixelType* inputData, 
                                OutputPixelType* outputData , int size);
   static void ConvertRGBToRGB(InputPixelType* inputData, 
@@ -91,7 +93,8 @@ protected:
                                          int inputNumberOfComponents,
                                          OutputPixelType* outputData , 
                                          int size);
-  // convert to RGBA output
+    
+  /** Convert to RGBA output. */
   static void ConvertGrayToRGBA(InputPixelType* inputData, 
                                 OutputPixelType* outputData , int size);
   static void ConvertRGBToRGBA(InputPixelType* inputData, 
@@ -102,7 +105,7 @@ protected:
                                           int inputNumberOfComponents,
                                           OutputPixelType* outputData , 
                                           int size);
-  
+    
 private:
   ConvertPixelBuffer();
   ~ConvertPixelBuffer();

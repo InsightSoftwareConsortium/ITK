@@ -86,7 +86,7 @@ class ITK_EXPORT ResampleImageFilter:
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef ResampleImageFilter         Self;
 

@@ -45,9 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
-/**
- * \class SmartNeighborhoodIterator
- *
+/** \class SmartNeighborhoodIterator
  * \brief An extension of NeighborhoodIterator that automatically performs
  * bounds checking on the image and returns user-supplied boundary conditions
  * for out-of-bounds pixels.
@@ -117,98 +115,73 @@ namespace itk {
  * \sa NeighborhoodIterator \sa ImageBoundaryCondition
  * \sa NeighborhoodAlgorithm
  *
- *
  * \ingroup ImageIterators
- *
- **/
+ */
 template<class TImage,  class TBoundaryCondition
                        = ZeroFluxNeumannBoundaryCondition<TImage>  >
 class ITK_EXPORT SmartNeighborhoodIterator
   :  public ConstSmartNeighborhoodIterator<TImage>
 {
 public:
-  /** 
-   * Standard "Self" & Superclass typdef.
-   */
+  /** Standard class typdefs. */
   typedef SmartNeighborhoodIterator Self;
   typedef ConstSmartNeighborhoodIterator<TImage> Superclass;
-
-  /**
-   * Extract some type information from the superclass.
-   */
+  
+  /** Extract some type information from the superclass. */
   typedef typename Superclass::InternalPixelType InternalPixelType;
   typedef typename Superclass::PixelType PixelType;
-  enum { Dimension = Superclass::Dimension };
-
   typedef typename Superclass::ImageType ImageType;
   typedef typename Superclass::RegionType RegionType;
   typedef typename Superclass::SizeType SizeType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::IndexType IndexType;
   typedef typename Superclass::OffsetType OffsetType;
-
   typedef typename Superclass::ImageBoundaryConditionPointerType
     ImageBoundaryConditionPointerType;
   typedef typename Superclass::BoundaryConditionType BoundaryConditionType;
-  
-  /**
-   * Default constructor.
-   */
-  SmartNeighborhoodIterator()
-    : Superclass()
-    {}
+    
+  /** Extract some type information from the superclass. */
+  enum { Dimension = Superclass::Dimension };
 
-  /**
-   * Copy constructor
-   */
+  /** Default constructor. */
+  SmartNeighborhoodIterator()
+    : Superclass() {}
+
+  /** Copy constructor */
   SmartNeighborhoodIterator(const Self& orig)
-    : Superclass(orig)
-    {}
+    : Superclass(orig) {}
   
-  /**
-   * Assignment operator
-   */
+  /** Assignment operator */
   Self &operator=(const Self& orig)
     {
       Superclass::operator=(orig);
       return *this;
     }
 
-  /**
-   * Constructor establishes a neighborhood of iterators of a specified
+  /** Constructor establishes a neighborhood of iterators of a specified
    * dimension to walk a particular image and a particular region of
-   * that image.
-   */ 
-  SmartNeighborhoodIterator(const SizeType& radius,
-                                  ImageType *ptr,
+   * that image. */ 
+  SmartNeighborhoodIterator(const SizeType& radius, ImageType *ptr,
                             const RegionType& region)
-    : Superclass(radius, ptr, region)
-    {}
+    : Superclass(radius, ptr, region) {}
 
-  /**
-   * Prints information about the neighborhood pointer structure to
-   * std::cout for debugging purposes.
-   */
+  /** Prints information about the neighborhood pointer structure to
+   * std::cout for debugging purposes. */
   virtual void PrintSelf(std::ostream &, Indent) const;
 
-  /**
-   * Returns the central memory pointer of the neighborhood.
-   */
+  /** Returns the central memory pointer of the neighborhood. */
   InternalPixelType *GetCenterPointer()
-    {    return (this->operator[]((this->Size())>>1));  }
+    { return (this->operator[]((this->Size())>>1)); }
 
+  /** Set the central pixel value of the neighborhood. */
   virtual void SetCenterPixel(const PixelType &p)
-    {    *( this->GetCenterPointer() ) = p;  }
+    { *( this->GetCenterPointer() ) = p; }
 
-  /**
-   * Sets the values in the itk::Image at the iterator location to the values
-   * contained in a Neighborhood.
-   */
+  /** Sets the values in the itk::Image at the iterator location to the values
+   * contained in a Neighborhood. */
   virtual void SetNeighborhood(NeighborhoodType &);
 
-  /**
-   *
-   */
+  /** Set the pixel value at the ith location. */
   virtual void SetPixel(const unsigned long i, const PixelType &v);
 };
 

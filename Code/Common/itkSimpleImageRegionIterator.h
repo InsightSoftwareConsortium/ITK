@@ -45,8 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class SimpleImageRegionIterator
+/** \class SimpleImageRegionIterator
  * \brief Multi-dimensional image iterator which only walks a region.
  * 
  * SimpleImageRegionIterator is a templated class to represent a
@@ -96,118 +95,83 @@ namespace itk
  *  It also can be used for walking in the reverse direction like
  *
  * \code
- * 
  *  IteratorType it( image, image->GetRequestedRegion() );
- *
  *  it.End();
- *
  *  while( !it.IsAtBegin() ) 
  *  {  
  *    it.Set( 100.0 );
  *    --it;
  *  }
- *
  * \endcode
  *
- *
  * \ingroup ImageIterators
- *
- *
- * */
+ */
 template<typename TImage>
 class SimpleImageRegionIterator : public ImageIteratorWithIndex<TImage>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef SimpleImageRegionIterator Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageIteratorWithIndex<TImage>  Superclass;
-
-  /** 
-   * Index typedef support. While this was already typdef'ed in the superclass
+  
+  /** Index typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index.
-   */
+   * confused with ImageIterator::Index. */
   typedef typename TImage::IndexType  IndexType;
 
-  /**
-   * Image typedef support. While this was already typdef'ed in the superclass
+  /** Image typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Image back to itk::Image to that is it not
-   * confused with ImageIterator::Image.
-   */
+   * confused with ImageIterator::Image. */
   typedef TImage ImageType;
 
-  /** 
-   * PixelContainer typedef support. Used to refer to the container for
+  /** PixelContainer typedef support. Used to refer to the container for
    * the pixel data. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   */
+   * it needs to be redone here for this subclass to compile properly with gcc. */
   typedef typename TImage::PixelContainer PixelContainer;
   typedef typename PixelContainer::Pointer PixelContainerPointer;
-
-  /**
-   * Region typedef support. While this was already typdef'ed in the superclass
+  
+  /** Region typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Region back to itk::ImageRegion so that is
-   * it not confused with ImageIterator::Index.
-   */
+   * it not confused with ImageIterator::Index. */
   typedef typename TImage::RegionType RegionType;
 
-  /**
-   * Default constructor. Needed since we provide a cast constructor.
-   */
+  /** Default constructor. Needed since we provide a cast constructor. */
   SimpleImageRegionIterator() : ImageIteratorWithIndex<TImage>() {}
   
-  /**
-   * Constructor establishes an iterator to walk a particular image and a
-   * particular region of that image.
-   */
-  SimpleImageRegionIterator(TImage *ptr,
-                            const RegionType& region)
+  /** Constructor establishes an iterator to walk a particular image and a
+   * particular region of that image. */
+  SimpleImageRegionIterator(TImage *ptr, const RegionType& region)
     : ImageIteratorWithIndex<TImage>(ptr, region) {}
 
-  /**
-   * Constructor that can be used to cast from an ImageIterator to an
+  /** Constructor that can be used to cast from an ImageIterator to an
    * SimpleImageRegionIterator. Many routines return an ImageIterator but for a
    * particular task, you may want an SimpleImageRegionIterator.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
-   * ImageIterator to a SimpleImageRegionIterator.
-   */
+   * ImageIterator to a SimpleImageRegionIterator. */
   SimpleImageRegionIterator( const ImageIteratorWithIndex<TImage> &it)
     { this->ImageIteratorWithIndex<TImage>::operator=(it); }
 
-  
-  /**
-   * Increment (prefix) the fastest moving dimension of the iterator's index.
+  /** Increment (prefix) the fastest moving dimension of the iterator's index.
    * This operator will constrain the iterator within the region (i.e. the
    * iterator will automatically wrap from the end of the row of the region
    * to the beginning of the next row of the region) up until the iterator
    * tries to moves past the last pixel of the region.  Here, the iterator
    * will be set to be one pixel past the end of the region.
-   * \sa operator++(int)
-   */
+   * \sa operator++(int) */
   Self & operator++();
- 
 
-  /**
-   * Decrement (prefix) the fastest moving dimension of the iterator's index.
+  /** Decrement (prefix) the fastest moving dimension of the iterator's index.
    * This operator will constrain the iterator within the region (i.e. the
    * iterator will automatically wrap from the beginning of the row of the region
    * to the end of the next row of the region) up until the iterator
    * tries to moves past the first pixel of the region.  Here, the iterator
    * will be set to be one pixel past the beginning of the region.
-   * \sa operator--(int)
-   */
+   * \sa operator--(int) */
   Self & operator--();
-
 };
 
 } // end namespace itk

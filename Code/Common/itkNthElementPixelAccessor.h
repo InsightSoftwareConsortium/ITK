@@ -41,13 +41,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkNthElementPixelAccessor_h
 #define __itkNthElementPixelAccessor_h
 
-
-
 namespace itk
 {
 
-/**
- * \class NthElementPixelAccessor
+/** \class NthElementPixelAccessor
  * \brief Give access to the N-th of a Container type 
  *
  * This class is intended to be used as parameter of 
@@ -67,65 +64,44 @@ namespace itk
  * \sa PixelAccessor
  *
  * \ingroup ImageAdaptors
- *
  */
 
 template < class T, class TContainer >
 class ITK_EXPORT NthElementPixelAccessor
 {
 public:
- /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef   NthElementPixelAccessor        Self;
 
- /** 
-   * External typedef. It defines the external aspect
-   * that this class will exhibit
-   */
+  /** that this class will exhibit */
   typedef T ExternalType;
 
-  /** 
-   * Internal typedef. It defines the internal real
-   * representation of data
-   */
+  /** Internal typedef. It defines the internal real
+   * representation of data */
   typedef   TContainer    InternalType;
 
-
-  /** 
-   * Write access to the NthElement component
-   */
+  /** Write access to the NthElement component */
   inline void Set( InternalType & output, const ExternalType & input ) const 
     { output[m_ElementNumber] =  input; }
 
-
-  /** 
-   * Read access to the NthElement component
-   */
+  /** Read access to the NthElement component */
   inline ExternalType Get( const InternalType & input ) const
     { return static_cast<ExternalType>( input[m_ElementNumber] ); }
 
-  /** 
-   * Get the element number to access in the container
-   */
+  /** Get the element number to access in the container */
   unsigned int GetElementNumber(void) const
-  { return m_ElementNumber; }
+    { return m_ElementNumber; }
 
-  /** 
-   * Set the element number to access in the container
-   */
+  /** Set the element number to access in the container */
   void SetElementNumber( unsigned int nth )
-  { m_ElementNumber = nth; }
+    { m_ElementNumber = nth; }
 
-  /**
-   * operator!=. This is needed to convert a pixel accessor to a functor.
-   * \sa AdaptImageFilter
-   */
+  /** operator!=. This is needed to convert a pixel accessor to a functor.
+   * \sa AdaptImageFilter */
   bool operator!=(const Self& accessor) const
-  {
-    return (m_ElementNumber != accessor.m_ElementNumber);
-  }
-
+    {
+      return (m_ElementNumber != accessor.m_ElementNumber);
+    }
 
 private:
   // Identifier of the N-th element to be accessed

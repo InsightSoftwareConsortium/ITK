@@ -59,7 +59,7 @@ namespace itk
 class ITK_EXPORT VTKImageExportBase: public ProcessObject
 {
 public:
-  ///! Standard "Self" typedef.
+  ///! Standard class typedefs.
   typedef VTKImageExportBase Self;
 
   ///! Standard "Superclass" typedef.

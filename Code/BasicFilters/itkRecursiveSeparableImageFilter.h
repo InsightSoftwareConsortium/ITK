@@ -67,7 +67,7 @@ class ITK_EXPORT RecursiveSeparableImageFilter :
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef RecursiveSeparableImageFilter  Self;
 

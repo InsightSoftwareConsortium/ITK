@@ -48,56 +48,33 @@ namespace itk
 {
 /** \class VOLImageIOFactory
  * \brief Create instances of VOLImageIO objects using an object factory.
- *
  */
-
 class ITK_EXPORT VOLImageIOFactory : public ObjectFactoryBase
 {
 public:
-
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef VOLImageIOFactory   Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+  
+  /** Method for creation through the object factory. */
+  static VOLImageIOFactory* New()
+    { return new VOLImageIOFactory; }
 
-  /**
-   * Class Methods used to interface with the registered factories
-   */
-  virtual const char* GetITKSourceVersion();
-  virtual const char* GetDescription() const;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(VOLImageIOFactory, ObjectFactoryBase);
   
-  /**
-   * Method for creation through the object factory.
-   */
-  static VOLImageIOFactory* New()
-  {
-      return new VOLImageIOFactory;
-  }
-  /**
-   * Register one factory of this type 
-   */
+  /** Class Methods used to interface with the registered factories. */
+  virtual const char* GetITKSourceVersion();
+  virtual const char* GetDescription() const;
+  
+  /** Register one factory of this type.  */
   static void RegisterOneFactory(void)
-  {
-    VOLImageIOFactory::Pointer volFactory = VOLImageIOFactory::New();
-    ObjectFactoryBase::RegisterFactory(volFactory);
-  }
- 
+    {
+      VOLImageIOFactory::Pointer volFactory = VOLImageIOFactory::New();
+      ObjectFactoryBase::RegisterFactory(volFactory);
+    }
 
 protected:
   VOLImageIOFactory();

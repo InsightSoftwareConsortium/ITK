@@ -74,7 +74,7 @@ class ITK_EXPORT ParametricSpaceToImageSpaceMeshFilter :
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef ParametricSpaceToImageSpaceMeshFilter  Self;
 

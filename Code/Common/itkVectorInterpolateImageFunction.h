@@ -46,8 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/** 
- * \class VectorInterpolateImageFunction
+/** \class VectorInterpolateImageFunction
  * \brief Base class for all vector image interpolaters.
  *
  * VectorInterpolateImageFunction is the base for all ImageFunctions that
@@ -60,8 +59,7 @@ namespace itk
  * 
  * \sa InterpolateImageFunction
  * \ingroup ImageFunctions
- * 
- * */
+ */
 template <
 class TInputImage,
 class TPixelType = typename TInputImage::PixelType
@@ -72,42 +70,40 @@ class ITK_EXPORT VectorInterpolateImageFunction :
     Vector<double, TPixelType::VectorDimension> > 
 {
 public:
-  /// Standard "Self" typedef.
+  /** Standard class typedefs. */
   typedef VectorInterpolateImageFunction Self;
-
-  /// Standard "Superclass" typedef.
   typedef ImageFunction<TInputImage,
     Vector<double, TPixelType::VectorDimension> > Superclass;
-
-  /// Smart pointer typedef support.
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /// Run-time type information (and related methods).
-  itkTypeMacro(VectorInterpolateImageFunction, ImageFunction);
-
-  /// Method for creation through the object factory.
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
-  /// InputImageType typedef support.
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(VectorInterpolateImageFunction, ImageFunction);
+
+  /** InputImageType typedef support. */
   typedef typename Superclass::InputImageType InputImageType;
   typedef typename InputImageType::PixelType  PixelType;
   typedef typename PixelType::ValueType       ValueType;
+    
+  /** Extract the vector dimension from the pixel template parameter. */
   enum { VectorDimension = PixelType::VectorDimension };
   
-  /// Dimension underlying input image.
+  /** Dimension underlying input image. */
   enum { ImageDimension = Superclass::ImageDimension };
 
-  /// Point typedef support.
+  /** Point typedef support. */
   typedef typename Superclass::PointType PointType;
 
-  /// Index typedef support.
+  /** Index typedef support. */
   typedef typename Superclass::IndexType IndexType;
 
-  /// ContinuousIndex typedef support.
+  /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
-  /// Output type is Vector<double,VectorDimension>
+  /** Output type is Vector<double,VectorDimension>. */
   typedef typename Superclass::OutputType OutputType;
 
   /** Returns the interpolated image intensity at a 

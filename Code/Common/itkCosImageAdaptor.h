@@ -48,8 +48,7 @@ namespace itk
 {
  
 namespace Accessor {
-/**
- * \class CosPixelAccessor
+/** \class CosPixelAccessor
  * \brief Give access to the cos() function of a value
  *
  * CosPixelAccessor is templated over an internal type and an
@@ -58,26 +57,18 @@ namespace Accessor {
  * to the types defined as template parameters
  * 
  * \ingroup ImageAdaptors
- *
  */
-
 template <class TInternalType, class TExternalType >
 class ITK_EXPORT CosPixelAccessor  
 {
 public:
-
- /** 
-   * External typedef. It defines the external aspect
-   * that this class will exhibit.
-   */
+  /** External typedef. It defines the external aspect
+   * that this class will exhibit. */
   typedef TExternalType ExternalType;
 
-  /** 
-   * Internal typedef. It defines the internal real
-   * representation of data.
-   */
+  /** Internal typedef. It defines the internal real
+   * representation of data. */
   typedef TInternalType InternalType;
-
 
   static inline void Set(TInternalType & output, const TExternalType & input) 
     {output = (TInternalType)cos((double)input);}
@@ -90,57 +81,34 @@ public:
   
 } // end namespace Accessor
 
-
- 
-/**
- * \class CosImageAdaptor
+/** \class CosImageAdaptor
  * \brief Presents an image as being composed of the cos() of its pixels
  *
  * Additional casting is performed according to the input and output image
  * types following C++ default casting rules.
  *
  * \ingroup ImageAdaptors
- *
  */
 template <class TImage, class TOutputPixelType>
 class ITK_EXPORT CosImageAdaptor : public
-      ImageAdaptor<TImage,
-                   Accessor::CosPixelAccessor<
+      ImageAdaptor<TImage,Accessor::CosPixelAccessor<
                                       typename TImage::PixelType,
                                       TOutputPixelType>   >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef CosImageAdaptor  Self;
-
-
-  /**
-   * Standard "Superclass" typedef.
-   */
-  typedef ImageAdaptor<TImage,
-                       Accessor::CosPixelAccessor<
+  typedef ImageAdaptor<TImage,Accessor::CosPixelAccessor<
                                        typename TImage::PixelType,
-                                       TOutputPixelType> >
-                                                            Superclass;
-  /** 
-   * Smart pointer typedef support.
-   */
+                                       TOutputPixelType> >  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro( CosImageAdaptor, ImageAdaptor );
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
-
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( CosImageAdaptor, ImageAdaptor );
 };
 
 } // end namespace itk

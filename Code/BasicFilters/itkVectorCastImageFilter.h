@@ -98,7 +98,7 @@ class ITK_EXPORT VectorCastImageFilter :
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef VectorCastImageFilter  Self;
 

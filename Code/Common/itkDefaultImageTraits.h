@@ -60,39 +60,25 @@ template <typename TPixelType,
 class DefaultImageTraits
 {
 public:
-  /**
-   * The pixel type of the image.
-   */
+  /** The pixel type of the image. */
   typedef TPixelType PixelType;
 
-  /**
-   * The dimension of the image.
-   */
+  /** The dimension of the image. */
   enum { ImageDimension = VImageDimension };
   
-  /**
-   * The container of Pixels for the image.
-   */
+  /** The container of Pixels for the image. */
   typedef TPixelContainer PixelContainer;
 
-  /** 
-   * Index typedef support. An index is used to access pixel values.
-   */
+  /** Index typedef support. An index is used to access pixel values. */
   typedef Index<ImageDimension>  IndexType;
 
-  /** 
-   * Offset typedef support. An offset is used to access pixel values.
-   */
+  /** Offset typedef support. An offset is used to access pixel values. */
   typedef Offset<ImageDimension>  OffsetType;
 
-  /** 
-   * Size typedef support. A size is used to define region bounds.
-   */
+  /** Size typedef support. A size is used to define region bounds. */
   typedef Size<ImageDimension>  SizeType;
 
-  /** 
-   * Region typedef support. A region is used to specify a subset of an image.
-   */
+  /** Region typedef support. A region is used to specify a subset of an image. */
   typedef ImageRegion<ImageDimension>  RegionType;
 };
 

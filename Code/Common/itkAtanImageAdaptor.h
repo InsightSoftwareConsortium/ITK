@@ -65,31 +65,23 @@ class ITK_EXPORT AtanPixelAccessor
 {
 public:
 
- /** 
-   * External typedef. It defines the external aspect
-   * that this class will exhibit.
-   */
+ /** External typedef. It defines the external aspect
+   * that this class will exhibit. */
   typedef TExternalType ExternalType;
 
-  /** 
-   * Internal typedef. It defines the internal real
-   * representation of data.
-   */
+  /** Internal typedef. It defines the internal real
+   * representation of data. */
   typedef TInternalType InternalType;
-
 
   static inline void Set(TInternalType & output, const TExternalType & input) 
     {output = (TInternalType)atan((double)input);}
 
   static inline TExternalType Get( const TInternalType & input ) 
     {return (TExternalType)atan((double)input);}
-
 };
 
   
 } // end namespace Accessor
-
-
  
 /**
  * \class AtanImageAdaptor
@@ -109,36 +101,20 @@ class ITK_EXPORT AtanImageAdaptor : public
                                       TOutputPixelType>   >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef AtanImageAdaptor  Self;
-
-
-  /**
-   * Standard "Superclass" typedef.
-   */
-  typedef ImageAdaptor<TImage,
-                       Accessor::AtanPixelAccessor<
+  typedef ImageAdaptor<TImage,Accessor::AtanPixelAccessor<
                                        typename TImage::PixelType,
                                        TOutputPixelType> >
                                                             Superclass;
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
+  
+  /** Run-time type information (and related methods). */
   itkTypeMacro( AtanImageAdaptor, ImageAdaptor );
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
-
 
 };
 

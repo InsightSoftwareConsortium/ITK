@@ -49,8 +49,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class BinomialBlurImageFilter
+/** \class BinomialBlurImageFilter
  * \brief Performs a separable blur on each dimension of an image
  *
  * The binomial blur consists of a nearest neighbor average along each
@@ -58,97 +57,61 @@ namespace itk
  * convultion with a gaussian.
  * 
  * \ingroup ImageEnhancement
- *
- * */
-
+ */
 template<class TInputImage, class TOutputImage>
 class ITK_EXPORT BinomialBlurImageFilter :
    public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-   
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef BinomialBlurImageFilter Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Number of dimensions
-   */
-  enum {NDimensions = TInputImage::ImageDimension};
-
-  /**
-   * Image size typedef
-   */
-  typedef Size<TOutputImage::ImageDimension> SizeType;
-
-  /**
-   * Image index typedef
-   */
-  typedef typename TOutputImage::IndexType IndexType;
-
-  /**
-   * Image pixel value typedef
-   */
-  typedef typename TOutputImage::PixelType PixelType;
-
-  /**
-   * Typedef to describe the output image region type.
-   */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro( BinomialBlurImageFilter, ImageToImageFilter );
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Get and set the number of times to repeat the filter.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( BinomialBlurImageFilter, ImageToImageFilter );
+
+  /** Number of dimensions */
+  enum {NDimensions = TInputImage::ImageDimension};
+
+  /** Image size typedef */
+  typedef Size<TOutputImage::ImageDimension> SizeType;
+
+  /** Image index typedef */
+  typedef typename TOutputImage::IndexType IndexType;
+
+  /** Image pixel value typedef */
+  typedef typename TOutputImage::PixelType PixelType;
+
+  /** Typedef to describe the output image region type. */
+  typedef typename TOutputImage::RegionType OutputImageRegionType;
+
+  /** Get and set the number of times to repeat the filter. */
   itkSetMacro(Repetitions, unsigned int);
   itkGetMacro(Repetitions, unsigned int);
 
-  /**
-   * Method for evaluating the implicit function over the image.
-   */
-  void GenerateData();
-
-  /**
-   * This filter needs to request a larger input than its requested output.
+  /** This filter needs to request a larger input than its requested output.
    * If this filter runs "Repetitions" iterations, then it needs an input
    * that is 2*Repetitions larger than the output. In other words, this
-   * filter needs a border of "Repetitions" pixels.
-   */
+   * filter needs a border of "Repetitions" pixels. */
   void GenerateInputRequestedRegion();
 
 protected:
-
   BinomialBlurImageFilter();
   virtual ~BinomialBlurImageFilter() {};
+
+  /** Method for evaluating the implicit function over the image. */
+  void GenerateData();
 
 private:
   BinomialBlurImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /**
-   * How many times should we apply the blur?
-   */
+  /** How many times should we apply the blur? */
   unsigned int m_Repetitions;
 };
 

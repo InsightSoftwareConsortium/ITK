@@ -55,46 +55,27 @@ namespace itk
  * operation to be applied.  A Functor style is used.
  * 
  * \ingroup IntensityImageFilters   Multithreaded
- * */
-
+ */
 template <class TInputImage1, class TInputImage2, 
           class TOutputImage, class TFunction    >
 class ITK_EXPORT BinaryFunctorImageFilter :
     public ImageToImageFilter<TInputImage1,TOutputImage> 
-
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef BinaryFunctorImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageToImageFilter<TInputImage1,TOutputImage>  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(BinaryFunctorImageFilter, ImageToImageFilter);
 
-  /** 
-   * Some typedefs.
-   */
+  /** Some convenient typedefs. */
   typedef TFunction   FunctorType;
-
   typedef TInputImage1 Input1ImageType;
   typedef typename Input1ImageType::Pointer Input1ImagePointer;
   typedef typename Input1ImageType::RegionType Input1ImageRegionType; 
@@ -108,32 +89,24 @@ public:
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   typedef typename OutputImageType::PixelType OutputImagePixelType;
 
-  /**
-   * Connect one of the operands for pixel-wise addition
-   */
+  /** Connect one of the operands for pixel-wise addition */
    void SetInput1( TInputImage1 * image1);
 
-  /**
-   * Connect one of the operands for pixel-wise addition
-   */
+  /** Connect one of the operands for pixel-wise addition */
    void SetInput2( TInputImage2 * image2);
 
-  /**
-   * Get the functor object.  The functor is returned by reference.
+  /** Get the functor object.  The functor is returned by reference.
    * (Functors do not have to derive from itk::LightObject, so they do
    * not necessarily have a reference count. So we cannot return a
-   * SmartPointer.)
-   */
+   * SmartPointer.) */
   FunctorType& GetFunctor() { return m_Functor; };
 
-  /**
-   * Set the functor object.  This replaces the current Functor with a
+  /** Set the functor object.  This replaces the current Functor with a
    * copy of the specified Functor. This allows the user to specify a
    * functor that has ivars set differently than the default functor.
    * This method requires an operator!=() be defined on the functor
    * (or the compiler's default implementation of operator!=() being
-   * appropriate).
-   */
+   * appropriate). */
   void SetFunctor(FunctorType& functor)
   {
     if ( m_Functor != functor )
@@ -147,8 +120,7 @@ protected:
   BinaryFunctorImageFilter();
   virtual ~BinaryFunctorImageFilter() {};
 
-  /**
-   * BinaryFunctorImageFilter can be implemented as a multithreaded filter.
+  /** BinaryFunctorImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine
    * which is called for each processing thread. The output image data is
    * allocated automatically by the superclass prior to calling
@@ -157,8 +129,7 @@ protected:
    * "outputRegionForThread"
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData() 
-   */
+   *     ImageToImageFilter::GenerateData()  */
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 

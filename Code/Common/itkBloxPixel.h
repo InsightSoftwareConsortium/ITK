@@ -68,9 +68,7 @@ namespace itk
 template <typename TItemType>
 class BloxPixel : public std::list<TItemType*>
 {
-
 public:
-
   BloxPixel();
   ~BloxPixel();
 };

@@ -48,8 +48,8 @@ namespace itk
 {
   
 /** \class AcosImageFilter
- *
  * \brief Computes the acos(x) pixel-wise.
+ *
  * This filter is templated over the pixel type of the input image
  * and the pixel type of the output image. 
  *
@@ -58,15 +58,15 @@ namespace itk
  *
  * - cast the pixel value to \c double, 
  * - apply the \c acos() function to the \c double value
- * - cast the \c double value resulting from \c acos() to the pixel type of the output image 
+ * - cast the \c double value resulting from \c acos() to the pixel type 
+ *   of the output image 
  * - store the casted value into the output image.
  * 
- * The filter expect both images to have the same dimension (e.g. both 2D, or both 3D, or both ND).
+ * The filter expect both images to have the same dimension (e.g. both 2D, 
+ * or both 3D, or both ND).
  *
  * \ingroup IntensityImageFilters  Multithreaded
- *
  */
-
 namespace Functor {  
   
   template< class TInput, class TOutput>
@@ -80,11 +80,8 @@ namespace Functor {
       return static_cast<TOutput>( acos( static_cast<double>(A) ) );
     }
   }; 
-
 }
-// Wrap: AcosImageFilter<$Image,$Image,$Image,$Function>
-// Wrap: <XML code for Function....>
-// Wrap: AcosImageFilter<Image<$BasicPixel,$BasicDimension>,$Image,$Image,$Function>
+
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT AcosImageFilter :
     public
@@ -92,33 +89,17 @@ class ITK_EXPORT AcosImageFilter :
     Functor::Acos< 
               typename TInputImage::PixelType, 
               typename TOutputImage::PixelType>   >
-
-
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef AcosImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::Acos< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   
-                >  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
+    Functor::Acos< typename TInputImage::PixelType, 
+                   typename TOutputImage::PixelType> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
 protected:

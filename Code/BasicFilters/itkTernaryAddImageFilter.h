@@ -90,7 +90,7 @@ class ITK_EXPORT TernaryAddImageFilter :
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef TernaryAddImageFilter  Self;
 

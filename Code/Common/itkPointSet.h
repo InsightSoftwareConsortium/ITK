@@ -93,181 +93,129 @@ template <
 class PointSet: public DataObject
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef PointSet                Self;
-  
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef DataObject  Superclass;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-  
-  /**
-   * Method for creation through the object factory.
-   */
+    
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Standard part of every itk Object.
-   */
+  /** Standard part of every itk Object. */
   itkTypeMacro(PointSet, Object);
 
-  /** 
-   * Hold on to the type information specified by the template parameters.
-   */
+  /** Hold on to the type information specified by the template parameters. */
   typedef TMeshTraits   MeshTraits;
   typedef typename MeshTraits::PixelType                PixelType;  
-
-  /** 
-   * Convenient typedefs obtained from TMeshTraits template parameter.
-   */
-  enum {PointDimension = MeshTraits::PointDimension};
+  
+  /** Convenient typedefs obtained from TMeshTraits template parameter. */
   typedef typename MeshTraits::CoordRepType             CoordRepType;  
   typedef typename MeshTraits::PointIdentifier          PointIdentifier;
   typedef typename MeshTraits::PointType                PointType;
   typedef typename MeshTraits::PointsContainer          PointsContainer;
   typedef typename MeshTraits::PointDataContainer       PointDataContainer;
+  
+  /** Convenient typedefs obtained from TMeshTraits template parameter. */
+  enum {PointDimension = MeshTraits::PointDimension};
 
-  /**
-   * Used to support geometric operations on PointSet's such as locating
-   * points quickly, and intersecting a point with a ray.
-   */
+  /** Used to support geometric operations on PointSet's such as locating
+   * points quickly, and intersecting a point with a ray. */
   typedef PointLocator<PointIdentifier,PointDimension,
                        CoordRepType,PointsContainer>  PointLocatorType;
   typedef BoundingBox<PointIdentifier,PointDimension,
                       CoordRepType,PointsContainer>   BoundingBoxType;
-
-  /**
-   * Create types that are pointers to each of the container types.
-   */
+  
+  /** Create types that are pointers to each of the container types. */
   typedef typename PointsContainer::Pointer          PointsContainerPointer;
   typedef typename PointsContainer::ConstPointer     PointsContainerConstPointer;
   typedef typename PointDataContainer::Pointer       PointDataContainerPointer;
   typedef typename PointDataContainer::ConstPointer  PointDataContainerConstPointer;
   typedef typename PointLocatorType::Pointer         PointLocatorPointer;
   typedef typename BoundingBoxType::Pointer          BoundingBoxPointer;
-
-  /**
-   * Create types that are iterators for each of the container types.
-   */
+  
+  /** Create types that are iterators for each of the container types. */
   typedef typename
           PointsContainer::ConstIterator        PointsContainerConstIterator;
   typedef typename
           PointsContainer::Iterator             PointsContainerIterator;
   typedef typename
           PointDataContainer::ConstIterator     PointDataContainerIterator;
-  
-  /**
-   * Get the maximum number of regions that this data can be
-   * separated into.
-   */
+    
+  /** Get the maximum number of regions that this data can be
+   * separated into. */
   int GetMaximumNumberOfRegions() const
     {return m_MaximumNumberOfRegions;}
       
 protected:
-  /**
-   * An object containing points used by the mesh.  Individual points are
-   * accessed through point identifiers.
-   */
+  /** An object containing points used by the mesh.  Individual points are
+   * accessed through point identifiers. */
   PointsContainerPointer  m_PointsContainer;
 
-  /**
-   * An object containing data associated with the mesh's points.
+  /** An object containing data associated with the mesh's points.
    * Optionally, this can be NULL, indicating that no data are associated with
    * the points.  The data for a point can be accessed through its point
-   * identifier.
-   */
+   * identifier. */
   PointDataContainerPointer  m_PointDataContainer;
  
-  /**
-   * PointLocator is used to accelerate the search for points. This
-   * supports the FindClosestPoint() method. 
-   */
+  /** PointLocator is used to accelerate the search for points. This
+   * supports the FindClosestPoint() method.  */
   PointLocatorPointer m_PointLocator;
   
-  /**
-   * The bounding box (xmin,xmax, ymin,ymax, ...) of the mesh. The 
-   * bounding box is used for searching, picking, display, etc.
-   */
+  /** The bounding box (xmin,xmax, ymin,ymax, ...) of the mesh. The 
+   * bounding box is used for searching, picking, display, etc. */
   BoundingBoxPointer m_BoundingBox;
 
 public:
-  /**
-   * PointSet-level operation interface.
-   */
+  /** PointSet-level operation interface. */
   void PassStructure(Self* inputPointSet);
   virtual void Initialize(void);
-
   unsigned long GetNumberOfPoints(void) const;
-
-  /**
-   * Define Set/Get access routines for each internal container.
+  
+  /** Define Set/Get access routines for each internal container.
    * Methods also exist to add points, cells, etc. one at a time
-   * rather than through an entire container.
-   */
+   * rather than through an entire container. */
   void SetPoints(PointsContainer*);
   PointsContainerPointer GetPoints(void);
   PointsContainerConstPointer GetPoints(void) const;
-
   void SetPointData(PointDataContainer*);
   PointDataContainerPointer GetPointData(void);
   PointDataContainerConstPointer GetPointData(void) const;
-
-  /**
-   * Access routines to fill the Points container, and get information
-   * from it.
-   */
+  
+  /** Access routines to fill the Points container, and get information
+   * from it. */
   void SetPoint(PointIdentifier, PointType);
   bool GetPoint(PointIdentifier, PointType*) const;
-
-  /**
-   * Access routines to fill the PointData container, and get information
-   * from it.
-   */
+  
+  /** Access routines to fill the PointData container, and get information
+   * from it. */
   void SetPointData(PointIdentifier, PixelType);
   bool GetPointData(PointIdentifier, PixelType*) const;
-
-  /**
-   * Get the bounding box of the mesh. The methods return a pointer to
-   * the user-supplied bounding box as a convenience.
-   */
+  
+  /** Get the bounding box of the mesh. The methods return a pointer to
+   * the user-supplied bounding box as a convenience. */
   BoundingBoxPointer GetBoundingBox();
 
-  /**
-   * Geometric operations convert between coordinate systems, perform 
-   * interpolation, and locate points and cells.
-   */
+  /** Geometric operations convert between coordinate systems, perform 
+   * interpolation, and locate points and cells. */
   bool FindClosestPoint(CoordRepType coords[PointDimension],
                         PointIdentifier* pointId);
 
-  /**
-   * Methods to manage streaming.
-   */
+  /** Methods to manage streaming. */
   virtual void UpdateOutputInformation();
   virtual void SetRequestedRegionToLargestPossibleRegion();
   virtual void CopyInformation(DataObject *data);
   virtual bool RequestedRegionIsOutsideOfTheBufferedRegion();
   virtual bool VerifyRequestedRegion();
-
-  /**
-   * Set the requested region from this data object to match the requested
+  
+  /** Set the requested region from this data object to match the requested
    * region of the data object passed in as a parameter.  This method 
    * implements the API from DataObject. The data object parameter must be
-   * castable to a PointSet.
-   */
+   * castable to a PointSet. */
   virtual void SetRequestedRegion(DataObject *data);
 
 protected:
-  /**
-   * Constructor for use by New() method.
-   */
+  /** Constructor for use by New() method. */
   PointSet();
   ~PointSet() {}
   virtual void PrintSelf(std::ostream& os, Indent indent) const;

@@ -61,54 +61,33 @@ template <class TOutputMesh>
 class ITK_EXPORT MeshSource : public ProcessObject
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef MeshSource         Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ProcessObject  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(MeshSource,ProcessObject);
 
-  /** 
-   * Some typedefs.
-   */
+  /** Some convenient typedefs. */
   typedef DataObject::Pointer DataObjectPointer;
   typedef TOutputMesh OutputMeshType;
   typedef typename OutputMeshType::Pointer OutputMeshPointer;
-
-  /** 
-   * Get the mesh output of this process object. 
-   */
+  
+  /** Get the mesh output of this process object.  */
   OutputMeshPointer GetOutput();
   OutputMeshPointer GetOutput(unsigned int idx);
-
-  /** 
-   * Set the mesh output of this process object. This call is slated
+  
+  /** Set the mesh output of this process object. This call is slated
    * to be removed from ITK. You should GraftOutput() and possible
-   * DataObject::DisconnectPipeline() to properly change the output.
-   */
+   * DataObject::DisconnectPipeline() to properly change the output. */
   void SetOutput(TOutputMesh *output);
 
-  /**
-   * Graft the specified DataObject onto this ProcessObject's output.
+  /** Graft the specified DataObject onto this ProcessObject's output.
    * This method grabs a handle to the specified DataObject's bulk
    * data to used as its output's own bulk data. It also copies the
    * region ivars (RequestedRegion, BufferedRegion,
@@ -122,7 +101,7 @@ public:
    * \code
    *    // setup the mini-pipeline to process the input to this filter
    *    firstFilterInMiniPipeline->SetInput( this->GetInput() );
-   
+   *
    *    // setup the mini-pipeline to calculate the correct regions
    *    // and write to the appropriate bulk data block
    *    lastFilterInMiniPipeline->GraftOutput( this->GetOutput() );
@@ -141,13 +120,10 @@ public:
    * EnlargeOutputRequestedRegion() methods as necessary to reflect
    * how the mini-pipeline will execute (in other words, the outer
    * filter's pipeline mechanism must be consistent with what the
-   * mini-pipeline will do).
-   * 
-   */
+   * mini-pipeline will do). */
   virtual void GraftOutput(OutputMeshType *output);
 
-  /**
-   * Make a DataObject of the correct type to used as the specified
+  /** Make a DataObject of the correct type to used as the specified
    * output.  Every ProcessObject subclass must be able to create a
    * DataObject that can be used as a specified output. This method
    * is automatically called when DataObject::DisconnectPipeline() is
@@ -159,33 +135,28 @@ public:
    * ProcessObject::MakeOutput. Note that MakeOutput always returns a
    * SmartPointer to a DataObject. If a subclass of MeshSource has
    * multiple outputs of different types, then that class must provide
-   * an implementation of MakeOutput().
-   */
+   * an implementation of MakeOutput(). */
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
- protected:
+protected:
   MeshSource();
   virtual ~MeshSource() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
   
-  /**
-   * Requested region of Mesh is specified as i of N unstructured regions.
+  /** Requested region of Mesh is specified as i of N unstructured regions.
    * Since all DataObjects should be able to set the requested region in 
-   * unstructured form, just copy output->RequestedRegion all inputs.
-   */
+   * unstructured form, just copy output->RequestedRegion all inputs. */
   void GenerateInputRequestedRegion();
   
 private:
   MeshSource(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /**
-   * Used by streaming: The requested region of the output being processed
-   * by the execute method. Set in the GenerateInputRequestedRegion method.
-   */
+  /** Used by streaming: The requested region of the output being processed
+   * by the execute method. Set in the GenerateInputRequestedRegion method. */
   int m_GenerateDataRegion;
   int m_GenerateDataNumberOfRegions;
-};
+  };
 
 } // end namespace itk
 

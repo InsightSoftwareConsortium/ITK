@@ -68,129 +68,71 @@ class ElasticBodySplineKernelTransform :
                                    vnl_matrix<TScalarType>   >
 {
 public:
-  
-  /**
-   * Standard Self typedef
-   */
+  /** Standard class typedefs. */
   typedef ElasticBodySplineKernelTransform   Self;
-
-
-
-  /**
-   * Standard Superclass typedef
-   */
   typedef KernelTransform<  TScalarType, 
                             NDimensions,
                             vnl_vector<TScalarType>, 
                             vnl_matrix<TScalarType>      > Superclass;
-
-
-  /**
-   * Scalar Type
-   */
-  typedef typename Superclass::ScalarType  ScalarType;
-
-
-  /**
-   * Parameters Type
-   */
-  typedef typename Superclass::ParametersType  ParametersType;
-
-
-  /**
-   * Jacobian Type
-   */
-  typedef typename Superclass::JacobianType  JacobianType;
-
-                            
-  /// Dimension of the domain space
-  enum { SpaceDimension = Superclass::SpaceDimension };
-
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-
-  /** 
-   * Run-time type information (and related methods).
-   */
+    
+  /** Run-time type information (and related methods). */
   itkTypeMacro( ThinPlateSplineKernelTransform, KernelTransform );
 
-
-  /** 
-   * New macro for creation of through a Smart Pointer
-   */
+  /** New macro for creation of through a Smart Pointer */
   itkNewMacro( Self );
 
+  /** Scalar type. */
+  typedef typename Superclass::ScalarType  ScalarType;
 
+  /** Parameters type. */
+  typedef typename Superclass::ParametersType  ParametersType;
 
-  /**
-   * Set alpha
-   */
+  /** Jacobian type. */
+  typedef typename Superclass::JacobianType  JacobianType;
+
+  /** Dimension of the domain space. */
+  enum { SpaceDimension = Superclass::SpaceDimension };
+
+  /** Set alpha */
   itkSetMacro( Alpha, TScalarType );
   
-
-  /**
-   * Get alpha
-   */
+  /** Get alpha */
   itkGetMacro( Alpha, TScalarType );
   
-  
-  /**
-   * These (rather redundant) typedefs are needed because on SGI, typedefs
-   * are not inherited
-   */
+  /** These (rather redundant) typedefs are needed because on SGI, typedefs
+   * are not inherited */
   typedef typename Superclass::InputPointType  InputPointType;
   typedef typename Superclass::OutputPointType  OutputPointType;
   typedef typename Superclass::InputVectorType InputVectorType;
   typedef typename Superclass::OutputVectorType OutputVectorType;
   typedef typename Superclass::InputCovariantVectorType InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
-  
-  
+    
 protected:
-
-  
-  /**
-   * Default constructor
-   */
+  /** Default constructor */
   ElasticBodySplineKernelTransform();
-
   
-  /**
-   * Destructor
-   */
+  /** Destructor */
   virtual ~ElasticBodySplineKernelTransform();
-
   
-  /**
-   * These (rather redundant) typedefs are needed because on SGI, typedefs
-   * are not inherited
-   */
+  /** These (rather redundant) typedefs are needed because on SGI, typedefs
+   * are not inherited */
   typedef typename Superclass::GMatrixType GMatrixType;
 
-
-  /**
-   * Compute G(x)
+  /** Compute G(x)
    * For the elastic body spline, this is:
    * G(x) = [alpha*r(x)^2*I - 3*x*x']*r(x)
    * where
    * alpha is a constant
    * r(x) = Euclidean norm = sqrt[x1^2 + x2^2 + x3^2]
-   * I = identity matrix
-   */
+   * I = identity matrix */
   GMatrixType ComputeG(const InputVectorType& x) const;
-  
 
-  /**
-   * alpha, Poisson's ratio
-   */
+  /** alpha, Poisson's ratio */
   TScalarType m_Alpha;
 
-  
 };
 
 } // namespace itk

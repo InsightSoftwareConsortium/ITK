@@ -81,85 +81,66 @@ class ITK_EXPORT ConicShellInteriorExteriorSpatialFunction : public InteriorExte
 {
 public:
 
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ConicShellInteriorExteriorSpatialFunction Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef InteriorExteriorSpatialFunction<VImageDimension> Superclass;
-  
-  /**
-   * Input type for the function
-   */
-  typedef typename Superclass::InputType InputType;
-
-  /**
-   * Output type for the function
-   */
-  typedef typename Superclass::OutputType OutputType;
-
-  /**
-   * The type of vector used to store the gradient info
-   * */
-  typedef CovariantVector<double, VImageDimension> TGradientType;
-  
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-  
+    
+  /** Run time information. */
   itkTypeMacro(ConicShellInteriorExteriorSpatialFunction,InteriorExteriorSpatialFunction);
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Evaluates the function at a given position
-   */
+  /** Input type for the function. */
+  typedef typename Superclass::InputType InputType;
+
+  /** Output type for the function. */
+  typedef typename Superclass::OutputType OutputType;
+
+  /** The type of vector used to store the gradient info. */
+  typedef CovariantVector<double, VImageDimension> TGradientType;
+  
+  /** Evaluates the function at a given position */
   OutputType Evaluate(const InputType& position) const;
 
+  /** Set/Get the origin of the function. */
   itkGetMacro( Origin, InputType);
   itkSetMacro( Origin, InputType);
-
+  
+  /** Set/Get the gradient at the origin of the function. */
   TGradientType GetOriginGradient() {return m_OriginGradient;}
   void SetOriginGradient(TGradientType grad);
-
+  
+  /** Set/Get the minimum search distance. */
   itkGetMacro( DistanceMin, double);
   itkSetMacro( DistanceMin, double);
-
+  
+  /** Set/Get the maximum search distance. */
   itkGetMacro( DistanceMax, double);
   itkSetMacro( DistanceMax, double);
-
+  
+  /** Set/Get the tolerance of the in/out comparison. */
   itkGetMacro( Epsilon, double);
   itkSetMacro( Epsilon, double);
-
+  
+  /** Set/Get direction along the gradient to search. */
   itkGetMacro( Polarity, bool);
   itkSetMacro( Polarity, bool);
-     
+       
 protected:
-
   ConicShellInteriorExteriorSpatialFunction();
   virtual ~ConicShellInteriorExteriorSpatialFunction();
-
 
 private:
   ConicShellInteriorExteriorSpatialFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /**
-   * The origin of the conic shell
-   */
+  /** The origin of the conic shell */
   InputType m_Origin;
 
-  /**
-   * The gradient at the origin
-   */
+  /** The gradient at the origin */
   TGradientType m_OriginGradient;
 
   double m_DistanceMin;

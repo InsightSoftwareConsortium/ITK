@@ -52,8 +52,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/** 
- * \class Index
+/** \class Index
  * \brief Represent a n-dimensional index in a n-dimensional image.
  *
  * Index is a templated class to represent a multi-dimensional index,
@@ -86,41 +85,27 @@ namespace itk
 template<unsigned int VIndexDimension=2>
 class Index {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef Index  Self;
-  
-  /**
-   * Compatible Index and value typedef
-   */
+
+  /** Compatible Index and value typedef */
   typedef   Index<VIndexDimension>  IndexType;
   typedef   long  IndexValueType;
-  
-  /**
-   * Get the dimension (size) of the index.
-   */
+    
+  /** Get the dimension (size) of the index. */
   static unsigned int GetIndexDimension() { return VIndexDimension; }
 
-  /**
-   * Define the zero index for convenience.
-   */
+  /** Define the zero index for convenience. */
   static const Self ZeroIndex;
   
-  /**
-   * Compatible Size typedef
-   */
+  /** Compatible Size typedef. */
   typedef   Size<VIndexDimension>  SizeType;
 
-  /**
-   * Compatible Offset and Offset value typedef
-   */
+  /** Compatible Offset and Offset value typedef. */
   typedef   Offset<VIndexDimension>  OffsetType;
   typedef   typename OffsetType::OffsetValueType OffsetValueType;
-
-  /**
-   * Add a size to an index. This method models a random access Index.
-   */
+  
+  /** Add a size to an index. This method models a random access Index. */
   const Self
   operator+(const SizeType &size) const
     {
@@ -130,9 +115,7 @@ public:
     return result;
     }
 
-  /**
-   * Increment index by a size. This method models a random access Index.
-   */
+  /** Increment index by a size. This method models a random access Index. */
   const Self &
   operator+=(const SizeType &size)
     {
@@ -141,9 +124,7 @@ public:
     return *this;
     }
 
-  /**
-   * Add an offset to an index.
-   */
+  /** Add an offset to an index. */
   const Self
   operator+(const OffsetType &offset) const
     {
@@ -153,9 +134,7 @@ public:
     return result;
     }
 
-  /**
-   * Increment index by an offset. This method models a random access Index.
-   */
+  /** Increment index by an offset. This method models a random access Index. */
   const Self &
   operator+=(const OffsetType &offset)
     {
@@ -164,9 +143,7 @@ public:
     return *this;
     }
 
-  /**
-   * Decrement index by an offset. This method models a random access Index.
-   */
+  /** Decrement index by an offset. This method models a random access Index. */
   const Self &
   operator-=(const OffsetType &offset)
     {
@@ -175,9 +152,7 @@ public:
     return *this;
     }
 
-  /**
-   * Subtract an offset from an index.
-   */
+  /** Subtract an offset from an index. */
   const Self
   operator-(const OffsetType &off) const
     {
@@ -187,9 +162,7 @@ public:
     return result;
     }
 
-  /**
-   * Subtract two indices. This method models a random access Index.
-   */
+  /** Subtract two indices. This method models a random access Index. */
   const OffsetType
   operator-(const Self &vec)
     {
@@ -199,10 +172,8 @@ public:
     return result;
     }
 
-  /**
-   * Multiply an index by a size (elementwise product). This method 
-   * models a random access Index. 
-   */
+  /** Multiply an index by a size (elementwise product). This method 
+   * models a random access Index.  */
   const Self
   operator*(const SizeType &vec)
     {
@@ -212,9 +183,7 @@ public:
     return result;
     }
 
-  /**
-   * Compare two indices.
-   */
+  /** Compare two indices. */
   bool
   operator==(const Self &vec) const
     {
@@ -224,9 +193,7 @@ public:
     return same;
     }
 
-  /**
-   * Compare two indices.
-   */
+  /** Compare two indices. */
   bool
   operator!=(const Self &vec) const
     {
@@ -236,87 +203,65 @@ public:
     return !same;
     }
 
-  /**
-   * Access an element of the index. Elements are numbered
-   * 0, ..., VIndexDimension-1. No bounds checking is performed.
-   */
+  /** Access an element of the index. Elements are numbered
+   * 0, ..., VIndexDimension-1. No bounds checking is performed. */
   IndexValueType & operator[](unsigned int dim)
     { return m_Index[dim]; }
 
-  /**
-   * Access an element of the index. Elements are numbered
+  /** Access an element of the index. Elements are numbered
    * 0, ..., VIndexDimension-1. This version can only be an rvalue.
-   * No bounds checking is performed.
-   */
+   * No bounds checking is performed. */
   IndexValueType operator[](unsigned int dim) const
     { return m_Index[dim]; }
 
-  /**
-   * Get the index. This provides a read only reference to the index.
-   * \sa SetIndex()
-   */
+  /** Get the index. This provides a read only reference to the index.
+   * \sa SetIndex() */
   const IndexValueType *GetIndex() const { return m_Index; };
 
-  /**
-   * Set the index.
+  /** Set the index.
    * Try to prototype this function so that val has to point to a block of
    * memory that is the appropriate size.
-   * \sa GetIndex()
-   */
+   * \sa GetIndex() */
   void SetIndex(const IndexValueType val[VIndexDimension])
     { memcpy(m_Index, val, sizeof(IndexValueType)*VIndexDimension); }
 
-  /**
-   * Set an element of the index.
+  /** Set an element of the index.
    * sets the value of one of the elements in the index
    * This method is mainly intended to facilitate the access to elements
    * from Tcl and Python where C++ notation is not very convenient.
    * \warning No bound checking is performed
    * \sa SetIndex()
-   * \sa GetElement()
-   */
+   * \sa GetElement() */
   void SetElement(unsigned long element, IndexValueType val )
     { m_Index[ element ] = val;  }
 
-  /**
-   * Get an element of the index.
+  /** Get an element of the index.
    * gets the value of one of the elements in the index.
    * This method is mainly intended to facilitate the access to elements
    * from Tcl and Python where C++ notation is not very convenient.
    * \warning No bound checking is performed
    * \sa GetIndex()
-   * \sa SetElement()
-   */
+   * \sa SetElement() */
   IndexValueType GetElement( unsigned long element )
     { return m_Index[ element ]; }
 
-
-  /**
-   * Return a basis vector of the form [0, ..., 0, 1, 0, ... 0] where the "1"
+  /** Return a basis vector of the form [0, ..., 0, 1, 0, ... 0] where the "1"
    * is positioned in the location specified by the parameter "dim". Valid
-   * values of "dim" are 0, ..., VIndexDimension-1.
-   */
+   * values of "dim" are 0, ..., VIndexDimension-1. */
   static Self GetBasisIndex(unsigned int dim); 
 
- /**
-   * Set one value for the index in all dimensions.  Useful for initializing
-   * an offset to zero.
-   */
+  /** Set one value for the index in all dimensions.  Useful for initializing
+   * an offset to zero. */
   void Fill(IndexValueType value)
     { for(unsigned int i=0;i < VIndexDimension; ++i) m_Index[i] = value; }
 
-  /**
-   * Index is an "aggregate" class.  Its data is public (m_Index)
+  /** Index is an "aggregate" class.  Its data is public (m_Index)
    * allowing for fast and convienent instantiations/assignments.
    *
    * The following syntax for assigning an index is allowed/suggested:
-   *    Index<3> index = {5, 2, 7};
-   */
+   *    Index<3> index = {5, 2, 7}; */
   IndexValueType m_Index[VIndexDimension];
   
-public:
-
-private:
 };
 
 

@@ -76,7 +76,7 @@ class ITK_EXPORT ShrinkImageFilter:
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef ShrinkImageFilter         Self;
 

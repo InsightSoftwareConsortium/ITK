@@ -49,7 +49,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk {
 
 /** \class CompositeValleyFunction
- * \brief multiple valley shaped curve function   
+ * \brief Multiple valley shaped curve function   
  *
  * Its functional form f(x) is :
  * sum (valley( (x - mean[i]) / sigma[i] ) ) 
@@ -93,84 +93,66 @@ namespace itk {
  * Martin Styner, Prof. Dr. G. Gerig (IKT, BIWI, ETH Zuerich), TR-197
  * (http://www.cs.unc.edu/~styner/docs/StynerTR97.pdf)
  */
-
 class TargetClass
 {
 public:
+  /** Constructor. */
   TargetClass(double mean, double sigma) 
-  { 
+    { 
     m_Mean = mean ;
     m_Sigma = sigma ;
     }
   
+  /** Set/Get the mean of the function. */
   void SetMean(double mean) { m_Mean = mean ; }  
   double GetMean() { return m_Mean ; } 
+  
+  /** Set/Get the standard deviation of the function. */
   void SetSigma(double sigma) { m_Sigma = sigma ; }
   double GetSigma() { return m_Sigma ; }
+    
 private:
   double m_Mean ;
   double m_Sigma ;
 } ; // end of class 
 
-
-
 class CompositeValleyFunction : public CacheableScalarFunction
 {
 public:
-  /**
-   * cost value type
-   */
+  /** Cost value type. */
   typedef double MeasureType ;
 
-  /**
-   * 
-   */
+  /** Superclass to this class. */
   typedef CacheableScalarFunction Superclass ;
 
-  /**
-   * constructor:
-   */
+  /** Constructor. */
   CompositeValleyFunction(std::vector<double>& classMeans, 
                                 std::vector<double>& classSigmas) ;
 
+  /** Destructor. */
   virtual ~CompositeValleyFunction() {}
 
-  /**
-   * get energy table's higher bound 
-   */
+  /** Get energy table's higher bound. */
   double GetHigherBound() { return m_HigherBound ; }
 
-  /**
-   * get energy table's lower bound 
-   */
+  /** Get energy table's lower bound. */
   double GetLowerBound() { return m_LowerBound ; }
 
-  /**
-   * gets an energy value for the intensity difference between a pixel
-   * and its corresponding bias
-   */
+  /** Gets an energy value for the intensity difference between a pixel
+   * and its corresponding bias. */
   MeasureType operator() (MeasureType x)
   {
-    if (x > m_HigherBound || x < m_LowerBound)
-      {
-        return 1;
-      }
+    if (x > m_HigherBound || x < m_LowerBound) { return 1; }
 
     if (!this->IsCacheAvailable()) 
-      {
-        return this->Evaluate(x);
-      } 
+      { return this->Evaluate(x); } 
     else 
-      {
-        return GetCachedValue(x) ;
-      }
+      { return GetCachedValue(x); }
   }
 
-
+  /** Get an energy value for the valley. */
   inline MeasureType valley(MeasureType d) 
-  {
-    return 1 - 1 / (1+d*d/3) ;
-  }
+    { return 1 - 1 / (1+d*d/3); }
 
 protected:
   void AddNewClass(double mean, double sigma)
@@ -179,39 +161,33 @@ protected:
     m_Targets.push_back(aClass) ;
   }
 
-  /**
-   * calculate and save energy values 
-   */
+  /** calculate and save energy values  */
   void Initialize() ;
 
-  
+  /** Evalaute the function at point x.  */
   inline MeasureType Evaluate(MeasureType x) 
   {
     MeasureType res = 1;
     
     for (unsigned int k = 0 ; k < m_Targets.size() ; k++)
+      {
       res *= valley( ( x - m_Targets[k].GetMean() ) /
                      m_Targets[k].GetSigma() );
+      }
+    
     return res;
   }  
 
 private:
-
-  /**
-   * storage for tissue classes' statistics
-   */
+  /** Storage for tissue classes' statistics. */
   std::vector<TargetClass> m_Targets ;
 
-  /**
-   * the highest mean value + the sigma of the tissue class 
-   * which has the highest mean value * 9
-   */
+  /** The highest mean value + the sigma of the tissue class 
+   * which has the highest mean value * 9. */
   double m_HigherBound ;
 
-  /**
-   * the lowest mean value - the sigma of the tissue class 
-   * which has the lowest mean value * 9
-   */
+  /** The lowest mean value - the sigma of the tissue class 
+   * which has the lowest mean value * 9. */
   double m_LowerBound ;
 
 } ; // end of class

@@ -68,7 +68,6 @@ namespace itk
  *               3 3 3 3 5 5 6   (note the corner values)
  *               4 4 4 4 6 7 8
  *
- *
  * The input to this function object is a neighborhood iterator.  This boundary
  * condition object is designed to be given as a template argument to a
  * SmartNeighborhoodIterator or any of the SmartNeighborhoodIterator
@@ -78,40 +77,31 @@ namespace itk
  * 
  * \ingroup DataRepresentation
  * \ingroup ImageObjects
- *
  */
-
 template<class TImage>
 class  ZeroFluxNeumannBoundaryCondition
   : public ImageBoundaryCondition<TImage>
 {
 public:
-  /**
-   * Self & superclass typedefs
-   */ 
+  /** Standard class typedefs. */ 
   typedef ZeroFluxNeumannBoundaryCondition Self;
   typedef ImageBoundaryCondition<TImage> Superclass;
-
-  /**
-   * Extract information from the image type
-   */
+  
+  /** Extract information from the image type. */
   typedef typename Superclass::PixelType PixelType;
   typedef typename Superclass::PixelPointerType PixelPointerType;
-  enum { ImageDimension = Superclass::ImageDimension };
   typedef typename Superclass::IndexType IndexType;
   typedef typename Superclass::OffsetType OffsetType;
-
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-
-  /**
-   * Default constructor.
-   */
+  
+  /** Extract information from the image type. */
+  enum { ImageDimension = Superclass::ImageDimension };
+  
+  /** Default constructor. */
   ZeroFluxNeumannBoundaryCondition() {}
 
-  /**
-   * Computes and returns a neighborhood of appropriate values from
-   * neighborhood iterator data..
-   */
+  /** Computes and returns a neighborhood of appropriate values from
+   * neighborhood iterator data.. */
   virtual PixelType operator()(const OffsetType& point_index,
                                const OffsetType& boundary_offset,
                                const NeighborhoodType *data) const; 

@@ -45,8 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class EntropyPreservingGradientMagnitudeImageFunction
+/** \class EntropyPreservingGradientMagnitudeImageFunction
  * \brief Calculate an entropy satisfying gradient magnitude.
  *
  * EntropyPreservingGradientMagnitudeImageFunction calculates an entropy satisfying image
@@ -74,89 +73,54 @@ namespace itk
  * - the use of Neighborhood operators may improve efficiency.
  *
  * \ingroup Functions
- *
  */
 template < class TInputImage >
 class ITK_EXPORT EntropyPreservingGradientMagnitudeImageFunction :
   public ImageFunction< TInputImage, double >
 {
 public:
-  /**
-   * Standard "Self" typedef
-   */
+  /** Standard class typedefs. */
   typedef EntropyPreservingGradientMagnitudeImageFunction Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef ImageFunction<TInputImage, double> Superclass;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(EntropyPreservingGradientMagnitudeImageFunction, ImageFunction);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * InputImageType typedef support.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(EntropyPreservingGradientMagnitudeImageFunction, ImageFunction);
+
+  /** InputImageType typedef support. */
   typedef TInputImage InputImageType;
 
-  /**
-   * Dimension of the underlying image.
-   */
+  /** Dimension of the underlying image. */
   enum { ImageDimension = InputImageType::ImageDimension };
 
-  /**
-   * Index typedef support.
-   */
+  /** Index typedef support. */
   typedef typename Superclass::IndexType IndexType;
 
-  /**
-   * ContinuousIndex typedef support.
-   */
+  /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
-  /**
-   * Point typedef support.
-   */
+  /** Point typedef support. */
   typedef typename Superclass::PointType PointType;
 
-  /**
-   * Set the input image.
-   */
+  /** Set the input image. */
   virtual void SetInputImage( const InputImageType * ptr );
 
-  /**
-   * Set the speed parameter.
-   */
+  /** Set the speed parameter. */
   void SetSpeed( double value )
     { m_Speed = value; }
 
-  /**
-   * Get the speed parameter.
-   */
+  /** Get the speed parameter. */
   double GetSpeed() const
     { return m_Speed; }
 
-  /**
-   * Evalulate the function at specified index
-   */
+  /** Evalulate the function at specified index */
   virtual double EvaluateAtIndex( const IndexType& index ) const;
 
-  /**
-   * Evaluate the function at non-integer positions
-   */
+  /** Evaluate the function at non-integer positions. */
   virtual double Evaluate( const PointType& point ) const
     { 
       IndexType index;
@@ -164,6 +128,7 @@ public:
       return this->EvaluateAtIndex( index ); 
     }
 
+  /** Evaluate the function at continuous positions. */
   virtual double EvaluateAtContinuousIndex( 
     const ContinuousIndexType& cindex ) const
     { 
@@ -172,9 +137,7 @@ public:
       return this->EvaluateAtIndex( index ) ; 
     }
 
-  /**
-   * Get the magnitude from last evaluation
-   */
+  /** Get the magnitude from last evaluation */
   double GetMagnitude() const
     { return m_Magnitude; }
 

@@ -57,72 +57,51 @@ namespace itk
  *
  * \ingroup ITKSystemObjects
  */
-
 class ITK_EXPORT TimeStamp 
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef TimeStamp  Self;
   
-  /** 
-   * Create an instance of this class. We don't want to use reference
-   * counting.
-   */
+  /** Create an instance of this class. We don't want to use reference
+   * counting. */
   static Self* New();
 
-  /** 
-   * Constructor must remain public because classes instantiate
-   * TimeStamps implicitly in their construction. 
-   */
+  /** Constructor must remain public because classes instantiate
+   * TimeStamps implicitly in their construction.  */
   TimeStamp() 
     {m_ModifiedTime = 0;}
 
-  /** 
-   * Destoy this instance.
-   */
+  /** Destoy this instance. */
   void Delete() 
     {delete this;}
 
-  /** 
-   * The class name as a string. 
-   */
+  /** The class name as a string.  */
   static const char *GetNameOfClass() 
     {return "TimeStamp";}
 
-  /** 
-   * Set this objects time to the current time. The current time is just a
+  /** Set this objects time to the current time. The current time is just a
    * monotonically increasing unsigned long integer. It is possible for this
    * number to wrap around back to zero.  This should only happen for
    * rocesses that have been running for a very long time, while constantly
    * changing objects within the program. When this does occur, the typical
    * consequence should be that some filters will update themselves when
-   * really they don't need to.  
-   */
+   * really they don't need to.   */
   void Modified();
 
-  /** 
-   * Return this object's Modified time. 
-   */
+  /** Return this object's Modified time.  */
   unsigned long int GetMTime() const
     {return m_ModifiedTime;};
 
-  /** 
-   * Support comparisons of time stamp objects directly. 
-   */
+  /** Support comparisons of time stamp objects directly.  */
   int operator>(TimeStamp& ts) 
     {return (m_ModifiedTime > ts.m_ModifiedTime);}
   int operator<(TimeStamp& ts) 
     {return (m_ModifiedTime < ts.m_ModifiedTime);}
 
-
-  /** 
-   * Allow for typcasting to unsigned long. 
-   */
+  /** Allow for typcasting to unsigned long.  */
   operator unsigned long() const
     {return m_ModifiedTime;}
-
 
 private:
   unsigned long m_ModifiedTime;

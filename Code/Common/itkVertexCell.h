@@ -71,64 +71,45 @@ template <
 class VertexCell: public CellInterface< TPixelType , TCellTraits >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef VertexCell          Self;
-  
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef CellInterface<TPixelType,TCellTraits>  Superclass;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+  
+  /** Standard part of every itk Object. */
+  itkTypeMacro(VertexCell, CellInterface);
 
-  /**
-   * Save the PixelType template parameter.
-   */
+  /** Save the PixelType template parameter. */
   typedef TPixelType                                PixelType;
   
-  /**
-   * Save the CellTraits template parameter.
-   */
+  /** Save the CellTraits template parameter. */
   typedef TCellTraits                                 CellTraits;
 
-  /**
-   * Save some template parameter information.
-   */
+  /** Save some template parameter information. */
   typedef typename CellTraits::CoordRepType         CoordRepType;
   typedef typename CellTraits::PointIdentifier  PointIdentifier;
-  enum { PointDimension = CellTraits::PointDimension };
   typedef typename CellInterface<TPixelType,TCellTraits>::Pointer CellPointer;
+  
+  /** Save some template parameter information. */
+  enum { PointDimension = CellTraits::PointDimension };
 
-  /** 
-   * Vertex-specific topology numbers.
-   */
+  /** Vertex-specific topology numbers. */
   enum { NumberOfPoints = 1,
          CellDimension  = 0 };
   
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /**
-   * Pick-up typedefs from superclass or classes that we use
-   */
+  /** Pick-up typedefs from superclass or classes that we use. */
   typedef typename CellTraits::CellFeatureIdentifier  CellFeatureIdentifier;
   typedef CellFeatureIdentifier  CellFeatureCount;
   typedef typename CellInterface<TPixelType,TCellTraits>::PointIdIterator 
                    PointIdIterator;
   typedef typename CellInterface<TPixelType,TCellTraits>::PointIdConstIterator
                    PointIdConstIterator;
-
-  /**
-   * Implement the standard CellInterface.
-   */
+  
+  /** Implement the standard CellInterface. */
   virtual typename Superclass::CellType GetType(void) const 
     {return Superclass::VERTEX_CELL;}
   virtual CellPointer MakeCopy(void);
@@ -144,21 +125,12 @@ public:
   virtual PointIdConstIterator PointIdsBegin(void) const;
   virtual PointIdIterator      PointIdsEnd(void);
   virtual PointIdConstIterator PointIdsEnd(void) const; 
-  
-  /**
-   * Vertex-specific interface.
-   */
+    
+  /** Vertex-specific interface. */
   virtual void SetPointId(PointIdentifier);
   virtual PointIdentifier GetPointId(void);
-
-  /**
-   * Standard part of every itk Object.
-   */
-  itkTypeMacro(VertexCell, CellInterface);
-
-  /**
-   * Visitor interface
-   */
+  
+  /** Cell visitor interface */
   itkCellVisitMacro(VERTEX_CELL);
 
 protected:
@@ -168,7 +140,6 @@ protected:
   PointIdentifier m_PointIds[NumberOfPoints];
 };
 
-
 /** \class VertexBoundary
  * Create a boundary-wrapped version of the VertexCell.
  */
@@ -177,24 +148,14 @@ class VertexBoundary:
   public CellBoundary< VertexCell< TPixelType , TCellTraits > >
 {
 public:
-  /**
-   * Standard "Self" typdef.
-   */
+  /** Standard class typdefs. */
   typedef VertexBoundary      Self;
-  
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
-  
-  /**
-   * Method for creation through the object factory.
-   */
+    
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
   
-  /**
-   * Standard part of every itk Object.
-   */
+  /** Standard part of every itk Object. */
   itkTypeMacro(VertexBoundary, CellBoundary);
 };
 

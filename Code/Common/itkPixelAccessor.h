@@ -45,8 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class PixelAccessor
+/** \class PixelAccessor
  * \brief Give access to partial aspects of a type
  *
  * PixelAccessor is templated over an internal type and an
@@ -73,35 +72,25 @@ namespace itk
  * in order to get and set the values of pixels.
  *
  * \ingroup ImageAdaptors
- *
  */
-
 template <class TInternalType, class TExternalType >
 class ITK_EXPORT PixelAccessor  
 {
 public:
-
- /** 
-   * External typedef. It defines the external aspect
-   * that this class will exhibit.
-   */
+  /** External typedef. It defines the external aspect
+   * that this class will exhibit. */
   typedef TExternalType ExternalType;
 
-  /** 
-   * Internal typedef. It defines the internal real
-   * representation of data.
-   */
+  /** Internal typedef. It defines the internal real
+   * representation of data. */
   typedef TInternalType InternalType;
-
 
   inline void Set(TInternalType & output, const TExternalType & input) const
     {output = (TInternalType) input;}
 
   inline TExternalType Get( const TInternalType & input ) const
     {return (TExternalType)input;}
-
 };
-
   
 } // end namespace itk
   

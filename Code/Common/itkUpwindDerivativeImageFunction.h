@@ -45,8 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class UpwindDerivativeImageFunction
+/** \class UpwindDerivativeImageFunction
  * \brief Calculate the derivative using only upwind neighbors.
  *
  * UpwindDerivativeImageFunction calculates a derivative using only upwind
@@ -73,90 +72,55 @@ class ITK_EXPORT UpwindDerivativeImageFunction :
   public ImageFunction< TInputImage, double >
 {
 public:
-  /**
-   * Standard "Self" typedef
-   */
+  /** Standard class typedefs. */
   typedef UpwindDerivativeImageFunction Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef ImageFunction<TInputImage, double> Superclass;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(UpwindDerivativeImageFunction, ImageFunction);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * InputImageType typedef support.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(UpwindDerivativeImageFunction, ImageFunction);
+
+  /** InputImageType typedef support. */
   typedef TInputImage InputImageType;
 
-  /**
-   * Dimension of the underlying image.
-   */
+  /** Dimension of the underlying image. */
   enum { ImageDimension = InputImageType::ImageDimension };
 
-  /**
-   * Index typedef support.
-   */
+  /** Index typedef support. */
   typedef typename Superclass::IndexType IndexType;
 
-  /**
-   * ContinuousIndex typedef support.
-   */
+  /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
-  /**
-   * Point typedef support.
-   */
+  /** Point typedef support. */
   typedef typename Superclass::PointType PointType;
  
-  /**
-   * Set the input image.
-   */
+  /** Set the input image. */
   virtual void SetInputImage( const InputImageType * ptr );
 
-  /**
-   * Set the speed parameter.
-   */
+  /** Set the speed parameter. */
   virtual void SetSpeed( double value )
-  { m_Speed = value; }
+    { m_Speed = value; }
 
-  /**
-   * Get the speed parameter.
-   */
+  /** Get the speed parameter. */
   virtual double GetSpeed() const
     { return m_Speed; }
 
-  /**
-   * Evalulate the function at specified index
-   */
+  /** Evalulate the function at specified index. */
   virtual double EvaluateAtIndex( const IndexType& index ) const
     { return ( this->EvaluateAtIndex( index, 0 ) ); }
 
-  /**
-   * Evaluate the function at non-integer positions
-   */
+  /** Evaluate the function at non-integer positions. */
   virtual double Evaluate( const PointType& point ) const
     { 
       IndexType index;
       this->ConvertPointToNearestIndex( point, index );
       return this->EvaluateAtIndex( index, 0 ); 
     }
-
   virtual double EvaluateAtContinuousIndex( 
     const ContinuousIndexType& cindex ) const
     { 
@@ -164,18 +128,14 @@ public:
       this->ConvertContinuousIndexToNearestIndex( cindex, index );
       return this->EvaluateAtIndex( index, 0 ) ; 
     }
-
-  /**
-   * Evalulate the function at specified index
-   */
+  
+  /** Evalulate the function at specified index. */
   virtual double EvaluateAtIndex( const IndexType& index, 
                            unsigned int dim = 0 ) const;
 
-  /**
-   * Get the derivative from last evaluation
-   */
+  /** Get the derivative from last evaluation */
   virtual double GetDerivative() const
-  { return m_Derivative; }
+    { return m_Derivative; }
 
 protected:
   UpwindDerivativeImageFunction(){};

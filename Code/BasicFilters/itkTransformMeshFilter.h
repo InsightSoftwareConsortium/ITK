@@ -68,7 +68,7 @@ class ITK_EXPORT TransformMeshFilter :
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef TransformMeshFilter  Self;
 

@@ -109,7 +109,7 @@ class ITK_EXPORT NaryAddImageFilter :
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef NaryAddImageFilter  Self;
 

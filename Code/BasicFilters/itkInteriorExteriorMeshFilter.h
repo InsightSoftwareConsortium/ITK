@@ -73,7 +73,7 @@ class ITK_EXPORT InteriorExteriorMeshFilter :
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef InteriorExteriorMeshFilter  Self;
 

@@ -110,7 +110,7 @@ class ITK_EXPORT WarpImageFilter :
 public:
   
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef WarpImageFilter      Self;
 

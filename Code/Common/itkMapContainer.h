@@ -72,89 +72,52 @@ class MapContainer:
   private std::map< TElementIdentifier , TElement >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef MapContainer        Self;
-  
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+  
+  /** Standard part of every itk Object. */
+  itkTypeMacro(MapContainer, Object);
 
-  /**
-   * Save the template parameters.
-   */
+  /** Save the template parameters. */
   typedef TElementIdentifier  ElementIdentifier;
   typedef TElement            Element;
-  
+    
 private:
-  /**
-   * Quick access to the STL map type that was inherited.
-   */
+  MapContainer(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
+  /** Quick access to the STL map type that was inherited. */
   typedef std::map<ElementIdentifier, Element>     MapType;
   typedef typename MapType::iterator               MapIterator;
   typedef typename MapType::const_iterator         MapConstIterator;
   typedef typename MapType::key_compare            MapKeyCompareType;
-  
-protected:
-  /**
-   * Provide pass-through constructors corresponding to all the STL
+    
+public:
+  /** Provide pass-through constructors corresponding to all the STL
    * map constructors.  These are for internal use only since this is also
-   * an Object which must be constructed through the "New()" routine.
-   */
-  
-  /**
-   *
-   */
-  MapContainer():
-    MapType() {}
-
-  /**
-   *
-   */
-  MapContainer(const MapKeyCompareType& comp):
-    MapType(comp) {}
-
-  /**
-   *
-   */
-  MapContainer(const Self& r):
-    MapType(r) {}
-  
-  /**
-   *
-   */
+   * an Object which must be constructed through the "New()" routine. */
+  MapContainer():MapType() {}
+  MapContainer(const MapKeyCompareType& comp):MapType(comp) {}
+//  MapContainer(const Self& r):MapType(r) {}
   template <typename InputIterator>
-  MapContainer(InputIterator first, InputIterator last):
-    MapType(first, last) {}
-
-  /**
-   *
-   */
+  MapContainer(InputIterator first, InputIterator last):MapType(first, last) {}
   template <typename InputIterator>
-  MapContainer(InputIterator first, InputIterator last,
-      const MapKeyCompareType& comp):
+  MapContainer(InputIterator first, InputIterator last,const MapKeyCompareType& comp):
     MapType(first, last, comp) {}  
   
-public:
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
+
+  /** Declare iterators to container. */
   class Iterator;
   class ConstIterator;
   friend class Iterator;
   friend class ConstIterator;
-  /**
-   * The non-const iterator type for the map.
-   */
+  
+  /** \brief The non-const iterator type for the map. */
   class Iterator
   {
   public:
@@ -173,23 +136,17 @@ public:
     bool operator == (const ConstIterator& r) const { return m_Iter == r.m_Iter; }
     bool operator != (const ConstIterator& r) const { return m_Iter != r.m_Iter; }
  
-    /**
-     * Get the index into the MapContainer associated with this iterator.
-     */
+    /** Get the index into the MapContainer associated with this iterator.   */
     ElementIdentifier Index(void) const { return m_Iter->first; }
 
-    /**
-     * Get the value at this iterator's location in the MapContainer.
-     */
+    /** Get the value at this iterator's location in the MapContainer.   */
     Element& Value(void) { return m_Iter->second; }
   private:
     MapIterator      m_Iter;
     friend class     ConstIterator;
   };
   
-  /**
-   * The const iterator type for the map.
-   */
+  /** \brief The const iterator type for the map. */
   class ConstIterator
   {
   public:
@@ -197,7 +154,6 @@ public:
     ConstIterator(const MapConstIterator& ci): m_Iter(ci) {}
     ConstIterator(const Iterator& r) { m_Iter = r.m_Iter; }
 
-    
     ConstIterator& operator* ()    { return *this; }
     ConstIterator* operator-> ()   { return this; }
     ConstIterator& operator++ ()   { ++m_Iter; return *this; }
@@ -209,26 +165,19 @@ public:
     bool operator != (const Iterator& r) const { return m_Iter != r.m_Iter; }
     bool operator == (const ConstIterator& r) const { return m_Iter == r.m_Iter; }
     bool operator != (const ConstIterator& r) const { return m_Iter != r.m_Iter; }
- 
-
     
-    /**
-     * Get the index into the MapContainer associated with this iterator.
-     */
+    /** Get the index into the MapContainer associated with this iterator.   */
     ElementIdentifier Index(void) const { return m_Iter->first; }
-    /**
-     * Get the value at this iterator's location in the MapContainer.
-     */
+
+    /** Get the value at this iterator's location in the MapContainer.   */
     const Element& Value(void) const { return m_Iter->second; }
 
   private:
     MapConstIterator m_Iter;
     friend class Iterator;
   };
-  
-  /**
-   * Declare the public interface routines.
-   */
+
+  /** Declare the public interface routines. */
   Element& ElementAt(ElementIdentifier);
   Element& CreateElementAt(ElementIdentifier);
   Element GetElement(ElementIdentifier) const;
@@ -246,11 +195,7 @@ public:
   void Reserve(ElementIdentifier);
   void Squeeze(void);
   void Initialize(void);
-  
-  /**
-   * Standard part of every itk Object.
-   */
-  itkTypeMacro(MapContainer, Object);
+    
 };
 
 } // end namespace itk

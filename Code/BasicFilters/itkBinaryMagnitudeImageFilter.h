@@ -64,13 +64,11 @@ namespace itk
  * - cast the \c double value resulting from \c sqrt() to the pixel type of the output image 
  * - store the casted value into the output image.
  * 
- * The filter expect all images to have the same dimension (e.g. all 2D, or all 3D, or all ND)
- 
+ * The filter expect all images to have the same dimension 
+ * (e.g. all 2D, or all 3D, or all ND)
  * 
  * \ingroup IntensityImageFilters Multithreaded
- *
  */
-
 namespace Functor {  
   
   template< class TInput1, class TInput2, class TOutput>
@@ -87,10 +85,7 @@ namespace Functor {
       return static_cast<TOutput>( sqrt( dA*dA + dB*dB) );
     }
   }; 
-
 }
-
-
 
 template <class TInputImage1, class TInputImage2, class TOutputImage>
 class ITK_EXPORT BinaryMagnitudeImageFilter :
@@ -100,35 +95,20 @@ class ITK_EXPORT BinaryMagnitudeImageFilter :
                       typename TInputImage1::PixelType, 
                       typename TInputImage2::PixelType,
                       typename TOutputImage::PixelType>   >
-
-
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef BinaryMagnitudeImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
                       Functor::Modulus2< 
                       typename TInputImage1::PixelType, 
                       typename TInputImage2::PixelType,
                       typename TOutputImage::PixelType>   
                         >  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
 protected:
@@ -138,7 +118,6 @@ protected:
 private:
   BinaryMagnitudeImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
 
 };
 

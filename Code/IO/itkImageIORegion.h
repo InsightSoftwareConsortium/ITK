@@ -67,47 +67,29 @@ namespace itk
 class ITK_EXPORT ImageIORegion: public Region
 {
 public:
-  /** 
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ImageIORegion              Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Region  Superclass;
 
-  /** 
-   * Standard part of all itk objects.
-   */
+  /** Standard part of all itk objects. */
   itkTypeMacro(ImageIORegion, Region);
 
-  /** 
-   * Dimension of the image available at run time.
-   */
+  /** Dimension of the image available at run time. */
   unsigned int GetImageDimension() const
     { return m_ImageDimension; }
 
-  /** 
-   * Index typedef support. An index is used to access pixel values.
-   */
+  /** Index typedef support. An index is used to access pixel values. */
   typedef std::vector<long>  IndexType;
 
-  /** 
-   * Size typedef support. A size is used to define region bounds.
-   */
+  /** Size typedef support. A size is used to define region bounds. */
   typedef std::vector<long>  SizeType;
   
-  /** 
-   * Return the region type. Images are described with structured regions.
-   */
+  /** Return the region type. Images are described with structured regions. */
   virtual Superclass::RegionType GetRegionType() const
     {return Superclass::ITK_STRUCTURED_REGION;}
 
-  /**
-   * Constructor. ImageIORegion is a lightweight object that is not reference
-   * counted, so the constructor is public.
-   */
+  /** Constructor. ImageIORegion is a lightweight object that is not reference
+   * counted, so the constructor is public. */
   ImageIORegion(unsigned int dimension)
     {
       m_ImageDimension = dimension;
@@ -117,11 +99,8 @@ public:
       std::fill(m_Size.begin(), m_Size.end(), 0);
     }
   
-
-  /**
-   * Constructor. ImageIORegion is a lightweight object that is not reference
-   * counted, so the constructor is public.  Default dimension is 2.
-   */
+  /** Constructor. ImageIORegion is a lightweight object that is not reference
+   * counted, so the constructor is public.  Default dimension is 2. */
   ImageIORegion()
     {
       m_ImageDimension = 2;
@@ -131,17 +110,12 @@ public:
       std::fill(m_Size.begin(), m_Size.end(), 0);
     }
   
-
-  /**
-   * Destructor. ImageIORegion is a lightweight object that is not reference
-   * counted, so the destructor is public.
-   */
+  /** Destructor. ImageIORegion is a lightweight object that is not reference
+   * counted, so the destructor is public. */
   virtual ~ImageIORegion(){};
 
-  /**
-   * Copy constructor. ImageIORegion is a lightweight object that is not
-   * reference counted, so the copy constructor is public.
-   */
+  /** Copy constructor. ImageIORegion is a lightweight object that is not
+   * reference counted, so the copy constructor is public. */
   ImageIORegion(const Self& region)
     { 
       m_Index =region.m_Index; 
@@ -149,10 +123,8 @@ public:
       m_ImageDimension = region.m_ImageDimension;
     }
   
-  /*
-   * operator=. ImageIORegion is a lightweight object that is not reference
-   * counted, so operator= is public.
-   */
+  /** operator=. ImageIORegion is a lightweight object that is not reference
+   * counted, so operator= is public. */
   void operator=(const Self& region) 
     { 
       m_Index = region.m_Index;  
@@ -160,34 +132,24 @@ public:
       m_ImageDimension = region.m_ImageDimension;
     };
 
-  /**
-   * Set the index defining the corner of the region.
-   */
+  /** Set the index defining the corner of the region. */
   void SetIndex(const IndexType &index) 
     { m_Index = index; };
 
-  /**
-   * Get index defining the corner of the region.
-   */
+  /** Get index defining the corner of the region. */
   const IndexType& GetIndex() const
     { return m_Index; };
   
-  /** 
-   * Set the size of the region. This plus the index determines the
-   * rectangular shape, or extent, of the region.
-   */
+  /** Set the size of the region. This plus the index determines the
+   * rectangular shape, or extent, of the region. */
   void SetSize(const SizeType &size)
     { m_Size = size; };
 
-  /** 
-   * Get the size of the region.
-   */
+  /** Get the size of the region. */
   const SizeType& GetSize() const
     { return m_Size;}
 
-  /**
-   * Compare two regions.
-   */
+  /** Compare two regions. */
   bool
   operator==(const Self &region) const
     {
@@ -198,9 +160,7 @@ public:
       return same;
     }
 
-  /**
-   * Compare two regions.
-   */
+  /** Compare two regions. */
   bool
   operator!=(const Self &region) const
     {
@@ -211,9 +171,7 @@ public:
       return !same;
     }
   
-  /**
-   * Test if an index is inside
-   */
+  /** Test if an index is inside */
   bool
   IsInside(const IndexType &index) const
     {
@@ -231,10 +189,8 @@ public:
       return true;
     }
  
-  /**
-   * Get the number of pixels contained in this region. This just
-   * multiplies the size components.
-   */
+  /** Get the number of pixels contained in this region. This just
+   * multiplies the size components. */
   unsigned long GetNumberOfPixels() const;
 
 protected:

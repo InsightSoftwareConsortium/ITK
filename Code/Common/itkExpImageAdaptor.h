@@ -48,8 +48,7 @@ namespace itk
 {
  
 namespace Accessor {
-/**
- * \class ExpPixelAccessor
+/** \class ExpPixelAccessor
  * \brief Give access to the exp() function of a value
  *
  * ExpPixelAccessor is templated over an internal type and an
@@ -58,26 +57,18 @@ namespace Accessor {
  * to the types defined as template parameters
  * 
  * \ingroup ImageAdaptors
- *
  */
-
 template <class TInternalType, class TExternalType >
 class ITK_EXPORT ExpPixelAccessor  
 {
 public:
-
- /** 
-   * External typedef. It defines the external aspect
-   * that this class will exhibit.
-   */
+ /** External typedef. It defines the external aspect
+   * that this class will exhibit. */
   typedef TExternalType ExternalType;
 
-  /** 
-   * Internal typedef. It defines the internal real
-   * representation of data.
-   */
+  /** Internal typedef. It defines the internal real
+   * representation of data. */
   typedef TInternalType InternalType;
-
 
   static inline void Set(TInternalType & output, const TExternalType & input) 
     {output = (TInternalType)exp((double)input);}
@@ -86,60 +77,37 @@ public:
     {return (TExternalType)exp((double)input);}
 
 };
-
   
 } // end namespace Accessor
 
-
- 
-/**
- * \class ExpImageAdaptor
+/** \class ExpImageAdaptor
  * \brief Presents an image as being composed of the exp() of its pixels
  *
  * Additional casting is performed according to the input and output image
  * types following C++ default casting rules.
  * 
  * \ingroup ImageAdaptors
- *
  */
 template <class TImage, class TOutputPixelType>
 class ITK_EXPORT ExpImageAdaptor : public
-      ImageAdaptor<TImage,
-                   Accessor::ExpPixelAccessor<
+      ImageAdaptor<TImage,Accessor::ExpPixelAccessor<
                                       typename TImage::PixelType,
                                       TOutputPixelType>   >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ExpImageAdaptor  Self;
-
-
-  /**
-   * Standard "Superclass" typedef.
-   */
-  typedef ImageAdaptor<TImage,
-                       Accessor::ExpPixelAccessor<
+  typedef ImageAdaptor<TImage,Accessor::ExpPixelAccessor<
                                        typename TImage::PixelType,
-                                       TOutputPixelType> >
-                                                            Superclass;
-  /** 
-   * Smart pointer typedef support.
-   */
+                                       TOutputPixelType> > Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro( ExpImageAdaptor, ImageAdaptor );
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( ExpImageAdaptor, ImageAdaptor );
 
 };
 

@@ -52,97 +52,57 @@ namespace itk
  * \ingroup Numerics  Optimizers
  *
  */
-
-  
 template <class TCostFunction>
 class ITK_EXPORT RegularStepGradientDescentOptimizer : 
         public RegularStepGradientDescentBaseOptimizer< TCostFunction >
-
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef RegularStepGradientDescentOptimizer  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef RegularStepGradientDescentBaseOptimizer<TCostFunction> Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-
-  /**
-   * Cost Function  typedef.
-   */
-  typedef          TCostFunction                CostFunctionType;
-  typedef typename CostFunctionType::Pointer    CostFunctionPointer;
-
-  /**
-   * Dimension of the Search Space
-   */
-  enum { SpaceDimension = Superclass::SpaceDimension };
- 
-
-  /**
-   *  Parameters type.
-   *  it defines a position in the optimization search space
-   */
-  typedef typename Superclass::ParametersType ParametersType;
-
-
-  /**
-   *  Measure type.
-   *  it defines a type used to return the cost function value 
-   */
-  typedef typename Superclass::MeasureType MeasureType;
-
-
-  /**
-   *  Derivative type.
-   *  it defines a type used to return the cost function derivative 
-   */
-  typedef typename Superclass::DerivativeType DerivativeType;
-
-
-
- /** 
-   * Run-time type information (and related methods).
-   */
+  
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+  
+  /** Run-time type information (and related methods). */
   itkTypeMacro( RegularStepGradientDescentOptimizer, 
                 RegularStepGradientDescentBaseOptimizer );
 
-
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
+  /** Cost function typedefs. */
+  typedef          TCostFunction                CostFunctionType;
+  typedef typename CostFunctionType::Pointer    CostFunctionPointer;
   
+  /** Dimension of the Search Space */
+  enum { SpaceDimension = Superclass::SpaceDimension };
 
+  /**  Parameters type.
+   *  It defines a position in the optimization search space. */
+  typedef typename Superclass::ParametersType ParametersType;
+
+  /**  Measure type.
+   *  It defines a type used to return the cost function value. */
+  typedef typename Superclass::MeasureType MeasureType;
+
+  /**  Derivative type.
+   *  It defines a type used to return the cost function derivative.  */
+  typedef typename Superclass::DerivativeType DerivativeType;
 
 protected:
-
   RegularStepGradientDescentOptimizer() {};
   virtual ~RegularStepGradientDescentOptimizer() {};
 
-  /**
-   * Advance one step along the corrected gradient taking into
+  /** Advance one step along the corrected gradient taking into
    * account the steplength represented by factor.
    * This method is invoked by AdvanceOneStep. It is expected
    * to be overrided by optimization methods in non-vector spaces
-   * \sa AdvanceOneStep
-   */
+   * \sa AdvanceOneStep */
   virtual void StepAlongGradient( 
                   double factor, 
                   const DerivativeType & transformedGradient );
 
 private:
-
   RegularStepGradientDescentOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

@@ -99,100 +99,67 @@ namespace itk
 class ITK_EXPORT ProcessObject : public Object
 {
 public:
-  /** 
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ProcessObject       Self;
-  
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /** 
-   * Smart pointer typedef support. 
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
+  
+  /** Run-time type information (and related methods). */
   itkTypeMacro(ProcessObject,Object);
 
-  /** 
-   * Smart Pointer type to a DataObject.
-   */
+  /** Smart Pointer type to a DataObject. */
   typedef DataObject::Pointer DataObjectPointer;
 
-  /** 
-   * STL Array of SmartPointers to DataObjects
-   */
+  /** STL Array of SmartPointers to DataObjects */
   typedef std::vector<DataObjectPointer> DataObjectPointerArray;
 
-  /** 
-   * Return an array with all the inputs of this process object.
+  /** Return an array with all the inputs of this process object.
    * This is useful for tracing back in the pipeline to construct
-   * graphs etc. 
-   */
+   * graphs etc.  */
   DataObjectPointerArray& GetInputs() 
     {return m_Inputs;}
   unsigned int GetNumberOfInputs() const
     {return m_Inputs.size();}
-
-  /** 
-   * Return an array with all the outputs of this process object.
+  
+  /** Return an array with all the outputs of this process object.
    * This is useful for tracing forward in the pipeline to contruct
-   * graphs etc. 
-   */
+   * graphs etc.  */
   DataObjectPointerArray& GetOutputs()
     { return m_Outputs; }
   unsigned int GetNumberOfOutputs() const
     {return m_Outputs.size();}
-    
-  /** 
-   * Set the AbortGenerateData flag for the process object. Process objects
-   *  may handle premature termination of execution in different ways. 
-   */
+      
+  /** Set the AbortGenerateData flag for the process object. Process objects
+   *  may handle premature termination of execution in different ways.  */
   itkSetMacro(AbortGenerateData,bool);
 
-  /** 
-   * Get the AbortGenerateData flag for the process object. Process objects
-   *  may handle premature termination of execution in different ways. 
-   */
+  /** Get the AbortGenerateData flag for the process object. Process objects
+   *  may handle premature termination of execution in different ways.  */
   itkGetConstReferenceMacro(AbortGenerateData,bool);
   
-  /**
-   * Turn on and off the AbortGenerateData flag.
-   */
+  /** Turn on and off the AbortGenerateData flag. */
   itkBooleanMacro(AbortGenerateData); 
   
-  /** 
-   * Set the execution progress of a process object. The progress is
+  /** Set the execution progress of a process object. The progress is
    * a floating number in [0,1] with 0 meaning no progress and 1 meaning
    * the filter has completed execution.  The ProgressEvent is NOT
-   * invoked.
-   */
+   * invoked. */
   itkSetClampMacro(Progress,float,0.0,1.0);
 
-  /** 
-   * Get the execution progress of a process object. The progress is
+  /** Get the execution progress of a process object. The progress is
    * a floating number in [0,1] with 0 meaning no progress and 1 meaning
-   * the filter has completed execution.
-   */
+   * the filter has completed execution. */
   itkGetConstReferenceMacro(Progress,float);
 
-  /** 
-   * Update the progress of the process object.
+  /** Update the progress of the process object.
    *
    * Sets the Progress ivar to amount and invokes any observers for
    * the ProgressEvent. The parameter amount should be in [0,1] and is
-   * the cumulative (not incremental) progress.
-   */
+   * the cumulative (not incremental) progress. */
   void UpdateProgress(float amount);
   
-  /** 
-   * Bring this filter up-to-date. Update() checks modified times against
+  /** Bring this filter up-to-date. Update() checks modified times against
    * last execution times, and re-executes objects if necessary. A side
    * effect of this method is that the whole pipeline may execute
    * in order to bring this filter up-to-date. This method updates the
@@ -209,22 +176,18 @@ public:
    * reset to the new largest possible region.  Instead, the output requested
    * region will be the same as the last time Update() was called. To have
    * a filter always to produce its largest possible region, users should
-   * call UpdateLargestPossibleRegion() instead.
-   */
+   * call UpdateLargestPossibleRegion() instead. */
   virtual void Update();
 
-  /** 
-   * Like Update(), but sets the output requested region to the
+  /** Like Update(), but sets the output requested region to the
    * largest possible region for the output.  This is the method users
    * should call if they want the entire dataset to be processed.  If
    * a user wants to update the same output region as a previous call
    * to Update() or a previous call to UpdateLargestPossibleRegion(), 
-   * then they should call the method Update().
-   */
+   * then they should call the method Update(). */
   virtual void UpdateLargestPossibleRegion();
 
-  /** 
-   * Update the information decribing the output data. This method
+  /** Update the information decribing the output data. This method
    * transverses up the pipeline gathering modified time information.
    * On the way back down the pipeline, this method calls
    * GenerateOutputInformation() to set any necessary information
@@ -235,45 +198,35 @@ public:
    * of GenerateOutputInformation prior to changing the information
    * values they need (i.e. GenerateOutputInformation() should call
    * Superclass::GenerateOutputInformation() prior to changing the
-   * information.
-   */
+   * information. */
   virtual void UpdateOutputInformation();
 
-  /** 
-   * Send the requested region information back up the pipeline (to the
-   * filters that preceed this one).
-   */
+  /** Send the requested region information back up the pipeline (to the
+   * filters that preceed this one). */
   virtual void PropagateRequestedRegion(DataObject *output);
 
-  /** 
-   * Actually generate new output 
-   */
+  /** Actually generate new output  */
   virtual void UpdateOutputData(DataObject *output);
 
-  /** 
-   * Propagate the computation of the size of the pipeline. The first
+  /** Propagate the computation of the size of the pipeline. The first
    * size is the size of the pipeline after this source has finished
    * executing (and potentially freeing some input data). The second
    * size is the size of the specified output. The third size is the
    * maximum pipeline size encountered so far during this propagation.
-   * All sizes are in kilobytes. 
-   */
+   * All sizes are in kilobytes.  */
   void ComputeEstimatedPipelineMemorySize( DataObject *output,
              unsigned long size[3] );
 
-  /** 
-   * The estimated size of the specified output after execution of
+  /** The estimated size of the specified output after execution of
    * this source is stored in the first size entry. The second size
    * is the sum of all estimated output memory. The size of all inputs
    * is given to help this filter in the estimation.
-   * All sizes are in kilobytes.
-   */
+   * All sizes are in kilobytes. */
   virtual void ComputeEstimatedOutputMemorySize( DataObject *output,
              unsigned long *inputSize,
              unsigned long size[2] );
 
-  /**
-   * Generate the information decribing the output data. The default 
+  /** Generate the information decribing the output data. The default 
    * implementation of this method will copy information from the input to
    * the output.  A filter may override this method if its output will have
    * different information than its input.  For instance, a filter that 
@@ -282,23 +235,19 @@ public:
    * their superclass' implementation of this method prior to changing the
    * information values they need (i.e. GenerateOutputInformation() should
    * call Superclass::GenerateOutputInformation() prior to changing the
-   * information.
-   */
+   * information. */
   virtual void GenerateOutputInformation();
 
-  /** 
-   * Give the process object a chance to indictate that it will produce more
+  /** Give the process object a chance to indictate that it will produce more
    * output than it was requested to produce. For example, many imaging
    * filters must compute the entire output at once or can only produce output
    * in complete slices. Such filters cannot handle smaller requested regions.
    * These filters must provide an implementation of this method, setting
    * the output requested region to the size they will produce.  By default,
-   * a process object does not modify the size of the output requested region.
-   */
+   * a process object does not modify the size of the output requested region. */
   virtual void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output)){};
   
-  /** 
-   * What is the input requested region that is required to produce the
+  /** What is the input requested region that is required to produce the
    * output requested region? By default, the largest possible region is
    * always required but this is overridden in many subclasses. For instance,
    * for an image processing filter where an output pixel is a simple function
@@ -310,12 +259,10 @@ public:
    * This function should never request an input region that is outside the
    * the input largest possible region (i.e. implementations of this method
    * should crop the input requested region at the boundaries of the input
-   * largest possible region).
-   */
+   * largest possible region). */
   virtual void GenerateInputRequestedRegion();
   
-  /**
-   * Given one output whose requested region has been set, how should
+  /** Given one output whose requested region has been set, how should
    * the requested regions for the remaining outputs of the process object
    * be set?  By default, all the outputs are set to the same requested
    * region.  If a filter needs to produce different requested regions
@@ -325,19 +272,15 @@ public:
    *
    * Note that a filter producing multiple outputs of different types is
    * required to override this method.  The default implementation
-   * can only correctly handle multiple outputs of the same type.
-   */
+   * can only correctly handle multiple outputs of the same type. */
   virtual void GenerateOutputRequestedRegion(DataObject *output);
 
-  /**
-   * Reset the pipeline. If an exception is thrown during an Update(),
+  /** Reset the pipeline. If an exception is thrown during an Update(),
    * the pipeline may be in an inconsistent state.  This method clears
-   * the internal state of the pipeline so Update() can be called.
-   */
+   * the internal state of the pipeline so Update() can be called. */
   virtual void ResetPipeline();
 
-  /**
-   * Make a DataObject of the correct type to used as the specified
+  /** Make a DataObject of the correct type to used as the specified
    * output.  Every ProcessObject subclass must be able to create a
    * DataObject that can be used as a specified output. This method
    * is automatically called when DataObject::DisconnectPipeline() is
@@ -350,141 +293,97 @@ public:
    * itkSmartPointer to a DataObject. ImageSource and MeshSource override
    * this method to create the correct type of image and mesh respectively.
    * If a filter has multiple outputs of different types, then that
-   * filter must provide an implementation of MakeOutput().
-   */
+   * filter must provide an implementation of MakeOutput(). */
   virtual DataObjectPointer MakeOutput(unsigned int idx);
   
-  /** 
-   * Turn on/off the flags to control whether the data belonging to the
+  /** Turn on/off the flags to control whether the data belonging to the
    * outputs of this ProcessObject are released after being used by a
-   * source by ProcessObjects further downstream.
-   */
+   * source by ProcessObjects further downstream. */
   virtual void SetReleaseDataFlag(bool flag);
   virtual bool GetReleaseDataFlag();
   void ReleaseDataFlagOn() {SetReleaseDataFlag(true);}
   void ReleaseDataFlagOff() {SetReleaseDataFlag(false);}
-
-  /**
-   * Get/Set the number of threads to create when executing.
-   */
+  
+  /** Get/Set the number of threads to create when executing. */
   itkSetClampMacro( NumberOfThreads, int, 1, ITK_MAX_THREADS );
   itkGetConstReferenceMacro( NumberOfThreads, int );
-
-  /**
-   * Return the multithreader used by this class.
-   */
+  
+  /** Return the multithreader used by this class. */
   MultiThreader::Pointer GetMultiThreader()
     {return m_Threader;}
-  
 
 protected:
   ProcessObject();
   ~ProcessObject();
   void PrintSelf(std::ostream& os, Indent indent) const;
   
-  /**
-   * Protected methods for setting inputs.
-   * Subclasses make use of them for setting input.
-   */
+  /** Protected methods for setting inputs.
+   * Subclasses make use of them for setting input. */
   virtual void SetNthInput(unsigned int num, DataObject *input);
   virtual void AddInput(DataObject *input);
   virtual void RemoveInput(DataObject *input);
   itkSetMacro(NumberOfRequiredInputs,unsigned int);
   itkGetConstReferenceMacro(NumberOfRequiredInputs,unsigned int);
-
-  /**
-   * Protected methods for setting outputs.
-   * Subclasses make use of them for getting output.
-   */
+  
+  /** Protected methods for setting outputs.
+   * Subclasses make use of them for getting output. */
   virtual void SetNthOutput(unsigned int num, DataObject *output);
   virtual void AddOutput(DataObject *output);
   virtual void RemoveOutput(DataObject *output);
   itkSetMacro(NumberOfRequiredOutputs,unsigned int);
   itkGetConstReferenceMacro(NumberOfRequiredOutputs,unsigned int);
-
-  /**
-   * This method causes the filter to generate its output.
-   */
+  
+  /** This method causes the filter to generate its output. */
   virtual void GenerateData() {}
 
-  /**
-   * Called to allocate the input array.  Copies old inputs.
-   */
+  /** Called to allocate the input array.  Copies old inputs. */
   void SetNumberOfInputs(unsigned int num);
 
-  /**
-   * Method used internally for getting an input.
-   */
+  /** Method used internally for getting an input. */
   DataObjectPointer GetInput(unsigned int idx);
 
-  /**
-   * Called to allocate the output array.  Copies old outputs.
-   */
+  /** Called to allocate the output array.  Copies old outputs. */
   void SetNumberOfOutputs(unsigned int num);
 
-  /**
-   * Method used internally for getting an output.
-   */
+  /** Method used internally for getting an output. */
   DataObjectPointer GetOutput(unsigned int idx);
 
-
-  /**
-   * Propagate a call to ResetPipeline() up the pipeline. Called only from
-   * DataObject.
-   */
+  /** Propagate a call to ResetPipeline() up the pipeline. Called only from
+   * DataObject. */
   virtual void PropagateResetPipeline();
 
-  /**
-   * These ivars are made protected so filters like itkStreamingImageFilter
-   * can access them directly
-   *
-   *
-   *
-   */
+  /** These ivars are made protected so filters like itkStreamingImageFilter
+   * can access them directly. */
   
-  /**
-   * This flag indicates when the pipeline is executing.
-   * It prevents infinite recursion when pipelines have loops.
-   */
+  /** This flag indicates when the pipeline is executing.
+   * It prevents infinite recursion when pipelines have loops. */
   bool m_Updating;
 
-  /**
-   * Time when GenerateOutputInformation was last called.
-   */
+  /** Time when GenerateOutputInformation was last called. */
   TimeStamp m_InformationTime;
 
 private:
   ProcessObject(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /**
-   * An array of the inputs to the filter.
-   */
+  /** An array of the inputs to the filter. */
   std::vector<DataObjectPointer> m_Inputs;
   unsigned int m_NumberOfRequiredInputs;
-
-  /**
-   * An array of the outputs to the filter.
-   */
+  
+  /** An array of the outputs to the filter. */
   std::vector<DataObjectPointer> m_Outputs;
   unsigned int m_NumberOfRequiredOutputs;
-
-  /**
-   * These support the progress method and aborting filter execution.
-   */
+  
+  /** These support the progress method and aborting filter execution. */
   bool  m_AbortGenerateData;
   float m_Progress;
-
-  /**
-   * Support processing data in multiple threads. Used by subclasses
-   * (e.g., ImageSource).
-   */
+  
+  /** Support processing data in multiple threads. Used by subclasses
+   * (e.g., ImageSource). */
   MultiThreader::Pointer m_Threader;
   int m_NumberOfThreads;
-
-  /**
-   * Friends of ProcessObject
-   */
+  
+  /** Friends of ProcessObject */
   friend class DataObject;
 };
 

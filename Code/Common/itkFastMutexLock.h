@@ -72,36 +72,22 @@ namespace itk
 class ITK_EXPORT FastMutexLock : public Object
 {
 public:
-  /** 
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef FastMutexLock       Self;
-  
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /** 
-   * Smart pointer typedef support. 
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   * Method for creation.
-   */
+  
+  /** Method for creation. */
   itkNewMacro(Self);
+
+  /** Run-time type information. */
   itkTypeMacro(FastMutexLock,Object);
 
-  /**
-   * Lock the itkFastMutexLock.
-   */
+  /** Lock the itkFastMutexLock. */
   void Lock( void );
 
-  /**
-   * Unlock the FastMutexLock.
-   */
+  /** Unlock the FastMutexLock. */
   void Unlock( void );
 
 protected:

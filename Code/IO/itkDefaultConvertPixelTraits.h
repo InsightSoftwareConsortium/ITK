@@ -44,8 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
   
-/**
- * \brief Traits class used to by ConvertPixels to convert blocks of pixels.
+/** \brief Traits class used to by ConvertPixels to convert blocks of pixels.
  *
  *  TOutputPixelType is the destination type. The input type is infered
  *  by the templated static function Convert.
@@ -53,28 +52,30 @@ namespace itk
  *  This implementaion, does a simple assignment operator, so if you are
  *  going from from a higher bit representation to a lower bit one (int to
  *  char), you may want to specialize and add some sort of transfer function.
- * 
  */
-
-template< typename PixelType>
+template<typename PixelType>
 class DefaultConvertPixelTraits
 {
 public:
+  /** Determine the pixel data type. */
   typedef typename PixelType::ComponentType ComponentType;
+
+  /** Return the number of components per pixel. */
   static unsigned int GetNumberOfComponents() 
     { return PixelType::GetNumberOfComponents();}
+  
+  /** Return the nth component of the pixel. */
   static ComponentType GetNthComponent(int c, const PixelType& pixel) 
-    {
-      return pixel.GetNthComponent(c);
-    }
+    { return pixel.GetNthComponent(c); }
+
+  /** Set the nth component of the pixel. */
   static void SetNthComponent(int c, PixelType& pixel, const ComponentType& v) 
-    {
-      pixel.SetNthComponent(c, v);
-    }
+    { pixel.SetNthComponent(c, v); }
+
+  /** Return a single scalar value from this pixel. */
   static ComponentType GetScalarValue(const PixelType& pixel)
-    {
-      return pixel.GetScalarValue();
-    }
+    { return pixel.GetScalarValue(); }
+
 };
 
 #define ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(type)                    \

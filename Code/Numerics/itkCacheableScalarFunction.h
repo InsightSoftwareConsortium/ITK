@@ -78,113 +78,78 @@ namespace itk {
  * as an energy function. The bias field estimation requires calculation of 
  * energy values again and again for each iteration.
  */
-
 class CacheableScalarFunction
 {
 public:
-  
-  /**
-   * constructor:
-   */
+  /** Constructor. */
   CacheableScalarFunction() ;
 
+  /** Destructor. */
   virtual ~CacheableScalarFunction() {}
 
-  /**
-   * function's input and output value type 
-   */
+  /** Function's input and output value type. */
   typedef double MeasureType ;
 
-  /**
-   * Get the number of samples between the lower-bound and higher-bound
-   * of the cache table
-   */
+  /** Get the number of samples between the lower-bound and higher-bound
+   * of the cache table. */
   long GetNumberOfSamples() { return m_NumberOfSamples ; } 
 
-  /**
-   * Check if the internal cache table and its values are valid
-   */
+  /** Check if the internal cache table and its values are valid. */
   bool IsCacheAvailable() { return m_CacheAvailable ; } 
   
-  /**
-   * Get the upper-bound of domain that is used for filling the cache table
-   */
+  /** Get the upper-bound of domain that is used for filling the cache table. */
   double GetCacheHigherBound() { return m_CacheHigherBound ; } 
 
-  /**
-   * Get the lower-bound of domain that is used for filling the cache table
-   */
+  /** Get the lower-bound of domain that is used for filling the cache table. */
   double GetCacheLowerBound() { return m_CacheLowerBound ; } 
 
-  /**
-   * y = f(x)
+  /** y = f(x)
    * Subclasses of this class should override this member function
-   * to provide their own functional operation 
-   */
+   * to provide their own functional operation . */
   virtual MeasureType Evaluate(MeasureType x) 
-  { return x ; }
+    { return x ; }
 
-  /**
-   * y = f(x) = (approximately) cache_table(index(x))
+  /** y = f(x) = (approximately) cache_table(index(x))
    * Get the function return using the internal cache table
    * NOTE: Since the index calculation needs conversion from double
    * to int, truncation happens. As a result, the return values from
-   * Evaluate(x) and GetCachedValue(x) may not be same for the same x
-   */
+   * Evaluate(x) and GetCachedValue(x) may not be same for the same x. */
   inline MeasureType GetCachedValue(MeasureType x)
   {
     if (x > m_CacheHigherBound || x < m_CacheLowerBound)
       {
         throw ExceptionObject(__FILE__, __LINE__) ;
       }
-
     // access table
     int index = (int) ((x - m_CacheLowerBound) / m_TableInc + 0.5) ;
     return (*m_CacheTable)[index] ;
   }
 
 protected:
+  /** Create the internal cache table and fill it with 
+   * pre-evaluated values. */
+  void CreateCache(double lowerBound, double higherBound, long sampleSize) ;
 
-  /**
-   * Create the internal cache table and fill it with 
-   * pre-evaluated values
-   */
-  void CreateCache(double lowerBound,
-                   double higherBound,
-                   long sampleSize) ;
-
-  
 private:
-  /**
-   * the number of samples will be precalcualted and saved in the
-   * cache table
-   */
+  /** The number of samples will be precalcualted and saved in the
+   * cache table. */
   long m_NumberOfSamples ;
 
-  /**
-   * storage for the precalcualted function values
-   */
+  /** Storage for the precalcualted function values. */
   vnl_vector<MeasureType>* m_CacheTable ;
 
-  /**
-   * the upper-bound of domain that is used for filling the cache table
-   */
+  /** The upper-bound of domain that is used for filling the cache table. */
   double m_CacheHigherBound ;
 
-  /**
-   * the lower-bound of domain that is used for filling the cache table
-   */
+  /** The lower-bound of domain that is used for filling the cache table. */
   double m_CacheLowerBound ;
 
-  /**
-   * sampling interval for function evaluation
-   */
+  /** Sampling interval for function evaluation. */
   double m_TableInc ;
 
-  /**
-   *
-   */
+  /** Is the cache available?   */
   bool m_CacheAvailable ;
+  
 } ; // end of class
 } // end of namespace itk
 #endif

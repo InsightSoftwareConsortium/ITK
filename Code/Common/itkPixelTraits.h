@@ -44,8 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class PixelTraits
+/** \class PixelTraits
  * \brief Traits for a pixel that define the dimension and component type.
  *
  * PixelTraits determines the dimension and the component type
@@ -56,21 +55,19 @@ namespace itk
 template<class TPixelType>
 class PixelTraits
 {
- public:
-  ///! Dimension of the pixel (range).
+public:
+  /** Dimension of the pixel (range). */
   enum {Dimension = TPixelType::Length};
   
-  ///! Type of a single component of a pixel
+  /** Type of a single component of a pixel. */
   typedef typename TPixelType::ValueType ValueType;
 };
 
-/**
- * Specialization of PixelTraitss for scalar images.
- */
+/** Specialization of PixelTraitss for scalar images. */
 template <>
 class PixelTraits<bool>
 {
- public:
+public:
   enum {Dimension=1};
   typedef bool ValueType;
 };
@@ -78,7 +75,7 @@ class PixelTraits<bool>
 template <>
 class PixelTraits<char>
 {
- public:
+public:
   enum {Dimension=1};
   typedef char ValueType;
 };
@@ -86,7 +83,7 @@ class PixelTraits<char>
 template <>
 class PixelTraits<unsigned char>
 {
- public:
+public:
   enum {Dimension=1};
   typedef unsigned char ValueType;
 };
@@ -94,7 +91,7 @@ class PixelTraits<unsigned char>
 template <>
 class PixelTraits<short>
 {
- public:
+public:
   enum {Dimension=1};
   typedef short ValueType;
 };
@@ -102,7 +99,7 @@ class PixelTraits<short>
 template <>
 class PixelTraits<unsigned short>
 {
- public:
+public:
   enum {Dimension=1};
   typedef unsigned short ValueType;
 };
@@ -110,7 +107,7 @@ class PixelTraits<unsigned short>
 template <>
 class PixelTraits<int>
 {
- public:
+public:
   enum {Dimension=1};
   typedef int ValueType;
 };
@@ -118,7 +115,7 @@ class PixelTraits<int>
 template <>
 class PixelTraits<unsigned int>
 {
- public:
+public:
   enum {Dimension=1};
   typedef unsigned int ValueType;
 };
@@ -126,7 +123,7 @@ class PixelTraits<unsigned int>
 template <>
 class PixelTraits<long>
 {
- public:
+public:
   enum {Dimension=1};
   typedef long ValueType;
 };
@@ -134,7 +131,7 @@ class PixelTraits<long>
 template <>
 class PixelTraits<unsigned long>
 {
- public:
+public:
   enum {Dimension=1};
   typedef unsigned long ValueType;
 };
@@ -142,7 +139,7 @@ class PixelTraits<unsigned long>
 template <>
 class PixelTraits<float>
 {
- public:
+public:
   enum {Dimension=1};
   typedef float ValueType;
 };
@@ -150,14 +147,14 @@ class PixelTraits<float>
 template <>
 class PixelTraits<double>
 {
- public:
+public:
   enum {Dimension=1};
   typedef double ValueType;
 };
 
-/**
- * \class JoinTraits
- * \brief Trait to determine what datatype is needed if the specified pixel types are "joined" into a single vector.
+/** \class JoinTraits
+ * \brief Trait to determine what datatype is needed if the specified 
+ * pixel types are "joined" into a single vector.
  *
  * JoinTraits defines the value type needed to combine the specified
  * pixel types into a single vector.  The data type selected is the
@@ -175,139 +172,135 @@ class PixelTraits<double>
 template <class TValueType1, class TValueType2>
 class JoinTraits
 {
- public:
+public:
   typedef TValueType1 ValueType;
 };
 
-/**
- * Specializations for bool
- */
+/** Specializations for bool. */
 template<>
 class JoinTraits<bool, bool>
 {
- public:
+public:
   typedef bool ValueType;
 };
 
 template<>
 class JoinTraits<bool, char>
 {
- public:
+public:
   typedef char ValueType;
 };
 
 template<>
 class JoinTraits<bool, unsigned char>
 {
- public:
+public:
   typedef unsigned char ValueType;
 };
 
 template<>
 class JoinTraits<bool, short>
 {
- public:
+public:
   typedef short ValueType;
 };
 
 template<>
 class JoinTraits<bool, unsigned short>
 {
- public:
+public:
   typedef unsigned short ValueType;
 };
 
 template<>
 class JoinTraits<bool, int>
 {
- public:
+public:
   typedef int ValueType;
 };
 
 template<>
 class JoinTraits<bool, unsigned int>
 {
- public:
+public:
   typedef unsigned int ValueType;
 };
 
 template<>
 class JoinTraits<bool, long>
 {
- public:
+public:
   typedef long ValueType;
 };
 
 template<>
 class JoinTraits<bool, unsigned long>
 {
- public:
+public:
   typedef unsigned long ValueType;
 };
 
 template<>
 class JoinTraits<bool, float>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<bool, double>
 {
- public:
+public:
   typedef double ValueType;
 };
 
-/**
- * Specializations for char
- */
+/** Specializations for char. */
 template<>
 class JoinTraits<char, bool>
 {
- public:
+public:
   typedef char ValueType;
 };
 
 template<>
 class JoinTraits<char, char>
 {
- public:
+public:
   typedef char ValueType;
 };
 
 template<>
 class JoinTraits<char, unsigned char>
 {
- public:
+public:
   typedef short ValueType;
 };
 
 template<>
 class JoinTraits<char, short>
 {
- public:
+public:
   typedef short ValueType;
 };
 
 template<>
 class JoinTraits<char, unsigned short>
 {
- public:
+public:
   typedef int ValueType;
 };
 
 template<>
 class JoinTraits<char, int>
 {
- public:
+public:
   typedef int ValueType;
 };
 
 template<>
 class JoinTraits<char, unsigned int>
 {
- public:
+public:
   // unsigned int & unsigned long may be the same size, so promote to float
   typedef float ValueType;
 };
@@ -315,160 +308,156 @@ class JoinTraits<char, unsigned int>
 template<>
 class JoinTraits<char, long>
 {
- public:
+public:
   typedef long ValueType;
 };
 
 template<>
 class JoinTraits<char, unsigned long>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<char, float>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<char, double>
 {
- public:
+public:
   typedef double ValueType;
 };
 
-/**
- * Specializations for unsigned char
- */
+/** Specializations for unsigned char. */
 template<>
 class JoinTraits<unsigned char, bool>
 {
- public:
+public:
   typedef unsigned char ValueType;
 };
 
 template<>
 class JoinTraits<unsigned char, char>
 {
- public:
+public:
   typedef short ValueType;
 };
 
 template<>
 class JoinTraits<unsigned char, unsigned char>
 {
- public:
+public:
   typedef unsigned char ValueType;
 };
 
 template<>
 class JoinTraits<unsigned char, short>
 {
- public:
+public:
   typedef short ValueType;
 };
 
 template<>
 class JoinTraits<unsigned char, unsigned short>
 {
- public:
+public:
   typedef unsigned short ValueType;
 };
 
 template<>
 class JoinTraits<unsigned char, int>
 {
- public:
+public:
   typedef int ValueType;
 };
 
 template<>
 class JoinTraits<unsigned char, unsigned int>
 {
- public:
+public:
   typedef unsigned int ValueType;
 };
 
 template<>
 class JoinTraits<unsigned char, long>
 {
- public:
+public:
   typedef long ValueType;
 };
 
 template<>
 class JoinTraits<unsigned char, unsigned long>
 {
- public:
+public:
   typedef unsigned long ValueType;
 };
 
 template<>
 class JoinTraits<unsigned char, float>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<unsigned char, double>
 {
- public:
+public:
   typedef double ValueType;
 };
   
-/**
- * Specializations for short
- */
+/** Specializations for short. */
 template<>
 class JoinTraits<short, bool>
 {
- public:
+public:
   typedef short ValueType;
 };
 
 template<>
 class JoinTraits<short, char>
 {
- public:
+public:
   typedef short ValueType;
 };
 
 template<>
 class JoinTraits<short, unsigned char>
 {
- public:
+public:
   typedef short ValueType;
 };
 
 template<>
 class JoinTraits<short, short>
 {
- public:
+public:
   typedef short ValueType;
 };
 
 template<>
 class JoinTraits<short, unsigned short>
 {
- public:
+public:
   typedef int ValueType;
 };
 
 template<>
 class JoinTraits<short, int>
 {
- public:
+public:
   typedef int ValueType;
 };
 
 template<>
 class JoinTraits<short, unsigned int>
 {
- public:
+public:
   // unsigned int & unsigned long may be the same size, so promote to float
   typedef float ValueType;
 };
@@ -476,160 +465,156 @@ class JoinTraits<short, unsigned int>
 template<>
 class JoinTraits<short, long>
 {
- public:
+public:
   typedef long ValueType;
 };
 
 template<>
 class JoinTraits<short, unsigned long>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<short, float>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<short, double>
 {
- public:
+public:
   typedef double ValueType;
 };
   
-/**
- * Specializations for unsigned short
- */
+/** Specializations for unsigned short. */
 template<>
 class JoinTraits<unsigned short, bool>
 {
- public:
+public:
   typedef unsigned short ValueType;
 };
 
 template<>
 class JoinTraits<unsigned short, char>
 {
- public:
+public:
   typedef int ValueType;
 };
 
 template<>
 class JoinTraits<unsigned short, unsigned char>
 {
- public:
+public:
   typedef unsigned short ValueType;
 };
 
 template<>
 class JoinTraits<unsigned short, short>
 {
- public:
+public:
   typedef int ValueType;
 };
 
 template<>
 class JoinTraits<unsigned short, unsigned short>
 {
- public:
+public:
   typedef unsigned short ValueType;
 };
 
 template<>
 class JoinTraits<unsigned short, int>
 {
- public:
+public:
   typedef int ValueType;
 };
 
 template<>
 class JoinTraits<unsigned short, unsigned int>
 {
- public:
+public:
   typedef unsigned int ValueType;
 };
 
 template<>
 class JoinTraits<unsigned short, long>
 {
- public:
+public:
   typedef long ValueType;
 };
 
 template<>
 class JoinTraits<unsigned short, unsigned long>
 {
- public:
+public:
   typedef unsigned long ValueType;
 };
 
 template<>
 class JoinTraits<unsigned short, float>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<unsigned short, double>
 {
- public:
+public:
   typedef double ValueType;
 };
   
-/**
- * Specializations for int
- */
+/** Specializations for int. */
 template<>
 class JoinTraits<int, bool>
 {
- public:
+public:
   typedef int ValueType;
 };
 
 template<>
 class JoinTraits<int, char>
 {
- public:
+public:
   typedef int ValueType;
 };
 
 template<>
 class JoinTraits<int, unsigned char>
 {
- public:
+public:
   typedef int ValueType;
 };
 
 template<>
 class JoinTraits<int, short>
 {
- public:
+public:
   typedef int ValueType;
 };
 
 template<>
 class JoinTraits<int, unsigned short>
 {
- public:
+public:
   typedef int ValueType;
 };
 
 template<>
 class JoinTraits<int, int>
 {
- public:
+public:
   typedef int ValueType;
 };
 
 template<>
 class JoinTraits<int, unsigned int>
 {
- public:
+public:
   // unsigned int & unsigned long may be the same size, so promote to float
   typedef float ValueType;
 };
@@ -637,45 +622,43 @@ class JoinTraits<int, unsigned int>
 template<>
 class JoinTraits<int, long>
 {
- public:
+public:
   typedef long ValueType;
 };
 
 template<>
 class JoinTraits<int, unsigned long>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<int, float>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<int, double>
 {
- public:
+public:
   typedef double ValueType;
 };
   
-/**
- * Specializations for unsigned int
- */
+/** Specializations for unsigned int. */
 template<>
 class JoinTraits<unsigned int, bool>
 {
- public:
+public:
   typedef unsigned int ValueType;
 };
 
 template<>
 class JoinTraits<unsigned int, char>
 {
- public:
+public:
   // unsigned int & unsigned long may be the same size, so promote to float
   typedef float ValueType;
 };
@@ -683,14 +666,14 @@ class JoinTraits<unsigned int, char>
 template<>
 class JoinTraits<unsigned int, unsigned char>
 {
- public:
+public:
   typedef unsigned int ValueType;
 };
 
 template<>
 class JoinTraits<unsigned int, short>
 {
- public:
+public:
   // unsigned int & unsigned long may be the same size, so promote to float
   typedef float ValueType;
 };
@@ -698,14 +681,14 @@ class JoinTraits<unsigned int, short>
 template<>
 class JoinTraits<unsigned int, unsigned short>
 {
- public:
+public:
   typedef unsigned int ValueType;
 };
 
 template<>
 class JoinTraits<unsigned int, int>
 {
- public:
+public:
   // unsigned int & unsigned long may be the same size, so promote to float
   typedef float ValueType;
 };
@@ -713,355 +696,347 @@ class JoinTraits<unsigned int, int>
 template<>
 class JoinTraits<unsigned int, unsigned int>
 {
- public:
+public:
   typedef unsigned int ValueType;
 };
 
 template<>
 class JoinTraits<unsigned int, long>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<unsigned int, unsigned long>
 {
- public:
+public:
   typedef unsigned long ValueType;
 };
 
 template<>
 class JoinTraits<unsigned int, float>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<unsigned int, double>
 {
- public:
+public:
   typedef double ValueType;
 };
   
-/**
- * Specializations for long
- */
+/** Specializations for long. */
 template<>
 class JoinTraits<long, bool>
 {
- public:
+public:
   typedef long ValueType;
 };
 
 template<>
 class JoinTraits<long, char>
 {
- public:
+public:
   typedef long ValueType;
 };
 
 template<>
 class JoinTraits<long, unsigned char>
 {
- public:
+public:
   typedef long ValueType;
 };
 
 template<>
 class JoinTraits<long, short>
 {
- public:
+public:
   typedef long ValueType;
 };
 
 template<>
 class JoinTraits<long, unsigned short>
 {
- public:
+public:
   typedef long ValueType;
 };
 
 template<>
 class JoinTraits<long, int>
 {
- public:
+public:
   typedef long ValueType;
 };
 
 template<>
 class JoinTraits<long, unsigned int>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<long, long>
 {
- public:
+public:
   typedef long ValueType;
 };
 
 template<>
 class JoinTraits<long, unsigned long>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<long, float>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<long, double>
 {
- public:
+public:
   typedef double ValueType;
 };
   
-/**
- * Specializations for unsigned long
- */
+/** Specializations for unsigned long. */
 template<>
 class JoinTraits<unsigned long, bool>
 {
- public:
+public:
   typedef unsigned long ValueType;
 };
 
 template<>
 class JoinTraits<unsigned long, char>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<unsigned long, unsigned char>
 {
- public:
+public:
   typedef unsigned long ValueType;
 };
 
 template<>
 class JoinTraits<unsigned long, short>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<unsigned long, unsigned short>
 {
- public:
+public:
   typedef unsigned long ValueType;
 };
 
 template<>
 class JoinTraits<unsigned long, int>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<unsigned long, unsigned int>
 {
- public:
+public:
   typedef unsigned long ValueType;
 };
 
 template<>
 class JoinTraits<unsigned long, long>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<unsigned long, unsigned long>
 {
- public:
+public:
   typedef unsigned long ValueType;
 };
 
 template<>
 class JoinTraits<unsigned long, float>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<unsigned long, double>
 {
- public:
+public:
   typedef double ValueType;
 };
   
-/**
- * Specializations for float
- */
+/** Specializations for float. */
 template<>
 class JoinTraits<float, bool>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<float, char>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<float, unsigned char>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<float, short>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<float, unsigned short>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<float, int>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<float, unsigned int>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<float, long>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<float, unsigned long>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<float, float>
 {
- public:
+public:
   typedef float ValueType;
 };
 
 template<>
 class JoinTraits<float, double>
 {
- public:
+public:
   typedef double ValueType;
 };
   
-/**
- * Specializations for double
- */
+/** Specializations for double. */
 template<>
 class JoinTraits<double, bool>
 {
- public:
+public:
   typedef double ValueType;
 };
 
 template<>
 class JoinTraits<double, char>
 {
- public:
+public:
   typedef double ValueType;
 };
 
 template<>
 class JoinTraits<double, unsigned char>
 {
- public:
+public:
   typedef double ValueType;
 };
 
 template<>
 class JoinTraits<double, short>
 {
- public:
+public:
   typedef double ValueType;
 };
 
 template<>
 class JoinTraits<double, unsigned short>
 {
- public:
+public:
   typedef double ValueType;
 };
 
 template<>
 class JoinTraits<double, int>
 {
- public:
+public:
   typedef double ValueType;
 };
 
 template<>
 class JoinTraits<double, unsigned int>
 {
- public:
+public:
   typedef double ValueType;
 };
 
 template<>
 class JoinTraits<double, long>
 {
- public:
+public:
   typedef double ValueType;
 };
 
 template<>
 class JoinTraits<double, unsigned long>
 {
- public:
+public:
   typedef double ValueType;
 };
 
 template<>
 class JoinTraits<double, float>
 {
- public:
+public:
   typedef double ValueType;
 };
 
 template<>
 class JoinTraits<double, double>
 {
- public:
+public:
   typedef double ValueType;
 };
   

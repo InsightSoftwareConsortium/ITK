@@ -47,34 +47,35 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
-
-/**
- * \class GradientAnisotropicDiffusionImageFilter
+/** \class GradientAnisotropicDiffusionImageFilter
  *\todo Document.
  * 
  * \ingroup ImageEnhancement
  * \ingroup GradientFilters
- *
  */
 template <class TInputImage, class TOutputImage>
 class GradientAnisotropicDiffusionImageFilter
   : public AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /**
-   * Standard itk typedefs
-   */
+  /** Standard class typedefs. */
   typedef GradientAnisotropicDiffusionImageFilter Self;
   typedef AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
-   Superclass;
+    Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
+
+  /** Standard method for creation through object factory. */
   itkNewMacro(Self);
 
+  /** Run-time class information. */
   itkTypeMacro(GradientAnisotropicDiffusionImageFilter,
                AnisotropicDiffusionImageFilter);
   
+  /** Extract information from the superclass. */
   typedef typename Superclass::UpdateBufferType UpdateBufferType;
+
+  /** Extract information from the superclass. */
   enum { ImageDimension = Superclass::ImageDimension };
   
 protected:
@@ -82,15 +83,15 @@ protected:
     {
       if ( ImageDimension == 2 )
         {
-          Gradient2DAnisotropicDiffusionEquation<UpdateBufferType>::Pointer p        
-            = Gradient2DAnisotropicDiffusionEquation<UpdateBufferType>::New();
-          this->SetDifferenceEquation(p);
+        Gradient2DAnisotropicDiffusionEquation<UpdateBufferType>::Pointer p
+          = Gradient2DAnisotropicDiffusionEquation<UpdateBufferType>::New();
+        this->SetDifferenceEquation(p);
         }
       else
         {
-          GradientNDAnisotropicDiffusionEquation<UpdateBufferType>::Pointer p        
-            = GradientNDAnisotropicDiffusionEquation<UpdateBufferType>::New();
-          this->SetDifferenceEquation(p);
+        GradientNDAnisotropicDiffusionEquation<UpdateBufferType>::Pointer p
+          = GradientNDAnisotropicDiffusionEquation<UpdateBufferType>::New();
+        this->SetDifferenceEquation(p);
         }
     }
   ~GradientAnisotropicDiffusionImageFilter() {}

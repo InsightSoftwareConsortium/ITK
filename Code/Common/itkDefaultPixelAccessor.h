@@ -77,25 +77,23 @@ class ITK_EXPORT DefaultPixelAccessor
 {
 public:
 
- /** 
-   * External typedef. It defines the external aspect
-   * that this class will exhibit.
-   */
+ /** External typedef. It defines the external aspect
+   * that this class will exhibit. */
   typedef TType ExternalType ;
 
-  /** 
-   * Internal typedef. It defines the internal real
-   * representation of data.
-   */
+  /** Internal typedef. It defines the internal real
+   * representation of data. */
   typedef TType InternalType ;
 
-
+  /** Set the pixel. */
   inline void Set(TType & output, const TType & input) const
     {output = input;}
 
+  /** Get the pixel. */
   inline TType & Get( TType & input ) const
     {return input;}
 
+  /** Get a const reference to the pixel. */
   inline const TType & Get( const TType & input ) const
     {return input;}
   

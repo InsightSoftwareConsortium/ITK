@@ -107,7 +107,7 @@ class ITK_EXPORT VectorExpandImageFilter:
 public:
 
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef VectorExpandImageFilter         Self;
 

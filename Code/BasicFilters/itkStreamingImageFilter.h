@@ -68,7 +68,7 @@ class ITK_EXPORT StreamingImageFilter : public ImageToImageFilter<TInputImage, T
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef StreamingImageFilter  Self;
 

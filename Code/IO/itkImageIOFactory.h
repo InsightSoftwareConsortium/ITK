@@ -48,38 +48,25 @@ namespace itk
 {
 /** \class ImageIOFactory
  * \brief Create instances of ImageIO objects using an object factory.
- *
  */
 class ITK_EXPORT ImageIOFactory : public Object
 {
 public:  
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ImageIOFactory   Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   * Class Methods used to interface with the registered factories
-   */
   
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Class Methods used to interface with the registered factories */
+  
+  /** Run-time type information (and related methods). */
   itkTypeMacro(ImageIOFactory, Object);
 
+  /** Convenient typedefs. */
   typedef ::itk::ImageIOBase::Pointer ImageIOBasePointer;
 
+  /** Create the appropriate ImageIO depending on the particulars of the file. */
   static ImageIOBasePointer CreateImageIO(const char* path);
 
 protected:

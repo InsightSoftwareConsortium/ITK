@@ -66,25 +66,17 @@ namespace itk
 template<unsigned int VOffsetDimension=2>
 class Offset {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef Offset  Self;
   
-  /**
-   * Get the dimension (size) of the index.
-   */
+  /** Get the dimension (size) of the index. */
   static unsigned int GetOffsetDimension() { return VOffsetDimension; }
 
-  /**
-   * Compatible Offset typedef
-   */
+  /** Compatible offset typedefs. */
   typedef   Offset<VOffsetDimension>  OffsetType;
   typedef   long OffsetValueType;
-  
-  /**
-   * Add an offset to an offset.
-   */
+    
+  /** Add an offset to an offset. */
   const Self
   operator+(const Self &offset) const
     {
@@ -94,9 +86,7 @@ public:
     return result;
     }
 
-  /**
-   * Add a size to an offset. 
-   */
+  /** Add a size to an offset.  */
   const Self
   operator+(const Size<VOffsetDimension> &size) const
     {
@@ -106,9 +96,7 @@ public:
     return result;
     }
 
-  /**
-   * Increment index by a size. 
-   */
+  /** Increment index by a size.  */
   const Self &
   operator+=(const Size<VOffsetDimension> &size)
     {
@@ -117,9 +105,7 @@ public:
     return *this;
     }
 
-  /**
-   * Subtract two offsets.
-   */
+  /** Subtract two offsets. */
   const Self
   operator-(const Self &vec)
     {
@@ -129,9 +115,7 @@ public:
     return result;
     }
 
-  /**
-   * Decrement offset by an offset. 
-   */
+  /** Decrement offset by an offset.  */
   const Self &
   operator-=(const Self &vec)
     {
@@ -140,9 +124,7 @@ public:
     return *this;
     }
 
-  /**
-   * Compare two offsets.
-   */
+  /** Compare two offsets. */
   bool
   operator==(const Self &vec) const
     {
@@ -152,9 +134,7 @@ public:
     return same;
     }
 
-  /**
-   * Compare two offsets.
-   */
+  /** Compare two offsets. */
   bool
   operator!=(const Self &vec) const
     {
@@ -164,62 +144,45 @@ public:
     return !same;
     }
 
-  /**
-   * Access an element of the offset. Elements are numbered
-   * 0, ..., VOffsetDimension-1. No bounds checking is performed.
-   */
+  /** Access an element of the offset. Elements are numbered
+   * 0, ..., VOffsetDimension-1. No bounds checking is performed. */
   OffsetValueType & operator[](unsigned int dim)
     { return m_Offset[dim]; }
 
-  /**
-   * Access an element of the index. Elements are numbered
+  /** Access an element of the index. Elements are numbered
    * 0, ..., VOffsetDimension-1. This version can only be an rvalue.
-   * No bounds checking is performed.
-   */
+   * No bounds checking is performed. */
   OffsetValueType operator[](unsigned int dim) const
     { return m_Offset[dim]; }
 
-  /**
-   * Get the index. This provides a read only reference to the index.
-   * \sa SetOffset()
-   */
+  /** Get the index. This provides a read only reference to the index.
+   * \sa SetOffset() */
   const OffsetValueType *GetOffset() const { return m_Offset; };
 
-  /**
-   * Set the index.
+  /** Set the index.
    * Try to prototype this function so that val has to point to a block of
    * memory that is the appropriate size.
-   * \sa GetOffset()
-   */
+   * \sa GetOffset() */
   void SetOffset(const OffsetValueType val[VOffsetDimension])
     { memcpy(m_Offset, val, sizeof(OffsetValueType)*VOffsetDimension); }
 
-  /**
-   * Return a basis vector of the form [0, ..., 0, 1, 0, ... 0] where the "1"
+  /** Return a basis vector of the form [0, ..., 0, 1, 0, ... 0] where the "1"
    * is positioned in the location specified by the parameter "dim". Valid
-   * values of "dim" are 0, ..., VOffsetDimension-1.
-   */
+   * values of "dim" are 0, ..., VOffsetDimension-1. */
   static Self GetBasisOffset(unsigned int dim); 
 
-  /**
-   * Set one value for the offset in all dimensions.  Useful for initializing
-   * an offset to zero.
-   */
+  /** Set one value for the offset in all dimensions.  Useful for initializing
+   * an offset to zero. */
   void Fill(OffsetValueType value)
     { for(unsigned int i=0;i < VOffsetDimension; ++i) m_Offset[i] = value; }
   
-  /**
-   * Offset is an "aggregate" class.  Its data is public (m_Offset)
+  /** Offset is an "aggregate" class.  Its data is public (m_Offset)
    * allowing for fast and convienent instantiations/assignments.
    *
    * The following syntax for assigning an index is allowed/suggested:
-   *    Offset<3> index = {5, 2, 7};
-   */
+   *    Offset<3> index = {5, 2, 7}; */
   OffsetValueType m_Offset[VOffsetDimension];
-  
-public:
 
-private:
 };
 
 

@@ -44,86 +44,60 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkBinaryMorphologicalFilterBase.h"
 
 namespace itk {
-  /** \class BinaryMorphologicalDialationFilter
-   * \brief filter implementation of binary morphological dialation
-   *
-   * This filter considers the input image is composed of only two types of
-   * pixel values: background and forground. each pixel is categorized using
-   * the threshold value. 
-   * 
-   * For the each input image pixel, 
-   *   - NeighborhoodIterator gives neighbors of the pixel. 
-   *   - Evalue() member function retunrs the maximum value among 
-   *     the results of (image neighbors * kernel element) if the max value 
-   *     is greater than threshold, else return center pixel value 
-   *     (original value)  
-   *   - Replace the original value with the max value
-   *
-   * \sa BinaryMorphologicalFilterBase
-   * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
-   */
 
+/** \class BinaryMorphologicalDialationFilter
+ * \brief filter implementation of binary morphological dialation
+ *
+ * This filter considers the input image is composed of only two types of
+ * pixel values: background and forground. each pixel is categorized using
+ * the threshold value. 
+ * 
+ * For the each input image pixel, 
+ *   - NeighborhoodIterator gives neighbors of the pixel. 
+ *   - Evalue() member function retunrs the maximum value among 
+ *     the results of (image neighbors * kernel element) if the max value 
+ *     is greater than threshold, else return center pixel value 
+ *     (original value)  
+ *   - Replace the original value with the max value
+ *
+ * \sa BinaryMorphologicalFilterBase
+ * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
+ */
 template<class TInputImage, class TOutputImage, class TKernel>
 class ITK_EXPORT BinaryMorphologicalDialationFilter : 
   public BinaryMorphologicalFilterBase<TInputImage, TOutputImage, TKernel>
 {
 public:
-  /**
-   * Standard Self typedef
-   */
+  /** Standard class typedefs. */
   typedef BinaryMorphologicalDialationFilter Self;
-
-  /**
-   * Standard Superclass typedef
-   */
   typedef BinaryMorphologicalFilterBase<TInputImage, TOutputImage, TKernel>
     Superclass;
-
-  /**
-   * Standard smart pointer support
-   */ 
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  /**
-   * Runtime information support
-   */
+  /** Standard New method */
+  itkNewMacro(Self);  
+
+  /** Runtime information support */
   itkTypeMacro(BinaryMorphologicalDialationFilter, 
                BinaryMorphologicalFilterBase);
   
-  /**
-   * Standard New method
-   */
-  itkNewMacro(Self);  
-
-  /**
-   * Declaration of Pixel Type
-   */
+  /** Declaration of pixel type. */
   typedef typename Superclass::PixelType PixelType;
 
-  /**
-   * Declaration of ImageKernelIteratorType
-   */
+  /** Declaration of image kernel iterator type. */
   typedef typename Superclass::ImageKernelIteratorType ImageKernelIteratorType;
 
-  /**
-   * Kernel (structuring element) iterator
-   */
+  /** Kernel (structuring element) iterator. */
   typedef typename Superclass::KernelIteratorType  KernelIteratorType;
- 
-
-
 
 protected:
-
-  /**
-   * Evaluate image neighborhood with kernel to find the new value 
+  /** Evaluate image neighborhood with kernel to find the new value 
    * for the center pixel value
    *
    * It will return the maximum value among the results of 
    * (image neighbors * kernel element) if the max value is greater than
-   * threshold, else return center pixel value (original value) 
-   */
+   * threshold, else return center pixel value (original value)  */
   PixelType Evaluate(ImageKernelIteratorType first, 
                      ImageKernelIteratorType last, 
                      KernelIteratorType first2,

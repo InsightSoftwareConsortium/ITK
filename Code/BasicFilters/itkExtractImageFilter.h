@@ -58,100 +58,69 @@ namespace itk
  * ThreadedGenerateData() method for its implementation.
  * 
  * \ingroup GeometricTransforms
- *
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT ExtractImageFilter:
     public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ExtractImageFilter         Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
-  /**
-   * Typedef to describe the output and input image region types.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ExtractImageFilter, ImageToImageFilter);
+
+  /** Typedef to describe the output and input image region types. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
   typedef typename TInputImage::RegionType InputImageRegionType;
 
-  /**
-   * Typedef to describe the type of pixel.
-   */
+  /** Typedef to describe the type of pixel. */
   typedef typename TOutputImage::PixelType OutputImagePixelType;
   typedef typename TInputImage::PixelType InputImagePixelType;
 
-  /**
-   * Typedef to describe the output and input image index and size types.
-   */
+  /** Typedef to describe the output and input image index and size types. */
   typedef typename TOutputImage::IndexType OutputImageIndexType;
   typedef typename TInputImage::IndexType InputImageIndexType;
   typedef typename TOutputImage::SizeType OutputImageSizeType;
   typedef typename TInputImage::SizeType InputImageSizeType;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(ExtractImageFilter, ImageToImageFilter);
-
-  /**
-   * ImageDimension enumeration
-   */
+  /** ImageDimension enumeration */
   enum { ImageDimension = TInputImage::ImageDimension };
 
-  /**
-   * Set/Get the output image region.
-   */
+  /** Set/Get the output image region. */
   itkSetMacro(ExtractionRegion, OutputImageRegionType);
   itkGetMacro(ExtractionRegion, OutputImageRegionType);
                  
-  /**
-   * ExtractImageFilter produces an image which is a different resolution
+  /** ExtractImageFilter produces an image which is a different resolution
    * than its input image.  As such, ExtractImageFilter needs to
    * provide an implementation for GenerateOutputInformation() in order
    * to inform the pipeline execution model.  The original
    * documentation of this method is below.
-   *
-   * \sa ProcessObject::GenerateOutputInformaton() 
-   */
+   * \sa ProcessObject::GenerateOutputInformaton()  */
   virtual void GenerateOutputInformation();
 
-  /** 
-   * ExtractImageFilter can be implemented as a multithreaded filter.
+protected:
+  ExtractImageFilter();
+  ~ExtractImageFilter() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
+  /** ExtractImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
    * routine which is called for each processing thread. The output
    * image data is allocated automatically by the superclass prior to
    * calling ThreadedGenerateData().  ThreadedGenerateData can only
    * write to the portion of the output image specified by the
    * parameter "outputRegionForThread"
-   *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData() 
-   */
+   *     ImageToImageFilter::GenerateData()  */
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
-
-protected:
-  ExtractImageFilter();
-  ~ExtractImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   ExtractImageFilter(const Self&); //purposely not implemented

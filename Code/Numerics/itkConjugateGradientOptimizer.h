@@ -52,83 +52,44 @@ namespace itk
  *
  * \ingroup Numerics Optimizers
  */
-
-  
 template <class TCostFunction>
 class ITK_EXPORT ConjugateGradientOptimizer : 
         public SingleValuedNonLinearVnlOptimizer< TCostFunction >
 
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ConjugateGradientOptimizer  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef SingleValuedNonLinearVnlOptimizer<TCostFunction> Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-
-  /**
-   * Internal Optimizer Type
-   */
-  typedef   vnl_conjugate_gradient InternalOptimizerType;
-
-
-  /**
-   *  Parameters type.
-   *  it defines a position in the optimization search space
-   */
-  typedef typename TCostFunction::ParametersType ParametersType;
-
-
-  /**
-   *  Measure type.
-   *  it defines a type used to return the cost function value 
-   */
-  typedef typename TCostFunction::MeasureType MeasureType;
-
-
-  /**
-   *  Derivative type.
-   *  it defines a type used to return the cost function derivative 
-   */
-  typedef typename TCostFunction::DerivativeType DerivativeType;
-
-
-
- /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro( ConjugateGradientOptimizer, 
-      SingleValuedNonLinearOptimizer );
-
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( ConjugateGradientOptimizer, SingleValuedNonLinearOptimizer );
 
-  /**
-   * Method for getting access to the internal optimizer
-   */
+  /** Internal Optimizer Type */
+  typedef   vnl_conjugate_gradient InternalOptimizerType;
+
+  /**  Parameters type.
+   *  it defines a position in the optimization search space */
+  typedef typename TCostFunction::ParametersType ParametersType;
+
+  /**  Measure type.
+   *  it defines a type used to return the cost function value  */
+  typedef typename TCostFunction::MeasureType MeasureType;
+
+  /**  Derivative type.
+   *  it defines a type used to return the cost function derivative  */
+  typedef typename TCostFunction::DerivativeType DerivativeType;
+
+  /** Method for getting access to the internal optimizer */
   vnl_conjugate_gradient & GetOptimizer(void);
- 
 
-  /**
-   * Start optimization with an initial value
-   */
+  /** Start optimization with an initial value. */
   void StartOptimization( void );
-
 
 protected:
   ConjugateGradientOptimizer();
@@ -138,11 +99,8 @@ private:
   ConjugateGradientOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  /**
-   *  The vnl optimization method for Conjugate Gradient
-   */
+  /**  The vnl optimization method for conjugate gradient. */
   InternalOptimizerType     m_ConjugateGradient;
-
 
 };
 

@@ -69,7 +69,7 @@ class ITK_EXPORT NonThreadedShrinkImageFilter:
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef NonThreadedShrinkImageFilter         Self;
 

@@ -64,7 +64,7 @@ class ITK_EXPORT RawImageWriter : public ImageWriter<TInputImage>
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef RawImageWriter       Self;
 

@@ -47,8 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk
 {
-/**
- * \class GradientImageFilter
+/** \class GradientImageFilter
  * \brief Computes the gradient of an image using directional derivatives.
  *
  * Computes the gradient of an image using directional derivatives.
@@ -69,72 +68,53 @@ namespace itk
  * \sa NeighborhoodIterator
  * 
  * \ingroup GradientFilters 
- *
  */
-
 template <class TInputImage, class TOperatorValueType=float, class TOutputValueType=float>
 class ITK_EXPORT GradientImageFilter :
     public ImageToImageFilter< TInputImage,
                                Image<CovariantVector<TOutputValueType, TInputImage::ImageDimension>,  TInputImage::ImageDimension> >
 {
 public:
-  /**
-   * Standard "Self" typedef
-   */
-  typedef GradientImageFilter Self;
-
-  /**
-   * Image typedef support
-   */
+  /** Extract dimension from input image. */
   enum {InputImageDimension = TInputImage::ImageDimension};
+  enum {OutputImageDimension = TInputImage::ImageDimension};
+
+  /** Convenient typedefs for simplifying declarations. */
+  typedef Image<CovariantVector<TOutputValueType, OutputImageDimension>,  OutputImageDimension> OutputImageType;
+
+  /** Standard class typedefs. */
+  typedef GradientImageFilter Self;
+  typedef ImageToImageFilter< InputImageType, OutputImageType> Superclass;
+  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
+
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(GradientImageFilter, ImageToImageFilter);
+  
+  /** Image typedef support. */
   typedef TInputImage InputImageType;
   typedef typename InputImageType::PixelType InputPixelType;
-  enum {OutputImageDimension = TInputImage::ImageDimension};
   typedef TOperatorValueType OperatorValueType;
   typedef TOutputValueType OutputValueType;
   typedef CovariantVector<OutputValueType, OutputImageDimension> OutputPixelType;
-  typedef Image<CovariantVector<TOutputValueType, OutputImageDimension>,  OutputImageDimension> OutputImageType;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   
-
-  /**
-   * Superclass typedef
-   */
-  typedef ImageToImageFilter< InputImageType, OutputImageType> Superclass;
-
-
- /** 
-   * Smart pointer typedef support 
-   */
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
-  /**
-   * Run-time type information (and related methods)
-   */
-  itkTypeMacro(GradientImageFilter, ImageToImageFilter);
-  
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-
-  /**
-   * GradientImageFilter needs a larger input requested region than
+  /** GradientImageFilter needs a larger input requested region than
    * the output requested region.  As such, GradientImageFilter needs
    * to provide an implementation for GenerateInputRequestedRegion()
    * in order to inform the pipeline execution model.
    *
-   * \sa ImageToImageFilter::GenerateInputRequestedRegion()
-   */
+   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
 protected:
   GradientImageFilter() {}
   virtual ~GradientImageFilter() {}
 
-  /**
-   * GradientImageFilter can be implemented as a multithreaded filter.
+  /** GradientImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
    * routine which is called for each processing thread. The output
    * image data is allocated automatically by the superclass prior to
@@ -143,16 +123,13 @@ protected:
    * parameter "outputRegionForThread"
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData()
-   */
+   *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 
 private:
   GradientImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-
 
 };
   

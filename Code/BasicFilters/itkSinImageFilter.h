@@ -85,7 +85,7 @@ class ITK_EXPORT SinImageFilter :
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef SinImageFilter  Self;
 

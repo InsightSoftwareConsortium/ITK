@@ -100,121 +100,78 @@ class ITK_EXPORT ExpandImageFilter:
   public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
-
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ExpandImageFilter         Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
-  /**
-   * Typedef to describe the output image region type.
-   */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(ExpandImageFilter, ImageToImageFilter);
 
-  /**
-   * ImageDimension enumeration
-   */
+  /** Typedef to describe the output image region type. */
+  typedef typename TOutputImage::RegionType OutputImageRegionType;
+
+  /** ImageDimension enumeration. */
   enum { ImageDimension = TInputImage::ImageDimension };
 
-  /**
-   * Inherit some types from superclass
-   */
+  /** Inherit some types from superclass. */
   typedef typename Superclass::InputImageType  InputImageType;
   typedef typename Superclass::OutputImageType OutputImageType;
   typedef typename OutputImageType::PixelType  OutputPixelType;
 
-  /**
-   * Typedef support for the interpolation function
-   */
+  /** Typedef support for the interpolation function. */
   typedef InterpolateImageFunction<InputImageType> 
     InterpolatorType;
   typedef typename InterpolatorType::Pointer InterpolatorPointer;
   typedef LinearInterpolateImageFunction<InputImageType> 
     DefaultInterpolatorType;
 
-  /**
-   * Set the interpolator function.
-   */
+  /** Set the interpolator function. */
   itkSetObjectMacro( Interpolator, InterpolatorType );
 
-  /**
-   * Get a pointer to the interpolator function.
-   */
+  /** Get a pointer to the interpolator function. */
   itkGetObjectMacro( Interpolator, InterpolatorType );
 
-  /**
-   * Set the expand factors. Values are clamped to 
-   * a minimum value of 1. Default is 1 for all dimensions.
-   */
+  /** Set the expand factors. Values are clamped to 
+   * a minimum value of 1. Default is 1 for all dimensions. */
   virtual void SetExpandFactors( const unsigned int factors[] );
   virtual void SetExpandFactors( const unsigned int factor );
 
-  /** 
-   * Get the expand factors.
-   */
+  /** Get the expand factors. */
   virtual const unsigned int * GetExpandFactors() const
     { return m_ExpandFactors; }
 
-  /**
-   * Set the edge padding value. The default is zero.
-   */
+  /** Set the edge padding value. The default is zero. */
   itkSetMacro( EdgePaddingValue, OutputPixelType );
 
-  /**
-   * Get the edge padding value
-   */
+  /** Get the edge padding value */
   itkGetMacro( EdgePaddingValue, OutputPixelType );
 
-  /**
-   * ExpandImageFilter produces an image which is a different resolution and
+  /** ExpandImageFilter produces an image which is a different resolution and
    * with a different pixel spacing than its input image.  As such,
    * ExpandImageFilter needs to provide an implementation for
    * UpdateOutputInformation() in order to inform the pipeline execution model.
    * The original documentation of this method is below.
-   *
-   * \sa ProcessObject::GenerateOutputInformaton()
-   */
+   * \sa ProcessObject::GenerateOutputInformaton() */
   virtual void GenerateOutputInformation();
 
-  /**
-   * ExpandImageFilter needs a smaller input requested region than the output
+  /** ExpandImageFilter needs a smaller input requested region than the output
    * requested region.  As such, ShrinkImageFilter needs to provide an 
    * implementation for GenerateInputRequestedRegion() in order to inform 
    * the pipeline execution model.  
-   *
-   * \sa ProcessObject::GenerateInputRequestedRegion()
-   */
+   * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();
 
 protected:
-
   ExpandImageFilter();
-  ~ExpandImageFilter() {};
+  ~ExpandImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * ExpandImageFilter is implemented as a multithreaded filter.  Therefore,
+  /** ExpandImageFilter is implemented as a multithreaded filter.  Therefore,
    * this implementation provides a ThreadedGenerateData() routine which
    * is called for each processing thread. The output image data is allocated
    * automatically by the superclass prior to calling ThreadedGenerateData().
@@ -222,18 +179,14 @@ protected:
    * specified by the parameter "outputRegionForThread"
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData()
-   */
+   *     ImageToImageFilter::GenerateData() */
   virtual
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
   
-  /**
-   * This method is used to set the state of the filter before 
-   * multi-threading.
-   */
+  /** This method is used to set the state of the filter before 
+   * multi-threading. */
   virtual void BeforeThreadedGenerateData();
-
 
 private:
   ExpandImageFilter(const Self&); //purposely not implemented

@@ -65,7 +65,6 @@ namespace itk
  *
  * \ingroup IntensityImageFilters  Multithreaded
  */
-
 namespace Functor {  
   
   template< class TInput, class TOutput>
@@ -76,18 +75,11 @@ namespace Functor {
     ~Cos() {};
     inline TOutput operator()( const TInput & A )
     {
-      return static_cast<TOutput>(
-                     cos(
-                        static_cast<double>(A)
-                        ) 
-                  );
+      return static_cast<TOutput>(cos( static_cast<double>(A)) );
     }
   }; 
 
 }
-// Wrap: CosImageFilter<$Image,$Image,$Image,$Function>
-// Wrap: <XML code for Function....>
-// Wrap: CosImageFilter<Image<$BasicPixel,$BasicDimension>,$Image,$Image,$Function>
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT CosImageFilter :
     public
@@ -95,34 +87,17 @@ class ITK_EXPORT CosImageFilter :
     Functor::Cos< 
               typename TInputImage::PixelType, 
               typename TOutputImage::PixelType>   >
-
-
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef CosImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::Cos< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   
-                >  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
+    Functor::Cos< typename TInputImage::PixelType, 
+                  typename TOutputImage::PixelType> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
 protected:
@@ -132,7 +107,6 @@ protected:
 private:
   CosImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
 
 };
 

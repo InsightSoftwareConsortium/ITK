@@ -70,52 +70,33 @@ template <
 class CellBoundary: public TCell
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef CellBoundary  Self;
-  
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef TCell  Superclass;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-  
-  /**
-   * The type of the cell that is wrapped with the additional boundary
-   * functionality.
-   */
-  typedef TCell  Cell;
-  
-  /**
-   * The type of container to store the cells using this boundary.
-   */
-  typedef typename Cell::UsingCellsContainer      UsingCellsContainer;
-  
-  /**
-   * An iterator through the UsingCellsContainer.
-   */
-  typedef typename UsingCellsContainer::iterator  UsingCellsContainerIterator;
-  
-  /**
-   * The type stored in the UsingCellsContainer.  This should always be
-   * the Cell's CellIdentifier type.
-   */
-  typedef typename Cell::CellIdentifier           CellIdentifier;
-  
-  /**
-   * Method for creation through the object factory.
-   */
+    
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Define the interface to the boundary information.
-   */
+  /** Standard part of Object class.  Used for debugging output. */
+  itkTypeMacro(CellBoundary, Cell);
+  
+  /** The type of the cell that is wrapped with the additional boundary
+   * functionality. */
+  typedef TCell  Cell;
+  
+  /** The type of container to store the cells using this boundary. */
+  typedef typename Cell::UsingCellsContainer      UsingCellsContainer;
+  
+  /** An iterator through the UsingCellsContainer. */
+  typedef typename UsingCellsContainer::iterator  UsingCellsContainerIterator;
+  
+  /** The type stored in the UsingCellsContainer.  This should always be
+   * the Cell's CellIdentifier type. */
+  typedef typename Cell::CellIdentifier           CellIdentifier;
+  
+  /** Define the interface to the boundary information. */
   virtual bool IsBoundary(void);
   virtual void AddUsingCell(CellIdentifier cellId);
   virtual void RemoveUsingCell(CellIdentifier cellId);
@@ -123,16 +104,9 @@ public:
   virtual int GetNumberOfUsingCells(void);
   virtual UsingCellsContainerIterator UsingCellsBegin(void);
   virtual UsingCellsContainerIterator UsingCellsEnd(void);
-  
-  /**
-   * Standard part of Object class.  Used for debugging output.
-   */
-  itkTypeMacro(CellBoundary, Cell);
-  
+    
 protected:
-  /**
-   * Store the set of cells using this boundary.
-   */
+  /** Store the set of cells using this boundary. */
   UsingCellsContainer m_UsingCells;
 };
 

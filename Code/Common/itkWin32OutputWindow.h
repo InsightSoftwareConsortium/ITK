@@ -65,36 +65,20 @@ namespace itk
 class ITK_EXPORT Win32OutputWindow : public OutputWindow
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef Win32OutputWindow   Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef OutputWindow  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(Win32OutputWindow, OutputWindow);
 
-  /** 
-   * Put the text into the display window.
-   * Each new line is converted to a carriage return, new line.
-   */ 
+  /** Put the text into the display window.
+   * Each new line is converted to a carriage return, new line. */ 
   virtual void DisplayText(const char*);
 
   static LRESULT APIENTRY WndProc(HWND hWnd, UINT message, 
@@ -113,7 +97,6 @@ private:
   
   static HWND m_OutputWindow;
 };
- 
   
 } // end namespace itk
 #endif  //  __itkWin32OutputWindow_h

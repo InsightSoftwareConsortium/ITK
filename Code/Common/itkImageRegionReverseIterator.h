@@ -89,107 +89,72 @@ namespace itk
  *
  *  \endcode
  *
- *
  * \ingroup ImageIterators
- *
- *
- * */
+ */
 template<typename TImage>
 class ImageRegionReverseIterator : public ImageReverseIterator<TImage>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ImageRegionReverseIterator Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageReverseIterator<TImage>  Superclass;
-
-  /**
-   * Dimension of the image the iterator walks.  This enum is needed so that
+  
+  /** Dimension of the image the iterator walks.  This enum is needed so that
    * functions that are templated over image iterator type (as opposed to
    * being templated over pixel type and dimension) can have compile time
-   * access to the dimension of the image that the iterator walks.
-   */
+   * access to the dimension of the image that the iterator walks. */
   enum { ImageIteratorDimension = Superclass::ImageIteratorDimension };
 
-  /** 
-   * Index typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   */
+  /** Index typedef support. While this was already typdef'ed in the superclass
+   * it needs to be redone here for this subclass to compile properly with gcc. */
   typedef typename Superclass::IndexType IndexType;
   typedef typename Superclass::IndexValueType IndexValueType;
-
-  /** 
-   * Size typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   */
+  
+  /** Size typedef support. While this was already typdef'ed in the superclass
+   * it needs to be redone here for this subclass to compile properly with gcc. */
   typedef typename Superclass::SizeType SizeType;
   typedef typename Superclass::SizeValueType SizeValueType;
-
-  /** 
-   * Offset typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   */
+  
+  /** Offset typedef support. While this was already typdef'ed in the superclass
+   * it needs to be redone here for this subclass to compile properly with gcc. */
   typedef typename Superclass::OffsetType OffsetType;
   typedef typename Superclass::OffsetValueType OffsetValueType;
-
-  /** 
-   * Region typedef support.
-   */
+  
+  /** Region typedef support. */
   typedef typename Superclass::RegionType   RegionType;
 
-  /**
-   * Image typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   */
+  /** Image typedef support. While this was already typdef'ed in the superclass
+   * it needs to be redone here for this subclass to compile properly with gcc. */
   typedef typename Superclass::ImageType ImageType;
 
-  /** 
-   * PixelContainer typedef support. Used to refer to the container for
+  /** PixelContainer typedef support. Used to refer to the container for
    * the pixel data. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   */
+   * it needs to be redone here for this subclass to compile properly with gcc. */
   typedef typename Superclass::PixelContainer PixelContainer;
   typedef typename PixelContainer::Pointer PixelContainerPointer;
-
-  /**
-   * Internal Pixel Type
-   */
+  
+  /** Internal Pixel Type */
   typedef typename Superclass::InternalPixelType   InternalPixelType;
 
-  /**
-   * External Pixel Type
-   */
+  /** External Pixel Type */
   typedef typename Superclass::PixelType   PixelType;
 
-  /** 
-   *  Accessor type that convert data between internal and external
-   *  representations.
-   */
+  /**  Accessor type that convert data between internal and external
+   *  representations. */
   typedef typename Superclass::AccessorType     AccessorType;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(ImageRegionReverseIterator, ImageIterator);
 
-  /**
-   * Default constructor. Needed since we provide a cast constructor.
-   */
+  /** Default constructor. Needed since we provide a cast constructor. */
   ImageRegionReverseIterator() : ImageReverseIterator<TImage>()
   {
     m_SpanBeginOffset = 0;
     m_SpanEndOffset = 0;
   }
   
-  /**
-   * Constructor establishes an iterator to walk a particular image and a
-   * particular region of that image.
-   */
+  /** Constructor establishes an iterator to walk a particular image and a
+   * particular region of that image. */
   ImageRegionReverseIterator(ImageType *ptr,
                       const RegionType &region)
     : ImageReverseIterator<TImage>(ptr, region)
@@ -198,15 +163,13 @@ public:
     m_SpanEndOffset = m_BeginOffset - static_cast<long>(m_Region.GetSize()[0]);
   }
 
-  /**
-   * Constructor that can be used to cast from an ImageIterator to an
+  /** Constructor that can be used to cast from an ImageIterator to an
    * ImageRegionReverseIterator. Many routines return an ImageIterator
    * but for a particular task, you may want an
    * ImageRegionReverseIterator.  Rather than provide overloaded APIs
    * that return different types of Iterators, itk returns
    * ImageIterators and uses constructors to cast from an
-   * ImageIterator to a ImageRegionReverseIterator.
-   */
+   * ImageIterator to a ImageRegionReverseIterator. */
   ImageRegionReverseIterator( const ImageIterator<TImage> &it)
   {
     this->ImageReverseIterator<TImage>::operator=(it);
@@ -217,10 +180,8 @@ public:
     m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(m_Region.GetSize()[0]);
   }
 
-  /**
-   * Constructor that takes in a reverse image iterator.  This can be used
-   * to cast between the various types of reverse image iterators.
-   */
+  /** Constructor that takes in a reverse image iterator.  This can be used
+   * to cast between the various types of reverse image iterators. */
   ImageRegionReverseIterator( const ImageReverseIterator<TImage> &it)
   {
     this->ImageReverseIterator<TImage>::operator=(it);
@@ -232,11 +193,9 @@ public:
   }
 
   
-  /**
-   * Set the index. No bounds checking is performed. This is overridden
+  /** Set the index. No bounds checking is performed. This is overridden
    * from the parent because we have an extra ivar.
-   * \sa GetIndex
-   */
+   * \sa GetIndex */
   void SetIndex(const IndexType &ind)
   { Superclass::SetIndex(ind);
     m_SpanBeginOffset = m_Offset + static_cast<long>(m_Region.GetSize()[0]) 
@@ -244,17 +203,14 @@ public:
     m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(m_Region.GetSize()[0]);
   }
   
-  /**
-   * Increment (prefix) the fastest moving dimension of the
-   * iterator's index.  For a reverse iterator, this moves backwards
+  /** iterator's index.  For a reverse iterator, this moves backwards
    * through the region.  This operator will constrain the iterator
    * within the region (i.e. the iterator will automatically wrap from
    * the start of the row of the region to the end of the previous row
    * of the region) up until the iterator tries to moves before the
    * first pixel of the region.  Here, the iterator will be set to be
    * one pixel before the start of the region.
-   * \sa operator++(int)
-   */
+   * \sa operator++(int). */
   Self &
   operator++()
   {
@@ -306,16 +262,14 @@ public:
     return *this;
   }
 
-  /**
-   * Decrement (prefix) the fastest moving dimension of the iterator's index.
+  /** Decrement (prefix) the fastest moving dimension of the iterator's index.
    * For a reverse iterator, this moves forward through the region.
    * This operator will constrain the iterator within the region (i.e. the
    * iterator will automatically wrap from the end of the row of the region
    * to the start of the next row of the region) up until the iterator
    * tries to moves past the last pixel of the region.  Here, the iterator
    * will be set to be one pixel past the end of the region.
-   * \sa operator--(int)gg
-   */
+   * \sa operator--(int) */
   Self & operator--()
   {
     if (++m_Offset >= m_SpanBeginOffset)

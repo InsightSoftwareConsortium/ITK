@@ -72,71 +72,50 @@ template <
 class LineCell: public CellInterface< TPixelType , TCellTraits >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef LineCell            Self;
-  
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef CellInterface<TPixelType,TCellTraits>  Superclass;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+  
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+  
+  /** Standard part of every itk Object. */
+  itkTypeMacro(LineCell, CellInterface);
 
-  /**
-   * Save the PixelType template parameter.
-   */
+  /** Save the PixelType template parameter. */
   typedef TPixelType                                PixelType;
   
-  /**
-   * Save the CellTraits template parameter.
-   */
+  /** Save the CellTraits template parameter. */
   typedef TCellTraits                                 CellTraits;
 
-  /**
-   * Pick-up typedefs from superclass
-   */
+  /** Pick-up typedefs from superclass */
   typedef typename CellTraits::CellFeatureIdentifier  CellFeatureIdentifier;
   typedef CellFeatureIdentifier  CellFeatureCount;
   typedef typename CellInterface<TPixelType,TCellTraits>::PointIdIterator 
                    PointIdIterator;
   typedef typename CellInterface<TPixelType,TCellTraits>::PointIdConstIterator
                    PointIdConstIterator;
-
-  /**
-   * Save some template parameter information.
-   */
+  
+  /** Save some template parameter information. */
   typedef typename CellTraits::CoordRepType         CoordRepType;
   typedef typename CellTraits::PointIdentifier  PointIdentifier;
-  enum { PointDimension = CellTraits::PointDimension };
   typedef typename CellInterface<TPixelType,TCellTraits>::Pointer CellPointer;
-  
-  /**
-   * The type of boundary for this lines's vertices.
-   */
+    
+  /** Save some template parameter information. */
+  enum { PointDimension = CellTraits::PointDimension };
+
+  /** The type of boundary for this lines's vertices. */
   typedef VertexBoundary< TPixelType , TCellTraits >  Vertex;
   typedef typename Vertex::Pointer VertexPointer;
-  
-  /** 
-   * Line-specific topology numbers.
-   */
+    
+  /** Line-specific topology numbers. */
   enum { NumberOfPoints   = 2,
          NumberOfVertices = 2,
          CellDimension    = 1 };
   
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-  
-  /**
-   * Implement the standard CellInterface.
-   */
+  /** Implement the standard CellInterface. */
   virtual typename Superclass::CellType GetType(void) const 
   {return Superclass::LINE_CELL;}
   virtual CellPointer MakeCopy(void);
@@ -152,27 +131,16 @@ public:
   virtual PointIdConstIterator PointIdsBegin(void) const;
   virtual PointIdIterator      PointIdsEnd(void);
   virtual PointIdConstIterator PointIdsEnd(void) const; 
-
-  /**
-   * Line-specific interface.
-   */
+  
+  /** Line-specific interface. */
   virtual CellFeatureCount GetNumberOfVertices(void) const;
   virtual VertexPointer GetVertex(CellFeatureIdentifier);
-
-  /**
-   * Standard part of every itk Object.
-   */
-  itkTypeMacro(LineCell, CellInterface);
-
-  /**
-   * Visitor interface
-   */
+  
+  /** Visitor interface */
   itkCellVisitMacro(LINE_CELL);
 
 protected:
-  /**
-   * Store number of points needed for a line segment.
-   */
+  /** Store number of points needed for a line segment. */
   PointIdentifier m_PointIds[NumberOfPoints];
 };
 
@@ -181,31 +149,20 @@ protected:
  * Create a boundary-wrapped version of the LineCell.
  *
  * \ingroup MeshObjects
- *
  */
 template <typename TPixelType, typename TCellTraits>
 class LineBoundary:
   public CellBoundary< LineCell< TPixelType , TCellTraits > >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef LineBoundary        Self;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
-  
-  /**
-   * Method for creation through the object factory.
-   */
+    
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /**
-   * Standard part of every itk Object.
-   */
+  /** Standard part of every itk Object. */
   itkTypeMacro(LineBoundary, CellBoundary);
 };
 

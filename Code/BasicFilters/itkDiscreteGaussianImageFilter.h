@@ -71,112 +71,87 @@ class ITK_EXPORT DiscreteGaussianImageFilter :
     public ImageToImageFilter< TInputImage, TOutputImage > 
 {
 public:
-  /**
-   * Standard "Self" & superclass typedef.
-   */
+  /** Standard class typedefs. */
   typedef DiscreteGaussianImageFilter Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Image type information
-   */
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(DiscreteGaussianImageFilter, ImageToImageFilter);
+  
+  /** Image type information. */
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
 
-  /**
-   * Extract some information from the image types.  Dimensionality
-   * of the two images is assumed to be the same.
-   */
+  /** Extract some information from the image types.  Dimensionality
+   * of the two images is assumed to be the same. */
   typedef typename TOutputImage::PixelType OutputPixelType;
   typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
   typedef typename TInputImage::PixelType InputPixelType;
   typedef typename TInputImage::InternalPixelType InputInternalPixelType;
+
+  /** Extract some information from the image types.  Dimensionality
+   * of the two images is assumed to be the same. */
   enum { ImageDimension = TOutputImage::ImageDimension };
   
-  /** 
-   * Smart pointer typedef support 
-   */
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
-  /**
-   * Run-time type information (and related methods)
-   */
-  itkTypeMacro(DiscreteGaussianImageFilter, ImageToImageFilter);
-  
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-
-  /**
-   * Standard get/set macros for filter parameters.
-   */
+  /** Standard get/set macros for filter parameters. */
   itkSetVectorMacro(Variance, float, ImageDimension);
   itkGetVectorMacro(Variance, const float, ImageDimension);
   itkSetVectorMacro(MaximumError, float, ImageDimension);
   itkGetVectorMacro(MaximumError, const float, ImageDimension);
 
-  /**
-   * Convenience get/set methods for setting all dimensional parameters to the
-   * same values.
-   */
+  /** Convenience get/set methods for setting all dimensional parameters to the
+   * same values.  */
   void SetVariance(const float v)
-  {
+    {
     float vArray[ImageDimension];
     for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
     this->SetVariance(vArray);
-  }
+    }
   void SetMaximumError(const float v)
-  {
+    {
     float vArray[ImageDimension];
     for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
     this->SetMaximumError(vArray);
-  }
+    }
   
-  /**
-   * DiscreteGaussianImageFilter needs a larger input requested region
+  /** DiscreteGaussianImageFilter needs a larger input requested region
    * than the output requested region (larger by the size of the
    * Gaussian kernel).  As such, DiscreteGaussianImageFilter needs to
    * provide an implementation for GenerateInputRequestedRegion() in
    * order to inform the pipeline execution model.
-   *
-   * \sa ImageToImageFilter::GenerateInputRequestedRegion()
-   */
+   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
-
 
 protected:
   DiscreteGaussianImageFilter()
-  {
+    {
     this->SetVariance(0.0f);
     this->SetMaximumError(0.01f);
-  }
+    }
   virtual ~DiscreteGaussianImageFilter() {}
 
-  /**
-   * Standard pipeline method. While this class does not implement a
+  /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all
    * calculations to an NeighborhoodOperatorImageFilter.  Since the
    * NeighborhoodOperatorImageFilter is multithreaded, this filter is
-   * multithreaded by default.
-   */
+   * multithreaded by default. */
   void GenerateData();
 
 private:
   DiscreteGaussianImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /**
-   * The variance of the gaussian blurring kernel in each dimensional direction.
-   */
+  /** The variance of the gaussian blurring kernel in each dimensional direction. */
   float m_Variance[ImageDimension];
 
-  /**
-   * The maximum error of the gaussian blurring kernel in each dimensional
+  /** The maximum error of the gaussian blurring kernel in each dimensional
    * direction. For definition of maximum error, see GaussianOperator.
-   * \sa GaussianOperator
-   */
+   * \sa GaussianOperator */
   float m_MaximumError[ImageDimension];  
 };
   

@@ -61,7 +61,7 @@ class ITK_EXPORT VTKImageWriter : public ImageWriter<TInputImage>
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef VTKImageWriter       Self;
 

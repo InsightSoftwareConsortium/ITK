@@ -46,8 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class InteriorExteriorSpatialFunction
+/** \class InteriorExteriorSpatialFunction
  * \brief Returns whether or not a location is "inside" or "outside" a function
  *
  * InteriorExteriorSpatialFunction is a specialized version of SpatialFunction
@@ -67,56 +66,35 @@ namespace itk
  * itk::SpatialFunctionImageEvaluatorFilter or itk::FloodFilledSpatialFunctionConditionalIterator
  *
  * \ingroup SpatialFunctions
- * */
+ */
 
 template <unsigned int VImageDimension=3,typename TInput=Point<double,3> >
 class ITK_EXPORT InteriorExteriorSpatialFunction : public
   SpatialFunction<bool, VImageDimension,TInput >
 {
-  public:
-
-  /**
-   * Standard "Self" typedef.
-   */
+public:
+  /** Standard class typedefs. */
   typedef InteriorExteriorSpatialFunction Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef SpatialFunction<bool, VImageDimension,TInput> Superclass;
-
-  /**
-   * Input type for the function
-   */
-  typedef typename Superclass::InputType InputType;
-
-  /**
-   * Output type for the function
-   */
-  typedef typename Superclass::OutputType OutputType;
-  
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(InteriorExteriorSpatialFunction, SpatialFunction);
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-  * Evaluate the function at a given position.
+  /** Input type for the function */
+  typedef typename Superclass::InputType InputType;
+
+  /** Output type for the function */
+  typedef typename Superclass::OutputType OutputType;
+  
+ /** Evaluate the function at a given position.
   * A return of 1 means inside or on the surface of the function,
   * 0 means outside the function
-  * The actual definition of inside/outside is left up to the subclass
-  */
+  * The actual definition of inside/outside is left up to the subclass */
   virtual OutputType Evaluate( const InputType& input ) const = 0;
 
 protected:

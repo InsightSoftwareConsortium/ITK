@@ -106,13 +106,12 @@ template <class TPixel, unsigned int VImageDimension=2,
 class ITK_EXPORT Image : public ImageBase<VImageDimension>
 {
 public:
-  /*@{ Standard class typedefs */
+  /** Standard class typedefs */
   typedef Image               Self;
   typedef ImageBase<VImageDimension>  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-  //@}
-
+  
   /** Pixel typedef support. Used to declare pixel type in filters
    * or other operations. */
   typedef TPixel PixelType;
@@ -136,25 +135,23 @@ public:
   /** The ImageTraits for this image. */
   typedef TImageTraits ImageTraits;
 
-  /*@{ Convenient typedefs obtained from TImageTraits template parameter. */
+  /** Convenient typedefs obtained from TImageTraits template parameter. */
   typedef typename ImageTraits::PixelContainer PixelContainer;
   typedef typename ImageTraits::SizeType SizeType;
   typedef typename ImageTraits::IndexType IndexType;
   typedef typename ImageTraits::OffsetType OffsetType;
   typedef typename ImageTraits::RegionType RegionType;
-  //@}
-
+  
   /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;
 
-  /*@( Typedefs for the associated AffineTransform.* This is used
+  /** Typedefs for the associated AffineTransform.* This is used
    * specifically as the type of the index-to-physical and physical-to-index
    * transforms associated with the origin and spacing for the image, and
    * more generally as any affine transformation of the image. */
   typedef AffineTransform<double, ImageDimension> AffineTransformType;
   typedef typename AffineTransformType::Pointer   AffineTransformPointer;
-  //@}
-
+  
   /** Definition of the point type used for setting the origin */
   typedef typename AffineTransformType::OffsetType OriginOffsetType;
 
@@ -172,17 +169,17 @@ public:
    * memory. */
   virtual void Initialize();
 
-  /** Set a pixel value.
+  /** \brief Set a pixel value.
    * 
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
   void SetPixel(const IndexType &index, const TPixel& value)
-  {
+    {
     OffsetValueType offset = this->ComputeOffset(index);
     (*m_Buffer)[offset] = value;
-  }
+    }
   
-  /** Get a pixel (read only version).
+  /** \brief Get a pixel (read only version).
    * 
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
@@ -192,7 +189,7 @@ public:
     return ( (*m_Buffer)[offset] );
   }
 
-  /** Get a reference to a pixel (e.g. for editing).
+  /** \brief Get a reference to a pixel (e.g. for editing).
    * 
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
@@ -202,28 +199,27 @@ public:
     return ( (*m_Buffer)[offset] );
   }
     
-  /** Access a pixel. This version can be an lvalue.
+  /** \brief Access a pixel. This version can be an lvalue.
    * 
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
   TPixel & operator[](const IndexType &index)
      { return this->GetPixel(index); }
   
-  /** Access a pixel. This version can only be an rvalue.
+  /** \brief Access a pixel. This version can only be an rvalue.
    * 
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
   const TPixel& operator[](const IndexType &index) const
      { return this->GetPixel(index); }
 
-  /*@{ Return a pointer to the beginning of the buffer.  This is used by
+  /** Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class. */
   TPixel *GetBufferPointer()
     { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; }
   const TPixel *GetBufferPointer() const
     { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; }
-  //@}
-
+  
   /** Return a pointer to the container. */
   PixelContainerPointer GetPixelContainer()
     { return m_Buffer; }
@@ -240,30 +236,28 @@ public:
   const AccessorType & GetPixelAccessor( void ) const
     { return m_PixelAccessor; }
     
-  /*@{ Set the spacing (size of a pixel) of the image. The
+  /** Set the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples.
    * It is stored internally as double, but may be set from
    * float.
    * \sa GetSpacing() */
   virtual void SetSpacing( const double values[ImageDimension] );
   virtual void SetSpacing( const float values[ImageDimension] );
-  //@}
-
+  
   /** Get the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples.
    * The value returned is a pointer to a double array.
    * \sa SetSpacing() */
   virtual const double* GetSpacing() const;
   
-  /*@{ Set the origin of the image. The origin is the geometric
+  /** Set the origin of the image. The origin is the geometric
    * coordinates of the image origin.  It is stored internally
    * as double but may be set from float.
    * \sa GetOrigin() */
   virtual void SetOrigin( const double values[ImageDimension] );
   virtual void SetOrigin( const float values[ImageDimension] );
   virtual void SetOrigin( const OriginOffsetType & origin );
-  //@}
-
+  
   /** Get the origin of the image. The origin is the geometric
    * coordinates of the index (0,0).  The value returned is
    * a pointer to a double array.
@@ -284,15 +278,14 @@ public:
    * determined by the origin and spacing of this image. */
   AffineTransformPointer GetPhysicalToIndexTransform(void);
 
-  /*@{ Gets and sets for affine transforms. */
+  /** Gets and sets for affine transforms. */
   itkSetMacro(IndexToPhysicalTransform, AffineTransformPointer);
   itkSetMacro(PhysicalToIndexTransform, AffineTransformPointer);
-  //@}
-  
+    
   /** Rebuild affine transforms based on origin and spacing */
   void RebuildTransforms();
 
-  /** Get the continuous index from a physical point
+  /** \brief Get the continuous index from a physical point
    *
    * Since this function internally uses AffineTranform, it is
    * templated over coordinate value type (TCoordRep); using float or
@@ -339,7 +332,7 @@ public:
     point = outputPoint;
     }
 
-  /** Copy information from the specified data set.  
+  /** \brief Copy information from the specified data set.  
    *
    * This method is part of the pipeline execution model. By default,
    * a ProcessObject will copy meta-data from the first input to all

@@ -82,305 +82,165 @@ class ITK_EXPORT KernelTransform : public Transform<TScalarType,
           NDimensions,NDimensions,TParameters,TJacobianType>
 {
 public:
-  /**
-   * Standard Self typedef
-   */
+  /** Standard class typedefs. */
   typedef KernelTransform Self;
-
-
-
-  /// Dimension of the domain space
-  enum { SpaceDimension = NDimensions };
-
-
-  /**
-   * Standard Superclass typedef
-   */
   typedef Transform<TScalarType, NDimensions,
                     NDimensions, TParameters,
                     TJacobianType>              Superclass;
-  
-
-  /**
-   * Scalar Type
-   */
-  typedef typename Superclass::ScalarType  ScalarType;
-
-
-  /**
-   * Parameters Type
-   */
-  typedef typename Superclass::ParametersType  ParametersType;
-
-
-  /**
-   * Jacobian Type
-   */
-  typedef typename Superclass::JacobianType  JacobianType;
-
-
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-
-  /** 
-   * Run-time type information (and related methods).
-   */
+  
+  /** Run-time type information (and related methods). */
   itkTypeMacro( KernelTransform, Transform );
 
-
-  /** 
-   * New macro for creation of through a Smart Pointer
-   */
+  /** New macro for creation of through a Smart Pointer */
   itkNewMacro( Self );
 
+  /** Dimension of the domain space. */
+  enum { SpaceDimension = NDimensions };
 
-  /**
-   * Standard coordinate point type for this class
-   */
+  /** Scalar type. */
+  typedef typename Superclass::ScalarType  ScalarType;
+
+  /** Parameters type. */
+  typedef typename Superclass::ParametersType  ParametersType;
+
+  /** Jacobian type. */
+  typedef typename Superclass::JacobianType  JacobianType;
+
+  /** Standard coordinate point type for this class. */
   typedef typename Superclass::InputPointType   InputPointType;
   typedef typename Superclass::OutputPointType  OutputPointType;
   
-
-  /**
-   * Standard vector type for this class
-   */
+  /** Standard vector type for this class. */
   typedef typename Superclass::InputVectorType   InputVectorType;
   typedef typename Superclass::OutputVectorType  OutputVectorType;
-
-
-  /**
-   * PointList typedef. This type is used for maintaining lists of points,
-   * specifically, the source and target landmark lists.
-   */
+  
+  /** PointList typedef. This type is used for maintaining lists of points,
+   * specifically, the source and target landmark lists. */
   typedef DefaultStaticMeshTraits<TScalarType,
                                   NDimensions,
                                   NDimensions,
                                   TScalarType,
                                   TScalarType> PointSetTraitsType;
-
   typedef PointSet<InputPointType, NDimensions, PointSetTraitsType> PointSetType;
   typedef typename PointSetType::Pointer PointSetPointer;
   typedef typename PointSetType::PointsContainerIterator PointsIterator;
   typedef typename PointSetType::PointsContainerConstIterator PointsConstIterator;
-  
-  /**
-   * VectorSet typedef
-   */
+    
+  /** VectorSet typedef. */
   typedef itk::VectorContainer<unsigned long,InputVectorType> VectorSetType;
   typedef typename VectorSetType::Pointer        VectorSetPointer;
-
-  /**
-   * Get the source landmarks list, which we will denote \f$ p \f$
-   */
+  
+  /** Get the source landmarks list, which we will denote \f$ p \f$. */
   itkGetObjectMacro( SourceLandmarks, PointSetType );
   
-  /**
-   * Set the source landmarks list
-   */
+  /** Set the source landmarks list. */
   itkSetObjectMacro( SourceLandmarks, PointSetType );
   
-  /**
-   * Get the target landmarks list, which we will denote  \f$ q \f$
-   */
+  /** Get the target landmarks list, which we will denote  \f$ q \f$. */
   itkGetObjectMacro( TargetLandmarks, PointSetType );
   
-  /**
-   * Set the target landmarks list
-   */
+  /** Set the target landmarks list. */
   itkSetObjectMacro( TargetLandmarks, PointSetType );
   
-  /**
-   * Get the displacements list, which we will denote \f$ d \f$,
-   * where \f$ d_i = q_i - p_i \f$
-   */
+  /** Get the displacements list, which we will denote \f$ d \f$,
+   * where \f$ d_i = q_i - p_i \f$. */
   itkGetObjectMacro( Displacements, VectorSetType );
   
-  /**
-   * Compute W matrix
-   */
+  /** Compute W matrix. */
   void ComputeWMatrix(void);
   
-  /**
-   * Compute the position of point in the new space
-   */
+  /** Compute the position of point in the new space */
   virtual OutputPointType TransformPoint(const InputPointType& thisPoint) const;
   
-  /**
-   * 'I' (identity) matrix typedef
-   */
+  /** 'I' (identity) matrix typedef. */
   typedef vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> IMatrixType;
 
-
-
 protected:
-
-  /**
-   * Default constructor
-   */
+  /** Default constructor. */
   KernelTransform();
 
-
-  /**
-   * Destructor
-   */
+  /** Destructor. */
   virtual ~KernelTransform();
 
-
-  /**
-   * 'G' matrix typedef
-   */
+  /** 'G' matrix typedef. */
   typedef vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> GMatrixType;
-   
   
-  /**
-   * 'L' matrix typedef
-   */
+  /** 'L' matrix typedef. */
   typedef vnl_matrix<TScalarType> LMatrixType;
-
   
-  /**
-   * 'K' matrix typedef
-   */
+  /** 'K' matrix typedef. */
   typedef vnl_matrix<TScalarType> KMatrixType;
-
   
-  /**
-   * 'P' matrix typedef
-   */
+  /** 'P' matrix typedef. */
   typedef vnl_matrix<TScalarType> PMatrixType;
-
   
-  /**
-   * 'Y' matrix typedef
-   */
+  /** 'Y' matrix typedef. */
   typedef vnl_matrix<TScalarType> YMatrixType;
 
-  
-  /**
-   * 'W' matrix typedef
-   */
+  /** 'W' matrix typedef. */
   typedef vnl_matrix<TScalarType> WMatrixType;
-
   
-  /**
-   * Row matrix typedef
-   */
+  /** Row matrix typedef. */
   typedef vnl_matrix_fixed<TScalarType, 1, NDimensions> RowMatrixType;
-
   
-  /**
-   * Column matrix typedef
-   */
+  /** Column matrix typedef. */
   typedef vnl_matrix_fixed<TScalarType, NDimensions, 1> ColumnMatrixType;
-  
 
-  /**
-   * Compute G(x)
+  /** Compute G(x)
    * This is essentially the kernel of the transform.
    * By overriding this method, we can obtain (among others):
    *    Elastic body spline
    *    Thin plate spline
-   *    Volume spline
-   */
+   *    Volume spline */
   virtual GMatrixType ComputeG(const InputVectorType & landmarkVector) const;
   
-  
-  /**
-   * Compute K matrix
-   */
+  /** Compute K matrix. */
   void ComputeK();
   
-  
-  /**
-   * Compute L matrix
-   */
+  /** Compute L matrix. */
   void ComputeL();
   
-  
-  /**
-   * Compute P matrix
-   */
+  /** Compute P matrix. */
   void ComputeP();
   
-  
-  /**
-   * Compute Y matrix
-   */
+  /** Compute Y matrix. */
   void ComputeY();
   
-  
-  /**
-   * Compute displacements \f$ q_i - p_i \f$
-   */
+  /** Compute displacements \f$ q_i - p_i \f$. */
   void ComputeD();
   
-  
-  /**
-   * The list of source landmarks, denoted 'p'
-   */
+  /** The list of source landmarks, denoted 'p'. */
   PointSetPointer m_SourceLandmarks;
   
-  
-  /**
-   * The list of target landmarks, denoted 'q'
-   */
+  /** The list of target landmarks, denoted 'q'. */
   PointSetPointer m_TargetLandmarks;
-
   
-  /**
-   * The list of displacements.
-   * d[i] = q[i] - p[i];
-   */
+  /** The list of displacements.
+   * d[i] = q[i] - p[i]; */
   VectorSetPointer m_Displacements;
 
-
-  /**
-   * The L matrix
-   */
+  /** The L matrix. */
   LMatrixType m_LMatrix;
 
-
-  /**
-   * The K matrix
-   */
+  /** The K matrix. */
   KMatrixType m_KMatrix;
-  
 
-  /**
-   * The P matrix
-   */
+  /** The P matrix. */
   PMatrixType m_PMatrix;
-  
 
-  /**
-   * The Y matrix
-   */
+  /** The Y matrix. */
   YMatrixType m_YMatrix;
-
   
-  /**
-   * The W matrix
-   */
+  /** The W matrix. */
   WMatrixType m_WMatrix;
-  
 
-  /**
-   * Has the W matrix been computed?
-   */
+  /** Has the W matrix been computed? */
   bool m_WMatrixComputed;
-  
 
-  /**
-   * Identity matrix
-   */
+  /** Identity matrix. */
   IMatrixType m_I;
-
-
 };
 
 } // end namespace itk

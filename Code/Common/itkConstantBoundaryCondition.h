@@ -81,44 +81,43 @@ class ConstantBoundaryCondition
   : public ImageBoundaryCondition<TImage>
 {
 public:
-  /**
-   * Self & superclass typedefs
-   */ 
+  /** Self & superclass typedefs */ 
   typedef ConstantBoundaryCondition Self;
   typedef ImageBoundaryCondition<TImage> Superclass;
-
-  /**
-   * Extract information from the image type
-   */
+  
+  /** Extract information from the image type */
   typedef typename Superclass::PixelType PixelType;
   typedef typename Superclass::PixelPointerType PixelPointerType;
-  enum { ImageDimension = Superclass::ImageDimension };
   typedef typename Superclass::IndexType IndexType;
   typedef typename Superclass::OffsetType OffsetType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  
-  /**
-   * Default constructor.
-   */
-  ConstantBoundaryCondition()
-  { m_Constant = NumericTraits<PixelType>::Zero; }
+    
+  /** Save the image dimension. */
+  enum { ImageDimension = Superclass::ImageDimension };
 
-  /**
-   * Computes and returns appropriate out-of-bounds values from
-   * neighborhood iterator data.
-   */
+  /** Default constructor. */
+  ConstantBoundaryCondition()
+    { m_Constant = NumericTraits<PixelType>::Zero; }
+
+  /** Computes and returns appropriate out-of-bounds values from
+   * neighborhood iterator data. */
   virtual PixelType operator()(const OffsetType& point_index,
                                const OffsetType& boundary_offset,
                                const NeighborhoodType *data) const
-  { return m_Constant; }
+    { return m_Constant; }
 
+  /** Set the value of the constant. */
   void SetConstant(const PixelType &c)
-  {  m_Constant = c; }
+    {  m_Constant = c; }
 
+  /** Get the value of the constant. */
   const PixelType &GetConstant() const
-  {  return m_Constant;  }
+    {  return m_Constant;  }
   
 private:
+  ConstantBoundaryCondition(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   PixelType m_Constant;
 };
 

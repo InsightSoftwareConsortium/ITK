@@ -56,7 +56,6 @@ namespace itk
  * The filter expect both images to have the same number of dimensions.
  *
  * \ingroup IntensityImageFilters  Multithreaded
- *
  */
 namespace Functor {  
   
@@ -71,9 +70,7 @@ namespace Functor {
       return static_cast<TOutput>( A );
     }
   };
-
 }
-
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT CastImageFilter :
@@ -84,29 +81,17 @@ class ITK_EXPORT CastImageFilter :
               typename TOutputImage::PixelType> >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef CastImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
     Functor::Cast< 
               typename TInputImage::PixelType, 
               typename TOutputImage::PixelType>   
                 >  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
 protected:

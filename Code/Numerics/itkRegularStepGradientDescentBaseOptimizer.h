@@ -50,84 +50,45 @@ namespace itk
  * \brief Implement a gradient descent optimizer
  *
  * \ingroup Numerics Optimizers
- *
  */
-
-  
 template <class TCostFunction>
 class ITK_EXPORT RegularStepGradientDescentBaseOptimizer : 
         public SingleValuedNonLinearOptimizer< TCostFunction >
-
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard "Self" typedef. */
   typedef RegularStepGradientDescentBaseOptimizer  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef SingleValuedNonLinearOptimizer<TCostFunction> Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-
-  /**
-   * Cost Function  typedef.
-   */
-  typedef          TCostFunction                CostFunctionType;
-  typedef typename CostFunctionType::Pointer    CostFunctionPointer;
-
-  /**
-   * Dimension of the Search Space
-   */
-  enum { SpaceDimension = TCostFunction::SpaceDimension };
- 
-
-  /**
-   *  Parameters type.
-   *  it defines a position in the optimization search space
-   */
-  typedef typename TCostFunction::ParametersType ParametersType;
-
-
-  /**
-   *  Measure type.
-   *  it defines a type used to return the cost function value 
-   */
-  typedef typename TCostFunction::MeasureType MeasureType;
-
-
-  /**
-   *  Derivative type.
-   *  it defines a type used to return the cost function derivative 
-   */
-  typedef typename TCostFunction::DerivativeType DerivativeType;
-
-
-
- /** 
-   * Run-time type information (and related methods).
-   */
+  
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+  
+  /** Run-time type information (and related methods). */
   itkTypeMacro( RegularStepGradientDescentBaseOptimizer, 
       SingleValuedNonLinearOptimizer );
 
-
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
+  /** Cost function typedefs. */
+  typedef          TCostFunction                CostFunctionType;
+  typedef typename CostFunctionType::Pointer    CostFunctionPointer;
   
+  /** Dimension of the search space. */
+  enum { SpaceDimension = TCostFunction::SpaceDimension };
 
+  /**  Parameters type.
+   *  It defines a position in the optimization search space. */
+  typedef typename TCostFunction::ParametersType ParametersType;
 
-  /**
-   * Codes of stopping conditions
-   */
+  /**  Measure type.
+   * It defines a type used to return the cost function value. */
+  typedef typename TCostFunction::MeasureType MeasureType;
+
+  /**  Derivative type.
+   * It defines a type used to return the cost function derivative. */
+  typedef typename TCostFunction::DerivativeType DerivativeType;
+
+  /** Codes of stopping conditions. */
   typedef enum {
     GradientMagnitudeTolerance=1,
     StepTooSmall,
@@ -136,53 +97,38 @@ public:
     MaximumNumberOfIterations
   } StopConditionType;
 
-  /**
-   * Select to Minimize the cost function
-   */
+  /** Specify whether to minimize or maximize the cost function. */
   itkSetMacro( Maximize, bool );
   itkGetMacro( Maximize, bool );
-
+  itkBooleanMacro( Maximize );
+  bool GetMinimize( ) const
+    { return !m_Maximize; }
+  void SetMinimize(bool v)
+    { this->SetMaximize(!v); }
   void    MinimizeOn(void) 
-              { SetMaximize( false ); }
-
+    { SetMaximize( false ); }
   void    MinimizeOff(void) 
-              { SetMaximize( true ); }
-
-  /**
-   * Select to Maximize the cost function
-   */
-  void    MaximizeOn(void)
-              { SetMaximize( true ); }
-
-  void    MaximizeOff(void)
-              { SetMaximize( false ); }
-  /**
-   * Test a precondition
-   */
+    { SetMaximize( true ); }
+  
+  /** Test a precondition. */
   bool    Precondition( void );
 
-  /**
-   * Start Optimization
-   */
+  /** Start optimization. */
   void    StartOptimization( void );
 
-  /**
-   * Resume previously stopped optimization with current parameters
-   * \sa StopOptimization
-   */
+  /** Resume previously stopped optimization with current parameters.
+   * \sa StopOptimization */
   void    ResumeOptimization( void );
 
-  /**
-   * Stop optimization
-   * \sa ResumeOptimization
-   */
+  /** Stop optimization.
+   * \sa ResumeOptimization */
   void    StopOptimization( void );
 
+  /** Set/Get parameters to control the optimization process. */
   itkSetMacro( MaximumStepLength, double );
   itkSetMacro( MinimumStepLength, double );
   itkSetMacro( NumberOfIterations, unsigned long );
   itkSetMacro( GradientMagnitudeTolerance, double );
-
   itkGetConstMacro( CurrentStepLength, double);
   itkGetConstMacro( MaximumStepLength, double );
   itkGetConstMacro( MinimumStepLength, double );
@@ -191,40 +137,35 @@ public:
   itkGetConstMacro( CurrentIteration, unsigned int );
   itkGetConstMacro( StopCondition, StopConditionType );
   itkGetConstMacro( Value, MeasureType );
-
+  
+  /** Set/Get the cost function to optimize over. */
   itkSetObjectMacro( CostFunction, CostFunctionType );
-
+  itkGetObjectMacro( CostFunction, CostFunctionType );
+  
 protected:
-
   RegularStepGradientDescentBaseOptimizer();
   virtual ~RegularStepGradientDescentBaseOptimizer() {};
 
-  /**
-   * Advance one step following the gradient direction
+  /** Advance one step following the gradient direction
    * This method verifies if a change in direction is required
-   * and if a reduction in steplength is required.
-   */
+   * and if a reduction in steplength is required. */
   virtual void AdvanceOneStep( void );
 
-  /**
-   * Advance one step along the corrected gradient taking into
+  /** Advance one step along the corrected gradient taking into
    * account the steplength represented by factor.
    * This method is invoked by AdvanceOneStep. It is expected
    * to be overrided by optimization methods in non-vector spaces
-   * \sa AdvanceOneStep
-   */
+   * \sa AdvanceOneStep */
   virtual void StepAlongGradient( 
                   double factor, 
                   const DerivativeType & transformedGradient ) = 0;
 
 
 private:  
-
   RegularStepGradientDescentBaseOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&);//purposely not implemented
 
 protected:
-
   DerivativeType                m_Gradient; 
   DerivativeType                m_PreviousGradient; 
 

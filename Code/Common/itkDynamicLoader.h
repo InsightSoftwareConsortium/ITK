@@ -89,63 +89,37 @@ namespace itk
 class ITK_EXPORT DynamicLoader : public Object
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef DynamicLoader       Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-  
-  /**
-   * Method for creation through the object factory.
-   */
+    
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(DynamicLoader,Object);
 
-  /**
-   * Load a dynamic library into the current process.
+  /** Load a dynamic library into the current process.
    * The returned LibHandle can be used to access the symbols in the 
-   * library.
-   */
+   * library. */
   static LibHandle OpenLibrary(const char*);
 
-  /**
-   * Attempt to detach a dynamic library from the
-   * process.  A value of true is returned if it is sucessful.
-   */
+  /** Attempt to detach a dynamic library from the
+   * process.  A value of true is returned if it is sucessful. */
   static int CloseLibrary(LibHandle);
   
-  /**
-   * Find the address of the symbol in the given library.
-   */
+  /** Find the address of the symbol in the given library. */
   static void* GetSymbolAddress(LibHandle, const char*);
 
-  /**
-   * Return the library prefix for the given architecture
-   */
+  /** Return the library prefix for the given architecture */
   static const char* LibPrefix();
 
-  /**
-   * Return the library extension for the given architecture.
-   */
+  /** Return the library extension for the given architecture. */
   static const char* LibExtension();
 
-  /**
-   * Return the last error produced from a calls made on this class.
-   */
+  /** Return the last error produced from a calls made on this class. */
   static const char* LastError();
   
 protected:

@@ -69,7 +69,7 @@ class ReflectiveImageRegionIterator : public ImageIteratorWithIndex<TImage>
 public:
 
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef ReflectiveImageRegionIterator Self;
 

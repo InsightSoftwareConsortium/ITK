@@ -70,89 +70,57 @@ template <class T>
 class ITK_EXPORT SmartPointerForwardReference 
 {
 public:
-  /** 
-   * Constructor 
-   */
+  /** Constructor  */
   SmartPointerForwardReference () 
     {m_Pointer = 0;}
 
-  /** 
-   * Const constructor 
-   */
+  /** Const constructor  */
   SmartPointerForwardReference (const SmartPointerForwardReference<T> &p);
   
-  /** 
-   * Construct from a WeakPointer
-   */
+  /** Construct from a WeakPointer */
   SmartPointerForwardReference (const WeakPointer<T> &p);
   
-  /** 
-   * Constructor to pointer p 
-   */
+  /** Constructor to pointer p  */
   SmartPointerForwardReference (T *p);
   
-  /** 
-   * Destructor 
-   */
+  /** Destructor  */
   ~SmartPointerForwardReference ();
   
-  /** 
-   * Overload operator -> 
-   */
+  /** Overload operator ->  */
   T *operator -> () const;
 
-  /** 
-    * Return pointer to object.
-    */
+  /** Return pointer to object.  */
   operator T * () const;
   
-  /** 
-   * Access function to pointer.
-   */
+  /** Access function to pointer. */
   T *GetPointer () const;
   
-  /** 
-   * Comparison of pointers. Less than comparison. 
-   */
+  /** Comparison of pointers. Less than comparison.  */
   bool operator < (const SmartPointerForwardReference &r);
 
-  /** 
-   * Comparison of pointers. Greater than comparison. 
-   */
+  /** Comparison of pointers. Greater than comparison.  */
   bool operator > (const SmartPointerForwardReference &r);
 
-  /** 
-   * Comparison of pointers. Less than or equal to comparison. 
-   */
+  /** Comparison of pointers. Less than or equal to comparison.  */
   bool operator <= (const SmartPointerForwardReference &r);
 
-  /** 
-   * Comparison of pointers. Greater than or equal to comparison. 
-   */
+  /** Comparison of pointers. Greater than or equal to comparison.  */
   bool operator >= (const SmartPointerForwardReference &r);
 
-  /** 
-   * Overload operator assignment. 
-   */
+  /** Overload operator assignment.  */
   SmartPointerForwardReference &operator = (const SmartPointerForwardReference &r);
   
-  /** 
-   * Overload operator assignment. 
-   */
+  /** Overload operator assignment.  */
   SmartPointerForwardReference &operator = (const WeakPointer<T> &r);
   
-  /** 
-   * Overload operator assignment. 
-   */
+  /** Overload operator assignment.  */
   SmartPointerForwardReference &operator = (T *r);
   
-  /** 
-   * Function to print object pointed to 
-   */
+  /** Function to print object pointed to  */
   T *Print (std::ostream& os) const;
 
 private:
-  /* The pointer to the object referrred to by this smart pointer. */
+  /** The pointer to the object referrred to by this smart pointer. */
   T* m_Pointer;
 
   void Register();
@@ -163,8 +131,8 @@ private:
   template <typename T>
   std::ostream& operator<< (std::ostream& os, SmartPointerForwardReference<T> p) 
   {
-  p.Print(os); 
-  return os;
+    p.Print(os); 
+    return os;
   }
 
 } // end namespace itk

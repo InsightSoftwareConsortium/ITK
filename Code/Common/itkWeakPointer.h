@@ -62,65 +62,39 @@ namespace itk
  *
  * \ingroup ITKSystemObjects
  * \ingroup DataAccess
- *
  */
 template <class TObjectType>
 class ITK_EXPORT WeakPointer 
 {
 public:
+  /** Extract information from template parameter. */
   typedef TObjectType ObjectType;
   
-  /** 
-   * Constructor 
-   */
+  /** Constructor.  */
   WeakPointer () 
-    {
-    m_Pointer = 0;
-    }
+    { m_Pointer = 0; }
 
-  /** 
-   * Copy constructor 
-   */
+  /** Copy constructor.  */
   WeakPointer (const WeakPointer<ObjectType> &p):
-    m_Pointer(p.m_Pointer)
-    { 
-    }
+    m_Pointer(p.m_Pointer) { }
 
-  /** 
-   * Constructor to pointer p 
-   */
+  /** Constructor to pointer p.  */
   WeakPointer (ObjectType *p):
-    m_Pointer(p)
-    { 
-    }                             
+    m_Pointer(p) { }                             
   
-  /** 
-   * Destructor 
-   */
+  /** Destructor.  */
   ~WeakPointer ()
-    {
-    m_Pointer = 0;  
-    }
+    { m_Pointer = 0; }
   
-  /** 
-   * Overload operator -> 
-   */
+  /** Overload operator ->.  */
   ObjectType *operator -> () const
-    { 
-    return m_Pointer; 
-    }
+    { return m_Pointer; }
 
-  /** 
-    * Return pointer to object.
-    */
+  /** Return pointer to object.  */
   operator ObjectType * () const 
-    { 
-    return m_Pointer; 
-    }
+    { return m_Pointer; }
   
-  /**
-   * Template comparison operators.
-   */
+  /** Template comparison operators. */
   template <typename R>
   bool operator == (R r) const
     {
@@ -131,68 +105,39 @@ public:
     {
     return (m_Pointer != (ObjectType*)r);
     }
-  
-  /** 
-   * Access function to pointer.
-   */
+    
+  /** Access function to pointer. */
   ObjectType *GetPointer () const 
-    { 
-    return m_Pointer; 
-    }
+    { return m_Pointer; }
   
-  /** 
-   * Comparison of pointers. Less than comparison. 
-   */
+  /** Comparison of pointers. Less than comparison.  */
   bool operator < (const WeakPointer &r)
-    { 
-    return (void*)m_Pointer < (void*) r.m_Pointer; 
-    }
+    { return (void*)m_Pointer < (void*) r.m_Pointer; }
   
-  /** 
-   * Comparison of pointers. Greater than comparison. 
-   */
+  /** Comparison of pointers. Greater than comparison.  */
   bool operator > (const WeakPointer &r)
-    { 
-    return (void*)m_Pointer > (void*) r.m_Pointer; 
-    }
+    { return (void*)m_Pointer > (void*) r.m_Pointer; }
 
-  /** 
-   * Comparison of pointers. Less than or equal to comparison. 
-   */
+  /** Comparison of pointers. Less than or equal to comparison.  */
   bool operator <= (const WeakPointer &r)
-    { 
-    return (void*)m_Pointer <= (void*) r.m_Pointer; 
-    }
+    { return (void*)m_Pointer <= (void*) r.m_Pointer; }
 
-  /** 
-   * Comparison of pointers. Greater than or equal to comparison. 
-   */
+  /** Comparison of pointers. Greater than or equal to comparison.  */
   bool operator >= (const WeakPointer &r)
-    { 
-    return (void*)m_Pointer >= (void*) r.m_Pointer; 
-    }
+    { return (void*)m_Pointer >= (void*) r.m_Pointer; }
 
-  /** 
-   * Overload operator assignment. 
-   */
+  /** Overload operator assignment.  */
   WeakPointer &operator = (const WeakPointer &r)
-    { 
-    return this->operator = (r.GetPointer()); 
-    }
+    { return this->operator = (r.GetPointer()); }
   
-
-  /** 
-   * Overload operator assignment. 
-   */
+  /** Overload operator assignment.  */
   WeakPointer &operator = (ObjectType *r)
    {
     m_Pointer = r; 
     return *this;
     }
   
-  /** 
-   * Function to print object pointed to 
-   */
+  /** Function to print object pointed to.  */
   ObjectType *Print (std::ostream& os) const 
     { 
     // This prints the object pointed to by the pointer  
@@ -201,7 +146,7 @@ public:
     } 
 
 private:
-  /* The pointer to the object referrred to by this smart pointer. */
+  /** The pointer to the object referrred to by this smart pointer. */
   ObjectType* m_Pointer;
 };  
 

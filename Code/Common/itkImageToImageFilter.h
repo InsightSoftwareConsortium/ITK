@@ -82,63 +82,40 @@ template <class TInputImage, class TOutputImage>
 class ITK_EXPORT ImageToImageFilter : public ImageSource<TOutputImage>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ImageToImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageSource<TOutputImage>  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToImageFilter,ImageSource);
 
-  /**
-   * Superclass typedefs.
-   */
+  /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
-  /** 
-   * Some typedefs.
-   */
+  /** Some convenient typedefs. */
   typedef TInputImage InputImageType;
   typedef typename InputImageType::Pointer InputImagePointer;
   typedef typename InputImageType::RegionType InputImageRegionType; 
   typedef typename InputImageType::PixelType InputImagePixelType; 
-
-  /** 
-   * Set the image input of this process object. 
-   */
+  
+  /** Set the image input of this process object.  */
   void SetInput(InputImageType *input);
 
-  /** 
-   * Get the image input of this process object. 
-   */
+  /** Get the image input of this process object.  */
   InputImagePointer GetInput();
   InputImagePointer GetInput(unsigned int idx);
-
+  
 protected:
   ImageToImageFilter();
   ~ImageToImageFilter();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** 
-   * What is the input requested region that is required to produce the
+  /** What is the input requested region that is required to produce the
    * output requested region? The base assumption for image processing
    * filters is that the input requested region can be set to match the
    * output requested region.  If a filter requires more input (for instance
@@ -151,8 +128,7 @@ protected:
    * that the largest possible region will be requested of the input.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion(),
-   *     ImageSource::GenerateInputRequestedRegion()
-   */
+   *     ImageSource::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();
   
 private:

@@ -46,8 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk
 {
-/**
- * \class DerivativeImageFilter
+/** \class DerivativeImageFilter
  * \brief Computes the directional derivative of an image.
  * The directional derivative at each pixel location is computed by convolution
  * with a first-order derivative operator.
@@ -58,96 +57,73 @@ namespace itk
  * \sa NeighborhoodIterator
  * 
  * \ingroup ImageFeatureExtraction 
- *
  */
-
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT DerivativeImageFilter :
     public ImageToImageFilter< TInputImage, TOutputImage > 
 {
 public:
-  /**
-   * Standard "Self" & Superclass typedef.
-   */
+  /** Standard class typedefs. */
   typedef DerivativeImageFilter Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Extract some information from the image types.  Dimensionality
-   * of the two images is assumed to be the same.
-   */
+  /** Extract some information from the image types.  Dimensionality
+   * of the two images is assumed to be the same. */
   typedef typename TOutputImage::PixelType OutputPixelType;
   typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
   typedef typename TInputImage::PixelType InputPixelType;
   typedef typename TInputImage::InternalPixelType InputInternalPixelType;
+
+  /** Extract some information from the image types.  Dimensionality
+   * of the two images is assumed to be the same. */
   enum { ImageDimension = TOutputImage::ImageDimension };
   
-  /**
-   * Image typedef support
-   */
+  /** Image typedef support. */
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
 
-  /** 
-   * Smart pointer typedef support 
-   */
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
-  /**
-   * Run-time type information (and related methods)
-   */
-  itkTypeMacro(DerivativeImageFilter, ImageToImageFilter);
-  
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Standard get/set macros for filter parameters.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(DerivativeImageFilter, ImageToImageFilter);
+  
+  /** Standard get/set macros for filter parameters. */
   itkSetMacro(Order, unsigned int);
   itkGetMacro(Order, unsigned int);
   itkSetMacro(Direction, unsigned int);
   itkGetMacro(Direction, unsigned int);
   
-  /**
-   * DerivativeImageFilter needs a larger input requested region than
+  /** DerivativeImageFilter needs a larger input requested region than
    * the output requested region (larger in the direction of the
    * derivative).  As such, DerivativeImageFilter needs to provide an
    * implementation for GenerateInputRequestedRegion() in order to
    * inform the pipeline execution model.
    *
-   * \sa ImageToImageFilter::GenerateInputRequestedRegion()
-   */
+   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
 protected:
   DerivativeImageFilter() {}
   virtual ~DerivativeImageFilter() {}
 
-  /**
-   * Standard pipeline method. While this class does not implement a
+  /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all
    * calculations to an NeighborhoodOperatorImageFilter.  Since the
    * NeighborhoodOperatorImageFilter is multithreaded, this filter is
-   * multithreaded by default.
-   */
+   * multithreaded by default. */
   void GenerateData();
 
 private:
   DerivativeImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /**
-   * The order of the derivative.
-   */
+  /** The order of the derivative. */
   unsigned int m_Order;
 
-  /**
-   * The direction of the derivative.
-   */
+  /** The direction of the derivative. */
   unsigned int m_Direction;
 
 };

@@ -74,55 +74,30 @@ namespace itk
 template <class TCostFunction>
 class ITK_EXPORT QuaternionRigidTransformGradientDescentOptimizer : 
         public GradientDescentOptimizer< TCostFunction >
-
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef QuaternionRigidTransformGradientDescentOptimizer  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef GradientDescentOptimizer<TCostFunction> Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+  
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
 
-  /**
-   * Dimension of the Search Space
-   */
-  enum { SpaceDimension = Superclass::SpaceDimension };
- 
-
-  /**
-   *  Parameters type.
-   *  It defines a position in the optimization search space
-   */
-  typedef typename Superclass::ParametersType ParametersType;
-
- /** 
-   * Run-time type information (and related methods).
-   */
+ /** Run-time type information (and related methods). */
   itkTypeMacro( QuaternionRigidTransformGradientDescentOptimizer, 
       GradientDescentOptimizer );
 
+  /** Dimension of the Search Space */
+  enum { SpaceDimension = Superclass::SpaceDimension };
 
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
+  /**  Parameters type.
+   *  It defines a position in the optimization search space. */
+  typedef typename Superclass::ParametersType ParametersType;
 
-
-  /**
-   * Advance one step following the gradient direction
-   */
+  /** Advance one step following the gradient direction. */
   virtual void AdvanceOneStep( void );
-
 
 protected:
   QuaternionRigidTransformGradientDescentOptimizer();

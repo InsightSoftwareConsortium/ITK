@@ -59,115 +59,64 @@ template <class TCostFunction>
 class ITK_EXPORT Optimizer : public Object 
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef Optimizer  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef   Object  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-
- /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(Optimizer, Object);
-
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+ /** Run-time type information (and related methods). */
+  itkTypeMacro(Optimizer, Object);
 
-  /**
-   *  Parameters type.
-   *  it defines a position in the optimization search space
-   */
+  /**  Parameters type.
+   *  It defines a position in the optimization search space. */
   typedef typename TCostFunction::ParametersType ParametersType;
 
-
-  /**
-   * Dimension of the Search Space
-   */
+  /** Dimension of the search space. */
   enum { SpaceDimension = TCostFunction::SpaceDimension };
  
-  /**
-   *  Transform type.
-   *  it defines a transform to be applied to points before 
+  /**  Transform type.
+   *  It defines a transform to be applied to points before 
    *  being evaluated in the cost function. This allows to 
    *  map to a more convenient space. In particular this is
    *  used to normalize parameter spaces in which some parameters
-   *  have a different dynamic range.  
-   */
+   *  have a different dynamic range.   */
   typedef     ScaleTransform<double,SpaceDimension>      TransformType;
 
-
-  /**
-   *  Measure type.
-   *  it defines a type used to return the cost function value 
-   */
+  /**  Measure type.
+   *  It defines a type used to return the cost function value. */
   typedef typename TCostFunction::MeasureType MeasureType;
 
-
-  /**
-   *  Derivative type.
-   *  it defines a type used to return the cost function derivative 
-   */
+  /**  Derivative type.
+   *  It defines a type used to return the cost function derivative.  */
   typedef typename TCostFunction::DerivativeType DerivativeType;
 
-
-  /**
-   *   Set the position to initialize the optimization  
-   */
+  /**  Set the position to initialize the optimization. */
   itkSetMacro(InitialPosition, ParametersType);
 
-
-  /**
-   *   Get the position to initialize the optimization  
-   */
+  /** Get the position to initialize the optimization. */
   itkGetConstMacro(InitialPosition, ParametersType);
 
-
-  /**
-   *   Get current position of the optimization  
-   */
+  /** Get current position of the optimization. */
   itkGetConstMacro( CurrentPosition, ParametersType );
 
-
-  /**
-   *   Set current transform
-   */
+  /** Set current transform. */
   itkSetObjectMacro( Transform, TransformType );
 
-
-  /**
-   *   Get current transform
-   */
+  /** Get current transform. */
   itkGetObjectMacro( Transform, TransformType );
-
 
 protected:
   Optimizer() 
-    {
-    m_Transform = TransformType::New();
-    };
+    { m_Transform = TransformType::New(); };
 
   virtual ~Optimizer() {};
 
-  /**
-   *   Set the current position 
-   */
+  /** Set the current position. */
   itkSetMacro( CurrentPosition, ParametersType );
-
 
 private:
   Optimizer(const Self&); //purposely not implemented

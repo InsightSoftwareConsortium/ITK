@@ -45,8 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class ImageLinearConstIteratorWithIndex
+/** \class ImageLinearConstIteratorWithIndex
  * \brief Multi-dimensional image iterator which only walks a region.
  * 
  * ImageLinearConstIteratorWithIndex is a templated class to represent a multi-dimensional
@@ -97,160 +96,90 @@ namespace itk
  *
  * \example  Common/itkImageLinearIteratorTest.cxx
  *
- *
- *
  * \ingroup ImageIterators
- *
- *
  */
 template<typename TImage>
 class ImageLinearConstIteratorWithIndex : public ImageConstIteratorWithIndex<TImage>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ImageLinearConstIteratorWithIndex Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageConstIteratorWithIndex<TImage>  Superclass;
-
-  /** 
-   * Index typedef support. While this was already typdef'ed in the superclass
+  
+  /** Index typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index.
-   */
+   * confused with ImageIterator::Index. */
   typedef typename TImage::IndexType   IndexType;
 
-  /**
-   * Region typedef support. While this was already typdef'ed in the superclass
+  /** Region typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Region back to itk::ImageRegion so that is
-   * it not confused with ImageIterator::Index.
-   */
+   * it not confused with ImageIterator::Index. */
   typedef typename TImage::RegionType RegionType;
   
-  /**
-   * Image typedef support. While this was already typdef'ed in the superclass
+  /** Image typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index.
-   */
+   * confused with ImageIterator::Index. */
   typedef TImage ImageType;
 
-  /** 
-   * PixelContainer typedef support. Used to refer to the container for
+  /** PixelContainer typedef support. Used to refer to the container for
    * the pixel data. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   */
+   * it needs to be redone here for this subclass to compile properly with gcc. */
   typedef typename TImage::PixelContainer PixelContainer;
   typedef typename PixelContainer::Pointer PixelContainerPointer;
-
-  /**
-   * Default constructor. Needed since we provide a cast constructor.
-   */
+  
+  /** Default constructor. Needed since we provide a cast constructor. */
   ImageLinearConstIteratorWithIndex() : ImageConstIteratorWithIndex<TImage>() {}
   
-  /**
-   * Constructor establishes an iterator to walk a particular image and a
-   * particular region of that image.
-   */
+  /** Constructor establishes an iterator to walk a particular image and a
+   * particular region of that image. */
   ImageLinearConstIteratorWithIndex(ImageType *ptr,
                       const RegionType& region)
     : ImageConstIteratorWithIndex<TImage>( ptr, region ) {}
 
-  /**
-   * Constructor that can be used to cast from an ImageIterator to an
+  /** Constructor that can be used to cast from an ImageIterator to an
    * ImageLinearConstIteratorWithIndex. Many routines return an ImageIterator but for a
    * particular task, you may want an ImageLinearConstIteratorWithIndex.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
-   * ImageIterator to a ImageLinearConstIteratorWithIndex.
-   */
+   * ImageIterator to a ImageLinearConstIteratorWithIndex. */
   ImageLinearConstIteratorWithIndex( const ImageConstIteratorWithIndex<TImage> &it)
     { this->ImageConstIteratorWithIndex<TImage>::operator=(it); }
 
-  /**
-   * Go to the next line
-   * \sa operator++
-   * \sa operator--
-   * \sa EndOfLine
-   * \sa PreviousLine
-   * \sa End
-   */
+  /** Go to the next line.
+   * \sa operator++  \sa operator-- \sa EndOfLine \sa PreviousLine \sa End */
   inline void NextLine(void);
 
-  /**
-   * Go to the previous line
-   * \sa operator++
-   * \sa operator--
-   * \sa EndOfLine
-   * \sa NextLine
-   * \sa End
-   */
+  /** Go to the previous line.
+   * \sa operator++ \sa operator-- \sa EndOfLine \sa NextLine \sa End */
   inline void PreviousLine(void);
 
-
-  /**
-   * Go to the beginning pixel of the current line.
-   * \sa GoToEndOfLine
-   * \sa operator++
-   * \sa operator--
-   * \sa NextLine
-   * \sa EndOfLine
-   */
+  /** Go to the beginning pixel of the current line.
+   * \sa GoToEndOfLine \sa operator++ \sa operator-- \sa NextLine \sa EndOfLine */
   void GoToBeginOfLine(void);
 
-  /**
-   * Go to the past end pixel of the current line.
-   * \sa GoToBeginOfLine
-   * \sa operator++
-   * \sa operator--
-   * \sa NextLine
-   * \sa EndOfLine
-   */
+  /** Go to the past end pixel of the current line.
+   * \sa GoToBeginOfLine \sa operator++ \sa operator-- \sa NextLine \sa EndOfLine */
   void GoToEndOfLine(void);
 
-
-  /**
-   * Test if the index is at the end of line
-   */
+  /** Test if the index is at the end of line */
   inline bool IsAtEndOfLine(void);
 
-
-  /**
-   * Test if the index is at the begin of line
-   */
+  /** Test if the index is at the begin of line */
   inline bool IsAtBeginOfLine(void);
 
-
-  /**
-   * Set the direction of movement
-   */
+  /** Set the direction of movement */
   inline void SetDirection(unsigned int direction) ;
 
-
-  /**
-   * Increment (prefix) the selected dimension.
-   * No bounds checking is performed. 
-   * \sa GetIndex
-   * \sa operator--
-   */
+  /** Increment (prefix) the selected dimension.
+   * No bounds checking is performed. \sa GetIndex \sa operator-- */
   Self & operator++();
 
-
-  /**
-   * Decrement (prefix) the selected dimension.
-   * No bounds checking is performed. 
-   * \sa GetIndex
-   * \sa operator++
-   */
+  /** Decrement (prefix) the selected dimension.
+   * No bounds checking is performed.  \sa GetIndex \sa operator++ */
   Self & operator--();
-
-
 
 private:
     unsigned long  m_Jump;

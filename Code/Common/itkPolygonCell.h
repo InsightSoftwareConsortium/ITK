@@ -65,96 +65,64 @@ namespace itk
  *     Type information of mesh containing cell.
  * \ingroup MeshObjects
  */
-
-
 template <
   typename TPixelType,
   typename TCellTraits
   >
 class PolygonCell: public CellInterface< TPixelType , TCellTraits >
 {
-
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef PolygonCell  Self;
-  
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef CellInterface<TPixelType,TCellTraits>  Superclass;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-  
-  /**
-   * Save the PixelType template parameter.
-   */
+    
+  /** Save the PixelType template parameter. */
   typedef TPixelType                                PixelType;
   
-  /**
-   * Save the CellTraits template parameter.
-   */
+  /** Save the CellTraits template parameter. */
   typedef TCellTraits                                 CellTraits;
 
-  /**
-   * Pick-up typedefs from superclass
-   */
+  /** Extract typedefs from superclass. */
   typedef typename CellTraits::CellFeatureIdentifier  CellFeatureIdentifier;
   typedef CellFeatureIdentifier  CellFeatureCount;
   typedef typename CellInterface<TPixelType,TCellTraits>::PointIdIterator 
                    PointIdIterator;
   typedef typename CellInterface<TPixelType,TCellTraits>::PointIdConstIterator
                    PointIdConstIterator;
-
-  /**
-   * Save some template parameter information.
-   */
+  
+  /** Save some template parameter information. */
   typedef typename CellTraits::CoordRepType         CoordRepType;
   typedef typename CellTraits::PointIdentifier  PointIdentifier;
-  
+    
+  /** Save some template parameter information. */
   enum { PointDimension = CellTraits::PointDimension};
   enum { CellDimension = 2 };
-  
+    
+  /** Define a typedef to the cell interface. */
   typedef typename CellInterface<TPixelType,TCellTraits>::Pointer CellPointer;
 
-  /**
-   * The type of boundary for this voronoi cell's vertices.
-   */
+  /** The type of boundary for this voronoi cell's vertices. */
   typedef VertexBoundary< TPixelType , TCellTraits >  Vertex;
   typedef typename Vertex::Pointer VertexPointer;
-
-  /**
-   * The type of boundary for this voronoi cell's edges.
-   */
+  
+  /** The type of boundary for this voronoi cell's edges. */
   typedef LineBoundary< TPixelType , TCellTraits >    Edge;
   typedef typename Edge::Pointer EdgePointer;
   typedef Point<int,2> EdgeInfo;
   typedef std::deque<EdgeInfo> EdgeInfoDQ;
-
-   
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Standard part of every itk Object.
-   */
+  /** Standard part of every itk Object. */
   itkTypeMacro(PolygonCell, CellInterface);
 
-  /**
-   * Need to add POLYGON_CELL into CellInterface.
-   */
+  /** Need to add POLYGON_CELL into CellInterface. */
   itkCellVisitMacro(POLYGON_CELL);
 
-  /**
-   * Implement the standard CellInterface.
-   */
+  /** Implement the standard CellInterface. */
   virtual typename Superclass::CellType GetType(void) const 
     {return Superclass::POLYGON_CELL;}
   virtual CellPointer MakeCopy(void);
@@ -177,15 +145,13 @@ public:
   virtual PointIdConstIterator PointIdsBegin(void) const;
   virtual PointIdIterator      PointIdsEnd(void);
   virtual PointIdConstIterator PointIdsEnd(void) const; 
-
-  /**
-   * Polygon-specific interface.
-   */
+  
+  /** Polygon-specific interface. */
   virtual CellFeatureCount GetNumberOfVertices(void) const;
   virtual CellFeatureCount GetNumberOfEdges(void) const;
   virtual VertexPointer GetVertex(CellFeatureIdentifier);
   virtual EdgePointer GetEdge(CellFeatureIdentifier);
-
+  
 protected:
   std::vector<EdgeInfo> m_Edges;
   int m_NumberOfEdges;
@@ -196,36 +162,24 @@ protected:
   ~PolygonCell() {}
 };
 
-
 /** \class PolygonBoundary
  * Create a boundary-wrapped version of the PolygonCell.
  *
  * \ingroup MeshObjects
- *
  */
 template <typename TPixelType, typename TCellTraits>
 class PolygonBoundary:
   public CellBoundary< PolygonCell< TPixelType , TCellTraits > >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef PolygonBoundary  Self;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>     Pointer;
-  
-  /**
-   * Method for creation through the object factory.
-   */
+    
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /**
-   * Standard part of every itk Object.
-   */
+  /** Standard part of every itk Object. */
   itkTypeMacro(PolygonBoundary, CellBoundary);
 };
 

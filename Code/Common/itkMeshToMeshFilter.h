@@ -60,49 +60,29 @@ template <class TInputMesh, class TOutputMesh>
 class ITK_EXPORT MeshToMeshFilter : public MeshSource<TOutputMesh>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef MeshToMeshFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef MeshSource<TOutputMesh> Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(MeshToMeshFilter,MeshSource);
 
-  /** 
-   * Some typedefs.
-   */
+  /** Some convenient typedefs. */
   typedef TInputMesh InputMeshType;
   typedef typename InputMeshType::Pointer InputMeshPointer;
-
-  /** 
-   * Set the mesh input of this process object. 
-   */
+  
+  /** Set the mesh input of this process object.  */
   void SetInput(InputMeshType *input);
 
-  /** 
-   * Get the mesh input of this process object. 
-   */
+  /** Get the mesh input of this process object.  */
   InputMeshPointer GetInput();
   InputMeshPointer GetInput(unsigned int idx);
-
+  
 protected:
   MeshToMeshFilter();
   ~MeshToMeshFilter() {};

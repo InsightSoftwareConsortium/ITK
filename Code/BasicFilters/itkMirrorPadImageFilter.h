@@ -67,7 +67,7 @@ class ITK_EXPORT MirrorPadImageFilter:
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef MirrorPadImageFilter         Self;
   

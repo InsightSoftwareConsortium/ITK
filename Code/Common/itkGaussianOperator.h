@@ -86,24 +86,14 @@ class ITK_EXPORT GaussianOperator
   : public NeighborhoodOperator<TPixel, VDimension, TAllocator>
 {
 public:
-  /**
-   * Standard "Self" typedef support.
-   */
+  /** Standard class typedefs. */
   typedef GaussianOperator Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef NeighborhoodOperator<TPixel, VDimension, TAllocator>  Superclass;
-
-  /**
-   * Constructor.
-   */
+  
+  /** Constructor. */
   GaussianOperator() : m_Variance(1), m_MaximumError(.01) { }
 
-  /**
-   * Copy constructor
-   */
+  /** Copy constructor */
   GaussianOperator(const Self &other)
     : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other)
   {
@@ -111,9 +101,7 @@ public:
     m_MaximumError = other.m_MaximumError;
   }
 
-  /**
-   * Assignment operator
-   */
+  /** Assignment operator */
   Self &operator=(const Self &other)
   {
     Superclass::operator=(other);
@@ -122,18 +110,14 @@ public:
     return *this;
   }
   
-  /**
-   * Sets the desired variance of the Gaussian kernel.
-   */
+  /** Sets the desired variance of the Gaussian kernel. */
   void SetVariance(const double &variance)
   {  m_Variance = variance;  }
 
-  /**
-   * Sets the desired maximum error of the gaussian approximation.  Maximum
+  /** Sets the desired maximum error of the gaussian approximation.  Maximum
    * error is the difference between the area under the discrete Gaussian curve
    * and the area under the continuous Gaussian. Maximum error affects the
-   * Gaussian operator size.
-   */
+   * Gaussian operator size. */
   void SetMaximumError(const double &max_error)
   {
     if (max_error >= 1 || max_error <= 0)
@@ -144,24 +128,18 @@ public:
     m_MaximumError = max_error;
   }
   
-  /**
-   * Returns the variance of the Gaussian (scale) for the operator.
-   */
+  /** Returns the variance of the Gaussian (scale) for the operator. */
   double GetVariance()
-  {  return m_Variance;  }
+    {  return m_Variance;  }
 
-  /**
-   * Returns the maximum error of the gaussian approximation.  Maximum error is 
+  /** Returns the maximum error of the gaussian approximation.  Maximum error is 
    * the difference between the area under the discrete Gaussian curve and the
    * area under the continuous Gaussian. Maximum error affects the Gaussian
-   * operator size.
-   */
+   * operator size. */
   double GetMaximumError()
-  {    return m_MaximumError;  }
+    {    return m_MaximumError;  }
 
-  /**
-   * Prints some debugging information.
-   */
+  /** Prints some debugging information. */
   virtual void PrintSelf(std::ostream &os, Indent i) const
   {
     os << i << "GaussianOperator { this=" << this
@@ -174,44 +152,30 @@ public:
 protected:
   typedef std::vector<TPixel> CoefficientVector;
 
-  /**
-   * Returns the value of the modified Bessel function I0(x) at a point x >= 0.
-   */
+  /** Returns the value of the modified Bessel function I0(x) at a point x >= 0. */
   double ModifiedBesselI0(double);
 
-  /**
-   * Returns the value of the modified Bessel function I1(x) at a point x,
-   * x real. 
-   */
+  /** Returns the value of the modified Bessel function I1(x) at a point x,
+   * x real.  */
   double ModifiedBesselI1(double);
 
-  /**
-   * Returns the value of the modified Bessel function Ik(x) at a point x>=0,
-   * where k>=2.
-   */
+  /** Returns the value of the modified Bessel function Ik(x) at a point x>=0,
+   * where k>=2. */
   double ModifiedBesselI(int, double);
 
-  /**
-   * Calculates operator coefficients.
-   */
+  /** Calculates operator coefficients. */
   CoefficientVector GenerateCoefficients();
 
-  /**
-   * Arranges coefficients spatially in the memory buffer.
-   */
+  /** Arranges coefficients spatially in the memory buffer. */
   void Fill(const CoefficientVector& coeff)
   {    this->FillCenteredDirectional(coeff);  }
 
 private:
-  /**
-   * Desired variance of the discrete Gaussian function.
-   */
+  /** Desired variance of the discrete Gaussian function. */
   double m_Variance;
   
-  /**
-   * Difference between the areas under the curves of the continuous and
-   * discrete Gaussian functions.
-   */
+  /** Difference between the areas under the curves of the continuous and
+   * discrete Gaussian functions. */
   double m_MaximumError;
   
 };

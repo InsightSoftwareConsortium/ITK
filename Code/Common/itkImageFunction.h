@@ -48,8 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/** 
- * \class ImageFunction
+/** \class ImageFunction
  * \brief Evaluates a function of an image at specified position.
  *
  * ImageFunction is a baseclass for all objects that evaluates
@@ -72,7 +71,6 @@ namespace itk
  * \sa Continuous
  *
  * \ingroup ImageFunctions
- *
  */
 template <
 class TInputImage, 
@@ -83,132 +81,84 @@ class ITK_EXPORT ImageFunction :
                        TOutput > 
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ImageFunction Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef FunctionBase< Point<double,TInputImage::ImageDimension>,
             TOutput > Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
+  
+  /** Run-time type information (and related methods). */
   itkTypeMacro(ImageFunction, FunctionBase);
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self); 
 
-  /**
-   * InputImageType typedef support.
-   */
+  /** InputImageType typedef support. */
   typedef TInputImage InputImageType;
 
-  /**
-   * InputPixel typedef support
-   */
+  /** InputPixel typedef support */
   typedef typename InputImageType::PixelType PixelType;
 
-  /**
-   * InputImagePointer typedef support
-   */ 
+  /** InputImagePointer typedef support */ 
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
 
-  /**
-   * Dimension underlying input image.
-   */
+  /** Dimension underlying input image. */
   enum { ImageDimension = InputImageType::ImageDimension };
 
-  /**
-   * OutputType typedef support.
-   */
+  /** OutputType typedef support. */
   typedef TOutput OutputType;
 
-  /**
-   * Index Type.
-   */
+  /** Index Type. */
   typedef typename InputImageType::IndexType IndexType;
 
-  /**
-   * ContinuousIndex Type.
-   */
+  /** ContinuousIndex Type. */
   typedef ContinuousIndex<double,ImageDimension> ContinuousIndexType;
 
-  /**
-   * Point Type.
-   */
+  /** Point Type. */
   typedef Point<double,ImageDimension> PointType;
 
-  /** 
-   * Set the input image.
+  /** Set the input image.
    * \warning this method caches BufferedRegion information.
    * If the BufferedRegion has changed, user must call
-   * SetInputImage again to update cached values.
-   */
+   * SetInputImage again to update cached values. */
   virtual void SetInputImage( const InputImageType * ptr );
 
-  /**
-   * Get the input image.
-   */
+  /** Get the input image. */
   InputImageConstPointer GetInputImage() const
     { return m_Image.GetPointer(); }
 
-  /**
-   * Evaluate the function at specified Point position.
-   * Subclasses should override this method.
-   */
+  /** Evaluate the function at specified Point position.
+   * Subclasses should override this method. */
   virtual TOutput Evaluate( const PointType& point ) const = 0;
 
-  /**
-   * Evaluate the function at specified Index position.
-   * Subclasses should override this method.
-   */
+  /** Evaluate the function at specified Index position.
+   * Subclasses should override this method. */
   virtual TOutput EvaluateAtIndex( const IndexType & index ) const = 0;
 
-  /**
-   * Evaluate the function at specified ContinousIndex position.
-   * Subclasses should override this method.
-   */
+  /** Evaluate the function at specified ContinousIndex position.
+   * Subclasses should override this method. */
   virtual TOutput EvaluateAtContinuousIndex( 
     const ContinuousIndexType & index ) const = 0;
     
-  /**
-   * Check if an index is inside the image buffer.
+  /** Check if an index is inside the image buffer.
    * \warning For efficiency, no validity checking of
-   * the input image is done.
-   */
+   * the input image is done. */
   inline bool IsInsideBuffer( const IndexType & index ) const;
             
-  /**
-   * Check if a continuous index is inside the image buffer.
+  /** Check if a continuous index is inside the image buffer.
    * \warning For efficiency, no validity checking of
-   * the input image is done.
-   */
+   * the input image is done. */
   inline bool IsInsideBuffer( const ContinuousIndexType & index ) const;
 
-  /**
-   * Check if a point is inside the image buffer.
+  /** Check if a point is inside the image buffer.
    * \warning For efficiency, no validity checking of
-   * the input image pointer is done.
-   */
+   * the input image pointer is done. */
   inline bool IsInsideBuffer( const PointType & point ) const;
 
-  /**
-   * Point/Index/ContinuousIndex conversion functions.
+  /** Point/Index/ContinuousIndex conversion functions.
    * \warning For efficiency, no validity checking of the
-   * input image pointer is done.
-   */
+   * input image pointer is done. */
   inline void ConvertPointToContinuousIndex(
     const PointType& point, ContinuousIndexType& index ) const;
 
@@ -223,21 +173,16 @@ public:
 
   inline void ConvertContinuousIndexToNearestIndex(
     const ContinuousIndexType &cindex, IndexType& index ) const;
-
-
+  
 protected:
   ImageFunction();
   ~ImageFunction() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * Const pointer to the input image.
-   */
+  /** Const pointer to the input image. */
   InputImageConstPointer  m_Image;
 
-  /**
-   * Cache some image information
-   */
+  /** Cache some image information */
   const double * m_Origin;
   const double * m_Spacing;
   PointType      m_GeometricStart;

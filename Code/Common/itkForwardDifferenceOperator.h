@@ -65,31 +65,19 @@ class ITK_EXPORT ForwardDifferenceOperator
   : public NeighborhoodOperator<TPixel, VDimension, TAllocator>
 {
 public:
-  /**
-   * Standard "Self" typedef support.
-   */
+  /** Standard class typedefs. */
   typedef ForwardDifferenceOperator Self;
-
-  /**
-   * Standard superclass typedef support
-   */
   typedef NeighborhoodOperator<TPixel, VDimension, TAllocator> Superclass;
-
-  /**
-   * Constructor.
-   */
+  
+  /** Constructor. */
   ForwardDifferenceOperator() {}
 
-  /**
-   * Copy constructor
-   */
+  /** Copy constructor */
   ForwardDifferenceOperator(const Self& other)
     : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other)
   {  }
 
-  /**
-   * Assignment operator
-   */
+  /** Assignment operator */
   Self &operator=(const Self& other)
   {
     Superclass::operator=(other);
@@ -97,21 +85,16 @@ public:
   }
   
 protected:
-  /**
-   * Necessary to work around VC++ compiler bug.
-   */
+  /** Necessary to work around VC++ compiler bug. */
   typedef typename Superclass::CoefficientVector CoefficientVector;
   
-  /**
-   * Calculates operator coefficients.
-   */
-   CoefficientVector GenerateCoefficients();
+  /** Calculates operator coefficients. */
+  CoefficientVector GenerateCoefficients();
   
-  /**
-   * Arranges coefficients spatially in the memory buffer.
-   */
+  /** Arranges coefficients spatially in the memory buffer. */
   void Fill(const CoefficientVector &coeff)
-  {    this->FillCenteredDirectional(coeff);   }
+
+    { this->FillCenteredDirectional(coeff); }
 
 };
   

@@ -51,8 +51,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class RawImageIO
+/** \class RawImageIO
  * \brief Read and write raw binary images.
  *
  * This class reads 2D or 3D images. Because raw data has little useful 
@@ -63,129 +62,88 @@ namespace itk
  * \sa ImageFileReader
  * 
  * \ingroup IOFilters
- * */
+ */
 
 template <class TPixel, unsigned int VImageDimension=2>
 class ITK_EXPORT RawImageIO : public ImageIOBase
 {
 public:
-  /**
-   * Smart pointer typedef support.
-   */
+  /** Standard class typedefs. */
   typedef RawImageIO Self;
-  typedef SmartPointer<Self>  Pointer;
-
-  /**
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(RawImageIO, ImageIOBase);
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageIOBase  Superclass;
-
-  /**
-   * Method for creation through the object factory.
-   */
+  typedef SmartPointer<Self>  Pointer;
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** 
-   * Pixel typedef support. Used to declare pixel type in filters
-   * or other operations.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(RawImageIO, ImageIOBase);
+
+  /** Pixel typedef support. Used to declare pixel type in filters
+   * or other operations. */
   typedef TPixel PixelType;
 
-  /**
-   * Determine the file type. Returns true if this ImageIOBase can read the
-   * file specified.
-   */
+  /** Determine the file type. Returns true if this ImageIOBase can read the
+   * file specified. */
   virtual bool CanReadFile(const char*) 
     {return true;}
 
-  /**
-   * Get the type of the pixel. 
-   */
+  /** Get the type of the pixel.  */
   virtual const type_info& GetPixelType() const
     {return typeid(PixelType);}
 
-  /**
-   * Loads the data from disk into internal memory (the RequestedRegionData).
-   */
+  /** Loads the data from disk into internal memory (the RequestedRegionData). */
   virtual void Load();
   
-  /**
-   * Loads the data from disk into the memory buffer provided.
-   */
+  /** Loads the data from disk into the memory buffer provided. */
   virtual void Load(void* buffer) {}
 
-  /**
-   * Compute the size (in bytes) of the components of a pixel. For
+  /** Compute the size (in bytes) of the components of a pixel. For
    * example, and RGB pixel of unsigned char would have a 
-   * component size of 1 byte.
-   */
+   * component size of 1 byte. */
   virtual unsigned int GetComponentSize() const
     {return 0;}
 
-  /** 
-   * Set and get the spacing (size of a pixel) of the image.
-   * \sa GetSpacing()
-   */
+  /** Set/Get and get the spacing (size of a pixel) of the image.
+   * \sa GetSpacing() */
   void SetDimensions(const unsigned int *dims);
   unsigned int *GetDimensions() const;
-  
-  /** 
-   * Set and get the spacing (size of a pixel) of the image.
-   * \sa GetSpacing()
-   */
+    
+  /** Set and get the spacing (size of a pixel) of the image.
+   * \sa GetSpacing() */
   itkSetVectorMacro(Spacing, const double, VImageDimension);
   itkGetVectorMacro(Spacing, const double, VImageDimension);
-  
-  /** 
-   * Set and get the origin of the image.
-   * \sa GetOrigin()
-   */
+    
+  /** Set and get the origin of the image.
+   * \sa GetOrigin() */
   itkSetVectorMacro(Origin, const double, VImageDimension);
   itkGetVectorMacro(Origin, const double, VImageDimension);
-
-  /**
-   * Get the number of independent variables (dimensions) in the image
-   * being read.
-   */
+  
+  /** Get the number of independent variables (dimensions) in the image
+   * being read. */
   unsigned int GetNumberOfDimensions() const
     {return VImageDimension};
 
-  /**
-   * Get the size of the header computed by this object.
-   */
+  /** Get the size of the header computed by this object. */
   unsigned long GetHeaderSize();
 
-  /**
-   * If there is a tail on the file, you want to explicitly set the
-   * header size.
-   */
+  /** If there is a tail on the file, you want to explicitly set the
+   * header size. */
   void SetHeaderSize(unsigned long size);
   
-  /**
-   * Set/Get the Data mask.
-   */
+  /** Set/Get the Data mask. */
   itkGetConstMacro(ImageMask,unsigned short);
   void SetImageMask(unsigned long val) 
     {if (val == m_ImageMask) { return; }
     m_ImageMask = ((unsigned short)(val)); this->Modified();}
-  
-  /**
-   * Enums used to specify raw type: whether binary or ASCII.
-   */
+    
+  /** Enums used to specify raw type: whether binary or ASCII. */
   typedef  enum {ASCII,Binary} FileType;
   
-  /**
-   * Enums used to specify byte order; whether Big Endian or Little Endian.
-   */
+  /** Enums used to specify byte order; whether Big Endian or Little Endian. */
   typedef  enum {BigEndian,LittleEndian} ByteOrder;
   
-  /**
-   * These methods indicate the byte ordering of the file you are trying
+  /** These methods indicate the byte ordering of the file you are trying
    * to read in. These methods will then either swap or not swap
    * the bytes depending on the byte ordering of the machine it is
    * being run on. For example, reading in a BigEndian file on a
@@ -194,18 +152,15 @@ public:
    * Note: most UNIX machines are BigEndian while PC's
    * and VAX's are LittleEndian. So if the file you are reading
    * in was generated on a VAX or PC, SetImageByteOrderToLittleEndian 
-   * otherwise SetImageByteOrderToBigEndian. 
-   */
+   * otherwise SetImageByteOrderToBigEndian.  */
   itkSetMacro(ImageByteOrder,ByteOrder);
   itkGetConstMacro(ImageByteOrder,ByteOrder);
   void SetImageByteOrderToBigEndian()
     { this->SetImageByteOrder(BigEndian); }
   void SetImageByteOrderToLittleEndian()
     { this->SetImageByteOrder(LittleEndian); }
-
-  /**
-   * Read a file's header to determine image dimensions, etc.
-   */
+  
+  /** Read a file's header to determine image dimensions, etc. */
   virtual void ReadHeader (const std::string fileName="") {};
 
 protected:

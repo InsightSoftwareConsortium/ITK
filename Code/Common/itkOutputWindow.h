@@ -52,95 +52,63 @@ namespace itk
  * this object (or subclasses of this object).
  *
  * \ingroup OSSystemObjects
- * 
  */
-
 class ITK_EXPORT OutputWindow : public Object
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef OutputWindow        Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /** 
-   * Smart pointer typedef support. 
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
+  
+  /** Run-time type information (and related methods). */
   itkTypeMacro(OutputWindow, Object);
 
-  /** 
-   * This is a singleton pattern New.  There will only be ONE
+  /** This is a singleton pattern New.  There will only be ONE
    * reference to a OutputWindow object per process.  Clients that
    * call this must call Delete on the object so that the reference
    * counting will work.   The single instance will be unreferenced when
-   * the program exits.
-   */
+   * the program exits. */
   static Pointer New();
 
-  /**
-   * Return the singleton instance with no reference counting.
-   */
+  /** Return the singleton instance with no reference counting. */
   static Pointer GetInstance();
 
-  /**
-   * Supply a user defined output window. Call ->Delete() on the supplied
-   * instance after setting it.
-   */
+  /** Supply a user defined output window. Call ->Delete() on the supplied
+   * instance after setting it. */
   static void SetInstance(OutputWindow *instance);
 
-  /**
-   * Send a string to display.
-   */
+  /** Send a string to display. */
   virtual void DisplayText(const char*);
 
-  /**
-   * Send a string as an error message to display.
+  /** Send a string as an error message to display.
    * The default implementation calls DisplayText() but subclasses
-   * could present this message differently.
-   */
+   * could present this message differently. */
   virtual void DisplayErrorText(const char *t) { this->DisplayText(t); };
 
-  /**
-   * Send a string as a warningmessage to display.
+  /** Send a string as a warningmessage to display.
    * The default implementation calls DisplayText() but subclasses
-   * could present this message differently.
-   */
+   * could present this message differently. */
   virtual void DisplayWarningText(const char *t) { this->DisplayText(t); };
 
-  /**
-   * Send a string as a message to display.
+  /** Send a string as a message to display.
    * The default implementation calls DisplayText() but subclasses
-   * could present this message differently.
-   */
+   * could present this message differently. */
   virtual void DisplayGenericOutputText(const char *t) {this->DisplayText(t);}
 
-  /**
-   * Send a string as a debug message to display.
+  /** Send a string as a debug message to display.
    * The default implementation calls DisplayText() but subclasses
-   * could present this message differently.
-   */
+   * could present this message differently. */
   virtual void DisplayDebugText(const char *t) { this->DisplayText(t); };
   
-  /**
-   * If PromptUser is set to true then each time a line of text
+  /** If PromptUser is set to true then each time a line of text
    * is displayed, the user is asked if they want to keep getting
-   * messages.
-   */
+   * messages. */
   itkSetMacro(PromptUser,bool);
   itkGetMacro(PromptUser,bool);
   itkBooleanMacro(PromptUser);
-
+  
 protected:
   OutputWindow();
   virtual ~OutputWindow();

@@ -86,79 +86,50 @@ template <typename TBloxPixelType,
 class ITK_EXPORT BloxImage : public Image<TBloxPixelType, VImageDimension, TImageTraits>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef BloxImage  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Image<TBloxPixelType, VImageDimension, TImageTraits>  Superclass;
-  
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+  
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);  
 
-  /** 
-   * Pixel typedef support. Used to declare pixel type in filters
-   * or other operations.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(BloxImage, Image);
+
+  /** Pixel typedef support. Used to declare pixel type in filters
+   * or other operations. */
   typedef TBloxPixelType PixelType;
 
-  /** 
-   * Internal Pixel representation. Used to maintain a uniform API
+  /** Internal Pixel representation. Used to maintain a uniform API
    * with Image Adaptors and allow to keep a particular internal
    * representation of data while showing a different external 
-   * representation.
-   */
+   * representation. */
   typedef TBloxPixelType InternalPixelType;
 
-  /** 
-   *  Accessor type that convert data between internal and external
-   *  representations.
-   */
+  /**  Accessor type that convert data between internal and external
+   *  representations. */
   typedef DefaultPixelAccessor< PixelType > AccessorType;
 
-  /**
-   * Dimension of the image.  This enum is used by functions that are
+  /** Dimension of the image.  This enum is used by functions that are
    * templated over image type (as opposed to being templated over pixel
    * type and dimension) when they need compile time access to the dimension
-   * of the image.
-   */
+   * of the image. */
   enum { ImageDimension = VImageDimension };
 
-  /**
-   * The ImageTraits for this image.
-   */
+  /** The ImageTraits for this image. */
   typedef TImageTraits ImageTraits;
 
-  /*@{
-   * Convenient typedefs obtained from TImageTraits template parameter.
-   */
+  /** Convenient typedefs obtained from TImageTraits template parameter. */
   typedef typename ImageTraits::PixelContainer PixelContainer;
   typedef typename ImageTraits::SizeType SizeType;
   typedef typename ImageTraits::IndexType IndexType;
   typedef typename ImageTraits::OffsetType OffsetType;
   typedef typename ImageTraits::RegionType RegionType;
-  //@}
-
-  /**
-   * A pointer to the pixel container.
-   */
+  
+  /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(BloxImage, Image);
-
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);  
 
 protected:
   BloxImage();

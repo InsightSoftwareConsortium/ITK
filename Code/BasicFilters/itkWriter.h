@@ -58,7 +58,7 @@ class ITK_EXPORT Writer : public ProcessObject
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef Writer              Self;
 

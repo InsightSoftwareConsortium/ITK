@@ -73,7 +73,6 @@ namespace itk
  * to surfaces and gradients of functions. AffineTransform transform
  * covariant vectors different than vectors.
  *
- *
  * \ingroup Geometry
  * \ingroup DataRepresentation
  * 
@@ -82,181 +81,105 @@ namespace itk
  * \sa Point
  * \sa CovariantCovariantVector
  * \sa Matrix
- *
  */
 
 template<class T, unsigned int TCovariantVectorDimension=3>
 class CovariantVector : public Array<T,TCovariantVectorDimension> {
  public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef CovariantVector  Self;
-  
-   
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Array<T,TCovariantVectorDimension>  Superclass;
-
-
-  
-  /**
-   * ValueType can be used to declare a variable that is the same type
-   * as a data element held in an CovariantVector.  
-   */
+    
+  /** ValueType can be used to declare a variable that is the same type
+   * as a data element held in an CovariantVector.   */
   typedef T ValueType;
 
-  /**
-   * Dimension of the Space
-   */
+  /** Dimension of the Space */
   enum { CovariantVectorDimension = TCovariantVectorDimension };
 
+  /** I am a covariant vector. */
   typedef Self CovariantVectorType;
   
-  /**
-   * The Array type from which this CovariantVector is derived.
-   */
+  /** The Array type from which this CovariantVector is derived. */
   typedef Array<T, TCovariantVectorDimension>                BaseArray;
   typedef typename BaseArray::ArrayCommaListCopier  ArrayCommaListCopier;
-  
-  /**
-   * Get the dimension (size) of the vector.
-   */
+    
+  /** Get the dimension (size) of the vector. */
   static unsigned int GetCovariantVectorDimension() 
     { return TCovariantVectorDimension; }  
 
-  /**
-   * Set a vnl_vector_ref referencing the same memory block
-   */
+  /** Set a vnl_vector_ref referencing the same memory block */
   void Set_vnl_vector( const vnl_vector<T> & );
 
-
-  /**
-   * Get a vnl_vector_ref referencing the same memory block
-   */
+  /** Get a vnl_vector_ref referencing the same memory block */
   vnl_vector_ref<T> Get_vnl_vector( void );
 
-  /**
-   * Get a vnl_vector with a copy of the internal memory block
-   */
+  /** Get a vnl_vector with a copy of the internal memory block */
   vnl_vector<T> Get_vnl_vector( void ) const;
 
-
-  /**
-   * Default constructor has nothing to do.
-   */
+  /** Default constructor has nothing to do. */
   CovariantVector() {}
 
-  /*@{
-   * Pass-through constructor for the Array base class.
-   */
+  /** Pass-through constructor for the Array base class. */
   CovariantVector(const Self& r): BaseArray(r) {}
   CovariantVector(const typename BaseArray::Reference& r): BaseArray(r) {}
   CovariantVector(const typename BaseArray::ConstReference& r): BaseArray(r) {}
   CovariantVector(const ValueType r[CovariantVectorDimension]): BaseArray(r) {}  
-  //@}
-  
-  /*@{
-   * Pass-through assignment operator for the Array base class.
-   */
+    
+  /** Pass-through assignment operator for the Array base class. */
   CovariantVector& operator= (const Self& r);
   CovariantVector& operator= (const typename BaseArray::Reference& r);
   CovariantVector& operator= (const typename BaseArray::ConstReference& r);
   CovariantVector& operator= (const ValueType r[CovariantVectorDimension]);
   ArrayCommaListCopier operator= (const ValueType& r);
-  //@}
-  
-  /**
-   * Scalar operator*=.  Scales elements by a scalar.
-   */
+    
+  /** Scalar operator*=.  Scales elements by a scalar. */
   const Self& operator*=(const ValueType &value);
 
-
-  /**
-   * Scalar operator/=.  Scales (divides) elements by a scalar.
-   */
+  /** Scalar operator/=.  Scales (divides) elements by a scalar. */
   const Self& operator/=(const ValueType &value);
 
-
-  /**
-   * CovariantVector operator+=.  Adds a vectors to the current vector.
-   */
+  /** CovariantVector operator+=.  Adds a vectors to the current vector. */
   const Self& operator+=(const Self &vec);
 
-
-  /**
-   * CovariantVector operator-=.  Subtracts a vector from a current vector.
-   */
+  /** CovariantVector operator-=.  Subtracts a vector from a current vector. */
   const Self& operator-=(const Self &vec);
 
-
-  /**
-   * CovariantVector negation.  Negate all the elements of a vector. Return a new vector
-   */
+  /** CovariantVector negation.  Negate all the elements of a vector. Return a new vector */
   Self operator-() const;
   
-
-  /**
-   * CovariantVector addition. Add two vectors. Return a new vector.
-   */
+  /** CovariantVector addition. Add two vectors. Return a new vector. */
   Self operator+(const Self &vec) const;
   
-
-   /**
-   * CovariantVector subtraction. Subtract two vectors. Return a new vector.
-   */
+  /** CovariantVector subtraction. Subtract two vectors. Return a new vector. */
   Self operator-(const Self &vec) const;
   
-
-  /**
-   * Scalar operator*. Scale the elements of a vector by a scalar.
-   * Return a new vector.
-   */
+  /** Scalar operator*. Scale the elements of a vector by a scalar.
+   * Return a new vector. */
   Self operator*(const ValueType& val) const;
-  
 
-  /**
-   * CovariantVector operator*.  Performs the inner product of two covariant vectors.
+  /** CovariantVector operator*.  Performs the inner product of two covariant vectors.
    * \warning This is equivalent to the scalar product only if the reference
-   * system has orthogonal axis and equal scales. 
-   */
+   * system has orthogonal axis and equal scales.  */
   ValueType operator*(const Self &vec) const;
 
-  /**
-   * operator*.  Performs the scalar product with a vector (contravariant).
-   * This scalar product is invariant under affine transformations
-   */
+  /** operator*.  Performs the scalar product with a vector (contravariant).
+   * This scalar product is invariant under affine transformations */
   ValueType operator*(const Vector<T,TCovariantVectorDimension> &vec) const;
 
-
-
-  /**
-   * Scalar operator/. Scale (divide) the elements of a vector by a scalar.
-   * Return a new vector.
-   */
+  /** Scalar operator/. Scale (divide) the elements of a vector by a scalar.
+   * Return a new vector. */
   Self operator/(const ValueType& val) const;
 
-
-  /**
-   * Returns the Euclidean Norm of the vector 
-   */
+  /** Returns the Euclidean Norm of the vector  */
   ValueType GetNorm( void ) const;
-  
 
-  /**
-   * Returns vector's Squared Euclidean Norm 
-   */
+  /** Returns vector's Squared Euclidean Norm  */
   ValueType GetSquaredNorm( void ) const;
 
-
-  /**
-   * Print content
-   */
+  /** Print content */
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-
- 
 };
 
 

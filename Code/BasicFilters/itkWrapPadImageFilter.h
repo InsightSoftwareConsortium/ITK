@@ -67,7 +67,7 @@ class ITK_EXPORT WrapPadImageFilter:
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef WrapPadImageFilter         Self;
   

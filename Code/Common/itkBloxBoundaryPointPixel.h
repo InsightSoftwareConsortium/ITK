@@ -49,7 +49,7 @@ namespace itk
 
 /**
  * \class BloxBoundaryPointPixel
- * \brief Holds a linked list of itk::BloxBoundaryPointItem's
+ * \brief Holds a linked list of itk::BloxBoundaryPointItem's.
  *
  * \ingroup ImageObjects 
  * */
@@ -57,13 +57,10 @@ namespace itk
 template <unsigned int NDimensions>
 class BloxBoundaryPointPixel : public BloxPixel< BloxBoundaryPointItem<NDimensions> >
 {
-
 public:
-
   BloxBoundaryPointPixel();
   ~BloxBoundaryPointPixel();
 };
-
 
 } // end namespace itk
 

@@ -45,83 +45,59 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
-  /** \class BinaryMorphologicalErosionFilter
-   * \brief filter implementation of binary morphological erosion
-   *
-   * This filter considers the input image is composed of only two types of
-   * pixel values: background and forground. each pixel is categorized using
-   * the threshold value. 
-   * 
-   * For the each input image pixel, 
-   *   - NeighborhoodIterator gives neighbors of the pixel. 
-   *   - Evalue() member function retunrs the minimum value among 
-   *     the results of (image neighbors * kernel element) if the min value 
-   *     is less than threshold, else return center pixel value 
-   *     (original value)  
-   *   - Replace the original value with the min value
-   *
-   * \sa BinaryMorphologicalFilterBase
-   * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
-   */
+/** \class BinaryMorphologicalErosionFilter
+ * \brief filter implementation of binary morphological erosion
+ *
+ * This filter considers the input image is composed of only two types of
+ * pixel values: background and forground. each pixel is categorized using
+ * the threshold value. 
+ * 
+ * For the each input image pixel, 
+ *   - NeighborhoodIterator gives neighbors of the pixel. 
+ *   - Evalue() member function retunrs the minimum value among 
+ *     the results of (image neighbors * kernel element) if the min value 
+ *     is less than threshold, else return center pixel value 
+ *     (original value)  
+ *   - Replace the original value with the min value
+ *
+ * \sa BinaryMorphologicalFilterBase
+ * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
+ */
 template<class TInputImage, class TOutputImage, class TKernel>
 class ITK_EXPORT BinaryMorphologicalErosionFilter : 
   public BinaryMorphologicalFilterBase<TInputImage, TOutputImage, TKernel>
 {
 public:
-  /**
-   * Standard Self typedef
-   */
+  /** Standard class typedefs. */
   typedef BinaryMorphologicalErosionFilter Self;
-
-  /**
-   * Standard Superclass typedef
-   */
   typedef BinaryMorphologicalFilterBase<TInputImage, TOutputImage, TKernel>
     Superclass;
-
-  /**
-   * Standard smart pointer support
-   */ 
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  /**
-   * Runtime information support
-   */
+  /** Standard New method. */
+  itkNewMacro(Self);  
+
+  /** Run-time information support. */
   itkTypeMacro(BinaryMorphologicalErosionFilter, 
                BinaryMorphologicalFilterBase);
   
-  /**
-   * Standard New method
-   */
-  itkNewMacro(Self);  
-
-  /**
-   * Declaration of Pixel Type
-   */
+  /** Declaration of pixel type. */
   typedef typename Superclass::PixelType PixelType;
 
-  /**
-   * Declaration of ImageKernelIteratorType
-   */
+  /** Declaration of image kernel iterator type. */
   typedef typename Superclass::ImageKernelIteratorType ImageKernelIteratorType;
 
-  /**
-   * Kernel (structuring element) iterator
-   */
+  /** Kernel (structuring element) iterator. */
   typedef typename Superclass::KernelIteratorType  KernelIteratorType;
- 
 
 protected:
-
-  /**
-   * Evaluate image neighborhood with kernel to find the new value 
+  /** Evaluate image neighborhood with kernel to find the new value 
    * for the center pixel value
    *
    * It will return the minimum value among the results of 
    * (image neighbors * kernel element) if the min value is less than
-   * threshold, else return center pixel value (original value) 
-   */
+   * threshold, else return center pixel value (original value)  */
   PixelType Evaluate(ImageKernelIteratorType first, 
                      ImageKernelIteratorType last, 
                      KernelIteratorType first2,

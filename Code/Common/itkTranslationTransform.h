@@ -53,16 +53,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- *
- * Translation transformation of a vector space (e.g. space coordinates)
+/** \brief Translation transformation of a vector space (e.g. space coordinates)
  *
  * The same functionality could be obtained by using the Affine tranform,
- * but with a large difference in performace
+ * but with a large difference in performace.
  *
  * \ingroup Transforms
- **/
-
+ */
 template <
     class TScalarType=double,          // Data type for scalars (float or double)
     unsigned int NDimensions=3,
@@ -76,116 +73,99 @@ class TranslationTransform : public Transform< TScalarType,
                                                TJacobianType >
 {
 public:
-  /// Standard Self Typedef
+  /** Standard class typedefs. */
   typedef TranslationTransform Self;
-    
-  /// Dimension of the domain space
-  enum { SpaceDimension      = NDimensions,
-         ParametersDimension = NDimensions };
-
-
-  /// Standard "Superclass" typedef.
   typedef Transform< TScalarType, NDimensions,
     NDimensions, TParameters, 
     TJacobianType >             Superclass;
-
-  /// Standard scalar type for this class
-  typedef typename Superclass::ScalarType ScalarType;
-
-  /// Standard parameters container
-  typedef typename Superclass::ParametersType ParametersType;
-
-  /// Standard Jacobian Container
-  typedef typename Superclass::JacobianType JacobianType;
-
-  //@{
-  /// Smart pointer typedef support 
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-  //@}
-
-  /// Run-time type information (and related methods).
-  itkTypeMacro( TranslationTransform, Transform );
-
-  /// New macro for creation of through a Smart Pointer
+      
+  /** New macro for creation of through the object factory.*/
   itkNewMacro( Self );
 
-  /// Standard vector type for this class
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( TranslationTransform, Transform );
+
+  /** Dimension of the domain space. */
+  enum { SpaceDimension      = NDimensions,
+         ParametersDimension = NDimensions };
+
+  /** Standard scalar type for this class. */
+  typedef typename Superclass::ScalarType ScalarType;
+
+  /** Standard parameters container. */
+  typedef typename Superclass::ParametersType ParametersType;
+
+  /** Standard Jacobian container. */
+  typedef typename Superclass::JacobianType JacobianType;
+
+  /** Standard vector type for this class. */
   typedef Vector<TScalarType, SpaceDimension> InputVectorType;
   typedef Vector<TScalarType, SpaceDimension> OutputVectorType;
 
-  //@{
-  /// Standard covariant vector type for this class
+  /** Standard covariant vector type for this class. */
   typedef CovariantVector<TScalarType, SpaceDimension> InputCovariantVectorType;
   typedef CovariantVector<TScalarType, SpaceDimension> OutputCovariantVectorType;
-  //@}
-
-  //@{
-  /// Standard vnl_vector type for this class
+  
+  /** Standard vnl_vector type for this class. */
   typedef vnl_vector_fixed<TScalarType, SpaceDimension> InputVnlVectorType;
   typedef vnl_vector_fixed<TScalarType, SpaceDimension> OutputVnlVectorType;
-  //@}
-
-  //@{
-  /// Standard coordinate point type for this class
+  
+  /** Standard coordinate point type for this class. */
   typedef Point<TScalarType, SpaceDimension> InputPointType;
   typedef Point<TScalarType, SpaceDimension> OutputPointType;
-  //@}
-
+  
   /** This method returns the value of the offset of the
-   * TranslationTransform. **/
+   * TranslationTransform. */
   const OutputVectorType & GetOffset(void) const
     { return m_Offset; }
 
   /** This method sets the parameters for the transform
-   * value specified by the user. **/
+   * value specified by the user. */
   void SetParameters(const ParametersType & parameters);
-
 
   /** Set offset of an Translation Transform.
    * This method sets the offset of an TranslationTransform to a
-   * value specified by the user. **/
+   * value specified by the user. */
   void SetOffset(const OutputVectorType &offset)
     { m_Offset = offset; return; }
 
-  /// Compose with another TranslationTransform
+  /** Compose with another TranslationTransform. */
   void Compose(const Self * other, bool pre=0);
 
   /** Compose affine transformation with a translation.
    * This method modifies self to include a translation of the
    * origin.  The translation is precomposed with self if pre is
-   * true, and postcomposed otherwise. **/
+   * true, and postcomposed otherwise. */
   void Translate(const OutputVectorType &offset, bool pre=0);
 
   /** Transform by an affine transformation.
    * This method applies the affine transform given by self to a
    * given point or vector, returning the transformed point or
-   * vector. **/
+   * vector. */
   OutputPointType     TransformPoint(const InputPointType  &point ) const;
   OutputVectorType    TransformVector(const InputVectorType &vector) const;
   OutputVnlVectorType TransformVector(const InputVnlVectorType &vector) const;
-
   OutputCovariantVectorType TransformCovariantVector(
     const InputCovariantVectorType &vector) const;
-
-  //@{
+  
   /** This method finds the point or vector that maps to a given
    * point or vector under the affine transformation defined by
-   * self.  If no such point exists, an exception is thrown. **/
+   * self.  If no such point exists, an exception is thrown. */
   inline InputPointType    BackTransform(const OutputPointType  &point ) const;
   inline InputVectorType   BackTransform(const OutputVectorType &vector) const;
   inline InputVnlVectorType BackTransform(const OutputVnlVectorType &vector) const;
   inline InputCovariantVectorType BackTransform(
     const OutputCovariantVectorType &vector) const;
-  //@}
-
-  /// Print contents of an TranslationTransform
+  
+  /** Print contents of an TranslationTransform. */
   void PrintSelf(std::ostream &os, Indent indent) const;
 
   /** Find inverse of an affine transformation.
    * This method creates and returns a new TranslationTransform object
    * which is the inverse of self.  If self is not invertible,
-   * an exception is thrown.  **/
+   * an exception is thrown.  */
   TranslationTransform::Pointer Inverse(void) const;
 
 protected:

@@ -71,31 +71,19 @@ class ITK_EXPORT DerivativeOperator
 {
 
 public:
-  /**
-   * Standard "Self" typedef support.
-   */
+  /** Standard class typedefs. */
   typedef DerivativeOperator Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef NeighborhoodOperator<TPixel, VDimension, TAllocator>  Superclass;
-
-  /**
-   * Constructor
-   */
+  
+  /** Constructor. */
   DerivativeOperator() : m_Order(1) {}
 
-  /**
-   * Copy constructor
-   */
+  /** Copy constructor. */
   DerivativeOperator(const Self& other)
     : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other)
   { m_Order = other.m_Order;  }
   
-  /**
-   * Assignment operator
-   */
+  /** Assignment operator */
   Self &operator=(const Self& other)
   {
     Superclass::operator=(other);
@@ -103,20 +91,14 @@ public:
     return *this;
   }
 
-  /**
-   * Sets the order of the derivative.
-   */
+  /** Sets the order of the derivative. */
   void SetOrder(const unsigned int &order)
   {  m_Order = order;  }
 
-  /**
-   * Returns the order of the derivative.
-   */
+  /** Returns the order of the derivative. */
   unsigned int GetOrder() const { return m_Order; }
 
-  /**
-   * Prints some debugging information
-   */
+  /** Prints some debugging information */
   virtual void PrintSelf(std::ostream &os, Indent i) const  
   { 
     os << i << "DerivativeOperator { this=" << this
@@ -125,27 +107,19 @@ public:
   }
   
 protected:
-  /**
-   * Typedef support for coefficient vector type.  Necessary to
-   * work around compiler bug on VC++.
-   */
+  /** Typedef support for coefficient vector type.  Necessary to
+   * work around compiler bug on VC++. */
   typedef typename Superclass::CoefficientVector CoefficientVector;
 
-  /**
-   * Calculates operator coefficients.
-   */
+  /** Calculates operator coefficients. */
   CoefficientVector GenerateCoefficients();
 
-  /**
-   * Arranges coefficients spatially in the memory buffer.
-   */
+  /** Arranges coefficients spatially in the memory buffer. */
   void Fill(const CoefficientVector &coeff)
   {   Superclass::FillCenteredDirectional(coeff);  }
  
 private:
-  /**
-   * Order of the derivative.
-   */
+  /** Order of the derivative. */
   unsigned int m_Order;
 };
 

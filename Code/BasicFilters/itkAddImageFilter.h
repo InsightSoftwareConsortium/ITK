@@ -75,9 +75,7 @@ namespace itk
  * \warning No numeric overflow checking is performed in this filter.
  *
  * \ingroup IntensityImageFilters  Multithreaded
- *
  */
-
 namespace Functor {  
   
   template< class TInput1, class TInput2, class TOutput >
@@ -88,16 +86,13 @@ namespace Functor {
     Add2() {};
     ~Add2() {};
     inline TOutput operator()( const TInput1 & A, const TInput2 & B)
-    {
+      {
       const AccumulatorType sum = A;
       return static_cast<TOutput>( sum + B );
-    }
+      }
   }; 
 
 }
-// Wrap: AddImageFilter<$Image,$Image,$Image,$Function>
-// Wrap: <XML code for Function....>
-// Wrap: AddImageFilter<Image<$BasicPixel,$BasicDimension>,$Image,$Image,$Function>
 template <class TInputImage1, class TInputImage2, class TOutputImage>
 class ITK_EXPORT AddImageFilter :
     public
@@ -110,31 +105,18 @@ class ITK_EXPORT AddImageFilter :
 
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef AddImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
     Functor::Add2< 
               typename TInputImage1::PixelType, 
               typename TInputImage2::PixelType,
               typename TOutputImage::PixelType>   
                 >  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
 protected:
@@ -144,7 +126,6 @@ protected:
 private:
   AddImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
 
 };
 

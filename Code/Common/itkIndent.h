@@ -62,40 +62,26 @@ namespace itk
 class ITK_EXPORT Indent
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef Indent  Self;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   static Self* New();
   
-  /**
-   * Destroy this instance.
-   */
+  /** Destroy this instance. */
   void Delete() {delete this;}
 
-  /** 
-   * Construct the object with an initial indentation level.
-   */
+  /** Construct the object with an initial indentation level. */
   Indent(int ind=0) {m_Indent=ind;}
 
-  /**
-   * Return the name of the class.
-   */
+  /** Return the name of the class. */
   static const char *GetNameOfClass() {return "Indent";}
 
-  /** 
-   * Determine the next indentation level. Keep indenting by two until the 
-   * a maximum of forty spaces is reached. 
-   */
+  /** Determine the next indentation level. Keep indenting by two until the 
+   * a maximum of forty spaces is reached.  */
   Indent GetNextIndent();
 
-  /** 
-   * Print out the indentation. Basically output a bunch of spaces. 
-   */
+  /** Print out the indentation. Basically output a bunch of spaces.  */
   friend ITK_EXPORT std::ostream& operator<<(std::ostream& os, const Indent& o); 
 
 private:

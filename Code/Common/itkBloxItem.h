@@ -49,7 +49,7 @@ namespace itk
  * \brief An entry in the BloxPixel linked list
  *
  * This class is do-nothing virtual class, designed to avoid
- * the necessity of templating BloxPixel over item type
+ * the necessity of templating BloxPixel over item type.
  * \ingroup ImageObjects
  * */
 

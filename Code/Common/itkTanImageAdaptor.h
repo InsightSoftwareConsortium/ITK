@@ -48,8 +48,7 @@ namespace itk
 {
  
 namespace Accessor {
-/**
- * \class TanPixelAccessor
+/** \class TanPixelAccessor
  * \brief Give access to the tan() function of a value
  *
  * TanPixelAccessor is templated over an internal type and an
@@ -58,42 +57,29 @@ namespace Accessor {
  * to the types defined as template parameters
  *
  * \ingroup ImageAdaptors
- *
  */
-
 template <class TInternalType, class TExternalType >
 class ITK_EXPORT TanPixelAccessor  
 {
 public:
-
- /** 
-   * External typedef. It defines the external aspect
-   * that this class will exhibit.
-   */
+  /** External typedef. It defines the external aspect
+   * that this class will exhibit. */
   typedef TExternalType ExternalType;
 
-  /** 
-   * Internal typedef. It defines the internal real
-   * representation of data.
-   */
+  /** Internal typedef. It defines the internal real
+   * representation of data. */
   typedef TInternalType InternalType;
-
 
   static inline void Set(TInternalType & output, const TExternalType & input) 
     {output = (TInternalType)tan((double)input);}
 
   static inline TExternalType Get( const TInternalType & input ) 
     {return (TExternalType)tan((double)input);}
-
 };
-
   
 } // end namespace Accessor
 
-
- 
-/**
- * \class TanImageAdaptor
+/** \class TanImageAdaptor
  * \brief Presents an image as being composed of the tan() of its pixels
  *
  * Additional casting is performed according to the input and output image
@@ -110,35 +96,19 @@ class ITK_EXPORT TanImageAdaptor : public
                                       TOutputPixelType>   >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef TanImageAdaptor  Self;
-
-
-  /**
-   * Standard "Superclass" typedef.
-   */
-  typedef ImageAdaptor<TImage,
-                       Accessor::TanPixelAccessor<
+  typedef ImageAdaptor<TImage,Accessor::TanPixelAccessor<
                                        typename TImage::PixelType,
-                                       TOutputPixelType> >
-                                                            Superclass;
-  /** 
-   * Smart pointer typedef support.
-   */
+                                       TOutputPixelType> > Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro( TanImageAdaptor, ImageAdaptor );
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( TanImageAdaptor, ImageAdaptor );
 
 
 };

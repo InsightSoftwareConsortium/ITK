@@ -60,20 +60,24 @@ class CurvatureAnisotropicDiffusionImageFilter
   : public AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /**
-   * Standard itk typedefs
-   */
+  /** Standard class typedefs. */
   typedef CurvatureAnisotropicDiffusionImageFilter Self;
   typedef AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
    Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
+
+  /** Standard method for creation through object factory. */
   itkNewMacro(Self);
 
+  /** Run-time information. */
   itkTypeMacro(CurvatureAnisotropicDiffusionImageFilter,
                AnisotropicDiffusionImageFilter);
   
+  /** Extract superclass information. */
   typedef typename Superclass::UpdateBufferType UpdateBufferType;
+  
+  /** Extract superclass image dimension. */
   enum { ImageDimension = Superclass::ImageDimension };
   
 protected:
@@ -81,15 +85,15 @@ protected:
     {
       if ( ImageDimension == 2 )
         {
-          Curvature2DAnisotropicDiffusionEquation<UpdateBufferType>::Pointer p        
-            = Curvature2DAnisotropicDiffusionEquation<UpdateBufferType>::New();
-          this->SetDifferenceEquation(p);
+        Curvature2DAnisotropicDiffusionEquation<UpdateBufferType>::Pointer p        
+          = Curvature2DAnisotropicDiffusionEquation<UpdateBufferType>::New();
+        this->SetDifferenceEquation(p);
         }
       else
         {
-          CurvatureNDAnisotropicDiffusionEquation<UpdateBufferType>::Pointer q
-            = CurvatureNDAnisotropicDiffusionEquation<UpdateBufferType>::New();
-          this->SetDifferenceEquation(q);
+        CurvatureNDAnisotropicDiffusionEquation<UpdateBufferType>::Pointer q
+          = CurvatureNDAnisotropicDiffusionEquation<UpdateBufferType>::New();
+        this->SetDifferenceEquation(q);
         }
     }
   ~CurvatureAnisotropicDiffusionImageFilter() {}

@@ -67,7 +67,7 @@ namespace itk
 template <class T>
 class ObjectFactory : public ObjectFactoryBase
 {
- public:
+public:
   static typename T::Pointer Create()
   {
     LightObject::Pointer ret = ObjectFactory::CreateInstance(typeid(T).name());

@@ -66,38 +66,23 @@ class ITK_EXPORT BackwardDifferenceOperator
   : public NeighborhoodOperator<TPixel, VDimension, TAllocator>
 {
 public:
-  /**
-   * Standard "Self" typedef support.
-   */
+  /** Standard class typedefs. */
   typedef BackwardDifferenceOperator Self;
-  
-  /**
-   * Standard Superclass typedef support
-   */
   typedef NeighborhoodOperator<TPixel, VDimension, TAllocator> Superclass;
-  
-  /**
-   * Constructor.
-   */
+    
+  /** Constructor. */
   BackwardDifferenceOperator() {}
 
 protected:
-  /**
-   * Necessary to work around a compiler bug in VC++.
-   */
+  /** Necessary to work around a compiler bug in VC++. */
   typedef typename Superclass::CoefficientVector CoefficientVector;
 
-  /**
-   * Calculates operator coefficients.
-   */
+  /** Calculates operator coefficients. */
   CoefficientVector GenerateCoefficients();
 
-  /**
-   * Arranges coefficients spatially in the memory buffer.
-   */
+  /** Arranges coefficients spatially in the memory buffer. */
   void Fill(const CoefficientVector &coeff)
-  {    this->FillCenteredDirectional(coeff);  }
-  
+    { this->FillCenteredDirectional(coeff); }
 
 private:
   BackwardDifferenceOperator(const Self& other); //purposely not implemented

@@ -54,63 +54,34 @@ namespace itk
  *
  * \ingroup Numerics Optimizers
  */
-
-  
 template <class TCostFunction>
 class ITK_EXPORT MultipleValuedNonLinearOptimizer : 
         public NonLinearOptimizer < TCostFunction >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef MultipleValuedNonLinearOptimizer  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef   NonLinearOptimizer<TCostFunction> Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-
-  /**
-   *  Parameters type.
-   *  it defines a position in the optimization search space
-   */
-  typedef typename TCostFunction::ParametersType ParametersType;
-
-
-  /**
-   *  Measure type.
-   *  it defines a type used to return the cost function value 
-   */
-  typedef typename TCostFunction::MeasureType   MeasureType;
-
-
-  /**
-   *  Derivative type.
-   *  it defines a type used to return the cost function derivative 
-   */
-  typedef typename TCostFunction::DerivativeType DerivativeType;
-
-
- /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro( MultipleValuedNonLinearOptimizer, 
-      NonLinearOptimizer );
-
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( MultipleValuedNonLinearOptimizer, NonLinearOptimizer );
+
+  /**  Parameters type.
+   *  It defines a position in the optimization search space. */
+  typedef typename TCostFunction::ParametersType ParametersType;
+
+  /**  Measure type.
+   *  It defines a type used to return the cost function value. */
+  typedef typename TCostFunction::MeasureType   MeasureType;
+
+  /**  Derivative type.
+   *  It defines a type used to return the cost function derivative. */
+  typedef typename TCostFunction::DerivativeType DerivativeType;
 
 protected:
   MultipleValuedNonLinearOptimizer() {};

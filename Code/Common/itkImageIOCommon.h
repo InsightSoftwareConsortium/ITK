@@ -68,36 +68,24 @@ typedef enum
 
 const unsigned int ITK_MAX_DIMENSIONS = 10;
 
-/**
- * Convert the enumerated type to a string representation
- */
+/** Convert the enumerated type to a string representation. */
 std::string AtomicPixelTypeToString(const AtomicPixelType pixelType);
 
-/**
- * Calculate the size, in bytes, that the atomic pixel type occupies
- */
+/** Calculate the size, in bytes, that the atomic pixel type occupies. */
 unsigned int ComputeSizeOfAtomicPixelType(const AtomicPixelType pixelType);
 
-/**
- * Cross-platform case-insensitive string comparison
+/** Cross-platform case-insensitive string comparison
  * (MSVC++ doesn't provide strucmp, so necessary to define our own
- * This function taken from /usr/Image library developed at UNC
- */
+ * This function taken from /usr/Image library developed at UNC. */
 int Strucmp(const char *s1, const char *s2);
 
-/**
- * Given a full filename, extracts just the pathname
- */
+/** Given a full filename, extracts just the pathname. */
 char* ExtractFilePath (const char* fileName);
 
-/**
- * Given a full filename, extracts just the file extension
- */
+/** Given a full filename, extracts just the file extension. */
 char* ExtractFileExtension (const char* fileName);
 
-/**
- * Given a full filename, extracts just the filename
- */
+/** Given a full filename, extracts just the filename. */
 char* ExtractFileName (const char* fileName);
 
 } // end namespace itk

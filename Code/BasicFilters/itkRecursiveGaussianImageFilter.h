@@ -66,7 +66,7 @@ class ITK_EXPORT RecursiveGaussianImageFilter :
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef RecursiveGaussianImageFilter  Self;
 

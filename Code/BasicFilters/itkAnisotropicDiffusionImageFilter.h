@@ -53,49 +53,41 @@ namespace itk {
  *
  *
  * \ingroup ImageEnhancement
- *
- *
  */
-
-    
 template <class TInputImage, class TOutputImage>
 class AnisotropicDiffusionImageFilter
   : public DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /**
-   * Standard itk Self & Superclass typedefs
-   */
+  /** Standard class typedefs. */
   typedef AnisotropicDiffusionImageFilter Self;
   typedef DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
    Superclass;
+  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
+  /** Smart pointer support for this class. */
+  itkNewMacro(Self);
+
+  /** Run-time type information. */
+  itkTypeMacro(AnisotropicDiffusionImageFilter,
+               DenseFiniteDifferenceImageFilter);
+
+  /** Capture information from the superclass. */
   typedef typename Superclass::InputImageType   InputImageType;
   typedef typename Superclass::OutputImageType  OutputImageType;
   typedef typename Superclass::UpdateBufferType UpdateBufferType;
 
-  /**
-   * Dimensionality of input and output data is assumed to be the same.
-   * It is inherited from the superclass.
-   */
+  /** Dimensionality of input and output data is assumed to be the same.
+   * It is inherited from the superclass. */
   enum { ImageDimension = Superclass::ImageDimension };
 
-  /**
-   * The pixel type of the output image will be used in computations.
-   * Inherited from the superclass.
-   */
+  /** The pixel type of the output image will be used in computations.
+   * Inherited from the superclass. */
   typedef typename Superclass::PixelType PixelType;
   typedef typename Superclass::TimeStepType TimeStepType;
 
-  /** 
-   * Smart pointer support for this class.
-   */
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-  itkNewMacro(Self);
-
-  itkTypeMacro(AnisotropicDiffusionImageFilter,
-               DenseFiniteDifferenceImageFilter);
+  /** Set filter parameters. */
   itkSetMacro(Iterations, unsigned int);
   itkGetMacro(Iterations, unsigned int);
   itkSetMacro(TimeStep, TimeStepType);
@@ -120,19 +112,15 @@ protected:
       Superclass::PrintSelf(os, indent.GetNextIndent());
     }
   
-  /**
-   * Supplies the halting criteria for this class of filters.  The
-   * algorithm will stop after a user-specified number of iterations.
-   */
+  /** Supplies the halting criteria for this class of filters.  The
+   * algorithm will stop after a user-specified number of iterations. */
   virtual bool Halt()
     {
       if (this->GetElapsedIterations() == m_Iterations) return true;
       else return false;
     }
 
-  /**
-   *
-   */
+  /** Prepare for the iteration process. */
   virtual void InitializeIteration()
     {
       AnisotropicDiffusionEquation<UpdateBufferType> *f = 

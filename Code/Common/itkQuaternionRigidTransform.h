@@ -38,7 +38,6 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-
 #ifndef __itkQuaternionRigidTransform_h
 #define __itkQuaternionRigidTransform_h
 
@@ -49,15 +48,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- *
- * QuaternionRigidTransform of a vector space (e.g. space coordinates)
+/** \brief QuaternionRigidTransform of a vector space (e.g. space coordinates).
  *
  * This transform applies a rotation and translation to the space
  *
  * \ingroup Transforms
- *
- **/
+ */
 template < class TScalarType=double >    // Data type for scalars (float or double)
 class ITK_EXPORT QuaternionRigidTransform :
             public Transform< TScalarType,
@@ -66,186 +62,120 @@ class ITK_EXPORT QuaternionRigidTransform :
                               Matrix<double, 3, 7 > >
 {
 public:
+  /** Standard class typedefs.   */
+  typedef QuaternionRigidTransform Self;
+  typedef Transform< TScalarType, 3, 3,
+                     Point< double, 7 >,
+                     Matrix< double, 3, 7 > >   Superclass;
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
+  
+  /** New macro for creation of through a Smart Pointer   */
+  itkNewMacro( Self );
 
-    /**
-     * Standard Self Typedef
-     */
-    typedef QuaternionRigidTransform Self;
+  /** Run-time type information (and related methods).   */
+  itkTypeMacro( QuaternionRigidTransform, Transform );
 
+  /** Scalar type.   */
+  typedef typename Superclass::ScalarType  ScalarType;
 
+  /** Parameters type.   */
+  typedef typename Superclass::ParametersType  ParametersType;
+  
+  /** Jacobian type.   */
+  typedef typename Superclass::JacobianType  JacobianType;
 
-    /**
-     * Standard "Superclass" typedef.
-     */
-    typedef Transform< TScalarType, 3, 3,
-                       Point< double, 7 >,
-                       Matrix< double, 3, 7 > >   Superclass;
+  /** VnlQuaternion type.  */
+  typedef vnl_quaternion<TScalarType>           VnlQuaternionType;
 
+  /** Dimension of parameters   */
+  enum { SpaceDimension = 3,
+         ParametersDimension = 7 };
 
-    /**
-     * Scalar Type
-     */
-    typedef typename Superclass::ScalarType  ScalarType;
+  /** Dimension of the domain space. */
+  enum { InputSpaceDimension = Superclass::InputSpaceDimension,
+         OutputSpaceDimension = Superclass::OutputSpaceDimension };
 
+  /** Standard matrix type for this class. */
+  typedef Matrix<ScalarType, InputSpaceDimension, InputSpaceDimension> MatrixType;
 
-    /**
-     * Parameters Type
-     */
-    typedef typename Superclass::ParametersType  ParametersType;
+  /** Standard vector type for this class. */
+  typedef Vector<TScalarType, InputSpaceDimension> OffsetType;
 
+  /** Standard coordinate point type for this class. */
+  typedef typename Superclass::InputPointType    InputPointType;
+  typedef typename Superclass::OutputPointType   OutputPointType;
+  
+  /** Get the offset of an QuaternionRigidTransform.
+   * This method returns the value of the offset of the
+   * QuaternionRigidTransform.   **/
+  const OffsetType & GetOffset(void) const
+    { return m_Offset; }
 
-    /**
-     * Jacobian Type
-     */
-    typedef typename Superclass::JacobianType  JacobianType;
+  /** Get the rotation from an QuaternionRigidTransform.
+   * This method returns the value of the rotation of the
+   * QuaternionRigidTransform.   **/
+  const VnlQuaternionType & GetRotation(void) const
+    { return m_Rotation; }
 
-    /**
-     * VnlQuaternion Type
-     */
-    typedef vnl_quaternion<TScalarType>           VnlQuaternionType;
-
-
-    /**
-     * Smart pointer typedef support
-     */
-    typedef SmartPointer<Self>        Pointer;
-    typedef SmartPointer<const Self>  ConstPointer;
-
-
-    /**
-     * Run-time type information (and related methods).
-     */
-    itkTypeMacro( QuaternionRigidTransform, Transform );
-
-
-    /**
-     * New macro for creation of through a Smart Pointer
-     */
-    itkNewMacro( Self );
-
-    /**
-     * Dimension of parameters
-     */
-    enum { SpaceDimension = 3,
-           ParametersDimension = 7 };
-
-    /**
-     * Dimension of the domain space
-     */
-    enum { InputSpaceDimension = Superclass::InputSpaceDimension,
-           OutputSpaceDimension = Superclass::OutputSpaceDimension };
-
-
-    /// Standard matrix type for this class
-    typedef Matrix<ScalarType, InputSpaceDimension, InputSpaceDimension> MatrixType;
-
-    /// Standard vector type for this class
-    typedef Vector<TScalarType, InputSpaceDimension> OffsetType;
-
-    /// Standard coordinate point type for this class
-    typedef typename Superclass::InputPointType    InputPointType;
-    typedef typename Superclass::OutputPointType   OutputPointType;
-
-
-    /**
-     * Get offset of an QuaternionRigidTransform
-     *
-     * This method returns the value of the offset of the
-     * QuaternionRigidTransform.
-     **/
-    const OffsetType & GetOffset(void) const
-        { return m_Offset; }
-
-    /**
-     * Get rotation from an QuaternionRigidTransform
-     *
-     * This method returns the value of the rotation of the
-     * QuaternionRigidTransform.
-     **/
-    const VnlQuaternionType & GetRotation(void) const
-        { return m_Rotation; }
-
-
-    /**
-     * Get rotation MAtrix from an QuaternionRigidTransform
-     *
-     * This method returns the value of the rotation of the
-     * QuaternionRigidTransform.
-     **/
-    const MatrixType & GetRotationMatrix(void) const
-      { return m_DirectMatrix; }
-
-
-    /**
-     * Set offset of a QuaternionRigidTransform
-     *
-     * This method sets the offset of a QuaternionRigidTransform to a
-     * value specified by the user.
-     **/
-    void SetOffset(const OffsetType &offset)
-        { m_Offset = offset; return; }
-
-    /**
-     * Set Rotation of the Rigid transform
-     *
-     * This method sets the rotation of a QuaternionRigidTransform to a
-     * value specified by the user.
-     **/
-    void SetRotation(const VnlQuaternionType &rotation);
-
-
-    /**
-     * Transform by rigid transformation
-     *
-     * This method applies the affine transform given by self to a
-     * given point or vector, returning the transformed point or
-     * vector.
-     **/
-    OutputPointType     TransformPoint(const InputPointType  &point ) const;
-
-
-    /**
-     * Set the transformation from a container of parameters
-     * This is typically used by optimizers.
-     *
-     * There are 7 parameters. The first four represents the
-     * quaternion and the last three represents the
-     * offset.
-     *
-     **/
-    void SetParameters( const ParametersType & parameters );
-
-
-  /**
-   * Compute the Jacobian of the transformation
+  /** Get the rotation MAtrix from an QuaternionRigidTransform.
    *
+   * This method returns the value of the rotation of the
+   * QuaternionRigidTransform.   **/
+  const MatrixType & GetRotationMatrix(void) const
+    { return m_DirectMatrix; }
+
+  /** Set the offset of a QuaternionRigidTransform.
+   *
+   * This method sets the offset of a QuaternionRigidTransform to a
+   * value specified by the user.   **/
+  void SetOffset(const OffsetType &offset)
+    { m_Offset = offset; return; }
+
+  /** Set the rotation of the rigid transform.
+   * This method sets the rotation of a QuaternionRigidTransform to a
+   * value specified by the user. */
+  void SetRotation(const VnlQuaternionType &rotation);
+
+  /** Transform by a rigid transformation.
+   * This method applies the affine transform given by self to a
+   * given point or vector, returning the transformed point or
+   * vector. */
+  OutputPointType     TransformPoint(const InputPointType  &point ) const;
+
+  /** Set the transformation from a container of parameters.
+   * This is typically used by optimizers.
+   * There are 7 parameters. The first four represents the
+   * quaternion and the last three represents the
+   * offset. */
+  void SetParameters( const ParametersType & parameters );
+
+  /** Compute the Jacobian of the transformation.
    * This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the transform
-   * is invertible at this point.
-   */
-    const JacobianType & GetJacobian(const InputPointType  &point ) const;
-
+   * is invertible at this point. */
+  const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
 protected:
-    QuaternionRigidTransform();
-    ~QuaternionRigidTransform(){};
-    void PrintSelf(std::ostream &os, Indent indent) const;
+  QuaternionRigidTransform();
+  ~QuaternionRigidTransform(){};
+  void PrintSelf(std::ostream &os, Indent indent) const;
 
-    // matrix representation of the rotation
-    // Should be protected in order to be modified
-    // by derived classes that instantiate an interface
-    // to rotation computation
-    MatrixType          m_DirectMatrix;
+  /** Matrix representation of the rotation
+   * Should be protected in order to be modified
+   * by derived classes that instantiate an interface
+   * to rotation computation. */
+   MatrixType          m_DirectMatrix;
 
 private:
   QuaternionRigidTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  // Offset of the transformation
+  /** Offset of the transformation. */
   OffsetType          m_Offset;
 
-  // Rotation of the transformation
+  /** Rotation of the transformation. */
   VnlQuaternionType   m_Rotation;
 
 }; //class QuaternionRigidTransform

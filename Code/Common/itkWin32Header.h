@@ -38,7 +38,6 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-
 #ifndef __itkWIN32Header_h
 #define __itkWIN32Header_h
 
@@ -53,10 +52,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endif
 #endif
 
-//
-// Disable some common warnings in MS VC++
-//
+/** Disable some common warnings in MS VC++ */
 #if defined(_MSC_VER)
+
 // 'conversion' conversion from 'type1' to 'type2', possible loss of data
 #pragma warning ( disable : 4244 )
 

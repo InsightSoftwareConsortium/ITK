@@ -73,73 +73,47 @@ namespace itk
  * 
  * \ingroup ImageObjects
  */
-
 template <typename TElementIdentifier, typename TElement>
 class ImageContainerInterface: public Object
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ImageContainerInterface      Self;
-  
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+  
+  /** Standard part of every itk Object. */
+  itkTypeMacro(ImageContainerInterface, Object);
 
-  /** \typedef
-   * Save the template parameters.
-   */
+  /** Save the template parameters. */
   typedef TElementIdentifier  ElementIdentifier;
   typedef TElement            Element;
-
-  /**
-   * Index operator. This version can be an lvalue.
-   */
+  
+  /** Index operator. This version can be an lvalue. */
   virtual TElement & operator[](const ElementIdentifier)=0;
 
-  /**
-   * Index operator. This version can only be an rvalue
-   */
+  /** Index operator. This version can only be an rvalue */
   virtual const TElement & operator[](const ElementIdentifier) const =0;
 
-  /**
-   * Return a pointer to the beginning of the buffer.  This is used by
-   * the image iterator class.
-   */
+  /** Return a pointer to the beginning of the buffer.  This is used by
+   * the image iterator class. */
   virtual TElement *GetBufferPointer()=0;
   
-  /**
-   * Get the number of elements currently stored in the container.
-   */
+  /** Get the number of elements currently stored in the container. */
   virtual unsigned long Size(void) const =0;
 
-  /**
-   * Tell the container to allocate enough memory to allow at least
+  /** Tell the container to allocate enough memory to allow at least
    * as many elements as the size given to be stored.  This is NOT
    * guaranteed to actually allocate any memory, but is useful if the
-   * implementation of the container allocates contiguous storage.
-   */
+   * implementation of the container allocates contiguous storage. */
   virtual void Reserve(ElementIdentifier)=0;
   
-  /**
-   * Tell the container to try to minimize its memory usage for storage of
+  /** Tell the container to try to minimize its memory usage for storage of
    * the current number of elements.  This is NOT guaranteed to decrease
-   * memory usage.
-   */
+   * memory usage. */
   virtual void Squeeze(void)=0;
   
-  /**
-   * Standard part of every itk Object.
-   */
-  itkTypeMacro(ImageContainerInterface, Object);
 };
 
 } // end namespace itk

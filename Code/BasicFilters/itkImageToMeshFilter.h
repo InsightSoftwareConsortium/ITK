@@ -60,7 +60,7 @@ class ITK_EXPORT ImageToMeshFilter : public ProcessObject
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef ImageToMeshFilter  Self;
 

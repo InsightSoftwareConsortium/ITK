@@ -52,98 +52,52 @@ namespace itk
  *
  * \ingroup Numerics Optimizers
  */
-
 template <class TCostFunction>
 class ITK_EXPORT LevenbergMarquardtOptimizer : 
           public MultipleValuedNonLinearVnlOptimizer<TCostFunction> 
-
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef LevenbergMarquardtOptimizer  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef   MultipleValuedNonLinearVnlOptimizer<TCostFunction> Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro( LevenbergMarquardtOptimizer, 
-      NonLinearOptimizer );
-
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( LevenbergMarquardtOptimizer, NonLinearOptimizer );
   
-  /**
-   * InternalParameters typedef.
-   */
+  /** InternalParameters typedef. */
   typedef   vnl_vector<double>     InternalParametersType;
 
-
-  /**
-   * InternalMeasure typedef.
-   */
+  /** InternalMeasure typedef. */
   typedef   vnl_vector<double>     InternalMeasureType;
 
-
-  /**
-   * InternalGradient typedef.
-   */
+  /** InternalGradient typedef. */
   typedef   vnl_matrix<double>     InternalDerivativeType;
 
-
-  /**
-   *  ParametersType typedef.
-   *  it defines a position in the optimization search space
-   */
+  /**  ParametersType typedef.
+   *  It defines a position in the optimization search space. */
   typedef typename TCostFunction::ParametersType    ParametersType;
 
-
-  /**
-   *  MeasureType typedef.
-   *  it defines a type used to return the cost function value 
-   */
+  /**  MeasureType typedef.
+   *  It defines a type used to return the cost function value. */
   typedef typename TCostFunction::MeasureType         MeasureType;
 
-
-  /**
-   *  GradientType typedef.
-   *  it defines a type used to return the cost function derivative 
-   */
+  /**  GradientType typedef.
+   *  It defines a type used to return the cost function derivative. */
   typedef typename TCostFunction::DerivativeType      DerivativeType;
 
-
-  /**
-   * Internal Optimizer Type
-   */
+  /** Internal optimizer type. */
   typedef   vnl_levenberg_marquardt InternalOptimizerType;
 
-  /**
-   * Method for getting access to the internal optimizer
-   */
+  /** Method for getting access to the internal optimizer. */
   InternalOptimizerType & GetOptimizer(void);
 
-  /**
-   * Start optimization with an initial value
-   */
+  /** Start optimization with an initial value. */
   void StartOptimization( void ); 
- 
 
 protected:
   LevenbergMarquardtOptimizer();

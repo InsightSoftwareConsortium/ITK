@@ -84,74 +84,48 @@ template <unsigned int VImageDimension>
 class ITK_EXPORT ImageRegionMultidimensionalSplitter: public ImageRegionSplitter<VImageDimension>
 {
 public:
-  /** 
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ImageRegionMultidimensionalSplitter              Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageRegionSplitter<VImageDimension>  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(ImageRegionMultidimensionalSplitter,ImageRegionSplitter);
 
-  /**
-   * Dimension of the image available at compile time.
-   */
+  /** Dimension of the image available at compile time. */
   enum { ImageDimension = VImageDimension };
   
-  /** 
-   * Index typedef support. An index is used to access pixel values.
-   */
+  /** Index typedef support. An index is used to access pixel values. */
   typedef Index<VImageDimension>  IndexType;
 
-  /** 
-   * Size typedef support. A size is used to define region bounds.
-   */
+  /** Size typedef support. A size is used to define region bounds. */
   typedef Size<VImageDimension>  SizeType;
 
-  /**
-   * Region typedef support.  
-   */
+  /** Region typedef support.   */
   typedef ImageRegion<VImageDimension> RegionType;
 
-  /**
-   * How many pieces can the specifed region be split? A given region
+  /** How many pieces can the specifed region be split? A given region
    * cannot always be divided into the requested number of pieces.  For
    * instance, if the numberOfPieces exceeds the number of pixels along
    * a certain dimensions, then some splits will not be possible. This
    * method returns a number less than or equal to the requested number
-   * of pieces. 
-   */
+   * of pieces.  */
   virtual unsigned int GetNumberOfSplits(const RegionType &region,
                                          unsigned int requestedNumber);
 
-  /**
-   * Get a region definition that represents the ith piece a specified region.
+  /** Get a region definition that represents the ith piece a specified region.
    * The "numberOfPieces" specified should be less than or equal to what
-   * GetNumberOfSplits() returns.
-   */
+   * GetNumberOfSplits() returns. */
   virtual RegionType GetSplit(unsigned int i, unsigned int numberOfPieces,
                               const RegionType &region);
 
 protected:
-  ImageRegionMultidimensionalSplitter() {};
-  ~ImageRegionMultidimensionalSplitter() {};
+  ImageRegionMultidimensionalSplitter() {}
+  ~ImageRegionMultidimensionalSplitter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:

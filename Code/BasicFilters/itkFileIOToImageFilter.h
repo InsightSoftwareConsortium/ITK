@@ -49,8 +49,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \brief Base exception class for IO conflicts
+/** \brief Base exception class for IO conflicts
  *
  * \ingroup IOFilters
  * \ingroup Exceptions
@@ -69,18 +68,14 @@ public:
   {
     SetDescription("Problem during File IO");
   }
-  /**
-   * Copy constructor.  Needed to ensure the exception object can be copied.
-   */
+
+  /** Copy constructor. Needed to ensure the exception object can be copied. */
   FileIOException(const FileIOException &orig) : ExceptionObject(orig)
     {
     }
-
 };
 
-
-/**
- * \brief Filter to convert input data to a particular internal type
+/** \brief Filter to convert input data to a particular internal type
  *
  *  TOutputImage is the type expected by the external users of the 
  *  filter. Data comming from a file can be stored in any other format
@@ -92,99 +87,65 @@ public:
  *  code in this class. (todo: how to use the pluggable)
  *
  *  \ingroup IOFilters
- *
  */
 template <class TOutputImage>
 class ITK_EXPORT FileIOToImageFilter : public ImageSource<TOutputImage>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef FileIOToImageFilter         Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageSource<TOutputImage>  Superclass;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(FileIOToImageFilter, ImageSource);
 
-  /**
-   * typedef for Size.
-   */
+  /** Typedef for Size. */
   typedef Size<TOutputImage::ImageDimension>  Size;
 
-  /**
-   * typedef for Region.
-   */
+  /** Typedef for Region. */
   typedef ImageRegion<TOutputImage::ImageDimension>  Region;
 
-  /**
-   * Specify the file to load. This is forwarded to the IO instance. 
+  /** Specify the file to load. This is forwarded to the IO instance. 
    * Either the FileName or FilePrefix plus pattern are used to read
-   * files.
-   */
+   * files. */
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
 
-  /** 
-   * Specify file prefix for the image file(s). You should specify either
+  /** Specify file prefix for the image file(s). You should specify either
    * a FileName or FilePrefix. Use FilePrefix if the data is stored
    * in multiple files. (Note: the FileName ivar is available from the
-   * superclass.)
-   */
+   * superclass.) */
   itkSetStringMacro(FilePrefix);
   itkGetStringMacro(FilePrefix);
 
-  /**
-   * The sprintf format used to build filename from FilePrefix and number.
-   */
+  /** The sprintf format used to build filename from FilePrefix and number. */
   itkSetStringMacro(FilePattern);
   itkGetStringMacro(FilePattern);
 
-  /** 
-   * Specify the region of the image to be read.
-   */
-  
-  /**
-   * Get the ImageIO helper class. Often this is created via the object
+  /** Get the ImageIO helper class. Often this is created via the object
    * factory mechanism which keys off of the filename extension. This
    * method provides a way to get the ImageIO instance that is 
-   * created.
-   */
+   * created. */
   itkGetObjectMacro(IO,ImageIO);
 
-  /**
-   * Set the ImageIO helper class. Often this is created via the object
+  /** Set the ImageIO helper class. Often this is created via the object
    * factory mechanism which keys off of the filename extension, so you 
    * don't have to specify it. This method is provided so that you can 
-   * manually specify the IO helper class.
-   */
+   * manually specify the IO helper class. */
   itkSetObjectMacro(IO,ImageIO);
 
-  /**
-   * Cause the filter to read data.
-   */
+  /** Cause the filter to read data. */
   virtual void Update();
 
 protected:
-  void GenerateData();
   FileIOToImageFilter();
   ~FileIOToImageFilter() {}
+
+  void GenerateData();
 
 private:
   FileIOToImageFilter(const Self&); //purposely not implemented

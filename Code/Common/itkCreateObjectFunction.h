@@ -47,39 +47,27 @@ namespace itk
 {
 
 /** \class CreateObjectFunctionBase
- * Define API for object creation callback functions.
+ * \brief Define API for object creation callback functions.
  *
  * \ingroup ITKSystemObjects
  */
 class CreateObjectFunctionBase: public Object
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard typedefs. */
   typedef CreateObjectFunctionBase  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /** 
-   * Smart pointer typedef support. 
-   */
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   * Create an object and return a pointer to it as an
-   * itkLightObject.
-   */
+  
+  /** Create an object and return a pointer to it as an
+   * itkLightObject. */
   virtual SmartPointer<LightObject> CreateObject() = 0;
 };
 
 
 /** \class CreateObjectFunction
- * CreateObjectFunction is used to create callback functions that
+ * \brief CreateObjectFunction is used to create callback functions that
  * create itkObjects for use with the itkObjectFactory.
  * 
  * \ingroup ITKSystemObjects
@@ -88,23 +76,17 @@ template <class T>
 class CreateObjectFunction : public CreateObjectFunctionBase
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef CreateObjectFunction  Self;
-
-  /** 
-   * Smart pointer typedef support. 
-   */
   typedef SmartPointer<Self>    Pointer;
-  
-  // Methods from Object
+    
+  /** Methods from itk:LightObject. */
   static Pointer New() { return new Self;}
   LightObject::Pointer CreateObject()
     {
     return LightObject::Pointer(T::New());
     }
-};
+  };
 
 } // end namespace itk
 

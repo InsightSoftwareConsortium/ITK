@@ -47,8 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class SpatialFunction
+/** \class SpatialFunction
  * \brief N-dimensional spatial function class
  *
  * itk::SpatialFunction provides the ability to define functions that can
@@ -65,54 +64,32 @@ namespace itk
  *
  * \ingroup SpatialFunctions
  */
-
 template <typename TOutput, 
           unsigned int VImageDimension=3,
           typename TInput=Point<double, VImageDimension> >
 class ITK_EXPORT SpatialFunction : public FunctionBase<TInput, TOutput>
 {
-  public:
-
-  /**
-   * Standard "Self" typedef.
-   */
+public:
+  /** Standard class typedefs. */
   typedef SpatialFunction Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef FunctionBase< TInput, TOutput> Superclass;
-
-  /**
-   * Input type for the function
-   */
-  typedef typename Superclass::InputType InputType;
-
-  /**
-   * Output type for the function
-   */
-  typedef typename Superclass::OutputType OutputType;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(SpatialFunction, FunctionBase);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-  * Evaluate the function at a given position. Remember, position is
-  * represented by an n-d itk::Point object with data type double
-  */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(SpatialFunction, FunctionBase);
+
+  /** Input type for the function. */
+  typedef typename Superclass::InputType InputType;
+
+  /** Output type for the function. */
+  typedef typename Superclass::OutputType OutputType;
+
+  /** Evaluate the function at a given position. Remember, position is
+  * represented by an n-d itk::Point object with data type double. */
   virtual OutputType Evaluate( const InputType& input ) const = 0;
 
 protected:

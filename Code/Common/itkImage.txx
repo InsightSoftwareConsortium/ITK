@@ -408,8 +408,7 @@ Image<TPixel, VImageDimension, TImageTraits>
     }
   os << m_Spacing[i] << "]" << std::endl;
 
-  os << indent << "Data: " << std::endl;
-  m_Buffer->PrintSelf(os, indent.GetNextIndent());
+  os << indent << "Data: " << m_Buffer << std::endl;
 }
 
 

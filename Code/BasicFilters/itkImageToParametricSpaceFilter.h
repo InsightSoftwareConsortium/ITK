@@ -72,7 +72,7 @@ class ITK_EXPORT ImageToParametricSpaceFilter :
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef ImageToParametricSpaceFilter  Self;
 

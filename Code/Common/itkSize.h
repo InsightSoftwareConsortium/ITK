@@ -41,16 +41,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkSize_h
 
 #include "itkMacro.h"
-
 #include <memory>
-
 #include "itkExceptionObject.h"
 
 namespace itk
 {
 
-/** 
- * \class Size
+/** \class Size
  * \brief Represent the size (bounds) of a n-dimensional image.
  *
  * Size is a templated class to represent multi-dimensional array bounds
@@ -70,30 +67,20 @@ namespace itk
  * \sa Index
  * \ingroup ImageObjects
  */
-
-
 template<unsigned int VDimension=2>
 class Size {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef Size  Self;
   
-  /**
-   * Compatible Size and value typedef
-   */
+  /** Compatible Size and value typedef */
   typedef   Size<VDimension>  SizeType;
   typedef   unsigned long  SizeValueType;
-
-  /**
-   * Get the dimension of the size object.
-   */
+  
+  /** Get the dimension of the size object. */
   static unsigned int GetSizeDimension() { return VDimension; }
 
-  /**
-   * Add two sizes. 
-   */
+  /** Add two sizes.  */
   const Self
   operator+(const Self &vec)
     {
@@ -103,9 +90,7 @@ public:
     return result;
     }
 
-  /**
-   * Increment size by a size. 
-   */
+  /** Increment size by a size.  */
   const Self &
   operator+=(const Self &vec)
     {
@@ -114,9 +99,7 @@ public:
     return *this;
     }
 
-  /**
-   * Subtract two sizes. 
-   */
+  /** Subtract two sizes.  */
   const Self
   operator-(const Self &vec)
     {
@@ -126,9 +109,7 @@ public:
     return result;
     }
 
-  /**
-   * Decrement size by a size. 
-   */
+  /** Decrement size by a size.  */
   const Self &
   operator-=(const Self &vec)
     {
@@ -137,9 +118,7 @@ public:
     return *this;
     }
 
-  /**
-   * Multiply two sizes (elementwise product). 
-   */
+  /** Multiply two sizes (elementwise product).  */
   const Self
   operator*(const Self &vec)
     {
@@ -149,9 +128,7 @@ public:
     return result;
     }
 
-  /**
-   * Multiply two sizes (elementwise product). 
-   */
+  /** Multiply two sizes (elementwise product).  */
   const Self &
   operator*=(const Self &vec)
     {
@@ -160,9 +137,7 @@ public:
     return *this;
     }
 
-  /**
-   * Compare two sizes.
-   */
+  /** Compare two sizes. */
   bool
   operator==(const Self &vec) const
     {
@@ -172,9 +147,7 @@ public:
     return same;
     }
 
-  /**
-   * Compare two sizes.
-   */
+  /** Compare two sizes. */
   bool
   operator!=(const Self &vec) const
     {
@@ -184,64 +157,46 @@ public:
     return !same;
     }
 
-  /**
-   * Access an element of the size. Elements are numbered
-   * 0, ..., VDimension-1. No bounds checking is performed.
-   */
+  /** Access an element of the size. Elements are numbered
+   * 0, ..., VDimension-1. No bounds checking is performed. */
   SizeValueType & operator[](unsigned int dim)
     { return m_Size[dim]; }
 
-  /**
-   * Access an element of the size. Elements are numbered
+  /** Access an element of the size. Elements are numbered
    * 0, ..., VDimension-1. This version can only be an rvalue.
-   * No bounds checking is performed.
-   */
+   * No bounds checking is performed. */
   SizeValueType operator[](unsigned int dim) const
     { return m_Size[dim]; }
 
-  /**
-   * Get the size. This provides a read only reference to the size.
-   * \sa SetSize
-   */
+  /** Get the size. This provides a read only reference to the size.
+   * \sa SetSize */
   const SizeValueType *GetSize() const { return m_Size; };
 
-  /**
-   * Set the size.
+  /** Set the size.
    * Try to prototype this function so that val has to point to a block of
-   * memory that is the appropriate size.
-   * \sa GetSize
-   */
+   * memory that is the appropriate size. \sa GetSize */
   void SetSize(const SizeValueType val[VDimension])
     { memcpy(m_Size, val, sizeof(SizeValueType)*VDimension); }
 
-  /**
-   * Set an element of the Size.
+  /** Set an element of the Size.
    * sets the value of one of the elements in the Size
    * This method is mainly intended to facilitate the access to elements
    * from Tcl and Python where C++ notation is not very convenient.
-   * \warning No bound checking is performed
-   * \sa SetSize()
-   * \sa GetElement()
-   */
+   * \warning No bound checking is performed.
+   * \sa SetSize() \sa GetElement() */
   void SetElement(unsigned long element, SizeValueType val )
     { m_Size[ element ] = val;  }
 
-  /**
-   * Get an element of the Size.
+  /** Get an element of the Size.
    * gets the value of one of the elements in the size
    * This method is mainly intended to facilitate the access to elements
    * from Tcl and Python where C++ notation is not very convenient.
    * \warning No bound checking is performed
-   * \sa GetSize()
-   * \sa SetElement()
-   */
+   * \sa GetSize() \sa SetElement() */
   SizeValueType GetElement( unsigned long element )
     { return m_Size[ element ]; }
 
-
-
-  /**
-   * Size is an "aggregate" class.  Its data is public (m_Size)
+  /** Size is an "aggregate" class.  Its data is public (m_Size)
    * allowing for fast and convenient instantiations/assignments.
    *
    * The following syntax for assigning a size is allowed/suggested:
@@ -250,13 +205,9 @@ public:
    *
    * The doubled braces {{ and }} are required to prevent `gcc -Wall'
    * (and perhaps other compilers) from complaining about a partly
-   * bracketed initializer.
-   **/
+   * bracketed initializer. */
   SizeValueType m_Size[VDimension];
-  
-public:
 
-private:
 };
 
 

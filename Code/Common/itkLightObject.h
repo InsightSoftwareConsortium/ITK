@@ -71,102 +71,70 @@ namespace itk
 class ITK_EXPORT LightObject 
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard clas typedefs. */
   typedef LightObject         Self;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   static Pointer New();
 
-  /** 
-   * Delete an itk object.  This method should always be used to delete an
+  /** Delete an itk object.  This method should always be used to delete an
    * object when the new operator was used to create it. Using the C
-   *  delete method will not work with reference counting. 
-   */
+   *  delete method will not work with reference counting.  */
   virtual void Delete();
 
-  /** 
-   * Return the name of this class as a string. Used by the object factory
+  /** Return the name of this class as a string. Used by the object factory
    * (implemented in New()) to instantiate objects of a named type. Also
-   * used for debugging and other output information. 
-   */
+   * used for debugging and other output information.  */
   virtual const char *GetNameOfClass() const 
     {return "LightObject";}
 
 #ifdef _WIN32
-  /** 
-   * Used to avoid dll boundary problems. 
-   */
+  /** Used to avoid dll boundary problems.  */
   void* operator new(size_t);
   void* operator new[](size_t);
   void operator delete(void*);
   void operator delete[](void*, size_t);
 #endif 
   
-  /** 
-   * Cause the object to print itself out.
-   */
+  /** Cause the object to print itself out. */
   void Print(std::ostream& os) const;
 
-  /** 
-   * This method is called when itkErrorMacro executes. It allows 
-   * the debugger to break on error. 
-   */
+  /** This method is called when itkErrorMacro executes. It allows 
+   * the debugger to break on error.  */
   static void BreakOnError();
   
-  /** 
-   * Increase the reference count (mark as used by another object). 
-   */
+  /** Increase the reference count (mark as used by another object).  */
   virtual void Register() const;
 
-  /** 
-   * Decrease the reference count (release by another object). 
-   */
+  /** Decrease the reference count (release by another object).  */
   virtual void UnRegister() const;
 
-  /**
-   * Gets the reference count on this object.
-   */
+  /** Gets the reference count on this object. */
   virtual int GetReferenceCount() const 
     {return m_ReferenceCount;}
 
-  /** 
-   * Sets the reference count on this object. This is a dangerous
-   * method, use it with care.
-   */
+  /** Sets the reference count on this object. This is a dangerous
+   * method, use it with care. */
   virtual void SetReferenceCount(int);
 
 protected:
   LightObject():m_ReferenceCount(1) {}
   virtual ~LightObject(); 
 
-  /** 
-   * Methods invoked by Print() to print information about the object
+  /** Methods invoked by Print() to print information about the object
    * including superclasses. Typically not called by the user (use Print()
    * instead) but used in the hierarchical print process to combine the
-   * output of several classes. 
-   */
+   * output of several classes.  */
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
   virtual void PrintHeader(std::ostream& os, Indent indent) const;
   virtual void PrintTrailer(std::ostream& os, Indent indent) const;
-
-  /**
-   * Number of uses of this object by other objects.
-   */
+  
+  /** Number of uses of this object by other objects. */
   mutable int m_ReferenceCount;
 
-  /**
-   * Mutex lock to protect modification to the reference count
-   */
+  /** Mutex lock to protect modification to the reference count */
   mutable SimpleFastMutexLock m_ReferenceCountLock;
 
 private:

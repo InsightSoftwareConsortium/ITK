@@ -65,7 +65,7 @@ class ITK_EXPORT PlaheImageFilter :
 {
 public:
  /**
-  * Standard "Self" typedef.
+  * Standard class typedefs.
   */ 
   typedef PlaheImageFilter Self;
   

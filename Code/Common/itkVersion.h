@@ -48,7 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define ITK_MAJOR_VERSION 0
 #define ITK_MINOR_VERSION 0
 #define ITK_BUILD_VERSION 2
-#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.425 $, $Date: 2001-11-30 04:53:40 $ (GMT)"
+#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.426 $, $Date: 2001-11-30 14:29:26 $ (GMT)"
 
 namespace itk
 {
@@ -67,43 +67,27 @@ namespace itk
 class ITK_EXPORT Version : public Object 
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef Version             Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /** 
-   * Smart pointer typedef support. 
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
-  /**
-   * Standard part of every itk Object.
-   */
+  /** Standard part of every itk Object. */
   itkTypeMacro(Version,Object);
 
-  /**
-   * Return the version of itk this object is a part of.
+  /** Return the version of itk this object is a part of.
    * A variety of methods are included. GetITKSourceVersion returns a string
-   * with an identifier which timestamps a particular source tree. 
-   */
+   * with an identifier which timestamps a particular source tree.  */
   static const char *GetITKVersion() { return ITK_VERSION; };
   static int GetITKMajorVersion() { return ITK_MAJOR_VERSION; };
   static int GetITKMinorVersion() { return ITK_MINOR_VERSION; };
   static int GetITKBuildVersion() { return ITK_BUILD_VERSION; };
   static const char *GetITKSourceVersion() { return ITK_SOURCE_VERSION; };
-  
+    
 protected:
   Version() {}
   ~Version() {}

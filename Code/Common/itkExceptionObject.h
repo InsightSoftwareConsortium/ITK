@@ -66,10 +66,8 @@ namespace itk
 class ITK_EXPORT ExceptionObject
 {
 public:
-  /**
-   * Constructor and copy constructor.  Note that these functions will be
-   * called when children are instantiated.
-   */
+  /** Various types of constructors.  Note that these functions will be
+   * called when children are instantiated. */
   ExceptionObject(const char *file = "Unknown", unsigned int lineNumber=0)
   {
     m_Location = "";
@@ -77,7 +75,6 @@ public:
     m_File = file;
     m_Line = lineNumber;
   };
-
   ExceptionObject(const std::string& file, unsigned int lineNumber)
   {
     m_Location = "";
@@ -85,12 +82,6 @@ public:
     m_File = file;
     m_Line = lineNumber;
   };
-
-  /**
-   * Virtual destructor needed 
-   */
-  virtual ~ExceptionObject() {};
-
   ExceptionObject( const ExceptionObject &orig )
   {
     m_Location    = orig.m_Location;
@@ -99,9 +90,10 @@ public:
     m_Line = orig.m_Line;
   }
   
-  /**
-   * Assignment and equivalence operators.
-   */
+  /** Virtual destructor needed  */
+  virtual ~ExceptionObject() {};
+
+  /** Assignment operator. */
   ExceptionObject &operator= ( const ExceptionObject &orig )
   {
     m_Location    = orig.m_Location;
@@ -111,6 +103,7 @@ public:
     return *this;
   }
   
+  /** Equivalence operator. */
   virtual bool operator==( const ExceptionObject &orig )
   {
     if ( m_Location    == orig.m_Location &&
@@ -126,19 +119,15 @@ public:
       }
   }
           
-  /**
-   * Print exception information.  This method can be overridden by
+  /** Print exception information.  This method can be overridden by
    * specific exception subtypes.  The default is to print out the
    * location where the exception was first thrown and any description
-   * provided by the ``thrower''.  
-   */
+   * provided by the ``thrower''.   */
   virtual void Print(std::ostream& os) const;
 
-  /**
-   * Methods to get and set the Location and Description fields. The Set
+  /** Methods to get and set the Location and Description fields. The Set
    * methods are overloaded to support both std::string and const char 
-   * array types. Get methods return const char arrays.
-   */
+   * array types. Get methods return const char arrays. */
   virtual void SetLocation(const std::string& s)    
     { m_Location = s;    }
   virtual void SetDescription(const std::string& s) 
@@ -151,39 +140,29 @@ public:
     { return m_Location.c_str();    }
   virtual const char *GetDescription() const 
     { return m_Description.c_str(); }
-
-  /**
-   * What file did the exception occur in?
-   */
+  
+  /** What file did the exception occur in? */
   virtual const char *GetFile()    const 
     { return m_File.c_str();    }
 
-  /**
-   * What line did the exception occur in?
-   */
+  /** What line did the exception occur in? */
   virtual unsigned int GetLine() const 
     { return m_Line; }
   
-  /**
-   * Return the name of the class.
-   */
+  /** Return the name of the class. */
   itkTypeMacro(ExceptionObject, None);
 
 protected:
-  /** 
-   * Methods invoked by Print() to print information about the object
+  /** Methods invoked by Print() to print information about the object
    * including superclasses. Typically not called by the user (use Print()
    * instead) but used in the hierarchical print process to combine the
-   * output of several classes. 
-   */
+   * output of several classes.  */
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
   virtual void PrintHeader(std::ostream& os, Indent indent) const;
   virtual void PrintTrailer(std::ostream& os, Indent indent) const;
-  
+    
 private:
-  /**
-   * Exception data.  Location of the error and description of the error.
-   */
+  /** Exception data.  Location of the error and description of the error. */
   std::string m_Location;
   std::string m_Description;
   std::string m_File;

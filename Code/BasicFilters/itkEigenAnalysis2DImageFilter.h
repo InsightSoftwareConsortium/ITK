@@ -60,110 +60,68 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * 
  * \ingroup ShouldBeThreaded IntensityImageFilters
  */
-
 namespace itk {
-
 
 template <class TInputImage, class TEigenValueImage, class TEigenVectorImage >
 class ITK_EXPORT EigenAnalysis2DImageFilter:
   public ImageToImageFilter<TInputImage,TEigenValueImage>
 {
-
 public:
-
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef EigenAnalysis2DImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageToImageFilter<TInputImage,TEigenValueImage> Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>                   Pointer;
   typedef SmartPointer<const Self>        ConstPointer;
-
   
-  /** 
-   * Typedef for the vector type representing the eigen vectors
-   */
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Typedef for the vector type representing the eigen vectors */
   typedef typename TEigenVectorImage::PixelType     EigenVectorType;
   typedef typename EigenVectorType::ValueType   VectorComponentType;
 
-  /** 
-   * Superclass typedefs.
-   */
-
+  /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
-  /** 
-   * Some typedefs.
-   */
+  /** Some convenient typedefs. */
   typedef TEigenValueImage EigenValueImageType;
   typedef typename EigenValueImageType::Pointer     EigenValueImagePointer;
   typedef typename EigenValueImageType::RegionType  EigenValueImageRegionType; 
   typedef typename EigenValueImageType::PixelType   EigenValueImagePixelType; 
-  typedef TEigenVectorImage EigenVectorImageType;
-  typedef typename EigenVectorImageType::Pointer     EigenVectorImagePointer;
-  typedef typename EigenVectorImageType::RegionType  EigenVectorImageRegionType; 
-  typedef typename EigenVectorImageType::PixelType   EigenVectorImagePixelType; 
+  typedef TEigenVectorImage                         EigenVectorImageType;
+  typedef typename EigenVectorImageType::Pointer    EigenVectorImagePointer;
+  typedef typename EigenVectorImageType::RegionType EigenVectorImageRegionType;
+  typedef typename EigenVectorImageType::PixelType  EigenVectorImagePixelType;
 
-  /** 
-   * Image Dimension
-   */
+  /** Image dimension. */
   enum { ImageDimension = TInputImage::ImageDimension };
 
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
+  /** Connect the image containting the elements [0,0]
+   * of the input 2D matrix */
+  void SetInput1( TInputImage * image1);
 
-  /**
-   * Connect the image containting the elements [0,0]
-   * of the input 2D matrix
-   */
-   void SetInput1( TInputImage * image1);
-
-  /**
-   * Connect the image containting the elements [0,1]
+  /** Connect the image containting the elements [0,1]
    * of the input 2D matrix. This is the same [1,0]
    * element given that the input matrix is expected
-   * to be symmetric
-   */
-   void SetInput2( TInputImage * image2);
+   * to be symmetric */
+  void SetInput2( TInputImage * image2);
 
-  /**
-   * Connect the image containting the elements [1,1]
-   * of the input 2D matrix
-   */
-   void SetInput3( TInputImage * image3);
+  /** Connect the image containting the elements [1,1]
+   * of the input 2D matrix */
+  void SetInput3( TInputImage * image3);
 
-  /**
-   * Get the Output image with the greatest eigenvalue
-   */
-   EigenValueImagePointer GetMaxEigenValue( void );
+  /** Get the Output image with the greatest eigenvalue */
+  EigenValueImagePointer GetMaxEigenValue( void );
 
-  /**
-   * Get the Output image with the smallest eigenvalue
-   */
-   EigenValueImagePointer GetMinEigenValue( void );
+  /** Get the Output image with the smallest eigenvalue */
+  EigenValueImagePointer GetMinEigenValue( void );
 
-  /**
-   * Get the Output image with the eigen vector associated with
-   * the greatest eigen value
-   */
-   EigenVectorImagePointer GetMaxEigenVector( void );
+  /** Get the Output image with the eigen vector associated with
+   * the greatest eigen value */
+  EigenVectorImagePointer GetMaxEigenVector( void );
 
-
-  /**
-   *  Create the Output
-   */
-   DataObject::Pointer MakeOutput(unsigned int idx);
-     
+  /**  Create the Output */
+  DataObject::Pointer MakeOutput(unsigned int idx);
 
 protected:
   EigenAnalysis2DImageFilter();
@@ -174,7 +132,6 @@ protected:
 private:
   EigenAnalysis2DImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  
 
 };
 

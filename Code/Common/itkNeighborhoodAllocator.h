@@ -43,8 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 
 namespace itk {
-/**
- * \class NeighborhoodAllocator
+/** \class NeighborhoodAllocator
  * 
  * This is a memory allocator for use as the default allocator type in
  * Neighborhood.  The API is designed to mimic that of vnl_vector so that
@@ -60,49 +59,38 @@ template <class TPixel>
 class NeighborhoodAllocator
 {
 public:
-  /**
-   * Standard typedefs.
-   */
+  /** Standard class typedefs. */
   typedef NeighborhoodAllocator Self;
-
-  /**
-   * Iterator support.
-   */
+  
+  /** Iterator support. Note that the naming of the typedefs is on purpose.
+  * itk::Neighborhood makes reference to the allocator, which because it may
+  * be vnl or other type, uses the lower case/underscore forms iterator and
+  * const_iterator. */
   typedef TPixel * iterator;
   typedef const TPixel * const_iterator;
-
-  /**
-   * Default constructor
-   */
+  
+  /** Default constructor */
   NeighborhoodAllocator() : m_ElementCount(0), m_Data(0)  {}
 
-  /**
-   * Default destructor
-   */
+  /** Default destructor */
   ~NeighborhoodAllocator()
-  { this->Deallocate(); }
+    { this->Deallocate(); }
 
-  /**
-   * Allocates memory using new()
-   */
+  /** Allocates memory using new() */
   void Allocate(unsigned int n)
   {
     m_Data = new TPixel[n];
     m_ElementCount = n;    
   }
 
-  /**
-   * Deallocates memory using delete[]()
-   */
+  /** Deallocates memory using delete[](). */
   void Deallocate()
   {
     if (m_Data) delete[] m_Data;
     m_ElementCount = 0;
   }
 
-  /**
-   * Copy constructor
-   */
+  /** Copy constructor. */
   NeighborhoodAllocator(const Self& other) : m_ElementCount(0), m_Data(0)
   {
     this->resize(other.m_ElementCount);
@@ -111,9 +99,7 @@ public:
     m_ElementCount = other.m_ElementCount;
   }
 
-  /**
-   * Assignment operator
-   */
+  /** Assignment operator. */
   const Self& operator=(const Self& other)
   {
     this->resize(other.m_ElementCount);
@@ -123,39 +109,28 @@ public:
     return *this;
   }
 
-  /**
-   * STL-style iterator support for the memory buffer
-   */
+  /** STL-style iterator support for the memory buffer. */
   iterator begin()
-  { return m_Data; }
-  
+    { return m_Data; }
   const_iterator begin() const
-  { return m_Data; }
-  
+    { return m_Data; }
   iterator end()
-  { return (m_Data + m_ElementCount); }
-  
+    { return (m_Data + m_ElementCount); }
   const_iterator end() const
-  { return (m_Data + m_ElementCount); }
-
+    { return (m_Data + m_ElementCount); }
   unsigned int size() const
-  { return m_ElementCount; }
-  
-  /**
-   * Data access methods
-   */
+    { return m_ElementCount; }
+    
+  /** Data access methods */
   const TPixel & operator[](unsigned int i) const
-  { return m_Data[i]; }
-  
+    { return m_Data[i]; }
   TPixel &operator[](unsigned int i)
-  { return m_Data[i]; }
-
-  /**
-   * Allocates or Reallocates a buffer of size n
-   */
+    { return m_Data[i]; }
+  
+  /** Allocates or Reallocates a buffer of size n */
   void resize(unsigned int n)
   {
-    if (m_Data) Deallocate();
+    if (m_Data) { Deallocate(); }
     this->Allocate(n);
   }
 

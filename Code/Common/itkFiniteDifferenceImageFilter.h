@@ -79,72 +79,47 @@ template <class TInputImage, class TOutputImage>
 class FiniteDifferenceImageFilter  
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {
- public:
-  /**
-   * Standard itk Self & Superclass typedefs
-   */
+public:
+  /** Standard class typedefs. */
   typedef FiniteDifferenceImageFilter Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
-
-  /**
-   * Dimensionality of input and output data is assumed to be the same.
-   */
-  enum { ImageDimension = OutputImageType::ImageDimension };
-
-  /**
-   * The pixel type of the output image will be used in computations.
-   */
-  typedef typename TOutputImage::PixelType PixelType;
-
-  /**
-   *
-   */
-  typedef FiniteDifferenceEquation<TOutputImage> FiniteDifferenceEquationType;
-
-  /**
-   * The value type of the time step.  This is distinct from PixelType
-   * because PixelType may often be a vector value, while the TimeStep is
-   * a scalar value.
-   */
-  typedef typename FiniteDifferenceEquationType::TimeStepType TimeStepType;
-  
-  /** 
-   * Smart pointer support for this class.
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
-
-  /**
-   * Run-time type information (and related methods)
-   */
+  
+  /** Run-time type information (and related methods) */
   itkTypeMacro(FiniteDifferenceImageFilter, ImageToImageFilter );
   
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Get the number of elapsed iterations of the filter.
-   */
+  /** Input and output image types. */
+  typedef TInputImage  InputImageType;
+  typedef TOutputImage OutputImageType;
+  
+  /** Dimensionality of input and output data is assumed to be the same. */
+  enum { ImageDimension = OutputImageType::ImageDimension };
+
+  /** The pixel type of the output image will be used in computations. */
+  typedef typename TOutputImage::PixelType PixelType;
+
+  /** The value type of the time step.  This is distinct from PixelType
+   * because PixelType may often be a vector value, while the TimeStep is
+   * a scalar value. */
+  typedef FiniteDifferenceEquation<TOutputImage> FiniteDifferenceEquationType;
+  typedef typename FiniteDifferenceEquationType::TimeStepType TimeStepType;
+    
+  /** Get the number of elapsed iterations of the filter. */
   itkGetConstMacro(ElapsedIterations, unsigned int);
 
-  /**
-   * This method returns a pointer to a FiniteDifferenceEquation object that
+  /** This method returns a pointer to a FiniteDifferenceEquation object that
    * will be used by the filter to calculate updates at image pixels.
-   * \returns A FiniteDifferenceObject pointer.
-   */
+   * \returns A FiniteDifferenceObject pointer. */
   itkGetConstReferenceObjectMacro(DifferenceEquation,
                                   FiniteDifferenceEquationType );
 
-  /**
-   * This method sets the pointer to a FiniteDifferenceEquation object that
+  /** This method sets the pointer to a FiniteDifferenceEquation object that
    * will be used by the filter to calculate updates at image pixels.
-   * \returns A FiniteDifferenceObject pointer.
-   */
+   * \returns A FiniteDifferenceObject pointer. */
   itkSetObjectMacro(DifferenceEquation, FiniteDifferenceEquationType );
 
 protected:
@@ -152,43 +127,32 @@ protected:
   ~FiniteDifferenceImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * This method allocates a temporary update container in the subclass.
-   */
+  /** This method allocates a temporary update container in the subclass. */
   virtual void AllocateUpdateBuffer() = 0;
 
-  /**
-   * This method is defined by a subclass to apply changes to the output
+  /** This method is defined by a subclass to apply changes to the output
    * from an update buffer and a time step value "dt".
-   * \param dt Time step value.
-   */
+   * \param dt Time step value. */
   virtual void ApplyUpdate(TimeStepType dt) = 0;
   
-  /**
-   * This method is defined by a subclass to populate an update buffer
+  /** This method is defined by a subclass to populate an update buffer
    * with changes for the pixels in the output.  It returns a time
    * step value to be used for the update.
    * \returns A time step to use in updating the output with the changes
-   * calculated from this method.
-   */
+   * calculated from this method. */
   virtual TimeStepType CalculateChange() = 0;
 
-  /**
-   * A simple method to copy the data from the input to the output.  ( Supports
+  /** A simple method to copy the data from the input to the output.  ( Supports
    * "read-only" image adaptors in the case where the input image type converts
-   * to a different output image type. ) 
-   */
+   * to a different output image type. )  */
   virtual void CopyInputToOutput();
   
-  /**
-   * This is the default, high-level algorithm for calculating finite
+  /** This is the default, high-level algorithm for calculating finite
    * difference solutions.  It calls virtual methods in its subclasses
-   * to implement the major steps of the algorithm.
-   */
+   * to implement the major steps of the algorithm. */
   virtual void GenerateData();
 
-  /**
-   * FiniteDifferenceImageFilter needs a larger input requested region than
+  /** FiniteDifferenceImageFilter needs a larger input requested region than
    * the output requested region.  As such, we need to provide
    * an implementation for GenerateInputRequestedRegion() in order to inform
    * the pipeline execution model.
@@ -196,29 +160,23 @@ protected:
    * The filter will ask for a padded region to perform its neighborhood
    * calculations.
    *
-   * \sa ProcessObject::GenerateInputRequestedRegion()
-   */
+   * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();
   
-  /**
-   * This method returns true when the current iterative solution of the
-   * equation has met the criteria to stop solving.  Defined by a subclass.
-   */
+  /** This method returns true when the current iterative solution of the
+   * equation has met the criteria to stop solving.  Defined by a subclass. */
   virtual bool Halt() = 0;
 
-  /**
-   * This method is optionally defined by a subclass and is called immediately
+  /** This method is optionally defined by a subclass and is called immediately
    * prior to each iterative CalculateChange-ApplyUpdate cycle.  It can be
    * used to set global variables needed for the next iteration (ie. average
    * gradient magnitude of the image in anisotropic diffusion functions), or
    * otherwise prepare for the next iteration.
-   *
-   */
+   * */
   virtual void InitializeIteration()
     { m_DifferenceEquation->InitializeIteration(); }
   
-  /**
-   * Virtual method for resolving a single time step from a set of time steps
+  /** Virtual method for resolving a single time step from a set of time steps
    * returned from processing threads.
    * \return Time step (dt) for the iteration update based on a list
    * of time steps generated from the threaded calculated change method (one
@@ -230,14 +188,11 @@ protected:
    *  valid
    * \param size The size of "list" and "valid"
    *
-   * The default is to return the minimum value in the list.
-   */
+   * The default is to return the minimum value in the list. */
   virtual TimeStepType ResolveTimeStep(const TimeStepType* list, const bool* valid,
                                     int size);
 
-  /**
-   * Set the number of elapsed iterations of the filter.
-   */
+  /** Set the number of elapsed iterations of the filter. */
   itkSetMacro(ElapsedIterations, unsigned int);
 
 private:

@@ -82,7 +82,7 @@ class ITK_EXPORT MultiplyImageFilter :
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef MultiplyImageFilter  Self;
 

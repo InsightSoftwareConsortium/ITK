@@ -55,9 +55,7 @@ namespace itk
 namespace NeighborhoodAlgorithm
 {      
 
-/**
- * \class ImageBoundaryFacesCalculator
- */
+/** \class ImageBoundaryFacesCalculator */
 template<class TImage>
 struct ITK_EXPORT ImageBoundaryFacesCalculator
 {
@@ -73,14 +71,12 @@ struct ITK_EXPORT ImageBoundaryFacesCalculator
   FaceListType operator()(const TImage *, RegionType, RadiusType);
 };
 
-/**
- * \class CalculateOutputWrapOffsetModifiers
+/** \class CalculateOutputWrapOffsetModifiers
  * 
  * Helper class for setting up itkNeighborhoodIterator output
  * buffers. Calculates the necessary modifiers to synchronize input and output
  * iteration between images with equal RequestedRegion sizes but unequal
- * BufferedRegion sizes.
- * 
+ * BufferedRegion sizes. 
  */
 template<class TImage>
 struct ITK_EXPORT CalculateOutputWrapOffsetModifiers

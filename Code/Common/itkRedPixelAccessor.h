@@ -48,8 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class RedPixelAccessor
+/** \class RedPixelAccessor
  * \brief Give access to the red component of a RGBPixel type 
  *
  * This class is intended to be used as parameter of 
@@ -58,45 +57,30 @@ namespace itk
  *
  * \sa ImageAdaptor
  * \ingroup ImageAdaptors
- *
  */
 
 template <class T>
 class ITK_EXPORT RedPixelAccessor
 {
 public:
- /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef   RedPixelAccessor        Self;
 
- /** 
-   * External typedef. It defines the external aspect
-   * that this class will exhibit
-   */
+ /** External typedef. It defines the external aspect
+   * that this class will exhibit */
   typedef T ExternalType;
 
-  /** 
-   * Internal typedef. It defines the internal real
-   * representation of data
-   */
+  /** Internal typedef. It defines the internal real
+   * representation of data */
   typedef     RGBPixel<T>      InternalType;
 
-
-  /** 
-   * Write access to the Red component
-   */
+  /** Write access to the Red component */
   inline void Set( InternalType & output, const ExternalType & input ) const
     { output.SetRed( input ); }
 
-
-  /** 
-   * Read access to the Red component
-   */
+  /** Read access to the Red component */
   inline const ExternalType & Get( const InternalType & input ) const
     { return input.GetRed(); }
-
-
 };
 
   

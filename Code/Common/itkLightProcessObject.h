@@ -91,78 +91,49 @@ namespace itk
  *
  * \ingroup ITKSystemObjects
  * \ingroup DataProcessing
- *       
  */
 class ITK_EXPORT LightProcessObject : public Object
 {
 public:
-  /** 
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef LightProcessObject       Self;
-  
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /** 
-   * Smart pointer typedef support. 
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(LightProcessObject,Object);
 
-  /** 
-   * Set the AbortGenerateData flag for the process object. Process objects
-   *  may handle premature termination of execution in different ways. 
-   */
+  /** Set the AbortGenerateData flag for the process object. Process objects
+   *  may handle premature termination of execution in different ways.  */
   itkSetMacro(AbortGenerateData,bool);
 
-  /** 
-   * Get the AbortGenerateData flag for the process object. Process objects
-   *  may handle premature termination of execution in different ways. 
-   */
+  /** Get the AbortGenerateData flag for the process object. Process objects
+   *  may handle premature termination of execution in different ways.  */
   itkGetConstReferenceMacro(AbortGenerateData,bool);
   
-  /**
-   * Turn on and off the AbortGenerateData flag.
-   */
+  /** Turn on and off the AbortGenerateData flag. */
   itkBooleanMacro(AbortGenerateData); 
   
-  /** 
-   * Set the execution progress of a process object. The progress is
+  /** Set the execution progress of a process object. The progress is
    * a floating number between (0,1), 0 meaning no progress; 1 meaning
-   * the filter has completed execution.
-   */
+   * the filter has completed execution. */
   itkSetClampMacro(Progress,float,0.0,1.0);
 
-  /** 
-   * Get the execution progress of a process object. The progress is
+  /** Get the execution progress of a process object. The progress is
    * a floating number between (0,1), 0 meaning no progress; 1 meaning
-   * the filter has completed execution.
-   */
+   * the filter has completed execution. */
   itkGetConstReferenceMacro(Progress,float);
 
-  /** 
-   * Update the progress of the process object. If a ProgressMethod exists,
+  /** Update the progress of the process object. If a ProgressMethod exists,
    * executes it.  Then set the Progress ivar to amount. The parameter amount
-   * should range between (0,1). 
-   */
+   * should range between (0,1).  */
   void UpdateProgress(float amount);
   
-  /** 
-   * Actually generate new output 
-   */
+  /** Actually generate new output.  */
   virtual void UpdateOutputData();
 
 protected:
@@ -170,9 +141,7 @@ protected:
   ~LightProcessObject();
   void PrintSelf(std::ostream& os, Indent indent) const;
   
-  /**
-   * This method causes the filter to generate its output.
-   */
+  /** This method causes the filter to generate its output. */
   virtual void GenerateData() {}
 
 

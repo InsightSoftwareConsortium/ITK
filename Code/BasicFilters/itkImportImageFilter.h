@@ -73,7 +73,7 @@ class ITK_EXPORT ImportImageFilter:
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef ImportImageFilter   Self;
 

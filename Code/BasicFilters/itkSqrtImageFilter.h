@@ -85,7 +85,7 @@ class ITK_EXPORT SqrtImageFilter :
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef SqrtImageFilter  Self;
 

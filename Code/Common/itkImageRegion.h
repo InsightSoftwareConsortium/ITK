@@ -74,104 +74,68 @@ template <unsigned int VImageDimension>
 class ITK_EXPORT ImageRegion: public Region
 {
 public:
-  /** 
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ImageRegion              Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Region  Superclass;
-
-  /** 
-   * Standard part of all itk objects.
-   */
+  
+  /** Standard part of all itk objects. */
   itkTypeMacro(ImageRegion, Region);
 
-  /**
-   * Dimension of the image available at compile time.
-   */
+  /** Dimension of the image available at compile time. */
   enum { ImageDimension = VImageDimension };
   
-  /** 
-   * Dimension of the image available at run time.
-   */
+  /** Dimension of the image available at run time. */
   static unsigned int GetImageDimension() 
     { return VImageDimension; }
 
-  /** 
-   * Index typedef support. An index is used to access pixel values.
-   */
+  /** Index typedef support. An index is used to access pixel values. */
   typedef Index<VImageDimension>  IndexType;
   typedef typename IndexType::IndexValueType IndexValueType;
-
-  /** 
-   * Size typedef support. A size is used to define region bounds.
-   */
+  
+  /** Size typedef support. A size is used to define region bounds. */
   typedef Size<VImageDimension>  SizeType;
   typedef typename SizeType::SizeValueType SizeValueType;
-  
-  /** 
-   * Return the region type. Images are described with structured regions.
-   */
+    
+  /** Return the region type. Images are described with structured regions. */
   virtual typename Superclass::RegionType GetRegionType() const
     {return Superclass::ITK_STRUCTURED_REGION;}
 
-  /**
-   * Constructor. ImageRegion is a lightweight object that is not reference
-   * counted, so the constructor is public.
-   */
+  /** Constructor. ImageRegion is a lightweight object that is not reference
+   * counted, so the constructor is public. */
   ImageRegion();
 
-  /**
-   * Destructor. ImageRegion is a lightweight object that is not reference
-   * counted, so the destructor is public.
-   */
+  /** Destructor. ImageRegion is a lightweight object that is not reference
+   * counted, so the destructor is public. */
   virtual ~ImageRegion();
 
-  /**
-   * Copy constructor. ImageRegion is a lightweight object that is not
-   * reference counted, so the copy constructor is public.
-   */
+  /** Copy constructor. ImageRegion is a lightweight object that is not
+   * reference counted, so the copy constructor is public. */
   ImageRegion(const Self& region)
     { m_Index = region.m_Index;  m_Size = region.m_Size; };
 
-  /*
-   * operator=. ImageRegion is a lightweight object that is not reference
-   * counted, so operator= is public.
-   */
+  /** operator=. ImageRegion is a lightweight object that is not reference
+   * counted, so operator= is public. */
   void operator=(const Self& region) 
     { m_Index = region.m_Index;  m_Size = region.m_Size; };
 
-  /**
-   * Set the index defining the corner of the region.
-   */
+  /** Set the index defining the corner of the region. */
   void SetIndex(const IndexType &index) 
     { m_Index = index; };
 
-  /**
-   * Get index defining the corner of the region.
-   */
+  /** Get index defining the corner of the region. */
   const IndexType& GetIndex() const
     { return m_Index; };
   
-  /** 
-   * Set the size of the region. This plus the index determines the
-   * rectangular shape, or extent, of the region.
-   */
+  /** Set the size of the region. This plus the index determines the
+   * rectangular shape, or extent, of the region. */
   void SetSize(const SizeType &size)
     { m_Size = size; };
 
-  /** 
-   * Get the size of the region.
-   */
+  /** Get the size of the region. */
   const SizeType& GetSize() const
     { return m_Size;}
 
-  /**
-   * Compare two regions.
-   */
+  /** Compare two regions. */
   bool
   operator==(const Self &region) const
     {
@@ -181,9 +145,7 @@ public:
       return same;
     }
 
-  /**
-   * Compare two regions.
-   */
+  /** Compare two regions. */
   bool
   operator!=(const Self &region) const
     {
@@ -193,9 +155,7 @@ public:
       return !same;
     }
   
-  /**
-   * Test if an index is inside
-   */
+  /** Test if an index is inside */
   bool
   IsInside(const IndexType &index) const
     {
@@ -213,46 +173,35 @@ public:
       return true;
     }
  
-  /**
-   * Get the number of pixels contained in this region. This just
-   * multiplies the size components.
-   */
+  /** Get the number of pixels contained in this region. This just
+   * multiplies the size components. */
   unsigned long GetNumberOfPixels() const;
 
-  /**
-   * Pad an image region by the specified radius. Region can be padded
+  /** Pad an image region by the specified radius. Region can be padded
    * uniformly in all dimensions or can be padded by different amounts
-   * in each dimension.
-   */
+   * in each dimension. */
   void PadByRadius(unsigned long radius);
   void PadByRadius(const unsigned long radius[VImageDimension]);
   void PadByRadius(const SizeType &radius);
-
-  /**
-   * Crop a region by another region. If this region is outside of the
+  
+  /** Crop a region by another region. If this region is outside of the
    * crop, this method returns false and does not modify the
    * region. Otherwise, this method returns true and the region is
-   * modified to reflect the crop.
-   */
+   * modified to reflect the crop. */
   bool Crop(const Self& region);
                    
-
 protected:
-  /** 
-   * Methods invoked by Print() to print information about the object
+  /** Methods invoked by Print() to print information about the object
    * including superclasses. Typically not called by the user (use Print()
    * instead) but used in the hierarchical print process to combine the
-   * output of several classes. 
-   */
+   * output of several classes.  */
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   IndexType           m_Index;
   SizeType            m_Size;
 
-  /**
-   * Friends of ImageRegion
-   */
+  /** Friends of ImageRegion */
   friend class ImageBase<VImageDimension>;
 };
 

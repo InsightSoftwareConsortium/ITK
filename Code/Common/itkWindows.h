@@ -38,8 +38,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-// This file is used to create the smallest windows.h possible.
-// Also it removes a few annoying #define's in windows.h
+/** This file is used to create the smallest windows.h possible.
+ * Also it removes a few annoying #define's in windows.h. */
 #ifndef __itkWindows_h
 #define __itkWindows_h
 #define NOMINMAX

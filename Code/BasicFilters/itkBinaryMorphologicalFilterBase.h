@@ -49,160 +49,120 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImageBoundaryCondition.h"
 #include "itkImageRegionIterator.h"
 
-namespace itk {
+namespace itk 
+{
 
-  /** \class BinaryMorphologicalFilterBase 
-   * \brief implementation of the base class for the binary morphological
-   * operation such as erosion and dialation
-   *
-   * This class provides most of fuctionalities for binary 
-   * morphological operations. Any sub class of this class expects an gray 
-   * value image of which pixel data are separable into background pixels and  
-   *  forground using a threshold value (see SetThreshold).
-   *
-   * Subclasses of this class can define their own operation by simply
-   * providing their own Evaluate() protected member function.
-   *
-   *
-   * NOTE:
-   * this class hasn't been tested over the case where the input requested
-   * region is different from the output requested region
-   *
-   * \sa BinaryMorphologicalErosionFilter
-   * \sa BinaryMorphologicalDialationFilter
-   * \sa NeighborhoodIterator
-   * \sa Neighborhood
-   * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
-   */
-
+/** \class BinaryMorphologicalFilterBase 
+ * \brief implementation of the base class for the binary morphological
+ * operation such as erosion and dialation
+ *
+ * This class provides most of fuctionalities for binary 
+ * morphological operations. Any sub class of this class expects an gray 
+ * value image of which pixel data are separable into background pixels and  
+ *  forground using a threshold value (see SetThreshold).
+ *
+ * Subclasses of this class can define their own operation by simply
+ * providing their own Evaluate() protected member function.
+ *
+ *
+ * NOTE:
+ * this class hasn't been tested over the case where the input requested
+ * region is different from the output requested region
+ *
+ * \sa BinaryMorphologicalErosionFilter
+ * \sa BinaryMorphologicalDialationFilter
+ * \sa NeighborhoodIterator
+ * \sa Neighborhood
+ * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
+ */
 template<class TInputImage, class TOutputImage, class TKernel>
 class ITK_EXPORT BinaryMorphologicalFilterBase : 
   public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /**
-   * Standard Self typedef
-   */
+  /** Standard class typedefs. */
   typedef BinaryMorphologicalFilterBase Self;
-
-  /**
-   * Standard Superclass typedef
-   */
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-
-  /**
-   * Standard smart pointer support
-   */ 
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  /**
-   * Runtime information support
-   */
-  itkTypeMacro(BinaryMorphologicalFilterBase, ImageToImageFilter);
-  
-  /**
-   * Standard New method
-   */
+  /** Standard New method. */
   itkNewMacro(Self);  
 
-  /**
-   * Image related typedefs
-   */
+  /** Runtime information support. */
+  itkTypeMacro(BinaryMorphologicalFilterBase, ImageToImageFilter);
+  
+  /** Image related typedefs. */
   typedef typename TInputImage::RegionType RegionType ;
   typedef typename TInputImage::SizeType SizeType ;
   typedef typename TInputImage::IndexType IndexType ;
   typedef typename TInputImage::PixelType PixelType ;
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
   
+  /** Extract input image dimension. */
   enum { ImageDimension = TInputImage::ImageDimension } ;
 
-  /**
-   * Neighborhood iterator type
-   */
+  /** Neighborhood iterator type. */
   typedef ConstSmartNeighborhoodIterator<TInputImage> 
     NeighborhoodIteratorType ;
 
-  /**
-   * Iterator type for the neighborhood that 
-   * NeighborhoodIteratorType::GetNeighborhood() will return 
-   */
+  /** Iterator type for the neighborhood that 
+   * NeighborhoodIteratorType::GetNeighborhood() will return. */
   typedef typename NeighborhoodIteratorType::NeighborhoodType::ConstIterator 
     ImageKernelIteratorType ;
 
-  /**
-   * Kernel (structuring elemnent) iterator
-   */
+  /** Kernel (structuring elemnent) iterator. */
   typedef typename TKernel::ConstIterator KernelIteratorType ;
   
-  /**
-   * n-dimensional Kernel radius
-   */
+  /** n-dimensional Kernel radius. */
   typedef typename TKernel::SizeType RadiusType ;
 
-  /**
-   * Set kernel (structuring element)
-   */
+  /** Set kernel (structuring element). */
   void SetKernel(TKernel* kernel) ;
 
-  /**
-   * Set threshold value which will be used to separate background from image
-   */
+  /** Set threshold value which will be used to separate 
+   *  background from image. */
   void SetThreshold(PixelType threshold) ;
 
-  /**
-   * Make sure that the input requested region should include the output 
-   * requested region + kernel radius 
-   */
+  /** Make sure that the input requested region should include the output 
+   * requested region + kernel radius. */
   void GenerateInputRequestedRegion() ;
 
 protected:
-  /**
-   * Multi-thread version GenerateData
-   */
+  /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData (const OutputImageRegionType& 
                               outputRegionForThread,
                               int threadId) ;
 
-  /**
-   * Evaluate image neighborhood with kernel to find the new value 
-   * for the center pixel value
-   */
+  /** Evaluate image neighborhood with kernel to find the new value 
+   * for the center pixel value. */
   virtual PixelType Evaluate(ImageKernelIteratorType first, 
                              ImageKernelIteratorType last, 
                              KernelIteratorType first2,
                              PixelType centerValue,
                              PixelType threshold) = 0 ;
 
-  /**
-   * Return the region that includes region (output requested region)
-   * + radius (kernel radius)
-   */
+  /** Return the region that includes region (output requested region)
+   * + radius (kernel radius). */
   RegionType EnlargeImageRegion(RegionType region,
                                 RadiusType radius) ;
 
-  /**
-   * Return the region that is big enough to include the new requested region
+  /** Return the region that is big enough to include the new requested region
    * after the above enlargement but smaller than the largest possible region
    * of the input image. 
    *
    * NOTE:
    * If the current input requested region includes athe new requested region 
-   *, then it keeps the original requested region
-   */
+   *, then it keeps the original requested region. */
   RegionType EnlargeImageRegion(RegionType current,
                                 RegionType largest,
                                 RegionType requested) ;
 
 private:
-  /**
-   * the kernel pointer
-   */
+  /** the kernel pointer. */
   TKernel* m_Kernel ;
 
-  /**
-   * threshold value
-   */
+  /** threshold value. */
   PixelType m_Threshold ;
 } ; // end of class
 

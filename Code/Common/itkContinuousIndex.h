@@ -68,60 +68,38 @@ template<class TCoordRep = double, unsigned int VIndexDimension=2>
 class ContinuousIndex : public Point< TCoordRep, VIndexDimension >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ContinuousIndex  Self;
-  
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Point<TCoordRep,VIndexDimension>  Superclass;
-
-
-  /**
-   * ValueType can be used to declare a variable that is the same type
-   * as a data element held in an Point.  
-   */
+  
+  /** ValueType can be used to declare a variable that is the same type
+   * as a data element held in an Point.   */
   typedef TCoordRep ValueType;
   typedef TCoordRep CoordRepType;
-
-  /**
-   * Dimension of the Space
-   */
+  
+  /** Dimension of the Space */
   enum { IndexDimension = VIndexDimension };
 
-  /**
-   * Corresponding discrete index type
-   */
+  /** Corresponding discrete index type */
   typedef Index<VIndexDimension> IndexType;
 
-  /**
-   * The Array type from which this Vector is derived.
-   */
+  /** The Array type from which this Vector is derived. */
   typedef typename Superclass::BaseArray            BaseArray;
   typedef typename BaseArray::ArrayCommaListCopier  ArrayCommaListCopier;
   typedef typename BaseArray::Iterator              Iterator;
   typedef typename BaseArray::ConstIterator         ConstIterator;
-
-  /**
-   * Default constructor has nothing to do.
-   */
+  
+  /** Default constructor has nothing to do. */
   ContinuousIndex() {}
 
-  /*@{
-   * Pass-through constructor to the Point base class.
-   */
+  /** Pass-through constructor to the Point base class. */
   ContinuousIndex(const Self& r): Superclass(r) {}
 //  ContinuousIndex(const Superclass& r) : Superclass(r) {}
   ContinuousIndex(const typename BaseArray::Reference& r): Superclass(r) {}
   ContinuousIndex(const typename BaseArray::ConstReference& r): Superclass(r) {}
   ContinuousIndex(const ValueType r[IndexDimension]): Superclass(r) {}  
-  //@}
-
-  /**
-   * Construct from discrete index type
-   */
+  
+  /** Construct from discrete index type */
   ContinuousIndex(const IndexType& index )
     {
     for( unsigned int i = 0; i < VIndexDimension; i++ )
@@ -129,7 +107,6 @@ public:
       (*this)[i] = TCoordRep( index[i] );
       }
     }
- 
 };
 
 

@@ -66,37 +66,24 @@ template <class T>
 class ITK_EXPORT GreenPixelAccessor
 {
 public:
- /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef   GreenPixelAccessor        Self;
-
- /** 
-   * External typedef. It defines the external aspect
-   * that this class will exhibit
-   */
+  
+  /** External typedef. It defines the external aspect
+   * that this class will exhibit */
   typedef T ExternalType;
 
-  /** 
-   * Internal typedef. It defines the internal real
-   * representation of data
-   */
+  /** Internal typedef. It defines the internal real
+   * representation of data */
   typedef     RGBPixel<T>   InternalType;
 
-
-  /** 
-   * Write access to the Green component
-   */
+  /** Write access to the Green component */
   inline void Set( InternalType & output, const ExternalType & input ) const
     { output.SetGreen( input ); }
 
-
-  /** 
-   * Read access to the Green component
-   */
+  /** Read access to the Green component */
   inline const ExternalType & Get( const InternalType & input ) const
     { return input.GetGreen(); }
-
 
 };
 

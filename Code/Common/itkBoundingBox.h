@@ -87,85 +87,55 @@ template <
 class ITK_EXPORT BoundingBox : public Object
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef BoundingBox         Self;
-  
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-  
-  /**
-   * Method for creation through the object factory.
-   */
+    
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  //@{
-  /**
-   * Hold on to the type information specified by the template parameters.
-   */
+  /** Hold on to the type information specified by the template parameters. */
   typedef TPointIdentifier PointIdentifier;
   typedef TCoordRep CoordRepType;
-  enum { PointDimension = VPointDimension };
   typedef TPointsContainer PointsContainer;
   typedef typename PointsContainer::Pointer PointsContainerPointer;
   typedef Point< CoordRepType, VPointDimension >  PointType;
-  //@}
+  
+  /** Hold on to the dimensions specified by the template parameters. */
+  enum { PointDimension = VPointDimension };
 
-  //@{
-  /**
-   * Convenient typedefs.
-   */
+  /** Convenient typedefs.*/
   typedef typename
           PointsContainer::ConstIterator        PointsContainerConstIterator;
   typedef typename
           PointsContainer::Iterator             PointsContainerIterator;
-  //@}
-  
-  /**
-   * Set the points from which the bounding box should be computed. The 
+    
+  /** Set/Get the points from which the bounding box should be computed. The 
    * bounding box is cached and is not recomputed if the points are not 
-   * changed.
-   */
+   * changed. */
   void SetPoints(PointsContainer *);
   PointsContainerPointer GetPoints(void);
-
-  /**
-   * Method that actually computes bounding box.
-   */
+  
+  /** Method that actually computes bounding box. */
   bool ComputeBoundingBox(void);
 
-  /**
-   * Get the bounding box. NULL is returned if the bounding box cannot be
+  /** Get the bounding box. NULL is returned if the bounding box cannot be
    * computed. (This may happen if the user never specifies something to
-   * compute the bounding box from.)
-   */
+   * compute the bounding box from.) */
   CoordRepType* GetBoundingBox(CoordRepType bounds[PointDimension*2]);
 
-  /**
-   * Get the center of the bounding box. Returns NULL if bounding box
-   * cannot be computed.
-   */
+  /** Get the center of the bounding box. Returns NULL if bounding box
+   * cannot be computed. */
   CoordRepType* GetCenter(CoordRepType bounds[PointDimension]);
 
-  //@{
-  /**
-   * Get the length squared of the diagonal of the bounding box.
+  /** Get the length squared of the diagonal of the bounding box.
    * Returns zero if bounding box cannot be computed. Note that the
-   * Accumulate type is used to represent the length.
-   */
+   * Accumulate type is used to represent the length. */
   typedef typename NumericTraits<CoordRepType>::AccumulateType AccumulateType;
   AccumulateType GetDiagonalLength2(void);
-  //@}
-
+  
 #if 0
   /**
    * Intersect this bounding box (bounds[PointDimension*2]) with a line

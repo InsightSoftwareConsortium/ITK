@@ -45,8 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/** 
- * \class LinearInterpolateImageFunction
+/** \class LinearInterpolateImageFunction
  * \brief Linearly interpolate an image at specified positions.
  *
  * LinearInterpolateImageFunction linearly interpolates image intensity at
@@ -61,69 +60,44 @@ namespace itk
  * \sa VectorLinearInterpolateImageFunction
  *
  * \ingroup ImageFunctions
- * 
  */
 template <class TInputImage>
 class ITK_EXPORT LinearInterpolateImageFunction : 
   public InterpolateImageFunction<TInputImage> 
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef LinearInterpolateImageFunction Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef InterpolateImageFunction<TInputImage> Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
+  
+  /** Run-time type information (and related methods). */
   itkTypeMacro(LinearInterpolateImageFunction, InterpolateImageFunction);
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
-  /**
-   * InputImageType typedef support.
-   */
+  /** InputImageType typedef support. */
   typedef typename Superclass::InputImageType InputImageType;
 
-  /**
-   * Dimension underlying input image.
-   */
+  /** Dimension underlying input image. */
   enum { ImageDimension = Superclass::ImageDimension };
 
-  /**
-   * Index typedef support.
-   */
+  /** Index typedef support. */
   typedef typename Superclass::IndexType IndexType;
 
-  /**
-   * ContinuousIndex typedef support.
-   */
+  /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
-  /**
-   * Evaluate the function at a ContinuousIndex position
+  /** Evaluate the function at a ContinuousIndex position
    *
    * Returns the linearly interpolated image intensity at a 
    * specified point position. No bounds checking is done.
    * The point is assume to lie within the image buffer.
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
-   * calling the method.
-   */
+   * calling the method. */
   virtual double EvaluateAtContinuousIndex( 
     const ContinuousIndexType & index ) const;
 
@@ -136,9 +110,7 @@ private:
   LinearInterpolateImageFunction( const Self& ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 
-  /**
-   * Number of neighbors used in the interpolation
-   */
+  /** Number of neighbors used in the interpolation */
   static const unsigned long  m_Neighbors;  
 
 };

@@ -81,161 +81,87 @@ class ITK_EXPORT DanielssonDistanceMapImageFilter :
                  public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
-
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef   DanielssonDistanceMapImageFilter    Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  
-  /**
-   * Smart pointer typedef support
-   */
   typedef SmartPointer<Self> Pointer;
-
-  
-  /**
-   * Const Smart pointer typedef support
-   */
   typedef SmartPointer<const Self> ConstPointer;
 
-   /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro( DanielssonDistanceMapImageFilter, ImageToImageFilter );
-
-
-  /**
-   * Method for creation through the object factory
-   */
+  /** Method for creation through the object factory */
   itkNewMacro(Self);
 
- 
-  /**
-   * Type for input image
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( DanielssonDistanceMapImageFilter, ImageToImageFilter );
+
+  /** Type for input image. */
   typedef   TInputImage       InputImageType;
 
-
-  /**
-   * Type for the output image
-   */
+  /** Type for the output image. */
   typedef   TOutputImage      OutputImageType;
 
-
-
-  /**
-   * Type for the region of the input image
-   */
+  /** Type for the region of the input image. */
   typedef typename InputImageType::RegionType   RegionType;
 
-
-
-  /**
-   * Type for the index of the input image
-   */
+  /** Type for the index of the input image. */
   typedef typename RegionType::IndexType  IndexType;
 
-
-  /**
-   * Type for the index of the input image
-   */
+  /** Type for the index of the input image. */
   typedef typename InputImageType::OffsetType  OffsetType;
 
-
-  /**
-   * Type for the size of the input image
-   */
+  /** Type for the size of the input image. */
   typedef typename RegionType::SizeType   SizeType;
-
   
-  /**
-   * The dimension of the input image.
-   */
+  /** The dimension of the input image. */
   enum { InputImageDimension = InputImageType::ImageDimension };
 
-  /**
-   * Pointer Type for the vector distance image
-   */
+  /** Pointer Type for the vector distance image */
   typedef Image< OffsetType, InputImageDimension > VectorImageType;
 
-
-  /**
-   * Pointer Type for input image
-   */
+  /** Pointer Type for input image. */
   typedef typename InputImageType::Pointer InputImagePointer;
 
-
-  /**
-   * Pointer Type for the output image
-   */
+  /** Pointer Type for the output image. */
   typedef typename OutputImageType::Pointer OutputImagePointer;
 
-
-  /**
-   * Pointer Type for the vector distance image
-   */
+  /** Pointer Type for the vector distance image. */
   typedef typename VectorImageType::Pointer VectorImagePointer;
 
+  /** Set if the distance should be squared. */
+  itkSetMacro( SquaredDistance, bool );
 
-  /**
-   * Set if the distance should be squared
-   */
-   itkSetMacro( SquaredDistance, bool );
+  /** Get the distance squared. */
+  itkGetConstReferenceMacro( SquaredDistance, bool );
 
-  /**
-   * Get the distance squared
-   */
-   itkGetConstReferenceMacro( SquaredDistance, bool );
+  /** Set On/Off if the distance is squared. */
+  itkBooleanMacro( SquaredDistance );
 
-  /**
-   * Set On/Off if the distance is squared
-   */
-   itkBooleanMacro( SquaredDistance );
-
-  /**
-   * Set if the input is binary
-   */
+  /** Set if the input is binary. */
    itkSetMacro( InputIsBinary, bool );
 
-  /**
-   * Get if the input is binary
-   */
-   itkGetConstReferenceMacro( InputIsBinary, bool );
+  /** Get if the input is binary. */
+  itkGetConstReferenceMacro( InputIsBinary, bool );
 
-  /**
-   * Set On/Off if the input is binary
-   */
-   itkBooleanMacro( InputIsBinary );
+  /** Set On/Off if the input is binary. */
+  itkBooleanMacro( InputIsBinary );
 
-  /**
-   * Get Voronoi Map
+  /** Get Voronoi Map
    * This Map shows for each pixel what object is closest to it. 
    * Each object should be labeled by a number (larger than 0), 
    * so the map has a value for each pixel corresponding to the label 
-   * of the closest object. 
-   */
+   * of the closest object.  */
   OutputImagePointer GetVoronoiMap();
 
-  /**
-   * Get Distance map image.
+  /** Get Distance map image.
    * The distance map is shown as a gray value image depending on 
    * the pixel type of the output image.
    * Regarding the source image, background should be dark (gray value = 0) 
    * and object should have a gray value larger than 0. 
    * The minimal distance is calculated on the object frontier, 
    * and the output image gives for each pixel its minimal distance from the object 
-   * (if there is more than one object the closest object is considered).
-   */
+   * (if there is more than one object the closest object is considered). */
   OutputImagePointer GetDistanceMap();
 
-  /**
-   * Get vector field of distances
-   */
+  /** Get vector field of distances. */
   VectorImagePointer GetVectorDistanceMap();
 
 protected:
@@ -243,24 +169,16 @@ protected:
   virtual ~DanielssonDistanceMapImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * Compute Danielsson distance map and Voronoi Map
-   */
+  /** Compute Danielsson distance map and Voronoi Map. */
   void GenerateData();  
 
-  /**
-   * Prepare data
-   */
+  /** Prepare data. */
   void PrepareData();  
 
-  /**
-   *  Compute Voronoi Map
-   */
+  /**  Compute Voronoi Map. */
   void ComputeVoronoiMap();  
 
-  /**
-   * Update distance map locally
-   */
+  /** Update distance map locally. */
   void UpdateLocalDistance(VectorImageType*,
                            const IndexType&,
                            const OffsetType&);
@@ -272,11 +190,9 @@ private:
   bool                  m_SquaredDistance;
   bool                  m_InputIsBinary;
 
-
   /** \class DIS SquaredEuclideanDistanceCalculator
-  *
-  *  This is a helper class that computes the squared distance
-  */
+   *
+   *  This is a helper class that computes the squared distance. */
   template <unsigned int VDimension>  
   class SquaredDistance
   {

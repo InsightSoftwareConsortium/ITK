@@ -57,7 +57,6 @@ OnePlusOneEvolutionaryOptimizer<TCostFunction, TNormalRandomVariateGenerator>
   m_Initialized = false ;
   m_Epsilon = (double) 1e-6  ; 
   m_RandomSeed = 0 ;
-  m_VerboseMode = false ;
 }
 
 template<class TCostFunction, class TNormalRandomVariateGenerator>
@@ -135,20 +134,12 @@ OnePlusOneEvolutionaryOptimizer<TCostFunction, TNormalRandomVariateGenerator>
 template<class TCostFunction, class TNormalRandomVariateGenerator>
 void
 OnePlusOneEvolutionaryOptimizer<TCostFunction, TNormalRandomVariateGenerator>
-::SetVerboseMode(bool flag)
-{
-  m_VerboseMode = flag ;
-}
-
-template<class TCostFunction, class TNormalRandomVariateGenerator>
-void
-OnePlusOneEvolutionaryOptimizer<TCostFunction, TNormalRandomVariateGenerator>
 ::Run()
   throw (ExceptionObject)
 {
   if (m_CostFunction == 0 || !m_Initialized)
     {
-      throw ExceptionObject(__FILE__, __LINE__) ;
+    throw ExceptionObject(__FILE__, __LINE__) ;
     }
 
   // m_Random Seed was originally getpid()
@@ -178,7 +169,7 @@ OnePlusOneEvolutionaryOptimizer<TCostFunction, TNormalRandomVariateGenerator>
 
   for (int i = 0  ; i < spaceDimension ; i++) 
     {
-        A(i,i) = m_InitialRadius ;
+    A(i,i) = m_InitialRadius ;
     }
   //m_BiasField->SetCoefficients(parent) ;
 
@@ -189,60 +180,57 @@ OnePlusOneEvolutionaryOptimizer<TCostFunction, TNormalRandomVariateGenerator>
   int iter ;
   for (iter = 0 ; iter < m_MaximumIteration ; iter++) 
     {
-      for (int i=0 ; i < spaceDimension ; i++) 
-        {
-          f_norm[i] = m_RandomGenerator->GetNormalVariate() ;
-        }
+    for (int i=0 ; i < spaceDimension ; i++) 
+      {
+      f_norm[i] = m_RandomGenerator->GetNormalVariate() ;
+      }
 
-      delta  = A * f_norm ;
-      child  = parent + delta ;
-      cvalue = m_CostFunction->GetValue(child, m_Value) ;
-      if (m_VerboseMode)
-        {
-          std::cout << iter << ": parent: " << pvalue 
-                << " child: "<< cvalue << std::endl ;
-        }
+    delta  = A * f_norm ;
+    child  = parent + delta ;
+    cvalue = m_CostFunction->GetValue(child, m_Value) ;
+    itkDebugMacro(<< iter << ": parent: " << pvalue 
+    << " child: "<< cvalue );
 
-      if (cvalue < pvalue) 
-        {
-          minIteration = iter ;
-          pvalue = cvalue ;
+    if (cvalue < pvalue) 
+      {
+      minIteration = iter ;
+      pvalue = cvalue ;
           
-          parent.swap(child) ;                  
+      parent.swap(child) ;                  
           
-          adjust = m_GrowFactor ; 
-          this->SetCurrentPosition(parent) ;
+      adjust = m_GrowFactor ; 
+      this->SetCurrentPosition(parent) ;
           
-        } 
-      else 
-        {
-          adjust = m_ShrinkFactor ;
-        }
+      } 
+    else 
+      {
+      adjust = m_ShrinkFactor ;
+      }
       
-      // convergence criterion: f-norm of A < epsilon_A
-      // Compute double precision sum of absolute values of 
-      // a single precision vector
-      if (m_VerboseMode)
+    // convergence criterion: f-norm of A < epsilon_A
+    // Compute double precision sum of absolute values of 
+    // a single precision vector
+    if ( this->GetDebug() )
+      {
+      if (A.fro_norm() <= m_Epsilon) 
         {
-          if (A.fro_norm() <= m_Epsilon) 
-            {
-              std::cout << "A f-norm:" << A.fro_norm() << std::endl ;
-              break ;
-            }
+        itkDebugMacro(<< "A f-norm:" << A.fro_norm());
+        break ;
         }
+      }
       
-      // A += (adjust - 1)/ (f_norm * f_norm) * A * f_norm * f_norm ;
-      // Blas_R1_Update(A, A * f_norm, f_norm, 
-      //             ((adjust - 1) / Blas_Dot_Prod(f_norm, f_norm)));    
-      // = DGER(Fortran)
-      //   performs the rank 1 operation
-      // A := alpha*x*y' + A,
-      // where y' = transpose(y)
-      // where alpha is a scalar, x is an m element vector, y is an n element
-      // vector and A is an m by n matrix.
-      // x = A * f_norm , y = f_norm, alpha = (adjust - 1) / Blas_Dot_Prod(
-      // f_norm, f_norm)
-      A = A + (adjust - 1.0) * A ;
+    // A += (adjust - 1)/ (f_norm * f_norm) * A * f_norm * f_norm ;
+    // Blas_R1_Update(A, A * f_norm, f_norm, 
+    //             ((adjust - 1) / Blas_Dot_Prod(f_norm, f_norm)));    
+    // = DGER(Fortran)
+    //   performs the rank 1 operation
+    // A := alpha*x*y' + A,
+    // where y' = transpose(y)
+    // where alpha is a scalar, x is an m element vector, y is an n element
+    // vector and A is an m by n matrix.
+    // x = A * f_norm , y = f_norm, alpha = (adjust - 1) / Blas_Dot_Prod(
+    // f_norm, f_norm)
+    A = A + (adjust - 1.0) * A ;
     }
 }
 

@@ -66,40 +66,22 @@ template < class TInput, class TOutput >
 class ITK_EXPORT FunctionBase : public Object
 {
 public:
-  /**
-   * Standard "Self" typedef
-   */
+  /** Standard class typedefs. */
   typedef FunctionBase Self;
-
-  /**
-   * Standard "Superclass" typedf
-   */
   typedef Object Superclass;
-
-  /**
-   * Smart pointer typedef support
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
+  
+  /** Run-time type information (and related methods). */
   itkTypeMacro(FunctionBase, Object);
 
-  /**
-   * Input type
-   */
+  /** Input type */
   typedef TInput InputType;
 
-  /**
-   * Output type
-   */
+  /** Output type */
   typedef TOutput OutputType;
 
-  /**
-   * Evaluate at the specified input position
-   */
+  /** Evaluate at the specified input position */
   virtual OutputType Evaluate( const InputType& input ) const = 0;
 
 protected:

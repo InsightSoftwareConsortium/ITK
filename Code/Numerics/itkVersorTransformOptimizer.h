@@ -73,64 +73,38 @@ namespace itk
 template <class TCostFunction>
 class ITK_EXPORT VersorTransformOptimizer : 
         public RegularStepGradientDescentBaseOptimizer< TCostFunction >
-
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef VersorTransformOptimizer  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef RegularStepGradientDescentBaseOptimizer<TCostFunction> Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Dimension of the Search Space
-   */
-  enum { SpaceDimension = Superclass::SpaceDimension };
- 
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
 
-  /**
-   *  Parameters type.
-   *  It defines a position in the optimization search space
-   */
-  typedef typename Superclass::ParametersType ParametersType;
-  typedef typename Superclass::DerivativeType DerivativeType;
-
- /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro( VersorTransformOptimizer, 
                 RegularStepGradientDescentBaseOptimizer );
 
+  /** Dimension of the Search Space */
+  enum { SpaceDimension = Superclass::SpaceDimension };
 
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
+  /**  Parameters type.
+   *  It defines a position in the optimization search space. */
+  typedef typename Superclass::ParametersType ParametersType;
+  typedef typename Superclass::DerivativeType DerivativeType;
 
-
-  /**
-   * Advance one step following the gradient direction
-   */
+  /** Advance one step following the gradient direction. */
   virtual void StepAlongGradient( double factor, 
-                   const DerivativeType & transformedGradient );
+                                  const DerivativeType & transformedGradient );
 
 protected:
-
-  VersorTransformOptimizer() {};
-  virtual ~VersorTransformOptimizer() {};
+  VersorTransformOptimizer() {}
+  virtual ~VersorTransformOptimizer() {}
 
 private:
-
   VersorTransformOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

@@ -66,7 +66,7 @@ class ITK_EXPORT PadImageFilter:
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef PadImageFilter         Self;
 

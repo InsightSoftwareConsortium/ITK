@@ -85,122 +85,88 @@ template <
 class DefaultStaticMeshTraits
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef DefaultStaticMeshTraits  Self;
   
-  /**
-   * Just save all the template parameters.
-   */
+  /** Just save all the template parameters. */
   typedef TPixelType      PixelType;
   typedef TCellPixelType  CellPixelType;
-  enum { PointDimension = VPointDimension };
-  enum { MaxTopologicalDimension = VMaxTopologicalDimension };  
   typedef TCoordRep  CoordRepType;
   typedef TInterpolationWeight  InterpolationWeightType;
+    
+  /** Just save all the template parameters. */
+  enum { PointDimension = VPointDimension };
+  enum { MaxTopologicalDimension = VMaxTopologicalDimension };  
   
-  /**
-   * The type to be used to identify a point.  This should be the index type
-   * to the PointsContainer.
-   */
+  /** The type to be used to identify a point.  This should be the index type
+   * to the PointsContainer. */
   typedef unsigned long  PointIdentifier;
 
-  /**
-   * The type to be used to identify a cell.  This should be the index type
-   * to the CellsContainer.
-   */
+  /** The type to be used to identify a cell.  This should be the index type
+   * to the CellsContainer. */
   typedef unsigned long  CellIdentifier;
 
-  /**
-   * The type to be used to identify a boundary.  This should be the index type
-   * to the BoundariesContainer.
-   */
+  /** The type to be used to identify a boundary.  This should be the index type
+   * to the BoundariesContainer. */
   typedef unsigned long  BoundaryIdentifier;
 
-  /**
-   * A type that can be used to identifiy individual boundary features on
+  /** A type that can be used to identifiy individual boundary features on
    * the cells.  Since this will probably be an index into a static array,
-   * this will probably never change from an integer setting.
-   */
+   * this will probably never change from an integer setting. */
   typedef unsigned long  CellFeatureIdentifier;
   
-  /**
-   * The type of point used by the mesh.  This should never change from
-   * this setting, regardless of the mesh type.
-   */
+  /** The type of point used by the mesh.  This should never change from
+   * this setting, regardless of the mesh type. */
   typedef Point< CoordRepType, PointDimension >  PointType;
 
-  /**
-   * The container type for use in storing points.  It must conform to
-   * the IndexedContainer interface.
-   */
+  /** The container type for use in storing points.  It must conform to
+   * the IndexedContainer interface. */
   typedef VectorContainer< PointIdentifier , PointType >  PointsContainer;
 
-  /**
-   * The container type that will be used to store boundary links
-   * back to cells.  This must conform to the STL "set" interface.
-   */
+  /** The container type that will be used to store boundary links
+   * back to cells.  This must conform to the STL "set" interface. */
   typedef std::set< CellIdentifier >            UsingCellsContainer;
   
-  /**
-   * The information needed for a cell type is now defined, so we can
-   * define the cell type. We use a macro defined in itkCellInterface.
-   */
+  /** The information needed for a cell type is now defined, so we can
+   * define the cell type. We use a macro defined in itkCellInterface. */
   typedef MakeCellTraitsMacro                     CellTraits;
   
-  /**
-   * The interface to cells to be used by the mesh.
-   * This should not be changed.
-   */
+  /** The interface to cells to be used by the mesh.
+   * This should not be changed. */
   typedef CellInterface< CellPixelType , CellTraits >  Cell;
   typedef typename Cell::Pointer CellPointer;
-  
-  /**
-   * The container type for use in storing cells.  It must conform to
-   * the IndexedContainer interface.
-   */
+    
+  /** The container type for use in storing cells.  It must conform to
+   * the IndexedContainer interface. */
   typedef VectorContainer< CellIdentifier , CellPointer >
         CellsContainer;
   
-  /**
-   * The CellLinks container should be a container of PointCellLinksContainer,
-   * which should be a container conforming to the STL "set" interface.
-   */
+  /** The CellLinks container should be a container of PointCellLinksContainer,
+   * which should be a container conforming to the STL "set" interface. */
   typedef std::set< CellIdentifier >     PointCellLinksContainer;
 
-  /**
-   * The container type for use in storing point links back to cells.
-   * It must conform to the IndexedContainer interface.
-   */
+  /** The container type for use in storing point links back to cells.
+   * It must conform to the IndexedContainer interface. */
   typedef VectorContainer< PointIdentifier , PointCellLinksContainer >
         CellLinksContainer;
 
-  /**
-   * The container type for use in storing point data.  It must conform to
-   * the IndexedContainer interface.
-   */
+  /** The container type for use in storing point data.  It must conform to
+   * the IndexedContainer interface. */
   typedef VectorContainer< PointIdentifier , PixelType >
         PointDataContainer;
 
-  /**
-   * The container type for use in storing cell data.  It must conform to
-   * the IndexedContainer interface.
-   */
+  /** The container type for use in storing cell data.  It must conform to
+   * the IndexedContainer interface. */
   typedef VectorContainer< CellIdentifier , CellPixelType >
         CellDataContainer;
 
-  /**
-   * The container type for use in storing explicitly created
-   * boundaries.  It must conform to the IndexedContainer interface.
-   */
+  /** The container type for use in storing explicitly created
+   * boundaries.  It must conform to the IndexedContainer interface. */
   typedef VectorContainer< BoundaryIdentifier , CellPointer >
         BoundariesContainer;
 
-  /**
-   * The container type for use in storing data for explicitly
-   * created boundaries.  It must conform to the IndexedContainer interface.
-   */
+  /** The container type for use in storing data for explicitly
+   * created boundaries.  It must conform to the IndexedContainer interface. */
   typedef VectorContainer< BoundaryIdentifier , CellPixelType >
         BoundaryDataContainer;
 };

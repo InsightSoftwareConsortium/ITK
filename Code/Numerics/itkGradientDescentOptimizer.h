@@ -72,162 +72,94 @@ namespace itk
 template <class TCostFunction>
 class ITK_EXPORT GradientDescentOptimizer : 
         public SingleValuedNonLinearOptimizer< TCostFunction >
-
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef GradientDescentOptimizer  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef SingleValuedNonLinearOptimizer<TCostFunction> Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   * Cost Function  typedef.
-   */
-  typedef          TCostFunction                CostFunctionType;
-  typedef typename CostFunctionType::Pointer    CostFunctionPointer;
-
-  /**
-   * Dimension of the Search Space
-   */
-  enum { SpaceDimension = TCostFunction::SpaceDimension };
- 
-
-  /**
-   *  Parameters type.
-   *  it defines a position in the optimization search space
-   */
-  typedef typename TCostFunction::ParametersType ParametersType;
-
-
-  /**
-   *  Measure type.
-   *  it defines a type used to return the cost function value 
-   */
-  typedef typename TCostFunction::MeasureType MeasureType;
-
-
-  /**
-   *  Derivative type.
-   *  it defines a type used to return the cost function derivative 
-   */
-  typedef typename TCostFunction::DerivativeType DerivativeType;
-
-
- /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro( GradientDescentOptimizer, 
-      SingleValuedNonLinearOptimizer );
-
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Codes of stopping conditions
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( GradientDescentOptimizer, SingleValuedNonLinearOptimizer );
+
+  /** Cost Function  typedefs. */
+  typedef          TCostFunction                CostFunctionType;
+  typedef typename CostFunctionType::Pointer    CostFunctionPointer;
+  
+  /** Dimension of the Search Space */
+  enum { SpaceDimension = TCostFunction::SpaceDimension };
+
+  /**  Parameters type.
+   *  it defines a position in the optimization search space */
+  typedef typename TCostFunction::ParametersType ParametersType;
+
+  /**  Measure type.
+   *  it defines a type used to return the cost function value  */
+  typedef typename TCostFunction::MeasureType MeasureType;
+
+  /**  Derivative type.
+   *  it defines a type used to return the cost function derivative  */
+  typedef typename TCostFunction::DerivativeType DerivativeType;
+
+  /** Codes of stopping conditions */
   typedef enum {
     MaximumNumberOfIterations,
     MetricError
   } StopConditionType;
 
-  
-  /**
-   * Select to Minimize the cost function
-   */
-  void    MinimizeOn(void) 
-              { m_Maximize = false; }
-
-  void    MinimizeOff(void) 
-              { m_Maximize = true; }
-
-  /**
-   * Select to Maximize the cost function
-   */
-  void    MaximizeOn(void)
-              { m_Maximize = true; }
-
-  void    MaximizeOff(void)
-              { m_Maximize = false; }
-
-  /**
-   * Get the Maximize flag
-   */
+  /** Methods to configure the cost function. */
   itkGetMacro( Maximize, bool );
-
-  /**
-   * Advance one step following the gradient direction
-   */
+  itkSetMacro( Maximize, bool );
+  itkBooleanMacro( Maximize );
+  bool GetMinimize( ) const
+    { return !m_Maximize; }
+  void SetMinimize(bool v)
+    { this->SetMaximize(!v); }
+  void MinimizeOn()
+    { this->MaximizeOff(); }
+  void MinimizeOff()
+    { this->MaximizeOn(); }
+  
+  /** Advance one step following the gradient direction. */
   virtual void AdvanceOneStep( void );
 
-  /**
-   * Start Optimization
-   */
+  /** Start optimization. */
   void    StartOptimization( void );
 
-  /**
-   * Resume previously stopped optimization with current parameters
-   * \sa StopOptimization
-   */
+  /** Resume previously stopped optimization with current parameters
+   * \sa StopOptimization. */
   void    ResumeOptimization( void );
 
-  /**
-   * Stop optimization
-   * \sa ResumeOptimization
-   */
+  /** Stop optimization.
+   * \sa ResumeOptimization */
   void    StopOptimization( void );
 
-  /**
-   * Set the learning rate.
-   */
+  /** Set the learning rate. */
   itkSetMacro( LearningRate, double );
 
-  /**
-   * Get the learning rate.
-   */
+  /** Get the learning rate. */
   itkGetConstMacro( LearningRate, double);
 
-  /**
-   * Set the number of iterations.
-   */
+  /** Set the number of iterations. */
   itkSetMacro( NumberOfIterations, unsigned long );
 
-  /**
-   * Get the number of iterations.
-   */
+  /** Get the number of iterations. */
   itkGetConstMacro( NumberOfIterations, unsigned long );
 
-  /**
-   * Get the current iteration number.
-   */
+  /** Get the current iteration number. */
   itkGetConstMacro( CurrentIteration, unsigned int );
 
-  /**
-   * Get the current value
-   */
+  /** Get the current value. */
   itkGetConstMacro( Value, double );
 
-  /**
-   * Get Stop condition
-   */
+  /** Get Stop condition. */
   itkGetConstMacro( StopCondition, StopConditionType );
 
-  /**
-   * Set the cost function
-   */
+  /** Set the cost function. */
   itkSetObjectMacro( CostFunction, CostFunctionType );
 
 protected:

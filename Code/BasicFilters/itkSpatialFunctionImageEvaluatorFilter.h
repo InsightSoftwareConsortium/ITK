@@ -73,7 +73,7 @@ class ITK_EXPORT SpatialFunctionImageEvaluatorFilter :
 public:
    
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef SpatialFunctionImageEvaluatorFilter Self;
 

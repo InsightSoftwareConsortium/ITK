@@ -72,85 +72,60 @@ template <
 class HexahedronCell: public CellInterface< TPixelType , TCellTraits >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef HexahedronCell      Self;
-  
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef CellInterface<TPixelType,TCellTraits>  Superclass;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+  
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+  
+  /** Standard part of every itk Object. */
+  itkTypeMacro(HexahedronCell, CellInterface);
 
-  /**
-   * Save the PixelType template parameter.
-   */
+  /** Save the PixelType template parameter. */
   typedef TPixelType                                PixelType;
   
-  /**
-   * Save the CellTraits template parameter.
-   */
+  /** Save the CellTraits template parameter. */
   typedef TCellTraits                                 CellTraits;
 
-  /**
-   * Pick-up typedefs from superclass
-   */
+  /** Pick-up typedefs from superclass */
   typedef typename CellTraits::CellFeatureIdentifier  CellFeatureIdentifier;
   typedef CellFeatureIdentifier  CellFeatureCount;
   typedef typename CellInterface<TPixelType,TCellTraits>::PointIdIterator 
                    PointIdIterator;
   typedef typename CellInterface<TPixelType,TCellTraits>::PointIdConstIterator
                    PointIdConstIterator;
-
-  /**
-   * Save some template parameter information.
-   */
+  
+  /** Save some template parameter information. */
   typedef typename CellTraits::CoordRepType         CoordRepType;
   typedef typename CellTraits::PointIdentifier  PointIdentifier;
-  enum { PointDimension = CellTraits::PointDimension };
   typedef typename CellInterface<TPixelType,TCellTraits>::Pointer CellPointer;
+  
+  /** Save some template parameter information. */
+  enum { PointDimension = CellTraits::PointDimension };
 
-  /**
-   * The type of boundary for this hexahedron's vertices.
-   */
+  /** The type of boundary for this hexahedron's vertices. */
   typedef VertexBoundary< TPixelType , TCellTraits >         Vertex;
   typedef typename Vertex::Pointer VertexPointer;
-
-  /**
-   * The type of boundary for this hexahedron's edges.
-   */
+  
+  /** The type of boundary for this hexahedron's edges. */
   typedef LineBoundary< TPixelType , TCellTraits >           Edge;
   typedef typename Edge::Pointer EdgePointer;
-
-  /**
-   * The type of boundary for this hexahedron's faces.
-   */
+  
+  /** The type of boundary for this hexahedron's faces. */
   typedef QuadrilateralBoundary< TPixelType , TCellTraits >  Face;
   typedef typename Face::Pointer FacePointer;
-  
-  /**
-   * Hexahedron-specific topology numbers.
-   */
+    
+  /** Hexahedron-specific topology numbers. */
   enum { NumberOfPoints   =  8,
          NumberOfVertices =  8,
          NumberOfEdges    = 12,
          NumberOfFaces    =  6,
          CellDimension    =  3 };
 
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-  
-  /**
-   * Implement the standard CellInterface.
-   */
+  /** Implement the standard CellInterface. */
   virtual typename Superclass::CellType GetType(void) const 
     {return Superclass::HEXAHEDRON_CELL;}
   virtual CellPointer MakeCopy(void);
@@ -165,37 +140,26 @@ public:
   virtual PointIdConstIterator PointIdsBegin(void) const;
   virtual PointIdIterator      PointIdsEnd(void);
   virtual PointIdConstIterator PointIdsEnd(void) const; 
-
-  /**
-   * Hexahedron-specific interface.
-   */
   
+  /** Hexahedron-specific interface. */
   virtual CellFeatureCount GetNumberOfVertices(void) const;
   virtual CellFeatureCount GetNumberOfEdges(void) const;
   virtual CellFeatureCount GetNumberOfFaces(void) const;
   virtual VertexPointer  GetVertex(CellFeatureIdentifier);
   virtual EdgePointer    GetEdge(CellFeatureIdentifier);  
   virtual FacePointer    GetFace(CellFeatureIdentifier);  
-
-  /**
-   * Standard part of every itk Object.
-   */
-  itkTypeMacro(HexahedronCell, CellInterface);
-  /**
-   * Visitor interface
-   */
+  
+  /** Visitor interface */
   itkCellVisitMacro(HEXAHEDRON_CELL);
+
 protected:
-  /**
-   * Store the number of points needed for a hexahedron.
-   */
+  /** Store the number of points needed for a hexahedron. */
   PointIdentifier m_PointIds[NumberOfPoints];
   
-  /**
-   * Hexahedron topology data.
-   */
+  /** Hexahedron topology data. */
   static const int m_Edges[12][2];
   static const int m_Faces[6][4];
+    
 };
 
 
@@ -210,24 +174,14 @@ class HexahedronBoundary:
   public CellBoundary< HexahedronCell< TPixelType , TCellTraits > >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef HexahedronBoundary  Self;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
-  
-  /**
-   * Method for creation through the object factory.
-   */
+    
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Standard part of every itk Object.
-   */
+  /** Standard part of every itk Object. */
   itkTypeMacro(HexahedronBoundary, CellBoundary);
 };
 

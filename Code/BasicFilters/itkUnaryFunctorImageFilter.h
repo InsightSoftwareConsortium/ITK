@@ -63,7 +63,7 @@ class ITK_EXPORT UnaryFunctorImageFilter : public ImageToImageFilter<TInputImage
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef UnaryFunctorImageFilter  Self;
 

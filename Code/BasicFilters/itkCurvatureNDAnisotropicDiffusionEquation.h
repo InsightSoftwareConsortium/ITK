@@ -62,61 +62,43 @@ class CurvatureNDAnisotropicDiffusionEquation :
     public ScalarAnisotropicDiffusionEquation<TImage>
 {
 public:
- /**
-   * Standard itk Self & Superclass typedefs
-   */
+  /** Standard class typedefs. */
   typedef CurvatureNDAnisotropicDiffusionEquation Self;
   typedef ScalarAnisotropicDiffusionEquation<TImage> Superclass;
+  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
-  /**
-   * Inherit some parameters from the superclass type
-   */
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods) */
+  itkTypeMacro( CurvatureNDAnisotropicDiffusionEquation,
+                ScalarAnisotropicDiffusionEquation );
+  
+  /** Inherit some parameters from the superclass type. */
   typedef typename Superclass::ImageType        ImageType;
   typedef typename Superclass::PixelType        PixelType;
   typedef typename Superclass::TimeStepType     TimeStepType;
   typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::BoundaryNeighborhoodType
-  BoundaryNeighborhoodType;
+    BoundaryNeighborhoodType;
   typedef typename Superclass::FloatOffsetType  FloatOffsetType;
+
+  /** Inherit some parameters from the superclass type. */
   enum { ImageDimension = Superclass::ImageDimension };
-  /** 
-   * Smart pointer support for this class.
-   */
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
 
-  /**
-   * Run-time type information (and related methods)
-   */
-  itkTypeMacro( CurvatureNDAnisotropicDiffusionEquation,
-                ScalarAnisotropicDiffusionEquation );
-  
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-
-  /**
-   *
-   */
+  /** Compute incremental update. */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
                                   void *globalData,
                                   const FloatOffsetType& offset = m_ZeroOffset
                                   ) const;
-
-  /**
-   *
-   */
   virtual PixelType ComputeUpdate(const BoundaryNeighborhoodType
                                   &neighborhood, void *globalData,
                                   const FloatOffsetType& offset = m_ZeroOffset
                                   ) const;
 
-
-  /**
-   * This method is called prior to each iteration of the solver.
-   */
+  /** This method is called prior to each iteration of the solver. */
   virtual void InitializeIteration()
     {
       m_k = this->GetAverageGradientMagnitudeSquared() *
@@ -131,42 +113,24 @@ private:
   CurvatureNDAnisotropicDiffusionEquation(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /**
-   * Inner product function.
-   */
+  /** Inner product function. */
   NeighborhoodInnerProduct<ImageType> m_InnerProduct;
 
-
-  /**
-   * Boundary Inner product function.
-   */
+  /** Boundary Inner product function. */
   SmartNeighborhoodInnerProduct<ImageType> m_SmartInnerProduct;
 
-  /**
-   * Slices for the ND neighborhood.
-   */
+  /** Slices for the ND neighborhood. */
   std::slice  x_slice[ImageDimension];
   std::slice xa_slice[ImageDimension];
   std::slice xd_slice[ImageDimension];
 
-  /**
-   * Derivative operator
-   */
+  /** Derivative operator */
   DerivativeOperator<PixelType, ImageDimension> dx_op;
 
-  /**
-   * Modified global average gradient magnitude term.
-   */
+  /** Modified global average gradient magnitude term. */
   PixelType m_k;
 
-  /**
-   * 
-   */
   unsigned long m_Center;
-
-  /**
-   *
-   */
   unsigned long m_Stride[ImageDimension];
 
 };

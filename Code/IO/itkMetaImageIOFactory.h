@@ -48,46 +48,28 @@ namespace itk
 {
 /** \class MetaImageIOFactory
  * \brief Create instances of MetaImageIO objects using an object factory.
- *
  */
 class ITK_EXPORT MetaImageIOFactory : public ObjectFactoryBase
 {
 public:  
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef MetaImageIOFactory   Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   * Class Methods used to interface with the registered factories
-   */
+  
+  /** Class Methods used to interface with the registered factories */
   virtual const char* GetITKSourceVersion();
   virtual const char* GetDescription() const;
-  /** 
-   * Run-time type information (and related methods).
-   */
+  
+  /** Run-time type information (and related methods). */
   itkTypeMacro(MetaImageIOFactory, ObjectFactoryBase);
-  /**
-   * Method for creation through the object factory.
-   */
+
+  /** Method for creation through the object factory. */
   static MetaImageIOFactory* New()
-    {
-      return new MetaImageIOFactory;
-    }
-  /**
-   * Register one factory of this type 
-   */
+    { return new MetaImageIOFactory; }
+
+  /** Register one factory of this type  */
   static void RegisterOneFactory(void)
   {
     MetaImageIOFactory::Pointer metaFactory = MetaImageIOFactory::New();

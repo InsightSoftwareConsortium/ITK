@@ -85,7 +85,7 @@ class ITK_EXPORT SubtractImageFilter :
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef SubtractImageFilter  Self;
 

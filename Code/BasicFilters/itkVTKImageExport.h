@@ -76,7 +76,7 @@ template <class TInputImage>
 class ITK_EXPORT VTKImageExport: public VTKImageExportBase
 {
 public:
-  ///! Standard "Self" typedef.
+  ///! Standard class typedefs.
   typedef VTKImageExport Self;
 
   ///! Standard "Superclass" typedef.

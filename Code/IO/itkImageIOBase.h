@@ -50,8 +50,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \brief Abstract superclass for IO classes.
+/** \brief Abstract superclass for IO classes.
  *
  *  TOutputImage is the type expected by the external users of the
  *  filter. Data comming from a file can be stored in any other format (or
@@ -62,236 +61,155 @@ namespace itk
  *  A Pluggable factory pattern is used this allows different kinds of readers
  *  to be registered (even at run time) without having to modify the
  *  code in this class.
- * 
  */
 class ITK_EXPORT ImageIOBase : public Object
 {
 public:
-  /**
-   * Smart pointer typedef support.
-   */
+  /** Standard class typedefs. */
   typedef ImageIOBase            Self;
-  typedef SmartPointer<Self>  Pointer;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /**
-   * Run-time type information (and related methods).
-   */
+  typedef SmartPointer<Self>  Pointer;
+  
+  /** Run-time type information (and related methods). */
   itkTypeMacro(ImageIOBase, Superclass);
 
-  /**
-   * Set the filename.
-   */
+  /** Set the filename. */
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
-
-  /**
-   * Determine the file type. Returns true if this ImageIO can read the
-   * file specified.
-   */
+  
+  /** Determine the file type. Returns true if this ImageIO can read the
+   * file specified. */
   virtual bool CanReadFile(const char*)  = 0;
   
-  /**
-   * Read the spacing and dimentions of the image.
-   * Assumes SetFileName has been called with a valid file name.
-   */
+  /** Read the spacing and dimentions of the image.
+   * Assumes SetFileName has been called with a valid file name. */
   virtual void ReadImageInformation() = 0;
   
-
-  /**
-   * Get the type of the pixel. 
-   */
+  /** Get the type of the pixel.  */
   virtual const std::type_info& GetPixelType() const = 0;
 
-  /**
-   * Specify the region of the data to load.
-   */
+  /** Specify the region of the data to load. */
   itkSetMacro(LoadRegion, ImageIORegion);
   itkGetMacro(LoadRegion, ImageIORegion);
-  
-  /**
-   * Loads the data from disk into the memory buffer provided.
-   */
+    
+  /** Loads the data from disk into the memory buffer provided. */
   virtual void Load(void* buffer) = 0;
 
-  /**
-   * The guts of this class. Returns the data in the requested region, 
-   * which holds the raw pixels of the image read from disk.
-   */
+  /** The guts of this class. Returns the data in the requested region, 
+   * which holds the raw pixels of the image read from disk. */
   void* GetRequestedRegionData() const { return m_RequestedRegionData;}
 
-  /**
-   * Get the image origin.
-   */
+  /** Get the image origin. */
   virtual const double* GetOrigin() const =0;
 
-  /**
-   * Get the image spacing.
-   */
+  /** Get the image spacing. */
   virtual const double* GetSpacing() const =0;
 
-  /**
-   * Get the number of components per pixel in the image. This may
-   * be set by the reading process.
-   */
+  /** Get the number of components per pixel in the image. This may
+   * be set by the reading process. */
   itkGetConstMacro(NumberOfComponents,unsigned int);
   
-  /**
-   * Return and set the size in x, y, z, etc. dimensions.
-   */
+  /** Return and set the size in x, y, z, etc. dimensions. */
   virtual unsigned int GetDimensions(unsigned int i) const;
   
-  /**
-   * Get the number of independent variables (dimensions) in the image
-   * being read.
-   */
+  /** Get the number of independent variables (dimensions) in the image
+   * being read. */
   itkGetMacro(NumberOfDimensions, unsigned int);
 
-  /**
-   * Convenient method for accessing the number of bytes to get to 
-   * the next pixel. Returns m_Strides[1];
-   */
+  /** Convenient method for accessing the number of bytes to get to 
+   * the next pixel. Returns m_Strides[1]; */
   virtual unsigned int GetPixelStride () const;
 
-  /**
-   * Enums used to manipulate types
-   */
+  /** Enums used to manipulate types */
   typedef  enum {UCHAR,CHAR,USHORT,SHORT,UINT,INT,ULONG,LONG,FLOAT,DOUBLE} 
            ComponentType;
-  /**
-   * Return the number of bytes in the image.
-   */
+  /** Return the number of bytes in the image. */
   unsigned int GetImageSizeInBytes() const;
-
 
 protected:
   ImageIOBase();
   ~ImageIOBase();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  ///! Utility methods for working with ComponentType.
+  /** Utility methods for working with ComponentType. */
   const std::type_info& ConvertToTypeInfo(ComponentType ) const;
   unsigned int GetSizeOfType(ComponentType ) const;
-  
-  /**
-   * Set the number of components per pixel in the image. This may
-   * be set by the reading process.
-   */
+    
+  /** Set the number of components per pixel in the image. This may
+   * be set by the reading process. */
   itkSetMacro(NumberOfComponents,unsigned int);
 
-  /**
-   * Set the number of independent variables (dimensions) in the image
-   * being read.
-   */
+  /** Set the number of independent variables (dimensions) in the image
+   * being read. */
   void SetNumberOfDimensions(unsigned int);
 
-  /**
-   * Does the ImageIOBase object have enough info to be of use?
-   */
+  /** Does the ImageIOBase object have enough info to be of use? */
   bool m_Initialized;
 
-  /**
-   * Filename: pathname + filename + file extension.
-   */
+  /** Filename: pathname + filename + file extension. */
   std::string m_FileName;
 
-  /**
-   * Stores the number of components per pixel. This will be 1 for 
-   * grayscale images, 3 for RGBPixel images, and 4 for RGBPixelA images.
-   */
+  /** Stores the number of components per pixel. This will be 1 for 
+   * grayscale images, 3 for RGBPixel images, and 4 for RGBPixelA images. */
   unsigned int m_NumberOfComponents;
 
-  /**
-   * The region to load.
-   */
+  /** The region to load. */
   ImageIORegion m_LoadRegion;
 
-  /**
-   * The number of dimensions in the image.
-   */
+  /** The number of dimensions in the image. */
   unsigned int m_NumberOfDimensions;
 
-  /**
-   * The array which stores the number of pixels in the x, y, z directions.
-   */
+  /** The array which stores the number of pixels in the x, y, z directions. */
   std::vector<unsigned int> m_Dimensions;
 
-  /**
-   * Stores the number of bytes it takes to get to the next 'thing'
-   * e.g. component, pixel, row, slice, etc.
-   */
+  /** Stores the number of bytes it takes to get to the next 'thing'
+   * e.g. component, pixel, row, slice, etc. */
   std::vector<unsigned int> m_Strides;
 
-  /**
-   * Stores the raw pixels of the image.
-   */
+  /** Stores the raw pixels of the image. */
   void* m_RequestedRegionData;
 
-  /**
-   * Return the object to an initialized state, ready to be used
-   */
+  /** Return the object to an initialized state, ready to be used */
   virtual void Reset(const bool freeDynamic = true);
 
-  /**
-   * Resize the ImageIOBase object to new dimensions.
-   */
+  /** Resize the ImageIOBase object to new dimensions. */
   void Resize(const unsigned int numDimensions, 
               const unsigned int* dimensions);
 
-  /**
-   * Calculates the different strides (distance from one thing to the next).
+  /** Calculates the different strides (distance from one thing to the next).
    * Upon return,
    * strides[0] = bytes to get to the next component of a pixel,
    * strides[1] = bytes to get to the next pixel in x direction,
    * strides[2] = bytes to get to the next row in y direction,
-   * strides[3] = bytes to get to the next slice in z direction, etc.
-   */
+   * strides[3] = bytes to get to the next slice in z direction, etc. */
   void ComputeStrides();
 
-  /**
-   * Used internally to keep track of the type of the component. It is set
-   * when ComputeStrides() is invoked.
-   */
+  /** Used internally to keep track of the type of the component. It is set
+   * when ComputeStrides() is invoked. */
   ComponentType m_ComponentType;
 
-  /**
-   * Compute the size (in bytes) of the components of a pixel. For
+  /** Compute the size (in bytes) of the components of a pixel. For
    * example, and RGB pixel of unsigned char would have a 
-   * component size of 1 byte.
-   */
+   * component size of 1 byte. */
   virtual unsigned int GetComponentSize() const = 0;
 
-  /**
-   * Return the number of pixels in the image.
-   */
+  /** Return the number of pixels in the image. */
   unsigned int GetImageSizeInPixels() const;
 
-  /**
-   * Return the number of pixels times the number 
-   * of components in the image.
-   */
+  /** Return the number of pixels times the number 
+   * of components in the image. */
   unsigned int GetImageSizeInComponents() const;
 
-  /**
-   * Convenient method for accessing number of bytes to get to the next pixel 
-   * component. Returns m_Strides[0].
-   */
+  /** Convenient method for accessing number of bytes to get to the next pixel 
+   * component. Returns m_Strides[0]. */
   unsigned int GetComponentStride() const;
 
-  /**
-   * Convenient method for accessing the number of bytes to get to the 
-   * next row. Returns m_Strides[2].
-   */
+  /** Convenient method for accessing the number of bytes to get to the 
+   * next row. Returns m_Strides[2]. */
   unsigned int GetRowStride () const;
 
-  /**
-   * Convenient method for accessing the number of bytes to get to the 
-   * next slice. Returns m_Strides[3].
-   */
+  /** Convenient method for accessing the number of bytes to get to the 
+   * next slice. Returns m_Strides[3]. */
   unsigned int GetSliceStride () const;
 
 private:

@@ -69,82 +69,80 @@ namespace itk
  * Since RGBPixel is a subclass of Array, you can access its components as:
  * pixel[0], pixel[1], pixel[2]
  * \ingroup ImageObjects
- *
  */
 
 template < typename TComponent = unsigned short >
 class RGBPixel: public Array<TComponent,3>
 {
 public:
-  ///! Standard "Self" typedef.
+  /** Standard class typedefs. */
   typedef RGBPixel  Self;
-
-  ///! Standard "Super" typedef.
   typedef Array<TComponent, 3> Super;
-
-  ///! The Array type from which this RGBPixel is derived.
+  
+  /** Convenience typedefs. */
   typedef Array<TComponent, 3> BaseArray;
   typedef typename BaseArray::ArrayCommaListCopier  ArrayCommaListCopier;
-
-  ///!  Define the component type
+  
+  /**  Define the component type. */
   typedef TComponent ComponentType;
 
-  /**
-   * Default constructor has nothing to do.
-   */
+  /** Default constructor has nothing to do. */
   RGBPixel() {Fill(0);}
   RGBPixel (const ComponentType& r);
-
-  /*@{
-   * Pass-through constructor for the Array base class.
-   */
+  
+  /** Pass-through constructor for the Array base class. */
   RGBPixel(const Self& r): BaseArray(r) {}
   RGBPixel(const typename BaseArray::Reference& r): BaseArray(r) {}
   RGBPixel(const typename BaseArray::ConstReference& r): BaseArray(r) {}
   RGBPixel(const ComponentType  r[3]): BaseArray(r) {}  
-  //@}
-  
-  /*@{
-   * Pass-through assignment operator for the Array base class.
-   */
+    
+  /** Pass-through assignment operator for the Array base class. */
   RGBPixel& operator= (const Self& r);
   RGBPixel& operator= (const typename BaseArray::Reference& r);
   RGBPixel& operator= (const typename BaseArray::ConstReference& r);
   RGBPixel& operator= (const ComponentType r[3]);
   ArrayCommaListCopier operator= (const ComponentType& r);
-  //@}
-
-  ///! Return the number of components
   
+  /** Return the number of components. */
   static int GetNumberOfComponents(){ return 3;}
-  ///! Return the value for the Nth Component
+
+  /** Return the value for the Nth component. */
   ComponentType GetNthComponent(int c) const
     { return this->operator[](c); }
-  ///! Return the value for the Nth Component
+
+  /** Return the value for the Nth component. */
   ComponentType GetScalarValue() const
     {
       return static_cast<ComponentType> (vnl_math_sqrt(
-    static_cast<double>(this->operator[](0)) * static_cast<double>(this->operator[](0)) +
-          static_cast<double>(this->operator[](1)) * static_cast<double>(this->operator[](1)) +
-          static_cast<double>(this->operator[](2)) * static_cast<double>(this->operator[](2)))); 
+        static_cast<double>(this->operator[](0)) * static_cast<double>(this->operator[](0)) +
+        static_cast<double>(this->operator[](1)) * static_cast<double>(this->operator[](1)) +
+        static_cast<double>(this->operator[](2)) * static_cast<double>(this->operator[](2)))); 
     }
-  ///! Set the Nth component to v
+
+  /** Set the Nth component to v. */
   void SetNthComponent(int c, const ComponentType& v)  
     {  this->operator[](c) = v; }
-  ///! Set the Red component
+
+  /** Set the Red component. */
   void SetRed( ComponentType red ) { this->operator[](0) = red;}
-  ///! Set the Green component
+
+  /** Set the Green component. */
   void SetGreen( ComponentType green ) {this->operator[](1) = green;}
-  ///! Set the Blue component
+
+  /** Set the Blue component. */
   void SetBlue( ComponentType blue ) {this->operator[](2) = blue;}
-  ///! Set the three components
+
+  /** Set the three components. */
   void Set( ComponentType red, ComponentType green, ComponentType blue )
     { this->operator[](0) = red; this->operator[](1) = green; this->operator[](2) = blue;}
-  ///! Get the Red component
+
+  /** Get the Red component. */
   const ComponentType & GetRed( void ) const { return this->operator[](0);}
-  ///! Get the Green component
+
+  /** Get the Green component. */
   const ComponentType & GetGreen( void ) const { return this->operator[](1);}
-  ///! Get the Blue component
+
+  /** Get the Blue component. */
   const ComponentType & GetBlue( void ) const { return this->operator[](2);}
 };
 

@@ -47,88 +47,52 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class DifferenceOfGaussiansGradientImageFilter
+/** \class DifferenceOfGaussiansGradientImageFilter
  * \brief Performs difference-of-gaussians gradient detection
  *
  * \ingroup ImageEnhancement 
  * \ingroup GradientFilters 
  *
- * */
-
+ */
 template<typename TInputImage, typename TDataType>
 class ITK_EXPORT DifferenceOfGaussiansGradientImageFilter :
 public ImageToImageFilter<TInputImage,
   Image<CovariantVector<TDataType>, TInputImage::ImageDimension> >
 {
 public:
-   
-  /**
-   * Standard "Self" typedef.
-   */
-  typedef DifferenceOfGaussiansGradientImageFilter Self;
-
-  /**
-   * Output image typedef. The output image is always an n-dimensional
-   * image of n-dimensional vectors of doubles.
-   */
+  /** Output image typedef. The output image is always an n-dimensional
+   * image of n-dimensional vectors of doubles. */
   typedef Image<CovariantVector<TDataType>, TInputImage::ImageDimension>
     TOutputImage;
 
-  /**
-   * Standard "Superclass" typedef.
-   */
+  /** Standard class typedefs. */
+  typedef DifferenceOfGaussiansGradientImageFilter Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage>  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Number of dimensions
-   */
-  enum {NDimensions = TInputImage::ImageDimension};
-
-  /**
-   * Image size typedef
-   */
-  typedef Size<TInputImage::ImageDimension> SizeType;
-
-  /**
-   * Image index typedef
-   */
-  typedef typename TInputImage::IndexType IndexType;
-
-  /**
-   * Image pixel value typedef
-   */
-  typedef typename TInputImage::PixelType PixelType;
-
-  /**
-   * Typedef to describe the output image region type.
-   */
-  typedef typename TInputImage::RegionType OutputImageRegionType;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro( DifferenceOfGaussiansGradientImageFilter, ImageToImageFilter );
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
-  /**
-   * Method for evaluating the implicit function over the image.
-   */
-  void GenerateData();
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( DifferenceOfGaussiansGradientImageFilter, ImageToImageFilter );
 
-  /**
-   * Gets and sets for member variables
-   */
+  /** Number of dimensions. */
+  enum {NDimensions = TInputImage::ImageDimension};
+
+  /** Image size typedef. */
+  typedef Size<TInputImage::ImageDimension> SizeType;
+
+  /** Image index typedef. */
+  typedef typename TInputImage::IndexType IndexType;
+
+  /** Image pixel value typedef. */
+  typedef typename TInputImage::PixelType PixelType;
+
+  /** Typedef to describe the output image region type. */
+  typedef typename TInputImage::RegionType OutputImageRegionType;
+
+  /** Set/Get the member variables. */
   itkGetMacro(Width, unsigned int);
   itkSetMacro(Width, unsigned int);
 
@@ -136,6 +100,8 @@ protected:
   DifferenceOfGaussiansGradientImageFilter();
   virtual ~DifferenceOfGaussiansGradientImageFilter() {};
 
+  /** Method for evaluating the implicit function over the image. */
+  void GenerateData();
 
 private:
   DifferenceOfGaussiansGradientImageFilter(const Self&); //purposely not implemented

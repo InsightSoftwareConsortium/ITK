@@ -50,7 +50,7 @@ namespace itk
 
 /**
  * \class BloxBoundaryPointItem
- * \brief A boundary point, stored in a BloxPixel
+ * \brief A boundary point, stored in a BloxPixel.
  * \ingroup ImageObjects
  *
  * */
@@ -58,37 +58,23 @@ namespace itk
 template <unsigned int VImageDimension>
 class BloxBoundaryPointItem: public BloxItem
 {
-
 public:
-  
-  /**
-   * The type of vector used to store the position of the BoundaryPointItem
-   * */
+  /** The type of vector used to store the position of the BoundaryPointItem * */
   typedef Point<double, VImageDimension> TPositionType;
   
-  /**
-   * The type of vector used to store the gradient of the BoundaryPointItem
-   * */
+  /** The type of vector used to store the gradient of the BoundaryPointItem * */
   typedef CovariantVector<double, VImageDimension> TGradientType;
 
-  /**
-   * Set the position of the boundary point in physical space
-   * */
+  /** Set the position of the boundary point in physical space * */
   void SetPhysicalPosition(TPositionType physPos){m_PhysicalPosition = physPos;};
 
-  /**
-   * Get the position of the boundary point in physical space
-   * */
+  /** Get the position of the boundary point in physical space * */
   TPositionType GetPhysicalPosition(){return m_PhysicalPosition;};
 
-  /**
-   * Set the gradient of the boundary point
-   * */
+  /** Set the gradient of the boundary point * */
   void SetGradient(TGradientType grad){m_Gradient = grad;};
 
-  /**
-   * Get the gradient of the boundary point
-   * */
+  /** Get the gradient of the boundary point * */
   TGradientType GetGradient(){return m_Gradient;};
   
   BloxBoundaryPointItem();
@@ -96,15 +82,11 @@ public:
 
 private:
 
-  /**
-   * The position of the boundary point in the coordinate system of the
-   * physical image in which the boundary pixel was located
-   * */
+  /** The position of the boundary point in the coordinate system of the
+   * physical image in which the boundary pixel was located * */
   TPositionType m_PhysicalPosition;
 
-  /**
-   * The gradient of the boundary point (non-normalized)
-   * */
+  /** The gradient of the boundary point (non-normalized) * */
   TGradientType m_Gradient;
 
 };

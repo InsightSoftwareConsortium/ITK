@@ -69,7 +69,6 @@ namespace itk
  * \ingroup Transforms
  *
  */
-
 template <class TScalarType,
           unsigned int NInputDimensions, 
           unsigned int NOutputDimensions,
@@ -78,122 +77,69 @@ template <class TScalarType,
 class ITK_EXPORT  Transform  : public Object
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef Transform  Self;
-
-  /**
-   * Dimension of the domain space
-   */
-  enum { InputSpaceDimension     = NInputDimensions,
-         OutputSpaceDimension    = NOutputDimensions   };
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object Superclass;
-
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer< Self >   Pointer;
   typedef SmartPointer< const Self >  ConstPointer;
-
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro( Transform, Object );
-
-
-  /** 
-   * New method for creating an object using a factory
-   */
+  
+  /** New method for creating an object using a factory. */
   itkNewMacro(Self);
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( Transform, Object );
 
-  /** 
-   * Type of the input parameters
-   */
+  /** Dimension of the domain space. */
+  enum { InputSpaceDimension     = NInputDimensions,
+         OutputSpaceDimension    = NOutputDimensions };
+
+  /** Type of the input parameters. */
   typedef  TScalarType     ScalarType;
 
-
-  /** 
-   * Type of the input parameters
-   */
+  /** Type of the input parameters. */
   typedef  TParameters     ParametersType;
 
-
-  /** 
-   * Type of the Jacobian Matrix
-   */
+  /** Type of the Jacobian matrix. */
   typedef  TJacobianType JacobianType;
 
-
-  /**
-   * Standard vector type for this class
-   */
+  /** Standard vector type for this class. */
   typedef Vector<TScalarType, InputSpaceDimension>  InputVectorType;
   typedef Vector<TScalarType, OutputSpaceDimension> OutputVectorType;
-
-
-  /**
-   * Standard covariant vector type for this class
-   */
+  
+  /** Standard covariant vector type for this class */
   typedef CovariantVector<TScalarType, InputSpaceDimension>  InputCovariantVectorType;
   typedef CovariantVector<TScalarType, OutputSpaceDimension> OutputCovariantVectorType;
-
-
-  /**
-   * Standard vnl_vector type for this class
-   */
+  
+  /** Standard vnl_vector type for this class. */
   typedef vnl_vector_fixed<TScalarType, InputSpaceDimension>  InputVnlVectorType;
   typedef vnl_vector_fixed<TScalarType, OutputSpaceDimension> OutputVnlVectorType;
-
-
-  /**
-   * Standard coordinate point type for this class
-   */
+  
+  /** Standard coordinate point type for this class */
   typedef Point<TScalarType, InputSpaceDimension> InputPointType;
   typedef Point<TScalarType, OutputSpaceDimension> OutputPointType;
-
-
-  /**
-   *  Method to transform a Point
-   */
+  
+  /**  Method to transform a point. */
   virtual OutputPointType TransformPoint(const InputPointType  &point ) const
     { OutputPointType result; return result; }
 
-  /**
-   *  Method to transform a vector
-   */
+  /**  Method to transform a vector. */
   virtual OutputVectorType    TransformVector(const InputVectorType &vector) const
     { OutputVectorType result; return result; }
 
-  /**
-   *  Method to transform a vnl_vector
-   */
+  /**  Method to transform a vnl_vector. */
   virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &vector) const
     { OutputVnlVectorType result; return result; }
 
-  /**
-   *  Method to transform a CovariantVector
-   */
+  /**  Method to transform a CovariantVector. */
   virtual OutputCovariantVectorType TransformCovariantVector(
     const InputCovariantVectorType &vector) const
     { OutputCovariantVectorType result; return result; }
 
-  /**
-   * Set the Transformation Parameters
-   * and update the internal transformation
-   */
+  /** Set the Transformation Parameters
+   * and update the internal transformation. */
   virtual void SetParameters(const ParametersType &) {};
 
-
-  /**
-   * Compute the Jacobian of the transformation
+  /** Compute the Jacobian of the transformation
    *
    * This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
@@ -206,7 +152,6 @@ public:
    *
    * \f[
    *
-
       J=\left[ \begin{array}{cccc}
       \frac{\partial x_{1}}{\partial p_{1}} & 
       \frac{\partial x_{2}}{\partial p_{1}} & 
@@ -219,30 +164,24 @@ public:
       \frac{\partial x_{2}}{\partial p_{m}} & 
       \cdots  & \frac{\partial x_{n}}{\partial p_{m}}
       \end{array}\right] 
-      
    *
    * \f]
-   *
-   **/
+   * **/
   virtual const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
 protected:
   Transform();
   virtual ~Transform() {};
 
-  /**
-   * Jacobian matrix of the transformation. It is used to compute
-   * derivatives by using the chain rule.
-   */
+  /** Jacobian matrix of the transformation. It is used to compute
+   * derivatives by using the chain rule. */
   mutable JacobianType                m_Jacobian;     
 
 private:
   Transform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /**
-   *  List of parameters that unambiguosly define the transformation
-   */  
+  /**  List of parameters that unambiguosly define the transformation */  
   ParametersType                      m_Parameters;
 
 };

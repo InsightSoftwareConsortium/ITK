@@ -60,7 +60,7 @@ class ITK_EXPORT RandomImageSource : public ImageSource<TOutputImage>
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef RandomImageSource   Self;
 

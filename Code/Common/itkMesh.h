@@ -102,31 +102,28 @@ template <
 class Mesh : public PointSet<TPixelType, VDimension, TMeshTraits>
 {
 public:
-  /*@{ Standard typedefs. */
+  /** Standard typedefs. */
   typedef Mesh                Self;
   typedef PointSet<TPixelType, VDimension, TMeshTraits>  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-  //@}
-  
+    
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Standard part of every itk Object. */
   itkTypeMacro(Mesh, PointSet);
 
-  /*@{ Hold on to the type information specified by the template parameters. */
+  /** Hold on to the type information specified by the template parameters. */
   typedef TMeshTraits   MeshTraits;
   typedef typename MeshTraits::PixelType                PixelType;  
   typedef typename MeshTraits::CellPixelType            CellPixelType;  
-  //@}
-
-  /*@{ Convenient enums obtained from TMeshTraits template parameter. */
+  
+  /** Convenient enums obtained from TMeshTraits template parameter. */
   enum {PointDimension = MeshTraits::PointDimension};
   enum {MaxTopologicalDimension = MeshTraits::MaxTopologicalDimension};
-  //@}
-
-  /*@{ Convenient typedefs obtained from TMeshTraits template parameter. */
+  
+  /** Convenient typedefs obtained from TMeshTraits template parameter. */
   typedef typename MeshTraits::CoordRepType             CoordRepType;  
   typedef typename MeshTraits::InterpolationWeightType  InterpolationWeightType;
   typedef typename MeshTraits::PointIdentifier          PointIdentifier;
@@ -143,16 +140,14 @@ public:
   typedef typename MeshTraits::CellDataContainer        CellDataContainer;  
   typedef typename MeshTraits::BoundariesContainer      BoundariesContainer;
   typedef typename MeshTraits::BoundaryDataContainer    BoundaryDataContainer;
-  //@}
-
-  /*@{ Used to support geometric operations on the toolkit. */
+  
+  /** Used to support geometric operations on the toolkit. */
   typedef PointLocator<PointIdentifier,PointDimension,
                        CoordRepType,PointsContainer>  PointLocatorType;
   typedef BoundingBox<PointIdentifier,PointDimension,
                       CoordRepType,PointsContainer>   BoundingBoxType;
-  //@}
-
-  /*@{ Create types that are pointers to each of the container types. */
+  
+  /** Create types that are pointers to each of the container types. */
   typedef typename PointsContainer::Pointer        PointsContainerPointer;
   typedef typename CellsContainer::Pointer         CellsContainerPointer;
   typedef typename CellLinksContainer::Pointer     CellLinksContainerPointer;
@@ -162,9 +157,8 @@ public:
   typedef typename BoundaryDataContainer::Pointer  BoundaryDataContainerPointer;  
   typedef typename PointLocatorType::Pointer       PointLocatorPointer;
   typedef typename BoundingBoxType::Pointer        BoundingBoxPointer;
-  //@}
-
-  /*@{ Create types that are iterators for each of the container types. */
+  
+  /** Create types that are iterators for each of the container types. */
   typedef typename
           PointsContainer::ConstIterator        PointsContainerConstIterator;
   typedef typename
@@ -185,21 +179,18 @@ public:
           BoundaryDataContainer::ConstIterator  BoundaryDataContainerIterator;
   typedef typename
      PointCellLinksContainer::const_iterator  PointCellLinksContainerIterator;
-  //@}
-  
+    
   /** A useful rename. */
   typedef CellFeatureIdentifier  CellFeatureCount;
   
-  /*@{ The base cell type for cells in this mesh. */
+  /** The base cell type for cells in this mesh. */
   typedef CellInterface<CellPixelType,CellTraits>  Cell;
   typedef typename    Cell::Pointer      CellPointer;
-  //@}
-
-  /*@{ It happens that boundaries are also cells. */
+  
+  /** It happens that boundaries are also cells. */
   typedef Cell BoundaryType;
   typedef CellPointer BoundaryPointer;
-  //@}
-  
+    
   /** Visiting cells. */
   typedef typename Cell::MultiVisitor CellMultiVisitorType;
 
@@ -261,7 +252,7 @@ protected:
    *  container which holds the cell identifiers */
   CellLinksContainerPointer  m_CellLinksContainer;
   
-  /*@{ Used for manipulating boundaries and boundary attributes. */
+  /** Used for manipulating boundaries and boundary attributes. */
   typedef std::vector<BoundariesContainerPointer> BoundariesContainerVector;
   typedef std::vector< BoundaryDataContainerPointer >
         BoundaryDataContainerVector;
@@ -271,8 +262,7 @@ protected:
         BoundaryAssignmentsContainerPointer;
   typedef std::vector< BoundaryAssignmentsContainerPointer >
         BoundaryAssignmentsContainerVector;
-  //@}
-
+  
   /** Since multiple cells can be assigned the same boundary (when they are
    *  neighbors, for example), the boundaries themselves are stored by
    *  containers in the Boundaries vector, which is indexed by the topological
@@ -301,13 +291,12 @@ protected:
   BoundaryAssignmentsContainerVector  m_BoundaryAssignmentsContainers;
   
 public:
-  /*@{ Mesh-level operation interface. */
+  /** Mesh-level operation interface. */
   unsigned long GetNumberOfCells(void);
   void PassStructure(Self* inputMesh);
   virtual void Initialize(void);
-  //@}
-
-  /*@{ Define Set/Get access routines for each internal container.
+  
+  /** Define Set/Get access routines for each internal container.
    *  Methods also exist to add points, cells, etc. one at a time
    *  rather than through an entire container. */
   void SetCellLinks(CellLinksContainer*);
@@ -324,34 +313,29 @@ public:
                               BoundaryAssignmentsContainer*);
   BoundaryAssignmentsContainerPointer
   GetBoundaryAssignments(int dimension);
-  //@}
-  
-  /*@{ Access routines to fill the Cells container, and get information from
+    
+  /** Access routines to fill the Cells container, and get information from
    *  it.  */
   void SetCell(CellIdentifier, Cell*);
   bool GetCell(CellIdentifier, CellPointer*) const;
-  //@}
-
-  /*@{ Access routines to fill the CellData container, and get information
+  
+  /** Access routines to fill the CellData container, and get information
    *  from it.  */
   void SetCellData(CellIdentifier, CellPixelType);
   bool GetCellData(CellIdentifier, CellPixelType*) const;
-  //@}
-  
-  /*@{ Access routines to fill the Boundaries container, and get information
+    
+  /** Access routines to fill the Boundaries container, and get information
    *  from it. */
   void SetBoundary(int dimension, BoundaryIdentifier, BoundaryType*);
   bool GetBoundary(int dimension, BoundaryIdentifier, BoundaryPointer*)
     const;
-  //@}
-  
-  /*@{ Access routines to fill the BoundaryData container, and get information
+    
+  /** Access routines to fill the BoundaryData container, and get information
    *  from it. */
   void SetBoundaryData(int dimension, BoundaryIdentifier, CellPixelType);
   bool GetBoundaryData(int dimension, BoundaryIdentifier, CellPixelType*) const;
-  //@}
-
-  /*@{ Access routines to fill the BoundaryAssignments container, and get
+  
+  /** Access routines to fill the BoundaryAssignments container, and get
    *  information from it. */
   void SetBoundaryAssignment(int dimension, CellIdentifier cellId,
                              CellFeatureIdentifier featureId,
@@ -361,9 +345,8 @@ public:
                              BoundaryIdentifier*) const;
   bool RemoveBoundaryAssignment(int dimension, CellIdentifier cellId,
                                 CellFeatureIdentifier featureId);
-  //@}
-
-  /*@{ Interface to cells. */
+  
+  /** Interface to cells. */
   CellFeatureCount GetNumberOfCellBoundaryFeatures(int dimension,
                                                    CellIdentifier) const;
   BoundaryPointer GetCellBoundaryFeature(int dimension, CellIdentifier,
@@ -376,8 +359,7 @@ public:
                                           CellFeatureIdentifier,
                                           BoundaryPointer*) const;
   void BuildCellLinks(void);
-  //@}
-  
+    
   /** Get the bounding box of a cell in the mesh. The user
    *  must supply the bounding box. The methods return a pointer to
    *  the user-supplied bounding box as a convenience. */
@@ -389,14 +371,13 @@ public:
    *  information.  (Note, this follows the Visitor Design Pattern.) */
   void Accept(CellMultiVisitorType* mv);
 
-  /*@{ Methods that support streaming. */
+  /** Methods that support streaming. */
   virtual void UpdateOutputInformation();
   virtual void SetRequestedRegionToLargestPossibleRegion();
   virtual void CopyInformation(DataObject *data);
   virtual bool RequestedRegionIsOutsideOfTheBufferedRegion();
   virtual bool VerifyRequestedRegion();
-  //@}
-
+  
   /** Get the maximum number of regions that this data can be
    *  separated into. */
   int GetMaximumNumberOfRegions() const

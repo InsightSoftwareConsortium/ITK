@@ -68,7 +68,7 @@ namespace itk
  *
  * VPointDimension =
  *    Geometric dimension of space.
- * */
+ */
 
 template <
   typename TPointIdentifier = unsigned long,
@@ -80,122 +80,88 @@ template <
 class ITK_EXPORT PointLocator : public Object
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef PointLocator   Self;
-  
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-  
-  /**
-   * Method for creation through the object factory.
-   */
+    
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Standard part of every itk Object.
-   */
+  /** Standard part of every itk Object. */
   itkTypeMacro(PointLocator, Object);
 
-  /** 
-   * Hold on to the type information specified by the template parameters.
-   * PointIdentifier is the type that the point handles are represented by.
-   */
+  /** Capture template parameter information. */
+  enum { PointDimension = VPointDimension };
+
+  /** Hold on to the type information specified by the template parameters.
+   * PointIdentifier is the type that the point handles are represented by. */
   typedef TPointIdentifier   PointIdentifier;
   typedef TCoordRep   CoordRepType;
-  enum { PointDimension = VPointDimension };
   typedef TPointsContainer PointsContainer;
   typedef typename PointsContainer::Pointer PointsContainerPointer;
   typedef Point< CoordRepType, PointDimension >  PointType;
-
-  /**
-   * Some convenience typedefs.
-   */
+  
+  /** Some convenience typedefs. */
   typedef BoundingBox<PointIdentifier,PointDimension,
                       CoordRepType,PointsContainer>      BoundingBoxType;
   typedef typename BoundingBoxType::Pointer              BoundingBoxPointer;
-
-  /**
-   * Set the number of divisions in each axis direction.
-   */
+  
+  /** Set the number of divisions in each axis direction. */
   itkSetVectorMacro(Divisions,unsigned long,PointDimension);
   itkGetVectorMacro(Divisions,unsigned long,PointDimension);
-
-  /**
-   * Specify the average number of points in each bucket.
-   */
+  
+  /** Specify the average number of points in each bucket. */
   itkSetClampMacro(NumberOfPointsPerBucket,
                    unsigned long,1,NumericTraits<unsigned long>::max());
   itkGetMacro(NumberOfPointsPerBucket,unsigned long);
-
-  /**
-   * Insert all the points contained in the PointsContainer newPts
+  
+  /** Insert all the points contained in the PointsContainer newPts
    * into the locator. Also supply a bounding box in which the points lie.
    * This methods differs from InitIncrementalPointInsertion() in that
-   * assumes that all the points are inserted at once.
-   */
+   * assumes that all the points are inserted at once. */
   void InitPointInsertion(PointsContainer *newPts, BoundingBoxPointer bbox);
 
-  /**
-   * Initialize the incremental point insertion process. Incremental point
+  /** Initialize the incremental point insertion process. Incremental point
    * insertion is used to insert points one at a time into the locator. The
    * supplied PointsContainer (newPts) collects the points that can be used
-   * by other objects later. Bounds are the box that the points lie in.
-   */
+   * by other objects later. Bounds are the box that the points lie in. */
   void InitIncrementalPointInsertion(PointsContainer *newPts, BoundingBoxPointer bbox);
 
 #if 0
 
-  /**
-   * Given a position x, return the id of the point closest to it. Alternative
-   * method requires separate x-y-z values.
-   */
+  /** Given a position x, return the id of the point closest to it. Alternative
+   * method requires separate x-y-z values. */
   virtual int FindClosestPoint(float x[3]);
   int FindClosestPoint(float x, float y, float z);
 
-  /**
-   * Initialize the point insertion process. The newPts is an object
+  /** Initialize the point insertion process. The newPts is an object
    * representing point coordinates into which incremental insertion methods
-   * place their data. Bounds are the box that the points lie in.
-   */
+   * place their data. Bounds are the box that the points lie in. */
   virtual int InitPointInsertion(itkPoints *newPts, float bounds[6], 
          int estSize);
 
-  /**
-   * Incrementally insert a point into search structure with a particular
+  /** Incrementally insert a point into search structure with a particular
    * index value. You should use the method IsInsertedPoint() to see whether 
    * this point has already been inserted (that is, if you desire to prevent
    * dulicate points). Before using this method you must make sure that 
    * newPts have been supplied, the bounds has been set properly, and that 
-   * divs are properly set. (See InitPointInsertion().)
-   */
+   * divs are properly set. (See InitPointInsertion().) */
   virtual void InsertPoint(int ptId, float x[3]);
 
-  /**
-   * Incrementally insert a point into search structure. The method returns
+  /** Incrementally insert a point into search structure. The method returns
    * the insertion location (i.e., point id). You should use the method 
    * IsInsertedPoint() to see whether this point has already been
    * inserted (that is, if you desire to prevent dulicate points).
    * Before using this method you must make sure that newPts have been
    * supplied, the bounds has been set properly, and that divs are 
-   * properly set. (See InitPointInsertion().)
-   */
+   * properly set. (See InitPointInsertion().) */
   virtual int InsertNextPoint(float x[3]);
 
-  /**
-   * Determine whether point given by x[3] has been inserted into points list.
+  /** Determine whether point given by x[3] has been inserted into points list.
    * Return id of previously inserted point if this is true, otherwise return
-   * -1.
-   */
+   * -1. */
   int IsInsertedPoint(float x, float  y, float z)
     {
     float xyz[3];
@@ -204,20 +170,16 @@ public:
     };
   virtual int IsInsertedPoint(float x[3]);
 
-  /**
-   * Determine whether point given by x[3] has been inserted into points list.
+  /** Determine whether point given by x[3] has been inserted into points list.
    * Return 0 if point was already in the list, otherwise return 1. If the
    * point was not in the list, it will be ADDED.  In either case, the id of
    * the point (newly inserted or not) is returned in the ptId argument.
    * Note this combines the functionality of IsInsertedPoint() followed
-   * by a call to InsertNextPoint().
-   */
+   * by a call to InsertNextPoint(). */
   virtual int InsertUniquePoint(float x[3], int &ptId);
 
-  /**
-   * Given a position x, return the id of the point closest to it. This method
-   * is used when performing incremental point insertion.
-   */
+  /** Given a position x, return the id of the point closest to it. This method
+   * is used when performing incremental point insertion. */
   virtual int FindClosestInsertedPoint(float x[3]);
 #endif
 

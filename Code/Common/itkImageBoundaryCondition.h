@@ -76,31 +76,25 @@ template <class TImageType>
 class ITK_EXPORT ImageBoundaryCondition
 {
 public:
-  /**
-   * Extract information from the image type
-   */
+  /** Extract information from the image type */
+  enum { ImageDimension = TImageType::ImageDimension };
+
+  /** Extract information from the image type */
   typedef typename TImageType::PixelType PixelType;
   typedef typename TImageType::InternalPixelType *PixelPointerType;
-  enum { ImageDimension = TImageType::ImageDimension };
   typedef Index<ImageDimension> IndexType;
   typedef Offset<ImageDimension> OffsetType;
-
-  /**
-   * Type of the data container passed to this function object.
-   */
+  
+  /** Type of the data container passed to this function object. */
   typedef Neighborhood<PixelPointerType, ImageDimension> NeighborhoodType;
 
-  /**
-   * Default constructor.
-   */
+  /** Default constructor. */
   ImageBoundaryCondition() {}
   
-  /**
-   * Returns a value for a given out-of-bounds pixel.  The arguments are the
+  /** Returns a value for a given out-of-bounds pixel.  The arguments are the
    * phantom pixel (ND) index within the neighborhood, the pixel's offset from
    * the nearest image border pixel, and a neighborhood of pointers to pixel
-   * values in the image. 
-   */
+   * values in the image.  */
   virtual PixelType operator()(const OffsetType& point_index,
                                const OffsetType &boundary_offset,
                                  const NeighborhoodType *data) const = 0;

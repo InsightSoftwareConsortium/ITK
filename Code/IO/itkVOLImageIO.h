@@ -53,69 +53,50 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class VOLImageIO
+/** \class VOLImageIO
  * \brief Read and write .VOL 3D ultrasound images.
  *
  * \sa ImageFileReader
  * 
  * \ingroup IOFilters
- * */
-
+ */
 class ITK_EXPORT VOLImageIO : public ImageIOBase
 {
 public:
-
-  /**
-   * Smart pointer typedef support.
-   */
+  /** Smart pointer typedef support. */
   typedef VOLImageIO Self;
-  typedef SmartPointer<Self>  Pointer;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageIOBase  Superclass;
-
-  /**
-   * Method for creation through the object factory.
-   */
+  typedef SmartPointer<Self>  Pointer;
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(VOLImageIO, Superclass);
 
-  /**
-   * Determine the file type. Returns true if this ImageIOBase can read the
-   * file specified.  Reads in the header as well.
-   */
+  /** Determine the file type. Returns true if this ImageIOBase can read the
+   * file specified.  Reads in the header as well. */
   virtual bool CanReadFile(const char*);
 
-  ///! Set the spacing and diemention information for the set filename.
+  /** Set the spacing and diemention information for the set filename. */
   virtual void ReadImageInformation();
   void ReadVersion1_0(FILE * fp);
   void ReadVersion1_1(FILE * fp);
   void ReadVersion2_1(FILE * fp);
   void ReadVersion2_3(FILE * fp);
-  /**
-   * Get the type of the pixel. 
-   */
+  
+  /** Get the type of the pixel.  */
   virtual const std::type_info& GetPixelType() const ;
 
-  /**
-   * Loads the data from disk into the memory buffer provided.
-   */
+  /** Loads the data from disk into the memory buffer provided. */
   virtual void Load(void* buffer);
 
-  /**
-   * Get the image spacing.
-   */
+  /** Get the image spacing. */
   virtual const double* GetSpacing() const;
   const double* GetOrigin() const;
-
-
+  
+  /** Methods thet provide information about the data file. This
+   * information is only valid after the file is read successfully. */
   unsigned int GetComponentSize() const;
   itkGetMacro(File_type, unsigned long);
   itkGetMacro(File_rev, char*);
@@ -201,8 +182,8 @@ public:
   itkGetMacro(Ecg_display_on, unsigned long);   
   double GetBlanking();
   itkGetMacro(Samples, short);
-
-  //VOL file format version 1.0 specific
+  
+  /** VOL file format version 1.0 specific. */
   itkGetMacro(ColorImageSize, unsigned long);
   itkGetMacro(ColorImageOffset, unsigned long);
   itkGetMacro(Oag_params, char*);
@@ -211,8 +192,7 @@ public:
   itkGetMacro(Maxradius, unsigned long);
   itkGetMacro(Anglescale, double);
   double GetSkinoffset();
-
-
+  
 protected:
   VOLImageIO();
   ~VOLImageIO();
@@ -222,18 +202,15 @@ protected:
   double m_Spacing[4] ;
   double m_Origin[4] ;
 
+  /** Read the data into a void* or char* pointer. */
   void ReadData(FILE * fp, void * buffer, size_t size, long pos = -1);
   void ReadData(FILE * fp, char * buffer, size_t size, long pos = -1);
-
-
+  
 private:
   VOLImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /**
-   *  All of the information read in from the header file
-   */
-
+  /**  All of the information read in from the header file */
   unsigned long   m_File_type;
   char            m_File_rev[12];      
   char            m_Description[128];     
@@ -319,8 +296,8 @@ private:
   //stuff inside file_control_timing_type
   double          m_Blanking;
   short           m_Samples;
-
-  //version 1.0 specific
+  
+  /** Version 1.0 specific. */
   unsigned long   m_ColorImageSize;
   unsigned long   m_ColorImageOffset;
   char            m_Oag_params[28];
@@ -329,7 +306,7 @@ private:
   unsigned long   m_Maxradius;
   double          m_Anglescale;
   double          m_Skinoffset;
-};
+  };
 
 
 } // namespace itk

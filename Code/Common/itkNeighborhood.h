@@ -50,8 +50,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
   
-/**
- * \class Neighborhood
+/** \class Neighborhood
  * \brief A light-weight container object for storing an N-dimensional neighborhood
  * of values. 
  *
@@ -65,13 +64,11 @@ namespace itk {
  * object with a radius of 2x3 has sides of length 5x7.  Neighborhood objects
  * always have an unambiguous center because their side lengths are always odd.
  *
- *
  * \sa Neighborhood
  * \sa NeighborhoodIterator
  * 
  * \ingroup Operators
  * \ingroup ImageIterators
- *
  */
 
 template<class TPixel, unsigned int VDimension = 2,
@@ -79,61 +76,41 @@ template<class TPixel, unsigned int VDimension = 2,
 class ITK_EXPORT Neighborhood 
 {
 public:
-  /**
-   * Standard "Self" typedef
-   */
+  /** Standard class typedefs. */
   typedef Neighborhood Self;
 
-  /**
-   * External support for allocator type
-   */
+  /** External support for allocator type. */
   typedef TAllocator AllocatorType;
 
-  /**
-   * External support for dimensionality
-   */
+  /** External support for dimensionality. */
   enum { NeighborhoodDimension = VDimension };
   
-  /**
-   * External support for pixel type
-   */
+  /** External support for pixel type. */
   typedef TPixel PixelType;
   
-  /**
-   * Iterator typedef support.
-   */
+  /** Iterator typedef support. Note the naming is intentional, i.e.,
+  * ::iterator and ::const_iterator, because the allocator may be a
+  * vnl object or other type, which uses this form. */
   typedef typename AllocatorType::iterator Iterator;
   typedef typename AllocatorType::const_iterator ConstIterator;
-
-  /**
-   * Size and value typedef support
-   */
+  
+  /** Size and value typedef support. */
   typedef Size<VDimension> SizeType;
   typedef typename SizeType::SizeValueType SizeValueType;
-
-  /**
-   * Radius typedef support
-   */
+  
+  /** Radius typedef support. */
   typedef Size<VDimension> RadiusType;
 
-  /**
-   * External slice iterator type typedef support
-   */
+  /** External slice iterator type typedef support. */
   typedef SliceIterator<TPixel, Self> SliceIteratorType;
   
-  /**
-   * Default constructor.
-   */
+  /** Default constructor. */
   Neighborhood() {}
 
-  /**
-   * Default destructor.
-   */
+  /** Default destructor. */
   virtual ~Neighborhood() {}
     
-  /**
-   * Copy constructor
-   */
+  /** Copy constructor. */
   Neighborhood(const Self& other)
   {
     m_Radius     = other.m_Radius;
@@ -141,9 +118,7 @@ public:
     m_DataBuffer = other.m_DataBuffer;
   }
 
-  /**
-   * Assignment operator
-   */
+  /** Assignment operator. */
   Self &operator=(const Self& other)
   {
     m_Radius     = other.m_Radius;
@@ -152,86 +127,55 @@ public:
     return *this;
   }
 
-
-  /**
-   *
-   */
-  unsigned int GetDimension() const
-    { return VDimension; }
-      
-  /**
-   * Returns the radius of the neighborhood.
-   */
+  /** Returns the radius of the neighborhood. */
   const SizeType GetRadius() const
-  {    return m_Radius;   }
+    { return m_Radius; }
 
-  /**
-   * Returns the radius of the neighborhood along a specified
-   * dimension.
-   */
+  /** Returns the radius of the neighborhood along a specified
+   * dimension. */
   unsigned long GetRadius(const unsigned long n) const
-  { return m_Radius[n]; }
+    { return m_Radius[n]; }
 
-  /**
-   * Returns the size (total length) of the neighborhood along
-   * a specified dimension.
-   */
+  /** Returns the size (total length) of the neighborhood along
+   * a specified dimension. */
   unsigned long GetSize(const unsigned long n) const
-  { return m_Size[n]; }
+    { return m_Size[n]; }
 
-  /**
-   * Returns the size (total length of sides) of the neighborhood.
-   */
+  /** Returns the size (total length of sides) of the neighborhood. */
   SizeType GetSize() const
-  { return m_Size; }
+    { return m_Size; }
   
-  /**
-   * Returns the stride length for the specified dimension. Stride
+  /** Returns the stride length for the specified dimension. Stride
    * length is the number of pixels between adjacent pixels along the
-   * given dimension.
-   */
+   * given dimension. */
   unsigned long GetStride(const unsigned long) const;
   
-  /**
-   * STL-style iterator support.
-   */
+  /** STL-style iterator support. */
   Iterator End()
-  { return m_DataBuffer.end(); }
-
+    { return m_DataBuffer.end(); }
   Iterator Begin()
-  { return m_DataBuffer.begin(); }
-  
+    { return m_DataBuffer.begin(); }
   ConstIterator End() const
-  { return m_DataBuffer.end(); }
-
+    { return m_DataBuffer.end(); }
   ConstIterator Begin() const
-  { return m_DataBuffer.begin(); }
-
-  /**
-   * More STL-style support
-   */
+    { return m_DataBuffer.begin(); }
+  
+  /** More STL-style support. */
   unsigned int Size() const
-  { return m_DataBuffer.size(); }
+    { return m_DataBuffer.size(); }
   
-  /**
-   * Pass-through data access methods to the buffer.
-   */
+  /** Pass-through data access methods to the buffer. */
   TPixel &operator[](unsigned int i)
-  { return m_DataBuffer[i]; }
-
+    { return m_DataBuffer[i]; }
   const TPixel &operator[](unsigned int i) const
-  { return m_DataBuffer[i]; }
-  
-  /**
-   * Sets the radius for the neighborhood, calculates size from the
-   * radius, and allocates storage.
-   */
+    { return m_DataBuffer[i]; }
+    
+  /** Sets the radius for the neighborhood, calculates size from the
+   * radius, and allocates storage. */
   void SetRadius(const SizeType &);
 
-  /**
-   * Sets the radius for the neighborhood. Overloaded to support an unsigned
-   * long array.
-   */
+  /** Sets the radius for the neighborhood. Overloaded to support an unsigned
+   * long array. */
   void SetRadius(const unsigned long *rad)
   {
     SizeType s;
@@ -239,68 +183,46 @@ public:
     this->SetRadius(s);
   }
   
-  /**
-   * Overloads SetRadius to allow a single long integer argument
+  /** Overloads SetRadius to allow a single long integer argument
    * that is used as the radius of all the dimensions of the
-   * Neighborhood (resulting in a "square" neighborhood).
-   */
+   * Neighborhood (resulting in a "square" neighborhood). */
   void SetRadius(const unsigned long);
 
-  /**
-   * Standard itk object method.
-   */
+  /** Standard itk object method. */
   void Print(std::ostream& os) const
-  { this->PrintSelf(os, Indent(0));  }
+    { this->PrintSelf(os, Indent(0));  }
 
-  /**
-   * Returns a reference to the data buffer structure.
-   */
+  /** Returns a reference to the data buffer structure. */
   AllocatorType &GetBufferReference()
-  { return m_DataBuffer; }
-  
+    { return m_DataBuffer; }
   const AllocatorType &GetBufferReference() const
-  { return m_DataBuffer; }
-
+    { return m_DataBuffer; }
+  
 protected:
-  /**
-   * Sets the length along each dimension.
-   */
+  /** Sets the length along each dimension. */
   void SetSize()
   {
     for (unsigned int i=0; i<VDimension; ++i)
-      {
-        m_Size[i] = m_Radius[i]*2+1;
-      }
+      { m_Size[i] = m_Radius[i]*2+1; }
   }
 
-  /**
-   * Allocates the neighborhood's memory buffer.
-   *
-   */
+  /** Allocates the neighborhood's memory buffer. */
   virtual void Allocate(unsigned int i)
-  { m_DataBuffer.resize(i); }
+    { m_DataBuffer.resize(i); }
 
-  /**
-   * Standard itk object method.
-   */
+  /** Standard itk object method. */
   virtual void PrintSelf(std::ostream&, Indent) const;
   
 private:
-  /**
-   * Number of neighbors to include (symmetrically) along each axis.
-   * A neighborhood will always have odd-length axes (m_Radius[n]*2+1).
-   */
+  /** Number of neighbors to include (symmetrically) along each axis.
+   * A neighborhood will always have odd-length axes (m_Radius[n]*2+1). */
   SizeType m_Radius;
 
-   /**
-   * Actual length of each dimension, calculated from m_Radius.
-   * A neighborhood will always have odd-length axes (m_Radius[n]*2+1).
-   */
+  /** Actual length of each dimension, calculated from m_Radius.
+   * A neighborhood will always have odd-length axes (m_Radius[n]*2+1). */
   SizeType m_Size;
 
-  /**
-   * The buffer in which data is stored.
-   */
+  /** The buffer in which data is stored. */
   AllocatorType m_DataBuffer;
 };
 

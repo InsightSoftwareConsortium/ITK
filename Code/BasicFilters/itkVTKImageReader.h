@@ -60,7 +60,7 @@ class ITK_EXPORT VTKImageReader : public ImageSource<TOutputImage>
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef VTKImageReader        Self;
 

@@ -76,79 +76,52 @@ namespace itk
  * \sa Scalar
  * \sa Vector 
  * \ingroup DataRepresentation
- * 
  */
-
 template<class TScalar, class TVector, unsigned int TVectorDimension=3>
 class ScalarVector {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ScalarVector  Self;
   
-  /**
-   * ValueType can be used to declare a variable that is the same type
-   * as the data held in the scalar portion of the ScalarVector.  
-   */
+  /** ValueType can be used to declare a variable that is the same type
+   * as the data held in the scalar portion of the ScalarVector.   */
   typedef TScalar ValueType;
 
-  /**
-   * ValueType can be used to declare a variable that is the same type
-   * as the data held in the scalar portion of the ScalarVector.  
-   */
+  /** ValueType can be used to declare a variable that is the same type
+   * as the data held in the scalar portion of the ScalarVector.   */
   typedef TScalar ScalarValueType;
 
-  /**
-   * ValueType can be used to declare a variable that is the same type
-   * as the data held in the scalar portion of the ScalarVector.  
-   */
+  /** ValueType can be used to declare a variable that is the same type
+   * as the data held in the scalar portion of the ScalarVector.   */
   typedef TVector VectorValueType;
 
-  /**
-   * VectorType can be used to declare a variable that is the same type
-   * as the internal vector.  
-   */
+  /** VectorType can be used to declare a variable that is the same type
+   * as the internal vector.   */
   typedef vnl_vector_fixed<TVector, TVectorDimension> VectorType;
 
-  /**
-   * Get the scalar value.
-   * \sa SetScalar()
-   */
+  /** Get the scalar value. \sa SetScalar() */
   TScalar GetScalar() const 
     { return m_Scalar; }
 
-  /**
-   * Set the scalar value.
-   * \sa GetScalar()
-   */
+  /** Set the scalar value. \sa GetScalar() */
   void SetScalar(const TScalar &val) 
     { m_Scalar = val; }
 
-  /**
-   * Get the dimension (size) of the vector.
-   */
+  /** Get the dimension (size) of the vector. */
   static unsigned int GetVectorDimension() 
     { return TVectorDimension; }
   
-  /**
-   * Get the vector. This provides a read only reference to the vector.
-   * \sa SetVector().
-   */
+  /** Get the vector. This provides a read only reference to the vector.
+   * \sa SetVector(). */
   const VectorType &GetVector() const 
     { return m_Vector; }
 
-  /**
-   * Get the vector. This provides a read/write reference to the vector.
-   * \sa SetVector
-   */
+  /** Get the vector. This provides a read/write reference to the vector.
+   * \sa SetVector */
   VectorType &GetVector()  
     { return m_Vector; }
 
-  /**
-   * Set the vector. 
-   * \sa GetVector
-   */
+  /** Set the vector. \sa GetVector */
   void SetVector(const VectorType &vec)
     { m_Vector = vec; }
 

@@ -95,31 +95,22 @@ typedef int FastMutexType;
 class ITK_EXPORT SimpleFastMutexLock
 {
 public:
-  /** 
-   * Standard "Self" typedef. 
-   */
+  /** Standard class typedefs.  */
   typedef SimpleFastMutexLock       Self;
   
-  /**
-   * Constructor left public purposely because of stack allocation.
-   */
+  /** Constructor and destructor left public purposely because of stack allocation. */
   SimpleFastMutexLock();
   ~SimpleFastMutexLock();
-
-  /**
-   * Lock access.
-   */
+  
+  /** Lock access. */
   void Lock( void ) const;
 
-  /**
-   * Unlock access.
-   */
+  /** Unlock access. */
   void Unlock( void ) const;
 
 protected:
   mutable FastMutexType   m_FastMutexLock;
 };
-
 
 }//end itk namespace
 #endif

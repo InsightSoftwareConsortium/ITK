@@ -48,8 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class LevelSetCurvatureFunction
+/** \class LevelSetCurvatureFunction
  * \brief Calculate the mean curvature of a level set at a specified index.
  *
  * LevelSetCurvatureFunction calculates the mean curvature of a level set
@@ -64,92 +63,57 @@ namespace itk
  * - the use of Neighborhood operators may improve efficiency.
  *
  * \ingroup Functions
- *
  */
 template <class TInputImage >
 class ITK_EXPORT LevelSetCurvatureFunction :
   public ImageFunction<TInputImage,double>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef LevelSetCurvatureFunction Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef ImageFunction<TInputImage,double> Superclass;
-
-  /**
-   * InputImageType typedef support.
-   */
-  typedef TInputImage InputImageType;
-
-  /**
-   * Dimension of the underlying image.
-   */
-  enum { ImageDimension = InputImageType::ImageDimension };
-
-  /**
-   * Index typedef support.
-   */
-  typedef typename Superclass::IndexType IndexType;
-
-  /**
-   * ContinuousIndex typedef support.
-   */
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
-
-  /**
-   * Point typedef support.
-   */
-  typedef typename Superclass::PointType PointType;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
+  
+  /** Run-time type information (and related methods). */
   itkTypeMacro(LevelSetCurvatureFunction, ImageFunction);
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Set the input image.
-   */
+  /** InputImageType typedef support. */
+  typedef TInputImage InputImageType;
+
+  /** Dimension of the underlying image. */
+  enum { ImageDimension = InputImageType::ImageDimension };
+
+  /** Index typedef support. */
+  typedef typename Superclass::IndexType IndexType;
+
+  /** ContinuousIndex typedef support. */
+  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+
+  /** Point typedef support. */
+  typedef typename Superclass::PointType PointType;
+
+  /** Set the input image. */
   virtual void SetInputImage( const InputImageType * ptr );
 
-  /**
-   * Set the magnitude epsilon parameter. This parameter is to guard
+  /** Set the magnitude epsilon parameter. This parameter is to guard
    * against division by zero. If the magnitude is smaller than
    * this threshold value, the curvature is assumed to be zero.
-   * The default value is 1e-9.
-   */
+   * The default value is 1e-9. */
   void SetEpsilonMagnitude( double value )
     { m_EpsilonMagnitude = value; }
 
-  /**
-   * Get the magnitude epsilon parameter.
-   */
+  /** Get the magnitude epsilon parameter. */
   double GetEpsilonMagnitude() const
     { return m_EpsilonMagnitude; }
 
-  /**
-   * Evaluate the function at specified index
-   */
+  /** Evaluate the function at specified index */
   virtual double EvaluateAtIndex( const IndexType& index ) const;
 
-  /**
-   * Evaluate the function at non-integer positions
-   */
+  /** Evaluate the function at non-integer positions */
   virtual double Evaluate( const PointType& point ) const
     { 
       IndexType index;
@@ -164,16 +128,12 @@ public:
       this->ConvertContinuousIndexToNearestIndex( cindex, index );
       return this->EvaluateAtIndex( index ) ; 
     }
-
-  /**
-   * Get the curvature from last evaluation
-   */
+  
+  /** Get the curvature from last evaluation */
   double GetCurvature() const
     { return m_Curvature; }
 
-  /**
-   * Get the gradient magnitude from last evaluation
-   */
+  /** Get the gradient magnitude from last evaluation */
   double GetMagnitude() const
     { return m_Magnitude; }
 

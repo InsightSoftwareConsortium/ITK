@@ -66,71 +66,47 @@ class ITK_EXPORT VectorLinearInterpolateImageFunction :
   public VectorInterpolateImageFunction<TInputImage> 
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef VectorLinearInterpolateImageFunction Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef VectorInterpolateImageFunction<TInputImage> Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+  
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);  
 
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(VectorLinearInterpolateImageFunction, 
     VectorInterpolateImageFunction);
 
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);  
-
-  /**
-   * InputImageType typedef support.
-   */
+  /** InputImageType typedef support. */
   typedef typename Superclass::InputImageType InputImageType;
   typedef typename Superclass::PixelType      PixelType;
   typedef typename Superclass::ValueType      ValueType;
+    
+  /** Grab the vector dimension from the superclass. */
   enum { VectorDimension = Superclass::VectorDimension };
 
-  /**
-   * Dimension underlying input image.
-   */
+  /** Dimension underlying input image. */
   enum { ImageDimension = Superclass::ImageDimension };
 
-  /**
-   * Index typedef support.
-   */
+  /** Index typedef support. */
   typedef typename Superclass::IndexType IndexType;
 
-  /**
-   * ContinuousIndex typedef support.
-   */
+  /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
-  /**
-   * Output type is Vector<double,VectorDimension>
-   */
+  /** Output type is Vector<double,VectorDimension> */
   typedef typename Superclass::OutputType OutputType;
 
-  /**
-   * Evaluate the function at a ContinuousIndex position
+  /** Evaluate the function at a ContinuousIndex position
    *
    * Returns the linearly interpolated image intensity at a 
    * specified point position. No bounds checking is done.
    * The point is assume to lie within the image buffer.
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
-   * calling the method.
-   */
+   * calling the method. */
   virtual OutputType EvaluateAtContinuousIndex( 
     const ContinuousIndexType & index ) const;
 
@@ -143,9 +119,7 @@ private:
   VectorLinearInterpolateImageFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /**
-   * Number of neighbors used in the interpolation
-   */
+  /** Number of neighbors used in the interpolation */
   static const unsigned long  m_Neighbors;  
 
 };

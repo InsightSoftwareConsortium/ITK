@@ -52,75 +52,42 @@ namespace itk
  *
  * \ingroup Numerics Optimizers
  */
-
 template <class TCostFunction>
 class ITK_EXPORT LBFGSOptimizer : 
     public SingleValuedNonLinearVnlOptimizer<TCostFunction> 
-
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef LBFGSOptimizer  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef   SingleValuedNonLinearOptimizer<TCostFunction> Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-
-  /**
-   *  Parameters type.
-   *  it defines a position in the optimization search space
-   */
-  typedef typename TCostFunction::ParametersType ParametersType;
-
-
-  /**
-   *  Measure type.
-   *  it defines a type used to return the cost function value 
-   */
-  typedef typename TCostFunction::MeasureType MeasureType;
-
-
-  /**
-   *  Derivative type.
-   *  it defines a type used to return the cost function derivative 
-   */
-  typedef typename TCostFunction::DerivativeType DerivativeType;
-
- 
- /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro( LBFGSOptimizer, 
-      SingleValuedNonLinearOptimizer );
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Internal Optimizer Type
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( LBFGSOptimizer, SingleValuedNonLinearOptimizer );
+
+  /**  Parameters type.
+   *  It defines a position in the optimization search space. */
+  typedef typename TCostFunction::ParametersType ParametersType;
+
+  /**  Measure type.
+   *  It defines a type used to return the cost function value. */
+  typedef typename TCostFunction::MeasureType MeasureType;
+
+  /**  Derivative type.
+   *  It defines a type used to return the cost function derivative.  */
+  typedef typename TCostFunction::DerivativeType DerivativeType;
+ 
+  /** Internal optimizer type. */
   typedef   vnl_lbfgs       InternalOptimizerType;
 
-  /**
-   * Method for getting access to the internal optimizer
-   */
+  /** Method for getting access to the internal optimizer. */
   InternalOptimizerType & GetOptimizer(void);
 
-  /**
-   * Start optimization with an initial value
-   */
+  /** Start optimization with an initial value. */
   void StartOptimization( void );
  
 protected:

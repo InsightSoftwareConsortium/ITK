@@ -48,8 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
-/**
- * \class Gradient2DAnisotropicDiffusionEquation
+/** \class Gradient2DAnisotropicDiffusionEquation
  *  
  * This class implements an anisotropic equation with a conductance term that
  * varies spatially according to the gradient magnitude of the image.  See
@@ -72,61 +71,43 @@ class Gradient2DAnisotropicDiffusionEquation :
     public ScalarAnisotropicDiffusionEquation<TImage>
 {
 public:
- /**
-   * Standard itk Self & Superclass typedefs
-   */
+  /** Standard class typedefs. */
   typedef Gradient2DAnisotropicDiffusionEquation Self;
   typedef ScalarAnisotropicDiffusionEquation<TImage> Superclass;
+  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
-  /**
-   * Inherit some parameters from the superclass type
-   */
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( Gradient2DAnisotropicDiffusionEquation,
+                ScalarAnisotropicDiffusionEquation );
+  
+  /** Inherit some parameters from the superclass type. */
   typedef typename Superclass::ImageType        ImageType;
   typedef typename Superclass::PixelType        PixelType;
   typedef typename Superclass::TimeStepType     TimeStepType;
   typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::BoundaryNeighborhoodType
-  BoundaryNeighborhoodType;
+                   BoundaryNeighborhoodType;
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
+
+  /** Inherit some parameters from the superclass type. */
   enum { ImageDimension = Superclass::ImageDimension };
-  /** 
-   * Smart pointer support for this class.
-   */
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
 
-  /**
-   * Run-time type information (and related methods)
-   */
-  itkTypeMacro( Gradient2DAnisotropicDiffusionEquation,
-                ScalarAnisotropicDiffusionEquation );
-  
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-
-  /**
-   *
-   */
+  /** Update this equation. */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
                                   void *globalData,
                                   const FloatOffsetType& offset = m_ZeroOffset
                                   ) const;
-
-  /**
-   *
-   */
   virtual PixelType ComputeUpdate(const BoundaryNeighborhoodType
                                   &neighborhood, void *globalData,
                                   const FloatOffsetType& offset = m_ZeroOffset
                                   ) const;
 
-
-  /**
-   * This method is called prior to each iteration of the solver.
-   */
+  /** This method is called prior to each iteration of the solver. */
   virtual void InitializeIteration()
     {
       m_k = this->GetAverageGradientMagnitudeSquared() *
@@ -137,23 +118,16 @@ protected:
   Gradient2DAnisotropicDiffusionEquation();
   ~Gradient2DAnisotropicDiffusionEquation() {}
 
-  /**
-   * Inner product function.
-   */
+  /** Inner product function. */
   NeighborhoodInnerProduct<ImageType> m_InnerProduct;
 
-
-  /**
-   * Boundary Inner product function.
-   */
+  /** Boundary Inner product function. */
   SmartNeighborhoodInnerProduct<ImageType> m_SmartInnerProduct;
 
-  /**
-   * Slices for the 2D neighborhood.
+  /** Slices for the 2D neighborhood.
    * 0  1  2  3  4
    * 5  6 *7* 8  9
-   * 10 11 12 13 14
-   */
+   * 10 11 12 13 14 */
   std::slice  x_slice; // (6,3,1)
   std::slice  y_slice; // (2,3,5)
   std::slice xa_slice; // (7,3,1)
@@ -161,15 +135,11 @@ protected:
   std::slice xd_slice; // (5,3,1)
   std::slice yd_slice; // (1,3,5)
 
-  /**
-   * Derivative operators.
-   */
+  /** Derivative operators. */
   DerivativeOperator<PixelType, 2> dx_op;
   DerivativeOperator<PixelType, 2> dy_op;
 
-  /**
-   * Modified global average gradient magnitude term.
-   */
+  /** Modified global average gradient magnitude term. */
   PixelType m_k;
   
 private:

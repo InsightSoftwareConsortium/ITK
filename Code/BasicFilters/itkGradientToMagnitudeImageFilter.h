@@ -65,7 +65,7 @@ class ITK_EXPORT GradientToMagnitudeImageFilter :
 public:
    
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef GradientToMagnitudeImageFilter Self;
 

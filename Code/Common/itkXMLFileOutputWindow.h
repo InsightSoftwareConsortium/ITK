@@ -66,66 +66,38 @@ namespace itk
  * class, instantiate it and then call SetInstance(this).
  *
  * \ingroup OSSystemObjects
- * 
  */
-
 class ITK_EXPORT XMLFileOutputWindow : public FileOutputWindow
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef XMLFileOutputWindow        Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef FileOutputWindow  Superclass;
-
-  /** 
-   * Smart pointer typedef support. 
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(XMLFileOutputWindow, FileOutputWindow);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Send a string to the XML file.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(XMLFileOutputWindow, FileOutputWindow);
+
+  /** Send a string to the XML file. */
   virtual void DisplayText(const char*);
 
-  /**
-   * Send an error string to the XML file.
-   */
+  /** Send an error string to the XML file. */
   virtual void DisplayErrorText(const char*);
 
-  /**
-   * Send a warning string to the XML file.
-   */
+  /** Send a warning string to the XML file. */
   virtual void DisplayWarningText(const char*);
 
-  /**
-   * Send a generic output string to the XML file.
-   */
+  /** Send a generic output string to the XML file. */
   virtual void DisplayGenericOutputText(const char*);
 
-  /**
-   * Send a debug string to the XML file.
-   */
+  /** Send a debug string to the XML file. */
   virtual void DisplayDebugText(const char*);
 
-  /**
-   *  Put the text into the log file without processing it.
-   */
+  /**  Put the text into the log file without processing it. */
   virtual void DisplayTag(const char*);
 
 protected:

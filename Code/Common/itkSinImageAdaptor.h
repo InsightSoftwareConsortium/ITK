@@ -48,8 +48,7 @@ namespace itk
 {
  
 namespace Accessor {
-/**
- * \class SinPixelAccessor
+/** \class SinPixelAccessor
  * \brief Give access to the sin() function of a value
  *
  * SinPixelAccessor is templated over an internal type and an
@@ -58,49 +57,35 @@ namespace Accessor {
  * to the types defined as template parameters
  *
  * \ingroup ImageAdaptors
- *
  */
-
 template <class TInternalType, class TExternalType >
 class ITK_EXPORT SinPixelAccessor  
 {
 public:
-
- /** 
-   * External typedef. It defines the external aspect
-   * that this class will exhibit.
-   */
+  /** External typedef. It defines the external aspect
+   * that this class will exhibit. */
   typedef TExternalType ExternalType;
 
-  /** 
-   * Internal typedef. It defines the internal real
-   * representation of data.
-   */
+  /** Internal typedef. It defines the internal real
+   * representation of data. */
   typedef TInternalType InternalType;
-
 
   static inline void Set(TInternalType & output, const TExternalType & input) 
     {output = (TInternalType)sin((double)input);}
 
   static inline TExternalType Get( const TInternalType & input ) 
     {return (TExternalType)sin((double)input);}
-
 };
-
   
 } // end namespace Accessor
-
-
  
-/**
- * \class SinImageAdaptor
+/** \class SinImageAdaptor
  * \brief Presents an image as being composed of the sin() of its pixels
  *
  * Additional casting is performed according to the input and output image
  * types following C++ default casting rules.
  *
  * \ingroup ImageAdaptors
- *
  */
 template <class TImage, class TOutputPixelType>
 class ITK_EXPORT SinImageAdaptor : public
@@ -110,36 +95,19 @@ class ITK_EXPORT SinImageAdaptor : public
                                       TOutputPixelType>   >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef SinImageAdaptor  Self;
-
-
-  /**
-   * Standard "Superclass" typedef.
-   */
-  typedef ImageAdaptor<TImage,
-                       Accessor::SinPixelAccessor<
-                                       typename TImage::PixelType,
-                                       TOutputPixelType> >
-                                                            Superclass;
-  /** 
-   * Smart pointer typedef support.
-   */
+  typedef ImageAdaptor<TImage, Accessor::SinPixelAccessor<
+                               typename TImage::PixelType,
+                               TOutputPixelType> >  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro( SinImageAdaptor, ImageAdaptor );
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( SinImageAdaptor, ImageAdaptor );
 
 };
 

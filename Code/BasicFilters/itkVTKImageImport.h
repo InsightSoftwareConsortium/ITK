@@ -68,7 +68,7 @@ template <typename TOutputImage>
 class ITK_EXPORT VTKImageImport: public ImageSource<TOutputImage>
 {
 public:
-  ///! Standard "Self" typedef.
+  ///! Standard class typedefs.
   typedef VTKImageImport Self;
   
   ///! Standard "Superclass" typedef.

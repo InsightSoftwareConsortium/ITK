@@ -59,9 +59,7 @@ namespace itk
  * is casted to the output pixel type.
  *
  * \ingroup IntensityImageFilters Multithreaded
- *
  */
-
 namespace Functor {  
   
   template< class TInput1, class TInput2, class TOutput>
@@ -81,9 +79,6 @@ namespace Functor {
   }; 
 }
 
-// Wrap: Atan2ImageFilter<$Image,$Image,$Image,$Function>
-// Wrap: <XML code for Function....>
-// Wrap: Atan2ImageFilter<Image<$BasicPixel,$BasicDimension>,$Image,$Image,$Function>
 template <class TInputImage1, class TInputImage2, class TOutputImage>
 class ITK_EXPORT Atan2ImageFilter :
     public
@@ -92,35 +87,20 @@ class ITK_EXPORT Atan2ImageFilter :
               typename TInputImage1::PixelType, 
               typename TInputImage2::PixelType,
               typename TOutputImage::PixelType>   >
-
-
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef Atan2ImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
     Functor::Atan2< 
               typename TInputImage1::PixelType, 
               typename TInputImage2::PixelType,
               typename TOutputImage::PixelType>   
                 >  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
 protected:
@@ -130,7 +110,6 @@ protected:
 private:
   Atan2ImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
 
 };
 

@@ -67,7 +67,7 @@ class ITK_EXPORT NaryFunctorImageFilter :
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef NaryFunctorImageFilter  Self;
 

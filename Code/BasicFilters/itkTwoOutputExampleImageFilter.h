@@ -69,7 +69,7 @@ class ITK_EXPORT TwoOutputExampleImageFilter:public ImageToImageFilter<TImage,TI
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef TwoOutputExampleImageFilter         Self;
 

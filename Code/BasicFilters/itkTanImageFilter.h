@@ -85,7 +85,7 @@ class ITK_EXPORT TanImageFilter :
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef TanImageFilter  Self;
 

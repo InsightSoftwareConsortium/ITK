@@ -48,7 +48,6 @@ namespace itk {
 
 /**
  * \class AnisotropicDiffusionEquation
- *
  * \brief Base class for anisotropic diffusion equation objects.
  *
  * Anisotropic diffusion methods are a tools for calculating multi-scale
@@ -94,15 +93,19 @@ class AnisotropicDiffusionEquation :
     public FiniteDifferenceEquation<TImage>
 {
 public:
- /**
-   * Standard itk Self & Superclass typedefs
-   */
+  /** Standard class typedefs. */
   typedef AnisotropicDiffusionEquation Self;
   typedef FiniteDifferenceEquation<TImage> Superclass;
+  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
-  /**
-   * Inherit some parameters from the superclass type
-   */
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods) */
+  itkTypeMacro( AnisotropicDiffusionEquation, FiniteDifferenceEquation );
+  
+  /** Inherit some parameters from the superclass type */
   typedef typename Superclass::ImageType ImageType;
   typedef typename Superclass::PixelType PixelType;
   typedef typename Superclass::RadiusType RadiusType;
@@ -110,72 +113,34 @@ public:
   typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
   typedef typename Superclass::TimeStepType TimeStepType;
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
+
+  /** Inherit some parameters from the superclass type */
   enum { ImageDimension = Superclass::ImageDimension };
 
-  /** 
-   * Smart pointer support for this class.
-   */
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-
-  /**
-   * Run-time type information (and related methods)
-   */
-  itkTypeMacro( AnisotropicDiffusionEquation, FiniteDifferenceEquation );
-  
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-
-  /**
-   * This method is called before each iteration to recalculate the
-   * average gradient magnitude of the region.  The value is used
-   * internally by the AnisotropicDiffusionEquation during processing.
-   */
+  /** This method is called before each iteration to recalculate the */
   virtual void CalculateAverageGradientMagnitudeSquared(ImageType *) = 0;
 
-  /**
-   * Required by FiniteDifferenceImageFilter to set the initial value
+  /** Required by FiniteDifferenceImageFilter to set the initial value
    * of the time step for an iteration.
-   * \deprecated
-   */
+   * \deprecated */
   //  virtual TimeStepType GetInitialTimeStep() const
   //  {    return this->GetTimeStep();  }
 
-  /**
-   *
-   */
+  /** Set/Get the time step. */
   void SetTimeStep(const TimeStepType &t)
     { m_TimeStep = t; }
-
-  /**
-   *
-   */
   const TimeStepType &GetTimeStep() const
     { return m_TimeStep; }
 
-  /**
-   *
-   */
+  /** Set/Get the conduction parameter. */
   void SetConductanceParameter(const double &c)
     { m_ConductanceParameter = c; }
-
-  /**
-   *
-   */
   const double &GetConductanceParameter() const
     { return m_ConductanceParameter; }
 
-  /**
-   *
-   */
+  /** Set/Get the average gradient magnitude squared. */
   const double &GetAverageGradientMagnitudeSquared() const
     { return m_AverageGradientMagnitudeSquared;  }
-
-  /**
-   *
-   */
   void SetAverageGradientMagnitudeSquared(const double &c)
     { m_AverageGradientMagnitudeSquared = c; }
 

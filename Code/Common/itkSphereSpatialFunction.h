@@ -47,77 +47,48 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class SphereSpatialFunction
+/** \class SphereSpatialFunction
  * \brief Spatial function implementation of a sphere
  *
  * Implements a function that returns 0 for points inside or on the surface
  * of a sphere, 1 for points outside the sphere
  * 
  * \ingroup SpatialFunctions
- *
- * */
-
+ */
 template <unsigned int VImageDimension=3,typename TInput=Point<double,3> >
 class ITK_EXPORT SphereSpatialFunction : 
             public InteriorExteriorSpatialFunction<VImageDimension,TInput>
 {
 public:
-
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef SphereSpatialFunction<VImageDimension,TInput> Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef InteriorExteriorSpatialFunction<VImageDimension,TInput> Superclass;
-  
-  /**
-   * Input type for the function
-   */
-  typedef typename Superclass::InputType InputType;
-
-  /**
-   * Output type for the function
-   */
-  typedef typename Superclass::OutputType OutputType;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(SphereSpatialFunction,InteriorExteriorSpatialFunction);
-
-  /**
-   * Method for creation through the object factory.
-   */
+    
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Evaluates the function at a given position
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(SphereSpatialFunction,InteriorExteriorSpatialFunction);
+
+  /** Input type for the function. */
+  typedef typename Superclass::InputType InputType;
+
+  /** Output type for the function. */
+  typedef typename Superclass::OutputType OutputType;
+
+  /** Evaluates the function at a given position */
   OutputType Evaluate(const InputType& position) const;
 
-  /**
-   * Get and set the center of the sphere
-   */
-
+  /** Get and set the center of the sphere. */
   itkGetMacro( Center, InputType);
   itkSetMacro( Center, InputType);
-
-  /**
-   * Get and set the radius of the sphere
-   */
+  
+  /** Get and set the radius of the sphere */
   itkGetMacro( Radius, double);
   itkSetMacro( Radius, double);
-     
+       
 protected:
   SphereSpatialFunction();
   virtual ~SphereSpatialFunction();
@@ -126,14 +97,10 @@ private:
   SphereSpatialFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /**
-   * The center of the sphere (of the same type as Input)
-   */
+  /** The center of the sphere (of the same type as Input). */
   InputType m_Center;
 
-  /**
-   * The radius of the sphere
-   */
+  /** The radius of the sphere. */
   double m_Radius;
 
 };

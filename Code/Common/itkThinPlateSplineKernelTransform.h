@@ -45,7 +45,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk
 {
-
 /** \class ThinPlateSplineKernelTransform
  * This class defines the thin plate spline (TPS) transformation.
  * It is implemented in as straightforward a manner as possible from
@@ -54,7 +53,6 @@ namespace itk
  *
  * \ingroup Transforms
  */
-
 template <class TScalarType,         // Data type for scalars (float or double)
           int NDimensions = 3>          // Number of dimensions
 class ThinPlateSplineKernelTransform : 
@@ -64,110 +62,60 @@ class ThinPlateSplineKernelTransform :
                               vnl_matrix<TScalarType>    >
 {
 public:
-  /**
-   * Standard Self typedef
-   */
+  /** Standard class typedefs. */
   typedef ThinPlateSplineKernelTransform Self;
-
-  /**
-   * Standard Superclass typedef
-   */
   typedef KernelTransform<    TScalarType,
                               NDimensions,
                               vnl_vector< TScalarType >,
                               vnl_matrix< TScalarType >    > Superclass;
-
-
-
-  /**
-   * Scalar Type
-   */
-  typedef typename Superclass::ScalarType  ScalarType;
-
-
-  /**
-   * Parameters Type
-   */
-  typedef typename Superclass::ParametersType  ParametersType;
-
-
-  /**
-   * Jacobian Type
-   */
-  typedef typename Superclass::JacobianType  JacobianType;
-
-
-
-  /// Dimension of the domain space
-  enum { SpaceDimension = Superclass::SpaceDimension };
-
-
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro( ThinPlateSplineKernelTransform, KernelTransform );
-
-
-  /** 
-   * New macro for creation of through a Smart Pointer
-   */
+  
+  /** New macro for creation of through a Smart Pointer */
   itkNewMacro( Self );
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( ThinPlateSplineKernelTransform, KernelTransform );
 
+  /** Scalar type. */
+  typedef typename Superclass::ScalarType  ScalarType;
+
+  /** Parameters type. */
+  typedef typename Superclass::ParametersType  ParametersType;
+
+  /** Jacobian Type */
+  typedef typename Superclass::JacobianType  JacobianType;
+
+  /** Dimension of the domain space. */
+  enum { SpaceDimension = Superclass::SpaceDimension };
                               
-  /**
-   * These (rather redundant) typedefs are needed because on SGI, typedefs
-   * are not inherited
-   */
+  /** These (rather redundant) typedefs are needed because on SGI, typedefs
+   * are not inherited */
   typedef typename Superclass::InputPointType  InputPointType;
   typedef typename Superclass::OutputPointType  OutputPointType;
   typedef typename Superclass::InputVectorType InputVectorType;
   typedef typename Superclass::OutputVectorType OutputVectorType;
   typedef typename Superclass::InputCovariantVectorType InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
- 
-
-  
+    
 protected:
-  
-  
-  /**
-   * Default constructor
-   */
+  /** Default constructor */
   ThinPlateSplineKernelTransform();
-
   
-  /**
-   * Destructor
-   */
+  /** Destructor */
   virtual ~ThinPlateSplineKernelTransform();
-
   
-  /**
-   * These (rather redundant) typedefs are needed because on SGI, typedefs
-   * are not inherited
-   */
+  /** These (rather redundant) typedefs are needed because on SGI, typedefs
+   * are not inherited. */
   typedef typename Superclass::GMatrixType GMatrixType;
-
   
-  /**
-   * Compute G(x)
+  /** Compute G(x)
    * For the thin plate spline, this is:
    * G(x) = r(x)*I
    * where
    * r(x) = Euclidean norm = sqrt[x1^2 + x2^2 + x3^2]
-   * I = identity matrix
-   */
+   * I = identity matrix. */
   GMatrixType ComputeG(const InputVectorType & x) const;
-
 };
 
 } // namespace itk

@@ -62,7 +62,7 @@ class ITK_EXPORT ReflectImageFilter : public ImageToImageFilter<TInputImage,TOut
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef ReflectImageFilter  Self;
 

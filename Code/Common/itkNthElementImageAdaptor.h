@@ -47,10 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
  
-
- 
-/**
- * \class NthElementImageAdaptor
+/** \class NthElementImageAdaptor
  * \brief Presents an image as being composed of the N-th element of its pixels
  *
  * iIt assumes that the pixels are of container type and have in their API
@@ -69,44 +66,24 @@ class ITK_EXPORT NthElementImageAdaptor : public
                                       typename TImage::PixelType> >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef NthElementImageAdaptor  Self;
-
-
-  /**
-   * Standard "Superclass" typedef.
-   */
-  typedef ImageAdaptor<TImage,
-                       NthElementImageAdaptor<
-                                       TOutputPixelType,
-                                       typename TImage::PixelType > >
-                                                            Superclass;
-  /** 
-   * Smart pointer typedef support.
-   */
+  typedef ImageAdaptor<TImage,NthElementImageAdaptor<
+                              TOutputPixelType,
+                              typename TImage::PixelType > > Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
+  
+  /** Run-time type information (and related methods). */
   itkTypeMacro( NthElementImageAdaptor, ImageAdaptor );
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
-
-  /**
-   * Select the element number to be accessed
-   */
+  /** Select the element number to be accessed */
   void SelectNthElement( unsigned int nth ) 
-  { this->GetPixelAccessor().SetElementNumber( nth ); 
+    { this->GetPixelAccessor().SetElementNumber( nth ); 
     this->Modified(); }
-    
 
 };
 

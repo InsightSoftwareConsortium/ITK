@@ -64,93 +64,60 @@ namespace itk
 template <unsigned int NDimensions>
 class BloxCoreAtomPixel : public BloxPixel< BloxCoreAtomItem<NDimensions> >
 {
-
 public:
-
-  /**
-   * The type of core atom item we process
-   * */
+  /** The type of core atom item we process. */
   typedef BloxCoreAtomItem<NDimensions> TCoreAtomItemType;
 
-  /**
-   * The type of boundary point item we process
-   * */
+  /** The type of boundary point item we process. */
   typedef BloxBoundaryPointItem<NDimensions> TBPItemType;
 
-  /**
-   * The type used to store the position of the BoundaryPointItem
-   * */
+  /** The type used to store the position of the BoundaryPointItem. */
   typedef Point<double, NDimensions> TPositionType;
   
-  /**
-   * The type of vector used to store the gradient of the BoundaryPointItem
-   * */
+  /** The type of vector used to store the gradient of the BoundaryPointItem. */
   typedef CovariantVector<double, NDimensions> TGradientType;
 
-  /**
-   * VNL type used in eigenanalysis
-   * */
+  /** VNL type used in eigenanalysis. */
   typedef vnl_vector_fixed<double, NDimensions> TVectorType;
 
-  /*
-   * Vector type used to store eigenvalues
-   * */
+  /** Vector type used to store eigenvalues. */
   typedef vnl_vector_fixed<double, NDimensions> TEigenvalueType;
 
-  /*
-   * Matrix type used to store eigenvectors
-   * */
+  /** Matrix type used to store eigenvectors. */
   typedef vnl_matrix_fixed<double, NDimensions, NDimensions> TEigenvectorType;
 
-  /**
-   * Calculate and store the mean of core atom diameters
-   * */
+  /** Calculate and store the mean of core atom diameters. */
   double CalcMeanCoreAtomDiameter();
 
-  /**
-   * Perform eigenanalysis on the population of core atoms stored in this pixel
-   * */
+  /** Perform eigenanalysis on the population of core atoms stored in this pixel. */
   bool DoCoreAtomEigenanalysis();
 
-  /**
-   * Get the mean core atom diameter
-   */
-  double GetMeanCoreAtomDiameter() {
-    return m_MeanCoreAtomDiameter; }
+  /** Get the mean core atom diameter. */
+  double GetMeanCoreAtomDiameter() 
+    { return m_MeanCoreAtomDiameter; }
 
-  /**
-   * Get eigenvalues
-   */
-  TEigenvalueType GetEigenvalues() {
-    return m_Eigenvalues; }
+  /** Get eigenvalues. */
+  TEigenvalueType GetEigenvalues() 
+    { return m_Eigenvalues; }
 
-  /**
-   * Get eigenvectors
-   */
-  TEigenvectorType GetEigenvectors() {
-    return m_Eigenvectors; }
+  /** Get eigenvectors. */
+  TEigenvectorType GetEigenvectors() 
+    { return m_Eigenvectors; }
 
   BloxCoreAtomPixel();
   ~BloxCoreAtomPixel();
 
 private:
-
-  /*
-   * The eigenvalues of the core atom population in this pixel
+  /** The eigenvalues of the core atom population in this pixel
    * These are stored in increasing order of value (not absolute value) from
-   * indices 0 to n, where n is the number of dimensions in the source image
-   */
+   * indices 0 to n, where n is the number of dimensions in the source image */
   TEigenvalueType m_Eigenvalues;
 
-  /*
-   * The eigenvectors of the core atom population in this pixel
-   * Each eigenvector is a row? of this matrix
-   */
+  /** The eigenvectors of the core atom population in this pixel
+   * Each eigenvector is a row? of this matrix */
   TEigenvectorType m_Eigenvectors;
 
-  /*
-   * Average (arithmetic mean) of core atom diameters stored in this pixel
-   */
+  /** Average (arithmetic mean) of core atom diameters stored in this pixel */
   double m_MeanCoreAtomDiameter;
 };
 

@@ -45,10 +45,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class ImageSliceIteratorWithIndex
+/** \class ImageSliceIteratorWithIndex
  * \brief Multi-dimensional image iterator which walks a region Slice by Slice.
-  *
+ *
  * This is the typical use of this iterator in a loop:
  *
  * \code
@@ -78,65 +77,42 @@ namespace itk
  *
  * \example  Common/itkImageSliceIteratorWithIndex.cxx
  *
- *
- *
  * \ingroup ImageIterators
- *
- * 
- *
  */
 template<typename TImage>
 class ImageSliceIteratorWithIndex : public ImageIteratorWithIndex<TImage>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ImageSliceIteratorWithIndex Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageIteratorWithIndex<TImage>  Superclass;
-
-  /** 
-   * Index typedef support. While this was already typdef'ed in the superclass
+  
+  /** Index typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index.
-   */
+   * confused with ImageIterator::Index. */
   typedef typename TImage::IndexType IndexType;
 
-  /**
-   * Image typedef support. While this was already typdef'ed in the superclass
+  /** Image typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index.
-   */
+   * confused with ImageIterator::Index. */
   typedef TImage ImageType;
 
-  /** 
-   * Region typedef support.
-   */
+  /** Region typedef support. */
   typedef typename TImage::RegionType   RegionType;
 
-  /** 
-   * PixelContainer typedef support. Used to refer to the container for
+  /** PixelContainer typedef support. Used to refer to the container for
    * the pixel data. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   */
+   * it needs to be redone here for this subclass to compile properly with gcc. */
   typedef typename TImage::PixelContainer PixelContainer;
   typedef typename PixelContainer::Pointer PixelContainerPointer;
-
-  /**
-   * Default constructor. Needed since we provide a cast constructor.
-   */
+  
+  /** Default constructor. Needed since we provide a cast constructor. */
   ImageSliceIteratorWithIndex() : ImageIteratorWithIndex<TImage>() {}
   
-  /**
-   * Constructor establishes an iterator to walk a particular image and a
-   * particular region of that image.
-   */
+  /** Constructor establishes an iterator to walk a particular image and a
+   * particular region of that image. */
   ImageSliceIteratorWithIndex( ImageType *ptr,
                       const RegionType & region)
     : ImageIteratorWithIndex<TImage>(ptr, region) 
@@ -145,128 +121,64 @@ public:
       m_Direction_B = 1;
     }
 
-
-
-  /**
-   * Constructor that can be used to cast from an ImageIterator to an
+  /** Constructor that can be used to cast from an ImageIterator to an
    * ImageSliceIteratorWithIndex. Many routines return an ImageIterator but for a
    * particular task, you may want an ImageSliceIteratorWithIndex.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
-   * ImageIterator to a ImageSliceIteratorWithIndex.
-   */
+   * ImageIterator to a ImageSliceIteratorWithIndex. */
   ImageSliceIteratorWithIndex( const ImageIteratorWithIndex<TImage> &it)
     { this->ImageIteratorWithIndex<TImage>::operator=(it); }
 
-
-
-  /**
-   * Go to the next line
-   * \sa operator++
-   * \sa operator--
-   * \sa PreviousLine
-   * \sa EndOfLine
-   * \sa End
-   * \sa NextSlice
-   */
+  /** Go to the next line.
+   * \sa operator++ \sa operator-- \sa PreviousLine \sa EndOfLine \sa End \sa NextSlice */
   void NextLine(void);
-
   
-  /**
-   * Go to the next slice
-   * \sa operator++
-   * \sa operator--
-   * \sa PreviousSlice
-   * \sa EndOfLine
-   * \sa End
-   */
+  /** Go to the next slice.
+   * \sa operator++ \sa operator-- \sa PreviousSlice \sa EndOfLine \sa End */
   void NextSlice(void);
 
-
-
-  /**
-   * Go to the previous line
-   * \sa operator++
-   * \sa operator--
-   * \sa NextLine
-   * \sa EndOfLine
-   * \sa End
-   * \sa NextSlice
-   */
+  /** Go to the previous line.
+   * \sa operator++ \sa operator-- \sa NextLine \sa EndOfLine \sa End \sa NextSlice */
   void PreviousLine(void);
-
   
-  /**
-   * Go to the previous slice
-   * \sa operator++
-   * \sa operator--
-   * \sa NextSlice
-   * \sa EndOfLine
-   * \sa End
-   */
+  /** Go to the previous slice.
+   * \sa operator++ \sa operator-- \sa NextSlice \sa EndOfLine \sa End */
   void PreviousSlice(void);
 
-
-
-  /**
-   * Test if the index is at the end of line
-   */
+  /** Test if the index is at the end of line. */
   bool IsAtEndOfLine(void);
 
-
-   /**
-   * Test if the index is at the end of the slice
-   */
+  /** Test if the index is at the end of the slice. */
   bool IsAtEndOfSlice(void);
 
-  /**
-   * Test if the index is at the begining of line
-   */
+  /** Test if the index is at the begining of line. */
   bool IsAtBeginOfLine(void);
 
-
-   /**
-   * Test if the index is at the begining of the slice
-   */
+  /** Test if the index is at the begining of the slice. */
   bool IsAtBeginOfSlice(void);
 
-
-
-  /**
-   * Set the fastest direction of movement
-   */
+  /** Set the fastest direction of movement. */
   void SetFirstDirection(unsigned int direction);
 
-
-  /**
-   * Set the second fastest direction of movement
-   */
+  /** Set the second fastest direction of movement. */
   void SetSecondDirection(unsigned int direction);
-  
 
-  /**
-   * Increment (prefix) the selected dimension.
+  /** Increment (prefix) the selected dimension.
    * No bounds checking is performed. 
-   * \sa GetIndex
-   * \sa operator--
-   */
+   * \sa GetIndex \sa operator-- */
   Self & operator++();
 
-
-  /**
-   * Decrement (prefix) the selected dimension.
+  /** Decrement (prefix) the selected dimension.
    * No bounds checking is performed. 
-   * \sa GetIndex
-   * \sa operator++
-   */
+   * \sa GetIndex \sa operator++ */
   Self & operator--();
 
-
 private:
-    unsigned long  m_Jump_A;
-    unsigned long  m_Jump_B;
-    unsigned int   m_Direction_A;
-    unsigned int   m_Direction_B;
+  unsigned long  m_Jump_A;
+  unsigned long  m_Jump_B;
+  unsigned int   m_Direction_A;
+  unsigned int   m_Direction_B;
 };
 
 } // end namespace itk

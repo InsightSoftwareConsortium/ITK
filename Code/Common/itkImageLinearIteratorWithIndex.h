@@ -45,8 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class ImageLinearIteratorWithIndex
+/** \class ImageLinearIteratorWithIndex
  * \brief Multi-dimensional image iterator which only walks a region.
  * 
  * ImageLinearIteratorWithIndex is a templated class to represent a multi-dimensional
@@ -106,134 +105,81 @@ template<typename TImage>
 class ImageLinearIteratorWithIndex : public ImageIteratorWithIndex<TImage>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ImageLinearIteratorWithIndex Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageIteratorWithIndex<TImage>  Superclass;
-
-  /** 
-   * Index typedef support. While this was already typdef'ed in the superclass
+  
+  /** Index typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index.
-   */
+   * confused with ImageIterator::Index. */
   typedef typename TImage::IndexType   IndexType;
 
-  /**
-   * Region typedef support. While this was already typdef'ed in the superclass
+  /** Region typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Region back to itk::ImageRegion so that is
-   * it not confused with ImageIterator::Index.
-   */
+   * it not confused with ImageIterator::Index. */
   typedef typename TImage::RegionType RegionType;
   
-  /**
-   * Image typedef support. While this was already typdef'ed in the superclass
+  /** Image typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index.
-   */
+   * confused with ImageIterator::Index. */
   typedef TImage ImageType;
 
-  /** 
-   * PixelContainer typedef support. Used to refer to the container for
+  /** PixelContainer typedef support. Used to refer to the container for
    * the pixel data. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   */
+   * it needs to be redone here for this subclass to compile properly with gcc. */
   typedef typename TImage::PixelContainer PixelContainer;
   typedef typename PixelContainer::Pointer PixelContainerPointer;
-
-  /**
-   * Default constructor. Needed since we provide a cast constructor.
-   */
+  
+  /** Default constructor. Needed since we provide a cast constructor. */
   ImageLinearIteratorWithIndex() : ImageIteratorWithIndex<TImage>() {}
   
-  /**
-   * Constructor establishes an iterator to walk a particular image and a
-   * particular region of that image.
-   */
+  /** Constructor establishes an iterator to walk a particular image and a
+   * particular region of that image. */
   ImageLinearIteratorWithIndex(ImageType *ptr,
                       const RegionType& region)
     : ImageIteratorWithIndex<TImage>( ptr, region ) {}
 
-  /**
-   * Constructor that can be used to cast from an ImageIterator to an
+  /** Constructor that can be used to cast from an ImageIterator to an
    * ImageLinearIteratorWithIndex. Many routines return an ImageIterator but for a
    * particular task, you may want an ImageLinearIteratorWithIndex.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
-   * ImageIterator to a ImageLinearIteratorWithIndex.
-   */
+   * ImageIterator to a ImageLinearIteratorWithIndex. */
   ImageLinearIteratorWithIndex( const ImageIteratorWithIndex<TImage> &it)
     { this->ImageIteratorWithIndex<TImage>::operator=(it); }
 
-  /**
-   * Go to the next line inside the defined region
+  /** Go to the next line inside the defined region
    * and be positioned at the starting point on this line
-   * \sa operator++
-   * \sa operator--
-   * \sa PreviousLine
-   * \sa EndOfLine
-   * \sa End
-   */
+   * \sa operator++ \sa operator-- \sa PreviousLine \sa EndOfLine \sa End */
   void NextLine(void);
 
-  /**
-   * Go to the previous line inside the defined region
-   * and be positioned at the last point on this line
-   * \sa operator++
-   * \sa operator--
-   * \sa NextLine
-   * \sa EndOfLine
-   * \sa End
-   */
+  /** Go to the previous line inside the defined region
+   * and be positioned at the last point on this line.
+   * \sa operator++ \sa operator-- \sa NextLine \sa EndOfLine \sa End */
   void PreviousLine(void);
 
-  /**
-   * Go to the beginning pixel of the current line.
-   * \sa GoToEndOfLine
-   * \sa operator++
-   * \sa operator--
-   * \sa NextLine
-   * \sa EndOfLine
-   */
+  /** Go to the beginning pixel of the current line.
+   * \sa GoToEndOfLine \sa operator++ \sa operator-- \sa NextLine \sa EndOfLine */
   void GoToBeginOfLine(void);
 
-  /**
-   * Go to the past end pixel of the current line.
-   * \sa GoToBeginOfLine
-   * \sa operator++
-   * \sa operator--
-   * \sa NextLine
-   * \sa EndOfLine
-   */
+  /** Go to the past end pixel of the current line.
+   * \sa GoToBeginOfLine \sa operator++ \sa operator-- \sa NextLine \sa EndOfLine */
   void GoToEndOfLine(void);
 
-  /**
-   * Test if the index is at the end of line on the predefined region
-   */
+  /** Test if the index is at the end of line on the predefined region */
   inline bool IsAtEndOfLine(void) 
-    {
-    return m_PositionIndex[m_Direction] >= m_EndIndex[m_Direction];
-    }
+    { return m_PositionIndex[m_Direction] >= m_EndIndex[m_Direction]; }
 
-
-  /**
-   * Test if the index is at the begin of line on the predefined region
-   */
+  /** Test if the index is at the begin of line on the predefined region */
   inline bool IsAtBeginOfLine(void) 
     {
     return m_PositionIndex[m_Direction] < m_BeginIndex[m_Direction];
     }
 
-  /**
-   * Set the direction of movement
-   */
+  /** Set the direction of movement */
   inline void SetDirection(unsigned int direction)
     {
     if( direction >= TImage::ImageDimension )
@@ -244,25 +190,13 @@ public:
     m_Jump = m_OffsetTable[ m_Direction ];
     }
 
-
-  /**
-   * Increment (prefix) the selected dimension.
-   * No bounds checking is performed. 
-   * \sa GetIndex
-   * \sa operator--
-   */
+  /** Increment (prefix) the selected dimension.
+   * No bounds checking is performed. \sa GetIndex \sa operator-- */
   Self & operator++();
 
-
-  /**
-   * Decrement (prefix) the selected dimension.
-   * No bounds checking is performed. 
-   * \sa GetIndex
-   * \sa operator++
-   */
+  /** Decrement (prefix) the selected dimension.
+   * No bounds checking is performed. \sa GetIndex \sa operator++ */
   Self & operator--();
-
-
 
 private:
     unsigned long  m_Jump;

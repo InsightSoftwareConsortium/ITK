@@ -51,19 +51,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \brief Base exception class for IO conflicts
- */
+/** \brief Base exception class for IO conflicts. */
 class ImageFileReaderException : public ExceptionObject 
 {
 public:
+  /** Run-time information. *.
   itkTypeMacro( ImageFileReaderException, ExceptionObject );
 
+  /** Constructor. */
   ImageFileReaderException(char *file, unsigned int line, const char* message = "Error in IO") : ExceptionObject(file, line)
   {
     SetDescription(message);
   }
 
+  /** Constructor. */
   ImageFileReaderException(const std::string &file, unsigned int line, const char* message = "Error in IO") : ExceptionObject(file, line)
   {
     SetDescription(message);
@@ -71,8 +72,7 @@ public:
 };
 
 
-/**
- * \brief Data source that reads image data from disk files.
+/** \brief Data source that reads image data from disk files.
  *
  * This source object is a general filter to read data from
  * a variety of file formats. It works with a ImageIOBase subclass
@@ -96,64 +96,59 @@ DefaultConvertPixelTraits< ITK_TYPENAME TOutputImage::PixelType> >
 class ITK_EXPORT ImageFileReader : public ImageSource<TOutputImage>
 {
 public:
-  ///! Standard "Self" typedef.
+  /** Standard class typedefs. */
   typedef ImageFileReader         Self;
-  ///! Standard "Superclass" typedef.
   typedef ImageSource<TOutputImage>  Superclass;
-  ///! Smart pointer typedef support.
   typedef SmartPointer<Self>  Pointer;
-  ///! Method for creation through the object factory.
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  ///! Run-time type information (and related methods).
+
+  /** Run-time type information (and related methods). */
   itkTypeMacro(ImageFileReader, ImageSource);
-  ///! typedef for Size.
+
+  /** Typedef for Size. */
   typedef Size<TOutputImage::ImageDimension>  Size;
-  ///! typedef for Region.
+
+  /** Typedef for Region. */
   typedef ImageRegion<TOutputImage::ImageDimension>  Region;
-  ///! typedef for the pixel type of the OutputImage.
+
+  /** Typedef for the pixel type of the OutputImage. */
   typedef typename TOutputImage::PixelType OutputImagePixelType;
   
-  /**
-   * Specify the file to load. This is forwarded to the IO instance. 
+  /** Specify the file to load. This is forwarded to the IO instance. 
    * Either the FileName or FilePrefix plus pattern are used to read
-   * files.
-   */
+   * files. */
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
-
-  /** 
-   * Specify file prefix for the image file(s). You should specify either
+  
+  /** Specify file prefix for the image file(s). You should specify either
    * a FileName or FilePrefix. Use FilePrefix if the data is stored
    * in multiple files. (Note: the FileName ivar is available from the
-   * superclass.)
-   */
+   * superclass.) */
   itkSetStringMacro(FilePrefix);
   itkGetStringMacro(FilePrefix);
-
-  /**
-   * The sprintf format used to build filename from FilePrefix and number.
-   */
+  
+  /** The sprintf format used to build filename from FilePrefix and number. */
   itkSetStringMacro(FilePattern);
   itkGetStringMacro(FilePattern);
-
-  /**
-   * Set/Get the ImageIO helper class. Often this is created via the object
+  
+  /** Set/Get the ImageIO helper class. Often this is created via the object
    * factory mechanism that determines whether a particular ImageIO can
    * read a certain file. This method provides a way to get the ImageIO 
-   * instance that is created.
-   */
+   * instance that is created. */
   itkSetObjectMacro(ImageIO,ImageIOBase);
   itkGetObjectMacro(ImageIO,ImageIOBase);
-
+  
 protected:
   ImageFileReader();
   ~ImageFileReader();
   void PrintSelf(std::ostream& os, Indent indent) const;
   
-  // Convert a block of pixels from one type to another
+  /** Convert a block of pixels from one type to another. */
   void DoConvertBuffer(void* buffer,
                        unsigned long numberOfPixels);
-  //Does the real work
+  /** Does the real work. */
   virtual void GenerateData();
 
   ImageIOBase::Pointer m_ImageIO;

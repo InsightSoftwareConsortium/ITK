@@ -45,8 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
-/**
- * \class BinaryDilateImageFilter
+/** \class BinaryDilateImageFilter
  * \brief binary dilation of an image
  *
  * Dilate an image using binary morphology. Gray scale images can be
@@ -84,93 +83,62 @@ namespace itk {
  *     or the DilateValue.
  *   - Replace the original value with the specified value
  *
- * \sa MorphologyImageFilter, BinaryFunctionDilateImageFilter, BinaryDilateImageFilter
+ * \sa MorphologyImageFilter, BinaryFunctionDilateImageFilter
+ * \sa BinaryDilateImageFilter
  * \ingroup ImageEnhancement MathematicalMorphologyImageFilters
  */
-
 template<class TInputImage, class TOutputImage, class TKernel>
 class ITK_EXPORT BinaryDilateImageFilter : 
   public MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  /**
-   * Standard Self typedef
-   */
+  /** Standard class typedefs. */
   typedef BinaryDilateImageFilter Self;
-
-  /**
-   * Standard Superclass typedef
-   */
   typedef MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
     Superclass;
-
-  /**
-   * Standard smart pointer support
-   */ 
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  /**
-   * Runtime information support
-   */
-  itkTypeMacro(BinaryDilateImageFilter, MorphologyImageFilter);
-  
-  /**
-   * Standard New method
-   */
+  /** Standard New method */
   itkNewMacro(Self);  
 
-  /**
-   * Declaration of Pixel Type
-   */
+  /** Runtime information support */
+  itkTypeMacro(BinaryDilateImageFilter, MorphologyImageFilter);
+  
+  /** Declaration of Pixel Type */
   typedef typename Superclass::PixelType PixelType;
 
-  /**
-   * Neighborhood iterator type
-   */
+  /** Neighborhood iterator type */
   typedef ConstSmartNeighborhoodIterator<TInputImage> 
     SmartNeighborhoodIteratorType ;
 
-  /**
-   * Kernel typedef
-   */
+  /** Kernel typedef */
   typedef TKernel KernelType;
   
-  /**
-   * Kernel (structuring element) iterator
-   */
+  /** Kernel (structuring element) iterator */
   typedef typename KernelType::ConstIterator KernelIteratorType ;
-  
  
-  /**
-   * Set the value in the image to consider as "foreground". Defaults to
-   * maximum value of PixelType.
-   */
+  /** Set the value in the image to consider as "foreground". Defaults to
+   * maximum value of PixelType. */
   itkSetMacro(DilateValue, PixelType);
 
-  /**
-   * Get the value in the image considered as "foreground". Defaults to
-   * maximum value of PixelType.
-   */
+  /** Get the value in the image considered as "foreground". Defaults to
+   * maximum value of PixelType. */
   itkGetMacro(DilateValue, PixelType);
-
   
 protected:
   BinaryDilateImageFilter();
   ~BinaryDilateImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * Evaluate image neighborhood with kernel to find the new value 
+  /** Evaluate image neighborhood with kernel to find the new value 
    * for the center pixel value
    *
    * It will return the DilateValue if any of the image pixels in the
    * neighborhood have the DilateValue and that pixel's corresponding
-   * element in the structuring element is positive and
-   */
+   * element in the structuring element is positive and */
   PixelType Evaluate(const SmartNeighborhoodIteratorType &nit,
                      const KernelType &kernel);
-
 
 private:
   BinaryDilateImageFilter(const Self&); //purposely not implemented

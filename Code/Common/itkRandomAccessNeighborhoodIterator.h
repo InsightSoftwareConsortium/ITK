@@ -48,8 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
-/**
- * \class RandomAccessNeighborhoodIterator
+/** \class RandomAccessNeighborhoodIterator
  * \brief Extends the bi-directional NeighborhoodIterator to a random access
  * iterator.
  *
@@ -58,8 +57,6 @@ namespace itk {
  * be incremented or decremented by an itk::Offset.  Subtracting two
  * RandomAccessNeighborhoodIterator objects returns an itk::Offset representing
  * the distance between them.
- *
- *
  *
  * \ingroup ImageIterators
  *
@@ -70,15 +67,14 @@ class ITK_EXPORT RandomAccessNeighborhoodIterator
   :  public ConstRandomAccessNeighborhoodIterator<TImage>
 {
 public:
-  /** 
-   * Standard "Self" & Superclass typedef support.
-   */
+  /** Standard class typedefs. */
   typedef RandomAccessNeighborhoodIterator Self;
   typedef ConstRandomAccessNeighborhoodIterator<TImage> Superclass;
+  
+  /** Extract typedefs from superclass. */
+  enum {Dimension = Superclass::Dimension };
 
-  /**
-   * Extract typedefs from superclass
-   */
+  /** Extract typedefs from superclass */
   typedef typename Superclass::InternalPixelType InternalPixelType;
   typedef typename Superclass::PixelType  PixelType;
   typedef typename Superclass::SizeType   SizeType;
@@ -88,71 +84,52 @@ public:
   typedef typename Superclass::OffsetType OffsetType;
   typedef typename Superclass::RadiusType RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  enum {Dimension = Superclass::Dimension };
   typedef typename Superclass::Iterator      Iterator;
   typedef typename Superclass::ConstIterator ConstIterator;
   typedef typename Superclass::ImageBoundaryConditionPointerType
    ImageBoundaryConditionPointerType;
-  
-  /**
-   * Default constructor.
-   */
+    
+  /** Default constructor. */
   RandomAccessNeighborhoodIterator(): Superclass() {}
   
-  /**
-   * Copy constructor
-   */
+  /** Copy constructor */
   RandomAccessNeighborhoodIterator( const RandomAccessNeighborhoodIterator &n )
     : Superclass(n) {}
   
-  /**
-   * Assignment operator
-   */
+  /** Assignment operator */
   Self &operator=(const Self& orig)
     {
       Superclass::operator=(orig);
       return *this;
     }
   
-  /**
-   * Constructor which establishes the region size, neighborhood, and image
-   * over which to walk.
-   */
+  /** Constructor which establishes the region size, neighborhood, and image
+   * over which to walk. */
   RandomAccessNeighborhoodIterator(const SizeType &radius,
                        ImageType * ptr,
                        const RegionType &region
                        )
-    : Superclass(radius, ptr, region)
-    { }
+    : Superclass(radius, ptr, region) { }
 
-  /**
-   * Standard print method
-   */
+  /** Standard print method */
   virtual void PrintSelf(std::ostream &, Indent) const;
 
-  /**
-   * Returns the central memory pointer of the neighborhood.
-   */
+  /** Returns the central memory pointer of the neighborhood. */
   InternalPixelType *GetCenterPointer()
-    {    return (this->operator[]((this->Size())>>1));  }
+    { return (this->operator[]((this->Size())>>1)); }
 
-
+  /** Set the center pixel value. */
   virtual void SetCenterPixel(const PixelType &p)
-    {    *( this->GetCenterPointer() ) = p;  }
+    { *( this->GetCenterPointer() ) = p; }
   
-  /**
-   * Virtual function that replaces the pixel values in the image
+  /** Virtual function that replaces the pixel values in the image
    * neighborhood that are pointed to by this RandomAccessNeighborhoodIterator with
-   * the pixel values contained in a Neighborhood.
-   */
+   * the pixel values contained in a Neighborhood. */
   virtual void SetNeighborhood(const NeighborhoodType &);
 
-  /**
-   *
-   */
+  /** Set the pixel value. */
   virtual void SetPixel(const unsigned long i, const PixelType &v)
     { *(this->operator[](i)) = v; }
-    
 };
 
 } // namespace itk

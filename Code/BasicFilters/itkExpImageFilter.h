@@ -56,7 +56,6 @@ namespace itk
  */
 
 namespace Function {  
-  
   template< class TInput, class TOutput>
   class Exp
   {
@@ -68,11 +67,7 @@ namespace Function {
       return (TOutput)exp((double)A);
     }
   }; 
-
 }
-// Wrap: ExpImageFilter<$Image,$Image,$Image,$Function>
-// Wrap: <XML code for Function....>
-// Wrap: ExpImageFilter<Image<$BasicPixel,$BasicDimension>,$Image,$Image,$Function>
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT ExpImageFilter :
     public
@@ -80,34 +75,17 @@ class ITK_EXPORT ExpImageFilter :
     Function::Exp< 
               typename TInputImage::PixelType, 
               typename TOutputImage::PixelType>   >
-
-
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ExpImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Function::Exp< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   
-                >  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
+    Function::Exp< typename TInputImage::PixelType, 
+                   typename TOutputImage::PixelType> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
 protected:

@@ -63,84 +63,48 @@ class ITK_EXPORT FrustumSpatialFunction :
 {
 public:
 
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef FrustumSpatialFunction<VImageDimension,TInput> Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef InteriorExteriorSpatialFunction<VImageDimension,TInput> Superclass;
-  
-  /**
-   * Input type for the function
-   */
-  typedef typename Superclass::InputType InputType;
-
-  /**
-   * Output type for the function
-   */
-  typedef typename Superclass::OutputType OutputType;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
+    
+  /** Run-time type information (and related methods). */
   itkTypeMacro(FrustumSpatialFunction,InteriorExteriorSpatialFunction);
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Evaluates the function at a given position
-   */
+  /** Input type for the function */
+  typedef typename Superclass::InputType InputType;
+
+  /** Output type for the function */
+  typedef typename Superclass::OutputType OutputType;
+
+  /** Evaluates the function at a given position */
   OutputType Evaluate(const InputType& position) const;
 
-  /**
-   * Get and set the center of the sphere
-   */
+  /** Get and set the center of the sphere */
   itkGetMacro( Apex, InputType);
   itkSetMacro( Apex, InputType);
-
-  /**
-   * Get and set the angle of the pyramid axis 
-   * with respect to the Z axis
-   */
+  
+  /** Get and set the angle of the pyramid axis 
+   * with respect to the Z axis */
   itkGetMacro( AngleZ, double);
   itkSetMacro( AngleZ, double);
-     
-  /**
-   * Get and set the aperture angle in X
-   */
-  itkGetMacro( ApertureAngleX, double);
-  itkSetMacro( ApertureAngleX, double);
-     
-  /**
-   * Get and set the aperture angle in Y
-   */
+       
+  /** Get and set the aperture angle in Y */
   itkGetMacro( ApertureAngleY, double);
   itkSetMacro( ApertureAngleY, double);
-     
-  /**
-   * Get and set the top plane distance to the Apex
-   */
+       
+  /** Get and set the top plane distance to the Apex */
   itkGetMacro( TopPlane, double);
   itkSetMacro( TopPlane, double);
-     
-  /**
-   * Get and set the bottom plane distance to the Apex
-   */
+       
+  /** Get and set the bottom plane distance to the Apex */
   itkGetMacro( BottomPlane, double);
   itkSetMacro( BottomPlane, double);
-     
+       
 protected:
   FrustumSpatialFunction();
   virtual ~FrustumSpatialFunction();
@@ -149,34 +113,22 @@ private:
   FrustumSpatialFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /**
-   * The apex of the pyramid (of the same type as Input)
-   */
+  /** The apex of the pyramid (of the same type as Input) */
   InputType m_Apex;
 
-  /**
-   * Angle between the pyramid axis and the Z axis
-   */
+  /** Angle between the pyramid axis and the Z axis */
   double m_AngleZ;
 
-  /**
-   * Aperture Angle in X direction
-   */
+  /** Aperture Angle in X direction */
   double m_ApertureAngleX;
 
-  /**
-   * Aperture Angle in Y direction
-   */
+  /** Aperture Angle in Y direction */
   double m_ApertureAngleY;
 
-  /**
-   * Distance from Apex to top plane
-   */
+  /** Distance from Apex to top plane */
   double m_TopPlane;
 
-  /**
-   * Distance from Apex to bottom plane
-   */
+  /** Distance from Apex to bottom plane */
   double m_BottomPlane;
 
 };

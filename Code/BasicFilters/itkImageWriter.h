@@ -57,7 +57,7 @@ class ITK_EXPORT ImageWriter : public Writer
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef ImageWriter          Self;
 

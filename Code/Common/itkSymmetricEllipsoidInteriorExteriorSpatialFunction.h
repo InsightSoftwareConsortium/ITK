@@ -46,8 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/**
- * \class EllipsoidSpatialFunction
+/** \class EllipsoidSpatialFunction
  * \brief Function implementation of an ellipsoid
  *
  * Similar to itkEllipsoidInteriorExteriorSpatialFunction in that it 
@@ -58,68 +57,42 @@ namespace itk
  * is one which has m axes of equal length and (n - m) unique axes lengths.
  * Specifically, this class deals with the case where (n - m) = 1 and
  * the ellipsoid's major axis is oriented along a singles orientation vector.
- **/
-
+ */
 template <class T, unsigned int VImageDimension=3>
 class ITK_EXPORT SymmetricEllipsoidInteriorExteriorSpatialFunction : public InteriorExteriorSpatialFunction<VImageDimension>
 {
 public:
-
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef SymmetricEllipsoidInteriorExteriorSpatialFunction Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef InteriorExteriorSpatialFunction<VImageDimension> Superclass;
-    
-  /**
-   * Input type for the function
-   */
-  typedef typename Superclass::InputType InputType;
-
-  /**
-   * Output type for the function
-   */
-  typedef typename Superclass::OutputType OutputType;
-    
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer; 
-
-  itkTypeMacro(SymmetricEllipsoidInteriorExteriorSpatialFunction,InteriorExteriorSpatialFunction);
-
-  /**
-   * Method for creation through the object factory.
-   */
+      
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Evaluates the function at a given position.
-   */
+  /** Run-time information. */
+  itkTypeMacro(SymmetricEllipsoidInteriorExteriorSpatialFunction,InteriorExteriorSpatialFunction);
+
+  /** Input type for the function. */
+  typedef typename Superclass::InputType InputType;
+
+  /** Output type for the function. */
+  typedef typename Superclass::OutputType OutputType;
+
+  /** Evaluates the function at a given position. */
   OutputType Evaluate(const InputType& position) const;
 
-  /**
-   * Vector typedef.
-   */
+  /** Vector typedef. */
   typedef T VectorType;
 
-  /**
-   * Get and set the center of the ellipsoid.
-   */
+  /** Get and set the center of the ellipsoid. */
   itkGetMacro(Center, InputType);
   itkSetMacro(Center, InputType);
-
-  /**
-   * Set the orientation vector of the ellipsoid's unique axis and axes lengths.
-   * Must be normalized!!!!!
-   */
+  
+  /** Set the orientation vector of the ellipsoid's unique axis and axes lengths.
+   * Must be normalized!!!!! */
   void SetOrientation(Vector<VectorType> orientation, VectorType uniqueAxis, VectorType symmetricAxes);
-
      
 protected:
   SymmetricEllipsoidInteriorExteriorSpatialFunction();
@@ -129,29 +102,19 @@ private:
   SymmetricEllipsoidInteriorExteriorSpatialFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /**
-   * The center of the ellipsoid.
-   */
+  /** The center of the ellipsoid. */
   InputType m_Center;
 
-  /**
-   * The unique axis length of the ellipsoid.
-   */
+  /** The unique axis length of the ellipsoid. */
   VectorType m_UniqueAxis;
   
-  /**
-   * The symmetric axes lengths of the ellipsoid.
-   */
+  /** The symmetric axes lengths of the ellipsoid. */
   VectorType m_SymmetricAxes;
 
-  /**
-   * The orientation vector of the ellipsoid's unique axis.
-   */  
+  /** The orientation vector of the ellipsoid's unique axis. */  
   Vector<VectorType, VImageDimension> m_Orientation;
 
-  /**
-   * The vector ratio.
-   */  
+  /** The vector ratio. */  
   VectorType m_VectorRatio;
 
 };

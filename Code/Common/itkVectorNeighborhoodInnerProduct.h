@@ -50,8 +50,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
   
-/**
- * \class VectorNeighborhoodInnerProduct
+/** \class VectorNeighborhoodInnerProduct
  *
  * This is an explicit implementation of what should really be a partial
  * template specialization of NeighborhoodInnerProduct for itkVector.
@@ -69,20 +68,20 @@ template<class TImage>
 class VectorNeighborhoodInnerProduct
 {
 public:
+  /** Extract the pixel type and scalar type from the image template parameter. */
   typedef typename TImage::PixelType PixelType; // Pixel type is a now a vector
   typedef typename PixelType::ValueType ScalarValueType;
+  
+  /** Extract the image and vector dimension from the image template parameter. */
   enum {VectorDimension = PixelType::VectorDimension };
   enum {ImageDimension = TImage::ImageDimension };
-
-  /**
-   *
-   */
+  
+  /** Conversion operator. */
   PixelType operator()(const ConstNeighborhoodIterator<TImage> &it,
                        const Neighborhood<ScalarValueType, ImageDimension>
                        &op) const;
-  /**
-   *
-   */
+
+  /** Conversion operator. */
   PixelType operator()(const std::slice &s,
                        const ConstNeighborhoodIterator<TImage> &it,
                        const Neighborhood<ScalarValueType, ImageDimension>
@@ -93,22 +92,21 @@ template<class TImage>
 class SmartVectorNeighborhoodInnerProduct
 {
 public:
+  /** Extract the pixel type and scalar type from the image template parameter. */
   typedef typename TImage::PixelType PixelType;
   typedef typename PixelType::ValueType ScalarValueType;
+  
+  /** Extract the image and vector dimension from the image template parameter. */
   enum {VectorDimension = PixelType::VectorDimension };
   enum {ImageDimension = TImage::ImageDimension};
-
-  /**
-   *
-   */
+  
+  /** Conversion operator. */
   PixelType operator()(const std::slice &s,
-                      /*                      const ImageBoundaryCondition<TImage> *,*/
                        const ConstSmartNeighborhoodIterator<TImage> &it,
                        const Neighborhood<ScalarValueType, ImageDimension>
                        &op) const;
-  /**
-   * 
-   */
+
+  /** Conversion operator. */
   PixelType operator()(const ConstSmartNeighborhoodIterator<TImage> &it,
                        const Neighborhood<ScalarValueType, ImageDimension>
                        &op) const
@@ -116,8 +114,6 @@ public:
       return this->operator()(std::slice(0, it.Size(), 1), it, op);
     }
 };
-  
-  
   
 } // end namespace itk
   

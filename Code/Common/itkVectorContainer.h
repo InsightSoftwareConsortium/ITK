@@ -65,7 +65,6 @@ namespace itk
  *
  * \ingroup DataRepresentation
  */
-  
 template <
   typename TElementIdentifier,
   typename TElement
@@ -75,93 +74,56 @@ class VectorContainer:
   private std::vector<TElement>
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef VectorContainer     Self;
-  
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-  
-  /**
-   * Save the template parameters.
-   */
+    
+  /** Save the template parameters. */
   typedef TElementIdentifier  ElementIdentifier;
   typedef TElement            Element;
   
-
 private:
-  /**
-   * Quick access to the STL vector type that was inherited.
-   */
+  /** Quick access to the STL vector type that was inherited. */
   typedef std::vector<Element>                VectorType;
   typedef typename VectorType::size_type          size_type;  
   typedef typename VectorType::iterator           VectorIterator;
   typedef typename VectorType::const_iterator     VectorConstIterator;
-  
-  
+    
 protected:
-  /**
-   * Provide pass-through constructors corresponding to all the STL
+  /** Provide pass-through constructors corresponding to all the STL
    * vector constructors.  These are for internal use only since this is also
-   * an Object which must be constructed through the "New()" routine.
-   */
-  
-  /**
-   *
-   */
+   * an Object which must be constructed through the "New()" routine. */
   VectorContainer():
     Object(), VectorType() {}
-  
-  /**
-   *
-   */
   VectorContainer(size_type n):
     Object(), VectorType(n) {}
-  
-  /**
-   *
-   */
   VectorContainer(size_type n, const Element& x):
     Object(), VectorType(n, x) {}
-  
-  /**
-   *
-   */
   VectorContainer(const Self& r):
     Object(), VectorType(r) {}
-  
-  /**
-   *
-   */
   template <typename InputIterator>
   VectorContainer(InputIterator first, InputIterator last):
     Object(), VectorType(first, last) {}
-
+  
 public:
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
+  /** Standard part of every itk Object. */
+  itkTypeMacro(VectorContainer, Object);
+
+  /** Convenient typedefs for the iterator and const iterator. */
   class Iterator;
   class ConstIterator;
+    
+  /** Friends to this class.
   friend class Iterator;
   friend class ConstIterator;
   
-
-  /**
-   * Simulate STL-map style iteration where dereferencing the iterator
-   * gives access to both the index and the value.
-   */
+  /** Simulate STL-map style iteration where dereferencing the iterator
+   * gives access to both the index and the value. */
   class Iterator
   {
   public:
@@ -180,14 +142,10 @@ public:
     bool operator == (const ConstIterator& r) const { return m_Iter == r.m_Iter; }
     bool operator != (const ConstIterator& r) const { return m_Iter != r.m_Iter; }
     
-    /**
-     * Get the index into the VectorContainer associated with this iterator.
-     */
+    /** Get the index into the VectorContainer associated with this iterator.   */
     ElementIdentifier Index(void) const { return m_Pos; }
     
-    /**
-     * Get the value at this iterator's location in the VectorContainer.
-     */
+    /** Get the value at this iterator's location in the VectorContainer.   */
     Element& Value(void) const { return *m_Iter; }
     
   private:
@@ -195,12 +153,9 @@ public:
     VectorIterator m_Iter;
     friend class ConstIterator;
   };
-
   
-  /**
-   * Simulate STL-map style const iteration where dereferencing the iterator
-   * gives read access to both the index and the value.
-   */
+  /** Simulate STL-map style const iteration where dereferencing the iterator
+   * gives read access to both the index and the value. */
   class ConstIterator
   {
   public:
@@ -222,14 +177,10 @@ public:
     bool operator == (const ConstIterator& r) const { return m_Iter == r.m_Iter; }
     bool operator != (const ConstIterator& r) const { return m_Iter != r.m_Iter; }
     
-    /**
-     * Get the index into the VectorContainer associated with this iterator.
-     */
+    /** Get the index into the VectorContainer associated with this iterator.   */
     ElementIdentifier Index(void) const { return m_Pos; }
     
-    /**
-     * Get the value at this iterator's location in the VectorContainer.
-     */
+    /** Get the value at this iterator's location in the VectorContainer.   */
     const Element& Value(void) const { return *m_Iter; }
     
   private:
@@ -238,9 +189,7 @@ public:
     friend class Iterator;
   };  
   
-  /**
-   * Declare the public interface routines.
-   */
+  /** Declare the public interface routines. */
   Element& ElementAt(ElementIdentifier);
   Element& CreateElementAt(ElementIdentifier);
   Element GetElement(ElementIdentifier) const;
@@ -258,11 +207,7 @@ public:
   void Reserve(ElementIdentifier);
   void Squeeze(void);
   void Initialize(void);
-  
-  /**
-   * Standard part of every itk Object.
-   */
-  itkTypeMacro(VectorContainer, Object);
+    
 };
 
 } // end namespace itk

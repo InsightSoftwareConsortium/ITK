@@ -57,57 +57,29 @@ class ITK_EXPORT NonLinearOptimizer : public Optimizer<TCostFunction>
 
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef NonLinearOptimizer  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef  Optimizer<TCostFunction>   Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+  
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
 
-
-  /**
-   *  Parameters type.
-   *  it defines a position in the optimization search space
-   */
-  typedef typename TCostFunction::ParametersType ParametersType;
-
-
-  /**
-   *  Measure type.
-   *  it defines a type used to return the cost function value 
-   */
-  typedef typename TCostFunction::MeasureType MeasureType;
-
-
-  /**
-   *  Derivative type.
-   *  it defines a type used to return the cost function derivative 
-   */
-  typedef typename TCostFunction::DerivativeType DerivativeType;
-
-
-
-
- /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro( NonLinearOptimizer, Optimizer );
 
+  /**  Parameters type.
+   *  It defines a position in the optimization search space. */
+  typedef typename TCostFunction::ParametersType ParametersType;
 
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-  
+  /**  Measure type.
+   *  It defines a type used to return the cost function value. */
+  typedef typename TCostFunction::MeasureType MeasureType;
+
+  /**  Derivative type.
+   *  It defines a type used to return the cost function derivative. */
+  typedef typename TCostFunction::DerivativeType DerivativeType;
 
 protected:
   NonLinearOptimizer() {};
@@ -116,7 +88,6 @@ protected:
 private:
   NonLinearOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  
 };
 
 } // end namespace itk

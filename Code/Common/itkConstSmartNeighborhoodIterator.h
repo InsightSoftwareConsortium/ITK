@@ -46,8 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
-/**
- * \class ConstSmartNeighborhoodIterator
+/** \class ConstSmartNeighborhoodIterator
  *
  * \brief Const version of SmartNeighborhoodIterator, defining iteration of a
  * local N-dimensional neighborhood of pixels across an itk::Image.
@@ -57,34 +56,29 @@ namespace itk {
  * iterators are derived. See SmartNeighborhoodIterator for more complete
  * information.
  *
- *
  * \ingroup ImageIterators
  *
  * \sa Neighborhood \sa ImageIterator \sa NeighborhoodIterator
  * \sa SmartNeighborhoodIterator \sa RandomAccessNeighborhoodIterator
- **/
+ */
 template<class TImage, class TBoundaryCondition
                        = ZeroFluxNeumannBoundaryCondition<TImage>  >
 class ITK_EXPORT ConstSmartNeighborhoodIterator
   :  public ConstNeighborhoodIterator<TImage>
 {
 public:
-  /** 
-   * Standard "Self" & Superclass typdef.
-   */
+  /** Standard class typdefs. */
   typedef ConstSmartNeighborhoodIterator Self;
   typedef ConstNeighborhoodIterator<TImage> Superclass;
-
-  /**
-   * Extract image type information.
-   */
+  
+  /** Extract image type information. */
   typedef typename Superclass::InternalPixelType InternalPixelType;
   typedef typename Superclass::PixelType PixelType;
+    
+  /** Save the dimension of the image. */
   enum { Dimension = Superclass::Dimension };
 
-  /**
-   * Some common itk object typedefs
-   */
+  /** Some common itk object typedefs */
   typedef typename Superclass::ImageType ImageType;
   typedef typename Superclass::RegionType RegionType;
   typedef typename Superclass::SizeType SizeType;
@@ -94,41 +88,29 @@ public:
   typedef typename Superclass::IndexValueType IndexValueType;
   typedef typename Superclass::OffsetType OffsetType;
   typedef typename Superclass::OffsetValueType OffsetValueType;
-
-  /**
-   * Typedef for generic boundary condition pointer
-   */
+  
+  /** Typedef for generic boundary condition pointer */
   typedef typename Superclass::ImageBoundaryConditionPointerType
          ImageBoundaryConditionPointerType;
 
-  /**
-   * Typedef for boundary condition type.
-   */
+  /** Typedef for boundary condition type. */
   typedef TBoundaryCondition BoundaryConditionType;
   
- /**
-   * Support for internal iterator types.  Only const iteration is supported
-   * in this class.
-   */
+  /** Support for internal iterator types.  Only const iteration is supported
+   * in this class. */
   typedef typename Superclass::ConstIterator ConstIterator;
   
-  /**
-   * Default constructor.
-   */
+  /** Default constructor. */
   ConstSmartNeighborhoodIterator()
     : Superclass()
-  { this->ResetBoundaryCondition(); }
+    { this->ResetBoundaryCondition(); }
 
-  /**
-   * Copy constructor
-   */
+  /** Copy constructor */
   ConstSmartNeighborhoodIterator(const Self& orig);
 
-  /**
-   * Constructor establishes a neighborhood of iterators of a specified
+  /** Constructor establishes a neighborhood of iterators of a specified
    * dimension to walk a particular image and a particular region of
-   * that image.
-   */ 
+   * that image. */ 
   ConstSmartNeighborhoodIterator(const SizeType& radius,
                                   ImageType *ptr,
                                  const RegionType& region)
@@ -136,99 +118,69 @@ public:
     { this->Initialize(radius, ptr, region);
       this->ResetBoundaryCondition(); }
 
-  /**
-   * Assignment operator
-   */
+  /** Assignment operator */
   Self &operator=(const Self& orig);
 
-  /**
-   * Prints information about the neighborhood pointer structure to
-   * std::cout for debugging purposes.
-   */
+  /** Prints information about the neighborhood pointer structure to
+   * std::cout for debugging purposes. */
   virtual void PrintSelf(std::ostream &, Indent) const;
 
-  /**
-   * Returns the internal, default boundary condition.
-   */
+  /** Returns the internal, default boundary condition. */
   const BoundaryConditionType &GetBoundaryCondition() const
-  { return *m_BoundaryCondition; }
+    { return *m_BoundaryCondition; }
   
-  /**
-   * "Dereferences" the iterator. Returns the Neighborhood of values in the
-   * itk::Image masked by the iterator.
-   */
+  /** "Dereferences" the iterator. Returns the Neighborhood of values in the
+   * itk::Image masked by the iterator. */
   NeighborhoodType GetNeighborhood() const;
 
-  /**
-   * Returns the pixel value referenced by a linear array location.  Unlike
+  /** Returns the pixel value referenced by a linear array location.  Unlike
    * operator[], this is a safe operation that will automatically detect and
-   * handle boundary conditions.
-   */
+   * handle boundary conditions. */
   virtual PixelType GetPixel(const unsigned long i) const;
 
-  /**
-   * Returns false if the iterator overlaps region boundaries, true
+  /** Returns false if the iterator overlaps region boundaries, true
    * otherwise.  Also updates an internal boolean array indicating
-   * which of the iterator's faces are out of bounds.
-   */
+   * which of the iterator's faces are out of bounds. */
   bool InBounds() const;
   
-  /**
-   * Allows a user to override the internal boundary condition. Care should
+  /** Allows a user to override the internal boundary condition. Care should
    * be taken to ensure that the overriding boundary condition is a persistent
    * object during the time it is referenced.  The overriding condition
    * can be of a different type than the default type as long as it is
-   * a subclass of ImageBoundaryCondition.
-   */
+   * a subclass of ImageBoundaryCondition. */
   virtual void OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i)
-  { m_BoundaryCondition = i; }
+    { m_BoundaryCondition = i; }
 
-  /**
-   * Resets the boundary condition to the internal, default conditions
-   * specified by the template parameter.
-   */
+  /** Resets the boundary condition to the internal, default conditions
+   * specified by the template parameter. */
   virtual void ResetBoundaryCondition()
-  { m_BoundaryCondition = &m_InternalBoundaryCondition;  }
+    { m_BoundaryCondition = &m_InternalBoundaryCondition;  }
 
-  /**
-   * Sets the internal, default boundary condition.
-   */
+  /** Sets the internal, default boundary condition. */
   void SetBoundaryCondition( const TBoundaryCondition &c )
-  { m_InternalBoundaryCondition = c; }
+    { m_InternalBoundaryCondition = c; }
 
 protected:
-  /**
-   * Sets loop boundaries for iteration.
-   */
+  /** Sets loop boundaries for iteration. */
   void SetBound(const SizeType&);
 
-  /**
-   * Pointer to the actual boundary condition that will be used.
+  /** Pointer to the actual boundary condition that will be used.
    * By default this points to m_BoundaryCondition, but
    * OverrideBoundaryCondition allows a user to point this variable an external
-   * boundary condition. 
-   */
+   * boundary condition.  */
   ImageBoundaryConditionPointerType m_BoundaryCondition;  
 
-  /**
-   * Denotes which of the iterators dimensional sides spill outside
-   * region of interest boundaries.
-   */
+  /** Denotes which of the iterators dimensional sides spill outside
+   * region of interest boundaries. */
   mutable bool m_InBounds[Dimension];
   
-  /**
-   * Lower threshold of in-bounds loop counter values.
-   */
+  /** Lower threshold of in-bounds loop counter values. */
   IndexType m_InnerBoundsLow;
   
-  /**
-   * Upper threshold of in-bounds loop counter values.
-   */
+  /** Upper threshold of in-bounds loop counter values. */
   IndexType m_InnerBoundsHigh;
   
-  /**
-   * Default boundary condition.
-   */
+  /** Default boundary condition. */
   TBoundaryCondition m_InternalBoundaryCondition;
 };
 

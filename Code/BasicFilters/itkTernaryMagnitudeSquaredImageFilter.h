@@ -89,7 +89,7 @@ class ITK_EXPORT TernaryMagnitudeSquaredImageFilter :
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef TernaryMagnitudeSquaredImageFilter  Self;
 

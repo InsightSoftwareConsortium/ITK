@@ -48,8 +48,7 @@ namespace itk
 {
  
 namespace Accessor {
-/**
- * \class LogPixelAccessor
+/** \class LogPixelAccessor
  * \brief Give access to the log() function of a value
  *
  * LogPixelAccessor is templated over an internal type and an
@@ -58,26 +57,19 @@ namespace Accessor {
  * to the types defined as template parameters
  *
  * \ingroup ImageAdaptors
- *
  */
 
 template <class TInternalType, class TExternalType >
 class ITK_EXPORT LogPixelAccessor  
 {
 public:
-
- /** 
-   * External typedef. It defines the external aspect
-   * that this class will exhibit.
-   */
+ /** External typedef. It defines the external aspect
+   * that this class will exhibit. */
   typedef TExternalType ExternalType;
 
-  /** 
-   * Internal typedef. It defines the internal real
-   * representation of data.
-   */
+  /** Internal typedef. It defines the internal real
+   * representation of data. */
   typedef TInternalType InternalType;
-
 
   static inline void Set(TInternalType & output, const TExternalType & input) 
     {output = (TInternalType)log((double)input);}
@@ -90,17 +82,13 @@ public:
   
 } // end namespace Accessor
 
-
- 
-/**
- * \class LogImageAdaptor
+/** \class LogImageAdaptor
  * \brief Presents an image as being composed of the log() of its pixels
  *
  * Additional casting is performed according to the input and output image
  * types following C++ default casting rules.
  *
  * \ingroup ImageAdaptors
- *
  */
 template <class TImage, class TOutputPixelType>
 class ITK_EXPORT LogImageAdaptor : public
@@ -110,36 +98,20 @@ class ITK_EXPORT LogImageAdaptor : public
                                       TOutputPixelType>   >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef LogImageAdaptor  Self;
-
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageAdaptor<TImage,
                        Accessor::LogPixelAccessor<
-                                       typename TImage::PixelType,
-                                       TOutputPixelType> >
-                                                            Superclass;
-  /** 
-   * Smart pointer typedef support.
-   */
+                                 typename TImage::PixelType,
+                                 TOutputPixelType> >  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
+  
+  /** Run-time type information (and related methods). */
   itkTypeMacro( LogImageAdaptor, ImageAdaptor );
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
-
 
 };
 

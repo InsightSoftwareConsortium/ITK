@@ -64,7 +64,7 @@ class ITK_EXPORT ThresholdImageFilter:public ImageToImageFilter<TImage,TImage>
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef ThresholdImageFilter         Self;
 

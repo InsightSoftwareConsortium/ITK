@@ -58,15 +58,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <strstream>
 
 /** \namespace itk
- * \brief The "itk" namespace contains all classes defined for Insight.
- */
+ * \brief The "itk" namespace contains all classes defined for Insight. */
 namespace itk
 {
 } // end namespace itk
 
-/**
- * Error codes for exceptions
- */
+/** Error codes for exceptions */
 namespace itk
 {
   const int BoundsError=10;
@@ -74,16 +71,12 @@ namespace itk
 } // end namespace itk
 
 
-/**
- * A convenience macro marks variables as not being used by a method,
- * avoiding compile-time warnings.
- */
+/** A convenience macro marks variables as not being used by a method,
+ * avoiding compile-time warnings. */
 #define itkNotUsed(x)
 
 
-/**
- * Set built-in type.  Creates member Set"name"() (e.g., SetVisibility());
- */
+/** Set built-in type.  Creates member Set"name"() (e.g., SetVisibility()); */
 #define itkSetMacro(name,type) \
   virtual void Set##name (const type _arg) \
   { \
@@ -96,9 +89,7 @@ namespace itk
   } 
 
 
-/**
- * Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
- */
+/** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility()); */
 #define itkGetMacro(name,type) \
   virtual type Get##name () \
   { \
@@ -107,11 +98,9 @@ namespace itk
   }
 
 
-/**
- * Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
+/** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
  * This is the "const" form of the itkGetMacro.  It should be used unless
- * the member can be changed through the "Get" access routine.
- */
+ * the member can be changed through the "Get" access routine. */
 #define itkGetConstMacro(name,type) \
   virtual type Get##name () const \
   { \
@@ -120,12 +109,10 @@ namespace itk
   }
 
 
-/**
- * Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
+/** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
  * This is the "const" form of the itkGetMacro.  It should be used unless
  * the member can be changed through the "Get" access routine.
- * This versions returns a const reference to the variable.
- */
+ * This versions returns a const reference to the variable. */
 #define itkGetConstReferenceMacro(name,type) \
   virtual const type & Get##name () const \
   { \
@@ -134,11 +121,9 @@ namespace itk
   }
 
 
-/**
- * Set character string.  Creates member Set"name"() 
+/** Set character string.  Creates member Set"name"() 
  * (e.g., SetFilename(char *)). The macro assumes that
- * the class member (name) is declared a type std::string.
- */
+ * the class member (name) is declared a type std::string. */
 #define itkSetStringMacro(name) \
   virtual void Set##name (const char* _arg) \
   { \
@@ -155,23 +140,18 @@ namespace itk
   } 
 
 
-/**
- * Get character string.  Creates member Get"name"() 
+/** Get character string.  Creates member Get"name"() 
  * (e.g., SetFilename(char *)). The macro assumes that
- * the class member (name) is declared a type std::string.
- */
+ * the class member (name) is declared a type std::string. */
 #define itkGetStringMacro(name) \
   virtual const char* Get##name () const \
   { \
     return this->m_##name.c_str(); \
   } 
 
-
-/**
- * Set built-in type where value is constrained between min/max limits.
+/** Set built-in type where value is constrained between min/max limits.
  * Create member Set"name"() (e.q., SetRadius()). #defines are 
- * convienience for clamping open-ended values.
- */
+ * convienience for clamping open-ended values. */
 #define itkSetClampMacro(name,type,min,max) \
   virtual void Set##name (type _arg) \
   { \
@@ -184,12 +164,10 @@ namespace itk
   } 
 
 
-/**
- * Set pointer to object; uses Object reference counting methodology.
+/** Set pointer to object; uses Object reference counting methodology.
  * Creates method Set"name"() (e.g., SetPoints()). Note that using
  * smart pointers requires using real pointers when setting input,
- * but returning smart pointers on output.
- */
+ * but returning smart pointers on output. */
 #define itkSetObjectMacro(name,type) \
   virtual void Set##name (type* _arg) \
   { \
@@ -201,11 +179,8 @@ namespace itk
       } \
   } 
 
-
-/**
- * Get a smart pointer to an object.  Creates the member 
- * Get"name"() (e.g., GetPoints()).
- */
+/** Get a smart pointer to an object.  Creates the member 
+ * Get"name"() (e.g., GetPoints()). */
 #define itkGetObjectMacro(name,type) \
   virtual typename type::Pointer Get##name () \
   { \
@@ -213,13 +188,10 @@ namespace itk
     return this->m_##name; \
   } 
 
-
-/**
- * Set const pointer to object; uses Object reference counting methodology.
+/** Set const pointer to object; uses Object reference counting methodology.
  * Creates method Set"name"() (e.g., SetPoints()). Note that using
  * smart pointers requires using real pointers when setting input,
- * but returning smart pointers on output.
- */
+ * but returning smart pointers on output. */
 #define itkSetConstObjectMacro(name,type) \
   virtual void Set##name (const type* _arg) \
   { \
@@ -232,10 +204,8 @@ namespace itk
   } 
 
 
-/**
- * Get a smart const pointer to an object.  Creates the member 
- * Get"name"() (e.g., GetPoints()).
- */
+/** Get a smart const pointer to an object.  Creates the member 
+ * Get"name"() (e.g., GetPoints()). */
 #define itkGetConstObjectMacro(name,type) \
   virtual typename type::ConstPointer Get##name () \
   { \
@@ -243,11 +213,8 @@ namespace itk
     return this->m_##name; \
   } 
 
-
-/**
- * Get a const reference to a smart pointer to an object.  
- * Creates the member Get"name"() (e.g., GetPoints()).
- */
+/** Get a const reference to a smart pointer to an object.  
+ * Creates the member Get"name"() (e.g., GetPoints()). */
 #define itkGetConstReferenceObjectMacro(name,type) \
   virtual const typename type::Pointer & Get##name () const \
   { \
@@ -255,20 +222,15 @@ namespace itk
     return this->m_##name; \
   } 
 
-
-/**
- * Create members "name"On() and "name"Off() (e.g., DebugOn() DebugOff()).
- * Set method must be defined to use this macro.
- */
+/** Create members "name"On() and "name"Off() (e.g., DebugOn() DebugOff()).
+ * Set method must be defined to use this macro. */
 #define itkBooleanMacro(name) \
   virtual void name##On () { this->Set##name(true);} \
   virtual void name##Off () { this->Set##name(false);}
 
-/**
- * General set vector macro creates a single method that copies specified
+/** General set vector macro creates a single method that copies specified
  * number of values into object.
- * Examples: void SetColor(c,3)
- */
+ * Examples: void SetColor(c,3) */
 #define itkSetVectorMacro(name,type,count) \
   virtual void Set##name(type data[]) \
   { \
@@ -281,18 +243,15 @@ namespace itk
       } \
   }
 
-/**
- * Get vector macro. Returns pointer to type (i.e., array of type).
- * This is for efficiency. 
- */
+/** Get vector macro. Returns pointer to type (i.e., array of type).
+ * This is for efficiency. */
 #define itkGetVectorMacro(name,type,count) \
   virtual type *Get##name () const \
   { \
     return this->m_##name; \
   } 
 
-/**
- * Define the standard object factory creation method.  This macro
+/** Define the standard object factory creation method.  This macro
  * simply takes the type for which the New() method is being defined.
  *
  * This creation method first tries asking the object factory to create
@@ -302,8 +261,7 @@ namespace itk
  * This routine assigns the raw pointer to a smart pointer and then calls
  * UnRegister() on the rawPtr to compensate for LightObject's constructor
  * initializing an object's reference count to 1 (needed for proper
- * initialization of process objects and data objects cycles).
- */
+ * initialization of process objects and data objects cycles). */
 #define itkNewMacro(x) \
 static Pointer New(void) \
 { \
@@ -318,25 +276,19 @@ static Pointer New(void) \
   return smartPtr; \
 }
 
-/** 
- * Macro used to add standard methods to all classes, mainly type
- * information.
- */
+/** Macro used to add standard methods to all classes, mainly type
+ * information. */
 #define itkTypeMacro(thisClass,superclass) \
     virtual const char *GetNameOfClass() const \
         {return #thisClass;}
 
-/** 
- * The following is used to output debug, warning, and error messages.
- */
+/** The following is used to output debug, warning, and error messages. */
 namespace itk
 {
-/**
- * Use a global function which actually calls:
+/** Use a global function which actually calls:
  * OutputWindow::GetInstance()->DisplayText();
  * This is to avoid Object #include of OutputWindow
- * while OutputWindow #includes Object
- */
+ * while OutputWindow #includes Object. */
 extern ITK_EXPORT void OutputWindowDisplayText(const char*);
 extern ITK_EXPORT void OutputWindowDisplayErrorText(const char*);
 extern ITK_EXPORT void OutputWindowDisplayWarningText(const char*);
@@ -344,11 +296,9 @@ extern ITK_EXPORT void OutputWindowDisplayGenericOutputText(const char*);
 extern ITK_EXPORT void OutputWindowDisplayDebugText(const char*);
 } // end namespace itk
 
-/**
- * This macro is used to print debug (or other information). They are
+/** This macro is used to print debug (or other information). They are
  * also used to catch errors, etc. Example usage looks like:
- * itkDebugMacro(<< "this is debug info" << this->SomeVariable);
- */
+ * itkDebugMacro(<< "this is debug info" << this->SomeVariable); */
 #ifdef ITK_LEAN_AND_MEAN
 #define itkDebugMacro(x)
 #else
@@ -365,11 +315,9 @@ extern ITK_EXPORT void OutputWindowDisplayDebugText(const char*);
 #endif
 
 
-/**
- * This macro is used to print warning information (i.e., unusual circumstance
+/** This macro is used to print warning information (i.e., unusual circumstance
  * but not necessarily fatal.) Example usage looks like:
- * itkWarningMacro(<< "this is warning info" << this->SomeVariable);
- */
+ * itkWarningMacro(<< "this is warning info" << this->SomeVariable); */
 #ifdef ITK_LEAN_AND_MEAN
 #define itkWarningMacro(x)
 #else
@@ -385,12 +333,10 @@ extern ITK_EXPORT void OutputWindowDisplayDebugText(const char*);
 }
 #endif
 
-/**
- * This macro is used to print error information (i.e., usually a condition
+/** This macro is used to print error information (i.e., usually a condition
  * that results in program failure). This macro is normally coupled with
  * exceptions. Example usage looks like:
- * itkErrorMacro(<< "this is error info" << this->SomeVariable);
- */
+ * itkErrorMacro(<< "this is error info" << this->SomeVariable); */
 #ifdef ITK_LEAN_AND_MEAN
 #define itkErrorMacro(x)
 #else
@@ -406,11 +352,9 @@ extern ITK_EXPORT void OutputWindowDisplayDebugText(const char*);
 }
 #endif
 
-/**
- * This macro is used to print information where no "this->" pointer is
+/** This macro is used to print information where no "this->" pointer is
  * available (e.g., static method or function). Example usage looks like:
- * itkGenericOutputMacro(<< "this is output info" << SomeVariable);
- */
+ * itkGenericOutputMacro(<< "this is output info" << SomeVariable); */
 #ifdef ITK_LEAN_AND_MEAN
 #define itkGenericOutputMacro(x)
 #else
@@ -427,3 +371,5 @@ extern ITK_EXPORT void OutputWindowDisplayDebugText(const char*);
 
 
 #endif
+
+

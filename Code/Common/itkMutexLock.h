@@ -91,33 +91,24 @@ typedef int MutexType;
 class ITK_EXPORT SimpleMutexLock
 {
 public:
-  /** 
-   * Standard "Self" typedef. 
-   */
+  /** Standard class typedefs.  */
   typedef SimpleMutexLock       Self;
   
-  /**
-   * Constructor left public purposely
-   */
+  /** Constructor and destructor left public purposely. */
   SimpleMutexLock();
   virtual ~SimpleMutexLock();
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Methods for creation and destruction through the object factory. */
   static SimpleMutexLock *New();
   void Delete() {delete this;}
-
+  
+  /** Used for debugging and other run-time purposes. */
   virtual const char *GetNameOfClass() {return "itkSimpleMutexLock";};
   
-  /**
-   * Lock the MutexLock.
-   */
+  /** Lock the MutexLock. */
   void Lock( void );
 
-  /**
-   * Unlock the MutexLock.
-   */
+  /** Unlock the MutexLock. */
   void Unlock( void );
 
 protected:
@@ -136,36 +127,22 @@ protected:
 class ITK_EXPORT MutexLock : public Object
 {
 public:
-  /** 
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef MutexLock       Self;
-  
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /** 
-   * Smart pointer typedef support. 
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   * Method for creation.
-   */
+  
+  /** Method for creation. */
   itkNewMacro(Self);
+  
+  /** Run-time information. */
   itkTypeMacro(MutexLock,Object);
 
-  /**
-   * Lock the itkMutexLock.
-   */
+  /** Lock the itkMutexLock. */
   void Lock( void );
 
-  /**
-   * Unlock the MutexLock.
-   */
+  /** Unlock the MutexLock. */
   void Unlock( void );
 
 protected:

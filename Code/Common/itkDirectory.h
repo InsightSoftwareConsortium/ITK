@@ -63,51 +63,28 @@ namespace itk
 class ITK_EXPORT Directory : public Object
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef Directory           Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-  
-  /**
-   * Method for creation through the object factory.
-   */
+    
+  /** Method for creation through the object factory. */
   static Pointer New()
-    {
-      return new Directory;
-    }
+    { return new Directory; }
   
-
-  /**
-   * Return the class name as a string.
-   */
+  /** Return the class name as a string. */
   itkTypeMacro(Directory,Object);
 
-  /**
-   * Load the specified directory and load the names of the files
+  /** Load the specified directory and load the names of the files
    * in that directory. 0 is returned if the directory can not be 
-   * opened, 1 if it is opened.   
-   */
+   * opened, 1 if it is opened.    */
   bool Load(const char* dir);
 
-  /**
-   * Return the number of files in the current directory.
-   */
+  /** Return the number of files in the current directory. */
   int GetNumberOfFiles() { return m_Files.size();}
 
-  /**
-   * Return the file at the given index, the indexing is 0 based
-   */
+  /** Return the file at the given index, the indexing is 0 based */
   const char* GetFile(unsigned int index);
 
 protected:

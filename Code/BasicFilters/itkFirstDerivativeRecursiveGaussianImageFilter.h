@@ -65,38 +65,23 @@ class ITK_EXPORT FirstDerivativeRecursiveGaussianImageFilter:
 {
 
 public:
-  
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef FirstDerivativeRecursiveGaussianImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef RecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation> 
           Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>                  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
   
 protected:
   FirstDerivativeRecursiveGaussianImageFilter() {};
   virtual ~FirstDerivativeRecursiveGaussianImageFilter() {};  
 
-  /**
-   * Set up the coefficients of the filter to approximate a specific kernel.
+  /** Set up the coefficients of the filter to approximate a specific kernel.
    * typically it can be used to approximate a Gaussian or one of its
-   * derivatives.
-   */
+   * derivatives. */
   virtual void SetUp(void);
 
 private:

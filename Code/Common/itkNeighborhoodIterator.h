@@ -216,15 +216,11 @@ class ITK_EXPORT NeighborhoodIterator
   :  public ConstNeighborhoodIterator<TImage>
 {
 public:
-  /** 
-   * Standard "Self" & Superclass typedef support.
-   */
+  /** Standard class typedefs. */
   typedef NeighborhoodIterator Self;
   typedef ConstNeighborhoodIterator<TImage> Superclass;
-
-  /**
-   * Extract typedefs from superclass
-   */
+  
+  /** Extract typedefs from superclass. */
   typedef typename Superclass::InternalPixelType InternalPixelType;
   typedef typename Superclass::PixelType  PixelType;
   typedef typename Superclass::SizeType   SizeType;
@@ -234,68 +230,51 @@ public:
   typedef typename Superclass::OffsetType OffsetType;
   typedef typename Superclass::RadiusType RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  enum {Dimension = Superclass::Dimension };
   typedef typename Superclass::Iterator      Iterator;
   typedef typename Superclass::ConstIterator ConstIterator;
   typedef typename Superclass::ImageBoundaryConditionPointerType
    ImageBoundaryConditionPointerType;
-  
-  /**
-   * Default constructor.
-   */
+    
+  /** Extract enums from superclass. */
+  enum {Dimension = Superclass::Dimension };
+
+  /** Default constructor. */
   NeighborhoodIterator(): Superclass() {}
   
-  /**
-   * Copy constructor
-   */
+  /** Copy constructor */
   NeighborhoodIterator( const NeighborhoodIterator &n )
     : Superclass(n) {}
   
-  /**
-   * Assignment operator
-   */
+  /** Assignment operator */
   Self &operator=(const Self& orig)
     {
       Superclass::operator=(orig);
       return *this;
     }
   
-  /**
-   * Constructor which establishes the region size, neighborhood, and image
-   * over which to walk.
-   */
-  NeighborhoodIterator(const SizeType &radius,
-                       ImageType * ptr,
-                       const RegionType &region
-                       )
-    : Superclass(radius, ptr, region)
-    { }
+  /** Constructor which establishes the region size, neighborhood, and image
+   * over which to walk. */
+  NeighborhoodIterator(const SizeType &radius, ImageType * ptr,
+                       const RegionType &region)
+    : Superclass(radius, ptr, region) { }
 
-  /**
-   * Standard print method
-   */
+  /** Standard print method */
   virtual void PrintSelf(std::ostream &, Indent) const;
 
-  /**
-   * Returns the central memory pointer of the neighborhood.
-   */
+  /** Returns the central memory pointer of the neighborhood. */
   InternalPixelType *GetCenterPointer()
-    {    return (this->operator[]((this->Size())>>1));  }
+    { return (this->operator[]((this->Size())>>1)); }
 
-
+  /** Returns the central pixel of the neighborhood. */
   virtual void SetCenterPixel(const PixelType &p)
-    {    *( this->GetCenterPointer() ) = p;  }
+    { *( this->GetCenterPointer() ) = p; }
   
-  /**
-   * Virtual function that replaces the pixel values in the image
+  /** Virtual function that replaces the pixel values in the image
    * neighborhood that are pointed to by this NeighborhoodIterator with
-   * the pixel values contained in a Neighborhood.
-   */
+   * the pixel values contained in a Neighborhood. */
   virtual void SetNeighborhood(const NeighborhoodType &);
 
-  /**
-   *
-   */
+  /** Set the pixel at the ith location. */
   virtual void SetPixel(const unsigned long i, const PixelType &v)
     { *(this->operator[](i)) = v; }
     

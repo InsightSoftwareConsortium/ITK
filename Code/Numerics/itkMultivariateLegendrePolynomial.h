@@ -45,7 +45,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <vector>
 #include <vnl/vnl_vector.h>
 
-
 /** \class MultivariateLegendrePolynomial
  * \brief 2D and 3D multivariate Legendre Polynomial 
  *
@@ -89,201 +88,165 @@ namespace itk {
 class MultivariateLegendrePolynomial
 {
 public:
-  /**
-   * Legendre polynomial coefficients type
-   */
+  /** Legendre polynomial coefficients type. */
   typedef vnl_vector<double> CoefficientVector ;
 
-  /**
-   * same as CoefficientVector
-   * this type definition will be used by EnergyFunction object
-   */
+  /** Same as CoefficientVector
+   * This type definition will be used by EnergyFunction object. */
   typedef CoefficientVector ParametersType ;
 
-  /**
-   * internal coefficient storage type
-   */
+  /** Internal coefficient storage type. */
   typedef double* CoefficientArray ;
 
-
+  /** The size of the domain. */
   typedef std::vector<unsigned long> DomainSizeType ;
   typedef std::vector<long> IndexType ;
-
+  
+  /** Constructor. */
   MultivariateLegendrePolynomial(int dimension, int degree,
                                  DomainSizeType domainSize) ;
-
+  /** Destructor. */
   virtual ~MultivariateLegendrePolynomial() ;
 
-
-  /**
-   * constructor calls this function. So there is no need to
+  /** Constructor calls this function. So there is no need to
    * call separately. However, if you want to set parameters to
    * zeros, call this.
-   * allocates memory for the internal coefficients array 
-   * and caches.
-   */
+   * Allocates memory for the internal coefficients array 
+   * and caches. */
   void Initialize() ;
 
-  /**
-   * gets dimension
-   */
+  /** Gets the dimension. */
   int GetDimension() { return m_Dimension ; }
 
-  /**
-   * gets degree (the degree of Legendre polynomials)
-   */ 
+  /** Gets the degree (the degree of Legendre polynomials). */ 
   int GetDegree() { return m_Degree ; } 
 
-  /**
-   * gets each dimesion's size
-   */
+  /** Gets each dimesion's size. */
   DomainSizeType GetDomainSize() { return m_DomainSize ; }
 
-  /**
-   * exception object
-   */
+  /** Exception object. */
   class CoefficientVectorSizeMismatch 
   {
   public:
     CoefficientVectorSizeMismatch(int given, int required)
-    {
+      {
       Required = required ;
       Given = given ;
-    }
+      }
     
     int Required;
     int Given ;
   } ;
 
-  /**
-   * sets Legendre polynomials' parameters
-   */
+  /** Sets the Legendre polynomials' parameters. */
   void SetCoefficients(CoefficientVector coef) 
     throw (CoefficientVectorSizeMismatch) ;
 
-  /**
-   * gets coefficients
-   */
+  /** Gets Legendre polynomials' coefficients. */
   CoefficientVector& GetCoefficients() ;
  
-  /**
-   * In the case which the bias field is 2D, it returns bias value at
-   * the point which is specified by the index
-   */
+  /** In the case which the bias field is 2D, it returns bias value at
+   * the point which is specified by the index */
   double operator() (IndexType index) 
-  {
+    {
     if (m_Dimension == 2)
       {
-        if (index[1] != m_PrevY)
-          {
-            // normalized y [-1, 1]
-            double norm_y =  m_NormFactor[1] *
-                                static_cast<double>( index[1] - 1 );
-            CalculateXCoef(norm_y, m_CoefficientArray) ;
-            m_PrevY = index[1] ;
-          }
+      if (index[1] != m_PrevY)
+        {
+        // normalized y [-1, 1]
+        double norm_y =  m_NormFactor[1] *
+          static_cast<double>( index[1] - 1 );
+        CalculateXCoef(norm_y, m_CoefficientArray) ;
+        m_PrevY = index[1] ;
+        }
         
-        // normalized x [-1, 1]
-        double norm_x =  m_NormFactor[0] *
-                               static_cast<double>( index[0] - 1 );
+      // normalized x [-1, 1]
+      double norm_x =  m_NormFactor[0] *
+        static_cast<double>( index[0] - 1 );
         
-        return LegendreSum(norm_x, m_Degree, m_CachedXCoef) ;
+      return LegendreSum(norm_x, m_Degree, m_CachedXCoef) ;
       }
     else if (m_Dimension == 3)
       {
-        if (m_PrevZ != index[2])
-          {
-            // normalized z [-1, 1]  
-            double norm_z =  m_NormFactor[2] *
-                               static_cast<double>( index[2] - 1 );
-            CalculateYCoef(norm_z, m_CoefficientArray) ;
-            m_PrevZ = index[2] ;
-          }
+      if (m_PrevZ != index[2])
+        {
+        // normalized z [-1, 1]  
+        double norm_z =  m_NormFactor[2] *
+          static_cast<double>( index[2] - 1 );
+        CalculateYCoef(norm_z, m_CoefficientArray) ;
+        m_PrevZ = index[2] ;
+        }
         
-        if (m_PrevY != index[1])
-          {
-            // normalized y [-1, 1]
-            double norm_y =  m_NormFactor[1] *
-                               static_cast<double>( index[1] - 1 ); 
-            CalculateXCoef(norm_y, m_CachedYCoef) ;
-            m_PrevY = index[1] ;
-          }
+      if (m_PrevY != index[1])
+        {
+        // normalized y [-1, 1]
+        double norm_y =  m_NormFactor[1] *
+          static_cast<double>( index[1] - 1 ); 
+        CalculateXCoef(norm_y, m_CachedYCoef) ;
+        m_PrevY = index[1] ;
+        }
         
-        // normalized x [-1, 1]
-        double norm_x =  m_NormFactor[0] *
-                               static_cast<double>( index[0] - 1 ); 
+      // normalized x [-1, 1]
+      double norm_x =  m_NormFactor[0] *
+        static_cast<double>( index[0] - 1 ); 
         
-        return LegendreSum(norm_x, m_Degree, m_CachedXCoef);
+      return LegendreSum(norm_x, m_Degree, m_CachedXCoef);
       }
     return 0 ;
-  }
+    }
 
-  /**
-   * gets the number of coefficients
-   */
+  /** Gets the number of coefficients. */
   int GetNoOfCoefficients() ;
 
-  /**
-   * gets the number of coefficients
-   */
+  /** Gets the number of coefficients. */
   int GetNoOfCoefficients(int dimension, int degree) ;
 
-
-  /**
-   * iterator which only supports forward iteration and Begin(), IsAtEnd()
-   * , and Get() method which work just like as SimpleImageRegionIterator.
-   */
+  /** Iterator which only supports forward iteration and Begin(), IsAtEnd(), 
+   *  and Get() method which work just like as SimpleImageRegionIterator. */
   class SimpleForwardIterator
   {
   public:
-
     SimpleForwardIterator (MultivariateLegendrePolynomial* polynomial) 
-    {
+      {
       m_MultivariateLegendrePolynomial = polynomial ;
       m_Dimension = m_MultivariateLegendrePolynomial->GetDimension() ;
       m_DomainSize = m_MultivariateLegendrePolynomial->GetDomainSize() ;
       m_Index.resize(m_Dimension) ;
-    }
+      }
     
     void Begin() 
-    {
-      std::fill(m_Index.begin(), m_Index.end(), 0) ;
-    }
+      { std::fill(m_Index.begin(), m_Index.end(), 0); }
     
     bool IsAtEnd()
-    {
-      return m_IsAtEnd ;
-    }
+      { return m_IsAtEnd; }
     
     SimpleForwardIterator& operator++()
-    {
-      for (int dim = 0 ; dim < m_Dimension ; dim++)
-        {
+      {
+        for (int dim = 0 ; dim < m_Dimension ; dim++)
+          {
           if (m_Index[dim] < static_cast<int>(m_DomainSize[dim] - 1))
             {
-              m_Index[dim] += 1 ;
-              return *this ;
+            m_Index[dim] += 1 ;
+            return *this ;
             }
           else
             {
-              if (dim == m_Dimension - 1 )
-                {
-                  m_IsAtEnd = true ;
-                  break ;
-                }
-              else
-                {
-                  m_Index[dim] = 0 ;
-                }
+            if (dim == m_Dimension - 1 )
+              {
+              m_IsAtEnd = true ;
+              break ;
+              }
+            else
+              {
+              m_Index[dim] = 0 ;
+              }
             }
-        }
+          }
         return *this ;
-    }
+      }
     
     double Get()
-    {
-      return (*m_MultivariateLegendrePolynomial)(m_Index) ;
-    }
+      { return (*m_MultivariateLegendrePolynomial)(m_Index); }
     
   private:
     MultivariateLegendrePolynomial* m_MultivariateLegendrePolynomial ;
@@ -294,7 +257,6 @@ public:
   } ; // end of class Iterator 
   
 protected:
-
   double LegendreSum(const double x, int n, double* coef) ; 
   void CalculateXCoef(double norm_y, double* coef) ;
   void CalculateYCoef(double norm_z, double* coef) ;

@@ -48,47 +48,28 @@ namespace itk
 {
 /** \class PNGImageIOFactory
  * \brief Create instances of PNGImageIO objects using an object factory.
- *
  */
 class ITK_EXPORT PNGImageIOFactory : public ObjectFactoryBase
 {
 public:  
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef PNGImageIOFactory   Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   * Class Methods used to interface with the registered factories
-   */
+  
+  /** Class Methods used to interface with the registered factories */
   virtual const char* GetITKSourceVersion();
   virtual const char* GetDescription() const;
-  /** 
-   * Run-time type information (and related methods).
-   */
+    
+  /** Run-time type information (and related methods). */
   itkTypeMacro(PNGImageIOFactory, ObjectFactoryBase);
-  /**
-   * Method for creation through the object factory.
-   */
-  static PNGImageIOFactory* New()
-    {
-      return new PNGImageIOFactory;
-    }
 
-  /**
-   * Register one factory of this type 
-   */
+  /** Method for creation through the object factory. */
+  static PNGImageIOFactory* New()
+    { return new PNGImageIOFactory; }
+
+  /** Register one factory of this type  */
   static void RegisterOneFactory(void)
   {
     PNGImageIOFactory::Pointer pngFactory = PNGImageIOFactory::New();

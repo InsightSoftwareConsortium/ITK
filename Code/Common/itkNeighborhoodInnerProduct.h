@@ -49,8 +49,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
   
-/**
- * \class NeighborhoodInnerProduct
+/** \class NeighborhoodInnerProduct
  *
  * This class defines the inner product operation between an
  * itk::Neighborhood and and itk::NeighborhoodOperator.  The
@@ -63,59 +62,53 @@ namespace itk {
  * type and the output value type defaults to the operator type.
  *
  * \ingroup Operators
- *
  */
 template<class TImage, class TOperator=ITK_TYPENAME TImage::PixelType, class TComputation=TOperator>
 class NeighborhoodInnerProduct
 {
 public:
+  /** Capture some typedefs from the template parameters. */
   typedef typename TImage::PixelType ImagePixelType;
   typedef TOperator OperatorPixelType;
-  enum {ImageDimension = TImage::ImageDimension};
   typedef TComputation OutputPixelType;
-  
-  /**
-   *
-   */
+    
+  /** Capture some typedefs from the template parameters. */
+  enum {ImageDimension = TImage::ImageDimension};
+
+  /** Reference oeprator. */
   OutputPixelType operator()(const ConstNeighborhoodIterator<TImage> &it,
                        const Neighborhood<OperatorPixelType, ImageDimension>
                        &op) const;
-  /**
-   *
-   */
   OutputPixelType operator()(const std::slice &s,
                        const ConstNeighborhoodIterator<TImage> &it,
                        const Neighborhood<OperatorPixelType, ImageDimension>
                        &op) const;
-};
+  };
 
 template<class TImage, class TOperator=ITK_TYPENAME TImage::PixelType, class TComputation=TOperator>
 class SmartNeighborhoodInnerProduct
 {
 public:
+  /** Capture some typedefs from the template parameters. */
   typedef typename TImage::PixelType ImagePixelType;
   typedef TOperator OperatorPixelType;
-  enum {ImageDimension = TImage::ImageDimension};
   typedef TComputation OutputPixelType;
+  
+  /** Capture some typedefs from the template parameters. */
+  enum {ImageDimension = TImage::ImageDimension};
 
-  /**
-   *
-   */
+  /** Reference oeprator. */
   OutputPixelType operator()(const std::slice &s,
-                      /*                      const ImageBoundaryCondition<TImage> *,*/
                        const ConstSmartNeighborhoodIterator<TImage> &it,
                        const Neighborhood<OperatorPixelType, ImageDimension>
                        &op) const;
-  /**
-   * 
-   */
   OutputPixelType operator()(const ConstSmartNeighborhoodIterator<TImage> &it,
                        const Neighborhood<OperatorPixelType, ImageDimension>
                        &op) const
     {
       return this->operator()(std::slice(0, it.Size(), 1), it, op);
     }
-};
+  };
   
   
   

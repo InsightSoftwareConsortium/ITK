@@ -62,139 +62,94 @@ template <class T>
 class ITK_EXPORT ByteSwapper : public Object
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef ByteSwapper       Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Object  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /** 
-   * Work around MSVC bug (including ByteSwapper.h in a templated class).
-   */
+  
+  /** Work around MSVC bug (including ByteSwapper.h in a templated class). */
   typedef std::ostream OStreamType;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(ByteSwapper,Object);
 
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-
-  /**
-   * Query the machine Endian-ness.
-   */
+  /** Query the machine Endian-ness. */
   static bool IsBigEndian ();
   static bool IsBE () { return IsBigEndian(); }
   static bool IsLittleEndian ();
   static bool IsLE () { return IsLittleEndian(); }
-  
-  /**
-   * Generic swap method handles type T. The swapping is
+    
+  /** Generic swap method handles type T. The swapping is
    * done in-place. Either 2-byte or 4-byte swapping
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
-   * swap to and from Big Endian.
-   */
+   * swap to and from Big Endian. */
   static void SwapBE(T *p);
   
-  /**
-   * Generic swap method handles type T. The swapping is
+  /** Generic swap method handles type T. The swapping is
    * done in-place. Either 2-byte or 4-byte swapping
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
-   * swap to and from Big Endian.
-   */
+   * swap to and from Big Endian. */
   static void SwapRangeBE(T *p, unsigned long num);
   
-  /**
-   * Generic swap method handles type T. The data is
+  /** Generic swap method handles type T. The data is
    * swapped and written (in binary) to the ostream
    * given. A total of num values of type T are written
    * and swapped. Either 2-byte or 4-byte swapping
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
-   * swap to and from Big Endian.
-   */
+   * swap to and from Big Endian. */
   static void SwapWriteRangeBE(T *p, int num, OStreamType *fp);
   
-  /**
-   * Generic swap method handles type T. The swapping is
+  /** Generic swap method handles type T. The swapping is
    * done in-place. Either 2-byte or 4-byte swapping
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
-   * swap to and from Little Endian.
-   */
+   * swap to and from Little Endian. */
   static void SwapLE(T *p);
 
-  /**
-   * Generic swap method handles type T. The swapping is
+  /** Generic swap method handles type T. The swapping is
    * done in-place. Either 2-byte or 4-byte swapping
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
-   * swap to and from Little Endian.
-   */
+   * swap to and from Little Endian. */
   static void SwapRangeLE(T *p, unsigned long num);
 
-  /**
-   * Generic swap method handles type T. The data is
+  /** Generic swap method handles type T. The data is
    * swapped and written (in binary) to the ostream
    * given. A total of num values of type T are written
    * and swapped. Either 2-byte or 4-byte swapping
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
-   * swap to and from Little Endian.
-   */
+   * swap to and from Little Endian. */
   static void SwapWriteRangeLE(T *p, int num, OStreamType *fp);
   
 protected:
-  ByteSwapper() {};
-  ~ByteSwapper() {};
+  ByteSwapper() {}
+  ~ByteSwapper() {}
 
-  /**
-   * Swap 2 bytes.
-   */
+  /** Swap 2 bytes. */
   static void Swap2(void *p);
 
-  /**
-   * Swap a range of two-byte words. Num is the number of two-byte 
-   * words to swap.
-   */
+  /** Swap a range of two-byte words. Num is the number of two-byte 
+   * words to swap. */
   static void Swap2Range(void *p, unsigned long num);
 
-  /**
-   * Swap and write a range of two-byte words. Num is the number of two-byte 
-   * words to swap and write.
-   */
+  /** Swap and write a range of two-byte words. Num is the number of two-byte 
+   * words to swap and write. */
   static void SwapWrite2Range(void *p, unsigned long num, OStreamType *fp);
 
-  /**
-   * Swap four bytes.
-   */
+  /** Swap four bytes. */
   static void Swap4(void *p);
 
-  /**
-   * Swap a range of four-byte words. Num is the number of four-byte words 
-   * to swap.
-   */
+  /** Swap a range of four-byte words. Num is the number of four-byte words 
+   * to swap. */
   static void Swap4Range(void *p, unsigned long num);
 
-  /**
-   * Swap and write a range of four-byte words. Num is the number of four-byte 
-   * words to swap and write.
-   */
+  /** Swap and write a range of four-byte words. Num is the number of four-byte 
+   * words to swap and write. */
   static void SwapWrite4Range(void *p, unsigned long num, OStreamType *fp);
 
 private:

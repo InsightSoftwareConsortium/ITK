@@ -198,7 +198,7 @@ class ITK_EXPORT JoinImageFilter:
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef JoinImageFilter  Self;
 

@@ -63,66 +63,42 @@ namespace itk
 class ITK_EXPORT MeshRegion: public Region
 {
 public:
-  /** 
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef MeshRegion              Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef Region  Superclass;
-
-  /** 
-   * Standard part of all itk objects.
-   */
+  
+  /** Standard part of all itk objects. */
   itkTypeMacro(MeshRegion, Region);
 
-  /**
-   * Constructor.  MeshRegion is a lightweight object and is not reference
-   * counted.
-   */
+  /** Constructor.  MeshRegion is a lightweight object and is not reference
+   * counted. */
   MeshRegion();
 
-  /**
-   * Destructor.  MeshRegion is a lightweight object and is not reference
-   * counted.
-   */
+  /** Destructor.  MeshRegion is a lightweight object and is not reference
+   * counted. */
   virtual ~MeshRegion();
 
-  /** 
-   * Return the region type. Meshes are described with unstructured regions.
-   */
+  /** Return the region type. Meshes are described with unstructured regions. */
   virtual RegionType GetRegionType() const
     {return Superclass::ITK_UNSTRUCTURED_REGION;}
 
-  /** 
-   * Get the number of regions.
-   */
+  /** Get the number of regions. */
   unsigned long GetNumberOfRegions() const
     { return m_NumberOfRegions; };
 
-  /** 
-   * Set the number of regions.
-   */
+  /** Set the number of regions. */
   void SetNumberOfRegions(unsigned long num)
     { if ((num >= 1) && (num <= NumericTraits<unsigned long>::max()))
       { m_NumberOfRegions = num; } };
 
-  /** 
-   * Get the current region.
-   */
+  /** Get the current region. */
   unsigned long GetRegion() const
     { return m_Region; };
 
-  /** 
-   * Set the number of regions.
-   */
+  /** Set the number of regions. */
   void SetRegion(unsigned long region)
     { if ((region >= 1) && (region <= NumericTraits<unsigned long>::max()))
       { m_Region = region; } };
-
-protected:
 
 private:
   // The maximum number of regions possible.

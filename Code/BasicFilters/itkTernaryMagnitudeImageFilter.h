@@ -88,7 +88,7 @@ class ITK_EXPORT TernaryMagnitudeImageFilter :
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef TernaryMagnitudeImageFilter  Self;
 

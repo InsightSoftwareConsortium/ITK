@@ -1,3 +1,43 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkBinomialBlurImageFilter.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+Copyright (c) 2001 Insight Consortium
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice,
+   this list of conditions and the following disclaimer.
+
+ * Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+ * The name of the Insight Consortium, nor the names of any consortium members,
+   nor of any contributors, may be used to endorse or promote products derived
+   from this software without specific prior written permission.
+
+  * Modified source versions must be plainly marked as such, and must not be
+    misrepresented as being the original software.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS ``AS IS''
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHORS OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+=========================================================================*/
 #ifndef __itkBinomialBlurImageFilter_txx
 #define __itkBinomialBlurImageFilter_txx
 
@@ -16,7 +56,7 @@ template< class TInputImage, class TOutputImage >
 BinomialBlurImageFilter< TInputImage, TOutputImage >
 ::BinomialBlurImageFilter()
 {
-  std::cout << "BinomialBlurImageFilter::BinomialBlurImageFilter() called\n";
+  itkDebugMacro(<< "BinomialBlurImageFilter::BinomialBlurImageFilter() called");
 
   // The default is to just do one repetition
   m_Repetitions = 1;
@@ -27,7 +67,7 @@ void
 BinomialBlurImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
-  std::cout << "BinomialBlurImageFilter::GenerateInputRequestedRegion() called\n";
+  itkDebugMacro(<< "BinomialBlurImageFilter::GenerateInputRequestedRegion() called");
   
   Superclass::GenerateInputRequestedRegion();
 
@@ -80,7 +120,7 @@ void
 BinomialBlurImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-  std::cout << "BinomialBlurImageFilter::GenerateData() called\n";
+  itkDebugMacro(<< "BinomialBlurImageFilter::GenerateData() called");
 
   // Get the input and output pointers
   InputImagePointer  inputPtr = this->GetInput(0);
@@ -113,7 +153,6 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   typedef ImageRegionReverseIterator<TTempImage> TempReverseIterator;
   typedef ImageRegionIterator<TInputImage> InputIterator;
   typedef ImageRegionIterator<TOutputImage> OutputIterator;
-
   
   // Copy the input image to the temporary image
   TempIterator tempIt = TempIterator(tempPtr,
@@ -141,16 +180,14 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
     {
     num_reps++;
 
-    std::cout << "Repetition # " << rep << "\n";
+    itkDebugMacro(<< "Repetition # " << rep);
 
     // blur each dimension
     for (unsigned int dim = 0; dim < NDimensions; dim ++)
       {
       TempIterator tempIt = TempIterator(tempPtr,
                                          tempPtr->GetRequestedRegion());
-
       tempIt.GoToBegin();
-  
       while( !tempIt.IsAtEnd() )
         {
         // determine the index of the output pixel
@@ -162,13 +199,13 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
           // Figure out the location of the "neighbor" pixel
           for (unsigned int i = 0; i < NDimensions; i++)
             {
-              if ( i == dim ) 
+            if ( i == dim ) 
               {
-                indexShift.m_Index[i] = index.m_Index[i] + 1;
+              indexShift.m_Index[i] = index.m_Index[i] + 1;
               }
-              else
+            else
               {
-                indexShift.m_Index[i] = index.m_Index[i];
+              indexShift.m_Index[i] = index.m_Index[i];
               }
             }
 
@@ -180,14 +217,13 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
           pixelA = pixelA / 2.0;
 
           tempPtr->SetPixel(index, pixelA);
-
           }
 
         ++tempIt;
     
         } // end walk the image forwards
       
-      std::cout << "End processing forward dimension " << dim << "\n";
+      itkDebugMacro(<< "End processing forward dimension " << dim);
 
       //----------------------Reverse pass----------------------
       TempReverseIterator tempReverseIt
@@ -205,23 +241,23 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
           // Figure out the location of the "neighbor" pixel
           for (unsigned int i = 0; i < NDimensions; i++)
             {
-              if ( i == dim ) 
+            if ( i == dim ) 
               {
-                indexShift.m_Index[i] = index.m_Index[i] - 1;
+              indexShift.m_Index[i] = index.m_Index[i] - 1;
               }
-              else
+            else
               {
-                indexShift.m_Index[i] = index.m_Index[i];
+              indexShift.m_Index[i] = index.m_Index[i];
               }
             }
 
           /*
-          std::cout << "Dimension = " << dim << ", reverse pass\n";
-          std::cout << "Index = (" << index[0] << "," << index[1] << ","
-            << index[2] << ")\n";
-          std::cout << "shiftIndex = (" << indexShift[0] << "," << indexShift[1] << ","
-            << indexShift[2] << ")\n";
-            */
+          itkDebugMacro(<< "Dimension = " << dim << ", reverse pass");
+          itkDebugMacro(<< "Index = (" << index[0] << "," << index[1] << ","
+                        << index[2] << ")");
+          itkDebugMacro(<< "shiftIndex = (" << indexShift[0] << "," << indexShift[1] << ","
+                        << indexShift[2] << ")");
+          */
 
           // Average the pixel of interest and shifted pixel
           pixelA = tempPtr->GetPixel(index);
@@ -231,15 +267,13 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
           pixelA = pixelA / 2;
 
           tempPtr->SetPixel(index, pixelA);
-
           }
 
         ++tempReverseIt;
     
         } // end walk the image backwards
       
-      std::cout << "End processing reverse dimension " << dim << "\n";
-
+      itkDebugMacro(<< "End processing reverse dimension " << dim);
       } // end dimension loop
 
     } // end number of repetitions loop

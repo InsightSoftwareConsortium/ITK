@@ -67,58 +67,41 @@ class DenseFiniteDifferenceImageFilter
   : public FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /**
-   * Standard itk Self & Superclass typedefs
-   */
+  /** Standard class typedefs */
   typedef DenseFiniteDifferenceImageFilter Self;
   typedef FiniteDifferenceImageFilter<TInputImage, TOutputImage> Superclass;
+  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
+  
+  /** Run-time type information (and related methods) */
+  itkTypeMacro(DenseFiniteDifferenceImageFilter, ImageToImageFilter );
+  
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
 
+  /** Convenient typedefs */
   typedef typename Superclass::InputImageType  InputImageType;
   typedef typename Superclass::OutputImageType OutputImageType;
   typedef typename Superclass::FiniteDifferenceEquationType
    FiniteDifferenceEquationType;
-
-  /**
-   * Dimensionality of input and output data is assumed to be the same.
-   * It is inherited from the superclass.
-   */
+  
+  /** Dimensionality of input and output data is assumed to be the same.
+   * It is inherited from the superclass. */
   enum { ImageDimension = Superclass::ImageDimension };
 
-  /**
-   * The pixel type of the output image will be used in computations.
-   * Inherited from the superclass.
-   */
+  /** The pixel type of the output image will be used in computations.
+   * Inherited from the superclass. */
   typedef typename Superclass::PixelType PixelType;
 
-  /**
-   * The value type of a time step.  Inherited from the superclass.
-   */
+  /** The value type of a time step.  Inherited from the superclass. */
   typedef typename Superclass::TimeStepType TimeStepType;
 
-  /**
-   * The container type for the update buffer.
-   */
+  /** The container type for the update buffer. */
   typedef OutputImageType UpdateBufferType;
   
-  /** 
-   * Smart pointer support for this class.
-   */
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-
-  /**
-   * Run-time type information (and related methods)
-   */
-  itkTypeMacro(DenseFiniteDifferenceImageFilter, ImageToImageFilter );
-  
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-
 protected:
   DenseFiniteDifferenceImageFilter()
-  { m_UpdateBuffer = UpdateBufferType::New(); }
+    { m_UpdateBuffer = UpdateBufferType::New(); }
   ~DenseFiniteDifferenceImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
@@ -126,10 +109,8 @@ private:
   DenseFiniteDifferenceImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /**
-   * Structure for passing information into static callback methods.  Used in
-   * the subclasses' threading mechanisms.
-   */
+  /** Structure for passing information into static callback methods.  Used in
+   * the subclasses' threading mechanisms. */
   struct DenseFDThreadStruct
   {
     DenseFiniteDifferenceImageFilter *Filter;
@@ -138,80 +119,60 @@ private:
     bool *ValidTimeStepList;
   };
   
-  /**
-   * The type of region used for multithreading
-   */
+  /** The type of region used for multithreading */
   typedef typename UpdateBufferType::RegionType ThreadRegionType;
 
-  /**
-   * This method allocates storage in m_UpdateBuffer.  It is called from
-   * Superclass::GenerateData().
-   */
+  /** This method allocates storage in m_UpdateBuffer.  It is called from
+   * Superclass::GenerateData(). */
   virtual void AllocateUpdateBuffer();
   
-  /**
-   * This method applies changes from the m_UpdateBuffer to the output using
+  /** This method applies changes from the m_UpdateBuffer to the output using
    * the ThreadedAPplyUpdate() method and a multithreading mechanism.  "dt" is
-   * the time step to use for the update of each pixel.
-   */
+   * the time step to use for the update of each pixel. */
   virtual void ApplyUpdate(TimeStepType dt);
 
-  /**
-   * This callback method uses ImageSource::SplitRequestedRegion to acquire an
-   * output region that it passes to ThreadedApplyUpdate for processing.
-   */
+  /** This callback method uses ImageSource::SplitRequestedRegion to acquire an
+   * output region that it passes to ThreadedApplyUpdate for processing. */
   static ITK_THREAD_RETURN_TYPE ApplyUpdateThreaderCallback( void *arg );
   
-  /**
-   * This method populates an update buffer with changes for each pixel in the
+  /** This method populates an update buffer with changes for each pixel in the
    * output using the ThreadedCalculateChange() method and a multithreading
-   * mechanism. Returns value is a time step to be used for the update.
-   */
+   * mechanism. Returns value is a time step to be used for the update. */
   virtual TimeStepType CalculateChange();
 
-  /**
-   * This callback method uses SplitUpdateContainer to acquire a region
-   * which it then passes to ThreadedCalculateChange for processing.
-   */
+  /** This callback method uses SplitUpdateContainer to acquire a region
+   * which it then passes to ThreadedCalculateChange for processing. */
   static ITK_THREAD_RETURN_TYPE CalculateChangeThreaderCallback( void *arg );
   
-  /**
-   * Split the UpdateBuffer into "num" pieces, returning region "i" as
+  /** Split the UpdateBuffer into "num" pieces, returning region "i" as
    * "splitRegion". This method is called "num" times to return non-overlapping
    * regions. The method returns the number of pieces that the UpdateBuffer
    * can be split into by the routine. i.e. return value is less than or equal
    * to "num".
-   * \sa ImageSource
-   */
+   * \sa ImageSource */
   //  virtual
   //  int SplitUpdateContainer(int i, int num, ThreadRegionType& splitRegion);
 
-  /**
-   *  Does the actual work of updating the output from the UpdateContainer over
+  /**  Does the actual work of updating the output from the UpdateContainer over
    *  an output region supplied by the multithreading mechanism.
    *  \sa ApplyUpdate
-   *  \sa ApplyUpdateThreaderCallback
-   */ 
+   *  \sa ApplyUpdateThreaderCallback */ 
   virtual
   void ThreadedApplyUpdate(TimeStepType dt,
                            const ThreadRegionType &regionToProcess,
                            int threadId);
   // FOR ALL: iterator(output, splitRegion), iterator(update, splitRegion)
 
-  /**
-   * Does the actual work of calculating change over a region supplied by
+  /** Does the actual work of calculating change over a region supplied by
    * the multithreading mechanism.
    * \sa CalculateChange
-   * \sa CalculateChangeThreaderCallback
-   */
+   * \sa CalculateChangeThreaderCallback */
   virtual
   TimeStepType ThreadedCalculateChange(const ThreadRegionType &regionToProcess,
                                        int threadId);
   // FOR ALL : iterator(input, splitRegion), iterator(update, splitRegion)
 
-  /**
-   * The buffer that holds the updates for an iteration of the algorithm.
-   */
+  /** The buffer that holds the updates for an iteration of the algorithm. */
   typename UpdateBufferType::Pointer m_UpdateBuffer;
 };
   

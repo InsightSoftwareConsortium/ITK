@@ -85,7 +85,7 @@ class ITK_EXPORT LogImageFilter :
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard class typedefs.
    */
   typedef LogImageFilter  Self;
 

@@ -47,8 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <vector>
 
 namespace itk {
-/**
- * \class NeighborhoodOperator
+/** \class NeighborhoodOperator
  * \brief Virtual class that defines a common interface to all
  *        neighborhood operator subtypes.
  *
@@ -83,7 +82,6 @@ namespace itk {
  * successive neighborhoods across a region of interest in an image.
  *
  * \ingroup Operators
- *
  */
 template< class TPixel, unsigned int VDimension,
   class TAllocator = NeighborhoodAllocator<TPixel> >
@@ -91,148 +89,99 @@ class ITK_EXPORT NeighborhoodOperator
   : public Neighborhood<TPixel, VDimension, TAllocator>
 {
 public:
-  /**
-   *  Standard "Self" typedef.
-   */ 
+  /**  Standard class typedefs. */ 
   typedef NeighborhoodOperator Self;
-
-  /**
-   * Standard Superclass typedef
-   */
   typedef Neighborhood<TPixel, VDimension, TAllocator> Superclass;
-
-  /**
-   * Size object typedef support
-   */
+    
+  /** Size object typedef support */
   typedef typename Superclass::SizeType SizeType;
 
-  /**
-   * External support for pixel type
-   */
+  /** External support for pixel type */
   typedef TPixel PixelType;
 
-  /**
-   * Slice iterator typedef support
-   */
+  /** Slice iterator typedef support */
   typedef SliceIterator<TPixel, Self> SliceIteratorType;
  
-  /**
-   * Constructor.
-   */
+  /** Constructor. */
   NeighborhoodOperator()
-  {  m_Direction = 0;  }
+    {  m_Direction = 0;  }
 
-  /**
-   * Copy constructor
-   */
+  /** Copy constructor */
   NeighborhoodOperator(const Self &orig)
     : Neighborhood<TPixel, VDimension, TAllocator>(orig) 
-  {   m_Direction = orig.m_Direction;   }
+    {   m_Direction = orig.m_Direction;   }
   
- /**
-   * Assignment operator.
-   */
+ /** Assignment operator. */
   Self &operator=( const Self &orig )
-  {
-    Superclass::operator=(orig);
-    m_Direction = orig.m_Direction;
-    return *this;
-  }
+    {
+      Superclass::operator=(orig);
+      m_Direction = orig.m_Direction;
+      return *this;
+    }
   
-  /**
-   * Sets the dimensional direction of a directional operator.
-   */
+  /** Sets the dimensional direction of a directional operator. */
   void SetDirection(const unsigned long &direction)
-  {  m_Direction = direction;   }
+    {  m_Direction = direction;   }
 
-  /**
-   * Returns the direction (dimension number) of a directional operator.
-   */
+  /** Returns the direction (dimension number) of a directional operator. */
   unsigned long GetDirection() const
-  {  return m_Direction;  }
+    {  return m_Direction;  }
   
-  /**
-   * Creates the operator with length only in the specified direction.
+  /** Creates the operator with length only in the specified direction.
    * The radius of the operator will be 0 except along the axis on which
    * the operator will work.
-   * \sa CreateToRadius
-   * \sa FillCenteredDirectional
-   * \sa SetDirection()
-   * \sa GetDirection()
-   */
+   * \sa CreateToRadius \sa FillCenteredDirectional \sa SetDirection() \sa GetDirection() */
   virtual void CreateDirectional();
 
-  /**
-   * Creates the operator with a specified radius.  The spatial location of
+  /** Creates the operator with a specified radius.  The spatial location of
    * the coefficients within the operator is defined by the subclass
    * implementation of the Fill method.
-   * \sa CreateDirectional
-   * \sa Fill
-   */
+   * \sa CreateDirectional \sa Fill */
   virtual void CreateToRadius(const SizeType &);
 
-  /**
-   * Creates the operator with a specified radius ("square", same length
+  /** Creates the operator with a specified radius ("square", same length
    * on each side). The spatial location of the coefficients within the
    * operator is defined by the subclass implementation of the Fill method.
-   * \sa CreateDirectional
-   * \sa Fill
-   */
+   * \sa CreateDirectional \sa Fill */
   virtual void CreateToRadius(const unsigned long);
 
-  /**
-   * Prints some debugging information.
-   */
+  /** Prints some debugging information. */
   virtual void PrintSelf(std::ostream& os, Indent i) const
-  {
-    os << i << "NeighborhoodOperator { this=" << this
-       << " Direction = " << m_Direction << " }" << std::endl;
-    Superclass::PrintSelf( os, i.GetNextIndent() );
-  }
+    {
+      os << i << "NeighborhoodOperator { this=" << this
+         << " Direction = " << m_Direction << " }" << std::endl;
+      Superclass::PrintSelf( os, i.GetNextIndent() );
+    }
 
 protected:
-  /**
-   * Typedef support  for coefficient vector type.  Necessary
-   * to fix bug in the microsoft VC++ compiler.
-   */
+  /** Typedef support  for coefficient vector type.  Necessary
+   * to fix bug in the microsoft VC++ compiler. */
   typedef std::vector<TPixel>  CoefficientVector;
 
-  /**
-   * A subclass-specific algorithm that computes the coefficients
-   * of the operator.
-   */
+  /** A subclass-specific algorithm that computes the coefficients
+   * of the operator. */
   virtual CoefficientVector GenerateCoefficients() = 0;
 
-  /**
-   * A subclass-specific algorithm that positions the coefficients
-   * spatially in the operator.
-   */
+  /** A subclass-specific algorithm that positions the coefficients
+   * spatially in the operator. */
   virtual void Fill(const CoefficientVector &) = 0;
   
-  /**
-   * A pre-defined Fill function that can be called by a subclass
+  /** A pre-defined Fill function that can be called by a subclass
    * Fill function to center coefficients along the axis specified
    * by the SetDirection method.  Useful for creating directional
    * operators, or centering coefficients in an N-dimensional
-   * neighborhood.
-   */
+   * neighborhood. */
   virtual void FillCenteredDirectional(const CoefficientVector &);
 
-  /**
-   * Initializes all the coefficients in the neighborhood to zero values
-   */
+  /** Initializes all the coefficients in the neighborhood to zero values */
   void InitializeToZero()
   {
     for (unsigned int i = 0; i< this->Size(); ++i)
-      {
-        this->operator[](i) = NumericTraits<PixelType>::Zero;
-      }
+      { this->operator[](i) = NumericTraits<PixelType>::Zero; }
   }
   
 private:
-  /**
-   * Direction (dimension number) of the derivative.
-   */
+  /** Direction (dimension number) of the derivative. */
   unsigned long  m_Direction;
 };
 

@@ -79,86 +79,56 @@ namespace itk {
  * \sa MorphologyImageFilter, BinaryFunctionErodeImageFilter, BinaryErodeImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-
 template<class TInputImage, class TOutputImage, class TKernel>
 class ITK_EXPORT BinaryErodeImageFilter : 
   public MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  /**
-   * Standard Self typedef
-   */
+  /** Standard class typedefs. */
   typedef BinaryErodeImageFilter Self;
-
-  /**
-   * Standard Superclass typedef
-   */
   typedef MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
     Superclass;
-
-  /**
-   * Standard smart pointer support
-   */ 
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  /**
-   * Runtime information support
-   */
-  itkTypeMacro(BinaryErodeImageFilter, MorphologyImageFilter);
-  
-  /**
-   * Standard New method
-   */
+  /** Standard New method. */
   itkNewMacro(Self);  
 
-  /**
-   * Declaration of Pixel Type
-   */
+  /** Runtime information support. */
+  itkTypeMacro(BinaryErodeImageFilter, MorphologyImageFilter);
+  
+  /** Declaration of pixel type. */
   typedef typename Superclass::PixelType PixelType;
 
-  /**
-   * Neighborhood iterator type
-   */
+  /** Neighborhood iterator type. */
   typedef ConstSmartNeighborhoodIterator<TInputImage> 
     SmartNeighborhoodIteratorType ;
 
-  /**
-   * Kernel typedef
-   */
+  /** Kernel typedef. */
   typedef TKernel KernelType;
   
-  /**
-   * Kernel (structuring element) iterator
-   */
+  /** Kernel (structuring element) iterator. */
   typedef typename KernelType::ConstIterator KernelIteratorType ;
   
-  /**
-   * Set the value in the image to consider as "foreground". Defaults to
-   * maximum value of PixelType.
-   */
+  /** Set the value in the image to consider as "foreground". Defaults to
+   * maximum value of PixelType. */
   itkSetMacro(ErodeValue, PixelType);
 
-  /**
-   * Get the value in the image considered as "foreground". Defaults to
-   * maximum value of PixelType.
-   */
+  /** Get the value in the image considered as "foreground". Defaults to
+   * maximum value of PixelType. */
   itkGetMacro(ErodeValue, PixelType);
-
   
 protected:
   BinaryErodeImageFilter();
   ~BinaryErodeImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * Evaluate image neighborhood with kernel to find the new value 
+  /** Evaluate image neighborhood with kernel to find the new value 
    * for the center pixel value
    *
    * It will return the ErodeValue if any of the image pixels in the
    * neighborhood have the ErodeValue and that pixel's corresponding
-   * element in the structuring element is positive and
-   */
+   * element in the structuring element is positive and */
   PixelType Evaluate(const SmartNeighborhoodIteratorType &nit,
                      const KernelType &kernel);
 

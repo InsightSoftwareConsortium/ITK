@@ -60,65 +60,40 @@ namespace itk
 class ITK_EXPORT FileOutputWindow : public OutputWindow
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef FileOutputWindow        Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef OutputWindow  Superclass;
-
-  /** 
-   * Smart pointer typedef support. 
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(FileOutputWindow, OutputWindow);
-
-  /**
-   * Method for creation through the object factory.
-   */
+  
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * Send a string to display.
-   */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(FileOutputWindow, OutputWindow);
+
+  /** Send a string to display. */
   virtual void DisplayText(const char*);
 
-  /**
-   * Set the filename for the log file
-   */
+  /** Set the filename for the log file */
   itkSetStringMacro(FileName);
   
-  /**
-   * Get the filename for the log file
-   */
+  /** Get the filename for the log file */
   itkGetStringMacro(FileName);
   
-  /**
-   * Set/Get the buffer flushing mode
-   */
+  /** Set/Get the buffer flushing mode */
   itkSetMacro(Flush,bool);
   itkGetMacro(Flush,bool);
   itkBooleanMacro(Flush);
-
-  /**
-   * Setting append will cause the log file to be 
+  
+  /** Setting append will cause the log file to be 
    * opened in append mode.  Otherwise, if the log file exists,
    * it will be overwritten each time the FileOutputWindow 
-   * is created.
-   */
+   * is created. */
   itkSetMacro(Append, bool);
   itkGetMacro(Append, bool);
   itkBooleanMacro(Append);
   
-
 protected:
   FileOutputWindow();
   virtual ~FileOutputWindow();

@@ -47,7 +47,7 @@ namespace itk
 
 /**
  * \class CentralDifferenceImageFunction
- * \brief Calculate the derivative by central differencing
+ * \brief Calculate the derivative by central differencing.
  *
  * This class is templated over the input image type.
  *
@@ -61,80 +61,49 @@ class ITK_EXPORT CentralDifferenceImageFunction :
   public ImageFunction< TInputImage, double >
 {
 public:
-  /**
-   * Standard "Self" typedef
-   */
+  /** Standard class typedefs. */
   typedef CentralDifferenceImageFunction Self;
-
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef ImageFunction<TInputImage, double > Superclass;
-
-  /**
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /** 
-   * Run-time type information (and related methods).
-   */
+  
+  /** Run-time type information (and related methods). */
   itkTypeMacro(CentralDifferenceImageFunction, ImageFunction);
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /**
-   * InputImageType typedef support.
-   */
+  /** InputImageType typedef support. */
   typedef TInputImage InputImageType;
 
-  /**
-   * OutputType typdef support.
-   */
+  /** OutputType typdef support. */
   typedef typename Superclass::OutputType OutputType;
 
-  /**
-   * Index typedef support.
-   */
+  /** Index typedef support. */
   typedef typename Superclass::IndexType IndexType;
   
-  /**
-   * ContinuousIndex typedef support.
-   */
+  /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
-  /**
-   * Point typedef support.
-   */
+  /** Point typedef support. */
   typedef typename Superclass::PointType PointType;
 
-  /**
-   * Dimension of the underlying image.
-   */
+  /** Dimension of the underlying image. */
   enum { ImageDimension = InputImageType::ImageDimension };
 
-  /**
-   * Evalulate the function at specified index
-   */
+  /** Evalulate the function at specified index */
   virtual double EvaluateAtIndex( const IndexType& index ) const
     { return ( this->EvaluateAtIndex( index, 0 ) ); }
   virtual double EvaluateAtIndex( const IndexType& index, 
     unsigned int dim ) const;
-
-  /**
-   * Evaluate the function at non-integer positions
-   */
+  
+  /** Evaluate the function at non-integer positions */
   virtual double Evaluate( const PointType& point ) const
     { 
       IndexType index;
       this->ConvertPointToNearestIndex( point, index );
       return this->EvaluateAtIndex( index, 0 ); 
     }
-
   virtual double EvaluateAtContinuousIndex( 
     const ContinuousIndexType& cindex ) const
     { 
@@ -142,7 +111,7 @@ public:
       this->ConvertContinuousIndexToNearestIndex( cindex, index );
       return this->EvaluateAtIndex( index, 0 ) ; 
     }
-
+  
 protected:
   CentralDifferenceImageFunction();
   ~CentralDifferenceImageFunction(){};

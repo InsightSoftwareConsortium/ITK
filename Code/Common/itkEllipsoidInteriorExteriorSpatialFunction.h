@@ -62,70 +62,40 @@ template <class T, unsigned int VImageDimension=3>
 class ITK_EXPORT EllipsoidInteriorExteriorSpatialFunction : public InteriorExteriorSpatialFunction<VImageDimension>
 {
 public:
-
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs. */
   typedef EllipsoidInteriorExteriorSpatialFunction Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef InteriorExteriorSpatialFunction<VImageDimension> Superclass;
-   
-    
-  /**
-   * Input type for the function
-   */
-  typedef typename Superclass::InputType InputType;
-
-  /**
-   * Output type for the function
-   */
-  typedef typename Superclass::OutputType OutputType;
-   
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer; 
-  
-  /** 
-   * Run-time type information (and related methods).
-   */
+      
+  /** Run-time type information (and related methods). */
   itkTypeMacro(EllipsoidInteriorExteriorSpatialFunction,InteriorExteriorSpatialFunction);
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /**
-   * Vector typedef.
-   */
+  /** Input type for the function */
+  typedef typename Superclass::InputType InputType;
+
+  /** Output type for the function */
+  typedef typename Superclass::OutputType OutputType;
+   
+  /** Vector typedef. */
   typedef T VectorType;
 
-  /**
-   * Get and set the center of the ellipsoid.
-   */
+  /** Set/Get and set the center of the ellipsoid. */
   itkGetMacro(Center, InputType);
   itkSetMacro(Center, InputType);
-
-  /**
-   * Get and set the axes lengths of the ellipsoid.
-   */
+  
+  /** Get and set the axes lengths of the ellipsoid. */
   itkGetMacro(Axes, InputType);
   itkSetMacro(Axes, InputType);
-
-  /**
-   * Set the orientation vectors (must be orthogonal) of the ellipsoid axes.
-   * Must be normalized!!!!!
-   */
+  
+  /** Set the orientation vectors (must be orthogonal) of the ellipsoid axes.
+   * Must be normalized!!!!! */
   void SetOrientations(vnl_matrix<VectorType>);
 
-  /**
-   * Evaluates the function at a given position.
-   */
+  /** Evaluates the function at a given position. */
   OutputType Evaluate(const InputType& position) const;
      
 protected:
@@ -136,19 +106,13 @@ private:
   EllipsoidInteriorExteriorSpatialFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /**
-   * The center of the ellipsoid.
-   */
+  /** The center of the ellipsoid. */
   InputType m_Center;
 
-  /**
-   * The axes lenths of the ellipsoid.
-   */
+  /** The axes lenths of the ellipsoid. */
   InputType m_Axes;
 
-  /**
-   * The orientation vectors (must be orthogonal) of the ellipsoid axes.
-   */  
+  /** The orientation vectors (must be orthogonal) of the ellipsoid axes. */  
   VectorType ** m_orientations;
 };
 
