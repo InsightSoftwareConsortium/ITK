@@ -1021,7 +1021,7 @@ GenerateVDFortune(void)
 
   f_deltay = f_pymax - f_pymin;
   f_deltax = f_pxmax - f_pxmin;
-  f_sqrtNSites = sqrt(m_NumberOfSeeds + 4);
+  f_sqrtNSites = sqrt((float) (m_NumberOfSeeds + 4));
 
 /* Initialize outputLists */
   f_nedges = 0;
