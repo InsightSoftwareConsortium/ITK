@@ -79,7 +79,8 @@ public:
 
 
     /// Dimension of the space
-    enum { SpaceDimension = 3 };
+    enum { InputSpaceDimension = 3,
+           OutputSpaceDimension = 3 };
 
 
     /**
@@ -93,19 +94,19 @@ public:
     /**
      * Scalar Type
      */
-    typedef Superclass::ScalarType  ScalarType;
+    typedef typename Superclass::ScalarType  ScalarType;
 
 
     /**
      * Parameters Type
      */
-    typedef Superclass::ParametersType  ParametersType;
+    typedef typename Superclass::ParametersType  ParametersType;
 
 
     /**
      * Jacobian Type
      */
-    typedef Superclass::JacobianType  JacobianType;
+    typedef typename Superclass::JacobianType  JacobianType;
 
 
     /** 
@@ -128,26 +129,26 @@ public:
 
 
     /// Standard matrix type for this class
-    typedef Matrix<ScalarType, SpaceDimension, SpaceDimension> MatrixType;
+    typedef Matrix<ScalarType, InputSpaceDimension, InputSpaceDimension> MatrixType;
 
     /// Standard vector type for this class
-    typedef Vector<TScalarType, SpaceDimension> OffsetType;
+    typedef Vector<TScalarType, InputSpaceDimension> OffsetType;
 
     /// Standard vector type for this class
-    typedef Vector<TScalarType, SpaceDimension> InputVectorType;
-    typedef Vector<TScalarType, SpaceDimension> OutputVectorType;
+    typedef Vector<TScalarType, InputSpaceDimension> InputVectorType;
+    typedef Vector<TScalarType, OutputSpaceDimension> OutputVectorType;
 
     /// Standard covariant vector type for this class
-    typedef CovariantVector<TScalarType, SpaceDimension> InputCovariantVectorType;
-    typedef CovariantVector<TScalarType, SpaceDimension> OutputCovariantVectorType;
+    typedef CovariantVector<TScalarType, InputSpaceDimension> InputCovariantVectorType;
+    typedef CovariantVector<TScalarType, OutputSpaceDimension> OutputCovariantVectorType;
 
     /// Standard vnl_vector type for this class
-    typedef vnl_vector_fixed<TScalarType, SpaceDimension> InputVnlVectorType;
-    typedef vnl_vector_fixed<TScalarType, SpaceDimension> OutputVnlVectorType;
+    typedef vnl_vector_fixed<TScalarType, InputSpaceDimension> InputVnlVectorType;
+    typedef vnl_vector_fixed<TScalarType, OutputSpaceDimension> OutputVnlVectorType;
 
     /// Standard coordinate point type for this class
-    typedef Point<TScalarType, SpaceDimension>    InputPointType;
-    typedef Point<TScalarType, SpaceDimension>    OutputPointType;
+    typedef Point<TScalarType, InputSpaceDimension>    InputPointType;
+    typedef Point<TScalarType, OutputSpaceDimension>    OutputPointType;
 
 
     /// Standard vnl_quaternion type
