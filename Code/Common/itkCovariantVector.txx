@@ -219,14 +219,14 @@ CovariantVector<T, NVectorDimension>
  * Returns vector's Squared Euclidean Norm
  */
 template<class T, unsigned int NVectorDimension>
-T
+typename CovariantVector<T, NVectorDimension>::RealValueType
 CovariantVector<T, NVectorDimension>
 ::GetSquaredNorm( void ) const
 {
-  typename NumericTraits<T>::AccumulateType sum = NumericTraits<T>::Zero;
+  RealValueType sum = NumericTraits<RealValueType>::Zero;
   for( unsigned int i=0; i<NVectorDimension; i++) 
     {
-    const T value = (*this)[i];
+    const RealValueType value = (*this)[i];
     sum += value * value;
     }
   return sum;
@@ -238,11 +238,11 @@ CovariantVector<T, NVectorDimension>
  * Returns vector's Euclidean Norm
  */
 template<class T, unsigned int NVectorDimension>
-T
+typename CovariantVector<T, NVectorDimension>::RealValueType
 CovariantVector<T, NVectorDimension>
 ::GetNorm( void ) const
 {
-  return sqrt( GetSquaredNorm() ); 
+  return sqrt( this->GetSquaredNorm() ); 
 }
 
 
@@ -262,6 +262,23 @@ CovariantVector<T, NVectorDimension>
     }
   return result;
 }
+
+
+/**
+ * Divide vector's components by vector's norm
+ */
+template<class T, unsigned int NVectorDimension>
+void
+CovariantVector<T, NVectorDimension>
+::Normalize( void ) 
+{
+  const RealValueType norm = this->GetNorm();
+  for( unsigned int i=0; i<NVectorDimension; i++) 
+    {
+    (*this)[i] /= norm;
+    }
+}
+
 
 
 /**

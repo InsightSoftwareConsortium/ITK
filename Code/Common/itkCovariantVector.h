@@ -71,6 +71,7 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an CovariantVector.   */
   typedef T ValueType;
+  typedef typename NumericTraits< ValueType >::RealType   RealValueType;
 
   /** Dimension of the Space */
   itkStaticConstMacro(Dimension, unsigned int, NVectorDimension);
@@ -144,10 +145,13 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
   Self operator/(const ValueType& val) const;
 
   /** Returns the Euclidean Norm of the vector  */
-  ValueType GetNorm( void ) const;
+  RealValueType GetNorm( void ) const;
+
+  /** Divides the covariant vector componets by the norm */
+  void Normalize(void);
 
   /** Returns vector's Squared Euclidean Norm  */
-  ValueType GetSquaredNorm( void ) const;
+  RealValueType GetSquaredNorm( void ) const;
 
   /** Print content */
   void PrintSelf(std::ostream& os, Indent indent) const;
