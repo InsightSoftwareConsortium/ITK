@@ -314,9 +314,16 @@ MetaImageIO
   m_MetaImage.Position(eOrigin);
   m_MetaImage.BinaryData(binaryData);
 
-  std::string dataName;
-  dataName = m_FileName + ".raw";
-  m_MetaImage.Write(m_FileName.c_str(), dataName.c_str());
+  if(strlen(m_MetaImage.ElementDataFileName())==0)
+    {
+    std::string dataName;
+    dataName = m_FileName + ".raw";
+    m_MetaImage.Write(m_FileName.c_str(), dataName.c_str());
+    }
+  else
+    {
+    m_MetaImage.Write(m_FileName.c_str());
+    }
 
   delete dSize;
   delete eSpacing;
