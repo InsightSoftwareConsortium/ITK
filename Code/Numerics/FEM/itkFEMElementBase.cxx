@@ -197,7 +197,7 @@ Element::Jacobian( const VectorType& pt, MatrixType& J, const MatrixType* pshape
 
   for( unsigned int n=0; n<Nn; n++ )
   {
-    VectorType p=this->GetNodeCoordinates(n);
+    VectorType p=this->GetNodalCoordinates(n);
     coords.set_row(n,p);
   }
 
@@ -305,7 +305,7 @@ Element::GetGlobalFromLocalCoordinates( const VectorType& pt ) const
 
   for(unsigned int n=this->GetNumberOfNodes(); n!=-1; n--)
   {
-    nc.set_column( n,this->GetNodeCoordinates(n) );
+    nc.set_column( n,this->GetNodalCoordinates(n) );
   }
   
   VectorType shapeF = ShapeFunctions(pt);

@@ -82,7 +82,7 @@ public:
 
   virtual void ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const;
 
-  virtual VectorType GetNodeCoordinates( unsigned int n ) const;
+  virtual VectorType GetNodalCoordinates( unsigned int n ) const;
 
   /**
    * Draw the element on the specified device context

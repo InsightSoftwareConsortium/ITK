@@ -349,7 +349,7 @@ public:
    *
    * \param n Local number of node. Must be 0 <= n < this->GetNumberOfNodes().
    */
-  virtual VectorType GetNodeCoordinates( unsigned int n ) const { return VectorType(); } // = 0;
+  virtual VectorType GetNodalCoordinates( unsigned int n ) const { return VectorType(); } // = 0;
 
   /**
    * Transforms the given local element coordinates into global.

@@ -91,7 +91,7 @@ Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
 template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>::VectorType
 Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
-::GetNodeCoordinates( unsigned int n ) const
+::GetNodalCoordinates( unsigned int n ) const
 {
   vnl_vector<Float> p(2);
   p[0]=m_point[n]->X;
