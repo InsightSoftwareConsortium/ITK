@@ -30,7 +30,7 @@
 #include "itkDefaultDynamicMeshTraits.h"
 #include "itkTimeProbe.h"
 
-int itkTriangleMeshToSimplexMeshFilterTest(int argc, char ** argv)
+int itkTriangleMeshToSimplexMeshFilterTest(int argc, char * argv[] )
 {  
   // Declare the type of the input and output mesh
   typedef itk::DefaultDynamicMeshTraits<double, 3, 3> TriangleMeshTraits;
