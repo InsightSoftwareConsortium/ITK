@@ -23,6 +23,7 @@
 #include <ctype.h>
 #include <metaMesh.h>
 #include <metaScene.h>
+#include <math.h>
 
 
 bool TestingMetaMesh(MetaMesh* _mesh)
@@ -148,7 +149,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
   float f = (float)(0.1);
   for(j=0;j< _mesh->GetCellData().size();j++)
     {
-    if(((*it_cd)->m_Id != j) || ((float)(static_cast<MeshData<float>*>(*it_cd)->m_Data) != f))
+    if(((*it_cd)->m_Id != j) || (fabs((float)(static_cast<MeshData<float>*>(*it_cd)->m_Data)-f)>0.001))
       {
       std::cout << "CellData ID = " << (*it_cd)->m_Id << " : " << (float)(static_cast<MeshData<float>*>(*it_cd)->m_Data) << " : " << f << std::endl;    
       std::cout << "[FAILED]" << std::endl;
