@@ -83,8 +83,10 @@ ImageBoundaryFacesCalculator<TImage>
       // radius away from the boundary of buffer, then 1 region
       // (no boundary conditions).
       //
-      if ((rStart[i] >= bStart[i] + radius[i])
-          && (rStart[i] + rSize[i] <= bStart[i] + bSize[i] - radius[i]))
+      if ((rStart[i] >= bStart[i] + static_cast<IndexValueType>(radius[i]))
+          && (rStart[i] + static_cast<IndexValueType>(rSize[i])
+              <= bStart[i] + static_cast<IndexValueType>(bSize[i])
+              - static_cast<IndexValueType>(radius[i])))
         {
         fStarts[i].push_back( rStart[i] );
         fSizes[i].push_back( rSize[i] );
@@ -96,8 +98,11 @@ ImageBoundaryFacesCalculator<TImage>
       // region to process is more than radius away from the boundary
       // of the buffer, then 2 regions.
       //
-      else if ((rStart[i] < bStart[i] + radius[i])
-               && (rStart[i] + rSize[i] <= bStart[i] + bSize[i] - radius[i]))
+      else if ((rStart[i] < bStart[i] + static_cast<IndexValueType>(radius[i]))
+               && (rStart[i] + static_cast<IndexValueType>(rSize[i])
+                   <= bStart[i] +
+                   static_cast<IndexValueType>(bSize[i])
+                   - static_cast<IndexValueType>(radius[i])))
         {
         fStarts[i].push_back( rStart[i] );
         fSizes[i].push_back( radius[i] - (bStart[i] - rStart[i]) );
@@ -113,8 +118,10 @@ ImageBoundaryFacesCalculator<TImage>
       // region to process is less than radius away from the boundary
       // of buffer, then 2 regions.
       //
-      else if ((rStart[i] >= bStart[i] + radius[i])
-               && (rStart[i] + rSize[i] > bStart[i] + bSize[i] - radius[i]))
+      else if ((rStart[i] >= bStart[i] + static_cast<IndexValueType>(radius[i]))
+               && (rStart[i] + static_cast<IndexValueType>(rSize[i])
+                   > bStart[i] + static_cast<IndexValueType>(bSize[i])
+                   - static_cast<IndexValueType>(radius[i])))
         {
         fStarts[i].push_back( rStart[i] );
         fSizes[i].push_back( bStart[i] + bSize[i] - rStart[i] - radius[i] );
