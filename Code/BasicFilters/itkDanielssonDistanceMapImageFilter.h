@@ -131,13 +131,13 @@ public:
   itkBooleanMacro( InputIsBinary );
 
   /** Set if image spacing should be used in computing distances. */
-  itkSetMacro( UseSpacing, bool );
+  itkSetMacro( UseImageSpacing, bool );
 
   /** Get whether spacing is used. */
-  itkGetConstReferenceMacro( UseSpacing, bool );
+  itkGetConstReferenceMacro( UseImageSpacing, bool );
 
   /** Set On/Off whether spacing is used. */
-  itkBooleanMacro( UseSpacing );
+  itkBooleanMacro( UseImageSpacing );
 
   /** Get Voronoi Map
    * This map shows for each pixel what object is closest to it. 
@@ -184,7 +184,7 @@ private:
 
   bool                  m_SquaredDistance;
   bool                  m_InputIsBinary;
-  bool                  m_UseSpacing;
+  bool                  m_UseImageSpacing;
 
 }; // end of DanielssonDistanceMapImageFilter class
 

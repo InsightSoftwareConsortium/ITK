@@ -49,7 +49,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
   m_SquaredDistance     = false;
   m_InputIsBinary       = false;
-  m_UseSpacing = false;
+  m_UseImageSpacing     = false;
 }
 
 
@@ -280,7 +280,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
     OffsetType distanceVector = ct.Get();
     double distance = 0.0;
-    if (m_UseSpacing)
+    if (m_UseImageSpacing)
       {
       for(unsigned int i=0; i<InputImageDimension; i++)
         {
@@ -327,7 +327,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage>
     double v1 = static_cast< double >(  offsetValueHere[ i]  );
     double v2 = static_cast< double >(  offsetValueThere[i] );
     
-    if (m_UseSpacing)
+    if (m_UseImageSpacing)
       {
       double spacingComponent = static_cast< double >(spacing[i]);
       v1 *= spacingComponent;
@@ -442,6 +442,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   
   os << indent << "Danielson Distance: " << std::endl;
   os << indent << "Input Is Binary   : " << m_InputIsBinary << std::endl;
+  os << indent << "Use Image Spacing : " << m_UseImageSpacing << std::endl;
   os << indent << "Squared Distance  : " << m_SquaredDistance << std::endl;
 
 }
