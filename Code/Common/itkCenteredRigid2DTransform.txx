@@ -26,12 +26,11 @@ namespace itk
 // Constructor with default arguments
 template <class TScalarType>
 CenteredRigid2DTransform<TScalarType>
-::CenteredRigid2DTransform()
+::CenteredRigid2DTransform():Superclass(OutputSpaceDimension, ParametersDimension)
 {
   m_Angle = NumericTraits< TScalarType >::Zero;
   m_Center.Fill( 0.0 );
   m_Translation.Fill( 0.0 );
-  m_Parameters = ParametersType( ParametersDimension );
 }
 
 
