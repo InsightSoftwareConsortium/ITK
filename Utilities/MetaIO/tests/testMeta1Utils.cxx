@@ -138,7 +138,7 @@ int main(int argc, char **argv)
   mF->terminateRead = true;
   mFields.push_back(mF);
 
-  MET_Write(fout, mFields);
+  MET_Write(fout, &mFields);
 
   MET_WriteFieldToFile(fout, "Beyond", MET_STRING, 4, "True");
   MET_WriteFieldToFile(fout, "Extra", MET_USHORT, 1);
@@ -174,7 +174,7 @@ int main(int argc, char **argv)
   mFields.push_back(mF);
 
   std::cout << "MET_Read: ";
-  if(!MET_Read(fin, mFields))
+  if(!MET_Read(fin, &mFields))
     std::cout << "FAILED" << std::endl;
   else
     std::cout << "PASSED" << std::endl;
