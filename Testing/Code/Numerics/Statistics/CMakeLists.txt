@@ -58,7 +58,7 @@ ADD_TEST(itkSelectiveSubsampleGeneratorTest ${STATISTICS_TESTS}
 ADD_TEST(itkSubsampleTest ${STATISTICS_TESTS} itkSubsampleTest)
 ADD_TEST(itkWeightedMeanCalculatorTest ${STATISTICS_TESTS} itkWeightedMeanCalculatorTest)
 ADD_TEST(itkWeightedCovarianceCalculatorTest ${STATISTICS_TESTS} 
-					     itkWeightedCovarianceCalculatorTest)
+         itkWeightedCovarianceCalculatorTest)
 
 
 SET(Statistics_SRCS
