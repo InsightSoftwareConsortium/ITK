@@ -18,7 +18,7 @@
 template <class S, class T>
 void vnl_copy(S const *src, T *dst, unsigned n)
 {
-  for (int i=0; i<n; ++i)
+  for (unsigned i=0; i<n; ++i)
     dst[i] = src[i];
 }
 
@@ -44,7 +44,7 @@ VNL_COPY_INSTANTIATE0(long double, double);
 VCL_DEFINE_SPECIALIZATION \
 void vnl_copy(vcl_complex<S> const *src, vcl_complex<D> *dst, unsigned n) \
 { \
-  for (int i=0; i<n; ++i) \
+  for (unsigned i=0; i<n; ++i) \
     dst[i] = vcl_complex<D>(src[i].real(), src[i].imag()); \
 }
 macro(float, double);
