@@ -190,7 +190,7 @@ static Processor prologInitProcessor;
 static Processor contentProcessor;
 static Processor cdataSectionProcessor;
 static Processor epilogProcessor;
-//static Processor errorProcessor;
+/* static Processor errorProcessor; */
 static Processor externalEntityInitProcessor;
 static Processor externalEntityInitProcessor2;
 static Processor externalEntityInitProcessor3;
