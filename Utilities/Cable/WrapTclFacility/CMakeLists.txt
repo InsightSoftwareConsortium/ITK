@@ -1,4 +1,4 @@
-ADD_LIBRARY(WrapTclFacility
+SOURCE_FILES(WrapTclFacility_SRCS
 wrapCalls
 wrapConversionTable
 wrapInit
@@ -10,6 +10,8 @@ wrapUtils
 wrapWrapperBase
 wrapWrapperTable
 )
+
+ADD_LIBRARY(WrapTclFacility WrapTclFacility_SRCS)
 
 LINK_LIBRARIES(
 CxxTypes
