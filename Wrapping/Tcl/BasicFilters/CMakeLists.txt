@@ -12,7 +12,11 @@ ITK_WRAP_TCL(ITKBasicFiltersTcl
   wrap_itkConfidenceConnectedImageFilter.cxx
   wrap_itkConnectedThresholdImageFilter.cxx
   wrap_itkCurvatureAnisotropicDiffusionImageFilter.cxx
+  wrap_itkExpImageFilter.cxx
+  wrap_itkExpNegativeImageFilter.cxx
   wrap_itkGradientAnisotropicDiffusionImageFilter.cxx
+  wrap_itkGradientRecursiveGaussianImageFilter.cxx
+  wrap_itkGradientMagnitudeRecursiveGaussianImageFilter.cxx
   wrap_itkLaplacianImageFilter.cxx
   wrap_itkMinimumMaximumImageCalculator.cxx
   wrap_itkNaryAddImageFilter.cxx
