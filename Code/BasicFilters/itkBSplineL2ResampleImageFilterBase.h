@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBSplineCenteredL2ResampleImageFilterBase.h
+  Module:    itkBSplineL2ResampleImageFilterBase.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -18,20 +18,18 @@
 
 =========================================================================*/
 
-#ifndef __itkBSplineCenteredL2ResampleImageFilterBase_h
-#define __itkBSplineCenteredL2ResampleImageFilterBase_h
+#ifndef __itkBSplineL2ResampleImageFilterBase_h
+#define __itkBSplineL2ResampleImageFilterBase_h
 
 #include <vector>
-#include "itkBSplineCenteredResampleImageFilterBase.h"
-
 
 namespace itk
 {
-/** \class itkBSplineCenteredL2ResampleImageFilterBase
- * \brief Uses the "Centered L2" B-Spline pyramid implementation of B-Spline Filters
- *        to up/down sample an image by a factor of 2. 
+/** \class BSplineL2ResampleImageFilterBase
+ * \brief Uses the "Centered l2" B-Spline pyramid implementation of B-Spline Filters
+ *        to up/down sample an image by a factor of 2.
  *
- * This class defines N-Dimension Centered L2 B-Spline transformation.
+ * This class defines N-Dimension B-Spline transformation.
  * It is based on: 
  *    [1] M. Unser,
  *       "Splines: A Perfect Fit for Signal and Image Processing,"
@@ -50,7 +48,7 @@ namespace itk
  *        September 1999.
  * And code obtained from bigwww.epfl.ch by Philippe Thevenaz
  * 
- * Limitations:  Spline order for the centered L2 pyramid must be between 0 and 4.
+ * Limitations:  Spline order for the centered l2 pyramid must be 0,1,3, or 5.
  *               This code cannot be multi-threaded since the entire image must be
  *                      traversed in the proper order.
  *               This code cannot be streamed and requires the all of the input image.
@@ -66,38 +64,38 @@ namespace itk
  * \sa itkBSplineUpsampleImageFilter
  * \sa itkBSplineResampleImageFilterBase
  * \sa itkBSplineCenteredResampleImageFilterBase
- * \sa itkBSplineL2ResampleImageFilterBase
+ * \sa itkBSplineCenteredL2ResampleImageFilterBase
  *
  * \ingroup GeometricTransformationFilters
  * \ingroup SingleThreaded
  * \ingroup CannotBeStreamed 
  */
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT BSplineCenteredL2ResampleImageFilterBase : 
-  public BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>  
+class ITK_EXPORT BSplineL2ResampleImageFilterBase : 
+  public BSplineResampleImageFilterBase<TInputImage,TOutputImage>  
 {
 public:
   /** Standard class typedefs. */
-  typedef BSplineCenteredL2ResampleImageFilterBase       Self;
-  typedef BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>  Superclass;
+  typedef BSplineL2ResampleImageFilterBase       Self;
+  typedef BSplineResampleImageFilterBase<TInputImage, TOutputImage>  Superclass;
   typedef SmartPointer<Self>                    Pointer;
   typedef SmartPointer<const Self>              ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BSplineCenteredL2ResampleImageFilterBase, BSplineCenteredResampleImageFilterBase);
+  itkTypeMacro(BSplineL2ResampleImageFilterBase, BSplineResampleImageFilterBase);
 
-
+ 
 protected:
 
   virtual void InitializePyramidSplineFilter(int SplineOrder);
 
-  BSplineCenteredL2ResampleImageFilterBase();
-  virtual ~BSplineCenteredL2ResampleImageFilterBase() {};
+  BSplineL2ResampleImageFilterBase();
+  virtual ~BSplineL2ResampleImageFilterBase() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
     
 
 private:
-  BSplineCenteredL2ResampleImageFilterBase( const Self& ); //purposely not implemented
+  BSplineL2ResampleImageFilterBase( const Self& ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
   
 };
@@ -105,8 +103,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBSplineCenteredL2ResampleImageFilterBase.txx"
+#include "itkBSplineL2ResampleImageFilterBase.txx"
 #endif
 
 #endif
-
