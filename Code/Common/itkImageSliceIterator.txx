@@ -63,7 +63,7 @@ ImageSliceIterator<TPixel, VImageDimension>
     }
     
     m_PositionIndex[ n  ]++;
-    if( m_PositionIndex[n] < m_Size[n] )
+    if( m_PositionIndex[n] < m_EndIndex[n] )
     {
       m_Position += m_OffsetTable[ n ];
       m_Remaining = true;
@@ -90,7 +90,7 @@ bool
 ImageSliceIterator<TPixel, VImageDimension>
 ::IsAtEndOfLine(void) 
 {
-  return m_PositionIndex[m_Direction_A] >= m_Size[m_Direction_A];
+  return m_PositionIndex[m_Direction_A] >= m_EndIndex[m_Direction_A];
 }
 
 
@@ -104,7 +104,7 @@ bool
 ImageSliceIterator<TPixel, VImageDimension>
 ::IsAtEndOfSlice(void) 
 {
-  return m_PositionIndex[m_Direction_B] >= m_Size[m_Direction_B];
+  return m_PositionIndex[m_Direction_B] >= m_EndIndex[m_Direction_B];
 }
 
 
