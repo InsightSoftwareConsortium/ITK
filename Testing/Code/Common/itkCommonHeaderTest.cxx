@@ -164,6 +164,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSpatialFunction.h"
 #include "itkSphereSpatialFunction.h"
 #include "itkSqrtImageAdaptor.h"
+#include "itkSymmetricEllipsoidInteriorExteriorSpatialFunction.h"
 #include "itkTanImageAdaptor.h"
 #include "itkTetrahedronCell.h"
 #include "itkThinPlateSplineKernelTransform.h"
