@@ -23,6 +23,7 @@ ADD_TEST(itkArrayTest ${COMMON_TESTS} itkArrayTest)
 ADD_TEST(itkArray2DTest ${COMMON_TESTS} itkArray2DTest)
 ADD_TEST(itkAutoPointerTest ${COMMON_TESTS} itkAutoPointerTest)
 ADD_TEST(itkAzimuthElevationToCartesianTransformTest ${COMMON_TESTS} itkAzimuthElevationToCartesianTransformTest)
+ADD_TEST(itkBarrierTest ${COMMON_TESTS} itkBarrierTest)
 ADD_TEST(itkBinaryThresholdImageFunctionTest ${COMMON_TESTS} itkBinaryThresholdImageFunctionTest)
 ADD_TEST(itkBoundingBoxTest ${COMMON_TESTS} itkBoundingBoxTest)
 ADD_TEST(itkBSplineDeformableTransformTest ${COMMON_TESTS} itkBSplineDeformableTransformTest)
@@ -173,6 +174,7 @@ itkArrayTest.cxx
 itkArray2DTest.cxx
 itkAutoPointerTest.cxx
 itkAzimuthElevationToCartesianTransformTest.cxx
+itkBarrierTest.cxx
 itkBinaryThresholdImageFunctionTest.cxx
 itkBoundingBoxTest.cxx
 itkBSplineDeformableTransformTest.cxx

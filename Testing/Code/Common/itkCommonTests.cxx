@@ -17,6 +17,7 @@ REGISTER_TEST(itkArrayTest );
 REGISTER_TEST(itkArray2DTest );
 REGISTER_TEST(itkAutoPointerTest );
 REGISTER_TEST(itkAzimuthElevationToCartesianTransformTest );
+REGISTER_TEST(itkBarrierTest );
 REGISTER_TEST(itkBinaryThresholdImageFunctionTest );
 REGISTER_TEST(itkBoundingBoxTest );
 REGISTER_TEST(itkBSplineDeformableTransformTest );
