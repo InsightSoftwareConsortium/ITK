@@ -83,7 +83,7 @@ public:
    *  smoothing filters to compute each one of the 
    *  components of the gradient image pixels. */
   typedef NthElementImageAdaptor< TOutputImage,
-                                  RealType >  OutputImageAdaptorType;
+                                  InternalRealType >  OutputImageAdaptorType;
   typedef typename OutputImageAdaptorType::Pointer OutputImageAdaptorPointer;
 
   /**  Smoothing filter type */
