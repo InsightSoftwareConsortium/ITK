@@ -26,6 +26,17 @@ struct lt_pair_int_string
   }
 };
 
+
+struct lt_pair_float_string
+{
+  bool operator()(const std::pair<float, std::string> s1, 
+                  const std::pair<float, std::string> s2) const
+  {
+    return s1.first < s2.first;
+  }
+};
+
+
 DICOMAppHelper::DICOMAppHelper()
 {
   this->FileName = NULL;
@@ -43,6 +54,9 @@ DICOMAppHelper::DICOMAppHelper()
 
   this->SeriesUIDCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->SliceNumberCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->SliceLocationCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->ImagePositionPatientCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->ImageOrientationPatientCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->TransferSyntaxCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->BitsAllocatedCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->PixelSpacingCB = new DICOMMemberCallback<DICOMAppHelper>;
@@ -52,7 +66,7 @@ DICOMAppHelper::DICOMAppHelper()
   this->PhotometricInterpretationCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->RescaleOffsetCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->RescaleSlopeCB = new DICOMMemberCallback<DICOMAppHelper>;
-
+  
   this->PixelDataCB = new DICOMMemberCallback<DICOMAppHelper>;
 
 }
@@ -60,7 +74,7 @@ DICOMAppHelper::DICOMAppHelper()
 DICOMAppHelper::~DICOMAppHelper()
 {
   this->ClearSeriesUIDMap();
-  this->ClearSliceNumberMap();
+  this->ClearSliceOrderingMap();
 
   this->HeaderFile.close();
   if (this->FileName)
@@ -86,6 +100,9 @@ DICOMAppHelper::~DICOMAppHelper()
 
   delete this->SeriesUIDCB;
   delete this->SliceNumberCB;
+  delete this->SliceLocationCB;
+  delete this->ImagePositionPatientCB;
+  delete this->ImageOrientationPatientCB;
   delete this->TransferSyntaxCB;
   delete this->BitsAllocatedCB;
   delete this->PixelSpacingCB;
@@ -113,6 +130,15 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
   SliceNumberCB->SetCallbackFunction(this, &DICOMAppHelper::SliceNumberCallback);
   parser->AddDICOMTagCallback(0x0020, 0x0013, DICOMParser::VR_IS, SliceNumberCB);
 
+  SliceLocationCB->SetCallbackFunction(this, &DICOMAppHelper::SliceLocationCallback);
+  parser->AddDICOMTagCallback(0x0020, 0x1041, DICOMParser::VR_CS, SliceLocationCB);
+
+  ImagePositionPatientCB->SetCallbackFunction(this, &DICOMAppHelper::ImagePositionPatientCallback);
+  parser->AddDICOMTagCallback(0x0020, 0x0032, DICOMParser::VR_SH, ImagePositionPatientCB);
+
+  ImageOrientationPatientCB->SetCallbackFunction(this, &DICOMAppHelper::ImageOrientationPatientCallback);
+  parser->AddDICOMTagCallback(0x0020, 0x0037, DICOMParser::VR_SH, ImageOrientationPatientCB);
+  
   TransferSyntaxCB->SetCallbackFunction(this, &DICOMAppHelper::TransferSyntaxCallback);
   parser->AddDICOMTagCallback(0x0002, 0x0010, DICOMParser::VR_UI, TransferSyntaxCB);
 
@@ -247,12 +273,12 @@ void DICOMAppHelper::OutputSeries()
          v_iter != v_ref.end();
          v_iter++)
       {
-      std::map<std::string, int, ltstdstr>::iterator sn_iter = SliceNumberMap.find(*v_iter);
+      std::map<std::string, DICOMOrderingElements, ltstdstr>::iterator sn_iter = SliceOrderingMap.find(*v_iter);
 
       int slice = -1;
-      if (sn_iter != SliceNumberMap.end())
+      if (sn_iter != SliceOrderingMap.end())
         {
-        slice = (*sn_iter).second;
+        slice = (*sn_iter).second.SliceNumber;
         }
       std::cout << "\t" << *v_iter << " [" << slice << "]" <<  std::endl;
       }
@@ -402,16 +428,131 @@ void DICOMAppHelper::SliceNumberCallback(doublebyte,
                                          unsigned char* val,
                                          quadbyte) 
 {
-  char* newString = (char*) val;
-  this->SliceNumber = atoi(newString);
-
-#ifdef DEBUG_DICOM_APP_HELPER
-  std::cout << "Slice number: " << this->SliceNumber << std::endl;
-#endif
-
   std::string filename(this->FileName);
-  this->SliceNumberMap.insert(std::pair<std::string, int> (filename, this->SliceNumber));
+
+  // Look for the current file in the map of slice ordering data
+  std::map<std::string, DICOMOrderingElements, ltstdstr>::iterator it;
+  it = this->SliceOrderingMap.find(filename);
+  if (it == SliceOrderingMap.end())
+    {
+    // file not found, create a new entry
+    DICOMOrderingElements ord;
+    ord.SliceNumber = atoi( (char *) val);
+
+    // insert into the map
+    this->SliceOrderingMap.insert(std::pair<std::string, DICOMOrderingElements>(filename, ord));
+    }
+  else
+    {
+    // file found, add new values
+    (*it).second.SliceNumber = atoi( (char *)val );
+    }
+
+  // cache the slice number
+  this->SliceNumber = atoi( (char *) val);
 }
+
+
+void DICOMAppHelper::SliceLocationCallback(doublebyte,
+                                         doublebyte,
+                                         DICOMParser::VRTypes,
+                                         unsigned char* val,
+                                         quadbyte) 
+{
+  std::string filename(this->FileName);
+
+  // Look for the current file in the map of slice ordering data
+  std::map<std::string, DICOMOrderingElements, ltstdstr>::iterator it;
+  it = this->SliceOrderingMap.find(filename);
+  if (it == SliceOrderingMap.end())
+    {
+    // file not found, create a new entry
+    DICOMOrderingElements ord;
+    ord.SliceLocation = (float)atof( (char *) val);
+
+    // insert into the map
+    this->SliceOrderingMap.insert(std::pair<std::string, DICOMOrderingElements>(filename, ord));
+    }
+  else
+    {
+    // file found, add new values
+    (*it).second.SliceLocation = (float)atof( (char *)val );
+    }
+}
+
+void DICOMAppHelper::ImagePositionPatientCallback(doublebyte,
+                                         doublebyte,
+                                         DICOMParser::VRTypes,
+                                         unsigned char* val,
+                                         quadbyte) 
+{
+  std::string filename(this->FileName);
+
+  // Look for the current file in the map of slice ordering data
+  std::map<std::string, DICOMOrderingElements, ltstdstr>::iterator it;
+  it = this->SliceOrderingMap.find(filename);
+  if (it == SliceOrderingMap.end())
+    {
+    // file not found, create a new entry
+    DICOMOrderingElements ord;
+    sscanf( (char*)(val), "%f\\%f\\%f",
+            &ord.ImagePositionPatient[0],
+            &ord.ImagePositionPatient[1],
+            &ord.ImagePositionPatient[2] );
+    
+    // insert into the map
+    this->SliceOrderingMap.insert(std::pair<std::string, DICOMOrderingElements>(filename, ord));
+    }
+  else
+    {
+    // file found, add new values
+    sscanf( (char*)(val), "%f\\%f\\%f",
+            &(*it).second.ImagePositionPatient[0],
+            &(*it).second.ImagePositionPatient[1],
+            &(*it).second.ImagePositionPatient[2] );
+    }
+}
+
+
+void DICOMAppHelper::ImageOrientationPatientCallback(doublebyte,
+                                         doublebyte,
+                                         DICOMParser::VRTypes,
+                                         unsigned char* val,
+                                         quadbyte) 
+{
+  std::string filename(this->FileName);
+
+  // Look for the current file in the map of slice ordering data
+  std::map<std::string, DICOMOrderingElements, ltstdstr>::iterator it;
+  it = this->SliceOrderingMap.find(filename);
+  if (it == SliceOrderingMap.end())
+    {
+    // file not found, create a new entry
+    DICOMOrderingElements ord;
+    sscanf( (char*)(val), "%f\\%f\\%f\\%f\\%f\\%f",
+            &ord.ImageOrientationPatient[0],
+            &ord.ImageOrientationPatient[1],
+            &ord.ImageOrientationPatient[2],
+            &ord.ImageOrientationPatient[3],
+            &ord.ImageOrientationPatient[4],
+            &ord.ImageOrientationPatient[5] );
+    
+    // insert into the map
+    this->SliceOrderingMap.insert(std::pair<std::string, DICOMOrderingElements>(filename, ord));
+    }
+  else
+    {
+    // file found, add new values
+    sscanf( (char*)(val), "%f\\%f\\%f\\%f\\%f\\%f",
+            &(*it).second.ImageOrientationPatient[0],
+            &(*it).second.ImageOrientationPatient[1],
+            &(*it).second.ImageOrientationPatient[2],
+            &(*it).second.ImageOrientationPatient[3],
+            &(*it).second.ImageOrientationPatient[4],
+            &(*it).second.ImageOrientationPatient[5] );
+    }
+}
+
 
 void DICOMAppHelper::TransferSyntaxCallback(doublebyte,
                                             doublebyte,
@@ -834,11 +975,11 @@ void DICOMAppHelper::GetSliceNumberFilenamePairs(std::vector<std::pair<int, std:
        std::pair<int, std::string> p;
        p.second = std::string(*fileIter);
        int slice_number = -1;
-       std::map<std::string, int, ltstdstr>::iterator sn_iter = SliceNumberMap.find(*fileIter);
+       std::map<std::string, DICOMOrderingElements, ltstdstr>::iterator sn_iter = SliceOrderingMap.find(*fileIter);
        // Only store files that have a valid slice number
-       if (sn_iter != SliceNumberMap.end())
+       if (sn_iter != SliceOrderingMap.end())
         {
-        slice_number = (*sn_iter).second;
+        slice_number = (*sn_iter).second.SliceNumber;
         p.first = slice_number;
         v.push_back(p);
         }
@@ -846,43 +987,89 @@ void DICOMAppHelper::GetSliceNumberFilenamePairs(std::vector<std::pair<int, std:
   std::sort(v.begin(), v.end(), lt_pair_int_string());
 }
 
-void DICOMAppHelper::ClearSliceNumberMap()
-{ 
-  /*
-  std::map<std::string, int, ltstdstr>::iterator sn_iter;
+void DICOMAppHelper::GetSliceLocationFilenamePairs(std::vector<std::pair<float, std::string> >& v)
+{
+  v.clear();
 
-  for (sn_iter = this->SliceNumberMap.begin();
-       sn_iter != this->SliceNumberMap.end();
-       sn_iter++)
+  std::map<std::string, std::vector<std::string>, ltstdstr >::iterator miter  = this->SeriesUIDMap.begin();
+
+  std::vector<std::string> files = (*miter).second;
+
+  for (std::vector<std::string>::iterator fileIter = files.begin();
+       fileIter != files.end();
+       fileIter++)
        {
-       delete [] (*sn_iter).first;
+       std::pair<float, std::string> p;
+       p.second = std::string(*fileIter);
+       float slice_location = 0.0;
+       std::map<std::string, DICOMOrderingElements, ltstdstr>::iterator sn_iter = SliceOrderingMap.find(*fileIter);
+
+       if (sn_iter != SliceOrderingMap.end())
+        {
+        slice_location = (*sn_iter).second.SliceLocation;
+        p.first = slice_location;
+        v.push_back(p);
+        }
        }
-  */
-  this->SliceNumberMap.clear();
+  std::sort(v.begin(), v.end(), lt_pair_float_string());
+}
+
+
+void DICOMAppHelper::GetImagePositionPatientFilenamePairs(std::vector<std::pair<float, std::string> >& v)
+{
+  v.clear();
+
+  std::map<std::string, std::vector<std::string>, ltstdstr >::iterator miter  = this->SeriesUIDMap.begin();
+
+  std::vector<std::string> files = (*miter).second;
+
+  for (std::vector<std::string>::iterator fileIter = files.begin();
+       fileIter != files.end();
+       fileIter++)
+       {
+       std::pair<float, std::string> p;
+       p.second = std::string(*fileIter);
+
+       float image_position = -1.0;
+       float normal[3];
+       
+       std::map<std::string, DICOMOrderingElements, ltstdstr>::iterator sn_iter = SliceOrderingMap.find(*fileIter);
+
+       if (sn_iter != SliceOrderingMap.end())
+        {
+        // compute the image patient position wrt to the slice image
+        // plane normal
+
+        normal[0] = ((*sn_iter).second.ImageOrientationPatient[1]
+                     * (*sn_iter).second.ImageOrientationPatient[5])
+          - ((*sn_iter).second.ImageOrientationPatient[2]
+             * (*sn_iter).second.ImageOrientationPatient[4]);
+        normal[1] = ((*sn_iter).second.ImageOrientationPatient[0]
+                     *(*sn_iter).second.ImageOrientationPatient[5])
+          - ((*sn_iter).second.ImageOrientationPatient[2]
+             * (*sn_iter).second.ImageOrientationPatient[3]);
+        normal[2] = ((*sn_iter).second.ImageOrientationPatient[0]
+                     * (*sn_iter).second.ImageOrientationPatient[4])
+          - ((*sn_iter).second.ImageOrientationPatient[1]
+             * (*sn_iter).second.ImageOrientationPatient[3]);
+        
+        image_position = (normal[0]*(*sn_iter).second.ImagePositionPatient[0])
+          + (normal[1]*(*sn_iter).second.ImagePositionPatient[1])
+          + (normal[2]*(*sn_iter).second.ImagePositionPatient[2]);
+        p.first = image_position;
+        v.push_back(p);
+        }
+       }
+  std::sort(v.begin(), v.end(), lt_pair_float_string());
+}
+
+
+void DICOMAppHelper::ClearSliceOrderingMap()
+{ 
+  this->SliceOrderingMap.clear();
 }
 
 void DICOMAppHelper::ClearSeriesUIDMap()
 {
-#if 0
-  std::map<std::string, std::vector<std::string>, ltstdstr >::iterator iter;
-  for (iter = this->SeriesUIDMap.begin();
-       iter != this->SeriesUIDMap.end();
-       iter++)
-       {
-       //delete [] (*iter).first;
-       /*
-       for (std::vector<char*>::iterator viter = (*iter).second.begin();
-            viter != (*iter).second.end();
-            viter++)
-       */
-       for (std::vector<std::string>::iterator viter = (*iter).second.begin();
-            viter != (*iter).second.end();
-            viter++)
-            {
-            // delete [] (*viter);
-            }
-       // delete [] &(*iter).second;
-       }
-#endif
  this->SeriesUIDMap.clear();
 }
