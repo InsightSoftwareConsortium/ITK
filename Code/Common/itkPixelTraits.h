@@ -60,6 +60,14 @@ public:
 };
 
 template <>
+class PixelTraits<signed char>
+{
+public:
+  itkStaticConstMacro(Dimension, unsigned int, 1);
+  typedef char ValueType;
+};
+
+template <>
 class PixelTraits<unsigned char>
 {
 public:
