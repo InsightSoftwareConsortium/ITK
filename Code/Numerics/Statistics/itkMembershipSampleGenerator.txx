@@ -61,13 +61,13 @@ MembershipSampleGenerator< TInputSample, TClassMaskSample >
 template< class TInputSample, class TClassMaskSample >
 void
 MembershipSampleGenerator< TInputSample, TClassMaskSample >
-::SetNumberOfClasses(size_t numberOfClasses)
+::SetNumberOfClasses(int numberOfClasses)
 {
   m_NumberOfClasses = numberOfClasses ;
 }
 
 template< class TInputSample, class TClassMaskSample >
-size_t
+int
 MembershipSampleGenerator< TInputSample, TClassMaskSample >
 ::GetNumberOfClasses() 
 {
@@ -89,13 +89,14 @@ MembershipSampleGenerator< TInputSample, TClassMaskSample >
 ::GenerateData()
 {
   unsigned int classLabel ;
+  unsigned int dimension = 0 ;
   m_Output = OutputType::New() ;
   m_Output->SetSample(m_Input) ;
   m_Output->SetNumberOfClasses(m_NumberOfClasses) ;
   typename TClassMaskSample::Iterator iter = m_ClassMask->Begin() ;
   while (iter != m_ClassMask->End())
     {
-      classLabel = iter.GetMeasurement(0) ;
+      classLabel = iter.GetMeasurement(dimension) ;
       m_Output->AddInstance(classLabel, iter.GetInstanceIdentifier()) ;
       ++iter ;
     }
