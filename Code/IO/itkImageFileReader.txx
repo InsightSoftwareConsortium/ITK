@@ -193,7 +193,6 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
 ::DoConvertBuffer(void* inputData,
                   unsigned long numberOfPixels)
 {
-  std::cerr << "number of pixels " << numberOfPixels << "\n";
   // get the pointer to the destination buffer
   OutputImagePixelType *outputData =
     this->GetOutput()->GetPixelContainer()->GetBufferPointer();

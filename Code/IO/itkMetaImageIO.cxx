@@ -41,6 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkMetaImageIO.h"
 #include "itkExceptionObject.h"
+#include "itkByteSwapper.h"
 
 
 
@@ -50,7 +51,8 @@ namespace itk
 MetaImageIO::MetaImageIO()
 {
   this->SetNumberOfDimensions(2);
-  m_MetaPixelType = UCHAR;
+  m_MetaPixelType  = UCHAR;
+  m_ImageByteOrder = BigEndian;
 }
 
 
@@ -105,6 +107,9 @@ bool MetaImageIO::CanReadFile( const char* filename )
 
   char key[8000];
 
+  const int maxLineLength = 10000;
+  char restOfTheLine[maxLineLength];
+
   while( !inputStream.eof() )
   {
 
@@ -124,6 +129,34 @@ bool MetaImageIO::CanReadFile( const char* filename )
       return false;
       }
     inputStream >> dimensions;
+    inputStream.getline( restOfTheLine, maxLineLength );
+    continue;
+    }
+
+  if( strcmp(key,"ElementByteOrderMSB")==0 ) 
+    {
+    inputStream >> key;
+    if( strcmp( key, "=" ) != 0 ) 
+      {
+      //missing "=" 
+      return false;
+      }
+    inputStream >> key;
+    if( strcmp( key, "False" ) == 0 )
+    {
+      m_ImageByteOrder = BigEndian;
+    }
+    else if ( strcmp( key, "True" ) == 0 )
+    {
+      m_ImageByteOrder = LittleEndian;
+    }
+    else 
+    {
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("ImageByteOrder unknown type");
+      throw exception;
+    }
+    inputStream.getline( restOfTheLine, maxLineLength );
     continue;
     }
 
@@ -140,6 +173,7 @@ bool MetaImageIO::CanReadFile( const char* filename )
       {
       inputStream >> sizeInADimension;
       }
+    inputStream.getline( restOfTheLine, maxLineLength );
     continue;
     }
 
@@ -156,6 +190,7 @@ bool MetaImageIO::CanReadFile( const char* filename )
       {
       inputStream >> spacingInADimension;
       }
+    inputStream.getline( restOfTheLine, maxLineLength );
     continue;
     }
 
@@ -169,6 +204,7 @@ bool MetaImageIO::CanReadFile( const char* filename )
       }
     unsigned long elmentNumberOfBits;
     inputStream >> elmentNumberOfBits;
+    inputStream.getline( restOfTheLine, maxLineLength );
     continue;
     }
 
@@ -183,6 +219,7 @@ bool MetaImageIO::CanReadFile( const char* filename )
       }
     char elementType[512];
     inputStream >> elementType;
+    inputStream.getline( restOfTheLine, maxLineLength );
     continue;
     }
 
@@ -205,7 +242,7 @@ bool MetaImageIO::CanReadFile( const char* filename )
     }
 
     // Unknown code, get the rest of the line
-    inputStream.getline(key,2000,'\n');
+    inputStream.getline( restOfTheLine, maxLineLength );
 
   }
 
@@ -303,6 +340,8 @@ void MetaImageIO::Load(void* buffer)
     }
   }
 
+  SwapBytesIfNecessary( buffer, numberOfPixels );
+
 }
 
 
@@ -320,6 +359,9 @@ void MetaImageIO::ReadImageInformation()
   }
 
   char key[8000];
+
+  const int maxLineLength = 10000;
+  char  restOfTheLine[ maxLineLength ];
 
   while( !m_Ifstream.eof() )
   {
@@ -344,6 +386,7 @@ void MetaImageIO::ReadImageInformation()
       throw exception;
       }
     m_Ifstream >> dimension;
+    m_Ifstream.getline( restOfTheLine, maxLineLength );
     this->SetNumberOfDimensions( dimension );
     continue;
     }
@@ -361,6 +404,7 @@ void MetaImageIO::ReadImageInformation()
       {
       m_Ifstream >> m_Dimensions[ dim ];
       }
+    m_Ifstream.getline( restOfTheLine, maxLineLength );
     continue;
     }
 
@@ -377,6 +421,7 @@ void MetaImageIO::ReadImageInformation()
       {
       m_Ifstream >> m_Spacing[ dim ];
       }
+    m_Ifstream.getline( restOfTheLine, maxLineLength );
     continue;
     }
 
@@ -391,6 +436,7 @@ void MetaImageIO::ReadImageInformation()
       }
     unsigned long elmentNumberOfBits;
     m_Ifstream >> elmentNumberOfBits;
+    m_Ifstream.getline( restOfTheLine, maxLineLength );
     continue;
     }
 
@@ -406,46 +452,57 @@ void MetaImageIO::ReadImageInformation()
       }
     char elementType[512];
     m_Ifstream >> elementType;
+    m_Ifstream.getline( restOfTheLine, maxLineLength );
 
     if( strcmp( elementType, "MET_UCHAR" ) == 0 )
       {
       m_ComponentType = UCHAR;
+      m_MetaPixelType = UCHAR;
       }
     else if( strcmp( elementType, "MET_CHAR" ) == 0 )
       {
       m_ComponentType = CHAR;
+      m_MetaPixelType = CHAR;
       }
     else if( strcmp( elementType, "MET_USHORT" ) == 0 )
       {
       m_ComponentType = USHORT;
+      m_MetaPixelType = USHORT;
       }
     else if( strcmp( elementType, "MET_SHORT" ) == 0 )
       {
       m_ComponentType = SHORT;
+      m_MetaPixelType = SHORT;
       }
     else if( strcmp( elementType, "MET_UINT" ) == 0 )
       {
       m_ComponentType = UINT;
+      m_MetaPixelType = UINT;
       }
     else if( strcmp( elementType, "MET_INT" ) == 0 )
       {
       m_ComponentType = INT;
+      m_MetaPixelType = INT;
       }
     else if( strcmp( elementType, "MET_ULONG" ) == 0 )
       {
       m_ComponentType = ULONG;
+      m_MetaPixelType = ULONG;
       }
     else if( strcmp( elementType, "MET_LONG" ) == 0 )
       {
       m_ComponentType = LONG;
+      m_MetaPixelType = LONG;
       }
     else if( strcmp( elementType, "MET_UFLOAT" ) == 0 )
       {
       m_ComponentType = FLOAT;
+      m_MetaPixelType = FLOAT;
       }
     else if( strcmp( elementType, "MET_DOUBLE" ) == 0 )
       {
       m_ComponentType = DOUBLE;
+      m_MetaPixelType = DOUBLE;
       }
 
     continue;
@@ -461,6 +518,7 @@ void MetaImageIO::ReadImageInformation()
       throw exception;
       }
     m_Ifstream >> key;
+    m_Ifstream.getline( restOfTheLine, maxLineLength );
     if( strcmp( key, "LOCAL" ) != 0 ) 
       {
       ExceptionObject exception(__FILE__, __LINE__);
@@ -475,12 +533,167 @@ void MetaImageIO::ReadImageInformation()
     }
 
     // Unknown code, get the rest of the line
-    m_Ifstream.getline(key,2000,'\n');
+    m_Ifstream.getline( restOfTheLine, maxLineLength );
 
   }
   
 }
 
+
+
+
+void 
+MetaImageIO
+::SwapBytesIfNecessary( void* buffer, unsigned long numberOfPixels )
+{
+  switch(m_MetaPixelType)
+    {
+    case CHAR:
+      {
+      if ( m_ImageByteOrder == LittleEndian &&
+        ByteSwapper<char>::IsBigEndian() )
+        {
+        ByteSwapper<char>::SwapRangeBE((char*)buffer, numberOfPixels );
+        }
+      else if ( m_ImageByteOrder == BigEndian &&
+        ByteSwapper<char>::IsLittleEndian() )
+        {
+        ByteSwapper<char>::SwapRangeLE((char *)buffer, numberOfPixels );
+        }
+      break;
+      }
+    case UCHAR:
+      {
+      if ( m_ImageByteOrder == LittleEndian &&
+        ByteSwapper<unsigned char>::IsBigEndian() )
+        {
+        ByteSwapper<unsigned char>::SwapRangeBE((unsigned char*)buffer, numberOfPixels );
+        }
+      else if ( m_ImageByteOrder == BigEndian &&
+        ByteSwapper<unsigned char>::IsLittleEndian() )
+        {
+        ByteSwapper<unsigned char>::SwapRangeLE((unsigned char *)buffer, numberOfPixels );
+        }
+      break;
+      }
+    case SHORT:
+      {
+      if ( m_ImageByteOrder == LittleEndian &&
+        ByteSwapper<short>::IsBigEndian() )
+        {
+        ByteSwapper<short>::SwapRangeBE((short*)buffer, numberOfPixels );
+        }
+      else if ( m_ImageByteOrder == BigEndian &&
+        ByteSwapper<short>::IsLittleEndian() )
+        {
+        ByteSwapper<short>::SwapRangeLE((short *)buffer, numberOfPixels );
+        }
+      break;
+      }
+    case USHORT:
+      {
+      if ( m_ImageByteOrder == LittleEndian &&
+        ByteSwapper<unsigned short>::IsBigEndian() )
+        {
+        ByteSwapper<unsigned short>::SwapRangeBE((unsigned short*)buffer, numberOfPixels );
+        }
+      else if ( m_ImageByteOrder == BigEndian &&
+        ByteSwapper<unsigned short>::IsLittleEndian() )
+        {
+        ByteSwapper<unsigned short>::SwapRangeLE((unsigned short *)buffer, numberOfPixels );
+        }
+      break;
+      }
+    case INT:
+      {
+      if ( m_ImageByteOrder == LittleEndian &&
+        ByteSwapper<int>::IsBigEndian() )
+        {
+        ByteSwapper<int>::SwapRangeBE((int*)buffer, numberOfPixels );
+        }
+      else if ( m_ImageByteOrder == BigEndian &&
+        ByteSwapper<int>::IsLittleEndian() )
+        {
+        ByteSwapper<int>::SwapRangeLE((int *)buffer, numberOfPixels );
+        }
+      break;
+      }
+    case UINT:
+      {
+      if ( m_ImageByteOrder == LittleEndian &&
+        ByteSwapper<unsigned int>::IsBigEndian() )
+        {
+        ByteSwapper<unsigned int>::SwapRangeBE((unsigned int*)buffer, numberOfPixels );
+        }
+      else if ( m_ImageByteOrder == BigEndian &&
+        ByteSwapper<unsigned int>::IsLittleEndian() )
+        {
+        ByteSwapper<unsigned int>::SwapRangeLE((unsigned int *)buffer, numberOfPixels );
+        }
+      break;
+      }
+    case LONG:
+      {
+      if ( m_ImageByteOrder == LittleEndian &&
+        ByteSwapper<long>::IsBigEndian() )
+        {
+        ByteSwapper<long>::SwapRangeBE((long*)buffer, numberOfPixels );
+        }
+      else if ( m_ImageByteOrder == BigEndian &&
+        ByteSwapper<long>::IsLittleEndian() )
+        {
+        ByteSwapper<long>::SwapRangeLE((long *)buffer, numberOfPixels );
+        }
+      break;
+      }
+    case ULONG:
+      {
+      if ( m_ImageByteOrder == LittleEndian &&
+        ByteSwapper<unsigned long>::IsBigEndian() )
+        {
+        ByteSwapper<unsigned long>::SwapRangeBE((unsigned long*)buffer, numberOfPixels );
+        }
+      else if ( m_ImageByteOrder == BigEndian &&
+        ByteSwapper<unsigned long>::IsLittleEndian() )
+        {
+        ByteSwapper<unsigned long>::SwapRangeLE((unsigned long *)buffer, numberOfPixels );
+        }
+      break;
+      }
+    case FLOAT:
+      {
+      if ( m_ImageByteOrder == LittleEndian &&
+        ByteSwapper<float>::IsBigEndian() )
+        {
+        ByteSwapper<float>::SwapRangeBE((float*)buffer, numberOfPixels );
+        }
+      else if ( m_ImageByteOrder == BigEndian &&
+        ByteSwapper<float>::IsLittleEndian() )
+        {
+        ByteSwapper<float>::SwapRangeLE((float *)buffer, numberOfPixels );
+        }
+      break;
+      }
+    case DOUBLE:
+      {
+      if ( m_ImageByteOrder == LittleEndian &&
+        ByteSwapper<double>::IsBigEndian() )
+        {
+        ByteSwapper<double>::SwapRangeBE((double*)buffer, numberOfPixels );
+        }
+      else if ( m_ImageByteOrder == BigEndian &&
+        ByteSwapper<double>::IsLittleEndian() )
+        {
+        ByteSwapper<double>::SwapRangeLE((double *)buffer, numberOfPixels );
+        }
+      }
+    default:
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("Pixel Type Unknown");
+      throw exception;
+    }
+
+}
 
 
 
