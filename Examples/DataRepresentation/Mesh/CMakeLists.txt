@@ -40,3 +40,6 @@ TARGET_LINK_LIBRARIES(MeshCellsIteration ITKCommon)
 ADD_EXECUTABLE(MeshCellVisitor MeshCellVisitor.cxx )
 TARGET_LINK_LIBRARIES(MeshCellVisitor ITKCommon)
 
+ADD_EXECUTABLE(MeshCellVisitor2 MeshCellVisitor2.cxx )
+TARGET_LINK_LIBRARIES(MeshCellVisitor2 ITKCommon)
+
