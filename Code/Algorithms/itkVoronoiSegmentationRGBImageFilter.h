@@ -188,6 +188,8 @@ public:
   itkSetMacro(UseBackgroundInAPrior, bool);
   itkGetMacro(UseBackgroundInAPrior, bool);
 
+  itkSetMacro(OutputBoundary, bool);
+  itkGetMacro(OutputBoundary, bool);
 
   itkSetMacro(MeanDeviation, double);
   itkGetMacro(MeanDeviation, double);
@@ -268,6 +270,8 @@ public:
   void BeforeNextStep(void); 
 
   void Reset(void); //reset the segmentation, ready for taking aprior from itself
+
+  void GenerateData(void); //general pipeline function.
     
 protected:
   VoronoiSegmentationRGBImageFilter();
@@ -295,6 +299,7 @@ private:
   unsigned int m_TestVar[3];
   double m_MeanDeviation;
   bool m_UseBackgroundInAPrior;
+  bool m_OutputBoundary; //1: output boundary, 0: output object.
 
   typename InputImageType::Pointer m_InputImage;
   typename OutputImageType::Pointer m_OutputImage;

@@ -74,6 +74,7 @@ VoronoiSegmentationRGBImageFilter(){
   m_TestVar[2] = 2;
   m_MeanDeviation = 0.8;
   m_UseBackgroundInAPrior = 0;
+  m_OutputBoundary = 0;
 }
 
 /* destructor */
@@ -242,7 +243,7 @@ GetStats(PointTypeDeque vertlist, double *savemean, double *savevar, int *nump)
 
   double endy;
   bool RorL;
-  int i,j;
+  int i;
   if(leftendy>rightendy){
     RorL=1;
     endy=rightendy;
@@ -569,7 +570,18 @@ ExcuteSegment(void){
 	  i++;
 	}
   }	  
-  MakeSegmentBoundary();
+}
+
+template <class TInputImage, class TOutputImage>
+void
+VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
+GenerateData(void){ 
+  InitializeSegment();
+  ExcuteSegment();
+  if(m_OutputBoundary)
+    MakeSegmentBoundary();
+  else
+    MakeSegmentObject();
 }
 
 template <class TInputImage, class TOutputImage>
@@ -751,7 +763,7 @@ FillPolygon(PointTypeDeque vertlist)
 
   double endy;
   bool RorL;
-  int i,j;
+  int i;
   if(leftendy>rightendy){
     RorL=1;
     endy=rightendy;
@@ -969,7 +981,7 @@ TakeAPrior(BinaryObjectImage* aprior)
   itk::ImageRegionIteratorWithIndex <RGBHCVImage> iit(m_WorkingImage, region);
 
   int i,j;
-  int minx,miny,maxx,maxy;
+  int minx=0,miny=0,maxx=0,maxy=0;
   bool status=0;
   for(i=0;i<m_Size[1];i++){
     for(j=0;j<m_Size[0];j++){
