@@ -17,6 +17,10 @@
 #ifndef __itkSTLConstContainerAdaptor_h
 #define __itkSTLConstContainerAdaptor_h
 
+
+namespace itk {
+
+
 /** \class STLConstContainerAdaptor
  * An adapter object that casts a [const itk::XxxContainer] into [const std::xxx]
  * and enables access to the underlying data structure.
@@ -28,8 +32,6 @@
  *     const std::vector<ElementType> & vec = vecAdaptor.GetSTLContainerRef();
  *     // do things with vec ...
  */
-
-namespace itk {
 
 
 template<typename TContainer>

@@ -19,6 +19,8 @@
 
 #include "itkUnaryFunctorImageFilter.h"
 
+namespace itk
+{
   
 /** \class SquareImageFilter
  * \brief Computes the square of the intensity values pixel-wise
@@ -26,8 +28,6 @@
  * \ingroup IntensityImageFilters  Multithreaded
  */
 
-namespace itk
-{
 namespace Function {  
   
   template< class TInput, class TOutput>

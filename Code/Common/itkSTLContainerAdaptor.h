@@ -17,6 +17,10 @@
 #ifndef __itkSTLContainerAdaptor_h
 #define __itkSTLContainerAdaptor_h
 
+
+namespace itk {
+
+
 /** \class STLContainerAdaptor
 * An adapter object that casts a itk::XxxContainer into std::xxx
 * and enables access to the underlying data structure. When the STLContainerAdaptor
@@ -27,7 +31,6 @@
 *     // do things with vec ...
 *     // upon return from function, vecAdaptor is destroyed and aContainer is Modified()
 */
-namespace itk {
 
 template<typename TContainer>
 class STLContainerAdaptor

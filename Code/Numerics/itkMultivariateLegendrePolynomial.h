@@ -19,6 +19,8 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkArray.h"
 
+namespace itk {
+
 /** \class MultivariateLegendrePolynomial
  * \brief 2D and 3D multivariate Legendre Polynomial 
  *
@@ -62,8 +64,6 @@ PURPOSE.  See the above copyright notices for more information.
  * Martin Styner, Prof. Dr. G. Gerig (IKT, BIWI, ETH Zuerich), TR-197
  * (http://www.cs.unc.edu/~styner/docs/StynerTR97.pdf)
  */
-
-namespace itk {
 
 class MultivariateLegendrePolynomial
 {

@@ -20,6 +20,10 @@
 #include "itkPolygonGroupOrientation.h"
 #include "itkPolygonSpatialObject.h"
 
+namespace itk
+{
+
+
 /**
  * \class PolygonGroupSpatialObject
  * \brief Implements a Region Of Interest Type
@@ -40,8 +44,8 @@
  * to mean that the given point resides in space inside the surface of
  * the PolygonGroupSpatialObject.
  */
-namespace itk
-{
+
+
 template <unsigned int TDimension = 3> class 
   PolygonGroupSpatialObject
   :public GroupSpatialObject<TDimension>
