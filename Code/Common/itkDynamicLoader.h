@@ -13,11 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * DynamicLoader provides a portable interface to loading dynamic 
- * libraries or dll's into a process. 
- */
-
 #ifndef __itkDynamicLoader_h
 #define __itkDynamicLoader_h
 
@@ -40,11 +35,25 @@ namespace itk { typedef void* LibHandle; }
 
 namespace itk
 {
+/** \class DynamicLoader
+ * \brief Portable loading of dynamic libraries or dll's.
+ *
+ * DynamicLoader provides a portable interface to loading dynamic 
+ * libraries or dll's into a process. 
+ */
+
 
 class ITK_EXPORT DynamicLoader : public Object
 {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
   typedef DynamicLoader       Self;
+
+  /**
+   * Smart pointer typedef support.
+   */
   typedef SmartPointer<Self>  Pointer;
   
   /**
