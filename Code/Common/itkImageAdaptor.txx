@@ -208,13 +208,12 @@ ImageAdaptor<TImage , TAccessor>
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
-typename TAccessor::InternalType  * 
+ImageAdaptor<TImage , TAccessor>::InternalPixelType  * 
 ImageAdaptor<TImage , TAccessor>
 ::GetBufferPointer()
 {
   return m_Image->GetBufferPointer();
 }
-
 
 
 
