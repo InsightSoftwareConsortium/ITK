@@ -66,6 +66,11 @@ int itkThresholdImageFilterTest(int, char**)
   threshold = itk::ThresholdImageFilter<FloatImage2DType>::New();
   threshold->SetInput(random->GetOutput());
 
+  // Exercise threshold setting functions
+  threshold->ThresholdAbove( 10.0 );
+  threshold->ThresholdBelow( 900.0 );
+  threshold->ThresholdOutside( 5.0, 40.0 );
+
   // Call update multiple times to make sure that the RandomImageSource
   // is releasing and regenerating its data
   threshold->Update();

@@ -69,13 +69,13 @@ public:
   itkGetMacro(OutsideValue,PixelType);
                  
   /** The values greater than or equal to the value are set to OutsideValue. */
-  void ThresholdAbove(PixelType &thresh);
+  void ThresholdAbove(const PixelType &thresh);
   
   /** The values less than or equal to the value are set to OutsideValue. */
-  void ThresholdBelow(PixelType &thresh);
+  void ThresholdBelow(const PixelType &thresh);
 
   /** The values outside the range are set to OutsideValue. */
-  void ThresholdOutside(PixelType &lower, PixelType &upper);
+  void ThresholdOutside(const PixelType &lower, const PixelType &upper);
 
   /** Some additional typedefs.  */
   typedef TImage InputImageType;

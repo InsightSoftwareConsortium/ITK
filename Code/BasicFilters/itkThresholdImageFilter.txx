@@ -63,7 +63,7 @@ ThresholdImageFilter<TImage>
 template <class TImage>
 void 
 ThresholdImageFilter<TImage>
-::ThresholdAbove(PixelType &thresh)
+::ThresholdAbove(const PixelType &thresh)
 {
   if (m_Upper != thresh
       || m_Lower > NumericTraits<PixelType>::NonpositiveMin())
@@ -82,7 +82,7 @@ ThresholdImageFilter<TImage>
 template <class TImage>
 void 
 ThresholdImageFilter<TImage>
-::ThresholdBelow(PixelType &thresh)
+::ThresholdBelow(const PixelType &thresh)
 {
   if (m_Lower != thresh || m_Upper < NumericTraits<PixelType>::max())
     {
@@ -99,7 +99,7 @@ ThresholdImageFilter<TImage>
 template <class TImage>
 void 
 ThresholdImageFilter<TImage>
-::ThresholdOutside(PixelType &lower, PixelType &upper)
+::ThresholdOutside(const PixelType &lower, const PixelType &upper)
 {
   if (lower > upper)
     {
