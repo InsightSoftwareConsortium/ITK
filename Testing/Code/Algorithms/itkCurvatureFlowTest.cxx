@@ -15,7 +15,7 @@ See COPYRIGHT.txt for copyright details.
 =========================================================================*/
 #include "itkCurvatureFlowImageFilter.h"
 #include "itkRandomImageSource.h"
-#include "itkImage.h"
+#include "itkPhysicalImage.h"
 #include "itkScalar.h"
 #include "itkVTKImageWriter.h"
 
@@ -26,7 +26,7 @@ int main()
    * Create a random image of size 64 x 64
    */
   typedef itk::Scalar<float> PixelType;
-  typedef itk::Image<PixelType,2> ImageType;
+  typedef itk::PhysicalImage<PixelType,2> ImageType;
   
   typedef itk::RandomImageSource<ImageType> SourceType;
 
