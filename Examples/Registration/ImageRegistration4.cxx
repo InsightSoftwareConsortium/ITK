@@ -185,8 +185,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  metric->SetNumberOfHistogramBins( 50 );
-  metric->SetNumberOfSpatialSamples( 1000 );
+  metric->SetNumberOfHistogramBins( 20 );
+  metric->SetNumberOfSpatialSamples( 10000 );
   // Software Guide : EndCodeSnippet
 
 
@@ -274,6 +274,7 @@ int main( int argc, char *argv[] )
   std::cout << " Translation Y = " << TranslationAlongY  << std::endl;
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue          << std::endl;
+  std::cout << " Stop Condition  = " << optimizer->GetStopCondition() << std::endl;
 
 
   //  Software Guide : BeginLatex
