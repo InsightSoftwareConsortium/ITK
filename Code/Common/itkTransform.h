@@ -171,7 +171,7 @@ public:
 
   /** Return the inverse of the transform.
    *  The inverse is recomputed if it has been modified */
-  virtual bool GetInverse(Self* inverse) const {return false;}
+  virtual bool GetInverse(Self*) const {return false;}
 
 
 protected:
