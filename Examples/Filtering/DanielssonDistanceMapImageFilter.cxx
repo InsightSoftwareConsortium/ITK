@@ -45,11 +45,12 @@
 int main( int argc, char ** argv )
 {
 
-  if( argc < 4 )
+  if( argc < 5 )
     {
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImageFile outputDistanceMapImageFile ";
     std::cerr << " outputVoronoiMapImageFilter ";
+    std::cerr << " outputVectorMapImageFilter ";
     std::cerr << std::endl;  
     return 1;
     }
@@ -72,9 +73,6 @@ int main( int argc, char ** argv )
   typedef itk::Image< InputPixelType,  2 >   InputImageType;
   typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -199,6 +197,79 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  The distance filter also produces an image of \doxygen{Offset} pixels
+  //  representing the vectorial distance to the closest object in the scene.
+  //  The type of this output image is defined by the \code{VectorImageType}
+  //  trait of the filter type.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  typedef FilterType::VectorImageType   OffsetImageType;
+  // Software Guide : EndCodeSnippet
+
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  We can use this type for instantiatting an \doxygen{ImageFileWriter} type
+  //  and creating an object of this class in the following lines.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  typedef itk::ImageFileWriter< OffsetImageType >  WriterOffsetType;
+
+  WriterOffsetType::Pointer offsetWriter = WriterOffsetType::New();
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  The output of the distance filter can be connected as input to the
+  //  writer.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  offsetWriter->SetInput(  filter->GetVectorDistanceMap()  );
+  // Software Guide : EndCodeSnippet
+
+
+  offsetWriter->SetFileName( argv[4]  );
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  Execution of the writer is triggered by the invokation of the
+  //  \code{Update()} method. Since this method can potentially throw
+  //  exceptions it must be placed in a \code{try/catch} block.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  try
+    {
+    offsetWriter->Update();
+    }
+  catch( itk::ExceptionObject exp )
+    {
+    std::cerr << "Exception caught !" << std::endl;
+    std::cerr <<     exp    << std::endl;
+    }
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  Note that only the \doxygen{MetaImageIO} class supports reading and
+  //  writing images of pixel type \doxygen{Offset}.
+  //
+  //  Software Guide : EndLatex 
 
   return 0;
 
