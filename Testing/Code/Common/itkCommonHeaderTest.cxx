@@ -77,7 +77,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageSliceIterator.h"
 #include "itkImageSource.h"
 #include "itkImageToImageFilter.h"
-#include "itkImageTraits.h"
 #include "itkImportImageContainer.h"
 #include "itkIndent.h"
 #include "itkIndex.h"
