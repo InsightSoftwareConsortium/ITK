@@ -48,8 +48,9 @@ int main(int argc, char * argv[] )
     return 1;
     }
 
+  const unsigned int Dimension = 3;
 
-  typedef itk::PointSet< float, 2 >   PointSetType;
+  typedef itk::PointSet< float, Dimension >   PointSetType;
 
   PointSetType::Pointer fixedPointSet  = PointSetType::New();
   PointSetType::Pointer movingPointSet = PointSetType::New();
@@ -129,7 +130,7 @@ int main(int argc, char * argv[] )
 // Set up a Transform
 //-----------------------------------------------------------
 
-  typedef itk::TranslationTransform< double, 2 >      TransformType;
+  typedef itk::TranslationTransform< double, Dimension >      TransformType;
 
   TransformType::Pointer transform = TransformType::New();
 
@@ -151,12 +152,12 @@ int main(int argc, char * argv[] )
 
   // Scale the translation components of the Transform in the Optimizer
   OptimizerType::ScalesType scales( transform->GetNumberOfParameters() );
-  scales.Fill( 1.0 );
+  scales.Fill( 0.01 );
 
   
-  unsigned long   numberOfIterations =  100;
-  double          gradientTolerance  =  1e-5;   // convergence criterion
-  double          valueTolerance     =  1e-5;   // convergence criterion
+  unsigned long   numberOfIterations =  1000;
+  double          gradientTolerance  =  1e-6;   // convergence criterion
+  double          valueTolerance     =  1e-6;   // convergence criterion
   double          epsilonFunction    =  1e-5;   // convergence criterion
 
 
