@@ -129,8 +129,11 @@ AutomaticTopologyMeshSource<TOutputMesh>
 ::AddPoint( const CoordinateType p0[ PointDimension ] )
 {
   PointType newPoint;
-  int i;
-  for( i = 0; i < PointDimension; i++ ) { newPoint[ i ] = p0[ i ]; }
+  unsigned int i;
+  for( i = 0; i < PointDimension; i++ )
+    {
+    newPoint[ i ] = p0[ i ];
+    }
   return AddPoint( newPoint );
 }
 
@@ -142,10 +145,16 @@ AutomaticTopologyMeshSource<TOutputMesh>
 {
   CoordinateType p0[] = { x0, x1, x2, x3, x4, x5 };
   PointType newPoint;
-  int i;
-  int end = ( PointDimension < 6 ? PointDimension : 6 );
-  for( i = 0; i < end; i++ ) { newPoint[ i ] = p0[ i ]; }
-  for( ; i < PointDimension; i++ ) { newPoint[ i ] = 0; }
+  unsigned int i;
+  unsigned int end = ( PointDimension < 6 ? PointDimension : 6 );
+  for( i = 0; i < end; i++ )
+    {
+    newPoint[ i ] = p0[ i ];
+    }
+  for( ; i < PointDimension; i++ )
+    {
+    newPoint[ i ] = 0;
+    }
   return AddPoint( newPoint );
 }
 
@@ -842,9 +851,9 @@ template<class TOutputMesh>
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddHexahedron(
-    const PointType& p0, const PointType& p1, const PointType& p2,
-    const PointType& p3, const PointType& p4, const PointType& p5,
-    const PointType& p6, const PointType& p7 )
+  const PointType& p0, const PointType& p1, const PointType& p2,
+  const PointType& p3, const PointType& p4, const PointType& p5,
+  const PointType& p6, const PointType& p7 )
 {
   Array<IdentifierType> pointIDs( 8 );
   pointIDs[ 0 ] = AddPoint( p0 );

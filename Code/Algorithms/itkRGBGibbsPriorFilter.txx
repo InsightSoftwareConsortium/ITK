@@ -649,7 +649,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     const std::vector<double> & dist =
       m_ClassifierPtr->GetPixelMembershipValue( ChangedPixelVec );
 
-    double    minDist;
     LabelType pixLabel;
     if (dist[1] > m_ObjectThreshold) pixLabel = 0;
     else pixLabel = 1;
