@@ -112,7 +112,7 @@ int main( int argc, char * argv [] )
   while( itr != end )
     {
     const FrequencyType frequency = itr.GetFrequency();
-    histogramFile.write( (char *)(&frequency), sizeof(frequency) );
+    histogramFile.write( (const char *)(&frequency), sizeof(frequency) );
     ++itr;
     }
 

@@ -119,7 +119,8 @@ int main( int argc, char * argv [] )
 
   const unsigned int argoffset = 5;
 
-  if( argc < numberOfInitialClasses + argoffset )
+  if( static_cast<unsigned int>(argc) <
+      numberOfInitialClasses + argoffset )
     {
     std::cerr << "Error: " << std::endl;
     std::cerr << numberOfInitialClasses << " classes has been specified ";

@@ -85,7 +85,8 @@ int main( int argc, char * argv [] )
 
   const unsigned int numberOfArgumentsBeforeMeans = 8;
 
-  if( argc < numberOfClasses + numberOfArgumentsBeforeMeans )
+  if( static_cast<unsigned int>(argc) <
+      numberOfClasses + numberOfArgumentsBeforeMeans )
     {
     std::cerr << "Error: " << std::endl;
     std::cerr << numberOfClasses << " classes has been specified ";
