@@ -179,7 +179,7 @@ public:
   
 
   /** Call this to register two images. */
-  void      RunRegistration(); 
+  void      RunRegistration(void); 
   
  /** Call this to write out images - a counter is attached to the 
   *  file name so we can output a numbered sequence tracking the deformation.
