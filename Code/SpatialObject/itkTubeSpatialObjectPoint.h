@@ -39,13 +39,13 @@ class ITK_EXPORT TubeSpatialObjectPoint
 
 public:
 
-  typedef TubeSpatialObjectPoint            Self;
-  typedef SpatialObjectPoint                Superclass;
-  typedef SmartPointer<Self>                Pointer;
-  typedef const SmartPointer< const Self >  ConstPointer;
-  typedef Point< double, TPointDimension >  PointType;
-  typedef vnl_vector< double >              VectorType;
-  typedef VectorType *                      VectorPointer;
+  typedef TubeSpatialObjectPoint              Self;
+  typedef SpatialObjectPoint<TPointDimension> Superclass;
+  typedef SmartPointer<Self>                  Pointer;
+  typedef const SmartPointer< const Self >    ConstPointer;
+  typedef Point< double, TPointDimension >    PointType;
+  typedef vnl_vector< double >                VectorType;
+  typedef VectorType *                        VectorPointer;
 
   itkNewMacro( TubeSpatialObjectPoint );
 
