@@ -406,7 +406,7 @@ Vector<T, TVectorDimension>
   T value = NumericTraits<T>::Zero;
   for( unsigned int i=0; i<TVectorDimension; i++) 
   {
-    value += a[i] * b[i];
+    value += (*this)[i] * other[i];
   }
   return value;
 }
