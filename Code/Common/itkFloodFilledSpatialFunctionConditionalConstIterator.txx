@@ -24,7 +24,7 @@ namespace itk
 
 template<class TImage, class TFunction>
 FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>
-::FloodFilledSpatialFunctionConditionalConstIterator(ImageType *imagePtr,
+::FloodFilledSpatialFunctionConditionalConstIterator(const ImageType *imagePtr,
                                      FunctionType *fnPtr,
                                      IndexType startIndex): Superclass(imagePtr, fnPtr, startIndex)
 {
