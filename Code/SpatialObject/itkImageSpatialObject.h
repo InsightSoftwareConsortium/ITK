@@ -18,7 +18,6 @@
 #ifndef __itkImageSpatialObject_h
 #define __itkImageSpatialObject_h
 
-#include "itkRGBPixel.h"
 #include "itkImage.h"
 #include "itkExceptionObject.h"
 #include "itkSpatialObject.h"
@@ -36,7 +35,7 @@ namespace itk
  */
 
 template < unsigned int TDimension = 3,
-           class PixelType = RGBPixel< char >
+           class PixelType = unsigned char
 >
 class ImageSpatialObject 
   : public SpatialObject< TDimension >
@@ -83,7 +82,8 @@ public:
    * \also ExceptionObject */
   bool ValueAt( const PointType & point, double & value, 
                 unsigned int depth=0, char *name=NULL) const;
-  
+
+
   /** Returns true if the point is inside, false otherwise. */
   bool IsInside( const PointType & point,
                  unsigned int depth=0, char *name=NULL) const;
