@@ -44,7 +44,7 @@ namespace itk
  * objects that define a portion of an image via a starting index for the 
  * image array and a size. The ivar LargestPossibleRegion defines the size 
  * and starting index of the image dataset. The entire image dataset, however,
- * may not resident in memory. The region of the image that is resident in
+ * may not be resident in memory. The region of the image that is resident in
  * memory is defined by the "BufferedRegion". The Buffer is a contiguous block
  * of memory.  The third set of meta-data defines a region of interest, called
  * the "RequestedRegion". The RequestedRegion is used by the pipeline
@@ -105,14 +105,13 @@ public:
   /** Get the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples.
    * The value returned is a pointer to a double array.
-   * For ImageBase and Image, the data spacing is always unity.  
-   * If a different data spacing is needed, use Image. */
+   * For ImageBase and Image, the default data spacing is unity. */
   virtual const double* GetSpacing() const;
 
   /** Get the origin of the image. The origin is the geometric
    * coordinates of the index (0,0).  The value returned is a pointer
-   * to a double array.  For ImageBase and Image, the origin is 
-   * always (0,0). If a different origin is needed, use Image.   */
+   * to a double array.  For ImageBase and Image, the default origin is 
+   * 0. */
   virtual const double * GetOrigin() const;
 
   /** Set the region object that defines the size and starting index
