@@ -60,7 +60,7 @@ class itkVector {
   /**
    * Get the dimension (size) of the vector.
    */
-  static unsigned int GetPixelDimension() 
+  static unsigned int GetVectorDimension() 
     { return TVectorDimension; }
   
   /**
