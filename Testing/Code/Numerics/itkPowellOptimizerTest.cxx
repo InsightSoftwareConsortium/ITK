@@ -57,8 +57,8 @@ public:
   }
 
 
-  void GetDerivative( const ParametersType & parameters,
-                      DerivativeType & derivative ) const
+  void GetDerivative( const ParametersType & ,
+                      DerivativeType &  ) const
   {
   }
 
