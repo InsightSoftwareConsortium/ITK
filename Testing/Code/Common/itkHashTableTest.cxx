@@ -143,5 +143,5 @@ int main()
   IgnoreUnusedVariable(hsh_it);
   IgnoreUnusedVariable(map_it);
   
-  return 1;
+  return 0;
 }
