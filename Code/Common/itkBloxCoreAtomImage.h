@@ -125,7 +125,7 @@ public:
   /**
    * The vector between two points
    */
-  typedef TPositionType::VectorType TVectorType;
+  typedef typename TPositionType::VectorType TVectorType;
 
   /**
    * How we represent gradients
