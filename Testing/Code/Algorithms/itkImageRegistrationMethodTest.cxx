@@ -78,7 +78,8 @@ int itkImageRegistrationMethodTest(int, char* [] )
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
   FixedImageType::SizeType    size;
-  size.Fill( 3 );
+  size.Fill( 4 );  // the size of image have to be at least 4 in each dimension to
+                   // compute gradient image inside the metric.
   FixedImageType::RegionType  region( size );
   fixedImage->SetRegions( region );
   fixedImage->Allocate();
@@ -141,7 +142,7 @@ int itkImageRegistrationMethodTest(int, char* [] )
     return EXIT_FAILURE; \
     } 
 
-//  TEST_INITIALIZATION_ERROR( InitialTransformParameters, badParameters, initialParameters );
+  TEST_INITIALIZATION_ERROR( InitialTransformParameters, badParameters, initialParameters );
   TEST_INITIALIZATION_ERROR( Metric, NULL, metric );
   TEST_INITIALIZATION_ERROR( Optimizer, NULL, optimizer );
   TEST_INITIALIZATION_ERROR( Transform, NULL, transform );
