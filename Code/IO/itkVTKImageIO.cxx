@@ -91,7 +91,7 @@ bool VTKImageIO::OpenVTKFileForWriting(std::ofstream& os,
     os.close();
     }
   
-  // Open the new file for reading
+  // Open the new file for writing
   itkDebugMacro(<< "Initialize: opening file " << filename);
 
   // Actually open the file

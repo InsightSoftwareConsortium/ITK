@@ -190,11 +190,6 @@ public:
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void* buffer) = 0;
 
-  /** The guts of this class. Returns the data in the requested region, 
-   * which holds the raw pixels of the image read from disk. */
-  void* GetRequestedRegionData() const 
-    {return m_RequestedRegionData;}
-
   /*-------- This part of the interfaces deals with writing data ----- */
 
   /** Determine the file type. Returns true if this ImageIO can read the
@@ -258,9 +253,6 @@ protected:
   /** Stores the number of bytes it takes to get to the next 'thing'
    * e.g. component, pixel, row, slice, etc. */
   std::vector<unsigned int> m_Strides;
-
-  /** Stores the raw pixels of the image. */
-  void* m_RequestedRegionData;
 
   /** Return the object to an initialized state, ready to be used */
   virtual void Reset(const bool freeDynamic = true);

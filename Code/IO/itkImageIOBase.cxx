@@ -215,7 +215,6 @@ void ImageIOBase::ComputeStrides()
     }
 }
 
-
 // Calculates the image size in PIXELS
 unsigned int ImageIOBase::GetImageSizeInPixels() const
 {
@@ -341,7 +340,6 @@ ImageIOBase::GetSizeOfType(IODataType t) const
       itkExceptionMacro ("Unknown pixel type: " << t);
     }
   return 0;
-
 }
 
 unsigned int ImageIOBase::GetPixelSize() const
