@@ -59,6 +59,15 @@ Parser
 
 
 /**
+ * Get a pointer to the GlobalNamespace that was parsed.
+ */
+const Namespace* Parser::GetGlobalNamespace() const
+{
+  return m_GlobalNamespace.RealPointer();
+}
+
+
+/**
  * Parse the XML from the given input stream until end-of-input is reached.
  */
 void
