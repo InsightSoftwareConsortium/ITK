@@ -16,6 +16,7 @@
 #define __itkIndex_h
 
 #include "itkMacro.h"
+#include "itkOffset.h"
 #include "itkSize.h"
 
 #include <memory>
@@ -72,33 +73,20 @@ public:
   static const Self ZeroIndex;
   
   /**
-   * Add two indices. This method models a random access Index.
+   * Compatible Size typedef
    */
-  const Self
-  operator+(const Self &vec) const
-    {
-    Self result;
-    for (unsigned int i=0; i < VIndexDimension; i++)
-      { result[i] = m_Index[i] + vec.m_Index[i]; }
-    return result;
-    }
+  typedef   Size<VIndexDimension>  SizeType;
 
   /**
-   * Increment index by an index. This method models a random access Index.
+   * Compatible Offset typedef
    */
-  const Self &
-  operator+=(const Self &vec)
-    {
-    for (unsigned int i=0; i < VIndexDimension; i++)
-      { m_Index[i] += vec.m_Index[i]; }
-    return *this;
-    }
+  typedef   Offset<VIndexDimension>  OffsetType;
 
   /**
    * Add a size to an index. This method models a random access Index.
    */
   const Self
-  operator+(const Size<VIndexDimension> &size) const
+  operator+(const SizeType &size) const
     {
     Self result;
     for (unsigned int i=0; i < VIndexDimension; i++)
@@ -110,7 +98,7 @@ public:
    * Increment index by a size. This method models a random access Index.
    */
   const Self &
-  operator+=(const Size<VIndexDimension> &size)
+  operator+=(const SizeType &size)
     {
     for (unsigned int i=0; i < VIndexDimension; i++)
       { m_Index[i] += size[i]; }
@@ -118,51 +106,74 @@ public:
     }
 
   /**
-   * Subtract two indices. This method models a random access Index.
+   * Add an offset to an index.
    */
   const Self
-  operator-(const Self &vec)
+  operator+(const OffsetType &offset) const
     {
     Self result;
+    for (unsigned int i=0; i < VIndexDimension; i++)
+      { result[i] = m_Index[i] + offset[i]; }
+    return result;
+    }
+
+  /**
+   * Increment index by an offset. This method models a random access Index.
+   */
+  const Self &
+  operator+=(const OffsetType &offset)
+    {
+    for (unsigned int i=0; i < VIndexDimension; i++)
+      { m_Index[i] += offset[i]; }
+    return *this;
+    }
+
+  /**
+   * Decrement index by an offset. This method models a random access Index.
+   */
+  const Self &
+  operator-=(const OffsetType &offset)
+    {
+    for (unsigned int i=0; i < VIndexDimension; i++)
+      { m_Index[i] -= offset[i]; }
+    return *this;
+    }
+
+  /**
+   * Subtract an offset from an index.
+   */
+  const Self
+  operator-(const OffsetType &off) const
+    {
+    Self result;
+    for (unsigned int i=0; i < VIndexDimension; i++)
+      { result[i] = m_Index[i] - off.m_Offset[i]; }
+    return result;
+    }
+
+  /**
+   * Subtract two indices. This method models a random access Index.
+   */
+  const OffsetType
+  operator-(const Self &vec)
+    {
+    OffsetType result;
     for (unsigned int i=0; i < VIndexDimension; i++)
       { result[i] = m_Index[i] - vec.m_Index[i]; }
     return result;
     }
 
   /**
-   * Decrement index by an index. This method models a random access Index.
-   */
-  const Self &
-  operator-=(const Self &vec)
-    {
-    for (unsigned int i=0; i < VIndexDimension; i++)
-      { m_Index[i] -= vec.m_Index[i]; }
-    return *this;
-    }
-
-  /**
-   * Multiply two indices (elementwise product). This method models a random
+   * Multiply an index by a size (elementwise product). This method models a random
    * access Index. 
    */
   const Self
-  operator*(const Self &vec)
+  operator*(const SizeType &vec)
     {
     Self result;
     for (unsigned int i=0; i < VIndexDimension; i++)
-      { result[i] = m_Index[i] * vec.m_Index[i]; }
+      { result[i] = m_Index[i] * vec.m_Size[i]; }
     return result;
-    }
-
-  /**
-   * Multiply two indices (elementwise product). This method models a random
-   * access Index. 
-   */
-  const Self &
-  operator*=(const Self &vec)
-    {
-    for (unsigned int i=0; i < VIndexDimension; i++)
-      { m_Index[i] *= vec.m_Index[i]; }
-    return *this;
     }
 
   /**
@@ -193,7 +204,7 @@ public:
    * Access an element of the index. Elements are numbered
    * 0, ..., VIndexDimension-1. No bounds checking is performed.
    */
-  unsigned long & operator[](unsigned int dim)
+  long & operator[](unsigned int dim)
     { return m_Index[dim]; }
 
   /**
@@ -201,14 +212,14 @@ public:
    * 0, ..., VIndexDimension-1. This version can only be an rvalue.
    * No bounds checking is performed.
    */
-  unsigned long operator[](unsigned int dim) const
+  long operator[](unsigned int dim) const
     { return m_Index[dim]; }
 
   /**
    * Get the index. This provides a read only reference to the index.
    * \sa SetIndex()
    */
-  const unsigned long *GetIndex() const { return m_Index; };
+  const long *GetIndex() const { return m_Index; };
 
   /**
    * Set the index.
@@ -233,7 +244,7 @@ public:
    * The following syntax for assigning an index is allowed/suggested:
    *    Index<3> index = {5, 2, 7};
    */
-  unsigned long m_Index[VIndexDimension];
+  long m_Index[VIndexDimension];
   
 public:
 

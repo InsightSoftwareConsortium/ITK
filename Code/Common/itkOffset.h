@@ -56,9 +56,9 @@ public:
   static const Self ZeroOffset;
   
   /**
-   * Compatible Index typedef
+   * Compatible Offset typedef
    */
-  typedef   Index<VOffsetDimension>  IndexType;
+  typedef   Offset<VOffsetDimension>  OfficeType;
   
   /**
    * Add an offset to an offset.
@@ -69,19 +69,6 @@ public:
     Self result;
     for (unsigned int i=0; i < VOffsetDimension; i++)
       { result[i] = m_Offset[i] + offset[i]; }
-    return result;
-    }
-
-
-  /**
-   * Add an offset to an index.
-   */
-  const IndexType
-  operator+(const IndexType &ndx) const
-    {
-    IndexType result;
-    for (unsigned int i=0; i < VOffsetDimension; i++)
-      { result[i] = m_Offset[i] + ndx[i]; }
     return result;
     }
 
@@ -241,23 +228,6 @@ template<unsigned int VOffsetDimension>
 const Offset<VOffsetDimension>
 Offset<VOffsetDimension>
 ::ZeroOffset = {{0}};
-
-
-
-/**
- * Add an offset to an index.
- */
-template<unsigned int VOffsetDimension>
-Index<VOffsetDimension>
-operator+(const Index<VOffsetDimension> &ndx, const Offset<VOffsetDimension> & offset ) 
-{
-  Index<VOffsetDimension> result;
-  for (unsigned int i=0; i < VOffsetDimension; i++)
-    { result[i] = ndx[i] + offset[i]; }
-  return result;
-}
-
-
 
 } // end namespace itk
 
