@@ -271,7 +271,7 @@ int TIFFImageIO::EvaluateImageAt( void* out, void* in )
       break;
     case TIFFImageIO::PALETTE_GRAYSCALE:
       this->GetColor(*source, &red, &green, &blue);
-      *image = red;
+      *image = static_cast<unsigned char>(red >> 8);
       increment = 1;
       break;
     case TIFFImageIO::RGB_: 
