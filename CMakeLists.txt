@@ -36,6 +36,20 @@ INCLUDE (${CMAKE_ROOT}/Modules/CMakeBackwardCompatibilityC.cmake)
 INCLUDE (${CMAKE_ROOT}/Modules/CMakeBackwardCompatibilityCXX.cmake)
 
 #-----------------------------------------------------------------------------
+# Configure Dart testing support.  This should be done before any
+# MESSAGE(FATAL_ERROR ...) commands are invoked.
+INCLUDE(${CMAKE_ROOT}/Modules/Dart.cmake)
+MARK_AS_ADVANCED(TCL_TCLSH DART_ROOT)
+IF(BUILD_TESTING)
+  ENABLE_TESTING()
+  CONFIGURE_FILE(${ITK_SOURCE_DIR}/InsightLogo.gif
+                 ${ITK_BINARY_DIR}/Testing/HTML/TestingResults/Icons/Logo.gif
+                 COPYONLY IMMEDIATE)
+  SET(BUILDNAME "${BUILDNAME}" CACHE STRING "Name of build on the dashboard")
+  MARK_AS_ADVANCED(BUILDNAME)
+ENDIF(BUILD_TESTING)
+
+#-----------------------------------------------------------------------------
 # Output directories.
 SET (LIBRARY_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all libraries.")
 SET (EXECUTABLE_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all executables.")
@@ -183,19 +197,6 @@ MARK_AS_ADVANCED(ITK_CSWIG_JAVA)
 MARK_AS_ADVANCED(CABLE_INDEX)
 MARK_AS_ADVANCED(CSWIG)
 MARK_AS_ADVANCED(GCCXML)
-
-#-----------------------------------------------------------------------------
-# Configure Dart testing support.
-INCLUDE(${CMAKE_ROOT}/Modules/Dart.cmake)
-MARK_AS_ADVANCED(TCL_TCLSH DART_ROOT)
-IF(BUILD_TESTING)
-  ENABLE_TESTING()
-  CONFIGURE_FILE(${ITK_SOURCE_DIR}/InsightLogo.gif
-                 ${ITK_BINARY_DIR}/Testing/HTML/TestingResults/Icons/Logo.gif
-                 COPYONLY IMMEDIATE)
-  SET(BUILDNAME "${BUILDNAME}" CACHE STRING "Name of build on the dashboard")
-  MARK_AS_ADVANCED(BUILDNAME)
-ENDIF(BUILD_TESTING)
 
 #-----------------------------------------------------------------------------
 # Dispatch the build into the proper subdirectories.
