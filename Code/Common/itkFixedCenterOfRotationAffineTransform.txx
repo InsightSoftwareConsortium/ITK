@@ -124,8 +124,7 @@ FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>
       m_ScaleMatrixComponent.GetVnlMatrix().put(i,i,m_ScaleComponent[i]);  
       }
     }
-
-  m_MatrixMTime.Modified();
+  this->RecomputeMatrix();
 }
 
 
@@ -211,7 +210,7 @@ SetIdentity( void )
     m_ScaleComponent[i] = 1;
     }
   m_ScaleMatrixComponent.SetIdentity();
-  m_MatrixMTime.Modified();
+  this->RecomputeMatrix();
   this->Modified();  
 }
 
