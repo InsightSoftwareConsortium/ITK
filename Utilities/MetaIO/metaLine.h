@@ -86,7 +86,7 @@ class MetaLine : public MetaObject
 
     MetaLine(const char *_headerName);   
 
-    MetaLine(const MetaLine *_tube); 
+    MetaLine(const MetaLine *_line); 
     
     MetaLine(unsigned int dim);
 
@@ -94,12 +94,12 @@ class MetaLine : public MetaObject
 
     void PrintInfo(void) const;
 
-    void CopyInfo(const MetaLine * _tube);
+    void CopyInfo(const MetaLine * _line);
 
 
     //    NPoints(...)
     //       Required Field
-    //       Number of points wich compose the tube
+    //       Number of points wich compose the line
     void  NPoints(int npnt);
     int   NPoints(void) const;
 

@@ -71,9 +71,9 @@ PrintInfo() const
 }
 
 void MetaLine::
-CopyInfo(const MetaLine * _tube)
+CopyInfo(const MetaLine * _line)
 {
-  MetaObject::CopyInfo(_tube);
+  MetaObject::CopyInfo(_line);
 }
 
     
@@ -102,14 +102,14 @@ NPoints(void) const
   return m_NPoints;
 }
 
-/** Clear tube information */
+/** Clear line information */
 void MetaLine::
 Clear(void)
 {
   if(META_DEBUG) std::cout << "MetaLine: Clear" << std::endl;
   MetaObject::Clear();
   m_NPoints = 0;
-    // Delete the list of pointers to tubes.
+    // Delete the list of pointers to lines.
   PointListType::iterator it = m_PointList.begin();
   while(it != m_PointList.end())
   {
@@ -123,7 +123,7 @@ Clear(void)
   m_ElementType = MET_FLOAT;
 }
         
-/** Destroy tube information */
+/** Destroy line information */
 void MetaLine::
 M_Destroy(void)
 {
