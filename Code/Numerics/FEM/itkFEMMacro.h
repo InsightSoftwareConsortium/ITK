@@ -227,8 +227,8 @@ namespace fem {
  * \class INITClass
  * \brief Class that is used in #FEM_CLASS_INIT macro.
  */
-struct INITClass { 
-  INITClass(int i) { 
+struct INITClass {
+  INITClass(int i) {
     /*
      * Do something with the passed variable to
      * make sure that it is evaluated. This should
@@ -236,6 +236,7 @@ struct INITClass {
      * want to perform.
      */
     volatile int Dummy=i;
+    Dummy;
   }
 };
 
