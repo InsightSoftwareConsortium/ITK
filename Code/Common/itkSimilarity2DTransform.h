@@ -46,7 +46,7 @@ public:
   itkNewMacro( Self );
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( Similarity2DTransform, CenteredRigid2DTransform );
+  itkTypeMacro( Similarity2DTransform, Rigid2DTransform );
 
   /** Dimension of parameters. */
   itkStaticConstMacro(SpaceDimension,           unsigned int, 2);
@@ -113,6 +113,9 @@ public:
 
 protected:
   Similarity2DTransform();
+  Similarity2DTransform( unsigned int spaceDimension, 
+                         unsigned int parametersDimension);
+
   ~Similarity2DTransform(){};
   void PrintSelf(std::ostream &os, Indent indent) const;
 

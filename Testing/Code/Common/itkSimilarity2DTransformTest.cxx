@@ -20,7 +20,7 @@
 
 #include <iostream>
 
-#include "itkSimilarity2DTransform.h"
+#include "itkCenteredSimilarity2DTransform.h"
 #include "vnl/vnl_vector_fixed.h"
 #include "itkVector.h"
 
@@ -35,7 +35,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   const unsigned int N = 2;
   bool Ok = true;
 
-  typedef itk::Similarity2DTransform<double>  SimilarityTransformType;
+  typedef itk::CenteredSimilarity2DTransform<double>  SimilarityTransformType;
   SimilarityTransformType::Pointer transform = SimilarityTransformType::New();
 
   // Test the identity transform

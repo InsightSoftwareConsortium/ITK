@@ -52,6 +52,18 @@ Similarity2DTransform<TScalarType>
 }
 
 
+// Constructor with arguments
+template<class TScalarType>
+Similarity2DTransform<TScalarType>::
+Similarity2DTransform( unsigned int spaceDimension, 
+                  unsigned int parametersDimension):
+  Superclass(spaceDimension,parametersDimension)
+{
+  m_Scale = 1.0; 
+
+}
+ 
+
 // Set Parameters
 template <class TScalarType>
 void
