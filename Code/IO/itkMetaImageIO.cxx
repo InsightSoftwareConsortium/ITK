@@ -710,6 +710,7 @@ MetaImageIO
         {
         ByteSwapper<double>::SwapRangeLE((double *)buffer, numberOfPixels );
         }
+      break;
       }
     default:
       ExceptionObject exception(__FILE__, __LINE__);
