@@ -144,7 +144,7 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   ConstantBoundaryCondition<TInputImage> BC;
   BC.SetConstant( NumericTraits<PixelType>::Zero );
 
-  SmartNeighborhoodIteratorType n_iter(m_Kernel->GetRadius(), 
+  SmartNeighborhoodIteratorType n_iter(m_Kernel.GetRadius(), 
                                        this->GetInput(),
                                        outputRegionForThread);
   n_iter.OverrideBoundaryCondition(&BC);
@@ -154,7 +154,7 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 
   n_iter.GoToBegin();
   o_iter.GoToBegin() ;
-  KernelIteratorType kernelFirst = m_Kernel->Begin() ;
+  KernelIteratorType kernelFirst = m_Kernel.Begin() ;
   while ( ! n_iter.IsAtEnd() )
     {
       o_iter.Set ( this->Evaluate(n_iter, m_Kernel) );
