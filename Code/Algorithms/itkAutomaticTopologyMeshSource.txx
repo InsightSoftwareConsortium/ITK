@@ -235,8 +235,6 @@ AutomaticTopologyMeshSource<TOutputMesh>
       {
       IdentifierType boundaryID = vertexArray[i];
       m_OutputMesh->SetBoundaryAssignment( 0, cellID, i, boundaryID );
-      m_OutputMesh->GetCell( boundaryID, boundaryFeature );
-      boundaryFeature->AddUsingCell( cellID );
       }
 
     }
@@ -302,15 +300,11 @@ AutomaticTopologyMeshSource<TOutputMesh>
     for( i = 0; i < pointIdsEnd; i++ )
       {
       m_OutputMesh->SetBoundaryAssignment( 0, cellID, i, vertexArray[i] );
-      m_OutputMesh->GetCell( vertexArray[i], boundaryFeature );
-      boundaryFeature->AddUsingCell( cellID );
       }
 
     for( i = 0; i < lineIdsEnd; i++ )
       {
       m_OutputMesh->SetBoundaryAssignment( 1, cellID, i, lineArray[i] );
-      m_OutputMesh->GetCell( lineArray[i], boundaryFeature );
-      boundaryFeature->AddUsingCell( cellID );
       }
 
     }
@@ -376,15 +370,11 @@ AutomaticTopologyMeshSource<TOutputMesh>
     for( i = 0; i < pointIdsEnd; i++ )
       {
       m_OutputMesh->SetBoundaryAssignment( 0, cellID, i, vertexArray[i] );
-      m_OutputMesh->GetCell( vertexArray[i], boundaryFeature );
-      boundaryFeature->AddUsingCell( cellID );
       }
 
     for( i = 0; i < lineIdsEnd; i++ )
       {
       m_OutputMesh->SetBoundaryAssignment( 1, cellID, i, lineArray[i] );
-      m_OutputMesh->GetCell( lineArray[i], boundaryFeature );
-      boundaryFeature->AddUsingCell( cellID );
       }
 
     }
@@ -459,22 +449,16 @@ AutomaticTopologyMeshSource<TOutputMesh>
     for( i = 0; i < pointIdsEnd; i++ )
       {
       m_OutputMesh->SetBoundaryAssignment( 0, cellID, i, vertexArray[i] );
-      m_OutputMesh->GetCell( vertexArray[i], boundaryFeature );
-      boundaryFeature->AddUsingCell( cellID );
       }
 
     for( i = 0; i < lineIdsEnd; i++ )
       {
       m_OutputMesh->SetBoundaryAssignment( 1, cellID, i, lineArray[i] );
-      m_OutputMesh->GetCell( lineArray[i], boundaryFeature );
-      boundaryFeature->AddUsingCell( cellID );
       }
 
     for( i = 0; i < faceIdsEnd; i++ )
       {
       m_OutputMesh->SetBoundaryAssignment( 2, cellID, i, faceArray[i] );
-      m_OutputMesh->GetCell( faceArray[i], boundaryFeature );
-      boundaryFeature->AddUsingCell( cellID );
       }
 
     }
@@ -558,22 +542,16 @@ AutomaticTopologyMeshSource<TOutputMesh>
     for( i = 0; i < pointIdsEnd; i++ )
       {
       m_OutputMesh->SetBoundaryAssignment( 0, cellID, i, vertexArray[i] );
-      m_OutputMesh->GetCell( vertexArray[i], boundaryFeature );
-      boundaryFeature->AddUsingCell( cellID );
       }
 
     for( i = 0; i < lineIdsEnd; i++ )
       {
       m_OutputMesh->SetBoundaryAssignment( 1, cellID, i, lineArray[i] );
-      m_OutputMesh->GetCell( lineArray[i], boundaryFeature );
-      boundaryFeature->AddUsingCell( cellID );
       }
 
     for( i = 0; i < faceIdsEnd; i++ )
       {
       m_OutputMesh->SetBoundaryAssignment( 2, cellID, i, faceArray[i] );
-      m_OutputMesh->GetCell( faceArray[i], boundaryFeature );
-      boundaryFeature->AddUsingCell( cellID );
       }
 
     }

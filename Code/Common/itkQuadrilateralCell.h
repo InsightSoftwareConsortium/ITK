@@ -18,7 +18,6 @@
 #define __itkQuadrilateralCell_h
 
 #include "itkCellInterface.h"
-#include "itkCellBoundary.h"
 #include "itkLineCell.h"
 #include "itkQuadrilateralCellTopology.h"
 
@@ -27,8 +26,6 @@ namespace itk
 
 /** \class QuadrilateralCell
  * QuadrilateralCell represents a quadrilateral for a Mesh.
- *
- * The CellBoundary wrapper for this cell is QuadrilateralBoundary.
  *
  * Template parameters for QuadrilateralCell:
  *
@@ -54,12 +51,12 @@ public:
   itkTypeMacro(QuadrilateralCell, CellInterface);
 
   /** The type of boundary for this triangle's vertices. */
-  typedef VertexBoundary< TCellInterface >            VertexType;
-  typedef typename VertexType::SelfAutoPointer        VertexAutoPointer;
+  typedef VertexCell< TCellInterface >            VertexType;
+  typedef typename VertexType::SelfAutoPointer    VertexAutoPointer;
   
   /** The type of boundary for this triangle's edges. */
-  typedef LineBoundary< TCellInterface >              EdgeType;
-  typedef typename EdgeType::SelfAutoPointer          EdgeAutoPointer;
+  typedef LineCell< TCellInterface >              EdgeType;
+  typedef typename EdgeType::SelfAutoPointer      EdgeAutoPointer;
  
   /** Quadrilateral-specific topology numbers. */
   itkStaticConstMacro(NumberOfPoints, unsigned int, 4);
@@ -107,25 +104,6 @@ private:
 
 };
 
-
-/** \class QuadrilateralBoundary
- * Create a boundary-wrapped version of the QuadrilateralCell. */
-template <typename TCellInterface>
-class QuadrilateralBoundary:
-  public CellBoundary< QuadrilateralCell< TCellInterface > >
-{
-public:
-  /** Standard class typedefs. */
-  itkCellCommonTypedefs(QuadrilateralBoundary);
- 
-  /** Standard part of every itk Object. */
-  itkTypeMacro(QuadrilateralBoundary, CellBoundary);
-
-  /** Constructor and destructor */
-  QuadrilateralBoundary() {}
-  ~QuadrilateralBoundary() {}
-
-};
 
 } // end namespace itk
 

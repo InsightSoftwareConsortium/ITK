@@ -42,17 +42,11 @@ Mesh<TPixelType, VDimension, TMeshTraits>
      << ((m_CellsContainer) ?  m_CellsContainer->Size() : 0) << std::endl;
   os << indent << "Size of Cell Data Container: " 
      << ((m_CellDataContainer) ?  m_CellDataContainer->Size() : 0) << std::endl;
-  os << indent << "Size of boundary container vector: "
-     << static_cast<unsigned long>(m_BoundariesContainers.size()) << std::endl;
-  os << indent << "Size of boundaries data container vector: " 
-     << static_cast<unsigned long>( m_BoundaryDataContainers.size() ) << std::endl;
   os << indent << "Number of explicit cell boundary assignments: " 
      << static_cast<unsigned long>( m_BoundaryAssignmentsContainers.size() ) << std::endl;
   
   os << indent << "CellsAllocationMethod: " 
      << m_CellsAllocationMethod << std::endl;
-  os << indent << "BoundariesAllocationMethod: " 
-     << m_BoundariesAllocationMethod << std::endl;
   os << indent << "Requested Number Of Regions: " 
      << m_RequestedNumberOfRegions << std::endl;
   os << indent << "Requested Region: " << m_RequestedRegion << std::endl;
@@ -79,12 +73,21 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 }
 
 /**
- * Access routine to get the cell links container.
+ * Access routines to get the cell links container.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 typename Mesh<TPixelType, VDimension, TMeshTraits>::CellLinksContainerPointer
 Mesh<TPixelType, VDimension, TMeshTraits>
-::GetCellLinks(void)
+::GetCellLinks()
+{
+  itkDebugMacro("returning CellLinks container of "
+                << m_CellLinksContainer );
+  return m_CellLinksContainer;
+}
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+const typename Mesh<TPixelType, VDimension, TMeshTraits>::CellLinksContainerPointer
+Mesh<TPixelType, VDimension, TMeshTraits>
+::GetCellLinks() const
 {
   itkDebugMacro("returning CellLinks container of "
                 << m_CellLinksContainer );
@@ -111,17 +114,21 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 
 
 /**
- * Access routine to get the cells container.
+ * Access routines to get the cells container.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 typename Mesh<TPixelType, VDimension, TMeshTraits>::CellsContainerPointer
 Mesh<TPixelType, VDimension, TMeshTraits>
-::GetCells(void)
+::GetCells()
 {
-  if( !m_CellsContainer )
-    {
-    this->SetCells( CellsContainer::New() );
-    }
+  itkDebugMacro("returning Cells container of " << m_CellsContainer );
+  return m_CellsContainer;
+}
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+const typename Mesh<TPixelType, VDimension, TMeshTraits>::CellsContainerPointer
+Mesh<TPixelType, VDimension, TMeshTraits>
+::GetCells() const 
+{
   itkDebugMacro("returning Cells container of " << m_CellsContainer );
   return m_CellsContainer;
 }
@@ -145,86 +152,26 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 
 
 /**
- * Access routine to get the cell data container.
+ * Access routines to get the cell data container.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 typename Mesh<TPixelType, VDimension, TMeshTraits>::CellDataContainerPointer
 Mesh<TPixelType, VDimension, TMeshTraits>
-::GetCellData(void)
+::GetCellData()
 {
   itkDebugMacro("returning CellData container of "
                 << m_CellDataContainer );
   return m_CellDataContainer;
 }
-
-
-/**
- * Access routine to set the boundaries container for a given dimension.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-void
+const typename Mesh<TPixelType, VDimension, TMeshTraits>::CellDataContainerPointer
 Mesh<TPixelType, VDimension, TMeshTraits>
-::SetBoundaries(int dimension, BoundariesContainer* boundaries)
+::GetCellData() const 
 {
-  itkDebugMacro("setting Boundaries[" << dimension
-                << "] container to " << boundaries);
-  if(m_BoundariesContainers[dimension] != boundaries)
-    {
-    this->ReleaseBoundariesMemory(dimension);
-    m_BoundariesContainers[dimension] = boundaries;
-    this->Modified();
-    }
+  itkDebugMacro("returning CellData container of "
+                << m_CellDataContainer );
+  return m_CellDataContainer;
 }
-
-
-
-/**
- * Access routine to get the boundaries container for a given dimension.
- */
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename Mesh<TPixelType, VDimension, TMeshTraits>::BoundariesContainerPointer
-Mesh<TPixelType, VDimension, TMeshTraits>
-::GetBoundaries(int dimension)
-{
-  itkDebugMacro("returning Boundaries[" << dimension
-                << "] container of "
-                << m_BoundariesContainers[dimension]);
-  return m_BoundariesContainers[dimension];
-}
-
-
-/**
- * Access routine to set the boundary data container for a given dimension.
- */
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-void
-Mesh<TPixelType, VDimension, TMeshTraits>
-::SetBoundaryData(int dimension, BoundaryDataContainer* boundaryData)
-{
-  itkDebugMacro("setting BoundaryData[" << dimension
-                << "] container to " << boundaryData);
-  if(m_BoundaryDataContainers[dimension] != boundaryData)
-    {
-    m_BoundaryDataContainers[dimension] = boundaryData;
-    this->Modified();
-    }
-}
-
-
-/**
- * Access routine to get the boundary data container for a given dimension.
- */
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename Mesh<TPixelType, VDimension, TMeshTraits>::BoundaryDataContainerPointer
-Mesh<TPixelType, VDimension, TMeshTraits>
-::GetBoundaryData(int dimension)
-{
-  itkDebugMacro("returning BoundaryData[" << dimension
-                << "] container of "
-                << m_BoundaryDataContainers[dimension]);
-  return m_BoundaryDataContainers[dimension];
-}
-
 
 /**
  * Access routine to set the boundary assignment container for a given
@@ -248,13 +195,24 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 
 
 /**
- * Access routine to get the boundary assignment container for a given
+ * Access routines to get the boundary assignment container for a given
  * dimension.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 typename Mesh<TPixelType, VDimension, TMeshTraits>::BoundaryAssignmentsContainerPointer
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetBoundaryAssignments(int dimension)
+{
+  itkDebugMacro("returning BoundaryAssignments[" << dimension
+                << "] container of "
+                << m_BoundaryAssignmentsContainers[dimension]);
+  return m_BoundaryAssignmentsContainers[dimension];
+}
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+const typename Mesh<TPixelType, VDimension, TMeshTraits>
+::BoundaryAssignmentsContainerPointer
+Mesh<TPixelType, VDimension, TMeshTraits>
+::GetBoundaryAssignments(int dimension) const
 {
   itkDebugMacro("returning BoundaryAssignments[" << dimension
                 << "] container of "
@@ -377,128 +335,15 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 }
 
 
-/**
- * Assign a boundary to a boundary identifier.  If a spot for the boundary
- * identifier does not exist, it will be created automatically.
- */
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-void
-Mesh<TPixelType, VDimension, TMeshTraits>
-::SetBoundary(int dimension, BoundaryIdentifier boundaryId, 
-              BoundaryAutoPointer & boundaryPointer )
-{
-  /**
-   * Make sure a boundaries container exists.
-   */
-  if( !m_BoundariesContainers[dimension] )
-    {
-    this->SetBoundaries(dimension, BoundariesContainer::New());
-    }
-
-  /**
-   * Insert the boundary into the container with the given identifier.
-   */
-  // Transfer ownership of the boundary cell
-  m_BoundariesContainers[dimension]
-    ->InsertElement(boundaryId, boundaryPointer.ReleaseOwnership() );
-}
-
-
-/**
- * Check if a boundary exists for a given boundary identifier.  If a spot for
- * the boundary identifier exists, "boundary" is set, and true is returned.
- * Otherwise, false is returned, and "boundary" is not modified.
- * If "boundary" is NULL, then it is never set, but the existence of the
- * boundary is still returned.
- */
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-bool
-Mesh<TPixelType, VDimension, TMeshTraits>
-::GetBoundary(int dimension,
-              BoundaryIdentifier boundaryId,
-              BoundaryAutoPointer& boundaryPointer) const
-{
-  /**
-   * If the boundaries container doesn't exist, then the boundary
-   * doesn't exist.
-   */
-  if( !m_BoundariesContainers[dimension] )
-    {
-    boundaryPointer.Reset();
-    return false;
-    }
-  
-  /**
-   * Ask the container if the boundary identifier exists.
-   */
-  CellType* boundaryptr; 
-  const bool found = m_BoundariesContainers[dimension]
-    ->GetElementIfIndexExists(boundaryId, &boundaryptr);
-  if( found ) 
-    {
-    boundaryPointer.TakeNoOwnership( boundaryptr );
-    return true;
-    }
-
-  // boundaryptr.Reset();
-  return false;
-}
-
-
-/**
- * Assign data to a boundary identifier.  If a spot for the boundary identifier
- * does not exist, it will be created automatically.  There is no check if
- * a boundary with the same identifier exists.
- */
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-void
-Mesh<TPixelType, VDimension, TMeshTraits>
-::SetBoundaryData(int dimension, BoundaryIdentifier boundaryId, CellPixelType data)
-{
-  /**
-   * Make sure a boundary data container exists.
-   */
-  if( !m_BoundaryDataContainers[dimension] )
-    {
-    this->SetBoundaryData(dimension, BoundaryDataContainer::New());
-    }
-
-  /**
-   * Insert the boundary data into the container with the given identifier.
-   */
-  m_BoundaryDataContainers[dimension]->InsertElement(boundaryId, data);
-}
-
-
-/**
- * Check if boundary data exists for a given boundary identifier.  If a spot
- * for the boundary identifier exists, "data" is set, and true is returned.
- * Otherwise, false is returned, and "data" is not modified.
- * If "data" is NULL, then it is never set, but the existence of the boundary
- * data is still returned.
- */
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-bool
-Mesh<TPixelType, VDimension, TMeshTraits>
-::GetBoundaryData(int dimension, BoundaryIdentifier boundaryId,
-                  CellPixelType* data) const
-{
-  /**
-   * If the boundary data container doesn't exist, then the boundary
-   * data doesn't either.
-   */
-  if( !m_BoundaryDataContainers[dimension] )
-    return false;
-  
-  /**
-   * Ask the container if the boundary identifier exists.
-   */
-  return m_BoundaryDataContainers[dimension]->GetElementIfIndexExists(boundaryId, data);
-}
-
-
-/**
- * Create an explicit boundary assignment.
+/** 
+ * Explicitly assign boundaryId as a part of the boundary of cellId.
+ * The identifiers boundaryId and cellId must identify cell objects
+ * already in the mesh.  The dimension of boundaryId must be specified
+ * by 'dimension', and a unique CellFeatureIdentifier featureId must be
+ * assigned for each distinct boundary feature of a given dimension.
+ * CellFeatureIdentifier is equivalent to unsigned long by default,
+ * and will not typically need to be changed.  The UsingCells list of
+ * boundaryId is automatically updated to include cellId.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
@@ -507,7 +352,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
                         CellFeatureIdentifier featureId,
                         CellIdentifier boundaryId)
 {
-  BoundaryAssignmentIdentifier assignId(cellId, featureId);
+  BoundaryAssignmentIdentifier assignId( cellId, featureId );
     
   /**
    * Make sure a boundary assignment container exists for the given dimension.
@@ -515,14 +360,22 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   if( !m_BoundaryAssignmentsContainers[dimension] )
     {
     this->SetBoundaryAssignments(
-      dimension, BoundaryAssignmentsContainer::New());
+      dimension, BoundaryAssignmentsContainer::New() );
     }
 
   /**
    * Insert the boundary assignment into the container with the given
    * assignment identifier in the given dimension.
    */
-  m_BoundaryAssignmentsContainers[dimension]->InsertElement(assignId, boundaryId);
+  m_BoundaryAssignmentsContainers[dimension]->InsertElement( assignId, boundaryId );
+
+  /**
+   * Add cellId to the UsingCells list of boundaryId.
+   */
+  CellAutoPointer boundaryCell;
+  this->GetCell( boundaryId, boundaryCell );
+  boundaryCell->AddUsingCell( cellId );
+
 }
 
 
@@ -627,7 +480,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 unsigned long
 Mesh<TPixelType, VDimension, TMeshTraits>
-::GetNumberOfCells(void) const
+::GetNumberOfCells() const
 {  
   if ( ! m_CellsContainer )
     {
@@ -671,13 +524,12 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>
-::Initialize(void)
+::Initialize()
 {
   itkDebugMacro("Mesh Initialize method ");
   Superclass::Initialize();
 
   this->ReleaseCellsMemory();
-  this->ReleaseBoundariesMemory();
 
   m_CellsContainer = 0;
   m_CellDataContainer = 0;
@@ -774,8 +626,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>
    * First check if the boundary has been explicitly assigned.
    */
   CellAutoPointer boundary;
-  if(this->GetAssignedCellBoundaryIfOneExists(
-       dimension, cellId, featureId, boundary))
+  if( this->GetAssignedCellBoundaryIfOneExists(
+        dimension, cellId, featureId, boundary) )
     {
     /**
      * Explicitly assigned boundary found.  Loop through its UsingCells,
@@ -786,7 +638,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
       {
       cellSet->erase(cellSet->begin(), cellSet->end());
 
-      typename BoundaryType::UsingCellsContainerIterator usingCell;
+      typename CellType::UsingCellsContainerIterator usingCell;
       for(usingCell = boundary->UsingCellsBegin() ;
           usingCell != boundary->UsingCellsEnd() ; ++usingCell)
         {
@@ -959,7 +811,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
       {
       cellSet->erase(cellSet->begin(), cellSet->end());
 
-      typename BoundaryType::UsingCellsContainerIterator usingCell;
+      typename CellType::UsingCellsContainerIterator usingCell;
       for(usingCell = cell->UsingCellsBegin() ;
           usingCell != cell->UsingCellsEnd() ; ++usingCell)
         {
@@ -1059,47 +911,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 }
 
 
-#if 0
-
-/**
- * Check if there is an explicitly assigned boundary feature for the
- * given dimension and cell- and cell-feature-identifiers.  If there is,
- * a pointer to it is given back through "boundary" (if it isn't 0) and
- * true is returned.  Otherwise, false is returned.
- */
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-bool
-Mesh<TPixelType, VDimension, TMeshTraits>
-::GetAssignedCellBoundaryIfOneExists(int dimension, CellIdentifier cellId,
-                                     CellFeatureIdentifier featureId,
-                                     BoundaryAutoPointer & boundary) const
-{
-  if((m_BoundaryAssignmentsContainers[dimension].IsNotNull() ) &&
-     (m_BoundariesContainers[dimension].IsNotNull()))
-    {
-    BoundaryAssignmentIdentifier assignId(cellId, featureId);
-    BoundaryIdentifier boundaryId;
-    
-    if(m_BoundaryAssignmentsContainers[dimension]->
-       GetElementIfIndexExists(assignId, &boundaryId))
-      {
-      BoundaryType * boundaryptr;
-      const bool found = m_BoundariesContainers[dimension]->
-        GetElementIfIndexExists(boundaryId, &boundaryptr);
-      boundary.TakeNoOwnership( boundaryptr );
-      return found;
-      }
-    }
-  
-  /**
-   * An explicitly assigned boundary was not found.
-   */
-  boundary.Reset();
-  return false;
-}
-
-#endif
-
 /**
  * Check if there is an explicitly assigned boundary feature for the
  * given dimension and cell- and cell-feature-identifiers.  If there is,
@@ -1174,7 +985,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>
-::BuildCellLinks(void)
+::BuildCellLinks()
 {
   /**
    * Make sure we have a cells and a points container.
@@ -1224,22 +1035,18 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 
 /**
  * A protected default constructor allows the New() routine to create an
- * instance of Mesh.  All the containers are initialized to non-existent.
+ * instance of Mesh.  All the containers are initialized to empty
+ * containers.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::Mesh():
-  m_CellsContainer(0),
-  m_CellDataContainer(0),
-  m_CellLinksContainer(0),
-  m_BoundariesContainers(
-    BoundariesContainerVector( MaxTopologicalDimension ) ),
-  m_BoundaryDataContainers(
-    BoundaryDataContainerVector( MaxTopologicalDimension ) ),
+  m_CellsContainer( CellsContainer::New() ),
+  m_CellDataContainer( CellDataContainer::New() ),
+  m_CellLinksContainer( CellLinksContainer::New() ),
   m_BoundaryAssignmentsContainers(
     BoundaryAssignmentsContainerVector( MaxTopologicalDimension ) ),
-  m_CellsAllocationMethod(CellsAllocatedDynamicallyCellByCell),
-  m_BoundariesAllocationMethod(BoundariesAllocationMethodUndefined)
+  m_CellsAllocationMethod(CellsAllocatedDynamicallyCellByCell)
 {
 
 }
@@ -1257,7 +1064,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 {
   itkDebugMacro("Mesh Destructor ");
   this->ReleaseCellsMemory();
-  this->ReleaseBoundariesMemory();
 }
 
 
@@ -1270,7 +1076,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>
-::ReleaseCellsMemory(void)
+::ReleaseCellsMemory()
 {
   itkDebugMacro("Mesh  ReleaseCellsMemory method ");
   // Cells are stored as normal pointers in the CellContainer.
@@ -1349,148 +1155,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>
       }
     }
 }
-
-/**
- * Releasing the memory of Boundary Cells objects for which normal pointers 
- * are stored. The method used for memory release is based on information 
- * provided by the user who is the only who know how the memory was allocated.
- */
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-void
-Mesh<TPixelType, VDimension, TMeshTraits>
-::ReleaseBoundariesMemory(void)
-{
-  itkDebugMacro("Mesh  ReleaseBoundariesMemory method ");
-  const unsigned int numberOfBoundaryDimension = 
-    static_cast<unsigned int>( m_BoundariesContainers.size() );
-
-  if( numberOfBoundaryDimension == 0 )
-    {
-    return; // there is nothing to be released
-    }
-
-  for(unsigned int dimension=0; dimension<numberOfBoundaryDimension; dimension++ )
-    {
-    this->ReleaseBoundariesMemory( dimension );
-    }
-}
-
-
-
-
-/**
- * Release the memory of Boundary Cells objects for which normal
- * pointers are stored. The method used for memory release is based on
- * information provided by the user who is the only one who knows how
- * the memory was allocated.
- */
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-void
-Mesh<TPixelType, VDimension, TMeshTraits>
-::ReleaseBoundariesMemory(unsigned int dimension)
-{
-  itkDebugMacro("Mesh  ReleaseBoundariesMemory(unsigned int) method ");
-
-  // Boundaries are stored as normal pointers in the CellContainer.
-  //
-  // The following cases are assumed here: 
-  //
-  // 0) The user forgot to tell the mesh how he allocated  the memory.
-  //    In this case an exception is thrown. There is now way the mesh
-  //    can guess how to correctly release the memory. 
-  // 1) The user allocated the boundary cells as an static array and then 
-  //    passed pointers to the mesh. The mesh doesn't have to release
-  //    any memory in this case. The user however has to be careful
-  //    in making sure that the mesh is not used out of the scope in
-  //    which the static array of boundary cells is valid.(e.g. the pointer
-  //    of the mesh should not be passed as a return parameter...)
-  // 2) the user allocated the Boundaries as a big array so the 
-  //    memory has to be released by getting the pointer to
-  //    the first boundary cell in the array and calling "delete [] cells"
-  // 3) the user allocated the Boundaries on a cell-by-cell basis
-  //    so every boundary cell has to be deleted using   "delete cell"
-  //
-
-  if( m_BoundariesContainers.size() == 0 )
-    {
-    itkDebugMacro("No boundaries to delete.");
-    return; // there is nothing to be released
-    }
-
-
-  BoundariesContainerPointer boundariesContainer 
-    = m_BoundariesContainers[ dimension ];
-
-
-  // If reference count is 2, then the vector (m_BoundariesContainers) has
-  // a reference and our local smart pointer has a reference
-  if( boundariesContainer && boundariesContainer->GetReferenceCount()==2 ) 
-    {
-    switch( m_BoundariesAllocationMethod )
-      {
-      case BoundariesAllocationMethodUndefined:
-      {
-      // The user forgot to tell the mesh about how he allocated 
-      // the cells. No responsible guess can be made here. Call for help.
-      itkGenericExceptionMacro(<<"Boundaries Allocation Method was not specified. See SetBoundariesAllocationMethod()");
-      break;
-      }
-      case BoundariesAllocatedAsStaticArray:
-      {
-      // The cells will be naturally destroyed when
-      // the original array goes out of scope.
-      itkDebugMacro("Boundaries allocated as static array.");
-      break;
-      }
-      case BoundariesAllocatedAsADynamicArray:
-      {
-      // the pointer to the first Cell is assumed to be the 
-      // base pointer of the array
-      itkDebugMacro("Boundaries allocated as dynamic array.");
-      BoundariesContainerIterator first = boundariesContainer->Begin();
-      CellType * baseOfBoundariesArray = first->Value();
-      delete [] baseOfBoundariesArray;
-      boundariesContainer->Initialize();
-      break;
-      }
-      case BoundariesAllocatedDynamicallyCellByCell:
-      {
-      // It is assumed that every cell was allocated independently.
-      // A Cell iterator is created for going through the cells 
-      // deleting one by one.
-      itkDebugMacro("Boundaries allocated dynamically cell by cell.");
-      BoundariesContainerIterator cell  = boundariesContainer->Begin();
-      BoundariesContainerIterator end   = boundariesContainer->End();
-      while( cell != end )
-        {
-        const CellType * cellToBeDeleted = cell->Value();
-        delete cellToBeDeleted;
-        ++cell; 
-        }
-      boundariesContainer->Initialize();
-      break;
-      }
-      default:
-      {
-      itkDebugMacro("Cannot determine allocation type");
-      }
-      }
-    }
-  else
-    {
-    if (!boundariesContainer)
-      {
-      itkDebugMacro("Boundaries already deleted.");
-      }
-    else
-      {
-      itkDebugMacro("Boundaries container has a reference count of " << boundariesContainer->GetReferenceCount() );
-      }
-    }
-}
-
-
-
  
 //----------------------------------------------------------------------------
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>

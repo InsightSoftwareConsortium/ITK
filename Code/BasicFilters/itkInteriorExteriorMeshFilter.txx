@@ -146,8 +146,6 @@ InteriorExteriorMeshFilter<TInputMesh,TOutputMesh,TSpatialFunction>
 
   for( unsigned int dim = 0; dim < maxDimension; dim++ )
     {
-    outputMesh->SetBoundaries(    dim, inputMesh->GetBoundaries(dim)   );
-    outputMesh->SetBoundaryData(  dim, inputMesh->GetBoundaryData(dim) );
     outputMesh->SetBoundaryAssignments(  dim,
                                          inputMesh->GetBoundaryAssignments(dim) );
     }

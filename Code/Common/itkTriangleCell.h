@@ -18,7 +18,6 @@
 #define __itkTriangleCell_h
 
 #include "itkCellInterface.h"
-#include "itkCellBoundary.h"
 #include "itkLineCell.h"
 #include "itkTriangleCellTopology.h"
 
@@ -27,8 +26,6 @@ namespace itk
 
 /** \class TriangleCell
  * TriangleCell represents a triangle for a Mesh.
- *
- * The CellBoundary wrapper for this cell is TriangleBoundary.
  *
  * Template parameters for TriangleCell:
  *
@@ -54,12 +51,12 @@ public:
   itkTypeMacro(TriangleCell, CellInterface);
   
   /** The type of boundary for this triangle's vertices. */
-  typedef VertexBoundary< TCellInterface >            VertexType;
-  typedef typename VertexType::SelfAutoPointer        VertexAutoPointer;
+  typedef VertexCell< TCellInterface >            VertexType;
+  typedef typename VertexType::SelfAutoPointer    VertexAutoPointer;
   
   /** The type of boundary for this triangle's edges. */
-  typedef LineBoundary< TCellInterface >              EdgeType;
-  typedef typename EdgeType::SelfAutoPointer          EdgeAutoPointer;
+  typedef LineCell< TCellInterface >              EdgeType;
+  typedef typename EdgeType::SelfAutoPointer      EdgeAutoPointer;
     
   /** Triangle-specific topology numbers. */
   itkStaticConstMacro(NumberOfPoints, unsigned int, 3);
@@ -106,26 +103,6 @@ public:
   void operator=(const Self&); //purposely not implemented
 };
 
-
-/** \class TriangleBoundary
- * Create a boundary-wrapped version of the TriangleCell.
- */
-template <typename TCellInterface>
-class TriangleBoundary:
-  public CellBoundary< TriangleCell< TCellInterface > >
-{
-public:
-  /** Standard class typedefs. */
-  itkCellCommonTypedefs(TriangleBoundary);
-
-  /** Standard part of every itk Object. */
-  itkTypeMacro(TriangleBoundary, CellBoundary);
-
-  /** Constructor and destructor */
-  TriangleBoundary() {};
-  ~TriangleBoundary() {};
-
-};
 
 } // end namespace itk
 

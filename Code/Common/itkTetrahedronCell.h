@@ -18,7 +18,6 @@
 #define __itkTetrahedronCell_h
 
 #include "itkCellInterface.h"
-#include "itkCellBoundary.h"
 #include "itkTriangleCell.h"
 #include "itkTetrahedronCellTopology.h"
 
@@ -27,8 +26,6 @@ namespace itk
 
 /** \class TetrahedronCell
  * TetrahedronCell represents a tetrahedron for a Mesh.
- *
- * The CellBoundary wrapper for this cell is TetrahedronBoundary.
  *
  * Template parameters for TetrahedronCell:
  *
@@ -52,16 +49,16 @@ public:
   itkTypeMacro(TetrahedronCell, CellInterface);
 
   /** The type of boundary for this triangle's vertices. */
-  typedef VertexBoundary< TCellInterface >            VertexType;
-  typedef typename VertexType::SelfAutoPointer        VertexAutoPointer;
+  typedef VertexCell< TCellInterface >            VertexType;
+  typedef typename VertexType::SelfAutoPointer    VertexAutoPointer;
   
   /** The type of boundary for this triangle's edges. */
-  typedef LineBoundary< TCellInterface >              EdgeType;
-  typedef typename EdgeType::SelfAutoPointer          EdgeAutoPointer;
+  typedef LineCell< TCellInterface >              EdgeType;
+  typedef typename EdgeType::SelfAutoPointer      EdgeAutoPointer;
   
   /** The type of boundary for this hexahedron's faces. */
-  typedef TriangleBoundary< TCellInterface >          FaceType;
-  typedef typename FaceType::SelfAutoPointer          FaceAutoPointer;
+  typedef TriangleCell< TCellInterface >          FaceType;
+  typedef typename FaceType::SelfAutoPointer      FaceAutoPointer;
  
   /** Tetrahedron-specific topology numbers. */
   itkStaticConstMacro(NumberOfPoints, unsigned int, 4);
@@ -77,7 +74,8 @@ public:
   virtual unsigned int GetDimension(void) const;
   virtual unsigned int GetNumberOfPoints(void) const;
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const;
-  virtual bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &);
+  virtual bool GetBoundaryFeature(int dimension, CellFeatureIdentifier,
+                                  CellAutoPointer &);
   virtual void SetPointIds(PointIdConstIterator first);
   virtual void SetPointIds(PointIdConstIterator first,
                            PointIdConstIterator last);
@@ -111,26 +109,6 @@ public:
   void operator=(const Self&); //purposely not implemented
 
   };
-
-/** \class TetrahedronBoundary
- * Create a boundary-wrapped version of the TetrahedronCell.
- */
-template <typename TCellInterface>
-class TetrahedronBoundary:
-  public CellBoundary< TetrahedronCell< TCellInterface > >
-{
-public:
-  /** Standard class typedefs. */
-  itkCellCommonTypedefs(TetrahedronBoundary);
-
-  /** Standard part of every itk Object. */
-  itkTypeMacro(TetrahedronBoundary, CellBoundary);
-
-  /** Constructor and destructor */
-  TetrahedronBoundary() {};
-  ~TetrahedronBoundary() {};
-
-};
 
 } // end namespace itk
 

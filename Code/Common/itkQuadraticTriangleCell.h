@@ -18,7 +18,6 @@
 #define __itkQuadraticTriangleCell_h
 
 #include "itkCellInterface.h"
-#include "itkCellBoundary.h"
 #include "itkQuadraticEdgeCell.h"
 #include "itkQuadraticTriangleCellTopology.h"
 
@@ -27,8 +26,6 @@ namespace itk
 
 /** \class QuadraticTriangleCell
  * QuadraticTriangleCell represents a second order triangular patch for a Mesh.
- *
- * The CellBoundary wrapper for this cell is QuadraticTriangleBoundary.
  *
  * Template parameters for QuadraticTriangleCell:
  *
@@ -54,12 +51,12 @@ public:
   itkTypeMacro(QuadraticTriangleCell, CellInterface);
   
   /** The type of boundary for this triangle's vertices. */
-  typedef VertexBoundary< TCellInterface >            VertexType;
-  typedef typename VertexType::SelfAutoPointer        VertexAutoPointer;
+  typedef VertexCell< TCellInterface >          VertexType;
+  typedef typename VertexType::SelfAutoPointer  VertexAutoPointer;
   
   /** The type of boundary for this triangle's edges. */
-  typedef QuadraticEdgeBoundary< TCellInterface >     EdgeType;
-  typedef typename EdgeType::SelfAutoPointer          EdgeAutoPointer;
+  typedef QuadraticEdgeCell< TCellInterface >   EdgeType;
+  typedef typename EdgeType::SelfAutoPointer    EdgeAutoPointer;
     
   /** Triangle-specific topology numbers. */
   itkStaticConstMacro(NumberOfPoints, unsigned int, 6);
@@ -114,27 +111,6 @@ public:
  private:
   QuadraticTriangleCell(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-};
-
-
-/** \class TriangleBoundary
- * Create a boundary-wrapped version of the QuadraticTriangleCell.
- */
-template <typename TCellInterface>
-class QuadraticTriangleBoundary:
-  public CellBoundary< QuadraticTriangleCell< TCellInterface > >
-{
-public:
-  /** Standard class typedefs. */
-  itkCellCommonTypedefs(QuadraticTriangleBoundary);
-
-  /** Standard part of every itk Object. */
-  itkTypeMacro(QuadraticTriangleBoundary, CellBoundary);
-
-  /** Constructor and destructor */
-  QuadraticTriangleBoundary() {};
-  ~QuadraticTriangleBoundary() {};
-
 };
 
 } // end namespace itk

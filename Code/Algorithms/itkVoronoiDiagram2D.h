@@ -22,7 +22,6 @@
 #endif
 
 #include "itkCellInterface.h"
-#include "itkCellBoundary.h"
 #include "itkLineCell.h"
 #include "itkMesh.h"
 #include "itkDefaultDynamicMeshTraits.h"
@@ -86,7 +85,6 @@ public:
   typedef typename MeshTraits::InterpolationWeightType InterpolationWeightType;
   typedef typename MeshTraits::PointIdentifier         PointIdentifier;
   typedef typename MeshTraits::CellIdentifier          CellIdentifier;
-  typedef typename MeshTraits::BoundaryIdentifier      BoundaryIdentifier;
   typedef typename MeshTraits::CellFeatureIdentifier   CellFeatureIdentifier;
   typedef typename MeshTraits::PointType               PointType;
   typedef typename MeshTraits::PointsContainer         PointsContainer;
@@ -96,8 +94,6 @@ public:
   typedef typename MeshTraits::CellLinksContainer      CellLinksContainer;
   typedef typename MeshTraits::PointDataContainer      PointDataContainer;
   typedef typename MeshTraits::CellDataContainer       CellDataContainer;  
-  typedef typename MeshTraits::BoundariesContainer     BoundariesContainer;
-  typedef typename MeshTraits::BoundaryDataContainer   BoundaryDataContainer;
   typedef typename MeshTraits::CellAutoPointer         genericCellPointer;
   typedef PointLocator<PointIdentifier,itkGetStaticConstMacro(PointDimension),
                        CoordRepType,PointsContainer>  PointLocatorType;
@@ -108,8 +104,6 @@ public:
   typedef typename CellLinksContainer::Pointer    CellLinksContainerPointer;
   typedef typename PointDataContainer::Pointer    PointDataContainerPointer;
   typedef typename CellDataContainer::Pointer     CellDataContainerPointer;
-  typedef typename BoundariesContainer::Pointer   BoundariesContainerPointer;
-  typedef typename BoundaryDataContainer::Pointer BoundaryDataContainerPointer;  
   typedef typename PointLocatorType::Pointer      PointLocatorPointer;
   typedef typename BoundingBoxType::Pointer       BoundingBoxPointer;
   typedef typename
@@ -127,10 +121,6 @@ public:
   typedef typename
   CellDataContainer::ConstIterator      CellDataContainerIterator;
   typedef typename
-  BoundariesContainer::ConstIterator    BoundariesContainerIterator;
-  typedef typename
-  BoundaryDataContainer::ConstIterator  BoundaryDataContainerIterator;
-  typedef typename
   PointCellLinksContainer::const_iterator        PointCellLinksContainerIterator;
   typedef CellFeatureIdentifier                     CellFeatureCount;
   typedef CellInterface<PixelType,CellTraits>       CellInterfaceType;
@@ -138,12 +128,10 @@ public:
   typedef typename CellType::CellAutoPointer        CellAutoPointer;
   typedef Point<int,2> EdgeInfo;
   typedef std::deque<EdgeInfo> EdgeInfoDQ;
-  typedef CellType BoundaryType;
-  typedef CellAutoPointer BoundaryAutoPointer;
   typedef typename CellType::MultiVisitor CellMultiVisitorType;
   typedef std::vector<PointType> SeedsType;
   typedef typename SeedsType::iterator SeedsIterator;
-  typedef LineBoundary <CellInterfaceType> Edge;
+  typedef LineCell <CellInterfaceType> Edge;
   typedef typename Edge::SelfAutoPointer EdgeAutoPointer;
   typedef std::list<PointType> PointList;
   typedef std::vector<int> INTvector;
@@ -157,11 +145,11 @@ public:
    * exists. */
   void SetSeeds (int num, SeedsIterator begin);
 
-  /** The boundary that enclose the whold voronoi diagram. */
+  /** The boundary that encloses the whole Voronoi diagram. */
   void SetBoundary(PointType vorsize);
   void SetOrigin(PointType vorsize);
 
-  /** Iterators for the neiborhood cells around the given cell. */
+  /** Iterators for the neighborhood cells around the given cell. */
   NeighborIdIterator NeighborIdsBegin(int seeds);
   NeighborIdIterator NeighborIdsEnd(int seeds);
   

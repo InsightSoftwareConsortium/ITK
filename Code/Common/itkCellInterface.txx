@@ -57,7 +57,7 @@ CellInterface< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 bool
 CellInterface< TPixelType , TCellTraits >
-::IsBoundary(void)
+::IsExplicitBoundary(void)
 {
   return !m_UsingCells.empty();
 }
@@ -65,7 +65,7 @@ CellInterface< TPixelType , TCellTraits >
 
 /**
  * Register the fact that this cell is a part of the boundary of the
- * cell \c cellId, by adding \a cellId to the UsingCellsContainer.
+ * cell \a cellId, by adding \a cellId to the UsingCellsContainer.
  */
 template <typename TPixelType, typename TCellTraits>
 void

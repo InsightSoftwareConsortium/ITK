@@ -21,7 +21,6 @@
 #define __itkPolygonCell_h
 
 #include "itkCellInterface.h"
-#include "itkCellBoundary.h"
 #include "itkLineCell.h"
 #include "itkPoint.h"
 #include <vector>
@@ -60,12 +59,12 @@ public:
   itkStaticConstMacro(CellDimension, unsigned int, 2);
 
   /** The type of boundary for this triangle's vertices. */
-  typedef VertexBoundary< TCellInterface >            VertexType;
-  typedef typename VertexType::SelfAutoPointer        VertexAutoPointer;
+  typedef VertexCell< TCellInterface >            VertexType;
+  typedef typename VertexType::SelfAutoPointer    VertexAutoPointer;
   
   /** The type of boundary for this triangle's edges. */
-  typedef LineBoundary< TCellInterface >              EdgeType;
-  typedef typename EdgeType::SelfAutoPointer          EdgeAutoPointer;
+  typedef LineCell< TCellInterface >              EdgeType;
+  typedef typename EdgeType::SelfAutoPointer      EdgeAutoPointer;
     
   typedef FixedArray<int,2> EdgeInfo;
   typedef std::deque<EdgeInfo> EdgeInfoDQ;
@@ -115,28 +114,6 @@ protected:
 private:
   PolygonCell(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-};
-
-/** \class PolygonBoundary
- * Create a boundary-wrapped version of the PolygonCell.
- *
- * \ingroup MeshObjects
- */
-template <typename TCellInterface >
-class PolygonBoundary:
-  public CellBoundary< PolygonCell< TCellInterface > >
-{
-public:
-  /** Standard class typedefs. */
-  itkCellCommonTypedefs(PolygonBoundary);
-
-  /** Standard part of every itk Object. */
-  itkTypeMacro(PolygonBoundary, CellBoundary);
-
-  /** Constructor and destructor */
-  PolygonBoundary() {}
-  ~PolygonBoundary() {}
 
 };
 

@@ -83,10 +83,6 @@ public:
    * to the CellsContainer. */
   typedef unsigned long  CellIdentifier;
 
-  /** The type to be used to identify a boundary.  This should be the index type
-   * to the BoundariesContainer. */
-  typedef unsigned long  BoundaryIdentifier;
-
   /** A type that can be used to identifiy individual boundary features on
    * the cells.  Since this will probably be an index into a static array,
    * this will probably never change from an integer setting. */
@@ -138,15 +134,6 @@ public:
   typedef VectorContainer< CellIdentifier , CellPixelType >
         CellDataContainer;
 
-  /** The container type for use in storing explicitly created
-   * boundaries.  It must conform to the IndexedContainer interface. */
-  typedef VectorContainer< BoundaryIdentifier , CellType * >
-        BoundariesContainer;
-
-  /** The container type for use in storing data for explicitly
-   * created boundaries.  It must conform to the IndexedContainer interface. */
-  typedef VectorContainer< BoundaryIdentifier , CellPixelType >
-        BoundaryDataContainer;
 };
 
 } // end namespace itk

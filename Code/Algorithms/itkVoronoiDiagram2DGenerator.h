@@ -18,7 +18,6 @@
 #define __itkVoronoiDiagram2DGenerator_h
 
 #include "itkCellInterface.h"
-#include "itkCellBoundary.h"
 #include "itkLineCell.h"
 #include "itkMeshSource.h"
 #include "itkDefaultDynamicMeshTraits.h"

@@ -18,15 +18,12 @@
 #define __itkVertexCell_h
 
 #include "itkCellInterface.h"
-#include "itkCellBoundary.h"
 
 namespace itk
 {
 
 /** \class VertexCell
  * VertexCell represents a single vertex for a Mesh.
- *
- * The CellBoundary wrapper for this cell is VertexBoundary.
  *
  * Template parameters for VertexCell:
  *
@@ -92,21 +89,6 @@ protected:
  private:
   VertexCell(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-};
-
-/** \class VertexBoundary
- * Create a boundary-wrapped version of the VertexCell.
- */
-template <typename TCellInterface>
-class VertexBoundary:
-  public CellBoundary< VertexCell< TCellInterface > >
-{
-public:
-  /** Standard class typdefs. */
-  itkCellCommonTypedefs(VertexBoundary);
- 
-  /** Standard part of every itk Object. */
-  itkTypeMacro(VertexBoundary, CellBoundary);
 };
 
 } // end namespace itk

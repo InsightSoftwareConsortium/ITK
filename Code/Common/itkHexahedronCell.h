@@ -18,7 +18,6 @@
 #define __itkHexahedronCell_h
 
 #include "itkCellInterface.h"
-#include "itkCellBoundary.h"
 #include "itkQuadrilateralCell.h"
 #include "itkHexahedronCellTopology.h"
 
@@ -27,8 +26,6 @@ namespace itk
 
 /** \class HexahedronCell
  * HexahedronCell represents a hexahedron for a Mesh.
- *
- * The CellBoundary wrapper for this cell is HexahedronBoundary.
  *
  * Template parameters for HexahedronCell:
  *
@@ -54,16 +51,16 @@ public:
   itkTypeMacro(HexahedronCell, CellInterface);
 
   /** The type of boundary for this triangle's vertices. */
-  typedef VertexBoundary< TCellInterface >            VertexType;
-  typedef typename VertexType::SelfAutoPointer        VertexAutoPointer;
+  typedef VertexCell< TCellInterface >            VertexType;
+  typedef typename VertexType::SelfAutoPointer    VertexAutoPointer;
   
   /** The type of boundary for this triangle's edges. */
-  typedef LineBoundary< TCellInterface >              EdgeType;
-  typedef typename EdgeType::SelfAutoPointer          EdgeAutoPointer;
+  typedef LineCell< TCellInterface >              EdgeType;
+  typedef typename EdgeType::SelfAutoPointer      EdgeAutoPointer;
   
   /** The type of boundary for this hexahedron's faces. */
-  typedef QuadrilateralBoundary< TCellInterface >     FaceType;
-  typedef typename FaceType::SelfAutoPointer          FaceAutoPointer;
+  typedef QuadrilateralCell< TCellInterface >     FaceType;
+  typedef typename FaceType::SelfAutoPointer      FaceAutoPointer;
     
   /** Hexahedron-specific topology numbers. */
   enum { NumberOfPoints   =  8,
@@ -109,33 +106,6 @@ public:
   
 private:
   HexahedronCell(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented  
-};
-
-
-/** \class HexahedronBoundary
- * Create a boundary-wrapped version of the HexahedronCell.
- *
- * \ingroup MeshObjects
- *
- */
-template <typename TCellInterface>
-class HexahedronBoundary:
-  public CellBoundary< HexahedronCell< TCellInterface > >
-{
-public:
-  /** Standard class typedefs. */
-  itkCellCommonTypedefs(HexahedronBoundary);
-
-  /** Standard part of every itk Object. */
-  itkTypeMacro(HexahedronBoundary, CellBoundary);
-  
-  /** Constructor and destructor */
-  HexahedronBoundary() {}
-  ~HexahedronBoundary() {}
-
-private:
-  HexahedronBoundary(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented  
 };
 

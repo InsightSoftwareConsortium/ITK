@@ -60,7 +60,7 @@ namespace itk
  * information with the faces and edges of the mesh, or because performance
  * requirements demand that boundaries are explicitly represented (the set
  * intersection does not need to be performed); then Mesh can be further
- * extended by adding explicit boundary representations.
+ * extended by adding explicit boundary assignments.
  *
  * \par Usage
  * Mesh has three template parameters.  The first is the pixel type, or the
@@ -87,12 +87,6 @@ namespace itk
  *  
  * TMeshTraits =
  *     Type information structure for the mesh.
- *
- *  \note The mesh class is in the process of being modified so that there
- *  are no separate boundary containers or boundary objects.  A
- *  boundary is just a cell that happens to be part of the boundary
- *  of another cell.  It will still possible to have two adjacent
- *  cells have distinct boundaries that share the same vertices.  
  *
  * \par References
  * No reference information is available.
@@ -130,26 +124,19 @@ public:
   itkStaticConstMacro(MaxTopologicalDimension, unsigned int,
                       TMeshTraits::MaxTopologicalDimension);
 
-  /** Enum defining the possible methods used to allocate memory for the Cells */
+  /** Enum defining the possible methods used to allocate memory for
+   * the Cells */
   typedef  enum {     CellsAllocationMethodUndefined,
                       CellsAllocatedAsStaticArray, 
                       CellsAllocatedAsADynamicArray,
                       CellsAllocatedDynamicallyCellByCell
                                                 } CellsAllocationMethodType;
 
-  /** Enum defining possible methods used to allocate memory for Boundaries */
-  typedef  enum {     BoundariesAllocationMethodUndefined,
-                      BoundariesAllocatedAsStaticArray, 
-                      BoundariesAllocatedAsADynamicArray,
-                      BoundariesAllocatedDynamicallyCellByCell
-                                                } BoundariesAllocationMethodType;
-
   /** Convenient typedefs obtained from TMeshTraits template parameter. */
   typedef typename MeshTraits::CoordRepType            CoordRepType;  
   typedef typename MeshTraits::InterpolationWeightType InterpolationWeightType;
   typedef typename MeshTraits::PointIdentifier         PointIdentifier;
   typedef typename MeshTraits::CellIdentifier          CellIdentifier;
-  typedef typename MeshTraits::BoundaryIdentifier      BoundaryIdentifier;
   typedef typename MeshTraits::CellFeatureIdentifier   CellFeatureIdentifier;
   typedef typename MeshTraits::PointType               PointType;
   typedef typename MeshTraits::PointsContainer         PointsContainer;
@@ -159,8 +146,6 @@ public:
   typedef typename MeshTraits::CellLinksContainer      CellLinksContainer;
   typedef typename MeshTraits::PointDataContainer      PointDataContainer;
   typedef typename MeshTraits::CellDataContainer       CellDataContainer;  
-  typedef typename MeshTraits::BoundariesContainer     BoundariesContainer;
-  typedef typename MeshTraits::BoundaryDataContainer   BoundaryDataContainer;
 
   /** Used to support geometric operations on the toolkit. */
   typedef PointLocator<PointIdentifier,itkGetStaticConstMacro(PointDimension),
@@ -174,8 +159,6 @@ public:
   typedef typename CellLinksContainer::Pointer    CellLinksContainerPointer;
   typedef typename PointDataContainer::Pointer    PointDataContainerPointer;
   typedef typename CellDataContainer::Pointer     CellDataContainerPointer;
-  typedef typename BoundariesContainer::Pointer   BoundariesContainerPointer;
-  typedef typename BoundaryDataContainer::Pointer BoundaryDataContainerPointer;
   typedef typename PointLocatorType::Pointer      PointLocatorPointer;
   typedef typename BoundingBoxType::Pointer       BoundingBoxPointer;
 
@@ -195,10 +178,6 @@ public:
   typedef typename
           CellDataContainer::ConstIterator      CellDataContainerIterator;
   typedef typename
-          BoundariesContainer::ConstIterator    BoundariesContainerIterator;
-  typedef typename
-          BoundaryDataContainer::ConstIterator  BoundaryDataContainerIterator;
-  typedef typename
      PointCellLinksContainer::const_iterator  PointCellLinksContainerIterator;
 
   /** A useful rename. */
@@ -208,14 +187,12 @@ public:
   typedef CellInterface<CellPixelType,CellTraits>  CellType;
   typedef typename CellType::CellAutoPointer       CellAutoPointer;
 
-  /** It happens that boundaries are also cells. */
-  typedef CellType          BoundaryType;
-  typedef CellAutoPointer   BoundaryAutoPointer;
-
   /** Visiting cells. */
   typedef typename CellType::MultiVisitor CellMultiVisitorType;
 
 protected:
+
+
   /** An explicit cell boundary assignment can be accessed through the cell
    *  identifier to which the assignment is made, and the feature Id of the
    *  boundary feature within the cell that is being assigned.
@@ -258,8 +235,9 @@ protected:
       }
   }; // End Class: Mesh::BoundaryAssignmentIdentifier
 
-  /** An object containing cells used by the mesh.  Individual cells are
-   *  accessed through cell identifiers.  */
+
+  /** Holds cells used by the mesh.  Individual cells are accessed
+   *  through cell identifiers.  */
   CellsContainerPointer  m_CellsContainer;
 
   /** An object containing data associated with the mesh's cells.
@@ -273,37 +251,19 @@ protected:
    *  container which holds the cell identifiers */
   CellLinksContainerPointer  m_CellLinksContainer;
 
-  /** Used for manipulating boundaries and boundary attributes. */
-  typedef std::vector<BoundariesContainerPointer> BoundariesContainerVector;
-  typedef std::vector< BoundaryDataContainerPointer >
-        BoundaryDataContainerVector;
-  typedef MapContainer< BoundaryAssignmentIdentifier , BoundaryIdentifier >
+  /** Used for manipulating boundaries and boundary attributes.  A
+   * BoundaryAssignmentsContainerVector is indexed by dimension.  For
+   * each dimension, it points to a MapContainer indexed by a
+   * BoundaryAssignmentIdentifier, which encapsulates a cell
+   * identifier and a boundary feature identifier.  The boundary
+   * feature identifier distinguishes different boundary features for
+   * a given cell at a given dimension.  */
+  typedef MapContainer< BoundaryAssignmentIdentifier , CellIdentifier >
         BoundaryAssignmentsContainer;
   typedef typename BoundaryAssignmentsContainer::Pointer
         BoundaryAssignmentsContainerPointer;
   typedef std::vector< BoundaryAssignmentsContainerPointer >
         BoundaryAssignmentsContainerVector;
-
-  /** Since multiple cells can be assigned the same boundary (when they are
-   *  neighbors, for example), the boundaries themselves are stored by
-   *  containers in the Boundaries vector, which is indexed by the topological
-   *  dimension of a boundary.  Individual cells are assigned boundary
-   *  identifiers through the BoundaryAssignments vector.  These identifiers
-   *  are used to access the container in this vector corresponding to the
-   *  topological dimension of the boundary.  
-   *
-   *  This member is mutable because Boundaries can be created on the fly
-   *  when they are requested by the user. Only when a cell of a particular
-   *  dimension is invoked the container for this dimension is created.
-   */
-  mutable BoundariesContainerVector  m_BoundariesContainers;
-
-  /** If any information is to be stored with boundaries, it is placed in a
-   *  container in this vector.  The vector is indexed by the topological 
-   *  dimension of the boundary.  A boundary identifier is used to access 
-   *  the actual data corresponding to a boundary in the container
-   *  corresponding to its dimension.  */
-  BoundaryDataContainerVector  m_BoundaryDataContainers;
 
   /** A vector of objects containing explicit cell boundary assignments.
    *  The vector is indexed by the topological dimension of the cell
@@ -318,27 +278,45 @@ protected:
 
 public:
   /** Mesh-level operation interface. */
-  unsigned long GetNumberOfCells(void) const;
+  unsigned long GetNumberOfCells() const;
   void PassStructure(Self* inputMesh);
-  virtual void Initialize(void);
+  virtual void Initialize();
 
-  /** Define Set/Get access routines for each internal container.
-   *  Methods also exist to add points, cells, etc. one at a time
-   *  rather than through an entire container. */
+  /** Access m_CellsLinksContainer, which contains parent cell links
+   * for each point.  Since a point can be used by multiple cells,
+   * each point identifier accesses another container which holds the
+   * cell identifiers */
   void SetCellLinks(CellLinksContainer*);
-  CellLinksContainerPointer GetCellLinks(void);
+  CellLinksContainerPointer GetCellLinks();
+  const CellLinksContainerPointer GetCellLinks() const;
+
+  /** Access m_CellsContainer, which holds cells used by the mesh.
+   *  Individual cells are accessed through cell identifiers.  */
   void SetCells(CellsContainer*);
-  CellsContainerPointer GetCells(void);
+  CellsContainerPointer GetCells();
+  const CellsContainerPointer GetCells() const;
+
+  /** Access m_CellDataContainer, which contains data associated with
+   *  the mesh's cells.  Optionally, this can be NULL, indicating that
+   *  no data are associated with the cells.  The data for a cell can
+   *  be accessed through its cell identifier.  */
   void SetCellData(CellDataContainer*);
-  CellDataContainerPointer GetCellData(void);
-  void SetBoundaries(int dimension, BoundariesContainer*);
-  BoundariesContainerPointer GetBoundaries(int dimension);
-  void SetBoundaryData(int dimension, BoundaryDataContainer*);
-  BoundaryDataContainerPointer GetBoundaryData(int dimension);
+  CellDataContainerPointer GetCellData();
+  const CellDataContainerPointer GetCellData() const;
+
+  /** 
+   * Set/get the BoundaryAssignmentsContainer for a given dimension.
+   * The BoundaryAssignmentsContainer is a MapContainer indexed by a
+   * BoundaryAssignmentIdentifier, which encapsulates a cell
+   * identifier and a boundary feature identifier.  The boundary
+   * feature identifier distinguishes different boundary features for
+   * a given cell at a given dimension.
+   */
   void SetBoundaryAssignments(int dimension,
                               BoundaryAssignmentsContainer*);
-  BoundaryAssignmentsContainerPointer
-  GetBoundaryAssignments(int dimension);
+  BoundaryAssignmentsContainerPointer GetBoundaryAssignments(int dimension);
+  const BoundaryAssignmentsContainerPointer GetBoundaryAssignments(
+    int dimension) const;
 
   /** Access routines to fill the Cells container (m_CellsContainer),
    *  and get information from it.  If SetCell is used to overwrite a
@@ -353,36 +331,17 @@ public:
   void SetCellData(CellIdentifier, CellPixelType);
   bool GetCellData(CellIdentifier, CellPixelType*) const;
 
-  /** Insert a boundary element of the given dimension with the given
-   *  BoundaryIdentifier.  Geometrically, each boundary is also a
-   *  cell, and in fact the Boundary type is a subclass of the Cell
-   *  type.  Not every cell is a boundary, however, which is one
-   *  reason that the boundaries are stored separately.
-   *
-   *  Inserting a boundary element B does not automatically establish
-   *  the relationship between B and the cells that use it as a part
-   *  of their respective boundaries.  B contains a UsingCells list
-   *  that is meant to list the cells having B as a part of their
-   *  boundary.  Conversely, the mesh has a BoundaryAssignments
-   *  container that is meant to store, for each cell C, the
-   *  identifiers of its boundary elements at each dimension.  The
-   *  UsingCells lists can be updated with Cell::AddUsingCell(), and
-   *  the BoundaryAssignments list by Mesh::SetBoundaryAssignment().  */
-  void SetBoundary(int dimension, BoundaryIdentifier, BoundaryAutoPointer & );
-  bool GetBoundary(int dimension, BoundaryIdentifier, BoundaryAutoPointer & ) const;
-
-  /** Access routines to fill the BoundaryData container
-   *  (m_BoundaryDataContainers), and get information from it. */
-  void SetBoundaryData(int dimension, BoundaryIdentifier, CellPixelType);
-  bool GetBoundaryData(int dimension, BoundaryIdentifier, CellPixelType*) const;
-
-  /** Indicate that the cell identified by \e boundaryId is a part of
-   *  the boundary of the cell identified by \e cellId.  The dimension
-   *  of the given boundary cell must be specified by \e dimension,
-   *  and a unique CellFeatureIdentifier \e featureId must be assigned
-   *  for each distinct boundary feature of a given dimension.
-   *  CellFeatureIdentifier is equivalent to <tt>unsigned long</tt> by
-   *  default, and will not typically need to be changed.
+  /** 
+   * Explicitly assign \a boundaryId as a part of the boundary of \a
+   * cellId.  The identifiers \a boundaryId and \a cellId must
+   * identify cell objects already in the mesh.  The dimension of \a
+   * boundaryId must be specified by \a dimension, and a unique
+   * CellFeatureIdentifier \a featureId must be assigned for each
+   * distinct boundary feature of a given dimension.
+   * CellFeatureIdentifier is equivalent to <tt>unsigned long</tt> by
+   * default, and will not typically need to be changed.  The
+   * UsingCells list of \a boundaryId is automatically updated to
+   * include \a cellId.
    */
   void SetBoundaryAssignment(int dimension, CellIdentifier cellId,
                              CellFeatureIdentifier featureId,
@@ -409,7 +368,7 @@ public:
   /** Get the boundary feature of the given dimension of the given cell
    * corresponding to the given feature identifier. */
   bool GetCellBoundaryFeature(int dimension, CellIdentifier,
-                       CellFeatureIdentifier, BoundaryAutoPointer & ) const;
+                              CellFeatureIdentifier, CellAutoPointer& ) const;
 
   /** Get the set of cells neighboring the given cell across the given boundary
    * feature.  Returns the number of neighbors found.  If cellSet is not NULL,
@@ -429,17 +388,17 @@ public:
   /**
    * Check if there is an explicitly assigned boundary feature for the
    * given dimension and cell- and cell-feature-identifiers.  If there
-   * is, a pointer to it is given back through \e boundary (if \e
-   * boundary != NULL) and true is returned.  Otherwise, false is
+   * is, a pointer to it is given back through \a boundary (if \a
+   * boundary != NULL) and \c true is returned.  Otherwise, \c false is
    * returned.
    */
   bool GetAssignedCellBoundaryIfOneExists(int dimension, CellIdentifier,
                                           CellFeatureIdentifier,
-                                          BoundaryAutoPointer& ) const;
+                                          CellAutoPointer& ) const;
 
   /** Dynamically build the links from points back to their using cells.  This
    * information is stored in the cell links container, not in the points. */
-  void BuildCellLinks(void);
+  void BuildCellLinks();
 
   /** Get the bounding box of a cell in the mesh. The user
    *  must supply the bounding box. The methods return a pointer to
@@ -481,14 +440,6 @@ public:
   itkSetMacro( CellsAllocationMethod, CellsAllocationMethodType );  
   itkGetConstMacro( CellsAllocationMethod, CellsAllocationMethodType );  
 
-  /** Set/Get the identification of the method used to allocate Boundary cells
-      \warning Failure to call this method correctly will lead to memory leaks
-      and/or segmentation faults because the boundary cell memory will not be 
-      erased or will be erased with an improper method.  */
-  itkSetMacro( BoundariesAllocationMethod, BoundariesAllocationMethodType );  
-  itkGetConstMacro( BoundariesAllocationMethod, BoundariesAllocationMethodType );  
-
-
 protected:
   /** Constructor for use by New() method. */
   Mesh();
@@ -498,25 +449,13 @@ protected:
   /** Release the memory allocated for the cells pointers. This is done
       based on information provided by the user through the method
       SetCellsAllocationMethod()   */
-  void ReleaseCellsMemory(void);
-
-  /** Release the memory allocated for the Bondary cells pointers. 
-      This is done based on information provided by the user through 
-      the method SetBoundariesAllocationMethod()   */
-  void ReleaseBoundariesMemory(void);
-
-  /** Release the memory allocated for the Bondary cells pointers
-      for a particular dimension of boundaries.
-      This is done based on information provided by the user through 
-      the method SetBoundariesAllocationMethod()   */
-  void ReleaseBoundariesMemory( unsigned int dimension );
+  void ReleaseCellsMemory();
 
 private:
   Mesh(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   CellsAllocationMethodType             m_CellsAllocationMethod;
-  BoundariesAllocationMethodType        m_BoundariesAllocationMethod;
 
 }; // End Class: Mesh
 

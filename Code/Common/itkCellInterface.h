@@ -97,9 +97,6 @@ namespace itk
  * Define an abstract interface for cells.  Actual cell types derive from
  * this class.
  *
- * Extra information in cells that are actually boundaries between other
- * cells is provided in the CellBoundary wrapper.
- *
  * Template parameters for Cell:
  *
  * TPixelType = The type stored with an entity (cell, point, or boundary).
@@ -374,12 +371,42 @@ public:
   
   /** Interface to the boundary form of the cell to set/get UsingCells.
    * See the boundary wrapper source for more information. */
-  virtual bool IsBoundary(void);
+
+  /** Returns true if the cell has been explicitly assigned as a
+   *  boundary, false otherwise. */
+  virtual bool IsExplicitBoundary(void);
+
+  /**
+   * Register the fact that this cell is a part of the boundary of the
+   * cell \a cellId, by adding \a cellId to the UsingCellsContainer.
+   */
   virtual void AddUsingCell(CellIdentifier cellId);
+
+  /**
+   * Remove a cell from the UsingCellsContainer.
+   */
   virtual void RemoveUsingCell(CellIdentifier cellId);
+
+  /**
+   * Test if a cell is in the UsingCellsContainer.  A result of \c true
+   * indicates that this cell is part of the boundary of the cell \a
+   * cellId, assuming that boundary information has been recorded.
+   */
   virtual bool IsUsingCell(CellIdentifier cellId);
+
+  /**
+   * Get the number of cells in the UsingCellsContainer.
+   */
   virtual unsigned int GetNumberOfUsingCells(void);
+
+  /**
+   * Get a begin iterator for the UsingCellsContainer.
+   */
   virtual UsingCellsContainerIterator UsingCellsBegin(void);
+
+  /**
+   * Get an end iterator for the UsingCellsContainer.
+   */
   virtual UsingCellsContainerIterator UsingCellsEnd(void);
     
   /** Standard part of every itk Object. */

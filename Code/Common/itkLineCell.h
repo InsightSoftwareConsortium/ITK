@@ -18,7 +18,6 @@
 #define __itkLineCell_h
 
 #include "itkCellInterface.h"
-#include "itkCellBoundary.h"
 #include "itkVertexCell.h"
 
 namespace itk
@@ -26,8 +25,6 @@ namespace itk
 
 /** \class LineCell
  * LineCell represents a line segment for a Mesh.
- *
- * The CellBoundary wrapper for this cell is LineBoundary.
  *
  * Template parameters for LineCell:
  *
@@ -53,7 +50,7 @@ public:
   itkTypeMacro(LineCell, CellInterface);
 
   /** The type of boundary for this lines's vertices. */
-  typedef VertexBoundary< TCellInterface >     VertexType;
+  typedef VertexCell< TCellInterface >         VertexType;
   typedef typename VertexType::SelfAutoPointer VertexAutoPointer;
     
   /** Line-specific topology numbers. */
@@ -97,23 +94,6 @@ protected:
   void operator=(const Self&); //purposely not implemented
 };
 
-
-/** \class LineBoundary
- * Create a boundary-wrapped version of the LineCell.
- *
- * \ingroup MeshObjects
- */
-template <typename TCellInterface>
-class LineBoundary:
-  public CellBoundary< LineCell< TCellInterface > >
-{
-public:
-  /** Standard class typedefs. */
-  itkCellCommonTypedefs(LineBoundary);
-
-  /** Standard part of every itk Object. */
-  itkTypeMacro(LineBoundary, CellBoundary);
-};
 
 } // end namespace itk
 

@@ -18,7 +18,6 @@
 #define __itkQuadraticEdgeCell_h
 
 #include "itkCellInterface.h"
-#include "itkCellBoundary.h"
 #include "itkVertexCell.h"
 
 namespace itk
@@ -26,8 +25,6 @@ namespace itk
 
 /** \class QuadraticEdgeCell
  * QuadraticEdgeCell represents a second order line segment for a Mesh.
- *
- * The CellBoundary wrapper for this cell is QuadraticEdgeBoundary.
  *
  * Template parameters for QuadraticEdgeCell:
  *
@@ -53,8 +50,8 @@ public:
   itkTypeMacro(QuadraticEdgeCell, CellInterface);
 
   /** The type of boundary for this lines's vertices. */
-  typedef VertexBoundary< TCellInterface >     VertexType;
-  typedef typename VertexType::SelfAutoPointer VertexAutoPointer;
+  typedef VertexCell< TCellInterface >             VertexType;
+  typedef typename VertexType::SelfAutoPointer     VertexAutoPointer;
     
   /** QuadraticEdge-specific topology numbers. */
   itkStaticConstMacro(NumberOfPoints, unsigned int, 3);
@@ -102,24 +99,6 @@ protected:
 private:
   QuadraticEdgeCell(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-};
-
-
-/** \class QuadraticEdgeBoundary
- * Create a boundary-wrapped version of the QuadraticEdgeCell.
- *
- * \ingroup MeshObjects
- */
-template <typename TCellInterface>
-class QuadraticEdgeBoundary:
-  public CellBoundary< QuadraticEdgeCell< TCellInterface > >
-{
-public:
-  /** Standard class typedefs. */
-  itkCellCommonTypedefs(QuadraticEdgeBoundary);
-
-  /** Standard part of every itk Object. */
-  itkTypeMacro(QuadraticEdgeBoundary, CellBoundary);
 };
 
 } // end namespace itk
