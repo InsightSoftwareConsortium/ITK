@@ -145,8 +145,6 @@ int main()
   detector->SetPropagateOutwards( true );
   detector->SetInflationStrength( 0.5 );
 
-  detector->SetDebugOn( true );
-
   std::cout << "Running full-band version" << std::endl;
   detector->Update();
 
