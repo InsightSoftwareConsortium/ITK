@@ -26,9 +26,6 @@ bool
 FloodFilledImageFunctionConditionalIterator<TImage, TFunction>
 ::IsPixelIncluded(IndexType index)
 {
-  FunctionInputType position;
-
-  // Evaluate the function at this point
   return m_Function->EvaluateAtIndex(index);
 }
 
