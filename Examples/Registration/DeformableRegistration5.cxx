@@ -266,6 +266,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   filter->SetFixedImage( fixedImageCaster->GetOutput() );
   filter->SetMovingImage( matcher->GetOutput() );
+
   // Software Guide : EndCodeSnippet
 
 
@@ -273,16 +274,16 @@ int main( int argc, char *argv[] )
   //
   // The level set motion registration filter has two parameters: the
   // number of iterations to be performed and the standard deviation
-  // of the Gaussian smoothing kernel to be applied to the deformation
-  // field after each iteration.
+  // of the Gaussian smoothing kernel to be applied to the image prior
+  // to calculating gradients.
   // \index{itk::LevelSetMotionRegistrationFilter!SetNumberOfIterations()}
   // \index{itk::LevelSetMotionRegistrationFilter!SetStandardDeviations()}
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->SetNumberOfIterations( 40 );
-  filter->SetGradientSmoothingStandardDeviations( 1.0 );
+  filter->SetNumberOfIterations( 50 );
+  filter->SetGradientSmoothingStandardDeviations(4);
   // Software Guide : EndCodeSnippet
 
 
@@ -460,6 +461,15 @@ int main( int argc, char *argv[] )
 
   region3D.SetSize( size3D );
   region3D.SetIndex( index3D );
+
+  VectorImage2DType::SpacingType spacing2D   = vectorImage2D->GetSpacing();
+  VectorImage3DType::SpacingType spacing3D;
+
+  spacing3D[0] = spacing2D[0];
+  spacing3D[1] = spacing2D[1];
+  spacing3D[2] = 1.0;
+
+  vectorImage3D->SetSpacing( spacing3D );
 
   vectorImage3D->SetRegions( region3D );
   vectorImage3D->Allocate();

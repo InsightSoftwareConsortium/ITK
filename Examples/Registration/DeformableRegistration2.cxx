@@ -279,7 +279,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->SetNumberOfIterations( 150 );
+  filter->SetNumberOfIterations( 50 );
   filter->SetStandardDeviations( 1.0 );
   // Software Guide : EndCodeSnippet
 
