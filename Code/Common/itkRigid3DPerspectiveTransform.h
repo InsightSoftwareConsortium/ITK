@@ -87,7 +87,7 @@ public:
     enum 
     { 
       InputSpaceDimension      = 3,
-      OutputSpaceDimension     = 2,
+      OutputSpaceDimension     = 2
     };
 
     /// Dimension of parameters
