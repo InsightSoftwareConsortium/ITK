@@ -146,10 +146,7 @@ SpatialSampleContainer& samples ) const
   if( allOutside )
     {
     // if all the samples mapped to the outside throw an exception
-    ExceptionObject err(__FILE__, __LINE__);
-    err.SetLocation( "SampleFixedImageDomain()" );
-    err.SetDescription( "All the sampled point mapped to outside of the moving image" );
-    throw err;
+    itkExceptionMacro(<<"All the sampled point mapped to outside of the moving image" );
     }
 
 }
@@ -228,10 +225,7 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     {
     // at least half the samples in B did not occur within
     // the Parzen window width of samples in A
-    ExceptionObject err(__FILE__, __LINE__);
-    err.SetLocation( "GetValue()" );
-    err.SetDescription( "Standard deviation is too small" );
-    throw err;
+    itkExceptionMacro(<<"Standard deviation is too small" );
     }
 
   MeasureType measure = dLogSumFixed + dLogSumMoving - dLogSumJoint;
@@ -384,10 +378,7 @@ DerivativeType& derivative) const
     {
     // at least half the samples in B did not occur within
     // the Parzen window width of samples in A
-    ExceptionObject err(__FILE__, __LINE__);
-    err.SetLocation( "GetValueAndDerivative()" );
-    err.SetDescription( "Standard deviation is too small" );
-    throw err;
+    itkExceptionMacro(<<"Standard deviation is too small" );
     }
 
 
