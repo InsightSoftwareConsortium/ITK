@@ -79,7 +79,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkIterativeClosestPointMetric.txx"
 #include "itkKLMRegionGrowImageFilter.txx"
 #include "itkKalmanLinearEstimator.h"
-#include "itkKullbackLieblerCompareHistogramImageToImageMetric.txx"
+#include "itkKullbackLeiblerCompareHistogramImageToImageMetric.txx"
 #include "itkLaplacianSegmentationLevelSetFunction.txx"
 #include "itkLaplacianSegmentationLevelSetImageFilter.txx"
 #include "itkLevelSetNeighborhoodExtractor.txx"
