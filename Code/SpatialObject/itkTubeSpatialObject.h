@@ -82,6 +82,10 @@ public:
   /** Return the number of points in the list */
   unsigned long GetNumberOfPoints(void) const {return m_Points.size();}
 
+  /** Set the type of tube end-type: 0 = flat, 1 = rounded */
+  itkSetMacro(EndType,unsigned int);
+  itkGetMacro(EndType,unsigned int);
+
   /** Remove the list of tube points */
   void Clear( void );
 
@@ -119,6 +123,7 @@ protected:
 
   PointListType     m_Points;
   int               m_ParentPoint;
+  unsigned int      m_EndType;
 
   TubeSpatialObject();
   virtual ~TubeSpatialObject();
