@@ -28,6 +28,7 @@ SpatialObjectProperty< TComponentType >
 ::SpatialObjectProperty()
 {
   m_MTime=0;
+  m_Color.SetRed(1);
 }
 
 template< class TComponentType >
