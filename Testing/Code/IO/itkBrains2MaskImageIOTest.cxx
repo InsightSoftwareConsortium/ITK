@@ -25,6 +25,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
 #include "itkFlipImageFilter.h"
+#include "vnl/vnl_sample.h"
 
 int itkBrains2MaskTest(int ac, char *av[])
 {
@@ -46,14 +47,16 @@ int itkBrains2MaskTest(int ac, char *av[])
   img->SetBufferedRegion(region);
   img->SetRequestedRegion(region);
   img->Allocate();
-  srand( (unsigned)time( NULL) );
+
+  vnl_sample_reseed(8775070);
   itk::ImageRegionIterator<ImageType> ri(img,region);
   try
     {
     unsigned int counter = 0;
     while(!ri.IsAtEnd())
       {
-      unsigned int val = rand() % 16384;
+      unsigned int val
+        = static_cast<unsigned int>(vnl_sample_uniform(0.0, 16384.0));
       val = val > 8192 ? 255 : 0;
       if(counter && counter % 8 == 0)
         std::cerr << val << std::endl;
@@ -120,7 +123,7 @@ int itkBrains2MaskTest(int ac, char *av[])
     imageReader->Update();
     readImage = imageReader->GetOutput();
     }
-  catch (itk::ExceptionObject &ex)
+  catch (itk::ExceptionObject &)
     {
     return -1;
     }
