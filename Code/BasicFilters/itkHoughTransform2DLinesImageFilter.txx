@@ -133,7 +133,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
         index[0]=(long unsigned int)(image_it.GetIndex()[0]*cos(angle)+image_it.GetIndex()[1]*sin(angle)); // m_R
         index[1]= (long unsigned int)((m_AngleAxisSize/2)+m_AngleAxisSize*angle/(2*PI)); // m_Theta
   
-        if ( outputImage->GetBufferedRegion().IsInside(index) )
+        if ( (index[0]>0) && (index[0]<=(long)outputImage->GetBufferedRegion().GetSize()[0])) // the preceeding "if" should be replacable with "if ( outputImage->GetBufferedRegion().IsInside(index) )" but the algorithm fails if it is
           {
           outputImage->SetPixel(index, outputImage->GetPixel(index)+1);  
           }
@@ -163,10 +163,9 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
     itkExceptionMacro("Update() must be called before Simplify().");
     } 
 
-  Size<2> size;
   /** Allocate the simplify accumulator */
+  m_SimplifyAccumulator = OutputImageType::New();
   m_SimplifyAccumulator->SetRegions( outputImage->GetLargestPossibleRegion() );
-  
   m_SimplifyAccumulator->SetOrigin(inputImage->GetOrigin());
   m_SimplifyAccumulator->SetSpacing(inputImage->GetSpacing());
   m_SimplifyAccumulator->Allocate();
@@ -194,7 +193,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
         index[0]= (long int)(image_it.GetIndex()[0]*cos(angle)+image_it.GetIndex()[1]*sin(angle)); // m_R
         index[1]= (long int)((m_AngleAxisSize/2)+m_AngleAxisSize*angle/(2*PI)); // m_Theta
   
-        if ( (index[0]>0) && (index[0]<(long)size[0]) && (index[1]>0) && (index[1]<(long)size[1]))
+        if ( outputImage->GetBufferedRegion().IsInside(index) )
           {
           value = outputImage->GetPixel(index);
           if( value > valuemax)
@@ -243,11 +242,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
   typedef Image<float,2> InternalImageType;
   
   OutputImagePointer  outputImage = OutputImageType::New();
-
-  typename OutputImageType::RegionType region;
-  region.SetSize(this->GetOutput(0)->GetLargestPossibleRegion().GetSize());
-  region.SetIndex(this->GetOutput(0)->GetLargestPossibleRegion().GetIndex());
-  outputImage->SetRegions( region );
+  outputImage->SetRegions( this->GetOutput(0)->GetLargestPossibleRegion() );
   outputImage->SetOrigin(this->GetOutput(0)->GetOrigin());
   outputImage->SetSpacing(this->GetOutput(0)->GetSpacing());
   outputImage->Allocate();
@@ -297,7 +292,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
     for(it_input.GoToBegin();!it_input.IsAtEnd();++it_input)
       {
       if(it_input.Get() == max) 
-        { 
+        {
         // Create the line
         LineType::PointListType list; // insert two points per line
 
@@ -344,16 +339,11 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
         // Remove a black disc from the hough space domain
         for(double angle = 0; angle <= 2*PI ; angle += PI/1000)
           {     
-          for(double lenght = 0; lenght < m_DiscRadius;lenght += 1)
+          for(double length = 0; length < m_DiscRadius;length += 1)
             {
-            index[0] = (long int)(it_input.GetIndex()[0] + lenght * cos(angle));
-            index[1] = (long int)(it_input.GetIndex()[1] + lenght * sin(angle));
-            if( ((index[0]<(long)postProcessImage->GetLargestPossibleRegion().GetSize()[0]) 
-                 && (index[0]>=0)
-                 && (index[1]<(long)postProcessImage->GetLargestPossibleRegion().GetSize()[1]) 
-                 && (index[1]>=0)
-                  )
-              )
+            index[0] = (long int)(it_input.GetIndex()[0] + length * cos(angle));
+            index[1] = (long int)(it_input.GetIndex()[1] + length * sin(angle));
+            if( postProcessImage->GetBufferedRegion().IsInside(index) )
               {
               postProcessImage->SetPixel(index,0);
               }
