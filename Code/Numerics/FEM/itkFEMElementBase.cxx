@@ -234,12 +234,15 @@ void Element::GetMassMatrix( MatrixType& Me ) const
     this->Jacobian(ip,J,&shapeD);
     Float detJ=this->JacobianDeterminant( ip, &J );
     
-    for(unsigned int i=0; i<Nnodes; i++)
+    for(unsigned int ni=0; ni<Nnodes; ni++)
     {
-      for(unsigned int j=0; j<Nnodes; j++)
+      for(unsigned int nj=0; nj<Nnodes; nj++)
       {
-        Me[i*NnDOF][j*NnDOF]+=detJ*w*shape[i]*shape[j];
-        Me[i*NnDOF+1][j*NnDOF+1]+=detJ*w*shape[i]*shape[j];
+        Float m=detJ*w*shape[ni]*shape[nj];
+        for(unsigned int d=0; d<NnDOF; d++)
+        {
+          Me[ni*NnDOF+d][nj*NnDOF+d]+=m;
+        }
       }
     }
   }
