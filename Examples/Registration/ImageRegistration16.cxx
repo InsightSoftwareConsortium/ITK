@@ -57,7 +57,6 @@ public:
 protected:
   CommandIterationUpdate() 
   {
-    m_LastMetricValue = 0; 
     m_IterationNumber=0;
   }
 public:
@@ -77,18 +76,11 @@ public:
         {
         return;
         }
-      double currentValue = optimizer->GetValue();
-      // Only print out when the Metric value changes
-      if( fabs( m_LastMetricValue - currentValue ) > 1e-7 )
-        { 
-        std::cout << m_IterationNumber++ << "   ";
-        std::cout << currentValue << "   ";
-        std::cout << optimizer->GetCurrentPosition() << std::endl;
-        m_LastMetricValue = currentValue;
-        }
+      std::cout << m_IterationNumber++ << "   ";
+      std::cout << optimizer->GetCachedValue() << "   ";
+      std::cout << optimizer->GetCachedCurrentPosition() << std::endl;
     }
 private:
-  double m_LastMetricValue;
   unsigned long m_IterationNumber;
 };
 

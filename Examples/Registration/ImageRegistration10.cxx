@@ -46,6 +46,43 @@
 #include "itkSquaredDifferenceImageFilter.h"
 #include "itkFileOutputWindow.h"
 
+//
+//  The following piece of code implements an observer
+//  that will monitor the evolution of the registration process.
+//
+#include "itkCommand.h"
+class CommandIterationUpdate : public itk::Command 
+{
+public:
+  typedef  CommandIterationUpdate   Self;
+  typedef  itk::Command             Superclass;
+  typedef itk::SmartPointer<Self>  Pointer;
+  itkNewMacro( Self );
+protected:
+  CommandIterationUpdate() {};
+public:
+  typedef itk::AmoebaOptimizer         OptimizerType;
+  typedef   const OptimizerType   *    OptimizerPointer;
+
+  void Execute(itk::Object *caller, const itk::EventObject & event)
+  {
+    Execute( (const itk::Object *)caller, event);
+  }
+
+  void Execute(const itk::Object * object, const itk::EventObject & event)
+  {
+    OptimizerPointer optimizer = 
+                      dynamic_cast< OptimizerPointer >( object );
+    if( typeid( event ) != typeid( itk::IterationEvent ) )
+      {
+      return;
+      }
+    std::cout << optimizer->GetCachedValue() << "   ";
+    std::cout << optimizer->GetCachedCurrentPosition() << std::endl;
+  }
+};
+
+
 int main( int argc, char *argv[] )
 {
   if( argc < 3 )
@@ -285,6 +322,14 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   optimizer->SetMaximumNumberOfIterations( 200 );
   // Software Guide : EndCodeSnippet
+
+
+
+  //
+  // Create the Command observer and register it with the optimizer.
+  //
+  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  optimizer->AddObserver( itk::IterationEvent(), observer );
 
   
   //  The registration process is triggered by an invocation of the
