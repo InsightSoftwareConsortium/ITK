@@ -170,8 +170,14 @@ public:
 
   void SetMeanPercentError(double x[6]);
   void SetVarPercentError(double x[6]);
-//  void GetMeanPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_MeanPercentError[i]};
-//  void GetVarPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_VarPercentError[i]};
+
+  void GetMeanPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_MeanPercentError[i]};
+  void GetVarPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_VarPercentError[i]};
+  void GetMean(double x[6]){for(int i=0;i<6;i++) x[i]=m_Mean[i]};
+  void GetVar(double x[6]){for(int i=0;i<6;i++) x[i]=m_Var[i]};
+  void GetMeanTolerance(double x[6]){for(int i=0;i<6;i++) x[i]=m_MeanTolerance[i]};
+  void GetVarTolerance(double x[6]){for(int i=0;i<6;i++) x[i]=m_VarTolerance[i]};
+
 
   itkSetMacro(UseBackgroundInAPrior, bool);
   itkGetMacro(UseBackgroundInAPrior, bool);
@@ -227,6 +233,12 @@ public:
     m_TestVar[0] = t1;
     m_TestVar[1] = t2;
     m_TestVar[2] = t3;
+  }
+  void GetTestMean(unsigned int x[3]){
+    x[0]=m_TestMean[0];x[1]=m_TestMean[1];x[2]=m_TestMean[2];
+  }
+  void GetTestVar(unsigned int x[3]){
+    x[0]=m_TestVar[0];x[1]=m_TestVar[1];x[2]=m_TestVar[2];
   }
 
   VoronoiPointer GetVoronoiDiagram(void){ return m_WorkingVD; }; 
