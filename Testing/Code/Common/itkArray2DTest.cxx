@@ -17,7 +17,6 @@
 #include <iostream>
 
 #include "itkArray2D.h"
-#include "vnl_math.h"
 
 
 int itkArray2DTest(int, char**)
@@ -51,8 +50,9 @@ int itkArray2DTest(int, char**)
     {
     for( unsigned int c=0; c<cols; c++)
       {
-        const double diff = a(r,c) - b(r,c);
-      if( vnl_math_abs( diff ) > tolerance )
+      double diff = a(r,c) - b(r,c);
+      diff = (diff > 0.0 ) ? diff : -diff; // take abs value
+      if( diff > tolerance )
         {
         std::cerr << "Error in copy constructor " << std::endl;
         return EXIT_FAILURE;
@@ -67,8 +67,9 @@ int itkArray2DTest(int, char**)
     {
     for( unsigned int c=0; c<cols; c++)
       {
-        const double diff = d(r,c) - vm(r,c);
-      if( vnl_math_abs( diff ) > tolerance )
+      double diff = d(r,c) - vm(r,c);
+      diff = (diff > 0.0 ) ? diff : -diff; // take abs value
+      if(  diff  > tolerance )
         {
         std::cerr << "Error in construction from vn_matrix" << std::endl;
         return EXIT_FAILURE;
@@ -85,8 +86,9 @@ int itkArray2DTest(int, char**)
     {
     for( unsigned int c=0; c<cols; c++)
       {
-        const double diff = a(r,c) - e(r,c);
-      if( vnl_math_abs( diff ) > tolerance )
+      double diff = a(r,c) - e(r,c);
+      diff = (diff > 0.0 ) ? diff : -diff; // take abs value
+      if( diff  > tolerance )
         {
         std::cerr << "Error in assignment from Array2D constructor " << std::endl;
         return EXIT_FAILURE;
@@ -103,8 +105,9 @@ int itkArray2DTest(int, char**)
     {
     for( unsigned int c=0; c<cols; c++)
       {
-        const double diff = f(r,c) - vm(r,c);
-      if( vnl_math_abs( diff ) > tolerance )
+      double diff = f(r,c) - vm(r,c);
+      diff = (diff > 0.0 ) ? diff : -diff; // take abs value
+      if(  diff > tolerance )
         {
         std::cerr << "Error in assignment from  vn_matrix" << std::endl;
         return EXIT_FAILURE;
