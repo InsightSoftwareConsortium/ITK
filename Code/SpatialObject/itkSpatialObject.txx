@@ -77,6 +77,7 @@ SpatialObject< TDimension >
     it++;
     m_InternalChildrenList.erase(pos);
     }
+  m_InternalChildrenList.clear();
 }
 
 /** Return the Derivative at a point given the order of the derivative */
