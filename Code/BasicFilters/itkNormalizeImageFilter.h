@@ -71,8 +71,8 @@ protected:
   NormalizeImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  StatisticsImageFilter<TInputImage>::Pointer m_StatisticsFilter;
-  ShiftScaleImageFilter<TInputImage,TOutputImage>::Pointer m_ShiftScaleFilter;
+  typename StatisticsImageFilter<TInputImage>::Pointer m_StatisticsFilter;
+  typename ShiftScaleImageFilter<TInputImage,TOutputImage>::Pointer m_ShiftScaleFilter;
   bool m_ProgressDone;
 
   void SetupProgressMethods(ProcessObject *statistic, ProcessObject *shiftScale);
