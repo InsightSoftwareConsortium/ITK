@@ -27,10 +27,6 @@ element.CreateStructuringElement()
 
 filter.SetKernel( element )
 
-sout = itkStringStream()
-filter.Print( sout.GetStream() )
-print sout.GetString()
-
 writer.Update()
 
 
