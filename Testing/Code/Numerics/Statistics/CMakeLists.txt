@@ -11,51 +11,52 @@ SET(STATISTICS_TESTS ${CXX_TEST_PATH}/itkStatisticsTests)
 ADD_TEST(itkStatisticsPrintTest ${STATISTICS_TESTS} itkStatisticsPrintTest)
 ADD_TEST(itkStatisticsAlgorithmTest ${STATISTICS_TESTS} itkStatisticsAlgorithmTest)
 ADD_TEST(itkCovarianceCalculatorTest ${STATISTICS_TESTS} itkCovarianceCalculatorTest)
-ADD_TEST(itkMeanCalculatorTest ${STATISTICS_TESTS} itkMeanCalculatorTest)
-ADD_TEST(itkWeightedMeanCalculatorTest ${STATISTICS_TESTS} itkWeightedMeanCalculatorTest)
-ADD_TEST(itkSubsampleTest ${STATISTICS_TESTS} itkSubsampleTest)
-ADD_TEST(itkMembershipSampleTest ${STATISTICS_TESTS} itkMembershipSampleTest)
+ADD_TEST(itkDenseFrequencyContainerTest ${STATISTICS_TESTS} itkDenseFrequencyContainerTest)
+ADD_TEST(itkExpectationMaximizationMixtureModelEstimatorTest 
+         ${STATISTICS_TESTS} 
+         itkExpectationMaximizationMixtureModelEstimatorTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
+ADD_TEST(itkGoodnessOfFitMixtureModelCostFunctionTest ${STATISTICS_TESTS} 
+         itkGoodnessOfFitMixtureModelCostFunctionTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
+ADD_TEST(itkHistogramTest ${STATISTICS_TESTS} itkHistogramTest)
 ADD_TEST(itkImageToListAdaptorTest ${STATISTICS_TESTS} itkImageToListAdaptorTest)
+ADD_TEST(itkKdTreeBasedKmeansEstimatorTest ${STATISTICS_TESTS} 
+         itkKdTreeBasedKmeansEstimatorTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
 ADD_TEST(itkListSampleTest ${STATISTICS_TESTS} itkListSampleTest)
 ADD_TEST(itkListSampleToHistogramFilterTest ${STATISTICS_TESTS} itkListSampleToHistogramFilterTest)
 ADD_TEST(itkListSampleToHistogramGeneratorTest ${STATISTICS_TESTS} itkListSampleToHistogramGeneratorTest)
-ADD_TEST(itkHistogramTest ${STATISTICS_TESTS} itkHistogramTest)
-ADD_TEST(itkDenseFrequencyContainerTest ${STATISTICS_TESTS} itkDenseFrequencyContainerTest)
+ADD_TEST(itkMeanCalculatorTest ${STATISTICS_TESTS} itkMeanCalculatorTest)
+ADD_TEST(itkMembershipSampleTest ${STATISTICS_TESTS} itkMembershipSampleTest)
+ADD_TEST(itkNeighborhoodSamplerTest ${STATISTICS_TESTS} itkNeighborhoodSamplerTest
+ADD_TEST(itkMembershipSampleGeneratorTest ${STATISTICS_TESTS} itkMembershipSampleGeneratorTest)
 ADD_TEST(itkNormalVariateGeneratorTest ${STATISTICS_TESTS} 
                     itkNormalVariateGeneratorTest)
-ADD_TEST(itkKdTreeBasedKmeansEstimatorTest ${STATISTICS_TESTS} 
-         itkKdTreeBasedKmeansEstimatorTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
-ADD_TEST(itkExpectationMaximizationMixtureModelEstimatorTest ${STATISTICS_TESTS} 
-         itkExpectationMaximizationMixtureModelEstimatorTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
-
-ADD_TEST(itkGoodnessOfFitMixtureModelCostFunctionTest ${STATISTICS_TESTS} 
-         itkGoodnessOfFitMixtureModelCostFunctionTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
 
 ADD_TEST(itkSampleClassifierTest ${STATISTICS_TESTS} 
          itkSampleClassifierTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
-
-ADD_TEST(itkNeighborhoodSamplerTest ${STATISTICS_TESTS} itkNeighborhoodSamplerTest)
+ADD_TEST(itkSubsampleTest ${STATISTICS_TESTS} itkSubsampleTest)
+ADD_TEST(itkWeightedMeanCalculatorTest ${STATISTICS_TESTS} itkWeightedMeanCalculatorTest))
 
 SET(Statistics_SRCS
 itkStatisticsPrintTest.cxx
 itkStatisticsAlgorithmTest.cxx
 itkCovarianceCalculatorTest.cxx
-itkMeanCalculatorTest.cxx
-itkWeightedMeanCalculatorTest.cxx
-itkSubsampleTest.cxx
-itkMembershipSampleTest.cxx
+itkDenseFrequencyContainerTest.cxx
+itkExpectationMaximizationMixtureModelEstimatorTest.cxx
+itkGoodnessOfFitMixtureModelCostFunctionTest
+itkHistogramTest.cxx
 itkImageToListAdaptorTest.cxx
+itkKdTreeBasedKmeansEstimatorTest.cxx
 itkListSampleTest.cxx
 itkListSampleToHistogramFilterTest.cxx
 itkListSampleToHistogramGeneratorTest.cxx
-itkHistogramTest.cxx
-itkDenseFrequencyContainerTest.cxx
-itkNormalVariateGeneratorTest.cxx
-itkKdTreeBasedKmeansEstimatorTest.cxx
-itkExpectationMaximizationMixtureModelEstimatorTest.cxx
-itkGoodnessOfFitMixtureModelCostFunctionTest
-itkSampleClassifierTest.cxx
+itkMeanCalculatorTest.cxx
+itkMembershipSampleTest.cxx
+itkMembershipSampleGeneratorTest.cxx
 itkNeighborhoodSamplerTest.cxx
+itkNormalVariateGeneratorTest.cxx
+itkSampleClassifierTest.cxx
+itkSubsampleTest.cxx
+itkWeightedMeanCalculatorTest.cxx
 )
 
 ADD_EXECUTABLE(itkStatisticsTests itkStatisticsTests.cxx ${Statistics_SRCS})
