@@ -6,7 +6,6 @@
 
 int main ( int argc, char* argv[] ) 
   {
-
   // Basic configuration of the logger
   log4cxx::BasicConfigurator::configure();
 
@@ -17,6 +16,5 @@ int main ( int argc, char* argv[] )
   logger->info ( "This is an info message" );
   logger->warn ( "This is a warn message" );
   logger->error ( "This is a error message" );
-  exit ( 0 );
   return 0;
   }
