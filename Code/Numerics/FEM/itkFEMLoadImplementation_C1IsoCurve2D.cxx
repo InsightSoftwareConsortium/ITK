@@ -37,7 +37,7 @@ Element::LoadVectorType LoadImplementation_C1IsoCurve2D(C1IsoCurve2D::ConstPoint
 
   typedef Element::Float Float;
 
-  vnl_vector<Float> fvec(element->N()*element->NI(),0.0);
+  vnl_vector<Float> fvec(element->GetNumberOfDegreesOfFreedom()*element->NI(),0.0);
   return fvec;
 
   //Superclass::Fe(L);  // we can't handle this load, pass it over to the parent class

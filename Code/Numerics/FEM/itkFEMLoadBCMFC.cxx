@@ -32,12 +32,12 @@ namespace fem {
 /**
  * Fix a DOF to a prescribed value
  */
-LoadBCMFC::LoadBCMFC(Node::ConstPointer node, int dof, vnl_vector<Node::Float> val)
+LoadBCMFC::LoadBCMFC(Element::ConstPointer element, int dof, vnl_vector<Node::Float> val)
 {
   lhs.clear();
 
   /** Set the correct weight */
-  lhs.push_back( MFCTerm(node, dof, 1.0) );
+  lhs.push_back( MFCTerm(element, dof, 1.0) );
   rhs=val;
 }
 
@@ -52,7 +52,7 @@ void LoadBCMFC::Read( std::istream& f, void* info )
   /**
    * Convert the info pointer to a usable objects
    */
-  Node::ArrayType::ConstPointer nodes=static_cast<ReadInfoType*>(info)->m_node;
+  Element::ArrayType::ConstPointer elements=static_cast<ReadInfoType*>(info)->m_el;
 
 
   /** first call the parent's Read function */
@@ -64,26 +64,26 @@ void LoadBCMFC::Read( std::istream& f, void* info )
   lhs.clear();
   for(int i=0; i<nlhs; i++) 
   {
-    /** read and set pointer to node that we're applying the load to */
+    /** read and set pointer to element that we're applying the load to */
     SkipWhiteSpace(f); f>>n; if(!f) goto out;
-    Node::ConstPointer node;
+    Element::ConstPointer element;
     try
     {
-      node=dynamic_cast<const Node*>( &*nodes->Find(n));
+      element=dynamic_cast<const Element*>( &*elements->Find(n));
     }
     catch ( FEMExceptionObjectNotFound e )
     {
       throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"LoadBCMFC::Read()",e.m_baseClassName,e.m_GN);
     }
 
-    /** read the number of dof within that node */
+    /** read the number of dof within that element */
     SkipWhiteSpace(f); f>>n; if(!f) goto out;
 
     /** read weight */
     SkipWhiteSpace(f); f>>d; if(!f) goto out;
 
     /** add a new MFCTerm to the lhs */
-    lhs.push_back( MFCTerm(node, n, d) );
+    lhs.push_back( MFCTerm(element, n, d) );
   }
 
   /** read the rhs */
@@ -124,8 +124,8 @@ void LoadBCMFC::Write( std::ostream& f, int ofid ) const
   f<<"\t  %==>\n";
   for(LhsType::const_iterator q=lhs.begin(); q!=lhs.end(); q++) 
   {
-    f<<"\t  "<<q->node->GN<<"\t% GN of node"<<"\n";
-    f<<"\t  "<<q->dof<<"\t% DOF# in node"<<"\n";
+    f<<"\t  "<<q->m_element->GN<<"\t% GN of element"<<"\n";
+    f<<"\t  "<<q->dof<<"\t% DOF# in element"<<"\n";
     f<<"\t  "<<q->value<<"\t% weight"<<"\n";
     f<<"\t  %==>\n";
   }

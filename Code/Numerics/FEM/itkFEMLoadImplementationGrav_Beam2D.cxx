@@ -41,8 +41,8 @@ Element::LoadVectorType LoadGravImplementation_Beam2D(Beam2D::ConstPointer eleme
   LoadGrav::Pointer l0=dynamic_cast<LoadGrav*>(&*load);
   if ( !l0 ) throw;
 
-  vnl_vector_fixed<Float,2> n1(element->m_node1->X,element->m_node1->Y);
-  vnl_vector_fixed<Float,2> n2(element->m_node2->X,element->m_node2->Y);
+  vnl_vector_fixed<Float,2> n1(element->m_node[0]->X,element->m_node[0]->Y);
+  vnl_vector_fixed<Float,2> n2(element->m_node[1]->X,element->m_node[1]->Y);
   Float l=(n1-n2).magnitude();
   vnl_vector_fixed<Float,2> dn=(n2-n1)/l;
 

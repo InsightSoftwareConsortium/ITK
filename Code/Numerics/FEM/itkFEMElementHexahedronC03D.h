@@ -18,7 +18,7 @@
 #ifndef __itkElementHexahedronC03D_h
 #define __itkElementHexahedronC03D_h
 
-#include "itkFEMElementBase.h"
+#include "itkFEMElementStandard.h"
 #include "itkFEMLoadElementBase.h"
 #include "itkFEMNodeXYZ.h"
 #include "itkFEMMaterialStandard.h"
@@ -36,19 +36,11 @@ namespace fem {
  * \class HexahedronC03D
  * \brief 8-noded finite element class in 3D space.
  */
-class HexahedronC03D : public Element
+class HexahedronC03D : public ElementStandard<8,3,NodeXYZ>
 {
-FEM_CLASS(HexahedronC03D,Element)
+typedef ElementStandard<8,3,NodeXYZ> TemplatedParentClass;
+FEM_CLASS(HexahedronC03D,TemplatedParentClass)
 public:
-  /**
-   * 24 DOF constant for faster access within the class
-   */
-  enum {NDOF=24};              
-
-  /**
-   * Access to NDOF from base class
-   */
-  int N() const { return NDOF; }
 
   /** 
    * Element stiffness matrix 
@@ -59,29 +51,6 @@ public:
    * Macro that defines a specific version of the Fe() function
    */
   LOAD_FUNCTION();
-
-  /**
-   * Pointers to DOF displacements, which are stored
-   * in node classes.  Expects i from 0 to 23
-   */
-  Displacement* uDOF(int i) const {
-        switch (i % 3) {
-    case 0:
-      return &m_nodes[i/3]->uX;
-      break;
-    case 1:
-      return &m_nodes[i/3]->uY;
-      break;
-    case 2:
-      return &m_nodes[i/3]->uZ;
-      break;
-    default:
-      return 0;
-      break;
-    }
-    return Element::uDOF(i);
-  }
-
 
   /**
    * Read data for this class from input stream
@@ -96,7 +65,7 @@ public:
   /**
    * Default constructor only clears the internal storage
    */
-  HexahedronC03D() : m_mat(0) { for (int k=0; k < 8; k++) { m_nodes[k] = 0; } }
+  HexahedronC03D() : m_mat(0) {}
 
   /**
    * Construct an element by specifying 8 nodes and material
@@ -168,10 +137,6 @@ private:
 
 
 public:
-  /**
-   * pointers to 8 node classes that define the element
-   */
-  NodeXYZ::ConstPointer m_nodes[8];
 
   /**
    * Pointer to geometric and material properties

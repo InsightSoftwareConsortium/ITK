@@ -19,14 +19,17 @@
 
 #include "itkFEMLightObject.h"
 #include "itkFEMPArray.h"
+#include <vector>
+#include <set>
 #include <iostream>
-//#include "itkLightObject.h"
+
 
 namespace itk {
 namespace fem {
 
 
-
+/* Forward declaratoin of Element base class */
+class Element;
 
 /**
  * \class Node
@@ -83,23 +86,6 @@ public:
       GFN(-1), value(0.0) {}
   };
   
-  /**
-   * Return the number of DOF in a derived node class.
-   */
-  virtual int N() const = 0;
-
-  /**
-   * Pure virtual function that returns a pointer to an allocated memory that stores displacement
-   * of i-th degree of freedom of this node.
-   * 
-   * Normally this function is overriden by defining a simple switch statement that returns
-   * pointers to displacement members in derived node object. This function serves the same purpose
-   * as the coresponding one in an element class.
-   *
-   * \sa Element::uDOF
-   */
-  virtual Displacement* uDOF(int i) const = 0;
-
   /* Windows visualization */
   #ifdef FEM_BUILD_VISUALIZATION
     /** Draws the node on the DC */
@@ -107,6 +93,29 @@ public:
     /** Global scale for drawing on the DC */
     static double DC_Scale;
   #endif
+
+
+
+
+//////////////////////////////////////////////////////////////////////////
+  /**
+   * Obtain DOFs associated with this node from element objects
+   * defined in m_elements.
+   */
+  unsigned int GetDegreeOfFreedom(unsigned int i) const;
+
+  /**
+   * List of pointers to elements that use this node. External code is
+   * responsible for maintaining the list.
+   *
+   * FIXME: This should be done in a Mesh class.
+   *        Maybe we should also store a point number in the element that
+   *        uses this node object. 
+   */
+  typedef std::set<Element*> SetOfElements;
+  mutable SetOfElements m_elements;
+
+  static std::vector<double> solution;
 
 };
 

@@ -18,12 +18,12 @@
 #ifndef __itkElementC1IsoCurve2D_h
 #define __itkElementC1IsoCurve2D_h
 
-#include "itkFEMElementBase.h"
+#include "itkFEMElementStandard.h"
+#include "itkFEMNodeXY.h"
 #include "itkFEMLoadElementBase.h"
 #include "itkFEMLoadGrav.h"
 #include "itkFEMObjectFactory.h"
 #include "itkFEMUtility.h"
-#include "itkFEMNode2DIsotropic.h"
 #include "itkFEMMaterialStandard.h"
 #include "vnl/vnl_math.h"
 
@@ -42,17 +42,12 @@ namespace fem {
  * neighboring node positions.  interpolation is with cubic hermite
  * polynomials.    
  */
-class C1IsoCurve2D : public Element
+class C1IsoCurve2D : public ElementStandard<4,1,NodeXY>
 {
-FEM_CLASS(C1IsoCurve2D,Element)
+typedef ElementStandard<4,1,NodeXY> TemplatedParentClass;
+FEM_CLASS(C1IsoCurve2D,TemplatedParentClass)
 public:  
    
-  /**
-   * 4 DOF. constant for faster access within the class
-   *        3 of which overlap
-   */
-  enum {NDOF=4};
-
   /**
    * 2 isotropic dimensions for each DOF
    */
@@ -62,11 +57,6 @@ public:
    * Required virtual functions
    */
 
-  /**
-   * Access to NDOF from base class
-   */
-  int N() const { return NDOF; };
-  
   /**
    * Access to IsotropicDOF
    */
@@ -82,27 +72,6 @@ public:
    */
   LOAD_FUNCTION();
 
-  /**
-   * Pointers to DOF displacements, which are stored in node classes.
-   */
-  Displacement* uDOF(int i) const {
-    switch ( i ) {
-    case 0:
-      return &neg_node1->v;
-      break;
-    case 1:
-      return &cur_node->v;
-      break;  
-    case 2:
-      return &pos_node1->v;
-      break;
-    case 3:
-      return &pos_node2->v;
-      break;  
-    }
-    return Element::uDOF(i);
-  };
-
   int current_match_index;
 
   
@@ -113,8 +82,7 @@ public:
   /**
    * Default constructor only clears the internal storage
    */
-  C1IsoCurve2D() : cur_node(0), neg_node1(0),
-      pos_node1(0), pos_node2(0), mat(0) {}
+  C1IsoCurve2D() : mat(0) {}
 
   /**
    * Construct an element by specifying four nodes and material
@@ -140,16 +108,6 @@ protected:
   vnl_matrix<Float> ControlVec;
 
 public:
-  /** Pointer to node that holds current position */
-  Node2DIsotropic::ConstPointer cur_node;
-
-  /** pointer to negative side of pos_node */
-  Node2DIsotropic::ConstPointer neg_node1;
-  
-  /** pointer to negative sides of cur_node */
-  Node2DIsotropic::ConstPointer pos_node1;
-  Node2DIsotropic::ConstPointer pos_node2;
-
   /**
    * Pointer to geometric and material properties of the element
    */

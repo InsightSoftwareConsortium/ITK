@@ -106,8 +106,8 @@ Element::LoadVectorType LoadGravImplementation_TriC02D(TriC02D::ConstPointer ele
   vnl_vector<Float> pt(2), f(2);
 
   /* Computes point at which gravity load acts on */
-  pt[0] = (element->m_node1->X + element->m_node2->X + element->m_node3->X)/3;
-  pt[1] = (element->m_node1->Y + element->m_node2->Y + element->m_node3->Y)/3;
+  pt[0] = (element->m_node[0]->X + element->m_node[1]->X + element->m_node[2]->X)/3;
+  pt[1] = (element->m_node[0]->Y + element->m_node[1]->Y + element->m_node[2]->Y)/3;
 
   /* Gets gravity load */
   return GravityLoad(f = l0->Fg(pt),element);

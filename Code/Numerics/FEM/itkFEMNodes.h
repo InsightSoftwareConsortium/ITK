@@ -26,4 +26,3 @@
 #include "itkFEMNodeXY.h"
 #include "itkFEMNodeXYZ.h"
 #include "itkFEMNodeXYrotZ.h"
-#include "itkFEMNode2DIsotropic.h"

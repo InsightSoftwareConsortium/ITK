@@ -21,6 +21,7 @@
 #endif
 
 #include "itkFEMNodeBase.h"
+#include "itkFEMElementBase.h"
 
 namespace itk {
 namespace fem {
@@ -39,6 +40,50 @@ namespace fem {
   double Node::DC_Scale=1000.0;
 #endif
 
+
+
+
+std::vector<double> Node::solution;
+
+
+
+
+unsigned int Node::GetDegreeOfFreedom(unsigned int i) const
+{
+  // First Find an element with the most DOFs that uses this node
+  unsigned int ndof=0;
+  ::itk::fem::Element::Pointer el=0;
+  for( ::itk::fem::Node::SetOfElements::const_iterator e=this->m_elements.begin(); 
+       e!=this->m_elements.end();
+       e++ )
+  {
+    if ( (*e)->GetNumberOfDegreesOfFreedomPerPoint() > ndof )
+    {
+      ndof=(*e)->GetNumberOfDegreesOfFreedomPerPoint();
+      el=(*e);
+    }
+  }
+
+  // find a point in an element that corresponds to this node
+  unsigned int pt=0;
+  for (pt=0; pt<el->GetNumberOfPoints(); pt++)
+  {
+    if(el->GetPoint(pt)==this)
+    {
+      break;
+    }
+  }
+
+  // error checking
+  if(pt>=el->GetNumberOfPoints())
+  {
+    // m_elements set was defined incorrectly
+    throw;
+  }
+
+  return el->GetDegreeOfFreedomAtPoint(pt,i);
+
+}
 
 
 

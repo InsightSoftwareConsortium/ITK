@@ -61,42 +61,10 @@ public:
   #endif
 
   /**
-   * access to NDOF from base class
-   */
-  int N() const { return NDOF; };  
-  
-  /**
-   * pointers to DOF displacements
-   */
-  Displacement* uDOF(int i) const 
-    {  
-    switch ( i ) 
-      {
-      case 0:
-        return &uX;
-        break;
-      case 1:
-        return &uY;
-        break;
-      }
-
-    /**
-     *  if DOF is out of range we return NULL pointer
-     */
-    return 0;            
-    };
-
-  /**
    * node coordinates
    */
   Float X;
   Float Y;
-
-  /**
-   * even if the node is const, we must always be able to change the displacements
-   */
-  mutable Displacement uX;
-  mutable Displacement uY;  
 
 };
 

@@ -48,9 +48,9 @@ TriC02D::TriC02D(  Node::ConstPointer n1_,
      * we were given the pointers to the right node class.
      * if the node class was incorrect a bad_cast exception is thrown
      */
-    m_node1=&dynamic_cast<const NodeXY&>(*n1_);
-    m_node2=&dynamic_cast<const NodeXY&>(*n2_);
-    m_node3=&dynamic_cast<const NodeXY&>(*n3_);
+    m_node[0]=&dynamic_cast<const NodeXY&>(*n1_);
+    m_node[1]=&dynamic_cast<const NodeXY&>(*n2_);
+    m_node[2]=&dynamic_cast<const NodeXY&>(*n3_);
     m_mat=&dynamic_cast<const MaterialStandard&>(*p_);
   }
   catch ( std::bad_cast )
@@ -141,14 +141,24 @@ vnl_matrix<TriC02D::Float> TriC02D::Ke() const {
 void TriC02D::Draw(CDC* pDC) const
 {
 
-  int x1=m_node1->X*DC_Scale+m_node1->uX.value*DC_Scale;
-  int y1=m_node1->Y*DC_Scale+m_node1->uY.value*DC_Scale;
+  int x1=m_node[0]->X*DC_Scale;
+  int y1=m_node[0]->Y*DC_Scale;
   
-  int x2=m_node2->X*DC_Scale+m_node2->uX.value*DC_Scale;
-  int y2=m_node2->Y*DC_Scale+m_node2->uY.value*DC_Scale;
+  int x2=m_node[1]->X*DC_Scale;
+  int y2=m_node[1]->Y*DC_Scale;
   
-  int x3=m_node3->X*DC_Scale+m_node3->uX.value*DC_Scale;
-  int y3=m_node3->Y*DC_Scale+m_node3->uY.value*DC_Scale;
+  int x3=m_node[2]->X*DC_Scale;
+  int y3=m_node[2]->Y*DC_Scale;
+
+  if(Node::solution.size()!=0)
+  {
+    x1+=Node::solution[this->GetDegreeOfFreedom(0)]*DC_Scale;
+    y1+=Node::solution[this->GetDegreeOfFreedom(1)]*DC_Scale;
+    x2+=Node::solution[this->GetDegreeOfFreedom(2)]*DC_Scale;
+    y2+=Node::solution[this->GetDegreeOfFreedom(3)]*DC_Scale;
+    x3+=Node::solution[this->GetDegreeOfFreedom(4)]*DC_Scale;
+    y3+=Node::solution[this->GetDegreeOfFreedom(5)]*DC_Scale;
+  }
 
   pDC->MoveTo(x1,y1);
   pDC->LineTo(x2,y2);
@@ -172,13 +182,13 @@ TriC02D::ComputePositionAt(Float x[]) const
   vnl_vector<Float> shapeF = ComputeShapeFunctionsAt(x); 
 
 
-  p[0] = (m_node1->X * shapeF[0])
-     + (m_node2->X * shapeF[1])
-     + (m_node3->X * shapeF[2]);
+  p[0] = (m_node[0]->X * shapeF[0])
+     + (m_node[1]->X * shapeF[1])
+     + (m_node[2]->X * shapeF[2]);
 
-  p[1] = (m_node1->Y * shapeF[0])
-     + (m_node2->Y * shapeF[1])
-     + (m_node3->Y * shapeF[2]);
+  p[1] = (m_node[0]->Y * shapeF[0])
+     + (m_node[1]->Y * shapeF[1])
+     + (m_node[2]->Y * shapeF[2]);
 
   return p;
 }
@@ -207,29 +217,29 @@ TriC02D::ComputeJacobianMatrixAt(Float x[]) const
   J[0][0] = J[0][1] = J[0][2] = 1.0; 
 
 
-  J[1][0] = (shapeD[0][0] * m_node1->X)
-        + (shapeD[1][0] * m_node2->X)
-        + (shapeD[2][0] * m_node3->X);
+  J[1][0] = (shapeD[0][0] * m_node[0]->X)
+        + (shapeD[1][0] * m_node[1]->X)
+        + (shapeD[2][0] * m_node[2]->X);
 
-  J[1][1] = (shapeD[0][1] * m_node1->X)
-        + (shapeD[1][1] * m_node2->X)
-        + (shapeD[2][1] * m_node3->X);
+  J[1][1] = (shapeD[0][1] * m_node[0]->X)
+        + (shapeD[1][1] * m_node[1]->X)
+        + (shapeD[2][1] * m_node[2]->X);
 
-  J[1][2] = (shapeD[0][2] * m_node1->X)
-        + (shapeD[1][2] * m_node2->X)
-        + (shapeD[2][2] * m_node3->X);
+  J[1][2] = (shapeD[0][2] * m_node[0]->X)
+        + (shapeD[1][2] * m_node[1]->X)
+        + (shapeD[2][2] * m_node[2]->X);
 
-  J[2][0] = (shapeD[0][0] * m_node1->Y)
-        + (shapeD[1][0] * m_node2->Y)
-        + (shapeD[2][0] * m_node3->Y);
+  J[2][0] = (shapeD[0][0] * m_node[0]->Y)
+        + (shapeD[1][0] * m_node[1]->Y)
+        + (shapeD[2][0] * m_node[2]->Y);
 
-  J[2][1] = (shapeD[0][1] * m_node1->Y)
-        + (shapeD[1][1] * m_node2->Y)
-        + (shapeD[2][1] * m_node3->Y);
+  J[2][1] = (shapeD[0][1] * m_node[0]->Y)
+        + (shapeD[1][1] * m_node[1]->Y)
+        + (shapeD[2][1] * m_node[2]->Y);
 
-  J[2][2] = (shapeD[0][2] * m_node1->Y)
-        + (shapeD[1][2] * m_node2->Y)
-        + (shapeD[2][2] * m_node3->Y);
+  J[2][2] = (shapeD[0][2] * m_node[0]->Y)
+        + (shapeD[1][2] * m_node[1]->Y)
+        + (shapeD[2][2] * m_node[2]->Y);
 
   return J;
 }
@@ -444,16 +454,16 @@ TriC02D::GetNodeCoordinates(int n, Float& x, Float& y) const
 {
   switch (n) {
     case 0 :
-      x = m_node1->X;
-      y = m_node1->Y;
+      x = m_node[0]->X;
+      y = m_node[0]->Y;
       break;
     case 1 :
-      x = m_node2->X;
-      y = m_node2->Y;
+      x = m_node[1]->X;
+      y = m_node[1]->Y;
       break;
     case 2 :
-      x = m_node3->X;
-      y = m_node3->Y;
+      x = m_node[2]->X;
+      y = m_node[2]->Y;
   }
 }
 
@@ -484,13 +494,13 @@ void TriC02D::Read( std::istream& f, void* info )
      * Read and set each of the three expected GNN
      */
     SkipWhiteSpace(f); f>>n; if(!f) goto out;
-    m_node1=dynamic_cast<const NodeXY*>( &*nodes->Find(n));
+    m_node[0]=dynamic_cast<const NodeXY*>( &*nodes->Find(n));
 
     SkipWhiteSpace(f); f>>n; if(!f) goto out;
-    m_node2=dynamic_cast<const NodeXY*>( &*nodes->Find(n));
+    m_node[1]=dynamic_cast<const NodeXY*>( &*nodes->Find(n));
 
     SkipWhiteSpace(f); f>>n; if(!f) goto out;
-    m_node3=dynamic_cast<const NodeXY*>( &*nodes->Find(n));
+    m_node[2]=dynamic_cast<const NodeXY*>( &*nodes->Find(n));
   }
   catch ( FEMExceptionObjectNotFound e )
   {
@@ -525,9 +535,9 @@ void TriC02D::Write( std::ostream& f, int ofid ) const {
    * we add some comments in the output file
    */
   f<<"\t"<<m_mat->GN<<"\t% MaterialStandard ID\n";
-  f<<"\t"<<m_node1->GN<<"\t% NodeXY 1 ID\n";
-  f<<"\t"<<m_node2->GN<<"\t% NodeXY 2 ID\n";
-  f<<"\t"<<m_node3->GN<<"\t% NodeXY 3 ID\n";
+  f<<"\t"<<m_node[0]->GN<<"\t% NodeXY 1 ID\n";
+  f<<"\t"<<m_node[1]->GN<<"\t% NodeXY 2 ID\n";
+  f<<"\t"<<m_node[2]->GN<<"\t% NodeXY 3 ID\n";
 
   /** check for errors */
   if (!f)

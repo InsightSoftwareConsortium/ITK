@@ -29,9 +29,6 @@
 #include "itkFEMUtility.h"
 #include "itkFEMObjectFactory.h"
 
-#include <vnl/vnl_sparse_matrix_linear_system.h>
-#include <vxl/vnl/algo/vnl_lsqr.h>
-
 namespace itk {
 namespace fem {
 
@@ -162,6 +159,7 @@ void Solver::Read(std::istream& f) {
   node.clear();
   mat.clear();
   load.clear();
+  Node::solution.clear();
 
   FEMLightObject::Pointer o=0;
   /** then we start reading objects from stream */
@@ -255,41 +253,45 @@ void Solver::Write( std::ostream& f ) {
  */
 void Solver::GenerateGFN() {
 
-  try
+  // Clear the list of elements in nodes
+  // FIXME: should be removed once Mesh is there
+  for(NodeArray::iterator n=node.begin(); n!=node.end(); n++)
   {
-    // first we have to clear the global freedom numbers (GFN) in all DOF
-    for(ElementArray::iterator e=el.begin(); e!=el.end(); e++) // step over all elements
-    {
-      for(int j=0; j<(*e)->N(); j++) // step over all DOF in this element
-      {
-        (*e)->uDOF(j)->GFN=-1; // reset the GFN for all displacements
-      }
-    }
-  }
-  catch ( FEMExceptionSolution e )
-  {
-    FEMExceptionSolution e1(__FILE__,__LINE__,"Solver::GenerateGFN()","");
-    e1.SetDescription(e.GetDescription());
-    throw e1;
+   (*n)->m_elements.clear();
   }
 
-  /**
+  // first we have to clear the global freedom numbers (GFN) in all DOF
+  for(ElementArray::iterator e=el.begin(); e!=el.end(); e++) // step over all elements
+  {
+    // Clear DOF IDs in an element
+    (*e)->ClearDegreesOfFreedom();
+
+    // Add the elemens in the nodes list of elements
+    // FIXME: should be removed once Mesh is there
+    unsigned int Npts=(*e)->GetNumberOfPoints();
+    for(unsigned int pt=0; pt<Npts; pt++)
+    {
+      (*e)->GetPoint(pt)->m_elements.insert(*e);
+    }
+  }
+
+  /*
    * Build the table that maps from DOF displacement pointer to a global DOF number
    * the table is stored within the nodes. This is required for faster building of the
    * master stiffness matrix. we also build the look up table that does the oposite i.e.
    * DOF number back to DOF displacement pointer.
    */
-  GFN2Disp.clear();  // clear the lookup table
-  NGFN=0;  // GFNs are zero based
-  for(ElementArray::iterator e=el.begin(); e!=el.end(); e++) {  // step over all elements
-    for(int j=0; j<(*e)->N(); j++) {  // step over all DOF in this element
-      if ((*e)->uDOF(j)->GFN < 0) {  // GFN was <0, we got a new global DOF
-        (*e)->uDOF(j)->GFN=NGFN;  // update the value of GFN for this DOF displacement
-        GFN2Disp.push_back((*e)->uDOF(j));  // we also add a new pointer to DOF in the lookup table
-        NGFN++;
-      }
-    }
+
+  // Start numbering DOFs from 1
+  Element::ResetGlobalDOFCounter();
+
+  for(ElementArray::iterator e=el.begin(); e!=el.end(); e++) // step over all elements
+  {
+    // Let the element worry about linking the DOFs...
+    (*e)->LinkDegreesOfFreedom();
   }
+
+  NGFN=Element::GetGlobalDOFCounter()+1;
   if (NGFN>0) return;  // if we got 0 DOF, somebody forgot to define the system...
 
 }
@@ -346,7 +348,7 @@ void Solver::AssembleK() {
   for(ElementArray::iterator e=el.begin(); e!=el.end(); e++)
   {
     vnl_matrix<Float> Ke=(*e)->Ke();  /** Copy the element stiffness matrix for faster access. */
-    int Ne=(*e)->N();          /** ... same for element DOF */
+    int Ne=(*e)->GetNumberOfDegreesOfFreedom();          /** ... same for element DOF */
     
     /** step over all rows in in element matrix */
     for(int j=0; j<Ne; j++)
@@ -355,10 +357,10 @@ void Solver::AssembleK() {
       for(int k=0; k<Ne; k++) 
       {
         /* error checking. all GFN should be =>0 and <NGFN */
-        if ( (*e)->uDOF(j)->GFN < 0 ||
-             (*e)->uDOF(j)->GFN >= NGFN ||
-             (*e)->uDOF(k)->GFN < 0 ||
-             (*e)->uDOF(k)->GFN >= NGFN  )
+        if ( (*e)->GetDegreeOfFreedom(j) < 0 ||
+             (*e)->GetDegreeOfFreedom(j) >= NGFN ||
+             (*e)->GetDegreeOfFreedom(k) < 0 ||
+             (*e)->GetDegreeOfFreedom(k) >= NGFN  )
         {
           throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleK()","Illegal GFN!");
         }
@@ -371,7 +373,7 @@ void Solver::AssembleK() {
          */
         if ( Ke(j,k)!=Float(0.0) )
         {
-          m_ls->AddA( (*e)->uDOF(j)->GFN , (*e)->uDOF(k)->GFN, Ke(j,k) );
+          m_ls->AddA( (*e)->GetDegreeOfFreedom(j), (*e)->GetDegreeOfFreedom(k), Ke(j,k) );
         }
 
       }
@@ -393,7 +395,7 @@ void Solver::AssembleK() {
     for(LoadBCMFC::LhsType::iterator q=(*c)->lhs.begin(); q!=(*c)->lhs.end(); q++) {
       
       /** obtain the GFN of DOF that is in the MFC */
-      int gfn=q->node->uDOF(q->dof)->GFN;
+      int gfn=q->m_element->GetDegreeOfFreedom(q->dof);
 
       /** error checking. all GFN should be =>0 and <NGFN */
       if ( gfn<0 || gfn>=NGFN )
@@ -442,16 +444,16 @@ void Solver::AssembleF(int dim) {
       // yep, we have a nodal load
 
       // size of a force vector in load must match number of DOFs in node
-      if ( (l1->F.size() % l1->node->N())!=0 )
+      if ( (l1->F.size() % l1->m_element->GetNumberOfDegreesOfFreedomPerPoint())!=0 )
       {
         throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal size of a force vector in LoadNode object!");
       }
 
       // we simply copy the load to the force vector
-      for(int dof=0; dof < (l1->node->N()); dof++)
+      for(int dof=0; dof < (l1->m_element->GetNumberOfDegreesOfFreedomPerPoint()); dof++)
       {
         // error checking
-        if ( l1->node->uDOF(dof)->GFN < 0 || l1->node->uDOF(dof)->GFN >= NGFN )
+        if ( l1->m_element->GetDegreeOfFreedomAtPoint(l1->m_pt,dof) < 0 || l1->m_element->GetDegreeOfFreedomAtPoint(l1->m_pt,dof) >= NGFN )
         {
           throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal GFN!");
         }
@@ -462,7 +464,7 @@ void Solver::AssembleF(int dim) {
          * FIXME: We assume that the implementation of force vector inside the LoadNode class is correct for given
          * number of dimensions.
          */
-        m_ls->AddB(l1->node->uDOF(dof)->GFN , l1->F[dof+l1->node->N()*dim]);
+        m_ls->AddB(l1->m_element->GetDegreeOfFreedomAtPoint(l1->m_pt,dof) , l1->F[dof+l1->m_element->GetNumberOfDegreesOfFreedomPerPoint()*dim]);
       }
 
       // that's all there is to DOF loads, go to next load in an array
@@ -489,17 +491,17 @@ void Solver::AssembleF(int dim) {
           // call the Fe() function of the element that we are applying the load to.
           // we pass a pointer to the load object as a paramater.
           vnl_vector<Float> Fe = el0->Fe(Element::LoadElementPointer(l1));
-          int Ne=el0->N();          // ... element's number of DOF
+          int Ne=el0->GetNumberOfDegreesOfFreedom();          // ... element's number of DOF
           for(int j=0; j<Ne; j++)    // step over all DOF
           {
             // error checking
-            if ( el0->uDOF(j)->GFN < 0 || el0->uDOF(j)->GFN >= NGFN )
+            if ( el0->GetDegreeOfFreedom(j) < 0 || el0->GetDegreeOfFreedom(j) >= NGFN )
             {
               throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal GFN!");
             }
 
             // update the master force vector (take care of the correct isotropic dimensions)
-            m_ls->AddB(el0->uDOF(j)->GFN , Fe(j+dim*Ne));
+            m_ls->AddB(el0->GetDegreeOfFreedom(j) , Fe(j+dim*Ne));
           }
         }
       
@@ -512,17 +514,17 @@ void Solver::AssembleF(int dim) {
         for(ElementArray::iterator e=el.begin(); e!=el.end(); e++) // step over all elements in a system
         {
           vnl_vector<Float> Fe=(*e)->Fe(Element::LoadElementPointer(l1));  // ... element's force vector
-          int Ne=(*e)->N();          // ... element's number of DOF
+          int Ne=(*e)->GetNumberOfDegreesOfFreedom();          // ... element's number of DOF
 
           for(int j=0; j<Ne; j++)        // step over all DOF
           {
-            if ( (*e)->uDOF(j)->GFN < 0 || (*e)->uDOF(j)->GFN >= NGFN )
+            if ( (*e)->GetDegreeOfFreedom(j) < 0 || (*e)->GetDegreeOfFreedom(j) >= NGFN )
             {
               throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal GFN!");
             }
 
             // update the master force vector (take care of the correct isotropic dimensions)
-            m_ls->AddB((*e)->uDOF(j)->GFN , Fe(j+dim*Ne));
+            m_ls->AddB((*e)->GetDegreeOfFreedom(j) , Fe(j+dim*Ne));
 
           }
 
@@ -590,8 +592,9 @@ void Solver::UpdateDisplacements() {
    * Copy the resulting displacements from 
    * solution vector back to node objects.
    */
+  Node::solution.clear();
   for(int i=0;i<NGFN;i++)
-    GFN2Disp[i]->value=m_ls->GetX(i);
+    Node::solution.push_back(m_ls->GetX(i));
 
 }
 

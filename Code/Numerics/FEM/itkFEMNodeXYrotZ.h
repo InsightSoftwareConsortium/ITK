@@ -63,43 +63,6 @@ public:
   NodeXYrotZ() : NodeXY() {}
   NodeXYrotZ(Float X_, Float Y_) : NodeXY(X_,Y_) {}
 
-  /**
-   * Access to NDOF from base class
-   */
-  int N() const { return NDOF; };    
-
-  /**
-   * Pointers to DOF displacements
-   */
-  Displacement* uDOF(int i) const 
-    {  
-    switch ( i ) 
-      {
-      case 0:
-        return &uX;
-        break;
-      case 1:
-        return &uY;
-        break;
-      case 2:
-        return &urotZ;
-        break;
-      }
-    /**
-     * If DOF is out of range we return NULL pointer
-     */
-    return 0;
-    
-    };
-
-  /**
-   * Rotation around the Z axis at node location.
-   * 
-   * This data member must be mutable, so that even if the NodeXYrotZ object 
-   * is const, we are be able to change the displacements.
-   */
-  mutable Displacement urotZ;  
-
 };
 
 FEM_CLASS_INIT(NodeXYrotZ)

@@ -19,7 +19,7 @@
 #ifndef __itkElementTetrahedronC03D_h
 #define __itkElementTetrahedronC03D_h
 
-#include "itkFEMElementBase.h"
+#include "itkFEMElementStandard.h"
 #include "itkFEMLoadElementBase.h"
 #include "itkFEMNodeXYZ.h"
 #include "itkFEMMaterialStandard.h"
@@ -37,19 +37,11 @@ namespace fem {
  * \class TetrahedronC03D
  * \brief 4-noded finite element class in 3D space.
  */
-class TetrahedronC03D : public Element
+class TetrahedronC03D : public ElementStandard<4,3,NodeXYZ>
 {
-FEM_CLASS(TetrahedronC03D,Element)
+typedef ElementStandard<4,3,NodeXYZ> TemplatedParentClass;
+FEM_CLASS(TetrahedronC03D,TemplatedParentClass)
 public:
-  /**
-   * 12 DOF constant for faster access within the class
-   */
-  enum {NDOF=12};              
-
-  /** 
-   * Access to NDOF from base class
-   */
-  int N() const { return NDOF; }
 
   /** 
    * Element stiffness matrix 
@@ -60,28 +52,6 @@ public:
    * Macro that defines a specific version of the Fe() function
    */
   LOAD_FUNCTION();
-
-  /**
-   * Pointers to DOF displacements, which are stored
-   * in node classes.  Expects i from 0 to 11
-   */
-  Displacement* uDOF(int i) const {
-        switch (i % 3) {
-    case 0:
-      return &m_nodes[i/3]->uX;
-      break;
-    case 1:
-      return &m_nodes[i/3]->uY;
-      break;
-    case 2:
-      return &m_nodes[i/3]->uZ;
-      break;
-    default:
-      return 0;
-      break;
-    }
-    return Element::uDOF(i);
-  }
 
   /**
    * Read data for this class from input stream
@@ -97,7 +67,7 @@ public:
   /**
    * Default constructor only clears the internal storage
    */
-  TetrahedronC03D() : m_mat(0) { for (int k=0; k < 4; k++) m_nodes[k] = 0; }
+  TetrahedronC03D() : m_mat(0) {}
 
   /**
    * Construct an element by specifying 4 nodes and material
@@ -172,11 +142,6 @@ private:
 
 
 public:
-  /**
-   * Pointers to 4 node classes that define the
-   * element
-   */
-  NodeXYZ::ConstPointer m_nodes[4];
 
   /**
    * Pointer to geometric and material properties

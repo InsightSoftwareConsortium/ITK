@@ -74,12 +74,6 @@ public:
   MaterialArray mat;
 
   /**
-   * Look up table for mapping between global freedom number and pointers to DOF displacements
-   */
-  typedef std::vector<Element::Displacement*> GFN2DispMapType;
-  GFN2DispMapType GFN2Disp;
-
-  /**
    * Reads the whole system (nodes, materials and elements) from input stream
    */
   void Read( std::istream& f );
@@ -130,6 +124,11 @@ public:
    */
   void UpdateDisplacements();
 
+  Float GetSolution(int i)
+  {
+    return m_ls->GetX(i);
+  }
+
 protected:
 
   /**
@@ -151,7 +150,7 @@ public:
    * Default constructor sets Solver to use VNL linear system .
    * \sa Solver::SetLinearSystemWrapper
    */
-  Solver() : m_ls(&m_lsVNL) {}
+  Solver() : m_ls(&m_lsVNL) { Node::solution.clear(); }
 
   /**
    * Default destructor. We need to destroy the equation solver object

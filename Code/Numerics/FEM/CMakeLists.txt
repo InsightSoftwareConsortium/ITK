@@ -5,7 +5,6 @@ SOURCE_FILES(FEM_SRCS
   itkFEMNodeXY.cxx
   itkFEMNodeXYrotZ.cxx
   itkFEMNodeXYZ.cxx
-  itkFEMNode2DIsotropic.cxx
   
   itkFEMElementBase.cxx
   itkFEMElementBar2D.cxx
@@ -69,10 +68,10 @@ SOURCE_FILES(FEM_SRCS
   itkFEMNodeXY.h
   itkFEMNodeXYZ.h
   itkFEMNodeXYrotZ.h
-  itkFEMNode2DIsotropic.h
 
   itkFEMElements.h
   itkFEMElementBase.h
+  itkFEMElementStandard.h
   itkFEMElementBar2D.h
   itkFEMElementBeam2D.h
   itkFEMElementTriC02D.h

@@ -18,7 +18,7 @@
 #ifndef __itkFEMElementBeam2D_h
 #define __itkFEMElementBeam2D_h
 
-#include "itkFEMElementBase.h"
+#include "itkFEMElementStandard.h"
 #include "itkFEMLoadElementBase.h"
 #include "itkFEMMaterialStandard.h"
 #include "itkFEMNodeXYrotZ.h"
@@ -33,24 +33,15 @@ namespace fem {
  * \class Beam2D
  * \brief 1D Beam (spring that also bends) finite element in 2D space.
  */
-class Beam2D : public Element
+class Beam2D : public ElementStandard<2,3,NodeXYrotZ>
 {
-FEM_CLASS(Beam2D,Element)
+typedef ElementStandard<2,3,NodeXYrotZ> TemplatedParentClass;
+FEM_CLASS(Beam2D,TemplatedParentClass)
 public:
-
-  /**
-   * 6 DOF. Constant for faster access within the class.
-   */
-  enum {NDOF=6};
 
   /**
    * Required virtual functions
    */
-
-  /**
-   * Access to NDOF from base class
-   */
-  int N() const { return NDOF; }
 
   /**
    * Element stiffness matrix
@@ -61,33 +52,6 @@ public:
    * Macro that defines a specific version of the Fe() function
    */
   LOAD_FUNCTION();
-
-  /**
-   * Pointers to DOF displacements, which are stored in node classes.
-   */
-  Displacement* uDOF(int i) const {
-    switch ( i ) {
-    case 0:
-      return &m_node1->uX;
-      break;
-    case 1:
-      return &m_node1->uY;
-      break;
-    case 2:
-      return &m_node1->urotZ;
-      break;
-    case 3:
-      return &m_node2->uX;
-      break;
-    case 4:
-      return &m_node2->uY;
-      break;
-    case 5:
-      return &m_node2->urotZ;
-      break;
-    }
-    return Element::uDOF(i);
-  }
 
   /**
    * Read data of this class from input stream
@@ -109,7 +73,7 @@ public:
   /**
    * Default constructor only clears the internal storage
    */
-  Beam2D() : m_node1(0), m_node2(0), m_mat(0) {}
+  Beam2D() : m_mat(0) {}
 
   /**
    * Construct an element by specifying two nodes and material
@@ -119,12 +83,6 @@ public:
       Material::ConstPointer mat_);
 
 public:
-
-  /**
-   * Pointers to node objects that defines the element
-   */
-  NodeXYrotZ::ConstPointer m_node1;
-  NodeXYrotZ::ConstPointer m_node2;
 
   /**
    * Pointer to geometric and material properties of the element

@@ -40,34 +40,6 @@ while(f && !f.eof() && (std::ws(f).peek())=='%' )
 
 
 
-
-/**
- * FIXME: this is a very inefficient way to find nodes based on 
- * given pointer to DOF. Write a faster version if necessary.
- */
-void FindNode(  Node::ArrayType::ConstPointer nodes, const Node::Displacement *dof,
-        Node::ConstPointer &pnode, int& n)
-{
-  pnode=0; n=0;
-  for(Node::ArrayType::const_iterator i=nodes->begin(); i!=nodes->end(); i++) 
-  {
-    Node::ConstPointer node=*i;
-    for(int j=0; j<node->N(); j++) 
-      {
-      if (node->uDOF(j)==dof) 
-        {
-        /* we found the node */
-        pnode=node;
-        n=j;
-        return;
-        }
-      }
-  }
-}
-
-
-
-
 /**
  * Numerical integration (Gauss-Legendre formula).
  * Integrates function f(x) from x=a to x=b in n points.

@@ -38,7 +38,7 @@ void LoadNode::Read( std::istream& f, void* info )
   /**
    * Convert the info pointer to a usable objects
    */
-  Node::ArrayType::ConstPointer nodes=static_cast<ReadInfoType*>(info)->m_node;
+  Element::ArrayType::ConstPointer elements=static_cast<ReadInfoType*>(info)->m_el;
 
 
   /** first call the parent's read function */
@@ -48,19 +48,23 @@ void LoadNode::Read( std::istream& f, void* info )
   SkipWhiteSpace(f); f>>n; if(!f) goto out;
   try
   {
-    node=dynamic_cast<const Node*>( &*nodes->Find(n));
+    this->m_element=dynamic_cast<const Element*>( &*elements->Find(n));
   }
   catch ( FEMExceptionObjectNotFound e )
   {
     throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"LoadNode::Read()",e.m_baseClassName,e.m_GN);
   }
-  
+
+  /* read and set the point number */
+  SkipWhiteSpace(f); f>>this->m_pt; if(!f) goto out;
+
+    
   /** read and set the number of elements inside a force vector */
   SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  F.resize(n);  
+  this->F.resize(n);  
 
   /** read the force vector itself */
-  SkipWhiteSpace(f); f>>F; if(!f) goto out;
+  SkipWhiteSpace(f); f>>this->F; if(!f) goto out;
 
 out:
 
@@ -86,8 +90,9 @@ void LoadNode::Write( std::ostream& f, int ofid ) const {
   Superclass::Write(f,ofid);
 
   /** write the actual Load data */
-  f<<"\t"<<node->GN<<"\t% GN of node on which the load acts"<<"\n";
-  f<<"\t"<<F.size()<<" "<<F<<"\t% Force vector (first number is the size of a vector)\n";
+  f<<"\t"<<this->m_element->GN<<"\t% GN of element on which the load acts"<<"\n";
+  f<<"\t"<<this->m_pt<<" "<<"\t% Point number within the element\n";
+  f<<"\t"<<this->F.size()<<" "<<this->F<<"\t% Force vector (first number is the size of a vector)\n";
 
   /** check for errors */
   if (!f)

@@ -105,8 +105,8 @@ Element::LoadVectorType LoadGravImplementation_QuadC02D(QuadC02D::ConstPointer e
   vnl_vector<Float> pt(2), f(2);
 
   /** Computes point at which gravity load acts on */
-  pt[0] = (element->m_node1->X + element->m_node2->X + element->m_node3->X + element->m_node4->X)/4;
-  pt[1] = (element->m_node1->Y + element->m_node2->Y + element->m_node3->Y + element->m_node4->Y)/4;
+  pt[0] = (element->m_node[0]->X + element->m_node[1]->X + element->m_node[2]->X + element->m_node[3]->X)/4;
+  pt[1] = (element->m_node[0]->Y + element->m_node[1]->Y + element->m_node[2]->Y + element->m_node[3]->Y)/4;
 
   /** Gets gravity load */
   return GravityLoad(f = l0->Fg(pt),element);

@@ -19,7 +19,7 @@
 #ifndef __itkElementQuadC02D_h
 #define __itkElementQuadC02D_h
 
-#include "itkFEMElementBase.h"
+#include "itkFEMElementStandard.h"
 #include "itkFEMLoadElementBase.h"
 #include "itkFEMNodeXY.h"
 #include "itkFEMMaterialStandard.h"
@@ -36,17 +36,11 @@ namespace fem {
  * \class QuadC02D
  * \brief 4-noded finite element class in 2D space
  */
-class QuadC02D : public Element
+class QuadC02D : public ElementStandard<4,2,NodeXY>
 {
-FEM_CLASS(QuadC02D,Element)
+typedef ElementStandard<4,2,NodeXY> TemplatedParentClass;
+FEM_CLASS(QuadC02D,TemplatedParentClass)
 public:
-  /**
-   * 8 DOF constant for faster access within the class
-   */
-  enum {NDOF=8};              
-
-  /** Access to NDOF from base class */
-  int N() const { return NDOF; }
 
   /**
    * Element stiffness matrix
@@ -57,40 +51,6 @@ public:
    * Macro that defines a specific version of the Fe() function
    */
   LOAD_FUNCTION();
-
-  /**
-   * Pointers to DOF displacements, which are stored
-   * in node classes
-   */
-  Displacement* uDOF(int i) const {
-    switch ( i ) {
-      case 0:
-        return &m_node1->uX;
-        break;
-      case 1:
-        return &m_node1->uY;
-        break;
-      case 2:
-        return &m_node2->uX;
-        break;
-      case 3:
-        return &m_node2->uY;
-        break;
-      case 4:
-        return &m_node3->uX;
-        break;
-      case 5:
-        return &m_node3->uY;
-        break;
-      case 6:
-        return &m_node4->uX;
-        break;
-      case 7:
-        return &m_node4->uY;
-        break;
-    }
-    return Element::uDOF(i);
-  }
 
   /**
    * Read data for this class from input stream
@@ -105,7 +65,7 @@ public:
   /**
    * Default constructor only clears the internal storage
    */
-  QuadC02D() : m_node1(0), m_node2(0), m_node3(0), m_node4(0), m_mat(0) {}
+  QuadC02D() : m_mat(0) {}
 
   /**
    * Construct an element by specifying 4 nodes and material
@@ -204,15 +164,6 @@ public:
   void GetNodeCoordinates(int, Float&, Float&) const;
 
 public:
-
-  /**
-   * Pointers to four node classes that define the
-   * element
-   */
-  NodeXY::ConstPointer m_node1;
-  NodeXY::ConstPointer m_node2;
-  NodeXY::ConstPointer m_node3;
-  NodeXY::ConstPointer m_node4;
 
   /**
    * Pointer to geometric and material properties

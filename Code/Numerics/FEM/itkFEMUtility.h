@@ -48,15 +48,6 @@ void SkipWhiteSpace(std::istream& f);
 static const std::string whitespaces=" \t\n\r";
 
 /**
- * Finds the node that holds a specific DOF. Sets the pnode to point to the
- * found node object and n to DOF number within that Node. pnode must be a
- * reference to a pointer to a Node object, and n must be a reference to an
- * int that will hold the number of DOF within a node.
- */
-void FindNode(  Node::ArrayType::ConstPointer nodes, const Node::Displacement *dof, 
-        Node::ConstPointer &pnode, int& n);
-
-/**
  * \class GaussIntegrate
  * \brief Use the Gauss-Legendre formula to perform integration
  *

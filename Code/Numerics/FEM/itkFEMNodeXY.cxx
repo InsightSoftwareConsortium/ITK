@@ -113,8 +113,13 @@ void NodeXY::Write( std::ostream& f, int ofid ) const
     CBrush brush( RGB(255,255,255) );
     CBrush* pOldbrush=pDC->SelectObject(&brush);
 
-    int x1=X*DC_Scale+uX.value*DC_Scale;
-    int y1=Y*DC_Scale+uY.value*DC_Scale;
+    int x1=X*DC_Scale;
+    int y1=Y*DC_Scale;
+    if(solution.size()!=0)
+    {
+      x1+=solution[this->GetDegreeOfFreedom(0)]*DC_Scale;
+      y1+=solution[this->GetDegreeOfFreedom(1)]*DC_Scale;
+    }
 
     CPoint r1=CPoint(0,0);
     CPoint r=CPoint(5,5);

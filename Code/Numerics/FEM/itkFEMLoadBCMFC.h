@@ -38,13 +38,13 @@ namespace fem {
  *
  *     0.5*u1x + 2.1*u5y = 10.0
  *
- * u1x is the first DOF in node with global number 1, and u5y is the second DOF
- * in a node with GN=5.
+ * u1x is the first DOF in the element with global number 1, and u5y is the second DOF
+ * in an element with GN=5.
  *
  * ... then use the following lines of code
  *        itk::LoadBCMFC m;
- *        m.lhs.push_back( LoadBCMFC::MFCTerm( nodes.Find(1), 0, 0.5 ) );
- *        m.lhs.push_back( LoadBCMFC::MFCTerm( nodes.Find(5), 1, 2.1 ) );
+ *        m.lhs.push_back( LoadBCMFC::MFCTerm( elements.Find(1), 0, 0.5 ) );
+ *        m.lhs.push_back( LoadBCMFC::MFCTerm( elements.Find(5), 1, 2.1 ) );
  *        m.rhs=10.0;
  */
 
@@ -64,24 +64,24 @@ public:
   class MFCTerm {
   public:
     /**
-     * Pointer to node which holds the DOF that is affected by MFC
+     * Pointer to element, which holds the DOF that is affected by MFC
      */
-    Node::ConstPointer node;
+    Element::ConstPointer m_element;
 
     /**
-     * DOF number within the Node object
+     * DOF number within the Element object
      */    
-    int dof;
+    unsigned int dof;
 
     /**
      * Value with which this displacement is multiplied on the lhs of MFC equation
      */
-    Node::Float value;
+    Element::Float value;
 
     /**
      * Constructor for easy object creation.
      */
-    MFCTerm(Node::ConstPointer node_, int dof_, Node::Float value_) : node(node_), dof(dof_), value(value_) {}
+    MFCTerm(Element::ConstPointer element_, int dof_, Element::Float value_) : m_element(element_), dof(dof_), value(value_) {}
 
   };
   
@@ -97,7 +97,7 @@ public:
    * Which value is applied to the master force vector is defined by optional
    * dim parameter (defaults to 0) in AssembleF function in solver.
    */
-  vnl_vector<Node::Float> rhs;
+  vnl_vector<Element::Float> rhs;
 
   /** Default constructor */
   LoadBCMFC() {}
@@ -106,12 +106,12 @@ public:
    * With this constructor, we can easy fix the global
    * displacement dof given by node to a value val.
    *
-   * \param node Pointer to a node which holds a displacements that needs
-                 to be fixed.
-   * \param dof Number of a displacement in a node.
-   * \param val The fixed value of a displacement.
+   * \param element Pointer to an element, which holds a displacements that
+   *                needs to be fixed.
+   * \param dof Local DOF number in an element.
+   * \param val The fixed value of a DOF.
    */
-  LoadBCMFC(Node::ConstPointer node, int dof, vnl_vector<Node::Float> val);
+  LoadBCMFC(Element::ConstPointer element, int dof, vnl_vector<Element::Float> val);
 
   /** read a LoadBCMFC object from input stream.*/
   virtual void Read( std::istream& f, void* info );
@@ -119,7 +119,7 @@ public:
   /** write a LoadBCMFC object to the output stream*/
   virtual void Write( std::ostream& f, int ofid ) const;
 
-//private:  FIXME
+//private:  // FIXME: CrankNicolsonSolver class, which is derived from Solver class also needs access to Index.
   /** used internally by the Solver class */
   int Index;    
   friend class Solver;

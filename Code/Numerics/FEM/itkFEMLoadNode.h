@@ -29,10 +29,13 @@ namespace fem {
 
 /**
  * \class LoadNode
- * \brief This load is applied on a specific node within the system.
+ * \brief This load is applied on a specific point within the system.
  *
- * Since the load does not depend on the element, we provide the pointer to a node
- * on which the load acts. Force vector F should have node->N() dimensions.
+ * The point is defined as a point within an element object.
+ *
+ * You must provide a pointer to an element object and a number
+ * of point on which on which the load acts. Force vector F should have
+ * element->GetNumberOfDegreesOfFreedomPerPoint() dimensions.
  */
 class LoadNode : public Load {
 FEM_CLASS(LoadNode,Load)
@@ -50,19 +53,25 @@ public:
   virtual void Write( std::ostream& f, int ofid ) const;
 
   /**
-   * Pointer to a node in a system that contains the displacement
-   * on which the external force is applied
+   * Pointer to an element in a system that contains the DOF
+   * on which the external force is applied.
    */
-  Node::ConstPointer node;
+  Element::ConstPointer m_element;
 
   /**
-   * Force applied on the node. Dimension of F should equal node->N()
+   * Point within the element on which the force acts.
+   */
+  unsigned int m_pt;
+
+  /**
+   * Force applied on the node. Dimension of F should equal
+   * element->GetNumberOfDegreesOfFreedomPerPoint().
    */
   vnl_vector<Float> F;
 
-  LoadNode() : node(0) {}  // default constructor
-  LoadNode( Node::ConstPointer node_, vnl_vector<Float> F_ ) :
-    node(node_), F(F_) {}
+  LoadNode() : m_element(0) {}  // default constructor
+  LoadNode( Element::ConstPointer element_, unsigned int pt_, vnl_vector<Float> F_ ) :
+    m_element(element_), m_pt(pt_), F(F_) {}
 
 };
 

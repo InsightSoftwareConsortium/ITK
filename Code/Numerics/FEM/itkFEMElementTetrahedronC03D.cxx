@@ -46,7 +46,7 @@ TetrahedronC03D::TetrahedronC03D(  Node::ConstPointer ns_[],
   try
   {
     for (int j=0; j < 4; j++) {
-      m_nodes[j] = &dynamic_cast<const NodeXYZ&>(*ns_[j]);
+      m_node[j] = &dynamic_cast<const NodeXYZ&>(*ns_[j]);
     }
 
     m_mat = &dynamic_cast<const MaterialStandard&>(*p_);
@@ -194,9 +194,9 @@ TetrahedronC03D::ComputePositionAt(Float x[]) const
   p[0] = p[1] = p[2] = 0.0;
 
   for (int j=0; j < 4; j++) {
-    p[0] += (m_nodes[j]->X * shapeF[j]);
-    p[1] += (m_nodes[j]->Y * shapeF[j]);
-    p[2] += (m_nodes[j]->Z * shapeF[j]);
+    p[0] += (m_node[j]->X * shapeF[j]);
+    p[1] += (m_node[j]->Y * shapeF[j]);
+    p[2] += (m_node[j]->Z * shapeF[j]);
   }
   
   return p;
@@ -225,9 +225,9 @@ TetrahedronC03D::ComputeJacobianMatrixAt(Float x[]) const
    */
   for (int q=0; q < 3; q++) {
     for (int p=0; p < 4; p++) {
-      J[0][q] += (shapeD[p][q] * m_nodes[p]->X);
-      J[1][q] += (shapeD[p][q] * m_nodes[p]->Y);
-      J[2][q] += (shapeD[p][q] * m_nodes[p]->Z);
+      J[0][q] += (shapeD[p][q] * m_node[p]->X);
+      J[1][q] += (shapeD[p][q] * m_node[p]->Y);
+      J[2][q] += (shapeD[p][q] * m_node[p]->Z);
     }
   }
 
@@ -432,7 +432,7 @@ void TetrahedronC03D::Read( std::istream& f, void* info )
     /** read and set each of the four expected GNN */
     for (int k=0; k < 4; k++) {
       SkipWhiteSpace(f); f>>n; if(!f) goto out;
-      this->m_nodes[k]=dynamic_cast<const NodeXYZ*>( &*nodes->Find(n));
+      this->m_node[k]=dynamic_cast<const NodeXYZ*>( &*nodes->Find(n));
     }
   }
   catch ( FEMExceptionObjectNotFound e )
@@ -471,7 +471,7 @@ void TetrahedronC03D::Write( std::ostream& f, int ofid ) const {
   f<<"\t"<<m_mat->GN<<"\t% MaterialStandard ID\n";
   for (int j=0; j < 4; j++)
   {
-    f<<"\t"<<m_nodes[j]->GN<<"\t% NodeXYZ "<<j+1<<" ID\n";
+    f<<"\t"<<m_node[j]->GN<<"\t% NodeXYZ "<<j+1<<" ID\n";
   }
   
   /** Check for errors */

@@ -43,10 +43,10 @@ C1IsoCurve2D::C1IsoCurve2D(  Node::ConstPointer nn1_,
    */
   try
   {
-    cur_node=&dynamic_cast<const Node2DIsotropic&>(*cn_);
-    neg_node1=&dynamic_cast<const Node2DIsotropic&>(*nn1_);
-    pos_node1=&dynamic_cast<const Node2DIsotropic&>(*pn1_);
-    pos_node2=&dynamic_cast<const Node2DIsotropic&>(*pn2_);
+    m_node[0]=&dynamic_cast<const NodeXY&>(*cn_);
+    m_node[1]=&dynamic_cast<const NodeXY&>(*nn1_);
+    m_node[2]=&dynamic_cast<const NodeXY&>(*pn1_);
+    m_node[3]=&dynamic_cast<const NodeXY&>(*pn2_);
     mat=&dynamic_cast<const MaterialStandard&>(*mat_);
   }
   catch ( std::bad_cast )
@@ -54,15 +54,15 @@ C1IsoCurve2D::C1IsoCurve2D(  Node::ConstPointer nn1_,
     throw FEMExceptionWrongClass(__FILE__,__LINE__,"C1IsoCurve2D::C1IsoCurve2D()");
   }
 
-  ControlVec.resize(N(),NI());
-  ControlVec[0][0]=neg_node1->X;
-  ControlVec[0][1]=neg_node1->Y;
-  ControlVec[1][0]=cur_node->X;
-  ControlVec[1][1]=cur_node->Y;
-  ControlVec[2][0]=pos_node1->X;
-  ControlVec[2][1]=pos_node1->Y;
-  ControlVec[3][0]=pos_node2->X;
-  ControlVec[3][1]=pos_node2->Y;
+  ControlVec.resize(GetNumberOfDegreesOfFreedom(),NI());
+  ControlVec[0][0]=m_node[1]->X;
+  ControlVec[0][1]=m_node[1]->Y;
+  ControlVec[1][0]=m_node[0]->X;
+  ControlVec[1][1]=m_node[0]->Y;
+  ControlVec[2][0]=m_node[2]->X;
+  ControlVec[2][1]=m_node[2]->Y;
+  ControlVec[3][0]=m_node[3]->X;
+  ControlVec[3][1]=m_node[3]->Y;
 
 }
 
@@ -75,7 +75,7 @@ C1IsoCurve2D::C1IsoCurve2D(  Node::ConstPointer nn1_,
 vnl_vector<Node::Float> C1IsoCurve2D::
 InterpolateWithShapeFunctions(Float s){
 
-vnl_vector<Float> ShapeFuncs(N(),0.0);
+vnl_vector<Float> ShapeFuncs(GetNumberOfDegreesOfFreedom(),0.0);
 
   ShapeFuncs[0]=(-0.5*s*s*s+s*s-0.5*s);
   ShapeFuncs[1]= (3./2.*s*s*s- 5./2.*s*s+1.);
@@ -83,14 +83,14 @@ vnl_vector<Float> ShapeFuncs(N(),0.0);
   ShapeFuncs[3]=(0.5*s*s*s-0.5*s*s);
 
 /** convert nodal values to matrix form */
-  ControlVec[0][0]=neg_node1->X;
-  ControlVec[0][1]=neg_node1->Y;
-  ControlVec[1][0]=cur_node->X;
-  ControlVec[1][1]=cur_node->Y;
-  ControlVec[2][0]=pos_node1->X;
-  ControlVec[2][1]=pos_node1->Y;
-  ControlVec[3][0]=pos_node2->X;
-  ControlVec[3][1]=pos_node2->Y; 
+  ControlVec[0][0]=m_node[1]->X;
+  ControlVec[0][1]=m_node[1]->Y;
+  ControlVec[1][0]=m_node[0]->X;
+  ControlVec[1][1]=m_node[0]->Y;
+  ControlVec[2][0]=m_node[2]->X;
+  ControlVec[2][1]=m_node[2]->Y;
+  ControlVec[3][0]=m_node[3]->X;
+  ControlVec[3][1]=m_node[3]->Y; 
 
   return ShapeFuncs*ControlVec;
 }           
@@ -122,31 +122,31 @@ void C1IsoCurve2D::Read( std::istream& f, void* info )
   {
     /** read and set all four nodes */
     SkipWhiteSpace(f); f>>n; if(!f) goto out;
-    neg_node1=dynamic_cast<const Node2DIsotropic*>( &*nodes->Find(n));
+    m_node[1]=dynamic_cast<const NodeXY*>( &*nodes->Find(n));
 
     SkipWhiteSpace(f); f>>n; if(!f) goto out;
-    cur_node=dynamic_cast<const Node2DIsotropic*>( &*nodes->Find(n));
+    m_node[0]=dynamic_cast<const NodeXY*>( &*nodes->Find(n));
 
     SkipWhiteSpace(f); f>>n; if(!f) goto out;
-    pos_node1=dynamic_cast<const Node2DIsotropic*>( &*nodes->Find(n));
+    m_node[2]=dynamic_cast<const NodeXY*>( &*nodes->Find(n));
 
     SkipWhiteSpace(f); f>>n; if(!f) goto out;
-    pos_node2=dynamic_cast<const Node2DIsotropic*>( &*nodes->Find(n));
+    m_node[3]=dynamic_cast<const NodeXY*>( &*nodes->Find(n));
   }
   catch ( FEMExceptionObjectNotFound e )
   {
     throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"C1IsoCurve2D::Read()",e.m_baseClassName,e.m_GN);
   }
 
-  ControlVec.resize(N(),NI());
-  ControlVec[0][0]=neg_node1->X;
-  ControlVec[0][1]=neg_node1->Y;
-  ControlVec[1][0]=cur_node->X;
-  ControlVec[1][1]=cur_node->Y;
-  ControlVec[2][0]=pos_node1->X;
-  ControlVec[2][1]=pos_node1->Y;
-  ControlVec[3][0]=pos_node2->X;
-  ControlVec[3][1]=pos_node2->Y; 
+  ControlVec.resize(GetNumberOfDegreesOfFreedom(),NI());
+  ControlVec[0][0]=m_node[1]->X;
+  ControlVec[0][1]=m_node[1]->Y;
+  ControlVec[1][0]=m_node[0]->X;
+  ControlVec[1][1]=m_node[0]->Y;
+  ControlVec[2][0]=m_node[2]->X;
+  ControlVec[2][1]=m_node[2]->Y;
+  ControlVec[3][0]=m_node[3]->X;
+  ControlVec[3][1]=m_node[3]->Y; 
 
 out:
 
@@ -174,7 +174,7 @@ void C1IsoCurve2D::Write( std::ostream& f, int ofid ) const {
    * We add some comments in the output file.
    */
   f<<"\t"<<mat->GN<<"\t% MaterialStandard ID\n";
-  f<<"\t"<<cur_node->GN<<"\t% node 1 ID\n";
+  f<<"\t"<<m_node[0]->GN<<"\t% node 1 ID\n";
 
   /** Check for errors */
   if (!f) {

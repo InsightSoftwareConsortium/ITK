@@ -40,8 +40,8 @@ Element::LoadVectorType LoadPointImplementation_Bar2D(Bar2D::ConstPointer elemen
   LoadPoint::Pointer l0=dynamic_cast<LoadPoint*>(&*load);
   if ( !l0 ) throw;
 
-  vnl_vector_fixed<Float,2> n1(element->m_node1->X,element->m_node1->Y);
-  vnl_vector_fixed<Float,2> n2(element->m_node2->X,element->m_node2->Y);
+  vnl_vector_fixed<Float,2> n1(element->m_node[0]->X,element->m_node[0]->Y);
+  vnl_vector_fixed<Float,2> n2(element->m_node[1]->X,element->m_node[1]->Y);
   Float l=(n1-n2).magnitude();
   Float l1=(l0->point-n1).magnitude();
   Float l2=(l0->point-n2).magnitude();

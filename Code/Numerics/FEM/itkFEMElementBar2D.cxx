@@ -46,8 +46,8 @@ Bar2D::Bar2D( Node::ConstPointer n1_, Node::ConstPointer n2_, Material::ConstPoi
    */
   try
   {
-    m_node1=&dynamic_cast<const NodeXY&>(*n1_);
-    m_node2=&dynamic_cast<const NodeXY&>(*n2_);
+    m_node[0]=&dynamic_cast<const NodeXY&>(*n1_);
+    m_node[1]=&dynamic_cast<const NodeXY&>(*n2_);
     m_mat=&dynamic_cast<const MaterialStandard&>(*mat_);
   }
   catch ( std::bad_cast )
@@ -67,8 +67,8 @@ vnl_matrix<Bar2D::Float> Bar2D::Ke() const {
 
 vnl_matrix<Float> k(NDOF,NDOF);
 
-Float x=m_node2->X-m_node1->X;
-Float y=m_node2->Y-m_node1->Y;
+Float x=m_node[1]->X-m_node[0]->X;
+Float y=m_node[1]->Y-m_node[0]->Y;
 Float L=m_mat->E*m_mat->A/(sqrt(x*x+y*y)*(x*x+y*y));
 
   k[0][0]= x*x; k[0][1]= x*y; k[0][2]=-x*x; k[0][3]=-x*y;
@@ -88,10 +88,19 @@ Float L=m_mat->E*m_mat->A/(sqrt(x*x+y*y)*(x*x+y*y));
 #ifdef FEM_BUILD_VISUALIZATION
 void Bar2D::Draw(CDC* pDC) const {
 
-  int x1=m_node1->X*DC_Scale+m_node1->uX.value*DC_Scale;
-  int y1=m_node1->Y*DC_Scale+m_node1->uY.value*DC_Scale;
-  int x2=m_node2->X*DC_Scale+m_node2->uX.value*DC_Scale;
-  int y2=m_node2->Y*DC_Scale+m_node2->uY.value*DC_Scale;
+  int x1=m_node[0]->X*DC_Scale;
+  int y1=m_node[0]->Y*DC_Scale;
+  int x2=m_node[1]->X*DC_Scale;
+  int y2=m_node[1]->Y*DC_Scale;
+
+  if(Node::solution.size()!=0)
+  {
+    x1+=Node::solution[this->GetDegreeOfFreedom(0)]*DC_Scale;
+    y1+=Node::solution[this->GetDegreeOfFreedom(1)]*DC_Scale;
+    x2+=Node::solution[this->GetDegreeOfFreedom(2)]*DC_Scale;
+    y2+=Node::solution[this->GetDegreeOfFreedom(3)]*DC_Scale;
+  }
+
 
   pDC->MoveTo(x1,y1);
   pDC->LineTo(x2,y2);
@@ -125,11 +134,11 @@ void Bar2D::Read( std::istream& f, void* info )
 
     /** read and set first GNN */
     SkipWhiteSpace(f); f>>n; if(!f) goto out;
-    m_node1=dynamic_cast<NodeXY*>( &*nodes->Find(n));
+    m_node[0]=dynamic_cast<NodeXY*>( &*nodes->Find(n));
 
     /** read and set second GNN */
     SkipWhiteSpace(f); f>>n; if(!f) goto out;
-    m_node2=dynamic_cast<NodeXY*>( &*nodes->Find(n));
+    m_node[1]=dynamic_cast<NodeXY*>( &*nodes->Find(n));
   }
   catch ( FEMExceptionObjectNotFound e )
   {
@@ -164,8 +173,8 @@ void Bar2D::Write( std::ostream& f, int ofid ) const {
    * we add some comments in the output file
    */
   f<<"\t"<<m_mat->GN<<"\t% MaterialStandard ID\n";
-  f<<"\t"<<m_node1->GN<<"\t% NodeXY 1 ID\n";
-  f<<"\t"<<m_node2->GN<<"\t% NodeXY 2 ID\n";
+  f<<"\t"<<m_node[0]->GN<<"\t% NodeXY 1 ID\n";
+  f<<"\t"<<m_node[1]->GN<<"\t% NodeXY 2 ID\n";
 
   /** check for errors */
   if( !f )

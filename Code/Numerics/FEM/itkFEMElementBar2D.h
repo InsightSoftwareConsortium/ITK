@@ -18,7 +18,7 @@
 #ifndef __itkFEMElementBar2D_h
 #define __itkFEMElementBar2D_h
 
-#include "itkFEMElementBase.h"
+#include "itkFEMElementStandard.h"
 #include "itkFEMLoadElementBase.h"
 #include "itkFEMNodeXY.h"
 #include "itkFEMMaterialStandard.h"
@@ -35,24 +35,15 @@ namespace fem {
  *
  * This element is defined by two NodeXY object and a MaterialStandard object.
  */
-class Bar2D : public Element
+class Bar2D : public ElementStandard<2,2,NodeXY>
 {
-FEM_CLASS(Bar2D,Element)
+typedef ElementStandard<2,2,NodeXY> TemplatedParentClass;
+FEM_CLASS(Bar2D,TemplatedParentClass)
 public:
 
   /**
-   * 4 DOF. Constant for faster access within the class.
-   */
-  enum {NDOF=4};
-  
-  /**
    * Required virtual functions
    */
-
-  /**
-   * Access to NDOF from base class
-   */
-  int N() const { return NDOF; };
 
   /**
    * Element stiffness matrix
@@ -63,27 +54,6 @@ public:
    * Macro that defines a specific version of the Fe() function
    */
   LOAD_FUNCTION();
-
-  /**
-   * Pointers to DOF displacements, which are stored in node classes.
-   */
-  Displacement* uDOF(int i) const {
-    switch ( i ) {
-    case 0:
-      return &m_node1->uX;
-      break;
-    case 1:
-      return &m_node1->uY;
-      break;
-    case 2:
-      return &m_node2->uX;
-      break;
-    case 3:
-      return &m_node2->uY;
-      break;
-    }
-    return Element::uDOF(i);
-  }
 
   /**
    * Read data for this class from input stream
@@ -98,7 +68,7 @@ public:
   /**
    * Default constructor only clears the internal storage
    */
-  Bar2D() : m_node1(0), m_node2(0), m_mat(0) {}
+  Bar2D() : m_mat(0) {}
 
   /**
    * Construct an element by specifying two nodes and material
@@ -115,19 +85,13 @@ public:
   void Draw(CDC* pDC) const;
 #endif
 
+
 public:
-
-  /**
-   * Pointers to node objects that defines the element
-   */
-  NodeXY::ConstPointer m_node1;
-  NodeXY::ConstPointer m_node2;
-
   /**
    * Pointer to geometric and material properties of the element
    */
   MaterialStandard::ConstPointer m_mat;
-  
+
 };
 
 FEM_CLASS_INIT(Bar2D)

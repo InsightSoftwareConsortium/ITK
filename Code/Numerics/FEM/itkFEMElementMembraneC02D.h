@@ -19,7 +19,7 @@
 #ifndef __itkElementMembraneC02D_h
 #define __itkElementMembraneC02D_h
 
-#include "itkFEMElementBase.h"
+#include "itkFEMElementStandard.h"
 #include "itkFEMLoadElementBase.h"
 #include "itkFEMNodeXY.h"
 #include "itkFEMMaterialStandard.h"
@@ -40,17 +40,15 @@ namespace fem {
  *  The membrane elements is basically the same as the QuadC02D but has a constant D.
  *  That is, the stiffness depends linearly on the value of constant E, Young's modulus.
  */
-class MembraneC02D : public Element
+class MembraneC02D : public ElementStandard<4,2,NodeXY>
 {
-FEM_CLASS(MembraneC02D,Element)
+typedef ElementStandard<4,2,NodeXY> TemplatedParentClass;
+FEM_CLASS(MembraneC02D,TemplatedParentClass)
 public:
   /**
    * 8 DOF constant for faster access within the class
    */
   enum {NDOF=8};              
-
-  /** Access to NDOF from base class */
-  int N() const { return NDOF; }
 
   /**
    * Element stiffness matrix
@@ -67,41 +65,6 @@ public:
    */
   LOAD_FUNCTION();
 
- 
-  /**
-   * Pointers to DOF displacements, which are stored
-   * in node classes
-   */
-  Displacement* uDOF(int i) const {
-    switch ( i ) {
-      case 0:
-        return &m_node1->uX;
-        break;
-      case 1:
-        return &m_node1->uY;
-        break;
-      case 2:
-        return &m_node2->uX;
-        break;
-      case 3:
-        return &m_node2->uY;
-        break;
-      case 4:
-        return &m_node3->uX;
-        break;
-      case 5:
-        return &m_node3->uY;
-        break;
-      case 6:
-        return &m_node4->uX;
-        break;
-      case 7:
-        return &m_node4->uY;
-        break;
-    }
-    return Element::uDOF(i);
-  }
-
   /**
    * Read data for this class from input stream
    */
@@ -115,7 +78,7 @@ public:
   /**
    * Default constructor only clears the internal storage
    */
-  MembraneC02D() : m_node1(0), m_node2(0), m_node3(0), m_node4(0), m_mat(0) {}
+  MembraneC02D() : m_mat(0) {}
 
   /**
    * Construct an element by specifying 4 nodes and material
@@ -212,15 +175,6 @@ public:
   void GetNodeCoordinates(int, Float&, Float&) const;
 
 
-
-  /**
-   * Pointers to four node classes that define the
-   * element
-   */
-  NodeXY::ConstPointer m_node1;
-  NodeXY::ConstPointer m_node2;
-  NodeXY::ConstPointer m_node3;
-  NodeXY::ConstPointer m_node4;
 
   /**
    * Pointer to geometric and material properties
