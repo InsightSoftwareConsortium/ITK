@@ -28,6 +28,36 @@ SingleValuedNonLinearOptimizer
 }
 
 
+/**
+ * Connect a Cost Function
+ */
+void
+SingleValuedNonLinearOptimizer
+::SetCostFunction( CostFunctionType * costFunction )
+{
+  if( m_CostFunction.GetPointer() == costFunction )
+  {
+    return;
+  }
+
+  itkDebugMacro("setting CostFunction  to " <<  costFunction);
+
+  m_CostFunction = costFunction;
+
+  if(!m_ScalesInitialized)
+  {
+    const unsigned int numberOfParameters = 
+                        m_CostFunction->GetNumberOfParameters();
+
+    ScalesType scales( numberOfParameters );
+    scales.Fill( 1.0f );
+    SetScales( scales );
+    m_ScalesInitialized = true;
+  }
+
+  this->Modified();
+}
+
 
 void
 SingleValuedNonLinearOptimizer

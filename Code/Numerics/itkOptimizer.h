@@ -68,7 +68,7 @@ public:
   itkGetConstMacro(InitialPosition, ParametersType);
 
   /** Set current parameters scaling. */
-  itkSetMacro( Scales, ScalesType );
+  void SetScales(const ScalesType & scales);
 
   /** Get current parameters scaling. */
   itkGetConstMacro( Scales, ScalesType );
@@ -80,12 +80,14 @@ public:
   virtual void StartOptimization() {};
 
 protected:
-  Optimizer() {};
+  Optimizer();
   virtual ~Optimizer() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Set the current position. */
   itkSetMacro( CurrentPosition, ParametersType );
+
+  bool                    m_ScalesInitialized;
 
 private:
   Optimizer(const Self&); //purposely not implemented

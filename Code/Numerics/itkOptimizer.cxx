@@ -22,9 +22,32 @@
 namespace itk
 {
 
+/**
+ * Constructor
+ */
 
+Optimizer
+::Optimizer()
+{
+  m_ScalesInitialized = false;
+}
 
+/**
+ * Set scaling as an array of factors
+ */
+void 
+Optimizer
+::SetScales(const ScalesType & scales)
+{
+  itkDebugMacro("setting scales to " <<  scales);
+  m_Scales = scales;
+  m_ScalesInitialized = true;
+  this->Modified();
+}
 
+/**
+ * Print Self method
+ */
 void
 Optimizer
 ::PrintSelf( std::ostream& os, Indent indent ) const

@@ -64,7 +64,7 @@ public:
   typedef CostFunctionType::DerivativeType DerivativeType;
 
   /** Set the cost function. */
-  itkSetObjectMacro( CostFunction, CostFunctionType );
+  virtual void SetCostFunction( CostFunctionType * costFunction );
 
 protected:
   SingleValuedNonLinearOptimizer();
