@@ -294,10 +294,11 @@ protected:
    */
   class strhash : public itk::hash<int>
   {
+    typedef itk::hash<int> Superclass;
   public:
     ::size_t operator()(const OutputScalarType &s) const
     {
-      return itk::hash<int>::operator()(static_cast<int>(s));
+      return Superclass::operator()(static_cast<int>(s));
     }
   };
 
