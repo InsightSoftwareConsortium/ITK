@@ -54,6 +54,7 @@ public:
   typedef std::list < TubePointType >                  PointListType;
   typedef PointListType *                              PointListPointer;
   typedef typename Superclass::PointType               PointType;
+  typedef typename Superclass::TransformType           TransformType;
   typedef VectorContainer<unsigned long,PointType>     PointContainerType;
   typedef SmartPointer<PointContainerType>             PointContainerPointer;
   typedef typename Superclass::VectorType              VectorType;

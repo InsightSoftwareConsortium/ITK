@@ -44,6 +44,7 @@ public:
   typedef SpatialObject< TDimension > Superclass;
   typedef SmartPointer<Superclass> SuperclassPointer;
   typedef typename Superclass::PointType              PointType;
+  typedef typename Superclass::TransformType          TransformType;
   typedef VectorContainer<unsigned long,PointType>    PointContainerType;
   typedef SmartPointer<PointContainerType>            PointContainerPointer;
 

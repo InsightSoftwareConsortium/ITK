@@ -46,17 +46,17 @@ public:
  
   typedef double ScalarType; 
   typedef ImageSpatialObject< TDimension, PixelType > Self;
-  typedef SpatialObject< TDimension > Superclass;
-  typedef SmartPointer< Self > Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  typedef SpatialObject< TDimension >                 Superclass;
+  typedef SmartPointer< Self >                        Pointer;
+  typedef SmartPointer< const Self >                  ConstPointer;
 
-  typedef Image< PixelType, TDimension > ImageType;
-  typedef typename ImageType::Pointer ImagePointer;
-  typedef typename ImageType::IndexType IndexType;
-  typedef typename ImageType::RegionType RegionType;
-
-  typedef typename Superclass::PointType PointType;
-  typedef typename Superclass::BoundingBoxType BoundingBoxType;
+  typedef Image< PixelType, TDimension >        ImageType;
+  typedef typename ImageType::Pointer           ImagePointer;
+  typedef typename ImageType::IndexType         IndexType;
+  typedef typename ImageType::RegionType        RegionType;
+  typedef typename Superclass::TransformType    TransformType;
+  typedef typename Superclass::PointType        PointType;
+  typedef typename Superclass::BoundingBoxType  BoundingBoxType;
 
   typedef VectorContainer< unsigned long, PointType> PointContainerType;
   typedef typename PointContainerType::Pointer PointContainerPointer;
